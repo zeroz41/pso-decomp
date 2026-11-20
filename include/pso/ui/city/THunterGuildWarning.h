@@ -18,7 +18,7 @@ public:
     void close_windows();
     void sub_80211774(void *arg);
 
-    s32 mode;                    // 0x1C: message set; 0 and 1 warn the local player, 2 the others
+    saddr mode;                    // 0x1C: message set; 0 and 1 warn the local player, 2 the others
     s32 timer;                   // 0x20: frames left before the task destroys itself
     TWindowMessage *windows[4];  // 0x24: one message window per player
 };

@@ -28,7 +28,7 @@ u16 calc_pseudo_header_checksum(s32 src, s32 dst, s8 proto, void *pkt, s16 flag)
 #pragma dont_inline off
 #pragma inline_depth(4)
 
-s16 dispatch_by_addr_family(s32 rec, NetworkAddress *arg1, NetworkAddress *arg2, u8 *arg3, void *arg4, void *proto) {
+s16 dispatch_by_addr_family(saddr rec, NetworkAddress *arg1, NetworkAddress *arg2, u8 *arg3, void *arg4, void *proto) {
     s16 AT_IP4_Send(NetPacket *pkt, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, void *proto); /* declared with a void * protocol here; the definition takes u8 */
     switch (arg2->family) {
     case 4:

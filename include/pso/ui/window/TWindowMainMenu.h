@@ -61,7 +61,7 @@ struct TWindowMainMenu : public TObject {
     void pop_level();
     int get_selected_item_type();
     void clear_menu_flags();
-    s32 find_free_slot();
+    saddr find_free_slot();
     s32 update_if_active(s32 _w1);
     void set_target_y(f32 farg0);
     void update_scaled_position();

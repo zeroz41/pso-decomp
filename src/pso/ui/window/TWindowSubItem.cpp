@@ -710,7 +710,7 @@ void TWindowSubItem::set_cursor_row_for_mode(s32 arg1) {
     }
 }
 
-void TWindowSubItem::exec_item_command(s32 arg1, s32 arg2) {
+void TWindowSubItem::exec_item_command(saddr arg1, s32 arg2) {
     saddr player;
     void *temp_r3_2;
     saddr t;

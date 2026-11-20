@@ -71,7 +71,7 @@ void TUnk_804EDBD0::run_task() {
     (self->*tbl[self->state])();
 }
 
-s32 load_from_aram_sync__16TAdWarningBaseGCFi(s32 arg0) {
+s32 load_from_aram_sync__16TAdWarningBaseGCFi(saddr arg0) {
     u32 size;
     if (warning_aram_load_done_flag == 0) {
         return 0;
@@ -95,7 +95,7 @@ int TAdWarningBaseGC__sub_8032D020(void) {  return ((TAdWarningBaseGC__aram_allo
 
 extern s32 __vt__13TUnk_804EDBD0[];
 
-s32 post_aram_request__16TAdWarningBaseGCFii(s32 buf, s32 arg1) {
+s32 post_aram_request__16TAdWarningBaseGCFii(saddr buf, s32 arg1) {
     u32 size;
     size = (arg1 + 0x1F) & ~0x1F;
     (*(s32 *)&TAdWarningBaseGC__aram_alloc_size) = arg1;

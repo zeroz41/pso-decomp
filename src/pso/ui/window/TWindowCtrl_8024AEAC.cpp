@@ -98,7 +98,7 @@ void TWindowCtrl::apply_default_vec(s32 arg0, saddr arg1) {
     TWindowCtrl__sub_8024B098((void *)arg1, (void *)&stack.sp8);
 }
 
-void TWindowCtrl__sub_8024B000(s32 arg0, s32 arg1) {
+void TWindowCtrl__sub_8024B000(s32 arg0, saddr arg1) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8024B000, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_8024B000, spC) == 0x4);
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8024B000, sp10) == 0x8);

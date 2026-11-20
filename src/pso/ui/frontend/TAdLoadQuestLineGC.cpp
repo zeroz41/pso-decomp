@@ -49,7 +49,7 @@ TAdLoadQuestLineGC::TAdLoadQuestLineGC(TObject *object, void *arg2) : TObject(ob
     this->m_frameCount = -1;
 }
 
-s32 get_or_create_line__14TAdLoadQuestGCFii(s32 arg0, s32 arg1) {
+s32 get_or_create_line__14TAdLoadQuestGCFii(saddr arg0, saddr arg1) {
     s32 temp_r30;
     saddr temp_r3;
     s32 var_r0;

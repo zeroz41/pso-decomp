@@ -247,7 +247,7 @@ void TWindowSubStatusDisp::update_item_icon_colors(void *item) {
     }
 }
 
-void TWindowSubStatusDisp::update_item_colors(s32 arg1) {
+void TWindowSubStatusDisp::update_item_colors(saddr arg1) {
     s32 sp8;
     s32 temp_r29;
     s32 temp_r30;

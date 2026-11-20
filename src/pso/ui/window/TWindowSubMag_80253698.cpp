@@ -5,7 +5,7 @@
 
 #pragma push
 #pragma opt_propagation off
-s32 are_status_entries_ready__13TWindowSubMagFi(s32 arg0) {
+s32 are_status_entries_ready__13TWindowSubMagFi(saddr arg0) {
     s32 var_r28;
     saddr var_r3;
     s32 var_r4;

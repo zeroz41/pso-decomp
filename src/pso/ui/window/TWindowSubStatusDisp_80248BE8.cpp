@@ -24,7 +24,7 @@ s32 forward_render__20TWindowSubStatusDispFv(s32, s32);
 
 extern s32 local_client_id;
 
-u8 *TWindowSubStatusDisp__sub_80248BE8(s32 arg0, s32 arg1, s32 arg2) {
+u8 *TWindowSubStatusDisp__sub_80248BE8(saddr arg0, saddr arg1, s32 arg2) {
     TShopJudgmentItemWindow__sub_80267F9C((void *)arg1, 0x5);
     return (u8 *)new TWindowCheckBox((u8 *)arg0, arg2);
 }

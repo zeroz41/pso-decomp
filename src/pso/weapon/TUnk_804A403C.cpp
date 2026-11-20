@@ -33,7 +33,7 @@ s32 test_flags_any(s32 *flags, s32 mask);
 
 void TObjPlayer__sub_80128A70(void) {  }
 
-void TObjPlayer__sub_80128A74(s32 a, u32 b, s32 c, s32 d) {
+void TObjPlayer__sub_80128A74(s32 a, uaddr b, s32 c, s32 d) {
     Obj_80128A74 *o;
     ((TObjPlayer *)b)->clear_rico_ring_flag();
     o = find_entity_by_id(c);

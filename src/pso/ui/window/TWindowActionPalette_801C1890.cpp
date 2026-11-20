@@ -134,7 +134,7 @@ int TWindowActionPalette::handle_input_forward() { return TWindowActionPalette__
 
 int TWindowActionPalette__sub_801C1C20(void* p) { return *(u32*)((char*)p + 0x0) == 0; }
 
-void TWindowActionPalette::is_channel_active_at(s32 arg0, s32 i, s32 arg2) {
+void TWindowActionPalette::is_channel_active_at(saddr arg0, s32 i, s32 arg2) {
     s32 *p = (s32 *)((saddr)TWindowActionPalette__sub_801C1C68((O_801C1C68 *)(arg0), i));
     ((TMainCursor *)(p + arg2))->is_channel_active();
 }
@@ -167,7 +167,7 @@ void TWindowActionPalette::set_slot_mode(saddr arg0, s32 i, s32 arg2, s32 arg3) 
     ((TWindowActionPalette *)(p + arg2))->set_mode((u8)arg3);
 }
 
-u8 *TWindowActionPalette__sub_801C1D7C(s32 arg0, s32 i, s32 arg2) {
+u8 *TWindowActionPalette__sub_801C1D7C(saddr arg0, s32 i, s32 arg2) {
   s32 var_r31;
   u8 *var_r3;
   saddr new_var;
@@ -182,7 +182,7 @@ void TWindowActionPalette::get_entry_by_index(s32 *arg0, s32 arg1) {
     TWindowActionPalette__sub_801C1D7C((s32)((saddr) arg0), (s32)(*arg0), arg1);
 }
 
-u8 *TWindowActionPalette::get_slot_type(s32 arg0, s32 i, s32 arg2) {
+u8 *TWindowActionPalette::get_slot_type(saddr arg0, s32 i, s32 arg2) {
   saddr new_var;
   u8 *var_r3;
   new_var = ((saddr)TWindowActionPalette__sub_801C1C68((O_801C1C68 *)(arg0), i));

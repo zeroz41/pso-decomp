@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-void bswap__8TUserAnsFv(s32 arg0);
+void bswap__8TUserAnsFv(saddr arg0);
 }
 
 // --- C functions defined in TUserAns.cpp ---
 extern "C" {
-void bswap__8TUserAnsFv(s32 arg0);
+void bswap__8TUserAnsFv(saddr arg0);
 }
 // --- end of C functions
 

@@ -185,7 +185,7 @@ s32 forward_render__20TWindowSubStatusDispFv(s32, s32);
 
 void TShopJudgmentItemWindow__sub_80267F9C(NJS_POINT2 v, s32 x);
 
-s32 TWindowMenuIconLine::get_cursor_value() {
+saddr TWindowMenuIconLine::get_cursor_value() {
     get_array_entry__11TWindowBaseFi(this, this->cursor);
     return get_cursor_pos__14TWindowSubItemFv();
 }
@@ -694,7 +694,7 @@ void TWindowMenuIconLine::vfunc_6(u32 arg1, s32 arg2) {
 }
 #undef self
 
-TWindowMenuIconLine *fn_80267F38(s32 parent, s32 position, u32 count, s16 client) {
+TWindowMenuIconLine *fn_80267F38(saddr parent, saddr position, uaddr count, s16 client) {
     ((s32 (*)(void *, void *))TShopJudgmentItemWindow__sub_80267F9C)((void *)position, (void *)count);
     return new TWindowMenuIconLine((u8 *)parent, count, client);
 }

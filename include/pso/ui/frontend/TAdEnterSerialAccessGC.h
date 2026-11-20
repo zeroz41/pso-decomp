@@ -41,7 +41,7 @@ struct TAdEnterSerialAccessGC : public TAdEnterBaseGC {
     static char *serial_to_hex_string(int arg0);
     static int forward_input(void* p);
     void reset_input_state();
-    static void draw_serial_chars(s32 arg0);
+    static void draw_serial_chars(saddr arg0);
     static u32 create_keyboard_control(s32 arg0, s32 arg1);
 };
 
@@ -52,8 +52,8 @@ u8 *TAdEnterSerialAccessGC__ct(TAdEnterSerialAccessGC *arg0, TObject *parent);
 u8 *TAdEnterSerialAccessGC__sub_80321738(void);
 s32 *TAdEnterSerialAccessGC__sub_803217B8(void);
 s32 *TAdEnterSerialAccessGC__sub_80321874(void);
-void TAdEnterSerialAccessGC__sub_8032190C(s32 arg0);
-void TAdEnterSerialAccessGC__sub_8032195C(s32 arg0);
+void TAdEnterSerialAccessGC__sub_8032190C(saddr arg0);
+void TAdEnterSerialAccessGC__sub_8032195C(saddr arg0);
 void TAdEnterSerialAccessGC__sub_80321B28(u8 *arg0, int arg1);
 void TAdEnterSerialAccessGC__sub_80321F18(void *p);
 void TAdEnterSerialAccessGC__sub_80321F3C(void *p);
@@ -69,8 +69,8 @@ u8 *TAdEnterSerialAccessGC__ct(TAdEnterSerialAccessGC *ad_enter_serial_access_gc
 u8 *TAdEnterSerialAccessGC__sub_80321738(void);
 s32 *TAdEnterSerialAccessGC__sub_803217B8(void);
 s32 *TAdEnterSerialAccessGC__sub_80321874(void);
-void TAdEnterSerialAccessGC__sub_8032190C(s32 arg0);
-void TAdEnterSerialAccessGC__sub_8032195C(s32 arg0);
+void TAdEnterSerialAccessGC__sub_8032190C(saddr arg0);
+void TAdEnterSerialAccessGC__sub_8032195C(saddr arg0);
 void TAdEnterSerialAccessGC__sub_80321B28(u8 *ad_enter_serial_access_gc, int arg1);
 void TAdEnterSerialAccessGC__sub_80321F18(void *p);
 void TAdEnterSerialAccessGC__sub_80321F3C(void *p);

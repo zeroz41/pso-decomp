@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-u8 *TWindowSubStatusDisp__sub_80248BE8(s32 arg0, s32 arg1, s32 arg2);
+u8 *TWindowSubStatusDisp__sub_80248BE8(saddr arg0, saddr arg1, s32 arg2);
 }
 
 // --- C functions defined in TWindowSubStatusDisp_80248BE8.cpp ---
 extern "C" {
-u8 *TWindowSubStatusDisp__sub_80248BE8(s32 arg0, s32 arg1, s32 arg2);
+u8 *TWindowSubStatusDisp__sub_80248BE8(saddr arg0, saddr arg1, s32 arg2);
 }
 // --- end of C functions
 

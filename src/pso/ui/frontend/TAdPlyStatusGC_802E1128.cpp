@@ -12,7 +12,7 @@ void*TAdPlyStatusGC::get_chara_making_data() { return (char*)this + 0x1b8; }
 s32 TAdPlyStatusGC::get_field_49c() { return *(s32*)((char*)this + 0x49c); }
 s32 TAdPlyStatusGC::get_field_4a0() { return *(s32*)((char*)this + 0x4a0); }
 void*TAdPlyStatusGC::get_status_data() { return (char*)this + 0x324; }
-s32 TAdPlyStatusGC::get_field_4a4() { return *(s32*)((char*)this + 0x4a4); }
+saddr TAdPlyStatusGC::get_field_4a4() { return *(s32*)((char*)this + 0x4a4); }
 void*TAdPlyStatusGC::get_status_sub() { return (char*)this + 0x490; }
 
     extern int ply_status_chcr_load_afs;

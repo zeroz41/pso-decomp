@@ -16,7 +16,7 @@ extern "C" {
 s32 setup_content_frame__15TWindowMainMenuFPv();
 extern const char *TWindowMenuMainMenu__class_name;
 
-void render__19TWindowMenuMainMenuFv(s32 arg0) {
+void render__19TWindowMenuMainMenuFv(saddr arg0) {
     saddr frame;
     frame = setup_content_frame__15TWindowMainMenuFPv();
     ((TWindowMenuMainMenu *)arg0)->draw_frame((WindowDrawContext *)frame);

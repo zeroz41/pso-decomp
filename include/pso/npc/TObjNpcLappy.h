@@ -13,6 +13,6 @@ LAYOUT_ASSERT(TObjNpcLappy_size, sizeof(TObjNpcLappy) == 0x3B8);
 
 extern "C" {
 void *TObjNpcLappy__create(void *set_data);
-u8 *TObjNpcLappy__ct(u8 *self, void *parent, s32 arg2);
+u8 *TObjNpcLappy__ct(u8 *self, void *parent, saddr arg2);
 }
 #endif

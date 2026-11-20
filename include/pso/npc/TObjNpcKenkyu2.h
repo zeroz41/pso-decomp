@@ -14,14 +14,14 @@ LAYOUT_ASSERT(TObjNpcKenkyu2_size, sizeof(TObjNpcKenkyu2) == 0x3B8);
 
 extern "C" {
 void *TObjNpcHosa2__create(void *arg0);
-u8 *TObjNpcKenkyu2__ct(u8 *arg0, s32 arg1, s32 arg2);
+u8 *TObjNpcKenkyu2__ct(u8 *arg0, s32 arg1, saddr arg2);
 void *__dt__14TObjNpcKenkyu2Fv(void *arg0, s16 arg1);
 }
 
 // --- C functions defined in TObjNpcKenkyu2.cpp ---
 extern "C" {
 void *TObjNpcHosa2__create(void *arg0);
-u8 *TObjNpcKenkyu2__ct(u8 *player, s32 arg1, s32 arg2);
+u8 *TObjNpcKenkyu2__ct(u8 *player, s32 arg1, saddr arg2);
 void *__dt__14TObjNpcKenkyu2Fv(void *arg0, s16 arg1);
 }
 // --- end of C functions

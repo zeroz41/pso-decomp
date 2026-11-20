@@ -13,10 +13,10 @@ struct TShopGetItemWindow : public TShopWindowBase {
     u8 _pad1C[0x4];
     u32 m_20;
     u32 m_24;
-    u32 m_28;
+    uaddr m_28;
     uaddr m_2c;
     uaddr m_30;
-    u32 m_34;
+    uaddr m_34;
     void* m_38;
     u8 _pad3C[0x10];
     u8 m_4c;

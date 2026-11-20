@@ -131,7 +131,7 @@ s32 TAdMultiSelGameModeGC::is_mode_entry_enabled(void *self, s32 mode, u32 idx) 
     }
 }
 
-s32 TAdMultiSelGameModeGC::build_mode_menu(s32 arg1) {
+saddr TAdMultiSelGameModeGC::build_mode_menu(s32 arg1) {
     Pos3_803001B4 pos = multi_sel_game_mode_position;
     u32 counts[3];
     u32 n;

@@ -227,7 +227,7 @@ s32 net_lock(void) {
     lock_mutex(network_dispatch_state.lock_handle);
     return 0;
 }
-s32 net_unregister_timer(s32 timer) {
+s32 net_unregister_timer(saddr timer) {
     s32 result;
     if (timer == 0) {
         return -2;
@@ -877,7 +877,7 @@ s32 tcp_create(void) {
     return handle;
 }
 
-void NetDispatchSocketEvent(s16 v, s32 cb_, s32 type, s16 code) {
+void NetDispatchSocketEvent(s16 v, saddr cb_, s32 type, s16 code) {
     s16 validate_tcp_handle(s16 handle);
     TcpTcb *s;
     switch ((s16)type) {

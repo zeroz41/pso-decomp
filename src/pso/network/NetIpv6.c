@@ -534,7 +534,7 @@ s16 ipv6_process_options(u8* p, s16 n, u8* self, s16 c, s16 d) {
     return 0;
 }
 
-s16 TLobby__sub_80410A98(s32 arg0, void *arg1, void *arg2, void *arg3, void *arg4)
+s16 TLobby__sub_80410A98(saddr arg0, void *arg1, void *arg2, void *arg3, void *arg4)
 {
   u8 tmp[12];
   volatile struct 

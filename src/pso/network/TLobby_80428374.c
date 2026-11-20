@@ -44,7 +44,7 @@ saddr lobby_buffer_pool_end;
 saddr lbl_805D7BF4;
 saddr lbl_805D7BF0;
 saddr lbl_805D7BEC;
-u32 lobby_buffer_pool_size;
+uaddr lobby_buffer_pool_size;
 u8 *lobby_second_buffer_pool_base;
 u8 *lobby_buffer_pool_base;
 s32 lobby_modem_reply_value;

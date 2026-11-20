@@ -6,7 +6,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-void NetDispatchSocketEvent(s16 handle, s32 callback, s32 protocol, s16 event);
+void NetDispatchSocketEvent(s16 handle, saddr callback, s32 protocol, s16 event);
 #ifdef __cplusplus
 }
 #endif

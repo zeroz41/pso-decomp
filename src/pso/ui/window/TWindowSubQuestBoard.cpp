@@ -128,7 +128,7 @@ void TWindowSubQuestBoard::set_card_flags_scaled(s32 arg1) {
     TWindowKeyBoardHard::set_card_window_flags((void*)arg0, arg1 * 2, -3);
 }
 
-void TWindowSubQuestBoard__sub_8027CF50(s32 arg0, s32 arg1) {
+void TWindowSubQuestBoard__sub_8027CF50(saddr arg0, s32 arg1) {
     TWindowKeyBoardHard::set_card_window_flags((void*)arg0, arg1 * 4, -5);
 }
 

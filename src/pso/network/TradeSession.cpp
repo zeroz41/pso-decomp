@@ -154,7 +154,7 @@ void TLobby::update_trade_proposal_state() {
 
 #pragma push
 #pragma scheduling off
-s32 TLobby__sub_802D268C(void) {
+saddr TLobby__sub_802D268C(void) {
     text_builder_reset();
     refresh_player_status__6TLobbyFv(TLobby__trade_partner_client_id);
     TWindowSubStatusDisp::get_message_10(0xF6);
@@ -191,7 +191,7 @@ s32 TLobby::check_trade_items_and_show_error() {
     return 0;
 }
 
-u8 * copy_struct_f8__6TLobbyFii(s32 arg0, s32 arg1) {
+u8 * copy_struct_f8__6TLobbyFii(saddr arg0, saddr arg1) {
     *(ByteBlock_F8 *)(arg0) = *(const ByteBlock_F8 *)(arg1);
     return (u8 *)arg0;
 }
@@ -204,7 +204,7 @@ u8 TLobby__trade_proposal_state;
 s32 TLobby__data_805D688C;
 s32 trade_proposal_delay;
 u32 TLobby__data_805D6894;
-u32 TLobby__trade_main_window;
+uaddr TLobby__trade_main_window;
 u32 trade_message_controller;
 
 // The trade window's side: the offer/final confirmation flags, the inventory snapshot and the item moves.
@@ -593,7 +593,7 @@ void handle_trade_state_cancel__6TLobbyFPv(O_802D33C0 *self);
 
 void handle_trade_member_out_of_range(O_802D3384 *self);
 
-void reset__6TLobbyFi(s32 arg0) {
+void reset__6TLobbyFi(saddr arg0) {
     if (is_trade_active() == 0) {
         (*(s8 *)&TLobby__trade_proposal_state) = 0;
         TLobby__trade_partner_client_id = 4;
@@ -626,7 +626,7 @@ void cancel_trade_for_member_out_of_range(s32 arg0) {
     reset__6TLobbyFi(format_trade_out_of_range_message(arg0));
 }
 
-void send_trade_busy_reply(s32 arg0) {
+void send_trade_busy_reply(saddr arg0) {
     G_ModifyTradeProposal_6xA6 packet;
     build_6xA6_modify_trade_proposal((&packet.header));
     packet.what = 6;
@@ -692,7 +692,7 @@ void TLobby::send_trade_proposal_result(s8 arg0, s8 arg1) {
   ((TLobby *)(&packet.header))->prepare_and_send_trade_packet((void *)((s32) new_var));
 }
 
-void send_modify_trade_proposal__6TLobbyFi(s32 arg0) {
+void send_modify_trade_proposal__6TLobbyFi(saddr arg0) {
     G_ModifyTradeProposal_6xA6 packet;
     TObjPlayer *player;
     u8 *temp_r3_2;

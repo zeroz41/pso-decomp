@@ -7,7 +7,7 @@
 struct TWindowTradeRequest : public TObject {
     virtual ~TWindowTradeRequest();
     u32 m_1c;
-    u32 m_20;
+    uaddr m_20;
     static void close_request_window();
     static void reset_trade();
     virtual void render();

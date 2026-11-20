@@ -189,7 +189,7 @@ void *dt__12TObjNpcLappyFPvs(void *npc_base, s16 arg1) {
     return npc_base;
 }
 
-u8 *TObjNpcLappy__ct(u8 *self, void *parent, s32 arg2) {
+u8 *TObjNpcLappy__ct(u8 *self, void *parent, saddr arg2) {
     TObjNpcBase__ct(self, parent);
     *(u8 **)(self + 0x18) = (u8 *)__vt__12TObjNpcLappy;
     ((TObjNpcLappy *)self)->m_name = TObjNpcLappy__name;

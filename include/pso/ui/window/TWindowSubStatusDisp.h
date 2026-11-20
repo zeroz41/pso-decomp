@@ -77,7 +77,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static void end_render_forward();
     static void begin_render();
     void clear_fields();
-    static int get_download_server();
+    static saddr get_download_server();
     static u32 calc_text_width(char *s);
     static s32 is_alpha_char(u16 arg0);
     void pack_status_flags(u32 arg1);
@@ -106,7 +106,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void set_all_values(s32 arg1);
     void set_animated_target(s32 arg1, f32 farg0);
     static void update_palette_sprite();
-    void set_string(u32 arg1);
+    void set_string(uaddr arg1);
     void set_text(u32 arg1, s32 arg2, s32 arg3);
     void set_text(u32 arg1, s32 arg2);
     void clamp_scroll_offset();
@@ -133,8 +133,8 @@ struct TWindowSubStatusDisp : public TWindowBase {
     int forward_render();
     int update_subwindow();
     void fill_card_text_entries(saddr arg1);
-    static s32 query_status_field(void *arg0, s8 arg1);
-    static s32 get_flag_or_zero(void *arg0, s8 arg1);
+    static saddr query_status_field(void *arg0, s8 arg1);
+    static saddr get_flag_or_zero(void *arg0, s8 arg1);
     static void draw_split_screen_dividers();
     static void draw_tiled_background();
     static void draw_bottom_bar();
@@ -171,7 +171,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static s32 destroy_status_display(saddr arg0, s16 arg1);
     u8 *construct_type1_heading(s32 arg1, s32 arg2);
     void update_entry_visibility();
-    void update_item_colors(s32 arg1);
+    void update_item_colors(saddr arg1);
     s32 update_hp_gauge();
     static void *find_cached_glyph(u16 code);
     static u8 calc_gauge_scale(u16 glyph, void *arg1, s32 arg2);

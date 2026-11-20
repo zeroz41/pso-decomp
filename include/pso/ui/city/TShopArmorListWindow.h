@@ -14,12 +14,12 @@ struct TShopArmorListWindow : public TShopWindowBase {
     virtual void vfunc_6();
     u8 _pad1C[0x4];
     u32 m_20;
-    u32 m_24;
+    uaddr m_24;
     u32 m_28;
     TWindowBase *item_list;   // 0x2C: create_item_list_window
     uaddr choice_menu;          // 0x30: create_window_menu / create_yes_no_window
     TWindowBase *help_window; // 0x34: a TWindowHelpItem
-    u32 m_38;
+    uaddr m_38;
     TWindowBase *cost_window; // 0x3C: create_cost_window
     u32 m_40;
     u8 _pad44[0x4];

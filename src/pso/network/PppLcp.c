@@ -472,7 +472,7 @@ s16 TLobby__sub_804010A0(Obj_803FF858 *fsm, Msg_803FA664 *msg, u32 src) {
 #define rd16_804012E0(src) (ppp_buffer_read((void *)(src), lcp_read_value_buffer, 2) != 2 ? -1 : read_network_u16_be(lcp_read_value_buffer))
 #define rd32_804012E0(src) (ppp_buffer_read((void *)(src), lcp_read_value_buffer, 4) != 4 ? 0 : TLobby__sub_80402AFC(lcp_read_value_buffer))
 #define rd8_804012E0(src) (ppp_buffer_read((void *)(src), lobby_read_byte_buffer, 1) != 1 ? -1 : (s16)lobby_read_byte_buffer[0])
-s16 parse_lcp_option(s32 arg0, u8 *arg1, u8 *arg2, u8 *arg3, s16 arg4) {
+s16 parse_lcp_option(saddr arg0, u8 *arg1, u8 *arg2, u8 *arg3, s16 arg4) {
     s16 len;
     s16 res;
     s32 t;

@@ -83,7 +83,7 @@ void NetYieldThread(void) {
     OSYieldThread();
 }
 
-void resume_thread(s32 thread) {
+void resume_thread(saddr thread) {
     OSResumeThread((OSThread*)thread);
 }
 
@@ -99,7 +99,7 @@ void cancel_thread_if_running(void *thread) {
     }
 }
 
-void NetResumeThread(u32 thread) {
+void NetResumeThread(uaddr thread) {
     OSResumeThread((OSThread*)thread);
 }
 
@@ -316,7 +316,7 @@ s32 clear_flag_bit4(s32 unused, u8 *opts) {
     return 0;
 }
 
-s32 NetIPv6CPSetInterfaceIdentifier(u8 *state, s32 ident) {
+s32 NetIPv6CPSetInterfaceIdentifier(u8 *state, saddr ident) {
     typedef struct Fields_arg0 { u8 pad_0[4]; s16 field_4; u8 pad_6[2]; s32 field_8; s32 field_C; } Fields_arg0;
     s32 sp18;
     s32 sp14;
@@ -357,7 +357,7 @@ void TLobby__sub_803FA280(void) {
 
 }
 
-void NetIPv6CPCancelTimer(s32 entry_addr) {
+void NetIPv6CPCancelTimer(saddr entry_addr) {
     lobby_timer_stop((void *)(entry_addr + 0x10));
 }
 

@@ -60,10 +60,10 @@ struct TMainCursor : public TObject {
     void init_slots();
     s32 find_by_pos(s16 arg1, s16 arg2);
     void set_cursor_pos(u16 arg1, s32 arg2);
-    static s32 get_action_cursor_priority(void *arg0, s32 arg1, s32 arg2);
-    static void set_cursor_color(s32 arg0, s32 arg1, s32 arg2);
-    static void set_display_flags(s32 arg0, s32 arg1, s32 arg2);
-    static void setup_flags(s32 arg0, s32 arg1, s32 arg2);
+    static s32 get_action_cursor_priority(void *arg0, saddr arg1, s32 arg2);
+    static void set_cursor_color(s32 arg0, saddr arg1, saddr arg2);
+    static void set_display_flags(s32 arg0, saddr arg1, saddr arg2);
+    static void setup_flags(s32 arg0, s32 arg1, saddr arg2);
     static void sort_list(s32 arg0, s32 arg1);
     u8 is_channel_active();
     int check_visible();
@@ -76,11 +76,11 @@ struct TMainCursor : public TObject {
     void update_cursor_pos();
     void*copy_from(void* a1);
     void set_sub_cursor_value(s32 a1);
-    s32 get_index();
+    saddr get_index();
     void reset_slot();
     void set_type(s32 v);
     static int get_cursor_state();
-    int check_field_24();
+    saddr check_field_24();
     u16 get_id();
     void*get_list();
     int update_target_sub();

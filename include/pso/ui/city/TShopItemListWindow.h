@@ -20,9 +20,9 @@ struct TShopItemListWindow : public TShopWindowBase {
     u32 m_2c;
     uaddr confirm_menu;   // two-entry create_window_menu shown once the quantity is confirmed
     uaddr quantity_input; // TWindowInputNumber
-    u32 help_window;    // TWindowHelpItem
+    uaddr help_window;    // TWindowHelpItem
     uaddr status_window;  // TWindowSubStatusDisp
-    u32 cost_window;    // create_cost_window
+    uaddr cost_window;    // create_cost_window
     u32 m_44;
     u8 _pad48[0x4];
     u32 m_4c;

@@ -51,7 +51,7 @@ struct TWindowSubComCard : public TObject {
     static s32 get_card_slot(s32 arg0);
     void clear_flag_and_release();
     s32 find_value_by_key(u16 key);
-    static s32 get_com_count();
+    static saddr get_com_count();
     static void release();
     static s32 get_chr_select();
     void clear_and_init(void* a1);
@@ -71,7 +71,7 @@ struct TWindowSubComCard : public TObject {
     static void select_card_entry(saddr arg0);
     static s32 contains_profanity(char *text);
     static void mask_profanity_words(char *src, char *dst);
-    s32 get_field_20();
+    saddr get_field_20();
     f32 calc_offset();
     f32 get_normalized_progress();
     void reparent_to_main_ctrl();
@@ -107,8 +107,8 @@ struct TWindowSubComCard : public TObject {
     static void start_player_data_load(s32 arg0);
     static s32 count_active_cards();
     void set_text(void *arg1);
-    static void handle_press_a(s32 arg0, s32 arg1);
-    static void handle_press_b(s32 arg0, s32 arg1);
+    static void handle_press_a(saddr arg0, s32 arg1);
+    static void handle_press_b(saddr arg0, s32 arg1);
     void calc_layout_height(f32 farg0);
     void calc_window_size();
     s32 find_entry_value_by_id(s32 arg1);

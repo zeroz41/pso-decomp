@@ -235,7 +235,7 @@ done:
     return NetIPv6SendMulticastNeighborProbe(e);
 }
 
-s32 NetIPv6SendUnspecifiedSourceNeighborSolicitation(s32 addr, s16 arg1) {
+s32 NetIPv6SendUnspecifiedSourceNeighborSolicitation(saddr addr, s16 arg1) {
     NetIPv6SendParameters params;
     s32 temp_r31;
     NetPacket *free_entry;

@@ -250,7 +250,7 @@ TLoadingCur::~TLoadingCur() {
 
 #pragma push
 #pragma fp_contract on
-u8 *TLoadingCur__ct(u8 *object, s32 arg1) {
+u8 *TLoadingCur__ct(u8 *object, saddr arg1) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8001D0A0, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_8001D0A0, spC) == 0x4);
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8001D0A0, sp10) == 0x8);

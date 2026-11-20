@@ -29,7 +29,7 @@ public:
     void clear_decided();
     void reset_list();
     void add_list_entry(s32 arg1, s32 arg2, s32 arg3);
-    s32 get_cursor_value();
+    saddr get_cursor_value();
     void calc_content_extent();
     void disable_cancel();
     u8 unk_1C[0x4];

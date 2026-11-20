@@ -18,8 +18,8 @@ struct TShopDeleteItemWindow : public TShopWindowBase {
     u32 m_2c;
     uaddr m_30;
     uaddr m_34;
-    u32 m_38;
-    u32 m_3c;
+    uaddr m_38;
+    uaddr m_3c;
     void* m_40;
     u8 _pad44[0x10];
     u8 m_54;

@@ -6,7 +6,7 @@ extern "C" {
 s32 get_main_menu_message__15TWindowCtrlMainFv();
 s32 get_window_layout_position(s32);
 
-s32 TWindowCtrl::get_message_by_type(s8 arg0, s32 arg1) {
+saddr TWindowCtrl::get_message_by_type(s8 arg0, s32 arg1) {
     saddr window;
     s32 var_r3;
 

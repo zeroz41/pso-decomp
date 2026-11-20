@@ -12,13 +12,13 @@ struct TShopEquipmentListWindow : public TShopWindowBase {
     virtual void vfunc_6();
     u8 _pad1C[0x4];
     u32 m_20;
-    u32 m_24;
+    uaddr m_24;
     u32 m_28;
     uaddr m_2c;
     uaddr m_30;
-    u32 m_34;
-    u32 m_38;
-    u32 m_3c;
+    uaddr m_34;
+    uaddr m_38;
+    uaddr m_3c;
     u32 m_40;
     u8 _pad44[0x4];
     u32 m_48;

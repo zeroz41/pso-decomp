@@ -36,7 +36,7 @@ struct Msg_803FA664 { u8 pad0; u8 b1; s16 h2; };
  * run_net_thread_loop (start_network_thread) and how long that loop sleeps between polls. */
 typedef struct NetThreadState {
     s32 mutex;
-    s32 thread;                 /* 0x04 */
+    saddr thread;                 /* 0x04 */
     s16 poll_ms;                /* 0x08: 40 (TLobby__sub_803F79B0), set by TLobby__sub_804050DC */
     u8 padA[6];
 } NetThreadState;
@@ -53,7 +53,7 @@ void clear_slot_for_handle(u32 handle);
 void unlock_mutex(int mutex);
 void lock_mutex(int mutex);
 void signal_alarm_queue(void* alarm);
-void resume_thread(s32 thread);
+void resume_thread(saddr thread);
 void cancel_thread_if_running(void* thread);
 void deactivate_entry_by_key(u32 key);
 s32 run_current_thread_callback(void);
@@ -61,19 +61,19 @@ s32 NetSetDefaultThreadPriority(s32 priority);
 s32 check_connection_status(void* connection);
 s32 clear_flag_bit4(s32 unused, u8* flags);
 void init_net_state_entry(void* entry);
-void NetIPv6CPCancelTimer(s32 timer);
+void NetIPv6CPCancelTimer(saddr timer);
 void NetYieldThread(void);
 void NetStoreTick(s32* tick);
 void NetStoreCurrentThread(s32* thread);
 void NetSuspendCurrentThread(void);
-void NetResumeThread(u32 thread);
+void NetResumeThread(uaddr thread);
 void NetReceiveMessage(u32 handle, void* destination, s32 size);
 void NetReleaseMutex(u32 handle);
 
 s16 NetIPv4IsLoopback(s32 address);
 s16 NetIPv4IsUnspecified(u32 address);
 s16 NetIPv6IsMulticast(u8* address);
-s32 NetIPv6CPSetInterfaceIdentifier(u8* state, s32 identifier);
+s32 NetIPv6CPSetInterfaceIdentifier(u8* state, saddr identifier);
 
 char* NetAppendString(char* destination, const char* source);
 s32 NetCompareStringsN(const char* left, const char* right, u32 size);

@@ -198,7 +198,7 @@ s32 shift_rect_with_head__15TWindowFukidasiFPvPvPv(Fuki_80250F70 *b, f32 *rect, 
 void refresh_rect_placement__15TWindowFukidasiFPv(Fuki_80251028 *b);
 void set_color__13TUnk_804CF0B8FUs(void *arg0, u16 arg1);
 void open__15TWindowFukidasiFPvPvi(u8 *arg0, u32 *arg1, s32 arg2);
-void set_text__15TWindowFukidasiFPvii(u8 *arg0, s32 arg1, s32 arg2);
+void set_text__15TWindowFukidasiFPvii(u8 *arg0, saddr arg1, saddr arg2);
 void init_flags__15TWindowFukidasiFPvi(void *arg0, s32 arg1);
 void draw_name_plate__15TWindowFukidasiFv(TUnk_804CF0B8 *, View_80252764 *, u32);
 void TWindowFukidasi__sub_80252C38(void *p);
@@ -675,7 +675,7 @@ void TUnk_804CF0B8::measure_text_unbounded(int entry) {
 #pragma push
 #pragma fp_contract on
 extern "C" {
-void set_text__15TWindowFukidasiFPvii(u8 *arg0, s32 str, s32 arg2) {
+void set_text__15TWindowFukidasiFPvii(u8 *arg0, saddr str, saddr arg2) {
   u32 new_var;
   u8 *entry;
   ((s32 (*)(void *, void *))init_flags__15TWindowFukidasiFPvi)((void *) arg0, (void *) arg2);

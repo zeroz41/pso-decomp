@@ -27,7 +27,7 @@ struct TAdPlyPltAnimCtrlGC : public TObject {
 LAYOUT_ASSERT(TAdPlyPltAnimCtrlGC_size, sizeof(TAdPlyPltAnimCtrlGC) == 0x2C);
 
 extern "C" {
-u8 *TAdPlyPltAnimCtrlGC__ct(TAdPlyPltAnimCtrlGC *arg0, s32 arg1);
+u8 *TAdPlyPltAnimCtrlGC__ct(TAdPlyPltAnimCtrlGC *arg0, saddr arg1);
 void TAdPlyPltAnimCtrlGC__sub_80355168(u8 *arg0);
 u8 fn_8035510C(s32 *arg0, s32 arg1);
 }

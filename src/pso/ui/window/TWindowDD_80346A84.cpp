@@ -10,7 +10,7 @@ extern s32 TWindowDD__word_select_lists;
 extern s32 TWindowDD__ws_data_base;
 s32 window_dd_element_count;
 
-s32 TWindowDD::get_element_ptr(s32 arg0) {
+saddr TWindowDD::get_element_ptr(s32 arg0) {
     if (arg0 == -1) {
         return 0;
     }

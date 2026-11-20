@@ -895,14 +895,14 @@ void TMainCursor::setup_action_channel(u8 *player, s32 slot, s32 kind, s32 id) {
 }
 #pragma pop
 
-void TMainCursor::setup_flags(s32 arg0, s32 arg1, s32 arg2) {
+void TMainCursor::setup_flags(s32 arg0, s32 arg1, saddr arg2) {
     ((TMainCursor *)arg2)->set_color(0x2000);
     ((TMainCursor *)arg2)->set_field_0c(0x3C000);
     ((TMainCursor *)arg2)->set_color_mode(0x800);
     ((TMainCursor *)arg2)->set_flags(0xE0000000);
 }
 
-void TMainCursor::set_display_flags(s32 arg0, s32 arg1, s32 arg2) {
+void TMainCursor::set_display_flags(s32 arg0, saddr arg1, saddr arg2) {
     ((TMainCursor *)arg2)->set_color(0x2000);
     ((TMainCursor *)arg2)->set_color_mode(0x10000000);
     ((TMainCursor *)arg2)->set_flags(0xE0000800);
@@ -917,7 +917,7 @@ void TMainCursor::set_display_flags(s32 arg0, s32 arg1, s32 arg2) {
     ((TMainCursor *)arg2)->set_field_0c(0x40030000);
 }
 
-void TMainCursor::set_cursor_color(s32 arg0, s32 arg1, s32 arg2) {
+void TMainCursor::set_cursor_color(s32 arg0, saddr arg1, saddr arg2) {
     if (get_type__10TObjPlayerFPv((void *)(arg1 + 0x828)) != 0) {
         ((TMainCursor *)arg2)->set_color(0xA000);
         ((TMainCursor *)arg2)->set_color_mode(0x70000000);
@@ -927,7 +927,7 @@ void TMainCursor::set_cursor_color(s32 arg0, s32 arg1, s32 arg2) {
     ((TMainCursor *)arg2)->set_color_mode(0x60000000);
 }
 
-s32 TMainCursor::get_action_cursor_priority(void *arg0, s32 player, s32 index) {
+s32 TMainCursor::get_action_cursor_priority(void *arg0, saddr player, s32 index) {
     u16 kind;
     u16 sub;
     kind = TObjPlayer__sub_801B5AF8((TObjPlayer *)player, index);
@@ -1308,7 +1308,7 @@ s32 target_in_vertical_cone(Vec *p, Vec *q, s32 yaw, f32 range, f32 dist) {
 
 extern "C" {
 
-s32 try_move__11TMainCursorFiii(s32 arg0, u8 arg1, u8 arg2) {
+s32 try_move__11TMainCursorFiii(saddr arg0, u8 arg1, u8 arg2) {
     if (is_channel_active__11TMainCursorFv((void *)arg0) != 0) {
         return matches_type_and_enabled__11TMainCursorFiUcUc(arg0, arg1, arg2);
     }
@@ -1758,7 +1758,7 @@ void TWindowActionPalette::set_mode(u8 v) { *(u8*)((char*)this + 0x0) = v; }
 
 extern "C" {
 
-int matches_type_and_enabled__11TMainCursorFiUcUc(s32 arg0, u8 arg1, u8 arg2) {
+int matches_type_and_enabled__11TMainCursorFiUcUc(saddr arg0, u8 arg1, u8 arg2) {
     s32 var_r31;
     var_r31 = 0;
     if ((arg1 == ((TMainCursor *)arg0)->get_type()) && (arg2 == ((TMainCursor *)arg0)->get_enabled())) {
@@ -1849,7 +1849,7 @@ s32 TMainCursor__sub_8013E2A0(void* p) { return *(s32*)((char*)p + 0x0); }
 
 }
 
-s32 TMainCursor::get_index() { return *(s32 *)&this->m_flags; }
+saddr TMainCursor::get_index() { return *(s32 *)&this->m_flags; }
 
 TUnk_8013E2B0::TUnk_8013E2B0() { unk_2 = 0; unk_0 = 0; }
 
@@ -1865,7 +1865,7 @@ int TMainCursor__sub_8013E2DC(void) {  return lock_on_cursor_model; }
 
 }
 
-int TMainCursor::check_field_24() { return (saddr)TMainCursor__sub_8013B2A4((u16 *)((char*)this + 0x24)); }
+saddr TMainCursor::check_field_24() { return (saddr)TMainCursor__sub_8013B2A4((u16 *)((char*)this + 0x24)); }
 
 u16 TMainCursor::get_id() { return this->m_flags; }
 
@@ -2108,7 +2108,7 @@ TUnk_8013EFB8::~TUnk_8013EFB8() {
     TLockOnCursor__sub_8013ED68((saddr)&target_records, -1);
 }
 
-s32 TLockOnCursor__sub_8013ED68(s32 arg0, s16 arg1) {
+s32 TLockOnCursor__sub_8013ED68(saddr arg0, s16 arg1) {
     if (arg0 != 0) {
         __destroy_arr((void *)(arg0 + 0x4), (void *)TLockOnCursor__sub_8013EDC4, 0xc, 0xb);
         if (arg1 > 0) {

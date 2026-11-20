@@ -671,7 +671,7 @@ f32 TWindowSubEquip__sub_80263AF8(u8 *arg0, u32 arg1) {
 
 void TWindowSubEquip__sub_80263AF4(void) {  }
 
-void call_if_split_screen(u32 object, s32 client_id) {
+void call_if_split_screen(uaddr object, s32 client_id) {
     if ((is_split_screen() != 0) && (object != 0U)) {
         fn_802449E0((u8 *)object);
     }

@@ -704,10 +704,10 @@ s32 TWindowSubTradeMain::open_confirm_yes_no() {
 #pragma fp_contract off
 
 extern "C" {
-void update_from_lobby__19TWindowSubTradeMainFi(s32 arg0) {
+void update_from_lobby__19TWindowSubTradeMainFi(saddr arg0) {
     ((int (*)(void*, void* a1 = 0))open_option_dialog__19TWindowSubTradeMainFPvi)((void*)arg0, (void*)(TLobby__sub_802D268C()));
 }
-void open_status_window__19TWindowSubTradeMainFi(s32 arg0) {
+void open_status_window__19TWindowSubTradeMainFi(saddr arg0) {
     ((int (*)(void*, void* a1 = 0))open_option_dialog__19TWindowSubTradeMainFPvi)((void*)arg0, (void*)(TWindowSubStatusDisp::get_message_10(0xF7)));
 }
 

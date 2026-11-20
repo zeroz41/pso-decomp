@@ -85,7 +85,7 @@ void TWindowSubComCard::swap_cards(s32 arg0, s32 arg1) {
     copy_card__17TWindowSubComCardFiPv((saddr)first_ptr, (u8 *)second_ptr);
     copy_card__17TWindowSubComCardFiPv((saddr)second_ptr, (u8 *)sp8);
 }
-s32 copy_card__17TWindowSubComCardFiPv(s32 arg0, u8 *arg1) {
+s32 copy_card__17TWindowSubComCardFiPv(saddr arg0, u8 *arg1) {
     saddr temp_r5;
     u8 *temp_r4;
     ((s32 (*)(s32))forward_return_arg__17TWindowSubComCardFi)(arg0);

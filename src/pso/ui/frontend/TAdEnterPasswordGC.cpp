@@ -170,7 +170,7 @@ void update_password_input__18TAdEnterPasswordGCFPv(Pw_8032B6A0 *self) {
   mem_free((void *)buf);
 }
 
-void open_keyboard_window__18TAdEnterPasswordGCFPv(s32 arg0) {
+void open_keyboard_window__18TAdEnterPasswordGCFPv(saddr arg0) {
     ((TAdEnterSerialAccessGC *)arg0)->m_30 = TAdEnterSerialAccessGC::show_message_window((void *)arg0, (void *)2);
     *(s32 *)((s8 *)arg0 + 0x34) = create_default_callback__22TAdEnterSerialAccessGCFv((void *)arg0);
     if ((u32) *(u32 *)((s8 *)arg0 + 0x2C) != 0U) {
@@ -198,7 +198,7 @@ void TAdEnterPasswordGC::run_task() {
     }
 }
 
-void set_password__18TAdEnterPasswordGCFi(s32 arg0) {
+void set_password__18TAdEnterPasswordGCFi(saddr arg0) {
     memset(&TAdEnterPasswordGC__input_buffer.value, 0, 9);
     strncpy((char *)&TAdEnterPasswordGC__input_buffer.value, (const char *)arg0, 9);
 }

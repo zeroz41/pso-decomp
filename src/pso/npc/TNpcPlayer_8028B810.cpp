@@ -18,7 +18,7 @@ extern "C" {
 s32 copy_player_visual_record(void *, void *);
 s32 TCharaMaking__bind_appearance_texture_lists(void *, void *, void *, void *);
 
-u8 *init_appearance_load_request__10TNpcPlayerFPvPvii(u8 *arg0, u8 *parent, s32 arg2, s32 arg3) {
+u8 *init_appearance_load_request__10TNpcPlayerFPvPvii(u8 *arg0, u8 *parent, saddr arg2, s32 arg3) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8028B810, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_8028B810, spC) == 0x4);
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8028B810, sp10) == 0x8);

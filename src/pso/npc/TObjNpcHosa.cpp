@@ -56,7 +56,7 @@ TObjNpcHosa::~TObjNpcHosa() {}
 
 extern void *tl_04;
 
-u8 *TObjNpcHosa__ct(u8 *player, s32 arg1, s32 arg2) {
+u8 *TObjNpcHosa__ct(u8 *player, s32 arg1, saddr arg2) {
     ((TUnk_804A9F50 *)player)->construct_male_npc_base();
     *(s32 **)((s8 *)player + 0x18) = __vt__11TObjNpcHosa;
     *(s32 *)((s8 *)player + 0) = (s32) TObjNpcHosa__name;

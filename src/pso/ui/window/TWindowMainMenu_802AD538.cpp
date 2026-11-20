@@ -214,7 +214,7 @@ void TWindowMainMenu::set_symbol_chat_parts(void * _w1) { ((TWindowSubSymbolChat
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void init_row_entry__15TWindowMainMenuFPvicc(u8 *window_sub_symbol_chat_parts_set, s32 arg1, s8 arg2, s8 arg3) {
+void init_row_entry__15TWindowMainMenuFPvicc(u8 *window_sub_symbol_chat_parts_set, saddr arg1, s8 arg2, s8 arg3) {
     ((TWindowSubSymbolChatPartsSet *)window_sub_symbol_chat_parts_set)->copy_vec2((void *)arg1);
     ((TWindowSubSymbolChatPartsSet *)(window_sub_symbol_chat_parts_set + 8))->copy_vec2((void *)arg1);
     *(s8 *)((s8 *)window_sub_symbol_chat_parts_set + 0x10) = arg3;
@@ -375,7 +375,7 @@ int TWindowMenuMainMenu::get_menu_flag() { return this->m_60 & 0x1; }
 
 #pragma push
 #pragma fp_contract on
-u8 *find_active_item_by_id__15TWindowMainMenuFii(s32 arg0, s32 arg1) {
+u8 *find_active_item_by_id__15TWindowMainMenuFii(saddr arg0, s32 arg1) {
     s32 var_r31;
     u8 *var_r30;
     s32 var_r29;
@@ -398,7 +398,7 @@ loop_3:
 }
 #pragma pop
 
-s32 TWindowMainMenu::find_free_slot() {
+saddr TWindowMainMenu::find_free_slot() {
     s32 arg0 = (saddr)this;
     s32 counter;
     saddr ptr;

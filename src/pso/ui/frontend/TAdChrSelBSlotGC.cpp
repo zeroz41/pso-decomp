@@ -1032,7 +1032,7 @@ void *TAdChrSelBSlotGC::create(void *ad_chr_sel_b_slot_gc) {
 int TAdChrSelBSlotGC::get_global_state() {  return TAdChrSelBSlotGC__global_state; }
 
     extern int TAdChrSel__global_slot_data;
-int TAdChrSelBSlotGC::get_global_slot_data() {  return TAdChrSel__global_slot_data; }
+saddr TAdChrSelBSlotGC::get_global_slot_data() {  return TAdChrSel__global_slot_data; }
 s32 TLobby::get_battle_ctrl_default() {
     return are_split_screen_battle_players_tied(this) != 0 ? 0 : TLobby__battle_ctrl_default_value;
 }

@@ -13,13 +13,13 @@ struct TObjNpcKenkyuW : public TUnk_804A9F50 {
 LAYOUT_ASSERT(TObjNpcKenkyuW_size, sizeof(TObjNpcKenkyuW) == 0x3B8);
 
 extern "C" {
-u8 *TObjNpcKenkyuW__ct(u8 *arg0, s32 arg1, s32 arg2);
+u8 *TObjNpcKenkyuW__ct(u8 *arg0, s32 arg1, saddr arg2);
 void clear_technique_contacts__10TObjPlayerFv(void);
 }
 
 // --- C functions defined in TObjNpcKenkyuW.cpp ---
 extern "C" {
-u8 *TObjNpcKenkyuW__ct(u8 *player, s32 arg1, s32 arg2);
+u8 *TObjNpcKenkyuW__ct(u8 *player, s32 arg1, saddr arg2);
 void clear_technique_contacts__10TObjPlayerFv(void);
 }
 // --- end of C functions

@@ -164,7 +164,7 @@ Obj_8032A574 *TAdMcSelectCursorGC__ct(Obj_8032A574 *arg0, s32 parent) {
 s32 release_texture_list(void *, s32);
 
 
-u32 TAdMcSelectCursorGC::get_instance(s32 arg0) {
+uaddr TAdMcSelectCursorGC::get_instance(s32 arg0) {
     uaddr var_r0;
 
     if ((u32) TAdMcSelectCursorGC__instance == 0U) {
@@ -193,6 +193,6 @@ void TAdMcSelectCursorGC::init_resource() { TAdMcSelectCursorGC__texture_entry =
 s32 TAdMcSelectCursorGC__sub_8032A6D8(void* p) { return *(s32*)((char*)p + 0x1c); }
 
     extern int memcard_cursor_instance_table[];
-int TAdMcSelectCursorGC::get_cursor_type(int a0) {  return memcard_cursor_instance_table[a0]; }
+saddr TAdMcSelectCursorGC::get_cursor_type(int a0) {  return memcard_cursor_instance_table[a0]; }
 
 }

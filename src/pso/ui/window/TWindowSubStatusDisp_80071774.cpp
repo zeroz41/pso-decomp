@@ -55,7 +55,7 @@ s32 *TWindowSubStatusDisp::get_status_window(u16 arg0) {
 }
 
 LAYOUT_ASSERT(RecoveredGlobal_80071820_lbl_804FF820_size, sizeof(RecoveredGlobal_80071820_lbl_804FF820) == 0xC);
-s32 *TWindowSubStatusDisp__sub_80071820(u32 arg0) {
+s32 *TWindowSubStatusDisp__sub_80071820(uaddr arg0) {
     if (arg0 == 0U) {
         return &lbl_805D2858;
     }
@@ -102,7 +102,7 @@ s32 TWindowSubStatusDisp__sub_800718D0(void) {
     return sum;
 }
 
-s32 TWindowSubStatusDisp__sub_80071988(u16 arg0, s32 slot) {
+s32 TWindowSubStatusDisp__sub_80071988(u16 arg0, saddr slot) {
     s32 *p;
     s32 n;
     s32 r;
@@ -126,7 +126,7 @@ s32 TWindowSubStatusDisp__sub_80071988(u16 arg0, s32 slot) {
     return sum;
 }
 
-s32 TWindowSubStatusDisp__sub_80071A24(s32 arg0, u16 arg1, s32 slot) {
+s32 TWindowSubStatusDisp__sub_80071A24(s32 arg0, u16 arg1, saddr slot) {
     s32 temp_r3;
     uaddr character_save_record;
     character_save_record = get_character_save_record((u32)arg1);

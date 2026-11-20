@@ -14,7 +14,7 @@ LAYOUT_ASSERT(TObjNpcHFW01_size, sizeof(TObjNpcHFW01) == 0x3B8);
 
 extern "C" {
 void *TObjNpcHFW01__create(void *arg0);
-u8 *TObjNpcHFW01__ct(u8 *player, s32 arg1, s32 arg2);
+u8 *TObjNpcHFW01__ct(u8 *player, s32 arg1, saddr arg2);
 }
 
 #endif

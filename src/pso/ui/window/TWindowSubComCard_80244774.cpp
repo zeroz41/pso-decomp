@@ -166,7 +166,7 @@ extern "C" {
 
 int TWindowSubComCard__sub_80244774(void) {  return lbl_805D3614; }
 
-s32 TWindowSubComCard::get_field_20() { return this->m_20; }
+saddr TWindowSubComCard::get_field_20() { return this->m_20; }
 
 f32 TWindowSubComCard__sub_80244784(TWindowSubComCard *window_sub_com_card) {
     f32 v = window_sub_com_card->calc_offset();
@@ -326,7 +326,7 @@ s32 TWindowBase::setup_window_draw_context(s32 arg1) {
     return (saddr)context;
 }
 
-s32 TWindowDD::draw_default_entry(saddr arg0) {
+saddr TWindowDD::draw_default_entry(saddr arg0) {
     return ((TWindowBase *)arg0)->setup_window_draw_context((saddr)fn_8026CB68());
 }
 

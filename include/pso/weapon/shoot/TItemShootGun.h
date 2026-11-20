@@ -7,7 +7,7 @@
 class TItemShootGun : public TItemShootModel {
 public:
  s32 m_6C;
- u32 m_70;
+ uaddr m_70;
 
 public:
     TItemShootGun(void* owner, const Vec* pos, const Vec* endpoint, f32 life);

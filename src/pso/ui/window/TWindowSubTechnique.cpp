@@ -88,7 +88,7 @@ void TWindowSubTechnique::draw_technique_row(s32 id, s32 arg1, s32 arg2) {
 }
 #pragma fp_contract on
 
-void TWindowSubTechnique::rebuildTechniqueList(s32 list, s32 category) {
+void TWindowSubTechnique::rebuildTechniqueList(saddr list, s32 category) {
     s32 selected;
     const s16 *entry;
     entry = technique_menu_category_lists[category];
@@ -140,7 +140,7 @@ struct Pad_802870C4 { u8 pad[0x20]; u8 m20[0x30]; };
 
 extern u8 *text_language_group_table;
 extern "C" {
-s32 get_technique_description_text(s32 arg0);
+saddr get_technique_description_text(s32 arg0);
 u8 *calc_technique_parameters(s16, u8, s32);
 s32 *get_shared_text_buffer();
 s32 get_cast_technique_level(void *, int);
@@ -328,7 +328,7 @@ void *TWindowSubTechnique__ct(TWindowSubTechnique *window_sub_technique, s32 arg
     return window_sub_technique;
 }
 
-s32 get_technique_description_text(s32 arg0) {
+saddr get_technique_description_text(s32 arg0) {
     return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x14)) + (arg0 * 4));
 }
 

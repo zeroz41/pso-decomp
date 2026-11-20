@@ -28,13 +28,13 @@ struct TLoadingCur : public TObject {
 LAYOUT_ASSERT(TLoadingCur_size, sizeof(TLoadingCur) == 0x5C);
 
 extern "C" {
-u8 *TLoadingCur__ct(u8 *arg0, s32 arg1);
+u8 *TLoadingCur__ct(u8 *arg0, saddr arg1);
 void *__dt__11TLoadingCurFv(void *arg0, s16 arg1);
 }
 
 // --- C functions defined in TLoadingCur.cpp ---
 extern "C" {
-u8 *TLoadingCur__ct(u8 *object, s32 arg1);
+u8 *TLoadingCur__ct(u8 *object, saddr arg1);
 }
 // --- end of C functions
 

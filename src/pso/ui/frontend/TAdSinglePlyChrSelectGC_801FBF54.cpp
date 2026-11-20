@@ -403,7 +403,7 @@ u16 TAdSinglePlyChrSelectGC::get_card_field_21a8(int arg0) {
 
 s32 *TAdSinglePlyChrSelectGC__sub_80202B38(void *self, s32 i);
 
-s32 TAdSinglePlyChrSelectGC::append_inventory_item(s32 arg1) {
+s32 TAdSinglePlyChrSelectGC::append_inventory_item(saddr arg1) {
 #define arg0 ((u8 *)this)
     u8 n = *arg0;
 

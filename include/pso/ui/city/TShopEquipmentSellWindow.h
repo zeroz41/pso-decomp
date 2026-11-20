@@ -30,12 +30,12 @@ struct TShopEquipmentSellWindow : public TShopWindowBase {
     u32 m_380;
     u32 m_384;
     u32 m_388;
-    u32 m_38c;
+    uaddr m_38c;
     uaddr m_390;
     uaddr m_394;
-    u32 m_398;
-    u32 m_39c;
-    u32 m_3a0;
+    uaddr m_398;
+    uaddr m_39c;
+    uaddr m_3a0;
     u32 m_3a4;
     u32 m_3a8;
     s32 update();

@@ -27,7 +27,7 @@ struct TWindowSubSymbolChat : public TObject {
     uaddr m_50;
     uaddr m_54;
     uaddr m_58;
-    u32 m_5c;
+    uaddr m_5c;
     void clear_entries();
     void load_symbol_chat_data();
     static s32 compute_total_height();
@@ -61,7 +61,7 @@ struct TWindowSubSymbolChat : public TObject {
     void bswap_symbol_chat_packet();
     void byteswap_entry();
     void send_symbol_chat();
-    static int get_instance();
+    static saddr get_instance();
     int is_initialized();
     void bswap_entry();
     static void close_child();
@@ -80,7 +80,7 @@ struct TWindowSubSymbolChat : public TObject {
     static s32 open_main_menu(void * _w0);
     void apply_symbol();
     s32 create_symbol_list_card();
-    static s32 create_chat_symbol_window(s32 arg0, s32 arg1);
+    static saddr create_chat_symbol_window(s32 arg0, s32 arg1);
     virtual void render();
     virtual void run_task();
     static void set_flag_bit2(s32 *arg0);

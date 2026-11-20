@@ -37,7 +37,7 @@ u32 TAdPlyPltAnimCtrlGC::get_instance(s32 arg0) {
     return plyplt_anim_ctrl_instance;
 }
 
-u8 *TAdPlyPltAnimCtrlGC__ct(TAdPlyPltAnimCtrlGC *ad_ply_plt_anim_ctrl_gc, s32 arg1) {
+u8 *TAdPlyPltAnimCtrlGC__ct(TAdPlyPltAnimCtrlGC *ad_ply_plt_anim_ctrl_gc, saddr arg1) {
     s32 index;
     __ct__7TObjectFP7TObject((void *)ad_ply_plt_anim_ctrl_gc, (void *)arg1);
     *(s32 **)((s8 *)ad_ply_plt_anim_ctrl_gc + 0x18) = __vt__19TAdPlyPltAnimCtrlGC;

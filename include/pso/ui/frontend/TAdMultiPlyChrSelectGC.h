@@ -57,8 +57,8 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     static s32 get_clamped_cursor();
     static void reset_slot_selections();
     s32 get_field_20();
-    static int get_state();
-    static int get_selected_slot();
+    static saddr get_state();
+    static saddr get_selected_slot();
     static int get_global_6700();
     s32 get_player_index();
     void set_cursor_index(s32 v);
@@ -93,7 +93,7 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     void set_field_1c(s32 v);
     s32 get_mode();
     s32 is_state_closing();
-    static int get_global_state();
+    static saddr get_global_state();
     static int get_select_flag();
     static int get_chr_select_state();
     s32 get_ready_state();

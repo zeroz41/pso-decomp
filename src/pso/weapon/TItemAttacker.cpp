@@ -29,7 +29,7 @@ s32 item_buffer_temp_mode;
 s32 item_buff_buffer;
 void TItemBuff__ct(void);
 extern const char *TItemAttacker__name;
-void TItemAttacker__sub_8010349C(u32 arg0);
+void TItemAttacker__sub_8010349C(uaddr arg0);
 }
 saddr get_item_chunk_buffer(int a0);
 extern "C" {
@@ -182,7 +182,7 @@ void TItemAttacker::spawn_item_timer(TObject *object, ItemTimerCallback expire, 
     }
 }
 
-void TItemAttacker__sub_8010349C(u32 arg0) {
+void TItemAttacker__sub_8010349C(uaddr arg0) {
     if (arg0 != 0U) {
         deliver_delayed_weapon_hit((u8 *)arg0);
     }

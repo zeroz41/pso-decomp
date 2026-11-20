@@ -14,7 +14,7 @@ s16 TLobby__sub_803FB358(NetLinkStatus *status);
  * last-defined first. */
 s32 lbl_805D7A94;
 s32 lbl_805D7A90;
-s32 lbl_805D7A8C;
+saddr lbl_805D7A8C;
 s16 lobby_modem_connect_state;
 s16 lbl_805D7A88;
 s16 lobby_modem_abort_flag;

@@ -16,6 +16,6 @@ public:
     WeaponVector shot_origins[2];
 };
 
-extern "C" u8 *TObjPlayer__sub_8012CE44(s32 item);
+extern "C" u8 *TObjPlayer__sub_8012CE44(saddr item);
 
 #endif

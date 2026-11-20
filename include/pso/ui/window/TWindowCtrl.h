@@ -63,7 +63,7 @@ struct TWindowCtrl : public TObject {
     void has_player_active_menu();
     static void apply_default_vec(s32 arg0, saddr arg1);
     void is_slot_visible();
-    static s32 get_message_by_type(s8 arg0, s32 arg1);
+    static saddr get_message_by_type(s8 arg0, s32 arg1);
     static void release_slot(s8 *arg0);
     static void close_windows_by_flags(u16 arg0);
     static s32 open_balloon(u16 arg0, u8 *arg1, s32 arg2, s32 arg3);

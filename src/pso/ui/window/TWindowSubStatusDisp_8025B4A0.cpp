@@ -27,7 +27,7 @@ void *window_label_value_part_vtable[6] = {
     0,
 };
 
-void TWindowSubStatusDisp::set_string(u32 arg1) {
+void TWindowSubStatusDisp::set_string(uaddr arg1) {
     s32 temp_r3;
 
     mem_free((void *)(*(saddr *)((s8 *)this + 0x20)));

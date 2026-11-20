@@ -119,7 +119,7 @@ struct Stack_802DDF40 {
 };
 
 extern "C" {
-int TAdMultiPlyChrSelectGC__sub_802C6920(void);
+saddr TAdMultiPlyChrSelectGC__sub_802C6920(void);
 s32 is_slot_state_one__16TAdChrSelBSlotGCFlUl(s32, s32);
 s32 create_confirm_window__22TAdMultiPlyChrSelectGCFv(void *, s32);
 u32 __ct__9TAdFadeGCFP7TObjectPv(u32, TObject *, s32);
@@ -2268,7 +2268,7 @@ s32 TAdMultiPlyChrSelectGC::create_confirm_window() {
     return r;
 }
 
-s32 TAdMultiPlyChrSelectGC__sub_802DBD64(s32 arg0) {
+s32 TAdMultiPlyChrSelectGC__sub_802DBD64(saddr arg0) {
     s32 temp_r31;
     temp_r31 = create__19TWindowMessageYesNoFPvPvPvPv((void *)arg0, (int) (TAdMultiPlyChrSelectGC::get_clamped_cursor()), 0, 0);
     forward_slot_selection__16TAdChrSelASlotGCFPvPv(temp_r31, (int) (get_localized_text_entry(0x1F, 9)), lbl_804728A0, 196.0f);
@@ -2276,7 +2276,7 @@ s32 TAdMultiPlyChrSelectGC__sub_802DBD64(s32 arg0) {
     return temp_r31;
 }
 
-s32 TAdMultiPlyChrSelectGC__sub_802DBCE8(s32 arg0) {
+s32 TAdMultiPlyChrSelectGC__sub_802DBCE8(saddr arg0) {
     s32 temp_r31;
     temp_r31 = create__19TWindowMessageYesNoFPvPvPvPv((void *)arg0, (int) (TAdMultiPlyChrSelectGC::get_clamped_cursor()), 0, 0);
     forward_slot_selection__16TAdChrSelASlotGCFPvPv(temp_r31, (int) (get_localized_text_entry(0x1F, 0xA)), lbl_804728A8, 209.0f);

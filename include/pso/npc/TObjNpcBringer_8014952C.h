@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-u8 *TObjNpcBringer__ct(u8 *self, void *parent, s32 arg2);
+u8 *TObjNpcBringer__ct(u8 *self, void *parent, saddr arg2);
 }
 
 #endif

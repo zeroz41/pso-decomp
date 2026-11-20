@@ -310,7 +310,7 @@ void TAdMultiPlyChrSelectGC::add_selected_slot() {
     TAdMultiPlyChrSelectGC__selected_slot_order[3] = multi_ply_chr_select_active_player;
 }
 
-int TAdMultiPlyChrSelectGC__sub_802C6920(void) {
+saddr TAdMultiPlyChrSelectGC__sub_802C6920(void) {
     s32 i;
     s32 slot;
     if (multi_ply_chr_select_active_player < 0 || (u32)multi_ply_chr_select_active_player >= 4) {
@@ -878,7 +878,7 @@ void TAdChrSelPlyPlateGC::draw_selection_cursors() {
 
 #pragma push
 #pragma fp_contract on
-void TAdMultiPlyChrSelectGC__sub_802C522C(s32 arg0) {
+void TAdMultiPlyChrSelectGC__sub_802C522C(saddr arg0) {
     S_802C50EC *self = (S_802C50EC *)arg0;
     u32 i;
     for (i = 0; i < 4; i++) {
@@ -898,7 +898,7 @@ void TAdMultiPlyChrSelectGC__sub_802C522C(s32 arg0) {
 
 #pragma push
 #pragma fp_contract on
-void TAdMultiPlyChrSelectGC__sub_802C50EC(s32 arg0) {
+void TAdMultiPlyChrSelectGC__sub_802C50EC(saddr arg0) {
     S_802C50EC *self = (S_802C50EC *)arg0;
     u32 i;
     Quad_802C50EC q;

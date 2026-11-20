@@ -19,10 +19,10 @@ struct TWindowSubMag : public TObject {
     uaddr mag;
     u32 parent;
     uaddr list;
-    u32 list2;
-    u32 card;
+    uaddr list2;
+    uaddr card;
     uaddr help;
-    u32 slotwin;
+    uaddr slotwin;
     uaddr photon;
     uaddr message;
     void update_mag_help();
@@ -32,7 +32,7 @@ struct TWindowSubMag : public TObject {
     void *create_learned_blast_toast();
     void *create();
     void *create_action_menu(s32 id);
-    s32 create_list();
+    saddr create_list();
     s32 setup_list();
     s32 get_selected_blast();
     void set_flag60_bit8();

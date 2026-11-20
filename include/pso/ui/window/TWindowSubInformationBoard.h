@@ -16,7 +16,7 @@ struct TWindowSubInformationBoard : public TObject {
     uaddr menu_window;    // create_info_board_menu (TWindowMenu)
     uaddr page_menu;      // sub_8034CDE0: one entry per info-board page, picks set_page
     uaddr message_window; // TWindowMessage::create (open_card_info_window, show_card_a7)
-    u32 m_38;
+    uaddr m_38;
     uaddr keyboard;       // open_keyboard
     void* m_40;
     virtual void render();

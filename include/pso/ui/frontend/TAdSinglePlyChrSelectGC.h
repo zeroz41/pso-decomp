@@ -65,7 +65,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static u16 get_card_status(int arg0);
     static u16 get_card_value(int arg0);
     static u16 get_card_field_21a8(int arg0);
-    s32 append_inventory_item(s32 arg1);
+    s32 append_inventory_item(saddr arg1);
     static s32 load_player_by_slot(s32 arg0);
     static s32 verify_system_file(void* _w0);
     static s32 load_save_from_card();
@@ -76,7 +76,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     void clear_inventory_slot_by_index(s32 i);
     static int get_selection();
     static void set_global_flags(s32 arg0);
-    static int get_instance();
+    static saddr get_instance();
     static void set_player_index(int a0);
     static void set_save_slot(int a0);
     static void clear_flags(s32 arg0);

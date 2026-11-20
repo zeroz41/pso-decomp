@@ -32,7 +32,7 @@ struct TWindowDD : public TObject
     u32 m_64[6];
     uaddr m_7c;
     u32 m_80;
-    u32 m_84;
+    uaddr m_84;
     u32 m_88;
     u32 m_8c;
     u32 m_90;
@@ -93,7 +93,7 @@ struct TWindowDD : public TObject
     void update_layout();
     void update_transition();
     void update();
-    static s32 get_element_ptr(s32 arg0);
+    static saddr get_element_ptr(s32 arg0);
     virtual void render();
     void reset_selection();
     void update_selected_id();
@@ -133,14 +133,14 @@ struct TWindowDD : public TObject
     void append_prompt_newline(s32 *arg1);
     static s32 clamp_range_5FA_682(s16 arg0);
     static s32 clamp_range_2C9_552(s16 arg0);
-    static void show_message_by_count(s32 arg0, s32 arg1);
+    static void show_message_by_count(s32 arg0, saddr arg1);
     void maybe_scroll(void* a1);
     s32 count_chars_since_newline(s32 *len);
     static void append_char(s8 arg0, s32 arg1, s32 *arg2);
     static void append_string(s32 arg0, s32 arg1, s32 *arg2);
     void copy_point_table(s32 idx);
     static s32 get_draw_count(void **arg0);
-    static s32 get_entry(s32 arg0);
+    static saddr get_entry(s32 arg0);
     int handle_word_select();
     static void send_chat_packet(void *data);
     void update_and_send_lobby();
@@ -152,7 +152,7 @@ struct TWindowDD : public TObject
     void init_item_slots();
     static void init_ws_data_tables();
     static s32 lookup_item_category(s32 arg0);
-    static s32 draw_default_entry(saddr arg0);
+    static saddr draw_default_entry(saddr arg0);
     void handle_confirm_input();
     void update_selection_state();
 };

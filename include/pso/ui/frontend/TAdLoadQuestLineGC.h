@@ -21,7 +21,7 @@ LAYOUT_ASSERT(TAdLoadQuestLineGCSize, sizeof(TAdLoadQuestLineGC) == 0x24);
 LAYOUT_ASSERT(TAdLoadQuestLineGCStateOffset, offsetof(TAdLoadQuestLineGC, m_state) == 0x1C);
 
 extern "C" {
-s32 get_or_create_line__14TAdLoadQuestGCFii(s32 arg0, s32 arg1);
+s32 get_or_create_line__14TAdLoadQuestGCFii(saddr arg0, saddr arg1);
 }
 
 #endif

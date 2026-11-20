@@ -12,9 +12,9 @@ struct TAdMcSelectGC : public TObject {
     u32 m_1c;
     u8 _pad20[0x4];
     u32 m_24;
-    u32 m_28;
-    u32 m_2c;
-    u32 m_30;
+    uaddr m_28;
+    uaddr m_2c;
+    uaddr m_30;
     void init_slot(s32 arg1, void *arg2);
     static void render(void *self);
     static void update_state();

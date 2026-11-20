@@ -20,7 +20,7 @@ extern u16 lobby_buffer_slot_count;
 extern u16 lobby_thread_pool_count;
 extern Ent_803F9B48 *lobby_thread_pool_base;
 extern LobbyBufferSlot *lobby_buffer_slots;
-extern u32 lobby_buffer_pool_size;
+extern uaddr lobby_buffer_pool_size;
 extern u32 lbl_805D7C08;
 extern u8 *lobby_buffer_pool_base;
 extern u8 *lbl_805D7C04;

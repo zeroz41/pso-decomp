@@ -46,7 +46,7 @@ void *get_player_by_client_id(s32 i);
 s32 get_width__19TWindowSimpleStatusFv(void *);
 extern TWindowCtrl *TWindowCtrl__active_window;
 
-s32 TWindowCtrl__sub_8024B7D4(s32 n) {
+saddr TWindowCtrl__sub_8024B7D4(s32 n) {
     s32 i;
     TWindowSimpleStatus *status;
     TObjPlayer *player;

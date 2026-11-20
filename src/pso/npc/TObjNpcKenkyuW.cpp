@@ -103,7 +103,7 @@ void TObjNpcKenkyuW::load_resource_instance() {
 TObjNpcKenkyuW::~TObjNpcKenkyuW() {}
 
 
-u8 *TObjNpcKenkyuW__ct(u8 *player, s32 arg1, s32 arg2) {
+u8 *TObjNpcKenkyuW__ct(u8 *player, s32 arg1, saddr arg2) {
     ((TUnk_804A9F50 *)player)->construct_male_npc_base();
     *(s32 **)((s8 *)player + 0x18) = __vt__14TObjNpcKenkyuW;
     ((TObject *)player)->m_name = TObjNpcKenkyuW__name;

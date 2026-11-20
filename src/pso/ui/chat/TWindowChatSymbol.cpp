@@ -246,7 +246,7 @@ void setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(Part_802480
     }
 }
 
-void TWindowSubSymbolChatPartsSet__sub_802482B8(s32 arg0, s32 arg1) {
+void TWindowSubSymbolChatPartsSet__sub_802482B8(saddr arg0, s32 arg1) {
     ((TWindowBase *)arg0)->get_array_entry(arg1 + 0x1);
 }
 
@@ -254,7 +254,7 @@ void TWindowSubSymbolChatPartsSet::get_parts_entry(long arg1) {
     this->get_array_entry(arg1 + 9);
 }
 
-void get_parts_entry__28TWindowSubSymbolChatPartsSetFii(s32 arg0, s32 arg1) {
+void get_parts_entry__28TWindowSubSymbolChatPartsSetFii(saddr arg0, s32 arg1) {
     ((TWindowBase *)arg0)->get_array_entry(arg1 + 5);
 }
 
@@ -279,7 +279,7 @@ void fn_802483C8(void *arg0, u8 _w1) {
 
 void TWindowSubSymbolChat__sub_802483F0(int a0, void* a1) { *(float*)((char*)a1 + 0x0) = 136.0f; *(float*)((char*)a1 + 0x4) = 90.0f; }
 
-void set_symbol_chat_parts__20TWindowSubSymbolChatFiPv(s32 arg0, void *arg1) {
+void set_symbol_chat_parts__20TWindowSubSymbolChatFiPv(saddr arg0, void *arg1) {
     s32 i;
     s32 j;
     s32 off;

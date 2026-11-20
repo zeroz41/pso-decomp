@@ -9,7 +9,7 @@ s32 update_selection_state__9TWindowDDFv();
 s32 TWindowDD__sub_803482B0(s32);
 s32 TWindowDD__sub_803484C4(s32);
 
-void handle_input__9TWindowDDFi(s32 window_dd) {
+void handle_input__9TWindowDDFi(saddr window_dd) {
     update_selection_state__9TWindowDDFv();
     if (((TWindowDD *)window_dd)->test_input_flag_4() != 0) {
         TWindowDD::play_sound();

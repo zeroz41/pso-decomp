@@ -154,7 +154,7 @@ s32 TLobby::find_free_chat_log_slot() {
 }
 }
 
-void chat_log_remove_line(s32 arg0) {
+void chat_log_remove_line(saddr arg0) {
     u32 *temp_r31;
     uaddr temp_r4;
     temp_r31 = (u32 *)((u8 *)&chat_log_lines.value + (arg0 * 4));
@@ -181,7 +181,7 @@ s32 chat_text_lacks_language_tag(const char *text) {
     return 1;
 }
 
-void cache_last_chat_line(u32 text) {
+void cache_last_chat_line(uaddr text) {
     s32 temp_r31;
     s32 size;
     u8 *var_r3;
@@ -247,7 +247,7 @@ s32 *get_active_photon_object__17TWindowMessageLogFv(u16);
 }
 void append_text_space(void);
 void text_builder_reset(void);
-void cache_last_chat_line(u32 text);
+void cache_last_chat_line(uaddr text);
 
 extern s32 local_client_id;
 

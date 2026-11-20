@@ -154,7 +154,7 @@ void set_text_entry_string(u8 *arg0, u32 str, s32 arg2);
 void set_sprite_uv_from_pixels(u8 *arg0, f32 farg0, f32 farg1);
 extern "C" {
 void update_lockon_window(u8 *arg0);
-s32 update_photon_blast_player_marker(s32 arg0, s32 arg1);
+s32 update_photon_blast_player_marker(saddr arg0, s32 arg1);
 void begin_screen_draw(s32 arg0);
 s32 draw_textured_quad_at_depth(Rect_80270394 *, f32);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
@@ -429,7 +429,7 @@ void update_lockon_window(u8 *arg0) {
     ((TWindowLockOn *)temp_r31)->update_for_player_index(((s32 (*)(void *))get_width__19TWindowSimpleStatusFv)(arg0));
 }
 
-s32 update_photon_blast_player_marker(s32 arg0, s32 arg1) {
+s32 update_photon_blast_player_marker(saddr arg0, s32 arg1) {
     Slots_80270060 s;
     s32 type;
     u32 key;
@@ -561,7 +561,7 @@ SS_80270668 *TWindowSimpleStatus__ct(SS_80270668 *arg0, void *arg1, s32 arg2, vo
 saddr get_window_layout_position(s32);
 s32 update_hp_tp_level__20TWindowSubStatusDispFv();
 
-void render__19TWindowSimpleStatusFv(s32 arg0) {
+void render__19TWindowSimpleStatusFv(saddr arg0) {
     saddr ctx;
     ctx = draw_default_entry__9TWindowDDFl();
     ((TWindowSimpleStatus *)arg0)->draw_background((u8 *)ctx);

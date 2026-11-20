@@ -3,7 +3,7 @@
 #include "pso/network/TLobby_803FCF44.h"
 #include "pso/network/TLobby_804050DC.h"
 /* This file's functions. */
-void chap_input(void *self, s32 arg1);
+void chap_input(void *self, saddr arg1);
 void init_net_state_a(void);
 s32 init_net_state_b(void);
 s32 mark_sub_ready(void *obj);
@@ -178,7 +178,7 @@ s32 mark_sub_ready(void *obj) {
 
 struct O_80400ACC;
 
-void chap_input(void *self, s32 arg1) {
+void chap_input(void *self, saddr arg1) {
     u8 *arg0 = (u8 *)self;
     PppHeader hdr;
     u8 temp_r0;

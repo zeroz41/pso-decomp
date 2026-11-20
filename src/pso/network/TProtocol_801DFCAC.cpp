@@ -15,7 +15,7 @@ LAYOUT_ASSERT(PasswordActionPasswordOffset, offsetof(TSendAction<2>, password) =
 LAYOUT_ASSERT(NamedPasswordActionNameOffset, offsetof(TSendAction<3>, name) == 0xC);
 LAYOUT_ASSERT(NamedPasswordActionPasswordOffset, offsetof(TSendAction<3>, password) == 0x1C);
 
-s32 destroy__9TProtocolFis(s32 arg0, s16 arg1) {
+s32 destroy__9TProtocolFis(saddr arg0, s16 arg1) {
     if (arg0 != 0) {
         __dt__12TPlyCharDataFv(arg0 + 4, -1);
         if (arg1 > 0) {

@@ -44,7 +44,7 @@ void TWindowDeposit::render_status(s32 arg1) {
     draw_window_tab(arg1, arg1 + 0x10, 3, this->m_60);
 }
 
-void render__14TWindowDepositFv(s32 arg0) {
+void render__14TWindowDepositFv(saddr arg0) {
     s32 ctx;
     ctx = ((TWindowBase *)arg0)->setup_window_draw_context(arg0 + 0x64);
     ((TWindowDeposit *)arg0)->render_status(ctx);

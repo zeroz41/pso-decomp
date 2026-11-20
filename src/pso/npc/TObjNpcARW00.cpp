@@ -39,7 +39,7 @@ void TObjNpcARW00::load_resources() {
 TObjNpcARW00::~TObjNpcARW00() {}
 
 
-u8 *TObjNpcARW00__ct(u8 *arg0, s32 arg1, s32 arg2) {
+u8 *TObjNpcARW00__ct(u8 *arg0, s32 arg1, saddr arg2) {
     ((TUnk_804A8640 *)arg0)->construct_female_base();
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TObjNpcARW00;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TObjNpcARW00__name;

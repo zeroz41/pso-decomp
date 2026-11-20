@@ -314,7 +314,7 @@ s32 TAdSinglePlyChrSelectGC__sub_8028CF6C(void) {
 
 }
 
-s32 TChCrLoadReq::calc_preview_last_index(s32 display_index, s32 region_index) {
+saddr TChCrLoadReq::calc_preview_last_index(s32 display_index, s32 region_index) {
     s32 stride=chr_select_preview_stride_table[display_index];
     return stride + region_index * stride - 1 + chr_select_preview_base_offset_table[display_index];
 }

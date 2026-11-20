@@ -514,7 +514,7 @@ TWindowDD_WS_Word *TWindowDD__sub_803422F0(TWindowDD_WS_Word *self, s32 element_
     return self;
 }
 
-s32 TWindowDD__sub_80342384(s32 element_list, s32 rows) {
+saddr TWindowDD__sub_80342384(s32 element_list, s32 rows) {
     TWindowDD_WS_Word *window;
     TWindowDD__data_804EFC50.rows = rows;
     window = (TWindowDD_WS_Word *)TObject::operator new(sizeof(TWindowDD_WS_Word));

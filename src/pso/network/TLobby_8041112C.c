@@ -1074,7 +1074,7 @@ release:
     return ret;
 }
 
-s16 TLobby__sub_80413230(u8 *arg0, s32 arg1) {
+s16 TLobby__sub_80413230(u8 *arg0, saddr arg1) {
     if (TLobby__sub_80413264(arg0, (void *)arg1) != NULL) {
         return 1;
     }

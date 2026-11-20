@@ -6,7 +6,7 @@
 
 struct TWindowMenu : public TWindowAddition {
     virtual ~TWindowMenu();
-    s32 get_selected_entry();
+    saddr get_selected_entry();
     int sub_80266BB8();
     u8 test_menu_flag();
     void render_selected_entry(s32);

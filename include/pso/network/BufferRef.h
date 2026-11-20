@@ -5,7 +5,7 @@
 #include <stddef.h>
 
 typedef struct NetBufferRef {
-    u32 value;
+    uaddr value;
     u8 kind;
     u8 padding[3];
 } NetBufferRef;

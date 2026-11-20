@@ -118,7 +118,7 @@ void handle_cmd_9B__9TProtocolFR6packet(u8 *arg0, Regist_801DAD38 *arg1) {
     }
 }
 
-s32 socket_set_server_info(u8 *socket, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
+s32 socket_set_server_info(u8 *socket, saddr arg1, saddr arg2, saddr arg3, saddr arg4, s32 arg5, s32 arg6) {
     s32 temp_r31;
 
     temp_r31 = resolve_domain__7TSocketFPc(socket, arg5);

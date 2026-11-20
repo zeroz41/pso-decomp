@@ -32,7 +32,7 @@ s32 draw_window_scrollbar(void *, int, void *);
 s32 forward_render__20TWindowSubStatusDispFv(void *, int);
 s32 TShopJudgmentItemWindow__sub_80267F9C(void *, int);
 
-u8 *create_sub_item_list_window(s32 parent, s32 position, s32 client) {
+u8 *create_sub_item_list_window(saddr parent, saddr position, s32 client) {
     TShopJudgmentItemWindow__sub_80267F9C((void *)position, 0x24);
     return (u8 *)new TWindowSubItemList((u8 *)parent, client);
 }

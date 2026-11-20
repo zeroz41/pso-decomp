@@ -246,7 +246,7 @@ void TWindowSubComCard::set_entry_value_clear_flag(s32 idx, s32 val) {
     r[(s16)idx].flags &= ~0x10;
 }
 
-s32 TWindowMenu::get_selected_entry() {
+saddr TWindowMenu::get_selected_entry() {
     s16 temp_r4;
     temp_r4 = *(s16 *)&this->m_78;
     if (temp_r4 < 0) {

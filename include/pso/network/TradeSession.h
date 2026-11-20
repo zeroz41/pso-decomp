@@ -14,7 +14,7 @@ extern u16 trade_protocol_flags;
 extern s8 TLobby__trade_partner_client_id;
 extern u8 TLobby__trade_proposal_state;
 extern s32 trade_proposal_delay;
-extern u32 TLobby__trade_main_window;
+extern uaddr TLobby__trade_main_window;
 
 typedef void (*TradeProposalHandler)(void* packet);
 extern "C" TradeProposalHandler trade_proposal_state_handlers[10][8];
@@ -29,17 +29,17 @@ void handle_trade_partner_cancel(void *arg0);
 void handle_trade_request_reply(void *arg0);
 void ignore_trade_proposal_event(void);
 extern "C" {
-void reset__6TLobbyFi(s32 arg0);
+void reset__6TLobbyFi(saddr arg0);
 void reset__6TLobbyFv(void);
-void send_modify_trade_proposal__6TLobbyFi(s32 arg0);
+void send_modify_trade_proposal__6TLobbyFi(saddr arg0);
 }
-void send_trade_busy_reply(s32 arg0);
+void send_trade_busy_reply(saddr arg0);
 
 // --- C functions defined in TradeSession.cpp ---
 extern "C" {
-void reset__6TLobbyFi(s32 arg0);
-s32 TLobby__sub_802D268C(void);
-u8 *copy_struct_f8__6TLobbyFii(s32 arg0, s32 arg1);
+void reset__6TLobbyFi(saddr arg0);
+saddr TLobby__sub_802D268C(void);
+u8 *copy_struct_f8__6TLobbyFii(saddr arg0, saddr arg1);
 }
 // --- end of C functions
 

@@ -150,7 +150,7 @@ extern "C" void update_standing__11TObjNpcBaseFv();
 extern "C" void update_wandering__11TObjNpcBaseFv();
 const char *TObjNpcBringer__name = "TObjNpcBringer";
 extern u8 *TObjEneDf2Bringer__resource_bundle;
-u8 *TObjNpcBringer__ct(u8 *self, void *parent, s32 arg2);
+u8 *TObjNpcBringer__ct(u8 *self, void *parent, saddr arg2);
 TObjMotionAction npc_bringer_animation_table[2] = {
     {1, 0, 9, 0.8f, 1},
     {1, 0, 10, 1.0f, 1},
@@ -189,7 +189,7 @@ void *__vt__14TObjNpcBringer[94] = {
     (void *)&request_action__14TObjNpcBringerFl, (void *)&debug_draw_talk__11TObjNpcBaseFv, (void *)&play_voice__11TObjNpcBaseFv, (void *)&vfunc_91__11TObjNpcBaseFv,
     (void *)&vfunc_92__11TObjNpcBaseFv, (void *)&draw_debug_info__11TObjNpcBaseFv,
 };
-u8 *TObjNpcBringer__ct(u8 *self, void *parent, s32 arg2) {
+u8 *TObjNpcBringer__ct(u8 *self, void *parent, saddr arg2) {
     TObjNpcBase__ct(self, parent);
     *(u8 **)(self + 0x18) = (u8 *)__vt__14TObjNpcBringer;
     *(const char **)(self + 0) = TObjNpcBringer__name;

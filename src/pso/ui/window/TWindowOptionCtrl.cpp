@@ -552,7 +552,7 @@ s32 TWindowOptionCtrl::create_option_menu() {
     return temp_r31;
 }
 
-s32 TWindowOptionCtrl::open_yes_no_window(s32 arg0, s32 arg1, s32 arg2) {
+saddr TWindowOptionCtrl::open_yes_no_window(s32 arg0, s32 arg1, s32 arg2) {
   s32 temp_r30;
   temp_r30 = create__19TWindowMessageYesNoFPvPvPvPv(arg0, 6, arg0 * 0, 0);
   forward_slot_selection__16TAdChrSelASlotGCFPvPv((int) temp_r30, (void *) get_localized_text_entry(0xF, arg1), (saddr) ((u8 *) get_window_layout_position(arg2)), 470.0f);
@@ -560,7 +560,7 @@ s32 TWindowOptionCtrl::open_yes_no_window(s32 arg0, s32 arg1, s32 arg2) {
   return temp_r30;
 }
 
-s32 TWindowOptionCtrl::create_serial_info_window(s32 arg1) {
+saddr TWindowOptionCtrl::create_serial_info_window(s32 arg1) {
     saddr w;
     w = create__14TWindowMessageFPvll(this, &lbl_8044F4A4, 3);
     switch (arg1) {

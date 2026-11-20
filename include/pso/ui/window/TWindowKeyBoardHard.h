@@ -33,10 +33,10 @@ struct TWindowKeyBoardHard : public TWindowBase {
     int is_card_flag_set();
     static s32 test_card_flag_8(s32 client_id);
     virtual void run_task();
-    static void set_bits_shift7(s32 arg0, s32 arg1);
-    static void update_card_window_page_flags(s32 arg0, s32 arg1);
-    static void clear_card_window_flag(s32 arg0, s32 arg1);
-    static void set_card_window_flag(s32 arg0, s32 arg1);
+    static void set_bits_shift7(saddr arg0, s32 arg1);
+    static void update_card_window_page_flags(saddr arg0, s32 arg1);
+    static void clear_card_window_flag(saddr arg0, s32 arg1);
+    static void set_card_window_flag(saddr arg0, s32 arg1);
     int is_key_active();
     void sub_8025EC04();
     s32 is_printable_key(u8 arg1);

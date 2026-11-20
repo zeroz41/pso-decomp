@@ -117,7 +117,7 @@ LAYOUT_ASSERT(NetworkInfoConfigText256Offset, offsetof(NetworkInfoConfig, f) == 
 s32 parse_netinfo(char *text, u32 size, NetworkInfoConfig *config);
 s32 decode_network_info_payload(u8 *key, u8 *payload, u32 size, NetworkInfoConfig *config);
 
-u32 *allocate_network_info_cipher_key(s32 src);
+u32 *allocate_network_info_cipher_key(saddr src);
 void bind_network_info_cipher_pool(u32 *p, s32 n);
 void clear_network_info_cipher_pool(void);
 void copy_network_info_cipher_block(u32 *dst, u32 *src);

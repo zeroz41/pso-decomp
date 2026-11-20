@@ -6,7 +6,7 @@ extern "C" {
 
 s32 bswap__13packet_headerFv();
 
-void bswap__15TRecvGenerateIDFv(s32 arg0) {
+void bswap__15TRecvGenerateIDFv(saddr arg0) {
     bswap__13packet_headerFv();
     bswap_32((u32 *)(arg0 + 4));
     bswap_generate_id_payload((void*)(arg0 + 8));

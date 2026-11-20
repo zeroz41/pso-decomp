@@ -93,9 +93,9 @@ s32 TLobby__sub_80408388(s16 id);
 s16 TLobby__sub_804098B4(void *pkt);
 s32 TLobby__sub_80409908(void *self, void *arr_);
 u8 *netbuf_ref_data(void *self);
-s32 TLobby__sub_80406328(s32 self, s16 type);
+s32 TLobby__sub_80406328(saddr self, s16 type);
 s16 dispatch_handler_by_index(s16 arg0, s32 arg1, s32 arg2, s32 arg3);
-s16 dispatch_by_addr_family(s32 arg0, NetworkAddress *arg1, NetworkAddress *arg2, u8 *arg3, void *arg4, void *arg5);
+s16 dispatch_by_addr_family(saddr arg0, NetworkAddress *arg1, NetworkAddress *arg2, u8 *arg3, void *arg4, void *arg5);
 s16 AT_IP_SetSrcFromDst(Out_8040D95C *arg0, In_8040D95C *arg1);
 s16 is_multicast_address(void *self, s16 arg1);
 s16 is_addr_unspecified(u8 *arg0);
@@ -105,7 +105,7 @@ s16 AT_IP4_Send(NetPacket *pkt, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, u8 prot
 s16 AT_IP4_Forward(u32 dst, u32 src, u8 *pkt, s16 len, s16 iface);
 s16 AT_IP4_PktSend(NetPacket *self, u32 key, s16 id);
 s16 AT_IP4_SrcAddrSel(u32 *out, u32 dst, s16 c);
-s16 TLobby__sub_80410A98(s32 arg0, void *arg1, void *arg2, void *arg3, void *arg4);
+s16 TLobby__sub_80410A98(saddr arg0, void *arg1, void *arg2, void *arg3, void *arg4);
 extern NetPacketPool lobby_udp_socket_table;
 /* Shared by the modules cut out of this unit; each is defined in the file named in its comment. */
 u16 packet_ones_complement_sum(struct NetPacket *, s16); /* TLobby_804050DC.c */

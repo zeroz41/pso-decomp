@@ -29,9 +29,9 @@ struct TAdChrSelBSlotGC : public TObject {
     void check_cancel_and_close();
     static void *create(void *arg0);
     static int get_global_state();
-    static int get_global_slot_data();
+    static saddr get_global_slot_data();
     u8 unk_28[0x4];
-    s32 m_2c;
+    saddr m_2c;
     TAdSubPlyItemGC *player_items;
     void * m_34;
     u8 unk_38[0x4];
@@ -47,7 +47,7 @@ struct TAdChrSelBSlotGC : public TObject {
     u8 unk_60[0x4];
     s32 m_64;
     u8 unk_68[0x4];
-    s32 m_6c;
+    saddr m_6c;
     u8 unk_70[0x4];
     s32 m_74;
     u8 unk_78[0x4];

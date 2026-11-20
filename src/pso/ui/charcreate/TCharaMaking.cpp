@@ -174,7 +174,7 @@ static const s32 lbl_805DD930[1] = {0x81C};
 #pragma opt_dead_assignments off
 #pragma opt_propagation off
 
-void TCharaMaking__draw_colored_hair(f32 farg0, s32 arg0, CharacterAppearanceFields *character_appearance_fields, s32 arg2) {
+void TCharaMaking__draw_colored_hair(f32 farg0, saddr arg0, CharacterAppearanceFields *character_appearance_fields, s32 arg2) {
     struct Color { f32 a, r, g, b; } color;
     s32 temp_r3;
     s32 second;

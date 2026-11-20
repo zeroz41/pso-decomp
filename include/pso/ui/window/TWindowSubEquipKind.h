@@ -19,7 +19,7 @@ LAYOUT_ASSERT(TWindowSubEquipKind_size, sizeof(TWindowSubEquipKind) == 0x8C);
 extern const char *TWindowSubEquipKind__class_name;
 
 extern "C" {
-u8 *create_equip_kind_window(s32 parent, s32 position, s32 client);
+u8 *create_equip_kind_window(saddr parent, saddr position, s32 client);
 }
 
 #endif

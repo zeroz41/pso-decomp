@@ -21,7 +21,7 @@ LAYOUT_ASSERT(TAdLoadQuestCellGCSize, sizeof(TAdLoadQuestCellGC) == 0x24);
 LAYOUT_ASSERT(TAdLoadQuestCellGCStateOffset, offsetof(TAdLoadQuestCellGC, m_state) == 0x1C);
 
 extern "C" {
-s32 get_or_create_cell__14TAdLoadQuestGCFii(s32 arg0, s32 arg1);
+s32 get_or_create_cell__14TAdLoadQuestGCFii(saddr arg0, saddr arg1);
 }
 
 #endif

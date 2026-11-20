@@ -168,7 +168,7 @@ void TAdEnterPPPPassGC::run_task() {
     }
 }
 
-void set_password__17TAdEnterPPPPassGCFi(s32 arg0) {
+void set_password__17TAdEnterPPPPassGCFi(saddr arg0) {
     if ((TLobby__sub_8014618C() != 0) && (TLobby::is_state_active() != 0)) {
         TLobby::set_ppp_password(arg0);
         return;

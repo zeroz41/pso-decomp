@@ -33,7 +33,7 @@ typedef struct
 } Win_80338890;
 void draw_item_list_icon(Win_80338890 *, V2_80338890 *, s8, s32, f32);
 
-void TWindowSubStatusDisp__sub_80338740(u8 *arg0, s32 arg1, s32 arg2, s8 arg3, s8 arg4, s8 arg5, s8 arg6, s8 arg7, s32 arg_sp8) {
+void TWindowSubStatusDisp__sub_80338740(u8 *arg0, s32 arg1, saddr arg2, s8 arg3, s8 arg4, s8 arg5, s8 arg6, s8 arg7, s32 arg_sp8) {
     saddr temp_r3;
     if (arg1 != 0) {
         *(s8 *)((s8 *)arg0 + 0x1C) = 0x18;
@@ -56,13 +56,13 @@ void TWindowSubStatusDisp__sub_80338740(u8 *arg0, s32 arg1, s32 arg2, s8 arg3, s
 void TWindowSubStatusDisp__sub_803387F8(void *arg0, s8 arg1) {
     TWindowSubStatusDisp::get_message_10(arg1 + 0x113);
 }
-s32 TWindowSubStatusDisp::query_status_field(void *arg0, s8 arg1) {
+saddr TWindowSubStatusDisp::query_status_field(void *arg0, s8 arg1) {
     if (arg1 == 0) {
         return 0;
     }
     return (saddr)TWindowSubStatusDisp::get_message_10(arg1 + 0x110);
 }
-s32 TWindowSubStatusDisp::get_flag_or_zero(void *arg0, s8 arg1) {
+saddr TWindowSubStatusDisp::get_flag_or_zero(void *arg0, s8 arg1) {
     if (arg1 == 0) {
         return 0;
     }

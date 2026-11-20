@@ -284,7 +284,7 @@ void free_field_98_and_clear(void *self) {
     config->net_list = 0;
 }
 
-void TLobby__sub_803FF468(s32 arg0) {
+void TLobby__sub_803FF468(saddr arg0) {
     lobby_timer_stop((void *)(arg0 + 0x10));
 }
 

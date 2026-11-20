@@ -18,7 +18,7 @@ s32 draw_visible_window_entries(void *, void *, int);
 s32 forward_render__20TWindowSubStatusDispFv(void *, int);
 s32 TShopJudgmentItemWindow__sub_80267F9C(void *, int);
 
-u8 *create_equip_list_window(s32 parent, s32 position, s32 client) {
+u8 *create_equip_list_window(saddr parent, saddr position, s32 client) {
     TShopJudgmentItemWindow__sub_80267F9C((void *)position, 8);
     return (u8 *)new TWindowSubEquipList((u8 *)parent, client);
 }

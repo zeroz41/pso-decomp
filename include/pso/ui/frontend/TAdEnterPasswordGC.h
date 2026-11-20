@@ -25,10 +25,10 @@ LAYOUT_ASSERT(TAdEnterPasswordGC_size, sizeof(TAdEnterPasswordGC) == 0x44);
 extern "C" {
 void close_window_and_destroy__18TAdEnterPasswordGCFPv(u8 *arg0);
 s32 dispatch_input_to_instance__18TAdEnterPasswordGCFi(s32 arg0);
-void open_keyboard_window__18TAdEnterPasswordGCFPv(s32 arg0);
+void open_keyboard_window__18TAdEnterPasswordGCFPv(saddr arg0);
 int request_transition__18TAdEnterPasswordGCFPv(void *p);
 int set_multi_chg_game_mode_0x14__18TAdEnterPasswordGCFPv(void *p);
-void set_password__18TAdEnterPasswordGCFi(s32 arg0);
+void set_password__18TAdEnterPasswordGCFi(saddr arg0);
 }
 // --- end of C functions
 

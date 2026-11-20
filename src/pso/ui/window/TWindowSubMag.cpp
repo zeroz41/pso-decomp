@@ -420,7 +420,7 @@ s32 TWindowSubMag::setup_list() {
     return equip_kind_window;
 }
 
-s32 TWindowSubMag::create_list() {
+saddr TWindowSubMag::create_list() {
     saddr equip_kind_window;
 
     s32 window_layout_position = get_window_layout_position(0xD);

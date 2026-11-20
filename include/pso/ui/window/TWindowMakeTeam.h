@@ -11,12 +11,12 @@ struct TWindowMakeTeam : public TObject {
     s8 m_1e;
     s8 m_1f;
     u32 m_20;
-    u32 m_24;
-    u32 m_28;
+    uaddr m_24;
+    uaddr m_28;
     uaddr m_menu; // 0x2C: the window create_menu() returns; its entries are marked, disabled and named
-    u32 m_30;
-    u32 m_34;
-    static s32 draw_entry_0x110(s8 arg0);
+    uaddr m_30;
+    uaddr m_34;
+    static saddr draw_entry_0x110(s8 arg0);
     u8 is_enabled();
     void set_state(s32 arg1);
     void send_state();

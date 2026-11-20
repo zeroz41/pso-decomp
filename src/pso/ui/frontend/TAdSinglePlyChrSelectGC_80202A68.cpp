@@ -115,7 +115,7 @@ s32 TAdSinglePlyChrSelectGC__sub_80202A68(u8 *arg0) {
     return *(s32 *)((s8 *)arg0 + 0x194AC);
 }
 
-s32 destroy_chardata_array__23TAdSinglePlyChrSelectGCFis(s32 arg0, s16 arg1) {
+s32 destroy_chardata_array__23TAdSinglePlyChrSelectGCFis(saddr arg0, s16 arg1) {
     if (arg0 != 0) {
         __destroy_arr(arg0 + 4, (s32 *)TAdSinglePlyChrSelectGC::free_chardata, 0x39b4, 7);
         if (arg1 > 0) {
@@ -158,7 +158,7 @@ void TAdSinglePlyChrSelectGC::set_global_flags(s32 arg0) {
     }
 }
 
-int TAdSinglePlyChrSelectGC::get_instance() {  return card_character_save_buffer; }
+saddr TAdSinglePlyChrSelectGC::get_instance() {  return card_character_save_buffer; }
 
 void TAdSinglePlyChrSelectGC::set_player_index(int a0) { card_load_sequence_state = a0; }
 

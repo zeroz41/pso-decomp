@@ -190,7 +190,7 @@ void TAdEnterSerialAccessGC::draw_screen(void *arg0, void *arg1) {
     TAdEnterSerialAccessGC::draw_serial_chars((saddr)arg1);
 }
 
-void TAdEnterSerialAccessGC::draw_serial_chars(s32 arg0) {
+void TAdEnterSerialAccessGC::draw_serial_chars(saddr arg0) {
     char text[0xFF];
     char buf[8];
     NJS_POINT2 pos;
@@ -344,7 +344,7 @@ void init__22TAdEnterSerialAccessGCFv(void) {
     TAdEnterSerialAccessGC__sub_8032195C(((s32)serial_to_hex_string__22TAdEnterSerialAccessGCFi()));
 }
 
-void TAdEnterSerialAccessGC__sub_8032190C(s32 arg0) {
+void TAdEnterSerialAccessGC__sub_8032190C(saddr arg0) {
     memset(&TAdEnterSerialAccessGC__access_key_input_buffer.value, 0, 0xd);
     strncpy((char *)&TAdEnterSerialAccessGC__access_key_input_buffer.value, (const char *)arg0, 0xd);
 }
@@ -352,7 +352,7 @@ void TAdEnterSerialAccessGC__sub_8032190C(s32 arg0) {
 #pragma push
 #pragma opt_common_subs off
 LAYOUT_ASSERT(RecoveredGlobal_8032195C_TAdEnterSerialAccessGC__data_804EC9B8_size, sizeof(RecoveredGlobal_8032195C_TAdEnterSerialAccessGC__data_804EC9B8) == 0xC);
-void TAdEnterSerialAccessGC__sub_8032195C(s32 arg0) {
+void TAdEnterSerialAccessGC__sub_8032195C(saddr arg0) {
     memset((void *) (&(*(RecoveredGlobal_8032195C_TAdEnterSerialAccessGC__data_804EC9B8 *)&TAdEnterSerialAccessGC__raw_serial_buffer).value), 0, 0xB);
     strncpy((char *)(&(*(RecoveredGlobal_8032195C_TAdEnterSerialAccessGC__data_804EC9B8 *)&TAdEnterSerialAccessGC__raw_serial_buffer).value), (const char *)arg0, 0xB);
 }

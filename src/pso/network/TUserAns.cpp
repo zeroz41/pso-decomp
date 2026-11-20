@@ -9,7 +9,7 @@ extern "C" {
 
 s32 bswap__13packet_headerFv();
 
-void bswap__8TUserAnsFv(s32 arg0) {
+void bswap__8TUserAnsFv(saddr arg0) {
     bswap__13packet_headerFv();
     ((TPlyGuildCardTag *)(arg0 + 4))->bswap();
     bswap_32((u32 *)(arg0 + 0xC));

@@ -47,7 +47,7 @@ void TUnk_804A3260::reserved_53() {
     ((TObjPlayer *)arg0)->draw_status_icons((u8 *)this->muzzle[0], (u8 *)this->muzzle[1]);
 }
 
-TUnk_804A3260::TUnk_804A3260(s32 parent, u8 *item) : TItemWeapon((TObject *)((void *)parent), item) {
+TUnk_804A3260::TUnk_804A3260(saddr parent, u8 *item) : TItemWeapon((TObject *)((void *)parent), item) {
     this->set_weapon_flags(0x203);
     *(void (**)())((s8 *)this + 0x1EC) = &spawn_weapon_impact_effect;
     this->effectJoint = -1;

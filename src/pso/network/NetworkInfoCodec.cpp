@@ -435,7 +435,7 @@ s32 decrypt_network_info_cipher_blocks(u32 *key, u8 *src, s32 len, u8 *dst) {
 #pragma scheduling off
 #pragma peephole off
 #pragma optimization_level 2
-u32 *allocate_network_info_cipher_key(s32 src) {
+u32 *allocate_network_info_cipher_key(saddr src) {
     s32 i;
     u32 *b;
     u32 mask;

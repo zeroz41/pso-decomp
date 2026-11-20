@@ -46,7 +46,7 @@ void TObjNpcAHM01::load_resources() {
 TObjNpcAHM01::~TObjNpcAHM01() {}
 
 
-u8 *TObjNpcAHM01__ct(u8 *player, s32 arg1, s32 arg2) {
+u8 *TObjNpcAHM01__ct(u8 *player, s32 arg1, saddr arg2) {
     ((TUnk_804A9F50 *)player)->construct_male_npc_base();
     *(s32 **)((s8 *)player + 0x18) = __vt__12TObjNpcAHM01;
     *(s32 *)((s8 *)player + 0) = (s32) TObjNpcAHM01__name;

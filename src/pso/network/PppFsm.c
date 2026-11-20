@@ -610,7 +610,7 @@ s32 ppp_fsm_send_packet(void *self, int code, int reply_identifier, void *payloa
     return TLobby__sub_80406624(0, 0, fsm->proto->proto, payload);
 }
 #pragma pop
-void TLobby__sub_803FE820(s32 arg0) {
+void TLobby__sub_803FE820(saddr arg0) {
     lobby_timer_start((u8 *)&((PppFsm *)arg0)->timer);
 }
 

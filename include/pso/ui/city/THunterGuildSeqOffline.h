@@ -37,7 +37,7 @@ struct THunterGuildSeqOffline : public TShopSequence {
     void *init(void *arg1, void *arg2);
     u8 *choice_menu;         // 0x2C: create_yes_no_window
     TObject *counter_camera; // 0x30: set_service_counter_camera
-    u32 m_34;                // 0x34: the quest thread create_in_root starts
+    uaddr m_34;                // 0x34: the quest thread create_in_root starts
     s32 unk_38;
     void advance_matching_entries(s32 arg1, s32 arg2);
     static void clear_slots();

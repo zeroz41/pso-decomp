@@ -35,7 +35,7 @@ struct RecoveredGlobal_lbl_804CEA1C { s32 value; u8 remaining[0x8]; };
 extern RecoveredGlobal_lbl_804CEA1C lbl_804CEA1C;
 struct RecoveredGlobal_lbl_804CEA10 { s32 value; u8 remaining[0x8]; };
 extern RecoveredGlobal_lbl_804CEA10 lbl_804CEA10;
-void TWindowCtrl__sub_8024ADAC(s32 arg0) {
+void TWindowCtrl__sub_8024ADAC(saddr arg0) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8024ADAC, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_8024ADAC, spC) == 0x4);
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8024ADAC, sp10) == 0x8);
@@ -45,7 +45,7 @@ void TWindowCtrl__sub_8024ADAC(s32 arg0) {
     stack.sp10 = *(s32 *)((s8 *)&lbl_804CEA1C.value + 8);
     call_window_method__11TWindowCtrlFPvi((void *)arg0, (void *)&stack.sp8);
 }
-void TWindowCtrl__sub_8024ADF0(s32 arg0) {
+void TWindowCtrl__sub_8024ADF0(saddr arg0) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8024ADF0, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_8024ADF0, spC) == 0x4);
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8024ADF0, sp10) == 0x8);

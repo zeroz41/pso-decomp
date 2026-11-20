@@ -298,7 +298,7 @@ void TWindowSubSymbolChat::send_symbol_chat() { bswap_symbol_chat_packet(); ((TL
 void TWindowSubSymbolChat__sub_80077704(void* p) { *(u8*)((char*)p + 0x0) = 7; *(u8*)((char*)p + 0x1) = 17; }
 
     extern int selected_symbol_chat_preset;
-int TWindowSubSymbolChat::get_instance() {  return selected_symbol_chat_preset; }
+saddr TWindowSubSymbolChat::get_instance() {  return selected_symbol_chat_preset; }
 
 int TWindowSubSymbolChat::is_initialized() { return *(u32 *)&this->m_name & 0x1; }
 void TWindowSubSymbolChat::bswap_entry() { bswap_32((u32 *)this); ((TWindowSubSymbolChat *)((char*)this + 0x1c))->byteswap_entry(); }

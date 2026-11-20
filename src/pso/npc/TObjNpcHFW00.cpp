@@ -57,7 +57,7 @@ void TObjNpcHFW00::load_resources() {
 TObjNpcHFW00::~TObjNpcHFW00() {}
 
 
-u8 *TObjNpcHFW00__ct(u8 *player, s32 arg1, s32 arg2) {
+u8 *TObjNpcHFW00__ct(u8 *player, s32 arg1, saddr arg2) {
     ((TUnk_804A92A8 *)player)->fn_8014AAC4();
     *(s32 **)((s8 *)player + 0x18) = __vt__12TObjNpcHFW00;
     *(s32 *)((s8 *)player + 0) = (s32) TObjNpcHFW00__name;

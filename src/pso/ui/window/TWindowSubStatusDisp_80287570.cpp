@@ -188,7 +188,7 @@ s32 TWindowSubStatusDisp::deleting_destructor(s32 arg0, s16 arg1) {
     return arg0;
 }
 
-u8 *init_heading_entry__20TWindowSubStatusDispFPvPvici(u8 *window_sub_status_disp, u8 *arg1, s32 arg2, s8 arg3, s32 arg4) {
+u8 *init_heading_entry__20TWindowSubStatusDispFPvPvici(u8 *window_sub_status_disp, u8 *arg1, saddr arg2, s8 arg3, s32 arg4) {
     *(f32 *)((s8 *)window_sub_status_disp + 4) = (f32) *(f32 *)((s8 *)arg1 + 0);
     *(f32 *)((s8 *)window_sub_status_disp + 8) = (f32) *(f32 *)((s8 *)arg1 + 4);
     *(f32 *)((s8 *)window_sub_status_disp + 0x10) = (f32) calc_text_width((char *)(arg2));

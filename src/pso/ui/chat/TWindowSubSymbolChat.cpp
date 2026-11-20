@@ -792,7 +792,7 @@ void TWindowSubSymbolChat::run_task() {
 
 void TWindowSubSymbolChat::render() {  }
 
-s32 TWindowSubSymbolChat::create_chat_symbol_window(s32 arg0, s32 arg1) {
+saddr TWindowSubSymbolChat::create_chat_symbol_window(s32 arg0, s32 arg1) {
     s32 window_chat_symbol;
     window_chat_symbol = (saddr)new TWindowChatSymbol((((s32)get_window_layout_position(arg1 + 0x7B))), (saddr)lbl_8044FB20);
     return window_chat_symbol;

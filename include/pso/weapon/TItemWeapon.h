@@ -53,7 +53,7 @@ typedef s32 (*WeaponShotCallback)(void *weapon, void *origin, f32 *end, f32 fram
 struct TItemWeapon : public TItemEquipBase {
     TItemWeapon(TObject *parent, u8 *item);
     virtual ~TItemWeapon();
-    s32 get_tp();
+    saddr get_tp();
     void update_active_game_effect();
     void launch_rare_weapon_special(void *, s32, f32);
     void fill_status_info(void *);

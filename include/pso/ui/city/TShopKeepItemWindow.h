@@ -24,7 +24,7 @@ struct TShopKeepItemWindow : public TShopWindowBase {
     virtual void vfunc_6();
     u8 _pad1C[0x4];
     u32 m_20;
-    u32 m_24;
+    uaddr m_24;
     TShopKeepItemEntry entries[30];
     u32 m_370;
     s32 entry_count;          // (inferred) rows filled in entries

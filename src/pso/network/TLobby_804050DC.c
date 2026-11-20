@@ -41,7 +41,7 @@ PppFrame *ppp_rx_frame_ptr;
 u8 ppp_input_byte;
 u8 lobby_ppp_read_buf[4];
 s32 lbl_805D7ACC;
-s32 lobby_timer_list_head;
+saddr lobby_timer_list_head;
 
 #include <stddef.h>
 
@@ -746,7 +746,7 @@ s32 TLobby__sub_804062A0(s16 arg0) {
 
 s32 TLobby__sub_804048E8(void *, s32 *, s16); /* declared here with other parameter types; the definition is s32 (Obj_80403F4C *, PppFrame **, s16) */
 s32 ppp_output_frame(PppFrame *);
-s32 TLobby__sub_80406328(s32 self, s16 type) {
+s32 TLobby__sub_80406328(saddr self, s16 type) {
     s32 sv = self;
     void *me = (void *)self;
     s32 ty = type;
@@ -1066,7 +1066,7 @@ u16 packet_ones_complement_sum(NetPacket *pkt, s16 flag)
         e = pkt->fragments + count - 1;
         while (count != 0) {
             u8 kind = e->buffer.kind;
-            u32 *w = &e->buffer.value;
+            uaddr *w = &e->buffer.value;
             s16 len;
             e--;
             count--;
@@ -1122,7 +1122,7 @@ u16 packet_ones_complement_sum(NetPacket *pkt, s16 flag)
     } else {
         e = pkt->fragments;
         for (i = 1; i < count; e++, i++) {
-            u32 *w = &e[1].buffer.value;
+            uaddr *w = &e[1].buffer.value;
             s16 len;
             switch (e[1].buffer.kind) {
             case 1:

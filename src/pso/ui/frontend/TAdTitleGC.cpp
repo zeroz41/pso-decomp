@@ -146,7 +146,7 @@ s32 TAdTitleGC::update_title_rects() {
 
 #pragma push
 #pragma fp_contract on
-void TAdTitleGC::calc_text_pos(s32 arg0, u8 *arg1, s32 arg2) {
+void TAdTitleGC::calc_text_pos(s32 arg0, u8 *arg1, saddr arg2) {
     *(f32 *)((s8 *)arg1 + 0) = (f32) ((6.2e+02f) - (f32) calc_text_width((char *)(arg2)));
     *(f32 *)((s8 *)arg1 + 4) = 86.0f;
 }

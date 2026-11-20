@@ -246,7 +246,7 @@ void TAdRicoRingCtrl::start_fade(f32 farg0) {
     }
 }
 
-u8 *TAdRicoRingCtrl__ct(TAdRicoRingCtrl *ad_rico_ring_ctrl, s32 arg1) {
+u8 *TAdRicoRingCtrl__ct(TAdRicoRingCtrl *ad_rico_ring_ctrl, saddr arg1) {
     uaddr temp_r3;
     uaddr temp_r3_2;
     __ct__7TObjectFP7TObject((void *)ad_rico_ring_ctrl, (void *)arg1);

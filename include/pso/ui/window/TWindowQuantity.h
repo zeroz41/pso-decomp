@@ -22,14 +22,14 @@ LAYOUT_ASSERT(TWindowQuantity_size, sizeof(TWindowQuantity) == 0x6C);
 extern "C" {
 void *TWindowQuantity__ct(void *arg0, void *arg1);
 void *create_window_quantity(void *arg0);
-void render__15TWindowQuantityFv(s32 arg0);
+void render__15TWindowQuantityFv(saddr arg0);
 }
 
 // --- C functions defined in TWindowQuantity.cpp ---
 extern "C" {
 void *TWindowQuantity__ct(void *arg0, void *arg1);
 void *create_window_quantity(void *arg0);
-void render__15TWindowQuantityFv(s32 arg0);
+void render__15TWindowQuantityFv(saddr arg0);
 }
 // --- end of C functions
 

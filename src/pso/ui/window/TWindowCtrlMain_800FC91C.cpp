@@ -56,7 +56,7 @@ extern "C" {
 s32 get_status_index_or_default__20TWindowSubStatusDispFPUs(void *, s32);
 
     extern int TWindowCtrlMain__instance;
-int TWindowCtrlMain::get_instance() {  return TWindowCtrlMain__instance; }
+saddr TWindowCtrlMain::get_instance() {  return TWindowCtrlMain__instance; }
 
 void TWindowCtrlMain::advance_card_status(s32 arg0) {
     s32 var_r4;

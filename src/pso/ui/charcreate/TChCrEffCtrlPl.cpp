@@ -9,7 +9,7 @@ extern "C" {
 int TAdMultiPlyChrSelectGC__sub_80299454(void*);
 }
 
-s32 get_creation_pad(void) {
+saddr get_creation_pad(void) {
     return ((s32 *)controller_physical_port_bank.unknown_00)[TChCrEffCtrlPl::get_clamped_player_index()];
 }
 

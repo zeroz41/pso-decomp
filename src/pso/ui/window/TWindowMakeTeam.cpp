@@ -313,7 +313,7 @@ u8 TWindowMakeTeam::is_enabled() {
     return this->m_1f;
 }
 
-s32 TWindowMakeTeam::draw_entry_0x110(s8 arg0) {
+saddr TWindowMakeTeam::draw_entry_0x110(s8 arg0) {
     TWindowSubStatusDisp::get_message_10(arg0 + 0x110);
 }
 
