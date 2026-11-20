@@ -157,7 +157,6 @@ void try_enter_state_3__11TBoss4BishiFPv(void* p);
 
 s32 __ct__11TObjControlFP7TObject(s32, s32);
 
-s32 __nw__7TObjectFUl(s32);
 
 u32 TBoss4Zako_collision_body_parts[11] = {
  0, 0x40f00000, 0, 0x40a00000, 0, 0, 0x807a, 0, 0, 0, 0,
@@ -277,7 +276,6 @@ static const f32 one_third = 0.33333334f;
 
 struct O_8005D6B0 { u8 pad[0x374]; s32 f374; };
 
-f32 *dispatch_shared_handler_a__6TLobbyFl(s32);
 s32 get_instance_count__9TBoss4UroFv();
 
 s32 init_collision_body_parts(void *, void *, int);
@@ -301,7 +299,6 @@ void fn_8005D6E4(void *arg0);
 void *__dt__10TBoss4ZakoFv(void *, s16);
 void subtract_vector(void *, void *);
 u16 find_nearest_visible_player(void *, s32, f32);
-void __dl__7TObjectFPv(void *);
 #pragma push
 void fn_8005D6E4(void *arg0) {
     *(s32 *)((s8 *)arg0 + 0x388) = (s32) (*(s32 *)((s8 *)arg0 + 0x388) + 1);
@@ -328,9 +325,9 @@ s32 TBoss4Zako::create(s32 arg0) {
     s32 var_r31;
     s32 parent;
 
-    var_r31 = __nw__7TObjectFUl(0x3C4);
+    var_r31 = (saddr)TObject::operator new(0x3C4);
     if (var_r31 != 0) {
-        parent = __nw__7TObjectFUl(0x20);
+        parent = (saddr)TObject::operator new(0x20);
         if (parent != 0) {
             parent = __ct__11TObjControlFP7TObject(parent, tl_04);
         }
@@ -383,11 +380,11 @@ s32 TBoss4Zako__ct(saddr arg0, saddr parent, saddr arg2) {
     *(f32 *)((s8 *)THIS + 0x3B0) = 0.0f;
     *(s32 *)((s8 *)THIS + 0x3BC) = 65536.0f * ((TObjChara *)THIS)->random_ratio();
     *(s32 *)((s8 *)THIS + 0x3C0) = 2184.0f * ((TObjChara *)THIS)->random_ratio() + 1092.0f;
-    *(f32 *)((s8 *)THIS + 0x39C) = *dispatch_shared_handler_a__6TLobbyFl(0x35);
+    *(f32 *)((s8 *)THIS + 0x39C) = *(f32 *)TLobby::dispatch_shared_handler_a(0x35);
     if (*(f32 *)((s8 *)THIS + 0x39C) <= one_third || *(f32 *)((s8 *)THIS + 0x39C) > 5.833333f) {
         *(f32 *)((s8 *)THIS + 0x39C) = 0.5833333f;
     }
-    *(f32 *)((s8 *)THIS + 0x3A0) = *dispatch_shared_handler_a__6TLobbyFl(0x39);
+    *(f32 *)((s8 *)THIS + 0x3A0) = *(f32 *)TLobby::dispatch_shared_handler_a(0x39);
     if (*(f32 *)((s8 *)THIS + 0x3A0) <= one_third || *(f32 *)((s8 *)THIS + 0x3A0) > 10.208332f) {
         *(f32 *)((s8 *)THIS + 0x3A0) = 1.0208333f;
     }
@@ -407,7 +404,7 @@ void *__dt__10TBoss4ZakoFv(void *arg0, s16 arg1) {
         }
         __dt__9TObjEnemyFv((TObjEnemy *)arg0, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            TObject::operator delete(arg0);
         }
     }
     return arg0;
@@ -663,9 +660,9 @@ s32 create__9TBoss4UroFi(s32 arg0) {
     s32 var_r31;
     s32 var_r4;
 
-    var_r31 = __nw__7TObjectFUl(0x3D0);
+    var_r31 = (saddr)TObject::operator new(0x3D0);
     if (var_r31 != 0) {
-        var_r4 = __nw__7TObjectFUl(0x20);
+        var_r4 = (saddr)TObject::operator new(0x20);
         if (var_r4 != 0) {
             var_r4 = __ct__11TObjControlFP7TObject(var_r4, tl_04);
         }
@@ -707,7 +704,7 @@ void *__dt__9TBoss4UroFv(void *arg0, s16 arg1) {
         *(saddr **)((s8 *)arg0 + 0x18) = __vt__9TBoss4Uro;
         __dt__10TBoss4ZakoFv(arg0, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            TObject::operator delete(arg0);
         }
     }
     return arg0;
@@ -909,9 +906,9 @@ s32 create__11TBoss4BishiFi(s32 arg0) {
     s32 var_r31;
     s32 parent;
 
-    var_r31 = __nw__7TObjectFUl(0x3C4);
+    var_r31 = (saddr)TObject::operator new(0x3C4);
     if (var_r31 != 0) {
-        parent = __nw__7TObjectFUl(0x20);
+        parent = (saddr)TObject::operator new(0x20);
         if (parent != 0) {
             parent = __ct__11TObjControlFP7TObject(parent, tl_04);
         }
@@ -963,7 +960,7 @@ void *__dt_deleting__11TBoss4BishiFPvs(void *arg0, s16 arg1) {
         *(saddr **)((s8 *)arg0 + 0x18) = __vt__11TBoss4Bishi;
         __dt__10TBoss4ZakoFv(arg0, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            TObject::operator delete(arg0);
         }
     }
     return arg0;

@@ -51,6 +51,7 @@
 #include "pso/render/render_util.h"
 #include "pso/object/TObjControl.h"
 #include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/technique/TTecRaBarta.h"
 
 
 struct Obj_8005683C;
@@ -70,7 +71,6 @@ u8 * dispatch_shared_handler_a__6TLobbyFl(s32);
 
 void TBoss4Type2__sub_80057128(void *arg0);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-void create__11TTecRaBartaFPvPvPvPv(void *source, void *origin, void *pos, void *level);
 extern s32 boss4_type2_attack_pattern_table[];
 extern s32 game_difficulty_selection;
 s32 TBoss4Type2__sub_80054DA8();
@@ -1005,7 +1005,7 @@ void TBoss4Type2::beam_update() {
         p.x += 20.0f * *(f32 *)((s8 *)arg0 + 0x404);
         p.z += 20.0f * *(f32 *)((s8 *)arg0 + 0x40C);
         if (idx == 0) {
-            create__11TTecRaBartaFPvPvPvPv((void *)arg0, (void *)&p, (void *)&p, (void *)(*(saddr *)((s8 *)(TLobby::dispatch_shared_handler_a(0x36)) + 0x1C)));
+            TTecRaBarta::create((void *)arg0, (void *)&p, (void *)&p, (void *)(*(saddr *)((s8 *)(TLobby::dispatch_shared_handler_a(0x36)) + 0x1C)));
         } else {
             ((TTecRaFoie *)arg0)->create(&p, &p, (void *)(*(saddr *)((s8 *)(TLobby::dispatch_shared_handler_a(0x36)) + 0x18)));
         }

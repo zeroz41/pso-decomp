@@ -206,8 +206,6 @@ typedef struct Param_80036EA8 {
 
 extern "C" {
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
-s32 vfunc_94__9TObjEneDDFv(void *);
-s32 vfunc_93__9TObjEneDDFv(void *);
 extern const f32 lbl_805D8258;
 saddr register_object__6TLobbyFl(s32);
 saddr dispatch_shared_handler_b__6TLobbyFl(s32);
@@ -333,21 +331,21 @@ s32 TBoss2Joint::vfunc_104(f32) {
 
 void TBoss2Joint::vfunc_93() {
     if (*(s32 *)((s8 *)this->bodies + 0x18) & 6) {
-        vfunc_93__9TObjEneDDFv(this);
+        TObjEneDD::vfunc_93();
         return;
     }
-    vfunc_94__9TObjEneDDFv(this);
+    TObjEneDD::vfunc_94();
 }
 
 void TBoss2Joint::vfunc_88() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r3;
     if (*(f32 *)((s8 *)arg0 + 0x3C) < (lbl_805D8258 - 50.0f)) {
-        vfunc_94__9TObjEneDDFv(arg0);
+        ((TObjEneDD *)arg0)->TObjEneDD::vfunc_94();
         temp_r3 = (u8 *)this->bodies;
         *(s32 *)((s8 *)temp_r3 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r3 + 0x18) & 0xFFFFFFF9);
     } else {
-        vfunc_93__9TObjEneDDFv(arg0);
+        ((TObjEneDD *)arg0)->TObjEneDD::vfunc_93();
         if (*(f32 *)((s8 *)arg0 + 0x3C) >= 30.0f) {
             this->vfunc_97();
         } else {

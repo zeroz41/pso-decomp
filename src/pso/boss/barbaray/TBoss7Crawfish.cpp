@@ -415,7 +415,6 @@ void TBoss7Crawfish::change_state(s32 state) {
 
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 uaddr TBoss7Crawfish__shared_resource;
-s32 dispatch_shared_handler_a__6TLobbyFl(int);
 s32 get_bml_texlist(int, int);
 saddr get_bml_model(int, int);
 s32 set_field_b8__10TObjMotionFs(void *, int);
@@ -485,12 +484,12 @@ u8 *TBoss7Crawfish__ct(u8 *arg0, s32 arg1, saddr arg2) {
     if (((TBoss7Crawfish *)arg0)->sub_80308AA8() != 0) {
         ((TObjEnemy *)arg0)->set_param(0x4A);
         ((TObjEnemy *)arg0)->bind_enemy_combat_stats((u8 *)(TLobby::register_boss(8)), (u8 *)(TLobby::dispatch_shared_handler_b(8)), (u8 *)(TLobby::register_object(8)));
-        ((TBoss7Crawfish *)arg0)->m_3a0 = dispatch_shared_handler_a__6TLobbyFl(8);
+        ((TBoss7Crawfish *)arg0)->m_3a0 = (saddr)TLobby::dispatch_shared_handler_a(8);
         *(s32 *)((s8 *)arg0 + 0x34) = get_bml_model(TBoss7Crawfish__shared_resource, 0);
     } else {
         ((TObjEnemy *)arg0)->set_param(0x4B);
         ((TObjEnemy *)arg0)->bind_enemy_combat_stats((u8 *)(TLobby::register_boss(9)), (u8 *)(TLobby::dispatch_shared_handler_b(9)), (u8 *)(TLobby::register_object(9)));
-        ((TBoss7Crawfish *)arg0)->m_3a0 = dispatch_shared_handler_a__6TLobbyFl(9);
+        ((TBoss7Crawfish *)arg0)->m_3a0 = (saddr)TLobby::dispatch_shared_handler_a(9);
         *(s32 *)((s8 *)arg0 + 0x34) = get_bml_model(TBoss7Crawfish__shared_resource, 1);
     }
     ((TObjChara *)arg0)->get_or_assign_entity_id(0);

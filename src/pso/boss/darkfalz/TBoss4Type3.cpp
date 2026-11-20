@@ -178,7 +178,6 @@ f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
 s32 normalize_vector(void *);
 f32 atan2_float(f32 y, f32 x);
-u8 * dispatch_shared_handler_a__6TLobbyFl(s32);
 s32 pick_random_target_player__11TBoss4Type3Fv(void);
 s32 TBoss4Type3__sub_8005254C(u16);
 struct Stack_80055918
@@ -872,7 +871,7 @@ Self_8005AE60 *TBoss4Type3__ct(Self_8005AE60 *self, saddr parent, s32 *arg2) {
     self->node_tables.init(boss4_type3_model_node_specs, 2);
     self->f3D4 = self->f32C;
     self->f3CC = 0;
-    self->f3D0 = *(s32 *)(dispatch_shared_handler_a__6TLobbyFl(0x38) + 0x24);
+    self->f3D0 = *(s32 *)((u8 *)TLobby::dispatch_shared_handler_a(0x38) + 0x24);
     self->f3B0 = 1.0f;
     self->f3B4 = 0;
     self->f3A4 = 0x10;
@@ -1825,7 +1824,7 @@ void TBoss4Type3::update_homing() {
         }
         o->f52c = 0;
     }
-    n = *(s32 *)(dispatch_shared_handler_a__6TLobbyFl(0x38) + 0x20);
+    n = *(s32 *)((u8 *)TLobby::dispatch_shared_handler_a(0x38) + 0x20);
     if (n < 1 || n > 8) {
         n = 4;
     }
@@ -1884,7 +1883,7 @@ void TBoss4Type3::update_light_magic() {
         }
     }
     if ((s32) *(s32 *)((s8 *)arg0 + 0x398) == 0x45) {
-        r29 = *(s32 *)(dispatch_shared_handler_a__6TLobbyFl(0x38) + 0x18);
+        r29 = *(s32 *)((u8 *)TLobby::dispatch_shared_handler_a(0x38) + 0x18);
         for (i = 0; i < 4; i++) {
             if (TBoss4Type3__sub_8005254C(i) != 0) {
                 ((TObjPlayer *)(&g))->construct_target_cursor_records();
@@ -1925,7 +1924,7 @@ void TBoss4Type3::update_dark_magic() {
     f32 s;
     o = (O_80058848 *)this;
     if (o->f398 == 0x46) {
-        r30 = *(s32 *)(dispatch_shared_handler_a__6TLobbyFl(0x38) + 0x1C);
+        r30 = *(s32 *)((u8 *)TLobby::dispatch_shared_handler_a(0x38) + 0x1C);
         for (i = 0; i < TLobby::get_game_mode(); i++) {
             p = (saddr)get_player_by_client_id(i);
             if (TBoss4Type3__sub_8005254C(i) != 0) {

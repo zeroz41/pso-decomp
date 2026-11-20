@@ -39,6 +39,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/technique/TTecRaFoie.h"
+#include "pso/technique/TTecRaBarta.h"
 
 extern "C" {
 
@@ -225,7 +226,6 @@ void free_collision_body_parts(void *);
 s32 project_actor_to_ground(void *, void *, int);
 s32 add_radar_scaled_marker(void *, s32, s16, s32, f32);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-void create__11TTecRaBartaFPvPvPvPv(void *source, void *origin, void *pos, void *level);
 void TBoss6PlotFalz__sub_802AC008(f32 farg0, f32 farg1);
 void vec3_add_to(Vec *, Vec *);
 void subtract_vector(Vec *, Vec *);
@@ -1413,7 +1413,7 @@ void TBoss4Type2::update_tech_charge() {
         play_sound_effect(0x4003A813, (u8 *)this + 0x38, 0, 1);
         if (idx == 0) {
             TBoss4Type2Params *params = (TBoss4Type2Params *)TLobby::dispatch_shared_handler_a(0x36);
-            create__11TTecRaBartaFPvPvPvPv(this, (u8 *)this + 0x3B8, (u8 *)this + 0x3B8, (void *)params->rabarta_level);
+            TTecRaBarta::create(this, (u8 *)this + 0x3B8, (u8 *)this + 0x3B8, (void *)params->rabarta_level);
         } else {
             TBoss4Type2Params *params = (TBoss4Type2Params *)TLobby::dispatch_shared_handler_a(0x36);
             ((TTecRaFoie *)this)->create((u8 *)this + 0x3B8, (u8 *)this + 0x3B8, (void *)params->rafoie_level);
