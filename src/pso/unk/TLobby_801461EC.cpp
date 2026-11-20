@@ -154,7 +154,6 @@ s8 func_801A5E54();
 extern "C" {
 s32 TLobby__sub_804219D0(saddr, saddr, saddr);
 s32 net_add_ipv4_route(saddr, saddr, saddr);
-void xfree__FPv(void*);
 int xmalloc__FUl(void);
 
     extern int lbl_805D56C8;
@@ -420,7 +419,7 @@ void TLobby::cleanup() {
         TLobby__connect_pending_flags &= 0xFFFFFFF7;
     }
     if ((u32) lbl_805D5700 != 0U) {
-        xfree__FPv((void*)lbl_805D5700);
+        xfree((void*)lbl_805D5700);
         lbl_805D5700 = 0U;
     }
 }

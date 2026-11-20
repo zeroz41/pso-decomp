@@ -16,11 +16,10 @@ void TLobby__sub_802433A8(void) {
     }
 }
 
-s32 xmalloc__FUl(s32);
 
 
 void TKeyBoardControl::alloc_buffer() {
-    player_data_load_buffer = xmalloc__FUl(0x14000);
+    player_data_load_buffer = (saddr)xmalloc(0x14000);
 }
 
 }

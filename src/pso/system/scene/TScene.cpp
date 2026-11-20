@@ -27,6 +27,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/system/vector.h"
 
 struct SurfaceAreaTable { s32 enabled[36]; };
 
@@ -210,7 +211,6 @@ void draw_ginja_object(void *);
 void set_material_alpha_compare_reference(s32 reference);
 
 
-void VecCopy__FP3VecPC3Vec(void *, void *);
 
 
 void subtract_vector(void *, void *);
@@ -2091,7 +2091,7 @@ void TScene::update_room_visibility_from_camera() {
             if (d < room->radius * room->radius) {
                 room->flags |= 0x10000;
             } else {
-                VecCopy__FP3VecPC3Vec(&dir, room->position);
+                VecCopy((Vec *)(&dir), (const Vec *)room->position);
                 subtract_vector(&dir, &(*(Cam_802043CC * *)&camera_ctrl_instance)->pos);
                 normalize_vector((Vec *)(&dir));
                 fwd.x = 0.0f;

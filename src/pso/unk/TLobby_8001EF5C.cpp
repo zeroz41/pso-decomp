@@ -150,7 +150,6 @@ struct Ctx_8001F128 {
 
 void reset_gstream_globals(void);
 extern "C" {
-s32 xmalloc__FUl(s32);
 char TLobby__tmp_buf_name[0x20];
 u8 bml_load_state;
 saddr lobby_download_buffer;
@@ -181,7 +180,6 @@ u32 adxf_open__6TLobbyFUii(void *, s32);
 void TItemDrop__sub_800FE2D8(void);
 s32 TLobby__sub_801E38A0(saddr, s32, s32, s32, u32 *);
 s32 load_nj_chunk_model_resource(s32, s32, s32);
-int xfree__FPv(void*);
 
 
 // ---- 0x8001ED90-0x8001EF5C (was TObjFish_8001ED90) ----
@@ -242,7 +240,7 @@ saddr TLobby::tmp_buf_use_req(const char *name) {
 }
 
 // ---- 0x8001EF5C-0x80020898 ----
-void TLobby::free_if_not_owner(void* a1) { if (*(unsigned int*)((char*)this + 0x424) == 0) { xfree__FPv(a1); } }
+void TLobby::free_if_not_owner(void* a1) { if (*(unsigned int*)((char*)this + 0x424) == 0) { xfree(a1); } }
 
 s32 alloc_load_data__6TLobbyFPviii(void *arg0, s32 base, s32 off, s32 out) {
     u32 sp8;
@@ -505,7 +503,7 @@ s32 TLobby::load_bml_exec(u8 *arg0, u8 *arg1) {
 
 void TLobby::free_chr_select_data() {
     if ((u32) bml_load_buffer != 0U) {
-        xfree__FPv((void*)((void*)bml_load_buffer));
+        xfree((void*)((void*)bml_load_buffer));
         bml_load_buffer = 0U;
     }
     TItemDrop__sub_800FE2D8();
@@ -513,7 +511,7 @@ void TLobby::free_chr_select_data() {
     lobby_download_buffer = 0;
 }
 void TLobby::init_download_buffers() {
-    (*(s32 *)&bml_load_buffer) = xmalloc__FUl(0x4000);
+    (*(s32 *)&bml_load_buffer) = (saddr)xmalloc(0x4000);
     lobby_download_buffer = (saddr)TQuestVmDownLoadServer::alloc(0x40000);
     reset_gstream_globals();
     tmp_buf_in_use_flag = 1;

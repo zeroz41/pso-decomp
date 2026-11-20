@@ -58,6 +58,8 @@
 #include "pso/ui/window/TWindowGetComCard_8007B54C.h"
 #include "pso/unk/TLobby_8023F734.h"
 #include "pso/ui/chat/TWindowChat_800774C0.h"
+#include "pso/system/byteswap.h"
+#include "pso/system/main_loop.h"
 #include "pso/unk/TLobby_80077B60.h"
 #include "pso/unk/TLobby_801C25B4.h"
 #include "pso/object/key/TOKeyJungleMain.h"
@@ -133,9 +135,7 @@ s8 get_chr_select_state__23TAdSinglePlyChrSelectGCFv();
 s32 TLobby__sub_8006EF90();
 s32 TObjBoss2Tunnel__sub_8007D1D0();
 s8 func_801A5E54__Fv();
-s32 controller_stuff__Fv();
 s32 poll_memcard_result(int);
-s32 render_tick__Fv();
 s32 func_803DCDFC__Fv();
 s32 cleanup__6TLobbyFv();
 }
@@ -145,7 +145,6 @@ s32 PPCSync();
 extern s32 lbl_805D5718;
 void __construct_array(void *, void *, int, int, int);
 s32 TLobby__sub_8013A23C(s32 arg0);
-void bswap_32__FPUl(void *);
 void get_team_state__6TLobbyFPv();
 }
 void clear_floor_population();
@@ -338,7 +337,7 @@ s32 TLobby::construct_entry_array() {
 void TLobby::bswap_udp_test_header() {
     u8 *arg0 = (u8 *)this;
     *(u32 *)(arg0 + 4) = arg0[0] + (arg0[1] << 8) + (arg0[2] << 16) + (arg0[3] << 24);
-    bswap_32__FPUl((u8 *)&this->m_flags);
+    bswap_32((u32 *)(&this->m_flags));
 }
 
 int TLobby__sub_801A3E8C(void) { return 0; }
@@ -354,8 +353,8 @@ void reload_lobby_floor_scene(void) {
     process_pending_resources();
     reset_controller_input_state();
     TLobby::send_game_character();
-    render_tick__Fv();
-    render_tick__Fv();
+    render_tick();
+    render_tick();
     find_leader_section_id(TLobby__data_805011D8, TLobby__designated_client_id);
     TLobby::free_objects();
     main_task.delete_layer_children();
@@ -402,9 +401,9 @@ void TLobby::blocking_vsync() {
         main_task.render();
         main_task.render_screen_overlay();
         ::debug_print("BlockingVsync");
-        render_tick__Fv();
+        render_tick();
     } else {
-        controller_stuff__Fv();
+        controller_stuff();
         TKeyBoardControl::update_input_frame();
         main_task.begin_frame();
         main_task.run_task();
@@ -416,7 +415,7 @@ void TLobby::blocking_vsync() {
         TAdSinglePlyChrSelectGC::noop();
     }
     TLoadCtrl::set_field1C(1);
-    render_tick__Fv();
+    render_tick();
 }
 
 void TLobby::reload_floor_scene() {
@@ -431,8 +430,8 @@ void TLobby::reload_floor_scene() {
     __ct__7TObjectFP7TObject(&sp8, 0);
     process_pending_resources();
     reset_controller_input_state();
-    render_tick__Fv();
-    render_tick__Fv();
+    render_tick();
+    render_tick();
     for (i = 0; i < 12; i++) {
         p = (Pl_801A40D8 *)get_player_by_client_id(i);
         if (p != NULL) {
@@ -500,8 +499,8 @@ s32 start_quest_mission(void) {
     TLobby::update_lobby_subsystems();
     process_pending_resources();
     reset_controller_input_state();
-    render_tick__Fv();
-    render_tick__Fv();
+    render_tick();
+    render_tick();
     find_leader_section_id(TLobby__data_805011D8, TLobby__designated_client_id);
     for (i = 0; i < 12; i++) {
         p = (VObj_18_801A4268 *) get_player_by_client_id(i);
@@ -563,8 +562,8 @@ s32 change_floor_reload_area(void) {
     TLobby::stop_audio_streams();
     process_pending_resources();
     reset_controller_input_state();
-    render_tick__Fv();
-    render_tick__Fv();
+    render_tick();
+    render_tick();
     find_leader_section_id(TLobby__data_805011D8, TLobby__designated_client_id);
     for (i = 0; i < 12; i++) {
         p = (VObj_18_801A441C *) get_player_by_client_id(i);
@@ -641,7 +640,7 @@ void cleanup_online_lobby_scene(void) {
     PPCSync();
     var_r31 = 0;
     do {
-        render_tick__Fv();
+        render_tick();
         var_r31 += 1;
     } while (var_r31 < 0x1E);
     cleanup__6TLobbyFv();
@@ -658,13 +657,13 @@ void cleanup_online_lobby_scene(void) {
     TLobby__lobby_state_flags = 0;
     clear_resource_load_tasks();
     TKeyBoardControl::update();
-    render_tick__Fv();
+    render_tick();
 }
 
 void TLobby::run_lobby_frame() {
     s32 temp_r0;
     func_803DCDFC__Fv();
-    controller_stuff__Fv();
+    controller_stuff();
     TKeyBoardControl::update_input_frame();
     main_task.begin_frame();
     main_task.run_task();
@@ -707,13 +706,13 @@ void TLobby::run_lobby_frame() {
         reload_lobby_floor_scene();
         TKeyBoardControl__sub_8000F95C();
     }
-    render_tick__Fv();
+    render_tick();
 }
 
 void TLobby::run_main_frame() {
     s32 temp_r0;
     func_803DCDFC__Fv();
-    controller_stuff__Fv();
+    controller_stuff();
     TKeyBoardControl::update_input_frame();
     main_task.begin_frame();
     main_task.run_task();
@@ -760,7 +759,7 @@ void TLobby::run_main_frame() {
         TLobby::send_logout();
         request_main_phase(0);
     }
-    render_tick__Fv();
+    render_tick();
 }
 
 void TLobby::update_camera_state() {
@@ -807,7 +806,7 @@ void run_online_lobby_scene(void) {
     TLoadCtrl::set_field1C(0);
     while (TAdDialingGC__sub_801A4C9C() != 0) {
         func_803DCDFC__Fv();
-        controller_stuff__Fv();
+        controller_stuff();
         TKeyBoardControl::update_input_frame();
         main_task.begin_frame();
         main_task.run_task();
@@ -819,7 +818,7 @@ void run_online_lobby_scene(void) {
         if (func_801A5E54__Fv() != 0) {
             break;
         }
-        render_tick__Fv();
+        render_tick();
     }
     TLoadCtrl::set_field1C(1);
     TAdDialingGC::close();
@@ -863,7 +862,7 @@ void run_online_lobby_scene(void) {
     actor_frame_tick = 0;
     TLobby__data_805D5CE8 = 0;
     TLobby__online_lobby_frame_counter = 0;
-    render_tick__Fv();
+    render_tick();
 }
 
 void TLobby::update_periodic_tick() {

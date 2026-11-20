@@ -11,6 +11,7 @@
 #include "pso/render/TDLGraph.h"
 #include "pso/ui/Language.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/memory.h"
 
 extern "C" {
 uaddr gba_download_data_buffer;
@@ -25,8 +26,6 @@ short lbl_805D6CDA;
 // The game code the GBA program header carries at 0xAC (calc_joyboot_checksum copies it in).
 const u8 joyboot_game_code[4] = {'G', 'P', 'O', 'E'};
 
-void xfree__FPv(void*);
-s32 xmalloc__FUl(s32);
 int GBAInit(void*);
 s32 GBAGetProcessStatus(s32, u8 *);
 u32 SIProbe(s32);
@@ -54,7 +53,7 @@ void TLobby::init_graph() {
 
 void TLobby::free_buffer() {
     if ((u32) gba_download_data_buffer != 0U) {
-        xfree__FPv((void*)gba_download_data_buffer);
+        xfree((void*)gba_download_data_buffer);
         gba_download_data_buffer = 0U;
     }
     gba_download_data_size = 0;
@@ -63,7 +62,7 @@ void TLobby::free_buffer() {
 void TLobby::alloc_buffer() {
     gba_download_data_buffer = 0;
     gba_download_data_size = 0;
-    gba_download_data_buffer = xmalloc__FUl(0x40000);
+    gba_download_data_buffer = (saddr)xmalloc(0x40000);
     gba_download_data_size = 0;
 }
 }
