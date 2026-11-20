@@ -57,9 +57,9 @@ extern "C" {
 u16 get_entity_id(void *);
 void *find_entity_by_id(u16 id);
 }
-u8 *construct_photon_magic_square_normal(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+u8 *construct_photon_magic_square_normal(u8 *arg0, saddr arg1, s32 arg2, saddr arg3, s32 arg4);
 extern "C" {
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, u32 src, s32 a3, s32 flags);
 u8 *__nw__7TObjectFUl(s32, f32);
 
 s32 scroll_strip_uvs(void *, s16, int);
@@ -129,7 +129,7 @@ void TPhotonLeilla::run_task() {
         stack.spC += 3e+01f;
         photon_magic_square = (u8 *)(__nw__7TObjectFUl(0xD0, temp_f1));
         if (photon_magic_square != NULL) {
-            construct_photon_magic_square_normal((u8 *)photon_magic_square, (s32)arg0, 4, (s32)&stack.sp8, 0x78);
+            construct_photon_magic_square_normal((u8 *)photon_magic_square, (saddr)arg0, 4, (saddr)&stack.sp8, 0x78);
         }
     }
     if ((5e+01f == (f32) *(s32 *)&this->m_1ac) && ((s16) this->requested_action == 1)) {
@@ -157,7 +157,7 @@ void TPhotonLeilla::run_task() {
         }
     }
     if ((s32) *(s32 *)&this->m_19c != 0) {
-        play_persistent_sound(0x4002462F, (s32)arg0, (u32)(0U), 0, 0);
+        play_persistent_sound(0x4002462F, (saddr)arg0, (u32)(0U), 0, 0);
     }
 }
 }
@@ -264,7 +264,7 @@ void *TPhotonLeilla__ct(Leilla_801AC808 *self, Pkt_801AC808 *pkt) {
         v.y += 3e+01f;
         o = NEW_801AC808(0xD0);
         if (o != NULL) {
-            construct_photon_magic_square_normal((u8 *)o, (s32)self, 4, (s32)&v, 0x78);
+            construct_photon_magic_square_normal((u8 *)o, (saddr)self, 4, (saddr)&v, 0x78);
         }
         ((TUnk_804C3248 *)self)->spawn_photon_blast_attachment_effects(4);
         play_cue_stream_file((s32)"reila2.adx");
@@ -284,8 +284,8 @@ void TObjPlayer::destroy_buffer_pair_instance() {
 }
 
 void create_leilla_photon_blast_model(void) {
-    s32 temp_r3;
-    s32 var_r0;
+    saddr temp_r3;
+    saddr var_r0;
     temp_r3 = (int)::operator new(0x14);
     var_r0 = temp_r3;
     if (var_r0 != 0) {

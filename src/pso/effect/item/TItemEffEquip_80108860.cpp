@@ -20,7 +20,7 @@ u16 get_entity_id(void *);
 TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 void TItemEffEquip::spawn_equip_particle_effect(s32 arg1) {
     *(s32 *)&this->m_20 = (s32)spawn_continuous_particle_effect_with_flags((void *)(((VObj_18_7128e8 *)((u8 *)(*(u8 * *)&this->m_1c)))->m7()), (s32)arg1, (s32)(0x10));
-    if ((u32) this->m_20 != 0U) {
+    if ((uaddr) this->m_20 != 0U) {
         ((TParticleCtrl *)((void *) this->m_20))->set_owner_id(get_entity_id(this->m_1c));
     }
 }

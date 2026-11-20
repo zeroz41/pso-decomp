@@ -303,9 +303,9 @@ TUnk_8048E6A8::~TUnk_8048E6A8() {
 
 void TUnk_8048E6A8::run_task() {
     u8 *arg0 = (u8 *)this;
-    u32 player;
+    uaddr player;
 
-    player = (u32)get_player_by_client_id((local_client_id));
+    player = (uaddr)get_player_by_client_id((local_client_id));
     if ((player != 0U) && (horizontal_distance_squared((const Vec *)(player + 0x38), (const Vec *)(arg0 + 0x38)) < 400.0f)) {
         if (this->scale.x > 0.0f) {
             lbl_805D2930 = 1;

@@ -110,8 +110,8 @@ extern u8 *photon_blast_shared_resource;
 extern "C" {
 void *spawn_particle_effect(const void *pos, s32 id);
 void *find_entity_by_id(u16 id);
-u8 *TPhotonMagicSquare__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+u8 *TPhotonMagicSquare__ct(u8 *arg0, saddr arg1, s32 arg2, saddr arg3, s32 arg4, f32 farg0);
+s32 play_persistent_sound(s32 id, saddr a1, u32 src, s32 a3, s32 flags);
 
 s32 scroll_strip_uvs(void *, s16, int);
 s32 clear_render_context__10TObjPlayerFv(void *);
@@ -310,20 +310,20 @@ void TPhotonGolla::run_task() {
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_801ABBAC, spC) == 0x4);
     Stack_801ABBAC stack;
     s32 temp_r0;
-    s32 entity;
+    saddr entity;
     uaddr photon_magic_square;
     *(s32 *)&this->unk_1C8 = (s32) (*(s32 *)&this->unk_1C8 + 1);
     if (((s32) *(s32 *)&this->unk_1C8 == 0x32) && ((s32) this->m_1c4 == 0)) {
         this->m_1c4 = 1;
         *(s32 *)&this->unk_1C8 = 0;
-        entity = (s32)find_entity_by_id((*(u16 *)((s8 *)arg0 + 0x158)));
+        entity = (saddr)find_entity_by_id((*(u16 *)((s8 *)arg0 + 0x158)));
         if (entity != 0) {
             VecCopy((Vec *)(&stack.sp8), (const Vec *)(entity + 0x38));
         }
         stack.spC += 3e+01f;
         photon_magic_square = (uaddr)TObject::operator new(0xD0);
         if (photon_magic_square != 0U) {
-            TPhotonMagicSquare__ct((u8 *)photon_magic_square, (s32)arg0, 3, (s32)&stack.sp8, 0xFA, (f32)0.5f);
+            TPhotonMagicSquare__ct((u8 *)photon_magic_square, (saddr)arg0, 3, (saddr)&stack.sp8, 0xFA, (f32)0.5f);
         }
     }
     if ((5e+01f == (f32) *(s32 *)&this->unk_1C8) && ((s16) this->requested_action == 1)) {
@@ -348,7 +348,7 @@ void TPhotonGolla::run_task() {
         TPhotonGolla::spawn_concentrate(arg0);
     }
     if ((s32) this->m_1c4 != 0) {
-        play_persistent_sound(0x4002462F, (s32)arg0, 0, 0, 0);
+        play_persistent_sound(0x4002462F, (saddr)arg0, 0, 0, 0);
     }
 }
 
@@ -488,7 +488,7 @@ u8 *TPhotonGolla__ct(u8 *arg0, u8 *arg1) {
         pos.y += 3e+01f;
         p = (void *)TObject::operator new(0xD0);
         if (p != NULL) {
-            TPhotonMagicSquare__ct((u8 *)p, (s32)arg0, 3, (s32)&pos, 0x96, (f32)0.5f);
+            TPhotonMagicSquare__ct((u8 *)p, (saddr)arg0, 3, (saddr)&pos, 0x96, (f32)0.5f);
         }
         ((TUnk_804C3248 *)arg0)->spawn_photon_blast_attachment_effects(2);
         play_cue_stream_file((s32)"goula2.adx");
@@ -510,8 +510,8 @@ void TObjPlayer::destroy_static_buffer_pair() {
 }
 
 void create_golla_photon_blast_model(void) {
-    s32 temp_r3;
-    s32 var_r0;
+    saddr temp_r3;
+    saddr var_r0;
     temp_r3 = (int)::operator new(0x14);
     var_r0 = temp_r3;
     if (var_r0 != 0) {

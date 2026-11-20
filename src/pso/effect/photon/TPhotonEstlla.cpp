@@ -78,9 +78,9 @@ struct Self_801AA818 {
 extern "C" {
 void *find_entity_by_id(u16 id);
 }
-u8 *construct_photon_magic_square_normal(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+u8 *construct_photon_magic_square_normal(u8 *arg0, saddr arg1, s32 arg2, saddr arg3, s32 arg4);
 extern "C" {
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, u32 src, s32 a3, s32 flags);
 
 s32 TPhotonLine__ct(void *, void *, void *, u16);
 s32 rotate_vector_by_matrix(int, void *, void *);
@@ -185,7 +185,7 @@ void TPhotonEstlla::run_task() {
         }
         photon_magic_square = (uaddr)TObject::operator new(0xD0);
         if (photon_magic_square != 0U) {
-            construct_photon_magic_square_normal((u8 *)photon_magic_square, (s32)arg0, 1, (s32)&stack.x, 0x78);
+            construct_photon_magic_square_normal((u8 *)photon_magic_square, (saddr)arg0, 1, (saddr)&stack.x, 0x78);
         }
     }
     if (((s32) *(s32 *)&this->m_1a0 == 0x64) && ((s16) this->requested_action == 1)) {
@@ -210,7 +210,7 @@ void TPhotonEstlla::run_task() {
         }
     }
     if ((s32) *(s32 *)&this->m_19c != 0) {
-        play_persistent_sound(0x4002462F, (s32)arg0, 0, 0, 0);
+        play_persistent_sound(0x4002462F, (saddr)arg0, 0, 0, 0);
     }
 }
 
@@ -290,7 +290,7 @@ TPhotonEstlla::TPhotonEstlla(u8 *arg1) : TUnk_804C3248() {
         }
         p = (void *)TObject::operator new(0xD0);
         if (p != NULL) {
-            construct_photon_magic_square_normal((u8 *)p, (s32)this, 1, (s32)&pos, 0x78);
+            construct_photon_magic_square_normal((u8 *)p, (saddr)this, 1, (saddr)&pos, 0x78);
         }
         spawn_photon_blast_attachment_effects(1);
         play_cue_stream_file((s32)"estla2.adx");
@@ -308,8 +308,8 @@ void TObjPlayer::destroy_global_buffer() {
 }
 
 void create_estlla_photon_blast_model(void) {
-    s32 temp_r3;
-    s32 var_r0;
+    saddr temp_r3;
+    saddr var_r0;
     temp_r3 = (int)::operator new(0x14);
     var_r0 = temp_r3;
     if (var_r0 != 0) {

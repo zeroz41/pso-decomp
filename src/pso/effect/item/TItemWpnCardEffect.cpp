@@ -218,7 +218,7 @@ void TUnk_804EDD44::run_task() {
 #pragma fp_contract on
 void TUnk_804EDD44::start_card_effect_flash() {
     u8 *arg0 = (u8 *)this;
-    u32 p;
+    uaddr p;
     u32 q;
     *(u32 *)((s8 *)arg0 + 0x1C) = (u32)spawn_particle_effect_with_rotation(((u8 *)&this->unk_64), ((u8 *)&this->unk_54), 0x1B9, 0x104);
     p = *(u32 *)((s8 *)arg0 + 0x1C);
@@ -236,7 +236,7 @@ void TUnk_804EDD44::start_card_effect_flash() {
 #pragma fp_contract on
 void TUnk_804EDD44::start_card_effect_trail() {
     particles[2] = create_particle_emitter(((u8 *)&this->unk_64), 0x1B6);
-    if ((u32) particles[2] != 0U) {
+    if ((uaddr) particles[2] != 0U) {
         ((TParticleCtrl *)(particles[2]))->set_tint_color(-0x78);
     }
 }

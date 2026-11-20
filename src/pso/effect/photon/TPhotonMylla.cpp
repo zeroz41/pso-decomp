@@ -109,8 +109,8 @@ extern "C" {
 u16 get_entity_id(void *);
 void *spawn_particle_effect(const void *pos, s32 id);
 void *find_entity_by_id(u16 id);
-u8 *TPhotonMagicSquare__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+u8 *TPhotonMagicSquare__ct(u8 *arg0, saddr arg1, s32 arg2, saddr arg3, s32 arg4, f32 farg0);
+s32 play_persistent_sound(s32 id, saddr a1, u32 src, s32 a3, s32 flags);
 }
 void queue_photon_blast_hit(u32 identity, s32 kind, s32 allow_duplicate, f32 scale);
 extern "C" {
@@ -134,7 +134,7 @@ void *__ct__13TUnk_804C3248Fv(void *arg0);
 void sub_801AD4A8__12TPhotonMyllaFv(void* a0);
 void TPhotonRainbow__ct(void *, void *, void *, s32);
 u8 *TPhotonYoulla__ct(TPhotonYoulla *arg0, u8 *arg1);
-void play_cue_stream_file(s32 name);
+void play_cue_stream_file(saddr name);
 const char *TPhotonMylla__class_name = "TPhotonMylla";
 
 static const YPkt_801AD970 photon_mylla_packet_template = { { 0.0f, 0.0f, 0.0f }, 0, 0, 0, 0, 0x4000000, 1.0f };
@@ -213,7 +213,7 @@ void TPhotonMylla::run_task() {
         stack.sp30 += 30.0f;
         photon_magic_square = (u8 *)TObject::operator new(0xD0);
         if (photon_magic_square != NULL) {
-            TPhotonMagicSquare__ct((u8 *)photon_magic_square, (s32)arg0, 5, (s32)&stack.sp2C, 0xAA, 0.5f);
+            TPhotonMagicSquare__ct((u8 *)photon_magic_square, (saddr)arg0, 5, (saddr)&stack.sp2C, 0xAA, 0.5f);
         }
     }
     if ((100.0f == (f32) ((RecoveredFields_801AD5D8_arg0 *)arg0)->field_1A4) && ((s16) ((RecoveredFields_801AD5D8_arg0 *)arg0)->field_B8 == 1)) {
@@ -264,7 +264,7 @@ void TPhotonMylla::run_task() {
         }
     }
     if ((s32) ((RecoveredFields_801AD5D8_arg0 *)arg0)->field_1A0 != 0) {
-        play_persistent_sound(0x4002462F, (s32)arg0, (u32)(0U), 0, 0);
+        play_persistent_sound(0x4002462F, (saddr)arg0, (u32)(0U), 0, 0);
     }
 }
 #pragma pop
@@ -359,13 +359,13 @@ void *TPhotonMylla__ct(Mylla_801AD970 *self, Pkt_801AD970 *pkt) {
         v.y += 30.0f;
         o = (u8 *)TObject::operator new(0xD0);
         if (o != NULL) {
-            TPhotonMagicSquare__ct((u8 *)o, (s32)self, 5, (s32)&v, 0xAA, 0.5f);
+            TPhotonMagicSquare__ct((u8 *)o, (saddr)self, 5, (saddr)&v, 0xAA, 0.5f);
         }
         ((TUnk_804C3248 *)self)->spawn_photon_blast_attachment_effects(5);
-        play_cue_stream_file((s32)"maila2.adx");
+        play_cue_stream_file((saddr)"maila2.adx");
     } else {
         spawn_photon_blast_opening_effects(5, F_801AD970(self, u16, 0x17C));
-        play_cue_stream_file((s32)"maila.adx");
+        play_cue_stream_file((saddr)"maila.adx");
     }
     return self;
 }

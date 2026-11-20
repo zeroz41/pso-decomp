@@ -191,7 +191,7 @@ void TEffIndirectCtrl::free_all() {
     s32 var_r28;
     s32 var_r30;
     s32 var_r31;
-    s32 allocation;
+    saddr allocation;
 
     TObjPlayer__sub_802A83F4();
     TEffIndirectCtrl::free_buffers();
@@ -502,7 +502,7 @@ void TEffIndirectCtrl::update_scroll_mode() {
     DCFlushRange(self->buf, 0x1000);
 }
 
-s32 setup_indirect_tev_alternate(s32 arg0, s32 unused, s32 sampler, s32 arg3) {
+s32 setup_indirect_tev_alternate(saddr arg0, s32 unused, s32 sampler, s32 arg3) {
     if ((u8)arg3 < 5) {
         u8 scale = arg3;
         s32 coords[5] = {0, 1, 2, 3, 4};
@@ -525,7 +525,7 @@ s32 setup_indirect_tev_alternate(s32 arg0, s32 unused, s32 sampler, s32 arg3) {
 }
 
 
-s32 setup_indirect_tev_ordinary(s32 arg0, s32 sampler, s32 scale, s32 second) {
+s32 setup_indirect_tev_ordinary(saddr arg0, s32 sampler, s32 scale, s32 second) {
     s32 scales[5] = {0, 1, 2, 3, 4};
     f32 m0[2][3];
     f32 m1[2][3];
@@ -575,10 +575,10 @@ void TObjPlayer::play_particle_at_active_slot(s32 arg0, s32 sampler, s32 arg2, s
     indirect_effect_ctrl = (s32)(s8) find_indirect_effect_ctrl(arg0);
     if ((indirect_effect_ctrl != -1) && (indirect_effect_ctrl_table[indirect_effect_ctrl] != NULL)) {
         if (arg3 != 0) {
-            setup_indirect_tev_alternate((s32)indirect_effect_ctrl_table[indirect_effect_ctrl], unused, sampler, arg2);
+            setup_indirect_tev_alternate((saddr)indirect_effect_ctrl_table[indirect_effect_ctrl], unused, sampler, arg2);
             return;
         }
-        setup_indirect_tev_ordinary((s32)indirect_effect_ctrl_table[indirect_effect_ctrl], sampler, arg2, second);
+        setup_indirect_tev_ordinary((saddr)indirect_effect_ctrl_table[indirect_effect_ctrl], sampler, arg2, second);
     }
 }
 

@@ -216,7 +216,7 @@ struct TItemData8_8010a060 { s8 a; s8 b; u8 c; s8 pad[21]; };
 extern "C" {
 void TUnk_8049F130::run_task() {
     struct TItemData8_8010a060 sp8;
-    s32 player;
+    saddr player;
 
     if ((u32) this->m_2c != get_item_system_generation()) {
         queue_destruction();
@@ -228,7 +228,7 @@ void TUnk_8049F130::run_task() {
         sp8.b = 2;
         sp8.c = *(u8 *)((s8 *)this + 0x2A);
         if ((((s16)TObjPlayer::count_nearby_players_with_shield(this->m_28, (u8 *)&sp8.a)) > 0) && ((s32) this->m_20 != -1)) {
-            player = (s32)get_player_by_client_id(this->m_28);
+            player = (saddr)get_player_by_client_id(this->m_28);
             if (player != 0) {
                 get_field_3e0__12TBoss3VoloptFv();
                 if (is_item_area_enabled() == 1) {

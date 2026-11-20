@@ -196,7 +196,7 @@ u8 *create_ballistic_particle(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, u16 arg4, 
 u8 *create_orbit_particle(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, u16 arg4, s16 arg5);
 void *load_resource_from_descriptor(void *, int, void *, int, int, int);
 }
-u8 *load_gvm_texture_file(s32 arg0);
+u8 *load_gvm_texture_file(saddr arg0);
 extern "C" {
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
 extern u8 *camera_ctrl_instance;
@@ -251,7 +251,7 @@ void run_task__13TParticleCtrlFv(Ctrl_8008767C *self) {
         self->flags &= ~1;
         return;
     }
-    if (((self->flags & 0x200) || (self->flags & 0x2000)) && self->tex == (u32)tl_07) {
+    if (((self->flags & 0x200) || (self->flags & 0x2000)) && self->tex == (uaddr)tl_07) {
         self->tex = (u32)tl_particlemodel;
     }
     def = self->def;
@@ -685,7 +685,7 @@ void load_particle_entry_resources(void) {
         p = load_resource_from_descriptor(p, 1, particle_regular_bml_descriptor, 0, 0, 0);
     }
     TParticleCtrl__regular_bml_resource = (u32)p;
-    TParticleCtrl__texture_list = (u32)load_gvm_texture_file((s32)lbl_804394D4);
+    TParticleCtrl__texture_list = (u32)load_gvm_texture_file((saddr)lbl_804394D4);
 }
 extern "C" {
 

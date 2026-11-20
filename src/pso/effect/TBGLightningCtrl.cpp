@@ -47,7 +47,7 @@ extern "C" {
 s32 VecCopy__FP3VecPC3Vec(void *, s32, s8, f32, f32);
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 }
-u8 *load_gvm_texture_file(s32 arg0);
+u8 *load_gvm_texture_file(saddr arg0);
 extern "C" {
 s32 __ct__7TObjectFP7TObject(u8 *, void *);
 void fn_802A9DF4(Obj_802A9DF4 *self, Vec *dir);
@@ -138,7 +138,7 @@ void TBGLightningCtrl::destroy_instance() {
     }
 }
 
-void load_bg_lightning(void) { bg_lightning_texture_handle = (int)load_gvm_texture_file((s32)lbl_8046FCA0); }
+void load_bg_lightning(void) { bg_lightning_texture_handle = (int)load_gvm_texture_file((saddr)lbl_8046FCA0); }
 
 __declspec(section ".rodata") extern unsigned char lbl_8046FCA0[] = "bg_lightning.gvm";
 
@@ -260,7 +260,7 @@ void run_task__12TBGLightningFv(void *arg0) {
     }
 }
 
-u8 *create__12TBGLightningFiif(s32 arg0, s32 arg1, f32 farg0) {
+u8 *create__12TBGLightningFiif(saddr arg0, s32 arg1, f32 farg0) {
     u8 *bg_lightning;
     u8 *var_r0;
     bg_lightning = (u8 *)(TObject::operator new(0x30));

@@ -442,7 +442,7 @@ void TUnk_8048E790::render() {
                 }
                 TObjFish::set_global_param(this->unk_B4);
                 set_draw_list_mask(3);
-                if ((u32) this->motion != 0U) {
+                if ((uaddr) this->motion != 0U) {
                     draw_ginja_model_with_motion((void *)this->m_b0, (void *)this->motion, (f32)this->motion_frame);
                 } else {
                     draw_ginja_object((void *)this->m_b0);

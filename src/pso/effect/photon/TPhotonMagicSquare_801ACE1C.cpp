@@ -170,7 +170,7 @@ TPhotonMagicSquare::~TPhotonMagicSquare() {
 }
 
 
-u8 *TPhotonMagicSquare__ct(u8 *photon_magic_square, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0) {
+u8 *TPhotonMagicSquare__ct(u8 *photon_magic_square, s32 arg1, s32 arg2, saddr arg3, s32 arg4, f32 farg0) {
     __ct__8TObjBaseFP7TObject(photon_magic_square);
     *(s32 **)((s8 *)photon_magic_square + 0x18) = &__vt__18TPhotonMagicSquare.value;
     *(s32 *)((s8 *)photon_magic_square + 0) = (s32) ((s32)TPhotonMagicSquare__data_805D3508);
@@ -192,7 +192,7 @@ u8 *TPhotonMagicSquare__ct(u8 *photon_magic_square, s32 arg1, s32 arg2, s32 arg3
     ((TPhotonMagicSquare *)photon_magic_square)->m_cc = 0xFFFFFF;
     return photon_magic_square;
 }
-u8 *construct_photon_magic_square_normal(u8 *photon_magic_square, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+u8 *construct_photon_magic_square_normal(u8 *photon_magic_square, s32 arg1, s32 arg2, saddr arg3, s32 arg4) {
     __ct__8TObjBaseFP7TObject(photon_magic_square);
     *(s32 **)((s8 *)photon_magic_square + 0x18) = &(*(RecoveredGlobal_801AD218___vt__18TPhotonMagicSquare *)&__vt__18TPhotonMagicSquare).value;
     *(s32 *)((s8 *)photon_magic_square + 0) = (s32) ((s32)TPhotonMagicSquare__data_805D3508);

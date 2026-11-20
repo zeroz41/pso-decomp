@@ -295,9 +295,9 @@ TUnk_8049EFB8::~TUnk_8049EFB8() {
 }
 
 void TUnk_8049EFB8::run_task() {
-    s32 player;
+    saddr player;
     if (120.0f <= (f32) *(s32 *)&this->unk_1C) {
-        player = (s32)get_player_by_client_id((this->m_20));
+        player = (saddr)get_player_by_client_id((this->m_20));
         if (player != 0) {
             get_field_3e0__12TBoss3VoloptFv();
             if (is_item_area_enabled() == 1) {

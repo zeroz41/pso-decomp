@@ -112,7 +112,7 @@ void TItemEffPG::run_task() {
         check_hits();
         return;
     }
-    if ((u32) this->m_down == 0U) {
+    if ((uaddr) this->m_down == 0U) {
         queue_destruction();
         disallow_rendering();
         return;

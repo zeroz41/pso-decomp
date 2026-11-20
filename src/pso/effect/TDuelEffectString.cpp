@@ -99,7 +99,7 @@ void TDuelEffectString::render() {
     begin_screen_draw(1);
     TObjFish::set_global_param(lbl_805D63F0);
     set_draw_texture_and_color(6, color);
-    switch ((s32)pad_24) {
+    switch ((saddr)pad_24) {
     case 0:
         ((TDuelEffectNumber *)this)->render_number_default(scale);
         break;

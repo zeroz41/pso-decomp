@@ -208,7 +208,7 @@ TUnk_8049F038::TUnk_8049F038(TObject *parent, s16 a, s32 b) : TObjCollidable(par
 }
 
 TUnk_8049F038::~TUnk_8049F038() {
-    if ((u32) this->bodies != 0U) {
+    if ((uaddr) this->bodies != 0U) {
         unregister_object_by_id();
         clear_collision_bodies();
         push_free_entity_id(get_entity_id(this));
