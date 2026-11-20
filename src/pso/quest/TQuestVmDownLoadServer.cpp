@@ -53,7 +53,7 @@ saddr get_message_text(s32 arg0);
 saddr get_localized_text_entry(s32 arg0, s32 arg1);
 s32 __ct__22TQuestVmDownLoadServerFP7TObject(void *, s32);
 }
-extern s32 tl_00;
+extern saddr tl_00;
 
 struct Pair_801F6E08 { f32 a; f32 b; };extern "C" {
 saddr get_window_layout_position(s32);
@@ -168,14 +168,13 @@ Src_801F718C quest_download_file_info;
 QuestDownloadFileHeader quest_download_file_header;
 SubtractiveRng TQuestVmDownLoadServer__rng_cipher_state;
 __declspec(section ".data") u32 download_rng_seed_pair[2];
-u32 create__13TAdMcSelectGCFPv(s32);
 s32 get_memcard_free_files(s32);
 s32 query_memcard_capacity__15TAdPlayerLoadGCFl(s32, int);
 u8 *init_shop_judgment_window(void *p);
 s32 TQuestVmDownLoadServer__sub_801F8538(void *data, s32 size);
 s32 draw_window_bg__23TAdSinglePlyChrSelectGCFllll(s32, void *, s32, s32);
 }
-extern s32 tl_03;
+extern saddr tl_03;
 LAYOUT_ASSERT(SubtractiveRng_size, sizeof(SubtractiveRng) == 0xE8);
 struct SubtractiveRng;
 
@@ -719,7 +718,7 @@ void TQuestVmDownLoadServer::update_mc_select() {
             if (lobby_player_construction_window != 0) {
                 ((TObject *)((void *)lobby_player_construction_window))->disallow_rendering();
             }
-            *(u32 *)&this->m_29c = create__13TAdMcSelectGCFPv(tl_03);
+            *(u32 *)&this->m_29c = (uaddr)TAdMcSelectGC::create((void *)tl_03);
         }
         if ((void *) this->m_29c != NULL) {
             TAdMcSelectGC::select_if_mc_present();
@@ -761,7 +760,7 @@ void TQuestVmDownLoadServer::open() {
         if (temp_r3 != 0U) {
             ((TObject *)((void *)temp_r3))->disallow_rendering();
         }
-        *(u32 *)&this->m_29c = create__13TAdMcSelectGCFPv(tl_03);
+        *(u32 *)&this->m_29c = (uaddr)TAdMcSelectGC::create((void *)tl_03);
     }
     this->state = 4;
     show_status_message(get_localized_text_entry(0x29, 1), 1);

@@ -167,7 +167,6 @@ s32 finalize_state__20TWindowSubStatusDispFv(s32);
 s32 is_flag80_set__20TWindowSubStatusDispFv(s32);
 s32 advance_state__20TWindowSubStatusDispFv();
 u32 reset_selection__20TWindowSubStatusDispFv(int, void *);
-u32 construct_type1_heading__20TWindowSubStatusDispFll(u32, s32, s16);
 s32 is_flag_4_set__20TWindowSubStatusDispFv();
 }
 void text_builder_reset();
@@ -568,12 +567,12 @@ void TWindowMenuIconLine::create_menu_scroll_bar() {
 }
 
 void TWindowMenuIconLine::ensure_status_display(s32 arg1) {
-    u32 var_r0;
+    uaddr var_r0;
 
     if ((uaddr) this->status_display == 0U) {
         var_r0 = (saddr)::operator new(0x24);
         if (var_r0 != 0U) {
-            var_r0 = construct_type1_heading__20TWindowSubStatusDispFll(var_r0, arg1, this->m_20);
+            var_r0 = (uaddr)((TWindowSubStatusDisp *)var_r0)->construct_type1_heading(arg1, (s16)this->m_20);
         }
         *(u32 *)&this->status_display = var_r0;
         (this->m_2c) = (s32) ((this->m_2c) | 0x40);

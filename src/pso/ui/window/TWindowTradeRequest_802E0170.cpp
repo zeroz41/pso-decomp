@@ -48,7 +48,6 @@ extern RecoveredGlobal_802E0224___vt__19TWindowTradeRequest __vt__19TWindowTrade
 extern s32 local_client_id;
 s32 *get_shared_text_buffer(void);
 u8 *get_window_layout_position(s32);
-s32 create__19TWindowMessageYesNoFPvPvPvPv(s32, s32, s32, s32);
 s32 reset_equip_slots__10TObjPlayerFv();
 s32 text_builder_append();
 }
@@ -133,7 +132,7 @@ u8 *TWindowTradeRequest__ct(TWindowTradeRequest *window_trade_request) {
   }
   TWindowSubStatusDisp::get_message_10(0xD9);
   text_builder_append();
-  window_trade_request->m_20 = create__19TWindowMessageYesNoFPvPvPvPv((saddr) window_trade_request, local_client_id, 0, 0);
+  window_trade_request->m_20 = (uaddr)TWindowMessageYesNo::create((void *)window_trade_request, (void *)(saddr)local_client_id, 0, 0);
   window_layout_position = (u8 *) get_window_layout_position(0xB2);
   forward_slot_selection__16TAdChrSelASlotGCFPvPv(window_trade_request->m_20, (saddr) get_shared_text_buffer(), (saddr) window_layout_position, 260.0f);
   new_var2 = ((s8 *) window_trade_request) + 0x1C;

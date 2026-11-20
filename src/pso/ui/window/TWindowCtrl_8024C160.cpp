@@ -57,7 +57,7 @@ void *__ct__11TWindowChatFP7TObjectPv(void *, s32, void *);
 void *__ct__17TWindowCtrlPlayerFP7TObjectl(void *, void *, s32);
 extern const char *TWindowCtrl__name;
 extern s32 local_client_id;
-extern s32 tl_00;
+extern saddr tl_00;
 }
 
 TWindowCtrl::~TWindowCtrl() {

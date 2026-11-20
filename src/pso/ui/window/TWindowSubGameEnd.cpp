@@ -41,7 +41,6 @@ s32 __ct__7TObjectFP7TObject();
 saddr get_window_layout_position(s32);
 s32 free_member__17TWindowSubComCardFv(s32, s32);
 s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(s32, s32, s32, f32);
-s32 create__19TWindowMessageYesNoFPvPvPvPv(void *, s32, s32, s32);
 extern s32 __vt__17TWindowSubGameEnd[];
 extern const char *TWindowSubGameEnd__class_name;
 s32 setup_player_battle_ctrls__23TAdSinglePlyChrSelectGCFv();
@@ -118,7 +117,7 @@ void *TWindowSubGameEnd__ct(TWindowSubGameEnd *window_sub_game_end, s32 arg1, s3
         var_r31 = (saddr)TWindowSubStatusDisp::get_message_10(0x3A);
         var_f31 = 469.0f;
     }
-    window_sub_game_end->m_28 = create__19TWindowMessageYesNoFPvPvPvPv(window_sub_game_end, window_sub_game_end->m_20, 0, 0);
+    window_sub_game_end->m_28 = (uaddr)TWindowMessageYesNo::create(window_sub_game_end, (void *)(uaddr)window_sub_game_end->m_20, 0, 0);
     forward_slot_selection__16TAdChrSelASlotGCFPvPv(window_sub_game_end->m_28, var_r31, get_window_layout_position(0x17), var_f31);
     free_member__17TWindowSubComCardFv(window_sub_game_end->m_28, 1);
     ((TWindowSubShortMail *)(window_sub_game_end->m_28))->notify_warp_flag70();

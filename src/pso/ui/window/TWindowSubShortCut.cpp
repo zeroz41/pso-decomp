@@ -42,7 +42,6 @@ struct VObj_18_204a81 : VBase_18_204a81 {
 extern "C" {
 saddr get_window_layout_position(s32 a0);
 void open_yes_no_prompt(TChCrTagPlBack *arg0, u32 arg1, s32 arg2, s32 arg3, f32 farg0);
-s32 create__19TWindowMessageYesNoFPvPvPvPv(void *, s32, s32, s32);
 s32 clear_chat_shortcut();
 }
 s32 store_chat_shortcut(s32 arg0, s32 arg1);
@@ -250,7 +249,7 @@ s32 TWindowSubShortCut::open_menu() {
 
 s32 TWindowSubShortCut::open_confirm_prompt() {
     Win_8027DBB8 *arg0 = (Win_8027DBB8 *)this;
-    saddr r = create__19TWindowMessageYesNoFPvPvPvPv(arg0, arg0->f20, 0, 0);
+    saddr r = (saddr)TWindowMessageYesNo::create(arg0, (void *)(saddr)arg0->f20, 0, 0);
     open_yes_no_prompt((TChCrTagPlBack *)((u8 *)r), (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(TWindowSubStatusDisp::get_message_10(0x3D)), (s32)(get_window_layout_position(0x75)), 205.0f);
     ((TWindowSubShortMail *)r)->notify_warp_flag70();
     return r;
@@ -259,7 +258,7 @@ s32 TWindowSubShortCut::open_confirm_prompt() {
 s32 TWindowSubShortCut::open_confirm_message() {
     saddr temp_r29;
 
-    temp_r29 = create__19TWindowMessageYesNoFPvPvPvPv(this, this->m_20, 0, 0);
+    temp_r29 = (saddr)TWindowMessageYesNo::create(this, (void *)(uaddr)this->m_20, 0, 0);
     open_yes_no_prompt((TChCrTagPlBack *)((u8 *)temp_r29), (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(TWindowSubStatusDisp::get_message_10(0x3e)), (s32)(get_window_layout_position(0x76)), 205.0f);
     free_member__17TWindowSubComCardFv(temp_r29, 1);
     ((TWindowSubShortMail *)temp_r29)->notify_warp_flag70();

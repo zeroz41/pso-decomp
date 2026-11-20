@@ -11,7 +11,7 @@
 
 extern "C" {
 u8 * TEF_LensFlare__ct(void *, saddr, saddr);
-extern s32 tl_05;
+extern saddr tl_05;
 u32 __cvt_fp2unsigned(f32);
 f32 horizontal_distance_squared(s32, s32);
 void *get_player_by_client_id(s32 i);

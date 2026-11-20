@@ -47,7 +47,6 @@ const vec2f lbl_8044F4A4 = {470.0f, 80.0f};
 
 extern "C" {
 u8 *get_window_layout_position(s32);
-s32 create__19TWindowMessageYesNoFPvPvPvPv(s32, s32, s32, s32);
 s32 free_member__17TWindowSubComCardFv(int, int);
 s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(int, void *, int, f32);
 s32 align_menu_entry_positions(int);
@@ -538,9 +537,9 @@ saddr TWindowOptionCtrl::create_option_menu() {
     return temp_r31;
 }
 
-saddr TWindowOptionCtrl::open_yes_no_window(s32 arg0, s32 arg1, s32 arg2) {
-  s32 temp_r30;
-  temp_r30 = create__19TWindowMessageYesNoFPvPvPvPv(arg0, 6, arg0 * 0, 0);
+saddr TWindowOptionCtrl::open_yes_no_window(saddr arg0, s32 arg1, s32 arg2) {
+  saddr temp_r30;
+  temp_r30 = (saddr)TWindowMessageYesNo::create((void *)arg0, (void *)6, (void *)(arg0 * 0), 0);
   forward_slot_selection__16TAdChrSelASlotGCFPvPv((int) temp_r30, (void *) get_localized_text_entry(0xF, arg1), (saddr) ((u8 *) get_window_layout_position(arg2)), 470.0f);
   free_member__17TWindowSubComCardFv((int) temp_r30, 1);
   return temp_r30;

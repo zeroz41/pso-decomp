@@ -82,7 +82,7 @@ s32 __ct__18TChallenge4PResultFP7TObjectUsl(void *, s32, int, s32);
 }
 s32 update_challenge_result_player_locks();
 void resume_challenge_result_processing(void *arg0);
-extern s32 tl_01;
+extern saddr tl_01;
 const char *challenge_4p_result_class_name = "TChallenge4PResult";
 
 #pragma defer_codegen on

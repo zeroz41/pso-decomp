@@ -42,7 +42,6 @@ saddr get_window_layout_position(int);
 void TWindowCtrl__sub_8026D4E8(void);
 s32 free_member__17TWindowSubComCardFv(int, int);
 s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(int, int, int, f32);
-s32 create__19TWindowMessageYesNoFPvPvPvPv(void *, int, int, int);
 extern s32 __vt__17TWindowReturnCity[];
 #pragma push
 #pragma readonly_strings on
@@ -139,7 +138,7 @@ u8 *TWindowReturnCity__ct(TWindowReturnCity *window_return_city, saddr arg1, s32
   *((s32 **) (((s8 *) window_return_city) + 0x18)) = __vt__17TWindowReturnCity;
   *((s32 *) (((s8 *) window_return_city) + 0)) = (saddr) TWindowReturnCity__class_name;
   window_return_city->m_24 = arg2;
-  temp_r31 = create__19TWindowMessageYesNoFPvPvPvPv((void *) window_return_city, window_return_city->m_24, 0, 0);
+  temp_r31 = (saddr)TWindowMessageYesNo::create((void *)window_return_city, (void *)(uaddr)window_return_city->m_24, 0, 0);
   window_return_city->m_1c = temp_r31;
   if (window_return_city)
   {

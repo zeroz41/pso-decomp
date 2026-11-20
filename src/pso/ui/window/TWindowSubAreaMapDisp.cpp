@@ -69,7 +69,6 @@ void text_builder_append(u8 *str);
 void text_builder_reset(void);
 extern "C" {
 saddr get_window_layout_position(int);
-s32 construct_type1_heading__20TWindowSubStatusDispFll(int, int, int);
 s32 get_game_play_mode();
 const char *TWindowSubAreaMapDisp__name = "TWindowSubAreaMapDisp";
 extern s32 local_client_id;
@@ -187,8 +186,8 @@ TWindowSubAreaMapDisp::~TWindowSubAreaMapDisp() {
 LAYOUT_ASSERT(RecoveredGlobal_80271D00___vt__21TWindowSubAreaMapDisp_size, sizeof(RecoveredGlobal_80271D00___vt__21TWindowSubAreaMapDisp) == 0x1C);
 TWindowSubAreaMapDisp::TWindowSubAreaMapDisp() : TWindowBase((u8 *)&TWindowSubAreaMapDisp__window_parameters, (s16)((s16) local_client_id), (u8 *)(get_window_layout_position(0x59))) {
     s32 temp_r3;
-    s32 temp_r3_2;
-    s32 var_r0;
+    saddr temp_r3_2;
+    saddr var_r0;
     u8 *var_r30;
 
     ((TWindowSubAreaMapDisp *)this)->m_name = TWindowSubAreaMapDisp__name;
@@ -207,7 +206,7 @@ TWindowSubAreaMapDisp::TWindowSubAreaMapDisp() : TWindowBase((u8 *)&TWindowSubAr
     temp_r3_2 = (saddr)::operator new(0x24);
     var_r0 = temp_r3_2;
     if (var_r0 != 0) {
-        var_r0 = construct_type1_heading__20TWindowSubStatusDispFll(temp_r3_2, this->m_74, (int) ((s32) this->m_20));
+        var_r0 = (saddr)((TWindowSubStatusDisp *)temp_r3_2)->construct_type1_heading(this->m_74, (int) ((s32) this->m_20));
     }
     this->m_70 = var_r0;
     this->m_6c = 0;

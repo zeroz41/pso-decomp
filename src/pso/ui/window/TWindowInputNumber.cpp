@@ -159,18 +159,17 @@ void set_draw_texture_and_color(s32, s32);
 void draw_textured_quad_at_depth(f32 *q, f32 depth);
 extern s32 lbl_805D63F0;
 s32 draw_visible_window_entries(void *, void *, int);
-u32 construct_type1_heading__20TWindowSubStatusDispFll(u32, s32, s16);
 void __dl__7TObjectFPv(void *);
 s32 forward_render__20TWindowSubStatusDispFv(void *, int);
 
 void TWindowInputNumber::create(s32 arg1) {
-    u32 var_r0;
+    uaddr var_r0;
 
     if ((u32) this->unknown70 == 0U) {
         var_r0 = (saddr)::operator new(0x24);
         if (var_r0 != 0U) {
-            u32 saved = var_r0;
-            var_r0 = construct_type1_heading__20TWindowSubStatusDispFll(saved, arg1, this->clientIndex);
+            uaddr saved = var_r0;
+            var_r0 = (uaddr)((TWindowSubStatusDisp *)saved)->construct_type1_heading(arg1, (s16)this->clientIndex);
         }
         this->unknown70 = var_r0;
         this->m_2c = (s32) (this->m_2c | 0x40);

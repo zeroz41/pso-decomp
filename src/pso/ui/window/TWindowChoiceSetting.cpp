@@ -26,7 +26,6 @@ struct Stack_80268A6C {
 
 extern "C" {
 s32 clamp_list_scroll_offset(int, void *, void *);
-u32 construct_type1_heading__20TWindowSubStatusDispFll(u32, s32, s16);
 s32 TWindowSubComCard__sub_8026906C(void);
 s32 play_sound_effect(s32 a0 = 0, s32 a1 = 0, s32 a2 = 0, s32 a3 = 0);
 s32 is_open__13TUnk_804D0658Fv();
@@ -95,12 +94,12 @@ block_4:
     }
 }
 void create_sub_window__20TWindowChoiceSettingFPvi(void *arg0, s32 arg1) {
-    u32 var_r0;
+    uaddr var_r0;
 
     if ((u32) *(u32 *)((s8 *)arg0 + 0x78) == 0U) {
         var_r0 = (saddr)::operator new(0x24);
         if (var_r0 != 0U) {
-            var_r0 = construct_type1_heading__20TWindowSubStatusDispFll(var_r0, arg1, *(s16 *)((s8 *)arg0 + 0x20));
+            var_r0 = (uaddr)((TWindowSubStatusDisp *)var_r0)->construct_type1_heading(arg1, *(s16 *)((s8 *)arg0 + 0x20));
         }
         *(u32 *)((s8 *)arg0 + 0x78) = var_r0;
         *(s32 *)((s8 *)arg0 + 0x2C) = (s32) (*(s32 *)((s8 *)arg0 + 0x2C) | 0x40);
