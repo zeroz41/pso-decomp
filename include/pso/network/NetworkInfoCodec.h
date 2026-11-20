@@ -2,6 +2,7 @@
 #define PSO_NETWORK_NETWORK_INFO_CODEC_H
 
 #include "types.h"
+#include "versions.h"
 #include <stddef.h>
 
 typedef struct NetworkInfoNamedConfig {
@@ -21,7 +22,12 @@ typedef struct NetworkInfoConnectionConfig {
     s16 v10E;
     u8 v110;
     u8 v111;
+#if VERSION == VERSION_GPOP8P
+    u8 v112;
+    u8 pad113;
+#else
     u8 pad112[2];
+#endif
     char s114[0x10];
     char s124[0x10];
     char s134[0x20];

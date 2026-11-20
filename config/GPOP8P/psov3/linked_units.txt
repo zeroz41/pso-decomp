@@ -1942,6 +1942,7 @@ pso/unk/text_803DF204.cpp
 pso/unk/text_803E2070.cpp
 pso/unk/text_803E29B0.cpp
 pso/unk/text_803E4CE8.cpp
+pso/unk/text_803F1804.cpp
 pso/unk/text_8042E8C4.cpp
 pso/weapon/SpecialProjectileWeapons.cpp
 pso/weapon/SpecialProjectileWeapons_80124760.cpp
@@ -2076,7 +2077,13 @@ pso/unk/TLobby_801A3C48.cpp
 gx/GXInit.c
 pso/ui/keyboard/TKeyBoardControl_80290CB0.cpp
 pso/unk/TLobby_80299A60.cpp
+pso/unk/TLobby_801461EC.cpp
 pso/ui/frontend/TAdPlayerLoadGC_803F339C.cpp
+pso/unk/text_803F3BF8.cpp
+pso/ui/frontend/TAdPlayerLoadGC_803F3CF4.cpp
+pso/network/NetworkInfoLoader.cpp
+pso/unk/text_803F4D84.cpp
+pso/network/NetworkInfoCodec.cpp
 pso/unk/text_801D94C8.cpp
 pso/boss/olgaflow/TBoss6Demo11_TYPE1_DEAD.cpp
 PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/ctype.c

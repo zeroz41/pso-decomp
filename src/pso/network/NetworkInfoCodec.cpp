@@ -27,6 +27,9 @@ extern char network_info_config_key_pxp[4];
 extern char network_info_config_key_at[4];
 extern char network_info_config_key_dt[4];
 extern char network_info_config_key_pa[4];
+#if VERSION == VERSION_GPOP8P
+extern char network_info_config_key_mc[4];
+#endif
 extern char network_info_config_key_ol[4];
 extern char network_info_config_key_od[4];
 extern char network_info_config_key_t1[4];
@@ -151,6 +154,10 @@ s32 parse_network_info_config_line(char *s, u32 n, NetworkInfoConfig *q) {
             q->b[i].v110 = GET();
         } else if (strncmp(s, network_info_config_key_pa, 3) == 0) {
             q->b[i].v111 = GET();
+#if VERSION == VERSION_GPOP8P
+        } else if (strncmp(s, network_info_config_key_mc, 3) == 0) {
+            q->b[i].v112 = GET();
+#endif
         } else if (strncmp(s, network_info_config_key_ol, 3) == 0) {
             CPY(q->b[i].s114, 0x10);
         } else if (strncmp(s, network_info_config_key_od, 3) == 0) {
@@ -280,8 +287,12 @@ s32 copy_network_info_config_string(char *arg0, char *arg1, u32 arg2, u32 arg3) 
         arg2 -= 5;
         if (arg2 > arg3) {
             strncpy(arg0, arg1 + 5, arg3);
+#if VERSION == VERSION_GPOP8P
+            if ((u8)arg0[arg3 - 1] >= 0x80) {
+#else
             char c = arg0[arg3 - 1];
             if ((u8)c >= 0x80) {
+#endif
                 arg0[arg3 - 1] = 0;
             }
         } else {
@@ -329,6 +340,10 @@ s32 parse_hex_string(char *s) {
 #pragma push
 #pragma use_lmw_stmw off
 #pragma scheduling off
+#if VERSION == VERSION_GPOP8P
+#pragma peephole off
+#pragma optimization_level 2
+#endif
 s32 decode_network_info_payload(u8 *src, u8 *arg1, u32 arg2, NetworkInfoConfig *config) {
     u32 *key;
     u32 i;
@@ -440,9 +455,13 @@ s32 decrypt_network_info_cipher_blocks(u32 *key, u8 *src, s32 len, u8 *dst) {
 u32 *allocate_network_info_cipher_key(s32 src) {
     s32 i;
     u32 *b;
+#if VERSION == VERSION_GPOP8P
+    u32 *a;
+#else
     u32 mask;
     u32 *a;
     u32 bit;
+#endif
     s32 n;
     u32 *slot;
     n = *network_info_cipher_pool_binding.pool >> 16;
@@ -479,10 +498,17 @@ void release_network_info_cipher_key(u32 *mask) {
 }
 #pragma pop
 
+#if VERSION == VERSION_GPOP8P
+char network_info_unparsed_config_lines[0x400];
+NetworkInfoCipherWorkspace network_info_cipher_workspace;
+u32 network_info_unparsed_config_length;
+s32 network_info_config_field_handled;
+#else
 NetworkInfoCipherWorkspace network_info_cipher_workspace;
 char network_info_unparsed_config_lines[0x400];
 s32 network_info_config_field_handled;
 u32 network_info_unparsed_config_length;
+#endif
 NetworkInfoCipherPoolBinding network_info_cipher_pool_binding;
 char network_info_config_key_iver[5] = "IVER";
 char network_info_config_key_cnum[5] = "CNUM";
@@ -504,6 +530,9 @@ char network_info_config_key_pxp[4] = "PXP";
 char network_info_config_key_at[4] = "AT_";
 char network_info_config_key_dt[4] = "DT_";
 char network_info_config_key_pa[4] = "PA_";
+#if VERSION == VERSION_GPOP8P
+char network_info_config_key_mc[4] = "MC_";
+#endif
 char network_info_config_key_ol[4] = "OL_";
 char network_info_config_key_od[4] = "OD_";
 char network_info_config_key_t1[4] = "T1_";

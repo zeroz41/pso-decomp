@@ -2,12 +2,16 @@
 #define PSO_UNK_TEXT_803F4D84_H
 
 #include "types.h"
+#include "versions.h"
 
 extern "C" {
 s32 TLobby__sub_803F4EBC(char *dst, s32 len);
 s32 TLobby__sub_803F4FF4(void *dst);
 s32 TLobby__sub_803F50B8(void *dst);
 s32 TLobby__sub_803F517C(u8 *dst);
+#if VERSION == VERSION_GPOP8P
+s32 fn_803F414C(u8 *dst);
+#endif
 s32 TLobby__sub_803F524C(char *dst, s32 len);
 s32 TLobby__sub_803F53A0(s32 n, char *dst, s32 len);
 s32 TLobby__sub_803F5524(char *dst, s32 len);

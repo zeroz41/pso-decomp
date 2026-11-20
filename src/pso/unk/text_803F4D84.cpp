@@ -1,4 +1,5 @@
 #include "types.h"
+#include "versions.h"
 #include "pso/network/NetworkInfoLoader.h"
 #include "pso/unk/text_803F4D84.h"
 #include "pso/unk/TLobby.h"
@@ -143,7 +144,9 @@ typedef struct Rec_803F517C {
     u8 padA8[0xEE - 0xA8];
     s16 kind;
     u8 f208;
-    u8 padF1[3];
+    u8 padF1;
+    u8 f20A;
+    u8 padF3;
     char str20C[0x20];
     char strs[3][0x20];
     u8 pad174[4];
@@ -727,7 +730,9 @@ s32 TLobby__sub_803F50B8(void *dst) {
 #pragma pop
 
 #pragma push
+#if VERSION != VERSION_GPOP8P
 #pragma scheduling off
+#endif
 #pragma peephole off
 s32 TLobby__sub_803F517C(u8 *dst) {
     Big_803F517C *b;
@@ -754,6 +759,37 @@ s32 TLobby__sub_803F517C(u8 *dst) {
     return 0;
 }
 #pragma pop
+
+#if VERSION == VERSION_GPOP8P
+#pragma push
+#pragma scheduling off
+#pragma peephole off
+s32 fn_803F414C(u8 *dst) {
+    Big_803F517C *b;
+    s16 i;
+    if (get_network_config_mode() == 0) {
+        return -1;
+    }
+    if (get_network_config_backup_mode() == 0 && get_network_config_mode() == 1) {
+        return -5;
+    }
+    b = (*(Big_803F517C * *)&lobby_net_config_buffer);
+    i = b->cur;
+    if (i < 0 || i >= 6) {
+        return -3;
+    }
+    i = b->ent[i].v;
+    if (i < 0 || i >= 6) {
+        return -3;
+    }
+    if (b->rec[i].kind != 1) {
+        return -3;
+    }
+    *dst = b->rec[i].f20A;
+    return 0;
+}
+#pragma pop
+#endif
 
 #pragma push
 #pragma scheduling off
