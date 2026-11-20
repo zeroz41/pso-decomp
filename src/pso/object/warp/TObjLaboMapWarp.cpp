@@ -212,12 +212,12 @@ void TObjCityMainWarp__sub_80186AB8(void);
 
 #pragma push
 #pragma fp_contract on
-TObjPlayer *TObjCityMainWarp::find_local_player_in_range(f32 range) {
+TObjPlayer *find_local_city_warp_player(TObjAreaWarp *warp, f32 range) {
     TObjPlayer *player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
         s32 current_floor = get_current_floor();
         s32 player_floor = player->get_floor();
-        if ((player_floor == current_floor) && (xz_distance_squared((s32)&position, (s32)&player->position) < (range * range))) {
+        if ((player_floor == current_floor) && (xz_distance_squared((s32)&warp->position, (s32)&player->position) < (range * range))) {
             return player;
         }
     }

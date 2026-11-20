@@ -91,7 +91,7 @@ s32 get_window_layout_position(s32);
 s32 free_member__17TWindowSubComCardFv(void *, int);
 s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(void *, s32, s32, f32);
 s32 is_local_client_floor_leader();
-TObjPlayer *TObjWarpBossMulti__sub_8019E570(s32 arg0, f32 farg0);
+TObjPlayer *find_local_boss_warp_player(TObjAreaWarp *warp, f32 range);
 BmlResource *boss_warp_resource_bundle;
 s32 boss_warp_base_model;
 s32 boss_warp_confirmation_model;
@@ -458,7 +458,7 @@ void TObjWarpBoss::update_warp_confirmation() {
         motion = warp_boss_motion;
         break;
     case 1:
-        if (sub_8019E418() == 0 && (u32) TObjWarpBossMulti__sub_8019E570((s32)this, warp_range) != 0) {
+        if (sub_8019E418() == 0 && find_local_boss_warp_player(this, warp_range) != NULL) {
             update_warp_dialogs();
             warp_player(local_client_id);
             state_step = 2;
@@ -506,7 +506,7 @@ void TObjWarpBoss::update_warp_confirmation() {
         state_step = 4;
         break;
     case 4:
-        if ((u32) TObjWarpBossMulti__sub_8019E570((s32)this, warp_range) == 0) {
+        if (find_local_boss_warp_player(this, warp_range) == NULL) {
             state_step = 1;
             break;
         }
@@ -537,7 +537,7 @@ void TObjWarpBoss::update_warp_state() {
         motion = warp_boss_bml_motion;
         return;
     case 1:
-        if (((u32 (*)(f32))TObjWarpBossMulti__sub_8019E570)(warp_range) != 0U) {
+        if (find_local_boss_warp_player(this, warp_range) != NULL) {
             update_warp_dialogs();
             if (warp_triggered == 0) {
                 warp_player(local_client_id);
@@ -576,7 +576,7 @@ void TObjWarpBoss::update_state() {
         return;
     case 1:
         if (TObjWarpBossMulti::get_boss_warp_flag() == 0) {
-            player = TObjWarpBossMulti__sub_8019E570((s32)this, warp_range);
+            player = find_local_boss_warp_player(this, warp_range);
             if (player != 0) {
                 TObjWarpBossMulti::notify_player(this, local_client_id);
                 confirm_area_transfer(player);
@@ -604,7 +604,7 @@ void TObjWarpBoss::warp_boss_handle_window() {
         model = 0;
         return;
     case 1:
-        if (((u32 (*)(f32))TObjWarpBossMulti__sub_8019E570)(warp_range) != 0U) {
+        if (find_local_boss_warp_player(this, warp_range) != NULL) {
             if (menu_window == 0) {
                 menu_window = check_room_seq_4__16TAdChrSelASlotGCFl(get_window_layout_position(0x35), 7);
                 if (menu_window != 0) {
@@ -717,14 +717,14 @@ void TObjWarpBoss::close_windows() {
 
 #pragma push
 #pragma fp_contract on
-TObjPlayer *TObjWarpBossMulti__sub_8019E570(s32 arg0, f32 farg0) {
+TObjPlayer *find_local_boss_warp_player(TObjAreaWarp *warp, f32 range) {
     s32 current_floor;
     s32 temp_r3b;
     TObjPlayer *player = get_player_by_client_id(local_client_id);
     if (player != 0) {
         current_floor = get_current_floor();
         temp_r3b = player->get_floor();
-        if ((temp_r3b == current_floor) && (xz_distance_squared(&((TObjAreaWarp *)arg0)->position, &player->position) < (farg0 * farg0))) {
+        if ((temp_r3b == current_floor) && (xz_distance_squared(&warp->position, &player->position) < (range * range))) {
             return player;
         }
     }
@@ -758,7 +758,7 @@ s32 TObjWarpBoss::sub_8019E418() {
     if (TObjWarpBossMulti::is_lobby_active() == 0) {
         return 0;
     }
-    if ((controller_input_state.controllers[0].stick_magnitude > 0.25f) || (TObjWarpBossMulti__sub_8019E570((s32)this, warp_range) == 0U)) {
+    if ((controller_input_state.controllers[0].stick_magnitude > 0.25f) || (find_local_boss_warp_player(this, warp_range) == NULL)) {
         return 1;
     }
     return 0;
