@@ -19,8 +19,6 @@ struct Page_8026AE20 { u8 pad[0x90]; s32 flags; void *msg; };
 
 extern "C" {
 s32 TLobby__sub_80269DA4(void *, void *);
-u8 *TWindowMessage__ct(u8 *arg0, s32 arg1, u32 arg2, s32 arg3);
-extern s32 __vt__18TWindowMessagePage[];
 extern const char *TWindowMessagePage__name;
 s32 *get_shared_text_buffer(void);
 
@@ -52,15 +50,8 @@ void TWindowMessagePage::set_message(void *msg, s32 flags) {
 }
 
 u8 *TWindowMessagePage::create(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    u8 *window_message_page;
-    u8 *var_r0;
     TLobby__sub_80269DA4((void *)arg1, (void *)arg2);
-    window_message_page = (u8 *)(TObject::operator new(0x98));
-    var_r0 = window_message_page;
-    if (var_r0 != NULL) {
-        var_r0 = (u8 *)(TWindowMessagePage__ct(window_message_page, arg0, arg2, arg3));
-    }
-    return var_r0;
+    return (u8 *)new TWindowMessagePage(arg0, arg2, arg3);
 }
 
 u8 *TWindowMessagePage::set_text(s32 a, s32 b, s32 c) {
@@ -88,13 +79,9 @@ TWindowMessagePage::~TWindowMessagePage() {
 
 }
 
-u8 *TWindowMessagePage__ct(u8 *window_message_page, s32 arg1, s32 arg2, s32 arg3) {
-    TWindowMessage__ct((window_message_page), (arg1), (arg2), (arg3));
-    *(s32 **)((s8 *)window_message_page + 0x18) = __vt__18TWindowMessagePage;
-    *(s32 *)((s8 *)window_message_page + 0) = (s32) ((s32)TWindowMessagePage__name);
-    *(s32 *)((s8 *)window_message_page + 0x90) = 0;
-    ((TWindowMessagePage *)window_message_page)->m_20 = (s16) arg3;
-    ((TWindowMessagePage *)window_message_page)->m_94 = 0;
-    return window_message_page;
+TWindowMessagePage::TWindowMessagePage(s32 arg1, s32 arg2, s32 arg3) : TWindowMessage(arg1, arg2, arg3) {
+    this->m_name = TWindowMessagePage__name;
+    *(s32 *)((s8 *)this + 0x90) = 0;
+    this->m_20 = (s16) arg3;
+    this->m_94 = 0;
 }
-

@@ -334,7 +334,6 @@ WindowDescriptor message_window_settings = {
 
 extern "C" {
 s32 TLobby__sub_80269DA4(NJS_POINT2 size, void *arg1);
-u8 *TWindowMessage__ct(u8 *arg0, s32 arg1, u32 arg2, s32 arg3);
 
 int TWindowMessage::append_line(int a1, int a2) { return append_message_window_line((TWindowMessage *)this, a1, a2, -1); }
 
@@ -351,15 +350,8 @@ WindowDescriptor *TLobby__sub_80269CB4(void) {
 }
 
 u8 *TWindowMessage::create(s32 arg0, const f32 *size, u32 arg2, s32 arg3) {
-    u8 *temp_r3;
-    u8 *var_r0;
     ((s32 (*)(void *, void *))TLobby__sub_80269DA4)((void *)size, (void *)arg2);
-    temp_r3 = (u8 *)(TObject::operator new(0x90));
-    var_r0 = temp_r3;
-    if (var_r0 != NULL) {
-        var_r0 = (u8 *)(TWindowMessage__ct(temp_r3, arg0, arg2, arg3));
-    }
-    return var_r0;
+    return (u8 *)new TWindowMessage(arg0, arg2, arg3);
 }
 
 u8 *TWindowMessage::create(const NJS_POINT2 *pos, const f32 *size, s32 rows) {
@@ -379,7 +371,6 @@ s32 TLobby__sub_80269DA4(NJS_POINT2 size, void *arg1) {
 
 s32 get_draw_context__11TWindowBaseFPv();
 s32 draw_visible_window_entries(void *, void *, int);
-extern s32 __vt__14TWindowMessage[];
 
 
 void TWindowMessage::render() {
@@ -407,11 +398,10 @@ void TWindowMessage::run_task() {
 TWindowMessage::~TWindowMessage() {
     if (*(void **)((s8 *)this + 0x7C) != NULL) { mem_free(*(void **)((s8 *)this + 0x7C)); }
 }
-u8 *TWindowMessage__ct(u8 *window_addition, s32 arg1, u32 arg2, s32 arg3) {
+TWindowMessage::TWindowMessage(s32 arg1, u32 arg2, s32 arg3) : TWindowAddition((u8 *)&message_window_settings, (s16)arg3, (u8 *)arg1) {
     u32 i;
     u8 *p;
-    __ct__15TWindowAdditionFPUcsPUc(window_addition, (u8 *)&message_window_settings, (s16)arg3, (u8 *)arg1);
-    *(void **)(window_addition + 0x18) = ((u8 *)&__vt__14TWindowMessage);
+    #define window_addition ((u8 *)this)
     ((TObject *)window_addition)->m_name = lbl_805D3980;
     *(s32 *)(window_addition + 0x70) = 0;
     *(s32 *)(window_addition + 0x74) = 0;
@@ -427,7 +417,7 @@ u8 *TWindowMessage__ct(u8 *window_addition, s32 arg1, u32 arg2, s32 arg3) {
         *(s32 *)(p + 4) = 0;
         p += 8;
     }
-    return window_addition;
+    #undef window_addition
 }
 
 }

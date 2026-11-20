@@ -29,14 +29,10 @@ const char *TWindowSubComCardList__class_name = "TWindowSubComCardList";
 
 
 extern "C" {
-u8 *TWindowMenu__ct(u8 *arg0, u32 arg1, s32 arg2, s32 arg3);
 void *init__21TWindowSubComCardListFiii(void *, s32, s8, s32);
-extern s32 __vt__21TWindowSubComCardList[];
 extern const char *TWindowSubComCardList__class_name;
 extern s32 local_client_id;
-u8 *TWindowSubComCardList__ct(u8 *arg0, void *arg1);
 s32 count_leading_active__17TWindowSubComCardFPvi(s32, s32);
-u8 *TWindowSubComCardList__sub_802757AC(u8 *arg0, void *arg1, s32 arg2, s32 arg3, s8 arg4);
 void render__21TWindowSubComCardListFv(TWindowSubComCardList *arg0);
 s32 handle_list_page_flip_input(s32);
 s32 get_draw_context__11TWindowBaseFPv();
@@ -74,11 +70,10 @@ TWindowSubComCardList::~TWindowSubComCardList() {
     delete_if_allocated((s32)m_8c, 1);
 }
 
-u8 *TWindowSubComCardList__ct(u8 *window_menu, void *arg1) {
+TWindowSubComCardList::TWindowSubComCardList(void *arg1) : TWindowMenu(7, 4, (s32)arg1) {
     void *list;
     s32 n;
-    TWindowMenu__ct(window_menu, 7, 4, (s32)arg1);
-    *(s32 **)(window_menu + 0x18) = __vt__21TWindowSubComCardList;
+    #define window_menu ((u8 *)this)
     *(s32 *)(window_menu + 0) = ((s32)TWindowSubComCardList__class_name);
     n = TWindowSubStatusDisp::round_away_from_zero((f32)TWindowSubComCard::count_active_cards() / 7.0f);
     if (n <= 0) {
@@ -98,14 +93,13 @@ u8 *TWindowSubComCardList__ct(u8 *window_menu, void *arg1) {
     ((TWindowSubComCardList *)window_menu)->sub_80275360();
     ((TWindowSubComCardList *)window_menu)->set_flag70_bit10();
     ((TWindowSubComCardList *)window_menu)->set_scroll_target(223.0f, 184.0f);
-    return window_menu;
+    #undef window_menu
 }
 
-u8 *TWindowSubComCardList__sub_802757AC(u8 *window_menu, void *arg1, s32 arg2, s32 arg3, s8 arg4) {
+TWindowSubComCardList::TWindowSubComCardList(void *arg1, s32 arg2, s32 arg3, s32 arg4) : TWindowMenu(7, 4, (s32)arg1) {
     void *list;
     s32 n;
-    TWindowMenu__ct(window_menu, 7, 4, (s32)arg1);
-    *(s32 **)(window_menu + 0x18) = __vt__21TWindowSubComCardList;
+    #define window_menu ((u8 *)this)
     *(s32 *)(window_menu + 0) = ((s32)TWindowSubComCardList__class_name);
     n = TWindowSubStatusDisp::round_away_from_zero((f32)count_leading_active__17TWindowSubComCardFPvi(arg2, arg3) / 7.0f);
     if (n <= 0) {
@@ -125,6 +119,6 @@ u8 *TWindowSubComCardList__sub_802757AC(u8 *window_menu, void *arg1, s32 arg2, s
     ((TWindowSubComCardList *)window_menu)->sub_80275360();
     ((TWindowSubComCardList *)window_menu)->set_flag70_bit10();
     ((TWindowSubComCardList *)window_menu)->set_scroll_target(223.0f, 184.0f);
-    return window_menu;
+    #undef window_menu
 }
 }

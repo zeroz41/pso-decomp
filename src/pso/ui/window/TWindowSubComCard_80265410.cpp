@@ -109,7 +109,6 @@ s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2);
 s32 create_window_menu_default(s32 pos, s32 entries);
 s32 create_titled_window_menu_default(s32 pos, s32 entries, s32 title);
 void render__11TWindowMenuFv(TWindowMenu *arg0);
-u8 * TWindowMenu__ct(u8 *arg0, u32 arg1, s32 arg2, s32 arg3);
 s32 clamp_list_scroll_offset(int, void *, void *);
 s32 draw_window_scrollbar(s32, s32, void *);
 u32 reset_selection__20TWindowSubStatusDispFv(int, void *);
@@ -121,7 +120,7 @@ s32 create_titled_window_menu(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern s32 __vt__11TWindowMenu[];
 const f64 lbl_8044F330 = 0.0;
 // The TWindowMenu layout table (one type-3 text record; fn_80266378 sets the row count) and
-// the window descriptor TWindowMenu__ct passes to TWindowAddition.
+// the window descriptor the TWindowMenu constructor passes to TWindowAddition.
 struct MenuWindowLayout {
     u32 cols;
     u32 rows;
@@ -666,15 +665,8 @@ u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3) {
 u8 * init_shop_judgment_window(void* p) { return create_yes_no_window((s32)p, 4, (u32)(0), (u32)(0)); }
 
 s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2) {
-    s32 temp_r3;
-    s32 var_r0;
     ((s32 (*)(void *))fn_80266378)((void *)arg1);
-    temp_r3 = __nw__7TObjectFUl(0x8C);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = ((s32 (*)(int, void *, void *, void *))TWindowMenu__ct)((int)temp_r3, (void *)arg1, (void *)arg2, (void *)arg0);
-    }
-    return var_r0;
+    return (s32)new TWindowMenu(arg1, arg2, arg0);
 }
 
 s32 create_window_menu_default(s32 pos, s32 entries) {
@@ -802,11 +794,10 @@ TWindowMenu::~TWindowMenu() {
     mem_free(*(void **)((s8 *)this + 0x80));
 }
 
-u8 *TWindowMenu__ct(u8 *window_menu, u32 arg1, s32 arg2, s32 arg3) {
+TWindowMenu::TWindowMenu(u32 arg1, s32 arg2, s32 arg3) : TWindowAddition((u8 *)&lbl_804D05CC, (s16)arg2, (u8 *)arg3) {
+    #define window_menu ((u8 *)this)
     u32 i;
     u8 *p;
-    __ct__15TWindowAdditionFPUcsPUc(window_menu, (u8 *)&lbl_804D05CC, (s16)arg2, (u8 *)arg3);
-    *(void **)(window_menu + 0x18) = ((s32 *)&__vt__11TWindowMenu);
     *(const char **)window_menu = lbl_805D3960;
     *(s16 *)(window_menu + 0x72) = 0;
     *(s16 *)(window_menu + 0x74) = 0;
@@ -824,7 +815,7 @@ u8 *TWindowMenu__ct(u8 *window_menu, u32 arg1, s32 arg2, s32 arg3) {
     }
     *(s32 *)(window_menu + 0x88) = 0;
     *(s32 *)(window_menu + 0x84) = 0;
-    return window_menu;
+    #undef window_menu
 }
 
 void TWindowMenu::copy_position(void* q) { *(f32 *)&this->m_name = *(f32*)((char*)q + 0x0); *(f32 *)&this->m_flags = *(f32*)((char*)q + 0x4); }

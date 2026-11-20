@@ -5,6 +5,7 @@
 #include "pso/ui/window/TWindowAddition.h"
 
 struct TWindowMenu : public TWindowAddition {
+    TWindowMenu(u32 rows, s32 client, s32 parent);
     virtual ~TWindowMenu();
     s32 get_selected_entry();
     int sub_80266BB8();

@@ -1817,17 +1817,17 @@ force_active:
   - sub_8025D378__19TWindowKeyBoardBaseFPv
   - sub_8025D544__19TWindowKeyBoardBaseFPlPSc
   - TWindowKeyBoardSoft__text_resource
-  - TWindowLoadItemTexture__ct
+  - __ct__22TWindowLoadItemTextureFPUcPvl
   - __ct__13TWindowLockOnFlUs
   - TWindowLockOn__update_for_enemy
   - TWindowLockOn__update_for_item
   - TWindowLockOn__update_for_other_player
   - TWindowMeseta__class_name
-  - TWindowMessagePage__ct
+  - __ct__18TWindowMessagePageFlll
   - TWindowMessageYesNo__name
   - TWindowPartyStatus__ct
   - TWindowPartyStatus__name
-  - TWindowQuantity__ct
+  - __ct__15TWindowQuantityFl
   - TWindowReturnCity__client_scan_index
   - TWindowStatus__ct
   - TWindowSubComCardList__class_name
@@ -3049,7 +3049,6 @@ force_active:
   - __vt__11TTecRaBarta
   - __vt__11TTecRaZonde
   - __vt__11TWindowChat
-  - __vt__11TWindowCost
   - __vt__12TAdBackTxtGC
   - __vt__12TAdMultiOkGC
   - __vt__12TAdTimeSetGC
@@ -3578,7 +3577,6 @@ force_active:
   - __vt__18TPhotonMagicSquare
   - __vt__18TPlayerLobbyMarker
   - __vt__18TWindowEffectLight
-  - __vt__18TWindowMessagePage
   - __vt__18TWindowPartyStatus
   - __vt__19TAdGameStartShineGC
   - __vt__19TAdMcSelectCursorGC
@@ -3632,7 +3630,6 @@ force_active:
   - __vt__20TPlayerLevelFeedback
   - __vt__20TPlayerParticleOwner
   - __vt__20TQuadSpriteSclColRot
-  - __vt__20TWindowMessageScroll
   - __vt__21TAdMultiChgGameModeGC
   - __vt__21TAdMultiSelGameModeGC
   - __vt__21TBoss1DragonEffBreath
@@ -3672,7 +3669,6 @@ force_active:
   - __vt__24TMessageWindowController
   - __vt__24TObjCity_Season_FireWork
   - __vt__24TObjWaitEntryHairMoveSim
-  - __vt__24TWindowMessageInfomation
   - __vt__25TBoss5GryphonLightningEff
   - __vt__25TBoss6Demo10_TYPE1_APPEAR
   - __vt__25TBoss6Demo20_TYPE2_APPEAR

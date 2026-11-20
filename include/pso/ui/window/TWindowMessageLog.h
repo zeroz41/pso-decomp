@@ -5,6 +5,7 @@
 #include "pso/ui/window/TWindowMessage.h"
 
 struct TWindowMessageLog : public TWindowMessage {
+    TWindowMessageLog(s32 parent, s32 client);
     virtual ~TWindowMessageLog();
     void update_scroll_animation();
     void update_fade_offset();
