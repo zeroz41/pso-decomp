@@ -143,7 +143,6 @@ s32 TWindowSubComCard__sub_80273004(void);
 saddr get_character_save_record(u32 arg0);
 s32 create_choice_setting_window__17TWindowSubComCardFiii(saddr arg0, saddr arg1, saddr arg2);
 void create_sub_window__20TWindowChoiceSettingFPvi(void *arg0, s32 arg1);
-s32 init_card__17TWindowSubComCardFv();
 s32 TWindowSubComCard__sub_802728CC(void);
 ChrSel_80272B60 *get_chr_select__17TWindowSubComCardFv();
 void *find_entry_value_by_id__17TWindowSubComCardFl(s32, s32);
@@ -1582,7 +1581,7 @@ s32 TWindowSubComCard__sub_802728CC(void) {
     saddr w;
     w = ((TWindowSubComCard *)get_window_layout_position(0x90))->draw_card_icon(2, (saddr)(msg = ((void* (*)(int))get_message_10__20TWindowSubStatusDispFl)(0xF8)));
     TObjCityMainWarp::forward_trade_action_default((void *)w, (saddr)(((void* (*)(int))get_message_10__20TWindowSubStatusDispFl)(0xFA)), 6, 0x3B);
-    if (init_card__17TWindowSubComCardFv() != 0) {
+    if (TWindowSubComCard::init_card() != 0) {
         TObjCityMainWarp::forward_trade_action_default((void *)w, (saddr)(((void* (*)(int))get_message_10__20TWindowSubStatusDispFl)(0xFB)), 6, 0x3F);
     } else {
         TWindowSubComCard::draw_text_gray(w, (saddr)((void* (*)(int))get_message_10__20TWindowSubStatusDispFl)(0xFB), 6, 0x3F);

@@ -198,7 +198,6 @@ void TWindowCtrl::update_com_card_window() {
     }
 }
 
-s32 apply_default_vec__11TWindowCtrlFll(void *, s32);
 }
 s32 chat_accept_submission(s32 arg0);
 extern "C" {
@@ -221,7 +220,7 @@ void TWindowCtrl::update_window_visibility() {
             return;
         }
         current_target_id = TObjPlayer::get_current_target_id();
-        if ((TWindowCtrl::get_display_flag() != 0) || (has_player_active_menu__11TWindowCtrlFv(local_client_id) != 0) || (is_slot_visible__11TWindowCtrlFv(local_client_id) != 0) || (apply_default_vec__11TWindowCtrlFll(arg0, local_client_id) != 0) || (((u16)current_target_id != 0xffffU) && ((s32)(u16)current_target_id != (s32) local_client_id))) {
+        if ((TWindowCtrl::get_display_flag() != 0) || (has_player_active_menu__11TWindowCtrlFv(local_client_id) != 0) || (is_slot_visible__11TWindowCtrlFv(local_client_id) != 0) || (TWindowCtrl::apply_default_vec((saddr)arg0, local_client_id) != 0) || (((u16)current_target_id != 0xffffU) && ((s32)(u16)current_target_id != (s32) local_client_id))) {
             ((TWindowChat *)(this->m_38))->update();
             return;
         }

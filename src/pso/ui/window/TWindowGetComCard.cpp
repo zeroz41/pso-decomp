@@ -32,7 +32,6 @@ struct GetCard_80252CCC {
 
 extern "C" {
 s32 *get_shared_text_buffer(void);
-s32 init_com_card__17TWindowSubComCardFv();
 s32 reset_equip_slots__10TObjPlayerFv();
 void *get_player_by_client_id(s32 i);
 s32 text_builder_append();
@@ -160,7 +159,7 @@ u8 *TWindowGetComCard__ct(TWindowGetComCard *window_get_com_card) {
     *(s32 *)((s8 *)window_get_com_card + 0) = (saddr) TWindowGetComCard__name;
     window_get_com_card->m_1c = (saddr)TWindowMessage::create((void *)pos, (saddr)size, 1);
     window_get_com_card->m_20 = 0;
-    if (init_com_card__17TWindowSubComCardFv() != 0) {
+    if (TWindowSubComCard::init_com_card() != 0) {
         temp_r31 = (saddr)TWindowGetComCard__sub_8007B594();
         text_builder_reset();
         ((TLobby *)temp_r31)->get_com_card_list();

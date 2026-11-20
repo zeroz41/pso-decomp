@@ -61,7 +61,7 @@ struct TWindowCtrl : public TObject {
     void suppress_slot();
     void unsuppress_slot();
     s32 has_player_active_menu();
-    static void apply_default_vec(s32 arg0, saddr arg1);
+    static s32 apply_default_vec(s32 arg0, saddr arg1);
     s32 is_slot_visible();
     static saddr get_message_by_type(s8 arg0, s32 arg1);
     static void release_slot(s8 *arg0);

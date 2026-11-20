@@ -175,8 +175,8 @@ s32 has_inactive_card__17TWindowSubComCardFPvi(Card_8007AB84 *cards, s32 n) {
     return 0;
 }
 
-void TWindowSubComCard::init_com_card() {
-    has_inactive_card__17TWindowSubComCardFPvi((Card_8007AB84 *)(((saddr (*)(s32))get_card_entry__17TWindowSubComCardFi)(0)), 0xD2);
+s32 TWindowSubComCard::init_com_card() {
+    return has_inactive_card__17TWindowSubComCardFPvi((Card_8007AB84 *)(((saddr (*)(s32))get_card_entry__17TWindowSubComCardFi)(0)), 0xD2);
 }
 
 void TWindowSubComCard::remove_card_at(s32 i) {

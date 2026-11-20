@@ -62,7 +62,7 @@ struct TWindowSubComCard : public TObject {
     void init_card(void* a1);
     static int get_keyboard_mode();
     void *init_guild_card();
-    static void init_card();
+    static s32 init_card();
     static void remove_entry(s32 arg0);
     static s32 scroll_list(s32 arg0);
     static void init_and_press_a(s32 arg0);
@@ -101,7 +101,7 @@ struct TWindowSubComCard : public TObject {
     u8 *get_card_entry_data();
     static s32 find_card_by_id(u32 arg0);
     static void swap_cards(s32 arg0, s32 arg1);
-    static void init_com_card();
+    static s32 init_com_card();
     static void remove_card_at(s32 i);
     s32 send_guild_card();
     static void start_player_data_load(s32 arg0);
