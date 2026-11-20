@@ -407,7 +407,7 @@ void fn_8032AC24(void) {
     __dt__19TAdPlyChrSelPlateGCFv(&plate, -1);
 }
 
-void draw_masked_password_field(s32 arg0) {
+void draw_masked_password_field(saddr arg0) {
     char buf[0x80];
     Plate_8032AACC plate;
     char *str;
