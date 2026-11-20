@@ -6,6 +6,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TOSparkMachine01 : public TObjBase {
+    TOSparkMachine01(void *arg1);
     virtual ~TOSparkMachine01();
     f32 spark_timer[4];
     u8 spark_on[4];
@@ -24,7 +25,6 @@ typedef char TOSparkMachine01SparkTimersOffset[offsetof(TOSparkMachine01, spark_
 typedef char TOSparkMachine01_size[sizeof(TOSparkMachine01) == 0xB0 ? 1 : -1];
 
 extern "C" {
-void *TOSparkMachine01__ct(void *arg0, void *arg1);
 void *__dt__16TOSparkMachine01Fv(void *arg0, s16 arg1);
 }
 

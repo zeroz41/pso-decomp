@@ -83,7 +83,6 @@ CollisionBody big_tuitate_collision_body[1] = {
 };
 const char *TObjTuitate__class_name = "TObjTuitate";
 const char *TObjBigTuitate__name = "TObjBigTuitate";
-extern s32 __vt__14TObjBigTuitate[];
 
 void free_collision_body_parts(void *);
 void __dl__7TObjectFPv(void *);
@@ -123,7 +122,6 @@ struct Obj_8019ADA0 : ObjBase_8019ADA0 {
 #pragma dont_inline off
 
 
-extern s32 __vt__11TObjTuitate[];
 
 
 void load_tuitate_bml_resource(void) {
@@ -142,20 +140,15 @@ void free_tuitate_bml_resource(void) {
 }
 
 void *TObjTuitate__create(void *arg0) {
-    void *o = TObject::operator new(0xCC);
-    if (o != NULL) {
-        o = TObjTuitate__ct(o, tl_05, arg0);
-    }
-    return o;
+    return new TObjTuitate((TObject *)tl_05, arg0);
 }
 
 #pragma push
 #pragma opt_common_subs off
-void *TObjTuitate__ct(void *arg0, void *arg1, void *arg2) {
+#define arg0 ((u8 *)this)
+TObjTuitate::TObjTuitate(TObject *parent, void *arg2) : TObjCollidable(parent) {
     struct CopyStack_8019AF6C { u8 bytes[0x3C]; };
     CopyStack_8019AF6C copy_storage_8019AF6C;
-    __ct__14TObjCollidableFP7TObject();
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__11TObjTuitate;
     __ct__15RenderFadeStateFv(((void *)((u8 *)arg0 + 0xAC)));
     *(s32 *)((s8 *)arg0 + 0) = (s32) TObjTuitate__class_name;
     ((TObjTuitate *)(arg0))->apply_object_set_data((void *)((s32)arg2));
@@ -168,8 +161,8 @@ void *TObjTuitate__ct(void *arg0, void *arg1, void *arg2) {
     (*(f32 *)(copy_storage_8019AF6C.bytes + 0x2C)) = 12.0f;
     *(s32 *)((s8 *)arg0 + 0xC8) = TObjMapCsn::create((s32)((void *) ((copy_storage_8019AF6C.bytes))));
     ((RenderFadeState *)((u8 *)arg0 + 0xAC))->activate_and_dispatch();
-    return arg0;
 }
+#undef arg0
 #pragma pop
 
 TObjTuitate::~TObjTuitate() {
@@ -232,20 +225,15 @@ void TObjBigTuitate::free_instance() {
 }
 
 void *TObjBigTuitate__create(void *arg0) {
-    void *o = TObject::operator new(0xCC);
-    if (o != NULL) {
-        o = TObjBigTuitate__ct(o, tl_05, arg0);
-    }
-    return o;
+    return new TObjBigTuitate((TObject *)tl_05, arg0);
 }
 
 #pragma push
 #pragma opt_common_subs off
-void *TObjBigTuitate__ct(void *arg0, void *arg1, void *arg2) {
+#define arg0 ((u8 *)this)
+TObjBigTuitate::TObjBigTuitate(TObject *parent, void *arg2) : TObjCollidable(parent) {
     struct CopyStack_8019ABE8 { u8 bytes[0x3C]; };
     CopyStack_8019ABE8 copy_storage_8019ABE8;
-    __ct__14TObjCollidableFP7TObject();
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TObjBigTuitate;
     __ct__15RenderFadeStateFv(((void *)((u8 *)arg0 + 0xAC)));
     *(s32 *)((s8 *)arg0 + 0) = (s32) TObjBigTuitate__name;
     ((TObjBigTuitate *)(arg0))->apply_object_set_data((void *)((s32)arg2));
@@ -258,8 +246,8 @@ void *TObjBigTuitate__ct(void *arg0, void *arg1, void *arg2) {
     (*(f32 *)(copy_storage_8019ABE8.bytes + 0x2C)) = 12.0f;
     *(s32 *)((s8 *)arg0 + 0xC8) = TObjMapCsn::create((s32)((void *) ((copy_storage_8019ABE8.bytes))));
     ((RenderFadeState *)((u8 *)arg0 + 0xAC))->activate_and_dispatch();
-    return arg0;
 }
+#undef arg0
 #pragma pop
 
 TObjBigTuitate::~TObjBigTuitate() {

@@ -231,17 +231,11 @@ extern "C" {
 
 s32 init_collision_body_parts(void *, void *, int);
 
-void __ct__14TObjCollidableFP7TObject(void *);
-extern s32 __vt__15TObjLazerFence4[];
 
 void free_collision_body_parts(void *);
 
 void *TObjLazerFence4::create() {
-    void *o = TObject::operator new(0xF8);
-    if (o != NULL) {
-        o = TObjLazerFence4__ct(o, tl_05, this);
-    }
-    return o;
+    return new TObjLazerFence4((TObject *)tl_05, this);
 }
 
 }
@@ -251,11 +245,9 @@ TObjLazerFence4::~TObjLazerFence4() {
 }
 
 
-#define self ((Fence_801935D8 *)arg0)
-void *TObjLazerFence4__ct(void *arg0, void *arg1, void *arg2) {
+#define self ((Fence_801935D8 *)this)
+TObjLazerFence4::TObjLazerFence4(TObject *parent, void *arg2) : TObjCollidable(parent) {
     s32 i;
-    ((void (*)(void *, void *, void *))__ct__14TObjCollidableFP7TObject)(self, arg1, arg2);
-    self->vt = (void *)__vt__15TObjLazerFence4;
     self->id = lazer_fence4_class_name;
     ((V_801935D8 *)self)->init(arg2);
     self->fAC = 0;
@@ -274,6 +266,5 @@ void *TObjLazerFence4__ct(void *arg0, void *arg1, void *arg2) {
     self->flags |= 0x40000000;
     ((TObjPlayer *)self)->register_object_by_id();
     ((TObjCollidable *)self)->refresh_collision_body_centers();
-    return self;
 }
 #undef self

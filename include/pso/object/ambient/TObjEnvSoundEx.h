@@ -5,6 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjEnvSoundEx : public TObjBase {
+    TObjEnvSoundEx(TObject *parent, s32 arg2);
     virtual ~TObjEnvSoundEx();
     virtual void run_task();
     u32 m_90;

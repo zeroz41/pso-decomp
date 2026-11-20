@@ -29,8 +29,6 @@ BmlResource *TOSparkMachine01__static_resource;
 extern "C" {
 extern BmlResourceDescriptor bm_fe_obj_tank_hikari_resource_descriptor;
 extern BmlResource *TOSparkMachine01__static_resource;
-void __ct__8TObjBaseFP7TObject(void *, s32);
-extern s32 __vt__16TOSparkMachine01[];
 extern const char *TOSparkMachine01__name;
 extern s32 tl_05;
 void rotate_matrix_y(int, int);
@@ -99,11 +97,7 @@ void TOSparkMachine01::render() {
 }
 
 void *TOSparkMachine01::create() {
-    void *o = TObject::operator new(0xB0);
-    if (o != NULL) {
-        o = TOSparkMachine01__ct(o, this);
-    }
-    return o;
+    return new TOSparkMachine01(this);
 }
 
 void TOSparkMachine01::destroy_static_instance() {
@@ -126,11 +120,9 @@ TOSparkMachine01::~TOSparkMachine01() {
 
 }
 
-void *TOSparkMachine01__ct(void *arg0, void *arg1) {
-    TOSparkMachine01 *self = (TOSparkMachine01 *)arg0;
+TOSparkMachine01::TOSparkMachine01(void *arg1) : TObjBase((TObject *)tl_05) {
+    TOSparkMachine01 *self = this;
     s32 i;
-    __ct__8TObjBaseFP7TObject(self, tl_05);
-    *(void **)((u8 *)self + 0x18) = ((s32 *)&__vt__16TOSparkMachine01);
     self->m_name = TOSparkMachine01__name;
     self->apply_object_set_data(arg1);
     self->model = (void *)TOSparkMachine01__static_resource->models[0].model;
@@ -143,6 +135,4 @@ void *TOSparkMachine01__ct(void *arg0, void *arg1) {
         self->spark_on[i] = 0;
     }
     self->spark_speed = -0.98f + self->scale.x;
-    return self;
 }
-

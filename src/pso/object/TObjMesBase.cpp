@@ -97,5 +97,6 @@ TObjMesBase::TObjMesBase(TObject *parent, ObjectSetData *placement) : TObjCollid
     messageChild = NULL;
     messagePhase = 0;
 }
+#undef mes_base
 
 

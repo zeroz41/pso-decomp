@@ -5,6 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjLight : public TObjBase {
+    TObjLight(TObject *parent, u8 *arg2);
     virtual ~TObjLight();
     void *init_from_source(void *, int, int);
     u32 m_90;
@@ -47,7 +48,6 @@ typedef char TObjLight_size[sizeof(TObjLight) == 0x100 ? 1 : -1];
 
 extern "C" {
 u8 *TObjLight__create(u8 *arg0);
-u8 *TObjLight__ct(TObjLight *arg0, s32 arg1, u8 *arg2);
 void *__dt__9TObjLightFv(void *arg0, s16 arg1);
 }
 

@@ -30,8 +30,6 @@ struct Fish_80192434 { u8 pad0[0x8C]; s32 f8C; u8 pad90[0x2C]; Node_80192434 *fB
 extern "C" {
 s32 get_bml_texlist(void *, int);
 s32 get_bml_model(void *, int);
-s32 __ct__8TObjBaseFP7TObject(void *);
-extern s32 __vt__9TKomorebi[];
 extern const char *komorebi_class_name;
 extern u32 TKomorebi__resource_bundle;
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
@@ -77,24 +75,21 @@ extern "C" {
 
 extern void *tl_05;
 
-u8 *TKomorebi__ct(u8 *komorebi, s32 arg1, s32 arg2) {
-    __ct__8TObjBaseFP7TObject(komorebi);
-    *(s32 **)((s8 *)komorebi + 0x18) = __vt__9TKomorebi;
+}
+#define komorebi ((u8 *)this)
+TKomorebi::TKomorebi(TObject *parent, s32 arg2) : TObjBase(parent) {
     *(s32 *)((s8 *)komorebi + 0) = (s32) ((s32)komorebi_class_name);
     VecCopy((Vec *)(komorebi + 0x38), (const Vec *)(arg2 + 0xC));
     copy_xyz(komorebi + 0x5C, (void *)(arg2 + 0x18));
     VecCopy((Vec *)(komorebi + 0x68), (const Vec *)(arg2 + 0x24));
     *(s32 *)((s8 *)komorebi + 0x34) = get_bml_model((void *) ((*(s32 *)&TKomorebi__resource_bundle)), 0);
     ((TKomorebi *)komorebi)->texlist = get_bml_texlist((void *) ((*(s32 *)&TKomorebi__resource_bundle)), 0);
-    return komorebi;
 }
+#undef komorebi
 
+extern "C" {
 void *TKomorebi__create(void *arg0) {
-    void *o = TObject::operator new(0x90);
-    if (o != NULL) {
-        o = TKomorebi__ct((u8 *)o, (s32)tl_05, (s32)arg0);
-    }
-    return o;
+    return new TKomorebi((TObject *)tl_05, (s32)arg0);
 }
 
 void TKomorebi::free_static() {

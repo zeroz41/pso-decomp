@@ -53,8 +53,6 @@ struct Sw_801778A8 {
 };
 
 extern "C" {
-s32 __ct__8TObjBaseFP7TObject(void *);
-extern s32 __vt__14TOSwitchAttack[];
 extern const char *TOSwitchAttack__name;
 f32 horizontal_distance_squared(void *, void *);
 u8 is_current_floor_switch_set(s32 id);
@@ -165,11 +163,7 @@ void TOSwitchAttack::run_task() {
 #pragma pop
 
 void *TOSwitchAttack::create(void *arg0) {
-    void *o = TObject::operator new(0xAC);
-    if (o != NULL) {
-        o = TOSwitchAttack__ct((u8 *)o, (s32)tl_05, (s32)arg0);
-    }
-    return o;
+    return new TOSwitchAttack((TObject *)tl_05, arg0);
 }
 
 void TOSwitchAttack__sub_80177C20(void) {  }
@@ -180,14 +174,10 @@ TOSwitchAttack::~TOSwitchAttack() {
 
 }
 
-u8 *TOSwitchAttack__ct(u8 *switch_attack, s32 arg1, s32 arg2) {
-    __ct__8TObjBaseFP7TObject(switch_attack);
-    *(s32 **)((s8 *)switch_attack + 0x18) = __vt__14TOSwitchAttack;
-    ((TOSwitchAttack *)switch_attack)->m_name = TOSwitchAttack__name;
-    ((TOSwitchAttack *)(switch_attack))->apply_object_set_data((void *)arg2);
-    ((TOSwitchAttack *)switch_attack)->init_params();
-    ((TOSwitchAttack *)switch_attack)->m_a6 = 0;
-    ((TOSwitchAttack *)switch_attack)->m_a8 = 0;
-    return switch_attack;
+TOSwitchAttack::TOSwitchAttack(TObject *parent, void *arg2) : TObjBase(parent) {
+    m_name = TOSwitchAttack__name;
+    apply_object_set_data(arg2);
+    init_params();
+    m_a6 = 0;
+    m_a8 = 0;
 }
-

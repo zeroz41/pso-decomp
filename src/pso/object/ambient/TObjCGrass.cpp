@@ -27,9 +27,7 @@ void translate_matrix_vec3(u8 *arg0, u8 *arg1);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 s32 vec3_add_to(void *, void *);
 extern s32 actor_frame_tick;
-s32 __ct__10TObjMotionFP7TObject(void *, s32);
 s32 rotate_vector_by_matrix(int, void *, void *);
-extern s32 __vt__10TObjCGrass[];
 extern u8 identity_matrix[];
 BmlResource *TObjCGrass_bml_resource;
 extern s32 tl_06;
@@ -42,7 +40,7 @@ BmlResourceDescriptor bm_ene_cgrass_resource_descriptor = {
     "bm_ene_cgrass.bml", bm_ene_cgrass_model_names, bm_ene_cgrass_motion_names, 1, 1,
 };
 TObjMotionAction cgrass_action_desc[1] = {{1, 0, 0, 4.0f, 1}};
-// inferred: the class name pointer TObjCGrass__ct stores in the object's name field
+// inferred: the class name pointer the TObjCGrass constructor stores in the object's name field
 const char *TObjCGrass__name = "TObjCGrass";
 const NpcAnimationBinding cgrass_anim_binding = {NULL, cgrass_action_desc, 0, 0, 1};
 
@@ -137,10 +135,9 @@ TObjCGrass::~TObjCGrass() {
 
 #pragma push
 #pragma fp_contract on
-TObjCGrass *TObjCGrass__ct(TObjCGrass *self, Vec *origin, s32 count, s32 lifetime) {
+#define self this
+TObjCGrass::TObjCGrass(Vec *origin, s32 count, s32 lifetime) : TObjMotion((TObject *)tl_06) {
     CsnHit *hit;
-    __ct__10TObjMotionFP7TObject(self, tl_06);
-    *(s32 **)((u8 *)self + 0x18) = __vt__10TObjCGrass;
     initialize_ground_candidates(self->ground_candidates);
     self->m_name = TObjCGrass__name;
     hit = csnVectorUnder(origin, self->ground_candidates, 1);
@@ -181,7 +178,7 @@ TObjCGrass *TObjCGrass__ct(TObjCGrass *self, Vec *origin, s32 count, s32 lifetim
     }
     }
     self->remaining_frames = lifetime;
-    return self;
 }
+#undef self
 #pragma pop
 

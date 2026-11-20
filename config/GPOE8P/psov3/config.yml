@@ -595,7 +595,7 @@ force_active:
   - TKeyBoardControl__sub_803F107C
   - TKeyBoardControl_key_bit_table
   - TKeyBoardControl_prev_pad_state
-  - TKomorebi__ct
+  - __ct__9TKomorebiFP7TObjectl
   - TKomorebi__resource_bundle
   - TKomorebi__resource_descriptor
   - TLanguage__class_name
@@ -775,7 +775,7 @@ force_active:
   - TOCapsuleMachine01_class_name
   - TOChatSensorCapture__class_name
   - TOChatSensorCapture__instance
-  - TOChatSensor__ct
+  - __ct__12TOChatSensorFP7TObjectPv
   - TOContainerAncientItemCommon__ct
   - TOCtrlDubchik__ct
   - TOCtrlDubchik__sub_8015C9D0
@@ -789,7 +789,7 @@ force_active:
   - TODoorJungleMain__bml_resource
   - TODoorJungleMain__ct
   - TODoorJungleMain_collision_body_parts
-  - TODummyKeyCave01__ct
+  - __ct__16TODummyKeyCave01FP7TObjectPv
   - TOExplosiveMachine01__class_name
   - TOExplosiveMachine02__class_name
   - TOExplosiveMachine03__class_name
@@ -826,7 +826,7 @@ force_active:
   - TOKey__class_name
   - TOKurage__bml_resource
   - TOKurage__class_name
-  - TOLightMachine01__ct
+  - __ct__16TOLightMachine01FPv
   - __ct__12TOMineIcon01FP7TObjectPv
   - __ct__12TOMineIcon02FP7TObjectPv
   - __ct__12TOMineIcon04FP7TObjectPv
@@ -863,10 +863,10 @@ force_active:
   - TOSignCave02__class_name
   - TOSignCave03__bml_resource
   - TOSignCave03__class_name
-  - TOSparkMachine01__ct
+  - __ct__16TOSparkMachine01FPv
   - TOSparkMachine01__static_resource
-  - TOSwitchAttackSub__ct
-  - TOSwitchAttack__ct
+  - __ct__17TOSwitchAttackSubFP7TObjectllUlf
+  - __ct__14TOSwitchAttackFP7TObjectPv
   - TOSwitchItem__class_name
   - TOSwitchTimer__ct
   - __ct__16TOTrapAncient02RFP7TObjectPv
@@ -910,7 +910,7 @@ force_active:
   - __ct__22TObjAreaWarpEndingJungFP7TObjectPv
   - TObjBgmColCtrl__name
   - TObjBgmCol__name
-  - TObjBigTuitate__ct
+  - __ct__14TObjBigTuitateFP7TObjectPv
   - TObjBoss2CeilJunk__name
   - __sinit_TObjBoss2CeilJunk_8003A81C_cpp
   - __ct__17TObjBoss2DustCtrlFP7TObject
@@ -939,7 +939,7 @@ force_active:
   - TObjBoss8PillerCtrl__sub_8035C034
   - TObjBs4CutAtk_name
   - TObjBs4CutAtk_type_name
-  - TObjButterflyLobby__ct
+  - __ct__18TObjButterflyLobbyFP7TObjectP13ObjectSetData
   - TObjCGrass_bml_resource
   - TObjCMIcon__horizontal_scroll_offset
   - TObjCMIcon__sub_802994B0
@@ -989,7 +989,7 @@ force_active:
   - TObjCity_Season_XmasTree__name
   - TObjCity_Season_XmasWreath__ct
   - TObjCity_Season_XmasWreath__name
-  - TObjCollision__ct
+  - __ct__13TObjCollisionFP7TObjectPv
   - __ct__12TObjComputerFP7TObjectP13ObjectSetData
   - TObjContainerAbeEnemy__name
   - TObjContainerAbeEnemy__vt77
@@ -1037,7 +1037,7 @@ force_active:
   - TObjDoor__resource_param
   - TObjDoor__sub_8018E890
   - TObjDoor__sub_8018E8BC
-  - TObjEZBoneRotBase__ct
+  - __ct__17TObjEZBoneRotBaseFP7TObjectPvP13EZBoneRotDesc
   - TObjEZRopeBase__name
   - TObjEneBalClawClaw__collision_body_template
   - TObjEneBalClawClaw__ct
@@ -1368,15 +1368,15 @@ force_active:
   - TObjEneSlime__attack_target_param_table
   - __ct__12TObjEneSlimeFP7TObjectPUc
   - TObjEneSlime__sub_800EB9F0
-  - TObjEnvSoundEx__ct
-  - TObjEnvSound__ct
+  - __ct__14TObjEnvSoundExFP7TObjectl
+  - __ct__12TObjEnvSoundFP7TObjectPv
   - TObjEvtCollision__ct
   - TObjFish__sub_800E3188
   - TObjFish__sub_8034029C
   - TObjFish_draw_callback_state
-  - TObjFogCollisionPoison__ct
+  - __ct__22TObjFogCollisionPoisonFP7TObjectPv
   - TObjFogCollisionPoison__instances
-  - TObjFogCollisionSwitch__ct
+  - __ct__22TObjFogCollisionSwitchFP7TObjectPv
   - TObjFogCollision__sub_80153F68
   - TObjFogCollision__sub_80153F70
   - TObjGrassWeb__sub_800BC798
@@ -1393,12 +1393,12 @@ force_active:
   - TObjItemNameSelect__class_name
   - TObjItemOKWindow__class_name
   - TObjItemOKWindow__text_format
-  - TObjLaboDesignBase__ct
+  - __ct__18TObjLaboDesignBaseFP7TObjectPvl
   - __ct__15TObjLaboMapWarpFP7TObjectPv
-  - TObjLazerFence4__ct
+  - __ct__15TObjLazerFence4FP7TObjectPv
   - __ct__19TObjLazerFenceExtraFP7TObjectPv
   - __ct__18TObjLazerFenceNormFP7TObjectPv
-  - TObjLight__ct
+  - __ct__9TObjLightFP7TObjectPUc
   - TObjLight__data_80506370
   - TObjLight__data_8050637C
   - TObjLight__data_805068FC
@@ -1408,7 +1408,7 @@ force_active:
   - TObjLight__sub_8013397C
   - __ct__13TUnk_804A6F90FP7TObject
   - TObjLiveCamera__ct
-  - TObjLuker__ct
+  - __ct__9TObjLukerFP7TObjectPv
   - TObjMapCsn__ct
   - __ct__18TObjMapWarpAncientFP7TObjectPv
   - TObjMapWarp__name
@@ -1496,7 +1496,7 @@ force_active:
   - TObjOnlineEnding__ct
   - __ct__12TObjParticleFP7TObjectP15ParticleSetData
   - __ct__11TObjPathObjFP7TObjectPv
-  - TObjPlayerSet__ct
+  - __ct__13TObjPlayerSetFP7TObjectPv
   - TObjPlayer__sub_800181DC
   - TObjPlayer__sub_800193FC
   - TObjPlayer__sub_8001940C
@@ -1622,7 +1622,7 @@ force_active:
   - TObjPlayer__sub_803E53F8
   - TObjPlayer__sub_803E5458
   - __ct__18TObjQuestColALock2FP7TObjectPv
-  - TObjRaderIcon__ct
+  - __ct__13TObjRaderIconFP7TObjectPv
   - TObjResultWin_class_name
   - TObjResultWin_name
   - TObjRoomId__ct
@@ -1632,9 +1632,9 @@ force_active:
   - TObjSinBoard__texture_surface
   - TObjSoloPlayWin_class_name
   - TObjSoloPlayWin_name
-  - TObjTagChallenge__ct
+  - __ct__16TObjTagChallengeFP7TObject
   - TObjTailsTailsMove_name
-  - TObjTank__ct
+  - __ct__8TObjTankFP7TObjectl
   - TObjTombstone__base_matrix
   - TObjTombstone__class_name
   - TObjTombstone__shared_resource_object
@@ -1642,7 +1642,7 @@ force_active:
   - TObjTradeCollision__ct
   - TObjTradeCollision__name
   - TObjTuitate__collision_parts
-  - TObjTuitate__ct
+  - __ct__11TObjTuitateFP7TObjectPv
   - TObjWaitEntryHairMoveSim__sub_800FE3BC
   - TObjWarnChime_class_name
   - TObjWarnChime_name
@@ -2138,7 +2138,7 @@ force_active:
   - __ct__19TOComputerMachine01FPv
   - __ct__19TOMonumentAncient01FP7TObjectPv
   - __ct__19TOMonumentAncient02FP7TObjectPv
-  - __ct__19TObjEZBoneRotPlayerFv
+  - __ct__19TObjEZBoneRotPlayerFP7TObjectPUcPv
   - __ct__19TObjEneDelDepthBombFP15TObjEneDelDepthP9TObjCharaPC3Vecl
   - __ct__19TObjStendGlassLobbyFP7TObjectPv
   - __ct__19TWindowMessageYesNoFP7TObjectPvPvPv

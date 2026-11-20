@@ -294,6 +294,7 @@ s32 angle_difference_abs(s32, s32);
 }
 void move_with_wall_slide(u8 *arg0);
 extern "C" {
+void __ct__10TObjCGrassFP3Vecll(void *, Vec *, s32, s32);
 f32 newton_sqrtf(f32);
 s32 spawn_directional_particle(void *, void *, s32);
 }
@@ -1655,7 +1656,7 @@ void TObjGrass::update_dying(void *arg0_) {
                 TObjCGrass *o = static_cast<TObjCGrass *>(TObject::operator new(sizeof(TObjCGrass)));
                 if (o != NULL) {
                     Vec t = v;
-                    TObjCGrass__ct(o, &t, (s32)((12.0f) + *(f32 *)((s8 *)arg0 + 0x360)), 0xF0);
+                    __ct__10TObjCGrassFP3Vecll(o, &t, (s32)((12.0f) + *(f32 *)((s8 *)arg0 + 0x360)), 0xF0);
                 }
                 break;
             }

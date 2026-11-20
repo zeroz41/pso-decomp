@@ -23,10 +23,6 @@
 
 const char *TODummyKeyCave01__class_name = "TODummyKeyCave01";
 const char *TODummyKeyCave01Sound__class_name = "TODummyKeyCave01Sound";
-extern "C" {
-s32 __ct__7TObjectFP7TObject();
-extern s32 __vt__21TODummyKeyCave01Sound[];
-}
 typedef struct Key_80165940 {
     u8 pad0[0x34];
     void *f34;
@@ -69,9 +65,7 @@ struct Obj_80165C84 {
 };
 
 extern "C" {
-u8 * __ct__8TObjBaseFP7TObject(void *);
 s32 sub_80165940__16TODummyKeyCave01Fv(void *, f32);
-extern s32 __vt__16TODummyKeyCave01[];
 s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
 s32 scale_current_matrix(void *);
@@ -83,9 +77,8 @@ u8 is_current_floor_switch_set(s32 id);
 extern void *tl_05;
 }
 
-u8 *TODummyKeyCave01__ct(u8 *dummy_key_cave01, s32 arg1, s32 arg2) {
-    __ct__8TObjBaseFP7TObject(dummy_key_cave01);
-    *(s32 **)((s8 *)dummy_key_cave01 + 0x18) = __vt__16TODummyKeyCave01;
+#define dummy_key_cave01 this
+TODummyKeyCave01::TODummyKeyCave01(TObject *parent, void *arg2) : TObjBase(parent) {
     ((TObject *)dummy_key_cave01)->m_name = TODummyKeyCave01__class_name;
     ((TODummyKeyCave01 *)(dummy_key_cave01))->apply_object_set_data((void *)arg2);
     *(f32 *)((s8 *)dummy_key_cave01 + 0xA8) = 1.0f;
@@ -98,8 +91,8 @@ u8 *TODummyKeyCave01__ct(u8 *dummy_key_cave01, s32 arg1, s32 arg2) {
     ((TODummyKeyCave01 *)dummy_key_cave01)->m_b8 = 1;
     sub_80165940__16TODummyKeyCave01Fv(dummy_key_cave01, 1.0f);
     ((TODummyKeyCave01 *)dummy_key_cave01)->m_cc = 0;
-    return dummy_key_cave01;
 }
+#undef dummy_key_cave01
 
 TODummyKeyCave01::~TODummyKeyCave01() {
 
@@ -109,18 +102,13 @@ extern "C" {
 void TODummyKeyCave01__sub_80165E8C(void) {  }
 void TODummyKeyCave01__sub_80165E88(void) {  }
 void *TODummyKeyCave01::create(void *arg0) {
-    void *o = TObject::operator new(0xD4);
-    if (o != NULL) {
-        o = TODummyKeyCave01__ct((u8 *)o, (s32)tl_05, (s32)arg0);
-    }
-    return o;
+    return new TODummyKeyCave01((TObject *)tl_05, arg0);
 }
 
 void TODummyKeyCave01::run_task() {
     Obj_80165C84 *self = (Obj_80165C84 *)this;
     u32 st;
     u8 skip;
-    void *o;
     if (TObjPlayer::check_demo_mode() == 1) {
         ((TObjBase *)self)->obj_clearFlags30(0x08000000);
     }
@@ -133,10 +121,7 @@ void TODummyKeyCave01::run_task() {
                 skip = 1;
             }
             if (skip == 0) {
-                o = TObject::operator new(0x24);
-                if (o != NULL) {
-                    TODummyKeyCave01Sound__ct((void *)o, (s32)self, (s32)*(s32 *)&this->m_c0, (s32)*(s32 *)&this->m_c8);
-                }
+                new TODummyKeyCave01Sound((TObject *)self, (s32)*(s32 *)&this->m_c0, (s32)*(s32 *)&this->m_c8);
             }
         }
     }
@@ -303,17 +288,14 @@ void TODummyKeyCave01::sub_80165940() {
 }
 
 extern "C" {
-void *TODummyKeyCave01Sound__ct(void *dummy_key_cave01_sound, s32 arg1, s32 arg2, s32 arg3) {
-    __ct__7TObjectFP7TObject();
-    *(s32 **)((s8 *)dummy_key_cave01_sound + 0x18) = __vt__21TODummyKeyCave01Sound;
-    ((TObject *)dummy_key_cave01_sound)->m_name = TODummyKeyCave01Sound__class_name;
-    ((TODummyKeyCave01Sound *)dummy_key_cave01_sound)->delay_frames = arg3;
-    ((TODummyKeyCave01Sound *)dummy_key_cave01_sound)->sound_kind = arg2;
-    if ((s32) ((TODummyKeyCave01Sound *)dummy_key_cave01_sound)->delay_frames <= 0) {
-        ((TODummyKeyCave01Sound *)dummy_key_cave01_sound)->play_cave01_key_sound();
-        ((TObject *)dummy_key_cave01_sound)->queue_destruction();
+TODummyKeyCave01Sound::TODummyKeyCave01Sound(TObject *parent, s32 arg2, s32 arg3) : TObject(parent) {
+    m_name = TODummyKeyCave01Sound__class_name;
+    delay_frames = arg3;
+    sound_kind = arg2;
+    if ((s32) delay_frames <= 0) {
+        play_cave01_key_sound();
+        queue_destruction();
     }
-    return dummy_key_cave01_sound;
 }
 
 TODummyKeyCave01Sound::~TODummyKeyCave01Sound() {}

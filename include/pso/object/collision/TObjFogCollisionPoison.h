@@ -5,6 +5,7 @@
 #include "pso/object/collision/TObjFogCollisionSwitch.h"
 
 struct TObjFogCollisionPoison : public TObjFogCollisionSwitch {
+    TObjFogCollisionPoison(TObject *parent, void *set);
     virtual ~TObjFogCollisionPoison();
     virtual void vfunc_14();
     virtual void vfunc_13(s32);

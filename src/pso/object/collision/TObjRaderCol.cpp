@@ -20,14 +20,11 @@ struct Ply_8019750C { u8 pad0[0x38]; f32 pos[3]; };
 struct Icon_80197110 { u8 pad0[0x38]; f32 pos[3]; u8 pad44[0x1C]; s32 f60; u8 pad64[0x2C]; s32 f90; s32 f94; s32 f98; f32 f9C; u32 fA0; };
 
 extern "C" {
-s32 __ct__8TObjBaseFP7TObject(void *);
-extern s32 __vt__12TObjRaderCol[];
 const char *TObjRaderCol__name = "TObjRaderCol";
 const char *TObjRaderHideCol__name = "TObjRaderHideCol";
 const char *TObjRaderIcon__name = "TObjRaderIcon";
 void check_any_player_in_range__12TObjRaderColFPv(Col_8019750C *arg0);
 extern s32 local_client_id;
-extern s32 __vt__13TObjRaderIcon[];
 void add_radar_scaled_gate(void *, u32, u16, s32, s32, f32);
 u8 is_current_floor_switch_set(u16);
 
@@ -43,19 +40,14 @@ TObjRaderCol::~TObjRaderCol() {
 
 }
 
-extern "C" {
-u8 *TObjRaderCol__ct(TObjRaderCol *rader_col, s32 arg1, s32 arg2) {
-    __ct__8TObjBaseFP7TObject(rader_col);
-    *(s32 **)((s8 *)rader_col + 0x18) = __vt__12TObjRaderCol;
-    ((TObjRaderCol *)rader_col)->m_name = TObjRaderCol__name;
-    ((TObjRaderCol *)(rader_col))->apply_object_set_data((void *)arg2);
-    *(f32 *)((s8 *)rader_col + 0x90) = (f32) rader_col->scale.x;
-    rader_col->m_94 = (s32) rader_col->set_params[0];
-    rader_col->m_98 = 0;
-    rader_col->m_9c = 3;
-    rader_col->disallow_rendering();
-    return (u8 *)rader_col;
-}
+TObjRaderCol::TObjRaderCol(TObject *parent, void *arg2) : TObjBase(parent) {
+    m_name = TObjRaderCol__name;
+    apply_object_set_data(arg2);
+    *(f32 *)((s8 *)this + 0x90) = (f32) scale.x;
+    m_94 = (s32) set_params[0];
+    m_98 = 0;
+    m_9c = 3;
+    disallow_rendering();
 }
 
 void TObjRaderCol::run_task() {
@@ -161,14 +153,11 @@ void TObjRaderHideCol::run_task() {
 void TObjRaderHideCol::render() {  }
 
 
-u8 *TObjRaderIcon__ct(u8 *rader_icon, s32 arg1, s32 arg2) {
-    __ct__8TObjBaseFP7TObject(rader_icon);
-    *(s32 **)((s8 *)rader_icon + 0x18) = __vt__13TObjRaderIcon;
-    ((TObjRaderIcon *)rader_icon)->m_name = TObjRaderIcon__name;
-    ((TObjRaderIcon *)(rader_icon))->apply_object_set_data((void *)arg2);
-    ((TObjRaderIcon *)rader_icon)->initialize_from_placement();
-    ((TObject *)(rader_icon))->disallow_rendering();
-    return rader_icon;
+TObjRaderIcon::TObjRaderIcon(TObject *parent, void *arg2) : TObjBase(parent) {
+    m_name = TObjRaderIcon__name;
+    apply_object_set_data(arg2);
+    initialize_from_placement();
+    disallow_rendering();
 }
 
 TObjRaderIcon::~TObjRaderIcon() {
@@ -238,9 +227,5 @@ void TObjRaderIcon::render() {  }
 
 
 void *TObjRaderIcon__create(void *arg0) {
-    void *o = TObject::operator new(0xA4);
-    if (o != NULL) {
-        o = TObjRaderIcon__ct((u8 *)o, (s32)tl_05, (s32)arg0);
-    }
-    return o;
+    return new TObjRaderIcon((TObject *)tl_05, arg0);
 }

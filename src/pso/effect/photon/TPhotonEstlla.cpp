@@ -25,6 +25,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/effect/photon/TPhotonLine.h"
 
 u16 TObjPlayer::get_entity_type() { return *(u16*)((char*)this + 0x0); }
 void* TObjPlayer__sub_801AA66C(void* p, void* a1) { *(short*)(p) = *(unsigned short*)(a1); *(short*)((char*)p + 0x2) = *(short*)((char*)a1 + 0x2); *(void**)((char*)p + 0x4) = *(void**)((char*)a1 + 0x4); TObjPlayer__sub_801AA6E4((u8 *)((char*)p + 0x8), (u8 *)((char*)a1 + 0x8)); TObjPlayer__sub_801AA6E4((u8 *)((char*)p + 0xc), (u8 *)((char*)a1 + 0xc)); TObjPlayer__sub_801AA6E4((u8 *)((char*)p + 0x10), (u8 *)((char*)a1 + 0x10)); TObjPlayer__sub_801AA6E4((u8 *)((char*)p + 0x14), (u8 *)((char*)a1 + 0x14)); return p; }
@@ -40,13 +41,6 @@ void TPhotonEstlla::sub_801AA6F8() { *(float *)&this->m_180 = 0.0f; *(float*)((c
 #pragma auto_inline off
 #pragma dont_inline off
 
-// The TPhotonLine construction packet (TPhotonLine__ct reads pos, dir and scale).
-struct Packet_801AA710 {
-    Vec pos;
-    Vec dir;
-    f32 scale;
-    f32 pad_1C;
-};
 
 struct Self_801AA710 {
     u8 pad0[0x38];
@@ -82,14 +76,13 @@ extern "C" {
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 u32 __nw__7TObjectFUl(int);
 
-s32 TPhotonLine__ct(void *, void *, void *, u16);
 s32 rotate_vector_by_matrix(int, void *, void *);
 s32 rotate_matrix_y(int, int);
 s32 push_matrix_from(void *);
 }
 s32 pop_matrices(s32 arg0);
 const char *TPhotonEstlla__class_name = "TPhotonEstlla";
-extern const Packet_801AA710 photon_estlla_line_packet_init = {
+extern const PhotonLineParams photon_estlla_line_packet_init = {
     { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, 10.0f, 0.0f
 };
 extern u8 identity_matrix[];
@@ -114,7 +107,6 @@ void TPhotonEstlla::spawn_line() {
     Owner_801AA710 *owner;
     Vec forward;
     Vec direction;
-    u32 line;
     owner = (Owner_801AA710 *)find_entity_by_id(this->m_17c);
     forward.x = 0.0f;
     forward.y = 0.0f;
@@ -126,14 +118,11 @@ void TPhotonEstlla::spawn_line() {
     rotate_vector_by_matrix(0, &forward, &direction);
     pop_matrices(1);
     {
-        Packet_801AA710 packet = photon_estlla_line_packet_init;
+        PhotonLineParams packet = photon_estlla_line_packet_init;
         packet.pos = self->pos;
         packet.dir = direction;
-        packet.pad_1C = this->m_150;
-        line = __nw__7TObjectFUl(0x378);
-        if (line) {
-            TPhotonLine__ct((void *)line, &packet, self, this->m_17c);
-        }
+        packet.power = this->m_150;
+        new TPhotonLine(&packet, (TObject *)self, this->m_17c);
     }
 }
 

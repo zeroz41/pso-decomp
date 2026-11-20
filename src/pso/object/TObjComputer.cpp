@@ -209,6 +209,7 @@ TObjGbAdvance::TObjGbAdvance(TObject *parent, ObjectSetData *placement) : TObjMe
     register_object_by_id();
     cursor_action.set_use();
 }
+#undef mes_base
 
 TObjGbAdvance::~TObjGbAdvance() {
     this->unregister_object_by_id();

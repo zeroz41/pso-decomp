@@ -5,6 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TPlyPhotonChair : public TObjBase {
+    TPlyPhotonChair(s32 arg1, TObject *parent);
     virtual ~TPlyPhotonChair();
     u16 sub_8035B530();
     s32 get_actor_section_id();

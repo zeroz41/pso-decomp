@@ -6,6 +6,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TOLightMachine01 : public TObjBase {
+    TOLightMachine01(void *arg1);
     virtual ~TOLightMachine01();
     f32 view_range;
     f32 m_94;
@@ -26,7 +27,6 @@ typedef char TOLightMachine01ViewRangeOffset[offsetof(TOLightMachine01, view_ran
 typedef char TOLightMachine01_size[sizeof(TOLightMachine01) == 0xB0 ? 1 : -1];
 
 extern "C" {
-u8 *TOLightMachine01__ct(TOLightMachine01 *arg0, s32 arg1);
 void *__dt__16TOLightMachine01Fv(void *arg0, s16 arg1);
 }
 

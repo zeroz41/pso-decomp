@@ -5,8 +5,10 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct GinjaTextureList;
+struct ObjectSetData;
 
 struct TObjButterflyLobby : public TObjBase {
+    TObjButterflyLobby(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjButterflyLobby();
     u32 m_90;
     u8 unk_94[0x10];

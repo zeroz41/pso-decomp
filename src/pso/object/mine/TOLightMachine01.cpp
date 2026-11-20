@@ -30,8 +30,6 @@ extern "C" {
 BmlResource *TOLightMachine01__shared_bml_archive;
 NJS_OBJECT *light_machine_ginja_model_handle;
 GinjaTextureList *light_machine_ginja_param;
-s32 __ct__8TObjBaseFP7TObject(void *, int);
-extern s32 __vt__16TOLightMachine01[];
 const char *TOLightMachine01__name = "TOLightMachine01";
 extern s32 tl_05;
 s32 post_translate_matrix(void *);
@@ -66,11 +64,7 @@ void TOLightMachine01::render() {
 }
 
 void *TOLightMachine01::create(void *arg0) {
-    void *o = TObject::operator new(0xB0);
-    if (o != NULL) {
-        o = TOLightMachine01__ct((TOLightMachine01 *)((u8 *)o), (s32)arg0);
-    }
-    return o;
+    return new TOLightMachine01(arg0);
 }
 
 void TOLightMachine01::destroy_instance() {
@@ -97,9 +91,8 @@ TOLightMachine01::~TOLightMachine01() {
 
 #pragma push
 #pragma fp_contract on
-u8 *TOLightMachine01__ct(TOLightMachine01 *light_machine01, s32 arg1) {
-    __ct__8TObjBaseFP7TObject(light_machine01, tl_05);
-    *(s32 **)((s8 *)light_machine01 + 0x18) = __vt__16TOLightMachine01;
+#define light_machine01 this
+TOLightMachine01::TOLightMachine01(void *arg1) : TObjBase((TObject *)tl_05) {
     ((TOLightMachine01 *)light_machine01)->m_name = TOLightMachine01__name;
     ((TOLightMachine01 *)(light_machine01))->apply_object_set_data((void *)arg1);
     light_machine01->model = (void *)get_bml_model(TOLightMachine01__shared_bml_archive, 1);
@@ -113,7 +106,7 @@ u8 *TOLightMachine01__ct(TOLightMachine01 *light_machine01, s32 arg1) {
     light_machine01->bob_amplitude = (f32) ((0.1f * (f32) light_machine01->set_params[1]) + 0.5f);
     light_machine01->m_9c = (f32) (light_machine01->bob_amplitude * sin_table_lookup(light_machine01->m_a8));
     light_machine01->m_ac = 0;
-    return (u8 *)light_machine01;
 }
+#undef light_machine01
 #pragma pop
 

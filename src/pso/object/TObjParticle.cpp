@@ -115,6 +115,7 @@ TObjParticle::TObjParticle(TObject *parent, ParticleSetData *set_data) : TObjBas
     }
     disallow_rendering();
 }
+#undef arg0
 
 extern "C" u8 *TObjParticle__create(u8 *set_data) {
     if (is_split_screen() != 0) {

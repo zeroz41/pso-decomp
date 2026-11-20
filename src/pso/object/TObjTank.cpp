@@ -30,7 +30,6 @@ extern "C" {
 BmlResource *tank_bml_resource;
 GinjaTextureList *TObjTank__texture_list;
 s32 init_collision_body_parts(void *, void *, int);
-extern s32 __vt__8TObjTank[];
 s32 free_collision_body_parts(void *);
 
 void TObjTank::render() {
@@ -56,9 +55,8 @@ TObjTank::~TObjTank() {
 
 extern void *tl_05;
 
-u8 *TObjTank__ct(u8 *arg0, s32 arg1, s32 arg2) {
-    __ct__14TObjCollidableFP7TObject(arg0, arg1);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__8TObjTank;
+#define arg0 ((u8 *)this)
+TObjTank::TObjTank(TObject *parent, s32 arg2) : TObjCollidable(parent) {
     *(s32 *)((s8 *)arg0 + 0) = (s32) TObjTank__class_name;
     VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(arg2 + 0xC));
     copy_xyz(arg0 + 0x5C, (void *)(arg2 + 0x18));
@@ -66,15 +64,11 @@ u8 *TObjTank__ct(u8 *arg0, s32 arg1, s32 arg2) {
     init_collision_body_parts(arg0, &tobjtank_collision_body_parts, 1);
     ((TObjTank *)arg0)->actorFlags = (s32) (((TObjTank *)arg0)->actorFlags | 0x40000000);
     ((TObjPlayer *)arg0)->register_object_by_id();
-    return arg0;
 }
+#undef arg0
 
 void *TObjTank__create(void *arg0) {
-    void *o = TObject::operator new(0xAC);
-    if (o != NULL) {
-        o = TObjTank__ct((u8 *)o, (s32)tl_05, (s32)arg0);
-    }
-    return o;
+    return new TObjTank((TObject *)tl_05, (s32)arg0);
 }
 
 void TObjTank::free_globals() {

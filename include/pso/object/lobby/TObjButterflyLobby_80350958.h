@@ -8,7 +8,6 @@ class TObject;
 struct ObjectSetData;
 extern "C" {
 void *TObjButterflyLobby__create(void *arg0);
-TObjButterflyLobby *TObjButterflyLobby__ct(TObjButterflyLobby *butterfly_lobby, TObject *parent, ObjectSetData *set_data);
 void *__dt__18TObjButterflyLobbyFv(void *arg0, s16 arg1);
 void render__18TObjButterflyLobbyFPv(TObjButterflyLobby *arg0);
 }

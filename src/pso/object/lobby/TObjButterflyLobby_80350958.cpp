@@ -285,8 +285,6 @@ void TObjButterflyLobby::run_task() {
 }
 #pragma pop
 
-void __ct__8TObjBaseFP7TObject(TObjBase *object, TObject *parent);
-extern s32 __vt__18TObjButterflyLobby[];
 
 }
 TObjButterflyLobby::~TObjButterflyLobby() {
@@ -296,36 +294,31 @@ extern "C" {
 
 extern void *tl_05;
 
-TObjButterflyLobby *TObjButterflyLobby__ct(TObjButterflyLobby *butterfly_lobby, TObject *parent, ObjectSetData *set_data) {
-    __ct__8TObjBaseFP7TObject(butterfly_lobby, parent);
-    *(s32 **)((s8 *)butterfly_lobby + 0x18) = __vt__18TObjButterflyLobby;
-    butterfly_lobby->m_name = TObjButterflyLobby__name;
-    VecCopy(&butterfly_lobby->position, &set_data->position);
-    copy_xyz(&butterfly_lobby->rotation_x, set_data->rotation);
-    VecCopy(&butterfly_lobby->scale, &set_data->scale);
-    if (is_lobby_event_active() != 0) {
-        butterfly_lobby->m_90 = 0;
-    } else {
-        butterfly_lobby->m_90 = 3;
-    }
-    *(f32 *)((s8 *)butterfly_lobby + 0x94) = 1.0f;
-    if (set_data->set_params[0] < 1) {
-        butterfly_lobby->lobby_model = (NJS_OBJECT *)get_bml_model(lobby_butterfly_bml_resource, 0);
-        butterfly_lobby->model_textures = (GinjaTextureList *)get_bml_texlist(lobby_butterfly_bml_resource, 0);
-    } else {
-        butterfly_lobby->lobby_model = (NJS_OBJECT *)get_bml_model(lobby_butterfly_bml_resource, 1);
-        butterfly_lobby->model_textures = (GinjaTextureList *)get_bml_texlist(lobby_butterfly_bml_resource, 1);
-    }
-    butterfly_lobby->init_params();
-    return butterfly_lobby;
 }
+TObjButterflyLobby::TObjButterflyLobby(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
+    m_name = TObjButterflyLobby__name;
+    VecCopy(&position, &set_data->position);
+    copy_xyz(&rotation_x, set_data->rotation);
+    VecCopy(&scale, &set_data->scale);
+    if (is_lobby_event_active() != 0) {
+        m_90 = 0;
+    } else {
+        m_90 = 3;
+    }
+    *(f32 *)((s8 *)this + 0x94) = 1.0f;
+    if (set_data->set_params[0] < 1) {
+        lobby_model = (NJS_OBJECT *)get_bml_model(lobby_butterfly_bml_resource, 0);
+        model_textures = (GinjaTextureList *)get_bml_texlist(lobby_butterfly_bml_resource, 0);
+    } else {
+        lobby_model = (NJS_OBJECT *)get_bml_model(lobby_butterfly_bml_resource, 1);
+        model_textures = (GinjaTextureList *)get_bml_texlist(lobby_butterfly_bml_resource, 1);
+    }
+    init_params();
+}
+extern "C" {
 
 void *TObjButterflyLobby__create(void *arg0) {
-    void *o = TObject::operator new(0xCC);
-    if (o != NULL) {
-        o = TObjButterflyLobby__ct((TObjButterflyLobby *)o, (TObject *)tl_05, (ObjectSetData *)arg0);
-    }
-    return o;
+    return new TObjButterflyLobby((TObject *)tl_05, (ObjectSetData *)arg0);
 }
 
 void TObjButterflyLobby::destroy_instance() {

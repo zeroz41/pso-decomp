@@ -96,10 +96,8 @@ void *create_window_menu_default(void *p, s32 a);
 s32 get_floor_destination_name(s32 f);
 void align_menu_entry_positions(void *w);
 void hide_part__9TObjLukerFPvUs(Obj_801A0C38 *self, u16 i);
-extern u8 __vt__9TObjLuker[];
 void __ct__8TObjBaseFP7TObject(void *, void *);
 extern const char *TObjLuker__name;
-void *TObjLuker__ct(void *arg0, void *arg1, void *arg2);
 f32 horizontal_distance_squared(void *, void *);
 s32 check_flag_100__10TObjPlayerFPv(void *);
 s32 play_persistent_sound(int, void *, void *, int, int);
@@ -477,11 +475,9 @@ TObjLuker::~TObjLuker() {
     }
 }
 
-#define self ((Luker_801A1768 *)arg0)
-void *TObjLuker__ct(void *arg0, void *parent, void *arg2) {
+#define self ((Luker_801A1768 *)this)
+TObjLuker::TObjLuker(TObject *parent, void *arg2) : TObjBase(parent) {
     s32 i;
-    __ct__8TObjBaseFP7TObject(self, parent);
-    self->f18 = __vt__9TObjLuker;
     self->f0 = ((s32)TObjLuker__name);
     ((TObjBase *)self)->apply_object_set_data(arg2);
     self->fB0 = 0;
@@ -498,14 +494,9 @@ void *TObjLuker__ct(void *arg0, void *parent, void *arg2) {
     self->fAC = 0;
     self->fA0 = -1;
     self->fB8 = 0;
-    return self;
 }
 #undef self
 
 void *TObjLuker__create(void *arg0) {
-    void *o = TObject::operator new(0xBC);
-    if (o != NULL) {
-        o = TObjLuker__ct(o, tl_05, arg0);
-    }
-    return o;
+    return new TObjLuker((TObject *)tl_05, arg0);
 }

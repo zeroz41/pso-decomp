@@ -29,9 +29,7 @@ f32 xz_distance_squared(void *, s32);
 extern s32 camera_ctrl_instance;
 s32 push_matrix();
 s32 init_collision_body_parts(void *, int, int);
-void __ct__14TObjCollidableFP7TObject(TObjCollidable *object, TObject *parent);
 s32 create__10TObjMapCsnFl(void *, f32, f32);
-TObjLaboDesignBase *TObjLaboDesignBase__ct(TObjLaboDesignBase *object, TObject *parent, void *set_data, s32 state);
 void *TObjLaboDesignBase__create(void *arg0);
 void *TObjLaboDesignBase__sub_80364D38(void *arg0);
 void *alloc_and_construct__18TObjLaboDesignBaseFPv(void *arg0);
@@ -132,59 +130,34 @@ void *labo_design_entry_table[66] = {
 };
 
 void *create_instance__18TObjLaboDesignBaseFPv(void *arg0) {
-    void *o = TObject::operator new(0xC0);
-    if (o != NULL) {
-        o = TObjLaboDesignBase__ct((TObjLaboDesignBase *)o, tl_05, arg0, 5);
-    }
-    return o;
+    return new TObjLaboDesignBase((TObject *)tl_05, arg0, 5);
 }
 }
 void* get_labo_design_entry(int a0);
 extern BmlResource *labo_design_object_table[6];
 
 BmlResource *get_labo_design_object(int a0);
-extern s32 __vt__18TObjLaboDesignBase[];
 const char *TObjLaboDesignBase_class_name = "TObjLaboDesignBase";
 void *create_labo_design_base(void *arg0);
 void *create_obj_labo_design_base(void *arg0);
 void *create_obj_labo_design_base(void *arg0) {
-    void *o = TObject::operator new(0xC0);
-    if (o != NULL) {
-        o = TObjLaboDesignBase__ct((TObjLaboDesignBase *)o, tl_05, arg0, 4);
-    }
-    return o;
+    return new TObjLaboDesignBase((TObject *)tl_05, arg0, 4);
 }
 
 void *TObjLaboDesignBase__sub_80364D38(void *arg0) {
-    void *o = TObject::operator new(0xC0);
-    if (o != NULL) {
-        o = TObjLaboDesignBase__ct((TObjLaboDesignBase *)o, tl_05, arg0, 3);
-    }
-    return o;
+    return new TObjLaboDesignBase((TObject *)tl_05, arg0, 3);
 }
 
 void *create_labo_design_base(void *arg0) {
-    void *o = TObject::operator new(0xC0);
-    if (o != NULL) {
-        o = TObjLaboDesignBase__ct((TObjLaboDesignBase *)o, tl_05, arg0, 2);
-    }
-    return o;
+    return new TObjLaboDesignBase((TObject *)tl_05, arg0, 2);
 }
 
 void *alloc_and_construct__18TObjLaboDesignBaseFPv(void *arg0) {
-    void *o = TObject::operator new(0xC0);
-    if (o != NULL) {
-        o = TObjLaboDesignBase__ct((TObjLaboDesignBase *)o, tl_05, arg0, 1);
-    }
-    return o;
+    return new TObjLaboDesignBase((TObject *)tl_05, arg0, 1);
 }
 
 void *TObjLaboDesignBase__create(void *arg0) {
-    void *o = TObject::operator new(0xC0);
-    if (o != NULL) {
-        o = TObjLaboDesignBase__ct((TObjLaboDesignBase *)o, tl_05, arg0, 0);
-    }
-    return o;
+    return new TObjLaboDesignBase((TObject *)tl_05, arg0, 0);
 }
 
 s32 TObjLaboDesignBase::update_object_view_visibility(f32 near_dist, f32 far_dist) {
@@ -271,30 +244,27 @@ TObjLaboDesignBase::~TObjLaboDesignBase() {
     free_collision_body_parts(this);
 }
 
-TObjLaboDesignBase *TObjLaboDesignBase__ct(TObjLaboDesignBase *object, TObject *parent, void *set_data, s32 state) {
+TObjLaboDesignBase::TObjLaboDesignBase(TObject *parent, void *set_data, s32 state) : TObjCollidable(parent) {
     struct CopyStack_80365210 { u8 bytes[0x3C]; };
     CopyStack_80365210 copy_storage_80365210;
     s32 temp_r0;
-    __ct__14TObjCollidableFP7TObject(object, parent);
-    *(s32 **)((u8 *)object + 0x18) = __vt__18TObjLaboDesignBase;
-    object->m_name = TObjLaboDesignBase_class_name;
-    object->apply_object_set_data(set_data);
-    object->state = state;
-    object->model_resource = get_labo_design_object(object->state);
-    init_collision_body_parts(object, (s32)get_labo_design_entry(object->state), 1);
-    object->register_object_by_id();
-    object->xB4 = 400.0f;
-    object->xB8 = 50.0f;
-    object->map_csn = NULL;
-    temp_r0 = object->state;
+    m_name = TObjLaboDesignBase_class_name;
+    apply_object_set_data(set_data);
+    this->state = state;
+    model_resource = get_labo_design_object(this->state);
+    init_collision_body_parts(this, (s32)get_labo_design_entry(this->state), 1);
+    register_object_by_id();
+    xB4 = 400.0f;
+    xB8 = 50.0f;
+    map_csn = NULL;
+    temp_r0 = this->state;
     if ((temp_r0 == 3) || (temp_r0 == 4)) {
         *(ByteBlock_3C *)(copy_storage_80365210.bytes) = *(const ByteBlock_3C *)set_data;
         (*(f32 *)(copy_storage_80365210.bytes + 0x24)) = 40.0f;
         (*(f32 *)(copy_storage_80365210.bytes + 0x28)) = 20.0f;
         (*(f32 *)(copy_storage_80365210.bytes + 0x2C)) = 10.0f;
-        object->map_csn = (TObjMapCsn *)create__10TObjMapCsnFl(copy_storage_80365210.bytes, 20.0f, 40.0f);
+        map_csn = (TObjMapCsn *)create__10TObjMapCsnFl(copy_storage_80365210.bytes, 20.0f, 40.0f);
     }
-    return object;
 }
 
 void* get_labo_design_entry(int a0) {  return (char*)labo_design_entry_table + a0 * 44; }

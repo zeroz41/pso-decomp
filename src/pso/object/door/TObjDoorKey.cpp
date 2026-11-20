@@ -331,14 +331,9 @@ void TObjDoorKey::load_resources() {
 }
 
 void * TObjEnvSoundGlobal__create(void *rader_map_core) {
-    void *o;
     if (TRaderMapCore::is_not_split_screen() == 1) {
         return NULL;
     }
-    o = TObject::operator new(0x9C);
-    if (o != NULL) {
-        o = TObjEnvSoundGlobal__ct((u8 *)o, (s32)tl_05, (s32)rader_map_core);
-    }
-    return o;
+    return new TObjEnvSoundGlobal((TObject *)tl_05, (s32)rader_map_core);
 }
 

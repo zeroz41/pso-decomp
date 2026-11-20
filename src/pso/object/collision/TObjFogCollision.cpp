@@ -49,11 +49,8 @@ extern TObject *tl_05;
 
 extern "C" {
 
-u8 *__ct__16TObjFogCollisionFP7TObjectPv(u8 *fog_collision, void *parent, void *set);
 void *TObjFogCollision__create(void *set);
 
-extern s32 __vt__22TObjFogCollisionPoison[];
-extern s32 __vt__22TObjFogCollisionSwitch[];
 extern s32 local_client_id;
 s32 vfunc_13__16TObjFogCollisionFl();
 void record_fog_collision_hit(s32 arg0, s32 arg1, s32 arg2);
@@ -208,18 +205,11 @@ void TObjFogCollision::draw_volume() {
 }
 
 void *TObjFogCollisionSwitch__create(void *set) {
-    void *o = TObject::operator new(0x98);
-    if (o != NULL) {
-        o = TObjFogCollisionSwitch__ct(o, tl_05, set);
-    }
-    return o;
+    return new TObjFogCollisionSwitch(tl_05, set);
 }
 
-void *TObjFogCollisionSwitch__ct(void *fog_collision_switch, void *parent, void *set) {
-    __ct__16TObjFogCollisionFP7TObjectPv((u8 *)fog_collision_switch, parent, set);
-    *(s32 **)((s8 *)fog_collision_switch + 0x18) = __vt__22TObjFogCollisionSwitch;
-    ((TObjFogCollisionSwitch *)fog_collision_switch)->m_name = TObjFogCollisionSwitch__name;
-    return fog_collision_switch;
+TObjFogCollisionSwitch::TObjFogCollisionSwitch(TObject *parent, void *set) : TObjFogCollision(parent, set) {
+    m_name = TObjFogCollisionSwitch__name;
 }
 
 
@@ -274,18 +264,13 @@ void TObjFogCollisionSwitch::vfunc_14() {
 }
 
 void *create__22TObjFogCollisionPoisonFPv(void *arg0) {
-    void *o = TObject::operator new(0x9C);
-    if (o != NULL) {
-        o = TObjFogCollisionPoison__ct(o, tl_05, arg0);
-    }
-    return o;
+    return new TObjFogCollisionPoison(tl_05, arg0);
 }
 
-void *TObjFogCollisionPoison__ct(void *parent, void *arg1, void *set) {
+TObjFogCollisionPoison::TObjFogCollisionPoison(TObject *arg1, void *set) : TObjFogCollisionSwitch(arg1, set) {
     u16 i;
-    TObjFogCollisionSwitch__ct(parent, arg1, set);
-    *(s32 **)((s8 *)parent + 0x18) = __vt__22TObjFogCollisionPoison;
-    ((TObject *)parent)->m_name = TObjFogCollisionPoison__name;
+    TObject *parent = this;
+    m_name = TObjFogCollisionPoison__name;
     ((VObj_801537CC *)parent)->m11();
     if (is_split_screen() != 0) {
         for (i = 0; i != 4; i++) {
@@ -294,7 +279,6 @@ void *TObjFogCollisionPoison__ct(void *parent, void *arg1, void *set) {
     } else {
         new TUnk_804AF7B0((TObject *)parent, local_client_id);
     }
-    return parent;
 }
 
 

@@ -8,6 +8,7 @@ struct BmlResource;
 struct TObjMapCsn;
 
 struct TObjLaboDesignBase : public TObjCollidable {
+    TObjLaboDesignBase(TObject *parent, void *set_data, s32 state);
     virtual ~TObjLaboDesignBase();
     virtual void run_task();
     virtual void render();

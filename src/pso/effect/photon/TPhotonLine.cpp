@@ -12,13 +12,6 @@ const char *TPhotonLine__class_name = "TPhotonLine";
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
 
-struct Params_801ACD14 {
-    Vec pos;
-    Vec dir;
-    f32 scale;
-    f32 f1C;
-};
-
 struct Line_801ACD14 {
     const char *f0;
     u8 pad4[0x18 - 4];
@@ -59,14 +52,11 @@ struct Line_801ACB14 {
 };
 
 extern "C" {
-void __ct__9TObjCharaFP7TObject(void *, void *);
 void *find_entity_by_id(u16);
 void init_collision_body_parts(void *, void *, s32);
 CollisionBody photon_line_collision_body_part[1] = {
     { { 0.0f, 0.0f, 0.0f }, 30.0f, 30.0f, 1, 0x8007, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
-extern s32 __vt__11TPhotonLine[];
-Line_801ACD14 *TPhotonLine__ct(Line_801ACD14 *self, Params_801ACD14 *p, void *parent, u16 arg3);
 s32 check_path_obstructed(void *, Vec *);
 u16 get_entity_id(void *);
 void *spawn_particle_effect(const void *pos, s32 id);
@@ -125,17 +115,16 @@ TPhotonLine::~TPhotonLine() {
     free_collision_body_parts(this);
 }
 
-Line_801ACD14 *TPhotonLine__ct(Line_801ACD14 *self, Params_801ACD14 *p, void *parent, u16 arg3) {
+TPhotonLine::TPhotonLine(PhotonLineParams *p, TObject *parent, u16 arg3) : TObjChara(parent) {
+    Line_801ACD14 *self = (Line_801ACD14 *)this;
     s32 i;
-    __ct__9TObjCharaFP7TObject(self, parent);
-    self->vt18 = ((s32 *)&__vt__11TPhotonLine);
     self->f0 = TPhotonLine__class_name;
     VecCopy((Vec *)&self->f50, (const Vec *)(VecCopy((Vec *)((Vec *)&self->f38), (const Vec *)((const Vec *)&p->pos))));
     VecCopy((Vec *)&self->f334, (const Vec *)&p->dir);
     self->f334.x *= p->scale;
     self->f334.y *= p->scale;
     self->f334.z *= p->scale;
-    self->f344 = p->f1C;
+    self->f344 = p->power;
     self->f350 = find_entity_by_id(arg3);
     init_collision_body_parts(self, photon_line_collision_body_part, 1);
     ((TObjCollidable *)self)->refresh_collision_body_centers();
@@ -144,6 +133,5 @@ Line_801ACD14 *TPhotonLine__ct(Line_801ACD14 *self, Params_801ACD14 *p, void *pa
         self->f354[i] = 0xFFFF;
     }
     self->f368 = 0;
-    return self;
 }
 

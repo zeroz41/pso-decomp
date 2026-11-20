@@ -5,6 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjRaderCol : public TObjBase {
+    TObjRaderCol(TObject *parent, void *arg2);
     virtual ~TObjRaderCol();
     u8 unk_90[0x4];
     u32 m_94;
@@ -18,13 +19,11 @@ struct TObjRaderCol : public TObjBase {
 typedef char TObjRaderCol_size[sizeof(TObjRaderCol) == 0xA0 ? 1 : -1];
 
 extern "C" {
-u8 *TObjRaderCol__ct(TObjRaderCol *arg0, s32 arg1, s32 arg2);
 void *__dt__12TObjRaderColFv(void *arg0, s16 arg1);
 }
 
 // --- C functions defined in TObjRaderCol.cpp ---
 extern "C" {
-u8 *TObjRaderCol__ct(TObjRaderCol *rader_col, s32 arg1, s32 arg2);
 void *__dt__12TObjRaderColFv(void *arg0, s16 arg1);
 }
 // --- end of C functions

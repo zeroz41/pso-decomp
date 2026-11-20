@@ -92,10 +92,6 @@ extern s32 bgm_zone_category;
 struct Zone_8017E748 { u8 pad[0x9C]; s32 category; };
 
 extern "C" {
-s32 __ct__8TObjBaseFP7TObject();
-
-extern s32 __vt__10TObjBgmCol[];
-
 const char *TObjBgmCol__name = "TObjBgmCol";
 const char *TObjBgmColCtrl__name = "TObjBgmColCtrl";
 }
@@ -109,9 +105,8 @@ s32 TObjBgmColCtrl::is_active() {
     return (u8)((u8) (lbl_805D62E4 != 0));
 }
 
-void *TObjBgmCol__ct(TObjBgmCol *bgm_col, s32 arg1, void *arg2) {
-    __ct__8TObjBaseFP7TObject();
-    *(s32 **)((s8 *)bgm_col + 0x18) = __vt__10TObjBgmCol;
+TObjBgmCol::TObjBgmCol(TObject *parent, void *arg2) : TObjBase(parent) {
+#define bgm_col this
     *(s32 *)((s8 *)bgm_col + 0) = (s32) TObjBgmCol__name;
     bgm_col->apply_object_set_data(arg2);
     bgm_col->m_90 = 1;
@@ -120,7 +115,7 @@ void *TObjBgmCol__ct(TObjBgmCol *bgm_col, s32 arg1, void *arg2) {
     if ((s32) bgm_col->m_9c < 0) {
         bgm_col->m_9c = 0;
     }
-    return bgm_col;
+#undef bgm_col
 }
 
 TObjBgmCol::~TObjBgmCol() {
@@ -180,7 +175,6 @@ s32 TObjBgmCol::is_within_distance(f32 farg0) {
 void create_bgm_col_zones(void) {
     Set_8017E550 set;
     s32 i;
-    void *p;
     bgm_zone_category = 4;
     TLobby__sub_80207F30(&set);
     switch (get_current_floor_area()) {
@@ -189,10 +183,7 @@ void create_bgm_col_zones(void) {
             VecCopy((Vec *)&set.pos, (const Vec *)&lbl_80443690[i].pos);
             set.radius = lbl_80443690[i].radius;
             set.category = lbl_80443690[i].category;
-            p = TObject::operator new(0xA0);
-            if (p != NULL) {
-                TObjBgmCol__ct((TObjBgmCol *)p, TObjBgmColCtrl__instance, &set);
-            }
+            new TObjBgmCol((TObject *)TObjBgmColCtrl__instance, &set);
         }
         break;
     case AREA_PIONEER2_EP2:
@@ -200,10 +191,7 @@ void create_bgm_col_zones(void) {
             VecCopy((Vec *)&set.pos, (const Vec *)&lbl_80443780[i].pos);
             set.radius = lbl_80443780[i].radius;
             set.category = lbl_80443780[i].category;
-            p = TObject::operator new(0xA0);
-            if (p != NULL) {
-                TObjBgmCol__ct((TObjBgmCol *)p, TObjBgmColCtrl__instance, &set);
-            }
+            new TObjBgmCol((TObject *)TObjBgmColCtrl__instance, &set);
         }
         break;
     }
