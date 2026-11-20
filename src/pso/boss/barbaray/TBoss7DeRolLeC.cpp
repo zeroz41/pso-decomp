@@ -879,8 +879,6 @@ void fill_value_array(saddr address);
 u8 *csnVector(s32 *, void *, s32);
 
 
-void set_state_and_send__14TBoss7DeRolLeCFl(u8 *arg0, s32 arg1);
-#define set_state_and_send__14TBoss7DeRolLeCFl ((s32 (*)(void *, int))set_state_and_send__14TBoss7DeRolLeCFl)
 s32 is_state_2__15TBoss7LaserPtclFv(void *);
 
 u8 *TBoss7LaserPtcl__ct(u8 *arg0, u8 *arg1, u8 *arg2, u8 *arg3);
@@ -1248,7 +1246,6 @@ extern u8 identity_matrix[];
 
 s32 TBoss7Joint_get_shell_max_hp(void);
 
-#undef set_state_and_send__14TBoss7DeRolLeCFl
 #undef TObjFish__sub_802E7B40
 #undef TObjFish__sub_802E7B94
 #undef VecCopy__FP3VecPC3Vec
@@ -1812,7 +1809,6 @@ f32 TBoss7PhotonBullet::get_target_pos_y() {
     return *(f32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0xF)) + 4);
 }
 #undef VecCopy__FP3VecPC3Vec
-#define set_state_and_send__14TBoss7DeRolLeCFl ((s32 (*)(void *, int))set_state_and_send__14TBoss7DeRolLeCFl)
 #define TObjFish__sub_802E7B40 ((s32 (*)(void *))TObjFish__sub_802E7B40)
 #define TObjFish__sub_802E7B94 ((s32 (*)(void *))TObjFish__sub_802E7B94)
 #define VecCopy__FP3VecPC3Vec ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)
@@ -2683,7 +2679,7 @@ void TObjFish__sub_802EB90C(Fish_802EB90C *arg0, u32 arg1) {
                 ((TBoss7DeRolLeC *)arg0)->set_state_and_send(0xF);
             } else if (b & 2) {
                 arg0->f40 = -210.0f;
-                set_state_and_send__14TBoss7DeRolLeCFl(arg0, 1);
+                ((TBoss7DeRolLeC *)arg0)->set_state_and_send(1);
             }
             break;
         case 1:
@@ -4048,7 +4044,7 @@ void TObjFish__sub_802E8E34(u8 *boss7_de_rol_le_c, u32 arg1) {
         return;
     case 8:
         if (*(f32 *)((s8 *)boss7_de_rol_le_c + 0x6F0) < -200.0f) {
-            set_state_and_send__14TBoss7DeRolLeCFl(boss7_de_rol_le_c, 0x1C);
+            ((TBoss7DeRolLeC *)boss7_de_rol_le_c)->set_state_and_send(0x1C);
         }
         return;
     case 0:
@@ -4457,7 +4453,6 @@ void TObjFish__sub_802E83E8(u8 *boss, u32 k) {
     }
 }
 #pragma pop
-#undef set_state_and_send__14TBoss7DeRolLeCFl
 #undef TObjFish__sub_802E7B40
 #undef TObjFish__sub_802E7B94
 #undef release_laser_light__15TBoss7LaserPtclFPv

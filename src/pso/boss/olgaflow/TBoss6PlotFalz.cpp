@@ -1074,7 +1074,7 @@ void refresh_players_equipment__14TBoss6PlotFalzFPv(void *self) {
     for (i = 0; i < registered_player_count; i++) {
         p = get_player_data__10TObjPlayerFi(i);
         if (p != 0) {
-            if (get_field_3e0__12TBoss3VoloptFv(p) == 0x1f) {
+            if (((TBoss3Volopt *)p)->get_field_3e0() == 0x1f) {
                 ((TObjPlayer *)p)->refresh_equipment_slot();
             }
         }
@@ -1097,7 +1097,7 @@ void place_players_in_warp_circle(void) {
     }
     for (i = 0; i < registered_player_count; i++) {
         void *p = get_player_data__10TObjPlayerFi(i);
-        if (p != NULL && get_field_3e0__12TBoss3VoloptFv(p) == 0x1F) {
+        if (p != NULL && ((TBoss3Volopt *)p)->get_field_3e0() == 0x1F) {
             Vec pos = lbl_804705A8;
             pos.x += 350.0f * sin_table_lookup(ang);
             pos.z += 350.0f * cos_table_lookup(ang);
