@@ -108,7 +108,7 @@ struct TRaderMapCore : public TObjBase {
     static void init_map_ptr();
     static s32 is_not_split_screen();
     static void clear();
-    static void apply_packed_flags(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+    static s32 apply_packed_flags(saddr arg0, s32 arg1, s32 arg2, s32 arg3);
     void gather_player_markers();
     void draw_enemy_gate_markers();
     s32 get_map_id();

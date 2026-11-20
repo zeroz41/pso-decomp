@@ -64,7 +64,7 @@ void TAdSelectGameModeGC__sub_802C478C(void) {
         mode_data = TAdSelectGameModeGC::get_mode_data();
         switch (mode_data) {
         case 0:
-            ((s32)enable_camera__19TAdSelectGameModeGCFv());
+            TAdSelectGameModeGC::enable_camera();
             return;
         case 1:
             ((s32)TAdMultiPlyChrSelectGC__sub_802C6558());

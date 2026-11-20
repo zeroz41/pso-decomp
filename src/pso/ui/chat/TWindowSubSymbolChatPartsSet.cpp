@@ -16,7 +16,6 @@ struct Data_80285E10 { u8 pad[4]; u16 vals[4]; Rec_80285E10 recs[1]; };
 
 extern "C" {
 u16 *TWindowSubSymbolChatPartsSet__sub_802482B8(void *, s32);
-u16 *get_parts_entry__28TWindowSubSymbolChatPartsSetFl(void *, s32);
 u16 *get_parts_entry__28TWindowSubSymbolChatPartsSetFii(void *, s32);
 s32 TWindowSubSymbolChat__sub_800771C4(int, int);
 saddr get_data_ptr__20TWindowSubSymbolChatFv();
@@ -56,7 +55,7 @@ s32 TWindowSubSymbolChat::select_symbol_chat_record(s8 *arg1, s32 *arg2) {
         **(s32 **)((s8 *)((u8 *)this) + 0x80) = ((u8) *(u8 *)((s8 *)temp_r29 + 3) >> 1U) & 1;
         do {
             temp_r28_2 = get_parts_entry__28TWindowSubSymbolChatPartsSetFii(this, var_r31);
-            temp_r29_2 = get_parts_entry__28TWindowSubSymbolChatPartsSetFl(this, var_r31);
+            temp_r29_2 = (u16 *)((TWindowSubSymbolChatPartsSet *)this)->get_parts_entry((long)var_r31);
             temp_r3_3 = TWindowSubSymbolChatPartsSet__sub_802482B8(this, var_r31);
             var_r31 += 1;
             *temp_r28_2 |= 2;
@@ -120,7 +119,7 @@ void TWindowSubSymbolChat::init_symbol_layout(s32 *arg1) {
   do
   {
     temp_r30 = (u16 *) get_parts_entry__28TWindowSubSymbolChatPartsSetFii(this, var_r29);
-    temp_r31 = (u16 *) get_parts_entry__28TWindowSubSymbolChatPartsSetFl(this, var_r29);
+    temp_r31 = (u16 *)((TWindowSubSymbolChatPartsSet *)this)->get_parts_entry((long)var_r29);
     temp_r3 = (u16 *) TWindowSubSymbolChatPartsSet__sub_802482B8(this, var_r29);
     var_r29 += 1;
     *temp_r30 |= 2;
@@ -210,7 +209,6 @@ struct Ps_80286120 { u8 pad[0x69]; s8 f69; u8 pad6a[0xA]; s32 f74; };
 extern "C" {
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 extern RecoveredGlobal_80286824_lbl_8050E208 controller_input_state;
-u16 *get_entry_offset_d__28TWindowSubSymbolChatPartsSetFl(void *, s32);
 void setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(void *, void *, void *, u16, s32, s32, s32, s32);
 s32 is_flag_set__11TLoadingCurFv(void *, s32);
 s32 is_on_current_screen__11TCameraCtrlFv(void *, s32);
@@ -269,26 +267,26 @@ void TWindowSubSymbolChatPartsSet::sub_8028625C() {
     switch (arg0->mode) {
     case 0:
     case 2:
-        e = get_entry_offset_d__28TWindowSubSymbolChatPartsSetFl(arg0, arg0->cur);
+        e = (u16 *)((TWindowSubSymbolChatPartsSet *)arg0)->get_entry_offset_d(arg0->cur);
         ((TWindowSubSymbolChatPartsSet *)e)->set_pos(arg0->x, arg0->y);
         TWindowSubSymbolChatPartsSet::set_part_sprite(e, arg0->color, *arg0->p7C, *arg0->p80);
         if (*arg0->p84 != 0) {
-            e2 = get_entry_offset_d__28TWindowSubSymbolChatPartsSetFl(arg0, arg0->sel);
+            e2 = (u16 *)((TWindowSubSymbolChatPartsSet *)arg0)->get_entry_offset_d(arg0->sel);
             *e2 &= ~2;
             ((TWindowSubSymbolChatPartsSet *)e2)->set_pos((s16)(0x40 - arg0->x), arg0->y);
             TWindowSubSymbolChatPartsSet::set_part_sprite(e2, arg0->color, *arg0->p7C == 0, *arg0->p80);
         } else if (arg0->sel < 0xC) {
-            *get_entry_offset_d__28TWindowSubSymbolChatPartsSetFl(arg0, arg0->sel) |= 2;
+            *(u16 *)((TWindowSubSymbolChatPartsSet *)arg0)->get_entry_offset_d(arg0->sel) |= 2;
         }
         break;
     case 3:
         a3 = get_parts_entry__28TWindowSubSymbolChatPartsSetFii(arg0, arg0->sel);
-        b3 = get_parts_entry__28TWindowSubSymbolChatPartsSetFl(arg0, arg0->sel);
+        b3 = (void *)((TWindowSubSymbolChatPartsSet *)arg0)->get_parts_entry((long)arg0->sel);
         c = TWindowSubSymbolChatPartsSet__sub_802482B8(arg0, arg0->sel);
         setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(a3, b3, c, 0xFF, 0, 0, 0, 0);
     case 1:
         a1 = get_parts_entry__28TWindowSubSymbolChatPartsSetFii(arg0, arg0->cur);
-        b1 = get_parts_entry__28TWindowSubSymbolChatPartsSetFl(arg0, arg0->cur);
+        b1 = (void *)((TWindowSubSymbolChatPartsSet *)arg0)->get_parts_entry((long)arg0->cur);
         c = TWindowSubSymbolChatPartsSet__sub_802482B8(arg0, arg0->cur);
         setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(a1, b1, c, arg0->color, *arg0->p70, *arg0->p7C, *arg0->p80, arg0->cur);
         break;

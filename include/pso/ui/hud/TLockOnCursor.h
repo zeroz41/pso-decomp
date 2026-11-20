@@ -135,7 +135,7 @@ struct TLockOnCursor : public TObject {
     virtual void run_task();
     static void free_cursor_resources();
     int render_part();
-    void update_cursor_pos();
+    int update_cursor_pos();
     int set_flag_8_bit0();
     int update_ring();
     int is_bit1_set();

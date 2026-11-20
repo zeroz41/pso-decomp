@@ -280,7 +280,6 @@ void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 s32 is_effect_channel_active__10TObjPlayerFll(s32, s32);
 void *TObjPlayer__sub_80116620(void *, s32);
 void TMainCursor__sub_8013EA00(void *, s32);
-s32 update_cursor_pos__13TLockOnCursorFv(void *);
 s32 TLockOnCursor__sub_8013EB2C(void *);
 s32 TMainCursor__sub_8013F168(void *p);
 void TMainCursor__sub_80154230(void *arg0, s32 arg1, u16 arg2);
@@ -695,7 +694,7 @@ void publish_target_list__11TMainCursorFPvi(Self_8013D4A0 *arg0, s32 arg1) {
                 ((TMainCursor *)list)->update_action_palette(TMainCursor__sub_8013E900(sub));
                 ((TMainCursor *)list)->get_action_palette(((TMainCursor *)sub)->get_active());
                 ((TMainCursor *)list)->set_target_id(item->idx);
-                if (update_cursor_pos__13TLockOnCursorFv(arg0->x4EC) == 0 && ((TLockOnCursor *)cur)->render_part() == 0) {
+                if (((TLockOnCursor *)arg0->x4EC)->update_cursor_pos() == 0 && ((TLockOnCursor *)cur)->render_part() == 0) {
                     cur = new TMainCursor((TObject *)tl_loc_end, item->id, item->idx, (s32)TMainCursor__sub_8013E900(sub), (s32)((TMainCursor *)sub)->get_active(), ((TLockOnCursor *)arg0)->get_target_id(), part->fC);
                     if (cur != NULL) {
                         ((TMainCursor *)cur)->refresh_target_marker();
@@ -2031,7 +2030,7 @@ void TMainCursor__sub_8013EA00(void* p, s32 v) { *(s32*)((char*)p + 0x0) = v; }
 
 int TLockOnCursor::render_part() { return test_flags_any((s32 *)((char*)this + 0x8), 2); }
 
-void TLockOnCursor::update_cursor_pos() { ((TMainCursor *)((char*)this + 0xc))->is_same_target((char*)this + 0x14); }
+int TLockOnCursor::update_cursor_pos() { return ((TMainCursor *)((char*)this + 0xc))->is_same_target((char*)this + 0x14); }
 
 int TLockOnCursor::set_flag_8_bit0() { return set__8FlagWordFUl((char*)this + 0x8, 1); }
 

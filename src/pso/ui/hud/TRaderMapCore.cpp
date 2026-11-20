@@ -314,7 +314,6 @@ extern s32 local_client_id;
 NJS_POINT2 TRaderMapCore__sub_801F9D38(TRaderMapCore *self);
 s32 has_flag__13TRaderMapCoreFv(void *, s32);
 s32 is_on_current_screen__11TCameraCtrlFv(void *, s32);
-s32 apply_packed_flags__13TRaderMapCoreFllll(void *, s32, s32, s32);
 extern Pad_801FAF24 controller_input_state[];
 void GXSetViewport(f32, f32, f32, f32, f32, f32);
 
@@ -705,10 +704,10 @@ void TRaderMapCore::update_pan_zoom_input() {
         if (is_on_current_screen__11TCameraCtrlFv(controller_input_state[((TRaderMapCore *)(self->f184))->get_map_id()].ctl, 0x80) != 0) {
             self->f188 -= 6.0f;
         }
-        if (apply_packed_flags__13TRaderMapCoreFllll(controller_input_state[((TRaderMapCore *)(self->f184))->get_map_id()].ctl, 0x20000, 0x27, 1) != 0) {
+        if (TRaderMapCore::apply_packed_flags((saddr)controller_input_state[((TRaderMapCore *)(self->f184))->get_map_id()].ctl, 0x20000, 0x27, 1) != 0) {
             self->f190 -= 6.0f;
         }
-        if (apply_packed_flags__13TRaderMapCoreFllll(controller_input_state[((TRaderMapCore *)(self->f184))->get_map_id()].ctl, 0x10000, 0x27, 1) != 0) {
+        if (TRaderMapCore::apply_packed_flags((saddr)controller_input_state[((TRaderMapCore *)(self->f184))->get_map_id()].ctl, 0x10000, 0x27, 1) != 0) {
             self->f190 += 6.0f;
         }
         TRaderMapCore::pan_horizontal(self->f188);
