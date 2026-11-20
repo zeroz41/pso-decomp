@@ -69,7 +69,7 @@ TMenuList<QuestListEntry, 30, 0>::TMenuList(const TMenuList &o) {
     end = (QuestListEntryRaw_801E0038 *)(entries + 30);
     *(PacketHeaderCopy_801E0038 *)&header = *(const PacketHeaderCopy_801E0038 *)&o.header;
     do {
-        __ct__14QuestListEntryFRC14QuestListEntry((s32)d, (s32)s);
+        __ct__14QuestListEntryFRC14QuestListEntry((saddr)d, (saddr)s);
         d++;
         s++;
     } while (d < end);

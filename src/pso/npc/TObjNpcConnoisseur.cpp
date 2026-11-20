@@ -72,7 +72,7 @@ void TObjNpcConnoisseur::load_section_motion() {
     if (o != 0) {
         o = load_resource_from_descriptor(o, 1, tekker_descriptor_selector_table[lbl_805D5748], 0, 0, 0);
     }
-    TObjNpcConnoisseur__instance = (u32)o;
+    TObjNpcConnoisseur__instance = (uaddr)o;
 }
 
 }
@@ -102,7 +102,7 @@ void * TObjNpcExpertBase__create(void *arg0) {
     }
     o2 = TObject::operator new(0x3B8);
     if (o2 != NULL) {
-        o2 = TObjNpcExpertBase__ct((u8 *)o2, (s32)o, (s32)arg0);
+        o2 = TObjNpcExpertBase__ct((u8 *)o2, (saddr)o, (saddr)arg0);
     }
     return o2;
 }

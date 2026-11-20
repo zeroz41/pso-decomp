@@ -25,7 +25,7 @@ void TUnk_804A65E0::emit_marker_effects() {
 
     if (is_mode_two_and_ready() != 0) {
         get_joint_position(0, &cast_point);
-        state = ((saddr)((TObjPlayer *)((int)owner))->get_extended_state());
+        state = ((saddr)((TObjPlayer *)((saddr)owner))->get_extended_state());
         if (state != 0) {
             targets.count = get_captured_target_count();
             record = targets.records;

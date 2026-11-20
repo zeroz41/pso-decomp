@@ -91,7 +91,7 @@ void TObjNpcKenkyuW::destroy_instance() {
 void TObjNpcKenkyuW::load_resource_instance() {
     saddr temp_r3;
     s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
+    temp_r3 = (saddr)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &bm_npc_kenkyu_w_resource_descriptor, 0, 0, 0));
@@ -300,7 +300,7 @@ void TObjPlayer__sub_802A445C(TNeedleShoot *self, int arg1) {
     }
     if (list == NULL) {
         self->vfunc_6();
-    } else if (TObjPlayer::is_hit_receivable_target((s32)self, (u32)list->actors[0])) {
+    } else if (TObjPlayer::is_hit_receivable_target((saddr)self, (uaddr)list->actors[0])) {
         TechniqueContactActor *target = list->actors[0];
         if (target != NULL) {
             TechniqueContactBody *body = list->bodies[0];

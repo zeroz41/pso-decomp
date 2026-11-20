@@ -40,7 +40,7 @@ void TObjNpcHosa2::close_dialog_window() {
 void TObjNpcHosa2::load_shared_resource() {
     saddr temp_r3;
     s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
+    temp_r3 = (saddr)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &npc_hosa2_resource_descriptor, 0, 0, 0));
@@ -54,7 +54,7 @@ TObjNpcHosa2::~TObjNpcHosa2() {}
 u8 *TObjNpcHosa2__ct(u8 *player, s32 arg1, saddr arg2) {
     ((TUnk_804A9F50 *)player)->construct_male_npc_base();
     *(s32 **)((s8 *)player + 0x18) = __vt__12TObjNpcHosa2;
-    *(s32 *)((s8 *)player + 0) = (s32) TObjNpcHosa2__name;
+    *(s32 *)((s8 *)player + 0) = (saddr) TObjNpcHosa2__name;
     ((TObjNpcHosa2 *)(player))->apply_set_data((void *)arg2);
     ((TObjPlayer *)player)->init_position_vectors();
     *(s32 *)((s8 *)player + 0x34) = get_bml_model((int) ((*(s32 *)&TObjNpcHosa2__shared_model_resource)), 0);

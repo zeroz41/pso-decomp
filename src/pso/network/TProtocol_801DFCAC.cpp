@@ -26,7 +26,7 @@ s32 destroy__9TProtocolFis(saddr arg0, s16 arg1) {
 }
 
 s32 TProtocol::init_char_data() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     __ct__12TPlyCharDataFv(arg0 + 4);
     return arg0;
 }

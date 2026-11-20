@@ -29,7 +29,7 @@ void *TObjNpcBringer::create(void *arg0) {
     }
     o2 = TObject::operator new(0x3B8);
     if (o2 != NULL) {
-        o2 = TObjNpcBringer__ct((u8 *)o2, o, (s32)arg0);
+        o2 = TObjNpcBringer__ct((u8 *)o2, o, (saddr)arg0);
     }
     return o2;
 }

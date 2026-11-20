@@ -41,7 +41,7 @@ void TLobby::send_6F_burst_done() {
         stack.sp8 = 0x6F;
         stack.sp9 = 0;
         stack.spA = 4;
-        ((packet_header *)((s32) &stack.sp8))->bswap();
+        ((packet_header *)((saddr) &stack.sp8))->bswap();
         ((TProtocol *)arg0)->send((u8 *)&stack.sp8, 4);
     }
 }
@@ -105,7 +105,7 @@ void TProtocol::send_character_save_info(int creation_timestamp, int event_count
     packet.header.size = sizeof(packet);
     packet.payload.creation_timestamp = creation_timestamp;
     packet.payload.event_counter = event_counter;
-    bswap_save_packet((s32)&packet);
+    bswap_save_packet((saddr)&packet);
     send((u8 *)&packet, sizeof(packet));
 }
 
@@ -124,7 +124,7 @@ void TProtocol::send_block_list_request() {
     ChangeShipOrBlockPacket packet;
     u8 pad[8];
     if (m_connected != 0) {
-        construct_change_ship_block_packet((s32)&packet);
+        construct_change_ship_block_packet((saddr)&packet);
         memset(&packet, 0, sizeof(packet));
         packet.header.command = 0xA1;
         packet.header.size = sizeof(packet);
@@ -138,7 +138,7 @@ void TProtocol::send_ship_list_request() {
     ChangeShipOrBlockPacket packet;
     u8 pad[8];
     if (m_connected != 0) {
-        construct_change_ship_block_packet((s32)&packet);
+        construct_change_ship_block_packet((saddr)&packet);
         memset(&packet, 0, sizeof(packet));
         packet.header.command = 0xA0;
         packet.header.size = sizeof(packet);
@@ -153,7 +153,7 @@ void TProtocol::send_simple_mail(TChatMessage &message) {
         message.header.command = 0x81;
         message.header.flags = 0;
         message.header.size = 0x220;
-        bswap__12TChatMessageFv((s32)&message);
+        bswap__12TChatMessageFv((saddr)&message);
         send((u8 *)&message, 0x220);
     }
 }
@@ -213,7 +213,7 @@ void send_register_9c(u8 *protocol) {
     memset(&stack.sp8, 0, 0xA4);
     stack.sp8 = 0x9C;
     stack.spA = 0xA4;
-    __as__8TPlySmthFRC8TPlySmth((s32)&stack.spC, (s32)(protocol + 0x18F8));
+    __as__8TPlySmthFRC8TPlySmth((saddr)&stack.spC, (saddr)(protocol + 0x18F8));
     stack.sp14 = (s32) ((TProtocol *)protocol)->m_sub_version;
     stack.sp19 = (s8) *(s32 *)((s8 *)protocol + 0x1934);
     strncpy(stack.sp1C, (char *)(protocol + 0x3EDA), 0x30);
@@ -535,7 +535,7 @@ void send_player_data_98__9TProtocolFPvPvPvPvPvPvPv(Proto_801DC1E4 *self, u8 *ch
         encode_uploaded_player_inventory(tmp.char_data);
         bswap_player_record_upload((u8 *)&tmp);
         ((TProtocol *)self)->send((u8 *)&tmp, packet_size & ~3);
-        destroy__9TProtocolFis((s32)&tmp, -1);
+        destroy__9TProtocolFis((saddr)&tmp, -1);
     }
 }
 
@@ -580,7 +580,7 @@ void send_player_data_61__9TProtocolFPvPvPvPvPvPvPv(Proto_801DC34C *self, u8 *ch
         encode_uploaded_player_inventory(tmp.char_data);
         bswap_player_record_upload((u8 *)&tmp);
         ((TProtocol *)self)->send((u8 *)&tmp, packet_size & ~3);
-        destroy__9TProtocolFis((s32)&tmp, -1);
+        destroy__9TProtocolFis((saddr)&tmp, -1);
     }
 }
 }

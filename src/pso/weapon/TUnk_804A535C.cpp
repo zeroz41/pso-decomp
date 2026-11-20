@@ -65,9 +65,9 @@ extern "C" {
 
 void TUnk_804A5340::render() {
     u8 *arg0 = (u8 *)this;
-    if ((is_owner_alive__15TItemShootModelFv() != 0) && ((u32) this->m_58 != 0U) && ((u32) this->m_5C != 0U)) {
+    if ((is_owner_alive__15TItemShootModelFv() != 0) && ((uaddr) this->m_58 != 0U) && ((uaddr) this->m_5C != 0U)) {
         push_matrix();
-        set_texlist((int)this->m_5C);
+        set_texlist((saddr)this->m_5C);
         post_translate_matrix(arg0 + 0x1C);
         rotate_matrix_y(0, this->m_count);
         rotate_matrix_x(0, this->m_28 - 0x4000);
@@ -105,7 +105,7 @@ u32 rocket_punch_create_shot(s32 owner, s32 arg1, s32 arg2, f32 farg0) {
     if (owner != 0) {
         var_r31 = (uaddr)TObject::operator new(0x6C);
         if (var_r31 != 0U) {
-            var_r31 = (u32)TObjPlayer__sub_8012C4E4((Obj_8012C4E4 *)var_r31, (void *)owner, (const void *)arg1, (const void *)arg2, farg0);
+            var_r31 = (uaddr)TObjPlayer__sub_8012C4E4((Obj_8012C4E4 *)var_r31, (void *)owner, (const void *)arg1, (const void *)arg2, farg0);
         }
         temp_r30 = ((uaddr)TObjPlayer::spawn_shoot_particle(owner, arg1, arg2, farg0));
         if ((var_r31 != 0U) && (temp_r30 != 0U)) {
@@ -179,7 +179,7 @@ void TUnk_804A535C::reserved_53() {
     ((TItemWeapon *)arg0)->get_joint_position(1, (arg0 + 0x1FC));
     *(s32 *)((s8 *)arg0 + 0xF4) = (s32) *(s32 *)((s8 *)arg0 + 0x180);
     ((FlagWord *)(arg0 + 0x1F8))->clear(1);
-    draw_weapon_at_joint((s32)arg0, 0x23);
+    draw_weapon_at_joint((saddr)arg0, 0x23);
     ((TItemWeapon *)arg0)->get_joint_position(1, (arg0 + 0x208));
     *(s32 *)((s8 *)arg0 + 0xF4) = temp_r31;
 }

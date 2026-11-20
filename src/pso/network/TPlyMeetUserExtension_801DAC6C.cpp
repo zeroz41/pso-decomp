@@ -93,12 +93,12 @@ void handle_cmd_9A__9TProtocolFR6packet(u8 *arg0, s32 *arg1) {
 void handle_cmd_9B__9TProtocolFR6packet(u8 *arg0, Regist_801DAD38 *arg1) {
     Regist_801DAD38 r = *arg1;
     Pkt_801DAD38 pkt;
-    bswap__21TRecvPsoRegistConnectFv((s32)&r);
+    bswap__21TRecvPsoRegistConnectFv((saddr)&r);
     if (strcmp(port_map_copyright, r.copyright) == 0) {
         ((PSOV3EncryptionTCP *)(arg0 + 0x10BC))->reset(r.key0);
         ((PSOV3EncryptionTCP *)(arg0 + 0x884))->reset(r.key1);
         *(s32 *)(arg0 + 0x18F4) = 1;
-        construct_cmd_db_regist_connect_reply((s32)&pkt);
+        construct_cmd_db_regist_connect_reply((saddr)&pkt);
         memset((void *)&pkt, 0, 0xE0);
         pkt.cmd = 0xDB;
         pkt.size = 0xE0;
@@ -106,7 +106,7 @@ void handle_cmd_9B__9TProtocolFR6packet(u8 *arg0, Regist_801DAD38 *arg1) {
         strncpy(pkt.b, (const char *)(arg0 + 0x3EC9), 0x10);
         strncpy(pkt.c, (const char *)(arg0 + 0x3F8A), 0x10);
         strncpy(pkt.d, (const char *)(arg0 + 0x3F9B), 0x10);
-        __as__8TPlySmthFRC8TPlySmth((s32)pkt.smth, (s32)(arg0 + 0x18F8));
+        __as__8TPlySmthFRC8TPlySmth((saddr)pkt.smth, (saddr)(arg0 + 0x18F8));
         pkt.port = *(u16 *)(arg0 + 0x1908);
         strncpy(pkt.e, (const char *)(arg0 + 0x3EDA), 0x30);
         strncpy(pkt.f, (const char *)(arg0 + 0x3F0A), 0x30);

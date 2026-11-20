@@ -108,7 +108,7 @@ void TLobby::spawn_npc_enemy(s16 id, s32 model, NJS_TEXLIST *texlist, void *moti
         entry->kind = 1;
         entry->y_offset = y_offset;
         entry->model = model;
-        entry->texlist = (s32)texlist;
+        entry->texlist = (saddr)texlist;
         entry->radius = radius;
         copy_position_data(&entry->motion, motion);
     }
@@ -295,7 +295,7 @@ void TObjNpcEnemy::render() {
     TObjNpcEnemyEntry *entry;
 
     if ((this->entry != NULL) && (this->update_object_view_visibility(this->m_398, this->m_39c) != 0) && ((s32) this->m_390 == 1)) {
-        select_actor_lighting((s32)arg0);
+        select_actor_lighting((saddr)arg0);
         if (((TObjNpcEnemy *)arg0)->sub_802D7444() != 0) {
             model_render_flags |= 1;
         }
@@ -303,7 +303,7 @@ void TObjNpcEnemy::render() {
         push_matrix_from(0);
         translate_matrix_vec3(0, ((u8 *)&this->position));
         entry = this->entry;
-        translate_matrix(0, (int)entry, 0.0f, entry->y_offset, 0.0f);
+        translate_matrix(0, (saddr)entry, 0.0f, entry->y_offset, 0.0f);
         rotate_matrix_y(0, this->rotation_y);
         update_state();
         pop_matrix();
@@ -333,7 +333,7 @@ u8 *TObjNpcEnemy__ct(u8 *arg0, s32 arg1, saddr arg2) {
     ((TObjPlayer *)arg0)->register_object_by_id();
     ((TObjEnemy *)arg0)->update_prev_position();
     ((TBoss3VoloptHiraisin *)arg0)->copy_position();
-    ((TObjNpcEnemy *)arg0)->set_npc_data((void *)((int) (((s32)TObjNpcEnemy::get_entry_by_index((s16)((int) ((s16) ((TObjNpcEnemy *)arg0)->rotation_x)))))));
+    ((TObjNpcEnemy *)arg0)->set_npc_data((void *)((int) (((saddr)TObjNpcEnemy::get_entry_by_index((s16)((int) ((s16) ((TObjNpcEnemy *)arg0)->rotation_x)))))));
     return arg0;
 }
 
@@ -346,7 +346,7 @@ void * TObjNpcEnemy__create(void *arg0) {
     }
     o2 = TObject::operator new(0x3BC);
     if (o2 != NULL) {
-        o2 = TObjNpcEnemy__ct((u8 *)o2, (s32)o, (s32)arg0);
+        o2 = TObjNpcEnemy__ct((u8 *)o2, (saddr)o, (saddr)arg0);
     }
     return o2;
 }

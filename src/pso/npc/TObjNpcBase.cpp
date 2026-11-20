@@ -164,7 +164,7 @@ void TObjNpcBase::interact(s32 client) {
                 this->targetId = client;
                 this->target = (u8 *) player;
                 if ((s32) this->targetId == local_client_id) {
-                    TObjPlayer::play_effect_default((int) player, -1);
+                    TObjPlayer::play_effect_default((saddr) player, -1);
                 }
                 this->request_action(1);
                 this->m_2ac = 0;
@@ -267,27 +267,27 @@ void TObjNpcBase::update_conversation() {
         if (TRaderMapCore::is_not_split_screen() == 0) {
             switch (F(s32, 0x3AC)) {
             case 0x3E9:
-                F(u32, 0x3B4) = (u32)create_conversation_camera(7);
+                F(u32, 0x3B4) = (uaddr)create_conversation_camera(7);
                 TCameraCtrl::update_battle_camera();
                 break;
             case 0x3EA:
-                F(u32, 0x3B4) = (u32)create_conversation_camera(9);
+                F(u32, 0x3B4) = (uaddr)create_conversation_camera(9);
                 TCameraCtrl::update_battle_camera();
                 break;
             case 0x3EB:
-                F(u32, 0x3B4) = (u32)create_conversation_camera(8);
+                F(u32, 0x3B4) = (uaddr)create_conversation_camera(8);
                 TCameraCtrl::update_battle_camera();
                 break;
             case 0x41A:
-                F(u32, 0x3B4) = (u32)create_conversation_camera(0x11);
+                F(u32, 0x3B4) = (uaddr)create_conversation_camera(0x11);
                 TCameraCtrl::update_battle_camera();
                 break;
             case 0x41B:
-                F(u32, 0x3B4) = (u32)create_conversation_camera(0x12);
+                F(u32, 0x3B4) = (uaddr)create_conversation_camera(0x12);
                 TCameraCtrl::update_battle_camera();
                 break;
             case 0x41F:
-                F(u32, 0x3B4) = (u32)create_conversation_camera(0x13);
+                F(u32, 0x3B4) = (uaddr)create_conversation_camera(0x13);
                 TCameraCtrl::update_battle_camera();
                 break;
             default:
@@ -325,9 +325,9 @@ void TObjNpcBase::update_conversation() {
                 break;
             }
             if (F(void *, 0x2A8) != 0 && local_client_id == get_entity_id(F(void *, 0x2A8))) {
-                p = (u32) get_player_by_client_id(local_client_id);
+                p = (uaddr) get_player_by_client_id(local_client_id);
                 if (p != 0 && ((TLobby *)p)->check_player_flag1() != 0) {
-                    TObjPlayer::send_code_45_1((s32)((void *)p));
+                    TObjPlayer::send_code_45_1((saddr)((void *)p));
                 }
             }
         }
@@ -566,7 +566,7 @@ void TObjNpcBase::vfunc_28() {
             {
                 u32 tmp338 = (u32) this->targetId;
                 if (tmp338 != 0xFFFF) {
-                    *(s32 *)&this->target = (s32)get_player_by_client_id(tmp338);
+                    *(s32 *)&this->target = (saddr)get_player_by_client_id(tmp338);
                 } else {
                     this->target = 0;
                 }
@@ -579,7 +579,7 @@ extern s32 model_render_flags;
 
 void TObjNpcBase::render() {
     if ((this->update_object_view_visibility(this->m_398, this->m_39c) != 0) && ((s32) this->m_390 == 1)) {
-        select_actor_lighting((s32) this);
+        select_actor_lighting((saddr) this);
         model_render_flags |= 1;
         TObjFish::set_global_param(this->texlist);
         push_matrix_from(0);
@@ -675,7 +675,7 @@ u32 npc_town_motion_data;
 
 void TObjNpcBase::free_static() {
     if ((u32) npc_town_motion_data != 0U) {
-        TLobby::free_nodes_with_id((u32)((void*)npc_town_motion_data));
+        TLobby::free_nodes_with_id((uaddr)((void*)npc_town_motion_data));
         npc_town_motion_data = 0U;
     }
 }
@@ -690,7 +690,7 @@ void load_ply_motion_npc_town(void) { npc_town_motion_data = load_encrypted_arch
 // ---- src/pso/npc/TObjNpcBase.cpp
 
 struct Npc_801491B4 {
-    s32 f0;
+    saddr f0;
     u8 pad4[0x14];
     void *vt;
     u8 pad1C[0x30 - 0x1C];
@@ -737,7 +737,7 @@ TObjNpcBase::~TObjNpcBase() {
 void *TObjNpcBase__ct(void *arg0, void *arg1, void *arg2) {
     __ct__9TObjEnemyFP7TObject(arg0, arg1, arg2);
     self->vt = __vt__11TObjNpcBase;
-    self->f0 = (s32)TObjNpcBase__name;
+    self->f0 = (saddr)TObjNpcBase__name;
     self->f388 = 0;
     self->f390 = 1;
     switch (get_current_floor_area()) {
@@ -776,7 +776,7 @@ void *TObjNpcBase__ct(void *arg0, void *arg1, void *arg2) {
 
 void TObjNpcBase::request_action(s32) {  }
 void TObjNpcBase::play_voice() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     play_sound_effect(0x40003804, arg0 + 0x38, 0, 0);
 }
 void TObjNpcBase::sub_80149358(s32 v) { this->m_3ac = v; }
@@ -785,12 +785,12 @@ void TObjNpcBase__sub_80149368(void* p) { *(s32*)((char*)p + 0x0) = 2; }
 
 // ---- src/pso/misc/TNpcPlayer_80149374.cpp
 void TNpcPlayer::send_6x3E() {
-    saddr arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     bswap_6x3E();
     send_subcommand((u8 *)arg0);
 }
 void TNpcPlayer::bswap_6x3E() {
-    saddr arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     ((G_ClientIDHeader *)this)->bswap();
     bswap_16((u16 *)(arg0 + 4));
     bswap_16((u16 *)(arg0 + 6));

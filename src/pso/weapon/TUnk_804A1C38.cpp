@@ -11,7 +11,7 @@ void draw_weapon_at_joint(s32 arg0, s8 arg1);
 
 }
 
-void TUnk_804A1C38::reserved_53() { draw_weapon_at_joint((s32)this, (s8)((void*)49)); update_trail_slot(0); update_trail_slot(1); }
+void TUnk_804A1C38::reserved_53() { draw_weapon_at_joint((saddr)this, (s8)((void*)49)); update_trail_slot(0); update_trail_slot(1); }
 
 TUnk_804A1C38::TUnk_804A1C38(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(1);

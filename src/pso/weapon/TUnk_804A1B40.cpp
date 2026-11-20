@@ -14,8 +14,8 @@ void TUnk_804A1B40::reserved_53() {
 
     temp_r31 = *(s32 *)((s8 *)((u8 *)this) + 0xF4);
     this->draw_weapon_model();
-    *(s32 *)((s8 *)((u8 *)this) + 0xF4) = (s32) this->second_model;
-    draw_weapon_at_joint((s32)this, 0x23);
+    *(s32 *)((s8 *)((u8 *)this) + 0xF4) = (saddr) this->second_model;
+    draw_weapon_at_joint((saddr)this, 0x23);
     *(s32 *)((s8 *)((u8 *)this) + 0xF4) = temp_r31;
 }
 

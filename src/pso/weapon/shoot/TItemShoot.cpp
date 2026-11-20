@@ -85,7 +85,7 @@ s32 spawn_shoot_particle_9f(u32 owner, s32 pos, s32 dir, f32 life) {
         particle->set_particle_flags(4);
         particle->spawn_slot_emitter(0x9F, 0);
     }
-    return (s32)particle;
+    return (saddr)particle;
 }
 
 s32 create_shoot_model_with_particles(u32 owner, s32 pos, s32 dir, f32 life) {
@@ -102,7 +102,7 @@ s32 create_shoot_model_with_particles(u32 owner, s32 pos, s32 dir, f32 life) {
 
 u32 TItemShoot::spawn_shoot_particle_attached(u32 owner, s32 pos, s32 dir, f32 life) {
     uaddr model = create_shoot_model__10TObjPlayerFUiiif(owner, pos, dir, life);
-    uaddr particle = (u32)TObjPlayer::spawn_shoot_particle(owner, pos, dir, life);
+    uaddr particle = (uaddr)TObjPlayer::spawn_shoot_particle(owner, pos, dir, life);
     if (model != 0U && particle != 0U) {
         ((TItemShootParticle *)particle)->spawn_slot_emitter(0x1BD, 0);
         ((TObject *)particle)->set_parent((TObject *)model);
@@ -115,7 +115,7 @@ s32 TItemShoot::spawn_shoot_particle(u32 owner, s32 pos, s32 dir, f32 life) {
     if (particle != NULL) {
         particle->spawn_slot_emitter(0x12, 0);
     }
-    return (s32)particle;
+    return (saddr)particle;
 }
 
 TItemShoot::TItemShoot(void *owner, const Vec *pos, const Vec *dir, f32 life)
@@ -173,7 +173,7 @@ s32 create_shoot_model__10TObjPlayerFUiiif(u32 owner, s32 pos, s32 dir, f32 life
     if (0.0f != life && owner != 0U) {
         model = new TItemShootModel((void *)owner, (const Vec *)pos, (const Vec *)dir, life);
     }
-    return (s32)model;
+    return (saddr)model;
 }
 
 TItemShootModel::TItemShootModel(void *owner, const Vec *pos, const Vec *dir, f32 life)
@@ -197,7 +197,7 @@ TItemShootModel::TItemShootModel(void *owner, const Vec *pos, const Vec *dir, f3
 void TItemShootModel::render() {
     if (is_owner_alive()) {
         if (m_58 != NULL) {
-            set_texlist((u32)m_5C);
+            set_texlist((uaddr)m_5C);
             TParticleCtrl::begin_effect_render();
             push_matrix();
             post_translate_matrix(&m_pos.x);
@@ -265,7 +265,7 @@ void TItemShootParticle::hook() {
 
 s32 create_gun_shot(s32 owner, s32 pos, s32 endpoint, f32 life) {
     spawn_particle_effect((void *)pos, 9);
-    return (s32)new TItemShootGun((void *)owner, (const Vec *)pos, (const Vec *)endpoint, life);
+    return (saddr)new TItemShootGun((void *)owner, (const Vec *)pos, (const Vec *)endpoint, life);
 }
 
 u32 TItemShootGun::create(s32 owner, s32 pos, s32 endpoint, f32 life) {
@@ -276,7 +276,7 @@ u32 TItemShootGun::create(s32 owner, s32 pos, s32 endpoint, f32 life) {
     if (result != 0) {
         result->set_texture_id(4);
     }
-    return (u32)result;
+    return (uaddr)result;
 }
 
 TItemShootGun::TItemShootGun(void *owner, const Vec *pos, const Vec *endpoint, f32 life)
@@ -288,7 +288,7 @@ TItemShootGun::TItemShootGun(void *owner, const Vec *pos, const Vec *endpoint, f
     params.color.channels.r = (u8)(255.0f * color.red);
     params.color.channels.g = (u8)(255.0f * color.green);
     params.color.channels.b = (u8)(255.0f * color.blue);
-    m_50 = (TObject *)spawn_star_light_2d((s32)&m_pos, (s32)&params, (s32)tl_07);
+    m_50 = (TObject *)spawn_star_light_2d((saddr)&m_pos, (saddr)&params, (saddr)tl_07);
     TItemLoad::lookup_item_data(0, (s32 *)&m_58);
     TItemLoad::get_data_entry(0, (s32 *)&m_5C);
     m_6C = 0;
@@ -306,7 +306,7 @@ void TItemShootGun::render() {
     if (is_owner_alive()) {
         if (m_58 != NULL) {
             ((TObjDoorJung *)(*(saddr *)((u8 *)m_58 + 4)))->free_children((void *)(m_70 & 0xFFFF));
-            set_texlist((u32)m_5C);
+            set_texlist((uaddr)m_5C);
             TParticleCtrl::begin_effect_render();
             push_matrix();
             post_translate_matrix(&m_pos.x);
@@ -323,7 +323,7 @@ s32 create_shoot_model_rot_z(u32 owner, s32 pos, s32 dir, f32 life) {
     if (0.0f != life && owner != 0U) {
         model = new TItemShootModelRotZ((void *)owner, (const Vec *)pos, (const Vec *)dir, life);
     }
-    return (s32)model;
+    return (saddr)model;
 }
 
 TItemShootModelRotZ::TItemShootModelRotZ(void *owner, const Vec *pos, const Vec *dir, f32 life)
@@ -338,7 +338,7 @@ void TItemShootModelRotZ::hook() {
 void TItemShootModelRotZ::render() {
     if (is_owner_alive()) {
         if (m_58 != NULL) {
-            set_texlist((u32)m_5C);
+            set_texlist((uaddr)m_5C);
             TParticleCtrl::begin_effect_render();
             push_matrix();
             post_translate_matrix(&m_pos.x);

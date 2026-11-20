@@ -231,12 +231,12 @@ void TUnk_804E355C::check_hits() {
     void *e;
     u8 *arg0 = (u8 *)this;
     reset_global_table();
-    TObjPlayer__sub_801542F4((s32)&this->bodies);
+    TObjPlayer__sub_801542F4((saddr)&this->bodies);
     if (*(s32 *)((s8 *)arg0 + 0xC0) != 0) {
         TObjPlayer__sub_8015431C((u8 *)&this->bodies);
     }
     if (((TUnk_804E355C *)arg0)->pad_BC != 0) {
-        TObjPlayer::apply_status_effect((s32)(arg0 + 0x1C));
+        TObjPlayer::apply_status_effect((saddr)(arg0 + 0x1C));
     }
     for (i = 0; i != TObjOnlineEnding::get_instance(); i++) {
         e = TObjOnlineEnding::get_attack_entry(i);
@@ -318,7 +318,7 @@ s32 TUnk_804E355C::resolve_attack_col_hit(u8 *arg1) {
     f32 var_f31;
     temp_r30 = (u8 *)(*(u8 **)((s8 *)arg1 + 0));
     player = (u8 *)(get_player_by_client_id(this->client_id));
-    item = (u32)find_item_by_id((this->item_id));
+    item = (uaddr)find_item_by_id((this->item_id));
     temp_r31 = *(s32 *)((s8 *)(*(u8 **)((s8 *)arg1 + 0)) + 0xA4) + (*(s32 *)((s8 *)arg1 + 4) * 0x2C);
     if ((player != NULL) && (item != 0U) && (((VObj_18_f2ea1e *)(temp_r30))->m19(player, temp_r31, 0, *(f32 *)((s8 *)arg0 + 0xB0)) != 0)) {
         temp_r0 = *(s32 *)((s8 *)arg0 + 0xB8);
@@ -338,7 +338,7 @@ s32 TUnk_804E355C::resolve_attack_col_hit(u8 *arg1) {
         damage = (s32) var_f31;
         TObjPlayer::calc_photon_blast_charge((void *)player, damage);
         ((VObj_18_f2ea1e *)(player))->m73();
-        apply_camera_shake__10TObjPlayerFiii((s32)player, (s32)temp_r30, (s32)damage);
+        apply_camera_shake__10TObjPlayerFiii((saddr)player, (saddr)temp_r30, (s32)damage);
         ((TObjPlayer *)(&stack.sp8))->reset_status_block();
         stack.sp8 = ((TItem *)item)->get_item_group();
         stack.sp9 = ((TItem *)item)->get_item_index();
@@ -414,7 +414,7 @@ TItemAttackCol::TItemAttackCol(TObject *parent, S_802E449C *params) : TUnk_804E3
             0,
             20.0f,
         };
-        star_light = (TEffStarLight2D *)spawn_star_light_2d((s32)&position, (s32)&star, (s32)this);
+        star_light = (TEffStarLight2D *)spawn_star_light_2d((saddr)&position, (saddr)&star, (saddr)this);
     } else {
         star_light = NULL;
     }

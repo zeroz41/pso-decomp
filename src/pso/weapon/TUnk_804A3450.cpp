@@ -12,8 +12,8 @@ void TUnk_804A3450::vfunc_57() {
 }
 
 void TUnk_804A3450::emit_marker_effects() {
-    s32 owner;
-    s32 temp_r3_2;
+    saddr owner;
+    saddr temp_r3_2;
     s32 temp_r4;
     s32 temp_r4_2;
 
@@ -22,11 +22,11 @@ void TUnk_804A3450::emit_marker_effects() {
     }
     if (is_mode_two_and_ready() != 0) {
         if (((TItemWeapon *)this)->get_tp() == 0) {
-            owner = (s32)this->owner;
+            owner = (saddr)this->owner;
             temp_r4 = owner + 0x38;
             TTecJelin::create(owner, temp_r4, temp_r4, 4);
         } else {
-            temp_r3_2 = (s32)this->owner;
+            temp_r3_2 = (saddr)this->owner;
             temp_r4_2 = temp_r3_2 + 0x38;
             TTecZarua::create_instance(temp_r3_2, temp_r4_2, temp_r4_2, 4);
         }

@@ -43,7 +43,7 @@ void TUnk_804A4C78::reserved_53() {
     } else {
         sub_8012B1F0(saved);
     }
-    draw_weapon_at_joint((s32)this, 0x23);
+    draw_weapon_at_joint((saddr)this, 0x23);
     if (sub_8012B1F8() != 8) {
         update_trail_slot(1);
     }

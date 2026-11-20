@@ -195,7 +195,7 @@ void update_network_info_load(void) {
                 } else {
                     crc = TAdPlayerLoadGC__network_config_buffer->crc;
                     TAdPlayerLoadGC__network_config_buffer->crc = 0;
-                    sum = calc_crc32((s32)TAdPlayerLoadGC__network_config_buffer, 0x8000);
+                    sum = calc_crc32((saddr)TAdPlayerLoadGC__network_config_buffer, 0x8000);
                     if (sum != crc) {
                         init_network_config_defaults();
                         TAdPlayerLoadGC::close_card_slot(network_info_load_state.file_handle);

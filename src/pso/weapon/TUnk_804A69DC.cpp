@@ -31,7 +31,7 @@ void __ct__15TItemShootModelFPvPC3VecPC3Vecf(void *);
 
 void TUnk_804A69C0::render() {
     u8 *arg0 = (u8 *)this;
-    if ((is_owner_alive__15TItemShootModelFv() != 0) && ((u32) this->m_58 != 0U) && ((u32) this->m_5C != 0U)) {
+    if ((is_owner_alive__15TItemShootModelFv() != 0) && ((uaddr) this->m_58 != 0U) && ((uaddr) this->m_5C != 0U)) {
         push_matrix();
         set_texlist(*(u32 *)&this->m_5C);
         post_translate_matrix(arg0 + 0x1C);
@@ -82,7 +82,7 @@ s32 create_shoot_model__10TObjPlayerFiiif(saddr arg0, saddr arg1, saddr arg2, f3
 void TUnk_804A69DC::activate_effect(s32) {
     if (owner != NULL && is_current_area_item_enabled() != 0) {
         if (get_current_floor() == owner->get_floor() && get_mode() == 2) {
-            update_technique_slot__10TTecRaFoieFl(play_sound_effect(0x4001AA05, (int)&owner->position, 0, 0), 0x300, 0);
+            update_technique_slot__10TTecRaFoieFl(play_sound_effect(0x4001AA05, (saddr)&owner->position, 0, 0), 0x300, 0);
             launch_shot((u8 *)&gun_point, 0, 0, 1);
         }
     }

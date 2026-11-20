@@ -51,7 +51,7 @@ struct StarLightFollowerView {
     void *vtbl;
     s32 f1c;
     s32 f20;
-    s32 f24;
+    saddr f24;
     s32 f28;
 };
 
@@ -111,7 +111,7 @@ void TUnk_804A2018::run_task() {
         return;
     }
     if ((u32) *(u32 *)&this->unk_24 != 0U) {
-        item = ((s32)find_item_by_id(*(s32 *)&this->unk_1C));
+        item = ((saddr)find_item_by_id(*(s32 *)&this->unk_1C));
         if ((item != 0) && (get_mode__5TItemFv() == 2) && (((TItemWeapon *)item)->get_joint_position(this->m_20, &sp8) != 0)) {
             if (((TItem *)item)->is_hidden() == 0) {
                 ((TEffStarLight2D *)*(uaddr *)&this->unk_24)->copy_position((const Vec *)&sp8);
@@ -146,7 +146,7 @@ TUnk_804A2018::TUnk_804A2018(TObject *parent, s32 a, s32 b) : TObject(parent) {
     p = find_item_by_id(((StarLightFollowerView *)this)->f1c);
     if (p != NULL && ((TItemWeapon *)p)->get_joint_position(((StarLightFollowerView *)this)->f20, &v) != 0) {
         WeaponStarLightParameterWords blk = weapon_star_light_parameters[0];
-        ((StarLightFollowerView *)this)->f24 = (s32)spawn_star_light_2d((s32)&v, (s32)&blk, (s32)((StarLightFollowerView *)this));
+        ((StarLightFollowerView *)this)->f24 = (saddr)spawn_star_light_2d((saddr)&v, (saddr)&blk, (saddr)((StarLightFollowerView *)this));
     }
 }
 
@@ -154,7 +154,7 @@ TUnk_804A2018::TUnk_804A2018(TObject *parent, s32 a, s32 b) : TObject(parent) {
 void create_icon__10TObjPlayerFiii(saddr parent, s32 arg1, s32 arg2) {
     void *temp_r3;
     if (parent != 0) {
-        temp_r3 = (void *)((u32)TObject::operator new(0x2C));
+        temp_r3 = (void *)((uaddr)TObject::operator new(0x2C));
         if (temp_r3 != (void *)0U) {
             __ct__13TUnk_804A2018FP7TObjectll((StarLightFollowerView *)(temp_r3), (void *)parent, (s32)arg1, (s32)arg2);
         }
@@ -167,7 +167,7 @@ void TUnk_804A204C::emit_marker_effects() {
     if (is_mode_two_and_ready() != 0) {
         if (get_joint_position(5, &sp8) != 0) {
             temp_r31 = this->owner;
-            TTecMegid::create_ex((s32)temp_r31, (s32)(&sp8), (s32)(*(s32 *)((s8 *)temp_r31 + 0x60)), (s32)(((TItemWeapon *)this)->get_tp()));
+            TTecMegid::create_ex((saddr)temp_r31, (saddr)(&sp8), (s32)(*(s32 *)((s8 *)temp_r31 + 0x60)), (s32)(((TItemWeapon *)this)->get_tp()));
             this->roll_technique();
         }
     } else {

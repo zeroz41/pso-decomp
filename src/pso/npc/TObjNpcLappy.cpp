@@ -173,7 +173,7 @@ void *TObjNpcLappy__create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);
     void *npc = TObject::operator new(sizeof(TObjNpcLappy));
     if (npc != NULL) {
-        npc = TObjNpcLappy__ct((u8 *)npc, control, (s32)set_data);
+        npc = TObjNpcLappy__ct((u8 *)npc, control, (saddr)set_data);
     }
     return npc;
 }

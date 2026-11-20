@@ -277,7 +277,7 @@ struct Weapon_8013CDE4 { f32 f0; f32 f4; s32 f8; s32 fc; s32 f10; };
 extern "C" {
 int TLockOnCursor__sub_8013EB34(void);
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
+void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 s32 is_effect_channel_active__10TObjPlayerFll(s32, s32);
 void *TObjPlayer__sub_80116620(void *, s32);
 void TMainCursor__sub_8013EA00(void *, s32);

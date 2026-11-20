@@ -34,7 +34,7 @@ void __dt__7TObjectFv(void *, int);
 
 void render__7TObjectFv();
 void render_shadows__7TObjectFv();
-s32 item_follow_effect_vtable[6] = { 0, 0, (s32)&destroy_item_follow_effect, (s32)&run_task__13TUnk_804A2660Fv, (s32)&render__7TObjectFv, (s32)&render_shadows__7TObjectFv };
+s32 item_follow_effect_vtable[6] = { 0, 0, (saddr)&destroy_item_follow_effect, (saddr)&run_task__13TUnk_804A2660Fv, (saddr)&render__7TObjectFv, (saddr)&render_shadows__7TObjectFv };
 void TUnk_804A2660::run_task() {
     s32 sp8[5];
     s32 var_r31;
@@ -46,7 +46,7 @@ void TUnk_804A2660::run_task() {
     }
     var_r31 = 0;
     if ((u32) *(u32 *)&this->unk_24 != 0U) {
-        item = (s32)find_item_by_id(*(s32 *)&this->unk_1C);
+        item = (saddr)find_item_by_id(*(s32 *)&this->unk_1C);
         if ((item != 0) && (get_mode__5TItemFv() == 2)) {
             var_r31 = 1;
             if (((TItemWeapon *)item)->get_joint_position(this->m_20, sp8) != 0) {
@@ -86,7 +86,7 @@ u8 *construct_item_follow_effect(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg
     *(s32 *)((s8 *)arg0 + 0x1C) = ((TItem *)arg2)->get_item_id();
     ((TUnk_804A2660 *)arg0)->m_20 = arg3;
     ((TItemWeapon *)arg2)->get_joint_position(((s32)((int) (((TUnk_804A2660 *)arg0)->m_20))), &position);
-    *(s32 *)((s8 *)arg0 + 0x24) = (s32)create_particle_emitter((&position), (arg4));
+    *(s32 *)((s8 *)arg0 + 0x24) = (saddr)create_particle_emitter((&position), (arg4));
     ((TUnk_804A2660 *)arg0)->m_28 = ((s32)get_item_system_generation());
     return arg0;
 }
@@ -123,8 +123,8 @@ void TUnk_804A2678::update_weapon() {
     if ((area != floor_area) && (this->is_model_shown() != 0)) {
         floor_area = area;
         if (is_item_area_enabled(area) != 0) {
-            spawn_item_follow_effect((s32)tl_05, (u32)this, 1, 0x1AE);
-            spawn_item_follow_effect((s32)tl_05, (u32)this, 2, 0x1AE);
+            spawn_item_follow_effect((saddr)tl_05, (uaddr)this, 1, 0x1AE);
+            spawn_item_follow_effect((saddr)tl_05, (uaddr)this, 2, 0x1AE);
         }
     }
 }

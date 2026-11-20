@@ -11,14 +11,14 @@ void TUnk_804ED1A0::update_weapon() {
 }
 
 void TUnk_804ED1A0::reserved_53() {
-    draw_weapon_at_joint((s32)this, 0x30);
+    draw_weapon_at_joint((saddr)this, 0x30);
     update_trail_slot(0);
     update_trail_slot(1);
     update_trail_slot(2);
 }
 
 TUnk_804ED1A0::TUnk_804ED1A0(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
-    set_weapon_trail_joints((s32)this, 2, 6, 5);
+    set_weapon_trail_joints((saddr)this, 2, 6, 5);
     set_weapon_flags(1);
 }
 

@@ -260,7 +260,7 @@ void TUnk_804A4948::deliver_hit(s32 arg1, u8 *arg2, s32 arg3, s32 arg4, f32 farg
             case 1:
             case 2:
                 if (arg3 == 2) {
-                    send_srank_stat_extra((u32)arg2, arg4);
+                    send_srank_stat_extra((uaddr)arg2, arg4);
                 } else {
                     TItemWeapon::deliver_hit((s32)f, arg2, arg3, arg4, farg0);
                 }

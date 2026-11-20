@@ -30,7 +30,7 @@ u8 *__ct__13TPlyJoinLobbyFRC13TPlyJoinLobby(u8 *arg0, u8 *arg1) {
         TLobby__sub_8013AA64((u8 *)var_r30, (u8 *)var_r29);
         var_r30 += 0x43C;
         var_r29 += 0x43C;
-    } while (var_r30 < (u32)(arg0 + 0x32E0));
+    } while (var_r30 < (uaddr)(arg0 + 0x32E0));
     return arg0;
 }
 

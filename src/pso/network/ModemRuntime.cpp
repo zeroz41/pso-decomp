@@ -1032,7 +1032,7 @@ s32 TAdSinglePlyChrSelectGC::send_at_compression_cmd(s32 arg0) {
 }
 
 s32 TAdSinglePlyChrSelectGC::copy_default_and_get_state() {
-    uaddr arg0 = (u32)this;
+    uaddr arg0 = (uaddr)this;
     if (arg0 != 0U) {
         *(ByteBlock_1C *)(arg0) = *(const ByteBlock_1C *)(&modem_connection_info.value);
     }

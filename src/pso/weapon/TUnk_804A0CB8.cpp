@@ -52,7 +52,7 @@ u32 belra_cannon_create_extra_shot(void *player, s32 arg1, s32 arg2, f32 farg0) 
     void *temp_r5;
 
     temp_r31 = create_shoot_model__10TObjPlayerFUiiif();
-    temp_r30 = ((uaddr)TObjPlayer::spawn_shoot_particle((u32)player, arg1, arg2, farg0));
+    temp_r30 = ((uaddr)TObjPlayer::spawn_shoot_particle((uaddr)player, arg1, arg2, farg0));
     if ((temp_r31 != 0U) && (temp_r30 != 0U)) {
         temp_r5 = *(void **)((s8 *)player + 0x188);
         if (temp_r5 != NULL) {

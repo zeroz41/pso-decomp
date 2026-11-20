@@ -114,7 +114,7 @@ void export_character_data__10TObjPlayerFPvPv(u8 *arg0, u8 *arg1) {
     ((TObjPlayer *)arg0)->set_hp_clamped(hp);
     ((TObjPlayer *)arg0)->set_tp(facing);
     *(s8 *)((s8 *)arg1 + 3) = TObjPlayer__sub_801AFD8C(arg0);
-    ((TObjPlayer *)arg0)->apply_pending_action((s32)arg1);
+    ((TObjPlayer *)arg0)->apply_pending_action((saddr)arg1);
     ((TObjPlayer *)arg0)->copy_mag_level_to_record((u8 *)arg1);
     ((TObjPlayer *)arg0)->copy_byte_339_to_record((u8 *)arg1);
     ((TObjPlayer *)arg0)->copy_battle_mode((u8 *)arg1);
@@ -175,7 +175,7 @@ void export_state_to_record__10TObjPlayerFPvPv(u8 *arg0, s8 *arg1) {
     copy_player_visual_record(arg1 + 0x370, arg0 + 0x85C);
     TObjPlayer__sub_8013A748(arg1 + 0x3C0, arg0 + 0x500);
     for (k = 0; k < 19; k++) {
-        a = (s32)TObjPlayer__sub_802C4698((O_802C4698 *)arg1, k);
+        a = (saddr)TObjPlayer__sub_802C4698((O_802C4698 *)arg1, k);
         split_capped_value__10TObjPlayerFUcPUcPSc(TObjPlayer__sub_801C0124(arg0 + 0x428, k), TObjPlayer__sub_802C4688((O_802C4688 *)arg1, k), (E_802C4698 *)a);
     }
     for (m = 0; m != 13; m++) {
@@ -190,7 +190,7 @@ void export_state_to_record__10TObjPlayerFPvPv(u8 *arg0, s8 *arg1) {
     if (TObjPlayer__sub_802A1018() != 0) {
         ((TObjPlayer *)arg1)->set_flag_40();
     }
-    ((TObjPlayer *)arg0)->apply_pending_action((s32)arg1);
+    ((TObjPlayer *)arg0)->apply_pending_action((saddr)arg1);
     ((TObjPlayer *)arg0)->copy_mag_level_to_record((u8 *)arg1);
     ((TObjPlayer *)arg0)->copy_byte_339_to_record((u8 *)arg1);
     ((TObjPlayer *)arg0)->copy_battle_mode((u8 *)arg1);

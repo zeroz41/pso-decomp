@@ -49,7 +49,7 @@ void TObjNpcSoutokufu::close_dialog_window() {
 void TObjNpcSoutokufu::load_shared_resource() {
     saddr temp_r3;
     s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
+    temp_r3 = (saddr)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &bm_npc_soutokufu_resource_descriptor, 0, 0, 0));
@@ -64,7 +64,7 @@ TObjNpcSoutokufu::~TObjNpcSoutokufu() {}
 u8 *TObjNpcSoutokufu__ct(u8 *player, s32 arg1, saddr arg2) {
     ((TUnk_804A9F50 *)player)->construct_male_npc_base();
     *(s32 **)((s8 *)player + 0x18) = __vt__16TObjNpcSoutokufu;
-    *(s32 *)((s8 *)player + 0) = (s32) TObjNpcSoutokufu__name;
+    *(s32 *)((s8 *)player + 0) = (saddr) TObjNpcSoutokufu__name;
     ((TObjNpcSoutokufu *)(player))->apply_set_data((void *)arg2);
     ((TObjPlayer *)player)->init_position_vectors();
     *(s32 *)((s8 *)player + 0x34) = get_bml_model((int) ((*(s32 *)&TObjNpcSoutokufu__shared_model_resource)), 0);

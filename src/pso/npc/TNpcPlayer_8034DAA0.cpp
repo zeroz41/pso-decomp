@@ -558,7 +558,7 @@ void show_partner_chatter_for_key(s16 key) {
         player = get_player_by_client_id(i);
         if (player && obj_isState3_324__9TObjCharaFv() && key == ((TObjBase *)player)->get_room()
             && !(lbl_805D6EA0 & 2) && (*(Global_8034E5A8 *)&npc_partner_dialogue_state).f46e) {
-            TWindowCtrl::open((s32)(get_entity_id(player)), (s32)(&(*(Global_8034E5A8 *)&npc_partner_dialogue_state).f46e), 0x1B);
+            TWindowCtrl::open((s32)(get_entity_id(player)), (saddr)(&(*(Global_8034E5A8 *)&npc_partner_dialogue_state).f46e), 0x1B);
         }
     }
 }
@@ -571,7 +571,7 @@ void notify_partner_room_cleared(s32 arg0) {
     do {
         p = get_player_by_client_id(i);
         if (p != 0 && obj_isState3_324__9TObjCharaFv() != 0 && arg0 == ((TObjBase *)p)->get_room() && !(lbl_805D6EA0 & 2) && *win != 0) {
-            TWindowCtrl::open((s32)((s32)(get_entity_id(p))), (s32)((void *)((s32)win)), 0x1B);
+            TWindowCtrl::open((s32)((s32)(get_entity_id(p))), (saddr)((void *)((saddr)win)), 0x1B);
         }
         i += 1;
     } while (i < 4);
@@ -579,7 +579,7 @@ void notify_partner_room_cleared(s32 arg0) {
 
 void quest_remove_npc_player(u16 arg0) {
     saddr player;
-    player = ((s32)((void *)get_player_by_client_id(arg0)));
+    player = ((saddr)((void *)get_player_by_client_id(arg0)));
     if (player != 0) {
         TObjPlayer::send_item_pickup_request(player);
         if ((u32) player != 0U) {
@@ -775,7 +775,7 @@ u8 TTecReverser::is_active() {
 }
 
 void TNpcPlayer::AiParams::copy_entry_by_index(s32 arg1) {
-    saddr arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     s32 temp_r5;
     temp_r5 = arg1 * 0x28;
     copy__10TNpcPlayerFPv((void *) ((u8 *)&TNpcPlayer__template_table.value + temp_r5), (void *)arg0, (int)temp_r5);

@@ -35,7 +35,7 @@ void TObjNpcExpertBase::free_shared_data() {
 void TObjNpcExpertBase::load_shared_resource() {
     saddr temp_r3;
     s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
+    temp_r3 = (saddr)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &bm_n_hakase_i_body_resource_descriptor, 0, 0, 0));
@@ -49,7 +49,7 @@ TObjNpcExpertBase::~TObjNpcExpertBase() {}
 u8 *TObjNpcExpertBase__ct(u8 *player, s32 arg1, saddr arg2) {
     ((TUnk_804A9F50 *)player)->construct_male_npc_base();
     *(s32 **)((s8 *)player + 0x18) = __vt__17TObjNpcExpertBase;
-    *(s32 *)((s8 *)player + 0) = (s32) TObjNpcExpertBase__name;
+    *(s32 *)((s8 *)player + 0) = (saddr) TObjNpcExpertBase__name;
     ((TObjNpcExpertBase *)(player))->apply_set_data((void *)arg2);
     ((TObjPlayer *)player)->init_position_vectors();
     *(s32 *)((s8 *)player + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjNpcExpertBase__shared_resource) + 0x42C)) + 8);

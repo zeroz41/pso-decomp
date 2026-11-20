@@ -86,7 +86,7 @@ void TUnk_804A5D28::update_weapon() {
             a.x = 0x4000;
             a.y = self->owner->f60;
             a.z = 0;
-            TObjPlayer::launch_weapon_casing((s32)tl_05, (u32)self, 3, (u32)&v, (u32)&a);
+            TObjPlayer::launch_weapon_casing((saddr)tl_05, (uaddr)self, 3, (uaddr)&v, (uaddr)&a);
         }
     } else if (this->m_1fc == 2) {
         TItemEffOrgaFlowShot::approach_value(&self->f1FC, 0.2f, 0.0f);

@@ -39,8 +39,8 @@ void TObjNpcNFM00::free_resources() {
 }
 
 void TObjNpcNFM00::load_assets() {
-    TObjNpcNFM00__shared_named_model_object = create_named_object((s32)"npc_h00_data.rel");
-    TObjNpcNFM00__texture_gvm_handle = (u32)load_gvm_texture_file((s32)"n_h00_body.gvm");
+    TObjNpcNFM00__shared_named_model_object = create_named_object((saddr)"npc_h00_data.rel");
+    TObjNpcNFM00__texture_gvm_handle = (uaddr)load_gvm_texture_file((saddr)"n_h00_body.gvm");
 }
 
 TObjNpcNFM00::~TObjNpcNFM00() {}

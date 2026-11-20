@@ -32,7 +32,7 @@ void free_bin_model_request(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 
 void TObjNpcCloakroomBase::play_voice() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     if (get_current_floor_area() != AREA_CAVE3) {
         play_sound_effect(0x40003804, arg0 + 0x38, 0, 0);
         return;
@@ -51,7 +51,7 @@ void *TObjNpcCloakroomBase::create(void *arg0) {
     }
     o2 = TObject::operator new(0x3B8);
     if (o2 != NULL) {
-        o2 = TObjNpcCloakroomBase__ct((u8 *)o2, (s32)o, (s32)arg0);
+        o2 = TObjNpcCloakroomBase__ct((u8 *)o2, (saddr)o, (saddr)arg0);
     }
     return o2;
 }
@@ -66,7 +66,7 @@ void TObjNpcCloakroomBase::destroy_static_instance() {
 void TObjNpcCloakroomBase::load_shared_resource() {
     saddr temp_r3;
     s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
+    temp_r3 = (saddr)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &bm_n_trunk_i_body_resource_descriptor, 0, 0, 0));
@@ -81,7 +81,7 @@ TObjNpcCloakroomBase::~TObjNpcCloakroomBase() {}
 u8 *TObjNpcCloakroomBase__ct(u8 *arg0, s32 arg1, saddr arg2) {
     ((TUnk_804A8640 *)arg0)->construct_female_base();
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__20TObjNpcCloakroomBase;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) TObjNpcCloakroomBase__name;
+    *(s32 *)((s8 *)arg0 + 0) = (saddr) TObjNpcCloakroomBase__name;
     ((TObjNpcCloakroomBase *)(arg0))->apply_set_data((void *)arg2);
     ((TObjPlayer *)arg0)->init_position_vectors();
     *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjNpcCloakroomBase__static_instance) + 0x42C)) + 8);
@@ -103,7 +103,7 @@ void * TObjNpcConnoisseur__create(void *arg0) {
     }
     o2 = TObject::operator new(0x3B8);
     if (o2 != NULL) {
-        o2 = TObjNpcConnoisseur__ct((u8 *)o2, (s32)o, (s32)arg0);
+        o2 = TObjNpcConnoisseur__ct((u8 *)o2, (saddr)o, (saddr)arg0);
     }
     return o2;
 }
