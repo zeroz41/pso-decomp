@@ -122,7 +122,6 @@ const char *lbl_805D44B0 = "TBoss6MagMine";
 s32 TBoss6MagMine__ct(saddr arg0, saddr arg1, saddr arg2);
 s32 is_player_in_range__13TBoss6MagMineFPv(void *arg0_);
 void TBoss4DarkFalz__sub_8004B4F0(void *arg0p, void *arg1p);
-s32 get_phase__8TObjFishFv();
 s32 create__13TBoss6MagMineFi(s32 arg0);
 void spawn_mag_mine_at__13TBoss6MagMineFPvPv(void *arg0, void *arg1);
 void vt3__13TBoss6MagMineFv(saddr arg0);
@@ -487,7 +486,7 @@ void spawn_mag_mine_at__13TBoss6MagMineFPvPv(void *arg0, void *arg1) {
     Params_80369598 p;
     uaddr boss;
     boss = TBoss6PlotFalz::get_hp();
-    if (boss == 0 || get_phase__8TObjFishFv() != 6) {
+    if (boss == 0 || ((TObjFish *)boss)->get_phase() != 6) {
         return;
     }
     TBoss4DarkFalz__sub_8004B4F0(&p, (void *)(((TBoss6Type1 *)boss)->get_mag_mine_ptr()));

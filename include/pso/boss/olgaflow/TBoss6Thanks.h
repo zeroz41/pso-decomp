@@ -29,7 +29,7 @@ struct TBoss6Thanks : public TObject {
     void advance_thanks_state();
     void mark_done();
     static void *create();
-    s32 is_ship_door_ready();
+    static s32 is_ship_door_ready();
     static s32 try_dispatch_darkfalz_phase();
     u8 unk_54[0x10];
 };

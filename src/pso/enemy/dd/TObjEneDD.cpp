@@ -1159,7 +1159,7 @@ int TObjEneDD__sub_800BA804(u16 arg0) {
     return var_r3;
 }
 
-u8 TObjEneDD::is_valid_target() {
+s32 TObjEneDD::is_valid_target() {
     int var_r31;
 
     var_r31 = 0;

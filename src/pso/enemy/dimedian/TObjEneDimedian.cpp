@@ -31,6 +31,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/effect/TUnk_80494968.h"
 
 struct VBase_14_800A7BEC { char pad[0x14]; };
 
@@ -477,7 +478,6 @@ u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern const u8 lbl_8043AAA4[26];
 
 void __ct__13TUnk_80493450FP7TObject(void *);
-s32 create__13TUnk_80494968FUlUl(s32, s32);
 }
 int initialize_enemy_photon_effect(void *p);
 extern "C" {
@@ -815,7 +815,7 @@ O_800A846C *TObjPlayer__sub_800A846C(O_800A846C *arg0, s16 arg1) {
 #define arg1 ((saddr)arg1_)
 #define arg2 ((saddr)arg2_)
 void *TObjEneDimedian__ct(void *arg0_, void *arg1_, void *arg2_) {
-    s32 color;
+    u32 color;
     s32 i;
     ((void (*)(void *, s32, s32))__ct__13TUnk_80493450FP7TObject)(arg0, arg1, arg2);
     *(u8 **)((s8 *)arg0 + 0x18) = __vt__15TObjEneDimedian;
@@ -877,8 +877,8 @@ void *TObjEneDimedian__ct(void *arg0_, void *arg1_, void *arg2_) {
             break;
         }
     }
-    *(s32 *)((s8 *)arg0 + 0x3C4) = create__13TUnk_80494968FUlUl(0xA0303030, color);
-    *(s32 *)((s8 *)arg0 + 0x3C8) = create__13TUnk_80494968FUlUl(0xA0303030, color);
+    *(TUnk_80494968 **)((s8 *)arg0 + 0x3C4) = TUnk_80494968::create(0xA0303030, color);
+    *(TUnk_80494968 **)((s8 *)arg0 + 0x3C8) = TUnk_80494968::create(0xA0303030, color);
     *(s32 *)((s8 *)arg0 + 0x390) = 1;
     *(f32 *)((s8 *)arg0 + 0x398) = ((f32 **)(*(s32 **)&dimedian_buffer_ptr))[*(s32 *)((s8 *)arg0 + 0x334)][0];
     *(f32 *)((s8 *)arg0 + 0x3A0) = ((f32 **)(*(s32 **)&dimedian_buffer_ptr))[*(s32 *)((s8 *)arg0 + 0x334)][1];

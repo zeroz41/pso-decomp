@@ -77,7 +77,7 @@ struct TObjEneDD : public TObjEnemy {
     static void setup_instance(saddr arg0, s32 arg1, u8 *arg2, saddr arg3);
     void transform_relative_position(void* a1);
     s32 is_target_unobstructed(saddr arg1);
-    u8 is_valid_target();
+    s32 is_valid_target();
     void transform_part_positions();
     void init_model(CollisionBody *bodies, s32 count);
     void clear_field_388();

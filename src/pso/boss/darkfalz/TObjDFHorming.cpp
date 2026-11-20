@@ -231,10 +231,8 @@ s16 get_entity_id(void *);
 s32 TBoss4Type3__sub_8005254C(s16);
 
 s32 get_action_state__14TBoss4DarkFalzFv();
-s32 get_phase__14TBoss4DarkFalzFv();
-s32 get_state__14TBoss4DarkFalzFv();
 
-u8 TObjDFHorming::is_boss_active() {
+s32 TObjDFHorming::is_boss_active() {
     int var_r31;
 
     var_r31 = 0;
@@ -250,15 +248,13 @@ u8 TObjDFHorming::is_boss_active() {
     return (u8) var_r31;
 }
 
-u8 TBoss4DarkFalz::is_state_ready() {
+s32 TBoss4DarkFalz::is_state_ready() {
     int var_r31;
 
     var_r31 = 0;
     if (TBoss4DarkFalz__sub_8004C1B4() != 0U) {
-        TBoss4DarkFalz__sub_8004C1B4();
-        if (get_phase__14TBoss4DarkFalzFv() != 3) {
-            TBoss4DarkFalz__sub_8004C1B4();
-            if (get_phase__14TBoss4DarkFalzFv() != 2) {
+        if (((TBoss4DarkFalz *)TBoss4DarkFalz__sub_8004C1B4())->get_phase() != 3) {
+            if (((TBoss4DarkFalz *)TBoss4DarkFalz__sub_8004C1B4())->get_phase() != 2) {
                 var_r31 = 1;
             }
         }
@@ -266,22 +262,20 @@ u8 TBoss4DarkFalz::is_state_ready() {
     return (u8) var_r31;
 }
 
-u8 TBoss4DarkFalz::is_active() {
+s32 TBoss4DarkFalz::is_active() {
     int var_r31;
 
     var_r31 = 0;
     if (TBoss4DarkFalz::get_instance() != 0U) {
-        TBoss4DarkFalz::get_instance();
-        if (get_state__14TBoss4DarkFalzFv() != 3) {
-            TBoss4DarkFalz::get_instance();
-            if (get_state__14TBoss4DarkFalzFv() != 4) {
+        if (((TBoss4DarkFalz *)TBoss4DarkFalz::get_instance())->get_state() != 3) {
+            if (((TBoss4DarkFalz *)TBoss4DarkFalz::get_instance())->get_state() != 4) {
                 var_r31 = 1;
             }
         }
     }
     return (u8) var_r31;
 }
-u16 TBoss4Type3::pick_random_target_player() {
+s32 TBoss4Type3::pick_random_target_player() {
     u16 buf[4];
     s32 n;
     s32 i;

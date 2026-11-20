@@ -297,7 +297,6 @@ s32 TBoss6Type1__sub_802B600C(T1_802B600C *arg0, f32 _w1);
 void randomize_attack__11TBoss6Type1FPvPv(Boss_802B8EE0 *self, Atk_802B8EE0 *atk);
 void send_flow_action_if_idle__11TBoss6Type1FPvc(TBoss6Type1 *arg0, s8 arg1);
 void TBoss6Type1__sub_802B8BB4(u8 *arg0);
-s32 is_active__14TBoss6PlotFalzFv();
 void TBoss6PlotFalz__sub_802AC724(void *, void *);
 f32 vec3_add_to(void *, const void *);
 void vec3_cross(void *, void *, void *);
@@ -1463,7 +1462,7 @@ void TBoss6Type1::update_beam_attack() {
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
         Player_802B6B34 *p = ((Player_802B6B34 *)TObjPlayer::get_player_data(i));
-        if (is_active__14TBoss6PlotFalzFv() != 0) {
+        if (((TBoss6PlotFalz *)p)->is_active() != 0) {
             Vec *a = &self->a;
             VecCopy((Vec *)&v, (const Vec *)&p->pos);
             v.y = 0.0f;
@@ -1686,7 +1685,7 @@ void TBoss6Type1__sub_802B6C30(Boss_802B6C30 *self) {
     B.z = self->f4DC * (b->z - mid.z) + mid.z;
     for (i = 0; i < n; i++) {
         pl = ((Player_802B6C30 *)((Player_802B6B34 *)TObjPlayer::get_player_data(i)));
-        if (is_active__14TBoss6PlotFalzFv() == 0) {
+        if (((TBoss6PlotFalz *)pl)->is_active() == 0) {
             continue;
         }
         inside = 1;
@@ -1774,7 +1773,7 @@ void TBoss6Type1::damage_players_in_range() {
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
         p = ((Player_802B6B34 *)TObjPlayer::get_player_data(i));
-        if (is_active__14TBoss6PlotFalzFv() != 0) {
+        if (((TBoss6PlotFalz *)p)->is_active() != 0) {
             V3_802B6B34 v = p->pos;
             v.y = 0.0f;
             if (!(((f32 (*)(void *))vector_length)(&v) > 10.0f)) {
@@ -1832,7 +1831,7 @@ void TBoss6Type1::spawn_grav_ball() {
     f32 r;
     flag = 1;
     pl = (u8 *)get_player_by_client_id(((Boss_802B683C *)this)->f41C & 3);
-    if (is_active__14TBoss6PlotFalzFv() != 0) {
+    if (((TBoss6PlotFalz *)pl)->is_active() != 0) {
         VecCopy((Vec *)&v, (const Vec *)(pl + 0x38));
         flag = 0;
         v.y = ((Boss_802B683C *)this)->pos.y;
@@ -2105,7 +2104,7 @@ void TBoss6Type1__sub_802B5DD4(Obj_802B5DD4 *self) {
     self->f4e4++;
 }
 
-u8 TBoss6Type1::is_timer_expired() {
+s32 TBoss6Type1::is_timer_expired() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r0;
     s32 temp_r5;

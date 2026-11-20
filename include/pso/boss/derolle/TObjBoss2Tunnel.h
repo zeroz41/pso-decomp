@@ -91,7 +91,7 @@ struct TObjBoss2Tunnel : public TObject {
     static s32 spawn_effect(saddr arg0, void *arg1, void *arg2);
     static s32 adjust_to_ground(saddr arg0, void *arg1);
     void init_zako(void* a1, s32 _w2);
-    static s16 turn_toward_angle_limited(s32 arg0, s32 cur, s32 target, s32 step, s32 limit);
+    static s32 turn_toward_angle_limited(s32 arg0, s32 cur, s32 target, s32 step, s32 limit);
     s32 count_tree_nodes();
     static f32 calc_scaled_value(s32 arg0, f32 farg0);
     static void transform_vec_by_camera(saddr arg0, saddr arg1, saddr arg2);

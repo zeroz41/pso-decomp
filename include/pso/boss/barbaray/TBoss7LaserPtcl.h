@@ -18,7 +18,7 @@ struct TBoss7LaserPtcl : public TObject {
     u32 m_54;
 
     virtual void run_task();
-    u8 is_state_2();
+    s32 is_state_2();
     void calc_world_position(void *arg1);
     void update_position();
     void init_laser();

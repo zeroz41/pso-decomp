@@ -30,7 +30,7 @@ struct TBoss4Thanks : public TObject {
     void mark_done();
     void run_task();
     static void *create();
-    s32 is_door_open_and_ready();
+    static s32 is_door_open_and_ready();
     static s32 check_ready();
 };
 

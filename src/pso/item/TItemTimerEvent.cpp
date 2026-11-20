@@ -69,7 +69,6 @@ void fn_8011085C(u8 *arg0, s32 arg1);
 TItemLockCountCtrl * item_timer_event_instance;
 void fn_801108C8(u8 *arg0, s32 arg1);
 s32 is_item_area_enabled();
-s32 set_flag_10000__10TObjPlayerFv();
 
 void TObjPlayer::sub_8011E204(s32 arg1) {
   s32 *new_var;
@@ -101,8 +100,9 @@ void TItemTimerEvent::clear_active() {
 }
 
 void TItemTimerEvent::notify_if_active(int arg0) {
-    if (get_player_by_client_id(arg0) != 0U) {
-        set_flag_10000__10TObjPlayerFv();
+    uaddr player;
+    if ((player = get_player_by_client_id(arg0)) != 0U) {
+        ((TObjPlayer *)player)->set_flag_10000();
     }
 }
 

@@ -88,7 +88,7 @@ struct TBoss6PlotFalz : public TObjEnemy {
     void advance_timer();
     void advance_phase_if_ready();
     void update_cutscene_fade();
-    static u8 is_flag_set();
+    static s32 is_flag_set();
     s32 get_next_point(s16 *arg1, s16 *arg2);
     void run_phase_action();
     static void warp_nearby_players();

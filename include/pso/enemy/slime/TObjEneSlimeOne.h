@@ -41,7 +41,7 @@ struct TObjEneSlimeOne : public TObjEnemy {
     uaddr parent_slime;  // the ctor's spawner; try_spawn_child is called on it when this one is hit
     s32 get_attack_target();
     s32 is_in_water_bomb_states();
-    static int get_instance();
+    static saddr get_instance();
     int is_timer_active();
     int find_nearest_enemy_with_flag(saddr arg1, f32 farg0);
     int check_player_field_7cc();

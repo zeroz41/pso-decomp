@@ -87,7 +87,6 @@ const WeaponStarLightParameterWords weapon_star_light_parameters[] = {
 StarLightFollowerView *__ct__13TUnk_804A2018FP7TObjectll(StarLightFollowerView *self, void *parent, s32 a, s32 b);
 void __dt__7TObjectFv(void *, int);
 void *TObjPlayer__sub_8012417C(void *arg0, s16 arg1);
-s8 get_mode__5TItemFv();
 
 void run_task__13TUnk_804A2018Fv(void *arg0);
 void *TObjPlayer__sub_80124694(TObjPlayer *arg0);
@@ -112,7 +111,7 @@ void TUnk_804A2018::run_task() {
     }
     if ((u32) *(u32 *)&this->unk_24 != 0U) {
         item = ((saddr)find_item_by_id(*(s32 *)&this->unk_1C));
-        if ((item != 0) && (get_mode__5TItemFv() == 2) && (((TItemWeapon *)item)->get_joint_position(this->m_20, &sp8) != 0)) {
+        if ((item != 0) && (((TItem *)item)->get_mode() == 2) && (((TItemWeapon *)item)->get_joint_position(this->m_20, &sp8) != 0)) {
             if (((TItem *)item)->is_hidden() == 0) {
                 ((TEffStarLight2D *)*(uaddr *)&this->unk_24)->copy_position((const Vec *)&sp8);
                 return;

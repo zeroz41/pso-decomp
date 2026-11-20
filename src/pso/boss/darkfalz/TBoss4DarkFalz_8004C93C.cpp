@@ -71,13 +71,13 @@ int TBoss4DarkFalz__sub_8004C1AC(void) {  return TBoss4DarkFalz__type3_instance;
 
 extern saddr TBoss4DarkFalz__type2_instance;
 
-s32 TBoss4DarkFalz__sub_8004C1B4(void) {
+saddr TBoss4DarkFalz__sub_8004C1B4(void) {
     return TBoss4DarkFalz__type2_instance;
 }
 
 extern saddr TBoss4DarkFalz__type1_instance;
 
-s32 TBoss4DarkFalz::get_instance() {
+saddr TBoss4DarkFalz::get_instance() {
     return TBoss4DarkFalz__type1_instance;
 }
 

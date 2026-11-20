@@ -90,7 +90,7 @@ s32 TObjEneSlimeOne::is_in_water_bomb_states() {
     return self->state == 11 || self->state == 12 || self->state == 13;
 }
 
-int TObjEneSlimeOne::get_instance() {  return slime_bml_resource; }
+saddr TObjEneSlimeOne::get_instance() {  return slime_bml_resource; }
 
 int TObjEneSlimeWaterBomb::find_nearest_enemy_masked(f32 farg0) {
     u8 *arg0 = (u8 *)this;

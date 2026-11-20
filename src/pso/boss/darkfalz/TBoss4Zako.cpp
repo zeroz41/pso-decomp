@@ -127,7 +127,6 @@ void vt6__9TBoss4UroFv(u8 *arg0);
 void vt2__11TBoss4BishiFv(u8 *arg0);
 void vt5__9TBoss4UroFv(u8 *arg0);
 
-s32 get_instance__14TBoss4DarkFalzFv();
 s32 get_position_ptr__10TObjPlayerFv(s32);
 
 void enter_state_3__11TBoss4BishiFPv(void* p);
@@ -145,7 +144,6 @@ s32 TBoss4Bishi__ct(saddr arg0, s32 arg1, s32 arg2);
 struct Obj_8005C6E4;
 void clamp_min_player_distance__9TBoss4UroFPv(Obj_8005C6E4 *arg0);
 
-s32 get_phase__9TBoss4UroFv(void *);
 
 void minimap_render_dot(void *, s32, s32, s32);
 struct VOff_8005C450_arg0_8005BABC { char pad_0[0x38]; char f_38[1]; };
@@ -238,6 +236,8 @@ struct TBoss4Uro {
     void vt4();
     void vt5();
     void vt6();
+    s32 get_phase();
+    static s32 get_instance_count();
 };
 
 typedef void (TBoss4Uro::*Act_8005C49C)();
@@ -276,7 +276,6 @@ static const f32 one_third = 0.33333334f;
 
 struct O_8005D6B0 { u8 pad[0x374]; s32 f374; };
 
-s32 get_instance_count__9TBoss4UroFv();
 
 s32 init_collision_body_parts(void *, void *, int);
 extern u32 TBoss4Zako_collision_body_parts[];
@@ -349,7 +348,7 @@ s32 TBoss4Zako__ct(saddr arg0, saddr parent, saddr arg2) {
     fn_8005D6E4((u8 *)*(saddr *)((s8 *)THIS + 0x378));
     ((TBoss3Volopt *)THIS)->apply_set_data((s32 *)arg2 + 1);
     ((TBoss3Volopt *)THIS)->clear_lobby_object_state();
-    *(s32 *)((s8 *)THIS + 0x380) = get_instance_count__9TBoss4UroFv();
+    *(s32 *)((s8 *)THIS + 0x380) = TBoss4Uro::get_instance_count();
     *(s32 *)((s8 *)THIS + 0x24) = 0;
     *(s32 *)((s8 *)THIS + 0x34) = 0;
     VecCopy__FP3VecPC3Vec(THIS + 0x44, VecCopy__FP3VecPC3Vec(THIS + 0x50, VecCopy__FP3VecPC3Vec(THIS + 0x74, THIS + 0x38)));
@@ -421,7 +420,7 @@ void TBoss4Zako::run_task() {
     TBoss4Zako *self = this;
     void (TBoss4Zako::*fn)();
 
-    if (((TBoss4Zako *)self)->sub_8005D698() != 0 && get_phase__9TBoss4UroFv(self->m_378) != 4) {
+    if (((TBoss4Zako *)self)->sub_8005D698() != 0 && ((TBoss4Uro *)self->m_378)->get_phase() != 4) {
         ((TBoss4Zako *)self)->set_state3();
     }
     if (((TBoss4Zako *)self)->sub_8005D6B0() != 0) {
@@ -722,7 +721,7 @@ void clamp_min_player_distance__9TBoss4UroFPv(Obj_8005C6E4 *arg0) {
     if (arg0->f378 == 0) {
         return;
     }
-    if (((u32 (*)())get_instance__14TBoss4DarkFalzFv)() == 0) {
+    if ((uaddr)TBoss4DarkFalz::get_instance() == 0) {
         return;
     }
     VecCopy__FP3VecPC3Vec(&target, (void *)((s32 (*)())get_position_ptr__10TObjPlayerFv)());
@@ -756,7 +755,7 @@ static s8 lbl_805D4D89;
 #pragma push
 #pragma fp_contract on
 void run_task__9TBoss4UroFv(TBoss4Uro *self) {
-    if (self->f374 != 3 && get_phase__9TBoss4UroFv(self->f378) != 6) {
+    if (self->f374 != 3 && ((TBoss4Uro *)self->f378)->get_phase() != 6) {
         TBoss4Uro__sub_8005D6D4(self->f378);
         self->f374 = 3;
         return;
@@ -985,7 +984,7 @@ static s8 lbl_805D4D8A;
 
 #pragma fp_contract on
 void TBoss4Zako__sub_8005BC4C(TBoss4Bishi *self) {
-    if (self->f374 != 3 && get_phase__9TBoss4UroFv(self->f378) != 8) {
+    if (self->f374 != 3 && ((TBoss4Uro *)self->f378)->get_phase() != 8) {
         enter_state_3__11TBoss4BishiFPv(self);
         return;
     }

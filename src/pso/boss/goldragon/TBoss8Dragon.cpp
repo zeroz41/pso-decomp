@@ -146,7 +146,6 @@ s32 enemy_validate_retained_target(u8 *ene_dd_st);
 void TBoss8Dragon__sub_802FC9D8(u8 *arg0);
 s32 __ct__21TBoss8DragonEffBreathFP7TObjectPvPvls(void *, void *, void *, void *, s32, u16);
 f32 newton_sqrtf(f32);
-s32 is_valid_target__9TObjEneDDFv(void);
 f32 horizontal_distance_squared(void *, void *);
 s32 TBoss8Dragon__sub_802FC674(Obj_802FC674 *self, f32 *out);
 s32 TBoss8Dragon__sub_802F46F4(saddr arg0);
@@ -694,13 +693,11 @@ f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 int emit_effect_at_position__9TObjEneDDFPv(void*);
 int emit_enemy_effect__9TObjEneDDFllPUcl(void*);
 int setup_instance__9TObjEneDDFllPUcl(void*);
-s32 is_alive__8TObjBaseFv(void);
 s32 update_local_colliders_from_world(void *, void *);
 s32 __dt__17AreaAttackHistoryFv(s32 arg0, s16 arg1);
 u8 *get_enemy_entity(u16 arg0);
 void free_collision_body_parts(void *);
 s32 check_flag_100__10TObjPlayerFPv();
-s32 start_freeze__10TObjPlayerFv(int);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 s32 play_sound_effect(s32, s32, s32, s32);
 void set_mode_params__12TBoss8DragonFSc(void *, unsigned char);
@@ -2122,7 +2119,7 @@ s32 TBoss8Dragon__sub_802FC674(Obj_802FC674 *self, f32 *out) {
     n = 0;
     for (i = 0; i < 12; i++) {
         p = (Obj_802FC674 *)get_player_by_client_id(i);
-        if (is_valid_target__9TObjEneDDFv() != 0 &&
+        if (((TObjEneDD *)p)->is_valid_target() != 0 &&
             horizontal_distance_squared(p->pos, self->pos) >= lim) {
             list[n] = p;
             n++;
@@ -2229,7 +2226,7 @@ s32 select_target_in_front__12TBoss8DragonFPv(u8 *ene_dd_st) {
     ref.z = cos_table_lookup(*(s32 *)(ene_dd_st + 0x60));
     for (i = 0; i < count; i++) {
         player = (u8 *)TObjPlayer::get_player_data(i);
-        if (is_alive__8TObjBaseFv() != 0) {
+        if (((TObjBase *)player)->is_alive() != 0) {
             ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&d, player + 0x38);
             subtract_vector(&d, ene_dd_st + 0x38);
             normalize_vector_xz__FP3Vec(&d);
@@ -2727,6 +2724,7 @@ u16 TBoss8Dragon::find_player_on_floor(void *arg0) {
 
 void TBoss8Dragon::select_freeze_target() {
     u16 var_r31;
+    u8 *p;
     if (TBoss8Dragon__data_805D69B8 != 0) {
         this->m_74c = 1;
     } else {
@@ -2745,8 +2743,8 @@ void TBoss8Dragon::select_freeze_target() {
     } else {
         var_r31 = (u16)local_client_id;
     }
-    if (((u8 * (*)(s32))get_player_by_client_id)(var_r31) != NULL) {
-        ((s32 (*)(void))start_freeze__10TObjPlayerFv)();
+    if ((p = ((u8 * (*)(s32))get_player_by_client_id)(var_r31)) != NULL) {
+        ((TObjPlayer *)p)->start_freeze();
     }
     this->m_750 = var_r31;
 }

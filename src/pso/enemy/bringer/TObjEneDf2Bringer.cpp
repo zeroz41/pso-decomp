@@ -678,7 +678,6 @@ extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
 f32 atan2_float(f32 y, f32 x);
 void fill_value_array(saddr);
-s32 turn_toward_angle_limited__15TObjBoss2TunnelFlllll(s32, s32, s32, s32, s32);
 s32 TObjEneDf2Bringer__sub_80099248(void *);
 s32 enemy_validate_retained_target(void *);
 s32 approach_angle_limited(s32, s32, s32);
@@ -1784,7 +1783,7 @@ void TObjEneDf2Bringer__sub_8009859C(u8 *ene_df2_bringer, s32 arg1) {
         {
         s32 ang;
         ((TObjEneDf2Bringer *)ene_df2_bringer)->rotation_y = approach_angle_limited((s32)(((TObjEneDf2Bringer *)ene_df2_bringer)->rotation_y), (s32)(ang = (s32) (10430.38043493439 * atan2_float(*(f32 *)((s8 *)ene_df2_bringer + 0x3A0), *(f32 *)((s8 *)ene_df2_bringer + 0x3A8)))), 0x300);
-        *(s32 *)((s8 *)ene_df2_bringer + 0x480) = turn_toward_angle_limited__15TObjBoss2TunnelFlllll((s32)(((TObjEneDf2Bringer *)ene_df2_bringer)->rotation_y), (s32)(*(s32 *)((s8 *)ene_df2_bringer + 0x480)), ang, 0x200, 0x2000);
+        *(s32 *)((s8 *)ene_df2_bringer + 0x480) = TObjBoss2Tunnel::turn_toward_angle_limited((s32)(((TObjEneDf2Bringer *)ene_df2_bringer)->rotation_y), (s32)(*(s32 *)((s8 *)ene_df2_bringer + 0x480)), ang, 0x200, 0x2000);
         }
         temp_r30_2 = (*(u8 * *)&TObjEneDf2Bringer__data_805D4FB4);
         if (*(f32 *)((s8 *)ene_df2_bringer + 0x3AC) <= (f32) *(s32 *)((s8 *)temp_r30_2 + 0x28)) {
@@ -1845,7 +1844,7 @@ void TObjEneDf2Bringer__sub_8009813C(u8 *arg0, s32 arg1) {
                 ((TObjEneDD *)arg0)->update_velocity();
             }
             F(s32, 0x60) = approach_angle_limited(F(s32, 0x60), (s32)(10430.38043493439 * atan2_float(F(f32, 0x3A0), F(f32, 0x3A8))), 0x280);
-            F(s32, 0x480) = turn_toward_angle_limited__15TObjBoss2TunnelFlllll(F(s32, 0x60), F(s32, 0x480), F(s32, 0x60), 0x200, 0x2000);
+            F(s32, 0x480) = TObjBoss2Tunnel::turn_toward_angle_limited(F(s32, 0x60), F(s32, 0x480), F(s32, 0x60), 0x200, 0x2000);
             VO->m87();
             break;
         case 1:
@@ -1949,7 +1948,7 @@ void TObjEneDf2Bringer__sub_80097E9C(u8 *arg0, s32 arg1) {
     case 0:
         ((TObjMotion *)arg0)->advance_animation();
         temp_r3 = ((TObjEneDf2Bringer *)arg0)->rotation_y;
-        *(s32 *)((s8 *)arg0 + 0x480) = turn_toward_angle_limited__15TObjBoss2TunnelFlllll(temp_r3, (s32)((int) (*(s32 *)((s8 *)arg0 + 0x480))), temp_r3, 0x200, 0x2000);
+        *(s32 *)((s8 *)arg0 + 0x480) = TObjBoss2Tunnel::turn_toward_angle_limited(temp_r3, (s32)((int) (*(s32 *)((s8 *)arg0 + 0x480))), temp_r3, 0x200, 0x2000);
         switch (*(s32 *)((s8 *)arg0 + 0x4B0)) {
         case 0:
             if (((TObjMotion *)arg0)->is_passing_frame(11.0f) != 0) {

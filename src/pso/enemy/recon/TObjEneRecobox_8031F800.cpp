@@ -1309,7 +1309,7 @@ void TObjEneRecon::remove_child_entity(u8 *arg1) {
 }
 
 
-u8 TObjEneRecon::is_anim_6() {
+s32 TObjEneRecon::is_anim_6() {
     return (u8) (this->mode == 6);
 }
 

@@ -1120,7 +1120,6 @@ void TBoss6EmptyWarp::init_warp() { place_players_in_warp_circle(); TBoss6PlotFa
 
 void release_all_players_control_lock(void);
 void end_cutscene_camera__14TBoss6PlotFalzFPv(void *self);
-void start_freeze__10TObjPlayerFv();
 void TBoss6PlotFalz__sub_802AC724(u8 *arg0, u32 arg1);
 void end_cutscene_camera__14TBoss6PlotFalzFPv(void *self) {
     s32 i;
@@ -1137,10 +1136,11 @@ void end_cutscene_camera__14TBoss6PlotFalzFPv(void *self) {
 
 void TBoss6PlotFalz::freeze_all_players() {
     s32 i;
+    void *p;
     TWindowCtrl::init_all_slots();
     for (i = 0; i < registered_player_count; i++) {
-        if (get_player_data__10TObjPlayerFi(i) != 0) {
-            start_freeze__10TObjPlayerFv();
+        if ((p = get_player_data__10TObjPlayerFi(i)) != 0) {
+            ((TObjPlayer *)p)->start_freeze();
         }
     }
 }

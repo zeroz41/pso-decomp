@@ -68,7 +68,6 @@ s32 post_translate_matrix(void *);
 void render__15TObjEneSlimeOneFv(TObjEneSlimeOne *arg0);
 saddr get_bml_texlist(BmlResource *resource, s32 index);
 saddr get_bml_model(BmlResource *resource, s32 index);
-u8 *get_instance__15TObjEneSlimeOneFv();
 s32 init_collision_body_parts(void *, void *, int);
 extern void *lbl_80496368[2];
 extern void *lbl_8049639C[28];
@@ -952,7 +951,7 @@ void TObjEneSlimeOne::initialize_slime_instance_state() {
   s32 *new_var2;
   u8 *new_var;
     u8 *actor = (u8 *)this;
-  ((TObjEneSlimeOne *)actor)->model_archive = get_instance__15TObjEneSlimeOneFv();
+  ((TObjEneSlimeOne *)actor)->model_archive = (u8 *)TObjEneSlimeOne::get_instance();
   if ((((TObjChara *)actor)->random_ratio() < 0.002f) || ((((TObjEneSlimeOne *)actor)->state36C) & 1))
   {
     *((s32 *) (((s8 *) actor) + 0x3F4)) = 1;
@@ -1909,7 +1908,7 @@ void *TObjEneSlimeTailAttack__ct(TObjEneSlimeTailAttack *ene_slime_tail_attack, 
   *((u8 **) (((s8 *) ene_slime_tail_attack) + 0x18)) = (u8 *) __vt__22TObjEneSlimeTailAttack;
   *((s32 *) (((s8 *) ene_slime_tail_attack) + 0)) = (saddr) TObjEneSlimeTailAttack__name;
   *((s32 *) (((s8 *) ene_slime_tail_attack) - -0x374)) = arg4;
-  inst = get_instance__15TObjEneSlimeOneFv();
+  inst = (u8 *)TObjEneSlimeOne::get_instance();
   id = ((s32 *) lbl_804966F4)[((TObjEneSlimeOne *)(*((s32 *) (((s8 *) ene_slime_tail_attack) + (0x374 & 0xFFFF)))))->get_attack_target()];
   ene_slime_tail_attack->texlist = get_bml_texlist((BmlResource *)inst, id);
   *((s32 *) (((s8 *) ene_slime_tail_attack) + 0x34)) = get_bml_model((BmlResource *)inst, id);

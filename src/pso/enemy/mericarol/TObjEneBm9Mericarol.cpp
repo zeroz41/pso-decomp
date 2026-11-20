@@ -110,7 +110,6 @@ extern const s32 lbl_80472300[];
 extern const s32 lbl_8047230C[];
 extern void *tl_04;
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
-s32 is_valid_target__9TObjEneDDFv(TObjBase *target);
 s32 free_collision_body_parts(void *);
 void init_collision_body_parts(void *, void *, s32);
 void free_bin_model_request(void *, int);
@@ -458,12 +457,12 @@ TObjPlayer *TObjEneBm9Mericarol::find_nearby_target() {
     s32 i;
     for (i = 0; i < n; i++) {
         pl = TObjPlayer::get_player_data(i);
-        if (is_valid_target__9TObjEneDDFv(pl) != 0 && pl->obj_isState2_324() == 0) {
+        if (((TObjEneDD *)pl)->is_valid_target() != 0 && pl->obj_isState2_324() == 0) {
             best = pl;
             break;
         }
     }
-    if (is_valid_target__9TObjEneDDFv(best) != 0 && horizontal_distance_squared(&position, &best->position) < 10000.0f) {
+    if (((TObjEneDD *)best)->is_valid_target() != 0 && horizontal_distance_squared(&position, &best->position) < 10000.0f) {
         return best;
     }
     return NULL;

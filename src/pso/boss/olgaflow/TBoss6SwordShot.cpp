@@ -70,7 +70,6 @@ s32 vec3_add_to(void *, void *);
 f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
 s32 normalize_vector(void *);
-s32 is_active__14TBoss6PlotFalzFv();
 }
 struct Pair_803561C4 { s32 a; f32 b; };
 struct VBase_18_ec708a { char pad[0x18]; };
@@ -114,7 +113,7 @@ void damage_players_in_radius(u8 *arg0) {
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
         pl = (u8 *)TObjPlayer::get_player_data(i);
-        if (((s32 (*)(void *))is_active__14TBoss6PlotFalzFv)(pl) != 0) {
+        if (((TBoss6PlotFalz *)pl)->is_active() != 0) {
             VecCopy((Vec *)&v, (const Vec *)(pl + 0x38));
             subtract_vector(&v, arg0 + 0x20);
             v.y = 0.0f;
@@ -264,7 +263,7 @@ s32 TBoss6SwordWave::check_player_hits() {
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
         pl = (VObj_8035663C *)TObjPlayer::get_player_data(i);
-        if (is_active__14TBoss6PlotFalzFv() != 0) {
+        if (((TBoss6PlotFalz *)pl)->is_active() != 0) {
             VecCopy((Vec *)&dir, (const Vec *)((u8 *)pl + 0x38));
             subtract_vector(&dir, arg0 + 0x20);
             dir.y = 0.0f;

@@ -78,7 +78,6 @@ void TBoss6Type1__sub_802B5140(saddr arg0, s32 arg1, s32 arg2);
 int clamp_to_arena_radius__11TBoss6Type1FPvPvf(void*, void*);
 void TBoss6Type1__sub_802B5598(void *arg0, void *arg1);
 s32 calc_grid_cell_position__11TBoss6Type1FPvPv(void *, void *);
-s32 is_timer_expired__11TBoss6Type1Fv();
 s32 TBoss6Type1__sub_802B6060(u8 *arg0);
 s32 TBoss6Type1__sub_802B6C30(void *);
 s32 TBoss6Type1__sub_802B73AC();
@@ -142,7 +141,7 @@ void TBoss6Type1::update_countdown_state() {
 }
 
 void TBoss6Type1::update_if_ready() {
-    if (((s32) this->action_timer == 0) || (is_timer_expired__11TBoss6Type1Fv() != 0)) {
+    if (((s32) this->action_timer == 0) || (this->is_timer_expired() != 0)) {
         TBoss6Type1__sub_802B8E1C(this);
     }
 }

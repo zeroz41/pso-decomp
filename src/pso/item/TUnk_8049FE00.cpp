@@ -6,7 +6,6 @@
 extern "C" {
 int obj_getS16_2BA(void*);
 s32 add_actor_tp(u8 *arg0, s32 arg1);
-u8 get_item_index__5TItemFv();
 extern s32 game_difficulty_selection;
 }
 
@@ -24,7 +23,7 @@ void TUnk_8049FE00::apply_use_effect() {
     s32 stat_value;
 
     stat_value = 0;
-    switch ((s32) get_item_index__5TItemFv()) {
+    switch ((s32) ((TItem *)this)->get_item_index()) {
     case 0:
         stat_value = calc_small_tp();
         break;

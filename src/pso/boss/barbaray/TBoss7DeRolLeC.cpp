@@ -879,7 +879,6 @@ void fill_value_array(saddr address);
 u8 *csnVector(s32 *, void *, s32);
 
 
-s32 is_state_2__15TBoss7LaserPtclFv(void *);
 
 u8 *TBoss7LaserPtcl__ct(u8 *arg0, u8 *arg1, u8 *arg2, u8 *arg3);
 
@@ -1186,7 +1185,6 @@ s32 enemy_set_target_id(void * a0 = 0, u16 a1 = 0);
 
 void project_sound_origin_from_camera(saddr arg0, u8 *arg1, f32 farg0);
 
-s32 is_alive__8TObjBaseFv();
 
 u8 *get_enemy_entity(u16 arg0);
 
@@ -2074,7 +2072,7 @@ void TObjFish::pick_random_target() {
     enemy_clear_target__12TObjEneDD_STFUs(this);
     for (i = 0; i < n; i++) {
         p = (u8 *)TObjPlayer::get_player_data(idx);
-        if (is_alive__8TObjBaseFv() != 0) {
+        if (((TObjBase *)p)->is_alive() != 0) {
             ((TObjEneDD_ST *)((u8 *)this))->set_target_player(p);
             return;
         }
@@ -3952,7 +3950,7 @@ void TBoss7LaserPtcl__sub_802E8FCC(u8 *arg0, u32 arg1) {
             (*(f32 *)(copy_storage_802E8FCC.bytes + 0x4)) = *(f32 *)((s8 *)(*(f32 **)((s8 *)arg0 + 0x620)) + 0);
             TObjEneDD::setup_instance((saddr)((void *)arg0), (saddr)((saddr)src), (u8 *)copy_storage_802E8FCC.bytes, (s32)((int) (*(s32 *)((s8 *)arg0 + 0x718))));
             if ((u32) *(u32 *)((s8 *)arg0 + 0x7A8) != 0U) {
-                if (is_state_2__15TBoss7LaserPtclFv(*(void **)((s8 *)arg0 + 0x7A8)) != 0) {
+                if (((TBoss7LaserPtcl *)(*(void **)((s8 *)arg0 + 0x7A8)))->is_state_2() != 0) {
                     *(s32 *)((s8 *)arg0 + 0x728) = 3;
                     return;
                 }

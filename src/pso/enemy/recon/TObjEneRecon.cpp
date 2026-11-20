@@ -629,7 +629,6 @@ struct WObj_8031c7bc : WBase_8031c7bc {
 };
 
 extern "C" {
-s32 is_anim_6__12TObjEneReconFv(TObjEneRecon *);
 
 void run_task__12TObjEneReconFPvi(u8 *arg0, s32 arg1);
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
@@ -654,7 +653,7 @@ void run_task__12TObjEneReconFPvi(u8 *target, s32 arg1) {
             ((TObject *)target)->queue_destruction();
             return;
         }
-        if (is_anim_6__12TObjEneReconFv((TObjEneRecon *)entity) == 1) {
+        if (((TObjEneRecon *)entity)->is_anim_6() == 1) {
             ((TObjEneDD *)target)->transition_enemy_state(7);
             return;
         }
@@ -1855,7 +1854,7 @@ void run_task__12TObjEneReconFv(TObjEneRecon *ene_recon) {
         return;
     }
     temp_r0 = ene_recon->mode;
-    if ((temp_r0 != 8) && (temp_r0 != 7) && (is_anim_6__12TObjEneReconFv((TObjEneRecon *)entity) == 1)) {
+    if ((temp_r0 != 8) && (temp_r0 != 7) && (((TObjEneRecon *)entity)->is_anim_6() == 1)) {
         ene_recon->m_2dc = (s32) (ene_recon->m_2dc | 4);
         ((TObjPlayer *)ene_recon)->set_hp_clamped(0);
         obj_setFlags30(ene_recon, 0xA00U);

@@ -118,7 +118,6 @@ extern s32 lbl_805D4BEC;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 void forward_switch_phase_stats__13TBoss2DeRolLeFi(saddr arg0);
-s32 is_valid_target__9TObjEneDDFv(void *);
 s32 vec3_add_to(void *, void *);
 s32 subtract_vector(void *, void *);
 extern const f32 lbl_805D4BE0;
@@ -221,7 +220,7 @@ void run_task__17TObjBoss2CeilJunkFv(Junk_8003A314 *o) {
             rad = (1e+01f) + TObjBoss2CeilJunk__radius_table[o->fAC];
             for (i = 0; i < n; i++) {
                 pl = (u8 *)TObjPlayer::get_player_data(i);
-                if (is_valid_target__9TObjEneDDFv(pl) != 0) {
+                if (((TObjEneDD *)pl)->is_valid_target() != 0) {
                     h = *(f32 *)((s8 *)pl + 0xD48) + *(f32 *)((s8 *)pl + 0x3C);
                     if (top > h && bottom < h) {
                         VecCopy((Vec *)&d, (const Vec *)(pl + 0x38));

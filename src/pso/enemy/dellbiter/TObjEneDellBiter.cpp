@@ -76,7 +76,6 @@ s32 TObjEneDellBiter__demo_rotate_x_angle;
 s32 TObjEneDellBiter__demo_script_cursor;
 saddr TObjEneDellBiter__scrolling_uv_polygon_list;
 s32 TObjEneDellBiter__last_uv_scroll_tick;
-s32 turn_toward_angle_limited__15TObjBoss2TunnelFlllll(int, int, int, int, int);
 void fill_value_array(saddr address);
 s32 enemy_validate_retained_target(u8 *ene_dd_st);
 s16 get_attack_params_atp_min(void *p);
@@ -967,7 +966,7 @@ void TObjEneDellBiter::fn_8030492C(s32 reason) {
             this->update_velocity();
         }
         rotation_y = approach_angle_limited(rotation_y, temp_r30 = (s32) (10430.38043493439 * atan2_float(target_direction.x, target_direction.z)), 0x300);
-        part_rotation_x = turn_toward_angle_limited__15TObjBoss2TunnelFlllll(rotation_y, part_rotation_x, temp_r30, 0x200, 0x2000);
+        part_rotation_x = TObjBoss2Tunnel::turn_toward_angle_limited(rotation_y, part_rotation_x, temp_r30, 0x200, 0x2000);
         delbiter_movement_parameters = TObjEneDellBiter__movement_params;
         if (target_distance <= (f32) delbiter_movement_parameters->attack_distance) {
             temp_f31_2 = (target_direction.x * sin_table_lookup(rotation_y)) + (target_direction.z * cos_table_lookup(rotation_y));
@@ -1030,7 +1029,7 @@ void TObjEneDellBiter::fn_803044AC(s32 reason) {
                 this->update_velocity();
             }
             rotation_y = approach_angle_limited(rotation_y, (10430.38043493439 * atan2_float(target_direction.x, target_direction.z)), 0x280);
-            part_rotation_x = turn_toward_angle_limited__15TObjBoss2TunnelFlllll(rotation_y, part_rotation_x, rotation_y, 0x200, 0x2000);
+            part_rotation_x = TObjBoss2Tunnel::turn_toward_angle_limited(rotation_y, part_rotation_x, rotation_y, 0x200, 0x2000);
             this->vfunc_89();
             break;
         case 1:
@@ -1099,7 +1098,7 @@ void TObjEneDellBiter::fn_803044AC(s32 reason) {
 #pragma fp_contract off
 
 void TObjEneDellBiter::fn_803042B0(s32 reason) {
-    s32 temp_r3;
+    int temp_r3;
 
     switch (reason) {
     case 4:
@@ -1128,7 +1127,7 @@ void TObjEneDellBiter::fn_803042B0(s32 reason) {
     case 0:
         advance_animation();
         temp_r3 = rotation_y;
-        part_rotation_x = turn_toward_angle_limited__15TObjBoss2TunnelFlllll(temp_r3, part_rotation_x, temp_r3, 0x200, 0x2000);
+        part_rotation_x = TObjBoss2Tunnel::turn_toward_angle_limited(temp_r3, part_rotation_x, temp_r3, 0x200, 0x2000);
         switch (field_4d0) {
         case 0:
             if (is_passing_frame(11.0f) != 0) {

@@ -195,7 +195,7 @@ void TBoss7LaserPtcl::init_laser() {
     this->state = 1;
 }
 
-u8 TBoss7LaserPtcl::is_state_2() {
+s32 TBoss7LaserPtcl::is_state_2() {
     return (u8) (this->state == 2);
 }
 

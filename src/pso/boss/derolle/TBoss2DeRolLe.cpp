@@ -1519,7 +1519,6 @@ void project_sound_origin_from_camera(saddr arg0, u8 *arg1, f32 farg0);
 f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 
 
-s32 is_alive__8TObjBaseFv();
 
 u8 *get_enemy_entity(u16 arg0);
 
@@ -3864,7 +3863,7 @@ void pick_random_target__13TBoss2DeRolLeFi(saddr actor) {
     enemy_clear_target__12TObjEneDD_STFUs((void *)actor);
     for (i = 0; i < n; i++) {
         p = ((saddr)TObjPlayer::get_player_data(j));
-        if (is_alive__8TObjBaseFv() != 0) {
+        if (((TObjBase *)p)->is_alive() != 0) {
             ((TObjEneDD_ST *)actor)->set_target_player((void *)p);
             return;
         }

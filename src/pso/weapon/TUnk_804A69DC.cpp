@@ -25,13 +25,12 @@
 extern "C" {
 
 s32 post_translate_matrix(void *);
-s32 is_owner_alive__15TItemShootModelFv();
 s32 push_matrix();
 void __ct__15TItemShootModelFPvPC3VecPC3Vecf(void *);
 
 void TUnk_804A69C0::render() {
     u8 *arg0 = (u8 *)this;
-    if ((is_owner_alive__15TItemShootModelFv() != 0) && ((uaddr) this->m_58 != 0U) && ((uaddr) this->m_5C != 0U)) {
+    if ((this->is_owner_alive() != 0) && ((uaddr) this->m_58 != 0U) && ((uaddr) this->m_5C != 0U)) {
         push_matrix();
         set_texlist(*(u32 *)&this->m_5C);
         post_translate_matrix(arg0 + 0x1C);
