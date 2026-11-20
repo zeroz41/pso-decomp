@@ -308,7 +308,6 @@ struct Rec_8013EB6C { u8 pad[0x124]; };
 struct Obj_8013EB6C { u8 pad[0x5c]; Rec_8013EB6C recs[1]; };
 struct Obj_8013EC1C { u16 a; u16 b; u16 c; };
 
-extern "C" void __dl__FPv(void *);
 
 struct Base_8013DCCC { u8 pad[0x18]; };
 
@@ -2119,7 +2118,7 @@ s32 TLockOnCursor__sub_8013ED68(saddr arg0, s16 arg1) {
 
 s32 TLockOnCursor__sub_8013EDC4(saddr obj, s16 flags) {
     if ((obj != 0) && (flags > 0)) {
-        __dl__FPv((void *)obj);
+        ::operator delete((void *)obj);
     }
     return obj;
 }

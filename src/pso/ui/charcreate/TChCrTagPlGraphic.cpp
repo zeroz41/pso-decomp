@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/render/render_util.h"
 #include "pso/ui/UISprite.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/charcreate/TChCrTagPlGraphic.h"
@@ -40,10 +41,9 @@ struct TChCrTagPlGraphicLayout {
 
 extern "C" {
 void restore_saved_depth_alpha_state(void);
-int set_depth_buffer_settings_1__Fv(void*);
 
 void TChCrTagPlGraphic::render() {
-    set_depth_buffer_settings_1__Fv(this);
+    set_depth_buffer_settings_1();
     draw_class_illustration();
     restore_saved_depth_alpha_state();
 }

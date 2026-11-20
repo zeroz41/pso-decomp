@@ -1,6 +1,7 @@
 #include "pso/ui/charcreate/TChCrEffTag.h"
 #include "pso/ui/charcreate/TChCrEffTagStr.h"
 #include "types.h"
+#include "pso/render/render_util.h"
 #include <stddef.h>
 #include "pso/math/TMath.h"
 
@@ -10,11 +11,9 @@ static const saddr lbl_804652A4[] = {0xA4, 0xA5, 0xA6, 0x9B, 0x9C, 0x9D, 0x9E, 0
 
 extern "C" {
 
-int restore_saved_depth_alpha_state(void);
 int draw_chcr_tag_heading_frame(void*);
-int set_depth_buffer_settings_1__Fv(void*);
 
-void TChCrEffTag::render() { set_depth_buffer_settings_1__Fv(this); draw_chcr_tag_frame(); draw_chcr_tag_heading_frame(this); restore_saved_depth_alpha_state(); }
+void TChCrEffTag::render() { set_depth_buffer_settings_1(); draw_chcr_tag_frame(); draw_chcr_tag_heading_frame(this); restore_saved_depth_alpha_state(); }
 void TChCrEffTag::refresh_label() {
     vec2f pos;
     s32 temp_r0;
