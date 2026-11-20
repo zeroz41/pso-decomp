@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/render/Draw2D.h"
 #include "pso/ui/frontend/TAdBackGC_8029A6EC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8029A914.h"
@@ -49,7 +50,7 @@ void TAdBackGC::sub_8029A6EC() {
     fan.pos[6] = 639.0f;
     fan.pos[7] = 0.0f;
     fan.col[3] = 0xFF;
-    ((TObjCMHairMenu *)&fan)->draw_tri_fan_2d(4, 3, *(f32 *)((u8 *)this + 0x1C) - 0.01f);
+    draw_polygon_2d((NJS_POINT2COL *)&fan, 4, 3, *(f32 *)((u8 *)this + 0x1C) - 0.01f);
 }
 
 extern "C" {

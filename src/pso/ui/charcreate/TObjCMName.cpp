@@ -1806,7 +1806,7 @@ void TObjCMHairMenu::render() {
         TObjCMHairMenu__sub_801E3F54(&cols[0], TObjCMHairMenu__sub_801E3F54(&cols[1],
             TObjCMHairMenu__sub_801E3F54(&cols[2], TObjCMHairMenu__sub_801E3F54(&cols[3], &color))));
         for (s32 i = 0; i < 3; i++) {
-            ((TObjCMHairMenu *)&list)->draw_tri_fan_2d(4, 6, -2.75f);
+            draw_polygon_2d((NJS_POINT2COL *)&list, 4, 6, -2.75f);
             pts[0].y += step;
             pts[1].y += step;
             pts[2].y += step;
@@ -1826,7 +1826,7 @@ void TObjCMHairMenu::render() {
                 bar_color.c[3] = 255.0f * t;
                 TObjCMHairMenu__sub_801E3F54(&cols[0], TObjCMHairMenu__sub_801E3F54(&cols[1],
                     TObjCMHairMenu__sub_801E3F54(&cols[2], TObjCMHairMenu__sub_801E3F54(&cols[3], &bar_color))));
-                ((TObjCMHairMenu *)&list)->draw_tri_fan_2d(4, 6, -2.4375f);
+                draw_polygon_2d((NJS_POINT2COL *)&list, 4, 6, -2.4375f);
             }
         }
         TCameraCtrl__sub_80068EF0();

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/render/Draw2D.h"
 #include "pso/unk/text_8034960C.h"
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/system/NinjaTypes.h"
@@ -63,7 +64,7 @@ void draw_quest_load_panel_overlays(void) {
         d.pos[6] = d.pos[0] + quest_load_panel_overlay_offsets[i].x;
         d.pos[7] = d.pos[1];
         d.col[3] = 0x77;
-        ((TObjCMHairMenu *)(&d))->draw_tri_fan_2d(4, 7, (-490.0f));
+        draw_polygon_2d((NJS_POINT2COL *)&d, 4, 7, (-490.0f));
         i++;
     } while (i < 2);
 }
@@ -91,7 +92,7 @@ void draw_quest_load_letterbox_bars(void) {
         d.pos[6] = d.pos[0] + quest_load_letterbox_bar_sizes[i].x;
         d.pos[7] = d.pos[1];
         d.col[3] = 0xFF;
-        ((TObjCMHairMenu *)(&d))->draw_tri_fan_2d(4, 3, (-490.0f));
+        draw_polygon_2d((NJS_POINT2COL *)&d, 4, 3, (-490.0f));
         i++;
     } while (i < 2);
 }

@@ -1,6 +1,7 @@
 #pragma push
 
 #include "types.h"
+#include "pso/render/Draw2D.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/frontend/TAdChrMoveEffectGC.h"
 #include "pso/render/ModelDrawContext.h"
@@ -78,7 +79,7 @@ void TAdChrMoveEffectGC::sub_80348E34() {
                 desc.pos[7] = *(f32 *)((s8 *)e + 0x48);
                 ((TAdChrMoveEffectGC *)(desc.col + 12))->copy4(src);
                 desc.col[15] = *(u8 *)((s8 *)e + 0x50);
-                ((TObjCMHairMenu *)(&desc))->draw_tri_fan_2d(4, 7, 1e-05f * (f32)i + (-1.01f));
+                draw_polygon_2d((NJS_POINT2COL *)&desc, 4, 7, 1e-05f * (f32)i + (-1.01f));
             }
         }
     }

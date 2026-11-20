@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/render/Draw2D.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
@@ -579,7 +580,7 @@ void TWindowCtrlMain__sub_8024D2A4(s32 viewport_index) {
     poly.verts[3].x = 0.0f;
     poly.verts[3].y = 480.0f;
     poly.colors[3] = color;
-    ((TObjCMHairMenu *)&poly)->draw_tri_fan_2d(4, 0x16, -10.0f);
+    draw_polygon_2d((NJS_POINT2COL *)&poly, 4, 0x16, -10.0f);
 }
 
 #pragma push

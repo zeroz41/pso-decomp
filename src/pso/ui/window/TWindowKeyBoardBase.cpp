@@ -2,6 +2,7 @@
 #include "pso/system/ResourceFile.h"
 #include "pso/system/TGStream.h"
 #include "types.h"
+#include "pso/render/Draw2D.h"
 #include "pso/ui/window/TWindowKeyBoardBase_8008102C.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include <stddef.h>
@@ -758,7 +759,7 @@ void fn_8025DE10(void *arg0, void *arg1) {
     pos[5] = bottom;
     pos[6] = pos[0];
     pos[7] = bottom;
-    ((TObjCMHairMenu *)(&d))->draw_tri_fan_2d(4, 6, depth);
+    draw_polygon_2d((NJS_POINT2COL *)&d, 4, 6, depth);
 }
 
 void TWindowKeyBoardBase::draw_text_glyphs(void *arg1, void *arg2) {
@@ -816,7 +817,7 @@ void TWindowKeyBoardBase::draw_text_glyphs(void *arg1, void *arg2) {
                 pos[5] = q.y2;
                 pos[6] = q.x;
                 pos[7] = q.y2;
-                ((TObjCMHairMenu *)(&d))->draw_tri_fan_2d(4, 6, depth);
+                draw_polygon_2d((NJS_POINT2COL *)&d, 4, 6, depth);
                 ((f32 *)arg2)[0] += (f32)(s32)adv;
             }
         }
@@ -864,7 +865,7 @@ void TWindowKeyBoardBase::sub_8025E148(WindowDrawContext *box, f32 *cursor, u16 
             pos[5] = q.y2;
             pos[6] = q.x;
             pos[7] = q.y2;
-            ((TObjCMHairMenu *)(&d))->draw_tri_fan_2d(4, 6, depth);
+            draw_polygon_2d((NJS_POINT2COL *)&d, 4, 6, depth);
             cursor[0] += (f32)adv;
         }
     }

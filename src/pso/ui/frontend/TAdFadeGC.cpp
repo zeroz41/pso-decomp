@@ -16,7 +16,7 @@ extern "C" {
 void *get_player_by_client_id(s32 i);
 f32 xz_distance_squared(void *, void *);
 s32 draw_color_lines(void *, int, int, f32);
-s32 draw_tri_fan_2d__14TObjCMHairMenuFllf(void *, int, int, f32, f32, f32);
+s32 draw_polygon_2d__FP13NJS_POINT2COLlUlf(void *, int, int, f32, f32, f32);
 f32 lbl_805D6800;
 s8 lbl_805D6804;
 extern const char TAdFadeGC__class_name_string[] = "TAdFadeGC";
@@ -82,7 +82,7 @@ void TAdFadeGC::draw_fade() {
         d.pos[7] = (0.0f);
         c = *(u32 *)((s8 *)arg0 + 0x30);
         d.col[3] = (c << 8) | (c >> 24);
-        draw_tri_fan_2d__14TObjCMHairMenuFllf(&d, 4, 7, (-1.0f), (4.8e+02f), (0.0f));
+        draw_polygon_2d__FP13NJS_POINT2COLlUlf(&d, 4, 7, (-1.0f), (4.8e+02f), (0.0f));
         break;
     }
 }

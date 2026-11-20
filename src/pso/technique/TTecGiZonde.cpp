@@ -325,8 +325,8 @@ s32 TTecGiZonde::find_chain_targets() {
     return 1;
 }
 
-void TTecGiZonde::create(void *arg1, void *arg2, void *arg3) {
-    new TTecGiZonde((s32)this, (Vec *)arg1, arg2, (s32)arg3);
+void TTecGiZonde::create(void *caster, Vec *pos, void *targets, s32 level) {
+    new TTecGiZonde((s32)caster, pos, targets, level);
 }
 
 TTecGiZonde::~TTecGiZonde() {}

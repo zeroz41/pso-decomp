@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/render/Draw2D.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowComCard.h"
 #include "pso/ui/window/TWindowLockOn.h"
@@ -353,7 +354,7 @@ void draw_photon_blast_fan(s32 arg0, NJS_POINT2 *arg1, Params_80270244 *arg2, u3
         }
         verts[4] = amp_x * cos_table_lookup(angle) + verts[0];
         verts[5] = amp_y * sin_table_lookup(angle) + verts[1];
-        ((TObjCMHairMenu *)&prim)->draw_tri_fan_2d(3, 2, depth);
+        draw_polygon_2d((NJS_POINT2COL *)&prim, 3, 2, depth);
     }
 }
 #pragma pop

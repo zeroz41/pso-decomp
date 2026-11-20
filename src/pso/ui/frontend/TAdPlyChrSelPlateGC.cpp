@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/render/Draw2D.h"
 #include <stddef.h>
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/ui/frontend/TAdPlyChrSelPlateGC.h"
@@ -80,7 +81,7 @@ void TAdEnterSerialAccessGC__sub_802C4B64(TAdPlyChrSelPlateGC *plate, NJS_POINT2
     fan.p[3].x = fan.p[0].x + plate->plate_size.x;
     fan.p[3].y = fan.p[0].y;
     ((TAdChrMoveEffectGC *)&fan.col[3])->copy4(&color);
-    ((TObjCMHairMenu *)&fan)->draw_tri_fan_2d(4, 7, 0.001f * (f32)depth + (-30.0f));
+    draw_polygon_2d((NJS_POINT2COL *)&fan, 4, 7, 0.001f * (f32)depth + (-30.0f));
 }
 #pragma pop
 

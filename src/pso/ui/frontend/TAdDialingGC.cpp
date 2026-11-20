@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/render/Draw2D.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "pso/unk/TLobby_80132ED0.h"
@@ -147,7 +148,7 @@ void TAdDialingGC__sub_80328B24(const NJS_POINT2 *origin, const NJS_POINT2 *size
     poly.p[3].x = origin->x + size->x;
     poly.p[3].y = origin->y;
     poly.col[3].color = 0x8F;
-    ((TObjCMHairMenu *)&poly)->draw_tri_fan_2d(4, 7, -120.0f);
+    draw_polygon_2d((NJS_POINT2COL *)&poly, 4, 7, -120.0f);
 }
 
 void TAdDialingGC__sub_80328B20(void) {  }

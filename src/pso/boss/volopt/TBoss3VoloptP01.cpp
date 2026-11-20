@@ -812,7 +812,7 @@ void TBoss3VoloptP01::cast_tech_on_players() {
         }
         targets.count = n;
         if (n > 0) {
-            ((TTecGiZonde *)this)->create(&pos, &targets, (void *)0x1D);
+            TTecGiZonde::create(this, &pos, &targets, 0x1D);
         }
         break;
     case 1:

@@ -844,7 +844,7 @@ void TObjEneBm5GibonU::state_cast_technique(s32 arg1) {
                             m_4b0 = 1;
                             m_4b4 = get_entity_id((s32)m_390);
                             m_4b6 = 0;
-                            ((TTecGiZonde *)this)->create(&p, &m_4b0, (void *)(get_clamped_level()));
+                            TTecGiZonde::create(this, &p, &m_4b0, get_clamped_level());
                         } else {
                             void *e;
                             spawn_particle_effect(&p, 0xB9);

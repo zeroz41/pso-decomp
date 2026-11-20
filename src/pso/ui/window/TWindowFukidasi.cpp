@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/base/TObjChara.h"
 #include "types.h"
+#include "pso/render/Draw2D.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowDD.h"
@@ -515,7 +516,7 @@ void TUnk_804CF0B8::draw_tail(void *view, u32 color, f32 *off, f32 depth) {
         verts[3] = off[1] + (((Fuki_802521E8 *)this)->tail * (12.0f * sin_table_lookup(angle + 0x4000)) + cy);
         verts[4] = off[0] + (((Fuki_802521E8 *)this)->tail * (12.0f * cos_table_lookup(angle - 0x4000)) + cx);
         verts[5] = off[1] + (((Fuki_802521E8 *)this)->tail * (12.0f * sin_table_lookup(angle - 0x4000)) + cy);
-        ((TObjCMHairMenu *)(&prim))->draw_tri_fan_2d(3, 2, 0.04485f + ((Fuki_802521E8 *)this)->f54);
+        draw_polygon_2d((NJS_POINT2COL *)&prim, 3, 2, 0.04485f + ((Fuki_802521E8 *)this)->f54);
     }
 }
 

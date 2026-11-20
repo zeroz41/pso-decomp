@@ -255,7 +255,7 @@ void TWindowCtrlMain::draw_strip_swap_color(s32 n, s32 flags, f32 scale) {
     u32 x;
     u32 *p;
     if (!(flags & 2)) {
-        ((TObjCMHairMenu *)this)->draw_tri_fan_2d(n, flags, scale);
+        draw_polygon_2d((NJS_POINT2COL *)this, n, flags, scale);
         return;
     }
     p = ((Ctrl_801E352C *)this)->data;
@@ -264,7 +264,7 @@ void TWindowCtrlMain::draw_strip_swap_color(s32 n, s32 flags, f32 scale) {
         *p = (x << 8) | (x >> 24);
         p++;
     }
-    ((TObjCMHairMenu *)this)->draw_tri_fan_2d(n, flags, scale);
+    draw_polygon_2d((NJS_POINT2COL *)this, n, flags, scale);
     {
     u32 *q = ((Ctrl_801E352C *)this)->data;
     u32 y;
@@ -275,8 +275,8 @@ void TWindowCtrlMain::draw_strip_swap_color(s32 n, s32 flags, f32 scale) {
     }
     }
 }
-void TObjCMHairMenu::draw_tri_fan_2d(s32 count, s32 flags, f32 scale) {
-    ColorLineList *self = (ColorLineList *)this;
+void draw_polygon_2d(NJS_POINT2COL *poly, s32 count, u32 flags, f32 depth) {
+    ColorLineList *self = (ColorLineList *)poly;
     ColorLineList tmp;
     ColorLineVertex v[2];
     u32 c[2];
@@ -289,12 +289,12 @@ void TObjCMHairMenu::draw_tri_fan_2d(s32 count, s32 flags, f32 scale) {
         tmp.colors = c;
         tmp.unk_8 = self->unk_8;
         tmp.count = 2;
-        draw_color_lines(self, count, flags | 0x10, scale);
+        draw_color_lines(self, count, flags | 0x10, depth);
         copy_vec2((&v[0]), &self->verts[0]);
         copy_vec2((&v[1]), &self->verts[self->count - 1]);
         TObjCMHairMenu__sub_801E3F54(&c[0], &self->colors[0]);
         TObjCMHairMenu__sub_801E3F54(&c[1], &self->colors[self->count - 1]);
-        draw_color_lines(&tmp, 2, flags, scale);
+        draw_color_lines(&tmp, 2, flags, depth);
         return;
     }
     TObjPlayer::load_screen_space_matrix();
@@ -314,7 +314,7 @@ void TObjCMHairMenu::draw_tri_fan_2d(s32 count, s32 flags, f32 scale) {
     pts = self->verts;
     cols = (s16 *)self->colors;
     for (i = 0; i < count; pts++, cols += 2, i++) {
-        TObjPlayer__sub_801E3F30(pts->x * scale, pts->y * scale, scale);
+        TObjPlayer__sub_801E3F30(pts->x * depth, pts->y * depth, depth);
         TObjPlayer__sub_801E3F24(*(u32 *)cols);
         if (tex) {
             fn_801E3F44((f32)cols[0] / 255.0f, (f32)cols[1] / 255.0f);

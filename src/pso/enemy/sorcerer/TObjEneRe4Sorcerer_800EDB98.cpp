@@ -940,7 +940,7 @@ s32 TObjEneRe4Sorcerer::cast_technique() {
             if (TObjEneDD::check_v2_mode() != 0) {
                 TTecGrants::create(this, src, &targets, (void *)TObjEneDD::clamp_frame_index(sorcerer_behavior_params[6]));
             } else if (TLobby::get_instance() == 1) {
-                ((TTecGiZonde *)this)->create(src, &targets, (void *)TObjEneDD::clamp_frame_index(sorcerer_behavior_params[6]));
+                TTecGiZonde::create(this, src, &targets, TObjEneDD::clamp_frame_index(sorcerer_behavior_params[6]));
             } else {
                 ((TTecRaFoie *)this)->create_ex(src, &targets, (void *)TObjEneDD::clamp_frame_index(sorcerer_behavior_params[6]));
             }

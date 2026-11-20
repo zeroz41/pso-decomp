@@ -588,7 +588,7 @@ void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl)
         if (n == 0) {
             return;
         }
-        ((TTecGiZonde *)pl)->create(&hand, &list, (void *)(get_cast_technique_level(td, 7)));
+        TTecGiZonde::create(pl, &hand, &list, get_cast_technique_level(td, 7));
         break;
     case 8:
         ((TTecRaZonde *)pl)->create(&hand, (void *)(get_cast_technique_level(td, 8)));

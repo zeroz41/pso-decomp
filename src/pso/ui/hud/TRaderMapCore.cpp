@@ -3,6 +3,7 @@
 #include "pso/camera/TCameraCtrl_803D676C.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "types.h"
+#include "pso/render/Draw2D.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/system/vector.h"
 #include "pso/system/task/TObject.h"
@@ -922,7 +923,7 @@ void TRaderMapCore::draw_backdrop(TRaderMapCore *self, s32 mode) {
     colors[3] = color;
     set_default_alpha_blend();
     TParticleCtrl::begin_effect_render();
-    ((TObjCMHairMenu *)&desc)->draw_tri_fan_2d(4, 0x16, -10.0f);
+    draw_polygon_2d((NJS_POINT2COL *)&desc, 4, 0x16, -10.0f);
     TParticleCtrl::end_effect_render();
 }
 
