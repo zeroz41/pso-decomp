@@ -472,7 +472,7 @@ struct TObjPlayer : public TObjChara {
     static void free_item_globals();
     static void init_game_resources();
     s32 is_script_controlled();
-    int activate_d04_slot();
+    saddr activate_d04_slot();
     void spawn_hit_particle_trio();
     static void forward_item_effect_callback(s32 arg0, saddr arg1);
     static void invoke_menu_callback_if_set(u32 arg0);

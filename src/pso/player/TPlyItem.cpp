@@ -766,7 +766,7 @@ s32 export_inventory_entry__10TObjPlayerFiPv(saddr arg0, u8 *arg1) {
     return 0;
 }
 
-int reset(void* p) { return (saddr)memset(p, 0, 28); }
+saddr reset(void* p) { return (saddr)memset(p, 0, 28); }
 
 s32 fn_801D4270(s32 arg0) {
     s32 i;

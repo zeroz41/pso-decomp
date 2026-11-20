@@ -1379,7 +1379,7 @@ s32 TObjPlayer::is_script_controlled() {
     return this->control_state == 6;
 }
 
-int TObjPlayer::activate_d04_slot() { return TObjPlayer::get_slot_value((s32 *)((char*)this + 0xd04), 1); }
+saddr TObjPlayer::activate_d04_slot() { return TObjPlayer::get_slot_value((s32 *)((char*)this + 0xd04), 1); }
 
 int TItemData::test_flag3() { return TObjPlayer::get_slot_value((s32 *)((char*)this + 0xd04), 3); }
 int TItemData::get_item_field_2() { return TObjPlayer::get_slot_value((s32 *)((char*)this + 0xd04), 2); }
