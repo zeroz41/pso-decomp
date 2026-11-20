@@ -1,4 +1,5 @@
 #include "types.h"
+#include "versions.h"
 #include "pso/unk/text_803F1804.h"
 
 extern "C" {
@@ -6,6 +7,10 @@ s32 SIRegisterPollingHandler(void *);
 s32 Dolphin_SIUnregisterPollingHandler(void *);
 u32 si_polling_callback;
 s32 TKeyBoardControl__polling_channel_mask;
+#if VERSION == VERSION_GPOP8P
+u32 lbl_805D3B70_pal[2];
+u32 lbl_805D3B78_pal[2];
+#endif
 void OSClearContext(void *);
 void OSSetCurrentContext(void *);
 

@@ -7,6 +7,7 @@
 #pragma push
 
 #include "types.h"
+#include "versions.h"
 #include "pso/system/PadRumble.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8001C5E8.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8033A8EC.h"
@@ -457,7 +458,11 @@ void init_single_player_char_select_scene(void) {
         __ct__15TWindowCtrlMainFv(p);
     }
     new TUnk_804EF8C0();
+#if VERSION == VERSION_GPOP8P
+    TKeyBoardControl__sub_8000F90C(1);
+#else
     TKeyBoardControl__sub_8000F90C(2);
+#endif
     lbl_805D6D90 = 0;
     play_area_music("title.adx");
     TLobby::set_and_notify(-900);

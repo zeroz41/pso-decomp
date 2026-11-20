@@ -7,6 +7,7 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "types.h"
+#include "versions.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjMotion.h"
@@ -888,6 +889,16 @@ extern const f64 lbl_80434098;
 extern const f64 lbl_804340A0;
 extern u8 lbl_804340A8[];
 extern s32 lbl_804340B0[];
+#if VERSION == VERSION_GPOP8P
+// The European 50 Hz render mode init_game_systems hands to the frame-buffer setup.
+u8 lbl_804808C0[0x3C] = {
+    0x00, 0x00, 0x00, 0x04, 0x02, 0x80, 0x01, 0xE0, 0x02, 0x3E, 0x00, 0x28,
+    0x00, 0x00, 0x02, 0x80, 0x02, 0x3E, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01,
+    0x00, 0x00, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06,
+    0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06,
+    0x06, 0x06, 0x08, 0x08, 0x0A, 0x0C, 0x0A, 0x08, 0x08, 0x00, 0x00, 0x00,
+};
+#endif
 SceneEntry_8000FD54 main_phase_table[] = {
     { NULL, NULL, NULL },
     { TLogo::init_logo_scene, TLogo::run_frame, TLogo__sub_8013F5AC },
@@ -912,6 +923,12 @@ SceneEntry_8000FD54 main_phase_table[] = {
     { NULL, NULL, NULL },
     { TItemReverseTech::init_scene, TItemReverseTech::run_frame, TItemReverseTech::run_cleanup_callbacks },
 };
+#if VERSION == VERSION_GPOP8P
+#pragma push
+#pragma explicit_zero_data on
+__declspec(section ".data") u32 lbl_80480A04 = 0;
+#pragma pop
+#endif
 extern SceneState_8000FD54 main_phase_state;
 extern Vec scratch_vec;
 struct LobbyRuleSettings { s32 value; u8 remaining[0x2C]; };

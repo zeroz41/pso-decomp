@@ -1,4 +1,5 @@
 #include "types.h"
+#include "versions.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_803F339C.h"
 
 #pragma scheduling off
@@ -87,8 +88,248 @@ s32 lobby_net_config_load_state;
 Big_803F47BC *lobby_net_config_buffer __attribute__((aligned(32)));
 void *lobby_net_config_card_base __attribute__((aligned(32)));
 
+#if VERSION == VERSION_GPOP8P
+#pragma peephole off
+#pragma optimization_level 2
+#pragma push
+#pragma cplusplus off
+s32 get_network_config_mode__Fv(void);
+s32 get_network_config_backup_mode__Fv(void);
+void init_network_config_defaults__Fv(void);
+s32 get_network_info_card_key__FiPUc(s32 chan, u8 *out);
+#pragma pop
+#pragma push
+#pragma scheduling off
+s32 take_network_info_request_result(s32 *arg0, s32 *arg1) {
+    s32 r;
+    s32 t;
+    if (get_network_config_mode() == 0) {
+        return -1;
+    }
+    if (network_info_load_state.request_kind == 2) {
+        *arg0 = network_info_load_state.card_result;
+        *arg1 = network_info_load_state.card_detail;
+        t = network_info_load_state.result;
+        r = t;
+        if (t != 200) {
+            if (t == 0) {
+                get_or_set_network_config_mode(2);
+            }
+            network_info_load_state.request_kind = 0;
+            network_info_load_state.phase = 0;
+            network_info_load_state.result = 0;
+        }
+    } else {
+        *arg0 = 0;
+        *arg1 = 0;
+        r = -4;
+    }
+    return r;
+}
+#pragma pop
+#endif
+
 #pragma scheduling off
 #pragma peephole off
+#if VERSION == VERSION_GPOP8P
+
+extern "C" s32 TAdPlayerLoadGC__sub_803F3998(s32 chan);
+#pragma push
+#pragma cplusplus off
+s32 get_network_config_card_channel__Fv(void);
+s32 take_card_mount_result__15TAdPlayerLoadGCFlPl(s32 idx, s32* out);
+s32 get_or_set_channel_flag__15TAdPlayerLoadGCFll(s32 a, s32 b);
+s32 begin_card_file_request__15TAdPlayerLoadGCFlPCc(s32 type, const char* name);
+s32 take_card_open_result__15TAdPlayerLoadGCFlPl(s32 idx, s32* out);
+#pragma pop
+#pragma push
+#pragma cplusplus off
+#pragma scheduling off
+#pragma peephole off
+#pragma optimization_level 2
+#pragma dont_inline off
+s32 TAdPlayerLoadGC__sub_803F3998(s32 chan);
+s32 take_card_mount_result__15TAdPlayerLoadGCFlPl(s32 idx, s32 *out);
+s32 begin_card_file_request__15TAdPlayerLoadGCFlPCc(s32 chan, const char *name);
+s32 take_card_open_result__15TAdPlayerLoadGCFlPl(s32 idx, s32 *out);
+s32 take_card_read_result__15TAdPlayerLoadGCFlPl(s32 idx, s32 *out);
+s32 request_card_read__15TAdPlayerLoadGCFlPvll(s32 a, s32 b, s32 c, s32 d);
+s32 close_card_slot__15TAdPlayerLoadGCFl(s32 chan);
+void unmount_card__15TAdPlayerLoadGCFl(s32 chan);
+s32 get_or_set_channel_flag__15TAdPlayerLoadGCFll(s32 chan, s32 flag);
+void update_network_info_load__Fv(void) {
+    u8 key[0x10];
+    u32 crc;
+    u32 sum;
+    s32 size;
+    struct NetworkInfoLoadState *s;
+
+    s = &network_info_load_state;
+    switch (s->phase) {
+    default:
+        goto done;
+    case 3:
+        network_info_load_state.card_result = TAdPlayerLoadGC__sub_803F3998(get_network_config_card_channel());
+        if (network_info_load_state.card_result < 0) {
+            network_info_load_state.result = -200;
+            network_info_load_state.phase = 27;
+            return;
+        }
+        network_info_load_state.phase = 4;
+    case 4:
+        network_info_load_state.card_result = take_card_mount_result__15TAdPlayerLoadGCFlPl(get_network_config_card_channel(), &network_info_load_state.card_detail);
+        if (network_info_load_state.card_result < 0) {
+            network_info_load_state.result = -200;
+            network_info_load_state.phase = 27;
+            return;
+        }
+        if (network_info_load_state.card_result == 200) {
+            return;
+        }
+        network_info_load_state.phase = 7;
+    case 7:
+        get_or_set_channel_flag__15TAdPlayerLoadGCFll(get_network_config_card_channel(), 1);
+        network_info_load_state.file_handle = begin_card_file_request__15TAdPlayerLoadGCFlPCc(get_network_config_card_channel(), "sega_network_information");
+        if (network_info_load_state.file_handle < 0) {
+            get_or_set_channel_flag__15TAdPlayerLoadGCFll(get_network_config_card_channel(), 0);
+            network_info_load_state.card_result = network_info_load_state.file_handle;
+            unmount_card__15TAdPlayerLoadGCFl(get_network_config_card_channel());
+            network_info_load_state.result = -204;
+            network_info_load_state.phase = 27;
+            return;
+        }
+        network_info_load_state.phase = 8;
+    case 8:
+        network_info_load_state.card_result = take_card_open_result__15TAdPlayerLoadGCFlPl(get_network_config_card_channel(), &network_info_load_state.card_detail);
+        if (network_info_load_state.card_result < 0) {
+            get_or_set_channel_flag__15TAdPlayerLoadGCFll(get_network_config_card_channel(), 0);
+            unmount_card__15TAdPlayerLoadGCFl(get_network_config_card_channel());
+            network_info_load_state.result = -204;
+            network_info_load_state.phase = 27;
+            return;
+        }
+        if (network_info_load_state.card_result == 200) {
+            return;
+        }
+        get_or_set_channel_flag__15TAdPlayerLoadGCFll(get_network_config_card_channel(), 0);
+        network_info_load_state.phase = 9;
+    case 9:
+        get_or_set_channel_flag__15TAdPlayerLoadGCFll(get_network_config_card_channel(), 1);
+        if (!network_info_load_state.caller_buffer) {
+            if (TAdPlayerLoadGC__network_config_buffer != NULL) {
+                OSFreeToHeap(__OSCurrHeap, TAdPlayerLoadGC__network_config_buffer);
+            }
+            TAdPlayerLoadGC__network_config_buffer = (Save_803F3F64 *)OSAllocFromHeap(__OSCurrHeap, get_network_info_file_size());
+            if (TAdPlayerLoadGC__network_config_buffer == NULL) {
+                close_card_slot__15TAdPlayerLoadGCFl(network_info_load_state.file_handle);
+                get_or_set_channel_flag__15TAdPlayerLoadGCFll(get_network_config_card_channel(), 0);
+                unmount_card__15TAdPlayerLoadGCFl(get_network_config_card_channel());
+                network_info_load_state.result = -4;
+                network_info_load_state.phase = 27;
+                return;
+            }
+        } else {
+            TAdPlayerLoadGC__network_config_buffer = (Save_803F3F64 *)network_info_load_state.caller_buffer;
+        }
+        network_info_load_state.card_result = request_card_read__15TAdPlayerLoadGCFlPvll(network_info_load_state.file_handle, (s32)TAdPlayerLoadGC__network_config_buffer, get_network_info_file_size(), 0);
+        if (network_info_load_state.card_result < 0) {
+            if (!network_info_load_state.caller_buffer) {
+                if (TAdPlayerLoadGC__network_config_buffer != NULL) {
+                    OSFreeToHeap(__OSCurrHeap, TAdPlayerLoadGC__network_config_buffer);
+                }
+            } else {
+                network_info_load_state.caller_buffer = 0;
+            }
+            TAdPlayerLoadGC__network_config_buffer = NULL;
+            close_card_slot__15TAdPlayerLoadGCFl(network_info_load_state.file_handle);
+            get_or_set_channel_flag__15TAdPlayerLoadGCFll(get_network_config_card_channel(), 0);
+            unmount_card__15TAdPlayerLoadGCFl(get_network_config_card_channel());
+            network_info_load_state.result = -205;
+            network_info_load_state.phase = 27;
+            return;
+        }
+        network_info_load_state.phase = 10;
+    case 10:
+        network_info_load_state.card_result = take_card_read_result__15TAdPlayerLoadGCFlPl(get_network_config_card_channel(), &network_info_load_state.card_detail);
+        if (network_info_load_state.card_result == 0) {
+            size = TAdPlayerLoadGC__network_config_buffer->size;
+            if (size <= 0 || (u32)size > 0x23B8) {
+                close_card_slot__15TAdPlayerLoadGCFl(network_info_load_state.file_handle);
+                get_or_set_channel_flag__15TAdPlayerLoadGCFll(get_network_config_card_channel(), 0);
+                unmount_card__15TAdPlayerLoadGCFl(get_network_config_card_channel());
+                network_info_load_state.result = -30;
+                network_info_load_state.phase = 27;
+                break;
+            }
+            network_info_load_state.card_result = get_network_info_card_key__FiPUc(get_network_config_card_channel(), key);
+            if (network_info_load_state.card_result != 0) {
+                close_card_slot__15TAdPlayerLoadGCFl(network_info_load_state.file_handle);
+                get_or_set_channel_flag__15TAdPlayerLoadGCFll(get_network_config_card_channel(), 0);
+                unmount_card__15TAdPlayerLoadGCFl(get_network_config_card_channel());
+                network_info_load_state.result = -31;
+                network_info_load_state.phase = 27;
+                break;
+            }
+            crc = TAdPlayerLoadGC__network_config_buffer->crc;
+            TAdPlayerLoadGC__network_config_buffer->crc = 0;
+            sum = calc_crc32((s32)TAdPlayerLoadGC__network_config_buffer, 0x8000);
+            if (sum != crc) {
+                init_network_config_defaults__Fv();
+                close_card_slot__15TAdPlayerLoadGCFl(network_info_load_state.file_handle);
+                get_or_set_channel_flag__15TAdPlayerLoadGCFll(get_network_config_card_channel(), 0);
+                unmount_card__15TAdPlayerLoadGCFl(get_network_config_card_channel());
+                network_info_load_state.result = -32;
+                network_info_load_state.phase = 27;
+                break;
+            }
+            memcpy(TAdPlayerLoadGC__network_info_payload_buffer, (u8 *)TAdPlayerLoadGC__network_config_buffer + 0x5840, 0x23B8);
+            memset(lobby_net_config_buffer, 0, 0x19D4);
+            network_info_load_state.card_result = decode_network_info_payload(key, TAdPlayerLoadGC__network_info_payload_buffer, TAdPlayerLoadGC__network_config_buffer->size, (NetworkInfoConfig *)lobby_net_config_buffer);
+            if (network_info_load_state.card_result != 0) {
+                init_network_config_defaults__Fv();
+                close_card_slot__15TAdPlayerLoadGCFl(network_info_load_state.file_handle);
+                get_or_set_channel_flag__15TAdPlayerLoadGCFll(get_network_config_card_channel(), 0);
+                unmount_card__15TAdPlayerLoadGCFl(get_network_config_card_channel());
+                network_info_load_state.result = -33;
+                network_info_load_state.phase = 27;
+                break;
+            }
+            if (lobby_net_config_mode != 4) {
+                lobby_net_config_buffer->cur = lobby_net_config_buffer->x4;
+            } else {
+                lobby_net_config_buffer->cur = lobby_net_config_buffer->x6;
+            }
+            memcpy(network_info_trailer_buffer, (u8 *)TAdPlayerLoadGC__network_config_buffer + 0x7C00, 0x400);
+            if (get_network_config_backup_mode() == 1) {
+                memcpy(lobby_net_config_card_base, lobby_net_config_buffer, 0x19D4);
+                memcpy(network_info_trailer_backup, network_info_trailer_buffer, 0x400);
+            }
+            network_info_load_state.result = 0;
+            network_info_load_state.phase = 25;
+            break;
+        } else if (network_info_load_state.card_result == 200) {
+            return;
+        } else {
+            network_info_load_state.result = -205;
+            network_info_load_state.phase = 27;
+        }
+    }
+    if (!network_info_load_state.caller_buffer) {
+        if (TAdPlayerLoadGC__network_config_buffer != NULL) {
+            OSFreeToHeap(__OSCurrHeap, TAdPlayerLoadGC__network_config_buffer);
+        }
+    } else {
+        network_info_load_state.caller_buffer = 0;
+    }
+    TAdPlayerLoadGC__network_config_buffer = NULL;
+    close_card_slot__15TAdPlayerLoadGCFl(network_info_load_state.file_handle);
+    get_or_set_channel_flag__15TAdPlayerLoadGCFll(get_network_config_card_channel(), 0);
+    unmount_card__15TAdPlayerLoadGCFl(get_network_config_card_channel());
+done:
+    return;
+}
+#pragma pop
+#else
 void update_network_info_load(void) {
     NetworkInfoLoadState *s;
     u32 crc;
@@ -254,9 +495,38 @@ void update_network_info_load(void) {
         break;
     }
 }
+#endif
 
 #pragma push
 #pragma scheduling off
+#if VERSION == VERSION_GPOP8P
+s32 request_network_info_exists(s32 chan) {
+    s32 r;
+    s32 *q;
+    NetworkInfoLoadState *p;
+
+    switch (get_network_config_mode__Fv()) {
+    case 0:
+        return -1;
+    case 1:
+    case 2:
+    case 3:
+        break;
+    default:
+        return -5;
+    }
+    p = &network_info_load_state;
+    q = &p->request_kind;
+    if (*q != 0) {
+        return -4;
+    }
+    *q = 1;
+    p->phase = 1;
+    p->card_channel = chan;
+    p->result = 200;
+    return 0;
+}
+#else
 s32 request_network_info_exists(s32 arg0) {
     NetworkInfoLoadState *s;
     switch (get_network_config_mode()) {
@@ -279,10 +549,40 @@ s32 request_network_info_exists(s32 arg0) {
     s->result = 200;
     return 0;
 }
+#endif
 #pragma pop
 
 #pragma push
 #pragma scheduling off
+#if VERSION == VERSION_GPOP8P
+s32 take_network_info_exists_result(s32 *arg0, s32 *arg1) {
+    NetworkInfoLoadState *p;
+    s32 *q;
+    s32 ret;
+    s32 v;
+
+    if (get_network_config_mode() == 0) {
+        return -1;
+    }
+    p = &network_info_load_state;
+    q = &p->request_kind;
+    if (*q == 1) {
+        *arg0 = p->card_result;
+        *arg1 = p->card_detail;
+        v = p->result;
+        ret = v;
+        if (v != 0xc8) {
+            *q = 0;
+            p->phase = 0;
+        }
+    } else {
+        *arg0 = 0;
+        *arg1 = 0;
+        ret = -4;
+    }
+    return ret;
+}
+#else
 s32 take_network_info_exists_result(s32 *arg0, s32 *arg1) {
     NetworkInfoLoadState *s;
     s32 r;
@@ -307,10 +607,52 @@ s32 take_network_info_exists_result(s32 *arg0, s32 *arg1) {
     }
     return r;
 }
+#endif
 #pragma pop
 
 #pragma push
 #pragma scheduling off
+#if VERSION == VERSION_GPOP8P
+extern "C" void update_network_info_exists__Fv(void) {
+    switch (network_info_load_state.phase) {
+    case 1:
+        TAdPlayerLoadGC::get_or_set_channel_flag(network_info_load_state.card_channel, 1);
+        network_info_load_state.card_result = TAdPlayerLoadGC::request_card_find(network_info_load_state.card_channel, "sega_network_information");
+        if (network_info_load_state.card_result < 0) {
+            TAdPlayerLoadGC::get_or_set_channel_flag(network_info_load_state.card_channel, 0);
+            network_info_load_state.result = -0xd1;
+            network_info_load_state.phase = 0x1b;
+            break;
+        }
+        network_info_load_state.phase = 2;
+    case 2:
+        network_info_load_state.card_result = TAdPlayerLoadGC::take_card_find_result(network_info_load_state.card_channel, &network_info_load_state.card_detail);
+        if (network_info_load_state.card_result == 0) {
+            goto done_ok;
+        }
+        if (network_info_load_state.card_result < 0) {
+            if (network_info_load_state.card_result == -0x66) {
+                goto done_ok;
+            }
+            goto done_err;
+        }
+        if (network_info_load_state.card_result == 200) {
+            break;
+        }
+        goto done_err;
+done_ok:
+        TAdPlayerLoadGC::get_or_set_channel_flag(network_info_load_state.card_channel, 0);
+        network_info_load_state.result = 0;
+        network_info_load_state.phase = 0x19;
+        break;
+done_err:
+        TAdPlayerLoadGC::get_or_set_channel_flag(network_info_load_state.card_channel, 0);
+        network_info_load_state.result = -0xd1;
+        network_info_load_state.phase = 0x1b;
+        break;
+    }
+}
+#else
 void update_network_info_exists(void) {
     NetworkInfoLoadState *s;
     NetworkInfoLoadState *t;
@@ -347,10 +689,52 @@ void update_network_info_exists(void) {
         break;
     }
 }
+#endif
 #pragma pop
 
 #pragma scheduling off
 #pragma optimization_level 2
+#if VERSION == VERSION_GPOP8P
+extern char lbl_804FDCE8[6][0x20];
+extern char lbl_804FDDA8[];
+extern "C" __declspec(section ".sdata") u8 lbl_805D7988[0x18];
+extern "C" void init_network_config_defaults__Fv(void) {
+    s16 i;
+    s16 j;
+
+    memset(lobby_net_config_buffer, 0, 0x19D4);
+    lobby_net_config_buffer->cur = -1;
+    for (i = 0; i < 6; i++) {
+        j = i;
+        lobby_net_config_buffer->ent[j].id = i;
+        lobby_net_config_buffer->ent[j].a = -1;
+        lobby_net_config_buffer->ent[j].b = -1;
+        lobby_net_config_buffer->ent[j].c = -1;
+        strcpy(lobby_net_config_buffer->ent[j].name, lbl_804FDCE8[j]);
+        strcpy(lobby_net_config_buffer->rec[j].name, lbl_804FDCE8[j]);
+        (*(u8 **)&lobby_net_config_buffer)[j * 0x210 + 0x20a] = lbl_805D7988[0];
+    }
+    lobby_net_config_buffer->ent[0].id = 0;
+    lobby_net_config_buffer->ent[0].a = 0;
+    strcpy(lobby_net_config_buffer->strE5C, lbl_804FDDA8);
+    lobby_net_config_buffer->rec[0].kind = 1;
+    lobby_net_config_buffer->rec[1].kind = 1;
+    lobby_net_config_buffer->rec[2].kind = 1;
+    lobby_net_config_buffer->rec[3].kind = 1;
+    lobby_net_config_buffer->rec[4].kind = 4;
+    lobby_net_config_buffer->rec[5].kind = 4;
+    lobby_net_config_buffer->x4 = 1;
+    lobby_net_config_buffer->x6 = 4;
+    if (lobby_net_config_mode != 4) {
+        lobby_net_config_buffer->cur = lobby_net_config_buffer->x4;
+    } else {
+        lobby_net_config_buffer->cur = lobby_net_config_buffer->x6;
+    }
+    if (get_network_config_backup_mode__Fv() == 1) {
+        memcpy(lobby_net_config_card_base, lobby_net_config_buffer, 0x19D4);
+    }
+}
+#else
 void init_network_config_defaults(void) {
     s16 i;
     memset(lobby_net_config_buffer, 0, 0x19D4);
@@ -409,7 +793,9 @@ void init_network_config_defaults(void) {
         memcpy(lobby_net_config_card_base, lobby_net_config_buffer, 0x19D4);
     }
 }
+#endif
 
+#if VERSION != VERSION_GPOP8P
 // Default entry names, Shift-JIS katakana: "provider 0".."provider 5", "isao.net provider", "isao.net mail account".
 char lbl_804FCEA4[] = "\x83\x76\x83\x8D\x83\x6F\x83\x43\x83\x5F\x82\x4F";
 char lbl_804FCEB4[] = "\x83\x76\x83\x8D\x83\x6F\x83\x43\x83\x5F\x82\x50";
@@ -419,6 +805,7 @@ char lbl_804FCEE4[] = "\x83\x76\x83\x8D\x83\x6F\x83\x43\x83\x5F\x82\x53";
 char default_network_entry_name[] = "\x83\x76\x83\x8D\x83\x6F\x83\x43\x83\x5F\x82\x54";
 char lbl_804FCF04[] = "isao.net\x83\x76\x83\x8D\x83\x6F\x83\x43\x83\x5F";
 char lbl_804FCF18[] = "isao.net\x83\x81\x81\x5B\x83\x8B\x83\x41\x83\x4A\x83\x45\x83\x93\x83\x67";
+#endif
 
 s32 get_network_config_mode(void) { return get_or_set_network_config_mode(4); }
 
@@ -439,6 +826,15 @@ s32 get_or_set_network_config_backup_mode(s32 arg0) {
 }
 
 s32 network_config_card_channel = 2;
+#if VERSION == VERSION_GPOP8P
+// European default entry names (fn_803F2710).
+__declspec(section ".sdata") char lbl_805D090C[] = "ISP 0";
+__declspec(section ".sdata") char lbl_805D0914[] = "ISP 1";
+__declspec(section ".sdata") char lbl_805D091C[] = "ISP 2";
+__declspec(section ".sdata") char lbl_805D0924[] = "ISP 3";
+__declspec(section ".sdata") char lbl_805D092C[] = "ISP 4";
+__declspec(section ".sdata") char lbl_805D0934[] = "ISP 5";
+#endif
 
 s32 get_network_config_card_channel(void) {
     return network_config_card_channel;
@@ -467,6 +863,43 @@ s32 get_network_info_file_size(void) {
 }
 #pragma push
 #pragma scheduling off
+#if VERSION == VERSION_GPOP8P
+#pragma push
+#pragma use_lmw_stmw off
+extern "C" s32 get_network_info_card_key__FiPUc(s32 chan, u8 *out) {
+    u64 serial;
+    u64 code;
+    s32 ret;
+    u32 mask = 0xff;
+
+    ret = CARDGetSerialNo(chan, &serial);
+    if (ret != 0) {
+        return ret;
+    }
+    ret = CARDGetUniqueCode(chan, &code);
+    if (ret != 0) {
+        return ret;
+    }
+    out[0] = (u8)(serial & mask);
+    out[1] = (u8)((serial >> 8) & mask);
+    out[2] = (u8)((serial >> 16) & mask);
+    out[3] = (u8)((serial >> 24) & mask);
+    out[4] = (u8)((serial >> 32) & mask);
+    out[5] = (u8)((serial >> 40) & mask);
+    out[6] = (u8)((serial >> 48) & mask);
+    out[7] = (u8)((serial >> 56) & mask);
+    out[8] = (u8)(code & mask);
+    out[9] = (u8)((code >> 8) & mask);
+    out[10] = (u8)((code >> 16) & mask);
+    out[11] = (u8)((code >> 24) & mask);
+    out[12] = (u8)((code >> 32) & mask);
+    out[13] = (u8)((code >> 40) & mask);
+    out[14] = (u8)((code >> 48) & mask);
+    out[15] = (u8)((code >> 56) & mask);
+    return ret;
+}
+#pragma pop
+#else
 s32 get_network_info_card_key(int chan, u8 *out) {
   u64 serial;
   u64 code;
@@ -499,6 +932,7 @@ s32 get_network_info_card_key(int chan, u8 *out) {
   out[15] = (code >> 56) & 0xFF;
   return rc;
 }
+#endif
 #pragma pop
 
 // CRC-32 (polynomial 0xEDB88320) lookup table, defined after its user.

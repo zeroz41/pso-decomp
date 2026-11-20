@@ -3,10 +3,15 @@
 
 #include "pso/system/task/TObject.h"
 #include "types.h"
+#include "versions.h"
 
 class TObjNewFloorWin : public TObject {
 public:
+#if VERSION == VERSION_GPOP8P
+    TObjNewFloorWin(TObject *arg1);
+#else
     TObjNewFloorWin(TObject *arg1, void *arg2);
+#endif
     virtual ~TObjNewFloorWin();
     virtual void run_task();
 public:

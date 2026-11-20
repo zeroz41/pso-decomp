@@ -2,6 +2,7 @@
 #define PSO_UI_CHAT_TWINDOWSUBSYMBOLCHAT_H
 
 #include "types.h"
+#include "versions.h"
 #include "pso/system/task/TObject.h"
 
 struct TWindowSubSymbolChat : public TObject {
@@ -10,10 +11,19 @@ struct TWindowSubSymbolChat : public TObject {
     void sub_80281CC4();
     void sub_80281C60();
     u8 m_1c;
+#if VERSION == VERSION_GPOP8P
+    s8 data_1d;
+#else
     u8 _pad1D[0x1];
+#endif
     s16 m_1e;
     u32 m_20;
     u32 m_24;
+#if VERSION == VERSION_GPOP8P
+    s32 data_28;
+    s32 data_2c;
+    s32 help_window;
+#endif
     u32 m_28;
     u32 m_2c;
     u32 m_30;
@@ -74,7 +84,11 @@ struct TWindowSubSymbolChat : public TObject {
     s32 open_confirm_prompt();
     static s32 create_menu();
     s32 create_parts_set();
+#if VERSION == VERSION_GPOP8P
+    s32 create_parts();
+#else
     static s32 create_parts();
+#endif
     static void open_menu(s32 arg0, s32 arg1);
     s32 open_edit_menu();
     static s32 open_main_menu(void * _w0);
@@ -100,5 +114,9 @@ struct TWindowSubSymbolChat : public TObject {
     void init_symbol_layout(s32 *arg1);
 };
 
+#if VERSION == VERSION_GPOP8P
+typedef char TWindowSubSymbolChat_size[sizeof(TWindowSubSymbolChat) == 0x6C ? 1 : -1];
+#else
 typedef char TWindowSubSymbolChat_size[sizeof(TWindowSubSymbolChat) == 0x60 ? 1 : -1];
+#endif
 #endif

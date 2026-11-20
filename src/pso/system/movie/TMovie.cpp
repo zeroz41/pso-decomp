@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "versions.h"
 #include "pso/camera/TCameraCtrl_803D676C.h"
 #include <stddef.h>
 #include <string.h>
@@ -40,6 +41,9 @@ s8 get_opening_movie_purpose();
 s8 func_801A5E54__Fv();
 u8 *load_rel_module(u8 *arg0, s32 arg1);
 void func_803DCDFC__Fv(void);
+#if VERSION == VERSION_GPOP8P
+void fn_8013FA90(void);
+#endif
 }
 
 extern s8 controller_input_state[];
@@ -270,6 +274,10 @@ struct MovieState {
     s32 m_cc;
 };
 
+#if VERSION == VERSION_GPOP8P
+extern "C" u32 OSGetEuRgb60Mode(void);
+#endif
+
 void TMovie__sub_80144324(MovieState *movie, const s8 *name) {
     TObjPlayer::reset_movie_state();
     memset(&movie->m_04, 0, 0xC8);
@@ -278,11 +286,24 @@ void TMovie__sub_80144324(MovieState *movie, const s8 *name) {
     movie->m_c8 = 1;
     movie->m_c4 = 0;
     strcpy(movie->name, (const char *)name);
+#if VERSION == VERSION_GPOP8P
+    MovieFrameRate *frame_rate = &movie->frame_rate;
+    if (OSGetEuRgb60Mode() == 1) {
+        frame_rate->rate = 59.94f;
+    } else {
+        frame_rate->rate = 50.0f;
+    }
+    frame_rate->m_04 = 1;
+    frame_rate->m_08 = 2;
+    frame_rate->m_0c = 0;
+    mwPlyInitSfdFx_hook(frame_rate);
+#else
     movie->frame_rate.rate = 59.94f;
     movie->frame_rate.m_04 = 1;
     movie->frame_rate.m_08 = 2;
     movie->frame_rate.m_0c = 0;
     mwPlyInitSfdFx_hook(&movie->frame_rate);
+#endif
 }
 
 TMovie::~TMovie() {
@@ -313,10 +334,18 @@ TMovie::~TMovie() {
 
 void TMovie::render_until_finished() {
 loop_1:
+#if VERSION == VERSION_GPOP8P
+    if (DVDCheckDisk() == 0) {
+        TLobby::run_disk_error_check();
+        render_tick();
+        goto loop_1;
+    }
+#else
     if ((DVDCheckDisk() == 0) && (TLobby::run_disk_error_check() == 0)) {
         render_tick();
         goto loop_1;
     }
+#endif
 }
 
 s32 TMovie::check_skip_input() {
@@ -350,11 +379,22 @@ s32 TMovie::check_skip_input() {
         if (test_flag_4c__23TAdSinglePlyChrSelectGCFv(context, 4) != 0) goto block_fn_8000F91C;
         if (test_flag_4c__23TAdSinglePlyChrSelectGCFv(context, 2) != 0) goto block_fn_8000F91C;
         if (TLobby::run_disk_error_check() == 0) goto block_fn_8000F91C;
+#if VERSION == VERSION_GPOP8P
+        if (is_playback_finished__6TMovieFv(this->m_20) == 0) goto block_reset;
+#else
         if (TKeyBoardControl::check_reset_button() != 0) goto block_fn_8000F91C;
         if (is_playback_finished__6TMovieFv(this->m_20) == 0) goto block_return0;
+#endif
 block_fn_8000F91C:
         set_queued_main_phase(9);
         return 1;
+#if VERSION == VERSION_GPOP8P
+block_reset:
+        if (TKeyBoardControl::check_reset_button() == 0) goto block_return0;
+        set_queued_main_phase(1);
+        fn_8013FA90();
+        return 1;
+#endif
     case 1:
         var_r30 = 0;
         if (TKeyBoardControl::check_reset_button() != 0) {
@@ -444,7 +484,11 @@ void run_task__6TMovieFv(TMovie *movie) {
     movie->queue_destruction();
 }
 
+#if VERSION == VERSION_GPOP8P
+TMovie::TMovie(TObject *parent, s8 *name, s32 a3, s32 a4, s32 a5, s32 a6) : TObject(parent) {
+#else
 TMovie::TMovie(TObject *parent, s8 *name, s32 a3, s32 a4, s32 a5) : TObject(parent) {
+#endif
     u8 *p;
     ((TMovie_80144910 *)this)->name = TMovie__name;
     ((TMovie_80144910 *)this)->f44 = a3;
@@ -457,11 +501,27 @@ TMovie::TMovie(TObject *parent, s8 *name, s32 a3, s32 a4, s32 a5) : TObject(pare
         p = load_rel_module(p, (s32)"movie.rel");
     }
     ((TMovie_80144910 *)this)->obj1C = p;
+#if VERSION == VERSION_GPOP8P
+    if (a6 != 0) {
+        p = (u8 *)::operator new(0xD0);
+        if (p != 0) {
+            p = initialize_movie_with_soundtrack(p, name, 0, 0, 1);
+        }
+        ((TMovie_80144910 *)this)->obj20 = p;
+    } else {
+        p = (u8 *)::operator new(0xD0);
+        if (p != 0) {
+            p = initialize_movie_with_soundtrack(p, name, ((TMovie_80144910 *)this)->f48, (u8)!((TMovie_80144910 *)this)->f48, a5);
+        }
+        ((TMovie_80144910 *)this)->obj20 = p;
+    }
+#else
     p = (u8 *)::operator new(0xD0);
     if (p != 0) {
         p = initialize_movie_with_soundtrack(p, name, ((TMovie_80144910 *)this)->f48, (u8)!((TMovie_80144910 *)this)->f48, a5);
     }
     ((TMovie_80144910 *)this)->obj20 = p;
+#endif
 }
 
 int get_opening_movie_selector(void) { return opening_movie_selector; }

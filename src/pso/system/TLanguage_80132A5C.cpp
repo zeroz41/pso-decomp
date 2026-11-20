@@ -1,3 +1,4 @@
+#include "versions.h"
 #include "types.h"
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/system/TLanguage.h"
@@ -176,6 +177,11 @@ __declspec(section ".rodata") extern const char TextFrench[] = "TextFrench";
 __declspec(section ".rodata") extern const char TextSpanish[] = "TextSpanish";
 __declspec(section ".rodata") extern const char TextEnglish[] = "TextEnglish";
 
+#if VERSION == VERSION_GPOP8P
+extern "C" void fn_80145D2C(void);
+extern "C" u8 OSGetLanguage(void);
+#endif
+
 s32 TLanguage::set_language(s8 language) {
     u8 *save_payload;
 
@@ -194,10 +200,31 @@ s32 TLanguage::set_language(s8 language) {
     current_language = (enum language)(s8) language;
     TLanguage::load_text_resources((s8) current_language);
     TLanguage::load_fonts(current_language);
+#if VERSION == VERSION_GPOP8P
+    fn_80145D2C();
+#endif
 
     return 1;
 }
 
 s8 TLanguage::get_default_language() {
+#if VERSION == VERSION_GPOP8P
+    switch (OSGetLanguage() & 0xff) {
+    case 0:
+        return LANGUAGE_ENGLISH;
+    case 1:
+        return LANGUAGE_GERMAN;
+    case 2:
+        return LANGUAGE_FRENCH;
+    case 3:
+        return LANGUAGE_SPANISH;
+    case 4:
+    case 5:
+        return LANGUAGE_ENGLISH;
+    default:
+        return LANGUAGE_ENGLISH;
+    }
+#else
     return LANGUAGE_ENGLISH;
+#endif
 }

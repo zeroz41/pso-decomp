@@ -1333,6 +1333,9 @@ int TProtocol::handle_command(struct packet *pkt) {
 		{ 0xB1, &TProtocol::handle_cmd_B1 },
 		{ 0xC0, &TProtocol::handle_cmd_C0 },
 		{ 0xC4, &TProtocol::handle_cmd_C4 },
+#if VERSION == VERSION_GPOP8P
+		{ 0xB2, &TProtocol::handle_cmd_B2 },
+#endif
 		{ 0x02, &TProtocol::handle_cmd_02 },
 		{ 0x9A, &TProtocol::handle_cmd_9A },
 		{ 0x9B, &TProtocol::handle_cmd_9B },

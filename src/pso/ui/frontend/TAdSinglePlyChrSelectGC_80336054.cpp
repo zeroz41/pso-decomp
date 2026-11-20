@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "versions.h"
 #include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_80336054.h"
@@ -215,7 +216,11 @@ struct TitleTextureFilenameTable {
 };
 
 const TitleTextureFilenameTable title_texture_filename_table = {
+#if VERSION == VERSION_GPOP8P
+    {"Title_eu_jpn", "Title_eu_eng", "Title_eu_ger", "Title_eu_fre", "Title_eu_spa"},
+#else
     {"Title", "Title_eng", "Title_eng", "Title_eng", "Title_eng"},
+#endif
 };
 
 
@@ -301,7 +306,11 @@ void TLobby::enter_chg_game_mode() { lobby_game_mode_state = 0; TAdMultiChgGameM
 void TLobby__sub_803362A4(void *arg0_) {
     u8 *arg0 = (u8 *)arg0_;
     if (TAdTrialAgreementGC__sub_80335958(*(s32 *)(arg0 + 0x24)) != 0) {
+#if VERSION == VERSION_GPOP8P
+        TKeyBoardControl__sub_8000F90C(1);
+#else
         TKeyBoardControl__sub_8000F90C(2);
+#endif
         if (((TAdSinglePlyChrSelectGC *)arg0)->start_offline_seq() != 0) {
             ((void (*)(void *))TLobby__sub_803361FC)(arg0);
             TLobbyStateHandler m = TLobby__state_handler_pmf_table[TLobby__sub_80336030(arg0)];
@@ -335,7 +344,11 @@ void TUnk_804EEF64::run_task() {
         TWindowOptionCtrl__sub_802273B4(0x1E);
     }
     if (((s32) ((TUnk_804EEF64 *)((Obj_80336340 *)this))->m_38 < (s32) *(s32 *)((s8 *)((Obj_80336340 *)this) + 0x34)) && (((TAdSinglePlyChrSelectGC *)((Obj_80336340 *)this))->start_offline_seq() != 0)) {
+#if VERSION == VERSION_GPOP8P
+        TKeyBoardControl__sub_8000F90C(1);
+#else
         TKeyBoardControl__sub_8000F90C(2);
+#endif
         set_opening_movie_purpose(0);
         request_main_phase(3);
     }

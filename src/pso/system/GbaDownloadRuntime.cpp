@@ -1,3 +1,4 @@
+#include "versions.h"
 #include "pso/system/ResourceFile.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/GbaJoybootState.h"
@@ -21,7 +22,11 @@ u8 gba_joyboot_status;
 unsigned char lbl_805D6CD9;
 short lbl_805D6CDA;
 // The game code the GBA program header carries at 0xAC (calc_joyboot_checksum copies it in).
+#if VERSION == VERSION_GPOP8P
+const u8 joyboot_game_code[4] = {'G', 'P', 'O', 'P'};
+#else
 const u8 joyboot_game_code[4] = {'G', 'P', 'O', 'E'};
+#endif
 
 u32 create__8TDLGraphFv();
 void xfree__FPv(void*);

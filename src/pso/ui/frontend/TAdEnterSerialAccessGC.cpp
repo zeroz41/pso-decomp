@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
+#include "versions.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
@@ -678,8 +679,10 @@ void *__dt__22TAdEnterSerialAccessGCFv(TAdEnterSerialAccessGC *ad_enter_serial_a
 }
 
 u8 *TAdEnterSerialAccessGC__ct(TAdEnterSerialAccessGC *ad_enter_serial_access_gc, TObject *parent) {
+#if VERSION != VERSION_GPOP8P
     s8 flag[0x10];
     u8 sp8[0x10];
+#endif
     void *p;
     __ct__14TAdEnterBaseGCFP7TObject(ad_enter_serial_access_gc, parent);
     *(s32 **)((s8 *)ad_enter_serial_access_gc + 0x18) = __vt__22TAdEnterSerialAccessGC;
@@ -702,6 +705,7 @@ u8 *TAdEnterSerialAccessGC__ct(TAdEnterSerialAccessGC *ad_enter_serial_access_gc
         ad_enter_serial_access_gc->queue_destruction();
         return (u8 *)ad_enter_serial_access_gc;
     }
+#if VERSION != VERSION_GPOP8P
     flag[0] = 0;
     if (load_and_verify_character_save__23TAdSinglePlyChrSelectGCFPc(flag, sp8) != 0 && flag[0] != 0) {
         ((void (*)(s8 *)) init__22TAdEnterSerialAccessGCFv)(flag);
@@ -709,6 +713,7 @@ u8 *TAdEnterSerialAccessGC__ct(TAdEnterSerialAccessGC *ad_enter_serial_access_gc
         TAdEnterSerialAccessGC__sub_80322418(get_field_118__22TAdEnterSerialAccessGCFv(), 1);
         TAdEnterSerialAccessGC__sub_80322418(get_field_118__22TAdEnterSerialAccessGCFv(), 0);
     }
+#endif
     if ((p = TObject::operator new(0x24)) != 0) {
         __ct__9TAdBackGCFv(p, ad_enter_serial_access_gc);
     }

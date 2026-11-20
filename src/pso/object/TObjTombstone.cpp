@@ -1,4 +1,5 @@
 #include "types.h"
+#include "versions.h"
 // TObject's helpers are out-of-line functions for this TU (run_task calls
 // TObject::queue_destruction, defined elsewhere).
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -421,7 +422,9 @@ void TObjTombstone::render() {
         update_render_flags();
         switch (TWindowSubStatusDisp::resolve_player_slot(-1)) {
         case 2:
+#if VERSION != VERSION_GPOP8P
         case 3:
+#endif
             update_fade_by_distance();
             break;
         default:

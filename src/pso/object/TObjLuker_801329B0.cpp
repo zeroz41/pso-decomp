@@ -1,4 +1,5 @@
 #include "types.h"
+#include "versions.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/object/TObjLuker_801329B0.h"
 #include "pso/object/TObjLuker.h"
@@ -8,7 +9,11 @@ extern s32 game_difficulty_selection;
 
 // Section ID names, indexed by a character's section id (TObjCMName, TAdPlyStatusGC).
 const char *luker_stat_entry_ptr_table[] = {
+#if VERSION == VERSION_GPOP8P
+    "VIRIDIA", "GREENNILL", "SKYLY", "BLUEFULL", "PURPLENUM", "PINKAL",
+#else
     "VIRIDIA", "GREENILL", "SKYLY", "BLUEFULL", "PURPLENUM", "PINKAL",
+#endif
     "REDRIA", "ORAN", "YELLOWBOZE", "WHITILL", "???????", 0,
 };
 

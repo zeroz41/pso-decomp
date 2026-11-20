@@ -262,12 +262,19 @@ def compare(before: dict, after: dict, read=None, starts=None) -> dict:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("before", type=Path)
-    parser.add_argument("after", nargs="?", type=Path, default=ROOT / "build/GPOE8P/report.json")
+    parser.add_argument("after", nargs="?", type=Path)
+    parser.add_argument("--version", default="GPOE8P", choices=["GPOE8P", "GPOP8P"],
+                        help="game version whose DOL and symbols decide padding")
     parser.add_argument("--check", action="store_true", help="fail on regression or lost coverage")
     parser.add_argument("--json", action="store_true")
     args = parser.parse_args()
+    if args.after is None:
+        args.after = ROOT / "build" / args.version / "report.json"
+    # Without this version's DOL nothing counts as padding: compare() would otherwise fall back to the USA DOL.
+    read = dol_reader(ROOT / "orig" / args.version / "files/PsoV3.dol") or (lambda address, size: None)
+    starts = symbol_starts(ROOT / "config" / args.version / "psov3/symbols.txt")
     try:
-        delta = compare(json.loads(args.before.read_text()), json.loads(args.after.read_text()))
+        delta = compare(json.loads(args.before.read_text()), json.loads(args.after.read_text()), read, starts)
     except (OSError, ValueError) as error:
         parser.exit(2, f"Cannot compare reports: {error}\n")
     if args.json:

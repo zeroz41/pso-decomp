@@ -1,4 +1,5 @@
 #include "types.h"
+#include "versions.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer_80011014.h"
@@ -44,10 +45,14 @@ E_8006F134 *TWindowSubStatusDisp__sub_8006F134(O_8006F134 *self, s32 slot);
 typedef s32 (*SlotQueryNoArgs_8006F094)(void);
 
 s32 TWindowSubStatusDisp::get_layout_id() {
+#if VERSION == VERSION_GPOP8P
+    return lbl_8043859C[((SlotQueryNoArgs_8006F094)TWindowSubStatusDisp::resolve_player_slot)()];
+#else
     if (((SlotQueryNoArgs_8006F094)TWindowSubStatusDisp::resolve_player_slot)() < 3) {
         return lbl_8043859C[((SlotQueryNoArgs_8006F094)TWindowSubStatusDisp::resolve_player_slot)()];
     }
     return 5;
+#endif
 }
 typedef char RecoveredGlobal_8006F23C_lbl_8048C9D8_size[sizeof(RecoveredGlobal_8006F23C_lbl_8048C9D8) == 0x748 ? 1 : -1];
 
@@ -57,23 +62,42 @@ typedef char RecoveredGlobal_8006F1EC_lbl_8048C9D8_size[((sizeof(RecoveredGlobal
 
 s32 *TWindowSubStatusDisp__sub_8006F0D8(O_8006F0D8 *self, s32 slot) {
     s32 idx = TWindowSubStatusDisp::resolve_player_slot(slot);
+#if VERSION == VERSION_GPOP8P
+    return &self->a[lbl_80438590[idx]];
+#else
     if (idx < 3) {
         return &self->a[lbl_80438590[idx]];
     }
     return &self->def;
+#endif
 }
 
 E_8006F134 *TWindowSubStatusDisp__sub_8006F134(O_8006F134 *self, s32 slot) {
     s32 idx = TWindowSubStatusDisp::resolve_player_slot(slot);
+#if VERSION == VERSION_GPOP8P
+    return &self->e[lbl_80438584[idx]];
+#else
     if (idx < 3) {
         return &self->e[lbl_80438584[idx]];
     }
     return &self->def;
+#endif
 }
 
 s32 TWindowSubStatusDisp::resolve_player_slot(s32 slot) {
     switch (slot) {
     case RECORD_SET_CURRENT:
+#if VERSION == VERSION_GPOP8P
+    {
+        s32 r = RECORD_SET_EP1;
+        if (TLobby::get_instance() == 1) {
+            r = RECORD_SET_EP2;
+        } else if (is_split_screen()) {
+            r = RECORD_SET_EP1_SPLIT;
+        }
+        return r;
+    }
+#else
         if (is_split_screen()) {
             s32 inst = TLobby::get_instance();
             s32 r = RECORD_SET_EP1_SPLIT;
@@ -83,6 +107,7 @@ s32 TWindowSubStatusDisp::resolve_player_slot(s32 slot) {
             return r;
         }
         return (TLobby::get_instance() == 1) ? RECORD_SET_EP2 : RECORD_SET_EP1;
+#endif
     }
     return slot;
 }

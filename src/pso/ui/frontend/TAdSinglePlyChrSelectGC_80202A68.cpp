@@ -1,4 +1,5 @@
 #include "types.h"
+#include "versions.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/unk/text_80076BC4.h"
 #include "pso/player/TPlyCharData.h"
@@ -110,7 +111,32 @@ void *TAdSinglePlyChrSelectGC__sub_802115C0(void *p);
 Save_80202C68 *copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(Save_80202C68 *arg0, Save_80202C68 *arg1);
 void copy_player_data__9TProtocolFPvPv();
 int copy_from__9TItemDataFP9TItemData(void*);
+#if VERSION == VERSION_GPOP8P
+void init__17TPlyInventoryItemFv(u8 *arg0);
+s32 TAdSinglePlyChrSelectGC__sub_801FC8B4(s32 arg0, s16 arg1);
+s32 init_char_slots__23TAdSinglePlyChrSelectGCFi(s32 arg0);
+#endif
 
+#if VERSION == VERSION_GPOP8P
+void TAdSinglePlyChrSelectGC__sub_80203210(void* p) { *(u32*)((char*)p + 0x4) &= 0xfffffff7; }
+
+void TAdSinglePlyChrSelectGC::clear_inventory_slot() {
+    u8 *arg0 = (u8 *)this;
+    *(s8 *)&this->m_name = 0;
+    *(s8 *)((s8 *)arg0 + 1) = -1;
+    *(s32 *)&this->m_flags = 0;
+    ((TItemData *)((u8 *)&this->m_prev))->init();
+}
+
+int fn_8020325C(void *arg0) {
+    int var_r4;
+    var_r4 = 0;
+    if (((u8) *(u8 *)((s8 *)arg0 + 0x0) == 1) && ((u8) *(u8 *)((s8 *)arg0 + 0x1) == 3)) {
+        var_r4 = 1;
+    }
+    return (u8)var_r4;
+}
+#else
 s32 TAdSinglePlyChrSelectGC__sub_80202A68(u8 *arg0) {
     return *(s32 *)((s8 *)arg0 + 0x194AC);
 }
@@ -134,6 +160,7 @@ s32 TAdSinglePlyChrSelectGC::free_chardata(s32 arg0, s16 arg1) {
     }
     return arg0;
 }
+#endif
 
 Ent_80202B1C *TAdSinglePlyChrSelectGC__sub_80202B1C(Obj_80202B1C *self, s32 i) {
     return &self->e[i];
@@ -147,7 +174,11 @@ s32 *TAdSinglePlyChrSelectGC__sub_80202B38(Obj_80202B38 *self, s32 i) {
 
 void TAdSinglePlyChrSelectGC::clear_inventory_slot_by_index(s32 i) {
     Obj_80202B4C *self = (Obj_80202B4C *)this;
+#if VERSION == VERSION_GPOP8P
+    init__17TPlyInventoryItemFv((u8 *)&self->e[i]);
+#else
     ((TAdSinglePlyChrSelectGC *)(&self->e[i]))->clear_inventory_slot();
+#endif
 }
 
 int TAdSinglePlyChrSelectGC::get_selection() {  return TAdSinglePlyChrSelectGC__selection_index; }
@@ -201,6 +232,7 @@ void TAdSinglePlyChrSelectGC::reset_slot_lists() {
     }
 }
 
+#if VERSION != VERSION_GPOP8P
 Save_80202C68 *copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(Save_80202C68 *arg0, Save_80202C68 *arg1) {
     Slot_80202C68 *d;
     Slot_80202C68 *s;
@@ -271,14 +303,33 @@ u8 *TAdSinglePlyChrSelectGC::copy_character_data(u8 *arg1) {
     d->b1390 = s->b1390;
     return ((u8 *)this);
 }
+#endif
 
+#if VERSION == VERSION_GPOE8P
 void*TAdSinglePlyChrSelectGC::copy_item_data(void* a1) { copy_from__9TItemDataFP9TItemData(this); *(short *)&this->m_down = *(short*)((char*)a1 + 0x14); *(short*)((char*)this + 0x16) = *(short*)((char*)a1 + 0x16); return this; }
+#endif
 
+#if VERSION == VERSION_GPOP8P
+s32 init_char_slots__23TAdSinglePlyChrSelectGCFi(s32 arg0) {
+    __construct_array((void *)(arg0 + 4), (void *)TAdSinglePlyChrSelectGC__sub_80203158, (void *)TAdSinglePlyChrSelectGC__sub_801FC8B4, 0x2798, 7);
+    return arg0;
+}
+#else
 u8 *TAdSinglePlyChrSelectGC::construct_chardata_array() {
     __construct_array(((u8 *)this) + 4, (void *)TAdSinglePlyChrSelectGC__sub_80203158, (void *)TAdSinglePlyChrSelectGC::free_chardata, 0x39B4, 7);
     return ((u8 *)this);
 }
+#endif
 
+#if VERSION == VERSION_GPOP8P
+void* TAdSinglePlyChrSelectGC__sub_80203158(void* p) { __ct__12TPlyCharDataFv((s32)p); ((TAdSinglePlyChrSelectGC *)((char*)p + 0x41c))->init_char_record(); return p; }
+
+u8 *TAdSinglePlyChrSelectGC::init_char_record() {
+    __construct_array(((u8 *)this) + 0x250, (void *)TAdSinglePlyChrSelectGC__sub_802115C0, 0, 0x18, 0xc8);
+    ((TAdSinglePlyChrSelectGC *)(((u8 *)this) + 0x1510))->init_guild_card_tag();
+    return ((u8 *)this);
+}
+#else
 void* TAdSinglePlyChrSelectGC__sub_80203158(void* p) { __ct__12TPlyCharDataFv((s32)p); TAdSinglePlyChrSelectGC__sub_80203190((u8 *)((void*)((char*)p + 0x41c))); return p; }
 
 u8 *TAdSinglePlyChrSelectGC__sub_80203190(u8 *arg0) {
@@ -286,8 +337,10 @@ u8 *TAdSinglePlyChrSelectGC__sub_80203190(u8 *arg0) {
     ((TAdSinglePlyChrSelectGC *)(arg0 + 0x4B0))->init_guild_card_tag();
     return arg0;
 }
+#endif
 
 void*TAdSinglePlyChrSelectGC::init_guild_card_tag() { init_guild_card_tag__17TWindowSubComCardFi((s32)this); return this; }
+#if VERSION != VERSION_GPOP8P
 void TAdSinglePlyChrSelectGC__sub_80203210(void* p) { *(u32*)((char*)p + 0x4) &= 0xfffffff7; }
 
 void TAdSinglePlyChrSelectGC::clear_inventory_slot() {
@@ -306,5 +359,6 @@ int fn_8020325C(void *arg0) {
     }
     return (u8)var_r4;
 }
+#endif
 
 }

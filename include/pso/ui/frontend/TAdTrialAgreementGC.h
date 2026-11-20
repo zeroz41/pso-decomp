@@ -2,6 +2,7 @@
 #define PSO_UI_FRONTEND_TADTRIALAGREEMENTGC_H
 
 #include "types.h"
+#include "versions.h"
 #include "pso/ui/frontend/TAdAgreementBaseGC.h"
 
 struct TAdTrialAgreementGC : public TAdAgreementBaseGC {
@@ -14,6 +15,9 @@ struct TAdTrialAgreementGC : public TAdAgreementBaseGC {
     static void wait_for_load();
     virtual void run_task();
     static s32 check_card_file(s32 arg0);
+#if VERSION == VERSION_GPOP8P
+    virtual void create_agreement_callback();
+#endif
 };
 
 typedef char TAdTrialAgreementGC_size[sizeof(TAdTrialAgreementGC) == 0x3C ? 1 : -1];

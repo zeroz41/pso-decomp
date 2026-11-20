@@ -1,4 +1,5 @@
 #include "types.h"
+#include "versions.h"
 #include "pso/ui/frontend/TAdTrialModemChkGC.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/ui/frontend/TAdWarningBaseGC.h"
@@ -76,3 +77,16 @@ void *TAdTrialModemChkGC__ct(void *ad_trial_modem_chk_gc) {
     return ad_trial_modem_chk_gc;
 }
 
+
+#if VERSION == VERSION_GPOP8P
+#include "pso/ui/frontend/TAdTrialAgreementGC.h"
+#include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
+
+extern const f32 lbl_80477394[2];
+extern const f32 lbl_8047739C[2];
+extern "C" void fn_803289EC();
+
+void TAdTrialAgreementGC::create_agreement_callback() {
+    TAdEnterSerialAccessGC::create_callback((void *)lbl_80477394, (void *)lbl_8047739C, (void *)fn_803289EC);
+}
+#endif

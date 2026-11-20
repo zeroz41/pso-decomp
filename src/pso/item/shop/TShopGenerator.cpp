@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "versions.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/item/shop/TShopGenerator.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -159,7 +160,9 @@ void TShopGenerator::run_task() {
         if (TMedicalCenterMes::get_slot_flag(get_entity_id(q)) == 1) return;
         if (is_flag_400_set__10TObjPlayerFPv((void *)q) == 1) return;
         if (check_flag_100__10TObjPlayerFPv((void *)q) == 1) return;
+#if VERSION != VERSION_GPOP8P
         if (is_no_service_active(this, q) == 0) return;
+#endif
         get_slot_flag2 = service->get_slot_flag;
         if (get_slot_flag2((u16)TShopGenerator__sub_80222DAC(get_entity_id(q))) == 1) return;
         if (((s32 (*)(u8 *, u8 *, f32))is_player_in_service_range__14TShopGeneratorFPUcf)((u8 *)this, (u8 *)q, 20.0f) == 0) return;

@@ -19,6 +19,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     u32 m_34;
     void init_item_entry();
     static void try_load_system_file();
+    static void delete_save_files();
     static s32 wait_for_card_load(s32 arg0);
     static void format_challenge_stage_times(s32 arg0, s32 arg1);
     static void wake_load_thread();

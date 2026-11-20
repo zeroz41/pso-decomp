@@ -1,3 +1,4 @@
+#include "versions.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdYesNoBaseGC.h"
 #include "pso/ui/TLogo.h"
@@ -5,7 +6,11 @@
 
 extern "C" {
 
+#if VERSION == VERSION_GPOP8P
+u32 OSGetEuRgb60Mode();
+#else
 u32 OSGetProgressiveMode();
+#endif
 s32 disable_progressive_mode__13TAdVIConfigGCFPv();
 u32 VIGetDTVStatus();
 s32 is_on_current_screen__11TCameraCtrlFv(void *, s32);
@@ -13,6 +18,12 @@ s32 is_on_current_screen__11TCameraCtrlFv(void *, s32);
 extern s8 controller_physical_port_bank[];
 
 s32 TLogo::check_progressive_ready() {
+#if VERSION == VERSION_GPOP8P
+    if ((OSGetEuRgb60Mode() != 1U) && (is_on_current_screen__11TCameraCtrlFv(controller_physical_port_bank + 0x20, 2) == 0)) {
+        disable_progressive_mode__13TAdVIConfigGCFPv();
+        return 0;
+    }
+#else
     if (VIGetDTVStatus() == 0U) {
         disable_progressive_mode__13TAdVIConfigGCFPv();
         return 0;
@@ -21,6 +32,7 @@ s32 TLogo::check_progressive_ready() {
         disable_progressive_mode__13TAdVIConfigGCFPv();
         return 0;
     }
+#endif
     return 1;
 }
 

@@ -16,6 +16,7 @@
 #include "pso/map/FloorArea.h"
 
 #include "types.h"
+#include "versions.h"
 
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
@@ -302,6 +303,15 @@ void TObjChallenge4PRetry::update_challenge_4p_retry() {
 void TObjChallenge4PRetry::update_giveup() {
     s32 flag;
     s32 i;
+#if VERSION == VERSION_GPOP8P
+    if (get_current_floor_area() == AREA_PIONEER2_EP1) {
+        if (has_window_task_root() != 0) {
+            goto give_up;
+        }
+    }
+    return;
+give_up:
+#else
     switch (get_current_floor_area()) {
     case AREA_PIONEER2_EP1:
     case AREA_PIONEER2_EP2:
@@ -312,6 +322,7 @@ void TObjChallenge4PRetry::update_giveup() {
     default:
         return;
     }
+#endif
     play_effect_all_players__6TLobbyFPv(this);
     flag = 1;
     for (i = 0; i < 4; i++) {

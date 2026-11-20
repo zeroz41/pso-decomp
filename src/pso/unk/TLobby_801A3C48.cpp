@@ -3,6 +3,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "types.h"
+#include "versions.h"
 #include "pso/unk/TLobby_801A3C48.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/system/debug_print.h"
@@ -734,7 +735,9 @@ void TLobby::run_main_frame() {
     run_save_load_sequence__23TAdSinglePlyChrSelectGCFv();
     TAdSinglePlyChrSelectGC::noop();
     TObjBoss2Tunnel__sub_8007D1D0();
+#if VERSION != VERSION_GPOP8P
     TLobby__sub_8006EF90();
+#endif
     if (((s32) lbl_805D55C0 == 0) && (poll_memcard_result((int) (get_chr_select_state__23TAdSinglePlyChrSelectGCFv())) != -1)) {
         if (TAdPlayerLoadGC::probe_card_slot(get_chr_select_state__23TAdSinglePlyChrSelectGCFv()) != 0) {
             TLobby__online_lobby_frame_counter = 0;
@@ -790,7 +793,11 @@ void run_online_lobby_scene(void) {
     TLobby__sub_801F3774();
     reset_controller_input_state();
     clear_keyboard_key_state();
+#if VERSION == VERSION_GPOP8P
+    TKeyBoardControl__sub_8000F90C(1);
+#else
     TKeyBoardControl__sub_8000F90C(2);
+#endif
     set_queued_main_phase(0xF);
     clear_resource_load_tasks();
     TLobby::create_map_csn_ctrl();

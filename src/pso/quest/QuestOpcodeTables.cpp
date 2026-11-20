@@ -1,4 +1,5 @@
 #include "pso/quest/QuestOpcodeTables.h"
+#include "versions.h"
 #include "pso/unk/TLobby.h"
 
 const s32 quest_sound_effect_ids[29] = {
@@ -604,7 +605,11 @@ QuestOpcodeEntry qst_opcode_table[0x300] = {
     { qst_getargs_u8, (void (*)())qst_op_olga_flow_is_dead },
     { qst_getargs_u8, (void (*)())qst_op_particle_effect_nc },
     { qst_getargs_u8, (void (*)())qst_op_player_effect_nc },
+#if VERSION == VERSION_GPOP8P
+    { 0, 0 },
+#else
     { qst_getargs_void_reset, qst_op_has_ep3_save_file },
+#endif
     { 0, 0 },
     { 0, 0 },
     { 0, 0 },

@@ -4,6 +4,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "types.h"
+#include "versions.h"
 #include "pso/system/byteswap.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/unk/TLobby.h"
@@ -161,10 +162,12 @@ s32 TLobby::bswap_challenge_battle_records() {
     for (i = 0; i < 3; i++) {
         ((TLobby *)(&s->c[i]))->bswap_fields_0_4();
     }
+#if VERSION != VERSION_GPOP8P
     ((TLobby *)(s->xE4))->bswap_fields_0_4();
     for (i = 0; i < 5; i++) {
         ((TLobby *)(&s->e[i]))->bswap_packet_field();
     }
+#endif
 }
 
 void TLobby::bswap_fields_0_4() {

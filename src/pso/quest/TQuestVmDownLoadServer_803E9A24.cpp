@@ -1,4 +1,5 @@
 #include "types.h"
+#include "versions.h"
 #include <stddef.h>
 #include "pso/quest/TQuestVmDownLoadServer_803E6970.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
@@ -621,7 +622,10 @@ Seg_803E9FFC *TQuestVmDownLoadServer__sub_803E9A74(s32 pos, s32 end, u8 a, u8 b)
     if (e == NULL && IsBreakChar_803E9A74(((u8 *)&quest_download_scratch_storage)[pos])) {
         if (a == 0 || TQuestVmDownLoadServer::is_valid_item_for_slot(a, b)) {
             Seg_803E9FFC *s = (Seg_803E9FFC *)TQuestVmDownLoadServer__sub_803ECF0C();
-            if (s != NULL) {
+#if VERSION != VERSION_GPOP8P
+            if (s != NULL)
+#endif
+            {
                 s->off = 1;
                 s->a = 0xFF;
                 s->x2 = 0xFF;
@@ -640,7 +644,10 @@ Seg_803E9FFC *TQuestVmDownLoadServer__sub_803E9A74(s32 pos, s32 end, u8 a, u8 b)
                 n = quest_download_lz_match_strings[e->off];
                 if (pos + n >= end || !IsX_803E9FFC(text[n])) {
                     Seg_803E9FFC *s = (Seg_803E9FFC *)TQuestVmDownLoadServer__sub_803ECF0C();
-                    if (s != NULL) {
+#if VERSION != VERSION_GPOP8P
+                    if (s != NULL)
+#endif
+                    {
                         s->off = n;
                         s->x2 = s->a = e->a;
                         s->x3 = s->b = e->b;

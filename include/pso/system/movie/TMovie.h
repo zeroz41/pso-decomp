@@ -3,9 +3,14 @@
 
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include "versions.h"
 
 struct TMovie : public TObject {
+#if VERSION == VERSION_GPOP8P
+    TMovie(TObject *parent, s8 *name, s32 a3, s32 a4, s32 a5, s32 a6);
+#else
     TMovie(TObject *parent, s8 *name, s32 a3, s32 a4, s32 a5);
+#endif
     virtual ~TMovie();
     virtual void run_task();
     u32 m_1c;

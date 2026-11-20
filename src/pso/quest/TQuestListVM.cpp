@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "types.h"
+#include "versions.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/system/task/TObject.h"
@@ -676,7 +677,9 @@ void TQuestListVM::close() {
     if (TLobby::tmp_buf_is_free() == 0) {
         TLobby::tmp_buf_release(tmp_buf_owner_name);
     }
+#if VERSION == VERSION_GPOE8P
     TQuestListVM::reset();
+#endif
     queue_destruction();
 }
 

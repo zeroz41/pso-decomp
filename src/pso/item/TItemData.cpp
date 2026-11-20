@@ -1,5 +1,6 @@
 #include "pso/item/MagStats.h"
 #include "types.h"
+#include "versions.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/system/byteswap.h"
@@ -1021,7 +1022,11 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
       {
         result |= 1;
       }
+#if VERSION == VERSION_GPOP8P
+      if ((!(flags & 0x40)) && (TLobby::is_flag_set() == 1))
+#else
       if ((!(flags & 0x40)) && ((TLobby::is_flag_set() != 0) || (is_challenge_mode_active() != 0)))
+#endif
       {
         result |= 1;
       }

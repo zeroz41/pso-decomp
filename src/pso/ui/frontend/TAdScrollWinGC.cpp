@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "versions.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/unk/text_8026A93C.h"
 #include "pso/unk/TLobby_80132ED0.h"
@@ -59,7 +60,9 @@ void *TAdScrollWinGC__ct(TAdScrollWinGC *ad_scroll_win_gc, void *arg1, s32 arg2,
         }
         break;
     case 2:
+#if VERSION != VERSION_GPOP8P
     case 3:
+#endif
         ((TWindowMessage *)(ad_scroll_win_gc->m_40))->append_line(arg3, 1);
         break;
     }

@@ -16,6 +16,9 @@ It runs, in order:
 
 With --json PATH it also writes the result of each check and the report delta to PATH,
 which CI turns into the pull request comment.
+
+The checks are for the USA version (GPOE8P): it stops if the build is configured for another
+version, since ninja would build that one while the checks read build/GPOE8P/.
 """
 from __future__ import annotations
 
@@ -34,6 +37,19 @@ def run(title: str, command: list[str]) -> tuple[bool, str]:
     print(f"== {title}", flush=True)
     result = subprocess.run(command, cwd=ROOT, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
     return result.returncode == 0, result.stdout
+
+
+def configured_version() -> str | None:
+    """The --version build.ninja was configured with, or None without a build.ninja."""
+    path = ROOT / "build.ninja"
+    if not path.exists():
+        return None
+    for line in path.read_text().splitlines():
+        if line.startswith("configure_args ="):
+            parser = argparse.ArgumentParser(add_help=False)
+            parser.add_argument("-v", "--version", default="GPOE8P")
+            return parser.parse_known_args(line.split("=", 1)[1].split())[0].version
+    return "GPOE8P"
 
 
 def check(name: str, ok: bool | None, output: str = "", reason: str = "") -> dict:
@@ -56,6 +72,10 @@ def main() -> int:
     args = parser.parse_args()
     if not args.baseline.exists():
         parser.exit(2, f"missing {args.baseline}: run `ninja baseline` on the commit your change starts from\n")
+
+    version = configured_version()
+    if version not in (None, "GPOE8P"):
+        parser.exit(2, f"build.ninja is configured for {version}: run `python configure.py` (GPOE8P) first\n")
 
     python = sys.executable
     failed = []

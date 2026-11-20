@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "versions.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/ui/city/THunterGuildSeqOffline_80213788.h"
 #include "pso/ui/city/THunterGuildWarning.h"
@@ -158,7 +159,9 @@ s32 TPlayerBattleCtrl4P::fn_80211B10(s32 id) {
     s32 result;
     s32 i;
     s32 j;
+#if VERSION != VERSION_GPOP8P
     s32 k;
+#endif
     self = get_player_by_client_id((u16)id);
     if (self == NULL) {
         return 1;
@@ -181,6 +184,7 @@ s32 TPlayerBattleCtrl4P::fn_80211B10(s32 id) {
             }
         }
     }
+#if VERSION != VERSION_GPOP8P
     for (k = 0; k < 4; k++) {
         TObjPlayer *other = get_player_by_client_id(k);
         if (other != NULL && other->is_inactive() == 0) {
@@ -188,6 +192,7 @@ s32 TPlayerBattleCtrl4P::fn_80211B10(s32 id) {
             break;
         }
     }
+#endif
     return result;
 }
 #pragma pop

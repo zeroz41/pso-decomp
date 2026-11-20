@@ -7,6 +7,7 @@
 #include "pso/map/FloorArea.h"
 
 #include "types.h"
+#include "versions.h"
 #include "pso/quest/challenge/TChallenge.h"
 #include <stddef.h>
 #include "pso/unk/TLobby.h"
@@ -40,6 +41,10 @@ struct Blk50_800703D0 { u32 w[20]; };
 
 struct Blk18_800703D0 { u32 w[6]; };
 
+#if VERSION == VERSION_GPOP8P
+struct Blk1C_800703D0 { u32 w[7]; };
+#endif
+
 struct Blk14_800703D0 { u32 w[5]; };
 
 struct Pair_800703D0 { u8 bytes[8]; };
@@ -54,8 +59,12 @@ struct Info_800703D0 {
     Blk18_800703D0 e;
     Pair_800703D0 xD8;
     s32 xE0;
+#if VERSION == VERSION_GPOP8P
+    Blk1C_800703D0 f;
+#else
     Pair_800703D0 xE4;
     Blk14_800703D0 f;
+#endif
 };
 
 #pragma inline_depth(1)
@@ -539,6 +548,10 @@ s32 TLobby::destroy_on_phase_change() {
     return 0;
 }
 
+#if VERSION == VERSION_GPOP8P
+extern "C" void TLobby__sub_8006EF90(void *);
+#endif
+
 void TChallenge::render() {  }
 void TChallenge::update_active() { void *p = this; if (((TLobby *)p)->destroy_on_phase_change() == 0) { TLobby__sub_80070170(p); ((TLobby *)p)->update_battle_cleanup_flag(); } }
 void TChallenge::wait_for_quest() {
@@ -551,6 +564,10 @@ void TChallenge::wait_for_quest() {
             ((s32)TLobby__sub_8026A328());
             TObjWarnChime::create((TObject*)arg0);
             this->state = 2;
+#if VERSION == VERSION_GPOP8P
+        } else {
+            TLobby__sub_8006EF90(arg0);
+#endif
         }
     }
 }
@@ -595,13 +612,20 @@ void TChallenge::run_task() {
     self->frame_count++;
 }
 
+#if VERSION == VERSION_GPOP8P
+void *lbl_8048D0B0[17] = {
+#else
 void *lbl_8048D0B0[22] = {
+#endif
     (void *)0x6368616c, (void *)0x6c656e67, (void *)0x65000000, (void *)0x53004300,
     (void *)0x51000000, (void *)&lbl_805D90D0, (void *)&lbl_805D90D4, (void *)&lbl_805D90D8,
     (void *)&lbl_805D90DC, (void *)&lbl_805D90E0, (void *)&lbl_805D90E4, (void *)&lbl_805D90E8,
     (void *)&lbl_805D90EC, (void *)&lbl_805D90F0, (void *)&lbl_805D90F4, (void *)&lbl_805D90F8,
-    (void *)&lbl_805D90FC, (void *)0x0, (void *)0x0, (void *)0x0,
+    (void *)&lbl_805D90FC,
+#if VERSION != VERSION_GPOP8P
+    (void *)0x0, (void *)0x0, (void *)0x0,
     (void *)0x0, (void *)0x0,
+#endif
 };
 void *lbl_8048D108[6] = {
     (void *)0x0, (void *)0x0, (void *)&TLobby__sub_80070774, (void *)&run_task__10TChallengeFv,
@@ -665,6 +689,10 @@ struct Obj_80070944 { s32 f0; u8 pad4[0x14]; void *vt; s32 f1C, f20, f24, f28, f
 void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 lbl_805D2850;
 
+#if VERSION == VERSION_GPOP8P
+extern "C" void fn_8006F00C(void *);
+#endif
+
 Obj_80070944 *TChallenge__ct(Obj_80070944 *arg0, void *parent) {
     __ct__7TObjectFP7TObject(arg0, parent);
     arg0->vt = lbl_8048D108;
@@ -675,6 +703,9 @@ Obj_80070944 *TChallenge__ct(Obj_80070944 *arg0, void *parent) {
     arg0->f20 = 0;
     arg0->f24 = 0;
     arg0->f28 = 1;
+#if VERSION == VERSION_GPOP8P
+    fn_8006F00C(arg0);
+#endif
     arg0->f2C = 0;
     arg0->f1C = 0;
     return arg0;

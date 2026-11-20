@@ -2,6 +2,7 @@
 #define PSO_NETWORK_TPROTOCOL_H
 
 #include "types.h"
+#include "versions.h"
 #include <string.h>
 #include "pso/macros.h"
 #include "pso/forward.h"
@@ -218,6 +219,9 @@ public:
     void handle_cmd_B1(packet &pkt);
     void handle_cmd_C0(packet &pkt);
     void handle_cmd_C4(packet &pkt);
+#if VERSION == VERSION_GPOP8P
+    void handle_cmd_B2(packet &pkt);
+#endif
     void handle_cmd_02(packet &pkt);
     void handle_cmd_9A(packet &pkt);
     void handle_cmd_9C(packet &pkt);

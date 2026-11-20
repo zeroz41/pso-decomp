@@ -1,4 +1,5 @@
 #include "types.h"
+#include "versions.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
@@ -301,7 +302,11 @@ void TObjPlayer__sub_8015434C(CollisionBody_80155FBC *set, s32 start, s32 count)
 void TObjPlayer::add_unique_pair_entry(TObjCollidable *target, s32 body) {
     ActorBodyHit *p;
     s32 i;
+#if VERSION == VERSION_GPOP8P
+    if ((u32)player_unique_pair_entry_count < 0x20) {
+#else
     if ((u32)player_unique_pair_entry_count < 0x10) {
+#endif
         p = (ActorBodyHit *)lbl_8050DAD0;
         for (i = 0; i != player_unique_pair_entry_count; i++, p++) {
             if (p->target == target && p->body == body) {

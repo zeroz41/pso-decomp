@@ -1,4 +1,5 @@
 #include "types.h"
+#include "versions.h"
 #include "pso/unk/TLobby.h"
 #include "pso/network/TLobby_803FAEA0.h"
 #include "pso/network/TLobby_804050DC.h"
@@ -12,6 +13,9 @@
 #include "pso/unk/text_80145A44.h"
 #include "pso/unk/text_803F4D84.h"
 #include <string.h>
+#if VERSION == VERSION_GPOP8P
+#include <stdio.h>
+#endif
 #include <string.h>
 #include "pso/system/memory.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
@@ -732,6 +736,9 @@ void get_link_state(s16 *state, s16 *reason) {
 /* Modem dial-up connection to phone number idx of the modem account (AT+MS=V34 init command,
    or the one stored by TLobby__sub_803F5524). */
 s32 connect_modem(s32 idx, s16 id) {
+#if VERSION == VERSION_GPOP8P
+    char country_str[0x20];
+#endif
     NetConnectCfg cfg;
     ModemConfig modem;
     NetLinkStatus status;
@@ -742,6 +749,9 @@ s32 connect_modem(s32 idx, s16 id) {
     s16 state;
     s16 reason;
     NetWaitParam stop;
+#if VERSION == VERSION_GPOP8P
+    u8 country;
+#endif
     s32 cancel;
     s32 result;
     s32 countdown;
@@ -784,7 +794,17 @@ s32 connect_modem(s32 idx, s16 id) {
     modem.w3C = 0;
     modem.w40 = 0;
     modem.w44 = 0;
+#if VERSION == VERSION_GPOP8P
+    memset(country_str, 0, sizeof(country_str));
+    if (fn_803F414C(&country) >= 0) {
+        sprintf(country_str, "%x", country);
+        modem.s48 = country_str;
+    } else {
+        modem.s48 = "B5";
+    }
+#else
     modem.s48 = "B5";
+#endif
     len = strlen("AT+MS=V34");
     memset(command, 0, sizeof(command));
     strncpy(command, "AT+MS=V34", len);

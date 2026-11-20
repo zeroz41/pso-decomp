@@ -1,5 +1,6 @@
 #include <string.h>
 #include "types.h"
+#include "versions.h"
 #include "pso/unk/text_8014618C.h"
 #include "pso/unk/text_803F3BF8.h"
 #include "pso/unk/text_803F4D84.h"
@@ -20,6 +21,10 @@ struct Ids_80145A94 { s32 v[2]; };
 struct Buf_80145A94 { s32 hdr; s8 name[0xA0]; s8 x[0x270 - 0xA4]; };
 
 
+#if VERSION == VERSION_GPOP8P
+extern "C" void fn_803F2694(u32);
+extern "C" void fn_80145D2C(void);
+#endif
 extern s16 disc_error_code;
 s32 lbl_805D56C8;
 u16 lbl_805D56CC;
@@ -51,8 +56,14 @@ s32 TLobby__sub_80145A94(void) {
         lbl_805D56CE = 0;
     }
     TLobby__sub_803F3BF8(0, (void *)lbl_805D56C8, status);
+#if VERSION == VERSION_GPOP8P
+    fn_803F2694(0);
+#endif
     lbl_805D56CE = 1;
     TAdPlayerLoadGC__sub_803F31D8((void *)TLobby::get_global_63e0());
+#if VERSION == VERSION_GPOP8P
+    fn_80145D2C();
+#endif
     start = 0;
     end = 2;
     switch (disc_error_code) {
@@ -281,3 +292,29 @@ s32 init_work(s32 arg0, u8 *arg1) {
     TLobby__sub_803F53A0(2, (char *)(arg1 + 0x124), 0x40);
     return 0;
 }
+
+#if VERSION == VERSION_GPOP8P
+extern "C" {
+const char lbl_8043EFE8[] = "Please insert the PSO Episode 1 & 2 Game Disc.";
+const char lbl_8043F018[] = "This is not the PSO Episode 1 & 2 Game Disc.\nPlease insert the PSO Episode 1 & 2 Game Disc.";
+const char lbl_8043F074[] = "Bitte legen Sie die PSO Episode 1 & 2 Game Disc ein.";
+const char lbl_8043F0AC[] = "Diese Game Disc enth\344lt nicht PSO Episode 1 & 2. \nBitte legen Sie die PSO Episode 1&2 Game Disc ein.";
+const char lbl_8043F114_pal[] = "Veuillez ins\351rer le disque: PSO Episode 1 & 2.";
+const char lbl_8043F144_pal[] = "Ceci n'est pas le disque: PSO Episode 1 & 2.\nVeuillez ins\351rer le disque: PSO Episode 1 & 2.";
+const char lbl_8043F1A0[] = "Coloca el disco de PSO Episode 1 & 2.";
+const char lbl_8043F1C8_pal[] = "\311ste no es el disco de PSO Episode 1 & 2. \nColoca el disco de PSO Episode 1 & 2.";
+
+const DiscErrorTitles lbl_8043F21C = {{
+    lbl_8043EFE8,
+    lbl_8043F018,
+    lbl_8043EFE8,
+    lbl_8043F018,
+    lbl_8043F074,
+    lbl_8043F0AC,
+    lbl_8043F114_pal,
+    lbl_8043F144_pal,
+    lbl_8043F1A0,
+    lbl_8043F1C8_pal,
+}};
+}
+#endif

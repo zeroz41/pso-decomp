@@ -7,6 +7,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801334D4.h"
 
 #include "types.h"
+#include "versions.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -102,7 +103,11 @@ Self_8013319C *__ct__12TLevelSelectFv(Self_8013319C *self) {
     __ct__7TObjectFP7TObject(self, tl_01);
     self->vt = __vt__12TLevelSelect;
     self->f0 = level_select_class_name;
+#if VERSION == VERSION_GPOP8P
+    TKeyBoardControl__sub_8000F90C(1);
+#else
     TKeyBoardControl__sub_8000F90C(2);
+#endif
     game_difficulty_selection = 0;
     self->count = ((int (*)(void *))count_unlocked_difficulties__12TLevelSelectFv)(self);
     if (self->count == 0) {

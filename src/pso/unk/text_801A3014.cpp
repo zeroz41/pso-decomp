@@ -1,5 +1,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "types.h"
+#include "versions.h"
 #include "pso/unk/text_801A3014.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/system/main_loop.h"
@@ -534,7 +535,9 @@ void run_offline_transfer_frame(void) {
     run_save_load_sequence__23TAdSinglePlyChrSelectGCFv();
     TAdSinglePlyChrSelectGC::noop();
     TObjBoss2Tunnel__sub_8007D1D0();
+#if VERSION != VERSION_GPOP8P
     TLobby__sub_8006EF90();
+#endif
     if (func_801A5E54__Fv() != 0) {
         TLobby::reset_keyboard_input();
     }
@@ -679,7 +682,11 @@ void init_offline_game_scene(void) {
             TLobby::reset_keyboard_input();
         }
     }
+#if VERSION == VERSION_GPOP8P
+    TKeyBoardControl__sub_8000F90C(1);
+#else
     TKeyBoardControl__sub_8000F90C(2);
+#endif
     set_queued_main_phase(0xE);
     render_tick();
 }

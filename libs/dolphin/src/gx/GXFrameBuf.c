@@ -2,6 +2,7 @@
 
 #define GXSetCopyFilter Dolphin_GXSetCopyFilter
 
+#include "../../../../include/versions.h"
 #include <dolphin/gx.h>
 #include <dolphin/os.h>
 #include <macros.h>
@@ -54,9 +55,11 @@ GXRenderModeObj GXNtsc480Int = {
 
 
 
+#if VERSION != VERSION_GPOP8P
 GXRenderModeObj GXNtsc480Prog = {
     2, 640, 480, 480, 40, 0, 640, 480, 0, 0, 0, { 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6 }, { 0, 0, 21, 22, 21, 0, 0 }
 };
+#endif
 
 
 

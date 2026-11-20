@@ -1,4 +1,5 @@
 #include "types.h"
+#include "versions.h"
 #include "pso/quest/StoryQuestProgress.h"
 #include "pso/unk/text_801F43B4.h"
 #include "pso/unk/text_801F45FC.h"
@@ -9,8 +10,16 @@ struct Induction_80219EE8_var_r31 { u8 bytes[0x8]; };
 
 struct Pair_80219F64 { s32 a; s32 b; };
 
+#if VERSION == VERSION_GPOP8P
+#define EPISODE1_STORY_QUEST_COUNT 25
+#else
+#define EPISODE1_STORY_QUEST_COUNT 0x1A
+#endif
+
 extern const s32 episode1_story_quest_flag_pairs[];
+#if VERSION == VERSION_GPOE8P
 extern const Pair_80219F64 episode2_story_quest_flag_pairs[];
+#endif
 extern "C" {
 s32 dispatch_by_main_phase__14TBoss4DarkFalzFUs(s32);
 }
@@ -28,9 +37,20 @@ s32 should_record_episode1_quest_completion(void) {
             var_r29 = 0;
         }
         var_r28 += 1;
-    } while (var_r28 < 0x1A);
+    } while (var_r28 < EPISODE1_STORY_QUEST_COUNT);
     return var_r29;
 }
+#if VERSION == VERSION_GPOP8P
+s32 are_all_story_quests_complete(void) {
+    s32 i;
+    for (i = 0; i < EPISODE1_STORY_QUEST_COUNT; i++) {
+        if (get_story_flag((((Pair_80219F64 *)&episode1_story_quest_flag_pairs)[i].b)) == 0) {
+            return 0;
+        }
+    }
+    return 1;
+}
+#else
 s32 are_all_story_quests_complete(void) {
     s32 n;
     s32 i;
@@ -52,6 +72,7 @@ s32 are_all_story_quests_complete(void) {
     }
     return 1;
 }
+#endif
 void clear_episode1_quest_availability(void* unusedDifficulty) {
     s32 var_r29;
     const s32 *var_r30;
@@ -63,7 +84,7 @@ void clear_episode1_quest_availability(void* unusedDifficulty) {
         clear_story_flag(var_r30[var_r31]);
         var_r29 += 1;
         var_r31 += 2;
-    } while (var_r29 < 0x1A);
+    } while (var_r29 < EPISODE1_STORY_QUEST_COUNT);
 }
 void apply_story_quest_unlock_rules(void* unusedDifficulty) {
     dispatch_by_main_phase__14TBoss4DarkFalzFUs(0x64);
@@ -111,6 +132,7 @@ void apply_story_quest_unlock_rules(void* unusedDifficulty) {
         dispatch_by_main_phase__14TBoss4DarkFalzFUs(0x8E);
         dispatch_by_main_phase__14TBoss4DarkFalzFUs(0x94);
     }
+#if VERSION == VERSION_GPOE8P
     dispatch_by_main_phase__14TBoss4DarkFalzFUs(-1);
     if (get_story_flag(0x95) != 0) {
         dispatch_by_main_phase__14TBoss4DarkFalzFUs(0x9F);
@@ -121,10 +143,15 @@ void apply_story_quest_unlock_rules(void* unusedDifficulty) {
     if (get_story_flag(0xA3) != 0) {
         dispatch_by_main_phase__14TBoss4DarkFalzFUs(0xA4);
     }
+#endif
 }
 void refresh_story_quest_availability(void* p) { clear_episode1_quest_availability(p); apply_story_quest_unlock_rules(p); }
 extern "C" {
 
+#if VERSION == VERSION_GPOP8P
+__declspec(section ".rodata") extern const s32 episode1_story_quest_flag_pairs[50] = {100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149};
+#else
 __declspec(section ".rodata") extern const s32 episode1_story_quest_flag_pairs[52] = {100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,159,160};
 __declspec(section ".rodata") extern const Pair_80219F64 episode2_story_quest_flag_pairs[3] = {{-1,161},{162,163},{164,165}};
+#endif
 }

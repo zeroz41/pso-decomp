@@ -11,6 +11,7 @@
 #include "pso/unk/TLobby.h"
 
 #include "types.h"
+#include "versions.h"
 #include "pso/ui/frontend/TAdADXlogo.h"
 
 #include "pso/system/task/TMainTask.h"
@@ -78,6 +79,10 @@ extern int logo_clear_flag;
 // function bodies in reverse source order, so the functions below are listed from the
 // highest address down to the lowest.
 
+#if VERSION == VERSION_GPOP8P
+extern "C" void fn_8013FA90(void) {}
+
+#endif
 int TLogo__sub_8013F808(void) {  return logo_clear_flag; }
 
 s32 TLogo__sub_8013F800(void* p) { return *(s32*)((char*)p + 0x48); }
@@ -138,6 +143,9 @@ void TLogo::run_frame() {
     process_async_file_reads();
     update_sound_request_slots();
     if (func_801A5E54__Fv() != 0) {
+#if VERSION == VERSION_GPOP8P
+        fn_8013FA90();
+#endif
         TKeyBoardControl__sub_8000F92C();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {

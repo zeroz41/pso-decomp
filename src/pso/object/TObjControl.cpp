@@ -1,5 +1,6 @@
 #pragma defer_codegen on
 
+#include "versions.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 
@@ -954,8 +955,8 @@ void TObjEnemy::update_prev_position() {
 
 #pragma pop
 void TObjEnemy::award_enemy_experience(s32 arg1) {
-    s32 val;
     Plr_800F6BF0 *p;
+    s32 val;
 
     if ((u16)arg1 >= 0x1000 || (p = get_player_by_client_id(arg1)) == NULL ||
         ((TObjCollidable *)p)->obj_testFlags30(0x800) != 0 || ((TObjPlayer *)p)->get_floor() != get_current_floor()) {
@@ -972,6 +973,11 @@ void TObjEnemy::award_enemy_experience(s32 arg1) {
     } else {
         val *= 0.8f;
     }
+#if VERSION == VERSION_GPOP8P
+    if (TLobby::is_flag_set() == 1 && is_quest_active() == 1) {
+        val = (s32)((f32)val * TLobby__sub_800F7A6C());
+    }
+#else
     if (is_quest_active() == 1) {
         if (TLobby::is_flag_set() != 0) {
             val = (s32)((f32)val * TLobby__sub_800F7A7C());
@@ -979,6 +985,7 @@ void TObjEnemy::award_enemy_experience(s32 arg1) {
             val = (s32)((f32)val * TLobby__sub_800F7A6C());
         }
     }
+#endif
     p->m12(val);
     create_font_small_task(((u8 *)this) + 0x2FC, 0xFFFF00FF, 0x14, 0x14, "EXP", val, get_entity_id(p));
 }

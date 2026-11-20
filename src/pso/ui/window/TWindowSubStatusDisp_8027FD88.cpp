@@ -1,3 +1,4 @@
+#include "versions.h"
 #include "types.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80071774.h"
@@ -329,7 +330,11 @@ s32 build_player_class_stat_template(s32 arg0, s32 arg1);
 s32 build_player_equipment_requirement_stats(int, void *);
 s32 get_shared_text_buffer();
 s32 get_layout_id__20TWindowSubStatusDispFv(s32);
+#if VERSION == VERSION_GPOP8P
+const s32 status_disp_vt5_message_ids[4] = {0x91, 0x92, 0x94, 0};
+#else
 const s32 status_disp_vt5_message_ids[4] = {0x91, 0x92, 0x91, 0x92};
+#endif
 }
 
 #include "types.h"
@@ -345,7 +350,11 @@ s32 draw_list_page_indicator(s32, s32);
 s32 delete_if_allocated(s32 arg0, s16 arg1);
 
 // list type of m_68 per page (inferred: the page-flip list kind passed to fn_8026C7AC)
+#if VERSION == VERSION_GPOP8P
+const u8 lbl_805DD6F4[4] = {3, 4, 3, 0};
+#else
 const u8 lbl_805DD6F4[4] = {3, 4, 4, 0};
+#endif
 
 TWindowSubStatusDisp::TWindowSubStatusDisp(s32 client)
     : TWindowBase((u8 *)TWindowSubStatusDisp__window_layout, client, (u8 *)get_window_layout_position(0x19)) {
@@ -408,10 +417,16 @@ void TWindowSubStatusDisp::dispatch_page_init() {
         &TWindowSubStatusDisp::vt3, &TWindowSubStatusDisp::vt4, &TWindowSubStatusDisp::vt5,
         &TWindowSubStatusDisp::vt5,
     };
+#if VERSION == VERSION_GPOP8P
+    static void (TWindowSubStatusDisp::*page2[3])() = {
+        &TWindowSubStatusDisp::vt7, &TWindowSubStatusDisp::vt4, &TWindowSubStatusDisp::vt5,
+    };
+#else
     static void (TWindowSubStatusDisp::*page2[4])() = {
         &TWindowSubStatusDisp::vt7, &TWindowSubStatusDisp::vt4, &TWindowSubStatusDisp::vt5,
         &TWindowSubStatusDisp::vt5,
     };
+#endif
 
     switch (page) {
     case 0:
@@ -434,10 +449,16 @@ void TWindowSubStatusDisp::dispatch_page_update() {
         &TWindowSubStatusDisp::vt14, &TWindowSubStatusDisp::vt15, &TWindowSubStatusDisp::vt16,
         &TWindowSubStatusDisp::vt16,
     };
+#if VERSION == VERSION_GPOP8P
+    static void (TWindowSubStatusDisp::*page2[3])() = {
+        &TWindowSubStatusDisp::vt18, &TWindowSubStatusDisp::vt15, &TWindowSubStatusDisp::vt16,
+    };
+#else
     static void (TWindowSubStatusDisp::*page2[4])() = {
         &TWindowSubStatusDisp::vt18, &TWindowSubStatusDisp::vt15, &TWindowSubStatusDisp::vt16,
         &TWindowSubStatusDisp::vt16,
     };
+#endif
 
     switch (page) {
     case 0:
@@ -753,6 +774,13 @@ void TWindowSubStatusDisp::vt4() {
         set_text_entry_string((u8 *)label, get_shared_text_buffer(), 0x20);
     }
 
+#if VERSION == VERSION_GPOP8P
+    entry = (u16 *)get_array_entry(0xA);
+    value = (u16 *)get_array_entry(0xB);
+    label = (u16 *)get_array_entry(0xC);
+    rank = TWindowSubStatusDisp__sub_80071868(m_20, RECORD_SET_EP2);
+    if (page == 2 || rank == 0) {
+#else
     slot = RECORD_SET_EP2;
     if (page == 2) {
         slot = RECORD_SET_EP2_SPLIT;
@@ -762,6 +790,7 @@ void TWindowSubStatusDisp::vt4() {
     label = (u16 *)get_array_entry(0xC);
     rank = TWindowSubStatusDisp__sub_80071868(m_20, slot);
     if (rank == 0) {
+#endif
         *entry |= 2;
         *value |= 2;
         *label |= 2;
@@ -776,8 +805,13 @@ void TWindowSubStatusDisp::vt4() {
     entry = (u16 *)get_array_entry(0xD);
     value = (u16 *)get_array_entry(0xE);
     label = (u16 *)get_array_entry(0xF);
+#if VERSION == VERSION_GPOP8P
+    time = TWindowSubStatusDisp__sub_80071988(m_20, RECORD_SET_EP2);
+    if (page == 2 || time == 0) {
+#else
     time = TWindowSubStatusDisp__sub_80071988(m_20, slot);
     if (time == 0) {
+#endif
         *entry |= 2;
         *value |= 2;
         *label |= 2;
@@ -849,10 +883,14 @@ void TWindowSubStatusDisp::vt16() {  }
 s32 TWindowSubStatusDisp::get_display_mode() {
     s32 r;
     if (page == 2) {
+#if VERSION == VERSION_GPOP8P
+        return RECORD_SET_EP1_SPLIT;
+#else
         s8 t = ((TWindowSubStatusDisp *)m_68)->get_type();
         r = RECORD_SET_EP2_SPLIT;
         if (t == 2) r = RECORD_SET_EP1_SPLIT;
         return r;
+#endif
     }
     return ((TWindowSubStatusDisp *)m_68)->get_type() != 2 ? RECORD_SET_EP2 : RECORD_SET_EP1;
 }

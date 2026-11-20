@@ -1,4 +1,5 @@
 #include "types.h"
+#include "versions.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/system/main_loop.h"
 #include "pso/ui/frontend/TAdTrialAgreementGC.h"
@@ -91,6 +92,10 @@ s32 __nw__7TObjectFUl(int);
 s32 TAdAgreementBaseGC__ct(void *);
 extern s32 __vt__19TAdTrialAgreementGC[];
 const char *TAdTrialAgreementGC__name = "TAdTrialAgreementGC";
+#if VERSION == VERSION_GPOP8P
+extern const f32 lbl_80477394[2] = {85.0f, 384.0f};
+extern const f32 lbl_8047739C[2] = {470.0f, 60.0f};
+#endif
 s32 wait_for_load__19TAdTrialAgreementGCFv(s32);
 
 extern s32 pso_system_card_filename[];

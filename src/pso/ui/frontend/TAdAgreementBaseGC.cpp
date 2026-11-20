@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "versions.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TMainTask.h"
@@ -55,6 +56,24 @@ void TAdAgreementBaseGC::check_main_task_state() {
     if (TMainTask::get_render_pass() == 1) { return;
     }
 }
+
+#if VERSION == VERSION_GPOP8P
+#pragma push
+#pragma fp_contract on
+extern "C" void fn_803289EC() {
+    NJS_POINT2 pos[2];
+    u32 entry;
+    u32 i;
+    draw_window_frame__11TWindowBaseFPv();
+    for (i = 0; i < 2; i++) {
+        entry = i + 2;
+        pos[i].x = 320.0f - (f32) (calc_text_width((char *)(get_localized_text_entry(0x1B, entry))) >> 1);
+        pos[i].y = 20.0f * (f32) i + 394.0f;
+        TAdSubPlyItemGC::render_status_line(pos[i].x, pos[i].y, 0.8f, (const char *)get_localized_text_entry(0x1B, entry), -1);
+    }
+}
+#pragma pop
+#endif
 
 #pragma push
 #pragma fp_contract on

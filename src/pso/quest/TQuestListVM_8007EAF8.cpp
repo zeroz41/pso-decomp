@@ -1,3 +1,4 @@
+#include "versions.h"
 #include "types.h"
 #include "pso/system/debug_print.h"
 #include "pso/system/memory.h"
@@ -19,7 +20,9 @@ extern TQuestVmDownLoadServer *TQuestVmDownLoadServer__instance;
 
 u8 *TObjChara::get_stats() { return m_2b0; }
 
+#if VERSION != VERSION_GPOP8P
 u8 *TQuestListVM::get_quest_bin() { return decrypted_quest_buffer; }
+#endif
 
 void TQuestListVM::reset() { decrypted_quest_buffer = NULL; }
 

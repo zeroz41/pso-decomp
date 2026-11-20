@@ -1,4 +1,5 @@
 #include "types.h"
+#include "versions.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80071774.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/TLobby.h"
@@ -63,6 +64,15 @@ s32 *TWindowSubStatusDisp__sub_80071820(u32 arg0) {
     return &lbl_804FF820.value;
 }
 
+#if VERSION == VERSION_GPOP8P
+s32 TWindowSubStatusDisp__sub_80071868(u16 id, s32 slot) {
+    W_80071868 *w = (W_80071868 *)get_character_save_record(id);
+    if (w == 0) {
+        return 0;
+    }
+    return get_slot_clamped__6TLobbyFv(w->e[TWindowSubStatusDisp::resolve_player_slot(slot)].a);
+}
+#else
 s32 TWindowSubStatusDisp__sub_80071868(u16 id, s32 slot) {
     W_80071868 *w = (W_80071868 *)get_character_save_record(id);
     s32 idx;
@@ -78,6 +88,7 @@ s32 TWindowSubStatusDisp__sub_80071868(u16 id, s32 slot) {
     }
     return get_slot_clamped__6TLobbyFv(v);
 }
+#endif
 
 s32 TWindowSubStatusDisp__sub_800718D0(void) {
     s32 last;

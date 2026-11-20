@@ -77,13 +77,13 @@ G_8030E3BC *TAdChrSelBSlotGC__sub_8030E3BC(s32 arg0, s32 arg1, s32 i, void *arg3
 void TAdChrSelBSlotGC__sub_8030E458(void) {  }
 void TAdChrSelBSlotGC::set_load_state() {
     if (TAdPlayerLoadGC::get_instance() == 0) {
-        this->m_1c = 0x1D;
+        this->m_1c = CHR_SEL_B_STATE(0x1D);
     }
 }
 void TAdChrSelBSlotGC::init() {
     encrypt_and_save__23TAdSinglePlyChrSelectGCFv();
     open_confirm_window__23TAdSinglePlyChrSelectGCFv();
-    this->m_1c = 0x1C;
+    this->m_1c = CHR_SEL_B_STATE(0x1C);
 }
 void TAdChrSelBSlotGC::reset_load_state() {
     if (TAdPlayerLoadGC::get_instance() == 0) {
@@ -96,20 +96,24 @@ void TAdChrSelBSlotGC::reset_slot_state() {
         this->m_1c = 1;
     }
 }
+#if VERSION != VERSION_GPOP8P
 void TAdChrSelBSlotGC__sub_8030E550(void) {  }
+#endif
 void TAdChrSelBSlotGC::update_load_state() {
     if (TAdPlayerLoadGC::get_instance() == 0) {
+#if VERSION != VERSION_GPOP8P
         if ((u32) (TAdPlayerLoadGC::get_load_result((void *)1) + 0x10000) == 0xFF83U) {
             this->m_1c = 0x18;
             return;
         }
-        this->m_1c = 0x19;
+#endif
+        this->m_1c = CHR_SEL_B_STATE(0x19);
     }
 }
 void TAdChrSelBSlotGC::set_state_confirm() {
     encrypt_and_save__23TAdSinglePlyChrSelectGCFv();
     open_confirm_window__23TAdSinglePlyChrSelectGCFv();
-    this->m_1c = 0x1A;
+    this->m_1c = CHR_SEL_B_STATE(0x1A);
 }
 void TAdChrSelBSlotGC::enter_state17() {
     encrypt_and_save__23TAdSinglePlyChrSelectGCFv();
@@ -799,9 +803,11 @@ void *lbl_804E7B50[3] = {
 void *lbl_804E7B5C[3] = {
     (void *)0x0, (void *)0xffffffff, (void *)&update_load_state__16TAdChrSelBSlotGCFv,
 };
+#if VERSION != VERSION_GPOP8P
 void *lbl_804E7B68[3] = {
     (void *)0x0, (void *)0xffffffff, (void *)&TAdChrSelBSlotGC__sub_8030E550,
 };
+#endif
 void *lbl_804E7B74[3] = {
     (void *)0x0, (void *)0xffffffff, (void *)&reset_slot_state__16TAdChrSelBSlotGCFv,
 };
@@ -817,7 +823,7 @@ void *lbl_804E7B98[3] = {
 void *lbl_804E7BA4[3] = {
     (void *)0x0, (void *)0xffffffff, (void *)&TAdChrSelBSlotGC__sub_8030E458,
 };
-void *lbl_804E7BB0[90] = {
+void *lbl_804E7BB0[CHR_SEL_B_STATE(30) * 3] = {
     (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
     (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
     (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
@@ -839,15 +845,18 @@ void *lbl_804E7BB0[90] = {
     (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
     (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
     (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
+    (void *)0x0, (void *)0x0, (void *)0x0,
+#if VERSION != VERSION_GPOP8P
+    (void *)0x0,
     (void *)0x0, (void *)0x0,
+#endif
 };
 
 int TAdChrSelBSlotGC__global_state;
 
 void run_task__16TAdChrSelBSlotGCFv(C_8030F874 *self) {
     static s8 init;
-    if (self->f1C < 0 || self->f1C >= 30) {
+    if (self->f1C < 0 || self->f1C >= CHR_SEL_B_STATE(30)) {
         self->f1C = 1;
     }
     self->f20 = self->f1C;
@@ -879,12 +888,14 @@ void run_task__16TAdChrSelBSlotGCFv(C_8030F874 *self) {
         ((Pmf_8030F874 *)lbl_804E7BB0)[21] = *(Pmf_8030F874 *)lbl_804E7B44;
         ((Pmf_8030F874 *)lbl_804E7BB0)[22] = *(Pmf_8030F874 *)lbl_804E7B50;
         ((Pmf_8030F874 *)lbl_804E7BB0)[23] = *(Pmf_8030F874 *)lbl_804E7B5C;
-        ((Pmf_8030F874 *)lbl_804E7BB0)[24] = *(Pmf_8030F874 *)lbl_804E7B68;
-        ((Pmf_8030F874 *)lbl_804E7BB0)[25] = *(Pmf_8030F874 *)lbl_804E7B74;
-        ((Pmf_8030F874 *)lbl_804E7BB0)[26] = *(Pmf_8030F874 *)lbl_804E7B80;
-        ((Pmf_8030F874 *)lbl_804E7BB0)[27] = *(Pmf_8030F874 *)lbl_804E7B8C;
-        ((Pmf_8030F874 *)lbl_804E7BB0)[28] = *(Pmf_8030F874 *)lbl_804E7B98;
-        ((Pmf_8030F874 *)lbl_804E7BB0)[29] = *(Pmf_8030F874 *)lbl_804E7BA4;
+#if VERSION != VERSION_GPOP8P
+        ((Pmf_8030F874 *)lbl_804E7BB0)[CHR_SEL_B_STATE(24)] = *(Pmf_8030F874 *)lbl_804E7B68;
+#endif
+        ((Pmf_8030F874 *)lbl_804E7BB0)[CHR_SEL_B_STATE(25)] = *(Pmf_8030F874 *)lbl_804E7B74;
+        ((Pmf_8030F874 *)lbl_804E7BB0)[CHR_SEL_B_STATE(26)] = *(Pmf_8030F874 *)lbl_804E7B80;
+        ((Pmf_8030F874 *)lbl_804E7BB0)[CHR_SEL_B_STATE(27)] = *(Pmf_8030F874 *)lbl_804E7B8C;
+        ((Pmf_8030F874 *)lbl_804E7BB0)[CHR_SEL_B_STATE(28)] = *(Pmf_8030F874 *)lbl_804E7B98;
+        ((Pmf_8030F874 *)lbl_804E7BB0)[CHR_SEL_B_STATE(29)] = *(Pmf_8030F874 *)lbl_804E7BA4;
         init = 1;
     }
     (self->*((Pmf_8030F874 *)lbl_804E7BB0)[self->f1C])();

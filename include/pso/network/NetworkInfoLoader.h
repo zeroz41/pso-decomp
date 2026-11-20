@@ -2,6 +2,7 @@
 #define PSO_NETWORK_NETWORK_INFO_LOADER_H
 
 #include "types.h"
+#include "versions.h"
 #include <stddef.h>
 
 struct NetworkInfoLoadState {
@@ -57,5 +58,14 @@ void set_network_config_card_channel(s32 arg0);
 s32 take_network_info_exists_result(s32 *arg0, s32 *arg1);
 void update_network_info_exists(void);
 void update_network_info_load(void);
+
+#if VERSION == VERSION_GPOP8P
+extern char lbl_805D090C[6];
+extern char lbl_805D0914[6];
+extern char lbl_805D091C[6];
+extern char lbl_805D0924[6];
+extern char lbl_805D092C[6];
+extern char lbl_805D0934[6];
+#endif
 
 #endif

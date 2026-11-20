@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/TObjWarnChime.h"
+#include "versions.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/vector.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -17,6 +18,12 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
+#if VERSION == VERSION_GPOP8P
+#define CURRENT_PLAYER_SLOT() 2
+#else
+#define CURRENT_PLAYER_SLOT() TWindowSubStatusDisp::resolve_player_slot(-1)
+#endif
+
 struct G_80070B34 { u8 pad[0x10]; s32 x10; };
 
 struct A_80291FC0 {
@@ -31,7 +38,11 @@ struct A_80291FC0 {
     u8 pad34[4];
     s32 a38[4];
     u8 pad48[0x680 - 0x48];
+#if VERSION == VERSION_GPOP8P
+    s32 a680[2];
+#else
     s32 a680[4];
+#endif
     u32 tail[2];
 };
 extern "C" {
@@ -146,7 +157,11 @@ void *challenge_default_settings[420] = {
     (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
     (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
 };
+#if VERSION == VERSION_GPOP8P
+A_80291FC0 lbl_804DB1F0[1] = { { {0}, 0, {0}, 0, 0, 0, {0}, 0, {0}, {0}, {0}, {0}, {0} } };
+#else
 A_80291FC0 lbl_804DB1F0[1] = { { {0}, 0, {0}, 0, 0, 0, {0}, 0, {0}, {0}, {0}, {0}, {0x74686542, 0x65737400} } };
+#endif
 void *lbl_804DB888[6] = {
     (void *)0x0, (void *)0x0, (void *)&TLobby__sub_802936AC, (void *)&update_destruction_countdown__6TLobbyFPv,
     (void *)&render__7TObjectFv, (void *)&render_shadows__7TObjectFv,
@@ -438,8 +453,15 @@ s32 TLobby__sub_802924B4(s32 arg0, u16 arg1) {
   if (((TAdSinglePlyChrSelectGC *)(character_save_record & 0xFFFFFFFFFFFFFFFFu))->register_in_free_room_slot(arg0) != 0)
   {
     temp_r30 = ((u8 *)&lbl_804DB1F0 + ((*((s32 *) ((s8 *)&lbl_804DB1F0 + 0x14))) * 0x1C)) + 0x21C;
-    new_var2 = TWindowSubStatusDisp::resolve_player_slot(-1);
+#if VERSION == VERSION_GPOP8P
+    {
+        s32 *dst = (s32 *)TWindowSubStatusDisp__sub_8006F134(character_save_record + 0x21C4, CURRENT_PLAYER_SLOT());
+        *dst |= *((s32 *) (((s8 *) temp_r30) + 4));
+    }
+#else
+    new_var2 = CURRENT_PLAYER_SLOT();
     *((s32 *) TWindowSubStatusDisp__sub_8006F134(character_save_record + 0x21C4, new_var2)) |= *((s32 *) (((s8 *) temp_r30) + 4));
+#endif
     return 1;
   }
   return 0;
@@ -737,7 +759,7 @@ s32 count_card_layout_entries__6TLobbyFv(void) {
     if (win == NULL) {
         return 0;
     }
-    id = TWindowSubStatusDisp::resolve_player_slot(-1);
+    id = CURRENT_PLAYER_SLOT();
     arr = TWindowSubStatusDisp__sub_8006F0D8(win + 0x21C4, id);
     layout = get_layout_id__20TWindowSubStatusDispFv(id);
     n = 0;
@@ -778,8 +800,12 @@ s32 TLobby::calc_min_challenge_progress() {
     s32 var_r31;
     s32 var_r30;
 
+#if VERSION == VERSION_GPOP8P
+    var_r31 = ((s32 (*)(s32))get_layout_id__20TWindowSubStatusDispFv)(2);
+#else
     TWindowSubStatusDisp::resolve_player_slot(-1);
     var_r31 = get_layout_id__20TWindowSubStatusDispFv();
+#endif
     var_r30 = 0;
     do {
         if (get_player_by_client_id(var_r30) != 0U) {
@@ -799,7 +825,7 @@ s32 TLobby__sub_80292DA0(s32 seed, u16 card) {
     u8 *base;
     s32 next;
     E_80292DA0 *e;
-    id = TWindowSubStatusDisp::resolve_player_slot(TWindowSubStatusDisp::RECORD_SET_CURRENT);
+    id = ((s32)CURRENT_PLAYER_SLOT());
     result = -4;
     TLobby__sub_80292BB8(seed, card, id);
     total = TWindowSubStatusDisp__sub_80071988(card, id);
@@ -1117,7 +1143,9 @@ void TLobby__sub_802933FC(void *arg0) {
     s32 v;
     switch (get_current_floor_area()) {
     case AREA_PIONEER2_EP1:
+#if VERSION != VERSION_GPOP8P
     case AREA_PIONEER2_EP2:
+#endif
         old = lbl_804DB1F0[2];
         lbl_804DB1F0[2] = -1;
         if (old != -1) {

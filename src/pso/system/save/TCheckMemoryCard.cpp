@@ -1,4 +1,5 @@
 #include "types.h"
+#include "versions.h"
 #include "pso/system/save/TCheckMemoryCard.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -124,9 +125,11 @@ void TCheckMemoryCard::create_card_message(s32 kind, s32 sel, s32 sub_entry, s32
     entry = check_memory_card_text[kind].entry;
     sub_text = 0;
 
+#if VERSION == VERSION_GPOE8P
     if (use_main_ctrl != 0) {
         entry = 0x6E;
     }
+#endif
     if (get_previous_main_phase() == 0xF) {
         entry = check_memory_card_text[kind].keyboard_entry;
     }

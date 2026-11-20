@@ -1,3 +1,4 @@
+#include "versions.h"
 #include "types.h"
 #include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
 #include "pso/unk/TLobby_80227AA0.h"
@@ -31,6 +32,7 @@ void TObjPlayer__sub_80083FB0(void);
 
 extern s32 lbl_805D62B0;
 
+#ifndef TKEYBOARDCONTROL_SECOND_FILE
 void TKeyBoardControl__sub_8000F764(void) {
     TKeyBoardControl::read_pads();
     hardware_keyboard_state.disable_disconnected_ports();
@@ -53,8 +55,11 @@ int TKeyBoardControl::get_fog_ctrl() { return clear_split_screen_fog__8TFogCtrlF
 void TKeyBoardControl__sub_8000F7FC(void) {
     end_of_render_root.run_tasks();
 }
+#endif
 
 }
+
+#if VERSION != VERSION_GPOP8P || defined(TKEYBOARDCONTROL_SECOND_FILE)
 
 u8 gx_default_light_obj[256];
 
@@ -138,6 +143,10 @@ void init_particle_sprite_atlas(void);
 void load_info_icon(void);
 void init_video_and_gx(void *arg0);
 extern u8 GXNtsc480IntDf[];
+#if VERSION == VERSION_GPOP8P
+extern u8 lbl_804808C0[];
+extern "C" void fn_801331C0(void);
+#endif
 int lbl_805D49A0;
 int lbl_805D49A4;
 int player_matrix_stack_buffer;
@@ -156,7 +165,12 @@ int VISetBlack(void*);
 int xfree__FPv(void*);
 
 void TKeyBoardControl::update() {  }
+#if VERSION == VERSION_GPOP8P
+s32 OSGetEuRgb60Mode(void);
+int TKeyBoardControl__sub_8000F828(void) { return OSGetEuRgb60Mode() != 1 ? 1 : 0; }
+#else
 int TKeyBoardControl__sub_8000F828(void) { return 0; }
+#endif
 }
 
 u8 *resource_decompress_buffer;
@@ -302,9 +316,15 @@ void init_game_systems(void) {
     lo = OSGetArenaLo();
     hi = OSGetArenaHi();
     cfg.rmode = NULL;
+#if VERSION == VERSION_GPOP8P
+    cfg.rmode = lbl_804808C0;
+    cfg.count = 2;
+    size = calc_framebuffer_size_bytes((int)lbl_804808C0, lbl_804808C0);
+#else
     cfg.rmode = GXNtsc480IntDf;
     cfg.count = 2;
     size = calc_framebuffer_size_bytes(0, GXNtsc480IntDf);
+#endif
     cfg.fb[0] = (lo + 0x1F) & ~0x1F;
     cfg.fbsize = 0x40000;
     cfg.fb[1] = cfg.fb[0] + size;
@@ -341,17 +361,29 @@ void init_game_systems(void) {
     install_depth_alpha_state();
     TKeyBoardControl::alloc_buffer();
     TKeyBoardControl__sub_8000F9E4();
+#if VERSION == VERSION_GPOP8P
+    fn_801331C0();
+#endif
     hardware_keyboard_state.reset_input();
     init_buffers();
     ((TMainTask *)((u8 *)&main_task))->init_main_task();
     TLobby__sub_8007EB70();
     init_adx_audio_system();
+#if VERSION == VERSION_GPOP8P
+    TLobby::load_now_loading_texture();
+    TCharaMaking__sub_8028E790();
+    init_char_select_globals__23TAdSinglePlyChrSelectGCFv();
+    TLobby::init_download_state();
+    TLobby__sub_80226BA4();
+    load_menu_font();
+#else
     TLobby::init_download_state();
     load_menu_font();
     TLobby::load_now_loading_texture();
     TCharaMaking__sub_8028E790();
     init_char_select_globals__23TAdSinglePlyChrSelectGCFv();
     TLobby__sub_80226BA4();
+#endif
     TLobby::wait_for_sound_init();
     load_info_icon();
     TLobby__sub_8020E3C0();
@@ -376,3 +408,4 @@ void init_game_systems(void) {
     verify_game_file_integrity();
     TLobby::handle_flag2_request();
 }
+#endif

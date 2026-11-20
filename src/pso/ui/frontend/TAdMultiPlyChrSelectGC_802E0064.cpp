@@ -41,7 +41,9 @@ s32 TAdMultiPlyChrSelectGC::is_state_closing() {
 
 int TAdMultiPlyChrSelectGC::get_global_state() {  return lbl_805D6E78; }
 
+#if VERSION != VERSION_GPOP8P
     extern int lbl_805D384C;
 int TAdMultiPlyChrSelectGC::get_select_flag() {  return lbl_805D384C; }
+#endif
 
 }

@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/protocol/protocol_types.h"
+#include "versions.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -4923,6 +4924,7 @@ void qst_op_player_effect_nc(u8 arg0) {
     }
 }
 
+#if VERSION != VERSION_GPOP8P
 void qst_op_has_ep3_save_file() {
     u8 reg = qst_args[0];
     s32 ok = 0;
@@ -4934,6 +4936,7 @@ void qst_op_has_ep3_save_file() {
     }
     qst_registers[reg] = ok;
 }
+#endif
 
 void qst_op_particle_id(u8 first) {
     Vec point;
