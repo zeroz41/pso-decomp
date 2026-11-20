@@ -70,7 +70,7 @@ void TWindowTimer__sub_8019A6F8(void*);
 void __dl__7TObjectFPv(void*);
 extern void* language_lobby_texture_descriptor[];
 extern Pair_80198F14 gogo_ball_team_scores[];
-void bswap_6x79_gogo_ball__12TWindowTimerFi(s32);
+void bswap_6x79_gogo_ball__12TWindowTimerFi(saddr);
 void TObjPlayer__sub_801994DC(s32,void*,void*,s32,void*,f32);
 int TWindowTimer__sub_8019A770(void*);
 f32 xyz_distance(Vec*,void*);
@@ -288,7 +288,7 @@ struct Timer_8019A104 {
     s32 f360;
 };
 extern "C" {
-void bswap_6x79_gogo_ball__12TWindowTimerFi(s32 arg0);
+void bswap_6x79_gogo_ball__12TWindowTimerFi(saddr arg0);
 void TWindowTimer__sub_8019A6F8(void* p);
 int close_timer_window__11TWindowCtrlFv(void*);
 int TWindowTimer__sub_8019A770(void* p);
@@ -326,7 +326,7 @@ s16 TWindowTimer::get_timer_value(s32 i) {
 
 void TWindowTimer__sub_8019A6F8(void* p) { *(u8*)((char*)p + 0x0) = 121; *(u8*)((char*)p + 0x1) = 6; }
 
-void bswap_6x79_gogo_ball__12TWindowTimerFi(s32 packet) {
+void bswap_6x79_gogo_ball__12TWindowTimerFi(saddr packet) {
     ((G_ClientIDHeader *)packet)->bswap();
     bswap_32((u32 *)(packet + 4));
     bswap_32((u32 *)(packet + 8));

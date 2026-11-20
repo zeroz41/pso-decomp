@@ -13,7 +13,7 @@ int TWindowTimer__sub_8019A770(void *p);
 void add_gogo_ball_one_point_score(s32 i);
 void add_gogo_ball_three_point_score(s32 i);
 extern "C" {
-void bswap_6x79_gogo_ball__12TWindowTimerFi(s32 arg0);
+void bswap_6x79_gogo_ball__12TWindowTimerFi(saddr arg0);
 }
 void draw_shadow_on_ground(u8 *arg0);
 extern "C" {
