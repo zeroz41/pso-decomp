@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecZarua.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
@@ -51,7 +52,6 @@ void *find_entity_by_id(u16 id);
 s32 play_sound_effect(int, void *, int, int);
 s32 get_entity_id(void *);
 void copy_technique_target_list(void *, void *);
-s32 calc_technique_parameters(s32, s16, s32);
 }
 
 void TTecZarua::calc_range() {
@@ -59,7 +59,7 @@ void TTecZarua::calc_range() {
     s32 ret;
     struct { s32 v; } tmp;
 
-    ret = calc_technique_parameters(0xC, this->m_78, 0xFFFF);
+    ret = (s32)calc_technique_parameters(0xC, this->m_78, 0xFFFF);
     tmp.v = ret;
     ((TTecAnti *)(arg0 + 0x88))->copy_params((u8 *)tmp.v);
     this->m_88 = (f32) (*(s16 *)&this->m_ac * this->m_78);

@@ -16,12 +16,8 @@ struct TTecRaFoie : public TUnk_804CC148 {
     virtual void run_task();
     TTecRaFoie(s32 source, Vec *origin, Vec *pos, s32 level);
     TTecRaFoie(s32 source, Vec *origin, TargetCursorList *list, s32 level);
-    // A TargetCursorList (count, then records) from 0xEC: create_ex's list, run_task detonates
-    // at the first one.
-    u32 m_ec;
-    u16 m_f0;
-    u8 _padF2[0x56];
-    u32 m_148;
+    u8 m_ec[0x5C];  // a TargetCursorList: the targets the list constructor copies
+    s32 m_148;              // 1: bursts where it was cast (the Vec constructor), 0: on its first target
     void calc_area_parameters();
     virtual void render();
     void update_detonation(void *arg1);

@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecRaZonde.h"
 #include "pso/system/vector.h"
 #include "pso/technique/TTecZonde.h"
@@ -24,18 +25,6 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/unk/TLobby_80226070.h"
 
-struct RecoveredGlobal_80230D9C_lbl_804CC510
-{
-  s32 value;
-  u8 remaining[0x48];
-};
-
-struct RecoveredGlobal_80230D9C_lbl_804CC55C
-{
-  s32 value;
-  u8 remaining[0x94];
-};
-
 struct RecoveredFields_80230D9C_arg0
 {
   u8 unknown_0[0x78];
@@ -49,9 +38,6 @@ struct RecoveredFields_80230D9C_arg0
 #pragma fp_contract on
 
 extern "C" {
-s32 calc_technique_parameters(int, int, int);
-extern RecoveredGlobal_80230D9C_lbl_804CC510 tech_high_level_linear_power_table;
-extern RecoveredGlobal_80230D9C_lbl_804CC55C lbl_804CC55C;
 u16 get_entity_id(void *);
 s32 play_sound_effect(s32 id, void *pos, s32 a, s32 b);
 f32 vector_length(void *);
@@ -61,10 +47,6 @@ extern s32 tl_07;
 #pragma opt_common_subs off
 
 typedef struct RecoveredFields_80230D9C_arg0 RecoveredFields_80230D9C_arg0;
-typedef struct RecoveredGlobal_80230D9C_lbl_804CC510 RecoveredGlobal_80230D9C_lbl_804CC510;
-typedef struct RecoveredGlobal_80230D9C_lbl_804CC55C RecoveredGlobal_80230D9C_lbl_804CC55C;
-typedef char RecoveredGlobal_80230D9C_lbl_804CC510_size[((sizeof(RecoveredGlobal_80230D9C_lbl_804CC510)) == 0x4C) ? (1) : (-1)];
-typedef char RecoveredGlobal_80230D9C_lbl_804CC55C_size[((sizeof(RecoveredGlobal_80230D9C_lbl_804CC55C)) == 0x98) ? (1) : (-1)];
 
 #pragma pop
 
@@ -153,18 +135,18 @@ void TTecRaZonde::vfunc_8(void *) {
 
 void TTecRaZonde::calc_damage() {
     u8 *arg0 = (u8 *)this;
-  s32 new_var;
+  TechniqueParams *new_var;
   new_var = calc_technique_parameters(8, (int) ((RecoveredFields_80238D10_arg0 *) arg0)->field_78, 0xFFFF);
   ((TTecAnti *)(arg0 + 0x88))->copy_params((u8 *)new_var);
   if ((((s16) ((RecoveredFields_80238D10_arg0 *) arg0)->field_78) >= 0xF) && (TTecCtrl::is_technique_ready() == 0))
   {
-    ((RecoveredFields_80238D10_arg0 *) arg0)->field_88 = (f32) ((*((s16 *) (((s8 *)&tech_high_level_linear_power_table.value) + 0x20))) + ((*((s16 *) (((s8 *)&tech_high_level_linear_power_table.value) + 0x22))) * ((RecoveredFields_80238D10_arg0 *) arg0)->field_78));
+    ((RecoveredFields_80238D10_arg0 *) arg0)->field_88 = (f32) (tech_high_level_linear_power_table[8].base + (tech_high_level_linear_power_table[8].per_level * ((RecoveredFields_80238D10_arg0 *) arg0)->field_78));
     return;
   }
   ((RecoveredFields_80238D10_arg0 *) arg0)->field_88 = (f32) (((RecoveredFields_80238D10_arg0 *) arg0)->field_88 + ((f32) (((RecoveredFields_80238D10_arg0 *) arg0)->field_AC * ((RecoveredFields_80238D10_arg0 *) arg0)->field_78)));
   if (TTecCtrl::is_technique_ready() != 0)
   {
-    ((RecoveredFields_80238D10_arg0 *) arg0)->field_88 = (f32) (((RecoveredFields_80238D10_arg0 *) arg0)->field_88 * (*((f32 *) (((s8 *)&lbl_804CC55C.value) + 0x40))));
+    ((RecoveredFields_80238D10_arg0 *) arg0)->field_88 = (f32) (((RecoveredFields_80238D10_arg0 *) arg0)->field_88 * lbl_804CC55C[8].pad_00);
   }
 }
 void TTecRaZonde::vfunc_6(void *arg1_arg) {

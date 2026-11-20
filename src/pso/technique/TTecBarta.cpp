@@ -1,23 +1,12 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/technique/TechniqueParams.h"
 #include "types.h"
 #include "pso/technique/TTecBarta.h"
 #include "pso/effect/TUnk_804CC148.h"
 #include "pso/effect/TUnk_804CCC68.h"
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecCtrl.h"
-
-struct RecoveredGlobal_8022B6FC_lbl_804CC510
-{
-  s32 value;
-  u8 remaining[0x48];
-};
-
-struct RecoveredGlobal_8022B6FC_lbl_804CC55C
-{
-  s32 value;
-  u8 remaining[0x94];
-};
 
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/technique/TTecAnti.h"
@@ -87,9 +76,6 @@ struct Tec_8022BD74 {
 };
 
 extern "C" {
-s32 calc_technique_parameters(int, int, int);
-extern RecoveredGlobal_8022B6FC_lbl_804CC510 tech_high_level_linear_power_table;
-extern RecoveredGlobal_8022B6FC_lbl_804CC55C lbl_804CC55C;
 void mem_free(void *p);
 u16 get_entity_id(void *);
 s32 get_bml_model(s32, s32);
@@ -171,10 +157,6 @@ void TTecBarta::update_technique_by_state() {
     }
 }
 
-typedef struct RecoveredGlobal_8022B6FC_lbl_804CC510 RecoveredGlobal_8022B6FC_lbl_804CC510;
-typedef struct RecoveredGlobal_8022B6FC_lbl_804CC55C RecoveredGlobal_8022B6FC_lbl_804CC55C;
-typedef char RecoveredGlobal_8022B6FC_lbl_804CC510_size[((sizeof(RecoveredGlobal_8022B6FC_lbl_804CC510)) == 0x4C) ? (1) : (-1)];
-typedef char RecoveredGlobal_8022B6FC_lbl_804CC55C_size[((sizeof(RecoveredGlobal_8022B6FC_lbl_804CC55C)) == 0x98) ? (1) : (-1)];
 
 void TTecBarta::create_particle_emitters() {
 #define self ((TTecBarta *)this)
@@ -220,14 +202,14 @@ void TTecBarta::init_parameters() {
   ((TTecAnti *)(arg0 + 0xCC))->copy_params((u8 *)new_var);
   if (((this->level) >= 0xF) && (TTecCtrl::is_technique_ready() == 0))
   {
-    this->power = (f32) ((*((s16 *) (((s8 *)&tech_high_level_linear_power_table.value) + 0xC))) + ((*((s16 *) (((s8 *)&tech_high_level_linear_power_table.value) + 0xE))) * (this->level)));
+    this->power = (f32) (tech_high_level_linear_power_table[3].base + (tech_high_level_linear_power_table[3].per_level * (this->level)));
   }
   else
   {
     this->power = (f32) ((this->power) + ((f32) ((*((s16 *) (((s8 *) arg0) + 0xF0))) * (this->level))));
     if (TTecCtrl::is_technique_ready() != 0)
     {
-      this->power = (f32) ((this->power) * (*((f32 *) (((s8 *)&lbl_804CC55C.value) + 0x18))));
+      this->power = (f32) ((this->power) * lbl_804CC55C[3].pad_00);
     }
   }
   this->speed = (f32) ((*((f32 *) (((s8 *) arg0) + 0xD0))) + ((f32) (((this->level) / 5) * 2)));

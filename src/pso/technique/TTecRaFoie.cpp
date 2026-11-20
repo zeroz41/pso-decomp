@@ -4,30 +4,26 @@
 #include "pso/technique/TTecCtrl.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/technique/TTecRaFoie.h"
+#include "pso/player/TargetCursorList.h"
 #include "pso/unk/TUnk_804CCB28.h"
 #include "pso/render/ChunkMaterialState.h"
-#include "types.h"
 #include "pso/render/render_util.h"
-#include "pso/effect/TEffect.h"
 #include "pso/effect/TEffClitical.h"
-#include "pso/unk/text_802A8210.h"
 #include "pso/effect/TEffIndirectCtrl.h"
 
 #include "pso/system/vector.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/technique/TTecRaBarta.h"
-#include "pso/technique/TTecRaZonde.h"
-#include "pso/technique/TTecLuker.h"
 #include "pso/player/TObjPlayer.h"
-
-
 #include "pso/map/FloorArea.h"
-#include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/technique/TTecLuker.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/system/SoundEffect.h"
 #pragma readonly_strings on
 
-struct RafoieBurst_80237DAC { s32 entry; s32 flags; f32 scale; };
+struct RafoieBurst { s32 entry; s32 flags; f32 scale; };
 
-struct RafoieBursts_80237DAC { RafoieBurst_80237DAC *entries; u32 count; };
+struct RafoieBurstList { const RafoieBurst *entries; u32 count; };
 
 struct Obj_80237DAC {
     u8 pad0[0x20];
@@ -36,69 +32,43 @@ struct Obj_80237DAC {
     Vec position;
 };
 
-typedef struct TTecRaFoie_80237FB8 {
-    u8 pad0[0x7C];
-    Vec target;
-    u8 pad1[0xEC - 0x88];
-    s32 target_count;
-    u16 first_id;
-    u8 pad2[0x148 - 0xF2];
-    s32 explicit_position;
-} TTecRaFoie_80237FB8;
-
-typedef struct TObjPlayer_80237FB8 {
-    u8 pad0[0x2FC];
-    Vec pos;
-} TObjPlayer_80237FB8;
-
-
 extern "C" {
-u32 find_entity_by_id(int);
-void *spawn_particle_effect_with_flags(const void *pos, s32 id, s32 flags);
 
 u16 get_entity_id(void *);
+void construct_area_technique_base(void *, void *, void *, void *, int);
 s32 is_split_screen();
-void get_bml_model(void *, s32);
-#define get_bml_model ((void * (*)(void *, int))get_bml_model)
+void *get_bml_model(void *, s32);
 void attach_particle_model(void *, void *, void *, int, int, f32);
-void spawn_particle_effect(void *, s32, void *);
-#define spawn_particle_effect ((void * (*)(Vec *, int))spawn_particle_effect)
 extern void *technique_effect_bml;
 extern void *lbl_805D63B0;
 
-s32 play_sound_effect(s32 id, void *pos, s32 a, s32 b);
-#define play_sound_effect ((s32 (*)(s32, s32, s32, s32))play_sound_effect)
+void update_technique_slot__10TTecRaFoieFl(s32 handle, s32 pitch, s32 c);
 
 struct RecoveredGlobal_80238388_lbl_8044DAF0 {
     s32 value;
     u8 remaining[0xC];
 };
 extern "C" {
-extern const RafoieBurst_80237DAC lbl_8044DA48[1] = {{494, 0, 1.0f}};
-extern const RafoieBurst_80237DAC lbl_8044DA54[2] = {{491, 0, 1.0f}, {494, 0, 1.0f}};
-extern const RafoieBurst_80237DAC lbl_8044DA6C[2] = {{393, 0, 1.0f}, {494, 0, 1.0f}};
-extern const RafoieBurst_80237DAC lbl_8044DA84[4] = {{396, 0, 1.0f}, {494, 0, 1.0f}, {482, 0x1000, 1.0f}, {486, 0x10, 1.0f}};
-extern const RafoieBursts_80237DAC rafoie_burst_table[6] = {
-    {(RafoieBurst_80237DAC *)lbl_8044DA48, 1}, {(RafoieBurst_80237DAC *)lbl_8044DA48, 1}, {(RafoieBurst_80237DAC *)lbl_8044DA48, 1},
-    {(RafoieBurst_80237DAC *)lbl_8044DA54, 2}, {(RafoieBurst_80237DAC *)lbl_8044DA6C, 2}, {(RafoieBurst_80237DAC *)lbl_8044DA84, 4},
+extern const RafoieBurst lbl_8044DA48[1] = {{494, 0, 1.0f}};
+extern const RafoieBurst lbl_8044DA54[2] = {{491, 0, 1.0f}, {494, 0, 1.0f}};
+extern const RafoieBurst lbl_8044DA6C[2] = {{393, 0, 1.0f}, {494, 0, 1.0f}};
+extern const RafoieBurst lbl_8044DA84[4] = {{396, 0, 1.0f}, {494, 0, 1.0f}, {482, 0x1000, 1.0f}, {486, 0x10, 1.0f}};
+extern const RafoieBurstList rafoie_burst_table[6] = {
+    {lbl_8044DA48, 1}, {lbl_8044DA48, 1}, {lbl_8044DA48, 1},
+    {lbl_8044DA54, 2}, {lbl_8044DA6C, 2}, {lbl_8044DA84, 4},
 };
 const char *TTecRaFoie_class_name = "TTecRaFoie";
 extern const RecoveredGlobal_80238388_lbl_8044DAF0 lbl_8044DAF0 = {0};
 }
 
-#pragma push
-#pragma opt_common_subs off
-
-#pragma pop
-
 void TUnk_804CCB28::spawn_rafoie_explosion_bursts() {
     Obj_80237DAC *self = (Obj_80237DAC *)this;
     Vec higher;
     u32 i;
-    VecCopy((Vec *)&higher, (const Vec *)&self->position);
+    VecCopy(&higher, &self->position);
     higher.y = (8.0f) + self->position.y;
     for (i = 0; i < rafoie_burst_table[*(u16 *)&this->m_20].count; i++) {
-        RafoieBurst_80237DAC *row = &rafoie_burst_table[*(u16 *)&this->m_20].entries[i];
+        const RafoieBurst *row = &rafoie_burst_table[*(u16 *)&this->m_20].entries[i];
         s32 mode = 0;
         void *p;
         if (row->flags & 0x1000) {
@@ -116,34 +86,33 @@ void TUnk_804CCB28::spawn_rafoie_explosion_bursts() {
 }
 
 void TTecRaFoie::vfunc_9() {
-    u8 *arg0 = (u8 *)this;
     s32 handle;
 
-    switch (this->band) {
+    switch (band) {
     case 0:
-        handle = play_sound_effect(0x4002A602, (int)(arg0 + 0x7C), 0, 0);
+        handle = play_sound_effect(0x4002A602, &target, 0, 0);
         if (handle >= 0) {
             set_sound_pitch_request(handle, 0x100, 0);
         }
         return;
     case 1:
-        play_sound_effect(0x4002A602, (int)(arg0 + 0x7C), 0, 0);
+        play_sound_effect(0x4002A602, &target, 0, 0);
         return;
     case 2:
     case 3:
-        handle = play_sound_effect(0x4002A602, (int)(arg0 + 0x7C), 0, 0);
+        handle = play_sound_effect(0x4002A602, &target, 0, 0);
         if (handle >= 0) {
             set_sound_pitch_request(handle, -0x180, 0);
         }
         break;
     case 4:
-        handle = play_sound_effect(0x4002A602, (int)(arg0 + 0x7C), 0, 0);
+        handle = play_sound_effect(0x4002A602, &target, 0, 0);
         if (handle >= 0) {
             set_sound_pitch_request(handle, -0x250, 0);
         }
         break;
     case 5:
-        handle = play_sound_effect(0x4002A602, (int)(arg0 + 0x7C), 0, 0);
+        handle = play_sound_effect(0x4002A602, &target, 0, 0);
         if (handle >= 0) {
             set_sound_pitch_request(handle, -0x100, 0);
         }
@@ -151,26 +120,25 @@ void TTecRaFoie::vfunc_9() {
     }
 }
 void TTecRaFoie::vfunc_8(void *) {
-    TTecRaFoie_80237FB8 *self = (TTecRaFoie_80237FB8 *)this;
     void *emitter;
-    TObjPlayer_80237FB8 *target;
-    if (self->explicit_position == 1) {
+    TObjChara *chara;
+    if (m_148 == 1) {
         if (is_split_screen() != 0) {
-            spawn_particle_effect(&self->target, 0x39);
+            spawn_particle_effect(&target, 0x39);
         } else {
-            emitter = spawn_particle_effect(&self->target, 0x1A);
+            emitter = spawn_particle_effect(&target, 0x1A);
             if (emitter != NULL) {
                 attach_particle_model(emitter, get_bml_model(technique_effect_bml, 9), lbl_805D63B0, 0, 1, (1.0f));
             }
         }
-        spawn_particle_effect(&self->target, 0x3A);
-        spawn_particle_effect(&self->target, 0x3B);
+        spawn_particle_effect(&target, 0x3A);
+        spawn_particle_effect(&target, 0x3B);
         return;
     }
-    if (self->target_count != 0) {
-        target = (TObjPlayer_80237FB8 *) find_entity_by_id(self->first_id);
-        if (TTecLuker::is_parents_unqueued((u32)target) != 0 && TObjPlayer::is_valid_and_active((u32)target) != 0) {
-            Vec point = target->pos;
+    if (((TargetCursorList *)m_ec)->count != 0) {
+        chara = (TObjChara *)find_entity_by_id(((TargetCursorList *)m_ec)->records[0].id);
+        if (TTecLuker::is_parents_unqueued((u32)chara) != 0 && TObjPlayer::is_valid_and_active((u32)chara) != 0) {
+            Vec point = *(Vec *)&chara->m_2fc;
             spawn_particle_effect(&point, 0x39);
             emitter = spawn_particle_effect(&point, 0x1A);
             if (emitter != NULL) {
@@ -182,16 +150,10 @@ void TTecRaFoie::vfunc_8(void *) {
 
 }
 
-#undef get_bml_model
-#undef play_sound_effect
-
-#undef spawn_particle_effect
-
-#include <stddef.h>
 #include "pso/system/scene/TScene.h"
 #include "pso/technique/TTecAnti.h"
-#include "pso/technique/TTecResta.h"
-extern "C" void *__ct__16TargetCursorListFv(void *list);
+#include "pso/technique/TTecCtrl.h"
+#include "pso/technique/TechniqueParams.h"
 struct Stack_80238388 {
     s32 sp8;
     s32 spC;
@@ -200,28 +162,6 @@ struct Stack_80238388 {
     f32 sp18;
     f32 sp1C;
     f32 sp20;
-};
-
-struct RecoveredGlobal_80230D9C_lbl_804CC510
-{
-  s32 value;
-  u8 remaining[0x48];
-};
-
-struct RecoveredGlobal_80230D9C_lbl_804CC55C
-{
-  s32 value;
-  u8 remaining[0x94];
-};
-
-struct RecoveredFields_80230D9C_arg0
-{
-  u8 unknown_0[0x78];
-  s16 field_78;
-  u8 unknown_7A[0xE];
-  f32 field_88;
-  u8 unknown_8C[0x20];
-  s16 field_AC;
 };
 
 struct RaFoie_802381F8 {
@@ -236,13 +176,7 @@ struct RaFoie_802381F8 {
     u8 m48[1];
 };
 
-#pragma fp_contract on
-
-
 extern "C" {
-s32 calc_technique_parameters(int, int, int);
-extern RecoveredGlobal_80230D9C_lbl_804CC510 tech_high_level_linear_power_table;
-extern RecoveredGlobal_80230D9C_lbl_804CC55C lbl_804CC55C;
 void scale_matrix(s32, f32, f32, f32);
 void rotate_matrix_y(s32, s32);
 void push_matrix(void);
@@ -254,22 +188,18 @@ extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 #pragma push
 #pragma opt_common_subs off
-typedef char RecoveredGlobal_80238388_lbl_8044DAF0_size[sizeof(RecoveredGlobal_80238388_lbl_8044DAF0) == 0x10 ? 1 : -1];
 
-typedef struct RecoveredFields_80230D9C_arg0 RecoveredFields_80230D9C_arg0;
-typedef struct RecoveredGlobal_80230D9C_lbl_804CC510 RecoveredGlobal_80230D9C_lbl_804CC510;
-typedef struct RecoveredGlobal_80230D9C_lbl_804CC55C RecoveredGlobal_80230D9C_lbl_804CC55C;
-typedef char RecoveredGlobal_80230D9C_lbl_804CC510_size[((sizeof(RecoveredGlobal_80230D9C_lbl_804CC510)) == 0x4C) ? (1) : (-1)];
-typedef char RecoveredGlobal_80230D9C_lbl_804CC55C_size[((sizeof(RecoveredGlobal_80230D9C_lbl_804CC55C)) == 0x98) ? (1) : (-1)];
 void TTecRaFoie::calc_area_parameters() {
-    u8 *arg0 = (u8 *)this;
-  int new_var;
- new_var = (int) calc_technique_parameters(0x2, (int) ((RecoveredFields_80230D9C_arg0 *) arg0)->field_78, 0xFFFF); do { ((TTecAnti *)(arg0 + ((0, 0x88))))->copy_params((u8 *)new_var); if ((((s16) ((RecoveredFields_80230D9C_arg0 *) arg0)->field_78) >= 0xF) && (TTecCtrl::is_technique_ready() == 0)) { ((RecoveredFields_80230D9C_arg0 *) arg0)->field_88 = (f32) ((*((s16 *) (((s8 *)&tech_high_level_linear_power_table.value) + 0x8))) + ((*((s16 *) (((s8 *)&tech_high_level_linear_power_table.value) + 0xa))) * ((RecoveredFields_80230D9C_arg0 *) arg0)->field_78)); return; } } while (0);
-  ((RecoveredFields_80230D9C_arg0 *) arg0)->field_88 = (f32) (((RecoveredFields_80230D9C_arg0 *) arg0)->field_88 + ((f32) (((RecoveredFields_80230D9C_arg0 *) arg0)->field_AC * ((RecoveredFields_80230D9C_arg0 *) arg0)->field_78)));
-  if (TTecCtrl::is_technique_ready())
-  {
-    ((RecoveredFields_80230D9C_arg0 *) arg0)->field_88 = (f32) (((RecoveredFields_80230D9C_arg0 *) arg0)->field_88 * (*((f32 *) (((s8 *)&lbl_804CC55C.value) + 0x10))));
-  }
+    TechniqueParams *params = calc_technique_parameters(2, m_78, 0xFFFF);
+    ((TTecAnti *)&m_88)->copy_params((u8 *)params);
+    if (m_78 >= 15 && TTecCtrl::is_technique_ready() == 0) {
+        m_88 = (f32)(tech_high_level_linear_power_table[2].base + tech_high_level_linear_power_table[2].per_level * m_78);
+        return;
+    }
+    m_88 = m_88 + (f32)(((TechniqueParams *)&m_88)->pad_24 * m_78);
+    if (TTecCtrl::is_technique_ready()) {
+        m_88 = m_88 * lbl_804CC55C[2].pad_00;
+    }
 }
 
 void TUnk_804CCB28::render() {
@@ -340,7 +270,7 @@ void TUnk_804CCB28::run_task() {
         *(s32 *)&this->unk_5C = 0;
     }
     if ((s32) this->m_58 > 0x6E) {
-        ((TObject *)arg0)->queue_destruction();
+        queue_destruction();
     }
     stack.sp8 = *(s32 *)((s8 *)&lbl_8044DAF0.value + 0);
     stack.spC = *(s32 *)((s8 *)&lbl_8044DAF0.value + 4);
@@ -362,7 +292,6 @@ void TUnk_804CCB28::run_task() {
 }
 #pragma pop
 
-
 }
 struct RecoveredGlobal_802384E0_lbl_804CCB28;
 
@@ -379,7 +308,6 @@ struct Stack_802384E0 {
 };
 
 struct RecoveredGlobal_802384E0_lbl_804CCB28 { s32 value; u8 remaining[0x14]; };
-typedef char RecoveredGlobal_802384E0_lbl_804CCB28_size[sizeof(RecoveredGlobal_802384E0_lbl_804CCB28) == 0x18 ? 1 : -1];
 
 struct Stack_802385EC {
     s32 sp8;
@@ -387,67 +315,18 @@ struct Stack_802385EC {
     u8 trailing_storage[0x4];
 };
 
-struct RecoveredFields_80238D10_arg0
-{
-  u8 unknown_0[0x78];
-  s16 field_78;
-  u8 unknown_7A[0xE];
-  f32 field_88;
-  u8 unknown_8C[0x20];
-  s16 field_AC;
-};
-
-struct RaFoie_80238828 {
-    u8 pad0[0x20];
-    u8 origin[0xC];
-    u8 pad2c[0x68 - 0x2C];
-    s32 age;
-    u8 pad6c[0x78 - 0x6C];
-    s16 level;
-    s16 band;
-    u8 target[0xC];
-};
-
-struct Damage_802386F8 { s32 kind; f32 power; };
-
-struct VBase_802386F8 { char pad[0x18]; };
-
-struct VObj_802386F8 : VBase_802386F8 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual s32 m21(s32, Damage_802386F8, s32, s32, s32, void *);
-};
-
 extern "C" {
 void run_task__10TTecRaFoieFv(TTecRaFoie *arg0);
-s32 play_sound_effect(s32, void *, s32, s32);
 extern s32 tl_particle;
 s32 __ct__7TObjectFP7TObject(void *, void *);
 u8 *create_fire_explosion_effect(u8 *arg0, s32 *arg1, s16 arg2, s32 arg3, f32 farg0);
 void copy_technique_target_list(void *, void *);
-void clear_target_cursor_list(void *);
+extern void *__vt__10TTecRaFoie[];
+TTecRaFoie *construct_targeted__10TTecRaFoieFPvPvPvPvi(TTecRaFoie *self, void *source, void *origin, void *targets,
+                                                       int level);
+TTecRaFoie *TTecRaFoie__ct(TTecRaFoie *self, void *source, void *origin, void *pos, int level);
 }
 
-u8 *create_rafoie_explosion(u8 *arg0, s32 *arg1, s16 arg2, s16 arg3, s32 arg4, f32 farg0);
 u8 *create_rafoie_explosion(u8 *arg0, s32 *arg1, s16 arg2, s16 arg3, s32 arg4, f32 farg0) {
     typedef char sp8_offset[(offsetof(Stack_802384E0, sp8) == 0x0) ? 1 : -1];
     typedef char spC_offset[(offsetof(Stack_802384E0, spC) == 0x4) ? 1 : -1];
@@ -506,88 +385,85 @@ u8 *create_fire_explosion_effect(u8 *arg0, s32 *arg1, s16 arg2, s32 arg3, f32 fa
     return arg0;
 }
 
-void TTecRaFoie::vfunc_6(void *target_arg) {
-    u8 *self = (u8 *)this;
-    u8 *target = (u8 *)target_arg;
-    Damage_802386F8 d;
-    d.kind = 1;
-    d.power = *(f32 *)(self + 0x88);
-    ((VObj_802386F8 *)target)->m21(*(s32 *)(self + 0x1C), d, *(s32 *)(self + 0xB8), 2, -1, self);
+void TTecRaFoie::vfunc_6(void *target) {
+    DirectAttackPayload attack;
+    attack.kind = 1;
+    attack.power = m_88;
+    ((TObjChara *)target)->receive_direct_attack((void *)source, attack, (void *)m_b8, 2, -1);
 }
 
 void TTecRaFoie::render() {  }
 
-void run_task__10TTecRaFoieFv(TTecRaFoie *tec_ra_foie) {
-    u32 entity;
-    if ((u32) tec_ra_foie->m_e8 == 0U) {
-        tec_ra_foie->queue_destruction();
+void run_task__10TTecRaFoieFv(TTecRaFoie *self) {
+    TObjChara *chara;
+    if (self->m_e8 == 0) {
+        self->queue_destruction();
         return;
     }
-    tec_ra_foie->source = find_entity_by_id(tec_ra_foie->m_b4);
-    if ((u32) tec_ra_foie->source == 0U) {
-        tec_ra_foie->queue_destruction();
+    self->source = (u32)find_entity_by_id(self->m_b4);
+    if (self->source == 0) {
+        self->queue_destruction();
         return;
     }
-    if ((s32) tec_ra_foie->m_148 == 1) {
-        tec_ra_foie->update_detonation((u8 *)tec_ra_foie + 0x7C);
+    if (self->m_148 == 1) {
+        self->update_detonation(&self->target);
         return;
     }
-    if ((s32) tec_ra_foie->m_ec == 0) {
-        tec_ra_foie->queue_destruction();
+    if (((TargetCursorList *)self->m_ec)->count == 0) {
+        self->queue_destruction();
         return;
     }
-    entity = find_entity_by_id(tec_ra_foie->m_f0);
-    if ((TTecLuker::is_parents_unqueued(entity) != 0) && (TObjPlayer::is_valid_and_active(entity) != 0)) {
-        tec_ra_foie->update_detonation((void *)(entity + 0x2FC));
+    chara = (TObjChara *)find_entity_by_id(((TargetCursorList *)self->m_ec)->records[0].id);
+    if (TTecLuker::is_parents_unqueued((u32)chara) != 0 && TObjPlayer::is_valid_and_active((u32)chara) != 0) {
+        self->update_detonation(&chara->m_2fc);
     }
 }
 
-void TTecRaFoie::update_detonation(void *arg1) {
-    RaFoie_80238828 *self = (RaFoie_80238828 *)this;
+void TTecRaFoie::update_detonation(void *pos) {
     void *p;
     s32 h;
 
-    VecCopy((Vec *)self->origin, (const Vec *)(VecCopy((Vec *)((Vec *)self->target), (const Vec *)((const Vec *)arg1))));
-    self->age++;
-    if (self->age != 10) {
+    VecCopy(&position, VecCopy(&target, (const Vec *)pos));
+    age++;
+    if (age != 10) {
         return;
     }
     p = TObject::operator new(0x64);
     if (p != NULL) {
-        create_rafoie_explosion((u8 *)p, (s32 *)self->target, self->band, 10, tl_particle, (f32)self->level);
+        create_rafoie_explosion((u8 *)p, (s32 *)&target, band, 10, tl_particle, (f32)m_78);
     }
-    switch (self->band) {
+    switch (band) {
     case 0:
-        h = play_sound_effect(0x4002A803, self->target, 0, 0);
+        h = play_sound_effect(0x4002A803, &target, 0, 0);
         if (h >= 0) {
             set_sound_pitch_request(h, 0x100, 0);
         }
         break;
     case 1:
-        play_sound_effect(0x4002A803, self->target, 0, 0);
+        play_sound_effect(0x4002A803, &target, 0, 0);
         break;
     case 2:
     case 3:
-        h = play_sound_effect(0x4002A803, self->target, 0, 0);
+        h = play_sound_effect(0x4002A803, &target, 0, 0);
         if (h >= 0) {
             set_sound_pitch_request(h, -0x180, 0);
         }
         break;
     case 4:
-        h = play_sound_effect(0x4002A803, self->target, 0, 0);
+        h = play_sound_effect(0x4002A803, &target, 0, 0);
         if (h >= 0) {
             set_sound_pitch_request(h, -0x250, 0);
         }
         break;
     case 5:
-        h = play_sound_effect(0x4002A803, self->target, 0, 0);
+        h = play_sound_effect(0x4002A803, &target, 0, 0);
         if (h >= 0) {
             set_sound_pitch_request(h, -0x100, 0);
         }
         break;
     }
-    ((TUnk_804CC148 *)self)->apply_technique_to_area_targets();
-    ((TObject *)self)->queue_destruction();
+    apply_technique_to_area_targets();
+    queue_destruction();
 }
 
 void TTecRaFoie::create(void *origin, void *pos, void *level) {
@@ -601,7 +477,6 @@ void TTecRaFoie::create_ex(void *origin, void *targets, void *level) {
 TTecRaFoie::~TTecRaFoie() {
 
 }
-typedef struct RecoveredFields_80238D10_arg0 RecoveredFields_80238D10_arg0;
 
 #pragma push
 #pragma opt_common_subs off
@@ -609,7 +484,7 @@ TTecRaFoie::TTecRaFoie(s32 source, Vec *origin, Vec *pos, s32 level) : TUnk_804C
     __ct__16TargetCursorListFv(&m_ec);
     m_name = TTecRaFoie_class_name;
     calc_area_parameters();
-    clear_target_cursor_list(&m_ec);
+    clear_target_cursor_list((TargetCursorList *)m_ec);
     m_148 = 1;
     if (m_e8 != NULL) {
         m_e8->bodies->radius = m_90;

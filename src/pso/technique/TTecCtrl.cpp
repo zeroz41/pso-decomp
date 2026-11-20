@@ -163,12 +163,11 @@ TechniqueParams technique_param_table[19] = {
 };
 const char *TTecCtrl__name = "TTecCtrl";
 
-void *tech_high_level_linear_power_table[19] = {
-    (void *)0xffab0041, (void *)0x1e002a, (void *)0x1720015, (void *)0xff83003f,
-    (void *)0x28, (void *)0x1d6000f, (void *)0x50037, (void *)0xffe20026,
-    (void *)0x2260009, (void *)0x578003c, (void *)0xa0001, (void *)0xa0001,
-    (void *)0xa0001, (void *)0xa0001, (void *)0x0, (void *)0xffec000a,
-    (void *)0x0, (void *)0x0, (void *)0x2a0002,
+TechniqueLinearPower tech_high_level_linear_power_table[19] = {
+    {-85, 65}, {30, 42}, {370, 21}, {-125, 63}, {0, 40},
+    {470, 15}, {5, 55}, {-30, 38}, {550, 9}, {1400, 60},
+    {10, 1}, {10, 1}, {10, 1}, {10, 1}, {0, 0},
+    {-20, 10}, {0, 0}, {0, 0}, {42, 2},
 };
 TechniqueCostScale lbl_804CC55C[19] = {
     {0.8f, 3.0f}, {0.8f, 2.0f}, {0.6f, 2.0f}, {0.8f, 3.0f}, {0.6f, 2.0f},

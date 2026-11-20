@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecJelin.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
@@ -51,12 +52,11 @@ void *find_entity_by_id(u16 id);
 s32 play_sound_effect(int, void *, int, int);
 s32 get_entity_id(void *);
 void copy_technique_target_list(void *, void *);
-s32 calc_technique_parameters(s32, s16, s32);
 }
 
 void TTecJelin::init_tech_params() {
     u8 *arg0 = (u8 *)this;
-    s32 res;
+    TechniqueParams *res;
     res = calc_technique_parameters(0xB, this->m_78, 0xFFFF);
     ((TTecAnti *)(arg0 + 0x88))->copy_params((u8 *)res);
     this->m_88 = (f32) (*(s16 *)&this->m_ac * this->m_78);

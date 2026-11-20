@@ -31,8 +31,16 @@ struct TechniqueCostScale {
     f32 tp_cost;
 };
 
+// Per technique: the power of a cast at level 15 and up while not
+// TTecCtrl::is_technique_ready(), base + per_level * level.
+struct TechniqueLinearPower {
+    s16 base;
+    s16 per_level;
+};
+
 extern "C" {
 extern TechniqueParams technique_param_table[];
+extern TechniqueLinearPower tech_high_level_linear_power_table[];
 extern TechniqueParams lbl_80515F90;
 extern TechniqueCostScale lbl_804CC55C[];
 TechniqueParams *calc_technique_parameters(s32 technique, s32 level, u16 client);

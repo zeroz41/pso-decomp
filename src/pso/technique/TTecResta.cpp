@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecResta.h"
 #include "pso/unk/TUnk_804CCBC0.h"
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
@@ -22,11 +23,6 @@ extern "C" void *__ct__16TargetCursorListFv(void *list);
 const char *TTecResta__name = "TTecResta";
 
 
-struct RecoveredGlobal_802394B0_lbl_804CC55C
-{
-  s32 value;
-  u8 remaining[0x94];
-};
 
 struct Row_8023967C { s32 delay; s32 duration; s32 entry; u32 flags; };
 
@@ -112,8 +108,6 @@ extern "C" {
 s32 get_entity_id(int);
 extern s32 __vt__9TTecResta[];
 extern const char *TTecResta__name;
-f32 *calc_technique_parameters(s32, s32, s32);
-extern RecoveredGlobal_802394B0_lbl_804CC55C lbl_804CC55C;
 extern s32 __vt__13TUnk_804CCBC0[];
 Row_8023967C TTecResta__self_recovery_effect_table[3] = {
     {0x14, 1, 0x2C, 0},
@@ -131,8 +125,6 @@ s32 copy_technique_target_list(void *, void *);
 int spawn_support_tec_range_effect(void*);
 
 
-typedef struct RecoveredGlobal_802394B0_lbl_804CC55C RecoveredGlobal_802394B0_lbl_804CC55C;
-typedef char RecoveredGlobal_802394B0_lbl_804CC55C_size[((sizeof(RecoveredGlobal_802394B0_lbl_804CC55C)) == 0x98) ? (1) : (-1)];
 
 
 }
@@ -342,7 +334,7 @@ void TTecResta::init_parameters() {
   this->m_74 = (f32) ((this->m_74) + ((f32) ((this->m_98) * (this->m_a4))));
   if (TTecCtrl::is_technique_ready() != 0)
   {
-    this->m_74 = (f32) ((this->m_74) * (*((f32 *) (((s8 *)&lbl_804CC55C.value) + 0x78))));
+    this->m_74 = (f32) ((this->m_74) * lbl_804CC55C[15].pad_00);
   }
 }
 
@@ -354,7 +346,7 @@ f32 TTecResta::calc_heal_amount(s32 arg0) {
   var_f31 = var_f31 + ((f32) (arg0 * 5));
   if (TTecCtrl::is_technique_ready() != 0)
   {
-    var_f31 *= *((f32 *) (((s8 *)&lbl_804CC55C.value) + 0x78));
+    var_f31 *= lbl_804CC55C[15].pad_00;
   }
   return var_f31;
 }

@@ -3,6 +3,7 @@
 #include "types.h"
 #include "pso/unk/text_80086D50.h"
 #include "pso/technique/TTecFoie.h"
+#include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecAnti.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
@@ -53,18 +54,6 @@ void TTecFoie::play_foie_cast_sound() {
 }
 
 }
-
-struct RecoveredGlobal_8022FE84_lbl_804CC510
-{
-  s32 value;
-  u8 remaining[0x48];
-};
-
-struct RecoveredGlobal_8022FE84_lbl_804CC55C
-{
-  const f32 value;
-  u8 remaining[0x94];
-};
 
 struct RecoveredFields_8022FE84_arg0
 {
@@ -129,12 +118,7 @@ struct Foie_8022FC94
   void **emitters;
 };
 
-extern "C" {
-s32 calc_technique_parameters(int, int, int);
-}
 s32 clamp_nonnegative_int(s32 x);
-extern RecoveredGlobal_8022FE84_lbl_804CC510 tech_high_level_linear_power_table;
-extern RecoveredGlobal_8022FE84_lbl_804CC55C lbl_804CC55C;
 extern "C" {
 void mem_free(void *p);
 u16 get_entity_id(void *);
@@ -162,11 +146,6 @@ extern s32 lbl_805D63B0;
 void *spawn_particle_effect(const void *pos, s32 id);
 
 typedef struct RecoveredFields_8022FE84_arg0 RecoveredFields_8022FE84_arg0;
-typedef struct RecoveredGlobal_8022FE84_lbl_804CC510 RecoveredGlobal_8022FE84_lbl_804CC510;
-typedef struct RecoveredGlobal_8022FE84_lbl_804CC55C RecoveredGlobal_8022FE84_lbl_804CC55C;
-typedef char RecoveredGlobal_8022FE84_lbl_804CC510_size[((sizeof(RecoveredGlobal_8022FE84_lbl_804CC510)) == 0x4C) ? (1) : (-1)];
-typedef char RecoveredGlobal_8022FE84_lbl_804CC55C_size[((sizeof(RecoveredGlobal_8022FE84_lbl_804CC55C)) == 0x98) ? (1) : (-1)];
-
 typedef struct Angles_8022FC94 Angles_8022FC94;
 typedef struct Binding_8022FC94 Binding_8022FC94;
 typedef struct Foie_8022FC94 Foie_8022FC94;
@@ -215,19 +194,19 @@ void TTecFoie::create_particle_emitters() {
 
 void TTecFoie::init_projectile_params() {
     u8 *arg0 = (u8 *)this;
-  s32 new_var;
+  TechniqueParams *new_var;
   new_var = calc_technique_parameters(0, (int) ((RecoveredFields_8022FE84_arg0 *) arg0)->field_C4, 0xFFFF);
   ((TTecAnti *)(arg0 + 0xCC))->copy_params((u8 *)new_var);
   if ((((s16) ((RecoveredFields_8022FE84_arg0 *) arg0)->field_C4) >= 0xF) && (TTecCtrl::is_technique_ready() == 0))
   {
-    ((RecoveredFields_8022FE84_arg0 *) arg0)->field_CC = (f32) ((*((s16 *) (((s8 *)&tech_high_level_linear_power_table.value) + 0))) + ((*((s16 *) (((s8 *)&tech_high_level_linear_power_table.value) + 2))) * ((RecoveredFields_8022FE84_arg0 *) arg0)->field_C4));
+    ((RecoveredFields_8022FE84_arg0 *) arg0)->field_CC = (f32) (tech_high_level_linear_power_table[0].base + (tech_high_level_linear_power_table[0].per_level * ((RecoveredFields_8022FE84_arg0 *) arg0)->field_C4));
   }
   else
   {
     ((RecoveredFields_8022FE84_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_8022FE84_arg0 *) arg0)->field_CC + ((f32) (((RecoveredFields_8022FE84_arg0 *) arg0)->field_F0 * ((RecoveredFields_8022FE84_arg0 *) arg0)->field_C4)));
     if (TTecCtrl::is_technique_ready() != 0)
     {
-      ((RecoveredFields_8022FE84_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_8022FE84_arg0 *) arg0)->field_CC * lbl_804CC55C.value);
+      ((RecoveredFields_8022FE84_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_8022FE84_arg0 *) arg0)->field_CC * lbl_804CC55C[0].pad_00);
     }
   }
   ((RecoveredFields_8022FE84_arg0 *) arg0)->field_64 = (f32) (((RecoveredFields_8022FE84_arg0 *) arg0)->field_D0 + ((f32) clamp_nonnegative_int((((RecoveredFields_8022FE84_arg0 *) arg0)->field_C4 - 4))));
