@@ -124,9 +124,14 @@ void streamInit(void) {
 #pragma dont_inline off
 #pragma inline_depth(4)
 #pragma auto_inline on
+// SetHWMix is inlined at every call, and the linker dead-strips its out-of-line copy. That copy was still
+// compiled first, because 1/127.f leads the .sdata2 pool. The DOL keeps no extab entry for it, so it is
+// built without one, like the stripped helpers in hw_volconv.c.
+#pragma exceptions off
 static void SetHWMix(const STREAM_INFO *si) {
     hwSetVolume(si->voice, 0, si->vol * (1 / 127.f), (si->pan << 16), (si->span << 16), si->auxa * (1 / 127.f), si->auxb * (1 / 127.f));
 }
+#pragma exceptions on
 
 void streamHandle(void) {
     u32 i;
