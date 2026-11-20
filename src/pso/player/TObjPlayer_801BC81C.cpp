@@ -119,7 +119,7 @@ void TObjPlayer::update_state() {
         ((TObjPlayer *)arg0)->sync_current_area();
         ((TObjPlayer *)arg0)->sync_current_floor();
     }
-    if ((TObjPlayer::is_final_phase() != 0) && (sub_801A1DDC__10TObjPlayerFv(arg0) != 0)) {
+    if ((TObjPlayer::is_final_phase() != 0) && (((TObjPlayer *)arg0)->sub_801A1DDC() != 0)) {
         ((TObjPlayer *)arg0)->apply_state_transform();
     }
 }

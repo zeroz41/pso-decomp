@@ -1107,7 +1107,7 @@ s32 calc_freeze_chance(TObjPlayer *actor, TObjPlayer *arg1, TObjPlayer *arg2, f3
     } else if ((0.4f) < var_f31) {
         var_f31 = (0.4f);
     }
-    return random_ratio__9TObjCharaFv((saddr) actor) < var_f31;
+    return ((TObjChara *)actor)->random_ratio() < var_f31;
 }
 
 s32 calc_shock_chance(TObjPlayer *actor, TObjPlayer *arg1, TObjPlayer *arg2) {
@@ -1123,7 +1123,7 @@ s32 calc_shock_chance(TObjPlayer *actor, TObjPlayer *arg1, TObjPlayer *arg2) {
     } else {
         var_f31 = (0.06666667f);
     }
-    return random_ratio__9TObjCharaFv((saddr) actor) < var_f31;
+    return ((TObjChara *)actor)->random_ratio() < var_f31;
 }
 
 
@@ -2962,7 +2962,7 @@ f32 TObjChara::receive_physical_attack(void *att, f32 scale) {
     } else {
         immune = 0;
     }
-    scl0 = random_ratio__9TObjCharaFv(((Obj_80014108 *)this));
+    scl0 = this->random_ratio();
     dmg = 0.2f * (((Obj_80014108 *)att)->atpRange * scl0 + ((Obj_80014108 *)att)->atp);
     elem = 0.2f * ((TObjChara *)att)->get_actor_attack_params_atp_min();
     for (j = 0; j < 3; j++) {
@@ -3007,7 +3007,7 @@ f32 TObjChara::receive_physical_attack(void *att, f32 scale) {
             } else {
                 d *= scale;
                 if (obj_testFlags30__14TObjCollidableFUl(((Obj_80014108 *)this), 0x02000000) == 0) {
-                    boss = random_ratio__9TObjCharaFv(((Obj_80014108 *)this));
+                    boss = this->random_ratio();
                     if (get_entity_id(((Obj_80014108 *)att)) < 0x1000) {
                         crit = boss; crit *= (5e+02f);
                     } else {
@@ -3470,7 +3470,7 @@ int TObjChara::calc_distance_accuracy_penalty(void *attacker, void *body_arg, vo
             pen*=(0.33333334f);
             chance-=pen;
         }
-        if((0.0f)<chance&&random_ratio__9TObjCharaFv(((RangedActor*)this))<=chance) {
+        if((0.0f)<chance&&this->random_ratio()<=chance) {
             body->flags|=0x04000000;attach_mine_trap__10TObjPlayerFiUi(((RangedActor*)this),((RangedActor*)attacker));((RangedActor*)this)->hit_flags|=2;return 1;
         }
         ((RangedActor*)this)->flags|=0x100;VecCopy__FP3VecPC3Vec(&delta,&body->center);show_miss_popup((const float *)(&delta));

@@ -35,6 +35,8 @@
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/player/TUnk_804B6C24.h"
+#include "pso/object/trap/TOMineTrap.h"
 
 
 #pragma readonly_strings on
@@ -3046,7 +3048,7 @@ void TObjPlayer::enter_death_state() {
                     fn_801B0480((saddr) (entity), (void *) (arg0), 1);
                 }
             }
-            if (check_value_equals__13TUnk_804B6C24CFl((saddr) (entity), (void *) (TOMineTrap__data_805D3080)) == 0) {
+            if (((TUnk_804B6C24 *)entity)->check_value_equals(TOMineTrap__data_805D3080) == 0) {
                 update_trap_sub__10TOMineTrapFv((void *) (arg0), (saddr) (entity), 1);
             } else if ((u16)(killer = get_trap_type__10TOMineTrapFv((saddr)entity)) == 0xffffU) {
                 update_trap_sub__10TOMineTrapFv((void *) (arg0), (saddr) (entity), 1);
@@ -3147,7 +3149,7 @@ void TObjPlayer::check_reopen_return_city_window() {
   TObjPlayer__sub_8024ABDC(new_var);
   temp_r3 = this->m_36c;
   new_var = 0U;
-  if ((temp_r3 != new_var) && ((((TObject *)temp_r3)->all_parents_unqueued_for_destruction() == 0) || (check_value_equals__13TUnk_804B6C24CFl((int) (this->m_36c), (void *) TWindowReturnCity__class_name) == 0)))
+  if ((temp_r3 != new_var) && ((((TObject *)temp_r3)->all_parents_unqueued_for_destruction() == 0) || (((TUnk_804B6C24 *)this->m_36c)->check_value_equals((saddr)TWindowReturnCity__class_name) == 0)))
   {
     this->m_36c = 0U;
   }
