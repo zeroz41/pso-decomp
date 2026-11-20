@@ -7,28 +7,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/MatrixStack.h"
 
-struct Tri_801946D0 {
-    u16 a, b, c;
-    s16 f6;
-    Vec n;
-    Vec center;
-    f32 r2;
-};
-
-struct Csn_801946D0 {
-    u8 pad0[0x38];
-    Vec pos;
-    u8 pad44[0x60 - 0x44];
-    s32 f60;
-    u8 pad64[4];
-    f32 f68, f6c, f70;
-    u8 pad74[0x88 - 0x74];
-    s32 f88;
-    u8 pad8c[0xD4 - 0x8C];
-    Tri_801946D0 tris[8];
-    Vec verts[8];
-};
-
 const char *TMapCsnCtrl__class_name = "TMapCsnCtrl";
 
 // Corner indices of the 8 side triangles of the collision box (two per side face).
@@ -85,65 +63,64 @@ s32 TObjMapCsn::build_box_triangles() {
     s32 j;
     s32 i;
     s8 *idx;
-    Tri_801946D0 *t;
+    CsnFace *t;
     Vec *nrm;
-    Csn_801946D0 *arg0 = (Csn_801946D0 *) this;
     idx = map_csn_box_triangle_indices;
     nrm = map_csn_box_face_normals;
-    t = arg0->tris;
-    corners[0].x = -(0.5f * arg0->f68);
+    t = collision_faces;
+    corners[0].x = -(0.5f * scale.x);
     corners[0].y = 0.0f;
-    corners[0].z = (0.5f * arg0->f70);
-    corners[1].x = -(0.5f * arg0->f68);
-    corners[1].y = arg0->f6c;
-    corners[1].z = (0.5f * arg0->f70);
-    corners[2].x = (0.5f * arg0->f68);
-    corners[2].y = arg0->f6c;
-    corners[2].z = (0.5f * arg0->f70);
-    corners[3].x = (0.5f * arg0->f68);
+    corners[0].z = (0.5f * scale.z);
+    corners[1].x = -(0.5f * scale.x);
+    corners[1].y = scale.y;
+    corners[1].z = (0.5f * scale.z);
+    corners[2].x = (0.5f * scale.x);
+    corners[2].y = scale.y;
+    corners[2].z = (0.5f * scale.z);
+    corners[3].x = (0.5f * scale.x);
     corners[3].y = 0.0f;
-    corners[3].z = (0.5f * arg0->f70);
-    corners[4].x = -(0.5f * arg0->f68);
+    corners[3].z = (0.5f * scale.z);
+    corners[4].x = -(0.5f * scale.x);
     corners[4].y = 0.0f;
-    corners[4].z = -(0.5f * arg0->f70);
-    corners[5].x = -(0.5f * arg0->f68);
-    corners[5].y = arg0->f6c;
-    corners[5].z = -(0.5f * arg0->f70);
-    corners[6].x = (0.5f * arg0->f68);
-    corners[6].y = arg0->f6c;
-    corners[6].z = -(0.5f * arg0->f70);
-    corners[7].x = (0.5f * arg0->f68);
+    corners[4].z = -(0.5f * scale.z);
+    corners[5].x = -(0.5f * scale.x);
+    corners[5].y = scale.y;
+    corners[5].z = -(0.5f * scale.z);
+    corners[6].x = (0.5f * scale.x);
+    corners[6].y = scale.y;
+    corners[6].z = -(0.5f * scale.z);
+    corners[7].x = (0.5f * scale.x);
     corners[7].y = 0.0f;
-    corners[7].z = -(0.5f * arg0->f70);
+    corners[7].z = -(0.5f * scale.z);
     push_matrix_from(identity_matrix);
-    translate_matrix_vec3(0, &arg0->pos);
-    rotate_matrix_y(0, arg0->f60);
+    translate_matrix_vec3(0, &position);
+    rotate_matrix_y(0, rotation_y);
     for (i = 0; i < 8; i++) {
-        matrix_mult_vec(0, &corners[i], &arg0->verts[i]);
+        matrix_mult_vec(0, &corners[i], &collision_vertices[i]);
     }
     p1 = &v1;
     p2 = &v2;
     for (j = 0; j < 8; j++) {
-        t->a = idx[0];
-        t->b = idx[1];
-        t->c = idx[2];
+        t->vertex[0] = idx[0];
+        t->vertex[1] = idx[1];
+        t->vertex[2] = idx[2];
         idx += 3;
-        rotate_vector_by_matrix(0, nrm, &t->n);
+        rotate_vector_by_matrix(0, nrm, &t->normal);
         nrm++;
-        VecCopy((Vec *)&v0, (const Vec *)&arg0->verts[t->a]);
-        VecCopy((Vec *)p1, (const Vec *)&arg0->verts[t->b]);
-        VecCopy((Vec *)p2, (const Vec *)&arg0->verts[t->c]);
+        VecCopy((Vec *)&v0, (const Vec *)&collision_vertices[t->vertex[0]]);
+        VecCopy((Vec *)p1, (const Vec *)&collision_vertices[t->vertex[1]]);
+        VecCopy((Vec *)p2, (const Vec *)&collision_vertices[t->vertex[2]]);
         t->center.x = (v2.x + (v0.x + v1.x)) / 3.0f;
         t->center.y = (v2.y + (v0.y + v1.y)) / 3.0f;
         t->center.z = (v2.z + (v0.z + v1.z)) / 3.0f;
         if (!(j & 2)) {
-            f32 r = 0.5f * arg0->f68;
-            t->r2 = r * r;
+            f32 r = 0.5f * scale.x;
+            t->radius = r * r;
         } else {
-            f32 r = 0.5f * arg0->f70;
-            t->r2 = r * r;
+            f32 r = 0.5f * scale.z;
+            t->radius = r * r;
         }
-        t->f6 = arg0->f88;
+        t->flags = set_params[1];
         t++;
     }
     return pop_matrix();
@@ -154,14 +131,14 @@ s32 TObjMapCsn::create(s32 arg0) {
 
     map_csn = __nw__7TObjectFUl(0x254);
     if (map_csn != 0) {
-        map_csn = ((s32)__ct__10TObjMapCsnFll((TObjMapCsn *)((u8 *)map_csn), (s32)(TObjMapCsn::get_map_count()), (s32)arg0));
+        map_csn = ((s32)__ct__10TObjMapCsnFll((TObjMapCsn *)((u8 *)map_csn), (s32)(TObjMapCsn::get_collision_controller()), (s32)arg0));
     }
     return map_csn;
 }
 }
 TObjMapCsn::~TObjMapCsn() {
-    if (((u32)TObjMapCsn::get_map_count()) != 0U) {
-        fn_80140DFC((((u32)TObjMapCsn::get_map_count())), (s32)((u8 *)this));
+    if (TObjMapCsn::get_collision_controller() != NULL) {
+        fn_80140DFC(TObjMapCsn::get_collision_controller(), this);
     }
 }
 TObjMapCsn::TObjMapCsn(s32 arg1, s32 arg2) : TObjCollidable((TObject *)arg1) {
@@ -172,17 +149,17 @@ TObjMapCsn::TObjMapCsn(s32 arg1, s32 arg2) : TObjCollidable((TObject *)arg1) {
     this->actorFlags = (s32) (this->actorFlags | 0x40000000);
     this->update_state();
     this->build_box_triangles();
-    this->m_c4 = 8;
-    *(u8 **)((s8 *)this + 0xC8) = (unsigned char *) ((u8 *)this + 0x1F4);
-    this->m_cc = 8;
-    *(u8 **)((s8 *)this + 0xD0) = (unsigned char *) ((u8 *)this + 0xD4);
-    *(u8 **)((s8 *)this + 0xAC) = (unsigned char *) ((u8 *)this + 0xC4);
-    VecCopy((Vec *)((u8 *)this + 0xB0), (const Vec *)((u8 *)this + 0x38));
-    temp_f1 = (0.5f) * this->scale.x;
-    temp_f0 = (0.5f) * *(f32 *)((s8 *)this + 0x70);
-    this->m_bc = (f32) ((temp_f1 * temp_f1) + (temp_f0 * temp_f0));
-    this->m_c0 = (s32) *(s32 *)((s8 *)this + 0x88);
-    if (((u32)TObjMapCsn::get_map_count()) != 0U) {
-        fn_80140EA8((((u32)TObjMapCsn::get_map_count())), (s32)this);
+    collision_model.vertex_count = 8;
+    collision_model.vertices = collision_vertices;
+    collision_model.face_count = 8;
+    collision_model.faces = collision_faces;
+    collision_group.model = &collision_model;
+    VecCopy((Vec *)&collision_group.center, &position);
+    temp_f1 = 0.5f * scale.x;
+    temp_f0 = 0.5f * scale.z;
+    collision_group.radius = temp_f1 * temp_f1 + temp_f0 * temp_f0;
+    collision_group.flags = set_params[1];
+    if (TObjMapCsn::get_collision_controller() != NULL) {
+        fn_80140EA8(TObjMapCsn::get_collision_controller(), this);
     }
 }

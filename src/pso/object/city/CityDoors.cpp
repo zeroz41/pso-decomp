@@ -1,3 +1,4 @@
+#include "pso/map/TMapCsnCtrl.h"
 #include "types.h"
 #include "pso/object/city/CityDoors.h"
 #include "pso/render/render_util.h"
@@ -199,38 +200,16 @@ void TObjCityDoor_Lobby::dispatch_lobby_action() {
 #pragma push
 #pragma fp_contract on
 
-typedef struct {
-    u16 idx[3];
-    s16 f6;
-    Vec normal;
-    Vec center;
-    f32 dist;
-} Tri_80181BAC;
-
-typedef struct {
-    u8 pad0[0x38];
-    u8 f38[0x60 - 0x38];
-    s32 f60;
-    u8 pad64[0x94 - 0x64];
-    Vec f94;
-    u8 padA0[0xB8 - 0xA0];
-    Tri_80181BAC tris[8];
-    Vec verts[10];
-} Obj_80181BAC;
-
 void vec3_add_to(Vec *, Vec *);
 void mult_vec_array__10TObjPlayerFUll(s32, Vec *, Vec *, s32);
 s32 push_matrix(void);
 extern Vec city_door_lobby_collision_vertices[];
 
-#define self ((Obj_80181BAC *)arg0)
-
 s32 TObjCityDoor_Lobby::build_door_collision_triangles() {
-    s32 arg0 = (s32)this;
     Vec v[3];
     Vec sum;
-    Tri_80181BAC *t1;
-    Tri_80181BAC *t;
+    CsnFace *t1;
+    CsnFace *t;
     s32 m;
     s32 k;
     s32 j;
@@ -238,34 +217,34 @@ s32 TObjCityDoor_Lobby::build_door_collision_triangles() {
     f32 three;
     f32 zero;
 
-    VecCopy((Vec *)&self->f94, (const Vec *)(arg0 + 0x38));
+    VecCopy((Vec *)&collision_group.center, &position);
     push_matrix();
     set_matrix_identity(0);
-    post_translate_matrix(self->f38);
-    rotate_matrix_y(0, self->f60);
-    t1 = self->tris;
+    post_translate_matrix((u8 *)&position);
+    rotate_matrix_y(0, rotation_y);
+    t1 = collision_faces;
     j = 0;
     for (i = 0; i < 4; i++) {
-        t1[0].idx[0] = j + city_door_lobby_quad_triangle_indices[0];
-        t1[0].idx[1] = j + city_door_lobby_quad_triangle_indices[1];
-        t1[0].idx[2] = j + city_door_lobby_quad_triangle_indices[2];
-        VecCopy((Vec *)&v[0], (const Vec *)(&city_door_lobby_collision_vertices[t1[0].idx[0]]));
-        VecCopy((Vec *)&v[1], (const Vec *)(&city_door_lobby_collision_vertices[t1[0].idx[1]]));
-        VecCopy((Vec *)&v[2], (const Vec *)(&city_door_lobby_collision_vertices[t1[0].idx[2]]));
+        t1[0].vertex[0] = j + city_door_lobby_quad_triangle_indices[0];
+        t1[0].vertex[1] = j + city_door_lobby_quad_triangle_indices[1];
+        t1[0].vertex[2] = j + city_door_lobby_quad_triangle_indices[2];
+        VecCopy((Vec *)&v[0], (const Vec *)(&city_door_lobby_collision_vertices[t1[0].vertex[0]]));
+        VecCopy((Vec *)&v[1], (const Vec *)(&city_door_lobby_collision_vertices[t1[0].vertex[1]]));
+        VecCopy((Vec *)&v[2], (const Vec *)(&city_door_lobby_collision_vertices[t1[0].vertex[2]]));
         calc_triangle_normal((const Vec *)v, (Vec *)&t1[0].normal);
-        t1[1].idx[0] = j + city_door_lobby_quad_triangle_indices[3];
-        t1[1].idx[1] = j + city_door_lobby_quad_triangle_indices[4];
-        t1[1].idx[2] = j + city_door_lobby_quad_triangle_indices[5];
-        VecCopy((Vec *)&v[0], (const Vec *)(&city_door_lobby_collision_vertices[t1[1].idx[0]]));
-        VecCopy((Vec *)&v[1], (const Vec *)(&city_door_lobby_collision_vertices[t1[1].idx[1]]));
-        VecCopy((Vec *)&v[2], (const Vec *)(&city_door_lobby_collision_vertices[t1[1].idx[2]]));
+        t1[1].vertex[0] = j + city_door_lobby_quad_triangle_indices[3];
+        t1[1].vertex[1] = j + city_door_lobby_quad_triangle_indices[4];
+        t1[1].vertex[2] = j + city_door_lobby_quad_triangle_indices[5];
+        VecCopy((Vec *)&v[0], (const Vec *)(&city_door_lobby_collision_vertices[t1[1].vertex[0]]));
+        VecCopy((Vec *)&v[1], (const Vec *)(&city_door_lobby_collision_vertices[t1[1].vertex[1]]));
+        VecCopy((Vec *)&v[2], (const Vec *)(&city_door_lobby_collision_vertices[t1[1].vertex[2]]));
         calc_triangle_normal((const Vec *)v, (Vec *)&t1[1].normal);
         t1 += 2;
         j += 2;
     }
-    mult_vec_array__10TObjPlayerFUll(0, city_door_lobby_collision_vertices, self->verts, 10);
+    mult_vec_array__10TObjPlayerFUll(0, city_door_lobby_collision_vertices, collision_vertices, 10);
     zero = 0.0f;
-    t = (Tri_80181BAC *)(arg0 + 0xB8);
+    t = collision_faces;
     three = 3.0f;
     for (m = 0; m < 8; m++, t++) {
         f32 dz;
@@ -274,20 +253,19 @@ s32 TObjCityDoor_Lobby::build_door_collision_triangles() {
         sum.y = zero;
         sum.z = zero;
         for (k = 0; k < 3; k++) {
-            vec3_add_to(&sum, &self->verts[t->idx[k]]);
+            vec3_add_to(&sum, &collision_vertices[t->vertex[k]]);
         }
         sum.x /= three;
         sum.y /= three;
         sum.z /= three;
         VecCopy((Vec *)&t->center, (const Vec *)&sum);
-        dx = self->verts[t->idx[0]].x - sum.x;
-        dz = self->verts[t->idx[0]].z - sum.z;
-        t->dist = newton_sqrtf(dx * dx + dz * dz);
-        t->f6 = 0xDE0;
+        dx = collision_vertices[t->vertex[0]].x - sum.x;
+        dz = collision_vertices[t->vertex[0]].z - sum.z;
+        t->radius = newton_sqrtf(dx * dx + dz * dz);
+        t->flags = 0xDE0;
     }
     pop_matrix();
 }
-#undef self
 #pragma pop
 
 Obj_80181F10 *TObjCityDoor_Lobby__ct(Obj_80181F10 *, void *, s32);
@@ -309,10 +287,8 @@ u8 *TObjCityDoor_Lobby__create(s32 arg0) {
     return var_r0;
 }
 
-u32 get_map_count__10TObjMapCsnFv();
 void __dl__7TObjectFPv(void *);
 }
-void remove_value_from_id_list(s32 arg0, u32 arg1);
 
 extern s32 __vt__18TObjCityDoor_Lobby[];
 
@@ -320,8 +296,9 @@ extern s32 __vt__18TObjCityDoor_Lobby[];
 u8 *__dt__18TObjCityDoor_LobbyFPvs(u8 *city_door_lobby, s16 arg1) {
     if (city_door_lobby != NULL) {
         *(s32 **)((s8 *)city_door_lobby + 0x18) = __vt__18TObjCityDoor_Lobby;
-        if (((s32) ((TObjCityDoor_Lobby *)city_door_lobby)->m_250 != 0) && (TObjMapCsn::get_map_count() != 0U)) {
-            remove_value_from_id_list(TObjMapCsn::get_map_count(), (u32)(city_door_lobby + 0x90));
+        if (((s32) ((TObjCityDoor_Lobby *)city_door_lobby)->m_250 != 0) && (TObjMapCsn::get_collision_controller() != NULL)) {
+            remove_collision_group(TObjMapCsn::get_collision_controller(),
+                &((TObjCityDoor_Lobby *)city_door_lobby)->collision_group);
         }
         __dt__8TObjBaseFv(city_door_lobby, 0);
         if (arg1 > 0) {
@@ -343,21 +320,14 @@ struct Obj_80181F10 : VBase_80181F10 {
     u8 pad1c[0x38 - 0x1C];
     Vec pos;
     u8 pad44[0x90 - 0x44];
-    void *x90;
-    Vec pos94;
-    f32 xa0;
-    s32 xa4;
-    s32 xa8;
-    void *xac;
-    s32 xb0;
-    void *xb4;
-    u8 bufb8[0x1D8 - 0xB8];
-    u8 buf1d8[0x250 - 0x1D8];
+    CsnGroup collision_group;
+    CsnModel collision_model;
+    CsnFace collision_faces[8];
+    Vec collision_vertices[10];
     s32 x250;
 };
 
 extern "C" {
-void register_slot(u32, void *);
 void __ct__8TObjBaseFP7TObject(void *, void *);
 struct CityDoorClassTag { const char *value; u32 padding; };
 __declspec(section ".sdata") extern CityDoorClassTag TObjCityDoor_Lobby__name;
@@ -367,19 +337,19 @@ Obj_80181F10 *TObjCityDoor_Lobby__ct(Obj_80181F10 *self, void *parent, s32 arg2)
     *(void **)((u8 *)self + 0x18) = __vt__18TObjCityDoor_Lobby;
     *(s32 *)self = (s32)TObjCityDoor_Lobby__name.value;
     self->m5(arg2);
-    self->x90 = &self->xa8;
-    VecCopy((Vec *)&self->pos94, (const Vec *)&self->pos);
-    self->xa0 = 2000.0f;
-    self->xa4 = 0xDE0;
-    self->xb0 = 8;
-    self->xb4 = self->bufb8;
-    self->xa8 = 0xA;
-    self->xac = self->buf1d8;
+    self->collision_group.model = &self->collision_model;
+    VecCopy((Vec *)&self->collision_group.center, &self->pos);
+    self->collision_group.radius = 2000.0f;
+    self->collision_group.flags = 0xDE0;
+    self->collision_model.face_count = 8;
+    self->collision_model.faces = self->collision_faces;
+    self->collision_model.vertex_count = 10;
+    self->collision_model.vertices = self->collision_vertices;
     self->x250 = 0;
     if (is_phase_e__9TObjEneDDFPv(self) != 0) {
         ((TObjCityDoor_Lobby *)self)->build_door_collision_triangles();
-        if (get_map_count__10TObjMapCsnFv() != 0) {
-            register_slot(get_map_count__10TObjMapCsnFv(), &self->x90);
+        if (TObjMapCsn::get_collision_controller() != NULL) {
+            register_slot(TObjMapCsn::get_collision_controller(), &self->collision_group);
             self->x250 = 1;
         }
     }

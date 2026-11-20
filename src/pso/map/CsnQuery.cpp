@@ -113,7 +113,7 @@ struct Wall_8007A138 {
 };
 
 extern RecoveredGlobal_800790F0_lbl_804F5800 __ctype_map;
-s32 *scene_collision_data;
+CsnGroup **scene_collision_data;
 E_80079580 *wall_query_scene_buffer;
 s32 csn_query_hit_count;
 f32 csn_query_nearest_hit_t;
@@ -617,7 +617,7 @@ extern "C" CsnGroup *refill_csn_candidate_cache(Vec *arg0, CsnGroup **arg1, u32 
     CsnGroup **it;
     CsnGroup *m;
     CsnGroup **first;
-    it = reinterpret_cast<TMapCsnCtrl *>(TObjMapCsn::get_map_count())->get_collision_groups();
+    it = TObjMapCsn::get_collision_controller()->get_collision_groups();
     first = arg1;
     while ((m = *it++) != 0) {
         if ((m->flags & arg2) && !(m->flags & 0x40000000)) {
@@ -650,7 +650,7 @@ CsnGroup *select_ground_query_groups(CsnVector *origin, u32 mask) {
   float zSquared;
   CsnGroup **output;
   float zDelta;
-  input = reinterpret_cast<TMapCsnCtrl *>(TObjMapCsn::get_map_count())->get_collision_groups();
+  input = TObjMapCsn::get_collision_controller()->get_collision_groups();
   output = ((CsnGroup * *)&lbl_804FFD40);
   while ((group = *(input++)) != 0)
   {
@@ -690,7 +690,7 @@ u32 TObjPlayer__sub_80079DE0(void *a, void *b) {
     f32 r;
     f32 dsq;
     n = 0;
-    src = (Wall_8007A138 **)reinterpret_cast<TMapCsnCtrl *>(TObjMapCsn::get_map_count())->get_collision_groups();
+    src = (Wall_8007A138 **)TObjMapCsn::get_collision_controller()->get_collision_groups();
     dst = (Wall_8007A138 **)lbl_804FFD40;
     vsub(a, b, &d);
     lenSq = d.x * d.x + d.z * d.z;
@@ -735,7 +735,7 @@ s32 prepare_wall_query_polygons(void *arg0, f32 r, s32 mask) {
     Grp_80079F58 *g;
     s32 n;
     Grp_80079F58 **dst;
-    src = (Grp_80079F58 **)reinterpret_cast<TMapCsnCtrl *>(TObjMapCsn::get_map_count())->get_collision_groups();
+    src = (Grp_80079F58 **)TObjMapCsn::get_collision_controller()->get_collision_groups();
     if (src == NULL) {
         return 0;
     }
@@ -806,7 +806,7 @@ Wall_8007A138 *query_collision_segment_groups(Vec *a, Vec *b, u32 mask) {
     f32 r;
     f32 dsq;
     n = 0;
-    src = (Wall_8007A138 **)reinterpret_cast<TMapCsnCtrl *>(TObjMapCsn::get_map_count())->get_collision_groups();
+    src = (Wall_8007A138 **)TObjMapCsn::get_collision_controller()->get_collision_groups();
     dst = (Wall_8007A138 **)lbl_804FFD40;
     vsub(a, b, &d);
     len = vector_length(&d);
@@ -960,9 +960,9 @@ __declspec(section ".ctors") static void *const __sinit_CsnQuery_cpp_ref = (void
 
 CsnGroup **TMapCsnCtrl::get_collision_groups() { return groups; }
 
-extern s32 map_csn_ctrl_instance;
+extern TMapCsnCtrl *map_csn_ctrl_instance;
 
-s32 TObjMapCsn::get_map_count() {
+TMapCsnCtrl *TObjMapCsn::get_collision_controller() {
     return map_csn_ctrl_instance;
 }
 void*TObjMapCsn::init() { TObjMapCsn::init_and_return((s32)this); *(int *)&this->m_prev = -1; *(float *)&this->m_next = -1.0f; return this; }

@@ -23,11 +23,14 @@ extern const char *TMapCsnCtrl__class_name;
 
 typedef char TMapCsnCtrlGroupsOffset[offsetof(TMapCsnCtrl, groups) == 0x1C ? 1 : -1];
 
-// TObjMapCsn adds and removes entries through these helpers.
+struct TObjMapCsn;
+
 extern "C" {
-void fn_80140DFC(s32 arg0, s32 arg1);
-void fn_80140EA8(s32 arg0, s32 arg1);
+void fn_80140DFC(TMapCsnCtrl *controller, TObjMapCsn *object);
+void remove_collision_group(TMapCsnCtrl *controller, CsnGroup *group);
+void fn_80140EA8(TMapCsnCtrl *controller, TObjMapCsn *object);
+void register_slot(TMapCsnCtrl *controller, CsnGroup *group);
+void collect_collision_groups(TMapCsnCtrl *controller, CsnGroup *groups);
 }
-void remove_value_from_id_list(s32 arg0, u32 arg1);
 
 #endif

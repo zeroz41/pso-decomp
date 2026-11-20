@@ -3,17 +3,13 @@
 
 #include "types.h"
 
-extern "C" {
-void *TLobby__sub_80141030(void *p);
-void TLobby__sub_80141038(u8 *arg0, s32 arg1, s32 arg2);
-}
+struct CsnGroup;
+struct TObjMapCsn;
 
-// --- C functions defined in TLobby_80140FF4.cpp ---
 extern "C" {
-void *TLobby__sub_80141030(void *p);
+CsnGroup *TLobby__sub_80141030(TObjMapCsn *object);
 void TLobby__sub_80141038(u8 *arg0, s32 arg1, s32 arg2);
 }
-// --- end of C functions
 
 // Floor prepare_adventure_maps (TSceneSora) sets up next through TLobby__sub_80141038; -1 = none.
 extern s32 pending_adventure_map_floor;

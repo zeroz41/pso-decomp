@@ -1,3 +1,4 @@
+#include "pso/map/TMapCsnCtrl.h"
 #include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/map/FloorArea.h"
@@ -315,7 +316,7 @@ s32 strncmp(s32, s32, s32);
 
 s32 release_texture_list(u32);
 
-extern s32 *scene_collision_data;
+extern CsnGroup **scene_collision_data;
 
 
 s32 __ct__7TObjectFP7TObject(void *, void *);
@@ -325,7 +326,6 @@ extern s32 __vt__6TScene[];
 
 void bind_gvm_texture_list(s32 *, u32);
 
-s32 collect_collision_groups(u32, s32);
 
 
 
@@ -795,7 +795,7 @@ void TScene::load_scene_data(s32 name) {
             temp_r3 = (s32)TQuestVmDownLoadServer::alloc(0x10000);
             TScene__collision_file_buffer = temp_r3;
             if (temp_r3 != 0U) {
-                scene_collision_data = (s32 *)load_relocatable_file((s32)((s32 *)&sp8), temp_r3);
+                scene_collision_data = (CsnGroup **)load_relocatable_file((s32)((s32 *)&sp8), temp_r3);
                 lbl_805D6014 = 0x10000;
             }
         }
@@ -803,12 +803,12 @@ void TScene::load_scene_data(s32 name) {
         temp_r3_2 = (s32)TQuestVmDownLoadServer::alloc(temp_r31);
         TScene__collision_file_buffer = temp_r3_2;
         if (temp_r3_2 != 0U) {
-            scene_collision_data = (s32 *)load_relocatable_file((s32)((s32 *)&sp8), temp_r3_2);
+            scene_collision_data = (CsnGroup **)load_relocatable_file((s32)((s32 *)&sp8), temp_r3_2);
             lbl_805D6014 = temp_r31;
         }
     }
-    if (((s32 *) scene_collision_data != NULL) && (TObjMapCsn::get_map_count() != 0U)) {
-        u32 temp_csn = TObjMapCsn::get_map_count();
+    if ((scene_collision_data != NULL) && (TObjMapCsn::get_collision_controller() != NULL)) {
+        TMapCsnCtrl *temp_csn = TObjMapCsn::get_collision_controller();
         collect_collision_groups(temp_csn, *scene_collision_data);
         return;
     }
@@ -1011,7 +1011,7 @@ void TScene::free_scene_resources() {
         TAdSinglePlyChrSelectGC::safe_free(temp_r3);
         TScene__map_rel_load_buffer = 0U;
     }
-    (*(s32 *)&scene_collision_data) = 0;
+    scene_collision_data = NULL;
     TScene__data_805D5FCC = NULL;
     if (strncmp(get_player_name_copy_buffer(), (s32)TScene__current_floor_name, 0x10) == 0) {
         copy_name((s32)"..");
@@ -1065,9 +1065,9 @@ void load_scene_collision_file(s32 name) {
     replace_file_extension__6TLobbyFPvPvPv((char *)((s32 *)&sp8), (char *)name, (char *)"c.rel");
     if (get_resource_file_size((const char *)&sp8) <= lbl_805D6014) {
         if (TScene__collision_file_buffer != 0U) {
-            scene_collision_data = (s32 *)load_relocatable_file((s32)((s32 *)&sp8), TScene__collision_file_buffer);
-            if (scene_collision_data != NULL && TObjMapCsn::get_map_count() != 0U) {
-                u32 csn = TObjMapCsn::get_map_count();
+            scene_collision_data = (CsnGroup **)load_relocatable_file((s32)((s32 *)&sp8), TScene__collision_file_buffer);
+            if (scene_collision_data != NULL && TObjMapCsn::get_collision_controller() != NULL) {
+                TMapCsnCtrl *csn = TObjMapCsn::get_collision_controller();
                 collect_collision_groups(csn, *scene_collision_data);
                 return;
             }
