@@ -346,7 +346,7 @@ void TUnk_804B6C24::vfunc_81() {  }
 
 void load_forest_box_resources(void) {
     BmlResource *bundle;
-    u32 *node;
+    NJS_OBJECT *node;
     forest_box_model_archive = NULL;
     forest_box_textures = NULL;
     switch (get_current_floor_area()) {
@@ -361,9 +361,9 @@ void load_forest_box_resources(void) {
         forest_box_textures = (GinjaTextureList *)load_gvm_texture_file((s32)seabed_container_texture_filename);
         forest_box_debris_primary = &forest_box_break_params[2];
         forest_box_debris_secondary = &forest_box_break_params[3];
-        node = (u32 *)find_object_node((NJS_OBJECT *)(get_bml_model(forest_box_model_archive, 1)), 2);
+        node = find_object_node((NJS_OBJECT *)get_bml_model(forest_box_model_archive, 1), 2);
         if (node != NULL) {
-            *node |= 0x100000;
+            node->evalflags |= 0x100000;
         }
         break;
     default:

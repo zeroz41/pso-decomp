@@ -5,7 +5,7 @@
 #include <stddef.h>
 
 struct G_FloorEvent_6x67 {
-    G_ClientIDHeader header;
+    G_ClientIDHeader header;  // client_id is the event source entity or 0/0xFFFF.
     s32 floor;
     s32 event_id;
     s32 sender_client_id;
