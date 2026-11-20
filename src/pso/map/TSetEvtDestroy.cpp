@@ -107,7 +107,7 @@ TSetEvtDestroy::TSetEvtDestroy(TObject* parent, SetDestroyEventRecord* event) : 
     }
 }
 
-s32 get_area_event_data(s32 arg0) {
+saddr get_area_event_data(s32 arg0) {
     if (arg0 < 0x12) {
         return *(s32 *)((s8 *)&lobby_slot_ptr_table.value + (arg0 * 4));
     }
