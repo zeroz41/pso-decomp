@@ -165,7 +165,7 @@ void TUnk_804A5D10::render() {
 }
 
 
-void TObjPlayer::launch_weapon_casing(s32 arg0, u32 arg1, s32 arg2, u32 arg3, u32 arg4) {
+void TObjPlayer::launch_weapon_casing(saddr arg0, uaddr arg1, s32 arg2, uaddr arg3, uaddr arg4) {
     u8 sp8[0x18];
     void *var_r0;
     if ((arg0 != 0) && (arg1 != 0U) && (arg3 != 0U) && (arg4 != 0U) && (((TItemWeapon *)arg1)->get_joint_position(arg2, sp8) != 0)) {
@@ -177,7 +177,7 @@ void TObjPlayer::launch_weapon_casing(s32 arg0, u32 arg1, s32 arg2, u32 arg3, u3
     }
 }
 
-void TObjPlayer::spawn_weapon_casing(s32 arg0, u32 arg1, u32 arg2, u32 arg3, u32 arg4) {
+void TObjPlayer::spawn_weapon_casing(saddr arg0, uaddr arg1, uaddr arg2, uaddr arg3, uaddr arg4) {
     void *p;
     if ((arg0 != 0) && (arg1 != 0U) && (arg2 != 0U) && (arg3 != 0U) && (arg4 != 0U)) {
         p = TObject::operator new(0x44);

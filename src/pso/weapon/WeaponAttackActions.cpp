@@ -404,7 +404,7 @@ void *TItemWeapon::get_center() {
     return arg0 + 0x1AC;
 }
 
-void TObjPlayer::call_callback_1ec(s32 arg1, s32 arg2) {
+void TObjPlayer::call_callback_1ec(saddr arg1, saddr arg2) {
     s32 (*temp_r12)(s32, void *, s32, s32);
 
     temp_r12 = *(s32 (**)(s32, void *, s32, s32))((s8 *)this + 0x1EC);

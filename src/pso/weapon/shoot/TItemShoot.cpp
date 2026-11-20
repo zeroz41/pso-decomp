@@ -210,7 +210,7 @@ void TItemShootModel::render() {
     }
 }
 
-void *TObjPlayer::spawn_shoot_particle(u32 owner, s32 pos, s32 dir, f32 life) {
+void *TObjPlayer::spawn_shoot_particle(uaddr owner, s32 pos, s32 dir, f32 life) {
     if (0.0f != life && owner != 0U) {
         return new TItemShootParticle((void *)owner, (const Vec *)pos, (const Vec *)dir, life);
     }

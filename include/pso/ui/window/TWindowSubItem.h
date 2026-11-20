@@ -37,7 +37,7 @@ struct TWindowSubItem : public TObject {
     s32 get_cursor_pos();
     s32 open_purpose_window(s32 arg1);
     void gray_out_unusable_entries();
-    static s32 is_usable(s32 arg0);
+    static s32 is_usable(saddr arg0);
 };
 
 LAYOUT_ASSERT(TWindowSubItem_size, sizeof(TWindowSubItem) == 0x44);

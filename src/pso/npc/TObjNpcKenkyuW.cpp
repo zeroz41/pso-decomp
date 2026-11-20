@@ -123,7 +123,7 @@ void clear_technique_contacts__10TObjPlayerFv() {
     technique_contact_list.count=0;
 }
 
-s32 TObjPlayer::is_hit_receivable_target(s32 arg0, u32 arg1) {
+s32 TObjPlayer::is_hit_receivable_target(saddr arg0, uaddr arg1) {
     if (arg1 == 0U) {
         return FALSE;
     }
