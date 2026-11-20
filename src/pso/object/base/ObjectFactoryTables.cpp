@@ -1,4 +1,5 @@
 #include "pso/object/base/ObjectFactoryTables.h"
+#include "pso/object/fence/TOVS2Wall01.h"
 #include "pso/effect/TEffStarLight2D_Base.h"
 #include "pso/object/lab/TObjLaboDesignBase.h"
 #include "pso/object/TObjRoomId.h"
@@ -153,7 +154,6 @@ void* TORockCaveM01__create(void* placement);
 void* TORockCaveS01__create(void* placement);
 void* create__16TOSparkMachine01Fv(void* placement);
 void* create__15TOTrapAncient01Fv(void* placement);
-void* create__11TOVS2Wall01Fv(void* placement);
 void* TOVS2Wreck06__create(void* placement);
 void* TOVS2Wreck05__create(void* placement);
 void* TOVS2Wreck04__create(void* placement);
@@ -1184,7 +1184,7 @@ ObjectFactoryEntry object_factories_floor_17[50] = {
     { 0x01A4, TOVS2Wreck04__create, 250000.0f, 0 },
     { 0x01A5, TOVS2Wreck05__create, 250000.0f, 0 },
     { 0x01A6, TOVS2Wreck06__create, 250000.0f, 0 },
-    { 0x01A7, create__11TOVS2Wall01Fv, 250000.0f, 0 },
+    { 0x01A7, TOVS2Wall01::create, 250000.0f, 0 },
     { 0x0014, create__10TObjMapCsnFl, 250000.0f, 0 },
     { 0x0161, create__28TOContainerAncientItemCommonFv, 250000.0f, 0 },
     { 0x0162, TOContainerAncientItemRare__create, 250000.0f, 0 },
@@ -1395,7 +1395,7 @@ ObjectFactoryEntry object_factories_floors_19_20[66] = {
     { 0x01A4, TOVS2Wreck04__create, 250000.0f, 0 },
     { 0x01A5, TOVS2Wreck05__create, 250000.0f, 0 },
     { 0x01A6, TOVS2Wreck06__create, 250000.0f, 0 },
-    { 0x01A7, create__11TOVS2Wall01Fv, 250000.0f, 0 },
+    { 0x01A7, TOVS2Wall01::create, 250000.0f, 0 },
     { 0x01A9, TObjHashiVersus1::create, 250000.0f, 0 },
     { 0x01AA, TObjHashiVersus2::create, 250000.0f, 0 },
     { 0x00C3, TOHangceilingCave01__create, 250000.0f, 0 },

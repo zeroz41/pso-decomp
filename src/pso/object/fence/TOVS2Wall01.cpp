@@ -21,6 +21,7 @@
 #include "pso/object/TOVS2Wreck02.h"
 #include "pso/object/TOVS2Wreck01.h"
 #include "pso/render/GinjaMaterial.h"
+#include "pso/render/GinjaModel.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/TOVS2.h"
 #include "pso/unk/TLobby_801E43E4.h"
@@ -255,7 +256,6 @@ struct VObj_14_1eb8da : VBase_14_1eb8da {
     virtual s32 m7();
 };
 extern "C" {
-void __ct__15RenderFadeStateFv(void *);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 extern s32 saved_model_render_flags;
@@ -264,24 +264,7 @@ extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
-void __ct__9TObjCharaFP7TObject(void *, void *);
-void activate_and_dispatch__15RenderFadeStateFv(void *, s32, f32);
-extern s32 __vt__11TOVS2Wall01[];
-void *TOVS2Wall01__ct(TOVS2Wall01 *arg0, void *arg1);
 int submit_cursor_candidate(void*, int);
-void __dl__7TObjectFPv(void *);
-// ---- TOVS2Wreck06
-extern s32 __vt__12TOVS2Wreck06[];
-// ---- TOVS2Wreck05
-extern s32 __vt__12TOVS2Wreck05[];
-// ---- TOVS2Wreck04
-extern s32 __vt__12TOVS2Wreck04[];
-// ---- TOVS2Wreck03
-extern s32 __vt__12TOVS2Wreck03[];
-// ---- TOVS2Wreck02
-extern s32 __vt__12TOVS2Wreck02[];
-// ---- TOVS2Wreck01
-extern s32 __vt__12TOVS2Wreck01[];
 // ---- TOVS2Wall01_8017C7A4
 s32 load_resource_from_descriptor(int, int, void *, int, int, int);
 void free_bin_model_request(void*, int);
@@ -324,7 +307,7 @@ TOVS2::TOVS2(void *set_data, s32 index) : TObjMapObject((TObject *)tl_05) {
     m_name = TOVS2__class_name;
     apply_object_set_data(set_data);
     model = (void *)get_bml_model(TOVS2Wall01__bml_resource, index);
-    model_radius = 50.0f + *(f32 *)((s8 *)(*(void **)((s8 *)model + 4)) + 0x14);
+    model_radius = 50.0f + static_cast<GinjaModelBounds *>(static_cast<NJS_OBJECT *>(model)->model)->radius;
     texlist = get_bml_texlist(TOVS2Wall01__bml_resource, index);
     init_collision_body_parts(this, &ovs2wall01_collision_parts[index], 1);
     register_object_by_id();
@@ -369,132 +352,80 @@ void TOVS2::render() {
         pop_matrix();
     }
 }
-void *TOVS2Wreck01__ct(void *arg0, void *set_data) {
-    __ct__5TOVS2FPvl(arg0, set_data, 0);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TOVS2Wreck01;
-    ((TOVS2Wreck01 *)arg0)->m_name = TOVS2Wreck01__class_name;
-    return arg0;
-}
-TOVS2Wreck01::~TOVS2Wreck01() {
-
+TOVS2Wreck01::TOVS2Wreck01(void *set_data) : TOVS2(set_data, 0) {
+    m_name = TOVS2Wreck01__class_name;
 }
 
-void *TOVS2Wreck01__create(void *arg0) {
-    void *o = TObject::operator new(0xD0);
-    if (o != NULL) {
-        o = TOVS2Wreck01__ct(o, arg0);
-    }
-    return o;
-}
-void *TOVS2Wreck02__ct(void *arg0, void *set_data) {
-    __ct__5TOVS2FPvl(arg0, set_data, 1);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TOVS2Wreck02;
-    ((TOVS2Wreck02 *)arg0)->m_name = TOVS2Wreck02__class_name;
-    return arg0;
-}
-TOVS2Wreck02::~TOVS2Wreck02() {
+TOVS2Wreck01::~TOVS2Wreck01() {}
 
+void *TOVS2Wreck01__create(void *set_data) {
+    return new TOVS2Wreck01(set_data);
+}
+TOVS2Wreck02::TOVS2Wreck02(void *set_data) : TOVS2(set_data, 1) {
+    m_name = TOVS2Wreck02__class_name;
 }
 
-void *TOVS2Wreck02__create(void *arg0) {
-    void *o = TObject::operator new(0xD0);
-    if (o != NULL) {
-        o = TOVS2Wreck02__ct(o, arg0);
-    }
-    return o;
-}
-void *TOVS2Wreck03__ct(void *arg0, void *set_data) {
-    __ct__5TOVS2FPvl(arg0, set_data, 2);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TOVS2Wreck03;
-    ((TOVS2Wreck03 *)arg0)->m_name = TOVS2Wreck03__class_name;
-    return arg0;
-}
-TOVS2Wreck03::~TOVS2Wreck03() {
+TOVS2Wreck02::~TOVS2Wreck02() {}
 
+void *TOVS2Wreck02__create(void *set_data) {
+    return new TOVS2Wreck02(set_data);
+}
+TOVS2Wreck03::TOVS2Wreck03(void *set_data) : TOVS2(set_data, 2) {
+    m_name = TOVS2Wreck03__class_name;
 }
 
-void *TOVS2Wreck03__create(void *arg0) {
-    void *o = TObject::operator new(0xD0);
-    if (o != NULL) {
-        o = TOVS2Wreck03__ct(o, arg0);
-    }
-    return o;
-}
-void *TOVS2Wreck04__ct(void *arg0, void *set_data) {
-    __ct__5TOVS2FPvl(arg0, set_data, 3);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TOVS2Wreck04;
-    ((TOVS2Wreck04 *)arg0)->m_name = TOVS2Wreck04__class_name;
-    return arg0;
-}
-TOVS2Wreck04::~TOVS2Wreck04() {
+TOVS2Wreck03::~TOVS2Wreck03() {}
 
+void *TOVS2Wreck03__create(void *set_data) {
+    return new TOVS2Wreck03(set_data);
+}
+TOVS2Wreck04::TOVS2Wreck04(void *set_data) : TOVS2(set_data, 3) {
+    m_name = TOVS2Wreck04__class_name;
 }
 
-void *TOVS2Wreck04__create(void *arg0) {
-    void *o = TObject::operator new(0xD0);
-    if (o != NULL) {
-        o = TOVS2Wreck04__ct(o, arg0);
-    }
-    return o;
-}
-void *TOVS2Wreck05__ct(void *arg0, void *set_data) {
-    __ct__5TOVS2FPvl(arg0, set_data, 4);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TOVS2Wreck05;
-    ((TOVS2Wreck05 *)arg0)->m_name = TOVS2Wreck05__class_name;
-    return arg0;
-}
-TOVS2Wreck05::~TOVS2Wreck05() {
+TOVS2Wreck04::~TOVS2Wreck04() {}
 
+void *TOVS2Wreck04__create(void *set_data) {
+    return new TOVS2Wreck04(set_data);
+}
+TOVS2Wreck05::TOVS2Wreck05(void *set_data) : TOVS2(set_data, 4) {
+    m_name = TOVS2Wreck05__class_name;
 }
 
-void *TOVS2Wreck05__create(void *arg0) {
-    void *o = TObject::operator new(0xD0);
-    if (o != NULL) {
-        o = TOVS2Wreck05__ct(o, arg0);
-    }
-    return o;
-}
-void *TOVS2Wreck06__ct(void *arg0, void *set_data) {
-    __ct__5TOVS2FPvl(arg0, set_data, 5);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TOVS2Wreck06;
-    ((TOVS2Wreck06 *)arg0)->m_name = TOVS2Wreck06__class_name;
-    return arg0;
-}
-TOVS2Wreck06::~TOVS2Wreck06() {
+TOVS2Wreck05::~TOVS2Wreck05() {}
 
+void *TOVS2Wreck05__create(void *set_data) {
+    return new TOVS2Wreck05(set_data);
+}
+TOVS2Wreck06::TOVS2Wreck06(void *set_data) : TOVS2(set_data, 5) {
+    m_name = TOVS2Wreck06__class_name;
 }
 
-void *TOVS2Wreck06__create(void *arg0) {
-    void *o = TObject::operator new(0xD0);
-    if (o != NULL) {
-        o = TOVS2Wreck06__ct(o, arg0);
-    }
-    return o;
+TOVS2Wreck06::~TOVS2Wreck06() {}
+
+void *TOVS2Wreck06__create(void *set_data) {
+    return new TOVS2Wreck06(set_data);
 }
 #pragma push
 #pragma opt_common_subs off
-void *TOVS2Wall01__ct(TOVS2Wall01 *arg0, void *arg1) {
-    s32 t;
-    __ct__9TObjCharaFP7TObject(arg0, tl_05);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__11TOVS2Wall01;
-    __ct__15RenderFadeStateFv(((void *)((u8 *)arg0 + 0x340)));
-    arg0->m_name = TOVS2Wall01__class_name;
-    arg0->apply_object_set_data(arg1);
-    ((TObjChara *)arg0)->calc_attach_pos();
-    obj_setFlags30(arg0, 0x60000000);
-    *(s32 *)((s8 *)arg0 + 0x34) = get_bml_model(TOVS2Wall01__bml_resource, 6);
-    arg0->texlist = get_bml_texlist(TOVS2Wall01__bml_resource, 6);
-    init_collision_body_parts(arg0, &ovs2wall01_collision_parts[6], 1);
-    ((TObjCollidable *)arg0)->set_indexed_flags(0, 0x08000000);
-    ((TObjPlayer *)arg0)->register_object_by_id();
-    arg0->mode = 0;
-    *(f32 *)((s8 *)arg0 + 0x334) = 800.0f;
-    arg0->m_338 = 50.0f + *(f32 *)((s8 *)(*(void **)((s8 *)arg0->model + 4)) + 0x14);
-    t = arg0->set_params[0];
-    arg0->m_33c = t + 0x100;
-    activate_and_dispatch__15RenderFadeStateFv((u8 *)arg0 + 0x340, t, 50.0f);
-    arg0->m_35c = 1;
-    return arg0;
+TOVS2Wall01::TOVS2Wall01(void *set_data) : TObjChara((TObject *)tl_05) {
+    s32 initial_hits;
+    m_name = TOVS2Wall01__class_name;
+    apply_object_set_data(set_data);
+    calc_attach_pos();
+    obj_setFlags30(this, 0x60000000);
+    model = (void *)get_bml_model(TOVS2Wall01__bml_resource, 6);
+    texlist = get_bml_texlist(TOVS2Wall01__bml_resource, 6);
+    init_collision_body_parts(this, &ovs2wall01_collision_parts[6], 1);
+    set_indexed_flags(0, 0x08000000);
+    register_object_by_id();
+    mode = 0;
+    view_range = 800.0f;
+    model_radius = 50.0f + static_cast<GinjaModelBounds *>(static_cast<NJS_OBJECT *>(model)->model)->radius;
+    initial_hits = set_params[0];
+    m_33c = initial_hits + 0x100;
+    fade.activate_and_dispatch();
+    m_35c = 1;
 }
 #pragma pop
 TOVS2Wall01::~TOVS2Wall01() {
@@ -502,23 +433,19 @@ TOVS2Wall01::~TOVS2Wall01() {
     free_collision_body_parts(this);
 }
 
-void *TOVS2Wall01::create() {
-    void *o = TObject::operator new(0x360);
-    if (o != NULL) {
-        o = TOVS2Wall01__ct((TOVS2Wall01 *)o, this);
-    }
-    return o;
+void *TOVS2Wall01::create(void *set_data) {
+    return new TOVS2Wall01(set_data);
 }
 void TOVS2Wall01::render() {
     u8 *arg0 = (u8 *)this;
     s32 var_r31;
-    ((RenderFadeState *)((u8 *)&this->m_340))->update();
-    *(s32 *)&this->m_35c = this->update_object_view_visibility(*(f32 *)&this->unk_334, this->m_338);
+    fade.update();
+    *(s32 *)&this->m_35c = this->update_object_view_visibility(view_range, model_radius);
     if ((s32) this->m_35c == 1) {
         if (TRaderMapCore::is_not_split_screen() == 1) {
             var_r31 = 0;
         } else {
-            var_r31 = ((RenderFadeState *)(arg0 + 0x340))->updateFromCamera((const f32*)(arg0 + 0x38));
+            var_r31 = fade.updateFromCamera(&position.x);
         }
         if (var_r31 != 0) {
             saved_model_render_flags = model_render_flags;

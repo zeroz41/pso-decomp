@@ -890,19 +890,19 @@ force_active:
   - TOTrapSeabed01__texture_file
   - TOTrapSeabed01__vt20
   - TOTrapSeabed01__vt83
-  - TOVS2Wall01__ct
+  - __ct__11TOVS2Wall01FPv
   - TOVS2Wreck01__class_name
-  - TOVS2Wreck01__ct
+  - __ct__12TOVS2Wreck01FPv
   - TOVS2Wreck02__class_name
-  - TOVS2Wreck02__ct
+  - __ct__12TOVS2Wreck02FPv
   - TOVS2Wreck03__class_name
-  - TOVS2Wreck03__ct
+  - __ct__12TOVS2Wreck03FPv
   - TOVS2Wreck04__class_name
-  - TOVS2Wreck04__ct
+  - __ct__12TOVS2Wreck04FPv
   - TOVS2Wreck05__class_name
-  - TOVS2Wreck05__ct
+  - __ct__12TOVS2Wreck05FPv
   - TOVS2Wreck06__class_name
-  - TOVS2Wreck06__ct
+  - __ct__12TOVS2Wreck06FPv
   - TOVS2__class_name
   - TOWreckAncientBrakable__name
   - TOWreckAncientBrakable__sub_8017D444
