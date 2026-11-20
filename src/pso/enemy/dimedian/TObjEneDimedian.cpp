@@ -472,10 +472,6 @@ struct Sub_800A8530 { u8 b[0x1C]; };
 struct Self_800A8530 { u8 pad[0x3CC]; Sub_800A8530 subs[4]; };
 
 extern "C" {
-s32 dispatch_shared_handler_a__6TLobbyFl(int);
-s32 register_object__6TLobbyFl(int);
-s32 dispatch_shared_handler_b__6TLobbyFl(int);
-s32 register_boss__6TLobbyFl(int);
 s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern const u8 lbl_8043AAA4[26];
@@ -762,18 +758,18 @@ void TLobby::load_dimedian_resources() {
     (*(s32 **)&lbl_805D5074) = (s32 *)mem_alloc(0xC);
     (*(s32 **)&TObjEneDimedian__boss_objects) = (s32 *)mem_alloc(0xC);
     (*(s32 **)&dimedian_buffer_ptr) = (s32 *)mem_alloc(0xC);
-    (*(s32 **)&dimedian_boss_object_buf)[0] = register_boss__6TLobbyFl(0x53);
-    (*(s32 **)&dimedian_boss_object_buf)[1] = register_boss__6TLobbyFl(0x54);
-    (*(s32 **)&dimedian_boss_object_buf)[2] = register_boss__6TLobbyFl(0x55);
-    (*(s32 **)&lbl_805D5074)[0] = dispatch_shared_handler_b__6TLobbyFl(0x5A);
-    (*(s32 **)&lbl_805D5074)[1] = dispatch_shared_handler_b__6TLobbyFl(0x5B);
-    (*(s32 **)&lbl_805D5074)[2] = dispatch_shared_handler_b__6TLobbyFl(0x5C);
-    (*(s32 **)&TObjEneDimedian__boss_objects)[0] = register_object__6TLobbyFl(0x52);
-    (*(s32 **)&TObjEneDimedian__boss_objects)[1] = register_object__6TLobbyFl(0x53);
-    (*(s32 **)&TObjEneDimedian__boss_objects)[2] = register_object__6TLobbyFl(0x54);
-    (*(s32 **)&dimedian_buffer_ptr)[0] = dispatch_shared_handler_a__6TLobbyFl(0x52);
-    (*(s32 **)&dimedian_buffer_ptr)[1] = dispatch_shared_handler_a__6TLobbyFl(0x53);
-    (*(s32 **)&dimedian_buffer_ptr)[2] = dispatch_shared_handler_a__6TLobbyFl(0x54);
+    (*(s32 **)&dimedian_boss_object_buf)[0] = (saddr)TLobby::register_boss(0x53);
+    (*(s32 **)&dimedian_boss_object_buf)[1] = (saddr)TLobby::register_boss(0x54);
+    (*(s32 **)&dimedian_boss_object_buf)[2] = (saddr)TLobby::register_boss(0x55);
+    (*(s32 **)&lbl_805D5074)[0] = (saddr)TLobby::dispatch_shared_handler_b(0x5A);
+    (*(s32 **)&lbl_805D5074)[1] = (saddr)TLobby::dispatch_shared_handler_b(0x5B);
+    (*(s32 **)&lbl_805D5074)[2] = (saddr)TLobby::dispatch_shared_handler_b(0x5C);
+    (*(s32 **)&TObjEneDimedian__boss_objects)[0] = (saddr)TLobby::register_object(0x52);
+    (*(s32 **)&TObjEneDimedian__boss_objects)[1] = (saddr)TLobby::register_object(0x53);
+    (*(s32 **)&TObjEneDimedian__boss_objects)[2] = (saddr)TLobby::register_object(0x54);
+    (*(s32 **)&dimedian_buffer_ptr)[0] = (saddr)TLobby::dispatch_shared_handler_a(0x52);
+    (*(s32 **)&dimedian_buffer_ptr)[1] = (saddr)TLobby::dispatch_shared_handler_a(0x53);
+    (*(s32 **)&dimedian_buffer_ptr)[2] = (saddr)TLobby::dispatch_shared_handler_a(0x54);
     {
         s16 ids[3] = { 0x1B, 0x1C, 0x1D };
         Anim_800A8118 anim = { (saddr)RES_800A8118->motions, dimedian_action_table, 2, 0xC0000 };
