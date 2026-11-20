@@ -16,8 +16,6 @@
 
 extern "C" {
 void init_collision_body_parts(void *, void *, s32);
-extern u8 npc_default_battle_stats[];
-extern u8 npc_movement_parameters[];
 }
 
 TObjMotionAction npc_lappy_animation_table[10] = {
@@ -48,8 +46,8 @@ TObjNpcLappy::TObjNpcLappy(TObject *parent, void *set_data) : TObjNpcBase(parent
     *(s32 *)((u8 *)this + 0x34) = *(s32 *)(*(u8 **)(rappy_bml_resource + 0x42C) + 8);
     *(s32 *)((u8 *)this + 0x24) = *(s32 *)(*(u8 **)(rappy_bml_resource + 0x42C) + 0xC);
     init_motion(npc_lappy_animation_table, (BmlMotionEntry *)*(s32 *)(rappy_bml_resource + 0x430), *(s16 *)((u8 *)this + 0xB8));
-    *(u8 **)((u8 *)this + 0x350) = npc_movement_parameters;
-    set_motion_params(npc_default_battle_stats);
+    movementParameters = &npc_movement_parameters;
+    set_motion_params(&npc_default_battle_stats);
     init_collision_body_parts(this, lbl_804A9DA8, 1);
     ((TObjPlayer *)this)->register_object_by_id();
     update_prev_position();

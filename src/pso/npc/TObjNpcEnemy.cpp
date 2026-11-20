@@ -28,10 +28,6 @@ const char *TObjNpcEnemy_class_name = "TObjNpcEnemy";
 
 extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
-struct NpcDefaultBattleStats { s32 value; u8 remaining[0x20]; };
-extern NpcDefaultBattleStats npc_default_battle_stats;
-struct NpcMovementParameters { s32 value; u8 remaining[0x44]; };
-extern NpcMovementParameters npc_movement_parameters;
 s32 draw_debug_info__11TObjNpcBaseFv();
 void debug_printf_at(s32, const char *, ...);
 void *memmove(void *, const void *, u32);
@@ -323,8 +319,8 @@ TObjNpcEnemy::TObjNpcEnemy(TObject *parent, void *set_data) : TObjNpcBase(parent
     apply_set_data(set_data);
     ((TObjPlayer *)this)->init_position_vectors();
     apply_set_params(0, 1);
-    movementParameters = &npc_movement_parameters.value;
-    set_motion_params(&npc_default_battle_stats.value);
+    movementParameters = &npc_movement_parameters;
+    set_motion_params(&npc_default_battle_stats);
     init_collision_body_parts(this, &TObjNpcEnemy__collision_body_parts, 1);
     ((TObjPlayer *)this)->register_object_by_id();
     update_prev_position();

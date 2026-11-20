@@ -4,13 +4,45 @@
 #include "types.h"
 #include "pso/player/TechniqueFlags.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjMotion.h"
+
+class TObjPlayer;
+
+// One entry of Unk_8014F844's sorted list of nearby targets.
+struct Unk_8014F844Entry {
+    u32 m_0;  // entity id
+    s32 m_4;  // collision body index
+    f32 m_8;  // squared distance
+};
+
+// The 0x108-byte record TNpcPlayer allocates twice (m_74, m_78), set up by
+// init_ai_state__10TNpcPlayerFPvi.
+struct Unk_8014F844 {
+    s32 m_0;
+    Unk_8014F844Entry m_4[10];
+    s32 m_7c;
+    s32 m_80;
+    s32 m_84;
+    s16 m_88;
+    u16 m_8a;  // client id of the player it follows
+    u32 m_8c;
+    u32 m_90;
+    TObjPlayer *m_94;
+    s32 m_98;
+    Vec m_9c;
+    TObjCollidable *m_a8;
+    CollisionBody m_ac;
+    CollisionBody m_d8;
+    s32 m_104;
+};
+typedef char Unk_8014F844_size[sizeof(Unk_8014F844) == 0x108 ? 1 : -1];
 
 struct Vec;
 
 struct TNpcPlayer : public TObject {
     struct AiParams {
         s16 npc_id;
-        s16 base_level;
+        u16 base_level;
         TechniqueFlags technique_flags;
         f32 enemy_lock_on_range;
         f32 unknown_0C;
@@ -32,31 +64,36 @@ struct TNpcPlayer : public TObject {
     virtual void render();
     void partner_request_physical_attack();
     void send_partner_attack_stage_request();
-    u32 m_1c;
-    u32 m_20;
-    u32 m_24;
-    u8 _pad28[0x4];
-    s16 m_2c;
+    s32 m_1c;
+    s32 m_20;
+    s32 m_24;
+    s32 m_28;
+    s16 m_2c;  // row of TNpcPlayer__template_table
     u8 _pad2E[0x2];
     AiParams ai_params;
     f32 m_58;
-    void* m_5c;
-    u8 _pad60[0x14];
-    u32 m_74;
-    u32 m_78;
+    s16 m_5c[11];
+    u8 _pad72[0x2];
+    Unk_8014F844 *m_74;
+    Unk_8014F844 *m_78;
     u32 m_7c;
     u32 m_80;
-    u32 m_84;
-    u8 _pad88[0x4];
-    u8 m_8c;
-    u8 m_8d;
-    u16 m_8e;
-    u8 _pad90[0x34];
-    u32 m_c4;
-    u32 m_c8;
-    u32 m_cc;
-    u8 _padD0[0xC];
-    void* m_dc;
+    s32 m_84;
+    f32 m_88;
+    s8 m_8c;
+    s8 m_8d;
+    s16 m_8e;
+    s16 m_90;
+    s16 m_92;
+    Vec m_94;
+    Vec m_a0;
+    Vec m_ac;
+    u8 _padB8[0xC];
+    s32 m_c4;
+    s32 m_c8;
+    s32 m_cc;
+    Vec m_d0;
+    Vec m_dc;
     void dispatch_action(s32 arg1);
     void change_ai_state(u32 arg1);
     void handle_action(s32 arg1);
@@ -130,7 +167,6 @@ struct TNpcPlayer : public TObject {
     static void apply_to_battle_player_slot(u16 arg0, s16 arg1);
     void byteswap_header();
     void send_state_60();
-    u8 unk_E0[0x8];
     void update_combat_action();
     u8 *destroy_and_materialize_player(s16 arg1);
     void request_technique_cast(s32 kind);

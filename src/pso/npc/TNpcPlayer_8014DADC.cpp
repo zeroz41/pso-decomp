@@ -43,7 +43,7 @@ void TNpcPlayer::init_equipment() {
     s32 flags;
 
     flags = this->ai_params.technique_flags;
-    temp_r31 = *(s32 *)(this->m_78 + 0x94);
+    temp_r31 = (s32)this->m_78->m_94;
     if (flags & TECHNIQUE_FLAGS_FOIE_GIFOIE) {
         clamp_and_set_unit_value__10TObjPlayerFiUci(temp_r31, this->ai_params.attack_technique_level, 0);
         clamp_and_set_unit_value__10TObjPlayerFiUci(temp_r31, this->ai_params.attack_technique_level, 1);
