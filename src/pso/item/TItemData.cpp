@@ -1641,7 +1641,7 @@ void init__9TItemDataFv(TItemData_8010E344 *self) {
     self->id = -1;
 }
 
-s32 TItemData::calc_buy_price() {
+saddr TItemData::calc_buy_price() {
     u8 temp_r0;
 
     if ((u8) *(u8 *)((s8 *)this + 0) == 0) {

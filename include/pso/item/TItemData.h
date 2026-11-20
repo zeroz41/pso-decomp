@@ -64,7 +64,7 @@ struct TItemData {
     f32 get_weapon_set_multiplier(u8 *arg1);
     void apply_equip_effects(s32 arg1, saddr arg2, saddr arg3, saddr arg4, s32 arg5);
     void apply_custom_shield_bonus(saddr player, TItemData *a, TItemData *b, EquipStats *stats, s32);
-    s32 calc_buy_price();
+    saddr calc_buy_price();
     void format_item_name(char *buf);
     int calc_display_grade();
     s32 get_base_rarity();
