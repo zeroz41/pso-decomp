@@ -2486,7 +2486,7 @@ void TObjPlayer::send_name_and_state() {
         ((TObjPlayer *)(&b))->init_6x2F_packet_header();
         b.f2 = ((s16)((s32 (*)(void *))get_entity_id)(arg0));
         b.f4 = 0;
-        b.f8 = ((s16)get_actor_hp__9TObjCharaFv(arg0));
+        b.f8 = ((s16)(s32)((TObjChara *)arg0)->get_actor_hp());
         b.fa = ((s16)((s32 (*)(void *))get_entity_id)(arg0));
         TObjPlayer__sub_801C0734(&b);
     }
@@ -3141,7 +3141,7 @@ void TObjPlayer::prepare_death() {
     if (arg0 == NULL || ((TObjChara *)arg0)->obj_isState2_324() == 0) {
         ((TObjPlayer *)(&c1))->init_6x89_packet();
         c1.client = ((s32 (*)(void *))get_entity_id)(arg0);
-        c1.val = get_field_2d4__10TObjPlayerFv(arg0);
+        c1.val = (s32)((TObjPlayer *)arg0)->get_field_2d4();
         ((TObjPlayer *)(&c1))->update_and_send3();
         ((TObjPlayer *)(&c2))->init_6x4D_packet();
         c2.client = ((s32 (*)(void *))get_entity_id)(arg0);
@@ -5145,7 +5145,7 @@ s32 TObjPlayer__sub_801CEAC8(u8 *self) {
     if (TObjPlayer__sub_801B5AF8(self, 3) == 2 && ((TObjPlayer *)(self + 0x550))->check_action_usable(2) != 0) {
         r = 3;
     }
-    return ((TObjPlayer *)self)->check_mode_action(get_action_palette_entry__10TObjPlayerFl(self, r)) != 0 ? r : -1;
+    return ((TObjPlayer *)self)->check_mode_action((u16)((TObjPlayer *)self)->get_action_palette_entry(r)) != 0 ? r : -1;
 }
 
 s32 TObjPlayer::check_mode_action(s32 arg1) {

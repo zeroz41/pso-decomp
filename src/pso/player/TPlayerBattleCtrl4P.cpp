@@ -179,7 +179,6 @@ s32 has_player_active_menu__11TWindowCtrlFv(s32);
 s32 align_menu_entry_positions(void *);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 void *check_room_seq_4__16TAdChrSelASlotGCFl(void *, int);
-void *create__14TWindowMessageFPvll(void *, void *, int);
 void *get_window_layout_position(int);
 void TLobby__sub_801036CC();
 void TLobby__sub_8020BC50();
@@ -356,8 +355,7 @@ void *__vt__19TPlayerBattleCtrl4P[6] = {
 void TPlayerBattleCtrl4P::open_intro_window() {
     if (this->intro_window == NULL) {
         BattleIntroWindowSize size = {328.0f, 166.0f};
-        this->intro_window = create__14TWindowMessageFPvll(
-            get_window_layout_position(0x52), &size, 1);
+        this->intro_window = TWindowMessage::create(get_window_layout_position(0x52), (saddr)(&size), 1);
     }
     lbl_805D6AB0 = 0;
     set_score(1);
@@ -585,7 +583,7 @@ void TPlayerBattleCtrl4P::update_rematch_menu() {
     static const BattleIntroWindowSize size = {216.0f, 84.0f};
     if (has_player_active_menu__11TWindowCtrlFv(local_client_id) == 0) {
         if (((O_80311C2C *)this)->w0 == NULL) {
-            ((O_80311C2C *)this)->w0 = create__14TWindowMessageFPvll(get_window_layout_position(0x53), (void *)&size, 1);
+            ((O_80311C2C *)this)->w0 = TWindowMessage::create(get_window_layout_position(0x53), (saddr)(&size), 1);
             if (((O_80311C2C *)this)->w0 != NULL) {
                 ((TWindowMessage *)(((O_80311C2C *)this)->w0))->append_line(((O_80311C2C *)this)->ids->a, 0x80);
             }

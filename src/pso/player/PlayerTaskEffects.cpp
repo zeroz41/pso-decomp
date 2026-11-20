@@ -20,6 +20,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/object/base/TObjChara.h"
+#include "pso/player/TUnk_804B6C24.h"
 
 extern "C" {
 
@@ -77,7 +78,6 @@ extern s32 tl_06;
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/player/TPlayerParticleOwner.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-extern "C" int check_value_equals__13TUnk_804B6C24CFl(TParticleCtrl*, const char*);
 extern "C" const char* TParticleCtrl__class_name_descriptor;
 
 
@@ -119,7 +119,6 @@ extern "C" {
 extern s32 local_client_id;
 void request_player_shrink(PlayerScaleState* state);
 void request_player_size_restore(PlayerScaleState* state);
-int check_camera_mode__10TObjPlayerFv();
 void *TObjPlayer__sub_801C7360(void *arg0, void *arg1);
 int validate_6x87_shrink_player(PlayerShrinkPacket*);
 void handle_6x87_shrink_player(const PlayerShrinkPacket* input);
@@ -770,7 +769,7 @@ TPlayerParticleOwner::~TPlayerParticleOwner() {
 }
 
 TParticleCtrl* TPlayerParticleOwner::get_particle() {
-    if (particle != 0 && check_value_equals__13TUnk_804B6C24CFl(particle, TParticleCtrl__class_name_descriptor) == 0) {
+    if (particle != 0 && ((TUnk_804B6C24 *)particle)->check_value_equals((saddr)TParticleCtrl__class_name_descriptor) == 0) {
         particle = 0;
     }
     return particle;

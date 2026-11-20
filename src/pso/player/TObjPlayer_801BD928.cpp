@@ -133,7 +133,6 @@ typedef struct VObj_18_dac7f3 VObj_18_dac7f3;
 
 extern s32 lbl_80515BA0[];
 extern const char *TObjPlayer__player_set_class_name;
-extern "C" s32 check_value_equals__13TUnk_804B6C24CFl(void *self, const char *name);
 
 TObjPlayerSet *find_player_arrival_set(TObjPlayer *player, s32 slot) {
     TObjPlayerSet *set;
@@ -158,7 +157,7 @@ TObjPlayerSet *find_player_arrival_set(TObjPlayer *player, s32 slot) {
         }
     }
     for (set = (TObjPlayerSet *)tl_06->m_down; set != NULL; set = (TObjPlayerSet *)set->m_next) {
-        if (check_value_equals__13TUnk_804B6C24CFl(set, TObjPlayer__player_set_class_name) != 0 &&
+        if (((TUnk_804B6C24 *)set)->check_value_equals((saddr)TObjPlayer__player_set_class_name) != 0 &&
             slot == (s32)set->scale.x && set->set_params[0] == side) {
             return set;
         }

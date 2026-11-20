@@ -34,6 +34,7 @@
 #include "pso/object/key/TOKeyAncient01.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 
 // One monument model per area: Cave 1 (default), Cave 2 and Mine 2.
 const char *bm_fs_obj_o_monument01_model_names[] = {"fs_obj_o_monument01.gj", NULL};
@@ -77,7 +78,7 @@ void TOMonumentAncient02::vfunc_6(s16 *state, s32) {
         break;
     }
     if (get_story_flag(0x2C) != 0 && get_story_flag(0x2D) != 0 && get_story_flag(0x2E) != 0) {
-        dispatch_by_main_phase__14TBoss4DarkFalzFUs(0x2F);
+        TBoss4DarkFalz::dispatch_by_main_phase(0x2F);
     }
     access_object_saved_state(state, 0);
 }
