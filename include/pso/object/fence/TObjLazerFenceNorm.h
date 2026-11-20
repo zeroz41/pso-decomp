@@ -4,6 +4,9 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
+struct BmlResource;
+struct GinjaTextureList;
+
 struct TObjLazerFenceNorm : public TObjCollidable {
     TObjLazerFenceNorm(TObject *parent, void *set_data);
     virtual ~TObjLazerFenceNorm();
@@ -29,6 +32,8 @@ struct TObjLazerFenceNorm : public TObjCollidable {
 typedef char TObjLazerFenceNorm_size[sizeof(TObjLazerFenceNorm) == 0xD8 ? 1 : -1];
 
 extern "C" {
+extern BmlResource *lazer_fence_norm_bml_resource;
+extern GinjaTextureList *lazer_fence_norm_texture_list;
 void *TObjLazerFenceNorm__create(void *set_data);
 }
 

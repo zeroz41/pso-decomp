@@ -3,6 +3,9 @@
 #include "pso/object/door/TObjDoorJung.h"
 #include "pso/object/base/TObjMotion.h"
 
+struct BmlResource;
+struct GinjaTextureList;
+
 #include "pso/object/door/TODoorBase.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/door/TODoorAncient01.h"
@@ -23,8 +26,8 @@ CollisionBody TObjDoorJung__collision_desc = {{0.0f, 20.0f, 0.0f}, 10.0f, 30.0f,
 const char *TObjDoorJung__class_name = "TObjDoorJung";
 
 s32 TObjDoorJung__child_table[4];
-void *TObjDoorJung__resource_handle;
-s32 lbl_805D5BD4;
+BmlResource *TObjDoorJung__resource_handle;
+GinjaTextureList *lbl_805D5BD4;
 s32 door_jung_child_list;
 s32 lbl_805D5BDC;
 void *TObjDoorJung__door_scene_buffer;
@@ -87,8 +90,8 @@ void load_door_jung_resources(void) {
     if (handle != 0) {
         handle = load_resource_from_descriptor(handle, 5, &bm_obj_beamdoa_resource_descriptor, 0, 0, 0);
     }
-    TObjDoorJung__resource_handle = (void *)handle;
-    lbl_805D5BD4 = get_bml_texlist(TObjDoorJung__resource_handle, 0);
+    TObjDoorJung__resource_handle = (BmlResource *)handle;
+    lbl_805D5BD4 = (GinjaTextureList *)get_bml_texlist(TObjDoorJung__resource_handle, 0);
     model = get_bml_model(TObjDoorJung__resource_handle, 1);
     node = model->child;
     TObjDoorJung__child_table[0] = node->model;
@@ -156,7 +159,7 @@ void TObjDoorJung::render() {
                 free_children__12TObjDoorJungFPv(TObjDoorJung__child_table[j], lbl_805D5BE8);
             }
         }
-        TObjFish::set_global_param((s32)((void *)lbl_805D5BD4));
+        TObjFish::set_global_param((s32)(lbl_805D5BD4));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);

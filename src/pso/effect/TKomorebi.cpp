@@ -1,3 +1,4 @@
+#include "pso/object/fence/TObjLazerFenceNorm.h"
 #include "types.h"
 #include "pso/effect/TKomorebi.h"
 #include "pso/render/GinjaMaterial.h"
@@ -12,6 +13,8 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/task/TObject.h"
+
+struct AnimationMotion;
 
 #pragma readonly_strings on
 
@@ -32,8 +35,7 @@ extern const char *komorebi_class_name;
 extern u32 TKomorebi__resource_bundle;
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern s32 komorebi_last_uv_update_frame;
-s32 get_bml_motion(s32, s32);
-extern s32 lazer_fence_norm_bml_resource;
+AnimationMotion *get_bml_motion(BmlResource *, s32);
 void free_bin_model_request(void*, int);
 s32 scroll_ginja_mesh_uvs(s32, s32, s32, s32, s32);
 s32 post_translate_matrix(void *);
@@ -116,13 +118,13 @@ void TObjLazerFenceExtra::init_models() {
     Node_80192434 *node;
     s32 j;
     if (this->set_params[2] % 2 == 0) {
-        arg0->fBC = (Node_80192434 *)get_bml_model((void *)lazer_fence_norm_bml_resource, 1);
-        arg0->fC0 = (Node_80192434 *)get_bml_model((void *)lazer_fence_norm_bml_resource, 0);
-        this->m_c4 = get_bml_motion(lazer_fence_norm_bml_resource, 0);
+        arg0->fBC = (Node_80192434 *)get_bml_model(lazer_fence_norm_bml_resource, 1);
+        arg0->fC0 = (Node_80192434 *)get_bml_model(lazer_fence_norm_bml_resource, 0);
+        this->m_c4 = (s32)get_bml_motion(lazer_fence_norm_bml_resource, 0);
     } else {
-        arg0->fBC = (Node_80192434 *)get_bml_model((void *)lazer_fence_norm_bml_resource, 3);
-        arg0->fC0 = (Node_80192434 *)get_bml_model((void *)lazer_fence_norm_bml_resource, 2);
-        this->m_c4 = get_bml_motion(lazer_fence_norm_bml_resource, 1);
+        arg0->fBC = (Node_80192434 *)get_bml_model(lazer_fence_norm_bml_resource, 3);
+        arg0->fC0 = (Node_80192434 *)get_bml_model(lazer_fence_norm_bml_resource, 2);
+        this->m_c4 = (s32)get_bml_motion(lazer_fence_norm_bml_resource, 1);
     }
     for (j = 0; j < 4; j++) {
         arg0->fC8[j] = 0;

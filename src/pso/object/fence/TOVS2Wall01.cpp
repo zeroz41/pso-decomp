@@ -24,7 +24,6 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/TOVS2.h"
 #include "pso/unk/TLobby_801E43E4.h"
-#include "pso/object/fence/TOVS2Wall01_8017C7A4.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/byteswap.h"
 #include "pso/object/TMotorcycle.h"
@@ -39,7 +38,6 @@
 #include "pso/system/task/TMainTask.h"
 
 #include "pso/unk/text_80087278.h"
-#include "pso/object/fence/TOVS2Wall01_8017BCC8.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/fence/WallHitPacket.h"
 
@@ -93,7 +91,7 @@ void handle_6x86_hit_destructible_object(WallHitPacket *wall_hit_packet) {
     if (wall_hit_packet == NULL) {
         return;
     }
-    ((TOVS2Wall01 *)wall_hit_packet)->byteswap_hit_packet();
+    wall_hit_packet->byteswap();
     id = wall_hit_packet->entity_id;
     if (id == 0xFFFF) {
         return;
@@ -106,7 +104,7 @@ void handle_6x86_hit_destructible_object(WallHitPacket *wall_hit_packet) {
         if (((TUnk_804B6C24 *)o)->check_value_equals((s32)TOVS2Wall01__class_name) == 0) {
             return;
         }
-        switch (wall_hit_packet->m_c) {
+        switch (wall_hit_packet->update_reason) {
         case 0:
             switch (o->mode) {
             case 1:
@@ -114,15 +112,15 @@ void handle_6x86_hit_destructible_object(WallHitPacket *wall_hit_packet) {
             default:
                 o->mode = 0;
             case 0:
-                if (wall_hit_packet->m_e < TOVS2Wall01__sub_8017CA50(o)) {
-                    TOVS2Wall01__sub_8017CA48(o, wall_hit_packet->m_e);
+                if (wall_hit_packet->remaining_hits < o->remaining_hits()) {
+                    o->set_remaining_hits(wall_hit_packet->remaining_hits);
                 }
                 break;
             }
             break;
         case 1:
             o->mode = 1;
-            init__11TOVS2Wall01Fi((s32)o);
+            o->break_wall();
             break;
         }
         o->access_object_saved_state(&spC, 1);
@@ -130,10 +128,10 @@ void handle_6x86_hit_destructible_object(WallHitPacket *wall_hit_packet) {
         o->access_object_saved_state(&spC, 0);
         o->vfunc_6(&spC.a, 0);
     } else {
-        *(s32 *)&sp8 = *(s32 *)&quest_object_entries[wall_hit_packet->m_8];
+        *(s32 *)&sp8 = *(s32 *)&quest_object_entries[wall_hit_packet->set_entry_index];
         if (sp8.a != 1) {
             sp8.a = wall_hit_packet->state;
-            TLobby::apply_table_entry(wall_hit_packet->m_8, &sp8);
+            TLobby::apply_table_entry(wall_hit_packet->set_entry_index, &sp8);
         }
     }
 }
@@ -150,13 +148,13 @@ void TOVS2Wall01::save_and_send_state(u16 arg1) {
         sp8 = v;
         access_object_saved_state(&sp8, 0);
         entry = (WallSetEntry *)set_entry;
-        ((TOVS2Wall01 *)&pkt)->init();
+        pkt.init();
         pkt.entity_id = entity_id;
         pkt.state = sp8;
-        pkt.m_8 = entry->m_4;
-        pkt.m_c = arg1;
-        pkt.m_e = m_33c;
-        ((TOVS2Wall01 *)&pkt)->update_and_send();
+        pkt.set_entry_index = entry->m_4;
+        pkt.update_reason = arg1;
+        pkt.remaining_hits = m_33c;
+        pkt.send();
     }
 }
 
@@ -182,7 +180,7 @@ void TOVS2Wall01::vfunc_6(s16 *arg1, s32 arg2) {
     } else {
         this->m_33c = 0;
         if (arg2 != 0) {
-            init__11TOVS2Wall01Fi((s32)this);
+            break_wall();
         }
     }
 }
@@ -208,38 +206,37 @@ void TOVS2Wall01::spawn_debris(s32 index) {
 // ---- TOVS2Wall01_8017BCC8
 
 
-void init__11TOVS2Wall01Fi(s32 arg0) {
+void TOVS2Wall01::break_wall() {
     s32 index;
 
-    ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
+    clear_player_status_flag(0, 1);
     index = 7;
     do {
-        ((TOVS2Wall01 *)arg0)->spawn_debris(index);
+        spawn_debris(index);
         index += 1;
     } while (index <= 0xF);
-    spawn_particle_effect((void *)(arg0 + 0x38), 0x45);
-    spawn_particle_effect((void *)(arg0 + 0x38), 0x46);
-    play_sound_effect(0x4004BC05, (void *)(arg0 + 0x38), 0, 0);
+    spawn_particle_effect((void *)&position, 0x45);
+    spawn_particle_effect((void *)&position, 0x46);
+    play_sound_effect(0x4004BC05, (void *)&position, 0, 0);
 }
 
-f32 take_hit__11TOVS2Wall01FPvUi(u8 *ovs2_wall01, void *attacker) {
-    void *player;
+f32 TOVS2Wall01::take_hit(TObjBase *attacker) {
+    TObjPlayer *player = NULL;
 
-    player = NULL;
-    get_entity_id((TObjBase *)attacker);
-    if (get_entity_id((TObjBase *)attacker) < 4U) {
-        player = attacker;
+    get_entity_id(attacker);
+    if (get_entity_id(attacker) < 4U) {
+        player = (TObjPlayer *)attacker;
     }
     if ((player != NULL) && (TObjPlayer::is_locally_controlled(player) == 1)) {
-        ((TOVS2Wall01 *)ovs2_wall01)->m_33c = (s32) (((TOVS2Wall01 *)ovs2_wall01)->m_33c - 1);
-        if ((s32) ((TOVS2Wall01 *)ovs2_wall01)->m_33c <= 0) {
-            ((TOVS2Wall01 *)ovs2_wall01)->m_33c = 0;
-            ((TOVS2Wall01 *)ovs2_wall01)->save_and_send_state(1);
+        m_33c--;
+        if ((s32)m_33c <= 0) {
+            m_33c = 0;
+            save_and_send_state(1);
         } else {
-            ((TOVS2Wall01 *)ovs2_wall01)->save_and_send_state(0);
+            save_and_send_state(0);
         }
-        spawn_particle_effect((ovs2_wall01 + 0x38), 0x1D0);
-        spawn_particle_effect((ovs2_wall01 + 0x38), 1);
+        spawn_particle_effect((void *)&position, 0x1D0);
+        spawn_particle_effect((void *)&position, 1);
     }
     return 0.0f;
 }
@@ -289,16 +286,36 @@ extern s32 __vt__12TOVS2Wreck01[];
 s32 load_resource_from_descriptor(int, int, void *, int, int, int);
 void free_bin_model_request(void*, int);
 #pragma defer_codegen on
-void*TOVS2Wall01::init() { ((TOBarrierEnergy01 *)this)->TOBarrierEnergy01::init(); *(short *)&this->m_next = 0; *(short*)((char*)this + 0xe) = 0; *(unsigned char*)(this) = 134; *(unsigned char*)((char*)this + 0x1) = 4; return this; }
-void TOVS2Wall01::update_and_send() { byteswap_hit_packet(); send_subcommand((u8 *)this); }
-void TOVS2Wall01::byteswap_hit_packet() { ((TLobby *)this)->bswap_header(); bswap_16((u16 *)((char*)this + 0xc)); bswap_16((u16 *)((char*)this + 0xe)); }
-s32 TOVS2Wall01__sub_8017CA50(void* p) { return *(s32*)((char*)p + 0x33c); }
-void TOVS2Wall01__sub_8017CA48(void* p, s32 v) { *(s32*)((char*)p + 0x33c) = v; }
+// The shared byte-swap entry operates on the first three packet words.
+void bswap_header__6TLobbyFv(WallHitPacket *packet);
+
+WallHitPacket *WallHitPacket::init() {
+    init_collision_subcommand_header(this);
+    update_reason = 0;
+    remaining_hits = 0;
+    subcommand = 0x86;
+    word_count = 4;
+    return this;
+}
+
+void WallHitPacket::send() {
+    byteswap();
+    send_subcommand((u8 *)this);
+}
+
+void WallHitPacket::byteswap() {
+    bswap_header__6TLobbyFv(this);
+    bswap_16(&update_reason);
+    bswap_16(&remaining_hits);
+}
+
+s32 TOVS2Wall01::remaining_hits() { return (s32)m_33c; }
+void TOVS2Wall01::set_remaining_hits(s32 count) { m_33c = count; }
 }
 void TOVS2Wall01::apply_knockback_from_attacker(u8 *, f32) {  }
-f32 TOVS2Wall01::receive_weapon_special_attack(void *attacker, void *) { return take_hit__11TOVS2Wall01FPvUi((u8 *)this, attacker); }
-f32 TOVS2Wall01::receive_direct_attack(void *attacker, DirectAttackPayload, void *, s32, s32) { return take_hit__11TOVS2Wall01FPvUi((u8 *)this, attacker); }
-f32 TOVS2Wall01::receive_physical_attack(void *attacker, f32) { return take_hit__11TOVS2Wall01FPvUi((u8 *)this, attacker); }
+f32 TOVS2Wall01::receive_weapon_special_attack(void *attacker, void *) { return take_hit((TObjBase *)attacker); }
+f32 TOVS2Wall01::receive_direct_attack(void *attacker, DirectAttackPayload, void *, s32, s32) { return take_hit((TObjBase *)attacker); }
+f32 TOVS2Wall01::receive_physical_attack(void *attacker, f32) { return take_hit((TObjBase *)attacker); }
 int TOVS2Wall01::calc_distance_accuracy_penalty(void *, void *, void *, float) { return 1; }
 s32 TOVS2Wall01::select_melee_contact_body(void *, f32) { return 1; }
 s32 TOVS2Wall01::roll_physical_accuracy(void *, s32, f32) { return 1; }

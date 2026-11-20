@@ -47,7 +47,7 @@ static CollisionBody door_cave01_collision_body[1] = {
 };
 
 BmlResource *TODoorCave01::bml_resource;
-s32 *TODoorCave01::texture_lists;
+GinjaTextureList **TODoorCave01::texture_lists;
 
 void TODoorCave01::update_demo() {}
 
@@ -69,7 +69,7 @@ void TODoorCave01::send_state(void *src_arg) {
     obj = (Obj_80161320 *)set_entry;
     if (obj != NULL) {
         Pkt_80161320 pkt;
-        ((TOBarrierEnergy01 *)&pkt)->init();
+        init_collision_subcommand_header(&pkt);
         pkt.id = entity_id;
         pkt.state = st.a;
         pkt.kind = obj->kind;
@@ -189,7 +189,7 @@ void TODoorCave01::update_door_switch_state() {
 void TODoorCave01::draw_switch_light(NJS_OBJECT *node, s32 lit) {
     u32 flags;
     NJS_OBJECT *child;
-    TObjFish::set_global_param(texture_lists[lit]);
+    TObjFish::set_global_param((s32)texture_lists[lit]);
     push_matrix();
     translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
     draw_ginja_model((s32)node->model);
@@ -234,7 +234,7 @@ void TODoorCave01::render() {
                 node = node->sibling;
             } while (i < 4);
         } else {
-            TObjFish::set_global_param(texture_lists[1]);
+            TObjFish::set_global_param((s32)texture_lists[1]);
             draw_ginja_model_with_motion(model, motion, animation_frame);
         }
         pop_matrix();
@@ -247,7 +247,7 @@ void *TODoorCave01::create(void *set_data) {
 
 void TODoorCave01::destroy() {
     if (texture_lists != NULL) {
-        TObjPlayer::free_if_valid(texture_lists[0]);
+        TObjPlayer::free_if_valid((s32)texture_lists[0]);
         if (texture_lists != NULL) {
             mem_free(texture_lists);
             texture_lists = NULL;
@@ -261,23 +261,23 @@ void TODoorCave01::destroy() {
 
 void TODoorCave01::load_resources() {
     BmlResource *resource;
-    texture_lists = (s32 *)mem_alloc(8);
+    texture_lists = (GinjaTextureList **)mem_alloc(2 * sizeof(GinjaTextureList *));
     if (enable_v2_features != 0 && TLobby::is_online_ready() != 0) {
         resource = (BmlResource *)::operator new(0x440);
         if (resource != NULL) {
             resource = load_resource_from_descriptor(resource, 1, &door_cave01_a_resource_descriptor, 0, 0, 0);
         }
         bml_resource = resource;
-        texture_lists[0] = (s32)load_gvm_texture_file((s32)"fs_obj_do_doa01r_a.gvm");
+        texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file((s32)"fs_obj_do_doa01r_a.gvm");
     } else {
         resource = (BmlResource *)::operator new(0x440);
         if (resource != NULL) {
             resource = load_resource_from_descriptor(resource, 1, &door_cave01_resource_descriptor, 0, 0, 0);
         }
         bml_resource = resource;
-        texture_lists[0] = (s32)load_gvm_texture_file((s32)"fs_obj_do_doa01r.gvm");
+        texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file((s32)"fs_obj_do_doa01r.gvm");
     }
-    texture_lists[1] = bml_resource->models[0].m_c;
+    texture_lists[1] = (GinjaTextureList *)bml_resource->models[0].m_c;
 }
 
 TODoorCave01::~TODoorCave01() {

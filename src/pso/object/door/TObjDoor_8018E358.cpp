@@ -17,6 +17,10 @@
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/task/TObject.h"
 
+struct BmlResource;
+struct GinjaTextureList;
+struct AnimationMotion;
+
 struct Node_8018E358 { s32 pad0; void *f4; };
 // The five door models load_resources takes from the door BML (models 4, 3, 0, 1, 2).
 struct DoorModelSet { s32 f0; s32 f4; Node_8018E358 *c; Node_8018E358 *a; Node_8018E358 *b; };
@@ -71,8 +75,8 @@ extern s32 __vt__8TObjDoor[];
 extern void *tl_05;
 void *TObjDoor__create(void *arg0);
 void free_bin_model_request(void*, int);
-extern s32 TObjDoor__resource_param;
-extern u32 door_resource_handle;
+extern GinjaTextureList *TObjDoor__resource_param;
+extern BmlResource *door_resource_handle;
 u8 *TObjDoorJung__ct(u8 *arg0, s32 arg1, s32 arg2);
 void *TObjDoorJung__create(void *arg0);
 void update_opening_glow__8TObjDoorFPv(u8 *arg0);
@@ -84,8 +88,8 @@ u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 }
 u8 *load_gvm_texture_file(s32 arg0);
 extern "C" {
-s32 get_bml_model(s32, s32);
-s32 get_bml_motion(s32, s32);
+s32 get_bml_model(BmlResource *, s32);
+AnimationMotion *get_bml_motion(BmlResource *, s32);
 s32 draw_locked__8TObjDoorFPv(Door_8018E74C *arg0);
 void set_active_camera_pose(u8 *arg0, u8 *arg1);
 s32 restore_player_cameras(void);
@@ -187,7 +191,7 @@ void *lbl_804B77F0[18] = {
 };
 
 void draw_model__8TObjDoorFPv(Door_8018E358 *arg0) {
-    TObjFish::set_global_param(TObjDoor__resource_param);
+    TObjFish::set_global_param((s32)TObjDoor__resource_param);
     push_matrix();
     post_translate_matrix(arg0->f38);
     rotate_matrix_y(0, arg0->f60);
@@ -204,7 +208,7 @@ void draw_model__8TObjDoorFPv(Door_8018E358 *arg0) {
 }
 
 void render__8TObjDoorFPv(Door_8018E40C *arg0) {
-    TObjFish::set_global_param(TObjDoor__resource_param);
+    TObjFish::set_global_param((s32)TObjDoor__resource_param);
     push_matrix();
     post_translate_matrix(arg0->f38);
     rotate_matrix_y(0, arg0->f60);
@@ -230,7 +234,7 @@ void render__8TObjDoorFPv(Door_8018E40C *arg0) {
 }
 
 void draw_closing__8TObjDoorFPv(Door_8018E358 *arg0) {
-    TObjFish::set_global_param(TObjDoor__resource_param);
+    TObjFish::set_global_param((s32)TObjDoor__resource_param);
     push_matrix();
     post_translate_matrix(arg0->f38);
     rotate_matrix_y(0, arg0->f60);
@@ -247,7 +251,7 @@ void draw_closing__8TObjDoorFPv(Door_8018E358 *arg0) {
 }
 
 s32 draw_closed__8TObjDoorFPv(Door_8018E5F4 *arg0) {
-    TObjFish::set_global_param(TObjDoor__resource_param);
+    TObjFish::set_global_param((s32)TObjDoor__resource_param);
     push_matrix();
     post_translate_matrix(arg0->f38);
     rotate_matrix_y(0, arg0->f60);
@@ -281,7 +285,7 @@ void update_timer__8TObjDoorFPv(void *arg0) {
 }
 
 s32 draw_locked__8TObjDoorFPv(Door_8018E74C *arg0) {
-    TObjFish::set_global_param(TObjDoor__resource_param);
+    TObjFish::set_global_param((s32)TObjDoor__resource_param);
     push_matrix();
     post_translate_matrix(arg0->f38);
     rotate_matrix_y(0, arg0->f60);
@@ -376,8 +380,8 @@ struct VObj_8018EAF8 : VBase_8018EAF8 {
 };
 typedef void (VObj_8018EAF8::*Pmf_8018EAF8)();
 
-s32 TObjDoor__resource_param;
-u32 door_resource_handle;
+GinjaTextureList *TObjDoor__resource_param;
+BmlResource *door_resource_handle;
 s32 TObjDoor__data_805D5BC8;
 static s8 door_run_task_init_done;
 static s8 lbl_805D5BCD;
@@ -538,11 +542,11 @@ void *TObjDoor__create(void *arg0) {
     return o;
 }
 void TObjDoor::free_resources() {
-    TObjPlayer::free_if_valid(TObjDoor__resource_param);
-    TObjDoor__resource_param = 0;
-    if ((u32) door_resource_handle != 0U) {
-        free_bin_model_request((void*)door_resource_handle, 1);
-        door_resource_handle = 0U;
+    TObjPlayer::free_if_valid((s32)TObjDoor__resource_param);
+    TObjDoor__resource_param = NULL;
+    if (door_resource_handle != NULL) {
+        free_bin_model_request(door_resource_handle, 1);
+        door_resource_handle = NULL;
     }
 }
 
@@ -552,8 +556,8 @@ void TObjDoor::load_resources() {
     if (p != 0) {
         p = (s32)load_resource_from_descriptor((void *)p, 5, &door_resource_descriptor, 0, 0, 0);
     }
-    door_resource_handle = p;
-    TObjDoor__resource_param = (s32)load_gvm_texture_file((s32)lbl_80445588);
+    door_resource_handle = (BmlResource *)p;
+    TObjDoor__resource_param = (GinjaTextureList *)load_gvm_texture_file((s32)lbl_80445588);
     TObjDoor__model_resource_ptrs.f0 = get_bml_model(door_resource_handle, 4);
     TObjDoor__model_resource_ptrs.f4 = get_bml_model(door_resource_handle, 3);
     TObjDoor__model_resource_ptrs.c = (Node_8018E358 *)get_bml_model(door_resource_handle, 0);

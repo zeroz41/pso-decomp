@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/object/door/TODoorBase.h"
 
+struct GinjaTextureList;
+
 struct BmlResource;
 
 // The VS-mode sliding door: its six panels slide apart along x by
@@ -28,7 +30,7 @@ struct TODoorVS2Door01 : public TODoorBase {
     f32 slide_offset;  // 0 closed .. SLIDE_DISTANCE open, m_b8 per update
 
     static BmlResource *bml_resource;
-    static s32 *texture_lists;  // [0] the locked texture list, [1] the bml's own
+    static GinjaTextureList **texture_lists;  // [0] the locked texture list, [1] the bml's own
 };
 
 typedef char TODoorVS2Door01_size[sizeof(TODoorVS2Door01) == 0xD8 ? 1 : -1];
