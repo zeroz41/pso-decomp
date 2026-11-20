@@ -234,7 +234,7 @@ u32 TWindowSubInformationBoard::sub_8034CDE0() {
         }
     }
     if (((TWindowSubComCardList *)w)->get_field_72() <= 0) {
-        draw_text_gray__17TWindowSubComCardFllll(w, TWindowSubStatusDisp::get_message_10(0xD2), 6, -1);
+        TWindowSubComCard::draw_text_gray((saddr)w, (saddr)TWindowSubStatusDisp::get_message_10(0xD2), 6, -1);
     }
     ((TWindowSubComCardList *)w)->set_flag70_bit10();
     ((TWindowSubComCardList *)w)->set_scroll_target(223.0f, 184.0f);

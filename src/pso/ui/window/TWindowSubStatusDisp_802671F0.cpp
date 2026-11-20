@@ -90,10 +90,10 @@ void TShopArmorListWindow::clamp_selection_to_valid_entry() {
             w->f74 = w->f72 - 1;
             return;
         }
-        e = (void *)get_array_entry__11TWindowBaseFi(w, w->f78);
+        e = (void *)((TWindowBase *)w)->get_array_entry((s16)w->f78);
         while (((TWindowSubStatusDisp *)e)->is_flag_4_set() == 0) {
             w->f78 = w->f78 - 1;
-            e = (void *)get_array_entry__11TWindowBaseFi(w, w->f78);
+            e = (void *)((TWindowBase *)w)->get_array_entry((s16)w->f78);
         }
         w->f74 = w->f78;
     }
@@ -186,7 +186,7 @@ s32 forward_render__20TWindowSubStatusDispFv(s32, s32);
 void TShopJudgmentItemWindow__sub_80267F9C(NJS_POINT2 v, s32 x);
 
 saddr TWindowMenuIconLine::get_cursor_value() {
-    get_array_entry__11TWindowBaseFi(this, this->cursor);
+    TWindowBase::get_array_entry((s16)this->cursor);
     return get_cursor_pos__14TWindowSubItemFv();
 }
 
@@ -252,7 +252,7 @@ void TWindowSubShortCutList::draw_entry(s32 index, u8 arg2, s32 arg3, s32 arg4) 
 
     if ((s16) this->entry_count < (s16) this->entry_capacity) {
         fn_80266BD0(index, &sp9, &sp8, this->m_20);
-        init_entry__20TWindowSubStatusDispFScScUcUll(get_array_entry__11TWindowBaseFi(this, this->entry_count), sp9, sp8, arg2, arg3, arg4);
+        init_entry__20TWindowSubStatusDispFScScUcUll(TWindowBase::get_array_entry((s16)this->entry_count), sp9, sp8, arg2, arg3, arg4);
         this->entry_count = (this->entry_count + 1);
     }
 }
@@ -469,7 +469,7 @@ void TWindowMenuIconLine::set_flag4() {
 
 void TWindowMenuIconLine::handle_open() {
     s32 temp_r31;
-    temp_r31 = get_array_entry__11TWindowBaseFi(this, this->cursor);
+    temp_r31 = TWindowBase::get_array_entry((s16)this->cursor);
     if ((is_flag_4_set__20TWindowSubStatusDispFv() == 0) || (is_flag80_set__20TWindowSubStatusDispFv(temp_r31) != 0)) {
         play_sound_effect(0x53F06, 0, 0, 0);
         return;
@@ -643,7 +643,7 @@ void TWindowMenuIconLine::update_scroll_offset() {
   u32 n;
   if ((this->state_flags) & 0x20)
   {
-    new_var = ((s8 *) ((u16 *)get_array_entry__11TWindowBaseFi(this, *((s16 *) (((s8 *) this) + 0x74))))) + 0xC;
+    new_var = ((s8 *) ((u16 *)TWindowBase::get_array_entry((s16)(*((s16 *) (((s8 *) this) + 0x74)))))) + 0xC;
     var_f4 = *((f32 *) new_var);
   }
   else

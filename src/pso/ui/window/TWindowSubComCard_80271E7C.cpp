@@ -68,7 +68,6 @@ s32 *get_selected_guild_card_record(void);
 extern "C" {
 void set_value_by_key(void *, u16, s32);
 s32 open_hard_keyboard__6TLobbyFPv(void *);
-void *get_selected_entry__11TWindowMenuFv(void *);
 void get_message_10__17TWindowSubComCardFPvPv(void* p, void* a1);
 void apply_selection__17TWindowSubComCardFi(s32 arg0);
 void cleanup__17TWindowSubComCardFPv(void* p);
@@ -1830,7 +1829,7 @@ void TWindowSubComCard::sub_80271F04(void *arr, s32 key, saddr arg3) {
     } else if (arg3 != ((TWindowSubComCard *)((Ent_80271F04 *)arr))->find_value_by_key(key)) {
         ((u8 *)this)[0x1D] |= 1;
         set_value_by_key(((Ent_80271F04 *)arr), key, arg3);
-        ((TWindowMakeTeam *)(*(void **)(((u8 *)this) + 0x7C)))->set_entry_string_by_id((void *)((TWindowSubComCard *)(get_selected_entry__11TWindowMenuFv(*(void **)(((u8 *)this) + 0x64))))->get_field_20(), key);
+        ((TWindowMakeTeam *)(*(void **)(((u8 *)this) + 0x7C)))->set_entry_string_by_id((void *)((TWindowSubComCard *)((void *)((TWindowMenu *)(*(void **)(((u8 *)this) + 0x64)))->get_selected_entry()))->get_field_20(), key);
     }
 }
 

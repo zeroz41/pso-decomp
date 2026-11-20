@@ -459,7 +459,7 @@ void TWindowKeyBoardBase::set_kanji_mode() {
     s8 sp8[0x200];
 
     if (!(*(u16 *)((s8 *)this + 0x60) & 0x10)) {
-        dispatch_request_0x26__19TWindowKeyBoardSoftFll(sp8, (s32 *)(sp8 + 0x100));
+        TWindowKeyBoardSoft::dispatch_request_0x26((saddr)sp8, (saddr)(sp8 + 0x100));
         *(s32 *)((s8 *)this + 0xA8) = 0xF0;
         update_input(sp8);
     }
@@ -469,7 +469,7 @@ void TWindowKeyBoardBase::set_kana_mode() {
     s8 sp8[0x200];
 
     if (!(*(u16 *)((s8 *)this + 0x60) & 0x10)) {
-        dispatch_request_0x25__19TWindowKeyBoardSoftFll(sp8, (s32 *)(sp8 + 0x100));
+        TWindowKeyBoardSoft::dispatch_request_0x25((saddr)sp8, (saddr)(sp8 + 0x100));
         *(s32 *)((s8 *)this + 0xA8) = 0xF1;
         update_input(sp8);
     }

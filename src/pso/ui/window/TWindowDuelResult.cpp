@@ -7,6 +7,7 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/window/TWindowDuelResult.h"
 
 
 #pragma readonly_strings on
@@ -26,13 +27,6 @@ typedef struct Win_8024F094 {
     u8 sub[4];
 } Win_8024F094;
 
-struct TWindowDuelResult {
-    void sub_8024F094();
-    void sub_8024EF40();
-    void sub_8024F090();
-    void sub_8024EF3C();
-};
-
 extern "C" {
 const char *window_duel_result_class_name = "TWindowDuelResult";
 s32 draw_visible_window_entries(void *, void *, int);
@@ -48,7 +42,6 @@ s32 get_localized_text_entry(int, int);
 void *get_player_by_client_id(s32 i);
 s32 TWindowDuelResult__sub_801C19AC(f32 *arg0);
 void init_window_layout_entries(void *, void *, int);
-void set_default_status__17TWindowDuelResultFPvi(void *, int);
 void sub_8024EF40__17TWindowDuelResultFv(Win_8024EF40 *arg0);
 saddr get_shared_text_buffer(s32);
 s32 *TWindowDuelResult__sub_801C257C(void);
@@ -155,9 +148,9 @@ void sub_8024EF40__17TWindowDuelResultFv(Win_8024EF40 *arg0) {
     u8 *c;
     init_window_layout_entries(arg0->sub, duel_result_window_layout_table, arg0->player);
     a = (u8 *)((TWindowBase *)arg0)->get_array_entry(0);
-    set_default_status__17TWindowDuelResultFPvi(a, get_localized_text_entry(0x10, 0));
+    TWindowDuelResult::set_default_status(a, get_localized_text_entry(0x10, 0));
     c = (u8 *)((TWindowBase *)arg0)->get_array_entry(0xF);
-    set_default_status__17TWindowDuelResultFPvi(c, get_localized_text_entry(0x10, 5));
+    TWindowDuelResult::set_default_status(c, get_localized_text_entry(0x10, 5));
     pl = (u8 *)get_player_by_client_id(arg0->player);
     if (pl != 0) {
         set_text_entry_string((u8 *)(((TWindowBase *)arg0)->get_array_entry(1)), (uaddr)(pl + 0x85C), 0x20);
@@ -168,7 +161,7 @@ void sub_8024EF40__17TWindowDuelResultFv(Win_8024EF40 *arg0) {
         for (i = 0; i < 4; i++) {
             a = (u8 *)((TWindowBase *)arg0)->get_array_entry(i * 3 + 2);
             b = (u8 *)((TWindowBase *)arg0)->get_array_entry(i * 3 + 4);
-            set_default_status__17TWindowDuelResultFPvi(a, get_localized_text_entry(0x10, i + 1));
+            TWindowDuelResult::set_default_status(a, get_localized_text_entry(0x10, i + 1));
             *(s32 *)(b + 0x20) = vals[i];
         }
     }
@@ -187,9 +180,9 @@ void sub_8024F094__17TWindowDuelResultFv(Win_8024F094 *self) {
     u8 *d;
     init_window_layout_entries(self->sub, TWindowDuelResult__layout_entries, self->player);
     a = (u8 *)((TWindowBase *)self)->get_array_entry(0);
-    set_default_status__17TWindowDuelResultFPvi(a, get_localized_text_entry(0x10, 0));
+    TWindowDuelResult::set_default_status(a, get_localized_text_entry(0x10, 0));
     b = (u8 *)((TWindowBase *)self)->get_array_entry(0x12);
-    set_default_status__17TWindowDuelResultFPvi(b, get_localized_text_entry(0x10, 5));
+    TWindowDuelResult::set_default_status(b, get_localized_text_entry(0x10, 5));
     none = 1;
     e = (Entry_8024F094 *)TWindowDuelResult__sub_801C257C();
     for (i = 0; i < 4; i++, e++) {
@@ -212,15 +205,15 @@ void sub_8024F094__17TWindowDuelResultFv(Win_8024F094 *self) {
             *(u16 *)d |= 2;
         } else {
             if (none) {
-                set_default_status__17TWindowDuelResultFPvi(a, get_localized_text_entry(0x10, 0xA));
+                TWindowDuelResult::set_default_status(a, get_localized_text_entry(0x10, 0xA));
             } else if (((TLobby *)lobby_rule_settings)->get_rule_field_a() == 1) {
                 if (e->rank == 0) {
-                    set_default_status__17TWindowDuelResultFPvi(a, get_localized_text_entry(0x10, 0xB));
+                    TWindowDuelResult::set_default_status(a, get_localized_text_entry(0x10, 0xB));
                 } else {
-                    set_default_status__17TWindowDuelResultFPvi(a, get_localized_text_entry(0x10, 0xC));
+                    TWindowDuelResult::set_default_status(a, get_localized_text_entry(0x10, 0xC));
                 }
             } else {
-                set_default_status__17TWindowDuelResultFPvi(a, get_localized_text_entry(0x10, e->rank + 6));
+                TWindowDuelResult::set_default_status(a, get_localized_text_entry(0x10, e->rank + 6));
             }
             set_text_entry_string((u8 *)c, (uaddr)(p + 0x85C), 0x20);
             text_builder_reset();

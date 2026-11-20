@@ -14,6 +14,10 @@ struct TWindowDuelResult : public TWindowBase {
     u32 m_68;
     void *init(void *arg1, void *arg2, void *arg3);
     static int set_default_status(void* p, int a1);
+    void sub_8024F094();
+    void sub_8024EF40();
+    void sub_8024F090();
+    void sub_8024EF3C();
 };
 
 LAYOUT_ASSERT(TWindowDuelResult_size, sizeof(TWindowDuelResult) == 0x6C);

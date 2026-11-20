@@ -228,7 +228,7 @@ TWindowSubComCardList *TWindowSubComCard__sub_802B1C1C(TWindowSubTrade *) {
         }
     }
     if (list->get_field_72() <= 0) {
-        draw_text_gray__17TWindowSubComCardFllll(list, TWindowSubStatusDisp::get_message_10(0xD2), 7, 0);
+        TWindowSubComCard::draw_text_gray((saddr)list, (saddr)TWindowSubStatusDisp::get_message_10(0xD2), 7, 0);
     }
     list->set_flag70_bit10();
     list->set_scroll_target(224.0f, 88.0f);

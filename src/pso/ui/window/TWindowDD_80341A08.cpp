@@ -286,7 +286,7 @@ void TWindowDD::handle_scroll_input() {
     s32 var_r30;
     s32 var_r30_2;
     if (((TWindowDD_WS_Word *)this)->sub_80342268() != 0) {
-        if (apply_both_choices__9TWindowDDFll((u8 *)&this->m_44[7], 0x20) != 0) {
+        if (TWindowDD::apply_both_choices((saddr)(&this->m_44[7]), 0x20) != 0) {
             temp_r4 = *(s32 *)&this->m_64[1];
             if (temp_r4 < (s32) (*(s32 *)&this->m_64[4] - 1)) {
                 switch (((TWindowDD_WS_Word *)arg0)->can_scroll(1)) {

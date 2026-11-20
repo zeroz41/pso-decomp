@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/ui/window/TWindowChoiceSetting.h"
 
 struct E_803403F8 { f32 a; f32 b; f32 c; f32 d; f32 e; s32 f; };
 
@@ -144,7 +145,7 @@ void TWindowDD::set_quad_corners_scaled(f32 farg0, f32 farg1, f32 farg2) {
 #pragma push
 #pragma opt_dead_assignments off
 s32 TWindowDD::apply_both_choices(s32 arg0, saddr arg1) {
-  return apply_choice__20TWindowChoiceSettingFllll((void *) ((u8 *)&controller_input_state + 0x20), (void *) arg1, 6, 1) | apply_choice__20TWindowChoiceSettingFllll((void *) ((u8 *)&controller_input_state + 0x160), (void *) arg1, 6, 1);
+  return TWindowChoiceSetting::apply_choice((saddr)((u8 *)&controller_input_state + 0x20), (saddr)arg1, 6, 1) | apply_choice__20TWindowChoiceSettingFllll((void *) ((u8 *)&controller_input_state + 0x160), (void *) arg1, 6, 1);
 }
 }
 #pragma pop

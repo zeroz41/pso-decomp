@@ -53,7 +53,6 @@ s32 free_member__17TWindowSubComCardFv(int, int);
 s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(int, void *, int, f32);
 saddr warn_if_empty__17TWindowOptionCtrlFPUc(void *);
 void *get_chr_select_base_plus_1154c__17TWindowOptionCtrlFv();
-s32 get_option_entry__17TWindowOptionCtrlFi(s32);
 s32 get_localized_text_entry(s32 arg0, s32 arg1);
 s32 align_menu_entry_positions(int);
 s32 forward_trade_action_default__16TObjCityMainWarpFPviii(s32, s32, s32, s32);
@@ -458,7 +457,7 @@ s32 TWindowOptionCtrl::create_menu() {
 
 s32 TWindowOptionCtrl::create_select_menu_window() {
     saddr temp_r31;
-    temp_r31 = (saddr)TWindowSubStatusDisp::refresh_with_default_list(get_option_entry__17TWindowOptionCtrlFi(0xCF), (saddr)(&lbl_8044F48C));
+    temp_r31 = (saddr)TWindowSubStatusDisp::refresh_with_default_list((saddr)TWindowOptionCtrl::get_option_entry(0xCF), (saddr)(&lbl_8044F48C));
     TWindowOptionCtrl::add_menu_item(temp_r31, (get_localized_text_entry(0xF, 8)), 0);
     TWindowOptionCtrl::add_menu_item(temp_r31, (get_localized_text_entry(0xF, 9)), 1);
     TWindowOptionCtrl::add_menu_item(temp_r31, (get_localized_text_entry(0xF, 0xA)), 2);
@@ -542,7 +541,7 @@ s32 TWindowOptionCtrl::create_sub_menu_window() {
 s32 TWindowOptionCtrl::create_option_menu() {
     saddr temp_r31;
 
-    temp_r31 = (saddr)TWindowSubStatusDisp::refresh_with_default_list(get_option_entry__17TWindowOptionCtrlFi(0xD0), (saddr)(&lbl_8044F49C));
+    temp_r31 = (saddr)TWindowSubStatusDisp::refresh_with_default_list((saddr)TWindowOptionCtrl::get_option_entry(0xD0), (saddr)(&lbl_8044F49C));
     TWindowOptionCtrl::add_menu_item(temp_r31, get_localized_text_entry(0xF, 0x10), 0);
     TWindowOptionCtrl::add_menu_item(temp_r31, get_localized_text_entry(0xF, 0x11), 1);
     TWindowOptionCtrl::add_menu_item(temp_r31, get_localized_text_entry(0xF, 0x12), 2);
