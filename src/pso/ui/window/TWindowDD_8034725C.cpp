@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "versions.h"
 #include "pso/ui/window/TWindowDD_803488A8.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -1013,10 +1014,16 @@ void TWindowBase::calc_inner_rect(u8 *arg1) {
 #pragma pop
 
 s32 get_word_select_token_text(s16 arg0) {
+#if VERSION == VERSION_GPOP8P
+    if (arg0 >= 0x68C && arg0 <= 0x697) {
+        return TWindowDD__player_name_buffers[arg0 - 0x68C];
+    }
+#else
     s32 *t = TWindowDD__player_name_buffers;
     if (arg0 >= 0x68C && arg0 <= 0x697) {
         return t[arg0 - 0x68C];
     }
+#endif
     if (arg0 == 0x698) {
         return 0;
     }

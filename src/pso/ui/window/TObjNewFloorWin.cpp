@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "versions.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TObjResultWin.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
@@ -62,11 +63,15 @@ void TObjNewFloorWin::open_window() {
     u8 *arg0 = (u8 *)this;
     s32 pos;
     pos = get_window_layout_position(0x3D);
+#if VERSION == VERSION_GPOP8P
+    *(u32 *)((s8 *)arg0 + 0x20) = ((u32 (*)(s32, s32)) check_room_seq_4__16TAdChrSelASlotGCFl)(pos, 1);
+#else
     if ((s32) *(s32 *)((s8 *)arg0 + 0x4C) < 0) {
         *(u32 *)((s8 *)arg0 + 0x20) = ((u32 (*)(s32, s32, s32)) check_room_seq_4__16TAdChrSelASlotGCFl)(pos, 1, *(s32 *)((s8 *)arg0 + 0x4C));
     } else {
         *(u32 *)((s8 *)arg0 + 0x20) = create_window_menu(pos, 1, *(s32 *)((s8 *)arg0 + 0x4C));
     }
+#endif
     if ((u32) *(u32 *)((s8 *)arg0 + 0x20) != 0U) {
         sprintf(arg0 + 0x2C, "%s %02d", get_message_text(0x67), TObjNewFloorWin__sub_8007410C());
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)(*(u32 *)((s8 *)arg0 + 0x20)), (int)(arg0 + 0x2C), 0, 0);
@@ -85,22 +90,40 @@ TObjNewFloorWin::~TObjNewFloorWin() {}
 
 extern "C" {
 s32 is_split_screen(void);
+#if VERSION == VERSION_GPOP8P
+void *__ct__15TObjNewFloorWinFP7TObject(void *arg0, void *arg1);
+#else
 void *__ct__15TObjNewFloorWinFP7TObjectPv(void *arg0, void *arg1, void *arg2);
+#endif
 s32 get_player_by_client_id(u32);
 u8 *__nw__7TObjectFUl(s32);
 
 const char *TObjNewFloorWin__class_name = TObjNewFloorWin__class_name_string;
 
 }
+#if VERSION == VERSION_GPOP8P
+TObjNewFloorWin::TObjNewFloorWin(TObject *object) : TObject(object) {
+    this->m_name = TObjNewFloorWin__class_name;
+#else
 TObjNewFloorWin::TObjNewFloorWin(TObject *object, void *arg2) : TObject(object) {
     this->m_name = TObjNewFloorWin__class_name;
     *(void **)((s8 *)this + 0x4C) = arg2;
+#endif
     *(u32 *)((s8 *)this + 0x20) = 0;
     *(u32 *)((s8 *)this + 0x24) = 450;
     *(u32 *)((s8 *)this + 0x28) = 150;
     *(u32 *)((s8 *)this + 0x1C) = 0;
 }
 
+#if VERSION == VERSION_GPOP8P
+u8 *TLobby::create_new_floor_windows() {
+    u8 *p = __nw__7TObjectFUl(0x4C);
+    if (p != 0) {
+        p = (u8 *)__ct__15TObjNewFloorWinFP7TObject((void *)p, (void *)this);
+    }
+    return p;
+}
+#else
 u8 *TLobby::create_new_floor_windows() {
   u32 var_r30;
   u8 *temp_r3;
@@ -139,5 +162,6 @@ u8 *TLobby::create_new_floor_windows() {
   while (((s32) var_r30) < 4);
   return var_r31;
 }
+#endif
 
 void fn_800740DC(void) { TWindowCtrl::close_active_window(); }

@@ -1146,6 +1146,7 @@ pso/ui/chat/TWindowChatSymbol.cpp
 pso/ui/chat/TWindowChat_8025CB10.cpp
 pso/ui/chat/TWindowSubShortMail_80246CB8.cpp
 pso/ui/chat/TWindowSubShortMail_802A571C.cpp
+pso/ui/chat/TWindowSubSymbolChat.cpp
 pso/ui/chat/TWindowSubSymbolChatFaceType.cpp
 pso/ui/chat/TWindowSubSymbolChatHelp.cpp
 pso/ui/chat/TWindowSubSymbolChatPartsSet.cpp
@@ -1160,6 +1161,7 @@ pso/ui/city/TCheckRoomSequence_8021E464.cpp
 pso/ui/city/TCheckRoomSequence_80222FC0.cpp
 pso/ui/city/THunterGuildSeqOffline.cpp
 pso/ui/city/THunterGuildSeqOffline_801F3718.cpp
+pso/ui/city/THunterGuildSeqOffline_80211FEC.cpp
 pso/ui/city/THunterGuildSeqOffline_8021250C.cpp
 pso/ui/city/THunterGuildSeqOffline_80212564.cpp
 pso/ui/city/THunterGuildSeqOffline_80212644.cpp
@@ -1171,6 +1173,7 @@ pso/ui/city/THunterGuildSeqOffline_80213788.cpp
 pso/ui/city/THunterGuildSeqOffline_80248A14.cpp
 pso/ui/city/THunterGuildSeqOnlineTask.cpp
 pso/ui/city/THunterGuildSeqOnlineTask_802156A0.cpp
+pso/ui/city/THunterGuildWarning.cpp
 pso/ui/city/TJudgmentSequence.cpp
 pso/ui/city/TJudgmentSequence_8021E4C4.cpp
 pso/ui/city/TMedicalCenterSequence.cpp
@@ -1201,6 +1204,7 @@ pso/ui/city/TShopWindowBase.cpp
 pso/ui/city/TShopWindowBase_80217454.cpp
 pso/ui/font/TFontSmallHelp.cpp
 pso/ui/font/TFontSmallLobby_801C013C.cpp
+pso/ui/font/TFontSmallTask.cpp
 pso/ui/font/TNECFontEORFunction.cpp
 pso/ui/frontend/TAdADXlogo.cpp
 pso/ui/frontend/TAdBackGC.cpp
@@ -1407,6 +1411,7 @@ pso/ui/window/TWindowDD_80342E40.cpp
 pso/ui/window/TWindowDD_80346A84.cpp
 pso/ui/window/TWindowDD_80346F48.cpp
 pso/ui/window/TWindowDD_803471C0.cpp
+pso/ui/window/TWindowDD_8034725C.cpp
 pso/ui/window/TWindowDD_80348C54.cpp
 pso/ui/window/TWindowDD_8034AF68.cpp
 pso/ui/window/TWindowDeposit.cpp
@@ -1438,6 +1443,7 @@ pso/ui/window/TWindowLoadItemTexture.cpp
 pso/ui/window/TWindowLockOn_800F5DD8.cpp
 pso/ui/window/TWindowLockOn_80262C3C.cpp
 pso/ui/window/TWindowLockOn_8026CB80.cpp
+pso/ui/window/TWindowMainMenu.cpp
 pso/ui/window/TWindowMainMenu1P.cpp
 pso/ui/window/TWindowMainMenu4P.cpp
 pso/ui/window/TWindowMainMenu_8024E3CC.cpp
@@ -2081,6 +2087,7 @@ pso/ui/frontend/TAdTimeSetGC.cpp
 pso/quest/StoryQuestProgress.cpp
 pso/quest/TQuestListVM.cpp
 pso/unk/TLobby_80291D94.cpp
+pso/ui/window/TWindowSubStatusDisp_8006F044.cpp
 pso/unk/TLobby_800F8AA8.cpp
 pso/ui/frontend/TAdMultiSelGameModeGC.cpp
 pso/quest/TQuestThread.cpp
@@ -2096,6 +2103,7 @@ pad/Pad.c
 dsp/dsp.c
 dsp/dsp_task.c
 pso/ui/TLogo.cpp
+pso/ui/window/TObjNewFloorWin.cpp
 pso/unk/text_801DF280.cpp
 pso/unk/text_801A3014.cpp
 pso/unk/TLobby_801A3C48.cpp
@@ -2104,17 +2112,22 @@ pso/system/scene/TEnding_8008C5C0.cpp
 pso/ui/TLevelSelect.cpp
 pso/network/TGameProtocol.cpp
 gx/GXInit.c
+pso/unk/text_8006EF90.cpp
 pso/ui/keyboard/TKeyBoardControl_80290CB0.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_8033A8EC.cpp
 pso/unk/TLobby_800F795C.cpp
 pso/unk/TLobby_80299A60.cpp
 pso/unk/text_802A1020.cpp
+pso/ui/window/TWindowDD_80348BF4.cpp
 pso/ui/frontend/TAdScrollWinGC.cpp
+pso/ui/window/TWindowSubStatusDisp_80071774.cpp
 pso/ui/window/TWindowCtrl_80145A28.cpp
 pso/ui/frontend/TAdMultiChgGameModeGC_8023E7A8.cpp
 pso/ui/frontend/TAdEnterSerialAccessGC.cpp
 pso/ui/frontend/TAdAgreementBaseGC.cpp
 pso/unk/TLobby_801461EC.cpp
+pso/ui/chat/TWindowSubShortMail_8027E620.cpp
+pso/ui/window/TWindowOptionCtrl_8034C384.cpp
 pso/quest/challenge/TChallenge.cpp
 pso/ui/frontend/TAdTrialModemChkGC.cpp
 pso/quest/TQuestVmDownLoadServer_803E5668.cpp
@@ -2238,6 +2251,7 @@ pso/ui/window/TWindowDD_8034435C.cpp
 pso/ui/window/TWindowSubComCard_802A559C.cpp
 pso/unk/TLobby_802409AC.cpp
 pso/unk/TLobby_80299B90.cpp
+pso/unk/TLobby_80299C4C.cpp
 pso/unk/TLobby_803D0DEC.cpp
 pso/unk/TUnk_8048E1A4.cpp
 pso/weapon/TUnk_804ECDC0.cpp
@@ -2264,6 +2278,7 @@ pso/system/movie/TMovie_80143988.cpp
 pso/ui/hud/TRaderMapCore.cpp
 pso/ui/window/TWindowDD_80341A08.cpp
 pso/ui/window/TWindowDD_80342428.cpp
+pso/ui/window/TWindowSubStatusDisp_8027FD88.cpp
 pso/unk/TLobby_80104374.cpp
 pso/unk/TLobby_803BFE50.cpp
 pso/unk/TUnk_804CC948.cpp
@@ -2330,6 +2345,7 @@ pso/render/MotionDrawState.cpp
 pso/render/reflection.cpp
 pso/system/SwitcherLaunch.cpp
 pso/ui/TUnk_804EE458.cpp
+pso/ui/UISprite.cpp
 pso/ui/chat/TUnk_804CE7D0.cpp
 pso/ui/font/TFontSmallLobby.cpp
 pso/ui/frontend/TAdSubPlyItemGC_802D6BEC.cpp

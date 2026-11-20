@@ -2,12 +2,18 @@
 #include "pso/unk/text_8006EF90.h"
 
 #include "types.h"
+#include "versions.h"
 #include "pso/unk/TLobby.h"
 
 
 extern s32 challenge_mode_state[];
 
+#if VERSION == VERSION_GPOP8P
+void TLobby__sub_8006EF90(void) {}
+void fn_8006F00C(void) {}
+#else
 int TLobby__sub_8006EF90(void) { return 1; }
+#endif
 u8 *TLobby::get_stage_table_entry(s32 arg0, s32 arg1) {
     switch (arg0) {
     case 0:

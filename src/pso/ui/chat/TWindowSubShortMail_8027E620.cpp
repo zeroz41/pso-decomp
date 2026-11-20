@@ -3,6 +3,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
+#include "versions.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/quest/TQuestThread.h"
@@ -428,7 +429,9 @@ void TWindowSubShortMail::run_task() {
             if (((TWindowSubComCard *)(o->w50))->get_slot_or_neg1() == 0) {
                 void *b = ((TKeyBoardControl *)o->w5c)->realloc_buffer();
                 ((TLobby *)b)->set_short_mail_text();
+#if VERSION != VERSION_GPOP8P
                 mem_free(b);
+#endif
                 o->state = 1;
             } else {
                 o->state = 0x18;

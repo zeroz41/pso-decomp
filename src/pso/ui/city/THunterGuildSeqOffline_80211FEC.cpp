@@ -1,4 +1,5 @@
 #include "types.h"
+#include "versions.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/city/THunterGuildSeqOffline_80211FEC.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
@@ -12,6 +13,13 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 
+
+// Squared distance (xz) within which a party member counts as gathered.
+#if VERSION == VERSION_GPOP8P
+#define MEMBER_GATHER_DISTANCE_SQ 2500.0f
+#else
+#define MEMBER_GATHER_DISTANCE_SQ 625.0f
+#endif
 
 struct Seq_80212304 {
     u8 pad0[0x1C];
@@ -60,7 +68,7 @@ s32 THunterGuildSeqOffline__sub_80212074(void) {
     if (temp_r3_2 == 0) {
         return 0;
     }
-    return (u32)__cntlzw((u32)((xz_distance_squared((void *)(player + 0x38), (void *)(temp_r3_2 + 0x38)) > 625.0f))) >> 5;
+    return (u32)__cntlzw((u32)((xz_distance_squared((void *)(player + 0x38), (void *)(temp_r3_2 + 0x38)) > MEMBER_GATHER_DISTANCE_SQ))) >> 5;
 }
 
 s32 THunterGuildSeqOffline::check_party_gathered() {
@@ -90,7 +98,7 @@ s32 THunterGuildSeqOffline::check_party_gathered() {
     }
     result = 1;
     me = (s32)get_player_by_client_id(TLobby__designated_client_id);
-    lim = 625.0f;
+    lim = MEMBER_GATHER_DISTANCE_SQ;
     for (j = 0; j < 4; j++) {
         if (j != TLobby__designated_client_id) {
             p = (s32)get_player_by_client_id(j);
@@ -113,7 +121,7 @@ void TMemberCheck::update_member_proximity() {
             if (var_r30 != (s32) TLobby__designated_client_id) {
                 player = (s32)get_player_by_client_id(var_r30);
                 if (player != 0) {
-                    if (xz_distance_squared((void *)(temp_r31 + 0x38), (void *)(player + 0x38)) <= 625.0f) {
+                    if (xz_distance_squared((void *)(temp_r31 + 0x38), (void *)(player + 0x38)) <= MEMBER_GATHER_DISTANCE_SQ) {
                         ((THunterGuildSeqOffline *)(this->m_1C))->advance_matching_entries(1, var_r30);
                     } else {
                         ((THunterGuildSeqOffline *)(this->m_1C))->advance_matching_entries(0, var_r30);

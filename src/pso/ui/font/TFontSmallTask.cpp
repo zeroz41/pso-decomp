@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "versions.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/vector.h"
 #include "pso/ui/font/TFontSmallTask.h"
@@ -283,6 +284,9 @@ void reset_leader_selection(void* p);
 // The leader selection find_leader_section_id fills (TLobby_801A3C48, text_801A3014) and set_world_section_id /
 // TFontSmallTask::get_task_id store and read the section id of; the .ctors entry below resets it.
 Out_800FD614 TLobby__data_805011D8;
+#if VERSION == VERSION_GPOP8P
+u8 lbl_805021E8[0x18];
+#endif
 extern "C" {
 void call_funcs_reverse__6TLobbyFPvUi(Ent_800FD6A0 *arr, u32 size);
 s32 is_area_transfer_pending(void);

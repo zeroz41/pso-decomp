@@ -1,6 +1,7 @@
 #ifndef PSO_UI_UI_SPRITE_H
 #define PSO_UI_UI_SPRITE_H
 #include "types.h"
+#include "versions.h"
 #include "pso/math/TMath.h"
 #include "pso/system/NinjaTypes.h"
 
@@ -8,9 +9,14 @@
 extern NJS_TEXNAME creation_chara_sprite_entries[20];
 extern NJS_TEXLIST creation_sprite_table;
 extern NJS_TEXANIM lbl_804D9670[143];
+#if VERSION == VERSION_GPOP8P
+extern const char *ccconsole_pvm_file_name_table[5];
+extern NJS_TEXANIM *lbl_804DB894[5];  // cells per language
+#else
 extern NJS_TEXANIM lbl_804DA19C[49];  // Japanese cells (creation_sprite_table_index 0)
 extern NJS_TEXANIM lbl_804DA570[49];  // other-language cells
 extern const char *ccconsole_pvm_file_name_table[2];
+#endif
 
 // The ruler lines (16 point pairs) and quad drawn by draw_creation_ruler_lines.
 extern const NJS_POINT3 creation_ruler_line_vertices[32];
