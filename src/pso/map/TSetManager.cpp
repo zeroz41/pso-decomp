@@ -42,7 +42,7 @@ FloorObjectSetRow *TLobby__data_805D610C;
 s32 TLobby__current_floor_object_set_count;
 EnemySetRecord *TLobby__data_805D6114;
 s32 TLobby__current_floor_enemy_set_count;
-u32 TLobby__data_805D611C;
+FloorObjectSetRow *floor_decoration_rows;
 s32 TLobby__data_805D6120;
 u32 TLobby__data_805D6124;
 s32 TLobby__data_805D6128;
@@ -89,8 +89,6 @@ void *TSetManager__ct(void *set_manager, void *parent) {
 
 }
 
-struct Rec_8020D9A0 { u8 pad0[2]; s16 f2; s16 f4; u8 pad6[2]; u16 f8; u8 padA[0x3A]; };
-
 extern "C" {
 s32 get_current_floor(void);
 LobbyPoolEntry TLobby__data_80513A40[18];
@@ -126,9 +124,9 @@ void TSetManager::create() {
 }
 
 void TLobby__sub_8020D94C(void) {
-    if ((u32) TLobby__data_805D611C != 0U) {
-        mem_free((void*)TLobby__data_805D611C);
-        TLobby__data_805D611C = 0U;
+    if (floor_decoration_rows != NULL) {
+        mem_free(floor_decoration_rows);
+        floor_decoration_rows = NULL;
         TLobby__data_805D6120 = 0;
     }
     if ((u32) TLobby__data_805D6124 != 0U) {
@@ -160,16 +158,16 @@ s32 load_map_decoration_rows(s32 map, s32 grp, s32 room) {
     if (size < 0) {
         return 0;
     }
-    TLobby__data_805D6120 = (u32)size / 0x44;
-    if ((TLobby__data_805D611C = (u32)mem_alloc(TLobby__data_805D6120 * 0x44)) == 0) {
+    TLobby__data_805D6120 = (u32)size / sizeof(FloorObjectSetRow);
+    if ((floor_decoration_rows = static_cast<FloorObjectSetRow *>(mem_alloc(TLobby__data_805D6120 * sizeof(FloorObjectSetRow)))) == 0) {
         return 0;
     }
-    read_disc_file(path, (void *)TLobby__data_805D611C);
+    read_disc_file(path, floor_decoration_rows);
     for (i = 0; i < TLobby__data_805D6120; i++) {
-        swap_object_row_endian(&((Rec_8020D9A0 *)TLobby__data_805D611C)[i]);
-        ((Rec_8020D9A0 *)TLobby__data_805D611C)[i].f2 = 0;
-        ((Rec_8020D9A0 *)TLobby__data_805D611C)[i].f8 = 0xFFFF;
-        ((Rec_8020D9A0 *)TLobby__data_805D611C)[i].f4 = -1;
+        swap_object_row_endian(&floor_decoration_rows[i]);
+        floor_decoration_rows[i].flags = 0;
+        floor_decoration_rows[i].placement.entity_id = 0xFFFF;
+        floor_decoration_rows[i].placement.object_type = -1;
     }
     return 1;
 }
@@ -191,7 +189,7 @@ void TLobby::setup_floor_decorations() {
     FloorMapSelection v;
     s32 r;
     arrive_floor_population();
-    (*(s32 *)&TLobby__data_805D611C) = 0;
+    floor_decoration_rows = NULL;
     TLobby__data_805D6134 &= ~8;
     (*(s32 *)&TLobby__data_805D6124) = 0;
     TLobby__data_805D6120 = 0;
@@ -263,7 +261,7 @@ void clear_floor_population(void) {
     }
     TLobby__data_805D6148 = 0;
     TLobby__data_805D614C = 0;
-    TLobby__data_805D611C = 0;
+    floor_decoration_rows = 0;
     TLobby__data_805D6124 = 0;
     TLobby__data_805D6120 = 0;
     TLobby__data_805D6128 = 0;
@@ -302,7 +300,7 @@ void depart_floor_population(int unused) {
         FloorSavedSetRow *d = area->object_rows;
         s32 i;
         for (i = 0; i < area->object_count; i++, s++, d++) {
-            if (s->id == d->id) {
+            if (s->placement.entity_id == d->id) {
                 d->flags = s->flags;
             }
         }
@@ -383,7 +381,7 @@ void arrive_floor_population(void) {
         o = TLobby__data_805D610C;
         r = floor->object_rows;
         for (i = 0; i < floor->object_count; i++, o++, r++) {
-            if (o->id == r->id) {
+            if (o->placement.entity_id == r->id) {
                 o->flags = r->flags;
             }
         }
@@ -444,7 +442,7 @@ void init_item_drop_tables(void) {
     }
     TLobby__data_805D6148 = 0;
     TLobby__data_805D614C = 0;
-    TLobby__data_805D611C = 0;
+    floor_decoration_rows = 0;
     TLobby__data_805D6124 = 0;
     TLobby__data_805D6120 = 0;
     TLobby__data_805D6128 = 0;

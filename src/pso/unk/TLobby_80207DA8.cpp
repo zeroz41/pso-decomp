@@ -269,7 +269,7 @@ __declspec(section ".data") const char *lbl_804C9260[2] = { floor_map_name_aboss
 __declspec(section ".data") const char *lbl_804C9268[2] = { floor_map_name_aboss03, floor_map_name_aboss03 };
 }
 FloorSceneEntry floor_scene_table[36] = { { lbl_804C90E0, 1 }, { lbl_804C90E8, 1 }, { lbl_804C90F0, 1 }, { lbl_804C90F8, 6 }, { lbl_804C9128, 5 }, { lbl_804C9150, 6 }, { lbl_804C9180, 6 }, { lbl_804C91B0, 6 }, { lbl_804C91E0, 5 }, { lbl_804C9208, 5 }, { lbl_804C9230, 5 }, { lbl_804C9258, 1 }, { lbl_804C9260, 1 }, { lbl_804C9268, 1 }, { lbl_804C8DF0, 1 }, { lbl_804C8DF8, 15 }, { lbl_804C8E70, 3 }, { lbl_804C8E88, 3 }, { lbl_804C8EA0, 1 }, { lbl_804C8ED8, 3 }, { lbl_804C8EF0, 3 }, { lbl_804C8EA8, 3 }, { lbl_804C8EC0, 3 }, { lbl_804C8F08, 1 }, { lbl_804C8F10, 1 }, { lbl_804C8F18, 1 }, { lbl_804C8F20, 3 }, { lbl_804C8F38, 1 }, { lbl_804C8F70, 3 }, { lbl_804C8F88, 3 }, { lbl_804C8FA0, 1 }, { lbl_804C8FA8, 1 }, { lbl_804C8FB0, 1 }, { lbl_804C8FB8, 1 }, { lbl_804C8F40, 1 }, { lbl_804C8F48, 5 } };
-s32 forest_rel_filename_table[6] = { (s32)"SetDataTableOff.rel", (s32)"SetDataTableOffUlti.rel", (s32)"SetDataTableOn.rel", (s32)"SetDataTableOnUlti.rel", (s32)"SetDataTable_TGS2001.rel", 0 };
+const char *forest_rel_filename_table[6] = { "SetDataTableOff.rel", "SetDataTableOffUlti.rel", "SetDataTableOn.rel", "SetDataTableOnUlti.rel", "SetDataTable_TGS2001.rel", 0 };
 s32 get_floor_scene_table(s32 arg0);
 extern "C" {
 void reset_story_select__6TLobbyFv(void);
@@ -478,8 +478,8 @@ void TLobby::update_drop_item() {
     forest_rel_module = NULL;
     if ((u32) forest_rel_work_buffer != 0U) {
         drop_item_mode = TLobby::get_drop_item_mode();
-        if (get_resource_file_size((const char *)(forest_rel_filename_table[drop_item_mode])) <= 0x24B8) {
-            temp_r3 = (MapSetModule *)load_relocatable_file(forest_rel_filename_table[drop_item_mode], forest_rel_work_buffer);
+        if (get_resource_file_size(forest_rel_filename_table[drop_item_mode]) <= 0x24B8) {
+            temp_r3 = (MapSetModule *)load_relocatable_file((s32)forest_rel_filename_table[drop_item_mode], forest_rel_work_buffer);
             forest_rel_module = temp_r3;
             if (temp_r3 != NULL) {
                 temp_r0 = temp_r3->areas;
@@ -534,8 +534,8 @@ void TLobby::load_item_data() {
     forest_rel_work_buffer = temp_r3;
     if (temp_r3 != 0U) {
         drop_item_mode = TLobby::get_drop_item_mode();
-        if (get_resource_file_size((const char *)(forest_rel_filename_table[drop_item_mode])) <= 0x24B8) {
-            temp_r3_2 = (MapSetModule *)load_relocatable_file(forest_rel_filename_table[drop_item_mode], forest_rel_work_buffer);
+        if (get_resource_file_size(forest_rel_filename_table[drop_item_mode]) <= 0x24B8) {
+            temp_r3_2 = (MapSetModule *)load_relocatable_file((s32)forest_rel_filename_table[drop_item_mode], forest_rel_work_buffer);
             forest_rel_module = temp_r3_2;
             if (temp_r3_2 != NULL) {
                 temp_r0 = temp_r3_2->areas;

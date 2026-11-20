@@ -40,7 +40,7 @@ void TLobby__sub_8020C07C(s32 pl, s16 b, s16 a, s32 mask, s32 set) {
         FloorObjectSetRow *p = TLobby__data_805D610C;
         s32 i;
         for (i = 0; i < TLobby__current_floor_object_set_count; i++, p++) {
-            if (p->room == b && p->wave == a) {
+            if (p->placement.room == b && p->placement.wave == a) {
                 p->flags &= mask;
                 p->flags |= set;
             }

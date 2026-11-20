@@ -14686,7 +14686,7 @@ force_active:
   - resolve_indirect_object_record
   - resolve_owner_heading__11TItemMagSubFv
   - resolve_player_box_contact__FPUcPUcPUc
-  - resolve_set_row_factory_indices__FPvii
+  - resolve_set_row_factory_indices__FPvP17FloorObjectSetRowi
   - resolve_theme_index__13TObjLobbyMainFv
   - resource_bundle__16TObjWeddingLobby
   - respond_to_body_contact__FPUcUlPUc
@@ -15998,7 +15998,7 @@ force_active:
   - spawn_confusion_feedback_effect__Fll
   - spawn_dead_spot__10TObjPlayerFlllf
   - spawn_debris__22TOWreckAncientBrakableFv
-  - spawn_decorations_in_range__FPv
+  - spawn_decorations_in_range__FP11TSetManager
   - spawn_effect__19TContainerAncient01FPvPvPv
   - spawn_effects__19TBoss3VoloptMonitorFv
   - spawn_falling_rocks__9TBoss6MagFv

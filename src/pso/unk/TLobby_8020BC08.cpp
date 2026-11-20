@@ -2,24 +2,22 @@
 #include "types.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/system/task/TObject.h"
+#include "pso/map/FloorPopulation.h"
 #include "pso/player/TObjPlayer_80011014.h"
 
-struct Obj_8020BBA0 { u8 pad[0xC]; Obj_8020BBA0 *next; u8 pad2[4]; Obj_8020BBA0 *child; };
-
 extern "C" {
-void destroy_child_recursive__6TLobbyFPvPv(Obj_8020BBA0 *arg0, Obj_8020BBA0 *arg1);
 void clear_floor_event_flags(void);
 int create_objects__6TLobbyFl(void);
 int attach_objects_by_id__6TLobbyFl(void);
 
-void destroy_child_recursive__6TLobbyFPvPv(Obj_8020BBA0 *arg0, Obj_8020BBA0 *arg1) {
-    Obj_8020BBA0 *p = arg0->child;
-    Obj_8020BBA0 *cur;
-    while (arg0->child != 0 && p != 0) {
+void destroy_child_recursive__6TLobbyFPvPv(TObject *arg0, TObject *arg1) {
+    TObject *p = arg0->m_down;
+    TObject *cur;
+    while (arg0->m_down != 0 && p != 0) {
         cur = p;
-        p = p->next;
+        p = p->m_next;
         if (cur == arg1) {
-            ((TObject *)cur)->queue_destruction();
+            cur->queue_destruction();
         } else {
             destroy_child_recursive__6TLobbyFPvPv(cur, arg1);
         }

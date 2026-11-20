@@ -2,25 +2,12 @@
 #define PSO_OBJECT_BASE_TOBJMOTION_H
 #include "pso/system/task/TObject.h"
 #include "pso/object/CursorAction.h"
+#include "pso/object/base/ObjectSetData.h"
 #include "pso/system/data/FlagWord.h"
 #include <stddef.h>
 #include <dolphin/mtx/GeoTypes.h>
 #include "pso/system/NinjaTypes.h"
 struct BmlMotionEntry;
-
-// What apply_object_set_data reads: an object set entry from 4 bytes in, so
-// entity_id, room, position, rotation and params 1-6 sit as in the .dat entry.
-struct ObjectSetData {
-    u8 pad_0[0x4];
-    u16 entity_id;
-    u8 pad_6[0x2];
-    s16 room;
-    u8 pad_a[0x2];
-    Vec position;
-    s32 rotation[3];
-    Vec scale;
-    s32 set_params[3];
-};
 
 class TObjBase : public TObject {
 public:

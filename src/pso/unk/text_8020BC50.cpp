@@ -1,8 +1,6 @@
 #include "types.h"
 #include "pso/map/FloorPopulation.h"
 #include "pso/unk/TLobby.h"
-struct Ent_8020BC50 { u8 pad1[0x40]; u32 f40; };
-
 struct Pkt_8020BD50 { u8 hdr[2]; u16 id; s16 area; s16 flags; };
 
 extern "C" {
@@ -12,31 +10,30 @@ void *find_entity_by_id(u16 id);
 EnemySetRecord *resolve_matching_object__6TLobbyFv();
 s32 get_object_type__6TLobbyFi();
 void TLobby__sub_8020BCE4(void);
-Ent_8020BC50 *get_object_count__6TLobbyFPv();
+FloorObjectSetRow *get_object_count__6TLobbyFPv();
 s32 get_obj_table_entry__6TLobbyFi();
-void destroy_child_recursive__6TLobbyFPvPv(int, int);
-extern s32 tl_02;
-extern s32 tl_05;
-extern s32 tl_06;
-extern s32 tl_07;
+extern TObject *tl_02;
+extern TObject *tl_05;
+extern TObject *tl_06;
+extern TObject *tl_07;
 void TLobby__sub_8020BC50(void);
 void handle_6x76_set_entity_set_flags(Pkt_8020BD50 *pkt);
 
 void TLobby__sub_8020BC50(void) {
     s32 n;
-    Ent_8020BC50 *p;
+    FloorObjectSetRow *p;
     s32 i;
     get_current_floor();
     p = get_object_count__6TLobbyFPv();
     get_current_floor();
     n = get_obj_table_entry__6TLobbyFi();
     for (i = 0; i < n; i++, p++) {
-        if (p->f40 != 0) {
-            destroy_child_recursive__6TLobbyFPvPv(tl_02, p->f40);
-            destroy_child_recursive__6TLobbyFPvPv(tl_05, p->f40);
-            destroy_child_recursive__6TLobbyFPvPv(tl_06, p->f40);
-            destroy_child_recursive__6TLobbyFPvPv(tl_07, p->f40);
-            p->f40 = 0;
+        if (p->object != 0) {
+            destroy_child_recursive__6TLobbyFPvPv(tl_02, p->object);
+            destroy_child_recursive__6TLobbyFPvPv(tl_05, p->object);
+            destroy_child_recursive__6TLobbyFPvPv(tl_06, p->object);
+            destroy_child_recursive__6TLobbyFPvPv(tl_07, p->object);
+            p->object = 0;
         }
     }
 }
@@ -99,7 +96,7 @@ void handle_6x76_set_entity_set_flags(Pkt_8020BD50 *pkt) {
         }
         if (pkt->area == get_current_floor()) {
             for (i = 0; i < TLobby__current_floor_object_set_count; i++) {
-                if (pkt->id == TLobby__data_805D610C[i].id) {
+                if (pkt->id == TLobby__data_805D610C[i].placement.entity_id) {
                     TLobby__data_805D610C[i].flags |= pkt->flags;
                     break;
                 }

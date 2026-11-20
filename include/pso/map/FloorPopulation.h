@@ -1,3 +1,4 @@
+#include "pso/object/base/ObjectSetData.h"
 #ifndef PSO_MAP_FLOORPOPULATION_H
 #define PSO_MAP_FLOORPOPULATION_H
 
@@ -5,16 +6,16 @@
 #include <stddef.h>
 
 struct TObjEnemy;
+class TObject;
+class TObjBase;
+class TSetManager;
 
 // Live object and enemy rows in the floor set buffers.
 struct FloorObjectSetRow {
     s16 type;
     s16 flags;
-    u8 pad_04[4];
-    u16 id;
-    s16 wave;
-    s16 room;
-    u8 pad_0e[0x36];
+    ObjectSetData placement;
+    TObject *object;
 };
 
 struct EnemySetRecord {
@@ -53,9 +54,9 @@ struct LobbyPoolEntry {
 };
 
 typedef char FloorObjectSetRow_size[sizeof(FloorObjectSetRow) == 0x44 ? 1 : -1];
-typedef char FloorObjectSetRow_id_offset[offsetof(FloorObjectSetRow, id) == 0x8 ? 1 : -1];
-typedef char FloorObjectSetRow_wave_offset[offsetof(FloorObjectSetRow, wave) == 0xA ? 1 : -1];
-typedef char FloorObjectSetRow_room_offset[offsetof(FloorObjectSetRow, room) == 0xC ? 1 : -1];
+typedef char FloorObjectSetRowPlacementOffset[offsetof(FloorObjectSetRow, placement) == 4 ? 1 : -1];
+typedef char FloorObjectSetRowPositionOffset[offsetof(FloorObjectSetRow, placement) + offsetof(ObjectSetData, position) == 0x10 ? 1 : -1];
+typedef char FloorObjectSetRowObjectOffset[offsetof(FloorObjectSetRow, object) == 0x40 ? 1 : -1];
 typedef char EnemySetRecordSize[sizeof(EnemySetRecord) == 0x48 ? 1 : -1];
 typedef char EnemySetRecordId[offsetof(EnemySetRecord, id) == 0xA ? 1 : -1];
 typedef char EnemySetRecordFlags[(offsetof(EnemySetRecord,flags)==2)?1:-1];
@@ -71,6 +72,10 @@ typedef char LobbyPoolEntry_size[sizeof(LobbyPoolEntry) == 8 ? 1 : -1];
 
 extern "C" {
 extern FloorObjectSetRow *TLobby__data_805D610C;
+extern FloorObjectSetRow *floor_decoration_rows;
+extern s32 TLobby__data_805D6120;
+TObjBase *call_area_set_factory(TSetManager *manager, FloorObjectSetRow *row);
+void destroy_child_recursive__6TLobbyFPvPv(TObject *root, TObject *object);
 extern EnemySetRecord *TLobby__data_805D6114;
 extern s32 TLobby__current_floor_object_set_count;
 extern s32 TLobby__current_floor_enemy_set_count;

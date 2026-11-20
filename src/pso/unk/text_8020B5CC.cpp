@@ -8,16 +8,11 @@
 #include "pso/network/protocol/protocol.h"
 #include "pso/unk/pso_carve_8020bf88.h"
 #include "pso/player/TObjPlayer_80011014.h"
-struct Ent_8020BB18 { u8 pad0[2]; s16 a; u8 pad1[0x3C]; u32 f40; };
-
 extern "C" {
-void destroy_child_recursive__6TLobbyFPvPv(int, int);
-extern Ent_8020BB18 *TLobby__data_805D611C;
-extern s32 TLobby__data_805D6120;
-extern s32 tl_02;
-extern s32 tl_05;
-extern s32 tl_06;
-extern s32 tl_07;
+extern TObject *tl_02;
+extern TObject *tl_05;
+extern TObject *tl_06;
+extern TObject *tl_07;
 void archive_pool_free(u32, void *);
 void *archive_pool_alloc(u32, u32);
 void *memcpy(void *, const void *, unsigned long);
@@ -169,9 +164,9 @@ s32 load_floor_enemy_group_entries__6TLobbyFiPvUi(s32 idx, FloorObjectSetRow *sr
     d = t->object_rows;
     for (i = 0; i < n; i++) {
         if (s->type != -1) {
-            d->id = s->id;
-            d->room = s->room;
-            d->wave = s->wave;
+            d->id = s->placement.entity_id;
+            d->room = s->placement.room;
+            d->wave = s->placement.wave;
             d++;
         }
         s++;
@@ -197,16 +192,16 @@ s32 load_floor_enemy_group_entries__6TLobbyFiPvUi(s32 idx, FloorObjectSetRow *sr
 #pragma pop
 
 void TLobby__sub_8020BB18(void) {
-    Ent_8020BB18 *p = TLobby__data_805D611C;
+    FloorObjectSetRow *p = floor_decoration_rows;
     s32 i;
     for (i = 0; i < TLobby__data_805D6120; i++, p++) {
-        if (p->f40 != 0) {
-            destroy_child_recursive__6TLobbyFPvPv(tl_02, p->f40);
-            destroy_child_recursive__6TLobbyFPvPv(tl_05, p->f40);
-            destroy_child_recursive__6TLobbyFPvPv(tl_06, p->f40);
-            destroy_child_recursive__6TLobbyFPvPv(tl_07, p->f40);
-            p->a = 0;
-            p->f40 = 0;
+        if (p->object != 0) {
+            destroy_child_recursive__6TLobbyFPvPv(tl_02, p->object);
+            destroy_child_recursive__6TLobbyFPvPv(tl_05, p->object);
+            destroy_child_recursive__6TLobbyFPvPv(tl_06, p->object);
+            destroy_child_recursive__6TLobbyFPvPv(tl_07, p->object);
+            p->flags = 0;
+            p->object = 0;
         }
     }
 }
