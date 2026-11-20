@@ -33,8 +33,8 @@ struct Desc_8019806C { Pos_8019806C *pos; Uv_8019806C *uv; s16 *col; s32 count; 
 
 extern "C" {
 s32 TAdPlayerLoadGC__sub_801E1538(Hdr_80197E64 *, void *);
-s32 poll_memcard_result(s32);
-s32 get_card_file_info__15TAdPlayerLoadGCFiPvPv(s32, const char *, Stat_80197E64 *);
+s32 poll_memcard_result(saddr);
+s32 get_card_file_info__15TAdPlayerLoadGCFiPvPv(saddr, const char *, Stat_80197E64 *);
 void set_texture_name(void *, void *, int, int);
 }
 

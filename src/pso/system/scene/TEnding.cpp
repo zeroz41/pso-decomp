@@ -17,7 +17,7 @@ s32 get_end_text_font_loaded_flag();
 u32 __cvt_fp2unsigned(f32);
 int TKeyBoardControl__sub_8000F828(void);
 u8 *__ct__10TEndingPicFP7TObject(u8 *arg0, u8 *arg1);
-u8 *TAdRicoRingCtrl__ct(TAdRicoRingCtrl *arg0, s32 arg1);
+u8 *TAdRicoRingCtrl__ct(TAdRicoRingCtrl *arg0, saddr arg1);
 u32 ending_frame_counter;
 s32 ending_scene_active;
 extern TObject *tl_fade;

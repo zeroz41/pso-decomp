@@ -79,7 +79,7 @@ void* get_surface_contact_point(void* p);
 void emit_grass_footstep_effect(saddr arg0);
 void emit_water_step_particles(s32 owner, saddr position);
 void emit_water_footstep_effect(saddr arg0);
-void emit_sand_step_particles(s32 owner, saddr position);
+void emit_sand_step_particles(saddr owner, saddr position);
 void emit_sand_footstep_effect(saddr arg0);
 void emit_idle_water_splash(s32 owner, saddr position);
 void emit_photon_blast_feedback_effects(saddr arg0, s32 arg1);

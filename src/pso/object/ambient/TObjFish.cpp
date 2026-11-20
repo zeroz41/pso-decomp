@@ -43,7 +43,7 @@ s32 draw_ginja_object();
 s32 draw_ginja_model_with_motion(s32, s32, f32);
 s32 get_bml_motion(saddr, s32);
 s32 get_bml_texlist(saddr, s32);
-s32 get_bml_model(saddr, s32);
+saddr get_bml_model(saddr, s32);
 s32 push_matrix();
 s32 set_global_param__8TObjFishFl();
 void __dl__7TObjectFPv(void *);

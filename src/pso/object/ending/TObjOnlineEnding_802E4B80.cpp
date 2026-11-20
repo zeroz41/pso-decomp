@@ -376,7 +376,7 @@ struct Obj_802E4FFC {
 
 s32 get_bml_motion(saddr, s32);
 s32 get_bml_texlist(BmlResource *resource, s32 index);
-s32 get_bml_model(BmlResource *resource, s32 index);
+saddr get_bml_model(BmlResource *resource, s32 index);
 void __ct__8TObjBaseFP7TObject(void *, void *);
 void play_area_music(char *name);
 void *fn_802E6218(void *arg0);

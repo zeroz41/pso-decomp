@@ -955,7 +955,7 @@ Fn_8010542C item_create_fn_table[5] = {
 };
 extern Entry_8010567C *quest_object_entries;
 int check_class_equip_permission(TObjPlayer *player, s32 perm);
-s32 *csnVecterUnder(s32 origin, s32 mask);
+s32 *csnVecterUnder(saddr origin, s32 mask);
 void send_6x60_standard_drop_item_request(Obj_80105538 *self);
 }
 void *build_6x06_send_guild_card(void *arg0);

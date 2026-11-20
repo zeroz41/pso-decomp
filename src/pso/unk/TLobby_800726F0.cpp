@@ -44,7 +44,7 @@ void TLobby__sub_80072880(u8 *arg0);
 void TLobby__sub_800728FC(u8 *arg0);
 void TLobby__sub_80072AB8(void *arg0);
 s32 TLobby__sub_8006FBE4();
-s32 get_message_text(s32);
+saddr get_message_text(s32);
 s32 get_window_layout_position(s32);
 u32 check_room_seq_4__16TAdChrSelASlotGCFl(s32, s32);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);

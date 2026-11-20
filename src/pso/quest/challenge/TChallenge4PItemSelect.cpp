@@ -39,7 +39,7 @@ struct Challenge4PItemCode {
 
 extern "C" {
 
-u32 create_window_menu(s32, s32, s32);
+uaddr create_window_menu(saddr, saddr, saddr);
 s32 TWindowSubComCard__sub_80265500(u32);
 s32 get_window_layout_position(s32);
 s32 fn_8034BE30(TChallenge4PResult *);

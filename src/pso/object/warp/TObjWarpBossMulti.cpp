@@ -103,7 +103,7 @@ s32 lbl_805D5CA4;
 extern "C" {
 extern "C" {
 void release_boss_warp_resources(void);
-saddr TObjWarpBossMulti__create(s32 arg0);
+saddr TObjWarpBossMulti__create(saddr arg0);
 }
 }
 

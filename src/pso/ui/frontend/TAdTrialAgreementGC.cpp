@@ -50,7 +50,7 @@ struct VObj_80335648 : Base_80335648 {
 
 extern "C" {
 
-s32 poll_memcard_result(s32);
+s32 poll_memcard_result(saddr);
 int request_scene_change__21TAdMultiChgGameModeGCFv(void*);
 
 void TAdTrialAgreementGC::render() {

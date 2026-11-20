@@ -39,7 +39,7 @@ extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
 void *__ct__10TODoorBaseFP7TObject(void *a0);
 extern s32 __vt__12TObjDoorJung[];
-u8 *TObjDoorJung__ct(u8 *arg0, s32 arg1, s32 arg2);
+u8 *TObjDoorJung__ct(u8 *arg0, s32 arg1, saddr arg2);
 u8 is_current_floor_switch_set(s32 id);
 /* Ninja object node of the door model: model pointer, transform, then child and sibling links. */
 struct Node_8018F4AC {

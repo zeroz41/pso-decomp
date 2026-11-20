@@ -19,7 +19,7 @@ struct TChCrLoadAfsTextureReqArgs {
 typedef void (TChCrLoadAfsTextureReq::*TChCrLoadAfsTextureReqHandler)();
 
 extern "C" {
-s32 get_bml_model(BmlResource *resource, s32 index);
+saddr get_bml_model(BmlResource *resource, s32 index);
 s32 free_bin_model_request(void *, int);
 void *init_bin_model_request(void *, int, char **, u32 *, int, int, int);
 extern "C" { extern char TChCrLoadAfsTextureReq__class_name_string[]; }

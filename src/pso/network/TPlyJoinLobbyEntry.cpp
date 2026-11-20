@@ -596,7 +596,7 @@ void TLobby::open_udp_socket_for_player() {
     }
 }
 void send_6x6F_quest_flags(s32 arg0);
-void restore_switch_table(s32 arg0, s32 arg1);
+void restore_switch_table(saddr arg0, s32 arg1);
 extern const char lobby_debug_rcv_set_flag_format[];
 extern s16 TLobby__data_805D5CE8;
 void set_world_section_id(void *, s32);
@@ -1557,7 +1557,7 @@ void handle_warp_menu_input__6TLobbyFv(void);
 void handle_game_list_select__6TLobbyFv(void);
 void handle_team_select__6TLobbyFv(void);
 s32 get_link_status__Fv(void);
-s32 poll_memcard_result(s32);
+s32 poll_memcard_result(saddr);
 void close_windows_and_reset__16TQuestListOnlineFv(void *);
 extern s32 quest_download_active;
 void run_task__6TLobbyFv(void *self);
@@ -3409,13 +3409,13 @@ typedef struct Date_801399B8 {
 
 s32 TKeyBoardControl__sub_8000F828(void);
 void queue_destruction__7TObjectFv(void *);
-void init_idle_timeout_timer(void *, s32);
+void init_idle_timeout_timer(void *, saddr);
 void reset_state__6TLobbyFv(int);
 s32 get_access_key_input_buffer(void);
 s32 init_serial_access__6TLobbyFv(void);
 saddr get_connection_message_text(int);
 void reset_controller_input_state(void);
-s32 socket_set_server_info(u32, const void *, const void *, s32, s32, saddr, u16);
+s32 socket_set_server_info(u32, const void *, const void *, saddr, saddr, saddr, u16);
 void *__nw__7TObjectFUl(u32);
 s8 TAdSinglePlyChrSelectGC__sub_8033605C(void);
 extern u32 TLobby__protocol_instance;

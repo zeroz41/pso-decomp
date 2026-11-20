@@ -32,7 +32,7 @@
 // Functions and data of other units that have no shared declaration with the signature these calls use.
 extern "C" {
 s32 get_memcard_free_files(s32 chan);
-s32 poll_memcard_result(s32 chan);
+s32 poll_memcard_result(saddr chan);
 s32 start_memcard_format(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 s32 query_memcard_capacity__15TAdPlayerLoadGCFl(s32 chan, s32 arg1);
 s32 poll_load_status__15TAdPlayerLoadGCFl(s32 chan, const char *name);

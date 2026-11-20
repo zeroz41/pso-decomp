@@ -23,7 +23,7 @@ struct Cam_802AF64C { u8 pad[0x178]; Vec v178; u8 pad2[0x190 - 0x184]; s32 a, b,
 
 extern "C" {
 s32 vec3_add_to(void *, void *);
-s32 rotate_vector_by_matrix(s32, void *, void *);
+s32 rotate_vector_by_matrix(saddr, void *, void *);
 s32 normalize_vector(void *);
 extern Vec lbl_804707E8;
 extern u8 identity_matrix[];

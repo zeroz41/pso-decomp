@@ -62,7 +62,7 @@ void *get_window_layout_position(s32);
 void *check_room_seq_4__16TAdChrSelASlotGCFl(void *, s32);
 void *update_window_mode_from_progress__6TLobbyFPv(void *, WindowPos *);
 s32 align_menu_entry_positions(u32);
-void TWindowHelpItem__set_displayed_item_by_id(u8 *window_help_item, s32 arg1);
+void TWindowHelpItem__set_displayed_item_by_id(u8 *window_help_item, saddr arg1);
 void TQuestThread__sub_801F5D88(void);
 void fn_801F6520(void *p);
 void __dt__16TObjItemOKWindowFv();

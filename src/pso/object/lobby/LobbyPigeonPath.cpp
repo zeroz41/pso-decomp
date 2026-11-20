@@ -161,7 +161,7 @@ extern "C" {
 s32 *csnVecterUnder(saddr origin, s32 mask);
 void vec3_add_to(void *, void *);
 
-s32 get_bml_model(void *, s32);
+saddr get_bml_model(void *, s32);
 s32 get_bml_motion(void *, s32);
 
 s32 push_matrix();

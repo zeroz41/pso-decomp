@@ -70,7 +70,7 @@ struct Obj_802A3FDC {
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 s32 get_bml_texlist(int, int);
-s32 get_bml_model(int, int);
+saddr get_bml_model(int, int);
 extern s32 __vt__14TObjNpcKenkyuW[];
 s32 obj_is_hit_receivable(u8 *arg0);
 void vector_length(void *);

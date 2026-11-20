@@ -43,7 +43,7 @@ LensFlareElement lens_flare_reflected_element_descriptors[10] = {
 extern "C" {
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__13TEF_LensFlare[];
-u8 *TEF_LensFlare__ct(u8 *arg0, s32 arg1, s32 arg2);
+u8 *TEF_LensFlare__ct(u8 *arg0, saddr arg1, saddr arg2);
 
 }
 TEF_LensFlare::~TEF_LensFlare() {

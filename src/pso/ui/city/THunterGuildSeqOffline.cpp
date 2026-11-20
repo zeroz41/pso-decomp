@@ -62,7 +62,7 @@ void THunterGuildSeqOffline__sub_8021E180(void);
 extern void *tl_00;
 void THunterGuildSeqOffline__sub_80213410(void* p);
 s32 THunterGuildSeqOffline__sub_80213458(void);
-u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
+u8 *create_yes_no_window(s32 arg0, s32 arg1, uaddr arg2, uaddr arg3);
 int fn_80223480(void*);
 
 // Written last-to-first: the unit is built with deferred code generation (see configure.py).

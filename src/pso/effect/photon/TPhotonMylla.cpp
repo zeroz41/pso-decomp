@@ -116,7 +116,7 @@ void queue_photon_blast_hit(u32 identity, s32 kind, s32 allow_duplicate, f32 sca
 extern "C" {
 s32 clear_render_context__10TObjPlayerFv(void *);
 s32 rotate_matrix_y(int, int);
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
+void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 void set_material_alpha_compare_reference(s32 reference);
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
 }

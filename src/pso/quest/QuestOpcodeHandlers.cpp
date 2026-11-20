@@ -1285,7 +1285,7 @@ u32 create_quest_message_window();
 s32 get_window_layout_position(s32);
 void fn_80278518(void *arg0, s32 arg1);
 s32 save_and_close__20TShopArmorListWindowFv();
-saddr create_equip_kind_window(s32, const f32 *, s32);
+saddr create_equip_kind_window(saddr, const f32 *, s32);
 s32 update_screen__6TLobbyFv();
 s32 set_challenge_split_flag__6TLobbyFv();
 s32 TLobby__sub_80291DF8(int);

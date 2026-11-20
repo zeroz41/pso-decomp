@@ -67,7 +67,7 @@ s32 query_memcard_capacity__15TAdPlayerLoadGCFl(int, int);
 extern char pso_guildcard_card_filename[];
 extern char pso_character_card_filename[];
 s32 start_memcard_read(s32, void *, u32, s32);
-s32 poll_memcard_result(s32);
+s32 poll_memcard_result(saddr);
 
 s8 get_chr_select_state__23TAdSinglePlyChrSelectGCFv(void);
 void check_ready__23TAdSinglePlyChrSelectGCFv(void);

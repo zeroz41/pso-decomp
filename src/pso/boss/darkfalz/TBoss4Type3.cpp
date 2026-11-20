@@ -391,7 +391,7 @@ extern void* __vt__13TObjBs4CutAtk[];
 
 extern s32 local_client_id;
 
-s32 TObjFish__sub_800E3124(u8 *list, s32 vecs);
+saddr TObjFish__sub_800E3124(u8 *list, saddr vecs);
 s32 init_collision_body_parts(void *, void *, int);
 extern s32 model_render_flags;
 extern s32 tl_04;

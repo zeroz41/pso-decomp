@@ -271,7 +271,7 @@ struct WaitDemoLayout {
 void __ct__7TObjectFP7TObject(TObject *self, TObject *parent);
 extern s32 lbl_804DF614[];
 __declspec(section ".data") s32 lbl_804EFB70[2] = {0x1F, 0x21};
-s32 get_bml_model(s32 bml, s32 index);
+saddr get_bml_model(s32 bml, s32 index);
 s32 get_bml_texlist(s32 bml, s32 index);
 s32 get_bml_motion(s32 bml, s32 index);
 

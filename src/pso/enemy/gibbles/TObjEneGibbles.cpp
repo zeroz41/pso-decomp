@@ -282,7 +282,7 @@ f32 calc_distance_to_client__10TObjPlayerFlUsUl(void *, u16, Vec *);
 s32 obj_setFlags30(void *, int);
 void free_bin_model_request(void*, int);
 void start_camera_shake(s32, f32);
-s32 *csnVecterUnder(s32 origin, s32 mask);
+s32 *csnVecterUnder(saddr origin, s32 mask);
 s32 rotate_xz_pair_by_angle(f32 *, f32 *, s32, f32);
 void TObjPlayer__sub_800D93C4(s32 point, s32 delay);
 void * __ct__11TObjControlFP7TObject(void *, void *);

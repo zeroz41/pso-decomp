@@ -90,7 +90,7 @@ void close_windows__9TObjLukerFPv(Obj_801A0DB4 *self);
 Ctrl_801A0E38 *get_player_by_client_id(u16 id);
 s32 is_split_screen(void);
 void *get_window_layout_position(s32 a);
-void *create_window_menu(void *p, s32 a, s32 b);
+void *create_window_menu(void *p, saddr a, saddr b);
 void *check_room_seq_4__16TAdChrSelASlotGCFl(void *p, s32 a);
 s32 get_floor_destination_name(s32 f);
 void align_menu_entry_positions(void *w);

@@ -144,7 +144,7 @@ s32 get_current_floor(void);
 extern u8 lobby_rule_settings[];
 u16 get_entity_id(void *);
 extern s32 enable_v2_features;
-s32 create_placed_trap__10TOMineTrapFUiss(u32 arg0, s16 arg1, s16 arg2);
+s32 create_placed_trap__10TOMineTrapFUiss(uaddr arg0, s16 arg1, s16 arg2);
 }
 
 struct VBase_18_33b813

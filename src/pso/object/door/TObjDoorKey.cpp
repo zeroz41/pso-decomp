@@ -115,7 +115,7 @@ struct Key_8018FCD8 { u8 pad0[0x38]; u8 f38[0x28]; s32 f60; u8 pad64[0x28]; s32 
 
 extern "C" {
 void debug_draw_key_id__5TOKeyFv();
-s32 get_bml_model(saddr, int);
+saddr get_bml_model(saddr, int);
 s32 load_resource_from_descriptor(s32, int, void *, int, int, int);
 }
 u8 *load_gvm_texture_file(saddr arg0);

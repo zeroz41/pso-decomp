@@ -96,7 +96,7 @@ s32 copy_item_record__18TCheckRoomSequenceFiPvi(int, void *, int);
 s32 copy_bank_to_card_window(int);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
 u16 get_entity_id(void *);
-u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
+u8 *create_yes_no_window(s32 arg0, s32 arg1, uaddr arg2, uaddr arg3);
 void *get_window_layout_position(int);
 s32 copy_bank_item_with_stack_limit(s32 idx, void *data, s32 *out, s32 slot);
 s32 sub_802239EC__13TShopSequenceFv(void *);

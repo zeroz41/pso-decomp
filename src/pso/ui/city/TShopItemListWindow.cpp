@@ -153,7 +153,7 @@ void *create_window_quantity(u16);
 void *create_item_list_window(s32, s32, u16);
 void *create_cost_window(u16);
 s32 align_menu_entry_positions(u32);
-s32 try_buy_item(s32 arg0, void *item);
+s32 try_buy_item(saddr arg0, void *item);
 
 }
 

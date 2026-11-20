@@ -49,7 +49,7 @@ struct QVm_801F6D24 {
     s32 f29C_pad;
     s32 f2A0;
 };extern "C" {
-s32 get_message_text(s32 arg0);
+saddr get_message_text(s32 arg0);
 s32 get_localized_text_entry(s32 arg0, s32 arg1);
 s32 __ct__22TQuestVmDownLoadServerFP7TObject(void *, s32);
 }
@@ -58,7 +58,7 @@ extern s32 tl_00;
 struct Pair_801F6E08 { f32 a; f32 b; };extern "C" {
 s32 create_window__24TMessageWindowControllerFll(void*, s32, void*);
 saddr get_window_layout_position(s32);
-s32 poll_memcard_result(s32);
+s32 poll_memcard_result(saddr);
 void set_ready__6TSceneFv(void *);
 }
 extern s32 lbl_805D55C0;

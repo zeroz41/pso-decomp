@@ -105,8 +105,8 @@ struct ShortMail_8027EF98 {
 
 extern "C" {
 void *send_cmd_133__17TWindowSubComCardFv(void);
-void *send_command__17TWindowSubComCardFi(s32);
-void update_display_value__17TWindowSubComCardFUiUiPv(u32 arg0, u32 arg1, s32 *arg2);
+void *send_command__17TWindowSubComCardFi(saddr);
+void update_display_value__17TWindowSubComCardFUiUiPv(uaddr arg0, uaddr arg1, s32 *arg2);
 s32 TWindowSubShortMail__sub_8007B834(void *);
 void TWindowSubShortMail__sub_8027E620(void *p);
 }

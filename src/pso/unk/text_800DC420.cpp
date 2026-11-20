@@ -62,7 +62,7 @@ struct Me_800DC648 {
 struct Ang_800DC83C { s32 x, y, z; };
 
 extern "C" {
-s32 *csnVecterUnder(s32 origin, s32 mask);
+s32 *csnVecterUnder(saddr origin, s32 mask);
 extern saddr lbl_805D5254;
 extern D_800DC448 *nano_drago_entry_params_resource;
 u16 get_entity_id(void *);

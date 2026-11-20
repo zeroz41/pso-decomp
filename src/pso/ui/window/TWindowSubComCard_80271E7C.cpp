@@ -98,7 +98,7 @@ void load_selected_guild_card_record(int, int);
 void* TWindowSubComCard__sub_8027523C(void* p);
 
 void update_selection__17TWindowSubComCardFUiUiPvi(u32 arg0, u32 arg1, s32 *arg2, s32 arg3);
-void TWindowComCard__sub_80249920(s32 arg0, s32 arg1, s32 arg2);
+void TWindowComCard__sub_80249920(saddr arg0, s32 arg1, s32 arg2);
 }
 
 struct Ent_80272CB0 {
@@ -143,7 +143,7 @@ void open_mode4_window__17TWindowSubComCardFv(void);
 void open_layout_window__17TWindowSubComCardFv(void);
 s32 TWindowSubComCard__sub_80273004(void);
 saddr get_character_save_record(u32 arg0);
-s32 create_choice_setting_window__17TWindowSubComCardFiii(s32 arg0, s32 arg1, s32 arg2);
+s32 create_choice_setting_window__17TWindowSubComCardFiii(saddr arg0, saddr arg1, saddr arg2);
 void create_sub_window__20TWindowChoiceSettingFPvi(void *arg0, s32 arg1);
 s32 init_card__17TWindowSubComCardFv();
 s32 TWindowSubComCard__sub_802728CC(void);

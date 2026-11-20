@@ -72,7 +72,7 @@ s32 bank_has_free_row(s32 slot);
 
 extern "C" {
 u32 get_entity_id(s32);
-u8 *create_yes_no_window(s32 position, u16 client, u32 arg2, u32 arg3);
+u8 *create_yes_no_window(s32 position, u16 client, uaddr arg2, uaddr arg3);
 saddr get_window_layout_position(s32);
 s32 get_item_record__23TShopJudgmentItemWindowFPv(s32, s32, s32);
 s32 store_item_in_bank(u8 *item, s32 arg1, s32 slot);
@@ -80,7 +80,7 @@ void copy_bank_to_card_window(s32 slot);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
 s32 sub_802239EC__13TShopSequenceFv(void *);
 s32 play_sound_effect(s32, s32, s32, s32);
-void TWindowHelpItem__set_displayed_item_by_id(u32, s32);
+void TWindowHelpItem__set_displayed_item_by_id(u32, saddr);
 u32 create_item_list_window(s32, s32, u16);
 void sort_bank_items(s32 slot);
 s32 get_bank_deposit_capacity_for_item(TItemData *item, s32 slot);

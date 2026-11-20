@@ -164,7 +164,7 @@ void spawn__15TBoss6RockChaseFll(void *, void *);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
 s32 get_bml_texlist(BmlResource *resource, s32 index);
-s32 TObjFish__sub_800E3124(u8 *list, s32 vecs);
+saddr TObjFish__sub_800E3124(u8 *list, saddr vecs);
 s32 init_collision_body_parts(void *, void *, int);
 void build_tables__14TBoss6PlotFalzFPvPvi(void *, void *, int);
 void TBoss6Type2__sub_802BA7B0(void* p);

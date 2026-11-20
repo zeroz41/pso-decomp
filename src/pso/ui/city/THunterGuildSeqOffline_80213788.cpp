@@ -226,7 +226,7 @@ s32 sub_802239EC__13TShopSequenceFv(void *);
 extern s32 THunterGuildSeqOffline__quest_result_callbacks[];
 extern saddr quest_mission_manager;
 saddr set_service_counter_camera(void *, s32);
-u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
+u8 *create_yes_no_window(s32 arg0, s32 arg1, uaddr arg2, uaddr arg3);
 s32 sub_802239EC__13TShopSequenceFv(void *);
 s32 get_window_layout_position(s32);
 

@@ -34,7 +34,7 @@ struct WindowSize {
 };
 
 extern "C" {
-s32 poll_memcard_result(s32 card_slot);
+s32 poll_memcard_result(saddr card_slot);
 s32 TAdPlayerLoadGC__sub_801E1538(CardFileRead *file, void *buffer);
 void *get_window_layout_position(s32 index);
 extern s32 evt2_random_enemies_mode;

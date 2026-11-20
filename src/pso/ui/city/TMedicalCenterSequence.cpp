@@ -129,7 +129,7 @@ s32 set_service_counter_camera(void *, int);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
 extern RecoveredGlobal_802169A8___vt__22TMedicalCenterSequence __vt__22TMedicalCenterSequence;
 extern RecoveredGlobal_TMedicalCenterSequence__data_80513E90 TMedicalCenterSequence__data_80513E90;
-u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
+u8 *create_yes_no_window(s32 arg0, s32 arg1, uaddr arg2, uaddr arg3);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 try_spend_actor_meseta(u8 *arg0, s32 arg1);
 int sub_802239EC__13TShopSequenceFv(void *);

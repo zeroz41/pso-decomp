@@ -113,7 +113,7 @@ s32 send_action__9TProtocolFR13GameListEntryUcPcPc(void *, void *, int, char *, 
 extern void *TLobby__protocol_instance;
 
 s32 get_unlocked_tier__16TQuestListOnlineFv(void *);
-u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
+u8 *create_yes_no_window(s32 arg0, s32 arg1, uaddr arg2, uaddr arg3);
 }
 
 s32 get_guild_text(s32 arg0);

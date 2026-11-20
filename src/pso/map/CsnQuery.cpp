@@ -139,7 +139,7 @@ f32 vec_squared_length(Vec *);
 s32 intersect_wall_triangle_one_sided(void *, void *, void *, E_80079580 *, u32, s32);
 s32 select_deepest_wall_ray(Query_80079608 *q, Result_80079608 *r);
 void TObjPlayer__sub_80079124(void * _w0, void * _w1);
-s32 query_segment_wall_meshes(void *arg0, void *arg1, u32 arg2, Node_8007970C **list);
+s32 query_segment_wall_meshes(void *arg0, void *arg1, uaddr arg2, Node_8007970C **list);
 s32 check_line_hits_walls__10TObjPlayerFPvPviPv(void *arg0, void *arg1, int arg2, Node_800797DC **list);
 f32 vec3_dot(void *, void *);
 void vec3_cross(void *, void *, void *);

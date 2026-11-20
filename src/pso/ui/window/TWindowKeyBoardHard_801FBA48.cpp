@@ -19,7 +19,7 @@ f32 rotate_matrix_by_node_angles(void *, void *);
 s32 push_matrix();
 s32 scale_current_matrix(void *);
 f32 post_translate_matrix(void *);
-s32 poll_memcard_result(s32);
+s32 poll_memcard_result(saddr);
 void subtractive_rng_seed(void *, s32);
 void copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(void *, void *);
 extern u8 chr_select_rng_state[];

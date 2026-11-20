@@ -85,7 +85,7 @@ saddr get_char_index__23TAdSinglePlyChrSelectGCFUi(u32 arg0);
 }
 s32 get_class_name_text(s32 arg0);
 extern "C" {
-s32 TAdMultiPlyChrSelectGC__sub_802DFFE8(s32);
+s32 TAdMultiPlyChrSelectGC__sub_802DFFE8(saddr);
 extern u32 ply_status_index;
 u32 ply_status_gc_instance;
 saddr ply_status_chcr_load_afs;

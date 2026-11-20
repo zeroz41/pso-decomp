@@ -74,8 +74,8 @@ const char *TObjEnvSoundGlobal__class_name = "TObjEnvSoundGlobal";
 extern "C" {
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__18TObjEnvSoundGlobal[];
-u8 *TObjEnvSoundGlobal__ct(u8 *arg0, saddr arg1, s32 arg2);
-u8 *TObjEnvSoundEx__ct(u8 *arg0, s32 arg1, s32 arg2);
+u8 *TObjEnvSoundGlobal__ct(u8 *arg0, saddr arg1, saddr arg2);
+u8 *TObjEnvSoundEx__ct(u8 *arg0, s32 arg1, saddr arg2);
 void copy_pair__18TObjEnvSoundGlobalFPvPv(void* p, void* q);
 const Row_80190AA0 *environment_sound_tables_by_area[36] = {
     lbl_804456F0, lbl_80445708, lbl_80445708, lbl_80445738,

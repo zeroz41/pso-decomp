@@ -168,7 +168,7 @@ TUnk_80488B68::~TUnk_80488B68() {
 
 extern "C" {
 
-s32 load_relocatable_file(saddr arg0, saddr arg1);
+saddr load_relocatable_file(saddr arg0, saddr arg1);
 
 }
 TUnk_80488B68::TUnk_80488B68() : TUnk_80488A28() {

@@ -6,7 +6,7 @@
 struct Ent_800868C4 { u8 data[0x98]; };
 
 extern "C" {
-s32 get_bml_model(void *, s32);
+saddr get_bml_model(void *, s32);
 Ent_800868C4 *particle_global_entry_table;
 Ent_800868C4 *particle_area_entry_table;
 u8 *TParticleCtrl__regular_bml_resource;

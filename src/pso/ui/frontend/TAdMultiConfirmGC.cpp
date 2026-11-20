@@ -47,7 +47,7 @@ void *__ct__13TAdGuideTxtGCFv(void *, void *);
 }
 s32 is_multiplayer_character_slot_selected(s32 arg0);
 extern "C" {
-saddr get_or_create_player__22TAdMultiPlyChrSelectGCFiiii(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+saddr get_or_create_player__22TAdMultiPlyChrSelectGCFiiii(saddr arg0, s32 arg1, s32 arg2, s32 arg3);
 void fn_802FF7EC(void *);
 void *__ct__12TAdMultiOkGCFv(void *, void *, OkArg_802FFA3C *);
 extern const char *TAdMultiConfirmGC__name;

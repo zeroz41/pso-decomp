@@ -232,7 +232,7 @@ void vfunc_28__17TObjEneDarkGunnerFv(void);
 void vfunc_58__17TObjEneDarkGunnerFv(void);
 void vfunc_59__17TObjEneDarkGunnerFv(void);
 void TEneEffHamon__sub_800A380C(void);
-u8 * __ct__12TEneEffHamonFv(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, f32 farg0);
+u8 * __ct__12TEneEffHamonFv(u8 *arg0, saddr arg1, s32 arg2, s32 arg3, f32 farg0);
 void *__dt__15TObjEnemyCustomFv(void *arg0, s16 arg1);
 u8 *get_enemy_entity(u16 arg0);
 s32 __ct__9TObjEnemyFP7TObject(void *);

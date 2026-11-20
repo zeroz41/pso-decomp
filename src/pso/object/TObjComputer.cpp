@@ -66,7 +66,7 @@ extern "C" {
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 s32 rotate_matrix_y(s32, s32);
-s32 get_bml_model(void *, s32);
+saddr get_bml_model(void *, s32);
 u32 init_collision_body_parts(void *, void *, s32);
 void *TObjMesBase__ct(TObjMesBase *arg0, saddr arg1, saddr arg2);
 extern s32 __vt__12TObjComputer[];

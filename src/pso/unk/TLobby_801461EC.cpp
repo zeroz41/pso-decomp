@@ -152,8 +152,8 @@ s32 init_work(s32 arg0, u8 *arg1);
 s32 get_network_config_buffer_size(s32 mode);
 s8 func_801A5E54();
 extern "C" {
-s32 TLobby__sub_804219D0(s32, s32, s32);
-s32 net_add_ipv4_route(s32, s32, s32);
+s32 TLobby__sub_804219D0(saddr, saddr, saddr);
+s32 net_add_ipv4_route(saddr, saddr, saddr);
 void xfree__FPv(void*);
 int xmalloc__FUl(void);
 

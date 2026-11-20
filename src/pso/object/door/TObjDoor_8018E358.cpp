@@ -84,7 +84,7 @@ u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 }
 u8 *load_gvm_texture_file(saddr arg0);
 extern "C" {
-s32 get_bml_model(saddr, s32);
+saddr get_bml_model(saddr, s32);
 s32 get_bml_motion(saddr, s32);
 s32 draw_locked__8TObjDoorFPv(Door_8018E74C *arg0);
 void set_active_camera_pose(u8 *arg0, u8 *arg1);

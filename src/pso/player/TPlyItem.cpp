@@ -65,7 +65,7 @@ struct Req_801D3780 {
 struct Ground_801D3C38 { u8 pad0[4]; Vec *pos; };
 extern "C" {
 void send_6x29_delete_item__10TObjPlayerFPvii(void *, s32, s32);
-s32 poll_memcard_result(s32);
+s32 poll_memcard_result(saddr);
 // The callers sign-extend the result (extsb), the header's member returns u8.
 s8 get_chr_select_state__23TAdSinglePlyChrSelectGCFv();
 void *refresh_actor_body_spheres(Body_801D3E20, Body_801D3E20);

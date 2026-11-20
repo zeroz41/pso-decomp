@@ -88,7 +88,7 @@ s32 get_bml_motion(saddr, s32);
 
 s32 get_bml_texlist(saddr, s32);
 
-s32 get_bml_model(saddr, s32);
+saddr get_bml_model(saddr, s32);
 
 void free_bin_model_request(void*, int);
 

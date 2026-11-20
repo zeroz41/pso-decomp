@@ -22,7 +22,7 @@ extern const char *fe_obj_baiku_motion_names[1];
 struct Moto_801951C8 { const char *x0; u8 pad4[0x30 - 4]; u32 flags; u8 pad34[0x68 - 0x34]; f32 x68; u8 pad6C[0xBC - 0x6C]; s32 xBC; };
 
 extern "C" {
-s32 get_bml_model(void *, int);
+saddr get_bml_model(void *, int);
 }
 void rotate_matrix_yxz(s32 matrix, s32 arg1, s32 arg2, s32 arg3);
 extern "C" {

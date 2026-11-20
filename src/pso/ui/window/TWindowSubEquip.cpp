@@ -7,8 +7,8 @@ extern "C" {
 
 void *get_player_by_client_id(s32 i);
 s32 get_item_id__5TItemFv();
-void TWindowHelpItem__set_displayed_item_by_id(u8 *arg0, s32 arg1);
-void show_item_by_id__15TWindowHelpItemFPvi(u8 *arg0, s32 arg1);
+void TWindowHelpItem__set_displayed_item_by_id(u8 *arg0, saddr arg1);
+void show_item_by_id__15TWindowHelpItemFPvi(u8 *arg0, saddr arg1);
 
 void TWindowSubEquip::update_displayed_item() {
     s32 temp_r3;

@@ -308,7 +308,7 @@ s32 get_draw_context__11TWindowBaseFPv();
 s32 draw_visible_window_entries(void *, void *, int);
 s32 draw_window_scrollbar(int, int, void *);
 extern RecoveredGlobal_8026AB3C___vt__17TWindowMessageLog __vt__17TWindowMessageLog;
-u8 *TWindowMessage__ct(u8 *arg0, s32 arg1, u32 arg2, s32 arg3);
+u8 *TWindowMessage__ct(u8 *arg0, saddr arg1, u32 arg2, s32 arg3);
 s32 reset_selection__20TWindowSubStatusDispFv(int, void *);
 extern const char *TWindowMessageLog__name;
 void TWindowMessageLog::render() {

@@ -84,7 +84,7 @@ s16 TLobby__sub_804112B8(s32 arg0, s32 arg1, s16 arg2) {
 }
 
 s32 TLobby__sub_80411604(int, int, void *);
-s32 NetIPv6SendRouterSolicitation(s32 arg0);
+s32 NetIPv6SendRouterSolicitation(saddr arg0);
 typedef struct Ipv6NdEvent {
     u8 *addr;
     s16 prefix_len;

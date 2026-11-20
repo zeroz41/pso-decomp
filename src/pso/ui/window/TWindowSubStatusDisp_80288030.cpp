@@ -11,7 +11,7 @@ s32 *get_shared_text_buffer(void);
 void text_builder_append(u8 *str);
 u8 *get_card_data_ptr__17TWindowSubComCardFv(s32);
 void *TWindowSubComCard__sub_8027523C(void *p);
-u8 *init_heading_entry__20TWindowSubStatusDispFPvPvici(u8 *arg0, u8 *arg1, s32 arg2, s8 arg3, s32 arg4);
+u8 *init_heading_entry__20TWindowSubStatusDispFPvPvici(u8 *arg0, u8 *arg1, saddr arg2, s8 arg3, s32 arg4);
 extern const f32 lbl_8044FCF0[2] = { 0.0f, -13.0f };
 }
 void text_builder_reset(void);

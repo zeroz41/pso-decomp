@@ -10,7 +10,7 @@
 
 extern "C" {
 
-void draw_weapon_at_joint(s32 arg0, s8 arg1);
+void draw_weapon_at_joint(saddr arg0, s8 arg1);
 
 void TUnk_804A2358::emit_marker_effects() {
     s32 sp8;

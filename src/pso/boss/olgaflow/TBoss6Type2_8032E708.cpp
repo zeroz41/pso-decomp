@@ -1259,7 +1259,7 @@ void __ct__9TObjEnemyFP7TObject(void *, s32, void *);
 s32 exchange_object_state__9TObjEnemyFls(void *, Key_80330724 *, s32);
 void init_collision_body_parts(void *, void *, s32);
 f32 *dispatch_shared_handler_a__6TLobbyFl(int);
-s32 TObjFish__sub_800E3124(u8 *list, s32 vecs);
+saddr TObjFish__sub_800E3124(u8 *list, saddr vecs);
 void TBoss6Mag__sub_803309C4(void *, void *);
 
 u8 *TBoss6Mag__ct(u8 *arg0, s32 arg1, u8 *arg2) {

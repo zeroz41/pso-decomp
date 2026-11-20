@@ -8,7 +8,7 @@ const char *TWindowMessageInfomation__name = "TWindowMessageInfomation";
 
 
 extern "C" {
-u8 * TWindowMessage__ct(void *, s32, u32, s16);
+u8 * TWindowMessage__ct(void *, saddr, u32, s16);
 extern s32 __vt__24TWindowMessageInfomation[];
 extern const char *TWindowMessageInfomation__name;
 u8 *TWindowMessageInfomation__ct(u8 *arg0, s32 arg1, s16 arg2);

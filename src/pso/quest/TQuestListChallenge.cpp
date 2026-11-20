@@ -107,7 +107,7 @@ extern "C" {
 
 s32 get_entity_id(s32);
 s32 get_quest_list_text(int, int, int);
-void *create_yes_no_window(s32, u16, s32, s32);
+void *create_yes_no_window(s32, u16, saddr, saddr);
 void *create__14TWindowMessageFlPCfUll(s32, Pair_80288DA4 *, s32, u16);
 s32 get_window_layout_position(s32);
 void update_selection__19TQuestListChallengeFv(QLC_80288DA4 *self);
@@ -149,7 +149,7 @@ void reset_globals2__19TQuestListChallengeFv(void);
 void reset_globals__19TQuestListChallengeFv(void);
 s32 prepare_offline_quest_filenames(s32, s32);
 void *__ct__11TObjControlFP7TObject(void *, void *);
-u8 *TObjNpcKenkyu__ct(u8 *arg0, s32 arg1, s32 arg2);
+u8 *TObjNpcKenkyu__ct(u8 *arg0, s32 arg1, saddr arg2);
 
 extern "C" {
 struct QLCStage_80289200 { s32 a; s32 b; s32 c; const char *name; };

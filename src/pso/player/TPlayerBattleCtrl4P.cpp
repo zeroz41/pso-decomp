@@ -107,7 +107,7 @@ u8 TLobby__sub_801D7100(void *);
 extern u8 lobby_rule_settings[];
 s32 TLobby__sub_801C19D0(void *);
 s32 TAdSinglePlyChrSelectGC__sub_801FCE6C();
-s32 get_character_save_record(u32 arg0);
+saddr get_character_save_record(u32 arg0);
 int obj_getPtr2B0_20(u8 *p);
 f32 fn_801C19A4(void *);
 s32 TWindowDuelResult__sub_801C19AC(f32 *arg0);

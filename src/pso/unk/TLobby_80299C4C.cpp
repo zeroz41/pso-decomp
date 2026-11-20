@@ -110,7 +110,7 @@ u32 create__14TWindowMessageFPvll(s32, s32 *, s32);
 s32 TLobby__sub_80292F5C();
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 s32 get_player_by_client_id(int);
-s32 get_message_text(s32);
+saddr get_message_text(s32);
 s32 get_window_layout_position(s32);
 void TObjPlayer__sub_8024ABDC(s32 arg0);
 

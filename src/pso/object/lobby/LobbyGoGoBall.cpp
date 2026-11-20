@@ -47,7 +47,7 @@ s32 gogo_ball_bml_resource;
 #pragma auto_inline off
 #pragma dont_inline off
 extern "C" {
-s32 get_bml_model(void *, s32);
+saddr get_bml_model(void *, s32);
 s32 draw_chunk_object(s32);
 s32 rotate_matrix_z(int, int);
 s32 push_matrix();

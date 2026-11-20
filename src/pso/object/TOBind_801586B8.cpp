@@ -29,7 +29,7 @@ u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 uaddr TOBind__static_model_resource;
 u8 *get_bml_motion(saddr, s32);
 s32 get_bml_texlist(saddr, int);
-s32 get_bml_model(saddr, int);
+saddr get_bml_model(saddr, int);
 s32 __ct__14TObjCollidableFP7TObject(void *, int);
 extern s32 __vt__6TOBind[];
 const char *lbl_805D2EA8 = "TOBind";

@@ -184,7 +184,7 @@ s32 set_depth__11TWindowBaseFf(f32);
 s32 sub_80246948__11TWindowBaseFv(void *);
 s32 refresh_status_display__9TWindowDDFv(int);
 void TWindowSubSymbolChat__sub_802483F0(int a0, void *a1);
-void set_symbol_chat_parts__20TWindowSubSymbolChatFiPv(s32 arg0, void *arg1);
+void set_symbol_chat_parts__20TWindowSubSymbolChatFiPv(saddr arg0, void *arg1);
 s32 draw_resolved_window__15TWindowFukidasiFllll(Fuki_80250F70 *, f32 *, f32 *, s32);
 f32 * get_message_by_type__11TWindowCtrlFScl(u8, int);
 }
@@ -214,7 +214,7 @@ void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
 extern "C" {
 f32 vec3_dot(void *, void *);
 void project_world_to_screen(s32, f32 *, f32 *);
-void rotate_vector_by_matrix(s32, void *, void *);
+void rotate_vector_by_matrix(saddr, void *, void *);
 void rotate_matrix_y(s32, s32);
 void rotate_matrix_z(s32, s32);
 void rotate_matrix_x(s32, s32);

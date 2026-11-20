@@ -548,7 +548,7 @@ struct VObj_18_f05d67 : VBase_18_f05d67 {
 struct Arr_802B93C4 { u8 pad[0x378]; s32 arr[32]; };
 struct Tmp_802B93C4 { s32 a; s16 b; s16 c; u8 pad[0x10]; };
 
-s32 TObjFish__sub_800E3124(u8 *list, s32 vecs);
+saddr TObjFish__sub_800E3124(u8 *list, saddr vecs);
 void build_tables__14TBoss6PlotFalzFPvPvi(void *, const void *, int);
 void TBoss6Type1__sub_802B854C(void *);
 extern u8 __vt__11TBoss6Type1[];

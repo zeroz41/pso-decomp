@@ -28,7 +28,7 @@ s32 TObjPlayer__sub_80084500();
 s32 free_children__12TObjDoorJungFPv(void *, u16);
 s32 TObjLiveMonitor__sub_8030C050(void* p);
 void draw_ginja_model(saddr);
-s32 get_bml_model(saddr, s32);
+saddr get_bml_model(saddr, s32);
 s32 is_split_screen();
 extern s32 __vt__20TObjLiveMonitorSmall[];
 saddr live_monitor_shared_resource;
@@ -93,7 +93,7 @@ extern "C" {
 s32 get_current_floor();
 void subtractive_rng_seed(void *, s32);
 s32 __ct__14SubtractiveRngFv(void *);
-u8 *fn_800832EC(u8 *arg0, s32 arg1, s32 arg2, saddr arg3, saddr arg4, f32 farg0);
+u8 *fn_800832EC(u8 *arg0, saddr arg1, s32 arg2, saddr arg3, saddr arg4, f32 farg0);
 extern s32 tl_particlemodel;
 }
 

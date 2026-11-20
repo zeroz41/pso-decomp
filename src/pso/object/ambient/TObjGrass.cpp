@@ -414,7 +414,7 @@ struct VObj_18_ca64a0 : VBase_18_ca64a0 {
 };
 void restore_scene_lighting(void);
 void select_actor_lighting(saddr obj);
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
+void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;

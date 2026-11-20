@@ -53,7 +53,7 @@ extern s32 pso_guildcard_card_filename[];
 void *__ct__9TAdBackGCFv(void *, void *);
 void *__ct__12TAdBackTxtGCFv(void *, void *);
 uaddr update_window_mode_from_progress__6TLobbyFPv(const NJS_POINT2 *, const NJS_POINT2 *);
-s32 poll_memcard_result(s32);
+s32 poll_memcard_result(saddr);
 s32 poll_memcard_status__23TAdSinglePlyChrSelectGCFv();
 s32 load_character_from_card__23TAdSinglePlyChrSelectGCFi(s32 arg0);
 int begin_action_from_char_select__10TObjPlayerFv(void*);

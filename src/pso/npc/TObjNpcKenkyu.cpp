@@ -25,7 +25,7 @@ uaddr TObjNpcKenkyu__static_model;
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 s32 get_bml_texlist(int, int);
-s32 get_bml_model(int, int);
+saddr get_bml_model(int, int);
 extern s32 __vt__13TObjNpcKenkyu[];
 void free_bin_model_request(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);

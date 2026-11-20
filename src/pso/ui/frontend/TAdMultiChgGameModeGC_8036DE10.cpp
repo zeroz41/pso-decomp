@@ -55,7 +55,7 @@ void refresh_char_slots__23TAdSinglePlyChrSelectGCFv(void);
 s32 encrypt_save_and_write__23TAdSinglePlyChrSelectGCFv();
 int request_scene_change__21TAdMultiChgGameModeGCFv(void*);
 int init_change_mode__21TAdMultiChgGameModeGCFv(void*);
-s32 poll_memcard_result(s32);
+s32 poll_memcard_result(saddr);
 extern RecoveredGlobal_8036E8DC_lbl_804C88C0 pso_character_card_filename;
 struct PsoSystemCardFilename { char value[0xB]; };
 extern PsoSystemCardFilename pso_system_card_filename;

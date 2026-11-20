@@ -324,7 +324,7 @@ u8 * free_bin_model_request(void *, s16);
 u8 * lock_on_cursor_bml_resource;
 s32 lock_on_cursor_model;
 s32 TLockOnCursor__target_cursor_model;
-s32 get_bml_model(void *, s32);
+saddr get_bml_model(void *, s32);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 }
 s32 main_cursor_model;

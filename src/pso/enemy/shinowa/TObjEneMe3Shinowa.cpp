@@ -67,7 +67,7 @@ void fn_800E762C(TObjEneMe3Shinowa *);
 u16 TObjEneMe3ShinowaReal__sub_800E45CC(TObjEneMe3Shinowa *shinowa);
 extern s32 model_render_flags;
 TObjEneMe3ShinowaMirage *create__23TObjEneMe3ShinowaMirageFPvPv(void *, s32, s32, s32);
-s32 *csnVecterUnder(s32 origin, s32 mask);
+s32 *csnVecterUnder(saddr origin, s32 mask);
 s32 mult_vec_array__10TObjPlayerFUll(int, int, void *, int);
 s32 push_matrix();
 s32 post_translate_matrix(void *);

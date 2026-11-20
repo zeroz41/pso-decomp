@@ -189,7 +189,7 @@ u8 *create_item_list_window(s32 arg0, s32 arg1, s32 arg2);
 s32 try_spend_actor_meseta(u8 *arg0, s32 arg1);
 s32 get_item_record__23TShopJudgmentItemWindowFPv(int, int, int);
 void set_judgment_target_flag(void *arg0, void *arg1);
-u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
+u8 *create_yes_no_window(s32 arg0, s32 arg1, uaddr arg2, uaddr arg3);
 s32 get_window_layout_position(s32);
 void send_6x25_equip_item(void *arg0, s32 arg1, s32 arg2);
 void TItemData__clear_unidentified_flag(void *arg0);

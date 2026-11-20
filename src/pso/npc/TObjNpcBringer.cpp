@@ -56,7 +56,7 @@ extern "C" void test_flag_256__9TObjCharaFv();
 
 extern "C" {
 s32 get_bml_texlist(void *, s32);
-s32 get_bml_model(void *, s32);
+saddr get_bml_model(void *, s32);
 void TObjNpcBase__ct(void *, void *);
 void init_collision_body_parts(void *, void *, s32);
 extern u8 npc_default_battle_stats[];

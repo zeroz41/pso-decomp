@@ -71,7 +71,7 @@ void show_message_by_count__9TWindowDDFll(s32, void *);
 void append_word_select_token(s16, s32, void *);
 void TWindowDD__sub_8034740C(M_80347758 *entry, saddr arg1, saddr arg2);
 void TWindowDD__sub_803474CC(M_80347758 *entry, s16 id, char *word, saddr buf, s32 *pos);
-s32 TWindowDD__sub_80348D88(void *p);
+saddr TWindowDD__sub_80348D88(void *p);
 extern s32 TWindowDD__window_mode;
 void TWindowDD__sub_80347474(M_80347758 *entry, s16 id, s32 buf, s32 *pos);
 extern const f32 lbl_805DFB54;

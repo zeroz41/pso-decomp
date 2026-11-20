@@ -16,7 +16,7 @@
 #include "pso/unk/TLobby_80132ED0.h"
 
 extern "C" {
-s32 poll_memcard_result(s32 chan);
+s32 poll_memcard_result(saddr chan);
 TWindowMessage *update_window_mode_from_progress__6TLobbyFPv(const f32 *pos, const f32 *size);
 TWindowMenu *check_room_seq_4__16TAdChrSelASlotGCFl(const f32 *pos, s32 arg1);
 s32 align_menu_entry_positions(TWindowMenu *menu);

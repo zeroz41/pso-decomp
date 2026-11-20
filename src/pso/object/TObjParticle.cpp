@@ -48,7 +48,7 @@ s32 spawn_continuous_particle_with_direction(void *, void *, s32);
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__12TObjParticle[];
 const char *obj_particle_class_name = "TObjParticle";
-Part_80195400 *TObjParticle__ct(Part_80195400 *arg0, s32 arg1, Src_80195400 *arg2);
+Part_80195400 *TObjParticle__ct(Part_80195400 *arg0, saddr arg1, Src_80195400 *arg2);
 
 extern s32 camera_ctrl_instance;
 

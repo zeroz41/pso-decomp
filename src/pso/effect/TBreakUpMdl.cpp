@@ -115,7 +115,7 @@ void alloc_breakup_piece_records(Brk_80096EBC *arg0, void *arg1);
 extern u32 saved_model_render_flags;
 extern u32 model_render_flags;
 void __ct__7TObjectFP7TObject(void *, void *);
-void rotate_vector_by_matrix(s32, void *, void *);
+void rotate_vector_by_matrix(saddr, void *, void *);
 void rotate_matrix_y(s32, s32);
 extern s32 __vt__11TBreakUpMdl[];
 static const BreakUpParamRow breakup_default_param_row = { 12, 0.07f, 1.5f, 0.9f, 0.12f, 0.5f, 0.5f };

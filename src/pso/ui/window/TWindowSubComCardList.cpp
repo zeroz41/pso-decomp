@@ -29,7 +29,7 @@ const char *TWindowSubComCardList__class_name = "TWindowSubComCardList";
 
 
 extern "C" {
-u8 *TWindowMenu__ct(u8 *arg0, u32 arg1, s32 arg2, s32 arg3);
+u8 *TWindowMenu__ct(u8 *arg0, u32 arg1, s32 arg2, saddr arg3);
 void *init__21TWindowSubComCardListFiii(void *, s32, s8, s32);
 extern s32 __vt__21TWindowSubComCardList[];
 extern const char *TWindowSubComCardList__class_name;

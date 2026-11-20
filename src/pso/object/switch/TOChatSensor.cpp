@@ -87,7 +87,7 @@ u32 __nw__7TObjectFUl(int);
 
 extern s32 tl_05;
 
-u32 TOChatSensor__create(s32 arg0);
+u32 TOChatSensor__create(saddr arg0);
 
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 

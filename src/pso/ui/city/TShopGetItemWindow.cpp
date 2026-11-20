@@ -92,7 +92,7 @@ struct Win_8021EA48 : VBase_8021EA48 {
 
 extern "C" {
 s32 get_entity_id(s32);
-u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
+u8 *create_yes_no_window(s32 arg0, s32 arg1, uaddr arg2, uaddr arg3);
 s32 get_window_layout_position(s32);
 s32 compact_items__18TCheckRoomSequenceFi(int);
 s32 remove_bank_item_amount__18TCheckRoomSequenceFiii(int, int, int);

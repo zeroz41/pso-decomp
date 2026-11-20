@@ -193,7 +193,7 @@ s32 get_bml_texlist(saddr, int);
 void init_collision_body_parts(void *, void *, int);
 
 u32 get_bml_motion(saddr, int);
-s32 get_bml_model(saddr, int);
+saddr get_bml_model(saddr, int);
 s32 submit_cursor_candidate(void *, int, f32);
 extern saddr TContainerAncient01R__bml_resource;
 

@@ -56,7 +56,7 @@ struct ByteBlock_3C { u8 bytes[0x3c]; };
 extern "C" {
 void __ct__15RenderFadeStateFv(void *);
 s32 get_bml_texlist(saddr, s32);
-s32 get_bml_model(saddr, s32);
+saddr get_bml_model(saddr, s32);
 s32 matrix_mult_vec(int, void *, void *);
 void push_matrix(void);
 void post_translate_matrix(void *);

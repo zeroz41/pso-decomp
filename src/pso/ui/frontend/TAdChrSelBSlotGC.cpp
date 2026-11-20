@@ -337,7 +337,7 @@ s32 TAdChrSelASlotGC__sub_8030C4F8(TAdChrSelASlotGC *self, s32 kind);
 s32 TAdChrSelASlotGC__sub_8030C5C0(TAdChrSelASlotGC *self, s32 kind);
 s32 TAdChrSelASlotGC__sub_8030C688(TAdChrSelASlotGC *self, s32 kind);
 s32 TAdChrSelSlotGC__sub_802C7498(s32, s32);
-s32 poll_memcard_result(s32);
+s32 poll_memcard_result(saddr);
 s32 start_memcard_format(s32, s32, s32, s32, s32);
 void TAdSubPlyItemGC__sub_802D6D88(TAdSubPlyItemGC *self);
 

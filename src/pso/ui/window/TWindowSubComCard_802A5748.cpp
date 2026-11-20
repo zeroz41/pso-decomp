@@ -14,8 +14,8 @@
 
 extern "C" {
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
-u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
-saddr create_window_menu(s32, s32, s32);
+u8 *create_yes_no_window(s32 arg0, s32 arg1, uaddr arg2, uaddr arg3);
+saddr create_window_menu(saddr, saddr, saddr);
 int set_selected_index__21TWindowSubComCardListFs(void*);
 
 void TWindowSubComCard::close() { queue_destruction(); }

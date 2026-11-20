@@ -154,7 +154,7 @@ void start_placement_search(saddr arg0, saddr arg1, saddr arg2);
 s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range);
 void offset_point_toward_camera(u8 *arg0, u8 *arg1, f32 farg0);
 extern s32 lbl_80515BA0[];
-u8 *create_telepipe_marker(u8 *arg0, s32 arg1, s8 arg2, s8 arg3, s32 arg4, s32 arg5, s32 arg6, f32 farg0, f32 farg1);
+u8 *create_telepipe_marker(u8 *arg0, saddr arg1, s8 arg2, s8 arg3, saddr arg4, s32 arg5, s32 arg6, f32 farg0, f32 farg1);
 extern "C" {
 s32 free_collision_body_parts(void *);
 s32 submit_cursor_candidate(void *, s32);

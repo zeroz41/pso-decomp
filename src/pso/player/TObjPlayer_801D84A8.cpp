@@ -31,7 +31,7 @@ int check_flag_100__10TObjPlayerFPv(void *p);
 s32 validate_and_clear_slot__10TObjPlayerFv(void *, s32);
 s32 TObjPlayer__sub_801AF694(void *, s32);
 u16 get_entity_id(void *);
-s32 TWindowCtrl__sub_8024A228(s32);
+s32 TWindowCtrl__sub_8024A228(saddr);
 s32 TMainCursor__sub_8013F244(void *);
 s32 fn_8013F24C(void *, s32);
 s32 is_palette_entry_displayable__10TObjPlayerFv(u8 *, u8, u8);

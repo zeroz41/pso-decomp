@@ -101,7 +101,7 @@ s32 update_help_item__13TWindowSubMagFv(void *, s32);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 are_status_entries_ready__13TWindowSubMagFi(void *);
-void *TWindowSubMagPhoton__ct(void *, s32, s32, s32);
+void *TWindowSubMagPhoton__ct(void *, saddr, s32, s32);
 int TWindowSubMag__sub_8027C0E8(void* p);
 u32 is_action_active__10TObjPlayerFv(void *);
 const char *TWindowSubMag__class_name = "TWindowSubMag";
@@ -112,11 +112,11 @@ extern const f32 lbl_8044F9F8[2] = {308.0f, 124.0f};
 extern const f32 lbl_8044FA00[2] = {214.0f, 184.0f};
 extern Pad_8027B888 controller_input_state[];
 void *TWindowSubMag__ct(TWindowSubMag *arg0, s32 arg1, s32 arg2);
-void TWindowHelpItem__set_displayed_item_by_id(u8 *arg0, s32 arg1);
+void TWindowHelpItem__set_displayed_item_by_id(u8 *arg0, saddr arg1);
 }
 s32 get_help_text_string(s32 arg0);
 extern "C" {
-s32 create_equip_kind_window(s32, const f32 *, s32);
+s32 create_equip_kind_window(saddr, const f32 *, s32);
 s32 __ct__7TObjectFP7TObject();
 s32 __dl__7TObjectFPv(void *);
 s32 __dt__7TObjectFv(void *, s32);

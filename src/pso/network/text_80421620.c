@@ -313,7 +313,7 @@ s32 udp_close(s32 a) {
     return r;
 }
 
-s16 udp_sendto(s32 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, u16 port, s32 opt); /* declared here with an s32 handle; the definition takes s16 */
+s16 udp_sendto(s32 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, u16 port, saddr opt); /* declared here with an s32 handle; the definition takes s16 */
 
 s16 udp_send(s32 h, u32 *src, u32 *dst, u16 port, u32 *opt, s8 n, send_buffs *bufs) {
     u32 any_addr[5];

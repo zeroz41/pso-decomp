@@ -10,7 +10,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 extern "C" {
-u8 * TEF_LensFlare__ct(void *, s32, s32);
+u8 * TEF_LensFlare__ct(void *, saddr, saddr);
 extern s32 tl_05;
 u32 __cvt_fp2unsigned(f32);
 f32 horizontal_distance_squared(s32, s32);

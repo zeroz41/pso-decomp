@@ -97,7 +97,7 @@ extern "C" {
 
 s32 scroll_strip_uvs(void *, s16, int);
 s32 clear_render_context__10TObjPlayerFv(void *);
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
+void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
 }
 extern NJS_ARGB saved_model_draw_color;

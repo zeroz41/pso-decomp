@@ -59,7 +59,7 @@ s32 TObjPlayer__sub_801C0124(void *, s16);
 void split_capped_value__10TObjPlayerFUcPUcPSc(s32, u8 *, E_802C4698 *);
 u8 *TObjPlayer__sub_802C4688(O_802C4688 *self, s32 i);
 E_802C4698 *TObjPlayer__sub_802C4698(O_802C4698 *self, s32 i);
-s32 reset(s32);
+saddr reset(s32);
 s32 export_inventory_entry__10TObjPlayerFiPv(Item_802C3F74 *, s32);
 s32 TObjPlayer__sub_802A1018();
 int init_character_stats_for_level(s32, s8 *, s32);

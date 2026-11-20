@@ -72,7 +72,7 @@ s32 get_entity_id(s32);
 s8 get_chr_select_state__23TAdSinglePlyChrSelectGCFv(void);
 int is_flag_400_set__10TObjPlayerFPv(void *p);
 int check_flag_100__10TObjPlayerFPv(void *p);
-s32 poll_memcard_result(s32);
+s32 poll_memcard_result(saddr);
 extern u8 controller_input_state[];
 extern s32 local_client_id;
 extern s32 lbl_805D55C0;

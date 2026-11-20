@@ -92,7 +92,7 @@ void TWindowCtrl::update_pulse_color() {
 #pragma pop
 
 s32 has_player_active_menu__11TWindowCtrlFv(s32);
-s32 TWindowCtrl__sub_8024B000(void *, s32);
+s32 TWindowCtrl__sub_8024B000(void *, saddr);
 s32 is_slot_visible__11TWindowCtrlFv(s32);
 s32 is_split_screen();
 s32 fn_8002AE08(s32);
