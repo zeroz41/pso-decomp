@@ -69,7 +69,7 @@ void TLobby__sub_802409F0(struct SoundRequestVoice *v);
 void TLobby__sub_80240F38(void);
 void TLobby__sub_80241A0C(void);
 void TLobby__sub_802422EC(void *arg0, void *arg1);
-void TLobby__sub_8024259C(s32 arg0);
+void TLobby__sub_8024259C(saddr arg0);
 void TLobby__sub_8024285C(void *p);
 s32 advance_rng__6TLobbyFv(void *arg0);
 char *build_text_from_comma_list__6TLobbyFv(char *list);
@@ -127,7 +127,7 @@ void TLobby__sub_802409F0(struct SoundRequestVoice *v);
 void TLobby__sub_80240F38(void);
 void TLobby__sub_80241A0C(void);
 void TLobby__sub_802422EC(void *arg0, void *arg1);
-void TLobby__sub_8024259C(s32 arg0);
+void TLobby__sub_8024259C(saddr arg0);
 void TLobby__sub_8024285C(void *p);
 s32 advance_rng__6TLobbyFv(void *arg0);
 }

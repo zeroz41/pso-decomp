@@ -71,7 +71,7 @@ void copy_slot_data__23TAdSinglePlyChrSelectGCFPvPv(Dst_8028ED24 *d, Src_8028ED2
 
 #pragma push
 #pragma fp_contract on
-void TAdSinglePlyChrSelectGC__sub_8028ED54(s32 arg1_) {
+void TAdSinglePlyChrSelectGC__sub_8028ED54(saddr arg1_) {
     ByteBlock_50 buf;
     uaddr h;
     if (TAdSinglePlyChrSelectGC::count_remaining_slots() > 0) {

@@ -38,7 +38,7 @@ struct S_80072994 {
     W4_80072994 e[5];
 };
 
-struct Obj_80072BB0 { u8 pad[0x30]; u32 f30; };
+struct Obj_80072BB0 { u8 pad[0x30]; uaddr f30; };
 
 extern "C" {
 void TLobby__sub_80072880(u8 *arg0);

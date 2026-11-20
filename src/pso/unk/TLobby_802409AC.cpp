@@ -1085,7 +1085,7 @@ char *TLobby::build_text_from_comma_list() {
     return get_shared_text_buffer();
 }
 
-void TLobby__sub_8024259C(s32 arg0) {
+void TLobby__sub_8024259C(saddr arg0) {
     if ((u32) TLobby__protocol_instance != 0U) {
         memset((void *)&TLobby__data_8050AAAC.value, 0, 0x11);
         strncpy((char *)&TLobby__data_8050AAAC.value, (const char *)(arg0 + 0x19), 0x10);

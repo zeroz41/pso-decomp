@@ -331,7 +331,7 @@ void TTecGrants::init_parameters() {
 struct Task_80232EC0 {
     u8 pad0[0x18];
     void **vt;
-    u32 *emitters;
+    uaddr *emitters;
     s32 sound;
     s32 tier;
     s32 level;
@@ -359,7 +359,7 @@ TUnk_804CC888::TUnk_804CC888(u8 *src, s32 level, TObject *parent) : TObject(pare
         ((Task_80232EC0 *)this)->level = 0x1E;
     }
     ((Task_80232EC0 *)this)->tier = TObjPlayer::get_level_tier(((Task_80232EC0 *)this)->level);
-    ((Task_80232EC0 *)this)->emitters = (u32 *)mem_alloc(grants_effect_emitter_table[((Task_80232EC0 *)this)->tier].count * 4);
+    ((Task_80232EC0 *)this)->emitters = (uaddr *)mem_alloc(grants_effect_emitter_table[((Task_80232EC0 *)this)->tier].count * sizeof(uaddr));
     for (i = 0; i < grants_effect_emitter_table[((Task_80232EC0 *)this)->tier].count; i++) {
         ((Task_80232EC0 *)this)->emitters[i] = (uaddr)spawn_continuous_particle_effect_with_flags(((Task_80232EC0 *)this)->pos, grants_effect_emitter_table[((Task_80232EC0 *)this)->tier].parts[i].id, 0x10);
         if (((Task_80232EC0 *)this)->emitters[i] != 0) {

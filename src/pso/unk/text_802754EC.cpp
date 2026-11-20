@@ -5,7 +5,7 @@
 
 extern "C" {
 u8 *TWindowSubComCardList__ct(u8 *arg0, void *arg1);
-u8 *fn_802754EC(s32 arg0) {
+u8 *fn_802754EC(saddr arg0) {
     u8 *temp_r3;
     u8 *var_r0;
     fn_80266378(7);

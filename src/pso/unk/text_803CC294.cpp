@@ -25,7 +25,7 @@ struct Buf_803CD16C { u8 data[0x10C]; };
 
 
 struct Slot_803CD16C {
-    s8 used; s8 f1; s8 f2; u8 f3; u32 f4; s32 f8; s32 fc; s32 f10; u8 pad_14[4];
+    s8 used; s8 f1; s8 f2; u8 f3; uaddr f4; s32 f8; s32 fc; s32 f10; u8 pad_14[4];
     s32 f18; s32 f1c; s32 f20; u8 pad_24[8]; s32 f2c; s32 f30; u8 pad_34[0x138 - 0x34];
 };
 

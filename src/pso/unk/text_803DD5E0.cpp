@@ -75,7 +75,7 @@ s32 Dolphin_DVDReadPrio(FileInfo_803DD784 *, void *, s32, s32, s32);
 extern u8 gvrt_header_read_buffer[];
 extern Slot_803DD784 *record_array_ptr;
 s32 read_gvrt_file_header(Obj_803DDA68 *obj, s32 idx);
-void TObjPlayer__sub_803DD5E8(GvmTextureList_803DDDC8 *list, GvmTextureEntry_803DDDC8 *entries, u32 names, s32 count);
+void TObjPlayer__sub_803DD5E8(GvmTextureList_803DDDC8 *list, GvmTextureEntry_803DDDC8 *entries, uaddr names, s32 count);
 }
 
 // The texture loaders TObjPlayer__sub_803DD6DC picks from an entry's format bits.
@@ -89,7 +89,7 @@ void set_ginja_draw_flags(s32 arg0) {
     ginja_draw_flags = arg0;
 }
 
-void TObjPlayer__sub_803DD5E8(GvmTextureList_803DDDC8 *list, GvmTextureEntry_803DDDC8 *entries, u32 names, s32 count) {
+void TObjPlayer__sub_803DD5E8(GvmTextureList_803DDDC8 *list, GvmTextureEntry_803DDDC8 *entries, uaddr names, s32 count) {
     int i;
 
     for (i = 0; i < count; ++i) {
