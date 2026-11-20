@@ -65,7 +65,7 @@ void TObjBoss2RaftSplash::spawn_splash(s32 position, s32 particle_index, s32 off
 
     particle = TObject::operator new(0x78);
     if (particle != NULL) {
-        particle = ((TParticleCtrl *)particle)->initialize_with_flags((const void *)position, (s32)(TParticleCtrl::get_particle_by_index(particle_index)), 1, 0, 0, 1, (u16)0x40);
+        particle = initialize_flagged_particle(particle, reinterpret_cast<const void *>(position), TParticleCtrl::get_particle_by_index(particle_index), 1, 0, 0, 1, (u16)0x40);
     }
     if (particle != NULL) {
         ((TObject *)particle)->run_task();
@@ -78,7 +78,7 @@ void TObjBoss2Tunnel::create_particle_effect(const void *position, s32 particle_
 
     particle = TObject::operator new(0x78);
     if (particle != NULL) {
-        particle = ((TParticleCtrl *)particle)->initialize_with_flags(position, (s32)(TParticleCtrl::get_particle_by_index(particle_index)), 1, 0, 0, 1, (u16)0x40);
+        particle = initialize_flagged_particle(particle, reinterpret_cast<const void *>(position), TParticleCtrl::get_particle_by_index(particle_index), 1, 0, 0, 1, (u16)0x40);
     }
     if (particle != NULL) {
         ((TObject *)particle)->run_task();

@@ -1,4 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/TParticleCtrl_800867E4.h"
+
 #include "types.h"
 #include "pso/system/vector.h"
 #include "pso/technique/TTecZonde.h"
@@ -49,7 +51,6 @@ void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32
 
 }
 void spawn_scattered_lightning_strikes(u8 *arg0, s32 arg1);
-void *create_timed_particle_emitter_with_flags(void *pos, s32 id, s32 a, s32 b, s32 c);
 #pragma push
 #pragma fp_contract on
 void spawn_scattered_lightning_strikes(u8 *arg0, s32 arg1) {

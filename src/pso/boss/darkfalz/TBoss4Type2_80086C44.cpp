@@ -1,3 +1,4 @@
+#include "pso/effect/particle/ParticleParam.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/darkfalz/TBoss4Type2_80086C44.h"
@@ -5,13 +6,10 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
 
-struct Ent_800868C4 { u8 data[0x98]; };
 
 extern "C" {
 void *__ct__13TParticleCtrlFv(void *self, void *pos, void *dir, void *ent, int a, int b, int c, int d, int e);
 extern s32 particle_pool_limit;
-extern Ent_800868C4 *particle_global_entry_table;
-extern Ent_800868C4 *particle_area_entry_table;
 
 }
 

@@ -228,7 +228,7 @@ struct RecoveredFields_80230D9C_arg0
 struct RaFoie_802381F8 {
     u8 pad0[0x22];
     u16 level;
-    void *tev;
+    TUnk_804DDF04 *tev;
     u8 m28[0x34 - 0x28];
     f32 sx;
     f32 sy;
@@ -290,7 +290,7 @@ void TUnk_804CCB28::render() {
     model_render_flags = id | 0x200010;
     ((void (*)(void *, s32))set_constant_material)(o->m48, id);
     if (o->tev != 0) {
-        ((TScene *)(o->tev))->draw_field_1c(2, 0, 0);
+        enable_indirect_tev(o->tev, 2, 0, 0);
     }
     lv = o->level;
     x = o->sx;
@@ -319,7 +319,7 @@ void TUnk_804CCB28::render() {
     pop_matrix();
     model_render_flags = saved_model_render_flags;
     if (o->tev != 0) {
-        TScene::set_indirect_tev((s32)o->tev, 0);
+        disable_indirect_tev(o->tev, 0);
     }
     TParticleCtrl::end_effect_render();
 }
@@ -474,7 +474,7 @@ u8 *create_rafoie_explosion(u8 *arg0, s32 *arg1, s16 arg2, s16 arg3, s32 arg4, f
     stack.spC += (5.0f);
     VecCopy((Vec *)(arg0 + 0x28), (const Vec *)(&stack.sp8));
     spawn_rafoie_explosion_bursts__13TUnk_804CCB28Fv(arg0);
-    ((TUnk_804CCB28 *)arg0)->m_24 = (s32)new TUnk_804DDF04(0x11, (TObject *)arg0);
+    ((TUnk_804CCB28 *)arg0)->indirect_effect = new TUnk_804DDF04(0x11, (TObject *)arg0);
     ((TUnk_804CCB28 *)arg0)->m_40 = (f32) (1.9f);
     return arg0;
 }
@@ -503,7 +503,7 @@ u8 *create_fire_explosion_effect(u8 *arg0, s32 *arg1, s16 arg2, s32 arg3, f32 fa
     stack.spC += (5.0f);
     VecCopy((Vec *)(arg0 + 0x28), (const Vec *)(&stack.sp8));
     spawn_rafoie_explosion_bursts__13TUnk_804CCB28Fv(arg0);
-    ((TUnk_804CCB28 *)arg0)->m_24 = (s32)new TUnk_804DDF04(0x11, (TObject *)arg0);
+    ((TUnk_804CCB28 *)arg0)->indirect_effect = new TUnk_804DDF04(0x11, (TObject *)arg0);
     ((TUnk_804CCB28 *)arg0)->m_40 = (f32) (1.9f);
     return arg0;
 }

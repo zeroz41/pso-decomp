@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/effect/particle/ParticleDefinition.h"
 #include "pso/effect/sprite/TQuadSpriteSclColRot.h"
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -24,24 +25,6 @@ struct QuadSpriteNode {
 struct QuadSpriteList {
     QuadSpriteNode *head;
     u8 pad4[0x28];
-};
-
-struct QuadSpriteUV {
-    f32 u0;
-    f32 v0;
-    f32 u1;
-    f32 v1;
-};
-
-struct QuadSpriteDesc {
-    u32 flags;
-    s32 texture_list;
-    s32 texture;
-    s32 count;
-    QuadSpriteUV *uvs;
-    f32 w;
-    f32 h;
-    s32 color;
 };
 
 struct RotatedSpriteQuad {
@@ -107,7 +90,7 @@ void TQuadSpriteSclColRot::render() {
     if (*(s32 *)unk_24 == 0) {
         return;
     }
-    flags = ((QuadSpriteDesc *)m_28)->flags;
+    flags = definition->flags;
     if (flags & 2) {
         if (flags & 4) {
             set_inverse_alpha_blend();
@@ -125,20 +108,20 @@ void TQuadSpriteSclColRot::render() {
     sh = sw * (480.0f / (480.0f * lbl_8058D4F8.aspect));
     TParticleCtrl::begin_effect_render();
     begin_screen_draw(1);
-    TObjFish::set_global_param(((QuadSpriteDesc *)m_28)->texture_list);
-    set_draw_texture_and_color(((QuadSpriteDesc *)m_28)->texture, ((QuadSpriteDesc *)m_28)->color);
+    TObjFish::set_global_param((s32)definition->texlist);
+    set_draw_texture_and_color(definition->texture, definition->color);
     one = -1.0f;
     zero = 0.0f;
-    for (i = 0; i < ((QuadSpriteDesc *)m_28)->count; i++) {
-        QuadSpriteUV *uv;
+    for (i = 0; i < definition->uv_count; i++) {
+        const f32 *uv;
         n = (*(QuadSpriteList **)unk_1C)[i].head;
-        uv = &((QuadSpriteDesc *)m_28)->uvs[i];
-        q.u = uv->u0;
-        q.v = uv->v0;
-        q.uw = uv->u1 - uv->u0;
+        uv = definition->uvs[i];
+        q.u = uv[0];
+        q.v = uv[1];
+        q.uw = uv[2] - uv[0];
         q.ux = zero;
         q.vx = zero;
-        q.vh = uv->v1 - uv->v0;
+        q.vh = uv[3] - uv[1];
         while (n != NULL) {
             f32 sx, sy;
             pos.x = n->pos.x + n->ofs.x;
@@ -166,8 +149,8 @@ void TQuadSpriteSclColRot::render() {
                     x = out.x;
                     y = out.y;
                 }
-                w *= ((QuadSpriteDesc *)m_28)->w;
-                h *= ((QuadSpriteDesc *)m_28)->h;
+                w *= definition->width;
+                h *= definition->height;
                 w *= n->sx;
                 h *= n->sy;
                 c = cos_table_lookup(n->angle);

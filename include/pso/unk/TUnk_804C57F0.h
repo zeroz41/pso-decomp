@@ -3,6 +3,8 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+struct ParticleDefinition;
+
 class TUnk_804C57F0 : public TObject {
 public:
     virtual ~TUnk_804C57F0();
@@ -11,7 +13,7 @@ public:
     u8 unk_1C[0x4];
     s32 m_20;
     u8 unk_24[0x4];
-    void * m_28;
+    ParticleDefinition *definition;
 };
 
 #endif

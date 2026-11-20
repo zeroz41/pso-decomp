@@ -1,3 +1,4 @@
+#include "pso/effect/particle/ParticleDefinition.h"
 #include "pso/render/render_util.h"
 #include "pso/effect/particle/TParticleCtrl_80085EE4.h"
 #include "pso/unk/TUnk_8048E6A8.h"
@@ -35,20 +36,6 @@ struct VObj_18_1a504b : VBase_18_1a504b {
 
 struct Obj_80085798 { u8 pad[0x38]; u8 target[0x10]; };
 
-
-struct UV_80086248 { f32 u0, v0, u1, v1; };
-
-struct Tex_80086248 {
-    u32 flags;
-    s32 param;
-    s32 tex;
-    u8 pad0C[4];
-    UV_80086248 *uvs;
-    f32 sx;
-    f32 sy;
-    s32 color;
-    u8 pad20[8];
-};
 
 typedef struct Quad_80085EE4 { f32 x, y, z, ax, ay, bx, by, pad1C; f32 u, v, du, k0, k1, dv; f32 pad38[2]; } Quad_80085EE4;
 
@@ -107,7 +94,6 @@ extern s32 __vt__13TUnk_8048E6DC[];
 s32 lbl_805D2930 = 1;
 s32 rotate_matrix_y(int, s32);
 s32 pop_matrix();
-extern Tex_80086248 lbl_804C5820[];
 extern u8 *camera_ctrl_instance;
 void begin_screen_draw(s32 arg0);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
@@ -220,8 +206,8 @@ void TUnk_8048E6DC::render() {
     }
     set_additive_blend();
     begin_screen_draw(1);
-    TObjFish::set_global_param(lbl_804C5820[31].param);
-    set_draw_texture_and_color(lbl_804C5820[31].tex, -1);
+    TObjFish::set_global_param((s32)lbl_804C5820[31].texlist);
+    set_draw_texture_and_color(lbl_804C5820[31].texture, -1);
     if (self->f94 < 0.0f) {
         color.a = 0;
     } else if (self->f94 <= 0.5f) {
@@ -243,8 +229,8 @@ void TUnk_8048E6DC::render() {
         color.g = 0x80;
         color.b = 0x40;
     }
-    w = lbl_804C5820[31].sx;
-    h = lbl_804C5820[31].sy;
+    w = lbl_804C5820[31].width;
+    h = lbl_804C5820[31].height;
     s = 0.5f * self->f90;
     w *= s;
     h *= s;

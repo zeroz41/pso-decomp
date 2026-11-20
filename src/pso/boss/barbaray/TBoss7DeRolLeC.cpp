@@ -1,5 +1,7 @@
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/TParticleCtrl_800867E4.h"
+
 #include "pso/animation/MotionContext.h"
 
 #include "pso/math/FloatRounding.h"
@@ -1229,7 +1231,6 @@ struct Fish_802ECC44;
 struct Fish_802E8AD4;
 void calc_laser_ray_hit_point(u8 *arg0, u8 *arg1);
 
-void *create_timed_particle_emitter_with_flags(void *pos, s32 id, s32 a, s32 b, s32 c);
 void handle_6xAA_barba_ray_boss_actions(void *arg0);
 
 void handle_6xA9_barba_ray_boss_actions(void *arg0);

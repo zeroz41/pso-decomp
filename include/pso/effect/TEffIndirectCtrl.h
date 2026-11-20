@@ -14,12 +14,33 @@ struct TUnk_804DDF04 : public TObject {
 
 typedef char TUnk_804DDF04_size[sizeof(TUnk_804DDF04) == 0x20 ? 1 : -1];
 
+struct TEffIndirectRecipe {
+    u8 mode;
+    s8 horizontal_amplitude;
+    s8 vertical_amplitude;
+    s8 variation;
+    s8 horizontal_step;
+    s8 vertical_step;
+    u8 phase_step;
+    u8 source_index;
+};
+
+struct TEffIndirectSource {
+    u8 header[8];
+    s32 texture_id;
+    u8 header_tail[0x14];
+    u8 pixels[0x1000];
+};
+
+typedef char TEffIndirectRecipe_size[sizeof(TEffIndirectRecipe) == 8 ? 1 : -1];
+typedef char TEffIndirectSource_size[sizeof(TEffIndirectSource) == 0x1020 ? 1 : -1];
+
 struct TEffIndirectCtrl : public TObject {
     virtual ~TEffIndirectCtrl();
     void sub_802A955C();
     virtual void run_task();
-    u32 m_1c;
-    u32 m_20;
+    u8 *m_1c;
+    TEffIndirectRecipe *m_20;
     u8 m_24;
     u8 m_25;
     u8 _pad26[0x2];
@@ -33,7 +54,7 @@ struct TEffIndirectCtrl : public TObject {
     u16 m_46;
     static void free_buffers();
     virtual void render();
-    void copy_and_flush_texture(s32 arg1);
+    void copy_and_flush_texture(u8 *source);
     static void free_all();
     void update_scroll_mode();
     void update_eff_indirect();
@@ -47,10 +68,12 @@ typedef char TEffIndirectCtrl_size[sizeof(TEffIndirectCtrl) == 0x54 ? 1 : -1];
 
 
 extern "C" {
-void TEffIndirectCtrl__sub_802A9548(void *p);
-u8 TEffIndirectCtrl__sub_802A9554(void *p);
+void TEffIndirectCtrl__sub_802A9548(TEffIndirectCtrl *ctrl);
+u8 TEffIndirectCtrl__sub_802A9554(TEffIndirectCtrl *ctrl);
 }
-u16 get_indirect_tile_coord(u8 arg0, s32 arg1);
+u32 get_indirect_tile_coord(u8 x, u8 y, s32 width);
+void enable_indirect_tev(TUnk_804DDF04 *effect, s32 sampler, s32 scale, s32 mode);
+void disable_indirect_tev(TUnk_804DDF04 *effect, s32 direct);
 void load_indirect_info(void);
 
 #endif

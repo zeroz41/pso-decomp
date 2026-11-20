@@ -148,7 +148,7 @@ TBoss6Rock::TBoss6Rock(TObject *parent, s32 index) : TObjCollidable(parent) {
 
 TBoss6Rock::~TBoss6Rock() {
     if (m_c4 != 0) {
-        ((TBoss6Rock *)&m_d4)->spawn_crush_rocks(m_b4);
+        spawn_crush_rocks(&m_d4, m_b4);
     }
     release_object();
     TBoss6Rock__instance_table[m_ac] = NULL;
@@ -247,7 +247,7 @@ void TBoss6Rock::break_and_release() {
         m_c8 = 0;
     }
     if (m_c8 != 2) {
-        ((TBoss6Rock *)&m_d4)->spawn_crush_rocks(m_b4);
+        spawn_crush_rocks(&m_d4, m_b4);
         play_sound_effect(0x4006AB1F, &position, 0, 0);
         release_object();
         randomize_motion();
@@ -531,12 +531,12 @@ s32 TBoss6Rock__sub_80353A14(s32 i, Vec *out, f32 *radius) {
     return 1;
 }
 
-int TBoss6Rock__sub_80353A0C(void) {
-    return (int)TBoss6Rock__data_805D6EF0;
+BmlResource *TBoss6Rock__sub_80353A0C(void) {
+    return TBoss6Rock__data_805D6EF0;
 }
 
-int TBoss6Rock__sub_80353A04(void) {
-    return (int)TBoss6Rock__data_805D6EF4;
+GinjaTextureList *TBoss6Rock__sub_80353A04(void) {
+    return TBoss6Rock__data_805D6EF4;
 }
 
 TUnk_804F1280 *TBoss6Rock::create() {

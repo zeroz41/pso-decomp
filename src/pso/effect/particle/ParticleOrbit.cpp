@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/effect/particle/ParticleDefinition.h"
+#include "pso/unk/TUnk_804C57F0.h"
 #include "pso/effect/particle/ParticleOrbit.h"
 #include "pso/render/render_util.h"
 #include "pso/system/MatrixOps.h"
@@ -131,7 +133,6 @@ struct Desc_8008AC24 {
 
 struct IVec_8008AC24 { s32 x, y, z; };
 
-extern ParticleTexture *TParticleCtrl__data_80511F70[];
 struct OObj_8008B060 {
     u8 pad_0[0x18]; s32 *f18; u16 f1C; u8 pad_1E[6]; u16 f24; s16 f26;
     f32 f28; f32 f2C; f32 f30; f32 f34; f32 f38; f32 f3C; f32 f40; u8 pad_44[0x18];
@@ -332,7 +333,7 @@ void TUnk_8048E790::run_task() {
     } else {
         t[1] = fade_out;
     }
-    if (TParticleCtrl__data_80511F70[sprite_index]->sprites->flags & 1) {
+    if (TParticleCtrl__data_80511F70[sprite_index]->definition->flags & 1) {
         if (flags & 0x100) {
             ch[0] = fade_particle_channel(p->orbit_red_rate * t[0] + color_base[0], t[1]);
             ch[1] = fade_particle_channel(p->unk_38 * t[0] + color_base[1], t[1]);
@@ -370,7 +371,7 @@ void TUnk_8048E790::run_task() {
     } else {
         m_96 -= (s32)(182.04445f * tilt);
     }
-    frames = TParticleCtrl__data_80511F70[sprite_index]->sprites->frame_count;
+    frames = TParticleCtrl__data_80511F70[sprite_index]->definition->uv_count;
     if (param->flags & 0x10) {
         frame = age * (frames - 1);
     } else {
