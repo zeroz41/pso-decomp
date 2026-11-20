@@ -357,7 +357,7 @@ u8 select_weighted_column_u16__9TItemDropFiiiii(saddr, saddr, s32, s32, s32);
 s32 init__9TItemDataFv(void *);
 s32 find_tool_pmt_base_id(u8, void *);
 void generate_tool_drop__9TItemDropFiiPv(saddr arg0, s32 arg1, void *arg2);
-s32 get_char_index__23TAdSinglePlyChrSelectGCFUi(u32);
+saddr get_char_index__23TAdSinglePlyChrSelectGCFUi(u32);
 u8 *create_drop__9TItemDropFi(saddr arg0);
 u32 subtractive_rng_next(void *);
 s32 __cvt_fp2unsigned(f32);

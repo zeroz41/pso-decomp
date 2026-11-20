@@ -78,7 +78,7 @@ s32 get_layout_id__20TWindowSubStatusDispFv(int);
 saddr TWindowSubStatusDisp__sub_8006F0D8(void *, int);
 s32 is_id_out_of_range__6TLobbyFi(s32 arg0);
 s32 mix_seed_checked__6TLobbyFi(s32);
-u32 get_character_save_record(int);
+uaddr get_character_save_record(int);
 s32 TLobby__sub_8006F5B0(saddr arg0);
 LobbyNameStringBuffer lobby_name_string_buffer;
 s32 decode_slot__6TLobbyFUi(u32 id);

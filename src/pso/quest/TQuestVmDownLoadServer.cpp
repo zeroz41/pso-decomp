@@ -57,7 +57,7 @@ extern s32 tl_00;
 
 struct Pair_801F6E08 { f32 a; f32 b; };extern "C" {
 s32 create_window__24TMessageWindowControllerFll(void*, s32, void*);
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 s32 poll_memcard_result(s32);
 void set_ready__6TSceneFv(void *);
 }

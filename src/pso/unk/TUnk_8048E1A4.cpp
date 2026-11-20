@@ -63,7 +63,7 @@ struct VObj_80081EA4 : VBase_80081EA4 {
 };
 
 extern "C" {
-u32 find_active_entity_by_id(u16);
+uaddr find_active_entity_by_id(u16);
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
 f32 vec3_add_to(void *, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);

@@ -13,8 +13,8 @@ public:
     s32 m_20;
     u8 unk_24[0x4];
     uaddr m_28;
-    u32 m_2c;
-    u32 m_30;
+    uaddr m_2c;
+    uaddr m_30;
     u8 unk_34[0x4];
 };
 LAYOUT_ASSERT(TUnk_804D1160_size, sizeof(TUnk_804D1160) == 0x38);

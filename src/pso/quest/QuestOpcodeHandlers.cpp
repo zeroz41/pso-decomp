@@ -354,7 +354,7 @@ void append_string(const char *s);
 s32 TObjItemOKWindow__sub_801F3268();
 namespace pf2_p1 { extern "C" { s32 get_class_type_name__6TLobbyFl(s32); } }
 #define get_class_type_name__6TLobbyFl pf2_p1::get_class_type_name__6TLobbyFl
-u32 get_player_by_client_id(s32);
+uaddr get_player_by_client_id(s32);
 s32 is_split_screen();
 char *TLobby__sub_800713C8();
 u8 is_message_source_exhausted(void);
@@ -1140,7 +1140,7 @@ f32 xyz_distance_squared(u8 *arg0, u8 *arg1);
 s32 get_class_type_name__6TLobbyFl(int);
 int TNpcPlayer__sub_8014DC30(void*);
 void *find_entity_by_id(u16 id);
-u32 TOChatSensor__create(s32 arg0);
+uaddr TOChatSensor__create(s32 arg0);
 void TOMineTrap__sub_80171368(f32);
 int set_instance__10TOMineTrapFi(void*);
 int set_trap_count__10TOMineTrapFi(void*);
@@ -1230,7 +1230,7 @@ int THunterGuildSeqOffline__sub_801F3748(void*);
 void TObjDoor__sub_801F3754(void);
 void TObjDoor__sub_801F3760(void);
 s32 dispatch_by_main_phase__14TBoss4DarkFalzFUs(void *);
-s32 get_character_save_record(u32);
+saddr get_character_save_record(u32);
 s32 get_floor_map_terrain(s32 arg0);
 void TLobby__sub_80207F30(Spawn_801EA508 *);
 s32 clear_floor_event_flags();
@@ -1260,7 +1260,7 @@ void open_default__11TWindowCtrlFi(u16, s32);
 s32 __ct__15TWindowHelpItemFPvUs(s32, s32, s32);
 void align_menu_entry_positions(s32 win);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
-s32 check_room_seq_4__16TAdChrSelASlotGCFl(s32 a, s32 b);
+saddr check_room_seq_4__16TAdChrSelASlotGCFl(s32 a, s32 b);
 uaddr update_window_mode_from_progress__6TLobbyFPv(s32, Pair_801F1838 *);
 }
 void reset_cameras_to_actor(void *actor, s32 arg1);

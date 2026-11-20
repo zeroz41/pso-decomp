@@ -62,7 +62,7 @@ s32 get_localized_text_entry(s32, s32);
 s32 is_active__11TBoss4Type2Fv();
 
 s32 get_map_id__13TRaderMapCoreFv();
-u32 get_player_by_client_id(int);
+uaddr get_player_by_client_id(int);
 extern u8 controller_input_state[];
 extern s32 TChallenge4PResult__slot_entries[];
 

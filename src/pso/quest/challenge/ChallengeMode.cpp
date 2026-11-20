@@ -81,7 +81,7 @@ typedef void (TChallenge::*Step_80070674)(void);
 struct Q_80070078 { u8 pad[0x48]; s32 x48; };
 struct L_80070078 { u8 pad[0x2C]; s32 x2C; };
 extern "C" {
-s32 get_character_save_record(u32);
+saddr get_character_save_record(u32);
 extern s32 local_client_id;
 void TLobby__sub_800738F4(void *, s32);
 }
