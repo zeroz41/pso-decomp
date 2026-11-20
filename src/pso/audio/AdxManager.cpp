@@ -71,7 +71,7 @@ void setup_adx_file_systems(s32 *arg0) {
     }
 }
 
-void TLobby__sub_803CB7F8(s32 arg0, s32 arg1) {
+void TLobby__sub_803CB7F8(s32 arg0, saddr arg1) {
     TLobby::notify_error((const char *)arg1);
 }
 

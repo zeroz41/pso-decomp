@@ -199,7 +199,7 @@ s32 TLobby__sub_80070DA8(void);
 void set_challenge_time_window_timer(int a0);
 extern "C" {
 void TLobby__sub_80071064(s32 arg0);
-void TLobby__sub_80070EE4(s32 arg0);
+void TLobby__sub_80070EE4(saddr arg0);
 s32 TLobby__sub_8006F6B0(s32 clear_time);
 
 s32 TLobby__sub_8007119C(s32 arg0);
@@ -282,7 +282,7 @@ s32 TLobby::get_max_challenge_time() {
     return best;
 }
 
-void TLobby__sub_80070EE4(s32 arg0) {
+void TLobby__sub_80070EE4(saddr arg0) {
     TLobby::check_challenge_time_range(arg0);
     fabs_float((f32) (arg0 - *(s32 *)((s8 *)&challenge_mode_state + 0xC)));
     ((TLobby *)arg0)->send_seed_state();
@@ -447,9 +447,9 @@ s32 *TLobby__sub_800713C8(void) {
 
 extern "C" {
 #define challenge_mode_state (*(s8 (*)[1])challenge_mode_state)
-s32 add_entry__6TLobbyFiii(s32 arg0, s32 arg1, s32 arg2);
+s32 add_entry__6TLobbyFiii(saddr arg0, saddr arg1, s32 arg2);
 
-s32 add_entry__6TLobbyFiii(s32 src, s32 arg1, s32 arg2) {
+s32 add_entry__6TLobbyFiii(saddr src, saddr arg1, s32 arg2) {
     u8 *dst;
 
     if ((TLobby::is_flag_set() == 0) || ((s32) *(s32 *)((s8 *)challenge_mode_state + 0x1C) < 0) || ((s32) *(s32 *)((s8 *)challenge_mode_state + 0x1C) >= 0x10)) {

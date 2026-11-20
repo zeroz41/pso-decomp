@@ -131,7 +131,7 @@ void TLobby__sub_8024259C(s32 arg0);
 void TLobby__sub_8024285C(void *p);
 s32 advance_rng__6TLobbyFv(void *arg0);
 }
-s32 alloc_looping_sound_slot(u32 id, s32 actor, const void *position, s32 base, s32 flags);
+s32 alloc_looping_sound_slot(u32 id, saddr actor, const void *position, s32 base, s32 flags);
 s32 alloc_one_shot_sound_slot(u32 id, const void *position, s32 base, s32 flags);
 extern "C" {
 char *build_text_from_comma_list__6TLobbyFv(char *list);

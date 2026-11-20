@@ -8,7 +8,7 @@ extern "C" {
 #pragma inline_depth(4)
 #pragma auto_inline on
 #pragma opt_common_subs on
-static inline s32 DoInit_803BAB54(u32 mixFrq, u32 aramSize, u32 numVoices, u32 flags) {
+static inline s32 DoInit_803BAB54(u32 mixFrq, uaddr aramSize, u32 numVoices, u32 flags) {
     u32 ret;
     ret = 0;
     dataInitStack();

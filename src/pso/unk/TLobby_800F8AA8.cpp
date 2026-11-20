@@ -1155,7 +1155,7 @@ void fn_800F93B4(char *filename, GslArchiveEntry *entries, s32 count) {
 TUnk_8049C658::~TUnk_8049C658() {}
 
 extern "C" {
-s32 TItemDrop__sub_800F9448(s32 data, s32 size) {
+s32 TItemDrop__sub_800F9448(saddr data, s32 size) {
     TUnk_8049C658 file;
 
     if (size > 0) {
@@ -1289,7 +1289,7 @@ s32 load_encrypted_text_archive(char *name, s32 *out_size) {
     return ret;
 }
 
-s32 load_text_resource_pair(s32 name) {
+s32 load_text_resource_pair(saddr name) {
     s32 size;
     char path[0x40];
     saddr data;

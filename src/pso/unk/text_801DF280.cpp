@@ -121,7 +121,7 @@ void bswap_cmd_c4_entry(void *arg0) {
     bswap__21TPlyMeetUserExtensionFv((saddr)((char *)arg0 + 112));
 }
 
-void bswap_cmd_c4_reconnect_command(s32 arg0) {
+void bswap_cmd_c4_reconnect_command(saddr arg0) {
     ((packet_header *)arg0)->bswap();
     bswap_32((u32 *)(arg0 + 4));
     bswap_16__FPUs(arg0 + 8);
@@ -190,7 +190,7 @@ void bswap_c0_choice_search_entry(void* p) { bswap_u16_pair_field(p); }
 
 int bswap_packet_header_cmd_b1(void* p) { return bswap__13packet_headerFv(p); }
 
-void bswap_save_packet(s32 arg0) {
+void bswap_save_packet(saddr arg0) {
     ((packet_header *)arg0)->bswap();
     bswap_32((u32 *)(arg0 + 4));
     bswap_32((u32 *)(arg0 + 8));

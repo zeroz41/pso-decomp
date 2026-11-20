@@ -36,7 +36,7 @@ void TLobby::set_trade_field_4(s32 arg1) {
     *(s32 *)((s8 *)(((TLobby *)(arg0 + 0xF8))->get_trade_obj_ptr()) + 4) = arg1;
 }
 
-void snapshot_player_trade_inventory(s32 arg0, s32 arg1) {
+void snapshot_player_trade_inventory(saddr arg0, s32 arg1) {
     s32 ids[0x1E];
     s32 temp_r29;
     s32 var_r31;

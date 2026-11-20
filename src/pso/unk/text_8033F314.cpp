@@ -5,7 +5,7 @@
 extern "C" {
 s32 __ct__12TAdMcCheckGCFP7TObjectPv(int, void *, void *);
 extern s32 memcard_cursor_instance_table[];
-s32 fn_8033F314(s32 arg0, s32 arg1) {
+s32 fn_8033F314(saddr arg0, saddr arg1) {
     s32 temp_r30;
     s32 temp_r3;
     s32 var_r0;

@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-s32 TItemDrop__sub_800F9448(s32 arg0, s32 arg1);
+s32 TItemDrop__sub_800F9448(saddr arg0, s32 arg1);
 void free_data_file(void *p);
 // Loads a whole file into a new buffer; free_data_file frees it.
 void *load_data_file(const char *path);

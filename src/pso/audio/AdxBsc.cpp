@@ -304,7 +304,7 @@ void TLobby__sub_803C3B5C(u8 *arg0, s32 arg1, s32 arg2) {
     h->readArg = arg2;
 }
 
-s32 TLobby__sub_803C3B68(s32 decoder, u16 *hdr, s32 size) {
+s32 TLobby__sub_803C3B68(saddr decoder, u16 *hdr, saddr size) {
     if ((u16) *(u16 *)((s8 *)hdr + 0) == 0x8000) {
         return TRK__write_aram((void *)decoder, hdr, (void *)size);
     }

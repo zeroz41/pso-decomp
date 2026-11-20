@@ -530,7 +530,7 @@ void s3dInit(s32 arg0);
 struct Obj_803A8C5C { u8 pad0[0x24]; s64 p24; s64 p2C; };
 #pragma pack(pop)
 extern s64 synthRealTime;
-void synthKeyStateUpdate(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
+void synthKeyStateUpdate(saddr arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
 extern u32 synthMasterFaderActiveFlags;
 s32 synthIsFadeOutActive(u8 arg0);
 s32 seqPlaySong(u16, u16, s32, s32, u8, s32);
@@ -2310,7 +2310,7 @@ void EventHandler(s32 arg0);
 void synthAddJob(SYNTH_VOICE_SV *svoice, s32 jobType, u32 deltaTime);
 void synthStartSynthJobHandling(Obj_803A8C5C* voice);
 void synthForceLowPrecisionUpdate(void *arg0);
-void synthKeyStateUpdate(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
+void synthKeyStateUpdate(saddr arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
 void HandleJobQueue(Node_803A8D2C **list, void (*cb)(u8));
 void HandleFaderTermination(u8 *arg0);
 s32 synthFXStart(s16 arg0, u8 arg1, u8 arg2, s32 arg3, s32 arg4);

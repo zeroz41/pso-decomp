@@ -10,7 +10,7 @@ s32 adxf_open__6TLobbyFUii(void *, int);
 u8 *alloc_from_heap__6TLobbyFPv(s32);
 u8 *link_into_list__6TLobbyFv();
 
-s32 create_named_entry__6TLobbyFiiUiiPv(s32 name, s32 arg1, u32 arg2, void *src, void **arg4) {
+s32 create_named_entry__6TLobbyFiiUiiPv(saddr name, s32 arg1, u32 arg2, void *src, void **arg4) {
     u8 *var_r31;
     saddr temp_r3;
 

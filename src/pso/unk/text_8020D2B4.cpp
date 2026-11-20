@@ -80,12 +80,12 @@ s32 TLobby__sub_801C2614();
 u8 *call_area_set_factory(void *, void *);
 }
 extern RecoveredGlobal_8020D2B4_lbl_8058D490 identity_matrix;
-void apply_room_transform(s32 arg0, u8 *arg1, u8 *arg2);
+void apply_room_transform(saddr arg0, u8 *arg1, u8 *arg2);
 s32 resolve_set_row_factory_indices(void *arg0, int arg1, int arg2);
 extern Obj_8020D4E8 *camera_ctrl_instance;
 s32 is_within_camera_distance(void *arg0, void *arg1, f32 farg0);
 void spawn_decorations_in_range(void *arg0);
-void apply_room_transform(s32 arg0, u8 *arg1, u8 *arg2) {
+void apply_room_transform(saddr arg0, u8 *arg1, u8 *arg2) {
     push_matrix_from(&identity_matrix.value);
     translate_matrix(0, (f32) (*(f32 *)((s8 *)arg2 + 4)), (f32) (*(f32 *)((s8 *)arg2 + 8)), (f32) (*(f32 *)((s8 *)arg2 + 0xC)));
     rotate_matrix_z(0, (int) (*(s32 *)((s8 *)arg2 + 0x18)));

@@ -649,7 +649,7 @@ s32 get_item_icon_index(const u8 *q) {
 #define lookup_item_pmt_record ((void * (*)())lookup_item_pmt_record)
 #define lookup_item_def__9TItemDataFPv ((s32 (*)())lookup_item_def__9TItemDataFPv)
 #define init__9TItemDataFv ((s32 (*)())init__9TItemDataFv)
-void TItemData__sub_8010CA08(TItemData *arg0, u32 arg1, u8 arg2);
+void TItemData__sub_8010CA08(TItemData *arg0, uaddr arg1, u8 arg2);
 s32 TItemData__sub_8010CAB0(s32 arg0, s8 arg1);
 int register_item_drop__10TObjPlayerFv(void*);
 
@@ -678,7 +678,7 @@ int TItemData::isValidGroundDrop() {
     } else return 0;
 }
 
-void TItemData__sub_8010CA08(TItemData *item_data, u32 arg1, u8 arg2) {
+void TItemData__sub_8010CA08(TItemData *item_data, uaddr arg1, u8 arg2) {
     s8 sp8[10];
     init__9TItemDataFv();
     if ((arg1 != 0U) && (((arg2 >= 0x70U) && (arg2 <= 0x88U)) || ((arg2 >= 0xA5U) && (arg2 <= 0xA9U)))) {

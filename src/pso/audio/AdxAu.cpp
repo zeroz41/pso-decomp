@@ -162,7 +162,7 @@ void process_byteswapped_pcm_transfer(AdxbDecoder *o) {
 }
 extern "C" {
 
-s32 TLobby__sub_803C30E8(u8 *decoder, s32 hdr, s32 size) {
+s32 TLobby__sub_803C30E8(u8 *decoder, saddr hdr, s32 size) {
     AdxbDecoder *o = (AdxbDecoder *)decoder;
     s32 format;
     s32 samples;

@@ -28,7 +28,7 @@ TUnk_804CC948::~TUnk_804CC948() {
     stop_sound_request(m_sound_handle);
 }
 
-TUnk_804CC948::TUnk_804CC948(saddr actor, s32 parent) : TObject((TObject *)parent) {
+TUnk_804CC948::TUnk_804CC948(s32 actor, s32 parent) : TObject((TObject *)parent) {
     m_actor = (TObjPlayer *)actor;
     VecCopy(&m_position, (Vec *)&m_actor->m_2fc);
     m_age = 0;

@@ -171,7 +171,7 @@ void unlock_sequencer_flag(s32 arg0) {
 }
 
 
-void TObjBgmColCtrl::update_all_zones(saddr arg0) {
+void TObjBgmColCtrl::update_all_zones(s32 arg0) {
     s32 var_r31;
 
     var_r31 = 0;

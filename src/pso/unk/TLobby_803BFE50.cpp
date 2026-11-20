@@ -28,7 +28,7 @@ typedef struct Rec_803C0628 {
 
 typedef struct S_803C0628 {
     s32 f0;
-    s32 f4;
+    saddr f4;
     s32 f8;
     Obj_803C0628 *objs[4];
     Rec_803C0628 recs[3];
@@ -159,7 +159,7 @@ void TLobby__sub_803C0628(void *arg0_, s32 *arg1, s32 *arg2, s32 *arg3);
 void EXIGetID(Snd_803C0BE8 *arg0);
 void GXFlush(void);
 void TLobby__sub_803C0238(AudioStreamInputState *st);
-s32 TLobby__sub_803C3B68(s32 arg0, u16 *hdr, s32 size);
+s32 TLobby__sub_803C3B68(saddr arg0, u16 *hdr, saddr size);
 void TLobby__sub_803D3130(SjChunk *chunk, s32 size, SjChunk *head, SjChunk *tail);
 void process_audio_stream_input(AudioStreamInputState *arg0);
 TLobby *alloc_record__6TLobbyFllll(s32 channels, u8 *buffer, s32 size, s32 total);

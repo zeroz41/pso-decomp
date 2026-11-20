@@ -118,7 +118,7 @@ s32 get_selected_quest_text__19TQuestListChallengeFv(void);
 s32 get_game_play_mode();
 extern s32 TQuestListChallenge__active_instance;
 extern void *__vt__19TQuestListChallenge[];
-u8 *TQuestListChallenge__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
+u8 *TQuestListChallenge__ct(u8 *arg0, saddr arg1, s32 arg2, s32 arg3);
 }
 struct Entry_80288FDC { s32 id; u8 pad[0xC]; };
 struct QLC_80288FDC {
@@ -374,7 +374,7 @@ extern s32 lbl_805D64AC;
 LAYOUT_ASSERT(RecoveredGlobal_80289200_lbl_8045080C_size, sizeof(RecoveredGlobal_80289200_lbl_8045080C) == 0x50);
 LAYOUT_ASSERT(RecoveredGlobal_80289200_lbl_80450910_size, sizeof(RecoveredGlobal_80289200_lbl_80450910) == 0x90);
 LAYOUT_ASSERT(RecoveredGlobal_80289200_lbl_80450A20_size, sizeof(RecoveredGlobal_80289200_lbl_80450A20) == 0x80);
-u8 *TQuestListChallenge__ct(u8 *shop_window_base, s32 parent, s32 arg2, s32 arg3) {
+u8 *TQuestListChallenge__ct(u8 *shop_window_base, saddr parent, s32 arg2, s32 arg3) {
     s32 temp_r3;
     s32 var_r3;
     __ct__15TShopWindowBaseFP7TObject(shop_window_base, (TObject *)parent);

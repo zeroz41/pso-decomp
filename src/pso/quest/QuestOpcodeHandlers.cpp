@@ -1279,7 +1279,7 @@ void init_switch_table(void);
 void create_quest_telepipe_for_client(u16 arg0);
 void close_window_if_active(void *p);
 int dispatch_message_window_text(void *w, int text, int flags);
-s32 create_quest_message_window_at(s32 arg0, s32 arg1);
+s32 create_quest_message_window_at(s32 arg0, saddr arg1);
 extern "C" {
 u32 create_quest_message_window();
 s32 get_window_layout_position(s32);
@@ -1302,7 +1302,7 @@ int init_graph__6TLobbyFv(void*);
 int update_alloc_size__6TLobbyFv(void*);
 int get_selected_slot__6TLobbyFv(void*);
 s32 TLobby__sub_8032CDEC();
-void update_entries__18TChallenge4PResultFii(s32 arg0, s32 arg1);
+void update_entries__18TChallenge4PResultFii(saddr arg0, s32 arg1);
 s32 fn_8034D3D0(u8 *, f32, s32, s32, s32, Vec *, s32);
 s32 fn_8034D790(u8 *, f32, s32, s32, s32, Vec *);
 s32 TLobby__sub_8034DAA0(int, int, void *);
@@ -2574,7 +2574,7 @@ void qst_op_ba_death_tech_level_up(void) {
     }
 }
 
-void qst_op_set_shrink_size(s32 player_variable, s32 size_variable) {
+void qst_op_set_shrink_size(s32 player_variable, saddr size_variable) {
     TObjPlayer* player = ((TObjPlayer*)((s32 (*)(int, void *))get_player_by_client_id)((int)(qst_registers[(u8)player_variable]), (void *)size_variable));
     if (player && !player->obj_isState2_324()) {
         s32 whole = qst_registers[(u8)size_variable++];
@@ -2946,7 +2946,7 @@ s32 TLobby::init_guild_card_tag() {
     return arg0;
 }
 
-void qst_op_get_player_state(s32 arg0, s32 arg1) {
+void qst_op_get_player_state(s32 arg0, saddr arg1) {
     saddr temp_r3;
     temp_r3 = ((s32 (*)(int, void *))get_player_by_client_id)((int)(qst_registers[(u8)arg0]), (void *)arg1);
     if (temp_r3 != 0) {
@@ -3654,7 +3654,7 @@ void qst_op_set_cmode_base_time(s32 arg0) {
     TLobby__sub_80071064((int) (qst_registers[(u8)arg0]));
 }
 
-void qst_op_prepare_npc_visual(s32 arg0) {
+void qst_op_prepare_npc_visual(saddr arg0) {
     u32 temp_r3;
     temp_r3 = ((u32 (*)(void *))qst_label_address)((void *)arg0);
     if (temp_r3 != 0U) {

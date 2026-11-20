@@ -446,7 +446,7 @@ struct Adxt_803C97F4 {
     u8 pad_0[1];
     s8 f1;
     u8 pad_2[2];
-    s32 f4;
+    saddr f4;
     u8 pad_8[4];
     s32 fC;
     u8 pad_10[8];

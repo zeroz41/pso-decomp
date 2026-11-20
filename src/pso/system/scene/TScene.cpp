@@ -400,13 +400,13 @@ uaddr TScene__material_info_buffer;
 s32 scene_file_buffer_size;
 
 extern "C" {
-u8 *TScene__ct(TScene *scene, s32 arg1);
+u8 *TScene__ct(TScene *scene, saddr arg1);
 void TScene__sub_802065E8(void);
 void TScene__sub_802065EC(void);
 s32 load_texture_sequence_frame(void *task, Cyc_80205D24 *c);
 }
-void load_scene_map_file(s32 arg0);
-void load_scene_collision_file(s32 name);
+void load_scene_map_file(saddr arg0);
+void load_scene_collision_file(saddr name);
 void load_floor_scene(void);
 
 s32 player_auxiliary_surfaces_enabled() {
@@ -1060,7 +1060,7 @@ void load_floor_scene(void) {
     TScene__visibility_radius_margin = 0.0f;
 }
 
-void load_scene_collision_file(s32 name) {
+void load_scene_collision_file(saddr name) {
     struct Sp8Buf20_80206494 sp8;
     TLobby::replace_file_extension((char *)((s32 *)&sp8), (char *)name, (char *)"c.rel");
     if (get_resource_file_size((const char *)&sp8) <= lbl_805D6014) {
@@ -1078,7 +1078,7 @@ void load_scene_collision_file(s32 name) {
     }
 }
 
-void load_scene_map_file(s32 arg0) {
+void load_scene_map_file(saddr arg0) {
     u8 id[0x20];
     Ent_802066BC *e;
     TScene__data_805D5FCC = NULL;
@@ -1133,7 +1133,7 @@ void TScene::create() {
     }
 }
 
-u8 *TScene__ct(TScene *scene, s32 arg1) {
+u8 *TScene__ct(TScene *scene, saddr arg1) {
     __ct__7TObjectFP7TObject((void *)scene, (void *)arg1);
     *(s32 **)((s8 *)scene + 0x18) = __vt__6TScene;
     *(s32 *)((s8 *)scene + 0) = (saddr)TScene__class_name;

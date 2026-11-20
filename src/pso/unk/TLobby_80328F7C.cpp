@@ -193,7 +193,7 @@ int is_valid_player_motion_variant(void* a0);
 int TLobby__sub_802A7278(void* a0);
 int is_valid_player_motion_variant(void* a0 = 0);
 int TLobby__sub_802A7278(void* a0 = 0);
-void check_valid_state__6TLobbyFi(s32 arg0);
+void check_valid_state__6TLobbyFi(saddr arg0);
 s32 is_handle_valid__10TObjPlayerFv();
 
 s32 lbl_805D6C80;
@@ -218,7 +218,7 @@ s32 is_valid_state__6TLobbyFPvi(void *unused, s32 arg1) {
     }
 }
 
-void check_valid_state__6TLobbyFi(s32 unused) {
+void check_valid_state__6TLobbyFi(saddr unused) {
     TLobby::is_valid_state((void *)unused, (s32)((s32)(is_handle_valid__10TObjPlayerFv())));
 }
 

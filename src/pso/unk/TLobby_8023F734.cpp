@@ -601,7 +601,7 @@ void set_sound_slot_pitch(s32 slot, s32 pitch, s32 duration) {
 #pragma opt_common_subs on
 #pragma opt_propagation on
 #pragma opt_dead_assignments on
-s32 alloc_looping_sound_slot(u32 id, s32 actor, const void *position, s32 base, s32 flags) {
+s32 alloc_looping_sound_slot(u32 id, saddr actor, const void *position, s32 base, s32 flags) {
     s32 i;
     for (i = 0; i < 32; i++) {
         if ((lbl_805162EC[i].state == -1 || lbl_805162EC[i].state == 1) &&

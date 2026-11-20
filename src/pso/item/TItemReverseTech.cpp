@@ -413,7 +413,7 @@ void TItemReverseTechPart2::destroy_and_flag() {
 const char *TItemReverseTechPart2__name = "TItemReverseTechPart2";
 
 
-u8 *__ct__21TItemReverseTechPart2Fv(u8 *object, s32 arg1, s32 arg2) {
+u8 *__ct__21TItemReverseTechPart2Fv(u8 *object, saddr arg1, s32 arg2) {
     void *item_reverse_tech_bg;
     __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
     *(s32 **)((s8 *)object + 0x18) = &__vt__21TItemReverseTechPart2.value;

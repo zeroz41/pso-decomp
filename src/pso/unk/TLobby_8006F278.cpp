@@ -79,7 +79,7 @@ s32 TWindowSubStatusDisp__sub_8006F0D8(void *, int);
 s32 is_id_out_of_range__6TLobbyFi(s32 arg0);
 s32 mix_seed_checked__6TLobbyFi(s32);
 u32 get_character_save_record(int);
-s32 TLobby__sub_8006F5B0(s32 arg0);
+s32 TLobby__sub_8006F5B0(saddr arg0);
 LobbyNameStringBuffer lobby_name_string_buffer;
 s32 decode_slot__6TLobbyFUi(u32 id);
 void TLobby__sub_8006F48C(void);
@@ -168,7 +168,7 @@ void TLobby__sub_8006F48C(void) {
     win->id = TLobby__sub_80071640(TBL_8006F48C.defaultId);
 }
 
-s32 TLobby__sub_8006F5B0(s32 arg0) {
+s32 TLobby__sub_8006F5B0(saddr arg0) {
     s32 temp_r30;
     s32 temp_r3;
     s32 temp_r3_2;

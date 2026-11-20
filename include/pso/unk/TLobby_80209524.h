@@ -17,7 +17,7 @@ void TLobby__sub_8020A618(void *arg0, void *arg1);
 void TLobby__sub_8020A6B0(s32 player);
 s32 TLobby__sub_8020B308(void);
 int get_object_count__6TLobbyFPv(void *p);
-void init_buffers__6TLobbyFii(s32 id, s32 arg1);
+void init_buffers__6TLobbyFii(s32 id, saddr arg1);
 s32 pick_random_slot__6TLobbyFPv(s16 *arg0);
 }
 // --- end of C functions

@@ -192,7 +192,7 @@ s32 TLobby::pso_load_texture() {
     return ret;
 }
 
-void TObjPlayer::free_if_valid(saddr texlist) {
+void TObjPlayer::free_if_valid(s32 texlist) {
     if (texlist != 0) {
         release_texture_list((GinjaTextureList *)texlist);
         TAdSinglePlyChrSelectGC::safe_free(texlist);

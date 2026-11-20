@@ -506,7 +506,7 @@ void TLobby::handle_player_event(s32 arg0, s32 arg1) {
 
 // ---- TShopEquipmentSellWindow_801047B4.cpp
 
-s32 TShopEquipmentSellWindow::get_item_data_value(uaddr arg0) {
+s32 TShopEquipmentSellWindow::get_item_data_value(u32 arg0) {
     s32 sp8[4];
 
     if (arg0 != 0U) {

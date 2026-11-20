@@ -16,7 +16,7 @@ struct AdxbDecoder {
     s8 channels;
     s8 block_bytes; // bytes per block: ADX block size, or channels * bits / 8 for PCM
     s32 block_samples;
-    saddr rate;
+    s32 rate;
     s32 samples;
     s16 m_1C;
     u8 pad_1E[0x2];

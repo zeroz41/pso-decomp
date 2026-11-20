@@ -152,7 +152,7 @@ void TObjEneEpsilonGuard::free_shared_resources() {
     }
 }
 
-void TObjEneEpsilonGuard::sub_803626A8(saddr arg1, s32 arg2) {
+void TObjEneEpsilonGuard::sub_803626A8(s32 arg1, s32 arg2) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_803626A8, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_803626A8, spC) == 0x4);
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_803626A8, sp10) == 0x8);

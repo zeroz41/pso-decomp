@@ -41,7 +41,7 @@ void operator delete(void *p) {
 
 void *operator new(size_t size) { return xmalloc(size); }
 
-void TAdSinglePlyChrSelectGC::safe_free(uaddr arg0) {
+void TAdSinglePlyChrSelectGC::safe_free(u32 arg0) {
     if (arg0 != 0U) {
         xfree((void *)arg0);
     }

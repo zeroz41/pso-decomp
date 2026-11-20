@@ -22,7 +22,7 @@ s32 is_item_light_interaction_blocked();
 f32 xz_distance_squared(void *, void *);
 Ply_80191F90 *get_player_by_client_id(s32);
 void run_task__13TObjItemLightFv(Light_80191F90 *arg0);
-u8 *TObjItemLight__ct(TObjItemLight *arg0, s32 arg1, s32 arg2);
+u8 *TObjItemLight__ct(TObjItemLight *arg0, s32 arg1, saddr arg2);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 s32 __ct__8TObjBaseFP7TObject();
 
@@ -58,7 +58,7 @@ TObjItemLight::~TObjItemLight() {
 
 const char *TObjItemLight__class_name = "TObjItemLight";
 
-u8 *TObjItemLight__ct(TObjItemLight *item_light, s32 arg1, s32 arg2) {
+u8 *TObjItemLight__ct(TObjItemLight *item_light, s32 arg1, saddr arg2) {
     __ct__8TObjBaseFP7TObject();
     *(s32 **)((s8 *)item_light + 0x18) = __vt__13TObjItemLight;
     ((TObjItemLight *)item_light)->m_name = TObjItemLight__class_name;

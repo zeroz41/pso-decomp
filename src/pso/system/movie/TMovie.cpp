@@ -37,7 +37,7 @@ s32 set_queued_main_phase(s32);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 s8 get_opening_movie_purpose();
 s8 func_801A5E54__Fv();
-u8 *load_rel_module(u8 *arg0, s32 arg1);
+u8 *load_rel_module(u8 *arg0, saddr arg1);
 void func_803DCDFC__Fv(void);
 }
 

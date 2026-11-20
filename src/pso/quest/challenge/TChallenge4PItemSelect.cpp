@@ -76,7 +76,7 @@ void request_active_window_close();
 void obj_clear_flag30_20000(TObjPlayer *);
 void fn_8034BE38(TObjPlayer *);
 void TLobby__sub_8024AC20(u16);
-void update_entries__18TChallenge4PResultFii(s32 arg0, s32 arg1);
+void update_entries__18TChallenge4PResultFii(saddr arg0, s32 arg1);
 s32 __ct__18TChallenge4PResultFP7TObjectUsl(void *, s32, int, s32);
 
 }
@@ -327,7 +327,7 @@ s32 update_challenge_result_player_locks() {
 }
 
 
-void update_entries__18TChallenge4PResultFii(s32 arg0, s32 arg1) {
+void update_entries__18TChallenge4PResultFii(saddr arg0, s32 arg1) {
     s32 var_r29 = 0;
     s32 *var_r30 = TChallenge4PResult__slot_entries;
     s32 var_r31 = 0;

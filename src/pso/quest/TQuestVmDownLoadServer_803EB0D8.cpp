@@ -2507,7 +2507,7 @@ inline s32 IsSmall_803EEB10(s32 d) {
 }
 
 #define n ((s16)arg1)
-void *format_number_text__22TQuestVmDownLoadServerFiiPvi(s32 arg0, s32 arg1, void *arg2, s32 mode) {
+void *format_number_text__22TQuestVmDownLoadServerFiiPvi(saddr arg0, s32 arg1, void *arg2, s32 mode) {
     u8 *s = (u8 *)arg0;
     Out_803EEB10 *o = (Out_803EEB10 *)arg2;
     const Tbl_803EEB10 *t = &quest_download_number_text_table;
@@ -2585,7 +2585,7 @@ void *format_number_text__22TQuestVmDownLoadServerFiiPvi(s32 arg0, s32 arg1, voi
 #pragma dont_inline off
 #pragma inline_depth(4)
 #pragma opt_common_subs off
-inline u32 Call_803EED0C(s32 a, s32 b, s32 c, s32 d) {
+inline u32 Call_803EED0C(s32 a, s32 b, saddr c, s32 d) {
     return ((uaddr)format_number_text__22TQuestVmDownLoadServerFiiPvi((s32)a, (s32)b, (void *)c, (s32)d));
 }
 s32 TQuestVmDownLoadServer__sub_803EED0C(s32 arg0, s32 arg1, s32 arg2) {

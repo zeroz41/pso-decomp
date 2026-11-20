@@ -99,7 +99,7 @@ extern "C" {
 void TLobby__sub_80227D38(void) { TLobby::fade_voice_channels(0); }
 }
 
-s32 normalize_sound_request(u32 arg0, s32 actor, s32 position, s32 arg3, s32 arg4) {
+s32 normalize_sound_request(u32 arg0, s32 actor, saddr position, s32 arg3, s32 arg4) {
     s32 r;
     s32 m;
     s32 flags;
@@ -143,7 +143,7 @@ s32 normalize_sound_request(u32 arg0, s32 actor, s32 position, s32 arg3, s32 arg
     return -1;
 }
 
-s32 play_packed_sound_once(u32 arg0, s32 position, s32 arg2, s32 arg3) {
+s32 play_packed_sound_once(u32 arg0, saddr position, s32 arg2, s32 arg3) {
     s32 r;
     s32 m;
     s32 flags;

@@ -35,7 +35,7 @@ extern s16 quest_floor_designations[];
 saddr TLobby__data_805D5EE0;
 s32 alloc__22TQuestVmDownLoadServerFUl();
 
-void refresh_quest_list__6TLobbyFi(s32 arg0) {
+void refresh_quest_list__6TLobbyFi(saddr arg0) {
     saddr temp_r3;
 
     if (get_resource_file_size((const char *)arg0) >= 0) {
@@ -358,7 +358,7 @@ extern B_801F4340* TLobby__data_805D6144;
 
 extern s16 TLobby__data_805D6134;
 
-void open_session__6TLobbyFi(s32 arg0) {
+void open_session__6TLobbyFi(saddr arg0) {
     saddr t;
 
     if (get_resource_file_size((const char *)arg0) >= 0) {

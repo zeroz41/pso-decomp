@@ -413,7 +413,7 @@ void TLobby__sub_8001DEA8(s32 arg0) {
     TLobby__lobby_instance = arg0;
 }
 
-void broadcast_to_players__6TLobbyFii(s32 arg0, s32 arg1) {
+void broadcast_to_players__6TLobbyFii(s32 arg0, saddr arg1) {
     s32 var_r31;
 
     if (((s32 (*)(void))is_valid_player_index__6TLobbyFi)() != 0) {
@@ -430,7 +430,7 @@ Obj_8001DF0C *copy_pair__6TLobbyFPvPv(Obj_8001DF0C *d, Obj_8001DF0C *s) {
     return d;
 }
 
-void TLobby__sub_8001DF58(s32 arg0, s32 ent) {
+void TLobby__sub_8001DF58(s32 arg0, saddr ent) {
     s32 var_r31;
 
     if (((s32 (*)(void))is_valid_player_index__6TLobbyFi)() != 0) {
@@ -456,7 +456,7 @@ void TLobby::copy_entry(void *arg1) {
     *(s32 *)((s8 *)this + 0x1C) = (s32) *(s32 *)((s8 *)arg1 + 0x1C);
 }
 
-void copy_all_entries__6TLobbyFii(s32 arg0, s32 arg1) {
+void copy_all_entries__6TLobbyFii(s32 arg0, saddr arg1) {
     s32 var_r31;
 
     if (((s32 (*)(void))is_valid_player_index__6TLobbyFi)() != 0) {
@@ -487,7 +487,7 @@ void TLobby::copy_from(void *arg1) {
     *(s32 *)((s8 *)this + 0x2C) = (s32) *(s32 *)((s8 *)arg1 + 0x2C);
 }
 
-void copy_all_data__6TLobbyFii(s32 arg0, s32 arg1) {
+void copy_all_data__6TLobbyFii(s32 arg0, saddr arg1) {
     s32 var_r31;
 
     if (((s32 (*)(void))is_valid_player_index__6TLobbyFi)() != 0) {

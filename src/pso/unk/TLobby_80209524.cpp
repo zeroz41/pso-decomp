@@ -559,7 +559,7 @@ void TLobby__sub_80209D34(s32 floor_id) {
 
 extern "C" {
 
-void init_buffers__6TLobbyFii(s32 id, s32 arg1) {
+void init_buffers__6TLobbyFii(s32 id, saddr arg1) {
     Hdr_802095EC *items;
 
     lbl_805D60A8 = (u8 *)find_header_by_id__6TLobbyFPvi((Hdr_80209C58 *)arg1, id);
@@ -741,7 +741,7 @@ extern "C" {
 // The callers pass the signed file size as the count.
 s32 load_object_set_entries__6TLobbyFlPUcUl(s32, u8 *, s32);
 }
-s32 load_enemy_set_file(s32 idx, s32 arg1) {
+s32 load_enemy_set_file(s32 idx, saddr arg1) {
     Name_8020A768 name;
     s32 size;
     Ent_8020A768 *p;
@@ -767,7 +767,7 @@ s32 load_enemy_set_file(s32 idx, s32 arg1) {
     init_floor_enemy_count__6TLobbyFlPUcUl(idx, TLobby__map_set_file_buffer, size);
     return 1;
 }
-s32 load_object_set_file(s32 idx, s32 arg1) {
+s32 load_object_set_file(s32 idx, saddr arg1) {
     Name_8020A834 name;
     s32 size;
     Ent_8020A834 *p;
@@ -958,7 +958,7 @@ extern "C" {
 s32 is_area_transfer_pending();
 }
 
-s32 load_area_object_set(s32 arg0, s32 lobby, s32 arg2, s32 arg3) {
+s32 load_area_object_set(s32 arg0, saddr lobby, s32 arg2, s32 arg3) {
     char name[0x20];
     MapSetVariant *subs;
     MapSetEntry *items;

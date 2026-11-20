@@ -686,7 +686,7 @@ inline s32 Open_803E7ACC(void) {
     quest_download_file_handle = h;
     return 0;
 }
-inline s32 Seek_803E7ACC(s32 h, s32 pos, s32 whence) {
+inline s32 Seek_803E7ACC(saddr h, s32 pos, s32 whence) {
     return TQuestVmDownLoadServer__sub_803F09FC((void *)h, pos, whence);
 }
 inline s32 SeekRetry_803E7ACC(s32 pos) {
@@ -971,7 +971,7 @@ inline s32 Open_803E8624(void) {
     quest_download_file_handle = h;
     return 0;
 }
-inline s32 Seek_803E8624(s32 h, s32 pos, s32 whence) {
+inline s32 Seek_803E8624(saddr h, s32 pos, s32 whence) {
     return TQuestVmDownLoadServer__sub_803F09FC((void *)((void *)h), pos, whence);
 }
 
