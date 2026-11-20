@@ -15,6 +15,7 @@
 #include "pso/object/TObjTombstone.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 
 LAYOUT_ASSERT(TChallenge_state_offset, offsetof(TChallenge, state) == 0x1C);
@@ -102,7 +103,6 @@ s32 TLobby__sub_800739BC(void *);
 s32 TLobby__sub_8026A328();
 s32 check_player_state_flag_2__6TLobbyFv();
 
-s32 init__23TAdSinglePlyChrSelectGCFv();
 
 extern "C" {
 void run_task__10TChallengeFv(TChallenge *);
@@ -546,7 +546,7 @@ void TChallenge::wait_for_quest() {
     if (((s32)((TLobby *)arg0)->destroy_on_phase_change()) == 0) {
         TLobby::update_quest_challenge_state(arg0);
         if (is_quest_active() != 0) {
-            ((s32)init__23TAdSinglePlyChrSelectGCFv());
+            ((s32)TAdSinglePlyChrSelectGC::init());
             ((s32)TLobby__sub_800739BC(arg0));
             ((s32)TLobby__sub_8026A328());
             TObjWarnChime::create((TObject*)arg0);

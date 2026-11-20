@@ -73,7 +73,6 @@ extern s32 TLobby__battle_team_table[];
 extern Ent_801C26A8 TLobby__duel_result_table[];
 s32 TLobby__sub_801C26A8(void);
 saddr update_battle_controller__10TObjPlayerFv();
-s32 get_char_index__23TAdSinglePlyChrSelectGCFUi(s32);
 void __ct__7TObjectFP7TObject(void *);
 s32 export_character_data__10TObjPlayerFPvPv(s32, s32);
 extern u8 __vt__17TPlayerBattleCtrl[];
@@ -509,7 +508,7 @@ void *TPlayerBattleCtrl__ct(void *player_battle_ctrl, s32 _w1) {
     *(u8 **)((s8 *)player_battle_ctrl + 0x40) = (current_language == LANGUAGE_JAPANESE) ? player_battle_ctrl_text_japanese : player_battle_ctrl_text_english;
     temp_r3 = update_battle_controller__10TObjPlayerFv();
     if (temp_r3 != 0) {
-        export_character_data__10TObjPlayerFPvPv(temp_r3, get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF));
+        export_character_data__10TObjPlayerFPvPv(temp_r3, TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
     }
     TLobby::stop_audio_streams();
     *(s32 *)((s8 *)player_battle_ctrl + 0x64) = 0;

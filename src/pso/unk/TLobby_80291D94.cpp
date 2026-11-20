@@ -1017,7 +1017,6 @@ int TAdPlayerLoadGC__sub_801E1510(void);
 s32 export_character_data__10TObjPlayerFPvPv(u32, u32);
 #define create_challenge4p__6TLobbyFv ((u32 (*)())create_challenge4p__6TLobbyFv)
 
-u32 get_char_index__23TAdSinglePlyChrSelectGCFUi(u32);
 }
 void *create_obj_tag_challenge(void *arg0);
 extern saddr tl_07;
@@ -1049,7 +1048,7 @@ void setup_split_screen(void) {
         var_r31 = 0U;
         do {
             player = get_player_by_client_id(var_r31);
-            temp_r4 = get_char_index__23TAdSinglePlyChrSelectGCFUi(var_r31);
+            temp_r4 = (u32)TAdSinglePlyChrSelectGC::get_char_index(var_r31);
             if ((player != 0U) && (temp_r4 != 0U)) {
                 export_character_data__10TObjPlayerFPvPv(player, temp_r4);
             }

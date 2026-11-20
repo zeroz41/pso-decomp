@@ -9,6 +9,7 @@
 #include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 extern "C" {
 extern s32 game_difficulty_selection;
@@ -110,7 +111,7 @@ TEndingPicStage::TEndingPicStage(TObject *parent) : TObject(parent) {
 
     player_light_index = 0;
     Vec position = ending_player_start_position;
-    ending_player = TUnk_804C4540::create(get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF));
+    ending_player = TUnk_804C4540::create((TPlyCharData *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
     ending_player->set_position_from(&position);
     ((TItemData *)(&item))->init();
     item.data1.data_u8[0] = 2;

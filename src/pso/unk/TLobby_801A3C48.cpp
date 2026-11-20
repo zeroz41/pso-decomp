@@ -136,7 +136,6 @@ s8 func_801A5E54__Fv();
 s32 controller_stuff__Fv();
 s32 poll_memcard_result(int);
 s32 render_tick__Fv();
-s32 run_save_load_sequence__23TAdSinglePlyChrSelectGCFv();
 s32 func_803DCDFC__Fv();
 s32 cleanup__6TLobbyFv();
 }
@@ -170,7 +169,6 @@ s32 apply_phase_keyboard_mode();
 s32 run_load_callback_table(void *, s32);
 void TLobby__sub_801A3E94(void);
 s32 TAdDialingGC__sub_801A4C90();
-s32 load_character_from_card__23TAdSinglePlyChrSelectGCFi(s32);
 s32 TKeyBoardControl__sub_8000F90C(int);
 int set_queued_main_phase(int);
 s32 run_join_lobby_connect__6TLobbyFi(void *);
@@ -182,7 +180,6 @@ u32 TAdDialingGC__sub_801A4C9C();
 s32 set_copy_clear_color_argb(int, int, int);
 s32 TGameProtocol__ct(void *, void *);
 s32 TLobby__sub_801F3774();
-int init__23TAdSinglePlyChrSelectGCFv(void);
 s32 TLobby__sub_8020A6B0(int);
 s32 TAdDialingGC__sub_80328730();
 s32 create__12TAdDialingGCFv(void *);
@@ -304,8 +301,8 @@ void load_floor_scene(void);
 void arrive_floor_population(void);
 void TLobby::set_flag_and_update() { TLobby__new_game_setup_flags = (TLobby__new_game_setup_flags | 0x1); TLobby__sub_801A4C6C(lbl_80515BA0); }
 
-void TLobby::init_chr_select() { TKeyBoardControl::reset(); TLobby::send_logout(); init__23TAdSinglePlyChrSelectGCFv(); set_queued_main_phase(9); request_main_phase(18); }
-void TLobby::reset_to_chr_select() { reset_controller_input_state(); TLobby::send_logout(); TLobby::free_objects(); TKeyBoardControl__sub_8000F95C(); TLobby::clear_counter(); init__23TAdSinglePlyChrSelectGCFv(); set_queued_main_phase(9); request_main_phase(18); }
+void TLobby::init_chr_select() { TKeyBoardControl::reset(); TLobby::send_logout(); TAdSinglePlyChrSelectGC::init(); set_queued_main_phase(9); request_main_phase(18); }
+void TLobby::reset_to_chr_select() { reset_controller_input_state(); TLobby::send_logout(); TLobby::free_objects(); TKeyBoardControl__sub_8000F95C(); TLobby::clear_counter(); TAdSinglePlyChrSelectGC::init(); set_queued_main_phase(9); request_main_phase(18); }
 void TLobby__sub_801A3CF8(void) {  }
 
 void TLobby::start_udp_test_game() {
@@ -415,7 +412,7 @@ void TLobby::blocking_vsync() {
         main_task.render_screen_overlay();
         process_async_file_reads();
         update_sound_request_slots();
-        run_save_load_sequence__23TAdSinglePlyChrSelectGCFv();
+        TAdSinglePlyChrSelectGC::run_save_load_sequence();
         TAdSinglePlyChrSelectGC::noop();
     }
     TLoadCtrl::set_field1C(1);
@@ -613,7 +610,7 @@ s32 change_floor_reload_area(void) {
     TLobby::process_deferred_player_setup();
     TQuestThread::create_for_floor();
     if (r != 0) {
-        load_character_from_card__23TAdSinglePlyChrSelectGCFi(0);
+        TAdSinglePlyChrSelectGC::load_character_from_card(0);
     }
     if (quest_area_manager != 0) {
         new TQuestThread((TObject *)quest_area_manager, 0);
@@ -676,7 +673,7 @@ void TLobby::run_lobby_frame() {
     main_task.render_screen_overlay();
     process_async_file_reads();
     update_sound_request_slots();
-    run_save_load_sequence__23TAdSinglePlyChrSelectGCFv();
+    TAdSinglePlyChrSelectGC::run_save_load_sequence();
     TAdSinglePlyChrSelectGC::noop();
     TObjBoss2Tunnel__sub_8007D1D0();
     if (((s32) lbl_805D55C0 == 0) && (poll_memcard_result((int) (get_chr_select_state__23TAdSinglePlyChrSelectGCFv())) != -1)) {
@@ -725,7 +722,7 @@ void TLobby::run_main_frame() {
     main_task.render_screen_overlay();
     process_async_file_reads();
     update_sound_request_slots();
-    run_save_load_sequence__23TAdSinglePlyChrSelectGCFv();
+    TAdSinglePlyChrSelectGC::run_save_load_sequence();
     TAdSinglePlyChrSelectGC::noop();
     TObjBoss2Tunnel__sub_8007D1D0();
     TLobby__sub_8006EF90();
@@ -818,7 +815,7 @@ void run_online_lobby_scene(void) {
         main_task.render_screen_overlay();
         process_async_file_reads();
         update_sound_request_slots();
-        run_save_load_sequence__23TAdSinglePlyChrSelectGCFv();
+        TAdSinglePlyChrSelectGC::run_save_load_sequence();
         if (func_801A5E54__Fv() != 0) {
             break;
         }
@@ -827,7 +824,7 @@ void run_online_lobby_scene(void) {
     TLoadCtrl::set_field1C(1);
     TAdDialingGC::close();
     if (online_lobby_scene_handle != 0) {
-        init__23TAdSinglePlyChrSelectGCFv();
+        TAdSinglePlyChrSelectGC::init();
         set_queued_main_phase(2);
         request_main_phase(0x12);
         TLoadCtrl::cleanup_scene();

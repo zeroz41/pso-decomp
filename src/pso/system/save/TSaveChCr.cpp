@@ -16,6 +16,7 @@
 #include <stddef.h>
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 
 #pragma inline_depth(1)
@@ -55,7 +56,6 @@ void *__ct__12TAdBackTxtGCFv(void *, void *);
 uaddr update_window_mode_from_progress__6TLobbyFPv(const NJS_POINT2 *, const NJS_POINT2 *);
 s32 poll_memcard_result(saddr);
 s32 poll_memcard_status__23TAdSinglePlyChrSelectGCFv();
-s32 load_character_from_card__23TAdSinglePlyChrSelectGCFi(s32 arg0);
 int begin_action_from_char_select__10TObjPlayerFv(void*);
 extern void *tl_03;
 }
@@ -203,10 +203,10 @@ void TSaveChCr::create_backgrounds() {
     this->m_34 = o2;
 }
 
-s32 TSaveChCr::sub_8033A138() { return load_character_from_card__23TAdSinglePlyChrSelectGCFi(0); }
+s32 TSaveChCr::sub_8033A138() { return TAdSinglePlyChrSelectGC::load_character_from_card(0); }
 s32 TSaveChCr::save_character() {
     begin_action_from_char_select__10TObjPlayerFv(this);
-    return load_character_from_card__23TAdSinglePlyChrSelectGCFi(1);
+    return TAdSinglePlyChrSelectGC::load_character_from_card(1);
 }
 
 LAYOUT_ASSERT(MemberActionStorage_8033A184_size, sizeof(MemberActionStorage_8033A184) == 12);

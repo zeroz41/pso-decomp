@@ -58,6 +58,7 @@
 #include "pso/item/mag/TItemMag.h"
 #include "pso/player/TObjPlayer_80121010.h"
 #include "pso/player/TObjPlayer_80105874.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/effect/item/TItemEffPG.h"
 #include "pso/player/TObjPlayer_80125780.h"
 #include "pso/player/TObjPlayer_80307618.h"
@@ -412,7 +413,7 @@ void TLobby::handle_select_confirm() {
 
     if ((fn_80077790() == 1) || (fn_80077788() == 1)) {
         TLobby::mark_selected();
-        chr = get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF);
+        chr = (TPlyCharData *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF);
         if (chr != NULL) {
             fn_801058E8(chr);
         }

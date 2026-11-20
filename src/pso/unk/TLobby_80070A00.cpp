@@ -7,6 +7,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/quest/challenge/TChallenge.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 #pragma readonly_strings on
 
@@ -204,7 +205,6 @@ s32 TLobby__sub_8006F6B0(s32 clear_time);
 
 s32 TLobby__sub_8007119C(s32 arg0);
 s32 **TWindowSubStatusDisp__sub_8006F134(s32, s32);
-s32 forward_to_global_instance__23TAdSinglePlyChrSelectGCFi(s32 arg0);
 s32 TLobby__sub_800710D8(s32 arg0);
 s32 calc_layout_hash__20TWindowSubStatusDispFv(int);
 s32 calc_entry_offset__20TWindowSubStatusDispFv(int);
@@ -357,7 +357,7 @@ s32 TLobby__sub_800710D8(s32 arg0) {
         return 0;
     }
     var_r3 = var_r30;
-    if (forward_to_global_instance__23TAdSinglePlyChrSelectGCFi((var_r3)) != 0) {
+    if (TAdSinglePlyChrSelectGC::forward_to_global_instance((var_r3)) != 0) {
         var_r4 = (s32 *)&challenge_mode_state;
         var_r3 = 0x10000;
         var_r5 = *(s32 *)((s8 *)&challenge_mode_state + 0x14) * 0x1C;
@@ -468,7 +468,6 @@ void TLobby::set_player_name_and_color(s32 arg1) {
 }
 
 #undef challenge_mode_state
-u8 *get_char_index__23TAdSinglePlyChrSelectGCFUi(s32);
 s32 get_layout_id__20TWindowSubStatusDispFv(s32);
 
 void TLobby::set_selected_layout(s32 arg0) {
@@ -486,7 +485,7 @@ void TLobby::set_selected_layout(s32 arg0) {
 s32 TLobby::calc_remaining_char_slots() {
     s32 var_r3;
 
-    var_r3 = 0x1E - *get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF);
+    var_r3 = 0x1E - *(u8 *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF);
     if (var_r3 < 0) {
         var_r3 = 0;
     }

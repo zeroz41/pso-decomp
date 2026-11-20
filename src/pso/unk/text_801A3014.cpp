@@ -234,7 +234,6 @@ s32 request_main_phase(s32);
 s32 TObjBoss2Tunnel__sub_8007D1D0();
 void TLobby__sub_8007EB20(const char *, ...);
 s8 func_801A5E54__Fv();
-s32 run_save_load_sequence__23TAdSinglePlyChrSelectGCFv();
 s32 func_803DCDFC__Fv();
 s32 TLobby__sub_8006EF90();
 s32 get_fog_ctrl__16TKeyBoardControlFv();
@@ -252,7 +251,6 @@ s32 TObjPlayer__sub_801B1BA4();
 s32 TObjPlayer__sub_801B1C8C();
 s32 set_copy_clear_color_argb(s32, s32, s32);
 s32 TLobby__sub_801F3774();
-s32 save_character_to_card__23TAdSinglePlyChrSelectGCFv();
 }
 void clear_resource_load_tasks(void);
 void run_single_view_frame(void);
@@ -499,7 +497,7 @@ void run_offline_game_frame(void) {
     }
     process_async_file_reads();
     update_sound_request_slots();
-    run_save_load_sequence__23TAdSinglePlyChrSelectGCFv();
+    TAdSinglePlyChrSelectGC::run_save_load_sequence();
     TObjBoss2Tunnel__sub_8007D1D0();
     if (func_801A5E54__Fv() != 0) {
         TLobby::shutdown_keyboard_control();
@@ -531,7 +529,7 @@ void run_offline_transfer_frame(void) {
     }
     process_async_file_reads();
     update_sound_request_slots();
-    run_save_load_sequence__23TAdSinglePlyChrSelectGCFv();
+    TAdSinglePlyChrSelectGC::run_save_load_sequence();
     TAdSinglePlyChrSelectGC::noop();
     TObjBoss2Tunnel__sub_8007D1D0();
     TLobby__sub_8006EF90();
@@ -672,7 +670,7 @@ void init_offline_game_scene(void) {
     if (quest_area_manager != 0) {
         new TQuestThread((TObject *)quest_area_manager, 0);
     }
-    if (save_character_to_card__23TAdSinglePlyChrSelectGCFv() == 0) {
+    if (TAdSinglePlyChrSelectGC::save_character_to_card() == 0) {
         if (is_quest_active() != 0) {
             TLobby::shutdown_keyboard_control();
         } else {

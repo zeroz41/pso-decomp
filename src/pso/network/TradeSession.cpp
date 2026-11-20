@@ -457,7 +457,7 @@ void TLobby::cancel_trade() {
         break;
     case 1: case 2: case 3: case 4: case 5: case 6:
         TLobby::send_trade_proposal_result(5, 4);
-        reset__6TLobbyFv();
+        TLobby::reset();
         break;
     case 7:
     case 8:
@@ -623,7 +623,7 @@ void cancel_trade_for_member_out_of_range(s32 arg0) {
         ((s32 (*)())reset__6TLobbyFv)();
         return;
     }
-    reset__6TLobbyFi(format_trade_out_of_range_message(arg0));
+    TLobby::reset(format_trade_out_of_range_message(arg0));
 }
 
 void send_trade_busy_reply(saddr arg0) {
@@ -724,7 +724,7 @@ void ignore_trade_proposal_event(void) {  }
 void handle_trade_member_out_of_range(O_802D3384 *self) {
     switch (self->state) {
     case 0:
-        reset__6TLobbyFi(format_trade_out_of_range_message(self->h6));
+        TLobby::reset(format_trade_out_of_range_message(self->h6));
         break;
     case 1:
     case 2:
@@ -748,7 +748,7 @@ void handle_trade_partner_cancel(void *arg0) {
         refresh_player_status__6TLobbyFv(TLobby__trade_partner_client_id);
         TWindowSubStatusDisp::get_message_10(0xED);
         text_builder_append();
-        reset__6TLobbyFi(get_shared_text_buffer());
+        TLobby::reset(get_shared_text_buffer());
         break;
     case 3:
         break;
@@ -873,7 +873,7 @@ void handle_trade_request_state_a__6TLobbyFPv(O_802D361C *self) {
     switch (self->state) {
     case 0:
         TWindowTradeRequest::close_request_window();
-        reset__6TLobbyFv();
+        TLobby::reset();
         break;
     case 1:
     case 2:
@@ -887,7 +887,7 @@ void handle_trade_request_state_b__6TLobbyFPv(O_802D3654 *self) {
         break;
     case 4:
         TWindowTradeRequest::close_request_window();
-        reset__6TLobbyFv();
+        TLobby::reset();
         break;
     }
 }
