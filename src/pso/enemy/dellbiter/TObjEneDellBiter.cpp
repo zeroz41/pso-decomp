@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/GroundContactSound.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
@@ -87,7 +88,6 @@ void free_bin_model_request(void*, int);
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 s32 get_mode__11TCameraCtrlFPv(void *);
 u32 csnLookAt(void *, void *);
-s32 *csnVectorUnder(Vec *arg0, u32 *arg1, s32 arg2);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
 s32 TObjPlayer__sub_800A04F0(void *);
 void enemy_clear_target__12TObjEneDD_STFUs(void *);
@@ -96,7 +96,6 @@ s32 get_camera_ctrl__9TObjEneDDFv(void *, int);
 s32 pack_debug_text_position(s32, s32);
 s32 attack_target_history_add(s32 object, s32 target);
 void fn_800D8830(void *owner, void *pos);
-s32 TObjEneGibbles__sub_800D8988(s32);
 f32 horizontal_distance_squared(void *, void *);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 void TObjPlayer__sub_8023DEE0(s16 *p, s16 a, s16 b, u16 id);
@@ -492,7 +491,7 @@ s32 TObjEneDellBiter::check_rush_collisions() {
 
 void TObjEneDellBiter::update_attack_effect() {
     if (fn_803059BC(&position) != 0) {
-        TObjEneGibbles__sub_800D8988((s32)&position);
+        play_floor_area_ground_sound(&position);
         return;
     }
     play_sound_effect(this->remap_sound_for_area((s32)((void *)0x40039E11)), &position, 0, 0);
@@ -512,37 +511,37 @@ void TObjEneDellBiter::spawn_front_particle() {
 
 s32 TObjEneDellBiter::fn_803059BC(const Vec *origin) {
     Vec pos;
-    CsnGroundHit *hit;
+    CsnHit *hit;
     void *e;
     VecCopy(&pos, origin);
     pos.y += 15.0f;
-    hit = (CsnGroundHit *)csnVectorUnder(&pos, (u32 *)&m_120, 0x4007);
+    hit = csnVectorUnder(&pos, (CsnGroup **)&m_120, 0x4007);
     if (hit != NULL) {
-        flags_3c4 = hit->surface->flags;
+        flags_3c4 = hit->contact[0].flags;
         if (flags_3c4 & 0x4000) {
-            VecCopy(&reflection_position, &hit->surface->point);
+            VecCopy(&reflection_position, &hit->contact[0].point);
         } else {
             VecCopy(&reflection_position, &position);
         }
-        if (hit->flags & 4) {
-            e = (void *)spawn_particle_effect(&hit->surface->point_38, 0x49);
+        if (hit->hit_mask & 4) {
+            e = (void *)spawn_particle_effect(&hit->contact[2].point, 0x49);
             if (e != NULL) {
                 attach_particle_model((u8 *)e, (s32)(TParticleCtrl::get_particle_model(2)), (s32)(TParticleCtrl::get_instance()), 0, 1, 1.0f);
                 ((TParticleCtrl *)e)->set_scale(3.0f, 3.0f);
             }
-            e = (void *)spawn_particle_effect(&hit->surface->point_38, 0xA4);
+            e = (void *)spawn_particle_effect(&hit->contact[2].point, 0xA4);
             if (e != NULL) {
                 ((TParticleCtrl *)e)->set_scale(3.0f, 3.0f);
             }
             return 1;
         }
-        if (hit->flags & 2) {
-            e = (void *)spawn_particle_effect(&hit->surface->point_54, 0x49);
+        if (hit->hit_mask & 2) {
+            e = (void *)spawn_particle_effect(&hit->contact[3].point, 0x49);
             if (e != NULL) {
                 attach_particle_model((u8 *)e, (s32)(TParticleCtrl::get_particle_model(2)), (s32)(TParticleCtrl::get_instance()), 0, 1, 1.0f);
                 ((TParticleCtrl *)e)->set_scale(3.0f, 3.0f);
             }
-            e = (void *)spawn_particle_effect(&hit->surface->point_54, 0xA4);
+            e = (void *)spawn_particle_effect(&hit->contact[3].point, 0xA4);
             if (e != NULL) {
                 ((TParticleCtrl *)e)->set_scale(3.0f, 3.0f);
             }

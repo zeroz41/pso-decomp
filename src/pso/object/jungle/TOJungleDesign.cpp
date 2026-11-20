@@ -1,3 +1,5 @@
+#include "pso/system/BmlResourceLoad.h"
+#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "types.h"
 #include "pso/object/jungle/TOJungleDesign.h"
 #include "pso/object/jungle/TOJungleDesign_802FEEB4.h"
@@ -18,7 +20,7 @@ BmlResourceDescriptor bm_obj_jungle_tree_resource_descriptor = { "bm_obj_jungle_
 const char *TOJungleDesign__name = "TOJungleDesign";
 // The model each design variant (m_b0, clamped to 0..2) draws.
 const s32 jungle_design_variant_table[3] = { 0, 1, 2 };
-u8 *TOJungleDesign__shared_model_resource;
+BmlResource *TOJungleDesign__shared_model_resource;
 
 void TOJungleDesign::init_design_variant() {
     this->m_b0 = (s32) this->set_params[0];
@@ -85,40 +87,33 @@ TOJungleDesign::TOJungleDesign(s32 arg1, s32 arg2) : TObjCollidable((TObject *)a
 }
 extern "C" {
 
-u8 * get_bml_texlist(void *, int);
-u8 * get_bml_model(void *, int);
-u8 *fn_802FF028(s32 arg0) {
-    if ((void *) TOJungleDesign__shared_model_resource != NULL) {
-        return get_bml_texlist(TOJungleDesign__shared_model_resource, arg0);
+GinjaTextureList *fn_802FF028(s32 arg0) {
+    if (TOJungleDesign__shared_model_resource != NULL) {
+        return (GinjaTextureList *)get_bml_texlist(TOJungleDesign__shared_model_resource, arg0);
     }
     return NULL;
 }
-u8 *fn_802FF064(s32 arg0) {
-    if ((void *) TOJungleDesign__shared_model_resource != NULL) {
-        return get_bml_model(TOJungleDesign__shared_model_resource, arg0);
+NJS_OBJECT *fn_802FF064(s32 arg0) {
+    if (TOJungleDesign__shared_model_resource != NULL) {
+        return (NJS_OBJECT *)get_bml_model(TOJungleDesign__shared_model_resource, arg0);
     }
     return NULL;
 }
 
-u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-void free_bin_model_request(void*, int);
 
 void TOJungleDesign::free_shared_resource() {
-    if ((u32) TOJungleDesign__shared_model_resource != 0U) {
-        free_bin_model_request((void*)TOJungleDesign__shared_model_resource, 1);
-        TOJungleDesign__shared_model_resource = 0U;
+    if (TOJungleDesign__shared_model_resource != NULL) {
+        free_bin_model_request(TOJungleDesign__shared_model_resource, 1);
+        TOJungleDesign__shared_model_resource = NULL;
     }
 }
 
 void TOJungleDesign::load_shared_resource() {
-    s32 temp_r3;
-    s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &bm_obj_jungle_tree_resource_descriptor, 0, 0, 0));
+    BmlResource *archive = (BmlResource *)::operator new(0x440);
+    if (archive != NULL) {
+        archive = load_resource_from_descriptor(archive, 1, &bm_obj_jungle_tree_resource_descriptor, 0, 0, 0);
     }
-    (*(s32 *)&TOJungleDesign__shared_model_resource) = var_r0;
+    TOJungleDesign__shared_model_resource = archive;
 }
 
 }

@@ -1,4 +1,6 @@
+#include "pso/map/CsnGroundQuery.h"
 #include "types.h"
+#include "pso/map/CsnGroundCandidates.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
@@ -164,7 +166,6 @@ extern int player_unique_pair_entry_count;
 void free_collision_body_parts(G_80156720 *arg0);
 u16 get_entity_id(int);
 void *memcpy(void *, const void *, u32);
-s32 *csnVectorUnder(s32 arg0, u32 *arg1, s32 arg2);
 s32 *csnVecterUnder(s32 origin, s32 mask);
 u16 TObjRoomId__sub_801A1DB8(u16);
 s32 project_actor_to_ground(Obj_80156844 *self, Vec *pos, Vec *normal);
@@ -1217,7 +1218,7 @@ s32 project_actor_to_ground(Obj_80156844 *self, Vec *pos, Vec *normal) {
     }
     coll = self->f90;
     if (coll != 0) {
-        hit = (Hit_80156844 *)csnVectorUnder((s32)&v, (u32 *)coll, flags);
+        hit = (Hit_80156844 *)csnVectorUnder(&v, (CsnGroup **)coll, flags);
     } else {
         hit = (Hit_80156844 *)csnVecterUnder((s32)&v, flags);
     }
@@ -1233,7 +1234,7 @@ s32 project_actor_to_ground(Obj_80156844 *self, Vec *pos, Vec *normal) {
 
 void TObjCollidable::reset_motion_fields() {
     if (ground_cache != NULL) {
-        ((TObjPlayer *)ground_cache)->clear_ground_candidates();
+        clear_ground_candidates(static_cast<CsnGroup **>(ground_cache));
     }
 }
 void TObjPlayer__sub_80156934(void) { TObjPlayer::clear_item_table(); TObjPlayer::init_all_slots(); }

@@ -138,7 +138,7 @@ void TObjBoss2CeilJunk::render() {
     new_var = (0.2f) * t;
     s.y = (1.0f);
     s.x = (s.z = new_var);
-    ((TObjEneDD *)(self->f44))->draw_oriented_shadow((s32)self->f9C, 0, (u32)&s);
+    TObjEneDD::draw_oriented_shadow((const Vec *)self->f44, (const Vec *)self->f9C, 0, &s);
   }
   saved_model_render_flags = model_render_flags;
   if (self->fB4 < (1.0f))

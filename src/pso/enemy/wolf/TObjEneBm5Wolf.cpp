@@ -1664,7 +1664,7 @@ void TObjEneBm5Wolf::repositioning_state(s32 arg1) {
                     VecCopy(&v, (const Vec *)&this->m_2fc);
                     v.x += dx;
                     v.z += dz;
-                    if (csnVectorUnder(&v, (u32 *)&this->m_120, 0x15) != NULL) {
+                    if (csnVectorUnder(&v, (CsnGroup **)&this->m_120, 0x15) != NULL) {
                         this->roamingSubstate = 1;
                         this->requested_action = 0x12;
                         this->destinationDirection.x = sin_table_lookup(this->m_42c);

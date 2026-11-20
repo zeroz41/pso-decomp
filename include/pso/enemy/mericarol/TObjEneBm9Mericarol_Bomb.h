@@ -1,5 +1,6 @@
 #ifndef PSO_ENEMY_MERICAROL_TOBJENEBM9MERICAROL_BOMB_H
 #define PSO_ENEMY_MERICAROL_TOBJENEBM9MERICAROL_BOMB_H
+#include <stddef.h>
 #include "types.h"
 #include "pso/player/TUnk_804928CC.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -18,7 +19,7 @@ public:
     Vec pos;                   // the bomb's own position: ground-checked, moved by velocity
     Vec velocity;
     Vec look_ahead;            // pos + look_ahead is the segment tested against walls
-    Vec shadow_pos;            // ground point under the bomb (draw_oriented_shadow)
+    Vec ground_normal;        // ground surface orientation used by the shadow
     f32 attack_power;          // {power, flags} as DelbiterContactAttack; &attack_power goes to vfunc_16
     s32 attack_flags;
     s32 m_ec;
@@ -34,5 +35,7 @@ public:
     TParticleCtrl *phase_effect;
 };
 typedef char TObjEneBm9Mericarol_Bomb_size[sizeof(TObjEneBm9Mericarol_Bomb) == 0x118 ? 1 : -1];
+
+typedef char TObjEneBm9Mericarol_Bomb_ground_normal_offset[offsetof(TObjEneBm9Mericarol_Bomb, ground_normal) == 0xD8 ? 1 : -1];
 
 #endif

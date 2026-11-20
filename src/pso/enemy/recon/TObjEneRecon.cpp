@@ -257,7 +257,7 @@ void TObjEneRecon::update_ground_probe() {
     if ((actor_frame_tick % 5) == 0) {
         VecCopy((Vec *)&stack.sp8, (const Vec *)&this->position);
         stack.spC += 15.0f;
-        temp_r3 = (u8 *)(csnVectorUnder((Vec *)&stack.sp8, (u32 *)&this->m_120, 0x4000));
+        temp_r3 = (u8 *)(csnVectorUnder((Vec *)&stack.sp8, (CsnGroup **)&this->m_120, 0x4000));
         if (temp_r3 != NULL) {
             *(s32 *)((s8 *)arg0 + 0x418) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)temp_r3 + 4)) + 0x18);
             VecCopy((Vec *)&this->m_438, (const Vec *)(*(u8 **)((s8 *)temp_r3 + 4)));

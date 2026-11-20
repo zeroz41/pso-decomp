@@ -1,3 +1,4 @@
+#include "pso/map/CsnGroundQuery.h"
 #include "pso/player/TObjPlayer_800F0810.h"
 #include "pso/render/BlobShadow.h"
 #include "pso/unk/text_803D8F74.h"
@@ -7,6 +8,7 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "types.h"
+#include "pso/map/CsnGroundCandidates.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjMotion.h"
@@ -690,8 +692,6 @@ struct ObjFlags {
 
 struct O_80019664 { u8 f0; u8 f1; u8 pad[2]; u16 f4; u8 f6; u8 f7; };
 
-struct O_80019828 { s32 arr[16]; };
-
 struct Obj_80014B5C { u8 pad0[0x30]; u32 f30; u8 pad34[0x254 - 0x34]; u8 f254[0x330 - 0x254]; u32 f330; };
 
 struct StatStatusReceipt_80014E74 { s32 kind; f32 power; };
@@ -841,7 +841,6 @@ f32 fabs_float(f32 x);
 f32 atan2_float(f32 y, f32 x);
 f32 newton_sqrtf(f32 x);
 u32 csnLookAt(void *, void *);
-u8 * csnVectorUnder(f32 *, void *, s32, void *, f32);
 u32 csnVecterUnder(void *, int);
 u32 csnVector(void *, void *, s32);
 u32 subtractive_rng_next();
@@ -4413,37 +4412,37 @@ void TObjChara::calc_attach_pos() {
 u8 *TObjChara::vfunc_18(u8 *arg1) {
     Vec stack;
     f32 temp_f1;
-    u8 *temp_r3;
+    CsnHit *hit;
     u8 *temp_r6;
     stack.x = *(f32 *)((s8 *)arg1 + 0);
     temp_r6 = this->m_2b0;
     temp_f1 = *(f32 *)((s8 *)arg1 + 4);
     stack.y = temp_f1 + *(f32 *)((s8 *)temp_r6 + 0x10);
     stack.z = *(f32 *)((s8 *)arg1 + 8);
-    temp_r3 = (u8 *)(csnVectorUnder(&stack.x, ((u8 *)this) + 0x120, 0x15, temp_r6, temp_f1));
-    if (temp_r3 == NULL) {
+    hit = csnVectorUnder(&stack, (CsnGroup **)&m_120, 0x15);
+    if (hit == NULL) {
         return NULL;
     }
-    *(f32 *)((s8 *)((u8 *)this) + 0x3C) = (f32) *(f32 *)((s8 *)(*(u8 **)((s8 *)temp_r3 + 4)) + 4);
-    return temp_r3;
+    position.y = hit->contact->point.y;
+    return (u8 *)hit;
 }
 
 u8 *TObjChara::update_actor_ground_y() {
     Vec stack;
     f32 temp_f1;
-    u8 *temp_r3;
+    CsnHit *hit;
     u8 *temp_r6;
     stack.x = *(f32 *)((s8 *)((u8 *)this) + 0x38);
     temp_r6 = this->m_2b0;
     temp_f1 = *(f32 *)((s8 *)((u8 *)this) + 0x3C);
     stack.y = temp_f1 + *(f32 *)((s8 *)temp_r6 + 0x10);
     stack.z = *(f32 *)((s8 *)((u8 *)this) + 0x40);
-    temp_r3 = (u8 *)(csnVectorUnder(&stack.x, ((u8 *)this) + 0x120, 0x15, temp_r6, temp_f1));
-    if (temp_r3 == NULL) {
+    hit = csnVectorUnder(&stack, (CsnGroup **)&m_120, 0x15);
+    if (hit == NULL) {
         return NULL;
     }
-    *(f32 *)((s8 *)((u8 *)this) + 0x3C) = (f32) *(f32 *)((s8 *)(*(u8 **)((s8 *)temp_r3 + 4)) + 4);
-    return temp_r3;
+    position.y = hit->contact->point.y;
+    return (u8 *)hit;
 }
 
 void *TObjChara::get_center() { return (char*)this + 0x2fc; }
@@ -4484,7 +4483,7 @@ Obj_80019038 *__ct__9TObjCharaFP7TObject(Obj_80019038 *self, void *parent) {
     s32 j;
     __ct__10TObjMotionFP7TObject(self, parent);
     *(s32 **)((s8 *)self + 0x18) = (s32 *)__vt__9TObjChara;
-    ((TObjPlayer *)(p + 0x120))->register_object();
+    initialize_ground_candidates(reinterpret_cast<CsnGroup **>(p + 0x120));
     __ct__14SubtractiveRngFv(p + 0x160);
     __construct_array(p + 0x254, (void *)TObjPlayer::init_192dc_return_self, 0, 0xC, 5);
     *(u8 **)((s8 *)self + 0x90) = p + 0x120;
@@ -4884,16 +4883,14 @@ f32 newton_sqrtf(f32 x) {
 }
 #pragma pop
 
-s32 TObjPlayer::register_object() {
-    s32 arg0 = (s32)this;
-    clear_ground_candidates();
-    return arg0;
+CsnGroup **initialize_ground_candidates(CsnGroup **candidates) {
+    clear_ground_candidates(candidates);
+    return candidates;
 }
 
-void TObjPlayer::clear_ground_candidates() {
-    O_80019828 *self = (O_80019828 *)this;
+void clear_ground_candidates(CsnGroup **candidates) {
     s32 i;
     for (i = 0; i < 16; i++) {
-        self->arr[i] = 0;
+        candidates[i] = NULL;
     }
 }

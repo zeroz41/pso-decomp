@@ -114,7 +114,7 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     f32 get_node_height();
     void setup_move_bounds();
     void copy_pos_with_height_offset();
-    s32 check_floor_contact(void *arg1);
+    s32 check_floor_contact(const Vec *origin);
     void check_and_notify();
     static void set_entry_value_clamped(s32 arg0, f32 farg0);
     // load_resources (inferred): the floor resource loader paired with free_resources

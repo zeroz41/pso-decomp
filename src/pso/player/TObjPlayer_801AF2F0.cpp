@@ -4255,7 +4255,7 @@ u8 *TObjPlayer::vfunc_18(u8 *arg1) {
     temp_f1 = *(f32 *)((s8 *)arg1 + 4);
     stack.y = temp_f1 + *(f32 *)((s8 *)temp_r6 + 0x10);
     stack.z = *(f32 *)((s8 *)arg1 + 8);
-    temp_r3 = (u8 *)(((u8 * (*)(f32 *, void *, s32, void *, f32))csnVectorUnder)(&stack.x, (u8 *)&this->m_120, 0x5F, temp_r6, temp_f1));
+    temp_r3 = (u8 *)csnVectorUnder(&stack, (CsnGroup **)&this->m_120, 0x5F);
     if (temp_r3 == NULL) {
         return NULL;
     }
@@ -4910,7 +4910,7 @@ void TObjPlayer::rewind_position_history() {
     }
     TObjPlayer__sub_801BE918(this, *(s32 *)((s8 *)((u8 *)this) + 0x6AC), &stack.sp8, &stack.sp10);
     stack.spC = *(f32 *)((s8 *)((u8 *)this) + 0x3C);
-    temp_r3 = (u8 *)csnVectorUnder((Vec *)&stack.sp8, (u32 *)&this->m_120, 0x41);
+    temp_r3 = (u8 *)csnVectorUnder((Vec *)&stack.sp8, (CsnGroup **)&this->m_120, 0x41);
     if (temp_r3 != NULL) {
         *(f32 *)((s8 *)((u8 *)this) + 0x38) = (f32) *(f32 *)((s8 *)(*(void **)((s8 *)temp_r3 + 4)) + 0);
         *(f32 *)((s8 *)((u8 *)this) + 0x3C) = (f32) *(f32 *)((s8 *)(*(void **)((s8 *)temp_r3 + 4)) + 4);

@@ -5007,7 +5007,7 @@ force_active:
   - check_flag_or_state__15TObjBoss2TunnelFi
   - check_flag_pair__10TObjPlayerFll
   - check_flags__10TObjPlayerFll
-  - check_floor_contact__18TObjEneMe3SinowZoaFPv
+  - check_floor_contact__18TObjEneMe3SinowZoaFPC3Vec
   - check_ground_or_fall__13TUnk_804B5BA8Fv
   - check_heavy_damage_flag__9TObjCharaFf
   - check_height_ready__13TObjTombstoneFv
@@ -16633,7 +16633,7 @@ force_active:
   - try_open__11TObjDoaEx01Fv
   - try_relocate_on_timer__15TObjEneDelDepthFv
   - try_spawn_child__15TObjEneSlimeOneFPv
-  - try_spawn_ground_effect__16TObjEneMe3StelthFl
+  - try_spawn_ground_effect__16TObjEneMe3StelthFPC3Vec
   - try_start_action__11TOVS2Wall01Fll
   - try_start_action__15TOAttackableColFll
   - try_start_action__19TContainerAncient01Fll
@@ -17840,7 +17840,7 @@ force_active:
   - query_wall_segment__FPvPvPvl
   - refill_csn_candidate_cache
   - select_deepest_wall_ray
-  - select_ground_query_groups__FP9CsnVectorUl
+  - select_ground_query_groups
   - __dt__19TAdSelectGameModeGCFv
   - __vt__19TAdSelectGameModeGC
   - add_part__25TWindowSubSymbolChatPartsFv

@@ -1,3 +1,4 @@
+#include "pso/unk/text_80087278.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "types.h"
@@ -48,27 +49,6 @@
 #include "pso/unk/text_802D1C84.h"
 #pragma defer_codegen on
 
-struct Stack_802CE510
-{
-  s32 sp8;
-  f32 spC;
-  u8 trailing_storage[0x4];
-};
-
-struct RecoveredFields_802CE510_temp_r3
-{
-  int field_0;
-  int field_4;
-};
-
-extern "C" {
-void *spawn_particle_effect(const void *pos, s32 id);
-typedef struct RecoveredFields_802CE510_temp_r3 RecoveredFields_802CE510_temp_r3;
-
-typedef struct Stack_802CE510 Stack_802CE510;
-
-}
-
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
 struct Sub_800ACA10 { u8 pad[0x18]; s32 level; };
@@ -83,7 +63,7 @@ void fill_value_array(s32 address);
 s32 enemy_validate_retained_target(u8 *ene_dd_st);
 s32 approach_angle_limited(s32 from, s32 to, s32 max_step);
 s32 angle_difference_abs(s32 a, s32 b);
-void fn_802CE510(int arg0);
+void fn_802CE510(TObjEneBm9Mericarol *owner);
 s32 attack_target_history_add(AreaAttackHistory *history, TObjChara *target);
 void mult_vec_array__10TObjPlayerFUll(u32 matrix, Vec *src, Vec *dst, s32 count);
 void create__9TTecKafunFllllllff(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, f32 farg0, f32 farg1);
@@ -834,7 +814,7 @@ void TObjEneBm9Mericarol::sub_802CF7B4(s32 arg1) {
             vfunc_89();
             return;
         case 1:
-            fn_802CE510((int)this);
+            fn_802CE510(this);
             hit_wall = 0;
             sync_center_position();
             if (((TBoss5Gryphon *)this)->enemy_probe_wall_ahead(m_3a0.x, m_3a0.z, 30.0f * m_444) != 0U) {
@@ -1365,55 +1345,38 @@ void TObjEneBm9Mericarol::sub_802CE68C(Vec *out, s32 node) {
     clear_motion_packed_rotation();
 }
 
-void fn_802CE510(int owner) {
-  Stack_802CE510 stack;
-  int new_var;
-  unsigned int temp_r31;
-  unsigned int particle_effect;
-  unsigned int temp_r3_3;
-  unsigned int temp_r3_4;
-  u8 *temp_r3;
-  VecCopy((Vec *)(&stack.sp8), (const Vec *)(owner + 0x38));
-  stack.spC += 15.0f;
-  temp_r3 = (u8 *) csnVectorUnder((Vec *)&stack.sp8, (u32 *)(owner + 0x120), 0x15);
-  if (temp_r3 != 0)
-  {
-    temp_r31 = ((RecoveredFields_802CE510_temp_r3 *) temp_r3)->field_0 & 4;
-    if (temp_r31 != 0)
-    {
-      fn_800D8830((void *)owner, (void *)(owner + 0x38));
-    }
-    else
-    {
-      play_persistent_sound((s32)((void *) ((TObjEnemy *)((void *) owner))->remap_sound_for_area(0x3B211)), owner, (owner + 0x38), 0, 0);
-    }
-    if (((((TObjMotion *)owner)->is_passing_frame((f32)(5.0f)) != 0) || (((TObjMotion *)owner)->is_passing_frame((f32)(15.0f)) != 0)) || (((TObjMotion *)owner)->is_passing_frame((f32)(25.0f)) != 0))
-    {
-      if (temp_r31 != 0)
-      {
-        particle_effect = (unsigned int)spawn_particle_effect((const void *)(((RecoveredFields_802CE510_temp_r3 *) temp_r3)->field_4 + 0x38), 0x49);
-        if (particle_effect != 0U)
-        {
-          ;
-          attach_particle_model((u8 *)particle_effect, (s32)((int) TParticleCtrl::get_particle_model(2)), (s32)((int) TParticleCtrl::get_instance()), 0, 1, (f32)(1.0f));
-          temp_r3 = temp_r3;
-          new_var = (int) particle_effect;
-          ((TParticleCtrl *)new_var)->set_scale(5.0f, 1.0f);
+void fn_802CE510(TObjEneBm9Mericarol *owner) {
+    Vec origin;
+    VecCopy(&origin, &owner->position);
+    origin.y += 15.0f;
+
+    CsnHit *hit = csnVectorUnder(&origin, (CsnGroup **)&owner->m_120, 0x15);
+    if (hit != NULL) {
+        u32 surface_mask = hit->hit_mask & 4;
+        if (surface_mask != 0) {
+            fn_800D8830(owner, &owner->position);
+        } else {
+            play_persistent_sound(owner->remap_sound_for_area(0x3B211), (s32)owner, (u32)&owner->position, 0, 0);
         }
-        temp_r3_3 = (unsigned int)spawn_particle_effect((const void *)(((RecoveredFields_802CE510_temp_r3 *) temp_r3)->field_4 + 0x38), 0xA4);
-        if (temp_r3_3 != 0U)
-        {
-          ((TParticleCtrl *)temp_r3_3)->set_scale(5.0f, 1.5f);
+        if (owner->is_passing_frame(5.0f) != 0 || owner->is_passing_frame(15.0f) != 0 ||
+            owner->is_passing_frame(25.0f) != 0) {
+            if (surface_mask != 0) {
+                TParticleCtrl *spray = (TParticleCtrl *)spawn_particle_effect(&hit->contact[2].point, 0x49);
+                if (spray != NULL) {
+                    attach_particle_model((u8 *)spray, (s32)TParticleCtrl::get_particle_model(2),
+                                          (s32)TParticleCtrl::get_instance(), 0, 1, 1.0f);
+                    spray->set_scale(5.0f, 1.0f);
+                }
+                TParticleCtrl *ripple = (TParticleCtrl *)spawn_particle_effect(&hit->contact[2].point, 0xA4);
+                if (ripple != NULL) {
+                    ripple->set_scale(5.0f, 1.5f);
+                }
+            } else {
+                TParticleCtrl *dust = (TParticleCtrl *)spawn_particle_effect(&owner->position, 0xF3);
+                if (dust != NULL) {
+                    dust->set_scale(5.0f, 2.0f);
+                }
+            }
         }
-      }
-      else
-      {
-        temp_r3_4 = (unsigned int)spawn_particle_effect((const void *)(owner + 0x38), 0xF3);
-        if (temp_r3_4 != 0U)
-        {
-          ((TParticleCtrl *)temp_r3_4)->set_scale(5.0f, 2.0f);
-        }
-      }
     }
-  }
 }

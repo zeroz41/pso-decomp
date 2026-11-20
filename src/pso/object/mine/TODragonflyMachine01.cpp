@@ -99,7 +99,7 @@ void TODragonflyMachine01::update_yaw_animation() {
     }
 }
 
-void TODragonflyMachine01::rotate_animated_node() {
+void TODragonflyMachine01::rotate_animated_node(NJS_OBJECT *) {
     if (node_index == 6) {
         rotate_matrix_y(NULL, node_yaw);
     }
