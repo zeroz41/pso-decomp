@@ -684,11 +684,11 @@ BmlResourceDescriptor lbl_804EC750 = {
 
 const char *TObjEneRecobox_name_ref = "TObjEneRecobox";
 
-void *TObjEneRecobox__animation_entries[16] = {
-    (void *)0x10000, (void *)0x1, (void *)0x3dcccccd, (void *)0x0,
-    (void *)0x30000, (void *)0x2, (void *)0x3f19999a, (void *)0x0,
-    (void *)0x10000, (void *)0x3, (void *)0x3dcccccd, (void *)0x0,
-    (void *)0x30000, (void *)0x0, (void *)0x3f19999a, (void *)0x0,
+TObjMotionAction TObjEneRecobox__animation_entries[4] = {
+    {1, 0, 1, 0.1f, 0},
+    {3, 0, 2, 0.6f, 0},
+    {1, 0, 3, 0.1f, 0},
+    {3, 0, 0, 0.6f, 0},
 };
 
 void *TObjEneRecobox__vtable[107] = {
@@ -754,7 +754,7 @@ s32 lbl_805D6B1C;
 
 BmlResource *TObjEneRecobox__static_instance;
 
-const NpcAnimationBinding recobox_resource_binding_desc = { NULL, reinterpret_cast<TObjMotionAction *>(TObjEneRecobox__animation_entries), 0, 0, 4 };
+const NpcAnimationBinding recobox_resource_binding_desc = { NULL, TObjEneRecobox__animation_entries, 0, 0, 4 };
 
 #pragma dont_inline off
 #pragma inline_depth(4)
