@@ -52,42 +52,7 @@ struct RecoveredGlobal_802C8910_lbl_804E0CC0 {
 
 typedef char RecoveredGlobal_802C8910_lbl_804E0CC0_size[sizeof(RecoveredGlobal_802C8910_lbl_804E0CC0) == 0xE0 ? 1 : -1];
 
-struct VBase_18_62e3d5 { char pad[0x18]; };
-
-struct VObj_18_62e3d5 : VBase_18_62e3d5 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual s32 m21(void *, s32 *, s32, s32, s32);
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual f32 m28(f32);
-};
-
 struct Pair_802C80F0 { s32 v[2]; };
-struct P_802C8BD0 { s32 a; f32 b; };
 
 struct T_802C8F68 { s32 r[3][3]; };
 
@@ -539,11 +504,10 @@ void TOTrapChainSawDamage::update_state() {
 #pragma dont_inline off
 #pragma inline_depth(1)
 void TOTrapChainSawDamage__vt16(TOTrapChainSawDamage *trap, TObjPlayer *player) {
-    P_802C8BD0 p;
-    p.a = 0;
-    p.b = trap->scale_by_level(*(f32 *)((s8 *)trap + 0xFC));
-    P_802C8BD0 q = p;
-    ((VObj_18_62e3d5 *)player)->m21(reinterpret_cast<u8 *>(trap), (s32 *)&q, 0, -1, -1);
+    DirectAttackPayload attack;
+    attack.kind = 0;
+    attack.power = trap->scale_by_level(*(f32 *)((s8 *)trap + 0xFC));
+    player->receive_direct_attack(trap, attack, NULL, -1, -1);
     obj_setFlags30(player, 0x400);
 }
 #pragma pop
