@@ -510,7 +510,7 @@ void TBoss6Type1::update_charge() {
     }
 }
 
-void TBoss6Type1::start_action_if_idle() { if (*(int*)((char*)this + 0x410) == 0) { send_flow_action_if_idle__11TBoss6Type1FPvc((TBoss6Type1 *)this, (s8)((void*)25)); } }
+void TBoss6Type1::start_action_if_idle() { if (*(int*)((char*)this + 0x410) == 0) { send_flow_action_if_idle__11TBoss6Type1FPvc((TBoss6Type1 *)this, (s8)(saddr)((void*)25)); } }
 
 void TBoss6Type1::set_phase_90() { this->m_40c = 90; *(int*)((char*)this + 0x410) = 90; latch_phase_counter(); spawn_effect_slot((saddr)((void*)((void*)0))); release_effect_slot((saddr)((void*)((void*)1))); }
 

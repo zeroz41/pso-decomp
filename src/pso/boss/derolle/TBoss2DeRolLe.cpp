@@ -6237,7 +6237,7 @@ void handle_death_state__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1) {
             assign_slots_from_list(o, o->slots[i]);
         }
         ((TObjEnemy *)o)->refresh_and_send_entity_flags();
-        TBoss4DarkFalz::dispatch_by_main_phase((u16)((void *)0x20));
+        TBoss4DarkFalz::dispatch_by_main_phase((u16)(saddr)((void *)0x20));
         ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&o->pos, &save);
         ((TObjEnemy *)o)->update_prev_position();
         o->flags30 = 0x12008;

@@ -116,25 +116,25 @@ void TBoss6Type2::sub_802BFBE4() { state_duration = 90; state_timer = 90; }
 void TBoss6Type2::select_attack_state() {
     if ((s32) this->state_timer == 0) {
         if (TBoss6Type2__sub_802BA9E4(this) != 0) {
-            send_action_packet((s8)((void*)(0xD)));
+            send_action_packet((s8)(saddr)((void*)(0xD)));
             return;
         }
         if ((get_phase() == 0xD) && (is_ready_to_attack() != 0)) {
             this->m_464 = is_falz_ready();
-            send_action_packet((s8)((void*)(0x18)));
+            send_action_packet((s8)(saddr)((void*)(0x18)));
             return;
         }
         if (TBoss6Type2__sub_802BA944(this) != 0) {
-            send_action_packet((s8)((void*)(0xE)));
+            send_action_packet((s8)(saddr)((void*)(0xE)));
             return;
         }
         if (get_phase() == 0xD) {
             this->m_428 = pick_random_other_index();
             this->m_430 = choose_next_index();
-            send_action_packet((s8)((void*)(1)));
+            send_action_packet((s8)(saddr)((void*)(1)));
             return;
         }
-        send_action_packet((s8)((void*)(2)));
+        send_action_packet((s8)(saddr)((void*)(2)));
     }
 }
 
@@ -183,7 +183,7 @@ void TBoss6Type2::pick_next_zako() {
             update_action_state();
             return;
         }
-        send_action_packet((s8)((void*)((void*)(3))));
+        send_action_packet((s8)(saddr)((void*)((void*)(3))));
     }
 }
 
@@ -273,11 +273,11 @@ void TBoss6Type2::send_state_action() {
         switch (this->m_374) {
         case 6:
             this->m_46c = 0;
-            send_action_packet((s8)((void*)(0xC)));
+            send_action_packet((s8)(saddr)((void*)(0xC)));
             return;
         case 9:
             this->m_46c = 1;
-            send_action_packet((s8)((void*)(0xC)));
+            send_action_packet((s8)(saddr)((void*)(0xC)));
             return;
         default:
             send_state_action_packet();
