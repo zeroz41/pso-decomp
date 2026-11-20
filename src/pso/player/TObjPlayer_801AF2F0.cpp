@@ -2496,10 +2496,10 @@ int clear_links__10TObjPlayerFPv(void* p) { return clear_collision_bodies__14TOb
 
 void TObjPlayer::create_lockon_cursor() {
     if (is_single_screen() != 0) {
-        if ((u32) this->m_424 == 0U) {
+        if ((uaddr) this->m_424 == 0U) {
             this->m_424 = (uaddr)new TLockOnCursor(this, get_entity_id(this));
         }
-    } else if (((TObjPlayer::is_locally_controlled(this) != 0) || (obj_isState3_324() != 0)) && ((u32) this->m_424 == 0U)) {
+    } else if (((TObjPlayer::is_locally_controlled(this) != 0) || (obj_isState3_324() != 0)) && ((uaddr) this->m_424 == 0U)) {
         this->m_424 = (uaddr)new TLockOnCursor(this, get_entity_id(this));
     }
 }
@@ -5127,7 +5127,7 @@ block_5:
 #pragma pop
 
 s32 TObjPlayer::has_action_palette_entry() {
-    if (((u32) this->m_424 != 0U) && (((u16)get_action_palette_entry(0)) != 0)) {
+    if (((uaddr) this->m_424 != 0U) && (((u16)get_action_palette_entry(0)) != 0)) {
         return 1;
     }
     return 0;
@@ -5150,7 +5150,7 @@ s32 TObjPlayer::is_quest_interaction_blocked() {
 void *TObjPlayer__sub_801B57E8(TObjPlayer *player) {
     s32 i;
     saddr cursor;
-    if ((u32)player->m_424 == 0) {
+    if ((uaddr)player->m_424 == 0) {
         return NULL;
     }
     cursor = player->m_424 + 0x5C;
@@ -5488,7 +5488,7 @@ void TObjPlayer::update_facing_vector() {
     *(f32 *)((s8 *)((u8 *)this) + 0x408) = (f32) TObjPlayer__data_805DC278;
     this->m_40c = cos_table_lookup(this->rotation_y);
     update_ground_contact();
-    if ((u32) this->m_424 != 0U) {
+    if ((uaddr) this->m_424 != 0U) {
         ((TMainCursor *)(*(void **)((s8 *)((u8 *)this) + 0x424)))->reset_slots();
     }
     TObjPlayer__sub_801BF584(((u8 *)this) + 0x360);
@@ -5566,7 +5566,7 @@ void TObjPlayer::update_subsystems() {
 }
 
 s32 TObjPlayer::is_target_valid() {
-    if ((u32) this->m_424 == 0U) {
+    if ((uaddr) this->m_424 == 0U) {
         return 0;
     }
     if (((u16) this->interactor != 0xFFFF) || (((s32 (*)(void))check_flag_100__10TObjPlayerFPv)() != 0) || (((TMainCursor *)(this->m_424))->is_cursor_clear() == 0) || (this->check_flag_0x40000000() != 0) || (test_action_mask(0x1E) == 0)) {
