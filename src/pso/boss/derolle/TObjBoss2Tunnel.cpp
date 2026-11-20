@@ -277,7 +277,7 @@ void build_save_file_image__15TAdPlayerLoadGCFPvPv(void *, void *, void *);
 s32 load_player__23TAdSinglePlyChrSelectGCFllll(s32, const char *, void *, s32);
 extern char episode_i_and_ii_card_filename[];
 s8 func_801A5E54__Fv(void);
-extern u32 camera_ctrl_instance;
+extern uaddr camera_ctrl_instance;
 s32 verify_snapshot_checksum__15TObjBoss2TunnelFv();
 void set_depth_buffer_settings_1__Fv(void);
 void draw_projected_quads__15TObjBoss2TunnelFPvi(Vtx_8007D828 *, s32);

@@ -1103,8 +1103,8 @@ void TObjEnePanarms::enter_split() {
     this->obj_clearFlags30((u32)(0x40000));
     obj_setFlags30(this, 0x04000000);
     TObjEnePanarms__sub_800DE430((saddr)this, 0x22, 0x3C);
-    play_sound_effect((saddr)((void *) (((s32)this->remap_sound_for_area(0x4003BC2D)))), (u8 *)this + 0x3AC, 0, 0);
-    play_sound_effect((saddr)((void *) (((s32)this->remap_sound_for_area(0x4003BC2C)))), (u8 *)this + 0x3C4, 0, 0);
+    play_sound_effect(this->remap_sound_for_area(0x4003BC2D), (u8 *)this + 0x3AC, 0, 0);
+    play_sound_effect(this->remap_sound_for_area(0x4003BC2C), (u8 *)this + 0x3C4, 0, 0);
     set_field_b8(0xA);
 }
 
@@ -1128,7 +1128,7 @@ void TObjEnePanarms::enter_separated() {
     *(s32 *)((s8 *)this + 0x3DC) = 0;
     this->m_388 = 0x384;
     this->has_split = 1;
-    play_sound_effect((saddr)((void *) (((s32)this->remap_sound_for_area(0x4003BC2E)))), (u8 *)this + 0x38, 0, 0);
+    play_sound_effect(this->remap_sound_for_area(0x4003BC2E), (u8 *)this + 0x38, 0, 0);
     if (TObjEnePanarms__sub_800DFB44((s32)(this->m_3e4)) == 0) {
         TObjEnePanarms__sub_800E1E14((u8 *)this->m_3e4);
     }
@@ -1219,8 +1219,8 @@ void TObjEnePanarms::enter_rejoin() {
     *(s32 *)((s8 *)temp_r5 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r5 + 0x18) & 0xFFFFFFFE);
     this->obj_clearFlags30((u32)(0x40000));
     obj_setFlags30(this, 0x04000000);
-    play_sound_effect((saddr)((void *) (((s32)this->remap_sound_for_area(0x4003BC31)))), (u8 *)this + 0x3AC, 0, 0);
-    play_sound_effect((saddr)((void *) (((s32)this->remap_sound_for_area(0x4003BC30)))), (u8 *)this + 0x3C4, 0, 0);
+    play_sound_effect(this->remap_sound_for_area(0x4003BC31), (u8 *)this + 0x3AC, 0, 0);
+    play_sound_effect(this->remap_sound_for_area(0x4003BC30), (u8 *)this + 0x3C4, 0, 0);
     this->init(0xA);
 }
 

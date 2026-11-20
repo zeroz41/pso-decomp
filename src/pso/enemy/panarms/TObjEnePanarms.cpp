@@ -1463,7 +1463,7 @@ void TObjEnePanBARA::sub_800E0344() {
         this->m_3b0 = 0.0f;
         this->action_timer = 0x96;
         *(s32 *)((s8 *)this + 0x3C0) = 1;
-        play_sound_effect((saddr)((void *) (((s32)this->remap_sound_for_area(0x4003BC2D)))), (u8 *)this + 0x38, 0, 0);
+        play_sound_effect(this->remap_sound_for_area(0x4003BC2D), (u8 *)this + 0x38, 0, 0);
         this->motion_flags = (s32) (this->motion_flags & 0xFFFFFFFE);
         this->set_field_b8(2);
     }
@@ -1604,7 +1604,7 @@ void TObjEnePanBARA::sub_800DFE08() {
             var_r5 = 0;
         }
         TTecResta::create((void *)this, &position, (void *)var_r5);
-        ((s32 (*)(void *, void *, int, int))play_sound_effect)((void *) (this->remap_sound_for_area(0x4003BC31)), &position, 0, 0);
+        play_sound_effect(this->remap_sound_for_area(0x4003BC31), &position, 0, 0);
     }
     if (*(s32 *)((s8 *)this + 0xB0) & 0x10) {
         this->sub_800E1C98(2);

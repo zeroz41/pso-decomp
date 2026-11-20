@@ -159,25 +159,25 @@ void TObjEneDimedian::vfunc_101() {  }
 
 void TObjEneDimedian::vfunc_99() {
     saddr arg0 = (saddr)this;
-    play_sound_effect((saddr)((void *) (((s32)((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003AD40)))), arg0 + 0x38, 0, 0);
+    play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003AD40), arg0 + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 
 void TObjEneDimedian::vfunc_98() {
     saddr arg0 = (saddr)this;
-    play_sound_effect((saddr)((void *) (((s32)((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003AD3D)))), arg0 + 0x38, 0, 0);
+    play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003AD3D), arg0 + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 
 void TObjEneDimedian::vfunc_97() {
     saddr arg0 = (saddr)this;
-    play_sound_effect((saddr)((void *) (((s32)((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003A83E)))), arg0 + 0x38, 0, 0);
+    play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003A83E), arg0 + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 
 void TObjEneDimedian::vfunc_96() {
     saddr arg0 = (saddr)this;
-    play_sound_effect((saddr)((void *) (((s32)((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003A83F)))), arg0 + 0x38, 0, 0);
+    play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003A83F), arg0 + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 

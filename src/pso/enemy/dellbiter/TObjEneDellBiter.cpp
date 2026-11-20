@@ -1198,7 +1198,7 @@ void TObjEneDellBiter::fn_803040D0(s32 reason) {
             }
             if (is_passing_frame(11.0f) != 0) {
                 this->fn_80305688();
-                play_sound_effect((saddr)((void *) (this->remap_sound_for_area((saddr)((void *)(0x40039E15))))), &position, 0, 0);
+                play_sound_effect(this->remap_sound_for_area(0x40039E15), &position, 0, 0);
             }
         }
         this->vfunc_102();

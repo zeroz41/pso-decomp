@@ -724,7 +724,7 @@ void TObjEneGibbles::play_distance_sound() {
             TObjEneGibbles__sub_800D8988((void *) (arg0 + 0x38));
             return;
         }
-        play_sound_effect((saddr)((void *) (((s32)((TObjEneGibbles*)((void *)(arg0)))->resolve_sound_id((u32)(0x3A83D))))), (void *)((void *) (arg0 + 0x38)), 0, 0);
+        play_sound_effect(((TObjEneGibbles*)((void *)(arg0)))->resolve_sound_id((u32)(0x3A83D)), (void *)((void *) (arg0 + 0x38)), 0, 0);
         return;
     }
     if (((TObjMotion *)arg0)->is_passing_frame(23.0f) != 0) {
@@ -732,7 +732,7 @@ void TObjEneGibbles::play_distance_sound() {
             TObjEneGibbles__sub_800D8988((void *) (arg0 + 0x38));
             return;
         }
-        play_sound_effect((saddr)((void *) (((s32)((TObjEneGibbles*)((void *)(arg0)))->resolve_sound_id((u32)(0x3A83E))))), (void *)((void *) (arg0 + 0x38)), 0, 0);
+        play_sound_effect(((TObjEneGibbles*)((void *)(arg0)))->resolve_sound_id((u32)(0x3A83E)), (void *)((void *) (arg0 + 0x38)), 0, 0);
         return;
     }
     if (((TObjMotion *)arg0)->is_passing_frame(40.0f) != 0) {
@@ -740,7 +740,7 @@ void TObjEneGibbles::play_distance_sound() {
             TObjEneGibbles__sub_800D8988((void *) (arg0 + 0x38));
             return;
         }
-        play_sound_effect((saddr)((void *) (((s32)((TObjEneGibbles*)((void *)(arg0)))->resolve_sound_id((u32)(0x3A83F))))), (void *)((void *) (arg0 + 0x38)), 0, 0);
+        play_sound_effect(((TObjEneGibbles*)((void *)(arg0)))->resolve_sound_id((u32)(0x3A83F)), (void *)((void *) (arg0 + 0x38)), 0, 0);
     }
 }
 
@@ -750,7 +750,7 @@ void TObjEneGibbles__sub_802D7DAC(saddr arg0) {
             TObjEneGibbles__sub_800D8988((void *) (arg0 + 0x38));
             return;
         }
-        play_sound_effect((saddr)((void *) (((s32)((TObjEneGibbles*)((void *)(arg0)))->resolve_sound_id((u32)(0x3A82B))))), (void *)((void *) (arg0 + 0x38)), 0, 0);
+        play_sound_effect(((TObjEneGibbles*)((void *)(arg0)))->resolve_sound_id((u32)(0x3A82B)), (void *)((void *) (arg0 + 0x38)), 0, 0);
     }
 }
 
@@ -891,7 +891,7 @@ void TObjEneGibbles::sub_802D8140() {
       this->phase = 1;
       *((f32 *) (((s8 *) ((u8 *)this)) + 0x3A0)) = 0.0f;
       apply_actor_gravity((TObjEnemy *)this, (s32 *)(0), 0.0f);
-      play_sound_effect((saddr)((void *) ((s32)this->resolve_sound_id((u32)(0x3A333)))), (void *)(((u8 *)this) + 0x38), 0, 0);
+      play_sound_effect(this->resolve_sound_id((u32)(0x3A333)), (void *)(((u8 *)this) + 0x38), 0, 0);
       return;
     case 1:
       advance_animation();
@@ -1821,7 +1821,7 @@ void TObjEneGibbles::update_death_sequence() {
                 break;
             default:
             case 1:
-                ((s32 (*)(void *, void *, int, int))play_sound_effect)((void *) ((TObjEneGibbles*)arg0)->resolve_sound_id(0x3AD32), (void *) (arg0 + 0x38), 0, 0);
+                play_sound_effect(((TObjEneGibbles*)arg0)->resolve_sound_id(0x3AD32), (void *) (arg0 + 0x38), 0, 0);
                 break;
             }
             ((s32 (*)(void *))TObjEneGibbles__sub_802D7A54)(arg0);

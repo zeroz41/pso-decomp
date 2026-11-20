@@ -137,7 +137,7 @@ TBoss5GryphonSnarl::TBoss5GryphonSnarl(TObject *parent, void *arg2) : TObject(pa
 void TBoss5GryphonSnarl__sub_80066E84(void) {  }
 
 extern s32 lbl_805D4DD8;
-extern u32 boss5_common_texture_list;
+extern uaddr boss5_common_texture_list;
 
 void TBoss5GryphonSnarl__sub_80066E88(void) {
     switch (TBoss8Dragon__sub_8005D700()) {
@@ -148,7 +148,7 @@ void TBoss5GryphonSnarl__sub_80066E88(void) {
 }
 
 void TLobby__sub_80066EC0(void) {
-    if ((u32) boss5_common_texture_list != 0U) {
+    if (boss5_common_texture_list != 0U) {
         release_texture_list((void*)boss5_common_texture_list);
         TAdSinglePlyChrSelectGC::safe_free(boss5_common_texture_list);
         boss5_common_texture_list = 0U;

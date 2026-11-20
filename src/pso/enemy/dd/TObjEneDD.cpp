@@ -70,7 +70,7 @@ extern int current_scene_light;
 
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 extern "C" {
-extern s32 camera_ctrl_instance;
+extern u8 *camera_ctrl_instance;
 int is_local_client_floor_leader(void*);
 int TObjPlayer__sub_801BA42C(void*);
 int freeze_all_players__10TObjPlayerFv(void*);

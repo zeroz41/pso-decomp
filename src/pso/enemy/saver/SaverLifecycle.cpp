@@ -70,7 +70,7 @@ extern void *bm_ene_df1_saver_model_names[2];
 extern void *bm_ene_df1_saver_motion_names[12];
 RecoveredGlobal_lbl_80500978 lbl_80500978;
 saddr saver_boss_stat_handle;
-s32 *player_object_ptr_array;
+saddr *player_object_ptr_array;
 saddr saver_object_stat_handle;
 f32 *lbl_805D504C;
 uaddr saver_bml_resource;
@@ -1988,7 +1988,7 @@ void initialize_saver_resources(void) {
     dir.x = (-10.0f);
     dir.y = dir.z = 0.0f;
     ((SampledMotionPoints *)lbl_805D506C)->sample_node_offsets((NJS_OBJECT *)RES->sub->f8, (NJS_MOTION *)(RES->ents[saver_action_table[3].motion].b), 0x19, (const Vec *)&pos, (const Vec *)&dir);
-    player_object_ptr_array = (s32 *)mem_alloc(0xC);
+    player_object_ptr_array = (saddr *)mem_alloc(3 * sizeof(saddr));
     saver_boss_stat_handle = (saddr)TLobby::register_boss(0x52);
     player_object_ptr_array[0] = (saddr)TLobby::dispatch_shared_handler_b(0x57);
     player_object_ptr_array[2] = (saddr)TLobby::dispatch_shared_handler_b(0x58);

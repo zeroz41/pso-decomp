@@ -5821,7 +5821,7 @@ void TObjEnemy::sub_8002AE64() {
 
 void TObjMotion::set_field_b8(s16 v) { this->requested_action = v; }
 
-extern s32 TLobby__data_805D6144;
+extern u8 *TLobby__data_805D6144;
 
 void TObjMotion::set_field_dc(s32 v) { *(s32 *)&this->motion_list = v; }
 void TObjMotion::set_field_d8(s32 v) { (*(s32 *)&this->action_table) = v; }

@@ -694,7 +694,7 @@ void TObjEneLappy::vfunc_62() {
             this->m_374 = (s16) (this->m_374 | 2);
             ((TObjPlayer *)((u8 *)this))->set_flag_and_notify();
         }
-        play_sound_effect((saddr)((void*)((s32)remap_area_sound_id(0x3B10F, 5))), (uaddr)(((u8 *)this) + 0x38), 0, 0);
+        play_sound_effect(remap_area_sound_id(0x3B10F, 5), (uaddr)(((u8 *)this) + 0x38), 0, 0);
     }
 }
 
@@ -1368,9 +1368,9 @@ void *lbl_80492F28[84] = {
     (void *)&apply_hit_message_flags__9TObjEnemyFPv, (void *)&apply_set_data__9TObjEnemyFPv, (void *)&clear_lobby_object_state__9TObjEnemyFv, (void *)0x0,
 };
 
-__declspec(section ".data") s32 lappy_boss_stats_handles[2];
-__declspec(section ".data") s32 lappy_boss_stats_ptrs_b[2];
-__declspec(section ".data") s32 lappy_object_handles[2];
+__declspec(section ".data") saddr lappy_boss_stats_handles[2];
+__declspec(section ".data") saddr lappy_boss_stats_ptrs_b[2];
+__declspec(section ".data") saddr lappy_object_handles[2];
 __declspec(section ".data") s32 lappy_variant_speed_ptr_table[2];
 #define lbl_80492F28 ((s32 *)lbl_80492F28)
 
