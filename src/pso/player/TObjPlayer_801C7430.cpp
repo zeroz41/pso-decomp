@@ -3383,7 +3383,7 @@ void run_fall_reaction_phase__10TObjPlayerFis(s32 arg0, s16 arg1) {
 void TObjPlayer::set_flag_100000() { ((int (*)(void*))clear_velocity)((void*)(this)); ((int (*)(void*, void*))obj_setFlags30)(this, (void*)1048576); }
 
 void TObjPlayer::update_move_state() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     damp_planar_velocity();
     if (((TObjPlayer *)arg0)->check_actor_blocking_move() != 0) {
         ((int (*)(void*))clear_velocity)((void*)(arg0));
@@ -5124,7 +5124,7 @@ void handle_6x46_attack_finished(s32 arg0) {
 }
 
 void TObjPlayer::send_attack_target_packet() {
-    u32 arg0 = (u32)this;
+    uaddr arg0 = (uaddr)this;
     s16 sp8[0x14];
     if (((obj_isState2_324__9TObjCharaFv((void *) (arg0)) == 0) || (reset_volopt_state__10TObjPlayerFv((void *) (arg0)) != 0)) && ((((TObjChara *)((void *) (arg0)))->obj_isState3_324() != 0) || (((u32 (*)(void *, void *))capture_lockon_targets)((void *) (arg0 + 0x7CC), (void *) (arg0)) != 0U)) && (((TObjPlayer *)(arg0))->is_body_collision_inactive() == 0) && ((arg0 == 0U) || (obj_isState2_324__9TObjCharaFv((void *) (arg0)) == 0))) {
         ((TObjPlayer *)sp8)->build_packet_header();
@@ -5164,7 +5164,7 @@ block_5:
 }
 
 s32 TObjPlayer::can_perform_physical_action() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     if ((((TObjCollidable *)arg0)->obj_testFlags30(0x20006) != 0) || (((TObjCollidable *)arg0)->obj_testFlags30(0x02000000) != 0) || (((TObjPlayer *)arg0)->check_flag(2) != 0) || (((TObjPlayer *)arg0)->test_action_mask(0x548000) != 0) || ((is_locally_controlled__10TObjPlayerFPv((void *) (arg0)) != 0) && ((check_flag_100__10TObjPlayerFPv((void *) (arg0)) != 0) || (((TObjPlayer *)arg0)->get_camera_field() == 0))) || (reset_volopt_state__10TObjPlayerFv((void *) (arg0)) == 0)) {
         return 0;
     }
@@ -6213,7 +6213,7 @@ void*TObjPlayer::get_field4_ptr() { return (char*)this + 0x4; }
 int copy_position__10TObjPlayerFPv(void* p) { return ((int (*)(void*))VecCopy__FP3VecPC3Vec)((char*)p + 0x4); }
 
 void TObjPlayer::set_float_param(s16 arg1) {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     ((TObjPlayer *)(arg0 + 0x4AC))->set_field_3c((f32) (s32) arg1);
 }
 
@@ -7541,7 +7541,7 @@ void* get_anim_field_c__10TObjPlayerFPv(void* p) { return (char*)p + 0xc; }
 #pragma auto_inline off
 #pragma dont_inline off
 f32 TObjPlayer::calc_attack_stage_multiplier(s32 arg1) {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     return *(f32 *)((s8 *)((u8 *)(attack_type_accuracy_scales) + (arg1 * 4)) + 0) * *(f32 *)((s8 *)((u8 *)(attack_combo_accuracy_multipliers) + (get_validated_attack_stage((u8 *)(arg0)) * 4)) + 0);
 }
 extern int fold_flush_29;

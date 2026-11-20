@@ -285,9 +285,9 @@ void TOChatSensor::set_trigger_text(void *arg1) {
 
 void TOChatSensor::check_player_proximity() {
     u8 *arg0 = (u8 *)this;
-    u32 player;
+    uaddr player;
 
-    player = (u32)get_player_by_client_id((local_client_id));
+    player = (uaddr)get_player_by_client_id((local_client_id));
     if (player != 0U) {
         if (horizontal_distance_squared((const Vec *)(player + 0x38), (const Vec *)(arg0 + 0x38)) < *(f32 *)&this->unk_9C) {
             this->m_a0 = 1;

@@ -314,7 +314,7 @@ s32 find_support_technique_contact(void *self, int target, void *_w2, void *_w3)
 }
 
 s32 *TObjPlayer::gather_player_contacts(u32 actor, s32 _w2, s32 _w3) {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     Stack_80236290 stack;
     s32 temp_r0;
     s32 player;

@@ -304,9 +304,9 @@ void TObjEnvSoundEx::render() {  }
 s32 TObjEnvSoundEx::init_sound_params() {
     u8 *arg0 = (u8 *)this;
     s32 var_r31;
-    u32 temp_r4;
+    uaddr temp_r4;
     var_r31 = 1;
-    temp_r4 = (u32)environment_sound_tables_by_area[get_current_floor_area()];
+    temp_r4 = (uaddr)environment_sound_tables_by_area[get_current_floor_area()];
     if (temp_r4 != 0U) {
         ((s32 (*)(void *, int))copy_pair__18TObjEnvSoundGlobalFPvPv)(arg0 + 0x9C, (int) (temp_r4 + (this->set_params[0] * 8)));
     } else {
@@ -376,9 +376,9 @@ void copy_pair__18TObjEnvSoundGlobalFPvPv(void* p, void* q) { *(u32*)((char*)p +
 #pragma opt_common_subs off
 s32 TObjEnvSoundGlobal::setup_sound() {
     s32 var_r31;
-    u32 temp_r4;
+    uaddr temp_r4;
     var_r31 = 1;
-    temp_r4 = (u32)environment_sound_tables_by_area[get_current_floor_area()];
+    temp_r4 = (uaddr)environment_sound_tables_by_area[get_current_floor_area()];
     if (temp_r4 != 0U) {
         copy_pair__18TObjEnvSoundGlobalFPvPv((u8 *)&this->m_94, (void*)((int) (temp_r4 + (this->set_params[0] * 8))));
     } else {

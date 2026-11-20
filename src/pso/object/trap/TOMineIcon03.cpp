@@ -18,7 +18,7 @@ const char *TOMineIcon03__name = "TOMineIcon03";
 void TOMineIcon03::vfunc_84() {  }
 
 void TOMineIcon03::vfunc_82() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     spawn_particle_effect((void *)(arg0 + 0x2FC), 0x8D);
     spawn_particle_effect((void *)(arg0 + 0x2FC), 0x8D);
 }

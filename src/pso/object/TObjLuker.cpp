@@ -124,7 +124,7 @@ void hide_part__9TObjLukerFPvUs(Obj_801A0C38 *self, u16 i) {
 #pragma push
 #pragma opt_common_subs off
 void TObjLuker::show_part(s32 arg1) {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     u8 *temp_r31;
     u8 *temp_r3;
     temp_r31 = (u8 *)(arg0 + ((arg1 * 4) & 0x3FFFC));

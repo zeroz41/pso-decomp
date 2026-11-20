@@ -228,7 +228,7 @@ void queue_physical_attack_input(PlayerAttackController *self, TObjPlayer *obj, 
 #pragma auto_inline off
 #pragma dont_inline off
 s32 TObjPlayer::update_if_flag8_set() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     if (((int (*)(void*, int))test_flags_any)((void*)(arg0 + 0xC), 8) != 0) {
         return tick_countdown_timer();
     }

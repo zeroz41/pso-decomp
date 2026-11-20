@@ -195,7 +195,7 @@ f32 TObjPlayer::get_photon_blast_upper_bound() {
 }
 
 f32 TObjPlayer::get_photon_blast_hold_frame() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
   s32 temp_r31;
   s32 *new_var;
   temp_r31 = ((TObjPlayer *)arg0)->get_handle_value() * 0xC;
@@ -204,7 +204,7 @@ f32 TObjPlayer::get_photon_blast_hold_frame() {
 }
 
 f32 TObjPlayer::get_attack_recovery_count() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     s32 falz_phase;
     falz_phase = get_falz_phase();
     return (f32) (s8) *(u8 *)((s8 *)((u8 *)(((u8 *)attack_recovery_count_table + (((TObjPlayer *)arg0)->get_handle_value() * 3))) + falz_phase) + 0);
@@ -338,7 +338,7 @@ s32 TObjPlayer::get_current_state_field(s8 _w0, s32 _w1) {
 }
 
 s32 TObjPlayer::get_class_state_field(s32 arg1) {
-    s32 arg0 = (s32)this; return TObjPlayer::get_current_state_field(((TObjPlayer *)arg0)->get_class_index(), arg1); }
+    saddr arg0 = (saddr)this; return TObjPlayer::get_current_state_field(((TObjPlayer *)arg0)->get_class_index(), arg1); }
 
 s32 get_ply_level_table_row(s8 cls, s32 arg1) {
   s32 temp_r30;

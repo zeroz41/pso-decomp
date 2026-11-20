@@ -40,7 +40,7 @@ s32 *TObjPlayer__sub_803131B4(T_803131B4 *self, s32 i) {
 }
 
 void TObjPlayer::process_indexed_element(s32 arg1) {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     ((TObjPlayer *)(arg0 + (arg1 * 0x18)))->reset_id_entry();
 }
 

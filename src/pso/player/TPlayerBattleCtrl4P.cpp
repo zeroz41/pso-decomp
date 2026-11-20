@@ -281,7 +281,7 @@ TPlayerBattleCtrl4P* TPlayerBattleCtrl4P::construct(TObject* parent) {
     }
     this->message_table = p;
     for (i = 0; i < 4; i++) {
-        s32 pl = (s32)get_player_by_client_id(i);
+        saddr pl = (saddr)get_player_by_client_id(i);
         if (pl != 0) {
             export_character_data__10TObjPlayerFPvPv((u8 *)pl, (u8 *)(get_char_index__23TAdSinglePlyChrSelectGCFUi((u32)i)));
         }

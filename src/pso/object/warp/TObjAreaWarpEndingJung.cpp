@@ -490,13 +490,13 @@ void *find_warp_player_in_range(void *self, u16 client_id, f32 range) {
 }
 
 void TObjWarpBase::vfunc_14() {
-    u32 player;
+    uaddr player;
 
     player = (u32) this->menu_window;
     if (player != 0U) {
         ((TWindowBase *)player)->close();
         this->menu_window = 0U;
-        player = (u32)get_player_by_client_id(this->user_client_id);
+        player = (uaddr)get_player_by_client_id(this->user_client_id);
         if (player != 0U) {
             fn_8019DD24((void *)(player + 0x550), 4);
         }
@@ -565,7 +565,7 @@ void TObjMapWarp::vfunc_14() {
 #pragma push
 #pragma opt_common_subs off
 void TObjMapWarp::closePlayerWindow(u16 arg1) {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     u32 temp_r3;
     u32 player;
     u8 *temp_r31;
@@ -585,7 +585,7 @@ void TObjMapWarp::closePlayerWindow(u16 arg1) {
 #pragma push
 #pragma opt_common_subs off
 void TObjMapWarp::open_confirm_window(s32 arg1) {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     u8 *temp_r31;
     temp_r31 = (u8 *)(arg0 + (arg1 * 4));
     if ((u32) *(u32 *)((s8 *)temp_r31 + 0xEC) == 0U) {
@@ -770,7 +770,7 @@ TObjAreaWarp::~TObjAreaWarp() {
 }
 
 void TObjAreaWarp::open_confirm_window(s32 arg1) {
-    u32 temp_r3;
+    uaddr temp_r3;
 
     if ((u32) this->menu_window == 0U) {
         this->menu_window = ((u32 (*)(s32, s32, s32))create_window_menu)(get_window_layout_position(0x33), 1, arg1);
@@ -785,7 +785,7 @@ void TObjAreaWarp::open_confirm_window(s32 arg1) {
         ((TWindowSubComCardList *)(this->menu_window))->set_flag70_bit10();
         ((TAdChrSelASlotGC *)(this->menu_window))->set_flag_40();
         this->user_client_id = arg1;
-        temp_r3 = (u32)get_player_by_client_id(this->user_client_id);
+        temp_r3 = (uaddr)get_player_by_client_id(this->user_client_id);
         if (temp_r3 != 0U) {
             mask_action_buttons((void *)(temp_r3 + 0x550), 4);
         }
@@ -1252,7 +1252,7 @@ void TObjAreaWarpEnding::open_confirm_window(s32 client_id) {
 
 void TObjAreaWarpEnding::confirm_area_transfer(void *) {
     play_sound_effect(0x40003205, 0, 0, 0);
-    u32 obj = (u32)TObject::operator new(0x28);
+    uaddr obj = (uaddr)TObject::operator new(0x28);
     if (obj != 0U) {
         ((THunterGuildSeqOffline *)obj)->init((void *)tl_00, (void *)((s32 *)TKeyBoardControl::dispatch_select_phase));
     }

@@ -50,7 +50,7 @@ void TObjPlayer::copy_mag_level_to_record(u8 *player) {
 }
 
 void TObjPlayer::apply_pending_action(s32 arg1) {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     s32 temp = TObjPlayer__sub_801BFFA0((void *)(arg0 + 0x41C));
     if (temp != 0) {
         TObjPlayer__sub_802C4668(arg1, temp);

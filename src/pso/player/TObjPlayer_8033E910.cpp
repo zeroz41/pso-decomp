@@ -110,7 +110,7 @@ void TObjPlayer::free_indexed_entry(s32 _w1) {
     }
 }
 void TObjPlayer::copy_node_record(s32 arg1) {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     *(ByteBlock_C *)(arg0) = *(const ByteBlock_C *)(arg1);
     *(ByteBlock_C *)(arg0 + 0xC) = *(const ByteBlock_C *)(arg1 + 0xC);
     *(s32 *)((s8 *)arg0 + 0x18) = (s32) *(s32 *)((s8 *)arg1 + 0x18);

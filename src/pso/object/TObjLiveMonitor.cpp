@@ -475,7 +475,7 @@ int TObjLiveMonitor::render_live_monitor_screen() {
 s32 TObjLiveMonitorSmall::spawn_for_each_fish() {
     void *var_r31;
     void *obj;
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
 
     if ((s8) TObjLiveMonitorSmall__fish_spawned_flag == 0) {
         live_monitor_small_spawned_flag = 1;

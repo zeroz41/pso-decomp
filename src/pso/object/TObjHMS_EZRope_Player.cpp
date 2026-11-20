@@ -109,7 +109,7 @@ void *__dt__21TObjHMS_EZRope_PlayerFv(TObjHMS_EZRope_Player *arg0, s16 arg1) {
 
 #define SELF ((Obj_800FF070 *)arg0)
 void *TObjHMS_EZRope_Player__ct(void *arg0, void *arg1, void *arg2, void *arg3) {
-    s32 base = (s32)ezrope_chunk_material_color_table;
+    saddr base = (saddr)ezrope_chunk_material_color_table;
     s32 n1;
     s32 n2;
     E2_800FF070 *q;

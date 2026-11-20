@@ -150,7 +150,7 @@ void TObjPlayer::set_field_1ab(u8 v) { this->m_1ab = v; }
 void TObjPlayer::set_field_18f(u8 v) { this->m_18f = v; }
 
 void TObjPlayer::set_current_time() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     s32 spC;
     s32 sp8;
     getDateStamp((DateStamp *)(&spC));

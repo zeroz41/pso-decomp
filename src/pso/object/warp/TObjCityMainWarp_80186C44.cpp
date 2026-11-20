@@ -60,9 +60,9 @@ void TObjCityMainWarpChallenge::send_6x6A_set_boss_warp_flags(u16 value) {
 }
 
 void TObjCityMainWarp::notify_player_warp(void *arg0, s32 arg1) {
-    s32 player;
+    saddr player;
 
-    player = (s32)get_player_by_client_id(arg1);
+    player = (saddr)get_player_by_client_id(arg1);
     if (player != 0) {
         send_code_45_1__10TObjPlayerFl();
         obj_clear_flag30_20000((TObjBase *)player);

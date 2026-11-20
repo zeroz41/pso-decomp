@@ -24,7 +24,7 @@ void TObjInfoCol::bswap_6x78() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((
 }
 
 s32 TObjInfoCol::is_target_in_range(f32 radius_squared) {
-    u32 player = (u32)get_player_by_client_id(local_client_id);
+    uaddr player = (uaddr)get_player_by_client_id(local_client_id);
     if (player != 0 &&
         xyz_distance_squared((u8 *)((const Vec *) (player + 0x38)), (u8 *)((const Vec *)&position)) < radius_squared) {
         return 1;

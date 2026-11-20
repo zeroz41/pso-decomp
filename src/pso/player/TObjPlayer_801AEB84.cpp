@@ -86,7 +86,7 @@ void TObjPlayer::add_stat_and_item(u8 arg1) {
 }
 void TObjPlayer::set_speed_scaled_by_camera(u8 arg1) {
     u8 var_r31;
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
 
     var_r31 = arg1;
     if (is_camera_mode_active__10TObjPlayerFv() != 0) {
@@ -98,7 +98,7 @@ void TObjPlayer::set_speed_scaled_by_camera(u8 arg1) {
 }
 void TObjPlayer::apply_speed_with_camera_scale(u8 arg1) {
     u8 var_r31;
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
 
     var_r31 = arg1;
     if (is_camera_mode_active__10TObjPlayerFv() != 0) {

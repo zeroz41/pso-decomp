@@ -218,8 +218,8 @@ f32 TOAttackableCol::apply_hit(s32 arg1) {
   s32 var_r30;
   u32 temp_r3;
   u32 temp_r3_2;
-  u32 var_r0;
-  u32 var_r0_2;
+  uaddr var_r0;
+  uaddr var_r0_2;
   var_r30 = 0;
   if (((arg1 != 0) && (get_entity_id((void *) arg1) < 4U)) && (TObjPlayer::is_locally_controlled((void *) arg1) != 0))
   {
@@ -242,7 +242,7 @@ f32 TOAttackableCol::apply_hit(s32 arg1) {
         temp_r0_2 = *((s32 *) (((s8 *) arg0) + 0x340));
         if ((((temp_r0_2 >= 0x64) && (temp_r0_2 < 0x3E8)) && (((u32) quest_mission_manager) != 0U)) && (((TObject *)quest_mission_manager)->all_parents_unqueued_for_destruction() != 0))
         {
-          var_r0 = (u32)new TQuestThread((TObject *)quest_mission_manager, this->m_344);
+          var_r0 = (uaddr)new TQuestThread((TObject *)quest_mission_manager, this->m_344);
           if (var_r0 != 0U)
           {
             ((TObject *)var_r0)->set_parent((TObject *)tl_00);
@@ -251,7 +251,7 @@ f32 TOAttackableCol::apply_hit(s32 arg1) {
         else
           if ((((u32) quest_area_manager) != 0U) && (((TObject *)quest_area_manager)->all_parents_unqueued_for_destruction() != 0))
         {
-          var_r0_2 = (u32)new TQuestThread((TObject *)quest_area_manager, this->m_344);
+          var_r0_2 = (uaddr)new TQuestThread((TObject *)quest_area_manager, this->m_344);
           if (var_r0_2 != 0U)
           {
             ((TObject *)var_r0_2)->set_parent((TObject *)tl_00);

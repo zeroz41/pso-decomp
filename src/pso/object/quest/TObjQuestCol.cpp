@@ -189,10 +189,10 @@ TObjQuestColA::TObjQuestColA(TObject *parent, void *set_data) : TObjQuestColBase
 }
 
 int TObjQuestColA::vfunc_15() {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 temp_r3_2;
 
-    temp_r3 = (s32)get_player_by_client_id(local_client_id);
+    temp_r3 = (saddr)get_player_by_client_id(local_client_id);
     if (temp_r3 != 0) {
         if (check_flag_100__10TObjPlayerFPv() != 0) {
             enable_action_input__10TObjPlayerFPv((void *)temp_r3);
@@ -265,10 +265,10 @@ TObjQuestColALock::~TObjQuestColALock() {
 }
 
 int TObjQuestColALock::vfunc_15() {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 temp_r3_2;
 
-    temp_r3 = (s32)get_player_by_client_id(local_client_id);
+    temp_r3 = (saddr)get_player_by_client_id(local_client_id);
     if (temp_r3 != 0) {
         if (check_flag_100__10TObjPlayerFPv() != 0) {
             enable_action_input__10TObjPlayerFPv((void *)temp_r3);
@@ -571,10 +571,10 @@ TObjQuestColALock2::~TObjQuestColALock2() {
 }
 
 int TObjQuestColALock2::vfunc_15() {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 temp_r3_2;
 
-    temp_r3 = (s32)get_player_by_client_id(local_client_id);
+    temp_r3 = (saddr)get_player_by_client_id(local_client_id);
     if (temp_r3 != 0) {
         if (check_flag_100__10TObjPlayerFPv() != 0) {
             enable_action_input__10TObjPlayerFPv((void *)temp_r3);

@@ -1077,7 +1077,7 @@ void *load_resource_from_descriptor(void *, int, void *, int, int, int);
 void TOTrapChainSaw::load_shared_resource() {
     void *p;
     s32 i;
-    s32 h;
+    saddr h;
     p = ::operator new(0x440);
     if (p != NULL) {
         p = load_resource_from_descriptor(p, 5, bm_obj_jungle_nokogiri_resource_descriptor, 0, 0, 0);
@@ -1090,14 +1090,14 @@ void TOTrapChainSaw::load_shared_resource() {
         seabed_suiso_switch_counts[i] = 0;
     }
     if (p != NULL) {
-        h = (s32)get_bml_model(p, 3);
+        h = (saddr)get_bml_model(p, 3);
         if (h != 0) {
             seabed_suiso_linked_switch_counts[1] = (s32)find_object_node((NJS_OBJECT *)h, 3);
             seabed_suiso_linked_switch_counts[2] = (s32)find_object_node((NJS_OBJECT *)h, 4);
             seabed_suiso_linked_switch_counts[3] = (s32)find_object_node((NJS_OBJECT *)h, 5);
             seabed_suiso_linked_switch_counts[4] = (s32)find_object_node((NJS_OBJECT *)h, 6);
         }
-        h = (s32)get_bml_model(lbl_805D6808, 4);
+        h = (saddr)get_bml_model(lbl_805D6808, 4);
         if (h != 0) {
             seabed_suiso_switch_counts[1] = (s32)find_object_node((NJS_OBJECT *)h, 3);
             seabed_suiso_switch_counts[2] = (s32)find_object_node((NJS_OBJECT *)h, 4);

@@ -188,7 +188,7 @@ void dispatch_lobby_action__18TObjCityDoor_LobbyFv(s32 arg0);
 
 void TObjCityDoor_Lobby::run_task() {  }
 void TObjCityDoor_Lobby::dispatch_lobby_action() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     if (is_phase_e__9TObjEneDDFPv((void *)arg0) != 0) {
         ((TObjCityDoor_Lobby *)arg0)->build_door_collision_triangles();
         return;
@@ -226,7 +226,7 @@ extern Vec city_door_lobby_collision_vertices[];
 #define self ((Obj_80181BAC *)arg0)
 
 s32 TObjCityDoor_Lobby::build_door_collision_triangles() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     Vec v[3];
     Vec sum;
     Tri_80181BAC *t1;
@@ -1016,13 +1016,13 @@ void TUnk_804B5BA8::begin_state_1() {
 }
 
 s32 TObjPlayer::is_player_in_range(s32 arg0, s32 arg1, f32 farg0) {
-    s32 player;
+    saddr player;
     s32 temp_r3_2;
     s32 var_r30;
 
     var_r30 = 0;
 loop_1:
-    player = (s32)get_player_by_client_id(var_r30);
+    player = (saddr)get_player_by_client_id(var_r30);
     if ((player != 0) && ((temp_r3_2 = get_field_3e0__12TBoss3VoloptFv(), ((temp_r3_2 == 0) != 0)) || (temp_r3_2 == 0x12)) && (horizontal_distance_squared((const Vec *)arg1, (const Vec *)(player + 0x38)) < farg0)) {
         return 1;
     }

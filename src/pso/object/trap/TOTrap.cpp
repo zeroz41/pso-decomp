@@ -145,7 +145,7 @@ void TOTrap::find_target_player() {
 }
 
 void TOTrap::play_sounds() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     spawn_particle_effect((void *)(arg0 + 0x2FC), 0x45);
     spawn_particle_effect((void *)(arg0 + 0x2FC), 0x46);
 }
@@ -162,7 +162,7 @@ void TOTrap::vfunc_6(s16 *arg1, s32 arg2) {
 
 f32 TOTrap::receive_physical_attack(void *arg1, f32) {
   s16 sp8;
-  s32 temp_r3_2;
+  saddr temp_r3_2;
   u16 temp_r3;
   if ((((this->entity_id) >= 0x4000U) && (((u32) (*((u32 *) (((s8 *) ((u8 *)this)) + 0x80)))) != 0U)) && (access_object_saved_state(&sp8, 1) != 0))
   {
@@ -175,7 +175,7 @@ f32 TOTrap::receive_physical_attack(void *arg1, f32) {
       temp_r3 = get_entity_id((u32)((void *) arg1));
       if (temp_r3 < 0x1000U)
       {
-        temp_r3_2 = (s32)get_player_by_client_id(((int) ((s32) temp_r3)));
+        temp_r3_2 = (saddr)get_player_by_client_id(((int) ((s32) temp_r3)));
         if (((temp_r3_2 != 0) && (TObjPlayer::is_locally_controlled((void *)temp_r3_2) != 0)) && (((TLobby *)((long long) temp_r3_2))->check_player_flag1() != 0))
         {
           TObjPlayer::send_code_45_1((s32)((int) temp_r3_2));

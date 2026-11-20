@@ -843,12 +843,12 @@ void TObjPlayer::new_child_object(s32 arg0) {
 }
 
 TPlayerLevelFeedback::TPlayerLevelFeedback(TObject* parent, u16 id) : TObject(parent) {
-    u32 player;
+    uaddr player;
     player_id = id;
     timer = 10;
-    player = (u32)get_player_by_client_id(player_id);
+    player = (uaddr)get_player_by_client_id(player_id);
     if (player != 0) {
-        player = (u32)spawn_particle_effect_with_flags((const void *)(player + 0x2FC), 0x23, 0x10);
+        player = (uaddr)spawn_particle_effect_with_flags((const void *)(player + 0x2FC), 0x23, 0x10);
         if (player != 0) ((TParticleCtrl *)player)->set_owner_id(player_id);
     }
 }
@@ -857,14 +857,14 @@ TPlayerLevelFeedback::~TPlayerLevelFeedback() {}
 
 void TPlayerLevelFeedback::run_task() {
     s32 remaining;
-    u32 player;
-    u32 emitter;
+    uaddr player;
+    uaddr emitter;
     remaining = timer - 1;
     timer = remaining;
     if (remaining < 0) {
-        player = (u32)get_player_by_client_id(player_id);
+        player = (uaddr)get_player_by_client_id(player_id);
         if (player != 0) {
-            emitter = (u32)spawn_particle_effect_with_flags((const void *)(player + 0x2FC), 0x20, 0x10);
+            emitter = (uaddr)spawn_particle_effect_with_flags((const void *)(player + 0x2FC), 0x20, 0x10);
             if (emitter != 0) ((TParticleCtrl *)emitter)->set_owner_id(player_id);
         }
         queue_destruction();
@@ -1078,9 +1078,9 @@ void TObjPlayer::write_ids() { set_model_render_flags((s32)this->m_name); set_ch
 void reset_player_appearance_opacity(void* a0) { *(float*)((char*)a0 + 0x1c) = 1.0f; }
 
 void TObjPlayer::enter_battle_state() {
-    s32 temp_r3;
+    saddr temp_r3;
 
-    temp_r3 = (s32)get_player_by_client_id(*(u16 *)((s8 *)this + 0));
+    temp_r3 = (saddr)get_player_by_client_id(*(u16 *)((s8 *)this + 0));
     if ((temp_r3 != 0) && (fn_801C6F2C((u8 *)this) == 0)) {
         *(s32 *)((s8 *)this + 4) = 0;
         ((TObjPlayer *)temp_r3)->deactivate_body_collision();

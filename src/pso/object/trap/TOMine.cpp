@@ -607,7 +607,7 @@ void TOMine::sub_8017070C() {
 }
 // Slot 82: the detonation particle (inferred; was named detonate_if_triggered on TOMineTrap).
 void TOMine::vfunc_82() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     {
         TParticleCtrl *particle = (TParticleCtrl *)spawn_particle_effect((void *)(arg0 + 0x2FC), 0x45);
         if (particle != NULL) {
@@ -1014,10 +1014,10 @@ s32 TOMineTrap::find_target_in_range() {
 void TOMineTrap::set_state() { this->mode = 4; }
 void TOMineTrap::vfunc_82() {
     Obj_8016F64C *arg0 = (Obj_8016F64C *)this;
-    u32 r;
+    uaddr r;
     switch (this->attack.kind) {
     default:
-        r = (u32)spawn_particle_effect(arg0->sub, 0x45);
+        r = (uaddr)spawn_particle_effect(arg0->sub, 0x45);
         if (r != 0U) {
             ((TParticleCtrl *)r)->set_scale(1.25f, 1.25f);
         }

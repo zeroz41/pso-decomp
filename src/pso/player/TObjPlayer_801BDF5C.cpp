@@ -90,7 +90,7 @@ void TObjPlayer::free_shared_data() {
 void *fn_801C2360(void *arg0);
 void TObjPlayer::alloc_shared_buffers() {
     s32 temp_r3;
-    s32 var_r0;
+    saddr var_r0;
     if ((u32) TObjPlayer__shared_model_buffer == 0U) {
         TObjPlayer__shared_model_buffer = (u32)mem_alloc((u32)((void *)0x9000));
     }
@@ -101,7 +101,7 @@ void TObjPlayer::alloc_shared_buffers() {
         temp_r3 = (int)::operator new(0x60);
         var_r0 = temp_r3;
         if (var_r0 != 0) {
-            var_r0 = (s32)fn_801C2360((void *)temp_r3);
+            var_r0 = (saddr)fn_801C2360((void *)temp_r3);
         }
         TObjPlayer__shared_photon_blast_state = (u32) var_r0;
     }
@@ -669,7 +669,7 @@ void TObjPlayer::set_flag_02000000() {
 }
 
 void TObjPlayer::set_position_history_entry(s32 arg1, f32 farg0, f32 farg1) {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     u8 *temp_r3;
     temp_r3 = (u8 *)(arg0 + (arg1 * 8));
     *(f32 *)((s8 *)temp_r3 + 0x6B0) = farg0;

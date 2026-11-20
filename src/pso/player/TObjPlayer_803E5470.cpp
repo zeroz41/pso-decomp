@@ -61,7 +61,7 @@ void draw_shape_motion_tree(NJS_OBJECT *model, NJS_MOTION *motion, NJS_MOTION *s
 }
 
 void TObjPlayer::draw_motion_node_list() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     s32 tmp;
     ModelDrawContext *ctx;
     s32 *obj;

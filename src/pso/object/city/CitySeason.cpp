@@ -816,7 +816,7 @@ void *TObjCity_Season_ValentineHeart__create(void *arg0) {
 
 extern "C" {
 void TObjCity_Season_ValentineHeart::run_task() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     ((TUnk_804B5E48 *)arg0)->advance_anim_time(1, 0.2f);
 }
 }
@@ -868,7 +868,7 @@ void *TObjCity_Season_XmasTree__create(void *arg0) {
 #define VBase_18_1a504b VBase_18_1a504b_sf2p1365
 extern "C" {
 void TObjCity_Season_XmasTree::run_task() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     ((TUnk_804B5E48 *)arg0)->advance_anim_time(1, 0.2f);
 }
 }
@@ -1181,7 +1181,7 @@ void TObjCity_Season_FireWorkCtrl::run_task() {
   f32 temp_f30;
   float new_var;
   f32 temp_f31;
-  u32 temp_r3;
+  uaddr temp_r3;
   f32 temp_f29;
   if (TLobby__sub_80184C54() != 0)
   {
@@ -1201,7 +1201,7 @@ void TObjCity_Season_FireWorkCtrl::run_task() {
         VecCopy((Vec *)(&stack.sp8), (const Vec *)(arg0 + 0x38));
         stack.sp8 += temp_f31;
         stack.sp10 += temp_f30;
-        temp_r3 = (u32)TObject::operator new(0x40);
+        temp_r3 = (uaddr)TObject::operator new(0x40);
         if (temp_r3 != 0U)
         {
           ((s32 (*)(int, void *, void *, f32))__ct__24TObjCity_Season_FireWorkFP7TObjectPvf)((int) temp_r3, (void *) arg0, (void *)&stack.sp8, (f32) temp_f29);

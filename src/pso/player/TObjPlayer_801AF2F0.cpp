@@ -3524,7 +3524,7 @@ void TObjPlayer::use_current_item() {
 
 void TObjPlayer::get_anim_node_position(s32 arg1, Vec *arg2) {
     Vec stack;
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     stack.z = TObjPlayer__data_805DC278;
     stack.y = TObjPlayer__data_805DC278;
     stack.x = TObjPlayer__data_805DC278;
@@ -4824,7 +4824,7 @@ void TObjPlayer::update_aim_angle(s32 arg1) {
 void TObjPlayer::recalc_stats() {
     f32 temp_f31;
     f32 xscale;
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
 
     temp_f31 = get_tp_class_factor__10TObjPlayerFv();
     xscale = ((TObjPlayer *)arg0)->get_class_hp_factor();
@@ -5068,7 +5068,7 @@ void TObjPlayer__sub_801B5AF8(s32 arg0, s32 arg1) {
 #pragma push
 #pragma fp_contract on
 s32 TObjPlayer::get_action_palette_entry(s32 arg1) {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     return get_entry_by_index__20TWindowActionPaletteFPll(((TObjPlayer *)arg0)->refresh_effect(), arg1);
 }
 #pragma pop
@@ -5076,7 +5076,7 @@ s32 TObjPlayer::get_action_palette_entry(s32 arg1) {
 #pragma push
 #pragma scheduling off
 void TObjPlayer::select_action_palette_and_apply(s32 arg1, s32 arg2, s32 arg3) {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     TWindowActionPalette__sub_801C1D7C((s32)((TObjPlayer*)arg0)->select_action_palette(arg1), arg2, arg3);
 }
 #pragma pop
@@ -5091,7 +5091,7 @@ void TObjPlayer__sub_801B5A44(s32 arg0, s32 secondary, s32 i, s32 arg3, s32 arg4
 #pragma push
 #pragma scheduling off
 void TObjPlayer::set_action_palette_entry(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5) {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     TWindowActionPalette::set_palette_entry((s32)((TObjPlayer*)arg0)->select_action_palette(arg1), arg2, arg3, arg4, arg5);
 }
 #pragma pop
@@ -5219,7 +5219,7 @@ void TObjPlayer::select_class_action_provider() {
 }
 
 void TObjPlayer::apply_input_mode() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     s32 class_flags;
 
     class_flags = get_class_flags();
@@ -5468,7 +5468,7 @@ s32 TObjPlayer::get_battle_ctrl_flag(u16 arg0) {
 }
 
 void TObjPlayer::apply_material_color_override() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     if (!(((TObjPlayer *)arg0)->render_material_state.get_alpha() >= TObjPlayer__data_805DC294)) {
         set_default_alpha_blend();
         model_render_flags |= 0x810;
@@ -5736,7 +5736,7 @@ void TObjPlayer::update_rotation() {
 }
 
 void TObjPlayer::play_footstep_sound() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     if (((int (*)(void))test_ordered_anim_markers__10TObjPlayerFPvff)() != 0) {
         ((TObjPlayer *)arg0)->play_sound_if_on_floor(((TObjPlayer *)arg0)->get_footstep_floor_index());
     }
@@ -5911,7 +5911,7 @@ int TChallenge4PResult::get_player_rank() { return TObjPlayer__sub_801BF47C((cha
 int get_result_entry__18TChallenge4PResultFPv(void* p) { return TObjPlayer__sub_801BF460((char*)p + 0x340); }
 
 s32 TObjPlayer::dispatch_palette_action(u32 arg1) {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     switch (arg1) {
     case 0:
         return ((s32)try_use_item_by_type(3, 0, 0));
@@ -5954,7 +5954,7 @@ s32 TObjPlayer::dispatch_palette_action(u32 arg1) {
 }
 
 s32 TObjPlayer::can_use_camera_field() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     if ((((s32 (*)(void))check_flag_100__10TObjPlayerFPv)() != 0) || (((TObjPlayer *)arg0)->get_camera_field() == 0) || (is_current_area_item_enabled() == 0)) {
         return 0;
     }
@@ -7848,7 +7848,7 @@ void TObjPlayer::refill_traps() {
 }
 
 s32 TObjPlayer::is_alive_and_ready() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     if ((((s32 (*)(void))is_technique_ready__8TTecCtrlFv)() == 0) && (((TObjPlayer *)arg0)->is_android() != 0)) {
         return 1;
     }

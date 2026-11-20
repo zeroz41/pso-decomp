@@ -794,7 +794,7 @@ void TCameraCtrl::update_target_from_state() {
         }
         if ((*(s32 *)((s8 *)TCameraCtrl__view_state + 8) & 0x20) || (*(s32 *)((s8 *)TCameraCtrl__view_state + 8) & 0x80)) {
             select_camera_controller(*(u8 *)((s8 *)TCameraCtrl__view_state + 1));
-            u32 temp = (u32)get_player_by_client_id(local_client_id);
+            uaddr temp = (uaddr)get_player_by_client_id(local_client_id);
             if (temp != 0U) {
                 reset_cameras_to_actor((void *)temp, 0);
             }
@@ -1714,7 +1714,7 @@ void TCameraCtrl::restore_full_screen_view() {
 
 
 void TCameraCtrl::copy_view_state(s32 src) {
-    s32 dst = (s32)this;
+    saddr dst = (saddr)this;
     *(O_80068FCC *)dst = *(O_80068FCC *)src;
 }
 

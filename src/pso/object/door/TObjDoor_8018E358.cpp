@@ -344,7 +344,7 @@ void update_locked_pulse__8TObjDoorFPv(TObjDoor* door) {
 #pragma push
 #pragma fp_contract on
 s32 TObjDoor::is_visible(f32 farg0, f32 farg1) {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     f32 sp8;
     f32 temp_f1;
     temp_f1 = xyz_distance_squared((u8 *)(arg0 + 0x38), (u8 *)(camera_ctrl_instance + 0x178));
