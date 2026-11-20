@@ -238,7 +238,7 @@ struct TBoss6Type2 : public TObjEnemy
     void sub_80337108();
     void sub_80337160();
     void sub_803371B4();
-    static void send_6xAD_grid_positions(u8 arg0, s32 arg1, s32 arg2);
+    static void send_6xAD_grid_positions(u8 arg0, saddr arg1, s32 arg2);
     static s32 send_subordinate_actions(s32 kind, saddr ids, s32 n, s32 force, s32 unused);
     static void *create_flow_soul(void *arg0, void *arg1, void *arg2, void *arg3);
     static void capture_player_snapshots();

@@ -797,7 +797,7 @@ s32 collect_enemy_target_candidates(s32 arg0, Ent_800BB484 *out, f32 farg0) {
     return n;
 }
 
-void TObjEneDD::collect_target_candidates(s32 arg0, f32 farg0) {
+void TObjEneDD::collect_target_candidates(saddr arg0, f32 farg0) {
     collect_enemy_target_candidates(arg0, (Ent_800BB484 *)(&enemy_target_candidate_table.value), farg0);
 }
 
@@ -1209,7 +1209,7 @@ void TObjEneDD::setup(void* p, int a1, int a2) { TObjEneDD::setup_instance((sadd
 
 void TObjEneDD__sub_800BA5A4(void* p, void* a1) { TObjEneDD::setup_instance((saddr)p, (saddr)((char*)p + 0x38), (u8 *)a1, (saddr)((void*)0)); }
 
-void TObjEneDD::emit_enemy_effect(saddr arg0, s32 arg1, u8 *arg2, saddr arg3) {
+void TObjEneDD::emit_enemy_effect(saddr arg0, saddr arg1, u8 *arg2, saddr arg3) {
     ((TUnk_804928CC *)obj_ene_dd_instance)->sub_800BC3E8((u8 *)arg0);
     get_position__12TBoss1DragonFv(obj_ene_dd_instance, arg1);
     *(f32 *)((s8 *)(*(void **)((s8 *)obj_ene_dd_instance + 0xA4)) + 0xC) = (f32) *(f32 *)((s8 *)arg2 + 8);

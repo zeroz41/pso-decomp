@@ -23,13 +23,13 @@ void *player_corpse_mark_resource;
 s32 player_particle_effect_enabled;
 
 extern "C" {
-s32 TBreakUpMdl__ct(void*, s32, s32, s32, s32, s32, s32);
+s32 TBreakUpMdl__ct(void*, s32, saddr, saddr, s32, saddr, s32);
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void free_bin_model_request(void*, int);
 
 extern s32 tl_05;
 
-void TBoss3Volopt::create_breakup_mdl(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+void TBoss3Volopt::create_breakup_mdl(saddr arg0, saddr arg1, s32 arg2, saddr arg3, s32 arg4) {
     void* obj = TObject::operator new(0x54);
     if (obj != 0) {
         TBreakUpMdl__ct(obj, tl_05, arg0, arg1, arg2, arg3, arg4);

@@ -16,7 +16,7 @@ struct TBoss6RockChase : public TObjCollidable {
     s32 damage_players_in_range();
     virtual void render();
     virtual void run_task();
-    static s32 spawn(s32 arg0, saddr arg1);
+    static s32 spawn(saddr arg0, saddr arg1);
 };
 
 LAYOUT_ASSERT(TBoss6RockChase_size, sizeof(TBoss6RockChase) == 0xC8);

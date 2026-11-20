@@ -11,7 +11,7 @@ public:
     virtual void run_task();
     virtual void render();
 public:
-    void get_wing_position(s32 arg1);
+    void get_wing_position(saddr arg1);
 public:
     void apply_lightning_effect();
 };

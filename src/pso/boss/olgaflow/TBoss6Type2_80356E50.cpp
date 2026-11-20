@@ -24,7 +24,7 @@ static const u8 forced_action_flag = 0x20;
 inline const u8 &get_random_action_flag() { return random_action_flag; }
 inline const u8 &get_forced_action_flag() { return forced_action_flag; }
 
-void TBoss6Type2::send_6xAD_grid_positions(u8 arg0, s32 arg1, s32 arg2) {
+void TBoss6Type2::send_6xAD_grid_positions(u8 arg0, saddr arg1, s32 arg2) {
     u8 a;
     u8 b;
     u8 buf[0x44];

@@ -240,14 +240,14 @@ public:
     static s32 is_any_part_alive();
     static void update_all_parts();
     static bool has_enough_enemies();
-    s32 spawn_attack_object(s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+    s32 spawn_attack_object(saddr arg1, s32 arg2, s32 arg3, s32 arg4);
     u16 get_part_count_plus(s32 arg1);
     void set_mode_params(s8 arg1);
     void render_nodes_flagged();
     void copy_vectors();
     void send_swapped_packet();
     void bswap_packet();
-    void copy_position(s32 arg1);
+    void copy_position(saddr arg1);
     void queue_destruction();
     static void trigger_switches_in_range(void *arg0, void *arg1, void *arg2);
     static s32 calc_binomial_coefficient(s32 n, s32 k);

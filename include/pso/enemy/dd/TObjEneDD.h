@@ -72,7 +72,7 @@ struct TObjEneDD : public TObjEnemy {
     static void inflict_poison(s32 arg0, u8 *arg1);
     void emit_effect_at_position(void* a1);
     static void emit_effect(void* p, int a1, int a2);
-    static void emit_enemy_effect(saddr arg0, s32 arg1, u8 *arg2, saddr arg3);
+    static void emit_enemy_effect(saddr arg0, saddr arg1, u8 *arg2, saddr arg3);
     static void setup(void* p, int a1, int a2);
     static void setup_instance(s32 arg0, s32 arg1, u8 *arg2, s32 arg3);
     void transform_relative_position(void* a1);
@@ -89,7 +89,7 @@ struct TObjEneDD : public TObjEnemy {
     void move_with_wall_slide_on_ground(f32 farg0, f32 farg1, f32 farg2);
     void move_to_shot_position(f32 farg0, f32 farg1, f32 farg2);
     static void set_squared_value(f32 farg0);
-    static void collect_target_candidates(s32 arg0, f32 farg0);
+    static void collect_target_candidates(saddr arg0, f32 farg0);
     static void create_instance();
     static int get_enemy_count();
     void handle_state(s32 arg1);

@@ -321,7 +321,7 @@ s32 TBoss4Zako::sub_8005D698() {
 }
 #pragma pop
 #pragma push
-s32 TBoss4Zako::create(s32 arg0) {
+s32 TBoss4Zako::create(saddr arg0) {
     s32 var_r31;
     s32 parent;
 

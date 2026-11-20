@@ -103,7 +103,7 @@ s32 TBoss8Dragon::is_near_other_part() {
     return 0;
 }
 
-s32 TBoss8Dragon::spawn_attack_object(s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+s32 TBoss8Dragon::spawn_attack_object(saddr arg1, s32 arg2, s32 arg3, s32 arg4) {
     s32 arg0 = (saddr)this;
     Stack_802F3A48 stack;
     if (setup_attack_slot__12TBoss8DragonFiUiiiPv(arg0, arg1, arg2, arg4, (u8 *)&stack.sp8) != 0) {
