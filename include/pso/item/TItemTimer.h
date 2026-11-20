@@ -6,11 +6,13 @@
 
 class TItemTimer : public TObject {
 public:
+    TItemTimer(TObject *parent, s32 arg2, s32 arg3);
     virtual ~TItemTimer();
     virtual void run_task();
 
     s32 m_1C;
     void* m_20;
+    s32 m_24;
 public:
     void invoke_callback();
     void reset_fields();

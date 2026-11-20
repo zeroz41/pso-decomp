@@ -3,6 +3,9 @@
 
 #include "pso/system/task/TObject.h"
 #include "types.h"
+#include "pso/system/vector.h"
+
+class TItem;
 
 class TItemEffLandHit : public TObject {
 public:
@@ -10,6 +13,7 @@ public:
  s32 m_38;
 
 public:
+    TItemEffLandHit(TObject *parent, TItem *item, Vec *arg3, Vec *arg4);
     virtual ~TItemEffLandHit();
     virtual void run_task();
 };

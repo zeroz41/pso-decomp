@@ -110,10 +110,8 @@ struct Obj_80239CF4 { u8 pad[0x1C]; void *source; u8 pad20[0x88 - 0x20]; f32 pow
 
 extern "C" {
 s32 get_entity_id(int);
-s32 TTecPlayerInfluence__ct(void *, void *, void *, void *);
 extern s32 __vt__9TTecResta[];
 extern const char *TTecResta__name;
-u8 *TTecResta__sub_80239C48(TTecResta *arg0, s32 arg1, s32 arg2, s32 arg3);
 f32 *calc_technique_parameters(s32, s32, s32);
 extern RecoveredGlobal_802394B0_lbl_804CC55C lbl_804CC55C;
 extern s32 __vt__13TUnk_804CCBC0[];
@@ -130,7 +128,6 @@ void deliver_technique_to_party_targets(void *);
 void run_task__9TTecRestaFv(Resta_802399F8 *self);
 s32 is_split_screen(void);
 s32 copy_technique_target_list(void *, void *);
-void *TTecResta__ct(TTecResta *arg0, void *arg1, void *arg2, void *arg3, void *arg4);
 int spawn_support_tec_range_effect(void*);
 
 
@@ -155,11 +152,10 @@ void TTecReverser::vfunc_6(void *arg1_arg) {
     }
 }
 
-u8 *TTecResta__sub_80239C48(TTecResta *arg0, s32 owner, s32 pos, s32 level) {
+TTecResta::TTecResta(void *owner, void *pos, s32 level) : TTecPlayerInfluence(owner, pos, level) {
+#define arg0 this
     u32 temp_r3_2;
     u8 *temp_r3;
-    TTecPlayerInfluence__ct((void *)arg0, (void *)owner, (void *)pos, (void *)level);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__9TTecResta;
     __ct__16TargetCursorListFv(((u8 *)arg0 + 0xE0));
     *(s32 *)((s8 *)arg0 + 0) = (s32) ((s32)TTecResta__name);
     arg0->m_13c = 0;
@@ -176,16 +172,15 @@ u8 *TTecResta__sub_80239C48(TTecResta *arg0, s32 owner, s32 pos, s32 level) {
         arg0->init_cast();
         arg0->play_launch_sound();
     }
-    return (u8 *)arg0;
+#undef arg0
 }
 
 #pragma push
 #pragma opt_common_subs off
-void *TTecResta__ct(TTecResta *arg0, void *owner, void *pos, void *arg3, void *level) {
+TTecResta::TTecResta(void *owner, void *pos, void *arg3, s32 level) : TTecPlayerInfluence(owner, pos, level) {
+#define arg0 this
     u32 src;
     u8 *p;
-    TTecPlayerInfluence__ct(arg0, owner, pos, level);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__9TTecResta;
     __ct__16TargetCursorListFv(((u8 *)arg0 + 0xE0));
     *(s32 *)((s8 *)arg0 + 0) = ((s32)TTecResta__name);
     *(s32 *)&arg0->m_13c = 1;
@@ -203,7 +198,7 @@ void *TTecResta__ct(TTecResta *arg0, void *owner, void *pos, void *arg3, void *l
         arg0->init_cast();
         arg0->play_launch_sound();
     }
-    return arg0;
+#undef arg0
 }
 #pragma pop
 
@@ -286,19 +281,11 @@ void TTecResta::vfunc_7(void *arg1_arg) {
 #pragma pop
 
 void TTecResta::create(void *owner, void *pos, void *level) {
-    void *o;
-    o = TObject::operator new(0x140);
-    if (o != NULL) {
-        TTecResta__sub_80239C48((TTecResta *)((u8 *)o), (s32)owner, (s32)pos, (s32)level);
-    }
+    new TTecResta(owner, pos, (s32)level);
 }
 
 void TTecResta::create(void *owner, void *pos, void *arg2, void *level) {
-    void *o;
-    o = TObject::operator new(0x140);
-    if (o != NULL) {
-        TTecResta__ct((TTecResta *)o, owner, pos, arg2, level);
-    }
+    new TTecResta(owner, pos, arg2, (s32)level);
 }
 
 #pragma push

@@ -6,6 +6,8 @@
 
 class TItemDropSub : public TObject {
 public:
+    u32 m_1c;
+    TItemDropSub(TObject *parent);
     virtual ~TItemDropSub();
 public:
     static void create_instance(s32 arg0);

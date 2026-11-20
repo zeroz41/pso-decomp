@@ -93,14 +93,9 @@ struct Obj_8023C6B4 { u8 pad[0x1C]; void *source; u8 pad20[0xCC - 0x20]; f32 pow
 
 extern "C" {
 s32 test_elt_flag__13TUnk_80493450Fll(void *, s32, s32);
-u8 *TTecZonde__ct(u8 *arg0, s32 arg1, u8 *arg2, u8 *arg3, s16 arg4);
 
 void TObjPlayer::create_tec_zonde(void *arg0, void *arg1, void *arg2, void *arg3) {
-    void *o;
-    o = TObject::operator new(0x18C);
-    if (o != NULL) {
-        ((void *(*)(void *, void *, void *, void *, void *))TTecZonde__ct)(o, arg0, arg1, arg2, arg3);
-    }
+    new TTecZonde((s32)arg0, (u8 *)arg1, (u8 *)arg2, (s32)arg3);
 }
 void TTecZonde::vfunc_8(void *arg1_arg) {
     VObj_18_0c879f *arg1 = (VObj_18_0c879f *)arg1_arg;
@@ -135,7 +130,6 @@ struct Zonde_8023C79C {
 extern "C" {
 u16 get_entity_id(void *);
 void copy_technique_target_list(void *, void *);
-u8 * __ct__13TUnk_804CCC68FlP3Vecll(void *, s32, void *, s32, s16);
 extern s32 __vt__9TTecZonde[];
 
 TTecZonde::~TTecZonde() {
@@ -297,10 +291,9 @@ void TTecZonde::run_task() {
 }
 
 #pragma pop
-u8 *TTecZonde__ct(u8 *arg0, s32 arg1, u8 *arg2, u8 *arg3, s16 arg4) {
+#define arg0 ((u8 *)this)
+TTecZonde::TTecZonde(s32 arg1, u8 *arg2, u8 *arg3, s32 arg4) : TUnk_804CCC68(arg1, (Vec *)arg2, 0, arg4) {
     u8 *temp_r3;
-    __ct__13TUnk_804CCC68FlP3Vecll(arg0, arg1, arg2, 0, arg4);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__9TTecZonde;
     __ct__16TargetCursorListFv((arg0 + 0x130));
     *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D3838;
     ((TTecZonde *)arg0)->init_parameters();
@@ -309,7 +302,7 @@ u8 *TTecZonde__ct(u8 *arg0, s32 arg1, u8 *arg2, u8 *arg3, s16 arg4) {
     if (temp_r3 != NULL) {
         ((TTecZonde *)arg0)->sourceId = get_entity_id(temp_r3);
     }
-    return arg0;
 }
+#undef arg0
 
 }

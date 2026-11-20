@@ -508,7 +508,7 @@ force_active:
   - TContainerAncient01__sub_8018A584
   - TContainerAncient01__sub_8018B180
   - TContainerAncient01__sub_8018BE90
-  - TDPBShower__ct
+  - __ct__10TDPBShowerFP7TObjectPv
   - TEffGuard__class_name
   - TEffHit__class_name
   - TEffIndirectCtrl__ct
@@ -1734,19 +1734,19 @@ force_active:
   - TShopGenerator__slot_active_table
   - TSwitch__floor_switch_table
   - TSwitch__name
-  - TTecAnti__ct
+  - __ct__8TTecAntiFPvPvPvl
   - TTecAnti__self_effect_rows
   - TTecAnti__sub_8022AD74
   - TTecAnti__sub_8022AD94
   - TTecAnti_name_ref
   - TTecBarta__class_name
   - __ct__9TTecBartaFlPUcPUcl
-  - TTecDeband__ct
-  - TTecDeband__sub_8022F948
+  - __ct__10TTecDebandFPvPvPvl
+  - __ct__10TTecDebandFPvPvl
   - TTecGiBarta__class_name
   - __ct__11TTecGiBartaFlPUcPUcl
   - __ct__11TTecGiZondeFlP3VecPvl
-  - TTecGrants__ct
+  - __ct__10TTecGrantsFllll
   - __ct__9TTecLukerFlP3VecP3Vecl
   - TTecLuker__sub_8023503C
   - TTecLuker__sub_80235048
@@ -1759,15 +1759,15 @@ force_active:
   - TTecRaZonde__band_profile_table
   - __ct__11TTecRaZondeFlP3Vecl
   - TTecRaZonde_class_name
-  - TTecResta__ct
+  - __ct__9TTecRestaFPvPvPvl
   - TTecResta__self_recovery_effect_table
-  - TTecResta__sub_80239C48
-  - TTecReverser__ct
-  - TTecSifta__ct
+  - __ct__9TTecRestaFPvPvl
+  - __ct__12TTecReverserFllll
+  - __ct__9TTecSiftaFPvPvPvl
   - TTecSifta__sub_8023AC88
-  - TTecSifta__sub_8023B17C
+  - __ct__9TTecSiftaFPvPvl
   - TTecSlicer__ct
-  - TTecZonde__ct
+  - __ct__9TTecZondeFlPUcPUcl
   - TWindowActionPalette__sub_801C1C20
   - TWindowChat__sub_80247D50
   - TWindowChat__sub_80247DAC
@@ -2177,7 +2177,7 @@ force_active:
   - __ct__8TItemMagFP7TObjectPUc
   - __ct__8TOKeyColFP7TObjectPv
   - __ct__8TOKurageFP7TObjectPv
-  - __ct__9TBoss6DPBFv
+  - __ct__9TBoss6DPBFP7TObjectlf
   - __ct__9TEffGuardFPC3Vec
   - __ct__9TMainTaskFv
   - __ct__9TObjHashiFP7TObjectPv

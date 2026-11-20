@@ -57,11 +57,9 @@ struct SpriteCamera {
 
 extern "C" {
 
-void quad_sprite_base_ct(void *);
 void transform_point_by_current_matrix(Vec *in, Vec *out);
 extern SpriteCamera lbl_8058D4F8;
 
-extern s32 __vt__20TQuadSpriteSclColRot[];
 
 }
 #pragma push
@@ -182,9 +180,8 @@ TQuadSpriteSclColRot::~TQuadSpriteSclColRot() {
 
 const char *TQuadSpriteSclColRot__class_name = "TQuadSpriteSclColRot";
 
-void *TQuadSpriteSclColRot__ct(void *quad_sprite_scl_col_rot) {
-    quad_sprite_base_ct(quad_sprite_scl_col_rot);
-    *(s32 **)((s8 *)quad_sprite_scl_col_rot + 0x18) = __vt__20TQuadSpriteSclColRot;
+#define quad_sprite_scl_col_rot ((u8 *)this)
+TQuadSpriteSclColRot::TQuadSpriteSclColRot(TObject *arg_r4, void *arg2) : TUnk_804C57F0(arg_r4, arg2) {
     ((TQuadSpriteSclColRot *)quad_sprite_scl_col_rot)->m_name = TQuadSpriteSclColRot__class_name;
-    return quad_sprite_scl_col_rot;
 }
+#undef quad_sprite_scl_col_rot

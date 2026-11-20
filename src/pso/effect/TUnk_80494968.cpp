@@ -157,7 +157,7 @@ Obj_800D79A8 *fn_800D79A8(Obj_800D79A8 *self, s32 x, s32 a, s32 b);
 Obj_800D79A8 *fn_800D79A8(Obj_800D79A8 *self, s32 x, s32 a, s32 b) {
     s32 i;
     Ent_800D79A8 *p;
-    TAttackTrace__ct(self);
+    __ct__12TAttackTraceFP7TObject(self);
     self->vt = __vt__13TUnk_80494968;
     ((TUnk_80494968 *)self)->sub_800D7818(a, b);
     p = self->ents;

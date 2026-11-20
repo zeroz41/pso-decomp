@@ -47,10 +47,7 @@ void draw_textured_quad_at_depth(f32 *q, f32 depth);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
 extern Cam_801E5598 lbl_8058D4F8;
 void render__17TQuadSpriteNormalFv(Self_801E5598 *self);
-void *TQuadSpriteNormal__ct(void *arg0);
-void quad_sprite_base_ct(void *);
 
-extern s32 __vt__17TQuadSpriteNormal[];
 
 #pragma push
 #pragma fp_contract on
@@ -151,9 +148,8 @@ TQuadSpriteNormal::~TQuadSpriteNormal() {
 
 const char *TQuadSpriteNormal__class_name = "TQuadSpriteNormal";
 
-void *TQuadSpriteNormal__ct(void *quad_sprite_normal) {
-    quad_sprite_base_ct(quad_sprite_normal);
-    *(s32 **)((s8 *)quad_sprite_normal + 0x18) = __vt__17TQuadSpriteNormal;
+#define quad_sprite_normal ((u8 *)this)
+TQuadSpriteNormal::TQuadSpriteNormal(TObject *arg_r4, void *arg2) : TUnk_804C57F0(arg_r4, arg2) {
     ((TQuadSpriteNormal *)quad_sprite_normal)->m_name = TQuadSpriteNormal__class_name;
-    return quad_sprite_normal;
 }
+#undef quad_sprite_normal

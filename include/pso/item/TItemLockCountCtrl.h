@@ -4,11 +4,17 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+// Callbacks the controller stores at +0x24/+0x28 (TItemTimerEvent::notify_if_active(int) and check_battle_ctrl(int)).
+typedef void (*TItemLockCountCallback)(int);
+
 class TItemLockCountCtrl : public TObject {
 public:
- u8 _pad1C[0x20 - 0x1C];
+ s32 m_1c;
  void* m_20;
+ TItemLockCountCallback m_24;
+ TItemLockCountCallback m_28;
 public:
+    TItemLockCountCtrl(TObject *parent, s32 count, TItemLockCountCallback arg3, TItemLockCountCallback arg4);
     virtual ~TItemLockCountCtrl();
 public:
     static void free_all();
@@ -20,12 +26,5 @@ public:
     static void unlock_effect(u16 client, u32 effect);
     static void lock_effect(u16 client, u32 effect);
 };
-
-// Callbacks the controller stores at +0x24/+0x28 (TItemTimerEvent::notify_if_active(int) and check_battle_ctrl(int)).
-typedef void (*TItemLockCountCallback)(int);
-
-extern "C" {
-void *TItemLockCountCtrl__ct(void *arg0, s32 arg1, s32 arg2, TItemLockCountCallback arg3, TItemLockCountCallback arg4);
-}
 
 #endif

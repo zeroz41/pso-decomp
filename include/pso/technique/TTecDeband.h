@@ -5,6 +5,8 @@
 #include "pso/technique/TTecPlayerInfluence.h"
 
 struct TTecDeband : public TTecPlayerInfluence {
+    TTecDeband(void *owner, void *pos, void *arg3, s32 level);
+    TTecDeband(void *owner, void *pos, s32 level);
     virtual ~TTecDeband();
     virtual void vfunc_7(void *);
     virtual void run_task();
@@ -22,8 +24,6 @@ struct TTecDeband : public TTecPlayerInfluence {
 typedef char TTecDeband_size[sizeof(TTecDeband) == 0x140 ? 1 : -1];
 
 extern "C" {
-s32 TTecDeband__ct(u32 a0, s32 owner, s32 pos, s32 arg3, s32 level);
-u8 *TTecDeband__sub_8022F948(TTecDeband *arg0, s32 owner, s32 pos, s32 level);
 void *__dt__10TTecDebandFv(void *arg0, s16 arg1);
 }
 

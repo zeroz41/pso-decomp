@@ -48,10 +48,7 @@ void draw_textured_quad_at_depth(f32 *q, f32 depth);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
 extern Cam_801E58D8 lbl_8058D4F8;
 void render__14TQuadSpriteSclFv(Self_801E58D8 *self);
-void *TQuadSpriteScl__ct(void *arg0);
-void quad_sprite_base_ct(void *);
 
-extern s32 __vt__14TQuadSpriteScl[];
 
 #pragma push
 #pragma fp_contract on
@@ -154,9 +151,8 @@ TQuadSpriteScl::~TQuadSpriteScl() {
 
 const char *TQuadSpriteScl__class_name = "TQuadSpriteScl";
 
-void *TQuadSpriteScl__ct(void *quad_sprite_scl) {
-    quad_sprite_base_ct(quad_sprite_scl);
-    *(s32 **)((s8 *)quad_sprite_scl + 0x18) = __vt__14TQuadSpriteScl;
+#define quad_sprite_scl ((u8 *)this)
+TQuadSpriteScl::TQuadSpriteScl(TObject *arg_r4, void *arg2) : TUnk_804C57F0(arg_r4, arg2) {
     ((TQuadSpriteScl *)quad_sprite_scl)->m_name = TQuadSpriteScl__class_name;
-    return quad_sprite_scl;
 }
+#undef quad_sprite_scl

@@ -86,12 +86,7 @@ void fn_8011E1D4(TObjPlayer *player) {
 }
 
 void TItemLockCountCtrl::create_instance() {
-    void *o;
-    o = TObject::operator new(0x2C);
-    if (o != NULL) {
-        o = TItemLockCountCtrl__ct((void *)o, 0, 12, TItemTimerEvent::notify_if_active, TItemTimerEvent::check_battle_ctrl);
-    }
-    item_timer_event_instance = (TItemLockCountCtrl *)o;
+    item_timer_event_instance = new TItemLockCountCtrl(0, 12, TItemTimerEvent::notify_if_active, TItemTimerEvent::check_battle_ctrl);
 }
 
 void TItemTimerEvent::clear_active() {

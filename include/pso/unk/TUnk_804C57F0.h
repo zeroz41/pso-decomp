@@ -7,6 +7,7 @@ struct ParticleDefinition;
 
 class TUnk_804C57F0 : public TObject {
 public:
+    TUnk_804C57F0(TObject *arg_r4, void *arg2);
     virtual ~TUnk_804C57F0();
     void quad_sprite_reset_entries();
     virtual void render();

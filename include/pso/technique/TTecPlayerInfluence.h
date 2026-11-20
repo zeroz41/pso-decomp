@@ -5,6 +5,7 @@
 #include "pso/effect/TEffect.h"
 
 struct TTecPlayerInfluence : public TEffect {
+    TTecPlayerInfluence(void *owner, void *pos, s32 level);
     virtual ~TTecPlayerInfluence();
     virtual void tick_lifetime();
     virtual void vfunc_7(void *);
@@ -35,4 +36,6 @@ struct TTecPlayerInfluence : public TEffect {
 };
 
 typedef char TTecPlayerInfluence_size[sizeof(TTecPlayerInfluence) == 0xE0 ? 1 : -1];
+extern "C" s32 __ct__19TTecPlayerInfluenceFPvPvl(void *self, void *owner, void *pos, void *level);
+
 #endif

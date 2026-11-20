@@ -48,12 +48,9 @@ void set_inverse_color_blend(void);
 void set_constant_material_color(u32 x);
 extern Cam_801E4FF0 lbl_8058D4F8;
 extern "C" {
-void *TQuadSpriteCol__ct(void *arg0);
-void quad_sprite_base_ct(void *);
 
 void TUnk_804C57F0::render() {  }
 
-extern s32 __vt__14TQuadSpriteCol[];
 
 #pragma push
 #pragma fp_contract on
@@ -153,9 +150,8 @@ TQuadSpriteCol::~TQuadSpriteCol() {
 
 const char *TQuadSpriteCol__class_name = "TQuadSpriteCol";
 
-void *TQuadSpriteCol__ct(void *quad_sprite_col) {
-    quad_sprite_base_ct(quad_sprite_col);
-    *(s32 **)((s8 *)quad_sprite_col + 0x18) = __vt__14TQuadSpriteCol;
+#define quad_sprite_col ((u8 *)this)
+TQuadSpriteCol::TQuadSpriteCol(TObject *arg_r4, void *arg2) : TUnk_804C57F0(arg_r4, arg2) {
     ((TQuadSpriteCol *)quad_sprite_col)->m_name = TQuadSpriteCol__class_name;
-    return quad_sprite_col;
 }
+#undef quad_sprite_col

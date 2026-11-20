@@ -23,24 +23,21 @@ TItemTimer::~TItemTimer() {}
 
 extern "C" {
 void TItemTimer__sub_8011D598(u8 *arg0, s32 arg1, s32 arg2);
-u8 *TItemTimer__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
-s32 __ct__7TObjectFP7TObject();
 
 extern s32 __vt__10TItemTimer[];
 
-u8 *TItemTimer__ct(u8 *item_timer, s32 arg1, s32 arg2, s32 arg3) {
-    __ct__7TObjectFP7TObject();
-    *(s32 **)((s8 *)item_timer + 0x18) = __vt__10TItemTimer;
+#define item_timer ((u8 *)this)
+TItemTimer::TItemTimer(TObject *arg1, s32 arg2, s32 arg3) : TObject(arg1) {
     ((TItemTimer *)(item_timer + 0x20))->reset_fields();
     ((TObject *)item_timer)->m_name = TItemTimer__class_name;
     ((TItemTimer *)item_timer)->m_1C = (arg3 - 1);
     if ((s32) ((TItemTimer *)item_timer)->m_1C < 1) {
         ((TItemTimer *)item_timer)->m_1C = 1;
     }
-    TItemTimer__sub_8011D598(item_timer + 0x20, arg1, arg2);
+    TItemTimer__sub_8011D598(item_timer + 0x20, (s32)arg1, arg2);
     ((TObject *)(item_timer))->disallow_rendering();
-    return item_timer;
 }
+#undef item_timer
 
 void TItemTimer::invoke_callback() {
     s32 (*temp_r12)(s32);

@@ -49,10 +49,7 @@ void set_constant_material_color(u32 x);
 extern Cam_801E5C24 lbl_8058D4F8;
 extern "C" {
 void render__17TQuadSpriteSclColFv(Self_801E5C24 *self);
-void *TQuadSpriteSclCol__ct(void *arg0);
-void quad_sprite_base_ct(void *);
 
-extern s32 __vt__17TQuadSpriteSclCol[];
 
 #pragma push
 #pragma fp_contract on
@@ -156,9 +153,8 @@ TQuadSpriteSclCol::~TQuadSpriteSclCol() {
 
 const char *TQuadSpriteSclCol__class_name = "TQuadSpriteSclCol";
 
-void *TQuadSpriteSclCol__ct(void *quad_sprite_scl_col) {
-    quad_sprite_base_ct(quad_sprite_scl_col);
-    *(s32 **)((s8 *)quad_sprite_scl_col + 0x18) = __vt__17TQuadSpriteSclCol;
+#define quad_sprite_scl_col ((u8 *)this)
+TQuadSpriteSclCol::TQuadSpriteSclCol(TObject *arg_r4, void *arg2) : TUnk_804C57F0(arg_r4, arg2) {
     ((TQuadSpriteSclCol *)quad_sprite_scl_col)->m_name = TQuadSpriteSclCol__class_name;
-    return quad_sprite_scl_col;
 }
+#undef quad_sprite_scl_col

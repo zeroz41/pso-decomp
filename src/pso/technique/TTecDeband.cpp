@@ -69,7 +69,6 @@ struct Obj_8022F588 { u8 pad[0x1C]; u8 *source; u8 pad20[0x74 - 0x20]; f32 power
 
 extern "C" {
 s32 get_entity_id(int);
-s32 TTecPlayerInfluence__ct(void *, void *, void *, void *);
 extern s32 __vt__10TTecDeband[];
 extern const char *tec_deband_class_name_ptr;
 void *find_entity_by_id(u16 id);
@@ -107,18 +106,10 @@ void TTecDeband::vfunc_7(void *arg1_arg) {
 }
 
 void TTecDeband::create(s32 owner, s32 pos, s32 arg2, s32 level) {
-    u32 obj;
-    obj = __nw__7TObjectFUl(0x140);
-    if (obj != 0U) {
-        TTecDeband__ct(obj, owner, pos, arg2, level);
-    }
+    new TTecDeband((void *)owner, (void *)pos, (void *)arg2, level);
 }
 void TTecDeband::create(void *owner, void *pos, s32 level) {
-    u32 obj;
-    obj = __nw__7TObjectFUl(0x140);
-    if (obj != 0U) {
-        TTecDeband__sub_8022F948((TTecDeband *)((u8 *)obj), (s32)((s32)owner), (s32)((s32)pos), (s32)((s32)level));
-    }
+    new TTecDeband(owner, pos, level);
 }
 void TTecDeband::render() {  }
 
@@ -162,12 +153,10 @@ void run_task__10TTecDebandFv(Deband_8022F73C *self) {
 }
 
 #pragma opt_common_subs off
-s32 TTecDeband__ct(u32 a0, s32 owner, s32 pos, s32 arg3, s32 level) {
-#define arg0 ((u8 *)a0)
+TTecDeband::TTecDeband(void *owner, void *pos, void *arg3, s32 level) : TTecPlayerInfluence(owner, pos, level) {
+#define arg0 ((u8 *)this)
     u32 temp_r3_2;
     u8 *temp_r3;
-    TTecPlayerInfluence__ct((void *)arg0, (void *)owner, (void *)pos, (void *)level);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__10TTecDeband;
     __ct__16TargetCursorListFv((arg0 + 0xE0));
     s32 g = ((s32)tec_deband_class_name_ptr);
     *(s32 *)((s8 *)arg0 + 0) = g;
@@ -186,16 +175,14 @@ s32 TTecDeband__ct(u32 a0, s32 owner, s32 pos, s32 arg3, s32 level) {
         ((TTecDeband *)arg0)->init_params();
         ((TTecDeband *)arg0)->play_state_sound();
     }
-    return (s32)a0;
 #undef arg0
 }
 #pragma opt_common_subs reset
 
-u8 *TTecDeband__sub_8022F948(TTecDeband *arg0, s32 owner, s32 pos, s32 level) {
+TTecDeband::TTecDeband(void *owner, void *pos, s32 level) : TTecPlayerInfluence(owner, pos, level) {
+#define arg0 this
     u32 temp_r3_2;
     u8 *temp_r3;
-    TTecPlayerInfluence__ct((void *)arg0, (void *)owner, (void *)pos, (void *)level);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__10TTecDeband;
     __ct__16TargetCursorListFv(((u8 *)arg0 + 0xE0));
     *(s32 *)((s8 *)arg0 + 0) = (s32) ((s32)tec_deband_class_name_ptr);
     arg0->m_13c = 0;
@@ -210,6 +197,6 @@ u8 *TTecDeband__sub_8022F948(TTecDeband *arg0, s32 owner, s32 pos, s32 level) {
     }
     arg0->init_params();
     arg0->play_state_sound();
-    return (u8 *)arg0;
+#undef arg0
 }
 

@@ -4,15 +4,15 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/effect/TEffect.h"
 #include "pso/system/task/TObject.h"
+#include "pso/effect/sprite/TQuadSpriteNormal.h"
+#include "pso/effect/sprite/TQuadSpriteScl.h"
+#include "pso/effect/sprite/TQuadSpriteCol.h"
+#include "pso/effect/sprite/TQuadSpriteSclCol.h"
+#include "pso/effect/sprite/TQuadSpriteSclColRot.h"
 
 GinjaTextureList *lbl_805D35A0[2] = { (GinjaTextureList *)&shared_effect_texture_list, 0 };
 extern "C" {
 
-void *TQuadSpriteNormal__ct(void *, void *, ParticleDefinition *);
-void *TQuadSpriteScl__ct(void *, void *, ParticleDefinition *);
-void *TQuadSpriteCol__ct(void *, void *, ParticleDefinition *);
-void *TQuadSpriteSclCol__ct(void *, void *, ParticleDefinition *);
-void *TQuadSpriteSclColRot__ct(void *, void *, ParticleDefinition *);
 
 extern void *tl_particle;
 extern f32 particle_sprite_atlas_uv_rects[0x10][4];
@@ -38,43 +38,22 @@ void TParticleCtrl::create_quad_sprites() {
 
     do {
         ParticleDefinition *definition = &definitions[index];
-        void *object;
 
         switch (definitions[index].sprite_type) {
         case 0:
-            object = TObject::operator new(0x2C);
-            if (object != NULL) {
-                object = TQuadSpriteNormal__ct(object, tl_particle, definition);
-            }
-            sprite = object;
+            sprite = new TQuadSpriteNormal((TObject *)tl_particle, definition);
             break;
         case 1:
-            object = TObject::operator new(0x2C);
-            if (object != NULL) {
-                object = TQuadSpriteScl__ct(object, tl_particle, definition);
-            }
-            sprite = object;
+            sprite = new TQuadSpriteScl((TObject *)tl_particle, definition);
             break;
         case 2:
-            object = TObject::operator new(0x2C);
-            if (object != NULL) {
-                object = TQuadSpriteCol__ct(object, tl_particle, definition);
-            }
-            sprite = object;
+            sprite = new TQuadSpriteCol((TObject *)tl_particle, definition);
             break;
         case 3:
-            object = TObject::operator new(0x2C);
-            if (object != NULL) {
-                object = TQuadSpriteSclCol__ct(object, tl_particle, definition);
-            }
-            sprite = object;
+            sprite = new TQuadSpriteSclCol((TObject *)tl_particle, definition);
             break;
         case 4:
-            object = TObject::operator new(0x2C);
-            if (object != NULL) {
-                object = TQuadSpriteSclColRot__ct(object, tl_particle, definition);
-            }
-            sprite = object;
+            sprite = new TQuadSpriteSclColRot((TObject *)tl_particle, definition);
             break;
         }
 

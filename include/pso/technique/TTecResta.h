@@ -5,6 +5,8 @@
 #include "pso/technique/TTecPlayerInfluence.h"
 
 struct TTecResta : public TTecPlayerInfluence {
+    TTecResta(void *owner, void *pos, void *arg3, s32 level);
+    TTecResta(void *owner, void *pos, s32 level);
     virtual ~TTecResta();
     virtual void vfunc_7(void *);
     virtual void run_task();

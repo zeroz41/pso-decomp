@@ -112,11 +112,9 @@ extern "C" {
 s32 get_entity_id(int);
 int TTecAnti__sub_8022AD74(void* p);
 void TTecAnti__sub_8022AD94(void *);
-s32 TTecPlayerInfluence__ct(void *, void *, void *, void *);
 extern s32 __vt__8TTecAnti[];
 extern RecoveredGlobal_8022B288_lbl_804CC1CC technique_param_table;
 extern const char *TTecAnti_name_ref;
-u8 *TTecAnti__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 S_8022B3E8 *copy_technique_target_list(S_8022B3E8 *d, S_8022B3E8 *s);
 void set_owner_id__13TParticleCtrlFUs(void *, s32);
 void __ct__7TObjectFP7TObject(void *, void *);
@@ -166,11 +164,10 @@ void TTecAnti::copy_params(u8 *arg1) {
     *(s16 *)((s8 *)arg0 + 0x2A) = (s16) *(s16 *)((s8 *)arg1 + 0x2A);
 }
 
-u8 *TTecAnti__ct(u8 *arg0, s32 owner, s32 pos, s32 arg3, s32 level) {
+#define arg0 ((u8 *)this)
+TTecAnti::TTecAnti(void *owner, void *pos, void *arg3, s32 level) : TTecPlayerInfluence(owner, pos, level) {
     u32 temp_r3_2;
     u8 *temp_r3;
-    TTecPlayerInfluence__ct((void *)arg0, (void *)owner, (void *)pos, (void *)level);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__8TTecAnti;
     __ct__16TargetCursorListFv((arg0 + 0xE0));
     *(s32 *)((s8 *)arg0 + 0) = (s32) ((s32)TTecAnti_name_ref);
     ((TTecAnti *)arg0)->m_13c = 1;
@@ -189,8 +186,8 @@ u8 *TTecAnti__ct(u8 *arg0, s32 owner, s32 pos, s32 arg3, s32 level) {
         ((TTecAnti *)arg0)->play_anti_cast_sound();
         TTecAnti__sub_8022AD74(arg0);
     }
-    return arg0;
 }
+#undef arg0
 
 void run_task__8TTecAntiFv(Anti_8022B150 *self) {
     u32 target;
@@ -227,11 +224,7 @@ TTecAnti::~TTecAnti() {
 }
 
 void TTecAnti::create(void *owner, void *pos, void *arg2, void *level) {
-    void *o;
-    o = TObject::operator new(0x140);
-    if (o != NULL) {
-        TTecAnti__ct((u8 *)o, (s32)owner, (s32)pos, (s32)arg2, (s32)level);
-    }
+    new TTecAnti(owner, pos, arg2, (s32)level);
 }
 
 void TTecAnti::vfunc_7(void *pl_arg) {
