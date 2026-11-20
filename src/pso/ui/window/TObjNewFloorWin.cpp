@@ -101,7 +101,7 @@ TObjNewFloorWin::TObjNewFloorWin(TObject *object, void *arg2) : TObject(object) 
 }
 
 u8 *TLobby::create_new_floor_windows() {
-  u32 var_r30;
+  uaddr var_r30;
   u8 *temp_r3;
   u8 *temp_r3_2;
   u8 *var_r0;

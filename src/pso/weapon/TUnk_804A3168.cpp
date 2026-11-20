@@ -10,7 +10,7 @@
 
 
 void TUnk_804A3168::emit_marker_effects() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (s32)this;
     if (is_mode_two_and_ready() != 0) {
         ((TItemWeapon *)arg0)->drain_owner_hp_fraction(0.05f);
         ((TItemWeapon *)arg0)->launch_rare_weapon_special(0, 1, 1.1666666f);

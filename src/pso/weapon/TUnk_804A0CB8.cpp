@@ -47,7 +47,7 @@ void TUnk_804A0CB8::update_weapon() {
 
 u32 belra_cannon_create_extra_shot(void *player, s32 arg1, s32 arg2, f32 farg0) {
     s32 temp_r3;
-    u32 temp_r31;
+    uaddr temp_r31;
     uaddr temp_r30;
     void *temp_r5;
 

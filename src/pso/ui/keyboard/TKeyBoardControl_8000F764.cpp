@@ -118,7 +118,7 @@ u32 calc_framebuffer_size_bytes(int, void *);
 }
 void init_system_heap_and_global_allocator(u8 *start, s32 size);
 extern "C" {
-s32 xmalloc__FUl(u32);
+saddr xmalloc__FUl(u32);
 s32 init_pad_slots_and_read__16TKeyBoardControlFv(int, int, int);
 void TObjPlayer__sub_803E492C(s32 a, s32 b);
 int OSResetSystem(void*, void*, void*);
@@ -138,9 +138,9 @@ void init_particle_sprite_atlas(void);
 void load_info_icon(void);
 void init_video_and_gx(void *arg0);
 extern u8 GXNtsc480IntDf[];
-int lbl_805D49A0;
-int lbl_805D49A4;
-int player_matrix_stack_buffer;
+saddr lbl_805D49A0;
+saddr lbl_805D49A4;
+saddr player_matrix_stack_buffer;
 s32 keyboard_input_buffer;
 extern "C" {
 void TLobby__sub_8022809C(void);

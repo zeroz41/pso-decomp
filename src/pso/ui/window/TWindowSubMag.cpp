@@ -91,7 +91,7 @@ s32 calc_text_width();
 s32 text_builder_append();
 s32 set_depth__11TWindowBaseFf(void *);
 s32 TWindowSubEquip__sub_80263AF8(s32, s32);
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 void *get_player_by_client_id(s32);
 s32 is_player_input_active(s32);
 void *__ct__15TWindowHelpItemFPvUs(void *, s32, s32);
@@ -121,7 +121,7 @@ s32 __ct__7TObjectFP7TObject();
 s32 __dl__7TObjectFPv(void *);
 s32 __dt__7TObjectFv(void *, s32);
 }
-s32 create_titled_window_menu(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+saddr create_titled_window_menu(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 void append_text_space(void);
 void text_builder_reset(void);
 void window_request_show(void *arg0);

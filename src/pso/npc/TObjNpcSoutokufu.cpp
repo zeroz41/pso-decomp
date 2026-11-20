@@ -18,7 +18,7 @@ const char *bm_npc_soutokufu_motion_names[1] = { NULL };
 __declspec(section ".data") const char *bm_npc_soutokufu_model_names[2] = { "soutokufu_body.nj", NULL };
 BmlResourceDescriptor bm_npc_soutokufu_resource_descriptor = { "bm_npc_soutokufu.bml", bm_npc_soutokufu_model_names, bm_npc_soutokufu_motion_names, 1, 0 };
 const char *TObjNpcSoutokufu__name = "TObjNpcSoutokufu";
-u32 TObjNpcSoutokufu__shared_model_resource;
+uaddr TObjNpcSoutokufu__shared_model_resource;
 }
 
 
@@ -47,7 +47,7 @@ void TObjNpcSoutokufu::close_dialog_window() {
 }
 
 void TObjNpcSoutokufu::load_shared_resource() {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 var_r0;
     temp_r3 = (int)::operator new(0x440);
     var_r0 = temp_r3;

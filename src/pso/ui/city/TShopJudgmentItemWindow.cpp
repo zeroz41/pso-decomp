@@ -527,10 +527,10 @@ void TShopJudgmentItemWindow::handle_equip_prompt() {
             F(0x158, s32) = (saddr)create_yes_no_window(get_window_layout_position(0x2B), id, 0, 0);
             ((TWindowSubComCardList *)(F(0x158, void *)))->set_selected_index(0);
             y = ((TShopWindowBase *)arg0)->get_scale();
-            ((TWindowAddition *)(F(0x158, s32)))->set_position_xy(((TShopWindowBase *)arg0)->get_scale(), y);
+            ((TWindowAddition *)(F(0x158, saddr)))->set_position_xy(((TShopWindowBase *)arg0)->get_scale(), y);
         }
         if (F(0x158, void *) != NULL && ((TWindowMenu *)(F(0x158, void *)))->is_decided() != 0) {
-            sel = ((TWindowMenu *)(F(0x158, s32)))->get_selected_value();
+            sel = ((TWindowMenu *)(F(0x158, saddr)))->get_selected_value();
             if (sel == 0) {
                 if (F(0x160, void *) != NULL) {
                     ((TWindowBase *)(F(0x160, void *)))->close();
@@ -548,13 +548,13 @@ void TShopJudgmentItemWindow::handle_equip_prompt() {
                 F(0x158, void *) = NULL;
                 get_item_record__23TShopJudgmentItemWindowFPv(F(0x24, s32), F(0x48, s32), 1);
                 F(0x34, s32) = F(0x48, s32);
-                ((TObjPlayer *)(F(0x24, s32)))->request_inventory_item((TItemData*)(arg0 + 0x28));
+                ((TObjPlayer *)(F(0x24, saddr)))->request_inventory_item((TItemData*)(arg0 + 0x28));
                 set_judgment_target_flag(arg0, &this->unk_28);
                 item = (VObj_802209D8 *)find_item_by_id(F(0x34, s32));
-                if (item != NULL && (eq = (uaddr)((TObjPlayer *)(F(0x24, s32)))->get_equipped_item(item->m31())) != 0) {
-                    TObjPlayer::send_6x26_unequip_item((void *)(F(0x24, s32)), (void *)(((TItem *)eq)->get_item_id()));
+                if (item != NULL && (eq = (uaddr)((TObjPlayer *)(F(0x24, saddr)))->get_equipped_item(item->m31())) != 0) {
+                    TObjPlayer::send_6x26_unequip_item((void *)(F(0x24, saddr)), (void *)(((TItem *)eq)->get_item_id()));
                 }
-                send_6x25_equip_item((void *)(F(0x24, s32)), F(0x34, s32), 0);
+                send_6x25_equip_item((void *)(F(0x24, saddr)), F(0x34, s32), 0);
                 ((VObj_18 *)(arg0))->m6(0xB, 1);
                 if (TLobby::get_shop_value() > 0) {
                     play_cue_stream_file((saddr)"miniclear.adx");
@@ -566,7 +566,7 @@ void TShopJudgmentItemWindow::handle_equip_prompt() {
                 F(0x158, void *) = NULL;
                 get_item_record__23TShopJudgmentItemWindowFPv(F(0x24, s32), F(0x48, s32), 1);
                 F(0x34, s32) = F(0x48, s32);
-                ((TObjPlayer *)(F(0x24, s32)))->request_inventory_item((TItemData*)(arg0 + 0x28));
+                ((TObjPlayer *)(F(0x24, saddr)))->request_inventory_item((TItemData*)(arg0 + 0x28));
                 set_judgment_target_flag(arg0, &this->unk_28);
                 ((VObj_18 *)(arg0))->m6(0xB, 1);
                 if (TLobby::get_shop_value() > 0) {
@@ -580,7 +580,7 @@ void TShopJudgmentItemWindow::handle_equip_prompt() {
             F(0x158, void *) = NULL;
             get_item_record__23TShopJudgmentItemWindowFPv(F(0x24, s32), F(0x48, s32), 1);
             F(0x34, s32) = F(0x48, s32);
-            ((TObjPlayer *)(F(0x24, s32)))->request_inventory_item((TItemData*)(arg0 + 0x28));
+            ((TObjPlayer *)(F(0x24, saddr)))->request_inventory_item((TItemData*)(arg0 + 0x28));
             set_judgment_target_flag(arg0, &this->unk_28);
             ((VObj_18 *)(arg0))->m6(0xB, 1);
             if (TLobby::get_shop_value() > 0) {

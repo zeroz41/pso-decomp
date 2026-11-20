@@ -48,7 +48,7 @@ extern s32 __vt__17TWindowReturnCity[];
 #pragma readonly_strings on
 const char *TWindowReturnCity__class_name = "TWindowReturnCity";
 #pragma pop
-u8 *TWindowReturnCity__ct(TWindowReturnCity *arg0, s32 arg1, s32 arg2);
+u8 *TWindowReturnCity__ct(TWindowReturnCity *arg0, saddr arg1, s32 arg2);
 extern saddr tl_00;
 void TWindowReturnCity__sub_8026D4BC(void);
 void TWindowReturnCity__sub_8026D4C0(void);
@@ -133,7 +133,7 @@ TWindowReturnCity::~TWindowReturnCity() {
     if (*(void **)((s8 *)this + 0x1C) != NULL) { ((TWindowSubComCard *)(*(void **)((s8 *)this + 0x1C)))->close(); this->m_1c = 0; }
 }
 
-u8 *TWindowReturnCity__ct(TWindowReturnCity *window_return_city, s32 arg1, s32 arg2) {
+u8 *TWindowReturnCity__ct(TWindowReturnCity *window_return_city, saddr arg1, s32 arg2) {
   s32 temp_r31;
   __ct__7TObjectFP7TObject((void *) window_return_city, (void *) arg1);
   *((s32 **) (((s8 *) window_return_city) + 0x18)) = __vt__17TWindowReturnCity;

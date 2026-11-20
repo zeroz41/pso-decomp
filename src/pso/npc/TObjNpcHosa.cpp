@@ -19,7 +19,7 @@ BmlResourceDescriptor npc_hosa_resource_descriptor = { "bm_npc_hosa.bml", bm_npc
 
 const char *bm_npc_hosa_motion_names[1] = { NULL };
 const char *TObjNpcHosa__name = "TObjNpcHosa";
-u32 TObjNpcHosa__static_model_resource;
+uaddr TObjNpcHosa__static_model_resource;
 }
 
 extern "C" {
@@ -40,7 +40,7 @@ void TObjNpcHosa::destroy_static_instance() {
 }
 
 void TObjNpcHosa::load_static_resource() {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 var_r0;
     temp_r3 = (int)::operator new(0x440);
     var_r0 = temp_r3;

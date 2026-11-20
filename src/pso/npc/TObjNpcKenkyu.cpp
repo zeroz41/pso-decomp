@@ -19,7 +19,7 @@ const char *bm_npc_kenkyu_motion_names[1] = { NULL };
 __declspec(section ".data") const char *bm_npc_kenkyu_model_names[2] = { "kenkyu_body.nj", NULL };
 BmlResourceDescriptor bm_npc_kenkyu_resource_descriptor = { "bm_npc_kenkyu.bml", bm_npc_kenkyu_model_names, bm_npc_kenkyu_motion_names, 1, 0 };
 const char *TObjNpcKenkyu__name = "TObjNpcKenkyu";
-u32 TObjNpcKenkyu__static_model;
+uaddr TObjNpcKenkyu__static_model;
 }
 
 extern "C" {
@@ -38,7 +38,7 @@ void TObjNpcKenkyu::free_static_model() {
 }
 
 void TObjNpcKenkyu::load_shared_resource() {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 var_r0;
     temp_r3 = (int)::operator new(0x440);
     var_r0 = temp_r3;

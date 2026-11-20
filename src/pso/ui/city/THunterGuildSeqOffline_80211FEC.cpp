@@ -43,7 +43,7 @@ int THunterGuildSeqOffline__sub_80212060(int a0) {  return THunterGuildSeqOfflin
 
 s32 THunterGuildSeqOffline__sub_80212074(void) {
     saddr player;
-    s32 temp_r3_2;
+    saddr temp_r3_2;
     s32 temp_r3_3;
     if ((s32) TLobby__designated_client_id == (s32) local_client_id) {
         return 0;
@@ -67,9 +67,9 @@ s32 THunterGuildSeqOffline::check_party_gathered() {
     s32 i;
     s32 result;
     s32 j;
-    s32 me;
+    saddr me;
     f32 lim;
-    s32 p;
+    saddr p;
     if (TObjPlayer::get_player_count() != 0 && TLobby::count_members() == 1) {
         return 2;
     }
@@ -103,8 +103,8 @@ s32 THunterGuildSeqOffline::check_party_gathered() {
 }
 
 void TMemberCheck::update_member_proximity() {
-    s32 temp_r31;
-    s32 player;
+    saddr temp_r31;
+    saddr player;
     s32 var_r30;
     if (this->m_1C != 0U) {
         temp_r31 = (saddr)get_player_by_client_id(TLobby__designated_client_id);
@@ -140,7 +140,7 @@ void TMemberCheck::open_member_name_window() {
         ((TWindowSubTradeMain *)(self->win))->set_visible();
         ((TWindowSubTradeMain *)(self->win))->set_close_flag();
         for (i = 0; i < 4; i++) {
-            u32 p = (uaddr)get_player_by_client_id(i);
+            uaddr p = (uaddr)get_player_by_client_id(i);
             if (p != 0) {
                 strcpy(self->names[i], (char *)(p + 0x85C));
                 TWindowSubStatusDisp::dispatch_without_flags((saddr)self->win, (saddr)self->names[i], (s32)i);

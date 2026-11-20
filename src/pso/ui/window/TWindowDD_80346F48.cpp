@@ -49,7 +49,7 @@ void TWindowDD::build_player_word_lists() {
     s16 *l1;
     s16 *l2;
     s16 *l3;
-    u32 p;
+    uaddr p;
     s16 v;
     n = 0;
     list = TWindowDD__word_select_lists->list0;

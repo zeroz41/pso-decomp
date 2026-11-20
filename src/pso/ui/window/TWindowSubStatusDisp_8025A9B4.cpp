@@ -160,13 +160,13 @@ void measure_message_text_width(Msg_8025A9C0 *msg, f32 maxw) {
 #pragma push
 #pragma opt_common_subs off
 void set_text_entry_string(u8 *arg0, u32 str, s32 arg2) {
-    s32 temp_r3_2;
+    saddr temp_r3_2;
     u16 temp_r3;
     if ((u32) *(u32 *)((s8 *)arg0 + 0x20) != 0U) {
         temp_r3 = *(u16 *)((s8 *)arg0 + 0);
         if (temp_r3 & 0x20) {
             *(u16 *)((s8 *)arg0 + 0) = (u16) (temp_r3 & 0xFFFFFFDF);
-            mem_free((void *)((int) (*(u32 *)((s8 *)arg0 + 0x20))));
+            mem_free((void *)((int) (*(uaddr *)((s8 *)arg0 + 0x20))));
         }
     }
     if ((str != 0U) && (arg2 & 0x20)) {

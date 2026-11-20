@@ -46,8 +46,8 @@ struct Guild_8021317C : Base_8021317C {
 };
 
 extern "C" {
-s32 get_window_layout_position(s32);
-s32 set_service_counter_camera(void *, int);
+saddr get_window_layout_position(s32);
+saddr set_service_counter_camera(void *, int);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
 s32 THunterGuildSeqOffline__quest_result_callbacks[4];
 s32 THunterGuildSeqOffline__instance_table[4];

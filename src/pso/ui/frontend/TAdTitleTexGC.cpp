@@ -152,7 +152,7 @@ void TAdTitleTexGC::render() {
 }
 
 void TAdTitleTexGC::render_status_pair(s32 arg1) {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     begin_screen_draw(1);
     TObjFish::set_global_param(lbl_805D6668);
     set_draw_texture_and_color(0, arg1);

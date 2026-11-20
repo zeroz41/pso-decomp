@@ -71,9 +71,9 @@ extern s16 AT_IP4_PktSend(NetPacket *self, u32 key, s16 id) {
         return -6;
     }
     if (key == 0 || chk_8040EDE4(id, key)) {
-        return call_handler_by_index(id, e->handle, 1, (s32)&key, (s32)self);
+        return call_handler_by_index(id, e->handle, 1, (saddr)&key, (saddr)self);
     }
-    return dispatch_handler_by_index(id, e->handle, (s32)&key, (s32)self);
+    return dispatch_handler_by_index(id, e->handle, (saddr)&key, (saddr)self);
 }
 #pragma push
 #pragma opt_common_subs on
@@ -190,7 +190,7 @@ extern s32 copy_ipv4_interface_addresses(s16 idx, NetBufferRef *out, s16 len, s3
     rec.addr = ifc->addr;
     rec.mask = ifc->mask;
     rec.broadcast = ifc->broadcast;
-    set_value_and_enable((&ref), (s32)&rec);
+    set_value_and_enable((&ref), (saddr)&rec);
     netbuf_copy_by_ref(out, &ref, sizeof(rec));
     netbuf_ref_advance(out, sizeof(rec));
     alias = ifc->aliases;
@@ -202,7 +202,7 @@ extern s32 copy_ipv4_interface_addresses(s16 idx, NetBufferRef *out, s16 len, s3
         rec.addr = alias->addr;
         rec.mask = alias->mask;
         rec.broadcast = alias->broadcast;
-        set_value_and_enable((&ref), (s32)&rec);
+        set_value_and_enable((&ref), (saddr)&rec);
         netbuf_copy_by_ref(out, &ref, sizeof(rec));
         netbuf_ref_advance(out, sizeof(rec));
         alias = alias->next;
@@ -431,7 +431,7 @@ u32 a1;
     return NULL;
 }
 
-extern s32 TLobby__sub_8040F8A4(u32 a1, void *a2, u32 a3, u32 a4, u32 a5)
+extern s32 TLobby__sub_8040F8A4(uaddr a1, void *a2, uaddr a3, u32 a4, u32 a5)
 {
   Ipv4RoutingState *tbl = &ipv4_address_routing_state;
   u32 new_var;
@@ -465,7 +465,7 @@ extern s32 TLobby__sub_8040F8A4(u32 a1, void *a2, u32 a3, u32 a4, u32 a5)
         continue;
       }
       e->flags = f | 0x20;
-      e->gateway = (u32) a2;
+      e->gateway = (uaddr) a2;
       return 0;
     }
     if (e->flags & 4)
@@ -477,7 +477,7 @@ extern s32 TLobby__sub_8040F8A4(u32 a1, void *a2, u32 a3, u32 a4, u32 a5)
       continue;
     }
     e->flags = f | 0x10;
-    e->gateway = (u32) a2;
+    e->gateway = (uaddr) a2;
     return 0;
   }
 
@@ -500,10 +500,10 @@ extern s32 TLobby__sub_8040F9CC(void *a, void *unused, void *b, s32 flag) {
         if (!(e->flags & 1)) {
             continue;
         }
-        if (e->f4 != (u32)a) {
+        if (e->f4 != (uaddr)a) {
             continue;
         }
-        if (e->fC != (u32)b) {
+        if (e->fC != (uaddr)b) {
             continue;
         }
         if (f != (e->f12 & 1)) {

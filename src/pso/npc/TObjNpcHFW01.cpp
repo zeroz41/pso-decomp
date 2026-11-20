@@ -14,7 +14,7 @@
 
 const char *TObjNpcHFW01__name = "TObjNpcHFW01";
 u32 TObjNpcHFW01__resource_node;
-u32 TObjNpcHFW01__texture_handle;
+uaddr TObjNpcHFW01__texture_handle;
 
 extern void *tl_04;
 extern "C" {

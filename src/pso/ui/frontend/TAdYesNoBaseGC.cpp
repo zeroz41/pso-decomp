@@ -22,7 +22,7 @@ struct VObj_18 : VBase_18 {
     virtual void m5();
     virtual void m6();
     virtual void m7();
-    virtual s32 m8();
+    virtual saddr m8();
 };
 
 #include "pso/system/NinjaTypes.h"

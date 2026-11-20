@@ -20,7 +20,7 @@ void TShopJudgmentItemWindow__sub_80267F9C(void *, int);
 void *init__21TWindowSubComCardListFiii(void *, s8, s32, s32);
 s32 *get_shared_text_buffer(void);
 char *fn_80076BC4(s32 *);
-int get_chat_shortcut(s32 arg0);
+saddr get_chat_shortcut(s32 arg0);
 s32 get_symbol_chat_data__20TWindowSubSymbolChatFv();
 s32 save_cursor_selection__20TShopArmorListWindowFv();
 s32 handle_list_page_flip_input(s32);

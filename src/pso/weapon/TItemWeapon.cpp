@@ -33,7 +33,7 @@
 
 extern "C" {
 s32 get_attach_joint__14TItemEquipBaseFv(void *);
-void draw_weapon_at_joint(s32 arg0, s8 arg1);
+void draw_weapon_at_joint(saddr arg0, s8 arg1);
 }
 void set_shadow_material_state(void);
 extern "C" {
@@ -81,27 +81,27 @@ s32 TItemWeapon::draw_weapon_model() {
                 set_shadow_material_state();
                 if ((u32) *(u32 *)((s8 *)this + 0x17C) == 0U) {
                     if (this->test_weapon_flags(0x800000) != 0U) {
-                        draw_chunk_object((void *)(*(u32 *)((s8 *)this + 0xF4)));
+                        draw_chunk_object((void *)(*(uaddr *)((s8 *)this + 0xF4)));
                     } else {
                         this->draw_model_nodes(NULL);
                     }
                 } else {
                     set_motion_packed_rotation();
-                    draw_model_motion((void *)(*(u32 *)((s8 *)this + 0xF4)), (void *)(*(u32 *)((s8 *)this + 0x17C)), (f32)this->motion_frame);
+                    draw_model_motion((void *)(*(uaddr *)((s8 *)this + 0xF4)), (void *)(*(uaddr *)((s8 *)this + 0x17C)), (f32)this->motion_frame);
                     clear_motion_packed_rotation();
                 }
                 model_render_flags &= 0xFFFF7FEE;
             } else if ((u32) *(u32 *)((s8 *)this + 0x17C) == 0U) {
                 if (this->test_weapon_flags(0x40) != 0U) {
-                    this->apply_sign_effect((u8 *)(*(s32 *)((s8 *)this->owner + 0xDB4)));
+                    this->apply_sign_effect((u8 *)(*(saddr *)((s8 *)this->owner + 0xDB4)));
                 } else if (this->test_weapon_flags(0x800000) != 0U) {
-                    draw_chunk_object((void *)(*(u32 *)((s8 *)this + 0xF4)));
+                    draw_chunk_object((void *)(*(uaddr *)((s8 *)this + 0xF4)));
                 } else {
-                    this->draw_model_nodes((u8 *)(*(s32 *)((s8 *)this->owner + 0xDB4)));
+                    this->draw_model_nodes((u8 *)(*(saddr *)((s8 *)this->owner + 0xDB4)));
                 }
             } else {
                 set_motion_packed_rotation();
-                draw_model_motion((void *)(*(u32 *)((s8 *)this + 0xF4)), (void *)(*(u32 *)((s8 *)this + 0x17C)), (f32)this->motion_frame);
+                draw_model_motion((void *)(*(uaddr *)((s8 *)this + 0xF4)), (void *)(*(uaddr *)((s8 *)this + 0x17C)), (f32)this->motion_frame);
                 clear_motion_packed_rotation();
             }
             TItem::end_material_color();
@@ -117,14 +117,14 @@ s32 TItemWeapon::draw_weapon_model() {
             }
             item_render_state.reset();
         } else {
-            this->visit_model_nodes((u8 *)(*(s32 *)((s8 *)this->owner + 0xDB4)));
+            this->visit_model_nodes((u8 *)(*(saddr *)((s8 *)this->owner + 0xDB4)));
         }
         pop_matrix();
         reset_model_node_counter();
     }
 }
 
-void draw_weapon_at_joint(s32 arg0, s8 arg1) {
+void draw_weapon_at_joint(saddr arg0, s8 arg1) {
     s8 temp_r31;
     temp_r31 = get_attach_joint__14TItemEquipBaseFv((void *)arg0);
     ((TItemEquipBase *)arg0)->set_attach_joint(arg1);
@@ -325,7 +325,7 @@ void*TObjPlayer::get_extended_state() { return ((TObjPlayer *)((char*)this + 0x7
 f32 TObjPlayer::query_extended_state() { return get_attack_damage_scale((s16 *)((char*)this + 0x7cc)); }
 void TObjPlayer::test_flag30_bit0x100000() { obj_testFlags30((u32)((void*)1048576)); }
 }
-void* get_model_joint_matrix(void* a0, int a1) {  return (char*)(*(int*)((char*)a0 + 0xdb4)) + a1 * 48; }
+void* get_model_joint_matrix(void* a0, int a1) {  return (char*)(*(saddr *)((char*)a0 + 0xdb4)) + a1 * 48; }
 void TObjPlayer::set_action_type(s16 v) { *(s16*)((char*)this + 0x0) = v; }
 
 // ---- pso/player/TObjPlayer_80121178

@@ -662,7 +662,7 @@ void TWindowKeyBoardHard::render() {
 
 
 extern "C" {
-s32 get_window_layout_position(int);
+saddr get_window_layout_position(int);
 
 
 void TWindowKeyBoardHard::run_task() {

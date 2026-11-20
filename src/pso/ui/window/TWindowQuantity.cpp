@@ -45,7 +45,7 @@ WindowDescriptor quantity_window_layout = {
 extern "C" {
 s32 draw_visible_window_entries(void *, void *, int);
 u32 calc_text_width(void);
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 extern s32 __vt__15TWindowQuantity[];
 const char *lbl_805D39B0 = "TWindowQuantity";
 s32 draw_window_tab(s32, s32, s32, f32);

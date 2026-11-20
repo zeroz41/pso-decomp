@@ -79,7 +79,7 @@ s32 CARDGetStatus(s32, s32, CARDStat_801E2048 *);
 }
 void fill_date_from_seconds(u32 secs, DateStamp *out);
 extern "C" {
-s32 get_card_file_info__15TAdPlayerLoadGCFiPvPv(s32 chan, const char *name, Info_801E21A8 *info);
+s32 get_card_file_info__15TAdPlayerLoadGCFiPvPv(saddr chan, const char *name, Info_801E21A8 *info);
 s32 CARDGetSerialNo();
 s32 CARDFormatAsync(s32 chan, void *callback);
 void CARDInit(void);
@@ -754,7 +754,7 @@ check:
     return -0xFB;
 }
 
-s32 get_card_file_info__15TAdPlayerLoadGCFiPvPv(s32 chan, const char *name, Info_801E21A8 *info) {
+s32 get_card_file_info__15TAdPlayerLoadGCFiPvPv(saddr chan, const char *name, Info_801E21A8 *info) {
     s32 memSize;
     s32 sectorSize;
     Date_801E21A8 date;

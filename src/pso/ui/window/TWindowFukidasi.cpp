@@ -179,7 +179,7 @@ u32 get_player_by_client_id(u32);
 s32 get_array_entry__11TWindowBaseFi(void *, s32);
 s32 play_sound_effect(int, int, int, int);
 View_80252764 * get_draw_context__11TWindowBaseFPv(void *);
-s32 get_field_20__17TWindowSubComCardFv();
+saddr get_field_20__17TWindowSubComCardFv();
 s32 set_depth__11TWindowBaseFf(f32);
 s32 sub_80246948__11TWindowBaseFv(void *);
 s32 refresh_status_display__9TWindowDDFv(int);
@@ -260,7 +260,7 @@ struct Fuki_80251790 {
 
 extern "C" s32 draw_small_font_string_clipped__FPfPCcUlf(f32 *pos, const char *s, u32 color, f32 width);
 extern s32 __vt__13TUnk_804CF0B8[];
-s32 get_zero_vec2();
+saddr get_zero_vec2();
 }
 
 void TUnk_804CF0B8::clear_flag2c_bit100() { this->m_2c &= 0xfffffeff; }

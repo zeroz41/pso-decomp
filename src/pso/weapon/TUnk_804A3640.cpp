@@ -8,7 +8,7 @@
 #include "pso/system/task/TMainTask.h"
 
 
-struct Self_80127BE0 { u8 pad[0xF0]; s32 fF0; };
+struct Self_80127BE0 { u8 pad[0xF0]; saddr fF0; };
 
 struct Item_80127BE0 { u16 a; s16 b; };
 
@@ -18,7 +18,7 @@ extern "C" {
 Item_80127BE0 *get_captured_target_entry(s32, s32);
 void TUnk_804A3640::emit_marker_effects() {
     Item_80127BE0 *item;
-    s32 kind;
+    saddr kind;
     saddr ext;
     s32 i;
     Tec_80127BE0 tec;

@@ -118,7 +118,7 @@ typedef struct VObj_18_f23ffb VObj_18_f23ffb;
 #define PSO_VCALL_VObj_18_f23ffb_m10(_self) (((VObj_18_f23ffb *)(_self))->m10())
 u8 *TWindowTradeRequest__ct(TWindowTradeRequest *window_trade_request) {
   u32 new_var;
-  s32 player;
+  saddr player;
   s8 *new_var2;
   u8 *window_layout_position;
   __ct__7TObjectFP7TObject();

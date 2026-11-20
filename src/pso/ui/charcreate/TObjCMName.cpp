@@ -239,7 +239,7 @@ struct Menu_80297DB8 {
 // One entry of the creation main menu: the TObjCMAssignMenu kind it opens and the member it runs
 // when chosen (name inferred from its uses).
 struct CreationMenuEntry {
-    s32 kind;
+    saddr kind;
     void (TObjCMMainMenu::*select)(void *);
 };
 

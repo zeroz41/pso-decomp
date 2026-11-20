@@ -57,10 +57,10 @@ s32 free_member__17TWindowSubComCardFv(s32, s32);
 s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(s32, s32, s32, f32);
 s32 create__19TWindowMessageYesNoFPvPvPvPv(s32, s32, s32, s32);
 s32 TAdChrSelASlotGC__sub_8030CA84(s32 arg0, s32 arg1);
-s32 TAdChrSelASlotGC__sub_8030C978(void *arg0, s32 arg1, s32 arg2);
+s32 TAdChrSelASlotGC__sub_8030C978(void *arg0, s32 arg1, saddr arg2);
 void *__ct__16TAdChrSelASlotGCFP7TObjectPv(void *arg0, void *arg1, void *arg2);
 u32 TAdChrSel__global_slot_data;
-u8 *get_or_create_slot_window__22TAdMultiPlyChrSelectGCFii(s32 arg0, s32 arg1);
+u8 *get_or_create_slot_window__22TAdMultiPlyChrSelectGCFii(saddr arg0, saddr arg1);
 s32 __ct__19TAdPlyChrSelPlateGCFv(int, void *, void *);
 s32 __ct__15TAdChrSelSlotGCFP7TObject(int, void *);
 s32 __ct__20TAdChrSelMovePlateGCFv(int, void *);
@@ -223,7 +223,7 @@ s32 TAdChrSelASlotGC::create_format_message_window(s32 arg0, s32 arg1, s32 arg2)
 
 #pragma push
 #pragma fp_contract on
-s32 TAdChrSelASlotGC__sub_8030C978(void *arg0, s32 arg1, s32 arg2) {
+s32 TAdChrSelASlotGC__sub_8030C978(void *arg0, s32 arg1, saddr arg2) {
     s32 temp_r31;
     temp_r31 = create__19TWindowMessageYesNoFPvPvPvPv((saddr)arg0, (saddr)((void *)arg2), 0, 0);
     forward_slot_selection__16TAdChrSelASlotGCFPvPv(temp_r31, (s32)((int) (get_localized_text_entry(0x16, 0x1D))), arg1, 193.0f);
@@ -888,7 +888,7 @@ TAdChrSelASlotGC::TAdChrSelASlotGC(TObject *object, void *arg2) : TObject(object
     this->create_children((saddr)arg2);
 }
 
-u8 *get_or_create_slot_window__22TAdMultiPlyChrSelectGCFii(s32 arg0, s32 arg1) {
+u8 *get_or_create_slot_window__22TAdMultiPlyChrSelectGCFii(saddr arg0, saddr arg1) {
     u8 *ad_chr_sel_a_slot_gc;
     u8 *var_r0;
     if ((void *) (*(u8 * *)&TAdChrSel__global_slot_data) != NULL) {

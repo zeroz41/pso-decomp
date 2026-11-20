@@ -33,7 +33,7 @@ extern char pso_guildcard_card_filename[];
 extern char pso_system_card_filename[];
 int TWindowKeyBoardHard::is_card_flag_set() { return TWindowKeyBoardHard::test_card_flag((saddr)this, 1); }
 void draw_ginja_box_tree(u8 *arg0) {
-    s32 temp_r31;
+    saddr temp_r31;
     u8 *temp_r3;
     u8 *var_r30;
     var_r30 = arg0;

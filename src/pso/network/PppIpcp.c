@@ -57,7 +57,7 @@ s16 TLobby__sub_803FED78(u8 *self) {
     goto test;
     while (1) {
         if (is_timed_out() != 0 || obj[0] == 4) {
-            update_connection_state((int)self);
+            update_connection_state((saddr)self);
             *(s16 *)(self + 8) = 0;
             *(s16 *)(p + 8) = 0;
             return -1;
@@ -104,7 +104,7 @@ after:
         }
         break;
     }
-    update_connection_state((int)self);
+    update_connection_state((saddr)self);
     *(s16 *)(p + 8) = 0;
     *(s16 *)(self + 8) = 0;
     return -1;
@@ -412,7 +412,7 @@ inline u32 first_803FA664(Sub_803FF858 *s) {
     u32 t;
     u32 v = 0;
     t = v;
-    t = ((u32)init_net_buffer_entry((u16)(0)));
+    t = ((uaddr)init_net_buffer_entry((u16)(0)));
     if (t == 0) {
         return v;
     }
@@ -744,7 +744,7 @@ void TLobby__sub_80400270(u32 *self, void *opt, s32 mask) {
     s16 i;
     s32 m;
     if (*self == 0) {
-        *self = (u32)init_net_buffer_entry(0);
+        *self = (uaddr)init_net_buffer_entry(0);
         if (*self == 0) {
             return;
         }

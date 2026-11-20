@@ -106,11 +106,11 @@ void align_menu_entry_positions(Win_80265C30 *self);
 void layout_entries__11TWindowMenuFv(u8 *arg0);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void* p, int a1, int a2, int a3);
 void fn_80266378(s32 arg0);
-u8 * create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
+u8 * create_yes_no_window(s32 arg0, s32 arg1, uaddr arg2, uaddr arg3);
 u8 * init_shop_judgment_window(void* p);
-saddr create_window_menu(s32 arg0, s32 arg1, s32 arg2);
+saddr create_window_menu(saddr arg0, saddr arg1, saddr arg2);
 void render__11TWindowMenuFv(TWindowMenu *arg0);
-u8 * TWindowMenu__ct(u8 *arg0, u32 arg1, s32 arg2, s32 arg3);
+u8 * TWindowMenu__ct(u8 *arg0, u32 arg1, s32 arg2, saddr arg3);
 u8 test_menu_flag__11TWindowMenuFv(u8 *arg0);
 s32 clamp_list_scroll_offset(int, void *, void *);
 s32 draw_window_scrollbar(s32, s32, void *);
@@ -635,7 +635,7 @@ void fn_80266378(s32 arg0) {
     lbl_804D05A8.rows = arg0;
 }
 
-u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3) {
+u8 *create_yes_no_window(s32 arg0, s32 arg1, uaddr arg2, uaddr arg3) {
   u8 *temp_r31;
   u8 *window_menu;
   window_menu = (u8 *) ((u8 *)create_window_menu(arg0, 2, arg1));
@@ -669,7 +669,7 @@ u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3) {
 
 u8 * init_shop_judgment_window(void* p) { return create_yes_no_window((saddr)p, 4, (u32)(0), (u32)(0)); }
 
-saddr create_window_menu(s32 arg0, s32 arg1, s32 arg2) {
+saddr create_window_menu(saddr arg0, saddr arg1, saddr arg2) {
     s32 temp_r3;
     s32 var_r0;
     ((s32 (*)(void *))fn_80266378)((void *)arg1);
@@ -687,7 +687,7 @@ void TAdChrSelASlotGC::check_room_seq_4(saddr arg1) {
 }
 
 s32 create_titled_window_menu(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    s32 temp_r31;
+    saddr temp_r31;
     s32 temp_r3;
     s32 var_r0;
     temp_r31 = ((s32)((int (*)(void*, void*, void*))create_window_menu)((void*)arg0, (void*)arg1, (void*)arg3));
@@ -808,7 +808,7 @@ TWindowMenu::~TWindowMenu() {
     mem_free(*(void **)((s8 *)this + 0x80));
 }
 
-u8 *TWindowMenu__ct(u8 *window_menu, u32 arg1, s32 arg2, s32 arg3) {
+u8 *TWindowMenu__ct(u8 *window_menu, u32 arg1, s32 arg2, saddr arg3) {
     u32 i;
     u8 *p;
     __ct__15TWindowAdditionFPUcsPUc(window_menu, (u8 *)&lbl_804D05CC, (s16)arg2, (u8 *)arg3);

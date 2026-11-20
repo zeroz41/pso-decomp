@@ -54,7 +54,7 @@ const char *TObjNpcConnoisseur__name = "TObjNpcConnoisseur";
 extern "C" {
 extern s32 __vt__18TObjNpcConnoisseur[];
 s32 lbl_805D5748;
-u32 TObjNpcConnoisseur__instance;
+uaddr TObjNpcConnoisseur__instance;
 extern u8 TLobby__data_805011D8[];
 void *__ct__11TObjControlFP7TObject(void *, void *);
 

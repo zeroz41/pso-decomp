@@ -91,7 +91,7 @@ s32 TLobby__sub_80211C3C();
 
 extern s32 local_client_id;
 
-u32 create__14TWindowMessageFPvll(s32, void *, s32);
+uaddr create__14TWindowMessageFPvll(s32, void *, s32);
 
 s32 get_window_layout_position(s32);
 

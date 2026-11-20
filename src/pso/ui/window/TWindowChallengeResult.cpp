@@ -49,7 +49,7 @@ struct Win_80246DCC {
 
 void refresh_status_display__9TWindowDDFv(Entry_80246DCC *);
 void draw_right_aligned_number(void);
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 extern const char lbl_8044E7BC[];
 
 

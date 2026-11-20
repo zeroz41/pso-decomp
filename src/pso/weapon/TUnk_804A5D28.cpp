@@ -145,7 +145,7 @@ void TUnk_804A5D10::run_task() {
 
 void TUnk_804A5D10::render() {
     u8 *arg0 = (u8 *)this;
-    u32 temp_r31;
+    uaddr temp_r31;
     u8 *equipped_item;
 
     equipped_item = (u8 *)find_equipped_item(*(s32 *)((s8 *)arg0 + 0x1C));

@@ -313,7 +313,7 @@ s32 TUnk_804E355C::resolve_attack_col_hit(u8 *arg1) {
     s32 damage;
     u8 *temp_r30;
     u8 *player;
-    u32 item;
+    uaddr item;
     s32 temp_r0;
     f32 var_f31;
     temp_r30 = (u8 *)(*(u8 **)((s8 *)arg1 + 0));

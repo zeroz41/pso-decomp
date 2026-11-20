@@ -39,7 +39,7 @@ extern const char *bm_npc_kenkyu2_motion_names[1];
 
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-extern u32 TObjNpcKenkyu2__shared_model_resource;
+extern uaddr TObjNpcKenkyu2__shared_model_resource;
 s32 get_bml_texlist(int, int);
 s32 get_bml_model(int, int);
 extern s32 __vt__14TObjNpcKenkyu2[];
@@ -54,7 +54,7 @@ void TObjNpcKenkyu2::free_static_model() {
 }
 
 void TObjNpcKenkyu2::load_shared_resource() {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 var_r0;
     temp_r3 = (int)::operator new(0x440);
     var_r0 = temp_r3;
@@ -100,5 +100,5 @@ BmlResourceDescriptor TObjNpcKenkyu2__resource_descriptor = { "bm_npc_kenkyu2.bm
 __declspec(section ".sdata") const char *bm_npc_kenkyu2_motion_names[1] = { NULL };
 
 const char *TObjNpcKenkyu2__name = "TObjNpcKenkyu2";
-u32 TObjNpcKenkyu2__shared_model_resource;
+uaddr TObjNpcKenkyu2__shared_model_resource;
 }

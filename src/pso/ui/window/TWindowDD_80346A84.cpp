@@ -147,7 +147,7 @@ void ws_data_load(void) {
 s32 TWindowDD__sub_80346DB8(s32 arg0) {
   s32 var_r31;
   s32 var_r30;
-  s32 var_r3;
+  saddr var_r3;
   var_r30 = arg0;
   var_r31 = 0;
   switch (get_word_select_context__9TWindowDDFv())

@@ -73,7 +73,7 @@ struct VObj_18_382324 : VBase_18_382324 {
 struct RecoveredFields_8012ABCC_arg0
 {
   u8 unknown_0[0xF0];
-  u32 field_F0;
+  uaddr field_F0;
 };
 
 struct PlB_8012AC68 { char pad[0x18]; };
@@ -130,7 +130,7 @@ struct Pl_8012AC68 : PlB_8012AC68 {
     virtual void v48();
     virtual void m49(void *, s32, s32, s32);
     u8 pad2[0xF0-0x1C];
-    s32 f0;
+    saddr f0;
     u8 pad3[0x1F8-0xF4];
     u8 f1f8[4];
 };
@@ -140,7 +140,7 @@ u32 *copy_attack_targets(u32 *dst, u32 *src);
 s32 get_captured_target_collider_index(s32);
 s32 get_captured_target_entry(void *, s32);
 s32 get_captured_target_count(void *);
-extern s32 tl_05;
+extern saddr tl_05;
 
 typedef struct RecoveredFields_8012ABCC_arg0 RecoveredFields_8012ABCC_arg0;
 typedef struct VBase_18_382324 VBase_18_382324;
@@ -170,7 +170,7 @@ void TUnk_804A4B80::heaven_punisher_strike_locks() {
     u8 buf[24];
     s16 v;
     s32 i;
-    s32 e;
+    saddr e;
     Pl_8012AC68 *arg0 = (Pl_8012AC68 *)this;
     if (get_captured_target_count(arg0->f1f8) > 0) {
         for (i = 0; i != get_captured_target_count(arg0->f1f8); i++) {

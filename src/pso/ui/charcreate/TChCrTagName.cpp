@@ -241,7 +241,7 @@ void *TChCrTagName::create(void *arg0) {
 }
 
 void TChCrTagName::create_all() {
-    int i;
+    saddr i;
     for (i = 0; i < 12; i++) {
         TChCrTagName::create((void *)i);
     }

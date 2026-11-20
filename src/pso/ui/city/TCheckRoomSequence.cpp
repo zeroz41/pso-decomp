@@ -43,11 +43,11 @@ struct TCheckRoomSequence_8020F070 { u8 pad[0x44]; TWin_8020F070 *win; };
 
 struct Obj_8020F268 { u8 pad[0x28]; void (*cb0)(u8 *); void (*cb1)(u32); };
 
-struct Seq_8020F268 { u8 pad[0x24]; s32 f24; };
+struct Seq_8020F268 { u8 pad[0x24]; saddr f24; };
 
 struct Obj_8020F2D8 { u8 pad[0x60]; void (*cb0)(u8 *); void (*cb1)(u32); };
 
-struct Seq_8020F2D8 { u8 pad[0x24]; s32 f24; };
+struct Seq_8020F2D8 { u8 pad[0x24]; saddr f24; };
 
 struct VBase_18_a93f07 { char pad[0x18]; };
 
@@ -101,7 +101,7 @@ struct VObj_8020F478 : VBase_8020F478 {
 
 struct Seq_8020F478 : VObj_8020F478 {
     u8 pad1C[0x24 - 0x1C];
-    s32 f24;
+    saddr f24;
     u8 pad28[0x34 - 0x28];
     void *f34;
 };
@@ -118,7 +118,7 @@ struct VObj_8020F730 : VBase_8020F730 {
 
 struct Seq_8020F730 : VObj_8020F730 {
     u8 pad1C[0x24 - 0x1C];
-    s32 f24;
+    saddr f24;
     u8 pad28[0x34 - 0x28];
     void *f34;
 };
@@ -194,7 +194,7 @@ uaddr create_window_menu(s32, int, u16);
 void handle_root_choice__18TCheckRoomSequenceFv(u8 *arg0);
 s32 get_room_table_entry__18TCheckRoomSequenceFi(s32);
 void *__ct__19TShopKeepItemWindowFPvPvPv(TShopKeepItemWindow *arg0, void *arg1, void *arg2, void *arg3);
-void init_check_params__18TCheckRoomSequenceFUi(u32 arg0);
+void init_check_params__18TCheckRoomSequenceFUi(uaddr arg0);
 void open_deposit_item_window__18TCheckRoomSequenceFv(u8 *arg0);
 void handle_withdraw_choice__18TCheckRoomSequenceFv(u8 *arg0);
 void handle_deposit_choice__18TCheckRoomSequenceFv(u8 *arg0);
@@ -238,7 +238,7 @@ void close_window__18TCheckRoomSequenceFPv(TCheckRoomSequence_8020F070 *self) {
 }
 #pragma pop
 
-void init_check_params__18TCheckRoomSequenceFUi(u32 arg0) {
+void init_check_params__18TCheckRoomSequenceFUi(uaddr arg0) {
     TCheckRoomSequence__error_return_text_id = 0x46;
     TCheckRoomSequence__error_return_state = 2;
     if (arg0 != 0U) {
@@ -335,13 +335,13 @@ void accept_meseta_withdrawal__18TCheckRoomSequenceFPv(u8 *arg0) {
         }
         ((VObj_18_a93f07 *)(arg0))->m4(0x46, 1);
         set_field_20__15TShopWindowBaseFl(arg0, (void*)(2));
-        ((TWindowBase *)((int) (*(u32 *)((s8 *)arg0 + 0x34))))->close();
+        ((TWindowBase *)((int) (*(uaddr *)((s8 *)arg0 + 0x34))))->close();
         *(u32 *)((s8 *)arg0 + 0x34) = 0U;
     }
     if (((u32) *(u32 *)((s8 *)arg0 + 0x34) != 0U) && (((s32)((TShopEquipmentSellWindow *)(*(uaddr *)((s8 *)arg0 + 0x34)))->is_confirmed()) != 0)) {
         ((VObj_18_a93f07 *)(arg0))->m4(0x46, 1);
         set_field_20__15TShopWindowBaseFl(arg0, (void*)(0xA));
-        ((TWindowBase *)((int) (*(u32 *)((s8 *)arg0 + 0x34))))->close();
+        ((TWindowBase *)((int) (*(uaddr *)((s8 *)arg0 + 0x34))))->close();
         *(u32 *)((s8 *)arg0 + 0x34) = 0U;
     }
 }
@@ -404,13 +404,13 @@ void accept_meseta_deposit__18TCheckRoomSequenceFPv(u8 *arg0) {
         }
         ((VObj_18_a93f07 *)(arg0))->m4(0x46, 1);
         set_field_20__15TShopWindowBaseFl(arg0, (void*)(2));
-        ((TWindowBase *)((int) (*(u32 *)((s8 *)arg0 + 0x34))))->close();
+        ((TWindowBase *)((int) (*(uaddr *)((s8 *)arg0 + 0x34))))->close();
         *(u32 *)((s8 *)arg0 + 0x34) = 0U;
     }
     if (((u32) *(u32 *)((s8 *)arg0 + 0x34) != 0U) && (((s32)((TShopEquipmentSellWindow *)(*(uaddr *)((s8 *)arg0 + 0x34)))->is_confirmed()) != 0)) {
         ((VObj_18_a93f07 *)(arg0))->m4(0x46, 1);
         set_field_20__15TShopWindowBaseFl(arg0, (void*)(3));
-        ((TWindowBase *)((int) (*(u32 *)((s8 *)arg0 + 0x34))))->close();
+        ((TWindowBase *)((int) (*(uaddr *)((s8 *)arg0 + 0x34))))->close();
         *(u32 *)((s8 *)arg0 + 0x34) = 0U;
     }
 }
@@ -986,7 +986,7 @@ void remove_bank_item_amount__18TCheckRoomSequenceFiii(s32 idx, s32 amount, s32 
 typedef struct Rec_80210F78 Rec_80210F78;
 #pragma optimization_level 1
 s32 copy_bank_item_with_stack_limit(s32 idx, void *data, s32 *out, s32 slot) {
-  s32 base = (saddr) bank_item_records_by_slot[slot];
+  saddr base = (saddr) bank_item_records_by_slot[slot];
   Rec_80210F78 *t;
   s32 new_var;
   if (idx > 199)

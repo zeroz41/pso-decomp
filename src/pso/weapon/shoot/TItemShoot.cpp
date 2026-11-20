@@ -89,7 +89,7 @@ s32 spawn_shoot_particle_9f(u32 owner, s32 pos, s32 dir, f32 life) {
 }
 
 s32 create_shoot_model_with_particles(u32 owner, s32 pos, s32 dir, f32 life) {
-    s32 model = create_shoot_model__10TObjPlayerFUiiif(owner, pos, dir, life);
+    saddr model = create_shoot_model__10TObjPlayerFUiiif(owner, pos, dir, life);
     TItemShootParticle *particle = (TItemShootParticle *)TObjPlayer::spawn_shoot_particle(owner, pos, dir, life);
     if ((u32)model != 0U && particle != NULL) {
         ((TItemShootModel *)model)->m_60 = 0x4000;
@@ -101,8 +101,8 @@ s32 create_shoot_model_with_particles(u32 owner, s32 pos, s32 dir, f32 life) {
 }
 
 u32 TItemShoot::spawn_shoot_particle_attached(u32 owner, s32 pos, s32 dir, f32 life) {
-    u32 model = create_shoot_model__10TObjPlayerFUiiif(owner, pos, dir, life);
-    u32 particle = (u32)TObjPlayer::spawn_shoot_particle(owner, pos, dir, life);
+    uaddr model = create_shoot_model__10TObjPlayerFUiiif(owner, pos, dir, life);
+    uaddr particle = (u32)TObjPlayer::spawn_shoot_particle(owner, pos, dir, life);
     if (model != 0U && particle != 0U) {
         ((TItemShootParticle *)particle)->spawn_slot_emitter(0x1BD, 0);
         ((TObject *)particle)->set_parent((TObject *)model);
@@ -305,7 +305,7 @@ void TItemShootGun::hook() {
 void TItemShootGun::render() {
     if (is_owner_alive()) {
         if (m_58 != NULL) {
-            ((TObjDoorJung *)(*(s32 *)((u8 *)m_58 + 4)))->free_children((void *)(m_70 & 0xFFFF));
+            ((TObjDoorJung *)(*(saddr *)((u8 *)m_58 + 4)))->free_children((void *)(m_70 & 0xFFFF));
             set_texlist((u32)m_5C);
             TParticleCtrl::begin_effect_render();
             push_matrix();

@@ -123,12 +123,12 @@ s32 TWindowSubEquip__sub_80263AF8(s32, s32);
 s32 align_menu_entry_positions(int);
 s32 forward_trade_action_default__16TObjCityMainWarpFPviii(s32, s32, s32, s32);
 s32 get_window_layout_position(s32);
-s32 get_player_by_client_id(s32);
+saddr get_player_by_client_id(s32);
 s32 TObjPlayer__sub_801B7B58(int, int, int);
 }
 
 s32 create_titled_window_menu(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-void add_item_purpose_actions(TWindowSubItem *arg0, s32 arg1, s32 arg2);
+void add_item_purpose_actions(TWindowSubItem *arg0, saddr arg1, saddr arg2);
 struct En_8027AA80 { u16 flags; u8 pad2[0x2A]; u32 c2c; u32 c30; u32 c34; };
 
 extern "C" {
@@ -137,7 +137,7 @@ struct Wn_8027AA80 { u8 pad0[0x76]; s16 f76; };
 struct En_8027AB10 { u16 flags; u8 pad2[0x2A]; u32 c2c; u32 c30; u32 c34; };
 struct Wn_8027AB10 { u8 pad0[0x76]; s16 f76; };
 struct Quest_8027ABFC { u8 pad[0x20]; s32 count; };
-struct Player_8027ABFC { u8 pad[0xD00]; s32 inv; };
+struct Player_8027ABFC { u8 pad[0xD00]; saddr inv; };
 struct Win_8027ABFC { u8 pad0[0x20]; s16 id; u8 pad1[0x72 - 0x22]; s16 sel; u8 pad2[0x8C - 0x74]; u32 n; };
 void TWindowSubItem__sub_8027AB10(Wn_8027AB10 *arg0);
 void populate_sub_item_list(Win_8027ABFC *arg0);
@@ -167,7 +167,7 @@ s32 has_armor_with_unit_slot(TWindowSubItem *arg0, int arg1);
 extern s32 __vt__14TWindowSubItem[];
 
 #define F(t, o) (*(t *)(arg0 + (o)))
-#define LIST F(s32, 0x30)
+#define LIST F(saddr, 0x30)
 #define BACK_PRESSED(idx) (TWindowShortListCtrl__check_controller_button(controller_input_state[idx].f20, 2) != 0 || test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state[4].f20, 2) != 0)
 const char *TWindowSubItem__class_name = "TWindowSubItem";
 
@@ -301,15 +301,15 @@ void TWindowSubItem::run_task() {
         case 0:
         case 1:
             if (F(u32, 0x3C) != 0) {
-                ((TWindowBase *)(F(u32, 0x3C)))->close();
+                ((TWindowBase *)(F(uaddr, 0x3C)))->close();
                 F(u32, 0x3C) = 0;
             }
             if (F(u32, 0x38) != 0) {
-                ((TWindowBase *)(F(u32, 0x38)))->close();
+                ((TWindowBase *)(F(uaddr, 0x38)))->close();
                 F(u32, 0x38) = 0;
             }
             if (F(u32, 0x34) != 0) {
-                ((TWindowBase *)(F(u32, 0x34)))->close();
+                ((TWindowBase *)(F(uaddr, 0x34)))->close();
                 F(u32, 0x34) = 0;
             }
             if (F(u32, 0x40) == 0) {
@@ -339,32 +339,32 @@ void TWindowSubItem::run_task() {
             break;
         case 3:
             if (F(u32, 0x3C) != 0) {
-                ((TWindowBase *)(F(u32, 0x3C)))->close();
+                ((TWindowBase *)(F(uaddr, 0x3C)))->close();
                 F(u32, 0x3C) = 0;
             }
             if (F(u32, 0x38) != 0) {
-                ((TWindowBase *)(F(u32, 0x38)))->close();
+                ((TWindowBase *)(F(uaddr, 0x38)))->close();
                 F(u32, 0x38) = 0;
             }
             if (F(u32, 0x40) != 0) {
-                ((TWindowBase *)(F(u32, 0x40)))->close();
+                ((TWindowBase *)(F(uaddr, 0x40)))->close();
                 F(u32, 0x40) = 0;
             }
             if (F(u32, 0x34) == 0) {
                 F(u32, 0x34) = ((TWindowSubItem *)arg0)->open_purpose_window(((TWindowMenuIconLine *)LIST)->get_cursor_value());
             }
-            ((TWindowSubComCard *)(F(u32, 0x34)))->clear_flag_and_release();
-            ((TWindowSubComCard *)(F(u32, 0x34)))->clear_transition_flag();
+            ((TWindowSubComCard *)(F(uaddr, 0x34)))->clear_flag_and_release();
+            ((TWindowSubComCard *)(F(uaddr, 0x34)))->clear_transition_flag();
             F(u8, 0x1C) = 4;
         case 4:
-            if (((TWindowMenu *)(F(u32, 0x34)))->get_selected_value() == 0) {
+            if (((TWindowMenu *)(F(uaddr, 0x34)))->get_selected_value() == 0) {
                 TWindowShortListCtrl::assign_item_to_palette(((TWindowMenuIconLine *)LIST)->get_cursor_value(), F(s32, 0x24));
             }
-            if (((TWindowMenu *)(F(u32, 0x34)))->is_cancelled() != 0) {
+            if (((TWindowMenu *)(F(uaddr, 0x34)))->is_cancelled() != 0) {
                 F(u8, 0x1C) = 1;
             }
-            if (((TWindowMenu *)(F(u32, 0x34)))->is_decided() != 0) {
-                set_cursor_row_for_mode((s32)(((TWindowMenu *)(F(u32, 0x34)))->get_selected_value()));
+            if (((TWindowMenu *)(F(uaddr, 0x34)))->is_decided() != 0) {
+                set_cursor_row_for_mode((s32)(((TWindowMenu *)(F(uaddr, 0x34)))->get_selected_value()));
                 return;
             }
             break;
@@ -374,20 +374,20 @@ void TWindowSubItem::run_task() {
                 F(u8, 0x1C) = 3;
             }
             if (TWindowSubItem::is_usable(p) != 0) {
-                exec_item_command(((TWindowMenuIconLine *)LIST)->get_cursor_value(), ((TWindowMenu *)(F(u32, 0x34)))->get_selected_value());
+                exec_item_command(((TWindowMenuIconLine *)LIST)->get_cursor_value(), ((TWindowMenu *)(F(uaddr, 0x34)))->get_selected_value());
                 return;
             }
             break;
         case 6:
-            ((TWindowOptionCtrl *)(F(u32, 0x34)))->open();
+            ((TWindowOptionCtrl *)(F(uaddr, 0x34)))->open();
             F(u32, 0x38) = create_menu_window();
             F(u8, 0x1C) = 7;
         case 7:
-            if (((TWindowMenu *)(F(u32, 0x38)))->is_cancelled() != 0) {
+            if (((TWindowMenu *)(F(uaddr, 0x38)))->is_cancelled() != 0) {
                 F(u8, 0x1C) = 3;
             }
-            if (((TWindowMenu *)(F(u32, 0x38)))->is_decided() != 0) {
-                close_windows(((TWindowMenu *)(F(u32, 0x38)))->get_selected_value());
+            if (((TWindowMenu *)(F(uaddr, 0x38)))->is_decided() != 0) {
+                close_windows(((TWindowMenu *)(F(uaddr, 0x38)))->get_selected_value());
                 return;
             }
             break;
@@ -438,19 +438,19 @@ void TWindowSubItem::run_task() {
                 F(u8, 0x1C) = 0xE;
                 return;
             }
-            ((TWindowOptionCtrl *)(F(u32, 0x34)))->open();
+            ((TWindowOptionCtrl *)(F(uaddr, 0x34)))->open();
             if (F(u32, 0x3C) == 0) {
                 F(u32, 0x3C) = create_count_input(n);
             }
-            ((TWindowSubItem *)((void *) F(u32, 0x3C)))->clear_flag_and_release();
+            ((TWindowSubItem *)((void *) F(uaddr, 0x3C)))->clear_flag_and_release();
             F(u8, 0x1C) = 0xD;
         }
         case 13:
-            if (((TShopEquipmentSellWindow *)(F(u32, 0x3C)))->is_confirmed() != 0) {
+            if (((TShopEquipmentSellWindow *)(F(uaddr, 0x3C)))->is_confirmed() != 0) {
                 F(u8, 0x1C) = 3;
             }
-            if (((TWindowInputNumber *)(F(u32, 0x3C)))->is_confirmed() != 0) {
-                F(s32, 0x28) = ((TShopEquipmentSellWindow *)(F(u32, 0x3C)))->get_result();
+            if (((TWindowInputNumber *)(F(uaddr, 0x3C)))->is_confirmed() != 0) {
+                F(s32, 0x28) = ((TShopEquipmentSellWindow *)(F(uaddr, 0x3C)))->get_result();
                 F(u8, 0x1C) = 0xE;
                 return;
             }
@@ -511,19 +511,19 @@ void TWindowSubItem::run_task() {
                 F(u8, 0x1C) = 0x16;
                 return;
             }
-            ((TWindowOptionCtrl *)(F(u32, 0x34)))->open();
+            ((TWindowOptionCtrl *)(F(uaddr, 0x34)))->open();
             if (F(u32, 0x3C) == 0) {
                 F(u32, 0x3C) = create_count_input(n);
             }
-            ((TWindowSubItem *)((void *) F(u32, 0x3C)))->clear_flag_and_release();
+            ((TWindowSubItem *)((void *) F(uaddr, 0x3C)))->clear_flag_and_release();
             F(u8, 0x1C) = 0x14;
         }
         case 20:
-            if (((TShopEquipmentSellWindow *)(F(u32, 0x3C)))->is_confirmed() != 0) {
+            if (((TShopEquipmentSellWindow *)(F(uaddr, 0x3C)))->is_confirmed() != 0) {
                 F(u8, 0x1C) = 3;
             }
-            if (((TWindowInputNumber *)(F(u32, 0x3C)))->is_confirmed() != 0) {
-                F(s32, 0x28) = ((TShopEquipmentSellWindow *)(F(u32, 0x3C)))->get_result();
+            if (((TWindowInputNumber *)(F(uaddr, 0x3C)))->is_confirmed() != 0) {
+                F(s32, 0x28) = ((TShopEquipmentSellWindow *)(F(uaddr, 0x3C)))->get_result();
                 F(u8, 0x1C) = 0x15;
                 return;
             }
@@ -620,7 +620,7 @@ void TWindowSubItem::draw_slot(s32 arg1, s32 arg2, s32 arg3) {
     forward_trade_action_default__16TObjCityMainWarpFPviii(arg2, (s32)(get_localized_text_entry(0x10, 0xF)), 0x26, temp_r31);
 }
 
-void add_item_purpose_actions(TWindowSubItem *window_sub_item, s32 arg1, s32 arg2) {
+void add_item_purpose_actions(TWindowSubItem *window_sub_item, saddr arg1, saddr arg2) {
   s32 sp8;
   saddr item;
   saddr player;
@@ -775,7 +775,7 @@ void TWindowSubItem::use_selected_item() {
 #pragma pop
 s32 has_armor_with_unit_slot(TWindowSubItem *window_sub_item, int arg1) {
     ItemData_80279754 d;
-    s32 pl;
+    saddr pl;
     uaddr item;
     pl = get_player_by_client_id(window_sub_item->m_24);
     if (pl == 0) {

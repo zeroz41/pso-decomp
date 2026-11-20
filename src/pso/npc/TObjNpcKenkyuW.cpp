@@ -26,7 +26,7 @@ BmlResourceDescriptor bm_npc_kenkyu_w_resource_descriptor = {
 };
 const char *TObjNpcKenkyuW__name = "TObjNpcKenkyuW";
 TechniqueContactList technique_contact_list;
-u32 TObjNpcKenkyuW__model_resource;
+uaddr TObjNpcKenkyuW__model_resource;
 
 struct Pl_802A3DE8 {
     u8 pad0[0x30];
@@ -89,7 +89,7 @@ void TObjNpcKenkyuW::destroy_instance() {
 }
 
 void TObjNpcKenkyuW::load_resource_instance() {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 var_r0;
     temp_r3 = (int)::operator new(0x440);
     var_r0 = temp_r3;

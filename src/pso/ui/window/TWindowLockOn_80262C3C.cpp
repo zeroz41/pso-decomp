@@ -144,7 +144,7 @@ void refresh_status_display__9TWindowDDFv(void *);
 void init_window_layout_entries(void *, void *, int);
 f32 get_target_distance__13TWindowLockOnFv(s32);
 s32 draw_visible_window_entries(void *, void *, int);
-s32 get_window_layout_position(int);
+saddr get_window_layout_position(int);
 s32 obj_testFlag_2E4__9TObjCharaFUl(TObjChara *, int);
 s32 is_split_screen(void);
 }

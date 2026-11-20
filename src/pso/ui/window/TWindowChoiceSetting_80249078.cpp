@@ -22,7 +22,7 @@ const char *TWindowChoiceSetting__name = "TWindowChoiceSetting";
 #pragma fp_contract on
 void TWindowChoiceSetting::sub_80249078() {
     f32 target;
-    u32 steps;
+    uaddr steps;
 
     if (this->m_80 & 1) {
         steps = this->get_array_entry(this->get_field_74());

@@ -52,7 +52,7 @@ void build_6xA6_modify_trade_proposal(void *);
 extern "C" {
 s32 send_trade_list__6TLobbyFPvPv(s32, s32 *);
 void TWindowSubTradeMain__sub_80330A84(void *p);
-extern s32 TLobby__protocol_instance;
+extern saddr TLobby__protocol_instance;
 s32 check_trade_offer_inventory(void *, void *);
 
 typedef struct Stack_802D23E0 Stack_802D23E0;
@@ -334,7 +334,7 @@ void TLobby::apply_trade_items() {
     s32 allowed;
     struct E_802D2A70 *list;
     u32 id;
-    s32 player;
+    saddr player;
     struct E_802D2A70 *p;
     s32 i;
     s32 count;
@@ -601,7 +601,7 @@ void reset__6TLobbyFi(s32 arg0) {
         trade_proposal_delay = 0;
         trade_protocol_flags &= 0xFFFFF80F;
         TLobby__sub_8024AAA0(local_client_id, 0x1E);
-        u32 temp_r3 = trade_message_controller;
+        uaddr temp_r3 = trade_message_controller;
         if (temp_r3 != 0U) {
             ((TWindowSubTradeMessage *)temp_r3)->show_message((const char*)arg0);
         }

@@ -32,7 +32,7 @@ WindowDescriptor window_deposit_layout = {
 
 extern "C" {
 s32 draw_visible_window_entries(void *, void *, int);
-s32 get_window_layout_position(int);
+saddr get_window_layout_position(int);
 extern s32 __vt__14TWindowDeposit[];
 #pragma push
 #pragma readonly_strings on

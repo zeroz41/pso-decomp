@@ -132,7 +132,7 @@ void export_state_to_record__10TObjPlayerFPvPv(u8 *arg0, s8 *arg1) {
     s32 b;
     s32 i2;
     s32 rec;
-    s32 a;
+    saddr a;
     s32 m;
     ((TObjPlayer *)arg0)->set_flag_80000();
     arg1[0] = query_state_if_present__10TObjPlayerFPv(arg0, (saddr)((TObjPlayer *)arg1)->get_ptr_4());

@@ -12,7 +12,7 @@ u8 * TWindowMessage__ct(void *, s32, u32, s16);
 extern s32 __vt__24TWindowMessageInfomation[];
 extern const char *TWindowMessageInfomation__name;
 u8 *TWindowMessageInfomation__ct(u8 *arg0, s32 arg1, s16 arg2);
-s32 get_draw_context__11TWindowBaseFPv();
+saddr get_draw_context__11TWindowBaseFPv();
 s32 draw_visible_window_entries(s32, s32, s32);
 
 void TWindowMessageInfomation::render() {

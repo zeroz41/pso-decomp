@@ -122,7 +122,7 @@ extern "C" {
 s32 test_flags_any(s32 *flags, s32 mask);
 
 void TUnk_804A535C::emit_marker_effects() {
-    s32 temp_r31;
+    saddr temp_r31;
     s32 var_r30;
     u32 temp_r3;
     u8 *arg0 = (u8 *)this;

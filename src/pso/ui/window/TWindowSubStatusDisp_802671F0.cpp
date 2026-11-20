@@ -79,7 +79,7 @@ void TWindowSubTradeMain::close() {
 struct Win_80266CF8 { u8 p0[0x72]; s16 f72; s16 f74; u8 p76[2]; s16 f78; };
 
 extern "C" {
-s32 get_array_entry__11TWindowBaseFi(void *, s16);
+saddr get_array_entry__11TWindowBaseFi(void *, s16);
 s32 get_cursor_value__19TWindowMenuIconLineFv();
 
 void TShopArmorListWindow::clamp_selection_to_valid_entry() {
@@ -267,7 +267,7 @@ void push_status_disp_entry(void *arg0, s32 arg1, s32 arg2) {
 void add_battle_stat_entry(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 var_r31;
     u16 *temp_r30;
-    u32 player;
+    uaddr player;
 
     if ((s16) *(s16 *)((s8 *)arg0 + 0x72) < (s16) *(s16 *)((s8 *)arg0 + 0x76)) {
         player = (uaddr)get_player_by_client_id(*(s16 *)((s8 *)arg0 + 0x20));

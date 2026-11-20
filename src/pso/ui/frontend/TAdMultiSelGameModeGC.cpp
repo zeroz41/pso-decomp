@@ -23,7 +23,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
-s32 TAdMultiSelGameModeGC__data_805D69F0;
+saddr TAdMultiSelGameModeGC__data_805D69F0;
 void fn_803000C8(void) {
     if (is_split_screen() != 0) {
         switch (TAdMultiSelGameModeGC__data_805D69F0) {
@@ -88,7 +88,7 @@ void *__ct__14TAdSelectCurGCFv(void *, void *, void *, void *);
 void *__ct__13TAdGuideTxtGCFv(void *, void *);
 extern void *__vt__21TAdMultiSelGameModeGC[];
 extern saddr game_difficulty_selection;
-s32 lbl_805D69F4;
+saddr lbl_805D69F4;
 Obj_8030095C *__ct__21TAdMultiSelGameModeGCFv(Obj_8030095C *self, s32 parent, s32 mode);
 s32 set_default_camera__21TAdMultiChgGameModeGCFv(void *);
 }

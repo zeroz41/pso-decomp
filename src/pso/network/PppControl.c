@@ -40,7 +40,7 @@ s32 recv_network_bytes(u8 *dst, unsigned short n) {
   return 0;
 }
 
-s32 send_network_bytes(s32 src, u16 len) {
+s32 send_network_bytes(saddr src, u16 len) {
     if (send_network_frame(len, (u8 *)src) != 0) {
         return -1;
     }
@@ -197,10 +197,10 @@ s32 lcp_connect(LcpConfig *cfg) {
 
     TLobby__sub_803F808C();
     conn = &ppp_proto_blocks.lcp;
-    if (TLobby__sub_80400744((int) conn, cfg) != 0) {
+    if (TLobby__sub_80400744((saddr) conn, cfg) != 0) {
         return -0x11;
     }
-    if (wait_for_connection((int) conn) != 0) {
+    if (wait_for_connection((saddr) conn) != 0) {
         return -0x11;
     }
     if (cfg->auth_mode == 4) {

@@ -16,8 +16,8 @@
 extern "C" {
 saddr get_message_text(s32 arg0);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
-s32 check_room_seq_4__16TAdChrSelASlotGCFl(const void *, int);
-s32 update_window_mode_from_progress__6TLobbyFPv(const void *, const void *);
+saddr check_room_seq_4__16TAdChrSelASlotGCFl(const void *, int);
+saddr update_window_mode_from_progress__6TLobbyFPv(const void *, const void *);
 s32 verify_system_file__23TAdSinglePlyChrSelectGCFPv();
 void *__ct__12TAdBackTxtGCFv(void *, void *);
 void *__ct__9TAdBackGCFv(void *, void *);

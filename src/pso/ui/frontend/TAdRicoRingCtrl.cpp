@@ -23,11 +23,11 @@ struct RecoveredGlobal_8001B8AC___vt__15TAdRicoRingCtrl {
     u8 remaining[0x14];
 };
 
-struct Obj_8001B4A0 { u8 pad0[0x1c]; u32 slot[2]; u8 pad24[4]; f32 f28; };
+struct Obj_8001B4A0 { u8 pad0[0x1c]; uaddr slot[2]; u8 pad24[4]; f32 f28; };
 
-struct Obj_8001B824 { u8 pad[0x1c]; u32 slot[2]; };
+struct Obj_8001B824 { u8 pad[0x1c]; uaddr slot[2]; };
 
-struct Obj_8001B534 { u8 pad0[0x1c]; u32 slot[2]; u8 pad24[4]; f32 f28; };
+struct Obj_8001B534 { u8 pad0[0x1c]; uaddr slot[2]; u8 pad24[4]; f32 f28; };
 
 
 extern "C" {
@@ -397,7 +397,7 @@ void TAdRicoRingCtrl__sub_8001B4A0(Obj_8001B4A0 *self, f32 x) {
 #pragma push
 #pragma fp_contract on
 void TAdRicoRingCtrl::sub_8001B424(s32 arg1) {
-    u32 temp_r3;
+    uaddr temp_r3;
     u8 *temp_r3_2;
     u8 *temp_r4;
     if (arg1 != 0) {

@@ -20,7 +20,7 @@ const char *bm_n_trunk_i_body_motion_names[1] = { NULL };
 __declspec(section ".data") const char *bm_n_trunk_i_body_model_names[2] = { "n_trunk_i_body.nj", NULL };
 BmlResourceDescriptor bm_n_trunk_i_body_resource_descriptor = { "bm_n_trunk_i_body.bml", bm_n_trunk_i_body_model_names, bm_n_trunk_i_body_motion_names, 1, 0 };
 const char *TObjNpcCloakroomBase__name = "TObjNpcCloakroomBase";
-u32 TObjNpcCloakroomBase__static_instance;
+uaddr TObjNpcCloakroomBase__static_instance;
 }
 
 
@@ -64,7 +64,7 @@ void TObjNpcCloakroomBase::destroy_static_instance() {
 }
 
 void TObjNpcCloakroomBase::load_shared_resource() {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 var_r0;
     temp_r3 = (int)::operator new(0x440);
     var_r0 = temp_r3;

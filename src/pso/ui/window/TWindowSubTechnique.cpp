@@ -148,7 +148,7 @@ s32 validate_and_clear_slot__10TObjPlayerFv(void *, int);
 void text_builder_append_int(s32 arg0);
 void text_builder_append(u8 *str);
 }
-s32 get_help_text_string(s32 arg0);
+saddr get_help_text_string(s32 arg0);
 extern "C" {
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 s32 try_equip_item__10TObjPlayerFii(s32, s32);
@@ -189,7 +189,7 @@ static const char lbl_805DD83C[4] = "";
 
 void TWindowSubTechnique::update_selected_help(s32 arg1) {
   s32 saved_reg_r30;
-  s32 player;
+  saddr player;
   s32 tech;
   s32 cast_technique_level;
   tech = arg1;

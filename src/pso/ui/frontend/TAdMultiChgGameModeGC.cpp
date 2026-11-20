@@ -17,7 +17,7 @@ struct RecoveredFields_802FFCE4_arg0
   u8 unknown_0[0x20];
   s32 field_20;
   s32 field_24;
-  s32 field_28;
+  saddr field_28;
   saddr field_2C;
 };
 

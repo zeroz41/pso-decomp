@@ -60,7 +60,7 @@ void open_yes_no_prompt(TChCrTagPlBack *ch_cr_tag_pl_back, u32 arg1, s32 arg2, s
     }
     forward_trade_action_default__16TObjCityMainWarpFPviii(((void *) *(saddr *)((s8 *)ch_cr_tag_pl_back + 0x28)), (arg2), 0x21, 0);
     ((TAdChrSelASlotGC *)(*(saddr *)((s8 *)ch_cr_tag_pl_back + 0x28)))->set_flag_40();
-    TQuestThread::set_status_flag_80((void *)((int) (*(s32 *)((s8 *)ch_cr_tag_pl_back + 0x28))));
+    TQuestThread::set_status_flag_80((void *)((int) (*(saddr *)((s8 *)ch_cr_tag_pl_back + 0x28))));
     ((TWindowSubComCard *)(*(saddr *)((s8 *)ch_cr_tag_pl_back + 0x28)))->calc_layout_height(farg0);
     ch_cr_tag_pl_back->get_position_offset(&sp8);
     *(u8 **)((s8 *)ch_cr_tag_pl_back + 0x2C) = create_yes_no_window((saddr)&sp8, (s32)(*(s32 *)((s8 *)ch_cr_tag_pl_back + 0x24)), (uaddr)(*(u8 **)((s8 *)ch_cr_tag_pl_back + 0x20)), (u32)(*(u32 *)((s8 *)ch_cr_tag_pl_back + 0x1C)));

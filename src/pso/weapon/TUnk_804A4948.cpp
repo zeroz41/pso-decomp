@@ -302,7 +302,7 @@ s32 TUnk_804A4948::send_srank_stat_extra(u32 arg1, s32 arg2) {
 void TUnk_804A4948::send_srank_stat_extra_to_locks() {
   saddr st;
   s32 i;
-  s32 e;
+  saddr e;
   u16 uid;
   s32 r;
   s32 v;

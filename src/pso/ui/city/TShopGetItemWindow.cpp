@@ -46,9 +46,9 @@ struct Stack_8021E5D8
 struct RecoveredFields_8021E5D8_arg0
 {
   u8 unknown_0[0x24];
-  s32 field_24;
-  s32 field_28;
-  u32 field_2C;
+  saddr field_24;
+  saddr field_28;
+  uaddr field_2C;
   u8 unknown_30[0x24];
   s32 field_54;
 };
@@ -58,10 +58,10 @@ struct Item_8021E870 { u8 kind; u8 data[0x13]; };
 struct Win_8021E870 {
     u8 pad0[0x24];
     s32 f24;
-    u32 f28;
-    u32 f2C;
-    u32 f30;
-    u32 f34;
+    uaddr f28;
+    uaddr f2C;
+    uaddr f30;
+    uaddr f34;
     Item_8021E870 item;
     u8 pad4C[0x58 - 0x4C];
     s32 f58;
@@ -79,10 +79,10 @@ struct Win_8021EA48 : VBase_8021EA48 {
     virtual void m4(s32, s32);
     u8 pad1C[0x24 - 0x1C];
     s32 f24;
-    u32 f28;
+    uaddr f28;
     u32 f2C;
     u32 f30;
-    u32 f34;
+    uaddr f34;
     Item_8021EA48 item;
     u8 pad4C[0x50 - 0x4C];
     s32 f50;
@@ -101,9 +101,9 @@ s32 copy_bank_to_card_window(int);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
 s32 copy_bank_item_with_stack_limit(s32 idx, void *data, s32 *out, s32 slot);
 s32 sub_802239EC__13TShopSequenceFv(void *);
-u32 __ct__18TWindowInputNumberFPvllls(void *, s32, s32, s32, s32, s16);
+uaddr __ct__18TWindowInputNumberFPvllls(void *, s32, s32, s32, s32, s16);
 s32 get_room_table_entry__18TCheckRoomSequenceFi(void);
-u32 __ct__15TWindowHelpItemFPvUs(void *, s32, u16);
+uaddr __ct__15TWindowHelpItemFPvUs(void *, s32, u16);
 void add_item_info_entry__20TWindowSubStatusDispFlll(u32, void *, s32, s32);
 void TWindowSetLevelUp__sub_8026DE28(u32, s32);
 u32 create_item_list_window(s32, s32, u16);

@@ -124,7 +124,7 @@ extern Pad_8024DCE8 controller_input_state[];
 int TWindowMainMenu__sub_8024E3F4(void *p);
 void TWindowCtrl__sub_8024DAAC(void *arg0);
 s32 TWindowMainMenu__sub_8024E3E0(void *);
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 }
 void window_request_show(void *arg0);
 struct Ctl_8024E2A8 {

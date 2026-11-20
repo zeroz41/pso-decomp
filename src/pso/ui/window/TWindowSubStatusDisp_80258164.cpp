@@ -119,7 +119,7 @@ void reset__20TWindowSubStatusDispFPv(void *arg0) {
 }
 
 void update_stat_line__20TWindowSubStatusDispFPvi(void *arg0, s32 arg1);
-s32 get_shared_text_buffer();
+saddr get_shared_text_buffer();
 s32 text_builder_append_int(s32);
 void text_builder_append(u8 *str);
 }
@@ -595,8 +595,8 @@ int forward_message__6TLobbyFlUl(int, void*);
     extern const float lbl_805DCF08;
 
 void TWindowSubStatusDisp::set_item_info(void* a1, int a2, void* a3) {
-    int item_data;
-    int temp_r3;
+    saddr item_data;
+    saddr temp_r3;
 
     *(float*)((char*)this + 0x8) = lbl_805DCF08;
     *(unsigned char *)&this->unk_1C = 51;

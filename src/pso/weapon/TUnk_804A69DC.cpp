@@ -58,10 +58,10 @@ void *TUnk_804A69C0::init_shoot_model() {
 s32 update_technique_slot__10TTecRaFoieFl(int, int, int);
 s32 play_sound_effect(int, int, int, int);
 s32 init_shoot_model__13TUnk_804A69C0Fv(int, void *, void *, void *, f32);
-s32 create_shoot_model__10TObjPlayerFiiif(s32 arg0, s32 arg1, s32 arg2, f32 farg0);
+s32 create_shoot_model__10TObjPlayerFiiif(saddr arg0, saddr arg1, saddr arg2, f32 farg0);
 void TObjPlayer__sub_801307D0(void *arg0);
 
-s32 create_shoot_model__10TObjPlayerFiiif(s32 arg0, s32 arg1, s32 arg2, f32 farg0) {
+s32 create_shoot_model__10TObjPlayerFiiif(saddr arg0, saddr arg1, saddr arg2, f32 farg0) {
     saddr temp_r3;
     s32 var_r0;
     s32 var_r3;

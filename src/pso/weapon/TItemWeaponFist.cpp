@@ -109,7 +109,7 @@ s32 knuckle_marker_joint_table[18] = {
 
 
 void TUnk_804A2B98::reserved_53() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (s32)this;
     if (get_item_index() == 3) {
         knuckle_second_hand_pass = 0;
         ((TItemWeapon *)arg0)->draw_weapon_model();

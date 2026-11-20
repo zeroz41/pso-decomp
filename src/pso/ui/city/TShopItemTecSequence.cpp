@@ -61,7 +61,7 @@ struct Stack_802202BC
 
 struct W_80220030 { u8 pad[0x3a4]; void *cb0; void *cb1; };
 
-struct S_80220030 { u8 pad[0x24]; s32 f24; };
+struct S_80220030 { u8 pad[0x24]; saddr f24; };
 
 struct W_802200A8 { u8 pad[0x1c0]; void *cb0; };
 
@@ -83,7 +83,7 @@ struct Seq_80220110 : VBase_18_80220110 {
 
 extern "C" {
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
-s32 set_service_counter_camera(void *, int);
+saddr set_service_counter_camera(void *, int);
 s32 get_window_layout_position(int, f32);
 // Per-player slot flags, set by the ctor and cleared by the dtor (as THunterGuildSeqOffline__instance_table).
 s32 TShopItemTecSequence__slot_table[4];

@@ -11,7 +11,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include <string.h>
 extern "C" {
-s32 get_player_by_client_id(s32);
+saddr get_player_by_client_id(s32);
 s32 has_window_task_root();
 void* get_window_layout_position(s32);
 u32 create__14TWindowMessageFPvll(void*, void*, s32);

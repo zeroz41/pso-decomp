@@ -72,16 +72,16 @@ s32 create_callback__22TAdEnterSerialAccessGCFPvPvPv(const void *, const void *,
 void draw_status_window__14TAdPlyStatusGCFPvPv(void *arg0, void *arg1);
 s32 TAdPlyStatusGC__sub_8033F8B0(void *arg0, const void *arg1);
 s32 disallow_rendering__7TObjectFv();
-s32 get_localized_text_entry(s32 arg0, s32 arg1);
+saddr get_localized_text_entry(s32 arg0, s32 arg1);
 void __ct__7TObjectFP7TObject(void *, void *);
 void *__construct_array(void *, void *, void *, u32, u32);
 extern saddr ply_status_chcr_load_afs;
 TAdPlyStatusGC_8033FC14 *TAdPlyStatusGC__ct(TAdPlyStatusGC_8033FC14 *self, void *parent, s32 arg2);
 s32 *TAdSinglePlyChrSelectGC__sub_801FE3E4(u32 i);
-s32 get_entry__23TAdSinglePlyChrSelectGCFi(s32 i);
+saddr get_entry__23TAdSinglePlyChrSelectGCFi(s32 i);
 s32 TAdSinglePlyChrSelectGC__sub_801FE800(u32 i);
 saddr get_character_save_record(u32 arg0);
-s32 get_char_index__23TAdSinglePlyChrSelectGCFUi(u32 arg0);
+saddr get_char_index__23TAdSinglePlyChrSelectGCFUi(u32 arg0);
 }
 s32 get_class_name_text(s32 arg0);
 extern "C" {

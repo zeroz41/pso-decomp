@@ -48,7 +48,7 @@ struct RecoveredFields_8026088C_arg0 {
     u8 unknown_0[0x60];
     s32 field_60;
     u8 unknown_64[0x8];
-    u32 field_6C;
+    uaddr field_6C;
 };
 
 extern "C" {
@@ -928,7 +928,7 @@ void TWindowKeyBoardSoft::run_task() {
 #pragma pop
 
 extern "C" {
-s32 get_window_layout_position(int);
+saddr get_window_layout_position(int);
 }
 
 TWindowKeyBoardSoft::~TWindowKeyBoardSoft() {}

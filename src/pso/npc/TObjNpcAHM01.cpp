@@ -17,7 +17,7 @@
 
 const char *TObjNpcAHM01__name = "TObjNpcAHM01";
 u32 TObjNpcAHM01__shared_object;
-u32 TObjNpcAHM01__texture_handle;
+uaddr TObjNpcAHM01__texture_handle;
 
 extern "C" {
 s32 play_sound_effect(int, void *, int, int);
@@ -59,7 +59,7 @@ u8 *TObjNpcAHM01__ct(u8 *player, s32 arg1, s32 arg2) {
 }
 
 void TObjNpcAHM01::play_voice() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (s32)this;
     play_sound_effect(0x40004C15, (void *)(arg0 + 0x38), 0, 0);
 }
 

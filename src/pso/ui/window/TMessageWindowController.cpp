@@ -15,12 +15,12 @@ extern "C" {
 extern s32 local_client_id;
 const char *get_selected_entry__16TQuestListOnlineFv();
 s32 get_game_play_mode();
-s32 get_shop_text(s32 arg0);
+saddr get_shop_text(s32 arg0);
 TWindowMessagePage *set_text__18TWindowMessagePageFlll(s32, s32, s32);
 __declspec(section ".rodata") extern const char message_tag_error[];
 }
-s32 get_guild_text(s32 arg0);
-s32 get_appraisal_text(s32 arg0);
+saddr get_guild_text(s32 arg0);
+saddr get_appraisal_text(s32 arg0);
 struct MessageTagCommand {
     const char *name;
     void (TMessageWindowController::*callback)();

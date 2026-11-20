@@ -173,7 +173,7 @@ struct Rec_8021BA1C { s32 w[5]; };
 struct Win_8021BA1C {
     VObj_18_a93f07 base;
     u8 pad1c[0x24 - 0x1C];
-    s32 player;
+    saddr player;
     u8 pad28[4];
     void *win;
     void *list;
@@ -205,7 +205,7 @@ struct Win_8021C160 : VObj_8021C160 {
 };
 
 extern "C" {
-s32 sub_8022397C__15TShopWindowBaseFv(void *);
+saddr sub_8022397C__15TShopWindowBaseFv(void *);
 void TLobby__sub_80225238(int a0, int a1);
 extern s32 __vt__24TShopEquipmentListWindow[];
 const char *TShopEquipmentListWindow__class_name = "TShopEquipmentListWindow";
@@ -230,7 +230,7 @@ s32 is_single_purchase_shop_item(u8 *p);
 
 extern "C" {
 extern const s32 local_client_id;
-u32 create_yes_no_window(int, u16, int, int);
+uaddr create_yes_no_window(int, u16, int, int);
 s32 sub_802239EC__13TShopSequenceFv(void *);
 void play_sound_effect(int, int, int, int);
 saddr create_window_menu(s32 arg0, s32 arg1, s32 arg2);

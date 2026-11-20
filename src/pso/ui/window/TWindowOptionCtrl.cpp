@@ -52,7 +52,7 @@ s32 create__19TWindowMessageYesNoFPvPvPvPv(s32, s32, s32, s32);
 s32 free_member__17TWindowSubComCardFv(int, int);
 s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(int, void *, int, f32);
 s32 create__14TWindowMessageFPvll(void *, const vec2f *, s32);
-s32 warn_if_empty__17TWindowOptionCtrlFPUc(void *);
+saddr warn_if_empty__17TWindowOptionCtrlFPUc(void *);
 void *get_chr_select_base_plus_1154c__17TWindowOptionCtrlFv();
 s32 refresh_with_default_list__20TWindowSubStatusDispFll(s32, const vec2f *);
 s32 get_option_entry__17TWindowOptionCtrlFi(s32);

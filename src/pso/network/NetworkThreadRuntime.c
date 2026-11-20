@@ -30,7 +30,7 @@ u8 ppp_option_word_buf[4];
 #define PCO_RD8(p) (ppp_buffer_read((p), ppp_option_byte_buf, 1) != 1 ? -1 : (s16)ppp_option_byte_buf[0])
 
 void NetStoreCurrentThread(s32 *thread) {
-    *thread = (s32)OSGetCurrentThread();
+    *thread = (saddr)OSGetCurrentThread();
 }
 
 void net_sleep_ms(s32 ms) {
@@ -93,7 +93,7 @@ void NetSuspendCurrentThread(void) {
 
 /* Cancels the thread unless it already terminated. */
 void cancel_thread_if_running(void *thread) {
-    s32 handle = (s32)thread;
+    saddr handle = (saddr)thread;
     if (OSIsThreadTerminated((OSThread*)thread) == 0) {
         OSCancelThread((OSThread*)handle);
     }
@@ -145,7 +145,7 @@ s32 TLobby__sub_803F9B94(s32 fn, s32 *out_key) {
 }
 
 s32 run_current_thread_callback(void) {
-    u32 key = (u32)OSGetCurrentThread();
+    uaddr key = (uaddr)OSGetCurrentThread();
     Ent_803F9C78 *p;
     u16 n = lobby_thread_pool_count;
     Ent_803F9C78 *base = (*(Ent_803F9C78 * *)&lobby_thread_pool_base);
@@ -275,7 +275,7 @@ void TLobby__sub_803F9FAC(u8 *ctx) {
     u8 *sub;
     u8 *blk;
 
-    *(u32 *)(base + 0x0) = (u32)"IPv6cp";
+    *(u32 *)(base + 0x0) = (uaddr)"IPv6cp";
     *(u16 *)(base + 0x4) = 0x8057;
     *(s16 *)(base + 0x6) = 0xFE;
     base[0x8] = 4;
@@ -435,7 +435,7 @@ s32 TLobby__sub_803FA4A4(u8 *self, u8 *src, s32 h) {
     u8 *bits;
     u8 *p;
     s32 cnt;
-    u32 m;
+    uaddr m;
     s16 r;
     u32 bit;
     s32 f;
@@ -482,7 +482,7 @@ inline u32 first_803FA664(Sub_803FA664 *s) {
     u32 t;
     u32 v = 0;
     t = v;
-    t = (u32)init_net_buffer_entry(0);
+    t = (uaddr)init_net_buffer_entry(0);
     if (t == 0) {
         return v;
     }
@@ -725,7 +725,7 @@ void TLobby__sub_803FACD8(u32 *self, void *src, s32 mask)
   s32 m;
   if ((*self) == 0)
   {
-    *self = (u32) init_net_buffer_entry(0);
+    *self = (uaddr) init_net_buffer_entry(0);
     if ((*self) == 0)
     {
       return;

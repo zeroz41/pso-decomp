@@ -277,7 +277,7 @@ char *TAdEnterSerialAccessGC::serial_to_hex_string(int arg0) {
 }
 
 void TAdEnterSerialAccessGC::store_serial_access_key(saddr arg0, saddr arg1, saddr arg2) {
-    s32 instance;
+    saddr instance;
 
     instance = TAdSinglePlyChrSelectGC::get_instance();
     if (instance != 0) {

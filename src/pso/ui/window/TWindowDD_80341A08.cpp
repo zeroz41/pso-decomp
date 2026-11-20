@@ -433,7 +433,7 @@ s16 TWindowDD__sub_8034214C(u8 *arg0) {
 }
 
 int TWindowDD__sub_80342158(u8 *arg0) {
-    u32 temp_r4;
+    uaddr temp_r4;
     temp_r4 = *(u32 *)((s8 *)arg0 + 0x80);
     if (temp_r4 != 0U) {
         return *(s16 *)((s8 *)(temp_r4 + (*(s32 *)((s8 *)arg0 + 0x68) * 2)) + 0);

@@ -60,7 +60,7 @@ public:
     virtual void m8(); virtual void m9(); virtual s32 m10();
 };
 
-struct Self_803310BC { u8 pad[0x28]; s32 f28; s32 f2c; };
+struct Self_803310BC { u8 pad[0x28]; s32 f28; saddr f2c; };
 
 struct PB_80331178 { u8 pad[0x18]; };
 
@@ -71,11 +71,11 @@ public:
     virtual void m8(); virtual void m9(); virtual s32 m10();
 };
 
-struct Self_80331178 { u8 pad[0x28]; s32 f28; s32 f2c; };
+struct Self_80331178 { u8 pad[0x28]; s32 f28; saddr f2c; };
 
 extern "C" {
 u8 * create__19TWindowMessageYesNoFPvPvPvPv(void *, void *, void *, void *);
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 s32 TWindowSubTradeMain__sub_802448E4(void *, void *);
 void TWindowSubTradeMain__sub_803323A8(void *);
 void TWindowSubTradeMain__sub_803323B8(void *);

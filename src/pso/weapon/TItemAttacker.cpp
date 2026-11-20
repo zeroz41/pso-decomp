@@ -199,7 +199,7 @@ void TItemBuff__ct(void) {
         if ((s32) item_buffer_temp_mode != 0) {
             TLobby::tmp_buf_release((const char *)(s32) &(*(RecoveredGlobal_8010355C_lbl_8043E038 *)(s32 *)"TItemBuff").value);
         } else {
-            mem_free((void *)(*(u32 *)&item_buff_buffer));
+            mem_free((void *)(*(uaddr *)&item_buff_buffer));
         }
         (*(u32 *)&item_buff_buffer) = 0;
     }

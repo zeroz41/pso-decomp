@@ -38,7 +38,7 @@ s32 item_follow_effect_vtable[6] = { 0, 0, (s32)&destroy_item_follow_effect, (s3
 void TUnk_804A2660::run_task() {
     s32 sp8[5];
     s32 var_r31;
-    s32 item;
+    saddr item;
 
     if ((u32) this->m_28 != get_item_system_generation()) {
         queue_destruction();
@@ -50,14 +50,14 @@ void TUnk_804A2660::run_task() {
         if ((item != 0) && (get_mode__5TItemFv() == 2)) {
             var_r31 = 1;
             if (((TItemWeapon *)item)->get_joint_position(this->m_20, sp8) != 0) {
-                ((TParticleCtrl *)*(u32 *)&this->unk_24)->set_position(sp8);
+                ((TParticleCtrl *)*(uaddr *)&this->unk_24)->set_position(sp8);
                 if ((((TItem *)item)->is_hidden() == 0) || (((TObjCollidable *)item)->obj_testFlags30(0x08000000) == 0)) {
-                    ((TParticleCtrl *)(*(u32 *)&this->unk_24))->clear_active_flag();
+                    ((TParticleCtrl *)(*(uaddr *)&this->unk_24))->clear_active_flag();
                 } else {
-                    ((TParticleCtrl *)(*(u32 *)&this->unk_24))->enable();
+                    ((TParticleCtrl *)(*(uaddr *)&this->unk_24))->enable();
                 }
             } else {
-                ((TParticleCtrl *)(*(u32 *)&this->unk_24))->enable();
+                ((TParticleCtrl *)(*(uaddr *)&this->unk_24))->enable();
             }
         }
     }

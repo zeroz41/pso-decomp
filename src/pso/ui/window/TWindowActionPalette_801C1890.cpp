@@ -44,7 +44,7 @@ void TObjPlayer::send_warp_packet() { bswap_warp_packet(); send_subcommand((u8 *
 void TObjPlayer__sub_801C18E0(void* p) { ((TObjPlayer *)p)->byteswap_set_position_cmd(); send_subcommand((u8 *)p); }
 
 void TObjPlayer::byteswap_set_position_cmd() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     ((G_ClientIDHeader *)this)->bswap();
     bswap_16((u16 *)(arg0 + 4));
     bswap_16((u16 *)(arg0 + 6));
@@ -170,7 +170,7 @@ void TWindowActionPalette::set_slot_mode(saddr arg0, s32 i, s32 arg2, s32 arg3) 
 u8 *TWindowActionPalette__sub_801C1D7C(s32 arg0, s32 i, s32 arg2) {
   s32 var_r31;
   u8 *var_r3;
-  s32 new_var;
+  saddr new_var;
   var_r31 = arg2;
   new_var = ((saddr)TWindowActionPalette__sub_801C1C68((O_801C1C68 *)(arg0), i));
   var_r3 = (u8 *) (new_var + (var_r31 * 4));
@@ -183,7 +183,7 @@ void TWindowActionPalette::get_entry_by_index(s32 *arg0, s32 arg1) {
 }
 
 u8 *TWindowActionPalette::get_slot_type(s32 arg0, s32 i, s32 arg2) {
-  s32 new_var;
+  saddr new_var;
   u8 *var_r3;
   new_var = ((saddr)TWindowActionPalette__sub_801C1C68((O_801C1C68 *)(arg0), i));
   var_r3 = (u8 *) (new_var + (arg2 * 4));

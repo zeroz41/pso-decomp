@@ -69,21 +69,21 @@ struct W_80347B70 {
 extern "C" {
 void show_message_by_count__9TWindowDDFll(s32, void *);
 void append_word_select_token(s16, s32, void *);
-void TWindowDD__sub_8034740C(M_80347758 *entry, s32 arg1, s32 arg2);
-void TWindowDD__sub_803474CC(M_80347758 *entry, s16 id, char *word, s32 buf, s32 *pos);
+void TWindowDD__sub_8034740C(M_80347758 *entry, saddr arg1, saddr arg2);
+void TWindowDD__sub_803474CC(M_80347758 *entry, s16 id, char *word, saddr buf, s32 *pos);
 s32 TWindowDD__sub_80348D88(void *p);
 extern s32 TWindowDD__window_mode;
 void TWindowDD__sub_80347474(M_80347758 *entry, s16 id, s32 buf, s32 *pos);
 extern const f32 lbl_805DFB54;
 void TWindowDD__sub_80347FA0(s32 arg0, s32 arg1);
 s32 TWindowDD__sub_80348DD8(void *, int);
-void TWindowDD__sub_80347A4C(u8 *arg0, s32 arg1);
+void TWindowDD__sub_80347A4C(u8 *arg0, saddr arg1);
 extern const f32 lbl_805DFB94;
 s32 TWindowDD_is_id_in_range_5AC_5F9(s16 arg0);
 void TWindowDD__sub_80347758(M_80347758 *src, M_80347758 *dst);
 s32 TWindowDD__sub_803412A0(u32);
 TWindowDD_WS_String *TWindowDD__sub_8034146C(f32 *pos, f32 *size, u32 str, s32 style, f32 width);
-extern const s32 TWindowDD__data_805DFB50;
+extern const saddr TWindowDD__data_805DFB50;
 extern const f32 lbl_805DFB60;
 extern const f32 lbl_805DFBDC;
 extern const f32 lbl_805DFBE0;
@@ -171,7 +171,7 @@ void TWindowDD::format_type6_message(saddr arg1, void *pos) {
     }
 }
 
-void TWindowDD__sub_8034740C(M_80347758 *entry, s32 arg1, s32 pos) {
+void TWindowDD__sub_8034740C(M_80347758 *entry, saddr arg1, saddr pos) {
     TWindowDD__sub_80347474(entry, entry->a[0], arg1, (s32 *)pos);
     if (entry->n > 1) {
         ((TWindowDD *)arg1)->append_prompt_newline((s32 *)pos);
@@ -184,7 +184,7 @@ void TWindowDD__sub_80347474(M_80347758 *entry, s16 id, s32 buf, s32 *pos) {
     TWindowDD__sub_803474CC(entry, id, word, buf, pos);
 }
 
-void TWindowDD__sub_803474CC(M_80347758 *entry, s16 id, char *word, s32 buf, s32 *pos) {
+void TWindowDD__sub_803474CC(M_80347758 *entry, s16 id, char *word, saddr buf, s32 *pos) {
     char num[20];
     s32 kind;
     s32 value;
@@ -374,7 +374,7 @@ u8 *TWindowDD::init_last_child() {
     return var_r31;
 }
 
-void TWindowDD__sub_80347A4C(u8 *arg0, s32 arg1) {
+void TWindowDD__sub_80347A4C(u8 *arg0, saddr arg1) {
     s32 temp_r3;
     temp_r3 = TWindowDD__sub_80342158((u8 *)arg1);
     if (TWindowDD::is_state_zero_unless_0x2C8(temp_r3) != 0) {
@@ -555,7 +555,7 @@ void TWindowDD__sub_80347F48(u8 *arg0) {
 }
 
 void TWindowDD::init_entry_field_64(s32 arg1) {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     u8 *var_r3;
     var_r3 = (u8 *)(arg0 + (arg1 * 4));
     var_r3 = (u8 *)(*(u8 **)((s8 *)var_r3 + 0x64));

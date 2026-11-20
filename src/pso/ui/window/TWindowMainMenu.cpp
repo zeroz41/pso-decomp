@@ -59,7 +59,7 @@ s32 init_parts__10TObjPlayerFv();
 s32 is_quest_active();
 s32 is_trade_range_bit_set(s32);
 extern s32 local_client_id;
-u32 get_window_layout_position(s32);
+uaddr get_window_layout_position(s32);
 s32 select_main_menu_item_10(s32);
 }
 

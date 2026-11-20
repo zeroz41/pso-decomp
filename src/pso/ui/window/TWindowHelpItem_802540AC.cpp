@@ -51,7 +51,7 @@ struct HelpItem_802541E0 {
     s16 player;
     u8 pad22[2];
     u8 disp[0x70 - 0x24];
-    u32 item;
+    uaddr item;
     u8 pad74[0xA4 - 0x74];
     s32 itemId;
     u8 padA8[0xB0 - 0xA8];
@@ -94,7 +94,7 @@ struct HelpItem_8025500C {
     u8 pad0[0x20];
     s16 player;
     u8 pad22[0x68 - 0x22];
-    s32 itemId;
+    saddr itemId;
     u8 pad6C[0xB0 - 0x6C];
     Vec3_8025500C pos;
 };
@@ -113,7 +113,7 @@ struct HelpItem_802551C4 {
     u8 pad0[0x20];
     s16 player;
     u8 pad22[0x68 - 0x22];
-    s32 itemId;
+    saddr itemId;
     u8 pad6C[0xB0 - 0x6C];
     Vec3_802551C4 pos;
 };
@@ -137,7 +137,7 @@ typedef struct Help_80254CE4 {
     u8 pad0[0x20];
     s16 client;
     u8 pad22[0x46];
-    s32 item;
+    saddr item;
 } Help_80254CE4;
 
 typedef struct Stats_802549B0 {
@@ -161,7 +161,7 @@ typedef struct Help_802549B0 {
     u8 pad0[0x20];
     s16 client;
     u8 pad22[0x4E];
-    u32 item;
+    uaddr item;
     u8 pad74[0x30];
     s32 slot;
 } Help_802549B0;
@@ -610,7 +610,7 @@ struct HelpItem_802547C0 {
     s16 player;
     u8 pad22[2];
     u8 disp[0x70 - 0x24];
-    u32 item;
+    uaddr item;
     u8 pad74[0xA4 - 0x74];
     s32 itemId;
     u8 padA8[0xB0 - 0xA8];
@@ -739,7 +739,7 @@ void update_level_requirement__15TWindowHelpItemFPv(u8 *arg0) {
             update_stat_comparison__15TWindowHelpItemFv((Help_802549B0 *)(arg0));
             temp_r30 = (u8 *)(((u8 *)((TWindowBase *)arg0)->get_array_entry(0xA)));
             item_pmt_record = (u8 *)(lookup_item_pmt_record((u8 *)(*(saddr *)((s8 *)arg0 + 0x68))));
-            if (check_equip_requirements(player, (TItemData *)((s32)((int) (*(s32 *)((s8 *)arg0 + 0x68)))), (s32 *)((s32 *)&sp8)) == 0) {
+            if (check_equip_requirements(player, (TItemData *)((s32)((int) (*(saddr *)((s8 *)arg0 + 0x68)))), (s32 *)((s32 *)&sp8)) == 0) {
                 if (!(sp8 & 1)) {
                     goto block_4;
                 }

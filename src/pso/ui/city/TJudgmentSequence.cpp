@@ -51,7 +51,7 @@ struct RecoveredGlobal_80215EF8___vt__17TJudgmentSequence {
 
 struct Win_80215CB8 { u8 pad[0x16c]; void *cb0; void *cb1; void *cb2; };
 
-struct Seq_80215CB8 { u8 pad[0x24]; s32 f24; };
+struct Seq_80215CB8 { u8 pad[0x24]; saddr f24; };
 
 extern "C" {
 s32 set_service_counter_camera(void *, int);

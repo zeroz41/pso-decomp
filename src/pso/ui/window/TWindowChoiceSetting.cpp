@@ -196,7 +196,7 @@ WindowDescriptor choice_setting_popup_window_descriptor = {
 
 extern "C" {
 void fn_80268C5C(NJS_POINT2 v, s32 x);
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 }
 s32 create_information_counter_window(s32 arg0) {
     TUnk_804D0658 *window;

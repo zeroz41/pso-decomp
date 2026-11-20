@@ -26,12 +26,12 @@ static u8 pppoe_message_queue[0xA0];
 static u8 lbl_805CF380[0x48];
 /* The thread, link-status and connection-mode state (.sbss 805D7BB0-805D7BD0), in reverse definition order. */
 s32 network_message_pending_count;
-s32 lobby_connect_mode;
-u32 lbl_805D7BC4;
+saddr lobby_connect_mode;
+uaddr lbl_805D7BC4;
 u32 lobby_exi_stable_target;
 u32 lobby_exi_stable_count;
 s32 lobby_exi_prev_status;
-s32 lobby_message_thread_handle;
+saddr lobby_message_thread_handle;
 s32 lbl_805D7BB0;
 s16 network_link_status_cache = -1;
 s32 OSSendMessage(void *mq, void *msg, s32 flags);
@@ -44,7 +44,7 @@ s32 TLobby__sub_8042558C(void *);
 extern const u8 lbl_805E1190[8] = { 255, 255, 255, 255, 255, 255, 0, 0 };
 s32 TLobby__sub_804089A8(s16, s16, void *, void *); /* declared here with other parameter types; the definition is s32 (s16, s16, s16, void *) */
 s32 TLobby__sub_80425640(s32 len);
-s32 TLobby__sub_80426AAC(u16 key, s32 len);
+s32 TLobby__sub_80426AAC(u16 key, saddr len);
 
 static struct {
     EthernetReceiveFilter filter;
@@ -54,7 +54,7 @@ static struct {
 void reset_message_thread(void) {
     if ((u32)lobby_message_thread_handle != 0) {
         cancel_thread_if_running((void *)lobby_message_thread_handle);
-        deactivate_entry_by_key((u32)((void *)lobby_message_thread_handle));
+        deactivate_entry_by_key((uaddr)((void *)lobby_message_thread_handle));
         lobby_message_thread_handle = 0;
     }
     NetUnregisterTimer((void *)update_exi_status);
@@ -156,7 +156,7 @@ void dispatch_received_ethernet_frame(EthernetReceiveFilter *filter, void *a, vo
             TLobby__sub_804089A8(0, 1, 0, a);
             break;
         case 2:
-            release_entry_by_id((u32)a);
+            release_entry_by_id((uaddr)a);
             break;
         }
         return;
@@ -168,7 +168,7 @@ void dispatch_received_ethernet_frame(EthernetReceiveFilter *filter, void *a, vo
                 TLobby__sub_804089A8(0, 1, (u8 *)b - 4, a);
                 break;
             case 2:
-                post_message(mq + 0xA0, (s32)a, (s32)((u8 *)b - 4), 1);
+                post_message(mq + 0xA0, (saddr)a, (saddr)((u8 *)b - 4), 1);
                 break;
             }
             return;
@@ -182,7 +182,7 @@ void dispatch_received_ethernet_frame(EthernetReceiveFilter *filter, void *a, vo
                     TLobby__sub_804089A8(0, 1, (u8 *)b - 4, a);
                     break;
                 case 2:
-                    post_message(mq + 0xA0, (s32)a, (s32)((u8 *)b - 4), 1);
+                    post_message(mq + 0xA0, (saddr)a, (saddr)((u8 *)b - 4), 1);
                     break;
                 }
                 return;
@@ -193,7 +193,7 @@ void dispatch_received_ethernet_frame(EthernetReceiveFilter *filter, void *a, vo
             TLobby__sub_804089A8(0, 1, 0, a);
             break;
         case 2:
-            release_entry_by_id((u32)a);
+            release_entry_by_id((uaddr)a);
             break;
         }
         return;
@@ -204,7 +204,7 @@ void dispatch_received_ethernet_frame(EthernetReceiveFilter *filter, void *a, vo
             TLobby__sub_804089A8(0, 1, 0, a);
             break;
         case 2:
-            release_entry_by_id((u32)a);
+            release_entry_by_id((uaddr)a);
             break;
         }
         return;
@@ -214,7 +214,7 @@ void dispatch_received_ethernet_frame(EthernetReceiveFilter *filter, void *a, vo
         TLobby__sub_804089A8(0, 1, (u8 *)b - 4, a);
         break;
     case 2:
-        post_message(mq + 0xA0, (s32)a, (s32)((u8 *)b - 4), 1);
+        post_message(mq + 0xA0, (saddr)a, (saddr)((u8 *)b - 4), 1);
         break;
     }
 }
@@ -257,7 +257,7 @@ void TLobby__sub_80426190(EthernetReceiveFilter *o) {
     }
     if (n > 0) {
         TLobby__sub_8042BA48(o->filter_types, n);
-        TLobby__sub_8042B58C((u32)TLobby__sub_80426AAC, (s32)forward_to_channel);
+        TLobby__sub_8042B58C((uaddr)TLobby__sub_80426AAC, (saddr)forward_to_channel);
     }
 }
 
@@ -314,15 +314,15 @@ s32 TLobby__sub_80426440(void) {
 }
 
 s16 post_send_message(void *data, u16 len) {
-    s32 buf;
+    saddr buf;
     u8 *msg;
     u8 pad[8];
-    s32 src = (s32)data;
+    saddr src = (saddr)data;
     buf = TLobby__sub_8042558C((void *)len);
     if (buf == 0) {
         return -1;
     }
-    NetMemcpy((void *)buf, (void *)src, (int) (void *)len);
+    NetMemcpy((void *)buf, (void *)src, (saddr) (void *)len);
     msg = (u8 *)(TLobby__sub_804256B8(buf));
     if (msg != NULL) {
         *(s32 *)((s8 *)msg + 4) = (s32) len;
@@ -521,7 +521,7 @@ void forward_to_channel(void *frame, void *b) {
     }
 }
 
-s32 TLobby__sub_80426AAC(u16 key, s32 len) {
+s32 TLobby__sub_80426AAC(u16 key, saddr len) {
     EthernetReceiveFilter *o = &lobby_net_channel_table.filter;
     s32 i;
     s32 ret = 0;

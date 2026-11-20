@@ -46,7 +46,7 @@ static const f32 com_card_choice_list_size[2] = {405.0f, 144.0f};
 static const f32 com_card_entry_list_size[2] = {405.0f, 144.0f};
 static const f32 com_card_mode4_message_size[2] = {206.0f, 122.0f};
 static const f32 com_card_message_size[2] = {206.0f, 82.0f};
-static const s32 com_card_help_message_ids[] = {0x47, 0x48, 0x49, 0x4A, 0x4B, 0xF9, 0};
+static const saddr com_card_help_message_ids[] = {0x47, 0x48, 0x49, 0x4A, 0x4B, 0xF9, 0};
 
 struct Ent_80272034 { u16 a; u16 b; u8 rest[0x1c]; };
 
@@ -74,12 +74,12 @@ void apply_selection__17TWindowSubComCardFi(s32 arg0);
 void cleanup__17TWindowSubComCardFPv(void* p);
 void init_layout__17TWindowSubComCardFv(void);
 void send_cmd_133__17TWindowSubComCardFv(void);
-void send_command__17TWindowSubComCardFi(s32 arg0);
+void send_command__17TWindowSubComCardFi(saddr arg0);
 int send_find_user_self_tag__6TLobbyFl(void);
-s32 get_card_entry_data__17TWindowSubComCardFv(s32);
+saddr get_card_entry_data__17TWindowSubComCardFv(s32);
 int get_card_entry__17TWindowSubComCardFi(void);
 int get_selected_value__11TWindowMenuFv(void*);
-s32 get_window_layout_position(s32 a0 = 0);
+saddr get_window_layout_position(s32 a0 = 0);
 int fn_802754EC(void);
 int get_card_id__17TWindowSubComCardFv(void);
 int get_message_10__20TWindowSubStatusDispFl(void*);
@@ -152,14 +152,14 @@ void *find_entry_value_by_id__17TWindowSubComCardFl(s32, s32);
 void *get_player_by_client_id(s32 i);
 extern s32 local_client_id;
 s32 create_player_select_window__17TWindowSubComCardFv(void);
-void rebuild_com_card_list__17TWindowSubComCardFii(s32 arg0, s32 arg1);
+void rebuild_com_card_list__17TWindowSubComCardFii(s32 arg0, saddr arg1);
 s32 create__17TWindowSubComCardFv(void);
-s32 create_keyboard__17TWindowSubComCardFi(s32 arg0);
-s32 create_keyboard__17TWindowSubComCardFii(s32 arg0, s32 arg1);
-void update_display_value__17TWindowSubComCardFUiUiPv(u32 arg0, u32 arg1, s32 *arg2);
+s32 create_keyboard__17TWindowSubComCardFi(saddr arg0);
+s32 create_keyboard__17TWindowSubComCardFii(saddr arg0, s32 arg1);
+void update_display_value__17TWindowSubComCardFUiUiPv(uaddr arg0, uaddr arg1, s32 *arg2);
 void update_selection__17TWindowSubComCardFiii(s32 arg0, s32 arg1, s32 arg2);
 s32 __nw__7TObjectFUl(s32);
-s32 get_kbd_ptr__14TWindowComCardFv(s32);
+saddr get_kbd_ptr__14TWindowComCardFv(s32);
 s32 set_depth__11TWindowBaseFf(f32);
 
 struct ComCardRec_80272A98 { u32 id; char name[0xD0]; };
@@ -328,9 +328,9 @@ TWindowSubComCard::~TWindowSubComCard() {
 }
 void TWindowSubComCard::run_task() {
     saddr src;
-    s32 character_save_record;
+    saddr character_save_record;
     s32 temp_r29_7;
-    s32 temp_r29_8;
+    saddr temp_r29_8;
     saddr keyboard_mode;
     u32 temp_r30_2;
     s32 temp_r4;
@@ -1389,7 +1389,7 @@ s32 TWindowSubComCard__sub_80273004(void) {
 #pragma push
 #pragma opt_loop_invariants off
 extern "C" {
-void rebuild_com_card_list__17TWindowSubComCardFii(s32 arg0, s32 arg1) {
+void rebuild_com_card_list__17TWindowSubComCardFii(s32 arg0, saddr arg1) {
     s32 n;
     u32 cur;
     s32 i;
@@ -1666,7 +1666,7 @@ s32 create__17TWindowSubComCardFv(void) {
     return temp_r31;
 }
 
-s32 create_keyboard__17TWindowSubComCardFi(s32 parent) {
+s32 create_keyboard__17TWindowSubComCardFi(saddr parent) {
     saddr keyboard;
     s32 keyboard_mode;
 
@@ -1679,7 +1679,7 @@ s32 create_keyboard__17TWindowSubComCardFi(s32 parent) {
     return keyboard;
 }
 
-s32 create_keyboard__17TWindowSubComCardFii(s32 parent, s32 arg1) {
+s32 create_keyboard__17TWindowSubComCardFii(saddr parent, s32 arg1) {
     saddr keyboard;
 
     keyboard = (saddr)new TKeyBoardControl((TObject *)parent, 0xC6, 3, 4, local_client_id);
@@ -1690,7 +1690,7 @@ s32 create_keyboard__17TWindowSubComCardFii(s32 parent, s32 arg1) {
     return keyboard;
 }
 
-void update_display_value__17TWindowSubComCardFUiUiPv(u32 arg0, u32 arg1, s32 *arg2) {
+void update_display_value__17TWindowSubComCardFUiUiPv(uaddr arg0, uaddr arg1, s32 *arg2) {
     s32 temp_r31;
     s32 temp_r3;
 
@@ -1783,7 +1783,7 @@ void init_layout__17TWindowSubComCardFv(void) {
     card_slot = TWindowSubComCard::get_card_slot(0);
     TWindowSubComCard::create_card_list(get_window_layout_position(0x91), card_slot, 0x1C, 1);
 }
-void send_command__17TWindowSubComCardFi(s32 arg0) {
+void send_command__17TWindowSubComCardFi(saddr arg0) {
     TWindowComCard::create((void *)(get_window_layout_position(0x86)), (void *)arg0);
 }
 void apply_selection__17TWindowSubComCardFi(s32 arg0) {

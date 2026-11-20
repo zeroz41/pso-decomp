@@ -147,7 +147,7 @@ struct VObj_8021C968 : VBase_8021C968 {
     virtual s32 m4(s32, s32);
 };
 
-struct Rec_8021C968 { s32 item; s32 w[4]; s32 price; s32 w18; };
+struct Rec_8021C968 { saddr item; s32 w[4]; s32 price; s32 w18; };
 
 struct Win_8021C968 : VObj_8021C968 {
     u8 pad1c[0x24 - 0x1C];
@@ -258,7 +258,7 @@ void TShopEquipmentSellWindow::vfunc_11() {
 
 void TShopEquipmentSellWindow::build_sell_list() {
     Win_8021CF04 *self = (Win_8021CF04 *)this;
-    u32 ids[32];
+    uaddr ids[32];
     s32 n;
     s32 i;
     s32 v;

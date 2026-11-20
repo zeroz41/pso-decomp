@@ -32,7 +32,7 @@ struct Kbd_8025C804 {
 extern "C" {
 s32 is_chat_shortcut_set(int);
 s32 TWindowKeyBoardSoft__sub_803E67D4(void *, void *);
-s32 get_shared_text_buffer();
+saddr get_shared_text_buffer();
 
 int TWindowKeyBoardBase::is_alnum(u16 arg0) {
     if ((s32) arg0 < 0x30) {

@@ -8,8 +8,8 @@ extern "C" {
 s32 __destroy_arr(s32, s32 *, s32, s32);
 
 u8 *__ct__13TPlyJoinLobbyFRC13TPlyJoinLobby(u8 *arg0, u8 *arg1) {
-    u32 var_r30;
-    s32 var_r29;
+    uaddr var_r30;
+    saddr var_r29;
 
     var_r30 = (unsigned long) (arg0 + 0x10);
     var_r29 = (long) (arg1 + 0x10);

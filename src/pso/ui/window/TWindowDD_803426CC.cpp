@@ -17,7 +17,7 @@ s32 update_close_flag__9TWindowDDFPv(void *);
 s32 TWindowDD_is_id_in_range_5AC_5F9();
 void TWindowDD__sub_803429B0(u8 *arg0);
 void enter_state_16__9TWindowDDFPv(void *arg0);
-void update__9TWindowDDFi(s32 arg0);
+void update__9TWindowDDFi(saddr arg0);
 void update_state__9TWindowDDFPv(void *arg0);
 
 void enter_state_16__9TWindowDDFPv(void *window_dd) {
@@ -117,7 +117,7 @@ void TWindowDD__sub_803428C4(u8 *arg0) {
     }
 }
 
-void update__9TWindowDDFi(s32 arg0) {
+void update__9TWindowDDFi(saddr arg0) {
     TWindowDD__sub_80347C50();
     if (test_input_flag_4__9TWindowDDFv((void *)arg0) != 0) {
         play_sound__9TWindowDDFv();

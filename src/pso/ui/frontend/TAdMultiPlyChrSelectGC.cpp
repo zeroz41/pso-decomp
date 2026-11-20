@@ -48,7 +48,7 @@ struct Info_802DC024 {
     s32 count;
 };
 
-struct Sel_802DC118 { u8 pad[0x64]; u32 win; };
+struct Sel_802DC118 { u8 pad[0x64]; uaddr win; };
 
 extern "C" {
 s32 get_localized_text_entry(s32 arg0, s32 arg1);
@@ -414,7 +414,7 @@ extern "C" { extern char TAdMultiPlyChrSelectGC__class_name_string[]; }
 const char *lbl_805D3F68 = TAdMultiPlyChrSelectGC__class_name_string;
 extern "C" {
 extern u8 *TAdMultiPlyChrSelectGC__instance;
-u8 *get_or_create__22TAdMultiPlyChrSelectGCFii(s32 arg0, s32 arg1);
+u8 *get_or_create__22TAdMultiPlyChrSelectGCFii(saddr arg0, s32 arg1);
 extern const char *lbl_805D3F68;
 u8 *__ct__22TAdMultiPlyChrSelectGCFP7TObjectl(TAdMultiPlyChrSelectGC *arg0, u8 *arg1, s32 arg2);
 extern s32 multi_ply_chr_select_active_player;
@@ -446,7 +446,7 @@ s32 TAdMultiPlyChrSelectGC__sub_802DFFE8(s32 arg0) {
 
 int TAdMultiPlyChrSelectGC::get_instance() {  return TAdMultiPlyChrSelectGC__selected_slot; }
 
-u8 *get_or_create__22TAdMultiPlyChrSelectGCFii(s32 arg0, s32 arg1) {
+u8 *get_or_create__22TAdMultiPlyChrSelectGCFii(saddr arg0, s32 arg1) {
     u8 *ad_multi_ply_chr_select_gc;
     u8 *var_r0;
     if ((void *) TAdMultiPlyChrSelectGC__instance != NULL) {

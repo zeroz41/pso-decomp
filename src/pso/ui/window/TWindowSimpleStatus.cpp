@@ -379,8 +379,8 @@ void TWindowSimpleStatus::apply_random_shake() {
 
 void TWindowSubStatusDisp::update_hp_tp_level() {
     u8 *arg0 = (u8 *)this;
-    s32 temp_r31;
-    s32 temp_r31_2;
+    saddr temp_r31;
+    saddr temp_r31_2;
     temp_r31 = ((s32 (*)(void *, int))get_array_entry__11TWindowBaseFi)(arg0, 6);
     *(s32 *)((s8 *)temp_r31 + 0x2C) = ((TWindowSubStatusDisp *)arg0)->update_hp_entry();
     temp_r31_2 = ((s32 (*)(void *, int))get_array_entry__11TWindowBaseFi)(arg0, 7);
@@ -558,7 +558,7 @@ s32 draw_default_entry__9TWindowDDFl();
 s32 draw_visible_window_entries(void *, void *, int);
 extern u8 __vt__19TWindowSimpleStatus[];
 SS_80270668 *TWindowSimpleStatus__ct(SS_80270668 *arg0, void *arg1, s32 arg2, void *arg3);
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 s32 update_hp_tp_level__20TWindowSubStatusDispFv();
 
 void render__19TWindowSimpleStatusFv(s32 arg0) {

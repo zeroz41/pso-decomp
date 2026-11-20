@@ -95,7 +95,7 @@ struct Radar_801FADF0 {
     u8 pad0[0x90];
     s32 f90;
     u8 pad94[0x184 - 0x94];
-    u32 f184;
+    uaddr f184;
 };
 
 struct Dot_801F9B8C { f32 x, z, w; s16 c; s16 type; s32 color; };
@@ -193,7 +193,7 @@ struct Pad_801FAF24 {
 
 struct Radar_801FAF24 {
     u8 pad0[0x184];
-    u32 f184;
+    uaddr f184;
     f32 f188;
     f32 f18C;
     f32 f190;
@@ -244,7 +244,7 @@ void *TRaderMapCore__instance;
 s32 TRaderMapCore__render_mode;
 uaddr TRaderMapCore__frame_model_resource;
 uaddr TRaderMapCore__data_805D5F4C;
-int TRaderMapCore__map_heap;
+saddr TRaderMapCore__map_heap;
 
 void TCameraCtrl__sub_80068EF0(void);
 extern RadarSpriteFrame_801FA6CC lbl_804C87E4[];
@@ -256,7 +256,7 @@ extern saddr camera_ctrl_instance;
 struct TRaderMapCoreMapViewState { s32 value; u8 remaining[0x74]; };
 extern TRaderMapCoreMapViewState TRaderMapCore__map_view_state;
 extern RadarViewRect_801FA9D8 radar_map_view_rect_table[3];
-void begin_map_view__13TRaderMapCoreFii(s32 arg0, s32 arg1);
+void begin_map_view__13TRaderMapCoreFii(saddr arg0, s32 arg1);
 extern s16 *TRaderMapCore__floor_discovery_table[];
 s32 init_radar_floor_flags(s32 floor, RadarInitMap_801F9474 *map);
 void* __ct__5THeapFUli(void*, u32, s32);
@@ -420,7 +420,7 @@ extern "C" {
 void copy_name(s32 arg0);
 s32 replace_file_extension__6TLobbyFPvPvPv(char *arg0, char *arg1, char *arg2);
 }
-s32 get_floor_scene_table(s32 arg0);
+saddr get_floor_scene_table(s32 arg0);
 extern "C" {
 void bind_gvm_texture_list(char *, u8 *);
 }
@@ -604,7 +604,7 @@ TRaderMapCore::~TRaderMapCore() {
 }
 
 void TRaderMapCore::run_task() {
-    s32 player;
+    saddr player;
     s32 temp_r4;
     s32 var_r31;
     if ((uaddr) TRaderMapCore__floor_map_resource != 0U) {
@@ -867,7 +867,7 @@ void TRaderMapCore::render_region_records(void * _w1) {
 
 #pragma push
 #pragma opt_common_subs off
-void begin_map_view__13TRaderMapCoreFii(s32 arg0, s32 arg1) {
+void begin_map_view__13TRaderMapCoreFii(saddr arg0, s32 arg1) {
     RadarViewportParameters viewport;
     u8 *temp_r5;
     TCameraCtrl::restore_full_screen_view();

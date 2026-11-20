@@ -21,7 +21,7 @@ struct Name_80307D00 { char s[0x18]; };
 
 struct Cfg_80307D00 {
     u8 pad0[0x24];
-    u32 win;
+    uaddr win;
     Name_80307D00 names[4];
 };
 

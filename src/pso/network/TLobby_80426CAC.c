@@ -58,7 +58,7 @@ extern u8 pppoe_message_queue[];
 
 extern u8 lbl_805CF240[];
 
-PppoeSlot *find_pppoe_slot_by_session_id(s32 arg0, u16 arg1);
+PppoeSlot *find_pppoe_slot_by_session_id(saddr arg0, u16 arg1);
 s16 TLobby__sub_8042787C(PppoeSlot *e, u8 *p, u16 len);
 s16 TLobby__sub_80426D80(PppoeSlot *e);
 s32 TLobby__sub_80426574(s32);
@@ -572,7 +572,7 @@ s16 handle_pppoe_discovery_frame(s32 frame, u16 frame_len) {
             break;
         }
         p->timeout = 0;
-        skip_pppoe_tags((s32)p, sub, id);
+        skip_pppoe_tags((saddr)p, sub, id);
         if (p->state == 4) {
             p->state = 5;
             ret = TLobby__sub_80426D80(p);
@@ -756,7 +756,7 @@ done:
     return ret;
 }
 
-PppoeSlot *find_pppoe_slot_by_session_id(s32 arg0, u16 arg1) {
+PppoeSlot *find_pppoe_slot_by_session_id(saddr arg0, u16 arg1) {
     u16 id;
     PppoeSlot *ret;
     s16 i;
@@ -949,7 +949,7 @@ s16 TLobby__sub_804281DC(void *self) {
     PppoeSlot *p;
     PppoeSlot *e;
     s32 now;
-    s32 stamp;
+    saddr stamp;
     s16 i;
     s16 slot;
     s16 set;
@@ -979,7 +979,7 @@ s16 TLobby__sub_804281DC(void *self) {
     }
     *(Unk804271E8Blk *)((u8 *)e + 0x3A) = *(Unk804271E8Blk *)self;
     e->m_4 = set;
-    stamp = (s32)e;
+    stamp = (saddr)e;
     get_time_ms(&now);
     NetMemcpy((u8 *)e + 0x32, &stamp, 4);
     NetMemcpy((u8 *)e + 0x36, &now, 4);

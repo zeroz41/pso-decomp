@@ -45,7 +45,7 @@ s32 is_player_input_active(s32);
 s32 fn_80255A38(s32);
 s32 TWindowSubEquip__sub_80263AF4(void *, s32);
 extern u8 controller_input_state[];
-s32 __ct__15TWindowHelpItemFPvUs(void *, void *, s32);
+saddr __ct__15TWindowHelpItemFPvUs(void *, void *, s32);
 s32 create_equip_list_window(void *, const NJS_POINT2 *, s32);
 }
 

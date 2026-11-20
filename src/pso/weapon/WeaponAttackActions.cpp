@@ -274,7 +274,7 @@ struct Self_8011EDFC {
 };
 
 s32 TObjectV8047c128_subtract_hp(u8 *arg0, s16 arg1);
-s32 get_entity_id(void *);
+saddr get_entity_id(void *);
 s32 get_mode__11TCameraCtrlFPv(void *);
 u8 * csnVector(void *, void *, s32);
 s32 set_action_type__10TObjPlayerFs(int, int);
@@ -302,12 +302,12 @@ void TItemWeapon::set_weapon_category_flags() {
 
 void TItemWeapon::drain_owner_hp_fraction(f32 farg0) {
     if (*(u32 *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1] != 0U) {
-        TObjectV8047c128_subtract_hp((u8 *)(*(u32 *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1]), (farg0 * (f32) ((TItemProShield *)(*(u32 *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1]))->get_field_2b8()));
+        TObjectV8047c128_subtract_hp((u8 *)(*(uaddr *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1]), (farg0 * (f32) ((TItemProShield *)(*(uaddr *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1]))->get_field_2b8()));
     }
 }
 
 s32 TItemWeapon::is_mode_two_and_ready() {
-    if ((((TObjPlayer *)(*(s32 *)&owner))->is_status_subsystem_ready() == 2) &&
+    if ((((TObjPlayer *)(*(saddr *)&owner))->is_status_subsystem_ready() == 2) &&
         (is_identified() == 1)) {
         return 1;
     }
@@ -333,7 +333,7 @@ void TItemWeapon::restore_action_type() {
 }
 
 void TItemWeapon::remap_extra_attack_type() {
-    if ((this->test_weapon_flags(0x20) != 0U) && (TObjPlayer__sub_801D2F4C((s16 *)(*(s32 *)((s8 *)this + 0xF0) + 0x7CC)) == 2)) {
+    if ((this->test_weapon_flags(0x20) != 0U) && (TObjPlayer__sub_801D2F4C((s16 *)(*(saddr *)((s8 *)this + 0xF0) + 0x7CC)) == 2)) {
         if (this->test_weapon_flags(0x100000) != 0U) {
             set_action_type__10TObjPlayerFs((int) (*(s32 *)((s8 *)this + 0xF0) + 0x7CC), 0);
         } else {
@@ -345,7 +345,7 @@ void TItemWeapon::remap_extra_attack_type() {
 
 u8 *TItemWeapon::trace_from_owner(u8 *point) {
     Stack_8011E56C stack;
-    VecCopy((Vec *)(&stack.sp8), (const Vec *)(*(s32 *)((s8 *)((u8 *)this) + 0xF0) + 0x2FC));
+    VecCopy((Vec *)(&stack.sp8), (const Vec *)(*(saddr *)((s8 *)((u8 *)this) + 0xF0) + 0x2FC));
     stack.spC = *(f32 *)((s8 *)point + 4);
     return csnVector(&stack.sp8, point, 0x8100);
 }
@@ -494,7 +494,7 @@ void TUnk_804F1320::spawn_pg_effect(void *arg1, s32 item, f32 farg0) {
     prm.pad_28 = farg0;
     prm.pad_34 = (s32)this->second_model;
     prm.pad_38 = this->texlist;
-    if (TObjPlayer::is_locally_controlled((void *)(*(s32 *)(((u8 *)this) + 0xF0))) != 0) {
+    if (TObjPlayer::is_locally_controlled((void *)(*(saddr *)(((u8 *)this) + 0xF0))) != 0) {
         TItemEffPG::create((void *)tl_05, &prm);
     } else {
         TItemEffPG::create((void *)tl_05, &prm, (void *)item);
@@ -507,7 +507,7 @@ void TItemWeapon::fire_shot_at_target(void *origin, void *model, s32 angle) {
     Atk_8011EB84 atk;
     f32 *scale;
     s32 state;
-    s32 item;
+    saddr item;
     u8 *ph;
     u8 *hit;
     s32 off;
@@ -551,11 +551,11 @@ void TItemWeapon::fire_shot_at_target(void *origin, void *model, s32 angle) {
 void TItemWeapon::fill_status_info(void *arg1) {
     ((TItemWeapon *)this)->remap_extra_attack_type();
     *(s16 *)((s8 *)arg1 + 0x14) = ((s16 (*)(s32))get_entity_id)(*(s32 *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1]);
-    *(s16 *)((s8 *)arg1 + 0x16) = ((TObjBase *)(*(s32 *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1]))->get_room();
+    *(s16 *)((s8 *)arg1 + 0x16) = ((TObjBase *)(*(saddr *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1]))->get_room();
     *(s32 *)((s8 *)arg1 + 0x18) = ((TItem *)this)->get_item_id();
-    *(f32 *)((s8 *)arg1 + 0x1C) = get_attack_accuracy_scale((s16 *)(*(s32 *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1] + 0x7CC));
-    *(s32 *)((s8 *)arg1 + 0x24) = (s32) ((TObjPlayer *)(*(s32 *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1]))->is_status_subsystem_ready();
-    *(f32 *)((s8 *)arg1 + 0x20) = ((TObjPlayer *)(*(s32 *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1]))->query_extended_state();
+    *(f32 *)((s8 *)arg1 + 0x1C) = get_attack_accuracy_scale((s16 *)(*(saddr *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1] + 0x7CC));
+    *(s32 *)((s8 *)arg1 + 0x24) = (s32) ((TObjPlayer *)(*(saddr *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1]))->is_status_subsystem_ready();
+    *(f32 *)((s8 *)arg1 + 0x20) = ((TObjPlayer *)(*(saddr *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1]))->query_extended_state();
     ((TItemWeapon *)this)->restore_action_type();
 }
 
@@ -680,7 +680,7 @@ s32 TItemWeapon::launch_shot(u8 *arg1, s32 i, s32 arg3, s32 arg4) {
                 fallback.y = lbl_805DAC98;
                 fallback.x = lbl_805DAC98;
                 fallback.z = *(f32 *)((s8 *)weapon_range_record + 0);
-                rotate_matrix_y(0, (void *) (*(s32 *)((s8 *)this->owner + 0x60) + arg3));
+                rotate_matrix_y(0, (void *) (*(saddr *)((s8 *)this->owner + 0x60) + arg3));
                 transform_point_by_current_matrix(&fallback.x, &endpoint.x);
                 pop_matrix();
                 vec3_add_to(&endpoint.x, arg1);
@@ -814,7 +814,7 @@ void TItemWeapon::update_active_game_effect() {
 
 // ---- pso/unk/text_8011F63C
 s32 TItemWeapon::get_attack_stage() {
-    u32 temp_r3;
+    uaddr temp_r3;
     temp_r3 = *(u32 *)&this->owner;
     if (temp_r3 != 0U) {
         if (((TObjPlayer *)temp_r3)->test_action_mask(0x20) != 0) {
@@ -1526,7 +1526,7 @@ void TItemWeapon::on_equip() {
             ((TObjPlayer *)(*(void **)((s8 *)arg0 + 0xF0)))->set_action_provider_variant(arg0->v41());
         }
         ((TItemWeapon *)arg0)->clear_weapon_flags(0x100);
-        if (((TItem *)arg0)->is_hidden() != 0 || ((TObjChara *)*(s32 *)((s8 *)arg0 + 0xF0))->is_in_fixed_pose() != 0) {
+        if (((TItem *)arg0)->is_hidden() != 0 || ((TObjChara *)*(saddr *)((s8 *)arg0 + 0xF0))->is_in_fixed_pose() != 0) {
             ((TItemWeapon *)arg0)->set_weapon_flags(8);
         } else {
             TItemAttacker::spawn_item_timer((TObject *)arg0, (ItemTimerCallback)set_flag_8_if_check_passes__10TObjPlayerFv, 0x14);

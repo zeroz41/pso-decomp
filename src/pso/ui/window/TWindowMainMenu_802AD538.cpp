@@ -112,7 +112,7 @@ s32 apply_choice__20TWindowChoiceSettingFllll(void *, int, int, int);
 f32 TWindowSubComCard__sub_80244784(TWindowSubComCard *);
 s32 is_window_reveal_complete__11TWindowBaseFv();
 s32 sub_80246948__11TWindowBaseFv();
-s32 fn_8026CB68();
+saddr fn_8026CB68();
 void draw_item_labels__15TWindowMainMenuFv(Item_802AD538 *p, Win_802AD538 *w);
 void park_selection__15TWindowMainMenuFPv(Menu_802AD980 *arg0);
 void copy_color_entry__15TWindowMainMenuFPvPv(Col_802ADA48 *arg0, Col_802ADA48 *arg1);
@@ -506,7 +506,7 @@ void TWindowMainMenu::update_scaled_position() {
 }
 
 void TWindowMainMenu::draw_entries_reversed(u8 *arg1) {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     s32 var_r31;
     u8 *var_r30;
     var_r30 = (u8 *)(arg0 + 0x10C);

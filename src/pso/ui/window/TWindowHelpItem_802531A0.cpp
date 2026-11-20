@@ -84,7 +84,7 @@ void TWindowHelpItem__sub_80253268(u8 *window_base) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80253268, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_80253268, spC) == 0x4);
     Stack_80253268 stack;
-    s32 temp_r3;
+    saddr temp_r3;
     u8 *temp_r31;
     u8 *temp_r31_2;
     ((TWindowSubStatusDisp *)(&stack.sp8))->clear_fields();

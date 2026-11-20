@@ -12,8 +12,8 @@
 #pragma readonly_strings on
 
 const char *TObjNpcNFM01__name = "TObjNpcNFM01";
-u32 TObjNpcNFM01__model_object;
-u32 TObjNpcNFM01__texture_handle;
+uaddr TObjNpcNFM01__model_object;
+uaddr TObjNpcNFM01__texture_handle;
 
 s32 __vt__12TObjNpcNFM01[];
 

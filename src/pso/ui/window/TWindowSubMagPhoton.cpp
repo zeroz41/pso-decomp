@@ -94,11 +94,11 @@ struct Win_8027C4C8 { u8 pad[0x62]; s16 f62; };
 extern "C" {
 s32 draw_default_entry__9TWindowDDFl();
 s32 draw_visible_window_entries(void *, void *, int);
-void render__19TWindowSubMagPhotonFv(s32 arg0);
+void render__19TWindowSubMagPhotonFv(saddr arg0);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 init_photon_blast_entries__19TWindowSubMagPhotonFv(void *, int);
 extern s32 __vt__19TWindowSubMagPhoton[];
-u8 *TWindowSubMagPhoton__ct(TWindowSubMagPhoton *arg0, s32 arg1, s32 arg2, s16 arg3);
+u8 *TWindowSubMagPhoton__ct(TWindowSubMagPhoton *arg0, saddr arg1, s32 arg2, s16 arg3);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 apply_choice__20TWindowChoiceSettingFllll(void *, int, int, int);
 void draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif(void *, void *, int, f32);
@@ -153,7 +153,7 @@ s32 TWindowSubMagPhoton::draw_cursor(int arg1) {
     ((void (*)(f32, void *, void *, int))draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif)(0.8f, (void *)arg1, sp8, ((Win_8027C4C8 *)this)->f62);
 }
 
-void render__19TWindowSubMagPhotonFv(s32 arg0) {
+void render__19TWindowSubMagPhotonFv(saddr arg0) {
     saddr temp_r3;
     temp_r3 = draw_default_entry__9TWindowDDFl();
     ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
@@ -183,7 +183,7 @@ void TWindowSubMagPhoton::run_task() {
 
 TWindowSubMagPhoton::~TWindowSubMagPhoton() {}
 
-u8 *TWindowSubMagPhoton__ct(TWindowSubMagPhoton *window_sub_mag_photon, s32 arg1, s32 arg2, s16 arg3) {
+u8 *TWindowSubMagPhoton__ct(TWindowSubMagPhoton *window_sub_mag_photon, saddr arg1, s32 arg2, s16 arg3) {
     s16 temp_r4;
     u8 *__ct__11TWindowBaseFPUcsPUc(void *, u8 *, void *, u8 *);
     __ct__11TWindowBaseFPUcsPUc((void *)window_sub_mag_photon, (u8 *)&TWindowSubMagPhoton__layout_descriptor, (void *)arg3, (u8 *)arg1);

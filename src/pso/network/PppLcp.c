@@ -38,7 +38,7 @@ s32 wait_for_connection(Conn_804004DC *c) {
     c->abort = 0;
     while (c->state != 5) {
         if (is_timed_out() != 0 || c->abort != 0 || *sub == 4) {
-            update_connection_state((int)c);
+            update_connection_state((saddr)c);
             c->abort = 0;
             return -1;
         }
@@ -324,7 +324,7 @@ extern s32 TLobby__sub_80400DA8(Conn_804004DC *fsm, Msg_803FA664 *msg, s32 src) 
                 last = hdr[0];
             }
         }
-        r = parse_lcp_option((s32)&src, (u8 *)opts, (u8 *)local, hdr, 0);
+        r = parse_lcp_option((saddr)&src, (u8 *)opts, (u8 *)local, hdr, 0);
         if (r == -1) {
             return -1;
         }
@@ -358,7 +358,7 @@ inline s32 read_80400F1C(u32 *p) {
 inline u32 first2_80400F1C(Obj_803FF858 *fsm) {
     LcpOpts *o = (LcpOpts *)fsm->p30;
     u32 t = 0;
-    t = (u32)init_net_buffer_entry(0);
+    t = (uaddr)init_net_buffer_entry(0);
     if (t == 0) {
         return 0;
     }
@@ -432,7 +432,7 @@ s16 TLobby__sub_804010A0(Obj_803FF858 *fsm, Msg_803FA664 *msg, u32 src) {
         if (remaining < 0) {
             return -1;
         }
-        r = parse_lcp_option((s32)&src, (u8 *)opts, (u8 *)&opts->remote, hdr, 1);
+        r = parse_lcp_option((saddr)&src, (u8 *)opts, (u8 *)&opts->remote, hdr, 1);
         if (r == -1) {
             return -1;
         }
@@ -598,7 +598,7 @@ s32 TLobby__sub_8040172C(Conn_804004DC *c) {
     LcpOpts *s;
     s = c->opts;
     obj = 0;
-    obj = (u32)init_net_buffer_entry(0);
+    obj = (uaddr)init_net_buffer_entry(0);
     if (obj == 0) {
         return 0;
     }

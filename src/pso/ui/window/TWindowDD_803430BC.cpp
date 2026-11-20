@@ -251,7 +251,7 @@ s32 check_all_ready__9TWindowDDFl(s32);
 s32 is_room_free_of_active_enemies(s32 floor, s16 room);
 void init_item_slots__9TWindowDDFv(void *);
 void *TWindowDD__sub_80340F70(void);
-s32 TWindowDD__sub_80342384(s32 arg0, s32 arg1);
+saddr TWindowDD__sub_80342384(s32 arg0, s32 arg1);
 void set_default_positions__9TWindowDDFiPv(void *, s32);
 void init_layout__9TWindowDDFiPv(void *, s32);
 s32 TWindowDD__sub_8034146C(NJS_POINT2 *arg0, NJS_POINT2 *arg1, s32 arg2, s32 arg3, f32 farg0);

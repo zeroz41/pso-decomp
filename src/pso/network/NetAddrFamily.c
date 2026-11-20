@@ -99,7 +99,7 @@ s16 TLobby__sub_8040DA54(u8 *arg0, u8 *arg1) {
     case 4:
         return AT_IP4_IsReachable(a->ipv4, b->ipv4);
     case 6:
-        return TLobby__sub_80413230(a->address, (s32)b->address);
+        return TLobby__sub_80413230(a->address, (saddr)b->address);
     default:
     case 0:
         return -2;

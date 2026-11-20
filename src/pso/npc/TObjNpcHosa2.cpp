@@ -17,13 +17,13 @@ BmlResourceDescriptor npc_hosa2_resource_descriptor = { "bm_npc_hosa2.bml", bm_n
 
 const char *bm_npc_hosa2_motion_names[1] = { NULL };
 const char *TObjNpcHosa2__name = "TObjNpcHosa2";
-u32 TObjNpcHosa2__shared_model_resource;
+uaddr TObjNpcHosa2__shared_model_resource;
 }
 
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 
-extern u32 TObjNpcHosa2__shared_model_resource;
+extern uaddr TObjNpcHosa2__shared_model_resource;
 s32 get_bml_texlist(int, int);
 s32 get_bml_model(int, int);
 extern s32 __vt__12TObjNpcHosa2[];
@@ -38,7 +38,7 @@ void TObjNpcHosa2::close_dialog_window() {
 }
 
 void TObjNpcHosa2::load_shared_resource() {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 var_r0;
     temp_r3 = (int)::operator new(0x440);
     var_r0 = temp_r3;

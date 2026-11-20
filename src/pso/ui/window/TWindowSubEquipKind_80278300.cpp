@@ -26,7 +26,7 @@ typedef struct {
 
 typedef struct {
     u8 pad00[0x80];
-    s32 f80;
+    saddr f80;
     u8 pad84[0x88 - 0x84];
     s16 f88;
     s16 f8A;

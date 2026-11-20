@@ -16,7 +16,7 @@ NetFragPacket *TLobby__sub_8041955C(NetworkAddress *src, s32 ident, s32 ttl);
 s32 TLobby__sub_80419470(NetworkAddress *src, u32 ident);
 s32 TLobby__sub_80419374(NetFragPacket *pkt);
 s32 TLobby__sub_8041979C(void);
-s32 reassemble_fragment_packet(NetFragPacket *node, u8 *self, u16 hdr_len, u16 frag_off, u16 frag_len, u8 more, s16 iface);
+saddr reassemble_fragment_packet(NetFragPacket *node, u8 *self, u16 hdr_len, u16 frag_off, u16 frag_len, u8 more, s16 iface);
 
 /* Inline the helpers below; this applies to the rest of the file. */
 #pragma dont_inline off
@@ -155,7 +155,7 @@ inline s16 frag_chain_contig_check(NetFragPacket *node, s16 *pn, NetFragPool *g)
    packet once every fragment is there, else 0.  f is the second fragment where the search for the new one's place
    starts, then walks the fragments to copy them into the packet.  pkt holds the chain's last fragment until the
    packet is allocated. */
-s32 reassemble_fragment_packet(NetFragPacket *node, u8 *self, u16 hdr_len, u16 frag_off, u16 frag_len, u8 more, s16 iface) {
+saddr reassemble_fragment_packet(NetFragPacket *node, u8 *self, u16 hdr_len, u16 frag_off, u16 frag_len, u8 more, s16 iface) {
     NetBufferRef src;
     s16 i;
     NetFragment *f;
@@ -192,7 +192,7 @@ s32 reassemble_fragment_packet(NetFragPacket *node, u8 *self, u16 hdr_len, u16 f
     }
     frag->offset = frag_off;
     frag->len = frag_len;
-    set_value_and_enable(&src, (s32)self);
+    set_value_and_enable(&src, (saddr)self);
     if (frag_off == 0) {
         first_len = (total = frag_len + hdr_len);
         if (TLobby__sub_80415954(&frag->data, first_len, 2) < 0) {
@@ -308,7 +308,7 @@ s32 reassemble_fragment_packet(NetFragPacket *node, u8 *self, u16 hdr_len, u16 f
         i++;
         cur->next = 0;
     }
-    return (s32)pkt;
+    return (saddr)pkt;
 }
 
 /* Once a second: datagrams whose time ran out are dropped (after an ICMP time-exceeded message). */
@@ -616,14 +616,14 @@ u16 ones_complement_sum(p, n)
     tmp[0] = 0;
     odd = 0;
     sum = 0;
-    if ((u32)p & 1) {
+    if ((uaddr)p & 1) {
         ((u8*)tmp)[1] = *p;
         p++;
         n--;
         odd = 1;
     }
     while (n > 0) {
-        if ((((u32)p & 0xF) == 0) && (n >= 8)) {
+        if ((((uaddr)p & 0xF) == 0) && (n >= 8)) {
             break;
         }
         sum += *(u16*)p;

@@ -17,7 +17,7 @@ const char *bm_n_hakase_i_body_motion_names[1] = { NULL };
 __declspec(section ".data") const char *bm_n_hakase_i_body_model_names[2] = { "n_hakase_i_body.nj", NULL };
 BmlResourceDescriptor bm_n_hakase_i_body_resource_descriptor = { "bm_n_hakase_i_body.bml", bm_n_hakase_i_body_model_names, bm_n_hakase_i_body_motion_names, 1, 0 };
 const char *TObjNpcExpertBase__name = "TObjNpcExpertBase";
-u32 TObjNpcExpertBase__shared_resource;
+uaddr TObjNpcExpertBase__shared_resource;
 }
 
 extern "C" {
@@ -33,7 +33,7 @@ void TObjNpcExpertBase::free_shared_data() {
 }
 
 void TObjNpcExpertBase::load_shared_resource() {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 var_r0;
     temp_r3 = (int)::operator new(0x440);
     var_r0 = temp_r3;

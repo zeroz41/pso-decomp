@@ -61,7 +61,7 @@ struct Stack_8021D948
 
 struct W_8021D6D8 { u8 pad[0x3a4]; void *cb0; void *cb1; };
 
-struct S_8021D6D8 { u8 pad[0x24]; s32 f24; };
+struct S_8021D6D8 { u8 pad[0x24]; saddr f24; };
 
 struct W_8021D750 { u8 pad[0x190]; void *cb0; };
 
@@ -81,7 +81,7 @@ struct Seq_8021D7B8 { u8 pad[0x24]; void *f24; u8 pad28[4]; void *win; };
 
 extern "C" {
 unsigned short get_child_field1c__13TShopSequenceFv(void *);
-s32 set_service_counter_camera(void *, int);
+saddr set_service_counter_camera(void *, int);
 s32 get_window_layout_position(int, f32);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
 s32 TShopEquipmentSequence__slot_active_flags[4];

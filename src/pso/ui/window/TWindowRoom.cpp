@@ -34,7 +34,7 @@ WindowDescriptor room_window_base_parameters = {
 
 extern "C" {
 void refresh_status_display__9TWindowDDFv(void *);
-s32 get_window_layout_position(int);
+saddr get_window_layout_position(int);
 const char *TWindowRoom__class_name = "TWindowRoom";
 s32 draw_visible_window_entries(s32, s32, s32);
 s32 draw_window_tab(s32, s32, s32, f32);

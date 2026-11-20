@@ -62,7 +62,7 @@ s32 update_field28__15TWindowCtrlMainFv(u32 a0 = 0, s32 a1 = 0);
 s32 TWindowCtrl__sub_8024B098(void *, void *);
 struct WindowCtrlMainCallbackDesc { s32 value; u8 remaining[0x8]; };
 extern WindowCtrlMainCallbackDesc window_ctrl_main_callback_desc;
-void TWindowCtrl__sub_8024A228(s32 arg0);
+void TWindowCtrl__sub_8024A228(saddr arg0);
 s32 call_window_method__11TWindowCtrlFPvi(void *, void *);
 struct WindowCtrlDefaultCallArgs { s32 value; u8 remaining[0x8]; };
 extern WindowCtrlDefaultCallArgs window_ctrl_default_call_args;
@@ -109,7 +109,7 @@ void TWindowCtrl::set_field22() {
     }
 }
 
-void TWindowCtrl__sub_8024A228(s32 arg0) {
+void TWindowCtrl__sub_8024A228(saddr arg0) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8024A228, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_8024A228, spC) == 0x4);
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8024A228, sp10) == 0x8);

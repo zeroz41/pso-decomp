@@ -58,7 +58,7 @@ s32 is_action_channel_available__10TObjPlayerFii(s32 arg0, s32 arg1);
 s32 TObjPlayer__sub_80354D5C(s32 arg0);
 s32 TObjPlayer__sub_80354C7C(s32);
 extern u8 controller_input_state[];
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 extern u32 __vt__20TWindowActionPalette[6];
 f32 TWindowSubComCard__sub_80244784(TWindowSubComCard *);
 s32 TWindowSubComCard__sub_802452DC(int);

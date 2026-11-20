@@ -135,7 +135,7 @@ LAYOUT_ASSERT(BurstModeOffset, offsetof(RecoilWeaponView, recoilPhase)==0x204);
 
 void TUnk_804A2164::emit_marker_effects() {
     WeaponVector sp8;
-    s32 temp_r31;
+    saddr temp_r31;
     s32 var_r30;
     if ((s32) ((RecoilWeaponView *)this)->projectileVisible == 1) {
         TItemAttacker::spawn_item_timer((RecoilWeaponView *)this, (ItemTimerCallback)drill_launcher_return_timer, 0x1E);

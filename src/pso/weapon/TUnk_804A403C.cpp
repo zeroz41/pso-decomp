@@ -89,7 +89,7 @@ extern "C" {
 void clear_rico_ring_flag__10TObjPlayerFv(u32);
 
 void TUnk_804A403C::emit_marker_effects() {
-    s32 temp_r31;
+    saddr temp_r31;
     s32 var_r30;
     u32 temp_r3;
     u8 *arg0 = (u8 *)this;
@@ -176,7 +176,7 @@ TUnk_804A4020::~TUnk_804A4020() {
 }
 
 void TObjPlayer::clear_rico_ring_flag() {
-    u32 arg0 = (u32)this;
+    uaddr arg0 = (u32)this;
     if (arg0 != 0U) {
         ((FlagWord *)(arg0 + 0x1FC))->clear(2);
     }

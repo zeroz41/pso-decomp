@@ -73,7 +73,7 @@ s32 bank_has_free_row(s32 slot);
 extern "C" {
 u32 get_entity_id(s32);
 u8 *create_yes_no_window(s32 position, u16 client, u32 arg2, u32 arg3);
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 s32 get_item_record__23TShopJudgmentItemWindowFPv(s32, s32, s32);
 s32 store_item_in_bank(u8 *item, s32 arg1, s32 slot);
 void copy_bank_to_card_window(s32 slot);
@@ -142,7 +142,7 @@ void TShopKeepItemWindow::vfunc_11() {
 }
 
 s32 TShopKeepItemWindow::rebuild_item_list() {
-    u32 buf[30];
+    uaddr buf[30];
     s32 count;
     s32 i;
     s32 cur;

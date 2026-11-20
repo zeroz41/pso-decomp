@@ -575,7 +575,7 @@ struct Ctl_801A6510 {
 };
 
 extern "C" {
-s32 TKeyBoardControl__sub_803DEB74(int);
+saddr TKeyBoardControl__sub_803DEB74(int);
 extern s8 lbl_805D5D08;
 s32 read_input__16TKeyBoardControlFl(u8);
 void copy_state__16TKeyBoardControlFPvPv(Rec_801A67A4 *arg0, Rec_801A67A4 *arg1);

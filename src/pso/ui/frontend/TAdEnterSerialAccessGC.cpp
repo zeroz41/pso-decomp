@@ -392,20 +392,20 @@ s32 TAdEnterSerialAccessGC::open_message_window(void *arg0, void *arg1) {
 }
 
 void TAdEnterSerialAccessGC__sub_80321B28(u8 *ad_enter_serial_access_gc, int arg1) {
-  int temp_r30;
+  saddr temp_r30;
   int temp_r3_8;
-  unsigned int temp_r3;
-  unsigned int temp_r3_10;
-  unsigned int temp_r3_11;
-  unsigned int temp_r3_12;
-  unsigned int temp_r3_13;
-  unsigned int temp_r3_2;
-  unsigned int temp_r3_3;
-  unsigned int temp_r3_4;
-  unsigned int temp_r3_5;
-  unsigned int temp_r3_6;
-  unsigned int temp_r3_7;
-  unsigned int temp_r3_9;
+  uaddr temp_r3;
+  uaddr temp_r3_10;
+  uaddr temp_r3_11;
+  uaddr temp_r3_12;
+  uaddr temp_r3_13;
+  uaddr temp_r3_2;
+  uaddr temp_r3_3;
+  uaddr temp_r3_4;
+  uaddr temp_r3_5;
+  uaddr temp_r3_6;
+  uaddr temp_r3_7;
+  uaddr temp_r3_9;
   temp_r30 = (saddr)((TKeyBoardControl *)TAdEnterSerialAccessGC__keyboard_control)->realloc_buffer();
   if (((((int) (*(int *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_4c)) == 0) && (TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_physical_port_bank + 0x20), 2) != 0)) || ((((int) (*(int *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_4c)) == 0) && (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), 2) != 0)))
   {

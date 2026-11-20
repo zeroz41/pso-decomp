@@ -74,7 +74,7 @@ void TObjPlayer__sub_80364198(void);
 s32 push_matrix();
 extern s32 model_render_flags;
 s32 is_item_area_enabled();
-void create_icon__10TObjPlayerFiii(s32 arg0, s32 arg1, s32 arg2);
+void create_icon__10TObjPlayerFiii(saddr arg0, s32 arg1, s32 arg2);
 }
 
 extern s32 tl_05;
@@ -105,7 +105,7 @@ void *__vt__13TUnk_804A2018[6] = {
 
 void TUnk_804A2018::run_task() {
     s32 sp8;
-    s32 item;
+    saddr item;
     if ((u32) this->m_28 != ((u32)get_item_system_generation())) {
         queue_destruction();
         return;
@@ -114,10 +114,10 @@ void TUnk_804A2018::run_task() {
         item = ((s32)find_item_by_id(*(s32 *)&this->unk_1C));
         if ((item != 0) && (get_mode__5TItemFv() == 2) && (((TItemWeapon *)item)->get_joint_position(this->m_20, &sp8) != 0)) {
             if (((TItem *)item)->is_hidden() == 0) {
-                ((TEffStarLight2D *)*(u32 *)&this->unk_24)->copy_position((const Vec *)&sp8);
+                ((TEffStarLight2D *)*(uaddr *)&this->unk_24)->copy_position((const Vec *)&sp8);
                 return;
             }
-            ((TEffStarLight2D *)*(u32 *)&this->unk_24)->queue_child_destruction();
+            ((TEffStarLight2D *)*(uaddr *)&this->unk_24)->queue_child_destruction();
             return;
         }
     }
@@ -151,7 +151,7 @@ TUnk_804A2018::TUnk_804A2018(TObject *parent, s32 a, s32 b) : TObject(parent) {
 }
 
 
-void create_icon__10TObjPlayerFiii(s32 parent, s32 arg1, s32 arg2) {
+void create_icon__10TObjPlayerFiii(saddr parent, s32 arg1, s32 arg2) {
     void *temp_r3;
     if (parent != 0) {
         temp_r3 = (void *)((u32)TObject::operator new(0x2C));

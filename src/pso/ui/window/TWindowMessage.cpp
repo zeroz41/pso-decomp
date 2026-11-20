@@ -334,7 +334,7 @@ WindowDescriptor message_window_settings = {
 
 extern "C" {
 s32 TLobby__sub_80269DA4(NJS_POINT2 size, void *arg1);
-u8 *TWindowMessage__ct(u8 *arg0, s32 arg1, u32 arg2, s32 arg3);
+u8 *TWindowMessage__ct(u8 *arg0, saddr arg1, u32 arg2, s32 arg3);
 
 int TWindowMessage::append_line(int a1, int a2) { return append_message_window_line((TWindowMessage *)this, a1, a2, -1); }
 
@@ -408,7 +408,7 @@ void TWindowMessage::run_task() {
 TWindowMessage::~TWindowMessage() {
     if (*(void **)((s8 *)this + 0x7C) != NULL) { mem_free(*(void **)((s8 *)this + 0x7C)); }
 }
-u8 *TWindowMessage__ct(u8 *window_addition, s32 arg1, u32 arg2, s32 arg3) {
+u8 *TWindowMessage__ct(u8 *window_addition, saddr arg1, u32 arg2, s32 arg3) {
     u32 i;
     u8 *p;
     __ct__15TWindowAdditionFPUcsPUc(window_addition, (u8 *)&message_window_settings, (s16)arg3, (u8 *)arg1);

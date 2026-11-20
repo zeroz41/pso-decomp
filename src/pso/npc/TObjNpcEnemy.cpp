@@ -33,7 +33,7 @@ extern NpcDefaultBattleStats npc_default_battle_stats;
 struct NpcMovementParameters { s32 value; u8 remaining[0x44]; };
 extern NpcMovementParameters npc_movement_parameters;
 extern s32 __vt__12TObjNpcEnemy[];
-u8 *TObjNpcEnemy__ct(u8 *arg0, s32 arg1, s32 arg2);
+u8 *TObjNpcEnemy__ct(u8 *arg0, s32 arg1, saddr arg2);
 s32 draw_debug_info__11TObjNpcBaseFv();
 void debug_printf_at(s32, const char *, ...);
 void * TObjNpcEnemy__create(void *arg0);
@@ -320,7 +320,7 @@ TObjNpcEnemy::~TObjNpcEnemy() {}
 
 extern void *tl_04;
 
-u8 *TObjNpcEnemy__ct(u8 *arg0, s32 arg1, s32 arg2) {
+u8 *TObjNpcEnemy__ct(u8 *arg0, s32 arg1, saddr arg2) {
     TObjNpcBase__ct(arg0);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TObjNpcEnemy;
     ((TObject *)arg0)->m_name = TObjNpcEnemy_class_name;

@@ -66,7 +66,7 @@ void TObjPlayer__sub_8033FDB0(s32 arg0) {
   {
     temp_r30 = (u8 *) (arg0 + (var_r31 & 0xFFFFFFFFFFFFFFFF));
     TObjFish::set_global_param((int) (*((s32 *) (((s8 *) temp_r30) + 0x2C))));
-    draw_model_motion((void *)(*((s32 *) (((s8 *) temp_r30) + 0x28))), (void *)(*((s32 *) (((s8 *) temp_r30) + 0x30))), 0.0f);
+    draw_model_motion((void *)(*((saddr *) (((s8 *) temp_r30) + 0x28))), (void *)(*((saddr *) (((s8 *) temp_r30) + 0x30))), 0.0f);
     var_r29 += 1;
     var_r31 += 0xC;
   }
@@ -149,7 +149,7 @@ extern "C" {
 void fn_80340040(TBoss6Demo15_TYPE2_WAIT *arg0);
 f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
-s32 create__10TObjMapCsnFl(void *);
+saddr create__10TObjMapCsnFl(void *);
 void fn_8034009C(TBoss6Demo15_TYPE2_WAIT *arg0);
 
 void TBoss6Demo15_TYPE2_WAIT::check_any_player_near() {

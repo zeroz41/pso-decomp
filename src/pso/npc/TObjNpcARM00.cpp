@@ -17,7 +17,7 @@
 
 const char *TObjNpcARM00__name = "TObjNpcARM00";
 u32 TObjNpcARM00__model_resource;
-u32 TObjNpcARM00__texture_list;
+uaddr TObjNpcARM00__texture_list;
 
 extern "C" {
 extern s32 __vt__12TObjNpcARM00[];

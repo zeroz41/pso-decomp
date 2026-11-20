@@ -19,7 +19,7 @@ u16 *TWindowSubSymbolChatPartsSet__sub_802482B8(void *, s32);
 u16 *get_parts_entry__28TWindowSubSymbolChatPartsSetFl(void *, s32);
 u16 *get_parts_entry__28TWindowSubSymbolChatPartsSetFii(void *, s32);
 s32 TWindowSubSymbolChat__sub_800771C4(int, int);
-s32 get_data_ptr__20TWindowSubSymbolChatFv();
+saddr get_data_ptr__20TWindowSubSymbolChatFv();
 
 #pragma push
 #pragma opt_lifetimes off

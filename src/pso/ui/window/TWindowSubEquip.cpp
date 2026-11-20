@@ -21,7 +21,7 @@ void TWindowSubEquip::update_displayed_item() {
 }
 
 void TWindowSubEquip::update() {
-    s32 player;
+    saddr player;
     s32 var_r3;
     s32 slot;
 

@@ -40,7 +40,7 @@ s32 draw_list_page_indicator(int, int);
 void draw_window__17TWindowDuelResultFPv(u8 *arg0);
 s32 TWindowDuelResult__sub_8024F3CC(void *);
 u8 *init__21TWindowSubComCardListFiii(void *, s32, s32, s32);
-s32 get_window_layout_position(int);
+saddr get_window_layout_position(int);
 
 extern const char *window_duel_result_class_name;
 u8 *TWindowDuelResult__ct(u8 *arg0, s16 arg1);
@@ -50,7 +50,7 @@ s32 TWindowDuelResult__sub_801C19AC(f32 *arg0);
 void init_window_layout_entries(void *, void *, int);
 void set_default_status__17TWindowDuelResultFPvi(void *, int);
 void sub_8024EF40__17TWindowDuelResultFv(Win_8024EF40 *arg0);
-s32 get_shared_text_buffer(s32);
+saddr get_shared_text_buffer(s32);
 s32 *TWindowDuelResult__sub_801C257C(void);
 void text_builder_append_int(s32);
 s32 text_builder_append(s32);

@@ -44,7 +44,7 @@ s32 draw_visible_window_entries(void *, void *, int);
 
 void *TWindowStatus__ct(void *arg0, s32 layout_pos, void *arg2, const WindowDescriptor *desc);
 void TWindowSimpleStatus__ct(void *, s32, void *, const WindowDescriptor *);
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 
 void update_lockon_window(u8 *arg0);
 }

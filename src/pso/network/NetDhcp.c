@@ -806,7 +806,7 @@ u8 find_dhcp_option(u8 *p, u8 tag, u8 **out) {
     u8 t;
     u8 len;
     p += 4;
-    while ((s32)((u32)base - (u32)p) < 0x4D4) {
+    while ((s32)((uaddr)base - (uaddr)p) < 0x4D4) {
         t = *p++;
         if (t == 0) {
             continue;

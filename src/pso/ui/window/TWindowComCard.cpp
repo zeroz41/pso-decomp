@@ -18,18 +18,18 @@
 
 
 extern "C" {
-s32 draw_default_entry__9TWindowDDFl();
+saddr draw_default_entry__9TWindowDDFl();
 s32 draw_visible_window_entries(void *, void *, int);
-void render__14TWindowComCardFv(s32 arg0);
+void render__14TWindowComCardFv(saddr arg0);
 s32 TWindowSubComCard__sub_8007B070(s32);
 extern saddr local_client_id;
-u8 *TWindowComCard__ct(u8 *arg0, s32 arg1, s32 arg2);
-void TWindowComCard__sub_80249920(s32 arg0, s32 arg1, s32 arg2);
+u8 *TWindowComCard__ct(u8 *arg0, saddr arg1, saddr arg2);
+void TWindowComCard__sub_80249920(saddr arg0, s32 arg1, s32 arg2);
 s8 TWindowComCard__sub_80249C18(void* p);
 s8 TWindowComCard__sub_80249C20(void* p);
 void *__dt__14TWindowComCardFv(void *arg0, s16 arg1);
 void run_task__14TWindowComCardFv(void* p);
-s32 get_card_entry__17TWindowSubComCardFi(s32 arg0);
+saddr get_card_entry__17TWindowSubComCardFi(s32 arg0);
 int initialize_subwindow__9TWindowDDFv(void*);
 
 extern "C" u8 lbl_805D63F0[];
@@ -156,7 +156,7 @@ extern "C" void update_com_card_display(ComCardDisplay *arg0, void *arg1) {
 
 extern "C" {
 
-void TWindowComCard__sub_80249920(s32 arg0, s32 arg1, s32 arg2) {
+void TWindowComCard__sub_80249920(saddr arg0, s32 arg1, s32 arg2) {
     saddr temp = arg2 + (arg1 * 0x90);
     if (temp != 0) {
         update_com_card_display((ComCardDisplay *)(arg0 + 0x24), (void *)temp);
@@ -164,7 +164,7 @@ void TWindowComCard__sub_80249920(s32 arg0, s32 arg1, s32 arg2) {
 }
 
 void TWindowComCard::set_display_value(s32 arg1, s32 arg2) {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     saddr temp = arg2 + (arg1 << 8);
     if (temp != 0) {
         update_com_card_display((ComCardDisplay *)(arg0 + 0x24), (void *)temp);
@@ -230,7 +230,7 @@ s32 TWindowSubComCard::create_com_card_window(s32 arg0) {
     return var_r0;
 }
 
-void render__14TWindowComCardFv(s32 arg0) {
+void render__14TWindowComCardFv(saddr arg0) {
     saddr temp_r3;
     temp_r3 = draw_default_entry__9TWindowDDFl();
     ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
@@ -250,7 +250,7 @@ void *__dt__14TWindowComCardFv(void *arg0, s16 arg1) {
     return arg0;
 }
 
-u8 *TWindowComCard__ct(u8 *window_dd, s32 arg1, s32 arg2) {
+u8 *TWindowComCard__ct(u8 *window_dd, saddr arg1, saddr arg2) {
     __ct__11TWindowBaseFPUcsPUc(window_dd, (u8 *)&TWindowComCard__window_desc, (s16)4, (u8 *)arg1);
     *(s32 **)((s8 *)window_dd + 0x18) = (s32 *)__vt__14TWindowComCard;
     *(s32 *)((s8 *)window_dd + 0) = (saddr) TWindowComCard__class_name;
@@ -369,7 +369,7 @@ typedef struct Win_80249ED8 {
 
 extern struct Obj054_80249DE4 *TWindowCtrl__active_window;
 extern u16 lbl_805D63FC;
-struct Obj054_80249DE4 { char pad[0x38]; u32 field38; };
+struct Obj054_80249DE4 { char pad[0x38]; uaddr field38; };
 
 void request_active_window_close(void);
 

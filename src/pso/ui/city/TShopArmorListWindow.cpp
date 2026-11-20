@@ -167,7 +167,7 @@ struct Rec_8021A634 { s32 w[3]; s32 id; s32 price; };
 
 struct Win_8021A634 {
     u8 pad0[0x24];
-    s32 player;
+    saddr player;
     u8 pad28[0x2C - 0x28];
     void *list;
     void *card;
@@ -194,7 +194,7 @@ struct Win_8021AE18 {
 };
 
 extern "C" {
-s32 sub_8022397C__15TShopWindowBaseFv(void *);
+saddr sub_8022397C__15TShopWindowBaseFv(void *);
 const char *TShopArmorListWindow__class_name = "TShopArmorListWindow";
 int set_field_20__15TShopWindowBaseFl(void*, int);
 int obj_getPtr2B0_20(u8 *p);
@@ -205,7 +205,7 @@ s32 try_buy_item(int, void *);
 }
 s32 is_single_purchase_shop_item(u8 *p);
 extern "C" {
-u32 create_yes_no_window(int, u16, int, int);
+uaddr create_yes_no_window(int, u16, int, int);
 s32 get_window_layout_position(s32);
 extern const s32 local_client_id;
 s32 sub_802239EC__13TShopSequenceFv(void *);

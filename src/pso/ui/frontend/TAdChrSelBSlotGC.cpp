@@ -280,7 +280,7 @@ void TAdChrSelBSlotGC__sub_8030EB14(u8 *ad_chr_sel_b_slot_gc) {
 }
 void TAdChrSelBSlotGC__sub_8030EBD0(u8 *arg0) {
   uaddr temp_r3;
-  u32 temp_r3_2;
+  uaddr temp_r3_2;
   ControllerInputContext *context;
   temp_r3 = *((u32 *) (((s8 *) arg0) + 0x70));
   if (temp_r3 != 0U)
@@ -307,7 +307,7 @@ void TAdChrSelBSlotGC__sub_8030EBD0(u8 *arg0) {
 }
 void TAdChrSelBSlotGC::check_cancel_and_close() {
     u8 *arg0 = (u8 *)this;
-  u32 temp_r3;
+  uaddr temp_r3;
   s32 new_var;
   new_var = ((TAdMultiPlyChrSelectGC *)((int) TAdMultiPlyChrSelectGC::get_state()))->get_state_result();
   if ((((TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[new_var], 4) != 0) || (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[new_var], 2) != 0)) || (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[new_var], 0x400) != 0)) || (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[new_var], 0x200) != 0))

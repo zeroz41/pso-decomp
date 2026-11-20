@@ -74,7 +74,7 @@ inline s16 process_options_header(u8 *ext, s16 rem, u8 *ip, s16 len, s16 iface) 
 }
 
 inline NetPacket *input_fragment_header(u8 *ip, Ipv6FragmentHeader *frag, s32 remaining, s16 total_len, s16 iface, NetworkAddress *src, NetIcmpv6Header *error) {
-    s32 fragment_input(u8 *, u16, s16, u8, u32, NetworkAddress *, u16, u8, s16);
+    saddr fragment_input(u8 *, u16, s16, u8, u32, NetworkAddress *, u16, u8, s16);
     u32 offset_flags;
     u32 more;
     u32 offset;
@@ -107,10 +107,10 @@ inline NetPacket *make_input_packet(u8 *ip, s16 total_len, u8 *payload, s32 payl
     pkt->fragment_count = 0;
     pkt->total_bytes = total_len;
     pkt->fragments[pkt->fragment_count].length = total_len - payload_len;
-    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (s32)ip);
+    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (saddr)ip);
     pkt->fragment_count += 1;
     pkt->fragments[pkt->fragment_count].length = (u16)payload_len;
-    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (s32)payload);
+    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (saddr)payload);
     pkt->fragment_count += 1;
     return pkt;
 }
@@ -466,7 +466,7 @@ extern s32 ipv6_forward(u8 *self, u8 *p, s16 lim, s16 ctx)
   e->fragment_count = 0;
   e->total_bytes = tot;
   e->fragments[e->fragment_count].length = (s16) tot;
-  set_value_and_enable(&e->fragments[e->fragment_count].buffer, (s32) (p + 0x28));
+  set_value_and_enable(&e->fragments[e->fragment_count].buffer, (saddr) (p + 0x28));
   e->fragment_count = e->fragment_count + 1;
   NetMemcpy(out1, self + 8, 0x10);
   NetMemcpy(out2, self + 0x18, 0x10);
@@ -572,7 +572,7 @@ s16 TLobby__sub_80410A98(s32 arg0, void *arg1, void *arg2, void *arg3, void *arg
   new_var = q;
   rec.h = ((u8 *) arg3)[0];
   rec.y = ((u8 *) arg3)[8];
-  rec.d = (u8) ((s32) arg4);
+  rec.d = (u8) ((saddr) arg4);
   NetMemcpy(buf1, arg2, 0x10);
   NetMemcpy(buf2, arg1, 0x10);
   if ((!NetIPv6IsMulticast(q)) && TLobby__sub_804136AC(p->iface))
@@ -637,18 +637,18 @@ s16 TLobby__sub_80410BA8(void *self, void *a, s16 c, void *d)
   new_var = n;
   if (used > ((u32) n))
   {
-    return TLobby__sub_80410D6C((u8 *) self, (u8 *) slot, c, (s32) d, new_var);
+    return TLobby__sub_80410D6C((u8 *) self, (u8 *) slot, c, (saddr) d, new_var);
   }
   ((NetPacket *) self)->total_bytes += sizeof(Ipv6Header);
   ((NetPacketFragment *) (((u8 *) self) + offsetof(NetPacket, fragments)))[((NetPacket *) self)->fragment_count].length = sizeof(Ipv6Header);
   off = ((NetPacket *) self)->fragment_count * (s32)sizeof(NetPacketFragment);
-  set_value_and_enable((((u8 *) self) + off) + offsetof(NetPacket, fragments[0].buffer), (s32) slot);
+  set_value_and_enable((((u8 *) self) + off) + offsetof(NetPacket, fragments[0].buffer), (saddr) slot);
   ((NetPacket *) self)->fragment_count += 1;
   if (NetIPv6IsMulticast(((NetIPv6SendParameters *) a)->destination.bytes))
   {
-    return TLobby__sub_804112B8((s32) self, (s32) &((NetIPv6SendParameters *) a)->destination, c);
+    return TLobby__sub_804112B8((saddr) self, (saddr) &((NetIPv6SendParameters *) a)->destination, c);
   }
-  return TLobby__sub_8041123C((s32) self, (s32) d, c);
+  return TLobby__sub_8041123C((saddr) self, (saddr) d, c);
 }
 
 #pragma push
@@ -721,17 +721,17 @@ extern s16 TLobby__sub_80410D6C(u8 *ctx, u8 *hdr, s16 a5, s32 a6, u32 len)
         off += (s16)iov.total_bytes;
         iov.total_bytes += 8;
         iovp->fragments[iov.fragment_count].length = 8;
-        set_value_and_enable(&iovp->fragments[iov.fragment_count].buffer, (s32)&fh);
+        set_value_and_enable(&iovp->fragments[iov.fragment_count].buffer, (saddr)&fh);
         iov.fragment_count++;
         *(u16 *)(hdr + offsetof(Ipv6Header, payload_length)) = iov.total_bytes;
         iov.total_bytes += 40;
         iovp->fragments[iov.fragment_count].length = 40;
-        set_value_and_enable(&iovp->fragments[iov.fragment_count].buffer, (s32)hdr);
+        set_value_and_enable(&iovp->fragments[iov.fragment_count].buffer, (saddr)hdr);
         iov.fragment_count++;
         if (NetIPv6IsMulticast(hdr + offsetof(Ipv6Header, dst))) {
-            r = TLobby__sub_804112B8((s32)iovp, (s32)(hdr + offsetof(Ipv6Header, dst)), a5);
+            r = TLobby__sub_804112B8((saddr)iovp, (saddr)(hdr + offsetof(Ipv6Header, dst)), a5);
         } else {
-            r = TLobby__sub_8041123C((s32)iovp, a6, a5);
+            r = TLobby__sub_8041123C((saddr)iovp, a6, a5);
         }
         if (r < 0) {
             break;

@@ -12,8 +12,8 @@
 #pragma readonly_strings on
 
 const char *TObjNpcHRM01__name = "TObjNpcHRM01";
-u32 TObjNpcHRM01__shared_object_resource;
-u32 TObjNpcHRM01__body_texture_gvm_handle;
+uaddr TObjNpcHRM01__shared_object_resource;
+uaddr TObjNpcHRM01__body_texture_gvm_handle;
 
 s32 __vt__12TObjNpcHRM01[];
 

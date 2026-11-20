@@ -83,7 +83,7 @@ s32 TLobby__sub_8040A3C0(void) {
     DnsResolverState *m = (DnsResolverState *)&dns_resolver_state;
     DnsQuery *e;
 
-    ret = net_unregister_timer((s32)((void *)tick_connection_timeouts));
+    ret = net_unregister_timer((saddr)((void *)tick_connection_timeouts));
     e = m->queries;
     i = 0;
     while (i < m->nqueries) {
@@ -194,7 +194,7 @@ s32 close_connection_by_index(s16 i) {
 extern void TLobby__sub_8040C74C(DnsLookupRequest *p);
 #pragma push
 #pragma opt_propagation off
-extern s16 TLobby__sub_8040A698(s16 idx, void *buf, s16 *len, void *buf2, s16 *len2, u32 mode) {
+extern s16 TLobby__sub_8040A698(s16 idx, void *buf, s16 *len, void *buf2, s16 *len2, uaddr mode) {
     DnsResolverState *g = &dns_resolver_state;
     DnsQuery *f;
     DnsQuery *e;
@@ -565,7 +565,7 @@ extern void TLobby__sub_8040AFE0(void)
 {
     s16 udp_send(s32, s32, s32, u16, s32, s8, void *); /* declared here with other parameter types; the definition is s16 (s32, u32 *, u32 *, u16, u32 *, s8, send_buffs *) */
     DnsResolverState *base = (DnsResolverState *)&dns_resolver_state;
-    s32 found;
+    saddr found;
     s16 *dp;
     s16 cnt;
     DnsQuery *e;
@@ -588,7 +588,7 @@ extern void TLobby__sub_8040AFE0(void)
             continue;
         }
         if (e->outstanding != 0) {
-            found = (s32)find_next_active_record((DnsQuery *)e);
+            found = (saddr)find_next_active_record((DnsQuery *)e);
             if (found == 0) {
                 TLobby__sub_8040BE40(e, -0x44, 0);
                 continue;
@@ -636,7 +636,7 @@ extern void TLobby__sub_8040B1C4(void *arg)
     e->timer = base->timeouts[e->status / *dp];
     tmp.len = e->msg->len;
     tmp.buff = e->msg->data;
-    ret = udp_send(e->socket, 0, (s32)found, 0, 0, 1, &tmp);
+    ret = udp_send(e->socket, 0, (saddr)found, 0, 0, 1, &tmp);
     if (ret < 0) {
         e->timer = 1;
         e->status = e->status + 1;
@@ -1254,7 +1254,7 @@ s32 close_and_reset_connection(void *self) {
     *(s16 *)&((TObjectFields *)self)->m_up = -0x41;
     *(s16 *)((s8 *)arg0 + 0x12) = 0;
     if (*(u32 *)&((TObjectFields *)self)->m_next != 0xFFFFFFFFU) {
-        resume_thread((s32)((TObjectFields *)self)->m_next);
+        resume_thread((saddr)((TObjectFields *)self)->m_next);
         *(s32 *)&((TObjectFields *)self)->m_next = -1;
     }
     net_unlock();
@@ -1496,7 +1496,7 @@ void dispatch_request_callback(void *self, s16 status) {
     switch (connection->kind) {
     case 1:
         a = &connection->req.lookup;
-        if ((u32)a->cb == 0xFFFFFFFFU) {
+        if ((uaddr)a->cb == 0xFFFFFFFFU) {
             return;
         }
         if (a->cb == NULL) {
@@ -1526,7 +1526,7 @@ void dispatch_request_callback(void *self, s16 status) {
         break;
     case 12:
         b = &connection->req.ptr;
-        if ((u32)b->cb == 0xFFFFFFFFU) {
+        if ((uaddr)b->cb == 0xFFFFFFFFU) {
             return;
         }
         if (b->cb == NULL) {

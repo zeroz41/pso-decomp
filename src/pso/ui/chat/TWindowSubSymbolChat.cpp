@@ -57,7 +57,7 @@ struct Win_80281840 { u8 pad[0x24]; s32 ctrl; u8 pad2[0x34 - 0x28]; Sub_80281840
 #pragma auto_inline off
 #pragma dont_inline off
 extern "C" {
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 u8 *create_chat_symbol_window__20TWindowSubSymbolChatFll(void *, s32);
 s32 add__20TWindowSubSymbolChatFlllll(int, int, int, int, int, int);
 s32 get_cursor_pos__20TWindowSubSymbolChatFv(int);
@@ -85,7 +85,7 @@ s32 TWindowSubSymbolChatParts__ct(s32, s32, s32 *, s32 *);
 
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 s32 get_cursor_pos__20TWindowShortListCtrlFv(s32);
-s32 get_keyboard_ptr__20TWindowSubSymbolChatFv(s32);
+saddr get_keyboard_ptr__20TWindowSubSymbolChatFv(s32);
 s32 refresh_parts__20TWindowSubSymbolChatFv();
 s32 refresh_with_default_list__20TWindowSubStatusDispFll(s32, f32 *);
 }

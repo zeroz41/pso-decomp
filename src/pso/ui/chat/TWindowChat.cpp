@@ -15,7 +15,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 
-struct Win_8024701C { u8 p0[0x1E]; u16 flags; s32 f20; u8 p24[4]; s32 f28; };
+struct Win_8024701C { u8 p0[0x1E]; u16 flags; saddr f20; u8 p24[4]; saddr f28; };
 
 struct Win_802473C8 { u8 pad0[0x1E]; u16 flags; };
 
@@ -37,8 +37,8 @@ struct RecoveredFields_8024792C_arg0 {
     u8 unknown_1D[0x1];
     u16 field_1E;
     u8 * field_20;
-    s32 field_24;
-    s32 field_28;
+    saddr field_24;
+    saddr field_28;
     u8 unknown_2C[0x4];
     s32 field_30;
     s32 field_34;
@@ -51,9 +51,9 @@ struct RecoveredFields_8024775C_arg0
   u8 field_1C;
   u8 unknown_1D[0x1];
   u16 field_1E;
-  s32 field_20;
+  saddr field_20;
   u8 unknown_24[0x4];
-  s32 field_28;
+  saddr field_28;
 };
 
 extern "C" {
@@ -64,13 +64,13 @@ bool TWindowCtrl__sub_8024701C(Win_8024701C *w);
 void *get_player_by_client_id(s32 i);
 extern saddr local_client_id;
 s32 has_player_active_menu__11TWindowCtrlFv(s32);
-s32 fn_8002AE08(s32);
+saddr fn_8002AE08(s32);
 void send_chat_shortcut(s32);
 s32 is_on_current_screen__11TCameraCtrlFv(void *, s32);
 s32 check_flag_100__10TObjPlayerFPv();
 extern u8 controller_input_state[];
 s32 __nw__7TObjectFUl(int);
-s32 get_window_layout_position(int);
+saddr get_window_layout_position(int);
 void *__dt__11TWindowChatFv(void *, s16);
 void *__dt__11TWindowChatFv(void *arg0, s16 arg1);
 void TWindowChat__sub_80247D2C(void* p);

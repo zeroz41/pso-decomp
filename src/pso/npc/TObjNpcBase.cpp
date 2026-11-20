@@ -222,7 +222,7 @@ void TObjNpcBase::update_conversation() {
     Vec d;
     s32 ang;
     void *m;
-    u32 p;
+    uaddr p;
     if (F(u16, 0x94) != local_client_id || F(void *, 0x2A8) == 0 || F(s32, 0x3A8) <= 0) {
         F(s16, 0x328) = 3;
     }
@@ -304,7 +304,7 @@ void TObjNpcBase::update_conversation() {
         }
         break;
     case 2:
-        if ((F(u32, 0x3B0) != 0 && ((TObject *)(F(u32, 0x3B0)))->all_parents_unqueued_for_destruction() == 0) || F(u32, 0x3B0) == 0) {
+        if ((F(u32, 0x3B0) != 0 && ((TObject *)(F(uaddr, 0x3B0)))->all_parents_unqueued_for_destruction() == 0) || F(u32, 0x3B0) == 0) {
             F(s16, 0x328) = 3;
             F(s32, 0x2AC) = 0;
             switch (F(s32, 0x3AC)) {
@@ -785,12 +785,12 @@ void TObjNpcBase__sub_80149368(void* p) { *(s32*)((char*)p + 0x0) = 2; }
 
 // ---- src/pso/misc/TNpcPlayer_80149374.cpp
 void TNpcPlayer::send_6x3E() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (s32)this;
     bswap_6x3E();
     send_subcommand((u8 *)arg0);
 }
 void TNpcPlayer::bswap_6x3E() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (s32)this;
     ((G_ClientIDHeader *)this)->bswap();
     bswap_16((u16 *)(arg0 + 4));
     bswap_16((u16 *)(arg0 + 6));

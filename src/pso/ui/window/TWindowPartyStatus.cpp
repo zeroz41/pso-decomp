@@ -33,7 +33,7 @@ struct Stack_8030C0C4 {
 extern "C" {
 s32 draw_default_entry__9TWindowDDFl();
 s32 draw_visible_window_entries(void *, void *, int);
-void render__18TWindowPartyStatusFv(s32 arg0);
+void render__18TWindowPartyStatusFv(saddr arg0);
 s32 TWindowSubComCard__sub_802452DC(int);
 s32 TWindowSubComCard__sub_80245320(void *, void *);
 s32 TWindowSubComCard__sub_802454E4(int);
@@ -42,12 +42,12 @@ void begin_screen_draw(s32 arg0);
 void draw_textured_quad_at_depth(f32 *q, f32 depth);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
 extern s32 lbl_805D63F0;
-s32 get_window_layout_position(int);
+saddr get_window_layout_position(int);
 s32 TWindowSimpleStatus__ct(void *, int, void *, void *);
 extern s32 __vt__18TWindowPartyStatus[];
 extern const char *TWindowPartyStatus__name;
 extern saddr local_client_id;
-u8 *TWindowPartyStatus__ct(u8 *arg0, s32 arg1, s32 arg2);
+u8 *TWindowPartyStatus__ct(u8 *arg0, s32 arg1, saddr arg2);
 s32 update_lockon_window();
 }
 void update_status_help_item(s32 arg0);
@@ -115,7 +115,7 @@ void TWindowPartyStatus::draw_background(u8 *arg1) {
 }
 extern "C" {
 
-void render__18TWindowPartyStatusFv(s32 arg0) {
+void render__18TWindowPartyStatusFv(saddr arg0) {
     saddr ctx;
     ctx = draw_default_entry__9TWindowDDFl();
     ((TWindowPartyStatus *)arg0)->draw_background((u8 *)ctx);
@@ -138,7 +138,7 @@ TWindowPartyStatus::~TWindowPartyStatus() {
 
 }
 
-u8 *TWindowPartyStatus__ct(u8 *window_party_status, s32 arg1, s32 arg2) {
+u8 *TWindowPartyStatus__ct(u8 *window_party_status, s32 arg1, saddr arg2) {
     TWindowSimpleStatus__ct((void *)window_party_status, (int) (get_window_layout_position(0xAB)), (void *)local_client_id, (void *)arg2);
     *(s32 **)((s8 *)window_party_status + 0x18) = __vt__18TWindowPartyStatus;
     *(s32 *)((s8 *)window_party_status + 0) = (s32) ((saddr)TWindowPartyStatus__name);

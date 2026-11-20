@@ -65,8 +65,8 @@ void TWindowMessageLog::clamp_scroll_offset() {
 }
 void TWindowMessageLog::update_scroll_position() {
     Stack_8026A494 stack;
-    s32 temp_r31;
-    s32 array_entry;
+    saddr temp_r31;
+    saddr array_entry;
     s32 temp_r4;
     s32 var_r30;
     temp_r4 = this->next_line;
@@ -219,7 +219,7 @@ void cache_last_chat_line(u32 text) {
 }
 
 void chat_log_add_line(const char *text) {
-    s32 temp_r29;
+    saddr temp_r29;
     s32 temp_r30;
     s32 var_r28;
     s32 free_chat_log_slot;

@@ -106,7 +106,7 @@ struct VObj_802164A4 : Base_802164A4 {
     char pad2[0x24 - 0x1C];
     s32 f24;
     char pad3[0x30 - 0x28];
-    s32 f30;
+    saddr f30;
 };
 
 struct Base_80216540 { char pad[0x18]; };

@@ -35,7 +35,7 @@ typedef struct LvUp_8026DA44 {
     s8 state;
     u8 pad1d;
     s16 timer;
-    s32 client;
+    saddr client;
     s16 d24;
     s16 d26;
     s16 d28;
