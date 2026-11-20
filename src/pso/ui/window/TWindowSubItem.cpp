@@ -635,7 +635,7 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, saddr arg1, saddr
       }
       else
       {
-        forward_trade_action_default__16TObjCityMainWarpFPviii((saddr)((void *) arg1), (s32)((saddr) TWindowSubStatusDisp::get_message_10(0x60)), 6, 0);
+        TObjCityMainWarp::forward_trade_action_default((void *) arg1, (s32)((saddr) TWindowSubStatusDisp::get_message_10(0x60)), 6, 0);
       }
     }
     ((TItem *)(0, (int) (item & 0xFFFFFFFFu)))->get_item_type();
@@ -649,7 +649,7 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, saddr arg1, saddr
         }
         else
         {
-          forward_trade_action_default__16TObjCityMainWarpFPviii((saddr)((void *) arg1), (s32)((saddr) TWindowSubStatusDisp::get_message_10(0x61)), 6, 2);
+          TObjCityMainWarp::forward_trade_action_default((void *) arg1, (s32)((saddr) TWindowSubStatusDisp::get_message_10(0x61)), 6, 2);
         }
       }
       else
@@ -659,7 +659,7 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, saddr arg1, saddr
         {
           if (((((TItem *)item)->check_equip_requirements((TObjPlayer *)player, (s16 *)(&sp8)) != 0) && (has_armor_with_unit_slot((TWindowSubItem *)((void *)((void *) window_sub_item)), (int)((int) item)) != 0)) && (get_current_floor_area() != AREA_LOBBY))
           {
-            forward_trade_action_default__16TObjCityMainWarpFPviii((saddr)((void *) arg1), (s32)((saddr) TWindowSubStatusDisp::get_message_10(0x62)), 6, 1);
+            TObjCityMainWarp::forward_trade_action_default((void *) arg1, (s32)((saddr) TWindowSubStatusDisp::get_message_10(0x62)), 6, 1);
           }
           else
           {
@@ -674,14 +674,14 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, saddr arg1, saddr
     }
     else
     {
-      forward_trade_action_default__16TObjCityMainWarpFPviii((saddr)((void *) arg1), (s32)((saddr) TWindowSubStatusDisp::get_message_10(0x5F)), 6, 3);
+      TObjCityMainWarp::forward_trade_action_default((void *) arg1, (s32)((saddr) TWindowSubStatusDisp::get_message_10(0x5F)), 6, 3);
     }
     if (get_current_floor_area() == AREA_LOBBY)
     {
       TWindowSubComCard::draw_text_gray((saddr)((void *) arg1), (s32)((saddr) TWindowSubStatusDisp::get_message_10(0x63)), 6, 7);
       return;
     }
-    forward_trade_action_default__16TObjCityMainWarpFPviii((saddr)((void *) arg1), (s32)((saddr) TWindowSubStatusDisp::get_message_10(0x63)), 6, 7);
+    TObjCityMainWarp::forward_trade_action_default((void *) arg1, (s32)((saddr) TWindowSubStatusDisp::get_message_10(0x63)), 6, 7);
   }
 }
 

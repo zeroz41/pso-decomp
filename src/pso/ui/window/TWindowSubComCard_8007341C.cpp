@@ -48,7 +48,6 @@ char *get_message_text(s32);
 s32 get_layout_id__20TWindowSubStatusDispFv(void *);
 s32 fn_80071A9C(void *, void *, void *);
 u8 *get_player_by_client_id(s32);
-void *create__14TWindowMessageFPvll(void *, void *, s32);
 void *get_window_layout_position(s32);
 __declspec(section ".data") f32 challenge_window_extent[2] = {240.0f, 200.0f};
 char challenge_progress_text_buffer[0x100];
@@ -125,7 +124,7 @@ void TAdSinglePlyChrSelectGC::format_challenge_stage_times(s32 arg0, s32 arg1) {
 
 void TLobby::open_challenge_window(s32 arg0, s32 arg1) {
     void *win;
-    win = create__14TWindowMessageFPvll(get_window_layout_position(0x3B), challenge_window_extent, 1);
+    win = TWindowMessage::create(get_window_layout_position(0x3B), (saddr)challenge_window_extent, 1);
     (*(Chal_8007369C *)&challenge_mode_state).window = win;
     if (win == NULL) {
         return;
@@ -144,7 +143,7 @@ void TLobby::open_challenge_progress_window(void *arg1) {
     Rec_80073738 *rec;
     s32 i;
     void *win;
-    win = create__14TWindowMessageFPvll(get_window_layout_position(0x3B), challenge_window_extent, 1);
+    win = TWindowMessage::create(get_window_layout_position(0x3B), (saddr)challenge_window_extent, 1);
     CHAL->window = win;
     if (win == NULL) {
         return;

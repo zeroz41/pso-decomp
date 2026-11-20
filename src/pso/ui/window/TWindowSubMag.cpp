@@ -85,7 +85,6 @@ struct TWindowSubMag_8027B62C {
 };
 extern "C" {
 s32 align_menu_entry_positions(void *);
-int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 s32 *get_shared_text_buffer(void);
 s32 calc_text_width();
 s32 text_builder_append();
@@ -454,11 +453,11 @@ void *TWindowSubMag::create_action_menu(s32 id) {
     if (((s32 (*)(u8 *))is_mag_full)(item) != 0) {
         TWindowSubComCard::draw_text_gray((saddr)window, (saddr)(TWindowSubStatusDisp::get_message_10(0x65)), 6, 1);
     } else {
-        forward_trade_action_default__16TObjCityMainWarpFPviii(window, (saddr)TWindowSubStatusDisp::get_message_10(0x65), 6, 1);
+        TObjCityMainWarp::forward_trade_action_default(window, (saddr)TWindowSubStatusDisp::get_message_10(0x65), 6, 1);
     }
     TItemData::deserialize_mag((void *)(menu->field_0x2c), (void *)mag);
     if (((MagStats *)mag)->get_photon_blast(0) != -1) {
-        forward_trade_action_default__16TObjCityMainWarpFPviii(window, (saddr)TWindowSubStatusDisp::get_message_10(0x64), 6, 0);
+        TObjCityMainWarp::forward_trade_action_default(window, (saddr)TWindowSubStatusDisp::get_message_10(0x64), 6, 0);
     } else {
         TWindowSubComCard::draw_text_gray((saddr)window, (saddr)(TWindowSubStatusDisp::get_message_10(0x64)), 6, 0);
     }

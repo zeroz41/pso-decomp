@@ -208,7 +208,6 @@ s32 check_equip_requirements(void *self, TItemData *p, s32 *out);
 void *get_player_by_client_id(s32 i);
 void *lookup_item_pmt_record(u8 *item);
 s32 init_window_layout_entries(void *, void *, int);
-s32 set_help_text__15TWindowHelpItemFUl(void *, int);
 void TWindowHelpItem__vt9(HelpItem_80254F18 *self);
 void preview_unequip_stats__10TObjPlayerFv(s32, Stats_802541E0 *, s32);
 s32 preview_equip_stats__10TObjPlayerFv(u8 *arg0, s16 *out, u8 *incoming);
@@ -494,11 +493,11 @@ void TWindowHelpItem::update_resistance_rows(void *arg0) {
         c = ((TWindowBase *)self)->get_array_entry(2);
         d = ((TWindowBase *)self)->get_array_entry(3);
         e = ((TWindowBase *)self)->get_array_entry(4);
-        set_help_text__15TWindowHelpItemFUl((void *)a, (saddr)TWindowSubStatusDisp::get_message_10(0x89));
-        set_help_text__15TWindowHelpItemFUl((void *)b, (saddr)TWindowSubStatusDisp::get_message_10(0x8A));
-        set_help_text__15TWindowHelpItemFUl((void *)c, (saddr)TWindowSubStatusDisp::get_message_10(0x8B));
-        set_help_text__15TWindowHelpItemFUl((void *)d, (saddr)TWindowSubStatusDisp::get_message_10(0x8C));
-        set_help_text__15TWindowHelpItemFUl((void *)e, (saddr)TWindowSubStatusDisp::get_message_10(0x8D));
+        ((TWindowHelpItem *)a)->set_help_text((saddr)TWindowSubStatusDisp::get_message_10(0x89));
+        ((TWindowHelpItem *)b)->set_help_text((saddr)TWindowSubStatusDisp::get_message_10(0x8A));
+        ((TWindowHelpItem *)c)->set_help_text((saddr)TWindowSubStatusDisp::get_message_10(0x8B));
+        ((TWindowHelpItem *)d)->set_help_text((saddr)TWindowSubStatusDisp::get_message_10(0x8C));
+        ((TWindowHelpItem *)e)->set_help_text((saddr)TWindowSubStatusDisp::get_message_10(0x8D));
         ((TWindowHelpItem *)a)->set_flag4_and_field1c(((TWindowSubStatusDisp *)pl)->get_stat());
         ((TWindowHelpItem *)b)->set_flag4_and_field1c(((TObjPlayer *)pl)->get_class_id());
         ((TWindowHelpItem *)c)->set_flag4_and_field1c(((TObjPlayer *)pl)->get_item_index());
@@ -638,11 +637,11 @@ void TWindowHelpItem__vt1(void *arg0) {
         c = ((TWindowBase *)self)->get_array_entry(2);
         d = ((TWindowBase *)self)->get_array_entry(3);
         e = ((TWindowBase *)self)->get_array_entry(4);
-        set_help_text__15TWindowHelpItemFUl((void *)a, (saddr)lbl_8044EDD8);
-        set_help_text__15TWindowHelpItemFUl((void *)b, (saddr)lbl_8044EDE0);
-        set_help_text__15TWindowHelpItemFUl((void *)c, (saddr)lbl_8044EDE8);
-        set_help_text__15TWindowHelpItemFUl((void *)d, (saddr)lbl_8044EDF0);
-        set_help_text__15TWindowHelpItemFUl((void *)e, (saddr)lbl_805DCDFC);
+        ((TWindowHelpItem *)a)->set_help_text((saddr)lbl_8044EDD8);
+        ((TWindowHelpItem *)b)->set_help_text((saddr)lbl_8044EDE0);
+        ((TWindowHelpItem *)c)->set_help_text((saddr)lbl_8044EDE8);
+        ((TWindowHelpItem *)d)->set_help_text((saddr)lbl_8044EDF0);
+        ((TWindowHelpItem *)e)->set_help_text((saddr)lbl_805DCDFC);
         ((TWindowHelpItem *)a)->set_flag0_bit20();
         ((TWindowHelpItem *)b)->set_flag0_bit20();
         ((TWindowHelpItem *)c)->set_flag0_bit20();
@@ -801,12 +800,12 @@ void TWindowHelpItem::init_help_texts() {
     temp_r28 = ((TWindowBase *)this)->get_array_entry(3);
     temp_r27 = ((TWindowBase *)this)->get_array_entry(4);
     temp_r26 = ((TWindowBase *)this)->get_array_entry(5);
-    set_help_text__15TWindowHelpItemFUl((void *)temp_r31, (saddr) (TWindowSubStatusDisp::get_message_10(0x83)));
-    set_help_text__15TWindowHelpItemFUl((void *)temp_r30, (saddr) (TWindowSubStatusDisp::get_message_10(0x84)));
-    set_help_text__15TWindowHelpItemFUl((void *)temp_r29, (saddr) (TWindowSubStatusDisp::get_message_10(0x85)));
-    set_help_text__15TWindowHelpItemFUl((void *)temp_r28, (saddr) (TWindowSubStatusDisp::get_message_10(0x86)));
-    set_help_text__15TWindowHelpItemFUl((void *)temp_r27, (saddr) (TWindowSubStatusDisp::get_message_10(0x87)));
-    set_help_text__15TWindowHelpItemFUl((void *)temp_r26, (saddr) (TWindowSubStatusDisp::get_message_10(0x88)));
+    ((TWindowHelpItem *)temp_r31)->set_help_text((saddr) (TWindowSubStatusDisp::get_message_10(0x83)));
+    ((TWindowHelpItem *)temp_r30)->set_help_text((saddr) (TWindowSubStatusDisp::get_message_10(0x84)));
+    ((TWindowHelpItem *)temp_r29)->set_help_text((saddr) (TWindowSubStatusDisp::get_message_10(0x85)));
+    ((TWindowHelpItem *)temp_r28)->set_help_text((saddr) (TWindowSubStatusDisp::get_message_10(0x86)));
+    ((TWindowHelpItem *)temp_r27)->set_help_text((saddr) (TWindowSubStatusDisp::get_message_10(0x87)));
+    ((TWindowHelpItem *)temp_r26)->set_help_text((saddr) (TWindowSubStatusDisp::get_message_10(0x88)));
 }
 
 void TWindowHelpItem__vt9(HelpItem_80254F18 *self) {

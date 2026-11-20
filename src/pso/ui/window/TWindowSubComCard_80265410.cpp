@@ -438,7 +438,7 @@ void align_menu_entry_positions(Win_80265C30 *self) {
     u32 i;
     for (i = 0; i < self->count; i++) {
         Ent_80265C30 *e = (Ent_80265C30 *)((TWindowBase *)self)->get_array_entry(i);
-        if (get_field_20__17TWindowSubComCardFv(e) != 0) {
+        if ((void *)((TWindowSubComCard *)e)->get_field_20() != 0) {
             measure_message_text_width(e, left);
             if (e->h > 18.0f) {
                 e->x = 0.0f;
@@ -457,7 +457,7 @@ void TWindowSubComCard::calc_layout_height(f32 farg0) {
     h = 0.0f;
     for (i = 0; i < *(s16 *)(((u8 *)this) + 0x76); i++) {
         e = (Ent_80265C30 *)((TWindowBase *)this)->get_array_entry(i);
-        if (get_field_20__17TWindowSubComCardFv(e) != 0 && !(e->h <= lbl_8044F330)) {
+        if ((void *)((TWindowSubComCard *)e)->get_field_20() != 0 && !(e->h <= lbl_8044F330)) {
             measure_message_text_width(e, farg0);
             h += 2.0f + e->h;
         }
@@ -488,7 +488,7 @@ void TWindowSubComCardList::update_layout_height(f32 x) {
     u32 i;
     for (i = 0; i < ((Win_80265E60 *)this)->count; i++) {
         Ent_80265E60 *e = ((Ent_80265E60 *)this->TWindowBase::get_array_entry(i));
-        if (get_field_20__17TWindowSubComCardFv(e) != 0) {
+        if ((void *)((TWindowSubComCard *)e)->get_field_20() != 0) {
             if (!(e->h <= lbl_8044F330)) {
                 sum += 2.0f + e->h;
             }
@@ -510,7 +510,7 @@ void TWindowSubComCard::calc_window_size() {
     u32 i;
     for (i = 0; i < ((Win_80265F60 *)this)->count; i++) {
         Ent_80265F60 *e = (Ent_80265F60 *)((TWindowBase *)this)->get_array_entry(i);
-        if (get_field_20__17TWindowSubComCardFv(e) != 0) {
+        if ((void *)((TWindowSubComCard *)e)->get_field_20() != 0) {
             if (e->w > width) {
                 width = e->w;
             }

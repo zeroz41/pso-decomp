@@ -44,7 +44,6 @@ extern s32 controller_input_state[];
 saddr get_window_layout_position(s32);
 s32 __nw__7TObjectFUl(s32);
 s32 align_menu_entry_positions(int);
-int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 void *draw_card_icon__17TWindowSubComCardFll(s32, s32, void *);
 s32 draw_text_gray__17TWindowSubComCardFllll(void *, void *, int, int);
 
@@ -202,13 +201,13 @@ u32 TWindowSubInformationBoard::create_info_board_menu() {
   temp_r31 = draw_card_icon__17TWindowSubComCardFll(get_window_layout_position(0xA4), 2, TWindowSubStatusDisp::get_message_10(0x1D));
   if (get_main_phase() == 0xF)
   {
-    forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, (saddr) TWindowSubStatusDisp::get_message_10(0x117), 6, 3);
+    TObjCityMainWarp::forward_trade_action_default(temp_r31, (saddr) TWindowSubStatusDisp::get_message_10(0x117), 6, 3);
   }
   else
   {
     TWindowSubComCard::draw_text_gray((saddr) temp_r31, (saddr) TWindowSubStatusDisp::get_message_10(0x117), 6, 3);
   }
-  forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, (saddr) TWindowSubStatusDisp::get_message_10(0x118), 6, 9);
+  TObjCityMainWarp::forward_trade_action_default(temp_r31, (saddr) TWindowSubStatusDisp::get_message_10(0x118), 6, 9);
   ((TWindowSubComCardList *)temp_r31)->set_flag70_bit10();
   ((TWindowSubComCardList *)temp_r31)->update_layout_height(179.0f);
   align_menu_entry_positions((saddr) temp_r31);
@@ -229,7 +228,7 @@ u32 TWindowSubInformationBoard::sub_8034CDE0() {
     it = ((L_8034CDE0 *)it)->items;
     for (i = 0; i < n; i++, it++) {
         if (it->f10 != 0) {
-            forward_trade_action_default__16TObjCityMainWarpFPviii(w, (saddr)it, 0x16, (int)i);
+            TObjCityMainWarp::forward_trade_action_default(w, (saddr)it, 0x16, (int)i);
         } else {
             draw_text_gray__17TWindowSubComCardFllll(w, it, 0x16, i);
         }

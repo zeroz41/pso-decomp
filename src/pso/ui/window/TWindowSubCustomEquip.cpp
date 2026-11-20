@@ -15,6 +15,7 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/ui/window/TWindowHelpItem.h"
 
 struct Obj_80275DB4 { u8 pad[0x60]; char f60; u8 pad2[0x6c - 0x61]; void *f6c; };
 
@@ -206,7 +207,6 @@ s32 TWindowSubCustomEquip::get_saved_slot_for_index(s32 arg0, s8 arg1) {
 
 
 extern "C" {
-s32 select_action_palette__10TObjPlayerFi(u8 *, s32);
 void *get_player_by_client_id(s32 i);
 saddr TWindowActionPalette__sub_801C1D7C(saddr arg0, s32 i, s32 arg2);
 s32 get_slot_type__20TWindowActionPaletteFlll(s32, s32, s32);
@@ -218,7 +218,7 @@ void TWindowSubCustomEquip::get_cursor_pos(void *arg1) {
     s32 saved_slot;
     s32 temp_r29;
 
-    if ((player = (u8 *)get_player_by_client_id(this->m_20), (player == 0U)) || (temp_r29 = select_action_palette__10TObjPlayerFi(player, 0), ((temp_r29 == 0) != 0))) {
+    if ((player = (u8 *)get_player_by_client_id(this->m_20), (player == 0U)) || (temp_r29 = (saddr)((TObjPlayer *)player)->select_action_palette(0), ((temp_r29 == 0) != 0))) {
         *(s16 *)((s8 *)arg1 + 0) = 0;
         *(s16 *)((s8 *)arg1 + 2) = 0;
         return;
@@ -231,7 +231,7 @@ void TWindowSubCustomEquip::get_cursor_pos(void *arg1) {
 void TWindowSubCustomEquip::remove_duplicate_bindings(void *arg1) {
     u8 *player;
     s32 temp_r29;
-    if ((player = (u8 *)get_player_by_client_id(this->m_20), (player == 0U)) || (temp_r29 = select_action_palette__10TObjPlayerFi(player, 0), ((temp_r29 == 0) != 0))) {
+    if ((player = (u8 *)get_player_by_client_id(this->m_20), (player == 0U)) || (temp_r29 = (saddr)((TObjPlayer *)player)->select_action_palette(0), ((temp_r29 == 0) != 0))) {
         return;
     }
     if (*(u16 *)((s8 *)arg1 + 0) == (u16)get_slot_type__20TWindowActionPaletteFlll(temp_r29, 0, 1) && *(u16 *)((s8 *)arg1 + 2) == (u16)TWindowActionPalette__sub_801C1D7C(temp_r29, 0, 1)) {
@@ -258,7 +258,7 @@ void TWindowSubCustomEquip::toggle_action_binding(void *arg1) {
     s32 temp_r29;
     s32 valid;
     s32 idx;
-    if ((player = (u8 *)get_player_by_client_id(this->m_20), (player == 0U)) || (temp_r29 = select_action_palette__10TObjPlayerFi(player, 0), ((temp_r29 == 0) != 0))) {
+    if ((player = (u8 *)get_player_by_client_id(this->m_20), (player == 0U)) || (temp_r29 = (saddr)((TObjPlayer *)player)->select_action_palette(0), ((temp_r29 == 0) != 0))) {
         return;
     }
     valid = is_type_valid__21TWindowSubCustomEquipFv(this, this->m_62);
@@ -282,7 +282,6 @@ s32 fn_8002AE08(int);
 s32 apply_choice__20TWindowChoiceSettingFllll(void *, int, int, int);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
-s32 set_help_text__15TWindowHelpItemFll(u8 *, s32);
 
 
 void TWindowSubCustomEquip::set_relative_pos(void *arg1) {
@@ -312,7 +311,7 @@ int TWindowSubCustomEquip::layout_selection_parts(void *arg1) {
     }
     pos.x = 45.0f + *(f32 *)((s8 *)p + 8);
     pos.y = 53.0f + *(f32 *)((s8 *)p + 0xC);
-    set_help_text__15TWindowHelpItemFll(b, this->m_20);
+    TWindowHelpItem::set_help_text((saddr)b, this->m_20);
     ((TWindowSubSymbolChatPartsSet *)(a + 8))->copy_vec2(&pos);
     ((TWindowSubSymbolChatPartsSet *)(b + 8))->copy_vec2(&pos);
     *(f32 *)((s8 *)a + 0x18) = *(f32 *)((s8 *)p + 0x18);
@@ -353,7 +352,7 @@ s32 TWindowSubCustomEquip::refresh_palette_slots() {
     u8 *player;
     s32 pal;
     player = (u8 *)get_player_by_client_id(this->m_20);
-    if (player == NULL || (pal = select_action_palette__10TObjPlayerFi(player, 0)) == 0) {
+    if (player == NULL || (pal = (saddr)((TObjPlayer *)player)->select_action_palette(0)) == 0) {
         return;
     }
     update_palette_slot(0, get_slot_type__20TWindowActionPaletteFlll(pal, *(s8 *)&this->m_64, 2), (saddr)TWindowActionPalette__sub_801C1D7C(pal, *(s8 *)&this->m_64, 2));

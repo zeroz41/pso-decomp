@@ -591,7 +591,7 @@ void TWindowKeyBoardBase::sub_8025D8C8() {
         TWindowKeyBoardSoft__sub_803E6868(name, text);
         i++;
         if (i > n) {
-            dispatch_request_0x22__19TWindowKeyBoardSoftFll(name, text);
+            TWindowKeyBoardSoft::dispatch_request_0x22((saddr)name, (saddr)text);
             ((TWindowKeyBoardBase *)self)->sub_8025CF50(self->sel);
             ((TWindowKeyBoardBase *)self)->append_text_entry((u8 *)text);
             return;

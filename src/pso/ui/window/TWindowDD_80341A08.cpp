@@ -270,7 +270,6 @@ struct Entry_80341FFC {
 extern "C" {
 s32 apply_both_choices__9TWindowDDFll(void *, int);
 s32 init_window_layout_entries(void *, void *, int);
-Elem_80341FFC *get_element_ptr__9TWindowDDFl(s32);
 s32 get_field_20__17TWindowSubComCardFv(void);
 
 void TWindowDD::set_mode_2() { this->m_64[0] = 2; }
@@ -396,7 +395,7 @@ void TWindowDD::load_element_list() {
     s32 i;
     s32 n;
     Entry_80341FFC *ent;
-    e = get_element_ptr__9TWindowDDFl(self->x70);
+    e = (Elem_80341FFC *)TWindowDD::get_element_ptr(self->x70);
     if (e != NULL) {
         self->count = e->count;
         self->buf = (s16 *)mem_alloc(self->count * 2);

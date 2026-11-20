@@ -62,7 +62,6 @@ extern TObject *tl_clipout;
 extern TObject *tl_fadeafter;
 extern "C" {
 void TCameraCtrl__sub_80068EF0(void);
-s32 get_nth_view_player_id__11TCameraCtrlFl(s32);
 }
 struct VObj_8024C820 {
     char pad[0x18];
@@ -822,7 +821,7 @@ TWindowCtrlScreen::~TWindowCtrlScreen() {
 void TWindowCtrlScreen::render() {
     u16 viewport_index;
     if (is_window_display_enabled() != 0) {
-        viewport_index = get_nth_view_player_id__11TCameraCtrlFl(TCameraCtrl::get_camera_no());
+        viewport_index = (s32)TCameraCtrl::get_nth_view_player_id(TCameraCtrl::get_camera_no());
         set_default_alpha_blend();
         TParticleCtrl::begin_effect_render();
         TWindowCtrlMain__instance->render_nodes();

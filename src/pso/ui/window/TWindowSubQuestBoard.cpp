@@ -28,6 +28,7 @@
 #include "pso/system/PadRumble.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/ui/window/TWindowShortListCtrl_801A4FC0.h"
+#include "pso/object/warp/TObjCityMainWarp.h"
 
 #pragma readonly_strings on
 
@@ -205,14 +206,14 @@ s32 TUnk_804D1818::create_option_menu_window() {
 
     titled_window_menu = create_titled_window_menu((saddr)get_window_layout_position(0x15), 6, (saddr)TWindowSubStatusDisp::get_message_10(0x2A), client_id);
     if (is_split_screen() == 0) {
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)titled_window_menu, (saddr)TWindowSubStatusDisp::get_message_10(0x66), 6, 0);
+        TObjCityMainWarp::forward_trade_action_default((void *)titled_window_menu, (saddr)TWindowSubStatusDisp::get_message_10(0x66), 6, 0);
     }
-    forward_trade_action_default__16TObjCityMainWarpFPviii((void *)titled_window_menu, (saddr)TWindowSubStatusDisp::get_message_10(0x67), 6, 1);
-    forward_trade_action_default__16TObjCityMainWarpFPviii((void *)titled_window_menu, (saddr)TWindowSubStatusDisp::get_message_10(0x68), 6, 2);
-    forward_trade_action_default__16TObjCityMainWarpFPviii((void *)titled_window_menu, (saddr)TWindowSubStatusDisp::get_message_10(0x69), 6, 3);
-    forward_trade_action_default__16TObjCityMainWarpFPviii((void *)titled_window_menu, (saddr)TWindowSubStatusDisp::get_message_10(0x6A), 6, 4);
+    TObjCityMainWarp::forward_trade_action_default((void *)titled_window_menu, (saddr)TWindowSubStatusDisp::get_message_10(0x67), 6, 1);
+    TObjCityMainWarp::forward_trade_action_default((void *)titled_window_menu, (saddr)TWindowSubStatusDisp::get_message_10(0x68), 6, 2);
+    TObjCityMainWarp::forward_trade_action_default((void *)titled_window_menu, (saddr)TWindowSubStatusDisp::get_message_10(0x69), 6, 3);
+    TObjCityMainWarp::forward_trade_action_default((void *)titled_window_menu, (saddr)TWindowSubStatusDisp::get_message_10(0x6A), 6, 4);
     if (is_split_screen() == 0) {
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)titled_window_menu, (saddr)TWindowSubStatusDisp::get_message_10(0x6E), 6, 5);
+        TObjCityMainWarp::forward_trade_action_default((void *)titled_window_menu, (saddr)TWindowSubStatusDisp::get_message_10(0x6E), 6, 5);
     }
     ((TWindowSubComCardList *)titled_window_menu)->set_flag70_bit10();
     ((TWindowSubComCardList *)titled_window_menu)->update_layout_height(195.0f);

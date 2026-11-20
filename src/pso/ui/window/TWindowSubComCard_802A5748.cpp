@@ -13,7 +13,6 @@
 #include "pso/system/task/TObject.h"
 
 extern "C" {
-int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 u8 *create_yes_no_window(s32 arg0, s32 arg1, uaddr arg2, uaddr arg3);
 saddr create_window_menu(saddr, saddr, saddr);
 int set_selected_index__21TWindowSubComCardListFs(void*);
@@ -45,7 +44,7 @@ s32 TWindowMessageYesNo::is_child_visible() {
 s32 create_titled_window_menu(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 void initialize_option_dialog(void *arg0, s32 arg1, s32 arg2, f32 farg0) {
     *(s32 *)((s8 *)arg0 + 0x28) = create_window_menu(arg2, 1, *(s32 *)((s8 *)arg0 + 0x24));
-    forward_trade_action_default__16TObjCityMainWarpFPviii((void *)(*(saddr *)((s8 *)arg0 + 0x28)), (int)arg1, 0x21, 0);
+    TObjCityMainWarp::forward_trade_action_default((void *)(*(saddr *)((s8 *)arg0 + 0x28)), (int)arg1, 0x21, 0);
     ((TAdChrSelASlotGC *)(*(saddr *)((s8 *)arg0 + 0x28)))->set_flag_40();
     TQuestThread::set_status_flag_80((void *)(*(saddr *)((s8 *)arg0 + 0x28)));
     ((TWindowSubComCard *)(*(saddr *)((s8 *)arg0 + 0x28)))->calc_layout_height(farg0);
@@ -58,7 +57,7 @@ void open_yes_no_prompt(TChCrTagPlBack *ch_cr_tag_pl_back, u32 arg1, s32 arg2, s
     } else {
         *(s32 *)((s8 *)ch_cr_tag_pl_back + 0x28) = (long) (create_titled_window_menu(arg3, 1, arg1, *(s32 *)((s8 *)ch_cr_tag_pl_back + 0x24)));
     }
-    forward_trade_action_default__16TObjCityMainWarpFPviii(((void *) *(saddr *)((s8 *)ch_cr_tag_pl_back + 0x28)), (arg2), 0x21, 0);
+    TObjCityMainWarp::forward_trade_action_default(((void *) *(saddr *)((s8 *)ch_cr_tag_pl_back + 0x28)), (arg2), 0x21, 0);
     ((TAdChrSelASlotGC *)(*(saddr *)((s8 *)ch_cr_tag_pl_back + 0x28)))->set_flag_40();
     TQuestThread::set_status_flag_80((void *)((saddr) (*(saddr *)((s8 *)ch_cr_tag_pl_back + 0x28))));
     ((TWindowSubComCard *)(*(saddr *)((s8 *)ch_cr_tag_pl_back + 0x28)))->calc_layout_height(farg0);

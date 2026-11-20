@@ -23,7 +23,6 @@ extern s32 controller_input_state[];
 u32 create__19TWindowMessageYesNoFPvPvPvPv(s32, s32, s32, s32);
 void __ct__7TObjectFP7TObject(void *);
 s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(u32, s32, s32, f32);
-s32 get_option_entry__17TWindowOptionCtrlFi(s32);
 int reset_info_board__6TLobbyFv(void*);
 extern s32 local_client_id;
 extern s32 tl_01;
@@ -275,10 +274,10 @@ void TUnk_804F01A8::open_confirm_dialog(s32 message, s32 arg2) {
     }
     this->m_2c = create__19TWindowMessageYesNoFPvPvPvPv(tl_01, local_client_id, 0, 0);
     if (arg2 != 0) {
-        forward_slot_selection__16TAdChrSelASlotGCFPvPv(this->m_2c, message, get_option_entry__17TWindowOptionCtrlFi(0xCF), 470.0f);
+        forward_slot_selection__16TAdChrSelASlotGCFPvPv(this->m_2c, message, (saddr)TWindowOptionCtrl::get_option_entry(0xCF), 470.0f);
         return;
     }
-    initialize_option_dialog((void *)this->m_2c, message, (get_option_entry__17TWindowOptionCtrlFi(0xCF)), 470.0f);
+    initialize_option_dialog((void *)this->m_2c, message, ((saddr)TWindowOptionCtrl::get_option_entry(0xCF)), 470.0f);
 }
 
 s32 TUnk_804F01A8::get_field_24() { return this->m_24; }

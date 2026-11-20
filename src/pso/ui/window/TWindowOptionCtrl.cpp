@@ -51,10 +51,8 @@ u8 *get_window_layout_position(s32);
 s32 create__19TWindowMessageYesNoFPvPvPvPv(s32, s32, s32, s32);
 s32 free_member__17TWindowSubComCardFv(int, int);
 s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(int, void *, int, f32);
-s32 create__14TWindowMessageFPvll(void *, const vec2f *, s32);
 saddr warn_if_empty__17TWindowOptionCtrlFPUc(void *);
 void *get_chr_select_base_plus_1154c__17TWindowOptionCtrlFv();
-s32 refresh_with_default_list__20TWindowSubStatusDispFll(s32, const vec2f *);
 s32 get_option_entry__17TWindowOptionCtrlFi(s32);
 s32 get_localized_text_entry(s32 arg0, s32 arg1);
 s32 align_menu_entry_positions(int);
@@ -444,7 +442,7 @@ extern "C" {
 s32 TWindowOptionCtrl::create_menu() {
     saddr temp_r31;
 
-    temp_r31 = check_room_seq_4__16TAdChrSelASlotGCFl(get_option_entry__17TWindowOptionCtrlFi(0xCE), 9);
+    temp_r31 = check_room_seq_4__16TAdChrSelASlotGCFl((saddr)TWindowOptionCtrl::get_option_entry(0xCE), 9);
     forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 0), 6, 3);
     forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 1), 6, 7);
     forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 2), 6, 5);
@@ -460,7 +458,7 @@ s32 TWindowOptionCtrl::create_menu() {
 
 s32 TWindowOptionCtrl::create_select_menu_window() {
     saddr temp_r31;
-    temp_r31 = refresh_with_default_list__20TWindowSubStatusDispFll(get_option_entry__17TWindowOptionCtrlFi(0xCF), &lbl_8044F48C);
+    temp_r31 = (saddr)TWindowSubStatusDisp::refresh_with_default_list(get_option_entry__17TWindowOptionCtrlFi(0xCF), (saddr)(&lbl_8044F48C));
     TWindowOptionCtrl::add_menu_item(temp_r31, (get_localized_text_entry(0xF, 8)), 0);
     TWindowOptionCtrl::add_menu_item(temp_r31, (get_localized_text_entry(0xF, 9)), 1);
     TWindowOptionCtrl::add_menu_item(temp_r31, (get_localized_text_entry(0xF, 0xA)), 2);
@@ -475,7 +473,7 @@ s32 TWindowOptionCtrl::create_list_window() {
     saddr list;
 
     unlock_music_flag(2);
-    list = check_room_seq_4__16TAdChrSelASlotGCFl(get_option_entry__17TWindowOptionCtrlFi(0xCF), 0x31);
+    list = check_room_seq_4__16TAdChrSelASlotGCFl((saddr)TWindowOptionCtrl::get_option_entry(0xCF), 0x31);
     set_flag70_bit100__21TWindowSubComCardListFv();
     idx = 0;
     do {
@@ -497,8 +495,8 @@ s32 TWindowOptionCtrl::create_list_window() {
 s32 TWindowOptionCtrl::create_sound_mode_menu() {
     saddr temp_r31;
 
-    s32 temp_r3_after_cba4 = get_option_entry__17TWindowOptionCtrlFi(0xCF);
-    temp_r31 = refresh_with_default_list__20TWindowSubStatusDispFll(temp_r3_after_cba4, &lbl_8044F494);
+    s32 temp_r3_after_cba4 = (saddr)TWindowOptionCtrl::get_option_entry(0xCF);
+    temp_r31 = (saddr)TWindowSubStatusDisp::refresh_with_default_list(temp_r3_after_cba4, (saddr)(&lbl_8044F494));
     TWindowOptionCtrl::add_menu_item(temp_r31, get_localized_text_entry(0xF, 0xE), 0);
     TWindowOptionCtrl::add_menu_item(temp_r31, get_localized_text_entry(0xF, 0xD), 1);
     TWindowOptionCtrl::add_menu_item(temp_r31, get_localized_text_entry(0xF, 0xF), 2);
@@ -519,20 +517,20 @@ s32 TWindowOptionCtrl::create_sound_mode_menu() {
 s32 TWindowOptionCtrl::create_sound_balance_window() {
     s32 var_r31;
 
-    var_r31 = (saddr)new TWindowSoundBalance(get_option_entry__17TWindowOptionCtrlFi(0xCF));
+    var_r31 = (saddr)new TWindowSoundBalance((saddr)TWindowOptionCtrl::get_option_entry(0xCF));
     return var_r31;
 }
 
 s32 TWindowOptionCtrl::create_snap_shot_window() {
     s32 window_snap_shot;
 
-    window_snap_shot = (saddr)new TWindowSnapShot(get_option_entry__17TWindowOptionCtrlFi(0xCF));
+    window_snap_shot = (saddr)new TWindowSnapShot((saddr)TWindowOptionCtrl::get_option_entry(0xCF));
     return window_snap_shot;
 }
 
 s32 TWindowOptionCtrl::create_sub_menu_window() {
     saddr temp_r31;
-    temp_r31 = check_room_seq_4__16TAdChrSelASlotGCFl(get_option_entry__17TWindowOptionCtrlFi(0xCF), 3);
+    temp_r31 = check_room_seq_4__16TAdChrSelASlotGCFl((saddr)TWindowOptionCtrl::get_option_entry(0xCF), 3);
     forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 0x1A), 6, 0x12);
     forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 0x1B), 6, 0x14);
     forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 0x1C), 6, 0x15);
@@ -544,7 +542,7 @@ s32 TWindowOptionCtrl::create_sub_menu_window() {
 s32 TWindowOptionCtrl::create_option_menu() {
     saddr temp_r31;
 
-    temp_r31 = refresh_with_default_list__20TWindowSubStatusDispFll(get_option_entry__17TWindowOptionCtrlFi(0xD0), &lbl_8044F49C);
+    temp_r31 = (saddr)TWindowSubStatusDisp::refresh_with_default_list(get_option_entry__17TWindowOptionCtrlFi(0xD0), (saddr)(&lbl_8044F49C));
     TWindowOptionCtrl::add_menu_item(temp_r31, get_localized_text_entry(0xF, 0x10), 0);
     TWindowOptionCtrl::add_menu_item(temp_r31, get_localized_text_entry(0xF, 0x11), 1);
     TWindowOptionCtrl::add_menu_item(temp_r31, get_localized_text_entry(0xF, 0x12), 2);
@@ -562,7 +560,7 @@ saddr TWindowOptionCtrl::open_yes_no_window(s32 arg0, s32 arg1, s32 arg2) {
 
 saddr TWindowOptionCtrl::create_serial_info_window(s32 arg1) {
     saddr w;
-    w = create__14TWindowMessageFPvll(this, &lbl_8044F4A4, 3);
+    w = (saddr)TWindowMessage::create(this, (saddr)(&lbl_8044F4A4), 3);
     switch (arg1) {
     case 0:
         ((TWindowOptionCtrl *)w)->add_label_value_line((const char *)(get_localized_text_entry(0xF, 0x16)), (const char *)(warn_if_empty__17TWindowOptionCtrlFPUc(TAdEnterSerialAccessGC__sub_80321874())), (u32)0);

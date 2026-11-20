@@ -38,7 +38,6 @@ void *get_player_by_client_id(s32 i);
 s32 text_builder_append();
 s32 __ct__7TObjectFP7TObject();
 void TObjPlayer__sub_8024ABDC(s32 arg0);
-s32 create__14TWindowMessageFPvll(void *, void *, int);
 extern void *__vt__17TWindowGetComCard[];
 const char *TWindowGetComCard__name = "TWindowGetComCard";
 extern s32 local_client_id;
@@ -159,7 +158,7 @@ u8 *TWindowGetComCard__ct(TWindowGetComCard *window_get_com_card) {
     __ct__7TObjectFP7TObject();
     *(s32 **)((s8 *)window_get_com_card + 0x18) = ((s32 *)&__vt__17TWindowGetComCard);
     *(s32 *)((s8 *)window_get_com_card + 0) = (saddr) TWindowGetComCard__name;
-    window_get_com_card->m_1c = create__14TWindowMessageFPvll((void *)pos, (void *)size, 1);
+    window_get_com_card->m_1c = (saddr)TWindowMessage::create((void *)pos, (saddr)size, 1);
     window_get_com_card->m_20 = 0;
     if (init_com_card__17TWindowSubComCardFv() != 0) {
         temp_r31 = (saddr)TWindowGetComCard__sub_8007B594();
