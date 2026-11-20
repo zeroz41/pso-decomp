@@ -488,7 +488,7 @@ struct TLobby : public TObject {
     static void reset_info_board();
     static int get_lobby_texlist();
     void set_timer(f32 v);
-    static s32 open_message_scroll_window(s32 arg0, s32 arg1, saddr arg2);
+    static saddr open_message_scroll_window(saddr arg0, saddr arg1, saddr arg2);
     static void *create_dialing_message_window(void *arg0, void *arg1);
     static void free_singleton_805D7018();
     void *reset_counters();

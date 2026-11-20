@@ -1322,7 +1322,6 @@ void TObjPlayer__sub_80354CCC(s32 arg0);
 void TObjPlayer__sub_80354D14(s32 arg0);
 void TObjPlayer__sub_80354DAC(s32 arg0);
 void TObjPlayer__sub_80354DF4(s32 arg0);
-void * open_message_scroll_window__6TLobbyFlll(NJS_POINT2 *, NJS_POINT2 *, void *);
 u32 TLobby__sub_803DF1CC(void);
 }
 
@@ -1381,7 +1380,7 @@ void qst_op_scroll_text() {
     pos.y = y;
     size.x = 8.0f + (f32)(cols * 0x12);
     size.y = (20.0f + (f32)(rows * 0x14)) - 2.0f;
-    win = open_message_scroll_window__6TLobbyFlll(&pos, &size, &qst_registers[msg]);
+    win = (void *)TLobby::open_message_scroll_window((saddr)&pos, (saddr)&size, (saddr)&qst_registers[msg]);
     ((TLobby *)win)->set_field_90(field90);
     dispatch_message_window_text(win, arg, 0x13);
     ((TLobby *)win)->set_timer(timer);
