@@ -60,7 +60,7 @@ s32 create__19TWindowMessageYesNoFPvPvPvPv(void *, int, int, int);
 extern s32 lbl_804728A8[];
 extern s32 lbl_804728A0[];
 s32 align_menu_entry_positions(int);
-s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2);
+saddr create_window_menu(s32 arg0, s32 arg1, s32 arg2);
 extern s32 lbl_80472890[];
 extern u8 lbl_80472898[];
 extern u8 player_number_text_buffer[];

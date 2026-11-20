@@ -233,7 +233,7 @@ extern const s32 local_client_id;
 u32 create_yes_no_window(int, u16, int, int);
 s32 sub_802239EC__13TShopSequenceFv(void *);
 void play_sound_effect(int, int, int, int);
-s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2);
+saddr create_window_menu(s32 arg0, s32 arg1, s32 arg2);
 s32 align_menu_entry_positions(u32);
 void __dl__7TObjectFPv(void *);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);

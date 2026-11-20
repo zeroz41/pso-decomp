@@ -16,7 +16,7 @@ u32 get_player_by_client_id(s32);
 s32 has_window_task_root();
 void* get_window_layout_position(s32);
 void* create__14TWindowMessageFPvll(void*, void*, s32);
-s32 get_message_text(s32 arg0);
+saddr get_message_text(s32 arg0);
 extern s32 local_client_id;
 extern const char TObjSoloPlayWin_class_name[] = "TObjSoloPlayWin";
 const char* TObjSoloPlayWin_name = TObjSoloPlayWin_class_name;

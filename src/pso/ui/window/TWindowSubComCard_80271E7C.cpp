@@ -142,7 +142,7 @@ s32 create__14TWindowMessageFPvll(s32, s32 *, s32);
 void open_mode4_window__17TWindowSubComCardFv(void);
 void open_layout_window__17TWindowSubComCardFv(void);
 s32 TWindowSubComCard__sub_80273004(void);
-s32 get_character_save_record(u32 arg0);
+saddr get_character_save_record(u32 arg0);
 s32 create_choice_setting_window__17TWindowSubComCardFiii(s32 arg0, s32 arg1, s32 arg2);
 void create_sub_window__20TWindowChoiceSettingFPvi(void *arg0, s32 arg1);
 s32 init_card__17TWindowSubComCardFv();
@@ -168,7 +168,7 @@ struct ComCardList_80272A98 { u8 pad0; u8 count; u8 pad2[2]; ComCardRec_80272A98
 
 typedef void *(*GetMsg_80272CB0)(void *, void *);
 
-s32 get_message_text(s32);
+saddr get_message_text(s32);
 }
 
 struct VBase_18_204a81 { char pad[0x18]; };

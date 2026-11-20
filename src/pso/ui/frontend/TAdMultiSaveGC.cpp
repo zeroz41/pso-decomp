@@ -14,7 +14,7 @@
 #include "pso/system/task/TMainTask.h"
 
 extern "C" {
-s32 get_message_text(s32 arg0);
+saddr get_message_text(s32 arg0);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 s32 check_room_seq_4__16TAdChrSelASlotGCFl(const void *, int);
 s32 update_window_mode_from_progress__6TLobbyFPv(const void *, const void *);

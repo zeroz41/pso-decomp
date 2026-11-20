@@ -102,7 +102,7 @@ s32 encrypt_save_data__23TAdSinglePlyChrSelectGCFPvPv(int);
 s32 save_character_file__23TAdSinglePlyChrSelectGCFi(int);
 s32 init_and_register__23TAdSinglePlyChrSelectGCFi(int);
 s32 get_field_118__22TAdEnterSerialAccessGCFv();
-s32 get_character_save_record(int);
+saddr get_character_save_record(int);
 s32 update_window_mode_from_progress__6TLobbyFPv(const f32 *, const f32 *);
 
 struct TAdSinglePlyChrSelectGC__sub_8033B9F8;

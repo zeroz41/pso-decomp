@@ -177,7 +177,7 @@ s32 play_sound_effect(s32, s32, s32, s32);
 void *__ct__18TWindowInputNumberFPvllls(void *, s32, s32, s32, s32, s16);
 s32 align_menu_entry_positions(u32);
 s32 forward_trade_action_default__16TObjCityMainWarpFPviii(u32, s32, s32, s32);
-u32 create_window_menu(s32, s32, u16);
+uaddr create_window_menu(s32, s32, u16);
 void __dl__7TObjectFPv(void *);
 extern s32 __vt__24TShopEquipmentSellWindow[];
 const char *TShopEquipmentSellWindow__class_name = "TShopEquipmentSellWindow";

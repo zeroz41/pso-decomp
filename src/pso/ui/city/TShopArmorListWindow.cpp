@@ -218,7 +218,7 @@ void *__ct__15TWindowHelpItemFPvUs(void *, s32, u16);
 u8 *create_item_list_window(s32 arg0, s32 arg1, s32 arg2);
 s32 get_item_count__24TShopEquipmentSellWindowFv(void *a, s32 b);
 void *create_cost_window(u16);
-s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2);
+saddr create_window_menu(s32 arg0, s32 arg1, s32 arg2);
 s32 align_menu_entry_positions(u32);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 

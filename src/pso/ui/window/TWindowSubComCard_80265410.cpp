@@ -108,7 +108,7 @@ int forward_trade_action_default__16TObjCityMainWarpFPviii(void* p, int a1, int 
 void fn_80266378(s32 arg0);
 u8 * create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
 u8 * init_shop_judgment_window(void* p);
-s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2);
+saddr create_window_menu(s32 arg0, s32 arg1, s32 arg2);
 void render__11TWindowMenuFv(TWindowMenu *arg0);
 u8 * TWindowMenu__ct(u8 *arg0, u32 arg1, s32 arg2, s32 arg3);
 u8 test_menu_flag__11TWindowMenuFv(u8 *arg0);
@@ -669,7 +669,7 @@ u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3) {
 
 u8 * init_shop_judgment_window(void* p) { return create_yes_no_window((saddr)p, 4, (u32)(0), (u32)(0)); }
 
-s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2) {
+saddr create_window_menu(s32 arg0, s32 arg1, s32 arg2) {
     s32 temp_r3;
     s32 var_r0;
     ((s32 (*)(void *))fn_80266378)((void *)arg1);

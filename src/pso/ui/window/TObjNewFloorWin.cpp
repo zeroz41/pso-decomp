@@ -18,7 +18,7 @@ struct TObjNewFloorWin_80073DCC { u8 pad[0x1C]; s32 state; void *window; s32 tim
 
 extern "C" {
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
-s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2);
+saddr create_window_menu(s32 arg0, s32 arg1, s32 arg2);
 u32 check_room_seq_4__16TAdChrSelASlotGCFl(s32);
 s32 get_window_layout_position(s32);
 s32 has_window_task_root();

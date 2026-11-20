@@ -69,7 +69,7 @@ struct TMainCursor : public TObject {
     int check_visible();
     u8 get_enabled();
     u8 get_type();
-    s32 get_state();
+    saddr get_state();
     void destroy_lock_on(s32 a1);
     void set_target(s32 a1);
     void set_target_index(s16 v);

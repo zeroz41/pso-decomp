@@ -46,7 +46,7 @@ void *__ct__16TObjBagWarnWin4PFv(void *arg0);
 
 void *get_player_by_client_id(s32 i);
 
-s32 get_message_text(s32);
+saddr get_message_text(s32);
 s32 get_entity_id();
 
 s32 has_player_active_menu__11TWindowCtrlFv(u16);
@@ -57,7 +57,7 @@ s32 get_window_layout_position(s32);
 
 void __ct__7TObjectFP7TObject(void *);
 
-s32 get_character_save_record(u32 arg0);
+saddr get_character_save_record(u32 arg0);
 
 s32 is_active__19THunterGuildWarningFv();
 
@@ -100,7 +100,7 @@ extern f32 TObjBagWarnWin__message_window_size[2];
 
 extern u8 *text_language_group_table;
 
-s32 get_message_text(s32 arg0) {
+saddr get_message_text(s32 arg0) {
     return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x2C)) + (arg0 * 4));
 }
 

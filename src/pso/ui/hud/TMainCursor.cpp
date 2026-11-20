@@ -1773,7 +1773,7 @@ void TMainCursor__sub_8013DFC4(u8 *arg0) {
 
 }
 
-s32 TMainCursor::get_state() { return *(s32 *)&this->m_flags; }
+saddr TMainCursor::get_state() { return *(saddr *)&this->m_flags; }
 
 TUnk_8013E020::~TUnk_8013E020() {}
 

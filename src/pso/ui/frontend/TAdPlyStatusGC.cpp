@@ -80,7 +80,7 @@ TAdPlyStatusGC_8033FC14 *TAdPlyStatusGC__ct(TAdPlyStatusGC_8033FC14 *self, void 
 s32 *TAdSinglePlyChrSelectGC__sub_801FE3E4(u32 i);
 s32 get_entry__23TAdSinglePlyChrSelectGCFi(s32 i);
 s32 TAdSinglePlyChrSelectGC__sub_801FE800(u32 i);
-s32 get_character_save_record(u32 arg0);
+saddr get_character_save_record(u32 arg0);
 s32 get_char_index__23TAdSinglePlyChrSelectGCFUi(u32 arg0);
 }
 s32 get_class_name_text(s32 arg0);

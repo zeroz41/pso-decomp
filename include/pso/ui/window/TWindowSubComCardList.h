@@ -19,9 +19,9 @@ struct TWindowSubComCardList : public TWindowMenu {
     void set_flag70_bit100();
     void set_flag70_bit10();
     virtual void render();
-    u32 m_8c;
-    u32 m_90;
-    u32 m_94;
+    uaddr m_8c;
+    uaddr m_90;
+    uaddr m_94;
     u32 m_98;
     u8 m_9c;
     virtual void run_task();

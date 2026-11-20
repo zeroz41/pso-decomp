@@ -17,7 +17,7 @@ struct G_800718D0 { u8 pad[0xC]; s32 fc; u8 rest[0x100]; };
 extern "C" {
 s32 get_layout_id__20TWindowSubStatusDispFv(void *);
 s32 TWindowSubStatusDisp__sub_8006F0D8(void *, void *);
-u32 get_character_save_record(u32);
+uaddr get_character_save_record(u32);
 extern RecoveredGlobal_80071820_lbl_804FF820 lbl_804FF820;
 extern s32 lbl_805D2858;
 s32 get_slot_clamped__6TLobbyFv(s32);

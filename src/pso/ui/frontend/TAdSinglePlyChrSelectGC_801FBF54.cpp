@@ -709,7 +709,7 @@ void save_character_file__23TAdSinglePlyChrSelectGCFi(s32);
 void update_play_time__23TAdSinglePlyChrSelectGCFv();
 void run_save_load_sequence__23TAdSinglePlyChrSelectGCFv();
 s32 get_field_118__22TAdEnterSerialAccessGCFv();
-s32 get_character_save_record(u32);
+saddr get_character_save_record(u32);
 s32 get_instance__23TAdSinglePlyChrSelectGCFv();
 s32 memcpy(void *, void *, int);
 s32 memset(int, int, int);
@@ -735,7 +735,7 @@ void update_play_time__23TAdSinglePlyChrSelectGCFv();
 void TAdSinglePlyChrSelectGC__sub_8028DC14();
 void run_save_load_sequence__23TAdSinglePlyChrSelectGCFv();
 s32 get_field_118__22TAdEnterSerialAccessGCFv();
-s32 get_character_save_record(u32);
+saddr get_character_save_record(u32);
 s32 get_instance__23TAdSinglePlyChrSelectGCFv();
 s32 memcpy(void *, void *, int);
 s32 memset(int, int, int);
@@ -2343,7 +2343,7 @@ struct ByteBlock_C0
 extern "C" {
 u8 *TAdSinglePlyChrSelectGC__sub_801FFC74(u8 *arg0, u8 *arg1);
 s32 update_elapsed_time__23TAdSinglePlyChrSelectGCFPv(void *);
-s32 get_character_save_record(u32);
+saddr get_character_save_record(u32);
 s32 get_char_index__23TAdSinglePlyChrSelectGCFUi(u32);
 s32 try_assign_battle_ctrl__10TObjPlayerFiUs(s32, u16);
 s32 TLobby__sub_8030A770(void);
@@ -2373,7 +2373,7 @@ s32 save_character_file__23TAdSinglePlyChrSelectGCFi(int);
 s32 update_play_time__23TAdSinglePlyChrSelectGCFv();
 s32 run_save_load_sequence__23TAdSinglePlyChrSelectGCFv();
 s32 get_field_118__22TAdEnterSerialAccessGCFv();
-s32 get_character_save_record(u32);
+saddr get_character_save_record(u32);
 s32 get_instance__23TAdSinglePlyChrSelectGCFv();
 s32 fn_80203284();
 s32 TAdSinglePlyChrSelectGC__sub_8028DC14();
@@ -2869,7 +2869,7 @@ void decrypt_char_data__23TAdSinglePlyChrSelectGCFPv(void *arg0);
 s32 encrypt_save_data__23TAdSinglePlyChrSelectGCFPvPv(void *arg0);
 void update_play_time__23TAdSinglePlyChrSelectGCFv();
 s32 get_field_118__22TAdEnterSerialAccessGCFv();
-s32 get_character_save_record(u32);
+saddr get_character_save_record(u32);
 s32 get_instance__23TAdSinglePlyChrSelectGCFv();
 void TAdSinglePlyChrSelectGC__sub_8028DC14();
 s32 memcpy(void *, s32, s32);
@@ -4739,7 +4739,7 @@ s32 get_field_118__22TAdEnterSerialAccessGCFv(void) {
     return *(s32 *)((s8 *)system_save_payload + 0x118);
 }
 
-s32 get_character_save_record(u32 arg0) {
+saddr get_character_save_record(u32 arg0) {
     if (is_split_screen() != 0) {
         if (arg0 == 0xFFFF) {
             return get_split_screen_character_save_record(0U);

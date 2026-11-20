@@ -31,7 +31,7 @@ void TItemBuff__ct(void);
 extern const char *TItemAttacker__name;
 void TItemAttacker__sub_8010349C(u32 arg0);
 }
-int get_item_chunk_buffer(int a0);
+saddr get_item_chunk_buffer(int a0);
 extern "C" {
 u8 *TItemTimer__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
 }
@@ -192,7 +192,7 @@ TItemAttacker::~TItemAttacker() {}
 void TItemAttacker::run_task() { if (*(int*)((char*)this + 0x34) != 0) { queue_destruction(); } }
 
 __declspec(section ".data") int item_nj_chunk_buffer_table[2];
-int get_item_chunk_buffer(int a0) {  return item_nj_chunk_buffer_table[a0]; }
+saddr get_item_chunk_buffer(int a0) {  return item_nj_chunk_buffer_table[a0]; }
 
 void TItemBuff__ct(void) {
     if ((u32) (*(u32 *)&item_buff_buffer) != 0) {

@@ -96,7 +96,7 @@ s32 get_entity_id(void *);
 s32 get_shop_text(s32 arg0);
 int align_menu_entry_positions(void *);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void* p, int a1, int a2, int a3);
-s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2);
+saddr create_window_menu(s32 arg0, s32 arg1, s32 arg2);
 struct Base_8021FE80_8021FE6C { char pad[0x18]; };
 struct VObj_8021FE80_8021FE6C : Base_8021FE80_8021FE6C {
     virtual void m0();

@@ -63,7 +63,7 @@ s32 free_data__23TAdSinglePlyChrSelectGCFv(void);
 void game_state_load(void);
 TPlyCharData *get_char_index__23TAdSinglePlyChrSelectGCFUi(u32 arg0);
 int get_char_table_entry__23TAdSinglePlyChrSelectGCFi(int a0);
-s32 get_character_save_record(u32 arg0);
+saddr get_character_save_record(u32 arg0);
 s32 get_entry__23TAdSinglePlyChrSelectGCFi(s32 i);
 s32 get_field_118__22TAdEnterSerialAccessGCFv(void);
 s32 get_player_count__23TAdSinglePlyChrSelectGCFv(void);

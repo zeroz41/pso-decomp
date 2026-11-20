@@ -106,7 +106,7 @@ extern "C" {
 s32 play_sound_effect(s32, s32, s32, s32);
 void run_task__16TObjCMAssignMenuFv(void *arg0);
 void TCameraCtrl__sub_80068EF0(void);
-s32 get_message_text(s32 arg0);
+saddr get_message_text(s32 arg0);
 u32 calc_text_width(char *s);
 s32 is_active__23TAdSinglePlyChrSelectGCFv();
 int TAdSinglePlyChrSelectGC__sub_802905B8(void);
