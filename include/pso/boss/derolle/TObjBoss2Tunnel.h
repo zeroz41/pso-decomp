@@ -26,6 +26,7 @@ struct PiecewiseCurve {
 };
 
 struct TObjBoss2Tunnel : public TObject {
+    TObjBoss2Tunnel(TObject *parent);
     virtual ~TObjBoss2Tunnel();
     void init_queue_from_start();
     void copy_ring_buffer_window();
@@ -50,14 +51,8 @@ struct TObjBoss2Tunnel : public TObject {
     u32 m_5c;
     u8 _pad60[0x4];
     u32 m_64;
-    void* m_68;
-    u8 unk_6C[0x4];
-    s32 m_70;
-    u8 unk_74[0xC];
-    f32 m_80;
-    u8 unk_84[0x4];
-    u32 m_88;
-    u8 unk_8C[0x10];
+    PiecewiseCurve m_curve;
+    u8 unk_94[0x8];
     u32 m_9c;
     u32 m_a0;
     u32 m_a4;

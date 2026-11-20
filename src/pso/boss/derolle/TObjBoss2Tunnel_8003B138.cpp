@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2RaftSplash.h"
 #include "pso/boss/derolle/TObjBoss2CeilJunk_8003A81C.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -247,11 +248,6 @@ struct Tunnel_8003C45C {
 extern "C" {
 void TObjBoss2Tunnel__sub_8003C5F8(void);
 void TObjBoss2Tunnel__sub_8003C610(void);
-u8 *TObjBoss2RaftSplash__ct(u8 *arg0, u8 *arg1, f32 *arg2, u8 *arg3, f32 *arg4);
-// TObjBoss2Tunnel__ct builds its PiecewiseCurve by hand until it becomes a real constructor.
-void __ct__14PiecewiseCurveFv(PiecewiseCurve *curve);
-extern s32 __vt__15TObjBoss2Tunnel[];
-void *TObjBoss2Tunnel__ct(void *arg0, void *arg1);
 void TObjBoss2Tunnel__sub_8003C648(void);
 
 }
@@ -307,11 +303,7 @@ void TObjBoss2Tunnel::clear_target_flags() {
 }
 
 void *TObjBoss2Tunnel::create() {
-    void *o = TObject::operator new(0xDC);
-    if (o != NULL) {
-        o = TObjBoss2Tunnel__ct(o, tl_02);
-    }
-    return o;
+    return new TObjBoss2Tunnel((TObject *)tl_02);
 }
 
 void TObjBoss2Tunnel__sub_8003C648(void) {  }
@@ -350,20 +342,17 @@ void TObjBoss2Tunnel::set_global_flag_200() {
     (*(s32 *)&TObjBoss2Tunnel__global_flags) |= 0x200;
 }
 
-void *TObjBoss2Tunnel__ct(void *object, void *arg1) {
-    Tunnel_8003C45C *self = (Tunnel_8003C45C *)object;
+#define self ((Tunnel_8003C45C *)this)
+TObjBoss2Tunnel::TObjBoss2Tunnel(TObject *parent) : TObject(parent) {
     s32 i;
     s32 j;
-    __ct__7TObjectFP7TObject(object);
-    self->vt = ((s32 *)&__vt__15TObjBoss2Tunnel);
-    __ct__14PiecewiseCurveFv(&self->curve);
-    self->name = lbl_805D2708;
+    m_name = lbl_805D2708;
     self->i24 = 0;
     (*(s32 *)&TObjBoss2Tunnel__global_flags) = 0;
     self->f1C = (0.0f);
     self->f20 = (0.0f);
     self->i28 = 0;
-    ((TObjBoss2Tunnel *)self)->init_queue_from_start();
+    init_queue_from_start();
     self->i5C = 0;
     self->f60 = (0.0f);
     self->i44 = 0;
@@ -385,22 +374,16 @@ void *TObjBoss2Tunnel__ct(void *object, void *arg1) {
     self->iA8 = 0;
     self->fAC = (0.0f);
     for (i = 0; i < 2; i++) {
-        u8 *o = (u8 *)TObject::operator new(0x40);
-        if (o != NULL) {
-            o = TObjBoss2RaftSplash__ct(o, (u8 *)self, boss2_tunnel_raft_splash_positions[i], (u8 *)&boss2_tunnel_raft_splash_offsets[i], &self->f20);
-        }
-        self->splash[i] = o;
+        self->splash[i] = new TObjBoss2RaftSplash((TObject *)self, (const Vec *)boss2_tunnel_raft_splash_positions[i], &boss2_tunnel_raft_splash_offsets[i], &self->f20);
     }
     for (j = 0; j < 4; j++) {
         self->c8[j] = 0;
     }
     self->d8 = 0xA;
-    return self;
 }
+#undef self
 
-TObjBoss2Tunnel::~TObjBoss2Tunnel() {
-    ((Tunnel_8003C45C *)this)->curve.~PiecewiseCurve();
-}
+TObjBoss2Tunnel::~TObjBoss2Tunnel() {}
 
 #undef __ct__7TObjectFP7TObject
 void TObjBoss2Tunnel::init_queue_from_start() {

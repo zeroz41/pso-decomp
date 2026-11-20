@@ -29,8 +29,6 @@ struct Obj_800372F0 {
 extern "C" {
 void TAdSinglePlyChrSelectGC__sub_80133508(void *light);
 const char *lbl_805D26C8 = "TBoss2LaserLight";
-extern void *__vt__16TBoss2LaserLight[];
-void __ct__7TObjectFP7TObject(TObject *self, TObject *parent);
 
 }
 
@@ -46,11 +44,10 @@ struct LaserLightParams_80037500 {
     f32 f3C;
 };
 
-TBoss2LaserLight *TBoss2LaserLight__ct(TBoss2LaserLight *self, TObject *parent, u32 arg2) {
+TBoss2LaserLight::TBoss2LaserLight(TObject *parent, u32 arg2) : TObject(parent) {
+    TBoss2LaserLight *self = this;
     LaserLightParams_80037500 *p = (LaserLightParams_80037500 *)self;
 
-    __ct__7TObjectFP7TObject(self, parent);
-    *(void ***)((u8 *)self + 0x18) = __vt__16TBoss2LaserLight;
     self->m_name = lbl_805D26C8;
     self->m_1c = arg2;
     self->m_20 = 0;
@@ -64,12 +61,11 @@ TBoss2LaserLight *TBoss2LaserLight__ct(TBoss2LaserLight *self, TObject *parent, 
     self->m_40 = TObjLight::alloc_light_slot();
     if (self->m_40 == 0) {
         self->queue_destruction();
-        return self;
+        return;
     }
     ((TAdSinglePlyChrSelectGC *)((void *)self->m_40))->noop_laser();
     ((TAdSinglePlyChrSelectGC *)self->m_40)->set_position(&p->position);
     ((TAdSinglePlyChrSelectGC *)self->m_40)->forward_to_field_0x14(&p->f38);
-    return self;
 }
 
 TBoss2LaserLight::~TBoss2LaserLight() {

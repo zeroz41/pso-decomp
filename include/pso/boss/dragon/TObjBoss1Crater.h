@@ -5,6 +5,7 @@
 #include "pso/player/TUnk_804928CC.h"
 
 struct TObjBoss1Crater : public TUnk_804928CC {
+    TObjBoss1Crater(TObject *parent, TObjBase *owner, void *pos);
     virtual ~TObjBoss1Crater();
     virtual void area_attack_receive_direct(void *, f32 *, void *);
     virtual void run_task();

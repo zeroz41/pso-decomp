@@ -35,9 +35,7 @@ s32 isV2Mode__12TBoss1DragonFv(void);
 extern const s32 lbl_80435410[3] = {548, 550, 553};
 extern const s32 lbl_8043541C[3] = {522, 520, 201};
 const s32 *dragon_fireball_particle_ids;
-s32 __ct__7TObjectFP7TObject(void *, void *);
 f32 subtract_vector(void *, void *);
-extern s32 __vt__21TBoss1DragonEffBullet[];
 const char *TBoss1DragonEffBullet__name = "TBoss1DragonEffBullet";
 
 void TBoss1DragonEffBullet::render() {  }
@@ -118,22 +116,21 @@ TBoss1DragonEffBullet::~TBoss1DragonEffBullet() {
     if (*(void **)((s8 *)this + 0x44) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x44)))->queue_destruction(); this->m_44 = 0; }
 }
 
-u8 *TBoss1DragonEffBullet__ct(u8 *boss1_dragon_eff_bullet, s32 arg1, s32 arg2, s32 arg3) {
-    __ct__7TObjectFP7TObject((void *)boss1_dragon_eff_bullet, (void *)arg1);
-    *(s32 **)((s8 *)boss1_dragon_eff_bullet + 0x18) = __vt__21TBoss1DragonEffBullet;
-    *(s32 *)((s8 *)boss1_dragon_eff_bullet + 0) = (s32) TBoss1DragonEffBullet__name;
-    VecCopy((Vec *)(boss1_dragon_eff_bullet + 0x1C), (const Vec *)(arg2));
-    VecCopy((Vec *)(boss1_dragon_eff_bullet + 0x28), (const Vec *)(arg3));
-    subtract_vector(boss1_dragon_eff_bullet + 0x28, boss1_dragon_eff_bullet + 0x1C);
-    ((TBoss1DragonEffBullet *)boss1_dragon_eff_bullet)->m_40 = ((TObjBoss2Tunnel *)(boss1_dragon_eff_bullet + 0x28))->update_scale();
-    *(f32 *)((s8 *)boss1_dragon_eff_bullet + 0x3C) = 0.0f;
-    ((TBoss1DragonEffBullet *)boss1_dragon_eff_bullet)->m_34 = 0;
-    ((TBoss1DragonEffBullet *)boss1_dragon_eff_bullet)->m_38 = 0;
-    ((TBoss1DragonEffBullet *)boss1_dragon_eff_bullet)->m_44 = 0;
-    ((TBoss1DragonEffBullet *)boss1_dragon_eff_bullet)->m_48 = 0;
-    play_sound_effect(0x4003B20B, boss1_dragon_eff_bullet + 0x1C, 0, 0);
-    return boss1_dragon_eff_bullet;
+#define self ((u8 *)this)
+TBoss1DragonEffBullet::TBoss1DragonEffBullet(TObject *parent, Vec *start, Vec *dest) : TObject(parent) {
+    *(s32 *)((s8 *)self + 0) = (s32) TBoss1DragonEffBullet__name;
+    VecCopy((Vec *)(self + 0x1C), start);
+    VecCopy((Vec *)(self + 0x28), dest);
+    subtract_vector(self + 0x28, self + 0x1C);
+    m_40 = ((TObjBoss2Tunnel *)(self + 0x28))->update_scale();
+    *(f32 *)((s8 *)self + 0x3C) = 0.0f;
+    m_34 = 0;
+    m_38 = 0;
+    m_44 = 0;
+    m_48 = 0;
+    play_sound_effect(0x4003B20B, self + 0x1C, 0, 0);
 }
+#undef self
 
 void TBoss1Dragon::select_fireball_particle_table() {
     switch (isV2Mode__12TBoss1DragonFv()) {

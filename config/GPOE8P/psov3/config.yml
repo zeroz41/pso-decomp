@@ -275,7 +275,7 @@ force_active:
   - TBGLightningCtrl__name
   - TBGLightningCtrl__sub_802A9A08
   - TBGLightning__name
-  - TBoss1DragonColli_C__ct
+  - __ct__19TBoss1DragonColli_CFP7TObjectlP3Vecf
   - TBoss1DragonColli_sphere_chain_desc
   - TBoss1DragonEffTail__collision_body_templates
   - TBoss1DragonEffTail__name
@@ -318,7 +318,7 @@ force_active:
   - TBoss1Dragon__sub_80028BE0
   - TBoss2Joint__param_table
   - TBoss2Joint__sub_80036940
-  - TBoss2PhotonBullet__ct
+  - __ct__18TBoss2PhotonBulletFP7TObjectP8TObjBaseP3VecP3Vecf
   - TBoss2PhotonBullet__name
   - TBoss2PhotonPad__name
   - TBoss2Tentacle__segment_point_defaults
@@ -348,7 +348,7 @@ force_active:
   - TBoss4Type2__sub_80056B3C
   - TBoss4Type2__sub_80057128
   - TBoss4Type3__anim_state_table
-  - TBoss4Type3__ct
+  - __ct__11TBoss4Type3FP7TObjectPl
   - TBoss4Type3__sub_800599F4
   - TBoss4Type3__sub_80059EA8
   - TBoss4Type3__sub_80059F64
@@ -913,9 +913,9 @@ force_active:
   - TObjBigTuitate__ct
   - TObjBoss2CeilJunk__name
   - __sinit_TObjBoss2CeilJunk_8003A81C_cpp
-  - TObjBoss2DustCtrl__ct
+  - __ct__17TObjBoss2DustCtrlFP7TObject
   - TObjBoss2DustCtrl_dust_counter
-  - TObjBoss2Tunnel__ct
+  - __ct__15TObjBoss2TunnelFP7TObject
   - TObjBoss2Tunnel__snapshot_buffer
   - TObjBoss2Tunnel__snapshot_saved_flag
   - TObjBoss2Tunnel__snapshot_state
@@ -1009,10 +1009,10 @@ force_active:
   - TObjDFBeamCursor__name
   - TObjDFDemo0__ct
   - TObjDFDemo0__entry_table
-  - TObjDFDemo2__ct
+  - __ct__11TObjDFDemo2FP7TObjectPvPvPv
   - TObjDFDemo2__motion_index_table
   - TObjDFDemo2__name
-  - TObjDFDemo3__ct
+  - __ct__11TObjDFDemo3FP7TObjectPvPv
   - TObjDFDemo3__name
   - TObjDFDemoF__bml_model_id_table
   - TObjDFHorming__ct
@@ -2228,7 +2228,7 @@ force_active:
   - __dt__11TObjDFDemo2Fv
   - __dt__11TObjDFDemo3Fv
   - __dt__11TObjDFDemo5Fv
-  - __dt__11TObjDFDemoFFPvs
+  - __dt__11TObjDFDemoFFv
   - __dt__11TObjDFJisinFv
   - __dt__11TObjDFYutaiFv
   - __dt__11TObjDoaEx01Fv

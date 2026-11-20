@@ -40,6 +40,9 @@ extern "C" void test_flag_256__9TObjCharaFv();
 
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/dragon/TBoss1DragonEffTail.h"
+#include "pso/boss/dragon/TBoss1DragonEffBullet.h"
+#include "pso/boss/dragon/TBoss1DragonColli.h"
+#include "pso/boss/dragon/TObjBoss1MokoHill_SoloM.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
@@ -167,7 +170,6 @@ void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32
 extern "C" {
 
 void rotate_vec_xz(void *, void *, s32);
-u8 *TBoss1DragonEffBullet__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
 void prepare_flight_destination__12TBoss1DragonFPv(u8 *arg0);
 
 s32 get_current_floor();
@@ -296,9 +298,6 @@ void *__dt__15RenderFadeStateFv(void *arg0, s16 arg1);
 Obj_80029C78 *destroy__12TBoss1DragonFPvs(Obj_80029C78 *o, s16 flag);
 void render_shadows__12TBoss1DragonFv(u8 *arg0);
 
-u8 *TBoss1DragonColli__ct(u8 *arg0, s32 arg1);
-void *TBoss1DragonEffTail__ct(void *, void *, void *);
-u8 *TObjBoss1MokoHill_SoloM__ct(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3);
 s32 __ct__14SubtractiveRngFv(void *arg0);
 void __ct__17AccelerationCurveFv(AccelerationCurve *curve);
 void __ct__12TObjEneDD_STFP7TObject(void *, void *);
@@ -3022,10 +3021,7 @@ void TBoss1Dragon::update_spinning_projectile_attack(u32 reason) {
                     position.z = 700.0f *
                         (calc_random_ratio__10TObjPlayerFv(self->randomState) - (0.5f));
                 }
-                u8 *bullet = __nw__7TObjectFUl(0x4C);
-                if (bullet != NULL) {
-                    TBoss1DragonEffBullet__ct(bullet, (s32)self->unknown3C4, (s32)&self->m_40c, (s32)&position);
-                }
+                new TBoss1DragonEffBullet((TObject *)self->unknown3C4, &self->m_40c, &position);
             }
             self->rotation_x -= self->m_874;
             break;
@@ -3194,28 +3190,19 @@ void TBoss1Dragon::update_air_fire_state(u32 arg1) {
                 d.y = (0.0f);
                 VecCopy__FP3VecPC3Vec(&dest, tgt);
                 dest.y = TBoss1Dragon__data_80434E80.y;
-                obj = __nw__7TObjectFUl(0x4C);
-                if (obj != NULL) {
-                    TBoss1DragonEffBullet__ct((u8 *)obj, (s32)&this->unknown3C4, (s32)&this->m_40c, (s32)&dest);
-                }
+                new TBoss1DragonEffBullet((TObject *)this->unknown3C4, &this->m_40c, &dest);
                 rotate_vec_xz(&d, &out, 0x1000);
                 VecCopy__FP3VecPC3Vec(&dest, (u8 *)&this->position);
                 dest.x = out.x * dist + dest.x;
                 dest.y = TBoss1Dragon__data_80434E80.y;
                 dest.z = out.z * dist + dest.z;
-                obj = __nw__7TObjectFUl(0x4C);
-                if (obj != NULL) {
-                    TBoss1DragonEffBullet__ct((u8 *)obj, (s32)&this->unknown3C4, (s32)&this->m_40c, (s32)&dest);
-                }
+                new TBoss1DragonEffBullet((TObject *)this->unknown3C4, &this->m_40c, &dest);
                 rotate_vec_xz(&d, &out, -0x1000);
                 VecCopy__FP3VecPC3Vec(&dest, (u8 *)&this->position);
                 dest.x = out.x * dist + dest.x;
                 dest.y = TBoss1Dragon__data_80434E80.y;
                 dest.z = out.z * dist + dest.z;
-                obj = __nw__7TObjectFUl(0x4C);
-                if (obj != NULL) {
-                    TBoss1DragonEffBullet__ct((u8 *)obj, (s32)&this->unknown3C4, (s32)&this->m_40c, (s32)&dest);
-                }
+                new TBoss1DragonEffBullet((TObject *)this->unknown3C4, &this->m_40c, &dest);
                 spawn_particle_effect_with_flags(&this->m_40c, this->effectResource->particle_ids[7], 0x40);
                 this->stateStep = 3;
                 this->m_86c = 0;
@@ -5358,21 +5345,13 @@ u8 *TBoss1Dragon__ct(TBoss1Dragon *arg0, void *arg1, void *arg2) {
     arg0->finalHpThreshold = arg0->hpmax * 3 / 10;
     *(f32 *)(arg0->m_2b0 + 0x10) = 10.0f;
     arg0->update_damage_threshold();
-    p = __nw__7TObjectFUl(0xCC);
-    if (p != 0) {
-        p = TBoss1DragonEffTail__ct(p, arg0, (u8 *)&arg0->m_430[15]);
-    }
-    arg0->tail = (TBoss1DragonEffTail *)p;
+    arg0->tail = new TBoss1DragonEffTail((TObjBase *)arg0, &arg0->m_430[15]);
     p = ::operator new(0x10);
     if (p != 0) {
         p = __ct__17AreaAttackHistoryFl((u8 *)p, 4);
     }
     arg0->m_688 = (AreaAttackHistory *)p;
-    p = __nw__7TObjectFUl(0x28);
-    if (p != 0) {
-        p = TBoss1DragonColli__ct((u8 *)p, (s32)arg0->unknown3C4);
-    }
-    arg0->m_68c = (TBoss1DragonColli *)p;
+    arg0->m_68c = new TBoss1DragonColli((TObject *)arg0->unknown3C4);
     arg0->destinationX = (0.0f);
     arg0->destinationZ = (0.0f);
     arg0->savedX = (0.0f);
@@ -5382,11 +5361,7 @@ u8 *TBoss1Dragon__ct(TBoss1Dragon *arg0, void *arg1, void *arg2) {
     for (i = 0; i < 12; i++) {
         arg0->m_6a8[i] = (0.0f);
     }
-    p = __nw__7TObjectFUl(0x40);
-    if (p != 0) {
-        p = TObjBoss1MokoHill_SoloM__ct((u8 *)p, (u8 *)tl_05, (u8 *)&arg0->position, (s32)&arg0->rotation_y);
-    }
-    arg0->m_6d8 = p;
+    arg0->m_6d8 = new TObjBoss1MokoHill_SoloM((TObject *)tl_05, (u8 *)&arg0->position, (s32)&arg0->rotation_y);
     arg0->m_6dc = 0;
     for (j = 0; j < 4; j++) {
         arg0->viewFade[j].activate_and_dispatch();

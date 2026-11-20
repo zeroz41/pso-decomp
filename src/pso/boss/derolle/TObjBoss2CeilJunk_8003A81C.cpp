@@ -52,16 +52,11 @@ void *lbl_805D4BEC;
 __declspec(section ".sdata2") const f32 boss2_tunnel_max_scroll_speed = 9.259259f;
 extern "C" {
 void release_texture_list(void *);
-void *TObjBoss2CeilJunk__ct(void *, void *, void *);
 
 extern void *tl_05;
 
 void *TObjBoss2CeilJunk::create(void *arg0) {
-    void *o = TObject::operator new(0xB8);
-    if (o != NULL) {
-        o = TObjBoss2CeilJunk__ct(o, tl_05, arg0);
-    }
-    return o;
+    return new TObjBoss2CeilJunk((TObject *)tl_05, (const Vec *)arg0);
 }
 
     extern const float lbl_805D8258;

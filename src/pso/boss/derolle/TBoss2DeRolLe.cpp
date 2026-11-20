@@ -70,6 +70,8 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/object/TObjEZRopeBase.h"
 
 #include "pso/system/task/TObject.h"
+#include "pso/boss/derolle/TBoss2PhotonPad.h"
+#include "pso/boss/derolle/TBoss2LaserLight.h"
 
 #include "pso/effect/particle/TParticleCtrl.h"
 
@@ -1648,7 +1650,6 @@ s32 advance_scalar_motion_profile(void *);
 
 u8 update_phase_is_done__13TBoss2DeRolLeFPv(u8 *arg0);
 
-void *__ct__15TBoss2PhotonPadFv(void *, void *, Vec *, Vec *, s32);
 
 
 void TBoss2DeRolLe__sub_800344A4(DeRolLe_800344A4 *self, s32 idx, s32 arg2);
@@ -2436,7 +2437,6 @@ void reset_fields_3d0__13TBoss2DeRolLeFPv(void *p);
 
 void *__ct__9TBoss2FinFv(void *, void *, void *, void *);
 
-void *TBoss2LaserLight__ct(void *, void *, void *);
 
 void *__ct__14TBoss2TentacleFP7TObjectll(void *, void *, void *, s32);
 
@@ -3143,11 +3143,7 @@ void *TBoss2DeRolLe__ct(void *arg0, void *arg1, void *arg2) {
     self->f6B0 = *(s32 *)((s8 *)TBoss2DeRolLe__data_805D4BA0 + 0x20);
     ((TBoss2DeRolLe *)self)->hpmax = ((TBoss2DeRolLe *)self)->hp = 0x4E20;
     self->f6B4 = 0;
-    p = TObject::operator new(0x44);
-    if (p != NULL) {
-        p = TBoss2LaserLight__ct(p, self->obj3D8, &self->f6BC);
-    }
-    self->f6B8 = p;
+    self->f6B8 = new TBoss2LaserLight((TObject *)self->obj3D8, (u32)(u32)&self->f6BC);
     self->f6BC = 0.0f;
     self->f6C0 = 0.0f;
     self->f6C4 = 0.0f;
@@ -3777,7 +3773,6 @@ u8 TBoss2DeRolLe__sub_80034574(u8 *arg0) {
 void TBoss2DeRolLe__sub_800344A4(DeRolLe_800344A4 *self, s32 idx, s32 arg2) {
     Vec v;
     s32 ang;
-    void *p;
     ang = 0x3800 - idx * 0x33;
     v.x = sin_table_lookup(ang);
     v.y = 0.0f;
@@ -3785,10 +3780,7 @@ void TBoss2DeRolLe__sub_800344A4(DeRolLe_800344A4 *self, s32 idx, s32 arg2) {
     if (self->mode == 2) {
         v.x *= -1.0f;
     }
-    p = TObject::operator new(0x38);
-    if (p != NULL) {
-        __ct__15TBoss2PhotonPadFv(p, self->unk3D8, &self->pts[idx], &v, arg2);
-    }
+    new TBoss2PhotonPad((TObject *)self->unk3D8, &self->pts[idx], &v, arg2);
     play_sound_effect(0x4003B708, &self->pts[idx], 0, 1);
     ((TBoss2Joint *)(self->joints[idx]))->call_36A90_with_1();
 }
