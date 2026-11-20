@@ -28,7 +28,7 @@ struct TAdChrSelBSlotGC : public TObject {
     void reset_plate_positions();
     void check_cancel_and_close();
     static void *create(void *arg0);
-    static int get_global_state();
+    int get_global_state();
     static saddr get_global_slot_data();
     u8 unk_28[0x4];
     saddr m_2c;

@@ -12,7 +12,7 @@ public:
     virtual void render();
 public:
     void update_fade();
-    static void draw_fade_strip(f32 farg0);
+    void draw_fade_strip(f32 farg0);
 
     s32 step;
     s32 length;

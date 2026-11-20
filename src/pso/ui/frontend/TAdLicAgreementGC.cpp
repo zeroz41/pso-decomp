@@ -5,6 +5,7 @@
 
 #include "pso/ui/frontend/TAdScrollWinGC.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 
 #pragma readonly_strings on
 
@@ -41,7 +42,6 @@ extern "C" {
 void TAdAgreementBaseGC__ct(void *);
 int request_scene_change__21TAdMultiChgGameModeGCFv(void*);
 int set_game_mode__21TAdMultiChgGameModeGCFv(void*);
-int set_mode_1c__21TAdMultiChgGameModeGCFv(void*);
 
 void TAdLicAgreementGC::render() {
     struct VObj_80329BB8 *o = (struct VObj_80329BB8 *)this;
@@ -50,7 +50,7 @@ void TAdLicAgreementGC::render() {
 
 void TAdLicAgreementGC::vfunc_9() { set_game_mode__21TAdMultiChgGameModeGCFv(this); }
 void TAdLicAgreementGC::vfunc_8() { request_scene_change__21TAdMultiChgGameModeGCFv(this); }
-void TAdLicAgreementGC::vfunc_7() { set_mode_1c__21TAdMultiChgGameModeGCFv(this); }
+void TAdLicAgreementGC::vfunc_7() { ((TAdMultiChgGameModeGC *)this)->set_mode_1c(); }
 void TAdLicAgreementGC::vfunc_6() { if (this->m_38 != 0) { ((TAdScrollWinGC *)(this->m_38))->close_window(); this->m_38 = 0; } }
 
 void TAdLicAgreementGC::run_task() {

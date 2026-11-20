@@ -16,7 +16,7 @@ public:
     static void set_mode_change_state();
     static void set_change_mode_flags();
     static void apply_bgm_col_ctrl(saddr arg0);
-    static void set_state_0x1a();
+    void set_state_0x1a();
     static void reset_and_set_mode();
     static void set_mode_18();
     static void set_mode_17();
@@ -37,7 +37,7 @@ public:
     static void set_game_mode_changed();
     static void init_change_mode();
     static void create_mode_scene();
-    static void set_mode_1c();
+    void set_mode_1c();
     static void render_scene();
     static void render_game_mode_change();
     static void sync_mode_state();

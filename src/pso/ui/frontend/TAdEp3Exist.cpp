@@ -85,7 +85,6 @@ u8 TAdEp3Exist__sub_8036F590(u8 *arg0);
 saddr get_localized_text_entry(s32 arg0, s32 arg1);
 u32 calc_text_width(char *s);
 s32 load_and_verify_character_save__23TAdSinglePlyChrSelectGCFPc(void *, void *);
-u8 *get_instance__23TAdSinglePlyChrSelectGCFv(void);
 void __ct__7TObjectFP7TObject(void);
 int reset_and_set_mode__21TAdMultiChgGameModeGCFv(void*);
 void __ct__9TAdBackGCFv(void *, void *);
@@ -206,7 +205,7 @@ void *TAdEp3Exist__ct(Ep3_8036F354 *o) {
     }
     go = false;
     if (ok) {
-        if ((s8)get_instance__23TAdSinglePlyChrSelectGCFv()[0x1152C] == 0) {
+        if ((s8)((u8 *)TAdSinglePlyChrSelectGC::get_instance())[0x1152C] == 0) {
             go = true;
         }
     }

@@ -130,7 +130,6 @@ s32 canSetMenuCursorAction(PaletteCursorOverride* cursor, TObjPlayer* player, u8
 void TMainCursor__sub_8013B398(void *arg0, void *arg1);
 s16 TMainCursor__sub_8013E298(void *p);
 s32 TMainCursor__sub_8013E2A0(void *);
-Ent_8013B2C8 *get_index__11TMainCursorFv(void *);
 TObjPlayer *TMainCursor__sub_8013B2A4(u16 *arg0);
 
 extern const char *TLOC_Start__name;
@@ -1658,12 +1657,12 @@ s32 TMainCursor::sort_actions_by_priority() {
     Ent_8013B2C8 *p;
     Ent_8013B2C8 *q;
     TUnk_8013E2B0 tmp;
-    if (get_index__11TMainCursorFv(this) == NULL) {
+    if ((Ent_8013B2C8 *)get_index() == NULL) {
         return 0;
     }
     n = TMainCursor__sub_8013E2A0(this);
     while (--n > 0) {
-        p = get_index__11TMainCursorFv(this);
+        p = (Ent_8013B2C8 *)get_index();
         for (i = 0; i < n; p++, i++) {
             q = p + 1;
             k = TMainCursor__sub_8013E298(q);

@@ -35,8 +35,6 @@ s32 create_guide_button(void *, void *, f32);
 s32 init_guide_button_params(void *);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 extern TAdDialingGC *TAdDialingGC__instance;
-void init_dialog__12TAdDialingGCFv(void *);
-void draw_dialing_status__12TAdDialingGCFv(void *);
 s32 update_status_message__12TAdDialingGCFv();
 s32 __ct__10TAdTitleGCFP7TObjectl(u32, void *, s32);
 s8 func_801A5E54__Fv();
@@ -47,7 +45,6 @@ extern s32 TLobby__net_session_mode;
 struct Obj_80328874 { u8 pad[0x9C]; s32 state; };
 
 extern "C" {
-void refresh_display__12TAdDialingGCFv(void *);
 s32 render_status_disp__23TAdSinglePlyChrSelectGCFff(f32, f32);
 }
 
@@ -181,7 +178,7 @@ void TAdDialingGC::update_status_display() {
     Obj_80328990 *arg0 = (Obj_80328990 *)this;
     switch (this->m_9c) {
     case 1:
-        refresh_display__12TAdDialingGCFv(arg0);
+        ((TAdDialingGC *)arg0)->refresh_display();
         return;
     case 2:
         TAdDialingGC::update_dialing_display(9);
@@ -237,7 +234,7 @@ void TAdDialingGC::handle_state() {
         TAdDialingGC::update_dialing_display(0x13);
         return;
     case 14:
-        refresh_display__12TAdDialingGCFv(this);
+        refresh_display();
         return;
     case 15:
         TAdDialingGC::update_dialing_display(0x16);
@@ -261,7 +258,7 @@ void TAdDialingGC::update_status_message() {
         TAdDialingGC::update_dialing_display(0x13);
         return;
     case 14:
-        refresh_display__12TAdDialingGCFv(arg0);
+        ((TAdDialingGC *)arg0)->refresh_display();
         return;
     case 8:
         TAdDialingGC::update_dialing_display(0xF);
@@ -368,8 +365,8 @@ void TAdDialingGC::update_state_display() {
             TAdDialingGC::update_dialing_display(0x17);
             break;
         case 2:
-            init_dialog__12TAdDialingGCFv(arg0);
-            draw_dialing_status__12TAdDialingGCFv(arg0);
+            ((TAdDialingGC *)arg0)->init_dialog();
+            ((TAdDialingGC *)arg0)->draw_dialing_status();
             break;
         case 3:
             TAdDialingGC::update_dialing_display(2);

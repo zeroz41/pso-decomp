@@ -72,9 +72,9 @@ struct TWindowSubSymbolChat : public TObject {
     s32 create_keyboard_control();
     s32 create_confirm_window();
     s32 open_confirm_prompt();
-    static s32 create_menu();
+    s32 create_menu();
     s32 create_parts_set();
-    static s32 create_parts();
+    s32 create_parts();
     static void open_menu(s32 arg0, saddr arg1);
     s32 open_edit_menu();
     static s32 open_main_menu(void * _w0);
