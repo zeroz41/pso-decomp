@@ -76,7 +76,7 @@ void TUnk_804F1C88::run_task() {
     Ptcl_8035AD68 *o = (Ptcl_8035AD68 *)arg0;
     o->x40 += 2e+01f;
     reset_global_table();
-    TObjPlayer::apply_status_effect((s32)o->x1c);
+    TObjPlayer::apply_status_effect((saddr)o->x1c);
     for (i = 0; i != TObjOnlineEnding::get_instance(); i++) {
         u8 **e = (u8 **)TObjOnlineEnding::get_attack_entry(i);
         ((TBoss7PhotonBullet *)(o->x10))->emit_hit_effect(*e + 0x38);
@@ -99,8 +99,8 @@ u8 *TBoss7LaserPtcl__ct(u8 *boss7_laser_ptcl, u8 *arg1, u8 *arg2, u8 *arg3) {
     VecCopy((Vec *)(boss7_laser_ptcl + 0x20), (const Vec *)arg2);
     VecCopy((Vec *)(boss7_laser_ptcl + 0x2C), (const Vec *)arg3);
     ((TBoss7LaserPtcl *)boss7_laser_ptcl)->update_position();
-    *(s32 *)((s8 *)boss7_laser_ptcl + 0x44) = (s32)spawn_continuous_particle_effect_with_flags(arg2, 0x204, 0x40);
-    *(s32 *)((s8 *)boss7_laser_ptcl + 0x48) = (s32)spawn_continuous_particle_effect_with_flags(arg2, 0x205, 0x40);
+    *(s32 *)((s8 *)boss7_laser_ptcl + 0x44) = (saddr)spawn_continuous_particle_effect_with_flags(arg2, 0x204, 0x40);
+    *(s32 *)((s8 *)boss7_laser_ptcl + 0x48) = (saddr)spawn_continuous_particle_effect_with_flags(arg2, 0x205, 0x40);
     return boss7_laser_ptcl;
 }
 
@@ -153,7 +153,7 @@ void TBoss7LaserPtcl::run_task() {
 void TBoss7LaserPtcl::render() {  }
 
 void TBoss7LaserPtcl::destroy_particles() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
   void **var_r30;
   s32 var_r29;
   u8 *object;
@@ -191,7 +191,7 @@ void TBoss7LaserPtcl::init_laser() {
     *(f32 *)((s8 *)arg0 + 0x30) = 0.0f;
     this->m_54 = (s32) (10430.38043493439 * atan2_float((f32) (*(f32 *)((s8 *)arg0 + 0x2C)), (f32) (*(f32 *)((s8 *)arg0 + 0x34))));
     spawn_particle_effect_with_flags((arg0 + 0x20), 0x20A, 0x40);
-    *(s32 *)((s8 *)arg0 + 0x44) = (s32)spawn_continuous_particle_effect_with_flags((arg0 + 0x20), 0x177, 0x40);
+    *(s32 *)((s8 *)arg0 + 0x44) = (saddr)spawn_continuous_particle_effect_with_flags((arg0 + 0x20), 0x177, 0x40);
     this->state = 1;
 }
 

@@ -175,7 +175,7 @@ TBoss5GryphonTornado::~TBoss5GryphonTornado() {
 u8 *TBoss5GryphonTornado__ct(TBoss5GryphonTornado *boss5_gryphon_tornado, u8 *arg1, s32 arg2, u8 *arg3, u16 arg4) {
     __ct__7TObjectFP7TObject(boss5_gryphon_tornado, arg1);
     *(s32 **)((s8 *)boss5_gryphon_tornado + 0x18) = __vt__20TBoss5GryphonTornado;
-    *(s32 *)((s8 *)boss5_gryphon_tornado + 0) = (s32) TBoss5GryphonTornado__class_name;
+    *(s32 *)((s8 *)boss5_gryphon_tornado + 0) = (saddr) TBoss5GryphonTornado__class_name;
     VecCopy((Vec *)((u8 *)boss5_gryphon_tornado + 0x28), (const Vec *)arg3);
     boss5_gryphon_tornado->m_24 = arg4;
     boss5_gryphon_tornado->m_4c = arg2;
@@ -211,7 +211,7 @@ s32 spawn_gryphon_tornado(s32 parent, s32 gryphon, const Vec *pos_src, u16 kind)
     if (tornado != NULL) {
         tornado = (TBoss5GryphonTornado *)TBoss5GryphonTornado__ct(tornado, (u8 *)parent, gryphon, (u8 *)&pos, kind);
     }
-    return (s32)tornado;
+    return (saddr)tornado;
 }
 }
 

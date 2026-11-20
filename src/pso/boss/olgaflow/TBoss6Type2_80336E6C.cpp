@@ -29,7 +29,7 @@ void TBoss6Type2::update_recover_timer() {
     }
 }
 
-void TBoss6Type2::sub_80336F00() { m_3cc = 0; play_sound_effect((void*)438292, &position, (void*)0, (void*)0); destroy_part_object((s32)((void*)((void*)0))); }
+void TBoss6Type2::sub_80336F00() { m_3cc = 0; play_sound_effect((void*)438292, &position, (void*)0, (void*)0); destroy_part_object((saddr)((void*)((void*)0))); }
 
 void TBoss6Type2::update_ramp_timer() {
     u8 *arg0 = (u8 *)this;
@@ -43,11 +43,11 @@ void TBoss6Type2::update_ramp_timer() {
     }
 }
 
-void TBoss6Type2::sub_80336FB8() { m_3cc = 0; ensure_particle_emitter((s32)((void*)0)); }
+void TBoss6Type2::sub_80336FB8() { m_3cc = 0; ensure_particle_emitter((saddr)((void*)0)); }
 void TBoss6Type2::tick_attack_timer() {
     this->m_3cc = (this->m_3cc - 1);
     if ((s32) this->m_3cc < 0) {
-        destroy_part_object((s32)((void*)(3)));
+        destroy_part_object((saddr)((void*)(3)));
         if ((s32) this->m_40c != 0) {
             ((TBoss6Mag *)this)->set_action(1);
             return;
@@ -66,7 +66,7 @@ void TBoss6Type2::start_mag_mines_state() {
     default:
         break;
     }
-    ((TBoss6Type2 *)arg0)->ensure_particle_emitter((s32)((void*)((void *)3)));
+    ((TBoss6Type2 *)arg0)->ensure_particle_emitter((saddr)((void*)((void *)3)));
 }
 
 void TBoss6Type2::update_effect_subsystems() {

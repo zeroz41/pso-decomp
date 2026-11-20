@@ -79,7 +79,7 @@ void TBoss2Fin::render() {
 }
 
 void TBoss2Fin::run_task() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     ((TBoss2Fin *)arg0)->init_link_points();
     Vec dir = lbl_80435A44;
     ((TObjEZRopeBase *)arg0)->sub_800FF788((void *)&dir);
@@ -146,7 +146,7 @@ Obj_80036718 *__ct__9TBoss2FinFv(Obj_80036718 *self, s32 arg1, s32 arg2, s32 arg
     }
     p->a = -1.0f;
     ((TBoss2Fin *)self)->init_link_points();
-    ((TObjEZRopeBase *)self)->sub_800FF8CC((void *)TBoss2Fin__effect_table, (void *)self->f30, (s32)self->recs);
+    ((TObjEZRopeBase *)self)->sub_800FF8CC((void *)TBoss2Fin__effect_table, (void *)self->f30, (saddr)self->recs);
     return self;
 }
 

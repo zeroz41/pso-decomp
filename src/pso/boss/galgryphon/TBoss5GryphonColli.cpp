@@ -140,7 +140,7 @@ u8 *TBoss5GryphonColli__ct(u8 *object, s32 arg1) {
     Vec stack;
     __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
     *(s32 **)((s8 *)object + 0x18) = &__vt__18TBoss5GryphonColli.value;
-    *(s32 *)((s8 *)object + 0) = (s32) ((s32)TBoss5GryphonColli__name);
+    *(s32 *)((s8 *)object + 0) = (saddr) ((saddr)TBoss5GryphonColli__name);
     stack.x = 0.0f;
     stack.y = 0.0f;
     stack.z = 3e+01f;

@@ -558,7 +558,7 @@ void TBoss4DarkFalz::spawn_zako_rings() {
     s32 ang;
     s32 step;
     s32 i;
-    p.owner = (s32)this;
+    p.owner = (saddr)this;
     r = 28.571428f;
     dr = 57.142857f;
     TBoss4DarkFalz__sub_8004B4F0(p.a, &TBoss4DarkFalz__data_804FF1E8);
@@ -677,7 +677,7 @@ void TBoss4DarkFalz::handle_defeat() {
     }
     flags[0] = 0x800;
     ((TObjEnemy *)arg0)->send_6x0A_enemy_state(flags);
-    ((TObjEnemy *)arg0)->exchange_object_state((s32)flags, (s16)0);
+    ((TObjEnemy *)arg0)->exchange_object_state((saddr)flags, (s16)0);
     ((VObj_18_8004B654 *)(arg0))->m77(flags);
     ((TObjEnemy *)arg0)->send_entity_set_flags();
     ((TObject *)arg0)->queue_destruction();
@@ -927,12 +927,12 @@ s32 TBoss4DarkFalz__ct(s32 a0, s32 arg1, s32 a2) {
     s32 temp_r30_2;
     __ct__9TObjEnemyFP7TObject();
     *(s32 **)((s8 *)boss4_dark_falz + 0x18) = __vt__14TBoss4DarkFalz;
-    *(s32 *)((s8 *)boss4_dark_falz + 0) = (s32) TBoss4DarkFalz__name;
+    *(s32 *)((s8 *)boss4_dark_falz + 0) = (saddr) TBoss4DarkFalz__name;
     ((TBoss4DarkFalz *)boss4_dark_falz)->sub_8004AFB8();
     if ((s16) *(s16 *)((s8 *)arg2 + 2) != 0x200) {
-        return (s32)boss4_dark_falz;
+        return (saddr)boss4_dark_falz;
     }
-    dark_falz_controller_instance = (s32)boss4_dark_falz;
+    dark_falz_controller_instance = (saddr)boss4_dark_falz;
     ((TBoss4DarkFalz *)(boss4_dark_falz))->apply_set_data(arg2);
     TBoss4DarkFalz__sub_8004B4F0(&TBoss4DarkFalz__data_804FF1E8, arg2);
     TBoss4DarkFalz__data_804FF1E8.f2 = 0;
@@ -973,10 +973,10 @@ s32 TBoss4DarkFalz__ct(s32 a0, s32 arg1, s32 a2) {
     if ((temp_r0_2 < 0) || (temp_r0_2 > 0xE)) {
         lbl_805D4D70 = 0;
     }
-    TBoss4DarkFalz::push_players_out_of_zone((s32)boss4_dark_falz, 0);
+    TBoss4DarkFalz::push_players_out_of_zone((saddr)boss4_dark_falz, 0);
     *(s32 *)((s8 *)boss4_dark_falz + 0x37C) = -1;
     ((TBoss4DarkFalz *)boss4_dark_falz)->change_state(1);
-    return (s32)boss4_dark_falz;
+    return (saddr)boss4_dark_falz;
 }
 
 void handle_6x19_dark_falz_actions(Msg_8004BFA4 *arg0) {
@@ -1026,7 +1026,7 @@ extern s32 tl_04;
 void TBoss4DarkFalz::load_resources() {
     s32 temp_r3;
     s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
+    temp_r3 = (saddr)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &darkfalz_dat_resource_descriptor, 0, 0, 0));

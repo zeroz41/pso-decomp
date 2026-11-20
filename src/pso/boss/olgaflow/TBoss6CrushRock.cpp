@@ -84,7 +84,7 @@ void TBoss6Rock::spawn_crush_rocks(s32 kind) {
             p.z += radius * cos_table_lookup(angle);
             u8 *o = (u8 *)TObject::operator new(0x54);
             if (o != NULL) {
-                ((u8 *(*)(u8 *, s32, Vec *, s32))__ct__15TBoss6CrushRockFlll)(o, (s32)tl_02, &p, base + j);
+                ((u8 *(*)(u8 *, s32, Vec *, s32))__ct__15TBoss6CrushRockFlll)(o, (saddr)tl_02, &p, base + j);
             }
         }
     }
@@ -133,7 +133,7 @@ void TBoss6CrushRock::run_task() {
 }
 #pragma pop
 
-void TBoss6CrushRock::render() { if (is_falz_alive() != 0) { push_matrix(); post_translate_matrix((char*)this + 0x24); rotate_matrix_y((void*)0, *(void**)((char*)this + 0x40)); rotate_matrix_x((void*)0, *(void**)((char*)this + 0x3c)); rotate_matrix_z((void*)0, *(void**)((char*)this + 0x44)); TObjFish::set_global_param((s32)(*(void**)((char*)this + 0x20))); draw_ginja_object(*(void**)((char*)this + 0x1c)); pop_matrix(); } }
+void TBoss6CrushRock::render() { if (is_falz_alive() != 0) { push_matrix(); post_translate_matrix((char*)this + 0x24); rotate_matrix_y((void*)0, *(void**)((char*)this + 0x40)); rotate_matrix_x((void*)0, *(void**)((char*)this + 0x3c)); rotate_matrix_z((void*)0, *(void**)((char*)this + 0x44)); TObjFish::set_global_param((saddr)(*(void**)((char*)this + 0x20))); draw_ginja_object(*(void**)((char*)this + 0x1c)); pop_matrix(); } }
 
 s32 TBoss6CrushRock::is_falz_alive() {
     return TBoss6PlotFalz::get_hp() ? 1 : 0;
@@ -152,8 +152,8 @@ u8 *TBoss6CrushPtcl__ct(u8 *boss6_crush_ptcl, void *arg1, Vec_80359EF0 *arg2) {
     *(s32 **)((s8 *)boss6_crush_ptcl + 0x18) = __vt__15TBoss6CrushPtcl;
     ((TObject *)boss6_crush_ptcl)->m_name = TBoss6CrushPtcl__name;
     Vec_80359EF0 v = *arg2;
-    ((TBoss6CrushPtcl *)boss6_crush_ptcl)->m_20 = (s32)create_particle_emitter(&v, 0x203);
-    ((TBoss6CrushPtcl *)boss6_crush_ptcl)->m_24 = (s32)create_particle_emitter(&v, 0x204);
+    ((TBoss6CrushPtcl *)boss6_crush_ptcl)->m_20 = (saddr)create_particle_emitter(&v, 0x203);
+    ((TBoss6CrushPtcl *)boss6_crush_ptcl)->m_24 = (saddr)create_particle_emitter(&v, 0x204);
     ((TBoss6CrushPtcl *)boss6_crush_ptcl)->m_1C = 0;
     return boss6_crush_ptcl;
 }

@@ -141,9 +141,9 @@ void TBoss6Demo21_TYPE2_DEAD::draw_fading_model_8(void *p) {
         set_motion_packed_rotation();
         post_translate_matrix(arg0 + 0x58);
         TObjFish::set_global_param(*(s32 *)(arg0 + 0x38));
-        ((TObjFish *)(*(s32 *)(arg0 + 0x80)))->set_draw_callback_list();
-        draw_model_motion((void *)(*(s32 *)(arg0 + 0x34)), (void *)(*(s32 *)(arg0 + 0x3C)), *(f32 *)(arg0 + 0x4C));
-        ((TObjFish *)(*(s32 *)(arg0 + 0x80)))->clear_render_callback();
+        ((TObjFish *)(*(saddr *)(arg0 + 0x80)))->set_draw_callback_list();
+        draw_model_motion((void *)(*(saddr *)(arg0 + 0x34)), (void *)(*(saddr *)(arg0 + 0x3C)), *(f32 *)(arg0 + 0x4C));
+        ((TObjFish *)(*(saddr *)(arg0 + 0x80)))->clear_render_callback();
         clear_motion_packed_rotation();
         pop_matrix();
         if (f < 1.0f) {
@@ -176,9 +176,9 @@ void TBoss6Demo21_TYPE2_DEAD::draw_fading_model_5(void *p) {
         set_motion_packed_rotation();
         post_translate_matrix(arg0 + 0x58);
         TObjFish::set_global_param(*(s32 *)(arg0 + 0x2C));
-        ((TObjFish *)(*(s32 *)(arg0 + 0x70)))->set_draw_callback_list();
-        draw_model_motion((void *)(*(s32 *)(arg0 + 0x28)), (void *)(*(s32 *)(arg0 + 0x30)), *(f32 *)(arg0 + 0x4C));
-        ((TObjFish *)(*(s32 *)(arg0 + 0x70)))->clear_render_callback();
+        ((TObjFish *)(*(saddr *)(arg0 + 0x70)))->set_draw_callback_list();
+        draw_model_motion((void *)(*(saddr *)(arg0 + 0x28)), (void *)(*(saddr *)(arg0 + 0x30)), *(f32 *)(arg0 + 0x4C));
+        ((TObjFish *)(*(saddr *)(arg0 + 0x70)))->clear_render_callback();
         clear_motion_packed_rotation();
         pop_matrix();
         if (f < 1.0f) {
@@ -208,7 +208,7 @@ void TBoss6Demo21_TYPE2_DEAD::draw_fading_model_4() {
         post_translate_matrix(((u8 *)this) + 0x58);
         TObjFish::set_global_param(this->m_20);
         ((TObjFish *)(this->m_70))->set_draw_callback_list();
-        draw_model_motion((void *)(*(s32 *)((s8 *)((u8 *)this) + 0x1C)), (void *)(*(s32 *)((s8 *)((u8 *)this) + 0x24)), *(f32 *)((s8 *)((u8 *)this) + 0x4C));
+        draw_model_motion((void *)(*(saddr *)((s8 *)((u8 *)this) + 0x1C)), (void *)(*(saddr *)((s8 *)((u8 *)this) + 0x24)), *(f32 *)((s8 *)((u8 *)this) + 0x4C));
         ((TObjFish *)this->m_70)->clear_render_callback();
         clear_motion_packed_rotation();
         pop_matrix();
@@ -242,10 +242,10 @@ void run_task__23TBoss6Demo21_TYPE2_DEADFv(Fish_8033E0F0 *arg0) {
         break;
     }
     if (arg0->timer >= 0x12C && arg0->timer <= 0x1AC) {
-        play_persistent_sound(0x4003352E, (s32)arg0, 0, 0, 0);
+        play_persistent_sound(0x4003352E, (saddr)arg0, 0, 0, 0);
     }
     if (arg0->timer >= 0x1D7 && arg0->timer <= 0x23A) {
-        play_persistent_sound(0x32D2F, (s32)arg0, 0, 0, 0);
+        play_persistent_sound(0x32D2F, (saddr)arg0, 0, 0, 0);
     }
     switch (arg0->timer) {
     case 0xAE:
@@ -297,9 +297,9 @@ void run_task__23TBoss6Demo21_TYPE2_DEADFv(Fish_8033E0F0 *arg0) {
         s32 pb;
         s32 pm;
         VecCopy((Vec *)&a, (const Vec *)&arg0->f84);
-        pb = (s32)&b;
+        pb = (saddr)&b;
         VecCopy((Vec *)pb, (const Vec *)&arg0->f90);
-        pm = (s32)&mid;
+        pm = (saddr)&mid;
         VecCopy((Vec *)pm, (const Vec *)&a);
         vec3_add_to((void *)pm, (void *)pb);
         mid.x *= (0.5f);
@@ -315,7 +315,7 @@ void run_task__23TBoss6Demo21_TYPE2_DEADFv(Fish_8033E0F0 *arg0) {
         vec3_add_to(&c, lbl_804780B8);
         for (i = 0; i < n; i++) {
             Pl_8033E0F0 *p = (Pl_8033E0F0 *)TObjPlayer::get_player_data(i);
-            if (TObjPlayer::is_locally_controlled(p) != 0 && is_state_1f__14TBoss6PlotFalzFUi((u32)p) != 0) {
+            if (TObjPlayer::is_locally_controlled(p) != 0 && is_state_1f__14TBoss6PlotFalzFUi((uaddr)p) != 0) {
                 Vec d;
                 VecCopy((Vec *)&d, (const Vec *)&p->pos);
                 subtract_vector(&d, &c);
@@ -406,16 +406,16 @@ void *TBoss6Demo21_TYPE2_DEAD__ct(void *arg0p, void *arg1, void *arg2) {
     *(s32 *)((s8 *)arg0 + 0x40) = get_bml_model((BmlResource *)count, 0xD);
     *(s32 *)&((TBoss6Type1 *)arg0)->prev_position.x = get_bml_texlist((BmlResource *)count, 0xD);
     *(s32 *)&((TBoss6Type1 *)arg0)->prev_position.y = get_bml_motion(count, 0x3D);
-    *(s32 *)&((TBoss6Type1 *)arg0)->scale.z = TObjFish__sub_800E3124(boss6_type2_death_effect_desc_a, (s32)(arg0 + 0x64));
-    *(s32 *)((s8 *)arg0 + 0x80) = TObjFish__sub_800E3124(boss6_type2_death_effect_desc_b, (s32)(arg0 + 0x74));
-    *(s32 *)((s8 *)arg0 + 0x9C) = TObjFish__sub_800E3124(boss6_type2_death_effect_desc_c, (s32)(arg0 + 0x84));
+    *(s32 *)&((TBoss6Type1 *)arg0)->scale.z = TObjFish__sub_800E3124(boss6_type2_death_effect_desc_a, (saddr)(arg0 + 0x64));
+    *(s32 *)((s8 *)arg0 + 0x80) = TObjFish__sub_800E3124(boss6_type2_death_effect_desc_b, (saddr)(arg0 + 0x74));
+    *(s32 *)((s8 *)arg0 + 0x9C) = TObjFish__sub_800E3124(boss6_type2_death_effect_desc_c, (saddr)(arg0 + 0x84));
     activate_camera_mode(5);
     set_scripted_camera_pose(arg0 + 0x58, arg0 + 0x58, lbl_80478134);
     lbl_80478140.cache_target_and_forward(0x416C);
     for (i = 0; i < 4; i++) {
         ((Fish_8033E688 *)arg0)->arr[i] = 0;
     }
-    ((TBoss6Type1 *)arg0)->motion_flags = ((s32)TBoss6Type1::create_zanzo(arg0, (void *)3, (void *)0xF));
+    ((TBoss6Type1 *)arg0)->motion_flags = ((saddr)TBoss6Type1::create_zanzo(arg0, (void *)3, (void *)0xF));
     *(f32 *)((s8 *)arg0 + 0x4C) = (0.0f);
     *(s32 *)((s8 *)arg0 + 0x50) = 0;
     return arg0;

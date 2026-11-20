@@ -185,7 +185,7 @@ void boss2_dust_draw_at(s32 *arg0, s32 arg1) {
     TParticleCtrl::end_effect_render();
     push_matrix();
     var_r3 = var_r30;
-    post_translate_matrix((int)var_r3);
+    post_translate_matrix((saddr)var_r3);
     var_r5 = var_r31 * 0x60;
     var_r3 = (s32 *)((s32 *)boss2_dust_output_table);
     var_r4 = 6;

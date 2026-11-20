@@ -276,7 +276,7 @@ void TObject::pause_update() {
 }
 
 BOOL TUnk_804B6C24::check_value_equals(s32 name) const {
-    return (s32)m_name == name;
+    return (saddr)m_name == name;
 }
 
 void clear_volopt_cage_flag() {
@@ -1332,7 +1332,7 @@ void TBoss3Volopt::push_actors_out(s32 phase2) {
         actor = TObjPlayer::get_player_data(i);
         if (actor == NULL) continue;
         if (actor->bodies == NULL) continue;
-        if (((TUnk_804B6C24 *)actor)->check_value_equals((s32)TOCapsuleAncient01::class_name) != 0) continue;
+        if (((TUnk_804B6C24 *)actor)->check_value_equals((saddr)TOCapsuleAncient01::class_name) != 0) continue;
         if (((TUnk_804B6C24 *)actor)->check_value_equals(door_vo_ship_class_name) != 0) continue;
         if (!(actor->bodies->flags & 0x20000)) continue;
         if (fabs_float(actor->position.z - center_z) > 1000.0f) {

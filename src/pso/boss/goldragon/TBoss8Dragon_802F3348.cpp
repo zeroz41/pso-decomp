@@ -26,7 +26,7 @@ u16 TBoss8Dragon::get_global_part_count(s32 arg0) {
     return ((TBoss8Dragon *)boss8_dragon_leader_part)->get_part_count_plus(arg0);
 }
 void TBoss8Dragon::place_parts_in_ring(s32 arg1, s32 arg2) {
-    s32 n = (s32)this;
+    s32 n = (saddr)this;
     Vec v;
     u8 buf[0xEC];
     s32 ang;

@@ -138,7 +138,7 @@ void TObjBoss2CeilJunk::render() {
     new_var = (0.2f) * t;
     s.y = (1.0f);
     s.x = (s.z = new_var);
-    ((TObjEneDD *)(self->f44))->draw_oriented_shadow((s32)self->f9C, 0, (u32)&s);
+    ((TObjEneDD *)(self->f44))->draw_oriented_shadow((saddr)self->f9C, 0, (uaddr)&s);
   }
   saved_model_render_flags = model_render_flags;
   if (self->fB4 < (1.0f))
@@ -228,7 +228,7 @@ void run_task__17TObjBoss2CeilJunkFv(Junk_8003A314 *o) {
                         subtract_vector(&d, &o->pos);
                         if (normalize_vector_xz((Vec *)(&d)) < rad) {
                             hit = 1;
-                            forward_switch_phase_stats__13TBoss2DeRolLeFi((s32)pl);
+                            forward_switch_phase_stats__13TBoss2DeRolLeFi((saddr)pl);
                         }
                     }
                 }
@@ -280,7 +280,7 @@ u8 *TObjBoss2CeilJunk__ct(struct RecoveredFields_8003A6F4_arg0 *arg0, s32 arg1, 
     f32 temp_f2;
     __ct__8TObjBaseFP7TObject();
     arg0->unk18 = __vt__17TObjBoss2CeilJunk;
-    arg0->field_0 = (s32)TObjBoss2CeilJunk__name;
+    arg0->field_0 = (saddr)TObjBoss2CeilJunk__name;
     VecCopy((Vec *)&arg0->unknown_1C[0x1C], (const Vec *)arg2);
     temp_f2 = (f32) rand();
     temp_f1 = (3.0517578e-05f) * temp_f2;

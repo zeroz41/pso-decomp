@@ -27,13 +27,13 @@ void TBoss1DragonEffBreath::run_task() {
         return;
     }
     if (temp_f1 < 30.0f) {
-        ((TBoss1Dragon *)((int) TBoss1Dragon::get_instance()))->deliver_breath_attack((s32)(arg0 + 0x1C), (s32)((int)this->m_34));
+        ((TBoss1Dragon *)((int) TBoss1Dragon::get_instance()))->deliver_breath_attack((saddr)(arg0 + 0x1C), (s32)((int)this->m_34));
     }
 }
 
 }
 TBoss1DragonEffBreath::~TBoss1DragonEffBreath() {
-    __dt__17AreaAttackHistoryFv((s32)(*(void **)((s8 *)this + 0x34)), 1);
+    __dt__17AreaAttackHistoryFv((saddr)(*(void **)((s8 *)this + 0x34)), 1);
     this->m_34 = 0;
 }
 TBoss1DragonEffBreath::TBoss1DragonEffBreath(TObject *object, void *arg2, void *arg3) : TObject(object) {

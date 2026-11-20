@@ -329,7 +329,7 @@ s32 TBoss6Mag::is_phase_active() {
 #pragma push
 #pragma opt_common_subs off
 void TBoss6Type2::destroy_part_object(s32 arg1) {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     u32 temp_r3;
     u8 *temp_r31;
     temp_r31 = (u8 *)(arg0 + (arg1 * 4));
@@ -345,7 +345,7 @@ void TBoss6Type2::ensure_particle_emitter(s32 arg1) {
     O_8032E7B4 *arg0 = (O_8032E7B4 *)this;
     if (arg0->arr[arg1] == 0) {
         V3_8032E7B4 v = arg0->pos;
-        arg0->arr[arg1] = (u32)create_particle_emitter(&v, TBoss6Type2__effect_emitter_id_table[arg1].a);
+        arg0->arr[arg1] = (uaddr)create_particle_emitter(&v, TBoss6Type2__effect_emitter_id_table[arg1].a);
         if (arg0->arr[arg1] != 0) {
             ((TParticleCtrl *)((void *)arg0->arr[arg1]))->set_flags(0x40);
         }
@@ -474,7 +474,7 @@ void TBoss6Type2::push_out_from_points() {
     f32 len;
     f32 f;
     if (arg0->p378 != 0) {
-        ((TBoss6Type2 *)(arg0->p378))->get_push_points((s32)&pts[0], (s32)&pts[1]);
+        ((TBoss6Type2 *)(arg0->p378))->get_push_points((saddr)&pts[0], (saddr)&pts[1]);
         for (i = 0; i < 2; i++) {
             VecCopy((Vec *)&v, (const Vec *)&pts[i]);
             ((f32 (*)(void *, void *))subtract_vector)(&v, &arg0->pos);
@@ -512,7 +512,7 @@ void TBoss6Type2::push_out_from_target() {
     if (*(void **)((s8 *)arg0 + 0x378) == NULL) {
         return;
     }
-    ((TBoss6Type2 *)(*(void **)((s8 *)arg0 + 0x378)))->copy_pos_59c((s32)&a);
+    ((TBoss6Type2 *)(*(void **)((s8 *)arg0 + 0x378)))->copy_pos_59c((saddr)&a);
     VecCopy((Vec *)&b, (const Vec *)(arg0 + 0x38));
     ((f32 (*)(void *, void *))subtract_vector)(&b, &a);
     len = vector_length(&b);
@@ -732,7 +732,7 @@ void TBoss6Type2::apply_random_drift() {
     O_8032F5FC *arg0 = (O_8032F5FC *)this;
     Vec v;
     f32 k;
-    TBoss6Type2::compute_random_dir_vec((s32)arg0, (u8 *)&v, arg0->f60, arg0->f5c);
+    TBoss6Type2::compute_random_dir_vec((saddr)arg0, (u8 *)&v, arg0->f60, arg0->f5c);
     k = (1.3333334f);
     if (((TBoss6Type2 *)(arg0->f378))->get_state() == 0xE) {
         k *= arg0->f3c4;
@@ -740,7 +740,7 @@ void TBoss6Type2::apply_random_drift() {
     v.x = v.x * k;
     v.y = v.y * k;
     v.z = v.z * k;
-    vec3_add_to(&arg0->pos, (int)&v);
+    vec3_add_to(&arg0->pos, (saddr)&v);
 }
 
 #pragma push
@@ -779,7 +779,7 @@ void TBoss6Type2::turn_toward_target() {
     }
     ((f32 (*)(void *, void *))subtract_vector)(&v, ((u8 *)this) + 0x38);
     turn = 0x1B4;
-    if (((TBoss6Type2 *)(*(s32 *)((s8 *)((u8 *)this) + 0x378)))->get_state() == 0xE) {
+    if (((TBoss6Type2 *)(*(saddr *)((s8 *)((u8 *)this) + 0x378)))->get_state() == 0xE) {
         turn = 0x6D0;
     }
     calc_dir_angles__11TBoss6Type2FPvPvPvPv(this, &a, &b, (Vec *)((Vec *)&v));
@@ -807,7 +807,7 @@ s32 TBoss6Type2::fly_toward_target() {
     TBoss6Type2__sub_802BD378(o->p378, o->f384, &tgt, &t);
     tgt.y += (35.0f);
     VecCopy((Vec *)&d, (const Vec *)&tgt);
-    subtract_vector(&d, (int)&o->pos);
+    subtract_vector(&d, (saddr)&o->pos);
     if (!(vector_length(&d) > (3e+01f))) {
         d.x *= (0.25f);
         d.y *= (0.25f);
@@ -818,7 +818,7 @@ s32 TBoss6Type2::fly_toward_target() {
             d.y *= (4.4444447f);
             d.z *= (4.4444447f);
         }
-        vec3_add_to(&o->pos, (int)&d);
+        vec3_add_to(&o->pos, (saddr)&d);
         o->f60 = step_angle_toward(o->f60, t, 0x5B0);
         o->f5c = approach_angle_limited(o->f5c, 0, 0x5B0);
         return 1;
@@ -863,11 +863,11 @@ s32 TBoss6Type2::fly_toward_target() {
         o->f60 = step_angle_toward(o->f60, rx, 0x5B0);
         o->f5c = approach_angle_limited(o->f5c, ry, 0x5B0);
     }
-    TBoss6Type2::compute_random_dir_vec((s32)o, (u8 *)&r, o->f60, o->f5c);
+    TBoss6Type2::compute_random_dir_vec((saddr)o, (u8 *)&r, o->f60, o->f5c);
     r.x *= (4.4444447f);
     r.y *= (4.4444447f);
     r.z *= (4.4444447f);
-    vec3_add_to(&o->pos, (int)&r);
+    vec3_add_to(&o->pos, (saddr)&r);
     return 0;
 }
 #pragma pop
@@ -972,7 +972,7 @@ void TBoss6Mag::sync_hp_apply_damage() {
             sync_hp();
             return;
         }
-        ((TBoss6Type2 *)(*(s32 *)((s8 *)this + 0x378)))->apply_damage(temp_r4 - temp_r0);
+        ((TBoss6Type2 *)(*(saddr *)((s8 *)this + 0x378)))->apply_damage(temp_r4 - temp_r0);
         *(s32 *)((s8 *)this + 0x404) = (s32) *(s16 *)((s8 *)this + 0x32C);
     }
 }
@@ -984,21 +984,21 @@ void TBoss6Mag::draw_model_motion_blend() {
     s32 temp_r31;
     s32 bml_model;
     set_motion_packed_rotation();
-    temp_r31 = get_bml_texlist((BmlResource *)(*(s32 *)((s8 *)this + 0x374)), 1);
-    bml_model = get_bml_model((BmlResource *)(*(s32 *)((s8 *)this + 0x374)), 1);
+    temp_r31 = get_bml_texlist((BmlResource *)(*(saddr *)((s8 *)this + 0x374)), 1);
+    bml_model = get_bml_model((BmlResource *)(*(saddr *)((s8 *)this + 0x374)), 1);
     TObjFish::set_global_param(temp_r31);
     if ((0.0f) == *(f32 *)((s8 *)this + 0x3E8)) {
-        ((TObjFish *)(*(s32 *)((s8 *)this + 0x458)))->set_draw_callback_list();
-        draw_model_motion((void *)bml_model, (void *)(*(s32 *)((s8 *)this + 0x3DC)), *(f32 *)((s8 *)this + 0x3E0));
-        ((TObjFish *)(*(s32 *)((s8 *)this + 0x458)))->clear_render_callback();
+        ((TObjFish *)(*(saddr *)((s8 *)this + 0x458)))->set_draw_callback_list();
+        draw_model_motion((void *)bml_model, (void *)(*(saddr *)((s8 *)this + 0x3DC)), *(f32 *)((s8 *)this + 0x3E0));
+        ((TObjFish *)(*(saddr *)((s8 *)this + 0x458)))->clear_render_callback();
     } else {
         stack.sp8 = *(s32 *)((s8 *)this + 0x3F0);
         stack.sp10 = *(f32 *)((s8 *)this + 0x3F4);
         stack.spC = *(s32 *)((s8 *)this + 0x3DC);
         stack.sp14 = *(f32 *)((s8 *)this + 0x3E0);
-        ((TObjFish *)(*(s32 *)((s8 *)this + 0x458)))->set_draw_callback_list();
+        ((TObjFish *)(*(saddr *)((s8 *)this + 0x458)))->set_draw_callback_list();
         draw_model_blend_motion((void *)bml_model, &stack.sp8, *(f32 *)((s8 *)this + 0x3E8));
-        ((TObjFish *)(*(s32 *)((s8 *)this + 0x458)))->clear_render_callback();
+        ((TObjFish *)(*(saddr *)((s8 *)this + 0x458)))->clear_render_callback();
     }
     clear_motion_packed_rotation();
 }
@@ -1055,7 +1055,7 @@ void TBoss6Mag::update_motion_playback() {
 
 void TBoss6Type2__sub_803300C8(u8 *arg0) {
     s32 bml_motion;
-    copy_vec3__11TBoss6Type2Fii((s32)(arg0 + 0x3D4), (s32)&boss6_type2_zero_vec3_block.value);
+    copy_vec3__11TBoss6Type2Fii((saddr)(arg0 + 0x3D4), (saddr)&boss6_type2_zero_vec3_block.value);
     ((TBoss6Type2 *)(arg0 + 0x3DC))->copy_state((void*)&boss6_type2_initial_state.value);
     bml_motion = get_bml_motion((int) (*(s32 *)((s8 *)arg0 + 0x374)), (int) (*(s32 *)((s8 *)&boss6_type2_motion_table + 8)));
     *(s32 *)((s8 *)arg0 + 0x3F0) = bml_motion;
@@ -1145,7 +1145,7 @@ s32 add_radar_scaled_marker(void *, int, int, int, f32);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 
 void TObjPlayer::save_position() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(arg0 + 0x38));
 }
 
@@ -1188,7 +1188,7 @@ void TBoss6Mag::spawn_trap_by_stat() {
             var_r3 = 0x6B518;
         }
     }
-    play_persistent_sound((s32)var_r3, (s32)this, (u32)(((u8 *)this) + 0x38), 0, 0);
+    play_persistent_sound((s32)var_r3, (saddr)this, (uaddr)(((u8 *)this) + 0x38), 0, 0);
 }
 
 void TBoss6Mag::render() { sub_8033040C(); }
@@ -1237,7 +1237,7 @@ s32 free_collision_body_parts(void *);
 void *fn_8033068C(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(void **)((s8 *)arg0 + 0x18) = lbl_804EDDEC;
-        update_all_parts__11TBoss6Type2FPv((s32)arg0);
+        update_all_parts__11TBoss6Type2FPv((saddr)arg0);
         if ((u32) *(u32 *)((s8 *)arg0 + 0x458) != 0U) {
             TObjFish::init_state_1(*(void **)((s8 *)arg0 + 0x458));
             *(u32 *)((s8 *)arg0 + 0x458) = 0U;
@@ -1269,7 +1269,7 @@ u8 *TBoss6Mag__ct(u8 *arg0, s32 arg1, u8 *arg2) {
     TObjEnemy *enemy;
     __ct__9TObjEnemyFP7TObject(arg0, arg1, arg2);
     *(u8 **)((s8 *)arg0 + 0x18) = (u8 *)lbl_804EDDEC;
-    *(s32 *)((s8 *)arg0 + 0) = (s32)lbl_805D4220;
+    *(s32 *)((s8 *)arg0 + 0) = (saddr)lbl_805D4220;
     *(s32 *)((s8 *)arg0 + 0x378) = *(s32 *)((s8 *)arg2 + 0x40);
     VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(arg2 + 0x44));
     *(s32 *)((s8 *)arg0 + 0x60) = *(s32 *)((s8 *)arg2 + 0x50);
@@ -1306,7 +1306,7 @@ u8 *TBoss6Mag__ct(u8 *arg0, s32 arg1, u8 *arg2) {
     *(s32 *)((s8 *)arg0 + 0x390) = *(s32 *)((s8 *)arg2 + 0x5C);
     ((TBoss6Type2 *)arg0)->init_segment_angle_range();
     TBoss6Type2__sub_803300C8(arg0);
-    *(s32 *)((s8 *)arg0 + 0x458) = TObjFish__sub_800E3124((u8 *)lbl_804773DC, (s32)(arg0 + 0x44C));
+    *(s32 *)((s8 *)arg0 + 0x458) = TObjFish__sub_800E3124((u8 *)lbl_804773DC, (saddr)(arg0 + 0x44C));
     TBoss6Mag__sub_803309C4(arg0 + 0x408, (void *)lbl_804773FC);
     d = dispatch_shared_handler_a__6TLobbyFl(0x2E);
     *(s32 *)((s8 *)arg0 + 0x3C0) = (s32)d[0];

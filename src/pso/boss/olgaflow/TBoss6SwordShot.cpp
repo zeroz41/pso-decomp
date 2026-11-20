@@ -278,7 +278,7 @@ s32 TBoss6SwordWave::check_player_hits() {
                 continue;
             }
             v = *(s32 *)((s8 *)arg0 + 0x5C);
-            if (((TBoss6Type2 *)(*(s32 *)((s8 *)arg0 + 0x1C)))->get_rotation_timer() != 0) {
+            if (((TBoss6Type2 *)(*(saddr *)((s8 *)arg0 + 0x1C)))->get_rotation_timer() != 0) {
                 v = (s32)((f32)v * *(f32 *)((s8 *)arg0 + 0x60));
             }
             Pair_8035663C pr;
@@ -389,7 +389,7 @@ u8 *__ct__15TBoss6SwordWaveFv(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, 
     f32 temp_f2;
     __ct__7TObjectFP7TObject((void *)arg0, (void *)arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = &__vt__15TBoss6SwordWave.value;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) TBoss6SwordWave__name;
+    *(s32 *)((s8 *)arg0 + 0) = (saddr) TBoss6SwordWave__name;
     *(s32 *)((s8 *)arg0 + 0x1C) = arg1;
     VecCopy((Vec *)(arg0 + 0x20), (const Vec *)(arg2));
     *(f32 *)((s8 *)arg0 + 0x24) = (f32) 0.0f;
@@ -443,7 +443,7 @@ u8 TBoss6SwordWave__sub_80356D08(u32 arg1, u32 arg2) {
 void clear_bit__15TBoss6SwordWaveFPvUc(W_80356D10 *arg0, u8 arg1) {
     s32 idx;
     s32 bit;
-    TBoss6SwordWave::split_bit_index((s32)arg0, arg1, &idx, &bit);
+    TBoss6SwordWave::split_bit_index((saddr)arg0, arg1, &idx, &bit);
     arg0->w[idx] &= ~(1 << bit);
 }
 

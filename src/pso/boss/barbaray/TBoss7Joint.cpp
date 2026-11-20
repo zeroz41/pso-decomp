@@ -23,7 +23,7 @@ int TBoss7Joint::is_part_active() { return *(u32*)((char*)this + 0x3bc) & 0x1; }
 
 void TBoss7Joint::init_boss_stats() {
     *(s32 *)((s8 *)((u8 *)this) + 0x3BC) = *(s32 *)((s8 *)((u8 *)this) + 0x3BC) | 1;
-    reload_stats_keep_hp_tp__9TObjEneDDFv(this, ((s32)TLobby::register_boss(0x10)), ((s32)TLobby::dispatch_shared_handler_b(0xF)), ((s32)TLobby::register_object(0x10)));
+    reload_stats_keep_hp_tp__9TObjEneDDFv(this, ((saddr)TLobby::register_boss(0x10)), ((saddr)TLobby::dispatch_shared_handler_b(0xF)), ((saddr)TLobby::register_object(0x10)));
     this->hp = 0x4E20;
     this->hpmax = 0x4E20;
     uaddr p = (uaddr)TObject::operator new(0x2C);
@@ -95,7 +95,7 @@ void TBoss7Joint::vfunc_62() {
     temp_r4 = this->hp;
     temp_r31 = this->hpmax - temp_r4;
     if (is_part_active__11TBoss7JointFv(this, temp_r4) != 0U) {
-        TObjFish__sub_802EC468((s32)(((u8 *)this) + 0x38), 15.0f, 12.0f);
+        TObjFish__sub_802EC468((saddr)(((u8 *)this) + 0x38), 15.0f, 12.0f);
         apply_damage_and_set_effect__8TObjFishFl((int) (*(s32 *)((s8 *)((u8 *)this) + 0x10)), temp_r31, this->m_2d4);
     } else {
         shell_hp -= temp_r31;
@@ -105,7 +105,7 @@ void TBoss7Joint::vfunc_62() {
         }
     }
     this->hp = (s16) this->hpmax;
-    ((TBoss7DeRolLeC *)(*(s32 *)((s8 *)((u8 *)this) + 0x10)))->set_flag_800();
+    ((TBoss7DeRolLeC *)(*(saddr *)((s8 *)((u8 *)this) + 0x10)))->set_flag_800();
     clear_attack_receipts();
 }
 

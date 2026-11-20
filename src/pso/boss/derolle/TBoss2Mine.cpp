@@ -634,7 +634,7 @@ void TBoss2Mine__sub_80038D84(void) {  }
 
 TBoss2Mine::TBoss2Mine(TObject *parent, u16 entity_id, s32 set_index, s32 variant) : TObjEneDD(parent) {
     s32 temp_r3;
-    *(s32 *)((s8 *)this + 0) = (s32) TBoss2Mine__name;
+    *(s32 *)((s8 *)this + 0) = (saddr) TBoss2Mine__name;
     temp_r3 = get_instance__13TBoss2DeRolLeFv();
     if (temp_r3 != 0) {
         this->init_common_from((u8 *)temp_r3);
@@ -653,7 +653,7 @@ void init__10TBoss2MineFPvi(u8 *boss2_mine, s32 arg1) {
     *(s32 *)((s8 *)boss2_mine + 0x34) = *(s32 *)((s8 *)(*(u8 **)((s8 *)lbl_805D4BA4 + 0x42C)) + 0x38);
     temp_r6 = *(u8 **)((s8 *)lbl_805D4BA4 + 0x42C);
     ((TBoss2Mine *)boss2_mine)->texlist = *(s32 *)((s8 *)temp_r6 + 0x2C);
-    init_model__9TObjEneDDFP13CollisionBodyl(boss2_mine, (u8 *)lbl_80482CD8, 1, (int)temp_r6);
+    init_model__9TObjEneDDFP13CollisionBodyl(boss2_mine, (u8 *)lbl_80482CD8, 1, (saddr)temp_r6);
     ((TObjEneDD *)boss2_mine)->reset_hp((u8 *)(TLobby::register_boss(((s32 *)boss2_mine_params)[arg1])), (u8 *)(TLobby::dispatch_shared_handler_b(((s32 *)lbl_80482C90)[arg1])), (u8 *)(TLobby::register_object(((s32 *)lbl_80482C98)[arg1])));
     ((TObjEneDD *)boss2_mine)->check_state_flag_2();
     *(Rec_80038BA0 **)((s8 *)boss2_mine + 0x350) = &((Rec_80038BA0 *)lbl_80482CA0)[arg1];
@@ -896,12 +896,12 @@ void TBoss2Mine::vfunc_107(s32 arg1) {
       *((s32 *) (((s8 *) arg0) + 0x3C8)) = (s32) ((*((s32 *) (((s8 *) arg0) + 0x3C8))) + 1);
       if (((s32) (*((s32 *) (((s8 *) arg0) + 0x3C8)))) > 0x1E)
     {
-      *((ByteBlock_14 *) (((s32)(copy_storage_800384C8.bytes - 0x4)) + 4)) = *((const ByteBlock_14 *) (((s32) (((u8 *)&boss2_mine_collision_desc.value) - 4)) + 4));
+      *((ByteBlock_14 *) (((saddr)(copy_storage_800384C8.bytes - 0x4)) + 4)) = *((const ByteBlock_14 *) (((saddr) (((u8 *)&boss2_mine_collision_desc.value) - 4)) + 4));
       *((f32 *)(copy_storage_800384C8.bytes + 0x4)) = TBoss2DeRolLe__sub_80034CEC();
       TObjEneDD__sub_800BA5A4(arg0, copy_storage_800384C8.bytes);
       spawn_particle_effect_with_flags((void *)((*((s32 *) (((s8 *) arg0) + 0xA4))) + 0x1C), 0x16B, 0x40);
       *((s32 *) (((s8 *) arg0) + 0x3CC)) = 2;
-      play_sound_effect(0x4003AD05, (u32)(arg0 + 0x2FC), 0, 0);
+      play_sound_effect(0x4003AD05, (uaddr)(arg0 + 0x2FC), 0, 0);
     }
       break;
   }
@@ -940,7 +940,7 @@ void TBoss2Mine::render() {
         Vec v = lbl_80435AD0;
         ((TObjEnemy *)self)->draw_ground_shadow(&v, 0);
     }
-    TObjFish::set_global_param((s32)self->f24);
+    TObjFish::set_global_param((saddr)self->f24);
     saved_model_render_flags = model_render_flags;
     TObjEneDD::clear_global_flag_400();
     TObjPlayer::toggle_particle_effect();
@@ -1144,8 +1144,8 @@ void TUnk_80482D04::vfunc_88() {
 
 void TUnk_80482D04::move_mine() {
     u8 *arg0 = (u8 *)this;
-    if (((TObjBase *)(*(s32 *)((s8 *)arg0 + 0x3F0)))->is_alive() != 0) {
-        VecCopy((Vec *)(arg0 + 0x390), (const Vec *)(*(s32 *)((s8 *)arg0 + 0x3F0) + 0x38));
+    if (((TObjBase *)(*(saddr *)((s8 *)arg0 + 0x3F0)))->is_alive() != 0) {
+        VecCopy((Vec *)(arg0 + 0x390), (const Vec *)(*(saddr *)((s8 *)arg0 + 0x3F0) + 0x38));
         vec3_add_to(arg0 + 0x390, arg0 + 0x3F8);
         *(f32 *)((s8 *)arg0 + 0x394) += 17.0f;
     }
@@ -1251,7 +1251,7 @@ void TUnk_80482D04::vfunc_105(s32 arg1) {
             *(f32 *)((s8 *)arg0 + 0x404) = v.x * t + *(f32 *)((s8 *)arg0 + 0x404);
             *(f32 *)((s8 *)arg0 + 0x408) = v.y * t + *(f32 *)((s8 *)arg0 + 0x408);
             *(f32 *)((s8 *)arg0 + 0x40C) = v.z * t + *(f32 *)((s8 *)arg0 + 0x40C);
-            ((TObjBoss2Tunnel *)((s32)arg0 + 0x404))->update_scale();
+            ((TObjBoss2Tunnel *)((saddr)arg0 + 0x404))->update_scale();
             *(f32 *)((s8 *)arg0 + 0x2FC) = ((Mine_800377E8 *)arg0)->vel.x * *(f32 *)((s8 *)arg0 + 0x3DC) + *(f32 *)((s8 *)arg0 + 0x2FC);
             *(f32 *)((s8 *)arg0 + 0x300) = *(f32 *)((s8 *)arg0 + 0x408) * *(f32 *)((s8 *)arg0 + 0x3DC) + *(f32 *)((s8 *)arg0 + 0x300);
             *(f32 *)((s8 *)arg0 + 0x304) = *(f32 *)((s8 *)arg0 + 0x40C) * *(f32 *)((s8 *)arg0 + 0x3DC) + *(f32 *)((s8 *)arg0 + 0x304);
@@ -1303,7 +1303,7 @@ void TUnk_80482D04::vfunc_106(s32 arg1) {
         s = normalize_vector_xz((Vec *)(&v));
         s *= (0.75f);
         if (s < (0.2f)) {
-            VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)((s32)&*(Vec *)((s8 *)arg0 + 0x390)));
+            VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)((saddr)&*(Vec *)((s8 *)arg0 + 0x390)));
         } else {
             if (s > (4.0f)) {
                 s = (4.0f);

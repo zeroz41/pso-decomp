@@ -119,7 +119,7 @@ void TBoss6Mine::vfunc_63() {
 void TBoss6Mine::vfunc_62() { this->actorFlags = (this->actorFlags & 0xfffffdff); this->fade_amount = 1.0f; }
 
 void TBoss6Mine::copy_pos() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     VecCopy__FP3VecPC3Vec(arg0 + 0x2FC, arg0 + 0x38);
 }
 
@@ -149,7 +149,7 @@ void TBoss6Mine::update_facing_angles() {
     switch (this->state) {
     case 5:
     case 6:
-        VecCopy__FP3VecPC3Vec((s32) &v, (s32)(arg0 + 0x38));
+        VecCopy__FP3VecPC3Vec((saddr) &v, (saddr)(arg0 + 0x38));
         subtract_vector(&v, (u8 *)&this->prev_position);
         if (vector_length(&v) <= 0.00001f) {
             a = 0;
@@ -172,7 +172,7 @@ void TBoss6Mine::update_facing_angles() {
 }
 
 s32 TBoss6Mine::is_far_from_origin() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     return vector_length((void *)(arg0 + 0x38)) > 500.0f;
 }
 
@@ -295,7 +295,7 @@ void TBoss6Mine::state_2() {
         this->state_frames = 0;
         this->state = 3;
     }
-    play_persistent_sound(0x4003B21C, (s32)this, (u32)&this->position, 0, 0);
+    play_persistent_sound(0x4003B21C, (saddr)this, (uaddr)&this->position, 0, 0);
 }
 
 void TBoss6Mine::state_1() {
@@ -448,9 +448,9 @@ s32 TBoss6Mine__ct(s32 arg0, s32 parent, TBoss6MineSetData *set_data) {
     ((TBoss6Mine *)THIS)->m_398 = 0;
     *(s32 *)((s8 *)THIS + 0x38C) = 0;
     ((TBoss3Volopt *)THIS)->m_380 = 0;
-    *(u32 *)((s8 *)THIS + 0x3CC) = (u32)create_particle_emitter(THIS + 0x38, 0x146);
+    *(u32 *)((s8 *)THIS + 0x3CC) = (uaddr)create_particle_emitter(THIS + 0x38, 0x146);
     if (*(u32 *)((s8 *)THIS + 0x3CC) != 0) {
-        ((TParticleCtrl *)(*(u32 *)((s8 *)THIS + 0x3CC)))->set_flags(0x40);
+        ((TParticleCtrl *)(*(uaddr *)((s8 *)THIS + 0x3CC)))->set_flags(0x40);
     }
     return arg0;
 }

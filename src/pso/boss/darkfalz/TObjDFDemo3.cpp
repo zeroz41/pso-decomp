@@ -102,10 +102,10 @@ void TObjDFDemo3::render() {
     TObjFish::set_global_param(this->m_98);
     ((TObjFish *)(this->m_b8))->set_draw_callback_list();
     set_chunk_render_flags(1);
-    draw_model_motion((void *)(*(s32 *)&this->m_94), (void *)(*(s32 *)&this->m_9c), *(f32 *)&this->_padB4);
+    draw_model_motion((void *)(*(saddr *)&this->m_94), (void *)(*(saddr *)&this->m_9c), *(f32 *)&this->_padB4);
     ((TObjFish *)this->m_b8)->clear_render_callback();
     set_chunk_render_flags(2);
-    draw_model_motion((void *)(*(s32 *)&this->m_94), (void *)(*(s32 *)&this->m_9c), *(f32 *)&this->_padB4);
+    draw_model_motion((void *)(*(saddr *)&this->m_94), (void *)(*(saddr *)&this->m_9c), *(f32 *)&this->_padB4);
     clear_chunk_render_flags();
     clear_motion_packed_rotation();
     pop_matrix();
@@ -131,7 +131,7 @@ void TObjDFDemo3::run_task() {
     } else {
         temp_r3 = this->m_90;
         if (temp_r3 == 0U) {
-            this->m_90 = (u32)create_particle_emitter(&this->m_bc, 0x1BD);
+            this->m_90 = (uaddr)create_particle_emitter(&this->m_bc, 0x1BD);
             if ((u32) this->m_90 != 0U) {
                 ((TParticleCtrl *)((void *) this->m_90))->set_flags(0x40);
             }
@@ -140,7 +140,7 @@ void TObjDFDemo3::run_task() {
         }
     }
     if ((s32) this->m_b0 == 0x86) {
-        temp_r3 = (u32)spawn_particle_effect(&this->m_a0, 0x9B);
+        temp_r3 = (uaddr)spawn_particle_effect(&this->m_a0, 0x9B);
         if (temp_r3 != 0U) {
             ((TParticleCtrl *)temp_r3)->set_flags(0x40);
         }
@@ -190,7 +190,7 @@ u8 *TObjDFDemo3__ct(u8 *base, s32 parent, s32 arg2, s32 arg3) {
     s32 cnt;
     __ct__8TObjBaseFP7TObject(base, (void *)parent);
     *(void **)((s8 *)base + 0x18) = (void *)__vt__11TObjDFDemo3;
-    *(s32 *)((s8 *)base + 0) = (s32) TObjDFDemo3__name;
+    *(s32 *)((s8 *)base + 0) = (saddr) TObjDFDemo3__name;
     VecCopy((Vec *)(base + 0xA0), (const Vec *)arg2);
     *(f32 *)((s8 *)base + 0xA4) = 0.0f;
     {
@@ -217,7 +217,7 @@ u8 *TObjDFDemo3__ct(u8 *base, s32 parent, s32 arg2, s32 arg3) {
         set_scripted_camera_pose(base + 0xA0, base + 0xA0, &c);
     }
     lbl_804856E0.cache_target_and_forward(0x1555);
-    *(s32 *)((s8 *)base + 0xB8) = TObjFish__sub_800E3124(lbl_804856C0, (s32)(base + 0xBC));
+    *(s32 *)((s8 *)base + 0xB8) = TObjFish__sub_800E3124(lbl_804856C0, (saddr)(base + 0xBC));
     *(s32 *)((s8 *)base + 0xB0) = 0;
     return base;
 }

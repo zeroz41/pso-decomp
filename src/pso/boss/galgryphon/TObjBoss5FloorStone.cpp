@@ -13,7 +13,7 @@ const char *TObjBoss5FloorStone__name = "TObjBoss5FloorStone";
 
 void TObjBoss5FloorStone::render() {
     if (TObjPlayer::is_any_teammate_in_state() == 0) {
-        ((TObjBoss5FloorStone *)boss5_common_texture_list)->render_impl((void*)(*(s32 *)((s8 *)(*(void **)((s8 *)lbl_805D4DD8 + 0x42C)) + 0x58)));
+        ((TObjBoss5FloorStone *)boss5_common_texture_list)->render_impl((void*)(*(saddr *)((s8 *)(*(void **)((s8 *)lbl_805D4DD8 + 0x42C)) + 0x58)));
     }
 }
 

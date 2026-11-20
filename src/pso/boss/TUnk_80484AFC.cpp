@@ -128,7 +128,7 @@ void TUnk_80484AFC::run_task() {
         explode_and_destroy();
         return;
     }
-    play_persistent_sound((s32)(0x4003C114), (s32)this, (u32)&position, (s32)(0), (s32)(0));
+    play_persistent_sound((s32)(0x4003C114), (saddr)this, (uaddr)&position, (s32)(0), (s32)(0));
 }
 
 TUnk_80484AFC::~TUnk_80484AFC() {

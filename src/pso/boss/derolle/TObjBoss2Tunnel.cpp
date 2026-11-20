@@ -380,13 +380,13 @@ f32 normalize_vector_xz(Vec *vector) {
 
 #pragma pop
 
-void TObjBoss2Tunnel::render(void* a1) { push_matrix(); TObjPlayer::invert_matrix_in_place((u32)((void*)0)); get_current_matrix(a1); pop_matrix(); }
+void TObjBoss2Tunnel::render(void* a1) { push_matrix(); TObjPlayer::invert_matrix_in_place((uaddr)((void*)0)); get_current_matrix(a1); pop_matrix(); }
 
 #pragma push
 #pragma fp_contract on
 void TObjBoss2Tunnel::transform_vec_by_camera(s32 arg0, s32 arg1, s32 arg2) {
     push_matrix();
-    TCameraCtrl::concat_matrix(0, ((s32)TCameraCtrl::get_view_matrix()));
+    TCameraCtrl::concat_matrix(0, ((saddr)TCameraCtrl::get_view_matrix()));
     matrix_mult_vec(NULL, (const Vec *)arg1, (Vec *)arg2);
     pop_matrix();
 }
@@ -488,9 +488,9 @@ s32 TObjBoss2Tunnel::adjust_to_ground(s32 arg0, void *arg1) {
 
     VecCopy((Vec *)arg1, (const Vec *)arg0);
     ((Vec *)arg1)->y += 20.0f;
-    temp_r3 = csnVecterUnder((s32)arg1, 0x16EF);
+    temp_r3 = csnVecterUnder((saddr)arg1, 0x16EF);
     if (temp_r3 != NULL) {
-        VecCopy((Vec *)arg1, (const Vec *)(*(s32 *)((s8 *)temp_r3 + 4)));
+        VecCopy((Vec *)arg1, (const Vec *)(*(saddr *)((s8 *)temp_r3 + 4)));
         return 1;
     }
     VecCopy((Vec *)arg1, (const Vec *)arg0);
@@ -502,10 +502,10 @@ s32 TObjBoss2Tunnel::spawn_effect(s32 arg0, void *arg1, void *arg2) {
 
     VecCopy((Vec *)arg1, (const Vec *)arg0);
     ((Vec *)arg1)->y += 20.0f;
-    temp_r3 = csnVecterUnder((s32)arg1, 0x16EF);
+    temp_r3 = csnVecterUnder((saddr)arg1, 0x16EF);
     if (temp_r3 != NULL) {
-        VecCopy((Vec *)arg1, (const Vec *)(*(s32 *)((s8 *)temp_r3 + 4)));
-        VecCopy((Vec *)arg2, (const Vec *)(*(s32 *)((s8 *)temp_r3 + 4) + 0xC));
+        VecCopy((Vec *)arg1, (const Vec *)(*(saddr *)((s8 *)temp_r3 + 4)));
+        VecCopy((Vec *)arg2, (const Vec *)(*(saddr *)((s8 *)temp_r3 + 4) + 0xC));
         return 1;
     }
     VecCopy((Vec *)arg1, (const Vec *)arg0);
@@ -1162,7 +1162,7 @@ void load_data_buffers(void) {
     }
     temp_r31 = get_resource_file_size(screen_binary_filename);
     if (temp_r31 <= 0x1818C) {
-        temp_r30 = (s32)load_disc_file(screen_binary_filename);
+        temp_r30 = (saddr)load_disc_file(screen_binary_filename);
         if (temp_r30 != 0) {
             if (boss2_tunnel_snapshot_buffer != NULL) {
                 memmove(boss2_tunnel_snapshot_buffer, (void *)temp_r30, temp_r31);
@@ -1312,7 +1312,7 @@ void TObjBoss2Tunnel::show_message_and_wait(s32 arg0) {
     static f32 text_width = window_size[0] - 40.0f;
     VObj_8007C8AC *win;
     s32 frames;
-    win = (VObj_8007C8AC *)TWindowMessage::create((s32)window_pos, window_size, (u32)1, 4);
+    win = (VObj_8007C8AC *)TWindowMessage::create((saddr)window_pos, window_size, (u32)1, 4);
     if (win != NULL) {
         switch (arg0) {
         case -2:
@@ -1372,7 +1372,7 @@ s32 TObjBoss2Tunnel::run_confirm_message_loop() {
     VObj_8007C5C0 *win;
     VObj_8007C5C0 *graph;
     s32 frames;
-    win = (VObj_8007C5C0 *)TWindowMessage::create((s32)window_pos, window_size, (u32)1, 4);
+    win = (VObj_8007C5C0 *)TWindowMessage::create((saddr)window_pos, window_size, (u32)1, 4);
     if (win != NULL) {
         ((TWindowMessage *)win)->append_line(get_localized_text_entry(0x24, 0xB), 3);
         ((TWindowBase *)win)->set_depth(36900.0f);

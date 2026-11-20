@@ -269,7 +269,7 @@ u8 *TBoss6Thanks__ct(TBoss6Thanks *boss6_thanks, u8 *arg1) {
     *(s32 *)((s8 *)boss6_thanks + 0x3C) = get_bml_model(fish_count, 9);
     boss6_thanks->texture1 = get_bml_texlist(fish_count, 9);
     *(s32 *)((s8 *)boss6_thanks + 0x50) = get_bml_motion(fish_count, 0xA);
-    TBoss6Thanks__sub_8035CCAC((s32)((s32) boss6_thanks));
+    TBoss6Thanks__sub_8035CCAC((saddr)((saddr) boss6_thanks));
     boss6_thanks->m_1c = 0;
     boss6_thanks->m_24 = 0;
     boss6_thanks->current_motion = 0;

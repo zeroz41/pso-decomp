@@ -137,7 +137,7 @@ void TBoss3VoloptCore::init_params() {
     m_name = TBoss3VoloptCore_name;
     motion_list = core_resources->motions;
     action_table = core_motions;
-    set_field_d8((s32)action_table);
+    set_field_d8((saddr)action_table);
     init_collision_body_parts(this, core_body_parts, 1);
     variant = 0;
     movementParameters = &core_movement;
@@ -573,7 +573,7 @@ void TBoss3VoloptCore::update_orbit_state() {
             drop_angle = orbit_angle;
             this->update_if_active(9);
         }
-        play_persistent_sound((s32)(0x4003BC05), (s32)this, (u32)&position.x, (s32)(0), (s32)(0));
+        play_persistent_sound((s32)(0x4003BC05), (saddr)this, (uaddr)&position.x, (s32)(0), (s32)(0));
         break;
     case -1:
         break;
@@ -682,7 +682,7 @@ void TBoss3VoloptCore::update_topple_state() {
         }
         break;
     case 3:
-        play_persistent_sound((s32)(0x4003BC05), (s32)this, (u32)&position.x, (s32)(0), (s32)(0));
+        play_persistent_sound((s32)(0x4003BC05), (saddr)this, (uaddr)&position.x, (s32)(0), (s32)(0));
         advance_animation();
         orbit_angle -= get_orbit_speed(0);
         sweep_angle -= get_orbit_speed(0);

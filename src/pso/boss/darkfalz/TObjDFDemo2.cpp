@@ -184,7 +184,7 @@ void *TObjDFDemo2__ct(void *arg0, void *parent, void *arg2, void *arg3, void *ar
 
     __ct__8TObjBaseFP7TObject(self, parent);
     self->vt18 = (u8 *)__vt__11TObjDFDemo2;
-    self->vt0 = (s32) TObjDFDemo2__name;
+    self->vt0 = (saddr) TObjDFDemo2__name;
     VecCopy((Vec *)self->pos, (const Vec *)arg2);
     self->b8 = arg3;
     self->a8 = arg4;
@@ -200,7 +200,7 @@ void *TObjDFDemo2__ct(void *arg0, void *parent, void *arg2, void *arg3, void *ar
     activate_camera_mode(5);
     {
         Pose_8004EB78 p = lbl_80437384;
-        p.b = (s32) self->b8;
+        p.b = (saddr) self->b8;
         set_scripted_camera_pose(self->pos, self->pos, &p);
     }
     lbl_80485680.cache_target_and_forward(0x4444);

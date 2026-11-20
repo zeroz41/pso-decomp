@@ -147,7 +147,7 @@ void TBoss5GryphonLightningHorn::rebuild_lightning_segments() {
     p.y += self->vel.y;
     p.z += self->vel.z;
     p.y = 60.0f;
-    hit = (Hit_80326074 *)csnVecterUnder((s32)&p, 0x16EF);
+    hit = (Hit_80326074 *)csnVecterUnder((saddr)&p, 0x16EF);
     if (hit == NULL || (h = hit->pos[1]) > lbl_805D8D48) {
         get_wing_position__26TBoss5GryphonLightningWingFl(self, &p);
         self->vel.x *= 0.5f;
@@ -209,7 +209,7 @@ s32 TBoss8Dragon::spawn_ground_lightning(s32 arg0, s32 arg1, s32 arg2) {
     s32 effect;
     u8* collision;
     VecCopy(&position, (const Vec *)arg1);
-    collision = (u8 *)csnVecterUnder((s32)((s32*)&position), 0x16EF);
+    collision = (u8 *)csnVecterUnder((saddr)((s32*)&position), 0x16EF);
     if (collision == NULL) {
         position.y = lbl_805D8D48;
     } else {
@@ -224,7 +224,7 @@ s32 TBoss8Dragon::spawn_ground_lightning(s32 arg0, s32 arg1, s32 arg2) {
     allocation = (saddr)TObject::operator new(0xA8);
     effect = allocation;
     if (effect != 0) {
-        effect = (s32)__ct__26TBoss5GryphonLightningHornFv((u8*)allocation, arg0, (s32)&position, arg2);
+        effect = (saddr)__ct__26TBoss5GryphonLightningHornFv((u8*)allocation, arg0, (saddr)&position, arg2);
     }
     return effect;
 }

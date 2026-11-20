@@ -58,7 +58,7 @@ void fn_80323134(Obj_80323134 *arg0) {
 #pragma opt_common_subs off
 
 void TBoss6GravBall::destroy_part(s32 arg1) {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     u32 temp_r3;
     u8 *temp_r31;
     temp_r31 = (u8 *)(arg0 + (arg1 * 4));
@@ -88,7 +88,7 @@ void TBoss6GravBall__sub_80323214(s32 arg0, s32 arg1) {
 #pragma push
 #pragma opt_common_subs off
 void TBoss6GravBall::create_emitter(s32 arg1) {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     s32 temp_r5;
     u8 *temp_r31;
     u8 *boss4_type2;
@@ -105,7 +105,7 @@ void TBoss6GravBall::create_emitter(s32 arg1) {
 #pragma pop
 
 void TBoss6GravBall::init_parts() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     s32 var_r31;
     var_r31 = 0;
     do {
@@ -178,7 +178,7 @@ void TBoss6GravBall__sub_803233AC(u8 *self) {
         pl = (PL_803233AC *)TObjPlayer::get_player_data(i);
         id = get_entity_id(pl) + 5;
         if (((TBoss6PlotFalz *)pl)->is_active() == 0) {
-            ((TBoss6GravBall *)self)->destroy_part((s32)((void *)id));
+            ((TBoss6GravBall *)self)->destroy_part((saddr)((void *)id));
             continue;
         }
         flag = 0;
@@ -187,7 +187,7 @@ void TBoss6GravBall__sub_803233AC(u8 *self) {
         v.y = 0.0f;
         d = vector_length(&v);
         if (d > 32.5f) {
-            ((TBoss6GravBall *)self)->destroy_part((s32)((void *)id));
+            ((TBoss6GravBall *)self)->destroy_part((saddr)((void *)id));
             continue;
         }
         if (d <= 1e+01f) {
@@ -224,7 +224,7 @@ void TBoss6GravBall__sub_80323544(u8 *self) {
         pl = (PL_80323544 *)TObjPlayer::get_player_data(i);
         id = get_entity_id(pl) + 5;
         if (((TBoss6PlotFalz *)pl)->is_active() == 0) {
-            ((TBoss6GravBall *)self)->destroy_part((s32)((void *)id));
+            ((TBoss6GravBall *)self)->destroy_part((saddr)((void *)id));
             continue;
         }
         flag = 1;
@@ -240,7 +240,7 @@ void TBoss6GravBall__sub_80323544(u8 *self) {
         if (d > 1e+01f) {
             f32 s;
             if (*(u32 *)(self + 0xC0) & 1) {
-                ((TBoss6GravBall *)self)->destroy_part((s32)((void *)id));
+                ((TBoss6GravBall *)self)->destroy_part((saddr)((void *)id));
                 continue;
             }
             s = 3.0f * (*(f32 *)(self + 0xBC) * (1.0f - d / 225.0f));
@@ -426,7 +426,7 @@ void update_state__14TBoss6GravBallFPv(u8 *arg0) {
             ((TBoss6GravBall *)arg0)->destroy_part(0);
             ((TBoss6GravBall *)arg0)->destroy_part(1);
             ((TBoss6GravBall *)arg0)->destroy_part(2);
-            TBoss6GravBall__sub_80323214((s32)arg0, 4);
+            TBoss6GravBall__sub_80323214((saddr)arg0, 4);
             *(s32 *)((s8 *)arg0 + 0xB8) = 0;
             *(s32 *)((s8 *)arg0 + 0xB4) = 0;
             *(s32 *)((s8 *)arg0 + 0xB0) = 1;

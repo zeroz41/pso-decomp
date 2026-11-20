@@ -32,7 +32,7 @@ s32 TBoss6Type2::create_mag(s32 arg0) {
         if (var_r4 != 0) {
             var_r4 = __ct__11TObjControlFP7TObject(var_r4, tl_04);
         }
-        var_r31 = (s32)TBoss6Mag__ct((u8 *)var_r31, var_r4, (u8 *)arg0);
+        var_r31 = (saddr)TBoss6Mag__ct((u8 *)var_r31, var_r4, (u8 *)arg0);
     }
     return var_r31;
 }

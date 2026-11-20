@@ -2943,7 +2943,7 @@ void load_resources__13TBoss2DeRolLeFv(void) {
     Node_80035D24 *m;
     Slot_80035D24 *p;
     if (TObjEneDD::check_v2_mode() != 0) {
-        res = (u8 *)load_enemy_bml_resource_named((s32)&boss2_derolle_bml_descriptor, (s32)("bm_boss2_de_rol_le_a.bml"));
+        res = (u8 *)load_enemy_bml_resource_named((saddr)&boss2_derolle_bml_descriptor, (saddr)("bm_boss2_de_rol_le_a.bml"));
     } else {
         res = (u8 *)load_enemy_bml_resource((u8 *)&boss2_derolle_bml_descriptor);
     }
@@ -2963,22 +2963,22 @@ void load_resources__13TBoss2DeRolLeFv(void) {
     lbl_805D4BBC = 0;
     lbl_805D4BC0 = 0;
     for (i = 0; i < 1; i++) {
-        TBoss2DeRolLe__base_params[i] = ((s32)TLobby::register_boss(de_rol_le_base_param_ids[i]));
+        TBoss2DeRolLe__base_params[i] = ((saddr)TLobby::register_boss(de_rol_le_base_param_ids[i]));
     }
     for (i = 0; i < 3; i++) {
-        ((s32 *)TBoss2DeRolLe__attack_params_table)[i] = ((s32)TLobby::dispatch_shared_handler_b(TBoss2DeRolLe__shared_handler_id_table[i]));
+        ((s32 *)TBoss2DeRolLe__attack_params_table)[i] = ((saddr)TLobby::dispatch_shared_handler_b(TBoss2DeRolLe__shared_handler_id_table[i]));
     }
     for (i = 0; i < 1; i++) {
-        TBoss2DeRolLe__resistance_params[i] = ((s32)TLobby::register_object(de_rol_le_resistance_param_ids[i]));
+        TBoss2DeRolLe__resistance_params[i] = ((saddr)TLobby::register_object(de_rol_le_resistance_param_ids[i]));
     }
     for (i = 0; i < 1; i++) {
-        TBoss2DeRolLe__data_805D4BA0[i] = ((s32)TLobby::dispatch_shared_handler_a(de_rol_le_shared_handler_a_ids[i]));
+        TBoss2DeRolLe__data_805D4BA0[i] = ((saddr)TLobby::dispatch_shared_handler_a(de_rol_le_shared_handler_a_ids[i]));
     }
     TBoss2DeRolLe__instance = 0;
     TBoss2Tentacle__sub_8003A0AC();
     TBoss2Mine__sub_80038D88();
     for (k = 0; k < 5; k++) {
-        TObjBoss2Tunnel::adjust_to_ground((s32)&derolle_mine_offsets[k], (u8 *)TBoss2DeRolLe__mine_ground_targets + k * 0xC);
+        TObjBoss2Tunnel::adjust_to_ground((saddr)&derolle_mine_offsets[k], (u8 *)TBoss2DeRolLe__mine_ground_targets + k * 0xC);
     }
     TBoss2Fin::init_effect_table();
     res = (*(u8 * *)&lbl_805D4BA4);
@@ -3074,14 +3074,14 @@ void *TBoss2DeRolLe__ct(void *arg0, void *arg1, void *arg2) {
     __ct__13TUnk_80036250Fv(&self->r684);
     self->f0 = boss2_de_rol_le_class_name;
     if ((u32)TBoss2DeRolLe__instance == 0) {
-        TBoss2DeRolLe__instance = (s32)self;
+        TBoss2DeRolLe__instance = (saddr)self;
     }
     ((TObjEneDD *)self)->invoke_initialization_hook(arg2);
     self->f3C0 = 0;
     {
         // exchange_object_state copies the object's whole 12-byte lobby record
         u32 flags[3];
-        if (((TObjEnemy *)self)->exchange_object_state((s32)flags, (s16)1) != 0 && (flags[0] & 0x12008) == 0x12008) {
+        if (((TObjEnemy *)self)->exchange_object_state((saddr)flags, (s16)1) != 0 && (flags[0] & 0x12008) == 0x12008) {
             self->f3C0 |= 0x8000;
         }
     }
@@ -3095,7 +3095,7 @@ void *TBoss2DeRolLe__ct(void *arg0, void *arg1, void *arg2) {
         init_model__9TObjEneDDFP13CollisionBodyl(self, (u8 *)lbl_804822A8, 3, q);
     }
     ((TBoss2DeRolLe *)self)->motion_flags = 0;
-    ((TObjMotion *)self)->set_field_d8((s32)((u8 *)lbl_804823A8));
+    ((TObjMotion *)self)->set_field_d8((saddr)((u8 *)lbl_804823A8));
     ((TObjMotion *)self)->set_field_dc(*(s32 *)((s8 *)lbl_805D4BA4 + 0x430));
     ((TBoss2DeRolLe *)self)->requested_action = 0;
     ((TObjMotion *)self)->set_animation(((TBoss2DeRolLe *)self)->requested_action);
@@ -3278,7 +3278,7 @@ u8 *__dt__13TBoss2DeRolLeFv(u8 *arg0, s16 arg1) {
             self->x6D0 = NULL;
         }
         if (self->x6C8 != NULL) {
-            __dt__17AreaAttackHistoryFv((s32)self->x6C8, 1);
+            __dt__17AreaAttackHistoryFv((saddr)self->x6C8, 1);
             self->x6C8 = NULL;
         }
         if (self->x6B8 != NULL) {
@@ -3307,7 +3307,7 @@ u8 *__dt__13TBoss2DeRolLeFv(u8 *arg0, s16 arg1) {
         }
         mem_free((void *)self->x61C);
         free_collision_body_parts(self);
-        if ((u32)TBoss2DeRolLe__instance == (u32)arg0) {
+        if ((u32)TBoss2DeRolLe__instance == (uaddr)arg0) {
             TBoss2DeRolLe__instance = 0;
         }
         ((TUnk_80036250 *)(arg0 + 0x684))->~TUnk_80036250();
@@ -3426,7 +3426,7 @@ void run_task__13TBoss2DeRolLeFPv(u8 *arg0) {
   }
   ((TObjEneDD *)arg0)->sub_800BBA0C();
   (((VObj_18_bd2ad6 *)(arg0))->m86());
-  backup_pos__13TBoss2DeRolLeFi((s32)arg0);
+  backup_pos__13TBoss2DeRolLeFi((saddr)arg0);
   ((TObjEnemy *)arg0)->submit_default_cursor_candidate();
   add_radar_scaled_marker(arg0 + 0x38, -0x5DB4, 1, 1, 2.0f);
   update_particle_ctrls__13TBoss2DeRolLeFPv((void *) arg0);
@@ -3463,7 +3463,7 @@ void TBoss2DeRolLe::vfunc_62() {
     if (*(s32 *)((s8 *)this + 0x3C0) & 8) {
         this->m_6c8 = (s32) (this->m_6c8 - temp_r4);
         spawn_offset_particle__13TBoss2DeRolLeFiff(*(s32 *)((s8 *)this + 0xA4) + 0x1C, 2.0f, 8.0f);
-        play_sound((void *)0x4003A80F, (s32)((u8 *)this + 0x518));
+        play_sound((void *)0x4003A80F, (saddr)((u8 *)this + 0x518));
     } else {
         this->m_6cc = (s32) (this->m_6cc - temp_r4);
         if ((s32) this->m_6cc < 0) {
@@ -3489,9 +3489,9 @@ void update_colliders_from_offsets__13TBoss2DeRolLeFi(s32 arg0) {
     Vec sp20;
     Vec sp14;
     Vec sp8;
-    VecCopy__FP3VecPC3Vec((s32)&sp8, arg0 + 0x440);
-    VecCopy__FP3VecPC3Vec((s32)&sp14, arg0 + 0x500);
-    VecCopy__FP3VecPC3Vec((s32)&sp20, arg0 + 0x50C);
+    VecCopy__FP3VecPC3Vec((saddr)&sp8, arg0 + 0x440);
+    VecCopy__FP3VecPC3Vec((saddr)&sp14, arg0 + 0x500);
+    VecCopy__FP3VecPC3Vec((saddr)&sp20, arg0 + 0x50C);
     update_local_colliders_from_world(arg0, &sp8);
 }
 
@@ -3562,7 +3562,7 @@ void switch_phase_stats__13TBoss2DeRolLeFPvPv(u8 *arg0, u8 *arg1) {
 
 void emit_effect_and_step__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1) {
     reload_stats_for_phase__13TBoss2DeRolLeFPvi(arg0, 2);
-    TObjEneDD::emit_effect((void*)arg0, (int)arg1, (int)&derolle_effect_params);
+    TObjEneDD::emit_effect((void*)arg0, (saddr)arg1, (saddr)&derolle_effect_params);
     ((void (*)(void *, void *))reload_stats_for_phase__13TBoss2DeRolLeFPvi)(arg0, *(void **)((s8 *)arg0 + 0x3C4));
 }
 
@@ -3579,7 +3579,7 @@ s32 TBoss2Joint_get_shell_max_hp(void) {
 }
 
 void set_position_index__13TBoss2DeRolLeFPvi(u8 *arg0, s32 arg1) {
-    VecCopy__FP3VecPC3Vec((s32)(arg0 + 0x38), (s32)&TBoss2DeRolLe__position_point_table[arg1]);
+    VecCopy__FP3VecPC3Vec((saddr)(arg0 + 0x38), (saddr)&TBoss2DeRolLe__position_point_table[arg1]);
     *(f32 *)((s8 *)arg0 + 0x6A4) = 0.0f;
     *(s32 *)((s8 *)arg0 + 0x64) = 0;
 }
@@ -3588,8 +3588,8 @@ void set_position_index__13TBoss2DeRolLeFPvi(u8 *arg0, s32 arg1) {
 #pragma opt_common_subs off
 
 void set_move_target_point__13TBoss2DeRolLeFPvi(u8 *arg0, s32 arg1) {
-    VecCopy__FP3VecPC3Vec((s32)(arg0 + 0x394), (s32)&TBoss2DeRolLe__position_point_table[arg1]);
-    VecCopy__FP3VecPC3Vec((s32)(arg0 + 0x3A0), (s32)(arg0 + 0x394));
+    VecCopy__FP3VecPC3Vec((saddr)(arg0 + 0x394), (saddr)&TBoss2DeRolLe__position_point_table[arg1]);
+    VecCopy__FP3VecPC3Vec((saddr)(arg0 + 0x3A0), (saddr)(arg0 + 0x394));
     subtract_vector(arg0 + 0x3A0, arg0 + 0x38);
     ((RecoveredFields_80034C2C_arg0 *)arg0)->field_3AC = normalize_vector_xz((Vec *)(arg0 + 0x3A0));
 }
@@ -3630,8 +3630,8 @@ void get_node_world_pos__13TBoss2DeRolLeFPvPv(u8 *arg0, u8 *arg1) {
     set_matrix_identity(0);
     Vec scale = {2.0f, 2.0f, 2.0f};
     scale_current_matrix(&scale);
-    bind_motion_context((NJS_MOTION *)(*(s32 *)((s8 *)arg0 + 0xF8)), (f32) (*(f32 *)((s8 *)arg0 + 0xC0)));
-    compose_motion_node_matrix((void *)(*(s32 *)((s8 *)arg0 + 0x34)));
+    bind_motion_context((NJS_MOTION *)(*(saddr *)((s8 *)arg0 + 0xF8)), (f32) (*(f32 *)((s8 *)arg0 + 0xC0)));
+    compose_motion_node_matrix((void *)(*(saddr *)((s8 *)arg0 + 0x34)));
     matrix_mult_vec(0, arg1, arg1);
     pop_matrix();
 }
@@ -4153,7 +4153,7 @@ void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, s32 arg2) {
 
 void spawn_offset_particle__13TBoss2DeRolLeFiff(s32 arg0, f32 farg0, f32 farg1) {
     Vec stack;
-    VecCopy__FP3VecPC3Vec((int)((void *)&stack.x), (void *)arg0);
+    VecCopy__FP3VecPC3Vec((saddr)((void *)&stack.x), (void *)arg0);
     stack.x = -((*(f32 *)((s8 *)&lbl_804FF5E8 + 0xC) * farg1) - stack.x);
     stack.y -= (*(f32 *)((s8 *)&lbl_804FF5E8 + 0x10) * farg1) - farg0;
     stack.z = -((*(f32 *)((s8 *)&lbl_804FF5E8 + 0x14) * farg1) - stack.z);
@@ -4165,11 +4165,11 @@ void spawn_offset_particle__13TBoss2DeRolLeFiff(s32 arg0, f32 farg0, f32 farg1) 
 void update_projectile_spawns__13TBoss2DeRolLeFPv(u8 *arg0) {
     u8 *temp_r31;
 
-    project_sound_origin_from_camera((s32)(arg0 + 0x38), (u8 *)(arg0 + 0x518), 0.3f);
-    project_sound_origin_from_camera((s32)(arg0 + 0x4D0), (u8 *)(arg0 + 0x524), 0.3f);
+    project_sound_origin_from_camera((saddr)(arg0 + 0x38), (u8 *)(arg0 + 0x518), 0.3f);
+    project_sound_origin_from_camera((saddr)(arg0 + 0x4D0), (u8 *)(arg0 + 0x524), 0.3f);
     temp_r31 = arg0 + 0x530;
-    VecCopy__FP3VecPC3Vec((int)temp_r31, arg0 + 0x524);
-    vec3_add_to((int)temp_r31, arg0 + 0x524);
+    VecCopy__FP3VecPC3Vec((saddr)temp_r31, arg0 + 0x524);
+    vec3_add_to((saddr)temp_r31, arg0 + 0x524);
     *(f32 *)((s8 *)temp_r31 + 0) *= 0.5f;
     *(f32 *)((s8 *)temp_r31 + 4) *= 0.5f;
     *(f32 *)((s8 *)temp_r31 + 8) *= 0.5f;
@@ -4177,7 +4177,7 @@ void update_projectile_spawns__13TBoss2DeRolLeFPv(u8 *arg0) {
         *(s32 *)((s8 *)arg0 + 0x53C) = 0;
     }
     if ((s32) *(s32 *)((s8 *)arg0 + 0x53C) <= 0x10) {
-        play_persistent_sound(0x4003AD00, (s32)arg0, (u32)(arg0 + 0x530), 0, 0);
+        play_persistent_sound(0x4003AD00, (saddr)arg0, (uaddr)(arg0 + 0x530), 0, 0);
         *(s32 *)((s8 *)arg0 + 0x53C) = (s32) (*(s32 *)((s8 *)arg0 + 0x53C) + 1);
     }
 }
@@ -4186,7 +4186,7 @@ void TBoss2DeRolLe__sub_800338BC(void) {  }
 
 int play_sound(void* p, int a1) { return play_sound_effect(p, a1, 0, 0); }
 
-int spawn_trap__13TBoss2DeRolLeFPvii(void* p, int a1, int a2) { return play_persistent_sound((s32)p, (a1), (a2), 0, 0); }
+int spawn_trap__13TBoss2DeRolLeFPvii(void* p, int a1, int a2) { return play_persistent_sound((saddr)p, (a1), (a2), 0, 0); }
 
 #pragma push
 #pragma opt_common_subs off
@@ -4379,7 +4379,7 @@ void TBoss2DeRolLe__sub_80032E38(void *arg0, void *arg1) {
     Vec v2;
     Vec v3;
     f32 t;
-    switch ((u32)arg1) {
+    switch ((uaddr)arg1) {
     case 4:
         o->fB8 = 0;
         TBoss2DeRolLe__sub_80034258((Obj_80034258 *)o);
@@ -4528,7 +4528,7 @@ void TBoss2DeRolLe__sub_80032E38(void *arg0, void *arg1) {
 #define arg0 ((u8 *)arg0_)
 
 void handle_debug_pad_input__13TBoss2DeRolLeFPvPv(void *arg0_, void *arg1_) {
-    u32 arg1 = (u32)arg1_;
+    u32 arg1 = (uaddr)arg1_;
     u32 b;
 
     switch (arg1) {
@@ -4644,7 +4644,7 @@ void handle_debug_pad_input__13TBoss2DeRolLeFPvPv(void *arg0_, void *arg1_) {
 
 void TBoss2DeRolLe__sub_800327C8(void *arg0, void *arg1, int arg2, int arg3) {
     s32 r;
-    switch ((u32)arg1) {
+    switch ((uaddr)arg1) {
     case 4:
         o->fB8 = 1;
         ((void (*)(void *))TBoss2DeRolLe__sub_800341F0)(o);
@@ -4775,7 +4775,7 @@ void TBoss2DeRolLe__sub_800327C8(void *arg0, void *arg1, int arg2, int arg3) {
 #define self ((D_800320B4 *) arg0)
 
 void TBoss2DeRolLe__sub_800320B4(void *arg0, void *arg1, int arg2, int arg3) {
-    switch ((u32) arg1) {
+    switch ((uaddr) arg1) {
     case 4:
         TBoss2DeRolLe__sub_800341F0((Obj_800341F0 *) self);
         self->flags |= 4;
@@ -4966,7 +4966,7 @@ void TBoss2DeRolLe__sub_80031AD4(void *arg0, void *arg1) {
     Vec va;
     Vec vb;
 
-    switch ((u32)arg1) {
+    switch ((uaddr)arg1) {
     case 4:
         o->fB8 = 1;
         TBoss2DeRolLe__sub_800341F0((Obj_800341F0 *)o);
@@ -5045,9 +5045,9 @@ void TBoss2DeRolLe__sub_80031AD4(void *arg0, void *arg1) {
             }
             if (o->fB8 != 1) {
                 if (((TObjMotion *)o)->is_passing_frame(4.0f) != 0 || ((TObjMotion *)o)->is_passing_frame(22.0f) != 0) {
-                    play_sound((void *)0x4003AD11, (int)o->f518);
+                    play_sound((void *)0x4003AD11, (saddr)o->f518);
                 } else if (((TObjMotion *)o)->is_passing_frame(14.0f) != 0) {
-                    play_sound((void *)0x4003AD12, (int)o->f518);
+                    play_sound((void *)0x4003AD12, (saddr)o->f518);
                 }
             }
             switch (o->f6E4) {
@@ -5248,7 +5248,7 @@ void TBoss2DeRolLe__sub_800313F8(DR_800313F8 *o, u32 arg1, s32 arg2) {
                 Vec v;
                 f32 s;
                 o->f6E8 = 0;
-                VecCopy__FP3VecPC3Vec((int)&v, &o->v4E8);
+                VecCopy__FP3VecPC3Vec((saddr)&v, &o->v4E8);
                 s = 50.0f * ((TObjChara *)o)->random_ratio();
                 v.x = v.x - o->f6FC * s;
                 v.y = -5.0f;
@@ -5345,7 +5345,7 @@ void TBoss2DeRolLe__sub_800310F8(void *arg0, void *arg1, int arg2) {
     s32 a;
     s32 ok;
     s32 i;
-    switch ((u32)arg1) {
+    switch ((uaddr)arg1) {
     case 4:
         TBoss2DeRolLe__sub_800341F0((Obj_800341F0 *)self);
         self->flags &= ~4;
@@ -5398,14 +5398,14 @@ void TBoss2DeRolLe__sub_800310F8(void *arg0, void *arg1, int arg2) {
             if (self->timer >= self->limit) {
                 self->timer = 0;
                 if (((TObjEneDD_ST *)self)->enemy_has_live_target() != 0) {
-                    VecCopy__FP3VecPC3Vec((int)&v, self->f390 + 0x38);
+                    VecCopy__FP3VecPC3Vec((saddr)&v, self->f390 + 0x38);
                 } else {
                     f32 r = 120.0f * ((TObjChara *)self)->random_ratio();
                     a = get_random_scaled__9TObjEneDDFv(self);
                     v.x = r * sin_table_lookup(a);
                     v.y = -1.85f;
                     v.z = r * cos_table_lookup(a);
-                    TObjBoss2Tunnel::adjust_to_ground((s32)&v, &v);
+                    TObjBoss2Tunnel::adjust_to_ground((saddr)&v, &v);
                 }
                 {
                     Self_800310F8 *o = (Self_800310F8 *)arg0;
@@ -5434,7 +5434,7 @@ void TBoss2DeRolLe__sub_800310F8(void *arg0, void *arg1, int arg2) {
         }
         break;
     case 6:
-        pick_random_target__13TBoss2DeRolLeFi((s32)self);
+        pick_random_target__13TBoss2DeRolLeFi((saddr)self);
         break;
     case 5:
         {
@@ -5455,7 +5455,7 @@ void TBoss2DeRolLe__sub_800310F8(void *arg0, void *arg1, int arg2) {
 #define arg0 ((u8 *)arg0_)
 
 void TBoss2DeRolLe__sub_80030DFC(void *arg0_, void *arg1_, int arg2) {
-    switch ((u32)arg1_) {
+    switch ((uaddr)arg1_) {
     case 4:
         TBoss2DeRolLe__sub_800341F0((Obj_800341F0 *)arg0);
         F(s32, 0x3C0) |= 4;
@@ -5504,7 +5504,7 @@ void TBoss2DeRolLe__sub_80030DFC(void *arg0_, void *arg1_, int arg2) {
             F(s32, 0x64) = (s32)((f32)F(s32, 0x6F4) * -F(f32, 0x700));
             if (F(s32, 0x6E4) == 0 && F(s32, 0x6F4) >= 0x2200) {
                 F(s32, 0x6E4) = 1;
-                play_sound((void *)0x4003AD12, (int)(arg0 + 0x518));
+                play_sound((void *)0x4003AD12, (saddr)(arg0 + 0x518));
             }
             if (F(f32, 0x6A4) < -137.0f) {
                 F(s32, 0x6E0) = 1;
@@ -5602,7 +5602,7 @@ void TBoss2DeRolLe__sub_80030A38(u8 *arg0, u32 arg1) {
                 *(f32 *)((s8 *)arg0 + 0x700) = 0.0f;
             }
             if (((TObjChara *)arg0)->random_ratio() <= *(f32 *)((s8 *)TBoss2DeRolLe__data_805D4BA0 + 0x10)) {
-                VecCopy__FP3VecPC3Vec((int)&v, arg0 + 0x38);
+                VecCopy__FP3VecPC3Vec((saddr)&v, arg0 + 0x38);
                 v.x = *(f32 *)((s8 *)TBoss2DeRolLe__data_805D4BA0 + 0xC) * calc_elapsed_scaled__9TObjEneDDFv(arg0) + v.x;
                 v.z -= 100.0f * ((TObjChara *)arg0)->random_ratio();
                 v.y += 10.0f + *(f32 *)((s8 *)arg0 + 0x6A4);
@@ -5794,11 +5794,11 @@ void state_ceiling_attack__13TBoss2DeRolLeFPvUi(TBoss2DeRolLe *arg0, u32 arg1) {
         frame = arg0->frame;
         if (frame >= 10.0f && frame <= 14.0f && (f32)*(s32 *)((s8 *)arg0 + 0x6E0) >= 3.0f) {
             *(s32 *)((s8 *)arg0 + 0x6E0) = 0;
-            VecCopy__FP3VecPC3Vec((int)&v, (u8 *)arg0 + 0x38);
+            VecCopy__FP3VecPC3Vec((saddr)&v, (u8 *)arg0 + 0x38);
             v.x = 30.0f * calc_elapsed_scaled__9TObjEneDDFv(arg0) + v.x;
             v.y = -5.0f;
             v.z += 80.0f;
-            spawn_ceil_junk__13TBoss2DeRolLeFii((s32)arg0, (s32)&v);
+            spawn_ceil_junk__13TBoss2DeRolLeFii((saddr)arg0, (saddr)&v);
         }
         if (((TObjMotion *)arg0)->is_passing_frame(10.0f) != 0) {
             ((int (*)(int, void *))play_sound)(0x4003AD12, (u8 *)arg0 + 0x518);
@@ -5994,7 +5994,7 @@ void TBoss2DeRolLe__sub_8002FE60(void *arg0, u32 arg1) {
                 {
                     DeRolLeEffectParams r = derolle_laser_hit_effect_params;
                     r.pad_04 = *(f32 *) TBoss2DeRolLe__data_805D4BA0;
-                    TObjEneDD::setup_instance((s32)self, (s32)hit, (u8 *)&r, self->f6C8);
+                    TObjEneDD::setup_instance((saddr)self, (saddr)hit, (u8 *)&r, self->f6C8);
                 }
             }
             ((int (*)(int, void *, void *))spawn_trap__13TBoss2DeRolLeFPvii)(0x4003B00A, self, hit);
@@ -6019,7 +6019,7 @@ void TBoss2DeRolLe__sub_8002FE60(void *arg0, u32 arg1) {
         }
         break;
     case 6:
-        pick_random_target__13TBoss2DeRolLeFi((s32) self);
+        pick_random_target__13TBoss2DeRolLeFi((saddr) self);
         break;
     case 5:
         self->count++;
@@ -6125,7 +6125,7 @@ void handle_death_state__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1) {
     Vec save;
     s32 i;
     f32 t;
-    switch ((u32)arg1) {
+    switch ((uaddr)arg1) {
     case 4:
         o->f3C0 &= ~0x100;
         o->f3C0 |= 4;
@@ -6169,7 +6169,7 @@ void handle_death_state__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1) {
         switch (o->f6E0) {
         case 0:
             if (((TObjMotion *)o)->is_passing_frame(27.0f) != 0) {
-                play_cue_stream_file((s32)"deldeath.adx");
+                play_cue_stream_file((saddr)"deldeath.adx");
             } else if (((TObjMotion *)o)->is_passing_frame(20.0f) != 0) {
                 play_sound_effect((void *)0x4003AD11, 0, 0, 0);
             } else if (((TObjMotion *)o)->is_passing_frame(99.0f) != 0) {
@@ -6311,7 +6311,7 @@ extern "C" {
 
 void TObjPlayer__sub_8002F61C(void) {
     if ((s32) TBoss2DeRolLe__current_attack_id == derolle_attack_sequence_id_table[TBoss2DeRolLe__sequence_match_index]) {
-        get_camera_ctrl__9TObjEneDDFv((s32) &lbl_804FE31C.value, lbl_805D4BB4);
+        get_camera_ctrl__9TObjEneDDFv((saddr) &lbl_804FE31C.value, lbl_805D4BB4);
         TBoss2DeRolLe__sequence_match_index += 1;
         lbl_805D4BB4 += 0xC;
     }
@@ -6400,7 +6400,7 @@ void TBoss2DeRolLe::render() {
     }
     fn_8002F5AC(((u8 *)this));
     TObjFish::set_global_param(e->f24);
-    set_chunk_model_node_callback((s32)((void *)TObjPlayer__sub_8002F61C));
+    set_chunk_model_node_callback((saddr)((void *)TObjPlayer__sub_8002F61C));
     {
     Vec4_8002F258 saved;
     col = &TObjLight__scene_light_state.col;
@@ -6503,7 +6503,7 @@ void TBoss2DeRolLe::render_body() {
         }
     }
     fn_8002F5AC((u8 *)self);
-    set_chunk_model_node_callback((s32)TObjPlayer__sub_8002F61C);
+    set_chunk_model_node_callback((saddr)TObjPlayer__sub_8002F61C);
     TObjFish::set_global_param(this->texlist);
     draw_model_motion((void *)self->x34, (void *)model, (f32)frame);
     set_chunk_model_node_callback((s32)NULL);

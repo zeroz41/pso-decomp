@@ -52,11 +52,11 @@ s32 TBoss8Dragon__sub_80063FB8(s32, s32 *, f32);
 void TBoss5GryphonLightningWing::apply_lightning_effect() {
     s32 sp8;
     s32 instance_count;
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
 
     instance_count = TBoss8Dragon::get_instance_count();
     if (instance_count != 0) {
-        ((TBoss5GryphonLightningWing *)arg0)->get_wing_position((s32)&sp8);
+        ((TBoss5GryphonLightningWing *)arg0)->get_wing_position((saddr)&sp8);
         TBoss8Dragon__sub_80063FB8(instance_count, &sp8, 10.0f);
     }
 }
@@ -78,7 +78,7 @@ void run_task__26TBoss5GryphonLightningWingFv(TBoss5GryphonLightningWing *boss5_
     boss5_gryphon_lightning_wing->update_wing_segments();
     boss5_gryphon_lightning_wing->apply_lightning_effect();
     if ((s32) *(s32 *)((s8 *)boss5_gryphon_lightning_wing + 0x94) == (s32) *(s32 *)((s8 *)boss5_gryphon_lightning_wing + 0x98)) {
-        boss5_gryphon_lightning_wing->get_wing_position((s32)&stack.sp8);
+        boss5_gryphon_lightning_wing->get_wing_position((saddr)&stack.sp8);
         play_sound_effect(0x40032516, &stack.sp8, 0, 0);
     }
     ((TBoss5GryphonLightning *)boss5_gryphon_lightning_wing)->spawn_gryphon_lightning();
@@ -93,10 +93,10 @@ s32 __ct__26TBoss5GryphonLightningWingFv(int arg0, void *arg1, void *a, void *mi
     s32 i;
     TBoss5GryphonLightning__ct(20.0f);
     ((Wing_80351C18 *)arg0)->vt = __vt__26TBoss5GryphonLightningWing;
-    ((Wing_80351C18 *)arg0)->x0 = ((s32)TBoss5GryphonLightningWing__name);
+    ((Wing_80351C18 *)arg0)->x0 = ((saddr)TBoss5GryphonLightningWing__name);
     ((Wing_80351C18 *)arg0)->n = 3;
-    ((Wing_80351C18 *)arg0)->x98 = (s32)arg5;
-    ((Wing_80351C18 *)arg0)->x9C = (s32)arg5 + (s32)arg6;
+    ((Wing_80351C18 *)arg0)->x98 = (saddr)arg5;
+    ((Wing_80351C18 *)arg0)->x9C = (saddr)arg5 + (saddr)arg6;
     VecCopy((Vec *)(&((Wing_80351C18 *)arg0)->pts[0]), (const Vec *)a);
     VecCopy((Vec *)(&((Wing_80351C18 *)arg0)->pts[((Wing_80351C18 *)arg0)->n - 1]), (const Vec *)b);
     for (i = 1; i < ((Wing_80351C18 *)arg0)->n - 1; i++) {
@@ -114,7 +114,7 @@ s32 spawn_lightning_wing__12TBoss8DragonFiiiiii(s32 arg0, s32 arg1, s32 mid, s32
     s32 effect;
     u8* collision;
     VecCopy(&position, (const Vec *)arg3);
-    collision = (u8 *)csnVecterUnder((s32)((s32*)&position), 0x16EF);
+    collision = (u8 *)csnVecterUnder((saddr)((s32*)&position), 0x16EF);
     if (collision == NULL) {
         position.y = lbl_805D8D48;
     } else {
@@ -138,7 +138,7 @@ void fn_80351DA8(s32 arg0, u8 *pos, u8 *out, s32 arg3, s32 arg4) {
     stack.x = *(f32 *)((s8 *)out + 0);
     stack.y = *(f32 *)((s8 *)pos + 4);
     stack.z = *(f32 *)((s8 *)out + 8);
-    spawn_lightning_wing__12TBoss8DragonFiiiiii(arg0, (s32)((s32) pos), (s32)((s32) &stack.x), (s32)((s32) out), arg3, arg4);
+    spawn_lightning_wing__12TBoss8DragonFiiiiii(arg0, (saddr)((saddr) pos), (saddr)((saddr) &stack.x), (saddr)((saddr) out), arg3, arg4);
 }
 
 }

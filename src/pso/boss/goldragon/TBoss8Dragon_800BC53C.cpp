@@ -32,7 +32,7 @@ PointerBuffer::PointerBuffer(s32 capacity, void *empty) {
     this->empty = empty;
     count = 0;
     this->capacity = capacity;
-    fill_value_array((s32)this);
+    fill_value_array((saddr)this);
 }
 
 PointerBuffer::~PointerBuffer() {
@@ -48,7 +48,7 @@ s32 push_attack_target_entry(u8 *arg0, s32 arg1) {
     s32 temp_r6;
     temp_r6 = *(s32 *)((s8 *)arg0 + 8);
     if (temp_r6 < (s32) *(s32 *)((s8 *)arg0 + 0xC)) {
-        *(s32 *)((s8 *)(*(s32 *)((s8 *)arg0 + 0)) + (temp_r6 * 4)) = arg1;
+        *(s32 *)((s8 *)(*(saddr *)((s8 *)arg0 + 0)) + (temp_r6 * 4)) = arg1;
         temp_r4 = *(s32 *)((s8 *)arg0 + 8);
         *(s32 *)((s8 *)arg0 + 8) = (temp_r4 + 1);
         return temp_r4;

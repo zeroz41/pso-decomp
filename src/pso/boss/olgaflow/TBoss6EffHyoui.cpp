@@ -28,8 +28,8 @@ extern void *tl_02;
 void TBoss6EffHyoui::run_task() {
     u8 *arg0 = (u8 *)this;
     s32 player;
-    if ((u32) this->m_1c != 0U) {
-        player = (s32)get_player_by_client_id((*(u16 *)((s8 *)arg0 + 0x20)));
+    if ((uaddr) this->m_1c != 0U) {
+        player = (saddr)get_player_by_client_id((*(u16 *)((s8 *)arg0 + 0x20)));
         if ((player != 0) && (is_active__14TBoss6PlotFalzFv() != 0)) {
             ((TParticleCtrl *)this->m_1c)->set_position((void *)(player + 0x38));
         }
@@ -51,7 +51,7 @@ void *TBoss6EffHyoui__ct(void *object, void *arg1, void *arg2, void *arg3, void 
     __ct__7TObjectFP7TObject(object, arg1);
     *(s32 **)((s8 *)self + 0x18) = __vt__14TBoss6EffHyoui;
     ((TBoss6EffHyoui *)self)->m_name = lbl_805D44D8;
-    *(u16 *)((s8 *)self + 0x20) = (u16)(u32)arg2;
+    *(u16 *)((s8 *)self + 0x20) = (u16)(uaddr)arg2;
     *(void **)((s8 *)self + 0x24) = arg4;
     *(void **)((s8 *)self + 0x1C) = NULL;
     p = (u8 *)get_player_by_client_id(*(u16 *)((s8 *)self + 0x20));
@@ -60,7 +60,7 @@ void *TBoss6EffHyoui__ct(void *object, void *arg1, void *arg2, void *arg3, void 
             lbl_805D6FFC = 1;
             lbl_805D6FF8 = 0.2f;
         }
-        if ((*(void **)((s8 *)self + 0x1C) = create_particle_emitter(p + 0x38, lbl_8047AC70[(s32)arg3])) != NULL) {
+        if ((*(void **)((s8 *)self + 0x1C) = create_particle_emitter(p + 0x38, lbl_8047AC70[(saddr)arg3])) != NULL) {
             ((TParticleCtrl *)(*(void **)((s8 *)self + 0x1C)))->set_flags(0x40);
             ((TParticleCtrl *)(*(void **)((s8 *)self + 0x1C)))->set_scale(lbl_805D6FF8, lbl_805D6FF8);
         }

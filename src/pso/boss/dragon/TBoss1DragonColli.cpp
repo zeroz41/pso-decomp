@@ -47,7 +47,7 @@ u8 *TBoss1DragonColli__ct(u8 *arg0, s32 arg1);
 u16 register_entity_by_id(void *ov);
 s32 __ct__14TObjCollidableFP7TObject(void *, void *);
 extern CollisionBody TBoss1DragonColli_sphere_chain_desc;
-extern s32 __vt__19TBoss1DragonColli_C[];
+extern saddr __vt__19TBoss1DragonColli_C[];
 s32 TBoss1DragonColli_C__ct(int arg0, void *arg1, int arg2, void *arg3, f32 scale);
 }
 
@@ -88,7 +88,7 @@ u8 *TBoss1DragonColli__ct(u8 *object, s32 arg1) {
     s32 var_r0_3;
     __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
     *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__17TBoss1DragonColli;
-    *(s32 *)((s8 *)object + 0) = (s32) TBoss1DragonColli__name;
+    *(s32 *)((s8 *)object + 0) = (saddr) TBoss1DragonColli__name;
     stack.x = 0.0f;
     stack.y = 0.0f;
     stack.z = 0.0f;
@@ -142,7 +142,7 @@ void TBoss1DragonColli::set_elem_flags() {
 
 void *__dt__19TBoss1DragonColli_CFv(void *collidable, s16 arg1) {
     if (collidable != NULL) {
-        *(s32 **)((s8 *)collidable + 0x18) = __vt__19TBoss1DragonColli_C;
+        *(saddr **)((s8 *)collidable + 0x18) = __vt__19TBoss1DragonColli_C;
         ((TObjCollidable *)collidable)->unregister_object_by_id();
         free_collision_body_parts(collidable);
         __dt__14TObjCollidableFv(collidable, 0);
@@ -226,20 +226,20 @@ void *__vt__17TBoss1DragonColli[] = {
     (void *)render__7TObjectFv,
     (void *)render_shadows__7TObjectFv,
 };
-s32 __vt__19TBoss1DragonColli_C[] = {
+saddr __vt__19TBoss1DragonColli_C[] = {
     0,
     0,
-    (s32)__dt__19TBoss1DragonColli_CFv,
-    (s32)run_task__7TObjectFv,
-    (s32)render__19TBoss1DragonColli_CFv,
-    (s32)render_shadows__7TObjectFv,
-    (s32)vfunc_6__8TObjBaseFPsl,
-    (s32)apply_object_set_data__8TObjBaseFPv,
-    (s32)reset_motion_fields__14TObjCollidableFv,
-    (s32)get_center__8TObjBaseFv,
-    (s32)update_object_view_visibility__8TObjBaseFff,
-    (s32)classify_actor_view_detail__8TObjBaseFfff,
-    (s32)get_name__8TObjBaseFv,
-    (s32)interact__14TObjCollidableFl,
+    (saddr)__dt__19TBoss1DragonColli_CFv,
+    (saddr)run_task__7TObjectFv,
+    (saddr)render__19TBoss1DragonColli_CFv,
+    (saddr)render_shadows__7TObjectFv,
+    (saddr)vfunc_6__8TObjBaseFPsl,
+    (saddr)apply_object_set_data__8TObjBaseFPv,
+    (saddr)reset_motion_fields__14TObjCollidableFv,
+    (saddr)get_center__8TObjBaseFv,
+    (saddr)update_object_view_visibility__8TObjBaseFff,
+    (saddr)classify_actor_view_detail__8TObjBaseFfff,
+    (saddr)get_name__8TObjBaseFv,
+    (saddr)interact__14TObjCollidableFl,
     0,
 };

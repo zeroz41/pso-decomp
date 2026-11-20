@@ -62,7 +62,7 @@ extern void *__vt__18TBoss2PhotonBullet[];
 void render__18TBoss2PhotonBulletFv(u8 *arg0) {
     if (*(s32 *)((s8 *)arg0 + 0xDC) & 1) {
         Vec scale = { 1.0f, 1.0f, 1.0f };
-        ((TObjEneDD *)(arg0 + 0x38))->draw_oriented_shadow((s32)(arg0 + 0xCC), 0, (u32)&scale);
+        ((TObjEneDD *)(arg0 + 0x38))->draw_oriented_shadow((saddr)(arg0 + 0xCC), 0, (uaddr)&scale);
     }
 }
 #pragma push
@@ -84,9 +84,9 @@ void run_task__18TBoss2PhotonBulletFv(u8 *object) {
     *(f32 *)((s8 *)object + 0x38) = *(f32 *)((s8 *)object + 0xC0);
     *(f32 *)((s8 *)object + 0x40) = *(f32 *)((s8 *)object + 0xC8);
     if (*(u32 *)((s8 *)object + 0xE4) == 0) {
-        *(u32 *)((s8 *)object + 0xE4) = (u32)spawn_continuous_particle_effect_with_flags(object + 0xC0, 0xDF, 0x40);
+        *(u32 *)((s8 *)object + 0xE4) = (uaddr)spawn_continuous_particle_effect_with_flags(object + 0xC0, 0xDF, 0x40);
     } else {
-        ((TParticleCtrl *)(void *)*(u32 *)((s8 *)object + 0xE4))->set_position(object + 0xC0);
+        ((TParticleCtrl *)(void *)*(uaddr *)((s8 *)object + 0xE4))->set_position(object + 0xC0);
     }
     if (*(s32 *)((s8 *)object + 0xD8) % 15 == 0) {
         if (project_actor_to_ground(object, object + 0x38, object + 0xCC) != 0) {

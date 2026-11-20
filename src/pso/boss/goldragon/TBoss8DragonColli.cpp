@@ -42,7 +42,7 @@ void set_all_flags__17TBoss8DragonColliFPv(O_802F3144 *self);
 u16 register_entity_by_id(void *ov);
 s32 __ct__14TObjCollidableFP7TObject(void *, void *);
 extern u8 boss8_collision_segment_desc[];
-extern s32 lbl_804E4BB4[];
+extern saddr lbl_804E4BB4[];
 s32 init_collision_segments__17TBoss8DragonColliFiPviPvf(int arg0, void *arg1, int arg2, void *arg3, f32 scale);
 }
 
@@ -86,7 +86,7 @@ u8 *TBoss8DragonColli__ct(u8 *object, s32 arg1) {
     s32 var_r0_3;
     __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
     *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__17TBoss8DragonColli;
-    *(s32 *)((s8 *)object + 0) = (s32) TBoss8DragonColli__name;
+    *(s32 *)((s8 *)object + 0) = (saddr) TBoss8DragonColli__name;
     stack.x = 0.0f;
     stack.y = 0.0f;
     stack.z = 0.0f;
@@ -134,7 +134,7 @@ void set_all_flags__17TBoss8DragonColliFPv(O_802F3144 *self) {
 
 void *destroy__17TBoss8DragonColliFPvs(void *collidable, s16 arg1) {
     if (collidable != NULL) {
-        *(s32 **)((s8 *)collidable + 0x18) = lbl_804E4BB4;
+        *(saddr **)((s8 *)collidable + 0x18) = lbl_804E4BB4;
         ((TObjCollidable *)collidable)->unregister_object_by_id();
         free_collision_body_parts(collidable);
         __dt__14TObjCollidableFv(collidable, 0);
@@ -203,21 +203,21 @@ void *__vt__17TBoss8DragonColli[] = {
     (void *)render__7TObjectFv,
     (void *)render_shadows__7TObjectFv,
 };
-s32 lbl_804E4BB4[] = {
+saddr lbl_804E4BB4[] = {
     0,
     0,
-    (s32)destroy__17TBoss8DragonColliFPvs,
-    (s32)run_task__7TObjectFv,
-    (s32)render__19TBoss8DragonColli_CFv,
-    (s32)render_shadows__7TObjectFv,
-    (s32)vfunc_6__8TObjBaseFPsl,
-    (s32)apply_object_set_data__8TObjBaseFPv,
-    (s32)reset_motion_fields__14TObjCollidableFv,
-    (s32)get_center__8TObjBaseFv,
-    (s32)update_object_view_visibility__8TObjBaseFff,
-    (s32)classify_actor_view_detail__8TObjBaseFfff,
-    (s32)get_name__8TObjBaseFv,
-    (s32)interact__14TObjCollidableFl,
+    (saddr)destroy__17TBoss8DragonColliFPvs,
+    (saddr)run_task__7TObjectFv,
+    (saddr)render__19TBoss8DragonColli_CFv,
+    (saddr)render_shadows__7TObjectFv,
+    (saddr)vfunc_6__8TObjBaseFPsl,
+    (saddr)apply_object_set_data__8TObjBaseFPv,
+    (saddr)reset_motion_fields__14TObjCollidableFv,
+    (saddr)get_center__8TObjBaseFv,
+    (saddr)update_object_view_visibility__8TObjBaseFff,
+    (saddr)classify_actor_view_detail__8TObjBaseFfff,
+    (saddr)get_name__8TObjBaseFv,
+    (saddr)interact__14TObjCollidableFl,
     0,
 };
 }

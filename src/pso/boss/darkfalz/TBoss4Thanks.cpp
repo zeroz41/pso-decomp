@@ -226,13 +226,13 @@ TBoss4Thanks::~TBoss4Thanks() {
 
 TBoss4Thanks::TBoss4Thanks(TObject *arg1) : TObject(arg1) {
     u8 *instance_count;
-    *(s32 *)((s8 *)this + 0) = (s32) TBoss4Thanks__class_name;
+    *(s32 *)((s8 *)this + 0) = (saddr) TBoss4Thanks__class_name;
     instance_count = (u8 *)(TBoss4Uro::get_instance_count());
     this->model = get_bml_model(instance_count, 1);
     this->texture_list = get_bml_texlist(instance_count, 1);
     *(s32 *)((s8 *)this + 0x3C) = get_bml_motion(instance_count, 0x46);
     *(s32 *)((s8 *)this + 0x40) = get_bml_motion(instance_count, 0x47);
-    TBoss4Thanks__sub_8035C480((s32)((s32) ((u8 *)this)));
+    TBoss4Thanks__sub_8035C480((saddr)((saddr) ((u8 *)this)));
     this->state = 0;
     this->next_motion = 0;
     this->current_motion = 0;

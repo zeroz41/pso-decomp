@@ -545,7 +545,7 @@ void TBoss6PlotFalz::award_exp_and_destroy() {
     Msg_802AB490 m;
     m.a = 0x800;
     ((TObjEnemy *)arg0)->send_6x0A_enemy_state(&m);
-    ((TObjEnemy *)arg0)->exchange_object_state((s32)&m, (s16)0);
+    ((TObjEnemy *)arg0)->exchange_object_state((saddr)&m, (s16)0);
     this->vfunc_79((s32 *)&m);
     ((TObjEnemy *)arg0)->send_entity_set_flags();
     ((TObject *)arg0)->queue_destruction();
@@ -805,7 +805,7 @@ void TBoss6PlotFalz::ensure_field384() {
 }
 
 f32 TBoss6Mine::next_random_float(s32 *arg0) {
-    *arg0 = TBoss6Type1__sub_802ABDEC((s32)((void *) (*arg0)));
+    *arg0 = TBoss6Type1__sub_802ABDEC((saddr)((void *) (*arg0)));
     return (f32) (*arg0 & 0x7FFF) / 32767.0f;
 }
 
@@ -1039,7 +1039,7 @@ void build_tables__14TBoss6PlotFalzFPvPvi(Obj_8004AA80 *arg0, Rec_8004AA80 *arg1
     for (i = 0; i < arg0->count; i++) {
         r = &arg1[i];
         t = (s32)find_model_node(get_bml_model((BmlResource *)h, r->a), r->b);
-        p = (s32)::operator new(0x14);
+        p = (saddr)::operator new(0x14);
         if (p != 0) {
             p = ((saddr)((TLobby *)p)->alloc_tables(t, r->c));
         }
@@ -1278,14 +1278,14 @@ TBoss6PlotFalz::TBoss6PlotFalz(TObject *parent, void *set_data) : TObjEnemy(pare
 
     m_name = TBoss6PlotFalz__name;
     sub_802AAC98();
-    TBoss6PlotFalz__instance = (s32)this;
+    TBoss6PlotFalz__instance = (saddr)this;
     apply_set_data(set_data);
     TBoss4DarkFalz__sub_8004B4F0(((u8 *)this + 0x388), set_data);
     m_38a = 0;
-    if (exchange_object_state((s32)&sp8, (s16)(1)) != 0) {
+    if (exchange_object_state((saddr)&sp8, (s16)(1)) != 0) {
         sp8.a = 0;
         sp8.c = 0;
-        exchange_object_state((s32)&sp8, (s16)(0));
+        exchange_object_state((saddr)&sp8, (s16)(0));
     }
     VecCopy((Vec *)((u8 *)this + 0x44), (const Vec *)(VecCopy((Vec *)((u8 *)this + 0x50), (const Vec *)(VecCopy((Vec *)((u8 *)this + 0x74), (const Vec *)((u8 *)this + 0x38))))));
     VecCopy((Vec *)((u8 *)this + 0x2FC), (const Vec *)((u8 *)this + 0x38));
@@ -1325,7 +1325,7 @@ extern s32 tl_04;
 void TBoss6PlotFalz::load_resources() {
     s32 temp_r3;
     s32 var_r0;
-    temp_r3 = (s32)::operator new(0x440);
+    temp_r3 = (saddr)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &boss6_plot_falz_resource_descriptor, 0, 0, 0));
@@ -1341,7 +1341,7 @@ void TBoss6PlotFalz::load_resources() {
 }
 
 s32 TBoss6PlotFalz::create(s32 arg0) {
-    return (s32) new TBoss6PlotFalz(new TObjControl((TObject *)tl_04), (void *)arg0);
+    return (saddr) new TBoss6PlotFalz(new TObjControl((TObject *)tl_04), (void *)arg0);
 }
 
 s32 TObjFish::get_phase() { return *(s32*)((char*)this + 0x378); }

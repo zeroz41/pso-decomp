@@ -41,7 +41,7 @@ u8 *__ct__16TBoss8DragonDemoFv(u8 *object, s32 arg1, s32 arg2, f32 farg0) {
     CameraPlayback playback;
     __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
     *(s32 **)((s8 *)object + 0x18) = &__vt__16TBoss8DragonDemo.value;
-    *(s32 *)((s8 *)object + 0) = (s32) ((s32)TBoss8DragonDemo__name);
+    *(s32 *)((s8 *)object + 0) = (saddr) ((saddr)TBoss8DragonDemo__name);
     *(f32 *)((s8 *)object + 0x1C) = farg0;
     *(f32 *)((s8 *)object + 0x20) = 0.0f;
     *(s32 *)((s8 *)object + 0x24) = arg2;

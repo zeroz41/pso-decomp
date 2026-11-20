@@ -187,7 +187,7 @@ void boss7_dust_draw_at(s32 *arg0, s32 arg1) {
     TParticleCtrl::end_effect_render();
     push_matrix();
     var_r3 = var_r30;
-    post_translate_matrix((int)var_r3);
+    post_translate_matrix((saddr)var_r3);
     var_r5 = var_r31 * 0x60;
     var_r3 = (s32 *)((s32 *)TObjBoss7DustCtrl__transformed_vertices);
     var_r4 = 6;
@@ -219,7 +219,7 @@ void TObjBoss7Dust::run_task() {
     }
 }
 
-void TObjBoss7Dust::render() { boss7_dust_draw_at((s32 *)((char*)this + 0x24), (s32)(*(void**)((char*)this + 0x20))); }
+void TObjBoss7Dust::render() { boss7_dust_draw_at((s32 *)((char*)this + 0x24), (saddr)(*(void**)((char*)this + 0x20))); }
 
 void init_scene_boss2_tunnel(void) { load_boss7_common_resources(); TObjBoss2Tunnel__sub_802F2C84(); fn_802F1454(); }
 

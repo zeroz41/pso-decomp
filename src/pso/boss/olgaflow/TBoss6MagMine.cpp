@@ -162,8 +162,8 @@ void TUnk_804F322C::update_linked_state() {
     s32 bml_model;
 
     set_motion_packed_rotation();
-    temp_r31 = get_bml_texlist((BmlResource *)(*(s32 *)((s8 *)this + 0x374)), 2);
-    bml_model = get_bml_model((BmlResource *)(*(s32 *)((s8 *)this + 0x374)), 2);
+    temp_r31 = get_bml_texlist((BmlResource *)(*(saddr *)((s8 *)this + 0x374)), 2);
+    bml_model = get_bml_model((BmlResource *)(*(saddr *)((s8 *)this + 0x374)), 2);
     bml_motion = get_bml_motion(*(s32 *)((s8 *)this + 0x374), 0);
     TObjFish::set_global_param(temp_r31);
     TBoss6PlotFalz__sub_802AC008(*(f32 *)((s8 *)this + 0x3A8), 0.0f);
@@ -256,7 +256,7 @@ s32 is_player_in_range__13TBoss6MagMineFPv(void *arg0_) {
     return 0;
 }
 
-void vt4__13TBoss6MagMineFv(void* p) { spawn_particle_effect_with_flags(((char*)p + 0x38), (s32)((void*)252), (s32)((void*)64)); ((TObject *)p)->queue_destruction(); }
+void vt4__13TBoss6MagMineFv(void* p) { spawn_particle_effect_with_flags(((char*)p + 0x38), (saddr)((void*)252), (saddr)((void*)64)); ((TObject *)p)->queue_destruction(); }
 
 void vt3__13TBoss6MagMineFv(s32 arg0) {
     explode__13TBoss6MagMineFPv((Mine_80368C14 *)(arg0));
@@ -368,7 +368,7 @@ void TUnk_804F322C::run_task() {
     if (m) {
         (self->*m)();
     }
-    copy_pos__13TBoss6MagMineFi((s32)self);
+    copy_pos__13TBoss6MagMineFi((saddr)self);
     if (self->state == 2) {
         ((TObjPlayer *)self)->update_collisions();
         submit_cursor_candidate(self, -1);
@@ -420,10 +420,10 @@ s32 TBoss6MagMine__ct(s32 arg0, s32 parent, s32 arg2) {
     VecCopy__FP3VecPC3Vec(arg0 + 0x384, arg2 + 0x4C);
     ((TObjChara *)self)->add_flags_2e4(8);
     ((TBoss3Volopt *)(self))->apply_set_data((void *)arg2);
-    if (((TObjEnemy *)self)->exchange_object_state((s32)&key, (s16)1) != 0) {
+    if (((TObjEnemy *)self)->exchange_object_state((saddr)&key, (s16)1) != 0) {
         key.a = 0;
         key.c = 0;
-        ((TObjEnemy *)self)->exchange_object_state((s32)&key, (s16)0);
+        ((TObjEnemy *)self)->exchange_object_state((saddr)&key, (s16)0);
     }
     *(s32 *)((s8 *)self + 0x374) = TObjFish::get_fish_count();
     ((TBoss3Volopt *)self)->texlist = 0;
@@ -460,7 +460,7 @@ s32 TBoss6MagMine__ct(s32 arg0, s32 parent, s32 arg2) {
     normalize_vector(self + 0x378);
     *(f32 *)((s8 *)self + 0x378) *= 4.166667f;
     *(f32 *)((s8 *)self + 0x380) *= 4.166667f;
-    *(u32 *)((s8 *)self + 0x3B0) = (u32)create_particle_emitter(self + 0x38, 0x146);
+    *(u32 *)((s8 *)self + 0x3B0) = (uaddr)create_particle_emitter(self + 0x38, 0x146);
     if (*(u32 *)((s8 *)self + 0x3B0) != 0U) {
         ((TParticleCtrl *)(*(void **)((s8 *)self + 0x3B0)))->set_flags(0x40);
     }
@@ -497,7 +497,7 @@ void spawn_mag_mine_at__13TBoss6MagMineFPvPv(void *arg0, void *arg1) {
     p.f8 = 1;
     ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&p.pos, &p.a);
     if (((TBoss6PlotFalz *)boss)->get_next_point((s16 *)&p, (s16 *)&p.f6) != 0) {
-        create__13TBoss6MagMineFi((s32)&p);
+        create__13TBoss6MagMineFi((saddr)&p);
     }
 }
 

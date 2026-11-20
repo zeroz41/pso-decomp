@@ -278,7 +278,7 @@ struct Obj_80057128 {
 };
 
 s32 TBoss4Type2::create(s32 params) {
-    return (s32)new TUnk_80486924(new TObjControl((TObject *)tl_04), (s32 *)params);
+    return (saddr)new TUnk_80486924(new TObjControl((TObject *)tl_04), (s32 *)params);
 }
 
 TUnk_80486924::TUnk_80486924(TObject *parent, s32 *params) : TObjEnemy(parent) {
@@ -732,7 +732,7 @@ void TBoss4Type2::sub_80056998() {
     s32 var_r4;
     s32 var_r5;
     if (((s32) *(s32 *)((s8 *)((u8 *)this) + 0x3E0) < 3) && (((TObjChara *)this)->random_ratio() < 0.1f)) {
-        sub_80056F90(4, (s32)((int)((void *) (sub_80057224()))));
+        sub_80056F90(4, (saddr)((saddr)((void *) (sub_80057224()))));
         return;
     }
     if (((TObjChara *)this)->random_ratio() < 0.1f) {
@@ -909,10 +909,10 @@ void TBoss4Type2::jisin_update() {
     s32 temp_r0;
     if ((s32) *(s32 *)((s8 *)arg0 + 0x398) == 0x1E) {
         TCameraCtrl::set_shake_preset(1);
-        TBoss4Type2::create_jisin((void *)arg0, (void *)(*(s32 *)((s8 *)arg0 + 0x3A0)));
+        TBoss4Type2::create_jisin((void *)arg0, (void *)(*(saddr *)((s8 *)arg0 + 0x3A0)));
     }
     if ((s32) *(s32 *)((s8 *)arg0 + 0x398) <= 0x1E) {
-        play_persistent_sound((s32)(0x4003AD16), (s32)arg0, (u32)(arg0 + 0x38), (s32)(0), (s32)(1));
+        play_persistent_sound((s32)(0x4003AD16), (saddr)arg0, (uaddr)(arg0 + 0x38), (s32)(0), (s32)(1));
     }
     temp_r0 = *(s32 *)((s8 *)arg0 + 0x398) - 1;
     *(s32 *)((s8 *)arg0 + 0x398) = temp_r0;
@@ -984,16 +984,16 @@ void TBoss4Type2::beam_update() {
                 *(u32 *)((s8 *)arg0 + 0x434) = 0;
             }
         } else if (t >= 8.0f && *(u32 *)((s8 *)arg0 + 0x434) == 0) {
-            if ((*(u32 *)((s8 *)arg0 + 0x434) = (u32)create_particle_emitter(&v, 0xF7)) != 0) {
+            if ((*(u32 *)((s8 *)arg0 + 0x434) = (uaddr)create_particle_emitter(&v, 0xF7)) != 0) {
                 ((TParticleCtrl *)(*(void **)((s8 *)arg0 + 0x434)))->set_flags(0x40);
             }
         }
         if (*(f32 *)((s8 *)arg0 + 0x3D0) >= 8.0f && *(f32 *)((s8 *)arg0 + 0x3D0) <= 17.0f) {
-            play_persistent_sound((s32)(0x4003B512), (s32)arg0, (u32)(arg0 + 0x38), (s32)(0), (s32)(1));
+            play_persistent_sound((s32)(0x4003B512), (saddr)arg0, (uaddr)(arg0 + 0x38), (s32)(0), (s32)(1));
         }
     }
     if (*(s32 *)((s8 *)arg0 + 0x398) == 0x26) {
-        h = (u32)spawn_particle_effect(&v, 0xFD);
+        h = (uaddr)spawn_particle_effect(&v, 0xFD);
         if (h != 0) {
             ((TParticleCtrl *)h)->set_flags(0x40);
         }
@@ -1005,9 +1005,9 @@ void TBoss4Type2::beam_update() {
         p.x += 20.0f * *(f32 *)((s8 *)arg0 + 0x404);
         p.z += 20.0f * *(f32 *)((s8 *)arg0 + 0x40C);
         if (idx == 0) {
-            create__11TTecRaBartaFPvPvPvPv((void *)arg0, (void *)&p, (void *)&p, (void *)(*(s32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x36)) + 0x1C)));
+            create__11TTecRaBartaFPvPvPvPv((void *)arg0, (void *)&p, (void *)&p, (void *)(*(saddr *)((s8 *)(TLobby::dispatch_shared_handler_a(0x36)) + 0x1C)));
         } else {
-            ((TTecRaFoie *)arg0)->create(&p, &p, (void *)(*(s32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x36)) + 0x18)));
+            ((TTecRaFoie *)arg0)->create(&p, &p, (void *)(*(saddr *)((s8 *)(TLobby::dispatch_shared_handler_a(0x36)) + 0x18)));
         }
         add_radar_scaled_marker(&p, -0x5DB4, 1, 1, 2.5f);
         *(f32 *)((s8 *)arg0 + 0x404) *= -1.0f;
@@ -1101,17 +1101,17 @@ void TBoss4Type2::tenchu_update() {
             }
         } else if (temp_f1 >= 15.0f) {
             if ((u32) *(u32 *)((s8 *)boss4_type2 + 0x438) == 0) {
-                temp_r3_3 = (u32)create_particle_emitter(&sp14, 0x142);
+                temp_r3_3 = (uaddr)create_particle_emitter(&sp14, 0x142);
                 *(u32 *)((s8 *)boss4_type2 + 0x438) = temp_r3_3;
                 if (temp_r3_3 != 0) {
-                    ((TParticleCtrl *)((void *) *(u32 *)((s8 *)boss4_type2 + 0x438)))->set_flags(0x40U);
+                    ((TParticleCtrl *)((void *) *(uaddr *)((s8 *)boss4_type2 + 0x438)))->set_flags(0x40U);
                 }
             }
             if ((u32) *(u32 *)((s8 *)boss4_type2 + 0x440) == 0) {
-                temp_r3_4 = (u32)create_particle_emitter(&sp8, 0x142);
+                temp_r3_4 = (uaddr)create_particle_emitter(&sp8, 0x142);
                 *(u32 *)((s8 *)boss4_type2 + 0x440) = temp_r3_4;
                 if (temp_r3_4 != 0) {
-                    ((TParticleCtrl *)((void *) *(u32 *)((s8 *)boss4_type2 + 0x440)))->set_flags(0x40U);
+                    ((TParticleCtrl *)((void *) *(uaddr *)((s8 *)boss4_type2 + 0x440)))->set_flags(0x40U);
                 }
             }
         }
@@ -1149,32 +1149,32 @@ void TBoss4Type2::tenchu_update() {
             }
         } else if (temp_f1_2 >= 2.0f) {
             if ((u32) *(u32 *)((s8 *)boss4_type2 + 0x438) == 0) {
-                particle_emitter = (u32)create_particle_emitter(&sp14, 0x13A);
+                particle_emitter = (uaddr)create_particle_emitter(&sp14, 0x13A);
                 *(u32 *)((s8 *)boss4_type2 + 0x438) = particle_emitter;
                 if (particle_emitter != 0) {
-                    ((TParticleCtrl *)((void *) *(u32 *)((s8 *)boss4_type2 + 0x438)))->set_flags(0x40U);
+                    ((TParticleCtrl *)((void *) *(uaddr *)((s8 *)boss4_type2 + 0x438)))->set_flags(0x40U);
                 }
                 play_sound_effect(0x40039717, boss4_type2 + 0x38, 0, 1);
             }
             if ((u32) *(u32 *)((s8 *)boss4_type2 + 0x43C) == 0) {
-                temp_r3_12 = (u32)create_particle_emitter(&sp14, 0x13B);
+                temp_r3_12 = (uaddr)create_particle_emitter(&sp14, 0x13B);
                 *(u32 *)((s8 *)boss4_type2 + 0x43C) = temp_r3_12;
                 if (temp_r3_12 != 0) {
-                    ((TParticleCtrl *)((void *) *(u32 *)((s8 *)boss4_type2 + 0x43C)))->set_flags(0x40U);
+                    ((TParticleCtrl *)((void *) *(uaddr *)((s8 *)boss4_type2 + 0x43C)))->set_flags(0x40U);
                 }
             }
             if ((u32) *(u32 *)((s8 *)boss4_type2 + 0x440) == 0) {
-                temp_r3_13 = (u32)create_particle_emitter(&sp8, 0x13A);
+                temp_r3_13 = (uaddr)create_particle_emitter(&sp8, 0x13A);
                 *(u32 *)((s8 *)boss4_type2 + 0x440) = temp_r3_13;
                 if (temp_r3_13 != 0) {
-                    ((TParticleCtrl *)((void *) *(u32 *)((s8 *)boss4_type2 + 0x440)))->set_flags(0x40U);
+                    ((TParticleCtrl *)((void *) *(uaddr *)((s8 *)boss4_type2 + 0x440)))->set_flags(0x40U);
                 }
             }
             if ((u32) *(u32 *)((s8 *)boss4_type2 + 0x444) == 0) {
-                temp_r3_14 = (u32)create_particle_emitter(&sp8, 0x13B);
+                temp_r3_14 = (uaddr)create_particle_emitter(&sp8, 0x13B);
                 *(u32 *)((s8 *)boss4_type2 + 0x444) = temp_r3_14;
                 if (temp_r3_14 != 0) {
-                    ((TParticleCtrl *)((void *) *(u32 *)((s8 *)boss4_type2 + 0x444)))->set_flags(0x40U);
+                    ((TParticleCtrl *)((void *) *(uaddr *)((s8 *)boss4_type2 + 0x444)))->set_flags(0x40U);
                 }
             }
         }
@@ -1196,7 +1196,7 @@ void TBoss4Type2::tenchu_update() {
         }
     }
     if ((s32) *(s32 *)((s8 *)boss4_type2 + 0x398) > 6) {
-        play_persistent_sound((s32)(0x4003AD16), (s32)boss4_type2, (u32)(boss4_type2 + 0x38), (s32)(0), (s32)(1));
+        play_persistent_sound((s32)(0x4003AD16), (saddr)boss4_type2, (uaddr)(boss4_type2 + 0x38), (s32)(0), (s32)(1));
     }
     temp_r0_2 = *(s32 *)((s8 *)boss4_type2 + 0x398) - 1;
     *(s32 *)((s8 *)boss4_type2 + 0x398) = temp_r0_2;
@@ -1283,7 +1283,7 @@ void TBoss4Type2::md_recover_update() {
   else
     if ((*((unsigned int *) (((s8 *) boss4_type2) + 0x448))) == 0)
   {
-    particle_emitter = (unsigned int)create_particle_emitter(boss4_type2 + 0x468, 0x143);
+    particle_emitter = (uaddr)create_particle_emitter(boss4_type2 + 0x468, 0x143);
     new_var = (unsigned int *) (((s8 *) boss4_type2) + 0x448);
     *new_var = particle_emitter;
     if (particle_emitter != 0)
@@ -1293,7 +1293,7 @@ void TBoss4Type2::md_recover_update() {
   }
   if ((*((int *) (((s8 *) boss4_type2) + 0x398))) == 0x46)
   {
-    particle_effect = (unsigned int)spawn_particle_effect(boss4_type2 + 0x468, 0x13E);
+    particle_effect = (uaddr)spawn_particle_effect(boss4_type2 + 0x468, 0x13E);
     if (particle_effect != 0)
     {
       ((TParticleCtrl *)particle_effect)->set_flags(0x40);
@@ -1304,9 +1304,9 @@ void TBoss4Type2::md_recover_update() {
       temp_r3_5 = ((u32 (*)(int))get_player_by_client_id)((int) temp_r3_4);
       if (temp_r3_5 != 0)
       {
-        VecCopy((Vec *)(&stack.sp8), (const Vec *)((int) ((TObjPlayer *)temp_r3_5)->get_position_ptr()));
+        VecCopy((Vec *)(&stack.sp8), (const Vec *)((saddr) ((TObjPlayer *)temp_r3_5)->get_position_ptr()));
         stack.spC += 10.0f;
-        temp_r3_6 = (unsigned int)spawn_particle_effect(&stack.sp8, 0x38);
+        temp_r3_6 = (uaddr)spawn_particle_effect(&stack.sp8, 0x38);
         if (temp_r3_6 != 0)
         {
           ((TParticleCtrl *)temp_r3_6)->set_flags(0x40);

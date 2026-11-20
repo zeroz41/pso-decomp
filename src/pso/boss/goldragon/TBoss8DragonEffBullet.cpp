@@ -90,7 +90,7 @@ void TBoss8DragonEffBullet::run_task() {
     case 1:
         arg0->field_34 += 1;
         if ((s32) arg0->field_34 == 1) {
-            spawn_particle_effect_with_flags((void *)&arg0->field_1C, (s32)(*(u8 **)((s8 *)arg0->field_54 + 4)), 0x40);
+            spawn_particle_effect_with_flags((void *)&arg0->field_1C, (saddr)(*(u8 **)((s8 *)arg0->field_54 + 4)), 0x40);
             temp_r3_3 = arg0->field_50;
             if (temp_r3_3 != NULL) {
                 ((TObject *)temp_r3_3)->queue_destruction();
@@ -102,10 +102,10 @@ void TBoss8DragonEffBullet::run_task() {
                 arg0->field_4C = NULL;
             }
             play_sound_effect(0x4003AD0C, &arg0->field_1C, 0, 0);
-            TBoss8Dragon__sub_802FB220(get_enemy_entity((u16)arg0->field_48), (int)&arg0->field_1C, arg0->field_44);
+            TBoss8Dragon__sub_802FB220(get_enemy_entity((u16)arg0->field_48), (saddr)&arg0->field_1C, arg0->field_44);
         }
         if ((s32) arg0->field_34 <= 2) {
-            spawn_particle_effect_with_flags((void *)&arg0->field_1C, (s32)(*(u8 **)((s8 *)arg0->field_54 + 8)), 0x40);
+            spawn_particle_effect_with_flags((void *)&arg0->field_1C, (saddr)(*(u8 **)((s8 *)arg0->field_54 + 8)), 0x40);
             return;
         }
         arg0->field_38 = 2;
@@ -129,7 +129,7 @@ TBoss8DragonEffBullet::~TBoss8DragonEffBullet() {
 u8 *TBoss8DragonEffBullet__ct(u8 *boss8_dragon_eff_bullet, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s16 arg5) {
     __ct__7TObjectFP7TObject((void *)boss8_dragon_eff_bullet, (void *)arg1);
     *(s32 **)((s8 *)boss8_dragon_eff_bullet + 0x18) = __vt__21TBoss8DragonEffBullet;
-    *(s32 *)((s8 *)boss8_dragon_eff_bullet + 0) = (s32) TBoss8DragonEffBullet__name;
+    *(s32 *)((s8 *)boss8_dragon_eff_bullet + 0) = (saddr) TBoss8DragonEffBullet__name;
     VecCopy((Vec *)(boss8_dragon_eff_bullet + 0x1C), (const Vec *)(arg2));
     VecCopy((Vec *)(boss8_dragon_eff_bullet + 0x28), (const Vec *)(arg3));
     subtract_vector(boss8_dragon_eff_bullet + 0x28, boss8_dragon_eff_bullet + 0x1C);

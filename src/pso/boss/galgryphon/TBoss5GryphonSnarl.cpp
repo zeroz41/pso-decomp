@@ -53,7 +53,7 @@ void TBoss5GryphonSnarl::run_task() {
         instance = TBoss8Dragon::get_instance_count();
         scale = (f32)(30 - frame) / 30.0f;
         scale += 1.0f;
-        TBoss8Dragon__sub_8006402C(instance, (s32)&position, inner, scale);
+        TBoss8Dragon__sub_8006402C(instance, (saddr)&position, inner, scale);
         outer = 10.0f + inner;
         for (i = 0; i < 32; i++) {
             angle = (i << 16) / 32;

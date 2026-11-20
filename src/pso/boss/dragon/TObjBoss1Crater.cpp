@@ -34,11 +34,11 @@ void load_dragon_ground_assets(void) {
     switch (isV2Mode__12TBoss1DragonFv()) {
     case 0:
         lbl_805D4B50 = load_enemy_bml_resource((u8 *)&dragon_ground_resource_descriptor);
-        dragon_common_texture_list = (s32)load_gvm_texture_file((s32)dragon_common_texture_filename);
+        dragon_common_texture_list = (saddr)load_gvm_texture_file((saddr)dragon_common_texture_filename);
         break;
     case 1:
-        lbl_805D4B50 = load_enemy_bml_resource_named((s32)&dragon_ground_resource_descriptor, (s32)dragon_common_alternate_bml_filename);
-        dragon_common_texture_list = (s32)load_gvm_texture_file((s32)dragon_common_alternate_texture_filename);
+        lbl_805D4B50 = load_enemy_bml_resource_named((saddr)&dragon_ground_resource_descriptor, (saddr)dragon_common_alternate_bml_filename);
+        dragon_common_texture_list = (saddr)load_gvm_texture_file((saddr)dragon_common_alternate_texture_filename);
         break;
     }
 }
@@ -154,7 +154,7 @@ void TObjBoss1Crater::render() {
     post_translate_matrix((u8 *)&this->position);
     rotate_matrix_y(0, this->rotation_y);
     model_render_flags |= 0x01000000;
-    draw_chunk_object((void *)(*(s32 *)((s8 *)(*(void **)((s8 *)lbl_805D4B50 + 0x42C)) + 8)));
+    draw_chunk_object((void *)(*(saddr *)((s8 *)(*(void **)((s8 *)lbl_805D4B50 + 0x42C)) + 8)));
     model_render_flags &= 0xFEFFFFFF;
     pop_matrix();
 }
@@ -221,7 +221,7 @@ void TObjBoss1Crater::area_attack_receive_direct(void *self_arg, f32 *arg2, void
 
 }
 TObjBoss1Crater::~TObjBoss1Crater() {
-    if (this->m_b4 != NULL) { __dt__17AreaAttackHistoryFv((s32)this->m_b4, 1); *(s32 *)((s8 *)this + 0xB4) = 0; }
+    if (this->m_b4 != NULL) { __dt__17AreaAttackHistoryFv((saddr)this->m_b4, 1); *(s32 *)((s8 *)this + 0xB4) = 0; }
     if (*(void **)((s8 *)this + 0xB0) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0xB0)))->queue_destruction(); *(s32 *)((s8 *)this + 0xB0) = 0; }
 }
 
@@ -340,7 +340,7 @@ void attack_target_list_remove(u8 *arg0, s32 arg1) {
             *(s32 *)((s8 *)arg0 + 8) = (temp_r5 - 1);
             temp_r5_2 = *(s32 *)((s8 *)arg0 + 0);
             *(s32 *)((s8 *)temp_r5_2 + (arg1 * 4)) = *(s32 *)((s8 *)temp_r5_2 + (*(s32 *)((s8 *)arg0 + 8) * 4));
-            *(s32 *)((s8 *)(*(s32 *)((s8 *)arg0 + 0)) + (*(s32 *)((s8 *)arg0 + 8) * 4)) = *(s32 *)((s8 *)arg0 + 4);
+            *(s32 *)((s8 *)(*(saddr *)((s8 *)arg0 + 0)) + (*(s32 *)((s8 *)arg0 + 8) * 4)) = *(s32 *)((s8 *)arg0 + 4);
         }
     }
 }

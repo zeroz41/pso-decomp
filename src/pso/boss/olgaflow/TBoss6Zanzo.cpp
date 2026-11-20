@@ -75,7 +75,7 @@ void TBoss6Zanzo::copy_trail_buffer(void *arg1_arg, void *arg2_arg) {
 
 void TBoss6Zanzo__sub_803205A0(s32 *arg0, s32 *arg1) {
     *arg0 = *arg1;
-    *(ByteBlock_C *)((s32) arg0 + 4) = *(const ByteBlock_C *)((s32) arg1 + 4);
+    *(ByteBlock_C *)((saddr) arg0 + 4) = *(const ByteBlock_C *)((saddr) arg1 + 4);
 }
 
 // A trail point: its colour and position.

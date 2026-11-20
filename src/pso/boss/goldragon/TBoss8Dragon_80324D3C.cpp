@@ -10,7 +10,7 @@ s32 eval_bezier_curve__12TBoss8DragonFPviiPvf(void *, int, int, void *, f32);
 int VecCopy__FP3VecPC3Vec(s32, s32, s32);
 
 void TBoss8Dragon::copy_position(s32 arg1) {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     VecCopy__FP3VecPC3Vec(arg1, arg0 + 0x20, arg0);
 }
 

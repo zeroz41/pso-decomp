@@ -132,12 +132,12 @@ void TObjPlayer__sub_802F0D30(void) {
     dst = lbl_80541528;
     for (i = 0; i < 12; i++) {
         copy_model_node((u8 *)dst, (u8 *)src);
-        *(u32 *)&dst->pad20[0xC] = (u32)(dst + 1);
+        *(u32 *)&dst->pad20[0xC] = (uaddr)(dst + 1);
         dst++;
         src = *(Node_802EFF24 **)&src->pad20[0xC];
     }
     copy_model_node((u8 *)dst, (u8 *)src);
-    *(u32 *)&dst->pad20[0x10] = (u32)(dst + 1);
+    *(u32 *)&dst->pad20[0x10] = (uaddr)(dst + 1);
     copy_model_node((u8 *)&dst[1], (u8 *)*(Node_802EFF24 **)&src->pad20[0x10]);
     for (i = 0; i < 14; i++) {
         lbl_80541528[i].flags &= ~3;
@@ -573,7 +573,7 @@ u8 *TBoss7TentacleNeedle__ct(TBoss7TentacleNeedle *self, void *parent, Vec *pos)
     v[0] = w0;
     v[1] = w1;
     v[2] = w2;
-    *(s32 *)((s8 *)self + 0x40) = (s32)create_particle_emitter(v, 0x212);
+    *(s32 *)((s8 *)self + 0x40) = (saddr)create_particle_emitter(v, 0x212);
     for (s32 i = 0; i < 12; i++) {
         ((Arr_802EFD08 *)self)->a[i] = 0;
     }
@@ -710,7 +710,7 @@ void TBoss7Tentacle::restart_particle_effect() {
     ((TObject *)(*((void **) (((s8 *) arg0) + 0x40))))->queue_destruction();
     *((u32 *) (((s8 *) arg0) + 0x40)) = 0U;
   }
-  particle_effect = (s32)spawn_particle_effect(((u8 *)&this->m_1c), 0x215);
+  particle_effect = (saddr)spawn_particle_effect(((u8 *)&this->m_1c), 0x215);
   temp_r3 = particle_effect;
   if (temp_r3 != 0)
   {

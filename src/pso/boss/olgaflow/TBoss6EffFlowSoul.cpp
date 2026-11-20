@@ -46,10 +46,10 @@ void TBoss6EffFlowSoul::run_task() {
         return;
     }
     if (self->player == 0xFFFF) {
-        ((TBoss6Type2 *)(self->f1c))->copy_pos_620((s32)&target);
+        ((TBoss6Type2 *)(self->f1c))->copy_pos_620((saddr)&target);
     } else {
         p = (u8 *)get_player_by_client_id(self->player);
-        if (p != NULL && is_state_1f__14TBoss6PlotFalzFUi((u32)p) != 0) {
+        if (p != NULL && is_state_1f__14TBoss6PlotFalzFUi((uaddr)p) != 0) {
             VecCopy((Vec *)&target, (const Vec *)((Vec *)(p + 0x38)));
             target.y += 10.0f;
         } else {
@@ -91,7 +91,7 @@ u8 *TBoss6EffFlowSoul__ct(u8 *boss6_eff_flow_soul, u8 *arg1, u8 *arg2, s16 arg3,
     u8 *particle_emitter;
     __ct__7TObjectFP7TObject(boss6_eff_flow_soul, arg1);
     *(s32 **)((s8 *)boss6_eff_flow_soul + 0x18) = __vt__17TBoss6EffFlowSoul;
-    *(s32 *)((s8 *)boss6_eff_flow_soul + 0) = (s32) TBoss6EffFlowSoul__name;
+    *(s32 *)((s8 *)boss6_eff_flow_soul + 0) = (saddr) TBoss6EffFlowSoul__name;
     *(u8 **)((s8 *)boss6_eff_flow_soul + 0x1C) = arg1;
     VecCopy((Vec *)(boss6_eff_flow_soul + 0x28), (const Vec *)arg2);
     *(s16 *)((s8 *)boss6_eff_flow_soul + 0x24) = arg3;

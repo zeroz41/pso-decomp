@@ -327,7 +327,7 @@ extern "C" {
 #pragma opt_common_subs off
 
 void *TObjDFUsoTower::create(void *arg0) {
-    void *o = (void *)new TObjDFUsoTower((s32)arg0);
+    void *o = (void *)new TObjDFUsoTower((saddr)arg0);
     return o;
 }
 
@@ -418,12 +418,12 @@ void TObjPlayer::draw_player_model_by_id(s32 arg0, f32 alpha) {
         return;
     }
     m34 = *(u32 *)((s8 *)p + 0x34);
-    a1c = (s32)(p + 0xA1C);
+    a1c = (saddr)(p + 0xA1C);
     m8b0 = *(u32 *)((s8 *)p + 0x8B0);
-    b88 = (s32)(p + 0xB88);
+    b88 = (saddr)(p + 0xB88);
     m8ac = *(u32 *)((s8 *)p + 0x8AC);
     m8b4 = *(u32 *)((s8 *)p + 0x8B4);
-    cf4 = (s32)(p + 0xCF4);
+    cf4 = (saddr)(p + 0xCF4);
     ((TObjDFTenchuFuru *)m34)->draw_node_tree();
     if (alpha < 1.0f) {
         TObjPlayer__sub_80052390(alpha);
@@ -529,20 +529,20 @@ void TObjPlayer::draw_player_model_by_client(u16 arg0, s32 arg1, f32 farg0, f32 
     if (farg1 < 1.0f) {
         TObjPlayer__sub_80052390(farg1);
     }
-    TObjFish::set_global_param((s32)g);
+    TObjFish::set_global_param((saddr)g);
     TObjDFTenchuFuru::register_callback();
     draw_model_motion((void *)f, (void *)arg1, farg0);
     TObjDFTenchuFuru__sub_80051A7C();
     if (d != 0) {
         push_matrix_from(df_captured_matrix_pair[1]);
-        TObjFish::set_global_param((s32)e);
+        TObjFish::set_global_param((saddr)e);
         draw_chunk_object((void *)d);
         pop_matrix();
     }
     if (a != 0) {
         TCharaMaking::enable_making();
         push_matrix_from(df_captured_matrix_pair[0]);
-        TObjFish::set_global_param((s32)c);
+        TObjFish::set_global_param((saddr)c);
         draw_chunk_object((void *)a);
         pop_matrix();
         TCharaMaking::clear_flag_bit0();
@@ -553,7 +553,7 @@ void TObjPlayer::draw_player_model_by_client(u16 arg0, s32 arg1, f32 farg0, f32 
     if (b != 0) {
         TCharaMaking::enable_making();
         push_matrix_from(df_captured_matrix_pair[0]);
-        TObjFish::set_global_param((s32)c);
+        TObjFish::set_global_param((saddr)c);
         TCharaMaking__draw_colored_hair(farg1, b, (CharacterAppearanceFields *)(p + 0x85C), 0);
         pop_matrix();
         TCharaMaking::clear_flag_bit0();
@@ -596,7 +596,7 @@ void TObjDFTenchuFuru::transform_node_tree() {
 }
 
 extern "C" {
-void TObjDFTenchuFuru::register_callback() { TObjDFTenchuFuru__matrix_node_index = 0; set_chunk_model_node_callback((s32)TObjDFTenchuFuru::capture_matrix_by_frame); }
+void TObjDFTenchuFuru::register_callback() { TObjDFTenchuFuru__matrix_node_index = 0; set_chunk_model_node_callback((saddr)TObjDFTenchuFuru::capture_matrix_by_frame); }
 }
 
 extern "C" {
@@ -678,7 +678,7 @@ void TObjDFRecover::run_task() {
         return;
     }
     id = target_id;
-    if ((id == 0xFFFF) || ((target_address = (s32)get_player_by_client_id(id)) == 0)) {
+    if ((id == 0xFFFF) || ((target_address = (saddr)get_player_by_client_id(id)) == 0)) {
         ((s32 (*)(void *))queue_destruction__7TObjectFv)(this);
         return;
     }
@@ -688,7 +688,7 @@ void TObjDFRecover::run_task() {
     switch (current_phase) {
     case 0:
         if (countdown <= 0) {
-            effect_address = (u32)create_particle_emitter(position, 0xEB);
+            effect_address = (uaddr)create_particle_emitter(position, 0xEB);
             effect = (void*)effect_address;
             if (effect_address == 0U) {
                 ((s32 (*)(void *))queue_destruction__7TObjectFv)(this);
@@ -713,7 +713,7 @@ void TObjDFRecover::run_task() {
     case 2:
         if ((countdown % 5) == 0) {
             play_sound_effect(0x4003AD19, 0, 0, 0);
-            ((s32 (*)(int, void *, void *))create__13TObjDFRecBallFPvPvPv)((int)m_up, position, cached_position);
+            ((s32 (*)(int, void *, void *))create__13TObjDFRecBallFPvPvPv)((saddr)m_up, position, cached_position);
         }
         if (countdown <= 0) {
             ((s32 (*)(void *))queue_destruction__7TObjectFv)(this);
@@ -808,7 +808,7 @@ void TObjDFBeamCursor::run_task() {
 }
 
 void *TBoss4Type2::create_jisin(void *arg0, void *arg1) {
-    return new TObjDFJisin((TObject *)arg0, (s32)arg1);
+    return new TObjDFJisin((TObject *)arg0, (saddr)arg1);
 }
 
 TObjDFJisin::TObjDFJisin(TObject *parent, s32 angle) : TObject(parent) {
@@ -857,7 +857,7 @@ void fn_spawn_particle_f3_with_flags(s32 arg0, s32 arg1) {
     u32 particle_effect;
     VecCopy((Vec *)(&position.x), (const Vec *)(arg1));
     position.y += 2.0f;
-    particle_effect = (u32)spawn_particle_effect((&position.x), 0xF3);
+    particle_effect = (uaddr)spawn_particle_effect((&position.x), 0xF3);
     if (particle_effect != 0U) {
         ((TParticleCtrl *)particle_effect)->set_flags(0x40);
     }
@@ -996,9 +996,9 @@ void run_task__13TObjDFHormingFv(u8 *arg0) {
                 subtract_vector(&d, (Vec *)(arg0 + 0x44));
                 direction_to_rotation_xz((u8 *)&d, &rot.x, &rot.z);
                 rot.y = 0;
-                ((TParticleCtrl *)((void *)*(u32 *)((s8 *)(arg0 + i * 4) + 0x358)))->set_direction(&rot);
+                ((TParticleCtrl *)((void *)*(uaddr *)((s8 *)(arg0 + i * 4) + 0x358)))->set_direction(&rot);
             }
-            ((TParticleCtrl *)(void *)*(u32 *)((s8 *)(arg0 + i * 4) + 0x358))->set_position(arg0 + 0x2FC);
+            ((TParticleCtrl *)(void *)*(uaddr *)((s8 *)(arg0 + i * 4) + 0x358))->set_position(arg0 + 0x2FC);
         }
     }
     minimap_render_dot(arg0 + 0x2FC, -0x5DB4, 1, 0);

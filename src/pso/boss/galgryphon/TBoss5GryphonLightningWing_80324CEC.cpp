@@ -12,7 +12,7 @@ f32 TBoss5GryphonLightningWing__sub_80324CEC(f32 x) {
 }
 
 void TBoss5GryphonLightningWing::get_wing_position(s32 arg1) {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     VecCopy__FP3VecPC3Vec(arg1, arg0 + 0x2C, arg0);
 }
 

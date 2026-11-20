@@ -265,7 +265,7 @@ u8 *TBoss6Kakusan__ct(u8 *boss6_kakusan, TObject *parent, Vec *pos, Vec *dir, u1
     if (((TBoss6Kakusan *)boss6_kakusan)->m_28 < 0.0f) {
         ((TBoss6Kakusan *)boss6_kakusan)->m_28 = 0.0f;
     }
-    ((TBoss6Kakusan *)boss6_kakusan)->m_54 = (u32)create_particle_emitter((boss6_kakusan + 0x30), 0x214);
+    ((TBoss6Kakusan *)boss6_kakusan)->m_54 = (uaddr)create_particle_emitter((boss6_kakusan + 0x30), 0x214);
     temp_r3 = ((TBoss6Kakusan *)boss6_kakusan)->m_54;
     if (temp_r3 != 0U) {
         ((TParticleCtrl *)temp_r3)->set_flags(0x40);

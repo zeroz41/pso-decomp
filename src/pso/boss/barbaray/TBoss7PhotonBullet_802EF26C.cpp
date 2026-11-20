@@ -79,7 +79,7 @@ void run_task__18TBoss7PhotonBulletFv(Bullet_802EF2AC *arg0);
 
 void render__18TBoss7PhotonBulletFv(u8 *arg0) {
     if (*(s32 *)((s8 *)arg0 + 0xE8) & 1) {
-        ((TObjEneDD *)(arg0 + 0x38))->draw_oriented_shadow((s32)(arg0 + 0xCC), 0, (u32)(arg0 + 0xD8));
+        ((TObjEneDD *)(arg0 + 0x38))->draw_oriented_shadow((saddr)(arg0 + 0xCC), 0, (uaddr)(arg0 + 0xD8));
     }
 }
 
@@ -158,8 +158,8 @@ u8 *TBoss7PhotonBullet__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32
     *(s32 *)((s8 *)arg0 + 0xE4) = 0;
     *(s32 *)((s8 *)arg0 + 0xE8) = 0;
     *(f32 *)((s8 *)arg0 + 0xEC) = 0.0f;
-    *(s32 *)((s8 *)arg0 + 0xF0) = (s32)spawn_continuous_particle_effect_with_flags((arg0 + 0xC0), 0x202, 0x40);
-    *(s32 *)((s8 *)arg0 + 0xF4) = (s32)spawn_continuous_particle_effect_with_flags((arg0 + 0xC0), 0x203, 0x40);
+    *(s32 *)((s8 *)arg0 + 0xF0) = (saddr)spawn_continuous_particle_effect_with_flags((arg0 + 0xC0), 0x202, 0x40);
+    *(s32 *)((s8 *)arg0 + 0xF4) = (saddr)spawn_continuous_particle_effect_with_flags((arg0 + 0xC0), 0x203, 0x40);
     return arg0;
 }
 

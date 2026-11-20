@@ -37,7 +37,7 @@ void TBoss3Volopt::create_breakup_mdl(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s3
 }
 
 void TBoss3Volopt::play_area_variant_sound() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     s32 area;
     area = get_current_floor_area();
     switch (area) {
@@ -73,7 +73,7 @@ void TBoss3Volopt::play_area_variant_sound() {
 }
 
 void TBoss3Volopt::play_area_se_with_particle() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     Vec v;
     switch (get_current_floor_area()) {
     case AREA_CENTRAL_CONTROL_AREA:
@@ -137,7 +137,7 @@ void TBoss3Volopt__sub_800D8D88(s32 arg0) {
 }
 
 void TBoss3Volopt::play_area_sound_effect() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     switch (get_current_floor_area()) {
     case AREA_CENTRAL_CONTROL_AREA:
     case AREA_JUNGLE_NORTH:
@@ -174,7 +174,7 @@ void spawn_particles_at__12TBoss3VoloptFi(s32 arg0) {
 #define create_dead_spot__10TObjPlayerFiiif ((s32 (*)(s32, s32, s32))create_dead_spot__10TObjPlayerFiiif)
 
 void TObjPlayer::create_dead_spot(s32 arg0, s32 arg1, f32 farg0) {
-    new TUnk_804949F4((TObject *)tl_05, (Vec *)arg0, (s32)create_timed_particle_emitter((void *)arg0, 0xF8, 0, arg1), farg0);
+    new TUnk_804949F4((TObject *)tl_05, (Vec *)arg0, (saddr)create_timed_particle_emitter((void *)arg0, 0xF8, 0, arg1), farg0);
 }
 
 void TObjPlayer::spawn_effect_f8(s32 arg1, s32 arg2) {
@@ -189,7 +189,7 @@ void TObjPlayer::set_field_e4(s32 arg1, s32 arg2) {
 
 
 void create_dead_spot__10TObjPlayerFiiif(s32 arg0, s32 arg1, s32 arg2, f32 farg0) {
-    new TUnk_804949D8((TObject *)tl_05, (Vec *)arg0, (s32)create_timed_particle_emitter((void *)arg0, arg1, 0, arg2), farg0);
+    new TUnk_804949D8((TObject *)tl_05, (Vec *)arg0, (saddr)create_timed_particle_emitter((void *)arg0, arg1, 0, arg2), farg0);
 }
 
 void fn_800D911C(Vec *position) {
@@ -197,19 +197,19 @@ void fn_800D911C(Vec *position) {
     create_timed_particle_emitter(position, 236, 10, 1);
 }
 
-void TObjPlayer::trigger_dell_biter_events() { spawn_particle_effect(this, (s32)((void*)251)); spawn_particle_effect(this, (s32)((void*)252)); spawn_particle_effect(this, (s32)((void*)227)); }
+void TObjPlayer::trigger_dell_biter_events() { spawn_particle_effect(this, (saddr)((void*)251)); spawn_particle_effect(this, (saddr)((void*)252)); spawn_particle_effect(this, (saddr)((void*)227)); }
 
 void TObjPlayer::spawn_ground_effect(s32 arg1) {
     s32 sp8;
 
-    TObjBoss2Tunnel::adjust_to_ground((s32)this, &sp8);
+    TObjBoss2Tunnel::adjust_to_ground((saddr)this, &sp8);
     create_timed_particle_emitter((&sp8), 0xE5, 0, (arg1));
 }
 
 void TObjPlayer::spawn_effect_at_ground(s32 arg1) {
     s32 sp8;
 
-    TObjBoss2Tunnel::adjust_to_ground((s32)this, &sp8);
+    TObjBoss2Tunnel::adjust_to_ground((saddr)this, &sp8);
     create_timed_particle_emitter(&sp8, 0xE4, 0, arg1);
 }
 
@@ -283,7 +283,7 @@ void TObjPlayer::spawn_dead_spot(s32 point, s32 selector, s32 delay, f32 farg0) 
 
 void TObjPlayer::destroy_static_lobby() {
     if ((u32) (*(u32 *)&player_corpse_mark_resource) != 0U) {
-        free_bin_model_request((void*)(*(u32 *)&player_corpse_mark_resource), 1);
+        free_bin_model_request((void*)(*(uaddr *)&player_corpse_mark_resource), 1);
         (*(u32 *)&player_corpse_mark_resource) = 0U;
     }
 }
@@ -294,6 +294,6 @@ void load_corpse_mark_resource(void) {
     if (p != 0) {
         p = load_resource_from_descriptor(p, 1, &corpse_mark_resource_descriptor, 0, 0, 0);
     }
-    (*(u32 *)&player_corpse_mark_resource) = (u32)p;
+    (*(u32 *)&player_corpse_mark_resource) = (uaddr)p;
     player_particle_effect_enabled = 1;
 }

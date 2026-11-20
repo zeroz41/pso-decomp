@@ -28,7 +28,7 @@ void TObjBoss2RaftSplash::run_task() {
         *(f32 *)((s8 *)arg0 + 0x1C) = (f32) (timer - interval);
         VecCopy((Vec *)(&stack.sp8), (const Vec *)(arg0 + 0x28));
         stack.spC += **(f32 **)((s8 *)arg0 + 0x24) - boss2_tunnel_max_scroll_speed;
-        TObjBoss2RaftSplash::spawn_splash((s32) &stack.sp8, 0x170, (s32)(arg0 + 0x34));
+        TObjBoss2RaftSplash::spawn_splash((saddr) &stack.sp8, 0x170, (saddr)(arg0 + 0x34));
     }
 }
 TObjBoss2RaftSplash::~TObjBoss2RaftSplash() {}

@@ -72,7 +72,7 @@ void TBoss6Demo10_TYPE1_APPEAR::sub_8033C7C8() {
     set_motion_packed_rotation();
     post_translate_matrix(lbl_80477DEC);
     TObjFish::set_global_param(this->m_20);
-    draw_model_motion((void *)(*(s32 *)((s8 *)this + 0x1C)), (void *)(*(s32 *)((s8 *)this + 0x24)), *(f32 *)((s8 *)this + 0x34));
+    draw_model_motion((void *)(*(saddr *)((s8 *)this + 0x1C)), (void *)(*(saddr *)((s8 *)this + 0x24)), *(f32 *)((s8 *)this + 0x34));
     TObjFish::set_global_param(*(s32 *)((s8 *)this + 0x2C));
     ((TObjFish *)(this->m_60))->set_draw_callback_list();
     draw_model_motion((void *)this->m_28, (void *)this->m_30, *(f32 *)((s8 *)this + 0x34));
@@ -117,9 +117,9 @@ void run_task__25TBoss6Demo10_TYPE1_APPEARFv(TBoss6Demo10_TYPE1_APPEAR *boss6_de
     temp_r30 = (u8 *)boss6_demo10_type1_appear + 0x54;
     switch (temp_r0_3) {
     case 0x1:
-        *(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64) = (u32)create_particle_emitter((temp_r30), 0x210);
+        *(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64) = (uaddr)create_particle_emitter((temp_r30), 0x210);
         if ((u32) *(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64) != 0U) {
-            ((TParticleCtrl *)(*(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64)))->set_flags(0x40);
+            ((TParticleCtrl *)(*(uaddr *)((s8 *)boss6_demo10_type1_appear + 0x64)))->set_flags(0x40);
         }
         break;
     case 0x1AC:
@@ -128,9 +128,9 @@ void run_task__25TBoss6Demo10_TYPE1_APPEARFv(TBoss6Demo10_TYPE1_APPEAR *boss6_de
             TParticleCtrl::release(*(void **)((s8 *)boss6_demo10_type1_appear + 0x64));
             *(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64) = 0U;
         }
-        *(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64) = (u32)create_particle_emitter((temp_r30), 0x211);
+        *(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64) = (uaddr)create_particle_emitter((temp_r30), 0x211);
         if ((u32) *(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64) != 0U) {
-            ((TParticleCtrl *)(*(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64)))->set_flags(0x40);
+            ((TParticleCtrl *)(*(uaddr *)((s8 *)boss6_demo10_type1_appear + 0x64)))->set_flags(0x40);
         }
         break;
     case 0x11D:
@@ -138,17 +138,17 @@ void run_task__25TBoss6Demo10_TYPE1_APPEARFv(TBoss6Demo10_TYPE1_APPEAR *boss6_de
             TParticleCtrl::release(*(void **)((s8 *)boss6_demo10_type1_appear + 0x64));
             *(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64) = 0U;
         }
-        *(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64) = (u32)create_particle_emitter((temp_r30), 0x210);
+        *(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64) = (uaddr)create_particle_emitter((temp_r30), 0x210);
         if ((u32) *(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64) != 0U) {
-            ((TParticleCtrl *)(*(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64)))->set_flags(0x40);
+            ((TParticleCtrl *)(*(uaddr *)((s8 *)boss6_demo10_type1_appear + 0x64)))->set_flags(0x40);
         }
         break;
     }
     if ((u32) *(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64) != 0U) {
-        ((TParticleCtrl *)*(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64))->set_position((void*)temp_r30);
+        ((TParticleCtrl *)*(uaddr *)((s8 *)boss6_demo10_type1_appear + 0x64))->set_position((void*)temp_r30);
     }
     boss6_demo10_type1_appear->m_38 = (boss6_demo10_type1_appear->m_38 + 1);
-    if (((s32) boss6_demo10_type1_appear->m_38 >= 0x1F4) || (((TObjFish *)(*(s32 *)((s8 *)boss6_demo10_type1_appear + 0x3C)))->get_phase() != 1)) {
+    if (((s32) boss6_demo10_type1_appear->m_38 >= 0x1F4) || (((TObjFish *)(*(saddr *)((s8 *)boss6_demo10_type1_appear + 0x3C)))->get_phase() != 1)) {
         boss6_demo10_type1_appear->queue_destruction();
     }
 }
@@ -175,8 +175,8 @@ TBoss6Demo10_TYPE1_APPEAR::TBoss6Demo10_TYPE1_APPEAR(TObject *parent) : TObject(
     s32 k;
     s32 n;
     s32 i;
-    ((Fish_8033CB4C *)this)->x0 = (s32)TBoss6Demo10_TYPE1_APPEAR__name.value;
-    ((Fish_8033CB4C *)this)->x3C = (s32) parent;
+    ((Fish_8033CB4C *)this)->x0 = (saddr)TBoss6Demo10_TYPE1_APPEAR__name.value;
+    ((Fish_8033CB4C *)this)->x3C = (saddr) parent;
     n = TObjFish::get_fish_count();
     for (i = 0; i < 2; i++)
     {
@@ -186,7 +186,7 @@ TBoss6Demo10_TYPE1_APPEAR::TBoss6Demo10_TYPE1_APPEAR(TObject *parent) : TObject(
       ((Fish_8033CB4C *)this)->tbl[i].b = get_bml_texlist((BmlResource *)n, k);
       ((Fish_8033CB4C *)this)->tbl[i].c = get_bml_motion(n, boss6_type1_appear_motion_indices[i]);
     }
-    ((Fish_8033CB4C *)this)->x60 = TObjFish__sub_800E3124((u8 *)boss6_type1_appear_node_desc, (s32)(((Fish_8033CB4C *)this)->x54));
+    ((Fish_8033CB4C *)this)->x60 = TObjFish__sub_800E3124((u8 *)boss6_type1_appear_node_desc, (saddr)(((Fish_8033CB4C *)this)->x54));
     ((Fish_8033CB4C *)this)->x64 = 0;
     build_tables__14TBoss6PlotFalzFPvPvi(((Fish_8033CB4C *)this)->x40, boss6_type1_appear_model_node_descriptors, 2);
     activate_camera_mode(5);

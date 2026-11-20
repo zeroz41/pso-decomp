@@ -39,7 +39,7 @@ void TObjBoss7RaftSplash::run_task() {
             *(f32 *)((s8 *)arg0 + 0x1C) = (f32) (temp_f0 - temp_f1);
             VecCopy((Vec *)(&stack.sp8), (const Vec *)(arg0 + 0x28));
             stack.spC += **(f32 **)((s8 *)arg0 + 0x24) - boss7_tunnel_max_scroll_speed;
-            TObjFish::create_splash_particle((s32) &stack.sp8, 0x200, (s32)(arg0 + 0x34));
+            TObjFish::create_splash_particle((saddr) &stack.sp8, 0x200, (saddr)(arg0 + 0x34));
         }
     }
 }

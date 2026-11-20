@@ -94,7 +94,7 @@ void TBoss1DragonEffBullet::run_task() {
                 arg0->field_44 = NULL;
             }
             play_sound_effect(0x4003AD0C, &arg0->field_1C, 0, 0);
-            ((TBoss1Dragon *)(TBoss1Dragon::get_instance()))->apply_fireball_impact_damage((s32)&arg0->field_1C);
+            ((TBoss1Dragon *)(TBoss1Dragon::get_instance()))->apply_fireball_impact_damage((saddr)&arg0->field_1C);
         }
         if ((s32) arg0->field_34 <= 2) {
             spawn_particle_effect_with_flags(&arg0->field_1C, *(s32 *)((s8 *)(*(u8 * *)&dragon_fireball_particle_ids) + 8), 0x40);
@@ -121,7 +121,7 @@ TBoss1DragonEffBullet::~TBoss1DragonEffBullet() {
 u8 *TBoss1DragonEffBullet__ct(u8 *boss1_dragon_eff_bullet, s32 arg1, s32 arg2, s32 arg3) {
     __ct__7TObjectFP7TObject((void *)boss1_dragon_eff_bullet, (void *)arg1);
     *(s32 **)((s8 *)boss1_dragon_eff_bullet + 0x18) = __vt__21TBoss1DragonEffBullet;
-    *(s32 *)((s8 *)boss1_dragon_eff_bullet + 0) = (s32) TBoss1DragonEffBullet__name;
+    *(s32 *)((s8 *)boss1_dragon_eff_bullet + 0) = (saddr) TBoss1DragonEffBullet__name;
     VecCopy((Vec *)(boss1_dragon_eff_bullet + 0x1C), (const Vec *)(arg2));
     VecCopy((Vec *)(boss1_dragon_eff_bullet + 0x28), (const Vec *)(arg3));
     subtract_vector(boss1_dragon_eff_bullet + 0x28, boss1_dragon_eff_bullet + 0x1C);

@@ -85,9 +85,9 @@ void load_boss2_common_resource(void) {
     boss2_tunnel_instance = p;
     lbl_805D4BEC = *(void **)(*(u8 **)((u8 *)p + 0x42C) + 0x6C);
     if (TObjEneDD::check_v2_mode() != 0) {
-        TLobby::load_texture_pvm_file("obj_boss2_common_a.gvm", (s32)lbl_805D4BEC);
+        TLobby::load_texture_pvm_file("obj_boss2_common_a.gvm", (saddr)lbl_805D4BEC);
     } else {
-        TLobby::load_texture_pvm_file("obj_boss2_common.gvm", (s32)lbl_805D4BEC);
+        TLobby::load_texture_pvm_file("obj_boss2_common.gvm", (saddr)lbl_805D4BEC);
     }
 }
 

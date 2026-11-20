@@ -80,7 +80,7 @@ void TBoss6PlotFalz::sub_802B0808() {  }
 // --- DEMO_DED_T1 ---
 void TBoss6PlotFalz::reset_and_recreate() {
     s32 sp8;
-    TBoss6PlotFalz::get_target_pos_b((s32)this, (s32)((void *)&sp8));
+    TBoss6PlotFalz::get_target_pos_b((saddr)this, (saddr)((void *)&sp8));
     queue_instance_destruction__14TBoss6PlotFalzFv(this);
     TLobby::stop_audio_streams();
     TBoss6PlotFalz::freeze_all_players();
@@ -111,7 +111,7 @@ void TBoss6PlotFalz::init_hall_boss_scene() {
     play_area_music("HALL.adx");
     refresh_players_equipment__14TBoss6PlotFalzFPv();
     *(s32 *)((s8 *)this + 0x3CC) = 0;
-    *(s32 *)((s8 *)this + 0x3DC) = ((s32)TObjFish::alloc(this));
+    *(s32 *)((s8 *)this + 0x3DC) = ((saddr)TObjFish::alloc(this));
 }
 void TBoss6PlotFalz::check_and_advance_state() {
     void *player = *(void **)((s8 *)this + 0x3DC);
@@ -179,7 +179,7 @@ void TBoss6PlotFalz::finish_and_dispatch_next_phase() {
             i += 1;
         } while (i < 4);
     }
-    TBoss6PlotFalz::get_target_pos_a((s32)this, (s32)sp10);
+    TBoss6PlotFalz::get_target_pos_a((saddr)this, (saddr)sp10);
     destroy_static_instance__14TBoss6PlotFalzFv(this);
     TLobby::stop_audio_streams();
     TBoss6PlotFalz::freeze_all_players();

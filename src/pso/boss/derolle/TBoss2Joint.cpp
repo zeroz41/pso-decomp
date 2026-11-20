@@ -358,7 +358,7 @@ void TBoss2Joint::vfunc_88() {
 }
 
 void TBoss2Joint::update_position_history() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(arg0 + 0x38));
     VecCopy((Vec *)(arg0 + 0x74), (const Vec *)(arg0 + 0x2FC));
 }
@@ -377,7 +377,7 @@ void TBoss2Joint::vfunc_62() {
             ((VTbj_8003688C *)self)->m102();
         }
     } else {
-        spawn_offset_particle__13TBoss2DeRolLeFiff((s32)(((u8 *)this) + 0x38), 15.0f, 12.0f);
+        spawn_offset_particle__13TBoss2DeRolLeFiff((saddr)(((u8 *)this) + 0x38), 15.0f, 12.0f);
         apply_hp_damage_with_sound__13TBoss2DeRolLeFPvi(*(s32 *)((s8 *)self + 0x10), temp_r31, ((TBoss2Joint *)self)->m_2d4);
     }
     ((TBoss2Joint *)self)->hp = (s16) ((TBoss2Joint *)self)->hpmax;

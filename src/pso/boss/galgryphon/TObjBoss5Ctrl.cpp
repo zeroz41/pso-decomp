@@ -55,13 +55,13 @@ void *TObjBoss5Ctrl__ct(void *boss5_pillar_ctrl, void *parent) {
     if (is_room_enemy_set_cleared(get_current_floor(60.0f, temp_f2, temp_f3), 1) == 0) {
         if (is_split_screen() == 0) {
             if ((u32) *(u32 *)((s8 *)boss5_pillar_ctrl + 0x1C) == 0U) {
-                *(u32 *)((s8 *)boss5_pillar_ctrl + 0x1C) = ((u32)TObjBoss5FloorGrass::create());
+                *(u32 *)((s8 *)boss5_pillar_ctrl + 0x1C) = ((uaddr)TObjBoss5FloorGrass::create());
             }
             if ((u32) *(u32 *)((s8 *)boss5_pillar_ctrl + 0x20) == 0U) {
-                *(u32 *)((s8 *)boss5_pillar_ctrl + 0x20) = ((u32)TObjBoss5FloorStone::create());
+                *(u32 *)((s8 *)boss5_pillar_ctrl + 0x20) = ((uaddr)TObjBoss5FloorStone::create());
             }
             if ((u32) *(u32 *)((s8 *)boss5_pillar_ctrl + 0x24) == 0U) {
-                *(u32 *)((s8 *)boss5_pillar_ctrl + 0x24) = ((u32)((TObjBoss5PillarCtrl *)boss5_pillar_ctrl)->create());
+                *(u32 *)((s8 *)boss5_pillar_ctrl + 0x24) = ((uaddr)((TObjBoss5PillarCtrl *)boss5_pillar_ctrl)->create());
             }
         }
         if ((u32) *(u32 *)((s8 *)boss5_pillar_ctrl + 0x28) == 0U) {

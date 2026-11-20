@@ -160,7 +160,7 @@ void TBoss6Type2::reset_state_timers() {
 void TBoss6Type2::sub_802BFA1C() {
     s32 temp_r0;
 
-    play_persistent_sound(0x4006A612, (s32)this, (u32)&position, 0, 1);
+    play_persistent_sound(0x4006A612, (saddr)this, (uaddr)&position, 0, 1);
     temp_r0 = state_timer - 1;
     state_timer = temp_r0;
     if (temp_r0 < 0) {
@@ -348,7 +348,7 @@ void TBoss6Type2::init_timers_and_copy_pos() {
   }
 }
 
-void TBoss6Type2::sub_802BF3F4() { if (state_timer == 45) { drop_random_rocks((s32)this, (s32)((void*)0)); } }
+void TBoss6Type2::sub_802BF3F4() { if (state_timer == 45) { drop_random_rocks((saddr)this, (saddr)((void*)0)); } }
 
 void TBoss6Type2::update_death_sequence() {
     s32 d;
@@ -396,7 +396,7 @@ void TBoss6Type2::init_attack_timers() {
     TBoss6Type2__sub_802BB768(this);
 }
 
-void TBoss6Type2::update_state_34() { if (*(int*)((char*)this + 0x460) == 34) { TBoss6Type2::drop_random_rocks((s32)this, (s32)((void*)0)); } }
+void TBoss6Type2::update_state_34() { if (*(int*)((char*)this + 0x460) == 34) { TBoss6Type2::drop_random_rocks((saddr)this, (saddr)((void*)0)); } }
 
 void TBoss6Type2::update_attack_sequence() {
     u8 *arg0 = (u8 *)this;
@@ -406,7 +406,7 @@ void TBoss6Type2::update_attack_sequence() {
         play_sound_effect(0x69C0F, arg0 + 0x38, 0, 1);
     }
     if ((s32) this->state_timer == (s32) (this->state_duration - 0x78)) {
-        TBoss6Type2__sub_802BAD04((s32)arg0);
+        TBoss6Type2__sub_802BAD04((saddr)arg0);
     }
     switch (this->state_timer) {
     case 0xA0:
@@ -452,7 +452,7 @@ void TBoss6Type2::init_timer() {
     *(s32 *)((s8 *)this + 0x470) = (s32) (*(s32 *)((s8 *)this + 0x470) + 1);
 }
 
-void TBoss6Type2::check_state_0x460_eq4() { if (*(int*)((char*)this + 0x460) == 4) { TBoss6Type2::drop_random_rocks((s32)this, (s32)((void*)0)); } }
+void TBoss6Type2::check_state_0x460_eq4() { if (*(int*)((char*)this + 0x460) == 4) { TBoss6Type2::drop_random_rocks((saddr)this, (saddr)((void*)0)); } }
 
 void TBoss6Type2::sub_802BEE38() {
     s32 sound;
@@ -535,7 +535,7 @@ void TBoss6Type2::sub_802BEC28() {
     } else if (ratio > 1.0f) {
         state_progress = 1.0f;
     }
-    play_persistent_sound(0x4006A30B, (s32)this, (u32)&position, 0, 1);
+    play_persistent_sound(0x4006A30B, (saddr)this, (uaddr)&position, 0, 1);
     if (--state_timer < 0) {
         m_418 = 1;
         state_progress = 1.0f;
@@ -543,7 +543,7 @@ void TBoss6Type2::sub_802BEC28() {
             if (is_target_valid() == 0) {
                 play_sound_effect(0x40069E13, &position, 0, 1);
             }
-            player = (u32)get_player_by_client_id(*(u16 *)((s8 *)this + 0x55C));
+            player = (uaddr)get_player_by_client_id(*(u16 *)((s8 *)this + 0x55C));
             if (player != 0U) {
                 spawn_particle_effect((void *)(player + 0x38), 0x36);
             }
@@ -571,13 +571,13 @@ void TBoss6Type2::sub_802BEB78() {
 void TBoss6Type2::update_attack_timer() {
     u32 player;
 
-    play_persistent_sound(0x4006A30B, (s32)this, (u32)&position, 0, 1);
+    play_persistent_sound(0x4006A30B, (saddr)this, (uaddr)&position, 0, 1);
     if (--state_timer < 0) {
         if (check_target() != 0) {
             if (is_target_valid() == 0) {
                 play_sound_effect(0x40069E13, &position, 0, 1);
             }
-            player = (u32)get_player_by_client_id(*(u16 *)((s8 *)this + 0x55C));
+            player = (uaddr)get_player_by_client_id(*(u16 *)((s8 *)this + 0x55C));
             if (player != 0U) {
                 spawn_particle_effect((void *)(player + 0x38), 0x36);
             }
@@ -598,11 +598,11 @@ void TBoss6Type2::start_flow_soul_effect() {
     ((TBoss6Type2 *)arg0)->spawn_particle_slot(7);
     TBoss6Type2__sub_802BB768(arg0);
     if (arg0->client != 0xFFFF) {
-        pl = (u32)get_player_by_client_id(arg0->client);
+        pl = (uaddr)get_player_by_client_id(arg0->client);
         if (pl != 0) {
             VecCopy__FP3VecPC3Vec(&v, (void *)(pl + 0x38));
             v.y += 10.0f;
-            spawn_flow_soul__11TBoss6Type2Fiii((s32)arg0, (s32)&v, (s32)this->state_duration);
+            spawn_flow_soul__11TBoss6Type2Fiii((saddr)arg0, (saddr)&v, (s32)this->state_duration);
             spawn_particle_effect((void *)(pl + 0x38), 0x36);
         }
         ((TBoss6EffHyoui *)(arg0->client))->create((void *)1, (void *)this->state_duration);
@@ -624,7 +624,7 @@ void TBoss6Type2::update_charge_timer() {
     } else if (temp_f1 > 1.0f) {
         this->state_progress = 1.0f;
     }
-    play_persistent_sound(0x4006A30B, ((s32) this), (0U), 0, 0);
+    play_persistent_sound(0x4006A30B, ((saddr) this), (0U), 0, 0);
     temp_r0 = this->state_timer - 1;
     this->state_timer = temp_r0;
     if (temp_r0 < 0) {
