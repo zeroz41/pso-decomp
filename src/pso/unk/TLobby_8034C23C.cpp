@@ -31,7 +31,7 @@ void TLobby::flush_pending_send() {
     }
 }
 
-s32 TLobby::get_card_window_field() {
+saddr TLobby::get_card_window_field() {
     return get_character_save_record(0xFFFF) + 0x20FC;
 }
 void TLobby::set_info_board_text() {

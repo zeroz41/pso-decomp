@@ -15,7 +15,7 @@ extern "C" {
 s32 get_bml_texlist(BmlResource *resource, s32 index);
 s32 alloc_load_data__6TLobbyFPviii(void *arg0, s32 base, s32 arg2, s32 arg3);
 int fn_8001ED90(void *p);
-s32 get_bml_model(BmlResource *resource, s32 index);
+saddr get_bml_model(BmlResource *resource, s32 index);
 AnimationMotion *get_bml_motion(BmlResource *resource, s32 index);
 void increment_ref_and_set_flag__6TLobbyFPv(void *arg0);
 }

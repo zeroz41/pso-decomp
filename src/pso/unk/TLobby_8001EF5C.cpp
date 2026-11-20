@@ -197,7 +197,7 @@ s32 get_bml_texlist(BmlResource *resource, s32 index) {
     return resource->models[index].m_c;
 }
 
-s32 get_bml_model(BmlResource *resource, s32 index) {
+saddr get_bml_model(BmlResource *resource, s32 index) {
     return resource->models[index].model;
 }
 
@@ -232,7 +232,7 @@ s32 TLobby::tmp_buf_release(const char *name) {
 s32 TLobby::tmp_buf_is_free() {
     return tmp_buf_in_use_flag;
 }
-s32 TLobby::tmp_buf_use_req(const char *name) {
+saddr TLobby::tmp_buf_use_req(const char *name) {
     if (tmp_buf_in_use_flag != 0) {
         tmp_buf_in_use_flag = 0;
         strncpy(TLobby__tmp_buf_name, name, 0x20);

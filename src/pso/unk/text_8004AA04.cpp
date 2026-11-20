@@ -8,7 +8,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 extern "C" {
-s32 get_bml_model(BmlResource *resource, s32 index);
+saddr get_bml_model(BmlResource *resource, s32 index);
 s32 alloc_tables__6TLobbyFll(s32, s32, s32);
 }
 

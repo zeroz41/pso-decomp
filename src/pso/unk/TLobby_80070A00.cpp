@@ -83,7 +83,7 @@ u8 is_flag_set__6TLobbyFv(void) {
 }
 
     extern int chat_last_line_buffer;
-int TLobby::get_unit_list() {  return chat_last_line_buffer; }
+saddr TLobby::get_unit_list() {  return chat_last_line_buffer; }
 LAYOUT_ASSERT(RecoveredGlobal_80070ACC_lbl_8048D208_size, sizeof(RecoveredGlobal_80070ACC_lbl_8048D208) == 0x18);
 s32 *TLobby__sub_80070ACC(void) {
     return &lbl_8048D208.value;

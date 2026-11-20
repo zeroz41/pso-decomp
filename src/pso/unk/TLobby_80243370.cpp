@@ -7,7 +7,7 @@
 extern "C" {
 int init_memcard(void*, void*, void*, void*);
 int player_data_load_buffer;
-int TLobby::get_global_63e0() {  return player_data_load_buffer; }
+saddr TLobby::get_global_63e0() {  return player_data_load_buffer; }
 void TLobby::load_player_data() { init_memcard((void*)0, (void*)0, (void*)player_data_load_buffer, (void*)0); }
 void TLobby__sub_802433A8(void) {
     if ((u32) (*(u32 *)&player_data_load_buffer) != 0U) {
