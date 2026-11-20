@@ -127,7 +127,6 @@ u8 lbl_80513D34[0x24];
 #pragma pop
 void archive_pool_free(void *pool, void *node);
 s32 lookup_scene_object__6TLobbyFPv(s32, void *);
-s32 replace_file_extension__6TLobbyFPvPvPv(char *arg0, char *arg1, char *arg2);
 void *mem_alloc(u32);
 }
 void arrive_floor_population(void);
@@ -176,9 +175,9 @@ s32 load_map_decoration_rows(s32 map, s32 grp, s32 room) {
         return 0;
     }
     if (TLobby::is_online_ready() != 0) {
-        replace_file_extension__6TLobbyFPvPvPv((char *)path, (char *)r->name, (char *)lbl_8044BC24);
+        TLobby::replace_file_extension((char *)path, (char *)r->name, (char *)lbl_8044BC24);
     } else {
-        replace_file_extension__6TLobbyFPvPvPv((char *)path, (char *)r->name, (char *)lbl_8044BC2C);
+        TLobby::replace_file_extension((char *)path, (char *)r->name, (char *)lbl_8044BC2C);
     }
     size = get_resource_file_size((const char *)path);
     if (size < 0) {
@@ -365,7 +364,7 @@ void TLobby::free_resources() {
         TLobby__data_805D6108 = NULL;
     }
     if (TLobby__data_805D6104 != NULL) {
-        free_and_delete__6TLobbyFPvs((u32 *)TLobby__data_805D6104, 1);
+        TLobby::free_and_delete((u32 *)TLobby__data_805D6104, 1);
         TLobby__data_805D6104 = NULL;
     }
     if (TLobby__data_805D613C != NULL) {
