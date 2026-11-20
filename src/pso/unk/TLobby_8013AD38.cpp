@@ -40,7 +40,7 @@ s32 *get_raw_serial_input_buffer(void) {
     return &TAdEnterSerialAccessGC__raw_serial_buffer.value;
 }
 
-s32 get_connection_message_text(s32 arg0) {
+saddr get_connection_message_text(s32 arg0) {
     return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x30)) + (arg0 * 4));
 }
 
