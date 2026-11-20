@@ -158,31 +158,31 @@ void TObjEnemy::set_flags_B0(u32 v) { this->motion_flags |= v; }
 void TObjEneDimedian::vfunc_101() {  }
 
 void TObjEneDimedian::vfunc_99() {
-    s32 arg0 = (s32)this;
-    play_sound_effect((s32)((void *) (((s32)((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003AD40)))), arg0 + 0x38, 0, 0);
+    saddr arg0 = (saddr)this;
+    play_sound_effect((saddr)((void *) (((s32)((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003AD40)))), arg0 + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 
 void TObjEneDimedian::vfunc_98() {
-    s32 arg0 = (s32)this;
-    play_sound_effect((s32)((void *) (((s32)((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003AD3D)))), arg0 + 0x38, 0, 0);
+    saddr arg0 = (saddr)this;
+    play_sound_effect((saddr)((void *) (((s32)((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003AD3D)))), arg0 + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 
 void TObjEneDimedian::vfunc_97() {
-    s32 arg0 = (s32)this;
-    play_sound_effect((s32)((void *) (((s32)((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003A83E)))), arg0 + 0x38, 0, 0);
+    saddr arg0 = (saddr)this;
+    play_sound_effect((saddr)((void *) (((s32)((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003A83E)))), arg0 + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 
 void TObjEneDimedian::vfunc_96() {
-    s32 arg0 = (s32)this;
-    play_sound_effect((s32)((void *) (((s32)((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003A83F)))), arg0 + 0x38, 0, 0);
+    saddr arg0 = (saddr)this;
+    play_sound_effect((saddr)((void *) (((s32)((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003A83F)))), arg0 + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 
 void TObjEneDimedian::vfunc_95() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     s32 temp_r3;
     if (random_ratio() < 0.5f) {
         temp_r3 = ((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003B23B);
@@ -195,7 +195,7 @@ void TObjEneDimedian::vfunc_95() {
 }
 
 void TObjEneDimedian::vfunc_94() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     s32 area;
     TObjPlayer::apply_effect_variant_a(arg0 + 0x38, 0);
     fn_800D911C((Vec *)(arg0 + 0x2FC));
@@ -219,11 +219,11 @@ void TObjEneDimedian::vfunc_93() {
     }
     switch (this->requested_action) {
     case 3:
-        e = (s32)((SampledMotionPoints *)((void *)dimedian_type3_object))->lookup(this->frame);
+        e = (saddr)((SampledMotionPoints *)((void *)dimedian_type3_object))->lookup(this->frame);
         idx = 0;
         break;
     case 4:
-        e = (s32)((SampledMotionPoints *)((void *)lbl_805D5088))->lookup(this->frame);
+        e = (saddr)((SampledMotionPoints *)((void *)lbl_805D5088))->lookup(this->frame);
         idx = 1;
         break;
     default:
@@ -326,7 +326,7 @@ void draw_actor_model__10TObjPlayerFPv(Player_800A7CA4 *self) {
         ((RenderFadeState *)(&self->fades[mode]))->update();
         fading = ((RenderFadeState *)(&self->fades[mode]))->updateFromCamera((const f32*)(self->cam));
     }
-    select_actor_lighting((s32)self);
+    select_actor_lighting((saddr)self);
     TObjFish::set_global_param(self->f24);
     push_matrix();
     post_translate_matrix(self->pos);
@@ -686,10 +686,10 @@ void *TObjEneDimedian::create(void *arg2_) {
     return o2;
 }
 
-u32 dimedian_boss_object_buf;
-u32 lbl_805D5074;
-u32 TObjEneDimedian__boss_objects;
-u32 dimedian_buffer_ptr;
+uaddr dimedian_boss_object_buf;
+uaddr lbl_805D5074;
+uaddr TObjEneDimedian__boss_objects;
+uaddr dimedian_buffer_ptr;
 struct E_800A884C { u8 pad[8]; s32 x8; s32 xc; };
 
 struct G_800A884C { u8 pad[0x42c]; E_800A884C *tbl; };
@@ -721,7 +721,7 @@ void TObjEneDimedian::free_boss_objects() {
         delete (SampledMotionPoints *)dimedian_type3_object;
         dimedian_type3_object = 0U;
     }
-    if ((u32) dimedian_resource_ptr != 0U) {
+    if ((uaddr) dimedian_resource_ptr != 0U) {
         free_bin_model_request((void*)dimedian_resource_ptr, 1);
         dimedian_resource_ptr = 0U;
     }
@@ -737,7 +737,7 @@ void TLobby::load_dimedian_resources() {
     void *p;
     s32 i;
     if (TObjEneDD::check_v2_mode() != 0) {
-        (*(u8 **)&dimedian_resource_ptr) = (u8 *)load_enemy_bml_resource_named((s32)dimedian_resource_descriptor, (s32)lbl_8043AAA4);
+        (*(u8 **)&dimedian_resource_ptr) = (u8 *)load_enemy_bml_resource_named((saddr)dimedian_resource_descriptor, (saddr)lbl_8043AAA4);
     } else {
         p = ::operator new(0x440);
         if (p != NULL) {
@@ -776,7 +776,7 @@ void TLobby::load_dimedian_resources() {
     (*(s32 **)&dimedian_buffer_ptr)[2] = dispatch_shared_handler_a__6TLobbyFl(0x54);
     {
         s16 ids[3] = { 0x1B, 0x1C, 0x1D };
-        Anim_800A8118 anim = { (s32)RES_800A8118->motions, dimedian_action_table, 2, 0xC0000 };
+        Anim_800A8118 anim = { (saddr)RES_800A8118->motions, dimedian_action_table, 2, 0xC0000 };
         for (i = 0; i < 3; i++) {
             u8 *b = *(u8 **)((s8 *)(*(u8 **)&dimedian_resource_ptr) + 0x42C) + i * 0x10;
             TLobby::spawn_npc_enemy(ids[i], *(s32 *)((s8 *)b + 8), (NJS_TEXLIST *)*(s32 *)((s8 *)b + 0xC), &anim,
@@ -816,8 +816,8 @@ O_800A846C *TObjPlayer__sub_800A846C(O_800A846C *arg0, s16 arg1) {
 #define dimedian_movement_params ((u8 *)dimedian_movement_params)
 #define dimedian_collision_body_table ((u8 *)dimedian_collision_body_table)
 #define arg0 ((u8 *)arg0_)
-#define arg1 ((s32)arg1_)
-#define arg2 ((s32)arg2_)
+#define arg1 ((saddr)arg1_)
+#define arg2 ((saddr)arg2_)
 void *TObjEneDimedian__ct(void *arg0_, void *arg1_, void *arg2_) {
     s32 color;
     s32 i;
@@ -832,7 +832,7 @@ void *TObjEneDimedian__ct(void *arg0_, void *arg1_, void *arg2_) {
     ((TObjEneDimedian *)arg0)->sub_800A7B54();
     ((TObjEneDimedian *)arg0)->load_dimedian_param_entry(*(s32 *)((s8 *)arg0 + 0x368));
     *(u8 **)((s8 *)arg0 + 0xD8) = dimedian_action_table;
-    ((TObjMotion *)arg0)->set_field_d8((s32)(*(u8 **)((s8 *)arg0 + 0xD8)));
+    ((TObjMotion *)arg0)->set_field_d8((saddr)(*(u8 **)((s8 *)arg0 + 0xD8)));
     *(s32 *)((s8 *)arg0 + 0xDC) = *(s32 *)((s8 *)(*(u8 **)&dimedian_resource_ptr) + 0x430);
     *(s16 *)((s8 *)arg0 + 0xB8) = 0;
     ((TObjMotion *)arg0)->set_animation(*(s16 *)((s8 *)arg0 + 0xB8));

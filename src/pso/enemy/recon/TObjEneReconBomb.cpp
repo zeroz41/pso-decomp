@@ -107,7 +107,7 @@ s32 rotate_matrix_x(int, void *);
 s32 push_matrix();
 s32 scale_current_matrix(void *);
 s32 find_nearest_visible_player(void *, int, f32);
-u32 recon_bomb_bml_resource;
+uaddr recon_bomb_bml_resource;
 s32 calc_scaled_value__12TObjEneReconFv(int);
 f32 TObjEneRecon__sub_8031C2BC(int);
 f32 TObjEneRecon__sub_8031C2C8(int);
@@ -142,7 +142,7 @@ void TObjEneReconBomb::render() {
     f32 temp_f0;
     f32 temp_f1;
     f32 var_f1;
-    s32 bml_model;
+    saddr bml_model;
     s32 temp_r30;
     if ((u32) recon_bomb_bml_resource == 0U) {
         ((TObject *)arg0)->queue_destruction();
@@ -228,7 +228,7 @@ void TObjEneReconBomb::run_task() {
         spawn_particle_effect_with_flags(&arg0->pos, 0x46, 0x40);
         for (i = 0; i < lbl_805D5868; i++) {
             pl = (VObj_8031B808 *)TObjPlayer::get_player_data(i);
-            if (TObjPlayer::is_valid_and_active((u32)pl) != 0 && pl != 0 && (u16)get_entity_id((int)pl) < 0x1000 && pl->m31() == 0) {
+            if (TObjPlayer::is_valid_and_active((uaddr)pl) != 0 && pl != 0 && (u16)get_entity_id((saddr)pl) < 0x1000 && pl->m31() == 0) {
                 if (horizontal_distance_squared((const Vec *)((u8 *)pl + 0x2FC), (const Vec *)&arg0->pos2) <= arg0->range * arg0->range) {
                     P_8031B808 d;
                     d.a = 0;
@@ -258,7 +258,7 @@ u8 *TObjEneReconBomb__ct(TObjEneReconBomb *ene_recon_bomb, s32 arg1, s32 arg2, s
 
     __ct__9TObjCharaFP7TObject();
     *(s32 **)((s8 *)ene_recon_bomb + 0x18) = (s32 *) __vt__16TObjEneReconBomb;
-    *(s32 *)((s8 *)ene_recon_bomb + 0) = (s32) TObjEneReconBomb__name;
+    *(s32 *)((s8 *)ene_recon_bomb + 0) = (saddr) TObjEneReconBomb__name;
     ene_recon_bomb->m_334 = arg2;
     ene_recon_bomb->m_338 = get_entity_id(ene_recon_bomb->m_334);
     *(f32 *)((s8 *)ene_recon_bomb + 0x34C) = TObjEneRecon__sub_8031C2D4(ene_recon_bomb->m_334);
@@ -267,7 +267,7 @@ u8 *TObjEneReconBomb__ct(TObjEneReconBomb *ene_recon_bomb, s32 arg1, s32 arg2, s
     ene_recon_bomb->m_358 = calc_scaled_value__12TObjEneReconFv(ene_recon_bomb->m_334);
     temp_r5 = (unsigned char *) (ene_recon_bomb->m_up);
     ene_recon_bomb->rotation_y = (s32) *(s32 *)((s8 *)temp_r5 + 0x60);
-    VecCopy__FP3VecPC3Vec((u8 *)ene_recon_bomb + 0x38, (void *)arg3, (int)temp_r5);
+    VecCopy__FP3VecPC3Vec((u8 *)ene_recon_bomb + 0x38, (void *)arg3, (saddr)temp_r5);
     temp_f31 = sin_table_lookup(ene_recon_bomb->rotation_y);
     temp_f1 = cos_table_lookup(ene_recon_bomb->rotation_y);
     *(f32 *)((s8 *)ene_recon_bomb + 0x33C) = (f32) (*(f32 *)((s8 *)ene_recon_bomb + 0x354) * temp_f31);
@@ -287,7 +287,7 @@ void *TObjEneRecon::create_bomb(void *arg0, void *arg1, void *arg2) {
     void *o;
     o = TObject::operator new(0x364);
     if (o != NULL) {
-        o = TObjEneReconBomb__ct((TObjEneReconBomb *)((u8 *)o), (s32)arg0, (s32)arg1, (s32)arg2);
+        o = TObjEneReconBomb__ct((TObjEneReconBomb *)((u8 *)o), (saddr)arg0, (saddr)arg1, (saddr)arg2);
     }
     return o;
 }

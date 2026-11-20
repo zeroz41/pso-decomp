@@ -516,7 +516,7 @@ void *__vt__18TObjEneRe4Sorcerer[107] = {
 #define __vt__18TObjEneRe4Sorcerer ((s32 *)__vt__18TObjEneRe4Sorcerer)
 
 void TObjEneRe4Sorcerer::render() {
-    s32 camera_mode;
+    saddr camera_mode;
     s32 temp_r31;
     s32 var_r28;
     s32 var_r27;
@@ -528,7 +528,7 @@ void TObjEneRe4Sorcerer::render() {
     if (is_split_screen() != 0) {
         camera_mode = TCameraCtrl::get_camera_mode();
     }
-    camera_mode = (s32)&fades[camera_mode];
+    camera_mode = (saddr)&fades[camera_mode];
     ((RenderFadeState *)camera_mode)->update();
     temp_r31 = ((RenderFadeState *)camera_mode)->updateFromCamera(&m_2fc);
     if (!(m_3c8 & 2)) {
@@ -572,8 +572,8 @@ void TObjEneRe4Sorcerer::render() {
             TObjEneRe4Sorcerer__render_node_index = 0;
             TObjEneRe4Sorcerer__saved_render_flags = 0;
             TObjEneRe4Sorcerer__effect_render_scale = m_3f8;
-            re4_sorcerer_render_node_ptr = (s32)bit_anchors;
-            set_chunk_model_node_callback((s32)TObjEneRe4Sorcerer::step_effect_sequence);
+            re4_sorcerer_render_node_ptr = (saddr)bit_anchors;
+            set_chunk_model_node_callback((saddr)TObjEneRe4Sorcerer::step_effect_sequence);
             model_render_flags |= 0x01000000;
             if (var_r28 == 1) {
                 draw();
@@ -637,7 +637,7 @@ void TObjEneRe4Sorcerer::handle_death_state(s32 arg1) {
     case 0:
         advance_animation();
         if (fade.decay_value_toward_floor() != 0) {
-            TObjPlayer::apply_effect_variant_b((s32)&position, 0);
+            TObjPlayer::apply_effect_variant_b((saddr)&position, 0);
             queue_destruction();
         }
     case 3:
@@ -735,7 +735,7 @@ void TObjEneRe4Sorcerer__sub_800EE1CC(TObjEneRe4Sorcerer *self, s32 arg1) {
                 self->requested_action = 4;
                 self->m_4e8 = 3;
             }
-            play_persistent_sound(self->remap_sound_for_area(0x4003A814), (s32)self, (u32)&self->position, 0, 0);
+            play_persistent_sound(self->remap_sound_for_area(0x4003A814), (saddr)self, (uaddr)&self->position, 0, 0);
             break;
         case 2:
         case 3:
@@ -821,7 +821,7 @@ void TObjEneRe4Sorcerer::update_state_machine(s32 reason) {
             *t = 0.0f;
             for (i = 0; i < n; i++) {
                 p = (TObjChara *)TObjPlayer::get_player_data(i);
-                mask |= update_farthest_target((s32)p, t);
+                mask |= update_farthest_target((saddr)p, t);
             }
             if (mask != 0) {
                 m_4e4 = 2;
@@ -852,7 +852,7 @@ void TObjEneRe4Sorcerer::update_state_machine(s32 reason) {
                         continue;
                     }
                 }
-                update_farthest_target((s32)p, t);
+                update_farthest_target((saddr)p, t);
             }
             m_4e4 = 2;
             break;
@@ -1207,15 +1207,15 @@ void TObjEneRe4Sorcerer__vt85(TObjEneRe4Sorcerer *self, u32 state, s32 reason) {
 }
 
 void TObjEneRe4Sorcerer__sub_800EF214(TObjEneRe4Sorcerer *self) {
-    play_persistent_sound(self->remap_sound_for_area(0x4003A81D), (s32)self, (u32)&self->position, 0, 0);
+    play_persistent_sound(self->remap_sound_for_area(0x4003A81D), (saddr)self, (uaddr)&self->position, 0, 0);
 }
 
 void TObjEneRe4Sorcerer::create_effect() {
     if (m_3e8 == 0) {
-        play_persistent_sound(remap_sound_for_area(0x4003A812), (s32)this, (u32)&position, 0, 0);
+        play_persistent_sound(remap_sound_for_area(0x4003A812), (saddr)this, (uaddr)&position, 0, 0);
         return;
     }
-    play_persistent_sound(remap_sound_for_area(0x4003AB13), (s32)this, (u32)&position, 0, 0);
+    play_persistent_sound(remap_sound_for_area(0x4003AB13), (saddr)this, (uaddr)&position, 0, 0);
 }
 
 s32 TObjEneRe4Sorcerer::cast_resta() {
@@ -1258,7 +1258,7 @@ s32 TObjEneRe4Sorcerer::cast_technique() {
                 ((TTecRaFoie *)this)->create_ex(src, &targets, (void *)TObjEneDD::clamp_frame_index(sorcerer_behavior_params[6]));
             }
         } else if (TObjEneDD::check_v2_mode() != 0) {
-            TTecMegid::create((s32)this, (s32)src, (s32)&m_390->position, TObjEneDD::clamp_frame_index(sorcerer_behavior_params[7]));
+            TTecMegid::create((saddr)this, (saddr)src, (saddr)&m_390->position, TObjEneDD::clamp_frame_index(sorcerer_behavior_params[7]));
         } else {
             VecCopy(&v, &m_390->position);
             subtract_vector(&v, src);
@@ -1399,7 +1399,7 @@ void TObjEneRe4Sorcerer__sub_800EF95C(TObjEneRe4Sorcerer *self, f32 speed) {
     t.x = out.x;
     t.y = 10.0f + out.y;
     t.z = out.z;
-    if (csnVectorUnder((s32)&t, (u32 *)&self->m_120, 0xE0) == 0) {
+    if (csnVectorUnder((saddr)&t, (u32 *)&self->m_120, 0xE0) == 0) {
         VecCopy(&self->position, &out);
     }
     self->vfunc_102();
@@ -1418,7 +1418,7 @@ void TObjEneRe4Sorcerer__sub_800EF95C(TObjEneRe4Sorcerer *self, f32 speed) {
 }
 
 s32 TObjEneRe4Sorcerer::try_attack(f32 farg0, f32 farg1) {
-    if (tick_period_counter((s32)this, &m_3b0, 0x1E) != 0) {
+    if (tick_period_counter((saddr)this, &m_3b0, 0x1E) != 0) {
         return select_attack_target(farg0, farg1);
     }
     if (enemy_has_live_target() != 0) {
@@ -1445,12 +1445,12 @@ s32 TObjEneRe4Sorcerer::select_attack_target(f32 farg0, f32 farg1) {
         o1 = find_entity_by_id(this->bit_ids[0]);
         o2 = find_entity_by_id(this->bit_ids[1]);
         p = (TObjChara *)TLobby::get_game_mode();
-        n = (s32)p + TObjEneDD::get_enemy_count();
-        for (i = (s32)p; i < n; i++) {
+        n = (saddr)p + TObjEneDD::get_enemy_count();
+        for (i = (saddr)p; i < n; i++) {
             p = (TObjChara *)TObjPlayer::get_player_data(i);
             if (p != this && p != o1 && p != o2 && ((TObjBase *)p)->is_alive() != 0) {
                 d = horizontal_distance_squared(&this->m_2fc, &p->position);
-                if (d < best && csnLookAt((s32)&this->m_2fc, (s32)&p->m_2fc) == 0) {
+                if (d < best && csnLookAt((saddr)&this->m_2fc, (saddr)&p->m_2fc) == 0) {
                     id = ((s32 (*)(void *))get_entity_id)(p);
                     best = d;
                 }
@@ -1609,9 +1609,9 @@ void TObjEneRe4Sorcerer::init_enemy() {
     model = (void *)sorcerer_bml_resource->models->model;
     models = sorcerer_bml_resource->models;
     texlist = models->m_c;
-    init_model__9TObjEneDDFP13CollisionBodyl(this, re4_sorcerer_collision_body_part_table, 1, (int)models);
-    set_field_d8((s32)re4_sorcerer_action_params);
-    set_field_dc((s32)sorcerer_bml_resource->motions);
+    init_model__9TObjEneDDFP13CollisionBodyl(this, re4_sorcerer_collision_body_part_table, 1, (saddr)models);
+    set_field_d8((saddr)re4_sorcerer_action_params);
+    set_field_dc((saddr)sorcerer_bml_resource->motions);
     requested_action = 0;
     set_animation(requested_action);
     set_field_b8(requested_action);
@@ -1671,7 +1671,7 @@ void TObjEneRe4Sorcerer::free_bits() {
         TObjEneRe4Sorcerer__uv_scroll_buffer = 0U;
     }
     TObjEneRe4Bit__sub_800EDAB0();
-    if ((u32) sorcerer_bml_resource != 0U) {
+    if ((uaddr) sorcerer_bml_resource != 0U) {
         free_bin_model_request((void*)sorcerer_bml_resource, 1);
         sorcerer_bml_resource = 0U;
     }
@@ -1686,12 +1686,12 @@ TObjEneRe4Sorcerer *TObjEneRe4Sorcerer::create() {
 }
 
 void TObjEneRe4Sorcerer::load_resources() {
-    u32 r;
+    uaddr r;
     lbl_80501070.x = 0.0f;
     lbl_80501070.y = 0.0f;
     lbl_80501070.z = 0.0f;
     if (TObjEneDD::check_v2_mode() != 0) {
-        sorcerer_bml_resource = (BmlResource *)load_enemy_bml_resource_named((s32)&bm_ene_re4_sorcerer_resource_descriptor, (s32)("bm_ene_re4_sorcerer_a.bml"));
+        sorcerer_bml_resource = (BmlResource *)load_enemy_bml_resource_named((saddr)&bm_ene_re4_sorcerer_resource_descriptor, (saddr)("bm_ene_re4_sorcerer_a.bml"));
     } else {
         sorcerer_bml_resource = (BmlResource *)load_enemy_bml_resource((u8 *)&bm_ene_re4_sorcerer_resource_descriptor);
     }
@@ -1704,13 +1704,13 @@ void TObjEneRe4Sorcerer::load_resources() {
     TObjEneRe4Sorcerer__effect_render_scale = 0.0f;
     re4_sorcerer_render_node_ptr = 0;
     TObjEneRe4Bit__sub_800EDAB4();
-    r = (u32) (int)::operator new(0x14);
+    r = (u32) (saddr)::operator new(0x14);
     if (r != 0) {
-        r = (u32) ((TLobby *)r)->alloc_tables(sorcerer_bml_resource->models->model, 2);
+        r = (uaddr) ((TLobby *)r)->alloc_tables(sorcerer_bml_resource->models->model, 2);
     }
     TObjEneRe4Sorcerer__uv_scroll_buffer = r;
     Params_800F0464 p = re4_sorcerer_spawn_descriptor;
-    p.a = (s32)sorcerer_bml_resource->motions;
+    p.a = (saddr)sorcerer_bml_resource->motions;
     TLobby::spawn_npc_enemy((s16)0x2A, sorcerer_bml_resource->models->model, (NJS_TEXLIST *)sorcerer_bml_resource->models->m_c, &p, re4_sorcerer_collision_body_part_table[3], 15.0f);
 }
 

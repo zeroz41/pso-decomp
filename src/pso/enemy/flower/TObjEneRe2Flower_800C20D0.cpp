@@ -136,7 +136,7 @@ void TObjEneRe2Flower::render() {
         m_3dc[1].y = lbl_805D9FB4;
         m_3dc[1].z = lbl_805D9FAC;
         scale_matrix(0, lbl_805D9FB8, lbl_805D9FB8, lbl_805D9FB8);
-        set_chunk_model_node_callback((s32)((void *)TObjPlayer::update_effect_sequence));
+        set_chunk_model_node_callback((saddr)((void *)TObjPlayer::update_effect_sequence));
         if (mode == 8) {
             s32 c = (m_3d8 & 0xFF) << 16;
             re2_flower_node_index = -1;
@@ -240,7 +240,7 @@ void TObjEneDD__sub_800C2628(u8 *arg0, s32 arg1) {
                     TObjEneDD__sub_800BA5A4(arg0, &enemy_dd_attack_param_block);
                 }
             }
-            play_sound_effect(fn_800C3A60((s32)arg0, 0x4003A311), arg0 + 0x38, 0, 0);
+            play_sound_effect(fn_800C3A60((saddr)arg0, 0x4003A311), arg0 + 0x38, 0, 0);
         }
         break;
     case 0:
@@ -274,7 +274,7 @@ void TObjEneDD__sub_800C2628(u8 *arg0, s32 arg1) {
                 if (F(s32, 0x3D8) > 0xFF) {
                     F(s32, 0x3D8) = 0xFF - (F(s32, 0x3D8) - 0xFF);
                     F(s32, 0x414) = 1;
-                    play_sound_effect(fn_800C3A60((s32)arg0, 0x4003AD10), arg0 + 0x38, 0, 0);
+                    play_sound_effect(fn_800C3A60((saddr)arg0, 0x4003AD10), arg0 + 0x38, 0, 0);
                 }
             } else {
                 F(s32, 0x3D8) -= step;
@@ -308,7 +308,7 @@ void TObjEneRe2Flower::handle_event(s32 arg1) {
         *(s32 *)((s8 *)arg0 + 0x3C4) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C4) & 0xFFFFFFF7);
         ((TObjEneDD *)arg0)->set_field_378(3);
         *(s32 *)((s8 *)arg0 + 0x410) = 0;
-        play_sound_effect(fn_800C3A60((s32)arg0, 0x4003A315), (u8 *)&this->position, 0, 0);
+        play_sound_effect(fn_800C3A60((saddr)arg0, 0x4003A315), (u8 *)&this->position, 0, 0);
         TObjPlayer::play_effect_if_v2(-0x200);
         return;
     case 3:

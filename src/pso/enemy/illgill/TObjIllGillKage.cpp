@@ -20,7 +20,7 @@ void TObjIllGillKage::queue_destruction() { TObject::queue_destruction(); }
 
 void TObjIllGillKage::tick_persistent_sound() {
     s32 temp_r3;
-    play_persistent_sound(0x4003A357, (s32)this, (u32)(((u8 *)this) + 0x38), 0, 0);
+    play_persistent_sound(0x4003A357, (saddr)this, (uaddr)(((u8 *)this) + 0x38), 0, 0);
     temp_r3 = this->m_94;
     this->m_94 = (temp_r3 - 1);
     if (temp_r3 < 0) {
@@ -29,10 +29,10 @@ void TObjIllGillKage::tick_persistent_sound() {
 }
 
 void TObjIllGillKage::attack_target() {
-    s32 player;
+    saddr player;
 
     this->m_90 = 1;
-    player = (s32)get_player_by_client_id(this->m_98);
+    player = (saddr)get_player_by_client_id(this->m_98);
     if ((player != 0) && (is_locally_controlled__10TObjPlayerFPv() != 0) && (((TObject *)player)->all_parents_unqueued_for_destruction() != 0) && (((TObjCollidable *)player)->obj_testFlags30(0x800) == 0)) {
         TObjPlayer::play_effect(player, this->m_94, 3);
     }
@@ -66,7 +66,7 @@ void *__dt__15TObjIllGillKageFv(void *base, s16 arg1) {
 }
 }
 TObjIllGillKage::TObjIllGillKage(s32 arg1, u32 arg2) : TObjBase((TObject *)arg1) {
-    *(s32 *)((s8 *)this + 0) = (s32) TObjIllGillKage__class_name;
+    *(s32 *)((s8 *)this + 0) = (saddr) TObjIllGillKage__class_name;
     if (arg2 != 0U) {
         VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(arg2 + 0x38));
         this->m_98 = get_entity_id((void *)arg2);

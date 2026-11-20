@@ -195,24 +195,24 @@ extern s32 chunk_polygon_flags_and_mask;
 void TObjEneShark::vfunc_101() {  }
 
 void TObjEneShark::vfunc_98() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     play_sound_effect((void *) (((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x4003A60C)), (void *)(arg0 + 0x38), 0, 0);
     TObjPlayer::play_effect_if_v2(-0x300);
 }
 
 void TObjEneShark::vfunc_97() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     play_sound_effect((void *) (((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x4003A60B)), (void *)(arg0 + 0x38), 0, 0);
     TObjPlayer::play_effect_if_v2(-0x300);
 }
 
 void TObjEneShark::vfunc_96() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     play_sound_effect((void *) (((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x4003A60D)), (void *)(arg0 + 0x38), 0, 0);
 }
 
 void TObjEneShark::vfunc_95() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     play_sound_effect((void *) (((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x4003A60B)), (void *)(arg0 + 0x38), 0, 0);
     TObjPlayer::play_effect_if_v2(-0x300);
 }
@@ -229,7 +229,7 @@ void TObjEneShark::vfunc_94() {
     pop_matrix();
     vec3_add_to(&stack.x, (u8 *)&this->position);
     ((TObjPlayer *)(&stack.x))->spawn_ground_effect(0x23);
-    TObjPlayer__sub_800D92BC((s32)&stack.x, 0xF);
+    TObjPlayer__sub_800D92BC((saddr)&stack.x, 0xF);
 }
 
 void TObjEneShark::vfunc_93() {
@@ -244,11 +244,11 @@ void TObjEneShark::vfunc_93() {
     }
     switch (this->m_b8) {
     case 3:
-        e = (s32)((SampledMotionPoints *)((void *)TObjEneShark__attack_motion_3_trail))->lookup(this->m_c0);
+        e = (saddr)((SampledMotionPoints *)((void *)TObjEneShark__attack_motion_3_trail))->lookup(this->m_c0);
         idx = 0;
         break;
     case 4:
-        e = (s32)((SampledMotionPoints *)((void *)shark_attack4_trail_buffer))->lookup(this->m_c0);
+        e = (saddr)((SampledMotionPoints *)((void *)shark_attack4_trail_buffer))->lookup(this->m_c0);
         idx = 1;
         break;
     default:
@@ -373,7 +373,7 @@ void TObjEneShark::render() {
     ((RenderFadeState *)f)->update();
     fade = ((RenderFadeState *)f)->updateFromCamera((const f32*)(arg0 + 0x2FC));
   }
-  select_actor_lighting((s32)arg0);
+  select_actor_lighting((saddr)arg0);
   model_render_flags |= 1;
   TObjFish::set_global_param(*((s32 *) (((s8 *) arg0) + 0x24)));
   push_matrix();
@@ -414,7 +414,7 @@ void TObjEneShark::render() {
     }
     TObjPlayer::toggle_particle_effect();
     shark_render_node_index = 0;
-    set_chunk_model_node_callback((s32)((void *) TObjPlayer::update_particle_by_phase));
+    set_chunk_model_node_callback((saddr)((void *) TObjPlayer::update_particle_by_phase));
     if ((*(s32 *)&this->m_390) == 1)
     {
       if (((VObj_14_800ABDD8 *) (arg0 + 0x3A8))->m8() != 0)
@@ -800,7 +800,7 @@ void TLobby::load_shark_resources() {
     void *p;
     s32 i;
     if (TObjEneDD::check_v2_mode() != 0) {
-        G_B8 = (u8 *)load_enemy_bml_resource_named((s32)bm_ene_bm1_shark_resource_descriptor, (s32)bm_ene_bm1_shark_a_bml_filename);
+        G_B8 = (u8 *)load_enemy_bml_resource_named((saddr)bm_ene_bm1_shark_resource_descriptor, (saddr)bm_ene_bm1_shark_a_bml_filename);
     } else {
         p = ::operator new(0x440);
         if (p != NULL) {
@@ -833,7 +833,7 @@ void TLobby::load_shark_resources() {
     shark_render_node_index = 0;
     {
         s16 ids[3] = { 0x2F, 0x30, 0x31 };
-        Anim_800AC318 anim = { (s32)RES->motions, TObjEneShark__action_table, 2, 0xC0000 };
+        Anim_800AC318 anim = { (saddr)RES->motions, TObjEneShark__action_table, 2, 0xC0000 };
         for (i = 0; i < 3; i++) {
             TLobby::spawn_npc_enemy(ids[i], RES->bodies[i].model, RES->bodies[i].textures, &anim,
                 7.5f, 0.0f);
@@ -971,7 +971,7 @@ void *TObjEneShark__ct(void *arg0, void *arg1, void *arg2) {
     ((TObjEneShark *)self)->apply_clamped_mode_param();
     ((TObjEneShark *)self)->sub_800AC9DC(self->f368);
     self->fD8 = TObjEneShark__action_table;
-    ((TObjMotion *)self)->set_field_d8((s32)self->fD8);
+    ((TObjMotion *)self)->set_field_d8((saddr)self->fD8);
     self->fDC = *(s32 *)(shark_bml_resource + 0x430);
     self->fB8 = 0;
     ((TObjMotion *)self)->set_animation(self->fB8);

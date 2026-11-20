@@ -30,7 +30,7 @@ s32 attack_target_history_add(s32, s32);
 s32 TObjEneBm9Mericarol_Bomb::area_attack_deliver_direct(void *recoil, s32 arg2, void *object, f32 range) {
     s32 hit;
     u32 mask;
-    s32 obj;
+    saddr obj;
     s32 i;
     s32 ok;
     hit = 0;
@@ -57,7 +57,7 @@ s32 TObjEneBm9Mericarol_Bomb::area_attack_deliver_direct(void *recoil, s32 arg2,
                 is_area_attack_target_eligible(this, ((TObjBase *)obj)->actorFlags) != 0 &&
                 !(fabs_float(pos.y - ((TObjChara *)obj)->m_300) > 3e+01f)) {
                 ok = 1;
-                if (object != 0 && attack_target_history_add((s32)object, obj) == 0) {
+                if (object != 0 && attack_target_history_add((saddr)object, obj) == 0) {
                     ok = 0;
                 }
                 if (ok != 0) {
@@ -72,7 +72,7 @@ s32 TObjEneBm9Mericarol_Bomb::area_attack_deliver_direct(void *recoil, s32 arg2,
 
 void TObjEneBm9Mericarol_Bomb::render() {
     if (shadow_visible != 0) {
-        ((TObjEneDD *)&position)->draw_oriented_shadow((s32)&shadow_pos, 0, (u32)0);
+        ((TObjEneDD *)&position)->draw_oriented_shadow((saddr)&shadow_pos, 0, (u32)0);
     }
 }
 
@@ -124,7 +124,7 @@ void TObjEneBm9Mericarol_Bomb::run_task() {
         pos.x += velocity.x;
         pos.y += velocity.y;
         pos.z += velocity.z;
-        hit = (CsnHit *)csnVecterUnder((s32)&pos, 0x16EF);
+        hit = (CsnHit *)csnVecterUnder((saddr)&pos, 0x16EF);
         if (hit != NULL) {
             position.y = hit->contact->point.y;
             VecCopy(&shadow_pos, &hit->contact->normal);

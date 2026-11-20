@@ -118,7 +118,7 @@ TObjEneBalClawBody::TObjEneBalClawBody(TObject *parent, void *set_data) : TObjEn
     VecCopy((Vec *)(&m_290), (const Vec *)(VecCopy((Vec *)(&m_29c), (const Vec *)(&position))));
     motion_list = lbl_805D4F20->motions;
     action_table = balclaw_body_actions;
-    set_field_d8((s32)action_table);
+    set_field_d8((saddr)action_table);
     init_collision_body_parts(this, &balclaw_body_collision, 1);
     requested_action = 0;
     set_animation(requested_action);
@@ -214,7 +214,7 @@ void TObjEneBalClawBody::run_task() {
     lift = m_3b4;
     body = bodies;
     body->offset.y = lift + m_3bc;
-    submit_cursor_candidate(this, -1, (int)body, lift, center_y);
+    submit_cursor_candidate(this, -1, (saddr)body, lift, center_y);
     minimap_render_dot((u8 *)&position, -0x5DB4, 1, 0);
 }
 
@@ -387,7 +387,7 @@ void TObjPlayer__sub_8008FAD0(TObjEneBalClawBody *body) {
             reset_enemy_state__10TObjPlayerFv();
             break;
         }
-        play_persistent_sound(0x4003B235, (s32)body, (u32)&body->position, 0, 0);
+        play_persistent_sound(0x4003B235, (saddr)body, (uaddr)&body->position, 0, 0);
         body->y_speed = 0.0f;
         {
             Vec pos = *(Vec *)&((TObjChara *)body->target)->m_2fc;
@@ -502,7 +502,7 @@ void TObjPlayer::run_death_sequence() {
     case 4:
         body->advance_animation();
         if ((&body->fade)->decay_value_toward_floor() == 1) {
-            TObjPlayer::apply_effect_variant_a((s32)&body->position, 0);
+            TObjPlayer::apply_effect_variant_a((saddr)&body->position, 0);
             body->send_entity_set_flags();
             queue_destruction__7TObjectFv(body);
         }
@@ -776,7 +776,7 @@ void TObjPlayer__sub_8008E934(TObjEneBalClawBody *body, s32 arg1) {
     s32 angB;
     s32 i;
     s32 id;
-    s32 id2;
+    saddr id2;
     s32 n;
     s32 k;
     u8 *ent;
@@ -851,7 +851,7 @@ void TObjEneBalClawBody::render() {
         if (detail != 0) {
             shadow = 1;
             TObjFish::set_global_param(texlist);
-            select_actor_lighting((s32)this);
+            select_actor_lighting((saddr)this);
             TObjPlayer::toggle_particle_effect();
             push_matrix();
             model_render_flags &= 0xFFFFFBFF;

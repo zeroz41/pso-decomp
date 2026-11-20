@@ -550,7 +550,7 @@ void *__vt__17TObjEneDarkGunner[83] = {
 };
 
 extern u8 identity_matrix[];
-s32 lbl_805D5004;
+saddr lbl_805D5004;
 extern f32 player_scale_factor;
 extern u32 player_effect_bml_resource;
 extern u32 TObjPlayer__effect_resource;
@@ -572,7 +572,7 @@ void fn_800A0FDC(TObjEneLappy *ene_lappy) {
 void TObjPlayer__sub_800A100C(s32 _w0) {  }
 
 s32 TObjEneDarkGunner::update_movement_status() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     if (update_movement_status__9TObjCharaFv() != 0) {
         TObjPlayer__sub_800A100C(arg0);
         return 1;
@@ -581,7 +581,7 @@ s32 TObjEneDarkGunner::update_movement_status() {
 }
 
 s32 TObjEneDarkGunner::update_action_hold_status() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     if (update_action_hold_status__9TObjCharaFv() != 0) {
         TObjPlayer__sub_800A100C(arg0);
         return 1;
@@ -760,7 +760,7 @@ void TObjEneDarkGunner::sub_800A159C() {
     o->hover_height += this->m_394;
     o->hover_height = (o->hover_height < 0.0f) ? 0.0f : ((o->hover_height < 9.0f) ? o->hover_height : 9.0f);
     push_matrix_from(identity_matrix);
-    post_translate_matrix((s32)&o->pos);
+    post_translate_matrix((saddr)&o->pos);
     rotate_matrix_z(0, this->rotation_z);
     rotate_matrix_y(0, this->rotation_y);
     Vec t = lbl_8043A6A4;
@@ -830,7 +830,7 @@ void TObjPlayer::spawn_hamon_effects(s32 arg1, s32 arg2, f32 farg0) {
         p.z = o->pos.z + ofs.v[i].z;
         e = TObject::operator new(0x60);
         if (e != NULL) {
-            __ct__12TEneEffHamonFv((u8 *)e, (s32)&p, arg1, arg2, farg0);
+            __ct__12TEneEffHamonFv((u8 *)e, (saddr)&p, arg1, arg2, farg0);
         }
     }
 }
@@ -838,7 +838,7 @@ extern int fold_flush_1;
 #pragma pop
 
 void TObjPlayer::render_shadow() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     if (this->obj_testFlags30(0x800) == 0) {
         if (is_flag_set_388_bit26() == 0) {
             TObjFish::set_global_param(lbl_805D5014);
@@ -933,7 +933,7 @@ void TObjEneDarkGunner::render() {
     if (((TObjEnemy *)self)->obj_testFlags30(0x02000000) == 0) {
         view = self->m9(150.0f, 400.0f, 15.0f);
         if (view != 0) {
-            select_actor_lighting((s32)self);
+            select_actor_lighting((saddr)self);
             TObjPlayer::toggle_particle_effect();
             drawn = 1;
             push_matrix();
@@ -1038,7 +1038,7 @@ void TObjPlayer__sub_800A1C84(TObjPlayer *enemy) {
         enemy->advance_animation();
         apply_actor_gravity((TObjEnemy *)enemy, (s32 *)(0), 0.0f);
         if (((VObj_14_800A1C84 *)((u8 *)enemy + 0x408))->m4() == 1) {
-            TObjPlayer::apply_effect_variant_a((s32)((u8 *)enemy + 0x38), 0);
+            TObjPlayer::apply_effect_variant_a((saddr)((u8 *)enemy + 0x38), 0);
             ((TObject *)enemy)->queue_destruction();
         }
         break;
@@ -1141,7 +1141,7 @@ s32 TObjPlayer__sub_800A1FEC(void *arg0) {
             for (i = 0; i < 4; i++) {
                 void *p = TObject::operator new(0x348);
                 if (p != NULL) {
-                    p = TObjPlayer__sub_800A4204((u8 *)p, (u8 *)self, (s32)&self->f3B4, (s32)&self->f3C0[i], 2);
+                    p = TObjPlayer__sub_800A4204((u8 *)p, (u8 *)self, (saddr)&self->f3B4, (saddr)&self->f3C0[i], 2);
                 }
                 self->parts[i] = p;
             }
@@ -1178,7 +1178,7 @@ s32 TObjPlayer__sub_800A1FEC(void *arg0) {
         ((TObjEnemyCustom *)self)->find_target_in_range(200.0f);
         if (self->f338 == 0xFFFF) break;
         {
-            u8 *p = (u8 *)new TUnk_804909C4((u8 *)self, (s32)&self->f3B4, (s32)(self->target + 0x2FC));
+            u8 *p = (u8 *)new TUnk_804909C4((u8 *)self, (saddr)&self->f3B4, (saddr)(self->target + 0x2FC));
         }
         play_sound_effect(0x40039E2B, &self->pos, 0, 0);
         break;
@@ -1321,7 +1321,7 @@ s32 TObjPlayer__sub_800A2390(void *arg0_) {
             enemy->f388 &= ~0x80000;
             enemy->state = 3;
         }
-        play_persistent_sound((s32)(0x4003AD28), (s32)enemy, (u32)((u8 *)enemy + 0x38), (s32)(0), (s32)(0));
+        play_persistent_sound((s32)(0x4003AD28), (saddr)enemy, (uaddr)((u8 *)enemy + 0x38), (s32)(0), (s32)(0));
         if (enemy->f3AC > 0) {
             enemy->f3AC--;
             if (enemy->fA4->f18 & 0x300000) {
@@ -1381,7 +1381,7 @@ inline f32 fmin_800A28A4(f32 a, f32 b) {
     return b;
 }
 void TObjPlayer::apply_fall_damage_flag() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     s32 var_r4;
     if (xz_distance_squared((Vec *)(arg0 + 0x38), (Vec *)(arg0 + 0x50)) > 100.0f) {
         var_r4 = 8;
@@ -1516,7 +1516,7 @@ void load_darkgunner_effect_resources() {
     if (res != NULL) {
         res = load_resource_from_descriptor(res, 1, bm_ene_darkgunner_resource_descriptor, 0, 0, 0);
     }
-    player_effect_bml_resource = (u32)res;
+    player_effect_bml_resource = (uaddr)res;
     TObjPlayer__shadow_chunk_object = ((s32 (*)(void *, s32))get_bml_model)((void *)player_effect_bml_resource, 0);
     lbl_805D5014 = ((s32 (*)(void *, s32))get_bml_texlist)((void *)player_effect_bml_resource, 0);
     lbl_805D5018 = ((s32 (*)(void *, s32))get_bml_texlist)((void *)player_effect_bml_resource, 2);
@@ -1524,13 +1524,13 @@ void load_darkgunner_effect_resources() {
     lbl_805D5028 = ((Node_800A2DCC *(*)(void *, s32))get_bml_model)((void *)player_effect_bml_resource, 0)->model[1];
     TObjPlayer__sub_800A4294();
     TEneEffHamon::init_fish_effects();
-    TObjPlayer__effect_resource = (u32)load_gvm_texture_file((s32)"re5_b_gunner_body_pika.gvm");
+    TObjPlayer__effect_resource = (uaddr)load_gvm_texture_file((saddr)"re5_b_gunner_body_pika.gvm");
     for (i = 0; i < 1; i++) {
-        lbl_805D4FF8[i] = (s32)TLobby::register_boss(30 + i);
-        lbl_805D4FFC[i] = (s32)TLobby::dispatch_shared_handler_b(30 + i);
-        lbl_805D5000[i] = (s32)TLobby::register_object(30 + i);
+        lbl_805D4FF8[i] = (saddr)TLobby::register_boss(30 + i);
+        lbl_805D4FFC[i] = (saddr)TLobby::dispatch_shared_handler_b(30 + i);
+        lbl_805D5000[i] = (saddr)TLobby::register_object(30 + i);
     }
-    lbl_805D5004 = (s32)TLobby::dispatch_shared_handler_a(30);
+    lbl_805D5004 = (saddr)TLobby::dispatch_shared_handler_a(30);
 }
 
 Obj_800A2EDC *TObjPlayer__sub_800A2EDC(Obj_800A2EDC *arg0, s16 arg1) {

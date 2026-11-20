@@ -81,7 +81,7 @@ void release_texture_list(void *);
 extern u8 *camera_ctrl_instance;
 
 extern const char TObjEneRe2Flower_EffCurse3__class_name_string[0x1C] = "TObjEneRe2Flower_EffCurse3";
-s32 TObjEneRe2Flower_EffCurse3__name = (s32)TObjEneRe2Flower_EffCurse3__class_name_string;
+s32 TObjEneRe2Flower_EffCurse3__name = (saddr)TObjEneRe2Flower_EffCurse3__class_name_string;
 #pragma push
 #pragma fp_contract on
 void TObjEneRe2Flower_EffCurse3::run_task() {
@@ -116,7 +116,7 @@ TObjEneRe2Flower_EffCurse3::TObjEneRe2Flower_EffCurse3(s32 arg1, s32 arg2) : TOb
     *(s32 *)((s8 *)this + 0x1C) = 0;
     (this->m_20) = arg2;
     if (((TObjBase *)this->m_20)->is_alive() != 0) {
-        *(s32 *)&this->unk_24 = (s32)spawn_continuous_particle_effect_with_flags((void *)((this->m_20) + 0x38), 0xDE, 0x40);
+        *(s32 *)&this->unk_24 = (saddr)spawn_continuous_particle_effect_with_flags((void *)((this->m_20) + 0x38), 0xDE, 0x40);
     }
 }
 extern "C" {
@@ -142,7 +142,7 @@ void TObjPlayer__sub_800C4D44(void) {
 void pso_load_texture__6TLobbyFv(void *, void *);
 void set_texture_name(void *, void *, s32, s32);
 void TObjPlayer::create_render_texture() {
-    ((TObjPlayer *)(&player_render_target))->set_render_rect((s32)(player_render_texture_buffer = mem_alloc(0x800)), 0x902, 0x20, 0x20);
+    ((TObjPlayer *)(&player_render_target))->set_render_rect((saddr)(player_render_texture_buffer = mem_alloc(0x800)), 0x902, 0x20, 0x20);
     set_texture_name(&player_render_texture_name, &player_render_target, 0x18696, 0x40800000);
     lbl_80500C30.p = &player_render_texture_name;
     lbl_80500C30.v = 1;

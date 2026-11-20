@@ -59,9 +59,9 @@ const char *TObjEneRecon_name_ref = "TObjEneRecon";
 extern const DelDepthAnimationBinding recon_anim_binding = { NULL, TObjEneRecon__animation_entries, 0x10001, 6, 0 };
 extern const Vec lbl_804760FC = { 0.8f, 1.0f, 0.8f };
 
-s32 lbl_805D6AF0;
-s32 TObjEneRecon__attack_params;
-s32 TObjEneRecon__resistance_params;
+saddr lbl_805D6AF0;
+saddr TObjEneRecon__attack_params;
+saddr TObjEneRecon__resistance_params;
 f32 *TObjEneRecon__data_805D6AFC;
 BmlResource *TObjEneRecon__recobox_static_instance;
 struct VObj_8031E650 *boss3_volopt_instance;
@@ -71,7 +71,7 @@ u8 *recon_model_matrix_ptr;
 s32 get_bml_texlist(BmlResource *resource, s32 index);
 s32 push_matrix();
 void TObjEneRecon::render_shadows() {
-  s32 bml_model;
+  saddr bml_model;
   if (TObjEneRecon__recobox_static_instance != NULL)
   {
     s32 temp_r30;
@@ -196,7 +196,7 @@ void render__12TObjEneReconFv(u8 *ene_recon) {
                     *(f32 *)((s8 *)ene_recon + 0x40C) = 0.0f;
                     *(f32 *)((s8 *)ene_recon + 0x410) = 0.0f;
                     *(f32 *)((s8 *)ene_recon + 0x414) = 0.0f;
-                    set_chunk_model_node_callback((s32)((void *)TObjEneRecon::advance_intro_stage));
+                    set_chunk_model_node_callback((saddr)((void *)TObjEneRecon::advance_intro_stage));
                     TObjPlayer::toggle_particle_effect();
                     model_render_flags |= 0x01000000;
                     if (var_r31 == 1) {
@@ -349,12 +349,12 @@ f32 TObjEneRecon__sub_8031C2D4(void) {
 void *find_entity_by_id(u16 id);
 void select_next_target__12TObjEneReconFv(void *, s32);
 void TObjEneRecon::handle_message(s32 arg1) {
-    u32 temp;
+    uaddr temp;
     switch (arg1) {
     case 4:
         *(s32 *)((s8 *)this + 0x444) = (s32) (*(s32 *)((s8 *)this + 0x444) | 1);
         *(s32 *)((s8 *)this + 0x444) = (s32) (*(s32 *)((s8 *)this + 0x444) & 0xFFFFFFFD);
-        if ((temp = (u32)find_entity_by_id(*(u16 *)((s8 *)this + 0x434))) != 0U) {
+        if ((temp = (uaddr)find_entity_by_id(*(u16 *)((s8 *)this + 0x434))) != 0U) {
             ((TObjEneRecon *)temp)->remove_child_entity((u8 *)this);
         }
         break;
@@ -552,7 +552,7 @@ void TObjEneRecon__sub_8031C364(u8 *arg0, s32 arg1) {
             spawn_particle_effect_with_flags(arg0 + 0x38, 0x45, 0x40);
             spawn_particle_effect_with_flags(arg0 + 0x38, 0x46, 0x40);
             play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003A80D), arg0 + 0x38, 0, 0);
-            TBoss3Volopt::create_breakup_mdl((s32)boss3_volopt_instance, (s32)&recon_breakup_params, (s32)(F(s32, 0x24)), (s32)(arg0 + 0x2FC), (s32)(F(s32, 0x60)));
+            TBoss3Volopt::create_breakup_mdl((saddr)boss3_volopt_instance, (saddr)&recon_breakup_params, (s32)(F(s32, 0x24)), (saddr)(arg0 + 0x2FC), (s32)(F(s32, 0x60)));
             break;
         }
         break;
@@ -638,7 +638,7 @@ void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 s32 remove_tracked_target__12TObjEneReconFPvPv(int, void *);
 
 void run_task__12TObjEneReconFPvi(u8 *target, s32 arg1) {
-    s32 entity;
+    saddr entity;
 
     switch (arg1) {
     case 4:
@@ -651,7 +651,7 @@ void run_task__12TObjEneReconFPvi(u8 *target, s32 arg1) {
         create_timed_particle_emitter((target + 0x38), 0x79, 0, 0xF);
         return;
     case 3:
-        entity = (s32)find_entity_by_id((*(u16 *)((s8 *)target + 0x434)));
+        entity = (saddr)find_entity_by_id((*(u16 *)((s8 *)target + 0x434)));
         if (entity == 0) {
             ((TObject *)target)->queue_destruction();
             return;
@@ -1321,12 +1321,12 @@ s32 TObjEneRecon::vfunc_104(f32 farg0) {
 }
 
 void TObjEneRecon::spawn_trap_a() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     play_persistent_sound((TObjEneRecobox::remap_area_sound_id(0x4003AD07)), (arg0), (arg0 + 0x38), 0, 0);
 }
 
 void TObjEneRecon::spawn_trap_b() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     play_persistent_sound((TObjEneRecobox::remap_area_sound_id(0x4003B206)), (arg0), (arg0 + 0x38), 0, 0);
 }
 
@@ -1700,7 +1700,7 @@ void *TObjEneRecon::create(void *arg0, void *arg1, void *arg2, void *arg3, void 
     void *o;
     o = TObject::operator new(0x4E4);
     if (o != NULL) {
-        o = TObjEneRecon__ct((u8 *)o, (s32)tl_04, (s32)arg0, (s32)arg1, (s32)arg2, (s32)arg3, (s32)arg4);
+        o = TObjEneRecon__ct((u8 *)o, (saddr)tl_04, (saddr)arg0, (saddr)arg1, (saddr)arg2, (saddr)arg3, (saddr)arg4);
     }
     return o;
 }
@@ -1732,7 +1732,7 @@ u8 *TObjEneRecon__ct(u8 *ene_recon, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 
     __ct__12TObjEneDD_STFP7TObject();
     *(s32 **)((s8 *)ene_recon + 0x18) = __vt__12TObjEneRecon;
     __ct__13TUnk_80494938Fv((ene_recon + 0x480));
-    *(s32 *)((s8 *)ene_recon + 0) = (s32) TObjEneRecon_name_ref;
+    *(s32 *)((s8 *)ene_recon + 0) = (saddr) TObjEneRecon_name_ref;
     *(s16 *)((s8 *)ene_recon + 0x434) = get_entity_id((void *)arg2);
     ((TObjEneDD *)ene_recon)->init_common_from((u8 *)arg2);
     ((TObjEneRecon *)ene_recon)->entity_id = arg3;
@@ -1774,8 +1774,8 @@ void TObjEneRecon::init_state() {
     *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)TObjEneRecon__recobox_static_instance + 0x42C)) + 8);
     temp_r6 = (u8 *)(*(u8 **)((s8 *)TObjEneRecon__recobox_static_instance + 0x42C));
     this->texlist = (s32) *(s32 *)((s8 *)temp_r6 + 0xC);
-    init_model__9TObjEneDDFP13CollisionBodyl((void *)arg0, (void *)&TObjEneRecon__collision_body_template, 1, (int)temp_r6);
-    ((TObjMotion *)arg0)->set_field_d8((s32)TObjEneRecon__animation_entries);
+    init_model__9TObjEneDDFP13CollisionBodyl((void *)arg0, (void *)&TObjEneRecon__collision_body_template, 1, (saddr)temp_r6);
+    ((TObjMotion *)arg0)->set_field_d8((saddr)TObjEneRecon__animation_entries);
     ((TObjMotion *)arg0)->set_field_dc((int) (*(s32 *)((s8 *)TObjEneRecon__recobox_static_instance + 0x430)));
     this->requested_action = 0;
     ((TObjMotion *)arg0)->set_animation((this->requested_action));
@@ -1847,7 +1847,7 @@ void run_task__12TObjEneReconFv(TObjEneRecon *ene_recon) {
     f32 var_f30;
     s16 temp_r0;
     s16 temp_r0_2;
-    s32 entity;
+    saddr entity;
     u8 *temp_r3_2;
     u8 *temp_r3_3;
     u8 *temp_r3_4;
@@ -1855,7 +1855,7 @@ void run_task__12TObjEneReconFv(TObjEneRecon *ene_recon) {
         ((TObjEneRecon *)(ene_recon))->vfunc_105();
         return;
     }
-    entity = (s32)find_entity_by_id((*(u16 *)((s8 *)ene_recon + 0x434)));
+    entity = (saddr)find_entity_by_id((*(u16 *)((s8 *)ene_recon + 0x434)));
     if ((entity == 0) || (all_parents_unqueued_for_destruction__7TObjectFv() == 0)) {
         ene_recon->queue_destruction();
         return;

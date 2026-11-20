@@ -208,7 +208,7 @@ void TObjEneDarkGunCenter::sub_800A0994() {
     self->count = 0;
     for (k = registered_player_count; k < registered_player_count + lbl_805D5870; k++) {
         p = (Player_800A0994 *)TObjPlayer::get_player_data(k);
-        if (p != NULL && ((TUnk_804B6C24 *)p)->check_value_equals((s32)TObjEneDarkGunner__class_name) != 0 &&
+        if (p != NULL && ((TUnk_804B6C24 *)p)->check_value_equals((saddr)TObjEneDarkGunner__class_name) != 0 &&
             self->f354 == p->f354 && self->f28 == p->f28) {
             p->f428 = self->f1C;
             self->ids[self->count++] = get_entity_id(p);
@@ -503,7 +503,7 @@ void *TObjEneDarkGunCenter::create(void *arg0) {
     }
     o2 = TObject::operator new(0x3A8);
     if (o2 != NULL) {
-        o2 = TObjEneDarkGunCenter__ct((u8 *)o2, (s32)o, (s32)arg0);
+        o2 = TObjEneDarkGunCenter__ct((u8 *)o2, (saddr)o, (saddr)arg0);
     }
     return o2;
 }
@@ -531,7 +531,7 @@ u8 *TObjEneDarkGunCenter__ct(u8 *arg0, s32 arg1, s32 arg2) {
     s32 i;
     __ct__9TObjEnemyFP7TObject(arg0);
     *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)__vt__20TObjEneDarkGunCenter;
-    *(s32 *)((s8 *)arg0 + 0) = (s32)TObjEneDarkGunCenter__name;
+    *(s32 *)((s8 *)arg0 + 0) = (saddr)TObjEneDarkGunCenter__name;
     ((TObjEneDarkGunCenter *)(arg0))->apply_set_data((void *)arg2);
     ((TBoss3Volopt *)arg0)->reset_photon_effect();
     o = (Obj_800A0EDC *)arg0;

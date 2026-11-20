@@ -604,7 +604,7 @@ TObjEneDolmOlm::TObjEneDolmOlm(s32 arg1, s32 arg2) : TUnk_80493450((TObject *)ar
     ((TObjPlayer *)this)->init_position_vectors();
     this->sub_80301148();
     *(void * *)&this->action_table = TObjEneDolmOlm__param_table;
-    this->set_field_d8((s32)(*(void * *)&this->action_table));
+    this->set_field_d8((saddr)(*(void * *)&this->action_table));
     *(s32 *)((s8 *)this + 0xDC) = *(s32 *)((s8 *)TObjEneDolmOlm__resource_bundle + 0x430);
     this->requested_action = 0;
     this->set_animation(this->requested_action);
@@ -670,26 +670,26 @@ void TObjEneDolmOlm::load_shared_resources() {
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 1, lbl_804E67B8, 0, 0, 0);
         }
-        TObjEneDolmOlm__resource_bundle = (u32) p;
+        TObjEneDolmOlm__resource_bundle = (uaddr) p;
     } else {
         p = (u8 *)::operator new(0x440);
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 1, lbl_804E6774, 0, 0, 0);
         }
-        TObjEneDolmOlm__resource_bundle = (u32) p;
+        TObjEneDolmOlm__resource_bundle = (uaddr) p;
     }
     p = (u8 *)new SampledMotionPoints(2, 0.0f, 20.0f, 0.8f);
-    TObjEneDolmOlm__data_805D6A14 = (u32) p;
+    TObjEneDolmOlm__data_805D6A14 = (uaddr) p;
     p = (u8 *)new SampledMotionPoints(2, 0.0f, 20.0f, 0.8f);
-    TObjEneDolmOlm__data_805D6A18 = (u32) p;
+    TObjEneDolmOlm__data_805D6A18 = (uaddr) p;
     set_motion_packed_rotation();
     ((SampledMotionPoints *)TObjEneDolmOlm__data_805D6A14)->sample_two_nodes((NJS_OBJECT *)((Res_80302784 *)TObjEneDolmOlm__resource_bundle)->x42C->f8, (NJS_MOTION *)((Res_80302784 *)TObjEneDolmOlm__resource_bundle)->x430[((s32 *) TObjEneDolmOlm__param_table)[13]].b, 0x1C, 0x1D);
     ((SampledMotionPoints *)TObjEneDolmOlm__data_805D6A18)->sample_two_nodes((NJS_OBJECT *)((Res_80302784 *)TObjEneDolmOlm__resource_bundle)->x42C->f8, (NJS_MOTION *)((Res_80302784 *)TObjEneDolmOlm__resource_bundle)->x430[((s32 *) TObjEneDolmOlm__param_table)[17]].b, 0x14, 0x15);
     clear_motion_packed_rotation();
-    dolm_olm_combat_stat_id_pair = (u32) mem_alloc(8);
-    TObjEneDolmOlm__shared_handler_ids = (u32) mem_alloc(8);
-    TObjEneDolmOlm__registered_object_ids = (u32) mem_alloc(8);
-    TObjEneDolmOlm__behavior_params_by_variant = (u32) mem_alloc(8);
+    dolm_olm_combat_stat_id_pair = (uaddr) mem_alloc(8);
+    TObjEneDolmOlm__shared_handler_ids = (uaddr) mem_alloc(8);
+    TObjEneDolmOlm__registered_object_ids = (uaddr) mem_alloc(8);
+    TObjEneDolmOlm__behavior_params_by_variant = (uaddr) mem_alloc(8);
     ((s32 *) dolm_olm_combat_stat_id_pair)[0] = register_boss__6TLobbyFl(0x4F);
     ((s32 *) dolm_olm_combat_stat_id_pair)[1] = register_boss__6TLobbyFl(0x50);
     ((s32 *) TObjEneDolmOlm__shared_handler_ids)[0] = dispatch_shared_handler_b__6TLobbyFl(0x54);
@@ -850,7 +850,7 @@ void TObjEneDolmOlm::render() {
         }
         TObjPlayer::toggle_particle_effect();
         TObjEneDolmOlm__effect_render_state = 0;
-        set_chunk_model_node_callback((s32)((void *)TObjEneDolmOlm::toggle_effect_render));
+        set_chunk_model_node_callback((saddr)((void *)TObjEneDolmOlm::toggle_effect_render));
         if (arg0->f390 == 1) {
             if (arg0->sub.m8() != 0) {
                 saved_model_render_flags = model_render_flags;
@@ -1125,7 +1125,7 @@ s32 TObjEneDolmOlm__sub_8030177C(void *arg0_) {
                     if (pl != 0 && TObjPlayer::is_locally_controlled(pl) != 0 &&
                         ((TObject *)pl)->all_parents_unqueued_for_destruction() != 0 &&
                         ((TObjCollidable *)pl)->obj_testFlags30(0x800) == 0 && ((TLobby *)pl)->check_player_flag1() == 0) {
-                        TObjPlayer::play_effect((s32)pl, (s32)((s32)(30.0f * (f32)(*(Param_8030177C ** *)&TObjEneDolmOlm__behavior_params_by_variant)[arg0->kind]->power)), 2);
+                        TObjPlayer::play_effect((saddr)pl, (s32)((s32)(30.0f * (f32)(*(Param_8030177C ** *)&TObjEneDolmOlm__behavior_params_by_variant)[arg0->kind]->power)), 2);
                     }
                 }
             }
@@ -1190,7 +1190,7 @@ void TObjEneDolmOlm::vfunc_59() {
     switch (this->mode) {
     case 1:
         this->phase = 0;
-        if ((u32) this->children == 0U) {
+        if ((uaddr) this->children == 0U) {
             this->mode = 3;
             this->requested_action = 7;
         } else {
@@ -1335,11 +1335,11 @@ void TObjEneDolmOlm::vfunc_93() {
     }
     switch (this->requested_action) {
     case 3:
-        e = (s32)((SampledMotionPoints *)((void *)(*(s32 *)&TObjEneDolmOlm__data_805D6A14)))->lookup(this->frame);
+        e = (saddr)((SampledMotionPoints *)((void *)(*(s32 *)&TObjEneDolmOlm__data_805D6A14)))->lookup(this->frame);
         idx = 0;
         break;
     case 4:
-        e = (s32)((SampledMotionPoints *)((void *)(*(s32 *)&TObjEneDolmOlm__data_805D6A18)))->lookup(this->frame);
+        e = (saddr)((SampledMotionPoints *)((void *)(*(s32 *)&TObjEneDolmOlm__data_805D6A18)))->lookup(this->frame);
         idx = 1;
         break;
     default:
@@ -1372,22 +1372,22 @@ void TObjEneDolmOlm::vfunc_94() {
     pop_matrix();
     vec3_add_to((void *)&stack.x, (void *)(arg0 + 0x38));
     ((TObjPlayer *)(&stack.x))->spawn_ground_effect(0x23);
-    TObjPlayer__sub_800D92BC((s32)&stack.x, 0xF);
+    TObjPlayer__sub_800D92BC((saddr)&stack.x, 0xF);
 }
 void TObjEneDolmOlm::vfunc_95() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     play_sound_effect((void *) (((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x4003AD00)), (void *)(arg0 + 0x38), 0, 0);
 }
 void TObjEneDolmOlm::vfunc_96() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     play_sound_effect((void *) (((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x4003B203)), (void *)(arg0 + 0x38), 0, 0);
 }
 void TObjEneDolmOlm::vfunc_97() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     play_sound_effect((void *) (((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x4003A802)), (void *)(arg0 + 0x38), 0, 0);
 }
 void TObjEneDolmOlm::vfunc_98() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     play_sound_effect((void *) (((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x4003A801)), (void *)(arg0 + 0x38), 0, 0);
 }
 void TObjEneDolmOlm::init_body_sub() {
@@ -1397,7 +1397,7 @@ void spawn_ground_effects__14TObjEneDolmOlmFPvPv(u8 *arg0, Vec *arg1) {
     Vec v;
     Hit_80300D00 *hit;
     f32 y;
-    s32 e;
+    saddr e;
     VecCopy((Vec *)&v, (const Vec *)arg1);
     y = v.y;
     v.y += 15.0f;
@@ -1407,7 +1407,7 @@ void spawn_ground_effects__14TObjEneDolmOlmFPvPv(u8 *arg0, Vec *arg1) {
             if (actor_frame_tick % 5 == 0) {
                 fn_800D88E4(arg0 + 0x38);
             }
-            e = (s32)spawn_particle_effect(hit->obj + 0x38, 0x49);
+            e = (saddr)spawn_particle_effect(hit->obj + 0x38, 0x49);
             if (e != 0) {
                 attach_particle_model((u8 *)e, TParticleCtrl::get_particle_model(2), TParticleCtrl::get_instance(), 0, 1, 1.0f);
             }
@@ -1416,7 +1416,7 @@ void spawn_ground_effects__14TObjEneDolmOlmFPvPv(u8 *arg0, Vec *arg1) {
             if (actor_frame_tick % 10 == 0) {
                 fn_800D88E4(arg0 + 0x38);
             }
-            e = (s32)spawn_particle_effect(hit->obj + 0x54, 0x49);
+            e = (saddr)spawn_particle_effect(hit->obj + 0x54, 0x49);
             if (e != 0) {
                 attach_particle_model((u8 *)e, TParticleCtrl::get_particle_model(2), TParticleCtrl::get_instance(), 0, 1, 1.0f);
             }

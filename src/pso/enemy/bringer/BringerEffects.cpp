@@ -285,7 +285,7 @@ void TUnk_8048FE08::setup_dir_shot(const Vec *origin, s32 angle, f32 attack_powe
     direction.y = 0.0f;
     direction.z = cos_table_lookup(rotation_y);
     active = 1;
-    fill_value_array((s32)attack_history);
+    fill_value_array((saddr)attack_history);
     distance = 0.0f;
     sample_distance = 0.0f;
     power = attack_power;
@@ -338,7 +338,7 @@ void TUnk_8048FE08::run_task() {
     }
     attack.kind = lbl_8043A16C.kind;
     attack.power = power;
-    call_vt13_with_default((void *)&lbl_8043A164, &attack, (s32)attack_history);
+    call_vt13_with_default((void *)&lbl_8043A164, &attack, (saddr)attack_history);
     timer--;
     if (hit != 0 || timer < 0) {
         sub_8009A11C();

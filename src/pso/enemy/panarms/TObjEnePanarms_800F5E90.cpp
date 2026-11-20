@@ -5,5 +5,5 @@
 
 s32 enemy_name_for_rt_index(s32 arg0);
 
-const char *TObjEnemy::get_name() { return (const char *)enemy_name_for_rt_index((s32)this->control); }
-s32 TObjEnemy::remap_sound_for_area(s32 sound_id) { return ::remap_area_sound_id(sound_id, (s32)this->control); }
+const char *TObjEnemy::get_name() { return (const char *)enemy_name_for_rt_index((saddr)this->control); }
+s32 TObjEnemy::remap_sound_for_area(s32 sound_id) { return ::remap_area_sound_id(sound_id, (saddr)this->control); }

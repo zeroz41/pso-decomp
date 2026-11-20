@@ -256,8 +256,8 @@ TObjEneBm9Mericarol::TObjEneBm9Mericarol(TObject *parent, void *set_data) : TObj
     model = (void *)lbl_805D6868->models[0].model;
     texlist = lbl_805D6868->models[0].m_c;
     init_model(lbl_804E1564, 1);
-    set_field_d8((s32)lbl_804E1634);
-    set_field_dc((s32)lbl_805D6868->motions);
+    set_field_d8((saddr)lbl_804E1634);
+    set_field_dc((saddr)lbl_805D6868->motions);
     requested_action = 2;
     set_animation(requested_action);
     set_field_b8(requested_action);
@@ -495,7 +495,7 @@ void TObjEneBm9Mericarol::init_size_tier_and_offsets() {
 s32 TObjEneBm9Mericarol::get_phase() { return m_45c; }
 
 void TObjEneBm9Mericarol::sub_802D073C() {
-    play_persistent_sound((s32)(remap_sound_for_area(0x3A810)), (s32)this, (u32)&position, (s32)(0), (s32)(0));
+    play_persistent_sound((s32)(remap_sound_for_area(0x3A810)), (saddr)this, (uaddr)&position, (s32)(0), (s32)(0));
 }
 
 void TObjEneBm9Mericarol::handle_action(s32 arg1) {
@@ -610,7 +610,7 @@ void TObjEneBm9Mericarol::sub_802D01D8(s32 arg1) {
     case 0:
         advance_animation();
         target = 0xFFFF;
-        if (tick_period_counter((s32)this, &m_450, 0x14) != 0) {
+        if (tick_period_counter((saddr)this, &m_450, 0x14) != 0) {
             if (m_3ac > 30.0f) {
                 if (vfunc_99() != 0) {
                     target = set_squared_value__9TObjEneDDFf(this, m_3ac - 30.0f);
@@ -798,7 +798,7 @@ void TObjEneBm9Mericarol::sub_802CF7B4(s32 arg1) {
         m_498 = 0xA;
         m_4a4 = m_444;
         m_4a8 = 0.0f;
-        fill_value_array((s32)m_488);
+        fill_value_array((saddr)m_488);
         set_active();
         return;
     case 3:
@@ -834,7 +834,7 @@ void TObjEneBm9Mericarol::sub_802CF7B4(s32 arg1) {
             vfunc_89();
             return;
         case 1:
-            fn_802CE510((int)this);
+            fn_802CE510((saddr)this);
             hit_wall = 0;
             sync_center_position();
             if (((TBoss5Gryphon *)this)->enemy_probe_wall_ahead(m_3a0.x, m_3a0.z, 30.0f * m_444) != 0U) {
@@ -1027,7 +1027,7 @@ void TObjEneBm9Mericarol::state_burrow(s32 arg1) {
                 pos.x = x;
                 pos.z = 10.0f * cos_table_lookup(rotation_y);
                 vec3_add_to(&pos, &position);
-                TObjPlayer::spawn_dead_spot_here((s32)&pos, 0x32);
+                TObjPlayer::spawn_dead_spot_here((saddr)&pos, 0x32);
                 ((TObjPlayer *)&pos)->spawn_ground_effect(0x46);
             }
             vfunc_102();
@@ -1264,7 +1264,7 @@ void TObjEneBm9Mericarol::render() {
         plist = ((NJS_CNK_MODEL *)((NJS_OBJECT *)model)->child->sibling->sibling->sibling->model)->polygon_list;
         saved = plist[5];
         plist[5] = (u8)plist[5];
-        set_chunk_model_node_callback((s32)TObjEneBm9Mericarol::update_particle_effect);
+        set_chunk_model_node_callback((saddr)TObjEneBm9Mericarol::update_particle_effect);
     }
     if (m_438 & 8) {
         if (m_46c.has_visible_opacity() != 0) {
@@ -1367,11 +1367,11 @@ void TObjEneBm9Mericarol::sub_802CE68C(Vec *out, s32 node) {
 
 void fn_802CE510(int owner) {
   Stack_802CE510 stack;
-  int new_var;
+  saddr new_var;
   unsigned int temp_r31;
-  unsigned int particle_effect;
-  unsigned int temp_r3_3;
-  unsigned int temp_r3_4;
+  uaddr particle_effect;
+  uaddr temp_r3_3;
+  uaddr temp_r3_4;
   u8 *temp_r3;
   VecCopy((Vec *)(&stack.sp8), (const Vec *)(owner + 0x38));
   stack.spC += 15.0f;
@@ -1385,13 +1385,13 @@ void fn_802CE510(int owner) {
     }
     else
     {
-      play_persistent_sound((s32)((void *) ((TObjEnemy *)((void *) owner))->remap_sound_for_area(0x3B211)), owner, (owner + 0x38), 0, 0);
+      play_persistent_sound((saddr)((void *) ((TObjEnemy *)((void *) owner))->remap_sound_for_area(0x3B211)), owner, (owner + 0x38), 0, 0);
     }
     if (((((TObjMotion *)owner)->is_passing_frame((f32)(5.0f)) != 0) || (((TObjMotion *)owner)->is_passing_frame((f32)(15.0f)) != 0)) || (((TObjMotion *)owner)->is_passing_frame((f32)(25.0f)) != 0))
     {
       if (temp_r31 != 0)
       {
-        particle_effect = (unsigned int)spawn_particle_effect((const void *)(((RecoveredFields_802CE510_temp_r3 *) temp_r3)->field_4 + 0x38), 0x49);
+        particle_effect = (uaddr)spawn_particle_effect((const void *)(((RecoveredFields_802CE510_temp_r3 *) temp_r3)->field_4 + 0x38), 0x49);
         if (particle_effect != 0U)
         {
           ;
@@ -1400,7 +1400,7 @@ void fn_802CE510(int owner) {
           new_var = (int) particle_effect;
           ((TParticleCtrl *)new_var)->set_scale(5.0f, 1.0f);
         }
-        temp_r3_3 = (unsigned int)spawn_particle_effect((const void *)(((RecoveredFields_802CE510_temp_r3 *) temp_r3)->field_4 + 0x38), 0xA4);
+        temp_r3_3 = (uaddr)spawn_particle_effect((const void *)(((RecoveredFields_802CE510_temp_r3 *) temp_r3)->field_4 + 0x38), 0xA4);
         if (temp_r3_3 != 0U)
         {
           ((TParticleCtrl *)temp_r3_3)->set_scale(5.0f, 1.5f);
@@ -1408,7 +1408,7 @@ void fn_802CE510(int owner) {
       }
       else
       {
-        temp_r3_4 = (unsigned int)spawn_particle_effect((const void *)(owner + 0x38), 0xF3);
+        temp_r3_4 = (uaddr)spawn_particle_effect((const void *)(owner + 0x38), 0xF3);
         if (temp_r3_4 != 0U)
         {
           ((TParticleCtrl *)temp_r3_4)->set_scale(5.0f, 2.0f);

@@ -166,7 +166,7 @@ TUnk_804909C4::TUnk_804909C4(u8 *player, s32 arg2, s32 arg3) : TObjCollidable((T
     this->m_b8 = 0;
     *(s32 *)((s8 *)this + 0xBC) = (s32) (10430.38043493439 * atan2_float(*(f32 *)((s8 *)this + 0xAC), *(f32 *)((s8 *)this + 0xB4))) + 0x4000;
     this->m_c0 = 0x4000;
-    *(s32 *)((s8 *)this + 0xD0) = (s32)spawn_particle_effect_with_rotation((((u8 *)this) + 0x38), (((u8 *)this) + 0xB8), this->m_cc, 0x42);
+    *(s32 *)((s8 *)this + 0xD0) = (saddr)spawn_particle_effect_with_rotation((((u8 *)this) + 0x38), (((u8 *)this) + 0xB8), this->m_cc, 0x42);
     {
     Vec v = *(Vec *)(((u8 *)this) + 0xAC);
     vec_set_length((Vec *)(&v), 500.0f);

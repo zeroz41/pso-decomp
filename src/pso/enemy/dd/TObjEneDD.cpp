@@ -621,9 +621,9 @@ void TObjEneDD::sub_800BBA0C() {
 void TObjEneDD::set_field_378(s32 v) { *(s32*)((char*)this + 0x378) = v; }
 
 s32 load_enemy_bml_resource(u8 *arg0) {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
+    temp_r3 = (saddr)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, arg0, 0, 0, 0));
@@ -1172,7 +1172,7 @@ u8 TObjEneDD::is_valid_target() {
 }
 
 s32 TObjEneDD::is_target_unobstructed(s32 arg1) {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     if ((((TObjBase *)arg0)->is_alive() != 0) && (csnLookAt((void *)arg1, (void *)(arg0 + 0x2FC)) == 0U)) {
         return 1;
     }
@@ -1207,9 +1207,9 @@ void TObjEneDD::setup_instance(s32 arg0, s32 arg1, u8 *arg2, s32 arg3) {
     ((EneDDObj_800BA138*)obj_ene_dd_instance)->m12(arg2 + 0xC, (void*)arg2, (void*)arg3);
 }
 
-void TObjEneDD::setup(void* p, int a1, int a2) { TObjEneDD::setup_instance((s32)p, (s32)a1, (u8 *)a2, 0); }
+void TObjEneDD::setup(void* p, int a1, int a2) { TObjEneDD::setup_instance((saddr)p, (s32)a1, (u8 *)a2, 0); }
 
-void TObjEneDD__sub_800BA5A4(void* p, void* a1) { TObjEneDD::setup_instance((s32)p, (s32)((char*)p + 0x38), (u8 *)a1, (s32)((void*)0)); }
+void TObjEneDD__sub_800BA5A4(void* p, void* a1) { TObjEneDD::setup_instance((saddr)p, (saddr)((char*)p + 0x38), (u8 *)a1, (saddr)((void*)0)); }
 
 void TObjEneDD::emit_enemy_effect(s32 arg0, s32 arg1, u8 *arg2, s32 arg3) {
     ((TUnk_804928CC *)obj_ene_dd_instance)->sub_800BC3E8((u8 *)arg0);
@@ -1223,9 +1223,9 @@ void TObjEneDD::emit_enemy_effect(s32 arg0, s32 arg1, u8 *arg2, s32 arg3) {
     ((EneDDObj2_800BA138*)obj_ene_dd_instance)->m15(arg2 + 0xC, (void*)arg3);
 }
 
-void TObjEneDD::emit_effect(void* p, int a1, int a2) { TObjEneDD::emit_enemy_effect((s32)p, (s32)a1, (u8 *)a2, 0); }
+void TObjEneDD::emit_effect(void* p, int a1, int a2) { TObjEneDD::emit_enemy_effect((saddr)p, (s32)a1, (u8 *)a2, 0); }
 
-void TObjEneDD::emit_effect_at_position(void* a1) { TObjEneDD::emit_enemy_effect((s32)this, (s32)((char*)this + 0x38), (u8 *)a1, (s32)((void*)0)); }
+void TObjEneDD::emit_effect_at_position(void* a1) { TObjEneDD::emit_enemy_effect((saddr)this, (saddr)((char*)this + 0x38), (u8 *)a1, (saddr)((void*)0)); }
 
 void TObjEneDD__sub_800BA438(s32 arg0, u8 *arg1) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800BA318, sp8) == 0x0);
@@ -1372,7 +1372,7 @@ int TObjEneDD::update_secondary_light() { return select_actor_lighting(this); }
 int TObjEneDD::update_primary_light() { return restore_scene_lighting(this); }
 
 void TObjEneDD::draw_oriented_shadow(s32 arg1, s32 arg2, u32 arg3) {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     Stack_800B9D94 stack;
     direction_to_rotation_xz((u8 *)arg1, (&stack.sp8), (&stack.sp10));
     push_matrix();
@@ -1556,7 +1556,7 @@ s32 TObjEneDD_ST::select_nearest_target(f32 distance) {
 
 s32 TObjEneDD_ST::enemy_tick_target_acquisition(s32 *counter, s32 limit, f32 scale) {
     s32 var_r31;
-    if (tick_period_counter((s32)this, counter, limit) != 0) {
+    if (tick_period_counter((saddr)this, counter, limit) != 0) {
         var_r31 = this->vfunc_104(scale);
     } else {
         var_r31 = enemy_has_live_target();
@@ -1572,7 +1572,7 @@ s32 TObjEneDD_ST::update_linked_position(f32 scale) {
 }
 
 void TObjEneDD_ST::enemy_copy_target_destination() {
-    u32 temp_r4;
+    uaddr temp_r4;
     temp_r4 = *(u32 *)((s8 *)((u8 *)this) + 0x390);
     if (temp_r4 != 0U) {
         set_target_destination((const Vec *)(temp_r4 + 0x38));
@@ -1587,7 +1587,7 @@ void TObjEneDD_ST::enemy_init_validate_period(s32 arg1) {
 }
 
 s32 enemy_validate_retained_target(u8 *ene_dd_st) {
-    if (tick_period_counter((s32)ene_dd_st, (s32 *)(ene_dd_st + 0x3B8), (*(s32 *)((s8 *)ene_dd_st + 0x3BC))) != 0) {
+    if (tick_period_counter((saddr)ene_dd_st, (s32 *)(ene_dd_st + 0x3B8), (*(s32 *)((s8 *)ene_dd_st + 0x3BC))) != 0) {
         if (transform_relative_position__9TObjEneDDFPv(ene_dd_st, (int) (*(s32 *)((s8 *)ene_dd_st + 0x390))) != 0) {
             return 1;
         }
@@ -1641,26 +1641,26 @@ void TObjEneEpsilon::fire_attack_a(s32 out, s32 arg2, f32 farg0) {
 
 void TObjEneEpsilon__sub_800B9384(u8 *arg0, s32 arg1, f32 farg0) {
     s32 sp8;
-    ((TObjEneEpsilon *)arg0)->fire_attack_c((s32) &sp8, arg1, farg0);
+    ((TObjEneEpsilon *)arg0)->fire_attack_c((saddr) &sp8, arg1, farg0);
     ((TBoss5Gryphon *)arg0)->try_move_actor_xz_on_ground((u8 *)&sp8);
 }
 
 void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 farg0) {
     s32 sp8;
-    ((TObjEneEpsilon *)arg0)->fire_attack_b((s32) &sp8, arg1, farg0);
+    ((TObjEneEpsilon *)arg0)->fire_attack_b((saddr) &sp8, arg1, farg0);
     ((TBoss5Gryphon *)arg0)->try_move_actor_xz_on_ground((u8 *)&sp8);
 }
 
 
 void TObjEneEpsilon__sub_800B92F8(u8 *ene_epsilon, s32 arg1, f32 farg0) {
     s32 sp8;
-    ((TObjEneEpsilon *)ene_epsilon)->fire_attack_b((s32) &sp8, arg1, farg0);
+    ((TObjEneEpsilon *)ene_epsilon)->fire_attack_b((saddr) &sp8, arg1, farg0);
     ((TObjEneEpsilon *)(ene_epsilon))->vfunc_101((u8 *)&sp8);
 }
 
 void TObjEneEpsilon__sub_800B92AC(u8 *ene_epsilon, s32 arg1, f32 farg0) {
     s32 sp8;
-    ((TObjEneEpsilon *)ene_epsilon)->fire_attack_a((s32) &sp8, arg1, farg0);
+    ((TObjEneEpsilon *)ene_epsilon)->fire_attack_a((saddr) &sp8, arg1, farg0);
     ((TObjEneEpsilon *)(ene_epsilon))->vfunc_101((u8 *)&sp8);
 }
 

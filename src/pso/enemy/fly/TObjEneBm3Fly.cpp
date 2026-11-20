@@ -106,7 +106,7 @@ void TObjEneBm3Fly::load_resources() {
 }
 
 void *TObjEneBm3Fly::create(void *arg1, void *arg2, void *arg3, void *arg4) {
-    return new TObjEneBm3Fly((TObject *)tl_04, (TObjEneBm3FlyNest *)this, (s32)arg1, (s32)arg2, (const Vec *)arg3, (const Vec *)arg4);
+    return new TObjEneBm3Fly((TObject *)tl_04, (TObjEneBm3FlyNest *)this, (saddr)arg1, (saddr)arg2, (const Vec *)arg3, (const Vec *)arg4);
 }
 
 void TObjEneBm3Fly::release_shared_data() {
@@ -135,8 +135,8 @@ void TObjEneBm3Fly::init_child_params() {
     this->model = (void *)bm3_fly_nest_resources->models[0].model;
     this->texlist = bm3_fly_nest_resources->models[0].m_c;
     this->init_model(bm3_fly_collider_params, 1);
-    set_field_d8((s32)bm3_fly_action_table);
-    set_field_dc((s32)bm3_fly_nest_resources->motions);
+    set_field_d8((saddr)bm3_fly_action_table);
+    set_field_dc((saddr)bm3_fly_nest_resources->motions);
     this->requested_action = 0;
     set_animation(this->requested_action);
     set_field_b8(this->requested_action);
@@ -447,12 +447,12 @@ u16 TObjEneBm3Fly::get_active_id() {
 }
 
 void TObjEneBm3Fly::play_pitched_cue() {
-    play_persistent_sound(this->remap_sound_for_area(0x40039E22), (s32)this, (u32)&this->position, 0, 0);
+    play_persistent_sound(this->remap_sound_for_area(0x40039E22), (saddr)this, (uaddr)&this->position, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x400);
 }
 
 void TObjEneBm3Fly__play_orbit_flight_sound(TObjEneBm3Fly *fly) {
-    play_persistent_sound(fly->remap_sound_for_area(0x4003AB23), (s32)fly, (u32)&fly->position, 0, 0);
+    play_persistent_sound(fly->remap_sound_for_area(0x4003AB23), (saddr)fly, (uaddr)&fly->position, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x400);
 }
 
@@ -787,7 +787,7 @@ void TObjEneBm3Fly::execute_action(s32 arg1) {
                     this->m_390->receive_physical_attack(this, (1.0f));
                     this->m_390->apply_knockback_from_attacker((u8 *)this, (3.0f));
                     if ((TObjEneDD::check_v2_mode() != 0) && (this->random_ratio() < (0.05f))) {
-                        TObjEneDD::inflict_poison((s32)this, (u8 *)this->m_390);
+                        TObjEneDD::inflict_poison((saddr)this, (u8 *)this->m_390);
                     }
                 }
                 play_sound_effect(this->remap_sound_for_area(0x4003A524), &this->position, 0, 0);
@@ -914,7 +914,7 @@ void TObjEneBm3Fly__sub_800B02C8(TObjEneBm3Fly *ene_bm3_fly, s32 arg1) {
         ene_bm3_fly->m_394.y = (f32) ene_bm3_fly->m_444;
         ene_bm3_fly->m_394.z = (f32) (((3e+01f) * cos_table_lookup(ene_bm3_fly->m_448)) + ene_bm3_fly->m_41c.z);
         params = (Bm3FlyMovementParameters *)ene_bm3_fly->movementParameters;
-        ene_bm3_fly->m_3e0 = 2.0f + calc_scaled_value__15TObjBoss2TunnelFlf(params->unknown_08, (int)params, params->unknown_04, 3e+01f);
+        ene_bm3_fly->m_3e0 = 2.0f + calc_scaled_value__15TObjBoss2TunnelFlf(params->unknown_08, (saddr)params, params->unknown_04, 3e+01f);
         ene_bm3_fly->update_velocity();
         break;
     case 3:
@@ -1003,7 +1003,7 @@ void action__13TObjEneBm3FlyFPvi(TObjEneBm3Fly *child, s32 arg1) {
         TBoss8Dragon__sub_800BB7DC(child);
         TBoss8Dragon__sub_800BB7D8(child, 0xF1, (1.0f));
         play_sound_effect(child->remap_sound_for_area(0x4003E425), &child->position, 0, 0);
-        TBoss3Volopt::create_breakup_mdl((s32)TObjEneBm3Fly__breakup_model, (s32)&bm3_fly_breakup_params, child->texlist, (s32)&child->m_2fc, child->rotation_y);
+        TBoss3Volopt::create_breakup_mdl((saddr)TObjEneBm3Fly__breakup_model, (saddr)&bm3_fly_breakup_params, child->texlist, (saddr)&child->m_2fc, child->rotation_y);
         child->m_3c0 = 0;
         return;
     case 3:
@@ -1065,7 +1065,7 @@ void TObjEneBm3Fly::state_death_fall(s32 arg1) {
                     this->m_3c0 = 2;
                     this->m_3e4 = 0.0f;
                     this->m_428 &= ~2;
-                    spawn_landing_dead_spot((s32)&this->position, 0xA);
+                    spawn_landing_dead_spot((saddr)&this->position, 0xA);
                     ((TObjPlayer *)&this->position)->spawn_effect_at_ground(0x1E);
                 }
             }

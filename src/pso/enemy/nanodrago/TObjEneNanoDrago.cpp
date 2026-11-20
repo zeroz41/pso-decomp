@@ -149,9 +149,9 @@ extern "C" s32 minimap_render_dot(void *, int, int, int);
 
 // inferred: the per-variant tables load_resources fetches from TLobby (register_boss,
 // dispatch_shared_handler_b, register_object; boss5_gryphon_base/attack/resistance_params twins)
-s32 nano_drago_base_params;
-s32 nano_drago_attack_params;
-s32 nano_drago_resistance_params;
+saddr nano_drago_base_params;
+saddr nano_drago_attack_params;
+saddr nano_drago_resistance_params;
 s32 lbl_805D5254;
 BmlResource *nano_drago_entry_params_resource;
 // Filled by update_attack_parameters, read by the NanoDrago projectiles.
@@ -216,7 +216,7 @@ TObjEneNanoDrago::TObjEneNanoDrago(TObject *parent, void *setData) : TObjEnemyCu
     state36C = *(s16 *)((s8 *)arg2 + 0x3E);
     load_entry_params_nanodrago(variant);
     action_table = nanodrago_action_table;
-    set_field_d8((s32)action_table);
+    set_field_d8((saddr)action_table);
     init_collision_body_parts(this, nano_drago_bodies, 2);
     bodies[1].flags &= ~1;
     movementParameters = &nano_drago_movement;
@@ -265,7 +265,7 @@ void TObjEneNanoDrago::load_resources() {
     BmlModelEntry *modelEntries;
     u8 *resource;
 
-    storage = (u8 *)((int)::operator new(0x440));
+    storage = (u8 *)((saddr)::operator new(0x440));
     resource = storage;
     if (resource != NULL) {
         resource = (u8 *)(load_resource_from_descriptor(storage, 1, (s32 *)&bm_ene_nanodrago_resource_descriptor, 0, 0, 0));
@@ -280,7 +280,7 @@ void TObjEneNanoDrago::load_resources() {
     TLobby::spawn_npc_enemy((s16)(0x22), modelEntries[0].model, (NJS_TEXLIST *)modelEntries[0].m_c, &binding, (f32)(15.0f), (f32)(0.0f));
 }
 void TObjEneNanoDrago::free_resources() {
-    if ((u32) nano_drago_entry_params_resource != 0U) {
+    if ((uaddr) nano_drago_entry_params_resource != 0U) {
         free_bin_model_request((void*)nano_drago_entry_params_resource, 1);
         nano_drago_entry_params_resource = NULL;
     }
@@ -419,7 +419,7 @@ void TObjEneNanoDrago::render() {
         scale_matrix(0, modelScale, modelScale, modelScale);
         model_render_flags &= 0xFFFFFBFF;
         if (TObjPlayer::check_demo_mode() == 1) {
-            draw_chunk_object((int)model);
+            draw_chunk_object((saddr)model);
         } else if (m_388 & 4) {
             if (appearFade.has_visible_opacity() != 0) {
                 appearFade.set_flags_and_apply_damage_color();
@@ -602,7 +602,7 @@ void TObjEneNanoDrago::update_single_beam_state() {
     case 3:
     case 2:
     case 1:
-        if ((u32) target == 0U) {
+        if ((uaddr) target == 0U) {
             state = 4;
             return;
         }
@@ -615,7 +615,7 @@ void TObjEneNanoDrago::update_single_beam_state() {
             }
             break;
         case 2:
-            play_persistent_sound(0x4003AD1E, (s32)this, (u32)&position, 0, 0);
+            play_persistent_sound(0x4003AD1E, (saddr)this, (uaddr)&position, 0, 0);
             if (frame >= 20.0f) {
                 capture_beam_origins();
                 u32 obj = __nw__7TObjectFUl(0x100);
@@ -685,7 +685,7 @@ void TObjEneNanoDrago::update_multi_beam_state() {
             }
             break;
         case 2:
-            play_persistent_sound(0x4003AD1E, (s32)this, (u32)&position, 0, 0);
+            play_persistent_sound(0x4003AD1E, (saddr)this, (uaddr)&position, 0, 0);
             if (frame >= 20.0f) {
                 capture_beam_origins();
                 for (i = 0; i < beamTargetCount; i++) {
@@ -762,7 +762,7 @@ void TObjEneNanoDrago::update_flight_state() {
         break;
     case 1:
         advance_animation();
-        calc_velocity_toward_destination(this, position, moveDestination, TObjPlayer__sub_800DC434((s32)this, 0));
+        calc_velocity_toward_destination(this, position, moveDestination, TObjPlayer__sub_800DC434((saddr)this, 0));
         if (flightHeight < 50.0f) {
             s32 ok = 1;
             if (requested_action == 6 && frame < 22.0f) {
@@ -874,7 +874,7 @@ void TObjEneNanoDrago::update_growth_state() {
 void TObjEneNanoDrago::update_knockback_state() {
     s16 previousHp;
     s16 animation;
-    u32 entity;
+    uaddr entity;
     s32 retaliate;
     switch (state) {
     case 0:
@@ -914,7 +914,7 @@ void TObjEneNanoDrago::update_knockback_state() {
         m_378 = 1;
         previousHp = referenceHp;
         if (((s32) (previousHp - hp) > (s32) (previousHp / 4)) && !(actorFlags & 2)) {
-            entity = (u32)find_entity_by_id(m_2d4);
+            entity = (uaddr)find_entity_by_id(m_2d4);
             if (entity != 0) {
                 retaliate = 1;
                 if ((actorFlags & 0x01000000) && (xz_distance_squared((Vec *)(&position), (Vec *)((u8 *)entity + 0x38)) > 400.0f)) {
@@ -982,7 +982,7 @@ void TObjEneNanoDrago::update_dying_state() {
         timer = (timer - 1);
         if (timer <= 0) {
             ((TObjPlayer *)(&position))->spawn_ground_effect(0x1E);
-            TObjPlayer__sub_800D92BC((s32)&position, 0xF);
+            TObjPlayer__sub_800D92BC((saddr)&position, 0xF);
             state = 4;
             return;
         }
@@ -1150,7 +1150,7 @@ s32 TObjEneNanoDrago::collect_beam_targets() {
     beamTargetCount = 0;
     for (i = 0; i < registered_player_count + lbl_805D5870; i++) {
         candidate = TObjPlayer::get_player_data(i);
-        if (TObjPlayer::is_valid_and_active((u32)candidate) != 0) {
+        if (TObjPlayer::is_valid_and_active((uaddr)candidate) != 0) {
             add_target_in_front_arc(candidate);
         }
     }
@@ -1169,7 +1169,7 @@ void TObjEneNanoDrago::capture_beam_origins() {
     get_anim_node_position(0x54, &beamOrigins[1]);
 }
 void TObjEneNanoDrago::update_attack_parameters() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     lbl_805D525C = TObjPlayer__sub_800DC434((arg0), 1);
     lbl_805D5260 = TObjPlayer__sub_800DC434((arg0), 2);
     lbl_805D5264 = TObjPlayer__sub_800DC434((arg0), 3);
@@ -1232,7 +1232,7 @@ void TObjEneNanoDrago::find_open_direction(Vec *direction) {
 }
 #pragma pop
 s32 TObjEneNanoDrago::update_action_hold_status() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     if (TObjChara::update_action_hold_status() != 0) {
         ((TObjEneNanoDrago *)arg0)->sub_800D9BBC();
         return 1;

@@ -285,7 +285,7 @@ void TObjEneSlimeOne::set_motion_state(s32 arg1) {
   {
     s32 inst = TObjEneSlimeOne::get_instance();
     E12_800EC7F4 *e = (((E12_800EC7F4 *) slime_one_motion_state_table) + arg0->state) - 7;
-    unsigned int id = (s32) slime_one_attack_target_id_table[((TObjEneSlimeOne *)(arg0->obj))->get_attack_target()];
+    unsigned int id = (saddr) slime_one_attack_target_id_table[((TObjEneSlimeOne *)(arg0->obj))->get_attack_target()];
     arg0->f8 = get_bml_model(inst, id);
     arg0->fC = get_bml_texlist(inst, id);
     arg0->f10 = (Res_800EC7F4 *) get_bml_motion(inst, e->a);

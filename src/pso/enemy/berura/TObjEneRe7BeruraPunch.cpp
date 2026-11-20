@@ -35,7 +35,7 @@ void TObjEneRe7BeruraPunch::apply_hit_if_active(void *target, f32 *) {
     if (TObjEneDD::check_v2_mode() != 0) {
         get_entity_id((void *)target);
         if (is_player_entity_id() != 0) {
-            entity = (s32)find_entity_by_id(this->owner_id);
+            entity = (saddr)find_entity_by_id(this->owner_id);
             if ((entity != 0) && (random_ratio__9TObjCharaFv() < 0.1f)) {
                 TObjEneDD__sub_800BA438(entity, (u8 *)target);
             }
@@ -73,7 +73,7 @@ void TObjEneRe7BeruraPunch::render() {
                 return;
             }
         }
-        ((TObjEneDD *)&this->position)->draw_oriented_shadow((s32)&this->ground_normal, 0, (u32)0);
+        ((TObjEneDD *)&this->position)->draw_oriented_shadow((saddr)&this->ground_normal, 0, (u32)0);
         TObjPlayer::toggle_particle_effect();
         push_matrix();
         post_translate_matrix(&this->position);
@@ -212,7 +212,7 @@ void TObjEneRe7BeruraPunch::snap_to_ground() {
 
     VecCopy(&origin, &this->m_dc);
     origin.y = 20.0f;
-    hit = (CsnHit *)csnVecterUnder((s32)&origin, 0x16EF);
+    hit = (CsnHit *)csnVecterUnder((saddr)&origin, 0x16EF);
     if (hit != 0) {
         VecCopy(&this->position, &hit->contact->point);
         VecCopy(&this->ground_normal, &hit->contact->normal);
@@ -231,7 +231,7 @@ void TObjEneRe7BeruraPunch::snap_to_ground() {
 }
 
 void TObjEneRe7BeruraPunch::reset() {
-    fill_value_array((s32)this->attack_history);
+    fill_value_array((saddr)this->attack_history);
     this->m_f4 = 1.0f;
     this->m_f8.reset_color();
     this->m_118 = 0;

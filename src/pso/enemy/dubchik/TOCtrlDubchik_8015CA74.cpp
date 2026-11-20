@@ -119,9 +119,9 @@ TOCtrlDubchik::~TOCtrlDubchik() {
 }
 
 void TOCtrlDubchik::load_shared_resource() {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
+    temp_r3 = (saddr)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &bm_fs_obj_zombie_con_resource_descriptor, 0, 0, 0));
@@ -155,28 +155,28 @@ void TOCtrlDubchik::render() {
         TObjFish::set_global_param(texlist);
         node = (NJS_OBJECT *)model;
         post_translate_matrix(node->pos);
-        draw_ginja_model((s32)node->model);
+        draw_ginja_model((saddr)node->model);
         push_matrix();
         node = node->child;
         translate_matrix(0, node->pos[0], node->pos[1] + part_spread, node->pos[2]);
-        draw_ginja_model((s32)node->model);
+        draw_ginja_model((saddr)node->model);
         pop_matrix();
         push_matrix();
         node = node->sibling;
         translate_matrix(0, node->pos[0], node->pos[1] - part_spread, node->pos[2]);
-        draw_ginja_model((s32)node->model);
+        draw_ginja_model((saddr)node->model);
         pop_matrix();
         push_matrix();
         node = node->sibling;
         post_translate_matrix(node->pos);
         rotate_matrix_y(NULL, spin_angle);
-        draw_ginja_model((s32)node->model);
+        draw_ginja_model((saddr)node->model);
         TParticleCtrl::begin_effect_render();
         push_matrix();
         node = node->child;
         post_translate_matrix(node->pos);
         scale_matrix(NULL, effect_scale, 1.0f, effect_scale);
-        draw_ginja_model((s32)node->model);
+        draw_ginja_model((saddr)node->model);
         pop_matrix();
         TParticleCtrl::end_effect_render();
         pop_matrix();
@@ -248,7 +248,7 @@ void TOCtrlDubchik::sub_8015CE80() {
     for (i = registered_player_count; i < registered_player_count + lbl_805D5870; i++) {
         p = (u8 *)TObjPlayer::get_player_data(i);
         if (p != NULL && p != ((u8 *)this) && ((TObjCollidable *)p)->obj_testFlags30(0x800) != 0 &&
-            ((TUnk_804B6C24 *)p)->check_value_equals((s32)TObjEneDubchik__class_name) != 0 &&
+            ((TUnk_804B6C24 *)p)->check_value_equals((saddr)TObjEneDubchik__class_name) != 0 &&
             *(s32 *)(p + 0x368) == 0 && *(s16 *)(((u8 *)this) + 0x28) == *(s16 *)(p + 0x28)) {
             this->mode = 1;
         }
@@ -331,7 +331,7 @@ void TOCtrlDubchik::sub_8015CA74() {
     }
     for (i = registered_player_count; i < registered_player_count + lbl_805D5870; i++) {
         p = (u8 *)TObjPlayer::get_player_data(i);
-        if (p != NULL && p != arg0 && ((TUnk_804B6C24 *)p)->check_value_equals((s32)TObjEneDubchik__class_name) != 0 &&
+        if (p != NULL && p != arg0 && ((TUnk_804B6C24 *)p)->check_value_equals((saddr)TObjEneDubchik__class_name) != 0 &&
             *(s32 *)(p + 0x368) == 0 && *(s16 *)(arg0 + 0x28) == *(s16 *)(p + 0x28)) {
             dubchik_start_dying(p);
         }
@@ -349,7 +349,7 @@ f32 TOCtrlDubchik::receive_weapon_special_attack(void *attacker, void *hit) {
         } else {
             VecCopy(&pos, (Vec *)&m_2fc);
         }
-        TOCtrlDubchik::create_font((s32)&pos, (s32)0xFFFF0000, 0x14, (s32)"MISS");
+        TOCtrlDubchik::create_font((saddr)&pos, (s32)0xFFFF0000, 0x14, (saddr)"MISS");
     }
     return 0.0f;
 }

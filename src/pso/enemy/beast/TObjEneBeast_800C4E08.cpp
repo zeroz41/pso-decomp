@@ -157,7 +157,7 @@ void TUnk_80493450::beast_update_dead() {
         this->beast_retire_corpse();
     }
 }
-void TUnk_80493450::vfunc_63() { if (this->mode != 8) { this->mode = 8; this->requested_action = 8; unlink_enemy_group_relations(); clear_player_status_flag((s32)((void*)0), (u32)((void*)1)); ((TObjPlayer *)this)->refresh_lobby_state(); send_entity_set_flags(); } }
+void TUnk_80493450::vfunc_63() { if (this->mode != 8) { this->mode = 8; this->requested_action = 8; unlink_enemy_group_relations(); clear_player_status_flag((saddr)((void*)0), (uaddr)((void*)1)); ((TObjPlayer *)this)->refresh_lobby_state(); send_entity_set_flags(); } }
 void TUnk_80493450::beast_update_hurt() {
     u8 *arg0 = (u8 *)this;
     Vec v;
@@ -186,7 +186,7 @@ void TUnk_80493450::beast_update_hurt() {
     }
     if (action_flags != 8) {
         obj_clearFlags30(0x600);
-        clear_player_status_flag((s32)((void *)0), (u32)((void *)0x04000000));
+        clear_player_status_flag((saddr)((void *)0), (uaddr)((void *)0x04000000));
         if ((s32)subtype == 0) {
             if ((f32)hp < (f32)hpmax * parameters[0]) {
                 obj_clearFlags30(0x1000);
@@ -268,7 +268,7 @@ void TUnk_80493450::vfunc_60() {
             this->requested_action = 10;
         }
         obj_clearFlags30(0x04040000);
-        clear_player_status_flag((s32)((void *)0), (u32)((void *)0x0A000000));
+        clear_player_status_flag((saddr)((void *)0), (uaddr)((void *)0x0A000000));
         break;
     case 2:
         break;
@@ -282,7 +282,7 @@ void TUnk_80493450::vfunc_60() {
         }
         obj_setFlags30(this, 0x200000);
         obj_clearFlags30(0x04040000);
-        clear_player_status_flag((s32)((void *)0), (u32)((void *)0x0A000000));
+        clear_player_status_flag((saddr)((void *)0), (uaddr)((void *)0x0A000000));
         break;
     }
 }
@@ -304,7 +304,7 @@ s32 TUnk_80493450::update_movement_status() {
       this->phase = 0;
       this->requested_action = 0;
       ((TObjBase *)arg0)->obj_clearFlags30(0x04040000);
-      ((TObjCollidable *)arg0)->clear_player_status_flag((s32)((void*)(0)), (u32)((void*)(0x0A000000)));
+      ((TObjCollidable *)arg0)->clear_player_status_flag((saddr)((void*)(0)), (uaddr)((void*)(0x0A000000)));
     }
     return 1;
   }
@@ -328,7 +328,7 @@ s32 TUnk_80493450::update_action_hold_status() {
       this->phase = 0;
       this->requested_action = 0;
       ((TObjBase *)arg0)->obj_clearFlags30(0x04040000);
-      ((TObjCollidable *)arg0)->clear_player_status_flag((s32)((void*)(0)), (u32)((void*)(0x0A000000)));
+      ((TObjCollidable *)arg0)->clear_player_status_flag((saddr)((void*)(0)), (uaddr)((void*)(0x0A000000)));
     }
     return 1;
   }
@@ -348,7 +348,7 @@ void TUnk_80493450::beast_update_group_chase() {
     if (target != NULL) {
         Vec v = *(Vec *)&((TObjChara *)target)->m_2fc;
         d = enemy_backstep_from_point(this, &v, m_398);
-        turn_toward_direction((s32)((Sub350_800C57F0 *)movementParameters)->p8, (Vec *)&x_speed);
+        turn_toward_direction((saddr)((Sub350_800C57F0 *)movementParameters)->p8, (Vec *)&x_speed);
         r = m_398 + bodies->radius;
         if (d < r * r) {
             mode = 3;
@@ -430,7 +430,7 @@ void TUnk_80493450::update_turn_toward_target() {
             Vec d;
             VecCopy(&d, (const Vec *)&((TObjChara *)arg0->target)->m_2fc);
             subtract_vector(&d, &arg0->m_2fc);
-            ang = arg0->turn_toward_direction((s32)((Ctl_800C5B10 *)arg0->movementParameters)->field_8, &d);
+            ang = arg0->turn_toward_direction((saddr)((Ctl_800C5B10 *)arg0->movementParameters)->field_8, &d);
             if (d.x * d.x + d.z * d.z < BEAST_GROUP_APPROACH_DISTANCE_SQ || arg0->children == 0) {
                 arg0->mode = 3;
                 arg0->phase = 1;
@@ -471,7 +471,7 @@ void TUnk_80493450::vfunc_59() {
     switch (this->mode) {
     case 1:
         this->phase = 0;
-        if ((u32) this->children == 0U) {
+        if ((uaddr) this->children == 0U) {
             this->mode = 3;
             this->requested_action = 7;
         } else {
@@ -479,7 +479,7 @@ void TUnk_80493450::vfunc_59() {
             this->requested_action = 0xA;
         }
         ((TObjBase *)arg0)->obj_clearFlags30(0x04040000);
-        ((TObjCollidable *)arg0)->clear_player_status_flag((s32)((void*)(0)), (u32)((void*)(0x0A000000U)));
+        ((TObjCollidable *)arg0)->clear_player_status_flag((saddr)((void*)(0)), (uaddr)((void*)(0x0A000000U)));
         break;
     case 2:
     case 3:
@@ -492,7 +492,7 @@ void TUnk_80493450::vfunc_59() {
         this->phase = 1;
         this->requested_action = 2;
         ((TObjBase *)arg0)->obj_clearFlags30(0x04040000);
-        ((TObjCollidable *)arg0)->clear_player_status_flag((s32)((void*)(0)), (u32)((void*)(0x0A000000U)));
+        ((TObjCollidable *)arg0)->clear_player_status_flag((saddr)((void*)(0)), (uaddr)((void*)(0x0A000000U)));
         break;
     }
 }
@@ -603,7 +603,7 @@ end:
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     minimap_render_dot((u8 *)&this->position, -0x5DB4, 1, 0);
     ((TObjBase *)arg0)->obj_clearFlags30(0x04240000);
-    ((TObjCollidable *)arg0)->clear_player_status_flag((s32)((void *)0), (u32)((void *)0x0A000000));
+    ((TObjCollidable *)arg0)->clear_player_status_flag((saddr)((void *)0), (uaddr)((void *)0x0A000000));
 }
 
 void TUnk_80493450::vfunc_58() {

@@ -78,7 +78,7 @@ __declspec(section ".rodata") extern const u8 TObjEneRe2Flower__class_name_strin
 };
 
 __declspec(section ".rodata") extern const u32 lbl_8043BB90[4] = {
-    0x00000000, (u32)TObjEneRe2Flower__animation_descriptors, 0x00010006, 0x00080000,
+    0x00000000, (uaddr)TObjEneRe2Flower__animation_descriptors, 0x00010006, 0x00080000,
 };
 
 __declspec(section ".rodata") extern const u32 lbl_8043BBA0[5] ATTRIBUTE_ALIGN(4) = {

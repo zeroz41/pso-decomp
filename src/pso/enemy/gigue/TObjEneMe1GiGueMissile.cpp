@@ -101,7 +101,7 @@ void TObjEneMe1GiGueMissile::render() {
 #pragma opt_common_subs off
 void TObjEneMe1GiGueMissile::run_task() {
     f32 frame;
-    m_1c = (u32)find_entity_by_id(m_34);
+    m_1c = (uaddr)find_entity_by_id(m_34);
     if (m_1c == 0) {
         TObject::queue_destruction();
         return;

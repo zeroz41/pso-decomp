@@ -121,7 +121,7 @@ u8 *gyaranzo_resource_ptrs[13];
 
 EnemyTargetCandidate TObjGyaranzoMissile_target_slots[4];
 
-extern u32 gyaranzo_bml_resource;
+extern uaddr gyaranzo_bml_resource;
 
 extern u8 *tl_05;
 
@@ -477,11 +477,11 @@ s32 draw_chunk_object(int);
 extern u32 *gyaranzo_model_resources[];
 
 
-extern s32 gyaranzo_boss_stats_handle;
+extern saddr gyaranzo_boss_stats_handle;
 
-extern s32 gyaranzo_boss_stats_ptr_b;
+extern saddr gyaranzo_boss_stats_ptr_b;
 
-extern s32 gyaranzo_object_handle;
+extern saddr gyaranzo_object_handle;
 
 extern s32 gyaranzo_missile_param_table;
 
@@ -723,11 +723,11 @@ void *gyaranzo_actor_vtable_ops[83] = {
 #define gyaranzo_death_breakup_params ((u8 *)gyaranzo_death_breakup_params)
 #define gyaranzo_flagged_resource_index_table ((s16 *)gyaranzo_flagged_resource_index_table)
 #define gyaranzo_resource_index_table ((s16 *)gyaranzo_resource_index_table)
-s32 gyaranzo_boss_stats_handle;
+saddr gyaranzo_boss_stats_handle;
 
-s32 gyaranzo_boss_stats_ptr_b;
+saddr gyaranzo_boss_stats_ptr_b;
 
-s32 gyaranzo_object_handle;
+saddr gyaranzo_object_handle;
 
 s32 gyaranzo_missile_param_table;
 
@@ -737,7 +737,7 @@ f32 TObjGyaranzoMissile__speed_scale;
 
 f32 TObjGyaranzoMissile__max_range;
 
-u32 gyaranzo_bml_resource;
+uaddr gyaranzo_bml_resource;
 
 u32 *lbl_805D5200;
 
@@ -757,12 +757,12 @@ u8 *TObjEneGyaranzo__ct(TObjEneGyaranzo *arg0, s32 arg1, u8 *arg2) {
     *(u8 **)((s8 *)arg0 + 0x18) = (u8 *) ((void * *)gyaranzo_actor_vtable_ops);
     __ct__13TUnk_80494938Fv(((u8 *)arg0 + 0x3D0));
     __construct_array((u8 *)arg0 + 0x3EC, &__ct__15RenderFadeStateFv, &__dt__15RenderFadeStateFv, 0x1C, 4);
-    *(s32 *)((s8 *)arg0 + 0) = (s32)TObjEneGyaranzo__class_name;
+    *(s32 *)((s8 *)arg0 + 0) = (saddr)TObjEneGyaranzo__class_name;
     ((TObjEneGyaranzo *)(arg0))->apply_set_data(arg2);
     VecCopy((Vec *)((u8 *)arg0 + 0x290), (const Vec *)(VecCopy((Vec *)((u8 *)arg0 + 0x29C), (const Vec *)((u8 *)arg0 + 0x38))));
     *(s32 *)((s8 *)arg0 + 0xDC) = (s32) *(s32 *)((s8 *)(*(u8 * *)&gyaranzo_bml_resource) + 0x430);
     arg0->action_table = gyaranzo_action_table;
-    ((TObjMotion *)arg0)->set_field_d8((s32)arg0->action_table);
+    ((TObjMotion *)arg0)->set_field_d8((saddr)arg0->action_table);
     init_collision_body_parts(arg0, (void *) lbl_804941F8, 1);
     arg0->variant = 0;
     arg0->movementParameters = (u8 *) lbl_804941DC;
@@ -825,7 +825,7 @@ void TLobby::load_gyaranzo_resources() {
         if (p != NULL) {
             p = (void *)load_resource_from_descriptor(p, 5, &bm_ene_gyaranzo_resource_descriptor, 0, 0, 0);
         }
-        gyaranzo_bml_resource = (u32)p;
+        gyaranzo_bml_resource = (uaddr)p;
     }
     for (i = 0; i < 0x16; i++) {
         ((s32 *)gyaranzo_model_resources)[i] = (s32)find_model_node(AREA->res->r38, gyaranzo_resource_index_table[i]);
@@ -989,7 +989,7 @@ void TObjEneGyaranzo::sub_800D37F4() {
     case 1:
         if (this->is_actor_cadence_frame(0x1E) != 0) {
             f32 *p = *(f32 * *)&this->movementParameters;
-            r = find_nearest_visible_player(this, 0, (int)p, 50.0f + *p);
+            r = find_nearest_visible_player(this, 0, (saddr)p, 50.0f + *p);
             if (this->targetId == 0xFFFF) {
                 this->targetId = r;
             }
@@ -1005,7 +1005,7 @@ void TObjEneGyaranzo::sub_800D37F4() {
 #pragma opt_common_subs off
 void TObjEneGyaranzo::render() {
     s32 temp_r3;
-    s32 var_r30;
+    saddr var_r30;
     s32 var_r29;
     if (!(this->actorFlags & 0x02000000)) {
         var_r30 = 0;
@@ -1016,7 +1016,7 @@ void TObjEneGyaranzo::render() {
         temp_r3 = this->classify_actor_view_detail(200.0f, 400.0f, 40.0f);
         if (temp_r3 != 0) {
             saved_model_render_flags = model_render_flags;
-            var_r30 = (s32)&((Obj_800D35D8 *)((u8 *)this))->arr[var_r30];
+            var_r30 = (saddr)&((Obj_800D35D8 *)((u8 *)this))->arr[var_r30];
             ((RenderFadeState *)var_r30)->update_fast();
             if (((RenderFadeState *)var_r30)->updateFromCamera((const f32*)(((u8 *)this) + 0x2FC)) != 0) {
                 ((VObj_14_fddec9 *)(var_r30))->m6();
@@ -1222,7 +1222,7 @@ void TObjPlayer::update_death_breakup() {
         ((TObjMotion *)arg0)->advance_animation();
         arg0->timer--;
         if (arg0->timer < 0) {
-            TBoss3Volopt::create_breakup_mdl((s32)gyaranzo_breakup_model_obj, (s32)gyaranzo_death_breakup_params, (s32)this->texlist, (s32)arg0->v2FC, (s32)this->rotation_y);
+            TBoss3Volopt::create_breakup_mdl((s32)gyaranzo_breakup_model_obj, (saddr)gyaranzo_death_breakup_params, (s32)this->texlist, (saddr)arg0->v2FC, (s32)this->rotation_y);
             ((TObjEnemy *)arg0)->send_entity_set_flags();
             ((TObjPlayer *)(arg0->v2FC))->trigger_dell_biter_events();
             play_sound_effect((void *)((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003AD10), arg0->pos, 0, 0);
@@ -1317,7 +1317,7 @@ void TObjEneGyaranzo::spawn_missile() {
     this->get_anim_node_position(0x18, &launch_position);
     temp_r31 = (s32) (182.04445f * ((240.0f * random_ratio()) - 120.0f));
     new TUnk_8049442C(this, &launch_position, rotation_y, temp_r31);
-    spawn_particle_effect((void *)((s32) &launch_position), 0xF3);
+    spawn_particle_effect((void *)((saddr) &launch_position), 0xF3);
     play_sound_effect((void *)(this->remap_sound_for_area(0x4003B20D)), &position, 0, 0);
 }
 #pragma pop
@@ -1489,7 +1489,7 @@ void TObjEneGyaranzo::select_targets() {
     }
     for (i = 0; i < count; i++) {
         p = get_player_data__10TObjPlayerFi(i);
-        if (TObjPlayer::is_valid_and_active((u32)p) == 0) continue;
+        if (TObjPlayer::is_valid_and_active((uaddr)p) == 0) continue;
         if (p == arg0) continue;
         if (*(u32 *)((s8 *)p + 0x30) & 0x2000800) continue;
         VecCopy((Vec *)&d, (const Vec *)(p + 0x2FC));

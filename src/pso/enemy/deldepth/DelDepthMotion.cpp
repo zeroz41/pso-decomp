@@ -48,7 +48,7 @@ void DelDepthMotion::draw_model_part() {
     temp_r0 = motion;
     if (temp_r0 != -1) {
         if (temp_r0 < 6) {
-            TObjFish::set_global_param(get_bml_texlist((BmlResource *)((s32)TObjEneDelDepth::get_data()), 0));
+            TObjFish::set_global_param(get_bml_texlist((BmlResource *)((saddr)TObjEneDelDepth::get_data()), 0));
             actor->draw();
             return;
         }
@@ -130,7 +130,7 @@ void DelDepthMotion::set_motion(s32 arg1) {
             actor->set_field_b8((s16)id);
         }
     } else if (id < 0xA) {
-        s32 data = (s32)TObjEneDelDepth::get_data();
+        saddr data = (saddr)TObjEneDelDepth::get_data();
         DelDepthMotionBinding *e = &lbl_804E8760[motion] - 6;
         model = (void *)get_bml_model((BmlResource *)data, 1);
         texture = get_bml_texlist((BmlResource *)data, 1);
@@ -139,7 +139,7 @@ void DelDepthMotion::set_motion(s32 arg1) {
         speed = e->speed;
         frame = lbl_805DF2EC;
     } else {
-        s32 data = (s32)TObjEneDelDepth::get_data();
+        saddr data = (saddr)TObjEneDelDepth::get_data();
         DelDepthPairBinding *e = &lbl_804E8780[motion] - 10;
         DelDepthModelMotion *q;
         model = (void *)get_bml_model((BmlResource *)data, e->first.model);

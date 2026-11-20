@@ -436,11 +436,11 @@ void __destroy_arr(void *, void *, int, int);
 
 void __construct_array(void *, void *, void *, int, int);
 
-s32 recobox_boss_register_id;
+saddr recobox_boss_register_id;
 
-s32 lbl_805D6B14;
+saddr lbl_805D6B14;
 
-s32 TObjEneRecobox__shared_object_handle;
+saddr TObjEneRecobox__shared_object_handle;
 
 extern "C" void vfunc_6__8TObjBaseFPsl();
 
@@ -791,7 +791,7 @@ u8 *TObjEneRecobox__ct(u8 *ene_recobox, s32 arg1, u8 *arg2);
 void *TObjEneRecobox__create(void *arg0) {
     void *o = TObject::operator new(0x4F4);
     if (o != NULL) {
-        o = TObjEneRecobox__ct((u8 *)o, (s32)tl_04, (u8 *)arg0);
+        o = TObjEneRecobox__ct((u8 *)o, (saddr)tl_04, (u8 *)arg0);
     }
     return o;
 }
@@ -842,7 +842,7 @@ u8 *TObjEneRecobox__ct(u8 *ene_recobox, s32 arg1, u8 *set_data) {
     ((TObjEneDD *)ene_recobox)->init_model((CollisionBody *)lbl_804EC684, (s32)1);
     ((TObjEneRecobox *)ene_recobox)->m_300 = 20.0f + *(f32 *)((s8 *)ene_recobox + 0x3C);
     ((TObjEneRecobox *)ene_recobox)->vfunc_88();
-    ((TObjMotion *)ene_recobox)->set_field_d8((s32)TObjEneRecobox__animation_entries);
+    ((TObjMotion *)ene_recobox)->set_field_d8((saddr)TObjEneRecobox__animation_entries);
     ((TObjMotion *)ene_recobox)->set_field_dc(*(s32 *)((s8 *)TObjEneRecobox__static_instance + 0x430));
     ((TObjEneRecobox *)ene_recobox)->requested_action = 0;
     ((TObjMotion *)ene_recobox)->set_animation(((TObjEneRecobox *)ene_recobox)->requested_action);
