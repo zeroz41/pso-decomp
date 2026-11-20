@@ -154,7 +154,7 @@ TObjMapCsn::TObjMapCsn(s32 arg1, s32 arg2) : TObjCollidable((TObject *)arg1) {
     collision_model.face_count = 8;
     collision_model.faces = collision_faces;
     collision_group.model = &collision_model;
-    VecCopy((Vec *)&collision_group.center, &position);
+    VecCopy(&collision_group.center, &position);
     temp_f1 = 0.5f * scale.x;
     temp_f0 = 0.5f * scale.z;
     collision_group.radius = temp_f1 * temp_f1 + temp_f0 * temp_f0;

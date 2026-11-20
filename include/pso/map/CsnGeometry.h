@@ -5,10 +5,6 @@
 #include <dolphin/mtx.h>
 #include <stddef.h>
 
-struct CsnVector {
-    f32 x, y, z;
-};
-
 // One collision triangle (field names inferred from evaluate_ground_triangles).
 struct CsnFace {
     u16 vertex[3]; // indices into CsnModel::vertices
@@ -30,12 +26,11 @@ typedef char CsnFaceSize[sizeof(CsnFace) == 0x24 ? 1 : -1];
 
 struct CsnGroup {
     CsnModel *model;
-    CsnVector center;
+    Vec center;
     f32 radius;
     u32 flags;
 };
 
-typedef char CsnVectorSize[sizeof(CsnVector) == 0xC ? 1 : -1];
 typedef char CsnGroupSize[sizeof(CsnGroup) == 0x18 ? 1 : -1];
 typedef char CsnGroupCenterOffset[offsetof(CsnGroup, center) == 4 ? 1 : -1];
 typedef char CsnGroupRadiusOffset[offsetof(CsnGroup, radius) == 0x10 ? 1 : -1];

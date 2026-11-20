@@ -9,8 +9,6 @@
 
 #include "pso/map/CsnGeometry.h"
 
-CsnGroup* select_ground_query_groups(CsnVector* origin, u32 mask);
-
 // A radial wall query (select_deepest_wall_ray's input): count rays from
 // origin, one per entry of rays (field names inferred).
 struct WallRayQuery {
@@ -38,6 +36,7 @@ struct WallRayResult {
 
 extern "C" {
 CsnHit *csnVector(const Vec *from, const Vec *to, u32 mask);
+CsnGroup *select_ground_query_groups(const Vec *origin, u32 mask);
 // The deepest wall the rays of query reach within its radius, NULL for none.
 WallRayResult *query_wall_radial(WallRayQuery *query);
 // Line of sight: the hit record when a wall lies between from and to.
@@ -48,7 +47,7 @@ extern "C" {
 void TObjPlayer__sub_80079108(void);
 void TObjPlayer__sub_8007910C(CsnContact *contact, NJS_ARGB *color);
 void TObjPlayer__sub_80079110(CsnHit *hit);
-void TObjPlayer__sub_80079114(void);
+void TObjPlayer__sub_80079114(CsnGroup *const *groups);
 s32 TObjPlayer__sub_80079118(const char *name);
 void TObjPlayer__sub_8007911C(void);
 void TObjPlayer__sub_80079120(s32 _w0);
@@ -59,6 +58,4 @@ s32 get_csn_group_flags(u8 arg0);
 s32 prepare_wall_query_polygons(void *arg0, f32 r, s32 mask);
 void *query_prepared_wall_polygons(void *self);
 s32 query_wall_segment(void *arg0, void *arg1, void *arg2, s32 arg3);
-CsnGroup *select_ground_query_groups(CsnVector *origin, u32 mask);
-
 #endif

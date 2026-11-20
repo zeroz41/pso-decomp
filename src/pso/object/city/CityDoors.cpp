@@ -217,7 +217,7 @@ s32 TObjCityDoor_Lobby::build_door_collision_triangles() {
     f32 three;
     f32 zero;
 
-    VecCopy((Vec *)&collision_group.center, &position);
+    VecCopy(&collision_group.center, &position);
     push_matrix();
     set_matrix_identity(0);
     post_translate_matrix((u8 *)&position);
@@ -338,7 +338,7 @@ Obj_80181F10 *TObjCityDoor_Lobby__ct(Obj_80181F10 *self, void *parent, s32 arg2)
     *(s32 *)self = (s32)TObjCityDoor_Lobby__name.value;
     self->m5(arg2);
     self->collision_group.model = &self->collision_model;
-    VecCopy((Vec *)&self->collision_group.center, &self->pos);
+    VecCopy(&self->collision_group.center, &self->pos);
     self->collision_group.radius = 2000.0f;
     self->collision_group.flags = 0xDE0;
     self->collision_model.face_count = 8;
