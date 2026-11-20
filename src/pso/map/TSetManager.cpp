@@ -185,7 +185,7 @@ s32 load_map_decoration_rows(s32 map, s32 grp, s32 room) {
         return 0;
     }
     TLobby__data_805D6120 = (u32)size / 0x44;
-    if ((TLobby__data_805D611C = (u32)mem_alloc(TLobby__data_805D6120 * 0x44)) == 0) {
+    if ((TLobby__data_805D611C = (uaddr)mem_alloc(TLobby__data_805D6120 * 0x44)) == 0) {
         return 0;
     }
     read_disc_file(path, (void *)TLobby__data_805D611C);

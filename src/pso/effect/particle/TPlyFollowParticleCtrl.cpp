@@ -142,7 +142,7 @@ s32 create_attached_oneshot_emitter(unsigned long long arg1, s32 arg2) {
   stack.spC = 0;
   stack.sp8 = 0;
   stack.sp10 = -0x8000;
-  oneshot_particle_emitter = (s32)create_oneshot_particle_emitter((entity + 0x74), (&stack.sp8), arg2, 0x50);
+  oneshot_particle_emitter = (saddr)create_oneshot_particle_emitter((entity + 0x74), (&stack.sp8), arg2, 0x50);
   if (oneshot_particle_emitter != 0)
   {
     ((TParticleCtrl *)oneshot_particle_emitter)->set_owner_id(arg1);

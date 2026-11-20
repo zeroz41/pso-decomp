@@ -685,7 +685,7 @@ void load_particle_entry_resources(void) {
         p = load_resource_from_descriptor(p, 1, particle_regular_bml_descriptor, 0, 0, 0);
     }
     TParticleCtrl__regular_bml_resource = (uaddr)p;
-    TParticleCtrl__texture_list = (u32)load_gvm_texture_file((saddr)lbl_804394D4);
+    TParticleCtrl__texture_list = (uaddr)load_gvm_texture_file((saddr)lbl_804394D4);
 }
 extern "C" {
 
