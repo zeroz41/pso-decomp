@@ -12,7 +12,6 @@
 
 extern "C" {
 
-s32 sub_801A1DDC__10TObjPlayerFv(s32);
 
 extern "C" {
 

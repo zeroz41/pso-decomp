@@ -820,10 +820,10 @@ void TUnk_8048E5F4::render() {
 }
 
 void TObjPlayer::init_render_target_singleton() {
-    u32 temp_r3;
+    uaddr temp_r3;
     camera_render_target_singleton = 0U;
     if (get_current_floor_area() == AREA_GOL_DRAGON) {
-        temp_r3 = (saddr)::operator new(0x28);
+        temp_r3 = (uaddr)::operator new(0x28);
         camera_render_target_singleton = temp_r3;
         if (temp_r3 != 0U) {
             ((TObjPlayer *)temp_r3)->init_render_target();

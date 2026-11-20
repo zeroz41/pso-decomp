@@ -1102,7 +1102,7 @@ s32 TObjEnemy::vfunc_74(s32 kind) {
     s32 ret;
     ret = 0;
     if (this->entity_id >= 0x1000 && this->entity_id < 0x4000) {
-        exchange_object_state__9TObjEnemyFls(this, &pkt, 1);
+        this->exchange_object_state((saddr)&pkt, 1);
         pkt.diff = this->hpmax - this->hp;
         pkt.id = this->actorFlags;
         switch (kind) {

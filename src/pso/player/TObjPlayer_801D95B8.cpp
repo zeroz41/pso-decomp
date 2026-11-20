@@ -8,7 +8,6 @@ struct Rec_801D96CC { u8 a; u8 pad[3]; s16 b; };
 s32 set_technique_level_entry(s32, s16, s32);
 s32 get_cast_technique_level(s32, s16);
 s32 is_invalid_slot__10TObjPlayerFUc();
-s32 set_technique_id__10TObjPlayerFs(void *, s32);
 u8 get_effective_technique_level__10TObjPlayerFPvs(void *, int);
 s32 TObjPlayer__sub_801C010C(void *, s16);
 s32 clamp_to_max__10TObjPlayerFlUcUc(void *, s32, s32);
@@ -25,7 +24,7 @@ s16 TObjPlayer::get_section_clamped() {
 
 s16 TObjPlayer::get_or_init_field_4() {
     if (TObjPlayer::is_valid_technique_id(*(s16 *)&this->m_flags) == 0) {
-        set_technique_id__10TObjPlayerFs(this, 0);
+        this->set_technique_id((s16)0);
     }
     return *(s16 *)&this->m_flags;
 }
