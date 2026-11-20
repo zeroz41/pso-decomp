@@ -22,7 +22,6 @@ extern "C" {
 extern const f32 lbl_805DCDF0;
 s32 init_window_layout_entries(void *, void *, s16);
 s32 get_message_10__20TWindowSubStatusDispFl(s32);
-s32 set_help_text__15TWindowHelpItemFUl(void *, s32);
 s32 refresh_status_display__9TWindowDDFv(void *);
 extern u8 lbl_804CF30C[];
 extern PM_80253D10 TWindowHelpItem__mag_growth_update_callback;
@@ -111,9 +110,9 @@ void TWindowHelpItem__vt10(u8 *window_base) {
     sy = ((TWindowBase *)window_base)->get_array_entry(1);
     iq = ((TWindowBase *)window_base)->get_array_entry(2);
     up = ((TWindowBase *)window_base)->get_array_entry(0xF);
-    set_help_text__15TWindowHelpItemFUl((void *) lv, get_message_10__20TWindowSubStatusDispFl(0xA2));
-    set_help_text__15TWindowHelpItemFUl((void *) sy, get_message_10__20TWindowSubStatusDispFl(0xA3));
-    set_help_text__15TWindowHelpItemFUl((void *) iq, get_message_10__20TWindowSubStatusDispFl(0xA4));
+    ((TWindowHelpItem *)lv)->set_help_text(get_message_10__20TWindowSubStatusDispFl(0xA2));
+    ((TWindowHelpItem *)sy)->set_help_text(get_message_10__20TWindowSubStatusDispFl(0xA3));
+    ((TWindowHelpItem *)iq)->set_help_text(get_message_10__20TWindowSubStatusDispFl(0xA4));
     ((TWindowHelpItem *)sy)->set_flag0_bit20();
     ((TWindowHelpItem *)lv)->set_flag4_and_field1c(((MagStats *)(mag))->get_level());
     ((TWindowHelpItem *)sy)->set_flag4_and_field1c(((MagStats *)mag)->get_synchro());

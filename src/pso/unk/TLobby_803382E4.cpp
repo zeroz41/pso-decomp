@@ -46,7 +46,6 @@ u32 __cvt_fp2unsigned(f32);
 u8 *load_gvm_texture_file(s32 arg0);
 extern "C" {
 s32 release_texture_list(s32 *);
-int free_if_valid__10TObjPlayerFl(void*);
 
 NJS_TEXNAME lbl_804EF1B8[3] = {
     { (void *)"f256_nowloading", 0, 0 },
@@ -259,7 +258,7 @@ void TLobby::update_pulse_colors(s32 arg0) {
 }
 #pragma pop
 
-void TWindowSubStatusDisp__sub_803386F0(void) { free_if_valid__10TObjPlayerFl((void*)info_icon_texture); }
+void TWindowSubStatusDisp__sub_803386F0(void) { TObjPlayer::free_if_valid((s32)info_icon_texture); }
 }
 
 void load_info_icon(void) { info_icon_texture = (int)load_gvm_texture_file((s32)"InfoIcon.gvm"); }

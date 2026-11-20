@@ -4,6 +4,7 @@
 #include "pso/unk/text_801E051C.h"
 #include "pso/system/byteswap.h"
 #include "pso/network/protocol/protocol.h"
+#include "pso/player/TPlyGuildCardTag.h"
 
 typedef struct TPlyStartGame_801E0580 {
     u32 header;
@@ -26,7 +27,7 @@ void bswap__13TPlyStartGameFv(TPlyStartGame_801E0580 *self) {
     bswap__21TPlyMeetUserExtensionFv((s32)self->extension);
 }
 
-void bswap__13TPlyStartGameFPv(void* p) { bswap__16TPlyGuildCardTagFv(p); bswap_32((u32 *)((char*)p + 0x8)); bswap_32((u32 *)((char*)p + 0xc)); }
+void bswap__13TPlyStartGameFPv(void* p) { ((TPlyGuildCardTag *)p)->bswap(); bswap_32((u32 *)((char*)p + 0x8)); bswap_32((u32 *)((char*)p + 0xc)); }
 
 u8 *__ct__13TPlyStartGameFRC13TPlyStartGame(u8 *arg0, u8 *arg1) {
     *(s32 *)((s8 *)arg0 + 0) = (s32) *(s32 *)((s8 *)arg1 + 0);

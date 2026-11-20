@@ -779,7 +779,7 @@ s32 TLobby::calc_min_challenge_progress() {
     s32 var_r30;
 
     TWindowSubStatusDisp::resolve_player_slot(-1);
-    var_r31 = get_layout_id__20TWindowSubStatusDispFv();
+    var_r31 = TWindowSubStatusDisp::get_layout_id();
     var_r30 = 0;
     do {
         if (get_player_by_client_id(var_r30) != 0U) {

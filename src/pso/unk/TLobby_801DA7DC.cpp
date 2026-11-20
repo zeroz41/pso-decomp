@@ -7,6 +7,7 @@
 #include "pso/player/TPlyGuildCardTag_8007B434.h"
 #include "pso/unk/TLobby.h"
 #include "pso/network/protocol/protocol.h"
+#include "pso/network/PSOV3EncryptionTCP.h"
 
 struct Base_801DA7DC { char pad[0x18]; };
 struct VObj_801DA7DC : Base_801DA7DC {
@@ -102,7 +103,6 @@ struct Pkt_801DAA70 {
 extern "C" {
 void handle_cmd_C5__9TProtocolFR6packet(u8 *arg0, Pkt_801DA848 *arg1);
 s32 __as__16TPlyClientConfigFRC16TPlyClientConfig(void *, void *);
-s32 reset__18PSOV3EncryptionTCPFUl(void *, u32);
 s32 __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(void *, void *);
 extern u8 meet_user_settings[];
 extern char *lobby_server_greeting_text;
@@ -169,8 +169,8 @@ void handle_cmd_02__9TProtocolFR6packet(u8 *arg0, Recv_801DAA70 *arg1) {
     Pkt_801DAA70 pkt;
     bswap__21TRecvPsoRegistConnectFv((s32)&r);
     if (strcmp(lobby_server_greeting_text, r.name) == 0) {
-        reset__18PSOV3EncryptionTCPFUl(arg0 + 0x10BC, r.key1);
-        reset__18PSOV3EncryptionTCPFUl(arg0 + 0x884, r.key2);
+        ((PSOV3EncryptionTCP *)(arg0 + 0x10BC))->reset(r.key1);
+        ((PSOV3EncryptionTCP *)(arg0 + 0x884))->reset(r.key2);
         *(s32 *)(arg0 + 0x18F4) = 1;
         ((TPlySmth *)(&pkt))->construct();
         memset(&pkt, 0, 0x150);

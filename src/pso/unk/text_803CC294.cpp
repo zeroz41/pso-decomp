@@ -60,7 +60,6 @@ extern u16 lbl_8057B7B0[16];
 extern LogEnt_803CD16C lbl_8057B7D0[];
 extern Slot_803CD16C adxf_file_handle_pool[];
 extern s32 adxf_log_write_index;
-Slot_803CD16C *adxf_open_afs__6TLobbyFii(s32 arg0, s32 arg1);
 u32 TLobby__sub_803C8CDC(u32, s32, s32);
 Slot_803CD16C *adxf_open__6TLobbyFUii(u32 arg0, s32 arg1);
 s32 invalidate_cache__6TLobbyFv(s32, s32);

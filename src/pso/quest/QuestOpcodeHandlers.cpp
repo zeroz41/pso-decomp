@@ -1135,7 +1135,6 @@ s32 TLobby__sub_801036CC();
 s32 is_script_controlled__10TObjPlayerFv();
 s32 activate_d04_slot__10TObjPlayerFv();
 s32 create_instance__12TItemDropSubFl(int, void *);
-void init__9TItemDataFv(Item_801EE77C *);
 s32 advance_item_id_counter(u16);
 f32 xz_distance_squared(Vec *, Vec *);
 f32 xyz_distance_squared(u8 *arg0, u8 *arg1);
@@ -1398,7 +1397,7 @@ void qst_op_scroll_text() {
 void qst_op_item_create_multi_cm(u8 i) {
     ItemData_801E72B4 item;
     s32 mode = qst_registers[i++];
-    ((void (*)(ItemData_801E72B4 *))init__9TItemDataFv)(&item);
+    ((TItemData *)(&item))->init();
     item.data1[0] = qst_registers[i++];
     item.data1[1] = qst_registers[i++];
     item.data1[2] = qst_registers[i++];
@@ -1550,7 +1549,7 @@ void qst_op_find_bank_item(u8 i, u8 out) {
     qst_registers[out] = -1;
     card = get_character_save_record(0xFFFF);
     if (card != 0) {
-        ((void (*)(ItemData_801E7810 *))init__9TItemDataFv)(&item);
+        ((TItemData *)(&item))->init();
         item.data1[0] = qst_registers[i++];
         item.data1[1] = qst_registers[i++];
         item.data1[2] = qst_registers[i++];
@@ -3268,7 +3267,7 @@ void qst_op_ba_set_box_drop_area(s32 arg0) {
 
 void qst_op_item_create_cmode(u8 arg0, u8 arg1) {
     Item_801EBF30 item;
-    ((s32 (*)(void *))init__9TItemDataFv)((void *)(&item));
+    ((TItemData *)(&item))->init();
     item.data[0] = qst_registers[(u8)arg0++];
     item.data[1] = qst_registers[(u8)arg0++];
     item.data[2] = qst_registers[(u8)arg0++];
@@ -3484,7 +3483,7 @@ void qst_op_unequip_item() {
 void qst_op_equip_item(u8 i) {
     Item_801EC720 item;
     u16 id = qst_registers[i++];
-    ((s32 (*)(void *))init__9TItemDataFv)(&item);
+    ((TItemData *)(&item))->init();
     item.a = qst_registers[i++];
     item.b = qst_registers[i++];
     item.c = qst_registers[i++];
@@ -3864,7 +3863,7 @@ void qst_op_nop_F821(u8 arg0) {
     a = qst_registers[(u8)arg0++];
     b = qst_registers[(u8)arg0++];
     c = qst_registers[(u8)arg0++];
-    ((void (*)(Item_801ED7BC *))init__9TItemDataFv)(&item);
+    ((TItemData *)(&item))->init();
     item.data[0] = qst_registers[(u8)arg0++];
     item.data[1] = qst_registers[(u8)arg0++];
     item.data[2] = qst_registers[(u8)arg0++];
@@ -4100,7 +4099,7 @@ void qst_op_pad_dragon(void* p) { TBoss1Dragon::requestActionRefresh(); }
 
 void qst_op_delete_bank_item(u8 arg0, u8 arg1) {
     Item_801EE0BC item;
-    ((void (*)(Item_801EE0BC *))init__9TItemDataFv)(&item);
+    ((TItemData *)(&item))->init();
     item.data[0] = qst_registers[(u8)arg0++];
     item.data[1] = qst_registers[(u8)arg0++];
     item.data[2] = qst_registers[(u8)arg0++];

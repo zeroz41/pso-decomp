@@ -389,11 +389,11 @@ void TLobby::handle_reset_choice(s32 arg0) {
     if ((s8) TLobby__trade_proposal_state != 0) {
         switch (arg0) {
         case 0:
-            get_message_10__20TWindowSubStatusDispFl(0xEC);
+            TWindowSubStatusDisp::get_message_10(0xEC);
             ((s32 (*)())reset__6TLobbyFi)();
             return;
         case 1:
-            get_message_10__20TWindowSubStatusDispFl(0xEB);
+            TWindowSubStatusDisp::get_message_10(0xEB);
             ((s32 (*)())reset__6TLobbyFi)();
             break;
         }
@@ -489,7 +489,7 @@ s32 format_trade_out_of_range_message(s32 arg0) {
     }
     text_builder_reset();
     refresh_player_status__6TLobbyFv(arg0);
-    ((s32 (*)(s32))get_message_10__20TWindowSubStatusDispFl)(0xEF);
+    TWindowSubStatusDisp::get_message_10(0xEF);
     text_builder_append();
     return get_shared_text_buffer();
 }
@@ -506,7 +506,7 @@ s32 TLobby::show_event_message(s32 arg0, s32 arg1, s32 arg2) {
         }
         text_builder_reset();
         refresh_player_status__6TLobbyFv(arg0);
-        ((s32 (*)(s32))get_message_10__20TWindowSubStatusDispFl)(0xEA);
+        TWindowSubStatusDisp::get_message_10(0xEA);
         text_builder_append();
         return get_shared_text_buffer();
     case 2:
@@ -516,16 +516,16 @@ s32 TLobby::show_event_message(s32 arg0, s32 arg1, s32 arg2) {
         }
         text_builder_reset();
         if (arg0 == (s32) local_client_id) {
-            ((s32 (*)(s32))get_message_10__20TWindowSubStatusDispFl)(0xF3);
+            TWindowSubStatusDisp::get_message_10(0xF3);
             text_builder_append();
         } else {
             refresh_player_status__6TLobbyFv(arg0);
-            ((s32 (*)(s32))get_message_10__20TWindowSubStatusDispFl)(0xE8);
+            TWindowSubStatusDisp::get_message_10(0xE8);
             text_builder_append();
         }
         ((VObj_802D2E28_0x30_802D2B64 *)item)->vma();
         text_builder_append();
-        ((s32 (*)(s32))get_message_10__20TWindowSubStatusDispFl)(0xE9);
+        TWindowSubStatusDisp::get_message_10(0xE9);
         text_builder_append();
         return get_shared_text_buffer();
     case 3:
@@ -534,7 +534,7 @@ s32 TLobby::show_event_message(s32 arg0, s32 arg1, s32 arg2) {
         }
         text_builder_reset();
         refresh_player_status__6TLobbyFv(arg0);
-        ((s32 (*)(s32))get_message_10__20TWindowSubStatusDispFl)(0xE7);
+        TWindowSubStatusDisp::get_message_10(0xE7);
         text_builder_append();
         return get_shared_text_buffer();
     case 4:
@@ -746,7 +746,7 @@ void handle_trade_partner_cancel(void *arg0) {
     case 4:
         text_builder_reset();
         refresh_player_status__6TLobbyFv(TLobby__trade_partner_client_id);
-        get_message_10__20TWindowSubStatusDispFl(0xED);
+        TWindowSubStatusDisp::get_message_10(0xED);
         text_builder_append();
         reset__6TLobbyFi(get_shared_text_buffer());
         break;
@@ -897,7 +897,7 @@ void update_status_message__6TLobbyFPv(O_802D368C *self) {
     case 0:
         text_builder_reset();
         ((s32 (*)(int))refresh_player_status__6TLobbyFv)(TLobby__trade_partner_client_id);
-        get_message_10__20TWindowSubStatusDispFl(0xF1);
+        TWindowSubStatusDisp::get_message_10(0xF1);
         text_builder_append();
         ((s32 (*)())get_shared_text_buffer)();
         ((s32 (*)())reset__6TLobbyFi)();
@@ -918,7 +918,7 @@ void handle_trade_request_reply(void *arg0) {
     case 3:
         text_builder_reset();
         ((s32 (*)(int))refresh_player_status__6TLobbyFv)(TLobby__trade_partner_client_id);
-        get_message_10__20TWindowSubStatusDispFl(0xD8);
+        TWindowSubStatusDisp::get_message_10(0xD8);
         text_builder_append();
         ((s32 (*)())get_shared_text_buffer)();
         ((s32 (*)())reset__6TLobbyFi)();

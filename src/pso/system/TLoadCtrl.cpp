@@ -50,7 +50,6 @@ extern "C" {
 s32 __ct__14TAdFloorLoadGCFP7TObjectPv(s32, void *, int);
 void TNowLoading__sub_8001D4D0(void);
 void fn_8034AD28(void);
-void reset__11TCameraCtrlFv(void);
 
 bool TLoadCtrl__sub_8001C60C(void) {
     return (*(s32 *)&TLoadCtrl__instance) != 0;
@@ -165,7 +164,7 @@ void TLoadCtrl::cleanup_scene() {
         break;
     }
     TCameraCtrl::reset_default_view();
-    reset__11TCameraCtrlFv();
+    TCameraCtrl::reset();
     if (camera_ctrl_instance != NULL) {
         if (camera_ctrl_instance != NULL) {
             ((VObj_8001C8B8_8001C61C *)camera_ctrl_instance)->m0(1);
