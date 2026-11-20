@@ -150,7 +150,7 @@ s32 create_attached_oneshot_emitter(unsigned long long arg1, s32 arg2) {
   return oneshot_particle_emitter;
 }
 
-s32 emit_player_model_particle(saddr owner, saddr position, s32 entry, s32 model) {
+s32 emit_player_model_particle(saddr owner, saddr position, saddr entry, s32 model) {
   saddr emitter = emit_player_particle((void*)owner, (void*)position, (void*)entry);
   if (emitter)
   {

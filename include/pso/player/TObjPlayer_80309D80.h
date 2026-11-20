@@ -8,7 +8,7 @@ s32 TObjPlayer__sub_80309E4C(saddr arg0, s16 arg1);
 s32 create_attached_oneshot_emitter(unsigned long long arg1, s32 arg2);
 }
 void emit_idle_water_splash(s32 owner, s32 position);
-s32 emit_player_model_particle(saddr owner, saddr position, s32 entry, s32 model);
+s32 emit_player_model_particle(saddr owner, saddr position, saddr entry, s32 model);
 extern "C" {
 s32 emit_player_particle(void *p, void *a1, void *a2);
 }
