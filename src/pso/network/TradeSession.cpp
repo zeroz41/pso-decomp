@@ -94,7 +94,7 @@ void TLobby::update_trade_list_send() {
         ((TLobby *)sp8)->build_trade_item_list();
         send_trade_list__6TLobbyFPvPv(TLobby__protocol_instance, (s32 *)sp8);
         trade_protocol_flags |= 0x400;
-        if ((u32) TLobby__trade_main_window != 0U) {
+        if ((uaddr) TLobby__trade_main_window != 0U) {
             TWindowSubTradeMain__sub_80330A84((void *)TLobby__trade_main_window);
         }
         TLobby__trade_proposal_state = 7;
@@ -114,7 +114,7 @@ void TLobby::update_trade_proposal_state() {
         if (trade_protocol_flags & 0x20) {
             TLobby::send_trade_proposal_result(3, 4);
             trade_protocol_flags &= 0xFFFFFFDF;
-            if ((u32) TLobby__trade_main_window != 0U) {
+            if ((uaddr) TLobby__trade_main_window != 0U) {
                 ((TWindowSubTradeMain *)TLobby__trade_main_window)->forward_to_child(0);
             }
             TLobby__trade_proposal_state = 3;
@@ -123,7 +123,7 @@ void TLobby::update_trade_proposal_state() {
         if (trade_proposal_delay++ >= 0x1E) {
             TLobby::send_trade_proposal_result(3, 0);
             trade_protocol_flags |= 0x20;
-            if ((u32) TLobby__trade_main_window != 0U) {
+            if ((uaddr) TLobby__trade_main_window != 0U) {
                 ((TWindowSubTradeMain *)TLobby__trade_main_window)->forward_to_child(1);
             }
             trade_proposal_delay = 0;
@@ -133,7 +133,7 @@ void TLobby::update_trade_proposal_state() {
         trade_proposal_delay = 0;
         if (trade_protocol_flags & 0x100) {
             TLobby::send_trade_proposal_result(4, 4);
-            if ((u32) TLobby__trade_main_window != 0U) {
+            if ((uaddr) TLobby__trade_main_window != 0U) {
                 ((TWindowSubTradeMain *)TLobby__trade_main_window)->forward_to_child(1);
             }
             trade_protocol_flags &= 0xFFFFFEFF;
@@ -143,7 +143,7 @@ void TLobby::update_trade_proposal_state() {
         if (trade_proposal_delay++ >= 0x1E) {
             TLobby::send_trade_proposal_result(4, 0);
             trade_protocol_flags |= 0x100;
-            if ((u32) TLobby__trade_main_window != 0U) {
+            if ((uaddr) TLobby__trade_main_window != 0U) {
                 ((TWindowSubTradeMain *)TLobby__trade_main_window)->forward_to_child(2);
             }
             trade_proposal_delay = 0;
@@ -203,9 +203,9 @@ s8 TLobby__trade_partner_client_id;
 u8 TLobby__trade_proposal_state;
 s32 TLobby__data_805D688C;
 s32 trade_proposal_delay;
-u32 TLobby__data_805D6894;
+uaddr TLobby__data_805D6894;
 uaddr TLobby__trade_main_window;
-u32 trade_message_controller;
+uaddr trade_message_controller;
 
 // The trade window's side: the offer/final confirmation flags, the inventory snapshot and the item moves.
 
@@ -288,7 +288,7 @@ s32 *get_trade_window_state(void) {
 }
 
 s32 TLobby__sub_802D29B8(u32 arg0) {
-    if ((u32) trade_message_controller != arg0) {
+    if ((uaddr) trade_message_controller != arg0) {
         return 0;
     }
     trade_message_controller = 0U;
@@ -298,7 +298,7 @@ s32 TLobby__sub_802D29B8(u32 arg0) {
 int TLobby__sub_802D29DC(int a0) { trade_message_controller = a0; return 1; }
 
 s32 TLobby__sub_802D29E8(u32 arg0) {
-    if ((u32) TLobby__trade_main_window != arg0) {
+    if ((uaddr) TLobby__trade_main_window != arg0) {
         return 0;
     }
     TLobby__trade_main_window = 0U;
@@ -306,7 +306,7 @@ s32 TLobby__sub_802D29E8(u32 arg0) {
 }
 
 s32 TLobby__sub_802D2A0C(u32 arg0) {
-    if ((u32) TLobby__trade_main_window != 0U) {
+    if ((uaddr) TLobby__trade_main_window != 0U) {
         return 0;
     }
     TLobby__trade_main_window = arg0;
@@ -315,7 +315,7 @@ s32 TLobby__sub_802D2A0C(u32 arg0) {
 
 
 s32 TLobby__sub_802D2A2C(u32 arg0) {
-    if ((u32) TLobby__data_805D6894 != arg0) {
+    if ((uaddr) TLobby__data_805D6894 != arg0) {
         return 0;
     }
     TLobby__data_805D6894 = 0U;
@@ -323,7 +323,7 @@ s32 TLobby__sub_802D2A2C(u32 arg0) {
 }
 
 s32 TLobby__sub_802D2A50(u32 arg0) {
-    if ((u32) TLobby__data_805D6894 != 0U) {
+    if ((uaddr) TLobby__data_805D6894 != 0U) {
         return 0;
     }
     TLobby__data_805D6894 = arg0;
@@ -446,7 +446,7 @@ void TLobby::clear_flag400() {
 
 
 void TLobby::check_flags_and_proceed() {
-    if (((u32) TLobby__data_805D6894 == 0U) && ((u32) TLobby__trade_main_window == 0U) && ((u32) trade_message_controller == 0U)) {
+    if (((uaddr) TLobby__data_805D6894 == 0U) && ((uaddr) TLobby__trade_main_window == 0U) && ((uaddr) trade_message_controller == 0U)) {
         TLobby::cancel_trade();
     }
 }
@@ -552,14 +552,14 @@ void reset__6TLobbyFv(void) {
         TLobby__data_805D688C = 0;
         trade_proposal_delay = 0;
         trade_protocol_flags &= 0xFFFFF80F;
-        if ((u32) (*(const u32 *)&trade_message_controller) != 0U) {
-            ((TWindowSubTradeMessage *)(*(const u32 *)&trade_message_controller))->finish();
+        if ((uaddr) (*(const uaddr *)&trade_message_controller) != 0U) {
+            ((TWindowSubTradeMessage *)(*(const uaddr *)&trade_message_controller))->finish();
         }
-        if ((u32) (*(const u32 *)&TLobby__trade_main_window) != 0U) {
-            fn_80330A40((u8 *)(*(const u32 *)&TLobby__trade_main_window));
+        if ((uaddr) (*(const uaddr *)&TLobby__trade_main_window) != 0U) {
+            fn_80330A40((u8 *)(*(const uaddr *)&TLobby__trade_main_window));
         }
-        if ((u32) (*(const u32 *)&TLobby__data_805D6894) != 0U) {
-            reset__15TLobby_802D2F7CFPv((u8 *)(*(const u32 *)&TLobby__data_805D6894));
+        if ((uaddr) (*(const uaddr *)&TLobby__data_805D6894) != 0U) {
+            reset__15TLobby_802D2F7CFPv((u8 *)(*(const uaddr *)&TLobby__data_805D6894));
         }
     }
 }
@@ -984,9 +984,9 @@ void TLobby::reset_trade_state() {
     TLobby__trade_proposal_state = 0;
     TLobby__data_805D688C = 0;
     trade_proposal_delay = 0;
-    (*(s32 *)&TLobby__data_805D6894) = 0;
+    (*(saddr *)&TLobby__data_805D6894) = 0;
     (*(s32 *)&TLobby__trade_main_window) = 0;
-    (*(s32 *)&trade_message_controller) = 0;
+    (*(saddr *)&trade_message_controller) = 0;
     for (i = 0; i < 2; i++) {
         ((TLobby *)(&TLobby__trade_window_state[i]))->update_both_halves();
     }
