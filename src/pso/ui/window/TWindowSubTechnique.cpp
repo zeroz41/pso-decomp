@@ -151,7 +151,7 @@ void text_builder_append(u8 *str);
 saddr get_help_text_string(s32 arg0);
 extern "C" {
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
-s32 try_equip_item__10TObjPlayerFii(s32, s32);
+s32 try_equip_item__10TObjPlayerFii(saddr, s32);
 void play_sound_effect(s32, s32, s32, s32);
 // set_depth__11TWindowBaseFf declared above
 s32 is_player_input_active(s32);

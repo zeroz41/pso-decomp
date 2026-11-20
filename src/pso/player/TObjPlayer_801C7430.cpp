@@ -1281,7 +1281,7 @@ void dispatch_photon_blast_action__10TObjPlayerFis(saddr arg0, s16 arg1);
 void handle_6x33_revive_player(void *arg0);
 void send_6x33_revive_player(s32 arg0, s16 arg1);
 void clamp_and_set_unit_value__10TObjPlayerFiUci(saddr arg0, u8 arg1, s32 arg2);
-s32 try_equip_item__10TObjPlayerFii(s32 arg0, s32 arg1);
+s32 try_equip_item__10TObjPlayerFii(saddr arg0, s32 arg1);
 void handle_6x48_cast_technique_complete(void *arg);
 s32 can_equip_item__10TObjPlayerFii(s32 arg0, s32 arg1);
 s32 can_start_technique__10TObjPlayerFPvi(Player_801CD078 *self, s32 tech);
@@ -4225,7 +4225,7 @@ void TObjPlayer::update_cursor(s32 parameter) {
     }
 }
 
-s32 try_equip_item__10TObjPlayerFii(s32 arg0, s32 arg1) {
+s32 try_equip_item__10TObjPlayerFii(saddr arg0, s32 arg1) {
     if (((TObjPlayer *)arg0)->test_action_mask(0x100) == 0) {
         if (((s32 (*)(s32, s16))can_equip_item__10TObjPlayerFii)(arg0, arg1) == 0) {
             return 0;
