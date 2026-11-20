@@ -7,18 +7,12 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
-FloorMapRegistry floor_map_registry;
+FloorMapSelection floor_map_registry[18];
 
-
-struct Map_80207C60 { s32 map; s32 layout; s32 entities; };
 
 struct Ids_80207C60 { s32 w[18]; };
 
 struct Tbl_8020765C { s32 w[2][18]; };
-
-struct Ent_8020780C { s32 pad; s32 a; s32 b; };
-
-typedef struct FloorEntry_80207770 { s32 a; s32 b; s32 c; } FloorEntry_80207770;
 
 // File names of the floor maps: the first three are the sky model extensions
 // TSceneSora::load_sky_resources passes to TLobby::replace_file_extension, the rest
@@ -308,7 +302,6 @@ extern const Tbl_8020765C boss_warp_destination_table_b = { {
 
 s32 set_floor_map_selection(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern "C" {
-s32 get_floor_map_selection(s32 arg0, u8 *arg1);
 s32 rand(void);
 int selected_episode;
 void randomize_adventure_maps(void);
@@ -320,8 +313,6 @@ s32 get_boss_warp_destination(void);
 extern "C" {
 s32 get_floor_map_terrain(s32 arg0);
 }
-struct Buf12_80207718_80207644 { s32 a, b, c; };
-
 s32 story_select_pending_state = -1;
 int story_select_current = -1;
 void TLobby::backup_story_select() { selected_episode = story_select_current; }
@@ -340,10 +331,10 @@ s32 get_boss_warp_destination(void) {
 }
 
 s32 get_floor_area(s32 floor) {
-    struct Buf12_80207718_80207644 buf;
+    FloorMapSelection buf;
 
-    if (get_floor_map_selection(floor, (u8 *)&buf) == 1) {
-        return buf.a;
+    if (get_floor_map_selection(floor, &buf) == 1) {
+        return buf.area;
     }
     return -1;
 }
@@ -351,8 +342,7 @@ void init_floor_map_registry(void);
 
 void set_floor_map_variant(s32 arg0, s32 arg1) {
     if (arg0 <= 0x11) {
-        s32 *p = (s32 *)&floor_map_registry;
-        p[arg0 * 3 + 1] = arg1;
+        floor_map_registry[arg0].terrain = arg1;
     }
 }
 
@@ -363,21 +353,20 @@ s32 get_floor_map_terrain(s32 arg0) {
     if (arg0 > 0x11) {
         return 0;
     }
-    s32 *p = (s32 *)&floor_map_registry;
-    return p[arg0 * 3 + 1];
+    return floor_map_registry[arg0].terrain;
 }
 
-s32 set_floor_map_selection(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    s32 temp_r0;
-    u8 *temp_r4;
-    if (arg0 > 0x11) {
+s32 set_floor_map_selection(s32 floor, s32 area, s32 terrain, s32 entities) {
+    s32 offset;
+    u8 *entry;
+    if (floor > 0x11) {
         return 0;
     }
-    temp_r0 = arg0 * 0xC;
-    *(s32 *)((s8 *)((u8 *)&floor_map_registry.value + temp_r0) + 0) = arg1;
-    temp_r4 = (u8 *)&floor_map_registry.value + temp_r0;
-    *(s32 *)((s8 *)temp_r4 + 4) = arg2;
-    *(s32 *)((s8 *)temp_r4 + 8) = arg3;
+    offset = floor * 0xC;
+    *(s32 *)((s8 *)((u8 *)&floor_map_registry + offset) + 0) = area;
+    entry = (u8 *)&floor_map_registry + offset;
+    *(s32 *)((s8 *)entry + 4) = terrain;
+    *(s32 *)((s8 *)entry + 8) = entities;
     return 1;
 }
 #pragma pop
@@ -385,17 +374,17 @@ s32 set_floor_map_selection(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 #pragma push
 #pragma opt_common_subs off
 
-s32 get_floor_map_selection(s32 arg0, u8 *arg1) {
-    s32 temp_r6;
-    u8 *temp_r5;
-    if (arg0 > 0x11) {
+s32 get_floor_map_selection(s32 floor, FloorMapSelection *selection) {
+    s32 offset;
+    const u8 *entry;
+    if (floor > 0x11) {
         return 0;
     }
-    temp_r6 = arg0 * 0xC;
-    temp_r5 = (u8 *)(&floor_map_registry.value) + temp_r6;
-    *(s32 *)((s8 *)arg1 + 0) = (s32) *(s32 *)((s8 *)((u8 *)(&floor_map_registry.value) + temp_r6) + 0);
-    *(s32 *)((s8 *)arg1 + 4) = (s32) *(s32 *)((s8 *)temp_r5 + 4);
-    *(s32 *)((s8 *)arg1 + 8) = (s32) *(s32 *)((s8 *)temp_r5 + 8);
+    offset = floor * 0xC;
+    entry = (const u8 *)&floor_map_registry + offset;
+    selection->area = *(const s32 *)((const s8 *)((const u8 *)&floor_map_registry + offset) + 0);
+    selection->terrain = *(const s32 *)((const s8 *)entry + 4);
+    selection->entities = *(const s32 *)((const s8 *)entry + 8);
     return 1;
 }
 #pragma pop
@@ -408,15 +397,15 @@ void TLobby::copy_table_entries(u32 size) {
         switch ((*(s32 *)&selected_episode)) {
         case 1:
             for (i = 0; i < n; i++, src += 2) {
-                ((Ent_8020780C *)&floor_map_registry)[i].a = src[0];
-                ((Ent_8020780C *)&floor_map_registry)[i].b = src[1];
+                floor_map_registry[i].terrain = src[0];
+                floor_map_registry[i].entities = src[1];
             }
             break;
         case 0:
         default:
             for (i = 0; i < n; i++, src += 2) {
-                ((Ent_8020780C *)&floor_map_registry)[i].a = src[0];
-                ((Ent_8020780C *)&floor_map_registry)[i].b = src[1];
+                floor_map_registry[i].terrain = src[0];
+                floor_map_registry[i].entities = src[1];
             }
             break;
         }
@@ -424,10 +413,10 @@ void TLobby::copy_table_entries(u32 size) {
 }
 
 void randomize_adventure_maps(void) {
-  s32 *var_r31;
+  FloorMapSelection *var_r31;
   s32 main_phase;
   s32 var_r29;
-  var_r31 = (s32 *) (&floor_map_registry.value);
+  var_r31 = floor_map_registry;
   TAdStorySelectGC::set_state((s32)((void*)((*(s32 *)&selected_episode))));
   main_phase = get_main_phase();
   if (TRaderMapCore::is_not_split_screen() == 1)
@@ -437,26 +426,26 @@ void randomize_adventure_maps(void) {
   var_r29 = 0;
   do
   {
-    if (((s32) (*((s32 *) (((s8 *) var_r31) + 0)))) >= 0)
+    if (var_r31->area >= 0)
     {
       switch (main_phase)
       {
         case 14:
-          *((s32 *) (((s8 *) var_r31) + 4)) = (s32) (((f32) (*((s32 *) (((s8 *)adventure_map_variation_count_table) + ((*((s32 *) (((s8 *) var_r31) + 0))) * 8))))) * (0.000030517578f * ((f32) rand())));
-          *((s32 *) (((s8 *) var_r31) + 8)) = (s32) (((f32) (*((s32 *) (((s8 *) (((u8 *)adventure_map_variation_count_table) + ((*((s32 *) (((s8 *) var_r31) + 0))) * 8))) + 4)))) * (0.000030517578f * ((f32) rand())));
+          var_r31->terrain = (s32)((f32)adventure_map_variation_count_table[var_r31->area][0] * (0.000030517578f * (f32)rand()));
+          var_r31->entities = (s32)((f32)adventure_map_variation_count_table[var_r31->area][1] * (0.000030517578f * (f32)rand()));
           break;
         case 15:
-          *((s32 *) (((s8 *) var_r31) + 4)) = (s32) (((f32) (*((s32 *) (((s8 *)online_floor_map_variation_dimension_table) + ((*((s32 *) (((s8 *) var_r31) + 0))) * 8))))) * (0.000030517578f * ((f32) rand())));
-          *((s32 *) (((s8 *) var_r31) + 8)) = (s32) (((f32) (*((s32 *) (((s8 *) (((u8 *)online_floor_map_variation_dimension_table) + ((*((s32 *) (((s8 *) var_r31) + 0))) * 8))) + 4)))) * (0.000030517578f * ((f32) rand())));
+          var_r31->terrain = (s32)((f32)online_floor_map_variation_dimension_table[var_r31->area][0] * (0.000030517578f * (f32)rand()));
+          var_r31->entities = (s32)((f32)online_floor_map_variation_dimension_table[var_r31->area][1] * (0.000030517578f * (f32)rand()));
           break;
         default:
-          *((s32 *) (((s8 *) var_r31) + 4)) = (s32) (((f32) (*((s32 *) (((s8 *)adventure_map_variation_count_table) + ((*((s32 *) (((s8 *) var_r31) + 0))) * 8))))) * (0.000030517578f * ((f32) rand())));
-          *((s32 *) (((s8 *) var_r31) + 8)) = (s32) (((f32) (*((s32 *) (((s8 *) (((u8 *)adventure_map_variation_count_table) + ((*((s32 *) (((s8 *) var_r31) + 0))) * 8))) + 4)))) * (0.000030517578f * ((f32) rand())));
+          var_r31->terrain = (s32)((f32)adventure_map_variation_count_table[var_r31->area][0] * (0.000030517578f * (f32)rand()));
+          var_r31->entities = (s32)((f32)adventure_map_variation_count_table[var_r31->area][1] * (0.000030517578f * (f32)rand()));
           break;
       }
     }
     var_r29 += 1;
-    var_r31 = (s32 *) (((u8 *) var_r31) + 0xC);
+    ++var_r31;
   }
   while (var_r29 < 0x12);
 }
@@ -466,12 +455,12 @@ void randomize_adventure_maps(void) {
 void TLobby__sub_80207BB0(void) {
     struct Ids_80207C60 ids = boss_warp_area_id_table;
     s32 i;
-    memset((void *) ((struct Map_80207C60 *)&floor_map_registry), 0, 0xD8);
+    memset(floor_map_registry, 0, sizeof(floor_map_registry));
     for (i = 0; i < 18; i++) {
-        ((struct Map_80207C60 *)&floor_map_registry)[i].map = -1;
+        floor_map_registry[i].area = -1;
     }
     for (i = 0; i < 18; i++) {
-        ((struct Map_80207C60 *)&floor_map_registry)[i].map = ids.w[i];
+        floor_map_registry[i].area = ids.w[i];
     }
 }
 #pragma pop
@@ -479,12 +468,12 @@ void TLobby__sub_80207BB0(void) {
 void init_floor_map_registry(void) {
     struct Ids_80207C60 ids = floor_map_registry_id_table;
     s32 i;
-    memset((void *) ((struct Map_80207C60 *)&floor_map_registry), 0, 0xD8);
+    memset(floor_map_registry, 0, sizeof(floor_map_registry));
     for (i = 0; i < 18; i++) {
-        ((struct Map_80207C60 *)&floor_map_registry)[i].map = -1;
+        floor_map_registry[i].area = -1;
     }
     for (i = 0; i < 18; i++) {
-        ((struct Map_80207C60 *)&floor_map_registry)[i].map = ids.w[i];
+        floor_map_registry[i].area = ids.w[i];
     }
 }
 

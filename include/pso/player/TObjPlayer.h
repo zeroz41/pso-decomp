@@ -393,6 +393,7 @@ struct TObjPlayer : public TObjChara {
     static s32 calc_random_scaled();
     static f32 get_scale_factor();
     static int get_battle_param(int a0);
+    s32 check_player_flag1();
     s32 check_flag(s32 arg1);
     static void sync_player_globals();
     void*get_position_ptr();

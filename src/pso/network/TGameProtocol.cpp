@@ -156,7 +156,8 @@ extern "C" void handle_6x7A_enable_stealth_suit_effect(void *arg0);
 extern "C" void handle_6x7B_disable_stealth_suit_effect(void *arg0);
 extern "C" void handle_6x7C_set_challenge_records();
 extern "C" void handle_6x7D_set_battle_mode_data();
-extern "C" void handle_6x80_trigger_trap();
+struct game_command_header;
+extern "C" void handle_6x80_trigger_trap(game_command_header *command);
 extern "C" void handle_6x81_disable_drop_weapon_on_death(void *arg0);
 extern "C" void handle_6x82_enable_drop_weapon_on_death(void *arg0);
 extern "C" void handle_6x83_place_trap(void *arg0);
@@ -353,7 +354,7 @@ PsoCommandHandler pso_command_dispatch_table[] = {
     {0x7D, 0x0007, (PsoCommandFn)handle_6x7D_set_battle_mode_data},
     {0x7E, 0x0007, (PsoCommandFn)handle_6x7E},
     {0x7F, 0x0007, (PsoCommandFn)handle_6x7F_battle_scores},
-    {0x80, 0x0004, (PsoCommandFn)handle_6x80_trigger_trap},
+    {0x80, 0x0004, handle_6x80_trigger_trap},
     {0x86, 0x0006, handle_6x86_hit_destructible_object},
     {0x8A, 0x0002, (PsoCommandFn)handle_6x8A_show_challenge_time_records_window},
     {0x91, 0x0006, (PsoCommandFn)handle_6x91_update_attackable_col_state},

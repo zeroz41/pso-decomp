@@ -1,4 +1,5 @@
 #include "pso/object/base/ObjectFactoryTables.h"
+#include "pso/map/FloorPopulation.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/map/FloorArea.h"
 
@@ -64,11 +65,7 @@ s32 rotate_matrix_y(int, int);
 s32 rotate_matrix_z(int, int);
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 s32 rotate_matrix_x(int, int);
-struct TLobbyFloorEnemyGroupTable { s32 value; u8 remaining[0x1AC]; };
-extern TLobbyFloorEnemyGroupTable TLobby__floor_enemy_group_table;
 extern s32 TLobby__data_805D60FC;
-extern s32 TLobby__data_805D610C;
-extern s32 TLobby__data_805D6114;
 extern s32 TLobby__data_805D611C;
 extern s32 TLobby__data_805D6120;
 void *find_scene_room_by_id(s32 room);
@@ -209,23 +206,23 @@ void TSetManager::update_decoration_spawning() { spawn_decorations_in_range(this
 void TSetManager::apply_floor_set_rows() {
     u8 *arg0 = (u8 *)this;
     s32 current_floor;
-    u8 *temp_r30;
+    LobbyFloorRows *floor;
     current_floor = get_current_floor();
     TLobby__data_805D60FC = current_floor;
-    temp_r30 = (u8 *)&TLobby__floor_enemy_group_table.value + (current_floor * 0x18);
-    if (!(*(s32 *)((s8 *)temp_r30 + 8) & 2)) {
-        apply_room_transform_to_object_rows((Rec_8020D3F0 *)(TLobby__data_805D610C), (s32)((int) (*(s32 *)((s8 *)temp_r30 + 0))));
-        *(s32 *)((s8 *)temp_r30 + 8) = (s32) (*(s32 *)((s8 *)temp_r30 + 8) | 2);
+    floor = &TLobby__floor_enemy_group_table[current_floor];
+    if (!(floor->object_placement & 2)) {
+        apply_room_transform_to_object_rows((Rec_8020D3F0 *)(TLobby__data_805D610C), floor->object_count);
+        floor->object_placement |= 2U;
     }
-    if (!(*(s32 *)((s8 *)temp_r30 + 0xC) & 4)) {
-        apply_room_transform_to_enemy_rows((SpawnRecord_8020D36C *)(TLobby__data_805D6114), (s32)((int) (*(s32 *)((s8 *)temp_r30 + 4))));
-        *(s32 *)((s8 *)temp_r30 + 0xC) = (s32) (*(s32 *)((s8 *)temp_r30 + 0xC) | 4);
+    if (!(floor->enemy_placement & 4)) {
+        apply_room_transform_to_enemy_rows((SpawnRecord_8020D36C *)(TLobby__data_805D6114), floor->enemy_count);
+        floor->enemy_placement |= 4U;
     }
-    if (*(s32 *)((s8 *)temp_r30 + 8) & 2) {
-        TLobby::assign_objects_to_slots((u8 *)TLobby__data_805D610C, (s32)((int) (*(s32 *)((s8 *)temp_r30 + 0))));
+    if (floor->object_placement & 2) {
+        TLobby::assign_objects_to_slots((u8 *)TLobby__data_805D610C, floor->object_count);
     }
-    if (*(s32 *)((s8 *)temp_r30 + 0xC) & 4) {
-        TLobby::assign_display_objects((u8 *)TLobby__data_805D6114, (s32)((int) (*(s32 *)((s8 *)temp_r30 + 4))));
+    if (floor->enemy_placement & 4) {
+        TLobby::assign_display_objects((u8 *)TLobby__data_805D6114, floor->enemy_count);
     }
     if ((s32) TLobby__data_805D6120 > 0) {
         apply_room_transform_to_object_rows((Rec_8020D3F0 *)(TLobby__data_805D611C), TLobby__data_805D6120);

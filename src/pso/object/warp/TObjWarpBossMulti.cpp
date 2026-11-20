@@ -83,7 +83,6 @@ const char *TObjWarpBossMulti__name = "TObjWarpBossMulti";
 
 
 extern "C" {
-s32 check_player_flag1__6TLobbyFv(void);
 s32 get_message_10__20TWindowSubStatusDispFl(s32);
 s32 fn_80248994(void *, u32, int);
 void request_active_window_close(void);
@@ -383,7 +382,8 @@ s32 TObjWarpBoss::update_warp_dialogs() {
     {
             ((THunterGuildSeqOffline *)player_list_window)->advance_matching_entries(player_in_range[j] != 0, j);
       color = 0xF0F0F0FF;
-      if (((state == 1) && (((u32)get_player_by_client_id((j))) != 0)) && (check_player_flag1__6TLobbyFv() != 0))
+      TObjPlayer *player;
+      if (state == 1 && (player = (TObjPlayer *)get_player_by_client_id(j)) != NULL && player->check_player_flag1() != 0)
       {
         color = 0xFFFF00FF;
       }

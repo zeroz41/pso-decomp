@@ -1,3 +1,5 @@
+#include "pso/map/MapSetArchive.h"
+#include "pso/map/FloorPopulation.h"
 #include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/unk/TLobby_80209524.h"
@@ -680,26 +682,6 @@ void TLobby::swap_endian_header() { bswap_32((u32 *)this); bswap_32((u32 *)((cha
 
 // ---- pso/unk/text_8020A6B0
 
-/* Per-area map set table: area -> terrain variants -> map set entries. */
-struct MapSetEntry {
-    s32 object_set_name; // file base name read by load_area_object_set
-    s32 enemy_set_name;  // file base name read by load_area_enemy_set
-    s32 unk_8;
-};
-
-struct MapSetVariant {
-    MapSetEntry *entries;
-    s32 count;
-};
-
-struct MapSetArea {
-    MapSetVariant *variants;
-    s32 count;
-};
-
-
-extern MapSetArea *TLobby__data_805D6068;
-
 void TLobby__sub_8020A6B0(s32 player) {
     s32 area = get_floor_area(player);
     s32 terrain = get_floor_map_terrain(player);
@@ -741,14 +723,14 @@ extern "C" {
 // The callers pass the signed file size as the count.
 s32 load_object_set_entries__6TLobbyFlPUcUl(s32, u8 *, s32);
 }
-s32 load_enemy_set_file(s32 idx, s32 arg1) {
+s32 load_enemy_set_file(s32 idx, const char *filename) {
     Name_8020A768 name;
     s32 size;
     Ent_8020A768 *p;
     s32 n;
     s32 i;
     s32 floor;
-    replace_file_extension__6TLobbyFPvPvPv((char *)&name, (char *)arg1, "e.dat");
+    replace_file_extension__6TLobbyFPvPvPv((char *)&name, (char *)filename, "e.dat");
     size = read_disc_file(name.s, TLobby__map_set_file_buffer);
     if (size < 0) {
         return 0;
@@ -767,14 +749,14 @@ s32 load_enemy_set_file(s32 idx, s32 arg1) {
     init_floor_enemy_count__6TLobbyFlPUcUl(idx, TLobby__map_set_file_buffer, size);
     return 1;
 }
-s32 load_object_set_file(s32 idx, s32 arg1) {
+s32 load_object_set_file(s32 idx, const char *filename) {
     Name_8020A834 name;
     s32 size;
     Ent_8020A834 *p;
     s32 n;
     s32 i;
     s32 floor;
-    replace_file_extension__6TLobbyFPvPvPv(name.s, (char *)arg1, "o.dat");
+    replace_file_extension__6TLobbyFPvPvPv(name.s, (char *)filename, "o.dat");
     size = read_disc_file(name.s, TLobby__map_set_file_buffer);
     if (size < 0) {
         return 0;
@@ -798,7 +780,7 @@ extern s16 TLobby__data_805D6134;
 extern s32 TLobby__data_805D6148;
 extern s32 TLobby__data_805D614C;
 
-void load_map_set_data(s32 idx, s32 arg1) {
+void load_map_set_data(s32 idx, const char *filename) {
     map_set_data_handle_a = 0;
     map_set_data_handle_b = 0;
     map_set_object_id_counter = 0;
@@ -808,8 +790,8 @@ void load_map_set_data(s32 idx, s32 arg1) {
     copy_name((s32)"SET");
     TLobby__data_805D6134 = 0;
     if (TLobby::init_handle(0x8000) != 0) {
-        load_object_set_file(idx, arg1);
-        load_enemy_set_file(idx, arg1);
+        load_object_set_file(idx, filename);
+        load_enemy_set_file(idx, filename);
         advance_object_id_counter((u16) map_object_id_counter);
         TLobby__data_805D6148 = map_set_object_id_counter;
         advance_enemy_id_counter((u16) map_set_enemy_id_counter);
@@ -877,7 +859,7 @@ int TLobby::rebuild_entry() { return clear_record_flags_a__6TLobbyFv(this); }
 
 s32 load_area_enemy_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     char buf[0x28];
-    s32 name;
+    const char *filename;
     s32 size;
     u8 *p;
     s32 count;
@@ -894,21 +876,21 @@ s32 load_area_enemy_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
         TLobby::debug_print("NOT FOUND SET");
         return 0;
     }
-    name = t3[arg3].enemy_set_name;
+    filename = t3[arg3].enemy_set_name;
     if (arg1 == 0 || arg1 == 0x12) {
         switch (get_game_play_mode()) {
         case 0:
-            replace_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)name, "e.dat");
+            replace_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)filename, "e.dat");
             break;
         case 1:
-            replace_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)name, "e_c1.dat");
+            replace_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)filename, "e_c1.dat");
             break;
         case 2:
-            replace_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)name, "e_d.dat");
+            replace_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)filename, "e_d.dat");
             break;
         }
     } else {
-        replace_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)name, "e.dat");
+        replace_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)filename, "e.dat");
     }
     size = read_disc_file(buf, TLobby__map_set_file_buffer);
     if (size < 0) {
@@ -940,18 +922,6 @@ int TLobby::init_sub_state() { return clear_record_flags_b__6TLobbyFv(this); }
 
 // ---- pso/unk/text_8020AD40
 
-struct Stack_8020AF0C {
-    s32 sp8;
-    s32 spC;
-    s32 sp10;
-};
-
-struct Stack_8020AFA4 {
-    s32 sp8;
-    s32 spC;
-    s32 sp10;
-};
-
 struct Rec_8020AD40 { u8 pad0[2]; s16 f2; u8 pad4[0x40]; };
 
 extern "C" {
@@ -962,7 +932,7 @@ s32 load_area_object_set(s32 arg0, s32 lobby, s32 arg2, s32 arg3) {
     char name[0x20];
     MapSetVariant *subs;
     MapSetEntry *items;
-    s32 id;
+    const char *filename;
     s32 len;
     Rec_8020AD40 *r;
     s32 n;
@@ -977,21 +947,21 @@ s32 load_area_object_set(s32 arg0, s32 lobby, s32 arg2, s32 arg3) {
         TLobby::debug_print("NOT FOUND SET");
         return 0;
     }
-    id = items[arg3].object_set_name;
+    filename = items[arg3].object_set_name;
     if (lobby == 0 || lobby == 0x12) {
         switch (get_game_play_mode()) {
         case 0:
-            replace_file_extension__6TLobbyFPvPvPv((char *)name, (char *)id, "o.dat");
+            replace_file_extension__6TLobbyFPvPvPv((char *)name, (char *)filename, "o.dat");
             break;
         case 1:
-            replace_file_extension__6TLobbyFPvPvPv((char *)name, (char *)id, "o_c1.dat");
+            replace_file_extension__6TLobbyFPvPvPv((char *)name, (char *)filename, "o_c1.dat");
             break;
         case 2:
-            replace_file_extension__6TLobbyFPvPvPv((char *)name, (char *)id, "o_d.dat");
+            replace_file_extension__6TLobbyFPvPvPv((char *)name, (char *)filename, "o_d.dat");
             break;
         }
     } else {
-        replace_file_extension__6TLobbyFPvPvPv((char *)name, (char *)id, "o.dat");
+        replace_file_extension__6TLobbyFPvPvPv((char *)name, (char *)filename, "o.dat");
     }
     len = read_disc_file(name, TLobby__map_set_file_buffer);
     if (len < 0) {
@@ -1012,15 +982,15 @@ s32 load_area_object_set(s32 arg0, s32 lobby, s32 arg2, s32 arg3) {
 }
 
 s32 TLobby::load_all_floor_enemy_sets() {
-    Stack_8020AF0C stack;
+    FloorMapSelection stack;
     s32 var_r31;
     var_r31 = 0;
 loop_1:
-    if ((get_floor_map_selection(var_r31, (u8 *)&stack.sp8) == 1) && (stack.sp8 >= 0)) {
+    if ((get_floor_map_selection(var_r31, &stack) == 1) && (stack.area >= 0)) {
         if (is_area_transfer_pending() != 0) {
             return 0;
         }
-        load_area_enemy_set(var_r31, stack.sp8, stack.spC, stack.sp10);
+        load_area_enemy_set(var_r31, stack.area, stack.terrain, stack.entities);
         goto block_6;
     }
 block_6:
@@ -1034,15 +1004,15 @@ block_6:
     goto loop_1;
 }
 s32 TLobby::load_all_floor_object_sets() {
-    Stack_8020AFA4 stack;
+    FloorMapSelection stack;
     s32 var_r31;
     var_r31 = 0;
 loop_1:
-    if ((get_floor_map_selection(var_r31, (u8 *)&stack.sp8) == 1) && (stack.sp8 >= 0)) {
+    if ((get_floor_map_selection(var_r31, &stack) == 1) && (stack.area >= 0)) {
         if (is_area_transfer_pending() != 0) {
             return 0;
         }
-        load_area_object_set(var_r31, stack.sp8, stack.spC, stack.sp10);
+        load_area_object_set(var_r31, stack.area, stack.terrain, stack.entities);
         goto block_6;
     }
 block_6:
@@ -1098,28 +1068,6 @@ void clear_map_set_data(void) {
 }
 
 
-// Saved set-flag row of a floor's object or enemy list.
-struct SetFlagRow_8020B47C {
-    u16 id;
-    s16 flags;
-    s16 room;
-    s16 wave;
-};
-
-// One floor of TLobby__floor_enemy_group_table (owned by text_8020E08C).
-struct FloorSetFlags_8020B47C {
-    s32 object_count;
-    s32 enemy_count;
-    u32 object_placement;
-    u32 enemy_placement;
-    SetFlagRow_8020B47C *object_rows;
-    SetFlagRow_8020B47C *enemy_rows;
-};
-
-// Per-floor enemy and object row counts (written by init_floor_enemy_count and load_object_set_entries).
-extern s32 TLobby__data_80513CC8[];
-extern s32 TLobby__data_80513C80[];
-extern FloorSetFlags_8020B47C TLobby__floor_enemy_group_table[18];
 void TLobby::load_set_gsl_files() {
     map_set_data_handle_a = 0;
     map_set_data_handle_b = 0;
@@ -1152,8 +1100,8 @@ void TLobby::load_set_gsl_files() {
 }
 
 s32 TLobby::set_flags_on_matching_entries(s32 arg0, s16 arg1, s16 arg2, s32 arg3) {
-    FloorSetFlags_8020B47C *g = &TLobby__floor_enemy_group_table[arg0];
-    SetFlagRow_8020B47C *e;
+    LobbyFloorRows *g = &TLobby__floor_enemy_group_table[arg0];
+    FloorSavedSetRow *e;
     s32 n = 0;
     s32 i;
     if (g->enemy_count > 0) {
@@ -1171,9 +1119,9 @@ s32 TLobby::set_flags_on_matching_entries(s32 arg0, s16 arg1, s16 arg2, s32 arg3
 }
 
 s32 TLobby::set_room_group_flags(s32 floor, s16 room, s16 group, s32 bits) {
-    FloorSetFlags_8020B47C *t = &TLobby__floor_enemy_group_table[floor];
+    LobbyFloorRows *t = &TLobby__floor_enemy_group_table[floor];
     s32 n = 0;
-    SetFlagRow_8020B47C *e;
+    FloorSavedSetRow *e;
     s32 i;
     if (t->object_count > 0) {
         e = t->object_rows;
@@ -1213,10 +1161,8 @@ int TLobby::resolve_matching_object() { return get_matching_object__6TLobbyFv(th
 int get_object_count__6TLobbyFPv(void* p) { return get_object_count__6TLobbyFv(p); }
 
 // ---- pso/unk/text_8020B374
-s32 load_floor_enemy_group_entries__6TLobbyFiPvUi(s32, void *, u32);
-s32 init_quest_floor_enemies(s32, void *, u32);
 s32 TLobby::init_floor_enemy_count(s32 arg0, u8 *arg1, u32 arg2) {
-    if (init_quest_floor_enemies(arg0, arg1, arg2) == 1) {
+    if (init_quest_floor_enemies(arg0, (EnemySetRecord *)arg1, arg2) == 1) {
         TLobby__data_80513CC8[arg0] = arg2 / 72U;
         return 1;
     }
@@ -1225,7 +1171,7 @@ s32 TLobby::init_floor_enemy_count(s32 arg0, u8 *arg1, u32 arg2) {
 }
 
 s32 TLobby::load_object_set_entries(s32 arg0, u8 *arg1, u32 arg2) {
-    if (load_floor_enemy_group_entries__6TLobbyFiPvUi(arg0, arg1, arg2) == 1) {
+    if (load_floor_enemy_group_entries__6TLobbyFiPvUi(arg0, (FloorObjectSetRow *)arg1, arg2) == 1) {
         TLobby__data_80513C80[arg0] = arg2 / 68U;
         return 1;
     }
@@ -1254,7 +1200,7 @@ extern "C" {
 // Copies the received object and enemy set flags of every floor into the floor tables.
 void TLobby__sub_8020B47C(SyncSetFlagBlock_8020B47C *block) {
     s32 j;
-    SetFlagRow_8020B47C *row;
+    FloorSavedSetRow *row;
     s32 i;
     s16 *src;
     s32 count;

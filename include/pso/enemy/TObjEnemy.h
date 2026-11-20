@@ -22,8 +22,6 @@ struct TObjEnemy : public TObjChara {
     void award_enemy_experience(s32);
     void distribute_experience();
     void send_6x9C_enemy_low_game_flags(s32);
-    void set_flags_B0(u32);
-    void sub_800A7798(f32);
     void draw_ground_shadow(const Vec *scale, s32 forceDraw);
     virtual void vfunc_79(s32 *);
     virtual void apply_hit_message_flags(void *);
@@ -31,7 +29,6 @@ struct TObjEnemy : public TObjChara {
     virtual void clear_lobby_object_state();
     virtual s32 vfunc_74(s32);
     s32 exchange_object_state(s32, s16);
-    void sub_8002AE64();
     virtual const char *get_name();
     TObjEnemy* groupRoot();
     u32 subtype;

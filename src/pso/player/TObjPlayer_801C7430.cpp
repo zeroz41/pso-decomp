@@ -5417,7 +5417,7 @@ s32 update_aim_target__10TObjPlayerFPv(void *arg0) {
     if (temp_r3 == 0) {
         return 1;
     }
-    if ((is_locally_controlled__10TObjPlayerFPv(arg0) != 0) && (((TLobby *)arg0)->check_player_flag1() == 0) && (temp_r3 == 4)) {
+    if ((is_locally_controlled__10TObjPlayerFPv(arg0) != 0) && (((TObjPlayer *)arg0)->check_player_flag1() == 0) && (temp_r3 == 4)) {
         return 1;
     }
     return 0;
@@ -5464,7 +5464,7 @@ void start_action__10TObjPlayerFPv(u8 *arg0) {
     ((s32 (*)(void *, s32, s16))set_action_state__10TObjPlayerFPvss)(arg0, 4, temp_r3);
     temp_f31 = TObjPlayer__sub_801D2858(arg0 + 0x5E0);
     temp_f1 = ((f32 (*)(void *))get_action_rate_entry)(arg0);
-    ((TObjEnemy *)arg0)->sub_800A7798(temp_f1 * temp_f31);
+    ((TObjMotion *)arg0)->sub_800A7798(temp_f1 * temp_f31);
 }
 
 void handle_6x42_move_to_position(void *pkt) {
@@ -5685,7 +5685,7 @@ s32 update_combat_stats__10TObjPlayerFPv(u8 *arg0) {
     if (temp_r3 == 0) {
         return 1;
     }
-    if ((is_locally_controlled__10TObjPlayerFPv((void *) (arg0)) != 0) && (((TLobby *)arg0)->check_player_flag1() == 0) && (temp_r3 == 4)) {
+    if ((is_locally_controlled__10TObjPlayerFPv((void *) (arg0)) != 0) && (((TObjPlayer *)arg0)->check_player_flag1() == 0) && (temp_r3 == 4)) {
         return 1;
     }
     return 0;
@@ -5741,7 +5741,7 @@ void set_attack_state__10TObjPlayerFPv(u8 *arg0) {
     ((s32 (*)(void *, s32, s16))set_action_state__10TObjPlayerFPvss)(arg0, 2, temp_r3);
     temp_f31 = TObjPlayer__sub_801D2858(arg0 + 0x5E0);
     temp_f1 = ((f32 (*)(void *))get_action_rate_entry)(arg0);
-    ((TObjEnemy *)arg0)->sub_800A7798(temp_f1 * temp_f31);
+    ((TObjMotion *)arg0)->sub_800A7798(temp_f1 * temp_f31);
 }
 
 void handle_6x40_walk_to_position(void *pkt) {
@@ -6783,7 +6783,7 @@ f32 get_action_rate_entry(Obj_801D2640 *p) {
 void TObjPlayer::set_field_d4_and_flag_200(f32 value) {
     u8 *p = (u8 *)this;
     *(f32 *)(p + 0xD4) = value;
-    ((TObjEnemy *)p)->set_flags_B0(0x200U);
+    set_flags_B0(0x200U);
 }
 
 int TObjPlayer__sub_801D2680(void *p) {

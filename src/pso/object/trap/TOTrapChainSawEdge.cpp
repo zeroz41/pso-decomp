@@ -1,3 +1,5 @@
+#include "pso/system/BmlResourceLoad.h"
+#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "types.h"
 #include "pso/player/TObjPlayer_801E2D1C.h"
@@ -30,9 +32,7 @@ extern "C" void update_extension__14TOTrapChainSawFv();
 #pragma readonly_strings on
 
 extern "C" {
-u8 *fn_802C9924(s32 arg0);
-s32 get_motion__17TOTrapChainSawKeyFl(s32);
-s32 get_model__17TOTrapChainSawKeyFl(int, f32);
+GinjaTextureList *fn_802C9924(s32 arg0);
 void vfunc_16__17TOTrapChainSawKeyFv(u8 *arg0);
 typedef struct S_802C86D4 { u8 pad0[0xE8]; s32 fE8; } S_802C86D4;
 
@@ -170,7 +170,7 @@ void update_sweep__18TOTrapChainSawEdgeFv(void *arg0);
 void update_extension__18TOTrapChainSawEdgeFv(void *arg0);
 void * __dt__18TOTrapChainSawEdgeFv(void *arg0, s16 arg1);
 u8 * TOTrapChainSawEdge__ct(u8 *arg0);
-void TParticleCtrl__sub_802C8464(u32 arg0);
+void TParticleCtrl__sub_802C8464(NJS_OBJECT *arg0);
 void vfunc_27__17TOTrapChainSawKeyFv(void);
 void check_player_contact__17TOTrapChainSawKeyFv(void* p);
 void vfunc_14__17TOTrapChainSawKeyFv(void);
@@ -189,7 +189,7 @@ void TOTrapChainSawDamage__vt14(Obj_802C8C60 *arg0, f32 _w1);
 void decode_params__20TOTrapChainSawDamageFv(void *arg0);
 void * __dt__20TOTrapChainSawDamageFv(void *arg0, s16 arg1);
 void * TOTrapChainSawDamage__ct(void *arg0, void *arg1, void *arg2);
-s32 get_area_table_value__17TOTrapChainSawKeyFii(s32 arg0, s32 arg1);
+s32 get_area_table_value__17TOTrapChainSawKeyFii(TOTrapChainSaw *trap, s32 sound_index);
 void vfunc_14__14TOTrapChainSawFv(void);
 void render__14TOTrapChainSawFv(u8 *arg0);
 int clear_field_d8__14TOTrapChainSawFv(void* p);
@@ -212,21 +212,21 @@ void draw_ginja_model_with_motion(void *, void *, f32);
 extern s32 __vt__17TOTrapChainSawKey[];
 extern s32 __vt__18TOTrapChainSawEdge[];
 extern s32 __vt__20TOTrapChainSawDamage[];
-u32 seabed_suiso_linked_switch_counts[5];
-u32 seabed_suiso_switch_counts[5];
+NJS_OBJECT *seabed_suiso_linked_switch_counts[5];
+NJS_OBJECT *seabed_suiso_switch_counts[5];
 extern s32 local_client_id;
 extern s32 game_difficulty_selection;
 extern void *tl_05;
-void *chainsaw_ginja_model_filenames[6] = {
-    (void *)"fe_obj_nokogiri_2m.gj", (void *)"fe_obj_nokogiri_4m.gj", (void *)"fe_obj_sekigai_light_moto.gj", (void *)"fe_obj_sekigai2m_moto.gj",
-    (void *)"fe_obj_sekigai4m_moto.gj", (void *)0x0,
+const char *chainsaw_ginja_model_filenames[6] = {
+    "fe_obj_nokogiri_2m.gj", "fe_obj_nokogiri_4m.gj", "fe_obj_sekigai_light_moto.gj",
+    "fe_obj_sekigai2m_moto.gj", "fe_obj_sekigai4m_moto.gj", NULL,
 };
-void *bm_obj_jungle_nokogiri_motion_names[6] = {
-    (void *)"fe_obj_nokogiri_2m.njm", (void *)"fe_obj_nokogiri_4m.njm", (void *)"fe_obj_sekigai_light_moto.njm", (void *)"fe_obj_sekigai2m_moto.njm",
-    (void *)"fe_obj_sekigai4m_moto.njm", (void *)0x0,
+const char *bm_obj_jungle_nokogiri_motion_names[6] = {
+    "fe_obj_nokogiri_2m.njm", "fe_obj_nokogiri_4m.njm", "fe_obj_sekigai_light_moto.njm",
+    "fe_obj_sekigai2m_moto.njm", "fe_obj_sekigai4m_moto.njm", NULL,
 };
-void *bm_obj_jungle_nokogiri_resource_descriptor[4] = {
-    (void *)"bm_obj_jungle_nokogiri.bml", (void *)&chainsaw_ginja_model_filenames, (void *)&bm_obj_jungle_nokogiri_motion_names, (void *)0x50005,
+BmlResourceDescriptor bm_obj_jungle_nokogiri_resource_descriptor = {
+    "bm_obj_jungle_nokogiri.bml", chainsaw_ginja_model_filenames, bm_obj_jungle_nokogiri_motion_names, 5, 5,
 };
 const char *TOTrapChainSaw__name = "TOTrapChainSaw";
 __declspec(section ".rodata") F4_802C8FF8 TOTrapChainSaw__level_scale_table = { 1.0f, 2.0f, 3.0f, 6.0f };
@@ -274,8 +274,8 @@ void TOTrapChainSawEdge::vfunc_16() {
     *(s32 *)((s8 *)this + 0xFC) = (s32) *(f32 *)((s8 *)this + 0x70);
     x = *(s32 *)((s8 *)this + 0xFC);
     *(s32 *)((s8 *)this + 0xFC) = x < 0 ? 0 : (x > 1 ? 1 : x);
-    *(s32 *)((s8 *)this + 0xC8) = ((s32 (*)(s32))get_model__17TOTrapChainSawKeyFl)(a.v[*(s32 *)((s8 *)this + 0xFC)]);
-    *(s32 *)((s8 *)this + 0xBC) = get_motion__17TOTrapChainSawKeyFl(b.v[*(s32 *)((s8 *)this + 0xFC)]);
+    *(s32 *)((s8 *)this + 0xC8) = (s32)TOTrapChainSawKey::get_model(a.v[*(s32 *)((s8 *)this + 0xFC)]);
+    *(s32 *)((s8 *)this + 0xBC) = (s32)TOTrapChainSawKey::get_motion(b.v[*(s32 *)((s8 *)this + 0xFC)]);
     *(s32 *)((s8 *)this + 0x24) = (s32)fn_802C9924(0);
     *(f32 *)((s8 *)this + 0xB4) = (0.0f);
     *(f32 *)((s8 *)this + 0xB8) = (1.0f);
@@ -362,7 +362,7 @@ u8 *TOTrapChainSawEdge__ct(u8 *trap_chain_saw_edge) {
     return trap_chain_saw_edge;
 }
 
-void TParticleCtrl__sub_802C8464(u32 arg0) {
+void TParticleCtrl__sub_802C8464(NJS_OBJECT *arg0) {
     s32 i;
     for (i = 0; i < 5; i++) {
         if (arg0 == seabed_suiso_linked_switch_counts[i]) {
@@ -417,9 +417,9 @@ void TOTrapChainSawKey::update_state() {
     if (*(f32 *)((s8 *)arg0 + 0x104) > (f32) (u32) (*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x100)) + 4) - 1)) {
         *(f32 *)((s8 *)arg0 + 0x104) = 0.0f;
     }
-    play_persistent_sound((void *) (((s32 (*)(void *, int))get_area_table_value__17TOTrapChainSawKeyFii)(arg0, 2)), arg0, arg0 + 0x38, 0, 0);
+    play_persistent_sound((void *) (get_area_table_value__17TOTrapChainSawKeyFii(this, 2)), arg0, arg0 + 0x38, 0, 0);
     if ((s32) *(s32 *)((s8 *)arg0 + 0xF0) == 1) {
-        play_persistent_sound((void *) (((s32 (*)(void *, int))get_area_table_value__17TOTrapChainSawKeyFii)(arg0, 1)), arg0, arg0 + 0x38, 0, 0);
+        play_persistent_sound((void *) (get_area_table_value__17TOTrapChainSawKeyFii(this, 1)), arg0, arg0 + 0x38, 0, 0);
     }
 }
 
@@ -441,13 +441,13 @@ void TOTrapChainSawKey::vfunc_16() {
     *(s32 *)((s8 *)((u8 *)this) + 0xF8) = (s32) *(f32 *)((s8 *)((u8 *)this) + 0x70);
     x = *(s32 *)((s8 *)((u8 *)this) + 0xF8);
     *(s32 *)((s8 *)((u8 *)this) + 0xF8) = (x < 0) ? 0 : ((x > 1) ? 1 : x);
-    *(s32 *)((s8 *)((u8 *)this) + 0xC8) = ((s32 (*)(int))get_model__17TOTrapChainSawKeyFl)(a.v[*(s32 *)((s8 *)((u8 *)this) + 0xF8)]);
-    *(s32 *)((s8 *)((u8 *)this) + 0xBC) = get_motion__17TOTrapChainSawKeyFl((s32)(b.v[*(s32 *)((s8 *)((u8 *)this) + 0xF8)]));
+    *(s32 *)((s8 *)((u8 *)this) + 0xC8) = (s32)TOTrapChainSawKey::get_model(a.v[*(s32 *)((s8 *)((u8 *)this) + 0xF8)]);
+    *(s32 *)((s8 *)((u8 *)this) + 0xBC) = (s32)TOTrapChainSawKey::get_motion((s32)(b.v[*(s32 *)((s8 *)((u8 *)this) + 0xF8)]));
     *(s32 *)((s8 *)((u8 *)this) + 0x24) = (s32)fn_802C9924(3);
     *(f32 *)((s8 *)((u8 *)this) + 0xB4) = (0.0f);
     *(f32 *)((s8 *)((u8 *)this) + 0xB8) = (1.0f);
-    *(s32 *)((s8 *)((u8 *)this) + 0xFC) = get_model__17TOTrapChainSawKeyFl(2, (0.0f));
-    *(s32 *)((s8 *)((u8 *)this) + 0x100) = get_motion__17TOTrapChainSawKeyFl(2);
+    *(s32 *)((s8 *)((u8 *)this) + 0xFC) = (s32)TOTrapChainSawKey::get_model(2);
+    *(s32 *)((s8 *)((u8 *)this) + 0x100) = (s32)TOTrapChainSawKey::get_motion(2);
     *(f32 *)((s8 *)((u8 *)this) + 0x104) = (0.0f);
     *(f32 *)((s8 *)((u8 *)this) + 0x108) = (1.0f);
 }
@@ -507,7 +507,7 @@ void TOTrapChainSawDamage::vfunc_27() {
     if (((s32) *(s32 *)((s8 *)((u8 *)this) + 0x100) == 0xA) && ((p = *(void **)((s8 *)((u8 *)this) + 0x108)) != NULL)) {
         TOTrapChainSawDamage__sub_802C9C00((u8 *)p, 1);
     }
-    ((s32 (*)(s32, void *, void *, int, int))play_persistent_sound)(((s32 (*)(void *, int))get_area_table_value__17TOTrapChainSawKeyFii)(this, 0), this, (void *) (((u8 *)this) + 0x38), 0, 0);
+    ((s32 (*)(s32, void *, void *, int, int))play_persistent_sound)(get_area_table_value__17TOTrapChainSawKeyFii(this, 0), this, (void *) (((u8 *)this) + 0x38), 0, 0);
 }
 #pragma pop
 
@@ -581,8 +581,8 @@ void TOTrapChainSawDamage__vt14(Obj_802C8C60 *arg0, f32 _w1) {
     arg0->fF8 = (s32)arg0->f70;
     v = arg0->fF8;
     arg0->fF8 = v < 0 ? 0 : (v > 1 ? 1 : v);
-    arg0->fC8 = get_model__17TOTrapChainSawKeyFl(a.v[arg0->fF8], _w1);
-    arg0->fBC = get_motion__17TOTrapChainSawKeyFl(b.v[arg0->fF8]);
+    arg0->fC8 = (s32)TOTrapChainSawKey::get_model(a.v[arg0->fF8]);
+    arg0->fBC = (s32)TOTrapChainSawKey::get_motion(b.v[arg0->fF8]);
     arg0->f24 = (s32)fn_802C9924(0);
     arg0->fB4 = (0.0f);
     arg0->fB8 = (1.0f);
@@ -683,7 +683,7 @@ void *TOTrapChainSawDamage__ct(void *arg0, void *arg1, void *arg2) {
 #pragma auto_inline off
 #pragma dont_inline off
 #pragma inline_depth(1)
-s32 get_area_table_value__17TOTrapChainSawKeyFii(s32 arg0, s32 arg1) {
+s32 get_area_table_value__17TOTrapChainSawKeyFii(TOTrapChainSaw *trap, s32 sound_index) {
     T_802C8F68 t = chainsaw_area_table_values;
     s32 *p = t.r[0];
     switch (get_current_floor_area()) {
@@ -694,7 +694,7 @@ s32 get_area_table_value__17TOTrapChainSawKeyFii(s32 arg0, s32 arg1) {
         p = t.r[2];
         break;
     }
-    return p[arg1];
+    return p[sound_index];
 }
 #pragma pop
 
@@ -830,7 +830,7 @@ void TOTrapChainSaw::update_sweep() {
         *(s32 *)((s8 *)this + 0xD4) = 0;
     }
 }
-extern "C" { u8 *lbl_805D6808; }
+extern "C" { BmlResource *lbl_805D6808; }
 
 #pragma push
 #pragma opt_propagation off
@@ -1025,30 +1025,26 @@ s32 __vt__20TOTrapChainSawDamage[31] = {
     (s32)&scale_by_level__14TOTrapChainSawFf
 };
 
-u8 * get_bml_texlist(void *, int);
-u8 *fn_802C9924(s32 arg0) {
-    if ((void *) lbl_805D6808 != NULL) {
-        return get_bml_texlist(lbl_805D6808, arg0);
+GinjaTextureList *fn_802C9924(s32 arg0) {
+    if (lbl_805D6808 != NULL) {
+        return (GinjaTextureList *)get_bml_texlist(lbl_805D6808, arg0);
     }
     return NULL;
 }
 
-u8 * get_bml_motion(void *, int);
-u8 * get_bml_model(void *, int);
-u8 *TOTrapChainSawKey::get_motion(s32 arg0) {
-    if ((void *) lbl_805D6808 != NULL) {
+AnimationMotion *TOTrapChainSawKey::get_motion(s32 arg0) {
+    if (lbl_805D6808 != NULL) {
         return get_bml_motion(lbl_805D6808, arg0);
     }
     return NULL;
 }
-u8 *TOTrapChainSawKey::get_model(s32 arg0) {
-    if ((void *) lbl_805D6808 != NULL) {
-        return get_bml_model(lbl_805D6808, arg0);
+NJS_OBJECT *TOTrapChainSawKey::get_model(s32 arg0) {
+    if (lbl_805D6808 != NULL) {
+        return (NJS_OBJECT *)get_bml_model(lbl_805D6808, arg0);
     }
     return NULL;
 }
 
-void free_bin_model_request(void *, int);
 
 void TOTrapChainSaw::unload_static_data() {
     s32 i;
@@ -1057,10 +1053,10 @@ void TOTrapChainSaw::unload_static_data() {
         lbl_805D6808 = NULL;
     }
     for (i = 0; i < 5; i++) {
-        seabed_suiso_linked_switch_counts[i] = 0;
+        seabed_suiso_linked_switch_counts[i] = NULL;
     }
     for (i = 0; i < 5; i++) {
-        seabed_suiso_switch_counts[i] = 0;
+        seabed_suiso_switch_counts[i] = NULL;
     }
 }
 
@@ -1073,36 +1069,35 @@ void TOTrapChainSaw::unload_static_data() {
 
 
 extern "C" {
-void *load_resource_from_descriptor(void *, int, void *, int, int, int);
 void TOTrapChainSaw::load_shared_resource() {
-    void *p;
+    BmlResource *p;
     s32 i;
-    s32 h;
-    p = ::operator new(0x440);
+    NJS_OBJECT *root;
+    p = (BmlResource *)::operator new(0x440);
     if (p != NULL) {
-        p = load_resource_from_descriptor(p, 5, bm_obj_jungle_nokogiri_resource_descriptor, 0, 0, 0);
+        p = load_resource_from_descriptor(p, 5, &bm_obj_jungle_nokogiri_resource_descriptor, 0, 0, 0);
     }
-    lbl_805D6808 = (u8 *)p;
+    lbl_805D6808 = p;
     for (i = 0; i < 5; i++) {
-        seabed_suiso_linked_switch_counts[i] = 0;
+        seabed_suiso_linked_switch_counts[i] = NULL;
     }
     for (i = 0; i < 5; i++) {
-        seabed_suiso_switch_counts[i] = 0;
+        seabed_suiso_switch_counts[i] = NULL;
     }
     if (p != NULL) {
-        h = (s32)get_bml_model(p, 3);
-        if (h != 0) {
-            seabed_suiso_linked_switch_counts[1] = (s32)find_object_node((NJS_OBJECT *)h, 3);
-            seabed_suiso_linked_switch_counts[2] = (s32)find_object_node((NJS_OBJECT *)h, 4);
-            seabed_suiso_linked_switch_counts[3] = (s32)find_object_node((NJS_OBJECT *)h, 5);
-            seabed_suiso_linked_switch_counts[4] = (s32)find_object_node((NJS_OBJECT *)h, 6);
+        root = (NJS_OBJECT *)get_bml_model(p, 3);
+        if (root != NULL) {
+            seabed_suiso_linked_switch_counts[1] = find_object_node(root, 3);
+            seabed_suiso_linked_switch_counts[2] = find_object_node(root, 4);
+            seabed_suiso_linked_switch_counts[3] = find_object_node(root, 5);
+            seabed_suiso_linked_switch_counts[4] = find_object_node(root, 6);
         }
-        h = (s32)get_bml_model(lbl_805D6808, 4);
-        if (h != 0) {
-            seabed_suiso_switch_counts[1] = (s32)find_object_node((NJS_OBJECT *)h, 3);
-            seabed_suiso_switch_counts[2] = (s32)find_object_node((NJS_OBJECT *)h, 4);
-            seabed_suiso_switch_counts[3] = (s32)find_object_node((NJS_OBJECT *)h, 5);
-            seabed_suiso_switch_counts[4] = (s32)find_object_node((NJS_OBJECT *)h, 6);
+        root = (NJS_OBJECT *)get_bml_model(lbl_805D6808, 4);
+        if (root != NULL) {
+            seabed_suiso_switch_counts[1] = find_object_node(root, 3);
+            seabed_suiso_switch_counts[2] = find_object_node(root, 4);
+            seabed_suiso_switch_counts[3] = find_object_node(root, 5);
+            seabed_suiso_switch_counts[4] = find_object_node(root, 6);
         }
     }
 }

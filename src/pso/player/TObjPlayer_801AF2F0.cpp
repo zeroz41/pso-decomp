@@ -1782,7 +1782,6 @@ s32 fn_8002AE08(u16);
 s32 get_field_3e0__12TBoss3VoloptFv();
 s32 check_value_equals__13TUnk_804B6C24CFl(void *, s32);
 void obj_clear_flag30_20000(TObjBase *actor);
-s32 check_player_flag1__6TLobbyFv(s32);
 s32 get_position_ptr__10TObjPlayerFv();
 s32 get_mode__11TCameraCtrlFPv(void *p);
 void copy_player_visual_record(void *, void *);
@@ -4199,7 +4198,7 @@ s32 TObjPlayer::find_inventory_item_id(s8 arg1, s8 arg2) {
 }
 
 s32 TWindowSubItem::is_usable(s32 arg0) {
-    if ((is_action_active__10TObjPlayerFv() != 0U) || (((TObjPlayer *)arg0)->test_action_mask(0x43001E) == 0) || (((TObjCollidable *)arg0)->obj_testFlags30(0x20) != 0) || (check_player_flag1__6TLobbyFv(arg0) != 0)) {
+    if ((is_action_active__10TObjPlayerFv() != 0U) || (((TObjPlayer *)arg0)->test_action_mask(0x43001E) == 0) || (((TObjCollidable *)arg0)->obj_testFlags30(0x20) != 0) || (((TObjPlayer *)arg0)->check_player_flag1() != 0)) {
         return 0;
     }
     return 1;
@@ -5348,7 +5347,7 @@ s32 TObjPlayer::is_outside_movement_hold(f32 *pos) {
     f32 *center;
     f32 x, y, z;
     f32 dx, dz;
-    if (((s32 (*)(void))check_player_flag1__6TLobbyFv)() == 0) {
+    if (check_player_flag1() == 0) {
         return 0;
     }
     center = (f32 *)TObjPlayer__sub_801BF6B8(&this->m_730);
@@ -5554,7 +5553,7 @@ void TObjPlayer::update_subsystems() {
         sync_status_effect_flags();
         clear_action_flag();
         ((TObjPlayer *)arg0)->update_target();
-        if ((check_player_flag1__6TLobbyFv(arg0) != 0) && (TObjPlayer__sub_801BF57C((void *)(arg0 + 0x730)) >= 0) && (TObjPlayer__sub_801BF560((s16 *)(arg0 + 0x730)) == 0)) {
+        if ((((TObjPlayer *)arg0)->check_player_flag1() != 0) && (TObjPlayer__sub_801BF57C((void *)(arg0 + 0x730)) >= 0) && (TObjPlayer__sub_801BF560((s16 *)(arg0 + 0x730)) == 0)) {
             TObjPlayer::send_code_45_1(arg0);
         }
         update_target_lock__10TObjPlayerFii(arg0 + 0x63C, arg0);
@@ -6234,7 +6233,7 @@ void apply_speed_scale__10TObjPlayerFif(s32 arg0, f32 farg0) {
     } else {
         var_f1 = farg0;
     }
-    ((TObjEnemy *)arg0)->sub_800A7798(var_f1);
+    ((TObjMotion *)arg0)->sub_800A7798(var_f1);
 }
 
 s32 calc_scaled_value__10TObjPlayerFii(s32 arg0, s32 arg1) {

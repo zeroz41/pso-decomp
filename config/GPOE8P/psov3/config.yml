@@ -8882,7 +8882,7 @@ force_active:
   - load_bin_motion_callback__FPv
   - load_chr_select_slot__23TAdSinglePlyChrSelectGCFv
   - load_downloaded_quest__12TQuestListVMFv
-  - load_enemy_set_file__Fll
+  - load_enemy_set_file__FlPCc
   - load_entry_into_slot__8TFogCtrlFll
   - load_entry_params__16TObjEneMerillLiaFl
   - load_entry_params_volopt__16TBoss3VoloptCoreFl
@@ -8896,7 +8896,7 @@ force_active:
   - load_map_texture_archive__6TSceneFl
   - load_model__15TBoss3VoloptP01Fl
   - load_models__22TObjContainerJungEnemyFv
-  - load_object_set_file__Fll
+  - load_object_set_file__FlPCc
   - load_param_record__8TItemMagFv
   - load_params__15TObjEneMe1GiGueFv
   - load_params_from_table__14TObjEneDolmOlmFl
@@ -16596,12 +16596,6 @@ force_active:
   - translate_key_char__19TWindowKeyBoardHardFUcPUs
   - translate_view_negated__11TCameraCtrlFfff
   - trap_ancient02_collision_body
-  - bm_obj_ruins_pillar_model_names
-  - bm_obj_ruins_pillar_resource_descriptor
-  - bm_obj_seabed_pillar_model_names
-  - bm_obj_seabed_pillar_resource_descriptor
-  - bm_fs_obj_o_torabasami_model_names
-  - bm_fs_obj_o_torabasami_resource_descriptor
   - traverse_animated_node_tree__FPv
   - trigger_activate_sound__11TOKeyCave01Fv
   - trigger_activate_sound__11TObjDoorKeyFv

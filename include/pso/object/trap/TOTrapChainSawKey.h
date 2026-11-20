@@ -4,6 +4,9 @@
 #include "types.h"
 #include "pso/object/trap/TOTrapChainSaw.h"
 
+struct AnimationMotion;
+struct NJS_OBJECT;
+
 struct TOTrapChainSawKey : public TOTrapChainSaw {
     virtual ~TOTrapChainSawKey();
     virtual void update_state();
@@ -18,8 +21,8 @@ struct TOTrapChainSawKey : public TOTrapChainSaw {
     u32 m_fc;
     u32 m_100;
     void *create();
-    static u8 *get_motion(s32 arg0);
-    static u8 *get_model(s32 arg0);
+    static AnimationMotion *get_motion(s32 arg0);
+    static NJS_OBJECT *get_model(s32 arg0);
     u8 unk_104[0x8];
 };
 

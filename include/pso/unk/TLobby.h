@@ -115,7 +115,6 @@ struct TLobby : public TObject {
     static void init_bosses();
     static void init_boss2_stage();
     static void create_boss2_tunnel();
-    s32 check_player_flag1();
     static int is_boss_phase_reached();
     static void cleanup_pillar_demo();
     static void cleanup_boss5_pillars();
@@ -838,7 +837,6 @@ struct TLobby : public TObject {
     static void setup_quest_list();
     static void init_id_tables();
     static s32 is_scene_ready();
-    static int lookup_scene_object(void* p);
     static int reset_story_select(void* p);
     static void update_current_floor();
     static void update_key_machine();
