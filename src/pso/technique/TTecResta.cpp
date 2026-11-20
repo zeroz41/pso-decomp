@@ -14,6 +14,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecCtrl.h"
+extern "C" void *__ct__16TargetCursorListFv(void *list);
 
 #pragma readonly_strings on
 
@@ -159,7 +160,7 @@ u8 *TTecResta__sub_80239C48(TTecResta *arg0, s32 owner, s32 pos, s32 level) {
     u8 *temp_r3;
     TTecPlayerInfluence__ct((void *)arg0, (void *)owner, (void *)pos, (void *)level);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__9TTecResta;
-    ((TObjPlayer *)((u8 *)arg0 + 0xE0))->construct_target_cursor_records();
+    __ct__16TargetCursorListFv(((u8 *)arg0 + 0xE0));
     *(s32 *)((s8 *)arg0 + 0) = (s32) ((s32)TTecResta__name);
     arg0->m_13c = 0;
     arg0->init_parameters();
@@ -185,7 +186,7 @@ void *TTecResta__ct(TTecResta *arg0, void *owner, void *pos, void *arg3, void *l
     u8 *p;
     TTecPlayerInfluence__ct(arg0, owner, pos, level);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__9TTecResta;
-    ((TObjPlayer *)((u8 *)arg0 + 0xE0))->construct_target_cursor_records();
+    __ct__16TargetCursorListFv(((u8 *)arg0 + 0xE0));
     *(s32 *)((s8 *)arg0 + 0) = ((s32)TTecResta__name);
     *(s32 *)&arg0->m_13c = 1;
     copy_technique_target_list((u8 *)arg0 + 0xE0, arg3);

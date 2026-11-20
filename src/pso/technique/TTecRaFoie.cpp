@@ -191,6 +191,7 @@ void TTecRaFoie::vfunc_8(void *) {
 #include "pso/system/scene/TScene.h"
 #include "pso/technique/TTecAnti.h"
 #include "pso/technique/TTecResta.h"
+extern "C" void *__ct__16TargetCursorListFv(void *list);
 struct Stack_80238388 {
     s32 sp8;
     s32 spC;
@@ -605,7 +606,7 @@ typedef struct RecoveredFields_80238D10_arg0 RecoveredFields_80238D10_arg0;
 #pragma push
 #pragma opt_common_subs off
 TTecRaFoie::TTecRaFoie(s32 source, Vec *origin, Vec *pos, s32 level) : TUnk_804CC148(source, origin, pos, level) {
-    ((TObjPlayer *)&m_ec)->construct_target_cursor_records();
+    __ct__16TargetCursorListFv(&m_ec);
     m_name = TTecRaFoie_class_name;
     calc_area_parameters();
     clear_target_cursor_list(&m_ec);
@@ -622,7 +623,7 @@ TTecRaFoie::TTecRaFoie(s32 source, Vec *origin, Vec *pos, s32 level) : TUnk_804C
 #pragma pop
 
 TTecRaFoie::TTecRaFoie(s32 source, Vec *origin, TargetCursorList *list, s32 level) : TUnk_804CC148(source, origin, origin, level) {
-    ((TObjPlayer *)&m_ec)->construct_target_cursor_records();
+    __ct__16TargetCursorListFv(&m_ec);
     m_name = TTecRaFoie_class_name;
     calc_area_parameters();
     m_148 = 0;

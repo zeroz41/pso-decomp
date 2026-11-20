@@ -1651,7 +1651,7 @@ TObjEneRe4Sorcerer *TObjEneRe4Sorcerer__ct(TObjEneRe4Sorcerer *self, void *arg1,
     __ct__12TObjEneDD_STFP7TObject(self);
     *(s32 **)((s8 *)self + 0x18) = __vt__18TObjEneRe4Sorcerer;
     __ct__13TUnk_80490470Fv(&self->fade);
-    ((TObjPlayer *)&self->targets)->construct_target_cursor_records();
+    __ct__16TargetCursorListFv(&self->targets);
     __construct_array(self->fades, __ct__15RenderFadeStateFv, __dt__15RenderFadeStateFv, sizeof(RenderFadeState), 4);
     self->m_name = TObjEneRe4Sorcerer__name;
     ((TObjEneDD *)self)->invoke_initialization_hook(set_data);

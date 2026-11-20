@@ -38,6 +38,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/enemy/TUnk_80493450.h"
+extern "C" void *__ct__16TargetCursorListFv(void *list);
 
 
 #pragma readonly_strings on
@@ -4151,7 +4152,7 @@ void handle_6x33_revive_player(void *arg0) {
         if (p != NULL) {
             q = (Player_801CCA84 *)get_player_by_client_id(m.target);
             if (q != NULL && ((TObjPlayer *)q)->check_flag_4() == 0 && q->list == tl_03) {
-                ((TObjPlayer *)(&t))->construct_target_cursor_records();
+                __ct__16TargetCursorListFv((&t));
                 t.kind = 1;
                 t.target = m.target;
                 t.f6 = 0;

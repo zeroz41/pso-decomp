@@ -30,6 +30,7 @@
 #include "pso/technique/TTecDeband.h"
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/technique/TTecResta.h"
+extern "C" void *__ct__16TargetCursorListFv(void *list);
 
 TechniqueParams lbl_80515F90;
 // Per player: the technique boosts of the equipped weapon and shield.
@@ -501,7 +502,7 @@ void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl)
     Target_8022D27C *targets;
     s32 i;
     Ent_8022D27C *ent;
-    ((TObjPlayer *)(&list))->construct_target_cursor_records();
+    __ct__16TargetCursorListFv((&list));
     ofs.x = 0.0f;
     ofs.y = 0.0f;
     ofs.z = 100.0f;

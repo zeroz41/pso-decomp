@@ -103,7 +103,6 @@ TTecJelin::~TTecJelin() {
 
 TTecJelin::TTecJelin(s32 source, Vec *pos, TargetCursorList *list, s32 level) : TUnk_804CC148(source, (s32)pos, level) {
     s32 r;
-    ((TObjPlayer *)&targets)->construct_target_cursor_records();
     m_name = tec_jelin_class_name_ptr;
     has_targets = 1;
     copy_technique_target_list(&targets, list);
@@ -139,7 +138,6 @@ TTecJelin::TTecJelin(s32 source, Vec *pos, TargetCursorList *list, s32 level) : 
 
 TTecJelin::TTecJelin(s32 source, Vec *pos, Vec *target, s32 level) : TUnk_804CC148(source, pos, target, level) {
     s32 r;
-    ((TObjPlayer *)&targets)->construct_target_cursor_records();
     m_name = tec_jelin_class_name_ptr;
     has_targets = 0;
     init_tech_params();

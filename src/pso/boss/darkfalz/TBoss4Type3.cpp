@@ -75,6 +75,7 @@ struct Type3MotionView { s32 kind, flags, motions[3]; };
 #include "pso/technique/TTecRaBarta.h"
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/technique/TTecResta.h"
+extern "C" void *__ct__16TargetCursorListFv(void *list);
 
 extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
 #pragma defer_codegen on
@@ -1885,7 +1886,7 @@ void TBoss4Type3::update_light_magic() {
         r29 = *(s32 *)((u8 *)TLobby::dispatch_shared_handler_a(0x38) + 0x18);
         for (i = 0; i < 4; i++) {
             if (TBoss4Type3__sub_8005254C(i) != 0) {
-                ((TObjPlayer *)(&g))->construct_target_cursor_records();
+                __ct__16TargetCursorListFv((&g));
                 clear_target_cursor_list(&g);
                 g.f0 = 1;
                 g.f4 = i;

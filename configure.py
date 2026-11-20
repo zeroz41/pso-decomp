@@ -437,6 +437,10 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # stride shifts and leaves invariant hoisting to the backend. The frame-buffer
     # functions after it (flush_cache..flush_framebuffer, same TU) match under these too.
     "pso/system/movie/TMovie_80143988.cpp": {"cflags": _switch(cflags_pso, "-opt nolifetimes,nocse,noprop,noloop")},
+    # TObjChara's vtable sits ahead of the jump tables and its methods run in reverse
+    # slot order: deferred generation of the last-to-first source. The EXP/TP/HP labels
+    # are 4-byte string literals in .sdata2.
+    "pso/player/TObjPlayer_80011014.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/ui/frontend/DrawLine.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-fp_contract on")},
     # .rodata holds assign_photon_blast_palette_slot's id table ahead of the earlier
     # assign_default_photon_blast_palette_slots's: deferred generation of the last-to-first source.

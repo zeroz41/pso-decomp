@@ -116,6 +116,7 @@ void TTecZonde::vfunc_8(void *arg1_arg) {
 }
 
 #include "pso/technique/TTecLuker.h"
+extern "C" void *__ct__16TargetCursorListFv(void *list);
 
 struct Seg_8023C79C { f32 a[3]; f32 b[3]; f32 len; };
 struct Tgt_8023C79C { u8 pad[0x38]; f32 x, y, z; };
@@ -300,7 +301,7 @@ u8 *TTecZonde__ct(u8 *arg0, s32 arg1, u8 *arg2, u8 *arg3, s16 arg4) {
     u8 *temp_r3;
     __ct__13TUnk_804CCC68FlP3Vecll(arg0, arg1, arg2, 0, arg4);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__9TTecZonde;
-    ((TObjPlayer *)(arg0 + 0x130))->construct_target_cursor_records();
+    __ct__16TargetCursorListFv((arg0 + 0x130));
     *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D3838;
     ((TTecZonde *)arg0)->init_parameters();
     copy_technique_target_list(arg0 + 0x130, arg3);

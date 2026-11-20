@@ -59,7 +59,6 @@ void TUnk_804A65E0::vfunc_57() {
 TUnk_804A65E0::~TUnk_804A65E0() {}
 
 TUnk_804A65E0::TUnk_804A65E0(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
-    ((TObjPlayer *)&targets)->construct_target_cursor_records();
     effect_flags.set(32);
     set_weapon_flags(34);
     ((TObjPlayer *)this)->set_effect_state(5);

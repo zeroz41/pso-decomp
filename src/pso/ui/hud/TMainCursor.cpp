@@ -65,6 +65,8 @@
 #include "pso/ui/hud/TLockOnCursor_8013EEC8.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/player/TObjPlayer_80011014.h"
+extern "C" void *__ct__16TargetCursorListFv(void *list);
+extern "C" void *__ct__18TargetCursorRecordFv(void *p);
 
 extern "C" {
 
@@ -220,7 +222,6 @@ s32 target_in_xz_cone(Vec *p, Vec *q, Vec *r, s32 yaw, f32 range, f32 dist);
 s32 TMainCursor__sub_8013F168(void *);
 s32 try_add_target_candidate__11TMainCursorFPvPvPvPv(u8 *cursor, u8 *player, u8 *target, Best_8013C288 *best);
 struct Ent_8013C678 { u32 id; f32 key; };
-void *fn_8004438C(void *p);
 s32 quick_sort_partition__11TMainCursorFiPvii(s32 self, Ent_8013C678 *a, s32 lo, s32 hi);
 void TMainCursor__sub_8013F170(void *p, s32 v);
 void clear_target_cursor_list(void *p);
@@ -359,17 +360,9 @@ struct Rec_8013E870 { u8 pad[0x124]; };
 
 struct Obj_8013E870 { u8 pad[0x5c]; Rec_8013E870 recs[1]; };
 
-extern "C" {
-
-}
 
 s32 TLockOnCursor__sub_8013EDC4(s32, s16);
 
-extern "C" {
-
-void *fn_8004438C(void *p);
-
-}
 
 struct Rec_8013F154 { u8 pad[0x8]; };
 
@@ -1061,7 +1054,7 @@ s32 quick_sort_partition__11TMainCursorFiPvii(s32 self, Ent_8013C678 *a, s32 lo,
     s32 i;
     s32 j;
 
-    fn_8004438C(&tmp);
+    __ct__18TargetCursorRecordFv(&tmp);
     j = hi;
     i = lo - 1;
     pivot = a[hi].key;
@@ -2167,7 +2160,7 @@ TUnk_8013F08C::TUnk_8013F08C() { unk_0 = NULL; unk_4 = NULL; unk_8 = NULL; }
 
 extern "C" {
 
-void* init_sub__13TLockOnCursorFPv(void* p) { fn_8004438C(p); __ct__8FlagWordFv(((char*)p + 0x8)); return p; }
+void* init_sub__13TLockOnCursorFPv(void* p) { __ct__18TargetCursorRecordFv(p); __ct__8FlagWordFv(((char*)p + 0x8)); return p; }
 
 int TLockOnCursor__sub_8013F000(void *self) {
     __construct_array((char *)self + 4, (void *)init_sub__13TLockOnCursorFPv, (void *)TLockOnCursor__sub_8013EDC4, 0xc, 0xb);
@@ -2178,7 +2171,7 @@ int TLockOnCursor__sub_8013F000(void *self) {
 }
 
 TUnk_8013EFB8::TUnk_8013EFB8() {
-    ((TObjPlayer *)target_list)->construct_target_cursor_records();
+    __ct__16TargetCursorListFv(target_list);
     TLockOnCursor__sub_8013F000(&target_records);
     ((TMainCursor *)this)->reset_state();
 }

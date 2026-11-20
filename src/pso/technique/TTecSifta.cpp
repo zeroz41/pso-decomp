@@ -11,6 +11,7 @@
 
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby_80226070.h"
+extern "C" void *__ct__16TargetCursorListFv(void *list);
 
 #pragma readonly_strings on
 
@@ -194,7 +195,7 @@ void *TTecSifta__ct(void *arg0_, void *owner, void *pos, void *arg3, void *level
     u32 t;
     TTecPlayerInfluence__ct(arg0, owner, pos, level);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__9TTecSifta;
-    ((TObjPlayer *)(arg0 + 0xE0))->construct_target_cursor_records();
+    __ct__16TargetCursorListFv((arg0 + 0xE0));
     *(s32 *)((s8 *)arg0 + 0) = ((s32)TTecSifta__name);
     *(s32 *)&((TTecSifta *)arg0)->m_13c = 1;
     copy_technique_target_list(arg0 + 0xE0, arg3);
@@ -221,7 +222,7 @@ u8 *TTecSifta__sub_8023B17C(TTecSifta *arg0, s32 owner, s32 pos, s32 level) {
     u8 *temp_r3;
     TTecPlayerInfluence__ct((void *)arg0, (void *)owner, (void *)pos, (void *)level);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__9TTecSifta;
-    ((TObjPlayer *)((u8 *)arg0 + 0xE0))->construct_target_cursor_records();
+    __ct__16TargetCursorListFv(((u8 *)arg0 + 0xE0));
     *(s32 *)((s8 *)arg0 + 0) = (s32) ((s32)TTecSifta__name);
     arg0->m_13c = 0;
     arg0->update_effect_params();

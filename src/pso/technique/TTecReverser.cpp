@@ -11,6 +11,7 @@
 
 #include "pso/technique/TTecAnti.h"
 #include "pso/player/TObjPlayer.h"
+extern "C" void *__ct__16TargetCursorListFv(void *list);
 
 #pragma readonly_strings on
 
@@ -144,7 +145,7 @@ u8 *TTecReverser__ct(u8 *tec_reverser, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     u32 temp_r3;
     __ct__13TUnk_804CC148Flll((void *)tec_reverser, (void *)arg1, (void *)arg2, (void *)arg4);
     *(s32 **)((s8 *)tec_reverser + 0x18) = __vt__12TTecReverser;
-    ((TObjPlayer *)(tec_reverser + 0xEC))->construct_target_cursor_records();
+    __ct__16TargetCursorListFv((tec_reverser + 0xEC));
     ((TTecReverser *)tec_reverser)->m_name = lbl_805D3818;
     ((TTecAnti *)(tec_reverser + 0x88))->copy_params((u8 *)((u8 *)&technique_param_table.value + 0x2EC));
     ((TTecReverser *)tec_reverser)->sub_8022BE64(tec_reverser + 0x88, arg4);

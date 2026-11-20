@@ -6,6 +6,7 @@
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
+extern "C" void *__ct__16TargetCursorListFv(void *list);
 
 
 struct Self_80127BE0 { u8 pad[0xF0]; s32 fF0; };
@@ -40,7 +41,7 @@ void TUnk_804A3640::emit_marker_effects() {
             for (i = 0; i != get_captured_target_count((s32 *)ext); i++) {
                 item = get_captured_target_entry(ext, i);
                 if (item != NULL) {
-                    ((TObjPlayer *)(&tec))->construct_target_cursor_records();
+                    __ct__16TargetCursorListFv((&tec));
                     tec.kind = 1;
                     tec.a = item->a;
                     tec.b = item->b;

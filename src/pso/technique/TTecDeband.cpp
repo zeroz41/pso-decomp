@@ -9,6 +9,7 @@
 #include "pso/player/TObjPlayer.h"
 
 #include "pso/system/task/TObject.h"
+extern "C" void *__ct__16TargetCursorListFv(void *list);
 
 #pragma readonly_strings on
 
@@ -167,7 +168,7 @@ s32 TTecDeband__ct(u32 a0, s32 owner, s32 pos, s32 arg3, s32 level) {
     u8 *temp_r3;
     TTecPlayerInfluence__ct((void *)arg0, (void *)owner, (void *)pos, (void *)level);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__10TTecDeband;
-    ((TObjPlayer *)(arg0 + 0xE0))->construct_target_cursor_records();
+    __ct__16TargetCursorListFv((arg0 + 0xE0));
     s32 g = ((s32)tec_deband_class_name_ptr);
     *(s32 *)((s8 *)arg0 + 0) = g;
     *(s32 *)&((TTecDeband *)arg0)->m_13c = 1;
@@ -195,7 +196,7 @@ u8 *TTecDeband__sub_8022F948(TTecDeband *arg0, s32 owner, s32 pos, s32 level) {
     u8 *temp_r3;
     TTecPlayerInfluence__ct((void *)arg0, (void *)owner, (void *)pos, (void *)level);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__10TTecDeband;
-    ((TObjPlayer *)((u8 *)arg0 + 0xE0))->construct_target_cursor_records();
+    __ct__16TargetCursorListFv(((u8 *)arg0 + 0xE0));
     *(s32 *)((s8 *)arg0 + 0) = (s32) ((s32)tec_deband_class_name_ptr);
     arg0->m_13c = 0;
     arg0->update_effect_params();

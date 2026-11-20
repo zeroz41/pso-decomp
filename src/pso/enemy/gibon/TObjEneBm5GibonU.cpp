@@ -2532,6 +2532,7 @@ void TObjEneBm5GibonU::sub_800D10A0() {
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/enemy/sinowzoa/TObjEneMe3SinowZoa.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
+extern "C" void *__ct__16TargetCursorListFv(void *list);
 
 // The Gibbon's static data from TObjEneBm5GibonU__data_80500E78 on: the parameter tables, then
 // the two lists, each after the destructor-chain record __register_global_object fills in.
@@ -2660,7 +2661,7 @@ TObjEneBm5GibonU *TObjEneBm5GibonU__ct(TObjEneBm5GibonU *self, s32 arg1, s32 set
     TObjEneBm5GibonU__sub_800D1CF8(&self->m_3cc);
     __ct__13TUnk_80494938Fv(&self->m_3d8);
     __construct_array(self->m_3f4, (void *)&__ct__15RenderFadeStateFv, (void *)&__dt__15RenderFadeStateFv, 0x1C, 4);
-    ((TObjPlayer *)&self->m_4b0)->construct_target_cursor_records();
+    __ct__16TargetCursorListFv(&self->m_4b0);
     self->m_name = TObjEneBm5GibonU__class_name;
     ((TObjEneDD *)self)->invoke_initialization_hook((void *)set_data);
     self->sub_800D10A0();

@@ -10,6 +10,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/effect/TUnk_804CCC68.h"
 #include "pso/unk/TLobby_80226070.h"
+extern "C" void *__ct__16TargetCursorListFv(void *list);
 
 typedef struct GTarget_80232598 {
     u16 id;
@@ -378,7 +379,7 @@ void TTecGiZonde::run_task() {
 // The chain starts at `pos` with no facing (angle 0).
 TTecGiZonde::TTecGiZonde(s32 source, Vec *pos, void *targets, s32 level) : TUnk_804CCC68(source, pos, 0, level) {
     s32 h;
-    ((TObjPlayer *)this->targetList)->construct_target_cursor_records();
+    __ct__16TargetCursorListFv(this->targetList);
     m_name = TTecGiZonde_name_ref;
     init_parameters();
     copy_technique_target_list(this->targetList, targets);
