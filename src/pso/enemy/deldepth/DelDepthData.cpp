@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
 
@@ -28,8 +29,8 @@ extern const char bm_ene_del_depth_low_bml_filename[] = "bm_ene_del_depth_low.bm
 extern const char TObjEneDelDepth__class_name_string[] = "TObjEneDelDepth";
 extern const Vec lbl_80475D6C = {2.5f, 0.0f, 2.5f};
 extern const Vec lbl_80475D78 = {1.0f, 1.0f, 1.0f};
-extern const DelDepthAnimationBinding deldepth_anim_binding = {NULL, lbl_804E8194, 0, 6, 0};
-extern const DelDepthAnimationBinding deldepth_anim_binding_b = {NULL, lbl_804E81F4, 0, 1, 0};
+extern const NpcAnimationBinding deldepth_anim_binding = { NULL, reinterpret_cast<TObjMotionAction *>(lbl_804E8194), 0, 0, 6 };
+extern const NpcAnimationBinding deldepth_anim_binding_b = { NULL, reinterpret_cast<TObjMotionAction *>(lbl_804E81F4), 0, 0, 1 };
 extern const Vec lbl_80475DA4 = {2.0f, 2.0f, 2.0f};
 extern const Vec lbl_80475DB0 = {0.0f, 0.0f, 0.0f};
 extern const char TObjEneDelDepthBomb__class_name_string[] = "TObjEneDelDepthBomb";

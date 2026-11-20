@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/EnemyTargetCandidate.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/render/RenderFadeState.h"
@@ -373,13 +375,6 @@ struct VObj_800D3BA0_800D3B38 : Base_800D3BA0_800D3B38 {
 };
 
 // The motion-binding block TLobby::spawn_npc_enemy takes (same layout as MojaAnimationBinding).
-struct GyaranzoAnimationBinding {
-    BmlMotionEntry *motions;
-    TObjMotionAction *actions;
-    u32 unknown_08;
-    u16 actionCount;
-    u16 unknown_0E;
-};
 
 struct Res_800D3C04 { u8 pad0[0x38]; s32 r38; NJS_TEXLIST *texlist; u8 pad40[8]; s32 r48; };
 
@@ -849,10 +844,10 @@ void TLobby::load_gyaranzo_resources() {
     gyaranzo_object_handle = register_object__6TLobbyFl(0x1D);
     gyaranzo_missile_param_table = dispatch_shared_handler_a__6TLobbyFl(0x1D);
     {
-        GyaranzoAnimationBinding pos = {NULL, gyaranzo_action_table, 1, 8, 0};
-        pos.motions = AREA->motions;
-        TLobby::spawn_npc_enemy(0x20, AREA->res->r38, AREA->res->texlist, &pos, 18.0f, 0.0f);
-        TLobby::spawn_npc_enemy(0x21, AREA->res->r48, AREA->res->texlist, &pos, 18.0f, 0.0f);
+        NpcAnimationBinding pos = { NULL, reinterpret_cast<TObjMotionAction *>(gyaranzo_action_table), 0, 1, 8 };
+        pos.motions = reinterpret_cast<BmlMotionEntry *>(AREA->motions);
+        NpcModelRegistry::register_animated_chunk(0x20, reinterpret_cast<void *>(AREA->res->r38), reinterpret_cast<void *>(AREA->res->texlist), &pos, 18.0f, 0.0f);
+        NpcModelRegistry::register_animated_chunk(0x21, reinterpret_cast<void *>(AREA->res->r48), reinterpret_cast<void *>(AREA->res->texlist), &pos, 18.0f, 0.0f);
     }
 }
 

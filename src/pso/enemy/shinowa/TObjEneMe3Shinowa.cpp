@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/animation/MotionContext.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/camera/TCameraCtrl_803D749C.h"
 #include "pso/enemy/shinowa/TObjEneMe3Shinowa.h"
 #include "pso/enemy/shinowa/ShinowaData.h"
@@ -165,7 +167,7 @@ const char *TObjEneMe3ShinowaReal_class_name = "TObjEneMe3ShinowaReal";
 // inferred: TObjEneMe3ShinowaMirage__class_name (was lbl_805D2AD0; the mirage ctor stores it to m_name)
 const char *TObjEneMe3ShinowaMirage__class_name = "TObjEneMe3ShinowaMirage";
 // inferred: motion binding load_shinowa_mirage_resources hands to TLobby::spawn_npc_enemy
-const DelDepthAnimationBinding shinowa_mirage_spawn_binding = { NULL, shinowa_mirage_motion_param_table, 0x80009, 11, 0 };
+const NpcAnimationBinding shinowa_mirage_spawn_binding = { NULL, reinterpret_cast<TObjMotionAction *>(shinowa_mirage_motion_param_table), 8, 9, 11 };
 // inferred: shadow scale handed to draw_ground_shadow by update_player_state_default
 const Vec shinowa_shadow_scale = { 2.5f, 1.0f, 1.5f };
 
@@ -281,10 +283,10 @@ void load_shinowa_mirage_resources() {
         TObjEneMe3ShinowaMirage__data_805D52A8->sample_node_offsets(model, trail, 0x15, &first, &second);
     }
     {
-        DelDepthAnimationBinding binding = shinowa_mirage_spawn_binding;
-        binding.motions = TObjEneMe3ShinowaMirage__data_805D5298->motions;
-        TLobby::spawn_npc_enemy(0x26, TObjEneMe3ShinowaMirage__data_805D5298->models->model, (NJS_TEXLIST *)TObjEneMe3ShinowaMirage__data_805D5298->models->m_c, &binding, 8.0f, 0.0f);
-        TLobby::spawn_npc_enemy(0x27, TObjEneMe3ShinowaMirage__data_805D5298->models->model, &lbl_80500FEC, &binding, 8.0f, 0.0f);
+        NpcAnimationBinding binding = shinowa_mirage_spawn_binding;
+        binding.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneMe3ShinowaMirage__data_805D5298->motions);
+        NpcModelRegistry::register_animated_chunk(0x26, reinterpret_cast<void *>(TObjEneMe3ShinowaMirage__data_805D5298->models->model), reinterpret_cast<void *>(TObjEneMe3ShinowaMirage__data_805D5298->models->m_c), &binding, 8.0f, 0.0f);
+        NpcModelRegistry::register_animated_chunk(0x27, reinterpret_cast<void *>(TObjEneMe3ShinowaMirage__data_805D5298->models->model), reinterpret_cast<void *>(&lbl_80500FEC), &binding, 8.0f, 0.0f);
     }
 }
 

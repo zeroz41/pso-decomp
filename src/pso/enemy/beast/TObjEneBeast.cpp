@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/SampledMotionPoints.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/enemy/TUnk_80493450.h"
@@ -363,7 +365,6 @@ struct Ent_8009241C { u8 pad0[0xC]; f32 radius; u8 pad10[0x2C - 0x10]; };
 struct Mdl_8009241C { u8 pad0[8]; s32 f8; NJS_TEXLIST *texlist; };
 struct Mot_8009241C { u8 pad0[4]; s32 f4; };
 struct Data_8009241C { u8 pad0[0x42C]; Mdl_8009241C *f42c; Mot_8009241C *f430; };
-struct Quad_8009241C { s32 a; void *b; s32 c; s32 d; };
 struct Ids_8009241C { s16 id[3]; };
 
 struct O_80092724 { u8 pad0[0x18]; void *vptr; u8 pad1c[0x38c]; void *objs[2]; };
@@ -654,11 +655,11 @@ void TObjEneBeast::load_resources() {
     ((s32 *)boss4_rock_shared_handler_ids)[2] = dispatch_shared_handler_a__6TLobbyFl(0x4C);
     {
         Ids_8009241C ids = {{2, 3, 4}};
-        Quad_8009241C q = {0, beast_action_table, 2, 0xC0000};
-        q.a = (s32)((Data_8009241C *)ene_beast_bml_resource)->f430;
+        NpcAnimationBinding q = { NULL, reinterpret_cast<TObjMotionAction *>(beast_action_table), 0, 2, 12 };
+        q.motions = reinterpret_cast<BmlMotionEntry *>(((Data_8009241C *)ene_beast_bml_resource)->f430);
         for (i = 0; i < 3; i++) {
-            TLobby::spawn_npc_enemy(ids.id[i], ((Data_8009241C *)ene_beast_bml_resource)->f42c[i].f8,
-                                            ((Data_8009241C *)ene_beast_bml_resource)->f42c[i].texlist, &q,
+            NpcModelRegistry::register_animated_chunk(ids.id[i], reinterpret_cast<void *>(((Data_8009241C *)ene_beast_bml_resource)->f42c[i].f8),
+                                            reinterpret_cast<void *>(((Data_8009241C *)ene_beast_bml_resource)->f42c[i].texlist), &q,
                                             ((Ent_8009241C *)beast_collision_body_table)[i].radius, 0.0f);
         }
     }

@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/map/CsnQuery.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/effect/GroundContactSound.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -88,7 +90,6 @@ struct Sub_802D8984 { u8 pad[0x18]; u32 f18; };
 struct Prm_802D8984 { u8 pad[0xC]; f32 fC; u8 pad10[8]; s32 f18; };
 
 // inferred: actions/action_count hold gibbles_action_table and its 10 entries (same layout as GeeAnimationBinding)
-struct Spawn_802DB7C0 { s32 a; TObjMotionAction *actions; s32 c; u16 action_count; u16 pad_0E; };
 
 struct O_802DBC94;
 struct VBase_14_802DBA18 { char pad[0x14]; };
@@ -602,7 +603,7 @@ TObjMotionAction gibbles_action_table[10] = {
 
 const char *TObjEneGibbles__class_name = "TObjEneGibbles";
 
-const Spawn_802DB7C0 gibbles_resource_binding_desc = {0, gibbles_action_table, 1, 10, 0};
+const NpcAnimationBinding gibbles_resource_binding_desc = { NULL, reinterpret_cast<TObjMotionAction *>(gibbles_action_table), 0, 1, 10 };
 
 const Vec lbl_80472768 = {0.0f, 0.0f, 0.0f};
 
@@ -2480,9 +2481,9 @@ void TObjEneGibbles::load_resources() {
     ((s32 *) gibbles_combat_stat_entries)[1] = dispatch_shared_handler_b__6TLobbyFl(0x3F);
     gibbles_combat_stats_handle = register_object__6TLobbyFl(0x3D);
     (*(s32 *)&TObjEneGibbles__ai_parameters) = dispatch_shared_handler_a__6TLobbyFl(0x3D);
-    Spawn_802DB7C0 s = gibbles_resource_binding_desc;
-    s.a = *(s32 *)((s8 *)TObjEneGibbles__resource_bundle + 0x430);
-    TLobby::spawn_npc_enemy((s16)0x44, (s32)(*(s32 *)((s8 *)(*(u8 **)((s8 *)TObjEneGibbles__resource_bundle + 0x42C)) + 8)), (NJS_TEXLIST *)(*(s32 *)((s8 *)(*(u8 **)((s8 *)TObjEneGibbles__resource_bundle + 0x42C)) + 0xC)), &s, (f32)(((f32 *)lbl_804E296C)[3]), 0.0f);
+    NpcAnimationBinding s = gibbles_resource_binding_desc;
+    s.motions = reinterpret_cast<BmlMotionEntry *>(*(s32 *)((s8 *)TObjEneGibbles__resource_bundle + 0x430));
+    NpcModelRegistry::register_animated_chunk((s16)0x44, reinterpret_cast<void *>((*(s32 *)((s8 *)(*(u8 **)((s8 *)TObjEneGibbles__resource_bundle + 0x42C)) + 8))), reinterpret_cast<void *>((*(s32 *)((s8 *)(*(u8 **)((s8 *)TObjEneGibbles__resource_bundle + 0x42C)) + 0xC))), &s, (f32)(((f32 *)lbl_804E296C)[3]), 0.0f);
 }
 
 void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);

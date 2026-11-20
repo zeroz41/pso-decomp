@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/map/CsnGroundQuery.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/enemy/dolmolm/TObjEneDolmOlm.h"
 #include "pso/render/reflection.h"
@@ -351,7 +353,6 @@ struct VObj_18_cc39a7 : VBase_18_cc39a7 {
     virtual s32 m17(s32);
 };
 
-struct Desc_80302784 { s32 f0; void *f4; s32 f8; s32 fC; };
 
 struct Row_80302784 { u8 pad[0xC]; f32 fC; u8 pad2[0x1C]; };
 
@@ -700,10 +701,10 @@ void TObjEneDolmOlm::load_shared_resources() {
     TObjEneDolmOlm__effect_render_state = 0;
     {
         s16 ids[2] = { 69, 79 };
-        Desc_80302784 d = { *(s32 *)((s8 *)TObjEneDolmOlm__resource_bundle + 0x430), TObjEneDolmOlm__param_table, 2, 0xC0000 };
+        NpcAnimationBinding d = { reinterpret_cast<BmlMotionEntry *>(*(s32 *)((s8 *)TObjEneDolmOlm__resource_bundle + 0x430)), reinterpret_cast<TObjMotionAction *>(TObjEneDolmOlm__param_table), 0, 2, 12 };
         for (i = 0; i < 2; i++) {
             Ent_80302784 *e = &(*(Ent_80302784 **)((s8 *)TObjEneDolmOlm__resource_bundle + 0x42C))[i];
-            TLobby::spawn_npc_enemy(ids[i], e->f8, e->texlist, &d, ((Row_80302784 *) lbl_804E68D0)[i].fC, 0.0f);
+            NpcModelRegistry::register_animated_chunk(ids[i], reinterpret_cast<void *>(e->f8), reinterpret_cast<void *>(e->texlist), &d, ((Row_80302784 *) lbl_804E68D0)[i].fC, 0.0f);
         }
     }
 }

@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/TUnk_80494938.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/effect/TUnk_80494968.h"
@@ -118,7 +120,6 @@ struct VObj_18_fe09eb : VBase_18_fe09eb {
 
 struct Node_800AA82C { u32 flags; u8 pad[0x30 - 4]; s32 f30; };
 
-struct Desc_800AA82C { s32 a; void *b; s32 c; s32 d; };
 
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
@@ -558,12 +559,12 @@ extern "C" void TObjPlayer__sub_800AA82C(void) {
     collect_visible_nodes((NJS_OBJECT *)nodes[2], (NJS_OBJECT **)lbl_80500A48);
     {
         Ids_800AA82C ids = {{0x1E, 0x1F}};
-        Desc_800AA82C d = {0, &lbl_804910F4, 1, 0x140000};
+        NpcAnimationBinding d = { NULL, reinterpret_cast<TObjMotionAction *>(&lbl_804910F4), 0, 1, 20 };
         s32 j;
-        d.a = dubchik_resource->f430;
+        d.motions = reinterpret_cast<BmlMotionEntry *>(dubchik_resource->f430);
         for (j = 0; j < 2; j++) {
             Mdl_800AA82C *e = &dubchik_resource->mdl[j];
-            TLobby::spawn_npc_enemy(ids.v[j], e->f8, (NJS_TEXLIST *)e->fC, &d, 5.0f, 0.0f);
+            NpcModelRegistry::register_animated_chunk(ids.v[j], reinterpret_cast<void *>(e->f8), reinterpret_cast<void *>(e->fC), &d, 5.0f, 0.0f);
         }
     }
 }

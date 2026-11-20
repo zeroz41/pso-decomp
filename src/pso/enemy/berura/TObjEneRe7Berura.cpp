@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/system/SoundEffect.h"
@@ -136,7 +138,7 @@ void draw_chunk_model(void *arg0);
 extern u8 *TObjEneRe7Berura__data_805007D4[];
 
 
-extern const DelDepthAnimationBinding ene_re7_berura_attack_def;
+extern const NpcAnimationBinding ene_re7_berura_attack_def;
 extern s32 identity_matrix[];
 const s32 lbl_805D9718[1] = {14};
 const s32 lbl_805D971C[1] = {14};
@@ -184,9 +186,7 @@ TObjMotionAction TObjEneRe7Berura__animation_definitions[8] = {
     {3, 0, 2, 0.8f, 0},
 };
 
-const DelDepthAnimationBinding ene_re7_berura_attack_def = {
-    NULL, TObjEneRe7Berura__animation_definitions, 1, 9, 0,
-};
+const NpcAnimationBinding ene_re7_berura_attack_def = { NULL, reinterpret_cast<TObjMotionAction *>(TObjEneRe7Berura__animation_definitions), 0, 1, 9 };
 
 const Vec lbl_80439EC4 = {2.0f, 1.0f, 2.0f};
 
@@ -299,9 +299,9 @@ void TObjEneRe7Berura::load_static_resources() {
         TObjEneRe7Berura__handler_table_a[i] = TLobby::dispatch_shared_handler_a(lbl_805D9720[i]);
     }
     {
-        DelDepthAnimationBinding atk = ene_re7_berura_attack_def;
-        atk.motions = TObjEneRe7Berura__shared_resource->motions;
-        TLobby::spawn_npc_enemy(0x15, TObjEneRe7Berura__shared_resource->models->model, (NJS_TEXLIST *)TObjEneRe7Berura__shared_resource->models->m_c, &atk, 8.0f, 0.0f);
+        NpcAnimationBinding atk = ene_re7_berura_attack_def;
+        atk.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneRe7Berura__shared_resource->motions);
+        NpcModelRegistry::register_animated_chunk(0x15, reinterpret_cast<void *>(TObjEneRe7Berura__shared_resource->models->model), reinterpret_cast<void *>(TObjEneRe7Berura__shared_resource->models->m_c), &atk, 8.0f, 0.0f);
     }
 }
 

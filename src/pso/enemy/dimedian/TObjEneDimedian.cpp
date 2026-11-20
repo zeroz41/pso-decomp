@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/SampledMotionPoints.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
@@ -462,7 +464,6 @@ struct VObj_18_c99286 : VBase_18_c99286 {
     virtual s32 m80();
 };
 
-struct Anim_800A8118 { s32 motions; void *actions; s32 initial_action; s32 counts; };
 struct Pair_800A8118 { s32 a; s32 b; };
 struct Bodies_800A8118 { s32 a; s32 b; s32 model; s32 textures; };
 struct Res_800A8118 { u8 pad[0x42C]; Bodies_800A8118 *bodies; Pair_800A8118 *motions; };
@@ -777,10 +778,10 @@ void TLobby::load_dimedian_resources() {
     (*(s32 **)&dimedian_buffer_ptr)[2] = dispatch_shared_handler_a__6TLobbyFl(0x54);
     {
         s16 ids[3] = { 0x1B, 0x1C, 0x1D };
-        Anim_800A8118 anim = { (s32)RES_800A8118->motions, dimedian_action_table, 2, 0xC0000 };
+        NpcAnimationBinding anim = { reinterpret_cast<BmlMotionEntry *>(RES_800A8118->motions), reinterpret_cast<TObjMotionAction *>(dimedian_action_table), 0, 2, 12 };
         for (i = 0; i < 3; i++) {
             u8 *b = *(u8 **)((s8 *)(*(u8 **)&dimedian_resource_ptr) + 0x42C) + i * 0x10;
-            TLobby::spawn_npc_enemy(ids[i], *(s32 *)((s8 *)b + 8), (NJS_TEXLIST *)*(s32 *)((s8 *)b + 0xC), &anim,
+            NpcModelRegistry::register_animated_chunk(ids[i], reinterpret_cast<void *>(*(s32 *)((s8 *)b + 8)), reinterpret_cast<void *>(*(s32 *)((s8 *)b + 0xC)), &anim,
                 dimedian_collision_body_table[i].radius, 0.0f);
         }
     }

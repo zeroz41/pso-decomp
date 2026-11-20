@@ -1,4 +1,5 @@
 #include "pso/npc/NpcAnimationBinding.h"
+#include "pso/npc/NpcModelRegistry.h"
 #include "pso/system/BmlResourceLoad.h"
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/player/PlayerAttackParams.h"
@@ -515,8 +516,8 @@ void TObjGrass::load_resources() {
     {
         NpcAnimationBinding binding = grass_spawn_descriptor;
         binding.motions = TObjGrass__resource_bundle->motions;
-        TLobby::spawn_npc_enemy(0x35, TObjGrass__resource_bundle->models[0].model,
-            (NJS_TEXLIST *)TObjGrass__resource_bundle->models[0].m_c, &binding, 10.0f, 0.0f);
+        NpcModelRegistry::register_animated_chunk(0x35, reinterpret_cast<void *>(TObjGrass__resource_bundle->models[0].model),
+            reinterpret_cast<void *>(TObjGrass__resource_bundle->models[0].m_c), &binding, 10.0f, 0.0f);
     }
 }
 

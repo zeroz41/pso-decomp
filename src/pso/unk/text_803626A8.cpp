@@ -1,4 +1,6 @@
 #include "pso/system/NinjaTypes.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/system/MatrixOps.h"
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
@@ -41,7 +43,6 @@ struct Res_803627DC { u8 pad[0x42C]; Model_803627DC *f42c; s32 f430; };
 
 // The spawn record load_assets passes to TLobby::spawn_npc_enemy; b points at lbl_804F252C.
 struct Unk_804F252C { s32 unk_0; s32 unk_4; f32 unk_8; s32 unk_C; };
-struct Quad_803627DC { s32 a; Unk_804F252C *b; s32 c, d; };
 
 class V_8036274C {
 public:
@@ -135,9 +136,9 @@ void TObjEneEpsilonGuard::load_assets() {
     epsilon_guard_part_color_table[7] = get_bml_model(lbl_805D6FA0, 4)->leaf->v;
     TObjPlayer__sub_800F0928(epsilon_guard_part_color_table);
     {
-        Quad_803627DC q = { 0, &lbl_804F252C, 0, 0x10000 };
-        q.a = ((Res_803627DC *)lbl_805D6FA0)->f430;
-        TLobby::spawn_npc_enemy((s16)0x4E, (s32)(((Res_803627DC *)lbl_805D6FA0)->f42c->f8), ((Res_803627DC *)lbl_805D6FA0)->f42c->texlist, &q, 5.0f, 15.0f);
+        NpcAnimationBinding q = { NULL, reinterpret_cast<TObjMotionAction *>(&lbl_804F252C), 0, 0, 1 };
+        q.motions = reinterpret_cast<BmlMotionEntry *>(((Res_803627DC *)lbl_805D6FA0)->f430);
+        NpcModelRegistry::register_animated_chunk((s16)0x4E, reinterpret_cast<void *>((((Res_803627DC *)lbl_805D6FA0)->f42c->f8)), reinterpret_cast<void *>(((Res_803627DC *)lbl_805D6FA0)->f42c->texlist), &q, 5.0f, 15.0f);
     }
 }
 

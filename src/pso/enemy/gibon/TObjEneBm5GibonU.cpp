@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/map/CsnGroundQuery.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/system/BmlResource.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TObject.h"
@@ -48,13 +50,6 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/player/TPlyDispData.h"
 
 // The motion-binding block TLobby::spawn_npc_enemy takes (same layout as GeeAnimationBinding).
-struct GibonUAnimationBinding {
-    BmlMotionEntry *motions;
-    TObjMotionAction *actions;
-    u32 unknown_08;
-    u16 actionCount;
-    u16 unknown_0E;
-};
 
 extern "C" {
 s32 get_target_info__9TObjEneDDFv();
@@ -413,7 +408,7 @@ TObjMotionAction gibon_u_action_table[17] = {
     { MOTION_MODE_ONCE, 0, 6, 1.0f, 0 },
 };
 const char *TObjEneBm5GibonU__class_name = "TObjEneBm5GibonU";
-const GibonUAnimationBinding TObjEneBm5GibonU__spawn_params = { NULL, gibon_u_action_table, 1, 17, 0 };
+const NpcAnimationBinding TObjEneBm5GibonU__spawn_params = { NULL, reinterpret_cast<TObjMotionAction *>(gibon_u_action_table), 0, 1, 17 };
 void *lbl_80493F04[107] = {
     (void *)0x0, (void *)0x0, (void *)TObjEneBm5GibonU__sub_800D13B8, (void *)run_task__16TObjEneBm5GibonUFv,
     (void *)render__16TObjEneBm5GibonUFv, (void *)render_shadows__9TObjEnemyFv, (void *)vfunc_6__8TObjBaseFPsl, (void *)apply_object_set_data__8TObjBaseFPv,
@@ -2823,11 +2818,11 @@ void TObjEneBm5GibonU::load_resources() {
         lbl_80500E88[i] = register_object__6TLobbyFl(lbl_8043BF40[i]);
         lbl_80500E90[i] = dispatch_shared_handler_a__6TLobbyFl(lbl_8043BF48[i]);
     }
-    GibonUAnimationBinding sp = TObjEneBm5GibonU__spawn_params;
+    NpcAnimationBinding sp = TObjEneBm5GibonU__spawn_params;
     m = TObjEneBm5GibonU__model_archive;
-    sp.motions = m->motions;
-    TLobby::spawn_npc_enemy(0xE, m->models[0].model, (NJS_TEXLIST *)m->models[0].m_c, &sp, gibon_collision_body_templates[0].radius, 0.0f);
-    TLobby::spawn_npc_enemy(0xF, TObjEneBm5GibonU__model_archive->models[1].model, (NJS_TEXLIST *)TObjEneBm5GibonU__model_archive->models[1].m_c, &sp, gibon_collision_body_templates[1].radius, 0.0f);
+    sp.motions = reinterpret_cast<BmlMotionEntry *>(m->motions);
+    NpcModelRegistry::register_animated_chunk(0xE, reinterpret_cast<void *>(m->models[0].model), reinterpret_cast<void *>(m->models[0].m_c), &sp, gibon_collision_body_templates[0].radius, 0.0f);
+    NpcModelRegistry::register_animated_chunk(0xF, reinterpret_cast<void *>(TObjEneBm5GibonU__model_archive->models[1].model), reinterpret_cast<void *>(TObjEneBm5GibonU__model_archive->models[1].m_c), &sp, gibon_collision_body_templates[1].radius, 0.0f);
 }
 
 void TObjEneBm5GibonU::forward_hit(void* a1) {

@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/math/FloatRounding.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/canadin/TObjEneMe1Canadin.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -293,12 +295,6 @@ extern const s32 lbl_8043A198[3];
 extern const s32 lbl_8043A1A4[3];
 
 // Motion setup passed to TLobby::spawn_npc_enemy: (motions, animation table, 0, 0x70000).
-struct CanadinSpawnParams {
-    s32 motions;
-    void *animations;
-    s32 pad_8;
-    s32 flags;
-};
 
 // Floor load: loads the Canadin archive, the per-difficulty stats and the breakup models, and spawns the
 // two NPC copies.
@@ -335,9 +331,9 @@ void TObjEneMe1Canadin::load_resources() {
     lbl_805D4FF0 = (s32 *)(((s32 *)((NJS_OBJECT *)find_model_node(model2, 2))->model)[1] + 4);
     TObjPlayer__sub_800F0928();
     s16 ids[2] = { 0x17, 0x18 };
-    CanadinSpawnParams params = { (s32)bm_ene_me1_mb_resource->motions, lbl_8048FF30, 0, 0x70000 };
+    NpcAnimationBinding params = { reinterpret_cast<BmlMotionEntry *>(bm_ene_me1_mb_resource->motions), reinterpret_cast<TObjMotionAction *>(lbl_8048FF30), 0, 0, 7 };
     for (i = 0; i < 2; i++) {
-        TLobby::spawn_npc_enemy(ids[i], bm_ene_me1_mb_resource->models[i].model, (NJS_TEXLIST *)bm_ene_me1_mb_resource->models[1].m_c, &params, 8.0f, 15.0f);
+        NpcModelRegistry::register_animated_chunk(ids[i], reinterpret_cast<void *>(bm_ene_me1_mb_resource->models[i].model), reinterpret_cast<void *>(bm_ene_me1_mb_resource->models[1].m_c), &params, 8.0f, 15.0f);
     }
 }
 

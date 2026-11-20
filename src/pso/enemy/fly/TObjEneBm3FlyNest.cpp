@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/system/vector.h"
@@ -267,10 +269,10 @@ void TObjEneBm3FlyNest::load_resources() {
     TObjEneBm3Fly::load_resources();
     TObjEneBm3FlyNest::init_vertex_table();
     {
-        Bm3FlyAnimationBinding anim = {NULL, bm3_flynest_hit_action_table, 8, 10, 0};
-        anim.motions = lbl_805D5108->motions;
+        NpcAnimationBinding anim = { NULL, reinterpret_cast<TObjMotionAction *>(bm3_flynest_hit_action_table), 0, 8, 10 };
+        anim.motions = reinterpret_cast<BmlMotionEntry *>(lbl_805D5108->motions);
         models = lbl_805D5108->models;
-        TLobby::spawn_npc_enemy(8, models[1].model, (NJS_TEXLIST *)models[0].m_c, &anim, bm3_flynest_collider_params[0].radius, 0.0f);
+        NpcModelRegistry::register_animated_chunk(8, reinterpret_cast<void *>(models[1].model), reinterpret_cast<void *>(models[0].m_c), &anim, bm3_flynest_collider_params[0].radius, 0.0f);
     }
 }
 

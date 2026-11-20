@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/player/TObjPlayer_800D8FDC.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/effect/enemy/TEneEffHamon.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "types.h"
@@ -63,11 +65,6 @@ struct VObj_18_800A2F94 : VBase_18_800A2F94 {
     virtual void m79(void *);
 };
 
-struct Atk_800A2F94 {
-    s32 motions;
-    void *actions; // inferred: points at the motion action table lbl_80490668
-    s32 w[2];
-};
 struct Obj_800A2F94 { u8 pad[0x3F0]; s32 f3F0[4]; };
 
 struct Obj_800A1FEC {
@@ -505,7 +502,7 @@ struct MaterialColor {
     f32 g;
     f32 b;
 };
-const Atk_800A2F94 dark_gunner_attack_binding_desc = {0, lbl_80490668, {1, 0xE0000}};
+const NpcAnimationBinding dark_gunner_attack_binding_desc = { NULL, reinterpret_cast<TObjMotionAction *>(lbl_80490668), 0, 1, 14 };
 const MaterialColor lbl_8043A668 = {0, 0.0f, 0.0f, 0.0f};
 const Vec lbl_8043A678 = {1.5f, 1.5f, 1.5f};
 const Ofs_800A1814 hamon_effect_offset_table = {{{-7.0f, -7.0f}, {-7.0f, 7.0f}, {7.0f, -7.0f}, {7.0f, 7.0f}}};
@@ -1611,9 +1608,9 @@ u8 *TObjPlayer__sub_800A2F94(u8 *self, s32 arg1, u8 *arg2) {
         ((Obj_800A2F94 *)self)->f3F0[i] = 0;
     }
     {
-        Atk_800A2F94 atk = dark_gunner_attack_binding_desc;
-        atk.motions = *(s32 *)(G500C + 0x430);
-        TLobby::spawn_npc_enemy(0x19, *(s32 *)(*(u8 **)(G500C + 0x42C) + 0x18), (NJS_TEXLIST *)*(s32 *)(*(u8 **)(G500C + 0x42C) + 0x1C), &atk, 10.0f, 0.0f);
+        NpcAnimationBinding atk = dark_gunner_attack_binding_desc;
+        atk.motions = reinterpret_cast<BmlMotionEntry *>(*(s32 *)(G500C + 0x430));
+        NpcModelRegistry::register_animated_chunk(0x19, reinterpret_cast<void *>(*(s32 *)(*(u8 **)(G500C + 0x42C) + 0x18)), reinterpret_cast<void *>(*(s32 *)(*(u8 **)(G500C + 0x42C) + 0x1C)), &atk, 10.0f, 0.0f);
     }
     return self;
 }

@@ -1,6 +1,7 @@
 #ifndef PSO_ENEMY_DELDEPTH_DELDEPTHDATA_H
 #define PSO_ENEMY_DELDEPTH_DELDEPTHDATA_H
 #include "types.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -24,7 +25,7 @@ struct DelDepthAnimationBinding {
 extern "C" {
 extern DelDepthParameters *TObjEneDelDepth__tune_params;
 extern BmlResource *TObjEneDelDepth__shared_resource;
-extern const DelDepthAnimationBinding deldepth_anim_binding;
-extern const DelDepthAnimationBinding deldepth_anim_binding_b;
+extern const NpcAnimationBinding deldepth_anim_binding;
+extern const NpcAnimationBinding deldepth_anim_binding_b;
 }
 #endif

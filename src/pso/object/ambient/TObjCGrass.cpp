@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/npc/NpcModelRegistry.h"
 #include "pso/object/ambient/TObjCGrass.h"
 #include "pso/map/CsnGroundCandidates.h"
 #include "pso/map/CsnGroundQuery.h"
@@ -126,7 +127,7 @@ void TObjCGrass::load_resources() {
     NpcAnimationBinding binding = cgrass_anim_binding;
     binding.motions = TObjCGrass_bml_resource->motions;
     BmlModelEntry *model = TObjCGrass_bml_resource->models;
-    TLobby::spawn_npc_enemy(0x36, model->model, (NJS_TEXLIST *)model->m_c, &binding, 2.0f, 0.0f);
+    NpcModelRegistry::register_animated_chunk(0x36, reinterpret_cast<void *>(model->model), reinterpret_cast<void *>(model->m_c), &binding, 2.0f, 0.0f);
 }
 
 }

@@ -1,4 +1,6 @@
 #include "types.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_800F0810.h"
 #include "pso/render/BlobShadow.h"
@@ -301,12 +303,6 @@ const s32 lbl_8043CDA0[2] = {0x800, -0x800};
 
 // spawn_npc_pair's NPC descriptors (local initialisers; their templates end the TU's .rodata). spawn_npc_pair fills
 // in the bml's motion table before TLobby::spawn_npc_enemy.
-struct PanarmsNpcBinding {
-    BmlMotionEntry *motions;
-    PanarmsMotionParam *motion_params;
-    s32 pad_8;
-    s32 pad_c;
-};
 
 typedef void (TObjEnePanBARA::*PanBARAStateFn)();
 
@@ -1652,15 +1648,15 @@ void TObjEnePanBARA::update_action_timer() {
 }
 
 void TObjEnePanarms::spawn_npc_pair() {
-    PanarmsNpcBinding binding_a = {0, lbl_80495484, 1, 0xA0000};
+    NpcAnimationBinding binding_a = { NULL, reinterpret_cast<TObjMotionAction *>(lbl_80495484), 0, 1, 10 };
     BmlMotionEntry *motions = TObjEnePanarms__entry_params_resource->motions;
-    binding_a.motions = motions;
-    PanarmsNpcBinding binding_b = {0, lbl_80495524, 1, 0xA0000};
-    binding_b.motions = motions;
+    binding_a.motions = reinterpret_cast<BmlMotionEntry *>(motions);
+    NpcAnimationBinding binding_b = { NULL, reinterpret_cast<TObjMotionAction *>(lbl_80495524), 0, 1, 10 };
+    binding_b.motions = reinterpret_cast<BmlMotionEntry *>(motions);
     BmlModelEntry *models = TObjEnePanarms__entry_params_resource->models;
-    TLobby::spawn_npc_enemy(0x24, models[1].model, (NJS_TEXLIST *)models[1].m_c, &binding_a, 7.5f, 0.0f);
+    NpcModelRegistry::register_animated_chunk(0x24, reinterpret_cast<void *>(models[1].model), reinterpret_cast<void *>(models[1].m_c), &binding_a, 7.5f, 0.0f);
     models = TObjEnePanarms__entry_params_resource->models;
-    TLobby::spawn_npc_enemy(0x25, models[2].model, (NJS_TEXLIST *)models[2].m_c, &binding_b, 7.5f, 0.0f);
+    NpcModelRegistry::register_animated_chunk(0x25, reinterpret_cast<void *>(models[2].model), reinterpret_cast<void *>(models[2].m_c), &binding_b, 7.5f, 0.0f);
 }
 
 int TObjEnePanarms::find_nearest_enemy_with_flag(s32 arg1, f32 farg0) {

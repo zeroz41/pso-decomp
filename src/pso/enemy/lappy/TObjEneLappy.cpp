@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/render/NinjaUtil.h"
@@ -144,14 +146,8 @@ void *lbl_80492EFC[11] = {
 
 const char *TObjEneLappy__class_name = "TObjEneLappy";
 
-typedef struct Desc_800C17B8 {
-    s32 a;
-    void *b;
-    s32 c;
-    s32 d;
-} Desc_800C17B8;
 
-const Desc_800C17B8 lappy_resource_binding_desc = {0, rappy_variant_speed_table, 0x10003, 0xA0000};
+const NpcAnimationBinding lappy_resource_binding_desc = { NULL, reinterpret_cast<TObjMotionAction *>(rappy_variant_speed_table), 1, 3, 10 };
 
 const Vec lappy_target_zero_vec = {0.0f, 0.0f, 0.0f};
 
@@ -1513,16 +1509,16 @@ void TObjEneLappy::load_resources() {
     }
     {
         u8 *res = RES_800C17B8;
-        Desc_800C17B8 d = lappy_resource_binding_desc;
-        d.a = *(s32 *)(res + 0x430);
-        TLobby::spawn_npc_enemy(5, *(s32 *)(*(u8 **)(RES_800C17B8 + 0x42C) + 8),
-                                        (NJS_TEXLIST *)*(s32 *)(*(u8 **)(RES_800C17B8 + 0x42C) + 0xC), &d, 10.0f, 0.0f);
+        NpcAnimationBinding d = lappy_resource_binding_desc;
+        d.motions = reinterpret_cast<BmlMotionEntry *>(*(s32 *)(res + 0x430));
+        NpcModelRegistry::register_animated_chunk(5, reinterpret_cast<void *>(*(s32 *)(*(u8 **)(RES_800C17B8 + 0x42C) + 8)),
+                                        reinterpret_cast<void *>(*(s32 *)(*(u8 **)(RES_800C17B8 + 0x42C) + 0xC)), &d, 10.0f, 0.0f);
         if (TLobby::get_instance() == 0) {
-            TLobby::spawn_npc_enemy(6, *(s32 *)(*(u8 **)(RES_800C17B8 + 0x42C) + 8), (NJS_TEXLIST *)(*(u32 *)&rappy_alternate_texture_list), &d,
+            NpcModelRegistry::register_animated_chunk(6, reinterpret_cast<void *>(*(s32 *)(*(u8 **)(RES_800C17B8 + 0x42C) + 8)), reinterpret_cast<void *>((*(u32 *)&rappy_alternate_texture_list)), &d,
                                             10.0f, 0.0f);
         } else {
-            TLobby::spawn_npc_enemy(6, *(s32 *)(*(u8 **)(RES_800C17B8 + 0x42C) + 0x18),
-                                            (NJS_TEXLIST *)*(s32 *)(*(u8 **)(RES_800C17B8 + 0x42C) + 0x1C), &d, 10.0f, 0.0f);
+            NpcModelRegistry::register_animated_chunk(6, reinterpret_cast<void *>(*(s32 *)(*(u8 **)(RES_800C17B8 + 0x42C) + 0x18)),
+                                            reinterpret_cast<void *>(*(s32 *)(*(u8 **)(RES_800C17B8 + 0x42C) + 0x1C)), &d, 10.0f, 0.0f);
         }
     }
 }

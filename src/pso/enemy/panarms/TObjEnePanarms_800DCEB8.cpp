@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/npc/NpcAnimationBinding.h"
+#include "pso/npc/NpcModelRegistry.h"
 #include "pso/enemy/panarms/TObjEnePanarms_800DCEB8.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
@@ -132,10 +134,8 @@ PanarmsMotionParam panarms_motion_param_table[12] = {
     { 0x30000, 0x4, 0.6f, 0 }, { 0x20000, 0x2, 0.8f, 0 }, { 0x30000, 0x8, 0.6f, 0 }, { 0x10000, 0x1a, 1.0f, 0 },
 };
 
-struct S_800DF634 { s32 a; PanarmsMotionParam *b; s32 c, d; };
-
-extern const S_800DF634 panarms_npc_spawn_descriptor[1] = {
-    { 0, panarms_motion_param_table, 0xb, 0xc0000 },
+extern const NpcAnimationBinding panarms_npc_spawn_descriptor = {
+    NULL, reinterpret_cast<TObjMotionAction *>(panarms_motion_param_table), 0, 11, 12,
 };
 extern const s32 lbl_8043CCF4[2] = { 0x10b, 0x10c };
 extern const s32 lbl_8043CCFC[2] = { 1, 2 };
@@ -197,7 +197,6 @@ f32 atan2_float(f32 y, f32 x);
 s32 approach_angle_limited(s32, s32, s32);
 f32 vector_length(void *);
 Obj_800DF634 *load_resource_from_descriptor(Obj_800DF634 *, s32, void *, s32, s32, s32);
-s32 spawn_npc_enemy__6TLobbyFslP11NJS_TEXLISTPvff(s32, s32, s32, void *, s32, const void *, f32, f32);
 void TObjEnePanarms__sub_800E1D38(void *arg0);
 s32 refresh_lobby_state__10TObjPlayerFv();
 s32 TObjEnePanarms__sub_800DE528(void *arg0, Vec *arg1);
@@ -272,9 +271,10 @@ void TObjEnePanarms::load_and_spawn_npc() {
     }
     TObjEnePanarms__entry_params_resource = (BmlResource *)o;
     if (o != NULL) {
-        S_800DF634 sp = panarms_npc_spawn_descriptor[0];
-        sp.a = o->f430;
-        spawn_npc_enemy__6TLobbyFslP11NJS_TEXLISTPvff(0x23, *(s32 *)(o->f42C + 8), *(s32 *)(o->f42C + 0xC), &sp, panarms_npc_spawn_descriptor[0].a, panarms_npc_spawn_descriptor, 12.5f, 0.0f);
+        NpcAnimationBinding binding = panarms_npc_spawn_descriptor;
+        binding.motions = reinterpret_cast<BmlMotionEntry *>(o->f430);
+        NpcModelRegistry::register_animated_chunk(0x23, *reinterpret_cast<void **>(o->f42C + 8),
+            *reinterpret_cast<void **>(o->f42C + 0xC), &binding, 12.5f, 0.0f);
         TObjEnePanarms::spawn_npc_pair();
     }
 }

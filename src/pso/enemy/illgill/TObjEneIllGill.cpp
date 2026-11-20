@@ -1,4 +1,6 @@
 #include "pso/player/PlayerAttackParams.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "types.h"
@@ -160,12 +162,7 @@ void *__vt__15TObjIllGillKage[13] = {
 };
 const char *TObjEneIllGill_class_name = "TObjEneIllGill";
 
-struct IllGillSharedMotionSetup {
-    BmlMotionEntry *motions;
-    TObjMotionAction *actions; // inferred: points at illGillActions
-    s32 unknown[2];
-};
-const IllGillSharedMotionSetup lbl_8047A318 = {NULL, illGillActions, {1, 0xA0000}};
+const NpcAnimationBinding lbl_8047A318 = { NULL, reinterpret_cast<TObjMotionAction *>(illGillActions), 0, 1, 10 };
 const Vec lbl_8047A328 = {0.0f, 0.0f, 0.0f};
 const char *TObjIllGillKage__class_name = "TObjIllGillKage";
 
@@ -1476,10 +1473,10 @@ void TObjEneIllGill::load_shared_resources() {
     q = &illGillChargeEffectPosition2;
     q->x = q->y = q->z = 0.0f;
     {
-        IllGillSharedMotionSetup pos = lbl_8047A318;
+        NpcAnimationBinding pos = lbl_8047A318;
         resource = illGillResource;
-        pos.motions = resource->motions;
-        TLobby::spawn_npc_enemy((s16)0x43, resource->models->model, (NJS_TEXLIST *)(resource->models->m_c), &pos, illGillCollisionBody.radius, 0.0f);
+        pos.motions = reinterpret_cast<BmlMotionEntry *>(resource->motions);
+        NpcModelRegistry::register_animated_chunk((s16)0x43, reinterpret_cast<void *>(resource->models->model), reinterpret_cast<void *>((resource->models->m_c)), &pos, illGillCollisionBody.radius, 0.0f);
     }
 }
 

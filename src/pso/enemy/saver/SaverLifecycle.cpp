@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/SampledMotionPoints.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/saver/SaverLifecycle.h"
 #include "pso/effect/enemy/TEneParticleCtrl.h"
 #include "pso/system/task/TObject.h"
@@ -40,11 +42,6 @@ extern "C" void test_flag_1000__9TObjCharaFv();
 
 struct Obj_800A6B14;
 
-typedef struct Init_800A715C {
-    s32 motions;
-    void *actions; // inferred: points at saver_action_table
-    s32 w[2];
-} Init_800A715C;
 
 typedef struct Ent_800A715C { s32 a; void *b; } Ent_800A715C;
 
@@ -251,7 +248,7 @@ TObjMotionAction saver_action_table[11] = {
 };
 
 const char *TObjEneSaver__class_name = "TObjEneSaver";
-const Init_800A715C saver_init_binding_desc = {0, saver_action_table, {1, 0xB0000}};
+const NpcAnimationBinding saver_init_binding_desc = { NULL, reinterpret_cast<TObjMotionAction *>(saver_action_table), 0, 1, 11 };
 const Vec lbl_8043A8A4 = {0.0f, 0.0f, 0.0f};
 const Vec lbl_8043A8B0 = {0.0f, 0.0f, 0.0f};
 const Vec lbl_8043A8BC = {0.0f, 0.0f, 0.0f};
@@ -2001,9 +1998,9 @@ void initialize_saver_resources(void) {
     player_object_ptr_array[1] = dispatch_shared_handler_b__6TLobbyFl(0x59);
     saver_object_stat_handle = register_object__6TLobbyFl(0x51);
     lbl_805D504C = (f32 *)TLobby::dispatch_shared_handler_a(0x51);
-    Init_800A715C init = saver_init_binding_desc;
-    init.motions = (s32)RES->ents;
-    TLobby::spawn_npc_enemy((s16)0x1A, (s32)RES->sub->f8, RES->sub->texlist, &init, (f32)saver_collision_body_part_table[3], (f32)0.0f);
+    NpcAnimationBinding init = saver_init_binding_desc;
+    init.motions = reinterpret_cast<BmlMotionEntry *>(RES->ents);
+    NpcModelRegistry::register_animated_chunk((s16)0x1A, reinterpret_cast<void *>(RES->sub->f8), reinterpret_cast<void *>(RES->sub->texlist), &init, (f32)saver_collision_body_part_table[3], (f32)0.0f);
 }
 Obj_800A73F8 *__dt__12TObjEneSaverFv(Obj_800A73F8 *arg0, s16 arg1) {
     s32 i;

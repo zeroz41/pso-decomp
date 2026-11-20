@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/math/AngleLookup.h"
@@ -56,7 +58,7 @@ extern TObjMotionAction TObjEneRecon__animation_entries[6];
 // Breakup-model parameters TObjEneRecon__sub_8031C364 hands to TBoss3Volopt::create_breakup_mdl.
 extern const TBoss3VoloptBreakupParams recon_breakup_params = { 0x14, { 0.05f, 1.2f, 0.9f, 0.12f, 0.55f, 0.5f } };
 const char *TObjEneRecon_name_ref = "TObjEneRecon";
-extern const DelDepthAnimationBinding recon_anim_binding = { NULL, TObjEneRecon__animation_entries, 0x10001, 6, 0 };
+extern const NpcAnimationBinding recon_anim_binding = { NULL, reinterpret_cast<TObjMotionAction *>(TObjEneRecon__animation_entries), 1, 1, 6 };
 extern const Vec lbl_804760FC = { 0.8f, 1.0f, 0.8f };
 
 s32 lbl_805D6AF0;
@@ -1688,10 +1690,10 @@ void TObjEneRecon::load_resources() {
   TObjEneRecon__resistance_params = register_object__6TLobbyFl(0x42);
   TObjEneRecon__data_805D6AFC = (f32 *)TLobby::dispatch_shared_handler_a(0x42);
   TObjEneRecon__sub_8031BC94();
-  DelDepthAnimationBinding binding = recon_anim_binding;
-  binding.motions = TObjEneRecon__recobox_static_instance->motions;
+  NpcAnimationBinding binding = recon_anim_binding;
+  binding.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneRecon__recobox_static_instance->motions);
   temp_r5 = (u8 *)TObjEneRecon__recobox_static_instance->models;
-  TLobby::spawn_npc_enemy((s16)(0xC), (s32)((int) ((RecoveredFields_8031E708_temp_r5 *) temp_r5)->field_8), ((RecoveredFields_8031E708_temp_r5 *) temp_r5)->texlist, &binding, TObjEneRecon__collision_body_template.radius, (f32)(15.0f));
+  NpcModelRegistry::register_animated_chunk((s16)(0xC), reinterpret_cast<void *>(((int) ((RecoveredFields_8031E708_temp_r5 *) temp_r5)->field_8)), reinterpret_cast<void *>(((RecoveredFields_8031E708_temp_r5 *) temp_r5)->texlist), &binding, TObjEneRecon__collision_body_template.radius, (f32)(15.0f));
 }
 
 

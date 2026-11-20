@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
@@ -1054,18 +1056,10 @@ extern void *tl_04;
 typedef struct Ent_80099BD4 Ent_80099BD4;
 typedef struct Path_80099BD4 Path_80099BD4;
 typedef struct Seg_80099BD4 Seg_80099BD4;
-typedef struct Sp_80099BD4 Sp_80099BD4;
 struct Ent_80099BD4
 {
   s32 k;
   s32 v;
-};
-struct Sp_80099BD4
-{
-  s32 a;
-  void *b;
-  s32 c;
-  s32 d;
 };
 struct Seg_80099BD4
 {
@@ -1171,8 +1165,8 @@ void TObjEneDf2Bringer::load_resources() {
   TObjEneDf2Bringer__uv_scroll_buffer = (u32) o;
   init_bringer_effect_tables();
   {
-    Sp_80099BD4 sp = { *((s32 *) (((u8 *) TObjEneDf2Bringer__resource_bundle) + 0x430)), &lbl_8048FAF8, 1, 0xB0000 };
-    TLobby::spawn_npc_enemy((s16)0x16, (s32)(*((s32 *) ((*((u8 **) (((u8 *) TObjEneDf2Bringer__resource_bundle) + 0x42C))) + 8))), (NJS_TEXLIST *)(*((s32 *) ((*((u8 **) (((u8 *) TObjEneDf2Bringer__resource_bundle) + 0x42C))) + 0xC))), &sp, 7.0f, 0.0f);
+    NpcAnimationBinding sp = { reinterpret_cast<BmlMotionEntry *>(*((s32 *) (((u8 *) TObjEneDf2Bringer__resource_bundle) + 0x430))), reinterpret_cast<TObjMotionAction *>(&lbl_8048FAF8), 0, 1, 11 };
+    NpcModelRegistry::register_animated_chunk((s16)0x16, reinterpret_cast<void *>((*((s32 *) ((*((u8 **) (((u8 *) TObjEneDf2Bringer__resource_bundle) + 0x42C))) + 8)))), reinterpret_cast<void *>((*((s32 *) ((*((u8 **) (((u8 *) TObjEneDf2Bringer__resource_bundle) + 0x42C))) + 0xC)))), &sp, 7.0f, 0.0f);
   }
 }
 

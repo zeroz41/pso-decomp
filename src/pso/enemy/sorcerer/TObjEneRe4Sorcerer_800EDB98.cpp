@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/map/CsnGroundQuery.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -121,7 +123,6 @@ s32 transform_relative_position__9TObjEneDDFPv(void *, void *);
 f32 horizontal_distance_squared(void *, void *);
 void scale_matrix(s32, s32, f32, f32, f32);
 
-struct Params_800F0464 { s32 a; void *actions; s32 c, d; };
 
 s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
@@ -483,7 +484,7 @@ void *re4_sorcerer_action_params[32] = {
 };
 // inferred: TObjEneRe4Sorcerer__name, from the string it holds (the ctor stores it as the object's m_name).
 const char *TObjEneRe4Sorcerer__name = "TObjEneRe4Sorcerer";
-const Params_800F0464 re4_sorcerer_spawn_descriptor = {0, re4_sorcerer_action_params, 0, 0x80000};
+const NpcAnimationBinding re4_sorcerer_spawn_descriptor = { NULL, reinterpret_cast<TObjMotionAction *>(re4_sorcerer_action_params), 0, 0, 8 };
 void *__vt__18TObjEneRe4Sorcerer[107] = {
     (void *)0x0, (void *)0x0, (void *)&__dt__18TObjEneRe4SorcererFv, (void *)&run_task__18TObjEneRe4SorcererFv,
     (void *)&render__18TObjEneRe4SorcererFv, (void *)&render_shadows__9TObjEnemyFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
@@ -1710,9 +1711,9 @@ void TObjEneRe4Sorcerer::load_resources() {
         r = (u32) ((TLobby *)r)->alloc_tables(sorcerer_bml_resource->models->model, 2);
     }
     TObjEneRe4Sorcerer__uv_scroll_buffer = r;
-    Params_800F0464 p = re4_sorcerer_spawn_descriptor;
-    p.a = (s32)sorcerer_bml_resource->motions;
-    TLobby::spawn_npc_enemy((s16)0x2A, sorcerer_bml_resource->models->model, (NJS_TEXLIST *)sorcerer_bml_resource->models->m_c, &p, re4_sorcerer_collision_body_part_table[3], 15.0f);
+    NpcAnimationBinding p = re4_sorcerer_spawn_descriptor;
+    p.motions = reinterpret_cast<BmlMotionEntry *>(sorcerer_bml_resource->motions);
+    NpcModelRegistry::register_animated_chunk((s16)0x2A, reinterpret_cast<void *>(sorcerer_bml_resource->models->model), reinterpret_cast<void *>(sorcerer_bml_resource->models->m_c), &p, re4_sorcerer_collision_body_part_table[3], 15.0f);
 }
 
 void TBoss3Volopt__sub_800F059C(void) {  }

@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -87,7 +89,7 @@ TObjMotionAction bm3_fly_action_table[5] = {
     { 3, 4, 0x3, 1.0f, 0x0 },
 };
 
-const Bm3FlyAnimationBinding bm3_fly_resource_binding_desc = { NULL, bm3_fly_action_table, 1, 5, 0 };
+const NpcAnimationBinding bm3_fly_resource_binding_desc = { NULL, reinterpret_cast<TObjMotionAction *>(bm3_fly_action_table), 0, 1, 5 };
 
 void TObjEneBm3Fly::load_resources() {
     TUnk_8048FA00 *model;
@@ -99,9 +101,9 @@ void TObjEneBm3Fly::load_resources() {
     lbl_805D50E8 = (u8 *)TLobby::register_object(0);
     lbl_805D50EC = (Bm3FlyParameters *)TLobby::dispatch_shared_handler_a(0);
     {
-        Bm3FlyAnimationBinding binding = bm3_fly_resource_binding_desc;
-        binding.motions = bm3_fly_nest_resources->motions;
-        TLobby::spawn_npc_enemy(7, bm3_fly_nest_resources->models[0].model, (NJS_TEXLIST *)bm3_fly_nest_resources->models[0].m_c, &binding, bm3_fly_collider_params[0].radius, 15.0f);
+        NpcAnimationBinding binding = bm3_fly_resource_binding_desc;
+        binding.motions = reinterpret_cast<BmlMotionEntry *>(bm3_fly_nest_resources->motions);
+        NpcModelRegistry::register_animated_chunk(7, reinterpret_cast<void *>(bm3_fly_nest_resources->models[0].model), reinterpret_cast<void *>(bm3_fly_nest_resources->models[0].m_c), &binding, bm3_fly_collider_params[0].radius, 15.0f);
     }
 }
 

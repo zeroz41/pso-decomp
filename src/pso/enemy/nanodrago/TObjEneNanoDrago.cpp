@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/unk/text_800DC420.h"
 #include "pso/object/TObjControl.h"
 #include "pso/system/BmlResource.h"
@@ -122,12 +124,6 @@ extern "C" s32 select_actor_lighting(void *);
 extern "C" s32 draw_chunk_object(int);
 extern "C" s32 saved_model_render_flags;
 extern "C" s32 model_render_flags;
-struct NanoDragoAnimationBinding {
-    BmlMotionEntry *motions;
-    TObjMotionAction *actions;
-    u32 unknown08;
-    u32 unknown0C;
-};
 
 extern "C" void obj_setFlags30(void *, u32);
 extern "C" s32 dispatch_shared_handler_a__6TLobbyFl(int);
@@ -274,9 +270,9 @@ void TObjEneNanoDrago::load_resources() {
     nano_drago_attack_params = dispatch_shared_handler_b__6TLobbyFl(0x1A);
     nano_drago_resistance_params = register_object__6TLobbyFl(0x1A);
     lbl_805D5254 = dispatch_shared_handler_a__6TLobbyFl(0x1A);
-    NanoDragoAnimationBinding binding = { nano_drago_entry_params_resource->motions, nanodrago_action_table, 1, 0xC0000 };
+    NpcAnimationBinding binding = { reinterpret_cast<BmlMotionEntry *>(nano_drago_entry_params_resource->motions), reinterpret_cast<TObjMotionAction *>(nanodrago_action_table), 0, 1, 12 };
     modelEntries = nano_drago_entry_params_resource->models;
-    TLobby::spawn_npc_enemy((s16)(0x22), modelEntries[0].model, (NJS_TEXLIST *)modelEntries[0].m_c, &binding, (f32)(15.0f), (f32)(0.0f));
+    NpcModelRegistry::register_animated_chunk((s16)(0x22), reinterpret_cast<void *>(modelEntries[0].model), reinterpret_cast<void *>(modelEntries[0].m_c), &binding, (f32)(15.0f), (f32)(0.0f));
 }
 void TObjEneNanoDrago::free_resources() {
     if ((u32) nano_drago_entry_params_resource != 0U) {

@@ -1,4 +1,6 @@
 #include "pso/unk/text_80087278.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "types.h"
@@ -74,13 +76,6 @@ u16 enemy_find_nearest_player_in_range(u8 *self, f32 range);
 
 // The motion-binding block TLobby::spawn_npc_enemy takes (same layout as
 // MojaAnimationBinding and GeeAnimationBinding).
-struct Bm9MericarolAnimationBinding {
-    BmlMotionEntry *motions;
-    TObjMotionAction *actions;
-    u32 unknown_08;
-    u16 actionCount;
-    u16 unknown_0E;
-};
 
 extern "C" {
 // Reached with a lis/addi each, never off a shared .rodata base like the TU's own tables: not defined here.
@@ -195,8 +190,8 @@ extern "C" void TBoss4Type3__sub_802D1130(void) {
     lbl_805D6864->sample_two_nodes((NJS_OBJECT *)lbl_805D6868->models[0].model, (NJS_MOTION *)lbl_805D6868->motions[lbl_804E1634[8].motion].motion, 0x2A, 0x2B);
     clear_motion_packed_rotation();
     {
-        Bm9MericarolAnimationBinding params = { lbl_805D6868->motions, lbl_804E1634, 0x30001, 9, 0 };
-        TLobby::spawn_npc_enemy(0x42, lbl_805D6868->models[0].model, (NJS_TEXLIST *)lbl_805D6868->models[0].m_c, &params,
+        NpcAnimationBinding params = { reinterpret_cast<BmlMotionEntry *>(lbl_805D6868->motions), reinterpret_cast<TObjMotionAction *>(lbl_804E1634), 3, 1, 9 };
+        NpcModelRegistry::register_animated_chunk(0x42, reinterpret_cast<void *>(lbl_805D6868->models[0].model), reinterpret_cast<void *>(lbl_805D6868->models[0].m_c), &params,
             lbl_804E1564[0].radius, 0.0f);
     }
 }

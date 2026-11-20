@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/SampledMotionPoints.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "types.h"
@@ -506,9 +508,9 @@ void TObjEneMoja::load_resources() {
     lbl_805D50D4[0] = TLobby::dispatch_shared_handler_a(0x48);
     lbl_805D50D4[1] = TLobby::dispatch_shared_handler_a(0x49);
     s16 ids[3] = { 0x32, 0x33, 0x34 };
-    MojaAnimationBinding binding = { lbl_805D50D8->motions, lbl_804918C8, 2, 9, 0 };
+    NpcAnimationBinding binding = { reinterpret_cast<BmlMotionEntry *>(lbl_805D50D8->motions), reinterpret_cast<TObjMotionAction *>(lbl_804918C8), 0, 2, 9 };
     for (s32 i = 0; i < 3; i++) {
-        TLobby::spawn_npc_enemy(ids[i], lbl_805D50D8->models[i].model, (NJS_TEXLIST *)lbl_805D50D8->models[i].m_c,
+        NpcModelRegistry::register_animated_chunk(ids[i], reinterpret_cast<void *>(lbl_805D50D8->models[i].model), reinterpret_cast<void *>(lbl_805D50D8->models[i].m_c),
             &binding, lbl_80491990.radius, 0.0f);
     }
 }

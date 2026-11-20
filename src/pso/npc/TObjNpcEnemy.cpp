@@ -101,17 +101,17 @@ void TMotorcycle::add_entry(s16 id, NJS_OBJECT *model, GinjaTextureList *texture
     }
 }
 
-void TLobby::spawn_npc_enemy(s16 id, s32 model, NJS_TEXLIST *texlist, void *motion, f32 radius, f32 y_offset) {
+void NpcModelRegistry::register_animated_chunk(s16 id, void *model, void *texlist,
+                                               const NpcAnimationBinding *animation, f32 radius, f32 y_offset) {
     TObjNpcEnemyEntry *entry = TObjNpcEnemy::insert_slot_by_id(id);
     if (entry != NULL) {
         entry->id = id;
         entry->kind = 1;
         entry->y_offset = y_offset;
-        entry->model = model;
+        entry->model = reinterpret_cast<s32>(model);
         entry->texlist = (s32)texlist;
         entry->radius = radius;
-        // Older kind-1 factories pass the same binding layout through a void pointer.
-        entry->animation = *static_cast<const NpcAnimationBinding *>(motion);
+        entry->animation = *animation;
     }
 }
 

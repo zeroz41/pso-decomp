@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/SampledMotionPoints.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/RenderFadeState.h"
 #include "pso/system/task/TObject.h"
@@ -530,7 +532,6 @@ typedef struct O_800AC5EC {
     void *objs[2];
 } O_800AC5EC;
 
-struct Anim_800AC318 { s32 motions; void *actions; s32 initial_action; s32 counts; };
 
 struct Pair_800AC318 { s32 a; s32 b; };
 
@@ -834,9 +835,9 @@ void TLobby::load_shark_resources() {
     shark_render_node_index = 0;
     {
         s16 ids[3] = { 0x2F, 0x30, 0x31 };
-        Anim_800AC318 anim = { (s32)RES->motions, TObjEneShark__action_table, 2, 0xC0000 };
+        NpcAnimationBinding anim = { reinterpret_cast<BmlMotionEntry *>(RES->motions), reinterpret_cast<TObjMotionAction *>(TObjEneShark__action_table), 0, 2, 12 };
         for (i = 0; i < 3; i++) {
-            TLobby::spawn_npc_enemy(ids[i], RES->bodies[i].model, RES->bodies[i].textures, &anim,
+            NpcModelRegistry::register_animated_chunk(ids[i], reinterpret_cast<void *>(RES->bodies[i].model), reinterpret_cast<void *>(RES->bodies[i].textures), &anim,
                 7.5f, 0.0f);
         }
     }

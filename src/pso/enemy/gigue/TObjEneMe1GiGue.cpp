@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/player/PlayerAttackParams.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/unk/text_800DC420.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -414,8 +416,8 @@ void TObjEneMe1GiGue::load_resources() {
     TObjEneMe1GiGue__sub_802CE4EC();
     TObjEneMe1GiGueBarrier::init_global();
     {
-    DelDepthAnimationBinding binding = {TObjEneMe1GiGue__data_805D6838->motions, gigue_enemy_param_table, 1, 9, 0};
-    TLobby::spawn_npc_enemy(0x41, TObjEneMe1GiGue__data_805D6838->models->model, (NJS_TEXLIST *)TObjEneMe1GiGue__data_805D6838->models->m_c, &binding, lbl_804E1304[0].radius, 15.0f);
+    NpcAnimationBinding binding = { reinterpret_cast<BmlMotionEntry *>(TObjEneMe1GiGue__data_805D6838->motions), reinterpret_cast<TObjMotionAction *>(gigue_enemy_param_table), 0, 1, 9 };
+    NpcModelRegistry::register_animated_chunk(0x41, reinterpret_cast<void *>(TObjEneMe1GiGue__data_805D6838->models->model), reinterpret_cast<void *>(TObjEneMe1GiGue__data_805D6838->models->m_c), &binding, lbl_804E1304[0].radius, 15.0f);
     }
 }
 

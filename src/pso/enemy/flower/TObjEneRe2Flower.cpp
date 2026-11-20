@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/player/PlayerAttackParams.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "types.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon_800B92AC.h"
 #include "pso/unk/text_800C3088.h"
@@ -215,19 +217,12 @@ extern "C" {
 s32 get_flag_11__16TObjEneRe2FlowerFv();
 }
 
-struct Stack_800C44C4 {
-    s32 sp8;
-    s32 spC;
-    s32 sp10;
-    s32 sp14;
-};
 
 extern "C" {
 s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
 s32 load_enemy_bml_resource(u8 *arg0);
-struct RecoveredGlobal_lbl_8043BB90 { s32 value; u8 remaining[0xC]; };
 
-extern RecoveredGlobal_lbl_8043BB90 lbl_8043BB90;
+extern const NpcAnimationBinding lbl_8043BB90;
 extern char lbl_8043BAAC[];
 extern char lbl_8043BAC4[];
 extern char lbl_8043BADC[];
@@ -311,7 +306,7 @@ TObjMotionAction TObjEneRe2Flower__animation_descriptors[8] = {
 // The file is compiled -inline off,deferred, which emits the functions in the
 // reverse of the order they are written in.
 void load_re2_flower_resources(void) {
-    Stack_800C44C4 stack;
+    NpcAnimationBinding binding;
     BmlModelEntry *models;
 
     if (get_current_floor_area() == AREA_TOWER) {
@@ -326,13 +321,10 @@ void load_re2_flower_resources(void) {
     re2_flower_node_points = 0;
     TObjPlayer::create_render_texture();
     TObjPlayer__sub_800F0928();
-    stack.sp8 = *(s32 *)((s8 *)&lbl_8043BB90.value + 0);
-    stack.spC = *(s32 *)((s8 *)&lbl_8043BB90.value + 4);
-    stack.sp10 = *(s32 *)((s8 *)&lbl_8043BB90.value + 8);
-    stack.sp14 = *(s32 *)((s8 *)&lbl_8043BB90.value + 0xC);
-    stack.sp8 = (s32)re2_flower_bml_resource->motions;
+    __memcpy(&binding, &lbl_8043BB90, sizeof(binding));
+    binding.motions = re2_flower_bml_resource->motions;
     models = re2_flower_bml_resource->models;
-    TLobby::spawn_npc_enemy(0x37, models->model, (NJS_TEXLIST *)models->m_c, &stack.sp8, lbl_805D9FBC, lbl_805D9FAC);
+    NpcModelRegistry::register_animated_chunk(0x37, reinterpret_cast<void *>(models->model), reinterpret_cast<void *>(models->m_c), &binding, lbl_805D9FBC, lbl_805D9FAC);
 }
 
 void *TObjEneRe2Flower::create(void *arg0) {

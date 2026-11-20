@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/math/FloatRounding.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -95,7 +97,7 @@ TObjMotionAction wolf_action_table[19] = {
 
 const char *bm5_wolf_class_name = "TObjEneBm5Wolf";
 
-static const DelDepthAnimationBinding bm5_wolf_spawn_descriptor = { NULL, wolf_action_table, 1, 19, 0 };
+static const NpcAnimationBinding bm5_wolf_spawn_descriptor = { NULL, reinterpret_cast<TObjMotionAction *>(wolf_action_table), 0, 1, 19 };
 
 __declspec(section ".data") s32 TObjEneBm5Wolf__stat_params[2];
 __declspec(section ".data") s32 wolf_stat_handle_a_table[2];
@@ -277,10 +279,10 @@ void TObjEneBm5Wolf::load_resources() {
         lbl_80500B58[i] = dispatch_shared_handler_a__6TLobbyFl(lbl_8043B3C0[i]);
     }
     {
-    DelDepthAnimationBinding sp = bm5_wolf_spawn_descriptor;
-    sp.motions = TObjEneBm5Wolf__bml_resource->motions;
-    TLobby::spawn_npc_enemy(9, TObjEneBm5Wolf__bml_resource->models[1].model, (NJS_TEXLIST *)TObjEneBm5Wolf__bml_resource->models[0].m_c, &sp, TObjEneBm5Wolf__collider_params[0].radius, 0.0f);
-    TLobby::spawn_npc_enemy(10, TObjEneBm5Wolf__bml_resource->models[0].model, (NJS_TEXLIST *)TObjEneBm5Wolf__bml_resource->models[0].m_c, &sp, TObjEneBm5Wolf__collider_params[0].radius, 0.0f);
+    NpcAnimationBinding sp = bm5_wolf_spawn_descriptor;
+    sp.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneBm5Wolf__bml_resource->motions);
+    NpcModelRegistry::register_animated_chunk(9, reinterpret_cast<void *>(TObjEneBm5Wolf__bml_resource->models[1].model), reinterpret_cast<void *>(TObjEneBm5Wolf__bml_resource->models[0].m_c), &sp, TObjEneBm5Wolf__collider_params[0].radius, 0.0f);
+    NpcModelRegistry::register_animated_chunk(10, reinterpret_cast<void *>(TObjEneBm5Wolf__bml_resource->models[0].model), reinterpret_cast<void *>(TObjEneBm5Wolf__bml_resource->models[0].m_c), &sp, TObjEneBm5Wolf__collider_params[0].radius, 0.0f);
     }
 }
 

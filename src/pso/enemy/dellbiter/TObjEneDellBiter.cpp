@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/GroundContactSound.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
@@ -198,8 +200,8 @@ void TObjEneDellBiter::load_resources() {
         NJS_OBJECT *object = (NJS_OBJECT *)resource->models->model;
         TObjEneDellBiter__scrolling_uv_polygon_list = (s32)((NJS_CNK_MODEL *)object->child->model)->polygon_list;
         TObjEneDellBiter__last_uv_scroll_tick = 0;
-        DelbiterAttackDefinition attack = { resource->motions, dell_biter_param_table, 1, 10, 0 };
-        TLobby::spawn_npc_enemy((s16)0x46, resource->models->model, (NJS_TEXLIST *)resource->models->m_c,
+        NpcAnimationBinding attack = { reinterpret_cast<BmlMotionEntry *>(resource->motions), reinterpret_cast<TObjMotionAction *>(dell_biter_param_table), 0, 1, 10 };
+        NpcModelRegistry::register_animated_chunk((s16)0x46, reinterpret_cast<void *>(resource->models->model), reinterpret_cast<void *>(resource->models->m_c),
             &attack, lbl_804E6B8C[0].radius, 0.0f);
     }
 }

@@ -1,6 +1,8 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
 #include "types.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/camera/TCameraCtrl.h"
 
 #include "pso/object/base/TObjMotion.h"
@@ -729,7 +731,6 @@ void free_bin_model_request(void*, int);
 
 
 // inferred: field names follow MojaAnimationBinding (TObjEneMoja.h), the same 0x10 animation binding layout.
-struct Spawn_80320260 { s32 motions; void **actions; u32 unknown_08; u16 action_count; u16 unknown_0E; };
 
 struct Inner_80320260 { u8 pad[0x18]; s32 f18; NJS_TEXLIST *texlist; };
 
@@ -753,7 +754,7 @@ s32 lbl_805D6B1C;
 
 BmlResource *TObjEneRecobox__static_instance;
 
-const Spawn_80320260 recobox_resource_binding_desc = {0, TObjEneRecobox__animation_entries, 0, 4, 0};
+const NpcAnimationBinding recobox_resource_binding_desc = { NULL, reinterpret_cast<TObjMotionAction *>(TObjEneRecobox__animation_entries), 0, 0, 4 };
 
 #pragma dont_inline off
 #pragma inline_depth(4)
@@ -780,10 +781,10 @@ void TObjEneRecobox::load_resources() {
     TObjEneRecon::load_resources();
     {
         Sub_80320260 *sp = (Sub_80320260 *)lbl_804EC684;
-        Spawn_80320260 s = recobox_resource_binding_desc;
+        NpcAnimationBinding s = recobox_resource_binding_desc;
         box = (Box_80320260 *)(*(u32 *)&TObjEneRecobox__static_instance);
-        s.motions = box->f430;
-        TLobby::spawn_npc_enemy((s16)0xD, box->f42C->f18, box->f42C->texlist, &s, (f32)(getf_80320260(sp)), 0.0f);
+        s.motions = reinterpret_cast<BmlMotionEntry *>(box->f430);
+        NpcModelRegistry::register_animated_chunk((s16)0xD, reinterpret_cast<void *>(box->f42C->f18), reinterpret_cast<void *>(box->f42C->texlist), &s, (f32)(getf_80320260(sp)), 0.0f);
     }
 }
 

@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/map/CsnQuery.h"
@@ -997,13 +999,6 @@ struct ResMgr_803350AC {
 
 // The motion-binding block TLobby::spawn_npc_enemy takes (same layout as
 // MojaAnimationBinding and GeeAnimationBinding).
-struct MorfosAnimationBinding {
-    BmlMotionEntry *motions;
-    TObjMotionAction *actions;
-    u32 unknown_08;
-    u16 actionCount;
-    u16 unknown_0E;
-};
 
 s32 load_enemy_bml_resource(u8 *desc);
 extern f32 lbl_805434D0[3];
@@ -1043,9 +1038,9 @@ void TObjEneMorfos__sub_803350AC(void) {
     }
     TObjEneMorfosArm::init_global();
     {
-        MorfosAnimationBinding desc = { ((ResMgr_803350AC *)TObjEneMorfos__instance)->motions, morfos_motion_param_table, 0, 6, 0 };
-        TLobby::spawn_npc_enemy(0x4D, (s32)((ResMgr_803350AC *)TObjEneMorfos__instance)->res->f18,
-                                ((ResMgr_803350AC *)TObjEneMorfos__instance)->res->texlist, &desc,
+        NpcAnimationBinding desc = { reinterpret_cast<BmlMotionEntry *>(((ResMgr_803350AC *)TObjEneMorfos__instance)->motions), reinterpret_cast<TObjMotionAction *>(morfos_motion_param_table), 0, 0, 6 };
+        NpcModelRegistry::register_animated_chunk(0x4D, reinterpret_cast<void *>(((ResMgr_803350AC *)TObjEneMorfos__instance)->res->f18),
+                                reinterpret_cast<void *>(((ResMgr_803350AC *)TObjEneMorfos__instance)->res->texlist), &desc,
                                 8.0f, 0.0f);
     }
 }
