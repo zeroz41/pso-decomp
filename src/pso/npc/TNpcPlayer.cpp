@@ -2772,7 +2772,7 @@ void partner_observe_surroundings(TNpcPlayer *npc_player) {
     temp_r5 = *(s32 *)((s8 *)(*(u8 **)((s8 *)npc_player + 0x74)) + 0x94);
     *(f32 *)((s8 *)npc_player + 0x58) = ((f32 (*)(void *, void *, int))horizontal_distance_squared)((void *)(temp_r5 + 0x38), (void *) (*(saddr *)((s8 *)(*(u8 **)((s8 *)npc_player + 0x78)) + 0x94) + 0x38), (int)temp_r5);
     if ((s32) *(s32 *)((s8 *)npc_player + 0x84) != 0) {
-        ((s32 (*)(void *, void *, f32))try_update_target_flag__10TNpcPlayerFPvi)((void *) (*(u8 **)((s8 *)npc_player + 0x78)), (void *) (get_npc_type__10TNpcPlayerFPv((void *) (*(u8 **)((s8 *)npc_player + 0x74)))), (f32) (*(f32 *)((s8 *)npc_player + 0x38)));
+        ((s32 (*)(void *, s32, f32))try_update_target_flag__10TNpcPlayerFPvi)((void *) (*(u8 **)((s8 *)npc_player + 0x78)), (s32) (get_npc_type__10TNpcPlayerFPv((void *) (*(u8 **)((s8 *)npc_player + 0x74)))), (f32) (*(f32 *)((s8 *)npc_player + 0x38)));
     } else {
         ((s32 (*)(s32, f32))check_and_set_reached__10TNpcPlayerFPv)((saddr)((void *) (*(u8 **)((s8 *)npc_player + 0x78))), (f32) (*(f32 *)((s8 *)npc_player + 0x38)));
     }
