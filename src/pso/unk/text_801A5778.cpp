@@ -11,7 +11,7 @@ void fn_801A5778(const char *filename, s32 *arg1) {
     temp_r3 = load_disc_file(filename);
     fn_803DAFA8(temp_r3, arg1);
     DCStoreRange((void *) (*arg1), 0x40000);
-    TAdSinglePlyChrSelectGC::safe_free((int)temp_r3);
+    TAdSinglePlyChrSelectGC::safe_free((saddr)temp_r3);
 }
 
 }

@@ -20,7 +20,7 @@ int fn_8035AF18(PhotonChairSeat *seat) {
     u8 *chair;
 
     FOREACH_NODE(TObject, tl_05->m_down, node) {
-        if (((TUnk_804B6C24 *)node)->check_value_equals((s32)TPlyPhotonChair__class_name) != 0
+        if (((TUnk_804B6C24 *)node)->check_value_equals((saddr)TPlyPhotonChair__class_name) != 0
             && seat->owner_id == ((TPlyPhotonChair *)node)->sub_8035B530()
             && TPlyPhotonChair__sub_8035B520(node) != 0) {
             return 0;
@@ -28,7 +28,7 @@ int fn_8035AF18(PhotonChairSeat *seat) {
     }
     chair = (u8 *)TObject::operator new(0xE4);
     if (chair != NULL) {
-        chair = TPlyPhotonChair__ct(chair, seat->owner_id, (s32)tl_05);
+        chair = TPlyPhotonChair__ct(chair, seat->owner_id, (saddr)tl_05);
     }
     if (chair == NULL) {
         return 0;

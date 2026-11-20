@@ -136,7 +136,7 @@ void hit_object_in_radius__10TObjPlayerFPvPvPv(Src_800DC4B4 *arg0, Obj_800DC4B4 
             ((TObjEneNanoDrago *)attacker)->request_growth();
         }
         if (is_split_screen() == 0 && local_client_id == get_entity_id(obj)) {
-            ((TObjEneNanoDrago *)attacker)->trigger_hit_camera_shake((u32)obj);
+            ((TObjEneNanoDrago *)attacker)->trigger_hit_camera_shake((uaddr)obj);
         }
     }
     spawn_particle_effect(obj->pos, 0xFB);
@@ -149,7 +149,7 @@ s32 TObjPlayer::snap_to_ground(s32 arg0, s32 arg1) {
     if (temp_r3 == NULL) {
         return 0;
     }
-    VecCopy((Vec *)(arg1), (const Vec *)(*(s32 *)((s8 *)temp_r3 + 4)));
+    VecCopy((Vec *)(arg1), (const Vec *)(*(saddr *)((s8 *)temp_r3 + 4)));
     return 1;
 }
 
@@ -169,7 +169,7 @@ void TUnk_80494E10::run_task() {
         arg0->cnt++;
         if (arg0->cnt > 4) {
             arg0->cnt = 0;
-            TObjPlayer::snap_to_ground((s32)arg0, (s32)&arg0->prev);
+            TObjPlayer::snap_to_ground((saddr)arg0, (saddr)&arg0->prev);
         }
         if (arg0->link1 != NULL) {
             ((TParticleCtrl *)arg0->link1)->set_position(&arg0->prev);
@@ -218,11 +218,11 @@ u8 *construct_beam_effect__10TObjPlayerFPvPvPviPv(u8 *arg0, Vec *arg1, Vec *arg2
     ang.x = 0;
     ang.y = (s32)(10430.38043493439 * atan2_float(arg2->x - arg1->x, arg2->z - arg1->z)) + 0x4000;
     ang.z = 0x4000 - (s32)(10430.38043493439 * atan2_float(arg2->y - arg1->y, vec_xz_distance((Vec *)arg2, (Vec *)arg1)));
-    *(s32 *)((s8 *)arg0 + 0xE0) = (s32)spawn_particle_effect_with_rotation(arg1, &ang, 0xF5, 2);
+    *(s32 *)((s8 *)arg0 + 0xE0) = (saddr)spawn_particle_effect_with_rotation(arg1, &ang, 0xF5, 2);
     if (((TUnk_80494E10 *)arg0)->m_f4 != 0) {
         VecCopy((Vec *)(arg0 + 0xE8), (const Vec *)(arg0 + 0xAC));
-        TObjPlayer::snap_to_ground((s32)arg0, (s32)(arg0 + 0xE8));
-        ((TUnk_80494E10 *)arg0)->m_e4 = (s32)spawn_continuous_particle_effect_with_flags(arg0 + 0xE8, 0xF9, 2);
+        TObjPlayer::snap_to_ground((saddr)arg0, (saddr)(arg0 + 0xE8));
+        ((TUnk_80494E10 *)arg0)->m_e4 = (saddr)spawn_continuous_particle_effect_with_flags(arg0 + 0xE8, 0xF9, 2);
         *(s32 *)((s8 *)arg0 + 0xF8) = 0;
     } else {
         ((TUnk_80494E10 *)arg0)->m_e4 = 0;

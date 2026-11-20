@@ -30,17 +30,17 @@ void TWindowSubComCardList::sub_80275360() {
         if (card->is_active() == 0) {
             break;
         }
-        forward_trade_action_default__16TObjCityMainWarpFPviii(this, (int)((TLobby *)card)->get_com_card_list(), 7, index);
+        forward_trade_action_default__16TObjCityMainWarpFPviii(this, (saddr)((TLobby *)card)->get_com_card_list(), 7, index);
     }
     if (this->get_field_72() <= 0) {
         switch ((s8)this->m_9c) {
         case 0:
-            msg = (s32)TWindowSubStatusDisp::get_message_10(0xD4);
+            msg = (saddr)TWindowSubStatusDisp::get_message_10(0xD4);
             break;
         case 1:
-            msg = (s32)TWindowSubStatusDisp::get_message_10(0xD2);
+            msg = (saddr)TWindowSubStatusDisp::get_message_10(0xD2);
             break;
         }
-        TWindowSubComCard::draw_text_gray((s32)this, msg, 4, -1);
+        TWindowSubComCard::draw_text_gray((saddr)this, msg, 4, -1);
     }
 }

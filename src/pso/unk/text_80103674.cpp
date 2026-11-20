@@ -10,6 +10,6 @@ void init_item_chunk_buffers(void) {
     item_buffer_temp_mode = 0;
     item_buff_buffer = 0;
     for (i = 0; i != 2; i++) {
-        item_nj_chunk_buffer_table[i] = (u32)mem_alloc(0x200);
+        item_nj_chunk_buffer_table[i] = (uaddr)mem_alloc(0x200);
     }
 }

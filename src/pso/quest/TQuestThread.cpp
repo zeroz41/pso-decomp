@@ -156,21 +156,21 @@ TObjItemOKWindow::TObjItemOKWindow(TObject *parent) : TObject(parent) {
     m_60 = init_shop_judgment_window(get_window_layout_position(0x57));
     if (m_60 != NULL) {
         ((TWindowSubComCardList *)m_60)->set_scroll_target(104.0f, 74.0f);
-        align_menu_entry_positions((u32)m_60);
+        align_menu_entry_positions((uaddr)m_60);
     }
     m_5c = check_room_seq_4__16TAdChrSelASlotGCFl(get_window_layout_position(0x56), 1);
     if (m_5c != NULL) {
-        name = (s32)TObjItemNameSelect::get_selected_name();
+        name = (saddr)TObjItemNameSelect::get_selected_name();
         if (name != 0) {
             sprintf(m_text, TObjItemOKWindow__text_format, TObjItemOKWindow__sub_801F3268(), name);
         } else {
             sprintf(m_text, "%s", TObjItemOKWindow__sub_801F3268());
         }
         m_text[0x3F] = 0;
-        forward_trade_action_default__16TObjCityMainWarpFPviii(m_5c, (int)m_text, 0x81, 0);
+        forward_trade_action_default__16TObjCityMainWarpFPviii(m_5c, (saddr)m_text, 0x81, 0);
     }
     ((TWindowSubComCardList *)m_5c)->set_scroll_target(442.0f, 64.0f);
-    align_menu_entry_positions((u32)m_5c);
+    align_menu_entry_positions((uaddr)m_5c);
     TQuestThread::set_status_flag_80(m_5c);
     pos.x = 332.0f;
     pos.y = 80.0f;
@@ -242,7 +242,7 @@ s32 TObjItemNameEntry::process_keyboard_input() {
     s32 text;
 
     if (m_1c != NULL && ((TKeyBoardControl *)m_1c)->is_confirmed() != 0) {
-        text = (s32)((TKeyBoardControl *)m_1c)->realloc_buffer();
+        text = (saddr)((TKeyBoardControl *)m_1c)->realloc_buffer();
         if (strcmp((const char *)text, "") == 0) {
             mem_free((void *)text);
             free_menu_object(m_1c);
@@ -282,7 +282,7 @@ TObjItemNameEntry::TObjItemNameEntry(TObject *parent) : TObject(parent) {
         forward_trade_action_default__16TObjCityMainWarpFPviii(m_20, get_message_text(0x47), 0x81, 0);
     }
     ((TWindowSubComCardList *)m_20)->set_scroll_target(442.0f, 64.0f);
-    align_menu_entry_positions((u32)m_20);
+    align_menu_entry_positions((uaddr)m_20);
     TQuestThread::set_status_flag_80(m_20);
 }
 
@@ -440,9 +440,9 @@ void QuestVmContext::copy(QuestVmContext *src) {
     s32 tmp;
     s32 to;
     u8 *from;
-    tmp = (s32)src->code;
+    tmp = (saddr)src->code;
     from = (u8 *)src + 0x30;
-    to = (s32)((u8 *)this + 0x30);
+    to = (saddr)((u8 *)this + 0x30);
     code = (u8 *)tmp;
     function_table = src->function_table;
     registers = src->registers;
@@ -457,10 +457,10 @@ void QuestVmContext::copy(QuestVmContext *src) {
     message_speaker = src->message_speaker;
     tmp = *(s32 *)((s8 *)src + 0x30);
     *(s32 *)((s8 *)this + 0x30) = tmp;
-    *(ByteBlock_20 *)(to + 4) = *(const ByteBlock_20 *)((s32)from + 4);
-    to = (s32)((u8 *)this + 0x50);
+    *(ByteBlock_20 *)(to + 4) = *(const ByteBlock_20 *)((saddr)from + 4);
+    to = (saddr)((u8 *)this + 0x50);
     from = (u8 *)src + 0x50;
-    *(ByteBlock_100 *)(to + 4) = *(const ByteBlock_100 *)((s32)from + 4);
+    *(ByteBlock_100 *)(to + 4) = *(const ByteBlock_100 *)((saddr)from + 4);
     unk154 = src->unk154;
     unk155 = src->unk155;
     unk156 = src->unk156;
@@ -479,7 +479,7 @@ void TQuestThread::destroy_all_in(TObject *parent) {
     while (parent->m_down != NULL && child != NULL) {
         TObject *cur = child;
         child = child->m_next;
-        if (((TUnk_804B6C24 *)cur)->check_value_equals((s32)TQuestThread__class_name) != 0) {
+        if (((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TQuestThread__class_name) != 0) {
             cur->queue_destruction();
         } else {
             destroy_all_in(cur);
@@ -772,7 +772,7 @@ TUnk_804C8678::TUnk_804C8678(TObject *parent, void *data, s32 size) : TObject(pa
         queue_destruction();
     } else {
         alloc_size = size + 0x400;
-        script = (s32)TQuestVmDownLoadServer::alloc(alloc_size);
+        script = (saddr)TQuestVmDownLoadServer::alloc(alloc_size);
         memcpy((void *)script, data, alloc_size);
         quest_mission_manager = this;
         init_quest_script_context(script, &ctx);
@@ -787,14 +787,14 @@ TUnk_804C8678::TUnk_804C8678(TObject *parent, const char *filename, s32 kind) : 
     script = 0;
     switch (this->kind) {
     case 0:
-        copy_name((s32)"QUEST");
+        copy_name((saddr)"QUEST");
         size = get_resource_file_size((const char *)filename);
         if (size < 0) {
             queue_destruction();
         } else {
-            script = (s32)TQuestVmDownLoadServer::alloc(size + 0x400);
+            script = (saddr)TQuestVmDownLoadServer::alloc(size + 0x400);
             read_disc_file((const char *)filename, (void *)script);
-            copy_name((s32)"..");
+            copy_name((saddr)"..");
             quest_mission_manager = this;
             init_quest_script_context(script, &ctx);
             new TQuestThread(this, 0);
@@ -806,7 +806,7 @@ TUnk_804C8678::TUnk_804C8678(TObject *parent, const char *filename, s32 kind) : 
         if (size < 0) {
             queue_destruction();
         } else {
-            script = (s32)TQuestVmDownLoadServer::alloc(size + 0x400);
+            script = (saddr)TQuestVmDownLoadServer::alloc(size + 0x400);
             read_disc_file((const char *)filename, (void *)script);
             quest_area_manager = this;
             init_quest_script_context(script, &ctx);
@@ -820,14 +820,14 @@ TUnk_804C8678::TUnk_804C8678(TObject *parent, const char *filename, s32 kind) : 
 
 TUnk_804C8678::TUnk_804C8678(TObject *parent, const char *filename) : TObject(parent) {
     s32 size;
-    copy_name((s32)"QUEST");
+    copy_name((saddr)"QUEST");
     size = get_resource_file_size((const char *)filename);
     if (size < 0) {
         queue_destruction();
     } else {
-        script = (s32)TQuestVmDownLoadServer::alloc(size + 0x400);
+        script = (saddr)TQuestVmDownLoadServer::alloc(size + 0x400);
         read_disc_file((const char *)filename, (void *)script);
-        copy_name((s32)"..");
+        copy_name((saddr)"..");
         quest_mission_manager = this;
         init_quest_script_context(script, &ctx);
         kind = 0;

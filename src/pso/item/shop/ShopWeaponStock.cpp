@@ -597,7 +597,7 @@ void generate_shop_weapon_stock(s32 tbl) {
         ((TItemData *)(buf + ((((s32 *)shop_weapon_stock_counts)[tbl]++) * 0x14)))->copy_from((TItemData *)(&item));
       }
     }
-    sort_shop_items((s32)buf, (s32)(((s32 *)shop_weapon_stock_counts)[tbl]), 2);
+    sort_shop_items((saddr)buf, (s32)(((s32 *)shop_weapon_stock_counts)[tbl]), 2);
   }
 }
 #pragma pop
@@ -639,7 +639,7 @@ void TLobby::free_lobby_resources() {
         }
     }
     if (lobby_weapon_random_tables_ptr != 0) {
-        TLobby::free_nodes_with_id((u32)((void *)lobby_weapon_random_tables_ptr));
+        TLobby::free_nodes_with_id((uaddr)((void *)lobby_weapon_random_tables_ptr));
         lobby_weapon_random_tables_ptr = 0;
     }
 }
@@ -653,19 +653,19 @@ void load_weapon_random_tables(void) {
     s32 j;
     switch (shop_difficulty_tier) {
     case 0:
-        lobby_weapon_random_tables_ptr = create_named_object((s32)"WeaponRandomNormal.rel");
+        lobby_weapon_random_tables_ptr = create_named_object((saddr)"WeaponRandomNormal.rel");
         break;
     case 1:
-        lobby_weapon_random_tables_ptr = create_named_object((s32)"WeaponRandomHard.rel");
+        lobby_weapon_random_tables_ptr = create_named_object((saddr)"WeaponRandomHard.rel");
         break;
     case 2:
-        lobby_weapon_random_tables_ptr = create_named_object((s32)"WeaponRandomVeryHard.rel");
+        lobby_weapon_random_tables_ptr = create_named_object((saddr)"WeaponRandomVeryHard.rel");
         break;
     case 3:
-        lobby_weapon_random_tables_ptr = create_named_object((s32)"WeaponRandomUltimate.rel");
+        lobby_weapon_random_tables_ptr = create_named_object((saddr)"WeaponRandomUltimate.rel");
         break;
     default:
-        lobby_weapon_random_tables_ptr = create_named_object((s32)"WeaponRandomNormal.rel");
+        lobby_weapon_random_tables_ptr = create_named_object((saddr)"WeaponRandomNormal.rel");
         break;
     }
     for (j = 0; j < 4; j++) {
@@ -673,10 +673,10 @@ void load_weapon_random_tables(void) {
     }
     if (is_split_screen() == 1) {
         for (i = 0; i < 4; i++) {
-            ((s32 *)&shop_weapon_stock_buffers)[i] = (s32)mem_alloc(0x140);
+            ((s32 *)&shop_weapon_stock_buffers)[i] = (saddr)mem_alloc(0x140);
         }
     } else {
-        ((s32 *)&shop_weapon_stock_buffers)[0] = (s32)mem_alloc(0x140);
+        ((s32 *)&shop_weapon_stock_buffers)[0] = (saddr)mem_alloc(0x140);
     }
     shop_weapon_stock_level = 0;
 }

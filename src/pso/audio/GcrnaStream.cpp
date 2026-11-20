@@ -426,7 +426,7 @@ void gcrna_initialize(void) {
             lbl_805D7688 = 0x2000;
             gcrna_audio_allocation = (u8 *)OSAlloc(32 * 0x2000 + 32);
         }
-        gcrna_aligned_audio_storage = ((u32)gcrna_audio_allocation + 31) & ~31ULL;
+        gcrna_aligned_audio_storage = ((uaddr)gcrna_audio_allocation + 31) & ~31ULL;
         gcrna_initialize_buffer_table();
         memset(gcrna_stream_pool, 0, sizeof(gcrna_stream_pool));
     }

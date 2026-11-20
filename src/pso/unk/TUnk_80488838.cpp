@@ -112,11 +112,11 @@ void TUnk_80488838::reset_state() {
     m_70 = 25.0f;
     m_2c = 0;
     m_34 = 0;
-    target_player0__11TCameraCtrlFi((s32)this);
+    target_player0__11TCameraCtrlFi((saddr)this);
     reset_behind_player();
 }
 
-void TUnk_80488838::run_task() { target_player0__11TCameraCtrlFi((s32)this); this->update_orbit_camera(); }
+void TUnk_80488838::run_task() { target_player0__11TCameraCtrlFi((saddr)this); this->update_orbit_camera(); }
 
 }
 

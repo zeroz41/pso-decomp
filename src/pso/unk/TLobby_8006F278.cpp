@@ -258,7 +258,7 @@ s32 TLobby__sub_8006F6B0(s32 clear_time) {
     return ret;
 }
 void TLobby::set_name_string() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     strncpy((char *)&lobby_name_string_buffer.value, (const char *)arg0, 0x1F);
     *(s8 *)((s8 *)&lobby_name_string_buffer.value + 0x1F) = 0;
 }

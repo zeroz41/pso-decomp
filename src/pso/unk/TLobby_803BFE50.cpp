@@ -166,38 +166,38 @@ TLobby *alloc_record__6TLobbyFllll(s32 channels, u8 *buffer, s32 size, s32 total
 void TLobby__sub_803C3B5C(TLobby *decoder, void (*callback)(void *, s32 *, s32 *, s32 *), void *context);
 AudioStreamInputState *TLobby__sub_803C0848(AudioStreamSource *source, s32 channels, SjRingBuffer **rings);
 s32 TLobby::get_offset_58() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     return arg0 + 0x58;
 }
 void TLobby__sub_803BFE58(u8 *arg0) {
-    ((TLobby *)(*(s32 *)((s8 *)arg0 + 4)))->get_field_34();
+    ((TLobby *)(*(saddr *)((s8 *)arg0 + 4)))->get_field_34();
 }
 void TLobby::dispatch_field4_event() {
     u8 *arg0 = (u8 *)this;
-    ((TLobby *)(*(s32 *)((s8 *)arg0 + 4)))->get_field30();
+    ((TLobby *)(*(saddr *)((s8 *)arg0 + 4)))->get_field30();
 }
 void TLobby::send_with_offset4_alt() {
     u8 *arg0 = (u8 *)this;
-    ((TLobby *)(*(s32 *)((s8 *)arg0 + 4)))->get_field_2c();
+    ((TLobby *)(*(saddr *)((s8 *)arg0 + 4)))->get_field_2c();
 }
 void TLobby::notify_client() {
     u8 *arg0 = (u8 *)this;
-    ((TLobby *)(*(s32 *)((s8 *)arg0 + 4)))->get_field_28();
+    ((TLobby *)(*(saddr *)((s8 *)arg0 + 4)))->get_field_28();
 }
 void TLobby__sub_803BFEE8(u8 *arg0) {
-    ((TLobby *)(*(s32 *)((s8 *)arg0 + 4)))->get_slot();
+    ((TLobby *)(*(saddr *)((s8 *)arg0 + 4)))->get_slot();
 }
 void TLobby::send_packet_by_id() {
     u8 *arg0 = (u8 *)this;
-    TLobby__sub_803C3ABC((u8 *)(*(s32 *)((s8 *)arg0 + 4)));
+    TLobby__sub_803C3ABC((u8 *)(*(saddr *)((s8 *)arg0 + 4)));
 }
 void TLobby::notify_field_4_alt() {
     u8 *arg0 = (u8 *)this;
-    TLobby__sub_803C3AC4((u8 *)(*(s32 *)((s8 *)arg0 + 4)));
+    TLobby__sub_803C3AC4((u8 *)(*(saddr *)((s8 *)arg0 + 4)));
 }
 void TLobby::send_packet_by_id_2() {
     u8 *arg0 = (u8 *)this;
-    ((TLobby *)(*(s32 *)((s8 *)arg0 + 4)))->get_packet_flag_for_state();
+    ((TLobby *)(*(saddr *)((s8 *)arg0 + 4)))->get_packet_flag_for_state();
 }
 void TLobby::send_with_offset4() {
     u8 *arg0 = (u8 *)this;
@@ -205,7 +205,7 @@ void TLobby::send_with_offset4() {
 }
 void TLobby::notify_field_4() {
     u8 *arg0 = (u8 *)this;
-    TLobby__sub_803C3B44((u8 *)(*(s32 *)((s8 *)arg0 + 4)));
+    TLobby__sub_803C3B44((u8 *)(*(saddr *)((s8 *)arg0 + 4)));
 }
 void TLobby__sub_803BFFC0(u8 *arg0) {
     ((TLobby *)((int) (*(s32 *)((s8 *)arg0 + 4))))->get_field_a8();
@@ -258,7 +258,7 @@ inline void parse_audio_stream_input_header(AudioStreamInputState *st) {
         s->vt->unget_chunk(s, 1, &b);
         return;
     }
-    n = TLobby__sub_803C3B68((s32)h, (u16 *)b.data, b.size);
+    n = TLobby__sub_803C3B68((saddr)h, (u16 *)b.data, b.size);
     if (n == 0 || n > b.size) {
         s->vt->unget_chunk(s, 1, &b);
         return;
@@ -315,7 +315,7 @@ inline void feed_audio_stream_decoder(AudioStreamInputState *st) {
     if (h->get_field_a8() == 10) {
         s->vt->unget_chunk(s, 1, &st->src_chunk);
     }
-    h->init_scroll((s32)st->src_chunk.data, st->src_chunk.size);
+    h->init_scroll((saddr)st->src_chunk.data, st->src_chunk.size);
     TLobby__sub_803C3A04((u8 *)h);
 }
 
@@ -336,7 +336,7 @@ inline void drain_audio_stream_decoder(AudioStreamInputState *st) {
     TLobby__sub_803D3130(&st->src_chunk, bytes, &head, &tail);
     s->vt->put_chunk(s, 0, &head);
     s->vt->unget_chunk(s, 1, &tail);
-    for (i = 0; i < TLobby__sub_803C3B38((int)st->decoder); i++) {
+    for (i = 0; i < TLobby__sub_803C3B38((saddr)st->decoder); i++) {
         TLobby__sub_803D3130(&st->out_chunks[i], n * 2, &head, &tail);
         if (st->output_callback != NULL) {
             st->output_callback(st->output_context, i, head.data, head.size);
@@ -390,11 +390,11 @@ void TLobby__sub_803C0628(void *arg0_, s32 *arg1, s32 *arg2, s32 *arg3) {
     s32 i;
     s32 t;
     s32 v;
-    h = (s32)arg0->objs[0];
+    h = (saddr)arg0->objs[0];
     for (i = 0; i < ((s32)TLobby__sub_803C3B38(arg0->f4)); i++) {
         arg0->objs[i]->vt->fn18(arg0->objs[i], 0, 0x4000, &arg0->recs[i]);
     }
-    *arg1 = (arg0->recs[0].a - (s32)sj_ring_buffer_get_buffer((SjRingBuffer*)h)) / 2;
+    *arg1 = (arg0->recs[0].a - (saddr)sj_ring_buffer_get_buffer((SjRingBuffer*)h)) / 2;
     v = arg0->f38;
     t = arg0->recs[0].b / 2;
     if (t < v) {
@@ -411,7 +411,7 @@ void TLobby__sub_803C0628(void *arg0_, s32 *arg1, s32 *arg2, s32 *arg3) {
 
 void TLobby::reset_flag() {
     u8 *arg0 = (u8 *)this;
-    TLobby__sub_803C39CC((u8 *)(*(s32 *)((s8 *)arg0 + 4)));
+    TLobby__sub_803C39CC((u8 *)(*(saddr *)((s8 *)arg0 + 4)));
     *(s8 *)((s8 *)arg0 + 1) = 0;
 }
 void TLobby__sub_803C0758(u8 *arg0) {
@@ -429,12 +429,12 @@ void TLobby__sub_803C0758(u8 *arg0) {
 void TLobby::set_network_result(s32 result) {
     u8 *arg0 = (u8 *)this;
     *(s32 *)((s8 *)arg0 + 0x38) = result;
-    TLobby__sub_803C1A00((u8 *)(*(s32 *)((s8 *)arg0 + 4)), result);
+    TLobby__sub_803C1A00((u8 *)(*(saddr *)((s8 *)arg0 + 4)), result);
 }
 void TLobby::set_param_and_notify(s32 arg1) {
     u8 *arg0 = (u8 *)this;
     *(s32 *)((s8 *)arg0 + 8) = arg1;
-    ((TLobby *)(*(s32 *)((s8 *)arg0 + 4)))->invoke_notify_callback();
+    ((TLobby *)(*(saddr *)((s8 *)arg0 + 4)))->invoke_notify_callback();
 }
 
 s32 TLobby__sub_803C07E8(Obj_803C07E8 *self) {

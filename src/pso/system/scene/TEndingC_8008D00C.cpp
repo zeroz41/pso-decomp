@@ -61,7 +61,7 @@ s32 set_draw_texture_and_color(s32, s32, f32);
 }
 
 void TEndingC::render() {
-    TObjFish::set_global_param((s32)&TEndingC__wall_texture_list_entry);
+    TObjFish::set_global_param((saddr)&TEndingC__wall_texture_list_entry);
     begin_screen_draw(1);
     set_draw_texture_and_color(1, ((s32) (255.0f * primary_opacity) << 0x18) | 0xFF0000 | 0xFFFF, 255.0f);
     draw_textured_quad_at_depth((f32 *)(render_geometry + 0x0), 0.98f);
@@ -223,7 +223,7 @@ extern "C" {
 u8 *__ct__8TEndingCFv(u8 *object, u8 *arg1) {
     __ct__7TObjectFP7TObject(object, arg1);
     *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__8TEndingC;
-    *(s32 *)((s8 *)object + 0) = (s32) lbl_805D2960;
+    *(s32 *)((s8 *)object + 0) = (saddr) lbl_805D2960;
     *(s32 *)((s8 *)object + 0x20) = 0;
     *(s32 *)((s8 *)object + 0x1C) = 0;
     *(f32 *)((s8 *)object + 0x28) = 0.0f;
@@ -280,7 +280,7 @@ void release_lobby__8TEndingCFv(void) {
 
     int bind_gvm_texture_list(const char *, NJS_TEXLIST *);
 }
-void register_texture_ed_512kabe_c(void) { TEndingC__wall_texture_list = (int)&TEndingC__wall_texture_list_entry; bind_gvm_texture_list(lbl_804398EC, &TEndingC__wall_texture_list_entry); }
+void register_texture_ed_512kabe_c(void) { TEndingC__wall_texture_list = (saddr)&TEndingC__wall_texture_list_entry; bind_gvm_texture_list(lbl_804398EC, &TEndingC__wall_texture_list_entry); }
 
 #define CAT2(a, b) a##b
 #define CAT(a, b) CAT2(a, b)
@@ -307,7 +307,7 @@ void TObjEneBalClaw::clear_flag_in_state7() {
 }
 
 s32 TObjEneBalClaw::update_movement_status() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     if (update_movement_status__9TObjCharaFv() != 0) {
         ((TObjEneBalClaw *)arg0)->clear_flag_in_state7();
         return 1;
@@ -316,7 +316,7 @@ s32 TObjEneBalClaw::update_movement_status() {
 }
 
 s32 TObjEneBalClaw::update_action_hold_status() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     if (update_action_hold_status__9TObjCharaFv() != 0) {
         ((TObjEneBalClaw *)arg0)->clear_flag_in_state7();
         return 1;

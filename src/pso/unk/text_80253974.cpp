@@ -35,7 +35,7 @@ s32 TItemData::update_mag_status_gauges() {
     s32 var_r31;
     ((MagStats *)sp8)->init();
     var_r31 = 0;
-    TItemData::deserialize_mag((void *)(*(s32 *)((s8 *)((u8 *)this) + 0x68)), (void *)sp8);
+    TItemData::deserialize_mag((void *)(*(saddr *)((s8 *)((u8 *)this) + 0x68)), (void *)sp8);
     a = ((TWindowBase *)((u8 *)this))->get_array_entry(0);
     b = ((TWindowBase *)((u8 *)this))->get_array_entry(1);
     c = ((TWindowBase *)((u8 *)this))->get_array_entry(2);
@@ -104,7 +104,7 @@ void TWindowHelpItem__vt10(u8 *window_base) {
     ((MagStats *)mag)->init();
     init_window_layout_entries(window_base + 0x24, lbl_804CF30C, *(s16 *)((s8 *)window_base + 0x20));
     *(PM_80253D10 *)((s8 *)window_base + 0xB0) = TWindowHelpItem__mag_growth_update_callback;
-    TItemData::deserialize_mag((void *)(*(s32 *)((s8 *)window_base + 0x68)), (void *)mag);
+    TItemData::deserialize_mag((void *)(*(saddr *)((s8 *)window_base + 0x68)), (void *)mag);
     lv = ((TWindowBase *)window_base)->get_array_entry(0);
     sy = ((TWindowBase *)window_base)->get_array_entry(1);
     iq = ((TWindowBase *)window_base)->get_array_entry(2);

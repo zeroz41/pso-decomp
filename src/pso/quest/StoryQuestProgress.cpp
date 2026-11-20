@@ -24,7 +24,7 @@ s32 should_record_episode1_quest_completion(void) {
     var_r29 = 1;
     var_r28 = 0;
         do {
-        if (get_story_flag((*(s32 *)((s8 *)(((s32)&((Induction_80219EE8_var_r31 *)episode1_story_quest_flag_pairs)[var_r28])) + 4))) == 0) {
+        if (get_story_flag((*(s32 *)((s8 *)(((saddr)&((Induction_80219EE8_var_r31 *)episode1_story_quest_flag_pairs)[var_r28])) + 4))) == 0) {
             var_r29 = 0;
         }
         var_r28 += 1;

@@ -240,7 +240,7 @@ void TUnk_804A05C8::vfunc_6() {
     if ((((TObjPlayer *)this->m_28)->is_body_collision_inactive() == 0) && (((TObjPlayer *)(this->m_28))->is_flag_20000_set() == 0)) {
         ((TBoss3Volopt *)(this->m_28))->get_field_3e0();
         if ((is_item_area_enabled() == 1) && (((TObjCollidable *)((void *)this->m_28))->obj_testFlags30(0x800) == 0)) {
-            particle = (TParticleCtrl *)spawn_particle_effect_with_flags((void *)(*(s32 *)&this->m_28 + 0x2FC), this->unk_2C, 0x10);
+            particle = (TParticleCtrl *)spawn_particle_effect_with_flags((void *)(*(saddr *)&this->m_28 + 0x2FC), this->unk_2C, 0x10);
             if (particle != 0) {
                 particle->set_owner_id(get_entity_id((TObjBase *)this->m_28));
             }

@@ -29,7 +29,7 @@ void submit_chat_text(u8 *lobby) {
             Tag_80076BC8 tmp = *(Tag_80076BC8 *)&TPlyGuildCardTag(0, 0);
             send_chat__9TProtocolFR16TPlyGuildCardTagPc(TLobby__protocol_instance, (TPlyGuildCardTag *)&tmp, lobby);
         } else {
-            TWindowCtrl::open((s32)(get_entity_id(player)), (s32)lobby, 0xCB);
+            TWindowCtrl::open((saddr)(get_entity_id(player)), (saddr)lobby, 0xCB);
         }
     }
 }
@@ -102,5 +102,5 @@ bool is_chat_shortcut_set(s32 arg0) {
 typedef struct { u8 b[0x54]; } Rec_80076E2C;
 int get_chat_shortcut(s32 arg0) {
     u8 *p = (u8 *)((Rec_80076E2C *)get_character_save_record(0xFFFF) + arg0);
-    return (s32)(p + 0x19C0);
+    return (saddr)(p + 0x19C0);
 }

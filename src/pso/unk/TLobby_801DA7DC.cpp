@@ -137,7 +137,7 @@ s32 send_login_9e_extended__6TLobbyFPvPvi(u8 *arg0, u8 *arg1, s32 arg2) {
     pkt.flag = *(s32 *)(arg0 + 0x1930);
     pkt.size = 0x150;
     __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(pkt.tag, arg0 + 0x1900);
-    __as__8TPlySmthFRC8TPlySmth((s32)pkt.smth, (s32)(arg0 + 0x18F8));
+    __as__8TPlySmthFRC8TPlySmth((saddr)pkt.smth, (saddr)(arg0 + 0x18F8));
     pkt.f14 = *(u16 *)(arg0 + 0x1908);
     pkt.f19 = *(s32 *)(arg0 + 0x1934);
     __as__16TPlyClientConfigFRC16TPlyClientConfig(pkt.config, arg0 + 0x3FAC);
@@ -167,7 +167,7 @@ void handle_cmd_9C__9TProtocolFR6packet(u8 *arg0, s32 *arg1) {
 void handle_cmd_02__9TProtocolFR6packet(u8 *arg0, Recv_801DAA70 *arg1) {
     Recv_801DAA70 r = *arg1;
     Pkt_801DAA70 pkt;
-    bswap__21TRecvPsoRegistConnectFv((s32)&r);
+    bswap__21TRecvPsoRegistConnectFv((saddr)&r);
     if (strcmp(lobby_server_greeting_text, r.name) == 0) {
         ((PSOV3EncryptionTCP *)(arg0 + 0x10BC))->reset(r.key1);
         ((PSOV3EncryptionTCP *)(arg0 + 0x884))->reset(r.key2);
@@ -177,7 +177,7 @@ void handle_cmd_02__9TProtocolFR6packet(u8 *arg0, Recv_801DAA70 *arg1) {
         pkt.cmd = 0x9E;
         pkt.flag = *(s32 *)(arg0 + 0x1930);
         __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(pkt.tag, arg0 + 0x1900);
-        __as__8TPlySmthFRC8TPlySmth((s32)pkt.smth, (s32)(arg0 + 0x18F8));
+        __as__8TPlySmthFRC8TPlySmth((saddr)pkt.smth, (saddr)(arg0 + 0x18F8));
         pkt.f14 = *(u16 *)(arg0 + 0x1908);
         pkt.f19 = *(s32 *)(arg0 + 0x1934);
         strncpy(pkt.name1, (const char *)(arg0 + 0x3EB8), 0x10);

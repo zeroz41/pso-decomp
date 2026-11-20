@@ -22,7 +22,7 @@ void mark_unequippable_items(Wn_80278460 *arg0) {
         for (i = 0; (s16)i < arg0->f76; i++) {
             e = get_array_entry__11TWindowBaseFi(arg0, i);
             if (e != NULL && is_flag_4_set__20TWindowSubStatusDispFv() != 0 && ((TWindowSubStatusDisp *)e)->is_flag80_set() == 0) {
-                if ((t = (u32)find_item_by_id(((TWindowSubItem *)e)->get_cursor_pos())) != 0 && ((TItem *)t)->check_equip_requirements((TObjPlayer *)item, (s16 *)sp8) == 0) {
+                if ((t = (uaddr)find_item_by_id(((TWindowSubItem *)e)->get_cursor_pos())) != 0 && ((TItem *)t)->check_equip_requirements((TObjPlayer *)item, (s16 *)sp8) == 0) {
                     *e |= 0x80;
                 }
             }

@@ -125,7 +125,7 @@ void cancel_dvd_request(void *arg) {
     dvd_active_request.unknown08 = 0;
     if (result < 0) {
         if (fileio_error_callback != NULL) {
-            fileio_error_callback(fileio_error_context, (s32 *)"E0092917:DVDCancel failed.", (s32)r);
+            fileio_error_callback(fileio_error_context, (s32 *)"E0092917:DVDCancel failed.", (saddr)r);
         }
         return;
     }
@@ -141,7 +141,7 @@ void cancel_dvd_request(void *arg) {
         }
         if (elapsed > 2000) {
             if (fileio_error_callback != NULL) {
-                fileio_error_callback(fileio_error_context, (s32 *)"E0092918:DVDCancel time out.", (s32)r);
+                fileio_error_callback(fileio_error_context, (s32 *)"E0092918:DVDCancel time out.", (saddr)r);
             }
             break;
         }
@@ -229,13 +229,13 @@ s32 gcCiReqRd(void *arg, s32 count, void *buf) {
     }
     if (count < 0) {
         if (fileio_error_callback != NULL) {
-            fileio_error_callback(fileio_error_context, (s32 *)"E0092913:nsct < 0.(gcCiReqRd)", (s32)r);
+            fileio_error_callback(fileio_error_context, (s32 *)"E0092913:nsct < 0.(gcCiReqRd)", (saddr)r);
         }
         return 0;
     }
     if (buf == NULL) {
         if (fileio_error_callback != NULL) {
-            fileio_error_callback(fileio_error_context, (s32 *)"E0092914:buf is null.(gcCiReqRd)", (s32)r);
+            fileio_error_callback(fileio_error_context, (s32 *)"E0092914:buf is null.(gcCiReqRd)", (saddr)r);
         }
         return 0;
     }
@@ -338,7 +338,7 @@ void close_dvd_request(void *arg) {
         dvd_active_request.unknown08 = 0;
         if (result < 0) {
             if (fileio_error_callback != NULL) {
-                fileio_error_callback(fileio_error_context, (s32 *)"E0092917:DVDCancel failed.", (s32)rr);
+                fileio_error_callback(fileio_error_context, (s32 *)"E0092917:DVDCancel failed.", (saddr)rr);
             }
             goto close_req;
         }
@@ -356,7 +356,7 @@ void close_dvd_request(void *arg) {
             }
             if (elapsed > 2000) {
                 if (fileio_error_callback != NULL) {
-                    fileio_error_callback(fileio_error_context, (s32 *)"E0092918:DVDCancel time out.", (s32)rr);
+                    fileio_error_callback(fileio_error_context, (s32 *)"E0092918:DVDCancel time out.", (saddr)rr);
                 }
                 break;
             }

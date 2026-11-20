@@ -435,7 +435,7 @@ s32 get_item_star_count(s32 id) {
 
 s32 get_mag_feed_result(s32 arg0, s32 arg1) {
     if ((arg0 >= 0) && (arg0 < 8)) {
-        return *(s32 *)((s8 *)(*(s32 *)((s8 *)(*(u8 * *)&item_pmt_tbl) + 0x28)) + (arg0 * 4)) + (arg1 * 8);
+        return *(s32 *)((s8 *)(*(saddr *)((s8 *)(*(u8 * *)&item_pmt_tbl) + 0x28)) + (arg0 * 4)) + (arg1 * 8);
     }
     return 0;
 }
@@ -486,7 +486,7 @@ f32 get_item_price_coefficient(u8 arg0, u8 arg1) {
 
 u8 get_weapon_class_motion_type(u8 arg0) {
     if (arg0 < 0xAAU) {
-        return *(u8 *)((s8 *)(*(s32 *)((s8 *)(*(u8 * *)&item_pmt_tbl) + 0x14) + arg0) + 0);
+        return *(u8 *)((s8 *)(*(saddr *)((s8 *)(*(u8 * *)&item_pmt_tbl) + 0x14) + arg0) + 0);
     }
     return 0U;
 }
@@ -502,7 +502,7 @@ s32 TObjPlayer::get_item_by_slot_flag(u8 arg0) {
         goto block_6;
     }
 block_6:
-    return (s32)lbl_805D2B10;
+    return (saddr)lbl_805D2B10;
 }
 Entry_8011CB18 *get_weapon_range_record(Item_8011CB18 *item, s16 mode) {
     if (item != 0) {

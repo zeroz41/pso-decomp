@@ -133,7 +133,7 @@ void TObjChallenge4PRetry::open_message_window() {
     }
     *(u32 *)((s8 *)this + 0x30) = create__14TWindowMessageFPvll(get_window_layout_position(0x39), message_window_position, 1);
     if ((u32) *(u32 *)((s8 *)this + 0x30) != 0U) {
-        ((TWindowMessage *)(*(u32 *)((s8 *)this + 0x30)))->append_line(get_message_text(0x5E), 1);
+        ((TWindowMessage *)(*(uaddr *)((s8 *)this + 0x30)))->append_line(get_message_text(0x5E), 1);
     }
 }
 
@@ -149,11 +149,11 @@ void TObjChallenge4PRetry::open_giveup_window() {
     }
     *(u32 *)((s8 *)this + 0x2C) = check_room_seq_4__16TAdChrSelASlotGCFl(get_window_layout_position(0x3A), 3);
     if ((u32) *(u32 *)((s8 *)this + 0x2C) != 0U) {
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)(*(u32 *)((s8 *)this + 0x2C)), (int)(get_message_text(0x5B)), 5, 0);
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)(*(u32 *)((s8 *)this + 0x2C)), (int)(get_message_text(0x5C)), 5, 1);
-        ((TWindowSubComCard *)(*(u32 *)((s8 *)this + 0x2C)))->calc_window_size();
-        ((TLobby *)(*(u32 *)((s8 *)this + 0x2C)))->set_loss_flag();
-        ((TWindowSubComCardList *)(*(u32 *)((s8 *)this + 0x2C)))->set_selected_index(0);
+        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)(*(uaddr *)((s8 *)this + 0x2C)), (int)(get_message_text(0x5B)), 5, 0);
+        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)(*(uaddr *)((s8 *)this + 0x2C)), (int)(get_message_text(0x5C)), 5, 1);
+        ((TWindowSubComCard *)(*(uaddr *)((s8 *)this + 0x2C)))->calc_window_size();
+        ((TLobby *)(*(uaddr *)((s8 *)this + 0x2C)))->set_loss_flag();
+        ((TWindowSubComCardList *)(*(uaddr *)((s8 *)this + 0x2C)))->set_selected_index(0);
     }
 }
 
@@ -229,7 +229,7 @@ void giveup_window_handle_select(void *arg0) {
     ((s32 (*)())play_effect_all_players__6TLobbyFPv)();
     switch (TLobby__sub_80291F9C()) {
     case 0:
-        play_cue_stream_file((s32)"lose.adx");
+        play_cue_stream_file((saddr)"lose.adx");
         ((s32 (*)(void *))send_giveup_to_all_players__6TLobbyFv)(arg0);
         ((TObjChallenge4PRetry *)arg0)->close_window();
         ((TObjChallenge4PRetry *)arg0)->close_window_field30();
@@ -272,8 +272,8 @@ void TObjChallenge4PRetry::handle_retry_menu_select() {
     if ((u32) *(u32 *)((s8 *)this + 0x2C) == 0U) {
         open_giveup_window();
     }
-    if (((TWindowMenu *)(*(u32 *)((s8 *)this + 0x2C)))->is_decided() != 0) {
-        selected_menu_value = ((TWindowMenu *)(*(u32 *)((s8 *)this + 0x2C)))->get_selected_value();
+    if (((TWindowMenu *)(*(uaddr *)((s8 *)this + 0x2C)))->is_decided() != 0) {
+        selected_menu_value = ((TWindowMenu *)(*(uaddr *)((s8 *)this + 0x2C)))->get_selected_value();
         if (selected_menu_value != 2) {
             TLobby::set_retry_selection(retry_selection_value_table[selected_menu_value]);
             ((s32 (*)(void *))send_giveup_to_all_players__6TLobbyFv)(this);

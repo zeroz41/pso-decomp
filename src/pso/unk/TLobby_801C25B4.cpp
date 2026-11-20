@@ -498,7 +498,7 @@ void *TPlayerBattleCtrl__ct(void *player_battle_ctrl, s32 _w1) {
     s32 temp_r3;
     __ct__7TObjectFP7TObject(player_battle_ctrl);
     *(u8 **)((s8 *)player_battle_ctrl + 0x18) = __vt__17TPlayerBattleCtrl;
-    *(s32 *)((s8 *)player_battle_ctrl + 0) = (s32) TPlayerBattleCtrl__name;
+    *(s32 *)((s8 *)player_battle_ctrl + 0) = (saddr) TPlayerBattleCtrl__name;
     *(s32 *)((s8 *)player_battle_ctrl + 0x28) = 0;
     ((TPlayerBattleCtrl *)player_battle_ctrl)->state_24 = 0;
     ((TPlayerBattleCtrl *)player_battle_ctrl)->state_20 = 0;
@@ -590,7 +590,7 @@ void TLobby::update_battle_intro() {
         ((Lobby_801C49B8 *)this)->state = 1;
         break;
     case 1:
-        ((TWindowMessage *)(((Lobby_801C49B8 *)this)->window))->append_line((s32)((Lobby_801C49B8 *)this)->msg, 0x80);
+        ((TWindowMessage *)(((Lobby_801C49B8 *)this)->window))->append_line((saddr)((Lobby_801C49B8 *)this)->msg, 0x80);
         ((Lobby_801C49B8 *)this)->timer = 0xF0;
         ((Lobby_801C49B8 *)this)->state = 2;
         break;
@@ -621,7 +621,7 @@ void TLobby::update_battle_intro() {
             }
         }
         sprintf(battle_intro_message_buffer, *(char **)(((Lobby_801C49B8 *)this)->cfg + 0x18), names[0].s, names[1].s, names[2].s, names[3].s);
-        ((TWindowMessage *)(((Lobby_801C49B8 *)this)->window))->append_line((s32)battle_intro_message_buffer, 0x80);
+        ((TWindowMessage *)(((Lobby_801C49B8 *)this)->window))->append_line((saddr)battle_intro_message_buffer, 0x80);
         ((Lobby_801C49B8 *)this)->timer = 0xF0;
         ((Lobby_801C49B8 *)this)->state = 4;
         break;
@@ -1117,14 +1117,14 @@ void TLobby__sub_801C3A40(void) {
 void TLobby::init_battle_ctrl(s32 arg0, s32 arg1) {
     u32 player_battle_ctrl;
     if ((u32) (*(u32 *)&TLobby__battle_mode_data_ptr) == 0U) {
-        player_battle_ctrl = (u32)TObject::operator new(0x278);
+        player_battle_ctrl = (uaddr)TObject::operator new(0x278);
         if (player_battle_ctrl != 0U) {
-            player_battle_ctrl = ((u32)TPlayerBattleCtrl__ct((void *)player_battle_ctrl, (s32)tl_00));
+            player_battle_ctrl = ((uaddr)TPlayerBattleCtrl__ct((void *)player_battle_ctrl, (s32)tl_00));
         }
         (*(u32 *)&TLobby__battle_mode_data_ptr) = player_battle_ctrl;
     }
     if ((u32) (*(u32 *)&TLobby__battle_mode_data_ptr) != 0U) {
-        strncpy((char *)((*(u32 *)&TLobby__battle_mode_data_ptr) + 0x68), (const char *)arg1, 0x200);
+        strncpy((char *)((*(uaddr *)&TLobby__battle_mode_data_ptr) + 0x68), (const char *)arg1, 0x200);
         TLobby__battle_config_ptr = arg0;
     }
 }
@@ -1148,14 +1148,14 @@ void TLobby__sub_801C38E8(void *arg0) {
             }
             TLobby::stop_audio_streams();
             lbl_805D5DB4 = 0;
-            TLobby::init_fadeout_state((s32)((void *)TLobby::init_and_set_flag));
+            TLobby::init_fadeout_state((saddr)((void *)TLobby::init_and_set_flag));
             *(s32 *)((u8 *)arg0 + 0x20) = 2;
         }
         break;
     case 2:
         if (lbl_805D5DB4 != 0) {
             TLobby::finish_chr_select_scene_init();
-            TLobby::set_fade_params((s32)((void *)TLobby__sub_801C38A4));
+            TLobby::set_fade_params((saddr)((void *)TLobby__sub_801C38A4));
             *(s32 *)((u8 *)arg0 + 0x20) = 3;
         }
         break;
@@ -1401,7 +1401,7 @@ void TPlayerBattleCtrl::init_battle_round() {
   }
   TAdSinglePlyChrSelectGC::set_slot((u16) var_r3);
   TAdSinglePlyChrSelectGC__sub_801FCE6C();
-  TLobby::apply_game_settings((s32)this, 1);
+  TLobby::apply_game_settings((saddr)this, 1);
   TLobby::close_and_play_effect((u16) local_client_id, 1);
   temp_r3 = update_battle_controller__10TObjPlayerFv();
   if (temp_r3 != 0)
@@ -1723,7 +1723,7 @@ u8 TLobby__sub_801C2614(void) {
   {
     var_r3 = (u8 *) (*((u8 **) (((s8 *) var_r3) + 0x1C)));
     var_r0 = 0;
-    if ((((s32) var_r3) == 1) || (((s32) var_r3) == 2))
+    if ((((saddr) var_r3) == 1) || (((saddr) var_r3) == 2))
     {
       var_r0 = 1;
     }

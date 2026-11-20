@@ -493,7 +493,7 @@ void TLobby::handle_player_event(s32 arg0, s32 arg1) {
         case 5:
         case 6:
         case 7:
-            item = (u32)player->get_equipped_item(arg1 + 5);
+            item = (uaddr)player->get_equipped_item(arg1 + 5);
             break;
         default:
             break;
@@ -596,7 +596,7 @@ s32 item_identity_matches(u8 *arg0, u8 *arg1) {
   s32 var_r3;
   u8 var_r5;
   u8 var_r6;
-  if ((((((u32) arg0) != 0) && (((u32) arg1) != 0)) && ((var_r5 = *((u8 *) (((s8 *) arg0) + 0)), (var_r5 == ((u8) (*((u8 *) (((s8 *) arg1) + 0))))) != 0))) && ((var_r6 = *((u8 *) (((s8 *) arg0) + 1)), (var_r6 == ((u8) (*((u8 *) (((s8 *) arg1) + 1))))) != 0)))
+  if ((((((uaddr) arg0) != 0) && (((uaddr) arg1) != 0)) && ((var_r5 = *((u8 *) (((s8 *) arg0) + 0)), (var_r5 == ((u8) (*((u8 *) (((s8 *) arg1) + 0))))) != 0))) && ((var_r6 = *((u8 *) (((s8 *) arg0) + 1)), (var_r6 == ((u8) (*((u8 *) (((s8 *) arg1) + 1))))) != 0)))
   {
     switch ((s32) var_r5)
     {
@@ -833,7 +833,7 @@ s32 find_eligible_combination_recipe(s32 arg0, u8 *item) {
             return 0;
         }
     }
-    return (s32)rec;
+    return (saddr)rec;
 }
 
 // ---- text_80104F4C.cpp
@@ -976,7 +976,7 @@ s32 check_equip_requirements(void *self, TItemData *p, s32 *out) {
   int new_var3;
   s32 r;
   void *new_var2;
-  if (((s32) self == 0) || (p == 0))
+  if (((saddr) self == 0) || (p == 0))
   {
     if (out != 0)
     {
@@ -1036,7 +1036,7 @@ s32 check_equip_requirements(void *self, TItemData *p, s32 *out) {
   switch (((u8 *) p)[0])
   {
     case 0:
-      if ((s32) (p = (TItemData *) lookup_item_pmt_record((u8 *) p)) != 0)
+      if ((saddr) (p = (TItemData *) lookup_item_pmt_record((u8 *) p)) != 0)
     {
       if (check_class_equip_permission((TObjPlayer *) new_var2, (s16) (*((u16 *) ((u8 *) p + 8)))) == 0)
       {
@@ -1066,7 +1066,7 @@ s32 check_equip_requirements(void *self, TItemData *p, s32 *out) {
     case 1:
       if (((u8 *) p)[1] != 3)
     {
-      if ((s32) (p = (TItemData *) lookup_item_pmt_record((u8 *) p)) != 0)
+      if ((saddr) (p = (TItemData *) lookup_item_pmt_record((u8 *) p)) != 0)
       {
         if (check_class_equip_permission((TObjPlayer *) new_var, (s16) (*((u16 *) ((u8 *) p + 0xe)))) == ((0, 0)))
         {
@@ -1269,7 +1269,7 @@ void send_6x60_standard_drop_item_request(Obj_80105538 *self) {
                         v.x = pkt.x;
                         v.y = 100.0f;
                         v.z = pkt.z;
-                        if (csnVecterUnder((s32)&v, 1) != 0) {
+                        if (csnVecterUnder((saddr)&v, 1) != 0) {
                             ((TLobby *)(&pkt))->dispatch_packet_wrapper();
                         }
                     }

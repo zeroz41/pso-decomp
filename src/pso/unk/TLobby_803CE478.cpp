@@ -12,12 +12,12 @@ void TLobby::update_scroll() {
     if (((s32) *(u8 *)((s8 *)arg0 + 0x1A8) == 1) && ((s32) *(s32 *)((s8 *)arg0 + 0x1B0) >= (s32) *(s32 *)((s8 *)arg0 + 0x1BC))) {
         *(s32 *)((s8 *)arg0 + 0x1B0) = (s32) *(s32 *)((s8 *)arg0 + 0x1B8);
     }
-    if (((s32) *(u8 *)((s8 *)arg0 + 0x1A9) == 1) && ((s32) *(s32 *)((s8 *)arg0 + 0x1B0) < ((TLobby *)(*(s32 *)&this->m_flags))->get_scroll_offset())) {
+    if (((s32) *(u8 *)((s8 *)arg0 + 0x1A9) == 1) && ((s32) *(s32 *)((s8 *)arg0 + 0x1B0) < ((TLobby *)(*(saddr *)&this->m_flags))->get_scroll_offset())) {
         TLobby__sub_803CE220();
-        ((TLobby *)(*(s32 *)&this->m_flags))->get_entry_pair((s32)((int) (*(s32 *)((s8 *)arg0 + 0x1B0))), &spC, &sp8);
-        ((TLobby *)(*(s32 *)&this->m_prev))->set_scroll_offset((int) (spC / 2048));
-        ((TLobby *)(*(s32 *)&this->m_prev))->set_scroll_position((s32)((void *) ((s32) (spC + sp8) / 2048)));
-        ((TLobby *)(*(s32 *)&this->m_prev))->init_stream_position();
+        ((TLobby *)(*(saddr *)&this->m_flags))->get_entry_pair((s32)((int) (*(s32 *)((s8 *)arg0 + 0x1B0))), &spC, &sp8);
+        ((TLobby *)(*(saddr *)&this->m_prev))->set_scroll_offset((int) (spC / 2048));
+        ((TLobby *)(*(saddr *)&this->m_prev))->set_scroll_position((saddr)((void *) ((s32) (spC + sp8) / 2048)));
+        ((TLobby *)(*(saddr *)&this->m_prev))->init_stream_position();
         TLobby::update_scroll_impl();
     }
 }

@@ -46,7 +46,7 @@ void ModelNodeTables::init(const ModelNodeSpec *specs, s32 spec_count) {
     for (i = 0; i < count; i++) {
         r = &specs[i];
         t = (s32)find_model_node(get_bml_model((BmlResource *)h, r->model), r->node);
-        p = (int)::operator new(0x14);
+        p = (saddr)::operator new(0x14);
         if (p != 0) {
             p = alloc_tables__6TLobbyFll(p, t, r->count);
         }

@@ -481,7 +481,7 @@ next:
             }
             pos += off * 4;
             if (*(u32 *)((u8 *)buf + pos) != 0) {
-                *(u32 *)((u8 *)buf + pos) += (u32)buf;
+                *(u32 *)((u8 *)buf + pos) += (uaddr)buf;
             }
         }
     }

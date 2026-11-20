@@ -855,7 +855,7 @@ void TItemMag::cast_support_technique(s32 technique) {
         TTecSifta::create(owner, &owner->position, (void *)level);
         break;
     case 10:
-        TTecDeband::create((s32)owner, (s32)&owner->position, level);
+        TTecDeband::create((saddr)owner, (saddr)&owner->position, level);
         break;
     case 15:
         TTecResta::create(owner, &owner->position, (void *)level);

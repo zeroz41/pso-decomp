@@ -434,7 +434,7 @@ void TLobby::update_quest_challenge_state(void *arg0_) {
             arg0->x2C = 30;
         }
         if ((arg0->x2C <= 0 || n != 0) && n != ((Q_80070078 *)challenge_mode_state)->x48) {
-            TLobby::send_challenge_with_value((s32)arg0, (s32)n);
+            TLobby::send_challenge_with_value((saddr)arg0, (s32)n);
         }
     }
 }
@@ -644,10 +644,10 @@ void TLobby::copy_challenge_settings(u8 *arg1) {
     *(s32 *)((s8 *)arg0 + 0x2C) = (s32) *(s32 *)((s8 *)arg1 + 0x2C);
     *(s32 *)((s8 *)arg0 + 0x30) = (s32) *(s32 *)((s8 *)arg1 + 0x30);
     *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)arg1 + 0x34);
-    *(ByteBlock_10 *)((s32) arg0 + 0x38) = *(const ByteBlock_10 *)((s32) arg1 + 0x38);
+    *(ByteBlock_10 *)((saddr) arg0 + 0x38) = *(const ByteBlock_10 *)((saddr) arg1 + 0x38);
     *(s32 *)((s8 *)arg0 + 0x48) = (s32) *(s32 *)((s8 *)arg1 + 0x48);
     *(s32 *)((s8 *)arg0 + 0x4C) = (s32) *(s32 *)((s8 *)arg1 + 0x4C);
-    *(ByteBlock_8 *)((s32) arg0 + 0x50) = *(const ByteBlock_8 *)((s32) arg1 + 0x50);
+    *(ByteBlock_8 *)((saddr) arg0 + 0x50) = *(const ByteBlock_8 *)((saddr) arg1 + 0x50);
     {
         const ByteBlock_1C4 *src = (const ByteBlock_1C4 *)(arg1 + 0x58);
         ByteBlock_1C4 *dst = (ByteBlock_1C4 *)(arg0 + 0x58);
@@ -655,9 +655,9 @@ void TLobby::copy_challenge_settings(u8 *arg1) {
     }
     temp_r8 = (arg0 + 0x218);
     temp_r6 = (arg1 + 0x218);
-    *(ByteBlock_54 *)((s32) temp_r8 + 4) = *(const ByteBlock_54 *)((s32) temp_r6 + 4);
+    *(ByteBlock_54 *)((saddr) temp_r8 + 4) = *(const ByteBlock_54 *)((saddr) temp_r6 + 4);
     *(ByteBlock_410 *)((arg0 + 0x26C) + 4) = *(const ByteBlock_410 *)((arg1 + 0x26C) + 4);
-    *(ByteBlock_10 *)((s32) arg0 + 0x680) = *(const ByteBlock_10 *)((s32) arg1 + 0x680);
+    *(ByteBlock_10 *)((saddr) arg0 + 0x680) = *(const ByteBlock_10 *)((saddr) arg1 + 0x680);
 }
 
 struct Obj_80070944 { s32 f0; u8 pad4[0x14]; void *vt; s32 f1C, f20, f24, f28, f2C; };
@@ -670,7 +670,7 @@ Obj_80070944 *TChallenge__ct(Obj_80070944 *arg0, void *parent) {
     arg0->f0 = lbl_805D2850;
     ((TLobby *)challenge_mode_state)->copy_challenge_settings((u8 *)challenge_settings_defaults);
     ((void (*)(void *))TLobby__sub_80070358)(arg0);
-    TLobby::send_challenge_records((u32)arg0);
+    TLobby::send_challenge_records((uaddr)arg0);
     arg0->f20 = 0;
     arg0->f24 = 0;
     arg0->f28 = 1;

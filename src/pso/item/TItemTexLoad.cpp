@@ -34,18 +34,18 @@ void TItemTexLoad::load_texture_archive() {
 }
 
 void TItemTexLoad::unload_texture() {
-    if (m_state == 2) free_texture_if_valid((u32)&m_texture_list);
+    if (m_state == 2) free_texture_if_valid((uaddr)&m_texture_list);
     if (m_state == 1) ((TLobby *)m_archive_handle)->close_adxf_handle();
     m_state = 0;
     m_texture_index = -1;
 }
 
 s32 TItemTexLoad::load_texture(s32 index) {
-    if ((index >= 0) && (index < 0x17B) && ((u32)m_archive_buffer != 0U)) {
+    if ((index >= 0) && (index < 0x17B) && ((uaddr)m_archive_buffer != 0U)) {
         if (index == m_texture_index) return 1;
         unload_texture();
         m_texture_index = index;
-        m_archive_handle = ((u32)TLobby::adxf_open_afs(0xB8, m_texture_index));
+        m_archive_handle = ((uaddr)TLobby::adxf_open_afs(0xB8, m_texture_index));
         if (m_archive_handle == 0U) {
             unload_texture();
             return 0;
@@ -57,7 +57,7 @@ s32 TItemTexLoad::load_texture(s32 index) {
                 unload_texture();
                 return 0;
             }
-            TLobby::read_checked_align(m_archive_handle, r, (int)m_archive_buffer);
+            TLobby::read_checked_align(m_archive_handle, r, (saddr)m_archive_buffer);
         }
         return 1;
     }

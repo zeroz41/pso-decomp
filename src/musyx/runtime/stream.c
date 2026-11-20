@@ -203,7 +203,7 @@ void streamHandle(void) {
                     } break;
                     case 1: {
                         u32 off = (si->last / 14) * 8;
-                        if ((len = si->updateFunction((void *)((u32)si->buffer + off), cpos - si->last, 0, 0, si->user)) != 0 &&
+                        if ((len = si->updateFunction((void *)((uaddr)si->buffer + off), cpos - si->last, 0, 0, si->user)) != 0 &&
                             si->state == 2) {
                             cpos = (si->last + len) % si->size;
                             if (!(si->flags & 0x20000)) {
@@ -235,7 +235,7 @@ void streamHandle(void) {
                         break;
                     case 1: {
                         u32 off = ((si->last / 14) * 8);
-                        if ((len = si->updateFunction((void *)((u32)si->buffer + off), si->size - si->last, 0, 0, si->user)) &&
+                        if ((len = si->updateFunction((void *)((uaddr)si->buffer + off), si->size - si->last, 0, 0, si->user)) &&
                             si->state == 2) {
                             cpos = (si->last + len) % si->size;
                             if (!(si->flags & 0x20000)) {
@@ -270,7 +270,7 @@ void streamHandle(void) {
                         break;
                     case 1: {
                         u32 off = (si->last / 14) * 8;
-                        if ((len = si->updateFunction((void *)((u32)si->buffer + off), si->size - si->last, si->buffer, cpos, si->user)) &&
+                        if ((len = si->updateFunction((void *)((uaddr)si->buffer + off), si->size - si->last, si->buffer, cpos, si->user)) &&
                             si->state == 2) {
                             cpos = (si->last + len) % si->size;
                             if (!(si->flags & 0x20000)) {

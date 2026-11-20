@@ -105,7 +105,7 @@ extern "C" {
 
 void TLobby::release_bgm_resource() {
     if ((s32) lbl_805D6330 != 0) {
-        stop_audio_stream((u8 *)(*(s32 *)((s8 *)lbl_804CB850 + 4)));
+        stop_audio_stream((u8 *)(*(saddr *)((s8 *)lbl_804CB850 + 4)));
         lbl_805D6330 = 0;
         TLobby::init_layout_positions();
     }
@@ -610,7 +610,7 @@ void init_adx_audio_system(void) {
     lbl_80514C60[0] = xmalloc(0x2D1E4);
     lbl_80514C60[1] = xmalloc(0x2D1E4);
     lbl_805D62D8 = xmalloc(0xA924);
-    lbl_805D62DC = (u32)xmalloc(0xA000);
+    lbl_805D62DC = (uaddr)xmalloc(0xA000);
     TLobby__sub_803CBE20((void *)lbl_805D62DC, 0xA000, 5);
     TLobby::init_and_add_ref();
     setup_adx_file_systems(NULL);

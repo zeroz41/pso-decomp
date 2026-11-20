@@ -55,7 +55,7 @@ s32 TLobby__sub_803C43A8(void *decoder, void *hdr, void *size) {
     AdxbDecoder *o = (AdxbDecoder *)decoder;
     s16 len;
     o->m_02 = 1;
-    if (TLobby__sub_803C44C0((SpsdHeader *)hdr, (s32)size, &len, &o->m_0C, &o->bits, &o->block_bytes, &o->channels, &o->rate, &o->samples, &o->block_samples, &o->m_AA) < 0) {
+    if (TLobby__sub_803C44C0((SpsdHeader *)hdr, (saddr)size, &len, &o->m_0C, &o->bits, &o->block_bytes, &o->channels, &o->rate, &o->samples, &o->block_samples, &o->m_AA) < 0) {
         return 0;
     }
     o->m_1C = 0;

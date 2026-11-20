@@ -12,7 +12,7 @@ extern s32 lobby_story_flag_clear_list[6];
 extern u8 quest_story_flags_by_difficulty[0x200];
 int is_not_split_screen__13TRaderMapCoreFv(void*);
 
-void reset_camera_if_fullscreen__6TLobbyFPv(void* p) { if (is_not_split_screen__13TRaderMapCoreFv(p) == 1) { TCameraCtrl::get_nth_view_player_id((s32)((void*)0)); ((int (*)(void))TLobby__sub_801F494C)(); } }
+void reset_camera_if_fullscreen__6TLobbyFPv(void* p) { if (is_not_split_screen__13TRaderMapCoreFv(p) == 1) { TCameraCtrl::get_nth_view_player_id((saddr)((void*)0)); ((int (*)(void))TLobby__sub_801F494C)(); } }
 
 void TLobby::clear_story_flag_list() {
     s32 i;

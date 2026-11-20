@@ -71,7 +71,7 @@ s32 TLobby::send_packet(s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     s32 temp_r3;
     s32 temp_r0;
     temp_r31_2 = (arg3 + 0x1F) & 0xFFFFFFE0;
-    temp_r3 = (s32)mem_alloc(temp_r31_2);
+    temp_r3 = (saddr)mem_alloc(temp_r31_2);
     if (temp_r3 == 0) {
         return 0;
     }
@@ -157,7 +157,7 @@ void TLobby::alloc_snapshot_buffer() {
     max_players = max_players * temp_r31;
     temp_r31 = TWindowSnapShot::get_width();
     temp_r31_3 = (u8 *) (temp_r31 + max_players);
-    temp_r3 = ((int)mem_alloc((u32)temp_r31_3));
+    temp_r3 = ((saddr)mem_alloc((uaddr)temp_r31_3));
     snapshot_image_buffer = temp_r3;
     if (temp_r3 != 0U)
     {
@@ -168,7 +168,7 @@ void TLobby::alloc_snapshot_buffer() {
 
 void set_slot_position__6TLobbyFii(s32 arg0, s32 arg1) {
     s32 temp_r31;
-    temp_r31 = ((RlcHeader *)(*(s32 *)&snapshot_image_buffer))->get_directory_offset();
+    temp_r31 = ((RlcHeader *)(*(saddr *)&snapshot_image_buffer))->get_directory_offset();
     temp_r31 = (*(s32 *)&snapshot_image_buffer) + temp_r31;
     temp_r31 = temp_r31 + arg0 * 8;
     fn_802A6078((void *)arg1, lbl_805D669C + ((RlcDirectoryEntry *)temp_r31)->get_offset());

@@ -198,7 +198,7 @@ s32 TObjPlayer__sub_803DAA70(u32 arg0, u32 arg1, s32 *arg2) {
         return -1;
     }
     *(s32 **)((s8 *)spC + 0xC) = sp8;
-    if (TObjPlayer__sub_803D9DA8((int)spC, (void *)arg2) != 1) {
+    if (TObjPlayer__sub_803D9DA8((saddr)spC, (void *)arg2) != 1) {
         *(s32 **)((s8 *)spC + 0xC) = NULL;
         return -1;
     }

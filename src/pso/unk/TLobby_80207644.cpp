@@ -428,7 +428,7 @@ void randomize_adventure_maps(void) {
   s32 main_phase;
   s32 var_r29;
   var_r31 = (s32 *) (&floor_map_registry.value);
-  TAdStorySelectGC::set_state((s32)((void*)((*(s32 *)&selected_episode))));
+  TAdStorySelectGC::set_state((saddr)((void*)((*(saddr *)&selected_episode))));
   main_phase = get_main_phase();
   if (TRaderMapCore::is_not_split_screen() == 1)
   {
@@ -490,7 +490,7 @@ void init_floor_map_registry(void) {
 
 void TLobby::reset_story_select_state() {
     if ((s32) story_select_pending_state != -1) {
-        TAdStorySelectGC::set_state((s32)((void*)story_select_pending_state));
+        TAdStorySelectGC::set_state((saddr)((void*)story_select_pending_state));
         story_select_pending_state = -1;
     }
 }

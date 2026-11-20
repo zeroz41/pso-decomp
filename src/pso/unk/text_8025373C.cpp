@@ -34,7 +34,7 @@ s32 fn_8025373C(u8 *self) {
     Entry_8025373C *num;
     s32 count;
     ((MagStats *)(&mag))->init();
-    TItemData::deserialize_mag((void *)(*(s32 *)(self + 0x68)), (void *)(&mag));
+    TItemData::deserialize_mag((void *)(*(saddr *)(self + 0x68)), (void *)(&mag));
     help = (Entry_8025373C *)((TWindowBase *)self)->get_array_entry(0);
     panel = (Entry_8025373C *)((TWindowBase *)self)->get_array_entry(0xF);
     count = TWindowHelpItem__sub_80255DDC(help);

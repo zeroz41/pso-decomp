@@ -246,14 +246,14 @@ void adxt_stat_decinfo(Strm_803CAB38 *self) {
                 self->f50 = self->f50 % 0x800;
                 self->f8c = pages;
                 ((TLobby *)(self->f8))->set_scroll_position(pages);
-                ((TLobby *)(self->f8))->set_coords((s32)((void *)TLobby__sub_803CB194), (s32)arg0);
+                ((TLobby *)(self->f8))->set_coords((saddr)((void *)TLobby__sub_803CB194), (saddr)arg0);
             }
             s32 e = dispatch_field4_event__6TLobbyFv(t);
             self->f90 = e;
             set_field_3c__6TLobbyFl(t, e);
             set_field_44__6TLobbyFl(t, 0);
             set_field_40__6TLobbyFl(t, 0);
-            TLobby__sub_803BFFFC((u8 *)t, (s32)adxt_trap_entry_update__6TLobbyFPv, (s32)arg0);
+            TLobby__sub_803BFFFC((u8 *)t, (saddr)adxt_trap_entry_update__6TLobbyFPv, (saddr)arg0);
         } else {
             if (self->f8 != NULL) {
                 ((TLobby *)(self->f8))->set_scroll_position(0x7FFFFFFF);
@@ -261,7 +261,7 @@ void adxt_stat_decinfo(Strm_803CAB38 *self) {
             set_field_3c__6TLobbyFl(t, send_packet_by_id__6TLobbyFv(t));
             set_field_44__6TLobbyFl(t, 0);
             set_field_40__6TLobbyFl(t, 0);
-            TLobby__sub_803BFFFC((u8 *)t, (s32)TLobby__sub_803CAEB4, (s32)arg0);
+            TLobby__sub_803BFFFC((u8 *)t, (saddr)TLobby__sub_803CAEB4, (saddr)arg0);
         }
         k = notify_field_4__6TLobbyFv(t);
         n1 = send_with_offset4__6TLobbyFv(t);

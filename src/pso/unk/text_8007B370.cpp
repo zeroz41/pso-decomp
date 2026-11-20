@@ -33,7 +33,7 @@ s32 fill_guild_card_from_player(u8 *ply_guild_card_tag, u32 arg1) {
   unsigned char new_var;
   s32 player;
   u8 *temp_r4;
-  player = (s32)get_player_by_client_id(arg1);
+  player = (saddr)get_player_by_client_id(arg1);
   if (player == 0)
   {
     return 0;

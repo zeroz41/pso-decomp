@@ -36,8 +36,8 @@ void TLobby::dec_ref_and_shutdown() {
         TLobby::si_get_type_async();
         lsc_shutdown();
         TLobby::init_once();
-        TLobby::SVM_DelCbSvr(2, (s32)((void *) (1)));
-        TLobby::SVM_DelCbSvr(2, (s32)((void *) (3)));
+        TLobby::SVM_DelCbSvr(2, (saddr)((void *) (1)));
+        TLobby::SVM_DelCbSvr(2, (saddr)((void *) (3)));
         TLobby::SVM_DelCbSvr(4, TLobby__svm_cb_svr_handle);
         TLobby__sub_803D3194();
         TLobby::release_ref();
@@ -67,9 +67,9 @@ void TLobby::init_and_add_ref() {
         memset(adx_stream_player_pool, 0, 0xA80);
         lsc_init();
         if (lbl_805D4658 == 1) {
-            TLobby::SVM_SetCbSvrId(2, 1, (s32)((void *)TLobby::get_state_zero), 0);
-            TLobby::SVM_SetCbSvrId(2, 3, (s32)((void *)TLobby::ar_alloc), 0);
-            TLobby__svm_cb_svr_handle = TLobby::svm_set_cb_svr(4, (s32)((void *)TLobby::process_connection_state), 0);
+            TLobby::SVM_SetCbSvrId(2, 1, (saddr)((void *)TLobby::get_state_zero), 0);
+            TLobby::SVM_SetCbSvrId(2, 3, (saddr)((void *)TLobby::ar_alloc), 0);
+            TLobby__svm_cb_svr_handle = TLobby::svm_set_cb_svr(4, (saddr)((void *)TLobby::process_connection_state), 0);
         }
         lbl_805D7540 = 0;
         TLobby::release_ref();

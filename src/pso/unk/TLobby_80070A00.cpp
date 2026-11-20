@@ -368,7 +368,7 @@ s32 TLobby__sub_800710D8(s32 arg0) {
         var_r4 = (s32 *)((u8 *)((s32 *)-1));
         temp_r3 = (s32 **)(TWindowSubStatusDisp__sub_8006F134(var_r3, -1));
         var_r4 = (s32 *)(*(s32 **)((s8 *)temp_r3 + 0));
-        *(s32 **)((s8 *)temp_r3 + 0) = (s32 *) ((s32) var_r4 | *(s32 *)((s8 *)var_r31 + 4));
+        *(s32 **)((s8 *)temp_r3 + 0) = (s32 *) ((saddr) var_r4 | *(s32 *)((s8 *)var_r31 + 4));
         var_r3 = 1;
         return 1;
     }

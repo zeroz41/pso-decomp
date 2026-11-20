@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 s32 TObjEnemy::send_entity_set_flags() {
-    if ((u32) this->set_entry != 0U) {
+    if ((uaddr) this->set_entry != 0U) {
         send_6x76_set_entity_set_flags(this, 8);
         return 1;
     }

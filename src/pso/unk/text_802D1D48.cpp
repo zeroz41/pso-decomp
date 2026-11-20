@@ -62,7 +62,7 @@ void TLobby::move_trade_item_amount(u32 key, s32 arg2) {
     }
     if (((u32) (key + (0x10000 & 0xFF))) == (-0xFFU))
     {
-      var_r3 = get_trade_obj_ptr__6TLobbyFv((s32) this);
+      var_r3 = get_trade_obj_ptr__6TLobbyFv((saddr) this);
     }
     else
     {

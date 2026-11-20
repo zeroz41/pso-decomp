@@ -89,7 +89,7 @@ void update__6TLobbyFPv(void *arg0) {
             *(s32 *)((s8 *)arg0 + 0x78) = (s32) *(s32 *)((s8 *)arg0 + 0x7C);
         } else {
             *(s32 *)((s8 *)arg0 + 0x78) = (s32) ((s32) (*(s32 *)((s8 *)arg0 + 0x7C) * (temp_r4 - temp_r0)) / temp_r4);
-            *(s32 *)((s8 *)arg0 + 0x84) = (s32) (*(s32 *)((s8 *)arg0 + 0x84) - ((TLobby *)(*(s32 *)((s8 *)arg0 + 0)))->get_field_308());
+            *(s32 *)((s8 *)arg0 + 0x84) = (s32) (*(s32 *)((s8 *)arg0 + 0x84) - ((TLobby *)(*(saddr *)((s8 *)arg0 + 0)))->get_field_308());
         }
     }
     *(s32 *)((s8 *)arg0 + 0x64) = (s32) (*(s32 *)((s8 *)arg0 + 0x6C) + *(s32 *)((s8 *)arg0 + 0x70) + *(s32 *)((s8 *)arg0 + 0x78));
@@ -1128,7 +1128,7 @@ void TLobby::remove_com_card_entry(s32 arg0) {
     u8 *lobby;
     if (arg0 < 7) {
         lobby = (u8 *)&com_card_entries[arg0];
-        ((TLobby *)lobby)->move_words((u32 *)(lobby + 0xBC), (s32)((void *) ((u32) ((7 - arg0) * 0xBC) >> 2U)));
+        ((TLobby *)lobby)->move_words((u32 *)(lobby + 0xBC), (saddr)((void *) ((u32) ((7 - arg0) * 0xBC) >> 2U)));
     }
     (*(s32 *)&com_card_entry_count) -= 1;
 }

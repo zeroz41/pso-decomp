@@ -70,7 +70,7 @@ void rotate_matrix_y(Matrix34* matrix, s32 angle) {
         if (matrix == NULL) selected = (Matrix34*)current_matrix;
         else selected = matrix;
         PSMTXRotRad(&rotation, 'y', (f32)((9.587378008291125e-05) * (f64)angle));
-        PSMTXConcat((int)selected, (int)&rotation, (int)selected);
+        PSMTXConcat((saddr)selected, (saddr)&rotation, (saddr)selected);
     }
 }
 

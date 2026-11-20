@@ -128,7 +128,7 @@ void TLobby__sub_803382E4(void) {
         TParticleCtrl::begin_effect_render();
         TCameraCtrl::restore_full_screen_view();
         set_default_alpha_blend();
-        TObjFish::set_global_param((s32)lbl_804EF1DC);
+        TObjFish::set_global_param((saddr)lbl_804EF1DC);
         set_texture_num(0);
         TLobby__sub_803E2EE4(0);
         draw_projected_textured_strip(lbl_804EF2E4, 4);
@@ -159,8 +159,8 @@ void TLobby::load_now_loading_texture() {
     s32 temp_r31;
     s32 temp_r3;
     if (!(lobby_request_flags & 2)) {
-        temp_r31 = (s32)TQuestVmDownLoadServer::alloc(0x11000);
-        temp_r3 = (s32)TQuestVmDownLoadServer::alloc(0x2000);
+        temp_r31 = (saddr)TQuestVmDownLoadServer::alloc(0x11000);
+        temp_r3 = (saddr)TQuestVmDownLoadServer::alloc(0x2000);
         read_disc_file_sectors("NowLoading.prs", (void *)temp_r3);
         prs_decompress_buffer((temp_r3), (temp_r31));
         load_gvm_texture_archive(temp_r31, lbl_804EF1DC);
@@ -261,4 +261,4 @@ void TLobby::update_pulse_colors(s32 arg0) {
 void TWindowSubStatusDisp__sub_803386F0(void) { TObjPlayer::free_if_valid((s32)info_icon_texture); }
 }
 
-void load_info_icon(void) { info_icon_texture = (int)load_gvm_texture_file((s32)"InfoIcon.gvm"); }
+void load_info_icon(void) { info_icon_texture = (saddr)load_gvm_texture_file((saddr)"InfoIcon.gvm"); }

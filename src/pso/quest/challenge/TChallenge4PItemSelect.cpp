@@ -99,7 +99,7 @@ TChallenge4PResult::TChallenge4PResult(TObject *parent, u16 slot, s32 resultCode
         (&reward_items[i])->init();
         reward_available[i] = 0;
     }
-    TChallenge4PResult__slot_entries[slot_index] = (s32)this;
+    TChallenge4PResult__slot_entries[slot_index] = (saddr)this;
 }
 
 TChallenge4PResult::~TChallenge4PResult() {
@@ -135,7 +135,7 @@ void TChallenge4PResult::update_input() {
     s32 temp_r5;
     u32 p;
 
-    if ((u32) this->message_window == 0U) {
+    if ((uaddr) this->message_window == 0U) {
         this->show_message((s32)((s32)(get_localized_text_entry(0x2B, 6))));
     }
     p = *(u32 *)&this->message_window;
@@ -210,7 +210,7 @@ void TChallenge4PResult::handle_third_reward() {
     TChallenge4PItemSelect *selector;
     if (reward_available[2] != 0) {
         show_message(get_localized_text_entry(0x2B, 0));
-        TLobby__sub_802924B4((s32)&reward_items[2], slot_index);
+        TLobby__sub_802924B4((saddr)&reward_items[2], slot_index);
         wait_frames = 90;
         state_1c = 5;
         return;
@@ -224,13 +224,13 @@ void TChallenge4PResult::handle_third_reward() {
 
 void TChallenge4PResult::sub_8034B918() {
     this->show_message((s32)((s32)((int) (get_localized_text_entry(0x2B, 2)))));
-    TLobby__sub_802924B4((s32)(((u8 *)this) + 0x48), (this->slot_index));
+    TLobby__sub_802924B4((saddr)(((u8 *)this) + 0x48), (this->slot_index));
     this->wait_frames = 0x5A;
     this->state_1c = 5;
 }
 void TChallenge4PResult::sub_8034B8BC() {
     this->show_message((s32)((s32)((int) (get_localized_text_entry(0x2B, 1)))));
-    TLobby__sub_802924B4((s32)(((u8 *)this) + 0x34), (this->slot_index));
+    TLobby__sub_802924B4((saddr)(((u8 *)this) + 0x34), (this->slot_index));
     this->wait_frames = 0x5A;
     this->state_1c = 5;
 }
@@ -254,7 +254,7 @@ void TChallenge4PResult::init_timer() {
 void TChallenge4PResult::show_message(s32 text_handle) {
     if (message_window == NULL) {
         f32 pos[2] = {332.0f, 80.0f};
-        message_window = (TWindowMessagePage *)TWindowMessagePage::create(get_window_layout_position(0x40), (s32)pos, 1, slot_index);
+        message_window = (TWindowMessagePage *)TWindowMessagePage::create(get_window_layout_position(0x40), (saddr)pos, 1, slot_index);
     }
     if (message_window != NULL) {
         ((TWindowMessagePage *)message_window)->set_message((void *)text_handle, 0x81);
@@ -297,7 +297,7 @@ s32 update_challenge_result_player_locks() {
         for (s32 i = 0; i < 4; ++i) {
             TObjPlayer *player = ((TObjPlayer *)get_player_by_client_id(i));
             if (player && ((TLobby *)player)->check_player_flag1() == 0) {
-                TObjPlayer::play_effect_default((int)player, (int)(-1));
+                TObjPlayer::play_effect_default((saddr)player, (int)(-1));
                 obj_set_flag_20000(player);
                 get_player_result__18TChallenge4PResultFPv(player, 0);
                 get_player_result__18TChallenge4PResultFPv(player, 1);
@@ -313,7 +313,7 @@ s32 update_challenge_result_player_locks() {
         for (s32 i = 0; i < 4; ++i) {
             TObjPlayer *player = ((TObjPlayer *)get_player_by_client_id(i));
             if (player && ((TLobby *)player)->check_player_flag1() != 0) {
-                TObjPlayer::send_code_45_1((s32)player);
+                TObjPlayer::send_code_45_1((saddr)player);
                 obj_clear_flag30_20000(player);
                 ((TChallenge4PResult *)player)->get_player_rank();
                 if (((TObjPlayer *)player)->check_flag_0x40000000()) fn_8034BE38(player);
@@ -421,9 +421,9 @@ void TChallenge4PItemSelect::submit_selected_item() {
         stack.sp8 = (s8) *(s32 *)((s8 *)temp_r31 + 0);
         stack.sp9 = (s8) *(s32 *)((s8 *)temp_r31 + 4);
         stack.spA = (s8) *(s32 *)((s8 *)temp_r31 + 8);
-        temp_r3_2 = (u32)result;
+        temp_r3_2 = (uaddr)result;
         if (temp_r3_2 != 0U) {
-            ((TChallenge4PResult *)temp_r3_2)->set_entry_item((void *)((s32) &stack.sp8), 2);
+            ((TChallenge4PResult *)temp_r3_2)->set_entry_item((void *)((saddr) &stack.sp8), 2);
         }
         state = 2;
     }

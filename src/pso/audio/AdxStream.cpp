@@ -108,7 +108,7 @@ void SIGetTypeAsync(void);
 
 void TLobby::set_field_10_and_notify(s32 up) {
     *(s32 *)&this->m_up = up;
-    ((TLobby *)(this->m_prev))->cv_fs_seek((int)this->m_up, 0);
+    ((TLobby *)(this->m_prev))->cv_fs_seek((saddr)this->m_up, 0);
     ((TLobby *)(this->m_prev))->cv_fs_tell();
 }
 
@@ -197,7 +197,7 @@ void TLobby::update_stream_read() {
         r = ((TLobby *)(s->h))->cv_fs_get_stat();
         if (r == 1) {
             n = s->nread << 11;
-            TLobby__sub_803D3130((s32)&s->buf, (s32)n, (u8 *)&a, (u8 *)&b);
+            TLobby__sub_803D3130((saddr)&s->buf, (s32)n, (u8 *)&a, (u8 *)&b);
             st->vt->submit(st, 1, &a);
             st->vt->release(st, 0, &b);
             if (s->end == pos_803C8678(s) && s->cb != NULL) {
@@ -288,7 +288,7 @@ void TLobby__sub_803C89C4(u8 *arg0) {
 
 static inline s32 get_pos_803C8A14(S_803C8A14 *s) {
     if (s->fp != NULL) {
-        return ((TLobby *)((int)s->fp))->cv_fs_tell() - s->base;
+        return ((TLobby *)((saddr)s->fp))->cv_fs_tell() - s->base;
     }
     return 0;
 }
@@ -316,8 +316,8 @@ s32 TLobby::get_file_offset_relative() {
 }
 
 s32 TLobby::set_scroll_offset(s32 arg1) {
-    ((TLobby *)(*(s32 *)&this->m_prev))->cv_fs_seek((int) (*(s32 *)&this->m_up + arg1), 0);
-    return ((TLobby *)(*(s32 *)&this->m_prev))->cv_fs_tell() - *(s32 *)&this->m_up;
+    ((TLobby *)(*(saddr *)&this->m_prev))->cv_fs_seek((int) (*(s32 *)&this->m_up + arg1), 0);
+    return ((TLobby *)(*(saddr *)&this->m_prev))->cv_fs_tell() - *(s32 *)&this->m_up;
 }
 
 s32 TLobby__sub_803C8B2C(u8 *arg0) {

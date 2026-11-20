@@ -234,7 +234,7 @@ void TLobby::free_luker_object() {
 }
 
 void TLobby::set_flag_80000() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     ((TObjPlayer *)arg0)->test_action_mask(0x80000);
 }
 void TLobby::set_flag_40000() {
@@ -244,7 +244,7 @@ void TLobby__sub_801F3314(s32 arg0) {
     ((TObjPlayer *)arg0)->test_action_mask(0x10000);
 }
 void TLobby::set_flag_8000() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     ((TObjPlayer *)arg0)->test_action_mask(0x8000);
 }
 int TLobby::check_flag_24576() { return ((TObjPlayer *)this)->test_action_mask(24576); }

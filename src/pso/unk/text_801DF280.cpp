@@ -108,7 +108,7 @@ s32 *copy_entry_table(s32 *arg0, s32 *arg1) {
     var_r30 += 0xC;
     var_r29 += 0xC;
   }
-  while (var_r30 < ((u32) (((u8 *) arg0) + 0xC4)));
+  while (var_r30 < ((uaddr) (((u8 *) arg0) + 0xC4)));
   return arg0;
 }
 
@@ -117,8 +117,8 @@ void bswap_cmd_c4_body(void* p) { ((packet_header *)p)->bswap(); { int i; for (i
 
 void bswap_cmd_c4_entry(void *arg0) {
     bswap_32((u32 *)arg0);
-    bswap_cmd_c4_reconnect_command((s32)((s32)((void *)((char *)arg0 + 100))));
-    bswap__21TPlyMeetUserExtensionFv((s32)((char *)arg0 + 112));
+    bswap_cmd_c4_reconnect_command((s32)((saddr)((void *)((char *)arg0 + 100))));
+    bswap__21TPlyMeetUserExtensionFv((saddr)((char *)arg0 + 112));
 }
 
 void bswap_cmd_c4_reconnect_command(s32 arg0) {
@@ -142,7 +142,7 @@ s32 *copy_cmd_c4_entry_table(s32 *arg0, s32 *arg1) {
     var_r30 += 0xD4;
     var_r29 += 0xD4;
   }
-  while (var_r30 < ((u32) (((u8 *) arg0) + 0x1A84)));
+  while (var_r30 < ((uaddr) (((u8 *) arg0) + 0x1A84)));
   return arg0;
 }
 

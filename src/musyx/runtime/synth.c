@@ -1276,7 +1276,7 @@ void synthInit(u32 mixFrq, u32 numVoices) {
 
     voiceInitLastStarted();
     synthInitJobQueue_SV();
-    hwSetMesgCallback((s32)synthHWMessageHandler);
+    hwSetMesgCallback((saddr)synthHWMessageHandler);
 }
 #pragma pop
 

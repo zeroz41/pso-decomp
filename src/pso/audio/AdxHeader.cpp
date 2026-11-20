@@ -58,7 +58,7 @@ s32 __DVDPrepareResetAsync(u8 *hdr, s32 size, s32 *o1, s16 *o2, s16 *o3, s32 *o4
         off = 0x20;
     }
     *o1 = ((AdxHeaderBlock *)(hdr + off))->m_00;
-    f = (AdxHeaderBlock *)(off + (s32)hdr);
+    f = (AdxHeaderBlock *)(off + (saddr)hdr);
     *o2 = f->m_02;
     if (*o2 != 1) {
         return -2;

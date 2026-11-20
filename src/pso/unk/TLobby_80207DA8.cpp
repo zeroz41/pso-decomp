@@ -269,7 +269,7 @@ __declspec(section ".data") const char *lbl_804C9260[2] = { floor_map_name_aboss
 __declspec(section ".data") const char *lbl_804C9268[2] = { floor_map_name_aboss03, floor_map_name_aboss03 };
 }
 FloorSceneEntry floor_scene_table[36] = { { lbl_804C90E0, 1 }, { lbl_804C90E8, 1 }, { lbl_804C90F0, 1 }, { lbl_804C90F8, 6 }, { lbl_804C9128, 5 }, { lbl_804C9150, 6 }, { lbl_804C9180, 6 }, { lbl_804C91B0, 6 }, { lbl_804C91E0, 5 }, { lbl_804C9208, 5 }, { lbl_804C9230, 5 }, { lbl_804C9258, 1 }, { lbl_804C9260, 1 }, { lbl_804C9268, 1 }, { lbl_804C8DF0, 1 }, { lbl_804C8DF8, 15 }, { lbl_804C8E70, 3 }, { lbl_804C8E88, 3 }, { lbl_804C8EA0, 1 }, { lbl_804C8ED8, 3 }, { lbl_804C8EF0, 3 }, { lbl_804C8EA8, 3 }, { lbl_804C8EC0, 3 }, { lbl_804C8F08, 1 }, { lbl_804C8F10, 1 }, { lbl_804C8F18, 1 }, { lbl_804C8F20, 3 }, { lbl_804C8F38, 1 }, { lbl_804C8F70, 3 }, { lbl_804C8F88, 3 }, { lbl_804C8FA0, 1 }, { lbl_804C8FA8, 1 }, { lbl_804C8FB0, 1 }, { lbl_804C8FB8, 1 }, { lbl_804C8F40, 1 }, { lbl_804C8F48, 5 } };
-s32 forest_rel_filename_table[6] = { (s32)"SetDataTableOff.rel", (s32)"SetDataTableOffUlti.rel", (s32)"SetDataTableOn.rel", (s32)"SetDataTableOnUlti.rel", (s32)"SetDataTable_TGS2001.rel", 0 };
+s32 forest_rel_filename_table[6] = { (saddr)"SetDataTableOff.rel", (saddr)"SetDataTableOffUlti.rel", (saddr)"SetDataTableOn.rel", (saddr)"SetDataTableOnUlti.rel", (saddr)"SetDataTable_TGS2001.rel", 0 };
 s32 get_floor_scene_table(s32 arg0);
 extern "C" {
 void reset_story_select__6TLobbyFv(void);
@@ -279,7 +279,7 @@ int copy_table_entries__6TLobbyFUl(void*, s32);
 void randomize_adventure_maps(void);
 
     extern int story_select_pending_state;
-void reset_story_select__6TLobbyFv(void) { TAdStorySelectGC::set_state((s32)((void*)0)); story_select_pending_state = -1; }
+void reset_story_select__6TLobbyFv(void) { TAdStorySelectGC::set_state((saddr)((void*)0)); story_select_pending_state = -1; }
 
 s32 TLobby::is_scene_ready() {
     s32 temp_r3;
@@ -303,9 +303,9 @@ s32 get_floor_scene_table(s32 arg0) {
         return 0;
     }
     if (TLobby::is_online_ready() != 0) {
-        return (s32)floor_scene_table[arg0].names;
+        return (saddr)floor_scene_table[arg0].names;
     }
-    return (s32)lbl_804C8FC0[arg0].names;
+    return (saddr)lbl_804C8FC0[arg0].names;
 }
 extern "C" {
 
@@ -494,7 +494,7 @@ void TLobby__sub_802083C0(void);
 
 void TLobby__sub_802083C0(void) {
     if ((u32) forest_rel_work_buffer != 0U) {
-        TAdSinglePlyChrSelectGC::safe_free((u32)((void*)forest_rel_work_buffer));
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)((void*)forest_rel_work_buffer));
         forest_rel_work_buffer = 0U;
         forest_rel_module = 0;
         forest_rel_set_data_table = 0;
@@ -531,7 +531,7 @@ void TLobby::load_item_data() {
 
     forest_rel_set_data_table = 0;
     forest_rel_module = NULL;
-    temp_r3 = (s32)TQuestVmDownLoadServer::alloc(0x24B8);
+    temp_r3 = (saddr)TQuestVmDownLoadServer::alloc(0x24B8);
     forest_rel_work_buffer = temp_r3;
     if (temp_r3 != 0U) {
         drop_item_mode = TLobby::get_drop_item_mode();

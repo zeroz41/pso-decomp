@@ -110,7 +110,7 @@ void apply_room_transform_to_enemy_rows(SpawnRecord_8020D36C *rows, s32 count) {
             cached_id = row->room;
         }
         if (cached_room) {
-            apply_room_transform((s32)&row->position, (u8 *)&row->angles, (u8 *)cached_room);
+            apply_room_transform((saddr)&row->position, (u8 *)&row->angles, (u8 *)cached_room);
         }
     }
 }
@@ -129,7 +129,7 @@ void apply_room_transform_to_object_rows(Rec_8020D3F0 *arr, s32 n) {
             key = p->key;
         }
         if (sec != NULL) {
-            apply_room_transform((s32)p->a, p->b, (u8 *)sec);
+            apply_room_transform((saddr)p->a, p->b, (u8 *)sec);
         }
     }
 }

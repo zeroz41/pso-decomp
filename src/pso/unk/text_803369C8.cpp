@@ -147,9 +147,9 @@ void TUnk_804EEF80::render() {
         TParticleCtrl::begin_effect_render();
         TCameraCtrl::restore_full_screen_view();
         render_logo_with_default(get_title_texture_list(), 0xD, -1, -150.0f);
-        draw_title_background_pulse((s32)this, -140.0f, this->m_20);
+        draw_title_background_pulse((saddr)this, -140.0f, this->m_20);
         draw_title_background_layer(get_title_texture_list(), 3, -1, -130.0f);
-        draw_title_rings((s32)this, -120.0f, this->m_20);
+        draw_title_rings((saddr)this, -120.0f, this->m_20);
         TCameraCtrl__sub_80068EF0();
         TParticleCtrl::end_effect_render();
     }

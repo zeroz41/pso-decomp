@@ -96,11 +96,11 @@ void TLobby__sub_803C3570(AdxbDecoder *o) {
             TLobby *lobby = o->id;
             s16 *dst = o->buf;
             dst += o->pos;
-            lobby->post_request((s32)o->src, n * 2, (s32)dst, (s32)(dst + o->rOff));
+            lobby->post_request((saddr)o->src, n * 2, (saddr)dst, (saddr)(dst + o->rOff));
             TLobby__sub_803CB4A4((u8 *)lobby);
         } else {
             TLobby *lobby = o->id;
-            lobby->try_post_command((s32)o->src, n, (s32)(o->buf + o->pos));
+            lobby->try_post_command((saddr)o->src, n, (saddr)(o->buf + o->pos));
             TLobby__sub_803CB4A4((u8 *)lobby);
         }
         o->state = 2;
@@ -318,7 +318,7 @@ s32 TLobby__sub_803C3B68(s32 decoder, u16 *hdr, s32 size) {
         return ((TLobby *)decoder)->parse_stream_header((void *)hdr, (void *)size);
     }
     if (((TLobby *)hdr)->is_snd_header() != 0) {
-        return TLobby__sub_803C30E8((u8 *)decoder, (s32)hdr, (s32)size);
+        return TLobby__sub_803C30E8((u8 *)decoder, (saddr)hdr, (s32)size);
     }
     return 0;
 }
@@ -330,7 +330,7 @@ s32 TRK__write_aram(void *arg0p, void *hdr, void *size) {
     s16 sp10;
     u8 *temp_r3;
     h->m_02 = 1;
-    if (ARStartDMA((u8 *)hdr, (s32)size, &sp10, (u8 *)&h->m_0C, &h->bits, &h->block_bytes, (u8 *)&h->channels, &h->rate, &h->samples, &h->block_samples) < 0) {
+    if (ARStartDMA((u8 *)hdr, (saddr)size, &sp10, (u8 *)&h->m_0C, &h->bits, &h->block_bytes, (u8 *)&h->channels, &h->rate, &h->samples, &h->block_samples) < 0) {
         return 0;
     }
     if (h->m_0C > 4) {
@@ -344,15 +344,15 @@ s32 TRK__write_aram(void *arg0p, void *hdr, void *size) {
         h->m_A8 = 0xA;
         goto block_11;
     }
-    if (TLobby__sub_803C48C8((u8 *)hdr, (s32)size, (u16 *)&h->m_1C) < 0) {
+    if (TLobby__sub_803C48C8((u8 *)hdr, (saddr)size, (u16 *)&h->m_1C) < 0) {
         return 0;
     }
-    if (((TLobby *)hdr)->parse_header_loop_points((s32)size, (u16 *)&sp18, (u16 *)&sp14) < 0) {
+    if (((TLobby *)hdr)->parse_header_loop_points((saddr)size, (u16 *)&sp18, (u16 *)&sp14) < 0) {
         return 0;
     }
     h->id->calc_adx_coeffs_at_offset((void *)h->rate, (s32)h->m_1C);
     TLobby__sub_803CB570((u8 *)h->id, (u8 *)&sp18, (s16 *)&sp14);
-    __DVDPrepareResetAsync((u8 *)hdr, (s32)size, &h->m_20, &h->m_24, &h->m_26, &h->m_28, &h->m_2C, &h->m_30, &h->m_34);
+    __DVDPrepareResetAsync((u8 *)hdr, (saddr)size, &h->m_20, &h->m_24, &h->m_26, &h->m_28, &h->m_2C, &h->m_30, &h->m_34);
     h->m_A8 = 0;
 block_11:
     temp_r3 = h->m_4C;
@@ -373,7 +373,7 @@ block_11:
 void TLobby::clear_record() {
     u8 *arg0 = (u8 *)this;
     if (arg0 != NULL) {
-        ((TLobby *)(*(s32 *)&this->m_prev))->clear_record_data();
+        ((TLobby *)(*(saddr *)&this->m_prev))->clear_record_data();
         memset(arg0, 0, 0xB8);
         *(s16 *)&this->m_name = 0;
     }
@@ -410,9 +410,9 @@ AdxbDecoder *TLobby::alloc_record(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     r->wrap_len = arg2;
     r->wrap_offset = arg3;
     r->read = (void (*)(s32, s32 *, s32 *, s32 *))get_progress_info__6TLobbyFPvPvPvPv;
-    r->readArg = (s32)r;
+    r->readArg = (saddr)r;
     r->done = (void (*)(s32, s32, s32))TLobby__sub_803C4020;
-    r->doneArg = (s32)r;
+    r->doneArg = (saddr)r;
     return r;
 }
 
@@ -427,7 +427,7 @@ s32 get_progress_info__6TLobbyFPvPvPvPv(u8 *arg0, s32 *arg1, s32 *arg2, s32 *arg
     *arg1 = h->m_9C;
     *arg2 = h->wrap_len - h->m_9C;
     *arg3 = h->samples - h->m_98;
-    return (s32)h->m_3C;
+    return (saddr)h->m_3C;
 }
 void TLobby__sub_803C406C(void) {
     TLobby::clear_buffer_340();

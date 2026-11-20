@@ -2,7 +2,7 @@
 
 extern "C" {
 
-#define OSCachedToPhysical(caddr) ((u32)((u8 *)(caddr) - 0x80000000))
+#define OSCachedToPhysical(caddr) ((uaddr)((u8 *)(caddr) - 0x80000000))
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)

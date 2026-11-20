@@ -12,7 +12,7 @@ struct Msg_8020CFEC { s16 id; s16 pad; u8 data[1]; };
 s32 call_area_set_factory(s32 arg0, Msg_8020CFEC *arg1) {
     Fn_8020CFEC f = floor_object_factory_tables[get_current_floor_area()][arg1->id].create;
     if (f != 0) {
-        return (s32) f(arg1->data);
+        return (saddr) f(arg1->data);
     }
     return 0;
 }

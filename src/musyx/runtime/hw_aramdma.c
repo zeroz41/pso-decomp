@@ -96,7 +96,7 @@ void aramInit(u32 length) {
     aramQueueInit_803BDCD0();
     aramUploadData((u8 *)tmpMem, aramBase, sizeof(s16) * 640, 0, 0, 0);
     aramSyncTransferQueue_803BDCD0();
-    salFree((s32)tmpMem);
+    salFree((saddr)tmpMem);
     aramTop = aramBase + length;
     if (aramTop > ARGetSize()) {
         aramTop = ARGetSize();

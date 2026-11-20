@@ -98,7 +98,7 @@ block_7:
 #pragma pop
 
 s32 TAdSinglePlyChrSelectGC__sub_8028EE20(void *arg0, void *arg1_) {
-    s32 arg1 = (s32)arg1_;
+    s32 arg1 = (saddr)arg1_;
     Chr_8028EE20 c = *(Chr_8028EE20 *)arg0;
     s32 max;
     s32 cur;

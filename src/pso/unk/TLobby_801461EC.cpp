@@ -172,7 +172,7 @@ char lbl_8050CE34[0x20];
 u8 lbl_8050CE54[0x114];
 #define lbl_8050C0A8 (*(RecoveredGlobal_8014672C_lbl_8050C0A8 *)lbl_8050C0A8)
 
-void TLobby::init_keyboard_buffer() { keyboard_buffer_cursor = 0; lbl_805D56CE = 0; lbl_805D56C8 = 0; get_network_config_buffer_size((s32)((void*)0)); lbl_805D56C8 = xmalloc__FUl(); TLobby__sub_80145A94(); }
+void TLobby::init_keyboard_buffer() { keyboard_buffer_cursor = 0; lbl_805D56CE = 0; lbl_805D56C8 = 0; get_network_config_buffer_size((saddr)((void*)0)); lbl_805D56C8 = xmalloc__FUl(); TLobby__sub_80145A94(); }
 
 s32 TLobby::poll_connect() {
     s32 var_r31;
@@ -343,7 +343,7 @@ s32 TLobby__sub_801465C0(s32 *arg0) {
         return 0xC;
     }
     fn_80147A60(lbl_805D56EC);
-    return validate_slot_buffers((s32)lbl_8050C0C4, lbl_8050C684, &lobby_dns_server_addr, &lobby_dns_server_addr2) != 0 ? 0xC : 0;
+    return validate_slot_buffers((saddr)lbl_8050C0C4, lbl_8050C684, &lobby_dns_server_addr, &lobby_dns_server_addr2) != 0 ? 0xC : 0;
 }
 
 s32 TLobby__sub_801466F4(u32 arg0) {
@@ -434,7 +434,7 @@ s32 TLobby__sub_80146908() {
     params.e = 0x1000;
     params.f = 0x3000;
     validate_and_store_net_params(&params);
-    lbl_805D5700 = (u32)xmalloc(size);
+    lbl_805D5700 = (uaddr)xmalloc(size);
     if (lbl_805D5700 != 0) {
         layout_net_params_buffer((u8 *)lbl_805D5700, size);
     }

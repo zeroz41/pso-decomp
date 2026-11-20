@@ -36,7 +36,7 @@ void fill_trade_item_list(Wn_802787F0 *arg0, Ent_802787F0 *arg1) {
                     sid = id;
                     item = (u8 *)find_item_by_id(sid);
                     if (item != NULL) {
-                        ((TWindowSubStatusDisp *)arg0)->add_inventory_item((s32)item, (s32)count, (s32)sid);
+                        ((TWindowSubStatusDisp *)arg0)->add_inventory_item((saddr)item, (s32)count, (s32)sid);
                     }
                 }
             }
@@ -58,11 +58,11 @@ void build_usable_item_list(Wn_802788A8 *arg0) {
     u8 *p;
     p = (u8 *)get_player_by_client_id(arg0->f20);
     if (p != NULL) {
-        count = ((TObjPlayer *)(*(s32 *)(p + 0xD00)))->run_and_get_result((int)list);
+        count = ((TObjPlayer *)(*(saddr *)(p + 0xD00)))->run_and_get_result((saddr)list);
         for (i = 0; i < count; i++) {
             id = (u8 *)find_item_by_id(list[i]);
             if (id != NULL && ((TItem *)id)->get_usable_action_flags(4, 0) != 0) {
-                ((TShopJudgmentItemWindow *)arg0)->add_list_entry((s32)id, list[i]);
+                ((TShopJudgmentItemWindow *)arg0)->add_list_entry((saddr)id, list[i]);
             }
         }
         if (arg0->f72 <= 0) {

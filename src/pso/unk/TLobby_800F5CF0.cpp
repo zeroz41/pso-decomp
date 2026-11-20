@@ -29,8 +29,8 @@ void *TLobby::alloc_tables(s32 ctx, s32 arg2) {
     *(s32 *)&this->m_name = 0;
     plist_texture_matches_filter = 0;
     count_model_strips_by_texture();
-    *(s32 *)&this->m_prev = (s32)mem_alloc(*(s32 *)&this->m_flags * 8);
-    *(s32 *)&this->m_next = (s32)mem_alloc(*(s32 *)&this->m_name * 4);
+    *(s32 *)&this->m_prev = (saddr)mem_alloc(*(s32 *)&this->m_flags * 8);
+    *(s32 *)&this->m_next = (saddr)mem_alloc(*(s32 *)&this->m_name * 4);
     plist_strip_write_ptr = *(s32 *)&this->m_prev;
     temp_r6 = *(s32 *)&this->m_next;
     plist_strip_uv_write_ptr = temp_r6;
@@ -39,7 +39,7 @@ void *TLobby::alloc_tables(s32 ctx, s32 arg2) {
     return this;
 }
 void TObjEnemy::clear_lobby_object_state() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800F5D80, sp8) == 0x0);
     LAYOUT_ASSERT(spE_offset, offsetof(Stack_800F5D80, spE) == 0x6);
     Stack_800F5D80 stack;

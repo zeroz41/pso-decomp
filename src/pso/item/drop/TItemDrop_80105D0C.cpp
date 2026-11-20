@@ -435,22 +435,22 @@ void TItemDrop::load_drop_tables() {
 
 void roll_table_ratio__9TItemDropFPvUi(u8 *arg0, u32 arg1) {
     if (arg1 < 0x10U) {
-        calc_random_ratio__10TObjPlayerFv((void *) (*(s32 *)((s8 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x20)) + (arg1 * 4)) + 0)));
+        calc_random_ratio__10TObjPlayerFv((void *) (*(saddr *)((s8 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x20)) + (arg1 * 4)) + 0)));
         return;
     }
-    calc_random_ratio__10TObjPlayerFv((void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x20)) + 0x40)));
+    calc_random_ratio__10TObjPlayerFv((void *) (*(saddr *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x20)) + 0x40)));
 }
 
 u32 TItemDrop::roll_channel_below(s32 count, u32 arg2) {
     u8 *var_r3;
     if (arg2 < 0x10U) {
         var_r3 = (u8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x20));
-        var_r3 = (u8 *)(*(s32 *)((s8 *)var_r3 + (arg2 * 4)));
-        return (u32)item_drop_rng_below((s32)var_r3, count);
+        var_r3 = (u8 *)(*(saddr *)((s8 *)var_r3 + (arg2 * 4)));
+        return (u32)item_drop_rng_below((saddr)var_r3, count);
     }
     var_r3 = (u8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x20));
     var_r3 = (u8 *)(*(u8 **)((s8 *)var_r3 + 0x40));
-    return (u32)item_drop_rng_below((s32)var_r3, count);
+    return (u32)item_drop_rng_below((saddr)var_r3, count);
 }
 
 void select_enemy_drop__9TItemDropFPviiPv(u8 *self, s32 area, s32 idx, Item_8010663C *item) {
@@ -466,7 +466,7 @@ void select_enemy_drop__9TItemDropFPviiPv(u8 *self, s32 area, s32 idx, Item_8010
     if (((TItemDrop *)self)->roll_channel_below(0x64, 0) >= ((Tbl_8010663C *)TItemDrop__common_probability_table)->chance[area]) {
         return;
     }
-    if (TItemDrop::drop_item((s32)self, area, (s32)item) != 0) {
+    if (TItemDrop::drop_item((saddr)self, area, (saddr)item) != 0) {
         return;
     }
     if (TItemDrop::is_not_special(self) == 1) {
@@ -560,7 +560,7 @@ void TItemDrop::generate_drop_item(s32 idx, u8 *item) {
     }
     switch (item[0]) {
     case 0:
-        select_weapon_drop__9TItemDropFv((s32)((s32)((u8 *)this)), idx, item);
+        select_weapon_drop__9TItemDropFv((s32)((saddr)((u8 *)this)), idx, item);
         break;
     case 1:
         if (item[1] == 3) {
@@ -570,11 +570,11 @@ void TItemDrop::generate_drop_item(s32 idx, u8 *item) {
                 ((TItemData *)item)->init();
             }
         } else {
-            TItemDrop::calc_drop_rarity((s32)((u8 *)this), idx, item);
+            TItemDrop::calc_drop_rarity((saddr)((u8 *)this), idx, item);
         }
         break;
     case 3:
-        generate_tool_drop__9TItemDropFiiPv((s32)((u8 *)this), idx, item);
+        generate_tool_drop__9TItemDropFiiPv((saddr)((u8 *)this), idx, item);
         break;
     case 4:
         *(u32 *)(item + 0x10) = roll_meseta_range((s32)(*(s32 *)((u8 *)TItemDrop__common_probability_table + 0x24)), idx, 0, 1);
@@ -793,7 +793,7 @@ void select_weapon_drop__9TItemDropFv(s32 rng, s32 level, u8 *item) {
       w[i] = 0;
     }
   }
-  item[1] = ((TItemDrop *)rng)->select_weighted_byte((s32) w, 0, 0xD, 1);
+  item[1] = ((TItemDrop *)rng)->select_weighted_byte((saddr) w, 0, 0xD, 1);
   k = item[1];
   if (k == 0)
   {
@@ -1005,14 +1005,14 @@ TItemDrop::TItemDrop(TObject *parent, s8 section) : TObject(parent) {
     for (i = 0; i != 0x11; i++) {
         a = __cvt_fp2unsigned(lbl_805DAAD8 * (lbl_805DAAE4 * (f32)rand()));
         b = __cvt_fp2unsigned(lbl_805DAAD4 * (lbl_805DAAE4 * (f32)rand()));
-        obj = (int)::operator new(0xE8);
+        obj = (saddr)::operator new(0xE8);
         if (obj != 0) {
             obj = run_step__9TItemDropFl(obj, a | b);
         }
         entries[i] = obj;
     }
-    TItemDrop__second_relocatable_load_buffer = (s32)TQuestVmDownLoadServer::alloc(0xC00);
-    TItemDrop__relocatable_load_buffer = (s32)TQuestVmDownLoadServer::alloc(0xC00);
+    TItemDrop__second_relocatable_load_buffer = (saddr)TQuestVmDownLoadServer::alloc(0xC00);
+    TItemDrop__relocatable_load_buffer = (saddr)TQuestVmDownLoadServer::alloc(0xC00);
     load_unload_set = create_load_unload_set(item_drop_load_unload_table);
 }
 

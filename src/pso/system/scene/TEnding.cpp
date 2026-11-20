@@ -85,7 +85,7 @@ TEnding::TEnding() : TObject(tl_window) {
     phase = 0;
     elapsed_ticks = 0;
     TAdRicoRingCtrl *ring = (TAdRicoRingCtrl *)TObject::operator new(0x2C);
-    if (ring != NULL) ring = (TAdRicoRingCtrl *)TAdRicoRingCtrl__ct((TAdRicoRingCtrl *)((u8 *)ring), (s32)this);
+    if (ring != NULL) ring = (TAdRicoRingCtrl *)TAdRicoRingCtrl__ct((TAdRicoRingCtrl *)((u8 *)ring), (saddr)this);
     ring_controller = ring;
     if (ring_controller != NULL)
         ((TAdRicoRingCtrl *)ring_controller)->start_fade_all(2.0f * (f32)timing_rate);

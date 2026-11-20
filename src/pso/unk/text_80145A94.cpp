@@ -233,7 +233,7 @@ s32 init_struct(u8 *arg0) {
     if (!(lbl_805D56CC & 1)) {
         return 0;
     }
-    memset((void *)((int)arg0), 0, 0x26C);
+    memset((void *)((saddr)arg0), 0, 0x26C);
     if (TLobby__sub_803F5678(&sp8) != 0) {
         return 0;
     }

@@ -191,7 +191,7 @@ extern "C" void TLobby__sub_80184DF4(void) {
             tmp = (u8 *)load_resource_from_descriptor(tmp, 1, city_season_resource_descriptors[lbl_805D5B30], 0, 0, 0);
         }
         off = lbl_805D5B30 * 4;
-        *(s32 *)((u8 *)city_season_easter_egg_model_table + off) = (int)tmp;
+        *(s32 *)((u8 *)city_season_easter_egg_model_table + off) = (saddr)tmp;
         for (i = 0; i < *(s32 *)(tmp + 0x434); i++) {
             if ((*(u32 (**)[4])(tmp + 0x42c))[i][3] != 0) {
                 *(s32 *)((u8 *)city_season_xmas_model_table + off) = (*(u32 (**)[4])(tmp + 0x42c))[i][3];
@@ -202,7 +202,7 @@ extern "C" void TLobby__sub_80184DF4(void) {
             base = *(u8 **)(tmp + 0x42c);
             ent = *(u8 **)(base + 0x18);
             tmp = (u8 *)::operator new(0x14);
-            if (tmp != NULL) tmp = (u8 *)((TLobby *)tmp)->alloc_tables((s32)ent, 3);
+            if (tmp != NULL) tmp = (u8 *)((TLobby *)tmp)->alloc_tables((saddr)ent, 3);
             lbl_805D5B34 = tmp;
             base = *(u8 **)(*(u8 **)(ent + 0x2c) + 4);
             base = *(u8 **)(base + 4);
@@ -211,7 +211,7 @@ extern "C" void TLobby__sub_80184DF4(void) {
             base = *(u8 **)(tmp + 0x42c);
             ent = *(u8 **)(base + 0x18);
             tmp = (u8 *)::operator new(0x14);
-            if (tmp != NULL) tmp = (u8 *)((TLobby *)tmp)->alloc_tables((s32)ent, 0);
+            if (tmp != NULL) tmp = (u8 *)((TLobby *)tmp)->alloc_tables((saddr)ent, 0);
             lbl_805D5B34 = tmp;
             base = *(u8 **)(*(u8 **)(ent + 0x2c) + 4);
             base = *(u8 **)(base + 4);
@@ -248,7 +248,7 @@ extern "C" void TLobby__sub_80184DF4(void) {
     }
 
     tmp = (u8 *)::operator new(0x14);
-    if (tmp != NULL) tmp = (u8 *)((TLobby *)tmp)->alloc_tables((s32)(void *)lbl_805D5B3C, 2);
+    if (tmp != NULL) tmp = (u8 *)((TLobby *)tmp)->alloc_tables((saddr)(void *)lbl_805D5B3C, 2);
     lbl_805D5B48 = tmp;
     base = (u8 *)lbl_805D5B3C;
     base = *(u8 **)(base + 4);

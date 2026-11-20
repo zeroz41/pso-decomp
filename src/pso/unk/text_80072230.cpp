@@ -134,13 +134,13 @@ void handle_6x95_set_challenge_time(Pkt_80072230 *pkt) {
         return;
     }
     if (TLobby::check_challenge_time_range(r) != 0) {
-        t = TLobby::mix_seed_checked((s32)((void *)0x8C9F));
+        t = TLobby::mix_seed_checked((saddr)((void *)0x8C9F));
     }
     challenge_mode_state[idx + 0x680 / 4] = t;
 }
 
 void TLobby::send_seed_state() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80072448, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_80072448, spC) == 0x4);
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_80072448, sp10) == 0x8);
@@ -183,7 +183,7 @@ void handle_6x7C_set_challenge_records(Pkt7C_80072230 *pkt) {
         return;
     }
     if (id == 0xFFFF) {
-        TLobby::send_challenge_records((u32)challenge_task);
+        TLobby::send_challenge_records((uaddr)challenge_task);
         return;
     }
     if (id < 0 || id >= 4) {
@@ -191,7 +191,7 @@ void handle_6x7C_set_challenge_records(Pkt7C_80072230 *pkt) {
     }
     rec = &(*(Chal_80072230 *)&challenge_mode_state).recs[id];
     if (rec->flag == 0) {
-        TLobby::send_challenge_records((u32)challenge_task);
+        TLobby::send_challenge_records((uaddr)challenge_task);
     }
     rec->flag = 1;
     TLobby__sub_800703D0(rec->data, pkt->recs);

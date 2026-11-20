@@ -452,7 +452,7 @@ s32 dataAddSampleReference(u16 sid) {
 done:
 
     if (sdir->ref_cnt == 0) {
-        sdir->addr = (void *)((u32)sdir->offset + (u32)dataSmpSDirs[i].base);
+        sdir->addr = (void *)((u32)sdir->offset + (uaddr)dataSmpSDirs[i].base);
         header = (Hdr_803ADA80 *)&sdir->header;
         hwSaveSample(&header, &sdir->addr);
     }
@@ -696,7 +696,7 @@ s32 dataGetSample(s16 sid, Sample_803AE4D4 *newsmp) {
             if (dgs_result->ref_cnt != 0xFFFF) {
                 dgs_sheader = &dgs_result->header;
                 newsmp->key = dgs_sheader->info;
-                newsmp->addr = (u32)dgs_result->addr;
+                newsmp->addr = (uaddr)dgs_result->addr;
                 newsmp->offset = 0;
                 newsmp->loopStart = dgs_sheader->loopOffset;
                 newsmp->count = dgs_sheader->length & 0xffffff;
@@ -704,7 +704,7 @@ s32 dataGetSample(s16 sid, Sample_803AE4D4 *newsmp) {
                 newsmp->format = dgs_sheader->length >> 24;
 
                 if (dgs_result->extraData) {
-                    newsmp->coef = (u32)&(dataSmpSDirs[i].data)->id + dgs_result->extraData;
+                    newsmp->coef = (uaddr)&(dataSmpSDirs[i].data)->id + dgs_result->extraData;
                 }
                 return 0;
             }

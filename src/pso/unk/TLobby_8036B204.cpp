@@ -73,7 +73,7 @@ void TUnk_804F3640::run_task() {
 }
 }
 TUnk_804F3640::~TUnk_804F3640() {
-    mem_free((void *)(*(s32 *)((s8 *)this + 0x1C)));
+    mem_free((void *)(*(saddr *)((s8 *)this + 0x1C)));
     (*(s32 *)&slot_entity_dispatcher_instance) = 0;
 }
 
@@ -85,13 +85,13 @@ Mgr_8036B424 *TLobby__sub_8036B424(Mgr_8036B424 *arg0, void * _w1) {
     arg0->buf = (Ent_8036B424 *)mem_alloc(0xF0);
     if (arg0->buf != 0) {
         for (i = 0; i != 4; i++) {
-            TLobby__sub_8036B1AC((s32)&arg0->buf[i]);
+            TLobby__sub_8036B1AC((saddr)&arg0->buf[i]);
             arg0->ptrs[i] = 0;
         }
     } else {
         ((TObject *)arg0)->queue_destruction();
     }
-    slot_entity_dispatcher_instance = (u32)arg0;
+    slot_entity_dispatcher_instance = (uaddr)arg0;
     return arg0;
 }
 

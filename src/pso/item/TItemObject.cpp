@@ -32,7 +32,7 @@ void handle_6x66_use_star_atomizer(u8 *arg0);
 extern const char *TItemObject_name;
 
 s32 TItemObject::get_amount() {
-    return encoded_amount ^ (s32)&encoded_amount;
+    return encoded_amount ^ (saddr)&encoded_amount;
 }
 
 TItemObject::~TItemObject() {}
@@ -242,7 +242,7 @@ u8 TItemObject::get_pmt_amount() {
 u8 TItemObject::get_technique() { return technique; }
 
 void TItemObject::set_amount(s32 amount) {
-    encoded_amount = amount ^ (s32)&encoded_amount;
+    encoded_amount = amount ^ (saddr)&encoded_amount;
 }
 
 void TItemObject::carry_over_stats(TItemData *, TItem *) {}

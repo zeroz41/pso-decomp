@@ -42,7 +42,7 @@ extern "C" {
 
 void *TLobby::free_boss4rock(s16 arg1) {
     if (this != NULL) {
-        mem_free((void *)(*(s32 *)&this->m_flags));
+        mem_free((void *)(*(saddr *)&this->m_flags));
         ::operator delete(*(void * *)&this->m_name);
         *(s32 *)&this->m_prev = 0;
         *(s32 *)&this->m_next = 0;
@@ -82,13 +82,13 @@ extern "C" {
 u8 *TLobby__sub_80209584(u8 *arg0, s32 arg1) {
     s32 temp_r3;
     s32 var_r0;
-    temp_r3 = (int)::operator new(0xE8);
+    temp_r3 = (saddr)::operator new(0xE8);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = __ct__14SubtractiveRngFv((void *) temp_r3);
     }
     *(s32 *)((s8 *)arg0 + 0) = var_r0;
-    *(s32 *)((s8 *)arg0 + 4) = (s32)mem_alloc((arg1 * 4));
+    *(s32 *)((s8 *)arg0 + 4) = (saddr)mem_alloc((arg1 * 4));
     *(s32 *)((s8 *)arg0 + 8) = 0;
     *(s32 *)((s8 *)arg0 + 0xC) = arg1;
     *(s32 *)((s8 *)arg0 + 0x10) = arg1;
@@ -150,7 +150,7 @@ void TLobby::append_swapped_u32(s32 *arg0) {
 }
 
 void TLobby::append_entity_entry() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     if (lbl_805D60C4 != NULL) {
         ((TLobby *)(lbl_805D60C4 + lbl_805D60C8))->move_data((s32 *)arg0, 1);
         lbl_805D60C8 += 1;
@@ -218,7 +218,7 @@ void TLobby__sub_802097B0(s16 id) {
     TLobby__sub_8020A3D0(&e, table + lo * 8);
     TLobby__sub_8020A394(&e);
     if (e.id == id) {
-        lbl_805D60B8 = (Ent_802098AC *)((u32)lbl_805D60AC + hdr.data + e.offset);
+        lbl_805D60B8 = (Ent_802098AC *)((uaddr)lbl_805D60AC + hdr.data + e.offset);
         init_event_shuffle_table((EventShuffleTable *)lbl_805D60A4, e.count);
     }
 }
@@ -247,7 +247,7 @@ Rec_802099FC *bsearch_record__6TLobbyFPvii(void *arg0, s32 n, s32 key) {
     lo = 0;
     while (lo < hi) {
         mid = (lo + hi) / 2;
-        ((TLobby *)(&t))->copy_record_entry((s32)(arr + mid * 32));
+        ((TLobby *)(&t))->copy_record_entry((saddr)(arr + mid * 32));
         TLobby__sub_8020A48C(&t);
         if (t.v < key) {
             lo = mid + 1;
@@ -256,7 +256,7 @@ Rec_802099FC *bsearch_record__6TLobbyFPvii(void *arg0, s32 n, s32 key) {
         }
     }
     e = arr + lo * 32;
-    ((TLobby *)(&t))->copy_record_entry((s32)e);
+    ((TLobby *)(&t))->copy_record_entry((saddr)e);
     TLobby__sub_8020A48C(&t);
     if (t.v == key) {
         return (Rec_802099FC *)e;
@@ -573,10 +573,10 @@ void init_buffers__6TLobbyFii(s32 id, s32 arg1) {
         lbl_805D60C4 = (u8 *)TQuestVmDownLoadServer::alloc(0x1000);
         lbl_805D60C8 = 0;
         TLobby__sub_80209D34(id);
-        TAdSinglePlyChrSelectGC::safe_free((u32)lbl_805D60C4);
-        TAdSinglePlyChrSelectGC::safe_free((u32)lbl_805D60BC);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)lbl_805D60C4);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)lbl_805D60BC);
         lbl_805D60BC = NULL;
-        TAdSinglePlyChrSelectGC::safe_free((u32)lbl_805D60B4);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)lbl_805D60B4);
         lbl_805D60B4 = NULL;
     }
 }
@@ -604,16 +604,16 @@ void TLobby__sub_8020A2AC(void) {
     if (TRaderMapCore::is_not_split_screen() == 1) {
         item_drop_server_seed = __cvt_fp2unsigned((f32) (4294967300.0f * (3.0517578e-05f * (f32) rand())));
     }
-    temp_r3 = (int)::operator new(0xE8);
+    temp_r3 = (saddr)::operator new(0xE8);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = run_step__9TItemDropFl((int)temp_r3, (void *)item_drop_server_seed);
     }
     item_drop_rng = var_r0;
-    temp_r3_2 = (int)::operator new(0x14);
+    temp_r3_2 = (saddr)::operator new(0x14);
     var_r0_2 = temp_r3_2;
     if (var_r0_2 != 0) {
-        var_r0_2 = (s32)TLobby__sub_80209584((u8 *)temp_r3_2, 0x20);
+        var_r0_2 = (saddr)TLobby__sub_80209584((u8 *)temp_r3_2, 0x20);
     }
     lbl_805D60A4 = var_r0_2;
 }
@@ -646,7 +646,7 @@ void TLobby__sub_8020A48C(void* p) { bswap_32((u32 *)p); bswap_32((u32 *)((char*
 struct ByteBlock_14 { u8 bytes[0x14]; };
 
 void TLobby::copy_record_entry(s32 arg1) {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     *(ByteBlock_14 *)(arg0) = *(const ByteBlock_14 *)(arg1);
     *(s16 *)((s8 *)arg0 + 0x14) = (s16) *(s16 *)((s8 *)arg1 + 0x14);
     *(s16 *)((s8 *)arg0 + 0x16) = (s16) *(s16 *)((s8 *)arg1 + 0x16);
@@ -805,7 +805,7 @@ void load_map_set_data(s32 idx, s32 arg1) {
     TLobby__next_enemy_set_actor_id = 0;
     map_object_id_counter = 0;
     map_set_enemy_id_counter = 0;
-    copy_name((s32)"SET");
+    copy_name((saddr)"SET");
     TLobby__data_805D6134 = 0;
     if (TLobby::init_handle(0x8000) != 0) {
         load_object_set_file(idx, arg1);
@@ -817,7 +817,7 @@ void load_map_set_data(s32 idx, s32 arg1) {
         TLobby::free_data_60F0();
         TLobby__data_805D6134 |= 1;
     }
-    copy_name((s32)"..");
+    copy_name((saddr)"..");
 }
 
 struct Rec_8020AA94 {
@@ -1064,7 +1064,7 @@ u32 alloc__22TQuestVmDownLoadServerFUl();
 
 void TLobby::free_data_60F0() {
     if (TLobby__map_set_file_buffer != NULL) {
-        TAdSinglePlyChrSelectGC::safe_free((u32)TLobby__map_set_file_buffer);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)TLobby__map_set_file_buffer);
         TLobby__map_set_file_buffer = NULL;
         TLobby__map_set_file_buffer_size = 0;
     }
@@ -1093,7 +1093,7 @@ void clear_map_set_data(void) {
     TLobby__map_set_file_buffer_size = 0;
     const char *name = (const char *)get_player_name_copy_buffer();
     if (strncmp(name, "SET", 0x10) == 0) {
-        copy_name((s32)"..");
+        copy_name((saddr)"..");
     }
 }
 

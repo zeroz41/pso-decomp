@@ -32,7 +32,7 @@ int TLobby__sub_802D2358(void*);
 }
 
 void TLobby::set_trade_field_4(s32 arg1) {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     *(s32 *)((s8 *)(((TLobby *)(arg0 + 0xF8))->get_trade_obj_ptr()) + 4) = arg1;
 }
 
@@ -49,7 +49,7 @@ void snapshot_player_trade_inventory(s32 arg0, s32 arg1) {
     ((TLobby *)arg0)->update_both_halves();
     player = (u8 *)get_player_by_client_id(arg1);
     if (player != NULL) {
-        temp_r29 = ((TObjPlayer *)(((TObjPlayer *)player)->inventory_objects))->run_and_get_result((int)((void *) ids));
+        temp_r29 = ((TObjPlayer *)(((TObjPlayer *)player)->inventory_objects))->run_and_get_result((saddr)((void *) ids));
         var_r25 = (unsigned char *) (arg0 + 0xF8);
         var_r26 = 0;
         while (var_r26 < temp_r29) {

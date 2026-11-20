@@ -273,7 +273,7 @@ s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags) {
             e->src = (Vec *)src;
             e->x1a = a3;
             e->timer = 5;
-            idx = normalize_sound_request((u32)id, (s32)e->x1c, (s32)e->src, (s32)e->x1a, (s32)flags);
+            idx = normalize_sound_request((u32)id, (s32)e->x1c, (saddr)e->src, (s32)e->x1a, (s32)flags);
         }
         return idx;
     }
@@ -315,7 +315,7 @@ s32 play_sound_effect(s32 id, Vec *src, s32 a2, s32 flags) {
         }
     }
     if (idx < 0) {
-        idx = play_packed_sound_once(id, (s32)src, a2, flags);
+        idx = play_packed_sound_once(id, (saddr)src, a2, flags);
     }
     if (idx >= 0) {
         if (src != NULL) {
@@ -387,7 +387,7 @@ void update_sound_request_slots(void) {
     SndEnt_8022675C *e;
     s16 *t;
     if (lbl_805D62B0 != 0) {
-        p = (u32)get_player_by_client_id((local_client_id));
+        p = (uaddr)get_player_by_client_id((local_client_id));
         if (p != 0U) {
             VecCopy((Vec *)lbl_80514C50, (const Vec *)(p + 0x38));
         } else if (camera_ctrl_instance != 0U) {

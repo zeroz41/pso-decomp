@@ -246,5 +246,5 @@ s32 get_option_table_entry(s32 arg0) {
     if (arg0 >= 0x31) {
         return 0;
     }
-    return (s32)option_name_table[arg0];
+    return (saddr)option_name_table[arg0];
 }

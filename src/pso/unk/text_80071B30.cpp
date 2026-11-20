@@ -112,7 +112,7 @@ void TObjPlayer::rebuild_players_for_stage(s32 arg0) {
                 TPlyCharData cd;
                 copy_player_visual_record(&cd.chr, &chr);
                 begin_action_state__10TObjPlayerFPv(&cd);
-                send_command__10TNpcPlayerFlScllPSc(chr.f31, t->item_count, (s32)t->items, t->level, &cd);
+                send_command__10TNpcPlayerFlScllPSc(chr.f31, t->item_count, (saddr)t->items, t->level, &cd);
                 if (i == local_client_id) {
                     p = create_player_object(i, 0, &cd);
                 } else {

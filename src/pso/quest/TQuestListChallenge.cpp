@@ -171,7 +171,7 @@ s32 get_selected_quest_text__19TQuestListChallengeFv(void) {
     if ((void *) (*(u8 * *)&TQuestListChallenge__active_instance) != NULL) {
         temp_r3 = *(u32 *)((s8 *)(*(u8 * *)&TQuestListChallenge__active_instance) + 0x38);
         if (temp_r3 != 0U) {
-            return get_quest_list_text((int) (*(s32 *)((s8 *)(*(u8 * *)&TQuestListChallenge__active_instance) + 0x50)), (int) (*(s32 *)((s8 *)(*(s32 *)((s8 *)(*(u8 * *)&TQuestListChallenge__active_instance) + 0x58) + (((TWindowMenuIconLine *)temp_r3)->get_cursor_value() * 0x10)) + 0)), (int) ((*(u8 * *)&TQuestListChallenge__active_instance)));
+            return get_quest_list_text((int) (*(s32 *)((s8 *)(*(u8 * *)&TQuestListChallenge__active_instance) + 0x50)), (int) (*(s32 *)((s8 *)(*(saddr *)((s8 *)(*(u8 * *)&TQuestListChallenge__active_instance) + 0x58) + (((TWindowMenuIconLine *)temp_r3)->get_cursor_value() * 0x10)) + 0)), (saddr) ((*(u8 * *)&TQuestListChallenge__active_instance)));
         }
     }
     return 0;
@@ -227,11 +227,11 @@ void handle_confirm_select__19TQuestListChallengeFv(void *quest_list_challenge) 
 
     if ((*(VObj_80288C78_80288B5C **)((s8 *)quest_list_challenge + 0x30))->m8() != 0) {
         if ((*(void **)((s8 *)quest_list_challenge + 0x34) != NULL) && (((TWindowMenu *)(*(void **)((s8 *)quest_list_challenge + 0x34)))->is_decided() == 1)) {
-            selected_menu_value = ((TWindowMenu *)(*(u32 *)((s8 *)quest_list_challenge + 0x34)))->get_selected_value();
+            selected_menu_value = ((TWindowMenu *)(*(uaddr *)((s8 *)quest_list_challenge + 0x34)))->get_selected_value();
             if (selected_menu_value == 0) {
-                temp_r0 = ((TWindowMenuIconLine *)(*(s32 *)((s8 *)quest_list_challenge + 0x38)))->get_cursor_value();
+                temp_r0 = ((TWindowMenuIconLine *)(*(saddr *)((s8 *)quest_list_challenge + 0x38)))->get_cursor_value();
                 identity = *(Entry_80288C78_80288B5C **)((s8 *)quest_list_challenge + 0x58);
-                prepare_offline_quest_filenames(identity[temp_r0].fieldC, (s32) identity);
+                prepare_offline_quest_filenames(identity[temp_r0].fieldC, (saddr) identity);
                 ((TShopWindowBase *)quest_list_challenge)->set_field_20(3);
                 return;
             }
@@ -317,7 +317,7 @@ void create_quest_list_window__19TQuestListChallengeFv(QLC_80288FDC *arg0) {
 
     if (arg0->obj->v8() != 0 && arg0->list == 0) {
         id = get_entity_id(arg0->f24);
-        arg0->list = (u32)create_item_list_window(get_guild_text(0), 0x40, id);
+        arg0->list = (uaddr)create_item_list_window(get_guild_text(0), 0x40, id);
         for (i = 0; i < arg0->count; i++) {
             e = ((s32 (*)(s32, s32))get_quest_list_text)(arg0->f50, arg0->entries[i].id);
             ((TWindowMenuIconLine *)(arg0->list))->add_list_entry(0x2C, e, i);
@@ -446,7 +446,7 @@ void * TObjNpcKenkyu__create(void *arg0) {
     }
     o2 = TObject::operator new(0x3B8);
     if (o2 != NULL) {
-        o2 = TObjNpcKenkyu__ct((u8 *)o2, (s32)o, (s32)arg0);
+        o2 = TObjNpcKenkyu__ct((u8 *)o2, (saddr)o, (saddr)arg0);
     }
     return o2;
 }

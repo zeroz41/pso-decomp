@@ -98,8 +98,8 @@ void TLobby__sub_803CB858(Cfg_803CBA58 *cfg) {
     lbl_805E0D78;
     if (lbl_805D7590 == 0) {
         TLobby::init_callback_tables();
-        TLobby__sub_803D33E4((s32)__OSCallResetFunctions, 0);
-        TLobby__sub_803D33D4((s32)fn_803CBCA0, 0);
+        TLobby__sub_803D33E4((saddr)__OSCallResetFunctions, 0);
+        TLobby__sub_803D33D4((saddr)fn_803CBCA0, 0);
         if (cfg == NULL) {
             lbl_804F9D80.pad_0c = 16;
             lbl_804F9D80.prio0 = 1;

@@ -127,7 +127,7 @@ void TSceneSora::create_instance() {
     if ((u32) TSceneSora__sky_bml_resource != 0U) {
         scene_sora = (saddr)TObject::operator new(0xA4);
         if (scene_sora != 0) {
-            scene_sora = ((s32)__ct__10TSceneSoraFl((TSceneSora *)((u8 *)scene_sora), (s32)tl_05));
+            scene_sora = ((saddr)__ct__10TSceneSoraFl((TSceneSora *)((u8 *)scene_sora), (s32)tl_05));
         }
         TSceneSora__instance = scene_sora;
         return;
@@ -185,7 +185,7 @@ void TSceneSora::load_sky_resources() {
         }
         b.n = 0;
         a.n = 0;
-        o = (u32)(int)::operator new(0x440);
+        o = (u32)(saddr)::operator new(0x440);
         if (o != 0) {
             o = init_bin_model_request((void *)o, 1, &b, &a, 0, 0, 0);
         }

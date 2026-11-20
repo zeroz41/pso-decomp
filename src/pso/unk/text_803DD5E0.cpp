@@ -137,7 +137,7 @@ s32 read_gvrt_file_header(Obj_803DDA68 *obj, s32 idx) {
     FileInfo_803DD784 fi;
     u32 n;
     s32 r;
-    u32 base = (u32)gvrt_header_read_buffer;
+    u32 base = (uaddr)gvrt_header_read_buffer;
     FileInfo_803DD784 *pfi;
     u32 size;
     TObjPlayer__sub_803DA7E0();
@@ -156,7 +156,7 @@ s32 read_gvrt_file_header(Obj_803DDA68 *obj, s32 idx) {
         DVDClose(pfi);
         return -1;
     }
-    n = (u32)find_gvrt_texture_chunk((TLobby *)((void *)&desc), (u32 *)((u32 *)&sz), (u32 *)((u32 *)base));
+    n = (uaddr)find_gvrt_texture_chunk((TLobby *)((void *)&desc), (u32 *)((u32 *)&sz), (u32 *)((u32 *)base));
     if (n == 0) {
         DVDClose(pfi);
         return -1;
@@ -190,9 +190,9 @@ s32 TObjPlayer__sub_803DD91C(Obj_803DDA68 *obj, s32 idx) {
     if (r != 0) {
         return r;
     }
-    n = (u32)find_gvrt_texture_chunk((TLobby *)((void *)&desc), (u32 *)((u32 *)&sz), (u32 *)((u32 *)obj->ents[idx].info));
+    n = (uaddr)find_gvrt_texture_chunk((TLobby *)((void *)&desc), (u32 *)((u32 *)&sz), (u32 *)((u32 *)obj->ents[idx].info));
     if (n == 0) {
-        n = (u32)find_gvrt_texture_chunk((TLobby *)((void *)&desc), (u32 *)((u32 *)&sz), (u32 *)((u32 *)obj->ents[idx].info->f0));
+        n = (uaddr)find_gvrt_texture_chunk((TLobby *)((void *)&desc), (u32 *)((u32 *)&sz), (u32 *)((u32 *)obj->ents[idx].info->f0));
         if (n == 0) {
             info = obj->ents[idx].info;
             desc.w = info->f10;
@@ -464,7 +464,7 @@ s32 load_gvm_texture_archive(u32 *arg0, GvmTextureList_803DDDC8 *list) {
         lbl_8058D470.c = 1;
         return -1;
     }
-    TLobby__sub_803DDD20((s32)arg0);
+    TLobby__sub_803DDD20((saddr)arg0);
     hdr = (u32 *)TLobby__sub_803DDD2C(0xC);
     TLobby::bswap32_in_place(hdr);
     TLobby::bswap32_in_place(hdr + 1);
@@ -646,7 +646,7 @@ relocate:
             }
             pos += v * 4;
             if (*(u32 *)(buf + pos) != 0) {
-                *(u32 *)(buf + pos) += (u32) buf;
+                *(u32 *)(buf + pos) += (uaddr) buf;
             }
         }
     }

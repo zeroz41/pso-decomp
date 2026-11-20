@@ -606,7 +606,7 @@ s32 alloc_looping_sound_slot(u32 id, s32 actor, const void *position, s32 base, 
     for (i = 0; i < 32; i++) {
         if ((lbl_805162EC[i].state == -1 || lbl_805162EC[i].state == 1) &&
             lbl_805162EC[i].kind == 0 && (s32)(id >> 16) == lbl_805162EC[i].bank &&
-            (s32)(id & 0xFFFF) == lbl_805162EC[i].index && actor == (s32)lbl_805162EC[i].actor &&
+            (s32)(id & 0xFFFF) == lbl_805162EC[i].index && actor == (saddr)lbl_805162EC[i].actor &&
             (lbl_805162EC[i].flags & 1)) {
             TLobby__sub_802409E4(&lbl_805162EC[i]);
             lbl_805162EC[i].position = position;
@@ -829,7 +829,7 @@ s32 TLobby__sub_8023FFB8(SoundControlState *self, int id) {
     for (i = 0; i < 4; i++) {
         self->bank_file_sizes[i] = sound_bank_file_sizes[sound_bank_file_indices[id][i]];
         self->bank_file_sizes[i] = (self->bank_file_sizes[i] + 0x7FF) & ~0x7FF;
-        self->ents[id].h[i] = (u32)xmalloc(self->bank_file_sizes[i]);
+        self->ents[id].h[i] = (uaddr)xmalloc(self->bank_file_sizes[i]);
         if (self->ents[id].h[i] == 0) {
             ret = 3;
             goto fail;
@@ -842,7 +842,7 @@ s32 TLobby__sub_8023FFB8(SoundControlState *self, int id) {
         }
     }
     for (i = 0; i < 4; i++) {
-        TLobby::read_checked_align((s32)self->bank_file_handles[i], (s32)(self->bank_file_sizes[i] / 2048), (s32)self->ents[id].h[i]);
+        TLobby::read_checked_align((saddr)self->bank_file_handles[i], (s32)(self->bank_file_sizes[i] / 2048), (s32)self->ents[id].h[i]);
         ((TLobby *)(&self->bank_file_handles[i]))->set_entry_params(i, self->bank_file_sizes[i] / 2048, self->ents[id].h[i]);
     }
     return 0;
@@ -981,8 +981,8 @@ s32 init_sound_aux_effects(SoundControlState *self) {
         memset(lbl_80517E44[i], 0, size);
         void *handle = TLobby::adxf_open_afs(0, sound_bank_file_indices[i][2]);
         if (handle != NULL) {
-            TLobby::read_checked_align((s32)handle, (s32)size / 2048, (s32)lbl_80517E44[i]);
-            TLobby::set_read_params(&handle, (s32)size / 2048, (int)lbl_80517E44[i]);
+            TLobby::read_checked_align((saddr)handle, (s32)size / 2048, (saddr)lbl_80517E44[i]);
+            TLobby::set_read_params(&handle, (s32)size / 2048, (saddr)lbl_80517E44[i]);
             do {
                 TLobby__sub_803382E4();
                 TLobby::run_disk_error_check();
@@ -1083,7 +1083,7 @@ s32 TLobby::validate_and_set_selection(s32 arg1) {
         return 9;
     }
     *(s32 *)((s8 *)this + 0x2B0) = -1;
-    *(s32 *)((s8 *)this + 0x2B4) = (s32) sound_bank_load_routes[arg1];
+    *(s32 *)((s8 *)this + 0x2B4) = (saddr) sound_bank_load_routes[arg1];
     *(s32 *)((s8 *)this + 0x29C) = arg1;
     return 0;
 }

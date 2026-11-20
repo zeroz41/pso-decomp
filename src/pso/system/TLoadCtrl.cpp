@@ -227,8 +227,8 @@ void TLoadCtrl::start_loading(u32 arg0) {
         TCameraCtrl__ct(temp_cam, (void *)tl_camera);
     }
     load_ctrl = (u8 *)new TLoadCtrl(tl_su);
-    TLoadCtrl__instance = (u32) load_ctrl;
+    TLoadCtrl__instance = (uaddr) load_ctrl;
 }
 
-void TLoadCtrl::poll_default() { TLoadCtrl::start_loading((u32)((void*)(0))); }
+void TLoadCtrl::poll_default() { TLoadCtrl::start_loading((uaddr)((void*)(0))); }
 }

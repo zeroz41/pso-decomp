@@ -223,7 +223,7 @@ s32 TMovie::decode_frame() {
         if ((s32) *(s32 *)((s8 *)arg0 + 0xCC) != 0) {
             TMovie__sub_80143C94((frame.field_00), (frame.field_08), (frame.field_0c));
         } else {
-            flush_framebuffer((s32)arg0, (s32)(*(void ** *)&this->m_flags), (s32)&frame.field_00);
+            flush_framebuffer((saddr)arg0, (saddr)(*(void ** *)&this->m_flags), (saddr)&frame.field_00);
         }
         ((TMovie *)(arg0 + 0x5C))->copy(&frame.field_00);
         mwPlyRelCurFrm_hook(*(void ** *)&this->m_flags);
@@ -406,7 +406,7 @@ void run_task__6TMovieFv(TMovie *movie) {
     }
     render_tick();
     render_tick();
-    TMovie::calc_frame_buffer_size((s32)((void *)video_initial_display_framebuffer), (s32)((void *)video_initial_draw_framebuffer));
+    TMovie::calc_frame_buffer_size((saddr)((void *)video_initial_display_framebuffer), (saddr)((void *)video_initial_draw_framebuffer));
     txt = NULL;
     if (TAdEndText__sub_8001B41C() != 0) {
         p = (u8 *)TObject::operator new(0x197C);
@@ -453,7 +453,7 @@ TMovie::TMovie(TObject *parent, s8 *name, s32 a3, s32 a4, s32 a5) : TObject(pare
     strncpy(((TMovie_80144910 *)this)->path, (const char *)name, 0x20);
     p = (u8 *)::operator new(8);
     if (p != 0) {
-        p = load_rel_module(p, (s32)"movie.rel");
+        p = load_rel_module(p, (saddr)"movie.rel");
     }
     ((TMovie_80144910 *)this)->obj1C = p;
     p = (u8 *)::operator new(0xD0);

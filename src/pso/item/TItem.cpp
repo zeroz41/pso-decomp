@@ -636,7 +636,7 @@ void TItem::snap_to_ground() {
     probe[0] = position.x;
     probe[1] = 300.0f + position.y;
     probe[2] = position.z;
-    CsnHit *hit = (CsnHit *)csnVecterUnder((s32)probe, 0x41);
+    CsnHit *hit = (CsnHit *)csnVecterUnder((saddr)probe, 0x41);
     if (hit != NULL) {
         position.y = 6.0f + hit->contact->point.y;
     }
@@ -863,7 +863,7 @@ void draw_model_node_tree(NJS_OBJECT *object) {
                 model_node_visit_callback(object);
             }
             if (!(flags & NJD_EVAL_HIDE) && model_node_draw_callback != NULL) {
-                model_node_draw_callback((s32)object->model);
+                model_node_draw_callback((saddr)object->model);
             }
             if (!(flags & NJD_EVAL_BREAK)) {
                 draw_model_node_tree(object->child);
@@ -888,7 +888,7 @@ void draw_model_node_tree(NJS_OBJECT *object) {
                 model_node_matrix_output_cursor += 0x30;
             }
             if (!(flags & NJD_EVAL_HIDE) && model_node_draw_callback != NULL) {
-                model_node_draw_callback((s32)object->model);
+                model_node_draw_callback((saddr)object->model);
             }
             if (!(flags & NJD_EVAL_BREAK)) {
                 draw_model_node_tree(object->child);
@@ -1151,7 +1151,7 @@ void TItem::refresh_if_current_player() {
 s32 TItem::get_icon_index() {
     TItemData data;
     copy_to_item_data(&data);
-    return TLobby::get_item_data((u32)&data);
+    return TLobby::get_item_data((uaddr)&data);
 }
 
 void TItem::set_item_group(u8 value) { item_group = value; }
@@ -1511,9 +1511,9 @@ void TItem::render_present_box() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         set_constant_material(&item_box_primary_colors[box_color]);
-        draw_ginja_model((s32)box->model);
+        draw_ginja_model((saddr)box->model);
         set_constant_material(&item_box_secondary_colors[box_color]);
-        draw_ginja_model((s32)box->child->model);
+        draw_ginja_model((saddr)box->child->model);
         pop_matrix();
         TParticleCtrl::end_effect_render();
         set_default_alpha_blend();
@@ -1559,7 +1559,7 @@ void TItem::use_combination_recipe() {
     if (owner != NULL) {
         copy_to_item_data(&data);
         TItem *target = find_unique_combination_target(owner, &data);
-        u8 *recipe = (u8 *)find_eligible_combination_recipe((s32)owner, (u8 *)&data);
+        u8 *recipe = (u8 *)find_eligible_combination_recipe((saddr)owner, (u8 *)&data);
         if (recipe != NULL && target != NULL) {
             result.init();
             result.data1.data_u8[0] = recipe[6];

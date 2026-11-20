@@ -133,13 +133,13 @@ void TLobby__sub_800728FC(u8 *arg0) {
     *(s8 *)((s8 *)arg0 + 1) = 2;
 }
 void TLobby::bswap_6x7C_packet() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     ((G_ClientIDHeader *)arg0)->bswap();
     bswap_16((u16 *)(arg0 + 4));
     ((TLobby *)(arg0 + 8))->bswap_challenge_battle_records();
 }
 void TLobby::send_6x7C_packet() {
-    s32 cmd = (s32)this;
+    s32 cmd = (saddr)this;
     bswap_6x7C_packet();
     send_subcommand((u8 *)cmd);
 }
@@ -149,7 +149,7 @@ void TLobby::init_pkt_cmd_7C() {
 }
 
 s32 TLobby::bswap_challenge_battle_records() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     S_80072994 *s = (S_80072994 *)arg0;
     s32 i;
     bswap_16((u16 *)arg0);
@@ -215,17 +215,17 @@ void TObjChallengeRetry::sub_80072BB0() {
 void TObjChallengeRetry::close_window_2c() { if (*(unsigned int*)((char*)this + 0x2c) != 0) { ((TWindowBase *)(*(void**)((char*)this + 0x2c)))->close(); *(int*)((char*)this + 0x2c) = 0; } }
 void TObjChallengeRetry::open_loss_menu() {
     if ((u32) *(u32 *)((s8 *)this + 0x2C) != 0U) {
-        ((TWindowBase *)(*(u32 *)((s8 *)this + 0x2C)))->close();
+        ((TWindowBase *)(*(uaddr *)((s8 *)this + 0x2C)))->close();
         *(u32 *)((s8 *)this + 0x2C) = 0U;
     }
     *(u32 *)((s8 *)this + 0x2C) = check_room_seq_4__16TAdChrSelASlotGCFl(get_window_layout_position(0x3A), 3);
     if ((u32) *(u32 *)((s8 *)this + 0x2C) != 0U) {
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)(*(u32 *)((s8 *)this + 0x2C)), (int)(get_message_text(0x5B)), 5, 0);
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)(*(u32 *)((s8 *)this + 0x2C)), (int)(get_message_text(0x5C)), 5, 1);
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)(*(u32 *)((s8 *)this + 0x2C)), (int)(get_message_text(0x5D)), 5, 2);
-        ((TWindowSubComCard *)(*(u32 *)((s8 *)this + 0x2C)))->calc_window_size();
-        ((TLobby *)(*(u32 *)((s8 *)this + 0x2C)))->set_loss_flag();
-        ((TWindowSubComCardList *)(*(u32 *)((s8 *)this + 0x2C)))->set_selected_index(2);
+        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)(*(uaddr *)((s8 *)this + 0x2C)), (int)(get_message_text(0x5B)), 5, 0);
+        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)(*(uaddr *)((s8 *)this + 0x2C)), (int)(get_message_text(0x5C)), 5, 1);
+        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)(*(uaddr *)((s8 *)this + 0x2C)), (int)(get_message_text(0x5D)), 5, 2);
+        ((TWindowSubComCard *)(*(uaddr *)((s8 *)this + 0x2C)))->calc_window_size();
+        ((TLobby *)(*(uaddr *)((s8 *)this + 0x2C)))->set_loss_flag();
+        ((TWindowSubComCardList *)(*(uaddr *)((s8 *)this + 0x2C)))->set_selected_index(2);
     }
 }
 void TLobby::send_45_and_close_windows(void * _w0) {
@@ -237,8 +237,8 @@ void TLobby::send_45_and_close_windows(void * _w0) {
     ((TWindowCtrl *)local_client_id)->unsuppress_slot();
     TLobby__sub_8024AC20(local_client_id);
 }
-void TLobby::show_ctrl_and_play_effect(void* a0) { ((TWindowCtrl *)(*(int *)&local_client_id))->suppress_slot(); play_player_default_effect__6TLobbyFv((s32)a0); }
-void TLobby::play_default_effect(void* a0) { TObjPlayer__sub_8024ABDC(((*(int *)&local_client_id))); play_player_default_effect__6TLobbyFv((s32)a0); }
+void TLobby::show_ctrl_and_play_effect(void* a0) { ((TWindowCtrl *)(*(saddr *)&local_client_id))->suppress_slot(); play_player_default_effect__6TLobbyFv((saddr)a0); }
+void TLobby::play_default_effect(void* a0) { TObjPlayer__sub_8024ABDC(((*(int *)&local_client_id))); play_player_default_effect__6TLobbyFv((saddr)a0); }
 void play_player_default_effect__6TLobbyFv(s32 _w0) {
     s32 player;
     player = get_player_by_client_id(local_client_id);
@@ -263,10 +263,10 @@ void TObjChallengeRetry::update_destroy_countdown() {
     }
 }
 void TObjChallengeRetry::handle_loss_sequence() {
-    play_player_default_effect__6TLobbyFv((s32)this);
+    play_player_default_effect__6TLobbyFv((saddr)this);
     switch (TLobby__sub_80070DA8()) {
     case 0:
-        play_cue_stream_file((s32)(s32 *)"lose.adx");
+        play_cue_stream_file((saddr)(s32 *)"lose.adx");
         TLobby::send_45_and_close_windows(this);
         close_window_2c();
         sub_80072B70();
@@ -300,15 +300,15 @@ void TObjChallengeRetry::update_challenge_retry() {
         open_loss_menu();
     }
     var_r31 = 0;
-    if (((TWindowMenu *)(*(u32 *)((s8 *)this + 0x2C)))->is_decided() != 0) {
-        selected_menu_value = ((TWindowMenu *)(*(u32 *)((s8 *)this + 0x2C)))->get_selected_value();
+    if (((TWindowMenu *)(*(uaddr *)((s8 *)this + 0x2C)))->is_decided() != 0) {
+        selected_menu_value = ((TWindowMenu *)(*(uaddr *)((s8 *)this + 0x2C)))->get_selected_value();
         if (selected_menu_value == 2) {
             var_r31 = 1;
             goto block_6;
         }
         TLobby::send_challenge_retry_cmd(challenge_retry_cmd_table[selected_menu_value]);
         TLobby::send_45_and_close_windows(this);
-        play_player_default_effect__6TLobbyFv((s32)this);
+        play_player_default_effect__6TLobbyFv((saddr)this);
         this->m_24 = 1;
         *(s32 *)&this->_pad1c = 3;
         return;
@@ -433,7 +433,7 @@ TObjChallengeRetry::~TObjChallengeRetry() {
 void *TObjChallengeRetry__ct(void *challenge_retry, void *parent) {
     __ct__7TObjectFP7TObject(challenge_retry, parent);
     *(s32 **)((s8 *)challenge_retry + 0x18) = __vt__18TObjChallengeRetry;
-    *(s32 *)((s8 *)challenge_retry + 0) = (s32) ((s32)TObjChallengeRetry__class_name);
+    *(s32 *)((s8 *)challenge_retry + 0) = (s32) ((saddr)TObjChallengeRetry__class_name);
     ((TObjChallengeRetry *)challenge_retry)->m_20 = ((s32 (*)(void *))is_challenge_lobby__6TLobbyFv)(challenge_retry);
     ((TObjChallengeRetry *)challenge_retry)->m_24 = 0;
     *(s32 *)((s8 *)challenge_retry + 0x2C) = 0;

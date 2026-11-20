@@ -394,7 +394,7 @@ void clear_shop_tool_flags(void) {
 }
 
 void TLobby::copy_shop_item_entry(s32 arg1, s32 arg2) {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     *(ByteBlock_14 *)(arg0) = *(const ByteBlock_14 *)(shop_tool_stock_buffers[arg2] + (arg1 * 0x14));
 }
 void mark_shop_tool_sold_out(s32 a, s32 b) {
@@ -445,16 +445,16 @@ void TLobby::free_all_rocks() {
 s32 create_named_object(s32 arg0);
 void load_tool_random_rel(void) {
     s32 i;
-    (*(s32 *)&lobby_tool_random_rel) = create_named_object((s32)"ToolRandom.rel");
+    (*(s32 *)&lobby_tool_random_rel) = create_named_object((saddr)"ToolRandom.rel");
     for (i = 0; i < 4; i++) {
         ((s32 *)&shop_tool_stock_buffers)[i] = 0;
     }
     if (is_split_screen() == 1) {
         for (i = 0; i < 4; i++) {
-            ((s32 *)&shop_tool_stock_buffers)[i] = (s32)mem_alloc(0x168);
+            ((s32 *)&shop_tool_stock_buffers)[i] = (saddr)mem_alloc(0x168);
         }
     } else {
-        ((s32 *)&shop_tool_stock_buffers)[0] = (s32)mem_alloc(0x168);
+        ((s32 *)&shop_tool_stock_buffers)[0] = (saddr)mem_alloc(0x168);
     }
     (*(s32 *)&shop_tool_stock_level) = 0;
 }

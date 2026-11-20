@@ -395,7 +395,7 @@ s16 TLobby__sub_803C96B0(u8 *arg0) {
 
 void TLobby::set_field_40_and_notify(s16 arg1) {
     *(s16 *)((s8 *)((u8 *)this) + 0x40) = arg1;
-    trigger_sub_task__6TLobbyFv((int)this->m_next);
+    trigger_sub_task__6TLobbyFv((saddr)this->m_next);
 }
 
 s16 TLobby__sub_803C96E0(Obj_803C96E0 *self, s32 i) {
@@ -569,7 +569,7 @@ void stop_audio_stream(u8 *arg0) {
     }
     TLobby::init_once();
     if ((s32) *(u8 *)((s8 *)arg0 + 2) == 4) {
-        lsc_stop((LscStream*) (*(s32 *)((s8 *)arg0 + 0x94)));
+        lsc_stop((LscStream*) (*(saddr *)((s8 *)arg0 + 0x94)));
         temp_r3_2 = *(void ***)((s8 *)arg0 + 0x14);
         if (temp_r3_2 != NULL) {
             temp_r4_2 = (u8 *)(*temp_r3_2);
@@ -579,7 +579,7 @@ void stop_audio_stream(u8 *arg0) {
     TLobby::init_once();
     dispatch_packet__6TLobbyFv((int) (*(s32 *)((s8 *)arg0 + 0xC)), 0);
     TLobby__sub_803CC030((int) (*(s32 *)((s8 *)arg0 + 0xC)), 0);
-    ((TLobby *)(*(s32 *)((s8 *)arg0 + 4)))->reset_flag();
+    ((TLobby *)(*(saddr *)((s8 *)arg0 + 4)))->reset_flag();
     if ((s32) *(u8 *)((s8 *)arg0 + 2) == 2) {
         temp_r3_3 = *(void ***)((s8 *)arg0 + 0x14);
         if (temp_r3_3 != NULL) {
@@ -600,7 +600,7 @@ void TLobby__sub_803C9DB4(u8 *arg0) {
     TLobby::init_once();
     dispatch_packet__6TLobbyFv((int) (*(s32 *)((s8 *)arg0 + 0xC)), 0);
     TLobby__sub_803CC030((int) (*(s32 *)((s8 *)arg0 + 0xC)), 0);
-    ((TLobby *)(*(s32 *)((s8 *)arg0 + 4)))->reset_flag();
+    ((TLobby *)(*(saddr *)((s8 *)arg0 + 4)))->reset_flag();
     if ((s32) *(u8 *)((s8 *)arg0 + 2) == 2) {
         temp_r3 = *(void ***)((s8 *)arg0 + 0x14);
         if (temp_r3 != NULL) {
@@ -616,7 +616,7 @@ void TLobby__sub_803C9E38(Obj_803C9E38 *arg0, VObj_803C9E38 *arg1) {
     s32 i;
     if (arg0->f8 != NULL) {
         TLobby__sub_803C89C4((u8 *)arg0->f8);
-        TLobby__sub_803C8B38((u8 *)((int)arg0->f8));
+        TLobby__sub_803C8B38((u8 *)((saddr)arg0->f8));
         if (arg0->f14 != NULL) {
             arg0->f14->vt->f14(arg0->f14);
         }
@@ -632,7 +632,7 @@ void TLobby__sub_803C9E38(Obj_803C9E38 *arg0, VObj_803C9E38 *arg1) {
     TLobby::init_once();
     dispatch_packet__6TLobbyFv(arg0->fc, 0);
     TLobby__sub_803CC030(arg0->fc, 0);
-    ((TLobby *)((int)arg0->f4))->reset_flag();
+    ((TLobby *)((saddr)arg0->f4))->reset_flag();
     if ((s32)arg0->f2 == 2) {
         if (arg0->f14 != NULL) {
             arg0->f14->vt->fc(arg0->f14);
@@ -646,7 +646,7 @@ void TLobby__sub_803C9E38(Obj_803C9E38 *arg0, VObj_803C9E38 *arg1) {
     for (i = 0; i < arg0->f3; i++) {
         arg0->objs[i]->vt->f14(arg0->objs[i]);
     }
-    ((TLobby *)(arg0->f4))->set_param_and_notify((int)arg1);
+    ((TLobby *)(arg0->f4))->set_param_and_notify((saddr)arg1);
     arg0->f14 = arg1;
     TLobby__sub_803C0758((u8 *)arg0->f4);
     arg0->f1 = 1;
@@ -716,7 +716,7 @@ void TLobby__sub_803CA194(Obj_803CA194 *arg0) {
     if ((s32)arg0->f0 == 1) {
         if (arg0->f8 != NULL) {
             TLobby__sub_803C89C4((u8 *)arg0->f8);
-            TLobby__sub_803C8B38((u8 *)((int)arg0->f8));
+            TLobby__sub_803C8B38((u8 *)((saddr)arg0->f8));
             if (arg0->f14 != NULL) {
                 arg0->f14->vt->f14(arg0->f14);
             }
@@ -730,9 +730,9 @@ void TLobby__sub_803CA194(Obj_803CA194 *arg0) {
             }
         }
         TLobby::init_once();
-        dispatch_packet__6TLobbyFv((int)arg0->fc, 0);
-        TLobby__sub_803CC030((int)arg0->fc, 0);
-        ((TLobby *)((int)arg0->f4))->reset_flag();
+        dispatch_packet__6TLobbyFv((saddr)arg0->fc, 0);
+        TLobby__sub_803CC030((saddr)arg0->fc, 0);
+        ((TLobby *)((saddr)arg0->f4))->reset_flag();
         if ((s32)arg0->f2 == 2) {
             if (arg0->f14 != NULL) {
                 arg0->f14->vt->fc(arg0->f14);
@@ -750,7 +750,7 @@ void TLobby__sub_803CA194(Obj_803CA194 *arg0) {
         ((TLobby *)(arg0->f4))->reset_entry();
     }
     if (arg0->f8 != NULL) {
-        TLobby__sub_803C8B38((u8 *)((int)arg0->f8));
+        TLobby__sub_803C8B38((u8 *)((saddr)arg0->f8));
     }
     if (arg0->f94 != NULL) {
         lsc_destroy((LscStream*)arg0->f94);

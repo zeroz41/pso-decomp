@@ -142,7 +142,7 @@ void handle_box_drop_directive(void *arg0) {
                 item.init();
                 item.data1.data_u8[0] = data0;
                 item.data1.data_u8[1] = data1;
-                TObjPlayer::drop_meseta_from_slot(req->slot, (s32)&item);
+                TObjPlayer::drop_meseta_from_slot(req->slot, (saddr)&item);
             }
             item.id = id;
             if (item.isValidGroundDrop() != 0) {
@@ -194,7 +194,7 @@ void TLobby::drop_item_from_source(s16 source, int client, s16 room, int slot, f
             row.drop_id_base = 0xFFFF;
             TLobby::apply_table_entry(source, &row);
             ((TItemData *)(&item))->init();
-            TObjPlayer::drop_item(slot, (s32)&item);
+            TObjPlayer::drop_item(slot, (saddr)&item);
             item.id = id;
             if (((TItemData *)(&item))->isValidGroundDrop() != 0) {
                 ((TItemData *)&item)->encode_for_network();
@@ -223,7 +223,7 @@ void process_enemy_drop_request(s8 area, s16 source, int client, s16 room, int s
             row.claim = 0xFFFF;
             apply_by_index__9TObjEnemyFs(source, &row);
             ((TItemData *)(&item))->init();
-            drop_item_from_slot__10TObjPlayerFlll(area, slot, (s32)&item);
+            drop_item_from_slot__10TObjPlayerFlll(area, slot, (saddr)&item);
             item.id = id;
             if (((TItemData *)(&item))->isValidGroundDrop() != 0) {
                 ((TItemData *)&item)->encode_for_network();
@@ -349,8 +349,8 @@ TItemIdCounters::~TItemIdCounters() {
 }
 
 TItemIdCounters::TItemIdCounters() {
-    item_id_counter_table = (s32)mem_alloc(48);
-    item_sync_counter_table = (s32)mem_alloc(48);
+    item_id_counter_table = (saddr)mem_alloc(48);
+    item_sync_counter_table = (saddr)mem_alloc(48);
     TLobby::reset_item_id_counters();
     lbl_805D54E0 = 0;
     build_item_id_mode = 0;

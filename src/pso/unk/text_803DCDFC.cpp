@@ -209,13 +209,13 @@ void init_gx_display(void) {
         addr += 0x2000;
     }
     GXSetTlutRegionCallback((void *)fn_803DD3C8);
-    GXCopyDisp((void *)(*(s32 *)&video_current_framebuffer), 1);
+    GXCopyDisp((void *)(*(saddr *)&video_current_framebuffer), 1);
 }
 #undef rmode
 extern "C" {
 
 void fn_803DD294(void) {
-    VISetNextFrameBuffer((void *) ((*(s32 *)&video_initial_display_framebuffer)));
+    VISetNextFrameBuffer((void *) ((*(saddr *)&video_initial_display_framebuffer)));
     (*(s32 *)&video_current_framebuffer) = (*(s32 *)&video_initial_draw_framebuffer);
     VIFlush();
     VIWaitForRetrace();

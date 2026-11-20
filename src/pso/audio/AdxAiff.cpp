@@ -107,7 +107,7 @@ s32 TLobby::parse_stream_header(void *hdr, void *size) {
     s32 st;
     u8 *e;
     o->m_02 = 1;
-    if ((s32)size < 0x1000) {
+    if ((saddr)size < 0x1000) {
         len = 0;
         st = -1;
     } else if ((e = TLobby__sub_803C2388(p, &rate, &channels, &bits, &frames)) == NULL) {

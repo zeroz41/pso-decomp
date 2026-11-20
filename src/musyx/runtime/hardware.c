@@ -33,7 +33,7 @@ void snd_handle_irq(void) {
     }
     streamCorrectLoops();
     hwIRQEnterCritical();
-    salCtrlDsp((s32)salAiGetDest());
+    salCtrlDsp((saddr)salAiGetDest());
     hwIRQLeaveCritical();
     hwIRQEnterCritical();
     salHandleAuxProcessing();
@@ -379,7 +379,7 @@ u32 hwFrq2Pitch(u32 arg0) {
 }
 
 void hwInitSampleMem(void *self, void *p) {
-    aramInit((u32)p);
+    aramInit((uaddr)p);
 }
 
 void hwSaveSample(Hdr_803BD8A8 **arg0, u32 *arg1) {

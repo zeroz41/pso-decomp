@@ -97,11 +97,11 @@ s32 TUnk_8048E1A4::freeze_shell_hold() {
         }
     }
     *(s32 *)((s8 *)this + 0x334) = 2;
-    p = (s32)spawn_particle_effect((u8 *)this + 0x35C, 0x153);
+    p = (saddr)spawn_particle_effect((u8 *)this + 0x35C, 0x153);
     if (p != 0) {
         attach_particle_model((u8 *)p, (s32)(get_bml_model(technique_effect_bml, 5)), (s32)lbl_805D63B0, 0, 0, 1.0f);
     }
-    p = (s32)spawn_particle_effect((u8 *)this + 0x38, 0x33);
+    p = (saddr)spawn_particle_effect((u8 *)this + 0x38, 0x33);
     if (p != 0) {
         attach_particle_model((u8 *)p, (s32)(get_bml_model(freeze_shell_bml_resource, 0)), (s32)(get_bml_texlist(freeze_shell_bml_resource, 1)), (s32)(get_bml_motion(freeze_shell_bml_resource, 0)), 0, 1.0f);
         ((TParticleCtrl *)p)->set_scale(this->scale.x, this->scale.y);
@@ -178,7 +178,7 @@ void TUnk_8048E1A4::render() {
         ok = p->m8(400.0f, 20.0f);
     }
     if (ok != 0) {
-        get_bml_texlist((s32)((void *)freeze_shell_bml_resource), 1);
+        get_bml_texlist((saddr)((void *)freeze_shell_bml_resource), 1);
         set_global_param__8TObjFishFl();
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
@@ -282,7 +282,7 @@ void TLobby::destroy_global_singleton() {
 void TLobby::load_freeze_ice_resource() {
     s32 temp_r3;
     s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
+    temp_r3 = (saddr)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &enemy_freeze_ice_resource_descriptor, 0, 0, 0));
@@ -350,7 +350,7 @@ TUnk_8048E1A4::TUnk_8048E1A4(u8 *chara, u8 *arg2) : TObjChara((TObject *)((void 
         ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_344 = 0.0f;
         ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_348 = 0.0f;
         ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_34C = 0.0f;
-        ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_350 = (s32)create_particle_emitter((((u8 *)this) + 0x38), 0x12E);
+        ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_350 = (saddr)create_particle_emitter((((u8 *)this) + 0x38), 0x12E);
         ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_354 = 0;
     } else {
         ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_350 = 0;

@@ -53,7 +53,7 @@ void TLobby::open_scroll_text_window(s32 arg0) {
         lobby_scroll_text_buffer[0xFFF] = 0;
         obj = TObject::operator new(0x54);
         if (obj != 0) {
-            obj = TAdScrollWinGC__ct((TAdScrollWinGC *)obj, (void *)tl_window, 2, (s32)lobby_scroll_text_buffer);
+            obj = TAdScrollWinGC__ct((TAdScrollWinGC *)obj, (void *)tl_window, 2, (saddr)lobby_scroll_text_buffer);
         }
         lobby_scroll_text_window = obj;
     }
@@ -79,7 +79,7 @@ void TLobby::copy_player_records(s32 arg1) {
 struct ByteBlock_100 { u8 bytes[0x100]; };
 void TLobby::copy_player_record(u8 *arg1) {
     *(s32 *)&this->m_name = (s32) *(s32 *)((s8 *)arg1 + 0);
-    *(ByteBlock_100 *)((s32) ((u8 *)this) + 4) = *(const ByteBlock_100 *)((s32) arg1 + 4);
+    *(ByteBlock_100 *)((saddr) ((u8 *)this) + 4) = *(const ByteBlock_100 *)((saddr) arg1 + 4);
     *(u16 *)((s8 *)((u8 *)this) + 0x104) = (u16) *(u16 *)((s8 *)arg1 + 0x104);
     *(u16 *)((s8 *)((u8 *)this) + 0x106) = (u16) *(u16 *)((s8 *)arg1 + 0x106);
     *(u16 *)((s8 *)((u8 *)this) + 0x108) = (u16) *(u16 *)((s8 *)arg1 + 0x108);

@@ -60,7 +60,7 @@ void init_disc_error_messages(void) {
     lbl_805D4EC4 = z;
     disc_error_code = p[-0x55d0];
     p[-0x55d0] = z;
-    TAdTrialModemChkGC__sub_8042EC14((int)p, z);
+    TAdTrialModemChkGC__sub_8042EC14((saddr)p, z);
     fn_8042EF48(0);
     fn_8042ED98(4, disc_error_message_text);
     fn_8042ED98(1, disc_error_insert_disc_text);

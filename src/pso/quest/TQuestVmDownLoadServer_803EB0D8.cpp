@@ -637,7 +637,7 @@ void *TQuestVmDownLoadServer::build_text_node_chain(void *sp, void *a1, s32 a2, 
     n->x6 = a2;
     text += c;
     n->x7 = s->x4;
-    n->x8 = (s32)a1;
+    n->x8 = (saddr)a1;
     n->xc = s->x0;
     n->xe = s->x2;
     n->next = NULL;
@@ -686,7 +686,7 @@ def:
         if (t->x2 != 0x1F) {
             goto def;
         }
-        if (format_number_text_all_modes((s32)&quest_download_scratch_storage + quest_text_cursor_pos, t->x0, base + 0xC, &count) > 0) {
+        if (format_number_text_all_modes((saddr)&quest_download_scratch_storage + quest_text_cursor_pos, t->x0, base + 0xC, &count) > 0) {
             goto build;
         }
         goto def;
@@ -714,7 +714,7 @@ build:
         p += 5;
         while (*p++ != 0) {
         }
-        if ((u32)p & 1) {
+        if ((uaddr)p & 1) {
             p++;
         }
         count--;
@@ -764,7 +764,7 @@ void TQuestVmDownLoadServer__sub_803EC09C(void) {
     N_803EC09C *r;
     N_803EC09C *n;
 
-    if ((u32)(o = ((Ent_803EC09C *)quest_download_slot_chain_table)[quest_text_cursor_pos].list) == 0xFFFFFFFFU) {
+    if ((uaddr)(o = ((Ent_803EC09C *)quest_download_slot_chain_table)[quest_text_cursor_pos].list) == 0xFFFFFFFFU) {
         return;
     }
     qh = NULL;
@@ -904,7 +904,7 @@ void TQuestVmDownLoadServer__sub_803EC460(s32 pos, s32 x) {
     if (e->xc != NULL) {
         return;
     }
-    if ((u32)(o = e->list) == 0xFFFFFFFFU) {
+    if ((uaddr)(o = e->list) == 0xFFFFFFFFU) {
 def:
         e->xc = Default_803EC460(x);
         return;
@@ -926,7 +926,7 @@ def:
         if (t->x2 != 0x1F) {
             goto def;
         }
-        if (TQuestVmDownLoadServer__sub_803EED0C((s32)&quest_download_scratch_storage + pos, t->x0, (s32)(base + 0xC)) > 0) {
+        if (TQuestVmDownLoadServer__sub_803EED0C((saddr)&quest_download_scratch_storage + pos, t->x0, (saddr)(base + 0xC)) > 0) {
             goto build;
         }
         goto def;
@@ -2586,7 +2586,7 @@ void *format_number_text__22TQuestVmDownLoadServerFiiPvi(s32 arg0, s32 arg1, voi
 #pragma inline_depth(4)
 #pragma opt_common_subs off
 inline u32 Call_803EED0C(s32 a, s32 b, s32 c, s32 d) {
-    return ((u32)format_number_text__22TQuestVmDownLoadServerFiiPvi((s32)a, (s32)b, (void *)c, (s32)d));
+    return ((uaddr)format_number_text__22TQuestVmDownLoadServerFiiPvi((s32)a, (s32)b, (void *)c, (s32)d));
 }
 s32 TQuestVmDownLoadServer__sub_803EED0C(s32 arg0, s32 arg1, s32 arg2) {
     if (quest_download_file_handle == -1) {
@@ -2980,7 +2980,7 @@ u8 *TQuestVmDownLoadServer::find_insert_position(s32 key, s32 n, s32 len) {
         p += 5;
         while (*p++ != 0) {
         }
-        if ((u32)p & 1) {
+        if ((uaddr)p & 1) {
             p++;
         }
     }

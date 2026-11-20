@@ -86,7 +86,7 @@ void TLobby::send_subcommand_to_client(u32 flag) {
 void TLobby::send_60_sized() {
     int size = ((u8 *)this)[1] * 4;
     if (TLobby__protocol_instance != 0) {
-        TProtocol__send_60(TLobby__protocol_instance, (int)this, size);
+        TProtocol__send_60(TLobby__protocol_instance, (saddr)this, size);
     }
 }
 
@@ -102,7 +102,7 @@ void send_subcommand(void *cmd) {
     if (src != NULL) {
         var_r3 = src;
         src = var_r31;
-        TProtocol__send_60((int)var_r3, (int)src, (int)len);
+        TProtocol__send_60((saddr)var_r3, (saddr)src, (int)len);
     }
     var_r3 = var_r31;
     dispatching_own_subcommand = 1;
@@ -112,7 +112,7 @@ void send_subcommand(void *cmd) {
 
 void TLobby::update_players() {
     void *var_r31;
-    s32 cmd = (s32)this;
+    s32 cmd = (saddr)this;
 
     if ((s32) TLobby__join_state_flag == 1) {
         send_subcommand((u8 *)cmd);
@@ -151,7 +151,7 @@ s32 TLobby::load_texture_pvm_file(const char *name, s32 arg1) {
     allocated = 0;
     size = ((size + 0x7FF) / 2048) * 2048;
     if (size > 0x40000) {
-        buf = (u32)TQuestVmDownLoadServer::alloc(size);
+        buf = (uaddr)TQuestVmDownLoadServer::alloc(size);
         if (buf == 0) {
             return -1;
         }
@@ -228,7 +228,7 @@ u8 *load_gvm_texture_file(s32 name) {
     }
     size = ((size + 0x7FF) / 2048) * 2048;
     if (size > 0x40000) {
-        big = (u32)TQuestVmDownLoadServer::alloc(size);
+        big = (uaddr)TQuestVmDownLoadServer::alloc(size);
         buf = big;
     } else {
         buf = TLobby::tmp_buf_use_req("LoadPvmFileTls");
@@ -253,7 +253,7 @@ u8 *load_gvm_texture_file(s32 name) {
         ent->filename = str;
         TLanguage__read_cursor += 2;
         if (hdr.flags & 1) {
-            TLanguage::read_into_buffer((s32)str, 0x1C);
+            TLanguage::read_into_buffer((saddr)str, 0x1C);
             str[0x1C] = 0;
         }
         if (hdr.flags & 2) {
@@ -278,7 +278,7 @@ u8 *load_gvm_texture_file(s32 name) {
 int TLanguage::read_file_header(int cursor, void *header) {
     GvmFileHeader *hdr = (GvmFileHeader *)header;
     TLanguage__read_cursor = cursor;
-    TLanguage::read_into_buffer((s32)hdr, 4);
+    TLanguage::read_into_buffer((saddr)hdr, 4);
     hdr->size = TLanguage::read_u32_le();
     hdr->flags = TLanguage::read_u16_le();
     hdr->count = TLanguage::read_u16_le();

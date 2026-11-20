@@ -157,12 +157,12 @@ void lsc_stop(LscStream *lsc_stream) {
     if ((s8) lsc_stream->state != 0) {
         enter_lock__6TLobbyFv(&sp8);
         lsc_stream->state = 0U;
-        if ((u32) (u32)lsc_stream->file_handle != 0U) {
+        if ((u32) (uaddr)lsc_stream->file_handle != 0U) {
             if ((s32) lsc_stream->read_started == 1) {
                 TLobby__sub_803C89C4((u8 *)lsc_stream->file_handle);
                 lsc_stream->read_started = 0U;
             }
-            TLobby__sub_803C8B38((u8 *)((int) ((u32)lsc_stream->file_handle)));
+            TLobby__sub_803C8B38((u8 *)((int) ((uaddr)lsc_stream->file_handle)));
             lsc_stream->file_handle = 0;
         }
         lsc_stream->file_sector_count = 0;
@@ -260,7 +260,7 @@ s32 lsc_enqueue_range(LscStream *lsc_stream, const char *filename, s32 open_mode
 s32 lsc_enqueue_file(LscStream *lsc_stream, const char *filename) {
     AdxStreamFile *file;
     s32 sectors;
-    file = TLobby__sub_803C8BAC(filename, (s32)lsc_stream->stream);
+    file = TLobby__sub_803C8BAC(filename, (saddr)lsc_stream->stream);
     if (file == 0) {
         TLobby::log_printf("E0004: Can not open '%s'", filename);
         return -1;
@@ -292,12 +292,12 @@ void lsc_destroy(LscStream *lsc_stream) {
         } else if ((s8) lsc_stream->state != 0) {
             enter_lock__6TLobbyFv(&sp8);
             lsc_stream->state = 0U;
-            if ((u32) (u32)lsc_stream->file_handle != 0U) {
+            if ((u32) (uaddr)lsc_stream->file_handle != 0U) {
                 if ((s32) lsc_stream->read_started == 1) {
                     TLobby__sub_803C89C4((u8 *)lsc_stream->file_handle);
                     lsc_stream->read_started = 0U;
                 }
-                TLobby__sub_803C8B38((u8 *)((int) ((u32)lsc_stream->file_handle)));
+                TLobby__sub_803C8B38((u8 *)((int) ((uaddr)lsc_stream->file_handle)));
                 lsc_stream->file_handle = 0;
             }
             lsc_stream->file_sector_count = 0;

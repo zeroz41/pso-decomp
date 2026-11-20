@@ -457,7 +457,7 @@ s32 quest_download_request_0x19(s32 *arg0) {
     quest_page_node_index = n - 1;
     strcpy((char *)b, (const char *)get_entry_text((void *)quest_text_cursor_pos, (void *)quest_text_entry_len));
     free_slot_node_chain(quest_text_cursor_pos, 1);
-    ret = TQuestVmDownLoadServer::sum_entry_sizes((s32)((void *)quest_text_cursor_pos), (s32)((void *)quest_text_entry_len));
+    ret = TQuestVmDownLoadServer::sum_entry_sizes((saddr)((void *)quest_text_cursor_pos), (saddr)((void *)quest_text_entry_len));
     quest_text_cursor_pos += quest_text_entry_len;
     if (quest_text_cursor_pos >= quest_text_end) {
         *a = 0;

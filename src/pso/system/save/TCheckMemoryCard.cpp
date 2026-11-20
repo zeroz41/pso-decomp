@@ -148,7 +148,7 @@ void TCheckMemoryCard::create_message_and_menu(u32 text, s32 sel, u32 first_entr
         return;
     }
     if (use_main_ctrl != 0) {
-        message_window = (TWindowMessage *)TWindowMessage::create((s32)check_memory_card_message_pos, check_memory_card_message_size, 1, 4);
+        message_window = (TWindowMessage *)TWindowMessage::create((saddr)check_memory_card_message_pos, check_memory_card_message_size, 1, 4);
     } else {
         message_window = update_window_mode_from_progress__6TLobbyFPv(check_memory_card_message_pos, check_memory_card_message_size);
     }
@@ -166,7 +166,7 @@ void TCheckMemoryCard::create_message_and_menu(u32 text, s32 sel, u32 first_entr
         return;
     }
     if (use_main_ctrl != 0) {
-        menu_window = (TWindowMenu *)create_window_menu((s32)check_memory_card_menu_pos, 2, 4);
+        menu_window = (TWindowMenu *)create_window_menu((saddr)check_memory_card_menu_pos, 2, 4);
     } else {
         menu_window = check_room_seq_4__16TAdChrSelASlotGCFl(check_memory_card_menu_pos, 2);
     }
@@ -178,13 +178,13 @@ void TCheckMemoryCard::create_message_and_menu(u32 text, s32 sel, u32 first_entr
     }
     entry_text = first_entry;
     if (first_entry == 0) {
-        entry_text = (u32)TWindowSubStatusDisp::get_message_10(0x5B);
+        entry_text = (uaddr)TWindowSubStatusDisp::get_message_10(0x5B);
     }
     forward_trade_action_default__16TObjCityMainWarpFPviii(menu_window, entry_text, 5, 0);
     if (sel != -2) {
         entry_text = second_entry;
         if (second_entry == 0) {
-            entry_text = (u32)TWindowSubStatusDisp::get_message_10(0x5C);
+            entry_text = (uaddr)TWindowSubStatusDisp::get_message_10(0x5C);
         }
         forward_trade_action_default__16TObjCityMainWarpFPviii(menu_window, entry_text, 5, 1);
     }

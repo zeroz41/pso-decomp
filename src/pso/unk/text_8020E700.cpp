@@ -247,7 +247,7 @@ void clear_shop_armor_flags(void) {
 }
 
 void TLobby::copy_armor_shop_entry(s32 arg1, s32 arg2) {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     *(ByteBlock_14 *)(arg0) = ((const ByteBlock_14 *)lbl_80513D78[arg2])[arg1];
 }
 
@@ -294,7 +294,7 @@ void TLobby::free_rocks() {
         var_r31 -= 1;
     } while (var_r28 >= 0);
     if (lbl_805D6158 != NULL) {
-        TLobby::free_nodes_with_id((u32)lbl_805D6158);
+        TLobby::free_nodes_with_id((uaddr)lbl_805D6158);
         lbl_805D6158 = (Tbl_8020E934 **)var_r30;
     }
 }
@@ -319,7 +319,7 @@ s32 draw_shop_pool_index(s32 count) {
 
 void load_armor_random_table(void) {
     s32 i;
-    lbl_805D6158 = (Tbl_8020E934 **)create_named_object((s32)"ArmorRandom.rel");
+    lbl_805D6158 = (Tbl_8020E934 **)create_named_object((saddr)"ArmorRandom.rel");
     for (i = 0; i < 4; i++) {
         lbl_80513D78[i] = 0;
     }

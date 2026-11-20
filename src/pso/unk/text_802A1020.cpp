@@ -82,7 +82,7 @@ s32 verify_game_file_integrity(void) {
         if (file_integrity_table[i].size <= 1000000) {
             buf = load_disc_file(file_integrity_table[i].file);
             if (buf == NULL) {
-                TAdSinglePlyChrSelectGC::safe_free((u32)buf);
+                TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
                 lobby_cursor_active_flag = 0;
                 return 0;
             }
@@ -97,7 +97,7 @@ s32 verify_game_file_integrity(void) {
                     }
                 }
             }
-            TAdSinglePlyChrSelectGC::safe_free((u32)buf);
+            TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
             if (~crc != file_integrity_table[i].crc) {
                 lobby_cursor_active_flag = 1;
                 return 1;

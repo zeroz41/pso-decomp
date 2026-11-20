@@ -223,10 +223,10 @@ void check_valid_state__6TLobbyFi(s32 unused) {
 }
 
 int TUnk_804ED7D0::vfunc_76() {
-    return (int)get_state_table(is_handle_valid__10TObjPlayerFv());
+    return (saddr)get_state_table(is_handle_valid__10TObjPlayerFv());
 }
 s32 *TUnk_804ED7D0::get_state_table(s32 _w1) {
-    s32 unused = (s32)this;
+    s32 unused = (saddr)this;
     s32 *var_r3;
     switch (TLobby::is_valid_state((void *)unused, (s32)_w1)) {
     case 0:
@@ -252,14 +252,14 @@ int TUnk_804ED7D0::vfunc_8(s32 arg1, s32 arg2) {
         return 0;
     }
     if (((s32)is_valid_player_motion_variant((void*)arg2)) != 0) {
-        return (int)town_player_motion_clip_index_tables[arg1][arg2];
+        return (saddr)town_player_motion_clip_index_tables[arg1][arg2];
     }
     return 0;
 }
 int TUnk_804ED7D0::vfunc_7(s32, s32) {
     s32 i = ((s32 (*)(void))is_valid_state__6TLobbyFPvi)();
     if (((s32 (*)(void))TLobby__sub_802A7278)() != 0) {
-        return (int)*lbl_804ED728[i];
+        return (saddr)*lbl_804ED728[i];
     }
     return 0;
 }
@@ -269,7 +269,7 @@ s32 set_flag_1_at_6c84__6TLobbyFv();
 
 int TUnk_804ED7D0::vfunc_6(s32, s32, s32) { return 1; }
 int TUnk_804ED7D0::vfunc_5(s32) {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     if (set_flag_1_at_6c84__6TLobbyFv() == 0) {
         TLobby::init_object_flag();
         ((TUnk_804DDD28 *)arg0)->load_action_motion_pairs(0, 0, 0);
@@ -283,7 +283,7 @@ int TUnk_804ED7D0::vfunc_5(s32) {
 
 void TLobby::free_singleton_805D6C80() {
     if ((u32) (*(u32 *)&lbl_805D6C80) != 0U) {
-        mem_free((void*)(*(u32 *)&lbl_805D6C80));
+        mem_free((void*)(*(uaddr *)&lbl_805D6C80));
         (*(u32 *)&lbl_805D6C80) = 0U;
     }
 }
@@ -291,7 +291,7 @@ void TLobby::free_singleton_805D6C80() {
 void alloc_work_buffer__6TLobbyFv(void);
 
 void alloc_work_buffer__6TLobbyFv(void) {
-    lbl_805D6C80 = (s32)mem_alloc(0x1C0000);
+    lbl_805D6C80 = (saddr)mem_alloc(0x1C0000);
 }
 
 
@@ -326,7 +326,7 @@ int TUnk_804ED7D0::vfunc_11() { return (IVS(this)) == 0; }
 int TUnk_804ED7D0::vfunc_10() { return (CVS(this)) == 0; }
 
 int TUnk_804ED7D0::vfunc_13() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     return (u8) (((s32)IVS((void*)arg0)) == 1);
 }
 

@@ -312,7 +312,7 @@ void TLobby::start_udp_test_game() {
     Msg_801A3CFC msg;
     ((TLobby *)((u8 *)&lobby_udp_test_game_entries[0]))->bswap_udp_test_header();
     ((TLobby *)((u8 *)&lobby_udp_test_game_entries[1]))->bswap_udp_test_header();
-    ((TLobby *)((s32)&msg))->construct_entry_array();
+    ((TLobby *)((saddr)&msg))->construct_entry_array();
     memset(&msg, 0, 0x114);
     msg.f104 = local_client_id;
     msg.f105 = TLobby__designated_client_id;
@@ -333,7 +333,7 @@ void TLobby::start_udp_test_game() {
 }
 
 s32 TLobby::construct_entry_array() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     __construct_array((void *)(arg0 + 0x84), (void *)TLobby__sub_8013A23C, 0, 0x20, 4);
     return arg0;
 }

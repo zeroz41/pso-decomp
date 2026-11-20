@@ -1290,7 +1290,7 @@ f32 TItemData::get_armor_set_multiplier(u8 *arg1) {
     case 24:
         found = 0;
         for (i = 0; i != 12 && found != 1; i++) {
-            p = (s32)get_player_by_client_id(i);
+            p = (saddr)get_player_by_client_id(i);
             if ((u32)p != 0) {
                 p = ((TItemData *)p)->get_item_field_2();
                 if ((u32)p != 0) {
@@ -1306,7 +1306,7 @@ f32 TItemData::get_armor_set_multiplier(u8 *arg1) {
     case 25:
         hit = 0;
         for (j = 0; j != 12 && hit != 1; j++) {
-            p = (s32)get_player_by_client_id(j);
+            p = (saddr)get_player_by_client_id(j);
             if ((u32)p != 0) {
                 p = ((TItemData *)p)->get_item_field_2();
                 if ((u32)p != 0) {
@@ -1322,7 +1322,7 @@ f32 TItemData::get_armor_set_multiplier(u8 *arg1) {
     case 26:
         hit2 = 0;
         for (k = 0; k != 12 && hit2 != 1; k++) {
-            p = (s32)get_player_by_client_id(k);
+            p = (saddr)get_player_by_client_id(k);
             if ((u32)p != 0) {
                 p = ((TItemData *)p)->get_item_field_2();
                 if ((u32)p != 0) {
@@ -1443,7 +1443,7 @@ f32 TItemData::get_set_bonus_multiplier(s32 player) {
 
 void TItemData::apply_equip_effects(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5) {
 
-    if ((arg1 != 0) || (arg1 = (s32)get_player_by_client_id(local_client_id), ((arg1 == 0) == 0))) {
+    if ((arg1 != 0) || (arg1 = (saddr)get_player_by_client_id(local_client_id), ((arg1 == 0) == 0))) {
         get_set_bonus_multiplier(arg1);
         calc_clock_bonus__9TItemDataFPv(this, arg1);
         switch ((s32) (*(u8 *)((s8 *)this + 0))) {
@@ -1653,7 +1653,7 @@ s32 TItemData::calc_buy_price() {
             return get_item_description_text(0x1F4);
         }
     }
-    return (s32)lbl_805D2B10;
+    return (saddr)lbl_805D2B10;
 }
 }
 
@@ -1671,7 +1671,7 @@ s32 format_item_description(u8 *item) {
         } else {
             name = p->name;
             if (name == 0x1F4) {
-                return (s32)lbl_805D2B10;
+                return (saddr)lbl_805D2B10;
             }
             if (item[0] == 0) {
                 if (TItemData::is_rare_item(item) != 0 && ((TItemData *)item)->check_item_flags() == 0) {
@@ -1683,7 +1683,7 @@ s32 format_item_description(u8 *item) {
                 if (name < 0x2E2) {
                     if (p != NULL && out != NULL && p->stat != 0x1C) {
                         sprintf(out, (char *)get_item_description_text(name), p->amount + TItemData::get_field6_bswap(item));
-                        return (s32)out;
+                        return (saddr)out;
                     }
                 } else {
                     format = (char *)get_item_description_text(name);
@@ -1695,9 +1695,9 @@ s32 format_item_description(u8 *item) {
         if (format != NULL) {
             sprintf(out, format, ((TItemData *)item)->get_packed_value());
         }
-    return (s32)out;
+    return (saddr)out;
     }
-    return (s32)lbl_805D2B10;
+    return (saddr)lbl_805D2B10;
 }
 
 void TItemData::format_item_name(char *buf) {

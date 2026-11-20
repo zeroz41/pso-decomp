@@ -206,7 +206,7 @@ s32 get_card_window_area__6TLobbyFv(void) {
     return get_character_save_record(0xFFFF) + 0x2050;
 }
 void TLobby::set_short_mail_text() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     u8 *temp_r31;
     temp_r31 = (u8 *)(get_character_save_record((0xFFFFU)) + 0x2050);
     TWindowSubComCard::mask_profanity_words((char *)arg0, (char *)get_shared_text_buffer());
@@ -252,8 +252,8 @@ void TLobby__sub_8001DBD8(s32 _w0) {
     auto_reply_flags = 0;
 }
 
-void TLobby::forward_8001DBD8(void* p) { TLobby__sub_8001DBD8((s32)p); }
-void TLobby__sub_8001DC04(void* p) { TLobby__sub_8001DBD8((s32)p); }
+void TLobby::forward_8001DBD8(void* p) { TLobby__sub_8001DBD8((saddr)p); }
+void TLobby__sub_8001DC04(void* p) { TLobby__sub_8001DBD8((saddr)p); }
 
     extern int TLobby__lobby_instance;
 
@@ -347,7 +347,7 @@ void load_battle_param_entry(void) {
       }
 
     }
-    ((TLobby *)(new_var->pkts))->move_data((void *) ((((s32) file) + 0x3600) + (idx * 0x1200)), sizeof(dst->pkts));
+    ((TLobby *)(new_var->pkts))->move_data((void *) ((((saddr) file) + 0x3600) + (idx * 0x1200)), sizeof(dst->pkts));
     {
       Pkt_8001DC30 *p = new_var->pkts;
       s32 i;
@@ -358,7 +358,7 @@ void load_battle_param_entry(void) {
       }
 
     }
-    ((TLobby *)(new_var->sw))->move_data((void *) ((((s32) file) + 0x7E00) + (idx * 0xC00)), sizeof(dst->sw));
+    ((TLobby *)(new_var->sw))->move_data((void *) ((((saddr) file) + 0x7E00) + (idx * 0xC00)), sizeof(dst->sw));
     {
       s32 i;
       Sw_8001DC30 *p = new_var->sw;
@@ -369,7 +369,7 @@ void load_battle_param_entry(void) {
       }
 
     }
-    ((TLobby *)(new_var->pairs))->move_data((void *) ((((s32) file) + 0xAE00) + (1152 * (4 * idx))), sizeof(dst->pairs));
+    ((TLobby *)(new_var->pairs))->move_data((void *) ((((saddr) file) + 0xAE00) + (1152 * (4 * idx))), sizeof(dst->pairs));
     {
       s32 i;
       Pair_8001DC30 *p = new_var->pairs;
@@ -604,11 +604,11 @@ void alloc_battle_param_tables(void) {
     for (i = 0; i < 0x3d80; i++) {
         buf[i] = 0;
     }
-    TLobby__battle_parameter_buffer = (u32)buf;
-    battle_param_stats = (s32)buf;
-    TLobby__battle_param_attacks = (s32)(buf + 0xd80);
-    TLobby__battle_param_resistances = (s32)(buf + 0x1f80);
-    battle_param_movement = (s32)(buf + 0x2b80);
+    TLobby__battle_parameter_buffer = (uaddr)buf;
+    battle_param_stats = (saddr)buf;
+    TLobby__battle_param_attacks = (saddr)(buf + 0xd80);
+    TLobby__battle_param_resistances = (saddr)(buf + 0x1f80);
+    battle_param_movement = (saddr)(buf + 0x2b80);
     TLobby::clamp_difficulty(game_difficulty_selection);
     TLobby::get_instance();
     ((s32 (*)(void))set_difficulty__6TLobbyFi)();
@@ -667,7 +667,7 @@ void set_clock_offset_from_server_time(TLobby *packet) {
 }
 
 s32 TLobby::calc_time_from_hms() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
   s32 *new_var;
   int new_var2;
   s32 temp_r31_2;

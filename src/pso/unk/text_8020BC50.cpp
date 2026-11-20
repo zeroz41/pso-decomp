@@ -70,7 +70,7 @@ void TLobby__sub_8020BCE4(void) {
     get_current_floor();
     n = get_object_type__6TLobbyFi();
     for (i = 0; i < n; i++, p++) {
-        u32 r = (u32)find_entity_by_id(p->fA);
+        u32 r = (uaddr)find_entity_by_id(p->fA);
         if (r != 0) {
             obj_setFlags30(r, 0x800);
         }

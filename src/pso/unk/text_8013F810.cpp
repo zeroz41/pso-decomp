@@ -68,7 +68,7 @@ s32 TLobby__sub_8013F810(TLobby *lz, u32 *data, s32 len, u8 *out) {
     u8 c2;
     bswap_32(hdr);
     bswap_32(hdr + 1);
-    lz->set_range((int)(data + 2), hdr[1], (int)out);
+    lz->set_range((saddr)(data + 2), hdr[1], (saddr)out);
     for (i = 0; i < 0xFEE; i++) {
         ((Lz_8013F99C *)lz)->text_buf[i] = 0;
     }
@@ -126,7 +126,7 @@ s32 TLobby::lz_compress_packet(void *src, s32 size, s32 *hdr) {
     s32 t1;
     out = hdr;
     t0 = TLobby__sub_803DF1CC();
-    this->set_range((int)src, size, (s32)(hdr + 2));
+    this->set_range((saddr)src, size, (saddr)(hdr + 2));
     this->init_lookup_tables();
     code_buf[0] = 0;
     mask = code_buf_ptr = 1;

@@ -177,8 +177,8 @@ s32 TGStream::load_sct_file(const char *name, u8 *dst) {
             TLobby::debug_print("TGStream::gsSctLoadFile Malloc Failed.");
         }
         stream.read_sectors_sync(sectors, buf);
-        prs_decompress_buffer((s32)buf, (s32)dst);
-        TAdSinglePlyChrSelectGC::safe_free((u32)buf);
+        prs_decompress_buffer((saddr)buf, (saddr)dst);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
         return stream.archive_entry->decoded_size;
     }
     stream.read_sectors_sync(sectors, dst);
@@ -186,8 +186,8 @@ s32 TGStream::load_sct_file(const char *name, u8 *dst) {
 }
 
 void TGStream::read_sectors_sync(s32 sector_count, void *destination) {
-    TLobby::read_checked_align(adxf_handle, sector_count, (s32)destination);
-    TLobby::set_read_params(&adxf_handle, (int)sector_count, (int)destination);
+    TLobby::read_checked_align(adxf_handle, sector_count, (saddr)destination);
+    TLobby::set_read_params(&adxf_handle, (int)sector_count, (saddr)destination);
 loop_1:
     if (adxf_get_stat(adxf_handle) != 3) {
         TLobby::run_frame();
@@ -249,8 +249,8 @@ void open_gsl_archive(char *name) {
         TItemDrop__gsl_adxf_handle = adxf_open__6TLobbyFUii(name, 0);
         if (TItemDrop__gsl_adxf_handle != 0) {
             TGStream::reset();
-            TLobby::read_checked_align(TItemDrop__gsl_adxf_handle, 6, (s32)gsl_archive_entries);
-            TLobby::set_read_params(&TItemDrop__gsl_adxf_handle, 6, (int)gsl_archive_entries);
+            TLobby::read_checked_align(TItemDrop__gsl_adxf_handle, 6, (saddr)gsl_archive_entries);
+            TLobby::set_read_params(&TItemDrop__gsl_adxf_handle, 6, (saddr)gsl_archive_entries);
             for (;;) {
                 if (((s32 (*)(u32))adxf_get_stat)(TItemDrop__gsl_adxf_handle) == 3) {
                     break;

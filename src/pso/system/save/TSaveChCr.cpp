@@ -62,7 +62,7 @@ extern void *tl_03;
 
 void TSaveChCr::destroy_if_keyboard_idle() { if (this->timer == 0) { queue_destruction(); request_queued_main_phase(); } }
 void TSaveChCr::sub_80339B94() { close_window(); }
-void TSaveChCr::save_if_dirty() { if (sub_80339F30() != 0) { set_state((s32)((void*)4)); } }
+void TSaveChCr::save_if_dirty() { if (sub_80339F30() != 0) { set_state((saddr)((void*)4)); } }
 void TSaveChCr::close_and_advance_to_3() { close_and_advance((void*)3); }
 void TSaveChCr::update_save_status() {
     s32 var_r3;
@@ -71,7 +71,7 @@ void TSaveChCr::update_save_status() {
         this->m_28 = 0;
         this->card_status = poll_memcard_status();
         if ((s32) this->card_status != 0) {
-            set_state((s32)((void*)(1)));
+            set_state((saddr)((void*)(1)));
             return;
         }
         if (this->mode == 0) {
@@ -80,7 +80,7 @@ void TSaveChCr::update_save_status() {
             var_r3 = sub_8033A138();
         }
         if (var_r3 == 7) {
-            set_state((s32)((void*)(4)));
+            set_state((saddr)((void*)(4)));
             return;
         }
         queue_destruction();
@@ -96,16 +96,16 @@ void TSaveChCr::update_save_state() {
     temp_r4 = this->card_status;
     if (!(temp_r4 & 2)) {
         if (temp_r4 & 1) {
-            if ((u32) this->owned_window == 0U) {
+            if ((uaddr) this->owned_window == 0U) {
                 close_and_advance(0);
             }
         } else {
             if (temp_r4 & 4) {
-                set_state((s32)((void*)(1)));
+                set_state((saddr)((void*)(1)));
                 return;
             }
             if (temp_r4 == 0) {
-                set_state((s32)((void*)(2)));
+                set_state((saddr)((void*)(2)));
             }
         }
     }
@@ -162,16 +162,16 @@ s32 TSaveChCr::sub_80339F30() {
     return creation_buttons_pressed(4) ? 1 : 0;
 }
 
-void TSaveChCr::close_and_advance(void* a1) { close_window(); set_message_by_index((s32)a1); }
+void TSaveChCr::close_and_advance(void* a1) { close_window(); set_message_by_index((saddr)a1); }
 void TSaveChCr::set_message_by_index(s32 arg1) {
     SaveChCrMessageText texts[4] = {{0x20, 0}, {0xB, 0x62}, {0xB, 0xC}, {0xB, 0xB}};
     SaveChCrMessageText *text = &texts[arg1];
     open_message_window((u32)get_localized_text_entry(text->group, text->entry));
 }
 void TSaveChCr::open_message_window(u32 arg1) {
-    if ((u32) this->owned_window == 0U) {
+    if ((uaddr) this->owned_window == 0U) {
         *(u32 *)&this->owned_window = update_window_mode_from_progress__6TLobbyFPv(&save_ch_cr_message_window_pos, &save_ch_cr_message_window_size);
-        if ((u32) this->owned_window != 0U) {
+        if ((uaddr) this->owned_window != 0U) {
             if (arg1 != 0U) {
                 ((TWindowMessage *)(this->owned_window))->append_line(arg1, 3);
             }
@@ -273,7 +273,7 @@ TSaveChCr::TSaveChCr(TObject *parent, s32 mode) : TObject(parent) {
 }
 
 void *TSaveChCr::create(void *arg0) {
-    return new TSaveChCr((TObject *)tl_03, (s32)arg0);
+    return new TSaveChCr((TObject *)tl_03, (saddr)arg0);
 }
 
 // Per-state actions of TSaveChCr: the first runs when set_state enters the

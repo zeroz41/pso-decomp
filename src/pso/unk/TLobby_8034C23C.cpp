@@ -35,7 +35,7 @@ saddr TLobby::get_card_window_field() {
     return get_character_save_record(0xFFFF) + 0x20FC;
 }
 void TLobby::set_info_board_text() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     u8 *temp_r31;
     temp_r31 = (u8 *)(get_character_save_record((0xFFFFU)) + 0x20FC);
     TWindowSubComCard::mask_profanity_words((char *)arg0, (char *)get_shared_text_buffer());

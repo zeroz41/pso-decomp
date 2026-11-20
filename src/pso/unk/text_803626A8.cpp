@@ -108,9 +108,9 @@ void TObjEneEpsilonGuard::load_assets() {
         p = load_resource_from_descriptor(p, 1, &TObjEneEpsilonGuard__resource_descriptor, 0, 0, 0);
     }
     lbl_805D6FA0 = p;
-    p = (u8 *)new TUnk_8048FA00((s32)(get_bml_model(lbl_805D6FA0, 5)));
+    p = (u8 *)new TUnk_8048FA00((saddr)(get_bml_model(lbl_805D6FA0, 5)));
     lbl_805D6FA4 = p;
-    p = (u8 *)new TUnk_8048FA00((s32)(get_bml_model(lbl_805D6FA0, 6)));
+    p = (u8 *)new TUnk_8048FA00((saddr)(get_bml_model(lbl_805D6FA0, 6)));
     lbl_805D6FA8 = p;
     lbl_805D6F80 = (saddr)TLobby::register_boss(0x23);
     lbl_805D6F84 = (saddr)TLobby::dispatch_shared_handler_b(0x23);
@@ -147,7 +147,7 @@ void TObjEneEpsilonGuard::free_shared_resources() {
         (*(V_8036274C * *)&lbl_805D6FA8) = NULL;
     }
     if ((*(u32 *)&lbl_805D6FA0) != 0) {
-        free_bin_model_request((void *)(*(u32 *)&lbl_805D6FA0), 1);
+        free_bin_model_request((void *)(*(uaddr *)&lbl_805D6FA0), 1);
         (*(u32 *)&lbl_805D6FA0) = 0;
     }
 }

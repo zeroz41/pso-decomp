@@ -44,7 +44,7 @@ void rotate_matrix_x(Matrix34* matrix, s32 angle) {
         if (matrix == NULL) selected = (Matrix34*)current_matrix;
         else selected = matrix;
         PSMTXRotRad(&rotation, 'x', (f32)((9.587378008291125e-05) * (f64)angle));
-        PSMTXConcat((int)selected, (int)&rotation, (int)selected);
+        PSMTXConcat((saddr)selected, (saddr)&rotation, (saddr)selected);
     }
 }
 
@@ -129,7 +129,7 @@ void TObjPlayer::concat_quaternion_rotation() {
     q.y = arg0[2];
     q.z = arg0[3];
     PSMTXQuat(sp18, &q);
-    PSMTXConcat(current_matrix, (int)sp18, current_matrix);
+    PSMTXConcat(current_matrix, (saddr)sp18, current_matrix);
 }
 
 void TObjPlayer::apply_quat_rotation(f32 farg0) {
@@ -141,7 +141,7 @@ void TObjPlayer::apply_quat_rotation(f32 farg0) {
     q.y = arg0[1];
     q.z = arg0[2];
     PSMTXQuat(sp18, &q);
-    PSMTXConcat(current_matrix, (int)sp18, current_matrix);
+    PSMTXConcat(current_matrix, (saddr)sp18, current_matrix);
 }
 
 // {0.0f, 0.0f}: rotate_vector_by_current_matrix pairs the first with z so the translation column drops out
@@ -272,7 +272,7 @@ s32 TObjPlayer__sub_803D9E38(s32 *arg0, u32 arg1, s32 *arg2, u32 *arg3) {
             temp_r4 = (s32 *)(*(s32 **)((s8 *)sp8 + 0xC));
             *(s32 *)((s8 *)temp_r4 + 0x24) = (s32) (*(s32 *)((s8 *)temp_r4 + 0x24) + 1);
             *(s32 *)((s8 *)sp8 + 0x14) = (s32) *(s32 *)((s8 *)temp_r29 + 0x14);
-            TObjPlayer__sub_803DAD24((int)sp8, (int)temp_r4);
+            TObjPlayer__sub_803DAD24((int)sp8, (saddr)temp_r4);
             goto block_7;
         }
         temp_r0 = record_array_ptr + (record_index * 0x18);

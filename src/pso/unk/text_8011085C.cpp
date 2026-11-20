@@ -12,7 +12,7 @@ void fn_8011085C(u8 *arg0, s32 arg1) {
         temp_r5 = *(s32 *)((s8 *)temp_r6 + temp_r7);
         if (temp_r5 != 0) {
             *(s32 *)((s8 *)temp_r6 + temp_r7) = temp_r5 - 1;
-            if ((s32) *(s32 *)((s8 *)(*(s32 *)((s8 *)arg0 + 0x20)) + temp_r7) == 0) {
+            if ((s32) *(s32 *)((s8 *)(*(saddr *)((s8 *)arg0 + 0x20)) + temp_r7) == 0) {
                 temp_r12 = *(s32 (**)(s32))((s8 *)arg0 + 0x28);
                 if (temp_r12 != NULL) {
                     temp_r12(arg1);
@@ -27,7 +27,7 @@ void fn_801108C8(u8 *arg0, s32 arg1) {
     s32 temp_r4;
     if (arg1 < (s32) *(s32 *)((s8 *)arg0 + 0x1C)) {
         temp_r31 = arg1 * 4;
-        if ((s32) *(s32 *)((s8 *)(*(s32 *)((s8 *)arg0 + 0x20)) + temp_r31) == 0) {
+        if ((s32) *(s32 *)((s8 *)(*(saddr *)((s8 *)arg0 + 0x20)) + temp_r31) == 0) {
             temp_r12 = *(s32 (**)(s32))((s8 *)arg0 + 0x24);
             if (temp_r12 != NULL) {
                 temp_r12(arg1);

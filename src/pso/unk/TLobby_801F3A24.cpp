@@ -216,7 +216,7 @@ loop_1:
         bswap_32((u32 *)&spC);
         bswap_32((u32 *)&sp8);
         if ((sp14 == 3) && (spC == arg0)) {
-            return TLobby::add_player(spC, (s32)(var_r31 + 0x10), sp8) != 0;
+            return TLobby::add_player(spC, (saddr)(var_r31 + 0x10), sp8) != 0;
         }
         if (sp14 != 0) {
             var_r31 += sp10;

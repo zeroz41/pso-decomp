@@ -703,7 +703,7 @@ inline CvFsDevIf *cvfs_add_device(char *name, CvFsDevIf *dev) {
     if (k == 32) {
         return NULL;
     }
-    cvfs_entry_table[k].a = (u32)dev;
+    cvfs_entry_table[k].a = (uaddr)dev;
     memcpy(cvfs_entry_table[k].name, name, strlen(name) + 1);
     return dev;
 }

@@ -811,7 +811,7 @@ s32 TQuestVmDownLoadServer::count_matching_name_prefix(s32 arg0, u8 *arg1) {
 #pragma pop
 
 s32 TQuestVmDownLoadServer::has_name_mismatch(u8 *arg1) {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     s32 i = match_803E7E3C(((Name_803E7E3C *)&quest_name_index_table)[arg0 + 1], arg1);
     if (arg1[i] == 0) {
         return 0;
@@ -1127,7 +1127,7 @@ LAYOUT_ASSERT(RecoveredGlobal_803E875C_lbl_8058DE08_size, sizeof(RecoveredGlobal
 #pragma push
 #pragma opt_common_subs off
 void TQuestVmDownLoadServer::set_file_info_name() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     strcpy((char *)&(*(RecoveredGlobal_803E875C_lbl_8058DE08 *)&quest_vm_download_server_file_info).value, (const char *)arg0);
 }
 #pragma pop
@@ -1137,7 +1137,7 @@ s32 TQuestVmDownLoadServer__sub_803E8788(int _w0, void * _w1, int _w2) {
 }
 
 s32 TQuestVmDownLoadServer::aram_read_thunk(u32 arg1, int _w2) {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     return TQuestVmDownLoadServer::aram_dma_read((void *)arg0, (void *)arg1, (int)_w2);
 }
 

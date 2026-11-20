@@ -451,7 +451,7 @@ void TLobby::set_encoded_name_and_color(u8 *arg0, s32 arg1) {
     *(s32 *)((s8 *)&lbl_804DB1F0 + 0x18) = (s32) (arg1 | 0xFF000000);
 }
 void TLobby::set_split_screen_name() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     strncpy(split_screen_player_name, (const char *)arg0, 0x20);
     split_screen_player_name[0x1F] = 0;
 }
@@ -1045,7 +1045,7 @@ void setup_split_screen(void) {
         challenge_retry_object = create_challenge4p__6TLobbyFv();
         split_screen_challenge_created = 1;
         split_screen_flag = 0;
-        ((TLobby *)((s32)"Area00"))->set_split_screen_name();
+        ((TLobby *)((saddr)"Area00"))->set_split_screen_name();
         var_r31 = 0U;
         do {
             player = get_player_by_client_id(var_r31);
@@ -1081,7 +1081,7 @@ void TLobby::copy_struct(u8 *arg1) {
     *(u8 *)((s8 *)arg0 + 1) = (u8) *(u8 *)((s8 *)arg1 + 1);
     *(u8 *)((s8 *)arg0 + 2) = (u8) *(u8 *)((s8 *)arg1 + 2);
     *(u8 *)((s8 *)arg0 + 3) = (u8) *(u8 *)((s8 *)arg1 + 3);
-    *(ByteBlock_C *)((s32) (u8 *)&this->m_flags) = *(const ByteBlock_C *)((s32) arg1 + 4);
+    *(ByteBlock_C *)((saddr) (u8 *)&this->m_flags) = *(const ByteBlock_C *)((saddr) arg1 + 4);
 }
 
 void TLobby::spawn_player_tombstones2() {

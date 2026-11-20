@@ -138,7 +138,7 @@ void TShopGenerator::run_task() {
     }
     if (TRaderMapCore::is_not_split_screen() == 1) {
         for (i = 0; i < 4; i++) {
-            p = (s32)get_player_by_client_id(i);
+            p = (saddr)get_player_by_client_id(i);
             if (p == 0) continue;
             if (((s32 (*)(u8 *, u8 *, f32))is_player_in_service_range__14TShopGeneratorFPUcf)((u8 *)this, (u8 *)p, 20.0f) == 0) continue;
             if (is_slot_active(get_entity_id(p)) == 1) continue;
@@ -153,7 +153,7 @@ void TShopGenerator::run_task() {
     } else {
         s32 q;
         int (*get_slot_flag2)(int);
-        q = (s32)get_player_by_client_id(local_client_id);
+        q = (saddr)get_player_by_client_id(local_client_id);
         if (q == 0) return;
         if (is_slot_active(get_entity_id(q)) == 1) return;
         if (TMedicalCenterMes::get_slot_flag(get_entity_id(q)) == 1) return;
@@ -204,7 +204,7 @@ void THunterGuildSeqOffline__sub_8021E180(s32 arg0) {
 }
 
 void *TShopGenerator__create(void *arg0) {
-    void *o = (void *)new TShopGenerator((s32)arg0);
+    void *o = (void *)new TShopGenerator((saddr)arg0);
     return o;
 }
 }
