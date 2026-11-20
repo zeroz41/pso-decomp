@@ -8,23 +8,23 @@
 #include "pso/npc/TObjNpcLappy.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/task/TObject.h"
 #pragma readonly_strings on
 
 extern "C" {
 
 void *__ct__11TObjControlFP7TObject(void *, void *);
-void *__nw__7TObjectFUl(int);
 
 extern void *tl_04;
 
 void * TObjNpcKenkyu2__create(void *arg0) {
     void *o;
     void *o2;
-    o = __nw__7TObjectFUl(0x20);
+    o = TObject::operator new(0x20);
     if (o != NULL) {
         o = __ct__11TObjControlFP7TObject(o, tl_04);
     }
-    o2 = __nw__7TObjectFUl(0x3B8);
+    o2 = TObject::operator new(0x3B8);
     if (o2 != NULL) {
         o2 = TObjNpcKenkyu2__ct((u8 *)o2, (s32)o, (s32)arg0);
     }
@@ -84,11 +84,11 @@ u8 *TObjNpcKenkyu2__ct(u8 *player, s32 arg1, s32 arg2) {
 void * TObjNpcHosa2__create(void *arg0) {
     void *o;
     void *o2;
-    o = __nw__7TObjectFUl(0x20);
+    o = TObject::operator new(0x20);
     if (o != NULL) {
         o = __ct__11TObjControlFP7TObject(o, tl_04);
     }
-    o2 = __nw__7TObjectFUl(0x3B8);
+    o2 = TObject::operator new(0x3B8);
     if (o2 != NULL) {
         o2 = TObjNpcHosa2__ct((u8 *)o2, (s32)o, (s32)arg0);
     }

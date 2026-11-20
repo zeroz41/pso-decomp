@@ -24,6 +24,8 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/system/vector.h"
+#include "pso/network/protocol/protocol.h"
 
 extern "C" {
 s32 VecCopy__FP3VecPC3Vec(void *, int);
@@ -439,8 +441,6 @@ s32 is_any_teammate_in_state__10TObjPlayerFv(void *self);
 s32 try_send_6x27_use_item(s32, s32, void *);
 void *get_player_by_client_id(s32 i);
 s8 get_cast_technique_level(void *, s16);
-int bswap_16__FPUs(void*);
-int bswap_32__FPUl(void*);
 void update_players__6TLobbyFv(s32 arg0);
 void __ct__7TObjectFP7TObject(void *, void *);
 Tec_80150B90 * calc_technique_parameters(s32, s32, s32);
@@ -1706,7 +1706,7 @@ void set_type__10TNpcPlayerFPvs(void* p, s16 v) { *(s16*)((char*)p + 0x0) = v; }
 
 void set_state__10TNpcPlayerFPvs(void* p, s16 v) { *(s16*)((char*)p + 0x2) = v; }
 
-void TNpcPlayer::byteswap_pos() { bswap_16__FPUs(this); bswap_16__FPUs((void*)((char*)this + 0x2)); }
+void TNpcPlayer::byteswap_pos() { bswap_16((u16 *)this); bswap_16((u16 *)((char*)this + 0x2)); }
 
 void TNpcPlayer::set_state(s32 v) { *(s32*)((char*)this + 0x0) = v; }
 
@@ -1716,7 +1716,7 @@ void TNpcPlayer::set_field2(s16 v) { *(s16*)((char*)this + 0x2) = v; }
 
 void init_6x40_walk_packet(void* a0) { *(float*)((char*)a0 + 0x8) = 0.0f; *(float*)((char*)a0 + 0x4) = 0.0f; *(int*)((char*)a0 + 0xc) = 0; *(unsigned char*)((char*)a0 + 0x0) = 64; *(unsigned char*)((char*)a0 + 0x1) = 4; }
 
-void TNpcPlayer::swap_endian() { ((G_ClientIDHeader *)this)->bswap(); ((VectorXZF *)((char*)this + 0x4))->bswap(); bswap_32__FPUl((char*)this + 0xc); }
+void TNpcPlayer::swap_endian() { ((G_ClientIDHeader *)this)->bswap(); ((VectorXZF *)((char*)this + 0x4))->bswap(); bswap_32((u32 *)((char*)this + 0xc)); }
 
 void TNpcPlayer::sync_from_lobby() { swap_endian(); update_players__6TLobbyFv((s32)this); }
 
@@ -1763,7 +1763,7 @@ void init_6x43_attack_packet(u8 *arg0) {
     *(s8 *)((s8 *)arg0 + 1) = 2;
 }
 
-void bswap_6x43_packet(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16__FPUs((void*)((char*)p + 0x4)); bswap_16__FPUs((void*)((char*)p + 0x6)); }
+void bswap_6x43_packet(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16((u16 *)((char*)p + 0x4)); bswap_16((u16 *)((char*)p + 0x6)); }
 
 void TNpcPlayer::update_lobby() { bswap_6x43_packet(this); update_players__6TLobbyFv((s32)this); }
 
@@ -1774,7 +1774,7 @@ void init_6x44_attack_packet(u8 *arg0) {
     *(s8 *)((s8 *)arg0 + 1) = 2;
 }
 
-void bswap_6x44_packet(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16__FPUs((void*)((char*)p + 0x4)); bswap_16__FPUs((void*)((char*)p + 0x6)); }
+void bswap_6x44_packet(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16((u16 *)((char*)p + 0x4)); bswap_16((u16 *)((char*)p + 0x6)); }
 
 void TNpcPlayer::update_players() { bswap_6x44_packet(this); update_players__6TLobbyFv((s32)this); }
 
@@ -1785,7 +1785,7 @@ void init_6x45_attack_packet(u8 *arg0) {
     *(s8 *)((s8 *)arg0 + 1) = 2;
 }
 
-void bswap_6x45_packet(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16__FPUs((void*)((char*)p + 0x4)); bswap_16__FPUs((void*)((char*)p + 0x6)); }
+void bswap_6x45_packet(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16((u16 *)((char*)p + 0x4)); bswap_16((u16 *)((char*)p + 0x6)); }
 
 void TNpcPlayer::update() { bswap_6x45_packet(this); update_players__6TLobbyFv((s32)this); }
 
@@ -2853,13 +2853,13 @@ void select_path_waypoint__10TNpcPlayerFv(Self_801501A0 *self) {
         clear = ((s32 (*)(void *, Vec *, Vec *, Vec *, Vec *, Vec *))partner_route_around_wall)(self, &self->view->actor->anchor, &hit, &normal, &route, &shortcut);
         if (!(self->flags & 1)) {
             if (clear != 0) {
-                ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->wp, &shortcut);
+                VecCopy(&self->wp, &shortcut);
             } else {
-                ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->wp, &route);
+                VecCopy(&self->wp, &route);
                 self->wp.y = self->dest.y;
                 Vec clipped;
                 if (((s32 (*)(void *, Vec *, Vec *, Vec *))partner_clip_path_point)(self, &self->dest, &self->wp, &clipped) != 0) {
-                    ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->wp, &clipped);
+                    VecCopy(&self->wp, &clipped);
                 }
             }
             self->dir.x = self->dest.x - self->wp.x;
@@ -2879,11 +2879,11 @@ void select_path_waypoint__10TNpcPlayerFv(Self_801501A0 *self) {
                 d1.y = 0.0f;
                 d1.z = self->target.z - actor->pos.z;
                 if (((f32 (*)(void *))vector_length)(&d1) <= 1.5f) {
-                    ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->target, &shortcut);
+                    VecCopy(&self->target, &shortcut);
                     self->flags &= ~2;
                 }
             } else {
-                ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->target, &shortcut);
+                VecCopy(&self->target, &shortcut);
             }
         } else if (self->flags & 2) {
             Vec d2;
@@ -2894,9 +2894,9 @@ void select_path_waypoint__10TNpcPlayerFv(Self_801501A0 *self) {
             if (((f32 (*)(void *))vector_length)(&d2) <= 5.0f) {
                 Vec clipped2;
                 if (((s32 (*)(void *, Vec *, Vec *, Vec *))partner_clip_path_point)(self, &self->view->actor->anchor, &route, &clipped2) != 0) {
-                    ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->target, &clipped2);
+                    VecCopy(&self->target, &clipped2);
                 } else {
-                    ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->target, &route);
+                    VecCopy(&self->target, &route);
                 }
                 self->flags &= ~2;
                 self->s90 = 0;
@@ -2928,15 +2928,15 @@ void select_path_waypoint__10TNpcPlayerFv(Self_801501A0 *self) {
     }
     if (((TNpcPlayer *)(self->view))->get_action_state() & 0x20) {
         if (route_around_object__10TNpcPlayerFv((Self_8014E7A0 *)(self), (Vec *)(&route)) != 0 && self->s8c < 30) {
-            ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->target, &route);
+            VecCopy(&self->target, &route);
         } else {
             if (self->s8d > 15) {
                 self->s8c = 0;
             }
-            ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->target, &midpoint);
+            VecCopy(&self->target, &midpoint);
         }
     } else if (((TNpcPlayer *)(self->view))->get_action_state() & 0x80) {
-        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->target, &midpoint);
+        VecCopy(&self->target, &midpoint);
     } else if (self->s8c >= 15 && self->s8c < 30) {
         Vec d4;
         Vec detour;
@@ -2946,12 +2946,12 @@ void select_path_waypoint__10TNpcPlayerFv(Self_801501A0 *self) {
         d4.y = actor->pos.y - view->v9c.y;
         d4.z = actor->pos.z - view->v9c.z;
         ((void (*)(void *, Vec *, Vec *, Vec *, Vec *))partner_compute_stalled_detour)(self, &actor->pos, &self->dest, &d4, &detour);
-        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->target, &detour);
+        VecCopy(&self->target, &detour);
     } else {
         if (self->s8d > 15) {
             self->s8c = 0;
         }
-        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->target, &midpoint);
+        VecCopy(&self->target, &midpoint);
     }
     self->flags &= ~1;
     self->s90 = 0;
@@ -2989,7 +2989,7 @@ void TNpcPlayer::init_follow_target() {
         arg0->dst.x = arg0->mid->tgt->pos.x + off.x;
         arg0->dst.y = arg0->mid->tgt->pos.y + off.y;
         arg0->dst.z = arg0->mid->tgt->pos.z + off.z;
-        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&arg0->pos, &arg0->mid->tgt->pos);
+        VecCopy(&arg0->pos, &arg0->mid->tgt->pos);
     }
 }
 
@@ -3247,7 +3247,7 @@ void *TNpcPlayer::dt(s16 arg1) {
 bool is_target_line_clear__10TNpcPlayerFPvUs(u8 *arg0, u16 arg1) {
     Stack_8014F728 stack;
     u8 *temp_r3;
-    VecCopy__FP3VecPC3Vec((void *)((void *)&stack.sp8), (int)((void *) (find_active_entity_by_id((void *)arg1) + 0x2FC)));
+    VecCopy((Vec *)(&stack.sp8), (const Vec *)((void *) (find_active_entity_by_id((void *)arg1) + 0x2FC)));
     temp_r3 = (u8 *)(*(u8 **)((s8 *)arg0 + 0x94));
     stack.spC = *(f32 *)((s8 *)temp_r3 + 0x300);
     return ((s32)csnVector((s32)(temp_r3 + 0x2FC), (s32)(&stack.sp8), 0x2100)) == 0;
@@ -3460,7 +3460,7 @@ s32 partner_route_around_wall(Self_8014EE98 *self, Vec *from, Vec *to, Vec *d, V
     out->x = perp.x * s + from->x;
     out->y = from->y;
     out->z = perp.z * s + from->z;
-    VecCopy__FP3VecPC3Vec(&tmp, (int)&self->f74->obj->pos);
+    VecCopy(&tmp, &self->f74->obj->pos);
     if (csnVector((s32)((s32)&tmp), (s32)((s32)&hit), 0x2100) != 0) {
         hit.x = 5.0f * perp.x + hit.x;
         hit.z = 5.0f * perp.z + hit.z;
@@ -3493,7 +3493,7 @@ void partner_compute_stalled_detour(u8 *self, Vec *from, Vec *to, Vec *d, Vec *o
     if (0.0f != vector_length(&dir)) {
         normalize_vector(&dir);
     }
-    VecCopy__FP3VecPC3Vec(&save, (int)&dir);
+    VecCopy(&save, &dir);
     push_matrix_from(identity_matrix);
     rotate_matrix_y(0, 0x4000);
     matrix_mult_vec(0, &dir, &a);
@@ -3509,9 +3509,9 @@ void partner_compute_stalled_detour(u8 *self, Vec *from, Vec *to, Vec *d, Vec *o
         normalize_vector(&diff);
     }
     if (vec3_dot(&diff, &a) > 0.0f) {
-        VecCopy__FP3VecPC3Vec(&dir, (int)&b);
+        VecCopy(&dir, &b);
     } else {
-        VecCopy__FP3VecPC3Vec(&dir, (int)&a);
+        VecCopy(&dir, &a);
     }
     if ((s8)self[0x8C] >= 0x14) {
         out->x = -((20.0f * dir.x) - from->x);
@@ -3613,7 +3613,7 @@ s32 route_around_object__10TNpcPlayerFv(Self_8014E7A0 *self, Vec *out) {
             normalize_vector(&dir);
         }
         calc_box_escape_axis__10TNpcPlayerFv(self, &c0, &c1, &c2, &c3, &self->f78->obj->pos, &axis, &dist);
-        VecCopy__FP3VecPC3Vec(&esc, (int) &axis);
+        VecCopy(&esc, &axis);
         if (vec3_dot(&dir, &esc) < 0.0f) {
             esc.x = -esc.x;
             esc.z = -esc.z;
@@ -3705,7 +3705,7 @@ void calc_box_escape_axis__10TNpcPlayerFv(void *self, Vec *a, Vec *b, Vec *c,
     }
     if (dist2 < dist1) {
         *reach = 10.0f + reach1;
-        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(axis, &first);
+        VecCopy(axis, &first);
     } else if (dist2 == dist1) {
         *reach = 7.0f;
         axis->x = 0.5f * (first.x + second.x);
@@ -3713,7 +3713,7 @@ void calc_box_escape_axis__10TNpcPlayerFv(void *self, Vec *a, Vec *b, Vec *c,
         axis->z = 0.5f * (first.z + second.z);
     } else {
         *reach = 10.0f + reach2;
-        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(axis, &second);
+        VecCopy(axis, &second);
     }
 }
 
@@ -3849,7 +3849,7 @@ void TNpcPlayer::change_ai_state(u32 arg1) {
     switch (arg1) {
     case 0:
         *(s32 *)((s8 *)arg0 + 0x80) = (s32) (*(s32 *)((s8 *)arg0 + 0x80) & 0xFFFFFFCF);
-        VecCopy__FP3VecPC3Vec((void *)((void *) (arg0 + 0xDC)), (int)((void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94) + 0x2FC)));
+        VecCopy((Vec *)(arg0 + 0xDC), (const Vec *)((void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94) + 0x2FC)));
         return;
     case 1:
         *(s32 *)((s8 *)arg0 + 0x80) = (s32) (*(s32 *)((s8 *)arg0 + 0x80) & 0xFFFFFFEF);
@@ -3860,7 +3860,7 @@ void TNpcPlayer::change_ai_state(u32 arg1) {
         *(s32 *)((s8 *)arg0 + 0x80) = (s32) (*(s32 *)((s8 *)arg0 + 0x80) | 0x10);
         return;
     case 8:
-        VecCopy__FP3VecPC3Vec((void *)((void *) (arg0 + 0xDC)), (int)((void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94) + 0x2FC)));
+        VecCopy((Vec *)(arg0 + 0xDC), (const Vec *)((void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94) + 0x2FC)));
         return;
     case 16:
         *(s32 *)((s8 *)arg0 + 0x80) = (s32) (*(s32 *)((s8 *)arg0 + 0x80) & 0xFFFFFFEF);

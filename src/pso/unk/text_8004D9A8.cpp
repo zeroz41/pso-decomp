@@ -219,7 +219,6 @@ struct S_8004DE44 {
 };
 
 extern "C" {
-void __dl__7TObjectFPv(void *);
 extern void *__vt__11TObjDFDemo0[13];
 S_8004DE44 *__dt__11TObjDFDemo0Fv(S_8004DE44 *o, s16 flag);
 S_8004DE44 *__dt__11TObjDFDemo0Fv(S_8004DE44 *o, s16 flag) {
@@ -236,7 +235,7 @@ S_8004DE44 *__dt__11TObjDFDemo0Fv(S_8004DE44 *o, s16 flag) {
         restore_player_cameras();
         __dt__8TObjBaseFv(o, 0);
         if (flag > 0) {
-            __dl__7TObjectFPv(o);
+            TObject::operator delete(o);
         }
     }
     return o;

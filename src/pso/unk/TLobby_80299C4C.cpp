@@ -31,7 +31,6 @@ extern "C" {
 s32 is_quest_active();
 s32 load_floor_sound_bank();
 s32 TLobby__sub_801403B4(s32);
-u32 __nw__7TObjectFUl(s32);
 }
 void init_music_sequencer(s32);
 void init_area_lights(void);
@@ -382,7 +381,7 @@ TObjChallenge4PRetry::TObjChallenge4PRetry(TObject *parent) : TObject(parent) {
 }
 
 void *TObjChallenge4PRetry::create(void *arg0) {
-    void *o = ((void *(*)(int))__nw__7TObjectFUl)(0x34);
+    void *o = TObject::operator new(0x34);
     if (o != NULL) {
         o = __ct__20TObjChallenge4PRetryFP7TObject(o, arg0);
     }

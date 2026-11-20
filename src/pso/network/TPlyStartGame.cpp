@@ -3,6 +3,7 @@
 #include "pso/network/TPlyStartGame.h"
 #include "pso/unk/text_801E051C.h"
 #include "pso/system/byteswap.h"
+#include "pso/network/protocol/protocol.h"
 
 typedef struct TPlyStartGame_801E0580 {
     u32 header;
@@ -11,7 +12,6 @@ typedef struct TPlyStartGame_801E0580 {
 } TPlyStartGame_801E0580;
 
 extern "C" {
-void bswap__13packet_headerFv(void *);
 void bswap__13TPlyStartGameFv(TPlyStartGame_801E0580 *self);
 void copy_game_list_entry(void *, const void *);
 int bswap__16TPlyGuildCardTagFv(void*);
@@ -19,7 +19,7 @@ s32 copy_ply_meet_user_extension(void *, void *);
 
 void bswap__13TPlyStartGameFv(TPlyStartGame_801E0580 *self) {
     int i;
-    bswap__13packet_headerFv(self);
+    ((packet_header *)self)->bswap();
     for (i = 0; i < 4; i++) {
         bswap__13TPlyStartGameFPv(self->entries[i]);
     }
@@ -58,7 +58,7 @@ template <> struct TMenuList<GameListEntry, 64, 1> {
 };
 
 void TMenuList<GameListEntry, 64, 1>::bswap() {
-    bswap__13packet_headerFv(this);
+    ((packet_header *)this)->bswap();
     bswap_game_list_entry(&head[0]);
     for (int i = 0; i < 64; i++) {
         bswap_game_list_entry(&entries[i]);

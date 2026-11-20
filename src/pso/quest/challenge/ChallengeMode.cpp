@@ -609,7 +609,6 @@ void *lbl_8048D108[6] = {
 };
 
 void __dt__7TObjectFv(void *, s32);
-void __dl__7TObjectFPv(void *);
 extern s32 challenge_task;
 
 Obj_80070774 *TLobby__sub_80070774(Obj_80070774 *arg0, s16 arg1) {
@@ -621,7 +620,7 @@ Obj_80070774 *TLobby__sub_80070774(Obj_80070774 *arg0, s16 arg1) {
         challenge_task = 0;
         __dt__7TObjectFv(arg0, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            TObject::operator delete(arg0);
         }
     }
     return arg0;

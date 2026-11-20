@@ -16,7 +16,6 @@ extern "C" {
 
 void *__dt__14TObjNpcBringerFv(void *arg0, s16 arg1);
 void *__ct__11TObjControlFP7TObject(void *, void *);
-void __dl__7TObjectFPv(void *);
 void *__dt__11TObjNpcBaseFv(void *arg0, s16 arg1);
 
 extern void *tl_04;
@@ -42,7 +41,7 @@ void *__dt__14TObjNpcBringerFv(void *npc_base, s16 arg1) {
         *(void ***)((s8 *)npc_base + 0x18) = __vt__14TObjNpcBringer;
         __dt__11TObjNpcBaseFv(npc_base, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(npc_base);
+            TObject::operator delete(npc_base);
         }
     }
     return npc_base;

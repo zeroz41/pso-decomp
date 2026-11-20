@@ -1153,7 +1153,6 @@ struct RecoveredGlobal_80137B50___vt__6TLobby {
 extern "C" {
 s32 __dt__7TObjectFv(void *, int);
 void destroy_all_objects__6TLobbyFv(void);
-s32 __dl__7TObjectFPv(void *);
 extern RecoveredGlobal_80137B50___vt__6TLobby __vt__6TLobby;
 extern s32 TLobby__data_805D4E30;
 extern s32 TLobby__lobby_entered_flag;
@@ -2567,7 +2566,7 @@ u8 *__dt__6TLobbyFv(u8 *object, s16 arg1) {
         TLobby__data_805D4E30 = 0;
         __dt__7TObjectFv(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(object);
+            TObject::operator delete(object);
         }
     }
     return object;
@@ -3160,7 +3159,7 @@ void construct_lobby_players(Rec_801378AC *records, s32 count, int self_id, s32 
         lobby_player_construction_window = NULL;
     }
     sprintf((char *)lbl_80509D3C, lobby_list_block_range_format, TLobby__data_8050AAAC, TLobby__data_805D55AC, TLobby__lobby_number + 1);
-    room = __nw__7TObjectFUl(sizeof(TWindowRoom));
+    room = TObject::operator new(sizeof(TWindowRoom));
     if (room != NULL) {
         room = __ct__11TWindowRoomFPc(room, (char *)lbl_80509D3C);
     }
@@ -3450,7 +3449,7 @@ void run_join_lobby_connect__6TLobbyFi(s32 arg0) {
         reset_controller_input_state();
         getDateStamp((DateStamp *)&date);
         DateToSeconds((DateStamp *)&date, (int *)&TLobby__date_seconds);
-        p = __nw__7TObjectFUl(0x2C);
+        p = TObject::operator new(0x2C);
         if (p != NULL) {
             init_idle_timeout_timer(p, arg0);
         }

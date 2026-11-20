@@ -15,6 +15,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/network/protocol/protocol.h"
 
 
 extern char floor_map_name_acity00[];
@@ -379,52 +380,52 @@ s32 run_floor_initialize_callbacks(s32 arg0) {
 
 void TLobby::update_key_machine() { get_current_floor_area(); ((int (*)(void))run_floor_initialize_callbacks)(); }
 void bswap_enemy_set_row(void *arg0) {
-    ((s32 (*)(s32))bswap_16__FPUs)((s32)arg0);
+    bswap_16((u16 *)arg0);
     bswap_enemy_set_row_fields((void *)((void *)((char *)arg0 + 4)));
 }
 
 void bswap_enemy_set_row_fields(void *arg0) {
-    ((s32 (*)(s32))bswap_16__FPUs)((s32)((void *)((char *)arg0 + 2)));
-    ((s32 (*)(s32))bswap_16__FPUs)((s32)((void *)((char *)arg0 + 4)));
-    ((s32 (*)(s32))bswap_16__FPUs)((s32)((void *)((char *)arg0 + 12)));
-    ((s32 (*)(s32))bswap_16__FPUs)((s32)((void *)((char *)arg0 + 8)));
-    ((s32 (*)(s32))bswap_16__FPUs)((s32)((void *)((char *)arg0 + 10)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 16)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 20)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 24)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 28)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 32)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 36)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 40)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 44)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 48)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 52)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 56)));
-    ((s32 (*)(s32))bswap_16__FPUs)((s32)((void *)((char *)arg0 + 60)));
-    ((s32 (*)(s32))bswap_16__FPUs)((s32)((void *)((char *)arg0 + 62)));
+    bswap_16((u16 *)((void *)((char *)arg0 + 2)));
+    bswap_16((u16 *)((void *)((char *)arg0 + 4)));
+    bswap_16((u16 *)((void *)((char *)arg0 + 12)));
+    bswap_16((u16 *)((void *)((char *)arg0 + 8)));
+    bswap_16((u16 *)((void *)((char *)arg0 + 10)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 16)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 20)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 24)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 28)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 32)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 36)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 40)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 44)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 48)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 52)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 56)));
+    bswap_16((u16 *)((void *)((char *)arg0 + 60)));
+    bswap_16((u16 *)((void *)((char *)arg0 + 62)));
 }
 
 void swap_object_row_endian(void *arg0) {
-    ((s32 (*)(s32))bswap_16__FPUs)((s32)arg0);
+    bswap_16((u16 *)arg0);
     bswap_object_row_fields((void *)((void *)((char *)arg0 + 4)));
 }
 
 void bswap_object_row_fields(void *arg0) {
-    ((s32 (*)(s32))bswap_16__FPUs)((s32)((void *)((char *)arg0 + 2)));
-    ((s32 (*)(s32))bswap_16__FPUs)((s32)((void *)((char *)arg0 + 6)));
-    ((s32 (*)(s32))bswap_16__FPUs)((s32)((void *)((char *)arg0 + 8)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 12)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 16)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 20)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 24)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 28)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 32)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 36)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 40)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 44)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 48)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 52)));
-    ((s32 (*)(s32))bswap_32__FPUl)((s32)((void *)((char *)arg0 + 56)));
+    bswap_16((u16 *)((void *)((char *)arg0 + 2)));
+    bswap_16((u16 *)((void *)((char *)arg0 + 6)));
+    bswap_16((u16 *)((void *)((char *)arg0 + 8)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 12)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 16)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 20)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 24)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 28)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 32)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 36)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 40)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 44)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 48)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 52)));
+    bswap_32((u32 *)((void *)((char *)arg0 + 56)));
 }
 extern "C" {
 

@@ -70,20 +70,18 @@ struct Obj_801DF61C {
 };
 
 extern "C" {
-int bswap_32__FPUl(void* a0);
 s32 bswap_16__FPUs(s32);
 int bswap__13packet_headerFv(void* a0);
 Blk_801DF774 *copy_choice_search_parameters(Blk_801DF774 *d, const Blk_801DF774 *s);
 int __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void*);
 Obj_801DF61C *copy_ply_meet_user_extension(Obj_801DF61C *dst, Obj_801DF61C *src);
 s32 __ct__16TPlyGuildCardTagFv(s32);
-int bswap_32__FPUl(void* a0 = 0);
 }
 
 void bswap_cmd_db_regist_connect_reply(packet_header *arg0) {
     arg0->bswap();
     bswap_ply_smth_pair(((void *)((char *)arg0 + 68)));
-    bswap_32__FPUl((void*)((void *)((char *)arg0 + 76)));
+    bswap_32((u32 *)((char *)arg0 + 76));
 }
 
 s32 construct_cmd_db_regist_connect_reply(s32 arg0) {
@@ -93,7 +91,7 @@ s32 construct_cmd_db_regist_connect_reply(s32 arg0) {
 int bswap_cmd_8a_header(void* p) { return bswap__13packet_headerFv(p); }
 void bswap_cmd_88_body(void* p) { ((packet_header *)p)->bswap(); { int i; for (i = 0; i < 16; i++) { bswap_cmd_88_marker_record((void*)((char*)p + 0x4 + i * 12)); } } }
 
-void bswap_cmd_88_marker_record(void* p) { ((TPlyGuildCardTag *)p)->bswap(); bswap_32__FPUl((char*)p + 0x8); }
+void bswap_cmd_88_marker_record(void* p) { ((TPlyGuildCardTag *)p)->bswap(); bswap_32((u32 *)((char*)p + 0x8)); }
 
 typedef struct RecoveredFields_801DF394_arg0 RecoveredFields_801DF394_arg0;
 typedef struct RecoveredFields_801DF394_arg1 RecoveredFields_801DF394_arg1;
@@ -118,14 +116,14 @@ void* copy_cmd_88_marker_record(void* p, void* a1) { __ct__16TPlyGuildCardTagFRC
 void bswap_cmd_c4_body(void* p) { ((packet_header *)p)->bswap(); { int i; for (i = 0; i < 32; i++) { bswap_cmd_c4_entry((void *)((char*)p + 0x4 + i * 212)); } } }
 
 void bswap_cmd_c4_entry(void *arg0) {
-    bswap_32__FPUl(arg0);
+    bswap_32((u32 *)arg0);
     bswap_cmd_c4_reconnect_command((s32)((s32)((void *)((char *)arg0 + 100))));
     bswap__21TPlyMeetUserExtensionFv((s32)((char *)arg0 + 112));
 }
 
 void bswap_cmd_c4_reconnect_command(s32 arg0) {
-    ((s32)bswap__13packet_headerFv((void*)arg0));
-    ((s32)bswap_32__FPUl((void*)(arg0 + 4)));
+    ((packet_header *)arg0)->bswap();
+    bswap_32((u32 *)(arg0 + 4));
     bswap_16__FPUs(arg0 + 8);
     bswap_16__FPUs(arg0 + 0xA);
 }
@@ -176,9 +174,9 @@ Obj_801DF61C *copy_ply_meet_user_extension(Obj_801DF61C *dst, Obj_801DF61C *src)
 }
 
 void bswap_choice_search_packet(void* p) { ((packet_header *)p)->bswap(); bswap_choice_search_config((char*)p + 0x4); }
-void bswap_choice_search_config(void* p) { bswap_32__FPUl(p); { int i; for (i = 0; i < 5; i++) { bswap_u16_pair_field((void*)((char*)p + 0x4 + i * 4)); } } }
+void bswap_choice_search_config(void* p) { bswap_32((u32 *)p); { int i; for (i = 0; i < 5; i++) { bswap_u16_pair_field((void*)((char*)p + 0x4 + i * 4)); } } }
 
-void bswap_u16_pair_field(void* p) { bswap_16__FPUs((s32)p); bswap_16__FPUs((s32)((void*)((char*)p + 0x2))); }
+void bswap_u16_pair_field(void* p) { bswap_16((u16 *)p); bswap_16((u16 *)((void*)((char*)p + 0x2))); }
 
 Blk_801DF774 *copy_choice_search_parameters(Blk_801DF774 *d, const Blk_801DF774 *s) {
     d->a = s->a;
@@ -193,9 +191,9 @@ void bswap_c0_choice_search_entry(void* p) { bswap_u16_pair_field(p); }
 int bswap_packet_header_cmd_b1(void* p) { return bswap__13packet_headerFv(p); }
 
 void bswap_save_packet(s32 arg0) {
-    ((s32)bswap__13packet_headerFv((void*)arg0));
-    ((s32)bswap_32__FPUl((void*)(arg0 + 4)));
-    ((s32)bswap_32__FPUl((void*)(arg0 + 8)));
+    ((packet_header *)arg0)->bswap();
+    bswap_32((u32 *)(arg0 + 4));
+    bswap_32((u32 *)(arg0 + 8));
 }
 
 void bswap_change_ship_block_packet(void* p) { ((packet_header *)p)->bswap(); ((TPlyGuildCardTag *)((char*)p + 0x4))->bswap(); }

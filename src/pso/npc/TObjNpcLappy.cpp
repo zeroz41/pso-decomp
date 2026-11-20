@@ -17,11 +17,11 @@ extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" void test_flag_256__9TObjCharaFv();
 
 #include "pso/npc/TObjNpcMaleBase.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 
 void *dt__12TObjNpcLappyFPvs(void *arg0, s16 arg1);
-void __dl__7TObjectFPv(void *);
 void *__dt__11TObjNpcBaseFv(void *arg0, s16 arg1);
 
 void TObjNpcBase__ct(void *, void *);
@@ -183,7 +183,7 @@ void *dt__12TObjNpcLappyFPvs(void *npc_base, s16 arg1) {
         *(s32 **)((s8 *)npc_base + 0x18) = (s32 *)__vt__12TObjNpcLappy;
         __dt__11TObjNpcBaseFv(npc_base, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(npc_base);
+            TObject::operator delete(npc_base);
         }
     }
     return npc_base;

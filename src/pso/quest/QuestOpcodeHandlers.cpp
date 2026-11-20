@@ -67,6 +67,7 @@ int qst_label_address(int label);
 #include "pso/boss/dragon/TBoss1Dragon.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/ui/Language.h"
+#include "pso/system/vector.h"
 u8 *qst_code;
 s32 *qst_function_table;
 s32 *qst_registers;
@@ -2344,7 +2345,7 @@ void reset_random_enemies_mode__6TLobbyFv(void) { TLobby::clear_counter(); evt2_
 
 void qst_op_qexit() {
     void *hunter_guild_seq_offline;
-    if ((is_quest_active() == 1) && ((hunter_guild_seq_offline = (void*)((u32 (*)(s32))__nw__7TObjectFUl)(0x28)) != 0U)) {
+    if ((is_quest_active() == 1) && ((hunter_guild_seq_offline = (void*)TObject::operator new(0x28)) != 0U)) {
         ((THunterGuildSeqOffline *)hunter_guild_seq_offline)->init((void *)tl_00, (void *)reset_random_enemies_mode__6TLobbyFv);
     }
 }
@@ -2917,7 +2918,7 @@ void qst_op_send_mail(void) {
     u8 i = (u32)qst_args[0];
     char *src = *(char **)&qst_args[1];
     ((TLobby *)((s32)&tag))->init_guild_card_tag();
-    card = (Card_801EB10C *)__nw__7TObjectFUl(0x10A8);
+    card = (Card_801EB10C *)TObject::operator new(0x10A8);
     if (card != NULL) {
         card = __ct__13TUnk_804CC048FP7TObjectPvPv(card, 0, 0, 0);
     }
@@ -3228,7 +3229,7 @@ void qst_op_set_cmode_rank_override(void) {
     Card_801EBD40 *card;
     s32 arg = (u32)qst_args[0];
     char *src = *(char **)&qst_args[1];
-    card = (Card_801EBD40 *)__nw__7TObjectFUl(0x10A8);
+    card = (Card_801EBD40 *)TObject::operator new(0x10A8);
     if (card != NULL) {
         card = ((Card_801EBD40 *)__ct__13TUnk_804CC048FP7TObjectPvPv(card, 0, 0, 0));
     }
@@ -4054,7 +4055,7 @@ void qst_op_get_difficulty_level_v2(s32 arg0) {
 }
 
 void qst_op_create_bgmctrl() {
-    void* obj = __nw__7TObjectFUl(0x1C);
+    void* obj = TObject::operator new(0x1C);
     if (obj != 0) {
         __ct__13TQuestBgmCtrlFP7TObject(obj, tl_05);
     }
@@ -4932,7 +4933,7 @@ void qst_op_particle_id(u8 first) {
     f32 height = (f32) qst_registers[i];
     s32 actor = (s32)find_entity_by_id(id);
     if (actor != 0) {
-        ((void (*)(Vec *, const Vec *))VecCopy__FP3VecPC3Vec)(&point, (const Vec *) (actor + 0x38));
+        VecCopy(&point, (const Vec *) (actor + 0x38));
         point.y += height;
         create_timed_particle_emitter(&point, effect, 0, lifetime);
     }
@@ -5410,7 +5411,7 @@ void qst_op_list(void) {
     char buf[0x200];
     idx = (u32)qst_args[0];
     text = *(char **)&qst_args[1];
-    list = (List_801F1A0C *)__nw__7TObjectFUl(0x10A8);
+    list = (List_801F1A0C *)TObject::operator new(0x10A8);
     if (list != 0) {
         list = (List_801F1A0C *)((void * (*)(void *, void *, void *, void *))__ct__13TUnk_804CC048FP7TObjectPvPv)(list, 0, 0, 0);
     }

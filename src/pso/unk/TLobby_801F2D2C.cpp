@@ -13,6 +13,7 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/network/protocol/protocol.h"
 
 struct Op_801F2E64 { void (*fn)(s32); u32 pad; };
 
@@ -37,7 +38,6 @@ extern u16 TLobby__data_805D5EAC;
 struct EnteredItemName { s32 value; u8 remaining[0xC]; };
 extern EnteredItemName entered_item_name;
 extern struct Op_801F2E64 qst_opcode_table[];
-int bswap_16__FPUs(void*);
 void init_quest_script_context(Hdr_801F3124 *h, QuestVmContext *c);
 int test_action_mask__10TObjPlayerFl(void*, int);
 int VecCopy__FP3VecPC3Vec(void*);
@@ -180,12 +180,12 @@ LAYOUT_ASSERT(QuestVmContext_size, sizeof(QuestVmContext) == 0x174);
 void init_quest_script_context(Hdr_801F3124 *h, QuestVmContext *c) {
     u32 n;
     u32 i;
-    bswap_32__FPUl(&h->off0);
-    bswap_32__FPUl(&h->off4);
-    bswap_32__FPUl(&h->off8);
-    bswap_16__FPUs(&h->hC);
-    bswap_16__FPUs(&h->hE);
-    bswap_16__FPUs((void*)((u8 *)h + 0x12));
+    bswap_32(&h->off0);
+    bswap_32(&h->off4);
+    bswap_32(&h->off8);
+    bswap_16(&h->hC);
+    bswap_16(&h->hE);
+    bswap_16((u16 *)((u8 *)h + 0x12));
     qst_statistic_id = h->b12;
     c->code = (u8 *)h + h->off0;
     c->function_table = (s32 *)((u8 *)h + h->off4);
@@ -275,13 +275,13 @@ void TLobby__sub_801F34E8(int a0, int a1) { lbl_805D6CD9 = a1; lbl_805D6CDA = (a
 int TLobby__sub_801F34F8(void) {  return TLobby__data_805D6CCC; }
 
 int TLobby__sub_801F3500(void* p) { return VecCopy__FP3VecPC3Vec((char*)p + 0xc0); }
-void TLobby::bswap_4x32() { bswap_32__FPUl(this); bswap_32__FPUl((char*)this + 0x4); bswap_32__FPUl((char*)this + 0x8); bswap_32__FPUl((char*)this + 0xc); }
+void TLobby::bswap_4x32() { bswap_32((u32 *)this); bswap_32((u32 *)((char*)this + 0x4)); bswap_32((u32 *)((char*)this + 0x8)); bswap_32((u32 *)((char*)this + 0xc)); }
 
     extern unsigned char camera_capture_flags;
 void TLobby__sub_801F3568(void) { camera_capture_flags = (camera_capture_flags | 0x10); }
 
 void TLobby::sync_quest_register_and_send() { bswap_header__6TLobbyFPv(this); send_subcommand((u8 *)this); }
-void bswap_header__6TLobbyFPv(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16__FPUs((char*)p + 0x4); bswap_16__FPUs((char*)p + 0x6); bswap_32__FPUl((char*)p + 0x8); }
+void bswap_header__6TLobbyFPv(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16((u16 *)((char*)p + 0x4)); bswap_16((u16 *)((char*)p + 0x6)); bswap_32((u32 *)((char*)p + 0x8)); }
 void build_6x77_sync_quest_register(void* p) { *(u8*)((char*)p + 0x0) = 119; *(u8*)((char*)p + 0x1) = 3; }
 
     extern int warning_aram_load_done_flag;
@@ -305,8 +305,8 @@ void TLobby::bswap_entry_words(s32 arg0) {
     var_r31 = 0;
     do {
         temp_r30 = arg0 + var_r31;
-        bswap_32__FPUl((void*)temp_r30);
-        bswap_32__FPUl((void*)(temp_r30 + 0x18));
+        bswap_32((u32 *)temp_r30);
+        bswap_32((u32 *)(temp_r30 + 0x18));
         var_r29 += 1;
         var_r31 += 4;
     } while (var_r29 < 6);

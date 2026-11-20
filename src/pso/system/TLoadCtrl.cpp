@@ -224,7 +224,7 @@ void TLoadCtrl::start_loading(u32 arg0) {
         TLoadCtrl__sub_80226DA0(2);
         break;
     }
-    temp_cam = (u8 *) __nw__7TObjectFUl(0x1D4);
+    temp_cam = (u8 *) TObject::operator new(0x1D4);
     if (temp_cam != NULL) {
         TCameraCtrl__ct(temp_cam, (void *)tl_camera);
     }

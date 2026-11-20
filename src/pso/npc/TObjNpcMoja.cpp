@@ -113,7 +113,6 @@ extern "C" {
 void *dt__11TObjNpcMojaFPvs(void *arg0, s16 arg1);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 void *TObjNpcMoja__ct(void *, void *, void *);
-void __dl__7TObjectFPv(void *);
 void *__dt__11TObjNpcBaseFv(void *arg0, s16 arg1);
 
 s32 get_bml_texlist(void *, s32);
@@ -300,7 +299,7 @@ void *dt__11TObjNpcMojaFPvs(void *npc_base, s16 arg1) {
         *(s32 **)((s8 *)npc_base + 0x18) = (s32 *)__vt__11TObjNpcMoja;
         __dt__11TObjNpcBaseFv(npc_base, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(npc_base);
+            TObject::operator delete(npc_base);
         }
     }
     return npc_base;

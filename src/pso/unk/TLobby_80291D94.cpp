@@ -1186,7 +1186,6 @@ void update_destruction_countdown__6TLobbyFPv(TLobby *lobby) {
     }
 }
 s32 __dt__7TObjectFv(void *, s32);
-s32 __dl__7TObjectFPv(void *);
 void *TLobby__sub_802936AC(void *object, s16 arg1) {
     if (object != NULL) {
         *(void **)((u8 *)object + 0x18) = (void *)lbl_804DB888;
@@ -1194,7 +1193,7 @@ void *TLobby__sub_802936AC(void *object, s16 arg1) {
         challenge_retry_object = 0;
         __dt__7TObjectFv(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(object);
+            TObject::operator delete(object);
         }
     }
     return object;

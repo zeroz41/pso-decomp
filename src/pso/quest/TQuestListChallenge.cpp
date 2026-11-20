@@ -150,7 +150,6 @@ void reset_globals__19TQuestListChallengeFv(void);
 s32 prepare_offline_quest_filenames(s32, s32);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 u8 *TObjNpcKenkyu__ct(u8 *arg0, s32 arg1, s32 arg2);
-s32 __dl__7TObjectFPv(void *);
 
 extern "C" {
 struct QLCStage_80289200 { s32 a; s32 b; s32 c; const char *name; };
@@ -363,7 +362,7 @@ void *__dt__19TQuestListChallengeFv(void *arg0, s16 arg1) {
         TQuestListChallenge__active_instance = 0;
         __dt__15TShopWindowBaseFv(arg0, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            TObject::operator delete(arg0);
         }
     }
     return arg0;

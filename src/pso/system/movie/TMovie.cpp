@@ -31,7 +31,6 @@ extern "C" {
 void fn_801449F0(void);
 
 s32 is_playback_finished__6TMovieFv(s32);
-u8 *__nw__7TObjectFUl(s32);
 s32 fn_80320358(u32, s32);
 s32 DVDCheckDisk();
 s32 set_queued_main_phase(s32);
@@ -410,7 +409,7 @@ void run_task__6TMovieFv(TMovie *movie) {
     TMovie::calc_frame_buffer_size((s32)((void *)video_initial_display_framebuffer), (s32)((void *)video_initial_draw_framebuffer));
     txt = NULL;
     if (TAdEndText__sub_8001B41C() != 0) {
-        p = __nw__7TObjectFUl(0x197C);
+        p = (u8 *)TObject::operator new(0x197C);
         if (p != NULL) {
             p = __ct__10TAdEndTextFv(p, movie);
         }
