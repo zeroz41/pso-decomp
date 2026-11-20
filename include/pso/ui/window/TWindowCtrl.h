@@ -89,7 +89,7 @@ struct TWindowCtrl : public TObject {
     static void close();
     void set_flag1e_bit40();
     u16 get_flags();
-    static s32 get_window(s32 arg0);
+    static saddr get_window(s32 arg0);
     static s32 get_flag_bit4();
     static s32 get_flag_bit5();
     static s32 get_display_flag();

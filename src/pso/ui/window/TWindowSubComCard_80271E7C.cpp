@@ -143,7 +143,6 @@ saddr get_character_save_record(u32 arg0);
 s32 create_choice_setting_window__17TWindowSubComCardFiii(saddr arg0, saddr arg1, saddr arg2);
 void create_sub_window__20TWindowChoiceSettingFPvi(void *arg0, s32 arg1);
 s32 TWindowSubComCard__sub_802728CC(void);
-ChrSel_80272B60 *get_chr_select__17TWindowSubComCardFv();
 void *find_entry_value_by_id__17TWindowSubComCardFl(s32, s32);
 void *get_player_by_client_id(s32 i);
 extern s32 local_client_id;
@@ -803,7 +802,7 @@ void TWindowSubComCard::run_task() {
         break;
     case 0x27:
     case 0x33:
-        if (((u32 (*)(void))get_chr_select__17TWindowSubComCardFv)() == 0U) {
+        if ((uaddr)TWindowSubComCard::get_chr_select() == 0U) {
             ((TProtocol *)TLobby__protocol_instance)->send_choice_search_options_request();
         }
         if ((u8) this->m_1c == 0x27) {
@@ -817,9 +816,9 @@ void TWindowSubComCard::run_task() {
             play_sound_effect(0x52F16, 0, 0, 0);
             this->m_1c = 1U;
         }
-        if (((u32 (*)(void))get_chr_select__17TWindowSubComCardFv)() != 0U) {
+        if ((uaddr)TWindowSubComCard::get_chr_select() != 0U) {
             if ((u32) this->m_58 == 0U) {
-                this->m_58 = ((u32 (*)(void))get_chr_select__17TWindowSubComCardFv)();
+                this->m_58 = TWindowSubComCard::get_chr_select();
                 character_save_record = get_character_save_record(0xFFFF);
                 TWindowSubComCard__sub_800778B4((void *) ((u8 *)this + 0x30), this->m_58);
                 TWindowSubComCard__sub_800778B4((void *)(character_save_record + 0x22EC), (int)this->m_58);
@@ -1503,7 +1502,7 @@ s32 TWindowSubComCard::create_option_list_window(saddr arg1, s32 key) {
         ((TWindowSubComCardList *)win)->set_selected_index(open_hard_keyboard__6TLobbyFPv((void *)this->m_20));
     } else {
         sel = ((TWindowSubComCard *)arg1)->find_value_by_key(key);
-        cs = get_chr_select__17TWindowSubComCardFv();
+        cs = (ChrSel_80272B60 *)TWindowSubComCard::get_chr_select();
         count = cs->count;
         e = cs->e;
         idx = 0;

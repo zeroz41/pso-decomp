@@ -34,11 +34,11 @@ struct Tbl_800777C4 { u8 f0; u8 count; u8 pad[2]; Ent_800777C4 e[1]; };
 
 struct Out_800778B4 { s32 a; s32 b; };
 
-s32 lbl_805D4E58;
+saddr lbl_805D4E58;
 s32 lbl_805D4E5C;
 extern "C" {
 extern s32 lbl_805D4E5C;
-extern s32 lbl_805D4E58;
+extern saddr lbl_805D4E58;
 void set_value_by_key(S_80077814 *arr, u16 key, s32 val);
 void TLobby__sub_80077798(S_80077798 *src, DO_80077798 *dst);
 void TWindowSubComCard__sub_80077980(S_80077980 *arr);
@@ -107,7 +107,7 @@ void TWindowSubComCard::release() {
         (*(u32 *)&lbl_805D4E5C) = 0U;
     }
 }
-s32 TWindowSubComCard::get_chr_select() {
+saddr TWindowSubComCard::get_chr_select() {
     return lbl_805D4E58;
 }
 

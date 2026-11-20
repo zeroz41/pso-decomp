@@ -53,7 +53,7 @@ struct TWindowSubComCard : public TObject {
     s32 find_value_by_key(u16 key);
     static saddr get_com_count();
     static void release();
-    static s32 get_chr_select();
+    static saddr get_chr_select();
     void clear_and_init(void* a1);
     s32 get_card_id();
     int is_active();

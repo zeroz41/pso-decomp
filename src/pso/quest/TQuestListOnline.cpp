@@ -538,7 +538,7 @@ int TQuestListOnline::get_selected_quest_id() {
 
 #pragma push
 #pragma fp_contract on
-s32 TQuestListOnline::get_selected_entry() {
+saddr TQuestListOnline::get_selected_entry() {
     struct S217 *p = (*(struct S217 * *)&TQuestListOnline__instance);
     if (p != NULL) {
         void *q = p->f38;

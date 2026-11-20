@@ -42,7 +42,6 @@ extern WindowCtrlApplyDefaultVecCallbackEntry window_ctrl_apply_default_vec_call
 struct Win_8024AF34 { virtual void m0(); };
 typedef void (Win_8024AF34::*Pmf_8024AF34)();
 void call_window_method__11TWindowCtrlFPvi(void *, Pmf_8024AF34);
-Win_8024AF34 *get_window__11TWindowCtrlFl(void *self);
 
 void TWindowCtrl::suppress_slot() {
     saddr arg0 = (saddr)this;
@@ -69,7 +68,7 @@ void TWindowCtrl::unsuppress_slot() {
 }
 
 void call_window_method__11TWindowCtrlFPvi(void *self, Pmf_8024AF34 pmf) {
-    Win_8024AF34 *w = get_window__11TWindowCtrlFl(self);
+    Win_8024AF34 *w = (Win_8024AF34 *)TWindowCtrl::get_window((s32)(saddr)self);
     if (w != NULL) {
         (w->*pmf)();
     }

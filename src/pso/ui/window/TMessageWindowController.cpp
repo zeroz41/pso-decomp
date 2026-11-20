@@ -1,6 +1,7 @@
 #include "pso/ui/window/TMessageWindowController.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/quest/TQuestListChallenge.h"
+#include "pso/quest/TQuestListOnline.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/unk/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
@@ -13,7 +14,6 @@
 #pragma readonly_strings on
 extern "C" {
 extern s32 local_client_id;
-const char *get_selected_entry__16TQuestListOnlineFv();
 s32 get_game_play_mode();
 saddr get_shop_text(s32 arg0);
 TWindowMessagePage *set_text__18TWindowMessagePageFlll(s32, s32, s32);
@@ -59,7 +59,7 @@ void TMessageWindowController::append_quest_title() {
             break;
         }
     } else {
-        text = get_selected_entry__16TQuestListOnlineFv();
+        text = (const char *)TQuestListOnline::get_selected_entry();
     }
     if (text != NULL) {
         append_text(text);

@@ -12,7 +12,6 @@ extern "C" {
 struct Win_8024B098 { virtual s32 m0(); };
 typedef s32 (Win_8024B098::*Pmf_8024B098)();
 s32 TWindowCtrl__sub_8024B098(void *, Pmf_8024B098);
-Win_8024B098 *get_window__11TWindowCtrlFl(void *self);
 struct WindowCtrlIsVisibleCallbackEntry { s32 value; u8 remaining[0x8]; };
 extern WindowCtrlIsVisibleCallbackEntry window_ctrl_is_visible_callback_entry;
 s32 TWindowCtrl::is_slot_visible() {
@@ -28,7 +27,7 @@ s32 TWindowCtrl::is_slot_visible() {
 }
 
 s32 TWindowCtrl__sub_8024B098(void *self, Pmf_8024B098 pmf) {
-    Win_8024B098 *w = get_window__11TWindowCtrlFl(self);
+    Win_8024B098 *w = (Win_8024B098 *)TWindowCtrl::get_window((s32)(saddr)self);
     if (w == NULL) {
         return 0;
     }

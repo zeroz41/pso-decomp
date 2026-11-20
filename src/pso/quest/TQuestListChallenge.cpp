@@ -113,7 +113,7 @@ void update_selection__19TQuestListChallengeFv(QLC_80288DA4 *self);
 s32 lbl_805D64A8;
 s32 lbl_805D64AC;
 s32 TQuestListChallenge__active_instance;
-s32 get_selected_quest_text__19TQuestListChallengeFv(void);
+saddr get_selected_quest_text__19TQuestListChallengeFv(void);
 s32 get_game_play_mode();
 extern s32 TQuestListChallenge__active_instance;
 extern void *__vt__19TQuestListChallenge[];
@@ -165,7 +165,7 @@ extern __declspec(section ".rodata") const PairPad_80288DA4 lbl_80450AB4[1];
 
 #pragma push
 #pragma opt_common_subs off
-s32 get_selected_quest_text__19TQuestListChallengeFv(void) {
+saddr get_selected_quest_text__19TQuestListChallengeFv(void) {
     uaddr temp_r3;
     if ((void *) (*(u8 * *)&TQuestListChallenge__active_instance) != NULL) {
         temp_r3 = *(u32 *)((s8 *)(*(u8 * *)&TQuestListChallenge__active_instance) + 0x38);

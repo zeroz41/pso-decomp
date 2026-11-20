@@ -52,8 +52,6 @@ s8 get_mode__6TLobbyFv();
 extern s32 local_client_id;
 void *get_window_layout_position(s32);
 char *get_shared_text_buffer(void);
-void *create_entry_menu_window__15TWindowMakeTeamFv(void *);
-void *create_status_menu_window__15TWindowMakeTeamFv(void *);
 extern s32 __vt__15TWindowMakeTeam[];
 s32 __ct__7TObjectFP7TObject();
 }
@@ -180,7 +178,7 @@ void TWindowMakeTeam::run_task() {
         }
         break;
     case 7:
-        self->window = create_entry_menu_window__15TWindowMakeTeamFv(self);
+        self->window = (void *)this->create_entry_menu_window();
         this->m_1c = 8;
     case 8:
         if (((TWindowMenu *)(self->window))->is_cancelled() != 0) {
@@ -193,7 +191,7 @@ void TWindowMakeTeam::run_task() {
         }
         break;
     case 9:
-        self->window = create_status_menu_window__15TWindowMakeTeamFv(self);
+        self->window = (void *)this->create_status_menu_window();
         this->m_1c = 10;
     case 10:
         if (((TWindowMenu *)(self->window))->is_cancelled() != 0) {
@@ -210,7 +208,7 @@ void TWindowMakeTeam::run_task() {
 }
 
 void TWindowMakeTeam::render() {  }
-s32 TWindowMakeTeam::create_menu() {
+saddr TWindowMakeTeam::create_menu() {
     saddr information_counter_window;
 
     information_counter_window = create_information_counter_window(5);
@@ -222,7 +220,7 @@ s32 TWindowMakeTeam::create_menu() {
     return information_counter_window;
 }
 
-s32 TWindowMakeTeam::create_entry_menu_window() {
+saddr TWindowMakeTeam::create_entry_menu_window() {
     u8 *arg0 = (u8 *)this;
     saddr r;
     r = check_room_seq_4__16TAdChrSelASlotGCFl(lbl_8044F300, 3);
@@ -235,7 +233,7 @@ s32 TWindowMakeTeam::create_entry_menu_window() {
     return r;
 }
 
-s32 TWindowMakeTeam::create_status_menu_window() {
+saddr TWindowMakeTeam::create_status_menu_window() {
     u8 *arg0 = (u8 *)this;
     saddr r;
     s32 m;

@@ -43,7 +43,7 @@ struct TQuestListOnline : public TShopWindowBase {
     static void release_resources();
     static void init_download_buffers();
     static s32 get_list_state();
-    static s32 get_selected_entry();
+    static saddr get_selected_entry();
     static int get_selected_quest_id();
     static u8 get_unlocked_tier();
     static void decompress_quest_buffer(s32 arg0);
