@@ -17,3 +17,8 @@ u8 TAdSinglePlyChrSelectGC::check_slot_flags(s32 arg0, u32 arg1) {
     }
     return 0;
 }
+
+#if VERSION == VERSION_GPOP8P
+extern int lbl_805D384C;
+int TAdMultiPlyChrSelectGC::get_select_flag() { return lbl_805D384C; }
+#endif

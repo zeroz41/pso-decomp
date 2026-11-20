@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "versions.h"
 #include "pso/system/save/TSaveChCr.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
@@ -83,8 +84,12 @@ void TSaveChCr::update_save_status() {
             set_state((s32)((void*)(4)));
             return;
         }
+#if VERSION == VERSION_GPOP8P
+        set_state((s32)((void*)(3)));
+#else
         queue_destruction();
         request_main_phase(9);
+#endif
     }
 }
 void TSaveChCr::close_and_advance_step2() { close_and_advance((void*)2); }

@@ -2,6 +2,14 @@
 #define PSO_UI_FRONTEND_TADCHRSELASLOTGC_H
 
 #include "types.h"
+#include "versions.h"
+
+/* The European version has no state 19: later states are renumbered. */
+#if VERSION == VERSION_GPOP8P
+#define CHR_SEL_A_STATE(n) ((n) - ((n) > 19))
+#else
+#define CHR_SEL_A_STATE(n) (n)
+#endif
 #include "pso/system/task/TObject.h"
 
 class TAdSubPlyItemGC;

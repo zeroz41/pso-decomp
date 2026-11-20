@@ -1,5 +1,6 @@
 #include "pso/system/ResourceFile.h"
 #include "types.h"
+#include "versions.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 #include "pso/system/date.h"
 #include "pso/system/memory.h"
@@ -482,7 +483,11 @@ s32 build_save_file_image__15TAdPlayerLoadGCFPvPv(u8 *arg0, Src_801E17F4 *arg1) 
     h = (Hdr_801E17F4 *)::operator new(0x2048);
     memset(h->title, 0, 0x20);
     memset(h->sub, 0, 0x20);
+#if VERSION == VERSION_GPOP8P
+    strncpy(h->title, "PSO EPISODE I & II", 0x20);
+#else
     strncpy(h->title, "PSO EPISODE I & II Plus", 0x20);
+#endif
     getDateStamp((DateStamp *)&ds);
     memset(buf, 0, 0x80);
     if (arg1->flag != 0) {

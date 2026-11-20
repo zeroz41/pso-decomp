@@ -1,4 +1,8 @@
 #include "types.h"
+#include "versions.h"
+#if VERSION == VERSION_GPOP8P
+#define PSO_SDK_COMPACT_MATH
+#endif
 #include <string.h>
 #include <stdio.h>
 #include "pso/ui/frontend/TAdPlayerLoadGC_803F18B8.h"
@@ -6,6 +10,7 @@
 #include "dolphin/os.h"
 #include "dolphin/card.h"
 #include "pso/ui/frontend/CardFileEntry.h"
+#undef PSO_SDK_COMPACT_MATH
 
 // Per-slot card state: the last CARDProbeEx result and the sizes it reported.
 struct CardInfo_803F31D8 { s32 state; s32 mem_size; s32 sector_size; };
@@ -14,10 +19,31 @@ extern "C" {
 void *CARDGetDiskID(s32);
 s32 CARDSetDiskID(s32, void *);
 // memory-card library version banner
+#if VERSION == VERSION_GPOP8P
+static const char *const mcfs_version = "\nmcFsGc Ver 1.20.00 Build:Sep 18 2002 11:11:57\n";
+#else
 static const char *const mcfs_version = "\nmcFsGc Ver 1.10.00 Build:Sep 17 2002 20:22:41\n";
+#endif
 // inferred: the DVDDiskID gameName/company pair CARDSetDiskID is given in place of the disk's own
+#if VERSION == VERSION_GPOP8P
+static const char card_game_name[] = "G9AJ";
+#else
 static const char card_game_name[] = "G9AE";
+#endif
 static const char card_company[] = "8P";
+#if VERSION == VERSION_GPOP8P
+// The other two regions' codes fn_803F1C10 can switch to.
+static const char card_game_name_usa[] = "G9AE";
+static const char card_game_name_europe[] = "G9AP";
+// The game and maker codes CARDSetDiskID is given; fn_803F1C10 switches the game code by region.
+u8 *lbl_805D08F8 = (u8 *)card_game_name;
+u8 *lbl_805D08FC = (u8 *)card_company;
+#define CARD_GAME_CODE lbl_805D08F8
+#define CARD_MAKER_CODE lbl_805D08FC
+#else
+#define CARD_GAME_CODE card_game_name
+#define CARD_MAKER_CODE card_company
+#endif
 u8 card_disk_id[0x20];
 CardRequestSlot TAdPlayerLoadGC__load_request_slots[2];
 CardFileEntry card_open_files[100];
@@ -66,8 +92,8 @@ static inline void get_game_name_and_company(s32 card_channel, u8 *game_name, u8
         memcpy(game_name, disk_id, 4);
         memcpy(company, disk_id + 4, 2);
     } else {
-        memcpy(game_name, card_game_name, 4);
-        memcpy(company, card_company, 2);
+        memcpy(game_name, CARD_GAME_CODE, 4);
+        memcpy(company, CARD_MAKER_CODE, 2);
     }
 }
 
@@ -129,8 +155,8 @@ void TAdPlayerLoadGC__sub_803F1908(s32 card_channel) {
             if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) == 1) {
                 saved_card_disk_id = CARDGetDiskID(card_channel);
                 memcpy(card_disk_id, saved_card_disk_id, 0x20);
-                memcpy(card_disk_id, card_game_name, 4);
-                memcpy(card_disk_id + 4, card_company, 2);
+                memcpy(card_disk_id, CARD_GAME_CODE, 4);
+                memcpy(card_disk_id + 4, CARD_MAKER_CODE, 2);
                 CARDSetDiskID(card_channel, card_disk_id);
             }
             get_game_name_and_company(card_channel, game_name, company);
@@ -173,8 +199,8 @@ void TAdPlayerLoadGC::step_set_attributes(s32 card_channel) {
         if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) == 1) {
             saved_card_disk_id = CARDGetDiskID(card_channel);
             memcpy(card_disk_id, saved_card_disk_id, 0x20);
-            memcpy(card_disk_id, card_game_name, 4);
-            memcpy(card_disk_id + 4, card_company, 2);
+            memcpy(card_disk_id, CARD_GAME_CODE, 4);
+            memcpy(card_disk_id + 4, CARD_MAKER_CODE, 2);
             CARDSetDiskID(card_channel, card_disk_id);
         }
         TAdPlayerLoadGC__load_request_slots[card_channel].result = CARDSetAttributesAsync(card_channel, TAdPlayerLoadGC__load_request_slots[card_channel].file_no, TAdPlayerLoadGC__load_request_slots[card_channel].attr, 0);
@@ -215,8 +241,8 @@ void TAdPlayerLoadGC::update_card_delete(s32 card_channel) {
         if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) == 1) {
             saved_card_disk_id = CARDGetDiskID(card_channel);
             memcpy(card_disk_id, saved_card_disk_id, 0x20);
-            memcpy(card_disk_id, card_game_name, 4);
-            memcpy(card_disk_id + 4, card_company, 2);
+            memcpy(card_disk_id, CARD_GAME_CODE, 4);
+            memcpy(card_disk_id + 4, CARD_MAKER_CODE, 2);
             CARDSetDiskID(card_channel, card_disk_id);
         }
         TAdPlayerLoadGC__load_request_slots[card_channel].result = CARDDeleteAsync(card_channel, TAdPlayerLoadGC__load_request_slots[card_channel].name, 0);
@@ -256,8 +282,8 @@ void TAdPlayerLoadGC::update_card_rename(s32 card_channel) {
         if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) == 1) {
             saved_card_disk_id = CARDGetDiskID(card_channel);
             memcpy(card_disk_id, saved_card_disk_id, 0x20);
-            memcpy(card_disk_id, card_game_name, 4);
-            memcpy(card_disk_id + 4, card_company, 2);
+            memcpy(card_disk_id, CARD_GAME_CODE, 4);
+            memcpy(card_disk_id + 4, CARD_MAKER_CODE, 2);
             CARDSetDiskID(card_channel, card_disk_id);
         }
         TAdPlayerLoadGC__load_request_slots[card_channel].result = CARDRenameAsync(card_channel, TAdPlayerLoadGC__load_request_slots[card_channel].name, TAdPlayerLoadGC__load_request_slots[card_channel].new_name, 0);
@@ -311,8 +337,8 @@ void TAdPlayerLoadGC__sub_803F2240(s32 file) {
         if (TAdPlayerLoadGC::get_or_set_channel_flag(id, 2) == 1) {
             saved_card_disk_id = CARDGetDiskID(id);
             memcpy(card_disk_id, saved_card_disk_id, 0x20);
-            memcpy(card_disk_id, card_game_name, 4);
-            memcpy(card_disk_id + 4, card_company, 2);
+            memcpy(card_disk_id, CARD_GAME_CODE, 4);
+            memcpy(card_disk_id + 4, CARD_MAKER_CODE, 2);
             CARDSetDiskID(id, card_disk_id);
         }
         {
@@ -363,8 +389,8 @@ void TAdPlayerLoadGC__sub_803F2240(s32 file) {
         if (TAdPlayerLoadGC::get_or_set_channel_flag(id, 2) == 1) {
             saved_card_disk_id = CARDGetDiskID(id);
             memcpy(card_disk_id, saved_card_disk_id, 0x20);
-            memcpy(card_disk_id, card_game_name, 4);
-            memcpy(card_disk_id + 4, card_company, 2);
+            memcpy(card_disk_id, CARD_GAME_CODE, 4);
+            memcpy(card_disk_id + 4, CARD_MAKER_CODE, 2);
             CARDSetDiskID(id, card_disk_id);
         }
         {
@@ -439,8 +465,8 @@ void TAdPlayerLoadGC__sub_803F2610(s32 file) {
         if (TAdPlayerLoadGC::get_or_set_channel_flag(id, 2) == 1) {
             saved_card_disk_id = CARDGetDiskID(id);
             memcpy(card_disk_id, saved_card_disk_id, 0x20);
-            memcpy(card_disk_id, card_game_name, 4);
-            memcpy(card_disk_id + 4, card_company, 2);
+            memcpy(card_disk_id, CARD_GAME_CODE, 4);
+            memcpy(card_disk_id + 4, CARD_MAKER_CODE, 2);
             CARDSetDiskID(id, card_disk_id);
         }
         {
@@ -515,8 +541,8 @@ void TAdPlayerLoadGC__sub_803F282C(s32 file) {
         if (TAdPlayerLoadGC::get_or_set_channel_flag(id, 2) == 1) {
             saved_card_disk_id = CARDGetDiskID(id);
             memcpy(card_disk_id, saved_card_disk_id, 0x20);
-            memcpy(card_disk_id, card_game_name, 4);
-            memcpy(card_disk_id + 4, card_company, 2);
+            memcpy(card_disk_id, CARD_GAME_CODE, 4);
+            memcpy(card_disk_id + 4, CARD_MAKER_CODE, 2);
             CARDSetDiskID(id, card_disk_id);
         }
         res = CARDOpen(*channel, TAdPlayerLoadGC__load_request_slots[*channel].name, &((CardFileEntry *)((u8 *)card_open_files + off))->file_info);
@@ -589,8 +615,8 @@ void TAdPlayerLoadGC__sub_803F2A4C(s32 file) {
     {
       saved_card_disk_id = CARDGetDiskID(id);
       memcpy(card_disk_id, saved_card_disk_id, 0x20);
-      memcpy(card_disk_id, card_game_name, 4);
-      memcpy(card_disk_id + 4, card_company, 2);
+      memcpy(card_disk_id, CARD_GAME_CODE, 4);
+      memcpy(card_disk_id + 4, CARD_MAKER_CODE, 2);
       CARDSetDiskID(id, card_disk_id);
     }
       res = CARDCreateAsync(*channel, TAdPlayerLoadGC__load_request_slots[*channel].name, TAdPlayerLoadGC__load_request_slots[*channel].length, &((CardFileEntry *)((u8 *)card_open_files + off))->file_info, 0);
@@ -886,6 +912,23 @@ s32 TAdPlayerLoadGC__sub_803F31D8(void *work_area) {
     return 0;
 }
 
+#if VERSION == VERSION_GPOP8P
+extern "C" void fn_803F1C10(s32 arg0) {
+    switch (arg0) {
+    case 0:
+    default:
+        lbl_805D08F8 = (u8 *)card_game_name;
+        return;
+    case 1:
+        lbl_805D08F8 = (u8 *)card_game_name_usa;
+        return;
+    case 2:
+        lbl_805D08F8 = (u8 *)card_game_name_europe;
+        return;
+    }
+}
+
+#endif
 void TAdPlayerLoadGC::reset_slot_entry(s32 arg0) {
     CardRequestSlot *slot = &TAdPlayerLoadGC__load_request_slots[arg0];
     slot->buffer = NULL;

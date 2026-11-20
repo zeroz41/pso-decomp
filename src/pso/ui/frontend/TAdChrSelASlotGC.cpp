@@ -197,7 +197,13 @@ s32 TAdChrSelASlotGC::create_message_window(s32 arg1, s32 arg2) {
     u8 *arg0 = (u8 *)this;
     NJS_POINT2 pos;
     s32 w;
+#if VERSION == VERSION_GPOP8P
+    s32 title = get_localized_text_entry(0x1C, 0x29);
+    s32 text = get_localized_text_entry(0x1C, 0x16);
+    w = create__19TWindowMessageYesNoFPvPvPvPv((s32)this, arg2, title, text);
+#else
     w = create__19TWindowMessageYesNoFPvPvPvPv((s32)arg0, arg2, 0, 0);
+#endif
     switch (arg1) {
     case 0:
         ((TWindowSubSymbolChatPartsSet *)(&pos))->copy_vec2((void *)(*(s32 *)(arg0 + 0x20) == 2 ? &TAdChrSelASlotGC__data_804758B0 : &TAdChrSelASlotGC__data_804758A8));
@@ -274,14 +280,18 @@ u32 TAdChrSelASlotGC__sub_8030CB08(TAdChrSelASlotGC *ad_chr_sel_a_slot_gc, s32 k
 #pragma pool_data reset
 
 void TAdChrSelASlotGC::sub_8030CBD0() {}
+#if VERSION != VERSION_GPOP8P
 void TAdChrSelASlotGC::sub_8030CBD4() {}
+#endif
 void TAdChrSelASlotGC::update_load_state() {
     if (TAdPlayerLoadGC::get_instance() == 0) {
+#if VERSION != VERSION_GPOP8P
         if ((u32) (TAdPlayerLoadGC::get_load_result(0) + 0x10000) == 0xFF81U) {
             this->state = 0x13;
             return;
         }
-        this->state = 0x14;
+#endif
+        this->state = CHR_SEL_A_STATE(0x14);
     }
 }
 void TAdChrSelASlotGC::set_state() {
@@ -692,14 +702,14 @@ void TAdChrSelASlotGC::close_windows() {
 }
 
 void TAdChrSelASlotGC::run_task() {
-    if ((s32)this->state < 0 || (s32)this->state >= 21) {
+    if ((s32)this->state < 0 || (s32)this->state >= CHR_SEL_A_STATE(21)) {
         this->state = 1;
     }
     this->prev_state = this->state;
     if (((TAdChrSelASlotGC *)this->m_30)->get_slot_index() == 0 && (s32)this->state > 1) {
         this->state = 1;
     }
-    static void (TAdChrSelASlotGC::*handlers[21])() = {
+    static void (TAdChrSelASlotGC::*handlers[CHR_SEL_A_STATE(21)])() = {
         &TAdChrSelASlotGC::close_windows,
         &TAdChrSelASlotGC::sub_8030D5DC,
         &TAdChrSelASlotGC::update_slot1,
@@ -719,7 +729,9 @@ void TAdChrSelASlotGC::run_task() {
         &TAdChrSelASlotGC::check_load_state,
         &TAdChrSelASlotGC::set_state,
         &TAdChrSelASlotGC::update_load_state,
+#if VERSION != VERSION_GPOP8P
         &TAdChrSelASlotGC::sub_8030CBD4,
+#endif
         &TAdChrSelASlotGC::sub_8030CBD0,
     };
     (this->*handlers[this->state])();

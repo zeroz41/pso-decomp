@@ -2,6 +2,19 @@
 #define PSO_UI_FRONTEND_TADMULTIPLYCHRSELECTGC_H
 
 #include "types.h"
+#include "versions.h"
+
+/* The European version has no states 18, 23 and 36: later states are renumbered. */
+/* The same for the slot window's mode (no 24) and the player index window (no 19). */
+#if VERSION == VERSION_GPOP8P
+#define MULTI_CHR_STATE(n) ((n) - ((n) > 18) - ((n) > 23) - ((n) > 36))
+#define MULTI_CHR_MODE(n) ((n) - ((n) > 24))
+#define MULTI_CHR_INDEX(n) ((n) - ((n) > 19))
+#else
+#define MULTI_CHR_STATE(n) (n)
+#define MULTI_CHR_MODE(n) (n)
+#define MULTI_CHR_INDEX(n) (n)
+#endif
 #include "pso/system/task/TObject.h"
 
 struct TAdMultiPlyChrSelectGC : public TObject {

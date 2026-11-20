@@ -1,4 +1,9 @@
 #include "types.h"
+#include "versions.h"
+#include "pso/item/TItemData.h"
+#if VERSION != VERSION_GPOE8P
+extern "C" void poll_load_status__15TAdPlayerLoadGCFl(s32, void *);
+#endif
 #include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
 #include "pso/ui/window/TWindowShortListCtrl_8026E7DC.h"
 #include "pso/unk/text_801F498C.h"
@@ -66,15 +71,19 @@ s32 chr_select_scene_state;
 s32 chr_select_game_mode;
 s32 card_load_followup_pending;
 s32 chr_select_save_slot;
+#if VERSION == VERSION_GPOE8P
 char chr_select_game_name_buffer[4];
+#endif
 extern "C" {
 CardFileInfo_804C88C0 pso_character_card_filename = {
     "PSO_CHARACTER", "CHARACTER_FILE", 0,
     { 0x35, 0x04, 0x08, 0x1A, 0x0A, 0x07, 'T', 'T', 'T', 'U' },
 };
 char pso_system_card_filename[0x20] = "PSO_SYSTEM";
+#if VERSION == VERSION_GPOE8P
 char memory_card_system_dir_name[0x20] = "PSO3_SYSTEM";
 char memory_card_character_dir_name[0x20] = "PSO3_CHARACTER";
+#endif
 CardFileComment_804C8974 episode_i_and_ii_card_filename = {
     "EPISODE I & II", "SYSTEM_FILE", 0,
     { 0x35, 0x04, 0x08, 0x1A, 0x0A, 0x07, 'U', 'T', 'T', 'T' },
@@ -88,6 +97,14 @@ u8 TQuestVmDownLoadServer__memcard_key[0x10] = {
 const char memcard_default_banner[4] = "\xF0\x04";
 const char memcard_default_icon[4] = "\x04";
 }
+
+/* Offset of episode_i_and_ii_card_filename from pso_character_card_filename: the European version has no PSO3 file names. */
+#if VERSION == VERSION_GPOE8P
+#define SYSTEM_FILE_OFFSET 0xB4
+#else
+#define SYSTEM_FILE_OFFSET 0x74
+#endif
+
 struct SubtractiveRng {
     SubtractiveRng();
     u32 state[58];
@@ -134,8 +151,10 @@ s32 strncpy(s32 *, const void *, s32);
 // Save-message window position and size (the same rect as TSaveChCr's message window).
 static const NJS_POINT2 chr_select_save_message_window_pos = { 46.0f, 131.0f };
 static const NJS_POINT2 chr_select_save_message_window_size = { 548.0f, 220.0f };
+#if VERSION == VERSION_GPOE8P
 // Game code written over the memory card disk ID.
 static const char card_disk_game_code[] = "GPSE";
+#endif
 
 s32 poll_memcard_result(void *);
 s32 render_frame__23TAdSinglePlyChrSelectGCFv();
@@ -173,6 +192,7 @@ void game_state_load(void);
 void *get_character_save_record(u16);
 
 
+#if VERSION == VERSION_GPOE8P
 void TAdSinglePlyChrSelectGC::copy_name(s32 arg0) {
     u32 var_r3;
     if (arg0 >= 0) {
@@ -228,6 +248,7 @@ s32 load_system_file__23TAdSinglePlyChrSelectGCFiPv(s32 chan, s32 *arg1) {
     lbl_805D49B4 = 0;
     return ok;
 }
+#endif
 
 s32 TAdSinglePlyChrSelectGC::init_char_slot_record() {
     S_801FC0C8 *arg0 = (S_801FC0C8 *)this;
@@ -527,6 +548,7 @@ s32 TAdSinglePlyChrSelectGC__sub_801FC8B4(s32 arg0, s16 arg1) {
     return arg0;
 }
 
+#if VERSION == VERSION_GPOE8P
 s32 init_char_slots__23TAdSinglePlyChrSelectGCFi(s32 arg0) {
     __construct_array((void*)(arg0 + 4), (void*)init_char_data__23TAdSinglePlyChrSelectGCFPv, (void*)TAdSinglePlyChrSelectGC__sub_801FC8B4, 0x2798, 7);
     return arg0;
@@ -539,6 +561,7 @@ u8 *TAdSinglePlyChrSelectGC::init_char_record() {
     ((TAdSinglePlyChrSelectGC *)(((u8 *)this) + 0x1510))->init_guild_card_tag();
     return ((u8 *)this);
 }
+#endif
 
 s32 TAdSinglePlyChrSelectGC::fields_equal(void *arg1) {
     return (u32) __cntlzw((u32) (*(s32 *)((s8 *)arg1 + 0x118) - *(s32 *)((s8 *)this + 0x118))) >> 5;
@@ -1591,6 +1614,15 @@ S_801FE010 *assign_char_data__23TAdSinglePlyChrSelectGCFPvPv(S_801FE010 *arg0, S
     return arg0;
 }
 
+#if VERSION != VERSION_GPOE8P
+void *TAdSinglePlyChrSelectGC::copy_item_data(void *a1) {
+    ((TItemData *)this)->copy_from((TItemData *)a1);
+    *(short *)&this->m_down = *(short *)((char *)a1 + 0x14);
+    *(short *)((char *)this + 0x16) = *(short *)((char *)a1 + 0x16);
+    return this;
+}
+#endif
+
 void clear_entry__23TAdSinglePlyChrSelectGCFi(s32 i) {
     if ((*(Ent_801FE2D0 * *)&card_character_save_buffer) == 0) return;
     if (i >= 4) return;
@@ -1919,6 +1951,32 @@ s32 load_pso_system(void) {
     return var_r3;
 }
 
+#if VERSION != VERSION_GPOE8P
+
+/* Deletes the character, system and guild card files from the card in slot A. */
+void TAdSinglePlyChrSelectGC::delete_save_files() {
+    s32 r;
+    if (TAdPlayerLoadGC::probe_card_slot(0) == 0) {
+        return;
+    }
+    if (TAdPlayerLoadGC::probe_and_check_card(0) == 0) {
+        return;
+    }
+    r = TAdPlayerLoadGC::find_card_file(0, pso_character_card_filename.filename);
+    if (r == 0 || (u32)r == 0xFFFFFF41U) {
+        poll_load_status__15TAdPlayerLoadGCFl(0, pso_character_card_filename.filename);
+    }
+    r = TAdPlayerLoadGC::find_card_file(0, pso_system_card_filename);
+    if (r == 0 || (u32)r == 0xFFFFFF41U) {
+        poll_load_status__15TAdPlayerLoadGCFl(0, pso_system_card_filename);
+    }
+    r = TAdPlayerLoadGC::find_card_file(0, pso_guildcard_card_filename.filename);
+    if (r == 0 || (u32)r == 0xFFFFFF41U) {
+        poll_load_status__15TAdPlayerLoadGCFl(0, pso_guildcard_card_filename.filename);
+    }
+}
+#endif
+
 }
 
 }
@@ -2180,9 +2238,11 @@ s32 save_character_to_card__23TAdSinglePlyChrSelectGCFv(void) {
         }
         if (TAdPlayerLoadGC::get_instance() == 0) {
             result = 1;
+#if VERSION == VERSION_GPOE8P
             if (TAdPlayerLoadGC::get_load_result(0) == 0xFFFFFF81 || TAdPlayerLoadGC::get_load_result(0) == 0xFFFFFF83) {
                 result = 0;
             }
+#endif
             break;
         }
         render_tick();
@@ -2191,9 +2251,12 @@ s32 save_character_to_card__23TAdSinglePlyChrSelectGCFv(void) {
     w = create__14TWindowMessageFlPCfUll(&chr_select_save_message_window_pos, &chr_select_save_message_window_size, 1, 4);
     TLobby__sub_80269C90();
     if (w != NULL) {
+#if VERSION == VERSION_GPOE8P
         if (TAdPlayerLoadGC::get_load_result(0) == 0xFFFFFF81 || TAdPlayerLoadGC::get_load_result(0) == 0xFFFFFF83) {
             ((TWindowMessage *)w)->append_line(get_localized_text_entry(0x1C, 1), 3);
-        } else {
+        } else
+#endif
+        {
             ((TWindowMessage *)w)->append_line(get_localized_text_entry(0x20, 5), 3);
         }
         ((TWindowSubComCard *)w)->reparent_to_main_ctrl();
@@ -2622,9 +2685,12 @@ s32 load_character_from_card__23TAdSinglePlyChrSelectGCFi(s32 card_file) {
                 render_frame__23TAdSinglePlyChrSelectGCFv();
                 render_tick();
             }
+#if VERSION == VERSION_GPOE8P
             if (TAdPlayerLoadGC::get_load_result(0) == 0xFFFFFF81 || TAdPlayerLoadGC::get_load_result(0) == 0xFFFFFF83) {
                 ret = 1;
-            } else {
+            } else
+#endif
+            {
                 ret = 7;
             }
         }
@@ -3218,9 +3284,9 @@ s32 build_save_file__23TAdSinglePlyChrSelectGCFv() {
     s32 base = (s32)pso_character_card_filename;
     File_80200A44 f;
     memset(&f, 0, sizeof(f));
-    strcpy(f.name, (char *)(base + 0xB4));
-    strcpy(f.title, (char *)(base + 0x11C));
-    memcpy(f.icon, base + 0xEC, 0x10);
+    strcpy(f.name, (char *)(base + SYSTEM_FILE_OFFSET));
+    strcpy(f.title, (char *)(base + SYSTEM_FILE_OFFSET + 0x68));
+    memcpy(f.icon, base + SYSTEM_FILE_OFFSET + 0x38, 0x10);
     TAdPlayerLoadGC__sub_801E14E8((u8 *)&f, 1);
     f.f4C = 1;
     f.f4E = 1;
@@ -3236,9 +3302,9 @@ s32 build_default_save_file__23TAdSinglePlyChrSelectGCFv() {
     s32 base = (s32)pso_character_card_filename;
     File_80200A44 f;
     memset(&f, 0, sizeof(f));
-    strcpy(f.name, (char *)(base + 0xB4));
-    strcpy(f.title, (char *)(base + 0xC8));
-    memcpy(f.icon, base + 0xEC, 0x10);
+    strcpy(f.name, (char *)(base + SYSTEM_FILE_OFFSET));
+    strcpy(f.title, (char *)(base + SYSTEM_FILE_OFFSET + 0x14));
+    memcpy(f.icon, base + SYSTEM_FILE_OFFSET + 0x38, 0x10);
     TAdPlayerLoadGC__sub_801E14E8((u8 *)&f, 0);
     f.f4C = 1;
     f.f4E = 1;
@@ -3254,7 +3320,7 @@ s32 save_character_file__23TAdSinglePlyChrSelectGCFi(int arg0) {
     s32 base = (s32)pso_character_card_filename;
     File_80200A44 f;
     memset(&f, 0, (s32)(sizeof(f)));
-    strcpy(f.name, ((Str_80200A44 *)base)->name);
+    strcpy(f.name, (char *)(base + SYSTEM_FILE_OFFSET));
     strcpy(f.title, ((Str_80200A44 *)base)->title);
     memcpy(f.icon, (s32)((s32)((Str_80200A44 *)base)->icon), 0x10);
     TAdPlayerLoadGC__sub_801E14E8((u8 *)&f, 2);
@@ -4082,10 +4148,12 @@ void init_char_select_globals__23TAdSinglePlyChrSelectGCFv(void) {
     card_load_followup_pending = 0;
     alloc_char_records__23TAdSinglePlyChrSelectGCFi((s32)chr_select_buffer_ptr_table);
     ((TAdSinglePlyChrSelectGC *)chr_select_request_buffer)->reset_slot_lists();
+#if VERSION == VERSION_GPOE8P
     {
         DVDDiskID_802019F8 *id = DVDGetCurrentDiskID();
         strncpy(chr_select_game_name_buffer, id->gameName, 4);
     }
+#endif
     getDateStamp((DateStamp *)char_select_date_stamp);
     DateToSeconds((DateStamp *)char_select_date_stamp, (int *)&sp8);
     temp_r0 = sp8 % 24;
@@ -4760,3 +4828,4 @@ s32 get_char_index__23TAdSinglePlyChrSelectGCFUi(u32 arg0) {
 }
 }
 }
+
