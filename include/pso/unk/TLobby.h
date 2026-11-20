@@ -24,6 +24,9 @@ typedef char TLobbyFloorItemEntryDataOffset[(offsetof(TLobbyFloorItemEntry, item
 struct AdxbDecoder;
 struct Strm_803C5B50;
 
+struct TObjTombstone;
+struct TObjTombstoneSpot;
+
 struct TLobby : public TObject {
     // Whether a challenge-mode task is running.
     static s32 is_flag_set();
@@ -134,7 +137,7 @@ struct TLobby : public TObject {
     void copy_header_struct(void* q);
     void set_loss_flag();
     static void set_enemy_mode_flag();
-    static void *create_tombstone(void *arg0, void *arg1, void *arg2);
+    static TObjTombstone *create_tombstone(TObject *parent, s32 client, const TObjTombstoneSpot *spot);
     static void free_static_windows();
     void collect_active_card_ids();
     static void send_status_packet();
@@ -410,7 +413,6 @@ struct TLobby : public TObject {
     static void set_retry_selection(s32 arg0);
     static void destroy_global();
     static void destroy_tombstone();
-    void copy_struct(u8 *arg1);
     static void spawn_player_tombstones2();
     static void create_time_window2(void * _w0);
     static void clear_card_status_flags();

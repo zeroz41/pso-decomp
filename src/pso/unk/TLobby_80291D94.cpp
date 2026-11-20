@@ -948,7 +948,6 @@ int TLobby__sub_80293124(void* p) { return load_resources__13TObjTombstoneFv(p);
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct ByteBlock_C { u8 bytes[0xc]; };
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -959,18 +958,12 @@ struct Rec_802934E0 { s32 f; u8 pad[0x100]; };
 
 struct G_802934E0 { u8 pad[0x270]; Rec_802934E0 r[4]; };
 
-struct Rec_80293218 {
-    s32 f0;
-    u8 pad[0xB0];
-    u8 out[0x50];
-};
-
 struct G_80293218 {
     s32 f0;
     s32 f4;
     s32 f8;
     u8 pad[0x270 - 0xC];
-    Rec_80293218 r[4];
+    ChallengeTombstonePlayerSlot r[4];
 };
 
 struct Rec_8029350C {
@@ -987,25 +980,12 @@ struct G_8029350C {
 #pragma auto_inline off
 #pragma dont_inline off
 
-struct Tag_802932EC {
-    s8 phase;
-    s8 layout;
-    s8 slot;
-};
-
-struct Rec_802932EC {
-    s32 active;
-    u8 pad[0xB0];
-    Tag_802932EC tag;
-    u8 pad2[0x104 - 0xB7];
-};
-
 struct G_802932EC {
     s32 layout;
     s32 f4;
     s32 slot;
     u8 pad[0x270 - 0xC];
-    Rec_802932EC recs[4];
+    ChallengeTombstonePlayerSlot recs[4];
 };
 
 extern "C" {
@@ -1061,43 +1041,52 @@ void setup_split_screen(void) {
 extern "C" {
 
 void TLobby__sub_80293218(s32 arg0) {
-    u8 *p = (u8 *)get_player_by_client_id(arg0);
+    TObjPlayer *p = reinterpret_cast<TObjPlayer *>(get_player_by_client_id(arg0));
     if (p != NULL) {
-        Rec_80293218 *r = &(*(G_80293218 *)&lbl_804DB1F0).r[arg0];
-        if (r->f0 != 0) {
-            u8 *o = r->out;
-            o[0] = TWindowSubStatusDisp::resolve_player_slot(-1);
-            o[1] = (*(G_80293218 *)&lbl_804DB1F0).f0;
-            o[2] = (*(G_80293218 *)&lbl_804DB1F0).f8;
-            VecCopy((Vec *)(o + 4), (const Vec *)(p + 0x38));
+        ChallengeTombstonePlayerSlot *r = &(*(G_80293218 *)&lbl_804DB1F0).r[arg0];
+        if (r->active != 0) {
+            TObjTombstoneSpot *spot = &r->spot;
+            spot->phase = TWindowSubStatusDisp::resolve_player_slot(-1);
+            spot->layout = (*(G_80293218 *)&lbl_804DB1F0).f0;
+            spot->floor = (*(G_80293218 *)&lbl_804DB1F0).f8;
+            VecCopy(&spot->position, &p->position);
             u8 *w = get_character_save_record(arg0) + 0x2274;
-            ((TLobby *)w)->copy_struct(o);
+            copy_tombstone_spot(reinterpret_cast<TObjTombstoneSpot *>(w), spot);
         }
     }
 }
 
-void TLobby::copy_struct(u8 *arg1) {
-    u8 *arg0 = (u8 *)this;
-    *(u8 *)&this->m_name = (u8) *(u8 *)((s8 *)arg1 + 0);
-    *(u8 *)((s8 *)arg0 + 1) = (u8) *(u8 *)((s8 *)arg1 + 1);
-    *(u8 *)((s8 *)arg0 + 2) = (u8) *(u8 *)((s8 *)arg1 + 2);
-    *(u8 *)((s8 *)arg0 + 3) = (u8) *(u8 *)((s8 *)arg1 + 3);
-    *(ByteBlock_C *)((s32) (u8 *)&this->m_flags) = *(const ByteBlock_C *)((s32) arg1 + 4);
+#pragma push
+#pragma scheduling off
+void copy_tombstone_spot(TObjTombstoneSpot *destination, const TObjTombstoneSpot *source) {
+    volatile TObjTombstoneSpot *output = destination;
+    const volatile TObjTombstoneSpot *input = source;
+    output->phase = input->phase;
+    output->layout = input->layout;
+    output->floor = input->floor;
+    output->reserved_03 = input->reserved_03;
+#ifdef __MWERKS__
+    __memcpy(&destination->position, &source->position, sizeof(Vec));
+#else
+    destination->position = source->position;
+#endif
 }
+
+#pragma pop
 
 void TLobby::spawn_player_tombstones2() {
     s32 i;
-    Rec_802932EC *r;
-    Tag_802932EC *t;
+    ChallengeTombstonePlayerSlot *r;
+    const TObjTombstoneSpot *t;
     TLobby::reset_tombstone_values();
     for (i = 0; i < 4; i++) {
         r = &((G_802932EC *)lbl_804DB1F0)->recs[i];
         if (r->active != 0 && get_player_by_client_id(i) != 0) {
-            t = &r->tag;
+            t = &r->spot;
             if (t->phase == TWindowSubStatusDisp::resolve_player_slot(-1) &&
                 t->layout == ((G_802932EC *)lbl_804DB1F0)->layout &&
-                t->slot == ((G_802932EC *)lbl_804DB1F0)->slot) {
-                TLobby::create_tombstone((void *)tl_07, (void *)i, (void *)t);
+                t->floor == ((G_802932EC *)lbl_804DB1F0)->slot) {
+                TLobby::create_tombstone(reinterpret_cast<TObject *>(tl_07), i, t);
             }
         }
     }

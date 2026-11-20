@@ -1991,8 +1991,8 @@ force_active:
   - __ct__13TObjLobbyMainFP7TObjectPv
   - __ct__13TObjResultWinFP7TObjectPC21ChallengeResultRecord
   - __ct__13TObjSuisoChipFP8TObjBaseP14TObjChipParams
-  - __ct__13TObjTombstoneFP7TObjectlP17TObjTombstoneSpot
-  - __ct__13TObjTombstoneFP7TObjectlP19TObjTombstoneRecord
+  - __ct__13TObjTombstoneFP7TObjectlPC17TObjTombstoneSpot
+  - __ct__13TObjTombstoneFP7TObjectlPC19TObjTombstoneRecord
   - __ct__13TObjTreeLobbyFP7TObjectPv
   - __ct__13TObjWarnChimeFP7TObject
   - __ct__13TUnk_80488B38Fv
@@ -5378,7 +5378,7 @@ force_active:
   - copy_gauge_warn_vec__10TObjPlayerFv
   - copy_global_value_block__6TLobbyFv
   - copy_header_and_vec__6TSceneFPv
-  - copy_matrix__22TObjTombstoneDropRatesFPf
+  - copy_matrix__22TObjTombstoneDropRatesFPC22TObjTombstoneDropRates
   - copy_member_record__6TLobbyFPvPv
   - copy_motion_pair__13TUnk_804DDD28FPv
   - copy_move_params__23TObjOnlineEndingHexMoveFPvPv
@@ -5412,7 +5412,7 @@ force_active:
   - copy_state_block__6TLobbyFv
   - copy_struct28__17TWindowSubComCardFii
   - copy_struct__17TWindowSubComCardFPvPv
-  - copy_struct__6TLobbyFPUc
+  - copy_tombstone_spot__FP17TObjTombstoneSpotPC17TObjTombstoneSpot
   - copy_struct_f8__6TLobbyFii
   - copy_target_record__11TMainCursorFPvPv
   - copy_transform__10TNpcPlayerFPvPv
@@ -13878,7 +13878,7 @@ force_active:
   - process_trade_target__10TObjPlayerFiPv
   - profanity_word_table
   - project_step_to_ground__14TObjEneIllGillFl
-  - project_to_screen__13TObjTombstoneFPvPfP3Vec
+  - project_to_screen__13TObjTombstoneFPC13TObjTombstoneP10NJS_POINT2PC3Vec
   - prs_read_control_bit
   - prune_weapon_attributes__9TItemDropFPvPv
   - __ct__13TUnk_804A4F60FP7TObjectPUc
@@ -15650,7 +15650,7 @@ force_active:
   - set_visible_flag__14TBoss6PlotFalzFv
   - set_volopt_cage_flag__Fv
   - __ct__13TUnk_804ECDC0FP7TObjectPUc
-  - setup__13TObjTombstoneFlP19TObjTombstoneRecord
+  - setup__13TObjTombstoneFlPC19TObjTombstoneRecord
   - setup_action_channel__11TMainCursorFiPviii
   - setup_actor_draw_lighting__Fv
   - setup_color_channels__10TObjPlayerFi

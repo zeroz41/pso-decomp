@@ -2839,50 +2839,50 @@ void qst_op_set_chat_callback() {
 }
 
 void qst_op_set_cmode_grave_rates(s32 reg) {
-    f32 params[10];
+    TObjTombstoneDropRates rates;
     s32 *p = &qst_registers[(u8)reg];
     f32 num, den, ratio;
     num = p[0];
     den = p[1];
     ratio = num / den;
-    params[0] = ratio;
+    rates.count[0] = ratio;
     num = p[2];
     den = p[3];
     ratio = num / den;
-    params[1] = ratio;
+    rates.count[1] = ratio;
     num = p[4];
     den = p[5];
     ratio = num / den;
-    params[2] = ratio;
+    rates.count[2] = ratio;
     num = p[6];
     den = p[7];
     ratio = num / den;
-    params[3] = ratio;
+    rates.count[3] = ratio;
     num = p[8];
     den = p[9];
     ratio = num / den;
-    params[4] = ratio;
+    rates.kind[0] = ratio;
     num = p[10];
     den = p[11];
     ratio = num / den;
-    params[5] = ratio;
+    rates.kind[1] = ratio;
     num = p[12];
     den = p[13];
     ratio = num / den;
-    params[6] = ratio;
+    rates.kind[2] = ratio;
     num = p[14];
     den = p[15];
     ratio = num / den;
-    params[7] = ratio;
+    rates.kind[3] = ratio;
     num = p[16];
     den = p[17];
     ratio = num / den;
-    params[8] = ratio;
+    rates.kind[4] = ratio;
     num = p[18];
     den = p[19];
     ratio = num / den;
-    params[9] = ratio;
-    TObjTombstone__sub_80074E74(params);
+    rates.kind[5] = ratio;
+    set_tombstone_drop_rates(&rates);
 }
 
 void qst_op_chl_get_timerecord(s32 arg0) {
