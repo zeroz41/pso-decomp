@@ -321,7 +321,7 @@ s32 get_container_param(s32 index);
 extern const f32 lbl_805DBCFC;
 extern const f32 lbl_805DBD0C;
 extern "C" {
-s32 request_box_item_drop__9TObjCharaFPvs(s32, void *, s32, void *);
+s32 request_box_item_drop__9TObjCharaFPvs(saddr, void *, s32, void *);
 }
 extern const f32 lbl_805DBCF0;
 extern const f32 lbl_805DBD00;
@@ -589,7 +589,7 @@ void play_container_break_sound(saddr arg0) {
     }
 }
 
-void TUnk_804B6C24::spawn_item(s32 arg1) {
+void TUnk_804B6C24::spawn_item(saddr arg1) {
     u8 *arg0 = (u8 *)this;
     request_box_item_drop__9TObjCharaFPvs(arg1, (u8 *)&this->position, this->random_item, arg0);
 }
@@ -1022,7 +1022,7 @@ void TObjContainerBase::vfunc_6(s16 *arg1, s32 arg2) {
     if (arg2 != 0) {
         if ((s16) *arg1 == 1) {
             this->vfunc_79();
-            ((TUnk_804B6C24 *)arg0)->spawn_item((s32)arg0);
+            ((TUnk_804B6C24 *)arg0)->spawn_item((saddr)arg0);
             ((TObjCollidable *)arg0)->set_flag8();
             ((TObject *)arg0)->queue_destruction();
             this->mode = 1;

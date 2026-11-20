@@ -328,7 +328,7 @@ void TOContainerAncientItemCommon::vfunc_6(s16 *arg1, s32 arg2) {
     if ((s16) *arg1 == 1) {
         if (arg2 != 0) {
             this->vfunc_79();
-            this->spawn_item((s32)this);
+            this->spawn_item((saddr)this);
         }
         this->mode = 1;
         set_flag8();
