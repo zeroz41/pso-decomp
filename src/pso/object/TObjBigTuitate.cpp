@@ -6,6 +6,10 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/RenderFadeState_800D7BFC.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/render/GinjaMaterial.h"
+#include "pso/system/BmlResourceLoad.h"
+#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -55,15 +59,9 @@ struct ByteBlock_3C { u8 bytes[0x3c]; };
 
 extern "C" {
 void __ct__15RenderFadeStateFv(void *);
-s32 get_bml_texlist(s32, s32);
-s32 get_bml_model(s32, s32);
 s32 matrix_mult_vec(int, void *, void *);
-void push_matrix(void);
-void post_translate_matrix(void *);
-void set_global_param__8TObjFishFl(void);
-void draw_ginja_object(void);
-u32 TObjTuitate__bml_resource;
-u32 TObjBigTuitate__bml_resource;
+BmlResource *TObjTuitate__bml_resource;
+BmlResource *TObjBigTuitate__bml_resource;
 
 s32 init_collision_body_parts(void *, void *, int);
 s32 __ct__14TObjCollidableFP7TObject();
@@ -87,12 +85,10 @@ const char *TObjTuitate__class_name = "TObjTuitate";
 const char *TObjBigTuitate__name = "TObjBigTuitate";
 extern s32 __vt__14TObjBigTuitate[];
 
-void free_bin_model_request(void*, int);
 void free_collision_body_parts(void *);
 void __dl__7TObjectFPv(void *);
 
 
-u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 }
 extern void *tl_05;
 struct FadeBase_8019ADA0 { char pad[0x14]; };
@@ -131,20 +127,17 @@ extern s32 __vt__11TObjTuitate[];
 
 
 void load_tuitate_bml_resource(void) {
-    s32 temp_r3;
-    s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &fe_obj_tutate_resource_descriptor, 0, 0, 0));
+    BmlResource *storage = static_cast<BmlResource *>(::operator new(0x440));
+    if (storage != NULL) {
+        storage = load_resource_from_descriptor(storage, 1, &fe_obj_tutate_resource_descriptor, 0, 0, 0);
     }
-    TObjTuitate__bml_resource = var_r0;
+    TObjTuitate__bml_resource = storage;
 }
 
 void free_tuitate_bml_resource(void) {
-    if ((u32) TObjTuitate__bml_resource != 0U) {
-        free_bin_model_request((void*)TObjTuitate__bml_resource, 1);
-        TObjTuitate__bml_resource = 0U;
+    if (TObjTuitate__bml_resource != NULL) {
+        free_bin_model_request(TObjTuitate__bml_resource, 1);
+        TObjTuitate__bml_resource = NULL;
     }
 }
 
@@ -211,13 +204,11 @@ void TObjTuitate::render() {
     if (fading != 0) {
         ((Fade_8019ADA0 *)(arg0 + 0xAC))->begin();
     }
-    get_bml_texlist((*(s32 *)&TObjTuitate__bml_resource), 0);
-    set_global_param__8TObjFishFl();
+    TObjFish::set_global_param(get_bml_texlist(TObjTuitate__bml_resource, 0));
     push_matrix();
-    post_translate_matrix(arg0 + 0x38);
+    post_translate_matrix(&position.x);
     rotate_matrix_y(0, *(s32 *)(arg0 + 0x60));
-    get_bml_model((*(s32 *)&TObjTuitate__bml_resource), 0);
-    draw_ginja_object();
+    draw_ginja_object(reinterpret_cast<NJS_OBJECT *>(get_bml_model(TObjTuitate__bml_resource, 0)));
     pop_matrix();
     if (fading != 0) {
         ((Fade_8019ADA0 *)(arg0 + 0xAC))->end();
@@ -226,20 +217,17 @@ void TObjTuitate::render() {
 }
 
 void load_bigtuitate_bml_resource(void) {
-    s32 temp_r3;
-    s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &fe_obj_bigtutate_resource_descriptor, 0, 0, 0));
+    BmlResource *storage = static_cast<BmlResource *>(::operator new(0x440));
+    if (storage != NULL) {
+        storage = load_resource_from_descriptor(storage, 1, &fe_obj_bigtutate_resource_descriptor, 0, 0, 0);
     }
-    TObjBigTuitate__bml_resource = var_r0;
+    TObjBigTuitate__bml_resource = storage;
 }
 
 void TObjBigTuitate::free_instance() {
-    if ((u32) TObjBigTuitate__bml_resource != 0U) {
-        free_bin_model_request((void*)TObjBigTuitate__bml_resource, 1);
-        TObjBigTuitate__bml_resource = 0U;
+    if (TObjBigTuitate__bml_resource != NULL) {
+        free_bin_model_request(TObjBigTuitate__bml_resource, 1);
+        TObjBigTuitate__bml_resource = NULL;
     }
 }
 
@@ -306,13 +294,11 @@ void TObjBigTuitate::render() {
     if (fading != 0) {
         ((Fade_8019AA18 *)(arg0 + 0xAC))->begin();
     }
-    get_bml_texlist((*(s32 *)&TObjBigTuitate__bml_resource), 0);
-    set_global_param__8TObjFishFl();
+    TObjFish::set_global_param(get_bml_texlist(TObjBigTuitate__bml_resource, 0));
     push_matrix();
-    post_translate_matrix(arg0 + 0x38);
+    post_translate_matrix(&position.x);
     rotate_matrix_y(0, *(s32 *)(arg0 + 0x60));
-    get_bml_model((*(s32 *)&TObjBigTuitate__bml_resource), 0);
-    draw_ginja_object();
+    draw_ginja_object(reinterpret_cast<NJS_OBJECT *>(get_bml_model(TObjBigTuitate__bml_resource, 0)));
     pop_matrix();
     if (fading != 0) {
         ((Fade_8019AA18 *)(arg0 + 0xAC))->end();
