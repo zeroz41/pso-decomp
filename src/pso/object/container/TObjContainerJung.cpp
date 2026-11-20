@@ -100,7 +100,6 @@ s32 post_translate_matrix(void *);
 s32 push_matrix();
 extern s32 local_client_id;
 u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
-s32 set_global_param__8TObjFishFl();
 }
 
 struct Obj_8018CBF0 { u8 pad0[0x84]; s32 id; };
@@ -316,8 +315,7 @@ void TObjContainerJungEx::vfunc_81() {
 
     switch (this->mode) {
     case 0:
-        TObjContainerJungEx::get_textures(0);
-        set_global_param__8TObjFishFl();
+        TObjFish::set_global_param((s32)TObjContainerJungEx::get_textures(0));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
