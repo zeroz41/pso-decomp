@@ -342,11 +342,11 @@ void fn_8030B7B8(void) {  }
 void fn_8030B7B4(void) {  }
 
 void *TObjLiveCamera__create(void *arg0) {
-    void *o = (void *)new TObjLiveCamera((s32)tl_05, (s32)arg0);
+    void *o = (void *)new TObjLiveCamera((saddr)tl_05, (saddr)arg0);
     return o;
 }
 
-TObjLiveCamera::TObjLiveCamera(s32 parent, s32 arg2) : TObjBase((TObject *)((void *)parent)) {
+TObjLiveCamera::TObjLiveCamera(saddr parent, saddr arg2) : TObjBase((TObject *)((void *)parent)) {
     *(saddr *)((s8 *)this + 0) = (saddr) TObjLiveCamera__class_name;
     ((TObjLiveCamera *)(((u8 *)this)))->apply_object_set_data((void *)arg2);
 }
