@@ -1,3 +1,4 @@
+#include "pso/object/city/CityTraffic.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -23,7 +24,6 @@ extern "C" {
 extern s32 local_client_id;
 s32 is_local_client_floor_leader(s32);
 s32 close_windows__25TObjCityMainWarpChallengeFv();
-extern BmlResource *city_common_model_archive;
 s32 city_main_warp_destination_id;
 
 void TObjCityMainWarp::update_state() {
@@ -35,8 +35,8 @@ void TObjCityMainWarp::update_state() {
         *(s32 *)((s8 *)this + 0x17C) = 0x96;
         *(s16 *)((s8 *)this + 0xE0) = 1;
         *(s16 *)((s8 *)this + 0xE2) = (s16) (*(s16 *)((s8 *)this + 0xE2) | 1);
-        *(s32 *)((s8 *)this + 0xD0) = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x42C)) + 8);
-        *(s32 *)((s8 *)this + 0xD4) = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x430)) + 0x2C);
+        *(s32 *)((s8 *)this + 0xD0) = (s32) city_common_model_archive->models[0].model;
+        *(s32 *)((s8 *)this + 0xD4) = (s32) city_common_model_archive->motions[5].motion;
         return;
     case 1:
         if (TObjCityMainWarp::get_phase_flag() == 0) {

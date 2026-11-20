@@ -1,3 +1,8 @@
+#include "pso/system/BmlResource.h"
+#include "pso/animation/ActorAnimationState.h"
+#include "pso/render/GinjaMaterial.h"
+#include "pso/render/ModelDrawContext.h"
+#include "pso/object/city/CityTraffic.h"
 #include "types.h"
 #include "pso/unk/TLobby_8006F278.h"
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -74,12 +79,6 @@ struct Obj_80185664 { u8 pad[0x8C]; s32 dest; };
 
 struct Obj_80185824 { u8 pad[0xFC]; f32 fFC; };
 
-struct Info_80185BE8 { u32 f0; u32 n; };
-
-struct Anim_80185BE8 { u8 pad[0x3C]; Info_80185BE8 *info; };
-
-struct Root_80185BE8 { u8 pad[0x430]; Anim_80185BE8 *anim; };
-
 struct Obj_80185BE8 { u8 pad[0xC4]; f32 t; };
 
 extern "C" {
@@ -88,7 +87,6 @@ s32 get_bml_motion(s32, s32);
 
 s32 get_bml_texlist(s32, s32);
 
-s32 get_bml_model(s32, s32);
 
 void free_bin_model_request(void*, int);
 
@@ -125,9 +123,7 @@ s32 post_translate_matrix(void *);
 
 s32 set_global_param__8TObjFishFl(s32);
 
-s32 draw_ginja_object(s32);
 
-s32 draw_ginja_model_with_motion(s32, s32, f32);
 
 extern void request_active_window_close();
 
@@ -135,9 +131,7 @@ int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int 
 
 extern s16 TLobby__data_805D5CE8;
 
-extern u8 *city_common_model_archive;
 
-extern s32 city_common_texture_list;
 
 
 }
@@ -579,7 +573,7 @@ u8 TObjCityMainWarp::is_warp_enabled() {
 }
 
 void run_task__16TObjCityMainWarpFv(TObjCityMainWarp *city_main_warp) {
-    f32 lim = (f32)(*(u32 *)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x430)) + 0x3C)) + 4) - 1);
+    f32 lim = (f32)(city_common_model_archive->motions[7].motion->frameCount - 1);
 
     city_main_warp->m_c4 += 4.0f;
     if (city_main_warp->m_c4 >= lim) {
@@ -590,13 +584,13 @@ void run_task__16TObjCityMainWarpFv(TObjCityMainWarp *city_main_warp) {
 
 void TObjCityMainWarp::render() {
     if (update_object_view_visibility(400.0f, 35.0f) != 0) {
-        TObjFish::set_global_param(city_common_texture_list);
+        TObjFish::set_global_param((s32)city_common_texture_list);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        draw_ginja_object(*(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x42C)) + 0xC8));
+        draw_ginja_object((void *)city_common_model_archive->models[12].model);
         TParticleCtrl::begin_effect_render();
-        draw_ginja_model_with_motion(*(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x42C)) + 8), *(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x430)) + 0x2C), this->m_c4);
+        draw_ginja_model_with_motion((void *)city_common_model_archive->models[0].model, city_common_model_archive->motions[5].motion, this->m_c4);
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }
@@ -645,7 +639,7 @@ void TObjCityAreaWarp::run_task() {
     Obj_80185BE8 *arg0 = (Obj_80185BE8 *)this;
     f32 lim;
     if (TObjEneDD::is_main_phase_15() != 0) {
-        lim = (f32)(((Root_80185BE8 *)city_common_model_archive)->anim->info->n - 1);
+        lim = (f32)(city_common_model_archive->motions[7].motion->frameCount - 1);
         arg0->t += 4.0f;
         if (arg0->t >= lim) {
             arg0->t -= lim;
@@ -656,12 +650,12 @@ void TObjCityAreaWarp::run_task() {
 
 void TObjCityAreaWarp::do_warp() {
     if (this->update_object_view_visibility(400.0f, 32.0f) != 0) {
-        TObjFish::set_global_param(city_common_texture_list);
+        TObjFish::set_global_param((s32)city_common_texture_list);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
         TParticleCtrl::begin_effect_render();
-        draw_ginja_model_with_motion(*(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x42C)) + 0x18), *(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x430)) + 0x34), this->m_c4);
+        draw_ginja_model_with_motion((void *)city_common_model_archive->models[1].model, city_common_model_archive->motions[6].motion, this->m_c4);
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }
@@ -716,7 +710,7 @@ int TObjCityMapWarp::is_field88_zero() { return *(u32*)((char*)this + 0x88) == 0
 
 void TObjCityMapWarp::run_task() {
     Obj_80185824 *arg0 = (Obj_80185824 *)this;
-    u32 n = *(u32 *)(*(u8 **)(*(u8 **)(city_common_model_archive + 0x430) + 0x3C) + 4);
+    u32 n = city_common_model_archive->motions[7].motion->frameCount;
     f32 lim = (n - 1);
     arg0->fFC += 4.0f;
     if (arg0->fFC >= lim) {
@@ -730,18 +724,18 @@ void TObjCityMapWarp::run_task() {
 
 void TObjCityMapWarp::render() {
     if (this->update_object_view_visibility(400.0f, 32.0f) != 0) {
-        TObjFish::set_global_param(city_common_texture_list);
+        TObjFish::set_global_param((s32)city_common_texture_list);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
         if (is_field88_zero() != 0) {
-            draw_ginja_object(*(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x42C)) + 0xD8));
+            draw_ginja_object((void *)city_common_model_archive->models[13].model);
             TParticleCtrl::begin_effect_render();
-            draw_ginja_model_with_motion(*(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x42C)) + 0x38), *(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x430)) + 0x3C), *(f32 *)&this->unk_FC);
+            draw_ginja_model_with_motion((void *)city_common_model_archive->models[3].model, city_common_model_archive->motions[7].motion, *(f32 *)&this->unk_FC);
             TParticleCtrl::end_effect_render();
         } else {
             TParticleCtrl::begin_effect_render();
-            draw_ginja_model_with_motion(*(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x42C)) + 0x18), *(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x430)) + 0x34), *(f32 *)&this->unk_FC);
+            draw_ginja_model_with_motion((void *)city_common_model_archive->models[1].model, city_common_model_archive->motions[6].motion, *(f32 *)&this->unk_FC);
             TParticleCtrl::end_effect_render();
         }
         pop_matrix();
@@ -842,14 +836,13 @@ void TObjLaboMapWarp::render() {
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
         if (is_field88_zero() != 0) {
-            get_bml_model(TObjLaboMapWarp__resource_bundle, 1);
-            ((s32 (*)(void))draw_ginja_object)();
+            draw_ginja_object((void *)get_bml_model((BmlResource *)TObjLaboMapWarp__resource_bundle, 1));
             TParticleCtrl::begin_effect_render();
-            draw_ginja_model_with_motion(get_bml_model(TObjLaboMapWarp__resource_bundle, 0), get_bml_motion(TObjLaboMapWarp__resource_bundle, 0), *(f32 *)&this->unk_FC);
+            draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)TObjLaboMapWarp__resource_bundle, 0), (void *)get_bml_motion(TObjLaboMapWarp__resource_bundle, 0), *(f32 *)&this->unk_FC);
             TParticleCtrl::end_effect_render();
         } else {
             TParticleCtrl::begin_effect_render();
-            draw_ginja_model_with_motion(get_bml_model(TObjLaboMapWarp__resource_bundle, 0), get_bml_motion(TObjLaboMapWarp__resource_bundle, 0), *(f32 *)&this->unk_FC);
+            draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)TObjLaboMapWarp__resource_bundle, 0), (void *)get_bml_motion(TObjLaboMapWarp__resource_bundle, 0), *(f32 *)&this->unk_FC);
             TParticleCtrl::end_effect_render();
         }
         pop_matrix();

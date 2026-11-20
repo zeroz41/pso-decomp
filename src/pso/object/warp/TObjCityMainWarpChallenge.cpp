@@ -1,3 +1,4 @@
+#include "pso/object/city/CityTraffic.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -50,7 +51,6 @@ s32 get_window_layout_position(s32);
 s32 free_member__17TWindowSubComCardFv(void *, int);
 s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(void *, s32, s32, f32);
 extern s32 city_main_warp_destination_id;
-extern BmlResource *city_common_model_archive;
 s32 post_translate_matrix(void *);
 s32 update_floor_switch_state__16TObjCityMainWarpFv();
 void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
@@ -58,7 +58,6 @@ s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
 s32 update_state__16TObjCityMainWarpFv();
 extern s32 camera_ctrl_instance;
-extern s32 city_common_texture_list;
 
 TObjCityMainWarpChallenge::TObjCityMainWarpChallenge(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
     m_name = lbl_805D32B8;
@@ -132,7 +131,7 @@ void TObjCityMainWarpChallenge::render() {
     }
     if (update_object_view_visibility(400.0f, 40.0f) != 0) {
 block_4:
-        TObjFish::set_global_param(city_common_texture_list);
+        TObjFish::set_global_param((s32)city_common_texture_list);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
