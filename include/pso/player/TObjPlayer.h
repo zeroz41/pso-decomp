@@ -1570,6 +1570,20 @@ struct TObjPlayer : public TObjChara {
     int test_flag_8();
     s32 can_guard();
     void *set_mode_and_refresh_object(saddr item_data);
+    static void clamp_and_set_unit_value(int, u8, int);
+    static void *get_element(void *, int);
+    static void send_6x29_delete_item(void *, int, int);
+    static s32 find_free_slot(void *, void *);
+    static s32 fill_player_record(void *, void *);
+    s32 foreach_player();
+    static void begin_action_state(void *);
+    s32 for_each_player_slot();
+    static void send_code50_packet(int);
+    static void hit_object_in_radius(void *, void *, void *);
+    static void draw_strip_pos_normal(void *, void *, unsigned int);
+    static void draw_strip_list_pos_nrm(void *, void *, unsigned int);
+    static void draw_triangle_strips(void *, void *, unsigned int);
+    static int draw_textured_vertices(void *, int, int);
 };
 
 #include <stddef.h>

@@ -773,11 +773,11 @@ void dispatch_chunk_polygon_list(s16 *list, s32 vertex_buffer) {
                     set_chunk_blend_depth_mode(state.header, 1);
                     setup_chunk_tev_stages();
                     GXSetTexCoordGen2(0, 0, 1, 0x2A, 0, 0x7D);
-                    draw_strip_pos_normal__10TObjPlayerFPvPvUi(list, (Vtx_803E36C4 *) vertex_buffer, strip_info);
+                    TObjPlayer::draw_strip_pos_normal(list, (Vtx_803E36C4 *) vertex_buffer, strip_info);
                 } else {
                     set_chunk_blend_depth_mode(state.header, 0);
                     TObjPlayer::setup_tev_passclr();
-                    draw_strip_list_pos_nrm__10TObjPlayerFPvPvUi(list, (Vtx_803E36C4 *) vertex_buffer, strip_info);
+                    TObjPlayer::draw_strip_list_pos_nrm(list, (Vtx_803E36C4 *) vertex_buffer, strip_info);
                 }
                 break;
             case NJD_CS_UVN:
@@ -786,7 +786,7 @@ void dispatch_chunk_polygon_list(s16 *list, s32 vertex_buffer) {
                 if (state.header & (NJD_FST_ENV >> NJD_FST_SHIFT)) {
                     setup_chunk_tev_stages();
                     GXSetTexCoordGen2(0, 0, 1, 0x2A, 0, 0x7D);
-                    draw_triangle_strips__10TObjPlayerFPvPvUi(list, (Vtx_803E36C4 *) vertex_buffer, strip_info);
+                    TObjPlayer::draw_triangle_strips(list, (Vtx_803E36C4 *) vertex_buffer, strip_info);
                 } else if (chunk_has_vertex_colors != 0) {
                     setup_chunk_tev_stages();
                     GXSetTexCoordGen2(0, 1, 4, 0x3C, 0, 0x7D);

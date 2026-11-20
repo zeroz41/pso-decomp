@@ -31,6 +31,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/object/warp/TObjCityMainWarp.h"
 // The placement ordinals show_score_results prints; their strings open the unit's .sdata2.
 #pragma push
 char *lobby_rank_ordinal_text_table[] = {"1st", "2nd", "3rd", "4th"};
@@ -416,7 +417,6 @@ s32 record_local_battle_placement(void *);
 s32 has_player_active_menu__11TWindowCtrlFv(s32);
 uaddr TWindowDuelResult__ct(void *, s32);
 s32 align_menu_entry_positions(void *);
-s32 forward_trade_action_default__16TObjCityMainWarpFPviii(void *, s32, int, int);
 void *check_room_seq_4__16TAdChrSelASlotGCFl(void *, int);
 extern Flags_801C3AF4 *controller_input_state[];
 
@@ -813,9 +813,9 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
                 }
                 if (*(void **)((s8 *)arg0 + 0x50) == NULL) {
                     *(void **)((s8 *)arg0 + 0x50) = check_room_seq_4__16TAdChrSelASlotGCFl(get_window_layout_position(0x54), 3);
-                    forward_trade_action_default__16TObjCityMainWarpFPviii(*(void **)((s8 *)arg0 + 0x50), *(s32 *)((s8 *)(*(s32 **)((s8 *)arg0 + 0x40)) + 4), 6, 1);
-                    forward_trade_action_default__16TObjCityMainWarpFPviii(*(void **)((s8 *)arg0 + 0x50), *(s32 *)((s8 *)(*(s32 **)((s8 *)arg0 + 0x40)) + 8), 6, 2);
-                    forward_trade_action_default__16TObjCityMainWarpFPviii(*(void **)((s8 *)arg0 + 0x50), *(s32 *)((s8 *)(*(s32 **)((s8 *)arg0 + 0x40)) + 0xC), 6, 3);
+                    TObjCityMainWarp::forward_trade_action_default(*(void **)((s8 *)arg0 + 0x50), *(s32 *)((s8 *)(*(s32 **)((s8 *)arg0 + 0x40)) + 4), 6, 1);
+                    TObjCityMainWarp::forward_trade_action_default(*(void **)((s8 *)arg0 + 0x50), *(s32 *)((s8 *)(*(s32 **)((s8 *)arg0 + 0x40)) + 8), 6, 2);
+                    TObjCityMainWarp::forward_trade_action_default(*(void **)((s8 *)arg0 + 0x50), *(s32 *)((s8 *)(*(s32 **)((s8 *)arg0 + 0x40)) + 0xC), 6, 3);
                     ((TWindowSubComCard *)(*(void **)((s8 *)arg0 + 0x50)))->calc_window_size();
                     align_menu_entry_positions(*(void **)((s8 *)arg0 + 0x50));
                     ((TCheckRoomSequence *)(*(void **)((s8 *)arg0 + 0x50)))->set_ready_flag();

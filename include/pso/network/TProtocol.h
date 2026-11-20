@@ -322,6 +322,7 @@ public:
     void send_subcommand_to_client(s32 flag, s8 *src, s32 len);
 public:
     void bswap_cmd_AB();
+    static u8 *copy_player_data(void *, void *);
 };
 
 extern "C" {

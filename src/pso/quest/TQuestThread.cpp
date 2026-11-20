@@ -44,6 +44,7 @@
 #include "pso/unk/text_8026CB5C.h"
 #include "pso/map/FloorArea.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/object/warp/TObjCityMainWarp.h"
 
 
 #pragma readonly_strings on
@@ -167,7 +168,7 @@ TObjItemOKWindow::TObjItemOKWindow(TObject *parent) : TObject(parent) {
             sprintf(m_text, "%s", TObjItemOKWindow__sub_801F3268());
         }
         m_text[0x3F] = 0;
-        forward_trade_action_default__16TObjCityMainWarpFPviii(m_5c, (saddr)m_text, 0x81, 0);
+        TObjCityMainWarp::forward_trade_action_default(m_5c, (saddr)m_text, 0x81, 0);
     }
     ((TWindowSubComCardList *)m_5c)->set_scroll_target(442.0f, 64.0f);
     align_menu_entry_positions((uaddr)m_5c);
@@ -220,7 +221,7 @@ TObjItemNameSelect::TObjItemNameSelect(TObject *parent) : TObject(parent) {
     item_name_selection_table = TLobby::get_instance() == 0 ? item_name_table_a : item_name_table_b;
     m_1c = check_room_seq_4__16TAdChrSelASlotGCFl(get_window_layout_position(0x58), 0x19);
     for (i = 0; item_name_selection_table[i].text_id != -1; i++) {
-        forward_trade_action_default__16TObjCityMainWarpFPviii(m_1c, get_text_collection(item_name_selection_table[i].text_id), 6, i);
+        TObjCityMainWarp::forward_trade_action_default(m_1c, get_text_collection(item_name_selection_table[i].text_id), 6, i);
     }
     ((TWindowSubComCardList *)m_1c)->set_scroll_target(216.0f, 144.0f);
     TWindowSubComCard__sub_80265500((u8 *)m_1c);
@@ -279,7 +280,7 @@ TObjItemNameEntry::TObjItemNameEntry(TObject *parent) : TObject(parent) {
     }
     m_20 = check_room_seq_4__16TAdChrSelASlotGCFl(get_window_layout_position(0x56), 1);
     if (m_20 != NULL) {
-        forward_trade_action_default__16TObjCityMainWarpFPviii(m_20, get_message_text(0x47), 0x81, 0);
+        TObjCityMainWarp::forward_trade_action_default(m_20, get_message_text(0x47), 0x81, 0);
     }
     ((TWindowSubComCardList *)m_20)->set_scroll_target(442.0f, 64.0f);
     align_menu_entry_positions((uaddr)m_20);

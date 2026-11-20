@@ -496,7 +496,6 @@ void __ct__12TPlyCharDataFv(void *);
 #define get_player_by_client_id ((Pl_80292730 * (*)(s32))get_player_by_client_id)
 Pl_80292730 *create_player_object(s32, s32, void *);
 void clamp_and_set_unit_value__10TObjPlayerFiUci(void *, u8, s16);
-void begin_action_state__10TObjPlayerFPv(void *);
 void send_command__10TNpcPlayerFlScllPSc(u8, s32, s32, s32, void *);
 
 
@@ -560,7 +559,7 @@ void TLobby::rebuild_players_for_stage(s32 arg0) {
             }
             __ct__12TPlyCharDataFv(&cd);
             copy_player_visual_record(&cd.info, &info);
-            begin_action_state__10TObjPlayerFPv(&cd);
+            TObjPlayer::begin_action_state(&cd);
             send_command__10TNpcPlayerFlScllPSc(info.cls, tbl->f4, tbl->f8, tbl->f0, &cd);
             p = create_player_object(i, map, &cd);
             if (p == NULL) {

@@ -42,6 +42,7 @@ public:
     void update_input();
 public:
     int get_player_rank();
+    static void update_entries(int, int);
 };
 
 #include <stddef.h>

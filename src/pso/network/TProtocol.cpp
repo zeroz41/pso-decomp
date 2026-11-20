@@ -514,14 +514,14 @@ void send_player_data_98__9TProtocolFPvPvPvPvPvPvPv(Proto_801DC1E4 *self, u8 *ch
                                List_801DC1E4 *blocked_senders, Text_801DC1E4 *auto_reply, char *info_board) {
     if (self->connected) {
         validate_player_visual_record(char_data + 0x370);
-        copy_player_data__9TProtocolFPvPv(self->char_data, char_data);
+        TProtocol::copy_player_data(self->char_data, char_data);
         Join_801DC1E4 tmp;
         ((TProtocol *)(&tmp))->init_char_data();
         memset(&tmp, 0, sizeof(tmp));
         tmp.command = 0x98;
         tmp.flags = 3;
         tmp.size = sizeof(tmp);
-        copy_player_data__9TProtocolFPvPv(tmp.char_data, self->char_data);
+        TProtocol::copy_player_data(tmp.char_data, self->char_data);
         ((TLobby *)(tmp.challenge))->copy_player_record((u8 *)challenge);
         copy_choice_search_parameters(tmp.choice_search_config, choice_search_config);
         strncpy(tmp.info_board, info_board, sizeof(tmp.info_board));
@@ -559,14 +559,14 @@ void send_player_data_61__9TProtocolFPvPvPvPvPvPvPv(Proto_801DC34C *self, u8 *ch
                                List_801DC34C *blocked_senders, Text_801DC34C *auto_reply, char *info_board) {
     if (self->connected) {
         validate_player_visual_record(char_data + 0x370);
-        copy_player_data__9TProtocolFPvPv(self->char_data, char_data);
+        TProtocol::copy_player_data(self->char_data, char_data);
         Join_801DC34C tmp;
         ((TProtocol *)(&tmp))->init_char_data();
         memset(&tmp, 0, sizeof(tmp));
         tmp.command = 0x61;
         tmp.flags = 3;
         tmp.size = sizeof(tmp);
-        copy_player_data__9TProtocolFPvPv(tmp.char_data, self->char_data);
+        TProtocol::copy_player_data(tmp.char_data, self->char_data);
         ((TLobby *)(tmp.challenge))->copy_player_record((u8 *)challenge);
         copy_choice_search_parameters(tmp.choice_search_config, choice_search_config);
         strncpy(tmp.info_board, info_board, sizeof(tmp.info_board));

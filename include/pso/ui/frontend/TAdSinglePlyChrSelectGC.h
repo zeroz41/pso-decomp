@@ -184,6 +184,10 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 count_char_diffs(void *, void *);
     static s32 save_character_to_card();
     static s32 forward_to_global_instance(int);
+    static s32 increment_frame();
+    static s32 get_player_count();
+    static s32 save_online_character();
+    static s32 reset_character_data();
 };
 
 LAYOUT_ASSERT(TAdSinglePlyChrSelectGC_size, sizeof(TAdSinglePlyChrSelectGC) == 0x60);

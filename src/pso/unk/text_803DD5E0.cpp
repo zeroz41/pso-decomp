@@ -63,7 +63,6 @@ s32 TObjPlayer__sub_803D9E38(s32 *arg0, u32 arg1, s32 *arg2, u32 *arg3);
 s32 TObjPlayer__sub_803DAC48(Obj_803DDA68 *, s32, s32, s32, Desc_803DDA68 *, s32 *);
 s32 TObjPlayer__sub_803DD91C(Obj_803DDA68 *obj, s32 idx);
 s32 TObjPlayer__sub_803DDA68(Obj_803DDA68 *obj, s32 idx);
-s32 find_free_slot__10TObjPlayerFPvPv(Slot_803DDB34 **, Rec_803DDB34 **);
 s32 TObjPlayer__sub_803DAB7C(Obj_803DDA68 *, s32, s32);
 extern s32 player_ref_entry_active_count;
 s32 TObjPlayer__sub_803DDB34(Obj_803DDA68 *obj, s32 idx);
@@ -265,7 +264,7 @@ s32 TObjPlayer__sub_803DDB34(Obj_803DDA68 *obj, s32 idx) {
     case -1:
         return -1;
     case 0:
-        h = find_free_slot__10TObjPlayerFPvPv(&slot, &rec);
+        h = TObjPlayer::find_free_slot(&slot, &rec);
         if (h < 0) {
             return -1;
         }

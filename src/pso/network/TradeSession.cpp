@@ -266,7 +266,6 @@ void TWindowSubTradeMain::draw_request(void *arg0, void *arg1) {
 Half_802D38B4 TLobby__trade_window_state[2];
 extern "C" {
 s32 try_spend_actor_meseta(u8 *arg0, s32 arg1);
-void send_6x29_delete_item__10TObjPlayerFPvii(void *obj, s32 a, s32 b);
 s32 check_player_action_allowed();
 }
 void remove_list_entry_by_id(s32 arg0);
@@ -358,7 +357,7 @@ void TLobby::apply_trade_items() {
                                 remove_list_entry_by_id(id);
                                 flag = 1;
                             }
-                            send_6x29_delete_item__10TObjPlayerFPvii((void *)player, (s32)id, (s32)count);
+                            TObjPlayer::send_6x29_delete_item((void *)player, (s32)id, (s32)count);
                         }
                     }
                 }

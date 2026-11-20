@@ -109,6 +109,7 @@ struct TObjBoss2Tunnel : public TObject {
     void detach_children(void *arg);
     static void set_global_flag_100();
     static s32 is_active();
+    static void draw_projected_quads(void *, int);
 };
 
 LAYOUT_ASSERT(TObjBoss2Tunnel_size, sizeof(TObjBoss2Tunnel) == 0xDC);

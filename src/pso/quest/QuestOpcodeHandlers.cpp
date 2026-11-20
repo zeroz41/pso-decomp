@@ -58,6 +58,7 @@ int qst_label_address(int label);
 #include "pso/object/switch/TOChatSensorCapture.h"
 
 #include "pso/quest/challenge/TChallenge4PResult.h"
+#include "pso/quest/TQuestColCtrl.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/TObjSinBoard.h"
 #include "pso/object/TObjTombstone.h"
@@ -1169,7 +1170,6 @@ s32 send_field1c_packet__6TLobbyFl();
 s32 send_font_state__6TLobbyFl();
 void draw_small_label__15TFontSmallLobbyFi(s32 arg0);
 void TLobby__sub_801B1254(s32 arg0);
-s32 foreach_player__10TObjPlayerFv(s32 *);
 void send_6x24_teleport_player(u16 slot, void *pos, s32 heading);
 s32 prepare_guild_return__10TObjPlayerFPv(u32, s32);
 s32 player_flag_1__6TLobbyFv();
@@ -1178,10 +1178,8 @@ s32 enable_action_input__10TObjPlayerFPv();
 s32 disable_action_input__10TObjPlayerFv();
 s32 TObjPlayer__sub_801B3FD8();
 s32 TObjPlayer__sub_801B4044();
-void send_code50_packet__10TObjPlayerFi(s32 arg0);
 s32 send_code_49_1__10TObjPlayerFi();
 void get_item_record__23TShopJudgmentItemWindowFPv(void *, s32, s32);
-void send_6x29_delete_item__10TObjPlayerFPvii(void *obj, s32 a, s32 b);
 void send_6x21_inter_level_warp(void *obj, s32 value);
 u32 TObjPlayer__sub_801BFFA0(void *);
 int TFontSmallLobby__sub_801C013C(void *p);
@@ -1258,7 +1256,6 @@ s32 close_windows_by_flags__11TWindowCtrlFUs(int, void *);
 void open_default__11TWindowCtrlFi(u16, s32);
 s32 __ct__15TWindowHelpItemFPvUs(s32, s32, s32);
 void align_menu_entry_positions(s32 win);
-int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 saddr check_room_seq_4__16TAdChrSelASlotGCFl(s32 a, s32 b);
 uaddr update_window_mode_from_progress__6TLobbyFPv(s32, Pair_801F1838 *);
 }
@@ -1301,7 +1298,6 @@ int init_graph__6TLobbyFv(void*);
 int update_alloc_size__6TLobbyFv(void*);
 int get_selected_slot__6TLobbyFv(void*);
 s32 TLobby__sub_8032CDEC();
-void update_entries__18TChallenge4PResultFii(saddr arg0, s32 arg1);
 s32 fn_8034D3D0(u8 *, f32, s32, s32, s32, Vec *, s32);
 s32 fn_8034D790(u8 *, f32, s32, s32, s32, Vec *);
 s32 TLobby__sub_8034DAA0(int, int, void *);
@@ -1405,13 +1401,13 @@ void qst_op_item_create_multi_cm(u8 i) {
     item.id = ((u32 (*)(u16))advance_item_id_counter)(local_client_id);
     switch (mode) {
     case 0:
-        update_entries__18TChallenge4PResultFii((saddr)&item, (s32)(2));
+        TChallenge4PResult::update_entries((saddr)&item, (s32)(2));
         break;
     case 1:
-        update_entries__18TChallenge4PResultFii((saddr)&item, (s32)(0));
+        TChallenge4PResult::update_entries((saddr)&item, (s32)(0));
         break;
     case 2:
-        update_entries__18TChallenge4PResultFii((saddr)&item, (s32)(1));
+        TChallenge4PResult::update_entries((saddr)&item, (s32)(1));
         break;
     }
 }
@@ -1723,7 +1719,7 @@ void qst_op_wrap_item_with_color() {
     }
     player = get_player_by_client_id(local_client_id);
     if (player != 0) {
-        send_6x29_delete_item__10TObjPlayerFPvii((void *)player, (s32)id, 1);
+        TObjPlayer::send_6x29_delete_item((void *)player, (s32)id, 1);
         ((TItemData *)(&item))->set_wrapped();
         ((TItemData *)(&item))->set_present_color(n);
         if (((TObjPlayer *)player)->can_inventory_accept_item((u8 *)((Item_801EEE68 *)&item)) > 0) {
@@ -1746,7 +1742,7 @@ void qst_op_wrap_item() {
     }
     player = get_player_by_client_id(local_client_id);
     if (player != 0) {
-        send_6x29_delete_item__10TObjPlayerFPvii((void *)player, (s32)id, 1);
+        TObjPlayer::send_6x29_delete_item((void *)player, (s32)id, 1);
         ((TItemData *)(&item))->set_wrapped();
         if (((TObjPlayer *)player)->can_inventory_accept_item((u8 *)((Item_801EEE68 *)&item)) > 0) {
             ((TObjPlayer *)player)->request_inventory_item((TItemData*)((Item_801EEE68 *)&item));
@@ -1786,7 +1782,7 @@ void qst_op_item_delete_noreturn() {
     temp_r31 = qst_args[0];
     ret = get_player_by_client_id(local_client_id);
     if (ret != 0U) {
-        send_6x29_delete_item__10TObjPlayerFPvii((void *)ret, (s32)temp_r31, 1);
+        TObjPlayer::send_6x29_delete_item((void *)ret, (s32)temp_r31, 1);
     }
 }
 
@@ -2222,15 +2218,12 @@ void qst_op_fleti_fixed_camera() {
     set_fixed_position_and_target__11TCameraCtrlFPUcPUc(&a, &b, p);
 }
 
-extern "C" {
-u32 find_by_id__13TQuestColCtrlFUs(u16);
-}
 void qst_op_move_coords_object(s32 i, s32 k) {
     Vec v;
     v.x = qst_registers[(u8)k++];
     v.y = qst_registers[(u8)k++];
     v.z = qst_registers[(u8)k];
-    uaddr r = find_by_id__13TQuestColCtrlFUs((u16)qst_registers[(u8)i]);
+    uaddr r = TQuestColCtrl::find_by_id((u16)qst_registers[(u8)i]);
     if (r != 0) {
         ((TObjBase *)r)->set_position_from(&v);
     }
@@ -2670,7 +2663,7 @@ void qst_op_player_recovery(s32 arg0) {
     temp_r3 = ((s32 (*)(int, void *))get_player_by_client_id)((int) (qst_registers[(u8)arg0]), qst_registers);
     if (temp_r3 != 0) {
         send_code_49_1__10TObjPlayerFi();
-        send_code50_packet__10TObjPlayerFi((temp_r3));
+        TObjPlayer::send_code50_packet((temp_r3));
     }
 }
 
@@ -4803,12 +4796,12 @@ void qst_op_p_setpos(void) {
 }
 
 void qst_op_p_enablewarp(void) {
-    foreach_player__10TObjPlayerFv((s32 *)(&fn_801F3480.value));
+    ((TObjPlayer *)(&fn_801F3480.value))->foreach_player();
 }
 
 void qst_op_p_disablewarp(void) {
     TTecLuker::apply_all_players();
-    foreach_player__10TObjPlayerFv((s32 *)((void *) fn_801F34A0));
+    ((TObjPlayer *)fn_801F34A0)->foreach_player();
 }
 
 void qst_op_p_dead(void) {
@@ -5417,7 +5410,7 @@ void qst_op_list(void) {
     ((TLobby *)list)->tokenize_args(buf);
     qst_list_window = (void *)check_room_seq_4__16TAdChrSelASlotGCFl(get_window_layout_position(0x37), list->count);
     for (i = 0; i < list->count; i++) {
-        forward_trade_action_default__16TObjCityMainWarpFPviii(qst_list_window, (saddr)list->names[i], 7, (int)i);
+        TObjCityMainWarp::forward_trade_action_default(qst_list_window, (saddr)list->names[i], 7, (int)i);
     }
     ((TWindowSubComCard *)qst_list_window)->calc_window_size();
     align_menu_entry_positions((saddr)qst_list_window);

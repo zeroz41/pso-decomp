@@ -188,7 +188,7 @@ void TUnk_80494E10::run_task() {
         for (i = 0; i < registered_player_count + lbl_805D5870; i++) {
             pl = (void *)TObjPlayer::get_player_data(i);
             if (pl != NULL && is_valid_and_active__10TObjPlayerFUl() != 0) {
-                hit_object_in_radius__10TObjPlayerFPvPvPv((Src_800DC4B4 *)arg0, (Obj_800DC4B4 *)pl, att);
+                TObjPlayer::hit_object_in_radius((Src_800DC4B4 *)arg0, (Obj_800DC4B4 *)pl, att);
             }
         }
     }

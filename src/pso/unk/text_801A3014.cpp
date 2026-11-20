@@ -221,7 +221,6 @@ s32 is_area_transfer_pending();
 s32 apply_phase_keyboard_mode();
 s32 TLobby__sub_80141038(void *, int, int);
 s32 TLobby__sub_801A2E00();
-s32 for_each_player_slot__10TObjPlayerFv(void *);
 s32 rebuild_player_inventory(void *);
 s32 get_team_state__6TLobbyFPv();
 }
@@ -340,7 +339,7 @@ void TLobby::reload_offline_area() {
             ((TObject *)p)->set_parent((TObject *)tl_03);
             ((VObj_801A3014 *)p)->m6();
             rebuild_player_inventory(p);
-            for_each_player_slot__10TObjPlayerFv(fn_801B309C);
+            ((TObjPlayer *)fn_801B309C)->for_each_player_slot();
         }
     }
     load_battle_param_entry();
@@ -415,7 +414,7 @@ void TLobby::rebuild_area_keep_players() {
             ((TObject *)p)->set_parent((TObject *)tl_03);
             ((VObj_801A31D8 *)p)->m6();
             rebuild_player_inventory(p);
-            for_each_player_slot__10TObjPlayerFv(fn_801B309C);
+            ((TObjPlayer *)fn_801B309C)->for_each_player_slot();
         }
     }
     TQuestThread::create_for_floor();

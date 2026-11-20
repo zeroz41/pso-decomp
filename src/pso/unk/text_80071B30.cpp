@@ -50,7 +50,6 @@ void copy_player_visual_record(Chr_80071BC0 *, void *);
 Plr_80071BC0 *get_player_by_client_id(s32);
 Plr_80071BC0 *create_player_object(s32, s32, TPlyCharData *);
 void clamp_and_set_unit_value__10TObjPlayerFiUci(Plr_80071BC0 *, u8, s16);
-void begin_action_state__10TObjPlayerFPv(TPlyCharData *);
 void send_command__10TNpcPlayerFlScllPSc(u8, s32, s32, s32, TPlyCharData *);
 extern s32 local_client_id;
 s32 TLobby__sub_80071B30(s32 arg0, s32 arg1) {
@@ -111,7 +110,7 @@ void TObjPlayer::rebuild_players_for_stage(s32 arg0) {
             {
                 TPlyCharData cd;
                 copy_player_visual_record(&cd.chr, &chr);
-                begin_action_state__10TObjPlayerFPv(&cd);
+                TObjPlayer::begin_action_state(&cd);
                 send_command__10TNpcPlayerFlScllPSc(chr.f31, t->item_count, (saddr)t->items, t->level, &cd);
                 if (i == local_client_id) {
                     p = create_player_object(i, 0, &cd);
