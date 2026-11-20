@@ -58,7 +58,7 @@ extern void *__vt__14TPhotonRainbow[];
 extern const char *TPhotonRainbow__name;
 extern u8 *photon_blast_shared_resource;
 
-u8 *TPhotonRainbow__ct(u8 *photon_rainbow, s32 arg1_unused, s32 arg2) {
+u8 *TPhotonRainbow__ct(u8 *photon_rainbow, s32 arg1_unused, saddr arg2) {
     __ct__8TObjBaseFP7TObject();
     *(s32 **)((s8 *)photon_rainbow + 0x18) = (s32 *)&__vt__14TPhotonRainbow;
     *(s32 *)((s8 *)photon_rainbow + 0) = (s32) ((s32)TPhotonRainbow__name);

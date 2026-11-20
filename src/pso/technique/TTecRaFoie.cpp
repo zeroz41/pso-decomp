@@ -52,7 +52,7 @@ typedef struct TObjPlayer_80237FB8 {
 
 
 extern "C" {
-u32 find_entity_by_id(int);
+uaddr find_entity_by_id(int);
 void *spawn_particle_effect_with_flags(const void *pos, s32 id, s32 flags);
 void spawn_rafoie_explosion_bursts__13TUnk_804CCB28Fv(Obj_80237DAC *self);
 
@@ -520,7 +520,7 @@ void TTecRaFoie::vfunc_6(void *target_arg) {
 void TTecRaFoie::render() {  }
 
 void run_task__10TTecRaFoieFv(TTecRaFoie *tec_ra_foie) {
-    u32 entity;
+    uaddr entity;
     if ((uaddr) tec_ra_foie->m_e8 == 0U) {
         tec_ra_foie->queue_destruction();
         return;

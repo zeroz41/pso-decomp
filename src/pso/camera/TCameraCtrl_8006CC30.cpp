@@ -174,7 +174,7 @@ extern Vec TCameraCtrl__override_position;
 extern Vec camera_fixed_target_position;
 u8 TCameraCtrl__override_flags;
 extern "C" {
-s32 get_player_by_client_id(u32);
+saddr get_player_by_client_id(u32);
 extern u16 TCameraCtrl__camera_override_client_id;
 struct CameraControllerRegistry { s32 value; u8 remaining[0x64]; };
 extern CameraControllerRegistry camera_controller_registry;

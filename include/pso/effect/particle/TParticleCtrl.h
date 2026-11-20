@@ -40,8 +40,8 @@ public:
     static void setup_particle_draw(s32 arg0);
 public:
     static void *alloc_child_particle(void *param, void *pos, void *dir, void *parent);
-    u8 *construct_particle_obj(s32 arg1, s32 arg2);
-    u8 *init_particle_obj(s32 arg1, s32 arg2);
+    u8 *construct_particle_obj(s32 arg1, saddr arg2);
+    u8 *init_particle_obj(s32 arg1, saddr arg2);
     void enable();
     void *initialize_with_flags(const void *position, saddr particle_index, s32 field30, s32 field34, s32 field38, s32 use_self, u16 flags);
     void *initialize(const void *position, saddr particle_index, s32 field30, s32 field34, s32 field38, s32 use_self);

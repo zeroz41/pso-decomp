@@ -33,7 +33,7 @@ struct TEffIndirectCtrl : public TObject {
     u16 m_46;
     static void free_buffers();
     virtual void render();
-    void copy_and_flush_texture(s32 arg1);
+    void copy_and_flush_texture(saddr arg1);
     static void free_all();
     void update_scroll_mode();
     void update_eff_indirect();

@@ -471,7 +471,7 @@ void TUnk_8048E790::render() {
 TUnk_8048E790::~TUnk_8048E790() {}
 #pragma push
 #pragma fp_contract on
-TUnk_8048E790::TUnk_8048E790(u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4, u16 arg5, s16 arg6)
+TUnk_8048E790::TUnk_8048E790(u8 *arg1, u8 *arg2, u8 *arg3, saddr arg4, u16 arg5, s16 arg6)
     : TUnk_8048E728((ParticleParam *)arg1, (TObject *)arg4) {
     Obj_8008AC24 *o = (Obj_8008AC24 *)this;
     Desc_8008AC24 *d = (Desc_8008AC24 *)arg1;

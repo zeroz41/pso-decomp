@@ -306,9 +306,9 @@ void free_team_buffers__6TLobbyFv(void);
 #define lobby_slot_ptr_table (*(s32 (*)[1])&lobby_slot_ptr_table)
 #define area_event_set_heap (*(s32 *)&area_event_set_heap)
 
-s32 TLobby::add_player(s32 arg0, s32 arg1, s32 arg2) {
+s32 TLobby::add_player(s32 arg0, saddr arg1, s32 arg2) {
     s32 temp_r29;
-    s32 temp_r3;
+    saddr temp_r3;
 
     if (arg0 > 0x11) {
         return 0;

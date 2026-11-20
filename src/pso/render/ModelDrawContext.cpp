@@ -39,7 +39,7 @@ s32 pop_matrix();
 s32 queue_model_draw_matrix(int, void *);
 }
 s32 model_node_callback;
-extern s32 current_matrix;
+extern saddr current_matrix;
 void draw_ginja_motion_node_tree(u8 *arg0);
 void flush_model_draw_queue(void);
 extern "C" {

@@ -96,7 +96,7 @@ void TUnk_80488838::reset_behind_player() {
     }
 }
 
-void target_player0__11TCameraCtrlFi(s32 arg0) {
+void target_player0__11TCameraCtrlFi(saddr arg0) {
     Vec stack;
     u8 *player;
     player = (u8 *)(get_player_by_client_id(0));

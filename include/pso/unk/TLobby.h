@@ -854,7 +854,7 @@ struct TLobby : public TObject {
     static void import_sync_records(s16 *arg0);
     static s32 export_sync_records(s16 *arg0);
     static u8 *alloc_heap_slot(s32 arg0, s32 arg1);
-    static s32 add_player(s32 arg0, s32 arg1, s32 arg2);
+    static s32 add_player(s32 arg0, saddr arg1, s32 arg2);
     static s32 load_all_floor_event_sets();
     static int get_destroy_event_obj();
     static void free_data_60F0();

@@ -170,7 +170,7 @@ TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 void construct_actor_light_task(void *, void *, void *, s32, u8 *, f32, s32);
 extern void *__vt__13TItemEffArmor[];
 extern Parm_80108020 default_scene_light_config;
-extern s32 tl_07;
+extern saddr tl_07;
 
 Self_80108020 *TItemEffArmor__ct(Self_80108020 *self, u8 *obj, f32 a, f32 b);
 

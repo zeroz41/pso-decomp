@@ -81,7 +81,7 @@ TSetEvtDestroy::~TSetEvtDestroy() {
 
 #include "types.h"
 
-s32 get_area_event_data(s32 arg0);
+saddr get_area_event_data(s32 arg0);
 s32 next_event_shuffle_entry(EventShuffleTable *s);
 
 void init_event_shuffle_table(EventShuffleTable *arg0, s32 arg1);

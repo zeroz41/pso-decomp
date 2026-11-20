@@ -4,16 +4,16 @@
 #include "types.h"
 
 extern "C" {
-void TLobby__sub_8024AC20(s32 arg0);
-void TObjPlayer__sub_8024ABDC(s32 arg0);
-void TWindowSubComCard__sub_8024AB98(s32 arg0);
+void TLobby__sub_8024AC20(saddr arg0);
+void TObjPlayer__sub_8024ABDC(saddr arg0);
+void TWindowSubComCard__sub_8024AB98(saddr arg0);
 }
 
 // --- C functions defined in text_8024AB98.cpp ---
 extern "C" {
-void TLobby__sub_8024AC20(s32 arg0);
-void TObjPlayer__sub_8024ABDC(s32 arg0);
-void TWindowSubComCard__sub_8024AB98(s32 arg0);
+void TLobby__sub_8024AC20(saddr arg0);
+void TObjPlayer__sub_8024ABDC(saddr arg0);
+void TWindowSubComCard__sub_8024AB98(saddr arg0);
 }
 // --- end of C functions
 

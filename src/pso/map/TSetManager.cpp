@@ -44,7 +44,7 @@ ObjRow_8020E08C *TLobby__data_805D610C;
 s32 TLobby__current_floor_object_set_count;
 EneRow_8020E08C *TLobby__data_805D6114;
 s32 TLobby__current_floor_enemy_set_count;
-u32 TLobby__data_805D611C;
+uaddr TLobby__data_805D611C;
 s32 TLobby__data_805D6120;
 uaddr TLobby__data_805D6124;
 s32 TLobby__data_805D6128;
@@ -213,7 +213,7 @@ void TLobby::clear_floor_flags_and_depart() {
 
 void TLobby::setup_floor_decorations() {
     Vec3_8020DB44 v;
-    s32 r;
+    saddr r;
     arrive_floor_population();
     (*(s32 *)&TLobby__data_805D611C) = 0;
     TLobby__data_805D6134 &= ~8;
@@ -384,7 +384,7 @@ void *TQuestVmDownLoadServer__sub_8007EBDC(s32, s32);
 void arrive_floor_population(void) {
     s32 index;
     Floor_8020E08C *floor;
-    s32 bytes;
+    saddr bytes;
     ObjRow_8020E08C *o;
     Saved_8020E08C *r;
     s32 i;

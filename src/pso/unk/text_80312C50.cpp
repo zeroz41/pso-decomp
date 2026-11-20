@@ -28,7 +28,7 @@ void release_photon_blast_requests(void *registry);
 
 void release_photon_blast_requests(void *registry) {
     s32 count;
-    s32 i;
+    saddr i;
     u8 *owner;
     count = TObjPlayer__sub_803131AC(registry);
     for (i = 0; i < count; i++) {
@@ -45,7 +45,7 @@ void release_photon_blast_requests(void *registry) {
 
 void *TObjPlayer::find_by_section_id(u16 section) {
     s32 n;
-    s32 i;
+    saddr i;
     u8 *e;
     n = TObjPlayer__sub_803131AC(this);
     for (i = 0; i < n; i++) {
@@ -59,7 +59,7 @@ void *TObjPlayer::find_by_section_id(u16 section) {
 
 void TObjPlayer::create_party_effects(s32 id) {
     s32 n;
-    s32 i;
+    saddr i;
     saddr sec;
     Ply_80312D4C *ent;
     u8 *e;
@@ -79,7 +79,7 @@ void TObjPlayer::create_party_effects(s32 id) {
 typedef u16 (*SectionFn_80312E0C)(void *);
 u16 TObjPlayer::find_first_valid_target_id() {
     s32 n;
-    s32 i;
+    saddr i;
     u8 *e;
     u8 *ent;
     n = TObjPlayer__sub_803131AC(this);
@@ -132,7 +132,7 @@ loop_1:
 }
 void TObjPlayer__sub_80313010(void *o, s32 id) {
     s32 n;
-    s32 i;
+    saddr i;
     void *e;
     n = TObjPlayer::get_max_children(o);
     for (i = 0; i < n; i++) {

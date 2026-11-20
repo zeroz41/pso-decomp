@@ -42,7 +42,7 @@ s32 lbl_805D65F0;
 void *scene_sora_instance;
 u16 scene_sora_reflect_active;
 u8 scene_sora_recon_active_flag;
-u32 scene_sora_recon_object;
+uaddr scene_sora_recon_object;
 
 // The direction the reflection ray is cast along (straight up until
 // TSceneSora::copy_reflection_vec replaces it).
@@ -335,7 +335,7 @@ void GXSetTevOp(s32 stage, s32 mode);
 void GXSetTevOrder(s32 stage, s32 coord, s32 map, s32 color);
 }
 const f64 lbl_80465E18 = 0.0054931640625;
-extern u32 camera_ctrl_instance;
+extern uaddr camera_ctrl_instance;
 extern "C" {
 void normalize_vector(Vec *);
 const Vec sora_reflection_up_vec = {0.0f, 1.0f, 0.0f};

@@ -27,7 +27,7 @@ struct View_8006B798 {
 };
 
 extern s32 local_client_id;
-extern s32 tl_07;
+extern saddr tl_07;
 u8 *create_conversation_camera(s32 arg0);
 
 struct NpcCameraDestination {
@@ -179,7 +179,7 @@ void TCameraCtrl::create(saddr arg0, s32 arg1, s32 arg2) {
 }
 
 typedef struct RecoveredFields_8006B588_arg0 RecoveredFields_8006B588_arg0;
-u8 *TCameraCtrl::init_conversation_camera(s32 i, s32 arg2, s32 arg3) {
+u8 *TCameraCtrl::init_conversation_camera(s32 i, s32 arg2, saddr arg3) {
   void *new_var;
   __ct__7TObjectFP7TObject((void *) this, (void *) arg3);
   ((RecoveredFields_8006B588_arg0 *) ((u8 *)this))->field_18 = ((s32 *)&__vt__13TUnk_80488AD8);

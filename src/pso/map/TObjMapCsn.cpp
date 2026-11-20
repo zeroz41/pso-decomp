@@ -164,7 +164,7 @@ TObjMapCsn::~TObjMapCsn() {
         fn_80140DFC((((u32)TObjMapCsn::get_map_count())), (saddr)((u8 *)this));
     }
 }
-TObjMapCsn::TObjMapCsn(s32 arg1, s32 arg2) : TObjCollidable((TObject *)arg1) {
+TObjMapCsn::TObjMapCsn(saddr arg1, saddr arg2) : TObjCollidable((TObject *)arg1) {
     f32 temp_f0;
     f32 temp_f1;
     m_name = TObjMapCsn__class_name;

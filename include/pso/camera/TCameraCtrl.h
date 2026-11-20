@@ -151,12 +151,12 @@ struct TCameraCtrl : public TObject {
     static void reset_view_state();
     static void reset();
     static void select_active_controller(s8 arg0);
-    static void calc_axes_from_angles(saddr arg0, s32 arg1, s32 arg2);
+    static void calc_axes_from_angles(saddr arg0, saddr arg1, saddr arg2);
     static int get_instance();
     static int get_camera_id();
     static void set_target_coords(int a0, int a1);
     int reset_battle_camera();
-    u8 *init_conversation_camera(s32 arg1, s32 arg2, s32 arg3);
+    u8 *init_conversation_camera(s32 arg1, s32 arg2, saddr arg3);
     static s32 clamp_distance(s32 arg0, s32 arg1, s32 arg2);
     static void free_entries();
     static void load_camera_banks();

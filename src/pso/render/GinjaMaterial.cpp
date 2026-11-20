@@ -66,7 +66,7 @@ void GXSetBlendMode(s32, s32, s32, s32);
 extern u32 ginja_draw_flags;
 extern u32 model_render_flags;
 void queue_model_draw_matrix(s32, s32);
-extern s32 current_matrix;
+extern saddr current_matrix;
 extern S_803DB560 ginja_material_cache;
 void GXSetAlphaCompare(s32 comp0, s32 ref0, s32 op, s32 comp1, s32 ref1);
 extern s32 ginja_texcoord_ids[];

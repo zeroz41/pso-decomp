@@ -227,7 +227,7 @@ void matrix_mult_vec(f32 (*m)[4], const Vec *src, Vec *dst) {
 #pragma push
 #pragma scheduling off
 void TObjPlayer::mult_vec_array(u32 arg0, s32 arg1) {
-    u32 var_r3;
+    uaddr var_r3;
     var_r3 = arg0;
     if (var_r3 == 0U) {
         var_r3 = (u32) current_matrix;
@@ -256,7 +256,7 @@ asm f32 vec3_dot(const Vec *a, const Vec *b) {
 #pragma scheduling off
 
 void TObjPlayer::invert_matrix_in_place(uaddr arg0) {
-    u32 var_r3;
+    uaddr var_r3;
     var_r3 = arg0;
     if (var_r3 == 0U) {
         var_r3 = (*(u32 *)&current_matrix);
@@ -285,7 +285,7 @@ void rotate_matrix_zyx(void *m, s32 x, s32 y, s32 z) {
 }
 #pragma pop
 
-void rotate_matrix_yxz(s32 matrix, s32 arg1, s32 arg2, s32 arg3) {
+void rotate_matrix_yxz(saddr matrix, s32 arg1, s32 arg2, s32 arg3) {
     if (arg2 != 0) {
         rotate_matrix_y((void *)matrix, (s32)arg2);
     }

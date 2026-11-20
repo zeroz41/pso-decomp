@@ -40,7 +40,7 @@ extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_800A38A4___vt__12TEneEffHamon __vt__12TEneEffHamon;
 const char *TEneEffHamon__name = "TEneEffHamon";
-extern s32 tl_06;
+extern saddr tl_06;
 s32 scale_matrix(int, f32, f32, f32);
 s32 push_matrix();
 s32 post_translate_matrix(void *);

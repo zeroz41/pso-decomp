@@ -81,7 +81,7 @@ extern const char TLobby__data_8043EF38[];
 extern const char lobby_debug_burst_player_format[];
 extern const char lobby_debug_udp_close_player_format[];
 extern s32 TLobby__designated_client_id;
-extern s32 local_client_id;
+extern saddr local_client_id;
 void on_game_player_add__6TLobbyFiii(saddr arg0, s32 arg1, s32 arg2);
 s32 queue_destruction__7TObjectFv(void *);
 void set_menu_mode_2__6TLobbyFv();
@@ -990,7 +990,7 @@ extern const NJS_POINT2 lbl_8043EE10[];
 saddr get_window_layout_position(s32);
 u32 update_window_mode_from_progress__6TLobbyFPv(s32 arg0, void *arg1);
 void TLobby__sub_801371B0(s32 arg0);
-extern u32 TLobby__download_list_window;
+extern uaddr TLobby__download_list_window;
 extern const NJS_POINT2 lbl_8043EE08[];
 saddr get_window_layout_position(s32);
 u32 update_window_mode_from_progress__6TLobbyFPv(s32 arg0, void *arg1);
@@ -1004,7 +1004,7 @@ s32 reset_state__6TLobbyFv(s32);
 
     extern int local_client_id;
 
-extern s32 TLobby__protocol_instance;
+extern saddr TLobby__protocol_instance;
 
 }
 }
@@ -1018,7 +1018,7 @@ extern "C" {
 void send_position_update__6TLobbyFv(void);
 s32 send_character_save_info__9TProtocolFii(s32, s32, s32);
 
-extern s32 TLobby__protocol_instance;
+extern saddr TLobby__protocol_instance;
 
 }
 }
@@ -1069,7 +1069,7 @@ s32 open_hard_keyboard__6TLobbyFPv(void *);
 void TLobby__sub_80077798(void *, void *);
 void TLobby__sub_800703D0(void *, void *);
 void send_player_data_61__9TProtocolFPvPvPvPvPvPvPv(void *, void *, void *, void *, void *, void *, void *);
-extern s32 local_client_id;
+extern saddr local_client_id;
 extern void *TLobby__protocol_instance;
 void send_selected_character__6TLobbyFv(void);
 void lobby_debug_printf_stub(const char *fmt, ...);
@@ -1082,7 +1082,7 @@ void *get_player_by_client_id(s32);
 s32 send_login_9e_extended__6TLobbyFPvPvi(int, void *, int);
 extern const char lobby_msg_registed[];
 extern const char lobby_msg_name_taken[];
-extern s32 local_client_id;
+extern saddr local_client_id;
 extern void *TLobby__protocol_instance;
 void handle_register_result__6TLobbyFi(s32 arg0);
 void construct_lobby_players(Rec_801378AC *, s32, int, s32);
@@ -1174,7 +1174,7 @@ s32 init_effect_5f0__10TObjPlayerFv();
 extern uaddr TLobby__card_list_window;
 extern uaddr TLobby__download_list_window;
 extern uaddr TLobby__list_window;
-extern u32 lobby_player_construction_window;
+extern uaddr lobby_player_construction_window;
 extern uaddr TLobby__join_entry_window_obj;
 extern uaddr TLobby_warp_menu_window;
 extern uaddr lobby_com_card_window;
@@ -1183,16 +1183,16 @@ extern uaddr lobby_keyboard_prompt_window;
 extern uaddr lobby_keyboard_controller;
 extern uaddr lobby_scroll_text_window;
 
-extern s32 local_client_id;
+extern saddr local_client_id;
 
 LAYOUT_ASSERT(RecoveredGlobal_80137B50___vt__6TLobby_size, sizeof(RecoveredGlobal_80137B50___vt__6TLobby) == 0x18);
 
-extern s32 local_client_id;
+extern saddr local_client_id;
 
 extern uaddr lobby_com_card_window;
 
 void open_city_warp_menu__6TLobbyFv(void);
-s32 get_seq_phase__6TLobbyFPv(s32);
+saddr get_seq_phase__6TLobbyFPv(s32);
 s32 forward_trade_action_default__16TObjCityMainWarpFPviii(s32, s32, s32, s32);
 s32 align_menu_entry_positions(s32);
 s32 check_room_seq_4__16TAdChrSelASlotGCFl(s32, s32);
@@ -1212,7 +1212,7 @@ extern s32 TLobby__data_805D5594;
 
 extern s32 TLobby__data_805D5594;
 
-extern s32 local_client_id;
+extern saddr local_client_id;
 extern s32 TLobby__data_805D5594;
 extern uaddr lobby_keyboard_prompt_window;
 extern saddr TLobby__join_lobby_controller;
@@ -1247,7 +1247,7 @@ s32 align_menu_entry_positions(s32);
 saddr get_window_layout_position(s32);
 s32 check_room_seq_4__16TAdChrSelASlotGCFl(s32, s32);
 s32 forward_trade_action_default__16TObjCityMainWarpFPviii(s32, s32, s32, s32);
-s32 get_seq_phase__6TLobbyFPv(s32);
+saddr get_seq_phase__6TLobbyFPv(s32);
 
 extern s32 TLobby__data_805D5594;
 
@@ -1258,7 +1258,7 @@ extern s32 TLobby__data_805D5594;
 extern saddr TLobby__join_lobby_controller;
 
 void open_menu_window__6TLobbyFv(void);
-s32 get_seq_phase__6TLobbyFPv(s32);
+saddr get_seq_phase__6TLobbyFPv(s32);
 s32 forward_trade_action_default__16TObjCityMainWarpFPviii(s32, s32, s32, s32);
 s32 align_menu_entry_positions(s32);
 s32 check_room_seq_4__16TAdChrSelASlotGCFl(s32, s32);
@@ -1274,7 +1274,7 @@ s32 send_game_list__9TProtocolFv(s32);
 extern s32 TLobby__data_805D5594;
 
 void show_dialog_value_line(saddr arg0);
-s32 get_seq_phase__6TLobbyFPv(s32);
+saddr get_seq_phase__6TLobbyFPv(s32);
 extern char lbl_80509D3C[];
 extern char lobby_join_message_buffer[];
 extern void *TLobby__protocol_instance;
@@ -1292,7 +1292,7 @@ s32 align_menu_entry_positions(s32);
 saddr get_window_layout_position(s32);
 s32 check_room_seq_4__16TAdChrSelASlotGCFl(s32, s32);
 s32 forward_trade_action_default__16TObjCityMainWarpFPviii(s32, s32, s32, s32);
-s32 get_seq_phase__6TLobbyFPv(s32);
+saddr get_seq_phase__6TLobbyFPv(s32);
 
 extern s32 TLobby__data_805D5594;
 
@@ -1497,7 +1497,7 @@ extern uaddr TLobby__join_entry_window_obj;
 extern const NJS_POINT2 lbl_8043EDF8[];
 saddr get_window_layout_position(s32);
 u32 update_window_mode_from_progress__6TLobbyFPv(s32 arg0, void *arg1);
-s32 get_seq_phase__6TLobbyFPv(s32);
+saddr get_seq_phase__6TLobbyFPv(s32);
 extern const NJS_POINT2 lbl_8043EDF0[];
 extern const f32 lbl_805DB0B8;
 saddr get_window_layout_position(s32);
@@ -1507,7 +1507,7 @@ extern const NJS_POINT2 lbl_8043EDE8[];
 extern const f32 lbl_805DB0B8;
 saddr get_window_layout_position(s32);
 u32 update_window_mode_from_progress__6TLobbyFPv(s32 arg0, void *arg1);
-s32 get_seq_phase__6TLobbyFPv(s32);
+saddr get_seq_phase__6TLobbyFPv(s32);
 extern const char lobby_window_title_taisen_team[];
 extern s8 controller_input_state[];
 extern uaddr TLobby__list_window;
@@ -3367,7 +3367,7 @@ int get_seq_phase__6TLobbyFPv(void* p);
 s32 send_logout__9TProtocolFv(void*);
 int get_online_message_text(void*);
 
-extern u32 TLobby__protocol_instance;
+extern uaddr TLobby__protocol_instance;
 
 void send_logout__6TLobbyFv(void) {
     if ((u32) TLobby__protocol_instance != 0U) {
@@ -3392,7 +3392,7 @@ saddr get_connection_message_text(int);
 void reset_controller_input_state(void);
 s32 socket_set_server_info(u32, const void *, const void *, saddr, saddr, saddr, u16);
 s8 TAdSinglePlyChrSelectGC__sub_8033605C(void);
-extern u32 TLobby__protocol_instance;
+extern uaddr TLobby__protocol_instance;
 extern s32 TLobby__join_state_flag;
 extern s32 TLobby__date_seconds;
 extern s32 lbl_805D55C0;
@@ -3524,7 +3524,7 @@ void handle_trade_received_items();
 extern u8 __vt__6TLobby[];
 extern s32 lobby_class_name;
 extern s32 TLobby__data_805D4E30;
-extern s32 local_client_id;
+extern saddr local_client_id;
 extern s32 TLobby__designated_client_id;
 extern u8 *TLobby__protocol_instance;
 extern s32 TLobby__lobby_entered_flag;
@@ -3546,9 +3546,9 @@ extern s32 TLobby__login_pending_flag;
 extern s32 lbl_805D55C0;
 extern s32 lobby_login_result_flag;
 extern s32 TLobby__card_list_window;
-extern s32 TLobby__download_list_window;
+extern saddr TLobby__download_list_window;
 extern s32 TLobby__list_window;
-extern s32 lobby_player_construction_window;
+extern saddr lobby_player_construction_window;
 extern s32 TLobby__current_dialog_window;
 extern s32 TLobby__join_entry_window_obj;
 extern s32 TLobby_warp_menu_window;

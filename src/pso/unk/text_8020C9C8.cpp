@@ -31,7 +31,7 @@ extern "C" {
 s32 set_room_group_flags__6TLobbyFlssl(s32, s32, s32, s32);
 Obj_8020C9C8 *create_set_object_from_row(Set_8020C9C8 *);
 extern u8 *quest_object_entries;
-s32 unhide_room_set_objects(s32 arg0, s32 arg1, s32 arg2) {
+s32 unhide_room_set_objects(saddr arg0, s32 arg1, s32 arg2) {
     s32 n;
     s32 count;
     s32 local;

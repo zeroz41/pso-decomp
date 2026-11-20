@@ -92,7 +92,7 @@ void *__ct__15TItemEffBringerFv(Bringer_8010834C *self, u32 arg1, Vec *src, s32 
 }
 #pragma pop
 
-void *TItemEffBringer::create(u32 arg0, s32 src, s32 arg2, f32 farg0) {
+void *TItemEffBringer::create(u32 arg0, saddr src, s32 arg2, f32 farg0) {
     if ((0.0f != farg0) && (arg0 != 0U)) {
         void *obj = TObject::operator new(0x90);
         if (obj != NULL) {

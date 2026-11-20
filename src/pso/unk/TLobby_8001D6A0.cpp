@@ -778,7 +778,7 @@ s32 TLobby::get_clock_frames() {
 void TLobby__sub_8001E998(f32 farg0, f32 farg1, f32 farg2, f32 farg3) {
     f32 scale;
     f32 var_f4;
-    s32 temp_r31;
+    saddr temp_r31;
     var_f4 = farg3;
     if (!(var_f4 <= 0.0f)) {
         if (var_f4 > 1.0f) {
@@ -797,7 +797,7 @@ void TLobby__sub_8001E998(f32 farg0, f32 farg1, f32 farg2, f32 farg3) {
 void TLobby__sub_8001EA5C(f32 x, f32 y, f32 size, f32 alpha) {
     s32 frames;
     saddr text_color;
-    s32 color;
+    saddr color;
     s32 beat;
     f32 scale;
     u32 elapsed;

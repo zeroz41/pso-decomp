@@ -31,7 +31,7 @@ int GXSetNumIndStages(int);
 int GXSetTevDirect(int);
 extern s32 __vt__13TUnk_804ED5B0[];
 s32 __ct__7TObjectFP7TObject(void *, void *);
-extern s32 tl_05;
+extern saddr tl_05;
 s32 GXSetNumTexGens(int);
 s32 GXSetNumTevStages(int);
 s32 rotate_matrix_y(int, int);

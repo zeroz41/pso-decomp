@@ -502,7 +502,7 @@ s32 verify_message_sequence(Obj_803FA664 *obj, Msg_803FA664 *msg, u32 expected) 
     s16 err;
     s16 a;
     s16 b;
-    u32 cur;
+    uaddr cur;
 
     err = 0;
     if (msg->b1 != obj->b1) {

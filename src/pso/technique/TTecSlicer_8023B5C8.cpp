@@ -328,7 +328,7 @@ s8 get_captured_target_collider_index(s32);
 s32 get_captured_target_entry(s32, s32);
 s32 get_captured_target_count(s32);
 f32 vector_length(void *);
-extern s32 tl_05;
+extern saddr tl_05;
 u32 csnVector(s32, s32, s32);
 
 TTecSlicerTargets_8023B454::TTecSlicerTargets_8023B454() { count = 0; idx = 0; }
@@ -404,7 +404,7 @@ void TTecSlicer::init_launch_angles(s32 *arg0, s32 *arg1, s32 arg2) {
 }
 
 void TTecSlicer::update() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     if (horizontal_distance_squared(&this->position, (const Vec *)this->destination) < 100.0f) {
         deliver_target_hit();
         if (get_next_captured_target(&this->capturedTargets, (Vec *)this->destination, &this->targetId, (s8 *)&this->targetPart, &this->radius) == 0) {

@@ -107,7 +107,7 @@ struct Anti_8022AEF8 {
 };
 
 extern "C" {
-s32 get_entity_id(int);
+saddr get_entity_id(int);
 int TTecAnti__sub_8022AD74(void* p);
 void TTecAnti__sub_8022AD94(void *);
 s32 TTecPlayerInfluence__ct(void *, void *, void *, void *);

@@ -66,7 +66,7 @@ struct Sifta_8023AF94 {
 };
 
 extern "C" {
-s32 get_entity_id(int);
+saddr get_entity_id(int);
 s32 TTecPlayerInfluence__ct(void *, void *, void *, void *);
 int TTecSifta__sub_8023AC88(void* p);
 extern s32 __vt__9TTecSifta[];

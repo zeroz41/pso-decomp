@@ -986,7 +986,7 @@ void fn_8007A7A0(u8 *arg0) {
 }
 
 
-s32 TObjPlayer__sub_8007A7B8(s32 arg0) {
+s32 TObjPlayer__sub_8007A7B8(saddr arg0) {
     ((TObjPlayer *)arg0)->clear_velocity_vectors();
     return arg0;
 }

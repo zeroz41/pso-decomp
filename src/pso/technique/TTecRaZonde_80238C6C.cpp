@@ -56,7 +56,7 @@ void update_technique_slot__10TTecRaFoieFl(s32 handle, s32 pitch, s32 c);
 s32 play_sound_effect(s32 id, void *pos, s32 a, s32 b);
 f32 vector_length(void *);
 void normalize_vector(void *);
-extern s32 tl_07;
+extern saddr tl_07;
 #pragma push
 #pragma opt_common_subs off
 

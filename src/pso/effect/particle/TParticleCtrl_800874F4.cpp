@@ -29,8 +29,8 @@ struct Ent_800874F4 { u8 data[0x98]; };
 
 extern "C" {
 extern s32 particle_pool_limit;
-extern s32 particle_global_entry_table;
-extern s32 particle_area_entry_table;
+extern saddr particle_global_entry_table;
+extern saddr particle_area_entry_table;
 
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id) {
     void *p;
@@ -188,7 +188,7 @@ void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);
 void mem_free(void *p);
 extern uaddr TParticleCtrl__regular_bml_resource;
-extern u32 TParticleCtrl__texture_list;
+extern uaddr TParticleCtrl__texture_list;
 s32 mem_alloc(s32);
 // particle_pool_limit: declared s32 above (part 1)
 // particle_global_entry_table: declared s32 above (part 1)

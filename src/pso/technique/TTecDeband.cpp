@@ -66,7 +66,7 @@ struct VObj_18_b27ba1 : VBase_18_b27ba1 {
 struct Obj_8022F588 { u8 pad[0x1C]; u8 *source; u8 pad20[0x74 - 0x20]; f32 power; };
 
 extern "C" {
-s32 get_entity_id(int);
+saddr get_entity_id(int);
 s32 TTecPlayerInfluence__ct(void *, void *, void *, void *);
 extern s32 __vt__10TTecDeband[];
 extern const char *tec_deband_class_name_ptr;

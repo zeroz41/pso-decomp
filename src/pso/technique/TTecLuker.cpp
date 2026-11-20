@@ -67,7 +67,7 @@ void TTecLuker__sub_8023503C(void* p);
 void TTecLuker__sub_80235048(void* p);
 int TTecLuker__sub_80235054(void* p);
 int fn_80235078(void *arg0);
-u32 get_player_by_client_id(s32);
+uaddr get_player_by_client_id(s32);
 s32 play_sound_effect(int, void *, int, int);
 s32 obj_setFlags30(void *, int);
 s32 init_collision_body_parts(void *, void *, int);
@@ -142,7 +142,7 @@ s32 get_floor_map_terrain(s32);
 s32 play_persistent_sound(s32, void *, void *, s32, s32);
 s32 set_area__6TLobbyFl(s32 *, s32, s32);
 f32 horizontal_distance_squared(void *, void *);
-extern s32 camera_ctrl_instance;
+extern saddr camera_ctrl_instance;
 Hit_8023453C *csnVecterUnder(void *, s32);
 TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *, s32, s32);
 }

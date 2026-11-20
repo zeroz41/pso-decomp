@@ -6,7 +6,7 @@
 
 class TItemEffectWeapon : public TItemHeapObject {
 public:
-    TItemEffectWeapon(s32 arg1, s32 param);
+    TItemEffectWeapon(saddr arg1, s32 param);
     virtual ~TItemEffectWeapon();
     void run_task();
 public:

@@ -451,7 +451,7 @@ TEffIndirectCtrl::~TEffIndirectCtrl() {
     if (*(void **)((s8 *)this + 0x28) != NULL) { ::operator delete(*(void **)((s8 *)this + 0x28)); }
 }
 
-void TEffIndirectCtrl::copy_and_flush_texture(s32 arg1) {
+void TEffIndirectCtrl::copy_and_flush_texture(saddr arg1) {
     memcpy((void *)this->m_1c, (void *)arg1, 0x1000);
     DCFlushRange(this->m_1c, 0x1000);
 }

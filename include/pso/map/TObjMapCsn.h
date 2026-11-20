@@ -20,7 +20,7 @@ struct MapCsnSetData {
 };
 
 struct TObjMapCsn : public TObjCollidable {
-    TObjMapCsn(s32, s32);
+    TObjMapCsn(saddr, saddr);
     virtual ~TObjMapCsn();
     u32 m_ac;
     void* m_b0;

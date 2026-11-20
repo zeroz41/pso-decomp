@@ -374,7 +374,7 @@ s32 TLobby__sub_80400F1C(Obj_803FF858 *fsm, Msg_803FA664 *msg_803_fa664, u32 arg
         return -1;
     }
     {
-        u32 cur = first2_80400F1C(fsm);
+        uaddr cur = first2_80400F1C(fsm);
         if (msg_803_fa664->h2 != get_field_4((void *)cur)) {
             err = 1;
         } else {

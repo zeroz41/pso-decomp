@@ -382,7 +382,7 @@ TUnk_8048E7A8::~TUnk_8048E7A8() {}
 
 #pragma push
 #pragma fp_contract on
-TUnk_8048E7A8::TUnk_8048E7A8(u8 *arg1, u8 *arg2, s32 arg3, u16 arg4, s16 arg5)
+TUnk_8048E7A8::TUnk_8048E7A8(u8 *arg1, u8 *arg2, saddr arg3, u16 arg4, s16 arg5)
     : TUnk_8048E728((ParticleParam *)arg1, (TObject *)arg3) {
     struct Fields_arg0 { u8 pad_0[24]; s32 * field_18; u16 field_1C; u8 pad_1E[6]; u16 field_24; s16 field_26; f32 field_28; f32 field_2C; f32 field_30; f32 field_34; f32 field_38; f32 field_3C; f32 field_40; f32 field_44; u8 pad_48[20]; f32 field_5C; u8 pad_60[8]; f32 field_68; u8 pad_6C[4]; f32 field_70; f32 field_74; f32 field_78; u8 pad_7C[25]; s8 field_95; };
     struct Fields_arg1 { u8 pad_0[24]; f32 field_18; f32 field_1C; f32 field_20; f32 field_24; f32 field_28; u8 pad_2C[4]; f32 field_30; u8 pad_34[4]; f32 field_38; u8 pad_3C[12]; s32 field_48; s32 field_4C; u8 pad_50[56]; u8 field_88; };

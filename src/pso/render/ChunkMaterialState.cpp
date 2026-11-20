@@ -44,7 +44,7 @@ extern s32 gx_chan_ctrl_light_mask;
 void GXInitLightAttnK(void *, f32, f32, f32);
 extern u8 identity_matrix[];
 extern u32 matrix_stack_limit;
-extern u32 matrix_stack_base;
+extern uaddr matrix_stack_base;
 extern u32 current_matrix;
 void PSMTXIdentity(void *);
 extern Pad_803DEA18 TKeyBoardControl_prev_pad_state[4];

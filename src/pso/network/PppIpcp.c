@@ -427,7 +427,7 @@ inline s32 read_803FA664(u32 *p) {
     return (s16)lcp_read_byte_buffer;
 }
 s32 TLobby__sub_803FF858(Obj_803FF858 *obj_803_ff858, Msg_803FA664 *msg_803_fa664, u32 arg2) {
-    u32 cur;
+    uaddr cur;
     s16 err;
     s16 a;
     s16 b;

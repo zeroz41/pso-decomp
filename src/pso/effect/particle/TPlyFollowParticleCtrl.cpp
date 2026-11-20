@@ -35,7 +35,7 @@ struct Fol_80309E9C { u16 a; u16 b; u8 pad[0x8]; Vec v[3]; };
 extern "C" {
 int spawn_particle_effect(void*, void*);
 s32 set_owner_id__13TParticleCtrlFUs(s32, s32);
-u32 find_entity_by_id(s32);
+uaddr find_entity_by_id(s32);
 s32 spawn_particle_effect_with_flags(s32, s32, s32);
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 Fol_80309E9C *TObjPlayer__sub_80309E9C(Fol_80309E9C *o);
@@ -132,7 +132,7 @@ s32 TObjPlayer::check_hit_by_id(saddr arg0, s32 arg1, s32 arg2) {
 
 s32 create_attached_oneshot_emitter(unsigned long long arg1, s32 arg2) {
   Stack_8030A1E4 stack;
-  s32 oneshot_particle_emitter;
+  saddr oneshot_particle_emitter;
   u8 *entity;
   entity = (u8 *) ((u8 *)find_entity_by_id(arg1));
   if (entity == 0)
@@ -151,7 +151,7 @@ s32 create_attached_oneshot_emitter(unsigned long long arg1, s32 arg2) {
 }
 
 s32 emit_player_model_particle(saddr owner, saddr position, s32 entry, s32 model) {
-  s32 emitter = emit_player_particle((void*)owner, (void*)position, (void*)entry);
+  saddr emitter = emit_player_particle((void*)owner, (void*)position, (void*)entry);
   if (emitter)
   {
     attach_particle_model((u8 *)emitter, TParticleCtrl::get_particle_model(model), TParticleCtrl::get_instance(), 0, 1, 1.0f);

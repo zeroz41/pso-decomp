@@ -107,7 +107,7 @@ struct VObj_18_9c98dd : VBase_18_9c98dd {
 struct Obj_80239CF4 { u8 pad[0x1C]; void *source; u8 pad20[0x88 - 0x20]; f32 power; };
 
 extern "C" {
-s32 get_entity_id(int);
+saddr get_entity_id(int);
 s32 TTecPlayerInfluence__ct(void *, void *, void *, void *);
 extern s32 __vt__9TTecResta[];
 extern const char *TTecResta__name;
@@ -140,7 +140,7 @@ typedef char RecoveredGlobal_802394B0_lbl_804CC55C_size[((sizeof(RecoveredGlobal
 
 }
 u8 *construct_delayed_point_sound(u8 *arg0, u8 *arg1, s16 arg2, s32 arg3, u8 *arg4);
-extern s32 tl_07;
+extern saddr tl_07;
 void TTecReverser::vfunc_6(void *arg1_arg) {
     Obj_80239CF4 *arg0 = (Obj_80239CF4 *)this;
     VObj_18_9c98dd *arg1 = (VObj_18_9c98dd *)arg1_arg;

@@ -112,7 +112,7 @@ void *__dt__16TBGLightningCtrlFv(void *base, s16 arg1) {
     return base;
 }
 
-u8 *TBGLightningCtrl__ct(u8 *bg_lightning_ctrl, s32 parent, s32 arg2) {
+u8 *TBGLightningCtrl__ct(u8 *bg_lightning_ctrl, saddr parent, saddr arg2) {
     __ct__8TObjBaseFP7TObject((void *)bg_lightning_ctrl, (void *)parent);
     *(s32 **)((s8 *)bg_lightning_ctrl + 0x18) = (s32 *)__vt__16TBGLightningCtrl;
     *(saddr *)((s8 *)bg_lightning_ctrl + 0) = (saddr) TBGLightningCtrl__name;
