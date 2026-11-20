@@ -9,8 +9,6 @@
 #include "pso/system/task/TObject.h"
 
 extern "C" {
-void __ct__7TObjectFP7TObject(void *, void *);
-extern s32 __vt__14TBoss6EffHyoui[];
 const char *lbl_805D44D8 = "TBoss6EffHyoui";
 f32 lbl_805D6FF8;
 s8 lbl_805D6FFC;
@@ -44,12 +42,12 @@ TBoss6EffHyoui::~TBoss6EffHyoui() {
 }
 const s32 lbl_8047AC70[2] = {550, 551};
 
-void *TBoss6EffHyoui__ct(void *object, void *arg1, void *arg2, void *arg3, void *arg4) {
-    u8 *self = (u8 *)object;
+}
+
+TBoss6EffHyoui::TBoss6EffHyoui(TObject *arg1, void *arg2, void *arg3, void *arg4) : TObject(arg1) {
+    u8 *self = (u8 *)this;
     u8 *p;
-    __ct__7TObjectFP7TObject(object, arg1);
-    *(s32 **)((s8 *)self + 0x18) = __vt__14TBoss6EffHyoui;
-    ((TBoss6EffHyoui *)self)->m_name = lbl_805D44D8;
+    m_name = lbl_805D44D8;
     *(u16 *)((s8 *)self + 0x20) = (u16)(u32)arg2;
     *(void **)((s8 *)self + 0x24) = arg4;
     *(void **)((s8 *)self + 0x1C) = NULL;
@@ -65,16 +63,12 @@ void *TBoss6EffHyoui__ct(void *object, void *arg1, void *arg2, void *arg3, void 
         }
     }
     *(s32 *)((s8 *)self + 0x28) = 0;
-    return object;
 }
 
+extern "C" {
+
 void *TBoss6EffHyoui::create(void *arg1, void *arg2) {
-    void *o;
-    o = TObject::operator new(0x2C);
-    if (o != NULL) {
-        o = TBoss6EffHyoui__ct(o, tl_02, this, arg1, arg2);
-    }
-    return o;
+    return new TBoss6EffHyoui((TObject *)tl_02, this, arg1, arg2);
 }
 
 }

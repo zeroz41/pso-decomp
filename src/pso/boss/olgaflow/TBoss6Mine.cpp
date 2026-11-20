@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/olgaflow/TBoss6Mine.h"
+#include "pso/object/TObjControl.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
@@ -86,13 +87,11 @@ s32 init_collision_body_parts(void *, void *, int);
 static u32 TBoss6Mine__collision_body_template[11] = {
     0, 0, 0, 0x41700000, 0, 0, 0x801B, 0, 0, 0, 0,
 };
-extern s32 __vt__10TBoss6Mine[];
 const char *lbl_805D4178 = "TBoss6Mine";
 void TBoss6PlotFalz__sub_802AC008(f32 farg0, f32 farg1);
 void TBoss6Type1__sub_802B5DD4(void *);
 int post_translate_matrix(void*);
 int rotate_matrix_x(void*, void*);
-s32 __ct__11TObjControlFP7TObject(s32, s32);
 void free_collision_body_parts(void *);
 s32 get_bml_motion(s32, s32);
 s32 get_bml_texlist(BmlResource *resource, s32 index);
@@ -393,15 +392,11 @@ extern s32 tl_04;
 #pragma push
 #pragma fp_contract on
 #define VecCopyP ((u8 *(*)(void *, void *))VecCopy__FP3VecPC3Vec)
-#define THIS self
-s32 TBoss6Mine__ct(s32 arg0, s32 parent, TBoss6MineSetData *set_data) {
-    u8 *self;
+#define THIS ((u8 *)this)
+TBoss6Mine::TBoss6Mine(TObject *parent, TBoss6MineSetData *set_data) : TObjEnemy(parent) {
     Tmp_80324A00 tmp;
     f32 f;
-    self = (u8 *)arg0;
-    __ct__9TObjEnemyFP7TObject((TObjEnemy *)arg0, (void*)parent);
-    *(s32 **)((s8 *)THIS + 0x18) = __vt__10TBoss6Mine;
-    *(const char **)((s8 *)THIS + 0) = lbl_805D4178;
+    m_name = lbl_805D4178;
     ((TBoss6Mine *)THIS)->owner = set_data->owner;
     VecCopyP(THIS + 0x38, &set_data->origin);
     VecCopyP(THIS + 0x3BC, &set_data->offset);
@@ -449,22 +444,10 @@ s32 TBoss6Mine__ct(s32 arg0, s32 parent, TBoss6MineSetData *set_data) {
     if (*(u32 *)((s8 *)THIS + 0x3CC) != 0) {
         ((TParticleCtrl *)(*(u32 *)((s8 *)THIS + 0x3CC)))->set_flags(0x40);
     }
-    return arg0;
 }
 #pragma pop
 
 TBoss6Mine *TBoss6Mine::create(TBoss6MineSetData *set_data) {
-    s32 var_r31;
-    s32 var_r4;
-
-    var_r31 = __nw__7TObjectFUl(0x3D0);
-    if (var_r31 != 0) {
-        var_r4 = __nw__7TObjectFUl(0x20);
-        if (var_r4 != 0) {
-            var_r4 = __ct__11TObjControlFP7TObject(var_r4, tl_04);
-        }
-        var_r31 = TBoss6Mine__ct(var_r31, var_r4, set_data);
-    }
-    return (TBoss6Mine *)var_r31;
+    return new TBoss6Mine(new TObjControl((TObject *)tl_04), set_data);
 }
 

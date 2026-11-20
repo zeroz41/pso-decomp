@@ -45,8 +45,6 @@ void end_cutscene_camera__14TBoss6PlotFalzFPv(void);
 
 void TBoss6EmptyWarp::render() { draw_empty_warp_overlay(); }
 
-extern s32 __vt__15TBoss6EmptyWarp[];
-
 void TBoss6EmptyWarp::run_task() {
     u8 *arg0 = (u8 *)this;
     if (TBoss6PlotFalz::is_flag_set() != 0) {
@@ -70,29 +68,19 @@ void TBoss6EmptyWarp::run_task() {
 TBoss6EmptyWarp::~TBoss6EmptyWarp() {
     end_cutscene_camera__14TBoss6PlotFalzFPv();
 }
-extern "C" {
 
-void __ct__7TObjectFP7TObject(void *);
-
-
-void *TBoss6EmptyWarp__ct(void *boss6_empty_warp) {
-    __ct__7TObjectFP7TObject(boss6_empty_warp);
-    *(s32 **)((s8 *)boss6_empty_warp + 0x18) = __vt__15TBoss6EmptyWarp;
-    ((TBoss6EmptyWarp *)boss6_empty_warp)->m_name = TBoss6EmptyWarp__name;
+TBoss6EmptyWarp::TBoss6EmptyWarp(TObject *parent) : TObject(parent) {
+    m_name = TBoss6EmptyWarp__name;
     TBoss6PlotFalz::freeze_all_players();
-    *(u32 *)((s8 *)boss6_empty_warp + 0x1C) = 0;
-    return boss6_empty_warp;
+    *(u32 *)((s8 *)this + 0x1C) = 0;
 }
 
+extern "C" {
 
 extern void *tl_02;
 
 void *TBoss6EmptyWarp::create() {
-    void *o = TObject::operator new(0x20);
-    if (o != NULL) {
-        o = ((void *(*)(void *, void *))TBoss6EmptyWarp__ct)(o, tl_02);
-    }
-    return o;
+    return new TBoss6EmptyWarp((TObject *)tl_02);
 }
 
 void TBoss6EmptyWarp::activate_warp() {

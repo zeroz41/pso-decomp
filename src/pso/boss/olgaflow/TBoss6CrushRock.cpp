@@ -27,12 +27,9 @@ const char *TBoss6CrushPtcl__name = TBoss6CrushPtcl__class_name_string;
 
 extern "C" {
 extern s32 TBoss6PlotFalz__instance;
-void *__ct__7TObjectFP7TObject(void *, void *);
-extern s32 __vt__15TBoss6CrushPtcl[];
 // Keep the retail allocation and constructor calls separate.
 TBoss6CrushRock *__ct__15TBoss6CrushRockFP7TObjectPC3Vecl(
     TBoss6CrushRock *rock, TObject *parent, const Vec *point, s32 model_index);
-TBoss6CrushPtcl *TBoss6CrushPtcl__ct(TBoss6CrushPtcl *effect, TObject *parent, Vec *point);
 }
 extern "C" f32 vector_length(const Vec *v);
 
@@ -141,22 +138,15 @@ s32 TBoss6CrushRock::is_falz_alive() {
 }
 
 TBoss6CrushPtcl *TBoss6CrushPtcl::create(Vec *point) {
-    TBoss6CrushPtcl *effect = (TBoss6CrushPtcl *)TObject::operator new(sizeof(TBoss6CrushPtcl));
-    if (effect != NULL) {
-        effect = TBoss6CrushPtcl__ct(effect, tl_02, point);
-    }
-    return effect;
+    return new TBoss6CrushPtcl(tl_02, point);
 }
 
-TBoss6CrushPtcl *TBoss6CrushPtcl__ct(TBoss6CrushPtcl *effect, TObject *parent, Vec *point) {
-    __ct__7TObjectFP7TObject(effect, parent);
-    *(s32 **)((u8 *)effect + 0x18) = __vt__15TBoss6CrushPtcl;
-    ((TObject *)effect)->m_name = TBoss6CrushPtcl__name;
+TBoss6CrushPtcl::TBoss6CrushPtcl(TObject *parent, Vec *point) : TObject(parent) {
+    m_name = TBoss6CrushPtcl__name;
     Vec position = *point;
-    effect->dust_emitter = create_particle_emitter(&position, 0x203);
-    effect->debris_emitter = create_particle_emitter(&position, 0x204);
-    effect->m_1C = 0;
-    return effect;
+    dust_emitter = create_particle_emitter(&position, 0x203);
+    debris_emitter = create_particle_emitter(&position, 0x204);
+    m_1C = 0;
 }
 
 TBoss6CrushPtcl::~TBoss6CrushPtcl() {}

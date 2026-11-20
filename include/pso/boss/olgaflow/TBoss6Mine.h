@@ -24,6 +24,7 @@ struct TBoss6MineSetData {
 };
 
 struct TBoss6Mine : public TObjEnemy {
+    TBoss6Mine(TObject *parent, TBoss6MineSetData *set_data);
     virtual ~TBoss6Mine();
     virtual void run_task();
     virtual void vfunc_63();
@@ -70,7 +71,6 @@ typedef char TBoss6MineSetData_size[sizeof(TBoss6MineSetData) == 0x64 ? 1 : -1];
 typedef char TBoss6Mine_size[sizeof(TBoss6Mine) == 0x3D0 ? 1 : -1];
 
 extern "C" {
-s32 TBoss6Mine__ct(s32 arg0, s32 parent, TBoss6MineSetData *set_data);
 void *__dt__10TBoss6MineFv(void *arg0, s16 arg1);
 void explode_damage_players__10TBoss6MineFv(u8 *arg0);
 }

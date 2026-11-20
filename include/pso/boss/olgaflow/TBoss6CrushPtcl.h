@@ -9,6 +9,7 @@ class TParticleCtrl;
 
 class TBoss6CrushPtcl : public TObject {
 public:
+    TBoss6CrushPtcl(TObject *parent, Vec *point);
     virtual ~TBoss6CrushPtcl();
     virtual void run_task();
 

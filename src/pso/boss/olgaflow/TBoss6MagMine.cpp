@@ -2,6 +2,7 @@
 #include "types.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/enemy/TUnk_804F322C.h"
+#include "pso/object/TObjControl.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/boss/olgaflow/TBoss6Type1.h"
 #include "pso/unk/TLobby.h"
@@ -117,9 +118,7 @@ void TBoss6MagMine__sub_80368AB8(u8 *arg0, u8 *arg1);
 s32 VecCopy__FP3VecPC3Vec(s32, s32);
 s32 init_collision_body_parts(void *, void *, int);
 s32 normalize_vector(void *);
-extern s32 __vt__13TUnk_804F322C[];
 const char *lbl_805D44B0 = "TBoss6MagMine";
-s32 TBoss6MagMine__ct(s32 arg0, s32 arg1, s32 arg2);
 s32 is_player_in_range__13TBoss6MagMineFPv(void *arg0_);
 void TBoss4DarkFalz__sub_8004B4F0(void *arg0p, void *arg1p);
 s32 get_phase__8TObjFishFv();
@@ -130,7 +129,6 @@ void vt4__13TBoss6MagMineFv(void* p);
 void copy_pos__13TBoss6MagMineFi(s32 arg0);
 void TBoss6PlotFalz__sub_802AC008(f32 farg0, f32 farg1);
 int post_translate_matrix(void*);
-s32 __ct__11TObjControlFP7TObject(s32, s32);
 void free_collision_body_parts(void *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 s32 get_bml_motion(s32, s32);
@@ -409,12 +407,11 @@ extern s32 tl_04;
 
 #pragma push
 #pragma opt_common_subs off
-#define self ((u8 *)arg0)
-s32 TBoss6MagMine__ct(s32 arg0, s32 parent, s32 arg2) {
+#define arg0 ((s32)this)
+#define self ((u8 *)this)
+TUnk_804F322C::TUnk_804F322C(TObject *parent, s32 arg2) : TObjEnemy(parent) {
     Key_80369228 key;
     u8 *d;
-    __ct__9TObjEnemyFP7TObject(self, (void*)parent);
-    *(s32 **)((s8 *)self + 0x18) = __vt__13TUnk_804F322C;
     ((TBoss3Volopt *)self)->m_name = lbl_805D44B0;
     VecCopy__FP3VecPC3Vec(arg0 + 0x38, arg2 + 0x40);
     VecCopy__FP3VecPC3Vec(arg0 + 0x384, arg2 + 0x4C);
@@ -464,24 +461,13 @@ s32 TBoss6MagMine__ct(s32 arg0, s32 parent, s32 arg2) {
     if (*(u32 *)((s8 *)self + 0x3B0) != 0U) {
         ((TParticleCtrl *)(*(void **)((s8 *)self + 0x3B0)))->set_flags(0x40);
     }
-    return arg0;
 }
 #undef self
+#undef arg0
 #pragma pop
 
 s32 create__13TBoss6MagMineFi(s32 arg0) {
-    s32 var_r31;
-    s32 parent;
-
-    var_r31 = __nw__7TObjectFUl(0x3B4);
-    if (var_r31 != 0) {
-        parent = __nw__7TObjectFUl(0x20);
-        if (parent != 0) {
-            parent = __ct__11TObjControlFP7TObject(parent, tl_04);
-        }
-        var_r31 = TBoss6MagMine__ct(var_r31, parent, arg0);
-    }
-    return var_r31;
+    return (s32)new TUnk_804F322C(new TObjControl((TObject *)tl_04), arg0);
 }
 
 void spawn_mag_mine_at__13TBoss6MagMineFPvPv(void *arg0, void *arg1) {

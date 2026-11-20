@@ -33,11 +33,6 @@ struct RecoveredGlobal_8035D7D0___vt__10TDPBShower {
 };
 typedef char RecoveredGlobal_8035D7D0___vt__10TDPBShower_size[sizeof(RecoveredGlobal_8035D7D0___vt__10TDPBShower) == 0x18 ? 1 : -1];
 
-extern "C" {
-void __ct__7TObjectFP7TObject(void *, void *);
-extern RecoveredGlobal_8035D7D0___vt__10TDPBShower __vt__10TDPBShower;
-u8 *TDPBShower__ct(u8 *arg0, u8 *arg1, u8 *arg2);
-}
 
 #pragma push
 #pragma readonly_strings on
@@ -92,33 +87,23 @@ extern "C" {
 extern s32 tl_02;
 
 s32 play_sound_effect(s32, u32, int, s32);
-extern RecoveredGlobal_8035DB70___vt__9TBoss6DPB __vt__9TBoss6DPB;
 
 f32 vector_length(void *);
 void subtract_vector(void *, void *);
 }
 
-u8 *__ct__9TBoss6DPBFv(u8 *object, s32 arg1, s32 arg2, f32 farg0);
-
 #pragma push
 #pragma fp_contract on
 u8 *TBoss6Type2::create_dpb(s32 arg0, s32 arg1, f32 farg0) {
-    u8 *boss6_dpb;
-    u8 *var_r0;
-    boss6_dpb = (u8 *)(TObject::operator new(0x3C));
-    var_r0 = boss6_dpb;
-    if (var_r0 != NULL) {
-        var_r0 = (u8 *)(__ct__9TBoss6DPBFv(boss6_dpb, arg0, arg1, farg0));
-    }
-    return var_r0;
+    return (u8 *)new TBoss6DPB((TObject *)arg0, arg1, farg0);
 }
 #pragma pop
 
-u8 *__ct__9TBoss6DPBFv(u8 *object, s32 arg1, s32 arg2, f32 farg0) {
+TBoss6DPB::TBoss6DPB(TObject *parent, s32 arg2, f32 farg0) : TObject(parent) {
+    u8 *object = (u8 *)this;
+    s32 arg1 = (s32)parent;
     f32 temp_f1;
     f32 temp_f2;
-    __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
-    *(s32 **)((s8 *)object + 0x18) = &__vt__9TBoss6DPB.value;
     *(const char **)((s8 *)object + 0) = TBoss6DPB__class_name;
     *(s32 *)((s8 *)object + 0x1C) = arg1;
     VecCopy((Vec *)(object + 0x20), (const Vec *)(arg2));
@@ -136,7 +121,6 @@ u8 *__ct__9TBoss6DPBFv(u8 *object, s32 arg1, s32 arg2, f32 farg0) {
     }
     play_sound_effect(0x40069410, (u32)(object + 0x20), 0, 0);
     *(s32 *)((s8 *)object + 0x30) = 0;
-    return object;
 }
 
 TBoss6DPB::~TBoss6DPB() {}
@@ -204,17 +188,12 @@ void TBoss6DPB::sub_8035D8B0() {
 #pragma pop
 
 void* create_TDPBShower(void* arg0, void* arg1) {
-    void* o = TObject::operator new(0x30);
-    if (o != NULL) {
-        o = TDPBShower__ct((u8 *)o, (u8 *)arg0, (u8 *)arg1);
-    }
-    return o;
+    return new TDPBShower((TObject *)arg0, arg1);
 }
 
-u8 *TDPBShower__ct(u8 *dpb_shower, u8 *arg1, u8 *arg2) {
+TDPBShower::TDPBShower(TObject *arg1, void *arg2) : TObject(arg1) {
+    u8 *dpb_shower = (u8 *)this;
     u8 *particle_emitter;
-    __ct__7TObjectFP7TObject(dpb_shower, arg1);
-    *(s32 **)((s8 *)dpb_shower + 0x18) = &__vt__10TDPBShower.value;
     *(const char **)((s8 *)dpb_shower + 0) = TDPBShower__class_name;
     ((TDPBShower *)dpb_shower)->m_countdown = 5;
     VecCopy((Vec *)(dpb_shower + 0x1C), (const Vec *)arg2);
@@ -224,7 +203,6 @@ u8 *TDPBShower__ct(u8 *dpb_shower, u8 *arg1, u8 *arg2) {
     if (particle_emitter != NULL) {
         ((TParticleCtrl *)(((TDPBShower *)dpb_shower)->m_2c))->set_flags(0x40);
     }
-    return dpb_shower;
 }
 
 TDPBShower::~TDPBShower() {
