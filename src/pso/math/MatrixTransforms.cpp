@@ -26,7 +26,7 @@ void rotate_matrix_z(Matrix34* matrix, s32 angle) {
 
 #pragma push
 #pragma peephole off
-void TObjPlayer::copy_matrix(u32 arg0, u32 arg1) {
+void TObjPlayer::copy_matrix(uaddr arg0, uaddr arg1) {
     uaddr var_r0;
     uaddr var_r3;
     if (arg0 == 0U) {

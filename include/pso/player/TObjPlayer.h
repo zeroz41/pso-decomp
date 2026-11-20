@@ -289,7 +289,7 @@ struct TObjPlayer : public TObjChara {
     static void step_angle_clamped(void *actor, int arg1);
     void call_callback_1ec(saddr arg1, saddr arg2);
     void copy_wall_polygon(u8 *arg1);
-    static void copy_matrix(u32 arg0, uaddr arg1);
+    static void copy_matrix(uaddr arg0, uaddr arg1);
     static s32 run_next_key_callback(s32 arg0);
     static s32 sample_next_quaternion_key(s32 arg0);
     void apply_motion_node_transform();
@@ -394,7 +394,7 @@ struct TObjPlayer : public TObjChara {
     static void create_breakup_model();
     static s32 calc_random_scaled();
     static f32 get_scale_factor();
-    static int get_battle_param(int a0);
+    static saddr get_battle_param(int a0);
     s32 check_flag(s32 arg1);
     static void sync_player_globals();
     void*get_position_ptr();

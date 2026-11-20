@@ -86,7 +86,7 @@ static TBoss3VoloptCoreBodyPart core_body_parts[1] = {
     { { 0 }, 0.001f, { 0 }, 0x8003, { 0 } },
 };
 
-extern int player_battle_param_table[];
+extern saddr player_battle_param_table[];
 
 void TObjEnemyCustom::set_state(s32 action) {
     s16 current = mode;
@@ -102,7 +102,7 @@ void TObjEnemyCustom::update_if_active(s32 action) {
     }
 }
 
-int TObjPlayer::get_battle_param(int index) {
+saddr TObjPlayer::get_battle_param(int index) {
     return player_battle_param_table[index];
 }
 

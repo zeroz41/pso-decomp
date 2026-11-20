@@ -177,7 +177,7 @@ void TObjPlayer::create_dead_spot(s32 arg0, s32 arg1, f32 farg0) {
     new TUnk_804949F4((TObject *)tl_05, (Vec *)arg0, (saddr)create_timed_particle_emitter((void *)arg0, 0xF8, 0, arg1), farg0);
 }
 
-void TObjPlayer::spawn_effect_f8(s32 arg1, s32 arg2) {
+void TObjPlayer::spawn_effect_f8(saddr arg1, s32 arg2) {
     create_timed_particle_emitter((void *)arg1, 0xF8, 0, (arg2));
 }
 
@@ -223,7 +223,7 @@ void spawn_corner_dead_spot_scale2_5(s32 point, s32 delay) {
     TObjPlayer__sub_800D93F0(point, 0, delay, 2.5f);
 }
 
-void TObjPlayer::apply_effect_variant_a(s32 point, s32 delay) {
+void TObjPlayer::apply_effect_variant_a(saddr point, s32 delay) {
     TObjPlayer__sub_800D93F0(point, 0, delay, 7.5f);
 }
 
@@ -244,7 +244,7 @@ void TObjPlayer__sub_800D92BC(s32 point, s32 delay) {
     TObjPlayer::spawn_dead_spot(point, 1, delay, 7.5f);
 }
 
-void TObjPlayer::spawn_dead_spot_default(s32 point, s32 delay) {
+void TObjPlayer::spawn_dead_spot_default(saddr point, s32 delay) {
     TObjPlayer::spawn_dead_spot(point, 1, delay, 15.0f);
 }
 

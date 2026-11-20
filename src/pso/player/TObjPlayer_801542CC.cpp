@@ -170,7 +170,7 @@ u16 TObjRoomId__sub_801A1DB8(u16);
 s32 project_actor_to_ground(Obj_80156844 *self, Vec *pos, Vec *normal);
 }
 s32 test_collider_sphere_overlap_xz(s32 arg0, u8 *arg1, uaddr arg2);
-extern int player_battle_param_table[];
+extern saddr player_battle_param_table[];
 s32 resolve_actor_sphere_contact(u8 *arg0, s32 arg1, saddr arg2);
 s32 respond_to_body_contact(u8 *arg0, uaddr arg1, u8 *arg2);
 extern "C" {
@@ -1275,5 +1275,5 @@ s32 TObjCollidable::access_object_saved_state(void *lobby, s16 arg2) {
 }
 
 s32 TObjPlayer__data_8050D460[0x18C];
-int player_battle_param_table[0x10];
+saddr player_battle_param_table[0x10];
 unsigned char lbl_8050DAD0[0x80];
