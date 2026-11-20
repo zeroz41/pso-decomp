@@ -141,7 +141,7 @@ NJS_TEXLIST *dubchik_variant_texlist;
 AnimationMotion *get_bml_motion(BmlResource *resource, s32 index);
 void *load_resource_from_descriptor(void *, int, void *, int, int, int);
 void TObjPlayer__sub_800A4294(void);
-s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
+saddr load_enemy_bml_resource_named(saddr arg0, saddr arg1);
 }
 u8 *load_gvm_texture_file(s32 arg0);
 Node_800AA82C *lbl_805D509C;

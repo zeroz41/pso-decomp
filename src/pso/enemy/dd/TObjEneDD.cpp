@@ -622,11 +622,11 @@ void TObjEneDD::set_field_378(s32 v) { *(s32*)((char*)this + 0x378) = v; }
 
 saddr load_enemy_bml_resource(u8 *arg0) {
     saddr temp_r3;
-    s32 var_r0;
+    saddr var_r0;
     temp_r3 = (saddr)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, arg0, 0, 0, 0));
+        var_r0 = (saddr) (load_resource_from_descriptor((void *) temp_r3, 1, arg0, 0, 0, 0));
     }
     return var_r0;
 }
@@ -640,7 +640,7 @@ void TObjEneDD::copy_resource_desc(u8 *arg1) {
 }
 
 saddr load_enemy_bml_resource_named(saddr arg0, saddr arg1) {
-    s32 sp8;
+    saddr sp8;
     ((TObjEneDD *)(&sp8))->copy_resource_desc((u8 *)arg0);
     sp8 = arg1;
     return load_enemy_bml_resource((u8 *)&sp8);

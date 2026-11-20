@@ -740,7 +740,7 @@ struct Sub_80320260 { u8 pad[0xC]; f32 f0C; };
 
 
 
-s32 load_enemy_bml_resource(u8 *arg0);
+saddr load_enemy_bml_resource(u8 *arg0);
 
 Vec lbl_80543000;
 

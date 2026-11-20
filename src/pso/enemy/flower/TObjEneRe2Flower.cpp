@@ -222,8 +222,8 @@ struct Stack_800C44C4 {
 };
 
 extern "C" {
-s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
-s32 load_enemy_bml_resource(u8 *arg0);
+saddr load_enemy_bml_resource_named(saddr arg0, saddr arg1);
+saddr load_enemy_bml_resource(u8 *arg0);
 struct RecoveredGlobal_lbl_8043BB90 { s32 value; u8 remaining[0xC]; };
 
 extern RecoveredGlobal_lbl_8043BB90 lbl_8043BB90;

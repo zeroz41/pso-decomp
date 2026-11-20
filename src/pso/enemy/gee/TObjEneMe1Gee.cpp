@@ -145,7 +145,7 @@ void TObjEneEpsilon__sub_800B92AC(u8 *arg0, s32 arg1, f32 farg0);
 void free_bin_model_request(void *, s32);
 extern void *tl_04;
 s32 is_split_screen();
-s32 load_enemy_bml_resource(u8 *arg0);
+saddr load_enemy_bml_resource(u8 *arg0);
 s32 TObjPlayer__sub_800F0928(s32);
 extern s32 lbl_8043BCD8[];
 extern s32 lbl_8043BCE4[];

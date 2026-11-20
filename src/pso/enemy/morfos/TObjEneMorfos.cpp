@@ -1003,7 +1003,7 @@ struct MorfosAnimationBinding {
     u16 unknown_0E;
 };
 
-s32 load_enemy_bml_resource(u8 *desc);
+saddr load_enemy_bml_resource(u8 *desc);
 extern f32 lbl_805434D0[3];
 extern const s32 lbl_804774A0[2];
 void TObjEneMorfos__sub_803350AC(void);
