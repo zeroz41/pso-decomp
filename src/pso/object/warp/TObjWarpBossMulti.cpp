@@ -93,13 +93,13 @@ s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(void *, s32, s32, f32);
 s32 is_local_client_floor_leader();
 TObjPlayer *find_local_boss_warp_player(TObjAreaWarp *warp, f32 range);
 BmlResource *boss_warp_resource_bundle;
-s32 boss_warp_base_model;
-s32 boss_warp_confirmation_model;
-s32 warp_boss_model;
+NJS_OBJECT *boss_warp_base_model;
+NJS_OBJECT *boss_warp_confirmation_model;
+NJS_OBJECT *warp_boss_model;
 AnimationMotion *warp_boss_motion;
 AnimationMotion *warp_boss_bml_motion;
-s32 warp_boss_model_handle;
-s32 lbl_805D5CA4;
+GinjaTextureList *boss_warp_base_textures;
+GinjaTextureList *boss_warp_effect_textures;
 extern "C" {
 extern "C" {
 void release_boss_warp_resources(void);
@@ -124,21 +124,21 @@ u32 check_room_seq_4__16TAdChrSelASlotGCFl(s32, s32);
 void handle_6x6A_set_boss_warp_flags(void *arg0);
 // Function definitions in reverse address order (defer_codegen emits them reversed).
 
-s32 get_boss_warp_base_model(void) { return boss_warp_base_model; }
+NJS_OBJECT *get_boss_warp_base_model(void) { return boss_warp_base_model; }
 
-s32 get_boss_warp_confirmation_model(void) { return boss_warp_confirmation_model; }
+NJS_OBJECT *get_boss_warp_confirmation_model(void) { return boss_warp_confirmation_model; }
 
-s32 get_boss_warp_model(void) { return warp_boss_model; }
+NJS_OBJECT *get_boss_warp_model(void) { return warp_boss_model; }
 
 AnimationMotion *get_boss_warp_motion(void) { return warp_boss_motion; }
 
 AnimationMotion *get_boss_warp_bml_motion(void) { return warp_boss_bml_motion; }
 
-s32 get_boss_warp_model_handle(void) { return warp_boss_model_handle; }
+GinjaTextureList *get_boss_warp_base_textures(void) { return boss_warp_base_textures; }
 
-s32 fn_8019F9AC(void) { return lbl_805D5CA4; }
+GinjaTextureList *get_boss_warp_effect_textures(void) { return boss_warp_effect_textures; }
 
-void TObjFish::load_models() {
+void load_boss_warp_resources() {
     s32 area;
     BmlResource *resource;
     area = get_current_floor_area();
@@ -148,13 +148,13 @@ void TObjFish::load_models() {
             resource = load_resource_from_descriptor(resource, 5, &lbl_804B94D8, 0, 0, 0);
         }
         boss_warp_resource_bundle = resource;
-        boss_warp_base_model = get_bml_model(resource, 0);
-        boss_warp_confirmation_model = get_bml_model(boss_warp_resource_bundle, 2);
-        warp_boss_model = get_bml_model(boss_warp_resource_bundle, 1);
+        boss_warp_base_model = (NJS_OBJECT *)get_bml_model(resource, 0);
+        boss_warp_confirmation_model = (NJS_OBJECT *)get_bml_model(boss_warp_resource_bundle, 2);
+        warp_boss_model = (NJS_OBJECT *)get_bml_model(boss_warp_resource_bundle, 1);
         warp_boss_motion = get_bml_motion(boss_warp_resource_bundle, 1);
         warp_boss_bml_motion = get_bml_motion(boss_warp_resource_bundle, 0);
-        warp_boss_model_handle = get_bml_texlist(boss_warp_resource_bundle, 2);
-        lbl_805D5CA4 = get_bml_texlist(boss_warp_resource_bundle, 2);
+        boss_warp_base_textures = (GinjaTextureList *)get_bml_texlist(boss_warp_resource_bundle, 2);
+        boss_warp_effect_textures = (GinjaTextureList *)get_bml_texlist(boss_warp_resource_bundle, 2);
         return;
     }
     if (TContainerAncient01::is_global_state_in_table() != 0 || area == AREA_SEABED_UPPER || area == AREA_SEABED_LOWER) {
@@ -163,13 +163,13 @@ void TObjFish::load_models() {
             resource = load_resource_from_descriptor(resource, 5, &lbl_804B94FC, 0, 0, 0);
         }
         boss_warp_resource_bundle = resource;
-        boss_warp_base_model = get_bml_model(resource, 0);
-        boss_warp_confirmation_model = get_bml_model(boss_warp_resource_bundle, 1);
-        warp_boss_model = get_bml_model(boss_warp_resource_bundle, 1);
+        boss_warp_base_model = (NJS_OBJECT *)get_bml_model(resource, 0);
+        boss_warp_confirmation_model = (NJS_OBJECT *)get_bml_model(boss_warp_resource_bundle, 1);
+        warp_boss_model = (NJS_OBJECT *)get_bml_model(boss_warp_resource_bundle, 1);
         warp_boss_motion = get_bml_motion(boss_warp_resource_bundle, 0);
         warp_boss_bml_motion = get_bml_motion(boss_warp_resource_bundle, 0);
-        warp_boss_model_handle = get_bml_texlist(boss_warp_resource_bundle, 0);
-        lbl_805D5CA4 = get_bml_texlist(boss_warp_resource_bundle, 0);
+        boss_warp_base_textures = (GinjaTextureList *)get_bml_texlist(boss_warp_resource_bundle, 0);
+        boss_warp_effect_textures = (GinjaTextureList *)get_bml_texlist(boss_warp_resource_bundle, 0);
         return;
     }
     resource = (BmlResource *)::operator new(0x440);
@@ -177,13 +177,13 @@ void TObjFish::load_models() {
         resource = load_resource_from_descriptor(resource, 5, &lbl_804B94AC, 0, 0, 0);
     }
     boss_warp_resource_bundle = resource;
-    boss_warp_base_model = get_bml_model(resource, 0);
-    boss_warp_confirmation_model = get_bml_model(boss_warp_resource_bundle, 2);
-    warp_boss_model = get_bml_model(boss_warp_resource_bundle, 1);
+    boss_warp_base_model = (NJS_OBJECT *)get_bml_model(resource, 0);
+    boss_warp_confirmation_model = (NJS_OBJECT *)get_bml_model(boss_warp_resource_bundle, 2);
+    warp_boss_model = (NJS_OBJECT *)get_bml_model(boss_warp_resource_bundle, 1);
     warp_boss_motion = get_bml_motion(boss_warp_resource_bundle, 1);
     warp_boss_bml_motion = get_bml_motion(boss_warp_resource_bundle, 0);
-    warp_boss_model_handle = get_bml_texlist(boss_warp_resource_bundle, 2);
-    lbl_805D5CA4 = get_bml_texlist(boss_warp_resource_bundle, 2);
+    boss_warp_base_textures = (GinjaTextureList *)get_bml_texlist(boss_warp_resource_bundle, 2);
+    boss_warp_effect_textures = (GinjaTextureList *)get_bml_texlist(boss_warp_resource_bundle, 2);
 }
 
 void release_boss_warp_resources(void) {
@@ -230,7 +230,7 @@ TObjWarpBoss::TObjWarpBoss(TObject *parent, void *set_data) : TObjAreaWarp(paren
     }
     state_step = 0;
     state_flags = 0;
-    model = 0;
+    model = NULL;
     motion = NULL;
     if (field_collider != NULL) {
         ((TObject *)field_collider)->queue_destruction();
@@ -279,12 +279,12 @@ block_4:
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(warp_boss_model_handle);
-        draw_ginja_object((void *)boss_warp_base_model);
-        if (model != 0) {
+        TObjFish::set_global_param((s32)boss_warp_base_textures);
+        draw_ginja_object(boss_warp_base_model);
+        if (model != NULL) {
             TParticleCtrl::begin_effect_render();
-            TObjFish::set_global_param(lbl_805D5CA4);
-            draw_ginja_model_with_motion((void *)model, motion, frame);
+            TObjFish::set_global_param((s32)boss_warp_effect_textures);
+            draw_ginja_model_with_motion(model, motion, frame);
             TParticleCtrl::end_effect_render();
         }
         pop_matrix();
@@ -601,7 +601,7 @@ void TObjWarpBoss::warp_boss_handle_window() {
     switch (state_step) {
     case 0:
         state_step = 1;
-        model = 0;
+        model = NULL;
         return;
     case 1:
         if (find_local_boss_warp_player(this, warp_range) != NULL) {
@@ -645,7 +645,7 @@ void TObjWarpBoss::warp_boss_handle_window() {
 void TObjWarpBoss::update_floor_switch_state() {
     switch (state_step) {
     case 0:
-        model = 0;
+        model = NULL;
         state_step = 1;
         return;
     case 1:
@@ -891,16 +891,16 @@ block_4:
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param(model_handle);
-        draw_ginja_object((void *)base_model);
+        TObjFish::set_global_param((s32)model_handle);
+        draw_ginja_object(base_model);
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(effect_textures);
+        TObjFish::set_global_param((s32)effect_textures);
         switch (state) {
         case 0:
-            draw_ginja_model_with_motion((void *)confirmation_model, motion, frame);
+            draw_ginja_model_with_motion(confirmation_model, motion, frame);
             break;
         case 1:
-            draw_ginja_model_with_motion((void *)warp_model, bml_motion, frame);
+            draw_ginja_model_with_motion(warp_model, bml_motion, frame);
             break;
         }
         TParticleCtrl::end_effect_render();
@@ -944,8 +944,8 @@ void TObjWarpBossMulti::init_warp_params() {
     warp_model = get_boss_warp_model();
     motion = get_boss_warp_motion();
     bml_motion = get_boss_warp_bml_motion();
-    model_handle = get_boss_warp_model_handle();
-    effect_textures = fn_8019F9AC();
+    model_handle = get_boss_warp_base_textures();
+    effect_textures = get_boss_warp_effect_textures();
     frame = 0.0f;
     frame_step = 4.0f;
 }

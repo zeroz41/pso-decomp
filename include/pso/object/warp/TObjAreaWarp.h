@@ -12,7 +12,7 @@ struct TObjAreaWarp : public TObjWarpBase {
     virtual void debug_print_area_num();
     virtual void open_confirm_window(s32 arg1);
     u16 find_active_player();
-    virtual u8 is_warp_enabled();
+    virtual s32 is_warp_enabled();
     s32 dest_floor;            // set data value, or the current floor + 1 while lobby_quest_progress_flag is set
     TAdVIConfigGC *vi_config;  // created by derived constructors, destroyed by ~TObjAreaWarp
 };

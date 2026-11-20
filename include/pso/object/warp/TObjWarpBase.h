@@ -12,7 +12,7 @@ struct TObjWarpBase : public TObjCollidable {
     virtual ~TObjWarpBase();
     virtual void vfunc_14();
     virtual void open_confirm_window(s32) = 0;
-    virtual u8 is_warp_enabled();
+    virtual s32 is_warp_enabled();
     virtual s32 vfunc_17();
     // Nonzero once the user confirmed (handle_area_selection tests the result per player).
     virtual s32 vfunc_18(s32);

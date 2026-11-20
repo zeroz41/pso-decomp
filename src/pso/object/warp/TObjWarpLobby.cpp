@@ -1,3 +1,8 @@
+#include "pso/animation/ActorAnimationState.h"
+#include "pso/render/ModelDrawContext.h"
+#include "pso/render/GinjaMaterialState.h"
+#include "pso/system/NinjaTypes.h"
+#include "pso/system/BmlResourceLoad.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/warp/TObjWarpLobby.h"
@@ -34,7 +39,7 @@ BmlResourceDescriptor warp_lobby_resource_descriptor = {
     "bm_obj_lobby_warp.bml", bm_obj_lobby_warp_model_names, bm_obj_lobby_warp_motion_names, 1, 1,
 };
 const char *TObjWarpLobby__name = "TObjWarpLobby";
-s32 TObjWarpLobby__instance;
+BmlResource *lobby_warp_bml_resource;
 
 
 void TObjWarpLobby::debug_print_area_num() {
@@ -48,13 +53,13 @@ void TObjWarpLobby::debug_print_area_num() {
     }
     switch (this->set_params[1]) {
     case 0:
-        *(s32 *)((s8 *)this + 0xCC) = 1;
+        show_beam = 1;
         break;
     case 1:
-        *(s32 *)((s8 *)this + 0xCC) = 0;
+        show_beam = 0;
         break;
     default:
-        *(s32 *)((s8 *)this + 0xCC) = 1;
+        show_beam = 1;
         break;
     }
     TObjNpcEnemy::set_global_count(0xFF00FF);
@@ -62,15 +67,6 @@ void TObjWarpLobby::debug_print_area_num() {
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
 }
 
-
-struct VB_801A0894 { char pad[0x18]; };
-
-struct VO_801A0894 : VB_801A0894 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); virtual void m4();
-    virtual void m5(); virtual void m6(); virtual void m7(); virtual void m8(); virtual void m9();
-    virtual void m10(); virtual void m11(); virtual void m12(); virtual void m13();
-    virtual s32 m14();
-};
 
 extern "C" {
 void request_active_window_close(void);
@@ -81,13 +77,12 @@ s32 check_room_seq_4__16TAdChrSelASlotGCFl(f32 *, s32, f32);
 s32 is_idle__6TLobbyFv();
 extern s32 local_client_id;
 
-void run_task__13TObjWarpLobbyFv(VO_801A0894 *arg0);
+void run_task__13TObjWarpLobbyFv(TObjWarpLobby *arg0);
 s32 post_translate_matrix(void *);
-void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
 
-s32 lbl_805D5CCC;
+GinjaTextureList *lobby_warp_textures;
 
 void TObjWarpLobby::open_lobby_menu() {
     f32 sp[2];
@@ -105,14 +100,13 @@ void TObjWarpLobby::open_lobby_menu() {
 }
 
 void TObjWarpLobby::render() {
-    u8 *arg0 = (u8 *)this;
-    if (((s32) *(s32 *)((s8 *)arg0 + 0xCC) != 0) && (this->update_object_view_visibility(4e+02f, 2e+01f) != 0)) {
-        TObjFish::set_global_param(lbl_805D5CCC);
+    if ((show_beam != 0) && (this->update_object_view_visibility(4e+02f, 2e+01f) != 0)) {
+        TObjFish::set_global_param((s32)lobby_warp_textures);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
         TParticleCtrl::begin_effect_render();
-        draw_ginja_model_with_motion((void *)(*(s32 *)((s8 *)(*(void **)((s8 *)TObjWarpLobby__instance + 0x42C)) + 8)), (void *)(*(s32 *)((s8 *)(*(void **)((s8 *)TObjWarpLobby__instance + 0x430)) + 4)), this->m_c8);
+        draw_ginja_model_with_motion((NJS_OBJECT *)lobby_warp_bml_resource->models[0].model, lobby_warp_bml_resource->motions[0].motion, this->beam_frame);
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }
@@ -120,29 +114,29 @@ void TObjWarpLobby::render() {
 
 extern s32 __vt__13TObjWarpLobby[];
 
-void run_task__13TObjWarpLobbyFv(VO_801A0894 *arg0) {
+void run_task__13TObjWarpLobbyFv(TObjWarpLobby *arg0) {
     s32 selected_menu_value;
-    ((TObjWarpLobby *)arg0)->m_c8 += 4.0f;
-    if ((f32) (*(u32 *)((s8 *)(*(void **)((s8 *)arg0 + 0xD8)) + 4) - 1) < ((TObjWarpLobby *)arg0)->m_c8) {
-        ((TObjWarpLobby *)arg0)->m_c8 = 0.0f;
+    arg0->beam_frame += 4.0f;
+    if ((f32) (arg0->beam_motion->frameCount - 1) < arg0->beam_frame) {
+        arg0->beam_frame = 0.0f;
     }
-    *(f32 *)((s8 *)arg0 + 0xC4) += 336.0f;
-    if ((find_warp_player_in_range((TObjWarpLobby *)arg0, (u16)local_client_id, ((TObjWarpLobby *)arg0)->warp_range) != NULL) && (arg0->m14() != 0)) {
-        if (((u32) ((TObjWarpLobby *)arg0)->menu_window == 0U) && (is_idle__6TLobbyFv() != 0)) {
-            ((TObjWarpLobby *)arg0)->open_lobby_menu();
+    arg0->beam_phase += 336.0f;
+    if ((find_warp_player_in_range(arg0, (u16)local_client_id, arg0->warp_range) != NULL) && (arg0->is_warp_enabled() != 0)) {
+        if (((u32) arg0->menu_window == 0U) && (is_idle__6TLobbyFv() != 0)) {
+            arg0->open_lobby_menu();
         }
-        if (((u32) ((TObjWarpLobby *)arg0)->menu_window != 0U) && (((TWindowMenu *)(((TObjWarpLobby *)arg0)->menu_window))->is_decided() != 0)) {
-            selected_menu_value = ((TWindowMenu *)(((TObjWarpLobby *)arg0)->menu_window))->get_selected_value();
-            if (((TObjWarpLobby *)arg0)->menu_window != 0U) {
-                ((TObject *)(((TObjWarpLobby *)arg0)->menu_window))->queue_destruction();
-                ((TObjWarpLobby *)arg0)->menu_window = 0U;
+        if (((u32) arg0->menu_window != 0U) && (((TWindowMenu *)(arg0->menu_window))->is_decided() != 0)) {
+            selected_menu_value = ((TWindowMenu *)(arg0->menu_window))->get_selected_value();
+            if (arg0->menu_window != 0U) {
+                ((TObject *)(arg0->menu_window))->queue_destruction();
+                arg0->menu_window = 0U;
                 TWindowCtrl::clear_flag();
             }
             send_room_change__6TLobbyFi(selected_menu_value);
         }
-    } else if ((u32) ((TObjWarpLobby *)arg0)->menu_window != 0U) {
-        ((TWindowBase *)(*(void **)((s8 *)arg0 + 0xB0)))->close();
-        ((TObjWarpLobby *)arg0)->menu_window = 0U;
+    } else if ((u32) arg0->menu_window != 0U) {
+        ((TWindowBase *)arg0->menu_window)->close();
+        arg0->menu_window = 0U;
         TWindowCtrl::clear_flag();
     }
 }
@@ -156,54 +150,43 @@ TObjWarpLobby::~TObjWarpLobby() {
 TObjWarpLobby::TObjWarpLobby(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
 
     m_name = TObjWarpLobby__name;
-    this->m_c8 = 0.0f;
-    *(f32 *)((s8 *)this + 0xC4) = 0.0f;
+    this->beam_frame = 0.0f;
+    beam_phase = 0.0f;
     this->menu_window = 0;
     *(s32 *)((s8 *)this + 0xD0) = 0;
     *(s32 *)((s8 *)this + 0xD4) = 0;
-    *(s32 *)((s8 *)this + 0xD8) = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)TObjWarpLobby__instance + 0x430)) + 4);
+    beam_motion = lobby_warp_bml_resource->motions[0].motion;
     *(s32 *)((s8 *)this + 0xDC) = 0;
-    if ((s32) *(s32 *)((s8 *)this + 0x88) < 0) {
-        *(s32 *)((s8 *)this + 0x88) = 0;
+    if ((s32) set_params[1] < 0) {
+        set_params[1] = 0;
     }
-    if ((s32) *(s32 *)((s8 *)this + 0x88) > 1) {
-        *(s32 *)((s8 *)this + 0x88) = 1;
+    if ((s32) set_params[1] > 1) {
+        set_params[1] = 1;
     }
-    switch (*(s32 *)((s8 *)this + 0x88)) {
+    switch (set_params[1]) {
     case 0:
-        *(s32 *)((s8 *)this + 0xCC) = 1;
+        show_beam = 1;
         break;
     case 1:
-        *(s32 *)((s8 *)this + 0xCC) = 0;
+        show_beam = 0;
         break;
     default:
-        *(s32 *)((s8 *)this + 0xCC) = 1;
+        show_beam = 1;
         break;
     }
 }
 
 
-struct Sub_801A0B38 { u8 pad[0xc]; s32 value; };
-
-struct Obj_801A0B38 { u8 pad[0x42c]; Sub_801A0B38 *sub; };
-
-extern "C" {
-u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-extern s32 lbl_805D5CCC;
-void TObjWarpLobby__sub_801A0B38(void);
-s32 free_bin_model_request(s32, s32);
-
 void TObjWarpLobby::release_static() {
-    free_bin_model_request(TObjWarpLobby__instance, 1);
-    TObjWarpLobby__instance = 0;
-}
-void TObjWarpLobby__sub_801A0B38(void) {
-    u8 *p = (u8 *)::operator new(0x440);
-    if (p != 0) {
-        p = load_resource_from_descriptor(p, 1, &warp_lobby_resource_descriptor, 0, 0, 0);
-    }
-    TObjWarpLobby__instance = (s32)p;
-    lbl_805D5CCC = ((Obj_801A0B38 *)TObjWarpLobby__instance)->sub->value;
+    free_bin_model_request(lobby_warp_bml_resource, 1);
+    lobby_warp_bml_resource = NULL;
 }
 
+void TObjWarpLobby::load_resources() {
+    BmlResource *resource = (BmlResource *)::operator new(0x440);
+    if (resource != NULL) {
+        resource = load_resource_from_descriptor(resource, 1, &warp_lobby_resource_descriptor, 0, 0, 0);
+    }
+    lobby_warp_bml_resource = resource;
+    lobby_warp_textures = (GinjaTextureList *)lobby_warp_bml_resource->models[0].m_c;
 }

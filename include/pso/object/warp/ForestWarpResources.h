@@ -2,10 +2,16 @@
 #define PSO_OBJECT_WARP_FORESTWARPRESOURCES_H
 
 #include "types.h"
+#include <dolphin/mtx/GeoTypes.h>
 
 struct AnimationMotion;
 struct GinjaTextureList;
 struct NJS_OBJECT;
+
+union WarpDebugOffset {
+    Vec position;
+    u32 words[3];
+};
 
 // fs_obj_warp.bml and fs_obj_warp.gvm, shared by the forest-style warps (TObjMapWarpForest,
 // TObjAreaWarpForest, TObjAreaWarpEnding, TObjAreaWarpQuest); TObjWarpBase::free_globals frees them.

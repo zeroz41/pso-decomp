@@ -565,7 +565,7 @@ s32 TObjCityMainWarp::vfunc_17() {
 
 s32 TObjCityMainWarp::vfunc_18(s32) { return vfunc_17(); }
 
-u8 TObjCityMainWarp::is_warp_enabled() {
+s32 TObjCityMainWarp::is_warp_enabled() {
     if ((get_game_play_mode() == 1) && (is_quest_active() == 0)) {
         return 0;
     }
