@@ -1,6 +1,7 @@
 #include "pso/system/ResourceFile.h"
 #include "pso/ui/MenuText.h"
 #include "types.h"
+#include "versions.h"
 #include "pso/unk/text_800F7DAC.h"
 #include "pso/camera/TCameraCtrl_803D6538.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
@@ -19,6 +20,54 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/unk/text_800F8A0C.h"
 #include "pso/unk/text_800F8A18.h"
+typedef struct {
+    const char *str;
+    f32 x;
+    f32 y;
+} Msg_800F8FB8;
+
+#if VERSION == VERSION_GPOP8P
+Msg_800F8FB8 lbl_80499D20[5] = {
+    { "\tJ\203G\203\211\201[\202\252\224\255\220\266\202\265\202\334\202\265\202\275\201B\n\226{\221\314\202\314\203p\203\217\201[\203{\203^\203\223\202\360\211\237\202\265\202\304\223d\214\271\202\360\202n\202e\202e\202\311\202\265\201A\n\226{\221\314\202\314\216\346\210\265\220\340\226\276\217\221\202\314\216w\216\246\202\311\217]\202\301\202\304\202\255\202\276\202\263\202\242\201B", 100.0f, 205.0f },
+    { "\tJ\201u\203t\203@\203\223\203^\203V\201[\203X\203^\201[\203I\203\223\203\211\203C\203\223 \203G\203s\203\\\201[\203h\202P\201\225\202Q\201v\n\202\314\203f\203B\203X\203N\202\360\203Z\203b\203g\202\265\202\304\202\255\202\276\202\263\202\242\201B", 100.0f, 205.0f },
+    { "\tJ\203f\203B\203X\203N\203J\203o\201[\202\252\212J\202\242\202\304\202\250\202\350\202\334\202\267\201B\n\203Q\201[\203\200\202\360\221\261\202\257\202\351\217\352\215\207\202\315\201A\203f\203B\203X\203N\203J\203o\201[\202\360\n\225\302\202\337\202\304\202\255\202\276\202\263\202\242\201B", 130.0f, 205.0f },
+    { "\tJ\202\261\202\314\203f\203B\203X\203N\202\315\n\201u\203t\203@\203\223\203^\203V\201[\203X\203^\201[\203I\203\223\203\211\203C\203\223 \203G\203s\203\\\201[\203h\202P\201\225\202Q\201v\n\202\314\203f\203B\203X\203N\202\305\202\315\202\240\202\350\202\334\202\271\202\361\201B\n\201u\203t\203@\203\223\203^\203V\201[\203X\203^\201[\203I\203\223\203\211\203C\203\223 \203G\203s\203\\\201[\203h\202P\201\225\202Q\201v\n\202\314\203f\203B\203X\203N\202\360\203Z\203b\203g\202\265\202\304\202\255\202\276\202\263\202\242\201B", 100.0f, 205.0f },
+    { "\tJ\203f\203B\203X\203N\202\360\223\307\202\337\202\334\202\271\202\361\202\305\202\265\202\275\201B\n\202\255\202\355\202\265\202\255\202\315\201A\226{\221\314\202\314\216\346\210\265\220\340\226\276\217\221\202\360\202\250\223\307\202\335\202\255\202\276\202\263\202\242\201B", 100.0f, 205.0f },
+};
+Msg_800F8FB8 lbl_80499D5C[5] = {
+    { "An error has occurred.\nTurn the power off and refer to the Nintendo\nGameCube Instruction Booklet \nfor more information.", 100.0f, 205.0f },
+    { "Please insert the PSO Episode 1 & 2 Game Disc.", 100.0f, 205.0f },
+    { "The Disc Cover is open. \nIf you want to continue the game,\nplease close the Disc Cover.", 100.0f, 205.0f },
+    { "This is not the PSO Episode 1 & 2 Game Disc.\nPlease insert the PSO Episode 1 & 2 Game Disc.", 100.0f, 205.0f },
+    { "The Game Disc could not be read.\nPlease read the Nintendo GameCube Instruction\nBooklet for more information.", 100.0f, 205.0f },
+};
+Msg_800F8FB8 lbl_80499D98[5] = {
+    { "Une erreur est survenue. \nEteignez la console et r\351f\351rez-vous \nau manuel d'instructions  NINTENDO GAMECUBE \npour de plus amples informations.", 100.0f, 205.0f },
+    { "Veuillez ins\351rer le disque PSO Episode 1 & 2.", 100.0f, 205.0f },
+    { "Le couvercle est ouvert.\nPour continuer \340 jouer,\nveuillez fermer le couvercle.", 100.0f, 205.0f },
+    { "Ce n'est pas le disque PSO Episode 1 & 2. \nVeuillez ins\351rer le disque PSO Episode 1 & 2.", 100.0f, 205.0f },
+    { "La lecture du disque a \351chou\351.\nVeuillez vous r\351f\351rer au manuel d'instructions\nNINTENDO GAMECUBE pour de plus amples\ninformations.", 100.0f, 205.0f },
+};
+Msg_800F8FB8 lbl_80499DD4[5] = {
+    { "Ein Fehler ist aufgetreten. Bitte \nNINTENDO GAMECUBE ausschalten und\nBedienungsanleitung lesen,\num weitere Informationen zu erhalten.", 100.0f, 205.0f },
+    { "Bitte legen Sie die PSO 1 & 2 Game Disc ein.", 100.0f, 205.0f },
+    { "Der Disc-Deckel ist ge\366ffnet. \nBitte den Disc-Deckel schlie\337en, \num mit dem Spiel fortzufahren.", 100.0f, 205.0f },
+    { "Dies ist nicht die PSO Episode 1 & 2 Game Disc.\nBitte legen Sie die \nPSO Episode 1 & 2 Game Disc ein.", 100.0f, 205.0f },
+    { "Diese Game Disc kann nicht gelesen werden.\nBitte lesen Sie die Bedienungsanleitung,\num weitere Informationen zu erhalten.", 100.0f, 205.0f },
+};
+Msg_800F8FB8 lbl_80499E10[5] = {
+    { "Se ha producido un error. \nApaga la consola y consulta\nel manual de instrucciones de NINTENDO GAMECUBE\npara obtener m\341s informaci\363n.", 100.0f, 205.0f },
+    { "Coloca el disco de PSO Episode 1 & 2.", 100.0f, 205.0f },
+    { "La tapa est\341 abierta. Si quieres seguir jugando,\ndebes cerrar la tapa.", 100.0f, 205.0f },
+    { "Este no es el disco de PSO Episode 1 & 2. \nColoca el disco de PSO Episode 1 & 2.", 100.0f, 205.0f },
+    { "No se puede leer el disco.\nConsulta el manual de instrucciones\nde NINTENDO GAMECUBE para obtener\nm\341s informaci\363n.", 100.0f, 205.0f },
+};
+Msg_800F8FB8 lbl_80499E4C = { "\tJ\203f\203B\203X\203N\203J\203o\201[\202\252\212J\202\242\202\304\202\250\202\350\202\334\202\267\201B\n\203I\203\223\203\211\203C\203\223\222\206\202\311\203f\203B\203X\203N\203J\203o\201[\202\360\212J\202\257\202\310\202\242\202\305\202\255\202\276\202\263\202\242\201B", 120.0f, 205.0f };
+Msg_800F8FB8 lbl_80499E58 = { "The Disc Cover is open and \nconnection has been lost. ", 120.0f, 205.0f };
+Msg_800F8FB8 lbl_80499E64 = { "La tapa est\341 abierta. Se ha \ninterrumpido la conexi\363n. ", 120.0f, 205.0f };
+Msg_800F8FB8 lbl_80499E70 = { "Le couvercle est ouvert. La \nconnexion a \351t\351 interrompue.", 120.0f, 205.0f };
+Msg_800F8FB8 lbl_80499E7C = { "Der Disc-Deckel ist ge\366ffnet.\nDie Verbindung wurde abgebrochen. ", 120.0f, 205.0f };
+#endif
 #include "pso/unk/text_800F8A78.h"
 #include "pso/unk/text_803DEE48.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
@@ -89,12 +138,13 @@ u8 lobby_wait_ready_flag;
 u8 area_transfer_pending_flag;
 extern void *lbl_8049C5E0[15];
 char load_file_prc_buffer_tag[] = "MallocLoadFilePrc";
-typedef struct {
-    const char *str;
-    f32 x;
-    f32 y;
-} Msg_800F8FB8;
-
+#if VERSION == VERSION_GPOP8P
+extern s32 current_language;
+Msg_800F8FB8 *lbl_80499EDC[5] = { lbl_80499D20, lbl_80499D5C, lbl_80499DD4, lbl_80499D98, lbl_80499E10 };
+Msg_800F8FB8 *lbl_80499EF0[12] = { &lbl_80499E4C, &lbl_80499E58, &lbl_80499E7C, &lbl_80499E70, &lbl_80499E64 };
+Msg_800F8FB8 lbl_80502148[5];
+Msg_800F8FB8 lbl_80502184;
+#else
 Msg_800F8FB8 TLobby__disk_error_msg_table[5] = {
     { "An error has occurred.\nTurn the power off and refer to the Nintendo\nGameCube Instruction Booklet \nfor more information.", 80.0f, 230.0f },
     { "Please insert the PSO Episode 1 & 2 Plus Game Disc.", 80.0f, 230.0f },
@@ -105,6 +155,7 @@ Msg_800F8FB8 TLobby__disk_error_msg_table[5] = {
 void *TLobby__disk_error_msg_last[4] = {
     (void *)"Ths Disc Cover is open,\nconnection has been lost.", (void *)0x43020000, (void *)0x43700000, (void *)0x0,
 };
+#endif
 void *lobby_font_texture_prs_data[2768] = {
     (void *)0x3f47564d, (void *)0x48c8001e, (void *)0xff0f0005, (void *)0xfefb6572,
     (void *)0x5f6d6573, (void *)0x30fb3100, (void *)0xf8ff130e, (void *)0x660007,
@@ -1010,7 +1061,12 @@ void TCameraCtrl__sub_80068EF0(void);
 s8 func_801A5E54__Fv(void);
 s32 DVDCheckDisk(void);
 
+#if VERSION == VERSION_GPOP8P
+#define TLobby__disk_error_msg_table lbl_80502148
+#define TLobby__disk_error_msg_last (&lbl_80502184)
+#else
 #define TLobby__disk_error_msg_last ((Msg_800F8FB8 *)TLobby__disk_error_msg_last)
+#endif
 #define show_msg_800F8FB8(arr, i) draw_menu_text(arr[i].x, arr[i].y, arr[i].str, 0x8FFFFFFF)
 
 #pragma push
@@ -1022,7 +1078,20 @@ s32 TLobby::run_disk_error_check() {
     s32 ids[4];
     s32 status;
     Desc_800F8FB8 *pd = &d;
+#if VERSION == VERSION_GPOP8P
+    s32 i;
+#endif
 
+#if VERSION == VERSION_GPOP8P
+    for (i = 0; i < 5; i++) {
+        lbl_80502148[i].str = lbl_80499EDC[current_language][i].str;
+        lbl_80502148[i].x = lbl_80499EDC[current_language][i].x;
+        lbl_80502148[i].y = lbl_80499EDC[current_language][i].y;
+    }
+    lbl_80502184.str = lbl_80499EF0[current_language]->str;
+    lbl_80502184.x = lbl_80499EF0[current_language]->x;
+    lbl_80502184.y = lbl_80499EF0[current_language]->y;
+#endif
     set_color_blending_mode(0, 8);
     set_color_blending_mode(1, 6);
     d.pos = pos;
@@ -1135,6 +1204,26 @@ s32 TLobby::run_disk_error_check() {
 #pragma pop
 
 }
+
+#if VERSION == VERSION_GPOP8P
+#pragma push
+#pragma dont_inline off
+extern "C" s32 fn_800F9554(u8 *self, s32 arg) {
+    u16 *offs;
+    u8 *dst = self;
+    u32 n;
+    u8 *p = (u8 *)((u32)self + (u32)arg - 0x20);
+    u32 i;
+    n = *(u32 *)(p + 0x4);
+    offs = (u16 *)((u32)*(u32 *)p + (u32)self);
+    for (i = 0; i < n; i++) {
+        dst += *offs++ << 2;
+        *(u32 *)dst += (u32)self;
+    }
+    return *(u32 *)(p + 0x10) + (u32)self;
+}
+#pragma pop
+#endif
 
 #pragma pop
 

@@ -2064,6 +2064,7 @@ pso/map/CsnQuery.cpp
 pso/ui/chat/TWindowSubSymbolChatParts.cpp
 pso/ui/frontend/TAdSelectGameModeGC_802C4748.cpp
 pso/unk/text_8011A780.cpp
+pso/unk/TLobby_800F8AA8.cpp
 pso/ui/frontend/TAdVIConfigGC.cpp
 pso/ui/keyboard/TKeyBoardControl_8000F764.cpp
 pso/unk/Crc32_8000F824.c
@@ -2077,10 +2078,12 @@ pso/unk/TLobby_801A3C48.cpp
 gx/GXInit.c
 pso/ui/keyboard/TKeyBoardControl_80290CB0.cpp
 pso/unk/TLobby_80299A60.cpp
+pso/ui/window/TWindowCtrl_80145A28.cpp
 pso/unk/TLobby_801461EC.cpp
 pso/ui/frontend/TAdPlayerLoadGC_803F339C.cpp
 pso/unk/text_803F3BF8.cpp
 pso/ui/frontend/TAdPlayerLoadGC_803F3CF4.cpp
+pso/unk/text_80145A94.cpp
 pso/network/NetworkInfoLoader.cpp
 pso/unk/text_803F4D84.cpp
 pso/network/NetworkInfoCodec.cpp
