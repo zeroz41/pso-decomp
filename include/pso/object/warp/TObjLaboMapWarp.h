@@ -16,7 +16,7 @@ struct TObjLaboMapWarp : public TObjMapWarp {
     static void release_static_resource();
     static void load_static_resource();
     static void *create(void *arg0);
-    u8 unk_FC[0x4];
+    f32 animation_frame;
 };
 
 typedef char TObjLaboMapWarp_size[sizeof(TObjLaboMapWarp) == 0x100 ? 1 : -1];

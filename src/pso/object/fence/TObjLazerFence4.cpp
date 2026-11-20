@@ -1,3 +1,4 @@
+#include "pso/object/fence/TObjLazerFenceNorm.h"
 #include "types.h"
 #include "pso/object/fence/TObjLazerFence4.h"
 #include "pso/object/base/TObjMotion.h"
@@ -60,12 +61,10 @@ void rotate_matrix_y(int, void *);
 void push_matrix(void);
 void post_translate_matrix(void *);
 void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
-extern void *lazer_fence_norm_texture_list;
 u8 is_current_floor_switch_set(s32 id);
 
 AnimationMotion *get_bml_motion(BmlResource *resource, s32 index);
 s32 get_bml_model(BmlResource *resource, s32 index);
-extern s32 lazer_fence_norm_bml_resource;
 f32 xz_distance_squared(void *, s32);
 
 extern s32 camera_ctrl_instance;
@@ -88,13 +87,13 @@ void TObjLazerFence4::init_models() {
     s32 i;
     s32 j;
     if (arg0->f8C % 2 == 0) {
-        arg0->fBC = (Node_80193188 *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 4);
-        arg0->fC0 = (Node_80193188 *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 5);
-        arg0->fC4 = (s32)get_bml_motion((BmlResource *)lazer_fence_norm_bml_resource, 2);
+        arg0->fBC = (Node_80193188 *)get_bml_model(lazer_fence_norm_bml_resource, 4);
+        arg0->fC0 = (Node_80193188 *)get_bml_model(lazer_fence_norm_bml_resource, 5);
+        arg0->fC4 = (s32)get_bml_motion(lazer_fence_norm_bml_resource, 2);
     } else {
-        arg0->fBC = (Node_80193188 *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 6);
-        arg0->fC0 = (Node_80193188 *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 7);
-        arg0->fC4 = (s32)get_bml_motion((BmlResource *)lazer_fence_norm_bml_resource, 3);
+        arg0->fBC = (Node_80193188 *)get_bml_model(lazer_fence_norm_bml_resource, 6);
+        arg0->fC0 = (Node_80193188 *)get_bml_model(lazer_fence_norm_bml_resource, 7);
+        arg0->fC4 = (s32)get_bml_motion(lazer_fence_norm_bml_resource, 3);
     }
     for (j = 0; j < 12; j++) {
         arg0->fC8[j] = 0;
@@ -134,7 +133,7 @@ void TObjLazerFence4::draw_model() {
     var_r31 += 4;
   }
   while (var_r30 < 0xC);
-  TObjFish::set_global_param((s32)((void *)((*(s32 *)&lazer_fence_norm_texture_list))));
+  TObjFish::set_global_param((s32)lazer_fence_norm_texture_list);
   push_matrix();
   post_translate_matrix((u8 *)&this->position);
   rotate_matrix_y(0, (void *)this->rotation_y);

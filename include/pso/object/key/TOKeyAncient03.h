@@ -4,6 +4,7 @@
 #include "types.h"
 #include "pso/object/key/TOKey.h"
 struct BmlResource;
+struct GinjaTextureList;
 #include "pso/system/NinjaTypes.h"
 
 // The ruins door panel (fs_obj_o_doorpanel): held down while a player
@@ -34,5 +35,5 @@ typedef char TOKeyAncient03_size[sizeof(TOKeyAncient03) == 0xFC ? 1 : -1];
 
 extern BmlResource *TOKeyAncient03__model_archive;
 // The red texture list while up, the model's own while down.
-extern s32 *TOKeyAncient03__texture_variants;
+extern GinjaTextureList **TOKeyAncient03__texture_variants;
 #endif

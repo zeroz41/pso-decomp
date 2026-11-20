@@ -23,6 +23,9 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_80011014.h"
 
+struct BmlResource;
+struct GinjaTextureList;
+
 #pragma defer_codegen on
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -47,18 +50,18 @@ CollisionBody labo_door_collision_body_parts[] = {
 };
 // The BML archives and texture lists the door classes load and free (TODoorFourLightSeabed,
 // TODoorFourLightSeabedU, TODoorLabo, TODoorLaboNormal), in address order.
-s32 door_labo_bml_resource;
-s32 lbl_805D6604;
-s32 lbl_805D6608;
-u32 seabed_four_light_door_bml_resource;
-s32 seabed_four_light_door_textures;
-s32 TODoorFourLightSeabedU__texture_list;
-s32 TODoorLabo__bml_resource;
-s32 TODoorLabo__green_texture_list;
-s32 labo_door_red_textures;
-u32 TODoorLabo__model_archive;
-u32 TODoorLaboNormal__green_texture_list;
-u32 TODoorLaboNormal__red_texture_list;
+BmlResource *door_labo_bml_resource;
+GinjaTextureList *lbl_805D6604;
+GinjaTextureList *lbl_805D6608;
+BmlResource *seabed_four_light_door_bml_resource;
+GinjaTextureList *seabed_four_light_door_textures;
+GinjaTextureList *TODoorFourLightSeabedU__texture_list;
+BmlResource *TODoorLabo__bml_resource;
+GinjaTextureList *TODoorLabo__green_texture_list;
+GinjaTextureList *labo_door_red_textures;
+BmlResource *TODoorLabo__model_archive;
+GinjaTextureList *TODoorLaboNormal__green_texture_list;
+GinjaTextureList *TODoorLaboNormal__red_texture_list;
 struct Tbl_8029F7E0 { s32 v[8]; };
 struct Res_8029F7E0 { u32 f0; u32 f4; };
 struct Self_8029F7E0 {
@@ -465,36 +468,36 @@ void TLanguage__sub_802A0204(void) {
         if (var_r0 != 0) {
             var_r0 = load_resource_from_descriptor(var_r0, 5, &bm_o_door_seabed01_resource_descriptor, 0, 0, 0);
         }
-        door_labo_bml_resource = var_r0;
-        lbl_805D6604 = (u32)load_gvm_texture_file((s32)("fs_obj_doorx4_atui_green.GVM"));
-        lbl_805D6608 = (u32)load_gvm_texture_file((s32)("fs_obj_doorx4_atui.GVM"));
+        door_labo_bml_resource = (BmlResource *)var_r0;
+        lbl_805D6604 = (GinjaTextureList *)load_gvm_texture_file((s32)("fs_obj_doorx4_atui_green.GVM"));
+        lbl_805D6608 = (GinjaTextureList *)load_gvm_texture_file((s32)("fs_obj_doorx4_atui.GVM"));
         return;
     case AREA_SEABED_LOWER:
         var_r0_2 = (int)::operator new(0x440);
         if (var_r0_2 != 0) {
             var_r0_2 = load_resource_from_descriptor(var_r0_2, 5, &bm_o_door_seabed01_resource_descriptor, 0, 0, 0);
         }
-        door_labo_bml_resource = var_r0_2;
-        lbl_805D6604 = (u32)load_gvm_texture_file((s32)("fs_obj_doorx4_atui_green_02.GVM"));
-        lbl_805D6608 = (u32)load_gvm_texture_file((s32)("fs_obj_doorx4_atui_02.GVM"));
+        door_labo_bml_resource = (BmlResource *)var_r0_2;
+        lbl_805D6604 = (GinjaTextureList *)load_gvm_texture_file((s32)("fs_obj_doorx4_atui_green_02.GVM"));
+        lbl_805D6608 = (GinjaTextureList *)load_gvm_texture_file((s32)("fs_obj_doorx4_atui_02.GVM"));
         return;
     }
 }
 
 void TLobby::free_chr_select_slots() {
-    if ((u32) lbl_805D6608 != 0U) {
-        release_texture_list((void*)lbl_805D6608);
-        TAdSinglePlyChrSelectGC::safe_free(lbl_805D6608);
-        lbl_805D6608 = 0U;
+    if (lbl_805D6608 != NULL) {
+        release_texture_list(lbl_805D6608);
+        TAdSinglePlyChrSelectGC::safe_free((u32)lbl_805D6608);
+        lbl_805D6608 = NULL;
     }
-    if ((u32) lbl_805D6604 != 0U) {
-        release_texture_list((void*)lbl_805D6604);
-        TAdSinglePlyChrSelectGC::safe_free(lbl_805D6604);
-        lbl_805D6604 = 0U;
+    if (lbl_805D6604 != NULL) {
+        release_texture_list(lbl_805D6604);
+        TAdSinglePlyChrSelectGC::safe_free((u32)lbl_805D6604);
+        lbl_805D6604 = NULL;
     }
-    if ((u32) door_labo_bml_resource != 0U) {
-        free_bin_model_request((void*)door_labo_bml_resource, 1);
-        door_labo_bml_resource = 0U;
+    if (door_labo_bml_resource != NULL) {
+        free_bin_model_request(door_labo_bml_resource, 1);
+        door_labo_bml_resource = NULL;
     }
 }
 
@@ -510,8 +513,8 @@ u8 *TODoorFourLightSeabed__ct(u8 *arg0, void *parent, s32 arg) {
     init_collision_body_parts(arg0, labo_door_collision_body_parts, 1);
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
-    ((Door_802A0068 *)arg0)->fD4 = get_bml_model((BmlResource *)door_labo_bml_resource, 0);
-    ((Door_802A0068 *)arg0)->infoBC = (Info_802A0068 *)get_bml_motion((BmlResource *)door_labo_bml_resource, 0);
+    ((Door_802A0068 *)arg0)->fD4 = get_bml_model(door_labo_bml_resource, 0);
+    ((Door_802A0068 *)arg0)->infoBC = (Info_802A0068 *)get_bml_motion(door_labo_bml_resource, 0);
     ((Door_802A0068 *)arg0)->fB4 = (f32)((Door_802A0068 *)arg0)->infoBC->v4 - 1.0f;
     ((Door_802A0068 *)arg0)->fB8 = 0.5f;
     {
@@ -531,11 +534,11 @@ TODoorFourLightSeabed::~TODoorFourLightSeabed() {
 }
 
 s32 TODoorFourLightSeabed::vfunc_21() {
-    return lbl_805D6608;
+    return (s32)lbl_805D6608;
 }
 
 s32 TODoorFourLightSeabed::vfunc_22() {
-    return lbl_805D6604;
+    return (s32)lbl_805D6604;
 }
 
 void TLanguage__sub_8029FF0C(void) {
@@ -549,36 +552,36 @@ void TLanguage__sub_8029FF0C(void) {
         if (var_r0 != 0) {
             var_r0 = load_resource_from_descriptor(var_r0, 5, &bm_o_door_seabed01_u_resource_descriptor, 0, 0, 0);
         }
-        seabed_four_light_door_bml_resource = var_r0;
-        seabed_four_light_door_textures = (s32)load_gvm_texture_file((s32)("fs_obj_doorx4_u_green.GVM"));
-        TODoorFourLightSeabedU__texture_list = (s32)load_gvm_texture_file((s32)("fs_obj_doorx4_u.GVM"));
+        seabed_four_light_door_bml_resource = (BmlResource *)var_r0;
+        seabed_four_light_door_textures = (GinjaTextureList *)load_gvm_texture_file((s32)("fs_obj_doorx4_u_green.GVM"));
+        TODoorFourLightSeabedU__texture_list = (GinjaTextureList *)load_gvm_texture_file((s32)("fs_obj_doorx4_u.GVM"));
         return;
     case AREA_SEABED_LOWER:
         var_r0_2 = (int)::operator new(0x440);
         if (var_r0_2 != 0) {
             var_r0_2 = load_resource_from_descriptor(var_r0_2, 5, &bm_o_door_seabed01_u_resource_descriptor, 0, 0, 0);
         }
-        seabed_four_light_door_bml_resource = var_r0_2;
-        seabed_four_light_door_textures = (s32)load_gvm_texture_file((s32)("fs_obj_doorx4_usui_green_02.GVM"));
-        TODoorFourLightSeabedU__texture_list = (s32)load_gvm_texture_file((s32)("fs_obj_doorx4_usui_02.GVM"));
+        seabed_four_light_door_bml_resource = (BmlResource *)var_r0_2;
+        seabed_four_light_door_textures = (GinjaTextureList *)load_gvm_texture_file((s32)("fs_obj_doorx4_usui_green_02.GVM"));
+        TODoorFourLightSeabedU__texture_list = (GinjaTextureList *)load_gvm_texture_file((s32)("fs_obj_doorx4_usui_02.GVM"));
         return;
     }
 }
 
 void TLobby::free_global_buffers() {
-    if ((u32) TODoorFourLightSeabedU__texture_list != 0U) {
-        release_texture_list((void*)TODoorFourLightSeabedU__texture_list);
-        TAdSinglePlyChrSelectGC::safe_free(TODoorFourLightSeabedU__texture_list);
-        TODoorFourLightSeabedU__texture_list = 0U;
+    if (TODoorFourLightSeabedU__texture_list != NULL) {
+        release_texture_list(TODoorFourLightSeabedU__texture_list);
+        TAdSinglePlyChrSelectGC::safe_free((u32)TODoorFourLightSeabedU__texture_list);
+        TODoorFourLightSeabedU__texture_list = NULL;
     }
-    if ((u32) seabed_four_light_door_textures != 0U) {
-        release_texture_list((void*)seabed_four_light_door_textures);
-        TAdSinglePlyChrSelectGC::safe_free(seabed_four_light_door_textures);
-        seabed_four_light_door_textures = 0U;
+    if (seabed_four_light_door_textures != NULL) {
+        release_texture_list(seabed_four_light_door_textures);
+        TAdSinglePlyChrSelectGC::safe_free((u32)seabed_four_light_door_textures);
+        seabed_four_light_door_textures = NULL;
     }
-    if ((u32) seabed_four_light_door_bml_resource != 0U) {
-        free_bin_model_request((void*)seabed_four_light_door_bml_resource, 1);
-        seabed_four_light_door_bml_resource = 0U;
+    if (seabed_four_light_door_bml_resource != NULL) {
+        free_bin_model_request(seabed_four_light_door_bml_resource, 1);
+        seabed_four_light_door_bml_resource = NULL;
     }
 }
 
@@ -593,8 +596,8 @@ u8 *TODoorFourLightSeabedU__ct(u8 *arg0, void *parent, s32 arg) {
     init_collision_body_parts(arg0, labo_door_collision_body_parts, 1);
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
-    ((Door_8029FD70 *)arg0)->fD4 = get_bml_model((BmlResource *)seabed_four_light_door_bml_resource, 0);
-    ((Door_8029FD70 *)arg0)->infoBC = (Info_8029FD70 *)get_bml_motion((BmlResource *)seabed_four_light_door_bml_resource, 0);
+    ((Door_8029FD70 *)arg0)->fD4 = get_bml_model(seabed_four_light_door_bml_resource, 0);
+    ((Door_8029FD70 *)arg0)->infoBC = (Info_8029FD70 *)get_bml_motion(seabed_four_light_door_bml_resource, 0);
     ((Door_8029FD70 *)arg0)->fB4 = (f32)((Door_8029FD70 *)arg0)->infoBC->v4 - 1.0f;
     ((Door_8029FD70 *)arg0)->fB8 = 0.5f;
     {
@@ -614,11 +617,11 @@ TODoorFourLightSeabedU::~TODoorFourLightSeabedU() {
 }
 
 s32 TODoorFourLightSeabedU::vfunc_21() {
-    return TODoorFourLightSeabedU__texture_list;
+    return (s32)TODoorFourLightSeabedU__texture_list;
 }
 
 s32 TODoorFourLightSeabedU::vfunc_22() {
-    return seabed_four_light_door_textures;
+    return (s32)seabed_four_light_door_textures;
 }
 
 void load_labo_door_resources(void) {
@@ -626,9 +629,9 @@ void load_labo_door_resources(void) {
     if (r != 0) {
         r = load_resource_from_descriptor(r, 5, &labo_door_resource_descriptor, 0, 0, 0);
     }
-    TODoorLabo__bml_resource = r;
-    TODoorLabo__green_texture_list = (s32)load_gvm_texture_file((s32)("obj_o_labodoor_l_grn.GVM"));
-    labo_door_red_textures = (s32)load_gvm_texture_file((s32)("obj_o_labodoor_l_red.GVM"));
+    TODoorLabo__bml_resource = (BmlResource *)r;
+    TODoorLabo__green_texture_list = (GinjaTextureList *)load_gvm_texture_file((s32)("obj_o_labodoor_l_grn.GVM"));
+    labo_door_red_textures = (GinjaTextureList *)load_gvm_texture_file((s32)("obj_o_labodoor_l_red.GVM"));
 }
 
 const char *odoor_labo_class_name = "TODoorLabo";
@@ -636,19 +639,19 @@ const Tbl_8029FAE4 door_labo_link_table = {{1, -1, -1, -1, 4, -1, -1, -1}};
 
 
 void TAdSinglePlyChrSelectGC::free_all_resources() {
-    if ((u32) labo_door_red_textures != 0U) {
-        release_texture_list((void*)labo_door_red_textures);
-        TAdSinglePlyChrSelectGC::safe_free(labo_door_red_textures);
-        labo_door_red_textures = 0U;
+    if (labo_door_red_textures != NULL) {
+        release_texture_list(labo_door_red_textures);
+        TAdSinglePlyChrSelectGC::safe_free((u32)labo_door_red_textures);
+        labo_door_red_textures = NULL;
     }
-    if ((u32) TODoorLabo__green_texture_list != 0U) {
-        release_texture_list((void*)TODoorLabo__green_texture_list);
-        TAdSinglePlyChrSelectGC::safe_free(TODoorLabo__green_texture_list);
-        TODoorLabo__green_texture_list = 0U;
+    if (TODoorLabo__green_texture_list != NULL) {
+        release_texture_list(TODoorLabo__green_texture_list);
+        TAdSinglePlyChrSelectGC::safe_free((u32)TODoorLabo__green_texture_list);
+        TODoorLabo__green_texture_list = NULL;
     }
-    if ((u32) TODoorLabo__bml_resource != 0U) {
-        free_bin_model_request((void*)TODoorLabo__bml_resource, 1);
-        TODoorLabo__bml_resource = 0U;
+    if (TODoorLabo__bml_resource != NULL) {
+        free_bin_model_request(TODoorLabo__bml_resource, 1);
+        TODoorLabo__bml_resource = NULL;
     }
 }
 
@@ -663,7 +666,7 @@ Door_8029FAE4 *TODoorLabo__ct(Door_8029FAE4 *arg0, void *parent, s32 arg) {
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
     ((TODoorLabo *)arg0)->init_model_by_type();
-    arg0->fBC = (u8 *)get_bml_motion((BmlResource *)TODoorLabo__bml_resource, 0);
+    arg0->fBC = (u8 *)get_bml_motion(TODoorLabo__bml_resource, 0);
     arg0->fB4 = (f32)*(u32 *)((s8 *)arg0->fBC + 4) - 1.0f;
     arg0->fB8 = 0.5f;
     tbl = door_labo_link_table;
@@ -683,11 +686,11 @@ TODoorLabo::~TODoorLabo() {
 }
 
 s32 TODoorLabo::vfunc_21() {
-    return labo_door_red_textures;
+    return (s32)labo_door_red_textures;
 }
 
 s32 TODoorLabo::vfunc_22() {
-    return TODoorLabo__green_texture_list;
+    return (s32)TODoorLabo__green_texture_list;
 }
 
 void TODoorLabo::init_model_by_type() {
@@ -698,7 +701,7 @@ void TODoorLabo::init_model_by_type() {
     if (this->set_params[1] > 1) {
         this->set_params[1] = 1;
     }
-    this->m_d4 = get_bml_model((BmlResource *)TODoorLabo__bml_resource, tbl[this->set_params[1]]);
+    this->m_d4 = get_bml_model(TODoorLabo__bml_resource, tbl[this->set_params[1]]);
 }
 
 void TODoorLabo::load_resources() {
@@ -706,25 +709,25 @@ void TODoorLabo::load_resources() {
     if (r != 0) {
         r = load_resource_from_descriptor(r, 5, &labo_door_resource_descriptor_2, 0, 0, 0);
     }
-    (*(s32 *)&TODoorLabo__model_archive) = r;
-    (*(s32 *)&TODoorLaboNormal__green_texture_list) = (s32)load_gvm_texture_file((s32)("o_labodoor_nrm_green.GVM"));
-    (*(s32 *)&TODoorLaboNormal__red_texture_list) = (s32)load_gvm_texture_file((s32)("o_labodoor_nrm_red.GVM"));
+    TODoorLabo__model_archive = (BmlResource *)r;
+    TODoorLaboNormal__green_texture_list = (GinjaTextureList *)load_gvm_texture_file((s32)("o_labodoor_nrm_green.GVM"));
+    TODoorLaboNormal__red_texture_list = (GinjaTextureList *)load_gvm_texture_file((s32)("o_labodoor_nrm_red.GVM"));
 }
 
 void TODoorLabo::free_resources() {
-    if ((u32) TODoorLaboNormal__red_texture_list != 0U) {
-        release_texture_list((void*)TODoorLaboNormal__red_texture_list);
-        TAdSinglePlyChrSelectGC::safe_free(TODoorLaboNormal__red_texture_list);
-        TODoorLaboNormal__red_texture_list = 0U;
+    if (TODoorLaboNormal__red_texture_list != NULL) {
+        release_texture_list(TODoorLaboNormal__red_texture_list);
+        TAdSinglePlyChrSelectGC::safe_free((u32)TODoorLaboNormal__red_texture_list);
+        TODoorLaboNormal__red_texture_list = NULL;
     }
-    if ((u32) TODoorLaboNormal__green_texture_list != 0U) {
-        release_texture_list((void*)TODoorLaboNormal__green_texture_list);
-        TAdSinglePlyChrSelectGC::safe_free(TODoorLaboNormal__green_texture_list);
-        TODoorLaboNormal__green_texture_list = 0U;
+    if (TODoorLaboNormal__green_texture_list != NULL) {
+        release_texture_list(TODoorLaboNormal__green_texture_list);
+        TAdSinglePlyChrSelectGC::safe_free((u32)TODoorLaboNormal__green_texture_list);
+        TODoorLaboNormal__green_texture_list = NULL;
     }
-    if ((u32) TODoorLabo__model_archive != 0U) {
-        free_bin_model_request((void*)TODoorLabo__model_archive, 1);
-        TODoorLabo__model_archive = 0U;
+    if (TODoorLabo__model_archive != NULL) {
+        free_bin_model_request(TODoorLabo__model_archive, 1);
+        TODoorLabo__model_archive = NULL;
     }
 }
 
@@ -739,7 +742,7 @@ Self_8029F7E0 *TODoorLaboNormal__ct(Self_8029F7E0 *self, void *parent, s32 arg) 
     ((TObjCollidable *)self)->refresh_collision_body_centers();
     ((TObjPlayer *)self)->register_object_by_id();
     ((TODoorLaboNormal *)self)->init_field_d4();
-    self->fBC = (Res_8029F7E0 *)get_bml_motion((BmlResource *)TODoorLabo__model_archive, 0);
+    self->fBC = (Res_8029F7E0 *)get_bml_motion(TODoorLabo__model_archive, 0);
     self->fB4 = (f32)self->fBC->f4 - 1.0f;
     self->fB8 = 0.5f;
     {
@@ -761,12 +764,12 @@ TODoorLaboNormal::~TODoorLaboNormal() {
 }
 
 s32 TODoorLaboNormal::vfunc_21() {
-    return TODoorLaboNormal__red_texture_list;
+    return (s32)TODoorLaboNormal__red_texture_list;
 }
 
 s32 TODoorLaboNormal::vfunc_22() {
-    return TODoorLaboNormal__green_texture_list;
+    return (s32)TODoorLaboNormal__green_texture_list;
 }
 
-void TODoorLaboNormal::init_field_d4() { this->m_d4 = get_bml_model((BmlResource *)TODoorLabo__model_archive, 0); }
+void TODoorLaboNormal::init_field_d4() { this->m_d4 = get_bml_model(TODoorLabo__model_archive, 0); }
 

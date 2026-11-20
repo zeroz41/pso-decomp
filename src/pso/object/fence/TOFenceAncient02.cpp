@@ -22,7 +22,7 @@ CollisionBody fence_ancient02_collision_bodies[3] = {
 };
 const char *TOFenceAncient02::class_name = "TOFenceAncient02";
 BmlResource *TOFenceAncient02::model_resource;
-s32 *TOFenceAncient02::texlists;
+GinjaTextureList **TOFenceAncient02::texlists;
 
 void TOFenceAncient02::update_demo() {}
 
@@ -46,7 +46,7 @@ void TOFenceAncient02::unload_resources() {
     s32 i;
     if (texlists != NULL) {
         for (i = 1; i < 4; i++) {
-            TObjPlayer::free_if_valid(texlists[i]);
+            TObjPlayer::free_if_valid((s32)texlists[i]);
         }
         if (texlists != NULL) {
             mem_free(texlists);
@@ -65,12 +65,12 @@ void TOFenceAncient02::load_resources() {
         resource = load_resource_from_descriptor(resource, 1, &bm_fd_obj_n_saku_6x2_resource_descriptor, 0, 0, 0);
     }
     model_resource = resource;
-    s32 *lists = (s32 *)mem_alloc(4 * sizeof(s32));
+    GinjaTextureList **lists = (GinjaTextureList **)mem_alloc(4 * sizeof(GinjaTextureList *));
     texlists = lists;
-    lists[0] = model_resource->models[0].m_c;
-    texlists[1] = (s32)load_gvm_texture_file((s32)texture_file_b);
-    texlists[2] = (s32)load_gvm_texture_file((s32)texture_file_g);
-    texlists[3] = (s32)load_gvm_texture_file((s32)texture_file_p);
+    lists[0] = (GinjaTextureList *)model_resource->models[0].m_c;
+    texlists[1] = (GinjaTextureList *)load_gvm_texture_file((s32)texture_file_b);
+    texlists[2] = (GinjaTextureList *)load_gvm_texture_file((s32)texture_file_g);
+    texlists[3] = (GinjaTextureList *)load_gvm_texture_file((s32)texture_file_p);
 }
 
 // Defined after load_resources, which addresses each by its own symbol.
@@ -87,7 +87,7 @@ TOFenceAncient02::TOFenceAncient02(TObject *parent, void *set_data) : TOFenceBas
     m_name = class_name;
     apply_object_set_data(set_data);
     model = (void *)model_resource->models[0].model;
-    texlist = texlists[read_texture_variant()];
+    texlist = (s32)texlists[read_texture_variant()];
     motion = model_resource->motions[0].motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     init_collision_body_parts(this, fence_ancient02_collision_bodies, 3);

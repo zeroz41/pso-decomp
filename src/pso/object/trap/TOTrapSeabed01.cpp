@@ -1,4 +1,4 @@
-#include "pso/render/GvmTextureArchiveLookup.h"
+#include "pso/render/GinjaTexture.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -32,7 +32,6 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/network/client_id.h"
 #include "pso/render/GinjaMaterial.h"
-#include "pso/render/GinjaTexture.h"
 #include "pso/render/GinjaUvScroll.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/render/NinjaUtil.h"

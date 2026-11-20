@@ -352,7 +352,7 @@ void TOAttackableCol::bswap_state() { ((TLobby *)this)->bswap_header(); bswap_16
 void TOAttackableCol::broadcast_state() { bswap_state(); send_subcommand((u8 *)this); }
 
 void *fn_80157CA8(void *barrier_energy01) {
-    ((TOBarrierEnergy01 *)barrier_energy01)->init();
+    init_collision_subcommand_header(barrier_energy01);
     *(u16 *)((s8 *)barrier_energy01 + 0xC) = 0;
     *(u16 *)((s8 *)barrier_energy01 + 0xE) = 0;
     *(u8 *)((s8 *)barrier_energy01 + 0x0) = 145;

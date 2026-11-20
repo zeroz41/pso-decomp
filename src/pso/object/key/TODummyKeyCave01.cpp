@@ -141,7 +141,7 @@ void TODummyKeyCave01::run_task() {
         }
     }
     if (this->m_9a == 1) {
-        this->texlist = *(s32 *)&this->m_94;
+        this->texlist = (s32)this->on_textures;
         f32 lo = (-0.7f);
         if (lo < self->fB0) {
             self->fB0 += (-0.023333333f);
@@ -153,7 +153,7 @@ void TODummyKeyCave01::run_task() {
             *(s32 *)&this->m_cc = *(s32 *)&this->m_cc + 0x333;
         }
     } else {
-        this->texlist = *(s32 *)&this->m_90;
+        this->texlist = (s32)this->off_textures;
         if (self->fB0 < (0.0f)) {
             self->fB0 = self->fB0 - (-0.023333333f);
             if ((0.0f) < self->fB0) {
@@ -246,23 +246,23 @@ void TODummyKeyCave01::sub_80165940() {
     case AREA_CAVE2:
     case AREA_CAVE3:
         self->f34 = (void *)get_bml_model(TOKeyCave01__resource_bundle, 0);
-        self->f90 = TOKeyCave01__texture_lists[0];
-        self->f94 = TOKeyCave01__texture_lists[1];
+        this->off_textures = TOKeyCave01__texture_lists[0];
+        this->on_textures = TOKeyCave01__texture_lists[1];
         break;
     case AREA_FOREST1:
     case AREA_FOREST2:
     case AREA_MINE1:
     case AREA_MINE2:
         self->f34 = (void *)get_bml_model(TOKeyMachine01__resource_bundle, 0);
-        self->f90 = TOKeyMachine01__texture_lists[0];
-        self->f94 = TOKeyMachine01__texture_lists[1];
+        this->off_textures = TOKeyMachine01__texture_lists[0];
+        this->on_textures = TOKeyMachine01__texture_lists[1];
         break;
     case AREA_RUINS1:
     case AREA_RUINS2:
     case AREA_RUINS3:
         self->f34 = (void *)get_bml_model(TOKeyAncient03__model_archive, 0);
-        self->f90 = TOKeyAncient03__texture_variants[0];
-        self->f94 = TOKeyAncient03__texture_variants[1];
+        this->off_textures = TOKeyAncient03__texture_variants[0];
+        this->on_textures = TOKeyAncient03__texture_variants[1];
         break;
     case AREA_BATTLE1:
     case AREA_BATTLE2:
@@ -272,12 +272,12 @@ void TODummyKeyCave01::sub_80165940() {
     case AREA_VR_SPACESHIP_BETA:
         if (self->fBC == 0) {
             self->f34 = (void *)get_bml_model(TOKeyCave01__resource_bundle, 0);
-            self->f90 = TOKeyCave01__texture_lists[0];
-            self->f94 = TOKeyCave01__texture_lists[1];
+            this->off_textures = TOKeyCave01__texture_lists[0];
+            this->on_textures = TOKeyCave01__texture_lists[1];
         } else {
             self->f34 = (void *)get_bml_model(TOKeyMachine01__resource_bundle, 0);
-            self->f90 = TOKeyMachine01__texture_lists[0];
-            self->f94 = TOKeyMachine01__texture_lists[1];
+            this->off_textures = TOKeyMachine01__texture_lists[0];
+            this->on_textures = TOKeyMachine01__texture_lists[1];
         }
         break;
     case AREA_CENTRAL_CONTROL_AREA:
@@ -290,14 +290,14 @@ void TODummyKeyCave01::sub_80165940() {
     case AREA_SEASIDE_NIGHT:
     case AREA_TOWER:
         self->f34 = (void *)get_bml_model(TOKeyCave01__resource_bundle, 0);
-        self->f90 = TOKeyCave01__texture_lists[0];
-        self->f94 = TOKeyCave01__texture_lists[1];
+        this->off_textures = TOKeyCave01__texture_lists[0];
+        this->on_textures = TOKeyCave01__texture_lists[1];
         self->fD0 = 1;
         break;
     default:
         self->f34 = 0;
-        self->f90 = 0;
-        self->f94 = 0;
+        this->off_textures = 0;
+        this->on_textures = 0;
         break;
     }
 }

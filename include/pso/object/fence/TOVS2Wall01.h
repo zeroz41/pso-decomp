@@ -30,9 +30,10 @@ struct TOVS2Wall01 : public TObjChara {
     static void release_model();
     static void load_resources();
     void *destroy(s16 arg1);
-    void byteswap_hit_packet();
-    void update_and_send();
-    void*init();
+    void break_wall();
+    f32 take_hit(TObjBase *attacker);
+    s32 remaining_hits();
+    void set_remaining_hits(s32 count);
     void save_and_send_state(u16 arg1);
 };
 

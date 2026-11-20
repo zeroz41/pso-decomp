@@ -16,6 +16,7 @@
 #include "pso/system/debug_print.h"
 #include "pso/map/FloorArea.h"
 #include "pso/object/door/TObjDoorKey.h"
+#include "pso/object/fence/WallHitPacket.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include <stdio.h>
 
@@ -159,7 +160,6 @@ extern "C" void handle_6x80_trigger_trap();
 extern "C" void handle_6x81_disable_drop_weapon_on_death(void *arg0);
 extern "C" void handle_6x82_enable_drop_weapon_on_death(void *arg0);
 extern "C" void handle_6x83_place_trap(void *arg0);
-extern "C" void handle_6x86_hit_destructible_object();
 extern "C" void handle_6x87_shrink_player();
 extern "C" void handle_6x88_restore_shrunken_player();
 extern "C" void handle_6x89_set_killer_entity_id(void *arg0);
@@ -354,7 +354,7 @@ PsoCommandHandler pso_command_dispatch_table[] = {
     {0x7E, 0x0007, (PsoCommandFn)handle_6x7E},
     {0x7F, 0x0007, (PsoCommandFn)handle_6x7F_battle_scores},
     {0x80, 0x0004, (PsoCommandFn)handle_6x80_trigger_trap},
-    {0x86, 0x0006, (PsoCommandFn)handle_6x86_hit_destructible_object},
+    {0x86, 0x0006, handle_6x86_hit_destructible_object},
     {0x8A, 0x0002, (PsoCommandFn)handle_6x8A_show_challenge_time_records_window},
     {0x91, 0x0006, (PsoCommandFn)handle_6x91_update_attackable_col_state},
     {0x92, 0x0004, (PsoCommandFn)handle_6x92},

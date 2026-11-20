@@ -5892,7 +5892,7 @@ force_active:
   - draw_motion_tree__FP10NJS_OBJECTP10NJS_MOTIONfPFPv_l
   - draw_name_labels__13TObjTombstoneFv
   - draw_node_tree__16TObjEneRe7BeruraFPv
-  - draw_node_tree__18TObjLaboDesignBaseFiPv
+  - draw_node_tree__18TObjLaboDesignBaseFP10NJS_OBJECT
   - draw_node_tree__19TODoorFourLightBaseFPUc
   - draw_number_value__15TWindowHelpItemFPvPflll
   - draw_object_tree__11TObjDoaEx01Fl
@@ -14408,7 +14408,7 @@ force_active:
   - render__18TObjEneEpsilonBodyFv
   - render__18TObjEneRe4SorcererFv
   - render__18TObjEnvSoundGlobalFv
-  - render__18TObjLaboDesignBaseFPv
+  - render_model__18TObjLaboDesignBaseFv
   - render__18TObjSeabedSuiso_CHFv
   - render__18TObjTradeCollisionFv
   - render__18TPhotonConcentrateFv

@@ -38,7 +38,7 @@ const s32 key_machine01_switch_sounds[] = {
 };
 const char *TOKeyMachine01__class_name = "TOKeyMachine01";
 BmlResource *TOKeyMachine01__resource_bundle;
-s32 *TOKeyMachine01__texture_lists;
+GinjaTextureList **TOKeyMachine01__texture_lists;
 
 void TOKeyMachine01::vfunc_25() {}
 
@@ -163,7 +163,7 @@ void TOKeyMachine01::render() {
     u32 flags;
 
     if (update_object_view_visibility(view_range, model_radius) != 0) {
-        TObjFish::set_global_param(TOKeyMachine01__texture_lists[is_on]);
+        TObjFish::set_global_param((s32)TOKeyMachine01__texture_lists[is_on]);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -203,7 +203,7 @@ void *TOKeyMachine01::create(void *set_data) {
 
 void TOKeyMachine01::free_statics() {
     if (TOKeyMachine01__texture_lists != NULL) {
-        TObjPlayer::free_if_valid(TOKeyMachine01__texture_lists[0]);
+        TObjPlayer::free_if_valid((s32)TOKeyMachine01__texture_lists[0]);
         TOKeyMachine01__texture_lists[0] = 0;
         if (TOKeyMachine01__texture_lists != NULL) {
             mem_free(TOKeyMachine01__texture_lists);
@@ -222,9 +222,9 @@ void TOKeyMachine01::load_assets() {
         resource = load_resource_from_descriptor(resource, 1, &bm_fs_obj_ki_doa_panel_resource_descriptor, 0, 0, 0);
     }
     TOKeyMachine01__resource_bundle = resource;
-    TOKeyMachine01__texture_lists = (s32 *)mem_alloc(8);
-    TOKeyMachine01__texture_lists[0] = (s32)load_gvm_texture_file((s32) "fs_obj_ki_doa_panel_r.gvm");
-    TOKeyMachine01__texture_lists[1] = TOKeyMachine01__resource_bundle->models[0].m_c;
+    TOKeyMachine01__texture_lists = (GinjaTextureList **)mem_alloc(2 * sizeof(*TOKeyMachine01__texture_lists));
+    TOKeyMachine01__texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file((s32) "fs_obj_ki_doa_panel_r.gvm");
+    TOKeyMachine01__texture_lists[1] = (GinjaTextureList *)TOKeyMachine01__resource_bundle->models[0].m_c;
 }
 
 TOKeyMachine01::~TOKeyMachine01() {}
@@ -233,7 +233,7 @@ TOKeyMachine01::TOKeyMachine01(TObject *parent, void *set_data) : TOKey(parent) 
     m_name = TOKeyMachine01__class_name;
     apply_object_set_data(set_data);
     init_switch_id();
-    texlist = TOKeyMachine01__texture_lists[0];
+    texlist = (s32)TOKeyMachine01__texture_lists[0];
     model = (void *)TOKeyMachine01__resource_bundle->models[0].model;
     view_range = 400.0f;
     model_radius = 10.0f;

@@ -1,6 +1,5 @@
 #include "types.h"
-#include "pso/render/GinjaMaterialState.h"
-#include "pso/render/GvmTextureArchiveLookup.h"
+#include "pso/render/GinjaTexture.h"
 #include "pso/object/door/TObjDoorJung.h"
 
 extern "C" {
