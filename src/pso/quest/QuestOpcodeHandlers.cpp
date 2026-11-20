@@ -2134,7 +2134,7 @@ void qst_op_compute_bezier_curve_point() {
     s32 ret;
     s32 j;
     Vec *dst;
-    pts = (u8 *)((uaddr (*)(void *, int))qst_label_address)((void *)(u16)g->id, (saddr)g);
+    pts = (u8 *)((uaddr (*)(void *, int))qst_label_address)((void *)(uaddr)(u16)g->id, (saddr)g);
     if (pts == NULL) {
         return;
     }
@@ -2166,7 +2166,7 @@ void qst_op_get_vector_from_path() {
     s32 ret;
     s32 j;
     Vec *dst;
-    pts = (u8 *)((uaddr (*)(void *, int))qst_label_address)((void *)(u16)g->id, (saddr)g);
+    pts = (u8 *)((uaddr (*)(void *, int))qst_label_address)((void *)(uaddr)(u16)g->id, (saddr)g);
     if (pts == NULL) {
         return;
     }
@@ -3028,7 +3028,7 @@ void qst_op_call_image_data() {
     s32 size;
     u32 temp_r3;
     size = qst_args[0];
-    temp_r3 = ((int)((u32 (*)(void *))qst_label_address)((void *)((s32) (u16) qst_args[1])));
+    temp_r3 = ((int)((u32 (*)(void *))qst_label_address)((void *)((saddr) (u16) qst_args[1])));
     if (temp_r3 != 0U) {
         prs_decompress_buffer((s32) temp_r3, resource_decompress_buffer);
         fn_80197FD0((void *)resource_decompress_buffer, size);
@@ -3716,7 +3716,7 @@ void qst_op_read_switch_flag_on_floor(s32 arg0) {
     id = (u8 *)(var_r4 + var_r31);
     id = (u8 *)(*(u8 **)((s8 *)id + 4));
     var_r4 = (s32) (s16) *(s32 *)((s8 *)var_r4 + var_r31);
-    id = (u8 *)((void *) (u16) id);
+    id = (u8 *)((void *)(uaddr) (u16)(uaddr)(void *) id);
     var_r4 = (s32) is_floor_switch_set((uaddr)id, (var_r4));
     id = (u8 *)(((saddr)qst_registers) + var_r31);
     *(s32 *)((s8 *)id + 8) = var_r4;
@@ -3778,7 +3778,7 @@ void qst_op_go_floor(s32 a, s32 b) {
         mark_area_change_pending();
         ((TObjAreaWarpQuest *)lbl_80515BA0)->get_dest_area();
         send_inter_level_warp_all__10TNpcPlayerFl();
-        send_6x21_inter_level_warp((void *)r, (saddr)((void *)((TObjAreaWarpQuest *)lbl_80515BA0)->get_dest_area()));
+        send_6x21_inter_level_warp((void *)r, (saddr)((void *)(saddr)((TObjAreaWarpQuest *)lbl_80515BA0)->get_dest_area()));
     }
 }
 
@@ -4192,7 +4192,7 @@ void qst_op_nop_BC(void) {  }
 int qst_op_clr_qt_exit(void) { return set_quest_exit_callback((void*)(-1)); }
 
 void qst_op_set_qt_exit(u16 arg0) {
-    set_quest_exit_callback((void *)arg0);
+    set_quest_exit_callback((void *)(uaddr)arg0);
 }
 
 void qst_op_get_difficulty_level_v1(s32 arg0) {
@@ -4477,15 +4477,15 @@ int qst_op_clr_qt_success(void) { return set_quest_success_callback((void*)(-1))
 int qst_op_clr_qt_failure(void) { return THunterGuildSeqOffline__sub_801F3748((void*)(-1)); }
 
 void qst_op_set_qt_cancel(u16 arg0) {
-    set_quest_cancel_callback((void *)arg0);
+    set_quest_cancel_callback((void *)(uaddr)arg0);
 }
 
 void qst_op_set_qt_success(u16 arg0) {
-    set_quest_success_callback((void *)arg0);
+    set_quest_success_callback((void *)(uaddr)arg0);
 }
 
 void qst_op_set_qt_failure(u16 arg0) {
-    THunterGuildSeqOffline__sub_801F3748((void *)arg0);
+    THunterGuildSeqOffline__sub_801F3748((void *)(uaddr)arg0);
 }
 
 void qst_op_clr_floor_handler(void) {
@@ -5275,7 +5275,7 @@ void qst_op_npc_crt(void) {
     var_r3 = (s32 *)qst_args;
     var_r3 = (s32 *)qst_args;
     var_r4 = qst_args[1];
-    var_r3 = (s32 *)((u8 *)((s32 *) (u16) qst_args[0]));
+    var_r3 = (s32 *)((u8 *)((s32 *)(uaddr) (u16) qst_args[0]));
     send_npc_create__10TNpcPlayerFss((saddr)var_r3, (int)var_r4);
     TLobby::clear_quest_vm_flag();
 }
@@ -5731,14 +5731,12 @@ void qst_op_gget(u16 flag, s32 arg1) {
 
 void qst_op_glet(u16 flag, s32 arg1) {
     if ((s32) qst_registers[(u8)arg1] != 0) {
-        dispatch_by_main_phase__14TBoss4DarkFalzFUs((void *)flag);
+        dispatch_by_main_phase__14TBoss4DarkFalzFUs((void *)(uaddr)flag);
         return;
     }
     clear_story_flag((flag));
 }
 
-namespace pf2_p6 { extern "C" { s32 dispatch_by_main_phase__14TBoss4DarkFalzFUs(s32); } }
-#define dispatch_by_main_phase__14TBoss4DarkFalzFUs pf2_p6::dispatch_by_main_phase__14TBoss4DarkFalzFUs
 void qst_op_grev(s32 arg0) {
     u16 v = arg0;
     if (get_story_flag(v) != 0) {
