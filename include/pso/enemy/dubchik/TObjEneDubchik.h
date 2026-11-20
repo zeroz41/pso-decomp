@@ -55,11 +55,4 @@ typedef char TObjEneDubchik_size[sizeof(TObjEneDubchik) == 0x41C ? 1 : -1];
 
 extern const char *TObjEneDubchik__class_name;
 
-// Resource file names used by the Dubchik resource loader. They sit in .rodata
-// right after this unit's data and are addressed by name, not through the
-// unit's .rodata base, so they are defined outside this translation unit.
-extern const char bm_ene_dubchik_a_bml_filename[];
-extern const char me2_y_me2_z_a_gvm_filename[];
-extern const char me2_y_me2_z_gvm_filename[];
-
 #endif
