@@ -18,7 +18,7 @@ u8 prs_read_byte_at(u8 *arg0, u32 arg1) {
     return *(u8 *)((s8 *)(*(saddr *)((s8 *)arg0 + 0x10) + temp_r4) + 0);
 }
 
-s32 prs_next_output_byte(void *arg0) {
+saddr prs_next_output_byte(void *arg0) {
   u32 temp_r3;
   if ((((u32) (*((u32 *) (((s8 *) arg0) + 0x1C)))) >= 0x17FFU) != 0)
   {
