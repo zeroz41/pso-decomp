@@ -78,7 +78,7 @@ s32 text_builder_append();
 }
 void text_builder_reset(void);
 extern "C" {
-s32 get_window_layout_position(int);
+saddr get_window_layout_position(int);
 s32 free_member__17TWindowSubComCardFv(int, int);
 void open_yes_no_prompt(TChCrTagPlBack *arg0, u32 arg1, s32 arg2, s32 arg3, f32 farg0);
 s32 create__19TWindowMessageYesNoFPvPvPvPv(void *, int, int, int);

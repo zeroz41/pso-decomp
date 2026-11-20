@@ -9,7 +9,7 @@ u8 *TWindowMenu__ct(u8 *arg0, u32 arg1, s32 arg2, s32 arg3);
 void TWindowSubComCard__sub_80265500(u8 *arg0);
 void TWindowSubComCard__sub_80265680(u8 *arg0, s16 arg1);
 }
-s32 create_titled_window_menu(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+saddr create_titled_window_menu(saddr arg0, s32 arg1, saddr arg2, s32 arg3);
 extern "C" {
 saddr create_window_menu(s32 arg0, s32 arg1, s32 arg2);
 u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);

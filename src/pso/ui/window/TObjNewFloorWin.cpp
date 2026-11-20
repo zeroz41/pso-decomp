@@ -20,7 +20,7 @@ extern "C" {
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 saddr create_window_menu(saddr arg0, saddr arg1, saddr arg2);
 u32 check_room_seq_4__16TAdChrSelASlotGCFl(s32);
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 s32 has_window_task_root();
 void TShopWindowBase::set_field_20(s32 v) { *(s32 *)&(*(u32 *)((u8 *)this + 0x20)) = v; }
 

@@ -28,7 +28,7 @@ const char *TWindowMessageQuest__name = "TWindowMessageQuest";
 static const Vec lbl_8044F464 = {384.0f, 80.0f, 0.0f};
 
 extern "C" {
-s32 get_window_layout_position(int);
+saddr get_window_layout_position(int);
 Ctx_8026B148 *get_draw_context__11TWindowBaseFPv(void *);
 void draw_visible_window_entries(void *, void *, void *);
 extern s32 __vt__19TWindowMessageQuest[];

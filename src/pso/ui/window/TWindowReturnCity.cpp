@@ -38,7 +38,7 @@ s32 prepare_hospital_return__10TObjPlayerFv();
 s32 set_area__6TLobbyFl(void *, int, int);
 s32 send_inter_level_warp_all__10TNpcPlayerFl();
 s32 __ct__7TObjectFP7TObject(void *, void *);
-s32 get_window_layout_position(int);
+saddr get_window_layout_position(int);
 void TWindowCtrl__sub_8026D4E8(void);
 s32 free_member__17TWindowSubComCardFv(int, int);
 s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(int, int, int, f32);

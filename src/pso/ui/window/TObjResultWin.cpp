@@ -21,7 +21,7 @@ struct ControllerInputStateResultWin { s32 value; u8 remaining[0x1AC]; };
 extern "C" {
 char* get_message_text(s32);
 s32 has_window_task_root();
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 u32 create__14TWindowMessageFPvll(s32, void*, s32);
 extern ControllerInputStateResultWin controller_input_state;
 extern s32 current_lobby_id;

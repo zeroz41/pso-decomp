@@ -121,7 +121,7 @@ s32 construct_type1_heading__20TWindowSubStatusDispFll(s32, s32, s32);
 void draw_selection_bar(u8 *arg0, u8 *arg1, s32 arg2);
 void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
 void update_chat_window(void* p);
-s32 create_titled_window_menu(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+saddr create_titled_window_menu(saddr arg0, s32 arg1, saddr arg2, s32 arg3);
 extern s32 __vt__11TWindowMenu[];
 const f64 lbl_8044F330 = 0.0;
 // The TWindowMenu layout table (one type-3 text record; fn_80266378 sets the row count) and
@@ -686,11 +686,11 @@ void TAdChrSelASlotGC::check_room_seq_4(saddr arg1) {
     ((int (*)(void*, void*, void*))create_window_menu)((void*)arg0, (void*)arg1, (void*)(4));
 }
 
-s32 create_titled_window_menu(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+saddr create_titled_window_menu(saddr arg0, s32 arg1, saddr arg2, s32 arg3) {
     saddr temp_r31;
     s32 temp_r3;
     s32 var_r0;
-    temp_r31 = ((s32)((int (*)(void*, void*, void*))create_window_menu)((void*)arg0, (void*)arg1, (void*)arg3));
+    temp_r31 = create_window_menu(arg0, arg1, arg3);
     temp_r3 = ((int (*)(void *))::operator new)((void *)0x24);
     var_r0 = temp_r3;
     if (var_r0 != 0) {

@@ -38,7 +38,7 @@ extern saddr tl_00;
 extern int window_sub_game_end_active_flag;
 s32 get_main_phase();
 s32 __ct__7TObjectFP7TObject();
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 s32 free_member__17TWindowSubComCardFv(s32, s32);
 s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(s32, s32, s32, f32);
 s32 create__19TWindowMessageYesNoFPvPvPvPv(void *, s32, s32, s32);

@@ -53,7 +53,7 @@ s32 has_player_active_menu__11TWindowCtrlFv(u16);
 
 s32 is_slot_visible__11TWindowCtrlFv(u16);
 
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 
 void __ct__7TObjectFP7TObject(void *);
 
@@ -93,7 +93,7 @@ extern s32 local_client_id;
 
 uaddr create__14TWindowMessageFPvll(s32, void *, s32);
 
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 
 
 extern f32 TObjBagWarnWin__message_window_size[2];

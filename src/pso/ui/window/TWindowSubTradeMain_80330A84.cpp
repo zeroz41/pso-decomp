@@ -155,7 +155,7 @@ s32 align_menu_entry_positions(int);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 void play_sound_effect(int, int, int, int);
 }
-s32 create_titled_window_menu(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+saddr create_titled_window_menu(saddr arg0, s32 arg1, saddr arg2, s32 arg3);
 void window_request_show(void *);
 extern "C" {
 s32 TWindowCtrl__sub_8024701C(void *);
@@ -667,7 +667,7 @@ void TWindowSubTradeMain::render() {  }
 s32 TWindowSubTradeMain::build_trade_menu() {
     u8 *arg0 = (u8 *)this;
   saddr titled_window_menu;
-  titled_window_menu = create_titled_window_menu((int) ((s32 (*)(int))get_window_layout_position)(0x5C), 5, (0, (saddr)TWindowSubStatusDisp::get_message_10(0x26)), (int) ((RecoveredFields_80331520_arg0 *) arg0)->field_28);
+  titled_window_menu = create_titled_window_menu(((saddr (*)(int))get_window_layout_position)(0x5C), 5, (0, (saddr)TWindowSubStatusDisp::get_message_10(0x26)), (int) ((RecoveredFields_80331520_arg0 *) arg0)->field_28);
   TObjCityMainWarp::forward_trade_action_default((void *)titled_window_menu, (int)((saddr) TWindowSubStatusDisp::get_message_10(0xDA)), 6, 3);
   TObjCityMainWarp::forward_trade_action_default((void *)titled_window_menu, (int)((saddr) TWindowSubStatusDisp::get_message_10(0xDB)), 6, 0xA);
   TObjCityMainWarp::forward_trade_action_default((void *)titled_window_menu, (int)((saddr) TWindowSubStatusDisp::get_message_10(0xDC)), 6, 0x11);
@@ -681,7 +681,7 @@ s32 TWindowSubTradeMain::build_trade_menu() {
 s32 TWindowSubTradeMain::create_trade_menu() {
     u8 *arg0 = (u8 *)this;
   saddr titled_window_menu;
-  titled_window_menu = create_titled_window_menu((int) ((s32 (*)(int))get_window_layout_position)(0x5E), 4, (0, (saddr)TWindowSubStatusDisp::get_message_10(0xDD)), (int) ((RecoveredFields_80331434_arg0 *) arg0)->field_28);
+  titled_window_menu = create_titled_window_menu(((saddr (*)(int))get_window_layout_position)(0x5E), 4, (0, (saddr)TWindowSubStatusDisp::get_message_10(0xDD)), (int) ((RecoveredFields_80331434_arg0 *) arg0)->field_28);
   TObjCityMainWarp::forward_trade_action_default((void *)titled_window_menu, (int)((saddr) TWindowSubStatusDisp::get_message_10(0xDC)), 6, 0x11);
   TObjCityMainWarp::forward_trade_action_default((void *)titled_window_menu, (int)((saddr) TWindowSubStatusDisp::get_message_10(0xE3)), 6, 0x16);
   ((TWindowSubTradeMain *)titled_window_menu)->add_text_entry((saddr) TWindowSubStatusDisp::get_message_10(0xDE), 6, 0x1A, (int) 0xFFEE946E);

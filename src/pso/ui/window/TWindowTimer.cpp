@@ -48,7 +48,7 @@ extern "C" {
 s32 draw_default_entry__9TWindowDDFl();
 s32 draw_visible_window_entries(void *, void *, int);
 s32 draw_window_tab(void *, void *, int, f32);
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 void init_timer_window_layout(TWindowTimer *self);
 void init_timer_window_layout_alt(TWindowTimer *self);
 

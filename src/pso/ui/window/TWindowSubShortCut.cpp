@@ -40,7 +40,7 @@ struct VObj_18_204a81 : VBase_18_204a81 {
 };
 
 extern "C" {
-s32 get_window_layout_position(s32 a0);
+saddr get_window_layout_position(s32 a0);
 void open_yes_no_prompt(TChCrTagPlBack *arg0, u32 arg1, s32 arg2, s32 arg3, f32 farg0);
 s32 create__19TWindowMessageYesNoFPvPvPvPv(void *, s32, s32, s32);
 s32 clear_chat_shortcut();
@@ -50,7 +50,7 @@ extern "C" {
 void open_com_card_list__18TWindowSubShortCutFv(void *arg0);
 u32 *get_chat_shortcut();
 s32 align_menu_entry_positions(s32);
-s32 get_window_layout_position(s32 a0 = 0);
+saddr get_window_layout_position(s32 a0 = 0);
 s32 draw_card_icon__17TWindowSubComCardFll(s32, s32, s32);
 s32 free_member__17TWindowSubComCardFv(s32, s32);
 

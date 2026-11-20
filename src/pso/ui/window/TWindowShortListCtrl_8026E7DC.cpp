@@ -43,7 +43,7 @@ s32 try_equip_item__10TObjPlayerFii(u8 *, s32);
 void play_sound_effect(int, int, int, int);
 s32 TWindowCtrl__sub_8024A228(saddr);
 void *__ct__15TWindowHelpItemFPvUs(void *, s32, s32);
-s32 get_window_layout_position(int);
+saddr get_window_layout_position(int);
 void *create_equip_kind_window(saddr, const NJS_POINT2 *, s32);
 s32 update_selection__19TWindowSubTechniqueFPsPl(void *, void *, s32);
 void get_current_selection__19TWindowSubTechniqueFPv(void *, void *, s32);

@@ -25,9 +25,9 @@ void *get_player_by_client_id(s32 i);
 s32 is_palette_entry_displayable__10TObjPlayerFv(u8 *arg0, u8 kind, u8 sub);
 s32 set_depth__11TWindowBaseFf(int);
 }
-s32 create_titled_window_menu(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+saddr create_titled_window_menu(saddr arg0, s32 arg1, saddr arg2, s32 arg3);
 extern "C" {
-s32 get_window_layout_position(int);
+saddr get_window_layout_position(int);
 const char *TWindowSubTechnique__name = "TWindowSubTechnique";
 static const f32 technique_help_window_size[2] = { 242.0f, 161.0f };
 /* technique ids per menu page, each ended by 19 (no technique) */
@@ -105,7 +105,7 @@ void TWindowSubTechnique::rebuildTechniqueList(saddr list, s32 category) {
 
 s32 TWindowSubTechnique::create_title_window() {
   saddr titled_window_menu;
-  titled_window_menu = create_titled_window_menu((int) get_window_layout_position(0x13), 5, (0, (saddr)TWindowSubStatusDisp::get_message_10(0x30)), (this->playerIndex));
+  titled_window_menu = create_titled_window_menu(get_window_layout_position(0x13), 5, (0, (saddr)TWindowSubStatusDisp::get_message_10(0x30)), (this->playerIndex));
   TWindowSubEquip__sub_80263AF8((u8 *)this->m_30, 1);
   set_depth__11TWindowBaseFf((int) titled_window_menu);
   ((TWindowSubComCardList *)titled_window_menu)->set_flag70_bit100();
@@ -164,7 +164,7 @@ s32 __ct__7TObjectFP7TObject();
 }
 void text_builder_reset(void);
 void toggle_help_window_on_button(u32 arg0, s32 arg1);
-s32 create_titled_window_menu(s32, s32, s32, s32);
+saddr create_titled_window_menu(saddr, s32, saddr, s32);
 
 
 s32 TWindowSubTechnique::open_menu() {
