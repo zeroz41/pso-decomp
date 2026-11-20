@@ -50,7 +50,7 @@ struct QVm_801F6D24 {
     s32 f2A0;
 };extern "C" {
 saddr get_message_text(s32 arg0);
-s32 get_localized_text_entry(s32 arg0, s32 arg1);
+saddr get_localized_text_entry(s32 arg0, s32 arg1);
 s32 __ct__22TQuestVmDownLoadServerFP7TObject(void *, s32);
 }
 extern s32 tl_00;

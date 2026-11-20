@@ -218,7 +218,7 @@ void TObjChallenge4PRetry::countdown_and_destroy() {
 
 void TKeyBoardControl__sub_8000F950(void);
 s32 play_sound_effect(s32, s32, s32, s32);
-void play_cue_stream_file(s32 name);
+void play_cue_stream_file(saddr name);
 s32 TLobby__sub_80291F9C();
 }
 

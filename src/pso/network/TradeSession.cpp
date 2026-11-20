@@ -287,7 +287,7 @@ s32 *get_trade_window_state(void) {
     return (s32 *)TLobby__trade_window_state[0].lists[0];
 }
 
-s32 TLobby__sub_802D29B8(u32 arg0) {
+s32 TLobby__sub_802D29B8(uaddr arg0) {
     if ((uaddr) trade_message_controller != arg0) {
         return 0;
     }
@@ -295,9 +295,9 @@ s32 TLobby__sub_802D29B8(u32 arg0) {
     return 1;
 }
 
-int TLobby__sub_802D29DC(int a0) { trade_message_controller = a0; return 1; }
+int TLobby__sub_802D29DC(saddr a0) { trade_message_controller = a0; return 1; }
 
-s32 TLobby__sub_802D29E8(u32 arg0) {
+s32 TLobby__sub_802D29E8(uaddr arg0) {
     if ((uaddr) TLobby__trade_main_window != arg0) {
         return 0;
     }
@@ -305,7 +305,7 @@ s32 TLobby__sub_802D29E8(u32 arg0) {
     return 1;
 }
 
-s32 TLobby__sub_802D2A0C(u32 arg0) {
+s32 TLobby__sub_802D2A0C(uaddr arg0) {
     if ((uaddr) TLobby__trade_main_window != 0U) {
         return 0;
     }
@@ -314,7 +314,7 @@ s32 TLobby__sub_802D2A0C(u32 arg0) {
 }
 
 
-s32 TLobby__sub_802D2A2C(u32 arg0) {
+s32 TLobby__sub_802D2A2C(uaddr arg0) {
     if ((uaddr) TLobby__data_805D6894 != arg0) {
         return 0;
     }
@@ -322,7 +322,7 @@ s32 TLobby__sub_802D2A2C(u32 arg0) {
     return 1;
 }
 
-s32 TLobby__sub_802D2A50(u32 arg0) {
+s32 TLobby__sub_802D2A50(uaddr arg0) {
     if ((uaddr) TLobby__data_805D6894 != 0U) {
         return 0;
     }

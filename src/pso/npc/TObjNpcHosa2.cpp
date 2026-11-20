@@ -24,7 +24,7 @@ extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 
 extern uaddr TObjNpcHosa2__shared_model_resource;
-s32 get_bml_texlist(int, int);
+saddr get_bml_texlist(int, int);
 saddr get_bml_model(int, int);
 extern s32 __vt__12TObjNpcHosa2[];
 extern const char *TObjNpcHosa2__name;

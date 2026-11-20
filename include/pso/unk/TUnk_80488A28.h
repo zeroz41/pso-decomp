@@ -8,7 +8,7 @@ class TUnk_80488A28 : public TObject {
 public:
     TUnk_80488A28();
     virtual ~TUnk_80488A28();
-    void set_target(u32);
+    void set_target(uaddr);
     virtual void vfunc_6();
     virtual void reset_state();
     virtual void vfunc_8(void *);
@@ -16,7 +16,7 @@ public:
     virtual void vfunc_10();
     virtual void post_update_view();
     virtual void run_task();
-    u32 actor; // inferred: set_target stores the followed object and m_20 its entity id
+    uaddr actor; // inferred: set_target stores the followed object and m_20 its entity id
     u16 m_20;
     u8 unk_22[0x2];
     s32 m_24;

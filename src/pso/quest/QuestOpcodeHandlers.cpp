@@ -1241,7 +1241,7 @@ s32 TCheckRoomSequence__sub_80210D44(u8 *item, s32 slot);
 s32 handle_main_phase__6TLobbyFl();
 void try_close__6TLobbyFPv(void *p);
 s32 play_sound_effect(int, int, int, int);
-void play_cue_stream_file(s32 name);
+void play_cue_stream_file(saddr name);
 int TLobby__sub_802272B4(void*);
 int TLobby__sub_8022733C(void*);
 void set_area__6TLobbyFl(void *, int, int);

@@ -70,7 +70,7 @@ s32 RlcArchive::fn_802A5C3C() {
 void RlcArchive::fn_802A5C7C() { directory = (RlcDirectoryEntry *)(buffer + header->get_directory_offset()); }
 void RlcArchive::fn_802A5CB8() { header = (RlcHeader *)buffer; }
 
-void RlcArchive::fn_802A5CC4(s32 file) {
+void RlcArchive::fn_802A5CC4(saddr file) {
     if ((s32)strlen((const char *)file) > 0x1F) {
         strncpy(name, (const char *)file, 0x1F);
         name[0x1F] = 0;
@@ -103,7 +103,7 @@ s32 RlcArchive::open_stream(saddr file) {
     }
     return 1;
 }
-s32 RlcArchive::init(s32 file) {
+s32 RlcArchive::init(saddr file) {
     file_size = TGStream::get_resource_file_size((const char *)file);
     if (fn_802A605C() == 0) {
         set_mode(1);
@@ -126,7 +126,7 @@ RlcArchive::~RlcArchive() {}
 RlcArchive::RlcArchive() { reset(); }
 
 void RlcArchive::update_both() { free_buffer(); reset(); }
-s32 RlcArchive::start_capture(s32 file) {
+s32 RlcArchive::start_capture(saddr file) {
     if (file == 0) {
         set_mode(3);
         return 0;

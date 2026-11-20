@@ -43,7 +43,7 @@ int info_icon_texture;
 s32 lobby_pulse_color_phase;
 u32 __cvt_fp2unsigned(f32);
 }
-u8 *load_gvm_texture_file(s32 arg0);
+u8 *load_gvm_texture_file(saddr arg0);
 extern "C" {
 s32 release_texture_list(s32 *);
 

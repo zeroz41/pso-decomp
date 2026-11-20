@@ -58,7 +58,7 @@ struct Q_8034B694 { s32 v; };
 struct W_8034B694 { u8 pad0[0x34]; E_8034B694 e[1]; u8 pad48[0x70 - 0x48]; Q_8034B694 f[1]; };
 
 extern "C" {
-s32 get_localized_text_entry(s32, s32);
+saddr get_localized_text_entry(s32, s32);
 s32 is_active__11TBoss4Type2Fv();
 
 s32 get_map_id__13TRaderMapCoreFv();

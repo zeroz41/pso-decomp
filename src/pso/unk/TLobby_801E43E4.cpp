@@ -209,7 +209,7 @@ struct GvmFileHeader {
 
 saddr TLanguage__read_cursor;
 
-u8 *load_gvm_texture_file(s32 name) {
+u8 *load_gvm_texture_file(saddr name) {
     s32 count;
     s32 i;
     NJS_TEXLIST *res;

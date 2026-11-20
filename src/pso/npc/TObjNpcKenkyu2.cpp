@@ -40,7 +40,7 @@ extern const char *bm_npc_kenkyu2_motion_names[1];
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern uaddr TObjNpcKenkyu2__shared_model_resource;
-s32 get_bml_texlist(int, int);
+saddr get_bml_texlist(int, int);
 saddr get_bml_model(int, int);
 extern s32 __vt__14TObjNpcKenkyu2[];
 extern const char *TObjNpcKenkyu2__name;

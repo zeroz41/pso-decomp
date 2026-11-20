@@ -98,8 +98,8 @@ s32 load_player_motion_data(void) {
     return 1;
 }
 
-s32 RlcArchive::get_size() { return (saddr)header; }
-s32 RlcArchive::get_field_8() { return (saddr)buffer; }
+saddr RlcArchive::get_size() { return (saddr)header; }
+saddr RlcArchive::get_field_8() { return (saddr)buffer; }
 int TWindowSnapShot::get_height() { return 600; }
 
 const char *get_player_motion_filename(void) { return player_motion_data_filename_ptr; }

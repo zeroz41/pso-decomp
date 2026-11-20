@@ -58,7 +58,7 @@ u8 is_challenge_lobby__6TLobbyFv(void);
 s32 TLobby__sub_80070DA8();
 void play_player_default_effect__6TLobbyFv(s32 _w0);
 s32 play_sound_effect(s32, s32, s32, s32);
-void play_cue_stream_file(s32 name);
+void play_cue_stream_file(saddr name);
 s32 challenge_retry_cmd_table[3] = { 1, 0, 0 };
 extern s8 controller_input_state[];
 s32 check_flag_100__10TObjPlayerFPv();

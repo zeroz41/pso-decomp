@@ -32,7 +32,7 @@ struct Gl_80289710 { u8 pad[0x42C]; Ow_80289710 *owner; };
 
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-s32 get_bml_texlist(int, int);
+saddr get_bml_texlist(int, int);
 saddr get_bml_model(int, int);
 extern s32 __vt__16TObjNpcSoutokufu[];
 f32 calc_sq_offset__12TBoss8DragonFf(void *, void *, f32);

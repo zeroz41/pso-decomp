@@ -16,7 +16,7 @@ public:
     u32 m_20;
     u32 m_24;
     u32 m_28;
-    u32 m_2c;
+    uaddr m_2c;
 };
 LAYOUT_ASSERT(TUnk_804F01A8_size, sizeof(TUnk_804F01A8) == 0x30);
 

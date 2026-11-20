@@ -47,19 +47,19 @@ public:
     s32 fn_802A5C3C();
     void fn_802A5C7C();
     void fn_802A5CB8();
-    void fn_802A5CC4(s32 file);
+    void fn_802A5CC4(saddr file);
     void free_buffer();
     s32 alloc_buffer();
-    s32 open_stream(s32 file);
-    s32 init(s32 file);
+    s32 open_stream(saddr file);
+    s32 init(saddr file);
     void reset();
     void update_both();
-    s32 start_capture(s32 file);
+    s32 start_capture(saddr file);
     void set_mode(s32 v);
     s32 get_buffer_size();
     s32 fn_802A605C();
-    s32 get_size();
-    s32 get_field_8();
+    saddr get_size();
+    saddr get_field_8();
 };
 
 LAYOUT_ASSERT(RlcArchive_size, sizeof(RlcArchive) == 0x40);

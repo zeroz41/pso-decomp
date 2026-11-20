@@ -78,7 +78,7 @@ void *destroy_item_follow_effect(void *object, s16 arg1) {
     }
     return object;
 }
-u8 *construct_item_follow_effect(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+u8 *construct_item_follow_effect(u8 *arg0, saddr arg1, saddr arg2, s32 arg3, s32 arg4) {
     Vec position;
     __ct__7TObjectFP7TObject((void *)arg0, (void *)arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = item_follow_effect_vtable;
@@ -90,7 +90,7 @@ u8 *construct_item_follow_effect(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg
     ((TUnk_804A2660 *)arg0)->m_28 = ((s32)get_item_system_generation());
     return arg0;
 }
-void spawn_item_follow_effect(s32 arg0, u32 arg1, s32 arg2, s32 arg3) {
+void spawn_item_follow_effect(saddr arg0, uaddr arg1, s32 arg2, s32 arg3) {
     uaddr obj;
     if ((arg0 != 0) && (arg1 != 0U) && ((obj = (uaddr)TObject::operator new(0x2C)) != 0U)) {
         construct_item_follow_effect((u8 *)obj, (s32)arg0, (s32)arg1, (s32)arg2, (s32)arg3);

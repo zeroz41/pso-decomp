@@ -115,7 +115,7 @@ void *__ct__11TObjControlFP7TObject(void *, void *);
 void *TObjNpcMoja__ct(void *, void *, void *);
 void *__dt__11TObjNpcBaseFv(void *arg0, s16 arg1);
 
-s32 get_bml_texlist(void *, s32);
+saddr get_bml_texlist(void *, s32);
 saddr get_bml_model(void *, s32);
 void TObjNpcBase__ct(void *, void *);
 void init_collision_body_parts(void *, void *, s32);

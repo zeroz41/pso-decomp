@@ -11,18 +11,18 @@ class TUnk_804D1818 : public TObject {
 public:
     virtual ~TUnk_804D1818();
     void update_photon_selection();
-    s32 create_option_menu_window();
-    s32 sub_8027C884(s32);
+    saddr create_option_menu_window();
+    saddr sub_8027C884(s32);
     void update_quest_board_card_flags();
     virtual void render();
     virtual void run_task();
     s8 state;
     u8 vibration;          // the vibration option (entry 4) as last shown
     u8 pad_1e[0x2];
-    s32 client_id;
+    saddr client_id;
     void *parent;
     TWindowMenu *menu;     // the option list create_option_menu_window makes
-    u32 value_window;      // the value window sub_8027C884 opens for the selected option
+    uaddr value_window;      // the value window sub_8027C884 opens for the selected option
 };
 LAYOUT_ASSERT(TUnk_804D1818_size, sizeof(TUnk_804D1818) == 0x30);
 

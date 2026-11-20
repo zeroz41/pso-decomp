@@ -41,7 +41,7 @@ struct GvmTexture *localized_alphabet_list;
 language current_language;
 int TWindowKeyBoardSoft__language_text_resources;
 
-u8 *load_gvm_texture_file(s32 arg0);
+u8 *load_gvm_texture_file(saddr arg0);
 extern "C" {
 s32 release_texture_list(void *);
 }

@@ -200,7 +200,7 @@ void TUnk_804D1818::run_task() {
 
 void TUnk_804D1818::render() {  }
 
-s32 TUnk_804D1818::create_option_menu_window() {
+saddr TUnk_804D1818::create_option_menu_window() {
     saddr titled_window_menu;
 
     titled_window_menu = create_titled_window_menu((saddr)get_window_layout_position(0x15), 6, (saddr)TWindowSubStatusDisp::get_message_10(0x2A), client_id);
@@ -221,7 +221,7 @@ s32 TUnk_804D1818::create_option_menu_window() {
     return titled_window_menu;
 }
 
-s32 TUnk_804D1818::sub_8027C884(s32 option) {
+saddr TUnk_804D1818::sub_8027C884(s32 option) {
     s16 value;
     saddr window;
     s32 flag;

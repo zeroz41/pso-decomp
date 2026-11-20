@@ -23,7 +23,7 @@ extern "C" {
     extern int lbl_805D62B8;
 int set_and_notify__6TLobbyFi(void*);
 void start_audio_stream_file(s32, char *);
-void play_cue_stream_file(s32 arg0);
+void play_cue_stream_file(saddr arg0);
 void TLobby__sub_803C94DC(u8 *arg0, s32 arg1);
 s32 TLobby__sub_803C9CB0(s32);
 void *lbl_805D62D8;
@@ -268,7 +268,7 @@ void stop_cue_stream(void) {
     }
 }
 
-void play_cue_stream_file(s32 name) {
+void play_cue_stream_file(saddr name) {
     if ((void *)lbl_804CB850[2] != NULL) {
         start_audio_stream_file(lbl_804CB850[2], (char *)name);
     }

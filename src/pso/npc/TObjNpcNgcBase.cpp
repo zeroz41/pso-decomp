@@ -15,7 +15,7 @@ struct E_803594B4 { s32 a; s32 b; f32 c; };
 struct O_803594B4 { u8 pad[0x1c]; s32 idx; E_803594B4 e[2]; };
 
 extern "C" {
-s32 get_bml_texlist(void *, int);
+saddr get_bml_texlist(void *, int);
 saddr get_bml_model(void *, int);
 const char *TObjNpcNgcBase__name = "TObjNpcNgcBase";
 void fn_803594B4(O_803594B4 *self, s32 v, f32 f);

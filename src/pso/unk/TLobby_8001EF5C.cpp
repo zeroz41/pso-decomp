@@ -192,7 +192,7 @@ AnimationMotion *get_bml_motion(BmlResource *resource, s32 index) {
     return resource->motions[index].motion;
 }
 
-s32 get_bml_texlist(BmlResource *resource, s32 index) {
+saddr get_bml_texlist(BmlResource *resource, s32 index) {
     return resource->models[index].m_c;
 }
 
