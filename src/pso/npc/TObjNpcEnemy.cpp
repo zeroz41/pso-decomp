@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
@@ -40,49 +41,48 @@ void * TObjNpcEnemy__create(void *arg0);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 s32 rotate_matrix_y(int, int);
 s32 translate_matrix(int, int, f32, f32, f32);
-s32 init_motion__10TObjMotionFP16TObjMotionActionP14BmlMotionEntrys(void *, s32, s32, s16);
 
 }
 
-// Called on TObjNpcEnemy__entry_table slots rather than on objects; the symbol's
-// owner is kept as the tree has it until evidence names the slot type.
-void TObjNpcEnemy::reset_anim_fields() {
-    TObjNpcEnemyEntry *entry = (TObjNpcEnemyEntry *)this;
-    entry->id = 0;
-    entry->kind = 4;
-    entry->y_offset = 0.0f;
-    entry->model = 0;
-    entry->texlist = 0;
-    entry->radius = 0.0f;
-    entry->motion.motion_entry = 0;
-    entry->motion.motion_action = 0;
-    entry->motion.action = 0;
-    entry->motion.action_mode2 = 0;
-    entry->motion.action_count = 0;
+void TObjNpcEnemyEntry::reset() {
+    id = 0;
+    kind = 4;
+    y_offset = 0.0f;
+    model = 0;
+    texlist = 0;
+    radius = 0.0f;
+    animation.motions = NULL;
+    animation.actions = NULL;
+    animation.default_action = 0;
+    animation.mode2_action = 0;
+    animation.debug_action_limit = 0;
 }
 
-void TObjEneMe3Stelth::spawn_attack(s16 id, s32 model, s32 texlist, s32 motion, f32 radius, f32 y_offset) {
+void NpcModelRegistry::register_animated_ginja(s16 id, NJS_OBJECT *model, GinjaTextureList *textures,
+                                              const NpcAnimationBinding *animation, f32 radius, f32 y_offset) {
     TObjNpcEnemyEntry *entry = TObjNpcEnemy::insert_slot_by_id(id);
     if (entry != NULL) {
         entry->id = id;
         entry->kind = 3;
         entry->y_offset = y_offset;
-        entry->model = model;
-        entry->texlist = texlist;
+        entry->model = reinterpret_cast<s32>(model);
+        entry->texlist = reinterpret_cast<s32>(textures);
         entry->radius = radius;
-        copy_position_data(&entry->motion, (void *)motion);
+        entry->animation = *animation;
     }
 }
 
-void copy_position_data(void *dst, void *src) {
-    TObjNpcEnemyEntryMotion *to = (TObjNpcEnemyEntryMotion *)dst;
-    TObjNpcEnemyEntryMotion *from = (TObjNpcEnemyEntryMotion *)src;
-    to->motion_entry = from->motion_entry;
-    to->motion_action = from->motion_action;
-    to->action = from->action;
-    to->action_mode2 = from->action_mode2;
-    to->action_count = from->action_count;
+#pragma push
+#pragma scheduling off
+NpcAnimationBinding &NpcAnimationBinding::operator=(const NpcAnimationBinding &other) {
+    motions = other.motions;
+    actions = other.actions;
+    default_action = other.default_action;
+    mode2_action = other.mode2_action;
+    debug_action_limit = other.debug_action_limit;
+    return *this;
 }
+#pragma pop
 
 void TMotorcycle::add_entry(s16 id, NJS_OBJECT *model, GinjaTextureList *textures, f32 radius, f32 y_offset) {
     TObjNpcEnemyEntry *entry = TObjNpcEnemy::insert_slot_by_id(id);
@@ -93,11 +93,11 @@ void TMotorcycle::add_entry(s16 id, NJS_OBJECT *model, GinjaTextureList *texture
         entry->model = reinterpret_cast<s32>(model);
         entry->texlist = reinterpret_cast<s32>(textures);
         entry->radius = radius;
-        entry->motion.motion_entry = 0;
-        entry->motion.motion_action = 0;
-        entry->motion.action = 0;
-        entry->motion.action_mode2 = 0;
-        entry->motion.action_count = 0;
+        entry->animation.motions = 0;
+        entry->animation.actions = 0;
+        entry->animation.default_action = 0;
+        entry->animation.mode2_action = 0;
+        entry->animation.debug_action_limit = 0;
     }
 }
 
@@ -110,7 +110,8 @@ void TLobby::spawn_npc_enemy(s16 id, s32 model, NJS_TEXLIST *texlist, void *moti
         entry->model = model;
         entry->texlist = (s32)texlist;
         entry->radius = radius;
-        copy_position_data(&entry->motion, motion);
+        // Older kind-1 factories pass the same binding layout through a void pointer.
+        entry->animation = *static_cast<const NpcAnimationBinding *>(motion);
     }
 }
 
@@ -123,11 +124,11 @@ void TObjEneSlime::spawn_child(s16 id, s32 model, s32 texlist, f32 radius, f32 y
         entry->model = model;
         entry->texlist = texlist;
         entry->radius = radius;
-        entry->motion.motion_entry = 0;
-        entry->motion.motion_action = 0;
-        entry->motion.action = 0;
-        entry->motion.action_mode2 = 0;
-        entry->motion.action_count = 0;
+        entry->animation.motions = 0;
+        entry->animation.actions = 0;
+        entry->animation.default_action = 0;
+        entry->animation.mode2_action = 0;
+        entry->animation.debug_action_limit = 0;
     }
 }
 
@@ -170,14 +171,14 @@ TObjNpcEnemyEntry *TObjNpcEnemy::insert_slot_by_id(s16 arg0) {
     if (i < 0xF) {
         memmove(e + 1, e, (0xF - i) * sizeof(TObjNpcEnemyEntry));
     }
-    ((TObjNpcEnemy *)e)->reset_anim_fields();
+    e->reset();
     return e;
 }
 
 void TObjNpcEnemy::reset_all_anim_fields() {
     s32 i;
     for (i = 0; i < 0x10; i++) {
-        ((TObjNpcEnemy *)&TObjNpcEnemy__entry_table[i])->reset_anim_fields();
+        TObjNpcEnemy__entry_table[i].reset();
     }
 }
 
@@ -188,10 +189,10 @@ s32 TObjNpcEnemy::sub_802D7444() {
 void TObjNpcEnemy::request_action(s32) {
     TObjNpcEnemyEntry *entry = this->entry;
     if ((s16) this->mode != 2) {
-        this->requested_action = entry->motion.action;
+        this->requested_action = entry->animation.default_action;
         return;
     }
-    this->requested_action = entry->motion.action_mode2;
+    this->requested_action = entry->animation.mode2_action;
 }
 
 
@@ -209,7 +210,7 @@ void TObjNpcEnemy::set_npc_data(void *data) {
     }
     *(s32 *)&this->model = entry->model;
     this->texlist = this->entry->texlist;
-    this->requested_action = entry->motion.action;
+    this->requested_action = entry->animation.default_action;
     switch (this->entry->kind) {
     case 0:
     case 2:
@@ -217,7 +218,7 @@ void TObjNpcEnemy::set_npc_data(void *data) {
         break;
     case 1:
     case 3:
-        init_motion__10TObjMotionFP16TObjMotionActionP14BmlMotionEntrys(this, entry->motion.motion_action, entry->motion.motion_entry, this->requested_action);
+        init_motion(entry->animation.actions, entry->animation.motions, requested_action);
         break;
     }
     *(f32 *)((s8 *)this->bodies + 0xC) = this->entry->radius;
@@ -249,7 +250,7 @@ void TObjNpcEnemy::draw_debug_info() {
         break;
     case 1:
     case 3:
-        if (p->motion.action_count <= this->rotation_z || this->rotation_z < 0) {
+        if (p->animation.debug_action_limit <= this->rotation_z || this->rotation_z < 0) {
             TObjNpcEnemy::set_global_count(0xFF0000FF);
             debug_printf_at(0x24001A, "ERROR");
             TObjNpcEnemy::set_global_count(0xF0F0F0FF);

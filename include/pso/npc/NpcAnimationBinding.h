@@ -13,6 +13,8 @@ struct NpcAnimationBinding {
     s16 default_action;
     s16 mode2_action;
     s16 debug_action_limit;
+
+    NpcAnimationBinding &operator=(const NpcAnimationBinding &other);
 };
 
 typedef char NpcAnimationBinding_size[sizeof(NpcAnimationBinding) == 0x10 ? 1 : -1];

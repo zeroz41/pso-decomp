@@ -13,23 +13,14 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/object/key/TODummyKeyCave01Sound.h"
 #include "pso/map/FloorArea.h"
-#include "pso/enemy/stelth/TObjEneMe3Stelth.h"
+#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/SoundEffect.h"
 #include <stdlib.h>
 #include "pso/player/TObjPlayer_80011014.h"
-
-// The motion setup TObjEneMe3Stelth::spawn_attack registers the model with.
-struct DragonflyMotionSetup {
-    BmlMotionEntry *motions;
-    TObjMotionAction *actions;
-    s16 initial_action;
-    s16 alternate_action;
-    s16 unknown_c;
-    s16 unknown_e;
-};
 
 const char *bm_fs_obj_mekatombo_model_names[2] = { "fs_obj_mekatombo.gj", NULL };
 const char *bm_fs_obj_mekatombo_motion_names[2] = { "fs_obj_mekatombo.njm", NULL };
@@ -39,8 +30,8 @@ BmlResourceDescriptor bm_fs_obj_mekatombo_resource_descriptor = {
 TObjMotionAction dragonfly_machine_motion_actions[1] = { { 1, 0, 0, 1.0f, 0 } };
 
 const char *TODragonflyMachine01::class_name = "TODragonflyMachine01";
-const DragonflyMotionSetup dragonfly_machine_attack_effect_params = {
-    NULL, dragonfly_machine_motion_actions, 0, 0, 1, 0
+const NpcAnimationBinding dragonfly_machine_attack_effect_params = {
+    NULL, dragonfly_machine_motion_actions, 0, 0, 1
 };
 BmlResource *TODragonflyMachine01::model_resource;
 s32 TODragonflyMachine01::node_index;
@@ -176,9 +167,10 @@ void TODragonflyMachine01::load_resources() {
     model_resource = resource;
     node_index = 0;
     node_yaw = 0;
-    DragonflyMotionSetup setup = dragonfly_machine_attack_effect_params;
+    NpcAnimationBinding setup = dragonfly_machine_attack_effect_params;
     setup.motions = resource->motions;
-    TObjEneMe3Stelth::spawn_attack(0x38, resource->models->model, resource->models->m_c, (s32)&setup, 3.0f, 15.0f);
+    NpcModelRegistry::register_animated_ginja(0x38, reinterpret_cast<NJS_OBJECT *>(resource->models->model),
+                                             reinterpret_cast<GinjaTextureList *>(resource->models->m_c), &setup, 3.0f, 15.0f);
 }
 
 TODragonflyMachine01::~TODragonflyMachine01() {}

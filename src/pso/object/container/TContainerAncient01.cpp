@@ -6,6 +6,7 @@
 #include "pso/object/container/TContainerAncient01R.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/npc/NpcAnimationBinding.h"
 #include "pso/system/BmlResourceLoad.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/text_803D8F74.h"
@@ -324,17 +325,9 @@ TObjMotionAction TContainerAncient01__anim_table[3] = {
 // The constructors install these names (TObject::m_name).
 const char *TContainerAncient01__name = "TContainerAncient01";
 
-// The motion binding load_resources hands TObjEneMe3Stelth::spawn_attack; the
-// motions come from the loaded archive (BmlResource +0x430).
-struct ContainerAncientAnimBinding {
-    s32 motions;
-    TObjMotionAction *actions;
-    u32 unknown08;
-    u16 action_count;
-    u16 unknown0E;
-};
-static const ContainerAncientAnimBinding container_ancient_anim_binding = {
-    0, TContainerAncient01__anim_table, 0, 3, 0,
+// The kind-3 preview uses this action table and the current floor archive's motions.
+static const NpcAnimationBinding container_ancient_anim_binding = {
+    NULL, TContainerAncient01__anim_table, 0, 0, 3,
 };
 
 const char *TContainerAncient01R__name = "TContainerAncient01R";
@@ -968,7 +961,7 @@ void TContainerAncient01::run_task() {
 }
 
 
-#include "pso/enemy/stelth/TObjEneMe3Stelth.h"
+#include "pso/npc/NpcModelRegistry.h"
 
 
 extern "C" {
@@ -1012,9 +1005,11 @@ void TContainerAncient01::load_resources() {
         TContainerAncient01__bml_resource = p;
         TContainerAncient01__effect_id_table[1] = 0x46;
     }
-    ContainerAncientAnimBinding prm = container_ancient_anim_binding;
-    prm.motions = reinterpret_cast<s32>(TContainerAncient01__bml_resource->motions);
-    TObjEneMe3Stelth::spawn_attack((s16)0x3B, (s32)(get_bml_model(TContainerAncient01__bml_resource, 0)), (s32)(get_bml_texlist(TContainerAncient01__bml_resource, 0)), (s32)&prm, (f32)1e+01f, (f32)TContainerAncient01__data_805DBD14[0]);
+    NpcAnimationBinding prm = container_ancient_anim_binding;
+    prm.motions = TContainerAncient01__bml_resource->motions;
+    NpcModelRegistry::register_animated_ginja(0x3B, reinterpret_cast<NJS_OBJECT *>(get_bml_model(TContainerAncient01__bml_resource, 0)),
+                                             reinterpret_cast<GinjaTextureList *>(get_bml_texlist(TContainerAncient01__bml_resource, 0)), &prm,
+                                             10.0f, TContainerAncient01__data_805DBD14[0]);
 }
 
 }
