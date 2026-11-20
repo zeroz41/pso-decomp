@@ -322,10 +322,10 @@ u8 *TPhotonPilla__ct(u8 *photon_rainbow, u8 *arg1) {
         }
         }
         ((TUnk_804C3248 *)photon_rainbow)->spawn_photon_blast_attachment_effects(3);
-        play_cue_stream_file((s32)"paila2.adx");
+        play_cue_stream_file((saddr)"paila2.adx");
     } else {
         spawn_photon_blast_opening_effects(3, ((TPhotonPilla *)photon_rainbow)->m_17c);
-        play_cue_stream_file((s32)"paila.adx");
+        play_cue_stream_file((saddr)"paila.adx");
     }
     return photon_rainbow;
 }

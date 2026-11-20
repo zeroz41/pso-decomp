@@ -491,10 +491,10 @@ u8 *TPhotonGolla__ct(u8 *arg0, u8 *arg1) {
             TPhotonMagicSquare__ct((u8 *)p, (saddr)arg0, 3, (saddr)&pos, 0x96, (f32)0.5f);
         }
         ((TUnk_804C3248 *)arg0)->spawn_photon_blast_attachment_effects(2);
-        play_cue_stream_file((s32)"goula2.adx");
+        play_cue_stream_file((saddr)"goula2.adx");
     } else {
         spawn_photon_blast_opening_effects(2, *(u16 *)((s8 *)arg0 + 0x158));
-        play_cue_stream_file((s32)"goula.adx");
+        play_cue_stream_file((saddr)"goula.adx");
     }
     return arg0;
 }

@@ -335,10 +335,10 @@ u8 *TPhotonFarlla__ct(u8 *arg0, u8 *arg1) {
             construct_photon_magic_square_normal((u8 *)p, (saddr)arg0, 0, (saddr)&pos, 0x78);
         }
         ((TUnk_804C3248 *)arg0)->spawn_photon_blast_attachment_effects(0);
-        play_cue_stream_file((s32)"farla2.adx");
+        play_cue_stream_file((saddr)"farla2.adx");
     } else {
         spawn_photon_blast_opening_effects(0, ((TPhotonFarlla *)arg0)->m_17c);
-        play_cue_stream_file((s32)"farla.adx");
+        play_cue_stream_file((saddr)"farla.adx");
     }
     return arg0;
 }

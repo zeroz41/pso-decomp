@@ -267,10 +267,10 @@ void *TPhotonLeilla__ct(Leilla_801AC808 *self, Pkt_801AC808 *pkt) {
             construct_photon_magic_square_normal((u8 *)o, (saddr)self, 4, (saddr)&v, 0x78);
         }
         ((TUnk_804C3248 *)self)->spawn_photon_blast_attachment_effects(4);
-        play_cue_stream_file((s32)"reila2.adx");
+        play_cue_stream_file((saddr)"reila2.adx");
     } else {
         spawn_photon_blast_opening_effects(4, F_801AC808(self, u16, 0x17C));
-        play_cue_stream_file((s32)"reila.adx");
+        play_cue_stream_file((saddr)"reila.adx");
     }
     return self;
 }

@@ -775,7 +775,7 @@ void TObjAreaWarp::open_confirm_window(s32 arg1) {
     if ((u32) this->menu_window == 0U) {
         this->menu_window = ((u32 (*)(s32, s32, s32))create_window_menu)(get_window_layout_position(0x33), 1, arg1);
         if (((s32 (*)(void))get_game_play_mode)() == 1) {
-            ((TWindowSubTradeMain *)(this->menu_window))->add_text_entry((s32)TObjCityMainWarp__sub_80186AF4(), 2, 0, -1);
+            ((TWindowSubTradeMain *)(this->menu_window))->add_text_entry((saddr)TObjCityMainWarp__sub_80186AF4(), 2, 0, -1);
         } else {
             get_floor_area(this->dest_floor);
             ((TWindowSubTradeMain *)(this->menu_window))->add_text_entry(get_floor_destination_name(), 2, 0, -1);

@@ -293,10 +293,10 @@ TPhotonEstlla::TPhotonEstlla(u8 *arg1) : TUnk_804C3248() {
             construct_photon_magic_square_normal((u8 *)p, (saddr)this, 1, (saddr)&pos, 0x78);
         }
         spawn_photon_blast_attachment_effects(1);
-        play_cue_stream_file((s32)"estla2.adx");
+        play_cue_stream_file((saddr)"estla2.adx");
     } else {
         spawn_photon_blast_opening_effects(1, this->m_17c);
-        play_cue_stream_file((s32)"estla.adx");
+        play_cue_stream_file((saddr)"estla.adx");
     }
 }
 
