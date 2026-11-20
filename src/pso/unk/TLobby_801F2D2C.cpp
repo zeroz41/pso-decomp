@@ -14,6 +14,7 @@
 #include "pso/object/TObjLuker.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/network/protocol/protocol.h"
+#include "pso/system/byteswap.h"
 
 struct Op_801F2E64 { void (*fn)(s32); u32 pad; };
 
@@ -28,7 +29,6 @@ struct Hdr_801F3124 {
 };
 
 extern "C" {
-int bswap_32__FPUl(void*);
 extern s32 lbl_805D5E94;
 extern s32 lbl_805D5E9C;
 extern u8 TLobby__data_805D5EA8;
@@ -202,7 +202,7 @@ void init_quest_script_context(Hdr_801F3124 *h, QuestVmContext *c) {
     memset(c->call_stack, 0, sizeof(c->call_stack));
     n = (h->off8 - h->off4) / 4;
     for (i = 0; i < n; i++) {
-        bswap_32__FPUl(&c->function_table[i]);
+        bswap_32((u32 *)(&c->function_table[i]));
     }
     (*(s8 *)&TLobby__data_805D5EA8) = 0;
     (*(s8 *)&TLobby__data_805D5EA9) = 0;

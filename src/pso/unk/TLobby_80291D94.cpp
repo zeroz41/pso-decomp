@@ -398,7 +398,7 @@ s32 TLobby__sub_802923C4(s32 idx, s32 value, s32 arg) {
         return 0;
     }
     if (idx == 0) {
-        value = calc_layout_hash__20TWindowSubStatusDispFv(-1);
+        value = ((TWindowSubStatusDisp *)(-1))->calc_layout_hash();
     }
     e = &TBL_800712D8.entries[idx];
     if (e->value != 0) {

@@ -349,7 +349,6 @@ u8 * get_character_save_record(u32);
 void set_area__6TLobbyFl(void *, s32, s32);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 s32 has_window_task_root();
-void * create__14TWindowMessageFPvll(void *, void *, int);
 void * get_window_layout_position(int);
 
 extern u8 TLobby__data_805011D8[];
@@ -541,7 +540,7 @@ void update_idle_timeout__6TLobbyFPv(u8 *object) {
             t->state = 1;
             if ((*(Obj_80134F9C * *)&TLobby__idle_timeout_object) == 0 && has_window_task_root() != 0) {
                 sprintf(lobby_idle_timeout_text_buffer, get_seq_phase__6TLobbyFPv(0x1F), t->limit - elapsed);
-                (*(Obj_80134F9C * *)&TLobby__idle_timeout_object) = (Obj_80134F9C *)create__14TWindowMessageFPvll(get_window_layout_position(0xCA), &tmp, 1);
+                (*(Obj_80134F9C * *)&TLobby__idle_timeout_object) = (Obj_80134F9C *)TWindowMessage::create(get_window_layout_position(0xCA), (saddr)(&tmp), 1);
                 ((TWindowMessage *)(*(Obj_80134F9C * *)&TLobby__idle_timeout_object))->append_line((saddr)lobby_idle_timeout_text_buffer, (int)0x80);
                 ((TWindowBase *)(*(Obj_80134F9C * *)&TLobby__idle_timeout_object))->set_depth(30000.0f);
                 ((TWindowMessage *)(*(Obj_80134F9C * *)&TLobby__idle_timeout_object))->complete_reveal();
@@ -953,7 +952,7 @@ void show_card_list_message(void *msg) {
     }
     if (TLobby__data_805D5594 == 0x11) {
         Pair_80135E7C p = lbl_8043EE20[0];
-        TLobby__card_list_window = create__14TWindowMessageFPvll(get_window_layout_position(0xC9), &p, 1);
+        TLobby__card_list_window = TWindowMessage::create(get_window_layout_position(0xC9), (saddr)(&p), 1);
         ((TWindowMessage *)TLobby__card_list_window)->append_line((saddr)((char *)msg + 4), (int)3);
         ((TWindowBase *)TLobby__card_list_window)->set_depth(37000.0f);
     }
@@ -1044,7 +1043,6 @@ extern void *TLobby__protocol_instance;
 extern const char lobby_msg_registed[];
 extern const char lobby_msg_name_taken[];
 void lobby_debug_printf_stub(const char *fmt, ...);
-void send_login2__9TProtocolFi(void *proto, s32 opt);
 void handle_register_name_result__6TLobbyFi(s32 ok);
 extern void *TLobby__protocol_instance;
 extern const char lobby_msg_regist_check_ok[];
@@ -1515,7 +1513,6 @@ extern s8 controller_input_state[];
 extern uaddr TLobby__list_window;
 void handle_team_select__6TLobbyFv(void);
 void func_80019A68__Fv(void);
-s8 get_chr_select_state__23TAdSinglePlyChrSelectGCFv(void);
 void update_com_card_window__6TLobbyFv(void);
 void update_state__6TLobbyFv(void);
 void update_scroll_close__6TLobbyFv(void);
@@ -1669,7 +1666,7 @@ void run_task__6TLobbyFv(void *self) {
             TLobby::update_state();
             return;
         }
-        while (poll_memcard_result(get_chr_select_state__23TAdSinglePlyChrSelectGCFv()) == -1) {
+        while (poll_memcard_result((s8)TAdSinglePlyChrSelectGC::get_chr_select_state()) == -1) {
         }
         ((void (*)(void))TLobby__sub_801384E4)();
     }
@@ -3347,7 +3344,7 @@ void open_download_list_window__6TLobbyFiPv(s32 arg0, Ent_80135E7C *arg1) {
     {
         Pair_80135E7C p = lbl_8043EE18[0];
         w = get_window_layout_position(0xC7);
-        TLobby__download_list_window = create__14TWindowMessageFPvll(w, &p, 1);
+        TLobby__download_list_window = TWindowMessage::create(w, (saddr)(&p), 1);
         ((TWindowMessage *)TLobby__download_list_window)->append_line((saddr)((char *)arg1 + 0x2C), (int)3);
     }
     TLobby__card_list_selected_index = 0;

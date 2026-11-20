@@ -43,7 +43,7 @@ void TObjEnemy::clear_lobby_object_state() {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800F5D80, sp8) == 0x0);
     LAYOUT_ASSERT(spE_offset, offsetof(Stack_800F5D80, spE) == 0x6);
     Stack_800F5D80 stack;
-    if (exchange_object_state__9TObjEnemyFls((void *)arg0, &stack.sp8, 1) != 0) {
+    if (((TObjEnemy *)arg0)->exchange_object_state((saddr)(&stack.sp8), 1) != 0) {
         stack.sp8 = 0;
         stack.spE = 0;
         exchange_object_state__9TObjEnemyFls((void *)arg0, &stack.sp8, 0);

@@ -206,7 +206,6 @@ s32 TLobby__sub_8006F6B0(s32 clear_time);
 s32 TLobby__sub_8007119C(s32 arg0);
 s32 **TWindowSubStatusDisp__sub_8006F134(s32, s32);
 s32 TLobby__sub_800710D8(s32 arg0);
-s32 calc_layout_hash__20TWindowSubStatusDispFv(int);
 s32 calc_entry_offset__20TWindowSubStatusDispFv(int);
 s32 TLobby__sub_800712D8(s32 idx, s32 value, s32 arg);
 extern s32 challenge_time_limit_sentinel;
@@ -415,7 +414,7 @@ s32 TLobby__sub_800712D8(s32 idx, s32 value, s32 arg) {
         return 0;
     }
     if (idx == 0) {
-        value = calc_layout_hash__20TWindowSubStatusDispFv(-1);
+        value = ((TWindowSubStatusDisp *)(-1))->calc_layout_hash();
     }
     e = &TBL_800712D8.entries[idx];
     if (e->value != 0) {

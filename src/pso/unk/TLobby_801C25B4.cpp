@@ -374,7 +374,6 @@ void *__construct_new_array(void *, void *, void *, s32, s32);
 s32 destroy_char_data__10TObjPlayerFis(s32 arg0, s16 arg1);
 void init_char_data__10TObjPlayerFv(void);
 
-void *create__14TWindowMessageFPvll(void *, void *, s32);
 void *get_window_layout_position(s32);
 extern Flags_801C3AF4 *controller_input_state[];
 extern saddr local_client_id;
@@ -414,7 +413,6 @@ s32 check_flag_100__10TObjPlayerFPv(void *);
 
 s32 record_local_battle_placement(void *);
 
-s32 has_player_active_menu__11TWindowCtrlFv(s32);
 uaddr TWindowDuelResult__ct(void *, s32);
 s32 align_menu_entry_positions(void *);
 void *check_room_seq_4__16TAdChrSelASlotGCFl(void *, int);
@@ -583,7 +581,7 @@ void TLobby::update_battle_intro() {
     case 0:
         if (((Lobby_801C49B8 *)this)->window == NULL) {
             Pair_801C49B8 p = lbl_80446F94[0];
-            ((Lobby_801C49B8 *)this)->window = create__14TWindowMessageFPvll(get_window_layout_position(0x52), &p, 1);
+            ((Lobby_801C49B8 *)this)->window = TWindowMessage::create(get_window_layout_position(0x52), (saddr)(&p), 1);
         }
         lbl_805D5DA4 = 0;
         ((Lobby_801C49B8 *)this)->state = 1;
@@ -804,9 +802,9 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
             TLobby::send_battle_mode_params(5, 1, 0);
         } else {
             q = (void *)update_battle_controller__10TObjPlayerFv();
-            if (local_client_id == TLobby__designated_client_id && has_player_active_menu__11TWindowCtrlFv(local_client_id) == 0) {
+            if (local_client_id == TLobby__designated_client_id && ((TWindowCtrl *)local_client_id)->has_player_active_menu() == 0) {
                 if (*(void **)((s8 *)arg0 + 0x4C) == NULL) {
-                    *(void **)((s8 *)arg0 + 0x4C) = create__14TWindowMessageFPvll(get_window_layout_position(0x53), lbl_80446FA4, 1);
+                    *(void **)((s8 *)arg0 + 0x4C) = TWindowMessage::create(get_window_layout_position(0x53), (saddr)lbl_80446FA4, 1);
                     if (*(void **)((s8 *)arg0 + 0x4C) != NULL) {
                         ((TWindowMessage *)(*(void **)((s8 *)arg0 + 0x4C)))->append_line(*(s32 *)((s8 *)(*(s32 **)((s8 *)arg0 + 0x40)) + 0), 0x80);
                     }
@@ -896,7 +894,7 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
     }
     if (*(s32 *)((s8 *)arg0 + 0x20) == 6 || *(s32 *)((s8 *)arg0 + 0x20) == 8) {
         p = (void *)update_battle_controller__10TObjPlayerFv();
-        if (p != NULL && check_flag_100__10TObjPlayerFPv(p) == 0 && has_player_active_menu__11TWindowCtrlFv(local_client_id) == 0 && (G28 & 0x400)) {
+        if (p != NULL && check_flag_100__10TObjPlayerFPv(p) == 0 && ((TWindowCtrl *)local_client_id)->has_player_active_menu() == 0 && (G28 & 0x400)) {
             if (*(void **)((s8 *)arg0 + 0x4C) != NULL) {
                 ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x4C)))->close();
                 *(void **)((s8 *)arg0 + 0x4C) = NULL;
@@ -1079,7 +1077,7 @@ void TLobby__sub_801C3AF4(Lobby_801C3AF4 *self) {
             set_slot__23TAdSinglePlyChrSelectGCFi(s > 0 ? s : 0);
         }
         Pair_801C3AF4 p = lbl_80446FB4[0];
-        self->window = create__14TWindowMessageFPvll(get_window_layout_position(0xB3), &p, 1);
+        self->window = TWindowMessage::create(get_window_layout_position(0xB3), (saddr)(&p), 1);
         if (self->window != NULL) {
             ((TWindowMessage *)(self->window))->append_line(self->msgs[idx], 0x80);
         }

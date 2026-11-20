@@ -337,7 +337,6 @@ void GXSetTevOrder(s32 stage, s32 coord, s32 map, s32 color);
 const f64 lbl_80465E18 = 0.0054931640625;
 extern u32 camera_ctrl_instance;
 extern "C" {
-void VecCopy__FP3VecPC3Vec(Vec *, Vec *);
 void normalize_vector(Vec *);
 const Vec sora_reflection_up_vec = {0.0f, 1.0f, 0.0f};
 extern s32 TSceneSora__sky_active_flag;
@@ -489,7 +488,7 @@ void TUnk_804DC7C4::render_shadows() {
             TSceneSora::copy_reflection_vec((u8 *)&v);
             push_matrix();
             push_matrix();
-            VecCopy__FP3VecPC3Vec(&tmp, &p->pos2FC);
+            VecCopy((Vec *)(&tmp), (const Vec *)(&p->pos2FC));
             r = fn_8029EC3C(&tmp, 0x4000);
             if (r == 1) {
                 ((TMainTask *)((u8 *)&main_task))->render_object_layers(0);

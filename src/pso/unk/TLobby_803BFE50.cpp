@@ -162,7 +162,6 @@ void TLobby__sub_803C0238(AudioStreamInputState *st);
 s32 TLobby__sub_803C3B68(saddr arg0, u16 *hdr, saddr size);
 void TLobby__sub_803D3130(SjChunk *chunk, s32 size, SjChunk *head, SjChunk *tail);
 void process_audio_stream_input(AudioStreamInputState *arg0);
-TLobby *alloc_record__6TLobbyFllll(s32 channels, u8 *buffer, s32 size, s32 total);
 void TLobby__sub_803C3B5C(TLobby *decoder, void (*callback)(void *, s32 *, s32 *, s32 *), void *context);
 AudioStreamInputState *TLobby__sub_803C0848(AudioStreamSource *source, s32 channels, SjRingBuffer **rings);
 s32 TLobby::get_offset_58() {
@@ -471,7 +470,7 @@ AudioStreamInputState *TLobby__sub_803C0848(AudioStreamSource *source, s32 chann
     st = &((AudioStreamInputState *)&lbl_80570AC0)[i];
     buffer = sj_ring_buffer_get_buffer(ring);
     size = sj_ring_buffer_get_buffer_size(ring) / 2;
-    st->decoder = alloc_record__6TLobbyFllll(channels, buffer, size, size + sj_ring_buffer_get_extra_buffer_size(ring) / 2);
+    st->decoder = (TLobby *)TLobby::alloc_record(channels, (saddr)buffer, size, size + sj_ring_buffer_get_extra_buffer_size(ring) / 2);
     if (st->decoder == NULL) {
         return NULL;
     }
