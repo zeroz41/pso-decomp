@@ -135,6 +135,7 @@ struct TNpcPlayer : public TObject {
     void update_combat_action();
     u8 *destroy_and_materialize_player(s16 arg1);
     void request_technique_cast(s32 kind);
+    static void set_type(void *, s16);
 };
 
 LAYOUT_ASSERT(TNpcPlayer_size, sizeof(TNpcPlayer) == 0xE8);

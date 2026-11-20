@@ -14,6 +14,7 @@ struct TAdEnterPasswordGC : public TAdEnterBaseGC {
     void request_transition(void *);
     void set_multi_chg_game_mode_0x14(void *);
     void close_window_and_destroy(void *);
+    static s32 dispatch_input_to_instance(int);
     u8 pad_38[0x8];
     s32 len; // strlen of the keyboard buffer (update_password_input)
 };

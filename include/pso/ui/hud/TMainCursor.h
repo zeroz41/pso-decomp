@@ -131,6 +131,7 @@ struct TMainCursor : public TObject {
     static s32 find_action_slot(s32 arg0, void *arg1, s16 arg2, s32 arg3, s32 arg4);
     s32 check_can_pickup();
     void setup_action_channel(u8 *player, s32 slot, s32 kind, s32 id);
+    static s32 try_add_target_candidate(void *, void *, void *, void *);
 };
 
 LAYOUT_ASSERT(TMainCursor_size, sizeof(TMainCursor) == 0x68);

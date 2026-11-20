@@ -22,6 +22,7 @@ struct TAdVIConfigGC : public TAdYesNoBaseGC {
     virtual void vfunc_6();
     virtual void vfunc_7();
     virtual void vfunc_10();
+    static void *destroy(void *, s16);
 };
 
 LAYOUT_ASSERT(TAdVIConfigGC_size, sizeof(TAdVIConfigGC) == 0x4C);

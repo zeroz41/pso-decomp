@@ -37,6 +37,7 @@ struct TCheckRoomSequence : public TShopSequence {
     void sub_8020F1DC();
     void set_quest_list_mode_19(void *);
     void open_delete_item_window(void *);
+    static void alloc_item_buffers();
 
     s32 pad_2c;
     u32 pad_30;                     // 0x30: freed with TAdSinglePlyChrSelectGC::safe_free

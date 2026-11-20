@@ -127,6 +127,7 @@ struct TItemWeapon : public TItemEquipBase {
     s32 get_joint_position(s32 joint, void *out);
     // get_joint_position of gun_point_joint, where shots start.
     void get_gun_point(void *out);
+    void get_weapon_color(void *);
 
     TItemEffectWeapon *trails[4];
     s8 trail_start_joints[4];      // set_weapon_trail_joints

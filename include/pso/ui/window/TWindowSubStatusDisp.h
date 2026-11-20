@@ -176,6 +176,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static void *find_cached_glyph(u16 code);
     static u8 calc_gauge_scale(u16 glyph, void *arg1, s32 arg2);
     void update_item_icon_colors(void *item);
+    static s32 init_status_entry(void *, char, unsigned int, int);
 };
 
 LAYOUT_ASSERT(TWindowSubStatusDisp_offset_page, offsetof(TWindowSubStatusDisp, page) == 0x60);

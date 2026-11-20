@@ -175,6 +175,15 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     void crypt_data_be(u32 *data, s32 len);
     void append_extension_if_missing(char *name, char *ext);
     u8 *init_char_record();
+    static saddr get_char_index(unsigned int);
+    static s32 run_save_load_sequence();
+    static s32 init();
+    static s32 load_character_from_card(int);
+    static void copy_slot_data(void *, void *);
+    static s32 is_entry_equal(void *, void *);
+    static s32 count_char_diffs(void *, void *);
+    static s32 save_character_to_card();
+    static s32 forward_to_global_instance(int);
 };
 
 LAYOUT_ASSERT(TAdSinglePlyChrSelectGC_size, sizeof(TAdSinglePlyChrSelectGC) == 0x60);
