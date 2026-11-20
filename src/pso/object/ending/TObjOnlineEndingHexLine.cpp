@@ -12,12 +12,8 @@
 struct Param_802E5CB0 { f32 a; f32 b; s32 c; f32 d; };
 typedef char Param_802E5CB0_size[sizeof(Param_802E5CB0) == 0x10 ? 1 : -1];
 
-struct P2_802E55B8 { s16 x, y; };
-struct Hex_802E55B8 { u8 pad[0x1C]; P2_802E55B8 pts[32]; };
 struct Desc_802E55B8 { NJS_POINT2 *pts; u32 *cols; s32 z; s32 n; };
 
-struct P2_802E530C { s16 x, y; };
-struct Hex_802E530C { u8 pad[0x1C]; P2_802E530C pts[32]; f32 f9C; };
 
 int multiplay_texture_f512_handle;
 
@@ -26,31 +22,20 @@ static const NJS_POINT2 lbl_80472C00[] = {{320.0f, 240.0f}};
 const char *TObjOnlineEndingHexLine__name = "TObjOnlineEndingHexLine";
 
 struct Pkt_802E5EFC { s32 hdr; s32 idx; f32 val; };
-struct Self_802E5EFC { u8 pad[0x1c]; s32 timer; };
 
-struct Pos_802E57E0 { s16 x; s16 y; };
 
-struct Line_802E57E0 { u8 b[4]; };
-
-struct Hex_802E57E0 {
-    const char *f0;
-    u8 pad4[0x14];
-    void *vt;
-    Line_802E57E0 lines[32];
-    f32 f9C;
-};
 
 extern "C" {
 s32 __ct__7TObjectFP7TObject(void *, void *);
-void TObjOnlineEndingHexLine__sub_802E55A4(void *arg0, void *arg1);
+void TObjOnlineEndingHexLine__sub_802E55A4(EndingHexPoint *point, const EndingHexPoint *source);
 extern void *__vt__23TObjOnlineEndingHexLine[];
-Hex_802E57E0 *__ct__23TObjOnlineEndingHexLineFv(Hex_802E57E0 *arg0, s32 arg1, Pos_802E57E0 *arg2);
+TObjOnlineEndingHexLine *__ct__23TObjOnlineEndingHexLineFv(TObjOnlineEndingHexLine *arg0, TObject *parent, EndingHexPoint *arg2);
 Param_802E5CB0 lbl_804E3A98 = { 0.25f, 1.0f, 0, 10.0f };
 Param_802E5CB0 TObjOnlineEndingHexLine__hex_line_params = lbl_804E3A98;
 Param_802E5CB0 online_ending_hex_line_param = lbl_804E3A98;
-u32 TObjOnlineEndingHexLine_corner_offsets[4] = { 0x00000000, 0x00150000, 0x00000013, 0x00150013 };
-u32 TObjOnlineEndingHexMove__default_move_params[4] = { 0, 0, 0, 0 };
-P2_802E530C TObjOnlineEndingHexLine__direction_table[18] = {
+EndingHexPoint TObjOnlineEndingHexLine_corner_offsets[4] = { {0, 0}, {21, 0}, {0, 19}, {21, 19} };
+Param_802E5CB0 TObjOnlineEndingHexMove__default_move_params = { 0.0f, 0.0f, 0, 0.0f };
+EndingHexPoint TObjOnlineEndingHexLine__direction_table[18] = {
     { -1, 0 }, { 0, -1 }, { 0, 1 },
     { 0, 0 }, { 0, 0 }, { 0, 0 },
     { 1, 0 }, { -1, -1 }, { -1, 1 },
@@ -60,7 +45,7 @@ P2_802E530C TObjOnlineEndingHexLine__direction_table[18] = {
 };
 void *__dt__23TObjOnlineEndingHexLineFv(void *arg0, s16 arg1);
 void run_task__23TObjOnlineEndingHexLineFv(TObjOnlineEndingHexLine *arg0);
-void render__23TObjOnlineEndingHexLineFv(u8 *arg0);
+void render__23TObjOnlineEndingHexLineFv(TObjOnlineEndingHexLine *arg0);
 void render_shadows__7TObjectFv(void);
 void *__vt__23TObjOnlineEndingHexLine[6] = {
     (void *)0, (void *)0,
@@ -81,20 +66,19 @@ s32 is_on_current_screen__11TCameraCtrlFv(void *, s32);
 void send_6x92__14TAdGameStartGCFPv(void *p);
 void TAdGameStartGC__sub_802E6368(void *p);
 
-s32 calc_rotated_hex_point__23TObjOnlineEndingHexLineFPvPv(NJS_POINT2 *, P2_802E55B8 *);
-void update_line_params__23TObjOnlineEndingHexLineFv(void);
-u8 *TObjOnlineEndingHexMove__ct(u8 *arg0, void *arg1);
-void copy_move_params__23TObjOnlineEndingHexMoveFPvPv(void *p, void *q);
+s32 calc_rotated_hex_point__23TObjOnlineEndingHexLineFPvPv(NJS_POINT2 *, EndingHexPoint *);
+void update_line_params__23TObjOnlineEndingHexLineFv(TObjOnlineEndingHexMove *);
+TObjOnlineEndingHexMove *TObjOnlineEndingHexMove__ct(TObjOnlineEndingHexMove *object, TObject *parent);
+Param_802E5CB0 *copy_move_params__23TObjOnlineEndingHexMoveFPvPv(Param_802E5CB0 *dest, const Param_802E5CB0 *src);
 void *fn_802E6218(void *arg0);
 void fn_802E6260(void);
 
 void TObjOnlineEndingHexLine::step_line() {
-    Hex_802E530C *h = (Hex_802E530C *)this;
     s16 dx;
     s16 dy;
     s32 bad[3];
     s32 same[3];
-    P2_802E530C *dirs;
+    EndingHexPoint *dirs;
     s32 base;
     s32 sel;
     s32 i;
@@ -102,25 +86,25 @@ void TObjOnlineEndingHexLine::step_line() {
     s32 j;
     s32 last;
 
-    dx = h->pts[1].x - h->pts[0].x;
-    dy = h->pts[1].y - h->pts[0].y;
-    h->f9C = 0.0f;
+    dx = points[1].x - points[0].x;
+    dy = points[1].y - points[0].y;
+    progress = 0.0f;
     for (i = 31; i >= 1; i--) {
-        TObjOnlineEndingHexLine__sub_802E55A4(&h->pts[i], &h->pts[i - 1]);
+        TObjOnlineEndingHexLine__sub_802E55A4(&points[i], &points[i - 1]);
     }
-    base = ((s16)(h->pts[0].x % 3) + (s16)(h->pts[0].y & 1) * 3) * 3;
+    base = ((s16)(points[0].x % 3) + (s16)(points[0].y & 1) * 3) * 3;
     dirs = &TObjOnlineEndingHexLine__direction_table[base];
     nbad = 0;
     last = -1;
     for (j = 0; j < 3; j++) {
-        P2_802E530C t = dirs[j];
+        EndingHexPoint t = dirs[j];
         if (t.x == dx && t.y == dy) {
             same[j] = 1;
         } else {
             same[j] = 0;
         }
-        t.x += h->pts[0].x;
-        t.y += h->pts[0].y;
+        t.x += points[0].x;
+        t.y += points[0].y;
         if (t.x < 0 || t.x >= 0x16 || t.y < 0 || t.y >= 0x14) {
             bad[j] = 1;
             nbad++;
@@ -141,7 +125,7 @@ void TObjOnlineEndingHexLine::step_line() {
         }
         break;
     case 0:
-        sel = (s32)(2.99f * (3.0517578e-05f * (f32)rand()));
+        sel = (s32)(2.99f * ((1.0f / 32768.0f) * (f32)rand()));
         for (i = 0; i < 3; i++) {
             if (bad[sel] == 0 && same[sel] == 0) {
                 break;
@@ -153,19 +137,22 @@ void TObjOnlineEndingHexLine::step_line() {
         }
         break;
     }
-    h->pts[0].x += dirs[sel].x;
-    h->pts[0].y += dirs[sel].y;
+    points[0].x += dirs[sel].x;
+    points[0].y += dirs[sel].y;
 }
 
-void TObjOnlineEndingHexLine__sub_802E55A4(void *arg0, void *arg1) {
-    *(s16 *)((s8 *)arg0 + 0) = (s16) *(s16 *)((s8 *)arg1 + 0);
-    *(s16 *)((s8 *)arg0 + 2) = (s16) *(s16 *)((s8 *)arg1 + 2);
+#pragma push
+#pragma scheduling off
+void TObjOnlineEndingHexLine__sub_802E55A4(EndingHexPoint *point, const EndingHexPoint *source) {
+    point->x = source->x;
+    point->y = source->y;
 }
+#pragma pop
 
 #pragma push
 #pragma fp_contract on
 #pragma opt_loop_invariants off
-void render__23TObjOnlineEndingHexLineFv(u8 *arg0) {
+void render__23TObjOnlineEndingHexLineFv(TObjOnlineEndingHexLine *arg0) {
     NJS_POINT2 q1;
     NJS_POINT2 q0;
     NJS_POINT2 p1;
@@ -182,17 +169,17 @@ void render__23TObjOnlineEndingHexLineFv(u8 *arg0) {
     last = n - 1;
     for (i = 0; i < n; i++) {
         if (i == 0) {
-            calc_rotated_hex_point__23TObjOnlineEndingHexLineFPvPv(&q0, &((Hex_802E55B8 *) arg0)->pts[0]);
-            calc_rotated_hex_point__23TObjOnlineEndingHexLineFPvPv(pq1, &((Hex_802E55B8 *) arg0)->pts[1]);
-            pts[0].x = *(f32 *)((s8 *)arg0 + 0x9C) * (q0.x - q1.x) + q1.x;
-            pts[0].y = *(f32 *)((s8 *)arg0 + 0x9C) * (q0.y - q1.y) + q1.y;
+            calc_rotated_hex_point__23TObjOnlineEndingHexLineFPvPv(&q0, &arg0->points[0]);
+            calc_rotated_hex_point__23TObjOnlineEndingHexLineFPvPv(pq1, &arg0->points[1]);
+            pts[0].x = arg0->progress * (q0.x - q1.x) + q1.x;
+            pts[0].y = arg0->progress * (q0.y - q1.y) + q1.y;
         } else if (i == last) {
-            calc_rotated_hex_point__23TObjOnlineEndingHexLineFPvPv(&p0, &((Hex_802E55B8 *) arg0)->pts[last - 1]);
-            calc_rotated_hex_point__23TObjOnlineEndingHexLineFPvPv(pp1, &((Hex_802E55B8 *) arg0)->pts[last]);
-            pts[last].x = *(f32 *)((s8 *)arg0 + 0x9C) * (p0.x - p1.x) + p1.x;
-            pts[last].y = *(f32 *)((s8 *)arg0 + 0x9C) * (p0.y - p1.y) + p1.y;
+            calc_rotated_hex_point__23TObjOnlineEndingHexLineFPvPv(&p0, &arg0->points[last - 1]);
+            calc_rotated_hex_point__23TObjOnlineEndingHexLineFPvPv(pp1, &arg0->points[last]);
+            pts[last].x = arg0->progress * (p0.x - p1.x) + p1.x;
+            pts[last].y = arg0->progress * (p0.y - p1.y) + p1.y;
         } else {
-            calc_rotated_hex_point__23TObjOnlineEndingHexLineFPvPv(&pts[i], &((Hex_802E55B8 *) arg0)->pts[i]);
+            calc_rotated_hex_point__23TObjOnlineEndingHexLineFPvPv(&pts[i], &arg0->points[i]);
         }
         cols[i] = 0x20FFFFFF;
     }
@@ -205,8 +192,8 @@ void render__23TObjOnlineEndingHexLineFv(u8 *arg0) {
 #pragma pop
 
 void run_task__23TObjOnlineEndingHexLineFv(TObjOnlineEndingHexLine *online_ending_hex_line) {
-    *(f32 *)((s8 *)online_ending_hex_line + 0x9C) = (f32) (*(f32 *)((s8 *)online_ending_hex_line + 0x9C) + TObjOnlineEndingHexLine__hex_line_params.a);
-    if (*(f32 *)((s8 *)online_ending_hex_line + 0x9C) >= 1.0f) {
+    online_ending_hex_line->progress = (f32) (online_ending_hex_line->progress + TObjOnlineEndingHexLine__hex_line_params.a);
+    if (online_ending_hex_line->progress >= 1.0f) {
         online_ending_hex_line->step_line();
     }
 }
@@ -225,12 +212,12 @@ void *__dt__23TObjOnlineEndingHexLineFv(void *object, s16 arg1) {
     return object;
 }
 
-Hex_802E57E0 *__ct__23TObjOnlineEndingHexLineFv(Hex_802E57E0 *arg0, s32 arg1, Pos_802E57E0 *arg2) {
+TObjOnlineEndingHexLine *__ct__23TObjOnlineEndingHexLineFv(TObjOnlineEndingHexLine *arg0, TObject *parent, EndingHexPoint *arg2) {
     s32 i;
-    ((void (*)(void *))__ct__7TObjectFP7TObject)(arg0);
-    arg0->vt = __vt__23TObjOnlineEndingHexLine;
-    arg0->f0 = TObjOnlineEndingHexLine__name;
-    Pos_802E57E0 pos = *arg2;
+    __ct__7TObjectFP7TObject(arg0, parent);
+    *reinterpret_cast<void ***>(reinterpret_cast<u8 *>(arg0) + 0x18) = __vt__23TObjOnlineEndingHexLine;
+    arg0->m_name = TObjOnlineEndingHexLine__name;
+    EndingHexPoint pos = *arg2;
     if (pos.y & 1) {
         if (pos.x % 3 == 2) {
             if (pos.x + 1 < 0x16) {
@@ -247,17 +234,17 @@ Hex_802E57E0 *__ct__23TObjOnlineEndingHexLineFv(Hex_802E57E0 *arg0, s32 arg1, Po
         }
     }
     for (i = 0; i < 32; i++) {
-        TObjOnlineEndingHexLine__sub_802E55A4(&arg0->lines[i], &pos);
+        TObjOnlineEndingHexLine__sub_802E55A4(&arg0->points[i], &pos);
     }
-    arg0->f9C = 1.0f;
+    arg0->progress = 1.0f;
     return arg0;
 }
 
 void *TObjOnlineEndingHexLine::create(void *arg0, void *arg1) {
     void *o;
-    o = TObject::operator new(0xA0);
+    o = TObject::operator new(sizeof(TObjOnlineEndingHexLine));
     if (o != NULL) {
-        o = __ct__23TObjOnlineEndingHexLineFv((Hex_802E57E0 *)(o), (s32)arg0, (Pos_802E57E0 *)(arg1));
+        o = __ct__23TObjOnlineEndingHexLineFv(static_cast<TObjOnlineEndingHexLine *>(o), static_cast<TObject *>(arg0), static_cast<EndingHexPoint *>(arg1));
     }
     return o;
 }
@@ -277,11 +264,11 @@ void handle_6x92(u8 *arg0) {
     if (get_player_by_client_id(idx) != 0U) {
         switch (idx) {
         case 0:
-            if (v < 0.033333335f || v > 0.5f) {
+            if (v < (1.0f / 30.0f) || v > 0.5f) {
                 return;
             }
             online_ending_hex_line_param.a = v;
-            online_ending_hex_line_state.a = 0.033333335f * (v - BASE_802E5930.a);
+            online_ending_hex_line_state.a = (1.0f / 30.0f) * (v - BASE_802E5930.a);
             break;
         case 1:
             if (v < 1.0f || v > 2.0f) {
@@ -289,11 +276,11 @@ void handle_6x92(u8 *arg0) {
             }
             d = v - BASE_802E5930.b;
             online_ending_hex_line_param.b = v;
-            online_ending_hex_line_state.b = 0.033333335f * d;
+            online_ending_hex_line_state.b = (1.0f / 30.0f) * d;
             break;
         case 2:
             online_ending_hex_line_param.c = (s32) v;
-            online_ending_hex_line_state.c = (s32) (0.033333335f * (f32) angle_diff_s16(BASE_802E5930.c, online_ending_hex_line_param.c));
+            online_ending_hex_line_state.c = (s32) ((1.0f / 30.0f) * (f32) angle_diff_s16(BASE_802E5930.c, online_ending_hex_line_param.c));
             break;
         case 3:
             if (v < 3.0f || v > 32.0f) {
@@ -301,7 +288,7 @@ void handle_6x92(u8 *arg0) {
             }
             d = v - BASE_802E5930.d;
             online_ending_hex_line_param.d = v;
-            online_ending_hex_line_state.d = 0.033333335f * d;
+            online_ending_hex_line_state.d = (1.0f / 30.0f) * d;
             break;
         }
     }
@@ -312,27 +299,27 @@ void handle_6x92(u8 *arg0) {
 #pragma push
 #pragma fp_contract on
 
-s32 calc_rotated_hex_point__23TObjOnlineEndingHexLineFPvPv(NJS_POINT2 *arg0, P2_802E55B8 *arg1) {
+s32 calc_rotated_hex_point__23TObjOnlineEndingHexLineFPvPv(NJS_POINT2 *arg0, EndingHexPoint *arg1) {
     NJS_POINT2 p;
     f32 s;
     f32 c;
     f32 sc;
     s32 ang;
 
-    if (*(s16 *)((s8 *)arg1 + 2) & 1) {
-        p.x = 30.0f * (0.5f + (f32) *(s16 *)((s8 *)arg1 + 0));
+    if (arg1->y & 1) {
+        p.x = 30.0f * (0.5f + (f32) arg1->x);
     } else {
-        p.x = (f32) (*(s16 *)((s8 *)arg1 + 0) * 0x1E);
+        p.x = (f32) (arg1->x * 0x1E);
     }
-    f32 y = (f32) (*(s16 *)((s8 *)arg1 + 2) * 0x19);
+    f32 y = (f32) (arg1->y * 0x19);
     NJS_POINT2 ctr = lbl_80472C00[0];
-    ang = *(s32 *)((s8 *)&TObjOnlineEndingHexLine__hex_line_params + 8);
+    ang = TObjOnlineEndingHexLine__hex_line_params.c;
     p.x = p.x - ctr.x;
     p.y = y;
     p.y = p.y - ctr.y;
     s = sin_table_lookup(ang);
-    c = cos_table_lookup(*(s32 *)((s8 *)&TObjOnlineEndingHexLine__hex_line_params + 8));
-    sc = *(f32 *)((s8 *)&TObjOnlineEndingHexLine__hex_line_params + 4);
+    c = cos_table_lookup(TObjOnlineEndingHexLine__hex_line_params.c);
+    sc = TObjOnlineEndingHexLine__hex_line_params.b;
     NJS_POINT2 q = p;
     p.x = c * q.x - s * q.y;
     p.y = s * q.x + c * q.y;
@@ -347,7 +334,7 @@ s32 calc_rotated_hex_point__23TObjOnlineEndingHexLineFPvPv(NJS_POINT2 *arg0, P2_
 
 #define CUR_802E5CB0 TObjOnlineEndingHexLine__hex_line_params
 
-void update_line_params__23TObjOnlineEndingHexLineFv(void) {
+void update_line_params__23TObjOnlineEndingHexLineFv(TObjOnlineEndingHexMove *) {
     f32 d;
     f32 t;
     s32 n;
@@ -408,7 +395,6 @@ void update_line_params__23TObjOnlineEndingHexLineFv(void) {
 #undef CUR_802E5CB0
 
 void TObjOnlineEndingHexMove::run_task() {
-    Self_802E5EFC *self = (Self_802E5EFC *)this;
     Pkt_802E5EFC pkt;
     void *pad;
     f32 v;
@@ -417,10 +403,10 @@ void TObjOnlineEndingHexMove::run_task() {
     f32 min;
     s32 ang;
 
-    if (--self->timer < 0) {
-        self->timer = 0;
+    if (--timer < 0) {
+        timer = 0;
     }
-    if (self->timer == 0) {
+    if (timer == 0) {
         pad = controller_input_state + 0x20;
         if (is_on_current_screen__11TCameraCtrlFv(pad, 0x30000) != 0) {
             TAdGameStartGC__sub_802E6368(&pkt);
@@ -434,7 +420,7 @@ void TObjOnlineEndingHexMove::run_task() {
                     step = 0.093333334f;
                     max = 0.5f;
                     v = TObjOnlineEndingHexLine__hex_line_params.a;
-                    min = 0.033333335f;
+                    min = (1.0f / 30.0f);
                     break;
                 case 1:
                     step = 0.2f;
@@ -473,41 +459,50 @@ void TObjOnlineEndingHexMove::run_task() {
                 break;
             }
             send_6x92__14TAdGameStartGCFPv(&pkt);
-            self->timer = 0x1E;
+            timer = 0x1E;
         }
     }
-    ((void (*)(void *))update_line_params__23TObjOnlineEndingHexLineFv)(self);
+    update_line_params__23TObjOnlineEndingHexLineFv(this);
 }
 
 TObjOnlineEndingHexMove::~TObjOnlineEndingHexMove() {}
 
-u8 *TObjOnlineEndingHexMove__ct(u8 *object, void *origin) {
+TObjOnlineEndingHexMove *TObjOnlineEndingHexMove__ct(TObjOnlineEndingHexMove *object, TObject *origin) {
     s32 i;
     __ct__7TObjectFP7TObject(object, origin);
     *(s32 **)((s8 *)object + 0x18) = __vt__23TObjOnlineEndingHexMove;
-    *(s32 *)((s8 *)object + 0) = (s32) TObjOnlineEndingHexMove__name;
+    object->m_name = TObjOnlineEndingHexMove__name;
     for (i = 0; i < 4; i++) {
         TObjOnlineEndingHexLine::create(origin, &TObjOnlineEndingHexLine_corner_offsets[i]);
     }
-    copy_move_params__23TObjOnlineEndingHexMoveFPvPv(&online_ending_hex_line_state, TObjOnlineEndingHexMove__default_move_params);
-    *(s32 *)((s8 *)object + 0x1C) = 0x1E;
+    copy_move_params__23TObjOnlineEndingHexMoveFPvPv(&online_ending_hex_line_state, &TObjOnlineEndingHexMove__default_move_params);
+    object->timer = 0x1E;
     return object;
 }
 
-void copy_move_params__23TObjOnlineEndingHexMoveFPvPv(void* p, void* q) { *(f32*)((char*)p + 0x0) = *(f32*)((char*)q + 0x0); *(f32*)((char*)p + 0x4) = *(f32*)((char*)q + 0x4); *(u32*)((char*)p + 0x8) = *(u32*)((char*)q + 0x8); *(f32*)((char*)p + 0xc) = *(f32*)((char*)q + 0xc); }
+#pragma push
+#pragma scheduling off
+Param_802E5CB0 *copy_move_params__23TObjOnlineEndingHexMoveFPvPv(Param_802E5CB0 *dest, const Param_802E5CB0 *src) {
+    dest->a = src->a;
+    dest->b = src->b;
+    dest->c = src->c;
+    dest->d = src->d;
+    return dest;
+}
+#pragma pop
 
 void * fn_802E6218(void *origin) {
     void *o;
-    o = TObject::operator new(0x20);
+    o = TObject::operator new(sizeof(TObjOnlineEndingHexMove));
     if (o != NULL) {
-        o = TObjOnlineEndingHexMove__ct((u8 *)o, (void *)origin);
+        o = TObjOnlineEndingHexMove__ct(static_cast<TObjOnlineEndingHexMove *>(o), static_cast<TObject *>(origin));
     }
     return o;
 }
 
 void fn_802E6260(void) {
     copy_move_params__23TObjOnlineEndingHexMoveFPvPv(&TObjOnlineEndingHexLine__hex_line_params,
-        ((void *(*)(void *, void *))copy_move_params__23TObjOnlineEndingHexMoveFPvPv)(&online_ending_hex_line_param, &lbl_804E3A98));
+        copy_move_params__23TObjOnlineEndingHexMoveFPvPv(&online_ending_hex_line_param, &lbl_804E3A98));
 }
 
 Param_802E5CB0 online_ending_hex_line_state;
