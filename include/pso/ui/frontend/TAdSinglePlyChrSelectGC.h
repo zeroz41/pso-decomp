@@ -35,7 +35,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static u8 get_chr_select_state();
     static u8 *get_global_state();
     static int get_state();
-    static void safe_free(u32 arg0);
+    static void safe_free(uaddr arg0);
     s32 get_selected_slot();
     void set_position(void* q);
     void noop_laser();
