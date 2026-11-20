@@ -8,7 +8,7 @@ extern "C" {
 void TObjPlayer__sub_802A83F4(void);
 void TObjPlayer__sub_802A841C(void);
 }
-s32 setup_indirect_tev_alternate(s32 arg0, s32 unused, s32 sampler, s32 arg3);
-s32 setup_indirect_tev_ordinary(s32 arg0, s32 sampler, s32 scale, s32 second);
+void setup_indirect_tev_alternate(TEffIndirectCtrl *ctrl, s32 unused, s32 sampler, s32 arg3);
+void setup_indirect_tev_ordinary(TEffIndirectCtrl *ctrl, s32 sampler, s32 scale, s32 second);
 
 #endif

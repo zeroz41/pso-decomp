@@ -64,8 +64,6 @@ public:
     static void load_scene_rel_file(s32 arg0);
     static void load_scene_data(s32 arg0);
     static void load_current_floor();
-    static void set_indirect_tev(s32 ignored, s32 arg1);
-    void draw_field_1c(s32 arg1, s32 arg2, s32 arg3);
     void offset_position(s32 arg1, s32 arg2);
     void apply_uv_offset(s16 arg1, s16 arg2);
     void *destroy_buffers(s16 arg1);

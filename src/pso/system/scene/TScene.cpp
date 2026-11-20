@@ -191,14 +191,13 @@ struct Ang_8020533C { s32 x, y, z; };
 
 struct Node_8020533C { u8 pad0[8]; Vec pos; Ang_8020533C ang; };
 
-struct Model_8020533C { u8 pad0[4]; void *tex; s32 f8; u8 padC[2]; u8 fE; u8 fF; };
+struct Model_8020533C { u8 pad0[4]; TUnk_804DDF04 *tex; s32 f8; u8 padC[2]; u8 fE; u8 fF; };
 
 struct Lobby_8020533C { Vec v; Ang_8020533C a; void *param; Node_8020533C *node; s16 scene; u8 id; };
 
 
 void render_projected_shadow_receiver(void *, void *);
 
-void draw_field_1c__6TSceneFlll(void *, s32, s32, s32);
 
 void release_indexed_entry__6TLobbyFl(Lobby_8020533C *);
 
@@ -1546,7 +1545,7 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
     SceneMaterialStatic *e;
     s32 i;
     Node_8020533C *node;
-    void *tex;
+    TUnk_804DDF04 *tex;
 
     for (i = 0, e = scene_material_section->objects; i < scene_material_section->count; i++, e++) {
         if (arg2 != 0 && !(e->flags & 0x10000)) {
@@ -1628,11 +1627,11 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
                 Model_8020533C *m = (Model_8020533C *)e->node;
                 if (m != NULL) {
                     if (m->tex != NULL) {
-                        draw_field_1c__6TSceneFlll(tex = m->tex, m->f8, m->fE, 0);
+                        enable_indirect_tev(tex = m->tex, m->f8, m->fE, 0);
                         TObjFish::set_global_param((s32)((void *)*(s32 *)((s8 *)TScene__data_805D5FCC + 0x14)));
                         set_material_alpha_compare_reference(TScene__data_805D5FCC->flags);
                         draw_ginja_object(node);
-                        TScene::set_indirect_tev((u32)tex, 0);
+                        disable_indirect_tev(tex, 0);
                     }
                 }
             }
@@ -1656,7 +1655,7 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
 }
 void draw_ginja_model_with_motion(void *, void *, f32);
 void TScene::render_animated_map_section(SceneMaterialSection *scene_material_section, s32 arg2) {
-  void *texture;
+  TUnk_804DDF04 *texture;
   SceneMaterialAnimated *e;
   s32 i;
   Node_8020533C *node;
@@ -1723,14 +1722,14 @@ void TScene::render_animated_map_section(SceneMaterialSection *scene_material_se
       if (m != 0)
       {
 
-        void *tex = m->tex;
+        TUnk_804DDF04 *tex = m->tex;
         if (tex != 0)
         {
-          draw_field_1c__6TSceneFlll(texture = tex, m->f8, m->fE, 0);
+          enable_indirect_tev(texture = tex, m->f8, m->fE, 0);
           TObjFish::set_global_param((s32)((void *) (*((s32 *) (((s8 *) TScene__data_805D5FCC) + 0x14)))));
           set_material_alpha_compare_reference(TScene__data_805D5FCC->flags);
           draw_ginja_model_with_motion(node, e->motion, e->frame);
-          TScene::set_indirect_tev((u32) texture, 0);
+          disable_indirect_tev(texture, 0);
         }
 
       }

@@ -5354,7 +5354,7 @@ force_active:
   - copy_action_state__12TBoss8DragonFPUc
   - copy_all_data__6TLobbyFii
   - copy_all_entries__6TLobbyFii
-  - copy_and_flush_texture__16TEffIndirectCtrlFl
+  - copy_and_flush_texture__16TEffIndirectCtrlFPUc
   - copy_angle_state__12TBoss8DragonFPvPvPv
   - copy_bank_from_card_window__Fl
   - copy_block__11TBoss6Type2FPvPv
@@ -5616,7 +5616,7 @@ force_active:
   - decrypt_network_info_cipher_round__FPUlPUl
   - deduct_cap_excess__14TItemEquipBaseFlPss
   - deform_indirect_texture_scroll__FPUcUlUllUl
-  - deform_indirect_texture_wave__FlllllUc
+  - deform_indirect_texture_wave__FPUcllllUc
   - deldepth_actions
   - deleting_dtor__15TObjEneMe1GiGueFPvs
   - __dt__18TObjEneBalClawClawFv
@@ -6663,7 +6663,7 @@ force_active:
   - get_indirect_recipe__Fl
   - get_indirect_source_id__FUc
   - get_indirect_source_pixels__FUc
-  - get_indirect_tile_coord__FUcl
+  - get_indirect_tile_coord__FUcUcl
   - get_input_mode__11TWindowChatFv
   - get_input_mode__19TWindowKeyBoardHardFv
   - get_instance_count__14TBoss4DarkFalzFv
@@ -15662,8 +15662,8 @@ force_active:
   - setup_enemy__17TObjEneMe1CanadinFv
   - setup_flags__11TMainCursorFlll
   - setup_flame_effect__13TUnk_804A5D28Fv
-  - setup_indirect_tev_alternate__Fllll
-  - setup_indirect_tev_ordinary__Fllll
+  - setup_indirect_tev_alternate__FP16TEffIndirectCtrllll
+  - setup_indirect_tev_ordinary__FP16TEffIndirectCtrllll
   - setup_list__13TWindowSubMagFv
   - setup_mode_menu__21TAdMultiChgGameModeGCFPvl
   - setup_projection_tex_matrix__10TObjPlayerFv
@@ -17011,7 +17011,7 @@ force_active:
   - update_if_in_band__17TObjEneDf2BringerFi
   - update_if_ready__11TBoss6Type1Fv
   - update_in_inventory__8TItemMagFv
-  - update_indirect_texture_wave__FlllllUc
+  - update_indirect_texture_wave__FPUcllllUc
   - update_input__18TChallenge4PResultFv
   - update_input__19TWindowKeyBoardBaseFPv
   - update_input_number__18TShopGetItemWindowFv
