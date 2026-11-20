@@ -594,7 +594,7 @@ s32 TObjEneRe2Flower::sub_800C3B8C() {
 int TObjEneRe2Flower::get_flag_11() { return (m_3c4 >> 11) & 0x1; }
 
 extern "C" {
-s32 fn_800C3A60(s32 arg0, s32 arg1) {
+s32 fn_800C3A60(saddr arg0, s32 arg1) {
     if (get_flag_11__16TObjEneRe2FlowerFv() != 0) {
         switch (arg1) {
         case 0x4003A10E:
@@ -617,7 +617,7 @@ s32 fn_800C3A60(s32 arg0, s32 arg1) {
             return 0x40039942;
         }
     }
-    return ((TObjEnemy *)((void *)arg0))->remap_sound_for_area((saddr)((void *)arg1));
+    return ((TObjEnemy *)((void *)arg0))->remap_sound_for_area(arg1);
 }
 
 void TObjEneDD::noop() {  }
