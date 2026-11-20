@@ -225,7 +225,7 @@ void *TWindowStatus__ct(void *window_status, saddr layout_pos, void *arg2, const
     return window_status;
 }
 
-s32 create_status_window(saddr arg0) {
+saddr create_status_window(saddr arg0) {
     saddr window_layout_position;
     saddr window_status;
     saddr var_r0;
