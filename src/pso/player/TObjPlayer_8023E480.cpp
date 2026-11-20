@@ -22,8 +22,6 @@ void load_gvm_texture_archive(s32, s32);
 extern char texture_prs_stream_filename_buffer[];
 s32 adxf_get_fsize_sct();
 s32 adxf_open__6TLobbyFUii(void *, s32);
-s32 xmalloc__FUl(s32);
-void xfree__FPv(s32);
 extern char texture_prs_disc_filename_buffer[];
 void TObjPlayer__sub_803DD5E8(void *, s32, saddr, s32);
 extern saddr lbl_805D63C0;

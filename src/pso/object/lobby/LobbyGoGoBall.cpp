@@ -61,8 +61,6 @@ extern Vec_80198E84 gogo_ball_sync_state[];
 struct Sys_80198A2C;
 extern Sys_80198A2C gogo_ball_configuration;
 void __dl__7TObjectFPv(void *);
-void __ct__7TObjectFP7TObject(void *, void *);
-void __dt__7TObjectFv(void *, int);
 }
 
 struct Obj_8019978C;

@@ -38,9 +38,7 @@ struct Obj_801BDE60 : VBase_801BDE60 {
 
 extern "C" {
 u8 * construct_player_instance__10TObjPlayerFlslPUc(void *, s32, s16, s32, void *);
-u8 *__nw__7TObjectFUl(s32);
 extern s32 tl_03;
-s32 get_char_data__10TObjPlayerFv(void *);
 
 u8 *TObjPlayer::create_player_instance(s32 arg0, saddr arg1) {
     u8 *p;

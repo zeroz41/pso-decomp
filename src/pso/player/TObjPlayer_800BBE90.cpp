@@ -106,7 +106,6 @@ struct P_800BC250 : VB_800BC250 {
 extern "C" {
 void subtract_vector(Vec *a, Vec *b);
 s32 obj_is_hit_receivable();
-Tgt_800BC080 *get_battle_param__10TObjPlayerFi(s32);
 s32 is_area_attack_target_eligible(void *, int);
 struct Base_800bbe90 { char pad[0x18]; };
 struct VObj_800bbe90 : Base_800bbe90 {

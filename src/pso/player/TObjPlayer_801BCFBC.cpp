@@ -180,8 +180,6 @@ extern "C" {
 u16 get_entity_id(void *);
 void select_class_action_provider__10TObjPlayerFv(void *, s32);
 extern s32 TObjPlayer__shared_model_buffer;
-s32 get_handle_value__10TObjPlayerFv(void *);
-Anim_801BD0C0 *get_anim_entry__10TObjMotionFi(void *, s32);
 extern const f32 TObjPlayer__data_805DC278;
 
 void TObjPlayer::apply_motion_entry() {

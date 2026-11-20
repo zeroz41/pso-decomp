@@ -94,7 +94,6 @@ f32 xz_distance_squared(void *, void *);
 extern u8 *camera_ctrl_instance;
 void run_task__14TObjEnvSoundExFv(Env_80190624 *o);
 void * TObjEnvSoundEx__create(void *arg0);
-void __dl__7TObjectFPv(void *);
 int is_not_split_screen__13TRaderMapCoreFv(void *);
 
 

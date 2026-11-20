@@ -238,7 +238,6 @@ void TContainerAncient01R__sub_8018AF74(void);
 void *dt__20TContainerAncient01RFPvs(void *arg0, s16 arg1);
 void *TContainerAncient01R__ct(Obj_8018B030 *, void *, void *);
 s32 free_collision_body_parts(void *);
-s32 __dl__7TObjectFPv(void *);
 
 extern "C" void receive_weapon_special_attack__20TContainerAncient01RFPvPv();
 extern "C" void apply_knockback_from_attacker__20TContainerAncient01RFPUcf();

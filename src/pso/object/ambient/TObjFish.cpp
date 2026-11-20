@@ -46,7 +46,6 @@ saddr get_bml_texlist(saddr, s32);
 saddr get_bml_model(saddr, s32);
 s32 push_matrix();
 s32 set_global_param__8TObjFishFl();
-void __dl__7TObjectFPv(void *);
 s32 TObjFish__area_event_stage;
 u8 update_state__8TObjFishFv(void *arg0);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);

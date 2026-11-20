@@ -272,7 +272,6 @@ void activate_and_dispatch__15RenderFadeStateFv(void *, s32, f32);
 extern s32 __vt__11TOVS2Wall01[];
 void *TOVS2Wall01__ct(TOVS2Wall01 *arg0, void *arg1);
 int submit_cursor_candidate(void*, int);
-void __dl__7TObjectFPv(void *);
 // ---- TOVS2Wreck06
 extern s32 __vt__12TOVS2Wreck06[];
 // ---- TOVS2Wreck05

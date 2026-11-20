@@ -21,7 +21,6 @@ struct H_800FE32C { u8 pad[0x878]; u8 state; u8 pad879[0x88E - 0x879]; s8 flags;
 extern "C" {
 s32 get_move_done_result__24TObjWaitEntryHairMoveSimFPv(H_800FE32C *h);
 extern void *hair_bone_rotation_descriptor[];
-void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
 
 int is_move_done__24TObjWaitEntryHairMoveSimFv(void) {
@@ -71,7 +70,6 @@ T_OWEHMS_Exp* T_OWEHMS_Exp::destroy(s16 should_free) {
 extern "C" {
 
 int __ct__7TObjectFP7TObject(void);
-void *__nw__7TObjectFUl(int);
 
     const char *TObjWaitEntryHairMoveSim__name = "TObjWaitEntryHairMoveSim";
     const char *T_OWEHMS_Exp__name = "T_OWEHMS_Exp";

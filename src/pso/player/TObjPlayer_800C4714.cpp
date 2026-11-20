@@ -74,7 +74,6 @@ extern "C" {
 s32 vec3_add_to(void *, void *);
 s32 is_area_attack_target_eligible(saddr, s32);
 
-void __dl__7TObjectFPv(void *);
 u8 *__ct__13TUnk_804928CCFP7TObjectP8TObjBase(u8 *arg0, s32 arg1, u32 arg2);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);

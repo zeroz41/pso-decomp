@@ -83,7 +83,6 @@ extern void *tl_00;
 
 extern s32 local_client_id;
 
-u32 __nw__7TObjectFUl(int);
 
 extern s32 tl_05;
 

@@ -67,7 +67,6 @@ extern "C" {
 void send_6x29_delete_item__10TObjPlayerFPvii(void *, s32, s32);
 s32 poll_memcard_result(saddr);
 // The callers sign-extend the result (extsb), the header's member returns u8.
-s8 get_chr_select_state__23TAdSinglePlyChrSelectGCFv();
 void *refresh_actor_body_spheres(Body_801D3E20, Body_801D3E20);
 extern void *tl_07;
 void *find_placement_obstruction(void *self, Body_801D3E20 *s);
@@ -135,13 +134,11 @@ typedef struct Node_801D56D0 {
     struct Node_801D56D0 *child;
 } Node_801D56D0;
 extern "C" {
-u8 *get_ptr_4__10TObjPlayerFv();
 s32 __construct_new_array(void *, void *, int, int, int);
 void fn_801C1BA8(void *, void *);
 s32 fn_801D40D4(s32 arg0, Rec_801D40D4 *arg1, u8 *arg2);
 s32 is_both_confirmed__23TAdSinglePlyChrSelectGCFv(void *);
 int is_quest_active(void);
-u8 *__nw__FUl(u32);
 void TLobby__sub_801D4C28(void* a0, int a1, int a2, int a3);
 s32 try_spend_actor_meseta(u8 *arg0, s32 arg1);
 s32 lookup_item_def__9TItemDataFPv(s32);
@@ -770,10 +767,11 @@ saddr reset(void* p) { return (saddr)memset(p, 0, 28); }
 s32 fn_801D4270(s32 arg0) {
     s32 i;
     u8 *p;
-    if ((uaddr)get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF) == 0) {
+    u8 *c;
+    if ((c = (u8 *)get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF)) == NULL) {
         return 0;
     }
-    p = get_ptr_4__10TObjPlayerFv();
+    p = (u8 *)((TObjPlayer *)c)->get_ptr_4();
     for (i = 0; i < 30; i++, p += 0x1C) {
         if (*(s32 *)(p + 0x14) == arg0) {
             return 1;
@@ -790,7 +788,7 @@ void remove_list_entry_by_id(s32 arg0) {
     s32 rem;
     cnt = ((u8 *)get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF));
     if (cnt != NULL) {
-        p = ((Ent_801D41B4 *)get_ptr_4__10TObjPlayerFv());
+        p = ((Ent_801D41B4 *)((TObjPlayer *)cnt)->get_ptr_4());
         n = *cnt;
         for (i = 0; i < n; p++, i++) {
             if (p->id == arg0) {

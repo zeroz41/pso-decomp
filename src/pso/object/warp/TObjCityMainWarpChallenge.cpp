@@ -51,13 +51,10 @@ s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(void *, saddr, s32, f32);
 extern s32 city_main_warp_destination_id;
 extern BmlResource *city_common_model_archive;
 s32 post_translate_matrix(void *);
-s32 update_floor_switch_state__16TObjCityMainWarpFv();
-s32 update_warp_sequence__16TObjCityMainWarpFv();
 void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
 s32 update_challenge_warp_window();
-s32 update_state__16TObjCityMainWarpFv();
 extern s32 camera_ctrl_instance;
 extern saddr city_common_texture_list;
 
@@ -166,16 +163,16 @@ void TObjCityMainWarpChallenge::update_state() {
         update_challenge_state();
         return;
     case 1:
-        update_warp_sequence__16TObjCityMainWarpFv();
+        ((TObjCityMainWarp *) this)->update_warp_sequence();
         return;
     case 2:
-        update_state__16TObjCityMainWarpFv();
+        ((TObjCityMainWarp *) this)->update_state();
         return;
     case 3:
         update_challenge_warp_window();
         return;
     case 4:
-        update_floor_switch_state__16TObjCityMainWarpFv();
+        ((TObjCityMainWarp *) this)->update_floor_switch_state();
         return;
     }
 }

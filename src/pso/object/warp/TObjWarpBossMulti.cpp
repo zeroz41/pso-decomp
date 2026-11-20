@@ -83,8 +83,6 @@ const char *TObjWarpBossMulti__name = "TObjWarpBossMulti";
 
 
 extern "C" {
-s32 check_player_flag1__6TLobbyFv(void);
-s32 get_message_10__20TWindowSubStatusDispFl(s32);
 s32 fn_80248994(void *, u32, int);
 void request_active_window_close(void);
 s32 get_window_layout_position(s32);

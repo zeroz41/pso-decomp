@@ -12,7 +12,6 @@
 
 extern "C" {
 
-s32 get_message_10__20TWindowSubStatusDispFl(s32);
 u32 find_local_player_in_range__16TObjCityMainWarpFf(f32);
 void request_active_window_close(void);
 s32 align_menu_entry_positions(u32);

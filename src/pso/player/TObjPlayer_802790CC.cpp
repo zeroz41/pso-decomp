@@ -5,7 +5,6 @@
 extern "C" {
 
 s32 init_status_entry__20TWindowSubStatusDispFPvcUii(void *, u8, s32, s32);
-void *get_array_entry__11TWindowBaseFi(void *, s16);
 
 
 void TObjPlayer::add_status_line(u8 arg1, uaddr arg2, s32 arg3) {

@@ -1095,7 +1095,6 @@ s32 trigger_switch_attack__10TObjPlayerFPvi(void *, s32);
 s32 is_locally_controlled__10TObjPlayerFPv(void *);
 s32 obj_isState2_324__9TObjCharaFv(void *);
 s32 get_actor_hp__9TObjCharaFv(void * a0 = 0);
-s32 obj_isState3_324__9TObjCharaFv();
 s32 TObjPlayer__sub_8001943C(void *, s32);
 void obj_setFlags30(void *, u32);
 s32 get_current_floor(void);
@@ -1108,11 +1107,8 @@ s32 test_flags_any(void *, int);
 s32 check_value_equals__13TUnk_804B6C24CFl(int, void *);
 s32 fn_800660B8(void *);
 s32 TObjPlayer__sub_80082300(void *);
-s32 is_inactive__10TObjPlayerFv();
 s32 init_entry_fields__6TLobbyFiii(int, int, void *, void *);
-u32 activate_d04_slot__10TObjPlayerFv(s32);
 s32 spawn_appearance_effect__10TObjPlayerFUs();
-s32 is_frozen__10TObjPlayerFv();
 int sub_8011E204__10TObjPlayerFl(void*, void*);
 s32 weapon_has_extra_attack();
 void set_action_type__10TObjPlayerFs(void *p, s16 v);
@@ -1128,7 +1124,6 @@ s32 canSetMenuCursorAction(s32, void *, s32, u8);
 void TMainCursor__sub_8013DFC4(u8 *arg0);
 u8 TMainCursor__sub_8013E900(void *);
 s32 approach_angle_adaptive(s32, s32);
-s32 lerp_angle_half__Fll(s32, s32);
 s32 is_anim_finished__10TObjMotionFv(void *);
 void init_6x45_attack_packet(u8 *arg0);
 void init_6x44_attack_packet(u8 *arg0);
@@ -1176,7 +1171,6 @@ s32 get_state__10TObjPlayerFv(void *);
 s32 check_flag_4__10TObjPlayerFv(void *);
 s32 clamp_nested_index__10TObjPlayerFv();
 void set_flag_400000__10TObjPlayerFi(saddr arg0);
-s32 is_status_flag_200__10TObjPlayerFv(void);
 void TObjPlayer__sub_801BEEE0(void *p, void *q);
 s32 __ct__20TPlayerReadyCallbackFP7TObjectUsPFP10TObjPlayer_v(s32, s32, s32, void (*)(int));
 void TObjPlayer__sub_801BF690(u8 *arg0);
@@ -1285,7 +1279,7 @@ void TObjPlayer__sub_801CC9E4(void);
 void dispatch_photon_blast_action__10TObjPlayerFis(saddr arg0, s16 arg1);
 void handle_6x33_revive_player(void *arg0);
 void send_6x33_revive_player(s32 arg0, s16 arg1);
-void clamp_and_set_unit_value__10TObjPlayerFiUci(s32 arg0, u8 arg1, s32 arg2);
+void clamp_and_set_unit_value__10TObjPlayerFiUci(saddr arg0, u8 arg1, s32 arg2);
 s32 try_equip_item__10TObjPlayerFii(s32 arg0, s32 arg1);
 void handle_6x48_cast_technique_complete(void *arg);
 s32 can_equip_item__10TObjPlayerFii(s32 arg0, s32 arg1);
@@ -1430,19 +1424,14 @@ s16 TAdSinglePlyChrSelectGC__sub_801D5DDC(void *);
 s32 reset_photon_blast_gauge(void *);
 int is_pb_palette_bank_empty(void*);
 s32 get_getup_protection_ticks__10TObjPlayerFv(void *);
-s32 get_hurt_protection_ticks__10TObjPlayerFv(void *);
 s32 TObjPlayer__sub_801D8DCC(TObjPlayer *arg0);
-void split_capped_value__10TObjPlayerFUcPUcPSc(u8 v, void *a, void *b);
 u8 get_cast_technique_level(void *techs, s16 tech);
 s32 set_technique_level_entry(s32, s32, u8);
 s32 validate_and_clear_slot__10TObjPlayerFv(void *techs, s16 tech);
 s32 check_technique_level__10TObjPlayerFllUc(void *, s32, u8);
-int bswap_16__FPUs(void*);
 int bswap_32__FPUl(void*);
-void update_players__6TLobbyFv(s32 arg0);
 u8 * get_character_save_record(u16);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
-u32 __nw__7TObjectFUl(s32);
 s32 capture_technique_targets__10TObjPlayerFv(void *, void *);
 void launch_technique__10TObjPlayerFv(s32, s32, void *);
 Rec_801CCEDC * calc_technique_parameters(s32 tech, s32 level, s32 id);
@@ -4216,8 +4205,8 @@ void send_6x33_revive_player(s32 arg0, s16 arg1) {
     }
 }
 
-void clamp_and_set_unit_value__10TObjPlayerFiUci(s32 arg0, u8 arg1, s32 i) {
-    if (obj_isState3_324__9TObjCharaFv() != 0 && TObjPlayer::is_invalid_slot(arg1) == 0 &&
+void clamp_and_set_unit_value__10TObjPlayerFiUci(saddr arg0, u8 arg1, s32 i) {
+    if (((TObjChara *)arg0)->obj_isState3_324() != 0 && TObjPlayer::is_invalid_slot(arg1) == 0 &&
         arg1 > (u8)TObjPlayer__sub_801C010C(arg0 + 0x428, i)) {
         arg1 = TObjPlayer__sub_801C010C(arg0 + 0x428, i);
     }

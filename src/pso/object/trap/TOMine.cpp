@@ -216,7 +216,6 @@ extern s32 TOMineIcon01__name;
 extern s32 TOMineIcon02__name;
 extern s32 TOMineIcon03__name;
 extern s32 TOMineIcon04__name;
-u8 *get_battle_param__10TObjPlayerFi(s32);
 extern s32 game_difficulty_selection;
 typedef struct VBase_18_33b813 VBase_18_33b813;
 typedef struct VObj_18_33b813 VObj_18_33b813;

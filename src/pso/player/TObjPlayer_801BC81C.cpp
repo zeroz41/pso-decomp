@@ -97,7 +97,6 @@ void TObjPlayer__sub_801BCA0C(void) {  }
 void TObjPlayer__sub_801BCA10(void) {  }
 
 s32 get_record_byte_at(void *, s32);
-s32 get_slot_value_checked__10TObjPlayerFl(void *, s32);
 
 void TObjPlayer__sub_801BCA14(u8 *player, void *arg1) {
     s32 i;

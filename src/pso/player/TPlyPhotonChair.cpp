@@ -143,7 +143,6 @@ struct Chair_8035B058 {
 
 extern "C" {
 void *get_player_by_client_id(s32 i);
-s32 is_mounted__15TPlyPhotonChairFv();
 void TPlyPhotonChair__sub_8035B56C(void* p, f32 v);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern uaddr TPlyPhotonChair__shared_model_resource;
@@ -204,11 +203,12 @@ void TPlyPhotonChair::render() {
 
 void TPlyPhotonChair::run_task() {
     u8 *arg0 = (u8 *)this;
-    if (get_player_by_client_id((((TPlyPhotonChair *)arg0)->sub_8035B530())) == 0U) {
+    void *pl;
+    if ((pl = get_player_by_client_id((((TPlyPhotonChair *)arg0)->sub_8035B530()))) == NULL) {
         ((TObject *)arg0)->queue_destruction();
         return;
     }
-    if (((u32) this->m_94 == 0U) && (is_mounted__15TPlyPhotonChairFv() == 0)) {
+    if (((u32) this->m_94 == 0U) && (((TPlyPhotonChair *)pl)->is_mounted() == 0)) {
         this->m_94 = 1U;
         ((TPlyPhotonChair *)(arg0 + 0x98))->set_state_ready();
         TPlyPhotonChair__sub_8035B56C((u8 *)&this->m_98, 2.0f);

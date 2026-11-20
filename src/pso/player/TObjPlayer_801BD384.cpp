@@ -56,7 +56,6 @@ void TObjPlayer__sub_801BBC64(void *);
 void TObjPlayer__sub_801BBB94(void *);
 void TObjPlayer__sub_801BB8AC(void *);
 void *TObjPlayer__sub_801BEDC0(void *arg0, s16 arg1);
-void __dl__7TObjectFPv(void *);
 extern s32 __vt__10TObjPlayer[];
 
 void *__dt__10TObjPlayerFv(void *arg0, s16 arg1) {

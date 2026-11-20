@@ -48,7 +48,6 @@ s32 advance_item_id_counter();
 void send_6x29_delete_item__10TObjPlayerFPvii(void *obj, s32 a, s32 b);
 void *pickup_item__10TObjPlayerFP5TItem(u8 *arg0, u8 *arg1);
 void set_equip_slot_entry(saddr arg0, s32 arg1, s32 arg2);
-s32 get_item_id__5TItemFv();
 u16 get_entity_id(void *);
 
 void process_trade_target__10TObjPlayerFiPv(saddr arg0, void *player) {
@@ -60,8 +59,9 @@ void process_trade_target__10TObjPlayerFiPv(saddr arg0, void *player) {
     if (item != NULL) {
         s8 val = ((VObj_84_801d859c_801D84CC *)item)->m31();
         s32 val_ext = (s32)val;
-        if (TObjPlayer::get_slot_value((s32 *)(arg0 + 0xD04), val_ext) != 0U) {
-            send_6x29_delete_item__10TObjPlayerFPvii((void *)arg0, get_item_id__5TItemFv(), 1);
+        saddr slot;
+        if ((slot = TObjPlayer::get_slot_value((s32 *)(arg0 + 0xD04), val_ext)) != 0U) {
+            send_6x29_delete_item__10TObjPlayerFPvii((void *)arg0, ((TItem *)slot)->get_item_id(), 1);
             set_equip_slot_entry(arg0 + 0xD04, val_ext, 0);
         }
         if (pickup_item__10TObjPlayerFP5TItem((u8 *)arg0, (u8 *)item) != 0U) {

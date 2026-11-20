@@ -45,7 +45,6 @@ extern saddr city_common_texture_list;
 void render__13TUnk_804B5C08Fv(u8 *arg0);
 void run_task__13TUnk_804B5C08Fv(u8 *arg0);
 extern void *tl_05;
-void __dl__7TObjectFPv(void *);
 extern s32 city_vertical_model_vtable[];
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 void TUnk_804B5C08::vfunc_13(s32) { this->m_9c = 0.0f; *(int*)((char*)this + 0x90) = 1; }

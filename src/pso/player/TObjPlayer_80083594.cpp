@@ -163,7 +163,6 @@ extern s32 __vt__13TUnk_8048E5DC[];
 
 extern "C" {
 s32 __ct__7TObjectFP7TObject(void *, void *);
-s32 init_render_target__10TObjPlayerFv();
 u8 camera_capture_overlay_alpha = 143;
 extern s32 __vt__13TUnk_8048E5F4[];
 extern s32 model_render_flags;
@@ -230,7 +229,6 @@ extern "C" {
 void TObjPlayer__sub_80083FB0(void);
 int TObjPlayer__sub_80083F9C(void);
 void *get_player_by_client_id(s32 i);
-s32 is_inactive__10TObjPlayerFv();
 void reset_and_release_capture_texture(void);
 void reset_and_init_capture_texture(void);
 void clear_camera_flag(void);
@@ -828,7 +826,7 @@ void TObjPlayer::init_render_target_singleton() {
         temp_r3 = (saddr)::operator new(0x28);
         camera_render_target_singleton = temp_r3;
         if (temp_r3 != 0U) {
-            init_render_target__10TObjPlayerFv();
+            ((TObjPlayer *)temp_r3)->init_render_target();
         }
     }
 }

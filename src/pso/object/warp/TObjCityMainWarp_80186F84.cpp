@@ -23,7 +23,6 @@ extern "C" {
 extern s32 local_client_id;
 s32 is_local_client_floor_leader(s32);
 s32 find_local_player_in_range__16TObjCityMainWarpFf(void *, f32);
-s32 close_windows__25TObjCityMainWarpChallengeFv();
 extern BmlResource *city_common_model_archive;
 s32 city_main_warp_destination_id;
 
@@ -100,7 +99,7 @@ void TObjCityMainWarp::update_warp_sequence() {
     case 2:
         break;
     case -1:
-        close_windows__25TObjCityMainWarpChallengeFv();
+        ((TObjCityMainWarpChallenge *) this)->close_windows();
         break;
     }
 }

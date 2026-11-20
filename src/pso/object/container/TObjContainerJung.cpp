@@ -97,8 +97,6 @@ s32 push_matrix();
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern s32 local_client_id;
 u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
-s32 get_model__19TObjContainerJungExFl(s32);
-s32 get_model_by_index__17TObjContainerJungFl(s32);
 s32 set_global_param__8TObjFishFl();
 u8 *get_bml_model(void *, int);
 s32 free_bin_model_request(saddr, s32);

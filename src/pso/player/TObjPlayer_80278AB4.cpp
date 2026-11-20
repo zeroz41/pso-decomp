@@ -8,7 +8,6 @@
 
 extern "C" {
 
-s32 get_item_id__5TItemFv();
 void *get_player_by_client_id(s32 i);
 
 void TObjPlayer::build_shop_item_list() {
@@ -16,7 +15,7 @@ void TObjPlayer::build_shop_item_list() {
     s32 sp8;
     s32 temp_r5;
     u32 temp_r30;
-    s32 slot_value;
+    saddr slot_value;
     u8 *player;
     saddr temp_r3_2;
     u32 i;
@@ -32,7 +31,7 @@ void TObjPlayer::build_shop_item_list() {
         }
         slot_value = TObjPlayer::get_slot_value(player + 0xD04, 6);
         if (slot_value != 0) {
-            temp_r5 = get_item_id__5TItemFv();
+            temp_r5 = ((TItem *)slot_value)->get_item_id();
             ((TShopJudgmentItemWindow *)((u8 *)this))->add_list_entry(slot_value, temp_r5);
         }
         if (*(s16 *)((s8 *)((u8 *)this) + 0x72) <= 0) {

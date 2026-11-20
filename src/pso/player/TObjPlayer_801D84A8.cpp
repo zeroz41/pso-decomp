@@ -292,7 +292,6 @@ struct Obj_801D8474 { s8 a; u8 b; };
 extern "C" {
 
 s32 TObjPlayer__sub_801D8664(s32, s16, s16);
-void *get_anim_table_entry__10TObjPlayerFl();
 s32 TObjPlayer__sub_801D84A8(void* p);
 s32 TObjPlayer__sub_801D84F0(void* p);
 int bswap_16__FPUs(void*);
@@ -320,7 +319,7 @@ s32 TObjPlayer__sub_801D84F0(void* p) { return *(s32*)((char*)p + 0x4); }
 void TObjPlayer::set_animation_from_data(saddr arg0, s32 arg1) {
     void *temp_r3;
 
-    temp_r3 = get_anim_table_entry__10TObjPlayerFl();
+    temp_r3 = (void *)((TObjPlayer *)arg0)->get_anim_table_entry(arg1);
     TObjPlayer__sub_801D8664(arg0, *(s16 *)((s8 *)temp_r3 + 0), *(s16 *)((s8 *)temp_r3 + 2));
     ((TUnk_804C4540 *)arg0)->set_animation_default(arg1);
 }

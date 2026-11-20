@@ -109,7 +109,6 @@ struct Trap_801797D4 : VObj_801797D4 {
 };
 
 extern "C" {
-VObj_801797D4 *get_battle_param__10TObjPlayerFi(s32);
 extern const char *lbl_805D3530;
 }
 

@@ -73,7 +73,6 @@ extern void *lbl_805D5564;
 int TAdSinglePlyChrSelectGC__sub_801334E4(void*);
 int TAdSinglePlyChrSelectGC__sub_80133544(void*);
 int TAdSinglePlyChrSelectGC__sub_80133548(void);
-void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
 
     extern int light_type_id_table[];

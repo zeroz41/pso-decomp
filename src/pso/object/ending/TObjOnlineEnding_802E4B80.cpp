@@ -234,7 +234,6 @@ s32 restore_player_cameras();
 s32 TLobby__sub_80070ACC();
 s32 TWindowChallengeResult__ct(s32, s32, s32, s32);
 s32 TWindowSubStatusDisp__sub_800718D0();
-s32 __dl__7TObjectFPv(void *);
 s32 get_layout_id__20TWindowSubStatusDispFv(s32);
 
 void TObjOnlineEnding::create_result_window() {

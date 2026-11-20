@@ -222,7 +222,6 @@ void* TObjWarpBossMulti__create(void* placement);
 void* TObjWarpJungMain__create(void* placement);
 void* TObjWarpJung__create(void* placement);
 void* TObjLuker__create(void* placement);
-void* create__10TObjRoomIdFPv(void* placement);
 void* TODoorFourLightSeabed__create(void* placement);
 void* TODoorFourLightSeabedU__create(void* placement);
 void* TODoorLabo__create(void* placement);

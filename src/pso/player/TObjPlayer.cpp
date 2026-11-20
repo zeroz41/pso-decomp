@@ -54,7 +54,6 @@ struct Pos_801D2964 { u8 bytes[0x8]; };
 struct Pkt_801D2964 { u8 hdr[4]; Pos_801D2964 pos; };
 
 extern "C" {
-void bswap_32__FPUl(void *);
 void TObjPlayer__sub_801BEEE0(void* p, void* q);
 void TObjPlayer__sub_801BEF30(void* p, void* q);
 void TObjPlayer__sub_801BEF44(void* p, void* q);

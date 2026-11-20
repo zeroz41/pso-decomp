@@ -140,7 +140,6 @@ struct V4_8018355C { s32 a; s32 b; s32 c; s32 d; };
 
 extern "C" {
 s32 TLobby__sub_80184C54();
-u32 __nw__7TObjectFUl(int);
 f32 vec3_dot(void *, void *);
 f32 subtract_vector(void *, void *);
 extern f32 lbl_804FF5E8[];

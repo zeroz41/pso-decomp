@@ -69,7 +69,6 @@ s32 __ct__11TPlayerSoulFP7TObjectUs();
 
 s32 check_flag_0x8000__10TObjPlayerFv();
 s32 get_entity_id(saddr);
-s32 obj_isState3_324__9TObjCharaFv(s32);
 
 extern s32 tl_06;
 
@@ -370,12 +369,9 @@ struct Obj_801C5FCC { s32 n; Pair_801C5FCC e[16]; };
 extern "C" {
 void calc_death_pose_height_offset(Out_801C58CC *arg0, Actor_801C58CC *arg1);
 s32 obj_testFlags30__14TObjCollidableFUl(int, int);
-s32 is_inactive__10TObjPlayerFv();
 s32 check_flag_40000__10TObjPlayerFv(int);
 s32 set_flag_2000000_alt__10TObjPlayerFv();
 void *find_entity_by_id();
-void *get_state__11TMainCursorFv(s32);
-s32 is_target_valid__10TObjPlayerFv();
 s32 tick_battle_music_timer(Obj_801C5C38 *p);
 s32 get_current_floor();
 s32 is_room_free_of_active_enemies(s32, s32);

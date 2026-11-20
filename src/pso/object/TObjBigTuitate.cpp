@@ -89,7 +89,6 @@ extern s32 __vt__14TObjBigTuitate[];
 
 void free_bin_model_request(void*, int);
 void free_collision_body_parts(void *);
-void __dl__7TObjectFPv(void *);
 
 
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);

@@ -164,7 +164,6 @@ void free_collision_body_parts(void *);
 s32 init_collision_body_parts(void *, int, int);
 s32 play_persistent_sound(void *, void *, void *, int, int);
 u8 is_current_floor_switch_set(s32 id);
-void __dl__7TObjectFPv(void *);
 void update_sweep__18TOTrapChainSawEdgeFv(void *arg0);
 void update_extension__18TOTrapChainSawEdgeFv(void *arg0);
 void * __dt__18TOTrapChainSawEdgeFv(void *arg0, s16 arg1);

@@ -35,6 +35,7 @@
 
 #include "pso/player/TUnk_804B6C24.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/ui/hud/TRaderMapCore.h"
 
 struct Base_803107D0_8031058C { char pad[0x18]; };
 struct VObj_803107D0_8031058C : Base_803107D0_8031058C {
@@ -102,7 +103,6 @@ extern "C" {
 void clear_split_screen_battle_window_slots(T_803102A4 *self);
 TPlayerBattleCtrl4P *TPlayerBattleCtrl4P__instance;
 void *TWindowDuelResult__ct(void *, int);
-s32 get_map_id__13TRaderMapCoreFv();
 u8 TLobby__sub_801D7100(void *);
 extern u8 lobby_rule_settings[];
 s32 TLobby__sub_801C19D0(void *);
@@ -157,7 +157,6 @@ void TLobby__sub_8020BB18(void);
 void TLobby__sub_8020BCE4(void);
 void end_player_keyboard_hold(s32 arg0);
 void begin_player_keyboard_hold(s32 arg0);
-s32 release_attached_resource__10TObjPlayerFv();
 void request_active_window_close(void);
 s32 send_code_45_1__10TObjPlayerFl();
 }
@@ -217,7 +216,6 @@ typedef void (TPlayerBattleCtrl4P::*BattleAction)();
 extern "C" {
 s32 lbl_805D6AB0;
 void *destroy__19TPlayerBattleCtrl4PFs(void *arg0, s16 arg1);
-s32 __dl__7TObjectFPv(void *);
 s32 __dt__7TObjectFv(void *, s32);
 void run_task__19TPlayerBattleCtrl4PFv(TPlayerBattleCtrl4P *self);
 void render__7TObjectFv();
@@ -892,11 +890,12 @@ void destroy_matching_children__19TPlayerBattleCtrl4PFPvPv(void *self, Par_80311
 
 void TPlayerBattleCtrl4P::update_all_players() {
     s32 var_r31;
+    uaddr p;
 
     var_r31 = 0;
     do {
-        if (get_player_by_client_id(var_r31) != 0U) {
-            release_attached_resource__10TObjPlayerFv();
+        if ((p = get_player_by_client_id(var_r31)) != 0U) {
+            ((TObjPlayer *)p)->release_attached_resource();
         }
         var_r31 += 1;
     } while (var_r31 < 4);
@@ -1413,10 +1412,11 @@ s32 TPlayerBattleCtrl4P::close_windows_on_button() {
     Ctl_8031012C *self = (Ctl_8031012C *)this;
     s32 r = 1;
     s32 i;
+    void *p;
     for (i = 0; i < 4; i++) {
-        if (get_player_by_client_id(i) != 0) {
+        if ((p = get_player_by_client_id(i)) != NULL) {
             if (self->win[i] != NULL) {
-                if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[get_map_id__13TRaderMapCoreFv()], 2) != 0) {
+                if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[((TRaderMapCore *)p)->get_map_id()], 2) != 0) {
                     ((TWindowBase *)(self->win[i]))->close();
                     self->win[i] = 0;
                 } else {

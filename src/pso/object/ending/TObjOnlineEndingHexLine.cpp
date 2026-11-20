@@ -212,7 +212,6 @@ void run_task__23TObjOnlineEndingHexLineFv(TObjOnlineEndingHexLine *online_endin
 }
 
 void __dt__7TObjectFv(void *, int);
-void __dl__7TObjectFPv(void *);
 
 void *__dt__23TObjOnlineEndingHexLineFv(void *object, s16 arg1) {
     if (object != NULL) {

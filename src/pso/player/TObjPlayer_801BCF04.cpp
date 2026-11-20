@@ -6,7 +6,6 @@ extern "C" {
 
 s32 is_lobby_floor_15__15TFontSmallLobbyFv();
 s32 TObjPlayer__sub_801C2114();
-s32 get_ptr_4__10TObjPlayerFv(u8 *);
 s32 assign_inventory_item_ids(void *, s32, u8);
 s32 bind_saved_inventory_equipment__10TObjPlayerFPvPvi(void *, s32, u8);
 

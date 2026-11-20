@@ -25,7 +25,6 @@ struct Char_802C38B4 {
 };
 
 extern "C" {
-s8 *get_action_data__10TObjPlayerFv(void *);
 void apply_class_level_growth(void *, s32, Stats_802C38B4 *);
 s32 get_current_state_field__10TObjPlayerFScl(void *, s32);
 void *get_class_base_stats(void *);
