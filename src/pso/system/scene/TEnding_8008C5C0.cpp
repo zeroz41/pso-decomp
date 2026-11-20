@@ -2,6 +2,7 @@
 #include "pso/unk/TLobby_802A7290.h"
 #include "pso/system/scene/TEndingC.h"
 #include "types.h"
+#include "versions.h"
 #include "pso/unk/text_8008C4F4.h"
 #include "pso/system/main_loop.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -125,7 +126,11 @@ void TEnding::start_ending_scene() {
     set_active_camera_pose((u8 *)&a, (u8 *)&b);
     clear_resource_load_tasks();
     run_load_callback_table(ending_scene_callbacks, sizeof(ending_scene_callbacks));
+#if VERSION == VERSION_GPOP8P
+    TKeyBoardControl__sub_8000F90C(1);
+#else
     TKeyBoardControl__sub_8000F90C(2);
+#endif
     set_queued_main_phase(2);
     play_area_music("ending.adx");
     TParticleCtrl::create_quad_sprites();

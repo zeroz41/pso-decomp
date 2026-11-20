@@ -4,6 +4,7 @@
 // (.sdata) are read and written by every part.
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "versions.h"
 #include <dolphin/mtx/GeoTypes.h>
 #include <string.h>
 #include "pso/map/FloorResourceCallbacks.h"
@@ -97,8 +98,13 @@ extern Vec TObjLight__scene_light_state;
 
 // The mode the scene machine shows (create_mode_scene picks the scene object by it) and the one
 // before it (sync_mode_state).
+#if VERSION == VERSION_GPOP8P
+s32 multi_chg_game_mode_state = 28;
+int lbl_805D384C = 28;
+#else
 s32 multi_chg_game_mode_state = 29;
 int lbl_805D384C = 29;
+#endif
 
 // Scene change request: the set_* functions set the next mode and 1; the frame loop
 // (run_game_mode_select_frame) then destroys the current scene object (2) and creates the next one (0).
@@ -340,6 +346,10 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
     case 23:
     case 27:
         break;
+#if VERSION == VERSION_GPOP8P
+    case 1: case 2: case 3: case 4: case 5: case 6: case 7: case 10: case 11: case 12:
+    case 13: case 14: case 15: case 16: case 17: case 20: case 24: case 25: case 26:
+#endif
     default:
         TAdMultiChgGameModeGC::apply_bgm_col_ctrl((s32)"advr.adx");
         break;
@@ -485,6 +495,7 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
         }
         game_mode_scene_instance = (TObject *)p;
         break;
+#if VERSION != VERSION_GPOP8P
     case 28:
         p = TObject::operator new(0x38);
         if (p != NULL) {
@@ -492,6 +503,7 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
         }
         game_mode_scene_instance = (TObject *)p;
         break;
+#endif
     case 1:
         p = TObject::operator new(0x28);
         if (p != NULL) {
@@ -499,11 +511,18 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
         }
         game_mode_scene_instance = (TObject *)p;
         break;
+#if VERSION == VERSION_GPOP8P
+    case 2:
+    case 28:
+        break;
+#endif
     case 3:
         game_mode_scene_instance = new TUnk_804C2298();
         break;
+#if VERSION != VERSION_GPOP8P
     case 29:
         break;
+#endif
     }
 }
 
@@ -580,7 +599,50 @@ void init_game_mode_select_scene(void) {
     load_floor_sound_bank(0);
 }
 
+
 extern "C" {
+#if VERSION == VERSION_GPOP8P
+void fn_8013FA90(void);
+
+void run_game_mode_select_frame(void) {
+    switch (game_mode_scene_change_state) {
+    case 1:
+        if (game_mode_scene_instance != NULL) {
+            game_mode_scene_instance->queue_destruction();
+            game_mode_scene_instance = NULL;
+        }
+        game_mode_scene_change_state = 2;
+        break;
+    case 2:
+        game_mode_scene_change_state = 0;
+        TAdMultiChgGameModeGC::create_mode_scene();
+        break;
+    case 0:
+        break;
+    }
+    func_803DCDFC__Fv();
+    controller_stuff();
+    TKeyBoardControl::update_input_frame();
+    main_task.begin_frame();
+    main_task.run_task();
+    main_task.render();
+    main_task.render_screen_overlay();
+    process_async_file_reads();
+    update_sound_request_slots();
+    run_save_load_sequence__23TAdSinglePlyChrSelectGCFv();
+    TAdSinglePlyChrSelectGC::noop();
+    if (TAdPlayerLoadGC::get_instance() == 0) {
+        if ((s8)func_801A5E54__Fv() != 0) {
+            fn_8013FA90();
+            TKeyBoardControl__sub_8000F92C();
+        }
+        if (TQuestVmDownLoadServer::is_ready() != 0) {
+            request_main_phase(0);
+        }
+    }
+    render_tick();
+}
+#else
 void run_game_mode_select_frame(void) {
     switch (game_mode_scene_change_state) {
     case 0:
@@ -618,17 +680,20 @@ void run_game_mode_select_frame(void) {
     }
     render_tick();
 }
+#endif
 }
 
 void TAdMultiChgGameModeGC__sub_8023F4E4(void) { init_game_mode_select_scene(); TAdMultiChgGameModeGC::set_mode_change_state(); render_tick(); }
 void TAdMultiChgGameModeGC__sub_8023F50C(void) { init_game_mode_select_scene(); TAdMultiChgGameModeGC::set_change_mode_flags(); render_tick(); }
 
 
+#if VERSION != VERSION_GPOP8P
 void TAdMultiChgGameModeGC::set_mode_1c() {
     TAdMultiChgGameModeGC::sync_mode_state();
     multi_chg_game_mode_state = 0x1C;
     game_mode_scene_change_state = 1;
 }
+#endif
 void TAdMultiChgGameModeGC__sub_8023F564(void) { init_game_mode_select_scene(); TAdMultiChgGameModeGC::set_mode_17(); render_tick(); }
 void TAdMultiChgGameModeGC__sub_8023F58C(void) { init_game_mode_select_scene(); TAdEnterSerialAccessGC::init_state(); render_tick(); }
 void TAdMultiChgGameModeGC__sub_8023F5B4(void) { init_game_mode_select_scene(); TAdMultiChgGameModeGC::set_state_0x9(); render_tick(); }

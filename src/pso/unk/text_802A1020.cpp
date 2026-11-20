@@ -1,5 +1,9 @@
 #include "pso/system/ResourceFile.h"
 #include "types.h"
+#include "versions.h"
+#if VERSION == VERSION_GPOP8P
+#define __ct__6TMovieFP7TObjectPSclll __ct__6TMovieFP7TObjectPScllll
+#endif
 #include "pso/unk/text_802A1020.h"
 #include "pso/unk/text_802A1144.h"
 #include "pso/unk/text_802A1154.h"
@@ -180,13 +184,21 @@ TUnk_804DCB64::TUnk_804DCB64() : TObject(tl_01) {
     if ((s8) opening_movie_purpose == 0) {
         u8 *movie = __nw__7TObjectFUl(0x4C);
         if (movie != NULL) {
+#if VERSION == VERSION_GPOP8P
+            __ct__6TMovieFP7TObjectPSclll(movie, tl_00, opening_movie_path_table[current_language + (opening_movie_selector * 5)], set_movie_finished_flag, 0, 1, 1);
+#else
             __ct__6TMovieFP7TObjectPSclll(movie, tl_00, opening_movie_path_table[current_language + (opening_movie_selector * 5)], set_movie_finished_flag, 1, 1, 0);
+#endif
         }
         opening_movie_selector = 1 - opening_movie_selector;
     } else {
         u8 *movie = __nw__7TObjectFUl(0x4C);
         if (movie != NULL) {
+#if VERSION == VERSION_GPOP8P
+            __ct__6TMovieFP7TObjectPSclll(movie, tl_00, opening_movie_path_table[current_language], set_movie_finished_flag, 0, 1, 1);
+#else
             __ct__6TMovieFP7TObjectPSclll(movie, tl_00, opening_movie_path_table[current_language], set_movie_finished_flag, 1, 1, 0);
+#endif
         }
     }
 }

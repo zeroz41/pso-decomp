@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "versions.h"
 #include <stdio.h>
 #include <string.h>
 #include "pso/system/ControllerInputState.h"
@@ -494,13 +495,18 @@ void TAdTimeSetGC::sub_802E2728() {
         change_state(0);
         return;
     }
+#if VERSION == VERSION_GPOP8P
+    TAdSinglePlyChrSelectGC::set_player_index(0xC);
+#endif
     create_backgrounds();
     close_and_next(5, -1, -1, -1);
 }
 
 void TAdTimeSetGC::try_setup() {
     if (setup__23TAdSinglePlyChrSelectGCFi((s8)TAdSinglePlyChrSelectGC::get_chr_select_state()) == 0) {
+#if VERSION == VERSION_GPOE8P
         TAdSinglePlyChrSelectGC::set_player_index(0xC);
+#endif
         change_state(0xF);
     }
 }
@@ -579,6 +585,9 @@ void TAdTimeSetGC::sub_802E22A4() {
     }
     switch (menu_window->get_selected_value()) {
     case 0:
+#if VERSION == VERSION_GPOP8P
+        TAdSinglePlyChrSelectGC::delete_save_files();
+#else
         if (load_status & 0x80) {
             TAdSinglePlyChrSelectGC::try_load_system_file();
         }
@@ -588,6 +597,7 @@ void TAdTimeSetGC::sub_802E22A4() {
         if (load_status & 0x200) {
             TAdSinglePlyChrSelectGC__sub_801FBB7C();
         }
+#endif
         TAdPlayerLoadGC::poll_card_load(0);
         sub_802E1F14();
         change_state(0);
@@ -603,6 +613,9 @@ void TAdTimeSetGC::sub_802E22A4() {
 void TAdTimeSetGC::build_selection_summary() {
     create_backgrounds();
     text[0] = 0;
+#if VERSION == VERSION_GPOP8P
+    strcat(text, (const char *)get_localized_text_entry(0x1C, 0x2C));
+#else
     if (load_status & 0x80) {
         strcat(text, (const char *)get_localized_text_entry(0x1C, 0x1D));
         strcat(text, "\n");
@@ -615,6 +628,7 @@ void TAdTimeSetGC::build_selection_summary() {
         strcat(text, (const char *)get_localized_text_entry(0x1C, 0x1F));
         strcat(text, "\n");
     }
+#endif
     close_and_dispatch((u32)text, 1, get_localized_text_entry(0x1C, 0x2A), get_localized_text_entry(0x1C, 0x2B));
 }
 

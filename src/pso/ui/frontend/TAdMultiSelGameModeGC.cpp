@@ -1,4 +1,5 @@
 #include "types.h"
+#include "versions.h"
 #include "pso/unk/TLobby_80291D94.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/unk/text_803000C8.h"
@@ -24,6 +25,11 @@
 
 extern "C" {
 s32 TAdMultiSelGameModeGC__data_805D69F0;
+#if VERSION == VERSION_GPOP8P
+#define IS_ALT_GAME_MODE() (TAdMultiSelGameModeGC__data_805D69F0 != 0)
+#else
+#define IS_ALT_GAME_MODE() (TAdMultiSelGameModeGC__data_805D69F0 == 1)
+#endif
 void fn_803000C8(void) {
     if (is_split_screen() != 0) {
         switch (TAdMultiSelGameModeGC__data_805D69F0) {
@@ -122,7 +128,7 @@ s32 TAdMultiSelGameModeGC::is_mode_entry_enabled(void *self, s32 mode, u32 idx) 
     case 1:
         return 1;
     case 2:
-        if (TAdMultiSelGameModeGC__data_805D69F0 == 1) {
+        if (IS_ALT_GAME_MODE()) {
             return idx == 0 ? 1 : 0;
         }
         return 1;
@@ -203,7 +209,7 @@ void TAdMultiSelGameModeGC::sub_803003A4() {
                 break;
             }
             ((TAdSelectTxtGC *)self->f34)->reset_slots((void *)&lbl_80474E40[5], (void *)(TAdMultiSelGameModeGC__data_805D69F0 + 9));
-            if (TAdMultiSelGameModeGC__data_805D69F0 == 1 && lbl_805D69F4 == 1) {
+            if (IS_ALT_GAME_MODE() && lbl_805D69F4 == 1) {
                 lbl_805D69F4 = 0;
                 TAdStorySelectGC::set_state(0);
                 ((TAdSelectTxtGC *)self->f38)->reset_slots((void *)&lbl_80474E40[6], (void *)(lbl_805D69F4 + 4));
@@ -325,7 +331,7 @@ Obj_8030095C *__ct__21TAdMultiSelGameModeGCFv(Obj_8030095C *self, s32 parent, s3
     self->f38 = 0;
     self->f2C = 0;
     lbl_805D69F4 = TLobby::get_instance();
-    if (TAdMultiSelGameModeGC__data_805D69F0 == 1) {
+    if (IS_ALT_GAME_MODE()) {
         lbl_805D69F4 = 0;
     }
     switch (lbl_805D69F4) {
