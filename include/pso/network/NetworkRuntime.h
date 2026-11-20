@@ -3,16 +3,15 @@
 
 #include "types.h"
 
-typedef struct Ent_803F9B48 Ent_803F9B48;
-typedef struct Ent_803F9C78 Ent_803F9C78;
+typedef u32 NetThreadHandle;
+typedef struct NetworkThreadSlot NetworkThreadSlot;
+typedef void (*NetThreadEntry)(void);
 typedef struct Blk_803FA2A8 Blk_803FA2A8;
 typedef union U_803FA2A8 U_803FA2A8;
 typedef struct Q_803FA2A8 Q_803FA2A8;
 typedef struct P_803FA2A8 P_803FA2A8;
 typedef struct A_803FADA0 A_803FADA0;
 typedef struct PppFrame PppFrame;
-struct Ent_803F9B48 { s32 active; u32 key; u8 pad[0x328 - 8]; };
-struct Ent_803F9C78 { s32 active; u32 key; u8 pad[0x318 - 8]; void (*fn)(struct Ent_803F9C78 *); u8 pad2[0x328 - 0x31C]; };
 struct Blk_803FA2A8 { s32 w[6]; };
 union U_803FA2A8 { s16 h4; Blk_803FA2A8 src; };
 struct Q_803FA2A8 {
@@ -34,7 +33,7 @@ struct A_803FADA0 { u8 pad0[4]; u32 a; u32 b; };
  * run_net_thread_loop (start_network_thread) and how long that loop sleeps between polls. */
 typedef struct NetThreadState {
     s32 mutex;
-    s32 thread;                 /* 0x04 */
+    NetThreadHandle thread;                 /* 0x04 */
     s16 poll_ms;                /* 0x08: 40 (TLobby__sub_803F79B0), set by TLobby__sub_804050DC */
     u8 padA[6];
 } NetThreadState;
@@ -54,7 +53,9 @@ void signal_alarm_queue(void* alarm);
 void resume_thread(s32 thread);
 void cancel_thread_if_running(void* thread);
 void deactivate_entry_by_key(u32 key);
-s32 run_current_thread_callback(void);
+/* The thread key is the original native address word stored by the pool. */
+s16 TLobby__sub_803F9B94(NetThreadEntry entry, NetThreadHandle *out_key);
+void *run_current_thread_callback(void *unused);
 s32 NetSetDefaultThreadPriority(s32 priority);
 s32 check_connection_status(void* connection);
 s32 clear_flag_bit4(s32 unused, u8* flags);
