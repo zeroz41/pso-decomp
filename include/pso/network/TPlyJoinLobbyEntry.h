@@ -15,7 +15,7 @@ void TLobby__sub_80137C10(s32 arg0);
 void TLobby__sub_801384E4(void);
 void queue_join_entry_exit_on_input(void *self);
 void show_join_entry_message(s32 arg0);
-void show_dialog_value_line(s32 arg0);
+void show_dialog_value_line(saddr arg0);
 void TLobby__sub_8013A16C(void);
 s32 TLobby__sub_8013A23C(s32 arg0);
 void TLobby__sub_8013A2DC(void);

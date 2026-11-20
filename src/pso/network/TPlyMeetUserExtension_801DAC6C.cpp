@@ -54,7 +54,7 @@ Ext_801DAC6C *__as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(Ext_801DAC
 extern char *port_map_copyright;
 void handle_cmd_9B__9TProtocolFR6packet(u8 *arg0, Regist_801DAD38 *arg1);
 s32 set_port__7TSocketFUl(void *, s16);
-s32 resolve_domain__7TSocketFPc(void *, s32);
+s32 resolve_domain__7TSocketFPc(void *, saddr);
 
 struct BaseDA { char pad[0x18]; };
 struct VObjDA : BaseDA {
@@ -118,7 +118,7 @@ void handle_cmd_9B__9TProtocolFR6packet(u8 *arg0, Regist_801DAD38 *arg1) {
     }
 }
 
-s32 socket_set_server_info(u8 *socket, saddr arg1, saddr arg2, saddr arg3, saddr arg4, s32 arg5, s32 arg6) {
+s32 socket_set_server_info(u8 *socket, saddr arg1, saddr arg2, saddr arg3, saddr arg4, saddr arg5, s32 arg6) {
     s32 temp_r31;
 
     temp_r31 = resolve_domain__7TSocketFPc(socket, arg5);

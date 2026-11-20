@@ -191,7 +191,7 @@ struct Seq_80214104 : Base_80214104 {
 
 extern "C" {
 
-void *get_entity_id(void *);
+saddr get_entity_id(void *);
 int is_quest_active(void);
 s32 sub_802239EC__13TShopSequenceFv(void *);
 extern saddr TLobby__protocol_instance;

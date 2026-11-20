@@ -306,7 +306,7 @@ void *dt__11TObjNpcMojaFPvs(void *npc_base, s16 arg1) {
 }
 
 #define self ((u8 *)selfv)
-#define arg2 ((s32)arg2v)
+#define arg2 ((saddr)arg2v)
 void *TObjNpcMoja__ct(void *selfv, void *parent, void *arg2v) {
     TObjNpcBase__ct(self, parent);
     *(u8 **)(self + 0x18) = (u8 *)__vt__11TObjNpcMoja;

@@ -208,7 +208,7 @@ s32 TWindowSubCustomEquip::get_saved_slot_for_index(s32 arg0, s8 arg1) {
 extern "C" {
 s32 select_action_palette__10TObjPlayerFi(u8 *, s32);
 void *get_player_by_client_id(s32 i);
-u8 *TWindowActionPalette__sub_801C1D7C(s32 arg0, s32 i, s32 arg2);
+saddr TWindowActionPalette__sub_801C1D7C(saddr arg0, s32 i, s32 arg2);
 s32 get_slot_type__20TWindowActionPaletteFlll(s32, s32, s32);
 s32 is_type_valid__21TWindowSubCustomEquipFv(void *, u8);
 s32 get_saved_slot_for_index__21TWindowSubCustomEquipFlSc(void *, u8);

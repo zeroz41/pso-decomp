@@ -1063,7 +1063,7 @@ void TItemWeapon::perform_action() {
 
 // ---- pso/player/TObjPlayer_8011FBCC
 
-void TObjPlayer::draw_status_icons(void* a1, void* a2) { ((TItemWeapon *)this)->draw_weapon_model(); ((TItemWeapon *)this)->get_gun_point(a1); draw_weapon_at_joint((saddr)this, (s8)((void*)35)); ((TItemWeapon *)this)->get_gun_point(a2); }
+void TObjPlayer::draw_status_icons(void* a1, void* a2) { ((TItemWeapon *)this)->draw_weapon_model(); ((TItemWeapon *)this)->get_gun_point(a1); draw_weapon_at_joint((saddr)this, (s8)35); ((TItemWeapon *)this)->get_gun_point(a2); }
 
 // ---- pso/unk/text_8011FC24
 

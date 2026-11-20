@@ -816,7 +816,7 @@ void TWindowDD::show_message_by_count(s32 arg0, saddr arg1) {
 
 
 extern "C" {
-void TWindowDD::maybe_scroll(void* a1) { if (count_chars_since_newline((s32 *)a1) > 15) { TWindowDD::append_char((s8)((void*)10), (saddr)this, (s32 *)a1); } }
+void TWindowDD::maybe_scroll(void* a1) { if (count_chars_since_newline((s32 *)a1) > 15) { TWindowDD::append_char((s8)10, (saddr)this, (s32 *)a1); } }
 
 s32 TWindowDD::count_chars_since_newline(s32 *len) {
     u8 *buf = (u8 *)this;

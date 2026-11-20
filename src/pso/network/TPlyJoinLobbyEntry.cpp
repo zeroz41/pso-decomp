@@ -1296,7 +1296,7 @@ s32 send_game_list__9TProtocolFv(s32);
 
 extern s32 TLobby__data_805D5594;
 
-void show_dialog_value_line(s32 arg0);
+void show_dialog_value_line(saddr arg0);
 s32 get_seq_phase__6TLobbyFPv(s32);
 extern char lbl_80509D3C[];
 extern char lobby_join_message_buffer[];
@@ -1526,7 +1526,7 @@ extern const NJS_POINT2 lbl_8043EDF0[];
 extern const f32 lbl_805DB0B8;
 saddr get_window_layout_position(s32);
 u32 update_window_mode_from_progress__6TLobbyFPv(s32 arg0, void *arg1);
-void show_dialog_value_line(s32 arg0);
+void show_dialog_value_line(saddr arg0);
 extern const NJS_POINT2 lbl_8043EDE8[];
 extern const f32 lbl_805DB0B8;
 saddr get_window_layout_position(s32);
@@ -1592,7 +1592,7 @@ void show_seq_phase_message__6TLobbyFi(s32 arg0) {
     ((TWindowMessage *)(*(uaddr *)&(*(u32 *)&(*(u32 *)&TLobby__current_dialog_window))))->append_line((int)(get_seq_phase__6TLobbyFPv(arg0)), (int)1);
 }
 
-void show_dialog_value_line(s32 arg0) {
+void show_dialog_value_line(saddr arg0) {
     if ((*(u32 *)&(*(u32 *)&(*(u32 *)&TLobby__current_dialog_window))) == 0) {
         NJS_POINT2 tmp = lbl_8043EDF0[0];
         (*(u32 *)&(*(u32 *)&(*(u32 *)&TLobby__current_dialog_window))) = update_window_mode_from_progress__6TLobbyFPv(get_window_layout_position(0xc1), &tmp);
@@ -2270,7 +2270,7 @@ void TLobby__sub_801384E4(void) {
         if ((s32) TLobby__player_setup_pending == 0) {
             if ((s32) TLobby__data_805D5594 != 0xC) {
                 sprintf(lobby_join_message_buffer, (const char *)get_seq_phase__6TLobbyFPv(7), lbl_80509D3C);
-                show_dialog_value_line((s32)lobby_join_message_buffer);
+                show_dialog_value_line((saddr)lobby_join_message_buffer);
                 ((TWindowSubComCard *)TLobby__current_dialog_window)->reparent_to_main_ctrl();
                 ((s32 (*)())init_player_window_effect__6TLobbyFv)();
                 TLobby__join_lobby_idle_timer = 0;
@@ -3415,7 +3415,7 @@ s32 get_access_key_input_buffer(void);
 s32 init_serial_access__6TLobbyFv(void);
 saddr get_connection_message_text(int);
 void reset_controller_input_state(void);
-s32 socket_set_server_info(u32, const void *, const void *, s32, s32, s32, u16);
+s32 socket_set_server_info(u32, const void *, const void *, s32, s32, saddr, u16);
 void *__nw__7TObjectFUl(u32);
 s8 TAdSinglePlyChrSelectGC__sub_8033605C(void);
 extern u32 TLobby__protocol_instance;
@@ -3432,11 +3432,11 @@ extern const char TLobby__data_805DB0B0[4];
     if (TKeyBoardControl__sub_8000F828() == 0) {                                                    \
         res = socket_set_server_info(TLobby__protocol_instance, TLobby__data_805DB0B0, TLobby__data_805DB0B0, \
                                      init_serial_access__6TLobbyFv(), get_access_key_input_buffer(), \
-                                     (s32)s[0].host, s[0].port);                                     \
+                                     (saddr)s[0].host, s[0].port);                                     \
     } else {                                                                                        \
         res = socket_set_server_info(TLobby__protocol_instance, TLobby__data_805DB0B0, TLobby__data_805DB0B0, \
                                      init_serial_access__6TLobbyFv(), get_access_key_input_buffer(), \
-                                     (s32)s[1].host, s[1].port);                                     \
+                                     (saddr)s[1].host, s[1].port);                                     \
     }
 
 void run_join_lobby_connect__6TLobbyFi(s32 arg0) {
