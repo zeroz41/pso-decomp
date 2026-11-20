@@ -217,7 +217,7 @@ s32 get_mode__11TCameraCtrlFPv(void *);
 s32 matrix_mult_vec(int, void *, void *);
 s32 push_matrix();
 s32 pop_matrix();
-void transform_to_view__11TCameraCtrlFii(s32 arg0, s32 arg1);
+void transform_to_view__11TCameraCtrlFii(saddr arg0, saddr arg1);
 void set_active_camera_pose(u8 *arg0, u8 *arg1);
 void set_active_camera_pose_from_params(u8 *arg0);
 void TCameraCtrl__sub_800687C8(void);
@@ -1661,7 +1661,7 @@ void TCameraCtrl::apply_split_screen_view_matrix() {
     }
     TCameraCtrl::concat_matrix(0U, (uaddr) TCameraCtrl__view_matrix);
 }
-void transform_to_view__11TCameraCtrlFii(s32 arg0, s32 arg1) {
+void transform_to_view__11TCameraCtrlFii(saddr arg0, saddr arg1) {
     push_matrix();
     if (is_split_screen() != 0) {
         TCameraCtrl::concat_matrix((u32)(0), (uaddr)((void *) ((u8 *)&TCameraCtrl__view_matrices + (TCameraCtrl::get_camera_no() * 0x30))));

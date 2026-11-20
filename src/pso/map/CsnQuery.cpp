@@ -140,7 +140,7 @@ s32 intersect_wall_triangle_one_sided(void *, void *, void *, E_80079580 *, u32,
 s32 select_deepest_wall_ray(Query_80079608 *q, Result_80079608 *r);
 void TObjPlayer__sub_80079124(void * _w0, void * _w1);
 s32 query_segment_wall_meshes(void *arg0, void *arg1, uaddr arg2, Node_8007970C **list);
-s32 check_line_hits_walls__10TObjPlayerFPvPviPv(void *arg0, void *arg1, int arg2, Node_800797DC **list);
+s32 check_line_hits_walls__10TObjPlayerFPvPviPv(void *arg0, void *arg1, saddr arg2, Node_800797DC **list);
 f32 vec3_dot(void *, void *);
 void vec3_cross(void *, void *, void *);
 extern Vec scratch_vec;
@@ -483,7 +483,7 @@ s32 query_segment_wall_meshes(void *arg0, void *arg1, uaddr arg2, Node_8007970C 
     return csn_query_hit_buffer[0];
 }
 
-s32 check_line_hits_walls__10TObjPlayerFPvPviPv(void *arg0, void *arg1, int arg2, Node_800797DC **list) {
+s32 check_line_hits_walls__10TObjPlayerFPvPviPv(void *arg0, void *arg1, saddr arg2, Node_800797DC **list) {
     u8 dir[12];
     Mesh_800797DC *mesh;
     s32 i;

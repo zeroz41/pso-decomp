@@ -1238,7 +1238,7 @@ void TObjPlayer__sub_801C8A28(saddr arg0, s16 arg1);
 void handle_6x56_set_player_position_and_angle(void *arg0);
 void TObjPlayer__sub_801C8C50(saddr arg0, s16 arg1);
 void send_6x55_intra_map_warp(u16 id, void *pos, s32 c);
-void handle_6x55_intra_map_warp(s32 arg0);
+void handle_6x55_intra_map_warp(saddr arg0);
 void TObjPlayer__sub_801C90F8(void);
 void TObjPlayer__sub_801C9128(void);
 void TObjPlayer__sub_801C912C(void);
@@ -1248,7 +1248,7 @@ void TObjPlayer__sub_801C94B8(u8 *arg0);
 void TObjPlayer__sub_801C959C(void);
 void TObjPlayer__sub_801C9648(saddr arg0, s16 arg1);
 void apply_velocity_if_free__10TObjPlayerFPv(void *arg0);
-void handle_6x52_set_animation_state(s32 arg0);
+void handle_6x52_set_animation_state(saddr arg0);
 void run_service_hold_state_phase__10TObjPlayerFis(saddr arg0, s16 arg1);
 void notify_lobby__10TObjPlayerFi(s32 arg0);
 void ensure_default__10TObjPlayerFPv(void *arg0);
@@ -1292,7 +1292,7 @@ void run_guard_reaction_phase__10TObjPlayerFis(saddr arg0, s16 arg1);
 void update_active_instance__10TObjPlayerFi(saddr arg0);
 void release_all_players_control_lock(void);
 void handle_6x36(void);
-void handle_6x37_photon_blast(s32 arg0);
+void handle_6x37_photon_blast(saddr arg0);
 void handle_6x49_execute_photon_blast(void *arg0);
 void copy_tech_params__10TObjPlayerFPvPv(void *arg0, void *arg1);
 void TObjPlayer__sub_801CC9E4(void);
@@ -2343,7 +2343,7 @@ void TObjPlayer::set_dead_state() {
     set_action_state__10TObjPlayerFPvss(this, 0x14, ((s32 (*)(void *))get_idle_animation__10TObjPlayerFv)(this));
 }
 
-void handle_6x55_intra_map_warp(s32 arg0) {
+void handle_6x55_intra_map_warp(saddr arg0) {
     Cmd_801C8FCC cmd;
     u8 *p;
     TObjPlayer__sub_801D1658(&cmd);
@@ -2614,7 +2614,7 @@ void TObjPlayer::enter_service_hold_action() {
     ((s32 (*)(void *, int, int))set_action_state__10TObjPlayerFPvss)((void *) (arg0), 0x10, (int) (((s16 (*)(void))ret_801D26AC)()));
 }
 
-void handle_6x52_set_animation_state(s32 arg0) {
+void handle_6x52_set_animation_state(saddr arg0) {
     Pkt_801C9838 pkt;
     saddr temp_r3;
     ((TObjPlayer *)(&pkt))->init_6x52_packet();
@@ -3912,7 +3912,7 @@ extern "C" {
 
 void handle_6x36(void) {  }
 
-void handle_6x37_photon_blast(s32 arg0) {
+void handle_6x37_photon_blast(saddr arg0) {
     struct Pkt_801CC0F4 pkt;
     u8 *temp_r3;
     ((void (*)(struct PbPacket37_801CC194 *))TObjPlayer__sub_801D1D88)((struct PbPacket37_801CC194 *)((void *) (&pkt)));

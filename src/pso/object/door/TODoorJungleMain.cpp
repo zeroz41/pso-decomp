@@ -65,7 +65,7 @@ const s32 TOKeyJungleMain__data_804653C8[3] = {0x46, 0x47, 0x48};
 
 const char *TODoorJungleMain__name = "TODoorJungleMain";
 
-extern "C" u8 *TODoorJungleMain__ct(TODoorJungleMain *arg0, s32 arg1, s32 arg2);
+extern "C" u8 *TODoorJungleMain__ct(TODoorJungleMain *arg0, s32 arg1, saddr arg2);
 
 extern "C" {
 
@@ -181,7 +181,7 @@ s32 release_texture_list(void*);
 void free_collision_body_parts(void *);
 
 
-u8 *TODoorJungleMain__ct(TODoorJungleMain *arg0, s32 arg1, s32 arg2) {
+u8 *TODoorJungleMain__ct(TODoorJungleMain *arg0, s32 arg1, saddr arg2) {
     struct CopyStack_8029B924 { u8 bytes[0x3C]; };
     CopyStack_8029B924 copy_storage_8029B924;
     saddr temp_r4;

@@ -175,7 +175,7 @@ s32 resolve_actor_sphere_contact(u8 *arg0, s32 arg1, saddr arg2);
 s32 respond_to_body_contact(u8 *arg0, uaddr arg1, u8 *arg2);
 extern "C" {
 void TOTrapAncient02R__sub_80154D78(void);
-void TObjPlayer__sub_801542F4(s32 a);
+void TObjPlayer__sub_801542F4(saddr a);
 void reset_global_table(void);
 u8 test_elt_flag__13TUnk_80493450Fll(void *arg0, s32 arg1, s32 arg2);
 s32 obj_is_hit_receivable(u8 *arg0);
@@ -186,7 +186,7 @@ void TObjPlayer::apply_status_effect(saddr a) {
     TObjPlayer__sub_8015434C((CollisionBody_80155FBC *)a, 0, registered_player_count);
 }
 
-void TObjPlayer__sub_801542F4(s32 a) {
+void TObjPlayer__sub_801542F4(saddr a) {
     TObjPlayer__sub_8015434C((CollisionBody_80155FBC *)a, registered_player_count, lbl_805D5870);
 }
 

@@ -200,7 +200,7 @@ extern saddr TContainerAncient01R__bml_resource;
 void run_task__20TContainerAncient01RFv(u8 *arg0);
 f32 xyz_distance_squared(void *, void *);
 
-s32 is_within_range__19TContainerAncient01Fii(s32 arg0, s32 arg1);
+s32 is_within_range__19TContainerAncient01Fii(saddr arg0, saddr arg1);
 unsigned int __cvt_fp2unsigned(f32);
 
 f32 receive_physical_attack__20TContainerAncient01RFPvf(u8 *arg0);
@@ -554,7 +554,7 @@ f32 TContainerAncient01R::receive_direct_attack(void *arg1, DirectAttackPayload 
 
 int TContainerAncient01R::calc_distance_accuracy_penalty(void *, void *, void *, float) { return 1; }
 
-s32 is_within_range__19TContainerAncient01Fii(s32 arg0, s32 arg1) {
+s32 is_within_range__19TContainerAncient01Fii(saddr arg0, saddr arg1) {
     return xyz_distance_squared((void *)(arg1 + 0x38), (void *)(arg0 + 0x38)) < 4e+02f;
 }
 

@@ -291,7 +291,7 @@ void fade_and_destroy__14TObjWarpStringFPv(u8 *arg0);
 void TObjWarpString__sub_8019B728(void *arg0);
 void update_fade_in__14TObjWarpStringFPv(u8 *arg0);
 void sub_8019B77C__14TObjWarpStringFv(void *arg0);
-u8 * __ct__14TObjWarpStringFv(u8 *arg0, u8 *arg1, s32 arg2, s16 arg3);
+u8 * __ct__14TObjWarpStringFv(u8 *arg0, u8 *arg1, saddr arg2, s16 arg3);
 void handle_6x94_inter_level_warp(Pkt_8019C988 *arg0);
 s32 can_warp__11TObjMapWarpFlUs(void *, u16);
 void *find_warp_player_in_range(void *self, u16 client_id, f32 range);
@@ -1333,7 +1333,7 @@ void TObjMapForceWarp::create_warp_id_string(u16 client_id) {
 
 const char *TObjWarpString__name = "TObjWarpString";
 
-u8 *__ct__14TObjWarpStringFv(u8 *object, u8 *arg1, s32 arg2, s16 arg3) {
+u8 *__ct__14TObjWarpStringFv(u8 *object, u8 *arg1, saddr arg2, s16 arg3) {
     __ct__7TObjectFP7TObject(object, arg1);
     *(s32 **)((s8 *)object + 0x18) = &__vt__14TObjWarpString.value;
     *(saddr *)((s8 *)object + 0) = (saddr)TObjWarpString__name;

@@ -134,7 +134,7 @@ extern const Vec lobby_pigeon_zero_vec = {0.0f, 0.0f, 0.0f};
 extern const f64 lbl_80471960[1] = {10430.38043493439};
 
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
-s32 sample_clamped_path_position(void *arg0, s32 arg1, void *arg2, s32 arg3, f32 farg0);
+s32 sample_clamped_path_position(void *arg0, saddr arg1, void *arg2, saddr arg3, f32 farg0);
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 f32 subtract_vector(Vec *, Vec *);
@@ -383,7 +383,7 @@ void TObjPathObj::render() {
 
 #pragma push
 #pragma fp_contract on
-s32 sample_clamped_path_position(void *arg0, s32 arg1, void *motion, s32 arg3, f32 farg0) {
+s32 sample_clamped_path_position(void *arg0, saddr arg1, void *motion, saddr arg3, f32 farg0) {
   s32 sp24[3];
   s32 sp18[3];
   s32 sp8[4];

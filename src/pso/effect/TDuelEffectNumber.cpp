@@ -25,14 +25,14 @@ struct Obj_8007FF28 {
 
 extern "C" {
 s32 __cvt_fp2unsigned(f32);
-void fn_8007FE78(Obj_8007FF28 *self, s32 arg1, void *arg2, f32 farg0, f32 farg1, f32 farg2);
+void fn_8007FE78(Obj_8007FF28 *self, saddr arg1, void *arg2, f32 farg0, f32 farg1, f32 farg2);
 extern const RecoveredGlobal_800800EC_lbl_80438D7C duel_number_uv_table = {0, {0x43, 0x2A, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x42, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x43, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x43, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x42, 0xAA, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}};
 void sub_8007FF28__17TDuelEffectNumberFl(Obj_8007FF28 *self, s32 arg1);
 f32 get_scale__15TWindowCtrlMainFv(s32);
 
 extern s32 lbl_805D63F0;
 
-void fn_8007FE78(Obj_8007FF28 *self, s32 arg1, void *arg2, f32 farg0, f32 farg1, f32 farg2) {
+void fn_8007FE78(Obj_8007FF28 *self, saddr arg1, void *arg2, f32 farg0, f32 farg1, f32 farg2) {
     f32 *src = (f32 *)arg2;
     farg1 *= (0.5);
     *(f32 *)((s8 *)arg1 + 0) = src[0] - 64.0f * farg1;

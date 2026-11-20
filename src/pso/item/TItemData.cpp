@@ -561,7 +561,7 @@ u16 TItemData::get_packed_value() {
 #define init__9TItemDataFv ((s32 (*)())init__9TItemDataFv)
 u8 get_weapon_class_motion_type(u8);
 s32 get_item_icon_index(const u8 *q);
-void bswap__9TItemDataFv(s32 arg0);
+void bswap__9TItemDataFv(saddr arg0);
 
 s32 is_usable__9TItemDataFPv(void *arg0) {
     u8 temp_r0;
@@ -575,7 +575,7 @@ s32 is_usable__9TItemDataFPv(void *arg0) {
     return 0;
 }
 
-void bswap__9TItemDataFv(s32 arg0) {
+void bswap__9TItemDataFv(saddr arg0) {
     bswap_32((u32 *)(arg0 + 0x10));
     bswap_32((u32 *)(arg0 + 0xC));
 }

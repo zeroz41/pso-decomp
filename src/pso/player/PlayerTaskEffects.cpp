@@ -149,7 +149,7 @@ extern "C" {
 BOOL fn_801C6F2C(u8 *arg0);
 int has_water_ground_flag(void *p);
 int TObjPlayer__sub_801C7098(void* p);
-s32 get_contact_surface_type(s32 arg0);
+s32 get_contact_surface_type(saddr arg0);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_801C6FF8_lbl_804C4008 __vt__18TPlayerLobbyMarker;
 u8 *__ct__18TPlayerLobbyMarkerFP7TObjectsSc(u8 *arg0, u8 *arg1, s16 arg2, s8 arg3);
@@ -273,7 +273,7 @@ s32 TObjPlayer__sub_801C6DAC(u8 *arg0);
 
 
 extern "C" {
-s32 get_contact_surface_type(s32 arg0);
+s32 get_contact_surface_type(saddr arg0);
 }
 
 
@@ -519,7 +519,7 @@ TForceOperate::~TForceOperate() {}
 
 
 extern "C" {
-s32 get_contact_surface_type(s32 arg0) {
+s32 get_contact_surface_type(saddr arg0) {
     if (((s32)TObjPlayer__sub_801C7098((void*)arg0)) != 0) {
         return 1;
     }

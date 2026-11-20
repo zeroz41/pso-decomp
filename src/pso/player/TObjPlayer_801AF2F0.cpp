@@ -1836,18 +1836,18 @@ s8 get_class_index__10TObjPlayerFv(u8 *arg0);
 s8 TObjPlayer__sub_801AFDBC(s8 arg0);
 u8 is_key_machine_ready__10TObjPlayerFv(void);
 u8 is_lobby_floor_15__15TFontSmallLobbyFv(void);
-u8 is_on_current_floor__10TObjPlayerFi(s32 arg0);
+u8 is_on_current_floor__10TObjPlayerFi(saddr arg0);
 s32 TObjPlayer__sub_801AFFD0(u8 *arg0);
 void TObjPlayer__sub_801B0124(u8 *self, s32 arg1);
-void handle_6x8F_add_battle_damage_scores(s32 arg0);
-void apply_camera_shake__10TObjPlayerFiii(s32 arg0, s32 arg1, s32 arg2);
+void handle_6x8F_add_battle_damage_scores(saddr arg0);
+void apply_camera_shake__10TObjPlayerFiii(s32 arg0, saddr arg1, s32 arg2);
 void handle_6x8E(void);
 void record_damage_stats__10TOMineTrapFUiUis(u32 arg0, u32 arg1, s16 arg2);
 void draw_player_status(s32 arg0, void *arg1, s32 arg2);
 void show_sub_status_window(void *arg0, s32 *arg1, s32 *arg2);
 void draw_status_line(void *arg0, s32 *arg1, s32 *arg2, s32 arg3);
 int TObjPlayer__sub_801B066C(void* p);
-void handle_6x90_set_player_battle_team(s32 arg0);
+void handle_6x90_set_player_battle_team(saddr arg0);
 void check_flag_01000000__10TObjPlayerFPv(void *arg0);
 void handle_6x82_enable_drop_weapon_on_death(void *arg0);
 s32 TLobby__sub_801B07E0(s32 arg0, void * _w1);
@@ -1874,12 +1874,12 @@ void for_each_player_slot__10TObjPlayerFv(void (*arg0)(void *));
 s32 handle_set_visible__10TObjPlayerFi(s32 arg0);
 void TObjPlayer__sub_801B1BA4(void);
 void TObjPlayer__sub_801B1C8C(void);
-void handle_6x2F_change_player_hp(s32 arg0);
+void handle_6x2F_change_player_hp(saddr arg0);
 void send_6x2F_change_player_hp(s32 arg0, s32 arg1, s32 arg2);
-void handle_6x24_teleport_player(s32 arg0);
+void handle_6x24_teleport_player(saddr arg0);
 void send_6x24_teleport_player(u16 slot, void *pos, s32 heading);
 void TObjPlayer__sub_801B2014(s32 arg0);
-s32 check_flag30_bit20__10TObjPlayerFi(s32 arg0);
+s32 check_flag30_bit20__10TObjPlayerFi(saddr arg0);
 s32 is_flag30_10_set__10TObjPlayerFi(saddr arg0);
 s32 is_flag30_8_set__10TObjPlayerFi(saddr arg0);
 void remove_status_effect__10TObjPlayerFUiPv(uaddr, Pair_801B2C04 *);
@@ -1891,7 +1891,7 @@ s32 clear_negative_status_effects__10TObjPlayerFi(s32 arg0);
 void handle_6x0C_add_or_remove_status_effect(void *arg0);
 s32 calc_scaled_value__10TObjPlayerFii(s32 arg0, s32 arg1);
 void apply_speed_scale__10TObjPlayerFif(saddr arg0, f32 farg0);
-s32 build_player_class_stat_template(s32 arg0, s32 arg1);
+s32 build_player_class_stat_template(saddr arg0, saddr arg1);
 s32 build_player_equipment_requirement_stats(TObjPlayer *self, PlayerRequirementStats *arg1);
 int fn_801B309C(void* p);
 void prepare_guild_return__10TObjPlayerFPv(void *player);
@@ -1919,16 +1919,16 @@ void submit_target_to_player_cursor(void *target, s32 id);
 void fill_player_record__10TObjPlayerFPvPv(Src_801B4CE4 *src, Dst_801B4CE4 *dst);
 Obj_801B4FD8 * init_player_join_record(Obj_801B4FD8 *self);
 void handle_6x2D_release_hold(void *arg0);
-void handle_6x2C_impose_hold(s32 arg0);
+void handle_6x2C_impose_hold(saddr arg0);
 void send_6x2C_impose_hold(s32 arg0, Vec *pos, s16 arg2, s16 arg3, f32 radius);
 void play_effect_default__10TObjPlayerFii(s32 arg0, s32 arg1);
 void set_move_mode__10TObjPlayerFi(saddr arg0);
 int check_flag_100__10TObjPlayerFPv(void* p);
 void *TObjPlayer__sub_801B57E8(TObjPlayer *player);
 u8 TObjPlayer__sub_801BF6E4(void *p);
-s32 is_action_channel_available__10TObjPlayerFii(s32 arg0, s32 arg1);
+s32 is_action_channel_available__10TObjPlayerFii(saddr arg0, s32 arg1);
 void TObjPlayer__sub_801B5A44(saddr arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
-void TObjPlayer__sub_801B5AF8(s32 arg0, s32 arg1);
+void TObjPlayer__sub_801B5AF8(saddr arg0, s32 arg1);
 void damp_planar_velocity(P_801B5FB0 *p);
 void handle_6x2E_set_or_clear_player_flags(void *arg0);
 void spawn_level_change_feedback__10TObjPlayerFv(saddr arg0, s32 arg1);
@@ -1957,7 +1957,7 @@ void handle_6x29_delete_inventory_item(void *arg0);
 void send_6x29_delete_item__10TObjPlayerFPvii(void *obj, s32 a, s32 b);
 void * pickup_item__10TObjPlayerFP5TItem(u8 *arg0, u8 *arg1);
 s32 can_pickup_item__10TObjPlayerFP9TItemData(void *arg0, u8 *arg1);
-void can_pickup_item_by_id__10TObjPlayerFP5TItem(s32 arg0, s32 arg1);
+void can_pickup_item_by_id__10TObjPlayerFP5TItem(saddr arg0, saddr arg1);
 bool is_target_in_facing_cone__10TObjPlayerFPv(Obj_801B92EC *self, Vec *target);
 void unequip_item__10TObjPlayerFiPv(saddr arg0, void *arg1);
 void handle_6x26_unequip_item(void *arg0);
@@ -3631,7 +3631,7 @@ s32 TObjPlayer::can_inventory_accept_item(u8 *item) {
     return ((Player_801B91F0 *)this)->inv->count < 30;
 }
 
-void can_pickup_item_by_id__10TObjPlayerFP5TItem(s32 arg0, s32 arg1) {
+void can_pickup_item_by_id__10TObjPlayerFP5TItem(saddr arg0, saddr arg1) {
     s32 item_data[5];
 
     ((TItem *)arg1)->copy_to_item_data((TItemData *)item_data);
@@ -5060,7 +5060,7 @@ TObjPlayer::ActionPalette* TObjPlayer::select_action_palette(int secondary) {
 extern "C" {
 #pragma push
 #pragma fp_contract on
-void TObjPlayer__sub_801B5AF8(s32 arg0, s32 arg1) {
+void TObjPlayer__sub_801B5AF8(saddr arg0, s32 arg1) {
     TWindowActionPalette::get_slot_type_for_index((s32 *)(((TObjPlayer *)arg0)->refresh_effect()), (s32)arg1);
 }
 #pragma pop
@@ -5111,7 +5111,7 @@ void TObjPlayer::is_effect_channel_active(saddr arg0, s32 arg1) {
 
 #pragma push
 #pragma fp_contract on
-s32 is_action_channel_available__10TObjPlayerFii(s32 arg0, s32 arg1) {
+s32 is_action_channel_available__10TObjPlayerFii(saddr arg0, s32 arg1) {
     if (arg1 == 1) {
         if (((s32 (*)(void))is_flag_400_set__10TObjPlayerFPv)() != 0) {
             return 1;
@@ -5292,7 +5292,7 @@ void send_6x2C_impose_hold(s32 arg0, Vec *pos, s16 arg2, s16 arg3, f32 radius) {
     }
 }
 
-void handle_6x2C_impose_hold(s32 arg0) {
+void handle_6x2C_impose_hold(saddr arg0) {
     Pkt_801B5254 pkt;
     saddr player;
     ((TObjPlayer *)(&pkt))->build_6x2C_impose_hold_packet();
@@ -6205,7 +6205,7 @@ s32 build_player_equipment_requirement_stats(TObjPlayer *self, PlayerRequirement
 
 #pragma push
 #pragma scheduling off
-s32 build_player_class_stat_template(s32 arg0, s32 arg1) {
+s32 build_player_class_stat_template(saddr arg0, saddr arg1) {
   void *new_var;
   unsigned int new_var2;
   s32 temp_r30;
@@ -6466,7 +6466,7 @@ s32 is_flag30_10_set__10TObjPlayerFi(saddr arg0) {
     return 0;
 }
 
-s32 check_flag30_bit20__10TObjPlayerFi(s32 arg0) {
+s32 check_flag30_bit20__10TObjPlayerFi(saddr arg0) {
     if (((s32 (*)(void))reset_volopt_state__10TObjPlayerFv)() != 0) {
         return ((TObjCollidable *)arg0)->obj_testFlags30(0x20);
     }
@@ -6624,7 +6624,7 @@ void send_6x24_teleport_player(u16 slot, void *pos, s32 heading) {
     }
 }
 
-void handle_6x24_teleport_player(s32 arg0) {
+void handle_6x24_teleport_player(saddr arg0) {
     Pkt_801B1EE0 pkt;
     uaddr player;
     ((TObjPlayer *)(&pkt))->init_cmd_6x24();
@@ -6661,7 +6661,7 @@ void send_6x2F_change_player_hp(s32 arg0, s32 arg1, s32 arg2) {
     }
 }
 
-void handle_6x2F_change_player_hp(s32 arg0) {
+void handle_6x2F_change_player_hp(saddr arg0) {
     Pkt_801B1D8C pkt;
     uaddr player;
     ((TObjPlayer *)(&pkt))->init_6x2F_packet_header();
@@ -7374,7 +7374,7 @@ void check_flag_01000000__10TObjPlayerFPv(void *player) {
     ((TObjPlayer *)player)->check_flag(0x01000000);
 }
 
-void handle_6x90_set_player_battle_team(s32 arg0) {
+void handle_6x90_set_player_battle_team(saddr arg0) {
     struct Cmd_801B0690 cmd;
     u8 *p;
     s32 team;
@@ -7485,13 +7485,13 @@ void record_damage_stats__10TOMineTrapFUiUis(u32 arg0, u32 arg1, s16 arg2) {
 
 void handle_6x8E(void) {  }
 
-void apply_camera_shake__10TObjPlayerFiii(s32 arg0, s32 arg1, s32 arg2) {
+void apply_camera_shake__10TObjPlayerFiii(s32 arg0, saddr arg1, s32 arg2) {
     if ((((s32 (*)(void))is_technique_ready__8TTecCtrlFv)() != 0) && (((TObjCollidable *)arg1)->obj_testFlags30(0x10000000) == 0) && (((s32 (*)(s32))is_locally_controlled__10TObjPlayerFPv)(arg0) != 0)) {
         accumulate_damage_stats(arg0 + 0x78C, arg1, arg2);
     }
 }
 
-void handle_6x8F_add_battle_damage_scores(s32 arg0) {
+void handle_6x8F_add_battle_damage_scores(saddr arg0) {
     Pkt_801B01AC pkt;
     u8 *player;
     u8 *target;
@@ -7552,7 +7552,7 @@ void TObjPlayer::sync_current_floor() {
     this->current_floor = get_current_floor();
 }
 
-u8 is_on_current_floor__10TObjPlayerFi(s32 arg0) {
+u8 is_on_current_floor__10TObjPlayerFi(saddr arg0) {
     s32 current_floor;
     s32 temp_r3;
     current_floor = get_current_floor();
