@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "versions.h"
 #include "pso/unk/TUnk_804999D0.h"
 #include "pso/unk/TUnk_804999B8.h"
 #include "pso/unk/TUnk_804999A0.h"
@@ -377,6 +378,7 @@ void TUnk_80499970::render() {
     TCameraCtrl__sub_80068EF0();
 }
 
+#if VERSION != VERSION_GPOP8P
 #pragma push
 #pragma scheduling off
 u32 prs_decompress_buffer(s32 arg0, s32 arg1) {
@@ -418,3 +420,4 @@ u32 prs_decompress_buffer(s32 arg0, s32 arg1) {
   return var_r3;
 }
 #pragma pop
+#endif

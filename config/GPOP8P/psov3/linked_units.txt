@@ -2148,6 +2148,7 @@ pso/audio/AdxtServer.cpp
 TRK_MINNOW_DOLPHIN/nubinit.c
 pso/ui/window/TWindowPartyStatus.cpp
 gx/GXFrameBuf.c
+pso/unk/text_800F7DAC.cpp
 pso/technique/TTecGiFoie.cpp
 pso/ui/window/TWindowSnapShot_802A5B2C.cpp
 pso/enemy/panarms/TObjEnePanarms.cpp
@@ -2211,6 +2212,7 @@ pso/player/TObjPlayer_803E2810.cpp
 pso/ui/charcreate/TObjCMProportion.cpp
 pso/unk/TLobby_80226C3C.cpp
 pso/network/TLobby_8041112C.c
+pso/unk/text_800F7D30.cpp
 pso/boss/barbaray/Boss7TentacleData.cpp
 pso/boss/darkfalz/TBoss4Type2_800522CC.cpp
 pso/enemy/shinowa/ShinowaData.cpp
@@ -2323,3 +2325,4 @@ pso/ui/window/WindowSubStatusDispSdata2.cpp
 pso/unk/TLobbyBattleParamData.cpp
 pso/unk/TUnk_804CF998.cpp
 pso/weapon/WeaponAttackActionData.cpp
+pso/unk/data_80499D10.cpp
