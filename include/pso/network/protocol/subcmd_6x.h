@@ -878,7 +878,12 @@ struct G_TriggerTrap_6x80 {
  struct G_ClientIDHeader header;
  u16 trap_number;
  u16 what;
+ void init();
+ void bswap();
+ void send();
 };
+
+typedef char TriggerTrapPacketSize[sizeof(G_TriggerTrap_6x80) == 8 ? 1 : -1];
 
 struct G_TurnOrMoveLobbyChair_6xAF_6xB0 {
  struct G_ClientIDHeader header;
