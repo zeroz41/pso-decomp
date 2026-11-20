@@ -372,7 +372,7 @@ TObjEneRe2Flower::TObjEneRe2Flower(TObject *parent, void *setData) : TObjEneDD_S
     if (get_flag_11()) {
         set_state_8();
     } else {
-        check_state_flag_2();
+        set_state_flag_2();
     }
     movementParameters = &TObjEneRe2Flower__setup_data;
     if (get_flag_11()) {

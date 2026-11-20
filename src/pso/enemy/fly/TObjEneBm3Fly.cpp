@@ -139,7 +139,7 @@ void TObjEneBm3Fly::init_child_params() {
     set_animation(this->requested_action);
     set_field_b8(this->requested_action);
     this->reset_hp(bm3_fly_boss_stat_handle, (u8 *)TObjEneBm3Fly__attack_params, lbl_805D50E8);
-    check_state_flag_1();
+    set_state_flag_1();
     this->movementParameters = &bm3_fly_decision_row;
     this->initialize_enemy_state(3);
     this->m_37c = (5.0f);

@@ -142,7 +142,7 @@ TObjEneEpsilonBody::TObjEneEpsilonBody(TObject *parent, void *set_data) : TObjEn
     set_animation(requested_action);
     set_field_b8(requested_action);
     reset_hp(lbl_805D6F80, lbl_805D6F84, lbl_805D6F88);
-    check_state_flag_4();
+    set_state_flag_4();
     movementParameters = &lbl_804F2250;
     m_37c = 10.0f;
     enemy_init_acquire_period(30);

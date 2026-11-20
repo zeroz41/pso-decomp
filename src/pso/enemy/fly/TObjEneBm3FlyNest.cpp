@@ -306,7 +306,7 @@ TObjEneBm3FlyNest::TObjEneBm3FlyNest(TObject *parent, Bm3FlyNestSetData *set_dat
     set_animation(requested_action);
     set_field_b8(requested_action);
     reset_hp(lbl_805D50F8, lbl_805D50FC, lbl_805D5100);
-    check_state_flag_1();
+    set_state_flag_1();
     movementParameters = &bm3_fly_nest_params;
     initialize_enemy_state(4);
     unk_37c = 10.0f;

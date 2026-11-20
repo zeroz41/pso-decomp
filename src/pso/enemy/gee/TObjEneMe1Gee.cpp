@@ -254,7 +254,7 @@ void TObjEneMe1Gee::init_state() {
     set_animation(this->requested_action);
     this->set_field_b8(this->requested_action);
     this->reset_hp((u8 *)gee_boss_stat_handle_table[this->m_3c4], (u8 *)gee_shared_handler_b_table[this->m_3c4], (u8 *)gee_object_handle_table[this->m_3c4]);
-    this->check_state_flag_1();
+    this->set_state_flag_1();
     this->movementParameters = &me1_gee_init_params;
     this->initialize_enemy_state(0x36);
     this->m_37c = 10.0f;

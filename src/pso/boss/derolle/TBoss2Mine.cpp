@@ -142,7 +142,7 @@ void init__10TBoss2MineFPvi(TBoss2Mine *self, s32 variant) {
     self->reset_hp((u8 *)TLobby::register_boss(boss2_mine_params[variant]),
                    (u8 *)TLobby::dispatch_shared_handler_b(lbl_80482C90[variant]),
                    (u8 *)TLobby::register_object(lbl_80482C98[variant]));
-    self->check_state_flag_2();
+    self->set_state_flag_2();
     self->movementParameters = &lbl_80482CA0[variant];
     self->m_37c = 3.0f;
     self->vfunc_95();

@@ -343,7 +343,7 @@ void TObjEneMe3Shinowa::init_enemy() {
         s32 i = m_3c0;
         reset_hp((u8 *)a[i], (u8 *)b[i], (u8 *)c[i]);
     }
-    check_state_flag_4();
+    set_state_flag_4();
     movementParameters = &TObjEneMe3ShinowaMirage__init_params;
     m_37c = 10.0f;
     enemy_init_acquire_period(0x1E);

@@ -1235,11 +1235,11 @@ void TObjEneDD::send_damage_message(s32 arg0, u8 *arg1) {
     ((VObj_18_0c879f *)(arg1))->m21(arg0, &stack.sp8, 0, -1, -1);
 }
 
-void TObjEneDD::check_state_flag_1() { add_flags_2e4(1); }
+void TObjEneDD::set_state_flag_1() { add_flags_2e4(1); }
 
-void TObjEneDD::check_state_flag_2() { add_flags_2e4(2); }
+void TObjEneDD::set_state_flag_2() { add_flags_2e4(2); }
 
-void TObjEneDD::check_state_flag_4() { add_flags_2e4(4); }
+void TObjEneDD::set_state_flag_4() { add_flags_2e4(4); }
 
 void TObjEneDD::set_state_8() { add_flags_2e4(8); }
 

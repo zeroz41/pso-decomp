@@ -250,7 +250,7 @@ TLoadingCur::~TLoadingCur() {
 #pragma push
 #pragma fp_contract on
 #define object ((u8 *)this)
-TLoadingCur::TLoadingCur(TObject *parent) : TObject(parent) {
+TLoadingCur::TLoadingCur(TObject *parent, Vec *pos) : TObject(parent) {
     typedef char sp8_offset[(offsetof(Stack_8001D0A0, sp8) == 0x0) ? 1 : -1];
     typedef char spC_offset[(offsetof(Stack_8001D0A0, spC) == 0x4) ? 1 : -1];
     typedef char sp10_offset[(offsetof(Stack_8001D0A0, sp10) == 0x8) ? 1 : -1];

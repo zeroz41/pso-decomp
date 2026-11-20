@@ -348,7 +348,7 @@ void TObjEneMe3StelthReal::init_common() {
     set_animation(requested_action);
     v = m_3c8;
     reset_hp((u8 *)TObjEneMe3Stelth__base_params_by_variant[v], (u8 *)TObjEneMe3Stelth__attack_params_by_variant[v], (u8 *)TObjEneMe3Stelth__resistance_params_by_variant[v]);
-    check_state_flag_4();
+    set_state_flag_4();
     movementParameters = TObjEneMe3Stelth__shared_params;
     m_37c = 10.0f;
     enemy_init_acquire_period(0x1E);

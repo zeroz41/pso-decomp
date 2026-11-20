@@ -63,9 +63,9 @@ struct TObjEneDD : public TObjEnemy {
     s32 get_random_scaled();
     f32 rand_range(f32 farg0, f32 farg1);
     void set_state_8();
-    void check_state_flag_4();
-    void check_state_flag_2();
-    void check_state_flag_1();
+    void set_state_flag_4();
+    void set_state_flag_2();
+    void set_state_flag_1();
     static void send_damage_message(s32 arg0, u8 *arg1);
     static void inflict_poison(s32 arg0, u8 *arg1);
     void emit_effect_at_position(void* a1);

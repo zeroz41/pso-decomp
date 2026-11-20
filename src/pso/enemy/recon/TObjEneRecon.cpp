@@ -1766,7 +1766,7 @@ void TObjEneRecon::init_state() {
     ((TObjMotion *)arg0)->set_animation((this->requested_action));
     ((TObjMotion *)arg0)->set_field_b8((int) (this->requested_action));
     ((TObjEneDD *)arg0)->reset_hp((u8 *)lbl_805D6AF0, (u8 *)TObjEneRecon__attack_params, (u8 *)TObjEneRecon__resistance_params);
-    ((TObjEneDD *)arg0)->check_state_flag_4();
+    ((TObjEneDD *)arg0)->set_state_flag_4();
     *(void **)((s8 *)arg0 + 0x350) = (void *) TObjEneRecon__ai_parameters;
     ((TObjEneDD *)arg0)->initialize_enemy_state(0x44);
     *(f32 *)((s8 *)arg0 + 0x37C) = 5.0f;

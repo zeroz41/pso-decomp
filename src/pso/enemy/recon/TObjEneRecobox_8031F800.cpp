@@ -839,7 +839,7 @@ u8 *TObjEneRecobox__ct(u8 *ene_recobox, s32 arg1, u8 *set_data) {
     ((TObjMotion *)ene_recobox)->set_animation(((TObjEneRecobox *)ene_recobox)->requested_action);
     ((TObjMotion *)ene_recobox)->set_field_b8(((TObjEneRecobox *)ene_recobox)->requested_action);
     ((TObjEneDD *)ene_recobox)->reset_hp((u8 *)recobox_boss_register_id, (u8 *)lbl_805D6B14, (u8 *)TObjEneRecobox__shared_object_handle);
-    ((TObjEneDD *)ene_recobox)->check_state_flag_4();
+    ((TObjEneDD *)ene_recobox)->set_state_flag_4();
     *(u8 * *)&((TObjEneRecobox *)ene_recobox)->movementParameters = TObjEneRecobox__attack_params;
     ((TObjEneDD *)ene_recobox)->initialize_enemy_state(0x43);
     ((TObjEneRecobox *)ene_recobox)->m_37c = 10.0f;

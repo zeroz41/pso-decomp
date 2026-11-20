@@ -143,7 +143,7 @@ s32 TBoss7Joint::init_params() {
     reset_hp((u8 *)(TLobby::register_boss(0x10)), (u8 *)(TLobby::dispatch_shared_handler_b(0xF)), (u8 *)(TLobby::register_object(0x10)));
     this->hp = 0x4E20;
     this->hpmax = 0x4E20;
-    check_state_flag_2();
+    set_state_flag_2();
     *(Boss7JointParams **)((s8 *)this + 0x350) = &boss7_joint_params;
     this->referenceHp = this->hpmax;
     *(f32 *)((s8 *)this + 0x37C) = 3.0f;

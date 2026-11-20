@@ -1553,7 +1553,7 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     this->set_animation(this->requested_action);
     this->set_field_b8(this->requested_action);
     reset_hp((u8 *)(TLobby::register_boss(0x12)), (u8 *)(TBoss8Dragon__data_80541DC8[TBoss8Dragon__data_804E4C28[0]]), (u8 *)(TLobby::register_object(0x12)));
-    this->check_state_flag_1();
+    this->set_state_flag_1();
     *(u8 **)((s8 *)this + 0x350) = lbl_804E4C3C;
     initialize_enemy_state(0x4C);
     this->m_37c = 20.0f;

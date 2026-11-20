@@ -38,7 +38,6 @@ const char *TNowLoading__class_name = "TNowLoading";
 void DCFlushRange(void *, u32);
 void TNowLoading__sub_8001D4D0(void);
 void TNowLoading__sub_8001D4D4(void);
-void *__ct__11TLoadingCurFP7TObject(void *, TObject *, Vec *);
 
 void TNowLoading::render() {  }
 
@@ -132,10 +131,7 @@ TNowLoading::TNowLoading(TObject *parent, Vec *arg2) : TObject(parent) {
     self->children[2] = NULL;
     self->children[3] = NULL;
     new TAdLoadNetworkGC(this, &self->pos);
-    void *p = TObject::operator new(0x5C);
-    if (p != NULL) {
-        __ct__11TLoadingCurFP7TObject(p, this, &self->pos);
-    }
+    new TLoadingCur(this, &self->pos);
 }
 #undef self
 #pragma pop

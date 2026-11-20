@@ -665,7 +665,7 @@ extern s32 lbl_805D5028;
 
 void TObjPlayer__sub_8023DEE0(s16 *p, s16 a, s16 b, u16 id);
 
-// The death-fade object at +0x408 keeps its vtable pointer at +0x14.
+// The death-fade object (its vtable pointer follows a 0x14-byte header).
 struct VObj_14_800A1C84 {
     u8 pad[0x14];
     virtual void m0();

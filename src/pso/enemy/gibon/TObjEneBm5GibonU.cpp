@@ -2678,7 +2678,7 @@ TObjEneBm5GibonU *TObjEneBm5GibonU__ct(TObjEneBm5GibonU *self, s32 arg1, s32 set
     self->set_field_b8(self->requested_action);
     b = self->m_464 ? 1 : 0;
     ((TObjEneDD *)self)->reset_hp((u8 *)((s32)TObjEneBm5GibonU__data_80500E78[b]), (u8 *)(lbl_80500E80[b]), (u8 *)(lbl_80500E88[b]));
-    self->check_state_flag_1();
+    self->set_state_flag_1();
     self->movementParameters = &TObjEneBm5GibonU__movement_parameters;
     if (self->m_464 != 0) {
         ((TObjEneDD *)self)->initialize_enemy_state(0x3C);

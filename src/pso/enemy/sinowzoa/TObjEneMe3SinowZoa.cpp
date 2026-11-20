@@ -334,7 +334,7 @@ void TObjEneMe3SinowZoaReal::init_enemy() {
     set_animation((this->requested_action));
     kind = this->m_3c8;
     reset_hp(lbl_80542FBC[kind], lbl_80542FC4[kind], lbl_80542FCC[kind]);
-    this->check_state_flag_4();
+    this->set_state_flag_4();
     movementParameters = &TObjEneMe3SinowZoa_init_params;
     this->m_37c = TObjEneMe3SinowZoa__data_805DF314;
     enemy_init_acquire_period(0x1E);

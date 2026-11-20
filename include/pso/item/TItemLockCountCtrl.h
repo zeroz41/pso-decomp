@@ -4,7 +4,7 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
-// Callbacks the controller stores at +0x24/+0x28 (TItemTimerEvent::notify_if_active(int) and check_battle_ctrl(int)).
+// The controller's two callbacks (TItemTimerEvent::notify_if_active(int) and check_battle_ctrl(int)).
 typedef void (*TItemLockCountCallback)(int);
 
 class TItemLockCountCtrl : public TObject {

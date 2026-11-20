@@ -338,7 +338,7 @@ TObjEneBm5Wolf::TObjEneBm5Wolf(TObject *parent, void *set_data) : TObjEneDD_ST(p
     set_field_b8(requested_action);
     n = m_3d8;
     reset_hp((u8 *)TObjEneBm5Wolf__stat_params[n != 0], (u8 *)wolf_stat_handle_a_table[n != 0], (u8 *)wolf_stat_handle_b_table[n != 0]);
-    check_state_flag_1();
+    set_state_flag_1();
     movementParameters = bm5_wolf_decision_row;
     if (m_3d8 != 0) {
         initialize_enemy_state(8);

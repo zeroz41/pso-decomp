@@ -115,11 +115,7 @@ CollisionBody TBoss1DragonColli_sphere_chain_desc = {
 
 #pragma push
 #pragma scheduling off
-// *dst = *src. In the original this is the compiler-generated CollisionBody
-// assignment, emitted unscheduled the way CodeWarrior 1.3.2 does (this TU
-// compiles identically under 1.3.2 with `*e = desc` left to the compiler);
-// it is a named function here because the 2.6 TUs that call it must not
-// emit copies of their own.
+// Copies one collision body.
 void copy_collision_body(CollisionBody *dst, const CollisionBody *src) {
     *dst = *src;
 }

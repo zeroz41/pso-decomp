@@ -4833,7 +4833,7 @@ TBoss5Gryphon *TBoss5Gryphon__ct(TBoss5Gryphon *self, void *parent, void *data) 
     self->set_animation(self->requested_action);
     self->set_field_b8(self->requested_action);
     ((TObjEneDD *)self)->reset_hp((u8 *)(boss5_gryphon_base_params[*(s32 *)lbl_80487890]), (u8 *)(boss5_gryphon_attack_params[*(s32 *)lbl_8048789C]), (u8 *)(boss5_gryphon_resistance_params[*(s32 *)lbl_804878A8]));
-    self->check_state_flag_2();
+    self->set_state_flag_2();
     *(void **)((u8 *)self + 0x350) = lbl_804878B4;
     ((TObjEneDD *)self)->initialize_enemy_state(77);
     self->m_37c = 20.0f;

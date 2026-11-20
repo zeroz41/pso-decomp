@@ -415,7 +415,7 @@ s32 TBoss2Joint::init_params() {
     ((TObjEneDD *)self)->reset_hp((u8 *)((s32)TLobby::register_boss(prm->unk0)), (u8 *)((s32)TLobby::dispatch_shared_handler_b(prm->unk8)), (u8 *)((s32)TLobby::register_object(prm->unk10)));
     self->hp32C = 0x4E20;
     self->hp2B8 = 0x4E20;
-    ((TObjEneDD *)self)->check_state_flag_2();
+    ((TObjEneDD *)self)->set_state_flag_2();
     self->unk350 = prm->unk18;
     self->unk33E = self->hp2B8;
     self->unk37C = 3.0f;

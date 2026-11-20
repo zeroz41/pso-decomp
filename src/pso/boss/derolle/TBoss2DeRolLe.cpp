@@ -3081,7 +3081,7 @@ void *TBoss2DeRolLe__ct(void *arg0, void *arg1, void *arg2) {
     ((TObjMotion *)self)->set_animation(((TBoss2DeRolLe *)self)->requested_action);
     ((TObjMotion *)self)->set_field_b8(((TBoss2DeRolLe *)self)->requested_action);
     ((TObjEneDD *)self)->reset_hp((u8 *)TBoss2DeRolLe__base_params, (u8 *)(((s32 *)TBoss2DeRolLe__attack_params_table)[0]), (u8 *)TBoss2DeRolLe__resistance_params);
-    ((TObjEneDD *)self)->check_state_flag_2();
+    ((TObjEneDD *)self)->set_state_flag_2();
     ((TBoss2DeRolLe *)self)->movementParameters = (u8 *)lbl_8048228C;
     ((TObjEneDD *)self)->initialize_enemy_state(0x2D);
     ((TBoss2DeRolLe *)self)->m_37c = 20.0f;

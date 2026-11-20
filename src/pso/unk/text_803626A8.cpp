@@ -94,7 +94,7 @@ const char *TObjEneEpsilon__class_name = "TObjEneEpsilon";
 
 TObjEneEpsilon::TObjEneEpsilon(TObject *parent) : TObjEneDD_ST(parent) {
     m_name = TObjEneEpsilon__class_name;
-    check_state_flag_4();
+    set_state_flag_4();
 }
 
 TObjEneEpsilon::~TObjEneEpsilon() {}

@@ -849,7 +849,7 @@ void TObjEneEpsilonGuard::init_model_and_state() {
     set_field_b8(requested_action);
     reset_hp((u8 *)epsilon_guard_boss_stat_handle, (u8 *)epsilon_guard_shared_handler_b, (u8 *)epsilon_guard_registered_object_handle);
     set_indexed_flags(0, 0x80020);
-    check_state_flag_4();
+    set_state_flag_4();
     movementParameters = &epsilon_guard_params;
     initialize_enemy_state(0x57);
     VecCopy(&effect_anchor, &position);

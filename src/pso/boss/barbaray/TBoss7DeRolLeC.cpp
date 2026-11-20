@@ -1395,7 +1395,7 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
     requested_action = 0;
     set_animation(requested_action);
     set_field_b8(requested_action);
-    check_state_flag_2();
+    set_state_flag_2();
     movementParameters = &lbl_804E3C8C;
     initialize_enemy_state(0x49);
     unk_37C = 20.0f;

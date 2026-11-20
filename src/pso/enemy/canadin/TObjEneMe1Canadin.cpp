@@ -395,7 +395,7 @@ void TObjEneMe1Canadin::setup_enemy() {
     set_animation(requested_action);
     set_field_b8(requested_action);
     reset_hp((u8 *)lbl_80500930[m_3C4], (u8 *)lbl_8050093C[m_3C4], (u8 *)lbl_80500948[m_3C4]);
-    check_state_flag_4();
+    set_state_flag_4();
     movementParameters = &canadin_setup_param_block;
     initialize_enemy_state(0x1C);
     m_37C = 10.0f;
