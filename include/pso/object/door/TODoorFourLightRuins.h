@@ -5,7 +5,7 @@
 #include "pso/object/door/TODoorBase.h"
 
 struct TODoorFourLightRuins : public TODoorBase {
-    TODoorFourLightRuins(s32, s32);
+    TODoorFourLightRuins(saddr, saddr);
     virtual ~TODoorFourLightRuins();
     virtual s32 init_door_switch_binding();
     virtual void update_door_switch_state();

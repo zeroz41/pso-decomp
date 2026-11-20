@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjChara.h"
 
 struct TOAttackableCol : public TObjChara {
-    TOAttackableCol(s32);
+    TOAttackableCol(saddr);
     virtual ~TOAttackableCol();
     virtual void vfunc_6(s16 *, s32);
     virtual s32 roll_physical_accuracy(void *, s32, f32);

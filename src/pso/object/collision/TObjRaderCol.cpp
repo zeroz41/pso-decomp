@@ -49,7 +49,7 @@ TObjRaderCol::~TObjRaderCol() {
 }
 
 extern "C" {
-u8 *TObjRaderCol__ct(TObjRaderCol *rader_col, s32 arg1, s32 arg2) {
+u8 *TObjRaderCol__ct(TObjRaderCol *rader_col, saddr arg1, saddr arg2) {
     __ct__8TObjBaseFP7TObject(rader_col);
     *(s32 **)((s8 *)rader_col + 0x18) = __vt__12TObjRaderCol;
     ((TObjRaderCol *)rader_col)->m_name = TObjRaderCol__name;

@@ -288,7 +288,7 @@ TObjLaboDesignBase::~TObjLaboDesignBase() {
     free_collision_body_parts(this);
 }
 
-u8 *TObjLaboDesignBase__ct(u8 *player, s32 arg1, s32 arg2, s32 arg3) {
+u8 *TObjLaboDesignBase__ct(u8 *player, saddr arg1, saddr arg2, s32 arg3) {
     struct CopyStack_80365210 { u8 bytes[0x3C]; };
     CopyStack_80365210 copy_storage_80365210;
     s32 temp_r0;

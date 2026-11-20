@@ -20,7 +20,7 @@ s32 TItemList__sub_801D5854(s32, s32);
 s32 copy_item_data__9TItemListFv(s32, s32);
 s32 create_node__9TItemListFPvPvPvSc(s32, s32, s32, s32);
 
-void insert_item_node__10TObjPlayerFiiiii(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+void insert_item_node__10TObjPlayerFiiiii(saddr arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     saddr temp_r31;
     saddr temp_r30;
 

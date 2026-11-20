@@ -7,7 +7,7 @@
 // until the charge ends.
 class TUnk_804CCAC8 : public TObject {
 public:
-    TUnk_804CCAC8(s32 actor, s32 parent);
+    TUnk_804CCAC8(saddr actor, saddr parent);
     virtual ~TUnk_804CCAC8();
     virtual void run_task();
     void *actor;

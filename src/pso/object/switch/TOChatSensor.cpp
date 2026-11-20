@@ -135,7 +135,7 @@ u32 TOChatSensor__create(saddr arg0) {
     return 0U;
 }
 
-void TOChatSensor::dispatch_chat_message_to_children(s32 arg0) {
+void TOChatSensor::dispatch_chat_message_to_children(saddr arg0) {
     void *var_r31;
     if (TOChatSensorFolder__instance != 0U) {
         var_r31 = *(void **)((s8 *)TOChatSensorFolder__instance + 0x14);

@@ -5,7 +5,7 @@
 #include "pso/system/task/TObject.h"
 
 struct TObjBgmColCtrl : public TObject {
-    TObjBgmColCtrl(s32 parent);
+    TObjBgmColCtrl(saddr parent);
     virtual ~TObjBgmColCtrl();
     u32 m_1c;
     static void play_lobby_theme_music();

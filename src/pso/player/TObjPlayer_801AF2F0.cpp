@@ -1814,7 +1814,7 @@ void play_voice_pair__10TObjPlayerFPv(TObjPlayer *arg0);
 int TObjPlayer__sub_801AF694(void* p);
 void set_flags_a00__10TObjPlayerFPv(void *arg0);
 void TObjPlayer__sub_801AF904(s32 arg0);
-void clamp_stats__10TObjPlayerFiPv(s32 arg0, void *arg1);
+void clamp_stats__10TObjPlayerFiPv(saddr arg0, void *arg1);
 s32 TObjPlayer__sub_801AFD8C(u8 *arg0);
 s8 get_class_index__10TObjPlayerFv(u8 *arg0);
 s8 TObjPlayer__sub_801AFDBC(s8 arg0);
@@ -1827,7 +1827,7 @@ void handle_6x8F_add_battle_damage_scores(saddr arg0);
 void apply_camera_shake__10TObjPlayerFiii(s32 arg0, saddr arg1, s32 arg2);
 void handle_6x8E(void);
 void record_damage_stats__10TOMineTrapFUiUis(u32 arg0, u32 arg1, s16 arg2);
-void draw_player_status(s32 arg0, void *arg1, s32 arg2);
+void draw_player_status(saddr arg0, void *arg1, s32 arg2);
 void show_sub_status_window(void *arg0, s32 *arg1, s32 *arg2);
 void draw_status_line(void *arg0, s32 *arg1, s32 *arg2, s32 arg3);
 int TObjPlayer__sub_801B066C(void* p);
@@ -1862,7 +1862,7 @@ void handle_6x2F_change_player_hp(saddr arg0);
 void send_6x2F_change_player_hp(s32 arg0, s32 arg1, s32 arg2);
 void handle_6x24_teleport_player(saddr arg0);
 void send_6x24_teleport_player(u16 slot, void *pos, s32 heading);
-void TObjPlayer__sub_801B2014(s32 arg0);
+void TObjPlayer__sub_801B2014(saddr arg0);
 s32 check_flag30_bit20__10TObjPlayerFi(saddr arg0);
 s32 is_flag30_10_set__10TObjPlayerFi(saddr arg0);
 s32 is_flag30_8_set__10TObjPlayerFi(saddr arg0);
@@ -6591,7 +6591,7 @@ void TObjPlayer::sync_status_effect_flags() {
     }
 }
 
-void TObjPlayer__sub_801B2014(s32 arg0) {
+void TObjPlayer__sub_801B2014(saddr arg0) {
     Item_801B2014 item;
     item.val = TObjPlayer__data_805DC278;
     if (((TObjCollidable *)arg0)->obj_testFlags30(1) != 0) {
@@ -7439,7 +7439,7 @@ void show_sub_status_window(void *arg0, s32 *str, s32 *arg2) {
     TWindowCtrl::init_all((void*)(get_shared_text_buffer()), (void*)0x200);
 }
 
-void draw_player_status(s32 arg0, void *arg1, s32 arg2) {
+void draw_player_status(saddr arg0, void *arg1, s32 arg2) {
     saddr temp_r3;
 
     temp_r3 = (saddr)((TUnk_804B6C24 *)arg1)->get_name();
@@ -7662,7 +7662,7 @@ f32 TObjPlayer::receive_physical_attack(void *attacker, f32 scale) {
     return TObjChara::receive_physical_attack(attacker, scale);
 }
 
-void clamp_stats__10TObjPlayerFiPv(s32 arg0, void *arg1) {
+void clamp_stats__10TObjPlayerFiPv(saddr arg0, void *arg1) {
     s16 temp_r0;
     s16 temp_r0_2;
     s16 temp_r0_3;

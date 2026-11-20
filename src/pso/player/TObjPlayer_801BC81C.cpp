@@ -74,7 +74,7 @@ void clamp_and_set_unit_value__10TObjPlayerFiUci(void *, u8, s16);
 void TObjPlayer__sub_801D955C(void *, s32);
 void init_session_technique_caps__10TObjPlayerFPvPv(Player_801BC948 *self, Src_801BC948 *src);
 
-void TObjPlayer__sub_801BC8F0(s32 arg0) {
+void TObjPlayer__sub_801BC8F0(saddr arg0) {
     TObjPlayer__sub_801BF9E0((void *)(arg0 + 0x634), (int) (get_entity_id((void *)arg0)));
     ((TObjPlayer *)(arg0 + 0x384))->update_follow_particle(arg0);
     set_field2_s16((void *)(arg0 + 0x34C), (void *) (get_entity_id((void *)arg0)));

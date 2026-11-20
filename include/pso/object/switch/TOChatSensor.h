@@ -20,7 +20,7 @@ struct TOChatSensor : public TObjBase {
     uaddr m_c4;
     u32 m_c8;
     u32 m_cc;
-    static void dispatch_chat_message_to_children(s32 arg0);
+    static void dispatch_chat_message_to_children(saddr arg0);
     static void destroy_global();
     void check_player_proximity();
     void set_trigger_text(void *arg1);

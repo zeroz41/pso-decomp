@@ -24,7 +24,7 @@ TUnk_804CC794::~TUnk_804CC794() {
     stop_sound_request(m_sound_handle);
 }
 
-TUnk_804CC794::TUnk_804CC794(s32 arg1, s32 arg2) : TObject((TObject *)((void *)arg2)) {
+TUnk_804CC794::TUnk_804CC794(s32 arg1, saddr arg2) : TObject((TObject *)((void *)arg2)) {
     *(s32 *)((s8 *)this + 0x1C) = arg1;
     VecCopy((Vec *)(((u8 *)this) + 0x20), (const Vec *)(*(saddr *)((s8 *)this + 0x1C) + 0x2FC));
     this->m_age = 0;

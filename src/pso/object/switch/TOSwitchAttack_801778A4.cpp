@@ -154,7 +154,7 @@ void TOSwitchAttack::run_task() {
         case 11: case 12: case 13: case 14: case 15: case 16: case 17:
         case 18: case 19: case 20:
             if (o->f14 == 0) {
-                TOSwitchAttack::create_sub((s32)o, o->fA2, o->fA0, o->fA7 - 3, o->f90);
+                TOSwitchAttack::create_sub((saddr)o, o->fA2, o->fA0, o->fA7 - 3, o->f90);
             }
             break;
         }

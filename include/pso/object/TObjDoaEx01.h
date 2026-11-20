@@ -5,7 +5,7 @@
 #include "pso/object/door/TODoorBase.h"
 
 struct TObjDoaEx01 : public TODoorBase {
-    TObjDoaEx01(s32, s32);
+    TObjDoaEx01(saddr, saddr);
     virtual ~TObjDoaEx01();
     virtual void update_closing();
     virtual void update_open();

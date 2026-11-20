@@ -59,7 +59,7 @@ TObjMistCtrl::~TObjMistCtrl() {
 }
 
 
-TObjMistCtrl::TObjMistCtrl(s32 parent, u32 arg2) : TObjBase((TObject *)((void *)parent)) {
+TObjMistCtrl::TObjMistCtrl(saddr parent, uaddr arg2) : TObjBase((TObject *)((void *)parent)) {
     this->m_name = lbl_805D3E80;
     if (arg2 != 0U) {
         ((TObjMistCtrl *)(((u8 *)this)))->apply_object_set_data((void *)arg2);

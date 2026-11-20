@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TOSwitchTimer : public TObjBase {
-    TOSwitchTimer(s32, s32);
+    TOSwitchTimer(saddr, saddr);
     virtual ~TOSwitchTimer();
     void sub_801782A0();
     void send_switch_states();

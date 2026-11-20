@@ -305,7 +305,7 @@ void TOAttackableCol::render() {  }
 
 void *TOAttackableCol::create(void *arg0) {
     void *o;
-    o = (void *)new TOAttackableCol((s32)arg0);
+    o = (void *)new TOAttackableCol((saddr)arg0);
     return o;
 }
 
@@ -316,7 +316,7 @@ TOAttackableCol::~TOAttackableCol() {
 }
 
 
-TOAttackableCol::TOAttackableCol(s32 arg1) : TObjChara((TObject *)tl_05) {
+TOAttackableCol::TOAttackableCol(saddr arg1) : TObjChara((TObject *)tl_05) {
     ((TObject *)this)->m_name = TOAttackableCol__name;
     ((TOAttackableCol *)(((u8 *)this)))->apply_object_set_data((void *)arg1);
     ((TObjChara *)this)->calc_attach_pos();

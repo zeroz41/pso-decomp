@@ -18,13 +18,13 @@ struct TObjRaderCol : public TObjBase {
 LAYOUT_ASSERT(TObjRaderCol_size, sizeof(TObjRaderCol) == 0xA0);
 
 extern "C" {
-u8 *TObjRaderCol__ct(TObjRaderCol *arg0, s32 arg1, s32 arg2);
+u8 *TObjRaderCol__ct(TObjRaderCol *arg0, saddr arg1, saddr arg2);
 void *__dt__12TObjRaderColFv(void *arg0, s16 arg1);
 }
 
 // --- C functions defined in TObjRaderCol.cpp ---
 extern "C" {
-u8 *TObjRaderCol__ct(TObjRaderCol *rader_col, s32 arg1, s32 arg2);
+u8 *TObjRaderCol__ct(TObjRaderCol *rader_col, saddr arg1, saddr arg2);
 void *__dt__12TObjRaderColFv(void *arg0, s16 arg1);
 }
 // --- end of C functions

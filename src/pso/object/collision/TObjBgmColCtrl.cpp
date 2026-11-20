@@ -221,7 +221,7 @@ void TObjPlayer::set_camera_mode(s32 arg0) {
     }
 }
 
-TObjBgmColCtrl::TObjBgmColCtrl(s32 parent) : TObject((TObject *)parent) {
+TObjBgmColCtrl::TObjBgmColCtrl(saddr parent) : TObject((TObject *)parent) {
     this->m_name = TObjBgmColCtrl__name;
     this->m_1c = 3;
     TObjBgmColCtrl__current_theme_id = 0;

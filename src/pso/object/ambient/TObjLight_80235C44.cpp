@@ -105,7 +105,7 @@ TUnk_804CCAA8::~TUnk_804CCAA8() {
 
 }
 
-u8 *TObjLight::construct_actor_light(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, f32 farg0, f32 farg1, f32 farg2, s32 arg_sp0) {
+u8 *TObjLight::construct_actor_light(saddr arg1, saddr arg2, s32 arg3, s32 arg4, saddr arg5, f32 farg0, f32 farg1, f32 farg2, s32 arg_sp0) {
     Stack_80235E9C stack;
     __ct__7TObjectFP7TObject(this, (void *)arg5);
     *(s32 **)((s8 *)((u8 *)this) + 0x18) = __vt__13TUnk_804CCAA8;

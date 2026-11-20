@@ -277,7 +277,7 @@ TObjDoaEx01::~TObjDoaEx01() {
 
 extern void *tl_05;
 
-TObjDoaEx01::TObjDoaEx01(s32 arg1, s32 arg2) : TODoorBase((TObject *)arg1) {
+TObjDoaEx01::TObjDoaEx01(saddr arg1, saddr arg2) : TODoorBase((TObject *)arg1) {
     *(saddr *)((s8 *)this + 0) = (saddr) TObjDoaEx01__name;
     ((TObjDoaEx01 *)(((u8 *)this)))->apply_object_set_data((void *)arg2);
     ((TObjDoaEx01 *)(((u8 *)this)))->init_door_switch_binding();
@@ -295,7 +295,7 @@ TObjDoaEx01::TObjDoaEx01(s32 arg1, s32 arg2) : TODoorBase((TObject *)arg1) {
 }
 
 void *TObjDoaEx01__create(void *arg0) {
-    void *o = (void *)new TObjDoaEx01((s32)tl_05, (s32)arg0);
+    void *o = (void *)new TObjDoaEx01((saddr)tl_05, (saddr)arg0);
     return o;
 }
 
