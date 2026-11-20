@@ -600,7 +600,7 @@ void TWindowSubStatusDisp::set_item_info(void* a1, int a2, void* a3) {
     *(unsigned char *)&this->unk_1C = 51;
     item_data = TLobby::get_item_data((uaddr)a1);
     temp_r3 = is_wrapped__9TItemDataFPv(a1);
-    select_item_icon__20TWindowSubStatusDispFPviUcUci(this, (void*)item_data, (void*)(*(unsigned char*)((char*)a1 + 0x0)), (void*)(*(unsigned char*)((char*)a1 + 0x1)), (void*)temp_r3);
+    select_item_icon__20TWindowSubStatusDispFPviUcUci(this, (void*)item_data, (void*)(uaddr)(*(unsigned char*)((char*)a1 + 0x0)), (void*)(uaddr)(*(unsigned char*)((char*)a1 + 0x1)), (void*)temp_r3);
     TLobby::forward_message(get_shared_text_buffer(), (uaddr)(void *)a1);
     *(int*)((char*)this + 0x20) = replace_owned_string__20TWindowSubStatusDispFPviiii(this, (void*)get_shared_text_buffer(), (void*)(*(saddr *)((char*)this + 0x20)), (void*)8, (void*)1);
     update_stat_line_if_positive__20TWindowSubStatusDispFPvi(this, a3);

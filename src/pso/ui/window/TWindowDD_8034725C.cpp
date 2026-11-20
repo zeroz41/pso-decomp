@@ -579,7 +579,7 @@ void TWindowDD::apply_input(void* p, void* a1) { TWindowDD__sub_80341AE0((u8 *)a
 void TWindowDD::update(void* p, void* a1) { TWindowDD__sub_80341AE0((u8 *)a1); ((TWindowDD *)a1)->set_mode_2(); }
 
 
-void TWindowDD::update(s32 arg1) {
+void TWindowDD::update(saddr arg1) {
     TWindowDD__sub_80341AF8((u8 *)arg1);
     ((TWindowDD *)arg1)->reset_cursor();
     if ((u32) this->m_7c != 0U) {

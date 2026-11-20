@@ -219,7 +219,7 @@ s32 TWindowSubComCard::create_com_card_window(s32 arg0) {
         return 0;
     }
     if (TWindowSubComCard__sub_8007B070(keyboard_mode) != 0) {
-        ((TWindowSubComCard *)keyboard_mode)->clear_and_init((void *)local_client_id);
+        ((TWindowSubComCard *)keyboard_mode)->clear_and_init((void *)(saddr)local_client_id);
     }
     window_dd = ((saddr)TObject::operator new(0x60));
     var_r0 = window_dd;

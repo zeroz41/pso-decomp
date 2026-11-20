@@ -174,7 +174,7 @@ u8 *TWindowActionPalette__sub_801C1D7C(saddr arg0, s32 i, s32 arg2) {
   var_r31 = arg2;
   new_var = ((saddr)TWindowActionPalette__sub_801C1C68((O_801C1C68 *)(arg0), i));
   var_r3 = (u8 *) (new_var + (var_r31 * 4));
-  var_r3 = (u8 *) ((void *) ((TMainCursor *)var_r3)->get_enabled());
+  var_r3 = (u8 *) ((void *)(uaddr) ((TMainCursor *)var_r3)->get_enabled());
   return var_r3;
 }
 
@@ -187,7 +187,7 @@ u8 *TWindowActionPalette::get_slot_type(saddr arg0, s32 i, s32 arg2) {
   u8 *var_r3;
   new_var = ((saddr)TWindowActionPalette__sub_801C1C68((O_801C1C68 *)(arg0), i));
   var_r3 = (u8 *) (new_var + (arg2 * 4));
-  var_r3 = (u8 *) ((void *) ((TMainCursor *)var_r3)->get_type());
+  var_r3 = (u8 *) ((void *)(uaddr) ((TMainCursor *)var_r3)->get_type());
   return var_r3;
 }
 

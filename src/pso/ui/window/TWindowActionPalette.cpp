@@ -180,7 +180,7 @@ void TWindowActionPalette::run_task() {
         m_5c = 0x01000000;
     }
     slot = is_player_input_active(m_20);
-    if (is_on_current_screen__11TCameraCtrlFv(controller_input_state + slot * 0x50 + 0x20, fn_8002AE08((void *)m_20)) != 0) {
+    if (is_on_current_screen__11TCameraCtrlFv(controller_input_state + slot * 0x50 + 0x20, fn_8002AE08((void *)(saddr)m_20)) != 0) {
         state = 3;
     }
     help = (u8 *)get_array_entry(0);
@@ -383,7 +383,7 @@ void spawn_action_palette_slot_light(TWindowActionPalette *palette, s32 slot) {
         pt.x = 0.5f * e->w + (palette->x + e->x);
         pt.y = 0.5f * e->h + (palette->y + e->y);
     }
-    TWindowEffectLight::create(&pt, (void *)kind, (void *)palette->m_20);
+    TWindowEffectLight::create(&pt, (void *)kind, (void *)(saddr)palette->m_20);
 }
 #pragma pop
 

@@ -150,5 +150,5 @@ s32 TWindowDD::apply_both_choices(s32 arg0, saddr arg1) {
 #pragma pop
 
 s32 TWindowDD_check_input_mask(void *input_context, s32 arg1) {
-  return TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + 0x20), arg1) | test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), (void *) arg1);
+  return TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + 0x20), arg1) | test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), (void *)(saddr) arg1);
 }

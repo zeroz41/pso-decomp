@@ -115,7 +115,7 @@ struct TWindowDD : public TObject
     static void refresh_sub(void* p, void* a1);
     static void apply_input(void* p, void* a1);
     static void update(void* p, void* a1);
-    void update(s32 arg1);
+    void update(saddr arg1);
     static void set_default_coords(int a0, void* a1);
     static void init_layout(int a0, void* a1);
     static void set_default_positions(int a0, void* a1);

@@ -984,7 +984,7 @@ TWindowBase::~TWindowBase() {
     sub_8026CC28();
 }
 TWindowBase::TWindowBase(u8 *descriptor, s16 client, u8 *parent)
-    : TObject(TWindowCtrlMain__sub_8024CDB0((void *)client)) {
+    : TObject(TWindowCtrlMain__sub_8024CDB0((void *)(saddr)client)) {
     sub_80244F2C(descriptor, parent, client);
 }
 

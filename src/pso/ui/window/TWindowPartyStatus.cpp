@@ -139,7 +139,7 @@ TWindowPartyStatus::~TWindowPartyStatus() {
 }
 
 u8 *TWindowPartyStatus__ct(u8 *window_party_status, s32 arg1, saddr arg2) {
-    TWindowSimpleStatus__ct((void *)window_party_status, (int) (get_window_layout_position(0xAB)), (void *)local_client_id, (void *)arg2);
+    TWindowSimpleStatus__ct((void *)window_party_status, (int) (get_window_layout_position(0xAB)), (void *)(saddr)local_client_id, (void *)arg2);
     *(s32 **)((s8 *)window_party_status + 0x18) = __vt__18TWindowPartyStatus;
     *(s32 *)((s8 *)window_party_status + 0) = (s32) ((saddr)TWindowPartyStatus__name);
     ((TWindowPartyStatus *)window_party_status)->m_20 = arg1;
