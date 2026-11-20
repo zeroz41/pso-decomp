@@ -604,7 +604,6 @@ extern BmlResource *lbl_805D6FA0;
 s32 __ct__14TObjEneEpsilonFP7TObject();
 void *TObjEneEpsilonGuard__ct(TObjEneEpsilonGuard *guard, TObject *parent, TObjEneEpsilonBody *body, s32 entity_id, s32 set_index, const Vec *pos, s32 angle);
 void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
-s32 __dl__7TObjectFPv(void *);
 u8 *__dt__14TObjEneEpsilonFv(u8 *arg0, s16 arg1);
 TObjEneEpsilonGuard *__dt__19TObjEneEpsilonGuardFv(TObjEneEpsilonGuard *guard, s16 del);
 void vfunc_28__19TObjEneEpsilonGuardFv(void);
@@ -832,7 +831,7 @@ TObjEneEpsilonGuard *__dt__19TObjEneEpsilonGuardFv(TObjEneEpsilonGuard *guard, s
         __dt__13TUnk_80494938Fv(&guard->fade, -1);
         __dt__14TObjEneEpsilonFv((u8 *)guard, 0);
         if (del > 0) {
-            __dl__7TObjectFPv(guard);
+            TObject::operator delete(guard);
         }
     }
     return guard;

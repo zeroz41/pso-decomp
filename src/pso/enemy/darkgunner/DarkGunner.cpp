@@ -133,7 +133,6 @@ void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
 extern "C" {
 s32 minimap_render_dot(void *, s32, s32, s32);
 void TObjPlayer__sub_800A16C4(u8 *arg0);
-s32 update_if_active__15TObjEnemyCustomFl(void *, s32);
 s32 TObjPlayer__sub_800A3210(s32 i, s32 _w1, s32 _w2);
 u8 *TObjPlayer__sub_800A4204(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3, s32 arg4);
 s32 submit_cursor_candidate(void *, s32);
@@ -241,7 +240,6 @@ s32 free_collision_body_parts(void *);
 s32 init_collision_body_parts(void *, void *, int);
 s32 project_actor_to_ground(void *, void *, int);
 void free_if_valid__10TObjPlayerFl(void*);
-s32 __dl__7TObjectFPv(void *);
 s32 vec3_add_to(void *, void *);
 s32 matrix_mult_vec(int, void *, void *);
 f32 vector_length(void *);
@@ -716,7 +714,7 @@ s32 TObjPlayer::update_hide_sequence() {
 
 void TObjPlayer::trigger_action_if_not_flagged() {
     if (!(*(s32 *)&this->actorFlags & 0x800) && !(*(s32 *)&this->unk_388 & 0x800000)) {
-        update_if_active__15TObjEnemyCustomFl(this, 6);
+        ((TObjEnemyCustom *)this)->update_if_active(6);
     }
 }
 
@@ -1198,7 +1196,7 @@ s32 TObjPlayer__sub_800A1FEC(void *arg0) {
             self->fB8 = 3;
             break;
         }
-        update_if_active__15TObjEnemyCustomFl(self, 1);
+        ((TObjEnemyCustom *)self)->update_if_active(1);
         break;
     case -1:
         self->f388 &= ~0x200000;
@@ -1347,7 +1345,7 @@ s32 TObjPlayer__sub_800A2390(void *arg0_) {
 
 void TObjPlayer::set_hidden_flag() {
     if (!(this->actorFlags & 0x800)) {
-        update_if_active__15TObjEnemyCustomFl(this, 1);
+        ((TObjEnemyCustom *)this)->update_if_active(1);
         *(s32 *)&this->unk_388 = (s32) (*(s32 *)&this->unk_388 | 0x20000);
     }
 }
@@ -1390,7 +1388,7 @@ void TObjPlayer::apply_fall_damage_flag() {
     } else {
         var_r4 = 0;
     }
-    update_if_active__15TObjEnemyCustomFl((void *)arg0, (s32)var_r4);
+    ((TObjEnemyCustom *)arg0)->update_if_active((s32)var_r4);
 }
 
 inline f32 fmax_800A28A4(f32 a, f32 b) {
@@ -1554,7 +1552,7 @@ Obj_800A2EDC *TObjPlayer__sub_800A2EDC(Obj_800A2EDC *arg0, s16 arg1) {
         __dt__13TUnk_80490470Fv((u8 *)arg0 + 0x408, -1);
         __dt__15TObjEnemyCustomFv(arg0, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            TObject::operator delete(arg0);
         }
     }
     return arg0;

@@ -1158,7 +1158,7 @@ extern "C" void TObjPlayer__sub_800A8FB4(void *arg0_) {
             r = ((TObjMotion *)arg0)->is_passing_frame(2.0f);
         }
         if (r != 0) {
-            ((s32 (*)(void *))render_anim_model_at_pos__15TObjEnemyCustomFv)(arg0);
+            ((TObjEnemyCustom *)arg0)->render_anim_model_at_pos();
             ((VObj_18_fe09eb *)arg0)->m63(0x22, arg0 + 0x410);
             *(u32 *)((s8 *)arg0 + 0x3A8) = (u32)create_particle_emitter(arg0 + 0x410, 0x119);
             *(s16 *)((s8 *)arg0 + 0x33C) = TObjPlayer__sub_800AAF98(arg0, 1);
@@ -1173,7 +1173,7 @@ extern "C" void TObjPlayer__sub_800A8FB4(void *arg0_) {
         apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), 0.0f);
         ((TObjPlayer *)arg0)->check_object_collisions();
         check_enemy_body_collisions((TObjCollidable *)arg0);
-        ((s32 (*)(void *))render_anim_model_at_pos__15TObjEnemyCustomFv)(arg0);
+        ((TObjEnemyCustom *)arg0)->render_anim_model_at_pos();
         ((VObj_18_fe09eb *)arg0)->m63(0x22, arg0 + 0x410);
         if (*(u32 *)((s8 *)arg0 + 0x3A8) != 0U) {
             ((TParticleCtrl *)*(void **)((s8 *)arg0 + 0x3A8))->set_position(arg0 + 0x410);

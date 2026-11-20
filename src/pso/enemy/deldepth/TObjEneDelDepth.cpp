@@ -35,6 +35,7 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/technique/TTecRaBarta.h"
 
 
 extern "C" {
@@ -76,7 +77,6 @@ void draw_blob_shadow(s32 arg0);
 s32 refresh_lobby_state__10TObjPlayerFv();
 s32 free_collision_body_parts(void *);
 s32 init_collision_body_parts(void *, void *, int);
-void create__11TTecRaBartaFPvPvPvPv(void *source, void *origin, void *pos, void *level);
 void scale_matrix_vec3(u8 *arg0, u8 *arg1);
 s32 rotate_matrix_z(int, int);
 s32 rotate_matrix_x(int, void *);
@@ -1257,7 +1257,7 @@ void TObjEneDelDepthBomb::run_task() {
         Vec impact;
         VecCopy(&impact, &position);
         impact.y += TObjEneDelDepth__data_805DF268;
-        create__11TTecRaBartaFPvPvPvPv(source, &position, &impact, (void *)techniqueLevel);
+        TTecRaBarta::create(source, &position, &impact, (void *)techniqueLevel);
         this->queue_destruction();
     }
 }

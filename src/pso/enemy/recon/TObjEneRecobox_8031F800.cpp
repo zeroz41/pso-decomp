@@ -421,7 +421,6 @@ void __ct__15RenderFadeStateFv();
 
 void free_collision_body_parts(void *);
 
-void __dl__7TObjectFPv(void *);
 
 void TObjEneRecon__sub_8031F408(void *arg0, s32 arg1);
 
@@ -902,7 +901,7 @@ Obj_8031FE14 *fn_8031FE14(Obj_8031FE14 *arg0, s16 arg1) {
         __dt__13TUnk_80494938Fv((u8 *)arg0 + 0x3C0, -1);
         __dt__12TObjEneDD_STFv(arg0, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            TObject::operator delete(arg0);
         }
     }
     return arg0;

@@ -26,6 +26,8 @@ extern "C" void test_flag_1000__9TObjCharaFv();
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/unk/TLobby.h"
+#include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/object/ambient/TObjFish.h"
 extern "C" const u8 rappy_variant_na_name[3] = "NA";
 void *TObjEneLappy__model_filename_table[3] = {
     (void *)"re3_b_lappy_base.nj", (void *)"re3_s_lappy_base.nj", (void *)0x0,
@@ -566,10 +568,10 @@ void TObjEneLappy::render() {
         }
         temp_r3 = this->classify_actor_view_detail(150.0f, 400.0f, 10.0f);
         if (temp_r3 != 0) {
-            set_speed_params__12TObjEneLappyFl(this, this->variant);
-            set_global_param__8TObjFishFl(this->texlist);
+            this->set_speed_params(this->variant);
+            TObjFish::set_global_param(this->texlist);
             select_actor_lighting(this);
-            toggle_particle_effect__10TObjPlayerFv();
+            TObjPlayer::toggle_particle_effect();
             push_matrix();
             post_translate_matrix(((u8 *)this) + 0x38);
             rotate_matrix_y(0, this->rotation_y);
@@ -584,9 +586,9 @@ void TObjEneLappy::render() {
             } else {
                 model_render_flags |= 0x01000000;
                 if (temp_r3 == 1) {
-                    draw__10TObjMotionFv(this);
+                    this->draw();
                 } else {
-                    draw_motion_model__9TObjEnemyFv(this);
+                    this->draw_motion_model();
                 }
                 model_render_flags &= 0xFEFFFFFF;
             }
@@ -596,7 +598,7 @@ void TObjEneLappy::render() {
             }
             pop_matrix();
             restore_scene_lighting();
-            end_effect_render__13TParticleCtrlFv();
+            TParticleCtrl::end_effect_render();
             if (!(this->actorFlags & 0x800) && (obj_testFlags30(0x800000) != 0)) {
                 this->TObjEnemy::draw_ground_shadow(0, 0);
             }
@@ -1133,7 +1135,7 @@ void TObjEneLappy::run_task() {
     u8 *temp_r3_2;
     sub_800C20C0__12TObjEneLappyFv();
     if (TObjPlayer::check_demo_mode() == 1) {
-        apply_variant_speeds__12TObjEneLappyFv((Obj_800BFCD4 *)(this));
+        this->apply_variant_speeds();
         TObjPlayer__sub_800BFF54(this);
         return;
     }
@@ -1257,7 +1259,6 @@ struct Lappy_800C1C4C { u8 pad[0x354]; f32 params[5]; };
 extern "C" {
 void *__dt__12TObjEneLappyFv(void *arg0, s16 arg1);
 void free_collision_body_parts(void *);
-void __dl__7TObjectFPv(void *);
 void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
 
 s32 add_flags_2e4__9TObjCharaFUl(void *, int, f32, f32);
@@ -1539,7 +1540,7 @@ void *__dt__12TObjEneLappyFv(void *arg0, s16 arg1) {
         free_collision_body_parts(arg0);
         __dt__9TObjEnemyFv((TObjEnemy *)arg0, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            TObject::operator delete(arg0);
         }
     }
     return arg0;
@@ -1611,7 +1612,7 @@ u8 *TObjEneLappy__ct(u8 *self, s32 arg1, Set_800C1C4C *set) {
         *(u32 *)(*(u8 **)(self + 0xA4) + 0x18) &= ~1;
     }
     ((TObjEnemy *)self)->bind_enemy_combat_stats((u8 *)(lappy_boss_stats_handles[*(s32 *)(self + 0x368)]), (u8 *)(lappy_boss_stats_ptrs_b[*(s32 *)(self + 0x368)]), (u8 *)(lappy_object_handles[*(s32 *)(self + 0x368)]));
-    apply_variant_speeds__12TObjEneLappyFv(self);
+    ((TObjEneLappy *)self)->apply_variant_speeds();
     *(s16 *)(self + 0x32C) = *(s16 *)(self + 0x2B8);
     *(s16 *)(self + 0x32E) = *(s16 *)(self + 0x2BA);
     *(s16 *)(self + 0x33E) = *(s16 *)(self + 0x32C);

@@ -214,7 +214,6 @@ int get_entity_id(void *);
 void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
 s32 __ct__9TObjEnemyFP7TObject(void *);
 void free_collision_body_parts(void *);
-void __dl__7TObjectFPv(void *);
 void * __nw__7TObjectFUl(s32);
 s32 scale_matrix(int, f32, f32, f32);
 s32 rotate_matrix_z(int, int);
@@ -659,9 +658,9 @@ s32 TObjEneSlime::create(s32 arg0) {
     void *ene_slime;
     void *var_r4;
 
-    ene_slime = __nw__7TObjectFUl(0x3D8);
+    ene_slime = TObject::operator new(0x3D8);
     if (ene_slime != 0) {
-        var_r4 = __nw__7TObjectFUl(0x20);
+        var_r4 = TObject::operator new(0x20);
         if (var_r4 != 0) {
             var_r4 = __ct__11TObjControlFP7TObject(var_r4, tl_04);
         }
@@ -1805,7 +1804,7 @@ TObjEneSlimeWaterBomb::~TObjEneSlimeWaterBomb() {
 
 void *TObjEneSlimeWaterBomb::create(void *arg1) {
     void *o;
-    o = ((void * (*)(int))__nw__7TObjectFUl)(0x398);
+    o = TObject::operator new(0x398);
     if (o != NULL) {
         o = TObjEneSlimeWaterBomb__ct((TObjEneSlimeWaterBomb *)o, (void *)this, (void *)arg1);
     }
@@ -1938,7 +1937,7 @@ void *dt__22TObjEneSlimeTailAttackFPvs(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__22TObjEneSlimeTailAttack;
         __dt__9TObjEnemyFv((TObjEnemy *)arg0, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            TObject::operator delete(arg0);
         }
     }
     return arg0;
@@ -1948,9 +1947,9 @@ void *create__22TObjEneSlimeTailAttackFiiii(s32 arg1, s32 arg2, s32 arg3, s32 ar
     void *obj;
     void *ctrl;
 
-    obj = __nw__7TObjectFUl(0x3CC);
+    obj = TObject::operator new(0x3CC);
     if (obj != 0) {
-        ctrl = __nw__7TObjectFUl(0x20);
+        ctrl = TObject::operator new(0x20);
         if (ctrl != 0) {
             ctrl = __ct__11TObjControlFP7TObject(ctrl, tl_04);
         }

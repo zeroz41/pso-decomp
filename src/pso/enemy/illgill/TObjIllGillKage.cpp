@@ -15,7 +15,6 @@ extern s32 __vt__15TObjIllGillKage[];
 extern const char *TObjIllGillKage__class_name;
 void *__dt__15TObjIllGillKageFv(void *arg0, s16 arg1);
 s32 is_locally_controlled__10TObjPlayerFPv();
-void __dl__7TObjectFPv(void *);
 
 void TObjIllGillKage::queue_destruction() { TObject::queue_destruction(); }
 
@@ -60,7 +59,7 @@ void *__dt__15TObjIllGillKageFv(void *base, s16 arg1) {
         *(s32 **)((s8 *)base + 0x18) = __vt__15TObjIllGillKage;
         __dt__8TObjBaseFv(base, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(base);
+            TObject::operator delete(base);
         }
     }
     return base;

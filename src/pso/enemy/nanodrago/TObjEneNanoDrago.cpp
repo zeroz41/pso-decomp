@@ -40,6 +40,7 @@ extern "C" s16 get_entity_id(void *);
 extern "C" void subtract_vector(void *, void *);
 
 #include <stddef.h>
+#include "pso/system/task/TObject.h"
 LAYOUT_ASSERT(NanoGrow_scale, offsetof(TObjEneNanoDrago, scale.x) == 0x68);
 LAYOUT_ASSERT(NanoGrow_target_scale, offsetof(TObjEneNanoDrago, scale.y) == 0x6c);
 LAYOUT_ASSERT(NanoGrow_m_2c0, offsetof(TObjEneNanoDrago, m_2c0) == 0x2c0);
@@ -1035,7 +1036,7 @@ void TObjEneNanoDrago::spawn_targeted_beam(s32 targetIndex) {
         }
         rotation.y = rotation_y + spreadAngle;
         rotation.z = 0;
-        beam = (void *)__nw__7TObjectFUl(0x104);
+        beam = (void *)TObject::operator new(0x104);
         if (beam != 0) {
             TObjPlayer__sub_800DCD04(beam, &beamOrigins[originIndex], beamTargetIds[targetIndex], &rotation, targetIndex * 3, entity_id);
         }

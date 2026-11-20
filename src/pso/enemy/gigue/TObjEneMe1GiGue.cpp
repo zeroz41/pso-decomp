@@ -38,6 +38,7 @@
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/system/task/TObject.h"
 
 s32 get_gigue_int_parameter(TObjEneMe1GiGue *, s32);
 f32 get_gigue_float_parameter(TObjEneMe1GiGue *, s32);
@@ -111,7 +112,6 @@ extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 void free_collision_body_parts(void *);
 void *__dt__15RenderFadeStateFv(void *arg0, s16 arg1);
-void __dl__7TObjectFPv(void *);
 void *__dt__15TObjEnemyCustomFv(void *arg0, s16 arg1);
 void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
 s32 obj_setFlags30(void *, int);
@@ -383,7 +383,7 @@ TObjEneMe1GiGue *deleting_dtor__15TObjEneMe1GiGueFPvs(TObjEneMe1GiGue *self, s16
         __dt__13TUnk_80494938Fv(&self->m_3fc, -1);
         __dt__15TObjEnemyCustomFv(self, 0);
         if (del > 0) {
-            __dl__7TObjectFPv(self);
+            TObject::operator delete(self);
         }
     }
     return self;

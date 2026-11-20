@@ -131,7 +131,6 @@ void TObjEneDarkGunCenter__sub_800A0E80(void);
 void *__dt__20TObjEneDarkGunCenterFv(void *arg0, s16 arg1);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 u8 *TObjEneDarkGunCenter__ct(u8 *arg0, s32 arg1, s32 arg2);
-void __dl__7TObjectFPv(void *);
 void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
 
 s16 get_entity_id(void *);
@@ -519,7 +518,7 @@ void *__dt__20TObjEneDarkGunCenterFv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)__vt__20TObjEneDarkGunCenter;
         __dt__9TObjEnemyFv((TObjEnemy *)arg0, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            TObject::operator delete(arg0);
         }
     }
     return arg0;

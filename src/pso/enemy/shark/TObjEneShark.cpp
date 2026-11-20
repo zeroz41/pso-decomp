@@ -162,7 +162,6 @@ s32 post_translate_matrix(void *);
 void draw_chunk_object(void *child);
 s32 push_matrix();
 extern s32 model_render_flags;
-void __dl__7TObjectFPv(void *);
 void vfunc_101__12TObjEneSharkFv(void);
 extern s32 shark_render_node_index;
 s32 vec3_add_to(void *, void *);
@@ -860,7 +859,7 @@ O_800AC5EC *__dt__12TObjEneSharkFv(O_800AC5EC *arg0, s16 arg1) {
         __dt__13TUnk_80494938Fv((u8 *)arg0 + 0x3A8, -1);
         __dt__13TUnk_80493450Fv(arg0, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            TObject::operator delete(arg0);
         }
     }
     return arg0;

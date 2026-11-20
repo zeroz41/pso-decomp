@@ -1509,7 +1509,7 @@ s32 attack_visible_players__17TObjEneDf2BringerFPv(Obj_80098EFC *self) {
     count = TLobby::get_game_mode();
     total = 0;
     for (i = 0; i < count; i++) {
-        player = ((Obj_80098EFC *)get_player_data__10TObjPlayerFi(i));
+        player = ((Obj_80098EFC *)TObjPlayer::get_player_data(i));
         if (((TObjBase *)player)->is_alive() != 0) {
             horizontal_distance_squared(self->field2FC, player->pos);
             if (csnLookAt(self->field2FC, player->field2FC) == 0) {
@@ -1552,7 +1552,7 @@ void TObjEneDf2Bringer::sub_80098DEC() {
 
 s32 TObjEneDf2Bringer::check_stage_advance() {
     if ((s32) *(s32 *)((s8 *)this + 0x494) >= 5) {
-        transition_enemy_state__9TObjEneDDFl(this, 8);
+        this->transition_enemy_state(8);
         return 1;
     }
     return 0;
@@ -1604,11 +1604,11 @@ void TObjEneDf2Bringer::dispatch_action(u32 state, s32 reason) {
 void TObjEneDf2Bringer::handle_state(s32 arg1) {
     switch (arg1) {
     case 4:
-        set_field_378__9TObjEneDDFl(this, 0);
+        this->set_field_378(0);
         *(s32 *)((s8 *)this + 0x4AC) = 0;
         return;
     case 3:
-        transition_enemy_state__9TObjEneDDFl(this, 1);
+        this->transition_enemy_state(1);
         return;
     case 0:
         *(s32 *)((s8 *)this + 0x4AC) = (s32) (*(s32 *)((s8 *)this + 0x4AC) + 1);
@@ -1625,11 +1625,11 @@ void TObjEneDf2Bringer__sub_80098BAC(u8 *ene_dd_st, s32 arg1) {
         ((TObjEneDD_ST *)(ene_dd_st))->vfunc_95();
         return;
     case 3:
-        if (((s32)update_linked_position__12TObjEneDD_STFf(ene_dd_st, 300.0f)) != 0) {
+        if (((s32)((TObjEneDD_ST *)ene_dd_st)->update_linked_position(300.0f)) != 0) {
             ((TObjEneDD_ST *)ene_dd_st)->enemy_copy_target_destination();
             ((TObjEneDD *)ene_dd_st)->update_velocity();
             ((TObjEneDD_ST *)ene_dd_st)->rotation_y = (s32) (10430.38043493439 * atan2_float((f64) *(f32 *)((s8 *)ene_dd_st + 0x3A0), (f64) *(f32 *)((s8 *)ene_dd_st + 0x3A8)));
-            transition_enemy_state__9TObjEneDDFl(ene_dd_st, 2);
+            ((TObjEneDD *)ene_dd_st)->transition_enemy_state(2);
         }
     case 5:
     case 0:
@@ -1643,7 +1643,7 @@ void TObjEneDf2Bringer::exec(s32 arg1) {
     switch (arg1) {
     case 4:
         this->requested_action = 1;
-        set_field_378__9TObjEneDDFl(arg0, 4);
+        ((TObjEneDD *)arg0)->set_field_378(4);
         *(s32 *)((s8 *)arg0 + 0x3C0) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C0) & 0xFFFFFFFE);
         *(s32 *)((s8 *)arg0 + 0x3C0) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C0) | 2);
         this->vfunc_95();
@@ -1659,12 +1659,12 @@ void TObjEneDf2Bringer::exec(s32 arg1) {
         return;
     case 3:
         if ((s32) *(s32 *)((s8 *)arg0 + 0x4B0) == 2) {
-            transition_enemy_state__9TObjEneDDFl(arg0, 4);
+            ((TObjEneDD *)arg0)->transition_enemy_state(4);
         }
         return;
     case 0:
         advance_animation();
-        update_linked_position__12TObjEneDD_STFf(arg0, 300.0f);
+        ((TObjEneDD_ST *)arg0)->update_linked_position(300.0f);
         *(s32 *)((s8 *)arg0 + 0x4AC) = (s32) (*(s32 *)((s8 *)arg0 + 0x4AC) + 1);
         switch (*(s32 *)((s8 *)arg0 + 0x4B0)) {
         case 0:
@@ -1714,7 +1714,7 @@ void TObjEneDf2Bringer__sub_800987E8(u8 *ene_dd_st, s32 arg1) {
     switch (arg1) {
     case 4:
         ((TObjEneDD_ST *)ene_dd_st)->requested_action = 0;
-        set_field_378__9TObjEneDDFl(ene_dd_st, 3);
+        ((TObjEneDD *)ene_dd_st)->set_field_378(3);
         *(s32 *)((s8 *)ene_dd_st + 0x3C0) = (s32) (*(s32 *)((s8 *)ene_dd_st + 0x3C0) & 0xFFFFFFF8);
         ((TObjEneDD *)(ene_dd_st))->vfunc_95();
         *(s32 *)((s8 *)ene_dd_st + 0x4AC) = 0;
@@ -1722,9 +1722,9 @@ void TObjEneDf2Bringer__sub_800987E8(u8 *ene_dd_st, s32 arg1) {
         return;
     case 3:
         if (*(s32 *)((s8 *)ene_dd_st + 0x4AC) == 2) {
-            transition_enemy_state__9TObjEneDDFl(ene_dd_st, 4);
+            ((TObjEneDD *)ene_dd_st)->transition_enemy_state(4);
         } else if (*(s32 *)((s8 *)ene_dd_st + 0x4AC) == 3) {
-            transition_enemy_state__9TObjEneDDFl(ene_dd_st, 1);
+            ((TObjEneDD *)ene_dd_st)->transition_enemy_state(1);
         }
         break;
     case 5:
@@ -1733,7 +1733,7 @@ void TObjEneDf2Bringer__sub_800987E8(u8 *ene_dd_st, s32 arg1) {
         ((TObjMotion *)ene_dd_st)->advance_animation();
         switch (*(s32 *)((s8 *)ene_dd_st + 0x4AC)) {
         case 0:
-            if (update_linked_position__12TObjEneDD_STFf(ene_dd_st, 300.0f) != 0) {
+            if (((TObjEneDD_ST *)ene_dd_st)->update_linked_position(300.0f) != 0) {
                 *(s32 *)((s8 *)ene_dd_st + 0x4AC) = 2;
             } else {
                 *(s32 *)((s8 *)ene_dd_st + 0x4B0) = (s32) (*(s32 *)((s8 *)ene_dd_st + 0x4B0) + 1);
@@ -2002,12 +2002,12 @@ void action__17TObjEneDf2BringerFPvi(u8 *arg0, s32 arg1) {
     switch (arg1) {
     case 4:
         ((TObjEneDD *)arg0)->requested_action = 8;
-        set_field_378__9TObjEneDDFl(arg0, 7);
+        ((TObjEneDD *)arg0)->set_field_378(7);
         *(u32 *)((s8 *)arg0 + 0x4C4) = 0U;
         return;
     case 3:
         if ((s32) *(s32 *)((s8 *)arg0 + 0x484) <= 0) {
-            transition_enemy_state__9TObjEneDDFl(arg0, 4);
+            ((TObjEneDD *)arg0)->transition_enemy_state(4);
         }
         return;
     case 0:
@@ -2041,7 +2041,7 @@ void TObjEneDf2Bringer__sub_80097820(u8 *arg0, s32 arg1) {
     switch (arg1) {
     case 4:
         F_8009(0xB8, s16) = 9;
-        set_field_378__9TObjEneDDFl(arg0, 4);
+        ((TObjEneDD *)arg0)->set_field_378(4);
         F_8009(0x3C0, s32) &= ~3;
         F_8009(0x3C0, s32) |= 4;
         F_8009(0x4AC, s32) = 0;
@@ -2052,7 +2052,7 @@ void TObjEneDf2Bringer__sub_80097820(u8 *arg0, s32 arg1) {
         break;
     case 3:
         if (F_8009(0x4AC, s32) == 4) {
-            transition_enemy_state__9TObjEneDDFl(arg0, 4);
+            ((TObjEneDD *)arg0)->transition_enemy_state(4);
         }
         break;
     case 0:
@@ -2193,7 +2193,7 @@ void TObjEneDf2Bringer__sub_80097714(Bringer_80097714 *obj, s32 mode) {
     case 3:
         if (((TObjEneDD *)self)->get_flag_b4() != 0 &&
             ((TObjEneDf2Bringer *)self)->check_stage_advance() == 0) {
-            transition_enemy_state__9TObjEneDDFl(self, self->field378);
+            ((TObjEneDD *)self)->transition_enemy_state(self->field378);
         }
         break;
     case 0:

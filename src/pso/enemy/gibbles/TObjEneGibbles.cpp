@@ -35,6 +35,7 @@ extern "C" void test_flag_1000__9TObjCharaFv();
 
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
 extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
 
 struct V_802DA7A4Base { u8 pad[0x14]; };
@@ -165,7 +166,6 @@ u8 *load_resource_from_descriptor(void *, int, void *, int, int, int);
 extern s32 gibbles_boss_stat_handle;
 extern s32 gibbles_combat_stats_handle;
 extern u32 TObjEneGibbles__resource_bundle;
-void copy_position__20TBoss3VoloptHiraisinFv(s32 arg0);
 void init_collision_body_parts(void *, void *, int);
 void *__ct__14TObjCollidableFP7TObject(void *, int);
 void __construct_array(void *, void *, void *, int, int);
@@ -1762,7 +1762,7 @@ void TObjEneGibbles::sub_802DA0BC() {
             this->m_374 |= 0x10;
         } else if (*(f32 *)((s8 *)((u8 *)this) + 0x3A0) >= 50.0f) {
             *(f32 *)((s8 *)((u8 *)this) + 0x3A0) = 0.0f;
-            if (((f32 (*)(void *))random_ratio__9TObjCharaFv)(this) < this->m_394 && ok != 0) {
+            if (this->random_ratio() < this->m_394 && ok != 0) {
                 this->m_374 |= 0x10;
             } else {
                 this->m_374 &= ~0x10;
@@ -2420,7 +2420,7 @@ void TObjEneGibbles::run_task() {
     }
     this->update_position();
     this->update_shadow_height();
-    copy_position__20TBoss3VoloptHiraisinFv((s32)this);
+    ((TBoss3VoloptHiraisin *)this)->copy_position();
     this->sync_state();
     this->m_2b4 += 1.0f;
 }
@@ -2502,7 +2502,6 @@ void TObjEneGibbles::load_resources() {
 void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
 void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
 void free_collision_body_parts(void *);
-void __dl__7TObjectFPv(void *);
 void __destroy_arr(void *, void *, int, int);
 
 struct PartBase_802DB920 {
@@ -2539,7 +2538,7 @@ Gib_802DB920 *TObjEneGibbles__sub_802DB920(Gib_802DB920 *self, s16 arg1) {
         __dt__13TUnk_80494938Fv((u8 *)self + 0x3C0, -1);
         __dt__9TObjEnemyFv((TObjEnemy *)self, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(self);
+            TObject::operator delete(self);
         }
     }
     return self;
@@ -2577,7 +2576,7 @@ u8 *TObjEneGibbles__ct(u8 *arg0, void *parent, s32 arg2) {
     ((TObjEneGibbles *)arg0)->referenceHp = ((TObjEneGibbles *)arg0)->hp;
     ((TObjEneGibbles *)arg0)->update_position();
     ((TObjEneGibbles *)arg0)->update_shadow_height();
-    copy_position__20TBoss3VoloptHiraisinFv((s32)arg0);
+    ((TBoss3VoloptHiraisin *)arg0)->copy_position();
     initialize_enemy_photon_effect(arg0);
     ((TObjEneGibbles *)arg0)->m_374 = 1;
     *(s32 *)((s8 *)arg0 + 0x3B0) = 0;

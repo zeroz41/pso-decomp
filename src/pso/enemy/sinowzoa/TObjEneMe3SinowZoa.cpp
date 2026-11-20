@@ -1441,7 +1441,7 @@ void TObjEneMe3SinowZoa__sub_80318564(TObjEneMe3SinowZoa *self, s32 arg1) {
         case 1:
             if (self->get_flag_b4() != 0) {
                 cast_technique__18TObjEneMe3SinowZoaFPv((u8 *)self);
-                if (((s32 (*)(void))check_v2_mode__9TObjEneDDFv)() != 0) {
+                if (TObjEneDD::check_v2_mode() != 0) {
                     (self->m_434) = 3;
                 } else if ((self->m_3cc) & 0x100000) {
                     (self->m_434) = 4;

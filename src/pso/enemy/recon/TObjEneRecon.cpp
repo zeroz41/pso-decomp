@@ -938,7 +938,7 @@ void TObjEneRecon__sub_8031C920(u8 *arg0, s32 arg1) {
         if (F(u8 *, 0x390) == NULL) {
             ((TObjEneDD *)arg0)->transition_enemy_state(5);
         } else if (F(s32, 0x46C) > 0x8000 || F(s32, 0x46C) < -0x8000) {
-            ((void (*)(void *)) select_next_target__12TObjEneReconFv)(arg0);
+            ((TObjEneRecon *)arg0)->select_next_target();
         } else if (F(s32, 0x470) > 0x5000 || F(s32, 0x470) < -0x5000) {
             ((TObjEneRecon *)arg0)->retarget();
         }
@@ -1514,12 +1514,11 @@ struct VObj_8031DCCC : Base_8031DCCC {
 
 extern "C" {
 
-s32 vfunc_89__9TObjEneDDFv(void *);
 
 void TObjEneRecon::vfunc_89() {
     struct VObj_8031DCCC *o = (struct VObj_8031DCCC *)this;
     o->m86();
-    vfunc_89__9TObjEneDDFv(this);
+    this->TObjEneDD::vfunc_89();
     this->clamp_min_height();
 }
 
@@ -1613,7 +1612,7 @@ void enemy_copy_target_destination__12TObjEneDD_STFv(void *);
 #pragma push
 #pragma fp_contract on
 void TObjEneRecon::set_orbit_destination(s32 arg1) {
-    enemy_copy_target_destination__12TObjEneDD_STFv(this);
+    this->enemy_copy_target_destination();
     *(f32 *)((s8 *)((u8 *)this) + 0x394) = (f32) ((*(f32 *)((s8 *)((u8 *)this) + 0x468) * sin_table_lookup(arg1)) + *(f32 *)((s8 *)((u8 *)this) + 0x394));
     *(f32 *)((s8 *)((u8 *)this) + 0x398) = (f32) *(f32 *)((s8 *)((u8 *)this) + 0x460);
     *(f32 *)((s8 *)((u8 *)this) + 0x39C) = (f32) ((*(f32 *)((s8 *)((u8 *)this) + 0x468) * cos_table_lookup(arg1)) + *(f32 *)((s8 *)((u8 *)this) + 0x39C));

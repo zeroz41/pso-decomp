@@ -34,7 +34,6 @@ void draw_line_list(VoloptLineList *lines, s32 count, u32 flags);
 extern s32 __vt__26TObjEneMe1Canadin_EffLight[];
 extern s32 __vt__30TObjEneMe1Canadin_EffDischarge[];
 void __dt__7TObjectFv(void *object, s16 flags);
-void __dl__7TObjectFPv(void *object);
 }
 
 #pragma push
@@ -166,7 +165,7 @@ TObjEneMe1Canadin_EffLight *__dt__26TObjEneMe1Canadin_EffLightFv(TObjEneMe1Canad
         self->m_28 = NULL;
         __dt__7TObjectFv(self, 0);
         if (flags > 0) {
-            __dl__7TObjectFPv(self);
+            TObject::operator delete(self);
         }
     }
     return self;
@@ -236,7 +235,7 @@ TObjEneMe1Canadin_EffDischarge *__dt__30TObjEneMe1Canadin_EffDischargeFv(TObjEne
         *(s32 **)((u8 *)self + 0x18) = __vt__30TObjEneMe1Canadin_EffDischarge;
         __dt__7TObjectFv(self, 0);
         if (flags > 0) {
-            __dl__7TObjectFPv(self);
+            TObject::operator delete(self);
         }
     }
     return self;

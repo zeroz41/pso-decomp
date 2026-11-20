@@ -39,6 +39,7 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/enemy/berura/TObjEneRe7BeruraPunch.h"
 // .rodata holds the table strings, the class name, the 803350AC binding template, then the Vecs in
 // reverse .text order and the doubles in .text order: deferred codegen, functions written last to first.
 #pragma defer_codegen on
@@ -645,11 +646,9 @@ struct VObj_14_c1c33b : VBase_14_c1c33b {
     virtual s32 m4();
 };
 
-f32 receive_physical_attack__9TObjCharaFPvf(void *, void *, f32);
 u16 get_entity_id(void *);
 void free_bin_model_request(void*, int);
 s32 get_mode__11TCameraCtrlFPv(void *);
-s32 is_patrol_active__21TObjEneRe7BeruraPunchFv(void *);
 s32 TObjPlayer__sub_800A04F0(void *);
 void TObjPlayer__sub_800A0554(void *);
 void *__dt__13TUnk_80490470Fv(void *arg0, s16 arg1);
@@ -662,7 +661,6 @@ s32 angle_difference_abs(s32, s32);
 s32 angle_diff_s16(s32);
 s32 free_collision_body_parts(void *);
 void *get_player_by_client_id(s32 i);
-s32 __dl__7TObjectFPv(void *);
 void TObjPlayer__sub_8023DEE0(s16 *p, s16 a, s16 b, u16 id);
 void TObjEneMorfos__sub_80332DBC(u8 *arg0, s32 arg1);
 void TObjEneMorfos__sub_80333E48(u8 *arg0, s32 arg1);
@@ -1140,7 +1138,7 @@ u8 *__dt__13TObjEneMorfosFv(u8 *object, s16 arg1) {
         __dt__13TUnk_80490470Fv((object + 0x3EC), -1);
         __dt__12TObjEneDD_STFv((object), 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(object);
+            TObject::operator delete(object);
         }
     }
     return object;
@@ -1190,10 +1188,10 @@ f32 TObjEneMorfos__vt20(Obj_80334A4C *arg0, Obj_80334A4C *att, f32 scale) {
         } else {
             arg0->f3C0 &= ~0x10;
             arg0->f3C0 |= 0x20;
-            ret = receive_physical_attack__9TObjCharaFPvf(arg0, att, scale);
+            ret = ((TObjChara *)arg0)->TObjChara::receive_physical_attack(att, scale);
         }
     } else {
-        ret = receive_physical_attack__9TObjCharaFPvf(arg0, att, scale);
+        ret = ((TObjChara *)arg0)->TObjChara::receive_physical_attack(att, scale);
     }
     return ret;
 }
@@ -1215,12 +1213,12 @@ void TObjEneMorfos::vfunc_62() {
         d = 0;
     }
     if (d < 0x4000) {
-        ((void (*)(void *))clear_attack_receipts__9TObjEneDDFv)(arg0);
+        ((TObjEneDD *)arg0)->clear_attack_receipts();
         if (((TObjEneMorfos *)arg0)->check_low_hp_trigger() == 0) {
             ((TObjEneMorfos *)arg0)->try_enter_low_hp_state();
         }
     } else if (arg0->f3C0 & 4) {
-        ((void (*)(void *))clear_attack_receipts__9TObjEneDDFv)(arg0);
+        ((TObjEneDD *)arg0)->clear_attack_receipts();
     } else {
         ((TObjEneDD *)arg0)->transition_enemy_state((s32)((void *)0xA));
     }
@@ -1513,7 +1511,7 @@ void TObjEneMorfos__sub_80333E48(u8 *ene_dd_st, s32 arg1) {
         temp_r0_2 = *(s32 *)((s8 *)ene_dd_st + 0x4B0);
         switch (temp_r0_2) {
         case 0:
-            if (((s32 (*)(void *, f32))update_linked_position__12TObjEneDD_STFf)(ene_dd_st, 400.0f) != 0) {
+            if (((TObjEneDD_ST *)ene_dd_st)->update_linked_position(400.0f) != 0) {
                 ((TObjEneDD_ST *)ene_dd_st)->enemy_copy_target_destination();
                 ((TObjEneDD *)ene_dd_st)->update_velocity();
                 *(s32 *)((s8 *)ene_dd_st + 0x4B0) = 2;
@@ -1576,7 +1574,7 @@ void TObjEneMorfos__sub_80333AD0(u8 *ene_morfos, s32 arg1) {
     case 0:
         ((TObjMotion *)ene_morfos)->advance_animation();
         ((TObjEneMorfos *)ene_morfos)->play_sound_in_band();
-        if (((s32 (*)(void *, f32)) update_linked_position__12TObjEneDD_STFf)(ene_morfos, 400.0f) != 0) {
+        if (((TObjEneDD_ST *)ene_morfos)->update_linked_position(400.0f) != 0) {
             ((TObjEneDD_ST *)ene_morfos)->enemy_copy_target_destination();
             ((TObjEneDD *)ene_morfos)->update_velocity();
         }
@@ -1678,7 +1676,7 @@ void TObjEneMorfos__sub_80333690(TObjEneMorfos *owner, s32 arg1) {
             }
             break;
         case 3:
-            if (((s32 (*)(void *))get_flag_b4__9TObjEneDDFv)(owner) != 0) {
+            if (owner->get_flag_b4() != 0) {
                 owner->requested_action = 0;
                 owner->m_4b4 = (owner->m_4b4 + 1);
                 if (((TObjEneDD_ST *)owner)->enemy_has_live_target() != 0) {
@@ -1821,7 +1819,7 @@ void TObjEneMorfos::state_rotating_projectile_burst(s32 arg1) {
             }
             break;
         case 4:
-            if (((s32 (*)(void *))get_flag_b4__9TObjEneDDFv)(arg0) != 0) {
+            if (((TObjEneDD *)arg0)->get_flag_b4() != 0) {
                 F(0xB8, s16) = 0;
                 F(0x4B4, s32) = F(0x4B4, s32) + 1;
                 if (game_difficulty_selection == 3 || game_difficulty_selection == 2) {
@@ -1902,7 +1900,7 @@ void TObjEneMorfos__sub_80332FD4(TObjEneMorfos *arg0, s32 arg1) {
                     ((VObj_18_76ddf3 *)(arg0->m_390))->m23(arg0, 5.0f);
                 }
             }
-            if (((s32 (*)(void *))get_flag_b4__9TObjEneDDFv)(arg0) != 0) {
+            if (arg0->get_flag_b4() != 0) {
                 *(s32 *)((s8 *)arg0 + 0x4B0) = 2;
                 arg0->m_4b4 = 0;
                 arg0->requested_action = 0;
@@ -1943,7 +1941,7 @@ void TObjEneMorfos::state_patrol(s32 arg1) {
         break;
     case 0:
         advance_animation();
-        if (is_patrol_active__21TObjEneRe7BeruraPunchFv(this) == 0) {
+        if (((TObjEneRe7BeruraPunch *)this)->is_patrol_active() == 0) {
             this->play_speed = 1.6f;
         }
         temp_r4 = this->rotation_y;
@@ -2022,7 +2020,7 @@ void TObjEneMorfos::state_death(s32 arg1) {
         case 0:
             ((TObjMotion *)arg0)->advance_animation();
             temp_r30 = ((VObj_14_c1c33b *)(arg0 + (1032)))->m4();
-            if ((((s32 (*)(void *))get_flag_b4__9TObjEneDDFv)(arg0) != 0) && (temp_r30 != 0)) {
+            if ((((TObjEneDD *)arg0)->get_flag_b4() != 0) && (temp_r30 != 0)) {
                 fn_800D911C((Vec *)(arg0 + 0x38));
                 play_sound_effect(0x4003A830, (u32)(arg0 + 0x38), 0, 0);
                 TObjPlayer__sub_800A04F0((u8 *)&this->m_408);

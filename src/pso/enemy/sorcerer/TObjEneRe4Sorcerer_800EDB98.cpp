@@ -167,7 +167,6 @@ s32 approach_angle_limited(s32, s32, s32);
 s32 free_collision_body_parts(void *);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 s32 play_sound_effect(void *, void *, int, int);
-void __dl__7TObjectFPv(void *);
 s32 create_ex__11TTecGiBartaFPvPvPv(void *, void *, s32, s32);
 void __destroy_arr(void *, void *, u32, u32);
 void __construct_array(void *, void *, void *, int, int);
@@ -1591,7 +1590,7 @@ TObjEneRe4Sorcerer *__dt__18TObjEneRe4SorcererFv(TObjEneRe4Sorcerer *ene_re4_sor
         __dt__13TUnk_80490470Fv(&ene_re4_sorcerer->fade, -1);
         __dt__12TObjEneDD_STFv(ene_re4_sorcerer, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(ene_re4_sorcerer);
+            TObject::operator delete(ene_re4_sorcerer);
         }
     }
     return ene_re4_sorcerer;

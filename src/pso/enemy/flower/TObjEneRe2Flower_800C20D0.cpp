@@ -288,7 +288,7 @@ void TObjEneDD__sub_800C2628(u8 *arg0, s32 arg1) {
         }
         ((TObjEneDD *)(arg0))->vfunc_102();
         ((TObjEneDD *)(arg0))->vfunc_88();
-        ((s32 (*)(void *))noop__9TObjEneDDFv)(arg0);
+        ((TObjEneDD *)arg0)->noop();
         break;
     }
 }

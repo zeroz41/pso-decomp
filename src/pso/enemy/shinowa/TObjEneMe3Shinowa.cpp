@@ -1234,7 +1234,7 @@ void TObjEneMe3ShinowaMirage__sub_800E54E8(TObjEneMe3Shinowa *shinowa, s32 arg1)
         shinowa->advance_animation();
         shinowa->m_404++;
         if (transform_relative_position__9TObjEneDDFPv(shinowa, shinowa->m_390) != 0) {
-            if ((s16)get_room__8TObjBaseFv(shinowa) == (s16)get_room__8TObjBaseFv(shinowa->m_390)) {
+            if ((s16)shinowa->get_room() == (s16)((TObjBase *)shinowa->m_390)->get_room()) {
                 shinowa->enemy_copy_target_destination();
             }
         }

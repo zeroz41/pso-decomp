@@ -492,7 +492,6 @@ extern const char *TObjEneDimedian_name_ref;
 
 void __dt__13TUnk_80493450Fv(void *, int);
 void free_collision_body_parts(void *);
-void __dl__7TObjectFPv(void *);
 void __destroy_arr(void *, void *, int, int);
 void __dt__13TUnk_80490470Fv(void *, int);
 extern u8 __dt__15RenderFadeStateFv[];
@@ -807,7 +806,7 @@ O_800A846C *TObjPlayer__sub_800A846C(O_800A846C *arg0, s16 arg1) {
         __dt__13TUnk_80490470Fv((u8 *)arg0 + 0x3A8, -1);
         __dt__13TUnk_80493450Fv(arg0, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            TObject::operator delete(arg0);
         }
     }
     return arg0;
