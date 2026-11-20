@@ -1,3 +1,4 @@
+#include "pso/render/GinjaTexture.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -31,7 +32,6 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/network/client_id.h"
 #include "pso/render/GinjaMaterial.h"
-#include "pso/render/GinjaTexture.h"
 #include "pso/render/GinjaUvScroll.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/render/NinjaUtil.h"
@@ -137,7 +137,7 @@ void TOTrapSeabed01::load_resources() {
     lbl_805D681C = 0;
     seabed01_ginja_mesh_index = -1;
     if (TOTrapSeabed01__texture_file != 0) {
-        seabed01_ginja_mesh_index = find_texture_entry_by_name((GinjaTextureList *)TOTrapSeabed01__texture_file, "apk_o064_seaturigane03");
+        seabed01_ginja_mesh_index = find_texture_entry_by_name((const GinjaTextureList *)TOTrapSeabed01__texture_file, "apk_o064_seaturigane03");
     }
 }
 

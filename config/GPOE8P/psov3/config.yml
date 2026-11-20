@@ -1649,7 +1649,7 @@ force_active:
   - __ct__12TObjWarpBaseFP7TObjectPv
   - __ct__17TObjWarpBossMultiFP7TObjectPv
   - TObjWarpBossMulti__name
-  - TObjWarpBossMulti__sub_8019E570
+  - find_local_boss_warp_player
   - __ct__12TObjWarpBossFP7TObjectPv
   - TObjWarpBoss__name
   - __ct__12TObjWarpJungFP7TObjectPv

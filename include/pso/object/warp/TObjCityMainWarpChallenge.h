@@ -14,6 +14,7 @@ struct TObjCityMainWarpChallenge : public TObjAreaWarp {
     virtual void debug_print_area_num();
     void count_players_in_warp_radius();
     void update_challenge_state();
+    void update_warp_sequence();
     void trigger_warp_effect(s32);
     void send_6x6A_set_boss_warp_flags(u16);
     s32 are_all_players_in_range();

@@ -88,7 +88,8 @@ u32 jungle_bird_bml_resource;
 u32 lobby_pigeon_texture_gvm;
 u32 lobby_kamome_model_resource;
 u32 lobby_kamome_texture_gvm_handle;
-u32 lobby_pigeon_bml_archive;
+struct BmlResource;
+BmlResource *lobby_pigeon_bml_archive;
 u32 lobby_pigeon_lobby_type;
 
 // TObjPathObj's class name.
@@ -1170,8 +1171,8 @@ TUnk_804E0898::TUnk_804E0898(TObject *parent, void *set_data) : TObjPathObj(pare
     s32 selector;
     select_lobby_pigeon_model();
     self->scale = (1.0f);
-    self->model = ((void*)get_bml_model((void *)(lobby_pigeon_bml_archive), (s32)(self->modelIndex)));
-    self->animation = ((void*)get_bml_motion((void *)(lobby_pigeon_bml_archive), 0));
+    self->model = ((void*)get_bml_model(lobby_pigeon_bml_archive, (s32)(self->modelIndex)));
+    self->animation = ((void*)get_bml_motion(lobby_pigeon_bml_archive, 0));
     selector = self->movementSelector;
     if (selector < 0) movement = 0;
     else {
@@ -1179,7 +1180,7 @@ TUnk_804E0898::TUnk_804E0898(TObject *parent, void *set_data) : TObjPathObj(pare
         if (selector <= 2) movement = selector;
     }
     self->movement = movement;
-    self->path = ((void*)get_bml_motion((void *)(lobby_pigeon_bml_archive), (s32)(((PigeonMovement *)&lobby_pigeon_path_profiles)[self->movement].motion)));
+    self->path = ((void*)get_bml_motion(lobby_pigeon_bml_archive, (s32)(((PigeonMovement *)&lobby_pigeon_path_profiles)[self->movement].motion)));
     self->pathFrame = (0.0f);
     self->animationFrame = (0.0f);
     initialize_lobby_pigeon_path();
@@ -1400,13 +1401,13 @@ void TObjPlayer::load_lobby_pigeon_resource() {
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &bm_obj_lobby_pigeon_resource_descriptor, 0, 0, 0));
     }
-    lobby_pigeon_bml_archive = var_r0;
+    lobby_pigeon_bml_archive = (BmlResource *)var_r0;
     lobby_pigeon_lobby_type = TLobby::get_lobby_texlist();
 }
 
 void TObjPlayer::free_static_instance() {
-    if ((u32) lobby_pigeon_bml_archive != 0U) {
-        free_bin_model_request((void*)lobby_pigeon_bml_archive, 1);
-        lobby_pigeon_bml_archive = 0U;
+    if (lobby_pigeon_bml_archive != NULL) {
+        free_bin_model_request(lobby_pigeon_bml_archive, 1);
+        lobby_pigeon_bml_archive = NULL;
     }
 }

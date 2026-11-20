@@ -12,7 +12,7 @@ struct TObjAreaWarpQuest : public TObjAreaWarp {
     TObjAreaWarpQuest(TObject *parent, void *set_data);
     virtual ~TObjAreaWarpQuest();
     virtual void debug_print_area_num();
-    virtual void confirm_area_transfer(void *player);
+    virtual void confirm_area_transfer(TObjPlayer *player);
     void render();
     void run_task();
     s32 get_dest_area();

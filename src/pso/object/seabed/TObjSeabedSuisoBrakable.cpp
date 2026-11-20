@@ -1,3 +1,4 @@
+#include "pso/render/GinjaTexture.h"
 // The seabed tanks' shared resources: the archive and texture loader, the
 // scrolled-texture and model-node tables TObjSeabedSuiso_CH and
 // TObjSeabedSuisoBrakable read.
@@ -22,7 +23,6 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/BmlResourceLoader.h"
 #include "pso/render/GinjaMaterial.h"
-#include "pso/render/GinjaTexture.h"
 #include "pso/render/GinjaUvScroll.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/ModelDrawContext.h"

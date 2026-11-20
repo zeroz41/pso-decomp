@@ -1,3 +1,4 @@
+#include "pso/object/city/CityTraffic.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -22,30 +23,28 @@
 extern "C" {
 extern s32 local_client_id;
 s32 is_local_client_floor_leader(s32);
-s32 find_local_player_in_range__16TObjCityMainWarpFf(void *, f32);
 s32 close_windows__25TObjCityMainWarpChallengeFv();
-extern BmlResource *city_common_model_archive;
 s32 city_main_warp_destination_id;
 
 void TObjCityMainWarp::update_state() {
     s32 temp_r0_2;
-    s32 temp_r3;
+    TObjPlayer *player;
 
     switch (*(s16 *)((s8 *)this + 0xE0)) {
     case 0:
         *(s32 *)((s8 *)this + 0x17C) = 0x96;
         *(s16 *)((s8 *)this + 0xE0) = 1;
         *(s16 *)((s8 *)this + 0xE2) = (s16) (*(s16 *)((s8 *)this + 0xE2) | 1);
-        *(s32 *)((s8 *)this + 0xD0) = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x42C)) + 8);
-        *(s32 *)((s8 *)this + 0xD4) = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x430)) + 0x2C);
+        *(s32 *)((s8 *)this + 0xD0) = (s32) city_common_model_archive->models[0].model;
+        *(s32 *)((s8 *)this + 0xD4) = (s32) city_common_model_archive->motions[5].motion;
         return;
     case 1:
         if (TObjCityMainWarp::get_phase_flag() == 0) {
-            temp_r3 = find_local_player_in_range(*(f32 *)((s8 *)this + 0xAC));
-            if (temp_r3 != 0) {
+            player = find_local_city_warp_player(this, warp_range);
+            if (player != NULL) {
                 TObjCityMainWarp::notify_player_warp(this, local_client_id);
                 *(s32 *)((s8 *)this + 0xBC) = (s32) city_main_warp_destination_id;
-                this->confirm_area_transfer((void *)temp_r3);
+                this->confirm_area_transfer(player);
                 *(s16 *)((s8 *)this + 0xE0) = 2;
             }
         }
@@ -63,9 +62,8 @@ void TObjCityMainWarp::update_state() {
     }
 }
 
-void TObjCityMainWarp::update_warp_sequence() {
-    // The object is a TObjCityMainWarpChallenge: its update_state runs this as state 1.
-    TObjCityMainWarpChallenge *arg0 = (TObjCityMainWarpChallenge *)this;
+void TObjCityMainWarpChallenge::update_warp_sequence() {
+    TObjCityMainWarpChallenge *arg0 = this;
     s32 r;
     switch (arg0->state_step) {
     case 0:
@@ -76,7 +74,7 @@ void TObjCityMainWarp::update_warp_sequence() {
         arg0->motion = city_common_model_archive->motions[5].motion;
         break;
     case 1:
-        if (((u32 (*)(f32))find_local_player_in_range__16TObjCityMainWarpFf)(arg0->warp_range) != 0) {
+        if (find_local_city_warp_player(arg0, arg0->warp_range) != 0) {
             ((TObjCityMainWarpChallenge *)arg0)->sub_801875F8();
             if (arg0->warp_triggered == 0) {
                 arg0->trigger_warp_effect(local_client_id);

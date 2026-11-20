@@ -1,3 +1,4 @@
+#include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/unk/text_800F5BC0.h"
 #include "pso/unk/text_80184C2C.h"
@@ -54,6 +55,9 @@ static __declspec(section ".rodata") const char fd_obj_n_keijiban_hasira_x_nj[] 
 static __declspec(section ".rodata") const char bm_obj_city_board_xmas_bml[] ATTRIBUTE_ALIGN(4) = "bm_obj_city_board_xmas.bml";
 static __declspec(section ".rodata") const char fd_obj_n_keijiban_board_y_nj[] ATTRIBUTE_ALIGN(4) = "fd_obj_n_keijiban_board_y.nj";
 static __declspec(section ".rodata") const char fd_obj_n_keijiban_hasira_y_nj[] ATTRIBUTE_ALIGN(4) = "fd_obj_n_keijiban_hasira_y.nj";
+
+static __declspec(section ".rodata") const char bm_obj_city_board_2001_bml[0x20] ATTRIBUTE_ALIGN(4) =
+    "bm_obj_city_board_2001.bml";
 
 const char *bm_obj_city_21_model_names[3] = {ds_obj_21_nj, ds_obj_21_dai_1_nj, NULL};
 const char *bm_obj_city_21_motion_names[2] = {ds_obj_21_njm, NULL};
@@ -119,7 +123,7 @@ BmlResourceDescriptor bm_obj_city_board_xmas_resource_descriptor = {
 const char *bm_obj_city_board_2001_model_names[3] = {fd_obj_n_keijiban_board_y_nj, fd_obj_n_keijiban_hasira_y_nj, NULL};
 const char *bm_obj_city_board_2001_motion_names[1] = {NULL};
 BmlResourceDescriptor bm_obj_city_board_2001_resource_descriptor = {
-    "bm_obj_city_board_2001.bml", bm_obj_city_board_2001_model_names, bm_obj_city_board_2001_motion_names, 2, 0,
+    bm_obj_city_board_2001_bml, bm_obj_city_board_2001_model_names, bm_obj_city_board_2001_motion_names, 2, 0,
 };
 
 // inferred: indexed by the active season slot (lobby_event_theme_id_table order)
@@ -131,23 +135,23 @@ BmlResourceDescriptor *city_season_resource_descriptors[6] = {
 extern s32 TLobby__event_theme_id;
 extern "C" {
 void free_bin_model_request(void *, s32);
-int city_season_easter_egg_model_table[6];
-int city_season_xmas_model_table[6];
+BmlResource *city_season_easter_egg_model_table[6];
+GinjaTextureList *city_season_xmas_model_table[6];
 s32 lbl_805D5B30;
 void *lbl_805D5B34;
-void *lbl_805D5B38;
+BmlResource *lbl_805D5B38;
 s32 lbl_805D5B3C;
 s32 lbl_805D5B40;
-s32 lbl_805D5B44;
+GinjaTextureList *lbl_805D5B44;
 void *lbl_805D5B48;
 
-int TLobby__sub_80184C2C(int a0) {  return city_season_xmas_model_table[a0]; }
+GinjaTextureList *TLobby__sub_80184C2C(int a0) {  return city_season_xmas_model_table[a0]; }
 }
 
-int get_season_model_resource(int a0) {  return city_season_easter_egg_model_table[a0]; }
+BmlResource *get_season_model_resource(int a0) {  return city_season_easter_egg_model_table[a0]; }
 
-u8 TLobby__sub_80184C54(void) {
-    return (u8) (lbl_805D5B30 != -1);
+s32 TLobby__sub_80184C54(void) {
+    return lbl_805D5B30 != -1;
 }
 
 int TLobby__sub_80184C6C(int a0) {  return lbl_8050DC20[a0]; }
@@ -181,7 +185,7 @@ void TLobby::free_buffers() {
         free_bin_model_request(lbl_805D5B38, 1);
         lbl_805D5B38 = NULL;
     }
-    lbl_805D5B44 = 0;
+    lbl_805D5B44 = NULL;
     lbl_805D5B3C = 0;
     lbl_805D5B40 = 0;
     if (lbl_805D5B34 != NULL) {
@@ -189,11 +193,11 @@ void TLobby::free_buffers() {
         lbl_805D5B34 = NULL;
     }
     for (i = 5; i >= 0; i--) {
-        if ((u32)city_season_easter_egg_model_table[i] != 0) {
-            free_bin_model_request((void *)city_season_easter_egg_model_table[i], 1);
+        if (city_season_easter_egg_model_table[i] != NULL) {
+            free_bin_model_request(city_season_easter_egg_model_table[i], 1);
         }
-        city_season_easter_egg_model_table[i] = 0;
-        city_season_xmas_model_table[i] = 0;
+        city_season_easter_egg_model_table[i] = NULL;
+        city_season_xmas_model_table[i] = NULL;
     }
 }
 
@@ -208,8 +212,8 @@ extern "C" void TLobby__sub_80184DF4(void) {
     u8 *base;
     u8 *ent;
     s32 ph;
+    s32 slot_offset;
     void *p;
-    s32 off;
 
     clear_global_array__6TLobbyFPv();
     ph = get_main_phase();
@@ -229,19 +233,19 @@ extern "C" void TLobby__sub_80184DF4(void) {
         {
             s32 j;
             for (j = 0; j < 6; j++) {
-                city_season_easter_egg_model_table[j] = 0;
-                city_season_xmas_model_table[j] = 0;
+                city_season_easter_egg_model_table[j] = NULL;
+                city_season_xmas_model_table[j] = NULL;
             }
         }
         tmp = (u8 *)::operator new(0x440);
         if (tmp != NULL) {
             tmp = (u8 *)load_resource_from_descriptor(tmp, 1, city_season_resource_descriptors[lbl_805D5B30], 0, 0, 0);
         }
-        off = lbl_805D5B30 * 4;
-        *(s32 *)((u8 *)city_season_easter_egg_model_table + off) = (int)tmp;
+        slot_offset = lbl_805D5B30 * sizeof(city_season_easter_egg_model_table[0]);
+        *(BmlResource **)((u8 *)&city_season_easter_egg_model_table + slot_offset) = (BmlResource *)tmp;
         for (i = 0; i < *(s32 *)(tmp + 0x434); i++) {
             if ((*(u32 (**)[4])(tmp + 0x42c))[i][3] != 0) {
-                *(s32 *)((u8 *)city_season_xmas_model_table + off) = (*(u32 (**)[4])(tmp + 0x42c))[i][3];
+                *(GinjaTextureList **)((u8 *)&city_season_xmas_model_table + slot_offset) = (GinjaTextureList *)((BmlResource *)tmp)->models[i].m_c;
                 break;
             }
         }
@@ -301,10 +305,10 @@ extern "C" void TLobby__sub_80184DF4(void) {
     base = *(u8 **)(base + 4);
     base = *(u8 **)(base + 4);
     *(s16 *)(base + 0xc) &= ~0x2000;
-    lbl_805D5B38 = board;
+    lbl_805D5B38 = (BmlResource *)board;
     for (i = 0; i < *(s32 *)(board + 0x434); i++) {
         if ((*(u32 (**)[4])(board + 0x42c))[i][3] != 0) {
-            lbl_805D5B44 = (*(u32 (**)[4])(board + 0x42c))[i][3];
+            lbl_805D5B44 = (GinjaTextureList *)((BmlResource *)board)->models[i].m_c;
             break;
         }
     }
