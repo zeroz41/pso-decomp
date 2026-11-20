@@ -214,7 +214,6 @@ s32 set_value_f32__9TWindowDDFl(int, int);
 s32 TWindowDD__sub_80341AE0(int);
 s32 TWindowDD__sub_80341AF8(int);
 s32 TWindowDD__sub_8034217C(int);
-s32 get_cursor_index__9TWindowDDFv(int);
 s32 TWindowDD__sub_803482B0(void *);
 s32 TWindowDD__sub_803484C4(void *);
 void copy_chat_entry__9TWindowDDFPvPv(R_80343BC0 *arg0, R_80343BC0 *arg1);
@@ -698,7 +697,7 @@ void TWindowDD::run_task() {
             if (w->xB8 != 1 && TWindowDD_check_input_mask(w->input, 0x80) != 0) {
                 TWindowDD::spawn_window();
                 w->xA8 = 1;
-                ((TWindowDD *)w->x80)->set_clamped_selection(get_cursor_index__9TWindowDDFv((saddr)w->subs[w->idx]));
+                ((TWindowDD *)w->x80)->set_clamped_selection(((TWindowDD *)w->subs[w->idx])->get_cursor_index());
                 TWindowDD__sub_80341AE0((saddr)cur);
                 copy_chat_entry__9TWindowDDFPvPv((R_80343BC0 *)(&w->xE0), (R_80343BC0 *)(&w->xC4));
                 if (w->xE0 > 0) {
