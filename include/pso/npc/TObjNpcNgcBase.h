@@ -5,6 +5,7 @@
 #include "pso/npc/TUnk_804A9F50.h"
 
 struct TObjNpcNgcBase : public TUnk_804A9F50 {
+    TObjNpcNgcBase(TObject *parent, void *set_data, void *resource);
     virtual ~TObjNpcNgcBase();
     static void free_shared_resources();
     static void load_resources();
@@ -28,7 +29,7 @@ void *__dt__14TObjNpcNgcBaseFv(void *arg0, s16 arg1);
 // --- end of C functions
 
 extern "C" {
-u8 *TObjNpcNgcBase__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
+u8 *__ct__14TObjNpcNgcBaseFP7TObjectPvPv(u8 *self, s32 parent, s32 set_data, s32 resource);
 }
 
 #endif

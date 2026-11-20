@@ -13,15 +13,9 @@ BmlResourceDescriptor bm_n_efsw_i_body_resource_descriptor = { "bm_n_efsw_i_body
 const char *TObjNpcFemaleDwarf__name = "TObjNpcFemaleDwarf";
 BmlResource *TObjNpcFemaleDwarf__static_data;
 
-s32 __vt__18TObjNpcFemaleDwarf[];
-
 void *TObjNpcFemaleDwarf__create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);
-    void *npc = TObject::operator new(sizeof(TObjNpcFemaleDwarf));
-    if (npc != NULL) {
-        npc = TObjNpcFemaleDwarf__ct((TObjNpcFemaleDwarf *)npc, control, set_data);
-    }
-    return npc;
+    return new TObjNpcFemaleDwarf(control, set_data);
 }
 
 void TObjNpcFemaleDwarf::unload_static_data() {
@@ -42,14 +36,11 @@ void TObjNpcFemaleDwarf::load_static_resource() {
 
 TObjNpcFemaleDwarf::~TObjNpcFemaleDwarf() {}
 
-TObjNpcFemaleDwarf *TObjNpcFemaleDwarf__ct(TObjNpcFemaleDwarf *npc, TObjControl *control, void *set_data) {
-    npc->construct_female_base();
-    *(s32 **)((u8 *)npc + 0x18) = __vt__18TObjNpcFemaleDwarf;
-    npc->m_name = TObjNpcFemaleDwarf__name;
-    npc->apply_set_data(set_data);
-    ((TObjPlayer *)npc)->init_position_vectors();
-    npc->model = (void *)TObjNpcFemaleDwarf__static_data->models->model;
-    npc->texlist = TObjNpcFemaleDwarf__static_data->models->m_c;
-    npc->setup_common();
-    return npc;
+TObjNpcFemaleDwarf::TObjNpcFemaleDwarf(TObject *parent, void *set_data) : TUnk_804A8640(parent) {
+    this->m_name = TObjNpcFemaleDwarf__name;
+    this->apply_set_data(set_data);
+    ((TObjPlayer *)this)->init_position_vectors();
+    this->model = (void *)TObjNpcFemaleDwarf__static_data->models->model;
+    this->texlist = TObjNpcFemaleDwarf__static_data->models->m_c;
+    this->setup_common();
 }

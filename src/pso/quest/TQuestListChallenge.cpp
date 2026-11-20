@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/object/TObjControl.h"
+#include "pso/npc/TObjNpcKenkyu.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TObject.h"
@@ -147,8 +149,6 @@ void invoke_callback_and_destroy__19TQuestListChallengeFv(void *arg0);
 void reset_globals2__19TQuestListChallengeFv(void);
 void reset_globals__19TQuestListChallengeFv(void);
 s32 prepare_offline_quest_filenames(s32, s32);
-void *__ct__11TObjControlFP7TObject(void *, void *);
-u8 *TObjNpcKenkyu__ct(u8 *arg0, s32 arg1, s32 arg2);
 s32 __dl__7TObjectFPv(void *);
 
 extern "C" {
@@ -437,18 +437,9 @@ void reset_globals2__19TQuestListChallengeFv(void) {
 
 extern void *tl_04;
 
-void * TObjNpcKenkyu__create(void *arg0) {
-    void *o;
-    void *o2;
-    o = TObject::operator new(0x20);
-    if (o != NULL) {
-        o = __ct__11TObjControlFP7TObject(o, tl_04);
-    }
-    o2 = TObject::operator new(0x3B8);
-    if (o2 != NULL) {
-        o2 = TObjNpcKenkyu__ct((u8 *)o2, (s32)o, (s32)arg0);
-    }
-    return o2;
+void *TObjNpcKenkyu__create(void *set_data) {
+    TObjControl *control = new TObjControl((TObject *)tl_04);
+    return new TObjNpcKenkyu(control, set_data);
 }
 }
 

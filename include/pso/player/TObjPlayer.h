@@ -525,7 +525,6 @@ struct TObjPlayer : public TObjChara {
     s32 is_rand_below_threshold();
     s32 get_hp_by_flag();
     s16 get_kill_count();
-    void draw_if_visible();
     static void apply_status_effect(s32 a);
     // Enters (target, body) in the hit pair table unless it is already there.
     static void add_unique_pair_entry(TObjCollidable *target, s32 body);

@@ -5,6 +5,7 @@
 #include "pso/enemy/TObjEnemy.h"
 
 struct TObjNpcBase : public TObjEnemy {
+    TObjNpcBase(TObject *parent);
     virtual ~TObjNpcBase();
     virtual void run_task();
     virtual void render();

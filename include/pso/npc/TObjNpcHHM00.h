@@ -5,6 +5,7 @@
 #include "pso/npc/TUnk_804A9F50.h"
 
 struct TObjNpcHHM00 : public TUnk_804A9F50 {
+    TObjNpcHHM00(TObject *parent, void *set_data);
     virtual ~TObjNpcHHM00();
     static void free_resources();
     static void load_resources();
@@ -16,7 +17,6 @@ class TObjControl;
 
 extern "C" {
 void *TObjNpcHHM00__create(void *set_data);
-TObjNpcHHM00 *TObjNpcHHM00__ct(TObjNpcHHM00 *npc, TObjControl *control, void *set_data);
 }
 
 #endif

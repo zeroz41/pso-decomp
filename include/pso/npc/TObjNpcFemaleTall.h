@@ -7,6 +7,7 @@
 class TObjControl;
 
 struct TObjNpcFemaleTall : public TUnk_804A8640 {
+    TObjNpcFemaleTall(TObject *parent, void *set_data);
     virtual ~TObjNpcFemaleTall();
     static void destroy_instance();
     static void load_resource_instance();
@@ -16,7 +17,6 @@ typedef char TObjNpcFemaleTall_size[sizeof(TObjNpcFemaleTall) == 0x3B8 ? 1 : -1]
 
 extern "C" {
 void *TObjNpcFemaleTall__create(void *set_data);
-TObjNpcFemaleTall *TObjNpcFemaleTall__ct(TObjNpcFemaleTall *npc, TObjControl *control, void *set_data);
 }
 
 #endif

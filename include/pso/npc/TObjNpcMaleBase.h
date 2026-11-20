@@ -5,6 +5,7 @@
 #include "pso/npc/TUnk_804A9F50.h"
 
 struct TObjNpcMaleBase : public TUnk_804A9F50 {
+    TObjNpcMaleBase(TObject *parent, void *set_data);
     virtual ~TObjNpcMaleBase();
     static void free_static_data();
     static void load_shared_resource();
@@ -16,7 +17,6 @@ class TObjControl;
 
 extern "C" {
 void *TObjNpcMaleBase__create(void *set_data);
-TObjNpcMaleBase *TObjNpcMaleBase__ct(TObjNpcMaleBase *npc, TObjControl *control, void *set_data);
 }
 
 #endif

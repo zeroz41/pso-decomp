@@ -5,6 +5,7 @@
 #include "pso/npc/TUnk_804A9F50.h"
 
 struct TObjNpcSoldierBase : public TUnk_804A9F50 {
+    TObjNpcSoldierBase(TObject *parent, void *set_data);
     virtual ~TObjNpcSoldierBase();
     static void release_static_instance();
     static void load_shared_resource();
@@ -16,7 +17,6 @@ class TObjControl;
 
 extern "C" {
 void *TObjNpcSoldierBase__create(void *set_data);
-TObjNpcSoldierBase *TObjNpcSoldierBase__ct(TObjNpcSoldierBase *npc, TObjControl *control, void *set_data);
 }
 
 #endif

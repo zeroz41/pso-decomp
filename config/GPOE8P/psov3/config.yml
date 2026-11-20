@@ -1421,17 +1421,17 @@ force_active:
   - TObjNpcARM00__texture_list
   - TObjNpcBase__name
   - TObjNpcBase__sub_80149368
-  - TObjNpcCloakroomBase__ct
+  - __ct__20TObjNpcCloakroomBaseFP7TObjectPv
   - TObjNpcCloakroomBase__name
   - TObjNpcCloakroomBase__static_instance
   - TObjNpcConnoisseur__name
   - TObjNpcEnemy__collision_body_parts
-  - TObjNpcEnemy__ct
+  - __ct__12TObjNpcEnemyFP7TObjectPv
   - TObjNpcEnemy__entry_table
   - TObjNpcEnemy_class_name
   - TObjNpcExpertBase__name
   - TObjNpcExpertBase__shared_resource
-  - TObjNpcFemaleBase__ct
+  - __ct__17TObjNpcFemaleBaseFP7TObjectPv
   - TObjNpcGovernorBase__name
   - TObjNpcGovernorBase__shared_resource
   - TObjNpcHFW01__name
@@ -1466,7 +1466,7 @@ force_active:
   - TObjNpcMaleOld__shared_model_resource
   - TObjNpcMaleTall__name
   - TObjNpcMaleTall__shared_model_resource
-  - TObjNpcMoja__ct
+  - __ct__11TObjNpcMojaFP7TObjectPv
   - TObjNpcNFW01__name
   - TObjNpcNHW00__name
   - TObjNpcNHW00__shared_named_model_object
@@ -5953,8 +5953,8 @@ force_active:
   - dspInitCallback
   - dspResumeCallback
   - dt__10TNpcPlayerFs
-  - dt__11TObjNpcMojaFPvs
-  - dt__12TObjNpcLappyFPvs
+  - __dt__11TObjNpcMojaFv
+  - __dt__12TObjNpcLappyFv
   - dt__13TLockOnCursorFls
   - dt__16TObjCityDoor_MedFPvs
   - dt__17TObjCityDoor_ShopFPvs

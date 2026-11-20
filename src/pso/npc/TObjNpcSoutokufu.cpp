@@ -34,7 +34,6 @@ extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 s32 get_bml_texlist(int, int);
 s32 get_bml_model(int, int);
-extern s32 __vt__16TObjNpcSoutokufu[];
 extern void *lbl_805D4DD8;
 void free_bin_model_request(void*, int);
 
@@ -60,16 +59,13 @@ void TObjNpcSoutokufu::load_shared_resource() {
 TObjNpcSoutokufu::~TObjNpcSoutokufu() {}
 
 
-u8 *TObjNpcSoutokufu__ct(u8 *player, s32 arg1, s32 arg2) {
-    ((TUnk_804A9F50 *)player)->construct_male_npc_base();
-    *(s32 **)((s8 *)player + 0x18) = __vt__16TObjNpcSoutokufu;
-    *(s32 *)((s8 *)player + 0) = (s32) TObjNpcSoutokufu__name;
-    ((TObjNpcSoutokufu *)(player))->apply_set_data((void *)arg2);
-    ((TObjPlayer *)player)->init_position_vectors();
-    *(s32 *)((s8 *)player + 0x34) = get_bml_model((int) ((*(s32 *)&TObjNpcSoutokufu__shared_model_resource)), 0);
-    ((TObjNpcSoutokufu *)player)->texlist = get_bml_texlist((int) ((*(s32 *)&TObjNpcSoutokufu__shared_model_resource)), 0);
-    ((TObjNpcBase *)player)->setup_common();
-    return player;
+TObjNpcSoutokufu::TObjNpcSoutokufu(TObject *parent, void *arg2) : TUnk_804A9F50(parent) {
+    *(s32 *)((s8 *)this + 0) = (s32) TObjNpcSoutokufu__name;
+    ((TObjNpcSoutokufu *)this)->apply_set_data(arg2);
+    ((TObjPlayer *)this)->init_position_vectors();
+    *(s32 *)((s8 *)this + 0x34) = get_bml_model((int) ((*(s32 *)&TObjNpcSoutokufu__shared_model_resource)), 0);
+    ((TObjNpcSoutokufu *)this)->texlist = get_bml_texlist((int) ((*(s32 *)&TObjNpcSoutokufu__shared_model_resource)), 0);
+    ((TObjNpcBase *)this)->setup_common();
 }
 
 void TBoss8Dragon::trigger_switches_in_range(void *arg0, void *arg1, void *arg2) {

@@ -13,15 +13,9 @@ BmlResourceDescriptor bm_n_etw_i_body_resource_descriptor = { "bm_n_etw_i_body.b
 const char *TObjNpcFemaleTall__name = "TObjNpcFemaleTall";
 BmlResource *TObjNpcFemaleTall__instance;
 
-s32 __vt__17TObjNpcFemaleTall[];
-
 void *TObjNpcFemaleTall__create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);
-    void *npc = TObject::operator new(sizeof(TObjNpcFemaleTall));
-    if (npc != NULL) {
-        npc = TObjNpcFemaleTall__ct((TObjNpcFemaleTall *)npc, control, set_data);
-    }
-    return npc;
+    return new TObjNpcFemaleTall(control, set_data);
 }
 
 void TObjNpcFemaleTall::destroy_instance() {
@@ -42,14 +36,11 @@ void TObjNpcFemaleTall::load_resource_instance() {
 
 TObjNpcFemaleTall::~TObjNpcFemaleTall() {}
 
-TObjNpcFemaleTall *TObjNpcFemaleTall__ct(TObjNpcFemaleTall *npc, TObjControl *control, void *set_data) {
-    npc->construct_female_base();
-    *(s32 **)((u8 *)npc + 0x18) = __vt__17TObjNpcFemaleTall;
-    npc->m_name = TObjNpcFemaleTall__name;
-    npc->apply_set_data(set_data);
-    ((TObjPlayer *)npc)->init_position_vectors();
-    npc->model = (void *)TObjNpcFemaleTall__instance->models->model;
-    npc->texlist = TObjNpcFemaleTall__instance->models->m_c;
-    npc->setup_common();
-    return npc;
+TObjNpcFemaleTall::TObjNpcFemaleTall(TObject *parent, void *set_data) : TUnk_804A8640(parent) {
+    this->m_name = TObjNpcFemaleTall__name;
+    this->apply_set_data(set_data);
+    ((TObjPlayer *)this)->init_position_vectors();
+    this->model = (void *)TObjNpcFemaleTall__instance->models->model;
+    this->texlist = TObjNpcFemaleTall__instance->models->m_c;
+    this->setup_common();
 }

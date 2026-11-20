@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/object/TObjControl.h"
 #include "pso/npc/TObjNpcConnoisseur.h"
 #include "pso/npc/TObjNpcExpertBase.h"
 #include "pso/npc/TUnk_804A9F50.h"
@@ -52,11 +53,9 @@ const char *TObjNpcConnoisseur__name = "TObjNpcConnoisseur";
 
 
 extern "C" {
-extern s32 __vt__18TObjNpcConnoisseur[];
 s32 lbl_805D5748;
 u32 TObjNpcConnoisseur__instance;
 extern u8 TLobby__data_805011D8[];
-void *__ct__11TObjControlFP7TObject(void *, void *);
 
 void TObjNpcConnoisseur::destroy_instance() {
     if ((u32) TObjNpcConnoisseur__instance != 0U) {
@@ -81,29 +80,17 @@ TObjNpcConnoisseur::~TObjNpcConnoisseur() {}
 
 extern void *tl_04;
 
-u8 *TObjNpcConnoisseur__ct(u8 *player, s32 arg1, s32 arg2) {
-    ((TUnk_804A9F50 *)player)->construct_male_npc_base();
-    *(s32 **)((s8 *)player + 0x18) = __vt__18TObjNpcConnoisseur;
-    ((TObjNpcConnoisseur *)player)->m_name = TObjNpcConnoisseur__name;
-    ((TObjNpcConnoisseur *)(player))->apply_set_data((void *)arg2);
-    ((TObjPlayer *)player)->init_position_vectors();
-    *(s32 *)((s8 *)player + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjNpcConnoisseur__instance) + 0x42C)) + 8);
-    ((TObjNpcConnoisseur *)player)->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjNpcConnoisseur__instance) + 0x42C)) + 0xC);
-    ((TObjNpcBase *)player)->setup_common();
-    return player;
+TObjNpcConnoisseur::TObjNpcConnoisseur(TObject *parent, void *arg2) : TUnk_804A9F50(parent) {
+    ((TObjNpcConnoisseur *)this)->m_name = TObjNpcConnoisseur__name;
+    ((TObjNpcConnoisseur *)this)->apply_set_data(arg2);
+    ((TObjPlayer *)this)->init_position_vectors();
+    *(s32 *)((s8 *)this + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjNpcConnoisseur__instance) + 0x42C)) + 8);
+    ((TObjNpcConnoisseur *)this)->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjNpcConnoisseur__instance) + 0x42C)) + 0xC);
+    ((TObjNpcBase *)this)->setup_common();
 }
 
-void * TObjNpcExpertBase__create(void *arg0) {
-    void *o;
-    void *o2;
-    o = TObject::operator new(0x20);
-    if (o != NULL) {
-        o = __ct__11TObjControlFP7TObject(o, tl_04);
-    }
-    o2 = TObject::operator new(0x3B8);
-    if (o2 != NULL) {
-        o2 = TObjNpcExpertBase__ct((u8 *)o2, (s32)o, (s32)arg0);
-    }
-    return o2;
+void *TObjNpcExpertBase__create(void *set_data) {
+    TObjControl *control = new TObjControl((TObject *)tl_04);
+    return new TObjNpcExpertBase(control, set_data);
 }
 

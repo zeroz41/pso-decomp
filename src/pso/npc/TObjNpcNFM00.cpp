@@ -15,15 +15,9 @@ const char *TObjNpcNFM00__name = "TObjNpcNFM00";
 u32 TObjNpcNFM00__shared_named_model_object;
 u32 TObjNpcNFM00__texture_gvm_handle;
 
-s32 __vt__12TObjNpcNFM00[];
-
 void *TObjNpcNFM00__create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);
-    void *npc = TObject::operator new(sizeof(TObjNpcNFM00));
-    if (npc != NULL) {
-        npc = TObjNpcNFM00__ct((TObjNpcNFM00 *)npc, control, set_data);
-    }
-    return npc;
+    return new TObjNpcNFM00(control, set_data);
 }
 
 void TObjNpcNFM00::free_resources() {
@@ -45,14 +39,11 @@ void TObjNpcNFM00::load_assets() {
 
 TObjNpcNFM00::~TObjNpcNFM00() {}
 
-TObjNpcNFM00 *TObjNpcNFM00__ct(TObjNpcNFM00 *npc, TObjControl *control, void *set_data) {
-    npc->construct_male_npc_base();
-    *(s32 **)((u8 *)npc + 0x18) = __vt__12TObjNpcNFM00;
-    npc->m_name = TObjNpcNFM00__name;
-    npc->apply_set_data(set_data);
-    ((TObjPlayer *)npc)->init_position_vectors();
-    npc->model = *(void **)TObjNpcNFM00__shared_named_model_object;
-    npc->texlist = TObjNpcNFM00__texture_gvm_handle;
-    npc->setup_common();
-    return npc;
+TObjNpcNFM00::TObjNpcNFM00(TObject *parent, void *set_data) : TUnk_804A9F50(parent) {
+    this->m_name = TObjNpcNFM00__name;
+    this->apply_set_data(set_data);
+    ((TObjPlayer *)this)->init_position_vectors();
+    this->model = *(void **)TObjNpcNFM00__shared_named_model_object;
+    this->texlist = TObjNpcNFM00__texture_gvm_handle;
+    this->setup_common();
 }

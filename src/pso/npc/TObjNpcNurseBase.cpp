@@ -15,15 +15,9 @@ BmlResourceDescriptor bm_n_nurse_i_body_resource_descriptor = { "bm_n_nurse_i_bo
 const char *TObjNpcNurseBase__name = "TObjNpcNurseBase";
 BmlResource *TObjNpcNurseBase__shared_model_resource;
 
-s32 __vt__16TObjNpcNurseBase[];
-
 void *TObjNpcNurseBase__create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);
-    void *npc = TObject::operator new(sizeof(TObjNpcNurseBase));
-    if (npc != NULL) {
-        npc = TObjNpcNurseBase__ct((TObjNpcNurseBase *)npc, control, set_data);
-    }
-    return npc;
+    return new TObjNpcNurseBase(control, set_data);
 }
 
 void TObjNpcNurseBase::free_shared_data() {
@@ -44,14 +38,11 @@ void TObjNpcNurseBase::load_shared_data() {
 
 TObjNpcNurseBase::~TObjNpcNurseBase() {}
 
-TObjNpcNurseBase *TObjNpcNurseBase__ct(TObjNpcNurseBase *npc, TObjControl *control, void *set_data) {
-    npc->construct_female_base();
-    *(s32 **)((u8 *)npc + 0x18) = __vt__16TObjNpcNurseBase;
-    npc->m_name = TObjNpcNurseBase__name;
-    npc->apply_set_data(set_data);
-    ((TObjPlayer *)npc)->init_position_vectors();
-    npc->model = (void *)TObjNpcNurseBase__shared_model_resource->models->model;
-    npc->texlist = TObjNpcNurseBase__shared_model_resource->models->m_c;
-    npc->setup_common();
-    return npc;
+TObjNpcNurseBase::TObjNpcNurseBase(TObject *parent, void *set_data) : TUnk_804A8640(parent) {
+    this->m_name = TObjNpcNurseBase__name;
+    this->apply_set_data(set_data);
+    ((TObjPlayer *)this)->init_position_vectors();
+    this->model = (void *)TObjNpcNurseBase__shared_model_resource->models->model;
+    this->texlist = TObjNpcNurseBase__shared_model_resource->models->m_c;
+    this->setup_common();
 }

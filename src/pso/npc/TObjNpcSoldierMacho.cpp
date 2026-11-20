@@ -15,15 +15,9 @@ BmlResourceDescriptor TObjNpcSoldierMacho__body_resource_desc = { "bm_n_gunm_i_b
 const char *TObjNpcSoldierMacho__name = "TObjNpcSoldierMacho";
 BmlResource *TObjNpcSoldierMacho__shared_model_resource;
 
-s32 __vt__19TObjNpcSoldierMacho[];
-
 void *TObjNpcSoldierMacho__create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);
-    void *npc = TObject::operator new(sizeof(TObjNpcSoldierMacho));
-    if (npc != NULL) {
-        npc = TObjNpcSoldierMacho__ct((TObjNpcSoldierMacho *)npc, control, set_data);
-    }
-    return npc;
+    return new TObjNpcSoldierMacho(control, set_data);
 }
 
 void TObjNpcSoldierMacho::unload_static_data() {
@@ -44,14 +38,11 @@ void TObjNpcSoldierMacho::load_shared_resource() {
 
 TObjNpcSoldierMacho::~TObjNpcSoldierMacho() {}
 
-TObjNpcSoldierMacho *TObjNpcSoldierMacho__ct(TObjNpcSoldierMacho *npc, TObjControl *control, void *set_data) {
-    npc->construct_male_npc_base();
-    *(s32 **)((u8 *)npc + 0x18) = __vt__19TObjNpcSoldierMacho;
-    npc->m_name = TObjNpcSoldierMacho__name;
-    npc->apply_set_data(set_data);
-    ((TObjPlayer *)npc)->init_position_vectors();
-    npc->model = (void *)TObjNpcSoldierMacho__shared_model_resource->models->model;
-    npc->texlist = TObjNpcSoldierMacho__shared_model_resource->models->m_c;
-    npc->setup_common();
-    return npc;
+TObjNpcSoldierMacho::TObjNpcSoldierMacho(TObject *parent, void *set_data) : TUnk_804A9F50(parent) {
+    this->m_name = TObjNpcSoldierMacho__name;
+    this->apply_set_data(set_data);
+    ((TObjPlayer *)this)->init_position_vectors();
+    this->model = (void *)TObjNpcSoldierMacho__shared_model_resource->models->model;
+    this->texlist = TObjNpcSoldierMacho__shared_model_resource->models->m_c;
+    this->setup_common();
 }

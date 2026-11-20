@@ -717,10 +717,7 @@ struct Npc_801491B4 {
 };
 
 extern "C" {
-void __ct__9TObjEnemyFP7TObject(void *, void *, void *);
 void TObjNpcBase__sub_80149368(void* p);
-extern s32 __vt__11TObjNpcBase[];
-void *TObjNpcBase__ct(void *arg0, void *arg1, void *arg2);
 s32 play_sound_effect(s32, s32, s32, s32);
 void free_collision_body_parts(void *);
 
@@ -731,11 +728,9 @@ TObjNpcBase::~TObjNpcBase() {
 }
 
 
-#define self ((Npc_801491B4 *)arg0)
-void *TObjNpcBase__ct(void *arg0, void *arg1, void *arg2) {
-    __ct__9TObjEnemyFP7TObject(arg0, arg1, arg2);
-    self->vt = __vt__11TObjNpcBase;
-    self->f0 = (s32)TObjNpcBase__name;
+#define self ((Npc_801491B4 *)this)
+TObjNpcBase::TObjNpcBase(TObject *parent) : TObjEnemy(parent) {
+    m_name = TObjNpcBase__name;
     self->f388 = 0;
     self->f390 = 1;
     switch (get_current_floor_area()) {
@@ -768,7 +763,6 @@ void *TObjNpcBase__ct(void *arg0, void *arg1, void *arg2) {
     TObjNpcBase__sub_80149368(self->sub98);
     self->f3B0 = 0;
     self->f3B4 = 0;
-    return arg0;
 }
 #undef self
 
