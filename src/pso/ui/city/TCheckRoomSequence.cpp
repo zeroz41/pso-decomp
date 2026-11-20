@@ -195,7 +195,7 @@ void handle_withdraw_choice__18TCheckRoomSequenceFv(u8 *arg0);
 void handle_deposit_choice__18TCheckRoomSequenceFv(u8 *arg0);
 s32 set_service_counter_camera(void *, int);
 void *TWindowDeposit__ct(void *, s32);
-s32 create_meseta_window(u16);
+saddr create_meseta_window(u16);
 void open_bank__18TCheckRoomSequenceFv(u8 *arg0);
 extern const char *TCheckRoomSequence__name;
 void remove_bank_item_amount__18TCheckRoomSequenceFiii(s32 idx, s32 amount, s32 slot);

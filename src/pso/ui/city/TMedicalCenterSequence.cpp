@@ -124,7 +124,7 @@ struct VObj_8021658C : Base_8021658C {
 };
 
 extern "C" {
-s32 create_meseta_window(unsigned short);
+saddr create_meseta_window(unsigned short);
 s32 set_service_counter_camera(void *, int);
 extern RecoveredGlobal_802169A8___vt__22TMedicalCenterSequence __vt__22TMedicalCenterSequence;
 extern RecoveredGlobal_TMedicalCenterSequence__data_80513E90 TMedicalCenterSequence__data_80513E90;
