@@ -7,7 +7,7 @@
 struct Matrix34 { f32 elements[3][4]; };
 
 extern "C" {
-extern u32 current_matrix;
+extern uaddr current_matrix;
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
 
@@ -27,8 +27,8 @@ void rotate_matrix_z(Matrix34* matrix, s32 angle) {
 #pragma push
 #pragma peephole off
 void TObjPlayer::copy_matrix(u32 arg0, u32 arg1) {
-    u32 var_r0;
-    u32 var_r3;
+    uaddr var_r0;
+    uaddr var_r3;
     if (arg0 == 0U) {
         var_r0 = current_matrix;
     } else {
@@ -89,9 +89,9 @@ void euler_yxz_to_quaternion(u8 *arg0, u8 *arg1) {
 #pragma push
 #pragma scheduling off
 
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z) {
-    u32 var_r3;
-    u32 phi_r3;
+void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z) {
+    uaddr var_r3;
+    uaddr phi_r3;
     var_r3 = arg0;
     phi_r3 = var_r3;
     if (var_r3 == 0U) {
