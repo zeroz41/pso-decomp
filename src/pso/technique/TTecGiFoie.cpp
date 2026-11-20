@@ -122,7 +122,7 @@ static const u8 orbit_counts[6] = {1, 1, 1, 2, 2, 3};
 
 void TTecGiFoie::render() {  }
 
-TTecGiFoie::TTecGiFoie(s32 source, Vec *origin, s32 level) : TUnk_804CC148(source, origin, origin, level) {
+TTecGiFoie::TTecGiFoie(saddr source, Vec *origin, s32 level) : TUnk_804CC148(source, origin, origin, level) {
     s32 i;
     s32 j;
     s32 k;

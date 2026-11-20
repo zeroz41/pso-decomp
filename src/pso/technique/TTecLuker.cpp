@@ -214,7 +214,7 @@ void TTecLuker__sub_80234F08(void) {
     }
 }
 
-TTecLuker::TTecLuker(s32 source, Vec *pos, Vec *target, s32 level) : TUnk_804CC148(source, pos, target, level) {
+TTecLuker::TTecLuker(saddr source, Vec *pos, Vec *target, s32 level) : TUnk_804CC148(source, pos, target, level) {
     m_name = TTecLuker__name;
     phase = 0;
     warp_frames = 0;

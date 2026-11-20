@@ -309,7 +309,7 @@ void TTecBarta::render() {  }
 
 }
 
-TTecBarta::TTecBarta(s32 source, u8 *pos, u8 *target, s32 level)
+TTecBarta::TTecBarta(saddr source, u8 *pos, u8 *target, s32 level)
     : TUnk_804CCC68(source, pos, target, level) {
     s32 i;
     m_name = TTecBarta__class_name;
@@ -327,7 +327,7 @@ TTecBarta::TTecBarta(s32 source, u8 *pos, u8 *target, s32 level)
 }
 
 // The facing form starts 5 units higher.
-TTecBarta::TTecBarta(s32 source, Vec *pos, s32 angle, s32 level)
+TTecBarta::TTecBarta(saddr source, Vec *pos, s32 angle, s32 level)
     : TUnk_804CCC68(source, pos, angle, level) {
     s32 i;
     m_name = TTecBarta__class_name;

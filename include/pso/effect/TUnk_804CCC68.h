@@ -9,8 +9,8 @@ struct TechniqueContactBody;
 
 class TUnk_804CCC68 : public TEffect {
 public:
-    TUnk_804CCC68(s32 arg1, u8 *arg2, u8 *arg3, s32 arg4);
-    TUnk_804CCC68(s32 source, Vec *pos, s32 angle, s32 level);
+    TUnk_804CCC68(saddr arg1, u8 *arg2, u8 *arg3, s32 arg4);
+    TUnk_804CCC68(saddr source, Vec *pos, s32 angle, s32 level);
     virtual ~TUnk_804CCC68();
     void check_technique_projectile_wall_hit();
     void move_technique_projectile();

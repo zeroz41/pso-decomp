@@ -354,10 +354,10 @@ void TTecMegid::vfunc_8(void *target) {
     }
 }
 
-void TTecMegid::create(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+void TTecMegid::create(saddr arg0, saddr arg1, saddr arg2, s32 arg3) {
     new TTecMegid(arg0, (u8 *)arg1, (u8 *)arg2, arg3);
 }
-void TTecMegid::create_ex(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+void TTecMegid::create_ex(saddr arg0, saddr arg1, s32 arg2, s32 arg3) {
     new TTecMegid(arg0, (Vec *)arg1, arg2, arg3);
 }
 void TTecMegid::render() {  }
@@ -401,7 +401,7 @@ void run_task__9TTecMegidFv(Obj_80235740 *self) {
 }
 
 // The aimed form: the technique flies from `pos` towards `target`.
-TTecMegid::TTecMegid(s32 source, u8 *pos, u8 *target, s32 level) : TUnk_804CCC68(source, pos, target, level) {
+TTecMegid::TTecMegid(saddr source, u8 *pos, u8 *target, s32 level) : TUnk_804CCC68(source, pos, target, level) {
     s32 i;
     m_name = TTecMegid__class_name;
     init_parameters();
@@ -419,7 +419,7 @@ TTecMegid::TTecMegid(s32 source, u8 *pos, u8 *target, s32 level) : TUnk_804CCC68
 }
 
 // The facing form: the technique starts at `pos` and flies along the y angle `angle`.
-TTecMegid::TTecMegid(s32 source, Vec *pos, s32 angle, s32 level) : TUnk_804CCC68(source, pos, angle, level) {
+TTecMegid::TTecMegid(saddr source, Vec *pos, s32 angle, s32 level) : TUnk_804CCC68(source, pos, angle, level) {
     s32 i;
     m_name = TTecMegid__class_name;
     init_parameters();

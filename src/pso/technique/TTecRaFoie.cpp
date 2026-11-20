@@ -607,7 +607,7 @@ typedef struct RecoveredFields_80238D10_arg0 RecoveredFields_80238D10_arg0;
 
 #pragma push
 #pragma opt_common_subs off
-TTecRaFoie::TTecRaFoie(s32 source, Vec *origin, Vec *pos, s32 level) : TUnk_804CC148(source, origin, pos, level) {
+TTecRaFoie::TTecRaFoie(saddr source, Vec *origin, Vec *pos, s32 level) : TUnk_804CC148(source, origin, pos, level) {
     ((TObjPlayer *)&m_ec)->construct_target_cursor_records();
     m_name = TTecRaFoie_class_name;
     calc_area_parameters();
@@ -624,7 +624,7 @@ TTecRaFoie::TTecRaFoie(s32 source, Vec *origin, Vec *pos, s32 level) : TUnk_804C
 }
 #pragma pop
 
-TTecRaFoie::TTecRaFoie(s32 source, Vec *origin, TargetCursorList *list, s32 level) : TUnk_804CC148(source, origin, origin, level) {
+TTecRaFoie::TTecRaFoie(saddr source, Vec *origin, TargetCursorList *list, s32 level) : TUnk_804CC148(source, origin, origin, level) {
     ((TObjPlayer *)&m_ec)->construct_target_cursor_records();
     m_name = TTecRaFoie_class_name;
     calc_area_parameters();

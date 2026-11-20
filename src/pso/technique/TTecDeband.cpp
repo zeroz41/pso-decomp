@@ -104,18 +104,18 @@ void TTecDeband::vfunc_7(void *arg1_arg) {
     }
 }
 
-void TTecDeband::create(s32 owner, s32 pos, s32 arg2, s32 level) {
+void TTecDeband::create(saddr owner, saddr pos, saddr arg2, s32 level) {
     uaddr obj;
     obj = (uaddr)TObject::operator new(0x140);
     if (obj != 0U) {
         TTecDeband__ct(obj, owner, pos, arg2, level);
     }
 }
-void TTecDeband::create(s32 owner, s32 pos, s32 level) {
+void TTecDeband::create(saddr owner, saddr pos, s32 level) {
     uaddr obj;
     obj = (uaddr)TObject::operator new(0x140);
     if (obj != 0U) {
-        TTecDeband__sub_8022F948((TTecDeband *)((u8 *)obj), (s32)((s32)owner), (s32)((s32)pos), (s32)((s32)level));
+        TTecDeband__sub_8022F948((TTecDeband *)((u8 *)obj), (saddr)((saddr)owner), (saddr)((saddr)pos), (s32)((s32)level));
     }
 }
 void TTecDeband::render() {  }

@@ -8,8 +8,8 @@
 // TTecRaFoie, TTecRaZonde, TTecGiFoie, TTecLuker and TTecKafun derive from it.
 class TUnk_804CC148 : public TEffect {
 public:
-    TUnk_804CC148(s32 arg1, s32 arg2, s32 arg4);
-    TUnk_804CC148(s32 source, Vec *pos, Vec *target, s32 level);
+    TUnk_804CC148(saddr arg1, saddr arg2, s32 arg4);
+    TUnk_804CC148(saddr source, Vec *pos, Vec *target, s32 level);
     virtual ~TUnk_804CC148();
     virtual void vfunc_6(void *);
     virtual void tick_lifetime();

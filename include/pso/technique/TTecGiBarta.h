@@ -5,8 +5,8 @@
 #include "pso/effect/TUnk_804CCC68.h"
 
 struct TTecGiBarta : public TUnk_804CCC68 {
-    TTecGiBarta(s32 source, u8 *pos, u8 *target, s32 level);
-    TTecGiBarta(s32 source, Vec *pos, s32 angle, s32 level);
+    TTecGiBarta(saddr source, u8 *pos, u8 *target, s32 level);
+    TTecGiBarta(saddr source, Vec *pos, s32 angle, s32 level);
     virtual ~TTecGiBarta();
     virtual void vfunc_8(void *);
     void **emitters;

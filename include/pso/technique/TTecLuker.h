@@ -11,7 +11,7 @@ class TUnk_804CCA0C;
 // The telepipe technique: places a pipe (field + visual) near its caster and, once a player
 // selects it, warps everyone back to the city. Field names below are inferred from use.
 struct TTecLuker : public TUnk_804CC148 {
-    TTecLuker(s32 source, Vec *pos, Vec *target, s32 level);
+    TTecLuker(saddr source, Vec *pos, Vec *target, s32 level);
     virtual ~TTecLuker();
     virtual void vfunc_6(void *);
     virtual void run_task();

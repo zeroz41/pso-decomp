@@ -5,7 +5,7 @@
 #include "pso/effect/TUnk_804CCC68.h"
 
 struct TTecGiZonde : public TUnk_804CCC68 {
-    TTecGiZonde(s32 source, Vec *pos, void *targets, s32 level);
+    TTecGiZonde(saddr source, Vec *pos, void *targets, s32 level);
     virtual ~TTecGiZonde();
     virtual void vfunc_8(void *);
     s32 find_chain_targets();

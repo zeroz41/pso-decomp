@@ -372,7 +372,7 @@ void TTecRaBarta::run_task() {
 #pragma push
 #pragma opt_common_subs off
 
-TTecRaBarta::TTecRaBarta(s32 source, Vec *origin, Vec *pos, s32 level) : TUnk_804CC148(source, origin, pos, level) {
+TTecRaBarta::TTecRaBarta(saddr source, Vec *origin, Vec *pos, s32 level) : TUnk_804CC148(source, origin, pos, level) {
     s32 i;
     m_name = TTecRaBarta_class_name;
     calc_parameters();
@@ -393,7 +393,7 @@ TTecRaBarta::TTecRaBarta(s32 source, Vec *origin, Vec *pos, s32 level) : TUnk_80
 }
 #pragma pop
 
-TTecRaBarta::TTecRaBarta(s32 source, Vec *origin, s32 level) : TUnk_804CC148(source, origin, origin, level) {
+TTecRaBarta::TTecRaBarta(saddr source, Vec *origin, s32 level) : TUnk_804CC148(source, origin, origin, level) {
     s32 i;
     m_name = TTecRaBarta_class_name;
     m_f0 = 0;

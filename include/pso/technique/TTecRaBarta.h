@@ -5,8 +5,8 @@
 #include "pso/effect/TUnk_804CC148.h"
 
 struct TTecRaBarta : public TUnk_804CC148 {
-    TTecRaBarta(s32 source, Vec *origin, Vec *pos, s32 level);
-    TTecRaBarta(s32 source, Vec *origin, s32 level);
+    TTecRaBarta(saddr source, Vec *origin, Vec *pos, s32 level);
+    TTecRaBarta(saddr source, Vec *origin, s32 level);
     virtual ~TTecRaBarta();
     virtual void vfunc_6(void *);
     virtual void vfunc_9();

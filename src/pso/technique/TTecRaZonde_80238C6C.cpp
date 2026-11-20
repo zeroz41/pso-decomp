@@ -241,7 +241,7 @@ void TTecRaZonde::run_task() {
 #pragma push
 #pragma opt_loop_invariants off
 #pragma opt_common_subs off
-TTecRaZonde::TTecRaZonde(s32 source, Vec *origin, s32 level) : TUnk_804CC148(source, origin, origin, level) {
+TTecRaZonde::TTecRaZonde(saddr source, Vec *origin, s32 level) : TUnk_804CC148(source, origin, origin, level) {
     s32 ang;
     s32 i;
     s32 j;

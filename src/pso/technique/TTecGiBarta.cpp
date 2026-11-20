@@ -352,7 +352,7 @@ void TTecGiBarta::run_task() {
     dispatch_all_technique_contacts();
 }
 
-TTecGiBarta::TTecGiBarta(s32 source, u8 *pos, u8 *target, s32 level)
+TTecGiBarta::TTecGiBarta(saddr source, u8 *pos, u8 *target, s32 level)
     : TUnk_804CCC68(source, pos, target, level) {
     s32 i;
     m_name = TTecGiBarta__class_name;
@@ -369,7 +369,7 @@ TTecGiBarta::TTecGiBarta(s32 source, u8 *pos, u8 *target, s32 level)
     update_technique_by_phase();
 }
 
-TTecGiBarta::TTecGiBarta(s32 source, Vec *pos, s32 angle, s32 level)
+TTecGiBarta::TTecGiBarta(saddr source, Vec *pos, s32 angle, s32 level)
     : TUnk_804CCC68(source, pos, angle, level) {
     s32 i;
     m_name = TTecGiBarta__class_name;

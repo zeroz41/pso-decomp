@@ -21,8 +21,8 @@ struct TechniqueEmitterSourceRow { u32 entry; u32 flags; f32 scale; };
 struct TechniqueEmitterSourceTable { const TechniqueEmitterSourceRow *rows; u32 count; };
 
 struct TTecBarta : public TUnk_804CCC68 {
-    TTecBarta(s32 source, u8 *pos, u8 *target, s32 level);
-    TTecBarta(s32 source, Vec *pos, s32 angle, s32 level);
+    TTecBarta(saddr source, u8 *pos, u8 *target, s32 level);
+    TTecBarta(saddr source, Vec *pos, s32 angle, s32 level);
     virtual ~TTecBarta();
     virtual void vfunc_8(void *);
     TechniqueParticleEmitter** emitters;

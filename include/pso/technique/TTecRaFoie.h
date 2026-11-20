@@ -14,8 +14,8 @@ struct TTecRaFoie : public TUnk_804CC148 {
     virtual void vfunc_6(void *);
     virtual ~TTecRaFoie();
     virtual void run_task();
-    TTecRaFoie(s32 source, Vec *origin, Vec *pos, s32 level);
-    TTecRaFoie(s32 source, Vec *origin, TargetCursorList *list, s32 level);
+    TTecRaFoie(saddr source, Vec *origin, Vec *pos, s32 level);
+    TTecRaFoie(saddr source, Vec *origin, TargetCursorList *list, s32 level);
     // A TargetCursorList (count, then records) from 0xEC: create_ex's list, run_task detonates
     // at the first one.
     u32 m_ec;

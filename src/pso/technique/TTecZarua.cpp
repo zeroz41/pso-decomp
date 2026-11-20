@@ -74,7 +74,7 @@ void TTecZarua::vfunc_6(void *target_arg) {
     ((VObj_802386F8 *)target)->m21(*(s32 *)(self + 0x1C), d, *(s32 *)(self + 0xB8), 0xc, -1, self);
 }
 
-void TTecZarua::create_instance(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+void TTecZarua::create_instance(saddr arg0, saddr arg1, saddr arg2, s32 arg3) {
     new TTecZarua(arg0, (Vec *)arg1, (Vec *)arg2, arg3);
 }
 void TTecZarua::render() {  }
@@ -104,7 +104,7 @@ TTecZarua::~TTecZarua() {
 
 }
 
-TTecZarua::TTecZarua(s32 source, Vec *pos, TargetCursorList *list, s32 level) : TUnk_804CC148(source, (saddr)pos, level) {
+TTecZarua::TTecZarua(saddr source, Vec *pos, TargetCursorList *list, s32 level) : TUnk_804CC148(source, (saddr)pos, level) {
     s32 r;
     ((TObjPlayer *)&targets)->construct_target_cursor_records();
     m_name = TTecZarua__name;
@@ -140,7 +140,7 @@ TTecZarua::TTecZarua(s32 source, Vec *pos, TargetCursorList *list, s32 level) : 
     }
 }
 
-TTecZarua::TTecZarua(s32 source, Vec *pos, Vec *target, s32 level) : TUnk_804CC148(source, pos, target, level) {
+TTecZarua::TTecZarua(saddr source, Vec *pos, Vec *target, s32 level) : TUnk_804CC148(source, pos, target, level) {
     s32 r;
     ((TObjPlayer *)&targets)->construct_target_cursor_records();
     m_name = TTecZarua__name;

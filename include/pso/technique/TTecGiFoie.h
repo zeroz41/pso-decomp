@@ -31,7 +31,7 @@ public:
 LAYOUT_ASSERT(TUnk_804CC800_size, sizeof(TUnk_804CC800) == 0x4C);
 
 struct TTecGiFoie : public TUnk_804CC148 {
-    TTecGiFoie(s32 source, Vec *origin, s32 level);
+    TTecGiFoie(saddr source, Vec *origin, s32 level);
     virtual ~TTecGiFoie();
     virtual void vfunc_6(void *);
     virtual void run_task();

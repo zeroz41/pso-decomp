@@ -5,7 +5,7 @@
 #include "pso/effect/TUnk_804CC148.h"
 
 struct TTecRaZonde : public TUnk_804CC148 {
-    TTecRaZonde(s32 source, Vec *origin, s32 level);
+    TTecRaZonde(saddr source, Vec *origin, s32 level);
     virtual ~TTecRaZonde();
     virtual void vfunc_8(void *);
     virtual void vfunc_6(void *);

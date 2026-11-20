@@ -195,7 +195,7 @@ TUnk_804CCC68::~TUnk_804CCC68() {
 }
 }
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
-TUnk_804CCC68::TUnk_804CCC68(s32 arg1, u8 *arg2, u8 *arg3, s32 arg4) : TEffect() {
+TUnk_804CCC68::TUnk_804CCC68(saddr arg1, u8 *arg2, u8 *arg3, s32 arg4) : TEffect() {
     f32 dx;
     f32 dz;
     f32 dy;
@@ -272,7 +272,7 @@ TUnk_804CCC68::TUnk_804CCC68(s32 arg1, u8 *arg2, u8 *arg3, s32 arg4) : TEffect()
 
 // The facing form: the technique starts at `pos` and flies along the y angle
 // `angle` instead of towards a target point.
-TUnk_804CCC68::TUnk_804CCC68(s32 source, Vec *pos, s32 angle, s32 level) : TEffect() {
+TUnk_804CCC68::TUnk_804CCC68(saddr source, Vec *pos, s32 angle, s32 level) : TEffect() {
     uaddr var_r0;
     ((TObjPlayer *)(((u8 *)this) + 0x84))->register_object();
     this->sourceId = 0xFFFF;

@@ -14,10 +14,10 @@ struct TTecKafun : public TUnk_804CC148 {
     s32 has_second_effect;
     virtual void render();
     virtual void run_task();
-    TTecKafun(s32 source, Vec *pos, s32 kind, s32 effect, s32 second_effect, s32 level, f32 value, f32 radius);
-    TTecKafun(s32 source, Vec *pos, s32 kind, s32 effect, s32 level, f32 value, f32 radius);
-    static void create(s32 source, s32 pos, s32 kind, s32 effect, s32 second_effect, s32 level, f32 value, f32 radius);
-    static void create(s32 source, s32 pos, s32 kind, s32 effect, s32 level, f32 value, f32 radius);
+    TTecKafun(saddr source, Vec *pos, s32 kind, s32 effect, s32 second_effect, s32 level, f32 value, f32 radius);
+    TTecKafun(saddr source, Vec *pos, s32 kind, s32 effect, s32 level, f32 value, f32 radius);
+    static void create(saddr source, saddr pos, s32 kind, s32 effect, s32 second_effect, s32 level, f32 value, f32 radius);
+    static void create(saddr source, saddr pos, s32 kind, s32 effect, s32 level, f32 value, f32 radius);
 };
 
 LAYOUT_ASSERT(TTecKafun_size, sizeof(TTecKafun) == 0x100);

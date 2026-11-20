@@ -645,7 +645,7 @@ void TOTrapAncient02R::vfunc_81() {
                         ((TTecGiBarta *)this)->create_ex(&scratch_vec, (void *)ang, (void *)tech_level);
                         break;
                     case 3:
-                        TTecMegid::create((s32)this, (s32)&scratch_vec, (s32)(Vec *)&((TObjChara *)target)->m_2fc, tech_level);
+                        TTecMegid::create((saddr)this, (saddr)&scratch_vec, (saddr)(Vec *)&((TObjChara *)target)->m_2fc, tech_level);
                         break;
                     case 4:
                         TTecGiFoie::create(this, &scratch_vec, (void *)tech_level);

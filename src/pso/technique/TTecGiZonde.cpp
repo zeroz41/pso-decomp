@@ -376,7 +376,7 @@ void TTecGiZonde::run_task() {
     queue_destruction();
 }
 // The chain starts at `pos` with no facing (angle 0).
-TTecGiZonde::TTecGiZonde(s32 source, Vec *pos, void *targets, s32 level) : TUnk_804CCC68(source, pos, 0, level) {
+TTecGiZonde::TTecGiZonde(saddr source, Vec *pos, void *targets, s32 level) : TUnk_804CCC68(source, pos, 0, level) {
     s32 h;
     ((TObjPlayer *)this->targetList)->construct_target_cursor_records();
     m_name = TTecGiZonde_name_ref;
