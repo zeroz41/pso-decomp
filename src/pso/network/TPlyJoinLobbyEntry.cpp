@@ -587,7 +587,7 @@ void TLobby::open_udp_socket_for_player() {
         lobby_debug_printf_stub(lobby_debug_udp_open_format, v, o->m_dst_addr.addr_bytes[0], o->m_dst_addr.addr_bytes[1], o->m_dst_addr.addr_bytes[2], o->m_dst_addr.addr_bytes[3]);
     }
 }
-void send_6x6F_quest_flags(s32 arg0);
+void send_6x6F_quest_flags(saddr arg0);
 void restore_switch_table(saddr arg0, s32 arg1);
 extern const char lobby_debug_rcv_set_flag_format[];
 extern s16 TLobby__data_805D5CE8;
@@ -797,7 +797,7 @@ void handle_6x6B_sync_game_state(Pkt_801358B4 *arg0) {
     }
 }
 
-void send_6x6F_quest_flags(s32 arg0) {
+void send_6x6F_quest_flags(saddr arg0) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80135974, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_80135974, spC) == 0x4);
     Stack_80135974 stack;

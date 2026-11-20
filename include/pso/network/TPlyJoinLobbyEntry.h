@@ -90,7 +90,7 @@ void run_join_lobby_connect__6TLobbyFi(s32 arg0);
 void run_task__6TLobbyFv(void *self);
 void send_6x6E_sync_game_state__6TLobbyFi(saddr arg0);
 }
-void send_6x6F_quest_flags(s32 arg0);
+void send_6x6F_quest_flags(saddr arg0);
 extern "C" {
 void send_6x70_player_data__6TLobbyFi(saddr arg0);
 void send_cmd_6B__6TLobbyFv(s32 arg0);

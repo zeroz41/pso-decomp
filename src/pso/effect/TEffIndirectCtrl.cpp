@@ -351,7 +351,7 @@ void deform_indirect_texture_scroll(u8 *p, u32 px, u32 py, s32 amp, u32 phase) {
 
 #pragma push
 #pragma fp_contract on
-s32 update_indirect_texture_wave(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, u8 arg5) {
+s32 update_indirect_texture_wave(saddr arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, u8 arg5) {
     s32 off;
     s32 x;
     s32 i;
@@ -379,7 +379,7 @@ s32 update_indirect_texture_wave(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg
 
 #pragma push
 #pragma fp_contract on
-void deform_indirect_texture_wave(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, u8 arg5) {
+void deform_indirect_texture_wave(saddr arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, u8 arg5) {
     s32 v;
     s32 off;
     s32 y;
