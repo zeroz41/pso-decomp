@@ -135,7 +135,7 @@ u8 *construct_actor_light_task(u8 *arg0, NJS_ARGB *njs_argb, u8 *arg2, s32 arg3,
     ((TUnk_804CCAA8 *)arg0)->m_20 = 0;
     *(f32 *)((s8 *)arg0 + 0x58) = (f32) lbl_805DC888[0];
     ((TUnk_804CCAA8 *)arg0)->m_5c = (f32) lbl_805DC888[0];
-    *(u16 *)((s8 *)arg0 + 0x60) = ((u16)get_entity_id((void *)(int)(((TUnk_804CCAA8 *)arg0)->m_54)));
+    *(u16 *)((s8 *)arg0 + 0x60) = ((u16)get_entity_id((void *)(saddr)(((TUnk_804CCAA8 *)arg0)->m_54)));
     TObjLight::find_light_params((f32 *)(arg0 + 0x40), (f32 *)((saddr) &sp8), (u32)((int)((u32) *(u16 *)((s8 *)arg0 + 0x60))));
     return arg0;
 }
@@ -449,7 +449,7 @@ void TObjPlayer::find_support_technique_contact_for_target(saddr arg1) {
 
 void TObjPlayer::gather_contacts_for_self(s32 arg1) {
     u8 *arg0 = (u8 *)this;
-    gather_player_contacts((u32)((int)this->motion_list), (s32)(arg0 + 0xb0), arg1);
+    gather_player_contacts((u32)((int)this->motion_list), (saddr)(arg0 + 0xb0), arg1);
 }
 
 u8 *TUnk_804CCC68::query_technique_enemy_contacts(s32 arg) {

@@ -368,8 +368,8 @@ int TOTrapSeabed01::vfunc_67(f32) {
     TObjChara *chara;
     for (i = 0; i < 16; i++) {
         chara = (TObjChara *)TObjPlayer::get_battle_param(i);
-        if (TObjPlayer::is_valid_and_active((u32)chara) != 0 &&
-            ((TUnk_804B6C24 *)chara)->check_value_equals((s32)lbl_805D3530) != 0) {
+        if (TObjPlayer::is_valid_and_active((uaddr)chara) != 0 &&
+            ((TUnk_804B6C24 *)chara)->check_value_equals((saddr)lbl_805D3530) != 0) {
             chara->receive_direct_attack(this, payload, NULL, -1, -1);
             if (payload.kind < 5) {
                 chara->apply_knockback_from_attacker((u8 *)this, 0.0f);
@@ -419,7 +419,7 @@ void TOTrapSeabed01::sub_802C9D38() {
             held = get_player_by_client_id(get_entity_id((TObjBase *)target));
             if (held != NULL) {
                 if (((TLobby *)held)->check_player_flag1() != 0) {
-                    TObjPlayer::send_code_45_1((s32)held);
+                    TObjPlayer::send_code_45_1((saddr)held);
                 }
                 obj_clear_flag30_20000(held);
             }
@@ -427,7 +427,7 @@ void TOTrapSeabed01::sub_802C9D38() {
     } else if (target != NULL && local_client_id == get_entity_id((TObjBase *)target)) {
         held = get_player_by_client_id(local_client_id);
         if (held != NULL && ((TLobby *)held)->check_player_flag1() != 0) {
-            TObjPlayer::send_code_45_1((s32)held);
+            TObjPlayer::send_code_45_1((saddr)held);
         }
     }
 }

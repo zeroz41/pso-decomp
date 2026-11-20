@@ -49,7 +49,7 @@ void TOFenceBase::update_trigger() {
         }
         break;
     }
-    play_persistent_sound(0x4004C10F, (s32)this, (u32)&position, 0, 0);
+    play_persistent_sound(0x4004C10F, (saddr)this, (uaddr)&position, 0, 0);
 }
 
 void TOFenceBase::run_task() {

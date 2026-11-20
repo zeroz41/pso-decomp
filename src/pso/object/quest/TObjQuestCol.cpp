@@ -500,12 +500,12 @@ void TQuestColCtrl::delete_by_param(s32 arg0) {
     while ((*(Obj_80195DE0 * *)&quest_collision_task_root)->child != 0 && next != 0) {
         cur = next;
         next = cur->next;
-        if ((((TUnk_804B6C24 *)cur)->check_value_equals((s32)TObjQuestCol__class_name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals((s32)TObjQuestColA__class_name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals((s32)obj_quest_col_alock_class_name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals((s32)obj_quest_col_apc_class_name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals((s32)TObjQuestColApcIN__name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals((s32)TObjQuestColApcINW__name) != 0)
+        if ((((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestCol__class_name) != 0
+             || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestColA__class_name) != 0
+             || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)obj_quest_col_alock_class_name) != 0
+             || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)obj_quest_col_apc_class_name) != 0
+             || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestColApcIN__name) != 0
+             || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestColApcINW__name) != 0)
             && cur->f6 == arg0) {
             ((TObject *)cur)->queue_destruction();
             return;
@@ -520,12 +520,12 @@ Obj_80195CF0 *find_by_id__13TQuestColCtrlFUs(u16 arg0) {
     while ((*(Obj_80195CF0 * *)&quest_collision_task_root)->child != 0 && next != 0) {
         cur = next;
         next = cur->next;
-        if ((((TUnk_804B6C24 *)cur)->check_value_equals((s32)TObjQuestCol__class_name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals((s32)TObjQuestColA__class_name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals((s32)obj_quest_col_alock_class_name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals((s32)obj_quest_col_apc_class_name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals((s32)TObjQuestColApcIN__name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals((s32)TObjQuestColApcINW__name) != 0)
+        if ((((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestCol__class_name) != 0
+             || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestColA__class_name) != 0
+             || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)obj_quest_col_alock_class_name) != 0
+             || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)obj_quest_col_apc_class_name) != 0
+             || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestColApcIN__name) != 0
+             || ((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjQuestColApcINW__name) != 0)
             && arg0 == get_entity_id(cur)) {
             return cur;
         }

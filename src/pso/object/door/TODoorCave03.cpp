@@ -53,7 +53,7 @@ void TODoorCave03::update_closing() {
     } else {
         position.y = y - 1.0f;
     }
-    play_persistent_sound(0x42807, (s32)this, (u32)&position, 0, 0);
+    play_persistent_sound(0x42807, (saddr)this, (uaddr)&position, 0, 0);
 }
 
 void TODoorCave03::update_open() {
@@ -75,7 +75,7 @@ void TODoorCave03::update_opening() {
     } else {
         position.y += 1.0f;
     }
-    play_persistent_sound(0x42807, (s32)this, (u32)&position, 0, 0);
+    play_persistent_sound(0x42807, (saddr)this, (uaddr)&position, 0, 0);
 }
 
 void TODoorCave03::update_closed() {

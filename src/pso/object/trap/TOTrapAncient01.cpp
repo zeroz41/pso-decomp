@@ -259,20 +259,20 @@ void TOTrapAncient01::vfunc_81() {
         case AREA_CAVE1:
         case AREA_CAVE2:
         case AREA_CAVE3:
-            play_persistent_sound(0x4321A, (s32)this, (u32)&position, 0, 0);
+            play_persistent_sound(0x4321A, (saddr)this, (uaddr)&position, 0, 0);
             break;
         case AREA_MINE1:
         case AREA_MINE2:
-            play_persistent_sound(0x4004B211, (s32)this, (u32)&position, 0, 0);
+            play_persistent_sound(0x4004B211, (saddr)this, (uaddr)&position, 0, 0);
             break;
         case AREA_RUINS1:
         case AREA_RUINS2:
         case AREA_RUINS3:
-            play_persistent_sound(0x4004B217, (s32)this, (u32)&position, 0, 0);
+            play_persistent_sound(0x4004B217, (saddr)this, (uaddr)&position, 0, 0);
             break;
         case AREA_VR_SPACESHIP_ALPHA:
         case AREA_VR_SPACESHIP_BETA:
-            play_persistent_sound(0x4004B212, (s32)this, (u32)&position, 0, 0);
+            play_persistent_sound(0x4004B212, (saddr)this, (uaddr)&position, 0, 0);
             break;
         }
     } else {
@@ -325,7 +325,7 @@ void TOTrapAncient01::vfunc_82() {
             if (obj_is_hit_receivable((u8 *)p) == 0) {
                 break;
             }
-            if (((TUnk_804B6C24 *)p)->check_value_equals((s32)lbl_805D3530) == 0) {
+            if (((TUnk_804B6C24 *)p)->check_value_equals((saddr)lbl_805D3530) == 0) {
                 break;
             }
             {
@@ -343,11 +343,11 @@ void TOTrapAncient01::vfunc_82() {
     case AREA_RUINS1:
     case AREA_RUINS2:
     case AREA_RUINS3:
-        play_persistent_sound(0x4004C618, (s32)this, (u32)&position, 0, 0);
+        play_persistent_sound(0x4004C618, (saddr)this, (uaddr)&position, 0, 0);
         break;
     case AREA_VR_SPACESHIP_ALPHA:
     case AREA_VR_SPACESHIP_BETA:
-        play_persistent_sound(0x4004C610, (s32)this, (u32)&position, 0, 0);
+        play_persistent_sound(0x4004C610, (saddr)this, (uaddr)&position, 0, 0);
         break;
     case AREA_PIONEER2_EP1:
         return;
@@ -450,7 +450,7 @@ void TOTrapAncient01::release_trapped_player() {
             player = get_player_by_client_id(get_entity_id((TObjBase *)target));
             if (player != NULL) {
                 if (((TLobby *)player)->check_player_flag1() != 0) {
-                    TObjPlayer::send_code_45_1((s32)player);
+                    TObjPlayer::send_code_45_1((saddr)player);
                 }
                 obj_clear_flag30_20000(player);
             }
@@ -459,7 +459,7 @@ void TOTrapAncient01::release_trapped_player() {
         player = get_player_by_client_id(local_client_id);
         if (player != NULL) {
             if (((TLobby *)player)->check_player_flag1() != 0) {
-                TObjPlayer::send_code_45_1((s32)player);
+                TObjPlayer::send_code_45_1((saddr)player);
             }
             obj_clear_flag30_20000(player);
         }

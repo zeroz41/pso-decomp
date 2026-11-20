@@ -400,7 +400,7 @@ void TOTrapAncient02::vfunc_82() {
                 if (target != NULL && local_client_id == get_entity_id((TObjBase *)target)) {
                     p = get_player_by_client_id(local_client_id);
                     if (p != NULL && ((TLobby *)p)->check_player_flag1() != 0) {
-                        TObjPlayer::send_code_45_1((s32)p);
+                        TObjPlayer::send_code_45_1((saddr)p);
                     }
                 }
             }
@@ -445,20 +445,20 @@ void TOTrapAncient02::vfunc_84() {
         case AREA_CAVE1:
         case AREA_CAVE2:
         case AREA_CAVE3:
-            play_persistent_sound(0x4461B, (s32)this, (u32)&position, 0, 0);
+            play_persistent_sound(0x4461B, (saddr)this, (uaddr)&position, 0, 0);
             return;
         case AREA_MINE1:
         case AREA_MINE2:
-            play_persistent_sound(0x4004C612, (s32)this, (u32)&position, 0, 0);
+            play_persistent_sound(0x4004C612, (saddr)this, (uaddr)&position, 0, 0);
             return;
         case AREA_RUINS1:
         case AREA_RUINS2:
         case AREA_RUINS3:
-            play_persistent_sound(0x4004C618, (s32)this, (u32)&position, 0, 0);
+            play_persistent_sound(0x4004C618, (saddr)this, (uaddr)&position, 0, 0);
             return;
         case AREA_VR_SPACESHIP_ALPHA:
         case AREA_VR_SPACESHIP_BETA:
-            play_persistent_sound(0x4004C610, (s32)this, (u32)&position, 0, 0);
+            play_persistent_sound(0x4004C610, (saddr)this, (uaddr)&position, 0, 0);
         case AREA_PIONEER2_EP1:
             return;
         case AREA_FOREST1:

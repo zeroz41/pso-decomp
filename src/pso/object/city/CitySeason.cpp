@@ -1093,7 +1093,7 @@ void TObjCity_Season_SonicAdv2::render() {
         b.x = 1.0f;
         b.y = 0.0f;
         b.z = 1.3f;
-        ((TObjEneDD *)(&pos))->draw_oriented_shadow((s32)&a, self->x60, (u32)&b);
+        ((TObjEneDD *)(&pos))->draw_oriented_shadow((saddr)&a, self->x60, (uaddr)&b);
     }
 }
 }

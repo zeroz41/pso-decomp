@@ -368,7 +368,7 @@ void TUnk_804949D8::vfunc_6() {
     stack.x = temp_f1;
     stack.z = this->m_28 * cos_table_lookup(temp_r3);
     vec3_add_to(&stack.x, (u8 *)&this->unk_1C);
-    TObjBoss2Tunnel::adjust_to_ground((s32)&stack.x, &stack.x);
+    TObjBoss2Tunnel::adjust_to_ground((saddr)&stack.x, &stack.x);
     ((TParticleCtrl *)this->m_34)->set_position(&stack.x);
 }
 }

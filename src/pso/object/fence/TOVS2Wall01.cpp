@@ -103,7 +103,7 @@ void handle_6x86_hit_destructible_object(WallHitPacket *wall_hit_packet) {
     }
     o = (TOVS2Wall01 *)find_entity_by_id(id);
     if (o != NULL) {
-        if (((TUnk_804B6C24 *)o)->check_value_equals((s32)TOVS2Wall01__class_name) == 0) {
+        if (((TUnk_804B6C24 *)o)->check_value_equals((saddr)TOVS2Wall01__class_name) == 0) {
             return;
         }
         switch (wall_hit_packet->m_c) {

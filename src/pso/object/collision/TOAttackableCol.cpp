@@ -124,7 +124,7 @@ void handle_6x91_update_attackable_col_state(Msg_801575AC *msg) {
         if (msg->room != 0xFFFF && msg->room >= 0x4000) {
             col = (TOAttackableCol *)find_entity_by_id(msg->room);
             if (col != NULL) {
-                if (((TUnk_804B6C24 *)col)->check_value_equals((s32)TOAttackableCol__name) != 0) {
+                if (((TUnk_804B6C24 *)col)->check_value_equals((saddr)TOAttackableCol__name) != 0) {
                     SetEntry_80157454 saved;
                     switch (msg->state) {
                     case 0:

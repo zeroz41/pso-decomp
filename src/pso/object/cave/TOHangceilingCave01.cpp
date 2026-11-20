@@ -345,7 +345,7 @@ void TUnk_804B2578::sub_80168398() {
         break;
     }
     if (id != 0) {
-        play_persistent_sound(id, (s32)this, (u32)&position, 0, 0);
+        play_persistent_sound(id, (saddr)this, (uaddr)&position, 0, 0);
     }
 }
 

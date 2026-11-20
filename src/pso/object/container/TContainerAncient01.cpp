@@ -1074,8 +1074,8 @@ u8 *TContainerAncient01__ct(u8 *arg0, saddr arg1, saddr parent) {
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TContainerAncient01;
     ((TObject *)arg0)->m_name = TContainerAncient01__name;
     ((TContainerAncient01 *)(arg0))->apply_object_set_data((void *)parent);
-    *(s32 *)((s8 *)arg0 + 0x34) = get_bml_model((int) ((*(u8 * *)&TContainerAncient01__bml_resource)), 0);
-    ((TContainerAncient01 *)arg0)->texlist = get_bml_texlist((int) ((*(u8 * *)&TContainerAncient01__bml_resource)), 0);
+    *(s32 *)((s8 *)arg0 + 0x34) = get_bml_model((saddr) ((*(u8 * *)&TContainerAncient01__bml_resource)), 0);
+    ((TContainerAncient01 *)arg0)->texlist = get_bml_texlist((saddr) ((*(u8 * *)&TContainerAncient01__bml_resource)), 0);
     ((TContainerAncient01 *)arg0)->action_table = TContainerAncient01__anim_table;
     ((TObjMotion *)arg0)->set_field_d8((s32)((void *) (((TContainerAncient01 *)arg0)->action_table)));
     *(s32 *)((s8 *)arg0 + 0xDC) = (s32) *(s32 *)((s8 *)(*(u8 * *)&TContainerAncient01__bml_resource) + 0x430);

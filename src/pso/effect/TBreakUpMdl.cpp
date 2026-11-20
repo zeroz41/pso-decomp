@@ -317,7 +317,7 @@ void TBreakUpMdl::render() {
     Part_8009680C *part;
     s32 i;
     if (self->texlist != 0) {
-        TObjFish::set_global_param((s32)self->texlist);
+        TObjFish::set_global_param((saddr)self->texlist);
     }
     saved_model_render_flags = model_render_flags;
     if (self->alpha < 1.0f) {

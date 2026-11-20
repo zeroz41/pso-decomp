@@ -351,7 +351,7 @@ void TOMine::render() {
     }
 }
 void TOMine::free_parts() { TObjFish::set_global_param(this->texlist); draw_ginja_object(this->model); }
-void TOMine::free_sub_objects() { TObjFish::set_global_param((s32)(*(void**)((char*)this + 0x378))); draw_ginja_object(*(void**)((char*)this + 0x374)); }
+void TOMine::free_sub_objects() { TObjFish::set_global_param((saddr)(*(void**)((char*)this + 0x378))); draw_ginja_object(*(void**)((char*)this + 0x374)); }
 void TOMine::run_task() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r3;
@@ -418,7 +418,7 @@ void TOMine::detonate() {
     check_enemy_body_collisions(this);
     for (i = 0; i < 0x10; i++) {
         obj = (u8 *)TObjPlayer::get_battle_param(i);
-        if (TObjPlayer::is_valid_and_active((u32)obj) != 0) {
+        if (TObjPlayer::is_valid_and_active((uaddr)obj) != 0) {
             DirectAttackPayload pair = attack;
             f32 r = ((VObj_18_1da615 *)obj)->m21(this, &pair, 0, -1, -1);
             if (attack.kind < 5) {
@@ -858,7 +858,7 @@ void TOMineTrap::destroy_matching_traps() {
     s32 i;
     for (i = registered_player_count + lbl_805D5870; i < lbl_805D5868; i++) {
         p = (void *)TObjPlayer::get_player_data(i);
-        if (p != 0 && ((TUnk_804B6C24 *)p)->check_value_equals((s32)TOMineTrap__data_805D3080) != 0) {
+        if (p != 0 && ((TUnk_804B6C24 *)p)->check_value_equals((saddr)TOMineTrap__data_805D3080) != 0) {
             ((TObject *)p)->queue_destruction();
         }
     }
@@ -941,7 +941,7 @@ void TOMineTrap::run_task() {
                     }
                     record_attack_source(target, get_trap_type());
                 }
-            } else if (((TUnk_804B6C24 *)p)->check_value_equals((s32)TOMineTrap__data_805D3080) != 0) {
+            } else if (((TUnk_804B6C24 *)p)->check_value_equals((saddr)TOMineTrap__data_805D3080) != 0) {
                 if (horizontal_distance_squared(&position, &p->position) < m_350 * m_350) {
                     target = (u8 *)p;
                     ((TObjChara *)target)->receive_physical_attack(this, 1.0f);
@@ -1042,7 +1042,7 @@ f32 TOMineTrap::receive_physical_attack(void *attacker, f32) {
     case 0:
     case 1:
     case 2:
-        if ((attacker != NULL) && (((TUnk_804B6C24 *)attacker)->check_value_equals((s32)TOMineTrap__data_805D3080) != 0)) {
+        if ((attacker != NULL) && (((TUnk_804B6C24 *)attacker)->check_value_equals((saddr)TOMineTrap__data_805D3080) != 0)) {
             set_triggered();
             if (set_params[1] > 0xF) {
                 set_params[1] = 0xF;
@@ -1081,7 +1081,7 @@ void handle_6x80_trigger_trap(Pkt_8016F418 *arg0) {
         if (p == NULL) {
             continue;
         }
-        if (((TUnk_804B6C24 *)p)->check_value_equals((s32)TOMineTrap__data_805D3080) == 0) {
+        if (((TUnk_804B6C24 *)p)->check_value_equals((saddr)TOMineTrap__data_805D3080) == 0) {
             continue;
         }
         if (arg0->id != TOMineTrap__sub_80171358(p)) {

@@ -105,7 +105,7 @@ void load_door_jung_resources(void) {
     if (lbl_805D5BEC != -1) {
         scene = (void *)::operator new(0x14);
         if (scene != NULL) {
-            scene = ((TScene *)scene)->init_buffers((s32)model->child->sibling, lbl_805D5BEC);
+            scene = ((TScene *)scene)->init_buffers((saddr)model->child->sibling, lbl_805D5BEC);
         }
         TObjDoorJung__door_scene_buffer = scene;
     } else {

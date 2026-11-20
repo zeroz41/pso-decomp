@@ -1277,7 +1277,7 @@ void TObjGrass::sub_800BD4D8() {
             d = ((TObjEnemy *)o)->turn_toward_direction((s32)((2.0f) * (f32)o->param->turn), (Vec *)&v);
             if (d < ((AttackParams *)(o->f318))->get_attack_angle()) {
                 s32 ang = (s32)((10430.38043493439) * atan2_float(v.x, v.z));
-                o->f398 = (3e+01f) + (newton_sqrtf(TObjPlayer::calc_distance_to_client((s32)o, o->f338, (u32)0)) + ((TObjCollidable *)o)->get_collision_body_radius(0));
+                o->f398 = (3e+01f) + (newton_sqrtf(TObjPlayer::calc_distance_to_client((saddr)o, o->f338, (u32)0)) + ((TObjCollidable *)o)->get_collision_body_radius(0));
                 if (o->f398 < (1e+02f)) {
                     o->f398 = (1e+02f);
                 }
@@ -1678,7 +1678,7 @@ void TObjGrass::update_dying(void *arg0_) {
             }
             }
             play_sound_effect((void *)((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003AB0A), arg0 + 0x38, 0, 0);
-            TObjPlayer::spawn_dead_spot_default((s32)(arg0 + 0x38), 0xA);
+            TObjPlayer::spawn_dead_spot_default((saddr)(arg0 + 0x38), 0xA);
             ((TObjPlayer *)(arg0 + 0x38))->spawn_ground_effect(0x1E);
         }
         ((TObjEnePanarms *)arg0)->scale.y -= 0.01f;
@@ -1744,7 +1744,7 @@ void TObjGrassWeb::apply_to_player() {
     this->m_90 = 1;
     player = get_player_by_client_id(this->m_a4);
     if ((player != NULL) && (TObjPlayer::is_locally_controlled(player) != 0) && (((TObject *)player)->all_parents_unqueued_for_destruction() != 0) && (((TObjCollidable *)player)->obj_testFlags30(0x800) == 0)) {
-        TObjPlayer::play_effect((s32)player, this->set_params[0], 1);
+        TObjPlayer::play_effect((saddr)player, this->set_params[0], 1);
     }
 }
 

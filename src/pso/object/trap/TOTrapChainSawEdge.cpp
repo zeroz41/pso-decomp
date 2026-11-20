@@ -281,7 +281,7 @@ void TOTrapChainSawEdge::vfunc_16() {
 }
 
 void TOTrapChainSawEdge::vfunc_25() {
-    TObjFish::set_global_param((s32)(*(void **)((s8 *)this + 0x24)));
+    TObjFish::set_global_param((saddr)(*(void **)((s8 *)this + 0x24)));
     push_matrix();
     post_translate_matrix((void *)((char *)this + 56));
     push_matrix();
@@ -383,7 +383,7 @@ void TOTrapChainSawKey::vfunc_27() {  }
 int TOTrapChainSawKey::check_player_contact() { if (*(int*)((char*)this + 0xf0) != 1) { TOTrapChainSaw::check_player_contact(); } }
 
 void TOTrapChainSawKey::vfunc_25() {
-    TObjFish::set_global_param((s32)(*(void **)((s8 *)this + 0x24)));
+    TObjFish::set_global_param((saddr)(*(void **)((s8 *)this + 0x24)));
     push_matrix();
     post_translate_matrix((void *)((char *)this + 56));
     push_matrix();
@@ -521,7 +521,7 @@ void TOTrapChainSawDamage::vfunc_14() {
 }
 
 void TOTrapChainSawDamage::vfunc_25() {
-    TObjFish::set_global_param((s32)(*(void **)((s8 *)this + 0x24)));
+    TObjFish::set_global_param((saddr)(*(void **)((s8 *)this + 0x24)));
     push_matrix();
     post_translate_matrix((void *)((char *)this + 56));
     push_matrix();

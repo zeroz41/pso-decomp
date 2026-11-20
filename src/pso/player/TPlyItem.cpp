@@ -1123,7 +1123,7 @@ s32 TItemList::is_item_valid(saddr arg0) {
     u8 valid;
 
     valid = 0;
-    if ((((TUnk_804B6C24 *)arg0)->check_value_equals((s32)TItemList__name) != 0) && (((TObject *)arg0)->all_parents_unqueued_for_destruction() != 0)) {
+    if ((((TUnk_804B6C24 *)arg0)->check_value_equals((saddr)TItemList__name) != 0) && (((TObject *)arg0)->all_parents_unqueued_for_destruction() != 0)) {
         valid = 1;
     }
     return valid;

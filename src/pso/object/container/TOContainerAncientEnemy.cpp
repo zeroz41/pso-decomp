@@ -299,7 +299,7 @@ void TUnk_804B08BC::vfunc_79() const {
     b.pad_38[0] = b.pos[1];
     b.model = get_bml_model((BmlResource *)ancient_container_resource_bundle, 2);
     b.textures = get_bml_texlist((BmlResource *)ancient_container_resource_bundle, 2);
-    if (check_value_equals((s32)TOContainerAncientItemRare__name) != 0) {
+    if (check_value_equals((saddr)TOContainerAncientItemRare__name) != 0) {
         a.textures = ancient_container_fragment_texture_lists[1];
         b.textures = ancient_container_fragment_texture_lists[2];
     }
@@ -483,7 +483,7 @@ void TOContainerAncientEnemy::vfunc_79() const {
         b.pad_38[0] = this->position.y;
         b.model = get_bml_model((BmlResource *)ancient_container_resource_bundle, 2);
         b.textures = get_bml_texlist((BmlResource *)ancient_container_resource_bundle, 2);
-        if (check_value_equals((s32)lbl_805D2F10) != 0) {
+        if (check_value_equals((saddr)lbl_805D2F10) != 0) {
             a.textures = ancient_container_fragment_texture_lists[1];
             b.textures = ancient_container_fragment_texture_lists[2];
         }

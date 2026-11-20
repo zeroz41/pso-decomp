@@ -66,7 +66,7 @@ Obj_8018FA6C *fn_8018FA6C(u16 id) {
     while (tl_05->children != 0 && next != 0) {
         cur = next;
         next = cur->next;
-        if (((TUnk_804B6C24 *)cur)->check_value_equals((s32)TObjDoorKey__class_name) != 0 && cur->id == id) {
+        if (((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjDoorKey__class_name) != 0 && cur->id == id) {
             return cur;
         }
     }
@@ -333,7 +333,7 @@ void * TObjEnvSoundGlobal__create(void *rader_map_core) {
     }
     o = TObject::operator new(0x9C);
     if (o != NULL) {
-        o = TObjEnvSoundGlobal__ct((u8 *)o, (saddr)tl_05, (s32)rader_map_core);
+        o = TObjEnvSoundGlobal__ct((u8 *)o, (saddr)tl_05, (saddr)rader_map_core);
     }
     return o;
 }

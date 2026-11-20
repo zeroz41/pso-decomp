@@ -310,7 +310,7 @@ void TObjPlayer::destroy_global_buffer() {
 void create_estlla_photon_blast_model(void) {
     saddr temp_r3;
     saddr var_r0;
-    temp_r3 = (int)::operator new(0x14);
+    temp_r3 = (saddr)::operator new(0x14);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (((TLobby *)temp_r3)->alloc_tables(*(s32 *)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x98)) + 0x2C), 0));
