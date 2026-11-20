@@ -1,3 +1,4 @@
+#include "pso/network/FloorEventCommand.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/ui/window/TWindowMessage.h"
@@ -808,15 +809,6 @@ struct Item_801ED7BC {
     u32 f10;
 };
 
-struct Pkt_801EE048 {
-    u8 cmd;
-    u8 size;
-    u16 a;
-    s32 b;
-    s32 c;
-    s32 d;
-};
-
 struct Item_801EE0BC {
     u8 data[12];
     s32 id;
@@ -841,15 +833,6 @@ struct Pkt_801EE330 {
     u16 a;
     u16 pad1;
     s32 b;
-};
-
-struct Pkt_801EE54C {
-    u8 cmd;
-    u8 size;
-    u16 a;
-    s32 b;
-    s32 c;
-    s32 d;
 };
 
 struct Ent_801EE5EC {
@@ -4096,15 +4079,15 @@ int qst_op_warp_off(void *p) { return TLobby__sub_801F36E4(p); }
 int qst_op_warp_on(void* p) { return set_cleanup_flag__6TLobbyFv(p); }
 
 void qst_op_start_setevt() {
-    Pkt_801EE048 pkt;
+    G_FloorEvent_6x67 pkt;
     s32 x = qst_args[0];
     s32 y = qst_args[1];
-    ((TLobby *)(&pkt))->init_packet_67_04();
-    pkt.b = x;
-    pkt.a = 0;
-    pkt.c = y;
-    pkt.d = 0;
-    ((TLobby *)((s32)&pkt))->byteswap_and_send();
+    pkt.init();
+    pkt.floor = x;
+    pkt.header.client_id = 0;
+    pkt.event_id = y;
+    pkt.sender_client_id = 0;
+    pkt.send();
 }
 
 void qst_op_pad_dragon(void* p) { TBoss1Dragon::requestActionRefresh(); }
@@ -4230,14 +4213,14 @@ void qst_op_get_difficulty_level_v1(s32 arg0) {
 }
 
 void qst_op_setevt(void) {
-    Pkt_801EE54C pkt;
+    G_FloorEvent_6x67 pkt;
     s32 x = qst_args[0];
-    ((TLobby *)(&pkt))->init_packet_67_04();
-    pkt.a = 0;
-    pkt.b = get_current_floor();
-    pkt.c = x;
-    pkt.d = 0;
-    ((TLobby *)((s32)&pkt))->byteswap_and_send();
+    pkt.init();
+    pkt.header.client_id = 0;
+    pkt.floor = get_current_floor();
+    pkt.event_id = x;
+    pkt.sender_client_id = 0;
+    pkt.send();
 }
 
 void qst_op_clear_quest_board_handler(void) {

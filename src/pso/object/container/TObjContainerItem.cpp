@@ -1,3 +1,5 @@
+#include "pso/network/FloorEventCommand.h"
+#include "pso/object/container/ContainerBreakEffects.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"
@@ -56,7 +58,6 @@
 struct Obj_80188884 { u8 pad0[0x38]; u8 pos[0x28]; s32 id; u8 pad1[0x326 - 0x64]; s16 state; };
 struct Obj_80188814 { u8 pad0[0x38]; u8 pos[0x4c]; s32 id; };
 struct Obj_80188768 { u8 pad0[0x1C]; u16 f1C; u8 pad1[0x62]; u32 f80; s32 f84; };
-struct Pkt_80188768 { u16 a; u16 b; s32 c; s32 d; s32 e; };
 struct Obj_8018860C {
     u8 pad[0x38];
     Vec pos;
@@ -67,7 +68,6 @@ struct Obj_80188C8C { u8 pad0[0x38]; u8 pos[0x28]; s32 id; u8 pad1[0x326 - 0x64]
 struct Obj_8018990C { u8 pad[0x38]; f32 x, y, z; u8 pad44[0x326 - 0x44]; s16 f326; };
 struct Obj_801895A4 { u8 pad0[0x38]; u8 pos[0x4c]; s32 id; };
 struct Obj_801894F8 { u8 pad0[0x1C]; u16 f1C; u8 pad1[0x62]; u32 f80; s32 f84; };
-struct Pkt_801894F8 { u16 a; u16 b; s32 c; s32 d; s32 e; };
 struct CE_80189614 { u8 pad[0x34]; s32 f34; u8 f38[0x28]; s32 f60; u8 pad2[0x326 - 0x64]; s16 mode; };
 struct Box_80189A50 {
     u8 pad00[0x34];
@@ -295,7 +295,6 @@ extern const TObjChipParams lbl_80444EA8 = {
 extern const char seabed_container_texture_filename[];
 extern const char forest_box_texture_filename_a[];
 extern const char forest_box_texture_filename_n[];
-void play_container_break_sound(s32 arg0);
 BmlResource *lbl_805D5B78;
 s32 lbl_805D5B7C;
 TObjChipParams *lbl_805D5B80;
@@ -320,9 +319,6 @@ s32 free_collision_body_parts(void *);
 s32 get_container_param(s32 index);
 extern const f32 lbl_805DBCFC;
 extern const f32 lbl_805DBD0C;
-extern "C" {
-s32 request_box_item_drop__9TObjCharaFPvs(s32, void *, s32, void *);
-}
 extern const f32 lbl_805DBCF0;
 extern const f32 lbl_805DBD00;
 extern const f32 lbl_805DBD04;
@@ -534,64 +530,63 @@ void TUnk_804B6C24::debug_print_item_box_info() {
 }
 #pragma pool_data reset
 
-void play_container_break_sound(s32 arg0) {
+void play_container_break_sound(const TUnk_804B6C24 *container) {
     u32 area;
     area = get_current_floor_area();
     switch (area) {
     case AREA_FOREST1:
     case AREA_FOREST2:
-        play_sound_effect(0x4BC10, (void *)(arg0 + 0x38), 0, 0);
+        play_sound_effect(0x4BC10, (void *)&container->position, 0, 0);
         return;
     case AREA_CAVE1:
     case AREA_CAVE2:
     case AREA_CAVE3:
-        play_sound_effect(0x43C0F, (void *)(arg0 + 0x38), 0, 0);
+        play_sound_effect(0x43C0F, (void *)&container->position, 0, 0);
         return;
     case AREA_MINE1:
     case AREA_MINE2:
-        play_sound_effect(0x4004BC09, (void *)(arg0 + 0x38), 0, 0);
+        play_sound_effect(0x4004BC09, (void *)&container->position, 0, 0);
         return;
     case AREA_RUINS1:
     case AREA_RUINS2:
     case AREA_RUINS3:
-        play_sound_effect(0x4004BC10, (void *)(arg0 + 0x38), 0, 0);
+        play_sound_effect(0x4004BC10, (void *)&container->position, 0, 0);
         return;
     case AREA_BATTLE1:
     case AREA_BATTLE2:
-        play_sound_effect(0x4004BC05, (void *)(arg0 + 0x38), 0, 0);
+        play_sound_effect(0x4004BC05, (void *)&container->position, 0, 0);
         return;
     case AREA_VR_TEMPLE_ALPHA:
     case AREA_VR_TEMPLE_BETA:
-        play_sound_effect(0x4BC05, (void *)(arg0 + 0x38), 0, 0);
+        play_sound_effect(0x4BC05, (void *)&container->position, 0, 0);
         return;
     case AREA_VR_SPACESHIP_ALPHA:
     case AREA_VR_SPACESHIP_BETA:
-        play_sound_effect(0x4004BC05, (void *)(arg0 + 0x38), 0, 0);
+        play_sound_effect(0x4004BC05, (void *)&container->position, 0, 0);
         return;
     case AREA_CENTRAL_CONTROL_AREA:
     case AREA_JUNGLE_NORTH:
     case AREA_JUNGLE_EAST:
     case AREA_MOUNTAIN:
     case AREA_SEASIDE:
-        play_sound_effect(0x4BC16, (void *)(arg0 + 0x38), 0, 0);
+        play_sound_effect(0x4BC16, (void *)&container->position, 0, 0);
         return;
     case AREA_SEABED_UPPER:
     case AREA_SEABED_LOWER:
-        play_sound_effect(0x4004BC16, (void *)(arg0 + 0x38), 0, 0);
+        play_sound_effect(0x4004BC16, (void *)&container->position, 0, 0);
         return;
     case AREA_SEASIDE_NIGHT:
-        play_sound_effect(0x4004BC16, (void *)(arg0 + 0x38), 0, 0);
+        play_sound_effect(0x4004BC16, (void *)&container->position, 0, 0);
         return;
     case AREA_TOWER:
-        play_sound_effect(0x4004BC16, (void *)(arg0 + 0x38), 0, 0);
+        play_sound_effect(0x4004BC16, (void *)&container->position, 0, 0);
     default:
         return;
     }
 }
 
-void TUnk_804B6C24::spawn_item(s32 arg1) {
-    u8 *arg0 = (u8 *)this;
-    request_box_item_drop__9TObjCharaFPvs(arg1, (u8 *)&this->position, this->random_item, arg0);
+void TUnk_804B6C24::request_configured_item_drop(TUnk_804B6C24 *container) {
+    container->request_box_item_drop(&position, random_item);
 }
 
 TObjContainerItem::TObjContainerItem(TObject *parent, void *set_data) : TUnk_804B6C24(parent, set_data) {
@@ -670,7 +665,7 @@ void TObjContainerItem::vfunc_79() const {
         if (o != NULL) {
             __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
         }
-        play_container_break_sound((s32)self);
+        play_container_break_sound(this);
     }
 }
 
@@ -679,7 +674,7 @@ void TObjContainerItem::vfunc_6(s16 *arg1, s32 arg2) {
     if (arg2 != 0) {
         if ((s16) *arg1 == 1) {
             this->vfunc_79();
-            ((TObjChara *)arg0)->request_box_item_drop((u8 *)&this->position, 1);
+            request_box_item_drop(&position, 1);
             ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
             ((TObjCollidable *)arg0)->set_flag8();
             ((TObject *)arg0)->queue_destruction();
@@ -757,17 +752,17 @@ void TObjContainerEnemy::debug_print_item_box_info() {
 f32 TObjContainerEnemy::receive_physical_attack(void *, f32) {
     Obj_801894F8 *arg0 = (Obj_801894F8 *)this;
     s16 sp8;
-    Pkt_801894F8 pkt;
+    G_FloorEvent_6x67 pkt;
     if ((this->entity_id >= 0x1000U) && (arg0->f80 != 0U) && (((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 1) != 0)) {
         sp8 = 1;
         ((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 0);
         ((TObjCollidable *)arg0)->send_object_state_update(&sp8);
-        ((TLobby *)(&pkt))->init_packet_67_04();
-        pkt.b = this->entity_id;
-        pkt.c = get_current_floor();
-        pkt.d = this->set_params[0];
-        pkt.e = local_client_id;
-        ((TLobby *)(&pkt))->byteswap_and_send();
+        pkt.init();
+        pkt.header.client_id = this->entity_id;
+        pkt.floor = get_current_floor();
+        pkt.event_id = this->set_params[0];
+        pkt.sender_client_id = local_client_id;
+        pkt.send();
     }
     return lbl_805DBCF4;
 }
@@ -796,7 +791,7 @@ void TObjContainerEnemy::vfunc_79() const {
         if (o != NULL) {
             __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
         }
-        play_container_break_sound((s32)self);
+        play_container_break_sound(this);
     }
 }
 
@@ -905,7 +900,7 @@ void TObjContainerNoItem::vfunc_79() const {
         if (o != NULL) {
             __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
         }
-        play_container_break_sound((s32)self);
+        play_container_break_sound(this);
     }
 }
 
@@ -1012,7 +1007,7 @@ void TObjContainerBase::vfunc_79() const {
     if (o != NULL) {
         __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
     }
-    play_container_break_sound((s32)this);
+    play_container_break_sound(this);
 }
 
 #pragma pop
@@ -1022,7 +1017,7 @@ void TObjContainerBase::vfunc_6(s16 *arg1, s32 arg2) {
     if (arg2 != 0) {
         if ((s16) *arg1 == 1) {
             this->vfunc_79();
-            ((TUnk_804B6C24 *)arg0)->spawn_item((s32)arg0);
+            request_configured_item_drop(this);
             ((TObjCollidable *)arg0)->set_flag8();
             ((TObject *)arg0)->queue_destruction();
             this->mode = 1;
@@ -1095,17 +1090,17 @@ void TObjContainerAbeEnemy::debug_print_item_box_info() {
 f32 TObjContainerAbeEnemy::receive_physical_attack(void *, f32) {
     Obj_80188768 *arg0 = (Obj_80188768 *)this;
     s16 sp8;
-    Pkt_80188768 pkt;
+    G_FloorEvent_6x67 pkt;
     if ((this->entity_id >= 0x1000U) && (arg0->f80 != 0U) && (((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 1) != 0)) {
         sp8 = 1;
         ((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 0);
         ((TObjCollidable *)arg0)->send_object_state_update(&sp8);
-        ((TLobby *)(&pkt))->init_packet_67_04();
-        pkt.b = this->entity_id;
-        pkt.c = get_current_floor();
-        pkt.d = this->set_params[0];
-        pkt.e = local_client_id;
-        ((TLobby *)(&pkt))->byteswap_and_send();
+        pkt.init();
+        pkt.header.client_id = this->entity_id;
+        pkt.floor = get_current_floor();
+        pkt.event_id = this->set_params[0];
+        pkt.sender_client_id = local_client_id;
+        pkt.send();
     }
     return lbl_805DBCF4;
 }
@@ -1151,7 +1146,7 @@ void TObjContainerAbeEnemy::vfunc_79() const {
         if (o != NULL) {
             __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
         }
-        play_container_break_sound((s32)self);
+        play_container_break_sound(this);
     }
 }
 

@@ -521,7 +521,7 @@ void TContainerAncient01R::open_container() {
         TContainerAncient01::trigger_spawn((void *)arg0, (void *)arg0->pos, (void *)TContainerAncient01__open_effect_table[0]);
         TContainerAncient01::trigger_spawn((void *)arg0, (void *)arg0->pos, (void *)TContainerAncient01__open_effect_table[1]);
         if (TContainerAncient01::is_global_state_in_table() == 0) {
-            ((TObjChara *)arg0)->request_box_item_drop(arg0->pos, 1);
+            ((TObjChara *)arg0)->request_box_item_drop(&((TObjChara *)arg0)->position, 1);
         }
         ((TObjCollidable *)arg0)->set_flag8();
     }
@@ -830,7 +830,7 @@ void TContainerAncient01::sub_8018B700() {
         TContainerAncient01::spawn_effect((void*)arg0, (void*)arg0->pos, (void*)TContainerAncient01__effect_id_table[0]);
         TContainerAncient01::spawn_effect((void*)arg0, (void*)arg0->pos, (void*)TContainerAncient01__effect_id_table[1]);
         if (TContainerAncient01::is_global_state_in_table() == 0) {
-            ((TObjChara *)arg0)->request_box_item_drop(arg0->pos, 1);
+            ((TObjChara *)arg0)->request_box_item_drop(&((TObjChara *)arg0)->position, 1);
         }
         ((TObjCollidable *)arg0)->set_flag8();
     }

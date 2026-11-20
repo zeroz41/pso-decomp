@@ -18,7 +18,7 @@ public:
     virtual void debug_print_item_box_info();
     virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);
     virtual f32 receive_physical_attack(void *, f32);
-    void spawn_item(s32);
+    void request_configured_item_drop(TUnk_804B6C24 *container);
     virtual void vfunc_6(s16 *, s32);
     virtual s32 roll_physical_accuracy(void *, s32, f32);
     virtual s32 try_start_action(s32, s32);

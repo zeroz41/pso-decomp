@@ -1002,7 +1002,7 @@ force_active:
   - TObjContainerJungEnemy__ct
   - TObjContainerJungEx__ct
   - TObjContainerJung__ct
-  - TObjContainerJung__sub_8018D3B8
+  - get_textures__17TObjContainerJungFl
   - TObjContainerNoItem__ct
   - TObjContainerNoItem__name
   - TObjDFBeamCursor__ct
