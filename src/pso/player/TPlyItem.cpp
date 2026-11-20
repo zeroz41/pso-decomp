@@ -58,7 +58,6 @@ extern "C" {
 void send_6x29_delete_item__10TObjPlayerFPvii(void *, s32, s32);
 s32 poll_memcard_result(s32);
 // The callers sign-extend the result (extsb), the header's member returns u8.
-s8 get_chr_select_state__23TAdSinglePlyChrSelectGCFv();
 extern void *tl_07;
 void *find_placement_obstruction(void *self, CollisionBodySet *s);
 }
@@ -136,7 +135,6 @@ int memset(void*, int, int);
 u8 *__nw__FUl(u32);
 void TLobby__sub_801D4C28(void* a0, int a1, int a2, int a3);
 s32 try_spend_actor_meseta(u8 *arg0, s32 arg1);
-s32 lookup_item_def__9TItemDataFPv(s32);
 s32 item_identity_matches(u8 *arg0, u8 *arg1);
 s32 is_at_tekker__5TItemFv();
 s32 export_inventory_entry__10TObjPlayerFiPv(s32 arg0, u8 *arg1);
@@ -442,7 +440,7 @@ s32 TObjPlayer::count_items_by_id(s32 arg1) {
     void *node;
     TItem *item;
 
-    if (lookup_item_def__9TItemDataFPv(arg1) != 0) {
+    if (TItemData::lookup_item_def((void *)arg1) != 0) {
         node = set_mode_and_refresh_object(arg1);
         if (node != NULL) {
             item = (TItem *)((TObjPlayer *)node)->get_owner_if_alive();
@@ -887,7 +885,7 @@ void *find_placement_obstruction(void *self, CollisionBodySet *s) {
 s32 TUnk_804C4498::step_placement_search() {
     Ground_801D3C38 *g;
     if (check_player_action_allowed() != 0 && this->online != 0 &&
-        TAdPlayerLoadGC::probe_card_slot(get_chr_select_state__23TAdSinglePlyChrSelectGCFv()) != 1) {
+        TAdPlayerLoadGC::probe_card_slot((s8)TAdSinglePlyChrSelectGC::get_chr_select_state()) != 1) {
         TLobby::disconnect_protocol();
         queue_destruction();
         return 2;
@@ -921,7 +919,7 @@ s32 TUnk_804C4498::step_placement_search() {
         return 0;
     }
     if (check_player_action_allowed() != 0 && this->online != 0 &&
-        poll_memcard_result(get_chr_select_state__23TAdSinglePlyChrSelectGCFv()) != 0) {
+        poll_memcard_result((s8)TAdSinglePlyChrSelectGC::get_chr_select_state()) != 0) {
         return 0;
     }
     return 1;

@@ -675,12 +675,12 @@ void TObjDFRecover::run_task() {
     u32 effect_address;
     u16 id;
     if (is_state_ready__14TBoss4DarkFalzFv() == 0) {
-        ((s32 (*)(void *))queue_destruction__7TObjectFv)(this);
+        queue_destruction();
         return;
     }
     id = target_id;
     if ((id == 0xFFFF) || ((target_address = (s32)get_player_by_client_id(id)) == 0)) {
-        ((s32 (*)(void *))queue_destruction__7TObjectFv)(this);
+        queue_destruction();
         return;
     }
     VecCopy((Vec *)position, (const Vec *)(target_address + 0x2FC));
@@ -692,7 +692,7 @@ void TObjDFRecover::run_task() {
             effect_address = (u32)create_particle_emitter(position, 0xEB);
             effect = (void*)effect_address;
             if (effect_address == 0U) {
-                ((s32 (*)(void *))queue_destruction__7TObjectFv)(this);
+                queue_destruction();
                 return;
             }
             ((TParticleCtrl *)effect)->set_flags(0x40);
@@ -717,7 +717,7 @@ void TObjDFRecover::run_task() {
             ((s32 (*)(int, void *, void *))create__13TObjDFRecBallFPvPvPv)((int)m_up, position, cached_position);
         }
         if (countdown <= 0) {
-            ((s32 (*)(void *))queue_destruction__7TObjectFv)(this);
+            queue_destruction();
         }
         break;
     }

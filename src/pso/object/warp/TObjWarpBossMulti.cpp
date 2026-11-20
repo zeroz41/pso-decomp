@@ -83,7 +83,6 @@ const char *TObjWarpBossMulti__name = "TObjWarpBossMulti";
 
 
 extern "C" {
-s32 get_message_10__20TWindowSubStatusDispFl(s32);
 s32 fn_80248994(void *, u32, int);
 void request_active_window_close(void);
 s32 get_window_layout_position(s32);
@@ -339,7 +338,7 @@ s32 TObjWarpBoss::update_warp_dialogs() {
       yes_no_window = TWindowMessageYesNo::create(this, (void *)local_client_id, (void *)0, (void *)0);
       if (yes_no_window != 0)
       {
-        forward_slot_selection__16TAdChrSelASlotGCFPvPv(yes_no_window, get_message_10__20TWindowSubStatusDispFl(0x41), ((s32)get_window_layout_position(0x36)), 368.0f);
+        forward_slot_selection__16TAdChrSelASlotGCFPvPv(yes_no_window, (s32)TWindowSubStatusDisp::get_message_10(0x41), ((s32)get_window_layout_position(0x36)), 368.0f);
         free_member__17TWindowSubComCardFv(yes_no_window, 1);
         ((TWindowSubShortMail *)yes_no_window)->notify_warp_flag70();
         begin_player_keyboard_hold(local_client_id);
@@ -355,7 +354,7 @@ s32 TObjWarpBoss::update_warp_dialogs() {
       yes_no_window = TWindowMessageYesNo::create(this, (void *)local_client_id, (void *)0, (void *)0);
       if (yes_no_window != 0)
       {
-        initialize_option_dialog(yes_no_window, get_message_10__20TWindowSubStatusDispFl(0x42), ((s32)get_window_layout_position(i)), 368.0f);
+        initialize_option_dialog(yes_no_window, (s32)TWindowSubStatusDisp::get_message_10(0x42), ((s32)get_window_layout_position(i)), 368.0f);
       }
     }
       break;
@@ -608,7 +607,7 @@ void TObjWarpBoss::warp_boss_handle_window() {
             if (menu_window == 0) {
                 menu_window = check_room_seq_4__16TAdChrSelASlotGCFl(get_window_layout_position(0x35), 7);
                 if (menu_window != 0) {
-                    ((TWindowSubTradeMain *)menu_window)->add_text_entry(get_message_10__20TWindowSubStatusDispFl(0x40), 0, 0, -1);
+                    ((TWindowSubTradeMain *)menu_window)->add_text_entry((s32)TWindowSubStatusDisp::get_message_10(0x40), 0, 0, -1);
                     ((TAdChrSelASlotGC *)menu_window)->set_flag_40();
                     ((TWindowSubComCard *)menu_window)->calc_window_size();
                     align_menu_entry_positions(menu_window);

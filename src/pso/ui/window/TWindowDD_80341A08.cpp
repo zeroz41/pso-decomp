@@ -270,9 +270,6 @@ struct Entry_80341FFC {
 extern "C" {
 s32 apply_both_choices__9TWindowDDFll(void *, int);
 s32 init_window_layout_entries(void *, void *, int);
-s32 get_array_entry__11TWindowBaseFi(void * a0, s32 a1);
-Elem_80341FFC *get_element_ptr__9TWindowDDFl(s32);
-s32 get_array_entry__11TWindowBaseFi(void * a0 = 0, s32 a1 = 0);
 s32 get_field_20__17TWindowSubComCardFv(void);
 
 void TWindowDD::set_mode_2() { this->m_64[0] = 2; }
@@ -398,7 +395,7 @@ void TWindowDD::load_element_list() {
     s32 i;
     s32 n;
     Entry_80341FFC *ent;
-    e = get_element_ptr__9TWindowDDFl(self->x70);
+    e = (Elem_80341FFC *)TWindowDD::get_element_ptr((s32)self->x70);
     if (e != NULL) {
         self->count = e->count;
         self->buf = (s16 *)mem_alloc(self->count * 2);
@@ -415,7 +412,7 @@ void TWindowDD::load_element_list() {
     }
     self->shown = n;
     for (i = 0; i < self->shown; i++) {
-        ent = (Entry_80341FFC *)get_array_entry__11TWindowBaseFi(self, i);
+        ent = (Entry_80341FFC *)((TWindowBase *)self)->get_array_entry(i);
         set_text_entry_string((u8 *)ent, get_word_select_token_text((s16)self->buf[i]), 0xC0);
         ent->y = i * 20;
         refresh_status_display__9TWindowDDFv(ent);
@@ -450,7 +447,7 @@ s32 TWindowDD__sub_8034217C(u8 *arg0) {
 s32 TWindowDD::get_cursor_index() { return this->m_64[2]; }
 s32 TWindowDD::update_if_field28_set() {
     if ((u32) this->m_24[1] != 0U) {
-        get_array_entry__11TWindowBaseFi(this, this->m_64[2]);
+        ((TWindowBase *)this)->get_array_entry(this->m_64[2]);
         return get_field_20__17TWindowSubComCardFv();
     }
     return 0;

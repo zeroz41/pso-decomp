@@ -55,6 +55,7 @@ struct VObj_80301690_80300CE4 : Base_80301690_80300CE4 {
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
 
 struct RecoveredGlobal_80300FC0_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
 typedef char RecoveredGlobal_80300FC0_lbl_8058D490_size[sizeof(RecoveredGlobal_80300FC0_lbl_8058D490) == 0x30 ? 1 : -1];
@@ -372,7 +373,6 @@ s32 rotate_vector_by_matrix(int, void *, void *);
 extern RecoveredGlobal_80300FC0_lbl_8058D490 identity_matrix;
 s32 check_path_obstructed(void *, void *);
 void check_path_ahead__14TObjEneDolmOlmFlf(u8 *arg0, s32 arg1, f32 farg0);
-s32 copy_position__20TBoss3VoloptHiraisinFv(void *);
 s32 submit_cursor_candidate(void *, int);
 s32 TObjEneDolmOlm__sub_80301C3C(void *);
 extern u32 TObjEneDolmOlm__resource_bundle;
@@ -389,7 +389,6 @@ void *spawn_particle_effect(const void *pos, s32 id);
 void fn_800D88E4(void *);
 extern s32 actor_frame_tick;
 void spawn_ground_effects__14TObjEneDolmOlmFPvPv(u8 *arg0, Vec *arg1);
-f32 random_ratio__9TObjCharaFv();
 s32 obj_setFlags30(void *, s32);
 s32 get_current_floor();
 f32 fabs_float(f32);
@@ -428,8 +427,6 @@ s32 copy_position_if_valid__10TObjPlayerFii(void *, void *);
 s32 test_elt_flag__13TUnk_80493450Fll(void *, int, int);
 s32 dispatch_shared_handler_a__6TLobbyFl(int);
 s32 register_object__6TLobbyFl(int);
-s32 dispatch_shared_handler_b__6TLobbyFl(int);
-s32 register_boss__6TLobbyFl(int);
 u8 *load_resource_from_descriptor(void *, int, void *, int, int, int);
 extern u32 dolm_olm_combat_stat_id_pair;
 extern u32 TObjEneDolmOlm__shared_handler_ids;
@@ -614,9 +611,9 @@ TObjEneDolmOlm::TObjEneDolmOlm(s32 arg1, s32 arg2) : TUnk_80493450((TObject *)ar
     *(u8 * *)&this->movementParameters = (u8 *) lbl_804E6898 + *(s32 *)&this->variant * 0x1C;
     this->referenceHp = this->hp;
     this->advance_position();
-    copy_position__20TBoss3VoloptHiraisinFv(this);
+    ((TBoss3VoloptHiraisin *)this)->copy_position();
     initialize_enemy_photon_effect(this);
-    *(s32 *)&this->m_2ac = 182.04445f * (360.0f * ((f32 (*)(void *)) random_ratio__9TObjCharaFv)(this));
+    *(s32 *)&this->m_2ac = 182.04445f * (360.0f * ((TObjChara *)this)->random_ratio());
     *(s16 *)&this->resetTimer = 0xF;
     *(s16 *)&this->timer = *(s16 *)&this->resetTimer;
     this->phase = 0;
@@ -690,10 +687,10 @@ void TObjEneDolmOlm::load_shared_resources() {
     TObjEneDolmOlm__shared_handler_ids = (u32) mem_alloc(8);
     TObjEneDolmOlm__registered_object_ids = (u32) mem_alloc(8);
     TObjEneDolmOlm__behavior_params_by_variant = (u32) mem_alloc(8);
-    ((s32 *) dolm_olm_combat_stat_id_pair)[0] = register_boss__6TLobbyFl(0x4F);
-    ((s32 *) dolm_olm_combat_stat_id_pair)[1] = register_boss__6TLobbyFl(0x50);
-    ((s32 *) TObjEneDolmOlm__shared_handler_ids)[0] = dispatch_shared_handler_b__6TLobbyFl(0x54);
-    ((s32 *) TObjEneDolmOlm__shared_handler_ids)[1] = dispatch_shared_handler_b__6TLobbyFl(0x55);
+    ((s32 *) dolm_olm_combat_stat_id_pair)[0] = (s32)TLobby::register_boss(0x4F);
+    ((s32 *) dolm_olm_combat_stat_id_pair)[1] = (s32)TLobby::register_boss(0x50);
+    ((s32 *) TObjEneDolmOlm__shared_handler_ids)[0] = (s32)TLobby::dispatch_shared_handler_b(0x54);
+    ((s32 *) TObjEneDolmOlm__shared_handler_ids)[1] = (s32)TLobby::dispatch_shared_handler_b(0x55);
     ((s32 *) TObjEneDolmOlm__registered_object_ids)[0] = register_object__6TLobbyFl(0x4E);
     ((s32 *) TObjEneDolmOlm__registered_object_ids)[1] = register_object__6TLobbyFl(0x4F);
     ((s32 *) TObjEneDolmOlm__behavior_params_by_variant)[0] = dispatch_shared_handler_a__6TLobbyFl(0x4E);
@@ -805,7 +802,7 @@ void TObjEneDolmOlm::run_task() {
     }
   }
   this->advance_position();
-  copy_position__20TBoss3VoloptHiraisinFv((void *) ((u8 *)this));
+  ((TBoss3VoloptHiraisin *)this)->copy_position();
   submit_cursor_candidate((void *) this, -1);
   if (((RecoveredFields_8030247C_arg0 *) ((u8 *)this))->field_3E4 & 0x4000)
   {
@@ -959,7 +956,7 @@ void TObjEneDolmOlm::vfunc_83() {
     }
 }
 void TObjEneDolmOlm::vfunc_100() {
-    if (random_ratio__9TObjCharaFv() < *(f32 *)((s8 *)this + 0x3CC)) {
+    if (((TObjChara *)this)->random_ratio() < *(f32 *)((s8 *)this + 0x3CC)) {
         this->mode = 0xA;
         this->phase = 0;
     }
@@ -1071,7 +1068,7 @@ s32 TObjEneDolmOlm__sub_8030177C(void *arg0_) {
                 if (fabs_float(p->pos.y - arg0->pos.y) < 20.0f) {
                     arg0->f326 = 5;
                     arg0->f328 = 1;
-                    if (0.5f < ((f32 (*)(void *))random_ratio__9TObjCharaFv)(arg0)) {
+                    if (0.5f < ((TObjChara *)arg0)->random_ratio()) {
                         arg0->fb8 = 3;
                     } else {
                         arg0->fb8 = 4;
@@ -1251,7 +1248,7 @@ void TObjEneDolmOlm::vfunc_60() {
                 temp_f31 = horizontal_distance_squared(player + 0x38, (void *) (((u8 *)this) + 0x38));
                 var_f30 = fabs_float(*(f32 *)((s8 *)player + 0x3C) - *(f32 *)((s8 *)((u8 *)this) + 0x3C));
                 if (((TObjPlayer *)player)->get_floor() == get_current_floor()) {
-                    if ((temp_f31 < (*(f32 *)((s8 *)(*(s32 *)((s8 *)TObjEneDolmOlm__behavior_params_by_variant + (this->variant * 4))) + 0x10) * *(f32 *)((s8 *)(*(s32 *)((s8 *)TObjEneDolmOlm__behavior_params_by_variant + (this->variant * 4))) + 0x10))) && (((f32 (*)(void *)) random_ratio__9TObjCharaFv)(this) < this->m_3d0)) {
+                    if ((temp_f31 < (*(f32 *)((s8 *)(*(s32 *)((s8 *)TObjEneDolmOlm__behavior_params_by_variant + (this->variant * 4))) + 0x10) * *(f32 *)((s8 *)(*(s32 *)((s8 *)TObjEneDolmOlm__behavior_params_by_variant + (this->variant * 4))) + 0x10))) && (((TObjChara *)this)->random_ratio() < this->m_3d0)) {
                         var_r29 = 1;
                     }
                 }
@@ -1273,7 +1270,7 @@ void TObjEneDolmOlm::vfunc_60() {
         if (var_f30 < 20.0f) {
             this->mode = 5;
             this->phase = 1;
-            if (0.5f < ((f32 (*)(void *)) random_ratio__9TObjCharaFv)(this)) {
+            if (0.5f < ((TObjChara *)this)->random_ratio()) {
                 this->requested_action = 3;
             } else {
                 this->requested_action = 4;

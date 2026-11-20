@@ -82,7 +82,6 @@ f32 subtract_vector(void *, void *);
 f32 normalize_vector(void *);
 f64 TBoss5GryphonLightningWing__sub_80324CEC(f32);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-f32 *dispatch_shared_handler_a__6TLobbyFl(s32);
 s32 exchange_object_state__9TObjEnemyFls(void *, void *, int);
 s32 init_collision_body_parts(void *, void *, int);
 static u32 TBoss6Mine__collision_body_template[11] = {
@@ -435,7 +434,7 @@ s32 TBoss6Mine__ct(s32 arg0, s32 parent, TBoss6MineSetData *set_data) {
     *(s32 *)((s8 *)THIS + 0x3A4) = 0x96 - ((TBoss6Mine *)THIS)->rise_delay;
     ((TBoss6Mine *)THIS)->arm_delay = (s32)(57.0f * TBoss6Mine::next_random_float((s32 *)(THIS + 0x388)) + 3.0f);
     *(f32 *)((s8 *)THIS + 0x3AC) = 80.0f * TBoss6Mine::next_random_float((s32 *)(THIS + 0x388)) + 120.0f;
-    f = *dispatch_shared_handler_a__6TLobbyFl(0x2D);
+    f = *(f32 *)TLobby::dispatch_shared_handler_a(0x2D);
     ((TBoss3Volopt *)THIS)->m_384 = f;
     if (0.0f == f) {
         ((TBoss3Volopt *)THIS)->m_384 = 0x14;

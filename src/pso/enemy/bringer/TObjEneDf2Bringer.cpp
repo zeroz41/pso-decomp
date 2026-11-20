@@ -89,6 +89,7 @@ void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 
 #include "pso/player/TUnk_804928CC.h"
 #include "pso/render/TUnk_80490470.h"
+#include "pso/boss/galgryphon/TBoss5Gryphon.h"
 
 struct Bringer_80097714;
 struct Bringer_800993E8;
@@ -682,7 +683,6 @@ void fill_value_array(s32);
 s32 turn_toward_angle_limited__15TObjBoss2TunnelFlllll(s32, s32, s32, s32, s32);
 s32 TObjEneDf2Bringer__sub_80099248(void *);
 s32 enemy_validate_retained_target(void *);
-u32 enemy_probe_wall_ahead__13TBoss5GryphonFfff(void *, f32, f32, f32);
 s32 approach_angle_limited(s32, s32, s32);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 s32 subtract_vector(void *, void *);
@@ -894,7 +894,6 @@ struct Obj_80098EFC {
 extern "C" {
 s32 rotate_xz_pair_by_angle(f32 *, f32 *, s32, f32, f32);
 s32 vec3_add_to(f32 *, void *);
-Obj_80098FF4 *get_player_data__10TObjPlayerFi(s32);
 u16 get_entity_id(void *);
 u32 csnLookAt(void *, void *);
 void enemy_clear_target__12TObjEneDD_STFUs(void *);
@@ -1043,7 +1042,6 @@ const char *TObjEneDf2Bringer__name = "TObjEneDf2Bringer";
 struct Slot_80099800 { u8 pad[0x1C]; };
 
 u8 *__ct__17AreaAttackHistoryFl(u8 *arg0, s32 arg1);
-s32 create__13TUnk_80494968FUlUl(s32, s32);
 struct Arr_80099800 { u8 pad[0x3E0]; Slot_80099800 slot[4]; Vec v[4]; };
 
 typedef struct RecoveredGlobal_8031B170_lbl_804E8880 RecoveredGlobal_8031B170_lbl_804E8880;
@@ -1074,10 +1072,6 @@ struct Path_80099BD4
   s32 pad;
   s32 n;
 };
-u8 *dispatch_shared_handler_a__6TLobbyFl(s32);
-s32 register_object__6TLobbyFl(int);
-s32 dispatch_shared_handler_b__6TLobbyFl(int);
-s32 register_boss__6TLobbyFl(int);
 s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
 s32 load_enemy_bml_resource(u8 *arg0);
 #pragma push
@@ -1110,10 +1104,10 @@ void TObjEneDf2Bringer::load_resources() {
   {
     TObjEneDf2Bringer__resource_bundle = load_enemy_bml_resource((u8 *)&bm_ene_df2_bringer_resource_descriptor);
   }
-  bringer_boss_stats_handle = register_boss__6TLobbyFl(0xD);
-  bringer_boss_stats_ptr_b = dispatch_shared_handler_b__6TLobbyFl(0xD);
-  bringer_object_handle = register_object__6TLobbyFl(0xD);
-  TObjEneDf2Bringer__data_805D4FB4 = dispatch_shared_handler_a__6TLobbyFl(0xD);
+  bringer_boss_stats_handle = (s32)TLobby::register_boss(0xD);
+  bringer_boss_stats_ptr_b = (s32)TLobby::dispatch_shared_handler_b(0xD);
+  bringer_object_handle = (s32)TLobby::register_object(0xD);
+  TObjEneDf2Bringer__data_805D4FB4 = (u8 *)TLobby::dispatch_shared_handler_a(0xD);
   TObjEneDf2Bringer__render_node_index = 0;
   TObjEneDf2Bringer__render_rotation_x = 0;
   TObjEneDf2Bringer__render_point_cursor = 0;
@@ -1264,7 +1258,7 @@ void TObjEneDf2Bringer::init_enemy() {
     }
     *(void **)((s8 *)arg0 + 0x49C) = p;
     *(void **)((s8 *)arg0 + 0x4A0) = new TUnk_8048FE08((TObject *)arg0, (TObjBase *)arg0, *(AreaAttackHistory **)((s8 *)arg0 + 0x49C));
-    *(s32 *)((s8 *)arg0 + 0x4A4) = create__13TUnk_80494968FUlUl(0xFF5050FF, 0x80000080);
+    *(s32 *)((s8 *)arg0 + 0x4A4) = (s32)TUnk_80494968::create(0xFF5050FF, 0x80000080);
     *(s32 *)((s8 *)arg0 + 0x4A8) = 0;
     *(s32 *)((s8 *)arg0 + 0x4AC) = 0;
     *(s32 *)((s8 *)arg0 + 0x4B0) = 0;
@@ -1476,7 +1470,7 @@ s32 TObjEneDf2Bringer__sub_80098FF4(Obj_80098FF4 *self) {
     id = 0xFFFF;
     count = TLobby::get_game_mode();
     for (i = 0; i < count; i++) {
-        player = get_player_data__10TObjPlayerFi(i);
+        player = (Obj_80098FF4 *)TObjPlayer::get_player_data(i);
         if (((TObjBase *)player)->is_alive() != 0) {
             dist = horizontal_distance_squared(self->field2FC, player->pos);
             if (dist < 90000.0f && dist > best &&
@@ -1503,7 +1497,7 @@ s32 attack_visible_players__17TObjEneDf2BringerFPv(Obj_80098EFC *self) {
     count = TLobby::get_game_mode();
     total = 0;
     for (i = 0; i < count; i++) {
-        player = ((Obj_80098EFC *)get_player_data__10TObjPlayerFi(i));
+        player = ((Obj_80098EFC *)(Obj_80098FF4 *)TObjPlayer::get_player_data(i));
         if (((TObjBase *)player)->is_alive() != 0) {
             horizontal_distance_squared(self->field2FC, player->pos);
             if (csnLookAt(self->field2FC, player->field2FC) == 0) {
@@ -1851,7 +1845,7 @@ void TObjEneDf2Bringer__sub_8009813C(u8 *arg0, s32 arg1) {
         case 1:
             ((TObjEneDf2Bringer *)arg0)->spawn_particle_if_in_band();
             hit = 0;
-            if (enemy_probe_wall_ahead__13TBoss5GryphonFfff(arg0, F(f32, 0x3A0), F(f32, 0x3A8), 30.0f * PRM->speed) != 0) {
+            if ((u32)((TBoss5Gryphon *)arg0)->enemy_probe_wall_ahead(F(f32, 0x3A0), F(f32, 0x3A8), 30.0f * PRM->speed) != 0) {
                 hit = 1;
             }
             ((TObjEneDD *)arg0)->move_clamped_on_ground(F(f32, 0x3A0), F(f32, 0x3A8), PRM->speed);

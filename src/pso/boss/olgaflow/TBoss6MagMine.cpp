@@ -116,7 +116,6 @@ s32 get_field_0x42c__13TBoss6MagMineFPv(void* p);
 int TBoss6PlotFalz__sub_8036964C(void);
 void TBoss6MagMine__sub_80368AB8(u8 *arg0, u8 *arg1);
 s32 VecCopy__FP3VecPC3Vec(s32, s32);
-u8 *dispatch_shared_handler_a__6TLobbyFl(int);
 s32 init_collision_body_parts(void *, void *, int);
 s32 normalize_vector(void *);
 extern s32 __vt__13TUnk_804F322C[];
@@ -439,7 +438,7 @@ s32 TBoss6MagMine__ct(s32 arg0, s32 parent, s32 arg2) {
     ((TBoss3Volopt *)self)->referenceHp = ((TBoss3Volopt *)self)->hp;
     ((TBoss3Volopt *)self)->reset_photon_effect();
     ((TObjEnemy *)self)->set_param(0);
-    d = dispatch_shared_handler_a__6TLobbyFl(0x2D);
+    d = (u8 *)TLobby::dispatch_shared_handler_a(0x2D);
     *(s32 *)((s8 *)self + 0x39C) = (s32) *(f32 *)((s8 *)d + 4);
     if ((f32) *(s32 *)((s8 *)self + 0x39C) <= 0.0f) {
         *(s32 *)((s8 *)self + 0x39C) = 0x14;

@@ -253,7 +253,7 @@ s32 is_photon_blast_presentation_admitted(u32 owner_id, void *records) {
     group = get_room__8TObjBaseFv(local);
     owner = get_player_by_client_id(owner_id);
     if (owner != NULL) {
-        if (get_floor__10TObjPlayerFv(local) == get_floor__10TObjPlayerFv(owner) && group == (s16) get_room__8TObjBaseFv(owner)) {
+        if (((TObjPlayer *)local)->get_floor() == ((TObjPlayer *)owner)->get_floor() && group == (s16) get_room__8TObjBaseFv(owner)) {
             return 1;
         }
     }

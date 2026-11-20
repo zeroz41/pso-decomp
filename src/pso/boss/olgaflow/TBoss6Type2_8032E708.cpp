@@ -1259,7 +1259,6 @@ extern "C" {
 void __ct__9TObjEnemyFP7TObject(void *, s32, void *);
 s32 exchange_object_state__9TObjEnemyFls(void *, Key_80330724 *, s32);
 void init_collision_body_parts(void *, void *, s32);
-f32 *dispatch_shared_handler_a__6TLobbyFl(int);
 s32 TObjFish__sub_800E3124(u8 *list, s32 vecs);
 void TBoss6Mag__sub_803309C4(void *, void *);
 
@@ -1309,7 +1308,7 @@ u8 *TBoss6Mag__ct(u8 *arg0, s32 arg1, u8 *arg2) {
     TBoss6Type2__sub_803300C8(arg0);
     *(s32 *)((s8 *)arg0 + 0x458) = TObjFish__sub_800E3124((u8 *)lbl_804773DC, (s32)(arg0 + 0x44C));
     TBoss6Mag__sub_803309C4(arg0 + 0x408, (void *)lbl_804773FC);
-    d = dispatch_shared_handler_a__6TLobbyFl(0x2E);
+    d = (f32 *)TLobby::dispatch_shared_handler_a(0x2E);
     *(s32 *)((s8 *)arg0 + 0x3C0) = (s32)d[0];
     if ((f32)*(s32 *)((s8 *)arg0 + 0x3C0) <= 0.0f) {
         *(s32 *)((s8 *)arg0 + 0x3C0) = 0x96;

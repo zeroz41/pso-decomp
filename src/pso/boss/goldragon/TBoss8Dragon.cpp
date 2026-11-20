@@ -683,7 +683,6 @@ void free_bin_model_request(void*, int);
 void TBoss1Dragon__sub_80027A80(u8 *arg0, u8 *arg1);
 void *spawn_particle_effect_with_flags(const void *pos, s32 id, s32 flags);
 void TObjEneEpsilon__sub_800B9384(u8 *arg0, s32 arg1, f32 farg0);
-s32 update_linked_position__12TObjEneDD_STFf(f32);
 void enemy_clear_target__12TObjEneDD_STFUs(void *);
 void enemy_set_target_id(void *, u16);
 s32 reload_stats_keep_hp_tp__9TObjEneDDFv(void *, void *, int, void *);
@@ -693,7 +692,6 @@ f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 int emit_effect_at_position__9TObjEneDDFPv(void*);
 int emit_enemy_effect__9TObjEneDDFllPUcl(void*);
 int setup_instance__9TObjEneDDFllPUcl(void*);
-s32 is_alive__8TObjBaseFv(void);
 s32 update_local_colliders_from_world(void *, void *);
 s32 __dt__17AreaAttackHistoryFv(s32 arg0, s16 arg1);
 u8 *get_enemy_entity(u16 arg0);
@@ -702,7 +700,7 @@ s32 check_flag_100__10TObjPlayerFPv();
 s32 start_freeze__10TObjPlayerFv(int);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 s32 play_sound_effect(s32, s32, s32, s32);
-s32 is_closest_part__12TBoss8DragonFv();
+s32 is_closest_part();
 void set_mode_params__12TBoss8DragonFSc(void *, unsigned char);
 s32 TBoss8Dragon__sub_802F4760(void *owner, Vec *point, f32 farg0);
 void update_movement__12TBoss8DragonFPv(u8 *arg0);
@@ -984,7 +982,6 @@ s32 restore_player_cameras(void);
 void activate_camera_mode(s32, f32);
 void set_scripted_camera_pose(void *, void *, void *);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
-void refresh_and_send_entity_flags__9TObjEnemyFv(void);
 void vec3_add_to(void *, void *);
 struct VBase_18_2719b2x { char pad[0x18]; };
 struct VObj_18_2719b2x : VBase_18_2719b2x {
@@ -1462,7 +1459,6 @@ extern "C" {
 s32 get_mode__11TCameraCtrlFPv(void *);
 u8 *find_entity_by_id(void);
 extern u8 *camera_ctrl_instance;
-s32 isFading__15RenderFadeStateCFv(int);
 s32 has_enough_enemies__12TBoss8DragonFv();
 // (from _802F3F20)
 s32 draw__10TObjMotionFv(void *, int);
@@ -1747,7 +1743,7 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     this->m_750 = 0xFFFF;
     this->m_754 = 0;
     this->m_758 = 0;
-    set_mode_params__12TBoss8DragonFSc((u8 *)this, 2);
+    this->set_mode_params(2);
     this->m_84c = 0;
     this->m_850 = 0;
     this->m_854 = 0;
@@ -2046,7 +2042,7 @@ void TBoss8Dragon::vfunc_88() {
 }
 
 s32 update_linked_position__12TBoss8DragonFv(void * _w0) {
-    update_linked_position__12TObjEneDD_STFf(1000.0f);
+    ((TObjEneDD_ST *)_w0)->update_linked_position(1000.0f);
 }
 
 void TBoss8Dragon__sub_802FC9D8(u8 *arg0) {
@@ -2234,7 +2230,7 @@ s32 select_target_in_front__12TBoss8DragonFPv(u8 *ene_dd_st) {
     ref.z = cos_table_lookup(*(s32 *)(ene_dd_st + 0x60));
     for (i = 0; i < count; i++) {
         player = (u8 *)TObjPlayer::get_player_data(i);
-        if (is_alive__8TObjBaseFv() != 0) {
+        if (((TObjMotion *)player)->is_alive() != 0) {
             ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&d, player + 0x38);
             subtract_vector(&d, ene_dd_st + 0x38);
             normalize_vector_xz__FP3Vec(&d);
@@ -2264,7 +2260,7 @@ void spawn_trap__12TBoss8DragonFii(s32 arg0, s32 arg1) {
 }
 
 void TBoss8Dragon::try_spawn_trap() {
-    if ((this->m_3c0 & 0x40) && (is_closest_part__12TBoss8DragonFv() != 0)) {
+    if ((this->m_3c0 & 0x40) && (is_closest_part() != 0)) {
         spawn_trap__12TBoss8DragonFii((s32)this, 0x4003D013);
     }
 }
@@ -2763,7 +2759,7 @@ void TBoss8Dragon::freeze_player_at_self() {
     player = ((u8 * (*)(s32))get_player_by_client_id)(this->m_750);
     if (player != NULL) {
         if (((TObjPlayer *)player)->get_floor() == get_current_floor()) {
-            start_freeze__10TObjPlayerFv((int)player);
+            ((TObjPlayer *)player)->start_freeze();
             ((ProtectionTimer *)(player + 0x644))->set_frames(0x14);
             ((TObjPlayer *)player)->actorFlags = (s32) (((TObjPlayer *)player)->actorFlags & 0xFFEFFFDF);
             VecCopy__FP3VecPC3Vec(player + 0x38, (u8 *)&this->position);
@@ -4439,7 +4435,7 @@ void TBoss8Dragon::handle_spiral_state(s32 arg1) {
         }
         break;
     case 6:
-        a = (s32)(65536.0f * random_ratio__9TObjCharaFv());
+        a = (s32)(65536.0f * random_ratio());
         F(f32, 0x38) = 350.0f * sin_table_lookup(a);
         F(f32, 0x40) = 350.0f * cos_table_lookup(a);
         copy_pos_to_field688__12TBoss8DragonFPv(this);
@@ -4748,7 +4744,7 @@ void TBoss8Dragon::sub_802F6838(s32 arg1) {
         }
         break;
     case 5:
-        refresh_and_send_entity_flags__9TObjEnemyFv();
+        refresh_and_send_entity_flags();
         TBoss4DarkFalz::dispatch_by_main_phase(0x4F);
         *(s32 *)((s8 *)this + 0x30) = 0x12008;
         this->vfunc_74(0);
@@ -5308,7 +5304,7 @@ void TBoss8Dragon::sub_802F57E4(s32 arg1) {
         *(s32 *)((s8 *)this + 0x85C) = -0x180;
         return;
     case 6:
-        *(f32 *)((s8 *)this + 0x688) = (f32) (65536.0f * random_ratio__9TObjCharaFv());
+        *(f32 *)((s8 *)this + 0x688) = (f32) (65536.0f * random_ratio());
         *(f32 *)((s8 *)this + 0x68C) = calc_elapsed_scaled__9TObjEneDDFv(this);
         return;
     case 0:
@@ -5955,7 +5951,7 @@ void TBoss8Dragon::draw_with_fade(s32 arg1, s32 arg2) {
             ((RenderFadeState *)(&((Obj_802F4114 *)((u8 *)this))->fades[arg2]))->restore();
         }
         temp_r31 = (u8 *)&((Obj_802F4114 *)((u8 *)this))->fades[arg2];
-        if (isFading__15RenderFadeStateCFv((int)temp_r31) != 0) {
+        if (((RenderFadeState *)temp_r31)->isFading() != 0) {
             ((VObj_14_681f8e *)(temp_r31))->m6();
         }
         push_matrix();

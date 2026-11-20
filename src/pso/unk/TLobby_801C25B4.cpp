@@ -197,7 +197,6 @@ s32 rand();
 void send_6x7D_set_battle_mode_data(void *);
 s32 obj_set_flag_20000();
 s32 TLobby__sub_801C417C();
-s32 set_slot__23TAdSinglePlyChrSelectGCFi(u16);
 s32 TAdSinglePlyChrSelectGC__sub_801FCE6C();
 void init__6TLobbyFPv(void *arg0);
 void TLobby__sub_8020BB18(void);
@@ -1078,7 +1077,7 @@ void TLobby__sub_801C3AF4(Lobby_801C3AF4 *self) {
         } else {
             idx = 4;
             s = TAdSinglePlyChrSelectGC::get_char_select_slot() - 1;
-            set_slot__23TAdSinglePlyChrSelectGCFi(s > 0 ? s : 0);
+            TAdSinglePlyChrSelectGC::set_slot((u16)(s > 0 ? s : 0));
         }
         Pair_801C3AF4 p = lbl_80446FB4[0];
         self->window = create__14TWindowMessageFPvll(get_window_layout_position(0xB3), &p, 1);
@@ -1350,7 +1349,7 @@ s32 record_local_battle_placement(void *arg0) {
         }
     }
     s = TAdSinglePlyChrSelectGC::get_char_select_slot() - 1;
-    set_slot__23TAdSinglePlyChrSelectGCFi(s > 0 ? s : 0);
+    TAdSinglePlyChrSelectGC::set_slot((u16)(s > 0 ? s : 0));
     TAdSinglePlyChrSelectGC__sub_801FCE6C();
 }
 

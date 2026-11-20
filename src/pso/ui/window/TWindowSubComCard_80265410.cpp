@@ -204,7 +204,7 @@ void TWindowSubComCardList::reset_entries() {
     ((Win_802655E4 *)this)->f74 = 0;
     r = ((Win_802655E4 *)this)->f80;
     for (i = 0; i < ((Win_802655E4 *)this)->f76; i++, r++) {
-        e = ((void *)((s32 (*)(void *, s32))get_array_entry__11TWindowBaseFi)(this, i));
+        e = ((void *)get_array_entry(i));
         TWindowDuelResult::set_default_status(e, 0);
         refresh_status_display__9TWindowDDFv(e);
         r->a = 0;
@@ -255,7 +255,7 @@ s32 TWindowMenu::get_selected_entry() {
     if (temp_r4 >= (s16) *(s16 *)&this->m_76) {
         return 0;
     }
-    return ((s32 (*)(void *, s32))get_array_entry__11TWindowBaseFi)(this, (s32)((s32) temp_r4));
+    return get_array_entry((s32)((s32) temp_r4));
 }
 
 void TWindowMenu::set_active_flag() {
@@ -509,7 +509,7 @@ void TWindowSubComCard::calc_window_size() {
     f32 sum = width;
     u32 i;
     for (i = 0; i < ((Win_80265F60 *)this)->count; i++) {
-        Ent_80265F60 *e = (Ent_80265F60 *)get_array_entry__11TWindowBaseFi(this, i);
+        Ent_80265F60 *e = (Ent_80265F60 *)((TWindowBase *)this)->get_array_entry(i);
         if (get_field_20__17TWindowSubComCardFv(e) != 0) {
             if (e->w > width) {
                 width = e->w;
@@ -712,7 +712,7 @@ void TWindowMenu::draw_selected_bar(u8 *window_key_board_soft) {
     if (!(actor_frame_tick & 0x10)) {
         temp_r4 = *(s16 *)&this->unk_7A;
         if (temp_r4 >= 0) {
-            temp_r3 = (u16 *)(((s32)((u16 * (*)(void *, int))get_array_entry__11TWindowBaseFi)(this, (s32) temp_r4)));
+            temp_r3 = (u16 *)(((s32)get_array_entry((s32) temp_r4)));
             if (*temp_r3 & 1) {
                 draw_selection_bar((window_key_board_soft), (u8 *)temp_r3, 1);
             }

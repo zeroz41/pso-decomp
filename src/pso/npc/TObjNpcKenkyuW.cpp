@@ -73,7 +73,6 @@ s32 get_bml_texlist(int, int);
 s32 get_bml_model(int, int);
 extern s32 __vt__14TObjNpcKenkyuW[];
 s32 obj_is_hit_receivable(u8 *arg0);
-Vec *get_shoot_data__12TNeedleShootFv(void *);
 void vector_length(void *);
 s32 get_entity_id(void *);
 TechniqueContactList *TObjPlayer__sub_802A3DE8(Obj_802A3DE8 *self, void *src);
@@ -141,7 +140,7 @@ TechniqueContactList *TObjPlayer__sub_802A3DE8(Obj_802A3DE8 *self, void *src) {
     VecCopy((Vec *)&a, (const Vec *)&self->pos);
     ((void (*)(void *))clear_technique_contacts__10TObjPlayerFv)(self);
     if (self->body == 0) return &L_802A3DE8;
-    sd = get_shoot_data__12TNeedleShootFv(self);
+    sd = (Vec *)((TNeedleShoot *)self)->get_shoot_data();
     d.x = a.x - sd->x;
     d.y = a.y - sd->y;
     d.z = a.z - sd->z;

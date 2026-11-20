@@ -125,7 +125,6 @@ void restore_floor_telepipes(void);
 f32 vector_length(void *);
 s32 telepipe_record_differs(Rec_8023402C *r, s16 floor, Vec *p, u16 unused);
 s32 get_entity_id(void *);
-s32 get_room__8TObjBaseFv(void *);
 s32 is_split_screen();
 u8 *find_entity_by_id(u16);
 extern s32 local_client_id;
@@ -417,7 +416,7 @@ void TTecLuker::setup_telepipe_field() {
     if (traveller == (u16)get_entity_id((void *)source)) {
         s16 room;
         floor = get_current_floor();
-        room = get_room__8TObjBaseFv((void *)source);
+        room = (s32)((TObjBase *)source)->get_room();
         ((Write_802347B4)write_telepipe_record)((u8 *)source + 0x830, get_entity_id((void *)source), floor, (u8 *)&pipe_pos, room);
         ((TTecLuker *)((u8 *)source + 0x830))->send_telepipe_packet();
     }

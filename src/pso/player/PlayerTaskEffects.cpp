@@ -67,7 +67,6 @@ s32 __ct__11TPlayerSoulFP7TObjectUs();
 
 s32 check_flag_0x8000__10TObjPlayerFv();
 s32 get_entity_id(s32);
-s32 obj_isState3_324__9TObjCharaFv(s32);
 
 extern s32 tl_06;
 
@@ -115,10 +114,8 @@ s32 is_flag30_8_set__10TObjPlayerFi(s32);
 
 
 extern "C" {
-int obj_isState2_324__9TObjCharaFv(TObjPlayer*);
 extern s32 local_client_id;
 void request_player_shrink(PlayerScaleState* state);
-int obj_isState2_324__9TObjCharaFv(TObjPlayer*);
 void request_player_size_restore(PlayerScaleState* state);
 int check_camera_mode__10TObjPlayerFv();
 void *TObjPlayer__sub_801C7360(void *arg0, void *arg1);
@@ -329,6 +326,8 @@ int TObjPlayer__sub_801C7098(void* p);
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/system/byteswap.h"
 #include "pso/player/TObjPlayer_801C721C.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/object/base/TObjMotion.h"
 
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 chunk_polygon_flags_or_mask;
@@ -373,7 +372,6 @@ struct Obj_801C5FCC { s32 n; Pair_801C5FCC e[16]; };
 
 extern "C" {
 void calc_death_pose_height_offset(Out_801C58CC *arg0, Actor_801C58CC *arg1);
-s32 obj_testFlags30__14TObjCollidableFUl(int, int);
 s32 is_inactive__10TObjPlayerFv();
 s32 check_flag_40000__10TObjPlayerFv(int);
 s32 set_flag_2000000_alt__10TObjPlayerFv();
@@ -613,7 +611,7 @@ u8 TPlayerLobbyMarker::get_material_index() {
 extern "C" {
 void request_player_shrink(PlayerScaleState* state) {
     TObjPlayer* player = get_player_by_client_id(((TObjPlayer *)state)->get_obj_type());
-    if (!player || !obj_isState2_324__9TObjCharaFv(player)) {
+    if (!player || !((TObjChara *)player)->obj_isState2_324()) {
         if (local_client_id == ((TObjPlayer *)state)->get_obj_type())
             update_player_scale_camera((PlayerScaleState *)(state));
         PlayerShrinkPacket packet;
@@ -655,7 +653,7 @@ void handle_6x87_shrink_player(const PlayerShrinkPacket* input) {
 extern "C" {
 void request_player_size_restore(PlayerScaleState* state) {
     TObjPlayer* player = get_player_by_client_id(((TObjPlayer *)state)->get_obj_type());
-    if (!player || !obj_isState2_324__9TObjCharaFv(player)) {
+    if (!player || !((TObjChara *)player)->obj_isState2_324()) {
         PlayerRestoreSizePacket packet;
         ((TObjPlayer *)(&packet))->init_6x88_packet();
         packet.actor_id = ((TObjPlayer *)state)->get_obj_type();
@@ -786,7 +784,7 @@ void TObjPlayer::revive_or_spawn_marker() {
     s32 temp_r3;
     s32 player = (s32)this;
 
-    if ((check_flag_0x8000__10TObjPlayerFv() != 0) || (obj_isState3_324__9TObjCharaFv(player) != 0) || (((TObjPlayer *)player)->is_script_controlled() != 0)) {
+    if ((check_flag_0x8000__10TObjPlayerFv() != 0) || (((TObjChara *)player)->obj_isState3_324() != 0) || (((TObjPlayer *)player)->is_script_controlled() != 0)) {
         ((TObjPlayer *)player)->set_flag_0x8000();
         return;
     }
@@ -1062,7 +1060,7 @@ s32 tick_battle_music_timer(Obj_801C5C38 *p) {
 
 void TObjPlayer::clear_target_lock() { ((FlagWord *)this)->set((u32)((void*)1)); TLobby::set_target_id((s32)((void*)1)); }
 
-void TObjPlayer::reset_ring() { clear__8FlagWordFUl(this, 1); set_lock_timer(-1); TLobby::set_target_id((s32)((void*)0)); }
+void TObjPlayer::reset_ring() { ((FlagWord *)this)->clear(1); set_lock_timer(-1); TLobby::set_target_id((s32)((void*)0)); }
 
 void TObjPlayer::set_vec4_const() { *(float*)((char*)this + 0x1c) = 1.0f; *(float *)&this->m_20 = 1.0f; *(float *)&this->texlist = 1.0f; *(float *)&this->room = 1.0f; }
 
@@ -1109,7 +1107,7 @@ void update_player_appear_fade(u8 *arg0) {
                     }
                     *(s32 *)((s8 *)arg0 + 4) = 1;
                     ((TObjPlayer *)temp_r3)->activate_body_collision();
-                    if (obj_testFlags30__14TObjCollidableFUl((int)temp_r3, 0x800) == 0) {
+                    if (((TObjCollidable *)temp_r3)->obj_testFlags30(0x800) == 0) {
                         TObjPlayer::spawn_appearance_effect((int) (*(u16 *)((s8 *)arg0 + 0)));
                     }
                     ((TObjPlayer *)temp_r3)->render_material_state.alpha = 0.0f;

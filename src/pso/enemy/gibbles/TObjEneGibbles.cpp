@@ -39,6 +39,7 @@ extern "C" void test_flag_1000__9TObjCharaFv();
 
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
 extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
 
 struct V_802DA7A4Base { u8 pad[0x14]; };
@@ -158,13 +159,10 @@ void TObjEneGibbles__sub_802D7A54(void *arg0);
 s32 TObjEneGibbles__sub_802D9A04(void *arg0);
 s32 dispatch_shared_handler_a__6TLobbyFl(int);
 s32 register_object__6TLobbyFl(int);
-s32 dispatch_shared_handler_b__6TLobbyFl(int);
-s32 register_boss__6TLobbyFl(int);
 u8 *load_resource_from_descriptor(void *, int, void *, int, int, int);
 extern s32 gibbles_boss_stat_handle;
 extern s32 gibbles_combat_stats_handle;
 extern u32 TObjEneGibbles__resource_bundle;
-void copy_position__20TBoss3VoloptHiraisinFv(s32 arg0);
 void init_collision_body_parts(void *, void *, int);
 void *__ct__14TObjCollidableFP7TObject(void *, int);
 void __construct_array(void *, void *, void *, int, int);
@@ -1612,7 +1610,7 @@ void TObjEneGibbles::slam_damage_players(s32 arg1) {
         }
         for (i = 0; i < lbl_805D5868; i++) {
             p = (u8 *)TObjPlayer::get_player_data(i);
-            if (((s32 (*)(void *))is_valid_and_active__10TObjPlayerFUl)(p) != 0 && get_entity_id(p) < 0x1000) {
+            if (TObjPlayer::is_valid_and_active((u32)p) != 0 && get_entity_id(p) < 0x1000) {
                 d = horizontal_distance_squared((int)(p + 0x2FC), &v);
                 if (d <= ((AttackParams *)(*(void **)gibbles_combat_stat_entries))->get_damage_radius() * ((AttackParams *)(*(void **)gibbles_combat_stat_entries))->get_damage_radius()) {
                     a.x = 0;
@@ -1749,7 +1747,7 @@ void TObjEneGibbles::sub_802DA0BC() {
             this->m_374 |= 0x10;
         } else if (*(f32 *)((s8 *)((u8 *)this) + 0x3A0) >= 50.0f) {
             *(f32 *)((s8 *)((u8 *)this) + 0x3A0) = 0.0f;
-            if (((f32 (*)(void *))random_ratio__9TObjCharaFv)(this) < this->m_394 && ok != 0) {
+            if (((TObjChara *)this)->random_ratio() < this->m_394 && ok != 0) {
                 this->m_374 |= 0x10;
             } else {
                 this->m_374 &= ~0x10;
@@ -2140,7 +2138,7 @@ void update_target__14TObjEneGibblesFPv(Obj_802DAD50 *self) {
         best = *self->range * *self->range;
         for (; i < registered_player_count + lbl_805D5870; i++) {
             p = (u8 *)TObjPlayer::get_player_data(i);
-            if (((s32 (*)(u8 *))is_valid_and_active__10TObjPlayerFUl)(p) != 0 && p != (u8 *)self) {
+            if (TObjPlayer::is_valid_and_active((u32)p) != 0 && p != (u8 *)self) {
                 id = ((s32 (*)(void *))get_entity_id)(p);
                 if ((u16)id < 0x4000 && (u16)id != self->f1C && !(P_802DAD50(p)->f30 & 0x02000800)) {
                     VecCopy((Vec *)&v, (const Vec *)((Vec *)(p + 0x2FC)));
@@ -2407,7 +2405,7 @@ void TObjEneGibbles::run_task() {
     }
     this->update_position();
     this->update_shadow_height();
-    copy_position__20TBoss3VoloptHiraisinFv((s32)this);
+    ((TBoss3VoloptHiraisin *)this)->copy_position();
     this->sync_state();
     this->m_2b4 += 1.0f;
 }
@@ -2475,10 +2473,10 @@ void TObjEneGibbles::load_resources() {
     TObjEneGibbles__render_node_index = 0;
     TObjEneGibbles__render_rotation_x = 0;
     gibbles_combat_stat_entries = (u32) mem_alloc(0xC);
-    gibbles_boss_stat_handle = register_boss__6TLobbyFl(0x3D);
-    ((s32 *) gibbles_combat_stat_entries)[0] = dispatch_shared_handler_b__6TLobbyFl(0x3D);
-    ((s32 *) gibbles_combat_stat_entries)[2] = dispatch_shared_handler_b__6TLobbyFl(0x3E);
-    ((s32 *) gibbles_combat_stat_entries)[1] = dispatch_shared_handler_b__6TLobbyFl(0x3F);
+    gibbles_boss_stat_handle = (s32)TLobby::register_boss(0x3D);
+    ((s32 *) gibbles_combat_stat_entries)[0] = (s32)TLobby::dispatch_shared_handler_b(0x3D);
+    ((s32 *) gibbles_combat_stat_entries)[2] = (s32)TLobby::dispatch_shared_handler_b(0x3E);
+    ((s32 *) gibbles_combat_stat_entries)[1] = (s32)TLobby::dispatch_shared_handler_b(0x3F);
     gibbles_combat_stats_handle = register_object__6TLobbyFl(0x3D);
     (*(s32 *)&TObjEneGibbles__ai_parameters) = dispatch_shared_handler_a__6TLobbyFl(0x3D);
     NpcAnimationBinding s = gibbles_resource_binding_desc;
@@ -2564,7 +2562,7 @@ u8 *TObjEneGibbles__ct(u8 *arg0, void *parent, s32 arg2) {
     ((TObjEneGibbles *)arg0)->referenceHp = ((TObjEneGibbles *)arg0)->hp;
     ((TObjEneGibbles *)arg0)->update_position();
     ((TObjEneGibbles *)arg0)->update_shadow_height();
-    copy_position__20TBoss3VoloptHiraisinFv((s32)arg0);
+    ((TBoss3VoloptHiraisin *)arg0)->copy_position();
     initialize_enemy_photon_effect(arg0);
     ((TObjEneGibbles *)arg0)->m_374 = 1;
     *(s32 *)((s8 *)arg0 + 0x3B0) = 0;

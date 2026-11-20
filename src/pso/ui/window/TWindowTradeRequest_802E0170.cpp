@@ -49,7 +49,6 @@ extern s32 local_client_id;
 s32 *get_shared_text_buffer(void);
 u8 *get_window_layout_position(s32);
 s32 create__19TWindowMessageYesNoFPvPvPvPv(s32, s32, s32, s32);
-char get_trade_mode__6TLobbyFv(void);
 s32 reset_equip_slots__10TObjPlayerFv();
 s32 text_builder_append();
 }
@@ -124,7 +123,7 @@ u8 *TWindowTradeRequest__ct(TWindowTradeRequest *window_trade_request) {
   __ct__7TObjectFP7TObject();
   *((s32 **) (((s8 *) window_trade_request) + 0x18)) = &(*(RecoveredGlobal_802E02D4___vt__19TWindowTradeRequest *)&__vt__19TWindowTradeRequest).value;
   *((s32 *) (((s8 *) window_trade_request) + 0)) = (s32) lbl_805D3F70;
-  player = ((s32)get_player_by_client_id(((u32) get_trade_mode__6TLobbyFv())));
+  player = ((s32)get_player_by_client_id(((u32) (char)TLobby::get_trade_mode())));
   text_builder_reset();
   new_var = (u32) player;
   if (new_var)

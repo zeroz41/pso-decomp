@@ -115,7 +115,7 @@ s32 enemy_set_target_id(TObjEneRe7Berura *, u16);
 
 
 int reload_stats_keep_hp_tp__9TObjEneDDFv(void *self, void *a, void *b, void *c);
-s32 clear_attack_receipts__9TObjEneDDFv();
+s32 clear_attack_receipts();
 s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
 s32 load_enemy_bml_resource(u8 *arg0);
 s32 set_field_378__9TObjEneDDFl(void *, s32, s32);
@@ -436,7 +436,7 @@ void TObjEneRe7Berura::vfunc_63() {
 
 void TObjEneRe7Berura::vfunc_62() {
     if ((m_3c0 & 4) || ((s32) (referenceHp - hp) < (s32) ((s16) hpmax / 5))) {
-        clear_attack_receipts__9TObjEneDDFv();
+        clear_attack_receipts();
         return;
     }
     if ((s16) mode != 0xA) {

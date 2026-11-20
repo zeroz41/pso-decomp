@@ -168,7 +168,6 @@ E_8004AB90 dark_falz_push_zone_table[3] = {
 
 
 extern "C" {
-u8 *get_player_data__10TObjPlayerFi(s32);
 s32 vec3_add_to(void *, void *);
 f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
@@ -288,7 +287,7 @@ u16 TBoss4Type3::pick_random_target_player() {
     u8 *p;
     n = 0;
     for (i = 0; i < registered_player_count; i++) {
-        p = get_player_data__10TObjPlayerFi(i);
+        p = (u8 *)TObjPlayer::get_player_data(i);
         if (p != NULL && TBoss4Type3__sub_8005254C(get_entity_id(p)) != 0) {
             buf[n++] = get_entity_id(p);
             if (n >= 4) {

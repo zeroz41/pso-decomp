@@ -69,7 +69,6 @@ s32 __nw__7TObjectFUl(s32);
 s32 is_owner_alive__15TItemShootModelFv();
 
 void __ct__15TItemShootModelFPvPC3VecPC3Vecf(void *);
-u32 spawn_shoot_particle__10TObjPlayerFUlllf(s32, s32, s32, f32);
 typedef u8 *(*Fn_80124694_3)(void *, s32, void *);
 typedef s32 (*Fn_80124810_5)(s32, s32, s32, s32, f32);
 }
@@ -127,7 +126,7 @@ s32 drill_launcher_create_shot(s32 arg0, s32 arg1, s32 arg2, f32 farg0) {
         }
         var_r31 = var_r0;
     }
-    var_r0 = spawn_shoot_particle__10TObjPlayerFUlllf(arg0, arg1, arg2, farg0);
+    var_r0 = (u32)TObjPlayer::spawn_shoot_particle(arg0, arg1, arg2, farg0);
     if (var_r0 != 0U) {
         ((TItemShootParticle *)var_r0)->spawn_slot_emitter(0x1BB, 0);
     }

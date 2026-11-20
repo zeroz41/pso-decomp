@@ -704,7 +704,6 @@ s32 resolve_sound_effect_bank(Owner_8023FBBC *owner, s32 kind, s32 bank, s32 ind
 #pragma pop
 
 #pragma pop
-void *adxf_open_afs__6TLobbyFii(int, int);
 
 s32 TLobby__sub_8023FFB8(SoundControlState *self, int id);
 s32 adxf_get_stat(void *handle);
@@ -835,7 +834,7 @@ s32 TLobby__sub_8023FFB8(SoundControlState *self, int id) {
             goto fail;
         }
         self->ents[id].k[i] = sound_bank_file_indices[id][i];
-        self->bank_file_handles[i] = adxf_open_afs__6TLobbyFii(0, sound_bank_file_indices[id][i]);
+        self->bank_file_handles[i] = TLobby::adxf_open_afs(0, sound_bank_file_indices[id][i]);
         if (self->bank_file_handles[i] == NULL) {
             ret = 2;
             goto fail;
@@ -979,7 +978,7 @@ s32 init_sound_aux_effects(SoundControlState *self) {
             return 3;
         }
         memset(lbl_80517E44[i], 0, size);
-        void *handle = adxf_open_afs__6TLobbyFii(0, sound_bank_file_indices[i][2]);
+        void *handle = TLobby::adxf_open_afs(0, sound_bank_file_indices[i][2]);
         if (handle != NULL) {
             TLobby::read_checked_align((s32)handle, (s32)size / 2048, (s32)lbl_80517E44[i]);
             TLobby::set_read_params(&handle, (s32)size / 2048, (int)lbl_80517E44[i]);

@@ -29,7 +29,6 @@ extern "C" {
 void *get_player_by_client_id(s32);
 extern Table_8006FE7C challenge_mode_state;
 extern void *tl_07;
-char *get_unit_list__6TLobbyFv(void);
 char *TLobby__sub_80070ACC(u8, u8, s32);
 Unit_8006FC7C *find_entity_by_id(void);
 Card_8006FC7C *get_character_save_record(u32);
@@ -103,7 +102,7 @@ void TLobby::update_card_save_info() {
     card->tombstone.display_name[0x13] = 0;
     unit = card->tombstone.unit_name;
     card->tombstone.unit_name[0] = 0;
-    s = get_unit_list__6TLobbyFv();
+    s = (char *)TLobby::get_unit_list();
     if (s != NULL) {
         strncpy(buf, s, 0x5F);
         buf[0x5F] = 0;

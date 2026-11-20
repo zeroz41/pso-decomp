@@ -186,7 +186,6 @@ s32 spawn_continuous_particle_with_direction(void *, void *, int, int);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
 void *spawn_directional_particle(void *pos, void *dir, s32 id);
-void set_field_b8__10TObjMotionFs(void *, int);
 s32 TObjEnePanarms__sub_800DFB44(s32);
 void TObjEnePanarms__sub_800E1E14(u8 *arg0);
 f32 vec3_add_to(void *, void *);
@@ -826,7 +825,7 @@ void TObjEnePanarms::enter_move() {
     *(u32 *)((s8 *)(*(u8 **)((s8 *)this + 0x390)) + 0x18) |= 1;
     this->obj_clearFlags30(0x04040000);
     this->m_388 = (s32) (49.999996f * (f32) ((s32) (1.99f * random_ratio()) + 1));
-    set_field_b8__10TObjMotionFs(this, var_r30);
+    set_field_b8((s16)var_r30);
 }
 
 #pragma push
@@ -908,7 +907,7 @@ void TObjEnePanarms::enter_dead() {
             st = 4;
         }
     }
-    set_field_b8__10TObjMotionFs(this, st);
+    set_field_b8((s16)st);
     play_sound_effect(this->remap_sound_for_area(0x4003B836), (u8 *)this + 0x3AC, 0, 0);
     play_sound_effect(this->remap_sound_for_area(0x4003BB35), (u8 *)this + 0x3C4, 0, 0);
     if (*(s32 *)((s8 *)this + 0x3DC) != 0) {

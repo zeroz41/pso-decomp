@@ -156,7 +156,6 @@ s32 try_equip_item__10TObjPlayerFii(s32, s32);
 void play_sound_effect(s32, s32, s32, s32);
 // set_depth__11TWindowBaseFf declared above
 s32 is_player_input_active(s32);
-void *create__14TWindowMessageFlPCfUll(s32, void *, s32, s32);
 s32 update_selection__19TWindowSubTechniqueFPsPl(void *, void *, s32);
 void get_current_selection__19TWindowSubTechniqueFPv(void *, void *, s32);
 void *create_title_window__19TWindowSubTechniqueFv(void *, s32);
@@ -268,7 +267,7 @@ void TWindowSubTechnique::run_task() {
         break;
     }
     case 3:
-        self->help = create__14TWindowMessageFlPCfUll(get_window_layout_position(0x14), (void *)technique_help_window_size, 1, self->player);
+        self->help = TWindowMessage::create((s32)(get_window_layout_position(0x14)), (const f32 *)technique_help_window_size, 1, (s32)self->player);
         TWindowSubEquip__sub_80263AF8((u8 *)self->f30, 2);
         set_depth__11TWindowBaseFf((s32)self->help);
         call_if_split_screen((u32)self->help, self->player);

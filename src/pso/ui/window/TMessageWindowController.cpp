@@ -8,6 +8,7 @@
 #include "pso/ui/window/TWindowMessagePage.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/quest/TQuestThread.h"
+#include "pso/quest/TQuestListOnline.h"
 #pragma readonly_strings on
 extern "C" {
 void *memset(void *, int, unsigned long);
@@ -16,10 +17,8 @@ unsigned long strlen(const char *);
 char *strcpy(char *, const char *);
 int strcmp(const char *, const char *);
 extern s32 local_client_id;
-const char *get_selected_entry__16TQuestListOnlineFv();
 s32 get_game_play_mode();
 s32 get_shop_text(s32 arg0);
-TWindowMessagePage *create__18TWindowMessagePageFllll(s32, s32, s32, s32);
 TWindowMessagePage *set_text__18TWindowMessagePageFlll(s32, s32, s32);
 __declspec(section ".rodata") extern const char message_tag_error[];
 }
@@ -63,7 +62,7 @@ void TMessageWindowController::append_quest_title() {
             break;
         }
     } else {
-        text = get_selected_entry__16TQuestListOnlineFv();
+        text = (const char *)TQuestListOnline::get_selected_entry();
     }
     if (text != NULL) {
         append_text(text);
@@ -194,7 +193,7 @@ TWindowMessagePage *TMessageWindowController::create_message_window(s32 x, s32 y
     if (TLobby::is_camera_ctrl_active() > 2) scale = 0.75f;
     else scale = 1.0f;
     if (window == NULL) {
-        window = create__18TWindowMessagePageFllll(x, y, 1, flags);
+        window = (TWindowMessagePage *)TWindowMessagePage::create(x, y, 1, flags);
         ((TWindowAddition *)window)->set_position_xy(scale, scale);
         return window;
     }

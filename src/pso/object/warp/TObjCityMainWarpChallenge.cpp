@@ -357,7 +357,7 @@ void TObjCityMainWarpChallenge::update_challenge_state() {
     case 5:
         break;
     case -1:
-        close_windows__25TObjCityMainWarpChallengeFv();
+        TObjCityMainWarpChallenge::close_windows();
         break;
     }
 }

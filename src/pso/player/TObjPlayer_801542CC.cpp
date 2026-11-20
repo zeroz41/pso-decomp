@@ -148,7 +148,6 @@ extern s32 lbl_805D5870;
 extern s32 registered_entity_count;
 void TObjPlayer__sub_8015431C(u8 *arg0);
 int TObjPlayer__sub_80154E28(int a0, int a1);
-int get_player_data__10TObjPlayerFi(int a0);
 extern s32 lbl_805D5868;
 void TObjPlayer__sub_80156934(void);
 f32 horizontal_distance_squared(void *, void *);
@@ -1086,7 +1085,7 @@ void TObjCollidable::update_enemy_collision_flags() {
     if (temp_r5 != NULL) {
         *(s32 *)((s8 *)temp_r5 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r5 + 0x18) & 0xFEDFFFFF);
         for (j = registered_player_count + lbl_805D5870; j < (s32) lbl_805D5868; j++) {
-            temp_r3 = get_player_data__10TObjPlayerFi(j);
+            temp_r3 = (int)TObjPlayer::get_player_data(j);
             if (temp_r3 != 0) {
                 actor_body_contact = find_actor_body_contact((u8*)temp_r3, 10000.0f);
                 if ((actor_body_contact != NULL) && (TObjPlayer::check_flag_pair(*(s32 *)((s8 *)(*(void **)((s8 *)this + 0xA4)) + 0x18), *(s32 *)((s8 *)actor_body_contact + 0x18)) == 0) && (respond_to_body_contact((u8 *)this, (u32)temp_r3, (u8 *)actor_body_contact) != 0)) {

@@ -501,7 +501,6 @@ s32 __ct__10TAdTitleGCFP7TObjectl(void *, void *, int);
 void *__ct__13TAdTitleTexGCFv(void *, void *);
 void *__ct__14TAdSelectCurGCFv(void *, void *, void *, void *);
 void *__ct__13TAdGuideTxtGCFv(void *, void *);
-u8 *get_or_create_slot_window__22TAdMultiPlyChrSelectGCFii(s32 arg0, s32 arg1);
 extern s32 __vt__23TAdSinglePlyChrSelectGC[];
 u8 *TAdSinglePlyChrSelectGC__ct(u8 *arg0, void *parent);
 TPlyCharData *get_char_index__23TAdSinglePlyChrSelectGCFUi(u32);
@@ -638,7 +637,7 @@ u8 *TAdSinglePlyChrSelectGC__ct(u8 *arg0, void *parent) {
     if (p != NULL) {
         __ct__10TAdTitleGCFP7TObjectl(p, arg0, 0);
     }
-    *(s32 *)((s8 *)arg0 + 0x28) = (s32)get_or_create_slot_window__22TAdMultiPlyChrSelectGCFii((s32)arg0, 0);
+    *(s32 *)((s8 *)arg0 + 0x28) = (s32)TAdMultiPlyChrSelectGC::get_or_create_slot_window((s32)arg0, 0);
     *(s32 *)((s8 *)arg0 + 0x30) = get_or_create_player__22TAdMultiPlyChrSelectGCFiiii((s32)arg0, 0, -1, 0);
     p = TObject::operator new(0x44);
     if (p != NULL) {

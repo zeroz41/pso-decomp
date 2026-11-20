@@ -146,7 +146,6 @@ extern const Packet_801AB6A0 photon_golla_concentrate_packet = {
 extern u8 identity_matrix[];
 extern "C" {
 
-Target_801AB868 *get_battle_param__10TObjPlayerFi(s32);
 f32 vec_squared_length(u8 *arg0);
 f32 vec3_dot(void *, void *);
 u16 get_entity_id(void *);
@@ -220,7 +219,7 @@ void TPhotonGolla::collect_hit_targets(void *arg0) {
     ((TObjCollidable *)self)->mark_enemy_body_contacts();
     if (self->fa4->flags & 0x100000) {
         for (i = 0; i < 16; i++) {
-            candidate = get_battle_param__10TObjPlayerFi(i);
+            candidate = (Target_801AB868 *)TObjPlayer::get_battle_param(i);
             if (candidate != NULL) {
                 if (self->f1a8 != NULL) {
                     Vec selected_delta = self->f1a8->pos;

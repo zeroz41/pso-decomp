@@ -6,6 +6,7 @@
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 
 
 #pragma readonly_strings on
@@ -24,7 +25,6 @@ extern const char *TWindowMessagePage__name;
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 run_task__14TWindowMessageFv();
 s32 *get_shared_text_buffer(void);
-u32 copy_message_page_text__20TWindowSubStatusDispFv(u32);
 
 s32 TWindowMessagePage::is_ready() {
     if ((u32) this->m_94 != 0U) {
@@ -36,7 +36,7 @@ s32 TWindowMessagePage::is_ready() {
 void TWindowMessagePage::update_message() {
     if ((u32) this->m_94 != 0U) {
         text_builder_reset();
-        this->m_94 = copy_message_page_text__20TWindowSubStatusDispFv(this->m_94);
+        this->m_94 = (u32)((TWindowSubStatusDisp *)this->m_94)->copy_message_page_text();
         append_line((int)get_shared_text_buffer(), *(s32 *)((s8 *)this + 0x90));
     }
 }

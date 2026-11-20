@@ -95,9 +95,6 @@ s32 check_path_obstructed(void *, Vec *);
 void *find_entity_by_id(u16 id);
 s32 enemy_turn_half_toward_dest(void *);
 s32 is_split_screen();
-s32 register_object__6TLobbyFl(int);
-s32 dispatch_shared_handler_b__6TLobbyFl(int);
-s32 register_boss__6TLobbyFl(int);
 s32 find_active_entity_by_id(int);
 void * __ct__11TObjControlFP7TObject(void *, void *);
 s32 minimap_render_dot(void *, int, int, int);
@@ -407,9 +404,9 @@ void TObjEneMe1GiGue::load_resources() {
         }
         TObjEneMe1GiGue__data_805D6838 = (BmlResource *)o;
     }
-    ene_me1_gigue_boss_id = register_boss__6TLobbyFl(0x1A);
-    lbl_805D682C = dispatch_shared_handler_b__6TLobbyFl(0x1A);
-    lbl_805D6830 = register_object__6TLobbyFl(0x1A);
+    ene_me1_gigue_boss_id = (s32)TLobby::register_boss(0x1A);
+    lbl_805D682C = (s32)TLobby::dispatch_shared_handler_b(0x1A);
+    lbl_805D6830 = (s32)TLobby::register_object(0x1A);
     TObjEneMe1GiGue__param_table = (GiGueParameters *)TLobby::dispatch_shared_handler_a(0x1A);
     o = new TUnk_8048FA00(TObjEneMe1GiGue__data_805D6838->models->model);
     TObjEneMe1GiGue__barrier_obj = (TUnk_8048FA00 *)o;

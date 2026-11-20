@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/boss/dragon/TBoss1Dragon.h"
 
 
 extern "C" {
@@ -270,7 +271,6 @@ struct Obj_8002C730 { f32 x; u8 pad[4]; f32 z; };
 
 extern "C" {
 f32 calc_nearest_crater_distance(Obj_8002C730 *self);
-void *get_instance__12TBoss1DragonFv(void);
 int is_count_below_limit__15TObjBoss1CraterFv(void *, void *);
 
 void *TObjBoss1Crater::create(void *arg1) {
@@ -279,7 +279,7 @@ void *TObjBoss1Crater::create(void *arg1) {
     if (is_count_below_limit__15TObjBoss1CraterFv(this, arg1) == 0) {
         return NULL;
     }
-    x1 = get_instance__12TBoss1DragonFv();
+    x1 = (void *)TBoss1Dragon::get_instance();
     if (x1 == NULL) {
         return NULL;
     }

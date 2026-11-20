@@ -37,6 +37,7 @@
 #include "pso/ui/window/TWindowRoom.h"
 #include "pso/ui/Language.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 struct Entry_8013634C {
     u8 tag[8];
@@ -358,7 +359,6 @@ s32 __ct__7TObjectFP7TObject(void *, void *);
 s32 has_window_task_root();
 void * create__14TWindowMessageFPvll(void *, void *, int);
 void * get_window_layout_position(int);
-char * get_card_window_field__6TLobbyFv(void);
 
 extern u8 TLobby__data_805011D8[];
 extern s32 TLobby__data_805D4E30;
@@ -500,7 +500,7 @@ void TLobby::send_game_character() {
     a.kb = open_hard_keyboard__6TLobbyFPv((void *)local_client_id) != 0 ? 1 : 0;
     TLobby__sub_80077798(card + 0x22EC, &a);
     memset(c, 0, sizeof(c));
-    strncpy(c, get_card_window_field__6TLobbyFv(), 0xAC);
+    strncpy(c, (char *)TLobby::get_card_window_field(), 0xAC);
     memset(b, 0, sizeof(b));
     ((TLobby *)b)->collect_active_card_ids();
     memset(e, 0, sizeof(e));
@@ -1081,7 +1081,6 @@ void handle_login_result__6TLobbyFUi(u32 arg0);
 u8 *get_character_save_record(u32);
 s32 open_hard_keyboard__6TLobbyFPv(void *);
 void TLobby__sub_80077798(void *, void *);
-char *get_card_window_field__6TLobbyFv(void);
 s32 get_flag_bit0__6TLobbyFv(void);
 char *get_card_window_area__6TLobbyFv(void);
 void TLobby__sub_800703D0(void *, void *);
@@ -1481,7 +1480,6 @@ s32 TWindowMakeTeam__sub_80264B24(u32);
 s32 TWindowMakeTeam__sub_80264B38(u32);
 void close_all_windows__6TLobbyFv(void);
 s32 send_server_time_accepted__9TProtocolFv(s32);
-s8 get_mode__6TLobbyFv(u32);
 s32 is_enabled__15TWindowMakeTeamFv(u32);
 s32 send_create_game__9TProtocolFPcPcUcUcUcUc(s32, s32, s32, u8, u8, u8, s32);
 
@@ -1538,7 +1536,6 @@ extern s8 controller_input_state[];
 extern u32 TLobby__list_window;
 void handle_team_select__6TLobbyFv(void);
 void func_80019A68__Fv(void);
-s8 get_chr_select_state__23TAdSinglePlyChrSelectGCFv(void);
 void update_com_card_window__6TLobbyFv(void);
 void update_state__6TLobbyFv(void);
 void update_scroll_close__6TLobbyFv(void);
@@ -1692,7 +1689,7 @@ void run_task__6TLobbyFv(void *self) {
             update_state__6TLobbyFv();
             return;
         }
-        while (poll_memcard_result(get_chr_select_state__23TAdSinglePlyChrSelectGCFv()) == -1) {
+        while (poll_memcard_result((s8)TAdSinglePlyChrSelectGC::get_chr_select_state()) == -1) {
         }
         ((void (*)(void))TLobby__sub_801384E4)();
     }
@@ -1919,7 +1916,7 @@ void handle_create_game_window__6TLobbyFv(void) {
                 temp_r30 = TWindowMakeTeam__sub_80264B24(lobby_make_team_window);
                 temp_r29 = TLobby__sub_8013AD6C(lobby_make_team_window) == 2;
                 temp_r28 = is_enabled__15TWindowMakeTeamFv(lobby_make_team_window);
-                temp_r27 = get_mode__6TLobbyFv(lobby_make_team_window) == 1;
+                temp_r27 = (s8)((TLobby *)lobby_make_team_window)->get_mode() == 1;
                 temp_r0 = TLobby__sub_8013AD5C(lobby_make_team_window);
                 send_create_game__9TProtocolFPcPcUcUcUcUc((*(s32 *)&(*(s32 *)&(*(s32 *)&(*(s32 *)&TLobby__protocol_instance)))), temp_r3, temp_r30, temp_r28, temp_r29, temp_r27, temp_r0);
                 ((s32 (*)())destroy_lobby_ui__6TLobbyFv)();
@@ -2823,7 +2820,7 @@ void send_selected_character__6TLobbyFv(void) {
     a.kb = open_hard_keyboard__6TLobbyFPv((void *)local_client_id) != 0 ? 1 : 0;
     TLobby__sub_80077798(card + 0x22EC, &a);
     memset(c, 0, sizeof(c));
-    strncpy(c, get_card_window_field__6TLobbyFv(), 0xAC);
+    strncpy(c, (char *)TLobby::get_card_window_field(), 0xAC);
     memset(b, 0, sizeof(b));
     ((TLobby *)b)->collect_active_card_ids();
     memset(e, 0, sizeof(e));

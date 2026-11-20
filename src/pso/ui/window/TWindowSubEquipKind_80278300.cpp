@@ -4,6 +4,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 
 #pragma readonly_strings on
 
@@ -31,7 +32,6 @@ typedef struct {
     s16 f8A;
 } Disp_8027831C;
 
-s32 get_message_10__20TWindowSubStatusDispFl(s32);
 u32 calc_text_width(void);
 void draw_window_tab(Win_8027831C *, NJS_POINT2 *, u8, f32);
 static const u8 lbl_805DD5F8[4] = {1, 2, 2, 1};
@@ -66,7 +66,7 @@ void TWindowSubEquipKind::draw_tab_label(void *win) {
         pos.x += 80.0f;
         pos.y += 4.0f;
         set_text_draw_params((s32)((Win_8027831C *)win), 0, 0, (f32)(-1.0f / (0.1794f + ((Win_8027831C *)win)->f38)), 100000.0f);
-        msg = get_message_10__20TWindowSubStatusDispFl(status_disp_tab_label_message_ids[((Disp_8027831C *)this)->f88]);
+        msg = (s32)TWindowSubStatusDisp::get_message_10(status_disp_tab_label_message_ids[((Disp_8027831C *)this)->f88]);
         pos.x -= 0.5f * (f32)calc_text_width();
         draw_window_text((f32 *)&pos, (const char *)msg, (0xFF000000), 0, 100000.0f);
     }

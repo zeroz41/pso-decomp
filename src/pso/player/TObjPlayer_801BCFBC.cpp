@@ -180,16 +180,14 @@ extern "C" {
 u16 get_entity_id(void *);
 void select_class_action_provider__10TObjPlayerFv(void *, s32);
 extern s32 TObjPlayer__shared_model_buffer;
-s32 get_handle_value__10TObjPlayerFv(void *);
-Anim_801BD0C0 *get_anim_entry__10TObjMotionFi(void *, s32);
 extern const f32 TObjPlayer__data_805DC278;
 
 void TObjPlayer::apply_motion_entry() {
     Player_801BD0C0 *self = (Player_801BD0C0 *)this;
     Anim_801BD0C0 *a;
-    ((TObjMotion *)self)->set_field_d8(self->ctrl->m5(((TObjPlayer *)self)->has_valid_handle(), get_handle_value__10TObjPlayerFv(self)));
+    ((TObjMotion *)self)->set_field_d8(self->ctrl->m5(((TObjPlayer *)self)->has_valid_handle(), (s32)((TObjPlayer *)self)->get_handle_value()));
     ((TObjMotion *)self)->set_action_motion(this->requested_action);
-    a = get_anim_entry__10TObjMotionFi(self, this->requested_action);
+    a = (Anim_801BD0C0 *)((TObjMotion *)self)->get_anim_entry(this->requested_action);
     this->play_speed = a->speed;
     this->play_mode = a->id;
     this->frame_count = self->motion->frames;
@@ -205,7 +203,7 @@ void TObjPlayer::apply_motion_entry() {
 
 void TObjPlayer::init_idle_animation() {
     Player_801BD1B4 *arg0 = (Player_801BD1B4 *)this;
-    ((TObjPlayer *)arg0)->init_motion((TObjMotionAction *)arg0->anim->m5(((TObjPlayer *)arg0)->has_valid_handle(), get_handle_value__10TObjPlayerFv(arg0)), (BmlMotionEntry *)arg0->anim->m74(), get_idle_animation());
+    ((TObjPlayer *)arg0)->init_motion((TObjMotionAction *)arg0->anim->m5(((TObjPlayer *)arg0)->has_valid_handle(), (s32)((TObjPlayer *)arg0)->get_handle_value()), (BmlMotionEntry *)arg0->anim->m74(), get_idle_animation());
 }
 
 void TObjPlayer::sub_801BD240() {

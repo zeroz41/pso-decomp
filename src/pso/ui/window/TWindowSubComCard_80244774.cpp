@@ -330,7 +330,7 @@ s32 TWindowDD::draw_default_entry(s32 arg0) {
 }
 
 void TWindowBase::set_depth(f32 farg0) {
-    sub_8026CC28__11TWindowBaseFv();
+    TWindowBase::sub_8026CC28();
     *(f32 *)((s8 *)this + 0x1C) = farg0;
     resort_window_order();
 }

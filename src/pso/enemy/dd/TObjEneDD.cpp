@@ -41,7 +41,6 @@ void *get_player_by_client_id(s32 i);
 struct O_800B98C0;
 extern "C" {
 s32 transform_relative_position__9TObjEneDDFPv(void *, int);
-s32 calc_shot_position__13TBoss5GryphonFPUcfff(void *, s32, f32, f32, f32);
 f32 atan2_float(f32 y, f32 x);
 u16 set_squared_value__9TObjEneDDFf(void *, f32);
 }
@@ -195,7 +194,7 @@ struct EneDDObj_800BA138 : EneDDBase_800BA138 {
 };
 int is_target_unobstructed__9TObjEneDDFl(void* a0 = 0, void* a1 = 0, void* a2 = 0);
 int add_flags_2e4__9TObjCharaFUl(void*, int);
-s32 all_parents_unqueued_for_destruction__7TObjectFv();
+s32 all_parents_unqueued_for_destruction();
 s32 get_position__12TBoss1DragonFv(void *, s32);
 u8 * obj_ene_dd_instance;
 }
@@ -1160,7 +1159,7 @@ u8 TObjEneDD::is_valid_target() {
     int var_r31;
 
     var_r31 = 0;
-    if ((this != NULL) && (all_parents_unqueued_for_destruction__7TObjectFv() != 0) && !(this->actorFlags & 0x06040800)) {
+    if ((this != NULL) && (all_parents_unqueued_for_destruction() != 0) && !(this->actorFlags & 0x06040800)) {
         var_r31 = 1;
     }
     return (u8)var_r31;
@@ -1180,7 +1179,7 @@ s32 TObjBase::is_alive() {
     int var_r31;
 
     var_r31 = 0;
-    if ((this != NULL) && (all_parents_unqueued_for_destruction__7TObjectFv() != 0) && !(this->actorFlags & 0x02040800)) {
+    if ((this != NULL) && (all_parents_unqueued_for_destruction() != 0) && !(this->actorFlags & 0x02040800)) {
         var_r31 = 1;
     }
     return (u8) var_r31;
@@ -1612,7 +1611,7 @@ void TObjEneEpsilon::fire_attack_c(s32 arg1, s32 arg2, f32 farg0) {
 
     temp_f30 = farg0;
     turn_toward_target_direction(arg2);
-    calc_shot_position__13TBoss5GryphonFPUcfff(this, arg1, sin_table_lookup(this->rotation_y), cos_table_lookup(this->rotation_y), temp_f30);
+    ((TBoss5Gryphon *)this)->calc_shot_position((u8 *)arg1, (f32)(sin_table_lookup(this->rotation_y)), (f32)(cos_table_lookup(this->rotation_y)), (f32)temp_f30);
 }
 
 void TObjEneEpsilon::fire_attack_b(s32 arg1, s32 arg2, f32 farg0) {

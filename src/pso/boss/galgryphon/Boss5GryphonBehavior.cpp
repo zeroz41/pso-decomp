@@ -1230,7 +1230,7 @@ void TBoss5Gryphon::render_with_fade(s32 arg1) {
     rotate_matrix_z(0, this->rotation_z);
     scale_matrix(0, 2.0f, 2.0f, 2.0f);
     TObjPlayer::toggle_particle_effect();
-    draw__10TObjMotionFv(this);
+    draw();
     TParticleCtrl::end_effect_render();
     TObjLight__sub_801337F8((void *)current_scene_light);
     pop_matrix();
@@ -4124,7 +4124,7 @@ void TBoss8Dragon__sub_800641A8(u8 *ene_dd) {
     if (!(*(f32 *)((s8 *)ene_dd + 0x46C) > lbl_805D8E00)) {
         fill_value_array((int) (*(s32 *)((s8 *)ene_dd + 0x578)));
         ((TObjEneDD *)ene_dd)->reset_hp((u8 *)0, (u8 *)(boss5_gryphon_attack_params[1]), (u8 *)0);
-        emit_enemy_effect__9TObjEneDDFllPUcl((void *)ene_dd, (int)pos, &desc, (int) (*(s32 *)((s8 *)ene_dd + 0x578)));
+        TObjEneDD::emit_enemy_effect((s32)((void *)ene_dd), (s32)((int)pos), (u8 *)(&desc), (s32)((int) (*(s32 *)((s8 *)ene_dd + 0x578))));
         ((TObjEneDD *)ene_dd)->reset_hp((u8 *)0, (u8 *)(boss5_gryphon_attack_params[0]), (u8 *)0);
     }
 }
@@ -4148,7 +4148,7 @@ void TBoss8Dragon__sub_8006426C(Obj_8006426C *arg0) {
     mid.z = 0.5f * (arg0->a.z - bz) + bz;
     fill_value_array(arg0->attack_history);
     ((TObjEneDD *)arg0)->reset_hp((u8 *)0, (u8 *)(boss5_gryphon_attack_params[4]), (u8 *)0);
-    emit_enemy_effect__9TObjEneDDFllPUcl(arg0, (int)&mid, &prm, arg0->attack_history);
+    TObjEneDD::emit_enemy_effect((s32)arg0, (s32)((int)&mid), (u8 *)(&prm), (s32)arg0->attack_history);
     ((TObjEneDD *)arg0)->reset_hp((u8 *)0, (u8 *)(boss5_gryphon_attack_params[0]), (u8 *)0);
 }
 #pragma pop

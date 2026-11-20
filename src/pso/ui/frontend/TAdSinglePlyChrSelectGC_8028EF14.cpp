@@ -92,8 +92,6 @@ void update_pair__23TAdSinglePlyChrSelectGCFPv(void* p);
 int TAdSinglePlyChrSelectGC__sub_802905B8(void);
 void close_if_active__23TAdSinglePlyChrSelectGCFv(u8 * _w0);
 s32 release_texture_list(void *);
-int set_motion_interpolation_flag__10TObjMotionFv(void*);
-int draw_saving_joints_checked__10TObjMotionFv(void*);
 
 extern "C" {
 void run_task__12TCMCharacterFv();
@@ -662,7 +660,7 @@ void request_creation_motion(s32 arg0) {
     ((TObjMotion *)creation_figure_object)->set_field_b8(arg0 * 3 + creation_motion_group(creation_player_character));
 }
 
-void TAdSinglePlyChrSelectGC::draw_player_model() { set_motion_interpolation_flag__10TObjMotionFv(this); draw_saving_joints_checked__10TObjMotionFv(this); }
+void TAdSinglePlyChrSelectGC::draw_player_model() { ((TObjMotion *)this)->set_motion_interpolation_flag(); ((TObjMotion *)this)->draw_saving_joints_checked(); }
 void close_if_active__23TAdSinglePlyChrSelectGCFv(u8 * ad_single_ply_chr_select_gc) {
     if ((s32) char_select_active_flag != 0) {
         ((TAdSinglePlyChrSelectGC *)ad_single_ply_chr_select_gc)->draw_creation_figure();

@@ -510,7 +510,7 @@ s32 TObjEneMe3Shinowa::can_hit_same_target() {
     if (!(m_3c4 & 0x10000)) {
         if (m_3ac > 100.0f && m_3ac < 150.0f) {
             mine = get_room__8TObjBaseFv(this);
-            theirs = get_room__8TObjBaseFv(m_390);
+            theirs = m_390->get_room();
             if (theirs == mine && check_body_collision_at(rotation_y, m_3ac - 20.0f) == 0) {
                 ret = 1;
             }
@@ -1236,7 +1236,7 @@ void TObjEneMe3ShinowaMirage__sub_800E54E8(TObjEneMe3Shinowa *shinowa, s32 arg1)
         shinowa->advance_animation();
         shinowa->m_404++;
         if (transform_relative_position__9TObjEneDDFPv(shinowa, shinowa->m_390) != 0) {
-            if ((s16)get_room__8TObjBaseFv(shinowa) == (s16)get_room__8TObjBaseFv(shinowa->m_390)) {
+            if ((s16)shinowa->get_room() == (s16)shinowa->m_390->get_room()) {
                 shinowa->enemy_copy_target_destination();
             }
         }

@@ -23,7 +23,6 @@ short lbl_805D6CDA;
 // The game code the GBA program header carries at 0xAC (calc_joyboot_checksum copies it in).
 const u8 joyboot_game_code[4] = {'G', 'P', 'O', 'E'};
 
-u32 create__8TDLGraphFv();
 void xfree__FPv(void*);
 s32 xmalloc__FUl(s32);
 int GBAInit(void*);
@@ -43,7 +42,7 @@ void TLobby::init_graph() {
     u32 temp_r3;
 
     if ((u32) gba_download_graph == 0U) {
-        temp_r3 = create__8TDLGraphFv();
+        temp_r3 = (u32)TDLGraph::create();
         gba_download_graph = temp_r3;
         if (temp_r3 != 0U) {
             ((TDLGraph *)temp_r3)->set_graph_param(2);

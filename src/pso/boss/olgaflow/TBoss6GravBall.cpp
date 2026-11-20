@@ -134,7 +134,6 @@ struct PL_803233AC { u8 pad[0x30]; u32 flags; u8 pad34[4]; Vec pos; };
 struct PL_80323544 { u8 pad[0x30]; u32 flags; u8 pad34[4]; Vec pos; };
 
 extern "C" {
-P_80323348 *get_player_data__10TObjPlayerFi(s32);
 s32 is_state_1f__14TBoss6PlotFalzFUi();
 f32 vector_length(void *);
 void subtract_vector(void *, void *);
@@ -159,7 +158,7 @@ void TBoss6GravBall::clear_player_grav_flags() {
     s32 n = TLobby::get_game_mode();
     s32 i;
     for (i = 0; i < n; i++) {
-        P_80323348 *p = get_player_data__10TObjPlayerFi(i);
+        P_80323348 *p = (P_80323348 *)TObjPlayer::get_player_data(i);
         if (is_state_1f__14TBoss6PlotFalzFUi() != 0) {
             p->flags &= 0xFFFDFFFF;
         }
@@ -442,7 +441,7 @@ void update_state__14TBoss6GravBallFPv(u8 *arg0) {
 }
 
 void run_task__14TBoss6GravBallFv(TBoss6GravBall_80323BBC *arg0) {
-    if (check_demo_mode__10TObjPlayerFv(arg0) != 0) {
+    if (((TObjPlayer *)(arg0))->check_demo_mode() != 0) {
         return;
     }
     if (query_teammate_state__9TObjEneDDFv() != 0) {

@@ -265,17 +265,12 @@ s32 rotate_vector_by_matrix(int, void *, void *);
 extern u8 identity_matrix[];
 u16 find_nearest_visible_player(void *, int, f32);
 s32 check_path_obstructed(void *, void *);
-u8 *get_player_data__10TObjPlayerFi(s32);
 s32 get_entity_id(void *);
 s32 get_current_floor();
 u8 *get_enemy_entity(u16);
 s32 subtract_vector(void *, void *);
 extern s32 registered_player_count;
 extern s32 lbl_805D5870;
-s32 dispatch_shared_handler_a__6TLobbyFl(int);
-s32 register_object__6TLobbyFl(int);
-s32 dispatch_shared_handler_b__6TLobbyFl(int);
-s32 register_boss__6TLobbyFl(int);
 s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
 extern s32 lbl_805D5140;
 extern u32 TObjGrass__bml_resource;
@@ -507,12 +502,12 @@ void TObjGrass::load_resources() {
     ((SampledMotionPoints *)lbl_805D515C)->sample_two_nodes((NJS_OBJECT *)TObjGrass__resource_bundle->models[0].model,
         (NJS_MOTION *)TObjGrass__resource_bundle->motions[TObjGrass__grass_type_param_table[3].motion].motion, 0x3C, 0x3E);
     TObjGrass__bml_resource = (u32) mem_alloc(0xC);
-    lbl_805D5140 = register_boss__6TLobbyFl(0x4E);
-    ((s32 *) TObjGrass__bml_resource)[0] = dispatch_shared_handler_b__6TLobbyFl(0x51);
-    ((s32 *) TObjGrass__bml_resource)[2] = dispatch_shared_handler_b__6TLobbyFl(0x52);
-    ((s32 *) TObjGrass__bml_resource)[1] = dispatch_shared_handler_b__6TLobbyFl(0x53);
-    grass_combat_stats_handle = register_object__6TLobbyFl(0x4D);
-    lbl_805D514C = dispatch_shared_handler_a__6TLobbyFl(0x4D);
+    lbl_805D5140 = (s32)TLobby::register_boss(0x4E);
+    ((s32 *) TObjGrass__bml_resource)[0] = (s32)TLobby::dispatch_shared_handler_b(0x51);
+    ((s32 *) TObjGrass__bml_resource)[2] = (s32)TLobby::dispatch_shared_handler_b(0x52);
+    ((s32 *) TObjGrass__bml_resource)[1] = (s32)TLobby::dispatch_shared_handler_b(0x53);
+    grass_combat_stats_handle = (s32)TLobby::register_object(0x4D);
+    lbl_805D514C = (s32)TLobby::dispatch_shared_handler_a(0x4D);
     {
         NpcAnimationBinding binding = grass_spawn_descriptor;
         binding.motions = TObjGrass__resource_bundle->motions;
@@ -713,7 +708,7 @@ void TObjGrass::vfunc_28() {
             Vec v = lbl_8043B790;
             best = *(f32 *)((s8 *)(*(f32 * *)&this->movementParameters) + 0) * *(f32 *)((s8 *)(*(f32 * *)&this->movementParameters) + 0);
             for (; i < registered_player_count + lbl_805D5870; i++) {
-                p = get_player_data__10TObjPlayerFi(i);
+                p = (u8 *)TObjPlayer::get_player_data(i);
                 if (p == NULL) {
                     break;
                 }

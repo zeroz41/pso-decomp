@@ -28,7 +28,6 @@ extern "C" {
 extern const char lbl_804728D0[];
 const char lbl_804728D0[] = "TAdChrSelPlayerGC";
 
-void *get_index__14TAdPlyStatusGCFv();
 void sub_802E0CB0__13TUnk_804E3008Fv(Obj_802E0CB0 *o);
 }
 
@@ -144,7 +143,7 @@ void TAdMultiPlyChrSelectGC::set_index_and_close_status(s32 arg1) {
 void TAdMultiPlyChrSelectGC::set_status_value(s32 arg1) {
     void *temp_r3;
     *(s32 *)((s8 *)this + 0x110) = arg1;
-    temp_r3 = get_index__14TAdPlyStatusGCFv();
+    temp_r3 = (void *)TAdPlyStatusGC::get_index();
     if (temp_r3 != 0U) {
         TAdPlyStatusGC::set_status_index((int)temp_r3, (int)(*(s32 *)((s8 *)this + 0x110)));
     }
@@ -276,7 +275,7 @@ void TUnk_804E3008::run_task() {
         }
         break;
     }
-    idx = get_index__14TAdPlyStatusGCFv();
+    idx = (void *)TAdPlyStatusGC::get_index();
     if (idx != NULL) {
         ((TAdPlyStatusGC *)idx)->set_load_state(F(0xFC, s32));
         TAdPlyStatusGC::set_status_param((int)idx, (int)(F(0x170, void *)));

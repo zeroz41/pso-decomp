@@ -45,7 +45,6 @@ Tbl_8020E934 ** lbl_805D6158;
 s32 lbl_805D615C;
 extern s32 shop_difficulty_tier;
 void push_shop_pool_entry(ShopPool *, u8);
-void init__9TItemDataFv(Item_8020E934 *);
 s32 is_duplicate_shop_shield_or_unit(Item_8020E934 *, s32);
 s32 is_duplicate_shop_armor(Rec_8020E700 *arg0, s32 arg1);
 s32 is_duplicate_shop_armor(Rec_8020E700 *arg0, s32 arg1) {
@@ -108,7 +107,7 @@ void generate_shop_unit_pool(s32 arg0) {
         if (b == -1) {
             continue;
         }
-        init__9TItemDataFv(&item);
+        ((TItemData *)(&item))->init();
         item.b[0] = 1;
         item.b[1] = 3;
         item.b[2] = b;
@@ -155,7 +154,7 @@ void generate_shop_shield_pool(s32 arg0) {
         if (b == -1) {
             continue;
         }
-        init__9TItemDataFv(&item);
+        ((TItemData *)(&item))->init();
         item.b[0] = 1;
         item.b[1] = 2;
         if (shop_difficulty_tier != 3) {
@@ -214,7 +213,7 @@ void generate_shop_armor_pool(s32 arg0) {
         if (b == -1) {
             continue;
         }
-        init__9TItemDataFv(&item);
+        ((TItemData *)(&item))->init();
         item.b[0] = 1;
         item.b[1] = 1;
         if (shop_difficulty_tier != 3) {

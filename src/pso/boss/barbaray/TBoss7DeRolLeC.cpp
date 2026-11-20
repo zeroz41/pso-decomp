@@ -1259,12 +1259,6 @@ struct PktA_802ED62C { u8 hdr[2]; u16 a; s16 b; s16 c; s32 d; };
 struct PktB_802ED62C { u8 hdr[2]; u16 a; s16 b; s16 c; };
 
 extern "C" {
-s32 register_object__6TLobbyFl(s32);
-
-s32 dispatch_shared_handler_b__6TLobbyFl(s32);
-
-s32 register_boss__6TLobbyFl(s32);
-
 s32 reload_stats_keep_hp_tp__9TObjEneDDFv(void *, s32, s32, s32);
 
 void TBoss7PhotonBullet__sub_802ED5A0(void *arg0, int arg1);
@@ -1804,7 +1798,7 @@ void TBoss7PhotonBullet__sub_802ED5A0(void *arg0, int arg1) {
         v = 0x11;
         break;
     }
-    reload_stats_keep_hp_tp__9TObjEneDDFv(arg0, register_boss__6TLobbyFl(0xF), dispatch_shared_handler_b__6TLobbyFl(v), register_object__6TLobbyFl(0xF));
+    reload_stats_keep_hp_tp__9TObjEneDDFv(arg0, (s32)TLobby::register_boss(0xF), (s32)TLobby::dispatch_shared_handler_b(v), (s32)TLobby::register_object(0xF));
 }
 
 void TBoss7PhotonBullet::emit_hit_effect(void *arg1) {
@@ -2688,7 +2682,7 @@ void TObjFish__sub_802EB90C(Fish_802EB90C *arg0, u32 arg1) {
                 ((TBoss7DeRolLeC *)arg0)->set_state_and_send(0xF);
             } else if (b & 2) {
                 arg0->f40 = -210.0f;
-                set_state_and_send__14TBoss7DeRolLeCFl(arg0, 1);
+                ((TBoss7DeRolLeC *)arg0)->set_state_and_send(1);
             }
             break;
         case 1:
@@ -4053,7 +4047,7 @@ void TObjFish__sub_802E8E34(u8 *boss7_de_rol_le_c, u32 arg1) {
         return;
     case 8:
         if (*(f32 *)((s8 *)boss7_de_rol_le_c + 0x6F0) < -200.0f) {
-            set_state_and_send__14TBoss7DeRolLeCFl(boss7_de_rol_le_c, 0x1C);
+            ((TBoss7DeRolLeC *)boss7_de_rol_le_c)->set_state_and_send(0x1C);
         }
         return;
     case 0:

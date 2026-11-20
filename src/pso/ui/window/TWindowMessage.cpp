@@ -95,7 +95,7 @@ void TWindowMessage::scroll_up_line(u8 *arg1) {
 void TWindowMessage::advance_reveal_cursor() {
     u16 *e;
     s32 t;
-    e = ((u16 *)get_array_entry__11TWindowBaseFi(((Msg_802695A8 *)this), ((Msg_802695A8 *)this)->cur));
+    e = ((u16 *)((TWindowBase *)((Msg_802695A8 *)this))->get_array_entry(((Msg_802695A8 *)this)->cur));
     while (get_field_20__17TWindowSubComCardFv(e) != 0 && (*e & 0x10)) {
         t = ((Msg_802695A8 *)this)->cur + 1;
         ((Msg_802695A8 *)this)->cur = t;
@@ -105,7 +105,7 @@ void TWindowMessage::advance_reveal_cursor() {
         if (((Msg_802695A8 *)this)->cur == ((Msg_802695A8 *)this)->sel) {
             break;
         }
-        e = ((u16 *)get_array_entry__11TWindowBaseFi(((Msg_802695A8 *)this), ((Msg_802695A8 *)this)->cur));
+        e = ((u16 *)((TWindowBase *)((Msg_802695A8 *)this))->get_array_entry(((Msg_802695A8 *)this)->cur));
         if (((Msg_802695A8 *)this)->ents[((Msg_802695A8 *)this)->cur].flags & 8) {
             ((Msg_802695A8 *)this)->ents[((Msg_802695A8 *)this)->cur].flags &= ~8;
             *e &= ~8;
@@ -127,7 +127,7 @@ void TWindowMessage::update_line_timers() {
         }
     }
     idx = ((Q_80269664 *)this)->oldest;
-    e = (Ent_80269664 *)get_array_entry__11TWindowBaseFi(((Q_80269664 *)this), idx);
+    e = (Ent_80269664 *)((TWindowBase *)((Q_80269664 *)this))->get_array_entry(idx);
     m = &((Q_80269664 *)this)->meta[idx];
     while (get_field_20__17TWindowSubComCardFv(e) != 0 && m->timer <= 0 && (m->flags & 4)) {
         m->flags &= ~4;
@@ -142,7 +142,7 @@ void TWindowMessage::update_line_timers() {
         if (idx == ((Q_80269664 *)this)->oldest) {
             break;
         }
-        e = (Ent_80269664 *)get_array_entry__11TWindowBaseFi(((Q_80269664 *)this), idx);
+        e = (Ent_80269664 *)((TWindowBase *)((Q_80269664 *)this))->get_array_entry(idx);
         m = &((Q_80269664 *)this)->meta[idx];
     }
 }

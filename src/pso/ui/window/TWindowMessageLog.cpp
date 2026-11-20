@@ -33,7 +33,6 @@ struct Stack_8026A494 {
 extern "C" {
 s32 clamp_list_scroll_offset(int, void *, void *, f32);
 s32 find_entity_by_id();
-s32 obj_isState2_324__9TObjCharaFv();
 
 s32 TWindowMessageLog::get_active_photon_object() {
     s32 temp_r3;
@@ -43,7 +42,7 @@ s32 TWindowMessageLog::get_active_photon_object() {
     if (temp_r3 == 0) {
         return 0;
     }
-    if ((obj_isState2_324__9TObjCharaFv() == 0) && (TObjPlayer::is_locally_controlled((void *)temp_r3) == 0)) {
+    if ((((TObjChara *)temp_r3)->obj_isState2_324() == 0) && (TObjPlayer::is_locally_controlled((void *)temp_r3) == 0)) {
         return 0;
     }
     var_r3 = temp_r3 + 0x85C;
@@ -81,14 +80,13 @@ void TWindowMessageLog::update_scroll_position() {
     this->clamp_scroll_offset();
 }
 
-s32 update_fade__11TWindowBaseFv();
 
 void TWindowMessageLog::update_fade_offset() {
     f32 temp_f1;
     f32 temp_f31;
 
     temp_f31 = this->m_4c;
-    update_fade__11TWindowBaseFv();
+    update_fade();
     temp_f1 = this->m_4c - temp_f31;
     if (0.0f != temp_f1) {
         this->m_84 = (f32) (this->m_84 - temp_f1);
@@ -97,7 +95,6 @@ void TWindowMessageLog::update_fade_offset() {
     }
 }
 
-s32 clamp_scroll_offset__17TWindowMessageLogFv(f32);
 
 void TWindowMessageLog::update_scroll_animation() {
     f32 temp_f1;
@@ -109,7 +106,7 @@ void TWindowMessageLog::update_scroll_animation() {
         temp_f1_2 = this->m_6c;
         this->m_6c = (f32) (temp_f1_2 + this->m_94);
         this->m_94 *= 0.0f;
-        clamp_scroll_offset__17TWindowMessageLogFv(temp_f1_2);
+        clamp_scroll_offset();
     }
 }
 

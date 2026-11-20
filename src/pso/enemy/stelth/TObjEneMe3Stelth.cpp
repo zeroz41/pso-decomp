@@ -131,7 +131,6 @@ s32 create__10TTecDebandFlll(void *, void *, s32);
 u32 get_item_field_6__10TObjPlayerFPv(void *);
 f32 fabs_float(f32);
 s32 get_item_id__5TItemFv(void);
-int select_and_apply_target__12TObjEneDD_STFf(void*);
 void TObjEneDD__sub_800BA438(void *, void *);
 
 
@@ -192,9 +191,6 @@ s32 free_bin_model_request(BmlResource *, s32);
 int create__20TObjEneMe3StelthRealFPv(void*);
 
 
-s32 register_object__6TLobbyFl(s32);
-s32 dispatch_shared_handler_b__6TLobbyFl(s32);
-s32 register_boss__6TLobbyFl(s32);
 
 void draw_model__16TObjEneMe3StelthFPv(TObjEneMe3Stelth *stelth) {
     stelth->draw_ginja_motion_model();
@@ -234,13 +230,13 @@ void TObjEneMe3Stelth::load_shared_resources() {
         TObjEneMe3Stelth__alternate_texture_list.textures[i].texaddr = TObjEneMe3Stelth__alternate_texture_list.textures[i + 3].texaddr;
     }
     for (i = 0; i < 2; i++) {
-        TObjEneMe3Stelth__base_params_by_variant[i] = register_boss__6TLobbyFl(lbl_8043D47C[i]);
+        TObjEneMe3Stelth__base_params_by_variant[i] = (s32)TLobby::register_boss(lbl_8043D47C[i]);
     }
     for (i = 0; i < 2; i++) {
-        TObjEneMe3Stelth__attack_params_by_variant[i] = dispatch_shared_handler_b__6TLobbyFl(lbl_8043D484[i]);
+        TObjEneMe3Stelth__attack_params_by_variant[i] = (s32)TLobby::dispatch_shared_handler_b(lbl_8043D484[i]);
     }
     for (i = 0; i < 2; i++) {
-        TObjEneMe3Stelth__resistance_params_by_variant[i] = register_object__6TLobbyFl(lbl_8043D48C[i]);
+        TObjEneMe3Stelth__resistance_params_by_variant[i] = (s32)TLobby::register_object(lbl_8043D48C[i]);
     }
     for (i = 0; i < 2; i++) {
         TObjEneMe3Stelth__behavior_params_by_variant[i] = (StelthBehaviorParams *)TLobby::dispatch_shared_handler_a(lbl_8043D494[i]);
@@ -585,7 +581,7 @@ s32 TObjEneMe3Stelth::is_angle_in_range() {
     return parameters[0] < 1.0f ||
            (parameters[0] >= 2.0f && parameters[0] < 3.0f);
 }
-s32 TObjEneMe3Stelth::vfunc_104(f32) { return select_and_apply_target__12TObjEneDD_STFf(this); }
+s32 TObjEneMe3Stelth::vfunc_104(f32 f) { return select_and_apply_target(f); }
 s32 TObjEneMe3Stelth::sub_800F47D4() {
     return m_3f0 >= 1;
 }

@@ -533,7 +533,7 @@ void draw_tunnel_segment(u8 *boss7_tunnel_col) {
     u8 *var_r3;
     u8 *var_r4;
     var_r30 = boss7_tunnel_col;
-    if (is_in_camera_range__18TObjBoss7TunnelColFv(boss7_tunnel_col) != 0) {
+    if (((TObjBoss7TunnelCol *)boss7_tunnel_col)->is_in_camera_range() != 0) {
         var_r3 = (u8 *)((void *)2);
         var_r4 = (u8 *)(*(u8 **)((s8 *)var_r30 + 0x3C));
         var_r4 += *(s32 *)((s8 *)var_r30 + 0x38) * 4;

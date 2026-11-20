@@ -124,16 +124,12 @@ f32 horizontal_distance_squared(void *, void *);
 void scale_matrix(s32, s32, f32, f32, f32);
 
 
-s32 register_object__6TLobbyFl(int);
-s32 dispatch_shared_handler_b__6TLobbyFl(int);
-s32 register_boss__6TLobbyFl(int);
 void free_bin_model_request(void*, int);
 s32 TObjPlayer__sub_800A04F0(void *);
 void *__dt__13TUnk_80490470Fv(void *arg0, s16 arg1);
 void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);
 int TObjEneDD__sub_800BA804(u16 arg0);
 s32 init_model__9TObjEneDDFP13CollisionBodyl(void *, void *, int, int);
-u32 vfunc_102__9TObjEneDDFv();
 u32 vfunc_101__9TObjEneDDFPUc();
 s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
 s32 load_enemy_bml_resource(u8 *arg0);
@@ -1497,7 +1493,7 @@ s32 TObjEneRe4Sorcerer::select_attack_target(f32 farg0, f32 farg1) {
 #pragma pop
 
 u8 *TObjEneRe4Sorcerer::vfunc_102() {
-    if (vfunc_102__9TObjEneDDFv() == 0U) {
+    if (TObjEneDD::vfunc_102() == 0U) {
         this->m_3c8 = (s32) (this->m_3c8 & 0xFFFFFFEF);
         return;
     }
@@ -1697,9 +1693,9 @@ void TObjEneRe4Sorcerer::load_resources() {
     } else {
         sorcerer_bml_resource = (BmlResource *)load_enemy_bml_resource((u8 *)&bm_ene_re4_sorcerer_resource_descriptor);
     }
-    lbl_805D52D0 = register_boss__6TLobbyFl(0xA);
-    TObjEneRe4Sorcerer__attack_params = dispatch_shared_handler_b__6TLobbyFl(0xA);
-    TObjEneRe4Sorcerer__resistance_params = register_object__6TLobbyFl(0xA);
+    lbl_805D52D0 = (s32)TLobby::register_boss(0xA);
+    TObjEneRe4Sorcerer__attack_params = (s32)TLobby::dispatch_shared_handler_b(0xA);
+    TObjEneRe4Sorcerer__resistance_params = (s32)TLobby::register_object(0xA);
     sorcerer_behavior_params = (s32 *)TLobby::dispatch_shared_handler_a(0xA);
     TObjEneRe4Sorcerer__render_node_index = 0;
     TObjEneRe4Sorcerer__saved_render_flags = 0;

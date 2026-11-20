@@ -11,6 +11,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/window/TWindowCtrlMain.h"
 const char *TFontSmallTask__name = "TFontSmallTask";
 
 struct TFontSmallTask_800FD4D4 {
@@ -290,7 +291,6 @@ s32 run_load_callback_table(Ent_800FD6F8 *p, u32 size);
 u16 get_entity_id();
 s32 get_actor_section_id__15TPlyPhotonChairFv(void *);
 void find_leader_section_id(struct Out_800FD614 *out, s32 arg1);
-void *get_instance__15TWindowCtrlMainFv(void);
 void __ct__7TObjectFP7TObject(void *, void *);
 char *strncpy(char *, const char *, u32);
 }
@@ -302,7 +302,7 @@ void set_world_section_id(void* p, s32 v);
 #pragma fp_contract on
 
 TFontSmallTask_800FD4D4 *__ct__14TFontSmallTaskFv(TFontSmallTask_800FD4D4 *self, Vec *pos, u32 color, s32 life, s32 delay, const char *text, u16 view) {
-    __ct__7TObjectFP7TObject(self, get_instance__15TWindowCtrlMainFv());
+    __ct__7TObjectFP7TObject(self, (void *)TWindowCtrlMain::get_instance());
     self->vt = __vt__14TFontSmallTask;
     self->f0 = TFontSmallTask__name;
     VecCopy((Vec *)&self->pos, (const Vec *)pos);

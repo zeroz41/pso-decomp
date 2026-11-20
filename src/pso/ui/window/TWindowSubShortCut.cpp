@@ -40,7 +40,6 @@ struct VObj_18_204a81 : VBase_18_204a81 {
 };
 
 extern "C" {
-s32 get_message_10__20TWindowSubStatusDispFl(s32);
 s32 get_window_layout_position(s32 a0);
 void open_yes_no_prompt(TChCrTagPlBack *arg0, u32 arg1, s32 arg2, s32 arg3, f32 farg0);
 s32 create__19TWindowMessageYesNoFPvPvPvPv(void *, s32, s32, s32);
@@ -238,12 +237,12 @@ s32 TWindowSubShortCut::open_menu() {
 
     ((TWindowMenuIconLine *)this->m_2c)->get_cursor_value();
     chat_shortcut = get_chat_shortcut();
-    temp_r31 = draw_card_icon__17TWindowSubComCardFll(get_window_layout_position(0x74), 2, get_message_10__20TWindowSubStatusDispFl(0x2C));
+    temp_r31 = draw_card_icon__17TWindowSubComCardFll(get_window_layout_position(0x74), 2, (s32)TWindowSubStatusDisp::get_message_10(0x2C));
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)(TWindowSubStatusDisp::get_message_10(0x7E)), 6, 5);
     if ((u32) *chat_shortcut != 0U) {
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)(TWindowSubStatusDisp::get_message_10(0x5A)), 6, 9);
     } else {
-        TWindowSubComCard::draw_text_gray(temp_r31, get_message_10__20TWindowSubStatusDispFl(0x5A), 6, 9);
+        TWindowSubComCard::draw_text_gray(temp_r31, (s32)TWindowSubStatusDisp::get_message_10(0x5A), 6, 9);
     }
     ((TWindowSubComCardList *)temp_r31)->set_flag70_bit10();
     ((TWindowSubComCardList *)temp_r31)->update_layout_height(205.0f);

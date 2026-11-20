@@ -159,7 +159,6 @@ void TBoss6Type2__sub_802BA598(TBoss6Type2 *self, s32 elapsed, s32 duration);
 void draw_model_blend_motion(void *arg0, void *arg1, f32 farg0);
 extern "C" {
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
-u8 * get_player_data__10TObjPlayerFi(s32);
 void spawn__15TBoss6RockChaseFll(void *, void *);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
@@ -177,7 +176,6 @@ void TBoss6Rock__sub_80354A44(void);
 void free_collision_body_parts(void *);
 void set_screen_pos__11TBoss6Type2FPv(void *arg0);
 void TBoss6Type2__sub_802BE4E0(s32 *arg0, s32 *arg1);
-s32 create_zanzo__11TBoss6Type1FPvPvPv(void *, int, int);
 void TBoss6Type2__sub_802BD938(u8 *arg0, u8 *arg1);
 
 f64 atan2_float(f32, f32);
@@ -635,7 +633,7 @@ TBoss6Type2::TBoss6Type2(TObject *parent, s32 *params) : TObjEnemy(parent) {
     init_motion_entries();
     m_764 = TObjFish__sub_800E3124((u8 *)boss6_type2_effect_desc_table, (s32)&m_59c);
     build_tables__14TBoss6PlotFalzFPvPvi(&m_768, (void *)boss6_type2_plot_falz_entry_table, 2);
-    m_458 = create_zanzo__11TBoss6Type1FPvPvPv(this, 7, 0xF);
+    m_458 = (u32)TBoss6Type1::create_zanzo((void *)this, (void *)7, (void *)0xF);
     m_478 = 0;
     m_47c = 0x11;
     TBoss6Type2__sub_802BE4E0((s32 *)&m_480, (s32 *)boss6_type2_zero_vec);
@@ -1851,7 +1849,7 @@ s32 TBoss6Type2::push_players_away(void *target, f32 range) {
     mask = 0;
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
-        pl = get_player_data__10TObjPlayerFi(i);
+        pl = (u8 *)TObjPlayer::get_player_data(i);
         if (is_state_1f__14TBoss6PlotFalzFUi(pl) == 0) {
             continue;
         }
@@ -2055,7 +2053,7 @@ s32 request_player_camera_offsets__11TBoss6Type2FPvff(Obj_802BB1E0 *self, f32 a,
     step = 0.125f * b;
     for (i = 0; i < n; i++) {
         lim = fabs_float(b);
-        p = get_player_data__10TObjPlayerFi(i);
+        p = (u8 *)TObjPlayer::get_player_data(i);
         if (p == NULL) {
             continue;
         }
@@ -2184,7 +2182,7 @@ void TBoss6Type2::spawn_rocks_around_players() {
     n = 0;
     cnt = TLobby::get_game_mode();
     for (i = 0; i < cnt; i++) {
-        pl = get_player_data__10TObjPlayerFi(i);
+        pl = (u8 *)TObjPlayer::get_player_data(i);
         if (is_active__14TBoss6PlotFalzFv() != 0) {
             f32 r = 40.0f * (3.0517578e-05f * (f32)rand()) + 10.0f;
             s32 ang = (s32)(65535.0f * (3.0517578e-05f * (f32)rand()));

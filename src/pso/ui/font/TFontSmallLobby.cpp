@@ -198,7 +198,7 @@ void draw_party_label__15TFontSmallLobbyFiUis(s32 font_small_lobby, u32 arg1, s1
     ((TFontSmallLobby *)(font_small_lobby + 0x4C))->set_target_index(8);
     TFontSmallLobby__sub_801D671C((void *)(font_small_lobby + 0x4C), 1);
     create_party_effect__11TWindowCtrlFPvPv(get_entity_id(arg1), arg2);
-    if ((arg1 == 0U) || (((s32 (*)(u32)) obj_isState2_324__9TObjCharaFv)(arg1) == 0)) {
+    if ((arg1 == 0U) || (((TObjChara *)arg1)->obj_isState2_324() == 0)) {
         TFontSmallLobby__sub_801D698C((Subcommand6x38 *)&sp8);
         sp8.fA = get_entity_id(arg1);
         sp8.fC = arg2;

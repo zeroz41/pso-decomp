@@ -25,20 +25,8 @@
 struct Mine_80038760; struct O_80038908;
 
 extern "C" {
-
-s32 transition_enemy_state__9TObjEneDDFl(void *, int);
-
 f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
-
-void init_params__10TBoss2MineFlf(u8 *arg0, s32 arg1, f32 farg0);
-
-void update_pulse_state__10TBoss2MineFv(Mine_80038760 *self);
-
-void set_node_offsets__10TBoss2MineFv(O_80038908 *self);
-
-
 }
-
 struct Mine_800377E8 { u8 pad[0x404]; Vec vel; };
 
 struct Col_80038200 { s32 a; f32 r, g, b; };
@@ -692,7 +680,6 @@ TBoss2Mine::~TBoss2Mine() {
     free_collision_body_parts(this);
 }
 
-#define transition_enemy_state__9TObjEneDDFl ((int (*)(void *, void *))transition_enemy_state__9TObjEneDDFl)
 
 void TBoss2Mine::run_task() {
     u8 *arg0 = (u8 *)this;
@@ -717,7 +704,7 @@ void TBoss2Mine::run_task() {
 
 void TBoss2Mine::vfunc_28() {  }
 
-void TBoss2Mine::vfunc_63() { if (*(short*)((char*)this + 0x326) != 4) { transition_enemy_state__9TObjEneDDFl(this, (void*)4); } }
+void TBoss2Mine::vfunc_63() { if (*(short*)((char*)this + 0x326) != 4) { transition_enemy_state(4); } }
 
 void TBoss2Mine::vfunc_62() { clear_attack_receipts(); }
 
@@ -858,9 +845,7 @@ void TBoss2Mine::vfunc_104(s32 reason) {
     }
 }
 
-#undef transition_enemy_state__9TObjEneDDFl
 #define play_sound_effect ((s32 (*)(s32, u32, s16, s32))play_sound_effect)
-#define set_node_offsets__10TBoss2MineFv ((void (*)(void *))set_node_offsets__10TBoss2MineFv)
 
 
 void TBoss2Mine::vfunc_105(s32) {  }
@@ -887,7 +872,7 @@ void TBoss2Mine::vfunc_107(s32 arg1) {
     case 3:
       if (((s32) (*((s32 *) (((s8 *) arg0) + 0x3CC)))) == 2)
     {
-      transition_enemy_state__9TObjEneDDFl(arg0, 0);
+      ((TBoss2Mine *)arg0)->transition_enemy_state(0);
     }
     case 5:
       return;
@@ -914,7 +899,7 @@ void TBoss2Mine::vfunc_108(s32 arg1) {
         *(s32 *)((s8 *)this + 0x38C) = (s32) (*(s32 *)((s8 *)this + 0x38C) & 0xFFFFFFF8);
         return;
     case 3:
-        transition_enemy_state__9TObjEneDDFl(this, 0);
+        transition_enemy_state(0);
         return;
     case 5:
         *(s32 *)((s8 *)this + 0x30) = (s32) (*(s32 *)((s8 *)this + 0x30) & 0xFFFFF7FF);
@@ -944,7 +929,7 @@ void TBoss2Mine::render() {
     saved_model_render_flags = model_render_flags;
     TObjEneDD::clear_global_flag_400();
     TObjPlayer::toggle_particle_effect();
-    set_node_offsets__10TBoss2MineFv(self);
+    ((TBoss2Mine *)self)->set_node_offsets();
     push_matrix();
     post_translate_matrix(&self->pos);
     translate_matrix(0, (0.0f), self->f300 - self->pos.y, (0.0f));
@@ -991,11 +976,8 @@ void TUnk_80482EC0::vfunc_88() {
 }
 
 #undef play_sound_effect
-#undef set_node_offsets__10TBoss2MineFv
 #define calc_elapsed_scaled__9TObjEneDDFv ((f32 (*)(void *, int, int))calc_elapsed_scaled__9TObjEneDDFv)
-#define init_params__10TBoss2MineFlf ((s32 (*)(void *, int, f32))init_params__10TBoss2MineFlf)
 #define play_sound_effect ((s32 (*)(int, void *, int, int, int))play_sound_effect)
-#define update_pulse_state__10TBoss2MineFv ((s32 (*)(void *))update_pulse_state__10TBoss2MineFv)
 void TBoss2Mine::set_launch_position_velocity(u8 *arg1, u8 *arg2) {
     u8 *arg0 = (u8 *)this;
     *(s32 *)((s8 *)arg0 + 0x38C) = (s32) (*(s32 *)((s8 *)arg0 + 0x38C) | 0x100);
@@ -1036,7 +1018,7 @@ void TUnk_80482EC0::vfunc_105(s32 arg1) {
     case 3:
         if (*(f32 *)((s8 *)arg0 + 0x300) < *(f32 *)((s8 *)arg0 + 0x394)) {
             *(f32 *)((s8 *)arg0 + 0x300) = *(f32 *)((s8 *)arg0 + 0x394);
-            transition_enemy_state__9TObjEneDDFl(arg0, 2);
+            ((TBoss2Mine *)arg0)->transition_enemy_state(2);
         }
         break;
     case 5:
@@ -1081,16 +1063,16 @@ void TUnk_80482EC0::vfunc_106(s32 arg1) {
         temp_r7 = (s32) ((3e+01f) * calc_elapsed_scaled__9TObjEneDDFv(this, 0x8000, temp_r5));
         *(s32 *)((s8 *)((u8 *)this) + 0x3CC) = (temp_r7 + 0xB4);
         play_sound_effect(0x4003A804, (void *) (((u8 *)this) + 0x2FC), 0, 0, temp_r7);
-        init_params__10TBoss2MineFlf(this, 0x1E, (f32) ((0.25f)));
+        init_params(0x1E, (f32) ((0.25f)));
         return;
     case 3:
         temp_r4 = *(s32 *)((s8 *)((u8 *)this) + 0x38C);
         if (temp_r4 & 0x100) {
             *(s32 *)((s8 *)((u8 *)this) + 0x38C) = (s32) (temp_r4 & 0xFFFFFEFF);
-            transition_enemy_state__9TObjEneDDFl(this, 1);
+            transition_enemy_state(1);
         }
         if ((s32) *(s32 *)((s8 *)((u8 *)this) + 0x3C8) == 2) {
-            transition_enemy_state__9TObjEneDDFl(this, 3);
+            transition_enemy_state(3);
         }
         break;
     case 5:
@@ -1111,7 +1093,7 @@ void TUnk_80482EC0::vfunc_106(s32 arg1) {
                 *(s32 *)((s8 *)((u8 *)this) + 0x3C8) = 2;
             }
             this->set_state_by_distance((int) (*(s32 *)((s8 *)((u8 *)this) + 0x3CC)));
-            update_pulse_state__10TBoss2MineFv(this);
+            update_pulse_state();
             break;
         }
         break;
@@ -1132,12 +1114,9 @@ TUnk_80482D04::TUnk_80482D04(TObject *parent, u16 entity_id, s32 set_index)
 }
 
 #undef calc_elapsed_scaled__9TObjEneDDFv
-#undef init_params__10TBoss2MineFlf
 #undef play_sound_effect
-#undef update_pulse_state__10TBoss2MineFv
 TUnk_80482D04::~TUnk_80482D04() {}
 
-#define update_pulse_state__10TBoss2MineFv ((s32 (*)(void *))update_pulse_state__10TBoss2MineFv)
 void TUnk_80482D04::vfunc_88() {
     *(f32 *)((s8 *)(*(void **)((s8 *)this + 0xA4)) + 4) = (f32) ((1.0f) + (*(f32 *)((s8 *)this + 0x300) - *(f32 *)((s8 *)this + 0x3C)));
 }
@@ -1204,7 +1183,7 @@ void TUnk_80482D04::vfunc_105(s32 arg1) {
         break;
     case 3:
         if (*(s32 *)((s8 *)arg0 + 0x3C8) == 3) {
-            transition_enemy_state__9TObjEneDDFl(arg0, 2);
+            ((TBoss2Mine *)arg0)->transition_enemy_state(2);
         }
         break;
     case 0:
@@ -1280,15 +1259,15 @@ void TUnk_80482D04::vfunc_106(s32 arg1) {
         *(s32 *)((s8 *)arg0 + 0x3B0) = 0;
         *(s32 *)((s8 *)arg0 + 0x3C8) = 0;
         *(s32 *)((s8 *)arg0 + 0x3CC) = (s32)((6e+01f) * calc_elapsed_scaled__9TObjEneDDFv(arg0)) + 0xF0;
-        init_params__10TBoss2MineFlf(arg0, 0x1E, (0.25f));
+        ((TBoss2Mine *)arg0)->init_params(0x1E, (0.25f));
         break;
     case 3:
         if (*(s32 *)((s8 *)arg0 + 0x38C) & 0x100) {
             *(s32 *)((s8 *)arg0 + 0x38C) &= ~0x100;
-            transition_enemy_state__9TObjEneDDFl(arg0, 1);
+            ((TBoss2Mine *)arg0)->transition_enemy_state(1);
         }
         if (*(s32 *)((s8 *)arg0 + 0x3C8) == 1) {
-            transition_enemy_state__9TObjEneDDFl(arg0, 3);
+            ((TBoss2Mine *)arg0)->transition_enemy_state(3);
         }
         break;
     case 0:
@@ -1313,7 +1292,7 @@ void TUnk_80482D04::vfunc_106(s32 arg1) {
             *(f32 *)((s8 *)arg0 + 0x304) = v.z * s + *(f32 *)((s8 *)arg0 + 0x304);
         }
         ((TBoss2Mine *)arg0)->set_state_by_distance(*(s32 *)((s8 *)arg0 + 0x3CC));
-        update_pulse_state__10TBoss2MineFv(arg0);
+        ((TBoss2Mine *)arg0)->update_pulse_state();
         *(f32 *)((s8 *)arg0 + 0x38) = *(f32 *)((s8 *)arg0 + 0x2FC);
         *(f32 *)((s8 *)arg0 + 0x40) = *(f32 *)((s8 *)arg0 + 0x304);
         ((TUnk_80482D04 *)(arg0))->vfunc_89();
@@ -1328,4 +1307,3 @@ void TUnk_80482D04::vfunc_106(s32 arg1) {
 #pragma pop
 
 
-#undef update_pulse_state__10TBoss2MineFv

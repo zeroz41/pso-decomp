@@ -24,7 +24,6 @@ struct Mag_8025373C {
 };
 
 extern "C" {
-Entry_8025373C *get_array_entry__11TWindowBaseFi(void *, s32);
 extern const f32 TWindowHelpItem__data_805DCDE4;
 s32 fn_8025373C(u8 *self) {
     Mag_8025373C mag;
@@ -35,35 +34,35 @@ s32 fn_8025373C(u8 *self) {
     s32 count;
     ((MagStats *)(&mag))->init();
     TItemData::deserialize_mag((void *)(*(s32 *)(self + 0x68)), (void *)(&mag));
-    help = get_array_entry__11TWindowBaseFi(self, 0);
-    panel = get_array_entry__11TWindowBaseFi(self, 0xF);
+    help = (Entry_8025373C *)((TWindowBase *)self)->get_array_entry(0);
+    panel = (Entry_8025373C *)((TWindowBase *)self)->get_array_entry(0xF);
     count = TWindowHelpItem__sub_80255DDC(help);
-    num = get_array_entry__11TWindowBaseFi(self, 4);
-    bar = get_array_entry__11TWindowBaseFi(self, 5);
+    num = (Entry_8025373C *)((TWindowBase *)self)->get_array_entry(4);
+    bar = (Entry_8025373C *)((TWindowBase *)self)->get_array_entry(5);
     if (num->value < ((MagStats *)(&mag))->get_def_level()) {
         num->value++;
         bar->timer = TWindowHelpItem__data_805DCDE4;
         count++;
         ((VEntry_8025373C *)bar)->m3();
     }
-    num = get_array_entry__11TWindowBaseFi(self, 7);
-    bar = get_array_entry__11TWindowBaseFi(self, 8);
+    num = (Entry_8025373C *)((TWindowBase *)self)->get_array_entry(7);
+    bar = (Entry_8025373C *)((TWindowBase *)self)->get_array_entry(8);
     if (num->value < ((MagStats *)(&mag))->get_pow_level()) {
         num->value++;
         count++;
         bar->timer = TWindowHelpItem__data_805DCDE4;
         ((VEntry_8025373C *)bar)->m3();
     }
-    num = get_array_entry__11TWindowBaseFi(self, 0xA);
-    bar = get_array_entry__11TWindowBaseFi(self, 0xB);
+    num = (Entry_8025373C *)((TWindowBase *)self)->get_array_entry(0xA);
+    bar = (Entry_8025373C *)((TWindowBase *)self)->get_array_entry(0xB);
     if (num->value < ((MagStats *)(&mag))->get_dex_level()) {
         num->value++;
         bar->timer = TWindowHelpItem__data_805DCDE4;
         count++;
         ((VEntry_8025373C *)bar)->m3();
     }
-    num = get_array_entry__11TWindowBaseFi(self, 0xD);
-    bar = get_array_entry__11TWindowBaseFi(self, 0xE);
+    num = (Entry_8025373C *)((TWindowBase *)self)->get_array_entry(0xD);
+    bar = (Entry_8025373C *)((TWindowBase *)self)->get_array_entry(0xE);
     if (num->value < ((MagStats *)(&mag))->get_mind_level()) {
         num->value++;
         bar->timer = TWindowHelpItem__data_805DCDE4;

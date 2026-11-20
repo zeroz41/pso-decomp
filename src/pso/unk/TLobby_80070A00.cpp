@@ -5,6 +5,7 @@
 #include "types.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/quest/challenge/TChallenge.h"
 
 #pragma readonly_strings on
 
@@ -19,7 +20,6 @@ extern s32 challenge_mode_state[];
 
 extern "C" {
 
-u32 create__10TChallengeFv();
 
 extern u32 challenge_task;
 extern s32 challenge_task_created;
@@ -34,7 +34,7 @@ void TLobby::init_on_main_phase() {
         }
         TLobby::start_lobby_name_request();
         if ((s32) TLobby__data_805D4E30 != 0) {
-            challenge_task = create__10TChallengeFv();
+            challenge_task = (u32)TChallenge::create();
             challenge_task_created = 1;
             TObjTombstone::load_resources();
             ((TLobby *)(s32 *)"Area00")->set_name_string();

@@ -7,6 +7,7 @@
 #include "pso/ui/window/TWindowActionPalette.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/network/protocol/protocol_types.h"
+#include "pso/item/TItemData.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -80,7 +81,6 @@ void TObjPlayer::build_6x2C_impose_hold_packet() {
 
 #define copy_subcommand_header ((s32 (*)())copy_subcommand_header)
 #define bswap_pkt_u16x2_u32__10TObjPlayerFPv ((s32 (*)())bswap_pkt_u16x2_u32__10TObjPlayerFPv)
-void bswap__9TItemDataFv(s32 arg0);
 
 void TObjPlayer::bswap_and_send_packet() {
     s32 cmd = (s32)this;
@@ -254,7 +254,7 @@ extern "C" {
 void TObjPlayer::bswap_cmd_item_data() {
     s32 arg0 = (s32)this;
     ((G_ClientIDHeader *)arg0)->bswap();
-    bswap__9TItemDataFv(arg0 + 4);
+    ((TItemData *)(arg0 + 4))->bswap();
 }
 
 void*TObjPlayer::copy(void* a1) { TObjPlayer__sub_801C0F10((u8 *)this, (u8 *)a1); *(unsigned char*)((char*)this + 0x18) = *(unsigned char*)((char*)a1 + 0x18); *(unsigned char*)((char*)this + 0x19) = *(unsigned char*)((char*)a1 + 0x19); *(short*)((char*)this + 0x1a) = *(unsigned short*)((char*)a1 + 0x1a); return this; }
@@ -428,12 +428,10 @@ void TObjPlayer::init_cmd_6x20() {
 }
 
 #define copy_subcommand_header ((int (*)(void*))copy_subcommand_header)
-s32 send_subcommand_to_client__6TLobbyFUl(s32, s32);
-s32 send_60_sized__6TLobbyFv(s32);
 
-void TObjPlayer::send_player_floor_packet(void* a1) { bswap_pkt_u16x2_u32x2(); send_subcommand_to_client__6TLobbyFUl((s32)this, (s32)a1); }
+void TObjPlayer::send_player_floor_packet(void* a1) { bswap_pkt_u16x2_u32x2(); ((TLobby *)this)->send_subcommand_to_client((s32)a1); }
 
-void TObjPlayer::send_player_floor_packet_u32x5() { bswap_pkt_u32x5(); send_60_sized__6TLobbyFv((s32)this); }
+void TObjPlayer::send_player_floor_packet_u32x5() { bswap_pkt_u32x5(); ((TLobby *)this)->send_60_sized(); }
 
 void TObjPlayer::bswap_set_floor_packet() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x4)); }
 
@@ -446,7 +444,7 @@ void init_6x1F_floor_packet(u8 *arg0) {
     *(s8 *)((s8 *)arg0 + 1) = 2;
 }
 
-void TObjPlayer::bswap_and_send_set_floor() { bswap_set_floor_packet(); send_60_sized__6TLobbyFv((s32)this); }
+void TObjPlayer::bswap_and_send_set_floor() { bswap_set_floor_packet(); ((TLobby *)this)->send_60_sized(); }
 
 void TObjPlayer::bswap_warp_packet() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x4)); }
 

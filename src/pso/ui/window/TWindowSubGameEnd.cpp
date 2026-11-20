@@ -9,6 +9,7 @@
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 
 #pragma readonly_strings on
 
@@ -35,7 +36,6 @@ void send_logout__6TLobbyFv(void);
 extern s32 tl_00;
 extern int window_sub_game_end_active_flag;
 s32 get_main_phase();
-s32 get_message_10__20TWindowSubStatusDispFl(s32);
 s32 __ct__7TObjectFP7TObject();
 s32 get_window_layout_position(s32);
 s32 free_member__17TWindowSubComCardFv(s32, s32);
@@ -109,13 +109,13 @@ void *TWindowSubGameEnd__ct(TWindowSubGameEnd *window_sub_game_end, s32 arg1, s3
     window_sub_game_end->m_24 = arg1;
     window_sub_game_end->m_20 = arg2;
     if (get_main_phase() == 0xF) {
-        var_r31 = get_message_10__20TWindowSubStatusDispFl(0x3B);
+        var_r31 = (s32)TWindowSubStatusDisp::get_message_10(0x3B);
         var_f31 = 469.0f;
     } else if (is_split_screen() != 0) {
-        var_r31 = get_message_10__20TWindowSubStatusDispFl(0x3C);
+        var_r31 = (s32)TWindowSubStatusDisp::get_message_10(0x3C);
         var_f31 = 312.0f;
     } else {
-        var_r31 = get_message_10__20TWindowSubStatusDispFl(0x3A);
+        var_r31 = (s32)TWindowSubStatusDisp::get_message_10(0x3A);
         var_f31 = 469.0f;
     }
     window_sub_game_end->m_28 = create__19TWindowMessageYesNoFPvPvPvPv(window_sub_game_end, window_sub_game_end->m_20, 0, 0);

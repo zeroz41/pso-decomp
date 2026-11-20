@@ -167,42 +167,26 @@ u8 *TWindowDD__ws_data_table;
 
 u32 lbl_805D6E34;
 extern "C" {
-s32 free_child__9TWindowDDFv(int);
 s32 apply_input__9TWindowDDFPvPv(int, int);
 s32 update__9TWindowDDFl(int, int, int);
 void TWindowDD__sub_803434F4(u8 *arg0);
 void TWindowDD__sub_80342428(u8 *arg0);
 void handle_input__9TWindowDDFi(s32 arg0);
-s32 enter_state_19__9TWindowDDFv(void *);
-s32 enter_state_18__9TWindowDDFv(void *);
 void enter_state_16__9TWindowDDFPv(void *arg0);
 void update_state__9TWindowDDFPv(void *arg0);
 void TWindowDD__sub_80342800(u8 *arg0);
 void update__9TWindowDDFi(s32 arg0);
 void TWindowDD__sub_803429B0(u8 *arg0);
-s32 enter_state_9__9TWindowDDFv(void *);
-s32 update_dispatch__9TWindowDDFv(void *);
-s32 update_layout__9TWindowDDFv(void *);
-s32 update_transition__9TWindowDDFv(void *);
 void TWindowDD__sub_80342D14(u8 *arg0);
-s32 update__9TWindowDDFv(void *);
-s32 handle_confirm_input__9TWindowDDFv(void *);
 void run_state__9TWindowDDFPv(u8 *arg0);
 s16 TWindowDD__sub_8034214C(u8 *arg0);
-void destroy_menu_entry__9TWindowDDFl(void *, int);
 void TWindowDD__sub_80347980(void *);
 s32 *get_entry__9TWindowDDFii(void *, s32);
 void update__9TWindowDDFPvPv(void *, void *);
 void pop_menu_level__9TWindowDDFPv(TWindowDD_803431C0 *arg0);
-void set_pos_and_data__9TWindowDDFf(void *, f32);
-void set_item_pos__9TWindowDDFl(void *, int);
-u8 *init_last_child__9TWindowDDFv(void *);
 void TWindowDD__sub_80347CC8(void *, void *);
-void setup_entry__9TWindowDDFs(void *, s32);
 void TWindowDD__sub_80347F48(u8 *arg0);
-void init_entry_field_64__9TWindowDDFl(void *, int);
 void TWindowDD__sub_80347FA0(s32 arg0, s32 arg1);
-void pop_entry__9TWindowDDFv(void *);
 extern const s32 TWindowDD__data_805DFB50;
 
 extern const f32 TWindowDD__data_805DFB74;
@@ -219,44 +203,26 @@ extern const f32 lbl_805DFC0C;
 
 extern const f32 TWindowDD__data_805DFC10;
 void apply_entry_layout__9TWindowDDFPv(TWindowDD_8034330C *arg0);
-s32 build_player_word_lists__9TWindowDDFv();
 void TWindowDD__sub_80347A4C(u8 *arg0, s32 arg1);
 u8 *TWindowDD__sub_80347AD4(void *, s32, s32);
 s32 TWindowDD__sub_80347E04(void *, int);
 s32 dispatch_state__9TWindowDDFv(void *, int, int, int);
-s32 reset_index__9TWindowDDFv(void *);
 extern const f32 TWindowDD__data_805DFB6C;
 
 extern const f32 lbl_805DFB90;
 void TWindowDD__sub_803435A0(u8 *arg0);
-s32 apply_both_choices__9TWindowDDFll(void *, int);
-s32 set_clamped_page__9TWindowDDFl(int, int);
-s32 handle_input__9TWindowDDFv(int);
-s32 set_clamped_selection__9TWindowDDFl(int, int);
-s32 set_value_f32__9TWindowDDFl(int, int);
 s32 TWindowDD__sub_80341AE0(int);
 s32 TWindowDD__sub_80341AF8(int);
 s32 TWindowDD__sub_8034217C(int);
-s32 get_cursor_index__9TWindowDDFv(int);
-s32 spawn_window__9TWindowDDFv();
-s32 play_se__9TWindowDDFv();
-s32 play_sound__9TWindowDDFv();
 s32 TWindowDD__sub_803482B0(void *);
-s32 test_input_flag_4__9TWindowDDFv(void *);
-s32 set_state__9TWindowDDFv(void *);
 s32 TWindowDD__sub_803484C4(void *);
 void copy_chat_entry__9TWindowDDFPvPv(R_80343BC0 *arg0, R_80343BC0 *arg1);
 void *get_player_by_client_id(s32);
-s32 check_all_ready__9TWindowDDFl(s32);
 s32 is_room_free_of_active_enemies(s32 floor, s16 room);
-void init_item_slots__9TWindowDDFv(void *);
 void *TWindowDD__sub_80340F70(void);
 s32 TWindowDD__sub_80342384(s32 arg0, s32 arg1);
-void set_default_positions__9TWindowDDFiPv(void *, s32);
-void init_layout__9TWindowDDFiPv(void *, s32);
 s32 TWindowDD__sub_8034146C(NJS_POINT2 *arg0, NJS_POINT2 *arg1, s32 arg2, s32 arg3, f32 farg0);
 void TWindowDD__sub_803412A0(TWindowDD_WS_String *self);
-void format_message__9TWindowDDFPvPvUs(void *src, void *dst, u16 player);
 s32 create__9TWindowDDFv(void);
 const char *word_select_type_name_pointer = "TWindowDD";
 
@@ -312,7 +278,6 @@ void open_numeric_parameter_input__9TWindowDDFPviii(WordSelectWindowState* self,
 void free_buffers__9TWindowDDFv(void);
 s32 update_close_flag__9TWindowDDFPv(void *arg0);
 s32 get_current_child_index__9TWindowDDFv();
-void close_all_windows__9TWindowDDFv(void *);
 
 
 
@@ -366,8 +331,6 @@ extern const f32 TWindowDD__data_805DFB18;
 extern const f32 lbl_805DFB24;
 
 extern const f32 lbl_805DFB28;
-void set_quad_corners_scaled__9TWindowDDFfff(NJS_POINT2 *quad, f32 x, f32 y, f32 size);
-void init_ws_data_tables__9TWindowDDFv(void);
 
 #pragma push
 #pragma opt_common_subs off
@@ -432,7 +395,7 @@ void TWindowDD__sub_80344114(void) {
     lbl_805D6E24 = -1;
     for (i = 0; i < 6; i++) {
         src = &window_dd_quad_positions[i];
-        set_quad_corners_scaled__9TWindowDDFfff(TWindowDD__data_805434E8[i], src->x, src->y, window_dd_quad_scales[i]);
+        ((TWindowDD *)(TWindowDD__data_805434E8[i]))->set_quad_corners_scaled(src->x, src->y, window_dd_quad_scales[i]);
     }
     pt = TWindowDD__data_805434E8[6];
     x2 = window_dd_quad_positions[6].x;
@@ -449,7 +412,7 @@ void TWindowDD__sub_80344114(void) {
         y += dy;
         pt += 2;
     }
-    init_ws_data_tables__9TWindowDDFv();
+    TWindowDD::init_ws_data_tables();
 }
 
 void free_buffers__9TWindowDDFv(void) {
@@ -521,7 +484,7 @@ TWindowDD::TWindowDD(TObject *parent, void *arg2) : TObject(parent) {
       v = ((TObjBase *)p)->get_room();
       if (is_boss_area() != 0)
       {
-        r = check_all_ready__9TWindowDDFl(floor);
+        r = TWindowDD::check_all_ready(floor);
       }
       else
       {
@@ -533,10 +496,10 @@ TWindowDD::TWindowDD(TObject *parent, void *arg2) : TObject(parent) {
       }
     }
   }
-  build_player_word_lists__9TWindowDDFv();
+  TWindowDD::build_player_word_lists();
   self->fC0 = arg2;
-  init_item_slots__9TWindowDDFv(self->fC4);
-  init_item_slots__9TWindowDDFv(self->fE0);
+  ((TWindowDD *)self->fC4)->init_item_slots();
+  ((TWindowDD *)self->fE0)->init_item_slots();
   self->f7C = (s32)TWindowDD__sub_80340F70();
   {
     s32 i;
@@ -554,7 +517,7 @@ TWindowDD::TWindowDD(TObject *parent, void *arg2) : TObject(parent) {
     s32 w = TWindowDD__sub_80342384(self->f88, (s32) lbl_805DFB54);
     if (w != 0)
     {
-      set_default_positions__9TWindowDDFiPv(self, w);
+      TWindowDD::set_default_positions((int)self, (void*)w);
       self->a24[0] = w;
     }
   }
@@ -562,7 +525,7 @@ TWindowDD::TWindowDD(TObject *parent, void *arg2) : TObject(parent) {
   p = (u8 *) TWindowDD__sub_80342384(self->f8C, (s32) lbl_805DFB54);
   if (p != 0)
   {
-    init_layout__9TWindowDDFiPv(self, (s32) p);
+    TWindowDD::init_layout((int)self, (void*)p);
     self->a24[1] = (s32) p;
   }
   if (!lbl_805D6E68)
@@ -608,7 +571,7 @@ TWindowDD::TWindowDD(TObject *parent, void *arg2) : TObject(parent) {
       TWindowDD__sub_803412A0((TWindowDD_WS_String *)q);
     }
   }
-  format_message__9TWindowDDFPvPvUs(self->fC4, (void *)TWindowDD__work_buffer, local_client_id);
+  TWindowDD::format_message(self->fC4, (void *)TWindowDD__work_buffer, local_client_id);
   {
     a.x = lbl_805DFBF0;
     a.y = lbl_805DFBF4;
@@ -649,7 +612,7 @@ TWindowDD::TWindowDD(TObject *parent, void *arg2) : TObject(parent) {
 #pragma pop
 
 TWindowDD::~TWindowDD() {
-    close_all_windows__9TWindowDDFv(this);
+    close_all_windows();
 }
 }
 
@@ -675,48 +638,48 @@ void TWindowDD::run_task() {
     s32 done;
     if (w->x80 != 0) {
         if (w->xB0 == 0) {
-            set_clamped_page__9TWindowDDFl(w->x80, 2);
+            ((TWindowDD *)w->x80)->set_clamped_page(2);
         } else if (w->xC4 > 1) {
-            set_clamped_page__9TWindowDDFl(w->x80, 0);
+            ((TWindowDD *)w->x80)->set_clamped_page(0);
         } else {
-            set_clamped_page__9TWindowDDFl(w->x80, 1);
+            ((TWindowDD *)w->x80)->set_clamped_page(1);
         }
     }
     cur = w->subs[w->idx];
     if (w->x7C != 0 && cur != NULL) {
-        set_value_f32__9TWindowDDFl(w->x7C, TWindowDD__sub_8034217C((int)cur));
+        ((TWindowDD *)w->x7C)->set_value_f32(TWindowDD__sub_8034217C((int)cur));
     }
     switch (w->xA8) {
     case 2:
         break;
     case 1:
-        handle_input__9TWindowDDFv(w->x80);
+        ((TWindowDD *)w->x80)->handle_input();
         done = 0;
-        if (test_input_flag_4__9TWindowDDFv(w) != 0) {
+        if (((TWindowDD *)w)->test_input_flag_4() != 0) {
             if (w->x80 != 0) {
                 switch (TWindowDD__sub_80340820((void *)w->x80)) {
                 case 0:
-                    play_sound__9TWindowDDFv();
+                    TWindowDD::play_sound();
                     TWindowDD__sub_803484C4(w);
                     copy_chat_entry__9TWindowDDFPvPv((R_80343BC0 *)(w->xC0), (R_80343BC0 *)(&w->xE0));
                     break;
                 case 1:
-                    play_se__9TWindowDDFv();
+                    TWindowDD::play_se();
                     done = 1;
                     w->x94 |= 2;
                     break;
                 case 2:
-                    play_se__9TWindowDDFv();
-                    set_state__9TWindowDDFv(w);
+                    TWindowDD::play_se();
+                    ((TWindowDD *)w)->set_state();
                     break;
                 }
             }
         } else if (TWindowDD__sub_803482B0(w) != 0) {
-            play_se__9TWindowDDFv();
+            TWindowDD::play_se();
             done = 1;
             w->x94 |= 2;
-        } else if (apply_both_choices__9TWindowDDFll(w->input, 0x40) != 0) {
-            spawn_window__9TWindowDDFv();
+        } else if (TWindowDD::apply_both_choices((s32)w->input, 0x40) != 0) {
+            TWindowDD::spawn_window();
             done = 1;
         }
         if (done != 0) {
@@ -732,9 +695,9 @@ void TWindowDD::run_task() {
         switch (w->xAC) {
         case 0:
             if (w->xB8 != 1 && TWindowDD_check_input_mask(w->input, 0x80) != 0) {
-                spawn_window__9TWindowDDFv();
+                TWindowDD::spawn_window();
                 w->xA8 = 1;
-                set_clamped_selection__9TWindowDDFl(w->x80, get_cursor_index__9TWindowDDFv((int)w->subs[w->idx]));
+                ((TWindowDD *)w->x80)->set_clamped_selection(((TWindowDD *)(w->subs[w->idx]))->get_cursor_index());
                 TWindowDD__sub_80341AE0((int)cur);
                 copy_chat_entry__9TWindowDDFPvPv((R_80343BC0 *)(&w->xE0), (R_80343BC0 *)(&w->xC4));
                 if (w->xE0 > 0) {
@@ -766,26 +729,26 @@ void TWindowDD::run_task() {
 void run_state__9TWindowDDFPv(u8 *window_dd) {
     switch (*(u32 *)((s8 *)window_dd + 0xB0)) {
     case 0:
-        handle_confirm_input__9TWindowDDFv(window_dd);
+        ((TWindowDD *)window_dd)->handle_confirm_input();
         return;
     case 1:
     case 2:
-        update__9TWindowDDFv(window_dd);
+        ((TWindowDD *)window_dd)->update();
         return;
     case 3:
         TWindowDD__sub_80342D14((window_dd));
         return;
     case 5:
-        update_transition__9TWindowDDFv(window_dd);
+        ((TWindowDD *)window_dd)->update_transition();
         return;
     case 6:
-        update_layout__9TWindowDDFv(window_dd);
+        ((TWindowDD *)window_dd)->update_layout();
         return;
     case 7:
-        update_dispatch__9TWindowDDFv(window_dd);
+        ((TWindowDD *)window_dd)->update_dispatch();
         return;
     case 8:
-        enter_state_9__9TWindowDDFv(window_dd);
+        ((TWindowDD *)window_dd)->enter_state_9();
         return;
     case 9:
         TWindowDD__sub_803429B0((window_dd));
@@ -803,10 +766,10 @@ void run_state__9TWindowDDFPv(u8 *window_dd) {
         enter_state_16__9TWindowDDFPv((window_dd));
         return;
     case 17:
-        enter_state_18__9TWindowDDFv(window_dd);
+        ((TWindowDD *)window_dd)->enter_state_18();
         return;
     case 18:
-        enter_state_19__9TWindowDDFv(window_dd);
+        ((TWindowDD *)window_dd)->enter_state_19();
         return;
     case 20:
         handle_input__9TWindowDDFi((s32)window_dd);
@@ -834,11 +797,11 @@ void TWindowDD__sub_803435A0(u8 *arg0) {
     u8 *temp_r3_4;
     temp_r0 = *(s32 *)((s8 *)arg0 + 0xB4);
     if ((temp_r0 == 0x14) || (temp_r0 == 0xC)) {
-        build_player_word_lists__9TWindowDDFv();
+        TWindowDD::build_player_word_lists();
     }
     *(s32 *)((s8 *)arg0 + 0xB8) = 0;
     if (*(s32 *)((s8 *)arg0 + 0xB4) == 1 || *(s32 *)((s8 *)arg0 + 0xB4) == 2 || *(s32 *)((s8 *)arg0 + 0xB4) == 8 || *(s32 *)((s8 *)arg0 + 0xB4) == 0xF || *(s32 *)((s8 *)arg0 + 0xB4) == 0x11) {
-        reset_index__9TWindowDDFv(arg0 + 0xC4);
+        ((TWindowDD *)(arg0 + 0xC4))->reset_index();
     }
     temp_r29 = get_entry__9TWindowDDFii(arg0, *(s32 *)((s8 *)arg0 + 0xB0));
     temp_r31 = get_entry__9TWindowDDFii(arg0, *(s32 *)((s8 *)arg0 + 0xB4));
@@ -856,7 +819,7 @@ void TWindowDD__sub_803435A0(u8 *arg0) {
     }
     window_dd = TWindowDD__sub_80347AD4(arg0, 1, *(s32 *)((s8 *)arg0 + 0x8C));
     if (window_dd != NULL) {
-        set_pos_and_data__9TWindowDDFf(window_dd, TWindowDD__data_805DFB6C);
+        ((TWindowDD *)window_dd)->set_pos_and_data(TWindowDD__data_805DFB6C);
         if (*(s32 *)((s8 *)temp_r31 + 0) & 1) {
             *(f32 *)((s8 *)window_dd + 0x38) = (f32) lbl_805DFB7C;
             temp_r3_3 = (unsigned char *) (*(void **)((s8 *)arg0 + 0x80));
@@ -881,15 +844,15 @@ void TWindowDD__sub_803435A0(u8 *arg0) {
         if (temp_r3_5 & 1) {
             *(s32 *)((s8 *)arg0 + 0x90) = dispatch_state__9TWindowDDFv(arg0, (int) (*(s32 *)((s8 *)arg0 + 0xB4)), (int) (*(s32 *)((s8 *)arg0 + 0x8C)), 0);
             if ((temp_r3 = TWindowDD__sub_80347AD4(arg0, 2, *(s32 *)((s8 *)arg0 + 0x90))) != NULL) {
-                set_pos_and_data__9TWindowDDFf(temp_r3, TWindowDD__data_805DFC10);
+                ((TWindowDD *)temp_r3)->set_pos_and_data(TWindowDD__data_805DFC10);
             }
             TWindowDD__sub_80347F48((arg0));
         } else {
             *(s32 *)((s8 *)arg0 + 0x90) = dispatch_state__9TWindowDDFv(arg0, (int) (*(s32 *)((s8 *)arg0 + 0xB4)), (int) (*(s32 *)((s8 *)arg0 + 0x8C)), 0);
             if ((temp_r3 = TWindowDD__sub_80347AD4(arg0, 2, *(s32 *)((s8 *)arg0 + 0x90))) != NULL) {
-                set_pos_and_data__9TWindowDDFf(temp_r3, lbl_805DFB80);
+                ((TWindowDD *)temp_r3)->set_pos_and_data(lbl_805DFB80);
             }
-            init_entry_field_64__9TWindowDDFl(arg0, 1);
+            ((TWindowDD *)arg0)->init_entry_field_64(1);
         }
     } else {
         TWindowDD__sub_80347FA0((s32)arg0, 1);
@@ -897,8 +860,8 @@ void TWindowDD__sub_803435A0(u8 *arg0) {
     if ((s16) *(s16 *)((s8 *)temp_r31 + 4) == -1) {
         TWindowDD__sub_80347FA0((s32)arg0, 2);
     } else {
-        setup_entry__9TWindowDDFs(arg0, *(s16 *)((s8 *)temp_r31 + 4));
-        init_entry_field_64__9TWindowDDFl(arg0, 2);
+        ((TWindowDD *)arg0)->setup_entry(*(s16 *)((s8 *)temp_r31 + 4));
+        ((TWindowDD *)arg0)->init_entry_field_64(2);
     }
     *(s32 *)((s8 *)arg0 + 0xAC) = 1;
 }
@@ -911,7 +874,7 @@ void TWindowDD__sub_803434F4(u8 *arg0) {
     var_r31 = arg0;
     var_r3 = (u8 *)(var_r31 + (*(s32 *)((s8 *)arg0 + 0x20) * 4));
     var_r3 = (u8 *)(*(u8 **)((s8 *)var_r3 + 0x24));
-    free_child__9TWindowDDFv((int)var_r3);
+    ((TWindowDD *)var_r3)->free_child();
     var_r3 = var_r31;
     var_r4 = (u8 *)(var_r31 + (*(s32 *)((s8 *)var_r31 + 0x20) * 4));
     var_r4 = (u8 *)(*(u8 **)((s8 *)var_r4 + 0x24));
@@ -942,7 +905,7 @@ void apply_entry_layout__9TWindowDDFPv(TWindowDD_8034330C *arg0) {
     s32 id;
     prev = get_entry__9TWindowDDFii(arg0, arg0->fB0);
     entry = get_entry__9TWindowDDFii(arg0, arg0->ids[arg0->depth]);
-    w = init_last_child__9TWindowDDFv(arg0);
+    w = ((TWindowDD *)arg0)->init_last_child();
     if (w != NULL) {
         if (*entry & 1) {
             *(f32 *)((s8 *)w + 0x38) = lbl_805DFB7C;
@@ -961,23 +924,23 @@ void apply_entry_layout__9TWindowDDFPv(TWindowDD_8034330C *arg0) {
     child = arg0->child[arg0->depth];
     if (child != NULL) {
         if (*entry & 8) {
-            set_item_pos__9TWindowDDFl(arg0, 0);
+            ((TWindowDD *)arg0)->set_item_pos(0);
             TWindowDD__sub_80347FA0((s32)arg0, 1);
         } else if (*entry & 1) {
-            set_pos_and_data__9TWindowDDFf(child, TWindowDD__data_805DFC10);
+            ((TWindowDD *)child)->set_pos_and_data(TWindowDD__data_805DFC10);
             *(f32 *)((s8 *)child + 0x38) = lbl_805DFB88;
             TWindowDD__sub_80347F48((u8 *)arg0);
         } else {
-            set_pos_and_data__9TWindowDDFf(child, lbl_805DFB80);
+            ((TWindowDD *)child)->set_pos_and_data(lbl_805DFB80);
             *(f32 *)((s8 *)child + 0x38) = lbl_805DFB88;
-            init_entry_field_64__9TWindowDDFl(arg0, 1);
+            ((TWindowDD *)arg0)->init_entry_field_64(1);
         }
         if (*prev & 2) {
-            pop_entry__9TWindowDDFv(arg0->fC4);
+            ((TWindowDD *)arg0->fC4)->pop_entry();
             TWindowDD__sub_80347CC8(arg0, arg0->fC4);
         }
     }
-    set_item_pos__9TWindowDDFl(arg0, 1);
+    ((TWindowDD *)arg0)->set_item_pos(1);
     if (!(*entry & 2)) {
         TWindowDD__sub_80347FA0((s32)arg0, 3);
     }
@@ -990,8 +953,8 @@ void apply_entry_layout__9TWindowDDFPv(TWindowDD_8034330C *arg0) {
     if (id == -1) {
         TWindowDD__sub_80347FA0((s32)arg0, 2);
     } else {
-        setup_entry__9TWindowDDFs(arg0, id);
-        init_entry_field_64__9TWindowDDFl(arg0, 2);
+        ((TWindowDD *)arg0)->setup_entry(id);
+        ((TWindowDD *)arg0)->init_entry_field_64(2);
     }
     arg0->fAC = 2;
 }
@@ -1003,11 +966,11 @@ void pop_menu_level__9TWindowDDFPv(TWindowDD_803431C0 *arg0) {
     entry = get_entry__9TWindowDDFii(arg0, arg0->ids[arg0->depth]);
     TWindowDD__sub_80347980(arg0);
     if (*entry & 8) {
-        destroy_menu_entry__9TWindowDDFl(arg0, 0);
+        ((TWindowDD *)arg0)->destroy_menu_entry(0);
     } else if ((child = arg0->child[arg0->depth]) != NULL) {
         update__9TWindowDDFPvPv(arg0, child);
     }
-    destroy_menu_entry__9TWindowDDFl(arg0, 1);
+    ((TWindowDD *)arg0)->destroy_menu_entry(1);
     arg0->depth--;
     if (*entry & 4) {
         arg0->fBC--;

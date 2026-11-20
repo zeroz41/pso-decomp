@@ -676,7 +676,7 @@ s32 TItemWeapon::launch_shot(u8 *arg1, s32 i, s32 arg3, s32 arg4) {
             if (var_r23 == 0) {
                 ShotVector fallback;
                 push_matrix_from(identity_matrix);
-                weapon_range_record = (f32 *)(get_weapon_range_record(this, ((s16 (*)(void *))is_status_subsystem_ready__10TObjPlayerFv)((void *)this->owner)));
+                weapon_range_record = (f32 *)(get_weapon_range_record(this, this->owner->is_status_subsystem_ready()));
                 fallback.y = lbl_805DAC98;
                 fallback.x = lbl_805DAC98;
                 fallback.z = *(f32 *)((s8 *)weapon_range_record + 0);
@@ -696,7 +696,7 @@ s32 TItemWeapon::launch_shot(u8 *arg1, s32 i, s32 arg3, s32 arg4) {
                     if (arg4 != 0) {
                         remap_extra_attack_type();
                         hit.reserved = 0;
-                        hit.kind = (s32) ((s16 (*)(void *))is_status_subsystem_ready__10TObjPlayerFv)((void *)this->owner);
+                        hit.kind = (s32) this->owner->is_status_subsystem_ready();
                         hit.source = get_entity_id((void *)this->owner);
                         hit.target = get_entity_id(var_r29);
                         hit.weapon = this->get_item_id();
@@ -743,7 +743,7 @@ void TUnk_804A69DC::for_each_target_in_range(f32 range) {
                 id = get_captured_target_collider_index(ent);
                 obj = resolve_hittable_target(uid, id);
                 if (obj != NULL && horizontal_distance_squared(((PlSelf_8011F474 *)this)->owner->pos, obj->pos) < range) {
-                    ready = ((s16 (*)(void *))is_status_subsystem_ready__10TObjPlayerFv)(this->owner);
+                    ready = this->owner->is_status_subsystem_ready();
                     ((TObjPlayer *)(this->owner))->query_extended_state();
                     ((PlSelf_8011F474 *)this)->on_near(((PlSelf_8011F474 *)this)->owner, obj, ready, id);
                 }

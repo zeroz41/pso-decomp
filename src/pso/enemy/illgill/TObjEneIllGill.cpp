@@ -1443,8 +1443,6 @@ void TObjEneIllGill::free_effect() {
     illGillResource = NULL;
 }
 
-s32 register_object__6TLobbyFl(int);
-s32 register_boss__6TLobbyFl(int);
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void TObjEneIllGill::load_shared_resources() {
     void *p;
@@ -1456,12 +1454,12 @@ void TObjEneIllGill::load_shared_resources() {
         p = load_resource_from_descriptor(p, 1, &illGillResourceDescriptor, 0, 0, 0);
     }
     illGillResource = (BmlResource *)p;
-    TObjEneIllGill__boss_registration_id = register_boss__6TLobbyFl(0x26);
+    TObjEneIllGill__boss_registration_id = (s32)TLobby::register_boss(0x26);
     ill_gill_combat_parameter_variants[0] = (AttackParams *)TLobby::dispatch_shared_handler_b(0x26);
     ill_gill_combat_parameter_variants[1] = (AttackParams *)TLobby::dispatch_shared_handler_b(0x27);
     ill_gill_combat_parameter_variants[2] = (AttackParams *)TLobby::dispatch_shared_handler_b(0x28);
     ill_gill_combat_parameter_variants[3] = (AttackParams *)TLobby::dispatch_shared_handler_b(0x29);
-    lbl_805D6FD8 = register_object__6TLobbyFl(0x26);
+    lbl_805D6FD8 = (s32)TLobby::register_object(0x26);
     illGillAttackBehavior = (IllGillAttackBehavior *)TLobby::dispatch_shared_handler_a(0x26);
     illGillModelNodeIndex = 0;
     q = &illGillWeaponEffectPosition;

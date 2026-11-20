@@ -1516,12 +1516,11 @@ struct VObj_8031DCCC : Base_8031DCCC {
 
 extern "C" {
 
-s32 vfunc_89__9TObjEneDDFv(void *);
 
 void TObjEneRecon::vfunc_89() {
     struct VObj_8031DCCC *o = (struct VObj_8031DCCC *)this;
     o->m86();
-    vfunc_89__9TObjEneDDFv(this);
+    TObjEneDD::vfunc_89();
     this->clamp_min_height();
 }
 
@@ -1615,7 +1614,7 @@ void enemy_copy_target_destination__12TObjEneDD_STFv(void *);
 #pragma push
 #pragma fp_contract on
 void TObjEneRecon::set_orbit_destination(s32 arg1) {
-    enemy_copy_target_destination__12TObjEneDD_STFv(this);
+    enemy_copy_target_destination();
     *(f32 *)((s8 *)((u8 *)this) + 0x394) = (f32) ((*(f32 *)((s8 *)((u8 *)this) + 0x468) * sin_table_lookup(arg1)) + *(f32 *)((s8 *)((u8 *)this) + 0x394));
     *(f32 *)((s8 *)((u8 *)this) + 0x398) = (f32) *(f32 *)((s8 *)((u8 *)this) + 0x460);
     *(f32 *)((s8 *)((u8 *)this) + 0x39C) = (f32) ((*(f32 *)((s8 *)((u8 *)this) + 0x468) * cos_table_lookup(arg1)) + *(f32 *)((s8 *)((u8 *)this) + 0x39C));
@@ -1675,9 +1674,6 @@ struct RecoveredFields_8031E708_temp_r5
 };
 
 extern "C" {
-s32 register_object__6TLobbyFl(int);
-s32 dispatch_shared_handler_b__6TLobbyFl(int);
-s32 register_boss__6TLobbyFl(int);
 typedef struct RecoveredFields_8031E708_temp_r5 RecoveredFields_8031E708_temp_r5;
 void TObjEneRecon::load_resources() {
   u8 *temp_r5;
@@ -1685,9 +1681,9 @@ void TObjEneRecon::load_resources() {
   boss3_volopt_instance = (VObj_8031E650 *)new TUnk_8048FA00((long)TObjEneRecon__recobox_static_instance->models->model);
   recon_intro_stage = 0;
   recon_model_matrix_ptr = 0;
-  lbl_805D6AF0 = register_boss__6TLobbyFl(0x42);
-  TObjEneRecon__attack_params = dispatch_shared_handler_b__6TLobbyFl(0x42);
-  TObjEneRecon__resistance_params = register_object__6TLobbyFl(0x42);
+  lbl_805D6AF0 = (s32)TLobby::register_boss(0x42);
+  TObjEneRecon__attack_params = (s32)TLobby::dispatch_shared_handler_b(0x42);
+  TObjEneRecon__resistance_params = (s32)TLobby::register_object(0x42);
   TObjEneRecon__data_805D6AFC = (f32 *)TLobby::dispatch_shared_handler_a(0x42);
   TObjEneRecon__sub_8031BC94();
   NpcAnimationBinding binding = recon_anim_binding;
@@ -1763,7 +1759,6 @@ f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 s32 init_model__9TObjEneDDFP13CollisionBodyl(void *, void *, int, int);
 void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
 void free_collision_body_parts(void *);
-s32 all_parents_unqueued_for_destruction__7TObjectFv();
 void run_task__12TObjEneReconFv(TObjEneRecon *arg0);
 
 
@@ -1859,7 +1854,7 @@ void run_task__12TObjEneReconFv(TObjEneRecon *ene_recon) {
         return;
     }
     entity = (s32)find_entity_by_id((*(u16 *)((s8 *)ene_recon + 0x434)));
-    if ((entity == 0) || (all_parents_unqueued_for_destruction__7TObjectFv() == 0)) {
+    if ((entity == 0) || (((TObject *)entity)->all_parents_unqueued_for_destruction() == 0)) {
         ene_recon->queue_destruction();
         return;
     }

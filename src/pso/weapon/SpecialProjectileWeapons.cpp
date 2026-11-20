@@ -250,7 +250,7 @@ void TUnk_804A204C::reserved_53() {
             TParticleCtrl::end_effect_render();
             temp_r3 = *(s32 *)((s8 *)temp_r31 + 0);
             *(s32 *)((s8 *)temp_r31 + 0) = (s32) (temp_r3 & ~0x11);
-            warn_if_gauge_low__10TObjPlayerFv(temp_r3);
+            ((TObjPlayer *)(temp_r3))->warn_if_gauge_low();
             pop_matrix();
             pop_matrix();
         }

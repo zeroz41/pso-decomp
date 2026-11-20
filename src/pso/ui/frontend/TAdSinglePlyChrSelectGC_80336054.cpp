@@ -27,6 +27,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/unk/TLobby_80335E08.h"
 #include "pso/unk/text_803369C8.h"
+#include "pso/ui/frontend/TAdLoadQuestPrtTxtGC.h"
 
 
 extern "C" {
@@ -243,7 +244,6 @@ u64 call_funcs_reverse__6TLobbyFPvUi(void *, int);
 void hide_title_layers_and_release(O_8033612C *arg0);
 int TKeyBoardControl__sub_8000F828(void);
 void TKeyBoardControl__sub_8000F90C(int);
-s32 create_particle__20TAdLoadQuestPrtTxtGCFPvll(void *, int, int);
 void __ct__7TObjectFP7TObject(void *);
 extern s32 tl_clipout;
 
@@ -402,9 +402,9 @@ u8 *TUnk_804EEF64::construct_title_scene() {
     }
     {
         NJS_POINT3 v = {0.0f, 0.0f, -47.0f};
-        this->m_40 = create_particle__20TAdLoadQuestPrtTxtGCFPvll(&v, 0x1E3, 1);
-        *(s32 *)((s8 *)arg0 + 0x44) = create_particle__20TAdLoadQuestPrtTxtGCFPvll(&v, 0x1E4, 1);
-        this->m_48 = create_particle__20TAdLoadQuestPrtTxtGCFPvll(&v, 0x1E5, 1);
+        this->m_40 = (s32)TAdLoadQuestPrtTxtGC::create_particle(&v, 0x1E3, 1);
+        *(s32 *)((s8 *)arg0 + 0x44) = (s32)TAdLoadQuestPrtTxtGC::create_particle(&v, 0x1E4, 1);
+        this->m_48 = (s32)TAdLoadQuestPrtTxtGC::create_particle(&v, 0x1E5, 1);
     }
     p = TObject::operator new(0x28);
     if (p != 0) {

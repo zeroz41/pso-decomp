@@ -43,7 +43,7 @@ s32 is_confirmed__18TWindowInputNumberFv();
 s32 save_position__11TWindowBaseFv();
 
 void TWindowInputNumber::mark_confirmed() {
-    if (!(this->inputFlags & 8) && (is_confirmed__18TWindowInputNumberFv() == 0)) {
+    if (!(this->inputFlags & 8) && (TWindowInputNumber::is_confirmed() == 0)) {
         this->inputFlags = (u16) (this->inputFlags | 4);
     }
 }
@@ -113,7 +113,7 @@ void TWindowInputNumber::move_cursor_next() {
 
 void TWindowInputNumber::set_value(f32 farg0) {
     this->m_38 = farg0;
-    save_position__11TWindowBaseFv();
+    TWindowBase::save_position();
     align_digits();
 }
 
@@ -161,7 +161,6 @@ void set_draw_texture_and_color(s32, s32);
 void draw_textured_quad_at_depth(f32 *q, f32 depth);
 extern s32 lbl_805D63F0;
 s32 draw_visible_window_entries(void *, void *, int);
-u32 construct_type1_heading__20TWindowSubStatusDispFll(u32, s32, s16);
 void __dl__7TObjectFPv(void *);
 s32 forward_render__20TWindowSubStatusDispFv(void *, int);
 
@@ -172,7 +171,7 @@ void TWindowInputNumber::create(s32 arg1) {
         var_r0 = (int)::operator new(0x24);
         if (var_r0 != 0U) {
             u32 saved = var_r0;
-            var_r0 = construct_type1_heading__20TWindowSubStatusDispFll(saved, arg1, this->clientIndex);
+            var_r0 = (u32)((TWindowSubStatusDisp *)saved)->construct_type1_heading(arg1, this->clientIndex);
         }
         this->unknown70 = var_r0;
         this->m_2c = (s32) (this->m_2c | 0x40);

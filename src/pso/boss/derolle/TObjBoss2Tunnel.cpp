@@ -292,7 +292,6 @@ f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
 void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed);
 extern "C" {
 void __dl__FPv(void);
-s32 get_view_matrix__11TCameraCtrlFv();
 int vec3_add_to(void*, void*);
 int is_float_nonfinite(f32 farg0);
 f32 vec_squared_length();
@@ -388,7 +387,7 @@ void TObjBoss2Tunnel::render(void* a1) { push_matrix(); TObjPlayer::invert_matri
 #pragma fp_contract on
 void TObjBoss2Tunnel::transform_vec_by_camera(s32 arg0, s32 arg1, s32 arg2) {
     push_matrix();
-    TCameraCtrl::concat_matrix(0, get_view_matrix__11TCameraCtrlFv());
+    TCameraCtrl::concat_matrix(0, (u32)TCameraCtrl::get_view_matrix());
     matrix_mult_vec(NULL, (const Vec *)arg1, (Vec *)arg2);
     pop_matrix();
 }

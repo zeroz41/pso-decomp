@@ -263,7 +263,6 @@ f32 horizontal_distance_squared(int, void *);
 
 u16 find_nearest_visible_player(void *, int, f32);
 s32 check_path_obstructed(void *, void *);
-u8 *get_player_data__10TObjPlayerFi(s32);
 s32 get_entity_id(void *);
 s32 get_current_floor();
 u32 csnVector(void *, void *, int);
@@ -717,7 +716,7 @@ void TObjEneMoja::vfunc_28() {
             Vec v = { 0.0f, 0.0f, 0.0f };
             best = ((MojaMovementParameters *)movementParameters)->unknown_00 * ((MojaMovementParameters *)movementParameters)->unknown_00;
             for (; i < registered_player_count + lbl_805D5870; i++) {
-                p = get_player_data__10TObjPlayerFi(i);
+                p = (u8 *)TObjPlayer::get_player_data(i);
                 if (p == NULL) {
                     break;
                 }
@@ -1222,7 +1221,7 @@ s32 TObjEneMoja::update_punch_attack(void *self_800ADAAC) {
                 n += lbl_805D5870;
             }
             for (i = 0; i < n; i++) {
-                p = get_player_data__10TObjPlayerFi(i);
+                p = (u8 *)TObjPlayer::get_player_data(i);
                 if (p == NULL || p == arg0) {
                     break;
                 }
@@ -1500,7 +1499,7 @@ void TObjEneMoja::update_attack_jump() {
         if (is_passing_frame(20.0f) != 0) {
             phase = 2;
             for (i = 0; i < lbl_805D5868; i++) {
-                p = get_player_data__10TObjPlayerFi(i);
+                p = (u8 *)TObjPlayer::get_player_data(i);
                 if (p == NULL || (u16)get_entity_id(p) >= 0x1000) {
                     break;
                 }

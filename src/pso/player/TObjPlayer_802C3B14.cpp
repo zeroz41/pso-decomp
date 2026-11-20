@@ -11,7 +11,6 @@ extern "C" {
 s32 get_ptr_4__10TObjPlayerFv();
 s32 get_class_starting_inventory(u8);
 s32 init_technique_levels(s32, s32);
-s32 get_action_data__10TObjPlayerFv(void *);
 s32 init_new_character_stats(void *);
 s32 copy_entries(s32, s32, s32);
 
@@ -28,7 +27,7 @@ s32 begin_action_state__10TObjPlayerFPv(u8 *player) {
     ((TObjPlayer *)player)->set_action_state(1);
     init_new_character_stats(player);
     TObjPlayer::setup_effect_slots((s32)(*(s32 *)((s8 *)player + 0x3A4)), (s32)(player + 0x3C0));
-    init_technique_levels(*(s32 *)((s8 *)player + 0x3A4), get_action_data__10TObjPlayerFv(player));
+    init_technique_levels(*(s32 *)((s8 *)player + 0x3A4), (s32)((TObjPlayer *)player)->get_action_data());
     *(s8 *)((s8 *)player + 3) = (s8) current_language;
     return 1;
 }

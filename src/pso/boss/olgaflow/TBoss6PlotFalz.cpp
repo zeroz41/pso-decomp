@@ -137,7 +137,6 @@ const Vec lbl_804705CC = { -10000.0f, 0.0f, 0.0f };
 struct Color_802ABF44 { f32 a, b, c, d; };
 
 extern "C" {
-void *get_player_data__10TObjPlayerFi(s32 i);
 s32 is_state_1f__14TBoss6PlotFalzFUi(u32 arg0);
 s16 get_entity_id(void *);
 u8 *get_player_by_client_id(s32);
@@ -154,7 +153,6 @@ extern s32 registered_player_count;
 void set_chunk_material_override_pair(int, int, s32, s32);
 }
 
-#define get_player_data__10TObjPlayerFi ((Player_802AAE78 *(*)(s32))get_player_data__10TObjPlayerFi)
 #define is_state_1f__14TBoss6PlotFalzFUi ((s32 (*)())is_state_1f__14TBoss6PlotFalzFUi)
 
 struct Player_802AAE78 { u8 pad[0x32C]; s16 f32c; };
@@ -303,7 +301,7 @@ s32 TBoss6PlotFalz::sort_active_players() {
     }
     n = 0;
     for (i = 0; i < registered_player_count; i++) {
-        p = get_player_data__10TObjPlayerFi(i);
+        p = (Player_802AAE78 *)TObjPlayer::get_player_data(i);
         if (p != NULL && ((TBoss6PlotFalz *)p)->is_active() != 0 && p->f32c != 0) {
             boss6_plot_falz_player_order_table[n] = get_entity_id(p);
             vals[n] = p->f32c;
@@ -334,7 +332,7 @@ u16 TBoss6PlotFalz::pick_random_active_player() {
 
     n = 0;
     for (i = 0; i < registered_player_count; i++) {
-        p = get_player_data__10TObjPlayerFi(i);
+        p = (Player_802AAE78 *)TObjPlayer::get_player_data(i);
         if (p != NULL && ((TBoss6PlotFalz *)p)->is_active() != 0) {
             ids[n] = get_entity_id(p);
             n++;
@@ -354,7 +352,6 @@ s32 TBoss6PlotFalz::is_active() {
 }
 
 }
-#undef get_player_data__10TObjPlayerFi
 #undef is_state_1f__14TBoss6PlotFalzFUi
 
 #define update_random_shake__14TBoss6PlotFalzFPv ((s32 (*)(void *))update_random_shake__14TBoss6PlotFalzFPv)
@@ -464,7 +461,6 @@ void TBoss6PlotFalz::set_state(s32 arg1) {
 }
 #undef update_random_shake__14TBoss6PlotFalzFPv
 
-#define get_player_data__10TObjPlayerFi ((Player_802AB3E0 *(*)(int))get_player_data__10TObjPlayerFi)
 #define is_state_1f__14TBoss6PlotFalzFUi ((int (*)(Player_802AB3E0 *))is_state_1f__14TBoss6PlotFalzFUi)
 #define get_player_by_client_id ((u8 *(*)(u16))get_player_by_client_id)
 
@@ -508,7 +504,7 @@ void TBoss6PlotFalz::spawn_player_hit_effects() {
         play_sound_effect(0x40033231, 0, 0, 0);
         k = 12.5f;
         for (i = 0; i < registered_player_count; i++) {
-            p = get_player_data__10TObjPlayerFi(i);
+            p = (Player_802AB3E0 *)TObjPlayer::get_player_data(i);
             if (is_state_1f__14TBoss6PlotFalzFUi(p) != 0) {
                 VecCopy((Vec *)(&v), (const Vec *)(&p->pos));
                 v.y += k;
@@ -664,7 +660,6 @@ s32 TBoss6PlotFalz__sub_802AB6CC(void *arg0, f32 r) {
 }
 
 #undef VLEN
-#undef get_player_data__10TObjPlayerFi
 #undef is_state_1f__14TBoss6PlotFalzFUi
 #undef get_player_by_client_id
 
@@ -716,7 +711,6 @@ void queue_instance_destruction__14TBoss6PlotFalzFv(void) {
 
 }
 
-#define get_player_data__10TObjPlayerFi ((s32 (*)(s32))get_player_data__10TObjPlayerFi)
 
 struct Stack_802ABCDC {
     s16 spC;
@@ -821,7 +815,7 @@ void TBoss6PlotFalz::apply_radial_effect_to_players(void *pos, s16 amount, s16 k
     f32 d;
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
-        p = get_player_data__10TObjPlayerFi(i);
+        p = (s32)TObjPlayer::get_player_data(i);
         if (is_state_1f__14TBoss6PlotFalzFUi(p) != 0 && TObjPlayer::is_locally_controlled((void *)p) != 0) {
             d = xyz_distance((void *)(p + 0x38), pos);
             if (!(d >= range)) {
@@ -849,7 +843,6 @@ void TBoss6PlotFalz::set_fade_material_color(f32 f) {
 }
 
 }
-#undef get_player_data__10TObjPlayerFi
 
 #define set_chunk_material_override_pair ((s32 (*)(int, int, int, void *, void *, int))set_chunk_material_override_pair)
 #define set_constant_material ((s32 (*)(void *, f32, f32, f32, f32))set_constant_material)
@@ -1050,7 +1043,7 @@ void TBoss6PlotFalz::warp_nearby_players() {
     s32 i;
     Obj_802AC3E8 *p;
     for (i = registered_player_count + lbl_805D5870; i < lbl_805D5868; i++) {
-        p = (Obj_802AC3E8 *)get_player_data__10TObjPlayerFi(i);
+        p = (Obj_802AC3E8 *)TObjPlayer::get_player_data(i);
         if (p != NULL && p->sub != NULL && (p->sub->flags & 0x20000)
             && !(xyz_distance(&lbl_804705B4, &p->pos) > 150.0f)
             && !(xyz_distance(&lbl_8047059C, &p->pos) <= 300.0f)) {
@@ -1068,7 +1061,7 @@ void refresh_players_equipment__14TBoss6PlotFalzFPv(void *self) {
     s32 i;
     void *p;
     for (i = 0; i < registered_player_count; i++) {
-        p = get_player_data__10TObjPlayerFi(i);
+        p = TObjPlayer::get_player_data(i);
         if (p != 0) {
             if (((TObjPlayer *)p)->get_area() == 0x1f) {
                 ((TObjPlayer *)p)->refresh_equipment_slot();
@@ -1076,7 +1069,6 @@ void refresh_players_equipment__14TBoss6PlotFalzFPv(void *self) {
         }
     }
 }
-u8 *get_hit_data__14TBoss4DarkFalzFv(void *);
 void set_position_from__8TObjBaseFPv();
 }
 void reset_cameras_to_actor(void *, s32);
@@ -1093,14 +1085,14 @@ void place_players_in_warp_circle(void) {
         step = 0x2000 / (registered_player_count - 1);
     }
     for (i = 0; i < registered_player_count; i++) {
-        void *p = get_player_data__10TObjPlayerFi(i);
+        void *p = TObjPlayer::get_player_data(i);
         if (p != NULL && ((TObjPlayer *)p)->get_area() == 0x1F) {
             Vec pos = lbl_804705A8;
             pos.x += 350.0f * sin_table_lookup(ang);
             pos.z += 350.0f * cos_table_lookup(ang);
-            ((void (*)(void *, void *))set_position_from__8TObjBaseFPv)(p, &pos);
+            ((TObjMotion *)p)->set_position_from(&pos);
             ((TBoss4DarkFalz *)p)->save_position();
-            *(s32 *)(get_hit_data__14TBoss4DarkFalzFv(p) + 4) = ang + 0x8000;
+            *(s32 *)((u8 *)((TBoss4DarkFalz *)p)->get_hit_data() + 4) = ang + 0x8000;
             ((TObjPlayer *)p)->refresh_equipment_slot();
             if (TObjPlayer::is_locally_controlled((void *)p) != 0) {
                 reset_cameras_to_actor(p, 0);
@@ -1124,7 +1116,7 @@ void end_cutscene_camera__14TBoss6PlotFalzFPv(void *self) {
     void *p;
     TWindowCtrl::init_all_slots2();
     for (i = 0; i < registered_player_count; i++) {
-        p = get_player_data__10TObjPlayerFi(i);
+        p = TObjPlayer::get_player_data(i);
         if (p != 0) {
             ((TObjPlayer *)p)->end_camera_pan();
         }
@@ -1136,7 +1128,7 @@ void TBoss6PlotFalz::freeze_all_players() {
     s32 i;
     TWindowCtrl::init_all_slots();
     for (i = 0; i < registered_player_count; i++) {
-        if (get_player_data__10TObjPlayerFi(i) != 0) {
+        if (TObjPlayer::get_player_data(i) != 0) {
             start_freeze__10TObjPlayerFv();
         }
     }

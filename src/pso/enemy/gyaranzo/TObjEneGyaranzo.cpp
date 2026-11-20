@@ -242,7 +242,6 @@ void init_params_from_table__15TObjEneGyaranzoFv(u8 *arg0);
 
 s32 check_path_obstructed(void *, void *);
 
-u8 *get_player_data__10TObjPlayerFi(s32);
 
 u16 get_entity_id(void *);
 
@@ -289,6 +288,7 @@ s32 get_gyaranzo_missile_int_parameter(s32 i);
 
 
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
 
 struct Obj_800D30A8 {
     u8 pad0[0x30];
@@ -393,9 +393,7 @@ s32 dispatch_shared_handler_a__6TLobbyFl(int);
 
 s32 register_object__6TLobbyFl(int);
 
-s32 dispatch_shared_handler_b__6TLobbyFl(int);
 
-s32 register_boss__6TLobbyFl(int);
 
 s32 get_bml_motion(u32, int);
 
@@ -404,7 +402,6 @@ s32 free_bin_model_request(u32, s32);
 u32 load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 
 
-s32 copy_position__20TBoss3VoloptHiraisinFv(void *);
 
 
 u32 load_enemy_bml_resource_named(BmlResourceDescriptor *, const char *);
@@ -839,8 +836,8 @@ void TLobby::load_gyaranzo_resources() {
     (*(s32 *)&lbl_805D5204) = (s32)find_model_node(AREA->res->r38, 0xD);
     p = new TUnk_8048FA00((int)AREA->res->r38, (int)get_bml_motion(gyaranzo_bml_resource, 3), 54.0f);
     (*(struct VObj_800D3BA0_800D3B38 * *)&gyaranzo_breakup_model_obj) = (VObj_800D3BA0_800D3B38 *)p;
-    gyaranzo_boss_stats_handle = register_boss__6TLobbyFl(0x1D);
-    gyaranzo_boss_stats_ptr_b = dispatch_shared_handler_b__6TLobbyFl(0x1D);
+    gyaranzo_boss_stats_handle = (s32)TLobby::register_boss(0x1D);
+    gyaranzo_boss_stats_ptr_b = (s32)TLobby::dispatch_shared_handler_b(0x1D);
     gyaranzo_object_handle = register_object__6TLobbyFl(0x1D);
     gyaranzo_missile_param_table = dispatch_shared_handler_a__6TLobbyFl(0x1D);
     {
@@ -901,7 +898,7 @@ void TObjEneGyaranzo::run_task() {
     }
     ((TObjPlayer *)((u8 *)this))->dispatch_state_update();
     this->update_prev_position();
-    copy_position__20TBoss3VoloptHiraisinFv(this);
+    ((TBoss3VoloptHiraisin *)this)->copy_position();
     submit_cursor_candidate(this, -1);
     minimap_render_dot(((u8 *)this) + 0x38, -0x5DB4, 1, 0);
 }
@@ -960,28 +957,28 @@ void TObjEneGyaranzo::sub_800D37F4() {
                         a = 1;
                     }
                     if (this->targetId != 0xFFFF) {
-                        update_if_active__15TObjEnemyCustomFl(this, a);
+                        update_if_active(a);
                         *(s32 *)&this->m_378 = 2;
                     }
                     break;
                 case 1:
                     this->targetId = this->m_3c0;
                     if (this->targetId != 0xFFFF) {
-                        update_if_active__15TObjEnemyCustomFl(this, 9);
+                        update_if_active(9);
                         *(s32 *)&this->m_378 = 2;
                     }
                     break;
                 case 2:
                     this->targetId = *(s32 *)((s8 *)((u8 *)this) + 0x3BC);
                     if (this->targetId != 0xFFFF) {
-                        update_if_active__15TObjEnemyCustomFl(this, 9);
+                        update_if_active(9);
                         *(s32 *)&this->m_378 = 2;
                     }
                     break;
                 }
             } else if (this->is_actor_cadence_frame(0x1E) != 0 &&
                        xz_distance_squared((Vec *)(((u8 *)this) + 0x38), (Vec *)(((u8 *)this) + 0x50)) > 100.0f) {
-                update_if_active__15TObjEnemyCustomFl(this, 8);
+                update_if_active(8);
             }
         }
         break;
@@ -993,7 +990,7 @@ void TObjEneGyaranzo::sub_800D37F4() {
                 this->targetId = r;
             }
             if (this->targetId == 0xFFFF) {
-                update_if_active__15TObjEnemyCustomFl(this, 8);
+                update_if_active(8);
             }
         }
         break;
@@ -1125,7 +1122,7 @@ void TObjPlayer__sub_800D3314(u8 *arg0) {
         }
         break;
     case -1:
-        update_if_active__15TObjEnemyCustomFl(arg0, *(s32 *)((s8 *)arg0 + 0x378));
+        ((TObjEnemyCustom *)arg0)->update_if_active(*(s32 *)((s8 *)arg0 + 0x378));
         break;
     }
 }
@@ -1295,7 +1292,7 @@ void TObjPlayer::update_aim_and_fire() {
         *(s16 *)&this->unk_33C = (s16) (*(s16 *)&this->unk_33C - 1);
         if (*(s16 *)&this->unk_33C <= 0) {
             this->m_37c = -1;
-            update_if_active__15TObjEnemyCustomFl(uninit, 0);
+            ((TObjEnemyCustom *)uninit)->update_if_active(0);
         }
         break;
     case -1:
@@ -1487,7 +1484,7 @@ void TObjEneGyaranzo::select_targets() {
         count += lbl_805D5870;
     }
     for (i = 0; i < count; i++) {
-        p = get_player_data__10TObjPlayerFi(i);
+        p = (u8 *)TObjPlayer::get_player_data(i);
         if (TObjPlayer::is_valid_and_active((u32)p) == 0) continue;
         if (p == arg0) continue;
         if (*(u32 *)((s8 *)p + 0x30) & 0x2000800) continue;
@@ -1594,7 +1591,7 @@ void update_walk_to_target__10TObjPlayerFPv(Ene_800D1E4C *arg0) {
         move_with_wall_slide((u8 *)arg0);
         ((TObjPlayer *)arg0)->update_collisions();
         if (xz_distance_squared((Vec *)&arg0->pos, (Vec *)&arg0->target) <= 100.0f) {
-            update_if_active__15TObjEnemyCustomFl(arg0, 0);
+            ((TObjEnemyCustom *)arg0)->update_if_active(0);
         }
         break;
     }

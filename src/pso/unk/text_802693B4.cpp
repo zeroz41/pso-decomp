@@ -2,6 +2,8 @@
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowMessagePage.h"
 #include "pso/ui/window/TWindowHelpItem.h"
+#include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/TWindowSubComCard.h"
 struct Line_80269454 { u32 flags; u32 f4; };
 
 struct Entry_80269454 { u16 flags; };
@@ -11,8 +13,6 @@ struct Win_80269454 { u8 pad[0x5c]; u32 f5c; u8 pad2[0xc]; f32 f6c; u8 pad3[0xc]
 struct Win_802693B4 { u8 pad[0x6c]; f32 f6c; u8 pad2[0x84 - 0x70]; f32 f84; u8 pad3[4]; u32 count; };
 
 extern "C" {
-Entry_80269454 *get_array_entry__11TWindowBaseFi(void *, s32);
-void *get_field_20__17TWindowSubComCardFv(void *);
 s32 is_window_reveal_complete__11TWindowBaseFv();
 
 s32 TWindowMessagePage::is_message_window_ready() {
@@ -25,8 +25,8 @@ s32 TWindowMessagePage::is_message_window_ready() {
         return 0;
     }
     for (i = 0; i < ((struct Win_802693B4 *)this)->count; i++) {
-        e = get_array_entry__11TWindowBaseFi(((struct Win_802693B4 *)this), i);
-        if (get_field_20__17TWindowSubComCardFv(e) != 0 && !(e->flags & 0x10)) {
+        e = (Entry_80269454 *)((TWindowBase *)this)->get_array_entry(i);
+        if ((void *)((TWindowSubComCard *)e)->get_field_20() != 0 && !(e->flags & 0x10)) {
             return 0;
         }
     }
@@ -40,9 +40,9 @@ void TWindowMessage::complete_reveal() {
     ((Win_80269454 *)this)->f5c = 0x01000000;
     ((Win_80269454 *)this)->f6c = ((Win_80269454 *)this)->f84;
     for (i = 0; i < ((Win_80269454 *)this)->count; i++) {
-        e = get_array_entry__11TWindowBaseFi(this, i);
+        e = (Entry_80269454 *)((TWindowBase *)this)->get_array_entry(i);
         lines = ((Win_80269454 *)this)->lines;
-        if (get_field_20__17TWindowSubComCardFv(e) != 0) {
+        if ((void *)((TWindowSubComCard *)e)->get_field_20() != 0) {
             if (lines[i].flags & 8) {
                 lines[i].flags &= ~8;
                 e->flags &= ~8;

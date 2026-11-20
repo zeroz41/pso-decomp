@@ -67,8 +67,6 @@ s32 *get_selected_guild_card_record(void);
 extern "C" {
 void set_value_by_key(void *, u16, s32);
 s32 open_hard_keyboard__6TLobbyFPv(void *);
-void *get_field_20__17TWindowSubComCardFv(void *);
-void *get_selected_entry__11TWindowMenuFv(void *);
 void get_message_10__17TWindowSubComCardFPvPv(void* p, void* a1);
 void apply_selection__17TWindowSubComCardFi(s32 arg0);
 void cleanup__17TWindowSubComCardFPv(void* p);
@@ -76,7 +74,6 @@ void init_layout__17TWindowSubComCardFv(void);
 void send_cmd_133__17TWindowSubComCardFv(void);
 void send_command__17TWindowSubComCardFi(s32 arg0);
 int send_find_user_self_tag__6TLobbyFl(void);
-s32 get_card_entry_data__17TWindowSubComCardFv(s32);
 int get_card_entry__17TWindowSubComCardFi(void);
 int get_selected_value__11TWindowMenuFv(void*);
 s32 get_window_layout_position(s32 a0 = 0);
@@ -148,7 +145,6 @@ void create_sub_window__20TWindowChoiceSettingFPvi(void *arg0, s32 arg1);
 s32 init_card__17TWindowSubComCardFv();
 s32 TWindowSubComCard__sub_802728CC(void);
 ChrSel_80272B60 *get_chr_select__17TWindowSubComCardFv();
-void *find_entry_value_by_id__17TWindowSubComCardFl(s32, s32);
 void *get_player_by_client_id(s32 i);
 extern s32 local_client_id;
 s32 create_player_select_window__17TWindowSubComCardFv(void);
@@ -159,7 +155,6 @@ s32 create_keyboard__17TWindowSubComCardFii(s32 arg0, s32 arg1);
 void update_display_value__17TWindowSubComCardFUiUiPv(u32 arg0, u32 arg1, s32 *arg2);
 void update_selection__17TWindowSubComCardFiii(s32 arg0, s32 arg1, s32 arg2);
 s32 __nw__7TObjectFUl(s32);
-s32 get_kbd_ptr__14TWindowComCardFv(s32);
 s32 set_depth__11TWindowBaseFf(f32);
 
 struct ComCardRec_80272A98 { u32 id; char name[0xD0]; };
@@ -1503,14 +1498,14 @@ s32 TWindowSubComCard::create_option_list_window(s32 arg1, s32 key) {
     s32 win;
     Entry_80272B60 *e;
     ChrSel_80272B60 *cs;
-    win = draw_card_icon__17TWindowSubComCardFll(get_window_layout_position(0x8D), 0x20, find_entry_value_by_id__17TWindowSubComCardFl(this->m_7c, key));
+    win = draw_card_icon__17TWindowSubComCardFll(get_window_layout_position(0x8D), 0x20, (void *)((TWindowSubComCard *)this->m_7c)->find_entry_value_by_id(key));
     if (key == 0) {
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)win, (int)(((u8* (*)(void*, void*))get_message_10__17TWindowSubComCardFPvPv)(this, (void *)(0))), 6, 0);
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)win, (int)(((u8* (*)(void*, void*))get_message_10__17TWindowSubComCardFPvPv)(this, (void *)(1))), 6, 1);
         ((TWindowSubComCardList *)win)->set_selected_index(open_hard_keyboard__6TLobbyFPv((void *)this->m_20));
     } else {
         sel = ((TWindowSubComCard *)arg1)->find_value_by_key(key);
-        cs = get_chr_select__17TWindowSubComCardFv();
+        cs = (ChrSel_80272B60 *)TWindowSubComCard::get_chr_select();
         count = cs->count;
         e = cs->e;
         idx = 0;
@@ -1672,7 +1667,7 @@ s32 create_keyboard__17TWindowSubComCardFi(s32 parent) {
 
     keyboard_mode = TWindowSubComCard::get_keyboard_mode();
     keyboard = (s32)new TKeyBoardControl((TObject *)parent, 0xC6, 3, 4, local_client_id);
-    ((TKeyBoardControl *)keyboard)->set_text((char *)get_kbd_ptr__14TWindowComCardFv(keyboard_mode));
+    ((TKeyBoardControl *)keyboard)->set_text((char *)((TWindowComCard *)keyboard_mode)->get_kbd_ptr());
     ((TKeyBoardControl *)keyboard)->set_sub_position((u8 *)(get_window_layout_position(0xBB)));
     ((TKeyBoardControl *)keyboard)->set_flag62_bit2();
     ((TWindowSubComCard *)keyboard)->destroy_keyboard();
@@ -1683,7 +1678,7 @@ s32 create_keyboard__17TWindowSubComCardFii(s32 parent, s32 arg1) {
     s32 keyboard;
 
     keyboard = (s32)new TKeyBoardControl((TObject *)parent, 0xC6, 3, 4, local_client_id);
-    ((TKeyBoardControl *)keyboard)->set_text((char *)get_card_entry_data__17TWindowSubComCardFv(arg1));
+    ((TKeyBoardControl *)keyboard)->set_text((char *)(s32)((TWindowSubComCard *)arg1)->get_card_entry_data());
     ((TKeyBoardControl *)keyboard)->set_sub_position((u8 *)(get_window_layout_position(0xBB)));
     ((TKeyBoardControl *)keyboard)->set_flag62_bit2();
     ((TWindowSubComCard *)keyboard)->destroy_keyboard();
@@ -1734,7 +1729,7 @@ void TWindowSubComCard::set_selected_card(s32 arg1) {
     Rec_80272290 *cnt;
     if (*(s32 *)&this->m_28 != arg1) {
         *(s32 *)&this->m_28 = arg1;
-        cnt = get_com_count__17TWindowSubComCardFv();
+        cnt = (Rec_80272290 *)TWindowSubComCard::get_com_count();
         temp_r31 = cnt[arg1].f4;
         load_selected_guild_card_record((int)temp_r31, arg1 * 0xD4);
         temp_r30 = ((s32 (*)(void))get_selected_guild_card_record)();
@@ -1752,7 +1747,7 @@ void TWindowSubComCard::set_selected_card(s32 arg1) {
 void TWindowSubComCard::set_card_index(s32 arg1) {
     if ((s32) this->m_28 != arg1) {
         this->m_28 = arg1;
-        ((TWindowMessage *)(this->m_6c))->append_line(get_card_entry_data__17TWindowSubComCardFv(arg1), 0x82);
+        ((TWindowMessage *)(this->m_6c))->append_line((s32)((TWindowSubComCard *)arg1)->get_card_entry_data(), 0x82);
     }
 }
 }
@@ -1832,7 +1827,7 @@ void TWindowSubComCard::sub_80271F04(void *arr, s32 key, s32 arg3) {
     } else if (arg3 != ((TWindowSubComCard *)((Ent_80271F04 *)arr))->find_value_by_key(key)) {
         ((u8 *)this)[0x1D] |= 1;
         set_value_by_key(((Ent_80271F04 *)arr), key, arg3);
-        ((TWindowMakeTeam *)(*(void **)(((u8 *)this) + 0x7C)))->set_entry_string_by_id(get_field_20__17TWindowSubComCardFv(get_selected_entry__11TWindowMenuFv(*(void **)(((u8 *)this) + 0x64))), key);
+        ((TWindowMakeTeam *)(*(void **)(((u8 *)this) + 0x7C)))->set_entry_string_by_id((void *)((TWindowSubComCard *)(((TWindowMenu *)(*(void **)(((u8 *)this) + 0x64)))->get_selected_entry()))->get_field_20(), key);
     }
 }
 

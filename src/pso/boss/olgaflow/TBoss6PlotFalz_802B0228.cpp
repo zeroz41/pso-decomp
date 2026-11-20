@@ -15,6 +15,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/ambient/TObjFish.h"
 
 // The Falz plot script: one {name, enter, idle, update, advance} entry per
 // plot state, run by TBoss6PlotFalz::run_phase_action. Built with deferred
@@ -29,7 +30,6 @@ s32 is_ending_or_split_screen__14TBoss6PlotFalzFv(void *);
 s32 destroy_static_instance__14TBoss6PlotFalzFv(void *);
 s32 queue_instance_destruction__14TBoss6PlotFalzFv(void *);
 s32 obj_setArrS16_FC(void *, int, void *);
-s32 alloc__8TObjFishFPv(void *);
 }
 
 extern u32 TBoss6PlotFalz__type2_instance;
@@ -111,7 +111,7 @@ void TBoss6PlotFalz::init_hall_boss_scene() {
     play_area_music("HALL.adx");
     refresh_players_equipment__14TBoss6PlotFalzFPv();
     *(s32 *)((s8 *)this + 0x3CC) = 0;
-    *(s32 *)((s8 *)this + 0x3DC) = alloc__8TObjFishFPv(this);
+    *(s32 *)((s8 *)this + 0x3DC) = (s32)TObjFish::alloc(this);
 }
 void TBoss6PlotFalz::check_and_advance_state() {
     void *player = *(void **)((s8 *)this + 0x3DC);

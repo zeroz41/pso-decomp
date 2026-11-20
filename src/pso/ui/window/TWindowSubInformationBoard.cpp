@@ -41,7 +41,6 @@ s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 play_sound_effect(int, int, int, int);
 s32 set_info_board_text__6TLobbyFv();
 extern s32 controller_input_state[];
-s32 get_info_board_ptr__6TLobbyFv();
 s32 get_window_layout_position(s32);
 s32 __nw__7TObjectFUl(s32);
 s32 align_menu_entry_positions(int);
@@ -282,7 +281,7 @@ void TWindowSubInformationBoard::set_page(s32 arg1) {
     s32 temp_r3;
 
     if (((s32) this->shown_index != arg1) && (arg1 != -1)) {
-        temp_r3 = get_info_board_ptr__6TLobbyFv();
+        temp_r3 = (s32)TLobby::get_info_board_ptr();
         if (temp_r3 != 0) {
             this->shown_index = arg1;
             ((TWindowMessage *)(this->message_window))->append_line(temp_r3 + (arg1 * 0xBC) + 0x14, 0x80);

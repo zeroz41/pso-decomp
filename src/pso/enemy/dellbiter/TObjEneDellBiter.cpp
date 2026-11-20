@@ -123,9 +123,6 @@ extern const char *lbl_804E6C80[2];
 extern const char *lbl_804E6C88[11];
 
 extern "C" {
-s32 register_object__6TLobbyFl(int);
-s32 dispatch_shared_handler_b__6TLobbyFl(int);
-s32 register_boss__6TLobbyFl(int);
 void *load_enemy_bml_resource(void *);
 }
 DelbiterInitialParameters TObjEneDellBiter__param_table = {
@@ -186,9 +183,9 @@ void TObjEneDellBiter::load_resources() {
     } else {
         TObjEneDellBiter__shared_model_resource = (u32)load_enemy_bml_resource(&lbl_804E6C70);
     }
-    dellbiter_boss_stat_handle = register_boss__6TLobbyFl(0xD);
-    TObjEneDellBiter__shared_handler_param = dispatch_shared_handler_b__6TLobbyFl(0xD);
-    dellbiter_object_stat_handle = register_object__6TLobbyFl(0xD);
+    dellbiter_boss_stat_handle = (s32)TLobby::register_boss(0xD);
+    TObjEneDellBiter__shared_handler_param = (s32)TLobby::dispatch_shared_handler_b(0xD);
+    dellbiter_object_stat_handle = (s32)TLobby::register_object(0xD);
     TObjEneDellBiter__movement_params = (DelbiterMovementParameters *)TLobby::dispatch_shared_handler_a(0xD);
     TObjEneDellBiter__demo_script_step = 0;
     TObjEneDellBiter__demo_rotate_x_angle = 0;

@@ -2329,7 +2329,7 @@ void TBoss1Dragon::update_burrow_outward_run(u32 arg1) {
     case 6:
         if (select_forward_target__12TBoss1DragonFPv(arg0) != 0) {
             ((TObjEneDD_ST *)arg0)->enemy_copy_target_destination();
-            update_velocity__9TObjEneDDFv(arg0);
+            ((TObjEneDD *)arg0)->update_velocity();
         } else {
             this->m_3a0.x = sin_table_lookup(this->rotation_y);
             this->m_3a0.z = cos_table_lookup(this->rotation_y);
@@ -2340,7 +2340,7 @@ void TBoss1Dragon::update_burrow_outward_run(u32 arg1) {
         ((TBoss1Dragon *)arg0)->saveTargetDestination();
         break;
     case ENEMY_STATE_UPDATE:
-        update_velocity__9TObjEneDDFv(arg0);
+        ((TObjEneDD *)arg0)->update_velocity();
         this->rotation_y = approach_angle_limited(this->rotation_y, (boss1_dragon_angle_units_per_radian * atan2_float(this->m_3a0.x, this->m_3a0.z)), 0x600);
         this->position.x += this->rootHeight * sin_table_lookup(this->rotation_y);
         this->position.z += this->rootHeight * cos_table_lookup(this->rotation_y);
@@ -2523,7 +2523,7 @@ void TBoss1Dragon::update_dive_state(u32 arg1) {
     case 7:
         ((TBoss1Dragon *)((u8 *)this))->restoreTargetPosition();
         if (enable_v2_features != 0) {
-            update_velocity__9TObjEneDDFv(((u8 *)this));
+            update_velocity();
         }
         break;
     case 6:
@@ -2532,7 +2532,7 @@ void TBoss1Dragon::update_dive_state(u32 arg1) {
             ((TBoss1Dragon *)((u8 *)this))->targetY = (0.0f);
             ((TBoss1Dragon *)((u8 *)this))->targetZ = (0.0f);
         }
-        update_velocity__9TObjEneDDFv(((u8 *)this));
+        update_velocity();
         ((TBoss1Dragon *)((u8 *)this))->saveTargetDestination();
         break;
     case 0:
@@ -3534,7 +3534,7 @@ void TBoss1Dragon::update_breath_attack_state(u32 arg1) {
         advance_animation();
         switch (this->stateStep) {
         case 0:
-            update_velocity__9TObjEneDDFv(arg0);
+            ((TObjEneDD *)arg0)->update_velocity();
             ((TBoss1Dragon *)arg0)->calc_target_vector();
             this->rotation_y = approach_angle_limited(this->rotation_y, ((s32) (boss1_dragon_angle_units_per_radian * atan2_float(this->m_3a0.x, this->m_3a0.z))), 0xA0);
             this->rotation_y = (s32) (s16) this->rotation_y;
@@ -3725,7 +3725,7 @@ void TBoss1Dragon::update_walking_state(u32 arg1) {
         }
         ((TObjMotion *)arg0)->advance_animation();
         TBoss1Dragon__sub_80028BE0(arg0);
-        update_velocity__9TObjEneDDFv(arg0);
+        ((TObjEneDD *)arg0)->update_velocity();
         ((TBoss1Dragon *)arg0)->calc_target_vector();
         if (((TObjMotion *)arg0)->is_passing_frame((f32)(3.0f)) != 0) {
             ((TBoss1Dragon *)arg0)->apply_foot_attack_pair_0();
@@ -5165,7 +5165,7 @@ void TBoss1Dragon::run_task() {
     if ((s32) this->m_760 != 0) {
         ((TBoss1Dragon *)arg0)->hold_captured_player();
         ((TBoss1Dragon *)arg0)->controlTimer = (s32) (((TBoss1Dragon *)arg0)->controlTimer + 1);
-    } else if ((is_main_phase_15__9TObjEneDDFv() != 0) && ((s32) this->m_6e0 == 0)) {
+    } else if ((TObjEneDD::is_main_phase_15() != 0) && ((s32) this->m_6e0 == 0)) {
         temp_r30 = this->m_3e0;
         if (((TObjEneDD *)arg0)->update_lobby_state() != 0) {
             this->m_3e0 = 0;
@@ -5453,7 +5453,7 @@ u8 *TBoss1Dragon__ct(TBoss1Dragon *arg0, void *arg1, void *arg2) {
     arg0->m_6e4 = (DragonControllerInput *)(controller_input_state + 0xC0);
     arg0->m_6e0 = 0;
     arg0->mode = 0;
-    if (is_main_phase_15__9TObjEneDDFv() != 0) {
+    if (TObjEneDD::is_main_phase_15() != 0) {
         if (((TObjEneDD *)arg0)->update_lobby_state() != 0) {
             arg0->m_3e0 = 0;
         } else {

@@ -367,7 +367,7 @@ void *TObjBoss2Tunnel__ct(void *object, void *arg1) {
     self->f1C = (0.0f);
     self->f20 = (0.0f);
     self->i28 = 0;
-    init_queue_from_start__15TObjBoss2TunnelFv(self);
+    ((TObjBoss2Tunnel *)self)->init_queue_from_start();
     self->i5C = 0;
     self->f60 = (0.0f);
     self->i44 = 0;
@@ -592,11 +592,11 @@ void run_task__15TObjBoss2TunnelFv(Tunnel_8003B6E8 *o) {
             o->f28++;
             if (o->f28 >= 6) {
                 o->f28 = 0;
-                copy_ring_buffer_window__15TObjBoss2TunnelFv(o);
+                ((TObjBoss2Tunnel *)o)->copy_ring_buffer_window();
                 o->f24 = 2;
                 o->fb0 = TFogCtrl::update_first_active_fog();
             } else {
-                init_queue_from_start__15TObjBoss2TunnelFv(o);
+                ((TObjBoss2Tunnel *)o)->init_queue_from_start();
             }
         }
         break;
@@ -612,7 +612,7 @@ void run_task__15TObjBoss2TunnelFv(Tunnel_8003B6E8 *o) {
             if (o->f28 >= 31) {
                 o->f28 = 0;
             }
-            copy_ring_buffer_window__15TObjBoss2TunnelFv(o);
+            ((TObjBoss2Tunnel *)o)->copy_ring_buffer_window();
         }
         if (TObjBoss2Tunnel__global_flags & 0x200) {
             void *p;

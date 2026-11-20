@@ -457,7 +457,6 @@ s32 rotate_matrix_x(int, void *);
 s32 push_matrix_from(void *);
 f32 rotate_vector_by_current_matrix(void *, void *);
 extern RecoveredGlobal_8006ABAC_lbl_8058D490 identity_matrix;
-u8 *get_target__11TCameraCtrlFv(void *);
 s32 reset_view_flags__11TCameraCtrlFv(void *);
 s32 cycle_spectate_target__11TCameraCtrlFv(void *);
 int is_float_nonfinite(f32);
@@ -691,7 +690,7 @@ void TCameraCtrl::run_task() {
         }
     }
     if (G != NULL) {
-        t = get_target__11TCameraCtrlFv(arg0);
+        t = (u8 *)((TCameraCtrl *)arg0)->get_target();
         v.x = (((f32 *)t)[0] + GF(0x184)) - GF(0x178);
         v.y = (((f32 *)t)[1] + GF(0x188)) - GF(0x17C);
         v.z = (((f32 *)t)[2] + GF(0x18C)) - GF(0x180);

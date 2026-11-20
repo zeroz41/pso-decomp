@@ -460,7 +460,7 @@ void TBoss4DarkFalz::spawn_trap() {
     play_persistent_sound(0x4003A30A, (s32)this, 0, -0x18, 2);
 }
 void TBoss4DarkFalz::check_timeout() {
-    if ((is_timer_expired__14TBoss4DarkFalzFv() != 0) || (TBoss4DarkFalz__sub_8004B07C((s32)this) != 0)) {
+    if ((TBoss4DarkFalz::is_timer_expired() != 0) || (TBoss4DarkFalz__sub_8004B07C((s32)this) != 0)) {
         send_action_packet(5);
     }
 }

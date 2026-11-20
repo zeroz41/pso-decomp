@@ -77,7 +77,6 @@ extern const s32 lbl_8043BF40[];
 extern const s32 lbl_8043BF48[];
 TObjEneBm5GibonU *TObjEneBm5GibonU__sub_800D13B8(TObjEneBm5GibonU *self, s16 arg1);
 void rotate_xz_pair_by_angle(f32 *, f32 *, s32);
-s32 update_collisions__10TObjPlayerFv(void *);
 f32 atan2_float(f32 y, f32 x);
 s32 get_entity_id(int);
 void *find_entity_by_id(u16 id);
@@ -907,7 +906,7 @@ void TObjEneBm5GibonU::state_cast_technique(s32 arg1) {
     case 5:
         break;
     }
-    update_collisions__10TObjPlayerFv(this);
+    ((TObjPlayer *)this)->update_collisions();
 }
 
 void TObjEneBm5GibonU__sub_800CDB98(TObjEneBm5GibonU *self, s32 arg1) {
@@ -1246,11 +1245,11 @@ void TObjEneBm5GibonU__sub_800CE694(TObjEneBm5GibonU *self, s32 arg1) {
             self->m_50c->position.x = self->position.x + dx;
             self->m_50c->position.y = self->position.y;
             self->m_50c->position.z = self->position.z + dz;
-            update_collisions__10TObjPlayerFv(self->m_50c);
+            ((TObjPlayer *)self->m_50c)->update_collisions();
             if (!(self->m_50c->bodies->flags & 0x380000)) {
                 dx *= 2.0f;
                 dz *= 2.0f;
-                if (enemy_probe_wall_ahead__13TBoss5GryphonFfff(self, dx, dz, 1.0f) == 0U) {
+                if (((TBoss5Gryphon *)self)->enemy_probe_wall_ahead(dx, dz, 1.0f) == 0U) {
                     VecCopy(&v, (const Vec *)&self->m_2fc);
                     v.x += dx;
                     v.z += dz;

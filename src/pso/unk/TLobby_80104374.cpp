@@ -757,7 +757,6 @@ struct Rec_80104DAC { u8 pad0[6]; u8 b6; u8 b7; u8 b8; u8 b9; u8 bA; u8 bB; u8 b
 
 extern "C" {
 s32 get_actor_section_id__15TPlyPhotonChairFv(void *);
-void init__9TItemDataFv(void *);
 }
 Rec_80104DAC *find_item_combination_recipe(u8 *, void *);
 extern "C" {
@@ -789,7 +788,7 @@ s32 find_eligible_combination_recipe(s32 arg0, u8 *item) {
     if (o != NULL && item != NULL) {
         it = find_unique_combination_target((TObjPlayer *)o, (TItemData *)item);
         if (it != NULL) {
-            init__9TItemDataFv(&d);
+            ((TItemData *)(&d))->init();
             ((TItem *)it)->copy_to_item_data((TItemData *)&d);
             rec = find_item_combination_recipe(item, it);
         } else {
@@ -826,7 +825,7 @@ s32 find_eligible_combination_recipe(s32 arg0, u8 *item) {
                 return 0;
             }
         }
-        init__9TItemDataFv(&d2);
+        ((TItemData *)(&d2))->init();
         d2.b[0] = rec->b6;
         d2.b[1] = rec->b7;
         d2.b[2] = rec->b8;

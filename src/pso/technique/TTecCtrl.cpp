@@ -27,6 +27,7 @@
 #include "pso/technique/TTecSifta.h"
 #include "pso/technique/TTecZondeEff.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/technique/TTecDeband.h"
 
 TechniqueParams lbl_80515F90;
 // Per player: the technique boosts of the equipped weapon and shield.
@@ -89,7 +90,6 @@ Ent_8022D27C *find_entity_by_id(u16);
 void get_hand_joint_position__10TObjPlayerFl(void *, void *);
 Target_8022D27C *get_technique_data__10TObjPlayerFPv(void *);
 u8 get_cast_technique_level(void *, int);
-void create__10TTecDebandFllll(void *, void *, void *, int);
 void create__9TTecRestaFPvPvPvPv(void *, void *, void *, int);
 void matrix_mult_vec(int, void *, void *);
 void rotate_matrix_y(int, int);
@@ -603,7 +603,7 @@ void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl)
         break;
     case 10:
         COLLECT_8022D27C()
-        create__10TTecDebandFllll(pl, &hand, &list, get_cast_technique_level(td, 10));
+        TTecDeband::create((s32)pl, (s32)(&hand), (s32)(&list), (s32)(get_cast_technique_level(td, 10)));
         break;
     case 11:
         COLLECT_8022D27C()

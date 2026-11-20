@@ -69,7 +69,6 @@ void text_builder_append(u8 *str);
 void text_builder_reset(void);
 extern "C" {
 s32 get_window_layout_position(int);
-s32 construct_type1_heading__20TWindowSubStatusDispFll(int, int, int);
 s32 get_game_play_mode();
 s32 strncpy(int, int, void *);
 const char *TWindowSubAreaMapDisp__name = "TWindowSubAreaMapDisp";
@@ -208,7 +207,7 @@ TWindowSubAreaMapDisp::TWindowSubAreaMapDisp() : TWindowBase((u8 *)&TWindowSubAr
     temp_r3_2 = (int)::operator new(0x24);
     var_r0 = temp_r3_2;
     if (var_r0 != 0) {
-        var_r0 = construct_type1_heading__20TWindowSubStatusDispFll(temp_r3_2, this->m_74, (int) ((s32) this->m_20));
+        var_r0 = (s32)((TWindowSubStatusDisp *)temp_r3_2)->construct_type1_heading(this->m_74, (int) ((s32) this->m_20));
     }
     this->m_70 = var_r0;
     this->m_6c = 0;

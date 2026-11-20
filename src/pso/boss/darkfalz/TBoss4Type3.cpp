@@ -178,7 +178,6 @@ f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
 s32 normalize_vector(void *);
 f32 atan2_float(f32 y, f32 x);
-u8 * dispatch_shared_handler_a__6TLobbyFl(s32);
 s32 pick_random_target_player__11TBoss4Type3Fv(void);
 s32 TBoss4Type3__sub_8005254C(u16);
 struct Stack_80055918
@@ -354,7 +353,6 @@ struct VObj_8005B218 : VBase_8005B218 {
 f32 random_ratio__9TObjCharaFv(void *);
 u16 get_entity_id(void *);
 s32 is_split_screen();
-s16 * register_boss__6TLobbyFl(s32);
 s32 get_bml_motion(s32, s32);
 s32 get_bml_texlist(BmlResource *resource, s32 index);
 s32 get_bml_model(BmlResource *resource, s32 index);
@@ -738,7 +736,6 @@ void submit_cursor_candidate(void *, int);
 struct O_80059618;
 struct Obj_8005A1AC;
 struct Ply_80059ABC;
-s32 create__13TUnk_80494968FUlUl(s32, s32);
 
 Self_8005AE60 *TBoss4Type3__ct(Self_8005AE60 *, s32, s32 *);
 }
@@ -794,7 +791,7 @@ void TObjBs4CutAtk::run_task() {
             Dmg_8005B218 d;
             id = *(s32 *)&this->m_up;
             d.type = 0;
-            d.val = *register_boss__6TLobbyFl(0x38);
+            d.val = *(s16 *)TLobby::register_boss(0x38);
             {
                 Dmg_8005B218 t = d;
                 p->m21(id, &t, 0, -1, -1);
@@ -865,17 +862,17 @@ Self_8005AE60 *TBoss4Type3__ct(Self_8005AE60 *self, s32 parent, s32 *arg2) {
     p = (s32)new SampledMotionPoints(2, 3.0f, 9.0f, 0.6f);
     *(s32 *)((u8 *)self + 0x51C) = p;
     ((SampledMotionPoints *)(*(s32 *)((u8 *)self + 0x51C)))->sample_two_nodes((NJS_OBJECT *)model, (NJS_MOTION *)get_bml_motion(self->f390, ((s32 *)&TBoss4Type3__anim_state_table)[0x44 / 4]), 0x16, 0x17);
-    *(s32 *)((u8 *)self + 0x524) = create__13TUnk_80494968FUlUl(0xA0303030, 0xFFFF0088);
+    *(s32 *)((u8 *)self + 0x524) = (s32)TUnk_80494968::create(0xA0303030, 0xFFFF0088);
     p = (s32)new SampledMotionPoints(2, 3.0f, 9.0f, 0.6f);
     *(s32 *)((u8 *)self + 0x520) = p;
     ((SampledMotionPoints *)(*(s32 *)((u8 *)self + 0x520)))->sample_two_nodes((NJS_OBJECT *)model, (NJS_MOTION *)get_bml_motion(self->f390, ((s32 *)&TBoss4Type3__anim_state_table)[0x58 / 4]), 9, 10);
-    *(s32 *)((u8 *)self + 0x528) = create__13TUnk_80494968FUlUl(0xA0303030, 0xFFFF0088);
+    *(s32 *)((u8 *)self + 0x528) = (s32)TUnk_80494968::create(0xA0303030, 0xFFFF0088);
     clear_motion_packed_rotation();
     ((TBoss4Type3 *)self)->create_particle_emitters();
     self->node_tables.init(boss4_type3_model_node_specs, 2);
     self->f3D4 = self->f32C;
     self->f3CC = 0;
-    self->f3D0 = *(s32 *)(dispatch_shared_handler_a__6TLobbyFl(0x38) + 0x24);
+    self->f3D0 = *(s32 *)((u8 *)TLobby::dispatch_shared_handler_a(0x38) + 0x24);
     self->f3B0 = 1.0f;
     self->f3B4 = 0;
     self->f3A4 = 0x10;
@@ -1828,7 +1825,7 @@ void TBoss4Type3::update_homing() {
         }
         o->f52c = 0;
     }
-    n = *(s32 *)(dispatch_shared_handler_a__6TLobbyFl(0x38) + 0x20);
+    n = *(s32 *)((u8 *)TLobby::dispatch_shared_handler_a(0x38) + 0x20);
     if (n < 1 || n > 8) {
         n = 4;
     }
@@ -1887,7 +1884,7 @@ void TBoss4Type3::update_light_magic() {
         }
     }
     if ((s32) *(s32 *)((s8 *)arg0 + 0x398) == 0x45) {
-        r29 = *(s32 *)(dispatch_shared_handler_a__6TLobbyFl(0x38) + 0x18);
+        r29 = *(s32 *)((u8 *)TLobby::dispatch_shared_handler_a(0x38) + 0x18);
         for (i = 0; i < 4; i++) {
             if (TBoss4Type3__sub_8005254C(i) != 0) {
                 ((TObjPlayer *)(&g))->construct_target_cursor_records();
@@ -1928,7 +1925,7 @@ void TBoss4Type3::update_dark_magic() {
     f32 s;
     o = (O_80058848 *)this;
     if (o->f398 == 0x46) {
-        r30 = *(s32 *)(dispatch_shared_handler_a__6TLobbyFl(0x38) + 0x1C);
+        r30 = *(s32 *)((u8 *)TLobby::dispatch_shared_handler_a(0x38) + 0x1C);
         for (i = 0; i < TLobby::get_game_mode(); i++) {
             p = (s32)get_player_by_client_id(i);
             if (TBoss4Type3__sub_8005254C(i) != 0) {

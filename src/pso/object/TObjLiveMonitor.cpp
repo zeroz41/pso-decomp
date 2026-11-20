@@ -504,7 +504,7 @@ void *__ct__20TObjLiveMonitorSmallFv(void *live_monitor_small, void *arg1, void 
 
 TObjLiveMonitorSmall::~TObjLiveMonitorSmall() {}
 
-void TObjLiveMonitorSmall::run_task() { sub_8030B370__15TObjLiveMonitorFv(this); }
+void TObjLiveMonitorSmall::run_task() { sub_8030B370(); }
 
 void TObjLiveMonitorSmall::render() { this->render_live_monitor_screen(); }
 

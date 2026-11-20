@@ -42,7 +42,6 @@ void TWindowChoiceSetting::sub_80249078() {
 
 extern "C" {
 void *get_array_entry__11TWindowBaseFi(void *, s16);
-s32 get_field_74__20TWindowChoiceSettingFv(void *);
 int fn_80268C5C(void*);
 
 void TWindowSubComCard::begin_scroll(f32 farg0) {
@@ -62,7 +61,7 @@ void TWindowSubComCard__sub_80249144(void *window_choice_setting) {
     temp_r4 = ((TWindowChoiceSetting *)window_choice_setting)->m_80;
     if (!(temp_r4 & 1)) {
         ((TWindowChoiceSetting *)window_choice_setting)->m_80 = (u16) (temp_r4 | 1);
-        e = get_array_entry__11TWindowBaseFi(window_choice_setting, get_field_74__20TWindowChoiceSettingFv(window_choice_setting));
+        e = get_array_entry__11TWindowBaseFi(window_choice_setting, (s32)((TWindowChoiceSetting *)window_choice_setting)->get_field_74());
         ((TWindowChoiceSetting *)window_choice_setting)->m_3c = 20.0f + *(f32 *)((s8 *)e + 0x14);
         if (((TWindowChoiceSetting *)window_choice_setting)->m_2c & 0x40) {
             ((TWindowChoiceSetting *)window_choice_setting)->m_3c += 6.0f;

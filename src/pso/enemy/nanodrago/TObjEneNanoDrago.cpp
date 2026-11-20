@@ -126,10 +126,6 @@ extern "C" s32 saved_model_render_flags;
 extern "C" s32 model_render_flags;
 
 extern "C" void obj_setFlags30(void *, u32);
-extern "C" s32 dispatch_shared_handler_a__6TLobbyFl(int);
-extern "C" s32 register_object__6TLobbyFl(int);
-extern "C" s32 dispatch_shared_handler_b__6TLobbyFl(int);
-extern "C" s32 register_boss__6TLobbyFl(int);
 extern "C" void free_bin_model_request(void*, int);
 extern "C" u8 * load_resource_from_descriptor(void *, s32, s32 *, s32, s32, s32);
 extern "C" s32 find_active_entity_by_id(int);
@@ -266,10 +262,10 @@ void TObjEneNanoDrago::load_resources() {
         resource = (u8 *)(load_resource_from_descriptor(storage, 1, (s32 *)&bm_ene_nanodrago_resource_descriptor, 0, 0, 0));
     }
     nano_drago_entry_params_resource = (BmlResource *)resource;
-    nano_drago_base_params = register_boss__6TLobbyFl(0x1A);
-    nano_drago_attack_params = dispatch_shared_handler_b__6TLobbyFl(0x1A);
-    nano_drago_resistance_params = register_object__6TLobbyFl(0x1A);
-    lbl_805D5254 = dispatch_shared_handler_a__6TLobbyFl(0x1A);
+    nano_drago_base_params = (s32)TLobby::register_boss(0x1A);
+    nano_drago_attack_params = (s32)TLobby::dispatch_shared_handler_b(0x1A);
+    nano_drago_resistance_params = (s32)TLobby::register_object(0x1A);
+    lbl_805D5254 = (s32)TLobby::dispatch_shared_handler_a(0x1A);
     NpcAnimationBinding binding = { reinterpret_cast<BmlMotionEntry *>(nano_drago_entry_params_resource->motions), reinterpret_cast<TObjMotionAction *>(nanodrago_action_table), 0, 1, 12 };
     modelEntries = nano_drago_entry_params_resource->models;
     NpcModelRegistry::register_animated_chunk((s16)(0x22), reinterpret_cast<void *>(modelEntries[0].model), reinterpret_cast<void *>(modelEntries[0].m_c), &binding, (f32)(15.0f), (f32)(0.0f));

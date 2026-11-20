@@ -7,6 +7,7 @@
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowSoundBalance.h"
 #include "pso/item/mag/TItemMag.h"
 #include "pso/item/armor/TItemProShield.h"
@@ -56,9 +57,7 @@ WindowDescriptor window_sound_balance_settings = {
 extern "C" {
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 play_sound_effect(s32, s32, s32, s32);
-SoundBalanceSettings *get_global_state__23TAdSinglePlyChrSelectGCFv();
 u32 calc_text_width();
-u8 *get_array_entry__11TWindowBaseFi(void *, s32);
 s32 get_field_20__17TWindowSubComCardFv();
 s32 refresh_status_display__9TWindowDDFv(u8 *);
 const char *TWindowSoundBalance__name = "TWindowSoundBalance";
@@ -202,15 +201,15 @@ TWindowSoundBalance::TWindowSoundBalance(s32 arg1) : TWindowBase((u8 *)&window_s
     this->selection = 0;
     this->music_gain = 1;
     this->sound_effect_gain = 1;
-    e = get_array_entry__11TWindowBaseFi(this, 0);
+    e = (u8 *)get_array_entry(0);
     get_field_20__17TWindowSubComCardFv();
     *(f32 *)((s8 *)e + 8) = 231.0f - 0.5f * calc_text_width();
     refresh_status_display__9TWindowDDFv(e);
-    e = get_array_entry__11TWindowBaseFi(this, 1);
+    e = (u8 *)get_array_entry(1);
     get_field_20__17TWindowSubComCardFv();
     *(f32 *)((s8 *)e + 8) = 231.0f - 0.5f * calc_text_width();
     refresh_status_display__9TWindowDDFv(e);
-    st = get_global_state__23TAdSinglePlyChrSelectGCFv();
+    st = (SoundBalanceSettings *)TAdSinglePlyChrSelectGC::get_global_state();
     if (st == 0) {
         this->set_music_gain(0);
         this->set_sound_effect_gain(0);

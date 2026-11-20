@@ -54,7 +54,6 @@ typedef struct TObjPlayer_80237FB8 {
 extern "C" {
 u32 find_entity_by_id(int);
 void *spawn_particle_effect_with_flags(const void *pos, s32 id, s32 flags);
-void spawn_rafoie_explosion_bursts__13TUnk_804CCB28Fv(Obj_80237DAC *self);
 
 u16 get_entity_id(void *);
 s32 is_split_screen();
@@ -187,7 +186,6 @@ void TTecRaFoie::vfunc_8(void *) {
 #undef play_sound_effect
 
 #undef spawn_particle_effect
-#define spawn_rafoie_explosion_bursts__13TUnk_804CCB28Fv ((s32 (*)(void *))spawn_rafoie_explosion_bursts__13TUnk_804CCB28Fv)
 
 #include <stddef.h>
 #include "pso/system/scene/TScene.h"
@@ -473,7 +471,7 @@ u8 *create_rafoie_explosion(u8 *arg0, s32 *arg1, s16 arg2, s16 arg3, s32 arg4, f
     VecCopy((Vec *)(&stack.sp8), (const Vec *)(arg0 + 0x28));
     stack.spC += (5.0f);
     VecCopy((Vec *)(arg0 + 0x28), (const Vec *)(&stack.sp8));
-    spawn_rafoie_explosion_bursts__13TUnk_804CCB28Fv(arg0);
+    ((TUnk_804CCB28 *)arg0)->spawn_rafoie_explosion_bursts();
     ((TUnk_804CCB28 *)arg0)->indirect_effect = new TUnk_804DDF04(0x11, (TObject *)arg0);
     ((TUnk_804CCB28 *)arg0)->m_40 = (f32) (1.9f);
     return arg0;
@@ -502,7 +500,7 @@ u8 *create_fire_explosion_effect(u8 *arg0, s32 *arg1, s16 arg2, s32 arg3, f32 fa
     VecCopy((Vec *)(&stack.sp8), (const Vec *)(arg0 + 0x28));
     stack.spC += (5.0f);
     VecCopy((Vec *)(arg0 + 0x28), (const Vec *)(&stack.sp8));
-    spawn_rafoie_explosion_bursts__13TUnk_804CCB28Fv(arg0);
+    ((TUnk_804CCB28 *)arg0)->spawn_rafoie_explosion_bursts();
     ((TUnk_804CCB28 *)arg0)->indirect_effect = new TUnk_804DDF04(0x11, (TObject *)arg0);
     ((TUnk_804CCB28 *)arg0)->m_40 = (f32) (1.9f);
     return arg0;
@@ -640,4 +638,3 @@ TTecRaFoie::TTecRaFoie(s32 source, Vec *origin, TargetCursorList *list, s32 leve
     vfunc_9();
 }
 
-#undef spawn_rafoie_explosion_bursts__13TUnk_804CCB28Fv

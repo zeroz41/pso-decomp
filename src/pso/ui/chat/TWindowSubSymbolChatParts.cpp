@@ -152,7 +152,6 @@ struct Parts_80285B84 {
 s32 TWindowSubSymbolChat__sub_800771B0(struct TWSC *, s32);
 s32 TWindowSubSymbolChat__sub_800771C4(struct TWSC *, s32);
 s32 refresh_parts__20TWindowSubSymbolChatFv();
-s32 get_message_10__20TWindowSubStatusDispFl(s32);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 get_draw_context__11TWindowBaseFPv();
@@ -584,7 +583,7 @@ Parts_80285D38 *TWindowSubSymbolChatParts__ct(Parts_80285D38 *arg0, void *arg1, 
     arg0->f80 = arg3;
     p = ::operator new(0x24);
     if (p != NULL) {
-        p = ((TWindowSubStatusDisp *)p)->construct_type1_heading(get_message_10__20TWindowSubStatusDispFl(0x33), arg0->id);
+        p = ((TWindowSubStatusDisp *)p)->construct_type1_heading((s32)TWindowSubStatusDisp::get_message_10(0x33), arg0->id);
     }
     arg0->sub88 = p;
     v.x = 0.0f;

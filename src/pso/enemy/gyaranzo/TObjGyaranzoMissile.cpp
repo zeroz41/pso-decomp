@@ -56,7 +56,6 @@ s32 rotate_matrix_x(int, int);
 extern s32 __vt__19TObjGyaranzoMissile[];
 extern f32 TObjGyaranzoMissile__speed_scale;
 u8 *TObjGyaranzoMissile__ct(u8 *arg0, u8 *arg1, u8 *arg2, s16 arg3);
-Obj_800D47B4 *get_battle_param__10TObjPlayerFi(s32);
 s32 remap_area_sound_id(s32 arg0, s32 arg1);
 void *find_entity_by_id(u16);
 void init_all_slots__10TObjPlayerFv(void *);
@@ -93,7 +92,7 @@ void TObjGyaranzoMissile::sub_800D47B4() {
     check_enemy_body_collisions(this);
     if (collision->flags & 0x180000) {
         for (i = 0; i < 0x10; i++) {
-            q = get_battle_param__10TObjPlayerFi(i);
+            q = (Obj_800D47B4 *)TObjPlayer::get_battle_param(i);
             if (q == NULL) {
                 break;
             }
