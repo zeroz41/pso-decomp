@@ -2076,7 +2076,6 @@ pso/unk/text_80145A94.cpp
 pso/unk/text_8014618C.cpp
 pso/unk/text_8017866C.cpp
 pso/unk/text_8018E258.cpp
-pso/object/ambient/TObjRain_801977D4.cpp
 pso/unk/text_801A2710.cpp
 pso/unk/text_801A2B38.cpp
 pso/unk/text_801A3014.cpp

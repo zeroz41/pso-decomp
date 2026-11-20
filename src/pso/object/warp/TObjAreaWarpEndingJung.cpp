@@ -1,3 +1,4 @@
+#include "pso/render/GinjaTexture.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/unk/TLobby_80070A00.h"
@@ -57,6 +58,7 @@
 #include "pso/system/BmlResourceLoad.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/object/warp/ForestWarpResources.h"
+#include "pso/unk/text_803D853C.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/system/byteswap.h"
@@ -315,7 +317,6 @@ s32 PPCSync();
 int sprintf(char *, const char *, ...);
 void strncpy(s32, s32, s32);
 void debug_printf_at(s32 id, const char *fmt, ...);
-s32 matrix_mult_vec(int, void *, void *);
 }
 void rotate_matrix_zyx(void *m, s32 x, s32 y, s32 z);
 extern "C" {
@@ -341,7 +342,6 @@ s32 should_record_episode1_quest_completion();union WarpStringPos {
     } xy;
 };
 // The table is 4-aligned in the original, so its entries are float pairs, not s64.
-struct WarpStringScreenPos { f32 x, y; };
 
 struct Base_8019D4E4 { char pad[0x18]; };
 struct VObj_8019D4E4 : Base_8019D4E4 {
@@ -378,40 +378,50 @@ extern s32 lbl_805D55C0;
 
 f32 xz_distance_squared(void *, void *);
 
-s32 release_texture_list(void*);
 }
 
 BmlResource *forest_warp_bml_resource;
-u32 forest_warp_texture_list;
+GinjaTextureList *forest_warp_texture_list;
 // Set by TLobby while a quest is in progress; TObjAreaWarp's ctor reads it.
 s32 lobby_quest_progress_flag;
 
 
 // Function definitions in reverse address order (defer_codegen emits them reversed).
 
+static __declspec(section ".rodata") const char forest_warp_model[] ATTRIBUTE_ALIGN(4) = "fs_obj_warp.gj";
+static __declspec(section ".rodata") const char forest_warp_beam_model[] ATTRIBUTE_ALIGN(4) = "fs_obj_warp_beam.gj";
+static __declspec(section ".rodata") const char forest_warp_base_model[] ATTRIBUTE_ALIGN(4) = "fs_obj_warp_dai.gj";
+static __declspec(section ".rodata") const char forest_warp_base_beam_model[] ATTRIBUTE_ALIGN(4) = "fs_obj_warp_dai_beam.gj";
+static __declspec(section ".rodata") const char forest_warp_alternate_model[] ATTRIBUTE_ALIGN(4) = "fs_obj_warp_n.gj";
+static __declspec(section ".rodata") const char forest_warp_alternate_beam_model[] ATTRIBUTE_ALIGN(4) = "fs_obj_warp_n_beam.gj";
+static __declspec(section ".rodata") const char forest_warp_beam_motion[] ATTRIBUTE_ALIGN(4) = "fs_obj_warp_beam.njm";
+static __declspec(section ".rodata") const char forest_warp_base_beam_motion[] ATTRIBUTE_ALIGN(4) = "fs_obj_warp_dai_beam.njm";
+static __declspec(section ".rodata") const char forest_warp_alternate_beam_motion[] ATTRIBUTE_ALIGN(4) = "fs_obj_warp_n_beam.njm";
+static __declspec(section ".rodata") const char forest_warp_archive[] ATTRIBUTE_ALIGN(4) = "fs_obj_warp.bml";
+
 const char *fs_obj_warp_model_names[] = {
-    "fs_obj_warp.gj", "fs_obj_warp_beam.gj", "fs_obj_warp_dai.gj", "fs_obj_warp_dai_beam.gj",
-    "fs_obj_warp_n.gj", "fs_obj_warp_n_beam.gj", NULL,
+    forest_warp_model, forest_warp_beam_model, forest_warp_base_model, forest_warp_base_beam_model,
+    forest_warp_alternate_model, forest_warp_alternate_beam_model, NULL,
 };
 const char *fs_obj_warp_motion_names[] = {
-    "fs_obj_warp_beam.njm", "fs_obj_warp_dai_beam.njm", "fs_obj_warp_n_beam.njm", NULL,
+    forest_warp_beam_motion, forest_warp_base_beam_motion, forest_warp_alternate_beam_motion, NULL,
 };
 BmlResourceDescriptor forest_warp_resource_descriptor = {
-    "fs_obj_warp.bml", fs_obj_warp_model_names, fs_obj_warp_motion_names, 6, 3,
+    forest_warp_archive, fs_obj_warp_model_names, fs_obj_warp_motion_names, 6, 3,
 };
 
-Vec map_warp_destination_offsets[4] = {
+extern __declspec(section ".data") const Vec map_warp_destination_offsets[4] = {
     { 10.0f, 0.0f, 10.0f }, { 10.0f, 0.0f, -10.0f }, { -10.0f, 0.0f, 10.0f }, { -10.0f, 0.0f, -10.0f },
 };
 
 // Screen position of the warp id string: one entry for a single screen, then the
 // split-screen views of camera 2 (1 entry), 3 (2) and 4 (4), see fn_8019B480.
-WarpStringScreenPos warp_string_screen_position_table[10] = {
-    { 320.0f, 200.0f },
-    { 320.0f, 120.0f },
-    { 320.0f, 260.0f }, { 160.0f, 120.0f },
-    { 480.0f, 120.0f }, { 320.0f, 260.0f }, { 160.0f, 120.0f },
-    { 480.0f, 120.0f }, { 160.0f, 260.0f }, { 480.0f, 260.0f },
+extern __declspec(section ".data") const WarpStringScreenPosition warp_string_screen_position_table[10] = {
+    {{320.0f}, {200.0f}},
+    {{320.0f}, {120.0f}},
+    {{320.0f}, {260.0f}}, {{160.0f}, {120.0f}},
+    {{480.0f}, {120.0f}}, {{320.0f}, {260.0f}}, {{160.0f}, {120.0f}},
+    {{480.0f}, {120.0f}}, {{160.0f}, {260.0f}}, {{480.0f}, {260.0f}},
 };
 
 // The tail after load_forest_warp_resources (the original's inline helpers and
@@ -430,11 +440,11 @@ TObjMapWarpForest::~TObjMapWarpForest() {}
 
 void TObjMapForceWarp::open_confirm_window(s32) {}
 
-s32 get_forest_warp_model(s32 index) { return get_bml_model(forest_warp_bml_resource, index); }
+NJS_OBJECT *get_forest_warp_model(s32 index) { return (NJS_OBJECT *)get_bml_model(forest_warp_bml_resource, index); }
 
 AnimationMotion *get_forest_warp_motion(s32 index) { return get_bml_motion(forest_warp_bml_resource, index); }
 
-u32 get_forest_warp_textures() { return forest_warp_texture_list; }
+GinjaTextureList *get_forest_warp_textures() { return forest_warp_texture_list; }
 
 int TAdStorySelectGC::get_story_select() { return story_select_cursor; }
 
@@ -444,15 +454,15 @@ void load_forest_warp_resources(void) {
         resource = load_resource_from_descriptor(resource, 5, &forest_warp_resource_descriptor, 0, 0, 0);
     }
     forest_warp_bml_resource = resource;
-    forest_warp_texture_list = (u32)load_gvm_texture_file((s32)"fs_obj_warp.gvm");
+    forest_warp_texture_list = (GinjaTextureList *)load_gvm_texture_file((s32)"fs_obj_warp.gvm");
 }
 
 
 void TObjWarpBase::free_globals() {
-    if ((u32) forest_warp_texture_list != 0U) {
-        release_texture_list((void*)forest_warp_texture_list);
-        TAdSinglePlyChrSelectGC::safe_free(forest_warp_texture_list);
-        forest_warp_texture_list = 0U;
+    if (forest_warp_texture_list != NULL) {
+        release_texture_list(forest_warp_texture_list);
+        TAdSinglePlyChrSelectGC::safe_free((u32)forest_warp_texture_list);
+        forest_warp_texture_list = NULL;
     }
     free_bin_model_request(forest_warp_bml_resource, 1);
     forest_warp_bml_resource = 0;
@@ -548,7 +558,7 @@ TObjMapWarp::TObjMapWarp(TObject *parent, void *set_data) : TObjWarpBase(parent,
         push_matrix_from(identity_matrix);
         post_translate_matrix(&scale);
         rotate_matrix_y(0, rotation_y);
-        matrix_mult_vec(0, &map_warp_destination_offsets[i], destinations[i]);
+        matrix_mult_vec(NULL, &map_warp_destination_offsets[i], (Vec *)destinations[i]);
         pop_matrix();
         playerPopups[i] = 0;
     }
@@ -704,12 +714,12 @@ void TObjMapWarp::draw_debug_destinations() {
         post_translate_matrix(&self->pos);
         rotate_matrix_y(0, self->yaw);
         end = &self->ends[i];
-        matrix_mult_vec(0, &map_warp_destination_offsets[i], end);
+        matrix_mult_vec(NULL, &map_warp_destination_offsets[i], end);
         pop_matrix();
         push_matrix_from(identity_matrix);
         post_translate_matrix(end);
         rotate_matrix_y(0, self->yaw2);
-        matrix_mult_vec(0, &a, &a);
+        matrix_mult_vec(NULL, &a, &a);
         pop_matrix();
         VecCopy((Vec *)&b, (const Vec *)end);
         b.y += 5.0f;
@@ -738,13 +748,13 @@ void TObjMapWarpForest::run_task() {
 
 void TObjMapWarpForest::render() {
     if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
-        TObjFish::set_global_param(textures);
+        TObjFish::set_global_param((s32)textures);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        draw_ginja_object((void *)baseModel);
+        draw_ginja_object(baseModel);
         TParticleCtrl::begin_effect_render();
-        draw_ginja_model_with_motion((void *)beamModel, (void *)motion, (f32)frame);
+        draw_ginja_model_with_motion(beamModel, motion, frame);
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }
@@ -1441,7 +1451,7 @@ void TObjWarpString::render() {
 #pragma pop
 
 s64 fn_8019B480(void *arg0, void *camera_ctrl) {
-    WarpStringScreenPos *p = warp_string_screen_position_table;
+    const WarpStringScreenPosition *p = warp_string_screen_position_table;
     if (TRaderMapCore::is_not_split_screen() == 1) {
         switch (TCameraCtrl::get_camera_id()) {
         case 2:
@@ -1456,7 +1466,7 @@ s64 fn_8019B480(void *arg0, void *camera_ctrl) {
         }
         p += get_split_screen_view_index__11TCameraCtrlFUs(camera_ctrl);
     }
-    return *(s64 *)p;
+    return *(const s64 *)p;
 }
 
 void *create_TObjWarpString(char *text, u16 client_id) {

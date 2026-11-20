@@ -1,83 +1,117 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/ambient/TObjRain.h"
+#include "pso/camera/TCameraCtrl.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
 #include <dolphin/mtx/GeoTypes.h>
+#include "pso/unk/TLobby_801E2F94.h"
+#include "pso/system/task/TObject_80019A50.h"
+#include "pso/system/vector.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/render/render_util.h"
+#include "pso/system/task/TObject.h"
+#include "pso/system/NinjaTypes.h"
+
 extern "C" { extern const char TObjRain__class_name_string[9] = "TObjRain"; }
 
-
-struct Drop_80197998 {
-    u32 active;
-    Vec pos;
-    Vec vel;
-    f32 floor;
+NJS_POINT3 TObjRain__streak_points[2] = {
+    {0.0f, 0.0f, 0.0f},
+    {0.0f, 9.0f, 0.0f},
 };
 
-struct Rain_80197998 {
-    u8 pad0[0x1C];
-    Drop_80197998 drops[16];
-    u32 count;
-};
+__declspec(section ".data") u32 TObjRain__streak_colors[2] = {0x80808030, 0x70707020};
 
-struct Cam_80197998 {
-    u8 pad0[0x178];
-    f32 x, y, z;
-    u8 pad184[0x194 - 0x184];
-    s32 yaw;
-};
+NJS_POINT3COL TObjRain__streak_line_list = {TObjRain__streak_points, TObjRain__streak_colors, NULL, 2};
 
+extern "C" {
+void vec3_add_to(Vec *, const Vec *);
+f32 xz_distance_squared(void *, void *);
+void draw_line_list(NJS_POINT3COL *, s32, s32);
+void subtract_vector(Vec *, const Vec *);
+f32 normalize_vector(Vec *);
+extern TCameraCtrl *camera_ctrl_instance;
+}
 
-extern Cam_80197998 *camera_ctrl_instance;
+void TObjRain::draw_streaks() {
+    Drop *drop;
+    u32 i;
+    set_additive_blend();
+    drop = drops;
+    for (i = 0; i < count; drop++, i++) {
+        if (drop->active != 0) {
+            set_line_width(5);
+            VecCopy((Vec *)TObjRain__streak_line_list.p, &drop->position);
+            Vec pos = drop->position;
+            if (xz_distance_squared(&camera_ctrl_instance->pos_x, &pos) < 90000.0f) {
+                Vec dir = drop->velocity;
+                normalize_vector(&dir);
+                dir.x *= 12.0f;
+                dir.y *= 12.0f;
+                dir.z *= 12.0f;
+                subtract_vector(&pos, &drop->velocity);
+                VecCopy((Vec *)(TObjRain__streak_line_list.p + 1), &pos);
+                draw_line_list(&TObjRain__streak_line_list, 1, 5);
+            }
+        }
+    }
+    reset_line_width();
+    set_default_alpha_blend();
+}
+
+void TObjRain::update_drops() {
+    s32 active = 0;
+    Drop *drop = drops;
+    u32 i;
+    for (i = 0; i < count; drop++, i++) {
+        if (drop->active != 0) {
+            vec3_add_to(&drop->position, &drop->velocity);
+            if (drop->position.y < drop->floor_y) {
+                drop->active = 0;
+            } else {
+                active++;
+            }
+        }
+    }
+    if (active == 0) {
+        queue_destruction();
+    }
+}
+
 #pragma push
 #pragma fp_contract on
 void TObjRain::init_drops() {
-    u8 *arg0 = (u8 *)this;
-    Rain_80197998 *rain = (Rain_80197998 *)arg0;
     s32 angle;
-    Drop_80197998 *d;
+    Drop *d;
     s32 i;
     f32 radius;
     f32 x;
     f32 z;
-    d = rain->drops;
-    for (i = 0; i < rain->count; i++, d++) {
+    d = drops;
+    for (i = 0; i < count; i++, d++) {
         radius = 150.0f * (0.000030517578f * (f32)rand());
         angle = (s32)(182.04445f * (-15.0f - 150.0f * (0.000030517578f * (f32)rand())));
-        angle -= camera_ctrl_instance->yaw;
+        angle -= (s32)camera_ctrl_instance->yaw;
         x = radius * cos_table_lookup(angle);
         z = radius * sin_table_lookup(angle);
-        d->pos.x = camera_ctrl_instance->x + x;
-        d->pos.y = 120.0f + camera_ctrl_instance->y;
-        d->pos.z = camera_ctrl_instance->z + z;
-        d->vel.x = 1.2f * (0.000030517578f * (f32)rand());
-        d->vel.y = -(5.5f * (0.000030517578f * (f32)rand()) + 9.0f);
-        d->vel.z = 1.2f * (0.000030517578f * (f32)rand());
-        d->floor = -20.0f;
+        d->position.x = camera_ctrl_instance->pos_x + x;
+        d->position.y = 120.0f + camera_ctrl_instance->pos_y;
+        d->position.z = camera_ctrl_instance->pos_z + z;
+        d->velocity.x = 1.2f * (0.000030517578f * (f32)rand());
+        d->velocity.y = -(5.5f * (0.000030517578f * (f32)rand()) + 9.0f);
+        d->velocity.z = 1.2f * (0.000030517578f * (f32)rand());
+        d->floor_y = -20.0f;
         d->active = 1;
     }
 }
 #pragma pop
 
-struct RecoveredGlobal_80197C84___vt__8TObjRain {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-extern "C" {
-s32 __ct__7TObjectFP7TObject();
-extern RecoveredGlobal_80197C84___vt__8TObjRain __vt__8TObjRain;
-const char *lbl_805D3420 = TObjRain__class_name_string;
+const char *TObjRain__class_name = TObjRain__class_name_string;
 void TObjRain::render() { draw_streaks(); }
 void TObjRain::run_task() { update_drops(); }
-typedef char RecoveredGlobal_80197C84___vt__8TObjRain_size[sizeof(RecoveredGlobal_80197C84___vt__8TObjRain) == 0x18 ? 1 : -1];
 TObjRain::~TObjRain() {}
-u8 *__ct__8TObjRainFv(u8 *rain, s32 arg1, u32 arg2) {
-    __ct__7TObjectFP7TObject();
-    *(s32 **)((s8 *)rain + 0x18) = &__vt__8TObjRain.value;
-    *(s32 *)((s8 *)rain + 0) = (s32) lbl_805D3420;
-    *(u32 *)((s8 *)rain + 0x21C) = (arg2 > 0x10U) ? 0x10U : arg2;
-    ((TObjRain *)rain)->init_drops();
-    return rain;
-}
-
+TObjRain::TObjRain(TObject *parent, u32 drop_count) : TObject(parent) {
+    m_name = TObjRain__class_name;
+    count = drop_count > 16 ? 16 : drop_count;
+    init_drops();
 }

@@ -1494,7 +1494,7 @@ force_active:
   - TObjOnlineEndingHexMove__ct
   - TObjOnlineEndingHexMove__default_move_params
   - TObjOnlineEnding__ct
-  - TObjParticle__ct
+  - __ct__12TObjParticleFP7TObjectP15ParticleSetData
   - __ct__11TObjPathObjFP7TObjectPv
   - TObjPlayerSet__ct
   - TObjPlayer__sub_800181DC

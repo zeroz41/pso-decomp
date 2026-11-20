@@ -6,14 +6,16 @@
 
 class TObjRainCtrl : public TObject {
 public:
+    explicit TObjRainCtrl(TObject *parent);
     virtual ~TObjRainCtrl();
     virtual void run_task();
-public:
+
     static void create();
+
+private:
+    s32 ticks_until_spawn;
 };
 
-extern "C" {
-void *TObjRainCtrl__ct(void *rain_ctrl, void *parent);
-}
+typedef char TObjRainCtrlSize[sizeof(TObjRainCtrl) == 0x20 ? 1 : -1];
 
 #endif

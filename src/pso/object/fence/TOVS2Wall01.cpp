@@ -10,6 +10,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/fence/TOVS2Wall01.h"
+#include "pso/object/fence/TOVS2WallResources.h"
 
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -60,6 +61,11 @@ const char *TOVS2Wreck04__class_name = "TOVS2Wreck04";
 const char *TOVS2Wreck05__class_name = "TOVS2Wreck05";
 const char *TOVS2Wreck06__class_name = "TOVS2Wreck06";
 const char *TOVS2Wall01__class_name = "TOVS2Wall01";
+
+extern const TObjChipParams vs2_wall_debris_desc = {
+    { 0.25f, 0.07f, 0.26f }, { 0.0f, 0.0f, 0.0f }, { 5.0f, 7.5f, 5.0f },
+    { 1024, 256, 1024 }, { 1, 20 }, { 0.0f, 0.6f }, 0, 0, 20,
+};
 
 // One body per wreck model (TOVS2::TOVS2 takes entry `index`), the last one the wall's.
 CollisionBody ovs2wall01_collision_parts[7] = {
@@ -189,10 +195,7 @@ void TOVS2Wall01::vfunc_6(s16 *arg1, s32 arg2) {
 
 // Throws the wall's debris chips (models 7-15 of bm_o_vs2.bml, one per call).
 void TOVS2Wall01::spawn_debris(s32 index) {
-    TObjChipParams params = {
-        { 0.25f, 0.07f, 0.26f }, { 0.0f, 0.0f, 0.0f }, { 5.0f, 7.5f, 5.0f },
-        { 1024, 256, 1024 }, { 1, 20 }, { 0.0f, 0.6f }, 0, 0, 20,
-    };
+    TObjChipParams params = vs2_wall_debris_desc;
 
     params.pos[0] = m_2fc;
     params.pos[1] = m_300;
@@ -332,13 +335,13 @@ void TOVS2Wall01::load_resources() {
   {
     var_r0 = load_resource_from_descriptor((int) temp_r3, 1, &bm_o_vs2_resource_descriptor, 0, 0, 0);
   }
-  (*(s32 *)&TOVS2Wall01__bml_resource) = var_r0;
+  TOVS2Wall01__bml_resource = (BmlResource *)var_r0;
   TMotorcycle::add_entry(0x3A, (int) get_bml_model(TOVS2Wall01__bml_resource, 5), (int) get_bml_texlist((BmlResource *)var_r0, 5), 10.0f, 0.0f);
 }
 void TOVS2Wall01::release_model() {
-    if ((u32) TOVS2Wall01__bml_resource != 0U) {
-        free_bin_model_request((void*)TOVS2Wall01__bml_resource, 1);
-        TOVS2Wall01__bml_resource = 0U;
+    if (TOVS2Wall01__bml_resource != NULL) {
+        free_bin_model_request(TOVS2Wall01__bml_resource, 1);
+        TOVS2Wall01__bml_resource = NULL;
     }
 }
 void TOVS2::render() {
@@ -460,7 +463,7 @@ void *TOVS2Wall01__ct(TOVS2Wall01 *arg0, void *arg1) {
     s32 t;
     __ct__9TObjCharaFP7TObject(arg0, tl_05);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__11TOVS2Wall01;
-    __ct__15RenderFadeStateFv(((void *)((u8 *)arg0 + 0x340)));
+    __ct__15RenderFadeStateFv(&arg0->fade);
     arg0->m_name = TOVS2Wall01__class_name;
     arg0->apply_object_set_data(arg1);
     ((TObjChara *)arg0)->calc_attach_pos();
@@ -475,7 +478,7 @@ void *TOVS2Wall01__ct(TOVS2Wall01 *arg0, void *arg1) {
     arg0->m_338 = 50.0f + *(f32 *)((s8 *)(*(void **)((s8 *)arg0->model + 4)) + 0x14);
     t = arg0->set_params[0];
     arg0->m_33c = t + 0x100;
-    activate_and_dispatch__15RenderFadeStateFv((u8 *)arg0 + 0x340, t, 50.0f);
+    activate_and_dispatch__15RenderFadeStateFv((u8 *)&arg0->fade, t, 50.0f);
     arg0->m_35c = 1;
     return arg0;
 }
@@ -495,7 +498,7 @@ void *TOVS2Wall01::create() {
 void TOVS2Wall01::render() {
     u8 *arg0 = (u8 *)this;
     s32 var_r31;
-    ((RenderFadeState *)((u8 *)&this->m_340))->update();
+    fade.update();
     *(s32 *)&this->m_35c = this->update_object_view_visibility(*(f32 *)&this->unk_334, this->m_338);
     if ((s32) this->m_35c == 1) {
         if (TRaderMapCore::is_not_split_screen() == 1) {

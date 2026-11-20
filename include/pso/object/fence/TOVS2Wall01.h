@@ -11,7 +11,7 @@ struct TOVS2Wall01 : public TObjChara {
     u8 unk_334[0x4];
     f32 m_338;
     u32 m_33c;
-    RenderFadeState m_340;
+    RenderFadeState fade;
     u32 m_35c;
     void spawn_debris(s32 arg1);
     void release();
