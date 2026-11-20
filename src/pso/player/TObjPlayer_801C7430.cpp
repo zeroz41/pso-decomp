@@ -2971,7 +2971,7 @@ s32 handle_revivable__10TObjPlayerFi(s32 arg0) {
     return arg0;
 }
 
-void TObjPlayer::send_6x4E_player_revivable(s32 arg0) {
+void TObjPlayer::send_6x4E_player_revivable(saddr arg0) {
     struct S801CA274 sp8;
 
     if ((arg0 == 0) || (((s32 (*)(void))obj_isState2_324__9TObjCharaFv)() == 0)) {
@@ -4350,7 +4350,7 @@ void TObjPlayer::pay_tp_and_send_6x48_cast() {
     }
 }
 
-s32 TObjPlayer::try_camera_action(s32 arg0, s32 arg1) {
+s32 TObjPlayer::try_camera_action(saddr arg0, s32 arg1) {
     if ((((s32 (*)(void))is_locally_controlled__10TObjPlayerFPv)() != 0) && ((((s32 (*)(s32))check_flag_100__10TObjPlayerFPv)(arg0) != 0) || (((TObjPlayer *)arg0)->get_camera_field() == 0))) {
         return 0;
     }

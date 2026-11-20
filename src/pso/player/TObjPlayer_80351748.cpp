@@ -56,7 +56,7 @@ void init_pad_binding(u8 *arg0, s16 arg1, s16 arg2) {
     ((TObjPlayer *)(arg0 + 0x10))->reset_state_block();
 }
 
-s32 TObjPlayer::dt(s32 arg0, s16 arg1) {
+s32 TObjPlayer::dt(saddr arg0, s16 arg1) {
     if ((arg0 != 0) && (arg1 > 0)) {
         __dl__FPv();
     }

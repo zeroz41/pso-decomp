@@ -40,7 +40,7 @@ void TObjPlayer::clear_move_state_bits() {
 
 extern s32 (*player_chunk_draw_end_callback)();
 
-void TObjPlayer::set_global_state(s32 arg0) {
+void TObjPlayer::set_global_state(saddr arg0) {
     player_chunk_draw_end_callback = (s32 (*)())arg0;
 }
 

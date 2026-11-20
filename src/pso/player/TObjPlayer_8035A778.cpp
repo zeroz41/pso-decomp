@@ -11,7 +11,7 @@ extern s32 player_node_matrix_count;
 extern s32 node_matrix_array_base;
 extern s32 player_apply_callback_fn;
 
-void TObjPlayer::apply_with_callback(s32 arg1, f32 farg0) {
+void TObjPlayer::apply_with_callback(saddr arg1, f32 farg0) {
     (*(s32 *)&this->m_20) = arg1;
     *(f32 *)&this->texlist = farg0;
     player_node_matrix_cursor = 0;

@@ -2511,7 +2511,7 @@ void TObjPlayer::update_lock_on_cursor() { void* m = *(void**)((char*)this + 0x4
 
 void TObjPlayer::sub_801BBC2C() { this->m_424 = 0; }
 
-void TObjPlayer::init_action_palette_defaults(s32 arg0) {
+void TObjPlayer::init_action_palette_defaults(saddr arg0) {
     ((TObjPlayer *)arg0)->set_action_palette_entry(0, 0, 0, 1, 0);
     ((TObjPlayer *)arg0)->set_action_palette_entry(0, 1, 0, 1, 0);
 }
@@ -2594,7 +2594,7 @@ void TObjPlayer::sub_801BB950() {
   TObjPlayer__sub_80354E7C();
 }
 
-void TObjPlayer::init_class_flags(s32 arg1) {
+void TObjPlayer::init_class_flags(saddr arg1) {
     *(s8 *)&this->unk_338 = TObjPlayer__sub_801BEB4C((void *)arg1);
     this->m_339 = TObjPlayer__sub_801BEB44((void *)arg1);
     *(s8 *)&this->unk_33A = TObjPlayer__sub_801BEB3C((void *)arg1);
@@ -4933,7 +4933,7 @@ void damp_planar_velocity(P_801B5FB0 *p) {
     }
 }
 
-s32 TObjPlayer::resolve_move_collision() {
+saddr TObjPlayer::resolve_move_collision() {
     Vec p;
     p.x = ((Obj_801B5EA4 *)this)->pos.x + ((Obj_801B5EA4 *)this)->vel.x;
     p.y = ((Obj_801B5EA4 *)this)->pos.y + ((Obj_801B5EA4 *)this)->vel.y;
@@ -5275,7 +5275,7 @@ void play_effect_default__10TObjPlayerFii(s32 arg0, s32 arg1) {
     ((s32 (*)(s32, s32, s32, s32, f32))send_6x2C_impose_hold)(arg0, get_position_ptr__10TObjPlayerFv(), arg1, 0, (*(f32 *)&TObjPlayer__data_805DC278));
 }
 
-void TObjPlayer::play_effect(s32 arg0, s32 arg1, s32 arg2) {
+void TObjPlayer::play_effect(saddr arg0, s32 arg1, s32 arg2) {
     ((s32 (*)(s32, s32, s32, s32, f32))send_6x2C_impose_hold)(arg0, get_position_ptr__10TObjPlayerFv(), arg1, arg2, (*(f32 *)&TObjPlayer__data_805DC278));
 }
 
@@ -5316,7 +5316,7 @@ void handle_6x2C_impose_hold(s32 arg0) {
     }
 }
 
-void TObjPlayer::send_code_45_1(s32 arg0) {
+void TObjPlayer::send_code_45_1(saddr arg0) {
     struct S801B5200_801B3FD8 sp8;
 
     if ((arg0 == 0) || (obj_isState2_324__9TObjCharaFv() == 0)) {
@@ -5326,7 +5326,7 @@ void TObjPlayer::send_code_45_1(s32 arg0) {
     }
 }
 
-s32 TObjPlayer::draw_small_font(s32 arg0, void * _w1) {
+s32 TObjPlayer::draw_small_font(saddr arg0, void * _w1) {
     copy_subcommand_header();
     return arg0;
 }
@@ -5642,7 +5642,7 @@ void send_code_49_1__10TObjPlayerFi(s32 arg0) {
     }
 }
 
-s32 TObjPlayer::update_medical_font(s32 arg0, void * _w1) {
+s32 TObjPlayer::update_medical_font(saddr arg0, void * _w1) {
     copy_subcommand_header();
     return arg0;
 }
@@ -5700,7 +5700,7 @@ void TObjPlayer__sub_801B4430(s32 arg0) {
     }
 }
 
-s32 TObjPlayer::revive_6xA1(s32 arg0, void * _w1) {
+s32 TObjPlayer::revive_6xA1(saddr arg0, void * _w1) {
     copy_subcommand_header();
     return arg0;
 }
@@ -6907,7 +6907,7 @@ void TObjPlayer::send_item_pickup_request(s32 arg0) {
     }
 }
 
-s32 TObjPlayer::update_small_font(s32 arg0, void * _w1) {
+s32 TObjPlayer::update_small_font(saddr arg0, void * _w1) {
     copy_subcommand_header();
     return arg0;
 }
@@ -6989,7 +6989,7 @@ void draw__10TObjPlayerFPvf(void *player, f32 at_frame) {
     pop_matrix();
 }
 
-void TObjPlayer::spawn_effect(s32 arg0) {
+void TObjPlayer::spawn_effect(saddr arg0) {
     if (((s32 (*)(void))is_locally_controlled__10TObjPlayerFPv)() != 0) {
         start_pad_rumble_client(0xC0, 0xF, ((s32 (*)(s32))get_entity_id)(arg0));
     }
@@ -7581,7 +7581,7 @@ u8 is_key_machine_ready__10TObjPlayerFv(void) {
     return (u8) var_r0;
 }
 
-s32 TObjPlayer::check_technique_castable(s32 arg0) {
+s32 TObjPlayer::check_technique_castable(saddr arg0) {
     s32 area;
 
     if ((((s32 (*)(void))is_technique_ready__8TTecCtrlFv)() != 0) || (is_camera_mode_active__10TObjPlayerFv() != 0) || (is_boss_area() != 0)) {

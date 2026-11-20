@@ -15,7 +15,7 @@ int clear_player_data_block(void*);
 
 void TObjPlayer::init_select_txt() { *(int*)(this) = 0; TAdSelectTxtGC__sub_802A16A8((char*)this + 0x4); ((FlagWord *)((char*)this + 0x428))->reset(); ((TObjPlayer *)((char*)this + 0xc))->initialize_player_data(); }
 
-void TObjPlayer::copy_lobby_header(s32 arg1) {
+void TObjPlayer::copy_lobby_header(saddr arg1) {
     s32 *arg0 = (s32 *)this;
     ((FlagWord *)((s8 *)arg0 + 0x428))->set(1);
     *arg0 = TAdSelectTxtGC__sub_802A16C0((void *)arg1);

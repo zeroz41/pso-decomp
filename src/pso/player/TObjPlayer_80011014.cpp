@@ -4281,7 +4281,7 @@ f32 calc_xz_distance_sq(saddr arg0, uaddr arg1, void *arg2) {
     return dist;
 }
 
-f32 TObjPlayer::calc_distance_to_client(s32 arg0, u16 arg1, u32 arg2) {
+f32 TObjPlayer::calc_distance_to_client(saddr arg0, u16 arg1, u32 arg2) {
   Stack_80018780 stack;
   f32 var_f31;
   s32 temp_r31;

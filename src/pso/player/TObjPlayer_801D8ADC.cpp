@@ -167,7 +167,7 @@ long TObjPlayer::get_anim_table_entry(s32 arg1) {
   return (*((s32 *) (((s8 *)player_anim_table_pointers) + new_var))) + (arg1 * 4);
 }
 
-s32 TObjPlayer::get_table_entry_by_clamped_index() {
+saddr TObjPlayer::get_table_entry_by_clamped_index() {
     u8 *arg0 = (u8 *)this;
     return *(s32 *)((s8 *)player_clamped_index_table_pointers + (((TObjPlayer *)arg0)->get_clamped_index() * 4));
 }

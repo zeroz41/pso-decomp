@@ -329,7 +329,7 @@ void TUnk_804E3BC0::render() {
 void TObjPlayer__sub_802E7088(void) {  }
 void TObjPlayer__sub_802E7084(void) {  }
 
-u8 *TObjPlayer::init_breakup_pieces(void *arg1, s32 arg2) {
+u8 *TObjPlayer::init_breakup_pieces(void *arg1, saddr arg2) {
     Part_802E6F10 *part;
     s32 i;
     this->init_zeroed_object();
@@ -418,7 +418,7 @@ void TUnk_804E3BA8::render() {
     TObjLight__sub_801337F8(current_scene_light);
 }
 
-int TObjPlayer::get_instance() {  return multiplay_texture_f512_handle; }
+saddr TObjPlayer::get_instance() {  return multiplay_texture_f512_handle; }
 
 f32 lbl_805D6910 = lbl_805DE9F0;
 const f32 lbl_805DE9C8 = 1.0f;

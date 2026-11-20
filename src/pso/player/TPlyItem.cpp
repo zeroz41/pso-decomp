@@ -178,7 +178,7 @@ u8 reduce_owner_match_id;
 
 void TObjPlayer::set_field_1c(s32 v) { *(s32*)((char*)this + 0x1c) = v; }
 
-s32 TObjPlayer::get_owner_if_alive() {
+saddr TObjPlayer::get_owner_if_alive() {
     if (((TObject *)(*(s32 *)((s8 *)this + 0x1C)))->all_parents_unqueued_for_destruction() != 0) {
         return *(s32 *)((s8 *)this + 0x1C);
     }
@@ -442,11 +442,11 @@ void TObjPlayer::destroy_subobjects_recursive() {
 
 void TObjPlayer::destroy_subobjects(int a1) { item_reduce_target_player = a1; inventory_walk_progress_count = 0; ((TObjPlayer *)this->unk_1C4)->destroy_subobjects_recursive(); this->unk_1C4->queue_destruction(); ((TObject *)(this->m_1c8))->run_tasks(); ((TObject *)(this->m_1c8))->run_tasks(); ((TObject *)(this->m_1c8))->queue_destruction(); }
 
-void *TObjPlayer::set_mode_and_refresh_object(s32 item_data) { inventory_search_item_data = item_data; return find_matching_inventory_item_node(((TObjPlayer *)this)->unk_1C4); }
+void *TObjPlayer::set_mode_and_refresh_object(saddr item_data) { inventory_search_item_data = item_data; return find_matching_inventory_item_node(((TObjPlayer *)this)->unk_1C4); }
 
 void TObjPlayer::find_first_inventory_entry(int a1) { inventory_search_item_data = a1; ((TObjPlayer *)this->unk_1C4)->find_inventory_item_matching_data(); }
 
-s32 TObjPlayer::count_items_by_id(s32 arg1) {
+s32 TObjPlayer::count_items_by_id(saddr arg1) {
     void *node;
     TItem *item;
 
@@ -542,7 +542,7 @@ s32 TObjPlayer__sub_801D49F4(void *inventory, s32 player, s32 *arg2, s32 arg3) {
     return 1;
 }
 
-s32 TObjPlayer::update_inventory_item(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 client) {
+s32 TObjPlayer::update_inventory_item(saddr arg1, s32 arg2, saddr arg3, s32 arg4, s32 client) {
     s16 count;
     TItem *item;
     void *node;

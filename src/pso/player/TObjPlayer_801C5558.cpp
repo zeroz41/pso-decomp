@@ -108,7 +108,7 @@ void TObjPlayer__sub_801C5780(s32 arg0, s8 arg1, s32 arg2) {
     *(s8 *)((s8 *)(arg0 + arg2) + 0) = var_r4;
 }
 
-s32 TObjPlayer::init_partial(s32 arg0) {
+s32 TObjPlayer::init_partial(saddr arg0) {
     clear_trap_counts();
     return arg0;
 }

@@ -156,7 +156,7 @@ asm void push_reordered_matrix_ps(void) {
 #include "orig_asm/pso/player/TObjPlayer_803E1A58/push_reordered_matrix_ps.inc"
 }
 
-void TObjPlayer::reload_texture(s32 arg1, u32 arg2, void *arg3) {
+void TObjPlayer::reload_texture(saddr arg1, u32 arg2, void *arg3) {
     s32 size;
     if ((arg2 & 0x40000000) != 0) {
         size = arg1;

@@ -238,7 +238,7 @@ void set_camera_capture_flags_bit0(void);
 void **release_texture_list();
 void **TObjPlayer__sub_80083F04(void);
 s32 is_in_shadow_range(u8 *arg0, f32 farg0);
-s32 get_capture_texture_pixels(void);
+saddr get_capture_texture_pixels(void);
 void TObjPlayer__sub_80084500(void);
 void set_texture_name(void *, void *, int, int);
 s32 load_texture_list(void *);
@@ -370,8 +370,8 @@ void reset_and_init_capture_texture(void) { camera_capture_flags = 0; init_captu
 
 void reset_and_release_capture_texture(void) { camera_capture_flags = 0; release_shared_capture_texture(); }
 
-s32 get_capture_texture_pixels(void) {
-    return (s32)shared_capture_texture_list.entries->texture->surface->pixels;
+saddr get_capture_texture_pixels(void) {
+    return (saddr)shared_capture_texture_list.entries->texture->surface->pixels;
 }
 
 void capture_viewport_texture(void) {

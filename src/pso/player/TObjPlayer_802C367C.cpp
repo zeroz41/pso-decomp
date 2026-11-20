@@ -65,7 +65,7 @@ void init_technique_levels(s32 flags, s8 *counts) {
     }
 }
 
-void TObjPlayer::setup_effect_slots(s32 arg0, s32 arg1) {
+void TObjPlayer::setup_effect_slots(s32 arg0, saddr arg1) {
     TObjPlayer__sub_802C46E0(arg1, 0, 0, 1, 0);
     TObjPlayer__sub_802C46E0(arg1, 1, 0, 1, 0);
     TObjPlayer__sub_802C46E0(arg1, 0, 1, 2, 0);

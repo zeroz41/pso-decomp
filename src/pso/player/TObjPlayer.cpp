@@ -510,7 +510,7 @@ void *TObjPlayer__sub_801BFAD4(void *arg0, s16 arg1) {
 extern "C" {
 int clear_movement_history(void*);
 
-s32 TObjPlayer::reset_and_return(s32 p) {
+s32 TObjPlayer::reset_and_return(saddr p) {
     TObjPlayer__sub_801BF8F8((s32 *)p);
     return p;
 }

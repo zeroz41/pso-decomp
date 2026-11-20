@@ -182,7 +182,7 @@ s32 obj_is_hit_receivable(u8 *arg0);
 void *resolve_hittable_target(u16 actorId, s16 collider);
 u16 register_entity_by_id(void*);
 
-void TObjPlayer::apply_status_effect(s32 a) {
+void TObjPlayer::apply_status_effect(saddr a) {
     TObjPlayer__sub_8015434C((CollisionBody_80155FBC *)a, 0, registered_player_count);
 }
 
@@ -534,7 +534,7 @@ void *find_entity_by_id(u16 id) {
 
 void TOTrapAncient02R__sub_80154D78(void) {  }
 void TObjPlayer::init_all_slots() { { int i; for (i = 0; i < 16; i++) { TObjPlayer__sub_80154E28((int)((void*)i), (int)((void*)0)); } } }
-s32 TObjPlayer::find_or_alloc_slot(u32 arg0) {
+s32 TObjPlayer::find_or_alloc_slot(uaddr arg0) {
     s32 var_r31;
     u32 battle_param;
 

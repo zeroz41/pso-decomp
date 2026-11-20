@@ -70,7 +70,7 @@ struct Elt80364258_80364258 { s32 f0; };
 
 #define reset_id_array__10TObjPlayerFPv ((s32 (*)(void))reset_id_array__10TObjPlayerFPv)
 
-s32 TObjPlayer::run_and_return_arg(s32 arg0) {
+saddr TObjPlayer::run_and_return_arg(saddr arg0) {
     reset_id_array__10TObjPlayerFPv();
     return arg0;
 }

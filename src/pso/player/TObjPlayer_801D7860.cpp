@@ -4,7 +4,7 @@
 
 extern "C" {
 s32 TObjPlayer__sub_801C19C8(f32);
-s32 TObjPlayer::init_sub_object(s32 arg0) {
+s32 TObjPlayer::init_sub_object(saddr arg0) {
     TObjPlayer::init_sub_object_vectors(arg0);
     return arg0;
 }

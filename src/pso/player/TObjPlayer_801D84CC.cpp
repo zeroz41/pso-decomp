@@ -176,7 +176,7 @@ void TObjPlayer__sub_801D8A38(void* a0) { *(short*)((char*)a0 + 0x0) = 1; *(floa
 
 void*TObjPlayer::init_inventory() { TObjPlayer::init_inventory_items((s32)((s32)((char*)this + 0x50))); TObjPlayer__sub_801BFF80((u8 *)((char*)this + 0xac)); TObjPlayer__sub_801D8A38((void*)((void*)((char*)this + 0xc0))); return this; }
 
-s32 TObjPlayer::init_inventory_items(s32 arg0) {
+s32 TObjPlayer::init_inventory_items(saddr arg0) {
     s32 var_r30;
     s32 var_r31;
 
