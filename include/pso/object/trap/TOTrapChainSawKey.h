@@ -8,6 +8,7 @@ struct AnimationMotion;
 struct NJS_OBJECT;
 
 struct TOTrapChainSawKey : public TOTrapChainSaw {
+    TOTrapChainSawKey(TObject *parent, void *set_data);
     virtual ~TOTrapChainSawKey();
     virtual void update_state();
     virtual void decode_params();

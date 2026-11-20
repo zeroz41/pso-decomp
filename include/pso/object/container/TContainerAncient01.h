@@ -5,6 +5,8 @@
 #include "pso/object/base/TObjChara.h"
 
 struct TContainerAncient01 : public TObjChara {
+    TContainerAncient01(TObject *parent, void *set_data);
+    virtual s32 roll_physical_accuracy(void *, s32, f32);
     virtual ~TContainerAncient01();
     virtual int calc_distance_accuracy_penalty(void *, void *, void *, float);
     virtual s32 select_melee_contact_body(void *, f32);
@@ -14,7 +16,6 @@ struct TContainerAncient01 : public TObjChara {
     void sub_8018B48C();
     void sub_8018B284();
     virtual void vfunc_6(s16 *, s32);
-    virtual s32 roll_physical_accuracy(void *, s32, f32);
     virtual s32 try_start_action(s32, s32);
     virtual void apply_knockback_from_attacker(u8 *, f32);
     virtual f32 receive_weapon_special_attack(void *, void *);

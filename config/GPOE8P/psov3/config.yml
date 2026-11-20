@@ -500,7 +500,7 @@ force_active:
   - TCheckRoomSequence__error_return_text_id
   - TCheckRoomSequence__sub_80210B34
   - TCineCtrl__instance
-  - TContainerAncient01R__ct
+  - __ct__20TContainerAncient01RFP7TObjectPv
   - TContainerAncient01__collision_body_parts
   - TContainerAncient01__ct
   - TContainerAncient01__resource_descriptor
@@ -873,14 +873,14 @@ force_active:
   - update_state__17TObjEneBm3FlyNestFl
   - vfunc_81__16TOTrapAncient02RFv
   - __ct__15TOTrapAncient02FP7TObjectPv
-  - TOTrapChainSawDamage__ct
+  - __ct__20TOTrapChainSawDamageFP7TObjectPv
   - TOTrapChainSawDamage__sub_802C9C00
-  - TOTrapChainSawDamage__vt14
-  - TOTrapChainSawDamage__vt16
+  - vfunc_16__20TOTrapChainSawDamageFv
+  - vfunc_18__20TOTrapChainSawDamageFP10TObjPlayer
   - TOTrapChainSawDamage_class_name
-  - TOTrapChainSawEdge__ct
+  - __ct__18TOTrapChainSawEdgeFP7TObjectPv
   - TOTrapChainSawEdge_class_name
-  - TOTrapChainSawKey__ct
+  - __ct__17TOTrapChainSawKeyFP7TObjectPv
   - TOTrapChainSaw__level_scale_table
   - TOTrapChainSaw__name
   - TOTrapSeabed01__bml_resource
@@ -5960,7 +5960,7 @@ force_active:
   - dt__17TObjCityDoor_ShopFPvs
   - dt__17TObjCityDoor_WarpFPvs
   - dt__18TObjCityDoor_GuildFPvs
-  - dt__20TContainerAncient01RFPvs
+  - __dt__20TContainerAncient01RFv
   - __dt__22TObjEneSlimeTailAttackFv
   - dt__22TWindowChallengeResultFPvs
   - dt__22TWindowDD_WS_ScrollBarFs
@@ -7387,7 +7387,7 @@ force_active:
   - is_visible__8TObjDoorFff
   - is_within_camera_distance__FPvPvf
   - is_within_distance__10TObjBgmColFf
-  - is_within_range__19TContainerAncient01Fii
+  - select_melee_contact_body__20TContainerAncient01RFPvf
   - item_bml_resource_descriptor
   - item_box_primary_colors
   - item_box_secondary_colors

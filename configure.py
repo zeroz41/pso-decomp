@@ -1095,7 +1095,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/object/container/TObjContainerItem.cpp": {"mw_version": "GC/1.3.2", "cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # -str readonly: every string of the unit (archive file names, class names) sits in .rodata.
     # -sdata 4: its 8-byte effect tables sit in .bss and its small data is all 4-byte words.
-    "pso/object/container/TContainerAncient01.cpp": {"mw_version": "GC/1.3.2", "cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
+    # One deferred file for both container classes: the R vtable comes first and both constructors
+    # read their vtables from the pooled .data base.
+    "pso/object/container/TContainerAncient01.cpp": {"mw_version": "GC/1.3.2", "cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly", "-sdata 4")},
     # -sdata 4: its 8-byte objects (chr_select_serial_seeds, lbl_80513918, the save message text position) sit in
     # .bss/.data, not .sbss/.sdata, and its small data is all 4-byte words or smaller.
     "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.cpp": {"mw_version": "GC/1.3.2", "cflags": _switch(cflags_pso, "-sdata 4")},
