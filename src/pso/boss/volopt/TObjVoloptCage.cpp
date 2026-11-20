@@ -58,7 +58,7 @@ VoloptBreakUpParams volopt_cage_breakup_params = {
 void *volopt_cage_combat_stats;
 VoloptCageParams *volopt_cage_params;
 static TBreakUpMdlPieces *volopt_cage_breakup_model;
-static s32 volopt_cage_model;
+static saddr volopt_cage_model;
 static s32 volopt_cage_textures;
 
 void fn_80048C04(TObjVoloptCage *cage) {

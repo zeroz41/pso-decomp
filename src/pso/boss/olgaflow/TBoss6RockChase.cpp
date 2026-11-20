@@ -183,7 +183,7 @@ TBoss6RockChase::~TBoss6RockChase() {
 #pragma push
 #pragma fp_contract on
 LAYOUT_ASSERT(RecoveredGlobal_8036D4E0_lbl_8047ACE8_size, sizeof(RecoveredGlobal_8036D4E0_lbl_8047ACE8) == 0x10);
-u8 *TBoss6RockChase__ct(TBoss6RockChase *boss6_rock_chase, s32 arg1, s32 arg2, s32 arg3) {
+u8 *TBoss6RockChase__ct(TBoss6RockChase *boss6_rock_chase, s32 arg1, saddr arg2, s32 arg3) {
     __ct__14TObjCollidableFP7TObject(boss6_rock_chase, arg1);
     *(s32 **)((s8 *)boss6_rock_chase + 0x18) = __vt__15TBoss6RockChase;
     boss6_rock_chase->m_name = TBoss6RockChase__name;
@@ -202,7 +202,7 @@ u8 *TBoss6RockChase__ct(TBoss6RockChase *boss6_rock_chase, s32 arg1, s32 arg2, s
 }
 #pragma pop
 
-s32 TBoss6RockChase::spawn(s32 arg0, s32 arg1) {
+s32 TBoss6RockChase::spawn(s32 arg0, saddr arg1) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8036D6D4, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_8036D6D4, spC) == 0x4);
     Stack_8036D6D4 stack;

@@ -661,7 +661,7 @@ void TBoss4DarkFalz::handle_defeat() {
     u8 *arg0 = (u8 *)this;
     struct V3_8004B654 save;
     s32 flags[3];
-    s32 p;
+    saddr p;
 
     TBoss4DarkFalz__sub_8004B5A0();
     if (is_split_screen() != 0) {
@@ -846,7 +846,7 @@ extern s32 __vt__14TBoss4DarkFalz[];
 void TBoss4DarkFalz__sub_8004B4F0(void *arg0p, void *arg1p);
 s32 __ct__9TObjEnemyFP7TObject();
 void *fn_8030A83C(void *arg0);
-s32 TBoss4DarkFalz__ct(s32 a0, s32 arg1, s32 a2);
+s32 TBoss4DarkFalz__ct(saddr a0, s32 arg1, saddr a2);
 int TBoss4DarkFalz__sub_8030AD38(void);
 int free_bin_model_request(void*, void*);
 s32 __ct__11TObjControlFP7TObject(s32, s32);
@@ -872,7 +872,7 @@ void TBoss4DarkFalz::vfunc_63() {  }
 }
 void init_music_sequencer(s32 program);
 s32 create_boss4_fade();
-int darkfalz_dat_resource;
+saddr darkfalz_dat_resource;
 void *TBoss4DarkFalz__type1_instance;
 void *TBoss4DarkFalz__type2_instance;
 void *TBoss4DarkFalz__type3_instance;
@@ -916,7 +916,7 @@ TBoss4DarkFalz::~TBoss4DarkFalz() {
 }
 
 
-s32 TBoss4DarkFalz__ct(s32 a0, s32 arg1, s32 a2) {
+s32 TBoss4DarkFalz__ct(saddr a0, s32 arg1, saddr a2) {
     u8 *boss4_dark_falz = (u8 *)a0;
     u8 *arg2 = (u8 *)a2;
     s32 temp_r0;
@@ -1024,8 +1024,8 @@ void TBoss4DarkFalz::cleanup_global() { TBoss4DarkFalz::free_global_instance(); 
 extern s32 tl_04;
 
 void TBoss4DarkFalz::load_resources() {
-    s32 temp_r3;
-    s32 var_r0;
+    saddr temp_r3;
+    saddr var_r0;
     temp_r3 = (saddr)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {

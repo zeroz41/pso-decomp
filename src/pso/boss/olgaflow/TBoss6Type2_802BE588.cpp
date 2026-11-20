@@ -457,7 +457,7 @@ void TBoss6Type2::check_state_0x460_eq4() { if (*(int*)((char*)this + 0x460) == 
 void TBoss6Type2::sub_802BEE38() {
     s32 sound;
     s32 n;
-    s32 idx;
+    saddr idx;
     s32 grp;
     static s32 swing_sound_time = (s32)(10.0f / lbl_805DE3FC - 10.0f);
     if (state_timer == state_duration - swing_sound_time) {
@@ -527,7 +527,7 @@ void TBoss6Type2::spawn_death_soul() {
 
 void TBoss6Type2::sub_802BEC28() {
     f32 ratio;
-    u32 player;
+    uaddr player;
     state_progress = (f32) (1.0f - ((f32) state_timer / (f32) state_duration));
     ratio = state_progress;
     if (ratio < 0.0f) {
@@ -569,7 +569,7 @@ void TBoss6Type2::sub_802BEB78() {
 }
 
 void TBoss6Type2::update_attack_timer() {
-    u32 player;
+    uaddr player;
 
     play_persistent_sound(0x4006A30B, (saddr)this, (uaddr)&position, 0, 1);
     if (--state_timer < 0) {
@@ -590,7 +590,7 @@ void TBoss6Type2::start_flow_soul_effect() {
     Obj_802BE9AC *arg0 = (Obj_802BE9AC *)this;
     static s32 dur = (s32)(60.0f / lbl_805DE404);
     Vec v;
-    u32 pl;
+    uaddr pl;
     s32 d = dur;
     this->state_duration = d;
     this->state_timer = d;

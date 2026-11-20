@@ -944,7 +944,7 @@ void TObjFish__sub_802EAAC8(u8 *arg0, u32 arg1, s32 arg2, s32 arg3);
 void *create_particle_controller_with_angles(void *arg0, void *arg1, s32 arg2, s32 arg3, u16 arg4);
 extern "C" {
 
-void fn_802EC52C(s32 arg0, s32 arg1);
+void fn_802EC52C(s32 arg0, saddr arg1);
 
 void TParticleCtrl__sub_802EC550(PCtrl_802EC550 *o);
 
@@ -1199,7 +1199,7 @@ void TObjFish__sub_802E8AD4(Fish_802E8AD4* o, u32 k);
 
 void TObjFish__sub_802EC32C(TBoss7DeRolLeC *self);
 
-void TObjFish__sub_802EC468(s32 arg0, f32 farg0, f32 farg1);
+void TObjFish__sub_802EC468(saddr arg0, f32 farg0, f32 farg1);
 
 void TBoss7DeRolLeC__sub_802EC994(void* p);
 
@@ -1303,14 +1303,14 @@ u8 *lbl_805D6918; // resource bundle loaded by TObjPlayer__sub_802EE574
 s32 boss7_derolle_c_motion_id;
 s32 lbl_805D6920;
 s32 lbl_805D6924;
-s32 lbl_805D6928;
-s32 lbl_805D692C;
-s32 lbl_805D6930;
-s32 lbl_805D6934;
+saddr lbl_805D6928;
+saddr lbl_805D692C;
+saddr lbl_805D6930;
+saddr lbl_805D6934;
 u32 boss7_joint_state; // the destructor clears it when it holds this object
 u8 *lbl_805D693C;
 s32 *lbl_805D6940;
-s32 lbl_805D6944;
+saddr lbl_805D6944;
 
 void TBoss7DeRolLeC::clear_harmful_statuses() {  }
 
@@ -2318,7 +2318,7 @@ void TParticleCtrl__sub_802EC550(PCtrl_802EC550 *o) {
     }
 }
 #pragma pop
-void fn_802EC52C(s32 arg0, s32 arg1) {
+void fn_802EC52C(s32 arg0, saddr arg1) {
     TObjFish__sub_802F18E8((void *)arg1);
 }
 
@@ -2327,7 +2327,7 @@ void spawn_particle_201__8TObjFishFii(s32 arg1, s32 arg2) {
 }
 #pragma push
 #pragma fp_contract on
-void TObjFish__sub_802EC468(s32 arg0, f32 farg0, f32 farg1) {
+void TObjFish__sub_802EC468(saddr arg0, f32 farg0, f32 farg1) {
     Vec stack;
     VecCopy__FP3VecPC3Vec((saddr)((void *)&stack.x), (void *)arg0);
     stack.x = -((*(f32 *)((s8 *)&lbl_804FF5E8 + 0xC) * farg1) - stack.x);

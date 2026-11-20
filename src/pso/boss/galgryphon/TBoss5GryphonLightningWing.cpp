@@ -52,7 +52,7 @@ s32 TBoss8Dragon__sub_80063FB8(s32, s32 *, f32);
 void TBoss5GryphonLightningWing::apply_lightning_effect() {
     s32 sp8;
     s32 instance_count;
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
 
     instance_count = TBoss8Dragon::get_instance_count();
     if (instance_count != 0) {
@@ -89,7 +89,7 @@ void run_task__26TBoss5GryphonLightningWingFv(TBoss5GryphonLightningWing *boss5_
 #pragma pop
 
 TBoss5GryphonLightningWing::~TBoss5GryphonLightningWing() {}
-s32 __ct__26TBoss5GryphonLightningWingFv(int arg0, void *arg1, void *a, void *mid, void *b, void *arg5, void *arg6) {
+s32 __ct__26TBoss5GryphonLightningWingFv(saddr arg0, void *arg1, void *a, void *mid, void *b, void *arg5, void *arg6) {
     s32 i;
     TBoss5GryphonLightning__ct(20.0f);
     ((Wing_80351C18 *)arg0)->vt = __vt__26TBoss5GryphonLightningWing;
@@ -107,7 +107,7 @@ s32 __ct__26TBoss5GryphonLightningWingFv(int arg0, void *arg1, void *a, void *mi
     return arg0;
 }
 
-s32 spawn_lightning_wing__12TBoss8DragonFiiiiii(s32 arg0, s32 arg1, s32 mid, s32 arg3, s32 arg4, s32 arg5) {
+s32 spawn_lightning_wing__12TBoss8DragonFiiiiii(saddr arg0, saddr arg1, saddr mid, saddr arg3, saddr arg4, saddr arg5) {
     Vec position;
     f32 ground_height;
     saddr allocation;

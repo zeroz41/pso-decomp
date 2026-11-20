@@ -737,7 +737,7 @@ struct O_80059618;
 struct Obj_8005A1AC;
 struct Ply_80059ABC;
 
-Self_8005AE60 *TBoss4Type3__ct(Self_8005AE60 *, s32, s32 *);
+Self_8005AE60 *TBoss4Type3__ct(Self_8005AE60 *, saddr, s32 *);
 }
 
 void * create__13TObjBs4CutAtkFPvPvPv(void *arg0, void *arg1, void *arg2) {
@@ -807,8 +807,8 @@ void TObjBs4CutAtk::run_task() {
 
 void TObjBs4CutAtk::render() {  }
 
-s32 TBoss4Type3::create(s32 arg0) {
-    s32 var_r31;
+s32 TBoss4Type3::create(saddr arg0) {
+    saddr var_r31;
     s32 var_r4;
 
     var_r31 = ((s32 (*)(s32))__nw__7TObjectFUl)(0x530);
@@ -823,9 +823,9 @@ s32 TBoss4Type3::create(s32 arg0) {
 }
 
 
-Self_8005AE60 *TBoss4Type3__ct(Self_8005AE60 *self, s32 parent, s32 *arg2) {
+Self_8005AE60 *TBoss4Type3__ct(Self_8005AE60 *self, saddr parent, s32 *arg2) {
     s32 i;
-    s32 model;
+    saddr model;
     s32 p;
 
     __ct__9TObjEnemyFP7TObject(self, (void*)parent);
@@ -1396,7 +1396,7 @@ void TBoss4Type3::interp_position_between_nodes() {
 #pragma pop
 
 s32 TBoss4Type3::choose_attack_heading_sector() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     TypedVector_80059B78 sp8;
     f32 temp_f0;
     u16 id;
@@ -1504,7 +1504,7 @@ void TBoss4Type3::update_radar_markers() {
 void TBoss4Type3::handle_damage_taken() {
     u8 *p;
     s32 i;
-    u32 e;
+    uaddr e;
     if (((O_80059618 *)this)->f3ba == 0xFFFF || ((O_80059618 *)this)->f374 == 2 || ((O_80059618 *)this)->f374 == 3 || ((O_80059618 *)this)->f32c >= ((O_80059618 *)this)->f3e4 ||
         (p = (u8 *)get_player_by_client_id(((O_80059618 *)this)->f3ba)) == NULL) {
         ((O_80059618 *)this)->f3e4 = ((O_80059618 *)this)->f32c;
@@ -1651,7 +1651,7 @@ void TBoss4Type3::advance_cut() {
 
 void TBoss4Type3::update_cut() {
     O_800590F4 *o = (O_800590F4 *)this;
-  s32 pb;
+  saddr pb;
   Vec b;
   Vec a;
   if (o->f398 > 0x2A)
@@ -1868,7 +1868,7 @@ void TBoss4Type3::advance_light_magic() {
 void TBoss4Type3::update_light_magic() {
     void *p;
     Grant_80058A48 g;
-    s32 r29;
+    saddr r29;
     u8 *sub;
     s32 i;
     u8 *arg0;
@@ -1918,7 +1918,7 @@ void TBoss4Type3::advance_dark_magic() {
 #pragma fp_contract on
 #pragma opt_propagation off
 void TBoss4Type3::update_dark_magic() {
-    s32 p;
+    saddr p;
     s32 r30;
     s32 i;
     O_80058848 *o;
@@ -1982,7 +1982,7 @@ void TBoss4Type3::update_capture() {
     Ply_80059ABC *p;
     u16 id;
     void *pos;
-    u32 h;
+    uaddr h;
     id = this->m_3b8;
     if (id == 0xFFFF) {
         ((TBoss4Type3 *)arg0)->set_action_from_table(1);

@@ -283,10 +283,10 @@ s32 get_bml_motion(int, int);
 
 extern Ent_8032FFC0 boss6_type2_motion_table[];
 void TBoss6Type2__sub_803300C8(u8 *arg0);
-void update_all_parts__11TBoss6Type2FPv(s32 arg0);
+void update_all_parts__11TBoss6Type2FPv(saddr arg0);
 extern Ent_8033053C boss6_type2_action_table[];
 void TBoss6Type2__sub_8032EA10(T_8032EA10 *self);
-int copy_vec3__11TBoss6Type2Fii(s32 _w0, s32 _w1);
+int copy_vec3__11TBoss6Type2Fii(saddr _w0, saddr _w1);
 extern void *TBoss6Type2__instance_slots[];
 void TBoss6Type2__sub_8032F2F0(void* p, void* q);
 
@@ -329,8 +329,8 @@ s32 TBoss6Mag::is_phase_active() {
 #pragma push
 #pragma opt_common_subs off
 void TBoss6Type2::destroy_part_object(s32 arg1) {
-    s32 arg0 = (saddr)this;
-    u32 temp_r3;
+    saddr arg0 = (saddr)this;
+    uaddr temp_r3;
     u8 *temp_r31;
     temp_r31 = (u8 *)(arg0 + (arg1 * 4));
     temp_r3 = *(u32 *)((s8 *)temp_r31 + 0x43C);
@@ -398,7 +398,7 @@ void TBoss6Mag::sub_8032E8DC() {
     }
 }
 
-void update_all_parts__11TBoss6Type2FPv(s32 arg0) {
+void update_all_parts__11TBoss6Type2FPv(saddr arg0) {
     s32 var_r31;
     var_r31 = 0;
     do {
@@ -552,7 +552,7 @@ void TBoss6Type2::push_out_from_target() {
     VecCopy((Vec *)(arg0 + 0x38), (const Vec *)&d);
 }
 
-void TBoss6Type2::compute_random_dir_vec(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
+void TBoss6Type2::compute_random_dir_vec(s32 arg0, u8 *arg1, saddr arg2, saddr arg3) {
     f32 temp_f31;
     f32 temp_f30;
 
@@ -642,7 +642,7 @@ void TBoss6Mag::update_rotation_ramp() {
         }
         if ((1.0f) == *(f32 *)((s8 *)this + 0x3BC)) {
             if (is_local_client_floor_leader() != 0) {
-                u32 tmp378 = (u32) *(u32 *)((s8 *)this + 0x378);
+                uaddr tmp378 = (u32) *(u32 *)((s8 *)this + 0x378);
                 if (tmp378 != 0U) {
                     if (((TBoss6Type2 *)tmp378)->get_rotation_timer() == 0) {
                         spawn_falling_rocks();
@@ -982,7 +982,7 @@ void TBoss6Mag::sync_hp() {
 void TBoss6Mag::draw_model_motion_blend() {
     Stack_8032FE50 stack;
     s32 temp_r31;
-    s32 bml_model;
+    saddr bml_model;
     set_motion_packed_rotation();
     temp_r31 = get_bml_texlist((BmlResource *)(*(saddr *)((s8 *)this + 0x374)), 1);
     bml_model = get_bml_model((BmlResource *)(*(saddr *)((s8 *)this + 0x374)), 1);
@@ -1066,7 +1066,7 @@ void TBoss6Type2::copy_state(void* q) { *(u32*)((char*)this + 0x0) = *(u32*)((ch
 
 LAYOUT_ASSERT(MemberActionStorage_803301B8_size, sizeof(MemberActionStorage_803301B8) == 12);
 
-int copy_vec3__11TBoss6Type2Fii(s32 _w0, s32 _w1) {
+int copy_vec3__11TBoss6Type2Fii(saddr _w0, saddr _w1) {
     S_80330178 *d = (S_80330178 *)_w0;
     S_80330178 *s = (S_80330178 *)_w1;
     d->a = s->a;
@@ -1145,7 +1145,7 @@ s32 add_radar_scaled_marker(void *, int, int, int, f32);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 
 void TObjPlayer::save_position() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(arg0 + 0x38));
 }
 

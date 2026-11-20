@@ -79,7 +79,7 @@ void TBoss2Fin::render() {
 }
 
 void TBoss2Fin::run_task() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     ((TBoss2Fin *)arg0)->init_link_points();
     Vec dir = lbl_80435A44;
     ((TObjEZRopeBase *)arg0)->sub_800FF788((void *)&dir);

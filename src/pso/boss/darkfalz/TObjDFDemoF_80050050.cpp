@@ -17,7 +17,7 @@ extern ThreePartModelTranslateOffset three_part_model_translate_offset;
 void TObjDFDemoF::render() {
     u8 *arg0 = (u8 *)this;
   int var_r31;
-  unsigned int temp_r4;
+  uaddr temp_r4;
   u8 *temp_r30;
   int var_r29;
   push_matrix();

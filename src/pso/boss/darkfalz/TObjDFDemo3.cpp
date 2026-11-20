@@ -65,7 +65,7 @@ void update_object_view_visibility__8TObjBaseFff();
 void classify_actor_view_detail__8TObjBaseFfff();
 void get_name__8TObjBaseFv();
 S_EF94 *__dt__11TObjDFDemo3Fv(S_EF94 *o, s16 flag);
-u8 *TObjDFDemo3__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
+u8 *TObjDFDemo3__ct(u8 *arg0, saddr arg1, saddr arg2, s32 arg3);
 
 const char *TObjDFDemo3__name = "TObjDFDemo3";
 __declspec(section ".rodata") IVec_8004F030 lbl_804373A4 = {0, 0, 0};
@@ -122,7 +122,7 @@ void TObjDFDemo3::run_task() {
     f32 nxt;
     s32 temp_r0;
     s32 temp_r0_2;
-    u32 temp_r3;
+    uaddr temp_r3;
     if ((s32) this->m_b0 >= 0x5A) {
         if ((u32) this->m_90 != 0U) {
             TParticleCtrl::release((void *)this->m_90);
@@ -186,7 +186,7 @@ S_EF94 *__dt__11TObjDFDemo3Fv(S_EF94 *o, s16 flag) {
 }
 
 #define lbl_804856C0 ((u8 *)lbl_804856C0)
-u8 *TObjDFDemo3__ct(u8 *base, s32 parent, s32 arg2, s32 arg3) {
+u8 *TObjDFDemo3__ct(u8 *base, saddr parent, saddr arg2, s32 arg3) {
     s32 cnt;
     __ct__8TObjBaseFP7TObject(base, (void *)parent);
     *(void **)((s8 *)base + 0x18) = (void *)__vt__11TObjDFDemo3;

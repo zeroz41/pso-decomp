@@ -22,8 +22,8 @@ BmlResourceDescriptor boss06_tube_dat_resource_descriptor = { "boss06_tube_dat.b
 const char *TBoss6Tube__name = "TBoss6Tube";
 // The model drawn on each of render's three passes (name inferred).
 const s32 boss6_tube_model_order[3] = { 2, 0, 1 };
-u32 boss6_tube_bml_resource;
-u32 boss6_tube_texture_list;
+uaddr boss6_tube_bml_resource;
+uaddr boss6_tube_texture_list;
 
 typedef struct TBoss6Tube_802B1020 {
     u8 pad[0x28];
@@ -148,7 +148,7 @@ void TBoss6Tube::update_wobble() {
 #pragma pop
 
 void TBoss6Tube::spawn_trap() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     TBoss6Tube__sub_802B129C((u8 *)arg0);
     play_persistent_sound(0x40033520, arg0, 0, 0, 0);
 }

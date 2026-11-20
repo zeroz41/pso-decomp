@@ -29,7 +29,7 @@ struct TBoss7Crawfish : public TObjEnemy {
     virtual void render();
     void clear_object_state_exchange();
     void check_band_and_destroy();
-    static void update(s32 arg0);
+    static void update(saddr arg0);
     void update_motion_and_release();
     void aim_at_nearest_player();
     void update_attack_state();

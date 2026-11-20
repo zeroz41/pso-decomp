@@ -358,7 +358,7 @@ void TBoss2Joint::vfunc_88() {
 }
 
 void TBoss2Joint::update_position_history() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(arg0 + 0x38));
     VecCopy((Vec *)(arg0 + 0x74), (const Vec *)(arg0 + 0x2FC));
 }

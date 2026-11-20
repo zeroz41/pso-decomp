@@ -141,7 +141,7 @@ void *__dt__18TBoss7PhotonBulletFv(void *arg0, s16 arg1) {
     }
     return arg0;
 }
-u8 *TBoss7PhotonBullet__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0) {
+u8 *TBoss7PhotonBullet__ct(u8 *arg0, s32 arg1, s32 arg2, saddr arg3, saddr arg4, f32 farg0) {
     __ct__13TUnk_804928CCFP7TObjectP8TObjBase((arg0), (arg1), (arg2));
     *(s32 **)((s8 *)arg0 + 0x18) = ((s32 *)&__vt__18TBoss7PhotonBullet);
     ((TBoss7PhotonBullet *)arg0)->m_name = TBoss7PhotonBullet__name;

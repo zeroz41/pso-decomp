@@ -28,7 +28,7 @@ void TBoss6Type2::send_6xAD_grid_positions(u8 arg0, s32 arg1, s32 arg2) {
     u8 a;
     u8 b;
     u8 buf[0x44];
-    s32 p;
+    saddr p;
     s32 j;
     s32 i;
     if (arg2 < 0 || arg2 > 3) {
@@ -46,7 +46,7 @@ void TBoss6Type2::send_6xAD_grid_positions(u8 arg0, s32 arg1, s32 arg2) {
     send_6xAD_olga_flow_subordinate_boss_actions((buf));
 }
 
-s32 TBoss6Type2::send_subordinate_actions(s32 kind, s32 ids, s32 n, s32 force, s32 unused) {
+s32 TBoss6Type2::send_subordinate_actions(s32 kind, saddr ids, s32 n, s32 force, s32 unused) {
     Pkt_80356F28 pkt;
     s32 i;
 

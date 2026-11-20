@@ -27,7 +27,7 @@ extern void *tl_02;
 
 void TBoss6EffHyoui::run_task() {
     u8 *arg0 = (u8 *)this;
-    s32 player;
+    saddr player;
     if ((uaddr) this->m_1c != 0U) {
         player = (saddr)get_player_by_client_id((*(u16 *)((s8 *)arg0 + 0x20)));
         if ((player != 0) && (is_active__14TBoss6PlotFalzFv() != 0)) {

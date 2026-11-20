@@ -98,7 +98,7 @@ f32 vector_length(void *);
 void subtract_vector(void *, void *);
 }
 
-u8 *__ct__9TBoss6DPBFv(u8 *object, s32 arg1, s32 arg2, f32 farg0);
+u8 *__ct__9TBoss6DPBFv(u8 *object, saddr arg1, saddr arg2, f32 farg0);
 
 #pragma push
 #pragma fp_contract on
@@ -114,7 +114,7 @@ u8 *TBoss6Type2::create_dpb(s32 arg0, s32 arg1, f32 farg0) {
 }
 #pragma pop
 
-u8 *__ct__9TBoss6DPBFv(u8 *object, s32 arg1, s32 arg2, f32 farg0) {
+u8 *__ct__9TBoss6DPBFv(u8 *object, saddr arg1, saddr arg2, f32 farg0) {
     f32 temp_f1;
     f32 temp_f2;
     __ct__7TObjectFP7TObject((void *)object, (void *)arg1);

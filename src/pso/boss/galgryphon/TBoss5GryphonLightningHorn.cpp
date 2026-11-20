@@ -202,7 +202,7 @@ u8 *__ct__26TBoss5GryphonLightningHornFv(u8 *arg0, s32 arg1, s32 arg2, s32 arg3)
     return arg0;
 }
 
-s32 TBoss8Dragon::spawn_ground_lightning(s32 arg0, s32 arg1, s32 arg2) {
+s32 TBoss8Dragon::spawn_ground_lightning(s32 arg0, saddr arg1, s32 arg2) {
     Vec position;
     f32 ground_height;
     saddr allocation;

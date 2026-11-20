@@ -31,7 +31,7 @@ void TBoss8DragonEffBreath::render() {  }
 void TBoss8DragonEffBreath::run_task() {
     u8 *arg0 = (u8 *)this;
     f32 temp_f1;
-    u32 ent;
+    uaddr ent;
 
     vec3_add_to((u8 *)&this->m_1c, (u8 *)&this->m_28);
     temp_f1 = *(f32 *)((s8 *)arg0 + 0x20);

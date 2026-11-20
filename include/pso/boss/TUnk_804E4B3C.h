@@ -23,7 +23,7 @@ public:
     void sub_802F23FC();
     void sub_802F273C();
     void update_dust_spawn();
-    void update_spawn_timer(s32 arg1, s32 arg2, s32 arg3);
+    void update_spawn_timer(saddr arg1, s32 arg2, s32 arg3);
     void double_scroll_speed();
     void advance_effect_timer();
     // Out-of-line helpers at the end of the tunnel file (0x802F2C90..0x802F2CC4),

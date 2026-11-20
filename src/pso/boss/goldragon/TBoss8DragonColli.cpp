@@ -43,7 +43,7 @@ u16 register_entity_by_id(void *ov);
 s32 __ct__14TObjCollidableFP7TObject(void *, void *);
 extern u8 boss8_collision_segment_desc[];
 extern saddr lbl_804E4BB4[];
-s32 init_collision_segments__17TBoss8DragonColliFiPviPvf(int arg0, void *arg1, int arg2, void *arg3, f32 scale);
+s32 init_collision_segments__17TBoss8DragonColliFiPviPvf(saddr arg0, void *arg1, int arg2, void *arg3, f32 scale);
 }
 
 const char *TBoss8DragonColli_C__name = "TBoss8DragonColli_C";
@@ -64,7 +64,7 @@ TBoss8DragonColli::~TBoss8DragonColli() {
 extern "C" {
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern void *__vt__17TBoss8DragonColli[];
-u8 *TBoss8DragonColli__ct(u8 *arg0, s32 arg1);
+u8 *TBoss8DragonColli__ct(u8 *arg0, saddr arg1);
 void render__19TBoss8DragonColli_CFv(void);
 void TBoss8DragonColli__sub_802F3074(void* p);
 void *destroy__17TBoss8DragonColliFPvs(void *arg0, s16 arg1);
@@ -76,7 +76,7 @@ void set_matrix_identity(u8 *arg0);
 int rotate_matrix_y(void*, void*);
 int push_matrix(void*);
 
-u8 *TBoss8DragonColli__ct(u8 *object, s32 arg1) {
+u8 *TBoss8DragonColli__ct(u8 *object, saddr arg1) {
     Vec stack;
     saddr temp_r3;
     saddr temp_r3_2;
@@ -145,7 +145,7 @@ void *destroy__17TBoss8DragonColliFPvs(void *collidable, s16 arg1) {
     return collidable;
 }
 #define self ((O_802F31E4 *)arg0)
-s32 init_collision_segments__17TBoss8DragonColliFiPviPvf(int arg0, void *arg1, int arg2, void *arg3, f32 scale) {
+s32 init_collision_segments__17TBoss8DragonColliFiPviPvf(saddr arg0, void *arg1, int arg2, void *arg3, f32 scale) {
     E_802F31E4 *e;
     s32 i;
     f32 zero;

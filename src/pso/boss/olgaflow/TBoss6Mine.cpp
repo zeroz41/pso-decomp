@@ -125,8 +125,8 @@ void TBoss6Mine::copy_pos() {
 
 void TBoss6Mine::draw() {
     s32 temp_r31;
-    s32 bml_motion;
-    s32 bml_model;
+    saddr bml_motion;
+    saddr bml_model;
 
     set_motion_packed_rotation();
     temp_r31 = get_bml_texlist((BmlResource *)this->m_374, 2);
@@ -172,7 +172,7 @@ void TBoss6Mine::update_facing_angles() {
 }
 
 s32 TBoss6Mine::is_far_from_origin() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     return vector_length((void *)(arg0 + 0x38)) > 500.0f;
 }
 
@@ -397,7 +397,7 @@ extern s32 tl_04;
 #pragma fp_contract on
 #define VecCopyP ((u8 *(*)(void *, void *))VecCopy__FP3VecPC3Vec)
 #define THIS self
-s32 TBoss6Mine__ct(s32 arg0, s32 parent, TBoss6MineSetData *set_data) {
+s32 TBoss6Mine__ct(saddr arg0, saddr parent, TBoss6MineSetData *set_data) {
     u8 *self;
     Tmp_80324A00 tmp;
     f32 f;

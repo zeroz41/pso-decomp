@@ -199,7 +199,7 @@ void boss7_dust_draw_at(s32 *arg0, s32 arg1) {
 
 LAYOUT_ASSERT(RecoveredGlobal_802F119C___vt__13TObjBoss7Dust_size, sizeof(RecoveredGlobal_802F119C___vt__13TObjBoss7Dust) == 0x18);
 
-u8 *__ct__13TObjBoss7DustFv(u8 *object, s32 arg1, s32 arg2) {
+u8 *__ct__13TObjBoss7DustFv(u8 *object, saddr arg1, saddr arg2) {
     __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
     *(s32 **)((s8 *)object + 0x18) = &__vt__13TObjBoss7Dust.value;
     ((TObjBoss7Dust *)object)->m_name = TObjBoss7Dust__name;

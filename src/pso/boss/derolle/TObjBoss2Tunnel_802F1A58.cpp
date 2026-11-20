@@ -283,7 +283,7 @@ void TUnk_804E4B3C::double_scroll_speed() {
 
 #pragma push
 #pragma opt_common_subs off
-void TUnk_804E4B3C::update_spawn_timer(s32 arg1, s32 arg2, s32 arg3) {
+void TUnk_804E4B3C::update_spawn_timer(saddr arg1, s32 arg2, s32 arg3) {
     Vec position;
     f32 temp_f1;
     this->scroll_offset = (f32) (this->scroll_offset + this->scroll_speed);

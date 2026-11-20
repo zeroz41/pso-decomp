@@ -9,7 +9,7 @@ public:
     virtual ~TObjBoss2RaftSplash();
     virtual void run_task();
 public:
-    static void spawn_splash(s32 arg0, s32 arg1, s32 arg2);
+    static void spawn_splash(saddr arg0, s32 arg1, saddr arg2);
 };
 
 extern "C" {

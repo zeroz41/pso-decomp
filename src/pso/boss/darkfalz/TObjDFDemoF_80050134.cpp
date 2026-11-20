@@ -80,7 +80,7 @@ void *__dt__11TObjDFDemoFFPvs(void *base, s16 arg1) {
 Obj_80050194 *TObjDFDemoF__ct(Obj_80050194 *arg0, void *parent) {
   s32 k;
   s32 *ids2;
-  s32 h;
+  saddr h;
   Obj_80050194 *new_var;
   s32 i;
   __ct__8TObjBaseFP7TObject(arg0, parent);

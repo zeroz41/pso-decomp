@@ -23,13 +23,13 @@ struct TBoss1DragonEffBullet : public TObject {
 LAYOUT_ASSERT(TBoss1DragonEffBullet_size, sizeof(TBoss1DragonEffBullet) == 0x4C);
 
 extern "C" {
-u8 *TBoss1DragonEffBullet__ct(u8 *boss1_dragon_eff_bullet, s32 arg1, s32 arg2, s32 arg3);
+u8 *TBoss1DragonEffBullet__ct(u8 *boss1_dragon_eff_bullet, saddr arg1, saddr arg2, saddr arg3);
 void *__dt__21TBoss1DragonEffBulletFv(void *arg0, s16 arg1);
 }
 
 // --- C functions defined in TBoss1DragonEffBullet.cpp ---
 extern "C" {
-u8 *TBoss1DragonEffBullet__ct(u8 *boss1_dragon_eff_bullet, s32 arg1, s32 arg2, s32 arg3);
+u8 *TBoss1DragonEffBullet__ct(u8 *boss1_dragon_eff_bullet, saddr arg1, saddr arg2, saddr arg3);
 }
 // --- end of C functions
 

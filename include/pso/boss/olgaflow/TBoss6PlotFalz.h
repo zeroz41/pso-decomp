@@ -51,8 +51,8 @@ struct TBoss6PlotFalz : public TObjEnemy {
     static f32 get_value();
     static s32 is_boss_active();
     void release_object();
-    static s32 get_target_pos_a(s32 arg0, s32 arg1);
-    static s32 get_target_pos_b(s32 arg0, s32 arg1);
+    static s32 get_target_pos_a(s32 arg0, saddr arg1);
+    static s32 get_target_pos_b(s32 arg0, saddr arg1);
     void spawn_type2();
     void spawn_type1();
     static void apply_radial_effect_to_players(void *pos, s16 amount, s16 kind, f32 range);

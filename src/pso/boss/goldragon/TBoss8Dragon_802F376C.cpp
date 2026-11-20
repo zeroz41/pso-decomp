@@ -20,7 +20,7 @@ extern "C" {
 extern TObject *tl_04;
 u16 get_entity_id(void *);
 u8 *get_enemy_entity(u16 arg0);
-extern u32 boss8_dragon_leader_part;
+extern uaddr boss8_dragon_leader_part;
 
 s32 TBoss8Dragon::is_closest_part() {
     Vec v;

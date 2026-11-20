@@ -333,7 +333,7 @@ s32 TObjBoss1Crater__sub_8002C7E4(void* p) { return *(s32*)((char*)p + 0x8); }
 }
 void attack_target_list_remove(u8 *arg0, s32 arg1) {
     s32 temp_r5;
-    s32 temp_r5_2;
+    saddr temp_r5_2;
     if (arg1 >= 0) {
         temp_r5 = *(s32 *)((s8 *)arg0 + 8);
         if (arg1 < temp_r5) {

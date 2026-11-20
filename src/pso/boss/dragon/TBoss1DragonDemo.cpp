@@ -37,7 +37,7 @@ void TBoss1DragonDemo::run_task() {
 }
 LAYOUT_ASSERT(RecoveredGlobal_8002B744___vt__16TBoss1DragonDemo_size, sizeof(RecoveredGlobal_8002B744___vt__16TBoss1DragonDemo) == 0x18);
 TBoss1DragonDemo::~TBoss1DragonDemo() {}
-u8 *__ct__16TBoss1DragonDemoFv(u8 *object, s32 arg1, s32 arg2, f32 farg0) {
+u8 *__ct__16TBoss1DragonDemoFv(u8 *object, saddr arg1, s32 arg2, f32 farg0) {
     CameraPlayback playback;
     __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
     *(s32 **)((s8 *)object + 0x18) = &__vt__16TBoss1DragonDemo.value;

@@ -37,7 +37,7 @@ void TBoss3Volopt::create_breakup_mdl(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s3
 }
 
 void TBoss3Volopt::play_area_variant_sound() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     s32 area;
     area = get_current_floor_area();
     switch (area) {
@@ -73,7 +73,7 @@ void TBoss3Volopt::play_area_variant_sound() {
 }
 
 void TBoss3Volopt::play_area_se_with_particle() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     Vec v;
     switch (get_current_floor_area()) {
     case AREA_CENTRAL_CONTROL_AREA:
@@ -137,7 +137,7 @@ void TBoss3Volopt__sub_800D8D88(s32 arg0) {
 }
 
 void TBoss3Volopt::play_area_sound_effect() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     switch (get_current_floor_area()) {
     case AREA_CENTRAL_CONTROL_AREA:
     case AREA_JUNGLE_NORTH:
@@ -163,7 +163,7 @@ void TBoss3Volopt::play_area_sound_effect() {
     spawn_particles_at__12TBoss3VoloptFi(arg0);
 }
 
-void spawn_particles_at__12TBoss3VoloptFi(s32 arg0) {
+void spawn_particles_at__12TBoss3VoloptFi(saddr arg0) {
     Vec pos;
     VecCopy(&pos, (const Vec *)arg0);
     create_timed_particle_emitter((void *)arg0, 0xEA, 0xA, 0x1E);

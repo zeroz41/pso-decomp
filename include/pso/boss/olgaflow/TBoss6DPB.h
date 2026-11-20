@@ -15,7 +15,7 @@ public:
 };
 
 extern "C" {
-u8 *__ct__9TBoss6DPBFv(u8 *arg0, s32 arg1, s32 arg2, f32 farg0);
+u8 *__ct__9TBoss6DPBFv(u8 *arg0, saddr arg1, saddr arg2, f32 farg0);
 }
 
 #endif

@@ -61,7 +61,7 @@ extern u32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;
 s32 falz_zako_texture_list;
-s32 falz_zako_chunk_model;
+saddr falz_zako_chunk_model;
 s32 TBoss4ZakoDraw__draw_buffer_index;
 s32 TBoss4ZakoDraw__rotation_phase;
 extern s32 chunk_polygon_flags_or_mask;

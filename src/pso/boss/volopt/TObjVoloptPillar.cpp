@@ -58,8 +58,8 @@ extern GC_Mtx identity_matrix;
 }
 
 
-static s32 volopt_pillar_model;
-static s32 volopt_pillar_base_model;
+static saddr volopt_pillar_model;
+static saddr volopt_pillar_base_model;
 static s32 volopt_pillar_textures;
 static s32 volopt_pillar_base_textures;
 

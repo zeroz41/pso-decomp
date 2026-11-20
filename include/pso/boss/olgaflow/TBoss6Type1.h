@@ -97,7 +97,7 @@ struct TBoss6Type1 : public TObjEnemy {
     void interpolate_pos_to_target(s32 step, s32 total);
     void ease_toward_target(s32 a, s32 b);
     s32 count_matches(s32 arg1, s32 arg2);
-    static s32 pick_random_entry(s32 arg0, s32 arg1, s32 arg2);
+    static s32 pick_random_entry(s32 arg0, saddr arg1, s32 arg2);
     static int rand_range_inclusive(s32 arg0, int arg1, int arg2);
     s32 pick_remapped_list_value(s32 a, s32 b, s32 n);
     void handle_6xa4_action(u8 * _w1);

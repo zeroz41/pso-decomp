@@ -234,7 +234,7 @@ s32 is_state_ready__14TBoss4DarkFalzFv();
 }
 void damage_players_near_point(s32 arg0, Vec *arg1);
 extern "C" {
-void fn_spawn_particle_f3_with_flags(s32 arg0, s32 arg1);
+void fn_spawn_particle_f3_with_flags(s32 arg0, saddr arg1);
 void * create__16TObjDFBeamCursorFPvPv(void *arg0, void *arg1);
 void * create__13TObjDFRecBallFPvPvPv(void *arg0, void *arg1, void *arg2);
 
@@ -399,12 +399,12 @@ void TObjDFUsoTower::render() {
 
 void TObjPlayer::draw_player_model_by_id(s32 arg0, f32 alpha) {
     u8 *p;
-    u32 m8b0;
+    uaddr m8b0;
     u32 m8ac;
     s32 a1c;
-    u32 m8b4;
+    uaddr m8b4;
     s32 b88;
-    u32 m34;
+    uaddr m34;
     s32 cf4;
 
     if (0.0f == alpha) {
@@ -460,7 +460,7 @@ void TObjPlayer::draw_player_model_by_id(s32 arg0, f32 alpha) {
     }
 }
 
-void boss6type2_draw_models(s32 arg0, s32 arg1, s32 arg2, u32 arg3, u32 arg4, u32 model, u32 arg6, s32 appearance, f32 alpha) {
+void boss6type2_draw_models(s32 arg0, s32 arg1, s32 arg2, uaddr arg3, uaddr arg4, u32 model, uaddr arg6, saddr appearance, f32 alpha) {
     if (0.0f != alpha) {
         ((TObjDFTenchuFuru *)arg3)->draw_node_tree();
         if (alpha < 1.0f) {
@@ -502,12 +502,12 @@ void boss6type2_draw_models(s32 arg0, s32 arg1, s32 arg2, u32 arg3, u32 arg4, u3
 extern "C" {
 void TObjPlayer::draw_player_model_by_client(u16 arg0, s32 arg1, f32 farg0, f32 farg1) {
     u8 *p;
-    u32 a;
+    uaddr a;
     u32 b;
     u8 *c;
-    u32 d;
+    uaddr d;
     u8 *e;
-    s32 f;
+    saddr f;
     u8 *g;
     if (0.0f == farg1) {
         return;
@@ -670,8 +670,8 @@ TObjDFRecover::~TObjDFRecover() {
 void TObjDFRecover::run_task() {
     f32 position[3];
     s32 current_phase;
-    s32 target_address;
-    u32 effect_address;
+    saddr target_address;
+    uaddr effect_address;
     u16 id;
     if (is_state_ready__14TBoss4DarkFalzFv() == 0) {
         ((s32 (*)(void *))queue_destruction__7TObjectFv)(this);
@@ -852,9 +852,9 @@ void TObjDFJisin::run_task() {
 #pragma pop
 
 extern "C" {
-void fn_spawn_particle_f3_with_flags(s32 arg0, s32 arg1) {
+void fn_spawn_particle_f3_with_flags(s32 arg0, saddr arg1) {
     Vec position;
-    u32 particle_effect;
+    uaddr particle_effect;
     VecCopy((Vec *)(&position.x), (const Vec *)(arg1));
     position.y += 2.0f;
     particle_effect = (uaddr)spawn_particle_effect((&position.x), 0xF3);

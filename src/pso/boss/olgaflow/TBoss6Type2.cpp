@@ -445,7 +445,7 @@ f32 TBoss6PlotFalz__sub_802AB684(void *);
 void TBoss6PlotFalz__sub_802AC724(void *, void *);
 void world_to_grid_pos__11TBoss6Type2FPvPvPv(f32 *arg0, s8 *arg1, s8 *arg2);
 void grid_to_world_pos__11TBoss6Type2FccPv(s8 arg0, s8 arg1, f32 *arg2);
-void init_parts__11TBoss6Type2FPv(s32 arg0);
+void init_parts__11TBoss6Type2FPv(saddr arg0);
 void TBoss6Type2__sub_802B9D6C(Obj_802B9D6C *self);
 void aim_toward_point__11TBoss6Type2FPv(Boss_802B9F3C *arg0, Vec *arg1);
 void reset_fish_fields__11TBoss6Type2Fv(Obj_802BA158 *self);
@@ -454,7 +454,7 @@ s32 grab_player__11TBoss6Type2FPvUs(u8 *arg0, u16 arg1);
 s32 TBoss6Type2__sub_802BA944(Boss_802BA944 *o);
 s32 TBoss6Type2__sub_802BA9E4(T2_802BA9E4 *arg0);
 s32 snap_to_ground__11TBoss6Type2FPv(Obj_802BAB80 *self);
-void TBoss6Type2__sub_802BAD04(s32 arg0);
+void TBoss6Type2__sub_802BAD04(saddr arg0);
 struct Obj_802BB1E0 { u8 pad0[0x38]; Vec pos; };
 s32 request_player_camera_offsets__11TBoss6Type2FPvff(Obj_802BB1E0 *, f32, f32);
 f32 fabs_float(f32);
@@ -577,7 +577,7 @@ void TBoss6Type2::apply_paralysis() {}
 
 void TBoss6Type2::apply_poison_status() {}
 
-s32 TBoss6Type2::create(s32 arg2_) {
+s32 TBoss6Type2::create(saddr arg2_) {
     return (saddr)new TBoss6Type2(new TObjControl(tl_04), (s32 *)arg2_);
 }
 
@@ -865,7 +865,7 @@ void TBoss6Type2__sub_802BD938(u8 *arg0, u8 *arg1) {
     f32 temp_f1;
     s32 temp_r29;
     s32 temp_r29_2;
-    s32 player;
+    saddr player;
     player = ((saddr)get_player_by_client_id(((s32) *(u16 *)((s8 *)arg0 + 0x466))));
     if (player != 0) {
         VecCopy((Vec *)(&stack.sp18), (const Vec *)(player + 0x38));
@@ -907,7 +907,7 @@ void TBoss6Type2__sub_802BD938(u8 *arg0, u8 *arg1) {
 extern "C" void handle_6xA5_olga_flow_boss_actions(void *arg) {
     u8 *pkt = (u8 *)arg;
     TBoss6Type2 *boss;
-    s32 state;
+    saddr state;
     ((TBoss6Type2 *)pkt)->handle_olga_action();
     boss = (TBoss6Type2 *)get_enemy_entity(*(u16 *)(pkt + 2));
     if (boss == NULL) {
@@ -1084,19 +1084,19 @@ void TBoss6Type2::apply_damage(s32 arg1) {
 
 void TBoss6Type2__sub_802BD340(void) {  }
 
-void TBoss6Type2::copy_pos_59c(s32 arg1) {
-    s32 arg0 = (saddr)this;
+void TBoss6Type2::copy_pos_59c(saddr arg1) {
+    saddr arg0 = (saddr)this;
     VecCopy((Vec *)arg1, (const Vec *)(arg0 + 0x59C));
 }
 
-void TBoss6Type2::get_push_points(s32 arg1, s32 arg2) {
-    s32 arg0 = (saddr)this;
+void TBoss6Type2::get_push_points(saddr arg1, saddr arg2) {
+    saddr arg0 = (saddr)this;
     VecCopy((Vec *)(arg1), (const Vec *)(arg0 + 0x5FC));
     VecCopy((Vec *)(arg2), (const Vec *)(arg0 + 0x5C0));
 }
 
-void TBoss6Type2::copy_pos_620(s32 arg1) {
-    s32 arg0 = (saddr)this;
+void TBoss6Type2::copy_pos_620(saddr arg1) {
+    saddr arg0 = (saddr)this;
     VecCopy((Vec *)arg1, (const Vec *)(arg0 + 0x620));
 }
 
@@ -1263,12 +1263,12 @@ void TBoss6Type2::draw_body_models() {
     f32 zero;
     f32 a;
     s32 b;
-    u32 obj;
+    uaddr obj;
     s32 done;
     s32 i;
     Ent_802BCAB8 *e;
     s32 p0;
-    s32 p1;
+    saddr p1;
     set_motion_packed_rotation();
     obj = this->m_764;
     done = 0;
@@ -2206,7 +2206,7 @@ void TBoss6Type2::spawn_rocks_around_players() {
     play_sound_effect(0x4006AB1D, (void *)&boss6_arena_center, 0, 1);
 }
 
-void TBoss6Type2__sub_802BAD04(s32 arg0) {
+void TBoss6Type2__sub_802BAD04(saddr arg0) {
     u8 *temp_r3;
     u8 *temp_r3_2;
     TBoss6Type2::create_dpb(arg0, arg0 + 0x38, 150.0f);
@@ -2664,7 +2664,7 @@ void TBoss6Type2__sub_802B9D6C(Obj_802B9D6C *self) {
     for (i = 0; i < 14; i++) self->arr[i] = 0;
 }
 
-void init_parts__11TBoss6Type2FPv(s32 arg0) {
+void init_parts__11TBoss6Type2FPv(saddr arg0) {
     s32 var_r31;
     var_r31 = 0;
     do {
@@ -2705,8 +2705,8 @@ void TBoss6Type2::spawn_particle_slot(s32 arg1) {
 #pragma push
 #pragma opt_common_subs off
 void TBoss6Type2::destroy_part(s32 arg1) {
-    s32 arg0 = (saddr)this;
-    u32 temp_r3;
+    saddr arg0 = (saddr)this;
+    uaddr temp_r3;
     u8 *temp_r31;
     temp_r31 = (u8 *)(arg0 + (arg1 * 4));
     temp_r3 = *(u32 *)((s8 *)temp_r31 + 0x77C);

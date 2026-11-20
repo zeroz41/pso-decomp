@@ -140,9 +140,9 @@ s32 lbl_805D4B74;
 
 Ent_8002CE78 *lbl_805D4B78;
 
-s32 dragon_trail_position_source;
+saddr dragon_trail_position_source;
 
-s32 dragon_trail_heading_source;
+saddr dragon_trail_heading_source;
 
 extern s32 saved_model_render_flags;
 

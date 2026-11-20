@@ -216,7 +216,7 @@ f32 calc_wave_offset__11TBoss4Type2Ff(f32 farg0);
 void set_pos_from_scaled_offset__11TBoss4Type2FPvPvPv(S_80054224 *o, void *src, Vec *in);
 u8 * TBoss4Type2__sub_80054384(void *self, s32 i, s32 j);
 void TBoss4Type2__sub_80054DA8(TBoss4Type2 *boss);
-void create_all_tenchu_furu__11TBoss4Type2Fi(s32 arg0);
+void create_all_tenchu_furu__11TBoss4Type2Fi(saddr arg0);
 void TBoss4Type2__sub_80054FC0(u8 *center, f32 min_dist);
 void TBoss4Type2__sub_80055300(void);
 void * create__9TBoss4UroFi(Params_80052CDC *);
@@ -495,7 +495,7 @@ extern "C" void TBoss4Type2__sub_80054FC0(u8 *arg0, f32 arg1) {
   }
 }
 
-void create_all_tenchu_furu__11TBoss4Type2Fi(s32 arg0) {
+void create_all_tenchu_furu__11TBoss4Type2Fi(saddr arg0) {
     s32 *var_r31;
     s32 var_r30;
     var_r30 = 0;
@@ -559,7 +559,7 @@ void TBoss4Type2__sub_80054DA8(TBoss4Type2 *boss) {
     start_pad_rumble_all(0xC0, 0xF);
 }
 
-s32 TBoss4Type1::create(s32 arg0) {
+s32 TBoss4Type1::create(saddr arg0) {
     return (saddr)new TBoss4Type1(new TObjControl(tl_04), (s32 *)arg0);
 }
 
@@ -753,7 +753,7 @@ void TBoss4Type1::draw_parts() {
     u8 *arg0 = (u8 *)this;
     s32 i;
     s32 off;
-    s32 a;
+    saddr a;
     set_motion_packed_rotation();
     for (i = 0; i < 6; i++) {
         get_bml_texlist((BmlResource *)(*(saddr *)((s8 *)arg0 + 0x390)), lbl_80485EB0[i]);
@@ -1390,7 +1390,7 @@ void TBoss4Type2::update_scale_state() {
 void TBoss4Type2::update_tech_charge() {
     s32 idx;
     Ent_8005294C *ent;
-    u32 r;
+    uaddr r;
     idx = *(s32 *)((s8 *)this + 0x374) - 8;
     ent = &((Obj_8005294C *)this)->ents[idx];
     if (*(f32 *)((s8 *)this + 0x3E8) > 17.0f) {
@@ -1445,24 +1445,24 @@ void TBoss4Type2::sub_800525AC() {
     f32 temp_f1_2;
     s32 temp_r0;
     s32 temp_r0_2;
-    u32 temp_r3;
-    u32 temp_r3_10;
+    uaddr temp_r3;
+    uaddr temp_r3_10;
     u32 particle_emitter;
     u32 temp_r3_12;
     u32 temp_r3_13;
     u32 temp_r3_14;
-    u32 temp_r3_15;
-    u32 temp_r3_16;
-    u32 temp_r3_17;
-    u32 temp_r3_18;
-    u32 temp_r3_2;
+    uaddr temp_r3_15;
+    uaddr temp_r3_16;
+    uaddr temp_r3_17;
+    uaddr temp_r3_18;
+    uaddr temp_r3_2;
     u32 temp_r3_3;
     u32 temp_r3_4;
-    u32 temp_r3_5;
-    u32 temp_r3_6;
-    u32 temp_r3_7;
-    u32 temp_r3_8;
-    u32 temp_r3_9;
+    uaddr temp_r3_5;
+    uaddr temp_r3_6;
+    uaddr temp_r3_7;
+    uaddr temp_r3_8;
+    uaddr temp_r3_9;
     u8 *temp_r31;
     u8 *temp_r30;
     temp_r31 = (u8 *)this + 0x484;

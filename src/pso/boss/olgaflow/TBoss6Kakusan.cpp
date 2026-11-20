@@ -241,7 +241,7 @@ TBoss6Kakusan::~TBoss6Kakusan() {
 #pragma opt_common_subs off
 u8 *TBoss6Kakusan__ct(u8 *boss6_kakusan, TObject *parent, Vec *pos, Vec *dir, u16 target_client, f32 speed) {
     f32 temp_f2;
-    u32 temp_r3;
+    uaddr temp_r3;
     __ct__7TObjectFP7TObject((void *)boss6_kakusan, parent);
     *(s32 **)((s8 *)boss6_kakusan + 0x18) = __vt__13TBoss6Kakusan;
     ((TBoss6Kakusan *)boss6_kakusan)->m_name = TBoss6Kakusan__name;

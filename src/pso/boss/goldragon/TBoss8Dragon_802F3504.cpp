@@ -6,7 +6,7 @@ extern "C" {
 u32 get_enemy_entity();
 s32 set_state_22__12TBoss8DragonFv();
 
-extern u32 boss8_dragon_leader_part;
+extern uaddr boss8_dragon_leader_part;
 
 s32 TBoss8Dragon::find_target_enemy() {
     s32 var_r31;

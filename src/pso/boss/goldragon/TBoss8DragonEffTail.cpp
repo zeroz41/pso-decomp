@@ -104,11 +104,11 @@ extern const P8_802FE494 lbl_80474BBC = { 3.0f, 1 };
 // The 17 collision bodies the constructor sets up: the first a radius-10 sphere, the rest copies of it.
 CollisionBody boss8_dragon_eff_tail_init_data[17] = { { { 0.0f, 0.0f, 0.0f }, 10.0f, 0.0f, 0, 0x8003 } };
 s32 boss8_eff_tail_bml_resource;
-u32 dragon_tail_gvm_texture_handle;
+uaddr dragon_tail_gvm_texture_handle;
 
 extern s32 __vt__19TBoss8DragonEffTail[];
 extern "C" {
-EffTail_8002C06C *TBoss8DragonEffTail__ct(EffTail_8002C06C *arg0, s32 arg1, s32 arg2);
+EffTail_8002C06C *TBoss8DragonEffTail__ct(EffTail_8002C06C *arg0, saddr arg1, s32 arg2);
 void matrix_mult_vec(s32, void *, void *);
 s32 free_bin_model_request(s32, s32);
 s32 release_texture_list(void*);
@@ -176,7 +176,7 @@ TBoss8DragonEffTail::~TBoss8DragonEffTail() {
     attack_history = NULL;
 }
 
-EffTail_8002C06C *TBoss8DragonEffTail__ct(EffTail_8002C06C *arg0, s32 arg1, s32 arg2) {
+EffTail_8002C06C *TBoss8DragonEffTail__ct(EffTail_8002C06C *arg0, saddr arg1, s32 arg2) {
     void *data;
     s32 i;
     void *p;

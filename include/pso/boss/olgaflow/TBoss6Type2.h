@@ -162,9 +162,9 @@ struct TBoss6Type2 : public TObjEnemy
     void init_motion_entries();
     void copy_transform(void* q);
     void set_action_state(void *vv);
-    void copy_pos_620(s32 arg1);
-    void get_push_points(s32 arg1, s32 arg2);
-    void copy_pos_59c(s32 arg1);
+    void copy_pos_620(saddr arg1);
+    void get_push_points(saddr arg1, saddr arg2);
+    void copy_pos_59c(saddr arg1);
     void apply_damage(s32 arg1);
     s32 get_rotation_timer();
     s32 count_matching_values(s32 arg1, s32 arg2);
@@ -177,7 +177,7 @@ struct TBoss6Type2 : public TObjEnemy
     void update_action_state();
     void send_action_packet_if_idle(s32 arg1, s32 *arg2);
     void parse_action_packet(void *arg1);
-    static s32 create(s32 arg0);
+    static s32 create(saddr arg0);
     void draw();
     void select_action();
     void update_zako_timer();
@@ -216,7 +216,7 @@ struct TBoss6Type2 : public TObjEnemy
     void enforce_min_distance();
     void push_out_from_points();
     void push_out_from_target();
-    static void compute_random_dir_vec(s32 arg0, u8 *arg1, s32 arg2, s32 arg3);
+    static void compute_random_dir_vec(s32 arg0, u8 *arg1, saddr arg2, saddr arg3);
     void init_with_global_table();
     void spawn_mag_mines();
     static void set_path_points_by_index(s32 i, void *pts, s32 n);
@@ -225,7 +225,7 @@ struct TBoss6Type2 : public TObjEnemy
     void update_segment_angles();
     void init_segment_angle_range();
     void copy_state(void* q);
-    static s32 create_mag(s32 arg0);
+    static s32 create_mag(saddr arg0);
     void update_recover_timer();
     void update_ramp_timer();
     void tick_attack_timer();
@@ -239,7 +239,7 @@ struct TBoss6Type2 : public TObjEnemy
     void sub_80337160();
     void sub_803371B4();
     static void send_6xAD_grid_positions(u8 arg0, s32 arg1, s32 arg2);
-    static s32 send_subordinate_actions(s32 kind, s32 ids, s32 n, s32 force, s32 unused);
+    static s32 send_subordinate_actions(s32 kind, saddr ids, s32 n, s32 force, s32 unused);
     static void *create_flow_soul(void *arg0, void *arg1, void *arg2, void *arg3);
     static void capture_player_snapshots();
     s32 get_state();

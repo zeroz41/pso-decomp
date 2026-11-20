@@ -37,7 +37,7 @@ void TObjBoss8DemoRoom::render() {
     pop_matrix();
 }
 
-void run_task__17TObjBoss8DemoRoomFv(s32 arg0) {
+void run_task__17TObjBoss8DemoRoomFv(saddr arg0) {
     TObjPlayer__sub_8023DEE0((s16 *)(*(saddr *)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)TObjBoss8DemoRoom__shared_resource_object + 0x42C)) + 8)) + 0x2C)) + 4)) + 4)), 0, 1, 3);
     TObjPlayer__sub_8023DEE0((s16 *)(*(saddr *)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)TObjBoss8DemoRoom__shared_resource_object + 0x42C)) + 8)) + 0x2C)) + 0x30)) + 4)) + 4)), 0, 0x14, 1);
     if ((TBoss8Dragon__sub_802F3348(0) != 0U) && (TBoss8Dragon__sub_802FCCBC() != 0)) {
@@ -67,8 +67,8 @@ void TObjBoss8DemoRoom::free_static_instance() {
 }
 
 void TObjBoss8DemoRoom::load_resource() {
-    s32 temp_r3;
-    s32 var_r0;
+    saddr temp_r3;
+    saddr var_r0;
     temp_r3 = (saddr)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {

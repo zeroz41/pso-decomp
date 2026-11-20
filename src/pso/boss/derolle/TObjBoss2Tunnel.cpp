@@ -384,7 +384,7 @@ void TObjBoss2Tunnel::render(void* a1) { push_matrix(); TObjPlayer::invert_matri
 
 #pragma push
 #pragma fp_contract on
-void TObjBoss2Tunnel::transform_vec_by_camera(s32 arg0, s32 arg1, s32 arg2) {
+void TObjBoss2Tunnel::transform_vec_by_camera(s32 arg0, saddr arg1, saddr arg2) {
     push_matrix();
     TCameraCtrl::concat_matrix(0, ((saddr)TCameraCtrl::get_view_matrix()));
     matrix_mult_vec(NULL, (const Vec *)arg1, (Vec *)arg2);
@@ -483,7 +483,7 @@ s16 TObjBoss2Tunnel::turn_toward_angle_limited(s32 arg0, s32 cur, s32 target, s3
 
 void TObjBoss2Tunnel::init_zako(void* a1, s32 _w2) { rotate_xz_pair_by_angle((f32 *)this, (f32 *)((char*)this + 0x8), (s32)_w2); vec3_add_to(this, a1); }
 
-s32 TObjBoss2Tunnel::adjust_to_ground(s32 arg0, void *arg1) {
+s32 TObjBoss2Tunnel::adjust_to_ground(saddr arg0, void *arg1) {
     s32 *temp_r3;
 
     VecCopy((Vec *)arg1, (const Vec *)arg0);
@@ -497,7 +497,7 @@ s32 TObjBoss2Tunnel::adjust_to_ground(s32 arg0, void *arg1) {
     return 0;
 }
 
-s32 TObjBoss2Tunnel::spawn_effect(s32 arg0, void *arg1, void *arg2) {
+s32 TObjBoss2Tunnel::spawn_effect(saddr arg0, void *arg1, void *arg2) {
     s32 *temp_r3;
 
     VecCopy((Vec *)arg1, (const Vec *)arg0);
@@ -1148,7 +1148,7 @@ s32 memcard_check_snapshot(s32 arg0, s32 *arg1) {
 
 void load_data_buffers(void) {
     s32 temp_r31;
-    s32 temp_r30;
+    saddr temp_r30;
     s32 *buf;
 
     TObjBoss2Tunnel__snapshot_saved_flag = 0;
@@ -1260,7 +1260,7 @@ s32 save_screen_snapshot(void) {
 
 s32 TObjBoss2Tunnel::load_snapshot() {
     Stack_8007CBC4 stack;
-    s32 buf;
+    saddr buf;
     if (poll_memcard_result(1) == 0) {
         if (((s32) (*(u16 *)&TObjBoss2Tunnel__snapshot_state) != 0) && ((s32) (*(u16 *)&TObjBoss2Tunnel__snapshot_state) >= 0) && ((s32) (*(u16 *)&TObjBoss2Tunnel__snapshot_state) < 3)) {
             buf = get_capture_texture_pixels();

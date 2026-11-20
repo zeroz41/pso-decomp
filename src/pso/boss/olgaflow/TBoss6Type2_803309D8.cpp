@@ -22,7 +22,7 @@ s32 __ct__11TObjControlFP7TObject(s32, s32);
 
 extern s32 tl_04;
 
-s32 TBoss6Type2::create_mag(s32 arg0) {
+s32 TBoss6Type2::create_mag(saddr arg0) {
     saddr var_r31;
     saddr var_r4;
 

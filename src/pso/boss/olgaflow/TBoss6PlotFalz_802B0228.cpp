@@ -32,7 +32,7 @@ s32 queue_instance_destruction__14TBoss6PlotFalzFv(void *);
 s32 obj_setArrS16_FC(void *, int, void *);
 }
 
-extern u32 TBoss6PlotFalz__type2_instance;
+extern uaddr TBoss6PlotFalz__type2_instance;
 
 // --- FALL_ELEV ---
 void TBoss6PlotFalz::sub_802B0A34() { *(s32*)((char*)this + 0x3d0) = 0; *(s32*)((char*)this + 0x3cc) = 0; }

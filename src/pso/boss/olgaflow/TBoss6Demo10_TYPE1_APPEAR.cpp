@@ -173,7 +173,7 @@ typedef struct Ent_8033CB4C Ent_8033CB4C;
 typedef struct Fish_8033CB4C Fish_8033CB4C;
 TBoss6Demo10_TYPE1_APPEAR::TBoss6Demo10_TYPE1_APPEAR(TObject *parent) : TObject(parent) {
     s32 k;
-    s32 n;
+    saddr n;
     s32 i;
     ((Fish_8033CB4C *)this)->x0 = (saddr)TBoss6Demo10_TYPE1_APPEAR__name.value;
     ((Fish_8033CB4C *)this)->x3C = (saddr) parent;

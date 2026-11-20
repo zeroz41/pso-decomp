@@ -152,9 +152,9 @@ public:
     u32 m_89c;
     u32 m_8a0;
     void set_random_param(u8 *arg1);
-    void calc_params(void *arg1, s32 arg2);
-    void calc_product_and_ratio(void *arg1, s32 arg2);
-    void calc_attack_params(void *arg1, s32 arg2);
+    void calc_params(void *arg1, saddr arg2);
+    void calc_product_and_ratio(void *arg1, saddr arg2);
+    void calc_attack_params(void *arg1, saddr arg2);
     void fn_8005EBDC(u8 *arg1, u8 *arg2);
     s32 run_action_script_step(s16 *out, u32 *entry);
     static void copy_angle_state(void *arg0, void *dst, void *src);
@@ -173,7 +173,7 @@ public:
     int query_default();
     void copy_spawn_params(void* a1);
     void copy_action_state(u8 *arg1);
-    static s32 spawn_ground_lightning(s32 arg0, s32 arg1, s32 arg2);
+    static s32 spawn_ground_lightning(s32 arg0, saddr arg1, s32 arg2);
     static void set_default_on_state0();
     static void update_camera_script();
     void calc_velocity_from_angle();
@@ -183,7 +183,7 @@ public:
     void spawn_ground_effect();
     int setup_instance(int _w1, void * _w2, int _w3);
     static void setup_breath_instance(void *o, int x, u32 a, int w);
-    static void init_state(s32 arg0);
+    static void init_state(saddr arg0);
     static int set_state_1(void* p);
     static int check_condition_default(void* p);
     void spawn_effect();
@@ -259,7 +259,7 @@ public:
     s32 is_closest_part();
     s32 push_apart_from_parts();
     s32 is_near_other_part();
-    void draw_with_fade(s32 arg1, s32 arg2);
+    void draw_with_fade(saddr arg1, s32 arg2);
     void draw();
 
     // Per-action event handlers, run by dispatch_action (vtable slot 87).

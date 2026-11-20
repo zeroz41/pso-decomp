@@ -195,7 +195,7 @@ void boss2_dust_draw_at(s32 *arg0, s32 arg1) {
     pop_matrix();
 }
 
-u8 *__ct__13TObjBoss2DustFv(u8 *object, s32 arg1, s32 arg2) {
+u8 *__ct__13TObjBoss2DustFv(u8 *object, saddr arg1, saddr arg2) {
     s32 TObjBoss2DustCtrl__sub_8003AB5C();
     __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
     *(s32 **)((s8 *)object + 0x18) = &__vt__13TObjBoss2Dust.value;

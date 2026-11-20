@@ -633,7 +633,7 @@ void TBoss2Mine__sub_80038D84(void) {  }
 }
 
 TBoss2Mine::TBoss2Mine(TObject *parent, u16 entity_id, s32 set_index, s32 variant) : TObjEneDD(parent) {
-    s32 temp_r3;
+    saddr temp_r3;
     *(s32 *)((s8 *)this + 0) = (saddr) TBoss2Mine__name;
     temp_r3 = get_instance__13TBoss2DeRolLeFv();
     if (temp_r3 != 0) {

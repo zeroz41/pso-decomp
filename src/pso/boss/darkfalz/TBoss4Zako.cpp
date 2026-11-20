@@ -134,13 +134,13 @@ void enter_state_3__11TBoss4BishiFPv(void* p);
 f32 vector_length(void *);
 void vt1__11TBoss4BishiFv(Obj_8005BB5C *self);
 
-s32 TBoss4Zako__ct(s32, s32, s32);
+s32 TBoss4Zako__ct(saddr, saddr, saddr);
 
 void normalize_vector(void *);
 extern V2_8005BF68 TBoss4Bishi_spawn_offsets[];
 extern saddr __vt__11TBoss4Bishi[];
 extern const char *TBoss4Bishi__name;
-s32 TBoss4Bishi__ct(s32 arg0, s32 arg1, s32 arg2);
+s32 TBoss4Bishi__ct(saddr arg0, s32 arg1, s32 arg2);
 
 struct Obj_8005C6E4;
 void clamp_min_player_distance__9TBoss4UroFPv(Obj_8005C6E4 *arg0);
@@ -215,7 +215,7 @@ struct Obj_8005C858 {
 
 extern saddr __vt__9TBoss4Uro[];
 extern const char *TBoss4Uro__name;
-s32 TBoss4Uro__ct(s32 a0, s32 a1, s32 a2);
+s32 TBoss4Uro__ct(saddr a0, s32 a1, s32 a2);
 void TBoss4Uro__vt61(void* p);
 void *__dt__9TBoss4UroFv(void *arg0, s16 arg1);
 s32 create__9TBoss4UroFi(s32 arg0);
@@ -284,7 +284,7 @@ s32 init_collision_body_parts(void *, void *, int);
 extern u32 TBoss4Zako_collision_body_parts[];
 extern saddr __vt__10TBoss4Zako[];
 extern const char *TBoss4Zako__name;
-s32 TBoss4Zako__ct(s32 arg0, s32 arg1, s32 arg2);
+s32 TBoss4Zako__ct(saddr arg0, saddr arg1, saddr arg2);
 
 void update_state3__10TBoss4ZakoFPv(void* p);
 s32 free_collision_body_parts(void *);
@@ -341,7 +341,7 @@ s32 TBoss4Zako::create(s32 arg0) {
 #pragma pop
 #pragma push
 #pragma fp_contract on
-s32 TBoss4Zako__ct(s32 arg0, s32 parent, s32 arg2) {
+s32 TBoss4Zako__ct(saddr arg0, saddr parent, saddr arg2) {
     u8 *self;
     self = (u8 *)arg0;
     __ct__9TObjEnemyFP7TObject((TObjEnemy *)arg0, (void*)parent);
@@ -676,7 +676,7 @@ s32 create__9TBoss4UroFi(s32 arg0) {
 #pragma pop
 #pragma push
 #pragma fp_contract on
-s32 TBoss4Uro__ct(s32 a0, s32 a1, s32 a2) {
+s32 TBoss4Uro__ct(saddr a0, s32 a1, s32 a2) {
     Obj_8005C858 *o = (Obj_8005C858 *)a0;
     TBoss4Zako__ct(a0, a1, a2);
     o->vt = __vt__9TBoss4Uro;
@@ -817,7 +817,7 @@ void vt4__9TBoss4UroFv(void *actor) {
 #pragma fp_contract on
 void TBoss4Zako::update_target_position() {
     s32 temp_r31;
-    s32 instance;
+    saddr instance;
     u8 *actor = (u8 *)this;
     if (!(*(s32 *)((s8 *)actor + 0x3B8) & 0x7F)) {
         if (*(s32 *)((s8 *)actor + 0x388) == 0xFFFF) {
@@ -846,7 +846,7 @@ void TBoss4Zako::update_orbit_velocity() {
     f32 tx;
     f32 tz;
     s32 ang;
-    s32 pl;
+    saddr pl;
     if (o->f388 != 0xFFFF) {
         pl = (saddr)get_player_by_client_id(o->f388);
         if (pl != 0) {
@@ -922,10 +922,10 @@ s32 create__11TBoss4BishiFi(s32 arg0) {
 #pragma pop
 #pragma push
 #pragma opt_common_subs off
-s32 TBoss4Bishi__ct(s32 arg0, s32 parent, s32 arg2) {
+s32 TBoss4Bishi__ct(saddr arg0, s32 parent, s32 arg2) {
 #define o ((Obj_8005BF68 *)arg0)
     s32 id;
-    s32 pl;
+    saddr pl;
     TBoss4Zako__ct(arg0, parent, arg2);
     o->vt = __vt__11TBoss4Bishi;
     o->f0 = ((saddr)TBoss4Bishi__name);

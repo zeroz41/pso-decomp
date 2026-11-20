@@ -24,7 +24,7 @@ const char *TObjBoss8Piller__class_name = "TObjBoss8Piller";
 
 extern "C" {
 
-u32 TObjBoss8Piller__shared_resource;
+uaddr TObjBoss8Piller__shared_resource;
 u8 *get_enemy_entity(u16 arg0);
 s32 TBoss8Dragon__sub_802FB1B0(int, f32, void *);
 s32 post_translate_matrix(void *);
@@ -35,7 +35,7 @@ s32 push_matrix();
 
 void TObjBoss8Piller::render() {
     u8 *arg0 = (u8 *)this;
-    s32 var_r31;
+    saddr var_r31;
 
     if (TObjPlayer::is_any_teammate_in_state() == 0) {
         if (is_split_screen() != 0) {
@@ -105,7 +105,7 @@ void TObjBoss8Piller::free_held_object() {
     }
 }
 void TObjBoss8Piller::load_resource_descriptor() {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 var_r0;
     temp_r3 = (saddr)::operator new(0x440);
     var_r0 = temp_r3;

@@ -381,7 +381,7 @@ void run_task__14TBoss7TentacleFv(u8 *boss7_tentacle) {
                 *(s32 *)((s8 *)boss7_tentacle + 0x164) = 0;
                 *(s32 *)((s8 *)boss7_tentacle + 0x38) = 2;
                 {
-                    u32 st = TBoss7Joint::get_state();
+                    uaddr st = TBoss7Joint::get_state();
                     if (st != 0U) {
                         ((TBoss7PhotonBullet *)st)->emit_hit_effect(&p);
                     }

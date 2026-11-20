@@ -324,7 +324,7 @@ typedef struct {
 u8 *TBoss6Demo20_TYPE2_APPEAR__ct(TBoss6Demo20_TYPE2_APPEAR *boss6_demo20_type2_appear, s32 arg1) {
     Fish_8033DA94 *self = (Fish_8033DA94 *)boss6_demo20_type2_appear;
     s32 v;
-    s32 count;
+    saddr count;
     s32 i;
     __ct__7TObjectFP7TObject(boss6_demo20_type2_appear);
     *(saddr **)((s8 *)boss6_demo20_type2_appear + 0x18) = __vt__25TBoss6Demo20_TYPE2_APPEAR;

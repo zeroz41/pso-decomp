@@ -223,7 +223,7 @@ s32 TBoss7Crawfish::sub_80308AA8() {
 void TBoss7Crawfish::render() { if (is_visible() != 0) { set_texlist(this->texlist); set_motion_packed_rotation(); push_matrix(); post_translate_matrix((char*)this + 0x38); rotate_matrix_yxz((saddr)((void*)0), (s32)this->rotation_x, this->rotation_y, this->rotation_z); scale_current_matrix((char*)this + 0x68); draw(); pop_matrix(); clear_motion_packed_rotation(); } }
 
 void TBoss7Crawfish::clear_object_state_exchange() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80308B38, sp8) == 0x0);
     LAYOUT_ASSERT(spE_offset, offsetof(Stack_80308B38, spE) == 0x6);
     Stack_80308B38 stack;
@@ -235,7 +235,7 @@ void TBoss7Crawfish::clear_object_state_exchange() {
 }
 
 void TBoss7Crawfish::check_band_and_destroy() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     if (((TObjMotion *)arg0)->is_passing_frame(14.0f) != 0) {
         spawn_ground_effects();
     }
@@ -248,7 +248,7 @@ int TBoss7Crawfish__sub_80308BEC(void* p) { return change_state__14TBoss7Crawfis
 
 }
 
-void TBoss7Crawfish::update(s32 arg0) {
+void TBoss7Crawfish::update(saddr arg0) {
     if (((TObjMotion *)arg0)->is_passing_frame(8.0f) != 0) {
         ((TBoss7Crawfish *)arg0)->spawn_ground_effects();
         ((TBoss7Crawfish *)arg0)->spawn_effect(0x39E0D);
@@ -414,7 +414,7 @@ void TBoss7Crawfish::change_state(s32 state) {
 }
 
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-u32 TBoss7Crawfish__shared_resource;
+uaddr TBoss7Crawfish__shared_resource;
 s32 dispatch_shared_handler_a__6TLobbyFl(int);
 s32 get_bml_texlist(int, int);
 s32 get_bml_model(int, int);
@@ -467,7 +467,7 @@ TBoss7Crawfish::~TBoss7Crawfish() {
 }
 
 
-u8 *TBoss7Crawfish__ct(u8 *arg0, s32 arg1, s32 arg2) {
+u8 *TBoss7Crawfish__ct(u8 *arg0, s32 arg1, saddr arg2) {
     Vec v;
     __ct__9TObjEnemyFP7TObject();
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TBoss7Crawfish;
@@ -522,7 +522,7 @@ void TBoss7Crawfish::destroy_instance() {
 }
 
 void TBoss7Crawfish::load_static_resource() {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 var_r0;
     temp_r3 = (saddr)::operator new(0x440);
     var_r0 = temp_r3;

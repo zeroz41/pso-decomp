@@ -58,8 +58,8 @@ void fn_80323134(Obj_80323134 *arg0) {
 #pragma opt_common_subs off
 
 void TBoss6GravBall::destroy_part(s32 arg1) {
-    s32 arg0 = (saddr)this;
-    u32 temp_r3;
+    saddr arg0 = (saddr)this;
+    uaddr temp_r3;
     u8 *temp_r31;
     temp_r31 = (u8 *)(arg0 + (arg1 * 4));
     temp_r3 = *(u32 *)((s8 *)temp_r31 + 0xD4);
@@ -69,7 +69,7 @@ void TBoss6GravBall::destroy_part(s32 arg1) {
     }
 }
 
-void TBoss6GravBall__sub_80323214(s32 arg0, s32 arg1) {
+void TBoss6GravBall__sub_80323214(saddr arg0, s32 arg1) {
     s32 temp_r5;
     u8 *temp_r31;
     u8 *boss4_type2;
@@ -88,7 +88,7 @@ void TBoss6GravBall__sub_80323214(s32 arg0, s32 arg1) {
 #pragma push
 #pragma opt_common_subs off
 void TBoss6GravBall::create_emitter(s32 arg1) {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     s32 temp_r5;
     u8 *temp_r31;
     u8 *boss4_type2;
@@ -170,7 +170,7 @@ void TBoss6GravBall__sub_803233AC(u8 *self) {
     s32 n;
     s32 i;
     PL_803233AC *pl;
-    s32 id;
+    saddr id;
     s32 flag;
     f32 d;
     n = TLobby::get_game_mode();
@@ -216,7 +216,7 @@ void TBoss6GravBall__sub_80323544(u8 *self) {
     s32 n;
     s32 i;
     PL_80323544 *pl;
-    s32 id;
+    saddr id;
     s32 flag;
     f32 d;
     n = TLobby::get_game_mode();

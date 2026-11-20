@@ -134,7 +134,7 @@ struct TBoss4Type3 : public TObjEnemy {
     void copy_pair(void* q);
     void set_anim_state(s32 arg1);
     void draw();
-    static s32 create(s32 arg0);
+    static s32 create(saddr arg0);
     static TObjDFYutai *create_yutai(TObject *parent, s32 kind, u16 player_id);
     static f32 compute_wave_offset(f32 farg0);
     static u16 pick_random_target_player();

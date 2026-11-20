@@ -153,7 +153,7 @@ void TBoss7LaserPtcl::run_task() {
 void TBoss7LaserPtcl::render() {  }
 
 void TBoss7LaserPtcl::destroy_particles() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
   void **var_r30;
   s32 var_r29;
   u8 *object;

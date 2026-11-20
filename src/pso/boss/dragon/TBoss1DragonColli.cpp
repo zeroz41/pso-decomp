@@ -43,12 +43,12 @@ struct O_8002B4CC {
 extern "C" {
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern void *__vt__17TBoss1DragonColli[];
-u8 *TBoss1DragonColli__ct(u8 *arg0, s32 arg1);
+u8 *TBoss1DragonColli__ct(u8 *arg0, saddr arg1);
 u16 register_entity_by_id(void *ov);
 s32 __ct__14TObjCollidableFP7TObject(void *, void *);
 extern CollisionBody TBoss1DragonColli_sphere_chain_desc;
 extern saddr __vt__19TBoss1DragonColli_C[];
-s32 TBoss1DragonColli_C__ct(int arg0, void *arg1, int arg2, void *arg3, f32 scale);
+s32 TBoss1DragonColli_C__ct(saddr arg0, void *arg1, int arg2, void *arg3, f32 scale);
 }
 
 TBoss1DragonColli::~TBoss1DragonColli() {
@@ -78,7 +78,7 @@ void set_matrix_identity(u8 *arg0);
 int rotate_matrix_y(void*, void*);
 int push_matrix(void*);
 
-u8 *TBoss1DragonColli__ct(u8 *object, s32 arg1) {
+u8 *TBoss1DragonColli__ct(u8 *object, saddr arg1) {
     Vec stack;
     saddr temp_r3;
     saddr temp_r3_2;
@@ -154,7 +154,7 @@ void *__dt__19TBoss1DragonColli_CFv(void *collidable, s16 arg1) {
 }
 
 #define self ((O_8002B4CC *)arg0)
-s32 TBoss1DragonColli_C__ct(int arg0, void *arg1, int arg2, void *arg3, f32 scale) {
+s32 TBoss1DragonColli_C__ct(saddr arg0, void *arg1, int arg2, void *arg3, f32 scale) {
     E_8002B4CC *e;
     s32 i;
     f32 zero;

@@ -492,7 +492,7 @@ void TObjBoss2Tunnel::update_particles() {
     f32 t;
     s32 i;
     uaddr r;
-    u32 p;
+    uaddr p;
     if (((S_8003C108 *)this)->f20 < boss2_tunnel_max_scroll_speed) {
         t = (-5.0f) * (((S_8003C108 *)this)->f20 / boss2_tunnel_max_scroll_speed);
     } else {

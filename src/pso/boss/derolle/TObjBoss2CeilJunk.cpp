@@ -109,7 +109,7 @@ extern "C" {
 s32 spawn_effect__15TObjBoss2TunnelFlPvPv(void *, void *, void *, f32, f32);
 s32 __ct__8TObjBaseFP7TObject();
 extern s32 __vt__17TObjBoss2CeilJunk[];
-u8 *TObjBoss2CeilJunk__ct(struct RecoveredFields_8003A6F4_arg0 *arg0, s32 arg1, s32 arg2);
+u8 *TObjBoss2CeilJunk__ct(struct RecoveredFields_8003A6F4_arg0 *arg0, s32 arg1, saddr arg2);
 s32 rotate_matrix_x(int, int);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
@@ -275,7 +275,7 @@ TObjBoss2CeilJunk::~TObjBoss2CeilJunk() {
 extern const f32 lbl_805D85A0 = 6.0f;
 #pragma push
 #pragma opt_dead_assignments off
-u8 *TObjBoss2CeilJunk__ct(struct RecoveredFields_8003A6F4_arg0 *arg0, s32 arg1, s32 arg2) {
+u8 *TObjBoss2CeilJunk__ct(struct RecoveredFields_8003A6F4_arg0 *arg0, s32 arg1, saddr arg2) {
     f32 temp_f1;
     f32 temp_f2;
     __ct__8TObjBaseFP7TObject();

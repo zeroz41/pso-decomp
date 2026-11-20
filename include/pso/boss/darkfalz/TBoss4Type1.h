@@ -31,7 +31,7 @@ struct TBoss4Type1 : public TObjEnemy
     void push_players_out_of_colliders();
     void sub_80053D4C();
     void update_follow_camera_offsets();
-    static s32 create(s32 arg0);
+    static s32 create(saddr arg0);
     s32 state;                    // index into the lbl_80485C48 state table
     ModelNodeTables model_nodes;
     TBoss4DarkFalz *owner;        // params[0], the Dark Falz that spawns it; run_task waits on it

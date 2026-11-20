@@ -994,7 +994,7 @@ void TBoss3VoloptP02::update_pillar_heal_state() {
     case 2: {
         play_sound_effect(0x4003A819, &position, 0, 0);
         if (--*(s16 *)&timer <= 0) {
-            s32 n;
+            saddr n;
             if (heal_emitter != NULL) {
                 heal_emitter->queue_destruction();
                 heal_emitter = NULL;

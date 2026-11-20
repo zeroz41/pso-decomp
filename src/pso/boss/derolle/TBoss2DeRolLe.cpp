@@ -164,7 +164,7 @@ extern "C" {
 
 extern "C" void render_body__13TBoss2DeRolLeFv(u8 *arg0);
 
-extern "C" void dispatch_action__13TBoss2DeRolLeFiUii(s32 arg0, u32 arg1, s32 arg2);
+extern "C" void dispatch_action__13TBoss2DeRolLeFiUii(saddr arg0, u32 arg1, saddr arg2);
 
 extern "C" void update_colliders_from_offsets__13TBoss2DeRolLeFi(s32 arg0);
 
@@ -800,8 +800,8 @@ extern s32 chunk_polygon_flags_and_mask;
 
 void get_current_matrix(void *m);
 
-s32 TBoss2DeRolLe__base_params[1];
-s32 TBoss2DeRolLe__resistance_params[1];
+saddr TBoss2DeRolLe__base_params[1];
+saddr TBoss2DeRolLe__resistance_params[1];
 u8 *TBoss2DeRolLe__data_805D4BA0;
 u8 *lbl_805D4BA4;
 s32 TBoss2DeRolLe__current_attack_id;
@@ -809,8 +809,8 @@ s32 TBoss2DeRolLe__sequence_match_index;
 s32 lbl_805D4BB0;
 u8 *lbl_805D4BB4;
 u8 *lbl_805D4BB8;
-s32 lbl_805D4BBC;
-s32 lbl_805D4BC0;
+saddr lbl_805D4BBC;
+saddr lbl_805D4BC0;
 u8 *TBoss2DeRolLe__instance;
 Ctx_8002F258 *derolle_texture_list_handle;
 void *lbl_805D4BCC;
@@ -837,11 +837,11 @@ extern s32 lbl_805D4BB0;
 
 extern s32 lbl_805D4BB4;
 
-extern s32 lbl_805D4BB8;
+extern saddr lbl_805D4BB8;
 
-extern s32 lbl_805D4BBC;
+extern saddr lbl_805D4BBC;
 
-extern s32 lbl_805D4BC0;
+extern saddr lbl_805D4BC0;
 
 void TObjPlayer__sub_8002F61C(void);
 
@@ -1160,7 +1160,7 @@ void TBoss2DeRolLe__sub_800344A4(DeRolLe_800344A4 *self, s32 idx, s32 arg2);
 s32 VecCopy__FP3VecPC3Vec(int, void *);
 
 
-void TBoss2DeRolLe__sub_80033A80(s32 arg0, s32 arg1);
+void TBoss2DeRolLe__sub_80033A80(s32 arg0, saddr arg1);
 
 extern s32 boss2_derolle_particle_node_indices[];
 
@@ -1174,7 +1174,7 @@ s32 VecCopy__FP3VecPC3Vec(int, void *);
 
 int play_sound(void* p, int a1);
 
-void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, s32 arg2);
+void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, saddr arg2);
 
 void set_position_index__13TBoss2DeRolLeFPvi(void *, s32);
 
@@ -1195,7 +1195,7 @@ int spawn_trap__13TBoss2DeRolLeFPvii(void* p, int a1, int a2);
 
 int play_sound(void* p, int a1);
 
-void pick_random_target__13TBoss2DeRolLeFi(s32 arg0);
+void pick_random_target__13TBoss2DeRolLeFi(saddr arg0);
 
 void free_laser__13TBoss2DeRolLeFPv(void *arg0);
 
@@ -1231,7 +1231,7 @@ void update_pulsing_colors__13TBoss2DeRolLeFPv(u8 *arg0);
 
 s32 VecCopy__FP3VecPC3Vec(int, void *);
 
-void pick_random_target__13TBoss2DeRolLeFi(s32 arg0);
+void pick_random_target__13TBoss2DeRolLeFi(saddr arg0);
 
 void set_move_direction__13TBoss2DeRolLeFPv(void *, s32);
 
@@ -1258,7 +1258,7 @@ void assign_slots_from_list(void *, s32);
 
 s32 VecCopy__FP3VecPC3Vec(int, void *);
 
-void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, s32 arg2);
+void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, saddr arg2);
 
 void set_position_index__13TBoss2DeRolLeFPvi(void *, s32);
 
@@ -1290,7 +1290,7 @@ s32 vec3_add_to(int, void *);
 
 f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 
-void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, s32 arg2);
+void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, saddr arg2);
 
 int play_sound_effect(void*, int, int, int);
 
@@ -1308,7 +1308,7 @@ s32 VecCopy__FP3VecPC3Vec(int, void *);
 
 int play_sound(void* p, int a1);
 
-void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, s32 arg2);
+void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, saddr arg2);
 
 void update_angle__13TBoss2DeRolLeFPv(void *arg0);
 
@@ -1455,7 +1455,7 @@ void handle_debug_pad_input__13TBoss2DeRolLeFPvPv(void *, void *);
 
 void TBoss2DeRolLe__sub_800333F4(Obj_800333F4 *self, u32 arg1);
 
-void dispatch_action__13TBoss2DeRolLeFiUii(s32 arg0, u32 arg1, s32 arg2);
+void dispatch_action__13TBoss2DeRolLeFiUii(saddr arg0, u32 arg1, saddr arg2);
 
 
 int spawn_trap__13TBoss2DeRolLeFPvii(void* p, int a1, int a2);
@@ -1466,11 +1466,11 @@ void TBoss2DeRolLe__sub_800338BC(void);
 
 void update_projectile_spawns__13TBoss2DeRolLeFPv(u8 *arg0);
 
-void spawn_offset_particle__13TBoss2DeRolLeFiff(s32 arg0, f32 farg0, f32 farg1);
+void spawn_offset_particle__13TBoss2DeRolLeFiff(saddr arg0, f32 farg0, f32 farg1);
 
-void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, s32 arg2);
+void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, saddr arg2);
 
-void TBoss2DeRolLe__sub_80033A80(s32 arg0, s32 arg1);
+void TBoss2DeRolLe__sub_80033A80(s32 arg0, saddr arg1);
 
 void advance_action_sequence__13TBoss2DeRolLeFPv(Obj_80034034 *self);
 
@@ -1498,7 +1498,7 @@ void TBoss2DeRolLe__sub_800341F0(Obj_800341F0 *self);
 
 void TBoss2DeRolLe__sub_80034258(Obj_80034258 *self);
 
-void pick_random_target__13TBoss2DeRolLeFi(s32 arg0);
+void pick_random_target__13TBoss2DeRolLeFi(saddr arg0);
 
 void set_position_index__13TBoss2DeRolLeFPvi(void *, s32);
 
@@ -1640,7 +1640,7 @@ void update_angle__13TBoss2DeRolLeFPv(void *arg0);
 
 f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 
-void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, s32 arg2);
+void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, saddr arg2);
 
 int play_sound(void* p, int a1);
 
@@ -1820,7 +1820,7 @@ f32 TBoss2DeRolLe__sub_80034CF8(void);
 
 extern u8 *TBoss2DeRolLe__instance;
 
-void forward_switch_phase_stats__13TBoss2DeRolLeFi(s32 arg0);
+void forward_switch_phase_stats__13TBoss2DeRolLeFi(saddr arg0);
 
 void switch_phase_stats__13TBoss2DeRolLeFPvPv(u8 *arg0, u8 *arg1);
 
@@ -1832,7 +1832,7 @@ void update_colliders_from_offsets__13TBoss2DeRolLeFi(s32 arg0);
 
 int play_sound(void *, int);
 
-void spawn_offset_particle__13TBoss2DeRolLeFiff(s32, f32, f32);
+void spawn_offset_particle__13TBoss2DeRolLeFiff(saddr, f32, f32);
 
 void set_flags_play_sound__13TBoss2DeRolLeFPv(u8 *arg0);
 
@@ -1868,9 +1868,9 @@ s32 reload_stats_keep_hp_tp__9TObjEneDDFv(void *, s32, s32, s32);
 
 extern s32 TBoss2DeRolLe__attack_params_table[];
 
-extern s32 TBoss2DeRolLe__base_params[1];
+extern saddr TBoss2DeRolLe__base_params[1];
 
-extern s32 TBoss2DeRolLe__resistance_params[1];
+extern saddr TBoss2DeRolLe__resistance_params[1];
 
 void reload_stats_for_phase__13TBoss2DeRolLeFPvi(void *self, s32 kind);
 
@@ -2249,9 +2249,9 @@ extern s32 TBoss2DeRolLe__shared_handler_id_table[];
 
 using constructor_data::boss2_derolle_bml_descriptor;
 
-extern s32 TBoss2DeRolLe__base_params[1];
+extern saddr TBoss2DeRolLe__base_params[1];
 
-extern s32 TBoss2DeRolLe__resistance_params[1];
+extern saddr TBoss2DeRolLe__resistance_params[1];
 
 extern s32 TBoss2DeRolLe__data_805D4BA0[1];
 
@@ -2265,11 +2265,11 @@ extern s32 lbl_805D4BB0;
 
 extern s32 lbl_805D4BB4;
 
-extern s32 lbl_805D4BB8;
+extern saddr lbl_805D4BB8;
 
-extern s32 lbl_805D4BBC;
+extern saddr lbl_805D4BBC;
 
-extern s32 lbl_805D4BC0;
+extern saddr lbl_805D4BC0;
 
 extern s32 TBoss2DeRolLe__instance;
 
@@ -2476,9 +2476,9 @@ s32 set_matrix_identity(void *);
 
 extern u8 controller_input_state[];
 
-extern s32 TBoss2DeRolLe__base_params;
+extern saddr TBoss2DeRolLe__base_params;
 
-extern s32 TBoss2DeRolLe__resistance_params;
+extern saddr TBoss2DeRolLe__resistance_params;
 
 extern u8 *TBoss2DeRolLe__data_805D4BA0;
 
@@ -2488,7 +2488,7 @@ extern s32 TBoss2DeRolLe__instance;
 
 extern "C" void render_body__13TBoss2DeRolLeFv(u8 *arg0);
 
-extern "C" void dispatch_action__13TBoss2DeRolLeFiUii(s32 arg0, u32 arg1, s32 arg2);
+extern "C" void dispatch_action__13TBoss2DeRolLeFiUii(saddr arg0, u32 arg1, saddr arg2);
 
 extern "C" void update_colliders_from_offsets__13TBoss2DeRolLeFi(s32 arg0);
 
@@ -3543,7 +3543,7 @@ void reload_stats_for_phase__13TBoss2DeRolLeFPvi(void *self, s32 kind) {
     reload_stats_keep_hp_tp__9TObjEneDDFv(self, TBoss2DeRolLe__base_params[a], TBoss2DeRolLe__attack_params_table[i], TBoss2DeRolLe__resistance_params[b]);
 }
 
-void forward_switch_phase_stats__13TBoss2DeRolLeFi(s32 arg0) {
+void forward_switch_phase_stats__13TBoss2DeRolLeFi(saddr arg0) {
     if ((void *) TBoss2DeRolLe__instance != NULL) {
         switch_phase_stats__13TBoss2DeRolLeFPvPv((u8 *)TBoss2DeRolLe__instance, (u8 *)arg0);
     }
@@ -3849,7 +3849,7 @@ void free_laser__13TBoss2DeRolLeFPv(void *arg0) {
 #define update_phase_is_done__13TBoss2DeRolLeFPv ((s32 (*)(void *))update_phase_is_done__13TBoss2DeRolLeFPv)
 #define update_state__13TBoss2DeRolLeFPv ((s32 (*)(void *))update_state__13TBoss2DeRolLeFPv)
 
-void pick_random_target__13TBoss2DeRolLeFi(s32 actor) {
+void pick_random_target__13TBoss2DeRolLeFi(saddr actor) {
     s32 n;
     saddr p;
     s32 j;
@@ -4140,18 +4140,18 @@ void update_particle_ctrls__13TBoss2DeRolLeFPv(Obj_80033AA4 *o) {
 
 #pragma pop
 
-void TBoss2DeRolLe__sub_80033A80(s32 arg0, s32 arg1) {
+void TBoss2DeRolLe__sub_80033A80(s32 arg0, saddr arg1) {
     TObjBoss2Tunnel__sub_8003B1D8((void *)arg1);
 }
 
-void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, s32 arg2) {
+void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, saddr arg2) {
     TObjBoss2CeilJunk::create_particle((const void *)arg2, 0x121);
 }
 
 #pragma push
 #pragma fp_contract on
 
-void spawn_offset_particle__13TBoss2DeRolLeFiff(s32 arg0, f32 farg0, f32 farg1) {
+void spawn_offset_particle__13TBoss2DeRolLeFiff(saddr arg0, f32 farg0, f32 farg1) {
     Vec stack;
     VecCopy__FP3VecPC3Vec((saddr)((void *)&stack.x), (void *)arg0);
     stack.x = -((*(f32 *)((s8 *)&lbl_804FF5E8 + 0xC) * farg1) - stack.x);
@@ -4249,7 +4249,7 @@ void update_pulsing_colors__13TBoss2DeRolLeFPv(u8 *arg0) {
 
 #undef SWAP_COLOR_HALVES
 
-void dispatch_action__13TBoss2DeRolLeFiUii(s32 arg0, u32 arg1, s32 arg2) {
+void dispatch_action__13TBoss2DeRolLeFiUii(saddr arg0, u32 arg1, saddr arg2) {
     switch (arg1) {
     case 0:
         TBoss2DeRolLe__sub_800333F4((Obj_800333F4 *)(arg0), arg2);

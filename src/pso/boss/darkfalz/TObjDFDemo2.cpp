@@ -179,7 +179,7 @@ void *__dt__11TObjDFDemo2Fv(void *base, s16 arg1) {
 #define self ((Obj_8004EB78 *)arg0)
 void *TObjDFDemo2__ct(void *arg0, void *parent, void *arg2, void *arg3, void *arg4) {
     s32 k;
-    s32 cnt;
+    saddr cnt;
     s32 i;
 
     __ct__8TObjBaseFP7TObject(self, parent);

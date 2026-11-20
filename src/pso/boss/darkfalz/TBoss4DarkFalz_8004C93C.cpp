@@ -54,7 +54,7 @@ int VecCopy__FP3VecPC3Vec(void*, void* a1);
 int freeze_all_players__14TBoss4DarkFalzFPv(void*);
 s32 obj_setArrS16_FC(void *, s32, u16);
 extern s32 lbl_80485454[];
-extern int TBoss4DarkFalz__type3_instance;
+extern saddr TBoss4DarkFalz__type3_instance;
     extern int dark_falz_form_index;
 s32 TBoss4DarkFalz__sub_8004B07C(s32);
 int TBoss4DarkFalz__sub_8004B7DC(void);
@@ -69,13 +69,13 @@ int bswap_32__FPUl(void*);
 
 int TBoss4DarkFalz__sub_8004C1AC(void) {  return TBoss4DarkFalz__type3_instance; }
 
-extern s32 TBoss4DarkFalz__type2_instance;
+extern saddr TBoss4DarkFalz__type2_instance;
 
 s32 TBoss4DarkFalz__sub_8004C1B4(void) {
     return TBoss4DarkFalz__type2_instance;
 }
 
-extern s32 TBoss4DarkFalz__type1_instance;
+extern saddr TBoss4DarkFalz__type1_instance;
 
 s32 TBoss4DarkFalz::get_instance() {
     return TBoss4DarkFalz__type1_instance;
@@ -87,7 +87,7 @@ s32 TBoss4DarkFalz::get_phase() { return this->m_374; }
 s32 TBoss4DarkFalz::get_state() { return this->m_374; }
 void*TBoss4DarkFalz::get_hit_data() { return (char*)this + 0x5c; }
 void TBoss4DarkFalz::save_position() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     VecCopy__FP3VecPC3Vec((void*)(arg0 + 0x44), (void*)(arg0 + 0x38));
 }
 
@@ -311,7 +311,7 @@ void TBoss4DarkFalz::update_leader_die_type2() {  }
 void TBoss4DarkFalz::enter_demo2_phase() {
     u16 arr[4];
     Vec v;
-    s32 flag;
+    saddr flag;
     s32 i;
     Obj_8004C940 *arg0 = (Obj_8004C940 *)this;
     ((s32 (*)(void))freeze_all_players__14TBoss4DarkFalzFPv)();

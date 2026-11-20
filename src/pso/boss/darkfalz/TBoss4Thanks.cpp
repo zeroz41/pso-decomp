@@ -56,7 +56,7 @@ extern "C" {
 s32 get_bml_motion(void *, s32);
 s32 get_bml_texlist(void *, s32);
 s32 get_bml_model(void *, s32);
-void TBoss4Thanks__sub_8035C480(s32 arg0);
+void TBoss4Thanks__sub_8035C480(saddr arg0);
 const char *TBoss4Thanks__class_name = "TBoss4Thanks";
 // Position of the emitters and of the proximity check (x, y, z).
 extern const f32 boss4_thanks_position[3] = {-9860.0f, 29.0f, -238.9f};
@@ -112,7 +112,7 @@ void TBoss4Thanks::destroy_effects() {
     }
 }
 
-void TBoss4Thanks__sub_8035C480(s32 arg0) {
+void TBoss4Thanks__sub_8035C480(saddr arg0) {
     O_8035C480 *self = (O_8035C480 *)arg0;
     s32 i;
     for (i = 0; i < 4; i++) {

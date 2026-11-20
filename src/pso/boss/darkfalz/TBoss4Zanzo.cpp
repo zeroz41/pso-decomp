@@ -277,7 +277,7 @@ struct Obj_80057128 {
     f32 wave;
 };
 
-s32 TBoss4Type2::create(s32 params) {
+s32 TBoss4Type2::create(saddr params) {
     return (saddr)new TUnk_80486924(new TObjControl((TObject *)tl_04), (s32 *)params);
 }
 
@@ -971,7 +971,7 @@ void TBoss4Type2::beam_update() {
     Vec p;
     s32 a;
     s32 b;
-    u32 h;
+    uaddr h;
     f32 t;
     if (*(s32 *)((s8 *)arg0 + 0x398) == 0x4B) {
         ((TBoss4Type2 *)arg0)->set_attack_pattern_by_index(boss4_type2_attack_pattern_table[idx]);
@@ -1062,24 +1062,24 @@ void TBoss4Type2::tenchu_update() {
     f32 temp_f1_2;
     s32 temp_r0;
     s32 temp_r0_2;
-    u32 temp_r3;
-    u32 temp_r3_10;
+    uaddr temp_r3;
+    uaddr temp_r3_10;
     u32 particle_emitter;
     u32 temp_r3_12;
     u32 temp_r3_13;
     u32 temp_r3_14;
-    u32 temp_r3_15;
-    u32 temp_r3_16;
-    u32 temp_r3_17;
-    u32 temp_r3_18;
-    u32 temp_r3_2;
+    uaddr temp_r3_15;
+    uaddr temp_r3_16;
+    uaddr temp_r3_17;
+    uaddr temp_r3_18;
+    uaddr temp_r3_2;
     u32 temp_r3_3;
     u32 temp_r3_4;
-    u32 temp_r3_5;
-    u32 temp_r3_6;
-    u32 temp_r3_7;
-    u32 temp_r3_8;
-    u32 temp_r3_9;
+    uaddr temp_r3_5;
+    uaddr temp_r3_6;
+    uaddr temp_r3_7;
+    uaddr temp_r3_8;
+    uaddr temp_r3_9;
     temp_r0 = *(s32 *)((s8 *)boss4_type2 + 0x398);
     if (temp_r0 == 6) {
         create_all_tenchu_furu__11TBoss4Type2Fi();
@@ -1265,11 +1265,11 @@ void TBoss4Type2::md_recover_update() {
   Stack_80055918 stack;
   int temp_r0;
   u16 temp_r3_4;
-  unsigned int temp_r3;
+  uaddr temp_r3;
   unsigned int particle_emitter;
-  unsigned int particle_effect;
-  unsigned int temp_r3_5;
-  unsigned int temp_r3_6;
+  uaddr particle_effect;
+  uaddr temp_r3_5;
+  uaddr temp_r3_6;
   unsigned int *new_var;
   if (((*((int *) (((s8 *) boss4_type2) + 0x3C8))) == 5) && ((*((f32 *) (((s8 *) boss4_type2) + 0x3D0))) > 28.0f))
   {

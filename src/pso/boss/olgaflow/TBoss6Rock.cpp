@@ -108,7 +108,7 @@ void TBoss6Rock::free_data() {
     }
 }
 
-void TBoss6Rock::create_rock_pool(s32 owner) {
+void TBoss6Rock::create_rock_pool(saddr owner) {
     s32 i;
     if (TBoss6Rock__data_805D6EF0 == NULL || TBoss6Rock__data_805D6EF4 == NULL) {
         return;
@@ -436,7 +436,7 @@ s32 TBoss6Rock::is_rock_state_2(int i) {
     return rock->m_c8 == 2;
 }
 
-s32 TBoss6Rock::get_point(s32 i, s32 out, f32 *radius) {
+s32 TBoss6Rock::get_point(s32 i, saddr out, f32 *radius) {
     if (is_rock_valid(i) == 0) {
         return 0;
     }

@@ -294,8 +294,8 @@ void run_task__23TBoss6Demo21_TYPE2_DEADFv(Fish_8033E0F0 *arg0) {
         }
     }
     if (arg0->timer >= 0x1AE) {
-        s32 pb;
-        s32 pm;
+        saddr pb;
+        saddr pm;
         VecCopy((Vec *)&a, (const Vec *)&arg0->f84);
         pb = (saddr)&b;
         VecCopy((Vec *)pb, (const Vec *)&arg0->f90);
