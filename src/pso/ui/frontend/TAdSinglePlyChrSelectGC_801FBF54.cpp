@@ -280,7 +280,7 @@ loop_1:
     goto loop_1;
 }
 
-s32 TAdSinglePlyChrSelectGC::register_in_free_room_slot(s32 arg1) {
+s32 TAdSinglePlyChrSelectGC::register_in_free_room_slot(saddr arg1) {
     u8 *arg0 = (u8 *)this;
     s32 var_r31;
     s32 var_r30;

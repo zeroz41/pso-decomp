@@ -125,7 +125,7 @@ s32 destroy_chardata_array__23TAdSinglePlyChrSelectGCFis(s32 arg0, s16 arg1) {
     return arg0;
 }
 
-s32 TAdSinglePlyChrSelectGC::free_chardata(s32 arg0, s16 arg1) {
+s32 TAdSinglePlyChrSelectGC::free_chardata(saddr arg0, s16 arg1) {
     if (arg0 != 0) {
         __dt__12TPlyCharDataFv(arg0, -1);
         if (arg1 > 0) {

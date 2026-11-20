@@ -3,7 +3,7 @@
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 
-void TWindowSubSymbolChat::update_display(s32 arg0) {
+void TWindowSubSymbolChat::update_display(saddr arg0) {
     saddr zero_vec2;
 
     zero_vec2 = (saddr)get_zero_vec2();

@@ -19,12 +19,12 @@ struct TWindowFukidasi
     void hide();
     int get_visible_flag();
     int is_bit10_set();
-    s32 check_card_match_enabled(s32 arg1);
+    s32 check_card_match_enabled(saddr arg1);
     void sync_display_pos();
     s32 approach(f32 farg0);
     void get_boundary_offset(s32 angle, f32 *out);
-    void find_balloon_overlap_for(s32 arg1);
-    void rearm_balloon(s32 arg1);
+    void find_balloon_overlap_for(saddr arg1);
+    void rearm_balloon(saddr arg1);
 };
 
 extern "C" {

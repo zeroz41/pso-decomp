@@ -147,7 +147,7 @@ s32 TAdPlayerLoadGC::check_card_result_code() {
 
 #pragma push
 #pragma fp_contract on
-s32 TAdPlayerLoadGC::probe_and_check_card(s32 channel) {
+s32 TAdPlayerLoadGC::probe_and_check_card(saddr channel) {
     s32 spC;
     s32 sp8;
     s32 temp_r3;
@@ -650,7 +650,7 @@ s32 poll_memcard_result(s32 chan) {
     return 0;
 }
 
-s32 TAdPlayerLoadGC::probe_card_slot(s32 arg0) {
+s32 TAdPlayerLoadGC::probe_card_slot(saddr arg0) {
     s32 spC;
     s32 sp8;
     s32 temp_r3;
@@ -714,7 +714,7 @@ s32 TAdPlayerLoadGC::check_memcard_status(s32 arg0) {
     }
 }
 
-s32 TAdPlayerLoadGC::find_card_file(s32 chan, const char *name) {
+s32 TAdPlayerLoadGC::find_card_file(saddr chan, const char *name) {
     CARDStat_801E2048 st;
     s32 i;
     if (chan >= 2) {

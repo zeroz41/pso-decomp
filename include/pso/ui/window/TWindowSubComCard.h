@@ -68,7 +68,7 @@ struct TWindowSubComCard : public TObject {
     static void init_and_press_a(s32 arg0);
     static void init_and_press_b(s32 arg0);
     static void update_press();
-    static void select_card_entry(s32 arg0);
+    static void select_card_entry(saddr arg0);
     static s32 contains_profanity(char *text);
     static void mask_profanity_words(char *src, char *dst);
     s32 get_field_20();
@@ -81,8 +81,8 @@ struct TWindowSubComCard : public TObject {
     void clear_flag_and_release2();
     void set_entry_value_clear_flag(s32 idx, s32 val);
     void clear_transition_flag();
-    static void draw_text_gray(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-    void draw_card_icon(s32 arg1, s32 arg2);
+    static void draw_text_gray(saddr arg0, s32 arg1, s32 arg2, s32 arg3);
+    void draw_card_icon(saddr arg1, saddr arg2);
     void update_selected_entry();
     void update_next_entry(s32 arg1, s32 arg2, s32 arg3);
     s32 get_entry_id();
@@ -97,7 +97,7 @@ struct TWindowSubComCard : public TObject {
     void*init_fields(int a1, int a2);
     int is_flag_4_set();
     static f32 trunc_float(f32 farg0);
-    void set_card_text(s32 arg1);
+    void set_card_text(saddr arg1);
     u8 *get_card_entry_data();
     static s32 find_card_by_id(u32 arg0);
     static void swap_cards(s32 arg0, s32 arg1);

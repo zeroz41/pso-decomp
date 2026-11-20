@@ -49,7 +49,7 @@ struct TShopEquipmentSellWindow : public TShopWindowBase {
     s32 get_result();
     static void set_entry_count(void *arg1, void *arg2);
     int get_item_count();
-    void add_item(s32 arg1, s32 arg2, s32 arg3);
+    void add_item(saddr arg1, s32 arg2, s32 arg3);
 };
 
 LAYOUT_ASSERT(TShopEquipmentSellWindow_size, sizeof(TShopEquipmentSellWindow) == 0x3AC);

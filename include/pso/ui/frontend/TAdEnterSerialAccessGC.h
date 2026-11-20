@@ -37,7 +37,7 @@ struct TAdEnterSerialAccessGC : public TAdEnterBaseGC {
     static void create_default_callback();
     static s32 show_message_window(void *arg0, void *arg1);
     static void clear_serial_buffer();
-    static void store_serial_access_key(s32 arg0, s32 arg1, s32 arg2);
+    static void store_serial_access_key(saddr arg0, saddr arg1, saddr arg2);
     static char *serial_to_hex_string(int arg0);
     static int forward_input(void* p);
     void reset_input_state();

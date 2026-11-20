@@ -1105,7 +1105,7 @@ void show_item_by_id__15TWindowHelpItemFPvi(u8 *window_help_item, s32 arg1) {
     ((TItem *)item)->copy_to_item_data((TItemData *)(window_help_item + 0x74));
     ((TWindowHelpItem *)window_help_item)->set_items_and_refresh(window_help_item + 0x74, (void*)((void*)((void *) arg1)));
 }
-void TWindowHelpItem::set_displayed_item_colored(u32 arg1) {
+void TWindowHelpItem::set_displayed_item_colored(uaddr arg1) {
     saddr var_r5;
     var_r5 = -0x100;
     if (arg1 == 0U) {

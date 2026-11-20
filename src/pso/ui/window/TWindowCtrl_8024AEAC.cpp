@@ -87,7 +87,7 @@ void TWindowCtrl::has_player_active_menu() {
     TWindowCtrl__sub_8024B098((void *)arg0, (void *)&stack.sp8);
 }
 
-void TWindowCtrl::apply_default_vec(s32 arg0, s32 arg1) {
+void TWindowCtrl::apply_default_vec(s32 arg0, saddr arg1) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8024AFB8, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_8024AFB8, spC) == 0x4);
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8024AFB8, sp10) == 0x8);

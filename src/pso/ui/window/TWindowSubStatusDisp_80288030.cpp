@@ -41,7 +41,7 @@ int TWindowSubStatusDisp__sub_802879B0(void*);
 
 int TWindowSubStatusDisp::forward_render() { return update__20TWindowSubStatusDispFPv(this); }
 int TWindowSubStatusDisp::update_subwindow() { return TWindowSubStatusDisp__sub_802879B0(this); }
-s32 TWindowSubStatusDisp::destroy_status_display(s32 arg0, s16 arg1) {
+s32 TWindowSubStatusDisp::destroy_status_display(saddr arg0, s16 arg1) {
     if (arg0 != 0) {
         TWindowSubStatusDisp::deleting_destructor(arg0, 0);
         if (arg1 > 0) {
@@ -58,7 +58,7 @@ u8 *TWindowSubStatusDisp::construct_type1_heading(s32 arg1, s32 arg2) {
 
 #pragma push
 #pragma scheduling off
-void TWindowSubStatusDisp::fill_card_text_entries(s32 arg1) {
+void TWindowSubStatusDisp::fill_card_text_entries(saddr arg1) {
     u8 *temp_r3;
     saddr temp_r31;
     saddr temp_r30;

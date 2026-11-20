@@ -615,7 +615,7 @@ void draw_name_plate__15TWindowFukidasiFv(TUnk_804CF0B8 *self, View_80252764 *ar
 
 #pragma pop
 extern "C" {
-void TUnk_804CF0B8::sub_80251DF0(s16 arg1, s32 str, s16 arg3, f32 farg0) {
+void TUnk_804CF0B8::sub_80251DF0(s16 arg1, saddr str, s16 arg3, f32 farg0) {
     s32 temp_r3;
 
     *(s32 *)((s8 *)this + 0) = (saddr) window_fukidasi_class_name;
@@ -1329,7 +1329,7 @@ void clamp_text_size__15TWindowFukidasiFPvPv(Fuki_80250314 *b, f32 *out) {
 }
 }
 
-s32 TWindowFukidasi::check_card_match_enabled(s32 arg1) {
+s32 TWindowFukidasi::check_card_match_enabled(saddr arg1) {
     if ((u8) *(u8 *)((s8 *)this + 0x72) != 0) {
         return 0;
     }
@@ -1339,7 +1339,7 @@ s32 TWindowFukidasi::check_card_match_enabled(s32 arg1) {
 
 #pragma push
 #pragma fp_contract on
-void TWindowFukidasi::rearm_balloon(s32 arg1) {
+void TWindowFukidasi::rearm_balloon(saddr arg1) {
     u32 n;
 
     if (((s32 (*)(void))sub_80246948__11TWindowBaseFv)() != 0) {

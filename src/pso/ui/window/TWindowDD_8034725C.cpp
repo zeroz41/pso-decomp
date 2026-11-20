@@ -150,7 +150,7 @@ block_5:
     return 0;
 }
 
-void TWindowDD::format_type6_message(s32 arg1, void *pos) {
+void TWindowDD::format_type6_message(saddr arg1, void *pos) {
     M_80347758 *arg0 = (M_80347758 *)this;
     s32 count;
     s32 n;

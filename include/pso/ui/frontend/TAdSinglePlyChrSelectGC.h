@@ -55,7 +55,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     s32 init_char_slot_record();
     u8 is_level_capped();
     s32 find_entry(s32 arg1);
-    s32 register_in_free_room_slot(s32 arg1);
+    s32 register_in_free_room_slot(saddr arg1);
     static s32 is_ready();
     static u16 get_card_window_field(int arg0);
     static u16 get_card_window_status(int arg0);
@@ -144,7 +144,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void free_all_resources();
     u8 load_and_verify_character_save(char *desc);
     static void remove_matching_entries(s32 arg0);
-    static s32 free_chardata(s32 arg0, s16 arg1);
+    static s32 free_chardata(saddr arg0, s16 arg1);
     u8 *copy_character_data(u8 *arg1);
     u8 *construct_chardata_array();
     void swap_item_data(s32 *arg1);

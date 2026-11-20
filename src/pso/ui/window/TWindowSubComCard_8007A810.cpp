@@ -11,7 +11,7 @@
 
 extern "C" {
 
-void TWindowSubComCard::set_card_text(s32 arg1) {
+void TWindowSubComCard::set_card_text(saddr arg1) {
     saddr arg0 = (saddr)this;
     u8 *temp_r3;
 

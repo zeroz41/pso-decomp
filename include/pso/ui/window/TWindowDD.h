@@ -57,7 +57,7 @@ struct TWindowDD : public TObject
     void draw_transformed_primitive(s32 a1, u32 a2, s32 a3);
     void reset_entries(f32 z, s32 color);
     void set_quad_corners_scaled(f32 farg0, f32 farg1, f32 farg2);
-    static s32 apply_both_choices(s32 arg0, s32 arg1);
+    static s32 apply_both_choices(s32 arg0, saddr arg1);
     void set_clamped_page(s32 arg1);
     void handle_input();
     void set_clamped_selection(s32 arg1);
@@ -103,7 +103,7 @@ struct TWindowDD : public TObject
     static u8 is_id_in_special_range(s16 id);
     static s32 classify_id(s16 arg0);
     static s32 get_player_battle_flag_state(u16 arg0);
-    void format_type6_message(s32 arg1, void *arg2);
+    void format_type6_message(saddr arg1, void *arg2);
     static s32 is_state_zero_unless_0x2C8(s32 arg0);
     void destroy_menu_entry(s32 arg1);
     void set_item_pos(s32 i);
@@ -152,7 +152,7 @@ struct TWindowDD : public TObject
     void init_item_slots();
     static void init_ws_data_tables();
     static s32 lookup_item_category(s32 arg0);
-    static s32 draw_default_entry(s32 arg0);
+    static s32 draw_default_entry(saddr arg0);
     void handle_confirm_input();
     void update_selection_state();
 };

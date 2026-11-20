@@ -92,8 +92,8 @@ struct TWindowSubStatusDisp : public TWindowBase {
     s8 *copy_message_page_text();
     void*get_sub_disp_ptr();
     void set_selected_index(s16 arg1);
-    static void draw_status(s32 arg1, s32 arg2, s32 arg3);
-    static void dispatch_without_flags(s32 arg1, s32 arg2, s32 arg3);
+    static void draw_status(saddr arg1, s32 arg2, s32 arg3);
+    static void dispatch_without_flags(saddr arg1, s32 arg2, s32 arg3);
     static void *refresh_with_default_list(s32 a, s32 b);
     int is_flag_4_set();
     s8 get_type();
@@ -113,9 +113,9 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void add_list_entry(s32 arg1);
     void refresh_selected_entry(s32 arg1);
     void add_status_entry(s8 arg1, s32 arg2, s32 arg3);
-    void add_inventory_item(s32 arg1, s32 arg2, s32 arg3);
-    void add_item_info_entry(s32 arg1, s32 arg2, s32 arg3);
-    void add_ground_item(s32 arg1, s32 arg2);
+    void add_inventory_item(saddr arg1, s32 arg2, s32 arg3);
+    void add_item_info_entry(saddr arg1, s32 arg2, saddr arg3);
+    void add_ground_item(saddr arg1, s32 arg2);
     void init_scroll_pos();
     int is_flag80_set();
     void add_text_entry(s32 arg1, s32 arg2);
@@ -132,7 +132,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static s32 deleting_destructor(s32 arg0, s16 arg1);
     int forward_render();
     int update_subwindow();
-    void fill_card_text_entries(s32 arg1);
+    void fill_card_text_entries(saddr arg1);
     static s32 query_status_field(void *arg0, s8 arg1);
     static s32 get_flag_or_zero(void *arg0, s8 arg1);
     static void draw_split_screen_dividers();
@@ -168,7 +168,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     u8 *init_part_direct(u8 *arg1, s32 arg2);
     void append_entry(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
     s32 update_hp_entry();
-    static s32 destroy_status_display(s32 arg0, s16 arg1);
+    static s32 destroy_status_display(saddr arg0, s16 arg1);
     u8 *construct_type1_heading(s32 arg1, s32 arg2);
     void update_entry_visibility();
     void update_item_colors(s32 arg1);

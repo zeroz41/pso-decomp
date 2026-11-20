@@ -61,7 +61,7 @@ struct TWindowCtrl : public TObject {
     void suppress_slot();
     void unsuppress_slot();
     void has_player_active_menu();
-    static void apply_default_vec(s32 arg0, s32 arg1);
+    static void apply_default_vec(s32 arg0, saddr arg1);
     void is_slot_visible();
     static s32 get_message_by_type(s8 arg0, s32 arg1);
     static void release_slot(s8 *arg0);
@@ -69,7 +69,7 @@ struct TWindowCtrl : public TObject {
     static s32 open_balloon(u16 arg0, u8 *arg1, s32 arg2, s32 arg3);
     static s32 open(s32 arg0, s32 arg1, s32 arg2);
     int open_default(int a1);
-    static void create_level_up_window(s32 arg0, s32 arg1);
+    static void create_level_up_window(saddr arg0, saddr arg1);
     static void set_window_flags(void *arg0, s32 arg1, s32 arg2);
     void set_window_flags_off(s32 arg1);
     static void init_all(void* p, void* a1);

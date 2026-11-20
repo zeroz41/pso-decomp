@@ -143,7 +143,7 @@ void TWindowDD::set_quad_corners_scaled(f32 farg0, f32 farg1, f32 farg2) {
 
 #pragma push
 #pragma opt_dead_assignments off
-s32 TWindowDD::apply_both_choices(s32 arg0, s32 arg1) {
+s32 TWindowDD::apply_both_choices(s32 arg0, saddr arg1) {
   return apply_choice__20TWindowChoiceSettingFllll((void *) ((u8 *)&controller_input_state + 0x20), (void *) arg1, 6, 1) | apply_choice__20TWindowChoiceSettingFllll((void *) ((u8 *)&controller_input_state + 0x160), (void *) arg1, 6, 1);
 }
 }

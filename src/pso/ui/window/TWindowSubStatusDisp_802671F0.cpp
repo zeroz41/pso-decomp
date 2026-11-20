@@ -368,7 +368,7 @@ void TWindowSubStatusDisp::append_entry(s32 arg1, s32 arg2, s32 arg3, s32 arg4, 
     }
 }
 
-void TWindowSubStatusDisp::add_inventory_item(s32 arg1, s32 arg2, s32 arg3) {
+void TWindowSubStatusDisp::add_inventory_item(saddr arg1, s32 arg2, s32 arg3) {
     s16 temp_r4;
     if (arg1 != 0) {
         temp_r4 = (s16) *(s16 *)((s8 *)this + 0x72);
@@ -379,7 +379,7 @@ void TWindowSubStatusDisp::add_inventory_item(s32 arg1, s32 arg2, s32 arg3) {
     }
 }
 
-void TShopEquipmentSellWindow::add_item(s32 arg1, s32 arg2, s32 arg3) {
+void TShopEquipmentSellWindow::add_item(saddr arg1, s32 arg2, s32 arg3) {
     s16 temp_r4;
     if (arg1 != 0) {
         temp_r4 = (s16) this->m_72;
@@ -401,7 +401,7 @@ void TShopJudgmentItemWindow::add_list_entry(s32 arg1, s32 arg2) {
     }
 }
 
-void TWindowSubStatusDisp::add_item_info_entry(s32 arg1, s32 arg2, s32 arg3) {
+void TWindowSubStatusDisp::add_item_info_entry(saddr arg1, s32 arg2, saddr arg3) {
     s16 temp_r4;
     if (arg1 != 0) {
         temp_r4 = (s16) *(s16 *)((s8 *)this + 0x72);
@@ -412,7 +412,7 @@ void TWindowSubStatusDisp::add_item_info_entry(s32 arg1, s32 arg2, s32 arg3) {
     }
 }
 
-void TWindowSubStatusDisp::add_ground_item(s32 arg1, s32 arg2) {
+void TWindowSubStatusDisp::add_ground_item(saddr arg1, s32 arg2) {
     s16 temp_r4;
     if (arg1 != 0) {
         temp_r4 = (s16) *(s16 *)((s8 *)this + 0x72);

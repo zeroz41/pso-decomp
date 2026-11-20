@@ -44,7 +44,7 @@ struct TWindowShortListCtrl : public TObject {
     static void set_card_window_flags(s32 arg0, s32 arg1);
     s16 get_cursor_pos();
     void update_cursor_pos();
-    static void assign_shortcut(s32 arg0, s32 arg1, s32 arg2);
+    static void assign_shortcut(s32 arg0, saddr arg1, s32 arg2);
 };
 
 LAYOUT_ASSERT(TWindowShortListCtrl_size, sizeof(TWindowShortListCtrl) == 0x3C);

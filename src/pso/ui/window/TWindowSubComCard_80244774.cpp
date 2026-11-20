@@ -326,7 +326,7 @@ s32 TWindowBase::setup_window_draw_context(s32 arg1) {
     return (saddr)context;
 }
 
-s32 TWindowDD::draw_default_entry(s32 arg0) {
+s32 TWindowDD::draw_default_entry(saddr arg0) {
     return ((TWindowBase *)arg0)->setup_window_draw_context((saddr)fn_8026CB68());
 }
 
@@ -376,7 +376,7 @@ Win_80244DFC *find_overlapping_balloon__15TWindowFukidasiFPvPvPvPv(Win_80244DFC 
     return 0;
 }
 
-void TWindowFukidasi::find_balloon_overlap_for(s32 arg1) {
+void TWindowFukidasi::find_balloon_overlap_for(saddr arg1) {
     saddr arg0 = (saddr)this;
     find_overlapping_balloon__15TWindowFukidasiFPvPvPvPv((Win_80244DFC *)(arg0), (void *)(arg0 + 0x30), (void *)(arg0 + 0x38), (Win_80244DFC *)(arg1));
 }

@@ -11,7 +11,7 @@ public:
     void draw_body(void *, u32, f32 *, f32);
     void draw_body_row(void *, void *, f32, f32, f32, f32);
     void draw_tail(void *, u32, f32 *, f32);
-    void sub_80251DF0(s16, s32, s16, f32);
+    void sub_80251DF0(s16, saddr, s16, f32);
     s32 clamp_position(void *, f32);
     void set_color(u16);
     void follow_anchor();

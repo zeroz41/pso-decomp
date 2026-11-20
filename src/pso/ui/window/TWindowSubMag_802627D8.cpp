@@ -18,7 +18,7 @@ int TWindowKeyBoardSoft::get_flag_bit6() { return (this->m_60 >> 6) & 0x1; }
 int TWindowKeyBoardSoft::get_flag_bit5() { return (this->m_60 >> 5) & 0x1; }
 int TWindowKeyBoardBase::get_flag62_bit8() { return this->m_62 & 0x8; }
 
-void TWindowSubMag::set_mag_slot_state(s32 item) {
+void TWindowSubMag::set_mag_slot_state(saddr item) {
 
     *get_array_entry__11TWindowBaseFi(this, 0) |= 2;
     if ((*(TItemTexLoad**)((s8 *)this + 0x6C))->load_item_icon((TItemData*)item) != 0) {

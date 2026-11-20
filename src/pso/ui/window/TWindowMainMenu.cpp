@@ -657,7 +657,7 @@ void TWindowMainMenu::try_open_battle_menu(s16 arg1) {
     }
 }
 
-void TWindowSubEquip::open_submenu(s32 arg0, s32 arg1) {
+void TWindowSubEquip::open_submenu(saddr arg0, s32 arg1) {
     s32 create_submenu__15TWindowMainMenuFUl(s32, s16);
     ((TWindowMainMenu *)arg0)->destroy_submenu();
     create_submenu__15TWindowMainMenuFUl(arg0, (s16)arg1);

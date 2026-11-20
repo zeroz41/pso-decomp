@@ -103,7 +103,7 @@ s32 prs_decompress(Prs_8036F5B0 *c, u8 *src, s32 arg2, s32 arg3);
 int request_scene_change__21TAdMultiChgGameModeGCFv(void*);
 int request_transition__21TAdMultiChgGameModeGCFv(void*);
 
-void TAdEp3Exist::draw_message_window(s32 arg1) {
+void TAdEp3Exist::draw_message_window(saddr arg1) {
     saddr arg0 = (saddr)this;
     ((TWindowBase *)arg0)->draw_window_frame((void *) (arg1));
     f32 x = 320.0f - (f32)(calc_text_width((char *)get_localized_text_entry(0x2C, 0xA)) >> 1U);

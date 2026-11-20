@@ -580,7 +580,7 @@ void TWindowOptionCtrl::open() {
     }
 }
 
-void TWindowSubComCard::draw_text_gray(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+void TWindowSubComCard::draw_text_gray(saddr arg0, s32 arg1, s32 arg2, s32 arg3) {
     ((TWindowSubTradeMain *)arg0)->add_text_entry(arg1, arg2 | 0x10, arg3, 0xFF909090);
 }
 
@@ -681,7 +681,7 @@ s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2) {
     return var_r0;
 }
 
-void TAdChrSelASlotGC::check_room_seq_4(s32 arg1) {
+void TAdChrSelASlotGC::check_room_seq_4(saddr arg1) {
     saddr arg0 = (saddr)this;
     ((int (*)(void*, void*, void*))create_window_menu)((void*)arg0, (void*)arg1, (void*)(4));
 }
@@ -701,7 +701,7 @@ s32 create_titled_window_menu(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     return temp_r31;
 }
 
-void TWindowSubComCard::draw_card_icon(s32 arg1, s32 arg2) {
+void TWindowSubComCard::draw_card_icon(saddr arg1, saddr arg2) {
     saddr arg0 = (saddr)this;
     ((int (*)(void*, void*, void*, void*))create_titled_window_menu)((void*)arg0, (void*)arg1, (void*)arg2, (void*)(4));
 }

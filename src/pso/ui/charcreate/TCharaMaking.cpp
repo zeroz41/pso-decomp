@@ -524,7 +524,7 @@ void TCharaMaking::update_light_direction() {
     TObjLight__scene_light_state.z = temp_f31 * cos_table_lookup(m_20);
 }
 
-s32 TCharaMaking::update_main_menu(s32 arg0) {
+s32 TCharaMaking::update_main_menu(saddr arg0) {
     saddr var_r3;
 
     if (is_state_3__14TObjCMMainMenuFv(creation_main_menu_obj) != 0) {

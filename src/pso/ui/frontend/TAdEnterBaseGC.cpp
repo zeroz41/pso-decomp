@@ -277,7 +277,7 @@ char *TAdEnterSerialAccessGC::serial_to_hex_string(int arg0) {
     return serial_access_hex_string_buf;
 }
 
-void TAdEnterSerialAccessGC::store_serial_access_key(s32 arg0, s32 arg1, s32 arg2) {
+void TAdEnterSerialAccessGC::store_serial_access_key(saddr arg0, saddr arg1, saddr arg2) {
     s32 instance;
 
     instance = TAdSinglePlyChrSelectGC::get_instance();
