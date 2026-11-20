@@ -214,7 +214,7 @@ void *TObjPlayer::init_zeroed_object() {
 
 TUnk_804E3BD8::~TUnk_804E3BD8() {
     VObj_802E74E4 *temp_r3;
-    mem_free((void *)(*(s32 *)((s8 *)this + 0x28)));
+    mem_free((void *)(*(saddr *)((s8 *)this + 0x28)));
     temp_r3 = *(VObj_802E74E4 **)((s8 *)this + 0x1C);
     if (temp_r3 != NULL) {
         temp_r3->m0(1);
@@ -229,7 +229,7 @@ void TUnk_804E3BD8::alloc_breakup_model(s32 model) {
     temp_r4 = *(s32 **)((s8 *)this + 0x1C);
     this->m_24 = (s32) *temp_r4;
     sub_802E75B8(temp_r4);
-    *(s32 *)&(this->unk_28) = (s32)mem_alloc(this->m_24 * 0x2C);
+    *(s32 *)&(this->unk_28) = (saddr)mem_alloc(this->m_24 * 0x2C);
 }
 
 void TObjPlayer__sub_802E7470(void) {  }
@@ -248,7 +248,7 @@ Obj_802E72DC *TObjPlayer__sub_802E72DC(Obj_802E72DC *arg0, s32 arg1, Vec *arg2, 
         n = -1;
     }
     if (n > 0) {
-        ((TUnk_804E3BD8 *)arg0)->alloc_breakup_model((s32)find_model_node((u32)queue_boss_effect__10TObjPlayerFPv(3), n));
+        ((TUnk_804E3BD8 *)arg0)->alloc_breakup_model((s32)find_model_node((uaddr)queue_boss_effect__10TObjPlayerFPv(3), n));
         ((TUnk_804E3BC0 *)arg0)->sub_802E7640();
         p = arg0->pieces;
         for (i = 0; i < arg0->count; i++, p++) {
@@ -334,7 +334,7 @@ u8 *TObjPlayer::init_breakup_pieces(void *arg1, saddr arg2) {
     s32 i;
     this->init_zeroed_object();
     *(u8 **)((s8 *)((u8 *)this) + 0x18) = ((u8 *)&__vt__13TUnk_804E3BA8);
-    ((TUnk_804E3BD8 *)((u8 *)this))->alloc_breakup_model(((s32)queue_boss_effect__10TObjPlayerFPv(2)));
+    ((TUnk_804E3BD8 *)((u8 *)this))->alloc_breakup_model(((saddr)queue_boss_effect__10TObjPlayerFPv(2)));
     *(s32 *)((s8 *)((u8 *)this) + 0x2C) = arg2;
     part = *(Part_802E6F10 * *)&this->room;
     push_matrix();

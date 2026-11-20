@@ -87,7 +87,7 @@ void TUnk_804CCC68::dispatch_all_technique_contacts() {
         return;
     }
     if ((u16) get_entity_id((int) (*(s32 *)((s8 *)((u8 *)this) + 0x1C))) < 4U) {
-        if (get_type__10TObjPlayerFPv((void *)(*(s32 *)((s8 *)((u8 *)this) + 0x1C) + 0x828)) != 0) {
+        if (get_type__10TObjPlayerFPv((void *)(*(saddr *)((s8 *)((u8 *)this) + 0x1C) + 0x828)) != 0) {
             list = (List_8023A244 *) query_technique_player_contacts(*(s32 *)((s8 *)((u8 *)this) + 0x1C));
         } else {
             list = (List_8023A244 *) query_technique_enemy_contacts(*(s32 *)((s8 *)((u8 *)this) + 0x1C));
@@ -118,7 +118,7 @@ void TUnk_804CCC68::dispatch_technique_contact() {
         return;
     }
     if ((u16) get_entity_id((int) (*(s32 *)((s8 *)((u8 *)this) + 0x1C))) < 4U) {
-        if (get_type__10TObjPlayerFPv((void *)(*(s32 *)((s8 *)((u8 *)this) + 0x1C) + 0x828)) != 0) {
+        if (get_type__10TObjPlayerFPv((void *)(*(saddr *)((s8 *)((u8 *)this) + 0x1C) + 0x828)) != 0) {
             var_r31 = query_technique_player_contacts(*(s32 *)((s8 *)((u8 *)this) + 0x1C));
         } else {
             var_r31 = query_technique_enemy_contacts(*(s32 *)((s8 *)((u8 *)this) + 0x1C));
@@ -165,13 +165,13 @@ void TTecReverser::create(void *arg0, void *arg1, void *arg2, void *arg3) {
     void *o;
     o = TObject::operator new(0x148);
     if (o != NULL) {
-        TTecReverser__ct((u8 *)o, (s32)arg0, (s32)arg1, (s32)arg2, (s32)arg3);
+        TTecReverser__ct((u8 *)o, (saddr)arg0, (saddr)arg1, (saddr)arg2, (saddr)arg3);
     }
 }
 
 void run_task__12TTecReverserFv(u8 *tec_reverser) {
     uaddr entity;
-    ((TTecReverser *)tec_reverser)->source = (u32)find_entity_by_id((((TTecReverser *)tec_reverser)->m_b4));
+    ((TTecReverser *)tec_reverser)->source = (uaddr)find_entity_by_id((((TTecReverser *)tec_reverser)->m_b4));
     if ((u32) ((TTecReverser *)tec_reverser)->source == 0U) {
         ((TObject *)tec_reverser)->queue_destruction();
         return;
@@ -180,7 +180,7 @@ void run_task__12TTecReverserFv(u8 *tec_reverser) {
         ((TObject *)tec_reverser)->queue_destruction();
         return;
     }
-    entity = (u32)find_entity_by_id((((TTecReverser *)tec_reverser)->m_f0));
+    entity = (uaddr)find_entity_by_id((((TTecReverser *)tec_reverser)->m_f0));
     if ((is_active__12TTecReverserFv() == 0) && (TObjPlayer::is_valid_and_active(entity) != 0)) {
         ((TTecReverser *)(tec_reverser))->vfunc_6((void *)entity);
     }

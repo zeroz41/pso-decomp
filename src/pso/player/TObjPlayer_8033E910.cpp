@@ -106,7 +106,7 @@ void TObjPlayer::free_indexed_entry(s32 _w1) {
 
     temp_r0 = (this->m_20);
     if (temp_r0 < 0x10) {
-        ((TObjPlayer *)(*(s32 *)((s8 *)this + 0x1C) + (temp_r0 * 0x24)))->copy_node_record(_w1);
+        ((TObjPlayer *)(*(saddr *)((s8 *)this + 0x1C) + (temp_r0 * 0x24)))->copy_node_record(_w1);
     }
 }
 void TObjPlayer::copy_node_record(s32 arg1) {

@@ -1611,7 +1611,7 @@ u8 *TObjPlayer__sub_800A2F94(u8 *self, s32 arg1, u8 *arg2) {
     {
         Atk_800A2F94 atk = dark_gunner_attack_binding_desc;
         atk.motions = *(s32 *)(G500C + 0x430);
-        TLobby::spawn_npc_enemy(0x19, *(s32 *)(*(u8 **)(G500C + 0x42C) + 0x18), (NJS_TEXLIST *)*(s32 *)(*(u8 **)(G500C + 0x42C) + 0x1C), &atk, 10.0f, 0.0f);
+        TLobby::spawn_npc_enemy(0x19, *(s32 *)(*(u8 **)(G500C + 0x42C) + 0x18), (NJS_TEXLIST *)*(saddr *)(*(u8 **)(G500C + 0x42C) + 0x1C), &atk, 10.0f, 0.0f);
     }
     return self;
 }
@@ -1635,7 +1635,7 @@ s32 TObjPlayer__sub_800A3210(s32 i, s32 _w1, s32 _w2) {
 
 int TObjPlayer::is_flag_set_388_bit26() { return (*(u32 *)&this->unk_388 >> 26) & 0x1; }
 
-void TObjEneDarkGunner::set_fields_24_34_from_global(void*a1) { *(int *)&this->model = get_bml_model((void*)((*(int *)&player_effect_bml_resource))); *(int *)&this->texlist = get_bml_texlist((void*)((*(int *)&player_effect_bml_resource)), a1); }
+void TObjEneDarkGunner::set_fields_24_34_from_global(void*a1) { *(int *)&this->model = get_bml_model((void*)((*(saddr *)&player_effect_bml_resource))); *(int *)&this->texlist = get_bml_texlist((void*)((*(saddr *)&player_effect_bml_resource)), a1); }
 
 void TObjPlayer::clear_counter() { this->m_340 = 0; }
 

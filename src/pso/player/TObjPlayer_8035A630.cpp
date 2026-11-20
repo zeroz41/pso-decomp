@@ -43,7 +43,7 @@ void TObjPlayer::draw_node_tree(void *arg1) {
             temp_r12(var_r30);
         }
         if (!(temp_r31 & 8)) {
-            draw_chunk_model((void *)(*(s32 *)((s8 *)var_r30 + 4)));
+            draw_chunk_model((void *)(*(saddr *)((s8 *)var_r30 + 4)));
         }
         pop_matrix();
         if (!(temp_r31 & 0x10)) {

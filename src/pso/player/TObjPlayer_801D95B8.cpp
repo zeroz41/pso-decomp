@@ -56,7 +56,7 @@ u8 TObjPlayer::get_valid_technique() {
 u8 TObjPlayer::get_castable_technique_level() {
     u8 a = ((Rec_801D96CC *)this)->a;
     u8 t;
-    if (TObjPlayer::check_technique_level((s32)(((Rec_801D96CC *)this)), (s32)(((Rec_801D96CC *)this)->b), (u8)a) == 0) {
+    if (TObjPlayer::check_technique_level((saddr)(((Rec_801D96CC *)this)), (s32)(((Rec_801D96CC *)this)->b), (u8)a) == 0) {
         a = 0x1D;
     }
     if (((s32 (*)(u8))is_invalid_slot__10TObjPlayerFUc)(a) != 0) {

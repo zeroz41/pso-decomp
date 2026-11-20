@@ -20,7 +20,7 @@ s32 obj_isState2_324__9TObjCharaFv();
 extern "C" {
 
 void TObjPlayer::init_battle() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     ((s32 (*)())TObjPlayer__sub_801BC8F0)();
     set_flag_400000__10TObjPlayerFi((arg0));
     ((TObjPlayer *)(arg0 + 0x634))->enter_battle_state();
@@ -116,7 +116,7 @@ void TObjPlayer__sub_801BCA14(u8 *player, void *arg1) {
 
 void TObjPlayer__sub_801BCAB0(void) {  }
 void TObjPlayer::update_state() {
-    saddr arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     if (obj_isState2_324__9TObjCharaFv() != 0) {
         ((TObjPlayer *)arg0)->set_flag_400000();
     } else {
@@ -156,7 +156,7 @@ void TObjPlayer::load_char_data(u8 *arg1) {
     TObjPlayer__sub_801B2014(this);
 }
 
-int TObjPlayer::can_cast_technique() { return TObjPlayer::check_technique_castable((s32)this); }
+int TObjPlayer::can_cast_technique() { return TObjPlayer::check_technique_castable((saddr)this); }
 void TObjPlayer__sub_801BCC50(void) {  }
 
 u8 *get_class_attack_template(TObjPlayer *arg0);
@@ -176,7 +176,7 @@ void TObjPlayer::init_player_data() {
     this->m_d48 = temp_f31;
     this->m_2b0 = ((u8 *)&this->unk_D38);
     ((TObjPlayer *)arg0)->apply_input_mode();
-    set_move_mode__10TObjPlayerFi((s32)arg0);
+    set_move_mode__10TObjPlayerFi((saddr)arg0);
     ((TObjPlayer *)arg0)->init_trait_flags();
     ((TLobby *)(arg0 + 0xD5C))->copy_from((void *)(get_class_attack_template((TObjPlayer *)arg0)));
     ((TLobby *)(arg0 + 0xD8C))->copy_entry((void *)(get_class_defense_template((TObjPlayer *)arg0)));

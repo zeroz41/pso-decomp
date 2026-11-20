@@ -390,7 +390,7 @@ void capture_viewport_texture(void) {
 }
 
 void TObjPlayer__sub_80084500(void) {
-    TObjFish::set_global_param((s32)&shared_capture_texture_list);
+    TObjFish::set_global_param((saddr)&shared_capture_texture_list);
     load_list_texture(0, 0, 0, 0);
 }
 
@@ -399,7 +399,7 @@ void TObjPlayer::draw_textured_screen_quad(u32 arg0, f32 *arg1, f32 *arg2, s32 a
     void *temp_r4;
     void *temp_r4_2;
     f32 z;
-    TObjFish::set_global_param((s32)&shared_capture_texture_list);
+    TObjFish::set_global_param((saddr)&shared_capture_texture_list);
     if (arg3 != 0) {
         temp_r4 = shared_capture_texture_list.entries->texture->surface;
         *(s32 *)((s8 *)temp_r4 + 0x10) = 0x100;
@@ -455,7 +455,7 @@ void TObjPlayer::draw_screen_quad(u32 arg0, s32 arg1, f32 farg0) {
     u32 temp_r31;
     void *temp_r4;
     void *temp_r4_2;
-    TObjFish::set_global_param((s32)&shared_capture_texture_list);
+    TObjFish::set_global_param((saddr)&shared_capture_texture_list);
     if (arg1 != 0) {
         temp_r4 = shared_capture_texture_list.entries->texture->surface;
         *(s32 *)((s8 *)temp_r4 + 0x10) = 0x100;
@@ -633,7 +633,7 @@ void end_shadow_map_pass() {
 #pragma pop
 void TObjPlayer::draw_if_all_ready() {
     if ((is_split_screen() == 0) && (TObjPlayer::check_all_players_ready() != 0)) {
-        TObjFish::set_global_param((s32)&shadow_map_texture_list);
+        TObjFish::set_global_param((saddr)&shadow_map_texture_list);
         load_list_texture(0, 0, 0, 1);
     }
 }
@@ -754,7 +754,7 @@ void setup_particle_tev(s32 arg0) {
             GXSetTevOp(1, 1);
         }
         TObjPlayer::set_tex_coord_gen(1, 0, 0, 0x1E);
-        TObjFish::set_global_param((s32)&shared_capture_texture_list);
+        TObjFish::set_global_param((saddr)&shared_capture_texture_list);
         load_list_texture(0, 0, 0, 1);
         model_render_flags |= 0x80000;
         set_ginja_post_tev_stage_count(1);
@@ -767,7 +767,7 @@ void TObjPlayer::setup_tev_stage() {
         GXSetTevOrder(1, 1, 1, 4);
         GXSetTevOp(1, 2);
         TObjPlayer::set_tex_coord_gen(1, 0, 0, 0x1E);
-        TObjFish::set_global_param((s32)&shared_capture_texture_list);
+        TObjFish::set_global_param((saddr)&shared_capture_texture_list);
         load_list_texture(0, 0, 0, 1);
         model_render_flags |= 0x80000;
         set_ginja_post_tev_stage_count(1);
@@ -824,7 +824,7 @@ void TObjPlayer::init_render_target_singleton() {
     u32 temp_r3;
     camera_render_target_singleton = 0U;
     if (get_current_floor_area() == AREA_GOL_DRAGON) {
-        temp_r3 = (int)::operator new(0x28);
+        temp_r3 = (saddr)::operator new(0x28);
         camera_render_target_singleton = temp_r3;
         if (temp_r3 != 0U) {
             init_render_target__10TObjPlayerFv();
@@ -874,7 +874,7 @@ void TUnk_8048E5DC::render_shadows() {
             dir.y = this->m_30 - *(f32 *)&this->unk_24;
             dir.z = *(f32 *)((s8 *)arg0 + 0x34) - this->m_28;
             direction_to_pitch_yaw((u8 *)&dir, &pitch, &yaw);
-            TCameraCtrl::calc_axes_from_angles((s32)camera_ctrl_instance, pitch, yaw);
+            TCameraCtrl::calc_axes_from_angles((saddr)camera_ctrl_instance, pitch, yaw);
         }
         set_camera_capture_flags_bit2();
         main_task.render_scene_passes();
@@ -885,7 +885,7 @@ void TUnk_8048E5DC::render_shadows() {
             GXSetZMode((int) (1U), 7, 1);
             GXSetTexCopySrc((int) (0U), 0, (int) (0x280U), (int) (0x1E0U));
             GXSetTexCopyDst(0x280, 0x1E0, 4, 0);
-            GXCopyTex((void *) (*(s32 *)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&camera_render_target_singleton) + 0x1C)) + 8)) + 0xC)) + 0x20)), (int) (1U));
+            GXCopyTex((void *) (*(saddr *)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&camera_render_target_singleton) + 0x1C)) + 8)) + 0xC)) + 0x20)), (int) (1U));
             GXPixModeSync();
         }
         GXSetViewport(0.0f, 0.0f, 640.0f, 480.0f, 0.0f, 1.0f);

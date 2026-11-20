@@ -207,7 +207,7 @@ void TTecFoie::create_particle_emitters() {
     {
       if (TTecFoie__emitter_profile_table[self->band].parts[i].flags & 0x20)
       {
-        attach_particle_model((int) self->emitters[i], TParticleCtrl::get_particle_model(0), lbl_805D63B0, 0, 1, 1.0f);
+        attach_particle_model((saddr) self->emitters[i], TParticleCtrl::get_particle_model(0), lbl_805D63B0, 0, 1, 1.0f);
       }
       ((TParticleCtrl *)(self->emitters[i]))->set_scale(TTecFoie__emitter_profile_table[self->band].parts[i].scale, TTecFoie__emitter_profile_table[self->band].parts[i].scale);
     }
@@ -236,7 +236,7 @@ void TTecFoie::init_projectile_params() {
 }
 
 void TTecFoie::vfunc_6() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     spawn_particle_effect((const void *)(arg0 + 0x20), 0x1DC);
     spawn_particle_effect((const void *)(arg0 + 0x20), 0x1DD);
 }
@@ -252,11 +252,11 @@ void TTecFoie::vfunc_8(void *target_arg) {
 }
 
 void TTecFoie::create_ex(void *arg0, void *arg1, void *arg2, void *arg3) {
-    new TTecFoie((s32)arg0, (u8 *)arg1, (u8 *)arg2, (s32)arg3);
+    new TTecFoie((saddr)arg0, (u8 *)arg1, (u8 *)arg2, (saddr)arg3);
 }
 
 void TTecFoie::create(void *arg0, void *arg1, void *arg2, void *arg3) {
-    new TTecFoie((s32)arg0, (Vec *)arg1, (s32)arg2, (s32)arg3);
+    new TTecFoie((saddr)arg0, (Vec *)arg1, (saddr)arg2, (saddr)arg3);
 }
 TTecFoie::~TTecFoie() {
     for (u32 i = 0; i < TTecFoie__emitter_profile_table[band].count; ++i) {
@@ -270,7 +270,7 @@ void TTecFoie::render() {  }
 
 void TTecFoie::run_task() {
     u32 i;
-    this->source = (u32)find_entity_by_id(sourceId);
+    this->source = (uaddr)find_entity_by_id(sourceId);
     if (this->source == 0) {
         queue_destruction();
         return;

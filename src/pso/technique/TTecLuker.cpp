@@ -246,7 +246,7 @@ TTecLuker::TTecLuker(s32 source, Vec *pos, Vec *target, s32 level) : TUnk_804CC1
                 v.x += owner->position.x;
                 v.y += 20.0f + owner->position.y;
                 v.z += owner->position.z;
-                start_placement_search((s32)placement, (s32)&v, (s32)owner);
+                start_placement_search((saddr)placement, (saddr)&v, (saddr)owner);
             }
         }
     }
@@ -278,7 +278,7 @@ void TTecLuker::run_task() {
     u8 *player;
     u8 *owner;
     TUnk_804C4450 *tgt;
-    source = (u32)find_entity_by_id(m_b4);
+    source = (uaddr)find_entity_by_id(m_b4);
     owner = (u8 *)source;
     if (owner == NULL) {
         queue_destruction();
@@ -326,7 +326,7 @@ void TTecLuker::run_task() {
             spawn_particle_effect((float *) &sp8, 0xB3);
             player = (u8 *)get_player_by_client_id(traveller);
             if (player != NULL) {
-                TObjPlayer::play_effect_default((int)player, (int)0xA);
+                TObjPlayer::play_effect_default((saddr)player, (int)0xA);
                 play_sound_effect(0x40022D1A, player + 0x38, 0, 0);
             }
             TWindowCtrl::init_all_slots();
@@ -425,7 +425,7 @@ void TTecLuker::setup_telepipe_field() {
 }
 
 void TTecLuker::create(void *arg1, void *arg2, void *arg3) {
-    new TTecLuker((s32)this, (Vec *)arg1, (Vec *)arg2, (s32)arg3);
+    new TTecLuker((saddr)this, (Vec *)arg1, (Vec *)arg2, (saddr)arg3);
 }
 
 void TTecLuker::vfunc_6(void *o_arg) {
@@ -487,7 +487,7 @@ TUnk_804CCA0C::TUnk_804CCA0C(Vec *at, u32 id, TObject *parent) : TObject(parent)
     p = TObject::operator new(0x44);
     if (p != 0)
     {
-      p = create_telepipe_marker((u8 *)p, (s32)&v2, (s8)(0x1F), (s8)(4), (s32)tl_particlemodel, 0, 0, 1.9f, 1.9f);
+      p = create_telepipe_marker((u8 *)p, (saddr)&v2, (s8)(0x1F), (s8)(4), (saddr)tl_particlemodel, 0, 0, 1.9f, 1.9f);
     }
     marker = p;
   }
@@ -501,7 +501,7 @@ TUnk_804CCA0C::TUnk_804CCA0C(Vec *at, u32 id, TObject *parent) : TObject(parent)
 TUnk_804CCA0C::~TUnk_804CCA0C() {
     s32 i;
     for (i = 0; i < 3; i++) {
-        if (TTecLuker::is_parents_unqueued((u32)particles[i]) != 0) {
+        if (TTecLuker::is_parents_unqueued((uaddr)particles[i]) != 0) {
             particles[i]->queue_destruction();
             particles[i] = NULL;
         }
@@ -544,7 +544,7 @@ void TUnk_804CCA0C::run_task() {
     {
       for (i = 0; i < 3; i++)
       {
-        if (TTecLuker::is_parents_unqueued((u32)particles[i]) != 0)
+        if (TTecLuker::is_parents_unqueued((uaddr)particles[i]) != 0)
         {
           particles[i]->enable();
           if (marker != 0)
@@ -557,7 +557,7 @@ void TUnk_804CCA0C::run_task() {
     }
     for (i = 0; i < 3; i++)
     {
-      if (TTecLuker::is_parents_unqueued((u32)particles[i]) != 0)
+      if (TTecLuker::is_parents_unqueued((uaddr)particles[i]) != 0)
       {
         particles[i]->clear_active_flag();
         if (marker != 0)
@@ -572,7 +572,7 @@ void TUnk_804CCA0C::run_task() {
   {
     for (i = 0; i < 3; i++)
     {
-      if (TTecLuker::is_parents_unqueued((u32)particles[i]) != 0)
+      if (TTecLuker::is_parents_unqueued((uaddr)particles[i]) != 0)
       {
         particles[i]->enable();
         if (marker != 0)
@@ -585,7 +585,7 @@ void TUnk_804CCA0C::run_task() {
   }
   for (i = 0; i < 3; i++)
   {
-    if (TTecLuker::is_parents_unqueued((u32)particles[i]) != 0)
+    if (TTecLuker::is_parents_unqueued((uaddr)particles[i]) != 0)
     {
       particles[i]->clear_active_flag();
       if (marker != 0)

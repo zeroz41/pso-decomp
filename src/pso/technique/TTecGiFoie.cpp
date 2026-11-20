@@ -203,12 +203,12 @@ void TTecGiFoie::run_task() {
         queue_destruction();
         return;
     }
-    this->source = (u32)find_entity_by_id(this->m_b4);
+    this->source = (uaddr)find_entity_by_id(this->m_b4);
     if (this->source == 0) {
         queue_destruction();
         return;
     }
-    if (TTecLuker::is_parents_unqueued((u32)this->orbits[0]) != 0) {
+    if (TTecLuker::is_parents_unqueued((uaddr)this->orbits[0]) != 0) {
         distance = newton_sqrtf(horizontal_distance_squared(&this->orbits[0]->pad_2C, &this->position));
         if (this->m_e8 != NULL) {
             this->m_e8->bodies->radius = 5.0f + distance;
@@ -224,7 +224,7 @@ void TTecGiFoie::run_task() {
 TTecGiFoie::~TTecGiFoie() {
     s32 i;
     for (i = 0; i < 3; i++) {
-        if (TTecLuker::is_parents_unqueued((u32)this->orbits[i]) != 0) {
+        if (TTecLuker::is_parents_unqueued((uaddr)this->orbits[i]) != 0) {
             this->orbits[i]->queue_destruction();
         }
     }
@@ -258,7 +258,7 @@ void TTecGiFoie::vfunc_6(void *target) {
 #pragma pop
 
 void TTecGiFoie::create(void *source, void *origin, void *level) {
-    new TTecGiFoie((s32)source, (Vec *)origin, (s32)level);
+    new TTecGiFoie((saddr)source, (Vec *)origin, (saddr)level);
 }
 
 TUnk_804CC800::TUnk_804CC800(Vec *pos, s32 angle, s32 band, s32 level, TObject *parent, u8 single) : TObject(parent) {

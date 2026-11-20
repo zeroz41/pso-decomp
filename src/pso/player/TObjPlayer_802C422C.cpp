@@ -33,7 +33,7 @@ void TObjPlayer::sync_char_select_state() { get_char_index__23TAdSinglePlyChrSel
 void *get_player_by_client_id(s32 i);
 
 s32 try_assign_battle_ctrl__10TObjPlayerFiUs(s32 arg0, u16 arg1) {
-    s32 temp = (s32)get_player_by_client_id((arg1));
+    s32 temp = (saddr)get_player_by_client_id((arg1));
     if (temp == 0) {
         return 0;
     }
@@ -101,7 +101,7 @@ void export_player_record__10TObjPlayerFPvPv(TObjPlayer *arg0, u8 *arg1) {
     ((TObjPlayer *)arg1)->set_flag_80000();
     copy_player_visual_record((u8 *)arg0 + 0x370, arg1 + 0x85C);
     *(s8 *)((s8 *)arg0 + 0) = query_state_if_present__10TObjPlayerFPv(arg1, (void *) (arg0->get_ptr_4()));
-    ((TObjPlayer *)(*(s32 *)((s8 *)arg1 + 0xD00)))->set_flag_and_update((int)arg1);
+    ((TObjPlayer *)(*(saddr *)((s8 *)arg1 + 0xD00)))->set_flag_and_update((saddr)arg1);
     clamp_stats__10TObjPlayerFiPv(arg1, (u8 *)arg0 + 0x34C, (void *) (TObjPlayer::get_class_stat_entry((u8 *)arg1)));
     *(s8 *)((s8 *)arg0 + 1) = ((TObjPlayer *)arg1)->get_hp_material_points();
     *(s8 *)((s8 *)arg0 + 2) = ((TObjPlayer *)arg1)->get_tp_materials_clamped();
@@ -120,7 +120,7 @@ void export_player_record__10TObjPlayerFPvPv(TObjPlayer *arg0, u8 *arg1) {
     if (TObjPlayer__sub_802A1018() != 0) {
         arg0->set_flag_40();
     }
-    ((TObjPlayer *)arg1)->apply_pending_action((s32)arg0);
+    ((TObjPlayer *)arg1)->apply_pending_action((saddr)arg0);
     ((TObjPlayer *)arg1)->copy_mag_level_to_record((u8 *)arg0);
     ((TObjPlayer *)arg1)->copy_byte_339_to_record((u8 *)arg0);
     ((TObjPlayer *)arg1)->copy_battle_mode((u8 *)arg0);

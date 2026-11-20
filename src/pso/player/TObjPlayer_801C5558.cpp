@@ -6,7 +6,7 @@ extern "C" {
 s32 clear_trap_counts();
 
 s8 TObjPlayer::calc_class_stat_boost_index(s8 arg1, s32 arg2) {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     s32 temp_r4;
     s8 var_r3;
 

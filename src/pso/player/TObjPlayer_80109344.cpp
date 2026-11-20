@@ -40,9 +40,9 @@ void spawn_weapon_impact_effect(s32 arg0, s32 arg1, s32 arg2, saddr arg3) {
 
 void invoke_menu_callback__10TObjPlayerFPv(void *arg0) {
     void *x;
-    x = find_item_by_id((s32)(*(void **)((s8 *)arg0 + 0x34)));
+    x = find_item_by_id((saddr)(*(void **)((s8 *)arg0 + 0x34)));
     if (x != NULL) {
-        ((TObjPlayer *)x)->call_callback_1ec((s32)((void *)((char *)arg0 + 28)), (s32)((void *)((char *)arg0 + 40)));
+        ((TObjPlayer *)x)->call_callback_1ec((saddr)((void *)((char *)arg0 + 28)), (saddr)((void *)((char *)arg0 + 40)));
     }
     *(u32 *)((s8 *)arg0 + 0x38) = 1;
 }

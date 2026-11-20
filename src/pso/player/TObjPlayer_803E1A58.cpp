@@ -163,7 +163,7 @@ void TObjPlayer::reload_texture(saddr arg1, u32 arg2, void *arg3) {
     } else {
         OSPanic("nuReLoadTexture.c", 48, "sorry"); /* __FILE__ in the original */
     }
-    TObjPlayer__sub_803DAE1C((s32)this, size, (u32)arg3);
+    TObjPlayer__sub_803DAE1C((saddr)this, size, (uaddr)arg3);
 }
 
 // The second {0.0f, 1.0f} pair (TObjPlayer__sub_803E1F60 loads the 1.0f).

@@ -28,27 +28,27 @@ void TObjPlayer::stop_force_if_alive() { if (TObjPlayer::is_locally_controlled(t
 void TObjPlayer::update_battle_control_if_unlocked() { if (this->is_body_collision_inactive() == 0) { ((TObjPlayer *)((char*)this + 0x384))->prepare_heavy_attack_particles_default(); } }
 
 void TObjPlayer::enemy_spawn_zalure_effect() {
-    if (this->is_body_collision_inactive() != 0 || check_flag_800000__10TObjPlayerFPv((s32)this) != 0) {
+    if (this->is_body_collision_inactive() != 0 || check_flag_800000__10TObjPlayerFPv((saddr)this) != 0) {
         return;
     }
     ((TObjPlayer *)(((u8 *)this) + 0x384))->emit_zalure_support_effect_at();
 }
 
 void TObjPlayer::trigger_switch_attack() {
-    if (this->is_body_collision_inactive() != 0 || check_flag_800000__10TObjPlayerFPv((s32)this) != 0) {
+    if (this->is_body_collision_inactive() != 0 || check_flag_800000__10TObjPlayerFPv((saddr)this) != 0) {
         return;
     }
     ((TObjPlayer *)(((u8 *)this) + 0x384))->emit_deband_support_effect_at();
 }
 
 void TObjPlayer::enemy_spawn_jellen_effect() {
-    if (this->is_body_collision_inactive() != 0 || check_flag_800000__10TObjPlayerFPv((s32)this) != 0) {
+    if (this->is_body_collision_inactive() != 0 || check_flag_800000__10TObjPlayerFPv((saddr)this) != 0) {
         return;
     }
     ((TObjPlayer *)(((u8 *)this) + 0x384))->emit_jellen_support_effect_default();
 }
 void TObjPlayer::apply_switch_attack() {
-    if (this->is_body_collision_inactive() != 0 || check_flag_800000__10TObjPlayerFPv((s32)this) != 0) {
+    if (this->is_body_collision_inactive() != 0 || check_flag_800000__10TObjPlayerFPv((saddr)this) != 0) {
         return;
     }
     ((TObjPlayer *)(((u8 *)this) + 0x384))->emit_shifta_support();
@@ -59,7 +59,7 @@ void TObjPlayer::apply_switch_attack() {
 #include "pso/ui/hud/TRaderMapCore.h"
 
 void TObjPlayer::update_movement_effects() {
-    saddr player = (s32)this;
+    saddr player = (saddr)this;
     if ((TTecCtrl::is_technique_ready() != 0) && (TObjPlayer__sub_801AF868(player) == 0) && (update_movement_by_screen__10TObjPlayerFv(player) != 0) && (((TObjPlayer *)player)->test_action_mask(0x408000) == 0) && (((TObjPlayer *)player)->is_body_collision_inactive() == 0) && (check_flag_800000__10TObjPlayerFPv(player) == 0)) {
         ((TObjPlayer *)(player + 0x384))->emit_movement_effect_at();
     }

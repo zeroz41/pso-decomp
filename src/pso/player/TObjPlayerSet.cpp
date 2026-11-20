@@ -39,7 +39,7 @@ TObjPlayerSet::~TObjPlayerSet() {
 u8 *TObjPlayerSet__ct(TObjPlayerSet *player_set, s32 arg1, saddr arg2) {
     __ct__8TObjBaseFP7TObject(player_set);
     *(s32 **)((s8 *)player_set + 0x18) = __vt__13TObjPlayerSet;
-    *(s32 *)((s8 *)player_set + 0) = (s32) TObjPlayer__player_set_class_name;
+    *(s32 *)((s8 *)player_set + 0) = (saddr) TObjPlayer__player_set_class_name;
     ((TObjPlayerSet *)(player_set))->apply_object_set_data((void *)arg2);
     if (player_set->scale.x < 0.0f) {
         player_set->scale.x = 0.0f;

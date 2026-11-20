@@ -113,7 +113,7 @@ void TUnk_804C4540::render() {
         rotate_matrix_y(0, rotation_y);
         save_render_material_state((u8 *)&render_material_state);
         apply_material_color_override();
-        TObjFish::set_global_param((s32)((u8 *)this + 0xCF4));
+        TObjFish::set_global_param((saddr)((u8 *)this + 0xCF4));
         set_motion_packed_rotation();
         draw_saving_joints_checked();
         clear_motion_packed_rotation();
@@ -127,7 +127,7 @@ void TUnk_804C4540::render() {
     push_matrix();
     translate_matrix_vec3(0, (u8 *)&position);
     rotate_matrix_y(0, rotation_y);
-    calc_joint_matrices(current_motion, frame, (s32)joint_matrices);
+    calc_joint_matrices(current_motion, frame, (saddr)joint_matrices);
     pop_matrix();
 }
 
@@ -158,23 +158,23 @@ TUnk_804C4540::TUnk_804C4540(TObject *parent, TUnk_801D8A4C *src) : TObjPlayer(p
     rotation_y = ((TObjPlayer *)src->pose)->get_lock_timer();
     select_class_action_provider();
     joint_matrices = TObjPlayer__shared_model_buffer + get_entity_id(this) * 0xC00;
-    init_motion((TObjMotionAction *)get_table_entry_by_clamped_index(), (BmlMotionEntry *)*(s32 *)player_ending_motion_object, 1);
+    init_motion((TObjMotionAction *)get_table_entry_by_clamped_index(), (BmlMotionEntry *)*(saddr *)player_ending_motion_object, 1);
     frame = src->frame;
     set_action_flag_40();
     push_matrix();
     translate_matrix_vec3(0, (u8 *)&position);
     rotate_matrix_y(0, rotation_y);
-    calc_joint_matrices(current_motion, 0.0f, (s32)joint_matrices);
+    calc_joint_matrices(current_motion, 0.0f, (saddr)joint_matrices);
     pop_matrix();
-    TObjPlayer::assign_lobby_slot_if_flagged((s32)this, &src->items[0]);
-    TObjPlayer::assign_lobby_slot_if_flagged((s32)this, &src->items[1]);
+    TObjPlayer::assign_lobby_slot_if_flagged((saddr)this, &src->items[0]);
+    TObjPlayer::assign_lobby_slot_if_flagged((saddr)this, &src->items[1]);
 }
 
 TUnk_804C4540::~TUnk_804C4540() {}
 
 void TObjPlayer__sub_801D8A38(void* a0) { *(short*)((char*)a0 + 0x0) = 1; *(float*)((char*)a0 + 0x4) = 0.0f; }
 
-void*TObjPlayer::init_inventory() { TObjPlayer::init_inventory_items((s32)((s32)((char*)this + 0x50))); TObjPlayer__sub_801BFF80((u8 *)((char*)this + 0xac)); TObjPlayer__sub_801D8A38((void*)((void*)((char*)this + 0xc0))); return this; }
+void*TObjPlayer::init_inventory() { TObjPlayer::init_inventory_items((s32)((saddr)((char*)this + 0x50))); TObjPlayer__sub_801BFF80((u8 *)((char*)this + 0xac)); TObjPlayer__sub_801D8A38((void*)((void*)((char*)this + 0xc0))); return this; }
 
 s32 TObjPlayer::init_inventory_items(saddr arg0) {
     s32 var_r30;

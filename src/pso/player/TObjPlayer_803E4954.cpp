@@ -108,7 +108,7 @@ void draw_motion_tree(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame, ModelDra
     bind_motion_context(motion, frame);
     model_draw_context->draw = draw_model;
     if (motion_packed_rotation_mode != 0) {
-        current_motion_context->f28 = (s32)motion_angle_sampler_table[3];
+        current_motion_context->f28 = (saddr)motion_angle_sampler_table[3];
     }
     traverse_animated_node_tree(model);
 }

@@ -18,7 +18,7 @@ void TObjPlayer::apply_with_callback(saddr arg1, f32 farg0) {
     player_node_matrix_count = *(s32 *)&this->set_index;
     node_matrix_array_base = *(s32 *)&this->room;
     player_apply_callback_fn = *(s32 *)&this->position.x;
-    set_chunk_model_node_callback((s32)TObjPlayer::process_callback_list);
+    set_chunk_model_node_callback((saddr)TObjPlayer::process_callback_list);
     draw_motion(*(NJS_OBJECT **)((s8 *)this + 0x1C), (NJS_MOTION *)arg1, farg0);
     set_chunk_model_node_callback((s32)NULL);
 }

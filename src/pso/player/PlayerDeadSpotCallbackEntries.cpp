@@ -7,13 +7,13 @@ extern u8 TObjPlayer__sub_801BF9F0[];
 extern u8 TObjPlayer__sub_801BFAD4[];
 
 __declspec(section ".data") extern u32 lbl_804C3E38[3] = {
-    0x00000000, 0x00000000, (u32)TObjPlayer__sub_801BFAD4,
+    0x00000000, 0x00000000, (uaddr)TObjPlayer__sub_801BFAD4,
 };
 
 __declspec(section ".data") extern u32 lbl_804C3E44[3] = {
-    0x00000000, 0x00000000, (u32)TObjPlayer__sub_801BEDC0,
+    0x00000000, 0x00000000, (uaddr)TObjPlayer__sub_801BEDC0,
 };
 
 __declspec(section ".data") extern u32 lbl_804C3E50[4] = {
-    0x00000000, 0x00000000, (u32)TObjPlayer__sub_801BF9F0, 0x00000000,
+    0x00000000, 0x00000000, (uaddr)TObjPlayer__sub_801BF9F0, 0x00000000,
 };

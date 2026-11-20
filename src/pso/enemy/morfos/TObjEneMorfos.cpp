@@ -1059,7 +1059,7 @@ void *TObjEneMorfos::create() {
 void TObjEneMorfos::unload_static_data() {
     TObjEneMorfosArm__sub_8033542C();
     if ((u32) (*(u32 *)&TObjEneMorfos__instance) != 0U) {
-        free_bin_model_request((void*)(*(u32 *)&TObjEneMorfos__instance), 1);
+        free_bin_model_request((void*)(*(uaddr *)&TObjEneMorfos__instance), 1);
         (*(u32 *)&TObjEneMorfos__instance) = 0U;
     }
 }
@@ -2165,18 +2165,18 @@ s32 TObjEneMorfos::render_model_if_visible() {
 void TObjEneMorfos::draw_body() {
     u8 *arg0 = (u8 *)this;
     if (get_mode__11TCameraCtrlFPv((void *)&main_task) & 0x200) {
-        TObjFish::set_global_param((saddr)((void *) (*(s32 *)((s8 *)(((RecoveredFields_803326CC_TObjEneMorfos__data_805D6D14 *)(*(u8 * *)&TObjEneMorfos__instance))->field_42C) + 0x2C))));
+        TObjFish::set_global_param((saddr)((void *) (*(saddr *)((s8 *)(((RecoveredFields_803326CC_TObjEneMorfos__data_805D6D14 *)(*(u8 * *)&TObjEneMorfos__instance))->field_42C) + 0x2C))));
         push_matrix();
         post_translate_matrix(arg0 + 0x498);
         rotate_matrix_y(0, (int) (((RecoveredFields_803326CC_arg0 *)arg0)->field_60));
         if (((RecoveredFields_803326CC_arg0 *)arg0)->field_3C0 & 2) {
             if (((VObj_14_fddec9 *)(arg0 + (1032)))->m8() != 0) {
                 ((VObj_14_fddec9 *)(arg0 + (1032)))->m6();
-                draw_chunk_model((void *)(*(s32 *)((s8 *)(*(void **)((s8 *)(((RecoveredFields_803326CC_TObjEneMorfos__data_805D6D14 *)(*(u8 * *)&TObjEneMorfos__instance))->field_42C) + 0x28)) + 4)));
+                draw_chunk_model((void *)(*(saddr *)((s8 *)(*(void **)((s8 *)(((RecoveredFields_803326CC_TObjEneMorfos__data_805D6D14 *)(*(u8 * *)&TObjEneMorfos__instance))->field_42C) + 0x28)) + 4)));
                 ((VObj_14_fddec9 *)(arg0 + (1032)))->m7();
             }
         } else {
-            draw_chunk_model((void *)(*(s32 *)((s8 *)(*(void **)((s8 *)(((RecoveredFields_803326CC_TObjEneMorfos__data_805D6D14 *)(*(u8 * *)&TObjEneMorfos__instance))->field_42C) + 0x28)) + 4)));
+            draw_chunk_model((void *)(*(saddr *)((s8 *)(*(void **)((s8 *)(((RecoveredFields_803326CC_TObjEneMorfos__data_805D6D14 *)(*(u8 * *)&TObjEneMorfos__instance))->field_42C) + 0x28)) + 4)));
         }
         pop_matrix();
     }

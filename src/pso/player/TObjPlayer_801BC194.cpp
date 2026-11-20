@@ -45,7 +45,7 @@ void TObjPlayer::place_on_area_entry() {
         ((TObjPlayer *)arg0)->set_state_flags(0x100000);
         ((TObjBase *)arg0)->set_position_from(get_lobby_entry_ptr__10TObjPlayerFv(arg0));
         this->rotation_y = TObjPlayer__sub_801D8C3C(arg0);
-        TObjPlayer::play_effect_default((int)arg0, (int)0x1E);
+        TObjPlayer::play_effect_default((saddr)arg0, (int)0x1E);
         TObjPlayer::set_camera_mode(3);
         new TForceOperate(tl_02, get_entity_id(arg0));
     } else if (((TObjChara *)arg0)->obj_isState2_324() == 0) {
@@ -107,6 +107,6 @@ block_14:
     return 1;
 }
 void TObjPlayer__sub_801BC504(void) {  }
-void TObjPlayer::init_from_data(void* a1) { init_action_provider(); *(short *)&this->entity_id = *(unsigned short*)(a1); *(short*)((char*)this + 0x2e) = *(short*)((char*)a1 + 0x2); *(void* *)&this->actorFlags = *(void**)((char*)a1 + 0x4); copy_xyz((char*)this + 0x5c, (char*)a1 + 0x14); *(short *)&this->mode = *(short*)((char*)a1 + 0x20); *(short *)&this->hp = *(short*)((char*)a1 + 0x22); ((TLobby *)((char*)this + 0xdac))->copy_header_struct((char*)a1 + 0x68); TObjPlayer__sub_801BEF30((void *)((char*)this + 0x828), (void *)((char*)a1 + 0x70)); ((TObjPlayer *)((char*)this + 0x830))->copy_player_record_header((u8 *)((char*)a1 + 0x78)); TObjPlayer__sub_801BEEE0((void *)((char*)this + 0x858), (void *)((char*)a1 + 0x94)); TObjPlayer__sub_801BEEAC((u8 *)((char*)this + 0x730), (u8 *)((char*)a1 + 0x98)); set_floor_index((s32)(*(void**)((char*)a1 + 0xac))); set_floor((s32)(*(void**)((char*)a1 + 0x488))); *(void* *)&this->m_334 = *(void**)((char*)a1 + 0xb0); set_play_time((s32)(*(void**)((char*)a1 + 0x64))); }
+void TObjPlayer::init_from_data(void* a1) { init_action_provider(); *(short *)&this->entity_id = *(unsigned short*)(a1); *(short*)((char*)this + 0x2e) = *(short*)((char*)a1 + 0x2); *(void* *)&this->actorFlags = *(void**)((char*)a1 + 0x4); copy_xyz((char*)this + 0x5c, (char*)a1 + 0x14); *(short *)&this->mode = *(short*)((char*)a1 + 0x20); *(short *)&this->hp = *(short*)((char*)a1 + 0x22); ((TLobby *)((char*)this + 0xdac))->copy_header_struct((char*)a1 + 0x68); TObjPlayer__sub_801BEF30((void *)((char*)this + 0x828), (void *)((char*)a1 + 0x70)); ((TObjPlayer *)((char*)this + 0x830))->copy_player_record_header((u8 *)((char*)a1 + 0x78)); TObjPlayer__sub_801BEEE0((void *)((char*)this + 0x858), (void *)((char*)a1 + 0x94)); TObjPlayer__sub_801BEEAC((u8 *)((char*)this + 0x730), (u8 *)((char*)a1 + 0x98)); set_floor_index((saddr)(*(void**)((char*)a1 + 0xac))); set_floor((saddr)(*(void**)((char*)a1 + 0x488))); *(void* *)&this->m_334 = *(void**)((char*)a1 + 0xb0); set_play_time((saddr)(*(void**)((char*)a1 + 0x64))); }
 
 }

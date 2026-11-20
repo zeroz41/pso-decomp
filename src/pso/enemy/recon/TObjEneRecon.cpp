@@ -1435,7 +1435,7 @@ s32 TObjEneRecon__sub_8031DA90(u8 *arg0) {
     if ((*(f32 *)((s8 *)arg0 + 0x3AC) < (5.0f + ((AttackParams *)TObjEneRecon__attack_params)->get_attack_range())) && (fabs_float((f32) (*(f32 *)((s8 *)arg0 + 0x448) - *(f32 *)((s8 *)arg0 + 0x398))) < 1.0f)) {
         temp_f31 = vec3_dot((Vec *)(arg0 + 0x44C), (Vec *)(arg0 + 0x3A0));
         
-        if (temp_f31 >= cos_table_lookup(((AttackParams *)(*(s32 *)((s8 *)arg0 + 0x318)))->get_attack_angle())) {
+        if (temp_f31 >= cos_table_lookup(((AttackParams *)(*(saddr *)((s8 *)arg0 + 0x318)))->get_attack_angle())) {
             return 1;
         }
     }

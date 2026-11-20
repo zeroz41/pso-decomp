@@ -892,7 +892,7 @@ void TObjPlayer::start_photon_blast(s32 kind, s32 client_id) {
     if (player != NULL) {
         entry = (PhotonBlastEntry *)TObjPlayer::get_photon_blast_entry(kind);
         if (TObjPlayer::is_locally_controlled(player) != 0) {
-            TObjPlayer::play_effect_default((int)player, entry->effect_id);
+            TObjPlayer::play_effect_default((saddr)player, entry->effect_id);
         }
         spawn_particle_effect(&player->position, 0x13D);
         TCameraCtrl::set_shake_preset(0);

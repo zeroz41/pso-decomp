@@ -215,29 +215,29 @@ void TTecMegid::update_by_state() {
 
     switch (this->band) {
     case 0:
-        handle = play_sound_effect(0x4002A60B, (int)(arg0 + 0x20), 0, 0);
+        handle = play_sound_effect(0x4002A60B, (saddr)(arg0 + 0x20), 0, 0);
         if (handle >= 0) {
             update_technique_slot__10TTecRaFoieFl(handle, 0x100, 0);
         }
         return;
     case 1:
-        play_sound_effect(0x4002A60B, (int)(arg0 + 0x20), 0, 0);
+        play_sound_effect(0x4002A60B, (saddr)(arg0 + 0x20), 0, 0);
         return;
     case 2:
     case 3:
-        handle = play_sound_effect(0x4002A60B, (int)(arg0 + 0x20), 0, 0);
+        handle = play_sound_effect(0x4002A60B, (saddr)(arg0 + 0x20), 0, 0);
         if (handle >= 0) {
             update_technique_slot__10TTecRaFoieFl(handle, -0x180, 0);
         }
         break;
     case 4:
-        handle = play_sound_effect(0x4002A60B, (int)(arg0 + 0x20), 0, 0);
+        handle = play_sound_effect(0x4002A60B, (saddr)(arg0 + 0x20), 0, 0);
         if (handle >= 0) {
             update_technique_slot__10TTecRaFoieFl(handle, -0x250, 0);
         }
         break;
     case 5:
-        handle = play_sound_effect(0x4002A60B, (int)(arg0 + 0x20), 0, 0);
+        handle = play_sound_effect(0x4002A60B, (saddr)(arg0 + 0x20), 0, 0);
         if (handle >= 0) {
             update_technique_slot__10TTecRaFoieFl(handle, -0x100, 0);
         }
@@ -345,7 +345,7 @@ void TTecMegid::vfunc_8(void *target) {
         }
         HitInfo_80235490 info = tmp;
         ((VObj_80235490 *)target)->m21((void *)source, &info, contact, 0x12, -1);
-        play_sound_effect(0x4002AD29, (s32)((u8 *)target + 0x38), 0, 0);
+        play_sound_effect(0x4002AD29, (saddr)((u8 *)target + 0x38), 0, 0);
         if (sourceId < 12) {
             if ((get_technique_caster_flags(0x12, sourceId) & 1) == 0) {
                 queue_destruction();

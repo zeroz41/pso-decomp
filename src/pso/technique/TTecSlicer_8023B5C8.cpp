@@ -67,7 +67,7 @@ void TSlicerHistory::render() {
             rotate_matrix_x(0, (int) (*(s32 *)((s8 *)arg0 + 0x1C)));
             scale_current_matrix((f32 *)(arg0 + 0x4C));
             set_constant_material((const NJS_ARGB *)(((f32 *)&col)));
-            draw_ginja_object((void *)(*(u32 *)((s8 *)arg0 + 0x34)));
+            draw_ginja_object((void *)(*(uaddr *)((s8 *)arg0 + 0x34)));
             set_constant_material(&chunk_material_color_half_alpha_f32);
             TParticleCtrl::end_effect_render();
         }
@@ -342,7 +342,7 @@ void TTecSlicer::deliver_target_hit() {
         dist = horizontal_distance_squared((const Vec *)(arg0 + 0x9C), (const Vec *)(arg0 + 0x38));
         range = *(f32 *)((s8 *)arg0 + 0xB8) + *(f32 *)((s8 *)arg0 + 0xBC);
         if (dist < range * range) {
-            temp_r3 = (s32)resolve_hittable_target(this->targetId, *(s8 *)((s8 *)arg0 + 0xC6));
+            temp_r3 = (saddr)resolve_hittable_target(this->targetId, *(s8 *)((s8 *)arg0 + 0xC6));
             if (temp_r3 != 0) {
                 ((VObj_18_ed5691 *)(*(u8 * *)&this->currentWeapon))->m59(*(s32 *)&this->currentPlayer, temp_r3, *(s16 *)((s8 *)arg0 + 0x11C), *(s8 *)((s8 *)arg0 + 0xC6), this->damageMultiplier);
             }
@@ -404,7 +404,7 @@ void TTecSlicer::init_launch_angles(s32 *arg0, s32 *arg1, s32 arg2) {
 }
 
 void TTecSlicer::update() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     if (horizontal_distance_squared(&this->position, (const Vec *)this->destination) < 100.0f) {
         deliver_target_hit();
         if (get_next_captured_target(&this->capturedTargets, (Vec *)this->destination, &this->targetId, (s8 *)&this->targetPart, &this->radius) == 0) {
@@ -426,7 +426,7 @@ s32 TTecSlicer::create(u16 *arg0) {
     if (arg0 != NULL) {
         player = (u8 *)(((u8 *)get_player_by_client_id(*(u16 *)((s8 *)arg0 + 0))));
         if (player != NULL) {
-            var_r31 = (s32)new TTecSlicer(arg0, player, (Vec *)(player + 0x38), *(s32 *)((s8 *)player + 0x60));
+            var_r31 = (saddr)new TTecSlicer(arg0, player, (Vec *)(player + 0x38), *(s32 *)((s8 *)player + 0x60));
             TItemAttacker::spawn_item_timer((TObject *)var_r31, (ItemTimerCallback)destroy_if_set__10TTecSlicerFv, 0x5A);
         }
     }
@@ -469,8 +469,8 @@ void TTecSlicer::run_task() {
     s32 temp_r4;
     u8 *var_r31;
     void *new_obj;
-    *(u32 *)((s8 *)object + 0x10C) = (u32)get_player_by_client_id(*(u16 *)((s8 *)object + 0x114));
-    *(u32 *)((s8 *)object + 0x108) = (s32)find_equipped_item(((TTecSlicer *)object)->weaponHandle);
+    *(u32 *)((s8 *)object + 0x10C) = (uaddr)get_player_by_client_id(*(u16 *)((s8 *)object + 0x114));
+    *(u32 *)((s8 *)object + 0x108) = (saddr)find_equipped_item(((TTecSlicer *)object)->weaponHandle);
     if (((u32) *(u32 *)((s8 *)object + 0x108) == 0U) || ((u32) *(u32 *)((s8 *)object + 0x10C) == 0U)) {
         ((TObject *)object)->queue_destruction();
         return;
@@ -498,7 +498,7 @@ void TTecSlicer::run_task() {
     }
     temp_r4 = *(s32 *)((s8 *)object + 0x5C);
     *(s32 *)((s8 *)object + 0x5C) = (s32) (temp_r4 + ((TTecSlicer *)object)->spinVelocity);
-    destroy_on_collision__10TTecSlicerFi((s32)object, (s32)temp_r4);
+    destroy_on_collision__10TTecSlicerFi((saddr)object, (s32)temp_r4);
     *(u32 *)((s8 *)object + 0x108) = 0U;
     *(u32 *)((s8 *)object + 0x10C) = 0U;
 }
@@ -536,21 +536,21 @@ TTecSlicer::TTecSlicer(u16 *launch, void *player, Vec *position, int angle) : TO
     self->dir.y = 0.0f;
     self->dir.z = cos_table_lookup(angle);
     if (0.0f != vector_length(&self->dir)) {
-        normalize_vector((s32)&self->dir);
+        normalize_vector((saddr)&self->dir);
     }
-    self->f10c = (s32)player;
-    self->f108 = (s32)find_item_by_id(self->f118);
+    self->f10c = (saddr)player;
+    self->f108 = (saddr)find_item_by_id(self->f118);
     TTecSlicer::init_launch_angles((s32 *)self, (s32 *)self->f10c, init->f28);
     ((TTecSlicer *)self)->set_launch_midpoint((void *)self->f10c, &init->a, &init->b);
     self->fb8 = *get_weapon_range_record(self->f108, 0);
     self->fb4 = 6.0f;
-    VecCopy((Vec *)((s32)self + 0x9C), (const Vec *)((s32)self + 0x38));
-    VecCopy((Vec *)((s32)self + 0xA8), (const Vec *)((s32)self + 0x38));
+    VecCopy((Vec *)((saddr)self + 0x9C), (const Vec *)((saddr)self + 0x38));
+    VecCopy((Vec *)((saddr)self + 0xA8), (const Vec *)((saddr)self + 0x38));
     self->fbc = 0.0f;
     ext = ((saddr)((TObjPlayer *)self->f10c)->get_extended_state());
     if (ext != 0) {
         if (get_captured_target_count(ext) == 0) {
-            ((FlagWord *)((s32)self->fwd))->set(1);
+            ((FlagWord *)((saddr)self->fwd))->set(1);
         } else {
             for (i = 0; i != get_captured_target_count(ext); i++) {
                 e = get_captured_target_entry(ext, i);
@@ -574,7 +574,7 @@ TSlicerHistory::~TSlicerHistory() {}
 s32 TTecSlicer::get_field_110() { return *(s32 *)&this->model; }
 s16 TTecSlicer::get_remain_count() { return *(s16*)((char*)this + 0x11e); }
 void TTecSlicer::destroy_if_set() {
-    uaddr arg0 = (u32)this;
+    uaddr arg0 = (uaddr)this;
     if (arg0 != 0U) {
         ((TObject *)arg0)->queue_destruction();
     }

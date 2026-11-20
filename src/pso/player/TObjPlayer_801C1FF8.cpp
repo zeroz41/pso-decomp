@@ -124,7 +124,7 @@ int TObjPlayer::check_flag_at_428() { return test_flags_any((s32 *)((char*)this 
 void*TObjPlayer::get_sub_obj() { return (char*)this + 0x4; }
 void*TObjPlayer::get_char_data() { return (char*)this + 0xc; }
 s32 get_field_0_s32(void* p) { return *(s32*)((char*)p + 0x0); }
-void*TObjPlayer::init_char_data() { ((TObjPlayer *)((char*)this + 0x4))->clear_header_struct(); __ct__12TPlyCharDataFv((s32)((char*)this + 0xc)); __ct__8FlagWordFv(((char*)this + 0x428)); *(int*)(this) = 0; return this; }
+void*TObjPlayer::init_char_data() { ((TObjPlayer *)((char*)this + 0x4))->clear_header_struct(); __ct__12TPlyCharDataFv((saddr)((char*)this + 0xc)); __ct__8FlagWordFv(((char*)this + 0x428)); *(int*)(this) = 0; return this; }
 
 void *fn_801C2308(void *arg0, s16 arg1) {
     if (arg0 != 0) {

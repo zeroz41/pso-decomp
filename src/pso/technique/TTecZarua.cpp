@@ -82,14 +82,14 @@ void TTecZarua::render() {  }
 void TTecZarua::run_task() {
     s32 i;
     uaddr id;
-    source = (u32)find_entity_by_id(m_b4);
+    source = (uaddr)find_entity_by_id(m_b4);
     if (source == 0) {
         queue_destruction();
         return;
     }
     if (has_targets != 0) {
         for (i = 0; i < targets.count; i++) {
-            id = (u32)find_entity_by_id(targets.records[i].id);
+            id = (uaddr)find_entity_by_id(targets.records[i].id);
             if (TTecLuker::is_parents_unqueued(id) != 0) {
                 vfunc_6((void *)id);
             }
@@ -104,7 +104,7 @@ TTecZarua::~TTecZarua() {
 
 }
 
-TTecZarua::TTecZarua(s32 source, Vec *pos, TargetCursorList *list, s32 level) : TUnk_804CC148(source, (s32)pos, level) {
+TTecZarua::TTecZarua(s32 source, Vec *pos, TargetCursorList *list, s32 level) : TUnk_804CC148(source, (saddr)pos, level) {
     s32 r;
     ((TObjPlayer *)&targets)->construct_target_cursor_records();
     m_name = TTecZarua__name;

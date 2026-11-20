@@ -101,7 +101,7 @@ void TNeedleShoot::check_wall_hit() {
     stack.sp1C = this->pos.z;
     temp_r3 = (u8 *)(csnVector(&stack.sp8, &stack.sp14, 0x100));
     if (temp_r3 != NULL) {
-        VecCopy(&this->pos, (const Vec *)(*(s32 *)((s8 *)temp_r3 + 4)));
+        VecCopy(&this->pos, (const Vec *)(*(saddr *)((s8 *)temp_r3 + 4)));
         this->vfunc_6();
     }
 }

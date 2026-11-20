@@ -161,7 +161,7 @@ u8 *TTecResta__sub_80239C48(TTecResta *arg0, s32 owner, s32 pos, s32 level) {
     TTecPlayerInfluence__ct((void *)arg0, (void *)owner, (void *)pos, (void *)level);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__9TTecResta;
     ((TObjPlayer *)((u8 *)arg0 + 0xE0))->construct_target_cursor_records();
-    *(s32 *)((s8 *)arg0 + 0) = (s32) ((s32)TTecResta__name);
+    *(s32 *)((s8 *)arg0 + 0) = (s32) ((saddr)TTecResta__name);
     arg0->m_13c = 0;
     arg0->init_parameters();
     temp_r3 = (u8 *)(*(u8 **)((s8 *)arg0 + 0xDC));
@@ -187,7 +187,7 @@ void *TTecResta__ct(TTecResta *arg0, void *owner, void *pos, void *arg3, void *l
     TTecPlayerInfluence__ct(arg0, owner, pos, level);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__9TTecResta;
     ((TObjPlayer *)((u8 *)arg0 + 0xE0))->construct_target_cursor_records();
-    *(s32 *)((s8 *)arg0 + 0) = ((s32)TTecResta__name);
+    *(s32 *)((s8 *)arg0 + 0) = ((saddr)TTecResta__name);
     *(s32 *)&arg0->m_13c = 1;
     copy_technique_target_list((u8 *)arg0 + 0xE0, arg3);
     arg0->init_parameters();
@@ -214,7 +214,7 @@ TTecResta::~TTecResta() {
 void run_task__9TTecRestaFv(Resta_802399F8 *self) {
     uaddr target;
     s32 i;
-    self->source = (u32)find_entity_by_id(self->source_id);
+    self->source = (uaddr)find_entity_by_id(self->source_id);
     if (TTecLuker::is_parents_unqueued(self->source) == 0) {
         ((TObject *)self)->queue_destruction();
         return;
@@ -226,7 +226,7 @@ void run_task__9TTecRestaFv(Resta_802399F8 *self) {
             ((TTecResta *)self)->vfunc_7((void *)self->source);
             if (self->count != 0) {
                 for (i = 0; i < self->count; i++) {
-                    target = (u32)find_entity_by_id(self->targets[i].id);
+                    target = (uaddr)find_entity_by_id(self->targets[i].id);
                     if (TTecLuker::is_parents_unqueued(target) != 0) {
                         ((TTecResta *)self)->vfunc_7((void *)target);
                     }
@@ -255,11 +255,11 @@ void TTecResta::vfunc_7(void *arg1_arg) {
     h.type = 6;
     h.power = arg0->m_74;
     if (is_split_screen() == 0) {
-        TWindowCtrl::show_party_effect((void*)(get_entity_id(arg0->source)), (void*)(get_entity_id((int)player)), (void*)6);
+        TWindowCtrl::show_party_effect((void*)(get_entity_id(arg0->source)), (void*)(get_entity_id((saddr)player)), (void*)6);
     }
     HitInfo_8023985C c = h;
     player->m21((void *)arg0->source, &c, 0, 0xF, -1);
-    if ((u16)get_entity_id(arg0->source) == (u16)get_entity_id((int)player)) {
+    if ((u16)get_entity_id(arg0->source) == (u16)get_entity_id((saddr)player)) {
         if (*(s32 *)&arg0->m_ac != 0) {
             void *o = TObject::operator new(0x30);
             if (o != NULL) {
@@ -269,11 +269,11 @@ void TTecResta::vfunc_7(void *arg1_arg) {
     } else if (*(s32 *)&arg0->m_ac != 0) {
         void *e = spawn_particle_effect_with_flags((u8 *)player + 0x2FC, 0x1F6, 0x10);
         if (e != NULL) {
-            set_owner_id__13TParticleCtrlFUs(e, get_entity_id((int)player));
+            set_owner_id__13TParticleCtrlFUs(e, get_entity_id((saddr)player));
         }
         e = spawn_particle_effect_with_flags((u8 *)player + 0x2FC, 0x1F7, 0x10);
         if (e != NULL) {
-            set_owner_id__13TParticleCtrlFUs(e, get_entity_id((int)player));
+            set_owner_id__13TParticleCtrlFUs(e, get_entity_id((saddr)player));
         }
     }
     if (*(s32 *)&arg0->m_ac != 0) {
@@ -289,7 +289,7 @@ void TTecResta::create(void *owner, void *pos, void *level) {
     void *o;
     o = TObject::operator new(0x140);
     if (o != NULL) {
-        TTecResta__sub_80239C48((TTecResta *)((u8 *)o), (s32)owner, (s32)pos, (s32)level);
+        TTecResta__sub_80239C48((TTecResta *)((u8 *)o), (saddr)owner, (saddr)pos, (saddr)level);
     }
 }
 
@@ -350,7 +350,7 @@ void TUnk_804CCBC0::run_task() {
 void TTecResta::init_parameters() {
     u8 *arg0 = (u8 *)this;
   int new_var;
-  new_var = (int) calc_technique_parameters(0xF, this->m_a4, 0xFFFF);
+  new_var = (saddr) calc_technique_parameters(0xF, this->m_a4, 0xFFFF);
   ((TTecAnti *)(arg0 + 0x74))->copy_params((u8 *)new_var);
   this->m_74 = (f32) ((this->m_74) + ((f32) ((this->m_98) * (this->m_a4))));
   if (((s32 (*)(void))is_technique_ready__8TTecCtrlFv)() != 0)
@@ -365,7 +365,7 @@ f32 TTecResta::calc_heal_amount(s32 arg0) {
   temp_r3 = (f32 *) calc_technique_parameters(0xF, arg0, 0xFFFF);
   var_f31 = *((f32 *) (((s8 *) temp_r3) + 0));
   var_f31 = var_f31 + ((f32) (arg0 * 5));
-  if (is_technique_ready__8TTecCtrlFv((int) temp_r3) != 0)
+  if (is_technique_ready__8TTecCtrlFv((saddr) temp_r3) != 0)
   {
     var_f31 *= *((f32 *) (((s8 *)&lbl_804CC55C.value) + 0x78));
   }

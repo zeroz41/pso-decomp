@@ -240,7 +240,7 @@ void TPlyPhotonChair::free_static_model() {
 s32 TPlyPhotonChair::load_resources() {
     saddr temp_r3;
     saddr var_r0;
-    temp_r3 = (int)::operator new(0x440);
+    temp_r3 = (saddr)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &photon_chair_resource_descriptor, 0, 0, 0));
@@ -267,11 +267,11 @@ u8 *TPlyPhotonChair__ct(u8 *ply_photon_chair, s32 arg1, saddr parent) {
     ((TUnk_804A7478 *)(ply_photon_chair + 0x98))->init();
     ((TUnk_804A7478 *)(ply_photon_chair + 0xB4))->init();
     __ct__13TUnk_804A7254Fv((ply_photon_chair + 0xD0));
-    *(s32 *)((s8 *)ply_photon_chair + 0) = (s32)TPlyPhotonChair__class_name;
+    *(s32 *)((s8 *)ply_photon_chair + 0) = (saddr)TPlyPhotonChair__class_name;
     ((TPlyPhotonChair *)ply_photon_chair)->set_field90(arg1);
     ((TPlyPhotonChair *)ply_photon_chair)->m_92 = 0;
     ((TPlyPhotonChair *)ply_photon_chair)->m_94 = 0;
-    player = (u32)get_player_by_client_id((s32)((void *) ((s32) (u16) arg1)));
+    player = (uaddr)get_player_by_client_id((saddr)((void *) ((s32) (u16) arg1)));
     if (player == 0U) {
         ((TObject *)ply_photon_chair)->queue_destruction();
         return ply_photon_chair;

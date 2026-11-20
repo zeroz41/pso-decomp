@@ -176,7 +176,7 @@ void TTecZonde::run_task() {
         return;
     }
     t = (Tgt_8023C79C *)find_entity_by_id(self->f134);
-    if (TTecLuker::is_parents_unqueued((u32)t) != 0) {
+    if (TTecLuker::is_parents_unqueued((uaddr)t) != 0) {
         for (i = 0; i < 14; i++) {
             s = &segs[i];
             s->a[1] = 100.0f + t->y;
@@ -289,7 +289,7 @@ void TTecZonde::run_task() {
             }
         }
     }
-    if (t != NULL && TTecLuker::is_parents_unqueued((u32)t) != 0 && TObjPlayer::is_valid_and_active((u32)t) != 0) {
+    if (t != NULL && TTecLuker::is_parents_unqueued((uaddr)t) != 0 && TObjPlayer::is_valid_and_active((uaddr)t) != 0) {
         this->vfunc_8(t);
     }
     ((TObject *)self)->queue_destruction();
@@ -301,7 +301,7 @@ u8 *TTecZonde__ct(u8 *arg0, s32 arg1, u8 *arg2, u8 *arg3, s16 arg4) {
     __ct__13TUnk_804CCC68FlP3Vecll(arg0, arg1, arg2, 0, arg4);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__9TTecZonde;
     ((TObjPlayer *)(arg0 + 0x130))->construct_target_cursor_records();
-    *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D3838;
+    *(s32 *)((s8 *)arg0 + 0) = (saddr) lbl_805D3838;
     ((TTecZonde *)arg0)->init_parameters();
     copy_technique_target_list(arg0 + 0x130, arg3);
     temp_r3 = (u8 *)(*(u8 **)((s8 *)arg0 + 0x1C));

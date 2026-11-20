@@ -45,7 +45,7 @@ s32 TObjEneMorfos::snap_to_ground(s32 arg0, s32 arg1) {
     if (temp_r3 == NULL) {
         return 0;
     }
-    VecCopy((Vec *)(arg1), (const Vec *)(*(s32 *)((s8 *)temp_r3 + 4)));
+    VecCopy((Vec *)(arg1), (const Vec *)(*(saddr *)((s8 *)temp_r3 + 4)));
     return 1;
 }
 

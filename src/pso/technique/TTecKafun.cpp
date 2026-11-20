@@ -86,7 +86,7 @@ void TTecKafun::run_task() {
         queue_destruction();
         return;
     }
-    this->source = (u32)find_entity_by_id(this->m_b4);
+    this->source = (uaddr)find_entity_by_id(this->m_b4);
     if (this->source == 0U) {
         queue_destruction();
         return;

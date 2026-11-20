@@ -170,7 +170,7 @@ s32 TTecGiZonde::find_chain_targets() {
     Ent_80231C58 *b;
     void *p;
     e = (Ent_80231C58 *) find_entity_by_id(self->targets[0].id);
-    if (UNQ((u32) e) == 0) {
+    if (UNQ((uaddr) e) == 0) {
         return 0;
     }
     d.x = e->parts[self->targets[0].part].pos.x - self->pos.x;
@@ -272,9 +272,9 @@ s32 TTecGiZonde::find_chain_targets() {
     for (i = 0; i < self->count - 1; i++) {
         a = (Ent_80231C58 *) find_entity_by_id(self->targets[i].id);
         b = (Ent_80231C58 *) find_entity_by_id(self->targets[i + 1].id);
-        if (UNQ((u32) a) != 0 && UNQ((u32) b) != 0) {
+        if (UNQ((uaddr) a) != 0 && UNQ((uaddr) b) != 0) {
         if ((a->flags & 0x20000000) && (b->flags & 0x20000000) &&
-            TObjPlayer::is_valid_and_active((u32) a) != 0 && TObjPlayer::is_valid_and_active((u32) b) != 0 &&
+            TObjPlayer::is_valid_and_active((uaddr) a) != 0 && TObjPlayer::is_valid_and_active((uaddr) b) != 0 &&
             a->m31() != 0 && b->m31() != 0) {
             return 0;
         }
@@ -344,7 +344,7 @@ s32 TTecGiZonde::find_chain_targets() {
 }
 
 void TTecGiZonde::create(void *arg1, void *arg2, void *arg3) {
-    new TTecGiZonde((s32)this, (Vec *)arg1, arg2, (s32)arg3);
+    new TTecGiZonde((saddr)this, (Vec *)arg1, arg2, (saddr)arg3);
 }
 
 TTecGiZonde::~TTecGiZonde() {}
@@ -353,7 +353,7 @@ void TTecGiZonde::deliver_chain_hits() {
     s32 i;
     uaddr actor;
     for (i = 0; i < ((GChain_80232598 *)this)->count; i++) {
-        actor = (u32)find_entity_by_id(((GChain_80232598 *)this)->targets[i].id);
+        actor = (uaddr)find_entity_by_id(((GChain_80232598 *)this)->targets[i].id);
         if (is_parents_unqueued__9TTecLukerFUl() != 0 && TObjPlayer::is_valid_and_active(actor) != 0) {
             this->vfunc_8((void *)actor);
         }
@@ -361,7 +361,7 @@ void TTecGiZonde::deliver_chain_hits() {
 }
 
 void TTecGiZonde::run_task() {
-    this->source = (u32)find_entity_by_id(this->sourceId);
+    this->source = (uaddr)find_entity_by_id(this->sourceId);
     if ((u32) this->source == 0U) {
         queue_destruction();
         return;

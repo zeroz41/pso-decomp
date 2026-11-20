@@ -35,7 +35,7 @@ s32 TObjPlayer::try_ground_action(s32 arg1) {
     if ((is_grounded() == 0) || (TObjPlayer__sub_803519D8((u8 *)this, (s32)arg1) == 0)) {
         return 0;
     }
-    return fn_803519FC((s32 *)(*(u32 *)((s8 *)this + 0xC)), arg1);
+    return fn_803519FC((s32 *)(*(uaddr *)((s8 *)this + 0xC)), arg1);
 }
 s32 TObjPlayer::check_action_usable(s32 arg1) {
     if ((u32) *(u32 *)((s8 *)this + 0xC) == 0U) {
@@ -44,7 +44,7 @@ s32 TObjPlayer::check_action_usable(s32 arg1) {
     if ((is_grounded() == 0) || (TObjPlayer__sub_803519D8((u8 *)this, (s32)arg1) == 0)) {
         return 0;
     }
-    return fn_80351A14((u8 *)(*(u32 *)((s8 *)this + 0xC)), arg1);
+    return fn_80351A14((u8 *)(*(uaddr *)((s8 *)this + 0xC)), arg1);
 }
 
 void init_pad_binding(u8 *arg0, s16 arg1, s16 arg2) {

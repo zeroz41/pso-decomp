@@ -1247,7 +1247,7 @@ void TObjEneDolmOlm::vfunc_60() {
                 temp_f31 = horizontal_distance_squared(player + 0x38, (void *) (((u8 *)this) + 0x38));
                 var_f30 = fabs_float(*(f32 *)((s8 *)player + 0x3C) - *(f32 *)((s8 *)((u8 *)this) + 0x3C));
                 if (((TObjPlayer *)player)->get_floor() == get_current_floor()) {
-                    if ((temp_f31 < (*(f32 *)((s8 *)(*(s32 *)((s8 *)TObjEneDolmOlm__behavior_params_by_variant + (this->variant * 4))) + 0x10) * *(f32 *)((s8 *)(*(s32 *)((s8 *)TObjEneDolmOlm__behavior_params_by_variant + (this->variant * 4))) + 0x10))) && (this->random_ratio() < this->m_3d0)) {
+                    if ((temp_f31 < (*(f32 *)((s8 *)(*(saddr *)((s8 *)TObjEneDolmOlm__behavior_params_by_variant + (this->variant * 4))) + 0x10) * *(f32 *)((s8 *)(*(saddr *)((s8 *)TObjEneDolmOlm__behavior_params_by_variant + (this->variant * 4))) + 0x10))) && (this->random_ratio() < this->m_3d0)) {
                         var_r29 = 1;
                     }
                 }
@@ -1331,11 +1331,11 @@ void TObjEneDolmOlm::vfunc_93() {
     }
     switch (this->requested_action) {
     case 3:
-        e = (saddr)((SampledMotionPoints *)((void *)(*(s32 *)&TObjEneDolmOlm__data_805D6A14)))->lookup(this->frame);
+        e = (saddr)((SampledMotionPoints *)((void *)(*(saddr *)&TObjEneDolmOlm__data_805D6A14)))->lookup(this->frame);
         idx = 0;
         break;
     case 4:
-        e = (saddr)((SampledMotionPoints *)((void *)(*(s32 *)&TObjEneDolmOlm__data_805D6A18)))->lookup(this->frame);
+        e = (saddr)((SampledMotionPoints *)((void *)(*(saddr *)&TObjEneDolmOlm__data_805D6A18)))->lookup(this->frame);
         idx = 1;
         break;
     default:

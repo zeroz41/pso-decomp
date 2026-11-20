@@ -732,7 +732,7 @@ void TObjEneLappy::update_attacking() {
     ((TObjMotion *)arg0)->advance_animation();
     switch (this->phase) {
     case 0:
-        ((TObjEnemy *)arg0)->enemy_turn_toward_dest((saddr)((void *) *(s32 *)((s8 *)this->movementParameters + 8)));
+        ((TObjEnemy *)arg0)->enemy_turn_toward_dest((saddr)((void *) *(saddr *)((s8 *)this->movementParameters + 8)));
         apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), 0.0f);
         if (((TObjMotion *)arg0)->is_passing_frame(11.0f) != 0) {
             enemy_set_heading_velocity(*(f32 *)((s8 *)this->movementParameters + 4), (TObjEnemy *)(arg0), this->rotation_y);
@@ -1388,7 +1388,7 @@ extern s32 TLobby__event_theme_id;
 void TLobby::cleanup_handles() {
     if (TLobby::get_instance() == 0) {
         if ((u32) (*(u32 *)&rappy_alternate_texture_list) != 0U) {
-            release_texture_list((void*)(*(u32 *)&rappy_alternate_texture_list));
+            release_texture_list((void*)(*(uaddr *)&rappy_alternate_texture_list));
             TAdSinglePlyChrSelectGC::safe_free((*(u32 *)&rappy_alternate_texture_list));
             (*(u32 *)&rappy_alternate_texture_list) = 0U;
         }
@@ -1396,7 +1396,7 @@ void TLobby::cleanup_handles() {
         (*(u32 *)&rappy_alternate_texture_list) = 0U;
     }
     if ((u32) (*(u32 *)&rappy_bml_resource) != 0U) {
-        free_bin_model_request((void*)(*(u32 *)&rappy_bml_resource), 1);
+        free_bin_model_request((void*)(*(uaddr *)&rappy_bml_resource), 1);
         (*(u32 *)&rappy_bml_resource) = 0U;
     }
 }
@@ -1513,13 +1513,13 @@ void TObjEneLappy::load_resources() {
         Desc_800C17B8 d = lappy_resource_binding_desc;
         d.a = *(s32 *)(res + 0x430);
         TLobby::spawn_npc_enemy(5, *(s32 *)(*(u8 **)(RES_800C17B8 + 0x42C) + 8),
-                                        (NJS_TEXLIST *)*(s32 *)(*(u8 **)(RES_800C17B8 + 0x42C) + 0xC), &d, 10.0f, 0.0f);
+                                        (NJS_TEXLIST *)*(saddr *)(*(u8 **)(RES_800C17B8 + 0x42C) + 0xC), &d, 10.0f, 0.0f);
         if (TLobby::get_instance() == 0) {
-            TLobby::spawn_npc_enemy(6, *(s32 *)(*(u8 **)(RES_800C17B8 + 0x42C) + 8), (NJS_TEXLIST *)(*(u32 *)&rappy_alternate_texture_list), &d,
+            TLobby::spawn_npc_enemy(6, *(s32 *)(*(u8 **)(RES_800C17B8 + 0x42C) + 8), (NJS_TEXLIST *)(*(uaddr *)&rappy_alternate_texture_list), &d,
                                             10.0f, 0.0f);
         } else {
             TLobby::spawn_npc_enemy(6, *(s32 *)(*(u8 **)(RES_800C17B8 + 0x42C) + 0x18),
-                                            (NJS_TEXLIST *)*(s32 *)(*(u8 **)(RES_800C17B8 + 0x42C) + 0x1C), &d, 10.0f, 0.0f);
+                                            (NJS_TEXLIST *)*(saddr *)(*(u8 **)(RES_800C17B8 + 0x42C) + 0x1C), &d, 10.0f, 0.0f);
         }
     }
 }

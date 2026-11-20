@@ -23,7 +23,7 @@ s32 destroy__10TObjPlayerFis(s32 arg0, s16 arg1) {
     return arg0;
 }
 
-void*TObjPlayer::init_sub_objects() { TObjPlayer::init_sub_object((s32)((char*)this + 0x8)); TObjPlayer::init_sub_object((s32)((char*)this + 0x18)); TObjPlayer::init_sub_object((s32)((char*)this + 0x28)); TObjPlayer::init_sub_object((s32)((char*)this + 0x38)); TObjPlayer::init_sub_object((s32)((char*)this + 0x48)); clear_player_sub_object_slots((char*)this + 0x58); *(int*)((char*)this + 0x4) = 0; TObjPlayer::reset_particle_ctrl((s32 *)this); return this; }
+void*TObjPlayer::init_sub_objects() { TObjPlayer::init_sub_object((saddr)((char*)this + 0x8)); TObjPlayer::init_sub_object((saddr)((char*)this + 0x18)); TObjPlayer::init_sub_object((saddr)((char*)this + 0x28)); TObjPlayer::init_sub_object((saddr)((char*)this + 0x38)); TObjPlayer::init_sub_object((saddr)((char*)this + 0x48)); clear_player_sub_object_slots((char*)this + 0x58); *(int*)((char*)this + 0x4) = 0; TObjPlayer::reset_particle_ctrl((s32 *)this); return this; }
 
 s8 TObjPlayer__sub_801D6D28(void *arg0) {
     s32 temp_r3 = *(s8 *)((s8 *)arg0 + 0x13);

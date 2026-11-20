@@ -148,7 +148,7 @@ void TTecRaZonde::vfunc_8(void *) {
     u32 i;
     self->emitters = (s32 *)mem_alloc(TTecRaZonde__band_profile_table[self->band].count * 4);
     for (i = 0; i < TTecRaZonde__band_profile_table[self->band].count; i++) {
-        self->emitters[i] = (s32)create_particle_emitter(&self->points[i], TTecRaZonde__band_profile_table[self->band].entries[i].entry);
+        self->emitters[i] = (saddr)create_particle_emitter(&self->points[i], TTecRaZonde__band_profile_table[self->band].entries[i].entry);
     }
 }
 
@@ -188,7 +188,7 @@ extern "C" {
 void create_timed_particle_emitter(void *, s32, s32, s32, void *);
 void spawn_particle_effect(void *, s32, void *);
 void TTecRaZonde::create(void *origin, void *level) {
-    new TTecRaZonde((s32)this, (Vec *)origin, (s32)level);
+    new TTecRaZonde((saddr)this, (Vec *)origin, (saddr)level);
 }
 
 }
@@ -220,7 +220,7 @@ void TTecRaZonde::run_task() {
         queue_destruction();
         return;
     }
-    this->source = (u32)find_entity_by_id(this->m_b4);
+    this->source = (uaddr)find_entity_by_id(this->m_b4);
     if (this->source == 0) {
         queue_destruction();
         return;

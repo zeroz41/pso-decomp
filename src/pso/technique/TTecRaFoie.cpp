@@ -122,29 +122,29 @@ void TTecRaFoie::vfunc_9() {
 
     switch (this->band) {
     case 0:
-        handle = play_sound_effect(0x4002A602, (int)(arg0 + 0x7C), 0, 0);
+        handle = play_sound_effect(0x4002A602, (saddr)(arg0 + 0x7C), 0, 0);
         if (handle >= 0) {
             update_technique_slot__10TTecRaFoieFl(handle, 0x100, 0);
         }
         return;
     case 1:
-        play_sound_effect(0x4002A602, (int)(arg0 + 0x7C), 0, 0);
+        play_sound_effect(0x4002A602, (saddr)(arg0 + 0x7C), 0, 0);
         return;
     case 2:
     case 3:
-        handle = play_sound_effect(0x4002A602, (int)(arg0 + 0x7C), 0, 0);
+        handle = play_sound_effect(0x4002A602, (saddr)(arg0 + 0x7C), 0, 0);
         if (handle >= 0) {
             update_technique_slot__10TTecRaFoieFl(handle, -0x180, 0);
         }
         break;
     case 4:
-        handle = play_sound_effect(0x4002A602, (int)(arg0 + 0x7C), 0, 0);
+        handle = play_sound_effect(0x4002A602, (saddr)(arg0 + 0x7C), 0, 0);
         if (handle >= 0) {
             update_technique_slot__10TTecRaFoieFl(handle, -0x250, 0);
         }
         break;
     case 5:
-        handle = play_sound_effect(0x4002A602, (int)(arg0 + 0x7C), 0, 0);
+        handle = play_sound_effect(0x4002A602, (saddr)(arg0 + 0x7C), 0, 0);
         if (handle >= 0) {
             update_technique_slot__10TTecRaFoieFl(handle, -0x100, 0);
         }
@@ -170,7 +170,7 @@ void TTecRaFoie::vfunc_8(void *) {
     }
     if (self->target_count != 0) {
         target = (TObjPlayer_80237FB8 *) find_entity_by_id(self->first_id);
-        if (TTecLuker::is_parents_unqueued((u32)target) != 0 && TObjPlayer::is_valid_and_active((u32)target) != 0) {
+        if (TTecLuker::is_parents_unqueued((uaddr)target) != 0 && TObjPlayer::is_valid_and_active((uaddr)target) != 0) {
             Vec point = target->pos;
             spawn_particle_effect(&point, 0x39);
             emitter = spawn_particle_effect(&point, 0x1A);
@@ -309,7 +309,7 @@ void TUnk_804CCB28::render() {
     post_translate_matrix(o->m28);
     scale_matrix(0, x, y, z);
     rotate_matrix_y(0, *(s32 *)(camera_ctrl_instance + 0x194));
-    TObjFish::set_global_param((s32)lbl_805D63B0);
+    TObjFish::set_global_param((saddr)lbl_805D63B0);
     set_cull_back();
     set_draw_list_mask(3);
     get_bml_model(technique_effect_bml, 0xB);
@@ -319,7 +319,7 @@ void TUnk_804CCB28::render() {
     pop_matrix();
     model_render_flags = saved_model_render_flags;
     if (o->tev != 0) {
-        TScene::set_indirect_tev((s32)o->tev, 0);
+        TScene::set_indirect_tev((saddr)o->tev, 0);
     }
     TParticleCtrl::end_effect_render();
 }
@@ -474,7 +474,7 @@ u8 *create_rafoie_explosion(u8 *arg0, s32 *arg1, s16 arg2, s16 arg3, s32 arg4, f
     stack.spC += (5.0f);
     VecCopy((Vec *)(arg0 + 0x28), (const Vec *)(&stack.sp8));
     ((TUnk_804CCB28 *)arg0)->spawn_rafoie_explosion_bursts();
-    ((TUnk_804CCB28 *)arg0)->m_24 = (s32)new TUnk_804DDF04(0x11, (TObject *)arg0);
+    ((TUnk_804CCB28 *)arg0)->m_24 = (saddr)new TUnk_804DDF04(0x11, (TObject *)arg0);
     ((TUnk_804CCB28 *)arg0)->m_40 = (f32) (1.9f);
     return arg0;
 }
@@ -503,7 +503,7 @@ u8 *create_fire_explosion_effect(u8 *arg0, s32 *arg1, s16 arg2, s32 arg3, f32 fa
     stack.spC += (5.0f);
     VecCopy((Vec *)(arg0 + 0x28), (const Vec *)(&stack.sp8));
     ((TUnk_804CCB28 *)arg0)->spawn_rafoie_explosion_bursts();
-    ((TUnk_804CCB28 *)arg0)->m_24 = (s32)new TUnk_804DDF04(0x11, (TObject *)arg0);
+    ((TUnk_804CCB28 *)arg0)->m_24 = (saddr)new TUnk_804DDF04(0x11, (TObject *)arg0);
     ((TUnk_804CCB28 *)arg0)->m_40 = (f32) (1.9f);
     return arg0;
 }
@@ -521,7 +521,7 @@ void TTecRaFoie::render() {  }
 
 void run_task__10TTecRaFoieFv(TTecRaFoie *tec_ra_foie) {
     u32 entity;
-    if ((u32) tec_ra_foie->m_e8 == 0U) {
+    if ((uaddr) tec_ra_foie->m_e8 == 0U) {
         tec_ra_foie->queue_destruction();
         return;
     }
@@ -593,11 +593,11 @@ void TTecRaFoie::update_detonation(void *arg1) {
 }
 
 void TTecRaFoie::create(void *origin, void *pos, void *level) {
-    new TTecRaFoie((s32)this, (Vec *)origin, (Vec *)pos, (s32)level);
+    new TTecRaFoie((saddr)this, (Vec *)origin, (Vec *)pos, (saddr)level);
 }
 
 void TTecRaFoie::create_ex(void *origin, void *targets, void *level) {
-    new TTecRaFoie((s32)this, (Vec *)origin, (TargetCursorList *)targets, (s32)level);
+    new TTecRaFoie((saddr)this, (Vec *)origin, (TargetCursorList *)targets, (saddr)level);
 }
 
 TTecRaFoie::~TTecRaFoie() {

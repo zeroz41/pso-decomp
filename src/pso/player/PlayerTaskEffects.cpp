@@ -582,13 +582,13 @@ void TPlayerLobbyMarker::run_task() { rotation += 0x800; }
 
 void TPlayerLobbyMarker::render() {
     saddr temp_r3;
-    temp_r3 = (s32)get_player_by_client_id(player_id);
+    temp_r3 = (saddr)get_player_by_client_id(player_id);
     if ((temp_r3 != 0) && (all_parents_unqueued_for_destruction__7TObjectFv() != 0) && (get_material_index() != 0) && (((TObjPlayer *)temp_r3)->is_body_collision_inactive() == 0)) {
         push_matrix();
         TParticleCtrl::begin_effect_render();
         saved_model_render_flags = model_render_flags;
         copy_argb((NJS_ARGB *)saved_model_draw_color, (NJS_ARGB *)model_material_color);
-        TObjFish::set_global_param((s32)shared_effect_texture_list);
+        TObjFish::set_global_param((saddr)shared_effect_texture_list);
         model_render_flags |= 0x11;
         translate_matrix_vec3(0, TObjPlayer__sub_801BF914(temp_r3 + 0x84C));
         rotate_matrix_y(0, *(s32 *)((s8 *)camera_ctrl_instance + 0x194) + rotation);
@@ -783,13 +783,13 @@ TObjPlayer*TPlayerSoul::get_player() {
 extern "C" {
 void TObjPlayer::revive_or_spawn_marker() {
     s32 temp_r3;
-    saddr player = (s32)this;
+    saddr player = (saddr)this;
 
     if ((check_flag_0x8000__10TObjPlayerFv() != 0) || (((TObjChara *)player)->obj_isState3_324() != 0) || (((TObjPlayer *)player)->is_script_controlled() != 0)) {
         ((TObjPlayer *)player)->set_flag_0x8000();
         return;
     }
-    temp_r3 = (s32)TObject::operator new(0x24);
+    temp_r3 = (saddr)TObject::operator new(0x24);
     if (temp_r3 != 0) {
         ((s32 (*)(s32, s32, s32)) __ct__11TPlayerSoulFP7TObjectUs)(temp_r3, tl_06, get_entity_id(player));
     }
@@ -886,7 +886,7 @@ void *TPlyOnCreated::create(void *arg0, void *arg1) {
     void *o;
     o = TObject::operator new(0x24);
     if (o != NULL) {
-        o = __ct__13TPlyOnCreatedFv((u8 *)o, (s32)arg0, (s32)arg1);
+        o = __ct__13TPlyOnCreatedFv((u8 *)o, (saddr)arg0, (saddr)arg1);
     }
     return o;
 }
@@ -894,7 +894,7 @@ void *TPlyOnCreated::create(void *arg0, void *arg1) {
 u8 *__ct__13TPlyOnCreatedFv(u8 *object, s32 arg1, s32 arg2) {
     __ct__7TObjectFP7TObject(object, (void *)tl_06);
     *(s32 **)((s8 *)object + 0x18) = __vt__13TPlyOnCreated;
-    *(s32 *)((s8 *)object + 0) = (s32) TPlyOnCreated__name;
+    *(s32 *)((s8 *)object + 0) = (saddr) TPlyOnCreated__name;
     *(s16 *)((s8 *)object + 0x1C) = arg1;
     *(s32 *)((s8 *)object + 0x20) = arg2;
     return object;
@@ -915,7 +915,7 @@ void *TPlyOnCountOver::create(void *arg0, void *arg1, void *arg2) {
     void *o;
     o = TObject::operator new(0x24);
     if (o != NULL) {
-        o = __ct__15TPlyOnCountOverFv((u8 *)o, (s32)arg0, (s32)arg1, (s32)arg2);
+        o = __ct__15TPlyOnCountOverFv((u8 *)o, (saddr)arg0, (saddr)arg1, (saddr)arg2);
     }
     return o;
 }
@@ -923,7 +923,7 @@ void *TPlyOnCountOver::create(void *arg0, void *arg1, void *arg2) {
 u8 *__ct__15TPlyOnCountOverFv(u8 *object, s32 arg1, s32 arg2, s32 arg3) {
     __ct__7TObjectFP7TObject(object, (void *)tl_06);
     *(s32 **)((s8 *)object + 0x18) = __vt__15TPlyOnCountOver;
-    *(s32 *)((s8 *)object + 0) = (s32) TPlyOnCountOver__name;
+    *(s32 *)((s8 *)object + 0) = (saddr) TPlyOnCountOver__name;
     *(s16 *)((s8 *)object + 0x1C) = arg1;
     *(s16 *)((s8 *)object + 0x1E) = arg2;
     *(s32 *)((s8 *)object + 0x20) = arg3;
@@ -934,7 +934,7 @@ void TPlyOnCountOver::run_task() {
     u8 *arg0 = (u8 *)this;
     void (*cb)(u32);
     u32 p;
-    p = (u32)get_player_by_client_id(*(u16 *)((s8 *)arg0 + 0x1C));
+    p = (uaddr)get_player_by_client_id(*(u16 *)((s8 *)arg0 + 0x1C));
     if (p == 0U) {
         queue_destruction();
         return;
@@ -1072,7 +1072,7 @@ void save_render_material_state(u8 *arg0) {
     copy_argb((NJS_ARGB *)(arg0 + 0xC), (NJS_ARGB *)model_material_color);
 }
 
-void TObjPlayer::write_ids() { set_model_render_flags((s32)this->m_name); set_chunk_material_override_pair((s32)(*(void**)((char*)this + 0x4)), (s32)this->m_prev); set_constant_material((const NJS_ARGB *)(((char*)this + 0xc))); }
+void TObjPlayer::write_ids() { set_model_render_flags((saddr)this->m_name); set_chunk_material_override_pair((saddr)(*(void**)((char*)this + 0x4)), (saddr)this->m_prev); set_constant_material((const NJS_ARGB *)(((char*)this + 0xc))); }
 
 void reset_player_appearance_opacity(void* a0) { *(float*)((char*)a0 + 0x1c) = 1.0f; }
 
@@ -1099,7 +1099,7 @@ void update_player_appear_fade(u8 *arg0) {
         default:
             break;
         case 0:
-            if ((is_inactive__10TObjPlayerFv() != 0) && (check_flag_40000__10TObjPlayerFv((int)temp_r3) == 0) && (((TObjPlayer *)temp_r3)->check_flag_04000000() != 0) && (is_on_current_floor__10TObjPlayerFi((VO_801C6408 *)temp_r3) != 0)) {
+            if ((is_inactive__10TObjPlayerFv() != 0) && (check_flag_40000__10TObjPlayerFv((saddr)temp_r3) == 0) && (((TObjPlayer *)temp_r3)->check_flag_04000000() != 0) && (is_on_current_floor__10TObjPlayerFi((VO_801C6408 *)temp_r3) != 0)) {
                 if (--*(s16 *)((s8 *)arg0 + 2) < 0) {
                     if (TCameraCtrl::get_mode() != 0) {
                         ((TObjPlayer *)temp_r3)->render_material_state.alpha = 1.0f;
@@ -1108,7 +1108,7 @@ void update_player_appear_fade(u8 *arg0) {
                     }
                     *(s32 *)((s8 *)arg0 + 4) = 1;
                     ((TObjPlayer *)temp_r3)->activate_body_collision();
-                    if (obj_testFlags30__14TObjCollidableFUl((int)temp_r3, 0x800) == 0) {
+                    if (obj_testFlags30__14TObjCollidableFUl((saddr)temp_r3, 0x800) == 0) {
                         TObjPlayer::spawn_appearance_effect((int) (*(u16 *)((s8 *)arg0 + 0)));
                     }
                     ((TObjPlayer *)temp_r3)->render_material_state.alpha = 0.0f;

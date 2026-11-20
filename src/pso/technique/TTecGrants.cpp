@@ -77,7 +77,7 @@ void TTecGrants::create(void *arg0, void *arg1, void *arg2, void *arg3) {
     void *o;
     o = TObject::operator new(0x14C);
     if (o != NULL) {
-        TTecGrants__ct((u8 *)o, (s32)arg0, (s32)arg1, (s32)arg2, (s32)arg3);
+        TTecGrants__ct((u8 *)o, (saddr)arg0, (saddr)arg1, (saddr)arg2, (saddr)arg3);
     }
 }
 

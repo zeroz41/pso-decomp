@@ -328,7 +328,7 @@ void TObjCollidable::set_indexed_flags(s32 index, s32 flags) {
     void *entry;
     void *arg0 = (void *)this;
 
-    entry = (void *)*(u32 *)((s8 *)arg0 + 0xA4);
+    entry = (void *)*(uaddr *)((s8 *)arg0 + 0xA4);
     if (entry != NULL) {
         entry = (void *)((u8 *)entry + (index * 0x2C));
         *(s32 *)((s8 *)entry + 0x18) =
@@ -438,7 +438,7 @@ u16 TObjCollidable::unregister_object_by_id() {
     if ((TObjCollidable *)TObjPlayer__data_8050D460[lo] == this) {
         memcpy(&TObjPlayer__data_8050D460[lo], &TObjPlayer__data_8050D460[lo + 1], (count - (lo + 1)) * 4);
         lbl_805D5868--;
-        u16 k = get_entity_id((int)this);
+        u16 k = get_entity_id((saddr)this);
         if (k < 0x1000) {
             registered_player_count--;
         } else if (k < 0x4000) {
@@ -491,7 +491,7 @@ u16 register_entity_by_id(void *ov) {
     }
     TBL[lo] = o;
     lbl_805D5868++;
-    t = get_entity_id((int)o);
+    t = get_entity_id((saddr)o);
     if (t < 0x1000) {
         registered_player_count++;
     } else if (t < 0x4000) {
@@ -533,7 +533,7 @@ void *find_entity_by_id(u16 id) {
 }
 
 void TOTrapAncient02R__sub_80154D78(void) {  }
-void TObjPlayer::init_all_slots() { { int i; for (i = 0; i < 16; i++) { TObjPlayer__sub_80154E28((int)((void*)i), (int)((void*)0)); } } }
+void TObjPlayer::init_all_slots() { { int i; for (i = 0; i < 16; i++) { TObjPlayer__sub_80154E28((saddr)((void*)i), (saddr)((void*)0)); } } }
 s32 TObjPlayer::find_or_alloc_slot(uaddr arg0) {
     s32 var_r31;
     u32 battle_param;
@@ -625,7 +625,7 @@ s32 build_collision_box_corners(Vec origin, s32 facing, CollisionBody *body, Col
     }
     pop_matrix();
     if (out != 0) {
-        TObjPlayer__sub_80155028((s32)out, (s32)c);
+        TObjPlayer__sub_80155028((saddr)out, (saddr)c);
         return 1;
     }
     return 0;
@@ -1011,7 +1011,7 @@ void*TObjCollidable::find_actor_body_contact(u8*arg1, f32 limit) {
             VecCopy__FP3VecPC3Vec((void *)&destination.position, (void *)(arg1+0x38));
             destination.facing=*(s32*)(arg1+0x60);
             result=refresh_actor_body_spheres(source,destination);
-            if (result) {TObjPlayer::find_or_alloc_slot((u32)arg1);return result;}
+            if (result) {TObjPlayer::find_or_alloc_slot((uaddr)arg1);return result;}
         }
     }
     return 0;
@@ -1071,9 +1071,9 @@ u32 TObjCollidable::check_actor_body_contact(void *o_arg, f32 range) {
             b.facing = o->f60;
             hit = (u8 *)refresh_actor_body_spheres(a, b);
             if (hit != 0) {
-                TObjPlayer::find_or_alloc_slot((u32)o);
+                TObjPlayer::find_or_alloc_slot((uaddr)o);
                 *(u32 *)(hit + 0x18) |= 0x04000000;
-                return (u32)hit;
+                return (uaddr)hit;
             }
         }
     }
@@ -1117,7 +1117,7 @@ void check_enemy_body_collisions(void *arg0) {
                     if (ct != 0) {
                         self->coll->flags |= 0x100000;
                         if (TObjPlayer::check_flag_pair(self->coll->flags, ct->flags) == 0 &&
-                            respond_to_body_contact((u8 *)self, (u32)((s32)other), (u8 *)ct) != 0) {
+                            respond_to_body_contact((u8 *)self, (u32)((saddr)other), (u8 *)ct) != 0) {
                             self->coll->flags |= 0x800000;
                         }
                     }

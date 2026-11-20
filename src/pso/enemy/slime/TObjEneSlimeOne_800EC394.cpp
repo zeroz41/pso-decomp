@@ -149,16 +149,16 @@ void TObjEneSlimeOne::draw_part(s32 arg1) {
         if (arg1 != 0) {
             model_render_flags |= 0x400000;
             set_chunk_render_flags(1);
-            draw_chunk_model_with_shape_motion((void *)(*(s32 *)&this->m_prev), (void *)(*(s32 *)&this->m_up), (NJS_MOTION *)((void *)(*(s32 *)&this->m_down)), (f32)(*(f32 *)&this->actorFlags));
+            draw_chunk_model_with_shape_motion((void *)(*(saddr *)&this->m_prev), (void *)(*(saddr *)&this->m_up), (NJS_MOTION *)((void *)(*(saddr *)&this->m_down)), (f32)(*(f32 *)&this->actorFlags));
             clear_chunk_render_flags();
             model_render_flags &= ~0x400000;
             return;
         }
         set_chunk_render_flags(2);
         set_cull_back();
-        draw_chunk_model_with_shape_motion((void *)(*(s32 *)&this->m_prev), (void *)(*(s32 *)&this->m_up), (NJS_MOTION *)((void *)(*(s32 *)&this->m_down)), (f32)(*(f32 *)&this->actorFlags));
+        draw_chunk_model_with_shape_motion((void *)(*(saddr *)&this->m_prev), (void *)(*(saddr *)&this->m_up), (NJS_MOTION *)((void *)(*(saddr *)&this->m_down)), (f32)(*(f32 *)&this->actorFlags));
         set_cull_front();
-        draw_chunk_model_with_shape_motion((void *)(*(s32 *)&this->m_prev), (void *)(*(s32 *)&this->m_up), (NJS_MOTION *)((void *)(*(s32 *)&this->m_down)), (f32)(*(f32 *)&this->actorFlags));
+        draw_chunk_model_with_shape_motion((void *)(*(saddr *)&this->m_prev), (void *)(*(saddr *)&this->m_up), (NJS_MOTION *)((void *)(*(saddr *)&this->m_down)), (f32)(*(f32 *)&this->actorFlags));
         set_cull_none();
         clear_chunk_render_flags();
         return;
@@ -168,22 +168,22 @@ void TObjEneSlimeOne::draw_part(s32 arg1) {
     if (arg1 != 0) {
         model_render_flags |= 0x400000;
         set_chunk_render_flags(1);
-        draw_model_motion((void *)(*(s32 *)&this->m_prev), (void *)(*(s32 *)&this->m_up), *(f32 *)&this->actorFlags);
+        draw_model_motion((void *)(*(saddr *)&this->m_prev), (void *)(*(saddr *)&this->m_up), *(f32 *)&this->actorFlags);
         TObjFish::set_global_param(*(s32 *)&this->entity_id);
-        draw_model_motion((void *)(*(s32 *)((s8 *)arg0 + 0x18)), (void *)(*(s32 *)&this->m_20), *(f32 *)&this->actorFlags);
+        draw_model_motion((void *)(*(saddr *)((s8 *)arg0 + 0x18)), (void *)(*(saddr *)&this->m_20), *(f32 *)&this->actorFlags);
         clear_chunk_render_flags();
         model_render_flags &= ~0x400000;
     } else {
         set_chunk_render_flags(2);
         set_cull_back();
-        draw_model_motion((void *)(*(s32 *)&this->m_prev), (void *)(*(s32 *)&this->m_up), *(f32 *)&this->actorFlags);
+        draw_model_motion((void *)(*(saddr *)&this->m_prev), (void *)(*(saddr *)&this->m_up), *(f32 *)&this->actorFlags);
         set_cull_front();
-        draw_model_motion((void *)(*(s32 *)&this->m_prev), (void *)(*(s32 *)&this->m_up), *(f32 *)&this->actorFlags);
+        draw_model_motion((void *)(*(saddr *)&this->m_prev), (void *)(*(saddr *)&this->m_up), *(f32 *)&this->actorFlags);
         TObjFish::set_global_param(*(s32 *)&this->entity_id);
         set_cull_back();
-        draw_model_motion((void *)(*(s32 *)((s8 *)arg0 + 0x18)), (void *)(*(s32 *)&this->m_20), *(f32 *)&this->actorFlags);
+        draw_model_motion((void *)(*(saddr *)((s8 *)arg0 + 0x18)), (void *)(*(saddr *)&this->m_20), *(f32 *)&this->actorFlags);
         set_cull_front();
-        draw_model_motion((void *)(*(s32 *)((s8 *)arg0 + 0x18)), (void *)(*(s32 *)&this->m_20), *(f32 *)&this->actorFlags);
+        draw_model_motion((void *)(*(saddr *)((s8 *)arg0 + 0x18)), (void *)(*(saddr *)&this->m_20), *(f32 *)&this->actorFlags);
         set_cull_none();
         clear_chunk_render_flags();
     }

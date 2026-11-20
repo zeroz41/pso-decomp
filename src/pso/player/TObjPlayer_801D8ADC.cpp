@@ -71,24 +71,24 @@ s32 *TObjPlayer::get_getup_protection_ticks() {
         if (((TObjChara *)var_r3)->obj_isState3_324() != 0) {
             var_r3 = (s32 *)player_getup_protection_ticks_table_flagged;
             var_r3 = (s32 *)player_getup_protection_ticks_table_flagged;
-            var_r3 = (s32 *)(*(s32 *)((s8 *)player_getup_protection_ticks_table_flagged + (game_difficulty_selection * 4)));
+            var_r3 = (s32 *)(*(saddr *)((s8 *)player_getup_protection_ticks_table_flagged + (game_difficulty_selection * 4)));
             return var_r3;
         }
         var_r3 = (s32 *)player_getup_protection_ticks_table;
         var_r3 = (s32 *)player_getup_protection_ticks_table;
-        var_r3 = (s32 *)(*(s32 *)((s8 *)player_getup_protection_ticks_table + (game_difficulty_selection * 4)));
+        var_r3 = (s32 *)(*(saddr *)((s8 *)player_getup_protection_ticks_table + (game_difficulty_selection * 4)));
         return var_r3;
     }
     var_r3 = var_r31;
     if (((TObjChara *)var_r3)->obj_isState3_324() != 0) {
         var_r3 = (s32 *)getup_protection_ticks_table_b;
         var_r3 = (s32 *)getup_protection_ticks_table_b;
-        var_r3 = (s32 *)(*(s32 *)((s8 *)getup_protection_ticks_table_b + (game_difficulty_selection * 4)));
+        var_r3 = (s32 *)(*(saddr *)((s8 *)getup_protection_ticks_table_b + (game_difficulty_selection * 4)));
         return var_r3;
     }
     var_r3 = (s32 *)getup_protection_ticks_table_a;
     var_r3 = (s32 *)getup_protection_ticks_table_a;
-    var_r3 = (s32 *)(*(s32 *)((s8 *)getup_protection_ticks_table_a + (game_difficulty_selection * 4)));
+    var_r3 = (s32 *)(*(saddr *)((s8 *)getup_protection_ticks_table_a + (game_difficulty_selection * 4)));
     return var_r3;
 }
 
@@ -102,24 +102,24 @@ s32 *TObjPlayer::get_hurt_protection_ticks() {
         if (((TObjChara *)var_r3)->obj_isState3_324() != 0) {
             var_r3 = (s32 *)hurt_protection_ticks_table;
             var_r3 = (s32 *)hurt_protection_ticks_table;
-            var_r3 = (s32 *)(*(s32 *)((s8 *)hurt_protection_ticks_table + (game_difficulty_selection * 4)));
+            var_r3 = (s32 *)(*(saddr *)((s8 *)hurt_protection_ticks_table + (game_difficulty_selection * 4)));
             return var_r3;
         }
         var_r3 = (s32 *)player_hurt_protection_ticks_table_phase15;
         var_r3 = (s32 *)player_hurt_protection_ticks_table_phase15;
-        var_r3 = (s32 *)(*(s32 *)((s8 *)player_hurt_protection_ticks_table_phase15 + (game_difficulty_selection * 4)));
+        var_r3 = (s32 *)(*(saddr *)((s8 *)player_hurt_protection_ticks_table_phase15 + (game_difficulty_selection * 4)));
         return var_r3;
     }
     var_r3 = var_r31;
     if (((TObjChara *)var_r3)->obj_isState3_324() != 0) {
         var_r3 = (s32 *)player_hurt_protection_ticks_table_flagged;
         var_r3 = (s32 *)player_hurt_protection_ticks_table_flagged;
-        var_r3 = (s32 *)(*(s32 *)((s8 *)player_hurt_protection_ticks_table_flagged + (game_difficulty_selection * 4)));
+        var_r3 = (s32 *)(*(saddr *)((s8 *)player_hurt_protection_ticks_table_flagged + (game_difficulty_selection * 4)));
         return var_r3;
     }
     var_r3 = (s32 *)player_hurt_protection_ticks_table;
     var_r3 = (s32 *)player_hurt_protection_ticks_table;
-    var_r3 = (s32 *)(*(s32 *)((s8 *)player_hurt_protection_ticks_table + (game_difficulty_selection * 4)));
+    var_r3 = (s32 *)(*(saddr *)((s8 *)player_hurt_protection_ticks_table + (game_difficulty_selection * 4)));
     return var_r3;
 }
 

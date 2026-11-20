@@ -27,7 +27,7 @@ s32 begin_action_state__10TObjPlayerFPv(u8 *player) {
     copy_entries(5, get_class_starting_inventory(temp_r30), get_ptr_4__10TObjPlayerFv());
     ((TObjPlayer *)player)->set_action_state(1);
     init_new_character_stats(player);
-    TObjPlayer::setup_effect_slots((s32)(*(s32 *)((s8 *)player + 0x3A4)), (s32)(player + 0x3C0));
+    TObjPlayer::setup_effect_slots((s32)(*(s32 *)((s8 *)player + 0x3A4)), (saddr)(player + 0x3C0));
     init_technique_levels(*(s32 *)((s8 *)player + 0x3A4), (saddr)((TObjPlayer *)player)->get_action_data());
     *(s8 *)((s8 *)player + 3) = (s8) current_language;
     return 1;

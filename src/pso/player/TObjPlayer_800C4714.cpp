@@ -174,7 +174,7 @@ struct Hit_800C4A5C {
 };
 extern const Hit_800C4A5C lbl_8043BC10 = { 0xF, 2.0f, 2.0f, 0, 1 };
 extern const char lbl_8043BC24[] = "TObjEneRe2Flower_Bomb";
-s32 lbl_805D2A50 = (s32)lbl_8043BC24;
+s32 lbl_805D2A50 = (saddr)lbl_8043BC24;
 void *lbl_804933D8[24] = {
     (void *)0x0, (void *)0x0, (void *)&destroy_and_free__21TObjEneRe2Flower_BombFs, (void *)&run_task__21TObjEneRe2Flower_BombFv,
     (void *)&render__21TObjEneRe2Flower_BombFv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
@@ -216,7 +216,7 @@ s32 TObjEneRe2Flower_Bomb::area_attack_deliver_direct(void *recoil, s32 arg2, vo
                 is_area_attack_target_eligible((saddr)this, *(s32 *)((s8 *)p + 0x30)) != 0 &&
                 !(fabs_float(*(f32 *)&(this->m_b8) - *(f32 *)((s8 *)p + 0x300)) > 30.0f)) {
                 ok = 1;
-                if (object != 0 && attack_target_history_add((s32)object, p) == 0) {
+                if (object != 0 && attack_target_history_add((saddr)object, p) == 0) {
                     ok = 0;
                 }
                 if (ok != 0) {
@@ -233,7 +233,7 @@ s32 TObjEneRe2Flower_Bomb::area_attack_deliver_direct(void *recoil, s32 arg2, vo
 void TObjEneRe2Flower_Bomb::render() {
     u8 *arg0 = (u8 *)this;
     if ((s32) this->m_100 != 0) {
-        ((TObjEneDD *)(arg0 + 0x38))->draw_oriented_shadow((s32)(arg0 + 0xD8), 0, (u32)0);
+        ((TObjEneDD *)(arg0 + 0x38))->draw_oriented_shadow((saddr)(arg0 + 0xD8), 0, (u32)0);
     }
 }
 void TObjEneRe2Flower_Bomb::run_task() {
@@ -302,7 +302,7 @@ void TObjEneRe2Flower_Bomb::run_task() {
             ((TParticleCtrl *)(o->fFC))->enable();
         }
     } else {
-        ((TParticleCtrl *)(int)o->fFC)->set_position(&o->start);
+        ((TParticleCtrl *)(saddr)o->fFC)->set_position(&o->start);
     }
 }
 
@@ -321,7 +321,7 @@ void *TObjEneRe2Flower_Bomb::destroy_and_free(s16 arg1) {
 Obj_800C4A5C *TObjPlayer__sub_800C4A5C(Obj_800C4A5C *o, void *owner, Vec *start, s32 angle) {
     f32 s;
     f32 c;
-    __ct__13TUnk_804928CCFP7TObjectP8TObjBase((u8 *)o, (s32)owner, (u32)owner);
+    __ct__13TUnk_804928CCFP7TObjectP8TObjBase((u8 *)o, (saddr)owner, (uaddr)owner);
     o->vptr = lbl_804933D8;
     o->f0 = lbl_805D2A50;
     o->coll->radius = lbl_8043BC10.radius;

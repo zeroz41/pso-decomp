@@ -119,13 +119,13 @@ void TUnk_804F27E0::emit_marker_effects() {
     s32 sp8;
     ((VObj_18_f1aa6a *)(this->owner))->m63(0x30, &sp8);
     if (get_validated_attack_stage(*(u8 * *)&this->owner + 0x7CC) == 2) {
-        ((TItemWeapon *)arg0)->fire_shot_at_target(&sp8, (void *)(*(s32 *)((s8 *)arg0 + 0xF4)), 0);
-        ((TItemWeapon *)arg0)->fire_shot_at_target(&sp8, (void *)(*(s32 *)((s8 *)arg0 + 0xF4)), 0x1555);
-        ((TItemWeapon *)arg0)->fire_shot_at_target(&sp8, (void *)(*(s32 *)((s8 *)arg0 + 0xF4)), -0x1555);
+        ((TItemWeapon *)arg0)->fire_shot_at_target(&sp8, (void *)(*(saddr *)((s8 *)arg0 + 0xF4)), 0);
+        ((TItemWeapon *)arg0)->fire_shot_at_target(&sp8, (void *)(*(saddr *)((s8 *)arg0 + 0xF4)), 0x1555);
+        ((TItemWeapon *)arg0)->fire_shot_at_target(&sp8, (void *)(*(saddr *)((s8 *)arg0 + 0xF4)), -0x1555);
     } else {
-        ((TItemWeapon *)arg0)->fire_shot_at_target(&sp8, (void *)(*(s32 *)((s8 *)arg0 + 0xF4)), 0);
+        ((TItemWeapon *)arg0)->fire_shot_at_target(&sp8, (void *)(*(saddr *)((s8 *)arg0 + 0xF4)), 0);
     }
-    TObjPlayer::create_cane_if_ready((s32)arg0, (void *)((void *)&sp8));
+    TObjPlayer::create_cane_if_ready((saddr)arg0, (void *)((void *)&sp8));
 }
 
 void TUnk_804F27E0::vfunc_60() {

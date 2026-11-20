@@ -416,7 +416,7 @@ void weapon_fire_explosion_effect(TObjPlayer *player, TObjBase *target, Vec *pos
         spawn_particle_effect(&player->m_2fc, 0x69);
     }
     if (phase == 1) {
-        obj = (u32)TObject::operator new(0x64);
+        obj = (uaddr)TObject::operator new(0x64);
         if (obj != 0U) {
             obj = ((u32 (*)(f32, u32, Vec *, s32, TObject *))create_fire_explosion_effect)(10.0f, obj, pos, 0, tl_particle);
         }

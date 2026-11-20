@@ -128,29 +128,29 @@ void TTecGiBarta::update_technique_by_phase() {
 
     switch (this->band) {
     case 0:
-        handle = play_sound_effect(0x4002A605, (int)(arg0 + 0x20), 0, 0);
+        handle = play_sound_effect(0x4002A605, (saddr)(arg0 + 0x20), 0, 0);
         if (handle >= 0) {
             update_technique_slot__10TTecRaFoieFl(handle, 0x100, 0);
         }
         return;
     case 1:
-        play_sound_effect(0x4002A605, (int)(arg0 + 0x20), 0, 0);
+        play_sound_effect(0x4002A605, (saddr)(arg0 + 0x20), 0, 0);
         return;
     case 2:
     case 3:
-        handle = play_sound_effect(0x4002A605, (int)(arg0 + 0x20), 0, 0);
+        handle = play_sound_effect(0x4002A605, (saddr)(arg0 + 0x20), 0, 0);
         if (handle >= 0) {
             update_technique_slot__10TTecRaFoieFl(handle, -0x180, 0);
         }
         break;
     case 4:
-        handle = play_sound_effect(0x4002A605, (int)(arg0 + 0x20), 0, 0);
+        handle = play_sound_effect(0x4002A605, (saddr)(arg0 + 0x20), 0, 0);
         if (handle >= 0) {
             update_technique_slot__10TTecRaFoieFl(handle, -0x250, 0);
         }
         break;
     case 5:
-        handle = play_sound_effect(0x4002A605, (int)(arg0 + 0x20), 0, 0);
+        handle = play_sound_effect(0x4002A605, (saddr)(arg0 + 0x20), 0, 0);
         if (handle >= 0) {
             update_technique_slot__10TTecRaFoieFl(handle, -0x100, 0);
         }
@@ -243,7 +243,7 @@ void TTecGiBarta::create_particles() {
                 ((TParticleCtrl *)emitter)->set_scale(TTecGiBarta__emitter_profile_table[shot->band].rows[i].scale, TTecGiBarta__emitter_profile_table[shot->band].rows[i].scale);
             }
             if (TTecGiBarta__emitter_profile_table[shot->band].rows[i].flags & 0x20) {
-                attach_particle_model((u8 *)emitter, (s32)(get_bml_model(technique_effect_bml, (u16)(TTecGiBarta__emitter_profile_table[shot->band].rows[i].flags >> 16))), (s32)lbl_805D63B0, (s32)NULL, 0, 1.0f);
+                attach_particle_model((u8 *)emitter, (saddr)(get_bml_model(technique_effect_bml, (u16)(TTecGiBarta__emitter_profile_table[shot->band].rows[i].flags >> 16))), (saddr)lbl_805D63B0, (s32)NULL, 0, 1.0f);
             }
         }
         shot->emitters[i] = emitter;
@@ -257,19 +257,19 @@ void TTecGiBarta::create_particles() {
         if (src != NULL) {
             emitter = spawn_particle_effect(src + 0x38, 0x18B);
             if (emitter != NULL) {
-                attach_particle_model((u8 *)emitter, (s32)(get_bml_model(technique_effect_bml, 6)), (s32)lbl_805D63B0, (s32)(get_bml_motion(technique_effect_bml, 2)), 0, 1.0f);
+                attach_particle_model((u8 *)emitter, (saddr)(get_bml_model(technique_effect_bml, 6)), (saddr)lbl_805D63B0, (saddr)(get_bml_motion(technique_effect_bml, 2)), 0, 1.0f);
             }
             emitter = create_timed_particle_emitter(src + 0x38, 0x18B, 5, 1);
             if (emitter != NULL) {
-                attach_particle_model((u8 *)emitter, (s32)(get_bml_model(technique_effect_bml, 7)), (s32)lbl_805D63B0, (s32)(get_bml_motion(technique_effect_bml, 2)), 0, 1.0f);
+                attach_particle_model((u8 *)emitter, (saddr)(get_bml_model(technique_effect_bml, 7)), (saddr)lbl_805D63B0, (saddr)(get_bml_motion(technique_effect_bml, 2)), 0, 1.0f);
             }
             emitter = create_timed_particle_emitter(src + 0x38, 0x18B, 10, 1);
             if (emitter != NULL) {
-                attach_particle_model((u8 *)emitter, (s32)(get_bml_model(technique_effect_bml, 8)), (s32)lbl_805D63B0, (s32)(get_bml_motion(technique_effect_bml, 2)), 0, 1.0f);
+                attach_particle_model((u8 *)emitter, (saddr)(get_bml_model(technique_effect_bml, 8)), (saddr)lbl_805D63B0, (saddr)(get_bml_motion(technique_effect_bml, 2)), 0, 1.0f);
             }
             emitter = create_timed_particle_emitter(src + 0x38, 0x18F, 20, 1);
             if (emitter != NULL) {
-                attach_particle_model((u8 *)emitter, (s32)(get_bml_model(technique_effect_bml, 5)), (s32)lbl_805D63B0, (s32)NULL, 0, 1.0f);
+                attach_particle_model((u8 *)emitter, (saddr)(get_bml_model(technique_effect_bml, 5)), (saddr)lbl_805D63B0, (s32)NULL, 0, 1.0f);
             }
         }
     }
@@ -325,11 +325,11 @@ void TTecGiBarta::vfunc_8(void *target) {
 }
 
 void TTecGiBarta::create(void *arg1, void *arg2, void *arg3) {
-    new TTecGiBarta((s32)this, (u8 *)arg1, (u8 *)arg2, (s32)arg3);
+    new TTecGiBarta((saddr)this, (u8 *)arg1, (u8 *)arg2, (saddr)arg3);
 }
 
 void TTecGiBarta::create_ex(void *arg1, void *arg2, void *arg3) {
-    new TTecGiBarta((s32)this, (Vec *)arg1, (s32)arg2, (s32)arg3);
+    new TTecGiBarta((saddr)this, (Vec *)arg1, (saddr)arg2, (saddr)arg3);
 }
 
 TTecGiBarta::~TTecGiBarta() {
@@ -342,7 +342,7 @@ TTecGiBarta::~TTecGiBarta() {
 }
 
 void TTecGiBarta::run_task() {
-    this->source = (u32)find_entity_by_id(this->sourceId);
+    this->source = (uaddr)find_entity_by_id(this->sourceId);
     if ((u32) this->source == 0U) {
         queue_destruction();
         return;

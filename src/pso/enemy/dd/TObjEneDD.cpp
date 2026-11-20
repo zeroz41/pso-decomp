@@ -958,7 +958,7 @@ u8 *TBoss5Gryphon::try_move_actor_xz_on_ground(u8 *arg1) {
         this->prev_position.z = (f32) *(f32 *)((s8 *)((u8 *)this) + 0x40);
         *(f32 *)((s8 *)((u8 *)this) + 0x38) = (f32) *(f32 *)((s8 *)arg1 + 0);
         *(f32 *)((s8 *)((u8 *)this) + 0x40) = (f32) *(f32 *)((s8 *)arg1 + 8);
-        VecCopy((Vec *)(((u8 *)this) + 0x248), (const Vec *)(*(s32 *)((s8 *)temp_r3 + 4) + 0xC));
+        VecCopy((Vec *)(((u8 *)this) + 0x248), (const Vec *)(*(saddr *)((s8 *)temp_r3 + 4) + 0xC));
         this->m_384 = 0;
     } else {
         this->m_384 = (this->m_384 + 1);
@@ -973,7 +973,7 @@ u8 *TObjEneDD::vfunc_101(u8 *arg1) {
     temp_f31 = *(f32 *)((s8 *)arg0 + 0x3C);
     temp_r3 = (unsigned char *) (((VObj_18_3f4583 *)(arg0))->m101());
     if (temp_r3 != NULL) {
-        VecCopy((Vec *)(arg0 + 0x248), (const Vec *)(*(s32 *)((s8 *)temp_r3 + 4) + 0xC));
+        VecCopy((Vec *)(arg0 + 0x248), (const Vec *)(*(saddr *)((s8 *)temp_r3 + 4) + 0xC));
     }
     this->prev_position.x = (f32) *(f32 *)((s8 *)arg0 + 0x38);
     this->prev_position.y = temp_f31;
@@ -991,7 +991,7 @@ u8 *TObjEneDD::vfunc_102() {
     temp_f31 = *(f32 *)((s8 *)arg0 + 0x3C);
     temp_r3 = (unsigned char *) (((TObjEneDD *)(arg0))->update_actor_ground_y());
     if (temp_r3 != NULL) {
-        VecCopy((Vec *)(arg0 + 0x248), (const Vec *)(*(s32 *)((s8 *)temp_r3 + 4) + 0xC));
+        VecCopy((Vec *)(arg0 + 0x248), (const Vec *)(*(saddr *)((s8 *)temp_r3 + 4) + 0xC));
     }
     this->prev_position.x = (f32) *(f32 *)((s8 *)arg0 + 0x38);
     this->prev_position.y = temp_f31;

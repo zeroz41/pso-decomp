@@ -1939,19 +1939,19 @@ void * create_ene_saver(void *arg0) {
 
 void TObjPlayer::free_resources() {
     if ((u32) (*(u32 *)&player_object_ptr_array) != 0U) {
-        mem_free((void*)(*(u32 *)&player_object_ptr_array));
+        mem_free((void*)(*(uaddr *)&player_object_ptr_array));
         (*(u32 *)&player_object_ptr_array) = 0U;
     }
     if ((u32) (*(u32 *)&lbl_805D5064) != 0U) {
-        delete (SampledMotionPoints *)(*(u32 *)&lbl_805D5064);
+        delete (SampledMotionPoints *)(*(uaddr *)&lbl_805D5064);
         (*(u32 *)&lbl_805D5064) = 0U;
     }
     if ((u32) (*(u32 *)&lbl_805D5068) != 0U) {
-        delete (SampledMotionPoints *)(*(u32 *)&lbl_805D5068);
+        delete (SampledMotionPoints *)(*(uaddr *)&lbl_805D5068);
         (*(u32 *)&lbl_805D5068) = 0U;
     }
     if ((u32) (*(u32 *)&lbl_805D506C) != 0U) {
-        delete (SampledMotionPoints *)(*(u32 *)&lbl_805D506C);
+        delete (SampledMotionPoints *)(*(uaddr *)&lbl_805D506C);
         (*(u32 *)&lbl_805D506C) = 0U;
     }
     if ((u32) saver_bml_resource != 0U) {

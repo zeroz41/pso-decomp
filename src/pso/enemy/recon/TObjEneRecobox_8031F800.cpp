@@ -776,7 +776,7 @@ void TObjEneRecobox::load_resources() {
     {
         Sub_80320260 *sp = (Sub_80320260 *)lbl_804EC684;
         Spawn_80320260 s = recobox_resource_binding_desc;
-        box = (Box_80320260 *)(*(u32 *)&TObjEneRecobox__static_instance);
+        box = (Box_80320260 *)(*(uaddr *)&TObjEneRecobox__static_instance);
         s.motions = box->f430;
         TLobby::spawn_npc_enemy((s16)0xD, box->f42C->f18, box->f42C->texlist, &s, (f32)(getf_80320260(sp)), 0.0f);
     }
@@ -795,7 +795,7 @@ void *TObjEneRecobox__create(void *arg0) {
 void TObjEneRecobox::release_static_instance() {
     TObjEneRecon::release_static_instance();
     if ((u32) (*(u32 *)&TObjEneRecobox__static_instance) != 0U) {
-        free_bin_model_request((void*)(*(u32 *)&TObjEneRecobox__static_instance), 1);
+        free_bin_model_request((void*)(*(uaddr *)&TObjEneRecobox__static_instance), 1);
         (*(u32 *)&TObjEneRecobox__static_instance) = 0U;
     }
 }

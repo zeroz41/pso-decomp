@@ -60,7 +60,7 @@ void TObjPlayer::init_action_provider() {
     *(s32 *)&this->unk_420 = 0;
     this->m_3d0 = 0;
     ((TObjPlayer *)arg0)->reset_state();
-    set_flag_400000__10TObjPlayerFi((s32)arg0);
+    set_flag_400000__10TObjPlayerFi((saddr)arg0);
     if (TObjPlayer::get_player_count() == 1) {
         set_player_pk_mode_flag(((u8 *)&this->m_828));
     }

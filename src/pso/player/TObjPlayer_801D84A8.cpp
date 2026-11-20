@@ -228,7 +228,7 @@ bool can_use_palette_action__10TObjPlayerFPvUcUc(TObjPlayer_801D8044 *self, u8 k
             break;
         }
         if (arg < 0xd || arg > 0x10) {
-            if (((TObjPlayer *)((void *)self->fd00))->set_mode_and_refresh_object((s32)&item) == 0) {
+            if (((TObjPlayer *)((void *)self->fd00))->set_mode_and_refresh_object((saddr)&item) == 0) {
                 return 0;
             }
         } else {

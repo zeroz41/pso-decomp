@@ -61,7 +61,7 @@ void TPlayerFootStamp::sub_802B0204(s32 num) {
 }
 
 void load_player_footstamp(void) {
-    player_footstamp_texture_gvm_handle = (u32)load_gvm_texture_file((s32)"player_footstamp.GVM");
+    player_footstamp_texture_gvm_handle = (uaddr)load_gvm_texture_file((saddr)"player_footstamp.GVM");
 }
 
 void TPlayerFootStamp::free_instance() {
@@ -73,7 +73,7 @@ void TPlayerFootStamp::free_instance() {
 }
 
 void *TPlayerFootStamp::create(void *player, void *side) {
-    return new TPlayerFootStamp((TObjPlayer *)player, (s32)side);
+    return new TPlayerFootStamp((TObjPlayer *)player, (saddr)side);
 }
 
 TPlayerFootStamp::TPlayerFootStamp(TObjPlayer *player, s32 side) : TObject(tl_07) {
@@ -213,7 +213,7 @@ TPlayerFootStamp::TPlayerFootStamp(TObjPlayer *player, s32 side) : TObject(tl_07
         rotation = (s32 *)((TBoss4DarkFalz *)player)->get_hit_data();
         VecCopy(&position, (Vec *)player->get_position_ptr());
         position.y += 5.0f;
-        ground = (CsnHit *)csnVecterUnder((s32)&position, 0x16EF);
+        ground = (CsnHit *)csnVecterUnder((saddr)&position, 0x16EF);
         if (ground == NULL) {
             queue_destruction();
             return;

@@ -43,7 +43,7 @@ s32 TObjPlayer::is_player_valid_target(s32 arg0) {
     if (TObjPlayer__sub_80354E3C() == 0) {
         return 0;
     }
-    temp_r31 = (s32)get_player_by_client_id((u16) arg0);
+    temp_r31 = (saddr)get_player_by_client_id((u16) arg0);
     if ((TObjPlayer__sub_80354C7C(arg0) == 0) || (check_flag_100__10TObjPlayerFPv((void *)temp_r31) != 0) || (reset_volopt_state__10TObjPlayerFv(temp_r31) == 0)) {
         return 0;
     }

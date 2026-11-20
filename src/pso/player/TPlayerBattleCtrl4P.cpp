@@ -365,7 +365,7 @@ void TPlayerBattleCtrl4P::open_intro_window() {
 
 void TPlayerBattleCtrl4P::show_intro_text() {
     if (this->intro_window != NULL) {
-        ((TWindowMessage *)(this->intro_window))->append_line((int)((void *)((char *)((void *)this) + 56)), (int)128);
+        ((TWindowMessage *)(this->intro_window))->append_line((saddr)((void *)((char *)((void *)this) + 56)), (int)128);
     }
     this->frame_timer = 240;
     set_score(2);
@@ -405,7 +405,7 @@ void TPlayerBattleCtrl4P::show_team_matchup() {
         }
     }
     sprintf(team_matchup_message_buffer, ((O_8031224C *)this)->strs->fmt, names[0], names[1], names[2], names[3]);
-    ((TWindowMessage *)(((O_8031224C *)this)->w0))->append_line((int)team_matchup_message_buffer, (int)0x80);
+    ((TWindowMessage *)(((O_8031224C *)this)->w0))->append_line((saddr)team_matchup_message_buffer, (int)0x80);
     ((O_8031224C *)this)->timer = 0xF0;
     set_score((saddr)((void *)4));
 }
@@ -716,7 +716,7 @@ void TPlayerBattleCtrl4P::begin_battle_reload_fade() {
         }
         TLobby::stop_audio_streams();
         TPlayerBattleCtrl4P__init_flag = 0;
-        TLobby::init_fadeout_state((s32)(TPlayerBattleCtrl4P::init));
+        TLobby::init_fadeout_state((saddr)(TPlayerBattleCtrl4P::init));
         set_score((saddr)((void*)((void *)2)));
     }
 }
@@ -724,7 +724,7 @@ void TPlayerBattleCtrl4P::begin_battle_reload_fade() {
 void TPlayerBattleCtrl4P::finish_battle_reload() {
     if ((s32) TPlayerBattleCtrl4P__init_flag != 0) {
         reset_players__19TPlayerBattleCtrl4PFv();
-        TLobby::set_fade_params((s32)TPlayerBattleCtrl4P::reset_ctrl_to_default);
+        TLobby::set_fade_params((saddr)TPlayerBattleCtrl4P::reset_ctrl_to_default);
         set_score((saddr)((void*)(3)));
     }
 }

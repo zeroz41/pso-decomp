@@ -1057,11 +1057,11 @@ void TObjEneMerillLia::beast_update_approach() {
                 if (this->m_38c++ < 60.0f) {
                     VecCopy((Vec *)&sp14, &this->home_position);
                 } else {
-                    VecCopy((Vec *)&sp14, (const Vec *)(*(u32 *)&this->target + 0x2FC));
+                    VecCopy((Vec *)&sp14, (const Vec *)(*(uaddr *)&this->target + 0x2FC));
                 }
             } else {
                 this->m_38c = 0U;
-                VecCopy((Vec *)&sp14, (const Vec *)(*(u32 *)&this->target + 0x2FC));
+                VecCopy((Vec *)&sp14, (const Vec *)(*(uaddr *)&this->target + 0x2FC));
             }
             ((TUnk_80493450 *)arg0)->update_target_near_flag();
             ((TUnk_80493450 *)arg0)->sub_800C4E08();
@@ -1744,11 +1744,11 @@ void spawn_ground_effect__16TObjEneMerillLiaFPv(u8 *motion) {
     temp_r3 = (u8 *)(csnVectorUnder((saddr)&stack.sp8, (u32 *)(motion + 0x120), 5));
     if ((temp_r3 != NULL) && (*(s32 *)((s8 *)temp_r3 + 0) & 4)) {
         if (((s32) ((f32) actor_frame_tick * (3.0517578125e-05f * (f32) rand())) % 5) == 0) {
-            particle_effect = (saddr)spawn_particle_effect((void *)(*(s32 *)((s8 *)temp_r3 + 4) + 0x38), 0x49);
+            particle_effect = (saddr)spawn_particle_effect((void *)(*(saddr *)((s8 *)temp_r3 + 4) + 0x38), 0x49);
             if (particle_effect != 0) {
                 attach_particle_model((u8 *)particle_effect, (s32)(TParticleCtrl::get_particle_model(2)), (s32)(TParticleCtrl::get_instance()), 0, 1, 1.0f);
             }
-            spawn_particle_effect((void *)(*(s32 *)((s8 *)temp_r3 + 4) + 0x38), 0xA4);
+            spawn_particle_effect((void *)(*(saddr *)((s8 *)temp_r3 + 4) + 0x38), 0xA4);
         }
         if ((((TObjMotion *)motion)->is_passing_frame(7.0f) != 0) || (((TObjMotion *)motion)->is_passing_frame(22.0f) != 0)) {
             fn_800D88E4((motion + 0x38));

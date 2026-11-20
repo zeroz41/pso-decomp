@@ -674,7 +674,7 @@ void TObjEneDubchik::render() {
             scale_matrix(0, 1.3f, 1.3f, 1.3f);
             model_render_flags &= 0xFFFFFBFF;
             if (TObjPlayer::check_demo_mode() == 1) {
-                draw_chunk_object((void *)(*(s32 *)((s8 *)arg0 + 0x34)));
+                draw_chunk_object((void *)(*(saddr *)((s8 *)arg0 + 0x34)));
             } else if (((TObjEneDubchik *)arg0)->m_388 & 4) {
                 if (((Self_800AA334 *)arg0)->sub.m8() != 0) {
                     ((Self_800AA334 *)arg0)->sub.m6();
@@ -745,7 +745,7 @@ void TObjEneDubchik::sub_800AA10C() {
                 return;
             }
         } else if (temp_r0_2 != 0U) {
-            if (xz_distance_squared((Vec *)(((u8 *)this) + 0x38), (Vec *)(*(u32 *)((s8 *)((u8 *)this) + 0x2A8) + 0x38)) < (((AttackParams *)(this->m_318))->get_attack_range() * ((AttackParams *)(this->m_318))->get_attack_range())) {
+            if (xz_distance_squared((Vec *)(((u8 *)this) + 0x38), (Vec *)(*(uaddr *)((s8 *)((u8 *)this) + 0x2A8) + 0x38)) < (((AttackParams *)(this->m_318))->get_attack_range() * ((AttackParams *)(this->m_318))->get_attack_range())) {
                 this->attack_count = (this->attack_count + 1);
                 if ((s16) this->attack_count > 3) {
                     this->attack_count = 0;
