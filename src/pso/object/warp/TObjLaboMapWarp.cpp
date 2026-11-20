@@ -214,10 +214,10 @@ void TObjCityMainWarp__sub_80186AB8(void);
 #pragma fp_contract on
 s32 TObjCityMainWarp::find_local_player_in_range(f32 farg0) {
     s32 arg0 = (s32)this;
-    s32 player;
+    saddr player;
     s32 current_floor;
     s32 temp_r3b;
-    player = (s32)get_player_by_client_id(local_client_id);
+    player = (saddr)get_player_by_client_id(local_client_id);
     if (player != 0) {
         current_floor = get_current_floor();
         temp_r3b = ((TObjPlayer *)player)->get_floor();

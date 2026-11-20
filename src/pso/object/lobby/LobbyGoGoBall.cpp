@@ -335,7 +335,7 @@ void bswap_6x79_gogo_ball__12TWindowTimerFi(s32 packet) {
 }
 
 void TWindowTimer::send_gogo_ball() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     bswap_6x79_gogo_ball__12TWindowTimerFi(arg0);
     send_subcommand((u8 *)arg0);
 }

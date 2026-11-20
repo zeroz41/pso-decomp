@@ -262,11 +262,11 @@ s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range) {
 #define PBC_801A10A0 ((u32 (*)(void *))get_player_by_client_id)
 
 s32 is_player_in_range__9TObjLukerFv(saddr arg0, f32 farg0) {
-    u32 p;
+    uaddr p;
     s32 found;
     found = 0;
     if (is_split_screen() != 0) {
-        for (s32 i = 0; i < 4; i++) {
+        for (saddr i = 0; i < 4; i++) {
             p = PBC_801A10A0((void *)i);
             if (p != 0U) {
                 if (horizontal_distance_squared((void *)(arg0 + 0x38), (void *)(p + 0x38)) < (farg0 * farg0)) {
@@ -279,7 +279,7 @@ s32 is_player_in_range__9TObjLukerFv(saddr arg0, f32 farg0) {
                 }
             }
         }
-        for (s32 i = 0; i < 4; i++) {
+        for (saddr i = 0; i < 4; i++) {
             p = PBC_801A10A0((void *)i);
             if ((p != 0U) && (check_flag_100__10TObjPlayerFPv((void *)p) == 1)) {
                 C38_801A10A0((void *)arg0, (int) (get_entity_id((int)p)));

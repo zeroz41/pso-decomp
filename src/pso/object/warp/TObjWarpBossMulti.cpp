@@ -719,8 +719,8 @@ void TObjWarpBoss::close_windows() {
 s32 TObjWarpBossMulti__sub_8019E570(saddr arg0, f32 farg0) {
     s32 current_floor;
     s32 temp_r3b;
-    s32 player;
-    player = (s32)get_player_by_client_id(local_client_id);
+    saddr player;
+    player = (saddr)get_player_by_client_id(local_client_id);
     if (player != 0) {
         current_floor = get_current_floor();
         temp_r3b = ((TObjPlayer *)player)->get_floor();

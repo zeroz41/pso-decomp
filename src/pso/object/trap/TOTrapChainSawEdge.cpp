@@ -746,11 +746,11 @@ s32 TOTrapChainSaw::consume_counter(void *arg1) {
 
 int TOTrapChainSaw::check_player_contact() {
     s32 i;
-    s32 p;
+    saddr p;
     s32 t;
     if (TRaderMapCore::is_not_split_screen() == 1) {
         for (i = 0; i < 4; i++) {
-            p = (s32)get_player_by_client_id(i);
+            p = (saddr)get_player_by_client_id(i);
             if (p != 0 && this->consume_counter((void *)p) == 0) {
                 if (((TObjPlayer *)p)->get_floor() == ((s32 (*)(void))get_current_floor)()) {
                     t = *(s32 *)((s8 *)this + 0x60);
@@ -764,9 +764,9 @@ int TOTrapChainSaw::check_player_contact() {
             }
         }
     } else {
-        s32 q;
+        saddr q;
         s32 t2;
-        q = (s32)get_player_by_client_id(local_client_id);
+        q = (saddr)get_player_by_client_id(local_client_id);
         if (q != 0 && this->consume_counter((void *)q) == 0) {
             if (((TObjPlayer *)q)->get_floor() == ((s32 (*)(void))get_current_floor)()) {
                 t2 = *(s32 *)((s8 *)this + 0x60);

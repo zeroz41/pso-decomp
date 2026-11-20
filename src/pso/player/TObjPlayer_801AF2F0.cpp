@@ -4975,7 +4975,7 @@ s32 TObjPlayer::check_actor_blocking_move() {
 }
 
 void TObjPlayer::update_ground_contact() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     if (((s32 (*)(void))is_locally_controlled__10TObjPlayerFPv)() != 0) {
         if (((TObjPlayer *)(arg0 + 0x550))->try_ground_action(fn_8002AE08(((s32 (*)(s32))get_entity_id)(arg0))) != 0) {
             set_primary_action_palette_bank(arg0 + 0x500);

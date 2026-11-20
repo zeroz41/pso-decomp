@@ -115,7 +115,7 @@ void TLobby::free_global_buffer() {
 void clear_signboard_texture_buffer_pointer(void) { TObjSinBoard__texture_buffer = 0; }
 
 void fn_80197FD0(const void *image, u32 size) {
-    u32 t = (u32)TQuestVmDownLoadServer::alloc(size);
+    uaddr t = (uaddr)TQuestVmDownLoadServer::alloc(size);
     TObjSinBoard__texture_buffer = t;
     if (t != 0) {
         ((TLobby *)t)->move_data(image, size);

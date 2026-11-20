@@ -70,9 +70,9 @@ void TObjCityMainWarp::notify_player_warp(void *arg0, s32 arg1) {
 }
 
 void TObjCityMainWarpChallenge::trigger_warp_effect(s32 arg1) {
-    s32 player;
+    saddr player;
 
-    player = (s32)get_player_by_client_id(arg1);
+    player = (saddr)get_player_by_client_id(arg1);
     if (player != 0) {
         TObjPlayer::play_effect_default(player, -1);
         obj_set_flag_20000((TObjBase *)player);

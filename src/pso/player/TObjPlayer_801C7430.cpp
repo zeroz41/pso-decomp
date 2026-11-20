@@ -5472,7 +5472,7 @@ void TObjPlayer::send_6x42_run_to_position() {
 }
 
 void TObjPlayer::handle_ring_release() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     if (((s32 (*)(s32, s32))test_flags_any)(arg0 + 0x5EC, 4) != 0) {
         ((FlagWord *)(arg0 + 0x5EC))->clear(4);
         ((s32 (*)(s32, s32, s32))run_action_state_phase__10TObjPlayerFisi)(arg0, 1, 0);
@@ -5480,7 +5480,7 @@ void TObjPlayer::handle_ring_release() {
 }
 
 void TObjPlayer::try_trigger_effect() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     if (((s32 (*)(s32, s32))test_flags_any)(arg0 + 0x5EC, 4) != 0) {
         ((FlagWord *)(arg0 + 0x5EC))->clear(4);
         ((s32 (*)(s32, s32, s32))run_action_state_phase__10TObjPlayerFisi)(arg0, 1, 5);
@@ -5764,7 +5764,7 @@ void TObjPlayer::handle_ring_hit() {
 }
 
 void TObjPlayer::check_ring_action() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     if (((s32 (*)(s32, s32))test_flags_any)(arg0 + 0x5EC, 4) != 0) {
         ((FlagWord *)(arg0 + 0x5EC))->clear(4);
         ((TObjPlayer *)(arg0 + 0x5E0))->set_ring_action(0);

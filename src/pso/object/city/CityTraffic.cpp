@@ -188,7 +188,7 @@ void measure_traffic_path_lengths(void) {
   s32 i;
   s32 j;
   const s32 *new_var;
-  s32 p;
+  saddr p;
   for (i = 0; i < 5; i++)
   {
     m = (Motion_801817AC *) get_city_common_motion(city_traffic_path_motion_index_table[i]);

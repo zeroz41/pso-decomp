@@ -11,7 +11,7 @@ extern s32 tl_03;
 
 s32 TObjPlayer::create(u32 arg0, saddr arg1) {
     s32 temp_r31;
-    s32 var_r30;
+    saddr var_r30;
 
     var_r30 = (saddr)TObject::operator new(0xDB8);
     if (var_r30 != 0) {

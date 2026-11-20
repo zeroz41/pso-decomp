@@ -78,7 +78,7 @@ s32 load_resource_from_descriptor(s32 buffer, s32 kind, void *descriptor, s32 a3
 saddr get_bml_texlist(void *bml, s32 index);
 
 void load_door_jung_resources(void) {
-    s32 handle;
+    saddr handle;
     Node_8018F4AC *model;
     Node_8018F4AC *node;
     void *scene;

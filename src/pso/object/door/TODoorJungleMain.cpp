@@ -404,7 +404,7 @@ void TODoorJungleMain::vfunc_6(s16 *arg1, s32 arg2) {
 }
 
 s32 TODoorJungleMain::update_object_view_visibility(f32 farg0, f32 farg1) {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     if (xz_distance_squared(arg0 + 0x38, camera_ctrl_instance + 0x178) < (farg1 * farg1)) {
         return 1;
     }

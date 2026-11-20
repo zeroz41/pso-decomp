@@ -316,7 +316,7 @@ s32 *TObjPlayer::gather_player_contacts(uaddr actor, saddr _w2, s32 _w3) {
     saddr arg0 = (saddr)this;
     Stack_80236290 stack;
     s32 temp_r0;
-    s32 player;
+    saddr player;
     s32 var_r29;
     u32 temp_r3_2;
     VecCopy((Vec *)(&stack.sp8), (const Vec *)(arg0 + 0x20));
@@ -327,7 +327,7 @@ s32 *TObjPlayer::gather_player_contacts(uaddr actor, saddr _w2, s32 _w3) {
     VecCopy((Vec *)(actor + 0x38), (const Vec *)(&stack.sp8));
     var_r29 = 0;
 loop_3:
-    player = (s32)get_player_by_client_id((var_r29));
+    player = (saddr)get_player_by_client_id((var_r29));
     if ((player != 0) && (temp_r3_2 = (u32)((TObjCollidable *)actor)->find_actor_body_contact((u8 *)player, (f32)1e+04f), ((temp_r3_2 == 0U) == 0)) && (*(u32 *)((s8 *)((u8 *)&technique_contact_query_results.value + (*(s32 *)((s8 *)&technique_contact_query_results.value + 0x80) * 4)) + 0x40) = temp_r3_2, *(s32 *)((s8 *)&technique_contact_query_results.value + (*(s32 *)((s8 *)&technique_contact_query_results.value + 0x80) * 4)) = player, temp_r0 = *(s32 *)((s8 *)&technique_contact_query_results.value + 0x80) + 1, *(s32 *)((s8 *)&technique_contact_query_results.value + 0x80) = temp_r0, ((temp_r0 < 0x10) == 0))) {
         *(s32 *)((s8 *)&technique_contact_query_results.value + 0x80) = 0xF;
     } else {

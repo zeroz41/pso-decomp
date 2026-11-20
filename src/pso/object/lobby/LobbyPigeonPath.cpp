@@ -1137,7 +1137,7 @@ s32 TUnk_804E08D4::update_path_steering() {
 }
 
 void TObjPlayer::load_kamome_resources() {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 var_r0;
     temp_r3 = (int)::operator new(0x440);
     var_r0 = temp_r3;
@@ -1393,7 +1393,7 @@ s32 filter_lobby_pigeon_theme(void *) {
 }
 
 void TObjPlayer::load_lobby_pigeon_resource() {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 var_r0;
     temp_r3 = (int)::operator new(0x440);
     var_r0 = temp_r3;

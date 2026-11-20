@@ -386,7 +386,7 @@ void TObjFogCollisionPoison::record_poison_hit(u16 arg1) {
 }
 
 void TObjFogCollisionPoison::apply_poison_damage(s32 arg1) {
-    s32 p;
+    saddr p;
     s16 v;
     p = get_player_by_client_id(arg1);
     if (is_valid_target__9TObjEneDDFv(p) != 0) {
