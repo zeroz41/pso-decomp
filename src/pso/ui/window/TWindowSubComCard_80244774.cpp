@@ -301,7 +301,7 @@ void window_request_show(void *object) {
     ((TObject *)object)->allow_rendering();
 }
 
-s32 TWindowBase::setup_window_draw_context(saddr arg1) {
+saddr TWindowBase::setup_window_draw_context(saddr arg1) {
     WindowDrawContext *context;
     s32 var_r4;
     context = WindowDrawContext::open_singleton((f32 *)(((u8 *)this) + 0x40), (f32 *)(((u8 *)this) + 0x48), (f32 *)arg1, *(f32 *)((s8 *)((u8 *)this) + 0x54), *(s32 *)((s8 *)((u8 *)this) + 0x2C));
