@@ -73,7 +73,7 @@ void TObjFish::create_splash_particle(s32 arg0, s32 arg1, s32 arg2) {
 
     var_r31 = TObject::operator new(0x78);
     if (var_r31 != NULL) {
-        var_r31 = ((TParticleCtrl *)var_r31)->initialize_with_flags((const void *)arg0, TParticleCtrl::get_particle_by_index(arg1), 1, 0, 0, 1, (u16)0x40);
+        var_r31 = initialize_flagged_particle(var_r31, reinterpret_cast<const void *>(arg0), TParticleCtrl::get_particle_by_index(arg1), 1, 0, 0, 1, (u16)0x40);
     }
     if (var_r31 != NULL) {
         ((TObject *)var_r31)->run_task();
@@ -86,7 +86,7 @@ void TObjFish::spawn_particle(s32 arg0, s32 arg1, f32 farg0) {
 
     var_r31 = TObject::operator new(0x78);
     if (var_r31 != NULL) {
-        var_r31 = ((TParticleCtrl *)var_r31)->initialize_with_flags((const void *)arg0, TParticleCtrl::get_particle_by_index(arg1), 1, 0, 0, 1, (u16)0x40);
+        var_r31 = initialize_flagged_particle(var_r31, reinterpret_cast<const void *>(arg0), TParticleCtrl::get_particle_by_index(arg1), 1, 0, 0, 1, (u16)0x40);
     }
     if (var_r31 != NULL) {
         ((TObject *)var_r31)->run_task();

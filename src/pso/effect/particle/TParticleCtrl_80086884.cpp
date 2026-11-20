@@ -31,7 +31,7 @@ TParticleCtrl *create_timed_particle_emitter_with_flags(void *pos, s32 id, s32 d
     if (particle_pool_limit > idx) {
         particle = static_cast<TParticleCtrl *>(TObject::operator new(0x78));
         if (particle != 0) {
-            particle = particle->initialize_with_flags(pos, &particle_global_entry_table[idx], 0, delay, duration, 0, flags);
+            particle = initialize_flagged_particle(particle, pos, &particle_global_entry_table[idx], 0, delay, duration, 0, flags);
         }
         return particle;
     }
@@ -39,7 +39,7 @@ TParticleCtrl *create_timed_particle_emitter_with_flags(void *pos, s32 id, s32 d
         idx -= 0x200;
         particle = static_cast<TParticleCtrl *>(TObject::operator new(0x78));
         if (particle != 0) {
-            particle = particle->initialize_with_flags(pos, &particle_area_entry_table[idx], 0, delay, duration, 0, flags);
+            particle = initialize_flagged_particle(particle, pos, &particle_area_entry_table[idx], 0, delay, duration, 0, flags);
         }
         return particle;
     }
