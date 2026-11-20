@@ -135,7 +135,7 @@ void TObjLight::init_light_tables() {
     TObjLight__light_count = 0;
 }
 
-void register_actor_light(s32 arg0, s32 arg1) {
+void register_actor_light(s32 arg0, saddr arg1) {
     u8 *temp_r5;
     if ((s32) TObjLight__actor_light_count < 0x20) {
         temp_r5 = (u8 *)TObjLight__data_8050637C + (TObjLight__actor_light_count * 0x2C);

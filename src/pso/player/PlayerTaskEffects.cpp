@@ -375,7 +375,7 @@ s32 tick_battle_music_timer(Obj_801C5C38 *p);
 s32 get_current_floor();
 s32 is_room_free_of_active_enemies(s32, s32);
 s32 get_room__8TObjBaseFv(s32);
-void set_params__10TObjPlayerFPvPvPviPv(void *arg0, void *arg1, void *arg2, s32 arg3, void *arg4);
+void set_params__10TObjPlayerFPvPvPviPv(void *arg0, void *arg1, void *arg2, saddr arg3, void *arg4);
 s16 obj_getS16_2BA(u8 *p);
 extern Arrival_801C5F84 TObjPlayer__arrival_override_table[12];
 void set_arrival_override_coords(u16 arg0, s32 arg1, f32 farg0, f32 farg1, f32 farg2);
@@ -973,7 +973,7 @@ void set_arrival_override_coords(u16 arg0, s32 arg1, f32 farg0, f32 farg1, f32 f
 }
 #pragma pop
 
-void set_params__10TObjPlayerFPvPvPviPv(void *arg0, void *arg1, void *arg2, s32 arg3, void *arg4) {
+void set_params__10TObjPlayerFPvPvPviPv(void *arg0, void *arg1, void *arg2, saddr arg3, void *arg4) {
     s16 temp_r4;
 
     *(s16 *)((s8 *)arg0 + 0) = (s16) (*(s16 *)((s8 *)arg2 + 0) + get_attack_params_atp_max((void *)arg3));
