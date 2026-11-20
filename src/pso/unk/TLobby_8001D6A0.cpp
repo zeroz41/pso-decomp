@@ -255,7 +255,7 @@ void TLobby__sub_8001DBD8(s32 _w0) {
 void TLobby::forward_8001DBD8(void* p) { TLobby__sub_8001DBD8((saddr)p); }
 void TLobby__sub_8001DC04(void* p) { TLobby__sub_8001DBD8((saddr)p); }
 
-    extern int TLobby__lobby_instance;
+    extern saddr TLobby__lobby_instance;
 
 s32 *get_shared_text_buffer(void) {
     return &text_builder_buffer.value;
@@ -528,22 +528,22 @@ u8 is_valid_player_index__6TLobbyFi(s32 arg0) {
     extern int battle_parameter_difficulty;
 void*TLobby::dispatch_shared_handler_a(s32 index) { return TLobby::get_player_entry(battle_parameter_difficulty, index); }
 
-    extern int battle_param_movement;
+    extern saddr battle_param_movement;
 void* get_player_entry__6TLobbyFii(int a0, int a1) {  return (char*)(battle_param_movement) + a1 * 48; }
 
 void*TLobby::register_object(s32 index) { return TLobby::get_entry(battle_parameter_difficulty, index); }
 
-    extern int TLobby__battle_param_resistances;
+    extern saddr TLobby__battle_param_resistances;
 void* get_entry__6TLobbyFii(int a0, int a1) {  return (char*)(TLobby__battle_param_resistances) + a1 * 32; }
 
 void*TLobby::dispatch_shared_handler_b(s32 index) { return TLobby__sub_8001E270(battle_parameter_difficulty, index); }
 
-    extern int TLobby__battle_param_attacks;
+    extern saddr TLobby__battle_param_attacks;
 void* TLobby__sub_8001E270(int a0, int a1) {  return (char*)(TLobby__battle_param_attacks) + a1 * 48; }
 
 void*TLobby::register_boss(s32 index) { return TLobby__sub_8001E2A8(battle_parameter_difficulty, index); }
 
-    extern int battle_param_stats;
+    extern saddr battle_param_stats;
 void* TLobby__sub_8001E2A8(int a0, int a1) {  return (char*)(battle_param_stats) + a1 * 36; }
 
 void set_difficulty__6TLobbyFi(s32 arg0) {

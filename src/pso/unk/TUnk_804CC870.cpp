@@ -305,7 +305,7 @@ typedef char RecoveredGlobal_80232830_lbl_804CC55C_size[((sizeof(RecoveredGlobal
 void TTecGrants::init_parameters() {
     u8 *arg0 = (u8 *)this;
   s32 *new_var2;
-  int new_var3;
+  saddr new_var3;
   s8 *new_var;
   new_var = (s8 *) arg0;
   new_var3 = (int) calc_technique_parameters(9, this->m_78, 0xFFFF);

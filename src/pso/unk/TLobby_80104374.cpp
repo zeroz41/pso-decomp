@@ -168,7 +168,7 @@ s32 TItemDropSub__sub_80107B74();
 void *item_object_set_data;
 s32 item_ground_placement_enabled;
 FlagWord lbl_805D5440;
-int item_class_load_handle;
+saddr item_class_load_handle;
 int lobby_drop_flag;
 
 // Weapon item factories, indexed by the weapon type byte (get_weapon_factory_for_item); 0 = none.

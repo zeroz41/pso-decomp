@@ -61,8 +61,8 @@ LAYOUT_ASSERT(RecoveredGlobal_80119B28___vt__21TItemReverseTechPart2_size, sizeo
 extern RecoveredGlobal_80119B28___vt__21TItemReverseTechPart2 __vt__21TItemReverseTechPart2;
 
 void *TItemReverseTech__texture_archive;
-int TItemReverseTech__entry_table;
-int TItemReverseTech__name_buffer;
+saddr TItemReverseTech__entry_table;
+saddr TItemReverseTech__name_buffer;
 void *TItemReverseTechPart1__instance;
 
 static const f32 lbl_805DAC08[1] = {0.0f};

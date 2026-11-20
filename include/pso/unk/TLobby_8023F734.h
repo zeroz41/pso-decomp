@@ -4,7 +4,7 @@
 #include "types.h"
 
 struct Ent_8023FCC0 {
-    u32 h[4];
+    uaddr h[4];
     s32 k[4];
     s32 pad20;
 };
