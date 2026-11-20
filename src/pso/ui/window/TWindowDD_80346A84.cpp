@@ -176,7 +176,7 @@ s32 TWindowDD__sub_80346DB8(s32 arg0) {
   }
   var_r3 = var_r30;
   var_r30 = 0;
-  if (TWindowDD__sub_80346F30((u8 *)((int) var_r3)) != 0)
+  if (TWindowDD__sub_80346F30((u8 *)((saddr) var_r3)) != 0)
   {
     var_r30 = 1;
   }

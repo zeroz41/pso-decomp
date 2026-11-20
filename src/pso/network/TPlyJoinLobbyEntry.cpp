@@ -2171,57 +2171,57 @@ void close_all_windows__6TLobbyFv(void) {
 
 void destroy_lobby_ui__6TLobbyFv(void) {
     void *temp;
-    temp = (void*)(u32)TLobby__card_list_window;
+    temp = (void*)(uaddr)TLobby__card_list_window;
     if (temp != 0) {
         ((TWindowBase *)temp)->close();
         TLobby__card_list_window = 0U;
     }
-    temp = (void*)(u32)TLobby__download_list_window;
+    temp = (void*)(uaddr)TLobby__download_list_window;
     if (temp != 0) {
         ((TWindowBase *)temp)->close();
         TLobby__download_list_window = 0U;
     }
-    temp = (void*)(u32)TLobby__list_window;
+    temp = (void*)(uaddr)TLobby__list_window;
     if (temp != 0) {
         ((TWindowBase *)temp)->close();
         TLobby__list_window = 0U;
     }
-    temp = (void*)(u32)(*(uaddr *)&TLobby__current_dialog_window);
+    temp = (void*)(uaddr)(*(uaddr *)&TLobby__current_dialog_window);
     if (temp != 0) {
         ((TWindowBase *)temp)->close();
         (*(u32 *)&TLobby__current_dialog_window) = 0U;
     }
-    temp = (void*)(u32)TLobby__join_entry_window_obj;
+    temp = (void*)(uaddr)TLobby__join_entry_window_obj;
     if (temp != 0) {
         ((TWindowBase *)temp)->close();
         TLobby__join_entry_window_obj = 0U;
     }
-    temp = (void*)(u32)TLobby_warp_menu_window;
+    temp = (void*)(uaddr)TLobby_warp_menu_window;
     if (temp != 0) {
         ((TWindowBase *)temp)->close();
         TLobby_warp_menu_window = 0U;
     }
-    temp = (void*)(u32)lobby_com_card_window;
+    temp = (void*)(uaddr)lobby_com_card_window;
     if (temp != 0) {
         ((TWindowBase *)temp)->close();
         lobby_com_card_window = 0U;
     }
-    temp = (void*)(u32)(*(uaddr *)&lobby_make_team_menu_window);
+    temp = (void*)(uaddr)(*(uaddr *)&lobby_make_team_menu_window);
     if (temp != 0) {
         ((TWindowBase *)temp)->close();
         (*(u32 *)&lobby_make_team_menu_window) = 0U;
     }
-    temp = (void*)(u32)lobby_make_team_window;
+    temp = (void*)(uaddr)lobby_make_team_window;
     if (temp != 0) {
         ((s32 (*)(void *))queue_destruction__7TObjectFv)(temp);
         lobby_make_team_window = 0U;
     }
-    temp = (void*)(u32)lobby_keyboard_prompt_window;
+    temp = (void*)(uaddr)lobby_keyboard_prompt_window;
     if (temp != 0) {
         ((s32 (*)(void *))queue_destruction__7TObjectFv)(temp);
         lobby_keyboard_prompt_window = 0U;
     }
-    temp = (void*)(u32)lobby_scroll_text_window;
+    temp = (void*)(uaddr)lobby_scroll_text_window;
     if (temp != 0) {
         ((s32 (*)(void *))queue_destruction__7TObjectFv)(temp);
         lobby_scroll_text_window = 0U;

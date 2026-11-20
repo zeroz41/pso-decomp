@@ -562,7 +562,7 @@ s32 open_confirm_prompt__19TWindowSubShortMailFPvi(void *window_message_yes_no, 
 
 s32 create_confirm_menu_window__19TWindowSubShortMailFv(void) {
     saddr temp_r31;
-    temp_r31 = check_room_seq_4__16TAdChrSelASlotGCFl((saddr)((void *)(((s32)get_window_layout_position(0xA0)))), 2);
+    temp_r31 = check_room_seq_4__16TAdChrSelASlotGCFl((saddr)((void *)(((saddr)get_window_layout_position(0xA0)))), 2);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((saddr) (TWindowSubStatusDisp::get_message_10(0x107))), 6, 0x16);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((saddr) (TWindowSubStatusDisp::get_message_10(0x108))), 6, 0x18);
     ((TWindowSubComCardList *)temp_r31)->set_flag70_bit10();

@@ -739,7 +739,7 @@ void update_level_requirement__15TWindowHelpItemFPv(u8 *arg0) {
             update_stat_comparison__15TWindowHelpItemFv((Help_802549B0 *)(arg0));
             temp_r30 = (u8 *)(((u8 *)((TWindowBase *)arg0)->get_array_entry(0xA)));
             item_pmt_record = (u8 *)(lookup_item_pmt_record((u8 *)(*(saddr *)((s8 *)arg0 + 0x68))));
-            if (check_equip_requirements(player, (TItemData *)((s32)((int) (*(saddr *)((s8 *)arg0 + 0x68)))), (s32 *)((s32 *)&sp8)) == 0) {
+            if (check_equip_requirements(player, (TItemData *)((saddr)((saddr) (*(saddr *)((s8 *)arg0 + 0x68)))), (s32 *)((s32 *)&sp8)) == 0) {
                 if (!(sp8 & 1)) {
                     goto block_4;
                 }

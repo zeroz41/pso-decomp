@@ -128,7 +128,7 @@ u8 *TLobby::create_new_floor_windows() {
       var_r0_2 = (u8 *) temp_r3_2;
       if (var_r0_2 != 0)
       {
-        var_r31 = ((u8 *)__ct__15TObjNewFloorWinFP7TObjectPv((void *)temp_r3_2, (void *)arg0, (void *)((s32) var_r30)));
+        var_r31 = ((u8 *)__ct__15TObjNewFloorWinFP7TObjectPv((void *)temp_r3_2, (void *)arg0, (void *)((saddr) var_r30)));
         var_r0_2 = (u8 *) var_r31;
       }
       var_r31 = (u8 *) var_r0_2;

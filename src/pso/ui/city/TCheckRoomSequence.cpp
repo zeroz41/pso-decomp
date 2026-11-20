@@ -335,13 +335,13 @@ void accept_meseta_withdrawal__18TCheckRoomSequenceFPv(u8 *arg0) {
         }
         ((VObj_18_a93f07 *)(arg0))->m4(0x46, 1);
         set_field_20__15TShopWindowBaseFl(arg0, (void*)(2));
-        ((TWindowBase *)((int) (*(uaddr *)((s8 *)arg0 + 0x34))))->close();
+        ((TWindowBase *)((saddr) (*(uaddr *)((s8 *)arg0 + 0x34))))->close();
         *(u32 *)((s8 *)arg0 + 0x34) = 0U;
     }
     if (((u32) *(u32 *)((s8 *)arg0 + 0x34) != 0U) && (((s32)((TShopEquipmentSellWindow *)(*(uaddr *)((s8 *)arg0 + 0x34)))->is_confirmed()) != 0)) {
         ((VObj_18_a93f07 *)(arg0))->m4(0x46, 1);
         set_field_20__15TShopWindowBaseFl(arg0, (void*)(0xA));
-        ((TWindowBase *)((int) (*(uaddr *)((s8 *)arg0 + 0x34))))->close();
+        ((TWindowBase *)((saddr) (*(uaddr *)((s8 *)arg0 + 0x34))))->close();
         *(u32 *)((s8 *)arg0 + 0x34) = 0U;
     }
 }
@@ -404,13 +404,13 @@ void accept_meseta_deposit__18TCheckRoomSequenceFPv(u8 *arg0) {
         }
         ((VObj_18_a93f07 *)(arg0))->m4(0x46, 1);
         set_field_20__15TShopWindowBaseFl(arg0, (void*)(2));
-        ((TWindowBase *)((int) (*(uaddr *)((s8 *)arg0 + 0x34))))->close();
+        ((TWindowBase *)((saddr) (*(uaddr *)((s8 *)arg0 + 0x34))))->close();
         *(u32 *)((s8 *)arg0 + 0x34) = 0U;
     }
     if (((u32) *(u32 *)((s8 *)arg0 + 0x34) != 0U) && (((s32)((TShopEquipmentSellWindow *)(*(uaddr *)((s8 *)arg0 + 0x34)))->is_confirmed()) != 0)) {
         ((VObj_18_a93f07 *)(arg0))->m4(0x46, 1);
         set_field_20__15TShopWindowBaseFl(arg0, (void*)(3));
-        ((TWindowBase *)((int) (*(uaddr *)((s8 *)arg0 + 0x34))))->close();
+        ((TWindowBase *)((saddr) (*(uaddr *)((s8 *)arg0 + 0x34))))->close();
         *(u32 *)((s8 *)arg0 + 0x34) = 0U;
     }
 }

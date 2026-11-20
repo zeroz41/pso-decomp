@@ -250,7 +250,7 @@ void TMedicalCenterSequence::handle_confirm() {
 void TMedicalCenterSequence::handle_window_result() {
     s32 selected_menu_value;
 
-    if (((u32) this->m_30 != 0U) && (((TWindowMenu *)((u32) this->m_30))->is_decided() != 0)) {
+    if (((u32) this->m_30 != 0U) && (((TWindowMenu *)((uaddr) this->m_30))->is_decided() != 0)) {
         selected_menu_value = ((TWindowMenu *)this->m_30)->get_selected_value();
         if (selected_menu_value == 0) {
             ((TWindowBase *)this->m_30)->close();
@@ -267,7 +267,7 @@ void TMedicalCenterSequence::handle_window_result() {
         goto block_6;
     }
 block_6:
-    if (((u32) this->m_30 != 0U) && (((TWindowMenu *)((u32) this->m_30))->is_cancelled() != 0)) {
+    if (((u32) this->m_30 != 0U) && (((TWindowMenu *)((uaddr) this->m_30))->is_cancelled() != 0)) {
         ((TWindowBase *)this->m_30)->close();
         this->m_30 = 0U;
         set_field_20((saddr)((void*)(5)));

@@ -150,7 +150,7 @@ void TUnk_804A4B80::activate_effect(s32 arg1) {
   {
     if (is_current_area_item_enabled() != 0)
     {
-      if (get_current_floor() == ((TObjPlayer *)((int) ((RecoveredFields_8012ABCC_arg0 *) ((u8 *)this))->field_F0))->get_floor())
+      if (get_current_floor() == ((TObjPlayer *)((saddr) ((RecoveredFields_8012ABCC_arg0 *) ((u8 *)this))->field_F0))->get_floor())
       {
         if (arg1 == 0)
         {

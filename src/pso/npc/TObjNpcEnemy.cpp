@@ -333,7 +333,7 @@ u8 *TObjNpcEnemy__ct(u8 *arg0, s32 arg1, saddr arg2) {
     ((TObjPlayer *)arg0)->register_object_by_id();
     ((TObjEnemy *)arg0)->update_prev_position();
     ((TBoss3VoloptHiraisin *)arg0)->copy_position();
-    ((TObjNpcEnemy *)arg0)->set_npc_data((void *)((int) (((saddr)TObjNpcEnemy::get_entry_by_index((s16)((int) ((s16) ((TObjNpcEnemy *)arg0)->rotation_x)))))));
+    ((TObjNpcEnemy *)arg0)->set_npc_data((void *)((saddr) (((saddr)TObjNpcEnemy::get_entry_by_index((s16)((int) ((s16) ((TObjNpcEnemy *)arg0)->rotation_x)))))));
     return arg0;
 }
 

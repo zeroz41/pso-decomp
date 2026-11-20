@@ -92,14 +92,14 @@ void TAdMultiChgGameModeGC::run_task() {
   new_var = &arg0->field_2C;
   if (((s32) arg0->field_24) != temp_r4)
   {
-    ((TAdMultiPlyChrSelectGC *)((int) arg0->field_28))->set_entry_value(0, (int) get_localized_text_entry(0x21, arg0->field_20));
+    ((TAdMultiPlyChrSelectGC *)((saddr) arg0->field_28))->set_entry_value(0, (int) get_localized_text_entry(0x21, arg0->field_20));
   }
   if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + 0x20), 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), 2) != 0))
   {
     TAdMultiChgGameModeGC::request_scene_change();
   }
   else
-    if (1 == ((TAdSinglePlyChrSelectGC *)((int) arg0->field_2C))->get_selected_slot())
+    if (1 == ((TAdSinglePlyChrSelectGC *)((saddr) arg0->field_2C))->get_selected_slot())
   {
     switch (TAdSinglePlyChrSelectGC__sub_801334DC((void *)(*new_var)))
     {

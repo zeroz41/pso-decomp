@@ -165,7 +165,7 @@ void TAdMcSelectGC__sub_8032A180(void* p, s32 v) { *(s32*)((char*)p + 0x28) = v;
 void TAdMcSelectGC::set_field_134(s32 arg1) {
     u8 *arg0 = (u8 *)this;
     *(s32 *)((s8 *)arg0 + 0x134) = arg1;
-    TAdMcSelectGC__sub_8032A180((void*)((int) (*(saddr *)((s8 *)arg0 + 0x130))), arg1);
+    TAdMcSelectGC__sub_8032A180((void*)((saddr) (*(saddr *)((s8 *)arg0 + 0x130))), arg1);
 }
 
 void TAdMcSelectGC::set_field_24(s32 v) { this->m_24 = v; }

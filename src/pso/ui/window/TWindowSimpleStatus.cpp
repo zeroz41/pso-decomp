@@ -164,7 +164,7 @@ extern s32 lobby_rule_settings[];
 void TWindowSubStatusDisp::start_hp_text_color_transition() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r3;
-    temp_r3 = (u8 *)(((s32)((TWindowBase *)arg0)->get_array_entry(4)));
+    temp_r3 = (u8 *)(((saddr)((TWindowBase *)arg0)->get_array_entry(4)));
     *(f32 *)((s8 *)temp_r3 + 0x20) = 0.0f;
     *(f32 *)((s8 *)temp_r3 + 0x24) = 0.0f;
     start_text_color_transition(temp_r3, (s32)(0xFF008CFCU), 1.0f);

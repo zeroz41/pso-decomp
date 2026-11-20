@@ -369,7 +369,7 @@ void TWindowSubSymbolChat::run_task() {
             ((TWindowSubSymbolChatPartsSet *)(this->m_30))->set_selection(this->m_28);
         }
         temp_r5 = (u8 *)this->m_30;
-        ((TWindowSubSymbolChatPartsSet *)(this->m_30 + 0x30))->copy_vec2((void*)((s32)get_window_layout_position(0x7B)));
+        ((TWindowSubSymbolChatPartsSet *)(this->m_30 + 0x30))->copy_vec2((void*)((saddr)get_window_layout_position(0x7B)));
         *(s32 *)(this->m_30 + 0x50) = 6;
         if ((u32) this->m_3c == 0U) {
             this->m_3c = ((u32)TWindowSubSymbolChat::open_main_menu(arg0));

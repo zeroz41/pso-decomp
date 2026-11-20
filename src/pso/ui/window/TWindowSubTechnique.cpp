@@ -214,12 +214,12 @@ void TWindowSubTechnique::update_selected_help(s32 arg1) {
       if ((((s16) tech) != 0x11) && (((s16) tech) != 0xE))
       {
         cast_technique_level = get_cast_technique_level((void *)(player + 0x428), (int) tech);
-        text_builder_append((u8 *)((int) get_technique_description_text(0x13)));
+        text_builder_append((u8 *)((saddr) get_technique_description_text(0x13)));
         text_builder_append_int((((u8) cast_technique_level) + 1));
       }
-      text_builder_append((u8 *)((int) get_help_text_string(0x2E)));
+      text_builder_append((u8 *)((saddr) get_help_text_string(0x2E)));
       text_builder_append_int(((s32) (*((s16 *) (((s8 *) calc_technique_parameters((s16) tech, (u8) cast_technique_level, 0xFFFF)) + 0x10)))));
-      text_builder_append((u8 *)((int) get_technique_description_text((s32)((int) ((s32) ((s16) tech))))));
+      text_builder_append((u8 *)((saddr) get_technique_description_text((s32)((int) ((s32) ((s16) tech))))));
       ((TWindowMessage *)(*(saddr *)&this->m_3c))->append_line((saddr)((void *) get_shared_text_buffer()), (int)0x82);
     }
   }

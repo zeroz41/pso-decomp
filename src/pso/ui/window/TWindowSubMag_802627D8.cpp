@@ -27,7 +27,7 @@ void TWindowSubMag::set_mag_slot_state(saddr item) {
 }
 void fn_8026287C(u8 *window_base) {
     u8 *temp_r3;
-    temp_r3 = (u8 *)(((s32)((TWindowBase *)window_base)->get_array_entry(0)));
+    temp_r3 = (u8 *)(((saddr)((TWindowBase *)window_base)->get_array_entry(0)));
     *(u8 **)((s8 *)temp_r3 + 0x30) = (unsigned char *) (window_base + 0x70);
     *(u16 *)((s8 *)temp_r3 + 0) = (u16) (*(u16 *)((s8 *)temp_r3 + 0) & 0xFFFFFFFD);
 }

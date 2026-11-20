@@ -359,27 +359,27 @@ void TShopGetItemWindow::handle_withdraw_confirm() {
         {
           ((TItemData *)&stack.sp8)->set_stack_count(((RecoveredFields_8021E5D8_arg0 *) ((u8 *)this))->field_54);
         }
-        if (((TObjPlayer *)((int) ((RecoveredFields_8021E5D8_arg0 *) ((u8 *)this))->field_24))->can_inventory_accept_item((u8 *)&stack.sp8) == 0)
+        if (((TObjPlayer *)((saddr) ((RecoveredFields_8021E5D8_arg0 *) ((u8 *)this))->field_24))->can_inventory_accept_item((u8 *)&stack.sp8) == 0)
         {
           PSO_VCALL_VObj_18_a93f07_m4(this, 0x4B, 1);
           this->set_field_20(6);
         }
         else
         {
-          ((TObjPlayer *)((int) ((RecoveredFields_8021E5D8_arg0 *) ((u8 *)this))->field_24))->request_inventory_item((TItemData*)(&stack.sp8));
+          ((TObjPlayer *)((saddr) ((RecoveredFields_8021E5D8_arg0 *) ((u8 *)this))->field_24))->request_inventory_item((TItemData*)(&stack.sp8));
           remove_bank_item_amount__18TCheckRoomSequenceFiii((int) idx, (int) ((RecoveredFields_8021E5D8_arg0 *) ((u8 *)this))->field_54, (int) slot);
           compact_items__18TCheckRoomSequenceFi((int) slot);
           copy_bank_to_card_window((int) slot);
           this->set_field_20(0);
         }
       }
-      ((TWindowBase *)((int) ((RecoveredFields_8021E5D8_arg0 *) ((u8 *)this))->field_2C))->close();
+      ((TWindowBase *)((saddr) ((RecoveredFields_8021E5D8_arg0 *) ((u8 *)this))->field_2C))->close();
       ((RecoveredFields_8021E5D8_arg0 *) ((u8 *)this))->field_2C = 0U;
       return;
     }
     if (selected_menu_value == 1)
     {
-      ((TWindowBase *)((int) ((RecoveredFields_8021E5D8_arg0 *) ((u8 *)this))->field_2C))->close();
+      ((TWindowBase *)((saddr) ((RecoveredFields_8021E5D8_arg0 *) ((u8 *)this))->field_2C))->close();
       ((RecoveredFields_8021E5D8_arg0 *) ((u8 *)this))->field_2C = 0U;
       this->set_field_20(4);
       return;
@@ -390,7 +390,7 @@ void TShopGetItemWindow::handle_withdraw_confirm() {
   temp_r3_4 = ((RecoveredFields_8021E5D8_arg0 *) ((u8 *)this))->field_2C;
   if ((temp_r3_4 != 0U) && (((TWindowMenu *)temp_r3_4)->is_cancelled() != 0))
   {
-    ((TWindowBase *)((int) ((RecoveredFields_8021E5D8_arg0 *) ((u8 *)this))->field_2C))->close();
+    ((TWindowBase *)((saddr) ((RecoveredFields_8021E5D8_arg0 *) ((u8 *)this))->field_2C))->close();
     ((RecoveredFields_8021E5D8_arg0 *) ((u8 *)this))->field_2C = 0U;
     ((TShopWindowBase *)((u8 *)this))->set_field_20(4);
   }

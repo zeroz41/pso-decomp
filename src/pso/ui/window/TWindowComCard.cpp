@@ -416,7 +416,7 @@ Win_80249ED8 *TWindowComCard__sub_80249ED8(Win_80249ED8 *o, Parent_80249ED8 *par
     o->x = 16.0f * (f32)o->col + (o->parent->x + o->ofs.x);
     o->y = o->parent->y + o->ofs.y;
     ((TWindowBase *)o)->save_position();
-    ((TWindowComCard *)((s32)((TWindowBase *)o)->get_array_entry(0)))->set_help_mode(mode);
+    ((TWindowComCard *)((saddr)((TWindowBase *)o)->get_array_entry(0)))->set_help_mode(mode);
     return o;
 }
 #pragma pop

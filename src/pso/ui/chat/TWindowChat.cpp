@@ -338,7 +338,7 @@ void TWindowChat::handle_chat_input() {
       }
     }
     else
-      if ((((TWindowKeyBoardHard *)((int) ((RecoveredFields_8024775C_arg0 *) arg0)->field_28))->is_key_held() == 0) || ((((TWindowChat *)arg0)->sub_80247EC0() != 0) && (TWindowShortListCtrl__check_controller_button((void *)((void *) ((u8 *)&controller_input_state + 0x20)), 0x200) != 0)))
+      if ((((TWindowKeyBoardHard *)((saddr) ((RecoveredFields_8024775C_arg0 *) arg0)->field_28))->is_key_held() == 0) || ((((TWindowChat *)arg0)->sub_80247EC0() != 0) && (TWindowShortListCtrl__check_controller_button((void *)((void *) ((u8 *)&controller_input_state + 0x20)), 0x200) != 0)))
     {
       if ((((TWindowChat *)arg0)->sub_80247EC0() != 0) && (TWindowShortListCtrl__check_controller_button((void *)((void *) ((u8 *)&controller_input_state + 0x20)), 0x200) != 0))
       {
@@ -380,22 +380,22 @@ void TWindowChat::open_next_input_window() {
     case 0:
         *((RecoveredFields_8024792C_arg0 *)arg0)->field_38 = 1;
         ((RecoveredFields_8024792C_arg0 *)arg0)->field_24 = (saddr)new TWindowKeyBoardSoft((TWindowKeyBoardBase *)((RecoveredFields_8024792C_arg0 *)arg0)->field_20, local_client_id);
-        fn_80247ED8((void*)((int) (((RecoveredFields_8024792C_arg0 *)arg0)->field_24)));
+        fn_80247ED8((void*)((saddr) (((RecoveredFields_8024792C_arg0 *)arg0)->field_24)));
         ((TWindowSubSymbolChatPartsSet *)(((RecoveredFields_8024792C_arg0 *)arg0)->field_20 + 0x30))->copy_vec2((void*)(get_window_layout_position(0xB8)));
         *(s32 *)((s8 *)(((RecoveredFields_8024792C_arg0 *)arg0)->field_20) + 0x50) = 3;
-        ((TWindowKeyBoardHard *)((int) (((RecoveredFields_8024792C_arg0 *)arg0)->field_28)))->sub_8025EC04();
+        ((TWindowKeyBoardHard *)((saddr) (((RecoveredFields_8024792C_arg0 *)arg0)->field_28)))->sub_8025EC04();
         return;
     case 1:
         ((TWindowKeyBoardBase *)((RecoveredFields_8024792C_arg0 *)arg0)->field_20)->reset_input();
         *((RecoveredFields_8024792C_arg0 *)arg0)->field_38 = 2;
         ((RecoveredFields_8024792C_arg0 *)arg0)->field_34 = (saddr)new TWindowDD((TObject *)arg0, (void *) (((u8 *)(((RecoveredFields_8024792C_arg0 *)arg0)->field_38)) + 4));
-        ((TWindowKeyBoardHard *)((int) (((RecoveredFields_8024792C_arg0 *)arg0)->field_28)))->sub_8025EC04();
+        ((TWindowKeyBoardHard *)((saddr) (((RecoveredFields_8024792C_arg0 *)arg0)->field_28)))->sub_8025EC04();
         return;
     case 2:
         ((TWindowKeyBoardBase *)((RecoveredFields_8024792C_arg0 *)arg0)->field_20)->reset_input();
         *((RecoveredFields_8024792C_arg0 *)arg0)->field_38 = 3;
         ((RecoveredFields_8024792C_arg0 *)arg0)->field_30 = (saddr)new TUnk_804CE7D0((TObject *)arg0);
-        ((TWindowKeyBoardHard *)((int) (((RecoveredFields_8024792C_arg0 *)arg0)->field_28)))->sub_8025EC04();
+        ((TWindowKeyBoardHard *)((saddr) (((RecoveredFields_8024792C_arg0 *)arg0)->field_28)))->sub_8025EC04();
         return;
     }
 }

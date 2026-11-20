@@ -806,36 +806,36 @@ void TWindowSubTradeMain::set_displayed_item(s32 arg1) {
 
 void TWindowSubTradeMain::set_labels(s32 arg1) {
     if ((u32) this->m_30 != 0U) {
-        TWindowSubTradeMain::update_position_if_changed((saddr)this, (u8 *)this->m_30, (u8 *)((s32)(get_window_layout_position(arg1 + 0x5C))));
+        TWindowSubTradeMain::update_position_if_changed((saddr)this, (u8 *)this->m_30, (u8 *)((saddr)(get_window_layout_position(arg1 + 0x5C))));
     }
     if ((u32) this->m_34 != 0U) {
-        TWindowSubTradeMain::update_position_if_changed((saddr)this, (u8 *)this->m_34, (u8 *)((s32)(get_window_layout_position(arg1 + 0x5E))));
+        TWindowSubTradeMain::update_position_if_changed((saddr)this, (u8 *)this->m_34, (u8 *)((saddr)(get_window_layout_position(arg1 + 0x5E))));
     }
     if ((u32) this->m_38 != 0U) {
         update_label_positions__17TWindowSubComCardFPvPv(this->m_38, get_window_layout_position(arg1 + 0x5F));
     }
     if ((u32) this->m_3c != 0U) {
         if ((u32) this->m_44 != 0U) {
-            TWindowSubTradeMain::update_position_if_changed((saddr)this, (u8 *)this->m_3c, (u8 *)((s32)(get_window_layout_position(arg1 + 0x62))));
+            TWindowSubTradeMain::update_position_if_changed((saddr)this, (u8 *)this->m_3c, (u8 *)((saddr)(get_window_layout_position(arg1 + 0x62))));
         } else {
-            TWindowSubTradeMain::update_position_if_changed((saddr)this, (u8 *)this->m_3c, (u8 *)((s32)(get_window_layout_position(arg1 + 0x60))));
+            TWindowSubTradeMain::update_position_if_changed((saddr)this, (u8 *)this->m_3c, (u8 *)((saddr)(get_window_layout_position(arg1 + 0x60))));
         }
     }
     if ((u32) this->m_40 != 0U) {
         if ((u32) this->m_44 != 0U) {
-            TWindowSubTradeMain::update_position_if_changed((saddr)this, (u8 *)this->m_40, (u8 *)((s32)(get_window_layout_position(arg1 + 0x63))));
+            TWindowSubTradeMain::update_position_if_changed((saddr)this, (u8 *)this->m_40, (u8 *)((saddr)(get_window_layout_position(arg1 + 0x63))));
         } else {
-            TWindowSubTradeMain::update_position_if_changed((saddr)this, (u8 *)this->m_40, (u8 *)((s32)(get_window_layout_position(arg1 + 0x61))));
+            TWindowSubTradeMain::update_position_if_changed((saddr)this, (u8 *)this->m_40, (u8 *)((saddr)(get_window_layout_position(arg1 + 0x61))));
         }
     }
     if ((u32) this->m_44 != 0U) {
-        TWindowSubTradeMain::update_position_if_changed((saddr)this, (u8 *)this->m_44, (u8 *)((s32)(get_window_layout_position(arg1 + 0x64))));
+        TWindowSubTradeMain::update_position_if_changed((saddr)this, (u8 *)this->m_44, (u8 *)((saddr)(get_window_layout_position(arg1 + 0x64))));
     }
     if ((u32) this->m_48 != 0U) {
-        TWindowSubTradeMain::update_position_if_changed((saddr)this, (u8 *)this->m_48, (u8 *)((s32)(get_window_layout_position(arg1 + 0x5D))));
+        TWindowSubTradeMain::update_position_if_changed((saddr)this, (u8 *)this->m_48, (u8 *)((saddr)(get_window_layout_position(arg1 + 0x5D))));
     }
     if ((u32) this->m_4c != 0U) {
-        TWindowSubTradeMain::update_position_if_changed((saddr)this, (u8 *)this->m_4c, (u8 *)((s32)(get_window_layout_position(arg1 + 0x65))));
+        TWindowSubTradeMain::update_position_if_changed((saddr)this, (u8 *)this->m_4c, (u8 *)((saddr)(get_window_layout_position(arg1 + 0x65))));
     }
 }
 
