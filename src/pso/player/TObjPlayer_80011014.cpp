@@ -1273,7 +1273,7 @@ void TObjChara::enemy_spawn_zalure_effect() {
     stack.sp10 = -0x8000;
     oneshot_particle_emitter = (s32)create_oneshot_particle_emitter((void *)(arg0 + 0x2FC), &stack.sp8, 0x1FE, 0x50);
     if (oneshot_particle_emitter != 0) {
-        set_owner_id__13TParticleCtrlFUs(oneshot_particle_emitter, (s32)((void *) (((s32 (*)(s32))get_entity_id)(arg0))));
+        set_owner_id__13TParticleCtrlFUs(oneshot_particle_emitter, (saddr)((void *) (((s32 (*)(s32))get_entity_id)(arg0))));
     }
 }
 
@@ -1295,7 +1295,7 @@ void TObjChara::enemy_spawn_jellen_effect() {
     stack.sp10 = -0x8000;
     oneshot_particle_emitter = (s32)create_oneshot_particle_emitter((void *)(arg0 + 0x2FC), &stack.sp8, 0x1FD, 0x50);
     if (oneshot_particle_emitter != 0) {
-        set_owner_id__13TParticleCtrlFUs(oneshot_particle_emitter, (s32)((void *) (((s32 (*)(s32))get_entity_id)(arg0))));
+        set_owner_id__13TParticleCtrlFUs(oneshot_particle_emitter, (saddr)((void *) (((s32 (*)(s32))get_entity_id)(arg0))));
     }
 }
 
@@ -3084,7 +3084,7 @@ int TObjChara::vfunc_66() { return 0; }
 
 void TObjChara::get_anim_node_position(s32, Vec *) {  }
 
-void TObjChara::reset_pose() { obj_clearFlags30((u32)((void*)2048)); *(short *)&this->hp = *(short *)&this->hpmax; *(short *)&this->tp = *(short *)&this->tpmax; }
+void TObjChara::reset_pose() { obj_clearFlags30((uaddr)((void*)2048)); *(short *)&this->hp = *(short *)&this->hpmax; *(short *)&this->tp = *(short *)&this->tpmax; }
 
 void TObjChara::vfunc_63() {  }
 

@@ -344,7 +344,7 @@ void load_labo_design_object_table(void) {
             if (p != NULL) {
                 p = load_resource_from_descriptor(p, 5, e->descriptor, 0, 0, 0);
             }
-            labo_design_object_table[e->id] = (u32)p;
+            labo_design_object_table[e->id] = (uaddr)p;
             e++;
         }
     }

@@ -104,7 +104,7 @@ u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void free_bin_model_request(void*, int);
 
 void TOJungleDesign::free_shared_resource() {
-    if ((u32) TOJungleDesign__shared_model_resource != 0U) {
+    if ((uaddr) TOJungleDesign__shared_model_resource != 0U) {
         free_bin_model_request((void*)TOJungleDesign__shared_model_resource, 1);
         TOJungleDesign__shared_model_resource = 0U;
     }

@@ -109,7 +109,7 @@ void TOChatSensor::send_state() { swap_state_endian(); send_subcommand((u8 *)thi
 void load_chat_sensor(void) { chat_sensor_table = (s32 *)load_encrypted_archive_data((void *)"ChatSensor.prs"); }
 
 void TOChatSensor::destroy_global() {
-    if ((u32) chat_sensor_table != 0U) {
+    if ((uaddr) chat_sensor_table != 0U) {
         TLobby::free_nodes_with_id((u32)((void*)chat_sensor_table));
         chat_sensor_table = 0U;
     }
@@ -119,13 +119,13 @@ u32 TOChatSensor__create(s32 arg0) {
     u32 temp_r3;
     u32 temp_r3_2;
     u32 var_r0;
-    if ((u32) TOChatSensorFolder__instance == 0U) {
+    if ((uaddr) TOChatSensorFolder__instance == 0U) {
         temp_r3 = (u32)TObject::operator new(0x1C);
         if (temp_r3 != 0U) {
             ((s32 (*)(u32, s32))TOChatSensorFolder__ct)(temp_r3, tl_05);
         }
     }
-    if ((u32) TOChatSensorFolder__instance != 0U) {
+    if ((uaddr) TOChatSensorFolder__instance != 0U) {
         temp_r3_2 = (u32)TObject::operator new(0xD0);
         var_r0 = temp_r3_2;
         if (var_r0 != 0U) {

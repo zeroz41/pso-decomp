@@ -532,7 +532,7 @@ f32 TContainerAncient01R::receive_physical_attack(void *, f32) {
     s16 sp8;
     if ((u16) this->entity_id >= 0x1000U) {
         this->m_338 = (this->m_338 + 1);
-        if (((u32) this->set_entry != 0U) && (((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 1) != 0)) {
+        if (((uaddr) this->set_entry != 0U) && (((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 1) != 0)) {
             sp8 = this->m_338;
             ((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 0);
             ((TObjCollidable *)arg0)->send_object_state_update(&sp8);
@@ -613,10 +613,10 @@ void TContainerAncient01R::run_task() {
             }
         }
     }
-    if ((u32) this->current_motion == get_bml_motion(TContainerAncient01R__bml_resource, 0)) {
+    if ((uaddr) this->current_motion == get_bml_motion(TContainerAncient01R__bml_resource, 0)) {
         *(s32 *)&this->model = get_bml_model(TContainerAncient01R__bml_resource, 0);
     }
-    if ((u32) this->current_motion == get_bml_motion(TContainerAncient01R__bml_resource, 1)) {
+    if ((uaddr) this->current_motion == get_bml_motion(TContainerAncient01R__bml_resource, 1)) {
         *(s32 *)&this->model = get_bml_model(TContainerAncient01R__bml_resource, 1);
     }
     ((TObject *)arg0)->TObject::run_task();
@@ -878,7 +878,7 @@ f32 TContainerAncient01::receive_physical_attack(void *, f32) {
 
     if ((u16) this->entity_id >= 0x1000U) {
         reset_state__19TContainerAncient01Fv();
-        if (((u32) this->set_entry != 0U) && (access_object_saved_state(&sp8, 1) != 0)) {
+        if (((uaddr) this->set_entry != 0U) && (access_object_saved_state(&sp8, 1) != 0)) {
             sp8 = 1;
             access_object_saved_state(&sp8, 0);
             send_object_state_update(&sp8);
@@ -959,10 +959,10 @@ void TContainerAncient01::run_task() {
             }
         }
     }
-    if ((u32) this->current_motion == get_bml_motion(TContainerAncient01__bml_resource, 0)) {
+    if ((uaddr) this->current_motion == get_bml_motion(TContainerAncient01__bml_resource, 0)) {
         *(s32 *)&this->model = get_bml_model(TContainerAncient01__bml_resource, 0);
     }
-    if ((u32) this->current_motion == get_bml_motion(TContainerAncient01__bml_resource, 1)) {
+    if ((uaddr) this->current_motion == get_bml_motion(TContainerAncient01__bml_resource, 1)) {
         *(s32 *)&this->model = get_bml_model(TContainerAncient01__bml_resource, 1);
     }
     ((TObject *)arg0)->TObject::run_task();

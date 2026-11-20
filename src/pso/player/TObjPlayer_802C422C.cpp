@@ -28,7 +28,7 @@ s32 sync_state__10TObjPlayerFi(s32 arg0) {
 
 s32 get_char_index__23TAdSinglePlyChrSelectGCFUi(u32 arg0);
 
-void TObjPlayer::sync_char_select_state() { get_char_index__23TAdSinglePlyChrSelectGCFUi((u32)((void*)65535)); ((int (*)(void))sync_state__10TObjPlayerFi)(); }
+void TObjPlayer::sync_char_select_state() { get_char_index__23TAdSinglePlyChrSelectGCFUi((uaddr)((void*)65535)); ((int (*)(void))sync_state__10TObjPlayerFi)(); }
 
 void *get_player_by_client_id(s32 i);
 
@@ -93,7 +93,7 @@ void is_slot_within_limit__10TObjPlayerFllUc(u8 id, s16 i, u8 v);
 int init_action_config__10TObjPlayerFv(void*);
 int set_palette_entry__20TWindowActionPaletteFlllll(void*);
 
-void TObjPlayer::init_battle_selection() { get_char_index__23TAdSinglePlyChrSelectGCFUi((u32)((void*)65535)); ((int (*)(void))update_battle__10TObjPlayerFi)(); }
+void TObjPlayer::init_battle_selection() { get_char_index__23TAdSinglePlyChrSelectGCFUi((uaddr)((void*)65535)); ((int (*)(void))update_battle__10TObjPlayerFi)(); }
 
 void export_player_record__10TObjPlayerFPvPv(TObjPlayer *arg0, u8 *arg1) {
     E_802C4698 *e;
@@ -186,5 +186,5 @@ int init_character_action_config(void* p) { return init_action_config__10TObjPla
 
 int TObjPlayer__sub_802C46E0(void* p) { return set_palette_entry__20TWindowActionPaletteFlllll(p); }
 
-void TObjPlayer::set_flag_524288() { sub_8011E204((s32)((void*)524288)); }
-void TObjPlayer::set_flag_80000() { set_state_flags((u32)((void*)524288)); }
+void TObjPlayer::set_flag_524288() { sub_8011E204((saddr)((void*)524288)); }
+void TObjPlayer::set_flag_80000() { set_state_flags((uaddr)((void*)524288)); }

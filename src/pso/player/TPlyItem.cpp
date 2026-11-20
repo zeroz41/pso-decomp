@@ -771,7 +771,7 @@ int reset(void* p) { return (int)memset(p, 0, 28); }
 s32 fn_801D4270(s32 arg0) {
     s32 i;
     u8 *p;
-    if ((u32)get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF) == 0) {
+    if ((uaddr)get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF) == 0) {
         return 0;
     }
     p = get_ptr_4__10TObjPlayerFv();

@@ -63,7 +63,7 @@ u8 *copy_drop_node(u8 *arg0, u8 *arg1) {
     temp_r5 = (arg0 + 4);
     temp_r4 = (arg1 + 4);
     *(s32 *)((s8 *)arg0 + 4) = (s32) *(s32 *)((s8 *)arg1 + 4);
-    *(ByteBlock_14 *)((s32) temp_r5 + 4) = *(const ByteBlock_14 *)((s32) temp_r4 + 4);
+    *(ByteBlock_14 *)((saddr) temp_r5 + 4) = *(const ByteBlock_14 *)((saddr) temp_r4 + 4);
     return arg0;
 }
 

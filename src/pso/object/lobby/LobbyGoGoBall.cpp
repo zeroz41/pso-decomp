@@ -836,9 +836,9 @@ void TWindowTimer::copy_state(u8 *arg1) {
     *(u8 *)((s8 *)((u8 *)this) + 0x18) = (u8) *(u8 *)((s8 *)arg1 + 0x18);
     *(u8 *)((s8 *)((u8 *)this) + 0x19) = (u8) *(u8 *)((s8 *)arg1 + 0x19);
     *(f32 *)((s8 *)((u8 *)this) + 0x1C) = (f32) *(f32 *)((s8 *)arg1 + 0x1C);
-    *(ByteBlock_C *)((s32) ((u8 *)this) + 0x20) = *(const ByteBlock_C *)((s32) arg1 + 0x20);
-    *(ByteBlock_C *)((s32) ((u8 *)this) + 0x2C) = *(const ByteBlock_C *)((s32) arg1 + 0x2C);
-    *(ByteBlock_C *)((s32) ((u8 *)this) + 0x38) = *(const ByteBlock_C *)((s32) arg1 + 0x38);
+    *(ByteBlock_C *)((saddr) ((u8 *)this) + 0x20) = *(const ByteBlock_C *)((saddr) arg1 + 0x20);
+    *(ByteBlock_C *)((saddr) ((u8 *)this) + 0x2C) = *(const ByteBlock_C *)((saddr) arg1 + 0x2C);
+    *(ByteBlock_C *)((saddr) ((u8 *)this) + 0x38) = *(const ByteBlock_C *)((saddr) arg1 + 0x38);
     this->m_44 = (f32) *(f32 *)((s8 *)arg1 + 0x44);
     *(u16 *)((s8 *)((u8 *)this) + 0x48) = (u16) *(u16 *)((s8 *)arg1 + 0x48);
     this->m_4c = (f32) *(f32 *)((s8 *)arg1 + 0x4C);
@@ -959,7 +959,7 @@ void TWindowTimer::throw_gogo_ball(s32 arg1, s32 arg2) {
         play_sound_effect(0x4002A600, this, 0, 0);
         stack.sp1C = 0;
     }
-    ((TWindowTimer *)((s32)&stack.sp8))->send_gogo_ball();
+    ((TWindowTimer *)((saddr)&stack.sp8))->send_gogo_ball();
 }
 
 void TWindowTimer__sub_80198D98(void) {

@@ -1060,9 +1060,9 @@ s32 tick_battle_music_timer(Obj_801C5C38 *p) {
     return --p->n < 0 ? 0 : 1;
 }
 
-void TObjPlayer::clear_target_lock() { ((FlagWord *)this)->set((u32)((void*)1)); TLobby::set_target_id((s32)((void*)1)); }
+void TObjPlayer::clear_target_lock() { ((FlagWord *)this)->set((uaddr)((void*)1)); TLobby::set_target_id((saddr)((void*)1)); }
 
-void TObjPlayer::reset_ring() { clear__8FlagWordFUl(this, 1); set_lock_timer(-1); TLobby::set_target_id((s32)((void*)0)); }
+void TObjPlayer::reset_ring() { clear__8FlagWordFUl(this, 1); set_lock_timer(-1); TLobby::set_target_id((saddr)((void*)0)); }
 
 void TObjPlayer::set_vec4_const() { *(float*)((char*)this + 0x1c) = 1.0f; *(float *)&this->m_20 = 1.0f; *(float *)&this->texlist = 1.0f; *(float *)&this->room = 1.0f; }
 
@@ -1163,7 +1163,7 @@ void TForceOperate::run_task() {
     void *entity;
 
     if (TObjPlayer__sub_801C6DAC((u8 *)&m_1c) != 0) {
-        temp_r31 = (void *)((TMainCursor *)((s32)&m_1c))->get_state();
+        temp_r31 = (void *)((TMainCursor *)((saddr)&m_1c))->get_state();
         if ((is_target_valid__10TObjPlayerFv() != 0) && (((TObjPlayer *)temp_r31)->has_action_palette_entry() != 0)) {
             ((TMainCursor *)(((TObjPlayer *)temp_r31)->m_424 + 0x4F8))->get_id();
             entity = find_entity_by_id();
@@ -1206,10 +1206,10 @@ TPlyOnCountOver::~TPlyOnCountOver() {}
 
 TPlayerLobbyMarker::~TPlayerLobbyMarker() {}
 
-void TObjPlayer::set_flag_2000000_alt() { set_state_flags((u32)((void*)2097152)); }
-s32 TObjPlayer::check_flag_04000000() { return check_flag((s32)((void*)4194304)); }
-void TObjPlayer::set_flag_0x8000() { sub_8011E204((s32)((void*)32768)); }
-void TObjPlayer::check_flag_0x8000() { check_flag((s32)((void*)32768)); }
+void TObjPlayer::set_flag_2000000_alt() { set_state_flags((uaddr)((void*)2097152)); }
+s32 TObjPlayer::check_flag_04000000() { return check_flag((saddr)((void*)4194304)); }
+void TObjPlayer::set_flag_0x8000() { sub_8011E204((saddr)((void*)32768)); }
+void TObjPlayer::check_flag_0x8000() { check_flag((saddr)((void*)32768)); }
 void*TObjPlayer::restore_shrunken_font() { copy_subcommand_header(this); return this; }
 void TObjPlayer::init_6x88_packet() { *(u8*)((char*)this + 0x0) = 136; *(u8*)((char*)this + 0x1) = 1; }
 void TObjPlayer::send_font_update_60() { bswap_g_client_id_header(this); send_subcommand((u8 *)this); }

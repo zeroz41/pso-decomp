@@ -1062,7 +1062,7 @@ u8 *init_city_door(u8 *arg0, s32 arg1, s32 arg2, u8 *arg3) {
     ((TUnk_804B5BA8 *)arg0)->m_b0 = 0.0f;
     ((TUnk_804B5BA8 *)arg0)->m_b4 = 0.0f;
     *(u8 **)((s8 *)arg0 + 0xB8) = arg3;
-    *(ByteBlock_2C *)(copy_storage_80182D8C.bytes) = *(const ByteBlock_2C *)((s32) temp_r4 + 4);
+    *(ByteBlock_2C *)(copy_storage_80182D8C.bytes) = *(const ByteBlock_2C *)((saddr) temp_r4 + 4);
     count = (u8 *)(*(u8 **)((s8 *)arg0 + 0xB8));
     (*(f32 *)(copy_storage_80182D8C.bytes + 0xC)) = *(f32 *)((s8 *)count + 0xC);
     (*(f32 *)(copy_storage_80182D8C.bytes + 0x10)) = *(f32 *)((s8 *)count + 0x10);

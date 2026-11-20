@@ -804,7 +804,7 @@ s32 respond_to_body_contact(u8 *actor, u32 arg1, u8 *arg2) {
         case 0:
             return resolve_actor_sphere_contact(actor, arg1, (s32)arg2);
         default:
-            return resolve_player_box_contact((u8 *)actor, (u8 *)arg1, (u8 *)((s32)arg2));
+            return resolve_player_box_contact((u8 *)actor, (u8 *)arg1, (u8 *)((saddr)arg2));
         }
     }
     return 0;

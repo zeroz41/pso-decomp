@@ -305,7 +305,7 @@ void TOTrapSeabed01::render_effect_layers() {
 // The model node callback of render_effect_layers: the glowing node draws
 // with the effect render state.
 void TOTrapSeabed01::trigger_by_id(u32 node) {
-    if (node == (u32)TOTrapSeabed01__ginja_model) {
+    if (node == (uaddr)TOTrapSeabed01__ginja_model) {
         TParticleCtrl::begin_effect_render();
     } else {
         TParticleCtrl::end_effect_render();

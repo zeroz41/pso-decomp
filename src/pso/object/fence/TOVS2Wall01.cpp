@@ -336,7 +336,7 @@ void TOVS2Wall01::load_resources() {
   TMotorcycle::add_entry(0x3A, (int) get_bml_model(TOVS2Wall01__bml_resource, 5), (int) get_bml_texlist((BmlResource *)var_r0, 5), 10.0f, 0.0f);
 }
 void TOVS2Wall01::release_model() {
-    if ((u32) TOVS2Wall01__bml_resource != 0U) {
+    if ((uaddr) TOVS2Wall01__bml_resource != 0U) {
         free_bin_model_request((void*)TOVS2Wall01__bml_resource, 1);
         TOVS2Wall01__bml_resource = 0U;
     }

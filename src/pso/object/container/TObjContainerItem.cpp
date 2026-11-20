@@ -391,7 +391,7 @@ void TLobby::free_char_select_resources() {
         TAdSinglePlyChrSelectGC::safe_free(lbl_805D5B7C);
         lbl_805D5B7C = 0U;
     }
-    if ((u32) lbl_805D5B78 != 0U) {
+    if ((uaddr) lbl_805D5B78 != 0U) {
         free_bin_model_request(lbl_805D5B78, 1);
         lbl_805D5B78 = NULL;
     }
@@ -431,7 +431,7 @@ void TLobby::free_chr_select_slot() {
         TAdSinglePlyChrSelectGC::safe_free(lbl_805D5B8C);
         lbl_805D5B8C = 0U;
     }
-    if ((u32) container_breakup_model_archive != 0U) {
+    if ((uaddr) container_breakup_model_archive != 0U) {
         free_bin_model_request(container_breakup_model_archive, 1);
         container_breakup_model_archive = NULL;
     }

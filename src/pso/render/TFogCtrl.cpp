@@ -776,10 +776,10 @@ void copy_fog_entry(u8 *arg0, u8 *arg1) {
     *(f32 *)((s8 *)arg0 + 0x10) = (f32) *(f32 *)((s8 *)arg1 + 0x10);
     var_r5 = *(s32 *)((s8 *)arg1 + 0x14);
     *(s32 *)((s8 *)arg0 + 0x14) = var_r5;
-    *(ByteBlock_20 *)(var_r7 + 4) = *(const ByteBlock_20 *)((s32) var_r6 + 4);
+    *(ByteBlock_20 *)(var_r7 + 4) = *(const ByteBlock_20 *)((saddr) var_r6 + 4);
     var_r7 += 0x20;
     var_r6 += 0x20;
-    *(ByteBlock_8 *)((s32) arg0 + 0x38) = *(const ByteBlock_8 *)((s32) arg1 + 0x38);
+    *(ByteBlock_8 *)((saddr) arg0 + 0x38) = *(const ByteBlock_8 *)((saddr) arg1 + 0x38);
 }
 #pragma pop
 

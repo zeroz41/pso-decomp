@@ -1704,7 +1704,7 @@ s32 TCameraCtrl::get_camera_target_id(s32 arg0) {
 
 void TCameraCtrl::restore_full_screen_view() {
     if (is_split_screen() == 0) {
-        ((TCameraCtrl *)((s32) lbl_804FF67C))->copy_view_state((s32)((s32) TCameraCtrl__data_804FF634));
+        ((TCameraCtrl *)((saddr) lbl_804FF67C))->copy_view_state((s32)((s32) TCameraCtrl__data_804FF634));
         TCameraCtrl__sub_801E32D8(320.0f, 240.0f);
         GXSetScissorBoxOffset(0, 0);
         GXSetScissor(0, 0, 0x280, 0x1E0);
@@ -1722,7 +1722,7 @@ void TCameraCtrl__sub_80068EF0(void) {
     f32 neg_w;
     f32 neg_h;
     if (is_split_screen() == 0) {
-        ((TCameraCtrl *)((s32) TCameraCtrl__data_804FF634))->copy_view_state((s32)((s32) lbl_804FF67C));
+        ((TCameraCtrl *)((saddr) TCameraCtrl__data_804FF634))->copy_view_state((s32)((s32) lbl_804FF67C));
         neg_w = -(*(f32 *)((s8 *)&TCameraCtrl__data_804FF634 + 8) - 320.0f);
         neg_h = -(*(f32 *)((s8 *)&TCameraCtrl__data_804FF634 + 0xC) - 240.0f);
         if (0.0f == neg_w && 0.0f == neg_h) {

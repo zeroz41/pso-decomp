@@ -17,7 +17,7 @@ s32 is_current_room(void *object) {
 }
 
 void TObjRoomId::draw_debug_line(u32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    if (arg0 == (u32)current_room_id) {
+    if (arg0 == (uaddr)current_room_id) {
         TObjNpcEnemy::set_global_count(0xFF00FF);
         debug_printf_at((arg1 << 0x10) | arg2, arg3);
         TObjNpcEnemy::set_global_count(0xF0F0F0FF);

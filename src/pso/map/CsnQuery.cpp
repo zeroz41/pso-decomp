@@ -523,7 +523,7 @@ s32 intersect_wall_triangle_one_sided(void *arg0, void *arg1, void *arg2, E_8007
     f32 denom;
     f32 t;
 
-    if ((FACE->flags & (u32)arg2) == 0) {
+    if ((FACE->flags & (uaddr)arg2) == 0) {
         return 0;
     }
     n.x = FACE->n.x;
@@ -796,8 +796,8 @@ void TObjPlayer::copy_wall_polygon(u8 *arg1) {
     *(s32 *)((s8 *)arg0 + 0) = (s32) *(s32 *)((s8 *)arg1 + 0);
     this->m_flags = (u16) *(u16 *)((s8 *)arg1 + 4);
     this->m_id = (u16) *(u16 *)((s8 *)arg1 + 6);
-    *(ByteBlock_C *)((s32) (u8 *)&this->m_prev) = *(const ByteBlock_C *)((s32) arg1 + 8);
-    *(ByteBlock_C *)((s32) (u8 *)&this->m_down) = *(const ByteBlock_C *)((s32) arg1 + 0x14);
+    *(ByteBlock_C *)((saddr) (u8 *)&this->m_prev) = *(const ByteBlock_C *)((saddr) arg1 + 8);
+    *(ByteBlock_C *)((saddr) (u8 *)&this->m_down) = *(const ByteBlock_C *)((saddr) arg1 + 0x14);
     *(f32 *)&this->m_20 = (f32) *(f32 *)((s8 *)arg1 + 0x20);
 }
 
@@ -891,7 +891,7 @@ s32 *csnVectorUnder(Vec *arg0, u32 *arg1, s32 arg2) {
     TObjPlayer__sub_80079120((s32)arg0);
     var_r31 = lbl_80500140;
     if ((u32) *arg1 == 0U) {
-        if (((u32)refill_csn_candidate_cache((Vec *)(arg0), (M_80079C64 **)(arg1), arg2)) == 0U) {
+        if (((uaddr)refill_csn_candidate_cache((Vec *)(arg0), (M_80079C64 **)(arg1), arg2)) == 0U) {
             var_r31 = NULL;
         } else if (evaluate_ground_triangles(arg0, arg2, (CsnGroup **)arg1) == 0) {
             var_r31 = NULL;
@@ -900,7 +900,7 @@ s32 *csnVectorUnder(Vec *arg0, u32 *arg1, s32 arg2) {
         if (evaluate_ground_triangles(arg0, arg2, (CsnGroup **)arg1) != 0) {
             goto done;
         }
-        if (((u32)refill_csn_candidate_cache((Vec *)(arg0), (M_80079C64 **)(arg1), arg2)) == 0U) {
+        if (((uaddr)refill_csn_candidate_cache((Vec *)(arg0), (M_80079C64 **)(arg1), arg2)) == 0U) {
             var_r31 = NULL;
         } else if (evaluate_ground_triangles(arg0, arg2, (CsnGroup **)arg1) == 0) {
             var_r31 = NULL;
@@ -916,7 +916,7 @@ s32 *csnVecterUnder(s32 origin, s32 mask) {
     TObjPlayer__sub_8007911C();
     TObjPlayer__sub_80079120(origin);
     var_r31 = ((s32 *)&lbl_80500140);
-    if (((u32)select_ground_query_groups((CsnVector *)(origin), mask)) == 0U) {
+    if (((uaddr)select_ground_query_groups((CsnVector *)(origin), mask)) == 0U) {
         var_r31 = 0;
     } else if (evaluate_ground_triangles((Vec *)origin, mask, (CsnGroup **)lbl_804FFD40) == 0) {
         var_r31 = 0;

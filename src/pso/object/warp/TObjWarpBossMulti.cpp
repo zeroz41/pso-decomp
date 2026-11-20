@@ -383,7 +383,7 @@ s32 TObjWarpBoss::update_warp_dialogs() {
     {
             ((THunterGuildSeqOffline *)player_list_window)->advance_matching_entries(player_in_range[j] != 0, j);
       color = 0xF0F0F0FF;
-      if (((state == 1) && (((u32)get_player_by_client_id((j))) != 0)) && (check_player_flag1__6TLobbyFv() != 0))
+      if (((state == 1) && (((uaddr)get_player_by_client_id((j))) != 0)) && (check_player_flag1__6TLobbyFv() != 0))
       {
         color = 0xFFFF00FF;
       }

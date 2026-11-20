@@ -675,7 +675,7 @@ TObjEnemy* TObjEnemy::groupRoot() {
 
 s32 TObjPlayer::is_action_available() {
     TObjEnemy*_w0 = (TObjEnemy*)this;
-    return ((s32)_w0->groupRoot()) ? 1 : 0;
+    return ((saddr)_w0->groupRoot()) ? 1 : 0;
 }
 
 s32 TUnk_80493450::countChildren() {

@@ -103,7 +103,7 @@ u8 *TObjPlayer::construct_player_instance(s32 arg1, s16 arg2, s32 role, u8 *arg4
     TObjPlayer__sub_801BC8F0(this);
     this->setup_fresh_player_state((u8 *)arg4);
     this->sub_801BB8B0((u8 *)arg4);
-    TObjPlayer::set_com_card_window((s32)((void *) (get_entity_id(this))));
+    TObjPlayer::set_com_card_window((saddr)((void *) (get_entity_id(this))));
     return ((u8 *)this);
 }
 

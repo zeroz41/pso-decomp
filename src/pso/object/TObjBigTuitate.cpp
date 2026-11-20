@@ -165,11 +165,11 @@ void *TObjTuitate__ct(void *arg0, void *arg1, void *arg2) {
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__11TObjTuitate;
     __ct__15RenderFadeStateFv(((void *)((u8 *)arg0 + 0xAC)));
     *(s32 *)((s8 *)arg0 + 0) = (s32) TObjTuitate__class_name;
-    ((TObjTuitate *)(arg0))->apply_object_set_data((void *)((s32)arg2));
+    ((TObjTuitate *)(arg0))->apply_object_set_data((void *)((saddr)arg2));
     init_collision_body_parts(arg0, TObjTuitate__collision_parts, 1);
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
-    *(ByteBlock_3C *)(copy_storage_8019AF6C.bytes) = *(const ByteBlock_3C *)(((s32)arg2 - 4) + 4);
+    *(ByteBlock_3C *)(copy_storage_8019AF6C.bytes) = *(const ByteBlock_3C *)(((saddr)arg2 - 4) + 4);
     (*(f32 *)(copy_storage_8019AF6C.bytes + 0x24)) = 32.0f;
     (*(f32 *)(copy_storage_8019AF6C.bytes + 0x28)) = 2e+01f;
     (*(f32 *)(copy_storage_8019AF6C.bytes + 0x2C)) = 12.0f;
@@ -260,11 +260,11 @@ void *TObjBigTuitate__ct(void *arg0, void *arg1, void *arg2) {
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TObjBigTuitate;
     __ct__15RenderFadeStateFv(((void *)((u8 *)arg0 + 0xAC)));
     *(s32 *)((s8 *)arg0 + 0) = (s32) TObjBigTuitate__name;
-    ((TObjBigTuitate *)(arg0))->apply_object_set_data((void *)((s32)arg2));
+    ((TObjBigTuitate *)(arg0))->apply_object_set_data((void *)((saddr)arg2));
     init_collision_body_parts(arg0, big_tuitate_collision_body, 1);
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
-    *(ByteBlock_3C *)(copy_storage_8019ABE8.bytes) = *(const ByteBlock_3C *)(((s32)arg2 - 4) + 4);
+    *(ByteBlock_3C *)(copy_storage_8019ABE8.bytes) = *(const ByteBlock_3C *)(((saddr)arg2 - 4) + 4);
     (*(f32 *)(copy_storage_8019ABE8.bytes + 0x24)) = 32.0f;
     (*(f32 *)(copy_storage_8019ABE8.bytes + 0x28)) = 4e+01f;
     (*(f32 *)(copy_storage_8019ABE8.bytes + 0x2C)) = 12.0f;

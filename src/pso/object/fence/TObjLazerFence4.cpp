@@ -134,7 +134,7 @@ void TObjLazerFence4::draw_model() {
     var_r31 += 4;
   }
   while (var_r30 < 0xC);
-  TObjFish::set_global_param((s32)((void *)((*(s32 *)&lazer_fence_norm_texture_list))));
+  TObjFish::set_global_param((saddr)((void *)((*(s32 *)&lazer_fence_norm_texture_list))));
   push_matrix();
   post_translate_matrix((u8 *)&this->position);
   rotate_matrix_y(0, (void *)this->rotation_y);

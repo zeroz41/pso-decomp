@@ -38,7 +38,7 @@ void TOGrassJungle::release_static_instance() {
         TAdSinglePlyChrSelectGC::safe_free(TOGrassJungle__grass_gvm_texture);
         TOGrassJungle__grass_gvm_texture = 0U;
     }
-    if ((u32) TOGrassJungle__bml_resource != 0U) {
+    if ((uaddr) TOGrassJungle__bml_resource != 0U) {
         free_bin_model_request((void*)TOGrassJungle__bml_resource, 1);
         TOGrassJungle__bml_resource = 0U;
     }

@@ -247,9 +247,9 @@ void copy_debris_params__8TObjChipFPvPv(u8 *arg0, u8 *arg1) {
     *(f32 *)((s8 *)arg0 + 0) = (f32) *(f32 *)((s8 *)arg1 + 0);
     *(f32 *)((s8 *)arg0 + 4) = (f32) *(f32 *)((s8 *)arg1 + 4);
     *(f32 *)((s8 *)arg0 + 8) = (f32) *(f32 *)((s8 *)arg1 + 8);
-    *(ByteBlock_C *)((s32) arg0 + 0xC) = *(const ByteBlock_C *)((s32) arg1 + 0xC);
-    *(ByteBlock_C *)((s32) arg0 + 0x18) = *(const ByteBlock_C *)((s32) arg1 + 0x18);
-    *(ByteBlock_C *)((s32) arg0 + 0x24) = *(const ByteBlock_C *)((s32) arg1 + 0x24);
+    *(ByteBlock_C *)((saddr) arg0 + 0xC) = *(const ByteBlock_C *)((saddr) arg1 + 0xC);
+    *(ByteBlock_C *)((saddr) arg0 + 0x18) = *(const ByteBlock_C *)((saddr) arg1 + 0x18);
+    *(ByteBlock_C *)((saddr) arg0 + 0x24) = *(const ByteBlock_C *)((saddr) arg1 + 0x24);
     *(s32 *)((s8 *)arg0 + 0x30) = (s32) *(s32 *)((s8 *)arg1 + 0x30);
     *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)arg1 + 0x34);
     *(f32 *)((s8 *)arg0 + 0x38) = (f32) *(f32 *)((s8 *)arg1 + 0x38);

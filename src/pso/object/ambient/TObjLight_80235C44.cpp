@@ -136,7 +136,7 @@ u8 *construct_actor_light_task(u8 *arg0, NJS_ARGB *njs_argb, u8 *arg2, s32 arg3,
     *(f32 *)((s8 *)arg0 + 0x58) = (f32) lbl_805DC888[0];
     ((TUnk_804CCAA8 *)arg0)->m_5c = (f32) lbl_805DC888[0];
     *(u16 *)((s8 *)arg0 + 0x60) = ((u16)get_entity_id((void *)(int)(((TUnk_804CCAA8 *)arg0)->m_54)));
-    TObjLight::find_light_params((f32 *)(arg0 + 0x40), (f32 *)((s32) &sp8), (u32)((int)((u32) *(u16 *)((s8 *)arg0 + 0x60))));
+    TObjLight::find_light_params((f32 *)(arg0 + 0x40), (f32 *)((saddr) &sp8), (u32)((int)((u32) *(u16 *)((s8 *)arg0 + 0x60))));
     return arg0;
 }
 

@@ -510,7 +510,7 @@ void TOMine::vfunc_86() {
 }
 void TOMine::update_trigger() {
     s16 sp8;
-    if (((u16) this->entity_id >= 0x4000U) && ((u32) this->set_entry != 0U) && (access_object_saved_state(&sp8, 1) != 0)) {
+    if (((u16) this->entity_id >= 0x4000U) && ((uaddr) this->set_entry != 0U) && (access_object_saved_state(&sp8, 1) != 0)) {
         this->mode = 3;
         sp8 = this->mode;
         send_object_state_update(&sp8);
@@ -570,7 +570,7 @@ f32 TOMine::receive_weapon_special_attack(void *arg1, void *) {
 }
 f32 TOMine::receive_physical_attack(void *, f32) {
     s16 sp8;
-    if (((u16) this->entity_id >= 0x4000U) && ((u32) this->set_entry != 0U) && (access_object_saved_state(&sp8, 1) != 0)) {
+    if (((u16) this->entity_id >= 0x4000U) && ((uaddr) this->set_entry != 0U) && (access_object_saved_state(&sp8, 1) != 0)) {
         this->mode = 5;
         sp8 = this->mode;
         send_object_state_update(&sp8);

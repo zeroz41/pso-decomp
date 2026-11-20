@@ -52,7 +52,7 @@ void TObjPlayer::clear_alt_model_flag() {
     model_render_flags &= 0xFFFFF7FF;
     set_chunk_material_override_pair(0xFF00, 0);
 }
-void TObjPlayer::set_alt_model_flag() { (*(int *)&model_render_flags) = ((*(int *)&model_render_flags) | 0x800); set_chunk_material_override_pair((s32)((void*)-513), (s32)((void*)0)); }
+void TObjPlayer::set_alt_model_flag() { (*(int *)&model_render_flags) = ((*(int *)&model_render_flags) | 0x800); set_chunk_material_override_pair((saddr)((void*)-513), (saddr)((void*)0)); }
 AltChunkObject alt_model_object;
 AltChunkModel alt_model;
 AltChunkStrips alt_model_strips;

@@ -711,7 +711,7 @@ s32 TUnk_804B5E48::advance_anim_time(s32 arg1, f32 farg0) {
     Obj_80184A08 *arg0 = (Obj_80184A08 *)this;
     Anim_80184A08 *a;
     f32 lim;
-    a = (Anim_80184A08 *)(u32)((TUnk_804B5E48 *)arg0)->get_anim_frame();
+    a = (Anim_80184A08 *)(uaddr)((TUnk_804B5E48 *)arg0)->get_anim_frame();
     if (a != NULL) {
         lim = (a->ents[arg1].info->n - 1);
         this->m_b0 += farg0;

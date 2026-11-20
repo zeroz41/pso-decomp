@@ -87,7 +87,7 @@ void TObjPlayer::draw_motion_node_list() {
             ctx->draw(n->obj);
         }
         if (n->child != NULL) {
-            ((TObjPlayer *)((s32)n->child))->draw_motion_node_list();
+            ((TObjPlayer *)((saddr)n->child))->draw_motion_node_list();
         }
         pop_matrix();
         n = n->next;

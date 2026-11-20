@@ -364,9 +364,9 @@ void **release_shared_capture_texture(void) {
     return var_r3;
 }
 
-void TObjPlayer::reset_movie_state() { camera_capture_flags = 0; init_capture_texture((s32)((void*)1)); }
+void TObjPlayer::reset_movie_state() { camera_capture_flags = 0; init_capture_texture((saddr)((void*)1)); }
 
-void reset_and_init_capture_texture(void) { camera_capture_flags = 0; init_capture_texture((s32)((void*)0)); }
+void reset_and_init_capture_texture(void) { camera_capture_flags = 0; init_capture_texture((saddr)((void*)0)); }
 
 void reset_and_release_capture_texture(void) { camera_capture_flags = 0; release_shared_capture_texture(); }
 
@@ -598,7 +598,7 @@ void begin_shadow_map_pass(void) {
 
 #undef VIEW
 s32 is_in_shadow_range(u8 *arg0, f32 farg0) {
-    if (((u32) camera_ctrl_instance != 0U) && (((farg0 * farg0) + horizontal_distance_squared((const Vec *)arg0, &shadow_light_position)) <= 8537.761f)) {
+    if (((uaddr) camera_ctrl_instance != 0U) && (((farg0 * farg0) + horizontal_distance_squared((const Vec *)arg0, &shadow_light_position)) <= 8537.761f)) {
         return 1;
     }
     return 0;
@@ -606,7 +606,7 @@ s32 is_in_shadow_range(u8 *arg0, f32 farg0) {
 
 void end_shadow_map_pass() {
     u8 *temp_r31;
-    if ((is_split_screen() == 0) && (TObjPlayer::check_all_players_ready() != 0) && ((u32) camera_ctrl_instance != 0U)) {
+    if ((is_split_screen() == 0) && (TObjPlayer::check_all_players_ready() != 0) && ((uaddr) camera_ctrl_instance != 0U)) {
         pop_matrix();
         pop_matrix();
         GXColor_80083B8C c = {0, 0, 0, 0};

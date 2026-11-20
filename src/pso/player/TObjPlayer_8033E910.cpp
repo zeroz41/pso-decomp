@@ -71,7 +71,7 @@ void load_list_texture(s32 idx, s32 wrapS, s32 wrapT, s32 map);
 void init_particle_effect__10TObjPlayerFv(void) { get_shared_capture_texture_list(); set_global_param__8TObjFishFl(); load_list_texture(0, 0, 0, 2); }
 
     extern int model_render_flags;
-void reset_effects__10TObjPlayerFv(void) { set_ginja_post_tev_stage_count((s32)((void*)0)); set_ginja_post_texgen_count((s32)((void*)0)); TObjPlayer::set_global_effect_state((s32)((void*)0)); model_render_flags = (model_render_flags & 0xfff7ffff); }
+void reset_effects__10TObjPlayerFv(void) { set_ginja_post_tev_stage_count((saddr)((void*)0)); set_ginja_post_texgen_count((saddr)((void*)0)); TObjPlayer::set_global_effect_state((saddr)((void*)0)); model_render_flags = (model_render_flags & 0xfff7ffff); }
 
 void setup_projection_tex_matrix__10TObjPlayerFv(void) {
     u8 sp10[0x30];
@@ -97,7 +97,7 @@ void setup_projection_tex_matrix__10TObjPlayerFv(void) {
         (*(s32 *)&model_render_flags) |= 0x80000;
         set_ginja_post_tev_stage_count(1);
         set_ginja_post_texgen_count(1);
-        TObjPlayer::set_global_effect_state((s32)((void*)(1)));
+        TObjPlayer::set_global_effect_state((saddr)((void*)(1)));
     }
 }
 
