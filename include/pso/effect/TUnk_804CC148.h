@@ -15,7 +15,7 @@ public:
     virtual void tick_lifetime();
     virtual void vfunc_8(void *);
     virtual void vfunc_9();
-    void find_area_contact(s32);
+    void find_area_contact(saddr);
     void apply_technique_to_area_targets();
     void sub_8022C008();
     void count_if_within_range();

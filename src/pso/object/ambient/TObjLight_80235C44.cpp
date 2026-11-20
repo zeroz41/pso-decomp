@@ -433,7 +433,7 @@ saddr TObjPlayer::collect_body_contacts(int target, void *_w2, void *player) {
     return (saddr)&technique_contact_query_results;
 }
 
-void TUnk_804CC148::find_area_contact(s32 arg1) {
+void TUnk_804CC148::find_area_contact(saddr arg1) {
     find_area_technique_contact(this, this->m_e8, &this->collisionBody, (void *)arg1);
 }
 
@@ -451,7 +451,7 @@ void TObjPlayer::gather_contacts_for_self(s32 arg1) {
     gather_player_contacts((u32)((int)this->motion_list), (saddr)(arg0 + 0xb0), arg1);
 }
 
-u8 *TUnk_804CCC68::query_technique_enemy_contacts(s32 arg) {
+u8 *TUnk_804CCC68::query_technique_enemy_contacts(saddr arg) {
     Vec pos;
     Vec d;
     f32 range;
@@ -507,7 +507,7 @@ u8 *TUnk_804CCC68::query_technique_enemy_contacts(s32 arg) {
     return (u8 *)&technique_contact_query_results;
 }
 
-u8 *TUnk_804CCC68::query_technique_player_contacts(s32 arg) {
+u8 *TUnk_804CCC68::query_technique_player_contacts(saddr arg) {
     Vec pos;
     Vec d;
     f32 range;

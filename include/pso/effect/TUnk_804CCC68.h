@@ -22,8 +22,8 @@ public:
     void advance_lifetime_or_destroy();
     void dispatch_all_technique_contacts();
     void dispatch_technique_contact();
-    u8 *query_technique_player_contacts(s32);
-    u8 *query_technique_enemy_contacts(s32);
+    u8 *query_technique_player_contacts(saddr);
+    u8 *query_technique_enemy_contacts(saddr);
     f32 range;
     f32 traveled;
     f32 previous[3];
