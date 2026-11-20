@@ -17,6 +17,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/player/TObjPlayer.h"
 
 struct RecoveredGlobal_80194528_TObjLight__data_80506320 {
     s32 value;
@@ -65,7 +66,6 @@ extern s32 tl_05;
 s32 __ct__8TObjBaseFP7TObject(void *);
 extern s32 __vt__9TObjLight[];
 extern RecoveredGlobal_80194528_TObjLight__data_80506320 TObjLight__scene_light_state;
-Actor_80193FE8 *get_player_data__10TObjPlayerFi(s32);
 u16 get_entity_id(void *);
 f32 xyz_distance_squared(void *, void *);
 void register_actor_light(s32, void *);
@@ -140,7 +140,7 @@ void TObjLight::run_task() {
     if (0.0f != self->radius) {
         s32 i;
         for (i = TLobby::get_game_mode(); i < TLobby::get_game_mode() + TObjEneDD::get_enemy_count(); i++) {
-            Actor_80193FE8 *a = get_player_data__10TObjPlayerFi(i);
+            Actor_80193FE8 *a = (Actor_80193FE8 *)TObjPlayer::get_player_data(i);
             if (a != NULL && self->room == a->room) {
                 f32 d = horizontal_distance_squared(&a->pos, &self->pos);
                 f32 r2 = self->radius * self->radius;

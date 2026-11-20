@@ -272,7 +272,6 @@ s32 rotate_vector_by_matrix(int, void *, void *);
 extern u8 identity_matrix[];
 u16 find_nearest_visible_player(void *, int, f32);
 s32 check_path_obstructed(void *, void *);
-u8 *get_player_data__10TObjPlayerFi(s32);
 s32 get_entity_id(void *);
 s32 get_current_floor();
 u8 *get_enemy_entity(u16);
@@ -723,7 +722,7 @@ void TObjGrass::vfunc_28() {
             Vec v = lbl_8043B790;
             best = *(f32 *)((s8 *)(*(f32 * *)&this->movementParameters) + 0) * *(f32 *)((s8 *)(*(f32 * *)&this->movementParameters) + 0);
             for (; i < registered_player_count + lbl_805D5870; i++) {
-                p = get_player_data__10TObjPlayerFi(i);
+                p = (u8 *)TObjPlayer::get_player_data(i);
                 if (p == NULL) {
                     break;
                 }

@@ -5,6 +5,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/camera/TCameraCtrl.h"
 
 struct Entry_800E2FFC { s32 id; u8 data[0xC]; };
 
@@ -25,7 +26,6 @@ struct Arg_800E3074 { Entry_800E3074 *list; Param_800E3074 *params; };
 extern "C" {
 u8 * fn_800E31C4(void *, void *, s32);
 State_800E2FFC TObjFish_draw_callback_state;
-void transform_to_view__11TCameraCtrlFii(s32 arg0, s32 arg1);
 
 void TObjFish::draw_callback_transform_to_view() {
     Entry_800E2FFC *p = TObjFish_draw_callback_state.list;
@@ -33,7 +33,7 @@ void TObjFish::draw_callback_transform_to_view() {
     s32 id;
     while ((id = p->id) != -1) {
         if (id == TObjFish_draw_callback_state.counter) {
-            transform_to_view__11TCameraCtrlFii((s32)p->data, (s32)q);
+            TCameraCtrl::transform_to_view((s32)p->data, (s32)q);
         }
         p++;
         q++;
