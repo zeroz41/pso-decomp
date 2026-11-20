@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-s32 create_message_information_window(saddr arg0, saddr arg1, saddr arg2);
+saddr create_message_information_window(saddr arg0, saddr arg1, saddr arg2);
 
 #endif
