@@ -1155,7 +1155,7 @@ void fn_800F93B4(char *filename, GslArchiveEntry *entries, s32 count) {
 TUnk_8049C658::~TUnk_8049C658() {}
 
 extern "C" {
-s32 TItemDrop__sub_800F9448(saddr data, s32 size) {
+saddr TItemDrop__sub_800F9448(saddr data, s32 size) {
     TUnk_8049C658 file;
 
     if (size > 0) {
@@ -1166,7 +1166,7 @@ s32 TItemDrop__sub_800F9448(saddr data, s32 size) {
     return 0;
 }
 
-s32 load_relocatable_file(s32 name, s32 buffer) {
+saddr load_relocatable_file(s32 name, s32 buffer) {
     TUnk_8049C658 file;
     s32 size = read_disc_file((const char *)name, (void *)buffer);
 
@@ -1251,7 +1251,7 @@ s32 TLobby::alloc_download_quest(s32 size, s32 *out_size) {
 }
 
 extern "C" {
-s32 load_encrypted_text_archive(char *name, s32 *out_size) {
+saddr load_encrypted_text_archive(char *name, s32 *out_size) {
     s32 size;
     s32 h;
     u8 *buf;
@@ -1289,7 +1289,7 @@ s32 load_encrypted_text_archive(char *name, s32 *out_size) {
     return ret;
 }
 
-s32 load_text_resource_pair(saddr name) {
+saddr load_text_resource_pair(saddr name) {
     s32 size;
     char path[0x40];
     saddr data;
@@ -1334,7 +1334,7 @@ void *TLobby__sub_800F9A60(const char *name, u8 *data, s32 size) {
 }
 }
 
-s32 create_named_object(s32 name) {
+saddr create_named_object(s32 name) {
     s32 size = get_resource_file_size((const char *)name);
     TUnk_8049C658 *file;
 

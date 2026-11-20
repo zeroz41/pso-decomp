@@ -30,7 +30,7 @@ void dispatch_wave_event_action(u8 opcode);
 extern "C" {
 void free_team_buffers__6TLobbyFv(void);
 }
-s32 get_floor_scene_table(s32 arg0);
+saddr get_floor_scene_table(s32 arg0);
 extern "C" {
 int link_matching_objects__6TLobbyFPv(void *p);
 }

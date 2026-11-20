@@ -1108,7 +1108,7 @@ int end_conversation_camera(void*);
 int begin_conversation_camera(void*);
 u32 get_layout_id__20TWindowSubStatusDispFv(s32);
 s32 get_unit_list__6TLobbyFv();
-s32 TLobby__sub_80070ACC();
+saddr TLobby__sub_80070ACC();
 s32 TLobby__sub_80070B34(int);
 s32 TLobby__sub_80070BE8(s32);
 s32 TLobby__sub_80070C50();
@@ -1261,7 +1261,7 @@ s32 __ct__15TWindowHelpItemFPvUs(s32, s32, s32);
 void align_menu_entry_positions(s32 win);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 s32 check_room_seq_4__16TAdChrSelASlotGCFl(s32 a, s32 b);
-u32 update_window_mode_from_progress__6TLobbyFPv(s32, Pair_801F1838 *);
+uaddr update_window_mode_from_progress__6TLobbyFPv(s32, Pair_801F1838 *);
 }
 void reset_cameras_to_actor(void *actor, s32 arg1);
 void init_6x40_walk_packet(void *a0);
@@ -1279,13 +1279,13 @@ void init_switch_table(void);
 void create_quest_telepipe_for_client(u16 arg0);
 void close_window_if_active(void *p);
 int dispatch_message_window_text(void *w, int text, int flags);
-s32 create_quest_message_window_at(s32 arg0, saddr arg1);
+saddr create_quest_message_window_at(s32 arg0, saddr arg1);
 extern "C" {
 u32 create_quest_message_window();
 s32 get_window_layout_position(s32);
 void fn_80278518(void *arg0, s32 arg1);
 s32 save_and_close__20TShopArmorListWindowFv();
-s32 create_equip_kind_window(s32, const f32 *, s32);
+saddr create_equip_kind_window(s32, const f32 *, s32);
 s32 update_screen__6TLobbyFv();
 s32 set_challenge_split_flag__6TLobbyFv();
 s32 TLobby__sub_80291DF8(int);
@@ -2140,7 +2140,7 @@ void qst_op_compute_bezier_curve_point() {
     s32 ret;
     s32 j;
     Vec *dst;
-    pts = (u8 *)((u32 (*)(void *, int))qst_label_address)((void *)(u16)g->id, (saddr)g);
+    pts = (u8 *)((uaddr (*)(void *, int))qst_label_address)((void *)(u16)g->id, (saddr)g);
     if (pts == NULL) {
         return;
     }
@@ -2172,7 +2172,7 @@ void qst_op_get_vector_from_path() {
     s32 ret;
     s32 j;
     Vec *dst;
-    pts = (u8 *)((u32 (*)(void *, int))qst_label_address)((void *)(u16)g->id, (saddr)g);
+    pts = (u8 *)((uaddr (*)(void *, int))qst_label_address)((void *)(u16)g->id, (saddr)g);
     if (pts == NULL) {
         return;
     }
@@ -2472,7 +2472,7 @@ void qst_op_check_for_hacking(u8 out) {
     if (TLobby::get_drop_flag() == 1) {
         qst_registers[out] |= 8;
     }
-    player = ((u8 *)((u32 (*)(int))get_player_by_client_id)(local_client_id));
+    player = ((u8 *)((uaddr (*)(int))get_player_by_client_id)(local_client_id));
     if (player != NULL && TObjPlayer__sub_801BFFA0(player + 0x41C) != 0) {
         qst_registers[out] |= 0x10;
     }
@@ -2575,7 +2575,7 @@ void qst_op_ba_death_tech_level_up(void) {
 }
 
 void qst_op_set_shrink_size(s32 player_variable, saddr size_variable) {
-    TObjPlayer* player = ((TObjPlayer*)((s32 (*)(int, void *))get_player_by_client_id)((int)(qst_registers[(u8)player_variable]), (void *)size_variable));
+    TObjPlayer* player = ((TObjPlayer*)((saddr (*)(int, void *))get_player_by_client_id)((int)(qst_registers[(u8)player_variable]), (void *)size_variable));
     if (player && !player->obj_isState2_324()) {
         s32 whole = qst_registers[(u8)size_variable++];
         s32 numerator = qst_registers[(u8)size_variable++];
@@ -3021,7 +3021,7 @@ void qst_op_ba_get_place(u8 a0, u8 a1) {
 void qst_op_set_eventflag32() {
     u32 i = (u32)qst_args[0];
     s32 v = qst_args[1];
-    Ctx_801EB508 *w = ((Ctx_801EB508 *)((s32 (*)(void))get_global_state__23TAdSinglePlyChrSelectGCFv)());
+    Ctx_801EB508 *w = ((Ctx_801EB508 *)((saddr (*)(void))get_global_state__23TAdSinglePlyChrSelectGCFv)());
     if (w != NULL && i < 0xFD) {
         ((TLobby *)(&w->buf[i]))->move_data(&v, 4);
     }
@@ -3055,7 +3055,7 @@ void qst_op_animation_check(s32 arg0, s32 arg1) {
 void qst_op_set_eventflag16() {
     u32 i = (u32)qst_args[0];
     s16 v = qst_args[1];
-    Ctx_801EB658 *w = ((Ctx_801EB658 *)((s32 (*)(void))get_global_state__23TAdSinglePlyChrSelectGCFv)());
+    Ctx_801EB658 *w = ((Ctx_801EB658 *)((saddr (*)(void))get_global_state__23TAdSinglePlyChrSelectGCFv)());
     if (w != NULL && i < 0xFF) {
         ((TLobby *)(&w->buf[i]))->move_data(&v, 2);
     }
@@ -3063,7 +3063,7 @@ void qst_op_set_eventflag16() {
 
 void qst_op_get_pl_job(s32 arg0) {
     u8 *player;
-    player = (u8 *)(((u8 *)((u32 (*)(int, int))get_player_by_client_id)((int)qst_registers[(u8)arg0], (saddr)qst_registers)));
+    player = (u8 *)(((u8 *)((uaddr (*)(int, int))get_player_by_client_id)((int)qst_registers[(u8)arg0], (saddr)qst_registers)));
     if (player != NULL) {
         strncpy((char *)&quest_player_class_name_buffer.value, (const char *)(TLobby::get_class_type_name((int) (((TObjPlayer *)player)->class_flags))), 0xF);
         *(s8 *)((s8 *)(&quest_player_class_name_buffer.value) + 0xF) = 0;
@@ -3075,7 +3075,7 @@ void qst_op_get_pl_job(s32 arg0) {
 
 void qst_op_get_pl_name(s32 arg0) {
     u8 *player;
-    player = (u8 *)(((u8 *)((u32 (*)(int, int))get_player_by_client_id)((int)qst_registers[(u8)arg0], (saddr)qst_registers)));
+    player = (u8 *)(((u8 *)((uaddr (*)(int, int))get_player_by_client_id)((int)qst_registers[(u8)arg0], (saddr)qst_registers)));
     if (player != NULL) {
         strncpy((char *)&quest_player_name_buffer.value, (const char *)((TObjPlayer *)player)->get_name(), 0xF);
         *(s8 *)((s8 *)(&quest_player_name_buffer.value) + 0xF) = 0;
@@ -3094,7 +3094,7 @@ void qst_op_get_eventflag(s32 arg0, s32 arg1) {
     u8 *flags;
     s32 *regs;
     s32 index;
-    flags = (u8 *)((s32 (*)(void))get_global_state__23TAdSinglePlyChrSelectGCFv)();
+    flags = (u8 *)((saddr (*)(void))get_global_state__23TAdSinglePlyChrSelectGCFv)();
     if (flags != NULL) {
         regs = qst_registers;
         index = regs[(u8)arg0];
@@ -3173,7 +3173,7 @@ void qst_op_get_chara_class(s32 arg0, s32 arg1) {
 void qst_op_get_gender(s32 arg0, s32 arg1) {
     s32 temp_r3_2;
     u8 *player;
-    player = ((u8 *)((u32 (*)(int, int))get_player_by_client_id)((int)(qst_registers[(u8)arg0]), (int)(arg1)));
+    player = ((u8 *)((uaddr (*)(int, int))get_player_by_client_id)((int)(qst_registers[(u8)arg0]), (int)(arg1)));
     if (player != NULL) {
         temp_r3_2 = ((TObjPlayer *)player)->class_flags;
         if (temp_r3_2 & CLASS_FLAG_MALE) {
@@ -3332,12 +3332,12 @@ void qst_op_get_player_proximity(u8 arg0, u8 arg1) {
     idx = qst_registers[arg0++];
     range = qst_registers[arg0];
     qst_registers[arg1] = 0;
-    self = (u8 *)((s32 (*)(int))get_player_by_client_id)(idx);
+    self = (u8 *)((saddr (*)(int))get_player_by_client_id)(idx);
     if (self != NULL) {
         field = ((TObjPlayer *)self)->get_floor();
         for (i = 0; i < 12; i++) {
             if (i != idx) {
-                other = (u8 *)((s32 (*)(int))get_player_by_client_id)(i);
+                other = (u8 *)((saddr (*)(int))get_player_by_client_id)(i);
                 if (other != NULL && field == ((TObjPlayer *)other)->get_floor() &&
                     xyz_distance_squared(self + 0x38, other + 0x38) < range * range) {
                     qst_registers[arg1]++;
@@ -3668,7 +3668,7 @@ void qst_op_set_shrink_cam2(u8 arg0) {
     Vec pos;
     u8 *player;
     Vec *cur;
-    player = (u8 *)((s32 (*)(int))get_player_by_client_id)(qst_registers[arg0++]);
+    player = (u8 *)((saddr (*)(int))get_player_by_client_id)(qst_registers[arg0++]);
     if (player != NULL) {
         cur = TObjPlayer__sub_801C6FDC(player + 0x5D4);
         if (cur != NULL) {
@@ -3684,7 +3684,7 @@ void qst_op_set_shrink_cam1(u8 arg0) {
     Vec pos;
     u8 *player;
     Vec *cur;
-    player = (u8 *)((s32 (*)(int))get_player_by_client_id)(qst_registers[arg0++]);
+    player = (u8 *)((saddr (*)(int))get_player_by_client_id)(qst_registers[arg0++]);
     if (player != NULL) {
         cur = ((Vec *)TObjPlayer__sub_801C6FDC(player + 0x5C8));
         if (cur != NULL) {
@@ -3764,7 +3764,7 @@ void qst_op_set_switch_flag_sync() {
 
 void qst_op_reset_kills(s32 arg0) {
     u8 *lobby;
-    lobby = (u8 *)(((u8 *)((u32 (*)(int, int))get_player_by_client_id)((int)(qst_registers[(u8)arg0]), (int)(((saddr)qst_registers)))));
+    lobby = (u8 *)(((u8 *)((uaddr (*)(int, int))get_player_by_client_id)((int)(qst_registers[(u8)arg0]), (int)(((saddr)qst_registers)))));
     if (lobby != NULL) {
         ((TLobby *)lobby)->set_floor(0);
     }
@@ -4797,7 +4797,7 @@ void qst_op_p_setpos(void) {
     pos.y = qst_registers[i++];
     pos.z = qst_registers[i++];
     send_6x24_teleport_player(player, &pos, 182.04445f * qst_registers[i]);
-    obj = (void *)((s32 (*)(s32))get_player_by_client_id)(player);
+    obj = (void *)((saddr (*)(s32))get_player_by_client_id)(player);
     if (obj != NULL && player == local_client_id) {
         reset_cameras_to_actor(obj, 0);
     }
@@ -4816,7 +4816,7 @@ void qst_op_p_dead(void) {
     s32 temp_r31;
     u8 *lobby;
     temp_r31 = qst_args[0];
-    lobby = (u8 *)(((u8 *)((s32 (*)(s32))get_player_by_client_id)(qst_args[1])));
+    lobby = (u8 *)(((u8 *)((saddr (*)(s32))get_player_by_client_id)(qst_args[1])));
     if ((lobby != NULL) && (is_script_controlled__10TObjPlayerFv() == 0)) {
         if (((TObjChara *)lobby)->obj_isState3_324() != 0) {
             if (*(s32 *)((s8 *)lobby + 0x30) & 0x800) {
@@ -5007,7 +5007,7 @@ void qst_op_pl_walk(u8 arg0) {
     i++;
     z = qst_registers[i++];
     player = qst_registers[i];
-    obj = (Obj_801F09EC *)((s32 (*)(s32))get_player_by_client_id)(player);
+    obj = (Obj_801F09EC *)((saddr (*)(s32))get_player_by_client_id)(player);
     if (obj != NULL) {
         init_6x40_walk_packet(&cmd);
         cmd.player = player;

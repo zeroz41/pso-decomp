@@ -270,7 +270,7 @@ __declspec(section ".data") const char *lbl_804C9268[2] = { floor_map_name_aboss
 }
 FloorSceneEntry floor_scene_table[36] = { { lbl_804C90E0, 1 }, { lbl_804C90E8, 1 }, { lbl_804C90F0, 1 }, { lbl_804C90F8, 6 }, { lbl_804C9128, 5 }, { lbl_804C9150, 6 }, { lbl_804C9180, 6 }, { lbl_804C91B0, 6 }, { lbl_804C91E0, 5 }, { lbl_804C9208, 5 }, { lbl_804C9230, 5 }, { lbl_804C9258, 1 }, { lbl_804C9260, 1 }, { lbl_804C9268, 1 }, { lbl_804C8DF0, 1 }, { lbl_804C8DF8, 15 }, { lbl_804C8E70, 3 }, { lbl_804C8E88, 3 }, { lbl_804C8EA0, 1 }, { lbl_804C8ED8, 3 }, { lbl_804C8EF0, 3 }, { lbl_804C8EA8, 3 }, { lbl_804C8EC0, 3 }, { lbl_804C8F08, 1 }, { lbl_804C8F10, 1 }, { lbl_804C8F18, 1 }, { lbl_804C8F20, 3 }, { lbl_804C8F38, 1 }, { lbl_804C8F70, 3 }, { lbl_804C8F88, 3 }, { lbl_804C8FA0, 1 }, { lbl_804C8FA8, 1 }, { lbl_804C8FB0, 1 }, { lbl_804C8FB8, 1 }, { lbl_804C8F40, 1 }, { lbl_804C8F48, 5 } };
 s32 forest_rel_filename_table[6] = { (saddr)"SetDataTableOff.rel", (saddr)"SetDataTableOffUlti.rel", (saddr)"SetDataTableOn.rel", (saddr)"SetDataTableOnUlti.rel", (saddr)"SetDataTable_TGS2001.rel", 0 };
-s32 get_floor_scene_table(s32 arg0);
+saddr get_floor_scene_table(s32 arg0);
 extern "C" {
 void reset_story_select__6TLobbyFv(void);
 void TLobby__sub_80207E44(void);
@@ -298,7 +298,7 @@ void TLobby__sub_80207E44(void) {  }
 void TLobby__sub_80207E48(void) { randomize_adventure_maps(); }
 }
 int TLobby::lookup_scene_object(void* p) { return ((int (*)(void*))get_floor_map_selection)(p); }
-s32 get_floor_scene_table(s32 arg0) {
+saddr get_floor_scene_table(s32 arg0) {
     if (arg0 > 0x23) {
         return 0;
     }
@@ -458,7 +458,7 @@ s32 TLobby::get_drop_item_mode() {
     }
 }
 
-s32 load_relocatable_file(s32 arg0, s32 arg1);
+saddr load_relocatable_file(s32 arg0, s32 arg1);
 
 s32 TLobby__data_805D6068;
 // inferred: first word of the loaded SetDataTable*.rel module (update_drop_item/load_item_data)

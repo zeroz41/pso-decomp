@@ -78,7 +78,7 @@ extern Voice_Stream *synthVoice;
 void hwEnableIrq(void);
 void hwDisableIrq(void);
 void hwSetVolume(u32 v, u8 table, f32 vol, u32 pan, u32 span, f32 auxa, f32 auxb);
-u32 hwGetStreamPlayBuffer(u8 i);
+uaddr hwGetStreamPlayBuffer(u8 i);
 void DCInvalidateRange(void *addr, u32 nBytes);
 void hwInitSamplePlayback(u32 v, u16 smpID, void *newsmp, u32 set_defadsr, u32 prio, u32 callbackUserValue, u32 setSRC, u8 itdMode);
 void hwSetPitch(s32 i, u16 v);

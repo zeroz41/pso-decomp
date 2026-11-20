@@ -310,7 +310,7 @@ struct Res_8020681C { s32 table; s32 index; s32 pad; };
 struct Res_80207038 { s32 table; s32 index; s32 pad; };
 extern "C" {
 
-s32 get_player_name_copy_buffer();
+saddr get_player_name_copy_buffer();
 
 
 s32 release_texture_list(u32);

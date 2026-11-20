@@ -309,7 +309,7 @@ void TLobby__sub_803DDD20(s32 arg0) {
     lbl_805D77A0 = arg0;
 }
 
-s32 TLobby__sub_803DDD2C(s32 arg0) {
+saddr TLobby__sub_803DDD2C(s32 arg0) {
     s32 temp_r4;
     temp_r4 = lbl_805D77A0;
     lbl_805D77A0 = temp_r4 + arg0;

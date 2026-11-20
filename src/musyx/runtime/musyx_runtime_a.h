@@ -550,7 +550,7 @@ s32 *sndBSearch(Req_803AE60C *, void *, u16, s32, s32 (*)(u8 *, u8 *));
 extern Req_803AE60C lbl_805D73F8;
 extern u8 lbl_8055A470[];
 extern s32 *lbl_805D7400;
-s32 dataGetCurve(s16 arg0);
+saddr dataGetCurve(s16 arg0);
 s32 curvecmp(u8 *arg0, u8 *arg1);
 s32 *sndBSearch(Req_803AE60C *, void *, u16, s32, s32 (*)(u8 *, u8 *));
 extern Req_803AE60C lbl_805D7404;
@@ -1271,7 +1271,7 @@ typedef struct ADSR_803AF3DC {
         struct { u16 atime; u16 dtime; u16 slevel; u16 rtime; } linear;
     } data;
 } ADSR_803AF3DC;
-s32 dataGetCurve(s16 arg0);
+saddr dataGetCurve(s16 arg0);
 void hwSetADSR(u8, void *, s32);
 extern f32 dspDLSVolTab[];
 
@@ -1398,7 +1398,7 @@ typedef struct Voice_803AF954 {
 } Voice_803AF954;
 #pragma pack(pop)
 
-s32 dataGetCurve(s16 arg0);
+saddr dataGetCurve(s16 arg0);
 
 #pragma pack(push, 4)
 typedef struct MSTEP_803AF9D4 { u32 para[2]; } MSTEP_803AF9D4;
@@ -1523,7 +1523,7 @@ typedef struct Voice_803AF9D4 {
 } Voice_803AF9D4;
 #pragma pack(pop)
 
-s32 dataGetCurve(s16 arg0);
+saddr dataGetCurve(s16 arg0);
 void sndConvertMs(void *);
 void sndConvertTicks(void *, void *);
 u32 sndConvert2Ms(u32 arg0);
@@ -2005,7 +2005,7 @@ struct Voice_803B2128 {
 extern "C" {
 void voiceFree(Obj_803B312C *o);
 
-u32 dataGetMacro(u16);
+uaddr dataGetMacro(u16);
 u32 vidMakeNew(SYNTH_VOICE_SV *svoice, u32 isMaster);
 void voiceSetPriority(Voice_803B2128 *, u8);
 u32 voiceAllocate(u8, u8, u16, u8);
@@ -2356,7 +2356,7 @@ s32 maccmp(u8 *arg0, u8 *arg1);
 s32 smpcmp(u16 *arg0, u16 *arg1);
 s32 dataGetSample(s16 id, Sample_803AE4D4 *s);
 s32 curvecmp(u8 *arg0, u8 *arg1);
-s32 dataGetCurve(s16 arg0);
+saddr dataGetCurve(s16 arg0);
 s32 dataGetKeymap(s16 arg0);
 s32 layercmp(u8 *arg0, u8 *arg1);
 s32 dataGetLayer(s16 arg0, u16 *arg1);

@@ -14,7 +14,7 @@ void TLobby__sub_803C19D8(void *);
 void TLobby__sub_803C3570(AdxbDecoder *o);
 void TLobby__sub_803C34F4(AdxbDecoder *arg0);
 s32 DVDReadPrio(void *, void *, void *);
-u32 adx_allocate_decoder_channel();
+uaddr adx_allocate_decoder_channel();
 
 void TLobby__sub_803C34F4(AdxbDecoder *h) {
     s16 s = h->m_A8;

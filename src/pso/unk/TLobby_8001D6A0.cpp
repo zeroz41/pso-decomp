@@ -210,7 +210,7 @@ void TLobby::set_short_mail_text() {
     u8 *temp_r31;
     temp_r31 = (u8 *)(get_character_save_record((0xFFFFU)) + 0x2050);
     TWindowSubComCard::mask_profanity_words((char *)arg0, (char *)get_shared_text_buffer());
-    strncpy((char *)temp_r31, (const char *)((s32 (*)(void))get_shared_text_buffer)(), 0xAB);
+    strncpy((char *)temp_r31, (const char *)((saddr (*)(void))get_shared_text_buffer)(), 0xAB);
     *(s8 *)((s8 *)temp_r31 + 0xAB) = 0;
     auto_reply_flags |= 4;
     if (TLobby::is_active() != 0) {
@@ -419,7 +419,7 @@ void broadcast_to_players__6TLobbyFii(s32 arg0, saddr arg1) {
     if (((s32 (*)(void))is_valid_player_index__6TLobbyFi)() != 0) {
         var_r31 = 0;
         do {
-            TLobby::copy_pair((Obj_8001DF0C *)(((s32 (*)(s32, s32))get_player_entry__6TLobbyFii)(var_r31, arg0)), (Obj_8001DF0C *)(arg1));
+            TLobby::copy_pair((Obj_8001DF0C *)(((saddr (*)(s32, s32))get_player_entry__6TLobbyFii)(var_r31, arg0)), (Obj_8001DF0C *)(arg1));
             var_r31 += 1;
         } while (var_r31 < 4);
     }
@@ -436,7 +436,7 @@ void TLobby__sub_8001DF58(s32 arg0, saddr ent) {
     if (((s32 (*)(void))is_valid_player_index__6TLobbyFi)() != 0) {
         var_r31 = 0;
         do {
-            ((TLobby *)(((s32 (*)(s32, s32))get_entry__6TLobbyFii)(var_r31, arg0)))->copy_entry((void *)ent);
+            ((TLobby *)(((saddr (*)(s32, s32))get_entry__6TLobbyFii)(var_r31, arg0)))->copy_entry((void *)ent);
             var_r31 += 1;
         } while (var_r31 < 4);
     }
@@ -462,7 +462,7 @@ void copy_all_entries__6TLobbyFii(s32 arg0, saddr arg1) {
     if (((s32 (*)(void))is_valid_player_index__6TLobbyFi)() != 0) {
         var_r31 = 0;
         do {
-            ((TLobby *)(((s32 (*)(s32, s32))TLobby__sub_8001E270)(var_r31, arg0)))->copy_from((void *)arg1);
+            ((TLobby *)(((saddr (*)(s32, s32))TLobby__sub_8001E270)(var_r31, arg0)))->copy_from((void *)arg1);
             var_r31 += 1;
         } while (var_r31 < 4);
     }
@@ -493,7 +493,7 @@ void copy_all_data__6TLobbyFii(s32 arg0, saddr arg1) {
     if (((s32 (*)(void))is_valid_player_index__6TLobbyFi)() != 0) {
         var_r31 = 0;
         do {
-            TLobby::copy_data((void *)(((s32 (*)(s32, s32))TLobby__sub_8001E2A8)(var_r31, arg0)), (void *)arg1);
+            TLobby::copy_data((void *)(((saddr (*)(s32, s32))TLobby__sub_8001E2A8)(var_r31, arg0)), (void *)arg1);
             var_r31 += 1;
         } while (var_r31 < 4);
     }

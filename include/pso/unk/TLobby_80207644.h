@@ -13,7 +13,7 @@ s32 get_floor_map_terrain(s32 arg0);
 }
 void init_floor_map_registry(void);
 // The area id of the map on a floor (as get_current_floor_area), -1 when it has none.
-s32 get_floor_area(s32 floor);
+saddr get_floor_area(s32 floor);
 extern "C" {
 void randomize_adventure_maps(void);
 }

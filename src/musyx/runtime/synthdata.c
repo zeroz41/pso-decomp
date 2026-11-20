@@ -658,7 +658,7 @@ extern s32 *lbl_805D73EC;
 #pragma dont_inline off
 #pragma inline_depth(4)
 
-u32 dataGetMacro(u16 mid) {
+uaddr dataGetMacro(u16 mid) {
     lbl_805D73E0 = (mid >> 6) & 0x3fff;
 
     if (dataMacMainTab[lbl_805D73E0].num != 0) {
@@ -720,7 +720,7 @@ s32 curvecmp(u8 *arg0, u8 *arg1) {
     return *(u16 *)((s8 *)arg0 + 4) - *(u16 *)((s8 *)arg1 + 4);
 }
 
-s32 dataGetCurve(s16 arg0) {
+saddr dataGetCurve(s16 arg0) {
     lbl_805D73F8.f4 = arg0;
     if ((lbl_805D7400 = sndBSearch(&lbl_805D73F8, dataCurveTab, dataCurveNum, 8, curvecmp)) != NULL) {
         return *lbl_805D7400;

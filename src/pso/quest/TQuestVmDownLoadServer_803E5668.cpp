@@ -34,7 +34,7 @@ void process_entry_text_range(s32 pos, s32 end);
 extern s32 quest_text_end;
 void TQuestVmDownLoadServer__sub_803EBC88(s32 mode);
 void TQuestVmDownLoadServer__sub_803EC284(s32 pos, s32 mode);
-s32 get_entry_text(void *, void *);
+saddr get_entry_text(void *, void *);
 extern Ent_803E5670 quest_download_slot_chain_table[];
 extern saddr quest_text_entry_len;
 extern saddr quest_text_cursor_pos;

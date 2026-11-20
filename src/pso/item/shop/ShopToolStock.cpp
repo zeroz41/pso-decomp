@@ -442,7 +442,7 @@ void TLobby::free_all_rocks() {
         lobby_tool_random_rel = var_r30;
     }
 }
-s32 create_named_object(s32 arg0);
+saddr create_named_object(s32 arg0);
 void load_tool_random_rel(void) {
     s32 i;
     (*(s32 *)&lobby_tool_random_rel) = create_named_object((saddr)"ToolRandom.rel");

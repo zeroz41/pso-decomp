@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-s32 create_quest_message_window_at(s32 arg0, saddr arg1);
+saddr create_quest_message_window_at(s32 arg0, saddr arg1);
 int dispatch_message_window_text(void *w, int text, int flags);
 
 #endif

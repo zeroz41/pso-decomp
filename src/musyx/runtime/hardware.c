@@ -367,7 +367,7 @@ void hwExitStream(u8 i) {
     aramFreeStreamBuffer(i);
 }
 
-u32 hwGetStreamPlayBuffer(u8 i) {
+uaddr hwGetStreamPlayBuffer(u8 i) {
     return aramGetStreamBufferAddress(i, (u32 *)(0));
 }
 

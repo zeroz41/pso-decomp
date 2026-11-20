@@ -1096,7 +1096,7 @@ void TLobby__sub_8024259C(s32 arg0) {
 #pragma pop
 extern int com_card_entry_count;
 u32 find_card_by_id__17TWindowSubComCardFUl();
-s32 get_com_card_list__6TLobbyFv();
+saddr get_com_card_list__6TLobbyFv();
 
 extern s32 lbl_805D63D8;
 

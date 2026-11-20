@@ -839,14 +839,14 @@ s32 is_rare_item__9TItemDataFPv(u8 *item);
 }
 int get_item_chunk_buffer(int a0);
 extern "C" {
-s32 get_item_description_text(s32);
+saddr get_item_description_text(s32);
 }
 extern const char *lbl_805D2B10;
 s32 format_item_description(u8 *item);
 extern "C" {
 s32 TObjPlayer__sub_80117E50(u16);
 s32 get_technique_name(s32 arg0);
-s32 get_text_collection(s32 arg0);
+saddr get_text_collection(s32 arg0);
 void TItemData__clear_unidentified_flag(void *arg0);
 s32 get_unit_attribute_index__10TObjPlayerFUc(u8);
 

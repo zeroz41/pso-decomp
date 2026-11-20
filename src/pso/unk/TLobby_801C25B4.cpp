@@ -415,7 +415,7 @@ s32 check_flag_100__10TObjPlayerFPv(void *);
 s32 record_local_battle_placement(void *);
 
 s32 has_player_active_menu__11TWindowCtrlFv(s32);
-u32 TWindowDuelResult__ct(void *, s32);
+uaddr TWindowDuelResult__ct(void *, s32);
 s32 align_menu_entry_positions(void *);
 s32 forward_trade_action_default__16TObjCityMainWarpFPviii(void *, s32, int, int);
 void *check_room_seq_4__16TAdChrSelASlotGCFl(void *, int);
@@ -611,7 +611,7 @@ void TLobby::update_battle_intro() {
             names[i].s[0] = 0;
         }
         for (i = 0; i < 4; i++) {
-            u8 *pl = (u8 *)((u32 (*)(s32))get_player_by_client_id)(i);
+            u8 *pl = (u8 *)((uaddr (*)(s32))get_player_by_client_id)(i);
             if (pl != NULL) {
                 s32 team = battle_intro_value_table[i] != 1 ? 1 : 0;
                 if (cnt.v[team] < 2) {
@@ -866,7 +866,7 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
         if (TLobby::check_team_balance((Lobby_801C484C *)((Lobby_801C484C *)arg0), 0) != 0) {
             TLobby::send_battle_mode_params(5, 1, 0);
         } else {
-            p = (void *)((u32 (*)(s32))get_player_by_client_id)(local_client_id);
+            p = (void *)((uaddr (*)(s32))get_player_by_client_id)(local_client_id);
             if (p != NULL && check_flag_100__10TObjPlayerFPv(p) == 0 && (G28 & 6)) {
                 *(s32 *)((s8 *)arg0 + 0x20) = 6;
             }

@@ -854,7 +854,7 @@ u32 TQuestListVM::get_quest_size() { return decompression_capacity; }
 
 int TQuestListOnline::get_quest_size() { return quest_bin_decompressed_size; }
 
-int TQuestListOnline::get_quest_data() { return online_quest_bin_data; }
+saddr TQuestListOnline::get_quest_data() { return online_quest_bin_data; }
 
 char *get_offline_quest_filename() { return offline_quest_filename_buffer_a; }
 

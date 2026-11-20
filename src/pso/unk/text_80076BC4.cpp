@@ -37,7 +37,7 @@ void submit_chat_text(u8 *lobby) {
 void chat_dispatch_accepted_result(s32 *arg0);
 extern "C" {
 s32 is_submit_cooldown_clear__11TWindowCtrlFv();
-int get_chat_shortcut(s32 arg0);
+saddr get_chat_shortcut(s32 arg0);
 void send_chat_shortcut(void);
 void TAdSinglePlyChrSelectGC__sub_80076DF4(void* p, void* q);
 }
@@ -100,7 +100,7 @@ bool is_chat_shortcut_set(s32 arg0) {
     return *((s32 *)get_chat_shortcut(arg0)) != 0;
 }
 typedef struct { u8 b[0x54]; } Rec_80076E2C;
-int get_chat_shortcut(s32 arg0) {
+saddr get_chat_shortcut(s32 arg0) {
     u8 *p = (u8 *)((Rec_80076E2C *)get_character_save_record(0xFFFF) + arg0);
     return (saddr)(p + 0x19C0);
 }

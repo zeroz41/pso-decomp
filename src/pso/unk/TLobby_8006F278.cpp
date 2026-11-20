@@ -75,7 +75,7 @@ struct Table_8006F38C {
 
 extern "C" {
 s32 get_layout_id__20TWindowSubStatusDispFv(int);
-s32 TWindowSubStatusDisp__sub_8006F0D8(void *, int);
+saddr TWindowSubStatusDisp__sub_8006F0D8(void *, int);
 s32 is_id_out_of_range__6TLobbyFi(s32 arg0);
 s32 mix_seed_checked__6TLobbyFi(s32);
 u32 get_character_save_record(int);

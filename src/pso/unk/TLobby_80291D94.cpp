@@ -229,7 +229,7 @@ void TLobby__sub_80292200(s32 arg0);
 }
 void set_challenge_time_window_timer(int);
 extern "C" {
-s32 TWindowSubStatusDisp__sub_8006F134(s32, s32);
+saddr TWindowSubStatusDisp__sub_8006F134(s32, s32);
 s32 get_character_save_record(s32);
 s32 TLobby__sub_802924B4(s32 arg0, u16 arg1);
 u32 get_player_by_client_id(s32);

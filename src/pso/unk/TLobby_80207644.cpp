@@ -339,7 +339,7 @@ s32 get_boss_warp_destination(void) {
     return a.w[i][p];
 }
 
-s32 get_floor_area(s32 floor) {
+saddr get_floor_area(s32 floor) {
     struct Buf12_80207718_80207644 buf;
 
     if (get_floor_map_selection(floor, (u8 *)&buf) == 1) {

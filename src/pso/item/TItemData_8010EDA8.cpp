@@ -64,10 +64,10 @@ void TItemData::update_player_field() {
     s32 arg0 = (saddr)this;
     ((TObjPlayer *)(arg0 + 0x374))->can_use_more_materials(get_class_index__10TObjPlayerFv());
 }
-s32 get_item_description_text(s32 arg0) {
+saddr get_item_description_text(s32 arg0) {
     return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 4)) + (arg0 * 4));
 }
-s32 get_text_collection(s32 arg0) {
+saddr get_text_collection(s32 arg0) {
     return *(s32 *)((s8 *)(*(*(s32 * *)&text_language_group_table)) + (arg0 * 4));
 }
 
