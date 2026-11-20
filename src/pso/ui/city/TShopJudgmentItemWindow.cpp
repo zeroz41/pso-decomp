@@ -194,7 +194,6 @@ s32 get_window_layout_position(s32);
 void send_6x25_equip_item(void *arg0, s32 arg1, s32 arg2);
 void TItemData__clear_unidentified_flag(void *arg0);
 u32 advance_item_id_counter(u16 client);
-u32 __nw__7TObjectFUl(int);
 u32 __ct__15TWindowHelpItemFPvUs(int, int, u16);
 u32 create__22TWindowLoadItemTextureFPv(int, u16);
 extern s32 local_client_id;
@@ -432,7 +431,7 @@ void TShopJudgmentItemWindow::create_result_windows() {
             ((TWindowSubMag *)(this->m_160))->set_mag_slot_state((saddr)(arg0 + 0x28));
         }
         if ((u32) this->m_15c == 0U) {
-            var_r29 = __nw__7TObjectFUl(0xBC);
+            var_r29 = (uaddr)TObject::operator new(0xBC);
             if (var_r29 != 0U) {
                 var_r29 = __ct__15TWindowHelpItemFPvUs(var_r29, (int) (get_window_layout_position(0x27)), ((s32 (*)(s32))get_entity_id)(this->m_24));
             }

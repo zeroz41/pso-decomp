@@ -81,7 +81,6 @@ s32 get_window_layout_position(int);
 s32 free_member__17TWindowSubComCardFv(int, int);
 void open_yes_no_prompt(TChCrTagPlBack *arg0, u32 arg1, s32 arg2, s32 arg3, f32 farg0);
 s32 create__19TWindowMessageYesNoFPvPvPvPv(void *, int, int, int);
-s32 create__14TWindowMessageFlPCfUll(s32, const f32 *, int, int);
 const char *lbl_805D3EA8 = "TWindowSubTrade"; // TWindowSubTrade__name
 // Player message window position (x, y).
 extern const f32 lbl_80470AA8[2] = {384.0f, 120.0f};
@@ -245,7 +244,7 @@ s32 TWindowSubTrade::open_player_message_window(s32 arg1, s32 arg2) {
         ((s32 (*)(s32))text_builder_append)(p->m10());
     }
     ((s32 (*)(s32))text_builder_append)(arg2);
-    r = create__14TWindowMessageFlPCfUll(get_window_layout_position(0x5B), lbl_80470AA8, 1, this->m_20);
+    r = (saddr)TWindowMessage::create(get_window_layout_position(0x5B), (const f32 *)lbl_80470AA8, 1, this->m_20);
     ((TWindowMessage *)r)->append_line((saddr)get_shared_text_buffer(), 0x82);
     return r;
 }

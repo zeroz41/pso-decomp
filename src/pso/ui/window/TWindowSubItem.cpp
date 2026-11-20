@@ -28,6 +28,7 @@
 #include "pso/ui/city/TShopArmorListWindow.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -117,7 +118,6 @@ struct Pad_80279FFC { u8 pad0[0x20]; u8 f20[0x30]; };
 extern "C" {
 void TWindowSubItem__sub_8027AA30(u8 *arg0);
 s32 TWindowSubItem__sub_8027AA78(s32 arg0);
-s32 get_message_10__20TWindowSubStatusDispFl(s32);
 s32 set_depth__11TWindowBaseFf(s32);
 s32 TWindowSubEquip__sub_80263AF8(s32, s32);
 s32 align_menu_entry_positions(int);
@@ -145,7 +145,6 @@ s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 u32 is_action_active__10TObjPlayerFv(s32);
 void decrement_clamped(void *, s32);
 void play_sound_effect(s32, s32, s32, s32);
-s32 __nw__7TObjectFUl(s32);
 s32 TWindowCtrl__sub_8024A228(s32);
 u32 __ct__15TWindowHelpItemFPvUs(s32, s32, s32);
 extern Pad_80279FFC controller_input_state[];
@@ -314,7 +313,7 @@ void TWindowSubItem::run_task() {
                 F(u32, 0x34) = 0;
             }
             if (F(u32, 0x40) == 0) {
-                w = __nw__7TObjectFUl(0xBC);
+                w = (saddr)TObject::operator new(0xBC);
                 if (w != 0) {
                     w = __ct__15TWindowHelpItemFPvUs(w, get_window_layout_position(2), F(s32, 0x24));
                 }
@@ -558,7 +557,7 @@ void TWindowSubItem::render() {  }
 
 s32 TWindowSubItem::open_purpose_window(s32 arg1) {
     saddr titled_window_menu;
-    titled_window_menu = create_titled_window_menu(((int)get_window_layout_position(4)), 3, get_message_10__20TWindowSubStatusDispFl(0x26), this->m_24);
+    titled_window_menu = create_titled_window_menu(((int)get_window_layout_position(4)), 3, (saddr)TWindowSubStatusDisp::get_message_10(0x26), this->m_24);
     if (arg1 == -0xFF) {
         TWindowSubItem::add_meseta_purpose_actions((saddr)this, titled_window_menu);
     } else if ((s32) (arg1 & 0xFFFFFFF0) == -0x10) {
@@ -576,7 +575,7 @@ s32 TWindowSubItem::open_purpose_window(s32 arg1) {
 
 s32 TWindowSubItem::create_menu_window() {
     saddr titled_window_menu;
-    titled_window_menu = create_titled_window_menu(((int)get_window_layout_position(6)), 2, get_message_10__20TWindowSubStatusDispFl(0x27), this->m_24);
+    titled_window_menu = create_titled_window_menu(((int)get_window_layout_position(6)), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x27), this->m_24);
     forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, (s32)((saddr) (TWindowSubStatusDisp::get_message_10(0x5D))), 6, 0);
     forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, (s32)((saddr) (TWindowSubStatusDisp::get_message_10(0x5E))), 6, 1);
     TWindowSubEquip__sub_80263AF8(this->m_2c, 2);
@@ -590,11 +589,11 @@ s32 TWindowSubItem::create_menu_window() {
 s32 TWindowSubItem::create_count_input(s32 maximum) {
     saddr storage;
 
-    storage = __nw__7TObjectFUl(0x7C);
+    storage = (saddr)TObject::operator new(0x7C);
     if (storage != 0) {
         storage = __ct__18TWindowInputNumberFPvllls(storage, get_window_layout_position(5), 1, maximum, 1, (s16) this->m_24);
     }
-    ((TWindowInputNumber *)storage)->create(get_message_10__20TWindowSubStatusDispFl(0x28));
+    ((TWindowInputNumber *)storage)->create((saddr)TWindowSubStatusDisp::get_message_10(0x28));
     TWindowSubEquip__sub_80263AF8(this->m_2c, 3);
     set_depth__11TWindowBaseFf(storage);
     ((TWindowInputNumber *)storage)->set_value(224.0f);

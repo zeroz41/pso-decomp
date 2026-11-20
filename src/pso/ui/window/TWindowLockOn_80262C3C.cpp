@@ -147,7 +147,6 @@ s32 draw_visible_window_entries(void *, void *, int);
 s32 get_window_layout_position(int);
 s32 obj_testFlag_2E4__9TObjCharaFUl(TObjChara *, int);
 s32 is_split_screen(void);
-s32 get_message_10__20TWindowSubStatusDispFl(int);
 }
 s32 enemy_name_for_rt_index(s32 arg0);
 extern "C" {
@@ -324,7 +323,7 @@ void TWindowLockOn::update_for_enemy(TObjChara *enemy) {
     init_window_layout_entries(&m_24, &lbl_804D00F4, m_20);
     m_70 = &TWindowLockOn::refresh_enemy_statuses;
     e = get_array_entry(1);
-    TWindowDuelResult::set_default_status((void *)e, get_message_10__20TWindowSubStatusDispFl(0xA5));
+    TWindowDuelResult::set_default_status((void *)e, (saddr)TWindowSubStatusDisp::get_message_10(0xA5));
     ((TWindowHelpItem *)e)->reset_float_field();
     width = calc_text_width(((TWindowSubComCard *)e)->get_field_20());
     e = get_array_entry(0);

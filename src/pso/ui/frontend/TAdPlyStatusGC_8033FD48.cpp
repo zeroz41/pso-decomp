@@ -35,7 +35,6 @@ extern "C" {
 s32 push_matrix();
 f32 post_translate_matrix(void *);
 u32 TAdPlyStatusGC__ct(u32, s32, s32);
-u32 __nw__7TObjectFUl(s32);
 
 extern u32 ply_status_gc_instance;
 
@@ -43,7 +42,7 @@ u32 TAdPlyStatusGC::get_instance(s32 arg0, s32 arg1) {
     u32 var_r0;
 
     if ((u32) ply_status_gc_instance == 0U) {
-        var_r0 = __nw__7TObjectFUl(0x70);
+        var_r0 = (uaddr)TObject::operator new(0x70);
         if (var_r0 != 0U) {
             var_r0 = TAdPlyStatusGC__ct(var_r0, arg0, arg1);
         }

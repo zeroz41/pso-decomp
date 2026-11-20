@@ -43,7 +43,6 @@ TAdEnterPasswordGCInputBuffer TAdEnterPasswordGC__input_buffer = { 0 };
 extern u8 *password_entry_keyboard_control;
 s32 create_default_callback__22TAdEnterSerialAccessGCFv(void *);
 void request_main_phase(s32 arg0);
-u32 __nw__7TObjectFUl(int);
 s32 __ct__10TAdTitleGCFP7TObjectl(int, void *, int);
 void mem_free(void *p);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
@@ -219,7 +218,7 @@ TAdEnterPasswordGC::TAdEnterPasswordGC(TObject *parent) : TAdEnterBaseGC(parent)
         return;
     }
     create_parts();
-    temp_r3 = __nw__7TObjectFUl(0x138);
+    temp_r3 = (uaddr)TObject::operator new(0x138);
     if (temp_r3 != 0U) {
         __ct__10TAdTitleGCFP7TObjectl(temp_r3, this, 0xC);
     }

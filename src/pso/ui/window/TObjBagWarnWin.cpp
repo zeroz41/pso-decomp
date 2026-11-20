@@ -36,13 +36,13 @@ const char *TObjBagWarnWin4P__name = "TObjBagWarnWin4P";
 #include "pso/map/FloorArea.h"
 
 #include "pso/unk/TLobby.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 s32 has_window_task_root();
 
 void *__ct__16TObjBagWarnWin4PFv(void *arg0);
 
-u32 create__14TWindowMessageFlPCfUll(s32, void *, s32, s32);
 
 void *get_player_by_client_id(s32 i);
 
@@ -67,10 +67,6 @@ s32 is_level_capped__23TAdSinglePlyChrSelectGCFv();
 extern f32 TObjBagWarnWin4P__message_window_size[2];
 
 extern s32 __vt__16TObjBagWarnWin4P[];
-}
-
-extern "C" {
-s32 __nw__7TObjectFUl(int);
 }
 
 struct Sub_8006EC20 {
@@ -194,7 +190,7 @@ s32 fn_8006EBC4(saddr bag_warn_win4_p) {
     s32 temp_r3;
     s32 var_r0;
     if (TWindowCtrl::is_map_visible() == 0) {
-        temp_r3 = __nw__7TObjectFUl(0xA4);
+        temp_r3 = (saddr)TObject::operator new(0xA4);
         var_r0 = temp_r3;
         if (var_r0 != 0) {
             var_r0 = ((s32 (*)(int, void *))__ct__16TObjBagWarnWin4PFv)((int)temp_r3, (void *)bag_warn_win4_p);
@@ -218,7 +214,7 @@ TObjBagWarnWin4P::~TObjBagWarnWin4P() {}
 void TObjBagWarnWin4P::create_window() {
     u8 *arg0 = (u8 *)this;
     s32 r3 = get_window_layout_position(0x5B);
-    *(u32 *)((s8 *)arg0 + 0x1C) = create__14TWindowMessageFlPCfUll(r3, TObjBagWarnWin4P__message_window_size, 1, 4);
+    *(u32 *)((s8 *)arg0 + 0x1C) = (uaddr)TWindowMessage::create(r3, (const f32 *)TObjBagWarnWin4P__message_window_size, 1, 4);
     if ((u32) *(u32 *)((s8 *)arg0 + 0x1C) != 0U) {
         strncpy((char *)(arg0 + 0x20), (const char *)get_message_text(0x69), 0x7F);
         *(s8 *)((s8 *)arg0 + 0x9F) = 0;

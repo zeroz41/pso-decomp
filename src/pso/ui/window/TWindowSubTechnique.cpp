@@ -23,7 +23,6 @@ extern "C" {
 int get_selection__19TWindowSubTechniqueFPsPll(void*, void* a1);
 void *get_player_by_client_id(s32 i);
 s32 is_palette_entry_displayable__10TObjPlayerFv(u8 *arg0, u8 kind, u8 sub);
-s32 get_message_10__20TWindowSubStatusDispFl(int);
 s32 set_depth__11TWindowBaseFf(int);
 }
 s32 create_titled_window_menu(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
@@ -106,7 +105,7 @@ void TWindowSubTechnique::rebuildTechniqueList(s32 list, s32 category) {
 
 s32 TWindowSubTechnique::create_title_window() {
   saddr titled_window_menu;
-  titled_window_menu = create_titled_window_menu((int) get_window_layout_position(0x13), 5, (0, get_message_10__20TWindowSubStatusDispFl(0x30)), (this->playerIndex));
+  titled_window_menu = create_titled_window_menu((int) get_window_layout_position(0x13), 5, (0, (saddr)TWindowSubStatusDisp::get_message_10(0x30)), (this->playerIndex));
   TWindowSubEquip__sub_80263AF8((u8 *)this->m_30, 1);
   set_depth__11TWindowBaseFf((int) titled_window_menu);
   ((TWindowSubComCardList *)titled_window_menu)->set_flag70_bit100();
@@ -171,7 +170,7 @@ s32 create_titled_window_menu(s32, s32, s32, s32);
 s32 TWindowSubTechnique::open_menu() {
     saddr titled_window_menu;
 
-    titled_window_menu = create_titled_window_menu(get_window_layout_position(0x12), 5, get_message_10__20TWindowSubStatusDispFl(0x2F), this->playerIndex);
+    titled_window_menu = create_titled_window_menu(get_window_layout_position(0x12), 5, (saddr)TWindowSubStatusDisp::get_message_10(0x2F), this->playerIndex);
     TWindowSubEquip__sub_80263AF8((u8 *)this->m_30, 0);
     set_depth__11TWindowBaseFf(titled_window_menu);
     ((TWindowSubComCardList *)titled_window_menu)->set_flag70_bit100();

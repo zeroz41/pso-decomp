@@ -21,6 +21,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/system/task/TObject.h"
 
 
 #pragma readonly_strings on
@@ -91,7 +92,6 @@ struct Ent_80265C30;
 
 Ent_80265C30 * get_array_entry__11TWindowBaseFi(void *w, s32 i);
 s32 play_sound_effect(s32, s32, s32, s32);
-s32 __nw__7TObjectFUl(int);
 s32 get_draw_context__11TWindowBaseFPv();
 void * get_field_20__17TWindowSubComCardFv(void *e);
 void refresh_status_display__9TWindowDDFv(void *);
@@ -437,7 +437,7 @@ void align_menu_entry_positions(Win_80265C30 *self) {
     f32 right = 0.5f * self->x - 4.0f;
     u32 i;
     for (i = 0; i < self->count; i++) {
-        Ent_80265C30 *e = get_array_entry__11TWindowBaseFi(self, i);
+        Ent_80265C30 *e = (Ent_80265C30 *)((TWindowBase *)self)->get_array_entry(i);
         if (get_field_20__17TWindowSubComCardFv(e) != 0) {
             measure_message_text_width(e, left);
             if (e->h > 18.0f) {
@@ -456,7 +456,7 @@ void TWindowSubComCard::calc_layout_height(f32 farg0) {
     Ent_80265C30 *e;
     h = 0.0f;
     for (i = 0; i < *(s16 *)(((u8 *)this) + 0x76); i++) {
-        e = get_array_entry__11TWindowBaseFi(this, i);
+        e = (Ent_80265C30 *)((TWindowBase *)this)->get_array_entry(i);
         if (get_field_20__17TWindowSubComCardFv(e) != 0 && !(e->h <= lbl_8044F330)) {
             measure_message_text_width(e, farg0);
             h += 2.0f + e->h;
@@ -509,7 +509,7 @@ void TWindowSubComCard::calc_window_size() {
     f32 sum = width;
     u32 i;
     for (i = 0; i < ((Win_80265F60 *)this)->count; i++) {
-        Ent_80265F60 *e = (Ent_80265F60 *)get_array_entry__11TWindowBaseFi(this, i);
+        Ent_80265F60 *e = (Ent_80265F60 *)((TWindowBase *)this)->get_array_entry(i);
         if (get_field_20__17TWindowSubComCardFv(e) != 0) {
             if (e->w > width) {
                 width = e->w;
@@ -673,7 +673,7 @@ s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2) {
     s32 temp_r3;
     s32 var_r0;
     ((s32 (*)(void *))fn_80266378)((void *)arg1);
-    temp_r3 = __nw__7TObjectFUl(0x8C);
+    temp_r3 = (saddr)TObject::operator new(0x8C);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = ((s32 (*)(int, void *, void *, void *))TWindowMenu__ct)((int)temp_r3, (void *)arg1, (void *)arg2, (void *)arg0);

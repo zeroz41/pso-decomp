@@ -97,7 +97,6 @@ WindowDescriptor lbl_804D1488 = {
 extern "C" {
 void *get_player_by_client_id(s32);
 s32 can_use_palette_action__10TObjPlayerFPvUcUc(void *, u8, u8);
-u8 *get_array_entry__11TWindowBaseFi(void *, s32);
 void update_palette_item_count_label(u8 *, u8 *, s32, s32, s32);
 void draw_action_palette_icon(u8 *, s32, s32);
 void begin_screen_draw(s32 arg0);
@@ -152,7 +151,7 @@ void TWindowSubCustomEquip::sub_80275F08(void *window_sub_custom_equip) {
     } else {
         idx = ((u8 *)this)[0x61] + (1 - ((u8 *)this)[0x62]) * 3;
     }
-    u8 *e = get_array_entry__11TWindowBaseFi(this, lbl_8044F738[idx]);
+    u8 *e = (u8 *)get_array_entry(lbl_8044F738[idx]);
     ((TWindowSubCustomEquip *)window_sub_custom_equip)->set_relative_pos(e);
 }
 
@@ -169,8 +168,8 @@ void TWindowSubCustomEquip::update_palette_slot(s32 arg1, s32 kind, s32 arg3) {
     u8 *b;
     pl = get_player_by_client_id(this->m_20);
     if (pl != NULL) {
-        a = get_array_entry__11TWindowBaseFi(this, lbl_8044F738[arg1]);
-        b = get_array_entry__11TWindowBaseFi(this, lbl_8044F740[arg1]);
+        a = (u8 *)get_array_entry(lbl_8044F738[arg1]);
+        b = (u8 *)get_array_entry(lbl_8044F740[arg1]);
         if (can_use_palette_action__10TObjPlayerFPvUcUc(pl, kind, arg3) != 0) {
             *(s32 *)(a + 0x2C) = -1;
         } else {

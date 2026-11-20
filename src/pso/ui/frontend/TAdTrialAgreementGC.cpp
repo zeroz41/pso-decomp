@@ -87,7 +87,6 @@ struct VObj_803357EC_8033573C : Base_803357EC_8033573C {
 
 extern "C" {
 
-s32 __nw__7TObjectFUl(int);
 s32 TAdAgreementBaseGC__ct(void *);
 extern s32 __vt__19TAdTrialAgreementGC[];
 const char *TAdTrialAgreementGC__name = "TAdTrialAgreementGC";
@@ -138,7 +137,7 @@ u8 *TAdTrialAgreementGC__ct(u8 *ad_trial_agreement_gc) {
         ((TObject *)ad_trial_agreement_gc)->queue_destruction();
         return ad_trial_agreement_gc;
     }
-    ad_scroll_win_gc = __nw__7TObjectFUl(0x54);
+    ad_scroll_win_gc = (saddr)TObject::operator new(0x54);
     var_r0 = ad_scroll_win_gc;
     if (var_r0 != 0) {
         var_r0 = (saddr)TAdScrollWinGC__ct((TAdScrollWinGC *)((void *)ad_scroll_win_gc), (ad_trial_agreement_gc), 1, 0);

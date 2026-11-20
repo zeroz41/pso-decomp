@@ -8,9 +8,7 @@
 #include "pso/ui/window/TWindowBase.h"
 
 extern "C" {
-u16 * get_array_entry__11TWindowBaseFi(void * a0, s32 a1);
 
-u16 * get_array_entry__11TWindowBaseFi(void * a0 = 0, s32 a1 = 0);
 
 int TWindowKeyBoardSoft::get_flag_bit0() { return this->m_60 & 0x1; }
 int TWindowKeyBoardSoft::is_cursor_locked() { return (this->m_60 >> 7) & 0x1; }
@@ -20,7 +18,7 @@ int TWindowKeyBoardBase::get_flag62_bit8() { return this->m_62 & 0x8; }
 
 void TWindowSubMag::set_mag_slot_state(saddr item) {
 
-    *get_array_entry__11TWindowBaseFi(this, 0) |= 2;
+    *(u16 *)((TWindowBase *)this)->get_array_entry(0) |= 2;
     if ((*(TItemTexLoad**)((s8 *)this + 0x6C))->load_item_icon((TItemData*)item) != 0) {
         *(s8 *)((s8 *)this + 0x60) = 1;
         return;

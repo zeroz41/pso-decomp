@@ -162,14 +162,13 @@ Obj_8032A574 *TAdMcSelectCursorGC__ct(Obj_8032A574 *arg0, s32 parent) {
 }
 
 s32 release_texture_list(void *, s32);
-u32 __nw__7TObjectFUl(s32);
 
 
 u32 TAdMcSelectCursorGC::get_instance(s32 arg0) {
     uaddr var_r0;
 
     if ((u32) TAdMcSelectCursorGC__instance == 0U) {
-        var_r0 = __nw__7TObjectFUl(0x140);
+        var_r0 = (uaddr)TObject::operator new(0x140);
         if (var_r0 != 0U) {
             var_r0 = (uaddr)TAdMcSelectCursorGC__ct((Obj_8032A574 *)var_r0, arg0);
         }

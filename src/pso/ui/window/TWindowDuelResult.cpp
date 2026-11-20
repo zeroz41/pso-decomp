@@ -47,7 +47,6 @@ u8 *TWindowDuelResult__ct(u8 *arg0, s16 arg1);
 s32 get_localized_text_entry(int, int);
 void *get_player_by_client_id(s32 i);
 s32 TWindowDuelResult__sub_801C19AC(f32 *arg0);
-u8 *get_array_entry__11TWindowBaseFi(void *, s32);
 void init_window_layout_entries(void *, void *, int);
 void set_default_status__17TWindowDuelResultFPvi(void *, int);
 void sub_8024EF40__17TWindowDuelResultFv(Win_8024EF40 *arg0);
@@ -155,9 +154,9 @@ void sub_8024EF40__17TWindowDuelResultFv(Win_8024EF40 *arg0) {
     u8 *b;
     u8 *c;
     init_window_layout_entries(arg0->sub, duel_result_window_layout_table, arg0->player);
-    a = get_array_entry__11TWindowBaseFi(arg0, 0);
+    a = (u8 *)((TWindowBase *)arg0)->get_array_entry(0);
     set_default_status__17TWindowDuelResultFPvi(a, get_localized_text_entry(0x10, 0));
-    c = get_array_entry__11TWindowBaseFi(arg0, 0xF);
+    c = (u8 *)((TWindowBase *)arg0)->get_array_entry(0xF);
     set_default_status__17TWindowDuelResultFPvi(c, get_localized_text_entry(0x10, 5));
     pl = (u8 *)get_player_by_client_id(arg0->player);
     if (pl != 0) {
@@ -167,8 +166,8 @@ void sub_8024EF40__17TWindowDuelResultFv(Win_8024EF40 *arg0) {
         vals[2] = TWindowDuelResult__sub_801C19AC((f32 *)(pl + 0x78C));
         vals[3] = TWindowDuelResult__sub_801C19AC((f32 *)(pl + 0x77C));
         for (i = 0; i < 4; i++) {
-            a = get_array_entry__11TWindowBaseFi(arg0, i * 3 + 2);
-            b = get_array_entry__11TWindowBaseFi(arg0, i * 3 + 4);
+            a = (u8 *)((TWindowBase *)arg0)->get_array_entry(i * 3 + 2);
+            b = (u8 *)((TWindowBase *)arg0)->get_array_entry(i * 3 + 4);
             set_default_status__17TWindowDuelResultFPvi(a, get_localized_text_entry(0x10, i + 1));
             *(s32 *)(b + 0x20) = vals[i];
         }
@@ -187,9 +186,9 @@ void sub_8024F094__17TWindowDuelResultFv(Win_8024F094 *self) {
     u8 *c;
     u8 *d;
     init_window_layout_entries(self->sub, TWindowDuelResult__layout_entries, self->player);
-    a = get_array_entry__11TWindowBaseFi(self, 0);
+    a = (u8 *)((TWindowBase *)self)->get_array_entry(0);
     set_default_status__17TWindowDuelResultFPvi(a, get_localized_text_entry(0x10, 0));
-    b = get_array_entry__11TWindowBaseFi(self, 0x12);
+    b = (u8 *)((TWindowBase *)self)->get_array_entry(0x12);
     set_default_status__17TWindowDuelResultFPvi(b, get_localized_text_entry(0x10, 5));
     none = 1;
     e = (Entry_8024F094 *)TWindowDuelResult__sub_801C257C();
@@ -201,10 +200,10 @@ void sub_8024F094__17TWindowDuelResultFv(Win_8024F094 *self) {
     }
     e = (Entry_8024F094 *)TWindowDuelResult__sub_801C257C();
     for (i = 0; i < 4; i++, e++) {
-        a = get_array_entry__11TWindowBaseFi(self, i * 4 + 1);
-        b = get_array_entry__11TWindowBaseFi(self, i * 4 + 2);
-        c = get_array_entry__11TWindowBaseFi(self, i * 4 + 3);
-        d = get_array_entry__11TWindowBaseFi(self, i * 4 + 4);
+        a = (u8 *)((TWindowBase *)self)->get_array_entry(i * 4 + 1);
+        b = (u8 *)((TWindowBase *)self)->get_array_entry(i * 4 + 2);
+        c = (u8 *)((TWindowBase *)self)->get_array_entry(i * 4 + 3);
+        d = (u8 *)((TWindowBase *)self)->get_array_entry(i * 4 + 4);
         p = (e->id == 0xFFFF) ? NULL : (u8 *)get_player_by_client_id(e->id);
         if (p == NULL) {
             *(u16 *)a |= 2;

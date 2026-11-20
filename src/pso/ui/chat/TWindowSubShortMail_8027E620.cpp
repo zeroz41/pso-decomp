@@ -36,7 +36,6 @@ static const f32 lbl_8044FAC4[2] = {218.0f, 184.0f};
 static const f32 lbl_8044FACC[2] = {206.0f, 120.0f};
 
 extern "C" {
-s32 get_message_10__20TWindowSubStatusDispFl(s32);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 s32 get_window_layout_position(s32);
 s32 create_confirm_menu_window__19TWindowSubShortMailFv();
@@ -451,7 +450,7 @@ s32 TWindowSubShortMail::create_list_item() {
 
     window_layout_position = get_window_layout_position(0x9B);
     temp_r31 = (saddr)fn_80267F38(window_layout_position, (saddr)lbl_8044FAC4, 8, (s16) this->m_20);
-    ((TWindowMenuIconLine *)temp_r31)->ensure_status_display(get_message_10__20TWindowSubStatusDispFl(0x2E));
+    ((TWindowMenuIconLine *)temp_r31)->ensure_status_display((saddr)TWindowSubStatusDisp::get_message_10(0x2E));
     ((TWindowSubShortCutList *)temp_r31)->set_flag70_bit10();
     return temp_r31;
 }
@@ -498,21 +497,21 @@ s32 TWindowSubShortMail::refresh_mail_list(void *arg1) {
 s32 create_menu__19TWindowSubShortMailFv(void) {
     saddr temp_r31;
 
-    temp_r31 = draw_card_icon__17TWindowSubComCardFll(get_window_layout_position(0x9A), 3, get_message_10__20TWindowSubStatusDispFl(0x1D));
+    temp_r31 = draw_card_icon__17TWindowSubComCardFll(get_window_layout_position(0x9A), 3, (saddr)TWindowSubStatusDisp::get_message_10(0x1D));
     if (get_main_phase() == 0xF) {
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (saddr)(TWindowSubStatusDisp::get_message_10(0x57)), 6, 3);
     } else {
-        TWindowSubComCard::draw_text_gray(temp_r31, get_message_10__20TWindowSubStatusDispFl(0x57), 6, 3);
+        TWindowSubComCard::draw_text_gray(temp_r31, (saddr)TWindowSubStatusDisp::get_message_10(0x57), 6, 3);
     }
     if (TLobby::get_short_mail_ctrl() > 0) {
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (saddr)(TWindowSubStatusDisp::get_message_10(0xCE)), 6, 7);
     } else {
-        TWindowSubComCard::draw_text_gray(temp_r31, get_message_10__20TWindowSubStatusDispFl(0xCE), 6, 7);
+        TWindowSubComCard::draw_text_gray(temp_r31, (saddr)TWindowSubStatusDisp::get_message_10(0xCE), 6, 7);
     }
     if (get_main_phase() == 0xF) {
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (saddr)(TWindowSubStatusDisp::get_message_10(0x103)), 6, 0x13);
     } else {
-        TWindowSubComCard::draw_text_gray(temp_r31, get_message_10__20TWindowSubStatusDispFl(0x103), 6, 0x13);
+        TWindowSubComCard::draw_text_gray(temp_r31, (saddr)TWindowSubStatusDisp::get_message_10(0x103), 6, 0x13);
     }
     ((TWindowSubComCardList *)temp_r31)->set_flag70_bit10();
     ((TWindowSubComCardList *)temp_r31)->update_layout_height(179.0f);
@@ -525,13 +524,13 @@ s32 create_menu__19TWindowSubShortMailFv(void) {
 s32 build_menu__19TWindowSubShortMailFv(void) {
     saddr temp_r31;
     s32 msg;
-    temp_r31 = draw_card_icon__17TWindowSubComCardFll((s32)(get_window_layout_position(0x9D)), 3, (s32)(get_message_10__20TWindowSubStatusDispFl(0x1E)));
+    temp_r31 = draw_card_icon__17TWindowSubComCardFll((s32)(get_window_layout_position(0x9D)), 3, (s32)((saddr)TWindowSubStatusDisp::get_message_10(0x1E)));
     if (get_main_phase() == 0xF) {
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (saddr)(TWindowSubStatusDisp::get_message_10(0x7F)), 6, 0xB);
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (saddr)(TWindowSubStatusDisp::get_message_10(0x59)), 6, 0xF);
     } else {
-        TWindowSubComCard::draw_text_gray(temp_r31, get_message_10__20TWindowSubStatusDispFl(0x7F), 6, 0xB);
-        TWindowSubComCard::draw_text_gray(temp_r31, get_message_10__20TWindowSubStatusDispFl(0x59), 6, 0xF);
+        TWindowSubComCard::draw_text_gray(temp_r31, (saddr)TWindowSubStatusDisp::get_message_10(0x7F), 6, 0xB);
+        TWindowSubComCard::draw_text_gray(temp_r31, (saddr)TWindowSubStatusDisp::get_message_10(0x59), 6, 0xF);
     }
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (saddr)(TWindowSubStatusDisp::get_message_10(0x5A)), 6, 0x11);
     ((TWindowSubComCardList *)temp_r31)->set_flag70_bit10();

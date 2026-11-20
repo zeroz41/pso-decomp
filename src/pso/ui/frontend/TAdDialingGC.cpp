@@ -39,7 +39,6 @@ void init_dialog__12TAdDialingGCFv(void *);
 void draw_dialing_status__12TAdDialingGCFv(void *);
 s32 update_status_message__12TAdDialingGCFv();
 s32 __ct__10TAdTitleGCFP7TObjectl(u32, void *, s32);
-u32 __nw__7TObjectFUl(s32);
 s8 func_801A5E54__Fv();
 s32 handle_state__12TAdDialingGCFv();
 extern s32 TLobby__net_session_mode;
@@ -410,7 +409,7 @@ s32 TAdDialingGC__sub_803284F8(s32 _w0) {
 void TAdDialingGC::spawn_title_screen() {
     if (!(this->m_a4 & 1)) {
         u32 temp_nw;
-        if (((s32) this->m_1c == 0) && ((temp_nw = __nw__7TObjectFUl(0x138)) != 0U)) {
+        if (((s32) this->m_1c == 0) && ((temp_nw = (uaddr)TObject::operator new(0x138)) != 0U)) {
             __ct__10TAdTitleGCFP7TObjectl(temp_nw, this, 5);
         }
         create_draw_line_ctrl((TObject *)this, 0x11, 0.0f);

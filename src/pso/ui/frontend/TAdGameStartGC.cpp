@@ -51,7 +51,6 @@ struct Slot_802E655C { u8 pad[0x10]; };
 struct GS_802E655C { u8 pad0[0x1C]; Slot_802E655C slots[8]; s32 count; s32 active; s32 subs[8]; };
 
 extern "C" {
-u32 __nw__7TObjectFUl(int);
 u8 *__ct__18TAdGameStartBackGCFP7TObject(u8 *arg0, u8 *arg1);
 u32 __ct__20TAdGameStartShadowGCFv(int, void *);
 u32 __ct__18TAdGameStartLineGCFv(int, void *);
@@ -131,25 +130,25 @@ void create_effects__14TAdGameStartGCFPv(u8 *parent) {
         ((TObject *)temp_r3_4)->queue_destruction();
         *(u32 *)((s8 *)parent + 0xD0) = 0U;
     }
-    temp_r3_5 = __nw__7TObjectFUl(0xC8);
+    temp_r3_5 = (uaddr)TObject::operator new(0xC8);
     var_r0 = temp_r3_5;
     if (var_r0 != 0U) {
         var_r0 = __ct__20TAdGameStartShadowGCFv(temp_r3_5, parent);
     }
     *(u32 *)((s8 *)parent + 0xC4) = var_r0;
-    object = __nw__7TObjectFUl(0x80);
+    object = (uaddr)TObject::operator new(0x80);
     var_r0_2 = object;
     if (var_r0_2 != 0U) {
         var_r0_2 = (uaddr)__ct__18TAdGameStartBackGCFP7TObject((u8 *)object, (u8 *)parent);
     }
     *(u32 *)((s8 *)parent + 0xC8) = var_r0_2;
-    temp_r3_7 = __nw__7TObjectFUl(0x160);
+    temp_r3_7 = (uaddr)TObject::operator new(0x160);
     var_r0_3 = temp_r3_7;
     if (var_r0_3 != 0U) {
         var_r0_3 = __ct__18TAdGameStartLineGCFv(temp_r3_7, parent);
     }
     *(u32 *)((s8 *)parent + 0xCC) = var_r0_3;
-    temp_r3_8 = __nw__7TObjectFUl(0x80);
+    temp_r3_8 = (uaddr)TObject::operator new(0x80);
     var_r0_4 = temp_r3_8;
     if (var_r0_4 != 0U) {
         var_r0_4 = __ct__19TAdGameStartShineGCFv(temp_r3_8, parent);
@@ -164,7 +163,7 @@ void run_task__14TAdGameStartGCFv(u8 *arg0) {
     if (gs->active != 0) {
         gs->count++;
         if (gs->count < 8) {
-            sub = __nw__7TObjectFUl(0x88);
+            sub = (uaddr)TObject::operator new(0x88);
             if (sub != 0) {
                 sub = ((s32 (*)(void *, void *, void *))__ct__17TAdGameStartSubGCFv)((void *) sub, arg0, &gs->slots[gs->count]);
             }

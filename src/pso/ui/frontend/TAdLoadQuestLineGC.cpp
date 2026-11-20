@@ -2,9 +2,9 @@
 
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
-s32 __nw__7TObjectFUl(int);
 void *__ct__18TAdLoadQuestLineGCFP7TObjectPv(void *arg0, void *arg1, void *arg2);
 extern TAdLoadQuestLineGC *ad_load_quest_line_instances[];
 s32 init_quest_line_draw_colors();
@@ -55,7 +55,7 @@ s32 get_or_create_line__14TAdLoadQuestGCFii(s32 arg0, s32 arg1) {
     s32 var_r0;
     temp_r30 = arg1 * 4;
     if ((u32) *(s32 *)((s8 *)((s32 *)ad_load_quest_line_instances) + temp_r30) == 0U) {
-        temp_r3 = __nw__7TObjectFUl(0x24);
+        temp_r3 = (saddr)TObject::operator new(0x24);
         var_r0 = temp_r3;
         if (var_r0 != 0) {
             var_r0 = ((saddr)__ct__18TAdLoadQuestLineGCFP7TObjectPv((void *)temp_r3, (void *)arg0, (void *)arg1));

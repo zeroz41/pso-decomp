@@ -70,7 +70,6 @@ struct Q_80269664 {
 struct Ent_80269664 { u8 pad0[0xC]; f32 y; u8 pad10[4]; f32 h; };
 
 extern "C" {
-u8 *get_array_entry__11TWindowBaseFi(void *, s32);
 
 
 void TWindowMessage::scroll_up_line(u8 *arg1) {
@@ -83,7 +82,7 @@ void TWindowMessage::scroll_up_line(u8 *arg1) {
     this->m_6c -= d;
     *(f32 *)(((u8 *)this) + 0x80) -= d;
     for (; i < this->line_count; i++) {
-        e = get_array_entry__11TWindowBaseFi(this, i);
+        e = (u8 *)get_array_entry(i);
         *(f32 *)(e + 0xC) -= d;
     }
     *(f32 *)(arg1 + 0xC) = 0.0f;
@@ -94,7 +93,7 @@ void TWindowMessage::scroll_up_line(u8 *arg1) {
 void TWindowMessage::advance_reveal_cursor() {
     u16 *e;
     s32 t;
-    e = ((u16 *)get_array_entry__11TWindowBaseFi(((Msg_802695A8 *)this), ((Msg_802695A8 *)this)->cur));
+    e = ((u16 *)get_array_entry(((Msg_802695A8 *)this)->cur));
     while ((u32)((TWindowSubComCard *)e)->get_field_20() != 0 && (*e & 0x10)) {
         t = ((Msg_802695A8 *)this)->cur + 1;
         ((Msg_802695A8 *)this)->cur = t;
@@ -104,7 +103,7 @@ void TWindowMessage::advance_reveal_cursor() {
         if (((Msg_802695A8 *)this)->cur == ((Msg_802695A8 *)this)->sel) {
             break;
         }
-        e = ((u16 *)get_array_entry__11TWindowBaseFi(((Msg_802695A8 *)this), ((Msg_802695A8 *)this)->cur));
+        e = ((u16 *)get_array_entry(((Msg_802695A8 *)this)->cur));
         if (((Msg_802695A8 *)this)->ents[((Msg_802695A8 *)this)->cur].flags & 8) {
             ((Msg_802695A8 *)this)->ents[((Msg_802695A8 *)this)->cur].flags &= ~8;
             *e &= ~8;
@@ -119,14 +118,14 @@ void TWindowMessage::update_line_timers() {
     s32 idx;
     f32 h;
     for (i = 0; i < (u32)((Q_80269664 *)this)->capacity; i++) {
-        if ((u32)((TWindowSubComCard *)get_array_entry__11TWindowBaseFi(this, i))->get_field_20() != 0) {
+        if ((u32)((TWindowSubComCard *)get_array_entry(i))->get_field_20() != 0) {
             if ((((Q_80269664 *)this)->meta[i].flags & 4) && ((Q_80269664 *)this)->meta[i].timer > 0) {
                 ((Q_80269664 *)this)->meta[i].timer--;
             }
         }
     }
     idx = ((Q_80269664 *)this)->oldest;
-    e = (Ent_80269664 *)get_array_entry__11TWindowBaseFi(((Q_80269664 *)this), idx);
+    e = (Ent_80269664 *)get_array_entry(idx);
     m = &((Q_80269664 *)this)->meta[idx];
     while ((u32)((TWindowSubComCard *)e)->get_field_20() != 0 && m->timer <= 0 && (m->flags & 4)) {
         m->flags &= ~4;
@@ -141,7 +140,7 @@ void TWindowMessage::update_line_timers() {
         if (idx == ((Q_80269664 *)this)->oldest) {
             break;
         }
-        e = (Ent_80269664 *)get_array_entry__11TWindowBaseFi(((Q_80269664 *)this), idx);
+        e = (Ent_80269664 *)get_array_entry(idx);
         m = &((Q_80269664 *)this)->meta[idx];
     }
 }
@@ -150,7 +149,7 @@ void TWindowMessage::retire_scrolled_lines() {
     Q_802697B4 *w = (Q_802697B4 *)this;
     u8 *e;
     Meta_802697B4 *m;
-    e = get_array_entry__11TWindowBaseFi(w, w->oldest);
+    e = (u8 *)((TWindowBase *)w)->get_array_entry(w->oldest);
     m = &w->meta[w->oldest];
     while ((u32)((TWindowSubComCard *)e)->get_field_20() != 0 && *(f32 *)(e + 0xC) + *(f32 *)(e + 0x14) < w->scroll) {
         ((TWindowMessage *)w)->scroll_up_line(e);
@@ -164,7 +163,7 @@ void TWindowMessage::retire_scrolled_lines() {
         if (++w->oldest >= w->capacity) {
             w->oldest = 0;
         }
-        e = get_array_entry__11TWindowBaseFi(w, w->oldest);
+        e = (u8 *)((TWindowBase *)w)->get_array_entry(w->oldest);
         m = &w->meta[w->oldest];
         if (m->flags & 8) {
             m->flags &= ~8;
@@ -210,7 +209,7 @@ s32 TWindowOptionCtrl::add_label_value_line(const char *arg1, const char *arg2, 
     text_builder_append((u8 *)arg1);
     text_builder_append((u8 *)sep);
     text_builder_append((u8 *)arg2);
-    e = get_array_entry__11TWindowBaseFi(this, *(s32 *)(((u8 *)this) + 0x88));
+    e = (u8 *)((TWindowBase *)this)->get_array_entry(*(s32 *)(((u8 *)this) + 0x88));
     r = append_message_window_line((TWindowMessage *)this, get_shared_text_buffer(), arg3 | 2, -1);
     if (r != 0) {
         x = (0.5f) * (*(f32 *)(((u8 *)this) + 0x38) - 8.0f);

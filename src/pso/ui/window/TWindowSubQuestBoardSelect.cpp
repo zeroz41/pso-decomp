@@ -292,7 +292,6 @@ TWindowSubQuestBoardSelect::~TWindowSubQuestBoardSelect() {
 
 u8 * get_window_layout_position(s32);
 s32 construct_type1_heading__20TWindowSubStatusDispFll(s32, s32, s32);
-s32 get_message_10__20TWindowSubStatusDispFl(int);
 u32 calc_text_width();
 s32 update_slot_display_flags__26TWindowSubQuestBoardSelectFv(void *, f32, f32);
 #pragma push
@@ -304,7 +303,7 @@ TWindowSubQuestBoardSelect::TWindowSubQuestBoardSelect() : TWindowBase((u8 *)&TW
     m_name = TWindowSubQuestBoardSelect__class_name;
     var_r30 = (saddr)::operator new(0x24);
     if (var_r30 != 0) {
-        var_r30 = construct_type1_heading__20TWindowSubStatusDispFll(var_r30, get_message_10__20TWindowSubStatusDispFl(0x2B), (s32) this->m_20);
+        var_r30 = construct_type1_heading__20TWindowSubStatusDispFll(var_r30, (saddr)TWindowSubStatusDisp::get_message_10(0x2B), (s32) this->m_20);
     }
     *(s32 *)&this->m_64 = var_r30;
     *(s8 *)&this->m_60 = 0;

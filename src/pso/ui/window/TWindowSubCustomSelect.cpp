@@ -61,7 +61,6 @@ void draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif(void *, void *, s32, f32
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 apply_choice__20TWindowChoiceSettingFllll(void *, int, int, int);
-s32 get_message_10__20TWindowSubStatusDispFl(int);
 void *get_player_by_client_id(s32 i);
 s32 get_window_layout_position(int);
 void *reset_selection__20TWindowSubStatusDispFv(void *, NJS_POINT2 *);
@@ -69,7 +68,6 @@ extern s32 __vt__22TWindowSubCustomSelect[];
 const char *TWindowSubCustomSelect__class_name = "TWindowSubCustomSelect";
 s32 clamp_list_scroll_offset(void *, void *, void *);
 s32 can_use_palette_action__10TObjPlayerFPvUcUc(s32, u8, u8);
-u8 *get_array_entry__11TWindowBaseFi(void *, s32);
 s32 draw_visible_window_entries(void *, void *, void *);
 
 void TWindowSubCustomSelect::handle_cancel() {
@@ -185,9 +183,9 @@ void TWindowSubCustomSelect::draw_palette_cells(int ctx) {
         if (47.0f + (8.0f + y) < *(f32 *)((s8 *)ctx + 0x40) || 8.0f + y > *(f32 *)((s8 *)ctx + 0x48)) {
             continue;
         }
-        w1 = get_array_entry__11TWindowBaseFi(this, 1);
-        w0 = get_array_entry__11TWindowBaseFi(this, 0);
-        w2 = get_array_entry__11TWindowBaseFi(this, 2);
+        w1 = (u8 *)get_array_entry(1);
+        w0 = (u8 *)get_array_entry(0);
+        w2 = (u8 *)get_array_entry(2);
         *(f32 *)((s8 *)w1 + 8) = 12.0f + fx;
         *(f32 *)((s8 *)w1 + 0xC) = 10.0f + fy;
         *(f32 *)((s8 *)w0 + 8) = 9.0f + fx;
@@ -299,7 +297,7 @@ u8 *TWindowSubCustomSelect__ct(TWindowSubCustomSelect *window_sub_custom_select,
     }
     o = ::operator new(0x24);
     if (o != NULL) {
-        o = ((TWindowSubStatusDisp *)o)->construct_type1_heading(get_message_10__20TWindowSubStatusDispFl(0x22), window_sub_custom_select->m_20);
+        o = ((TWindowSubStatusDisp *)o)->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x22), window_sub_custom_select->m_20);
     }
     *(void **)((s8 *)window_sub_custom_select + 0x7C) = o;
     pos.x = 196.0f;

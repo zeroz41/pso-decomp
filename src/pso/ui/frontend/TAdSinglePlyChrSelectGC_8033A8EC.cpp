@@ -61,7 +61,6 @@ int request_queued_main_phase(void*);
 extern void *character_select_scene_resource_callbacks[];
 int check_room_seq_4__16TAdChrSelASlotGCFl(void*, void*);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void*, void*, void*, void*);
-u32 __nw__7TObjectFUl(int);
 
 s32 get_card_file_info__15TAdPlayerLoadGCFiPvPv(int, void *, int);
 s32 query_memcard_capacity__15TAdPlayerLoadGCFl(int, int);
@@ -157,7 +156,7 @@ void TAdSinglePlyChrSelectGC::sub_8033AA64() {
             arg0->state = 0xE;
             ((s32 (*)(void *))TAdSinglePlyChrSelectGC__sub_8033B5F0)(arg0);
             close_window__23TAdSinglePlyChrSelectGCFPv(arg0);
-            uaddr o = __nw__7TObjectFUl(0x28);
+            uaddr o = (uaddr)TObject::operator new(0x28);
             if (o != 0U) {
                 ((THunterGuildSeqOffline *)o)->init((void *)tl_fade, (void *)TAdSinglePlyChrSelectGC__sub_8033B244);
             }
@@ -182,7 +181,7 @@ void TAdSinglePlyChrSelectGC::handle_player_load() {
             case 0:
                 arg0->state = 0xE;
                 close_window__23TAdSinglePlyChrSelectGCFPv(arg0);
-                p = __nw__7TObjectFUl(0x28);
+                p = (uaddr)TObject::operator new(0x28);
                 if (p != 0) {
                     ((THunterGuildSeqOffline *)p)->init((void *)tl_fade, (void *)TAdSinglePlyChrSelectGC__sub_8033B244);
                 }
@@ -373,7 +372,7 @@ void TAdSinglePlyChrSelectGC::sub_8033B0AC() {
             *(s32 *)((s8 *)ad_single_ply_chr_select_gc + 0x2C) = 0xE;
             ((s32 (*)(void *))TAdSinglePlyChrSelectGC__sub_8033B5F0)(ad_single_ply_chr_select_gc);
             close_window__23TAdSinglePlyChrSelectGCFPv(ad_single_ply_chr_select_gc);
-            o = __nw__7TObjectFUl(0x28);
+            o = (uaddr)TObject::operator new(0x28);
             if (o != 0U) {
                 ((THunterGuildSeqOffline *)o)->init((void *)tl_fade, (void *)TAdSinglePlyChrSelectGC__sub_8033B244);
             }
@@ -443,7 +442,7 @@ void init_single_player_char_select_scene(void) {
     reset_controller_input_state();
     run_load_callback_table(&(*(RecoveredGlobal_8033B264_lbl_804EF728 *)&character_select_scene_resource_callbacks), 0x30);
     init_menu_scene_lights(default_scene_light_config, 4);
-    p = __nw__7TObjectFUl(0x1D4);
+    p = (uaddr)TObject::operator new(0x1D4);
     if (p != 0) {
         TCameraCtrl__ct(p, tl_camera);
     }
@@ -451,7 +450,7 @@ void init_single_player_char_select_scene(void) {
     Vec b = lbl_80477D6C;
     TCameraCtrl::select_active_controller(9);
     set_active_camera_pose(&a, &b);
-    p = __nw__7TObjectFUl(0x1C);
+    p = (uaddr)TObject::operator new(0x1C);
     if (p != 0) {
         __ct__15TWindowCtrlMainFv(p);
     }

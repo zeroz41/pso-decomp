@@ -39,6 +39,8 @@
 #include "pso/system/ControllerInputState.h"
 #include <stdio.h>
 #include <string.h>
+#include "pso/system/task/TObject.h"
+#include "pso/ui/frontend/TAdChrSelBSlotGC.h"
 
 struct Info_802DC024 {
     s32 val[4];
@@ -121,7 +123,6 @@ int TAdMultiPlyChrSelectGC__sub_802C6920(void);
 s32 is_slot_state_one__16TAdChrSelBSlotGCFlUl(s32, s32);
 s32 create_confirm_window__22TAdMultiPlyChrSelectGCFv(void *, s32);
 u32 __ct__9TAdFadeGCFP7TObjectPv(u32, TObject *, s32);
-u32 __nw__7TObjectFUl(s32);
 s32 *TAdSinglePlyChrSelectGC__sub_801FE3E4(u32 i);
 s32 TAdSinglePlyChrSelectGC__sub_801FE800(u32 i);
 u32 check_slot_flags__23TAdSinglePlyChrSelectGCFlUl(s32, s32);
@@ -148,7 +149,6 @@ extern s32 lbl_80472850[];
 extern s32 lbl_80472858[];
 s32 destroy_windows__14TAdGameStartGCFPv(s32);
 void clear_slot_body__23TAdSinglePlyChrSelectGCFi(s32 i);
-s32 create__16TAdChrSelBSlotGCFPv(void *);
 s32 TAdMultiPlyChrSelectGC__sub_802C6660(int);
 struct MultiPlayChrSelectSlotPositions { s32 value; u8 remaining[0x14]; };
 
@@ -617,18 +617,18 @@ void TAdMultiPlyChrSelectGC::handle_event(s32 arg1) {
 
 void TAdMultiPlyChrSelectGC::create_widgets() {
     uaddr p;
-    p = __nw__7TObjectFUl(0x24);
+    p = (uaddr)TObject::operator new(0x24);
     if (p != 0) {
         __ct__9TAdBackGCFv((void *) p, this);
     }
-    p = __nw__7TObjectFUl(0x28);
+    p = (uaddr)TObject::operator new(0x28);
     if (p != 0) {
         __ct__12TAdBackTxtGCFv((void *) p, this);
     }
     switch (this->m_48) {
     case 0:
     case 2:
-        p = __nw__7TObjectFUl(0x138);
+        p = (uaddr)TObject::operator new(0x138);
         if (p != 0) {
             __ct__10TAdTitleGCFP7TObjectl((void *) p, this, 0);
         }
@@ -636,14 +636,14 @@ void TAdMultiPlyChrSelectGC::create_widgets() {
         *(s32 *)&this->unk_60 = get_or_create_player__22TAdMultiPlyChrSelectGCFiiii((saddr)this, 1, -1, 0);
         break;
     case 1: {
-        p = __nw__7TObjectFUl(0x138);
+        p = (uaddr)TObject::operator new(0x138);
         if (p != 0) {
             __ct__10TAdTitleGCFP7TObjectl((void *) p, this, 8);
         }
         *(s32 *)&this->unk_68 = (saddr)TAdMultiPlyChrSelectGC::get_or_create_slot_window((saddr)this, 2);
-        this->m_6c = create__16TAdChrSelBSlotGCFPv(this);
+        this->m_6c = (saddr)TAdChrSelBSlotGC::create(this);
         I2_802DF9B4 pos = lbl_80472828[0];
-        p = __nw__7TObjectFUl(0x708);
+        p = (uaddr)TObject::operator new(0x708);
         if (p != 0) {
             p = __ct__14TAdSelectCurGCFv((void *) p, this, &pos, lbl_80472808);
         }
@@ -652,20 +652,20 @@ void TAdMultiPlyChrSelectGC::create_widgets() {
         break;
     }
     }
-    p = __nw__7TObjectFUl(0x44);
+    p = (uaddr)TObject::operator new(0x44);
     if (p != 0) {
         p = __ct__13TAdGuideTxtGCFv((void *) p, this);
     }
     this->m_64 = p;
     ((TAdMultiPlyChrSelectGC *)this->m_64)->set_entry_value(0, (uaddr)"");
     ((TAdMultiPlyChrSelectGC *)this->m_64)->set_entry_value(1, (uaddr)"");
-    p = __nw__7TObjectFUl(0x9C);
+    p = (uaddr)TObject::operator new(0x9C);
     if (p != 0) {
         p = __ct__13TAdTitleTexGCFv((void *) p, this);
     }
     Blk_802DF9B4 blk = multi_chr_select_layout_table[0];
     fn_802D50B8((void *)p, (void *)&blk.a, (void *)&blk.b, (void *)&blk.c);
-    p = __nw__7TObjectFUl(0xD4);
+    p = (uaddr)TObject::operator new(0xD4);
     if (p != 0) {
         p = __ct__14TAdGameStartGCFv((void *) p, tl_clipout);
     }
@@ -1004,7 +1004,7 @@ void TAdMultiPlyChrSelectGC__sub_802DE7D0(void *ad_multi_ply_chr_select_gc) {
             }
             if (is_slot_active__23TAdSinglePlyChrSelectGCFUi(temp_r30) != 0) {
                 if (TAdChrSelASlotGC__sub_8030C3C0((TAdChrSelASlotGC *)(*(uaddr *)((s8 *)ad_multi_ply_chr_select_gc + 0x68)), TAdMultiPlyChrSelectGC__sub_802DFFE8(((TAdMultiPlyChrSelectGC *)ad_multi_ply_chr_select_gc)->m_5c)) != 0) {
-                    var_r0 = __nw__7TObjectFUl(0x38);
+                    var_r0 = (uaddr)TObject::operator new(0x38);
                     if (var_r0 != 0U) {
                         var_r0 = __ct__9TAdFadeGCFP7TObjectPv(var_r0, tl_fade, 0);
                     }
@@ -1256,7 +1256,7 @@ void TAdMultiPlyChrSelectGC::open_windows() {
     TAdMultiPlyChrSelectGC::set_select_mode(this->m_5c, 1);
     ((TAdMultiPlyChrSelectGC *)(*(saddr *)((s8 *)this + 0x60)))->set_index_and_close_status(1);
     *(s32 *)((s8 *)this + 0x68) = (saddr)TAdMultiPlyChrSelectGC::get_or_create_slot_window((saddr)this, 2);
-    this->m_6c = create__16TAdChrSelBSlotGCFPv(this);
+    this->m_6c = (saddr)TAdChrSelBSlotGC::create(this);
     ((TAdMultiPlyChrSelectGC *)this->m_64)->set_entry_value(0, (uaddr)"");
     ((TAdMultiPlyChrSelectGC *)this->m_64)->set_entry_value(1, (uaddr)"");
     this->m_20 = 0xC;
@@ -1465,7 +1465,7 @@ void TAdMultiPlyChrSelectGC::update_select() {
                 *(s32 *)&this->m_20 = 0xF;
                 return;
             }
-            var_r0 = __nw__7TObjectFUl(0x38);
+            var_r0 = (uaddr)TObject::operator new(0x38);
             if (var_r0 != 0U) {
                 var_r0 = __ct__9TAdFadeGCFP7TObjectPv(var_r0, tl_fade, 0);
             }

@@ -85,7 +85,6 @@ s32 create_equip_kind_window(s32, const NJS_POINT2 *, s32);
 s32 open_trade_equip_window__19TWindowSubTradeMainFv(Self_803310BC *arg0);
 s8 get_trade_mode__6TLobbyFv();
 s32 create_trade_window__19TWindowSubTradeMainFv(Self_80331178 *arg0);
-s32 get_message_10__20TWindowSubStatusDispFl(s32);
 s32 free_member__17TWindowSubComCardFv(u8 *, int);
 s32 create_help_item__19TWindowSubTradeMainFv(void *arg0);
 s32 create_input_number__19TWindowSubTradeMainFl(void *arg0, s32 arg1);
@@ -94,7 +93,6 @@ s32 __ct__15TWindowHelpItemFPvUs(s32, s32, s32);
 s32 TWindowHelpItem__set_displayed_item_by_id(u32);
 s32 __ct__18TWindowInputNumberFPvllls(s32, s32, s32, s32, s32, s16);
 s32 update_label_positions__17TWindowSubComCardFPvPv(u32, s32);
-s32 __nw__7TObjectFUl(s32);
 }
 
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
@@ -671,7 +669,7 @@ void TWindowSubTradeMain::render() {  }
 s32 TWindowSubTradeMain::build_trade_menu() {
     u8 *arg0 = (u8 *)this;
   saddr titled_window_menu;
-  titled_window_menu = create_titled_window_menu((int) ((s32 (*)(int))get_window_layout_position)(0x5C), 5, (0, get_message_10__20TWindowSubStatusDispFl(0x26)), (int) ((RecoveredFields_80331520_arg0 *) arg0)->field_28);
+  titled_window_menu = create_titled_window_menu((int) ((s32 (*)(int))get_window_layout_position)(0x5C), 5, (0, (saddr)TWindowSubStatusDisp::get_message_10(0x26)), (int) ((RecoveredFields_80331520_arg0 *) arg0)->field_28);
   forward_trade_action_default__16TObjCityMainWarpFPviii((void *)titled_window_menu, (int)((saddr) TWindowSubStatusDisp::get_message_10(0xDA)), 6, 3);
   forward_trade_action_default__16TObjCityMainWarpFPviii((void *)titled_window_menu, (int)((saddr) TWindowSubStatusDisp::get_message_10(0xDB)), 6, 0xA);
   forward_trade_action_default__16TObjCityMainWarpFPviii((void *)titled_window_menu, (int)((saddr) TWindowSubStatusDisp::get_message_10(0xDC)), 6, 0x11);
@@ -685,7 +683,7 @@ s32 TWindowSubTradeMain::build_trade_menu() {
 s32 TWindowSubTradeMain::create_trade_menu() {
     u8 *arg0 = (u8 *)this;
   saddr titled_window_menu;
-  titled_window_menu = create_titled_window_menu((int) ((s32 (*)(int))get_window_layout_position)(0x5E), 4, (0, get_message_10__20TWindowSubStatusDispFl(0xDD)), (int) ((RecoveredFields_80331434_arg0 *) arg0)->field_28);
+  titled_window_menu = create_titled_window_menu((int) ((s32 (*)(int))get_window_layout_position)(0x5E), 4, (0, (saddr)TWindowSubStatusDisp::get_message_10(0xDD)), (int) ((RecoveredFields_80331434_arg0 *) arg0)->field_28);
   forward_trade_action_default__16TObjCityMainWarpFPviii((void *)titled_window_menu, (int)((saddr) TWindowSubStatusDisp::get_message_10(0xDC)), 6, 0x11);
   forward_trade_action_default__16TObjCityMainWarpFPviii((void *)titled_window_menu, (int)((saddr) TWindowSubStatusDisp::get_message_10(0xE3)), 6, 0x16);
   ((TWindowSubTradeMain *)titled_window_menu)->add_text_entry((saddr) TWindowSubStatusDisp::get_message_10(0xDE), 6, 0x1A, (int) 0xFFEE946E);
@@ -769,7 +767,7 @@ s32 TWindowSubTradeMain::create_list() {
     saddr equip_kind_window;
 
     equip_kind_window = create_equip_kind_window(get_window_layout_position(0x64), &trade_list_window_pos, this->m_28);
-    ((TWindowMenuIconLine *)equip_kind_window)->ensure_status_display(get_message_10__20TWindowSubStatusDispFl(0x24));
+    ((TWindowMenuIconLine *)equip_kind_window)->ensure_status_display((saddr)TWindowSubStatusDisp::get_message_10(0x24));
     ((TWindowSubTradeMain *)equip_kind_window)->refresh_item_list((void*)(TLobby__sub_802D298C()));
     TWindowSubEquip__sub_80263AF8((u8 *)this->m_2c, 2);
     set_depth__11TWindowBaseFf(equip_kind_window);
@@ -779,11 +777,11 @@ s32 TWindowSubTradeMain::create_list() {
 s32 TWindowSubTradeMain::create_input_number(s32 maximum) {
     saddr storage;
 
-    storage = __nw__7TObjectFUl(0x7C);
+    storage = (saddr)TObject::operator new(0x7C);
     if (storage != 0) {
         storage = __ct__18TWindowInputNumberFPvllls(storage, get_window_layout_position(0x5D), 1, maximum, 1, (s16) this->m_28);
     }
-    ((TWindowInputNumber *)storage)->create(get_message_10__20TWindowSubStatusDispFl(0x28));
+    ((TWindowInputNumber *)storage)->create((saddr)TWindowSubStatusDisp::get_message_10(0x28));
     ((TWindowInputNumber *)storage)->set_value(282.0f);
     return storage;
 }
@@ -791,7 +789,7 @@ s32 TWindowSubTradeMain::create_input_number(s32 maximum) {
 s32 TWindowSubTradeMain::create_help_item() {
     s32 var_r31;
 
-    var_r31 = __nw__7TObjectFUl(0xBC);
+    var_r31 = (saddr)TObject::operator new(0xBC);
     if (var_r31 != 0) {
         var_r31 = __ct__15TWindowHelpItemFPvUs(var_r31, get_window_layout_position(2), this->m_28);
     }

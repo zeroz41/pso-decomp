@@ -204,7 +204,6 @@ s8 lbl_805D6449;
 s8 lbl_805D644A;
 s8 lbl_805D644B;
 
-s32 get_message_10__20TWindowSubStatusDispFl(s32);
 s32 check_equip_requirements(void *self, TItemData *p, s32 *out);
 void *get_player_by_client_id(s32 i);
 void *lookup_item_pmt_record(u8 *item);
@@ -495,11 +494,11 @@ void TWindowHelpItem::update_resistance_rows(void *arg0) {
         c = ((TWindowBase *)self)->get_array_entry(2);
         d = ((TWindowBase *)self)->get_array_entry(3);
         e = ((TWindowBase *)self)->get_array_entry(4);
-        set_help_text__15TWindowHelpItemFUl((void *)a, get_message_10__20TWindowSubStatusDispFl(0x89));
-        set_help_text__15TWindowHelpItemFUl((void *)b, get_message_10__20TWindowSubStatusDispFl(0x8A));
-        set_help_text__15TWindowHelpItemFUl((void *)c, get_message_10__20TWindowSubStatusDispFl(0x8B));
-        set_help_text__15TWindowHelpItemFUl((void *)d, get_message_10__20TWindowSubStatusDispFl(0x8C));
-        set_help_text__15TWindowHelpItemFUl((void *)e, get_message_10__20TWindowSubStatusDispFl(0x8D));
+        set_help_text__15TWindowHelpItemFUl((void *)a, (saddr)TWindowSubStatusDisp::get_message_10(0x89));
+        set_help_text__15TWindowHelpItemFUl((void *)b, (saddr)TWindowSubStatusDisp::get_message_10(0x8A));
+        set_help_text__15TWindowHelpItemFUl((void *)c, (saddr)TWindowSubStatusDisp::get_message_10(0x8B));
+        set_help_text__15TWindowHelpItemFUl((void *)d, (saddr)TWindowSubStatusDisp::get_message_10(0x8C));
+        set_help_text__15TWindowHelpItemFUl((void *)e, (saddr)TWindowSubStatusDisp::get_message_10(0x8D));
         ((TWindowHelpItem *)a)->set_flag4_and_field1c(((TWindowSubStatusDisp *)pl)->get_stat());
         ((TWindowHelpItem *)b)->set_flag4_and_field1c(((TObjPlayer *)pl)->get_class_id());
         ((TWindowHelpItem *)c)->set_flag4_and_field1c(((TObjPlayer *)pl)->get_item_index());
@@ -536,7 +535,7 @@ void TWindowHelpItem__vt4(void *window_base) {
     TWindowHelpItem::update_resistance_rows(window_base);
     temp_r30 = ((void *)((TWindowBase *)window_base)->get_array_entry(5));
     temp_r31 = ((void *)((TWindowBase *)window_base)->get_array_entry(6));
-    TWindowDuelResult::set_default_status(temp_r30, get_message_10__20TWindowSubStatusDispFl(0xA1));
+    TWindowDuelResult::set_default_status(temp_r30, (saddr)TWindowSubStatusDisp::get_message_10(0xA1));
     ((TWindowHelpItem *)temp_r30)->reset_float_field();
     *(s32 *)((s8 *)temp_r31 + 0x20) = (s32) *(u8 *)((s8 *)(*(void **)((s8 *)window_base + 0x68)) + 5);
 }

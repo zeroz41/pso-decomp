@@ -10,7 +10,6 @@
 
 extern "C" {
 void mem_free(void *p);
-s32 get_message_10__20TWindowSubStatusDispFl(s32);
 void *mem_alloc(u32 size);
 s32 measure_string_len__20TWindowSubStatusDispFv(void *);
 typedef struct
@@ -61,13 +60,13 @@ s32 TWindowSubStatusDisp::query_status_field(void *arg0, s8 arg1) {
     if (arg1 == 0) {
         return 0;
     }
-    return get_message_10__20TWindowSubStatusDispFl(arg1 + 0x110);
+    return (saddr)TWindowSubStatusDisp::get_message_10(arg1 + 0x110);
 }
 s32 TWindowSubStatusDisp::get_flag_or_zero(void *arg0, s8 arg1) {
     if (arg1 == 0) {
         return 0;
     }
-    return get_message_10__20TWindowSubStatusDispFl(arg1 + 0x10D);
+    return (saddr)TWindowSubStatusDisp::get_message_10(arg1 + 0x10D);
 }
 
 void TUnk_804EF440::render(WindowDrawContext *context) {

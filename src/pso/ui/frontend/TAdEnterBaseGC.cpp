@@ -147,7 +147,6 @@ s32 TAdEndText__sub_8001B3BC(int);
 s32 TAdEndText__sub_8001B3EC(int);
 
 
-u32 __nw__7TObjectFUl(int);
 
 
 extern s32 local_client_id;
@@ -193,16 +192,16 @@ void TAdEnterBaseGC::create_parts() {
     u32 temp_r3_4;
     u32 var_r0;
     u32 var_r0_2;
-    temp_r3 = __nw__7TObjectFUl(0x24);
+    temp_r3 = (uaddr)TObject::operator new(0x24);
     if (temp_r3 != 0U) {
         __ct__9TAdBackGCFv(temp_r3, this);
     }
-    temp_r3_2 = __nw__7TObjectFUl(0x28);
+    temp_r3_2 = (uaddr)TObject::operator new(0x28);
     if (temp_r3_2 != 0U) {
         __ct__12TAdBackTxtGCFv(temp_r3_2, this);
     }
     if ((s32) (*(s32 *)&TAdEnterBaseGC__entry_mode) == 3) {
-        temp_r3_3 = __nw__7TObjectFUl(0x708);
+        temp_r3_3 = (uaddr)TObject::operator new(0x708);
         var_r0 = temp_r3_3;
         if (var_r0 != 0U) {
             var_r0 = __ct__14TAdSelectCurGCFv(temp_r3_3, tl_clipout, &lbl_80477198[2], &lbl_804771B8[1]);
@@ -210,7 +209,7 @@ void TAdEnterBaseGC::create_parts() {
         *(u32 *)&this->unk_2C = var_r0;
         return;
     }
-    temp_r3_4 = __nw__7TObjectFUl(0x708);
+    temp_r3_4 = (uaddr)TObject::operator new(0x708);
     var_r0_2 = temp_r3_4;
     if (var_r0_2 != 0U) {
         var_r0_2 = __ct__14TAdSelectCurGCFv(temp_r3_4, tl_clipout, lbl_80477198, lbl_804771B8);

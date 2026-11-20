@@ -13,8 +13,6 @@
 
 extern "C" {
 s32 get_entity_id(u32);
-u32 create_message_window__24TMessageWindowControllerFlll(void *, s32, s32, s32);
-u32 create_window__24TMessageWindowControllerFll(void *, s32, s32);
 const char *TShopSequence__class_name = "TShopSequence";
 
 // Conversation camera per service counter; the alternate set is used while a TLobby runs.
@@ -58,9 +56,9 @@ void TShopSequence::close_message_window() {
 u32 TShopSequence::create_message_window(s32 x, s32 y) {
     if (message_window != NULL) {
         if (player != NULL) {
-            return create_message_window__24TMessageWindowControllerFlll(message_window, x, y, (u16)get_entity_id((uaddr)player));
+            return (uaddr)((TMessageWindowController *)message_window)->create_message_window(x, y, (u16)get_entity_id((uaddr)player));
         }
-        return create_window__24TMessageWindowControllerFll(message_window, x, y);
+        return (uaddr)((TMessageWindowController *)message_window)->create_window(x, y);
     }
     return 0;
 }
