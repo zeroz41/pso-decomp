@@ -256,9 +256,9 @@ void __ct__15TObjEnemyCustomFP7TObject(void *, s32, void *);
 void move_with_wall_slide(u8 *arg0);
 int initialize_enemy_photon_effect(void *p);
 extern "C" {
-s32 lbl_805D4FF8[1];
-s32 lbl_805D4FFC[1];
-s32 lbl_805D5000[1];
+saddr lbl_805D4FF8[1];
+saddr lbl_805D4FFC[1];
+saddr lbl_805D5000[1];
 
 extern "C" {
 void get_anim_node_position__15TObjEnemyCustomFlP3Vec();

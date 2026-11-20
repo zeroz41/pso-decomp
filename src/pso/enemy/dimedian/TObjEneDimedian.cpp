@@ -123,7 +123,7 @@ extern saddr lbl_805D5088;
 void restore_scene_lighting(void);
 void select_actor_lighting(s32 obj);
 void TObjPlayer__sub_8023DEE0(s16 *p, s16 a, s16 b, u16 id);
-extern s32 dimedian_resource_handles[];
+extern saddr dimedian_resource_handles[];
 extern s32 dimedian_last_draw_tick[];
 extern s32 actor_frame_tick;
 extern s32 saved_model_render_flags;
@@ -905,7 +905,7 @@ void TObjEneDimedian::load_dimedian_param_entry(s32 i) {
 }
 
 extern "C" {
-s32 dimedian_resource_handles[3];
+saddr dimedian_resource_handles[3];
 s32 dimedian_last_draw_tick[3];
 
 const char *TObjEneDimedian_name_ref = dimedian_class_name;

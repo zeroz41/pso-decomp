@@ -975,9 +975,9 @@ extern s32 lbl_804774A8[];
 extern s32 lbl_804774B0[];
 extern s32 lbl_804774B8[];
 f32 lbl_805434D0[3];
-s32 lbl_805434DC[3];
-extern s32 lbl_805D6D08[1];
-extern s32 lbl_805D6D0C[1];
+saddr lbl_805434DC[3];
+extern saddr lbl_805D6D08[1];
+extern saddr lbl_805D6D0C[1];
 
 struct ModelRes_803350AC {
     u8 pad[0x18];
@@ -2282,8 +2282,8 @@ void TObjEneMorfos::vfunc_106() {
 
 }
 
-s32 lbl_805D6D08[1];
-s32 lbl_805D6D0C[1];
+saddr lbl_805D6D08[1];
+saddr lbl_805D6D0C[1];
 saddr TObjEneMorfos__param_table;
 saddr TObjEneMorfos__instance;
 s32 TObjEneMorfos__phase;

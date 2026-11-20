@@ -102,9 +102,9 @@ const char *TObjEneMe1Gee__fade_command_streams[5] = {
 
 const char *TObjEneMe1Gee__class_name = "TObjEneMe1Gee";
 
-static s32 gee_boss_stat_handle_table[3];
-static s32 gee_shared_handler_b_table[3];
-static s32 gee_object_handle_table[3];
+static saddr gee_boss_stat_handle_table[3];
+static saddr gee_shared_handler_b_table[3];
+static saddr gee_object_handle_table[3];
 static TObjEneMe1GeeParams *gee_shared_handler_a_table[3];
 static f32 gee_camera_ctrl_vec[4];
 f32 atan2_float(f32 y, f32 x);

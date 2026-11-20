@@ -279,9 +279,9 @@ const CanadinBehaviorParams canadin_behavior_params = { 3, 5.0f, 3.0f, 3.0f, 1 }
 const CanadinBehaviorParams canadin_projectile_param_block = { 3, 10.0f, 20.0f, 3.0f, 1 };
 const char *TObjEneMe1Canadin__class_name = "TObjEneMe1Canadin";
 const char *TObjEneMe1CanadinLeader__class_name = "TObjEneMe1CanadinLeader";
-s32 lbl_80500930[3];
-s32 lbl_8050093C[3];
-s32 lbl_80500948[3];
+saddr lbl_80500930[3];
+saddr lbl_8050093C[3];
+saddr lbl_80500948[3];
 TObjEneMe1CanadinParams *lbl_80500954[3];
 Vec lbl_80500960;
 
