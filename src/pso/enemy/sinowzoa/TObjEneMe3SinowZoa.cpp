@@ -54,6 +54,7 @@
 #include "pso/math/AngleUnits.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/camera/TCameraCtrl.h"
 
 // load_resources fills these per kind (0 and 1) from TLobby::register_boss,
 // TLobby::dispatch_shared_handler_b, TLobby::register_object and
@@ -95,7 +96,6 @@ void TObjEneMe3SinowZoa__sub_80316C3C(TObjEneMe3SinowZoa *self, s32 arg1);
 u16 get_entity_id(int);
 u32 get_valid_target_player__10TNpcPlayerFv(int);
 s32 check_move_collision__18TObjEneMe3SinowZoaFPvPv(TObjEneMe3SinowZoa *self, const Vec *pos);
-s32 get_mode__11TCameraCtrlFPv(void *);
 u32 get_item_field_6__10TObjPlayerFPv(void *);
 f32 fabs_float(f32);
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
@@ -1828,7 +1828,7 @@ void TObjEneMe3SinowZoa::action() { if (get_target_info() != 0) { setup_move_bou
 extern "C" {
 
 s32 TObjEneMe3SinowZoa::render_model_if_visible() {
-    if (get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x20) {
+    if (TCameraCtrl::get_mode(((s32 *)&main_task)) & 0x20) {
         if (push_reflection_matrix(&this->m_3d4) != 0) {
             TObjFish::set_global_param(this->texlist);
             push_matrix();

@@ -275,7 +275,6 @@ struct Self_8011EDFC {
 
 s32 TObjectV8047c128_subtract_hp(u8 *arg0, s16 arg1);
 saddr get_entity_id(void *);
-s32 get_mode__11TCameraCtrlFPv(void *);
 u8 * csnVector(void *, void *, s32);
 s32 set_action_type__10TObjPlayerFs(int, int);
 f32 get_attack_accuracy_scale(s16 *arg0);
@@ -445,7 +444,7 @@ void TItemWeapon::update_trail_slot(s32 slot) {
     if (is_default_camera() != 0 && has_no_defer_render() == 0 &&
         owner->test_action_mask(0xE0) != 0 &&
         owner->is_flag_b0_4() == 0 &&
-        !(get_mode__11TCameraCtrlFPv(((u8 *)&main_task)) & 0x78)) {
+        !(TCameraCtrl::get_mode(((u8 *)&main_task)) & 0x78)) {
         if (trails[slot] != NULL) {
             get_joint_position(trail_start_joints[slot], &a);
             get_joint_position(trail_end_joints[slot], &b);

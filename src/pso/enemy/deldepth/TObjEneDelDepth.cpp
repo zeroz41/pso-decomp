@@ -37,6 +37,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/technique/TTecRaBarta.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/camera/TCameraCtrl.h"
 
 
 extern "C" {
@@ -73,7 +74,6 @@ extern const f32 lbl_805DF29C;
 extern const f32 lbl_805DF294;
 
 
-s32 get_mode__11TCameraCtrlFPv(void *);
 void draw_blob_shadow(s32 arg0);
 s32 free_collision_body_parts(void *);
 saddr init_collision_body_parts(void *, void *, int);
@@ -402,7 +402,7 @@ void TObjEneDelDepth::render() {
 
 s32 TObjEneDelDepth::draw_if_visible() {
     TObjEneDelDepth *o = this;
-    if (get_mode__11TCameraCtrlFPv(((u8 *)&main_task)) & 0x20) {
+    if (TCameraCtrl::get_mode(((u8 *)&main_task)) & 0x20) {
         if (push_reflection_matrix((Vec *)(&o->groundPoint)) != 0) {
             push_matrix();
             Vec v = o->position;

@@ -647,7 +647,6 @@ struct VObj_14_c1c33b : VBase_14_c1c33b {
 
 u16 get_entity_id(void *);
 void free_bin_model_request(void*, int);
-s32 get_mode__11TCameraCtrlFPv(void *);
 s32 TObjPlayer__sub_800A04F0(void *);
 void TObjPlayer__sub_800A0554(void *);
 void *__dt__13TUnk_80490470Fv(void *arg0, s16 arg1);
@@ -2076,18 +2075,18 @@ void TObjEneMorfos::render_part(s32 idx, s32 mode) {
     if (self->f3C0 & 2) {
         if (self->body.m8() != 0) {
             self->body.m6();
-            if (get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x200) {
+            if (TCameraCtrl::get_mode(((s32 *)&main_task)) & 0x200) {
                 ((TObjMotion *)self)->draw();
             }
             self->body.m7();
         }
     } else if (vis != 0) {
         part->m6();
-        if (get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x200) {
+        if (TCameraCtrl::get_mode(((s32 *)&main_task)) & 0x200) {
             ((TObjMotion *)self)->draw();
         }
         part->m7();
-    } else if (!(get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x200)) {
+    } else if (!(TCameraCtrl::get_mode(((s32 *)&main_task)) & 0x200)) {
         if (mode == 1) {
             ((TObjMotion *)self)->draw();
         } else {
@@ -2140,7 +2139,7 @@ void render__13TObjEneMorfosFv(u8 *ene_morfos) {
     }
 }
 s32 TObjEneMorfos::render_model_if_visible() {
-    if (get_mode__11TCameraCtrlFPv((void *) (((s32 *)&main_task))) & 0x20) {
+    if (TCameraCtrl::get_mode((void *) (((s32 *)&main_task))) & 0x20) {
         if (push_reflection_matrix((Vec *)(((u8 *)this) + 0x3C8)) != 0) {
             TObjFish::set_global_param(this->texlist);
             push_matrix();
@@ -2162,7 +2161,7 @@ s32 TObjEneMorfos::render_model_if_visible() {
 #pragma opt_common_subs off
 void TObjEneMorfos::draw_body() {
     u8 *arg0 = (u8 *)this;
-    if (get_mode__11TCameraCtrlFPv((void *)&main_task) & 0x200) {
+    if (TCameraCtrl::get_mode((void *)&main_task) & 0x200) {
         TObjFish::set_global_param((saddr)((void *) (*(saddr *)((s8 *)(((RecoveredFields_803326CC_TObjEneMorfos__data_805D6D14 *)(*(u8 * *)&TObjEneMorfos__instance))->field_42C) + 0x2C))));
         push_matrix();
         post_translate_matrix(arg0 + 0x498);

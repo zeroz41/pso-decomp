@@ -46,7 +46,6 @@ extern "C" {
 s32 matrix_mult_vec(int, void *, void *);
 extern BmlResource *lbl_805D6FA0;
 s32 draw_chunk_object();
-s32 get_mode__11TCameraCtrlFPv(void *);
 void TObjEneEpsilonGuard__sub_80360BF8(TObjEneEpsilonBody *body, s32 arg1);
 extern EpsilonBodySharedParams *lbl_805D6F8C;
 void action__19TObjEneEpsilonGuardFPvi(TObjEneEpsilonBody *body, s32 arg1);
@@ -1012,7 +1011,7 @@ void draw_with_fade__19TObjEneEpsilonGuardFPvi(TObjEneEpsilonBody *body, s32 arg
     r->update();
     if (r->updateFromCamera(&body->m_2fc) != 0) {
         r->set_flags_and_apply_damage_color();
-        if (!(get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x200)) {
+        if (!(TCameraCtrl::get_mode(((s32 *)&main_task)) & 0x200)) {
             model_render_flags = saved_model_render_flags;
             chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
             chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
@@ -1021,13 +1020,13 @@ void draw_with_fade__19TObjEneEpsilonGuardFPvi(TObjEneEpsilonBody *body, s32 arg
     } else if (body->fade.has_visible_opacity() != 0) {
         if (TObjEneMe3SinowZoa__sub_800D72A4(&body->fade) != 0) {
             body->fade.set_flags_and_apply_damage_color();
-            if (!(get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x200)) {
+            if (!(TCameraCtrl::get_mode(((s32 *)&main_task)) & 0x200)) {
                 model_render_flags = saved_model_render_flags;
                 chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
                 chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
                 return;
             }
-        } else if (get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x200) {
+        } else if (TCameraCtrl::get_mode(((s32 *)&main_task)) & 0x200) {
             model_render_flags = saved_model_render_flags;
             chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
             chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
@@ -1083,7 +1082,7 @@ void draw_with_fade__19TObjEneEpsilonGuardFPvi(TObjEneEpsilonBody *body, s32 arg
 
 void TObjEneEpsilonBody::render_body_effect() {
     f32 temp_f1;
-    if (get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x200) {
+    if (TCameraCtrl::get_mode(((s32 *)&main_task)) & 0x200) {
         push_matrix();
         post_translate_matrix(&position.x);
         translate_matrix(0, 0.0f, 24.0f, 0.0f);

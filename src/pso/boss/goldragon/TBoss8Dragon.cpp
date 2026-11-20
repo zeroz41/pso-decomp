@@ -1450,7 +1450,6 @@ struct VObj_14_681f8e : VBase_14_681f8e {
 struct Fade_802F4114 { u8 pad[0x1C]; };
 struct Obj_802F4114 { u8 pad[0x6DC]; Fade_802F4114 fades[4]; };
 extern "C" {
-s32 get_mode__11TCameraCtrlFPv(void *);
 u8 *find_entity_by_id(void);
 extern u8 *camera_ctrl_instance;
 s32 has_enough_enemies__12TBoss8DragonFv();
@@ -5897,7 +5896,7 @@ void TBoss8Dragon::render() {
     }
     this->sub_802F4098(pos);
     if (defer_render() != 0) {
-        if (!(get_mode__11TCameraCtrlFPv(&main_task) & 0x10)) {
+        if (!(TCameraCtrl::get_mode(&main_task) & 0x10)) {
             this->render_body_model();
             this->copy_vectors();
         }
@@ -5976,7 +5975,7 @@ void TBoss8Dragon::draw_with_fade(saddr arg1, s32 arg2) {
 
 void TBoss8Dragon::sub_802F4098(u8 *arg1) {
     VecCopy((Vec *)arg1, (const Vec *)(((u8 *)this) + 0x38));
-    if ((get_mode__11TCameraCtrlFPv(&main_task) & 0x10) && (TBoss8Dragon__sub_802FCCBC(this) == 0) && !(this->frame > 63.0f)) {
+    if ((TCameraCtrl::get_mode(&main_task) & 0x10) && (TBoss8Dragon__sub_802FCCBC(this) == 0) && !(this->frame > 63.0f)) {
         *(f32 *)((s8 *)arg1 + 8) += -460.0f;
     }
 }

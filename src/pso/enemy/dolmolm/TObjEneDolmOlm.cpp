@@ -439,7 +439,6 @@ void free_bin_model_request(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 u8 *__ct__14TObjEneDolmOlmFll(u8 *, s32, s32);
 void mem_free(void*);
-s32 get_mode__11TCameraCtrlFPv(void *);
 s32 init_collision_body_parts(void *, void *, int);
 extern const char *obj_ene_dolm_olm_class_name;
 extern "C" {
@@ -900,7 +899,7 @@ void TObjEneDolmOlm::render() {
     }
 }
 s32 TObjEneDolmOlm::render_model_if_visible() {
-    if (get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x20) {
+    if (TCameraCtrl::get_mode(((s32 *)&main_task)) & 0x20) {
         if (push_reflection_matrix((Vec *)(((u8 *)this) + 0x3D8)) != 0) {
             TObjFish::set_global_param(this->texlist);
             push_matrix();

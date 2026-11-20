@@ -84,7 +84,6 @@ u16 get_entity_id(void *);
 void obj_setFlags30(void *, s32);
 void free_bin_model_request(void*, int);
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
-s32 get_mode__11TCameraCtrlFPv(void *);
 u32 csnLookAt(void *, void *);
 s32 *csnVectorUnder(Vec *arg0, u32 *arg1, s32 arg2);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
@@ -1587,7 +1586,7 @@ void TObjEneDellBiter::vfunc_106() {
 #pragma pool_data reset
 
 s32 TObjEneDellBiter::render_model_if_visible() {
-    if (get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x20) {
+    if (TCameraCtrl::get_mode(((s32 *)&main_task)) & 0x20) {
         if (push_reflection_matrix(&reflection_position) != 0) {
             TObjFish::set_global_param(texlist);
             push_matrix();

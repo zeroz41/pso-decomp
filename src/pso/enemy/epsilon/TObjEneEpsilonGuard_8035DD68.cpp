@@ -48,7 +48,6 @@ void render__19TObjEneEpsilonGuardFv(u8 *);
 extern const TBoss3VoloptBreakupParams epsilon_guard_breakup_params = { 0x14, { 0.05f, 1.2f, 0.9f, 0.12f, 0.55f, 0.5f } };
 const char *TObjEneEpsilonGuard__class_name = "TObjEneEpsilonGuard";
 extern s32 lbl_805D6FA8;
-s32 get_mode__11TCameraCtrlFPv(void *);
 
 s32 move_with_wall_slide_commit__9TObjEneDDFfff(TObjEneEpsilonGuard *, TObjEneEpsilonGuardParams *, f32, f32, f32);
 extern TObjEneEpsilonGuardParams *TObjEneEpsilonGuard__movement_params;
@@ -149,7 +148,7 @@ void TObjEneEpsilonGuard::set_target(saddr pos, s32 angle, s32 arg3) {
 void TObjEneEpsilonGuard::render_guard_effect() {
     f32 scale;
 
-    if ((flags & 0x20) && (get_mode__11TCameraCtrlFPv((void *) (((s32 *)&main_task))) & 0x200)) {
+    if ((flags & 0x20) && (TCameraCtrl::get_mode((void *) (((s32 *)&main_task))) & 0x200)) {
         TObjFish::set_global_param(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
@@ -177,7 +176,7 @@ void TObjEneEpsilonGuard::render_with_fade(s32 detail) {
     fade->update();
     if (fade->updateFromCamera(&this->m_2fc) != 0) {
         fade->set_flags_and_apply_damage_color();
-        if (!(get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x200)) {
+        if (!(TCameraCtrl::get_mode(((s32 *)&main_task)) & 0x200)) {
             model_render_flags = saved_model_render_flags;
             chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
             chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
@@ -185,13 +184,13 @@ void TObjEneEpsilonGuard::render_with_fade(s32 detail) {
         }
     } else if (this->mode == 3) {
         this->fade.set_flags_and_apply_damage_color();
-        if (!(get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x200)) {
+        if (!(TCameraCtrl::get_mode(((s32 *)&main_task)) & 0x200)) {
             model_render_flags = saved_model_render_flags;
             chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
             chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
             return;
         }
-    } else if (get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x200) {
+    } else if (TCameraCtrl::get_mode(((s32 *)&main_task)) & 0x200) {
         model_render_flags = saved_model_render_flags;
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;

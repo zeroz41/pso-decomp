@@ -35,6 +35,7 @@
 
 
 #include "pso/system/task/TObject.h"
+#include "pso/camera/TCameraCtrl.h"
 
 const char *bm_boss7_crawfish_model_names[3] = { "minibaru_body.nj", "minibaru_body_b.nj", NULL };
 const char *bm_boss7_crawfish_motion_names[7] = {
@@ -101,7 +102,6 @@ extern "C" {
 extern s32 game_difficulty_selection;
 
 s32 exchange_object_state__9TObjEnemyFls(void *, void *, int);
-s32 get_mode__11TCameraCtrlFPv(void *);
 s32 obj_is_hit_receivable(u8 *arg0);
 void reset_global_table(void);
 s32 apply_hit_to_target__14TBoss7CrawfishFPvPv(void *, void *);
@@ -157,7 +157,7 @@ void TBoss7Crawfish::spawn_effect(s32 arg1) {
 }
 
 s32 TBoss7Crawfish::is_visible() {
-    if (get_mode__11TCameraCtrlFPv(&main_task) & 0x20) {
+    if (TCameraCtrl::get_mode(&main_task) & 0x20) {
         if (3600.0f < horizontal_distance_squared(&lbl_8047559C, &position)) {
             return 0;
         }

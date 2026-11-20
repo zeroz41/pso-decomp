@@ -620,7 +620,6 @@ s32 push_matrix();
 
 void TObjPlayer__sub_802E8274(void);
 
-s32 get_mode__11TCameraCtrlFPv(void *);
 
 void TObjPlayer__sub_802E7FC0(void *arg0);
 
@@ -4519,7 +4518,7 @@ void TBoss7DeRolLeC::sub_802E8234() {
 void TBoss7DeRolLeC::render() {
     s32 *var_r30;
     s32 var_r29;
-    if (!(get_mode__11TCameraCtrlFPv((void *)&main_task) & 0x20) || !(*(f32 *)((s8 *)((u8 *)this) + 0x3C) < -35.0f)) {
+    if (!(TCameraCtrl::get_mode((void *)&main_task) & 0x20) || !(*(f32 *)((s8 *)((u8 *)this) + 0x3C) < -35.0f)) {
         var_r30 = (s32 *)(((u8 *)this) + 0x5F8);
         var_r29 = 0;
         do {

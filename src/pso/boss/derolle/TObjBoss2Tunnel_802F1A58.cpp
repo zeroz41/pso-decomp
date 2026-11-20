@@ -27,6 +27,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/camera/TCameraCtrl.h"
 
 struct Nd_802F2348 { u8 pad[0xC]; Nd_802F2348 *next; };
 struct Li_802F2348 { u8 pad[0x14]; Nd_802F2348 *head; };
@@ -77,7 +78,6 @@ void __dt__7TObjectFv(void *, int);
 extern "C" void *__ct__14TObjCollidableFP7TObject(void *, TObject *);
 extern "C" {
 void __dl__7TObjectFPv(void *);
-s32 get_mode__11TCameraCtrlFPv(void *p);
 extern s32 __vt__18TObjBoss7TunnelCol[];
 }
 struct GE_802F1DAC { s32 a, b, obj, d; };
@@ -559,7 +559,7 @@ void draw_tunnel_segment(u8 *boss7_tunnel_col) {
 s32 TObjBoss7TunnelCol::is_in_camera_range() {
     f32 temp_f1;
 
-    if (get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x20) {
+    if (TCameraCtrl::get_mode(((s32 *)&main_task)) & 0x20) {
         temp_f1 = *(f32 *)&this->texlist;
         if ((temp_f1 < -300.0f) && (300.0f < temp_f1)) {
             return 0;

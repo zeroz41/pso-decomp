@@ -47,6 +47,7 @@
 #include "pso/enemy/deldepth/DelDepthData.h"
 #include "pso/boss/volopt/TBoss3VoloptP01.h"
 #include "pso/effect/TBreakUpMdl.h"
+#include "pso/camera/TCameraCtrl.h"
 
 #pragma readonly_strings on
 
@@ -106,10 +107,9 @@ void TObjEneRecon::vfunc_106() {
     }
 }
 
-s32 get_mode__11TCameraCtrlFPv(void *);
 
 s32 TObjEneRecon::render_model_if_visible() {
-    if (get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x20) {
+    if (TCameraCtrl::get_mode(((s32 *)&main_task)) & 0x20) {
         if (push_reflection_matrix((Vec *)(((u8 *)this) + 0x41C)) != 0) {
             TObjFish::set_global_param((int) (this->texlist));
             push_matrix();
