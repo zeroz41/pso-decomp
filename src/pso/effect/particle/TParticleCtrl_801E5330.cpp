@@ -1,23 +1,10 @@
 #include "types.h"
+#include "pso/effect/particle/ParticleDefinition.h"
 #include "pso/effect/particle/TParticleCtrl_801E5330.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/effect/TEffect.h"
 #include "pso/system/task/TObject.h"
 
-// One quad-sprite particle kind; create_quad_sprites builds sprite_type's
-// TQuadSprite* class for each. Field names inferred from the users.
-struct ParticleDefinition {
-    u32 flags;
-    GinjaTextureList *texlist;
-    s32 texture;
-    s32 uv_count;
-    f32 (*uvs)[4];
-    f32 width;
-    f32 height;
-    u32 color;
-    s32 texlist_index;
-    s32 sprite_type;
-};
 GinjaTextureList *lbl_805D35A0[2] = { (GinjaTextureList *)&shared_effect_texture_list, 0 };
 extern "C" {
 
@@ -27,8 +14,6 @@ void *TQuadSpriteCol__ct(void *, void *, ParticleDefinition *);
 void *TQuadSpriteSclCol__ct(void *, void *, ParticleDefinition *);
 void *TQuadSpriteSclColRot__ct(void *, void *, ParticleDefinition *);
 
-extern ParticleDefinition lbl_804C5820[];
-extern void *TParticleCtrl__data_80511F70[];
 extern void *tl_particle;
 extern f32 particle_sprite_atlas_uv_rects[0x10][4];
 extern GinjaTextureList *lbl_805D35A0[2];
@@ -48,7 +33,7 @@ void TParticleCtrl::reset_emitter_table() {
 void TParticleCtrl::create_quad_sprites() {
     s32 index = 0;
     ParticleDefinition *definitions = lbl_804C5820;
-    void **sprites = TParticleCtrl__data_80511F70;
+    TUnk_804C57F0 **sprites = TParticleCtrl__data_80511F70;
     void *sprite;
 
     do {
@@ -93,7 +78,7 @@ void TParticleCtrl::create_quad_sprites() {
             break;
         }
 
-        sprites[index] = sprite;
+        sprites[index] = static_cast<TUnk_804C57F0 *>(sprite);
         index++;
     } while (index < 0x6C);
 }
@@ -131,7 +116,7 @@ void init_particle_sprite_atlas(void) {
     }
 }
 
-void *TParticleCtrl__data_80511F70[0x6C];
+TUnk_804C57F0 *TParticleCtrl__data_80511F70[0x6C];
 f32 particle_sprite_atlas_uv_rects[0x10][4];
 
 ParticleDefinition lbl_804C5820[0x6C] = {

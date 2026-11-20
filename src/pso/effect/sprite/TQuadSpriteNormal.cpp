@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/effect/particle/ParticleDefinition.h"
 #include "pso/effect/sprite/TQuadSpriteNormal.h"
 
 #include "pso/system/vector.h"
@@ -25,23 +26,12 @@ typedef struct Node_801E5598 {
 
 typedef struct List_801E5598 { Node_801E5598 *head; u8 pad[0x28]; } List_801E5598;
 
-typedef struct Desc_801E5598 {
-    u32 flags;
-    s32 param4;
-    s32 param8;
-    s32 count;
-    Col_801E5598 *cols;
-    f32 w;
-    f32 h;
-    s32 param1C;
-} Desc_801E5598;
-
 typedef struct Self_801E5598 {
     u8 pad0[0x1C];
     List_801E5598 *lists;
     u8 pad20[0x4];
     s32 active;
-    Desc_801E5598 *desc;
+    ParticleDefinition *definition;
 } Self_801E5598;
 
 typedef struct Cam_801E5598 { u8 pad0[8]; f32 cx; f32 cy; u8 pad10[8]; f32 sw; f32 aspect; } Cam_801E5598;
@@ -81,7 +71,7 @@ void render__17TQuadSpriteNormalFv(Self_801E5598 *self) {
     if (self->active == 0) {
         return;
     }
-    flags = self->desc->flags;
+    flags = self->definition->flags;
     if (flags & 2) {
         if (flags & 4) {
             set_inverse_alpha_blend();
@@ -99,11 +89,11 @@ void render__17TQuadSpriteNormalFv(Self_801E5598 *self) {
     sh = sw * (480.0f / (480.0f * lbl_8058D4F8.aspect));
     TParticleCtrl::begin_effect_render();
     begin_screen_draw(1);
-    TObjFish::set_global_param((s32)((void *)self->desc->param4));
-    set_draw_texture_and_color(self->desc->param8, self->desc->param1C);
+    TObjFish::set_global_param((s32)self->definition->texlist);
+    set_draw_texture_and_color(self->definition->texture, self->definition->color);
     one = -1.0f;
-    for (i = 0, ci = 0, li = 0; i < self->desc->count; i++, ci += 0x10, li += 0x2C) {
-        Col_801E5598 *c = (Col_801E5598 *)((u8 *)self->desc->cols + ci);
+    for (i = 0, ci = 0, li = 0; i < self->definition->uv_count; i++, ci += 0x10, li += 0x2C) {
+        Col_801E5598 *c = (Col_801E5598 *)((u8 *)self->definition->uvs + ci);
         n = *(Node_801E5598 **)((u8 *)self->lists + li);
         q.col.r = c->r;
         q.col.g = c->g;
@@ -135,8 +125,8 @@ void render__17TQuadSpriteNormalFv(Self_801E5598 *self) {
                     x = out.x;
                     y = out.y;
                 }
-                w *= self->desc->w;
-                h *= self->desc->h;
+                w *= self->definition->width;
+                h *= self->definition->height;
                 q.x0 = x - w;
                 q.x1 = x + w;
                 q.y0 = y - h;

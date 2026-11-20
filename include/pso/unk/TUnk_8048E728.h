@@ -35,18 +35,6 @@ struct ParticleParam {
     u8 flags;                  // 0x88
 };
 
-// Sprite set of a particle texture slot: flags bit 0 = additive.
-struct ParticleSpriteSet {
-    u32 flags;
-    u8 pad_4[0x8];
-    s32 frame_count;           // 0xC
-};
-
-struct ParticleTexture {
-    u8 pad_0[0x28];
-    ParticleSpriteSet *sprites; // 0x28
-};
-
 class TUnk_8048E728 : public TObject {
 public:
     TUnk_8048E728(ParticleParam *src, TObject *parent);
