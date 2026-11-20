@@ -1623,7 +1623,7 @@ s32 partner_view_update_conditions(u8 *arg0);
 s32 partner_view_check_moved(u8 *arg0);
 void partner_observe_surroundings(TNpcPlayer *arg0);
 int is_partner_counter_reached(s16 *table, s32 idx, s32 value);
-void set_partner_counter(s32 arg0, s32 arg1, s16 arg2);
+void set_partner_counter(saddr arg0, s32 arg1, s16 arg2);
 s32 clamp_partner_counter(saddr arg0, s32 arg1, s16 arg2);
 void bswap_6x45_packet(void* p);
 void bswap_6x44_packet(void* p);
@@ -1826,7 +1826,7 @@ s32 TNpcPlayer::get_condition() { return *(s32*)((char*)this + 0x90); }
 
 s32 TNpcPlayer__sub_80152978(void* p) { return *(s32*)((char*)p + 0x80); }
 
-void set_partner_counter(s32 arg0, s32 arg1, s16 arg2) {
+void set_partner_counter(saddr arg0, s32 arg1, s16 arg2) {
     *(s16 *)((s8 *)(arg0 + (arg1 * 2)) + 0) = arg2;
 }
 

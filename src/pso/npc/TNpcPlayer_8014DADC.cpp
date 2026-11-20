@@ -21,7 +21,7 @@ extern "C" {
 u32 get_npc_state__10TNpcPlayerFv(s32);
 s32 npc_counter_reset_if_reached(void *, s32, s32);
 }
-void set_partner_counter(s32 arg0, s32 arg1, s16 arg2);
+void set_partner_counter(saddr arg0, s32 arg1, s16 arg2);
 extern "C" {
 s32 TNpcPlayer__sub_80152978(void *p);
 u8 *find_active_entity_by_id(s32);

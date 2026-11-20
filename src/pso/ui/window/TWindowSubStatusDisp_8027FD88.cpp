@@ -320,7 +320,7 @@ s32 init_window_layout_entries(void *, void *, s16);
 void *get_player_by_client_id(s32 i);
 void vt11__20TWindowSubStatusDispFv(Wn_80280F14 *arg0);
 }
-void set_text_entry_string(u8 *arg0, u32 str, s32 arg2);
+void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
 s32 get_class_name_text(s32);
 extern "C" {
 s32 build_player_class_stat_template(s32 arg0, s32 arg1);

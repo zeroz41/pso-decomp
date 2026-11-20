@@ -54,7 +54,7 @@ extern u8 lbl_804CF4E4[];
 extern Callback_80253564 TWindowHelpItem__photon_blast_update_callback;
 extern u8 TWindowHelpItem__description_text_layout[];
 extern V3_802531A4 TWindowHelpItem__description_update_callback;
-void set_text_entry_string(u8 *arg0, u32 str, s32 arg2);
+void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
 extern u8 window_help_item_layout_entries[];
 extern V3_802534B0 item_help_description_idle_callback;
 s32 format_item_description(u8 *item);

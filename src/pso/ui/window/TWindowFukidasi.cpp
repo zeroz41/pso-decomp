@@ -210,7 +210,7 @@ s32 reset_float_field__15TWindowHelpItemFv();
 s32 measure_message_text_width(int, f32);
 }
 
-void set_text_entry_string(u8 *arg0, u32 str, s32 arg2);
+void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
 extern "C" {
 f32 vec3_dot(void *, void *);
 void project_world_to_screen(s32, f32 *, f32 *);

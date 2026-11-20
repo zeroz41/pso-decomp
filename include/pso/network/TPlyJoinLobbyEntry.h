@@ -49,7 +49,7 @@ void destroy_lobby_ui__6TLobbyFv(void);
 void disable_window_flags__6TLobbyFPv(void *a0);
 int get_seq_phase__6TLobbyFPv(void *p);
 }
-void handle_6x6F_set_quest_flags_v2(s32 arg0);
+void handle_6x6F_set_quest_flags_v2(saddr arg0);
 void handle_6x71_unblock_game_join(void);
 void handle_6x72_done_loading_into_game(void);
 extern "C" {

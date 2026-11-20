@@ -55,7 +55,7 @@ s32 *TWindowDuelResult__sub_801C257C(void);
 void text_builder_append_int(s32);
 s32 text_builder_append(s32);
 }
-void set_text_entry_string(u8 *arg0, u32 str, s32 arg2);
+void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
 void text_builder_reset(void);
 extern "C" {
 void refresh_status_display__9TWindowDDFv(void *);

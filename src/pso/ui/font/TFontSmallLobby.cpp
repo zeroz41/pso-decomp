@@ -60,11 +60,11 @@ void TFontSmallLobby::set_section_index(s16 arg1) {
     *(s16 *)((s8 *)this + 4) = var_r4;
 }
 }
-void handle_6x39_set_photon_blast_ready_flag(s32 arg0);
-void handle_6x3B_clear_temporary_photon_blast_state_flags(s32 arg0);
+void handle_6x39_set_photon_blast_ready_flag(saddr arg0);
+void handle_6x3B_clear_temporary_photon_blast_state_flags(saddr arg0);
 void reinit_photon_blast_gauge(u16 *arg0);
-void handle_6x3A_clear_photon_blast_ready_flag(s32 arg0);
-void handle_6x3B_clear_temporary_photon_blast_state_flags(s32 arg0) {
+void handle_6x3A_clear_photon_blast_ready_flag(saddr arg0);
+void handle_6x3B_clear_temporary_photon_blast_state_flags(saddr arg0) {
     struct { s16 a; u16 b; } sp8;
     saddr player;
     ((TFontSmallLobby *)(&sp8))->init_pkt_cmd_3B();
@@ -90,7 +90,7 @@ void reinit_photon_blast_gauge(u16 *arg0) {
     ((TFontSmallLobby *)(&sp8))->update_and_send();
 }
 
-void handle_6x3A_clear_photon_blast_ready_flag(s32 arg0) {
+void handle_6x3A_clear_photon_blast_ready_flag(saddr arg0) {
     struct { s16 a; u16 b; } sp8;
     u8 *player;
     ((TFontSmallLobby *)(&sp8))->init_6x3A_packet();
@@ -113,7 +113,7 @@ void send_6x3A_clear_photon_blast_ready_flag(u16 *arg0) {
     }
 }
 
-void handle_6x39_set_photon_blast_ready_flag(s32 arg0) {
+void handle_6x39_set_photon_blast_ready_flag(saddr arg0) {
     struct { s16 a; u16 b; } sp8;
     s32 temp_r31;
     saddr player;
@@ -148,7 +148,7 @@ extern "C" {
 void TFontSmallLobby__sub_801D698C(Subcommand6x38 *p);
 s32 validate_6x38_donate_to_photon_blast(void *);
 }
-void handle_6x38_donate_to_photon_blast(s32 arg0);
+void handle_6x38_donate_to_photon_blast(saddr arg0);
 
 s32 TFontSmallLobby::is_ready() {
     u8 *arg0 = (u8 *)this;
@@ -164,7 +164,7 @@ void TFontSmallLobby::reset_targets() {
     ((TFontSmallLobby *)(arg0 + 0x4C))->set_target_count(0);
     ((TFontSmallLobby *)arg0)->check_flag_at_40();
 }
-void handle_6x38_donate_to_photon_blast(s32 arg0) {
+void handle_6x38_donate_to_photon_blast(saddr arg0) {
     Cmd_801D61A0 cmd;
     saddr player;
     TFontSmallLobby__sub_801D698C((Subcommand6x38 *)&cmd);

@@ -600,7 +600,7 @@ void restore_switch_table(s32 arg0, s32 arg1);
 extern const char lobby_debug_rcv_set_flag_format[];
 extern s16 TLobby__data_805D5CE8;
 void set_world_section_id(void *, s32);
-void handle_6x6F_set_quest_flags_v2(s32 arg0);
+void handle_6x6F_set_quest_flags_v2(saddr arg0);
 void handle_6x72_done_loading_into_game(void);
 void bswap_object_source_record(void *);
 void set_area_random_seed(int a0);
@@ -696,7 +696,7 @@ void send_6x70_player_data__6TLobbyFi(saddr arg0) {
 
 #pragma push
 #pragma peephole off
-void handle_6x6F_set_quest_flags_v2(s32 arg0) {
+void handle_6x6F_set_quest_flags_v2(saddr arg0) {
     if (((s16) TLobby__data_805D5CE8 == 0) && (((s32) TLobby__data_805D5594 == 0xE) || ((s32) TLobby__data_805D5594 == 0xF))) {
         memcpy((void *) (&(*(RecoveredGlobal_8013561C_lbl_805127F8 *)&quest_story_flags_by_difficulty).value), (void *)(arg0 + 4), 0x200);
     }
