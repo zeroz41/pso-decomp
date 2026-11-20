@@ -6,7 +6,6 @@
 extern "C" {
 
 u8 *alloc_from_heap__6TLobbyFPv(s32);
-s32 adxf_open__6TLobbyFUii(s32, s32);
 u8 *link_into_list__6TLobbyFv();
 
 struct Ent_800fa388;
@@ -18,7 +17,7 @@ s32 TLobby::request_file_read(s32 arg0, s32 arg1, s32 *arg2, void **arg3) {
     if (arg3 != NULL) {
         *arg3 = NULL;
     }
-    temp_r3 = adxf_open__6TLobbyFUii(arg0, 0);
+    temp_r3 = (saddr)TLobby::adxf_open(arg0, 0);
     if (temp_r3 == 0) {
         return -2;
     }

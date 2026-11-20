@@ -82,7 +82,6 @@ void handle_box_drop_directive(void *);
 extern "C" {
 void handle_6x5A_pick_up_item_request(Msg_8011A9D8 *msg);
 int is_quest_active(void);
-void init__9TItemDataFv(void *);
 void apply_by_index__9TObjEnemyFs(s16, void *);
 void drop_item_from_slot__10TObjPlayerFlll(s8 arg0, s32 arg1, s32 arg2);
 extern Source_8011AB64 *TLobby__data_805D6144;
@@ -223,7 +222,7 @@ void process_enemy_drop_request(s8 area, s16 source, int client, s16 room, int s
             id = build_item_id(row.claim);
             row.claim = 0xFFFF;
             apply_by_index__9TObjEnemyFs(source, &row);
-            init__9TItemDataFv(&item);
+            ((TItemData *)(&item))->init();
             drop_item_from_slot__10TObjPlayerFlll(area, slot, (s32)&item);
             item.id = id;
             if (((TItemData *)(&item))->isValidGroundDrop() != 0) {

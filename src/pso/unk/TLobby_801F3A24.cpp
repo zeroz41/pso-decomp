@@ -42,7 +42,7 @@ void refresh_quest_list__6TLobbyFi(s32 arg0) {
         temp_r3 = alloc__22TQuestVmDownLoadServerFUl();
         if (temp_r3 != 0) {
             read_disc_file((const char *)arg0, (void *)temp_r3);
-            rebuild_all__6TLobbyFi(temp_r3);
+            TLobby::rebuild_all(temp_r3);
             TAdSinglePlyChrSelectGC::safe_free(temp_r3);
         }
     }
@@ -87,7 +87,7 @@ void TLobby::init_floor_encounter_sections() {
             break;
         }
         if (ok == 0) {
-            init_buffers__6TLobbyFii(i, TLobby__data_805D5EE0);
+            TLobby::init_buffers(i, TLobby__data_805D5EE0);
         }
     }
 }

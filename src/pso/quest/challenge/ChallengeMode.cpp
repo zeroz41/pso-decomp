@@ -508,7 +508,7 @@ void clear_four_slots__6TLobbyFv(void) {
 
 void TLobby__sub_80070358(void) {
     s32 *temp_r31;
-    clear_four_slots__6TLobbyFv();
+    TLobby::clear_four_slots();
     temp_r31 = (s32 *)((u8 *)(((u8 *)&challenge_mode_state + (local_client_id * 0x104))) + 0x270);
     if (get_character_save_record(0xFFFFU) != 0U) {
         *(s32 *)((s8 *)temp_r31 + 0) = 1;

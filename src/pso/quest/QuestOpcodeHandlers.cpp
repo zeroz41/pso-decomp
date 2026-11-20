@@ -1109,7 +1109,6 @@ int begin_conversation_camera(void*);
 u32 get_layout_id__20TWindowSubStatusDispFv(s32);
 s32 get_unit_list__6TLobbyFv();
 s32 TLobby__sub_80070ACC();
-s32 set_split_screen_flag__6TLobbyFv();
 s32 TLobby__sub_80070B34(int);
 s32 TLobby__sub_80070BE8(s32);
 s32 TLobby__sub_80070C50();
@@ -2005,7 +2004,7 @@ void qst_op_check_npc_straggle_ex(u8 i, u8 slot) {
     s.a = qst_registers[i++];
     s.c = qst_registers[i++];
     s.b = qst_registers[i++];
-    obj = create_quest_col_apc_inw__6TLobbyFPvPv(&s, &qst_registers[start]);
+    obj = TLobby::create_quest_col_apc_inw(&s, &qst_registers[start]);
     if (obj != NULL) {
         v.x = qst_registers[i++];
         v.y = qst_registers[i++];
@@ -2442,7 +2441,7 @@ void qst_op_disable_retry_menu() {
         set_challenge_split_flag__6TLobbyFv();
         return;
     }
-    set_split_screen_flag__6TLobbyFv();
+    TLobby::set_split_screen_flag();
 }
 
 void qst_op_chl_set_min_time_online(s32 arg0) {
@@ -2619,7 +2618,7 @@ void qst_op_set_chat_callback_no_filter(u8 i) {
 
 void qst_op_write_flag_buf_to_event_flags(u8 arg0) {
     s32 idx = qst_registers[arg0];
-    Ctx_801EA5FC *w = get_global_state__23TAdSinglePlyChrSelectGCFv();
+    Ctx_801EA5FC *w = (Ctx_801EA5FC *)TAdSinglePlyChrSelectGC::get_global_state();
     if (w != NULL && idx >= 0 && idx < 0xFD) {
         ((TLobby *)(&w->buf[idx]))->move_data(&qst_flag_buf, 4);
     }

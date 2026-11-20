@@ -45,7 +45,7 @@ void TLobby::send_slot_entity(u16 arg1, s32 arg2) {
     u32 temp_r6;
     temp_r6 = *(u32 *)((s8 *)this + 0x1C);
     if (temp_r6 != 0U) {
-        copy_symbol_chat_entry__6TLobbyFPvPv((void *)arg2, (void *)(temp_r6 + (arg1 * 0x3C)));
+        TLobby::copy_symbol_chat_entry((void *)arg2, (void *)(temp_r6 + (arg1 * 0x3C)));
         return;
     }
     TLobby__sub_8036B1AC(arg2);
@@ -54,7 +54,7 @@ void TLobby::start_entry_timer(u16 arg1, s32 src) {
     Obj_8036B2E8 *arg0 = (Obj_8036B2E8 *)this;
     if (arg0->base != 0) {
         s32 i = arg1;
-        copy_symbol_chat_entry__6TLobbyFPvPv((void *)(arg0->base + i * 0x3C), (void *)src);
+        TLobby::copy_symbol_chat_entry((void *)(arg0->base + i * 0x3C), (void *)src);
         arg0->t[i] = 0x78;
     }
 }

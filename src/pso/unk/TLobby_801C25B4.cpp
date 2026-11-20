@@ -553,7 +553,7 @@ void update_player_battle_ctrl_state(void *arg0) {
         ((TLobby *)arg0)->update_timed_wait();
         return;
     case 3:
-        update_duel_result__6TLobbyFPv((u8 *)arg0);
+        TLobby::update_duel_result((u8 *)arg0);
         return;
     case 4:
         ((TLobby *)arg0)->end_battle_mode_cleanup();
@@ -678,7 +678,7 @@ void TLobby::update_timed_wait() {
         ((TLobby *)((Lobby_801C484C *)this))->start_duel_battle();
         ((Lobby_801C484C *)this)->state = 1;
     case 1:
-        if (check_team_balance__6TLobbyFPvi((Lobby_801C484C *)(((Lobby_801C484C *)this)), 1) != 0) {
+        if (TLobby::check_team_balance((Lobby_801C484C *)(((Lobby_801C484C *)this)), 1) != 0) {
             TLobby::send_battle_mode_params(5, 0, 0);
             return;
         }
@@ -704,7 +704,7 @@ void TLobby::update_timed_wait() {
             send_battle_mode_state();
             ((Lobby_801C484C *)this)->timer60 = 90;
         }
-        calc_player_rankings__6TLobbyFPv((Lobby_801C484C *)(((Lobby_801C484C *)this)));
+        TLobby::calc_player_rankings((Lobby_801C484C *)(((Lobby_801C484C *)this)));
         break;
     case -1:
         break;
@@ -716,7 +716,7 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
     void *q;
     switch (*(s32 *)((s8 *)arg0 + 0x20)) {
     case 0:
-        init__6TLobbyFPv(arg0);
+        TLobby::init(arg0);
         lbl_805D5DA8 = 0;
         lbl_805D5DAC = 0;
         p = (void *)TObject::operator new(0x28);
@@ -759,8 +759,8 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
             ((TObjPlayer *)p)->release_attached_resource();
         }
         if (((TLobby *)arg0)->check_timeout((*(s32 *)((s8 *)arg0 + 0x44))--) != 0 || *(s32 *)((s8 *)arg0 + 0x44) <= 0) {
-            clear_counter__6TLobbyFPv(arg0);
-            calc_player_rankings__6TLobbyFPv((Lobby_801C484C *)arg0);
+            TLobby::clear_counter(arg0);
+            TLobby::calc_player_rankings((Lobby_801C484C *)arg0);
             record_local_battle_placement(arg0);
             if (((u16 *)TLobby__duel_result_table)[0] == local_client_id) {
                 ((TLobby *)"win.adx")->send_neg50((void *)0x96);
@@ -801,7 +801,7 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
         }
         break;
     case 6:
-        if (check_team_balance__6TLobbyFPvi((Lobby_801C484C *)((Lobby_801C484C *)arg0), 0) != 0) {
+        if (TLobby::check_team_balance((Lobby_801C484C *)((Lobby_801C484C *)arg0), 0) != 0) {
             TLobby::send_battle_mode_params(5, 1, 0);
         } else {
             q = (void *)update_battle_controller__10TObjPlayerFv();
@@ -863,7 +863,7 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
         }
         *(s32 *)((s8 *)arg0 + 0x20) = 8;
     case 8:
-        if (check_team_balance__6TLobbyFPvi((Lobby_801C484C *)((Lobby_801C484C *)arg0), 0) != 0) {
+        if (TLobby::check_team_balance((Lobby_801C484C *)((Lobby_801C484C *)arg0), 0) != 0) {
             TLobby::send_battle_mode_params(5, 1, 0);
         } else {
             p = (void *)((u32 (*)(s32))get_player_by_client_id)(local_client_id);
@@ -1415,7 +1415,7 @@ void TPlayerBattleCtrl::init_battle_round() {
     ((TPlayerBattleCtrl4P *)(temp_r3 + 0x7AC))->set_battle_mode(0);
   }
   *((s32 *) (((s8 *) this) + 0x60)) = 0x5A;
-  calc_player_rankings__6TLobbyFPv((Lobby_801C484C *)this);
+  TLobby::calc_player_rankings((Lobby_801C484C *)this);
   for (i = 0; i < 4; i++)
   {
     TLobby__battle_team_table[i] = 1;
@@ -1434,7 +1434,7 @@ void TLobby::start_duel_battle() {
     if ((p = update_battle_controller__10TObjPlayerFv()) != 0) {
         obj_clear_flag30_20000((void *)p);
     }
-    clear_counter__6TLobbyFPv(this);
+    TLobby::clear_counter(this);
     area = get_current_floor_area();
     name = (area == AREA_BATTLE1) ? "duel1.adx" : "duel2.adx";
     new TUnk_804C3E88(this, name, 0x2D);
@@ -1565,8 +1565,8 @@ void TLobby::show_score_results() {
     Entry_801C2B04 *e;
     s32 i;
     VObj_801C2B04 *p;
-    clear_counter__6TLobbyFPv(this);
-    calc_player_rankings__6TLobbyFPv((Lobby_801C484C *)this);
+    TLobby::clear_counter(this);
+    TLobby::calc_player_rankings((Lobby_801C484C *)this);
     ((TWindowCtrl *)"SCORE")->init_all_default();
     for (i = 0; i < 4; i++) {
         e = (Entry_801C2B04 *)&TLobby__duel_result_table[i];

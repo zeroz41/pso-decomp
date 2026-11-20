@@ -205,7 +205,6 @@ void TUnk_8048E1A4::render() {
 }
 
 s32 __ct__13TUnk_8048E1A4FPUcPUc(u32, u32, s32, s32);
-u32 __nw__7TObjectFUl(s32);
 u16 get_entity_id(void *);
 
 void create__10TObjPlayerFUiii(u32 arg0, s32 arg1, s32 arg2) {
@@ -214,7 +213,7 @@ void create__10TObjPlayerFUiii(u32 arg0, s32 arg1, s32 arg2) {
     u32 obj;
     if ((is_current_area_item_enabled() != 0) && (arg0 != 0U)) {
         entity_id = get_entity_id((void *)arg0);
-        if (((u16) entity_id != 0xFFFF) && ((u16) entity_id < 0x4000U) && ((obj = __nw__7TObjectFUl(0x368)) != 0U)) {
+        if (((u16) entity_id != 0xFFFF) && ((u16) entity_id < 0x4000U) && ((obj = (uaddr)TObject::operator new(0x368)) != 0U)) {
             __ct__13TUnk_8048E1A4FPUcPUc(obj, arg0, arg1, arg2);
         }
     }

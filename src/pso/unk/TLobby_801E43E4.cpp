@@ -141,7 +141,7 @@ s32 TLobby::load_texture_pvm_file(const char *name, s32 arg1) {
     TLobby::pump_frames();
     strncpy(path, name, 0x40);
     if (((TLobby *)path)->compare_file_extension("gvm") != 0) {
-        change_file_extension__6TLobbyFPvPvPv(0, path, "gvm");
+        TLobby::change_file_extension(0, path, (char *)"gvm");
     }
     size = TGStream::get_resource_file_size((const char *)path);
     if (size <= 0) {

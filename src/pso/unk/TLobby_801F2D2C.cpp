@@ -39,7 +39,6 @@ struct EnteredItemName { s32 value; u8 remaining[0xC]; };
 extern EnteredItemName entered_item_name;
 extern struct Op_801F2E64 qst_opcode_table[];
 void init_quest_script_context(Hdr_801F3124 *h, QuestVmContext *c);
-int test_action_mask__10TObjPlayerFl(void*, int);
 int VecCopy__FP3VecPC3Vec(void*);
 void queue_destruction__7TObjectFv(void *arg0);
 int set__8FlagWordFUl(void*, int);
@@ -236,27 +235,27 @@ void TLobby::free_luker_object() {
 
 void TLobby::set_flag_80000() {
     s32 arg0 = (s32)this;
-    test_action_mask__10TObjPlayerFl((void*)arg0, 0x80000);
+    ((TObjPlayer *)arg0)->test_action_mask(0x80000);
 }
 void TLobby::set_flag_40000() {
-    test_action_mask__10TObjPlayerFl(this, 0x40000);
+    ((TObjPlayer *)this)->test_action_mask(0x40000);
 }
 void TLobby__sub_801F3314(s32 arg0) {
-    test_action_mask__10TObjPlayerFl((void*)arg0, 0x10000);
+    ((TObjPlayer *)arg0)->test_action_mask(0x10000);
 }
 void TLobby::set_flag_8000() {
     s32 arg0 = (s32)this;
-    test_action_mask__10TObjPlayerFl((void*)arg0, 0x8000);
+    ((TObjPlayer *)arg0)->test_action_mask(0x8000);
 }
-int TLobby::check_flag_24576() { return test_action_mask__10TObjPlayerFl(this, 24576); }
-int TLobby__sub_801F3384(void* p) { return test_action_mask__10TObjPlayerFl(p, 1024); }
-int TLobby__sub_801F33A8(void* p) { return test_action_mask__10TObjPlayerFl(p, 512); }
-int TLobby__sub_801F33CC(void* p) { return test_action_mask__10TObjPlayerFl(p, 256); }
-int TLobby__sub_801F33F0(void* p) { return test_action_mask__10TObjPlayerFl(p, 224); }
-int TLobby::test_flag_16() { return test_action_mask__10TObjPlayerFl(this, 16); }
-int set_flag_4__6TLobbyFPv(void* p) { return test_action_mask__10TObjPlayerFl(p, 4); }
+int TLobby::check_flag_24576() { return ((TObjPlayer *)this)->test_action_mask(24576); }
+int TLobby__sub_801F3384(void* p) { return ((TObjPlayer *)p)->test_action_mask(1024); }
+int TLobby__sub_801F33A8(void* p) { return ((TObjPlayer *)p)->test_action_mask(512); }
+int TLobby__sub_801F33CC(void* p) { return ((TObjPlayer *)p)->test_action_mask(256); }
+int TLobby__sub_801F33F0(void* p) { return ((TObjPlayer *)p)->test_action_mask(224); }
+int TLobby::test_flag_16() { return ((TObjPlayer *)this)->test_action_mask(16); }
+int set_flag_4__6TLobbyFPv(void* p) { return ((TObjPlayer *)p)->test_action_mask(4); }
 
-int TLobby__sub_801F345C(void* p) { return test_action_mask__10TObjPlayerFl(p, 2); }
+int TLobby__sub_801F345C(void* p) { return ((TObjPlayer *)p)->test_action_mask(2); }
 
 int fn_801F3480(void* p) { return ((TObjPlayer *)p)->has_item_flag_4096(); }
 int fn_801F34A0(void* p) { return ((TObjPlayer *)p)->check_technique_flag(); }
@@ -280,7 +279,7 @@ void TLobby::bswap_4x32() { bswap_32((u32 *)this); bswap_32((u32 *)((char*)this 
     extern unsigned char camera_capture_flags;
 void TLobby__sub_801F3568(void) { camera_capture_flags = (camera_capture_flags | 0x10); }
 
-void TLobby::sync_quest_register_and_send() { bswap_header__6TLobbyFPv(this); send_subcommand((u8 *)this); }
+void TLobby::sync_quest_register_and_send() { TLobby::bswap_header(this); send_subcommand((u8 *)this); }
 void bswap_header__6TLobbyFPv(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16((u16 *)((char*)p + 0x4)); bswap_16((u16 *)((char*)p + 0x6)); bswap_32((u32 *)((char*)p + 0x8)); }
 void build_6x77_sync_quest_register(void* p) { *(u8*)((char*)p + 0x0) = 119; *(u8*)((char*)p + 0x1) = 3; }
 

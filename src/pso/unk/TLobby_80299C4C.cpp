@@ -174,9 +174,9 @@ void send_giveup_to_all_players__6TLobbyFv(void) {
 }
 
     extern int local_client_id;
-void close_giveup_window__6TLobbyFPv(void* a0) { ((TWindowCtrl *)local_client_id)->suppress_slot(); play_effect_all_players__6TLobbyFPv(a0); }
+void close_giveup_window__6TLobbyFPv(void* a0) { ((TWindowCtrl *)local_client_id)->suppress_slot(); TLobby::play_effect_all_players(a0); }
 
-void play_all_players_effect__6TLobbyFPv(void* a0) { TObjPlayer__sub_8024ABDC((local_client_id)); play_effect_all_players__6TLobbyFPv(a0); }
+void play_all_players_effect__6TLobbyFPv(void* a0) { TObjPlayer__sub_8024ABDC((local_client_id)); TLobby::play_effect_all_players(a0); }
 
 void play_effect_all_players__6TLobbyFPv(void*) {
     s32 var_r31;
@@ -243,7 +243,7 @@ void giveup_window_handle_select(void *arg0) {
     case 1:
         play_sound_effect(0x52812, 0, 0, 0);
         ((s32 (*)(void *))send_giveup_to_all_players__6TLobbyFv)(arg0);
-        play_all_players_effect__6TLobbyFPv(arg0);
+        TLobby::play_all_players_effect(arg0);
         ((TObjChallenge4PRetry *)arg0)->close_window_field30();
         ((TObjChallenge4PRetry *)arg0)->close_window();
         *(s32 *)((s8 *)arg0 + 0x28) = 0x1E;
@@ -252,7 +252,7 @@ void giveup_window_handle_select(void *arg0) {
     default:
         if (((s32) ((TObjChallenge4PRetry *)arg0)->m_20 != 0) && ((s32) ((TObjChallenge4PRetry *)arg0)->m_24 == 0)) {
             ((s32 (*)(void *))send_giveup_to_all_players__6TLobbyFv)(arg0);
-            close_giveup_window__6TLobbyFPv(arg0);
+            TLobby::close_giveup_window(arg0);
             ((TObjChallenge4PRetry *)arg0)->close_window_field30();
             ((TObjChallenge4PRetry *)arg0)->open_giveup_window();
             *(s32 *)((s8 *)arg0 + 0x1C) = 2;
@@ -277,7 +277,7 @@ void TObjChallenge4PRetry::handle_retry_menu_select() {
         if (selected_menu_value != 2) {
             TLobby::set_retry_selection(retry_selection_value_table[selected_menu_value]);
             ((s32 (*)(void *))send_giveup_to_all_players__6TLobbyFv)(this);
-            play_effect_all_players__6TLobbyFPv(this);
+            TLobby::play_effect_all_players(this);
             this->m_24 = 1;
             *(s32 *)((s8 *)this + 0x1C) = 3;
         }
@@ -294,7 +294,7 @@ void TObjChallenge4PRetry::update_challenge_4p_retry() {
     ((s32 (*)())play_all_players_effect__6TLobbyFPv)();
     if ((get_player_by_client_id(local_client_id) != 0U) && (check_flag_100__10TObjPlayerFPv() == 0) && (TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 4) != 0)) {
         ((s32 (*)(void *))send_giveup_to_all_players__6TLobbyFv)(this);
-        close_giveup_window__6TLobbyFPv(this);
+        TLobby::close_giveup_window(this);
         *(s32 *)((s8 *)this + 0x1C) = 2;
     }
 }
@@ -311,7 +311,7 @@ void TObjChallenge4PRetry::update_giveup() {
     default:
         return;
     }
-    play_effect_all_players__6TLobbyFPv(this);
+    TLobby::play_effect_all_players(this);
     flag = 1;
     for (i = 0; i < 4; i++) {
         u32 ctrl = get_player_by_client_id(i);
@@ -323,11 +323,11 @@ void TObjChallenge4PRetry::update_giveup() {
     if (flag != 0) {
         if (this->m_20 != 0) {
             ((s32 (*)(void *))send_giveup_to_all_players__6TLobbyFv)(this);
-            close_giveup_window__6TLobbyFPv(this);
+            TLobby::close_giveup_window(this);
             *(s32 *)((s8 *)this + 0x1C) = 2;
         } else {
             ((s32 (*)(void *))send_giveup_to_all_players__6TLobbyFv)(this);
-            play_effect_all_players__6TLobbyFPv(this);
+            TLobby::play_effect_all_players(this);
             open_message_window();
             *(s32 *)((s8 *)this + 0x1C) = 3;
         }

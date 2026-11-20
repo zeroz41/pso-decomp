@@ -8,7 +8,6 @@ struct S_802D1D48 { E_802D1D48 e[31]; u8 tail[1]; };
 extern "C" {
 u8 * TLobby__sub_802D2334(void *, u32);
 s32 get_trade_obj_ptr__6TLobbyFv(s32);
-u8 *find_free_trade_slot__6TLobbyFPv(void *);
 s32 check_trade_offer_inventory(S_802D1D48 *arg0, s32 *arg1);
 
 s32 check_trade_offer_inventory(S_802D1D48 *arg0, s32 *arg1) {
@@ -67,7 +66,7 @@ void TLobby::move_trade_item_amount(u32 key, s32 arg2) {
     }
     else
     {
-      var_r3 = (long) find_free_trade_slot__6TLobbyFPv(this);
+      var_r3 = (long) (u8 *)TLobby::find_free_trade_slot(this);
     }
     *((u32 *) (((s8 *) var_r3) + 0)) = key;
     *((s32 *) (((s8 *) var_r3) + 4)) = arg2;

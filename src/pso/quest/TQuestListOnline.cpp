@@ -105,7 +105,6 @@ struct T_80217B30 { u8 pad[0x38]; s32 f38; };
 extern "C" {
 s32 get_entity_id(int);
 int set_field_20__15TShopWindowBaseFl(void*, int);
-u32 create__14TWindowMessageFlPCfUll(int, void *, int, int);
 s32 get_window_layout_position(int);
 u32 create__14TWindowMessageFPvll(s32, void *, int);
 
@@ -244,7 +243,7 @@ void TQuestListOnline::show_info_window() {
     if ((u32) info_window == 0U) {
         WindowSize size = online_info_window_size;
         temp_r31 = get_entity_id(window_owner);
-        info_window = create__14TWindowMessageFlPCfUll((int) (get_window_layout_position(0x2E)), &size, 1, (int) ((s32) temp_r31));
+        info_window = (uaddr)TWindowMessage::create((int) (get_window_layout_position(0x2E)), (const f32 *)(&size), 1, (int) ((s32) temp_r31));
         ((TWindowBase *)info_window)->set_depth(37000.0f);
         if (TCameraCtrl::get_camera_id() >= 2) {
             ((TWindowAddition *)info_window)->set_position_xy(0.75f, 0.75f);

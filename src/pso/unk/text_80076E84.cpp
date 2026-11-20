@@ -2,6 +2,7 @@
 #include "pso/unk/TLobby_8036B204.h"
 #include "pso/unk/text_80076E84.h"
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
+#include "pso/unk/TLobby.h"
 
 struct Pkt_80076E98 { u8 pad[4]; s32 f4; u32 f8; };
 
@@ -24,13 +25,13 @@ void handle_6x07_symbol_chat(Pkt_80076E98 *arg0) {
     p = &arg0->f8;
     ply = (s32)get_player_by_client_id(arg0->f4);
     if (ply != 0) {
-        dispatch_by_index__6TLobbyFUsi(arg0->f4, (s32)p);
+        TLobby::dispatch_by_index(arg0->f4, (s32)p);
         open_balloon__11TWindowCtrlFUsPUcll(get_entity_id(ply), p, 2, local_client_id);
         if (*p & 0x200) {
             for (; pending_symbol_chat_count >= 1; pending_symbol_chat_count--) {
             }
             pending_symbol_chat_count++;
-            copy_symbol_chat_entry__6TLobbyFPvPv(((TWindowSubSymbolChat *)symbol_chat_receive_buffer)->get_data_ptr(), p);
+            TLobby::copy_symbol_chat_entry(((TWindowSubSymbolChat *)symbol_chat_receive_buffer)->get_data_ptr(), p);
         }
     }
 }

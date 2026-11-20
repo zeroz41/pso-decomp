@@ -268,7 +268,7 @@ void TLobby__sub_802099FC(Out_802099FC *arg0, s32 key) {
     Hdr_802099FC hdr = *(Hdr_802099FC *)TLobby__item_data_table_buffer;
     Rec_802099FC *p;
     TLobby__sub_8020A568(&hdr);
-    p = bsearch_record__6TLobbyFPvii((void *)(TLobby__item_data_table_buffer + hdr.table), hdr.count, key);
+    p = (Rec_802099FC *)TLobby::bsearch_record((void *)(TLobby__item_data_table_buffer + hdr.table), hdr.count, key);
     if (p != NULL) {
         Rec_802099FC r = *p;
         TLobby__sub_8020A48C(&r);
@@ -748,7 +748,7 @@ s32 load_enemy_set_file(s32 idx, s32 arg1) {
     s32 n;
     s32 i;
     s32 floor;
-    replace_file_extension__6TLobbyFPvPvPv((char *)&name, (char *)arg1, "e.dat");
+    TLobby::replace_file_extension((char *)&name, (char *)arg1, (char *)"e.dat");
     size = read_disc_file(name.s, TLobby__map_set_file_buffer);
     if (size < 0) {
         return 0;
@@ -774,7 +774,7 @@ s32 load_object_set_file(s32 idx, s32 arg1) {
     s32 n;
     s32 i;
     s32 floor;
-    replace_file_extension__6TLobbyFPvPvPv(name.s, (char *)arg1, "o.dat");
+    TLobby::replace_file_extension(name.s, (char *)arg1, (char *)"o.dat");
     size = read_disc_file(name.s, TLobby__map_set_file_buffer);
     if (size < 0) {
         return 0;
@@ -898,17 +898,17 @@ s32 load_area_enemy_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     if (arg1 == 0 || arg1 == 0x12) {
         switch (get_game_play_mode()) {
         case 0:
-            replace_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)name, "e.dat");
+            TLobby::replace_file_extension((char *)buf, (char *)name, (char *)"e.dat");
             break;
         case 1:
-            replace_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)name, "e_c1.dat");
+            TLobby::replace_file_extension((char *)buf, (char *)name, (char *)"e_c1.dat");
             break;
         case 2:
-            replace_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)name, "e_d.dat");
+            TLobby::replace_file_extension((char *)buf, (char *)name, (char *)"e_d.dat");
             break;
         }
     } else {
-        replace_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)name, "e.dat");
+        TLobby::replace_file_extension((char *)buf, (char *)name, (char *)"e.dat");
     }
     size = read_disc_file(buf, TLobby__map_set_file_buffer);
     if (size < 0) {
@@ -981,17 +981,17 @@ s32 load_area_object_set(s32 arg0, s32 lobby, s32 arg2, s32 arg3) {
     if (lobby == 0 || lobby == 0x12) {
         switch (get_game_play_mode()) {
         case 0:
-            replace_file_extension__6TLobbyFPvPvPv((char *)name, (char *)id, "o.dat");
+            TLobby::replace_file_extension((char *)name, (char *)id, (char *)"o.dat");
             break;
         case 1:
-            replace_file_extension__6TLobbyFPvPvPv((char *)name, (char *)id, "o_c1.dat");
+            TLobby::replace_file_extension((char *)name, (char *)id, (char *)"o_c1.dat");
             break;
         case 2:
-            replace_file_extension__6TLobbyFPvPvPv((char *)name, (char *)id, "o_d.dat");
+            TLobby::replace_file_extension((char *)name, (char *)id, (char *)"o_d.dat");
             break;
         }
     } else {
-        replace_file_extension__6TLobbyFPvPvPv((char *)name, (char *)id, "o.dat");
+        TLobby::replace_file_extension((char *)name, (char *)id, (char *)"o.dat");
     }
     len = read_disc_file(name, TLobby__map_set_file_buffer);
     if (len < 0) {
@@ -1213,7 +1213,6 @@ int TLobby::resolve_matching_object() { return get_matching_object__6TLobbyFv(th
 int get_object_count__6TLobbyFPv(void* p) { return get_object_count__6TLobbyFv(p); }
 
 // ---- pso/unk/text_8020B374
-s32 load_floor_enemy_group_entries__6TLobbyFiPvUi(s32, void *, u32);
 s32 init_quest_floor_enemies(s32, void *, u32);
 s32 TLobby::init_floor_enemy_count(s32 arg0, u8 *arg1, u32 arg2) {
     if (init_quest_floor_enemies(arg0, arg1, arg2) == 1) {
@@ -1225,7 +1224,7 @@ s32 TLobby::init_floor_enemy_count(s32 arg0, u8 *arg1, u32 arg2) {
 }
 
 s32 TLobby::load_object_set_entries(s32 arg0, u8 *arg1, u32 arg2) {
-    if (load_floor_enemy_group_entries__6TLobbyFiPvUi(arg0, arg1, arg2) == 1) {
+    if (TLobby::load_floor_enemy_group_entries(arg0, arg1, arg2) == 1) {
         TLobby__data_80513C80[arg0] = arg2 / 68U;
         return 1;
     }

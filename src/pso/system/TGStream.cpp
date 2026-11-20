@@ -233,7 +233,7 @@ void close_gsl_archive(void) {
     } else {
         n = strlen(gsl_archive_path_buffer_ptr);
         if (n > 0) {
-            change_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)gsl_archive_filename, (char *)"txt");
+            TLobby::change_file_extension((char *)buf, (char *)gsl_archive_filename, (char *)"txt");
             fn_800F93B4(buf, gsl_archive_entries, n);
         }
         TItemDrop__data_805D53D0 = 0;

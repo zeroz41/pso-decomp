@@ -327,7 +327,7 @@ void TItemData::add_mag_stat_bonuses(s32 player, u8 *a, u8 *b, EquipStats *st, s
     Mag_8010D614 mag;
 
     ((MagStats *)&mag)->init();
-    deserialize_mag__9TItemDataFPvPv((Raw_8010D614 *)((u8 *)this), &mag);
+    TItemData::deserialize_mag((Raw_8010D614 *)((u8 *)this), &mag);
     if (st != NULL && st != NULL) {
         st->s0 += (s16)(mag_stat_bonus_scale[0] * (f32)((MagStats *)&mag)->get_pow_level());
         st->sA += (s16)(mag_stat_bonus_scale[1] * (f32)(((MagStats *)&mag)->get_dex_level() * 10));
@@ -343,7 +343,7 @@ void apply_unit_stat_bonus__9TItemDataFPviiPvPvPv(void *self, s32 arg1, s32 arg2
     parm = lookup_item_pmt_record(self);
     if (parm != NULL && st != NULL && res != NULL) {
     kind = parm->dfp;
-    amount = parm->evp + get_field6_bswap__9TItemDataFPv(self);
+    amount = parm->evp + TItemData::get_field6_bswap(self);
     switch (kind) {
     case 0:
         st->s0 += amount;
@@ -442,7 +442,7 @@ void add_armor_stat_contribution__9TItemDataFPviiPv(u8 *self, s32 player, s32 un
     parm = lookup_item_pmt_record(self);
     if (parm != 0) {
         dfpBonus = getS16_06__9TItemDataFPv(self);
-        s16 evpBonus = get_bswap16_field8__9TItemDataFPv(self);
+        s16 evpBonus = TItemData::get_bswap16_field8(self);
         s32 dfp = (s32)(parm->dfp * mult + add);
         if (out != 0) {
             TItemData::add_stat_ptr(out, (s16)(parm->evp + evpBonus));
@@ -501,7 +501,7 @@ void TItemData::set_wrapped() {
         ((struct Item_8010C498 *)this)->b4 |= lbl_805DAB68;
         break;
     case 3:
-        if (lookup_item_def__9TItemDataFPv(this) == 0) {
+        if (TItemData::lookup_item_def(this) == 0) {
             ((struct Item_8010C498 *)this)->b3 |= lbl_805DAB68;
         }
         break;
@@ -518,7 +518,7 @@ u8 is_wrapped__9TItemDataFPv(Item_8010C52C *it) {
     case 1:
         return ((it->b4 & 0x40) - 0x40) == 0;
     case 3:
-        if (lookup_item_def__9TItemDataFPv(it) != 0) {
+        if (TItemData::lookup_item_def(it) != 0) {
             return 0;
         }
         return ((it->b3 & 0x40) - 0x40) == 0;
@@ -623,7 +623,7 @@ void TItemData::unpack_from_item(void *arg1) {
             return;
         case 2:
             ((MagStats *)(&sp8))->init();
-            serialize_mag__9TItemDataFPvPv(this, &sp8);
+            TItemData::serialize_mag(this, &sp8);
             break;
         }
     }
@@ -925,7 +925,7 @@ s32 TItemData::has_bonus_stats() {
                 return 1;
             }
         case 2:
-            if (getS16_06__9TItemDataFPv(item) > 0 || get_bswap16_field8__9TItemDataFPv(item) > 0) {
+            if (getS16_06__9TItemDataFPv(item) > 0 || TItemData::get_bswap16_field8(item) > 0) {
                 return 1;
             }
             break;
@@ -1529,7 +1529,7 @@ s32 TItemData::calc_price() {
       price = 8;
     }
     else
-      if (is_rare_item__9TItemDataFPv(((u8 *)this)) != 0)
+      if (TItemData::is_rare_item(((u8 *)this)) != 0)
     {
       price = 0x50;
     }
@@ -1561,7 +1561,7 @@ s32 TItemData::calc_price() {
       break;
 
     case 1:
-      if (is_rare_item__9TItemDataFPv(((u8 *)this)) != 0)
+      if (TItemData::is_rare_item(((u8 *)this)) != 0)
     {
       price = 0x50;
     }
@@ -1573,7 +1573,7 @@ s32 TItemData::calc_price() {
       if ((0.0f != coef) && (pmt != 0))
       {
         s32 a = getS16_06__9TItemDataFPv(this);
-        atp = (f32) (((pmt->dfp + pmt->evp) + a) + get_bswap16_field8__9TItemDataFPv(this));
+        atp = (f32) (((pmt->dfp + pmt->evp) + a) + TItemData::get_bswap16_field8(this));
         {
           s32 dv = (s32) ((atp * atp) / coef);
           f32 sl = 70.0f * ((f32)(item->slots + 1));
@@ -1674,7 +1674,7 @@ s32 format_item_description(u8 *item) {
                 return (s32)lbl_805D2B10;
             }
             if (item[0] == 0) {
-                if (is_rare_item__9TItemDataFPv(item) != 0 && ((TItemData *)item)->check_item_flags() == 0) {
+                if (TItemData::is_rare_item(item) != 0 && ((TItemData *)item)->check_item_flags() == 0) {
                     format = (char *)get_item_description_text(0x17E);
                 } else {
                     format = (char *)get_item_description_text(name);
@@ -1682,7 +1682,7 @@ s32 format_item_description(u8 *item) {
             } else if (item[0] == 1 && item[1] == 3) {
                 if (name < 0x2E2) {
                     if (p != NULL && out != NULL && p->stat != 0x1C) {
-                        sprintf(out, (char *)get_item_description_text(name), p->amount + get_field6_bswap__9TItemDataFPv(item));
+                        sprintf(out, (char *)get_item_description_text(name), p->amount + TItemData::get_field6_bswap(item));
                         return (s32)out;
                     }
                 } else {
@@ -1730,7 +1730,7 @@ void TItemData::format_item_name(char *buf) {
     }
     t = item->type;
     if (t == 0) {
-        if (is_custom_name_srank__9TItemDataFPv(arg0) != 0) {
+        if (TItemData::is_custom_name_srank(arg0) != 0) {
             memset(tmp, 0, 10);
             ((TItemData *)arg0)->decode_packed_name_chars(tmp);
             if (tmp[0] - 0x41 == 1) {
@@ -1747,7 +1747,7 @@ void TItemData::format_item_name(char *buf) {
             return;
         }
         slot = ((s8 *)TObjPlayer::get_item_by_slot_flag(item->flags));
-        if (is_rare_item__9TItemDataFPv(arg0) != 0) {
+        if (TItemData::is_rare_item(arg0) != 0) {
             if (check_item_flags() == 1) {
                 if (item->grind != 0) {
                     sprintf(buf, "%s +%d", name, item->grind);
@@ -1798,7 +1798,7 @@ void TItemData::format_item_name(char *buf) {
         pmt = (s32 *)lookup_item_pmt_record(arg0);
         if (pmt != NULL) {
             lim = *(s16 *)((u8 *)pmt + 0xC);
-            v = get_field6_bswap__9TItemDataFPv(arg0);
+            v = TItemData::get_field6_bswap(arg0);
             if (v < -lim) {
                 sign[0] = '-';
                 sign[1] = '-';
@@ -1871,7 +1871,7 @@ int TItemData::calc_display_grade() {
         break;
     case 1:
         if ((u8) *(u8 *)((s8 *)this + 1) == 3) {
-            temp_r3 = get_field6_bswap__9TItemDataFPv(this);
+            temp_r3 = TItemData::get_field6_bswap(this);
             if (temp_r3 < 0) {
                 base_rarity -= 1;
             } else if (temp_r3 > 0) {

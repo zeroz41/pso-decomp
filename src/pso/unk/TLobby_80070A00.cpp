@@ -6,6 +6,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/quest/challenge/TChallenge.h"
 
 #pragma readonly_strings on
 
@@ -20,7 +21,6 @@ extern s32 challenge_mode_state[];
 
 extern "C" {
 
-u32 create__10TChallengeFv();
 
 extern u32 challenge_task;
 extern s32 challenge_task_created;
@@ -35,7 +35,7 @@ void TLobby::init_on_main_phase() {
         }
         TLobby::start_lobby_name_request();
         if ((s32) TLobby__data_805D4E30 != 0) {
-            challenge_task = create__10TChallengeFv();
+            challenge_task = (uaddr)TChallenge::create();
             challenge_task_created = 1;
             TObjTombstone::load_resources();
             ((TLobby *)(s32 *)"Area00")->set_name_string();
@@ -74,7 +74,6 @@ extern RecoveredGlobal_80399904_lbl_804F5A00 __upper_map;
 u32 TLobby__sub_80070AD8(s32 arg0);
 #define challenge_mode_state (*(G_80070B34 *)challenge_mode_state)
 u8 is_flag_set__6TLobbyFv(void);
-s32 mix_seed_checked__6TLobbyFi(s32);
 void TLobby__sub_80070B34(s32 v);
 void set_split_screen_flag__6TLobbyFv(void);
 
@@ -105,7 +104,7 @@ void TLobby__sub_80070B34(s32 v) {
         if (v < 0x3c || v > 0xe10) {
             return;
         }
-        challenge_mode_state.x10 = mix_seed_checked__6TLobbyFi(v);
+        challenge_mode_state.x10 = TLobby::mix_seed_checked(v);
     }
 }
 

@@ -164,7 +164,6 @@ s32 bml_load_entry_index;
 u8 * lobby_bml_read_buffer;
 void check_bin_model_loaded__6TLobbyFPvPv(Obj_8001F8D8 *self, void * _w1);
 s32 bind_bml_motion(struct Lobby_8001FB6C *self, s32 idx, void *bytes);
-s32 change_file_extension__6TLobbyFPvPvPv(char *arg0, char *arg1, char *arg2);
 s32 load_gvm_texture_archive(s32, s32);
 s32 create_file_load_entry__6TLobbyFllUllPPv(void *, s32, void *, void *, void *);
 s32 TLobby__sub_800F9FF4(s32);
@@ -267,7 +266,7 @@ void TLobby::load_texture_sub(void *arg1, s32 arg2) {
     Lobby_8001F018 *arg0 = (Lobby_8001F018 *)this;
     char buf[0x20];
     s32 size;
-    change_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)arg1, "gvm");
+    TLobby::change_file_extension((char *)buf, (char *)arg1, (char *)"gvm");
     size = TGStream::load_sct_file(buf, (u8 *)lobby_download_buffer);
     if (size > 0x40000) {
         TLobby::debug_print("LoadTextureSub: %s too large.", buf);
@@ -447,7 +446,7 @@ s32 TLobby::load_bml_exec(u8 *arg0, u8 *arg1) {
             }
         }
         if (bml_load_entry_index < self->f434) {
-            change_file_extension__6TLobbyFPvPvPv((char *)(0), (char *)bml_header_record_ptr, "gvm");
+            TLobby::change_file_extension((char *)(0), (char *)bml_header_record_ptr, (char *)"gvm");
             lobby_bml_file_handle = adxf_open__6TLobbyFUii(bml_header_record_ptr, 0);
             if (lobby_bml_file_handle != 0) {
                 n = adxf_get_fsize_sct();
@@ -533,7 +532,7 @@ void increment_ref_and_set_flag__6TLobbyFPv(void *arg0) {
     void *temp_r4;
     temp_r4 = *(void **)((s8 *)arg0 + 0);
     *(s32 *)((s8 *)temp_r4 + 0xC) = (s32) (*(s32 *)((s8 *)temp_r4 + 0xC) + 1);
-    check_bin_model_loaded__6TLobbyFPvPv((Obj_8001F8D8 *)(*(void **)((s8 *)arg0 + 0)), temp_r4);
+    TLobby::check_bin_model_loaded((Obj_8001F8D8 *)(*(void **)((s8 *)arg0 + 0)), temp_r4);
     *(*(s32 **)((s8 *)arg0 + 4)) |= 1;
 }
 }
@@ -544,14 +543,14 @@ void load_bin_motion_callback(void *arg0) {
     void *temp_r4;
     **(s32 **)((s8 *)arg0 + 0) = 0;
     spC = 0;
-    temp_r3 = alloc_load_data__6TLobbyFPviii((void *)(*(void **)((s8 *)arg0 + 4)), lobby_download_buffer, (s32)&spC, (s32)&sp8);
+    temp_r3 = TLobby::alloc_load_data((void *)(*(void **)((s8 *)arg0 + 4)), lobby_download_buffer, (s32)&spC, (s32)&sp8);
     if (temp_r3 == 0) {
         TLobby::debug_print("LoadBinMotionCallBack: Illegal format.");
     }
     **(s32 **)((s8 *)arg0 + 0) = temp_r3;
     temp_r4 = *(void **)((s8 *)arg0 + 4);
     *(s32 *)((s8 *)temp_r4 + 8) = (s32) (*(s32 *)((s8 *)temp_r4 + 8) + 1);
-    check_bin_model_loaded__6TLobbyFPvPv((Obj_8001F8D8 *)(*(void **)((s8 *)arg0 + 4)), temp_r4);
+    TLobby::check_bin_model_loaded((Obj_8001F8D8 *)(*(void **)((s8 *)arg0 + 4)), temp_r4);
 }
 
 struct Obj_8001F8D8;
@@ -575,7 +574,7 @@ void load_bin_model_callback(void *request) {
             *slot = data;
             params.a = self->fC;
             params.b = self->f10;
-            change_file_extension__6TLobbyFPvPvPv((char *)name, (char *)self->f0, "gvm");
+            TLobby::change_file_extension((char *)name, (char *)self->f0, (char *)"gvm");
             r = create_file_load_entry__6TLobbyFllUllPPv(name, *slot, (void *)increment_ref_and_set_flag__6TLobbyFPv, &params, &handle);
             if (r >= 0) {
                 TLobby__sub_8001EDD8((TBinModel *)self->fC, handle);
@@ -602,7 +601,7 @@ s32 bind_bml_motion(struct Lobby_8001FB6C *self, s32 idx, void *bytes) {
     u32 r;
     self->entries[idx].data = 0;
     spC = 0;
-    r = alloc_load_data__6TLobbyFPviii(self, (s32) bytes, (s32) &spC, (s32) &sp8);
+    r = TLobby::alloc_load_data(self, (s32) bytes, (s32) &spC, (s32) &sp8);
     if (r == 0) {
         TLobby::debug_print("LoadBinMotionSub: Illegal format.");
         return 0;
@@ -651,7 +650,7 @@ s32 TLobby::load_bin_motion(s32 arg1, s32 arg2) {
         TLobby::debug_print("LoadBinMotion: tmpbuf overflow(%x)", size - 0x40000);
     }
     offset = 0;
-    data = alloc_load_data__6TLobbyFPviii(arg0, lobby_download_buffer, (s32)&offset, (s32)&tag);
+    data = TLobby::alloc_load_data(arg0, lobby_download_buffer, (s32)&offset, (s32)&tag);
     if (data == 0) {
         TLobby::debug_print("LoadBinMotion: Illegal format.");
     }

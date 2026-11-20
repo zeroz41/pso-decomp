@@ -15,6 +15,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_802075F8_lbl_80515BA0 {
     s32 value;
@@ -65,7 +66,6 @@ extern char sky_model_ext_s_njm[];
 extern char sky_model_ext_sm_gj[];
 extern char sky_model_ext_s_gj[];
 void TLobby__sub_802075F4(void);
-s32 __nw__7TObjectFUl(s32);
 
 extern s32 tl_05;
 
@@ -125,7 +125,7 @@ void TSceneSora::create_instance() {
     s32 scene_sora;
 
     if ((u32) TSceneSora__sky_bml_resource != 0U) {
-        scene_sora = __nw__7TObjectFUl(0xA4);
+        scene_sora = (saddr)TObject::operator new(0xA4);
         if (scene_sora != 0) {
             scene_sora = ((s32)__ct__10TSceneSoraFl((TSceneSora *)((u8 *)scene_sora), (s32)tl_05));
         }
@@ -160,13 +160,13 @@ void TSceneSora::load_sky_resources() {
     if (lookup_scene_object__6TLobbyFPv(get_current_floor(), &ref) != 0) {
         ok = 0;
         tbl = (Ent_80207478 *)get_floor_scene_table(ref.id);
-        replace_file_extension__6TLobbyFPvPvPv(name1, tbl[ref.idx].name, sky_model_ext_s_njm);
+        TLobby::replace_file_extension(name1, tbl[ref.idx].name, sky_model_ext_s_njm);
         if (TRaderMapCore::is_not_split_screen() == 1) {
-            replace_file_extension__6TLobbyFPvPvPv(name2, tbl[ref.idx].name, sky_model_ext_sm_gj);
+            TLobby::replace_file_extension(name2, tbl[ref.idx].name, sky_model_ext_sm_gj);
             ok = get_resource_file_size((const char *)name2);
         }
         if (ok <= 0) {
-            replace_file_extension__6TLobbyFPvPvPv(name2, tbl[ref.idx].name, sky_model_ext_s_gj);
+            TLobby::replace_file_extension(name2, tbl[ref.idx].name, sky_model_ext_s_gj);
         }
         p = adxf_open__6TLobbyFUii(name2, 0);
         if (p != NULL) {

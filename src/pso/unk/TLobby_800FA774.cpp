@@ -1,11 +1,11 @@
 #include "types.h"
 #include "pso/unk/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
+#include "pso/system/THeap.h"
 
 extern "C" {
 
 s32 __ct__5THeapFUli(s32, s32, s32);
-s32 __nw__5THeapFUl(s32);
 
 extern s32 async_file_read_current_request;
 extern s32 lobby_stack_entry_list_tail;
@@ -27,7 +27,7 @@ void TLobby::init_download_state() {
     async_file_read_state = 0;
     lobby_list_entry_count = 0;
     lobby_list_next_id = 0;
-    var_r0 = __nw__5THeapFUl(0x14);
+    var_r0 = (saddr)THeap::operator new(0x14);
     if (var_r0 != 0) {
         var_r0 = __ct__5THeapFUli(var_r0, 0x4000, 0x20);
     }

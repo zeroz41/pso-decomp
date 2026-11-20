@@ -311,7 +311,7 @@ extern "C" {
 
 
 int TLobby::reset_story_select(void* p) { return ((int (*)(void*))reset_story_select__6TLobbyFv)(p); }
-void TLobby__sub_80207F10(void) { reset_story_select__6TLobbyFv(); }
+void TLobby__sub_80207F10(void) { TLobby::reset_story_select(); }
 }
 
 struct R_80207F30 { s16 a; s16 b; u16 c; };

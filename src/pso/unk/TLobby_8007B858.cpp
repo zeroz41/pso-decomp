@@ -45,6 +45,7 @@
 #include "pso/technique/TTecCtrl.h"
 #include "pso/unk/text_801AA3B4.h"
 #include "pso/ui/window/TWindowReturnCity.h"
+#include "pso/system/task/TObject.h"
 
 void load_particle_entry_resources(void);
 void init_partner_dialogue(void);
@@ -67,7 +68,6 @@ s32 activate_triggered_floor_events();
 s32 cleanup_game_objects__9TMainTaskFv();
 s32 restore_floor_telepipes();
 s32 __ct__15TWindowCtrlMainFv();
-u32 __nw__7TObjectFUl(s32);
 s32 TWindowTimer__sub_80198D98();
 
 extern s32 tl_00;
@@ -122,11 +122,11 @@ void TLobby::create_tasks() {
     u32 tmp;
     create_area_fog_ctrl();
     if (is_split_screen() == 0) {
-        tmp = __nw__7TObjectFUl(0x20);
+        tmp = (uaddr)TObject::operator new(0x20);
         if (tmp != 0U) {
             ((TUnk_8048E5F4 *)tmp)->init_subobject((void *)tl_particlemodel, (void *)1);
         }
-        tmp = __nw__7TObjectFUl(0x20);
+        tmp = (uaddr)TObject::operator new(0x20);
         if (tmp != 0U) {
             ((TUnk_8048E5F4 *)tmp)->init_subobject((void *)tl_particlemodel, (void *)0);
         }
@@ -138,14 +138,14 @@ void TLobby::create_tasks() {
     TSceneSora::create_instance();
     TSetManager::create();
     activate_triggered_floor_events();
-    tmp = __nw__7TObjectFUl(0x1C);
+    tmp = (uaddr)TObject::operator new(0x1C);
     if (tmp != 0U) {
         __ct__15TWindowCtrlMainFv();
     }
     new TWindowCtrl((TObject *)tl_00);
     new TUnk_80499970((TObject *)tl_fade);
     TLobby::set_fade_params(0);
-    tmp = __nw__7TObjectFUl(0x30);
+    tmp = (uaddr)TObject::operator new(0x30);
     if (tmp != 0U) {
         __ct__9TCineCtrlFv(tmp, tl_00);
     }
@@ -161,12 +161,12 @@ void TLobby::create_tasks() {
         TWindowTimer__sub_80198D98();
     }
     if ((get_main_phase() == 0xF) && ((get_current_floor_area() == AREA_PIONEER2_EP1) || (get_current_floor_area() == AREA_PIONEER2_EP2))) {
-        tmp = __nw__7TObjectFUl(0x1C);
+        tmp = (uaddr)TObject::operator new(0x1C);
         if (tmp != 0U) {
             THunterGuildSeqOnlineTask__ct(tmp, tl_01);
         }
     }
-    tmp = __nw__7TObjectFUl(0x24);
+    tmp = (uaddr)TObject::operator new(0x24);
     if (tmp != 0U) {
         __ct__8TTecCtrlFv((void *)tmp, (void *)tl_01);
     }

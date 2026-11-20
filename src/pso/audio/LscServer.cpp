@@ -9,7 +9,6 @@
 static char lsc_repeat_filename[0x28];
 
 extern "C" {
-AdxStreamFile *adxstm_open_fname_range_ex_rt__6TLobbyFPviiii(const char *name, s32 mode, s32 offset, s32 length, s32 stream);
 
 // The three per-status steps are separate functions inlined into lsc_poll (inferred: CRI lsc_svr shape).
 // Entry being read (status 1): follow the stream until it ends.
@@ -63,7 +62,7 @@ inline void wait_803D1D28(LscStream *lsc_stream) {
     LscQueueEntry *entry = &lsc_stream->entries[lsc_stream->read_index];
     if (lsc_stream->queued_count > 0) {
         if (lsc_stream->file_handle == 0) {
-            lsc_stream->file_handle = (void *)adxstm_open_fname_range_ex_rt__6TLobbyFPviiii(entry->filename, entry->open_mode, entry->range_offset, entry->range_length, (s32)lsc_stream->stream);
+            lsc_stream->file_handle = (void *)TLobby::adxstm_open_fname_range_ex_rt(entry->filename, entry->open_mode, entry->range_offset, entry->range_length, (s32)lsc_stream->stream);
             if (lsc_stream->file_handle == 0) {
                 TLobby::log_printf("E0004: Can not open '%s'", entry->filename);
             }

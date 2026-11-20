@@ -28,7 +28,6 @@ struct VObj_8001C8B8_8001C61C : Base_8001C8B8_8001C61C {
 struct Obj_8001C620 { u8 pad[0x1C]; s32 f1c; s32 f20; };
 
 extern "C" {
-s32 __nw__7TObjectFUl(int);
 s32 __ct__9TAdFadeGCFP7TObjectPv(int, int, int);
 s32 TLoadCtrl__loading_mode;
 s32 TLoadCtrl__fade_task;
@@ -72,13 +71,13 @@ void TLoadCtrl::run_task() {
         if (++self->f20 == 2) {
             switch (TLoadCtrl__loading_mode) {
             case 0:
-                o = __nw__7TObjectFUl(0x3C);
+                o = (saddr)TObject::operator new(0x3C);
                 if ((u32)o != 0) {
                     TNowLoading__ct(o, self, &now_loading_pos);
                 }
                 break;
             case 1:
-                o = __nw__7TObjectFUl(0x20);
+                o = (saddr)TObject::operator new(0x20);
                 if ((u32)o != 0) {
                     TAdLoadQuestGC__ct((void *)o, this);
                 }
@@ -86,13 +85,13 @@ void TLoadCtrl::run_task() {
             case 2:
                 break;
             case 3:
-                o = __nw__7TObjectFUl(0x1C);
+                o = (saddr)TObject::operator new(0x1C);
                 if ((u32)o != 0) {
                     __ct__14TAdFloorLoadGCFP7TObjectPv(o, self, 0);
                 }
                 break;
             case 4:
-                o = __nw__7TObjectFUl(0x1C);
+                o = (saddr)TObject::operator new(0x1C);
                 if ((u32)o != 0) {
                     __ct__14TAdFloorLoadGCFP7TObjectPv(o, self, 1);
                 }
@@ -130,7 +129,7 @@ TLoadCtrl::TLoadCtrl(s32 arg1) : TObject((TObject *)((void *)arg1)) {
     this->m_20 = 0;
     this->m_name = TLoadCtrl__class_name;
     if (((u32) (*(u32 *)&TLoadCtrl__loading_mode) == 0U) || ((u32) (*(u32 *)&TLoadCtrl__loading_mode) == 1U)) {
-        temp_r3 = __nw__7TObjectFUl(0x38);
+        temp_r3 = (saddr)TObject::operator new(0x38);
         var_r0 = temp_r3;
         if (var_r0 != 0) {
             var_r0 = __ct__9TAdFadeGCFP7TObjectPv(temp_r3, tl_fade, 2);

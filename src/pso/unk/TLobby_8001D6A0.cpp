@@ -130,7 +130,7 @@ Node_8001D808 *archive_pool_alloc(Pool_8001D808 *pool, u32 size) {
                 return cur;
             }
             if (cur->size > sz) {
-                n = (Node_8001D808 *)find_free_pool_entry__6TLobbyFPv((Obj_8001D768 *)pool);
+                n = (Node_8001D808 *)TLobby::find_free_pool_entry((Obj_8001D768 *)pool);
                 if (n != 0) {
                     n->next = 0;
                     n->prev = 0;
@@ -193,7 +193,7 @@ void TLobby__sub_8001D9E8(void* p) { *(s32*)((char*)p + 0x4) = 0; *(s32*)((char*
 void TLobby::sync_auto_reply_state() {
     if ((auto_reply_flags & 4) || (auto_reply_flags & 1) != ((auto_reply_flags >> 1) & 1)) {
         if (((s32 (*)(void))get_flag_bit0__6TLobbyFv)() != 0) {
-            ((TLobby *)TLobby__protocol_instance)->send_text_packet_c7((char *)(get_card_window_area__6TLobbyFv()));
+            ((TLobby *)TLobby__protocol_instance)->send_text_packet_c7((char *)(TLobby::get_card_window_area()));
         } else {
             send_disable_auto_reply__9TProtocolFv(TLobby__protocol_instance);
         }
@@ -419,7 +419,7 @@ void broadcast_to_players__6TLobbyFii(s32 arg0, s32 arg1) {
     if (((s32 (*)(void))is_valid_player_index__6TLobbyFi)() != 0) {
         var_r31 = 0;
         do {
-            copy_pair__6TLobbyFPvPv((Obj_8001DF0C *)(((s32 (*)(s32, s32))get_player_entry__6TLobbyFii)(var_r31, arg0)), (Obj_8001DF0C *)(arg1));
+            TLobby::copy_pair((Obj_8001DF0C *)(((s32 (*)(s32, s32))get_player_entry__6TLobbyFii)(var_r31, arg0)), (Obj_8001DF0C *)(arg1));
             var_r31 += 1;
         } while (var_r31 < 4);
     }
@@ -493,7 +493,7 @@ void copy_all_data__6TLobbyFii(s32 arg0, s32 arg1) {
     if (((s32 (*)(void))is_valid_player_index__6TLobbyFi)() != 0) {
         var_r31 = 0;
         do {
-            copy_data__6TLobbyFPvPv((void *)(((s32 (*)(s32, s32))TLobby__sub_8001E2A8)(var_r31, arg0)), (void *)arg1);
+            TLobby::copy_data((void *)(((s32 (*)(s32, s32))TLobby__sub_8001E2A8)(var_r31, arg0)), (void *)arg1);
             var_r31 += 1;
         } while (var_r31 < 4);
     }
@@ -526,12 +526,12 @@ u8 is_valid_player_index__6TLobbyFi(s32 arg0) {
 }
 
     extern int battle_parameter_difficulty;
-void*TLobby::dispatch_shared_handler_a(s32 index) { return get_player_entry__6TLobbyFii(battle_parameter_difficulty, index); }
+void*TLobby::dispatch_shared_handler_a(s32 index) { return TLobby::get_player_entry(battle_parameter_difficulty, index); }
 
     extern int battle_param_movement;
 void* get_player_entry__6TLobbyFii(int a0, int a1) {  return (char*)(battle_param_movement) + a1 * 48; }
 
-void*TLobby::register_object(s32 index) { return get_entry__6TLobbyFii(battle_parameter_difficulty, index); }
+void*TLobby::register_object(s32 index) { return TLobby::get_entry(battle_parameter_difficulty, index); }
 
     extern int TLobby__battle_param_resistances;
 void* get_entry__6TLobbyFii(int a0, int a1) {  return (char*)(TLobby__battle_param_resistances) + a1 * 32; }

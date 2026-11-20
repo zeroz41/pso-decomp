@@ -490,7 +490,6 @@ struct Entry_80292730 { s32 val; s32 id; };
 struct Tbl_80292730 { s32 f0; s32 f4; s32 f8; Entry_80292730 *entries; };
 
 extern "C" {
-Tbl_80292730 *get_stage_table_entry__6TLobbyFll(s32, s32);
 void __dt__12TPlyCharDataFv(void *, int);
 void copy_player_visual_record(void *, void *);
 void __ct__12TPlyCharDataFv(void *);
@@ -547,16 +546,16 @@ void TLobby::rebuild_players_for_stage(s32 arg0) {
             }
             switch (info.flags & 0xE0) {
             case 0x20:
-                tbl = get_stage_table_entry__6TLobbyFll(0, arg0);
+                tbl = (Tbl_80292730 *)TLobby::get_stage_table_entry(0, arg0);
                 break;
             case 0x40:
-                tbl = get_stage_table_entry__6TLobbyFll(1, arg0);
+                tbl = (Tbl_80292730 *)TLobby::get_stage_table_entry(1, arg0);
                 break;
             case 0x80:
-                tbl = get_stage_table_entry__6TLobbyFll(2, arg0);
+                tbl = (Tbl_80292730 *)TLobby::get_stage_table_entry(2, arg0);
                 break;
             default:
-                tbl = get_stage_table_entry__6TLobbyFll(0, arg0);
+                tbl = (Tbl_80292730 *)TLobby::get_stage_table_entry(0, arg0);
                 break;
             }
             __ct__12TPlyCharDataFv(&cd);

@@ -49,7 +49,6 @@ void TLobby__sub_800728FC(u8 *arg0);
 s32 TLobby__sub_800703D0(void *, void *);
 s32 get_character_save_record(u32 arg0);
 extern s32 local_client_id;
-s32 mix_seed_checked__6TLobbyFi(s32 arg0);
 void TLobby__sub_80072880(u8 *arg0);
 void TLobby__sub_800727EC(u8 *arg0);
 extern void *challenge_task;
@@ -135,7 +134,7 @@ void handle_6x95_set_challenge_time(Pkt_80072230 *pkt) {
         return;
     }
     if (TLobby::check_challenge_time_range(r) != 0) {
-        t = mix_seed_checked__6TLobbyFi((s32)((void *)0x8C9F));
+        t = TLobby::mix_seed_checked((s32)((void *)0x8C9F));
     }
     challenge_mode_state[idx + 0x680 / 4] = t;
 }
@@ -147,7 +146,7 @@ void TLobby::send_seed_state() {
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_80072448, sp10) == 0x8);
     Stack_80072448 stack;
     TLobby__sub_80072880((u8 *)&stack.sp8);
-    stack.sp10 = mix_seed_checked__6TLobbyFi(arg0);
+    stack.sp10 = TLobby::mix_seed_checked(arg0);
     stack.spC = local_client_id;
     ((TLobby *)(&stack.sp8))->send_state();
 }

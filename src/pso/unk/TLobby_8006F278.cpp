@@ -193,7 +193,7 @@ s32 TLobby__sub_8006F5B0(s32 arg0) {
         goto block_12;
     }
     valid_slot = TLobby::get_valid_slot(temp_r3_3);
-    if (is_id_out_of_range__6TLobbyFi(valid_slot) != 0) {
+    if (TLobby::is_id_out_of_range(valid_slot) != 0) {
         *(s32 *)((s8 *)temp_r3_2 + temp_r30) = 0;
         return 0;
     }
@@ -317,8 +317,8 @@ s32 TLobby::get_valid_slot(int id) {
     if (id == 0) {
         return 0;
     }
-    slot = decode_slot__6TLobbyFUi(id);
-    return is_id_out_of_range__6TLobbyFi(slot) ? 0 : slot;
+    slot = TLobby::decode_slot(id);
+    return TLobby::is_id_out_of_range(slot) ? 0 : slot;
 }
 
 s32 mix_seed_checked__6TLobbyFi(s32 arg0);

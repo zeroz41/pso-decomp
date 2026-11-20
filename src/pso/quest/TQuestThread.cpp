@@ -667,7 +667,7 @@ void handle_6x77_sync_quest_register(u8 *packet) {
     TUnk_804C8678 *root;
     s32 *registers;
     u16 index;
-    bswap_header__6TLobbyFPv(packet);
+    TLobby::bswap_header(packet);
     root = quest_mission_manager;
     if (root != NULL) {
         index = *(u16 *)(packet + 4);

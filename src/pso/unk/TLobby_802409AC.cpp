@@ -193,7 +193,7 @@ s32 tick_sound_voice(SoundRequestVoice *v) {
         TLobby__sub_80240F3C(v);
         calc_sound_spatial_params(v);
         ((TLobby *)v)->clamp_params();
-        update__6TLobbyFPv(v);
+        TLobby::update(v);
         params.count = 1;
         params.ctl = ctl;
         ctl[0].type = 0x80;
@@ -243,7 +243,7 @@ s32 tick_sound_voice(SoundRequestVoice *v) {
         v->refresh--;
         send_sound_request_reverb((SoundRequestVoice *)(v));
         ((TLobby *)v)->clamp_params();
-        update__6TLobbyFPv(v);
+        TLobby::update(v);
         if (sndFXCheck(v->token) == 0xFFFFFFFF) {
             if ((v->flags & 1) && v->refresh >= 0) {
                 sndFXKeyOff(v->token);
@@ -991,10 +991,10 @@ void load_selected_guild_card_record(Src_8024220C *arg0) {
   new_var = arg0->list;
   new_var = ((TLobby *)new_var)->build_text_from_comma_list();
   p = new_var;
-  p = ((void *)parse_csv_token__6TLobbyFPvPv((char *)(p), (char *)(selected_guild_card_record.s19)));
-  p = ((void *)parse_csv_token__6TLobbyFPvPv((char *)(p), (char *)(selected_guild_card_record.s2A)));
-  p = ((void *)parse_csv_token__6TLobbyFPvPv((char *)(p), (char *)(selected_guild_card_record.s2A)));
-  parse_csv_token__6TLobbyFPvPv((char *)(p), (char *)(selected_guild_card_record.s3B));
+  p = ((void *)TLobby::parse_csv_token((char *)(p), (char *)(selected_guild_card_record.s19)));
+  p = ((void *)TLobby::parse_csv_token((char *)(p), (char *)(selected_guild_card_record.s2A)));
+  p = ((void *)TLobby::parse_csv_token((char *)(p), (char *)(selected_guild_card_record.s2A)));
+  TLobby::parse_csv_token((char *)(p), (char *)(selected_guild_card_record.s3B));
   TLobby__sub_802422EC(selected_guild_card_record.f4C, arg0->f64);
   __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(selected_guild_card_record.ext, arg0->ext);
 }
@@ -1013,7 +1013,7 @@ void TLobby::find_and_load_com_card(u32 arg0) {
         if (arg0 == ((GuildCardRecord *)TLobby::get_com_card_entry(i))->get_serial()) break;
     }
     if (i < n) {
-        copy_com_card_entry__6TLobbyFPvPv((Entry_80242380 *)&selected_guild_card_record, (Entry_80242380 *)(TLobby::get_com_card_entry(i)));
+        TLobby::copy_com_card_entry((Entry_80242380 *)&selected_guild_card_record, (Entry_80242380 *)(TLobby::get_com_card_entry(i)));
     }
 }
 
@@ -1138,7 +1138,7 @@ int TLobby__sub_8024273C(void *p) {
     s32 slot = TLobby::remove_com_card_by_id(*(u32 *)((u8 *)p + 0xC));
     entry = (u8 *)com_card_entries;
     entry += slot * 0xBC;
-    init_player_entry__6TLobbyFPvPv(entry, (u8 *)p);
+    TLobby::init_player_entry(entry, (u8 *)p);
     com_card_entry_count++;
     TLobby__sub_80242918();
 }

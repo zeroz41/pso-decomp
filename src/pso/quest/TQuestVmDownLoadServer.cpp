@@ -51,7 +51,6 @@ struct QVm_801F6D24 {
 };extern "C" {
 s32 get_message_text(s32 arg0);
 s32 get_localized_text_entry(s32 arg0, s32 arg1);
-void return_to_main_menu__6TLobbyFv(void);
 s32 __ct__22TQuestVmDownLoadServerFP7TObject(void *, s32);
 }
 extern s32 tl_00;
@@ -1221,7 +1220,7 @@ void TQuestVmDownLoadServer::check_cancel_input() {
     u8 *context;
     context = (u8 *)&controller_input_state + 0x20;
     if ((TWindowShortListCtrl__check_controller_button(context, 4) != 0) || (TWindowShortListCtrl__check_controller_button(context, 2) != 0)) {
-        return_to_main_menu__6TLobbyFv();
+        TLobby::return_to_main_menu();
         this->state = 0x15;
     }
 }

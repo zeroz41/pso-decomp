@@ -394,11 +394,11 @@ void replace_gvm_texture_directory(GvmTextureList_803DDDC8* list, s32 stride, co
         if (dimensions) record += 2;
         if (alternateGlobal) {
             if (globals) {
-                copy_4word_struct__6TLobbyFPvPv((S_803DDD94*)&texture->globalIndex, (S_803DDD94*)record);
+                TLobby::copy_4word_struct((S_803DDD94*)&texture->globalIndex, (S_803DDD94*)record);
                 texture->attributes |= 0x01000000;
             }
         } else if (globals) {
-            copy_4word_struct__6TLobbyFPvPv((S_803DDD94*)&texture->globalIndex, (S_803DDD94*)record);
+            TLobby::copy_4word_struct((S_803DDD94*)&texture->globalIndex, (S_803DDD94*)record);
             texture->attributes |= 0x00800000;
         }
         off += 0xC;

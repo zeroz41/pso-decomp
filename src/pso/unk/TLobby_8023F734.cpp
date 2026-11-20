@@ -950,7 +950,7 @@ s32 init_sound_aux_effects(SoundControlState *self) {
     self->group_state = -1;
     self->f2BC = 0;
     self->depth = 0;
-    set_mode__6TLobbyFPvi(self, 1);
+    TLobby::set_mode(self, 1);
     memset(lbl_80517BEC, 0, sizeof(lbl_80517BEC));
     result = TLobby__sub_801E3E9C(0, "SOUND.BIN", lbl_80517BEC, 0xA0);
     if (result != 0) {

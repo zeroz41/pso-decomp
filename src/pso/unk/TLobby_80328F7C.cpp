@@ -219,7 +219,7 @@ s32 is_valid_state__6TLobbyFPvi(void *unused, s32 arg1) {
 }
 
 void check_valid_state__6TLobbyFi(s32 unused) {
-    is_valid_state__6TLobbyFPvi((void *)unused, (s32)((s32)(is_handle_valid__10TObjPlayerFv())));
+    TLobby::is_valid_state((void *)unused, (s32)((s32)(is_handle_valid__10TObjPlayerFv())));
 }
 
 int TUnk_804ED7D0::vfunc_76() {
@@ -228,7 +228,7 @@ int TUnk_804ED7D0::vfunc_76() {
 s32 *TUnk_804ED7D0::get_state_table(s32 _w1) {
     s32 unused = (s32)this;
     s32 *var_r3;
-    switch (is_valid_state__6TLobbyFPvi((void *)unused, (s32)_w1)) {
+    switch (TLobby::is_valid_state((void *)unused, (s32)_w1)) {
     case 0:
         var_r3 = &lbl_805430E8.value;
         var_r3 = &lbl_805430E8.value;

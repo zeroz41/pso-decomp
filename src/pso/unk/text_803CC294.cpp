@@ -55,7 +55,6 @@ extern s32 lobby_afs_toc_entry_index;
 s32 lbl_805D75E8;
 u8 * lbl_805D75EC;
 u8 *lbl_805D75F0;
-u32 adxstm_open_fname_range__6TLobbyFPviiii(Buf_803CD16C *, s32, s32, s32, s32);
 extern u16 lbl_8057B7B0[16];
 extern LogEnt_803CD16C lbl_8057B7D0[];
 extern Slot_803CD16C adxf_file_handle_pool[];
@@ -450,7 +449,7 @@ inline s32 open_803CD16C(Slot_803CD16C *s, s32 arg0, s32 arg1) {
         return -3;
     }
     s->f30 = b;
-    h = adxstm_open_fname_range__6TLobbyFPviiii(&buf, a, b, c, 0);
+    h = (uaddr)TLobby::adxstm_open_fname_range(&buf, a, b, c, 0);
     s->f4 = h;
     if (h == 0) {
         TLobby::notify_error("E0110902:can't open file.(ADXF_OpenAfs)");
@@ -719,7 +718,7 @@ s32 adxf_open_file__6TLobbyFiPviPv(s32 id, const char *name, s32 arg2, Ent_803CC
         TLobby::notify_error("E0042401:multi-load partition.(ADXF_LoadPartitionNw)");
         return -1;
     }
-    lobby_adxf_open_file_handle = adxf_open__6TLobbyFUii((u32)name, arg2);
+    lobby_adxf_open_file_handle = (Slot_803CD16C *)TLobby::adxf_open((u32)name, arg2);
     if (lobby_adxf_open_file_handle == NULL) {
         TLobby::notify_error("E9040804:can't open file.(ADXF_LoaddPartitionNw)");
         return -1;
@@ -763,7 +762,7 @@ s32 adxf_load_pt_nw_ex(s32 ptid, const char *fname, s32 dir, Ent_803CC294 *ptinf
         TLobby::notify_error("E0042401:multi-load partition.(ADXF_LoadPtNwEx)");
         return -1;
     }
-    lobby_adxf_open_file_handle = adxf_open__6TLobbyFUii((u32)fname, dir);
+    lobby_adxf_open_file_handle = (Slot_803CD16C *)TLobby::adxf_open((u32)fname, dir);
     if (lobby_adxf_open_file_handle == NULL) {
         TLobby::notify_error("E9040804:can't open file.(ADXF_LoadPtNwEx)");
         return -1;
@@ -775,7 +774,7 @@ s32 adxf_load_partition2(s32 ptid, const char *fname, s32 dir, Ent_803CC294 *pti
     if (adxf_chk_prm_pt(ptid, ptinfo) < 0) {
         return -3;
     }
-    if (adxf_open__6TLobbyFUii((u32)fname, dir) == NULL) {
+    if ((Slot_803CD16C *)TLobby::adxf_open((u32)fname, dir) == NULL) {
         TLobby::notify_error("E9040804:can't open file.(ADXF_LoadPartition)");
         return -1;
     }

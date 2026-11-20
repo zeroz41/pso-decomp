@@ -81,7 +81,7 @@ void TLobby::set_mode(s32 arg0) {
         on_set_mode__6TLobbyFv(0);
         break;
     }
-    set_mode__6TLobbyFPvi((s32 *)&sound_control_state, arg0);
+    TLobby::set_mode((s32 *)&sound_control_state, arg0);
 }
 extern "C" {
 
@@ -189,7 +189,7 @@ s32 play_packed_sound_once(u32 arg0, s32 position, s32 arg2, s32 arg3) {
 extern "C" {
 
 void is_sound_enabled(void) {
-    is_ready__6TLobbyFPv(&sound_control_state);
+    TLobby::is_ready(&sound_control_state);
 }
 }
 

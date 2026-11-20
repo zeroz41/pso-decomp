@@ -27,7 +27,6 @@ struct VObj802D1F30 : VBase802D1F30 {
 extern "C" {
 s32 item_identity_matches(u8 *arg0, u8 *arg1);
 s32 TObjPlayer__sub_801C1AC8();
-Entry_802D20C8 *find_free_trade_slot__6TLobbyFPv(void *);
 void *get_player_by_client_id(s32 i);
 int TLobby__sub_802D2358(void*);
 }
@@ -127,7 +126,7 @@ s32 TLobby::add_trade_item(u32 arg1, s32 arg2) {
             }
         }
     }
-    e = find_free_trade_slot__6TLobbyFPv(this);
+    e = (Entry_802D20C8 *)TLobby::find_free_trade_slot(this);
     if (e == NULL) {
         return 3;
     }
