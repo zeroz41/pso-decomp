@@ -83,7 +83,7 @@ TItemEffPG::TItemEffPG(TObject *parent, S_8035016C *params) : TUnk_804E355C(pare
     if (visual != NULL) {
         visual = TItemEffPG__visual_ct((u8 *)visual, (u8 *)this, (u8 *)params);
     }
-    m_d0 = (u32)visual;
+    m_d0 = (uaddr)visual;
 }
 
 TItemEffPG::~TItemEffPG() {}

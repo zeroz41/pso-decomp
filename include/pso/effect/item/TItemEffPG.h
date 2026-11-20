@@ -21,7 +21,7 @@ struct TItemEffPG : public TUnk_804E355C {
     f32 pad_C4;   // run_task grows body.radius by m_c8 a frame up to it
     f32 m_c8;
     f32 required_charge; // inferred: compared with the player's photon blast charge, then spent
-    u32 m_d0;
+    uaddr m_d0;
     virtual void run_task();
     static void create(void *arg0, void *arg1);
     static void create(void *parent, void *params, void *count); // makes a TUnk_804F0C08
