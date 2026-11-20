@@ -45,7 +45,7 @@ public:
     s32 recalc_combat_stats(void *, void *, void *, f32, f32);
     s32 set_motion_params(void *);
     void show_miss_popup(const float *);
-    void try_apply_damage(u32, s32);
+    void try_apply_damage(uaddr, s32);
     s32 subtract_actor_tp(s32);
     void sub_80010DE8(u16, u8, u8);
     s16 clamp_hp();
