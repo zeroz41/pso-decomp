@@ -30,6 +30,8 @@
 #include "pso/object/ambient/TObjFish_800E2FFC.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/BmlResource.h"
+#include "pso/system/BmlResourceDescriptor.h"
+#include "pso/system/BmlResourceLoader.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/text_80087278.h"
@@ -121,8 +123,8 @@ const char *bm7_s_paa_body_motion_names[32] = {
     walk_bm7_s_par_body_motion_filename, walkl_bm7_s_paa_body_motion_filename, walkr_bm7_s_paa_body_motion_filename,
     NULL,
 };
-void *lbl_80494F10[4] = {
-    (void *)bm7_s_paa_body_bml_filename, (void *)bm7_s_paa_body_model_names, (void *)bm7_s_paa_body_motion_names, (void *)0x3001f,
+BmlResourceDescriptor lbl_80494F10 = {
+    bm7_s_paa_body_bml_filename, bm7_s_paa_body_model_names, bm7_s_paa_body_motion_names, 3, 31,
 };
 /* The body's one collision sphere (init_collision_body_parts in the constructor). */
 CollisionBody panarms_collision_body[1] = {
@@ -195,7 +197,6 @@ u16 find_nearest_visible_player(void *, f32 *, f32);
 f32 atan2_float(f32 y, f32 x);
 s32 approach_angle_limited(s32, s32, s32);
 f32 vector_length(void *);
-BmlResource *load_resource_from_descriptor(BmlResource *, s32, void *, s32, s32, s32);
 void TObjEnePanarms__sub_800E1D38(void *arg0);
 s32 refresh_lobby_state__10TObjPlayerFv();
 s32 TObjEnePanarms__sub_800DE528(void *arg0, Vec *arg1);
@@ -206,7 +207,6 @@ u32 csnLookAt(void *, void *);
 f32 horizontal_distance_squared(void *, void *);
 s32 try_warp_to_position__14TObjEnePanarmsFPvPv(u8 *arg0, Vec *arg1);
 int TObjEnePanarms__sub_800DFBC4(void *p);
-void free_bin_model_request(void*, int);
 int post_translate_matrix(void*);
 int rotate_matrix_y(void*, void*);
 int push_matrix(void*);
@@ -266,7 +266,7 @@ s32 TObjEnePanarms::create(s32 setData) {
 void TObjEnePanarms::load_and_spawn_npc() {
     BmlResource *resource = static_cast<BmlResource *>(::operator new(0x440));
     if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 1, lbl_80494F10, 0, 0, 0);
+        resource = load_resource_from_descriptor(resource, 1, &lbl_80494F10, 0, 0, 0);
     }
     TObjEnePanarms__entry_params_resource = resource;
     if (resource != NULL) {
