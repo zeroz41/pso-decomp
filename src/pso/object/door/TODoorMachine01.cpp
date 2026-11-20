@@ -151,11 +151,11 @@ void TODoorMachine01::draw_switch_light(NJS_OBJECT *node, s32 lit) {
     TParticleCtrl::begin_effect_render();
     push_matrix();
     translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
-    draw_ginja_model((s32)node->model);
+    draw_ginja_model((saddr)node->model);
     child = node->child;
     push_matrix();
     translate_matrix(0, child->pos[0], child->pos[1], child->pos[2]);
-    draw_ginja_model((s32)child->model);
+    draw_ginja_model((saddr)child->model);
     pop_matrix();
     pop_matrix();
     TParticleCtrl::end_effect_render();
@@ -178,7 +178,7 @@ void TODoorMachine01::render() {
             TObjFish::set_global_param(texture_lists[lit]);
             push_matrix();
             translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
-            draw_ginja_model((s32)node->model);
+            draw_ginja_model((saddr)node->model);
             draw_switch_light(node->child, lit);
             pop_matrix();
             node = ((NJS_OBJECT *)model)->child->sibling;
@@ -186,7 +186,7 @@ void TODoorMachine01::render() {
             TObjFish::set_global_param(texture_lists[lit]);
             push_matrix();
             translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
-            draw_ginja_model((s32)node->model);
+            draw_ginja_model((saddr)node->model);
             node = node->child;
             draw_switch_light(node, lit);
             node = node->sibling;
@@ -199,7 +199,7 @@ void TODoorMachine01::render() {
             TObjFish::set_global_param(texture_lists[lit]);
             push_matrix();
             translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
-            draw_ginja_model((s32)node->model);
+            draw_ginja_model((saddr)node->model);
             draw_switch_light(node->child, lit);
             pop_matrix();
         } else {

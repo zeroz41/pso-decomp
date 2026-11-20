@@ -238,8 +238,8 @@ void TODoorAncient08::draw_switch_lights() {
     post_translate_matrix(&position.x);
     post_translate_matrix(root->pos);
     rotate_matrix_y(NULL, rotation_y);
-    draw_ginja_model((s32)root->model);
-    draw_ginja_model((s32)root->child->model);
+    draw_ginja_model((saddr)root->model);
+    draw_ginja_model((saddr)root->child->model);
     TParticleCtrl::begin_effect_render();
     for (i = 0; i < 4; i++) {
         if (on[i] != 0) {
@@ -250,11 +250,11 @@ void TODoorAncient08::draw_switch_lights() {
         push_matrix();
         pair = pairs[i];
         post_translate_matrix(pair[0]->pos);
-        draw_ginja_model((s32)pair[0]->model);
+        draw_ginja_model((saddr)pair[0]->model);
         pop_matrix();
         push_matrix();
         post_translate_matrix(pair[1]->pos);
-        draw_ginja_model((s32)pair[1]->model);
+        draw_ginja_model((saddr)pair[1]->model);
         pop_matrix();
     }
     TParticleCtrl::end_effect_render();

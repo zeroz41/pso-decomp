@@ -223,23 +223,23 @@ void TUnk_804B2578::render() {
                 lit2 = level <= 3.0f * step;
                 TObjFish::set_global_param(turiten_singo_texture_lists[1]);
                 if (lit0 == 1) {
-                    draw_ginja_model((s32)TOHangceilingCave01__model_root->child->model);
+                    draw_ginja_model((saddr)TOHangceilingCave01__model_root->child->model);
                 }
                 if (lit1 == 1) {
-                    draw_ginja_model((s32)TOHangceilingCave01__model_root->child->child->model);
+                    draw_ginja_model((saddr)TOHangceilingCave01__model_root->child->child->model);
                 }
                 if (lit2 == 1) {
-                    draw_ginja_model((s32)TOHangceilingCave01__model_root->child->child->child->model);
+                    draw_ginja_model((saddr)TOHangceilingCave01__model_root->child->child->child->model);
                 }
                 TObjFish::set_global_param(turiten_singo_texture_lists[0]);
                 if (lit0 == 0) {
-                    draw_ginja_model((s32)TOHangceilingCave01__model_root->child->model);
+                    draw_ginja_model((saddr)TOHangceilingCave01__model_root->child->model);
                 }
                 if (lit1 == 0) {
-                    draw_ginja_model((s32)TOHangceilingCave01__model_root->child->child->model);
+                    draw_ginja_model((saddr)TOHangceilingCave01__model_root->child->child->model);
                 }
                 if (lit2 == 0) {
-                    draw_ginja_model((s32)TOHangceilingCave01__model_root->child->child->child->model);
+                    draw_ginja_model((saddr)TOHangceilingCave01__model_root->child->child->child->model);
                 }
             } else {
                 if (is_current_floor_switch_set((u16)switch_id) == 1) {

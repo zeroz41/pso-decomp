@@ -259,10 +259,10 @@ void TOTrapSeabed01::draw_object_tree(NJS_OBJECT *object) {
                 setup_particle_tev(0);
                 TObjFish::set_global_param(TOTrapSeabed01__texture_file);
                 load_projection_tex_matrix(0x38E);
-                draw_ginja_model((s32)object->model);
+                draw_ginja_model((saddr)object->model);
                 reset_particle_tev();
             } else {
-                draw_ginja_model((s32)object->model);
+                draw_ginja_model((saddr)object->model);
             }
         }
         if (!(flags & 0x10) && object->child != NULL) {
