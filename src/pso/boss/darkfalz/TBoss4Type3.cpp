@@ -76,7 +76,6 @@ struct Type3MotionView { s32 kind, flags, motions[3]; };
 #include "pso/technique/TTecRaBarta.h"
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/technique/TTecResta.h"
-extern "C" void *__ct__16TargetCursorListFv(void *list);
 
 #pragma defer_codegen on
 
@@ -356,7 +355,6 @@ s32 is_split_screen();
 s32 get_bml_motion(s32, s32);
 s32 get_bml_texlist(BmlResource *resource, s32 index);
 s32 get_bml_model(BmlResource *resource, s32 index);
-void clear_target_cursor_list(void *p);
 void TObjPlayer__sub_80052390(f32 x);
 f32 TBoss4Type3__sub_800524E8(f32);
 void TBoss4Type3__sub_800599F4(void*, int, int);
@@ -1815,7 +1813,7 @@ void TBoss4Type3::update_light_magic() {
         for (i = 0; i < 4; i++) {
             if (TBoss4Type3__sub_8005254C(i) != 0) {
                 __ct__16TargetCursorListFv((&g));
-                clear_target_cursor_list(&g);
+                clear_target_cursor_list((TargetCursorList *)&g);
                 g.f0 = 1;
                 g.f4 = i;
                 g.f6 = 0;

@@ -134,8 +134,8 @@ void TTecRaFoie::vfunc_8(void *) {
         spawn_particle_effect(&target, 0x3B);
         return;
     }
-    if (((TargetCursorList *)m_ec)->count != 0) {
-        chara = (TObjChara *)find_entity_by_id(((TargetCursorList *)m_ec)->records[0].id);
+    if (m_targets.count != 0) {
+        chara = (TObjChara *)find_entity_by_id(m_targets.records[0].id);
         if (TTecLuker::is_parents_unqueued((u32)chara) != 0 && TObjPlayer::is_valid_and_active((u32)chara) != 0) {
             Vec point = *(Vec *)&chara->m_2fc;
             spawn_particle_effect(&point, 0x39);
@@ -404,11 +404,11 @@ void run_task__10TTecRaFoieFv(TTecRaFoie *self) {
         self->update_detonation(&self->target);
         return;
     }
-    if (((TargetCursorList *)self->m_ec)->count == 0) {
+    if (self->m_targets.count == 0) {
         self->queue_destruction();
         return;
     }
-    chara = (TObjChara *)find_entity_by_id(((TargetCursorList *)self->m_ec)->records[0].id);
+    chara = (TObjChara *)find_entity_by_id(self->m_targets.records[0].id);
     if (TTecLuker::is_parents_unqueued((u32)chara) != 0 && TObjPlayer::is_valid_and_active((u32)chara) != 0) {
         self->update_detonation(&chara->m_2fc);
     }
@@ -476,10 +476,9 @@ TTecRaFoie::~TTecRaFoie() {
 #pragma push
 #pragma opt_common_subs off
 TTecRaFoie::TTecRaFoie(s32 source, Vec *origin, Vec *pos, s32 level) : TUnk_804CC148(source, origin, pos, level) {
-    __ct__16TargetCursorListFv(&m_ec);
     m_name = TTecRaFoie_class_name;
     calc_area_parameters();
-    clear_target_cursor_list((TargetCursorList *)m_ec);
+    clear_target_cursor_list(&m_targets);
     m_148 = 1;
     if (m_e8 != NULL) {
         m_e8->bodies->radius = m_90;
@@ -493,11 +492,10 @@ TTecRaFoie::TTecRaFoie(s32 source, Vec *origin, Vec *pos, s32 level) : TUnk_804C
 #pragma pop
 
 TTecRaFoie::TTecRaFoie(s32 source, Vec *origin, TargetCursorList *list, s32 level) : TUnk_804CC148(source, origin, origin, level) {
-    __ct__16TargetCursorListFv(&m_ec);
     m_name = TTecRaFoie_class_name;
     calc_area_parameters();
     m_148 = 0;
-    copy_technique_target_list(&m_ec, list);
+    copy_technique_target_list(&m_targets, list);
     if (this->source != 0) {
         m_b4 = get_entity_id((void *)this->source);
     }

@@ -30,7 +30,6 @@
 #include "pso/technique/TTecDeband.h"
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/technique/TTecResta.h"
-extern "C" void *__ct__16TargetCursorListFv(void *list);
 
 TechniqueParams lbl_80515F90;
 // Per player: the technique boosts of the equipped weapon and shield.
