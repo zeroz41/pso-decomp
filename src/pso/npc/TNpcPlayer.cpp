@@ -459,7 +459,7 @@ extern uaddr npc_player_char_data_buffer;
 extern void *tl_05;
 
 void copy_player_visual_record(void *, void *);
-void bswap__15disp_data_part2Fv(s32 arg0);
+void bswap__15disp_data_part2Fv(saddr arg0);
 extern s32 game_difficulty_selection;
 extern s32 TNpcPlayer__data_805D5864;
 

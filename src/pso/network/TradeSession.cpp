@@ -175,7 +175,7 @@ s32 TLobby::check_trade_items_and_show_error() {
     if (r == 4) {
         flag = 1;
     } else if (r != 0) {
-        return TLobby::show_event_message((saddr)((void *)local_client_id), (s32)r, (s32)code);
+        return TLobby::show_event_message((saddr)local_client_id, (s32)r, (s32)code);
     }
     ((TLobby *)(&buf))->update_both_halves();
     ((u8 *(*)(void *, void *))copy_struct_f8__6TLobbyFii)(&buf.h[0], &TLobby__trade_window_state[0].lists[0]);
@@ -183,10 +183,10 @@ s32 TLobby::check_trade_items_and_show_error() {
     r = check_trade_offer_inventory(&buf, &code);
     if (r == 4) {
         if (flag) {
-            return TLobby::show_event_message((saddr)((void *)(s32)TLobby__trade_partner_client_id), 4, (s32)code);
+            return TLobby::show_event_message((saddr)(s32)TLobby__trade_partner_client_id, 4, (s32)code);
         }
     } else if (r != 0) {
-        return TLobby::show_event_message((saddr)((void *)(s32)TLobby__trade_partner_client_id), (s32)r, (s32)code);
+        return TLobby::show_event_message((saddr)(s32)TLobby__trade_partner_client_id, (s32)r, (s32)code);
     }
     return 0;
 }

@@ -4,10 +4,10 @@
 #include "types.h"
 
 extern "C" {
-s32 TAdSinglePlyChrSelectGC__sub_80076D9C(s32 arg0, s32 arg1);
+saddr TAdSinglePlyChrSelectGC__sub_80076D9C(saddr arg0, saddr arg1);
 void TAdSinglePlyChrSelectGC__sub_80076DF4(void *p, void *q);
 }
-s32 chat_accept_submission(s32 arg0);
+s32 chat_accept_submission(saddr arg0);
 void chat_dispatch_accepted_result(s32 *arg0);
 extern "C" {
 void clear_chat_shortcut(s32 i);
@@ -21,7 +21,7 @@ void submit_chat_text(u8 *arg0);
 
 // --- C functions defined in text_80076BC4.cpp ---
 extern "C" {
-s32 TAdSinglePlyChrSelectGC__sub_80076D9C(s32 arg0, s32 arg1);
+saddr TAdSinglePlyChrSelectGC__sub_80076D9C(saddr arg0, saddr arg1);
 void TAdSinglePlyChrSelectGC__sub_80076DF4(void *p, void *q);
 void clear_chat_shortcut(s32 i);
 char *fn_80076BC4(s32 *text);

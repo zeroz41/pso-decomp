@@ -500,10 +500,8 @@ void draw_motion(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame) {
 
 extern "C" {
 void TLobby__sub_803382E4(void);
-s32 read_afs_toc__6TLobbyFl(void *);
-s32 adxf_open_file__6TLobbyFiPviPv(void *, void *, int, void *);
-s32 TLobby__sub_801E3E9C(s32 arg0, s32 arg1, s32 arg2);
-s32 TKeyBoardControl__sub_801E3E24(s32 arg0, s32 arg1, s32 arg2);
+s32 TLobby__sub_801E3E9C(s32 arg0, saddr arg1, saddr arg2);
+s32 TKeyBoardControl__sub_801E3E24(s32 arg0, saddr arg1, saddr arg2);
 s32 GXSetViewport(f32, f32, f32, f32, f32, f32);
 s32 GXSetZMode(s32, s32, s32);
 extern s32 (*chunk_model_node_callback)(void *);
@@ -548,12 +546,12 @@ void render_tick(void) {
     TKeyBoardControl__sub_8000F7FC();
 }
 
-s32 TKeyBoardControl__sub_801E3E24(s32 id, s32 name, s32 arg2) {
+s32 TKeyBoardControl__sub_801E3E24(s32 id, saddr name, saddr arg2) {
     s32 temp_r3;
-    temp_r3 = adxf_open_file__6TLobbyFiPviPv((void *)id, (void *)name, 0, (void *)arg2);
+    temp_r3 = TLobby::adxf_open_file(id, (void *)name, 0, (void *)arg2);
     if (temp_r3 >= 0) {
 loop_2:
-        if (read_afs_toc__6TLobbyFl((void *)id) != 3) {
+        if (TLobby::read_afs_toc(id) != 3) {
             TLobby::run_disk_error_check();
             TKeyBoardControl::flush_input();
             update_global_sound_frame();
@@ -566,12 +564,12 @@ loop_2:
     return temp_r3;
 }
 
-s32 TLobby__sub_801E3E9C(s32 id, s32 name, s32 arg2) {
+s32 TLobby__sub_801E3E9C(s32 id, saddr name, saddr arg2) {
     s32 temp_r3;
-    temp_r3 = adxf_open_file__6TLobbyFiPviPv((void *)id, (void *)name, 0, (void *)arg2);
+    temp_r3 = TLobby::adxf_open_file(id, (void *)name, 0, (void *)arg2);
     if (temp_r3 >= 0) {
 loop_1:
-        if (read_afs_toc__6TLobbyFl((void *)id) != 3) {
+        if (TLobby::read_afs_toc(id) != 3) {
             TLobby::run_disk_error_check();
             TLobby__sub_803382E4();
             TLobby::run_frame();

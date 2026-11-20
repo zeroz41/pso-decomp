@@ -712,7 +712,7 @@ extern u32 chunk_polygon_flags_or_mask;
 #pragma push
 #pragma bool off
 #pragma opt_propagation off
-void dispatch_chunk_polygon_list(s16 *list, s32 vertex_buffer) {
+void dispatch_chunk_polygon_list(s16 *list, saddr vertex_buffer) {
     struct CommandState {
         s16 wire;
         int header;
@@ -889,7 +889,7 @@ void TObjPlayer::end_chunk_draw() {
 
 s32 draw_chunk_vertices_cached__10TObjPlayerFPv(void* arg) {
     ChunkModel_803E44D4* model = (ChunkModel_803E44D4*)arg;
-    s32 cache;
+    saddr cache;
     s32 count = 0;
     if ((u32)chunk_render_flags & 4) return 0;
     chunk_has_vertex_colors = 0;

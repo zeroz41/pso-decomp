@@ -2657,8 +2657,8 @@ const s32 ** player_motion_clip_roots_b[6] = {
 s32 player_action_motion_buffer;
 
 extern "C" {
-int is_valid_player_motion_variant(void* a0);
-int TLobby__sub_802A7278(void* a0);
+int is_valid_player_motion_variant(s32 a0);
+int TLobby__sub_802A7278(s32 a0);
 void TLobby__sub_802A7848(void *p, s32 _w1);
 s32 TLobby__sub_802A7868(void *, s32, s32);
 s32 forward_801C210C__10TObjPlayerFv(void *, s32);
@@ -2666,17 +2666,17 @@ void TLobby__sub_802A7640(void);
 }
 void disable_and_free_boss4rock_buffer(void);
 extern "C" {
-int is_valid_player_motion_variant(void* a0 = 0);
-int TLobby__sub_802A7278(void* a0 = 0);
+int is_valid_player_motion_variant(s32 a0 = 0);
+int TLobby__sub_802A7278(s32 a0 = 0);
 
 s32 TLobby::get_valid_child() {
-    if (is_valid_player_motion_variant((void*)(*(saddr *)&this->m_flags)) != 0) {
+    if (is_valid_player_motion_variant(*(saddr *)&this->m_flags) != 0) {
         return *(s32 *)&this->m_flags;
     }
     return 0;
 }
 s32 TLobby::validate_handle(s32 *arg0) {
-    if (TLobby__sub_802A7278((void*)(*arg0)) != 0) {
+    if (TLobby__sub_802A7278(*arg0) != 0) {
         return *arg0;
     }
     return 0;
@@ -2701,19 +2701,19 @@ int TUnk_804DDBF0::vfunc_9(s32 a, s32 b, s32 c) {
 }
 
 int TUnk_804DDBF0::vfunc_8(s32 arg1, s32 arg2) {
-    if (((s32)TLobby__sub_802A7278((void*)arg1)) == 0) {
+    if (((s32)TLobby__sub_802A7278(arg1)) == 0) {
         return 0;
     }
-    if (((s32)is_valid_player_motion_variant((void*)arg2)) != 0) {
+    if (((s32)is_valid_player_motion_variant(arg2)) != 0) {
         return (saddr)player_motion_clip_roots_b[arg1][arg2];
     }
     return 0;
 }
 int TUnk_804DDBF0::vfunc_7(s32 arg1, s32 arg2) {
-    if (((s32)TLobby__sub_802A7278((void*)arg1)) == 0) {
+    if (((s32)TLobby__sub_802A7278(arg1)) == 0) {
         return 0;
     }
-    if (((s32)is_valid_player_motion_variant((void*)arg2)) != 0) {
+    if (((s32)is_valid_player_motion_variant(arg2)) != 0) {
         return (saddr)player_motion_category_table[arg1][arg2];
     }
     return 0;

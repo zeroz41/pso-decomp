@@ -189,10 +189,10 @@ struct RecoveredGlobal_lbl_805430E8 { s32 value; u8 remaining[0x1BC]; };
 RecoveredGlobal_lbl_805430E8 lbl_805430E8;
 struct RecoveredGlobal_lbl_805432A8 { s32 value; u8 remaining[0x1BC]; };
 RecoveredGlobal_lbl_805432A8 lbl_805432A8;
-int is_valid_player_motion_variant(void* a0);
-int TLobby__sub_802A7278(void* a0);
-int is_valid_player_motion_variant(void* a0 = 0);
-int TLobby__sub_802A7278(void* a0 = 0);
+int is_valid_player_motion_variant(s32 a0);
+int TLobby__sub_802A7278(s32 a0);
+int is_valid_player_motion_variant(s32 a0 = 0);
+int TLobby__sub_802A7278(s32 a0 = 0);
 void check_valid_state__6TLobbyFi(saddr arg0);
 s32 is_handle_valid__10TObjPlayerFv();
 
@@ -248,10 +248,10 @@ int TUnk_804ED7D0::vfunc_9(s32 a, s32 b, s32 c) {
 }
 
 int TUnk_804ED7D0::vfunc_8(s32 arg1, s32 arg2) {
-    if (((s32)TLobby__sub_802A7278((void*)arg1)) == 0) {
+    if (((s32)TLobby__sub_802A7278(arg1)) == 0) {
         return 0;
     }
-    if (((s32)is_valid_player_motion_variant((void*)arg2)) != 0) {
+    if (((s32)is_valid_player_motion_variant(arg2)) != 0) {
         return (saddr)town_player_motion_clip_index_tables[arg1][arg2];
     }
     return 0;

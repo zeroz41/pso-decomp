@@ -41,7 +41,7 @@ saddr get_chat_shortcut(s32 arg0);
 void send_chat_shortcut(void);
 void TAdSinglePlyChrSelectGC__sub_80076DF4(void* p, void* q);
 }
-s32 chat_accept_submission(s32 arg0);
+s32 chat_accept_submission(saddr arg0);
 void chat_dispatch_accepted_result(s32 *arg0) {
 
     switch (*arg0) {
@@ -57,7 +57,7 @@ void chat_dispatch_accepted_result(s32 *arg0) {
         return;
     }
 }
-s32 chat_accept_submission(s32 arg0) {
+s32 chat_accept_submission(saddr arg0) {
     if (is_submit_cooldown_clear__11TWindowCtrlFv() == 0) {
         return 0;
     }
@@ -75,7 +75,7 @@ struct ByteBlock_50 { u8 bytes[0x50]; };
 #pragma dont_inline off
 
 extern "C" {
-s32 TAdSinglePlyChrSelectGC__sub_80076D9C(s32 arg0, s32 arg1);
+saddr TAdSinglePlyChrSelectGC__sub_80076D9C(saddr arg0, saddr arg1);
 bool is_chat_shortcut_set(s32 arg0);
 void clear_chat_shortcut(s32 i);
 saddr get_character_save_record(u32);
@@ -88,7 +88,7 @@ void clear_chat_shortcut(s32 i) {
 s32 store_chat_shortcut(s32 arg0, s32 arg1);
 s32 store_chat_shortcut(s32 arg0, s32 arg1) { return TAdSinglePlyChrSelectGC__sub_80076D9C(((s32)get_chat_shortcut(arg0)), arg1); }
 
-s32 TAdSinglePlyChrSelectGC__sub_80076D9C(s32 arg0, s32 arg1) {
+saddr TAdSinglePlyChrSelectGC__sub_80076D9C(saddr arg0, saddr arg1) {
     TAdSinglePlyChrSelectGC__sub_80076DF4((void*)arg0, (void*)arg1);
     *(ByteBlock_50 *)(arg0 + 4) = *(const ByteBlock_50 *)(arg1 + 4);
     return arg0;
