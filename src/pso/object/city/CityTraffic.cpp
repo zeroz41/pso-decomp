@@ -190,10 +190,10 @@ void measure_traffic_path_lengths(void) {
   {
     air_car_buffer_pair_table[i] = 0;
   }
-  city_air_car_model_resource = (BmlResource *)get_season_model_resource(2);
+  city_air_car_model_resource = get_season_model_resource(2);
   if (city_air_car_model_resource != 0)
   {
-    city_air_car_model_handle = (GinjaTextureList *)TLobby__sub_80184C2C(2);
+    city_air_car_model_handle = TLobby__sub_80184C2C(2);
     for (j = 0; j < 5; j++)
     {
       p = (int)::operator new(0x14);
@@ -470,7 +470,7 @@ void TObjCityAirCar_Car::run_task() {
 #pragma pop
 
 void TObjCityAirCar_Car::render() {
-    GinjaTextureState *texture;
+    u32 texture_index;
     GinjaTextureEntry *texture_entries;
     if (this->update_object_view_visibility(800.0f, 50.0f) != 0) {
         TParticleCtrl::end_effect_render();
@@ -486,14 +486,14 @@ void TObjCityAirCar_Car::render() {
         draw_ginja_object(get_city_common_model(city_air_car_model_index_table[this->m_9c]));
         if (city_air_car_model_resource != NULL) {
             texture_entries = city_air_car_model_handle->entries;
-            texture = texture_entries[2].texture;
+            texture_index = texture_entries[2].global_index;
             if ((s32) this->m_a4 >= 0x14) {
-                texture_entries[2].texture = texture_entries[0].texture;
+                texture_entries[2].global_index = texture_entries[0].global_index;
             }
             TObjFish::set_global_param((int)city_air_car_model_handle);
             scroll_strip_uvs(air_car_buffer_pair_table[this->m_9c], *(s32 *)((s8 *)this + 0xA0), 0);
             draw_chunk_object((void *)city_air_car_model_resource->models[city_traffic_car_chunk_index_table[this->m_9c]].model);
-            city_air_car_model_handle->entries[2].texture = texture;
+            city_air_car_model_handle->entries[2].global_index = texture_index;
         }
         pop_matrix();
         TParticleCtrl::end_effect_render();

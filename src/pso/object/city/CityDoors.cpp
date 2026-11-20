@@ -827,7 +827,7 @@ u8 *TObjCityDoor_Shop__ct(u8 *city_door_shop, s32 arg1, s32 arg2) {
   *((s32 **) (((s8 *) city_door_shop) + 0x18)) = new_var;
   *((s32 *) (((s8 *) city_door_shop) + 0)) = (s32) TObjCityDoor_Shop__name;
   new_var2 = 1;
-  ((TObjCityDoor_Shop *)city_door_shop)->m_b0 = (f32) ((*((s32 *) (((s8 *) (*((void **) (((s8 *) (*((u8 **) (((s8 *) city_common_model_archive) + 0x430)))) + 0x54)))) + 4))) - new_var2);
+  ((TObjCityDoor_Shop *)city_door_shop)->m_b0 = (f32)((s32)city_common_model_archive->motions[10].motion->frameCount - new_var2);
   return city_door_shop;
 }
 
