@@ -764,13 +764,13 @@ s32 tcp_abort(s32 a) {
     return r;
 }
 
-s32 TLobby__sub_80422AB8(s32 idx, void (*cb)(s16, s16, s32, s32), s16 code, s32 name, s32 arg4, s32 arg5) {
+s32 TLobby__sub_80422AB8(s16 idx, TcpAcceptCallback cb, s16 code, s32 name, s32 arg4, s32 arg5) {
     TcpTcb *s = tcp_protocol_state.tcbs;
     s16 i2;
     s16 v;
-    s += (s16)idx;
+    s += idx;
     if (cb != NULL && !(s->waits[3].flags & 8)) {
-        i2 = (s16)idx;
+        i2 = (int)idx;
         if (code >= 0) {
             v = (s32)code;
             TLobby__sub_8041E590(code);

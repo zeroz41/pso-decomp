@@ -45,7 +45,6 @@ s32 cancel_pending_alarms(void) {
 s32 TLobby__sub_803F8E9C(void)
 {
   s16 init_buffer_pool(void); /* declared s16 here; the definition returns s32 */
-  s16 initialize_network_packet_pool(void); /* declared s16 here; the definition returns s32 */
   s16 TLobby__sub_80428360(); /* declared s16 here; the definition returns s32 */
   s32 i;
   s32 off;

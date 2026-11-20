@@ -894,7 +894,6 @@ s16 tcp_input(u8 *pkt, u8 *a, u8 *b) {
     s32 ack;
     s16 rtt;
     s16 srtt;
-    s32 TLobby__sub_80422AB8(s16, void (*)(s16, s16, s32, s32), s16, s32, s32, s32); /* declared here with an s16 first parameter; the definition takes s32 */
     s16 TLobby__sub_8041B3D4(void *, void *, u16, u16, s32, s32, u8); /* declared s16 here; the definition is s32 (void *, void *, s16, s16, s32, s32, u8) */
 
     ((NetPacket *)pkt)->total_bytes = ((NetPacket *)pkt)->total_bytes - ((NetPacket *)pkt)->fragments[0].length;
@@ -1069,7 +1068,7 @@ retry:
                 int listener_index = (TcpTcb *)found - tcp_protocol_state.tcbs;
                 int accepted_index = (TcpTcb *)ent_new - tcp_protocol_state.tcbs;
                 TLobby__sub_80422AB8(listener_index,
-                                     *(void (**)(s16, s16, s32, s32))(found + offsetof(TcpTcb, accept_cb)),
+                                     *(TcpAcceptCallback *)(found + offsetof(TcpTcb, accept_cb)),
                                      accepted_index, (s32)(ent_new + offsetof(TcpTcb, remote)),
                                      (s32)((TcpTcb *)ent_new)->hdr.sport, (s32)((TcpTcb *)ent_new)->hdr.dport);
             }
