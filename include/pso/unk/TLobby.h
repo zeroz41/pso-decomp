@@ -313,7 +313,7 @@ struct TLobby : public TObject {
     static void create_heap_8000();
     static void append_swapped_u32(s32 *arg0);
     static u32 clamp_min_drop(u32 min, u32 max);
-    static void release_challenge_random_state();
+    static void free_boss4rock();
     void bswap_quad_word();
     void bswap_vec3();
     void swap_header_endian();

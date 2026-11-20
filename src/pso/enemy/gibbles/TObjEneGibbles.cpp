@@ -715,7 +715,7 @@ s32 TObjEneGibbles::spawn_ground_contact_effect() {
 void TObjEneGibbles::play_distance_sound() {
     if (is_passing_frame(8.0f) != 0) {
         if (spawn_ground_impact_effects(&position, 3.0f) != 0) {
-            play_floor_area_ground_sound(&position);
+            TObjEneGibbles__sub_800D8988(&position);
             return;
         }
         play_sound_effect(resolve_sound_id(0x3A83D), &position, 0, 0);
@@ -723,7 +723,7 @@ void TObjEneGibbles::play_distance_sound() {
     }
     if (is_passing_frame(23.0f) != 0) {
         if (spawn_ground_impact_effects(&position, 3.0f) != 0) {
-            play_floor_area_ground_sound(&position);
+            TObjEneGibbles__sub_800D8988(&position);
             return;
         }
         play_sound_effect(resolve_sound_id(0x3A83E), &position, 0, 0);
@@ -731,7 +731,7 @@ void TObjEneGibbles::play_distance_sound() {
     }
     if (is_passing_frame(40.0f) != 0) {
         if (spawn_ground_impact_effects(&position, 3.0f) != 0) {
-            play_floor_area_ground_sound(&position);
+            TObjEneGibbles__sub_800D8988(&position);
             return;
         }
         play_sound_effect(resolve_sound_id(0x3A83F), &position, 0, 0);
@@ -741,7 +741,7 @@ void TObjEneGibbles::play_distance_sound() {
 void TObjEneGibbles::play_ground_contact_sound() {
     if (is_passing_frame(7.0f) != 0 || is_passing_frame(20.0f) != 0) {
         if (spawn_ground_impact_effects(&position, 3.0f) != 0) {
-            play_floor_area_ground_sound(&position);
+            TObjEneGibbles__sub_800D8988(&position);
             return;
         }
         play_sound_effect(resolve_sound_id(0x3A82B), &position, 0, 0);
@@ -1212,7 +1212,7 @@ void TObjEneGibbles::sub_802D8984() {
             o->f38C = 0.0f;
             switch (TObjEneGibbles__sub_802D9A04(o)) {
             case 0:
-                play_floor_area_ground_sound(&o->pos);
+                TObjEneGibbles__sub_800D8988(&o->pos);
                 break;
             case 1:
             default:
@@ -1811,7 +1811,7 @@ void TObjEneGibbles::update_death_sequence() {
             *(f32 *)&this->unk_390 = 0.0f;
             switch (TObjEneGibbles__sub_802D9A04(arg0)) {
             case 0:
-                play_floor_area_ground_sound((Vec *)(arg0 + 0x38));
+                TObjEneGibbles__sub_800D8988((Vec *)(arg0 + 0x38));
                 break;
             default:
             case 1:

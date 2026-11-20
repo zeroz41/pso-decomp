@@ -553,7 +553,7 @@ void init_buffers__6TLobbyFii(s32 id, s32 arg1) {
     }
 }
 
-void TLobby::release_challenge_random_state() {
+void TLobby::free_boss4rock() {
     destroy_event_shuffle_table(challenge_event_shuffle, 1);
     challenge_event_shuffle = NULL;
     ::operator delete(reinterpret_cast<void *>(item_drop_rng));

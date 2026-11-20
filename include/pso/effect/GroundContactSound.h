@@ -2,6 +2,6 @@
 #define PSO_EFFECT_GROUND_CONTACT_SOUND_H
 #include <dolphin/mtx.h>
 
-extern "C" void play_floor_area_ground_sound(Vec *position);
+extern "C" void TObjEneGibbles__sub_800D8988(Vec *position);
 
 #endif

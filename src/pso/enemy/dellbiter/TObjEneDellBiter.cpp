@@ -493,7 +493,7 @@ s32 TObjEneDellBiter::check_rush_collisions() {
 
 void TObjEneDellBiter::update_attack_effect() {
     if (fn_803059BC(&position) != 0) {
-        play_floor_area_ground_sound(&position);
+        TObjEneGibbles__sub_800D8988(&position);
         return;
     }
     play_sound_effect(this->remap_sound_for_area((s32)((void *)0x40039E11)), &position, 0, 0);

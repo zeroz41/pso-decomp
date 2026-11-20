@@ -7,7 +7,7 @@
 extern "C" {
 s32 play_sound_effect(s32 id, Vec *src, s32 a2, s32 flags);
 
-void play_floor_area_ground_sound(Vec *pos) {
+void TObjEneGibbles__sub_800D8988(Vec *pos) {
     switch (get_current_floor_area()) {
     case AREA_CENTRAL_CONTROL_AREA:
     case AREA_JUNGLE_NORTH:
