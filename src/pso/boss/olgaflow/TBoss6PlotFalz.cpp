@@ -1226,7 +1226,7 @@ struct Msg_802AC86C { u16 h; u16 a; s8 b; s8 c; u8 pad[0x12]; };
 struct Boss_802AC86C { u8 pad[0x1C]; u16 f1C; u8 pad2[0x374 - 0x1E]; s32 f374; };
 void fn_802ACD60(void *);
 }
-s32 create_boss4_fade();
+saddr create_boss4_fade();
 void build_6xA3_olga_flow_boss_actions(void *);
 
 

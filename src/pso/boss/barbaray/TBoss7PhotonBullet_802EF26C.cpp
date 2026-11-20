@@ -70,7 +70,7 @@ struct Bullet_802EF2AC {
 };
 
 extern "C" {
-s32 VecCopy__FP3VecPC3Vec(void *, void *);
+saddr VecCopy__FP3VecPC3Vec(void *, void *);
 extern void *__vt__18TBoss7PhotonBullet[];
 s32 project_actor_to_ground(void *, void *, void *);
 extern const f32 lbl_805DEA00;

@@ -50,7 +50,7 @@ struct Stack_8004C5E8 {
 };
 
 extern "C" {
-int VecCopy__FP3VecPC3Vec(void*, void* a1);
+saddr VecCopy__FP3VecPC3Vec(void*, void* a1);
 int freeze_all_players__14TBoss4DarkFalzFPv(void*);
 s32 obj_setArrS16_FC(void *, s32, u16);
 extern s32 lbl_80485454[];

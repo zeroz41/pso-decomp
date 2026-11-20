@@ -2241,9 +2241,9 @@ void TBoss2Mine__sub_80038D88(void);
 
 void TBoss2Tentacle__sub_8003A0AC(void);
 
-s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
+saddr load_enemy_bml_resource_named(s32 arg0, s32 arg1);
 
-s32 load_enemy_bml_resource(u8 *arg0);
+saddr load_enemy_bml_resource(u8 *arg0);
 
 extern s32 TBoss2DeRolLe__shared_handler_id_table[];
 
@@ -2307,7 +2307,7 @@ void TBoss2DeRolLe__sub_800363A0(void* p);
 
 void *create__13TBoss2DeRolLeFPv(void *arg0);
 
-s32 get_instance__13TBoss2DeRolLeFv(void);
+saddr get_instance__13TBoss2DeRolLeFv(void);
 
 void reset_parts__13TBoss2DeRolLeFv(void);
 
@@ -2825,7 +2825,7 @@ void TBoss2DeRolLe::apply_paralysis() {  }
 
 void TBoss2DeRolLe::apply_poison_status() {  }
 
-s32 get_instance__13TBoss2DeRolLeFv(void) {
+saddr get_instance__13TBoss2DeRolLeFv(void) {
     return TBoss2DeRolLe__instance;
 }
 

@@ -1055,4 +1055,4 @@ s32 TBoss4DarkFalz::create(s32 arg0) {
 
 s32 TBoss4Uro::get_phase() { return *(s32 *)&this->_pad37c; }
 
-int TBoss4Uro::get_instance_count() {  return darkfalz_dat_resource; }
+saddr TBoss4Uro::get_instance_count() {  return darkfalz_dat_resource; }

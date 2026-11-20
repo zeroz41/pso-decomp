@@ -90,7 +90,7 @@ typedef struct Anim_802F0BE8 { u8 pad0[4]; u32 n; } Anim_802F0BE8;
 s32 attach_particle_model(int, int, int, int, int, f32);
 f32 horizontal_distance_squared(void *, void *);
 s32 notify_fish_obj__10TObjPlayerFPv(int);
-s32 queue_boss_effect__10TObjPlayerFPv(int);
+saddr queue_boss_effect__10TObjPlayerFPv(int);
 s32 TObjPlayer__sub_802E80A0();
 void draw_effect__10TObjPlayerFv(void *);
 void rotate_matrix_by_node_angles(void *, int);

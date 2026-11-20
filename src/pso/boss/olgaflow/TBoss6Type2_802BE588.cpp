@@ -89,7 +89,7 @@ typedef struct S_802BF6CC {
 } S_802BF6CC;
 
 extern "C" {
-s32 choose_random_motion__11TBoss6Type2Fv();
+saddr choose_random_motion__11TBoss6Type2Fv();
 int send_action_packet__11TBoss6Type2FSc(void*, void*);
 s32 TBoss6Type2__sub_802BB768(void *);
 s32 VecCopy__FP3VecPC3Vec(void *, void *);

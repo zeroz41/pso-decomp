@@ -169,7 +169,7 @@ extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 
 extern void *__vt__15TBoss2PhotonPad[];
-s32 get_instance__13TBoss2DeRolLeFv(void);
+saddr get_instance__13TBoss2DeRolLeFv(void);
 S_80039288 *__ct__15TBoss2PhotonPadFv(S_80039288 *o, void *parent, s32 arg2, void *arg3, s32 arg4);
 void render_shadows__7TObjectFv(void);
 

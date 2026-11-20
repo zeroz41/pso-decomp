@@ -172,7 +172,7 @@ u8 *TBoss1DragonEffBullet__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
 void prepare_flight_destination__12TBoss1DragonFPv(u8 *arg0);
 
 s32 get_current_floor();
-u32 get_player_by_client_id(s32);
+uaddr get_player_by_client_id(s32);
 s32 load_enemy_bml_resource(u8 *arg0);
 s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
 extern s32 lbl_805D4B24;
@@ -5690,7 +5690,7 @@ void get_dragon_follow_camera_offsets(u8 *arg0, u8 *arg1) {
     calc_follow_camera_offsets__12TBoss1DragonFv((TBoss1Dragon *)TBoss1Dragon__data_805D4B2C, (Vec *)arg0, (Vec *)arg1);
 }
 
-s32 TBoss1Dragon::get_instance() {
+saddr TBoss1Dragon::get_instance() {
     return TBoss1Dragon__data_805D4B2C;
 }
 

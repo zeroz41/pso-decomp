@@ -174,9 +174,9 @@ struct Obj_80056DF0 { u8 pad0[0x3AC]; s32 i3AC; s32 i3B0; f32 f3B4; f32 f3B8; f3
 
 f32 random_ratio__9TObjCharaFv(void *);
 u16 get_entity_id(void *);
-s32 get_bml_motion(s32, s32);
+saddr get_bml_motion(s32, s32);
 s32 get_bml_texlist(BmlResource *resource, s32 index);
-s32 get_bml_model(BmlResource *resource, s32 index);
+saddr get_bml_model(BmlResource *resource, s32 index);
 s32 pick_random_target_player__11TBoss4Type3Fv(void);
 s32 TBoss4DarkFalz__sub_8004AF5C(s32, s16 *, s16 *);
 s32 TBoss4DarkFalz__sub_8004B4F0(void *, void *);
@@ -196,7 +196,7 @@ extern Ofs_8005683C bishi_spawn_offset_table[];
 extern s32 registered_player_count;
 struct Def_804867C8 { s32 value; s32 remaining[39]; };
 
-s32 TObjFish__sub_800E3124(void *, void *, f32);
+saddr TObjFish__sub_800E3124(void *, void *, f32);
 const char *boss4_type2_class_name = "TBoss4Type2";
 
 struct TBoss4Type2Action {
@@ -277,7 +277,7 @@ struct Obj_80057128 {
     f32 wave;
 };
 
-s32 TBoss4Type2::create(saddr params) {
+saddr TBoss4Type2::create(saddr params) {
     return (saddr)new TUnk_80486924(new TObjControl((TObject *)tl_04), (s32 *)params);
 }
 
@@ -517,7 +517,7 @@ void TUnk_80486924::draw_hanger() {
     arg0->f3e4 = 0;
 }
 
-s32 TBoss4Type2::sub_80057224() {
+saddr TBoss4Type2::sub_80057224() {
     return (s32)(49152.0f * ((TObjChara *)((Obj_80057224 *)this))->random_ratio()) + 0x2000 + ((Obj_80057224 *)this)->f3a0;
 }
 

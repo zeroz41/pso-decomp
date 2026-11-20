@@ -171,7 +171,7 @@ union TypedVector_80059B78 {
 };
 
 extern "C" {
-s32 VecCopy__FP3VecPC3Vec(void *, void *);
+saddr VecCopy__FP3VecPC3Vec(void *, void *);
 s32 add_radar_scaled_marker(void *, u32, int, int, f32);
 s32 vec3_add_to(void *, void *);
 f32 vector_length(void *);
@@ -354,9 +354,9 @@ struct VObj_8005B218 : VBase_8005B218 {
 f32 random_ratio__9TObjCharaFv(void *);
 u16 get_entity_id(void *);
 s32 is_split_screen();
-s32 get_bml_motion(s32, s32);
+saddr get_bml_motion(s32, s32);
 s32 get_bml_texlist(BmlResource *resource, s32 index);
-s32 get_bml_model(BmlResource *resource, s32 index);
+saddr get_bml_model(BmlResource *resource, s32 index);
 void clear_target_cursor_list(void *p);
 void TObjPlayer__sub_80052390(f32 x);
 f32 TBoss4Type3__sub_800524E8(f32);

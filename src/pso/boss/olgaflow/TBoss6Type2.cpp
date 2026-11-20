@@ -517,7 +517,7 @@ struct MagParams_802BB818 {
 
 struct Mags_802BB818 { u8 pad[0x410]; TBoss6Type2 *mags[2]; };
 
-s32 create_mag__11TBoss6Type2Fl(MagParams_802BB818 *params);
+saddr create_mag__11TBoss6Type2Fl(MagParams_802BB818 *params);
 
 struct Ent_802BBE20 { Vec m; u8 padC[0x1C - 0xC]; Vec n; u8 pad28[0x2C - 0x28]; };
 
