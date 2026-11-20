@@ -1,3 +1,4 @@
+#include "pso/map/FloorPopulation.h"
 #include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/unk/TLobby_80209524.h"
@@ -1098,28 +1099,6 @@ void clear_map_set_data(void) {
 }
 
 
-// Saved set-flag row of a floor's object or enemy list.
-struct SetFlagRow_8020B47C {
-    u16 id;
-    s16 flags;
-    s16 room;
-    s16 wave;
-};
-
-// One floor of TLobby__floor_enemy_group_table (owned by text_8020E08C).
-struct FloorSetFlags_8020B47C {
-    s32 object_count;
-    s32 enemy_count;
-    u32 object_placement;
-    u32 enemy_placement;
-    SetFlagRow_8020B47C *object_rows;
-    SetFlagRow_8020B47C *enemy_rows;
-};
-
-// Per-floor enemy and object row counts (written by init_floor_enemy_count and load_object_set_entries).
-extern s32 TLobby__data_80513CC8[];
-extern s32 TLobby__data_80513C80[];
-extern FloorSetFlags_8020B47C TLobby__floor_enemy_group_table[18];
 void TLobby::load_set_gsl_files() {
     map_set_data_handle_a = 0;
     map_set_data_handle_b = 0;
@@ -1152,8 +1131,8 @@ void TLobby::load_set_gsl_files() {
 }
 
 s32 TLobby::set_flags_on_matching_entries(s32 arg0, s16 arg1, s16 arg2, s32 arg3) {
-    FloorSetFlags_8020B47C *g = &TLobby__floor_enemy_group_table[arg0];
-    SetFlagRow_8020B47C *e;
+    LobbyFloorRows *g = &TLobby__floor_enemy_group_table[arg0];
+    FloorSavedSetRow *e;
     s32 n = 0;
     s32 i;
     if (g->enemy_count > 0) {
@@ -1171,9 +1150,9 @@ s32 TLobby::set_flags_on_matching_entries(s32 arg0, s16 arg1, s16 arg2, s32 arg3
 }
 
 s32 TLobby::set_room_group_flags(s32 floor, s16 room, s16 group, s32 bits) {
-    FloorSetFlags_8020B47C *t = &TLobby__floor_enemy_group_table[floor];
+    LobbyFloorRows *t = &TLobby__floor_enemy_group_table[floor];
     s32 n = 0;
-    SetFlagRow_8020B47C *e;
+    FloorSavedSetRow *e;
     s32 i;
     if (t->object_count > 0) {
         e = t->object_rows;
@@ -1213,10 +1192,8 @@ int TLobby::resolve_matching_object() { return get_matching_object__6TLobbyFv(th
 int get_object_count__6TLobbyFPv(void* p) { return get_object_count__6TLobbyFv(p); }
 
 // ---- pso/unk/text_8020B374
-s32 load_floor_enemy_group_entries__6TLobbyFiPvUi(s32, void *, u32);
-s32 init_quest_floor_enemies(s32, void *, u32);
 s32 TLobby::init_floor_enemy_count(s32 arg0, u8 *arg1, u32 arg2) {
-    if (init_quest_floor_enemies(arg0, arg1, arg2) == 1) {
+    if (init_quest_floor_enemies(arg0, (EnemySetRecord *)arg1, arg2) == 1) {
         TLobby__data_80513CC8[arg0] = arg2 / 72U;
         return 1;
     }
@@ -1225,7 +1202,7 @@ s32 TLobby::init_floor_enemy_count(s32 arg0, u8 *arg1, u32 arg2) {
 }
 
 s32 TLobby::load_object_set_entries(s32 arg0, u8 *arg1, u32 arg2) {
-    if (load_floor_enemy_group_entries__6TLobbyFiPvUi(arg0, arg1, arg2) == 1) {
+    if (load_floor_enemy_group_entries__6TLobbyFiPvUi(arg0, (FloorObjectSetRow *)arg1, arg2) == 1) {
         TLobby__data_80513C80[arg0] = arg2 / 68U;
         return 1;
     }
@@ -1254,7 +1231,7 @@ extern "C" {
 // Copies the received object and enemy set flags of every floor into the floor tables.
 void TLobby__sub_8020B47C(SyncSetFlagBlock_8020B47C *block) {
     s32 j;
-    SetFlagRow_8020B47C *row;
+    FloorSavedSetRow *row;
     s32 i;
     s16 *src;
     s32 count;
