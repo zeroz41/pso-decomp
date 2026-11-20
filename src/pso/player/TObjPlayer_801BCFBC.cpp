@@ -5,6 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_801BD314.h"
+#include "pso/object/base/TObjChara.h"
 
 
 extern "C" {
@@ -14,12 +15,11 @@ s32 test_flags_any(void *, s32);
 s32 is_on_current_floor__10TObjPlayerFi(void *);
 s32 run_action_state_phase__10TObjPlayerFisi(void *, s32, s32);
 
-s32 obj_isState2_324__9TObjCharaFv();
 extern const f32 TObjPlayer__data_805DC294;
 
 void TObjPlayer::update_action_animation() {
     u8 *arg0 = (u8 *)this;
-    if (obj_isState2_324__9TObjCharaFv() == 0) {
+    if (TObjChara::obj_isState2_324() == 0) {
         ((TObjPlayer *)arg0)->update_position_from_target();
         return;
     }

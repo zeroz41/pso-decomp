@@ -114,7 +114,6 @@ struct Node_8018FCD8 { s32 pad0; void *f4; };
 struct Key_8018FCD8 { u8 pad0[0x38]; u8 f38[0x28]; s32 f60; u8 pad64[0x28]; s32 f8C; u8 pad90[0x60]; s32 fF0; };
 
 extern "C" {
-void debug_draw_key_id__5TOKeyFv();
 saddr get_bml_model(saddr, int);
 s32 load_resource_from_descriptor(s32, int, void *, int, int, int);
 }
@@ -212,7 +211,7 @@ s32 TObjDoorKey::draw_inactive_badge() {
 
 void TObjDoorKey::debug_draw_key_id() {
     Key_8018FD9C *arg0 = (Key_8018FD9C *)this;
-    debug_draw_key_id__5TOKeyFv();
+    TOKey::debug_draw_key_id();
     VecCopy((Vec *)&arg0->f74, (const Vec *)arg0->f38);
     arg0->f78 += 8.0f;
     TObjNpcEnemy::set_global_count(0xFF00FF);

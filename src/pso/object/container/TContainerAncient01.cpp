@@ -871,13 +871,12 @@ extern "C" {
 extern s32 TContainerAncient01__bml_resource;
 
 
-s32 reset_state__19TContainerAncient01Fv();
 
 f32 TContainerAncient01::receive_physical_attack(void *, f32) {
     s16 sp8;
 
     if ((u16) this->entity_id >= 0x1000U) {
-        reset_state__19TContainerAncient01Fv();
+        reset_state();
         if (((uaddr) this->set_entry != 0U) && (access_object_saved_state(&sp8, 1) != 0)) {
             sp8 = 1;
             access_object_saved_state(&sp8, 0);

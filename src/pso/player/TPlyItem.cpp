@@ -146,7 +146,6 @@ void TLobby__sub_801D4C28(void* a0, int a1, int a2, int a3);
 s32 try_spend_actor_meseta(u8 *arg0, s32 arg1);
 s32 lookup_item_def__9TItemDataFPv(s32);
 s32 item_identity_matches(u8 *arg0, u8 *arg1);
-s32 is_at_tekker__5TItemFv();
 s32 export_inventory_entry__10TObjPlayerFiPv(saddr arg0, u8 *arg1);
 }
 s32 compare_item_data_masked(void *arg0, void *arg1, s32 arg2);
@@ -312,11 +311,11 @@ void TObjPlayer::collect_alive_owners() {
 void TObjPlayer::collect_item_owners_recursive() {
     Node_801D535C *arg0 = (Node_801D535C *)this;
     Node_801D535C *n;
-    s32 o;
+    saddr o;
     for (n = arg0->child; n != NULL; n = n->next) {
         if (TItemList::is_item_valid((saddr)n) != 0) {
             o = ((TObjPlayer *)n)->get_owner_if_alive();
-            if ((o != 0) && (is_at_tekker__5TItemFv() == 0)) {
+            if ((o != 0) && (((TItem *)o)->is_at_tekker() == 0)) {
                 *player_owner_collect_cursor = o;
                 player_owner_collect_cursor += 1;
                 inventory_walk_visit_count += 1;

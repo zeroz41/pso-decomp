@@ -513,7 +513,7 @@ void TOTrapChainSawDamage::vfunc_27() {
 void TOTrapChainSawDamage::vfunc_26() { *(s32*)((char*)this + 0x100) = 0; }
 
 void TOTrapChainSawDamage::vfunc_14() {
-    vfunc_14__14TOTrapChainSawFv();
+    TOTrapChainSaw::vfunc_14();
     TObjNpcEnemy::set_global_count(0xFF00FF);
     ((void (*)(int, void *, ...))debug_printf_at)(0x13001D, (void *)"<- DAMAGE POWER");
     ((void (*)(int, void *, ...))debug_printf_at)(0x13001E, (void *)"<- SELECT A MODEL");

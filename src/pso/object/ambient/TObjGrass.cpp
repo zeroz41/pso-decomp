@@ -329,8 +329,6 @@ extern s32 local_client_id;
 s32 set_param__9TObjEnemyFl(void *, int, int);
 s32 init_collision_body_parts(void *, void *, int);
 void free_bin_model_request(void*, int);
-s32 update_movement_status__9TObjCharaFv();
-s32 update_action_hold_status__9TObjCharaFv();
 
 extern void *bm_ene_grass_model_names[2];
 extern void *bm_ene_grass_motion_names[9];
@@ -767,7 +765,7 @@ void TObjGrass::vfunc_28() {
 
 
 s32 TObjGrass::update_action_hold_status() {
-    if (update_action_hold_status__9TObjCharaFv() != 0) {
+    if (TObjChara::update_action_hold_status() != 0) {
         switch (this->mode) {
         case 0:
             this->m_3ac = 0;
@@ -782,7 +780,7 @@ s32 TObjGrass::update_action_hold_status() {
 
 
 s32 TObjGrass::update_movement_status() {
-    if (update_movement_status__9TObjCharaFv() != 0) {
+    if (TObjChara::update_movement_status() != 0) {
         switch (this->mode) {
         case 0:
             this->m_3ac = 0;

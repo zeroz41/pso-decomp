@@ -13,7 +13,6 @@
 extern "C" {
 
 s32 sub_801A1DDC__10TObjPlayerFv(s32);
-s32 obj_isState2_324__9TObjCharaFv();
 
 extern "C" {
 
@@ -115,7 +114,7 @@ void TObjPlayer__sub_801BCA14(u8 *player, void *arg1) {
 void TObjPlayer__sub_801BCAB0(void) {  }
 void TObjPlayer::update_state() {
     saddr arg0 = (saddr)this;
-    if (obj_isState2_324__9TObjCharaFv() != 0) {
+    if (TObjChara::obj_isState2_324() != 0) {
         ((TObjPlayer *)arg0)->set_flag_400000();
     } else {
         ((TObjPlayer *)arg0)->sync_current_area();

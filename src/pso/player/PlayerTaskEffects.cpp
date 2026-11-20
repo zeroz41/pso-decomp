@@ -153,7 +153,6 @@ void __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_801C6FF8_lbl_804C4008 __vt__18TPlayerLobbyMarker;
 u8 *__ct__18TPlayerLobbyMarkerFP7TObjectsSc(u8 *arg0, u8 *arg1, s16 arg2, s8 arg3);
 s32 TObjPlayer__sub_801BF914(s32);
-s32 all_parents_unqueued_for_destruction__7TObjectFv();
 s32 scale_matrix(s32, f32, f32, f32);
 s32 translate_matrix_vec3(s32, s32);
 s32 rotate_matrix_y(s32, s32);
@@ -581,7 +580,7 @@ void TPlayerLobbyMarker::run_task() { rotation += 0x800; }
 void TPlayerLobbyMarker::render() {
     saddr temp_r3;
     temp_r3 = (saddr)get_player_by_client_id(player_id);
-    if ((temp_r3 != 0) && (all_parents_unqueued_for_destruction__7TObjectFv() != 0) && (get_material_index() != 0) && (((TObjPlayer *)temp_r3)->is_body_collision_inactive() == 0)) {
+    if ((temp_r3 != 0) && (((TObject *)temp_r3)->all_parents_unqueued_for_destruction() != 0) && (get_material_index() != 0) && (((TObjPlayer *)temp_r3)->is_body_collision_inactive() == 0)) {
         push_matrix();
         TParticleCtrl::begin_effect_render();
         saved_model_render_flags = model_render_flags;

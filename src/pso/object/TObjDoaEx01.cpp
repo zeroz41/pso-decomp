@@ -249,15 +249,13 @@ void TObjDoaEx01::draw_model() {
     }
 }
 
-s32 try_open__11TObjDoaEx01Fv();
-s32 draw_model__11TObjDoaEx01Fv();
 
 void TObjDoaEx01::render() {
     if (this->door_flags & 1) {
-        draw_model__11TObjDoaEx01Fv();
+        draw_model();
         return;
     }
-    try_open__11TObjDoaEx01Fv();
+    try_open();
 }
 
 }

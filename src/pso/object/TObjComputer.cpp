@@ -83,8 +83,6 @@ extern void *tl_05;
 void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);
 s32 free_collision_body_parts(void *);
-s32 vfunc_14__11TObjMesBaseFv();
-s32 clear_ref_if_destroyed__11TObjMesBaseFv();
 
 extern s32 __vt__13TObjGbAdvance[];
 
@@ -199,7 +197,7 @@ void *TObjComputer::create() {
 }
 
 void TObjComputer::vfunc_14() {
-    vfunc_14__11TObjMesBaseFv();
+    TObjMesBase::vfunc_14();
     if ((s32) this->messageLabel != 0) {
         submit_cursor_candidate(this, -1);
     }
@@ -207,7 +205,7 @@ void TObjComputer::vfunc_14() {
 }
 
 void TObjComputer::clear_ref_if_destroyed() {
-    clear_ref_if_destroyed__11TObjMesBaseFv();
+    TObjMesBase::clear_ref_if_destroyed();
     this->uv_scroll_time += 0.2f;
 }
 
@@ -275,7 +273,7 @@ TObjGbAdvance::~TObjGbAdvance() {
 }
 
 void TObjGbAdvance::vfunc_14() {
-    vfunc_14__11TObjMesBaseFv();
+    TObjMesBase::vfunc_14();
     if ((s32) this->messageLabel != 0) {
         submit_cursor_candidate(this, -1);
     }

@@ -178,17 +178,15 @@ void TObjLazerFence4::render() {
     }
 }
 
-s32 reset_if_door_closed__15TObjLazerFence4Fv();
-s32 sub_801933C8__15TObjLazerFence4Fv();
 
 void TObjLazerFence4::run_task() {
 
     switch (this->m_ac) {
     case 0:
-        sub_801933C8__15TObjLazerFence4Fv();
+        sub_801933C8();
         return;
     case 1:
-        reset_if_door_closed__15TObjLazerFence4Fv();
+        reset_if_door_closed();
         return;
     }
 }

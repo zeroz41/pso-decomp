@@ -42,7 +42,6 @@ f32 xz_distance_squared(void *, void *);
 extern s32 local_client_id;
 s32 is_local_client_floor_leader(s32);
 s32 find_local_player_in_range__16TObjCityMainWarpFf(void *, f32);
-s32 close_windows__25TObjCityMainWarpChallengeFv();
 void fn_80248994(TWindowBase *list, u32 color, s32 pos);
 void request_active_window_close(void);
 void begin_player_keyboard_hold(s32 arg0);
@@ -360,7 +359,7 @@ void TObjCityMainWarpChallenge::update_challenge_state() {
     case 5:
         break;
     case -1:
-        close_windows__25TObjCityMainWarpChallengeFv();
+        close_windows();
         break;
     }
 }

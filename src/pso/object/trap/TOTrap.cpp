@@ -8,6 +8,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjChara.h"
 
 struct Obj_80178CF8 {
     u8 pad[0x38];
@@ -34,7 +35,6 @@ s32 get_entity_id(uaddr);
 extern s32 game_difficulty_selection;
 s32 fn_80171314(void *);
 u16 find_nearest_visible_player(void *, int, f32);
-s32 calc_attach_pos__9TObjCharaFv();
 f32 horizontal_distance_squared(void *, void *);
 struct Base_80178EF8_80178BC0 { char pad[0x18]; };
 struct VObj_80178EF8_80178BC0 : Base_80178EF8_80178BC0 {
@@ -98,7 +98,7 @@ void TOTrap::vfunc_82() {
 void TOTrap::vfunc_81() {
     u8 *pl;
     Obj_80178CF8 *self = (Obj_80178CF8 *)this;
-    calc_attach_pos__9TObjCharaFv();
+    TObjChara::calc_attach_pos();
     this->player = find_nearest_visible_player(self, 0, this->range);
     if (this->player != 0xFFFF) {
         pl = (u8 *)get_player_by_client_id(this->player);

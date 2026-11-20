@@ -1258,7 +1258,7 @@ struct TObjPlayer : public TObjChara {
     static s32 update_small_font(saddr arg0, void * _w1);
     static void send_item_pickup_request(saddr arg0);
     void set_state_flag_6043();
-    static void notify_field1c(s32 arg0);
+    static void notify_field1c(saddr arg0);
     int get_field_828();
     static void play_phase_transition_sound(saddr arg0);
     void check_flag_40000();

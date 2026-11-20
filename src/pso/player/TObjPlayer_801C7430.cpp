@@ -1143,7 +1143,6 @@ s32 get_trap_type__10TOMineTrapFv(int);
 s32 TKeyBoardControl__sub_801A58B0();
 s32 TKeyBoardControl__sub_801A58D8();
 s32 TObjPlayer__sub_801AF290(void *p);
-s16 get_handle_value__10TObjPlayerFv();
 s32 is_lobby_floor_15__15TFontSmallLobbyFv();
 s32 is_on_current_floor__10TObjPlayerFi();
 s32 update_trap_sub__10TOMineTrapFv(void *, int, int);
@@ -1162,7 +1161,7 @@ int is_flag_400_set__10TObjPlayerFPv(void *p);
 void enable_action_input__10TObjPlayerFPv(void *p);
 s32 classify_action_state__10TObjPlayerFv(void *);
 void play_footstep_sound__10TObjPlayerFv(void *, f32, f32);
-void TObjPlayer__sub_801B4430(s32 arg0);
+void TObjPlayer__sub_801B4430(saddr arg0);
 void send_code_49_1__10TObjPlayerFi(saddr arg0);
 s32 check_flag_100__10TObjPlayerFPv(void *);
 u16 TObjPlayer__sub_801B5AF8(void *, s32);
@@ -1177,7 +1176,6 @@ s32 get_state__10TObjPlayerFv(void *);
 s32 check_flag_4__10TObjPlayerFv(void *);
 s32 clamp_nested_index__10TObjPlayerFv();
 void set_flag_400000__10TObjPlayerFi(saddr arg0);
-s32 is_status_locked__10TObjPlayerFv();
 s32 is_status_flag_200__10TObjPlayerFv(void);
 void TObjPlayer__sub_801BEEE0(void *p, void *q);
 s32 __ct__20TPlayerReadyCallbackFP7TObjectUsPFP10TObjPlayer_v(s32, s32, s32, void (*)(int));
@@ -2414,7 +2412,7 @@ void TObjPlayer::reset_lobby_state() {
 
 void TObjPlayer::try_use_mag() {
     u8 *arg0 = (u8 *)this;
-    if ((is_frozen__10TObjPlayerFv() == 0) && (TObjPlayer::is_locally_controlled(arg0) != 0) && (((TKeyBoardControl *)(arg0 + 0x64C))->check_input_angle() != 0)) {
+    if ((is_frozen() == 0) && (TObjPlayer::is_locally_controlled(arg0) != 0) && (((TKeyBoardControl *)(arg0 + 0x64C))->check_input_angle() != 0)) {
         ((TObjPlayer *)arg0)->add_status_effect_timer(1, *(s32 *)((s8 *)arg0 + 0x3D4));
     }
 }
@@ -2463,7 +2461,7 @@ void TObjPlayer::send_name_and_state() {
     u8 *arg0 = (u8 *)this;
     MsgA_801C9400 a;
     MsgB_801C9400 b;
-    if (is_frozen__10TObjPlayerFv() == 0) {
+    if (is_frozen() == 0) {
         init_stick_escape_detector((u8 *)&this->m_64c, (void *)(TObjPlayer__sub_801D2878((u8 *)&this->m_550)));
     }
     if ((arg0 == NULL) || (((TObjChara *)arg0)->obj_isState2_324() == 0)) {
@@ -2569,7 +2567,7 @@ void TObjPlayer__sub_801C9648(saddr arg0, s16 arg1) {
 
 s32 TObjPlayer::try_change_action() {
     saddr arg0 = (saddr)this;
-    if (is_status_locked__10TObjPlayerFv() != 0) {
+    if (is_status_locked() != 0) {
         if (((TObjPlayer *)(arg0 + 0x5F0))->get_action_id() == 0x10) {
             ((s32 (*)(s32, s16, s32))run_action_state_phase__10TObjPlayerFisi)(arg0, 0x10, 5);
         } else {
@@ -5159,7 +5157,7 @@ s32 TObjPlayer::can_perform_physical_action() {
 void TObjPlayer::update_by_state() {
     u8 *arg0 = (u8 *)this;
 
-    switch (get_handle_value__10TObjPlayerFv()) {
+    switch (get_handle_value()) {
     case 0:
         if (this->motion_flags & 0x10) {
             ((TObjPlayer *)(arg0 + 0x7CC))->set_flag_1_at_c();
@@ -5180,7 +5178,7 @@ void TObjPlayer::apply_movement_if_ready() {
     u8 *arg0 = (u8 *)this;
     s16 temp_r3;
 
-    temp_r3 = get_handle_value__10TObjPlayerFv();
+    temp_r3 = get_handle_value();
     if ((temp_r3 != 0x11) && ((temp_r3 >= 0x11) || (temp_r3 >= 0xA) || (temp_r3 < 6)) && (((TObjPlayer *)arg0)->is_flag_b0_4() == 0) && ((s16) this->requested_action == (s16) this->current_action) && (this->action_flags & 0x20000000) && (((s32 (*)(void *))TObjPlayer__sub_801D2680)(arg0) == 0)) {
         if (0.0f > get_root_motion_step(&this->x_speed, &this->m_310)) {
             clear_velocity(arg0);

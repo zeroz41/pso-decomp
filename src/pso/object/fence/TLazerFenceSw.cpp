@@ -60,7 +60,6 @@ struct Node_80193CA4 {
 
 extern "C" {
 
-void debug_draw_key_id__5TOKeyFv();
 void debug_printf_at(int, void *, ...);
 extern u8 lbl_80445CD8[];
 
@@ -184,7 +183,7 @@ void TLazerFenceSw::render() {
 
 __declspec(section ".rodata") u8 lbl_80445CD8[16] = "<- SELECT COLOR";
 void TLazerFenceSw::debug_draw_key_id() {
-    debug_draw_key_id__5TOKeyFv();
+    TOKey::debug_draw_key_id();
     if (((Sw_80193978 *)this)->f8C < 0) {
         ((Sw_80193978 *)this)->f8C = 0;
     }

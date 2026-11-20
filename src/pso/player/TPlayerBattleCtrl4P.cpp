@@ -184,7 +184,6 @@ void TLobby__sub_801036CC();
 void TLobby__sub_8020BC50();
 extern void *quest_mission_manager;
 void TKeyBoardControl__sub_8000F950(void);
-s32 reset_players__19TPlayerBattleCtrl4PFv();
 s32 check_flag_100__10TObjPlayerFPv();
 int update_players__19TPlayerBattleCtrl4PFv(void*);
 char team_matchup_message_buffer[256];
@@ -720,7 +719,7 @@ void TPlayerBattleCtrl4P::begin_battle_reload_fade() {
 
 void TPlayerBattleCtrl4P::finish_battle_reload() {
     if ((s32) TPlayerBattleCtrl4P__init_flag != 0) {
-        reset_players__19TPlayerBattleCtrl4PFv();
+        reset_players();
         TLobby::set_fade_params((saddr)TPlayerBattleCtrl4P::reset_ctrl_to_default);
         set_score((saddr)((void*)(3)));
     }
