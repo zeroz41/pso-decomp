@@ -13,7 +13,7 @@ struct TObjBgmColCtrl : public TObject {
     virtual void run_task();
     static void create_controller();
     static u8 is_active();
-    static void update_all_zones(s32 arg0);
+    static void update_all_zones(saddr arg0);
 };
 
 LAYOUT_ASSERT(TObjBgmColCtrl_size, sizeof(TObjBgmColCtrl) == 0x20);
