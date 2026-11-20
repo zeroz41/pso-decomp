@@ -857,7 +857,9 @@ pso/object/trap/TOMineIcon02.cpp
 pso/object/trap/TOMineIcon03.cpp
 pso/object/trap/TOMineIcon04.cpp
 pso/object/trap/TOTrap.cpp
+pso/object/trap/TOTrapAncient02.cpp
 pso/object/trap/TOTrapChainSawEdge.cpp
+pso/object/trap/TOTrapSeabed01.cpp
 pso/object/warp/TObjAreaWarpEndingJung.cpp
 pso/object/warp/TObjAreaWarp_80307B70.cpp
 pso/object/warp/TObjCityMainWarpChallenge.cpp
@@ -940,6 +942,7 @@ pso/player/TObjPlayer_801D6BC8.cpp
 pso/player/TObjPlayer_801D6C4C.cpp
 pso/player/TObjPlayer_801D7860.cpp
 pso/player/TObjPlayer_801D7C5C.cpp
+pso/player/TObjPlayer_801D84A8.cpp
 pso/player/TObjPlayer_801D84CC.cpp
 pso/player/TObjPlayer_801D95B8.cpp
 pso/player/TObjPlayer_801D9908.cpp
@@ -1306,6 +1309,7 @@ pso/ui/frontend/TAdWarningBaseGC_8032D1A4.cpp
 pso/ui/frontend/TAdYesNoBaseGC.cpp
 pso/ui/hud/TLoadingCur.cpp
 pso/ui/hud/TLoadingCur_801A6DE0.cpp
+pso/ui/hud/TMainCursor.cpp
 pso/ui/hud/TMainCursor_80154090.cpp
 pso/ui/hud/TMainCursor_801D7A78.cpp
 pso/ui/hud/TMainCursor_801D7AC8.cpp
@@ -1327,6 +1331,7 @@ pso/ui/window/TObjCHTimeWin_80074C94.cpp
 pso/ui/window/TObjDeadListWin.cpp
 pso/ui/window/TObjResultWin.cpp
 pso/ui/window/TObjSoloPlayWin.cpp
+pso/ui/window/TWindowActionPalette.cpp
 pso/ui/window/TWindowActionPalette_801C1890.cpp
 pso/ui/window/TWindowAddition_80244238.cpp
 pso/ui/window/TWindowArea.cpp
@@ -2058,6 +2063,7 @@ pso/map/CsnQuery.cpp
 pso/ui/chat/TWindowSubSymbolChatParts.cpp
 pso/ui/frontend/TAdSelectGameModeGC_802C4748.cpp
 pso/unk/text_8011A780.cpp
+pso/ui/frontend/TAdVIConfigGC.cpp
 os/OSRtc.c
 pad/Pad.c
 dsp/dsp.c
@@ -2112,6 +2118,7 @@ pso/network/PppMd5.c
 pso/network/PppVj.c
 pso/network/TLobby_803FCF44.c
 pso/network/TLobby_80429598.c
+pso/object/trap/TOTrapAncient01.cpp
 pso/player/TObjPlayer_801C7430.cpp
 pso/player/TObjPlayer_803E18C0.cpp
 pso/player/TObjPlayer_803E1A58.cpp
@@ -2134,6 +2141,7 @@ pso/quest/QuestDownloadBuffers.cpp
 pso/audio/AdxtServer.cpp
 TRK_MINNOW_DOLPHIN/nubinit.c
 pso/ui/window/TWindowPartyStatus.cpp
+gx/GXFrameBuf.c
 pso/technique/TTecGiFoie.cpp
 pso/ui/window/TWindowSnapShot_802A5B2C.cpp
 pso/enemy/panarms/TObjEnePanarms.cpp

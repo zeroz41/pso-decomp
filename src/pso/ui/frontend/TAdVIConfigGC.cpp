@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "versions.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
@@ -35,7 +36,11 @@ __declspec(section ".data") f32 player_names_window_pos[2] = {229.0f, 104.0f};
 extern s32 local_client_id;
 void *TAdVIConfigGC__ct(TAdVIConfigGC *arg0);
 void *destroy__13TAdVIConfigGCFPvs(void *arg0, s16 arg1);
+#if VERSION == VERSION_GPOP8P
+int OSSetEuRgb60Mode(void*);
+#else
 int OSSetProgressiveMode(void*);
+#endif
 void *TAdYesNoBaseGC__ct(TAdYesNoBaseGC *arg0);
 s32 VecCopy__FP3VecPC3Vec(void *);
 int VIWaitForRetrace(void);
@@ -135,21 +140,55 @@ void TAdVIConfigGC::set_field48_clear_global() {
     logo_clear_flag = 0;
 }
 
+#if VERSION == VERSION_GPOP8P
+struct VIRenderModeObj {
+    u32 tv_mode;
+    u16 fb_width;
+    u16 efb_height;
+    u16 xfb_height;
+};
+extern VIRenderModeObj GXEurgb60Hz480IntDf;
+extern void *active_gx_render_mode;
+f32 GXGetYScaleFactor(u16 efb_height, u16 xfb_height);
+void GXSetDispCopyYScale(f32 scale);
+void TAdVIConfigGC::enable_progressive_mode(void * _w0) {
+    OSSetEuRgb60Mode((void *)1);
+    active_gx_render_mode = &GXEurgb60Hz480IntDf;
+    GXSetDispCopyYScale(GXGetYScaleFactor(GXEurgb60Hz480IntDf.efb_height, GXEurgb60Hz480IntDf.xfb_height));
+    VIConfigure(active_gx_render_mode);
+    VIFlush();
+    VIWaitForRetrace();
+    VIWaitForRetrace();
+}
+#else
     extern unsigned char GXNtsc480Prog[];
     extern int active_gx_render_mode;
 void TAdVIConfigGC::enable_progressive_mode(void * _w0) { OSSetProgressiveMode((void*)1); active_gx_render_mode = (int)GXNtsc480Prog; VIConfigure(GXNtsc480Prog); VIFlush(); VIWaitForRetrace(); VIWaitForRetrace(); }
+#endif
 
+#if VERSION == VERSION_GPOP8P
+int TAdVIConfigGC::disable_progressive_mode(void* _w0) { return OSSetEuRgb60Mode((void*)(0)); }
+#else
 int TAdVIConfigGC::disable_progressive_mode(void* _w0) { return OSSetProgressiveMode((void*)(0)); }
+#endif
+#if VERSION == VERSION_GPOP8P
+void TAdVIConfigGC::vfunc_10() { get_localized_text_entry((s32)((void*)29), (s32)((void*)1)); }
+#else
 void TAdVIConfigGC::vfunc_10() { get_localized_text_entry((s32)((void*)29), (s32)((void*)0)); }
+#endif
 
 void TAdVIConfigGC::vfunc_7() { disable_progressive_mode(this); set_field48_clear_global(); }
 
 void TAdVIConfigGC::vfunc_6() {
+#if VERSION == VERSION_GPOP8P
+    enable_progressive_mode(this);
+#else
     void *x;
     x = VIGetDTVStatus(this);
     if (x != NULL) {
         enable_progressive_mode(this);
     }
+#endif
     set_field48_clear_global();
 }
 

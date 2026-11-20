@@ -1,6 +1,7 @@
 #ifndef PSO_SDK_COMPACT_MATH
 #define PSO_SDK_COMPACT_MATH 1
 #endif
+#include "../../../../include/versions.h"
 #include <dolphin/exi.h>
 #include <dolphin/os.h>
 
@@ -316,6 +317,7 @@ void OSSetSoundMode(u32 mode) {
     __OSUnlockSram(1);
 }
 
+#if VERSION != VERSION_GPOP8P
 u32 OSGetProgressiveMode(void) {
     OSSram* sram;
     u32 on;
@@ -347,6 +349,7 @@ void OSSetProgressiveMode(u32 on) {
     sram->flags |= on;
     __OSUnlockSram(TRUE);
 }
+#endif
 
 u32 OSGetVideoMode(void) {
     OSSram* sram = __OSLockSram();
