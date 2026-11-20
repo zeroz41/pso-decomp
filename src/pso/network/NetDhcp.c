@@ -808,7 +808,7 @@ s16 TLobby__sub_8042489C(void *, s32 *out) {
     return 0;
 }
 
-s16 dhcp_copy_domain_and_dns(void *arg0, char *out, s32 *arg2, s32 *arg3) {
+s16 validate_slot_buffers(void *arg0, char *out, s32 *arg2, s32 *arg3) {
     dhcp_error = 0;
     if ((*(volatile s32 *)&dhcp_state) != 3 && (*(volatile s32 *)&dhcp_state) != 4 && (*(volatile s32 *)&dhcp_state) != 5) {
         dhcp_error = 2;

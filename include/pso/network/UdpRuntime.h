@@ -76,7 +76,7 @@ s16 NetUdpCreate(void);
 s16 NetUdpBind(s16 handle, NetworkAddress* localAddress, s32 port);
 u16 NetUdpAllocateEphemeralPort(void);
 s16 NetValidateLocalAddress(NetworkAddress* address);
-s16 NetCompareAddresses(NetworkAddress *a, NetworkAddress *b);
+s16 compare_sockaddr(NetworkAddress *a, NetworkAddress *b);
 s32 reset_stack_module(void);
 s32 init_ucb_entries(void);
 #ifdef __cplusplus

@@ -39,7 +39,7 @@ s32 shutdown_ipv4_routing(void) {
     return 0;
 }
 s32 init_ipv4_routing(void) {
-    NetInitIpv4RoutingState(&ipv4_address_routing_state);
+    init_buffer_descriptor_a(&ipv4_address_routing_state);
     NetMemset(ipv4_address_routing_state.routes, 0, ipv4_address_routing_state.nroutes * sizeof(Ipv4Route));
     /* Sized with Ipv4Route (0x14 bytes), not Ipv4Iface (0x1C): the last 8 bytes of each entry are not cleared. */
     NetMemset(ipv4_address_routing_state.ifaces, 0, ipv4_address_routing_state.nifaces * sizeof(Ipv4Route));
@@ -190,7 +190,7 @@ extern s32 copy_ipv4_interface_addresses(s16 idx, NetBufferRef *out, s16 len, s3
     rec.addr = ifc->addr;
     rec.mask = ifc->mask;
     rec.broadcast = ifc->broadcast;
-    NetBufferRefInitKind1((&ref), (s32)&rec);
+    set_value_and_enable((&ref), (s32)&rec);
     netbuf_copy_by_ref(out, &ref, sizeof(rec));
     netbuf_ref_advance(out, sizeof(rec));
     alias = ifc->aliases;
@@ -202,7 +202,7 @@ extern s32 copy_ipv4_interface_addresses(s16 idx, NetBufferRef *out, s16 len, s3
         rec.addr = alias->addr;
         rec.mask = alias->mask;
         rec.broadcast = alias->broadcast;
-        NetBufferRefInitKind1((&ref), (s32)&rec);
+        set_value_and_enable((&ref), (s32)&rec);
         netbuf_copy_by_ref(out, &ref, sizeof(rec));
         netbuf_ref_advance(out, sizeof(rec));
         alias = alias->next;

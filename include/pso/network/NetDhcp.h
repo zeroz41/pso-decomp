@@ -58,7 +58,7 @@ s32 dhcp_set_option(s16 id, s16 len, void *value);
 s16 TLobby__sub_8042455C(char *hostname);
 s16 TLobby__sub_8042474C(s32 *lease, s32 *renew, s32 *rebind);
 s16 TLobby__sub_8042489C(void *arg0, s32 *router);
-s16 dhcp_copy_domain_and_dns(void *arg0, char *domain, s32 *dns1, s32 *dns2);
+s16 validate_slot_buffers(void *arg0, char *domain, s32 *dns1, s32 *dns2);
 u8 find_dhcp_option(u8 *packet, u8 tag, u8 **out);
 #ifdef __cplusplus
 }

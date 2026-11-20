@@ -592,13 +592,13 @@ send:
         if (optlen != 0) {
             m->total_bytes += optlen;
             m->fragments[m->fragment_count].length = optlen;
-            NetBufferRefInitKind1(&m->fragments[m->fragment_count].buffer, (s32)optp);
+            set_value_and_enable(&m->fragments[m->fragment_count].buffer, (s32)optp);
             m->fragment_count++;
         }
         header_bytes = sizeof(TcpHdr);
         m->total_bytes += header_bytes;
         m->fragments[m->fragment_count].length = header_bytes;
-        NetBufferRefInitKind1(&m->fragments[m->fragment_count].buffer, (s32)th);
+        set_value_and_enable(&m->fragments[m->fragment_count].buffer, (s32)th);
         m->fragment_count++;
         th->sum = TLobby__sub_8040D8F0(tp->local, tp->remote, 6, (u8 *)m, 1);
         if (tp->force == 0 || tp->timers[1] == 0) {
@@ -641,7 +641,7 @@ send:
         }
         {
             s16 rc = dispatch_by_addr_family((s32)m, (NetworkAddress *)tp->remote, (NetworkAddress *)tp->local, tp->f2D6, tp->f2DC, (void *)6);
-            NetReleasePacket(m);
+            release_entry(m);
             if (rc < 0) {
                 return rc;
             }
@@ -734,14 +734,14 @@ s32 TLobby__sub_8041B3D4(void* a, void* b, s16 c, s16 d, s32 e, s32 f, u8 g_m) {
     ph = &hdr.h1;
     NetMemcpy(ph, p7, 2);
     NetMemcpy(&hdr.h2, p8, 2);
-    NetBufferRefInitKind1(&pkt->fragments[0].buffer, (s32)&hdr);
+    set_value_and_enable(&pkt->fragments[0].buffer, (s32)&hdr);
     src.h1 = ((s16)TLobby__sub_8040D8F0(b, a, (s8)(6), (u8 *)pkt, (s16)(1)));
     NetMemcpy(ph, &src.h1, 2);
     if (dispatch_by_addr_family((s32)pkt, (NetworkAddress *)a, (NetworkAddress *)b, buf + 4, buf + 4, (void *)6) < 0) {
-        NetReleasePacket(pkt);
+        release_entry(pkt);
         return -1;
     }
-    NetReleasePacket(pkt);
+    release_entry(pkt);
     return 0;
 }
 
@@ -951,7 +951,7 @@ retry:
             if (((TcpTcb *)ent)->t_state == -1) {
                 continue;
             }
-            if (NetCompareAddresses((NetworkAddress *)(ent + offsetof(TcpTcb, remote)), (NetworkAddress *)a)) {
+            if (compare_sockaddr((NetworkAddress *)(ent + offsetof(TcpTcb, remote)), (NetworkAddress *)a)) {
                 continue;
             }
             if (((TcpTcb *)ent)->hdr.dport != hdr.sport) {
@@ -977,7 +977,7 @@ retry:
             if (((TcpTcb *)ent)->hdr.sport != hdr.dport) {
                 continue;
             }
-            if (NetCompareAddresses((NetworkAddress *)(ent + offsetof(TcpTcb, remote)), (NetworkAddress *)a)) {
+            if (compare_sockaddr((NetworkAddress *)(ent + offsetof(TcpTcb, remote)), (NetworkAddress *)a)) {
                 if (!is_addr_unspecified(ent + offsetof(TcpTcb, remote))) {
                     continue;
                 }
@@ -1020,7 +1020,7 @@ retry:
         if (!(kind & 2)) {
             goto drop;
         }
-        if (NetIsMulticastAddress((NetworkAddress *)b, 0) == 1) {
+        if (is_multicast_address((NetworkAddress *)b, 0) == 1) {
             goto drop;
         }
         ent_new = (u8 *)TLobby__sub_8041B774((TcpTcb *)found, ti, a, b);
@@ -1561,7 +1561,7 @@ dropwithreset:
     if (kind & 4) {
         goto drop;
     }
-    if (NetIsMulticastAddress((NetworkAddress *)b, 0) == 1) {
+    if (is_multicast_address((NetworkAddress *)b, 0) == 1) {
         goto drop;
     }
     if (kind & 0x10) {
@@ -2346,7 +2346,7 @@ extern s32 TLobby__sub_8041E5E4(s16 idx, u8 *a, u16 id) {
         for (i = 0; i < g->count; i++) {
             if (p->state != 0 && p != e && p->hdr.sport == id) {
                 if (is_addr_unspecified(a) != 0 || is_addr_unspecified(p->local) != 0 ||
-                    NetCompareAddresses((NetworkAddress *)p->local, (NetworkAddress *)a) == 0) {
+                    compare_sockaddr((NetworkAddress *)p->local, (NetworkAddress *)a) == 0) {
                     if (p->t_state == 10 && (p->flags & 0x80) != 0) {
                         TLobby__sub_8041B5C0(p);
                     } else {
@@ -2547,8 +2547,8 @@ s16 TLobby__sub_8041EC14(TcpTcb *tcb) {
         if (TLobby__sub_80415954(&spC[0], tcb->rcv_bufsize, 1) < 0) {
             return -0x102;
         }
-        NetBufferRefInitKind4(&tcb->rcv_alloc, spC[0]);
-        NetBufferRefInitKind1(&tcb->rcv_buf, spC[0]);
+        init_msg(&tcb->rcv_alloc, spC[0]);
+        set_value_and_enable(&tcb->rcv_buf, spC[0]);
     }
     tcb->rcv_count = 0;
     tcb->rcv_head = 0;
@@ -2567,8 +2567,8 @@ s16 TLobby__sub_8041ECA4(TcpTcb *tcb) {
         if (TLobby__sub_80415954(&spC, tcb->snd_bufsize, 1) < 0) {
             return -0x102;
         }
-        NetBufferRefInitKind4(&tcb->snd_alloc, spC);
-        NetBufferRefInitKind1(&tcb->snd_buf, spC);
+        init_msg(&tcb->snd_alloc, spC);
+        set_value_and_enable(&tcb->snd_buf, spC);
     }
     tcb->snd_count = 0;
     off = offsetof(TcpTcb, snd_head);

@@ -1,6 +1,6 @@
 #ifndef PSO_NETWORK_NETDNS_H
 #define PSO_NETWORK_NETDNS_H
-/* The DNS resolver (dns_resolver_state, src/pso/network/TLobby_804050DC.c).  NetInitNetworkConfig sets its limits and
+/* The DNS resolver (dns_resolver_state, src/pso/network/TLobby_804050DC.c).  init_net_config sets its limits and
  * carves its pools out of one static block; init_net_tables clears them. */
 #include "types.h"
 #include "pso/network/UdpRuntime.h"
@@ -172,10 +172,10 @@ typedef char DnsQueryPtrEntryOffset[offsetof(DnsQuery, req) + offsetof(DnsPtrReq
 
 extern DnsResolverState dns_resolver_state;
 
-s32 NetDnsBuildQueryAAAA(DnsQuery *query, char *name, s16 length);
-s32 NetDnsBuildQueryA(DnsQuery *query, char *name, s16 length);
-s32 NetConnectionCloseAndReset(DnsQuery *connection);
-void NetDispatchRequestCallback(DnsQuery *connection, s16 status);
+s32 build_dns_query_aaaa(DnsQuery *query, char *name, s16 length);
+s32 build_dns_query_a(DnsQuery *query, char *name, s16 length);
+s32 close_and_reset_connection(DnsQuery *connection);
+void dispatch_request_callback(DnsQuery *connection, s16 status);
 
 
 #ifdef __cplusplus

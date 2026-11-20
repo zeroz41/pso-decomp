@@ -352,27 +352,27 @@ s16 udp_send(s32 h, u32 *src, u32 *dst, u16 port, u32 *opt, s8 n, send_buffs *bu
     pkt->total_bytes = 0;
     for (i = n; i != 0; i--) {
         if (bufs[i - 1].len < 0) {
-            NetReleasePacket(pkt);
+            release_entry(pkt);
             unlock_mutex(network_dispatch_state.lock_handle);
             return -2;
         }
         pkt->total_bytes += bufs[i - 1].len;
         pkt->fragments[pkt->fragment_count].length = bufs[i - 1].len;
-        NetBufferRefInitKind3((NetBufferRef *)&pkt->fragments[pkt->fragment_count].buffer, (s32)bufs[i - 1].buff);
+        init_packet_header((NetBufferRef *)&pkt->fragments[pkt->fragment_count].buffer, (s32)bufs[i - 1].buff);
         pkt->fragment_count++;
     }
     if (pkt->total_bytes > 0x7FE3) {
-        NetReleasePacket(pkt);
+        release_entry(pkt);
         unlock_mutex(network_dispatch_state.lock_handle);
         return -2;
     }
     if (pkt->total_bytes == 0) {
-        NetReleasePacket(pkt);
+        release_entry(pkt);
         unlock_mutex(network_dispatch_state.lock_handle);
         return 0;
     }
     r = udp_sendto(h, pkt, (NetworkAddress *)src, (NetworkAddress *)dst, port, (s32)opt);
-    NetReleasePacket(pkt);
+    release_entry(pkt);
     unlock_mutex(network_dispatch_state.lock_handle);
     return r;
 }
@@ -450,7 +450,7 @@ void TLobby__sub_80421FB8(void *cb, void *hdr_, void *o_) {
             return;
         }
         buf = hdr->buf;
-        NetBufferRefInitKind3(&pkt, (s32)buf);
+        init_packet_header(&pkt, (s32)buf);
         for (i = 1; len > 0; i++) {
             if (len > o->fragments[i].length) {
                 chunk = o->fragments[i].length;
@@ -505,7 +505,7 @@ s16 tcp_receive(s32 a, TcpCompletion cb, s32 len, void *buf) {
         unlock_mutex(g->lock_handle);
         return -9;
     }
-    NetBufferRefInitKind3(&destination, (s32)buf);
+    init_packet_header(&destination, (s32)buf);
     NetMemset(&s->waits[0].flags, 0, 8);
     s->waits[0].flags |= 1;
     if (s->flags & 0x40) {
@@ -614,17 +614,17 @@ s16 tcp_send(s32 a, void (*notify)(s16, s16), char bufnum, struct send_buffs *sb
         p--;
         n--;
         if (p->len < 0) {
-            NetReleasePacket(entry);
+            release_entry(entry);
             unlock_mutex(network_dispatch_state.lock_handle);
             return -2;
         }
-        NetBufferRefInitKind3((NetBufferRef *)(cur + 0x10), (s32)p->buff);
+        init_packet_header((NetBufferRef *)(cur + 0x10), (s32)p->buff);
         *(s16 *)(cur + 0xc) = p->len;
         entry->total_bytes += *(s16 *)(cur + 0xc);
         cur += 0xc;
     }
     if (entry->total_bytes == 0) {
-        NetReleasePacket(entry);
+        release_entry(entry);
         unlock_mutex(network_dispatch_state.lock_handle);
         return -2;
     }
@@ -637,7 +637,7 @@ s16 tcp_send(s32 a, void (*notify)(s16, s16), char bufnum, struct send_buffs *sb
     } else {
         ret = tcp_start_send(a, entry, notify, 0);
     }
-    NetReleasePacket(entry);
+    release_entry(entry);
     if (ret < 0) {
         s->waits[2].flags &= ~1;
         unlock_mutex(network_dispatch_state.lock_handle);
@@ -921,7 +921,7 @@ s16 TLobby__sub_80422F70(s16 iface, s32 hdr_src, s32 len, s32 buf) {
     }
     total = 0;
     lock_mutex(network_dispatch_state.lock_handle);
-    NetBufferRefInitKind3(&sp18, hdr_src);
+    init_packet_header(&sp18, hdr_src);
     first = copy_ipv4_interface_addresses(iface, &sp18, (int)len, (void *)buf);
     if (first > 0) {
         total = first;

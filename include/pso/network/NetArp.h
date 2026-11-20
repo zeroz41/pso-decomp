@@ -2,7 +2,7 @@
 #define PSO_NETWORK_NETARP_H
 /* ARP (lbl_805C1AB0, src/pso/network/TLobby_804050DC.c): the address cache, the interfaces ARP runs on, the packets
  * held until their next hop's address is known and the other protocol addresses an interface answers for.
- * NetInitNetworkBufferConfig sets the counts and the arrays; age_arp_cache ages the cache once a minute. */
+ * init_net_buffer_config sets the counts and the arrays; age_arp_cache ages the cache once a minute. */
 #include "types.h"
 
 #ifdef __cplusplus

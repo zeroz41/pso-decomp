@@ -44,7 +44,7 @@ s32 NetIPv6Init(void) {
     Ipv6RawSocket *e;
     Ipv6ProtocolState *g = &ipv6_protocol_state;
 
-    NetInitIpv6InterfaceConfig(g);
+    init_ipv6_interface_config(g);
     e = g->sockets;
     for (i = 0; i < g->nsockets; i++) {
         e->tag[0] = 'I';
@@ -107,10 +107,10 @@ inline NetPacket *make_input_packet(u8 *ip, s16 total_len, u8 *payload, s32 payl
     pkt->fragment_count = 0;
     pkt->total_bytes = total_len;
     pkt->fragments[pkt->fragment_count].length = total_len - payload_len;
-    NetBufferRefInitKind1(&pkt->fragments[pkt->fragment_count].buffer, (s32)ip);
+    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (s32)ip);
     pkt->fragment_count += 1;
     pkt->fragments[pkt->fragment_count].length = (u16)payload_len;
-    NetBufferRefInitKind1(&pkt->fragments[pkt->fragment_count].buffer, (s32)payload);
+    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (s32)payload);
     pkt->fragment_count += 1;
     return pkt;
 }
@@ -312,7 +312,7 @@ payload:
         if (reassembled == 1) {
             release_packet_fragments(pkt);
         }
-        NetReleasePacket(pkt);
+        release_entry(pkt);
         return 0;
     }
     if (reassembled != 1) {
@@ -325,7 +325,7 @@ fail:
     if (reassembled == 1) {
         release_packet_fragments(pkt);
     }
-    NetReleasePacket(pkt);
+    release_entry(pkt);
 ret:
     return -1;
 }
@@ -466,7 +466,7 @@ extern s32 ipv6_forward(u8 *self, u8 *p, s16 lim, s16 ctx)
   e->fragment_count = 0;
   e->total_bytes = tot;
   e->fragments[e->fragment_count].length = (s16) tot;
-  NetBufferRefInitKind1(&e->fragments[e->fragment_count].buffer, (s32) (p + 0x28));
+  set_value_and_enable(&e->fragments[e->fragment_count].buffer, (s32) (p + 0x28));
   e->fragment_count = e->fragment_count + 1;
   NetMemcpy(out1, self + 8, 0x10);
   NetMemcpy(out2, self + 0x18, 0x10);
@@ -478,7 +478,7 @@ extern s32 ipv6_forward(u8 *self, u8 *p, s16 lim, s16 ctx)
   {
     r21 = TLobby__sub_80410BA8(e, out1, hit->iface, 0);
   }
-  NetReleasePacket(e);
+  release_entry(e);
   return r21;
 }
 #pragma pop
@@ -642,7 +642,7 @@ s16 TLobby__sub_80410BA8(void *self, void *a, s16 c, void *d)
   ((NetPacket *) self)->total_bytes += sizeof(Ipv6Header);
   ((NetPacketFragment *) (((u8 *) self) + offsetof(NetPacket, fragments)))[((NetPacket *) self)->fragment_count].length = sizeof(Ipv6Header);
   off = ((NetPacket *) self)->fragment_count * (s32)sizeof(NetPacketFragment);
-  NetBufferRefInitKind1((NetBufferRef *)(((u8 *)self) + off + offsetof(NetPacket, fragments[0].buffer)), (s32) slot);
+  set_value_and_enable((NetBufferRef *)(((u8 *)self) + off + offsetof(NetPacket, fragments[0].buffer)), (s32) slot);
   ((NetPacket *) self)->fragment_count += 1;
   if (NetIPv6IsMulticast(((NetIPv6SendParameters *) a)->destination.bytes))
   {
@@ -721,12 +721,12 @@ extern s16 TLobby__sub_80410D6C(u8 *ctx, u8 *hdr, s16 a5, s32 a6, u32 len)
         off += (s16)iov.total_bytes;
         iov.total_bytes += 8;
         iovp->fragments[iov.fragment_count].length = 8;
-        NetBufferRefInitKind1(&iovp->fragments[iov.fragment_count].buffer, (s32)&fh);
+        set_value_and_enable(&iovp->fragments[iov.fragment_count].buffer, (s32)&fh);
         iov.fragment_count++;
         *(u16 *)(hdr + offsetof(Ipv6Header, payload_length)) = iov.total_bytes;
         iov.total_bytes += 40;
         iovp->fragments[iov.fragment_count].length = 40;
-        NetBufferRefInitKind1(&iovp->fragments[iov.fragment_count].buffer, (s32)hdr);
+        set_value_and_enable(&iovp->fragments[iov.fragment_count].buffer, (s32)hdr);
         iov.fragment_count++;
         if (NetIPv6IsMulticast(hdr + offsetof(Ipv6Header, dst))) {
             r = TLobby__sub_804112B8((s32)iovp, (s32)(hdr + offsetof(Ipv6Header, dst)), a5);

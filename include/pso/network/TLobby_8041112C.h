@@ -14,7 +14,7 @@ typedef struct Ipv6NdState Ipv6NdState;
 typedef struct NetFragment NetFragment;
 typedef struct NetFragPacket NetFragPacket;
 typedef struct NetFragPool NetFragPool;
-/* network_loopback_state: the loopback interface; NetInitReceiveDescriptor fills 0x0A-0x17. */
+/* network_loopback_state: the loopback interface; init_net_recv_desc fills 0x0A-0x17. */
 typedef struct LoopbackProto {
     s16 used;
     u16 type;
@@ -95,7 +95,7 @@ struct Ipv6NdRouter {
     s32 retrans_timer;  /* 0x10: ms, from the router advertisement */
     u8 addr[0x10];      /* 0x14 */
 };
-/* ipv6_neighbor_discovery_state: NetInitIpv6NeighborDiscovery fills 0x00-0x1B and
+/* ipv6_neighbor_discovery_state: init_buffer_descriptor_b fills 0x00-0x1B and
    NetIPv6ApplyNeighborDiscoveryDefaults the rest (times in seconds). */
 struct Ipv6NdState {
     s16 npending;              /* 0x00 */
@@ -180,7 +180,7 @@ s32 fill_reply_buffer(s16 h, u8 *p);
 s16 get_slot_offset_or_default(s16 arg0);
 s16 *get_valid_entry(s16 arg0);
 s32 reset_net_value(void);
-s32 NetResetOtherFragmentLists(NetFragPacket *self);
+s32 reset_other_connection_lists(NetFragPacket *self);
 s32 release_packet_fragments(NetPacket *a);
 void tick_entry_timers(void);
 void update_timeout_entries(void);

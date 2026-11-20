@@ -187,10 +187,10 @@ s16 ipv4_input(u8 *ip, s16 len, s16 iface)
     pkt->fragment_count = 0;
     pkt->total_bytes = total_len;
     pkt->fragments[pkt->fragment_count].length = hlen;
-    NetBufferRefInitKind1(&pkt->fragments[pkt->fragment_count].buffer, (s32) ip);
+    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (s32) ip);
     pkt->fragment_count++;
     pkt->fragments[pkt->fragment_count].length = data_len;
-    NetBufferRefInitKind1(&pkt->fragments[pkt->fragment_count].buffer, (s32) (ip + hlen));
+    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (s32) (ip + hlen));
     pkt->fragment_count++;
     reassembled = 0;
   }
@@ -204,14 +204,14 @@ s16 ipv4_input(u8 *ip, s16 len, s16 iface)
         {
           release_packet_fragments(pkt);
         }
-        NetReleasePacket(pkt);
+        release_entry(pkt);
         return -1;
       }
       if (reassembled == 1)
       {
         release_packet_fragments(pkt);
       }
-      NetReleasePacket(pkt);
+      release_entry(pkt);
       break;
 
     case 6:
@@ -222,14 +222,14 @@ s16 ipv4_input(u8 *ip, s16 len, s16 iface)
         {
           release_packet_fragments(pkt);
         }
-        NetReleasePacket(pkt);
+        release_entry(pkt);
         return -1;
       }
       if (reassembled == 1)
       {
         release_packet_fragments(pkt);
       }
-      NetReleasePacket(pkt);
+      release_entry(pkt);
       return 0;
 
     case 17:
@@ -248,7 +248,7 @@ s16 ipv4_input(u8 *ip, s16 len, s16 iface)
             {
               release_packet_fragments(pkt);
             }
-            NetReleasePacket(pkt);
+            release_entry(pkt);
             return r;
 
           default:
@@ -256,7 +256,7 @@ s16 ipv4_input(u8 *ip, s16 len, s16 iface)
             {
               release_packet_fragments(pkt);
             }
-            NetReleasePacket(pkt);
+            release_entry(pkt);
             return -1;
         }
       }
@@ -264,7 +264,7 @@ s16 ipv4_input(u8 *ip, s16 len, s16 iface)
       {
         release_packet_fragments(pkt);
       }
-      NetReleasePacket(pkt);
+      release_entry(pkt);
       return 0;
 
     default:
@@ -298,7 +298,7 @@ s16 ipv4_input(u8 *ip, s16 len, s16 iface)
     {
       release_packet_fragments(pkt);
     }
-    NetReleasePacket(pkt);
+    release_entry(pkt);
     return 0;
   }
   err.type = 3;
@@ -309,7 +309,7 @@ s16 ipv4_input(u8 *ip, s16 len, s16 iface)
   {
     release_packet_fragments(pkt);
   }
-  NetReleasePacket(pkt);
+  release_entry(pkt);
   return -1;
 }
 #pragma pop
@@ -432,16 +432,16 @@ s16 AT_IP4_Forward(u32 dst, u32 src, u8 *pkt, s16 len, s16 iface)
       rec->fragment_count = 0;
       rec->total_bytes = (u16) (tail + (nunits * 8));
       rec->fragments[rec->fragment_count].length = tail + (nunits * 8);
-      NetBufferRefInitKind1(&rec->fragments[rec->fragment_count].buffer, (s32) payload);
+      set_value_and_enable(&rec->fragments[rec->fragment_count].buffer, (s32) payload);
       rec->fragment_count += 1;
       rec->total_bytes += hlen;
       rec->fragments[rec->fragment_count].length = hlen;
-      NetBufferRefInitKind1(&rec->fragments[rec->fragment_count].buffer, (s32) ip);
+      set_value_and_enable(&rec->fragments[rec->fragment_count].buffer, (s32) ip);
       rec->fragment_count += 1;
       r = AT_IP4_PktSend(rec, target, ifidx);
       if (r < 0)
       {
-        NetReleasePacket(rec);
+        release_entry(rec);
         break;
       }
       if (first)
@@ -460,7 +460,7 @@ s16 AT_IP4_Forward(u32 dst, u32 src, u8 *pkt, s16 len, s16 iface)
       }
     }
     while (rem > 0);
-    NetReleasePacket(rec);
+    release_entry(rec);
   }
   else
   {
@@ -475,14 +475,14 @@ s16 AT_IP4_Forward(u32 dst, u32 src, u8 *pkt, s16 len, s16 iface)
     rec->fragment_count = 0;
     rec->total_bytes = len;
     rec->fragments[rec->fragment_count].length = len;
-    NetBufferRefInitKind1(&rec->fragments[rec->fragment_count].buffer, (s32) (pkt + hlen));
+    set_value_and_enable(&rec->fragments[rec->fragment_count].buffer, (s32) (pkt + hlen));
     rec->fragment_count += 1;
     rec->total_bytes += hlen;
     rec->fragments[rec->fragment_count].length = hlen;
-    NetBufferRefInitKind1(&rec->fragments[rec->fragment_count].buffer, (s32) pkt);
+    set_value_and_enable(&rec->fragments[rec->fragment_count].buffer, (s32) pkt);
     rec->fragment_count += 1;
     r = AT_IP4_PktSend(rec, target, ifidx);
-    NetReleasePacket(rec);
+    release_entry(rec);
   }
   return r;
 }
@@ -586,7 +586,7 @@ s16 AT_IP4_Send(NetPacket *pkt, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, u8 prot
     ip->cksum = ip_header_checksum(ip, 10);
     pkt->total_bytes += hlen << 2;
     pkt->fragments[pkt->fragment_count].length = hlen * 4;
-    NetBufferRefInitKind1(&pkt->fragments[pkt->fragment_count].buffer, (s32) ip);
+    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (s32) ip);
     pkt->fragment_count++;
     r = AT_IP4_PktSend(pkt, target, ifidx);
     return r;
@@ -669,7 +669,7 @@ s16 AT_IP4_Send(NetPacket *pkt, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, u8 prot
     ip->cksum = ip_header_checksum(ip, 10);
     pp->total_bytes += hlen << 2;
     pp->fragments[pp->fragment_count].length = hlen * 4;
-    NetBufferRefInitKind1(&pp->fragments[pp->fragment_count].buffer, (s32) ip);
+    set_value_and_enable(&pp->fragments[pp->fragment_count].buffer, (s32) ip);
     pp->fragment_count++;
     r = AT_IP4_PktSend(pp, target, ifidx);
     if (r < 0)
@@ -705,7 +705,7 @@ u16 calc_pseudo_header_checksum(s32 src, s32 dst, s8 proto, void *pkt, s16 flag)
     return ~sum;
 }
 
-u16 NetPacketChecksum(NetPacket *self, s16 b) {
+u16 calc_ip_checksum(NetPacket *self, s16 b) {
     u32 s = packet_ones_complement_sum(self, b);
     s = (s >> 16) + (s & 0xFFFF);
     s += (s >> 16);

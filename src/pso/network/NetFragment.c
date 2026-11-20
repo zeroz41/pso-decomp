@@ -84,7 +84,7 @@ s32 fragment_input(u8* self, u16 hdr_len, s16 frag_len, u8 ttl, u32 ident, Netwo
     count = 0;
     node = base->head;
     while (node != NULL && count < base->npackets) {
-        if (NetCompareAddresses(&node->src, src) == 0 && node->ident == ident) {
+        if (compare_sockaddr(&node->src, src) == 0 && node->ident == ident) {
             ret = reassemble_fragment_packet(node, self, hdr_len, frag_off, frag_len, more, iface);
             if (ret == 0) {
                 return 0;
@@ -184,18 +184,18 @@ s32 reassemble_fragment_packet(NetFragPacket *node, u8 *self, u16 hdr_len, u16 f
     }
     pool_frags = &g->frags;
     if ((frag = frag_pool_take_entry(frags = pool_frags, nfrags = &g->nfrags)) == 0) {
-        NetResetOtherFragmentLists(node);
+        reset_other_connection_lists(node);
         if ((frag = frag_pool_take_entry(frags, nfrags)) == 0) {
             return 0;
         }
     }
     frag->offset = frag_off;
     frag->len = frag_len;
-    NetBufferRefInitKind1(&src, (s32)self);
+    set_value_and_enable(&src, (s32)self);
     if (frag_off == 0) {
         first_len = (total = frag_len + hdr_len);
         if (TLobby__sub_80415954(&frag->data, first_len, 2) < 0) {
-            NetResetOtherFragmentLists(node);
+            reset_other_connection_lists(node);
             if (TLobby__sub_80415954(&frag->data, first_len, 2) < 0) {
                 frag->used = 0;
                 frag->next = 0;
@@ -206,7 +206,7 @@ s32 reassemble_fragment_packet(NetFragPacket *node, u8 *self, u16 hdr_len, u16 f
     } else {
         len = frag_len;
         if (TLobby__sub_80415954(&frag->data, len, 2) < 0) {
-            NetResetOtherFragmentLists(node);
+            reset_other_connection_lists(node);
             if (TLobby__sub_80415954(&frag->data, len, 2) < 0) {
                 frag->used = 0;
                 frag->next = 0;
@@ -429,7 +429,7 @@ s32 TLobby__sub_80419470(NetworkAddress *src, u32 ident) {
     prev = NULL;
     count = 0;
     while (node != NULL && count < tbl->npackets) {
-        if (NetCompareAddresses(&node->src, src) == 0 && node->ident == ident) {
+        if (compare_sockaddr(&node->src, src) == 0 && node->ident == ident) {
             NetFragPacket** tp;
             if (prev != NULL) {
                 prev->next = node->next;
@@ -535,7 +535,7 @@ found:
 }
 #pragma pop
 /* Frees every other datagram being reassembled to make room for self, which becomes the only one in the list. */
-s32 NetResetOtherFragmentLists(NetFragPacket *self) {
+s32 reset_other_connection_lists(NetFragPacket *self) {
     NetFragPool *g = &packet_fragment_pool_state;
     NetFragment *p;
     NetFragment *cur;

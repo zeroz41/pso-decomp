@@ -53,7 +53,7 @@ s16 TLobby__sub_8041510C(void)
     if (r < 0) {
         return r;
     }
-    NetInitReceiveDescriptor((LoopbackState *)base);
+    init_net_recv_desc((LoopbackState *)base);
     p->handler = r;
     p->protos[0].used = 0;
     p->protos[0].type = 0;

@@ -47,7 +47,7 @@ s32 TLobby__sub_8041112C(void) {
 }
 
 s32 TUdpSocket__sub_8041118C(void) {
-    NetInitIpv6RoutingState(&ipv6_address_routing_state);
+    init_udp_socket_config(&ipv6_address_routing_state);
     NetMemset(ipv6_address_routing_state.routes, 0, ipv6_address_routing_state.route_count * sizeof(Ipv6Route));
     /* Clears count * sizeof(Ipv6Route) bytes of the interface table, not count * sizeof(Ipv6Iface). */
     NetMemset(ipv6_address_routing_state.ifaces, 0, ipv6_address_routing_state.count * sizeof(Ipv6Route));
@@ -573,7 +573,7 @@ extern s32 TLobby__sub_80412058(s16 id, u8 *self, s32 len, u8 *out) {
     rec.a = *(s16 *)(ent + offsetof(Ipv6Iface, prefix_len));
     rec.b = *(s16 *)(ent + offsetof(Ipv6Iface, flags));
     rec.c = *(u32 *)(ent + offsetof(Ipv6Iface, callback));
-    NetBufferRefInitKind1((NetBufferRef *)ref, (s32)&rec);
+    set_value_and_enable((NetBufferRef *)ref, (s32)&rec);
     netbuf_copy_by_ref(self, ref, 0x1C);
     netbuf_ref_advance((NetBufferRef *)self, 0x1C);
     cur = *(u8 **)(ent + offsetof(Ipv6Iface, addrs));
@@ -586,7 +586,7 @@ extern s32 TLobby__sub_80412058(s16 id, u8 *self, s32 len, u8 *out) {
         rec.a = *(s16 *)(cur + offsetof(Ipv6AddrNode, prefix_len));
         rec.b = *(s16 *)(cur + offsetof(Ipv6AddrNode, f18));
         rec.c = 0;
-        NetBufferRefInitKind1((NetBufferRef *)ref, (s32)&rec);
+        set_value_and_enable((NetBufferRef *)ref, (s32)&rec);
         netbuf_copy_by_ref(self, ref, 0x1C);
         netbuf_ref_advance((NetBufferRef *)self, 0x1C);
         cur = *(u8 **)(cur + offsetof(Ipv6AddrNode, next));

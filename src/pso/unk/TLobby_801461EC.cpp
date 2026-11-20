@@ -340,7 +340,7 @@ s32 TLobby__sub_801465C0(s32 *arg0) {
         return 0xC;
     }
     fn_80147A60(lbl_805D56EC);
-    return dhcp_copy_domain_and_dns(lbl_8050C0C4, (char *)lbl_8050C684, &lobby_dns_server_addr, &lobby_dns_server_addr2) != 0 ? 0xC : 0;
+    return validate_slot_buffers(lbl_8050C0C4, (char *)lbl_8050C684, &lobby_dns_server_addr, &lobby_dns_server_addr2) != 0 ? 0xC : 0;
 }
 
 s32 TLobby__sub_801466F4(u32 arg0) {

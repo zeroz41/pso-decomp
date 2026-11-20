@@ -15,9 +15,9 @@ typedef char NetBufferRef_kind_check[(offsetof(NetBufferRef, kind) == 4) ? 1 : -
 #ifdef __cplusplus
 extern "C" {
 #endif
-void NetBufferRefInitKind1(NetBufferRef *ref, s32 value);
-void NetBufferRefInitKind3(NetBufferRef *ref, s32 value);
-void NetBufferRefInitKind4(NetBufferRef *ref, s32 value);
+void set_value_and_enable(NetBufferRef *ref, s32 value);
+void init_packet_header(NetBufferRef *ref, s32 value);
+void init_msg(NetBufferRef *ref, s32 value);
 
 /* Advances a buffer reference by n bytes (TLobby_804050DC.c). */
 void netbuf_ref_advance(NetBufferRef *ref, s32 n);

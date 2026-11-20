@@ -1228,17 +1228,17 @@ u8 *netbuf_ref_data(void *self)
     }
 }
 
-void NetBufferRefInitKind4(NetBufferRef *ref, s32 value) {
+void init_msg(NetBufferRef *ref, s32 value) {
     ref->value = value;
     ref->kind = 4;
 }
 
-void NetBufferRefInitKind3(NetBufferRef *ref, s32 value) {
+void init_packet_header(NetBufferRef *ref, s32 value) {
     ref->value = value;
     ref->kind = 3;
 }
 
-void NetBufferRefInitKind1(NetBufferRef *ref, s32 value) {
+void set_value_and_enable(NetBufferRef *ref, s32 value) {
     ref->value = value;
     ref->kind = 1;
 }
@@ -1391,7 +1391,7 @@ void netbuf_copy_by_ref(void *a, void *b, s32 v) {
 }
 #pragma pop
 
-void NetReleasePacket(NetPacket *packet) {
+void release_entry(NetPacket *packet) {
     s16 i;
     s16 n = lobby_udp_socket_table.count;
     NetPacket *p = lobby_udp_socket_table.packets;

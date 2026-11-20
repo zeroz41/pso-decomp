@@ -104,7 +104,7 @@ inline s32 calc_80409908(void *self, u8 *arr) {
     acc = (s32)self;
     p = arr + n * 12;
     while (n > 0) {
-        NetBufferRefInitKind1((NetBufferRef *)tmp, acc);
+        set_value_and_enable((NetBufferRef *)tmp, acc);
         netbuf_copy_by_ref(tmp, arr + (n - 1) * 12 + 0x10, *(s16 *)p);
         acc += *(s16 *)p;
         sum += *(s16 *)p;

@@ -114,7 +114,7 @@ s32 arp_init(void)
     ArpAlias *p4;
     long sum;
 
-    NetInitNetworkBufferConfig(&lbl_805C1AB0);
+    init_net_buffer_config(&lbl_805C1AB0);
     i = tbl->nentries;
     p = tbl->entries;
     for (; i > 0; i--) {
@@ -237,7 +237,7 @@ extern s32 arp_handle_packet(void *pkt, s16 a, s16 b, s16 c)
         NetMemcpy(out.tpa, in.spa, hit->plen);
         call_handler_by_index(hit->handler, c, 0, (s32)in.sha, (s32)r);
         if (r != NULL) {
-          NetReleasePacket(r);
+          release_entry(r);
         }
       }
     }
@@ -318,7 +318,7 @@ inline void Send_8040799C(ArpIface *e, void *name) {
         NetMemcpy(o.tpa, name, e->plen);
         call_handler_by_index(e->handler, e->arp_socket, 1, 0, (s32)r);
         if (r != NULL) {
-            NetReleasePacket(r);
+            release_entry(r);
         }
     }
 }
@@ -582,7 +582,7 @@ src = found->data;
 p = pkt->fragments + k - 1;
 while (k > 0)
 {
-NetBufferRefInitKind1((NetBufferRef *)tmp, src);
+set_value_and_enable((NetBufferRef *)tmp, src);
 netbuf_copy_by_ref(tmp, (void *)&pkt->fragments[k - 1].buffer, (s32)p->length);
 src += p->length;
 sum += p->length;
@@ -615,7 +615,7 @@ NetPacket *alloc_packet_with_header(ArpFields *f, ArpIface *iface) {
     pkt->total_bytes = len;
     buf = (u8 *)&lbl_805C1AB0.packet;
     pkt->fragments[0].length = t;
-    NetBufferRefInitKind1(&pkt->fragments[0].buffer, (s32)*(u8 **)buf);
+    set_value_and_enable(&pkt->fragments[0].buffer, (s32)*(u8 **)buf);
     buf = *(u8 **)buf;
     NetMemset(buf, 0, len);
     NetMemcpy(buf, &iface->htype, 6);
@@ -732,9 +732,9 @@ ArpEntry *find_or_add_peer_entry(s16 handler, s32 socket, u8 plen, void *paddr, 
                 p->fragment_count = 1;
                 p->total_bytes = e->hold->len;
                 p->fragments[0].length = e->hold->len;
-                NetBufferRefInitKind1(&p->fragments[0].buffer, e->hold->data);
+                set_value_and_enable(&p->fragments[0].buffer, e->hold->data);
                 call_handler_by_index(handler, socket, 0, (s32)e->haddr, (s32)p);
-                NetReleasePacket(p);
+                release_entry(p);
             }
         }
         detach_80408428(e);
