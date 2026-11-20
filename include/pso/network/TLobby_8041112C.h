@@ -191,7 +191,7 @@ void TLobby__sub_804150EC(void);
 void TLobby__sub_8041615C(void);
 void NetIPv6TickNeighborCache(void);
 void NetIPv6TickNeighborDiscovery(void);
-s16 NetIPv6EmitNeighborSolicitation(int arg0, void *arg1, void *arg2, s16 arg3, int arg4);
+s16 NetIPv6EmitNeighborSolicitation(void *arg0, void *arg1, void *arg2, s16 arg3, int arg4);
 s32 NetIPv6SendUnspecifiedSourceNeighborSolicitation(saddr arg0, s16 arg1);
 s16 TLobby__sub_804112B8(s32 arg0, s32 arg1, s16 arg2);
 s16 TLobby__sub_8041123C(s32 arg0, s32 arg1, s16 arg2);

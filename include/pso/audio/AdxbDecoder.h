@@ -50,7 +50,7 @@ struct AdxbDecoder {
     u8 *m_80;
     s32 m_84;
     void (*read)(s32, s32 *, s32 *, s32 *);
-    s32 readArg;
+    saddr readArg;
     void (*done)(s32, s32, s32);
     s32 doneArg;
     s32 m_98;

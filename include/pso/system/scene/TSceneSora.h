@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TSceneSora : public TObjBase {
-    TSceneSora(s32 _w1);
+    TSceneSora(saddr _w1);
     virtual ~TSceneSora();
     uaddr m_90;
     uaddr m_94;

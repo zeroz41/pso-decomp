@@ -294,7 +294,7 @@ u32 mfci_parse_file_size(char *s) {
     return lo;
 }
 
-void mfci_set_error_callback(s32 callback, s32 context) {
+void mfci_set_error_callback(saddr callback, s32 context) {
     mfci_error_callback = (MfciErrorCallback)callback;
     mfci_error_callback_context = context;
 }

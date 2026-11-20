@@ -7,8 +7,8 @@ extern "C" {
 void *get_player_by_client_id(s32 i);
 f32 xyz_distance(void *, void *);
 }
-s32 check_player_door_proximity(s32 arg0, s32 arg1, f32 farg0);
-s32 check_player_door_proximity(s32 arg0, s32 arg1, f32 farg0) {
+s32 check_player_door_proximity(saddr arg0, s32 arg1, f32 farg0);
+s32 check_player_door_proximity(saddr arg0, s32 arg1, f32 farg0) {
     saddr p;
     s32 i;
     s32 j;

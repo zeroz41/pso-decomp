@@ -107,7 +107,7 @@ void TSceneSora::run_task() {
 TSceneSora::~TSceneSora() {
     TSceneSora__instance = 0;
 }
-TSceneSora::TSceneSora(s32 _w1) : TObjBase((TObject *)_w1) {
+TSceneSora::TSceneSora(saddr _w1) : TObjBase((TObject *)_w1) {
     this->m_name = TSceneSora__name;
     this->m_90 = get_bml_model((int) ((*(s32 *)&TSceneSora__sky_bml_resource)), 0);
     if (TSceneSora__has_sky_motion != 0) {

@@ -24,7 +24,7 @@ TUnk_804CC990::~TUnk_804CC990() {
     stop_sound_request(sound_handle);
 }
 
-TUnk_804CC990::TUnk_804CC990(saddr actor, s32 parent) : TObject((TObject *)parent) {
+TUnk_804CC990::TUnk_804CC990(saddr actor, saddr parent) : TObject((TObject *)parent) {
     this->actor = (TObjPlayer *)actor;
     VecCopy(&this->position, (Vec *)&this->actor->m_2fc);
     this->age = 0;

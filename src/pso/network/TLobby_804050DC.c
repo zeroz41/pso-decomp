@@ -744,10 +744,10 @@ s32 TLobby__sub_804062A0(s16 arg0) {
     }
 }
 
-s32 TLobby__sub_804048E8(void *, s32 *, s16); /* declared here with other parameter types; the definition is s32 (Obj_80403F4C *, PppFrame **, s16) */
+s32 TLobby__sub_804048E8(void *, saddr *, s16); /* declared here with other parameter types; the definition is s32 (Obj_80403F4C *, PppFrame **, s16) */
 s32 ppp_output_frame(PppFrame *);
 s32 TLobby__sub_80406328(saddr self, s16 type) {
-    s32 sv = self;
+    saddr sv = self;
     void *me = (void *)self;
     s32 ty = type;
     u8 *G;

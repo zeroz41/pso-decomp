@@ -73,7 +73,7 @@ s16 TLobby__sub_80427988(PppoeSlot *e, u8 *p, u16 len);
 #undef arg0
 
 s16 build_ethernet_frame_header(void *frame, void *src, void *mac, u16 type, u8 flag, u16 a, u16 len);
-s32 write_pppoe_ac_name_tag(s32 *arg0, u8 *arg1);
+s32 write_pppoe_ac_name_tag(u8 **arg0, u8 *arg1);
 s32 skip_pppoe_tags(s32 arg0, u8 *arg1, u16 arg2);
 s16 get_pppoe_session_id(s16 arg0);
 s16 pppoe_recv_packet(void *buf, u16 bufLen, u16 *outLen);
@@ -298,7 +298,7 @@ s16 TLobby__sub_80426EB8(PppoeSlot *e) {
 #pragma opt_lifetimes off
 s16 TLobby__sub_804270C0(u8 *self) {
     s16 NetStringLength(const char *);
-    s16 write_pppoe_ac_name_tag(s32 *, u8 *);
+    s16 write_pppoe_ac_name_tag(u8 **, u8 *);
     u8 pad1[4];
     u8 *p;
     u16 w[8];
@@ -321,7 +321,7 @@ s16 TLobby__sub_804270C0(u8 *self) {
     if (len < 0) {
         return -1;
     }
-    r = write_pppoe_ac_name_tag((s32 *)&p, self);
+    r = write_pppoe_ac_name_tag(&p, self);
     if (r < 0) {
         return -1;
     }
@@ -359,7 +359,7 @@ s16 write_empty_tlv_header(u8 **p, PppoeSlot *e) {
 
 #pragma push
 #pragma opt_common_subs off
-s32 write_pppoe_ac_name_tag(s32 *arg0, u8 *arg1) {
+s32 write_pppoe_ac_name_tag(u8 **arg0, u8 *arg1) {
 typedef struct Fields_arg1 { u8 pad_0[58]; char name[1]; } Fields_arg1;
     s16 sp12;
     s16 sp10;
@@ -368,13 +368,13 @@ typedef struct Fields_arg1 { u8 pad_0[58]; char name[1]; } Fields_arg1;
         return 0;
     }
     sp12 = 0x102;
-    NetMemcpy((void *)(*arg0), (&sp12), 2);
+    NetMemcpy(*arg0, (&sp12), 2);
     *arg0 += 2;
     temp_r3 = NetStringLength(((Fields_arg1*)arg1)->name);
     sp10 = temp_r3;
-    NetMemcpy((void *)(*arg0), (&sp10), 2);
+    NetMemcpy(*arg0, (&sp10), 2);
     *arg0 += 2;
-    NetMemcpy((void *)(*arg0), ((Fields_arg1*)arg1)->name, (temp_r3));
+    NetMemcpy(*arg0, ((Fields_arg1*)arg1)->name, (temp_r3));
     *arg0 += temp_r3;
     return temp_r3 + 4;
 }
@@ -805,7 +805,7 @@ static inline void check_80427D40(void) {
 }
 s16 pppoe_recv_packet(void *buf, u16 bufLen, u16 *outLen) {
     u16 type;
-    s32 pkt;
+    saddr pkt;
     u16 id;
     s32 padA;
     u16 len;

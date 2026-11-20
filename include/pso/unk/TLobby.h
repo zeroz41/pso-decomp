@@ -547,7 +547,7 @@ struct TLobby : public TObject {
     static void format_number_pair(s32 arg0, s32 arg1, char *arg2, s32 arg3);
     static void report_adx_error(const char *msg, const char *arg);
     static void notify_error(const char *arg0);
-    static void set_params(s32 arg0, s32 arg1);
+    static void set_params(saddr arg0, s32 arg1);
     static void clear_error_callback();
     static void clear_error_callback_state();
     static void dec_ref_and_shutdown();
@@ -569,7 +569,7 @@ struct TLobby : public TObject {
     static void update_scroll_impl();
     void update_scroll();
     static void call_callback();
-    static void set_callback(u32 arg0, s32 arg1);
+    static void set_callback(uaddr arg0, s32 arg1);
     static void notify_dvd_read();
     static void enter_lock();
     u32 get_packet_size();

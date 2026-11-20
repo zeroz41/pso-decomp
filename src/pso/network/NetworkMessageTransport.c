@@ -14,7 +14,7 @@
 #pragma auto_inline off
 #pragma dont_inline off
 
-typedef struct Msg_804264F4 { u32 f0; u32 f4; s32 f8; } Msg_804264F4;
+typedef struct Msg_804264F4 { u32 f0; u32 f4; saddr f8; } Msg_804264F4;
 
 s32 OSInitMessageQueue(void *, void *, int);
 s16 TLobby__sub_803F9B94(void *, void *);
@@ -40,7 +40,7 @@ s16 TLobby__sub_80426110(EthernetReceiveFilter *o, u16 arg1, u16 arg2);
 s32 OSReceiveMessage(void *, void *, int);
 s32 NetUnregisterTimer(void *fn);
 u8 *TLobby__sub_804256B8(s32);
-s32 TLobby__sub_8042558C(void *);
+saddr TLobby__sub_8042558C(u32);
 extern const u8 lbl_805E1190[8] = { 255, 255, 255, 255, 255, 255, 0, 0 };
 saddr TLobby__sub_804089A8(s16, s16, void *, void *); /* declared here with other parameter types; the definition is s32 (s16, s16, s16, void *) */
 s32 TLobby__sub_80425640(s32 len);
@@ -318,7 +318,7 @@ s16 post_send_message(void *data, u16 len) {
     u8 *msg;
     u8 pad[8];
     saddr src = (saddr)data;
-    buf = TLobby__sub_8042558C((void *)len);
+    buf = TLobby__sub_8042558C(len);
     if (buf == 0) {
         return -1;
     }
@@ -335,7 +335,7 @@ void clear_message_entry_wrapper(s32 entry) {
     clear_message_entry(entry);
 }
 
-u16 recv_pppoe_message(s32 *out_data, u16 *out_len) {
+u16 recv_pppoe_message(saddr *out_data, u16 *out_len) {
     Msg_804264F4 *msg;
     if (OSReceiveMessage(pppoe_message_queue, &msg, 0) == 1) {
         *out_data = msg->f8;

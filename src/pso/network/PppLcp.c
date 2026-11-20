@@ -93,7 +93,7 @@ void TLobby__sub_8040059C(u8 *conn)
   TLobby__sub_803FD694((u8 *)e);
 }
 
-extern s16 TLobby__sub_80400744(int a0, void *a1) {
+extern s16 TLobby__sub_80400744(void *a0, void *a1) {
     s32 pad[2];
     s32 *pp;
     Conn_804004DC *s = (Conn_804004DC *)a0;

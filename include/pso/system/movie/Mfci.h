@@ -46,7 +46,7 @@ void mfci_exec_server(void); // inferred: mfCiExecServer
 // does not implement. Slot names inferred from the functions they hold.
 struct MfciDeviceInterface {
     void (*exec_server)(void);
-    void (*set_error_callback)(s32 callback, s32 context);
+    void (*set_error_callback)(saddr callback, s32 context);
     u32 (*get_file_size)(char *name);
     void *pad_0c;
     MfciFileEntry *(*open)(const char *name, s32 entry, s32 mode);

@@ -5,7 +5,7 @@
 
 // Relocates a loaded data block in place through a temporary resource file
 // object (the same pass as apply_rel_relocations) and returns its root.
-u32 relocate_data_block_pointers(u32 arg0, u32 arg1) {
+uaddr relocate_data_block_pointers(uaddr arg0, u32 arg1) {
     TUnk_8049C658 c;
     u16 *idx;
     uaddr p;

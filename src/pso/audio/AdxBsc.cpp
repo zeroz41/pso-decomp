@@ -298,9 +298,9 @@ s32 TLobby::get_field_0x3c() {
     return *(s32 *)((s8 *)arg0 + 0x3C);
 }
 
-void TLobby__sub_803C3B5C(u8 *arg0, s32 arg1, s32 arg2) {
+void TLobby__sub_803C3B5C(u8 *arg0, void (*arg1)(s32, s32 *, s32 *, s32 *), saddr arg2) {
     AdxbDecoder *h = (AdxbDecoder *)arg0;
-    h->read = (void (*)(s32, s32 *, s32 *, s32 *))arg1;
+    h->read = arg1;
     h->readArg = arg2;
 }
 

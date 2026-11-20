@@ -59,7 +59,7 @@ struct S_803C8A14 {
 struct PointerRecords_803C8610_var_r31 { u8 bytes[0x40]; };
 
 extern "C" {
-void TLobby__sub_803D3130(s32 arg0, s32 arg1, u8 *arg2, u8 *arg3);
+void TLobby__sub_803D3130(void *arg0, s32 arg1, u8 *arg2, u8 *arg3);
 s32 lbl_805D7550;
 s32 tlobby_stream_read_retry_limit;
 s32 lbl_805D7558;
@@ -197,7 +197,7 @@ void TLobby::update_stream_read() {
         r = ((TLobby *)(s->h))->cv_fs_get_stat();
         if (r == 1) {
             n = s->nread << 11;
-            TLobby__sub_803D3130((saddr)&s->buf, (s32)n, (u8 *)&a, (u8 *)&b);
+            TLobby__sub_803D3130(&s->buf, (s32)n, (u8 *)&a, (u8 *)&b);
             st->vt->submit(st, 1, &a);
             st->vt->release(st, 0, &b);
             if (s->end == pos_803C8678(s) && s->cb != NULL) {

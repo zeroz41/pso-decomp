@@ -239,7 +239,7 @@ s32 NetIPv6SendUnspecifiedSourceNeighborSolicitation(saddr addr, s16 arg1) {
     NetIPv6SendParameters params;
     s32 temp_r31;
     NetPacket *free_entry;
-    s32 NetIPv6EmitNeighborSolicitation(int, void *, void *, s16, int);
+    s32 NetIPv6EmitNeighborSolicitation(void *, void *, void *, s16, int);
     if (TLobby__sub_80413D78() != 0) {
         return -0x10E;
     }
@@ -251,7 +251,7 @@ s32 NetIPv6SendUnspecifiedSourceNeighborSolicitation(saddr addr, s16 arg1) {
     free_entry->total_bytes = 0;
     NetMemset(&params.source, 0, 0x10);
     NetIPv6MakeSolicitedNodeMulticastAddress(params.destination.bytes, (u8 *)addr);
-    temp_r31 = NetIPv6EmitNeighborSolicitation((saddr)free_entry, (void *)addr, &params, arg1, 0);
+    temp_r31 = NetIPv6EmitNeighborSolicitation(free_entry, (void *)addr, &params, arg1, 0);
     release_entry(free_entry);
     return temp_r31;
 }
@@ -1317,7 +1317,7 @@ s32 NetIPv6SendMulticastNeighborProbe(Ipv6NdNeighbor *e) {
     Ipv6NdAddrEvent a7;
     Ipv6NdAddrEvent a6;
     s32 ret;
-    s32 NetIPv6EmitNeighborSolicitation(int, void *, void *, s16, int); /* declared s32 here; the definition returns s16 */
+    s32 NetIPv6EmitNeighborSolicitation(void *, void *, void *, s16, int); /* declared s32 here; the definition returns s16 */
     Ipv6NdRouter *router;
     NetPacket *pkt;
     Ipv6NdPending *temp_r3_2;
@@ -1354,7 +1354,7 @@ s32 NetIPv6SendMulticastNeighborProbe(Ipv6NdNeighbor *e) {
         TLobby__sub_804145D4(out, e->iface);
     }
     NetIPv6MakeSolicitedNodeMulticastAddress(sp2C, e->addr);
-    ret = NetIPv6EmitNeighborSolicitation((saddr)pkt, e->addr, out, e->iface, 0);
+    ret = NetIPv6EmitNeighborSolicitation(pkt, e->addr, out, e->iface, 0);
     release_entry(pkt);
     return ret;
 }
@@ -1365,7 +1365,7 @@ s32 NetIPv6SendUnicastNeighborProbe(Ipv6NdNeighbor *e) {
     Ipv6NdAddrEvent a7;
     Ipv6NdAddrEvent a6;
     s32 ret;
-    s32 NetIPv6EmitNeighborSolicitation(int, void *, void *, s16, int); /* declared s32 here; the definition returns s16 */
+    s32 NetIPv6EmitNeighborSolicitation(void *, void *, void *, s16, int); /* declared s32 here; the definition returns s16 */
     Ipv6NdRouter *router;
     NetPacket *pkt;
     Ipv6NdPending *temp_r3_2;
@@ -1402,12 +1402,12 @@ s32 NetIPv6SendUnicastNeighborProbe(Ipv6NdNeighbor *e) {
         TLobby__sub_804145D4(out, e->iface);
     }
     NetMemcpy(sp2C, e->addr, 0x10);
-    ret = NetIPv6EmitNeighborSolicitation((saddr)pkt, e->addr, out, e->iface, (saddr)e->lladdr);
+    ret = NetIPv6EmitNeighborSolicitation(pkt, e->addr, out, e->iface, (saddr)e->lladdr);
     release_entry(pkt);
     return ret;
 }
 
-s16 NetIPv6EmitNeighborSolicitation(int arg0, void *arg1, void *arg2, s16 arg3, int arg4) {
+s16 NetIPv6EmitNeighborSolicitation(void *arg0, void *arg1, void *arg2, s16 arg3, int arg4) {
     saddr d;
     s16 b;
     NetIPv6SendParameters *addr;

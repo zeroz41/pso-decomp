@@ -40,9 +40,9 @@ static inline NetworkPacketBufferDescriptor *find_804253F8(u32 arg0) {
 void clear_message_entry(s32 a) {
     R_804253A0 *r;
     u8 unused[8];
-    lock_mutex((saddr)((void *)network_packet_mutex));
+    lock_mutex((saddr)network_packet_mutex);
     r = (R_804253A0 *)find_entry_by_address(a);
-    unlock_mutex((saddr)((void *)network_packet_mutex));
+    unlock_mutex((saddr)network_packet_mutex);
     if (r != 0) {
         r->a = 0;
         r->b = 0;
@@ -78,9 +78,9 @@ static inline u8 *alloc_packet_buffer(u32 size) {
 
 u8 *TLobby__sub_8042558C(u32 size) {
     u8 *buf;
-    lock_mutex((saddr)((void *)network_packet_mutex));
+    lock_mutex((saddr)network_packet_mutex);
     buf = alloc_packet_buffer(size);
-    unlock_mutex((saddr)((void *)network_packet_mutex));
+    unlock_mutex((saddr)network_packet_mutex);
     return buf;
 }
 
@@ -105,9 +105,9 @@ u8 *TLobby__sub_80425640(u32 size) {
 
 NetworkPacketBufferDescriptor *TLobby__sub_804256B8(u32 addr) {
     NetworkPacketBufferDescriptor *e;
-    lock_mutex((saddr)((void *)network_packet_mutex));
+    lock_mutex((saddr)network_packet_mutex);
     e = find_804253F8(addr);
-    unlock_mutex((saddr)((void *)network_packet_mutex));
+    unlock_mutex((saddr)network_packet_mutex);
     return e;
 }
 #pragma pop

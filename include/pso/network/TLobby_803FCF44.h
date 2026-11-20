@@ -93,7 +93,7 @@ void TLobby__sub_803FD0C0(void);
 void TLobby__sub_803FD694(u8 *arg0); /* PppFsm.c */
 void TLobby__sub_803FE600(O_803FE600 *o); /* PppFsm.c */
 s16 TLobby__sub_803FED78(u8 *self); /* PppIpcp.c */
-s16 TLobby__sub_80400744(int a0, void *a1); /* PppLcp.c */
+s16 TLobby__sub_80400744(void *a0, void *a1); /* PppLcp.c */
 s32 TLobby__sub_80401ABC(u8 *self_m, void *dst, s32 n); /* PppBuffer.c */
 
 /* The protocol header that opens the IPCP and LCP state objects (.bss 805C0328 and 805C0400). */

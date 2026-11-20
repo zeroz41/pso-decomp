@@ -56,7 +56,7 @@ u8 *find_archive_entry__6TLobbyFPvPvPvPv(Buf_803D2F1C *arc, const char *name, co
 
 #pragma push
 #pragma scheduling off
-void TLobby__sub_803D3130(s32 arg0, s32 arg1, u8 *arg2, u8 *arg3) {
+void TLobby__sub_803D3130(void *arg0, s32 arg1, u8 *arg2, u8 *arg3) {
     *(ByteBlock_8 *)(arg2) = *(const ByteBlock_8 *)(arg0);
     *(s32 *)((s8 *)arg3 + 4) = (s32) *(s32 *)((s8 *)arg2 + 4);
     if ((s32) *(s32 *)((s8 *)arg2 + 4) > arg1) {

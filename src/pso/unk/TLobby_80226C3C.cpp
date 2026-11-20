@@ -198,7 +198,7 @@ void update_music_sequencer(void) {
         music_sequencer_fade_state = 1;
         music_sequencer_timer = 600;
     }
-    if (lbl_80514CE8[music_fade_slot_index] < lbl_805D62F4 && TLobby__sub_803C5D00((void *)((s32 *)&lbl_804CB850)[0]) != 1) {
+    if (lbl_80514CE8[music_fade_slot_index] < lbl_805D62F4 && TLobby__sub_803C5D00((void *)lbl_804CB850[0]) != 1) {
         return;
     }
     passage = &lbl_805D6304->modes[music_active_mode_index][music_sequencer_passage_index];
@@ -244,10 +244,10 @@ void update_music_sequencer(void) {
     }
     lbl_80514CE0[music_fade_slot_index] = lbl_805D62F0;
     lbl_805D6334 = music_fade_slot_index;
-    append_music_stream_segment((u8 *)((void *)((s32 *)&lbl_804CB850)[0]), 190, lbl_80514CE0[music_fade_slot_index]);
+    append_music_stream_segment((u8 *)((void *)lbl_804CB850[0]), 190, lbl_80514CE0[music_fade_slot_index]);
     music_fade_slot_index = 1 - music_fade_slot_index;
     lbl_80514CE8[music_fade_slot_index] = 0;
-    lbl_80514CF0[music_fade_slot_index] = TLobby__sub_803C97B8((u8 *)((void *)((s32 *)&lbl_804CB850)[music_fade_slot_index]));
+    lbl_80514CF0[music_fade_slot_index] = TLobby__sub_803C97B8((u8 *)((void *)lbl_804CB850[music_fade_slot_index]));
 }
 
 void set_dark_falz_music_request(s32 arg0) {

@@ -58,7 +58,7 @@ static const QuestLineRects2 quest_line_color_entry_table = { {
     { 2, 0x777777FF, lbl_80478898, lbl_804788A8 },
 } };
 
-s32 draw_color_quad_2d(void *arg0, void *arg1p, int arg2) {
+void draw_color_quad_2d(void *arg0, void *arg1p, int arg2) {
     f32 pos[8];
     Desc_80349C54 d;
     s32 col[4];
@@ -120,14 +120,14 @@ void draw_filled_rects_2d(void *arg0, void *arg1, int arg2) {
     }
 }
 
-void init_quest_line_draw_colors(s32 arg0) {
+void init_quest_line_draw_colors(void *arg0) {
     QuestLineRects2 rects = quest_line_color_entry_table;
-    draw_filled_rects_2d((void *)arg0, &rects, 2);
-    draw_color_quad_2d((void *)arg0, (void *)quest_line_color_quad_coordinates, 0x777777FF);
-    draw_color_quad_2d((void *)arg0, (void *)quest_line_quad_vertices, 0x777777FF);
+    draw_filled_rects_2d(arg0, &rects, 2);
+    draw_color_quad_2d(arg0, (void *)quest_line_color_quad_coordinates, 0x777777FF);
+    draw_color_quad_2d(arg0, (void *)quest_line_quad_vertices, 0x777777FF);
 }
 
-void fn_80349E5C(s32 arg0) {
+void fn_80349E5C(void *arg0) {
     QuestLineRects6 rects = TAdLoadQuestLineGC__rectangle_groups;
-    draw_filled_rects_2d((void *)arg0, &rects, 6);
+    draw_filled_rects_2d(arg0, &rects, 6);
 }
