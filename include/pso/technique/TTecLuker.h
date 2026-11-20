@@ -32,7 +32,7 @@ struct TTecLuker : public TUnk_804CC148 {
     void send_swapped_telepipe_packet();
     void byteswap_telepipe_packet();
     void set_state(s32 v);
-    static s32 is_parents_unqueued(u32 arg0);
+    static s32 is_parents_unqueued(uaddr arg0);
 };
 
 LAYOUT_ASSERT(TTecLuker_size, sizeof(TTecLuker) == 0x110);
