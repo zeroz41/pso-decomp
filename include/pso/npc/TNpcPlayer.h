@@ -40,7 +40,7 @@ struct Vec;
 
 struct TNpcPlayer : public TObject {
     struct AiParams {
-        s16 npc_id;
+        u16 npc_id;
         u16 base_level;
         TechniqueFlags technique_flags;
         f32 enemy_lock_on_range;
@@ -54,6 +54,7 @@ struct TNpcPlayer : public TObject {
         u8 attack_probability;
         u8 attack_technique_probability;
         f32 unknown_24;
+        void copy(AiParams *src);
         void copy_entry_by_index(s32 arg1);
     };
 
@@ -113,7 +114,6 @@ struct TNpcPlayer : public TObject {
     s32 check_return_to_leader();
     s32 update_follow_target();
     void decide_action();
-    void copy(void* q);
     static u8 *build_npc_player_record(s32 arg0);
     static void ensure_rock_singleton();
     s32 get_npc_state();

@@ -401,7 +401,7 @@ void TWindowOptionCtrl::run_task() {
         break;
     case 25:
         if (self->f44 == NULL) {
-            self->f44 = (void *)((TWindowOptionCtrl *)((void *)TWindowOptionCtrl::get_option_entry(0xCF)))->create_serial_info_window(1);
+            self->f44 = (void *)TWindowOptionCtrl::create_serial_info_window(TWindowOptionCtrl::get_option_entry(0xCF), 1);
         }
         ((TWindowOptionCtrl *)(self->f28))->open();
         self->state = 0x1A;
@@ -541,10 +541,10 @@ s32 TWindowOptionCtrl::open_yes_no_window(s32 arg0, s32 arg1, s32 arg2) {
   return temp_r30;
 }
 
-s32 TWindowOptionCtrl::create_serial_info_window(s32 arg1) {
+s32 TWindowOptionCtrl::create_serial_info_window(const NJS_POINT2 *pos, s32 kind) {
     s32 w;
-    w = (s32)TWindowMessage::create((const NJS_POINT2 *)this, (const f32 *)(&lbl_8044F4A4), 3);
-    switch (arg1) {
+    w = (s32)TWindowMessage::create(pos, (const f32 *)(&lbl_8044F4A4), 3);
+    switch (kind) {
     case 0:
         ((TWindowOptionCtrl *)w)->add_label_value_line((const char *)(get_localized_text_entry(0xF, 0x16)), (const char *)((s32)TWindowOptionCtrl::text_or_default((const char *)(TAdEnterSerialAccessGC__sub_80321874()))), (u32)0);
         ((TWindowOptionCtrl *)w)->add_label_value_line((const char *)(get_localized_text_entry(0xF, 0x17)), (const char *)((s32)TWindowOptionCtrl::text_or_default((const char *)(TAdEnterSerialAccessGC__sub_803217B8()))), (u32)0);

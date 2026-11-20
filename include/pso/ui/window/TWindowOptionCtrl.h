@@ -36,7 +36,7 @@ struct TWindowOptionCtrl : public TObject {
     static void set_field_value(s32 arg0, s16 arg1);
     static s32 get_option_field_C();
     static const char *text_or_default(const char *text);
-    s32 create_serial_info_window(s32 arg1);
+    static s32 create_serial_info_window(const NJS_POINT2 *pos, s32 kind);
     static s32 open_yes_no_window(s32 arg0, s32 arg1, s32 arg2);
     s32 create_option_menu();
     s32 create_sub_menu_window();

@@ -393,13 +393,6 @@ struct Pl_801B0B88 {
 
 struct VBase_18 { char pad[0x18]; };
 
-struct Stack_801B15A4 {
-    s8 sp8;
-    s8 sp9;
-    s8 spA;
-    u8 rest[17];
-};
-
 struct pkt_801B1FA4 {
     u8 hdr[2];
     u16 slot;
@@ -1106,19 +1099,6 @@ struct VObj_801B7AC8_801B3FD8 : Base_801B7AC8_801B3FD8 {
 };
 
 struct P_801B7B58 { u8 pad[0xD00]; void *fD00; };
-
-struct ItemData_801B7C78 {
-    s8 kind;
-    s8 group;
-    u8 rest[0x16];
-};
-
-struct ItemData_801B7CEC {
-    s8 kind;
-    s8 group;
-    s8 sub;
-    u8 rest[0x15];
-};
 
 struct L_801B7E14 { u8 f0[2]; s16 f2; s32 f4; s32 f8; };
 
@@ -4115,11 +4095,11 @@ void handle_6x28_feed_mag(s32 arg0) {
 }
 
 s32 fn_801B7CEC(u8 *arg0, s8 arg1, s8 arg2, s8 arg3) {
-    struct ItemData_801B7CEC item;
-    ((TItemData *)&item)->init();
-    item.kind = arg1;
-    item.group = arg2;
-    item.sub = arg3;
+    TItemData item;
+    item.init();
+    item.data1.data_u8[0] = arg1;
+    item.data1.data_u8[1] = arg2;
+    item.data1.data_u8[2] = arg3;
     void *node_4144 = ((TPlyItem *)(*(s32 *)((s8 *)arg0 + 0xD00)))->set_mode_and_refresh_object(&item);
     if (node_4144 == 0U) {
         return -1;
@@ -4132,10 +4112,10 @@ s32 fn_801B7CEC(u8 *arg0, s8 arg1, s8 arg2, s8 arg3) {
 }
 
 s32 TObjPlayer::find_inventory_item_id(s8 arg1, s8 arg2) {
-    struct ItemData_801B7C78 item;
-    ((TItemData *)&item)->init();
-    item.kind = arg1;
-    item.group = arg2;
+    TItemData item;
+    item.init();
+    item.data1.data_u8[0] = arg1;
+    item.data1.data_u8[1] = arg2;
     void *node = (void *)find_first_inventory_entry__8TPlyItemFi(*(s32 *)((s8 *)((u8 *)this) + 0xD00), &item);
     if (node == 0U) {
         return -1;
@@ -6890,20 +6870,17 @@ void TObjPlayer::set_state_flag_604B() {
 }
 
 u32 TObjPlayer::find_revival_item() {
-    typedef char sp8_offset[(offsetof(Stack_801B15A4, sp8) == 0x0) ? 1 : -1];
-    typedef char sp9_offset[(offsetof(Stack_801B15A4, sp9) == 0x1) ? 1 : -1];
-    typedef char spA_offset[(offsetof(Stack_801B15A4, spA) == 0x2) ? 1 : -1];
-    Stack_801B15A4 stack;
-    ((TItemData *)&stack.sp8)->init();
-    stack.sp8 = 1;
-    stack.sp9 = 2;
-    stack.spA = 0x52;
-    u32 found = (u32)((TPlyItem *)inventory_objects)->set_mode_and_refresh_object(&stack.sp8);
+    TItemData item;
+    item.init();
+    item.data1.data_u8[0] = 1;
+    item.data1.data_u8[1] = 2;
+    item.data1.data_u8[2] = 0x52;
+    u32 found = (u32)((TPlyItem *)inventory_objects)->set_mode_and_refresh_object(&item);
     if (found == 0U) {
-        ((TItemData *)&stack.sp8)->init();
-        stack.sp8 = 3;
-        stack.sp9 = 9;
-        found = (u32)((TPlyItem *)inventory_objects)->set_mode_and_refresh_object(&stack.sp8);
+        item.init();
+        item.data1.data_u8[0] = 3;
+        item.data1.data_u8[1] = 9;
+        found = (u32)((TPlyItem *)inventory_objects)->set_mode_and_refresh_object(&item);
     }
     return found;
 }

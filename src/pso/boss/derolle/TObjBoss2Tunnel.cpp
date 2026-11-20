@@ -316,15 +316,15 @@ void TObjBoss2Tunnel__sub_8007EAE4(u8 *arg0) {
     *(s8 *)((s8 *)arg0 + 1) = 3;
 }
 
-void bswap_6xB2_play_sound(TObjPlayer *player) {
-    ((G_ClientIDHeader *)player)->bswap();
-    bswap_16((u16 *)((char *)player + 6));
-    bswap_32((u32 *)((char *)player + 8));
+void bswap_6xB2_play_sound(G_PlaySound_6xB2 *cmd) {
+    cmd->header.bswap();
+    bswap_16(&cmd->client_id);
+    bswap_32(&cmd->sound_id);
 }
 
-void TObjBoss2Tunnel::finalize_and_send_60() {
-    bswap_6xB2_play_sound((TObjPlayer *)this);
-    send_subcommand((u8 *)this);
+void send_6xB2_play_sound(G_PlaySound_6xB2 *cmd) {
+    bswap_6xB2_play_sound(cmd);
+    send_subcommand((u8 *)cmd);
 }
 
 
@@ -479,7 +479,10 @@ s32 TObjBoss2Tunnel::turn_toward_angle_limited(s32 arg0, s32 cur, s32 target, s3
     return (s16)(cur);
 }
 
-void TObjBoss2Tunnel::init_zako(void* a1, s32 _w2) { rotate_xz_pair_by_angle((f32 *)this, (f32 *)((char*)this + 0x8), (s32)_w2); vec3_add_to(this, a1); }
+void rotate_y_and_translate(Vec *v, Vec *origin, s32 angle) {
+    rotate_xz_pair_by_angle(&v->x, &v->z, angle);
+    vec3_add_to(v, origin);
+}
 
 s32 TObjBoss2Tunnel::adjust_to_ground(s32 arg0, void *arg1) {
     s32 *temp_r3;
@@ -1017,7 +1020,7 @@ s32 TObjBoss2Tunnel__sub_8007D1D0(void) {
         cmd.unused = 0;
         cmd.client_id = local_client_id;
         cmd.sound_id = 0x52B20;
-        ((TObjBoss2Tunnel *)&cmd)->finalize_and_send_60();
+        send_6xB2_play_sound(&cmd);
         if (memcard_check_snapshot(0, NULL) != 0) {
             if (TAdSinglePlyChrSelectGC::load_player(1, (s32)TObjBoss2Tunnel__data_80438A08, (s32)frame->save_image, 0xF) == 0) {
                 t = 0.0f;

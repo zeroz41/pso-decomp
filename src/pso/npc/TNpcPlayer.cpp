@@ -1720,7 +1720,7 @@ TNpcPlayer *construct_partner__10TNpcPlayerFPviisPv(TNpcPlayer *self, s32 a, s32
         p = ((void *(*)(void *, u16))init_ai_state__10TNpcPlayerFPvi)(p, b);
     }
     self->m_78 = (Unk_8014F844 *)p;
-    ((TNpcPlayer *)&self->ai_params)->copy((u8 *)&TNpcPlayer__template_table[self->m_2c]);
+    self->ai_params.copy(&TNpcPlayer__template_table[self->m_2c]);
     if (self->m_78 != 0 && self->m_78->m_94 != 0) {
         ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->m_dc, &self->m_78->m_94->position);
         self->init_equipment();
@@ -1729,7 +1729,22 @@ TNpcPlayer *construct_partner__10TNpcPlayerFPviisPv(TNpcPlayer *self, s32 a, s32
     return self;
 }
 
-void TNpcPlayer::copy(void* q) { *(u16*)((char*)this + 0x0) = *(u16*)((char*)q + 0x0); *(u16*)((char*)this + 0x2) = *(u16*)((char*)q + 0x2); *(u32*)((char*)this + 0x4) = *(u32*)((char*)q + 0x4); *(f32*)((char*)this + 0x8) = *(f32*)((char*)q + 0x8); *(f32*)((char*)this + 0xc) = *(f32*)((char*)q + 0xc); *(f32*)((char*)this + 0x10) = *(f32*)((char*)q + 0x10); *(f32*)((char*)this + 0x14) = *(f32*)((char*)q + 0x14); *(f32*)((char*)this + 0x18) = *(f32*)((char*)q + 0x18); *(f32*)((char*)this + 0x1c) = *(f32*)((char*)q + 0x1c); *(u8*)((char*)this + 0x20) = *(u8*)((char*)q + 0x20); *(u8*)((char*)this + 0x21) = *(u8*)((char*)q + 0x21); *(u8*)((char*)this + 0x22) = *(u8*)((char*)q + 0x22); *(u8*)((char*)this + 0x23) = *(u8*)((char*)q + 0x23); *(f32*)((char*)this + 0x24) = *(f32*)((char*)q + 0x24); }
+void TNpcPlayer::AiParams::copy(AiParams *src) {
+    npc_id = src->npc_id;
+    base_level = src->base_level;
+    technique_flags = src->technique_flags;
+    enemy_lock_on_range = src->enemy_lock_on_range;
+    unknown_0C = src->unknown_0C;
+    max_distance_from_player = src->max_distance_from_player;
+    enemy_unlock_range = src->enemy_unlock_range;
+    block_range = src->block_range;
+    attack_range = src->attack_range;
+    attack_technique_level = src->attack_technique_level;
+    support_technique_level = src->support_technique_level;
+    attack_probability = src->attack_probability;
+    attack_technique_probability = src->attack_technique_probability;
+    unknown_24 = src->unknown_24;
+}
 
 TNpcPlayer *TNpcPlayer__ct(TNpcPlayer *self, s32 a, s32 b, s16 kind, s32 arg4, void *parent) {
     void *p;
@@ -1771,7 +1786,7 @@ TNpcPlayer *TNpcPlayer__ct(TNpcPlayer *self, s32 a, s32 b, s16 kind, s32 arg4, v
         p = ((void *(*)(void *, u16))init_ai_state__10TNpcPlayerFPvi)(p, b);
     }
     self->m_78 = (Unk_8014F844 *)p;
-    ((TNpcPlayer *)&self->ai_params)->copy((u8 *)&TNpcPlayer__template_table[self->m_2c]);
+    self->ai_params.copy(&TNpcPlayer__template_table[self->m_2c]);
     if (self->m_78 != 0 && self->m_78->m_94 != 0) {
         ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->m_dc, &self->m_78->m_94->position);
         self->init_equipment();

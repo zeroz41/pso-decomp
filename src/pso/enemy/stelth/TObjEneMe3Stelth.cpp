@@ -1466,7 +1466,7 @@ void TObjEneMe3Stelth::handle_breakup_state(s32 arg1) {
                 ofs.x = 0.0f;
                 ofs.y = 10.0f;
                 ofs.z = 20.0f;
-                ((TObjBoss2Tunnel *)(&ofs))->init_zako((u8 *)&position, rotation_y);
+                rotate_y_and_translate(&ofs, &position, rotation_y);
                 TObjPlayer::spawn_effect_f8((s32)&ofs, 0x14);
             } else if (is_passing_frame(2.0f) != 0) {
                 m_3cc |= 8;

@@ -1491,7 +1491,7 @@ void TObjEneMe3ShinowaMirage::state_break_apart(s32 arg1) {
                 effect_pos.x = 0.0f;
                 effect_pos.y = 10.0f;
                 effect_pos.z = 20.0f;
-                ((TObjBoss2Tunnel *)&effect_pos)->init_zako(&position, rotation_y);
+                rotate_y_and_translate(&effect_pos, &position, rotation_y);
                 TObjPlayer::spawn_effect_f8((s32)&effect_pos, 0x14);
             }
             break;

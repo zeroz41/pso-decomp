@@ -1616,7 +1616,7 @@ void TObjEneMe3SinowZoa__sub_80317F90(TObjEneMe3SinowZoa *self, s32 arg1) {
                 v.x = TObjEneMe3SinowZoa__data_805DF31C;
                 v.y = TObjEneMe3SinowZoa__data_805DF314;
                 v.z = 20.0f;
-                ((TObjBoss2Tunnel *)(&v))->init_zako(&self->position, self->rotation_y);
+                rotate_y_and_translate(&v, &self->position, self->rotation_y);
                 TObjPlayer::spawn_effect_f8((s32)&v, 0x14);
             }
             break;

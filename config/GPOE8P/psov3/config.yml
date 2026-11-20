@@ -6191,7 +6191,7 @@ force_active:
   - fill_list_entry__6TLobbyFPvPv
   - fill_range__15TBoss6SwordWaveFPvPv
   - filter_input_flags__12TBoss1DragonFiii
-  - finalize_and_send_60__15TObjBoss2TunnelFv
+  - send_6xB2_play_sound__FP16G_PlaySound_6xB2
   - find_active_pad_rumble_effect_by_id__FUl
   - find_archive_entry__6TLobbyFPvPvPvPv
   - find_area_technique_contact__FP13TUnk_804CC148P14TObjCollidableP13CollisionBodyPv
@@ -8110,7 +8110,7 @@ force_active:
   - lbl_804E3A38
   - lbl_804E3B60
   - lbl_804E4AA4
-  - lbl_804E4BB4
+  - __vt__19TBoss8DragonColli_C
   - lbl_804E6740
   - lbl_804E674C
   - lbl_804E6784

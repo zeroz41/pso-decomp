@@ -110,7 +110,6 @@ void set_tp__10TObjPlayerFs(Player_8034DAA0 *, s32);
 
 
 extern "C" {
-s32 copy__10TNpcPlayerFPv(void *, void *, int);
 struct TNpcPlayerTemplateTable { s32 value; u8 remaining[0x9FC]; };
 extern TNpcPlayerTemplateTable TNpcPlayer__template_table;
 void construct_partner__10TNpcPlayerFPviisPv(void *, u16, u16, s32, void *);
@@ -777,7 +776,7 @@ void TNpcPlayer::AiParams::copy_entry_by_index(s32 arg1) {
     s32 arg0 = (s32)this;
     s32 temp_r5;
     temp_r5 = arg1 * 0x28;
-    copy__10TNpcPlayerFPv((void *) ((u8 *)&TNpcPlayer__template_table.value + temp_r5), (void *)arg0, (int)temp_r5);
+    ((AiParams *)((u8 *)&TNpcPlayer__template_table.value + temp_r5))->copy((AiParams *)arg0);
 }
 
 // Indexed by TLobby::get_instance(); the yaw tables' names are inferred from their accessors.

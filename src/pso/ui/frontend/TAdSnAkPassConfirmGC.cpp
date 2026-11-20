@@ -47,7 +47,7 @@ TAdSnAkPassConfirmGC::TAdSnAkPassConfirmGC(TObject *parent) : TAdYesNoBaseGC(par
     if (p != 0) {
         __ct__10TAdTitleGCFP7TObjectl(p, this, 0x11);
     }
-    m_48 = ((TWindowOptionCtrl *)&sn_ak_pass_confirm_info_window_pos)->create_serial_info_window(0);
+    m_48 = TWindowOptionCtrl::create_serial_info_window(&sn_ak_pass_confirm_info_window_pos, 0);
     init_parts((void *)&sn_ak_pass_confirm_message_pos, (void *)&sn_ak_pass_confirm_message_size);
 }
 
