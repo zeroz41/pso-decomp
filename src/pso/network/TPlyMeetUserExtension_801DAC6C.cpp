@@ -5,6 +5,7 @@
 #include "pso/network/TPlyMeetUserExtension_801DAC6C.h"
 #include "pso/unk/text_801DF280.h"
 #include "pso/network/protocol/protocol.h"
+#include "pso/network/PSOV3EncryptionTCP.h"
 
 struct Tags_801DAC6C { u32 w[16]; };
 
@@ -50,7 +51,6 @@ struct VObjDAD38 : BaseDAD38 {
 
 extern "C" {
 Ext_801DAC6C *__as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(Ext_801DAC6C *arg0, const Ext_801DAC6C *arg1);
-void reset__18PSOV3EncryptionTCPFUl(void *, u32);
 extern char *port_map_copyright;
 void handle_cmd_9B__9TProtocolFR6packet(u8 *arg0, Regist_801DAD38 *arg1);
 s32 set_port__7TSocketFUl(void *, s16);
@@ -95,8 +95,8 @@ void handle_cmd_9B__9TProtocolFR6packet(u8 *arg0, Regist_801DAD38 *arg1) {
     Pkt_801DAD38 pkt;
     bswap__21TRecvPsoRegistConnectFv((s32)&r);
     if (strcmp(port_map_copyright, r.copyright) == 0) {
-        reset__18PSOV3EncryptionTCPFUl(arg0 + 0x10BC, r.key0);
-        reset__18PSOV3EncryptionTCPFUl(arg0 + 0x884, r.key1);
+        ((PSOV3EncryptionTCP *)(arg0 + 0x10BC))->reset(r.key0);
+        ((PSOV3EncryptionTCP *)(arg0 + 0x884))->reset(r.key1);
         *(s32 *)(arg0 + 0x18F4) = 1;
         construct_cmd_db_regist_connect_reply((s32)&pkt);
         memset((void *)&pkt, 0, 0xE0);

@@ -66,7 +66,6 @@ LAYOUT_ASSERT(StarLightFollowerExtent, sizeof(StarLightFollowerView) == 0x2C);
 extern "C" {
 
 void __ct__11TItemWeaponFP7TObjectPUc(void *);
-u8 *__nw__5TItemFUl(s32);
 s32 post_translate_matrix(void *);
 s32 draw_weapon_at_joint(void *, s32, void *);
 s32 warn_if_gauge_low__10TObjPlayerFv(s32);
@@ -289,7 +288,7 @@ u8 *TObjPlayer__sub_80124708(u8 *arg0) {
     u8 *temp_r3;
     u8 *var_r0;
     if (arg0 != NULL) {
-        temp_r3 = (u8 *)(__nw__5TItemFUl(0x208));
+        temp_r3 = (u8 *)((u8 *)TItem::operator new(0x208));
         var_r0 = temp_r3;
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(((Fn_80124694_3)TObjPlayer__sub_80124694)(temp_r3, tl_05, arg0));

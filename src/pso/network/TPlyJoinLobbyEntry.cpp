@@ -654,7 +654,7 @@ void TLobby::send_6x71_to_player() {
     stack.sp8 = 0x71;
     stack.sp9 = 1;
     stack.spA = 0;
-    bswap_packet_header__6TLobbyFv(&stack.sp8);
+    ((TLobby *)(&stack.sp8))->bswap_packet_header();
     ((TLobby *)(&stack.sp8))->send_subcommand_to_client(arg0);
 }
 

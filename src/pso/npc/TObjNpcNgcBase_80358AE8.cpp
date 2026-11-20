@@ -5,6 +5,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/task/TObject.h"
 
 struct Rec_803592B8 {
     s32 idx;
@@ -85,7 +86,6 @@ static Rec_803592B8 npc_seabed_resource_descriptor_list[] = {
 
 extern "C" {
 s32 __ct__11TObjControlFP7TObject(int, int);
-s32 __nw__7TObjectFUl(int);
 RecoveredGlobal_TObjNpcNgcBase__data_805439A8 TObjNpcNgcBase__data_805439A8;
 extern s32 tl_04;
 s32 free_bin_model_request(void *, s32);
@@ -98,12 +98,12 @@ s32 TObjNpcNgcBase::create_variant_13(s32 arg0) {
   s32 var_r30;
   if (((u32) (*((u32 *) (((s8 *) (&TObjNpcNgcBase__data_805439A8.value)) + 0x34)))) != 0U)
   {
-    temp_r3 = (var_r30 = __nw__7TObjectFUl((int) ((0, 0x20))));
+    temp_r3 = (var_r30 = (saddr)TObject::operator new((int) ((0, 0x20))));
     if (var_r30 != 0)
     {
       var_r30 = __ct__11TObjControlFP7TObject((int) temp_r3, (int) tl_04);
     }
-    player = __nw__7TObjectFUl(0x3B8);
+    player = (saddr)TObject::operator new(0x3B8);
     var_r0 = player;
     if (var_r0 != 0)
     {
@@ -123,12 +123,12 @@ s32 TObjNpcNgcBase__sub_80358B70(s32 arg0) {
   new_var = 0x3B8;
   if (((u32) (*((u32 *) (((s8 *) (&TObjNpcNgcBase__data_805439A8.value)) + 0x30)))) != 0U)
   {
-    temp_r3 = (var_r30 = __nw__7TObjectFUl(0x20));
+    temp_r3 = (var_r30 = (saddr)TObject::operator new(0x20));
     if (var_r30 != 0)
     {
       var_r30 = __ct__11TObjControlFP7TObject((int) temp_r3, (int) tl_04);
     }
-    player = __nw__7TObjectFUl(new_var);
+    player = (saddr)TObject::operator new(new_var);
     var_r0 = player;
     if (var_r0 != 0)
     {
@@ -146,12 +146,12 @@ s32 TObjNpcNgcBase__sub_80358BF8(s32 arg0) {
   s32 var_r30;
   if (((u32) (*((u32 *) (((s8 *) (&TObjNpcNgcBase__data_805439A8.value)) + 0x2C)))) != 0U)
   {
-    temp_r3 = (var_r30 = __nw__7TObjectFUl(0x20));
+    temp_r3 = (var_r30 = (saddr)TObject::operator new(0x20));
     if (var_r30 != 0)
     {
       var_r30 = __ct__11TObjControlFP7TObject((int) temp_r3, (int) tl_04);
     }
-    player = __nw__7TObjectFUl(0x3B8);
+    player = (saddr)TObject::operator new(0x3B8);
     var_r0 = player;
     if (var_r0 != 0)
     {
@@ -169,12 +169,12 @@ s32 TObjNpcNgcBase__sub_80358C80(s32 arg0) {
   s32 var_r30;
   if (((u32) (*((u32 *) (((s8 *) (&TObjNpcNgcBase__data_805439A8.value)) + 0x28)))) != 0U)
   {
-    temp_r3 = (var_r30 = __nw__7TObjectFUl(0x20));
+    temp_r3 = (var_r30 = (saddr)TObject::operator new(0x20));
     if (var_r30 != 0)
     {
       var_r30 = __ct__11TObjControlFP7TObject((int) temp_r3, (int) tl_04);
     }
-    player = __nw__7TObjectFUl(0x3B8);
+    player = (saddr)TObject::operator new(0x3B8);
     var_r0 = player;
     if (var_r0 != 0)
     {
@@ -194,12 +194,12 @@ s32 TObjNpcNgcBase__sub_80358D08(s32 arg0) {
   new_var = (s8 *) (&TObjNpcNgcBase__data_805439A8.value);
   if (((u32) (*((u32 *)(new_var + 0x24)))) != 0U)
   {
-    temp_r3 = (var_r30 = __nw__7TObjectFUl(0x20));
+    temp_r3 = (var_r30 = (saddr)TObject::operator new(0x20));
     if (var_r30)
     {
       var_r30 = __ct__11TObjControlFP7TObject((int) temp_r3, (int) tl_04);
     }
-    player = __nw__7TObjectFUl(0x3B8);
+    player = (saddr)TObject::operator new(0x3B8);
     var_r0 = player;
     if (var_r0 != 0)
     {
@@ -218,12 +218,12 @@ s32 TObjNpcNgcBase::create_variant_8(s32 arg0) {
   s32 var_r30;
   if (((u32) (*((u32 *) (((s8 *) (&TObjNpcNgcBase__data_805439A8.value)) + 0x20)))) != 0U)
   {
-    temp_r3 = (var_r30 = __nw__7TObjectFUl(0x20));
+    temp_r3 = (var_r30 = (saddr)TObject::operator new(0x20));
     if (var_r30 != 0)
     {
       var_r30 = __ct__11TObjControlFP7TObject((int) temp_r3, (int) tl_04);
     }
-    var_r0 = __nw__7TObjectFUl(0x3B8);
+    var_r0 = (saddr)TObject::operator new(0x3B8);
     player = var_r0;
     var_r0 = player;
     if (var_r0 != 0)
@@ -245,12 +245,12 @@ s32 TObjNpcNgcBase::create_variant_7(s32 arg0) {
   new_var = (s8 *) (&TObjNpcNgcBase__data_805439A8.value);
   if (((u32) (*((u32 *)(new_var + 0x1C)))) != 0U)
   {
-    temp_r3 = (var_r30 = __nw__7TObjectFUl(0x20));
+    temp_r3 = (var_r30 = (saddr)TObject::operator new(0x20));
     if (var_r30 != 0)
     {
       var_r30 = __ct__11TObjControlFP7TObject((int) temp_r3, (int) tl_04);
     }
-    player = __nw__7TObjectFUl(0x3B8);
+    player = (saddr)TObject::operator new(0x3B8);
     var_r0 = player;
     if (var_r0 != 0)
     {
@@ -268,12 +268,12 @@ s32 TObjNpcNgcBase::create_variant_6(s32 arg0) {
   s32 var_r30;
   if (((u32) (*((u32 *) (((s8 *) (&TObjNpcNgcBase__data_805439A8.value)) + 0x18)))) != 0U)
   {
-    temp_r3 = (var_r30 = __nw__7TObjectFUl(0x20));
+    temp_r3 = (var_r30 = (saddr)TObject::operator new(0x20));
     if (var_r30 != 0)
     {
       var_r30 = __ct__11TObjControlFP7TObject((int) temp_r3, (int) tl_04);
     }
-    player = __nw__7TObjectFUl(0x3B8);
+    player = (saddr)TObject::operator new(0x3B8);
     var_r0 = player;
     if (var_r0 != 0)
     {
@@ -293,14 +293,14 @@ s32 TObjNpcNgcBase::create_variant_5(s32 arg0) {
   if (((u32) (*((u32 *) (((s8 *) (&TObjNpcNgcBase__data_805439A8.value)) + 0x14)))) != 0U)
   {
     new_var = 0x20;
-    temp_r3 = (var_r30 = __nw__7TObjectFUl((int) new_var));
+    temp_r3 = (var_r30 = (saddr)TObject::operator new((int) new_var));
     if (1)
     {
       if (var_r30 != 0)
       {
         var_r30 = __ct__11TObjControlFP7TObject((int) temp_r3, (int) tl_04);
       }
-      player = __nw__7TObjectFUl(0x3B8);
+      player = (saddr)TObject::operator new(0x3B8);
       var_r0 = player;
       if (var_r0 != 0)
       {
@@ -319,12 +319,12 @@ s32 TObjNpcNgcBase__sub_80358FB0(s32 arg0) {
   s32 var_r30;
   if (((u32) (*((u32 *) (((s8 *) (&TObjNpcNgcBase__data_805439A8.value)) + 0x10)))) != 0U)
   {
-    temp_r3 = (var_r30 = __nw__7TObjectFUl((int) ((0, 0x20))));
+    temp_r3 = (var_r30 = (saddr)TObject::operator new((int) ((0, 0x20))));
     if (var_r30 != 0)
     {
       var_r30 = __ct__11TObjControlFP7TObject((int) temp_r3, (int) tl_04);
     }
-    player = __nw__7TObjectFUl(0x3B8);
+    player = (saddr)TObject::operator new(0x3B8);
     var_r0 = player;
     if (var_r0 != 0)
     {
@@ -342,12 +342,12 @@ s32 TObjNpcNgcBase__sub_80359038(s32 arg0) {
   s32 temp_r3;
   if (((u32) (*((u32 *) (((s8 *) (&TObjNpcNgcBase__data_805439A8.value)) + 0xC)))) != 0U)
   {
-    temp_r3 = (var_r30 = __nw__7TObjectFUl(0x20));
+    temp_r3 = (var_r30 = (saddr)TObject::operator new(0x20));
     if (var_r30 != 0)
     {
       var_r30 = __ct__11TObjControlFP7TObject((int) temp_r3, (int) tl_04);
     }
-    player = __nw__7TObjectFUl(0x3B8);
+    player = (saddr)TObject::operator new(0x3B8);
     var_r0 = player;
     if (var_r0 != 0)
     {
@@ -365,12 +365,12 @@ s32 TObjNpcNgcBase__sub_803590C0(s32 arg0) {
   s32 var_r30;
   if (((u32) (*((u32 *) (((s8 *) (&TObjNpcNgcBase__data_805439A8.value)) + 8)))) != 0U)
   {
-    temp_r3 = (var_r30 = __nw__7TObjectFUl(0x20));
+    temp_r3 = (var_r30 = (saddr)TObject::operator new(0x20));
     if (var_r30 != 0)
     {
       var_r30 = __ct__11TObjControlFP7TObject((int) temp_r3, (int) tl_04);
     }
-    player = __nw__7TObjectFUl(0x3B8);
+    player = (saddr)TObject::operator new(0x3B8);
     var_r0 = player & 0xFFFFFFFFFFFFFFFF;
     if (var_r0 != 0)
     {
@@ -388,12 +388,12 @@ s32 TObjNpcNgcBase__sub_80359148(s32 arg0) {
   s32 var_r30;
   if (((u32) (*((u32 *) (((s8 *) (&TObjNpcNgcBase__data_805439A8.value)) + 0x4)))) != 0U)
   {
-    temp_r3 = (var_r30 = __nw__7TObjectFUl((int) ((0, 0x20))));
+    temp_r3 = (var_r30 = (saddr)TObject::operator new((int) ((0, 0x20))));
     if (var_r30 != 0)
     {
       var_r30 = __ct__11TObjControlFP7TObject((int) temp_r3, (int) tl_04);
     }
-    player = __nw__7TObjectFUl(0x3B8);
+    player = (saddr)TObject::operator new(0x3B8);
     var_r0 = player;
     if (var_r0 != 0)
     {
@@ -411,12 +411,12 @@ s32 TObjNpcNgcBase__create(s32 arg0) {
   s32 var_r31;
   if (((u32) TObjNpcNgcBase__data_805439A8.value) != 0U)
   {
-    temp_r3 = (var_r31 = __nw__7TObjectFUl(0x20));
+    temp_r3 = (var_r31 = (saddr)TObject::operator new(0x20));
     if (var_r31 != 0)
     {
       var_r31 = __ct__11TObjControlFP7TObject((int) temp_r3, (int) tl_04);
     }
-    player = __nw__7TObjectFUl(0x3B8);
+    player = (saddr)TObject::operator new(0x3B8);
     var_r0 = player;
     if (var_r0 != 0)
     {

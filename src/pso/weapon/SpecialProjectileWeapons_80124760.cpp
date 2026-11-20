@@ -62,7 +62,6 @@ LAYOUT_ASSERT(StarLightFollowerExtent, sizeof(StarLightFollowerView) == 0x2C);
 extern "C" {
 
 void __ct__11TItemWeaponFP7TObjectPUc(void *);
-u8 *__nw__5TItemFUl(s32);
 s32 post_translate_matrix(void *);
 s32 push_matrix();
 s32 is_owner_alive__15TItemShootModelFv();
@@ -213,7 +212,7 @@ u8 *create_drill_launcher(u8 *arg0) {
     u8 *temp_r3;
     u8 *var_r0;
     if (arg0 != NULL) {
-        temp_r3 = (u8 *)(__nw__5TItemFUl(0x208));
+        temp_r3 = (u8 *)((u8 *)TItem::operator new(0x208));
         var_r0 = temp_r3;
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(((u8 *)drill_launcher_ct(temp_r3, tl_05, arg0)));

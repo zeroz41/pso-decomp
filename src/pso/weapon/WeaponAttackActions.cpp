@@ -40,6 +40,7 @@
 
 #include "pso/player/TObjPlayer_8011C000.h"
 #include "pso/system/task/TObject.h"
+#include "pso/item/TItemHeapObject.h"
 
 
 // ---- pso/item/WeaponAttackActions
@@ -283,7 +284,6 @@ f32 horizontal_distance_squared(void *, void *);
 Obj_8011F474 * resolve_hittable_target(s32, s32);
 s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
 void * __ct__17TItemEffectWeaponFll(void *, u32, u32);
-void * __nw__15TItemHeapObjectFUl(s32);
 u32 __cvt_fp2unsigned(f32);
 s32 vec3_add_to(void *, void *);
 f32 normalize_vector(void *);
@@ -461,7 +461,7 @@ void TItemWeapon::create_weapon_trail_effects() {
     if (((Pl_8011E950 *)this)->x174 != 0U) {
         for (i = 0; i != 4; i++) {
             if (((Pl_8011E950 *)this)->kind[i] != -1) {
-                void *p = __nw__15TItemHeapObjectFUl(0x2C);
+                void *p = TItemHeapObject::operator new(0x2C);
                 if (p != NULL) {
                     p = __ct__17TItemEffectWeaponFll(p, ((Pl_8011E950 *)this)->x174, flags);
                 }
