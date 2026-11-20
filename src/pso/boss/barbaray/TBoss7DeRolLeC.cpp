@@ -961,7 +961,7 @@ void TObjBoss2Tunnel__sub_802F22C4(void);
 
 void TObjBoss2Tunnel__sub_802F22DC(void);
 
-u8 *TBoss7LaserPtcl__sub_8035AE54(u8 *arg0, s32 arg1, s32 arg2);
+u8 *TBoss7LaserPtcl__sub_8035AE54(u8 *arg0, saddr arg1, saddr arg2);
 
 void TObjFish__sub_802E9DBC(u8 *arg0, u32 arg1, s32 arg2);
 

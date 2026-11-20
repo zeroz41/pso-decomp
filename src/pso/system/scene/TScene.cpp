@@ -163,7 +163,7 @@ void push_matrix_from(void *);
 
 void rotate_matrix_y(s32, s32);
 
-void rotate_vector_by_matrix(s32, void *, Vec *);
+void rotate_vector_by_matrix(saddr, void *, Vec *);
 
 void pop_matrix(void);
 

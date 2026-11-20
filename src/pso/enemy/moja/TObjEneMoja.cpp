@@ -272,7 +272,7 @@ s32 TObjPlayer__sub_800ACA0C(void *);
 
 s32 minimap_render_dot(void *, int, int, int, f32);
 
-f32 calc_xz_distance_sq(s32 arg0, u32 arg1, void *arg2);
+f32 calc_xz_distance_sq(saddr arg0, uaddr arg1, void *arg2);
 f32 atan2_float(f32, f32);
 s32 angle_difference_abs(s32, s32);
 
@@ -294,7 +294,7 @@ extern s32 lbl_805D5868;
 s32 update__15RenderFadeStateFv(void *, s32, s32, s32);
 s32 restore_scene_lighting(s32, s32);
 s32 select_actor_lighting(void *);
-s32 translate_matrix(s32, f32, f32, f32);
+s32 translate_matrix(saddr, f32, f32, f32);
 
 s32 draw_chunk_object(s32);
 extern s32 saved_model_render_flags;

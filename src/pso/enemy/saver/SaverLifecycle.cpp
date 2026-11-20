@@ -637,7 +637,7 @@ s32 TObjPlayer__sub_800A0554(void *);
 f32 calc_distance_to_client__10TObjPlayerFlUsUl(void *, u16, void *);
 extern s32 registered_player_count;
 
-f32 calc_xz_distance_sq(s32 arg0, u32 arg1, void *arg2);
+f32 calc_xz_distance_sq(saddr arg0, uaddr arg1, void *arg2);
 
 s32 enemy_move_toward(void *, s32, Vec *, int, f32 *, f32);
 s32 select_enemy_destination(void *, Vec *, int);

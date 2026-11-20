@@ -62,7 +62,7 @@ s32 push_matrix_from(void *src);
 s32 matrix_mult_vec(int, void *, void *);
 s32 rotate_matrix_y(int, int);
 s32 rotate_matrix_z(int, int);
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
+void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 s32 rotate_matrix_x(int, int);
 struct TLobbyFloorEnemyGroupTable { s32 value; u8 remaining[0x1AC]; };
 extern TLobbyFloorEnemyGroupTable TLobby__floor_enemy_group_table;

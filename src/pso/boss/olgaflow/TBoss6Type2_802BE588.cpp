@@ -100,7 +100,7 @@ extern const f32 lbl_805DE400;
 void TBoss6Type2__sub_802BA598(TBoss6Type2 *self, s32 elapsed, s32 duration);
 s32 TBoss6Type2__sub_802BA944(void *);
 s32 TBoss6Type2__sub_802BA9E4(void *);
-void TBoss6Type2__sub_802BAD04(s32 arg0);
+void TBoss6Type2__sub_802BAD04(saddr arg0);
 s32 TBoss6Type2__sub_802BB7C0(void *);
 s32 get_phase__11TBoss6Type2Fv();
 u16 is_falz_ready__11TBoss6Type2Fv(void *);

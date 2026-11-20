@@ -55,7 +55,7 @@
 
 
 extern "C" {
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
+void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 // inferred: the BML resource load_resources reads through bm_ene_me1_mb_resource_descriptor

@@ -217,7 +217,7 @@ void * __nw__7TObjectFUl(s32);
 s32 scale_matrix(int, f32, f32, f32);
 s32 rotate_matrix_z(int, int);
 void subtract_vector(void *, void *);
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
+void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 s32 rotate_matrix_x(int, int);
 s32 scale_current_matrix(Vec *);
 

@@ -44,7 +44,7 @@ extern s32 quest_page_node_count;
 extern s32 quest_page_node_index;
 s32 TQuestVmDownLoadServer__sub_803E9F54(s32 arg0);
 void TQuestVmDownLoadServer__sub_803EA9E8(s32 start, s32 inputEnd, s32 mode, s32 selectedLength);
-s32 TQuestVmDownLoadServer__sub_803EDC20(u32);
+s32 TQuestVmDownLoadServer__sub_803EDC20(uaddr);
 s32 convert_romaji_to_kana(u16 *src, s32 n, u16 *out, s32 *count);
 extern s16 quest_download_text_buffer[0x200];
 void free_slot_node_chain(s32 slot, s32 mode);

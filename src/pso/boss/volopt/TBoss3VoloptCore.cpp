@@ -53,7 +53,7 @@ void minimap_render_dot(f32 *pos, s32 color, s32, s32);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 TObject *create_particle_emitter(Vec *pos, s32 id);
 void set_matrix_identity(s32 matrix, f32 scale);
-void rotate_vector_by_matrix(s32 matrix, Vec *src, Vec *dst);
+void rotate_vector_by_matrix(saddr matrix, Vec *src, Vec *dst);
 void free_collision_body_parts(TObjEnemyCustom *object);
 void init_collision_body_parts(TObjEnemyCustom *object, TBoss3VoloptCoreBodyPart *parts, s32 count);
 void obj_setFlags30(TObjEnemyCustom *object, u32 flags);

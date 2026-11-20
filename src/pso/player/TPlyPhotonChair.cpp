@@ -154,7 +154,7 @@ s32 get_actor_section_id__15TPlyPhotonChairFv(int);
 s32 get_rader_map__11TMainCursorFv(void *, void *);
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__15TPlyPhotonChair[];
-u8 *TPlyPhotonChair__ct(u8 *arg0, s32 arg1, s32 arg2);
+u8 *TPlyPhotonChair__ct(u8 *arg0, s32 arg1, saddr arg2);
 int rotate_matrix_y(int, int);
 int push_matrix();
 int scale_current_matrix(void *);

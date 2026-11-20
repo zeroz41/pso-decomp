@@ -461,7 +461,7 @@ f32 xz_distance_squared(void *, void *);
 void run_task__16TObjEneMerillLiaFv(u8 *arg0);
 void restore_scene_lighting(void);
 void select_actor_lighting(s32 obj);
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
+void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 s32 push_matrix();
 f32 post_translate_matrix(void *);
 extern s32 saved_model_render_flags;

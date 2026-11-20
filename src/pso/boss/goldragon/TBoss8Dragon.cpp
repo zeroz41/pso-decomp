@@ -977,7 +977,7 @@ struct Drg_802F4DD4 {
     u8 pad85C[0x894 - 0x85C];
     void *demo;
 };
-u8 *__ct__16TBoss8DragonDemoFv(u8 *arg0, s32 arg1, s32 arg2, f32 farg0);
+u8 *__ct__16TBoss8DragonDemoFv(u8 *arg0, saddr arg1, s32 arg2, f32 farg0);
 struct Obj_802FAC08;
 struct Rot_802F6838 { s32 x, y, z; };
 s32 restore_player_cameras(void);
@@ -1280,7 +1280,7 @@ void subtractive_rng_seed(void *, s32);
 f32 calc_random_ratio__10TObjPlayerFv(void *);
 // Slot 87: per-action event dispatch through a table of handler members.
 }
-void create_boss8_piller_ctrl(s32 arg0, s32 arg1, f32 farg0);
+void create_boss8_piller_ctrl(saddr arg0, s32 arg1, f32 farg0);
 extern s32 tl_01;
 struct VBase_18_802FD47C { char pad[0x18]; };
 struct VObj_18_802FD47C : VBase_18_802FD47C {
@@ -1389,7 +1389,7 @@ struct D_802FD47C {
 extern "C" {
 s32 __ct__14SubtractiveRngFv(void *arg0);
 u8 *__ct__17AreaAttackHistoryFl(u8 *arg0, s32 arg1);
-u8 *TBoss8DragonColli__ct(u8 *arg0, s32 arg1);
+u8 *TBoss8DragonColli__ct(u8 *arg0, saddr arg1);
 void *TBoss8Dragon__sub_802F3C24(void *arg0, void *arg1);
 void *TBoss8DragonEffTail__ct(void *, void *, void *);
 void get_camera_offsets__12TBoss8DragonFPvPv(Vec *arg0, Vec *arg1);

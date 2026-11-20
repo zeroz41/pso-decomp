@@ -213,7 +213,7 @@ saddr register_object__6TLobbyFl(s32);
 saddr dispatch_shared_handler_b__6TLobbyFl(s32);
 saddr register_boss__6TLobbyFl(s32);
 s32 TBoss2Joint_get_shell_max_hp(void);
-void spawn_offset_particle__13TBoss2DeRolLeFiff(s32 arg0, f32 farg0, f32 farg1);
+void spawn_offset_particle__13TBoss2DeRolLeFiff(saddr arg0, f32 farg0, f32 farg1);
 s32 apply_hp_damage_with_sound__13TBoss2DeRolLeFPvi(s32, s32, u16);
 
 // Fade source colour of sub_80036940 (only g, r, b are read).

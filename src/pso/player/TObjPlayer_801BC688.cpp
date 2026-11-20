@@ -10,7 +10,7 @@ struct Base_801BC688 { char pad[8]; };
 struct VObj_801BC688 : Base_801BC688 { virtual void m0(); virtual void m1(int); };
 
 extern "C" {
-void set_flag_400000__10TObjPlayerFi(s32 arg0);
+void set_flag_400000__10TObjPlayerFi(saddr arg0);
 extern const f32 TObjPlayer__data_805DC278;
 #pragma push
 #pragma fp_contract on

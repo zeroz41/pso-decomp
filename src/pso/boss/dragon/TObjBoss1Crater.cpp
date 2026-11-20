@@ -22,8 +22,8 @@
 
 extern "C" {
 s32 isV2Mode__12TBoss1DragonFv(void);
-s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
-s32 load_enemy_bml_resource(u8 *arg0);
+saddr load_enemy_bml_resource_named(saddr arg0, saddr arg1);
+saddr load_enemy_bml_resource(u8 *arg0);
 }
 u8 *load_gvm_texture_file(s32 arg0);
 s32 lbl_805D4B50;

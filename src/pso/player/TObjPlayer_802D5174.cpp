@@ -51,7 +51,7 @@ struct S_802D5B78 {
 };
 
 extern "C" {
-void spawn_hit_particles__10TObjPlayerFiPv(s32 pos, const Vec *dir);
+void spawn_hit_particles__10TObjPlayerFiPv(saddr pos, const Vec *dir);
 s16 get_validated_attack_stage(u8 *arg0);
 void get_weapon_color__11TItemWeaponFPv(void *, void *);
 void normalize_vector(void *);

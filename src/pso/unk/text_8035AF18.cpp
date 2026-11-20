@@ -12,7 +12,7 @@ struct PhotonChairSeat {
 
 extern "C" {
 int TPlyPhotonChair__sub_8035B520(void *p);
-u8 *TPlyPhotonChair__ct(u8 *arg0, s32 arg1, s32 parent);
+u8 *TPlyPhotonChair__ct(u8 *arg0, s32 arg1, saddr parent);
 int fn_8035AF18(PhotonChairSeat *seat);
 }
 

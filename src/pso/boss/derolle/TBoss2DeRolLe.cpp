@@ -780,7 +780,7 @@ s32 TObjLight__sub_801336DC(s32);
 
 s32 TObjLight__sub_8013379C(s32, void *);
 
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
+void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 
 extern u8 derolle_segment_texture_slots[];
 
@@ -2241,7 +2241,7 @@ void TBoss2Mine__sub_80038D88(void);
 
 void TBoss2Tentacle__sub_8003A0AC(void);
 
-saddr load_enemy_bml_resource_named(s32 arg0, s32 arg1);
+saddr load_enemy_bml_resource_named(saddr arg0, saddr arg1);
 
 saddr load_enemy_bml_resource(u8 *arg0);
 

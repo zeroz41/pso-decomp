@@ -35,7 +35,7 @@ struct Holder_8002E3D4 { u8 pad[0x42C]; Model_8002E3D4 *model; };
 extern "C" {
 void TObjLight__sub_801337F8(s32);
 s32 rotate_matrix_z(int, int);
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
+void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 s32 rotate_matrix_x(int, int);
 void push_matrix(void);
 s32 pop_matrix();

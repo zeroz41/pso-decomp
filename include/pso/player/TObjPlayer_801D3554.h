@@ -8,7 +8,7 @@ extern "C" {
 void fn_801D371C(void *p, void *q);
 void insert_item_node__10TObjPlayerFiiiii(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 }
-void start_placement_search(s32 arg0, s32 arg1, s32 arg2);
+void start_placement_search(saddr arg0, saddr arg1, saddr arg2);
 
 // --- C functions defined in TObjPlayer_801D3554.cpp ---
 extern "C" {

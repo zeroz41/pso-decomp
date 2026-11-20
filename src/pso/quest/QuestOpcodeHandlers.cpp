@@ -1140,7 +1140,7 @@ f32 xyz_distance_squared(u8 *arg0, u8 *arg1);
 s32 get_class_type_name__6TLobbyFl(int);
 int TNpcPlayer__sub_8014DC30(void*);
 void *find_entity_by_id(u16 id);
-uaddr TOChatSensor__create(s32 arg0);
+uaddr TOChatSensor__create(saddr arg0);
 void TOMineTrap__sub_80171368(f32);
 int set_instance__10TOMineTrapFi(void*);
 int set_trap_count__10TOMineTrapFi(void*);
@@ -3371,7 +3371,7 @@ void qst_op_set_cmode_rank_threshold(u8 arg0, u8 arg1) {
 }
 extern "C" {
 s32 TObjItemOKWindow__sub_801F3268(void);
-void TItemData__sub_8010CA08(Item_801EBF30 *, s32, s32);
+void TItemData__sub_8010CA08(Item_801EBF30 *, saddr, s32);
 }
 void qst_op_award_item_give(u8 arg0) {
     Item_801EBF30 item;

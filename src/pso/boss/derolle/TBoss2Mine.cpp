@@ -286,7 +286,7 @@ void TObjEneDD__sub_800BA5A4(void *p, void *a1);
 
 void scale_matrix(s32, f32, f32, f32);
 
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
+void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 
 void rotate_matrix_x(s32, s32);
 

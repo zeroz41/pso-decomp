@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-void bswap__17TPlyInventoryItemFv(s32 arg0);
+void bswap__17TPlyInventoryItemFv(saddr arg0);
 }
 
 // --- C functions defined in TPlyInventoryItem.cpp ---
 extern "C" {
-void bswap__17TPlyInventoryItemFv(s32 arg0);
+void bswap__17TPlyInventoryItemFv(saddr arg0);
 }
 // --- end of C functions
 

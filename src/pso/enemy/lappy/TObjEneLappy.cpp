@@ -423,7 +423,7 @@ void vfunc_28__12TObjEneLappyFv(u8 *arg0);
 u32 csnVector(void *, void *, s32);
 s32 project_actor_to_ground(void *, void *, s32);
 s32 vec3_add_to(void *, void *);
-s32 rotate_vector_by_matrix(s32, void *, void *);
+s32 rotate_vector_by_matrix(saddr, void *, void *);
 }
 extern f32 identity_matrix[3][4];
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);

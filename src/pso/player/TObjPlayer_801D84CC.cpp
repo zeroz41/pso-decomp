@@ -47,7 +47,7 @@ struct VObj_84_801d859c_801D84CC : VObj_84Base_801d859c_801D84CC {
 s32 advance_item_id_counter();
 void send_6x29_delete_item__10TObjPlayerFPvii(void *obj, s32 a, s32 b);
 void *pickup_item__10TObjPlayerFP5TItem(u8 *arg0, u8 *arg1);
-void set_equip_slot_entry(s32 arg0, s32 arg1, s32 arg2);
+void set_equip_slot_entry(saddr arg0, s32 arg1, s32 arg2);
 s32 get_item_id__5TItemFv();
 u16 get_entity_id(void *);
 
@@ -148,7 +148,7 @@ void TObjPlayer__sub_801BFF80(u8 *arg0);
 void init__17TPlyInventoryItemFv(u8 *arg0);
 }
 void create_player_ending_motion(void);
-s32 create_named_object(saddr arg0);
+saddr create_named_object(saddr arg0);
 void create_player_ending_motion(void) { TObjPlayer::alloc_shared_buffers(); player_ending_motion_object = create_named_object((saddr)"PlyEndingMotionData.rel"); }
 
 TUnk_804C4540::TUnk_804C4540(TObject *parent, TUnk_801D8A4C *src) : TObjPlayer(parent, src) {

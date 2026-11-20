@@ -23,7 +23,7 @@
 extern "C" {
 void *TObjPlayer__sub_802E449C(void *a0);
 }
-void spawn_faust_explosion(u32 a0, const Vec &pos);
+void spawn_faust_explosion(uaddr a0, const Vec &pos);
 
 u8 *create_panzer_faust(saddr item) {
     if (item != 0) {

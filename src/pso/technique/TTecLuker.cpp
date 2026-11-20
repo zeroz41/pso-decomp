@@ -150,7 +150,7 @@ TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *, s32, s32);
 void init_telepipe_packet_header(void* p);
 void create_quest_telepipe_for_client(u16 arg0);
 void write_telepipe_record(u8 *arg0, u16 arg1, s16 arg2, u8 *arg3, s32 arg4);
-void start_placement_search(s32 arg0, s32 arg1, s32 arg2);
+void start_placement_search(saddr arg0, saddr arg1, saddr arg2);
 s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range);
 void offset_point_toward_camera(u8 *arg0, u8 *arg1, f32 farg0);
 extern s32 lbl_80515BA0[];

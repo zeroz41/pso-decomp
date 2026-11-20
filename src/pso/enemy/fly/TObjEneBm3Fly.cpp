@@ -29,7 +29,7 @@
 
 extern BmlResource *lbl_805D50D8;
 extern "C" {
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
+void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 s32 push_matrix();
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;

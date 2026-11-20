@@ -109,7 +109,7 @@ void fn_802F1E54(u8 *arg0);
 s32 is_room_enemy_set_cleared(s32 floor, s16 room);
 u8 *TObjBoss7RaftSplash__ct(u8 *object, u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4);
 f32 rand_signed_unit();
-u8 *__ct__13TObjBoss7DustFv(u8 *arg0, s32 arg1, s32 arg2);
+u8 *__ct__13TObjBoss7DustFv(u8 *arg0, saddr arg1, saddr arg2);
 s32 TObjBoss2Tunnel__sub_802F2070(void);
 }
 

@@ -168,17 +168,17 @@ extern "C" {
 s32 get_random_scaled__9TObjEneDDFv(void *);
 
 void rotate_vec_xz(void *, void *, s32);
-u8 *TBoss1DragonEffBullet__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
+u8 *TBoss1DragonEffBullet__ct(u8 *arg0, saddr arg1, saddr arg2, saddr arg3);
 void prepare_flight_destination__12TBoss1DragonFPv(u8 *arg0);
 
 s32 get_current_floor();
 uaddr get_player_by_client_id(s32);
-s32 load_enemy_bml_resource(u8 *arg0);
-s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
+saddr load_enemy_bml_resource(u8 *arg0);
+saddr load_enemy_bml_resource_named(saddr arg0, saddr arg1);
 extern s32 lbl_805D4B24;
 extern s32 TLobby__designated_client_id;
 s32 isV2Mode__12TBoss1DragonFv(void);
-u8 *__ct__16TBoss1DragonDemoFv(u8 *arg0, s32 arg1, s32 arg2, f32 farg0);
+u8 *__ct__16TBoss1DragonDemoFv(u8 *arg0, saddr arg1, s32 arg2, f32 farg0);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 play_cue_stream_file(void *, int);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
@@ -216,7 +216,7 @@ f32 normalize_vector_xz__FP3Vec(void *, f32, f32);
 u8 *find_entity_by_id(s32);
 s32 rotate_matrix_z(s32, s32);
 void subtract_vector(void *, void *);
-s32 translate_matrix(s32, f32, f32, f32);
+s32 translate_matrix(saddr, f32, f32, f32);
 s32 rotate_matrix_x(s32, s32);
 void set_material_alpha_compare_reference(s32);
 void set_chunk_material_override_pair(s32, s32);
@@ -304,7 +304,7 @@ void *__dt__15RenderFadeStateFv(void *arg0, s16 arg1);
 Obj_80029C78 *destroy__12TBoss1DragonFPvs(Obj_80029C78 *o, s16 flag);
 void render_shadows__12TBoss1DragonFv(u8 *arg0);
 
-u8 *TBoss1DragonColli__ct(u8 *arg0, s32 arg1);
+u8 *TBoss1DragonColli__ct(u8 *arg0, saddr arg1);
 void *TBoss1DragonEffTail__ct(void *, void *, void *);
 u8 *TObjBoss1MokoHill_SoloM__ct(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3);
 s32 __ct__14SubtractiveRngFv(void *arg0);

@@ -106,7 +106,7 @@ void TObjEneMe3Shinowa__sub_800E7268(TObjEneMe3Shinowa *);
 s32 check_in_range__23TObjEneMe3ShinowaMirageFPv(TObjEneMe3Shinowa *shinowa);
 s32 get_room__8TObjBaseFv(TObjBase *);
 s32 create__10TTecDebandFlll(void *, void *, s32);
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
+void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 
 // Per-variant parameter tables fetched from TLobby (TObjEneMe3Stelth names the same four
 // base/attack/resistance/behavior_params_by_variant).

@@ -470,7 +470,7 @@ void TBoss6Type2__sub_802BD378(T2_802BD378 *arg0, s32 arg1, void *arg2, s32 *arg
 void TBoss6Type2__sub_8032E708(void *p, s32 v);
 s32 set_action_field_0x408__11TBoss6Type2Fs(s32, u16);
 void TBoss6Type2__sub_80356E50(s32 arg0, s32 arg1, s32 force);
-s32 spawn_flow_soul__11TBoss6Type2Fiii(s32 arg0, s32 arg1, s32 arg2);
+s32 spawn_flow_soul__11TBoss6Type2Fiii(saddr arg0, saddr arg1, saddr arg2);
 f32 vec3_add_to(void *, void *);
 f32 vector_length(Vec *);
 void subtract_vector(Vec *, Vec *);

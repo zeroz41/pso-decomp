@@ -28,7 +28,7 @@ void attach_mine_trap__10TObjPlayerFiUi(saddr arg0, u32 arg1);
 f32 random_ratio__9TObjCharaFv(s32 arg0);
 f32 calc_random_ratio__10TObjPlayerFv(void);
 f32 calc_xz_distance_sq(TObjBase *actor, TObjBase *other, Vec *offset);
-s32 check_can_act__10TObjPlayerFii(s32 arg0, s32 arg1);
+s32 check_can_act__10TObjPlayerFii(saddr arg0, s32 arg1);
 s32 copy_position_if_valid__10TObjPlayerFii(s32 arg0, s32 arg1);
 s32 damage_hp__10TObjPlayerFii(saddr arg0, saddr arg1);
 }

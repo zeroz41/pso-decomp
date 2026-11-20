@@ -404,7 +404,7 @@ u32 load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 
 
 
-u32 load_enemy_bml_resource_named(BmlResourceDescriptor *, const char *);
+uaddr load_enemy_bml_resource_named(BmlResourceDescriptor *, const char *);
 
 void __dt__15TObjEnemyCustomFv(void *, int);
 

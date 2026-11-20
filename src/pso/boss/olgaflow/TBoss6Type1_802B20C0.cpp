@@ -74,7 +74,7 @@ extern "C" {
 
 void TBoss6Type1__sub_802B4A9C(void *p);
 void TBoss6Type1__sub_802B4B04(u8 *arg0);
-void TBoss6Type1__sub_802B5140(s32 arg0, s32 arg1, s32 arg2);
+void TBoss6Type1__sub_802B5140(saddr arg0, s32 arg1, s32 arg2);
 int clamp_to_arena_radius__11TBoss6Type1FPvPvf(void*, void*);
 void TBoss6Type1__sub_802B5598(void *arg0, void *arg1);
 s32 calc_grid_cell_position__11TBoss6Type1FPvPv(void *, void *);

@@ -214,7 +214,7 @@ int rotate_matrix_y(void*, void*);
 int push_matrix(void*);
 void draw_blob_shadow(s32 arg0);
 s32 rotate_matrix_z(int, int);
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
+void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 s32 rotate_matrix_x(int, int);
 s32 scale_current_matrix(Vec *);
 int check_demo_mode__10TObjPlayerFv(void*);

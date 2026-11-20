@@ -117,7 +117,7 @@ extern Holder_8003A1B4 *boss2_tunnel_instance;
 extern s32 lbl_805D4BEC;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
-void forward_switch_phase_stats__13TBoss2DeRolLeFi(s32 arg0);
+void forward_switch_phase_stats__13TBoss2DeRolLeFi(saddr arg0);
 s32 is_valid_target__9TObjEneDDFv(void *);
 s32 vec3_add_to(void *, void *);
 s32 subtract_vector(void *, void *);

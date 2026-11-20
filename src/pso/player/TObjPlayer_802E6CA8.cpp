@@ -84,7 +84,7 @@ u8 *__dt__13TUnk_804E3BD8Fv(u8 *arg0, s16 arg1);
 s32 TObjLight__sub_801337F8(s32);
 u8 *queue_boss_effect__10TObjPlayerFPv(s32);
 s32 rotate_matrix_z(int, s32);
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
+void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 s32 rotate_matrix_x(int, s32);
 s32 push_matrix();
 s32 pop_matrix();

@@ -30,11 +30,11 @@ void TItemList__sub_801D5804(s32 *arg0);
 void TItemList__sub_801D5838(void *p);
 int TItemList__sub_801D5844(void *p);
 void TItemList__sub_801D58C8(void *p);
-void TItemList__sub_801D59A0(TItemList *item_list, s32 arg1);
+void TItemList__sub_801D59A0(TItemList *item_list, saddr arg1);
 void copy_position__9TItemListFPv(void *p, const Vec *v);
 void *get_ptr_0x44__9TItemListFPv(void *p);
 }
-void clear_placement_search_slot(TItemList *arg0, s32 arg1);
+void clear_placement_search_slot(TItemList *arg0, saddr arg1);
 // Inventory walks over the TItemList nodes below root (TObjPlayer_801D5220.cpp).
 void *find_matching_inventory_item_node(TObject *root);
 extern "C" {
