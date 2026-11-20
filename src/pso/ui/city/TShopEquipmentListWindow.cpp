@@ -607,7 +607,7 @@ void TShopEquipmentListWindow::update_list(void *arg1) {
     }
 }
 
-void TShopEquipmentListWindow::vfunc_6() {
+void TShopEquipmentListWindow::vfunc_6(s32 id, s32 flags) {
     struct VObj_8021B9AC_8021B974 *o = (struct VObj_8021B9AC_8021B974 *)*(void **)((s8 *)this + 0x28);
     if (o != NULL) {
         o->m4();

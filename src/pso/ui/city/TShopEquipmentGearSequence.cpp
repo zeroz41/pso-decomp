@@ -16,12 +16,6 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/system/task/TObject.h"
 
-// Slot 6 of the shop window vtable takes a message id and flags here, while TShopWindowBase declares
-// it without parameters.
-struct TShopMessageTarget : public TObject {
-    virtual void vfunc_6(s32 id, s32 flags);
-};
-
 extern "C" {
 
 s32 sub_802239EC__13TShopSequenceFv(void *);
@@ -151,7 +145,7 @@ s32 TShopEquipmentGearSequence::open_greeting() {
     pos[0] = 332.0f;
     pos[1] = 80.0f;
     create_message_window(get_window_layout_position(0x2C, 332.0f), (s32)pos);
-    ((TShopMessageTarget *)this)->vfunc_6(0x2b, 1);
+    vfunc_6(0x2b, 1);
     meseta_window = (TWindowBase *)create_meseta_window((s32)(unsigned short)get_child_field1c());
     set_field_20(2);
     counter_camera = set_service_counter_camera(this, 0x4);
@@ -190,7 +184,7 @@ void TShopEquipmentGearSequence::update_buy_sell_choice(void *self) {
         }
     }
     if (seq->choice_menu != NULL && seq->choice_menu->is_cancelled() != 0) {
-        ((TShopMessageTarget *)seq)->vfunc_6(0x2C, 1);
+        seq->vfunc_6(0x2C, 1);
         seq->set_field_20(6);
         ((TWindowBase *)seq->choice_menu)->close();
         seq->choice_menu = NULL;
@@ -223,21 +217,21 @@ void TShopEquipmentGearSequence::try_close() {
 
 void TShopEquipmentGearSequence::handle_confirm() {
     if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
-        ((TShopMessageTarget *)this)->vfunc_6(lbl_805D6218, 1);
+        vfunc_6(lbl_805D6218, 1);
         set_field_20(lbl_805D621C);
     }
 }
 
 void TShopEquipmentGearSequence::enter_quest_list() {
     if (this != NULL) {
-        ((TShopMessageTarget *)this)->vfunc_6(0x1A, 1);
+        vfunc_6(0x1A, 1);
         set_field_20(2);
     }
 }
 
 void TShopEquipmentGearSequence::open_gear_shop() {
     if (this != NULL) {
-        ((TShopMessageTarget *)this)->vfunc_6(0x1B, 1);
+        vfunc_6(0x1B, 1);
         set_field_20(7);
         lbl_805D6218 = 0x1A;
         lbl_805D621C = 2;

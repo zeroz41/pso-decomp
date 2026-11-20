@@ -754,9 +754,9 @@ s32 TQuestListVM::update_load_status() {
     return 0;
 }
 
-void TQuestListVM::vfunc_6() {
+void TQuestListVM::vfunc_6(s32 id, s32 flags) {
     if (owner != NULL) {
-        owner->vfunc_6();
+        owner->vfunc_6(id, flags);
     }
 }
 

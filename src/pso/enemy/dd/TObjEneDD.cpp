@@ -586,8 +586,8 @@ void TObjEneDD::vfunc_85() {
     sub_800BBA0C();
 }
 
-u8 TObjEneDD::vfunc_86() {
-    return (u8) (*(s32 *)((s8 *)this + 0x374) != this->mode);
+s32 TObjEneDD::vfunc_86() {
+    return *(s32 *)((s8 *)this + 0x374) != this->mode;
 }
 
 void TObjEneDD::transition_enemy_state(s32 state) {

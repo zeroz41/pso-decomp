@@ -18,12 +18,6 @@
 #include "pso/ui/city/TShopWindowBase.h"
 #include "pso/system/task/TObject.h"
 
-// Slot 6 of the shop window vtable takes a message id and flags here, while TShopWindowBase declares
-// it without parameters.
-struct TShopMessageTarget : public TObject {
-    virtual void vfunc_6(s32 id, s32 flags);
-};
-
 extern "C" {
 TObject *set_service_counter_camera(void *, int);
 s32 get_window_layout_position(int, f32);
@@ -143,7 +137,7 @@ s32 TShopEquipmentSequence::open_greeting() {
     pos[0] = 332.0f;
     pos[1] = 80.0f;
     create_message_window(get_window_layout_position(0x2C, 332.0f), (s32)pos);
-    ((TShopMessageTarget *)this)->vfunc_6(0x27, 1);
+    vfunc_6(0x27, 1);
     meseta_window = (TWindowBase *)create_meseta_window((s32)(unsigned short)get_child_field1c());
     set_field_20(2);
     counter_camera = set_service_counter_camera(this, 3);
@@ -177,7 +171,7 @@ void TShopEquipmentSequence::update_buy_sell_choice() {
         }
     }
     if (choice_menu != NULL && choice_menu->is_cancelled() != 0) {
-        ((TShopMessageTarget *)this)->vfunc_6(0x2C, 1);
+        vfunc_6(0x2C, 1);
         set_field_20(9);
         ((TWindowBase *)choice_menu)->close();
         choice_menu = NULL;
@@ -211,21 +205,21 @@ s32 TShopEquipmentSequence__sub_8021D65C(void) {  }
 
 s32 TShopEquipmentSequence::handle_confirm() {
     if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
-        ((TShopMessageTarget *)this)->vfunc_6(lbl_805D622C, 1);
+        vfunc_6(lbl_805D622C, 1);
         set_field_20(lbl_805D6230);
     }
 }
 
 void exit__22TShopEquipmentSequenceFPv(TShopWindowBase *window) {
     if (window != NULL) {
-        ((TShopMessageTarget *)window)->vfunc_6(0x1A, 1);
+        window->vfunc_6(0x1A, 1);
         window->set_field_20(2);
     }
 }
 
 void init_window__22TShopEquipmentSequenceFPv(TShopWindowBase *window) {
     if (window != NULL) {
-        ((TShopMessageTarget *)window)->vfunc_6(0x1B, 1);
+        window->vfunc_6(0x1B, 1);
         window->set_field_20(8);
         lbl_805D622C = 0x1A;
         lbl_805D6230 = 2;

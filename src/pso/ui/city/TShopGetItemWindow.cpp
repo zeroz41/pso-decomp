@@ -21,12 +21,6 @@
 #include "pso/ui/window/TWindowInputNumber.h"
 #include "pso/system/task/TObject.h"
 
-// Slot 6 of the shop window vtable takes a message id and flags here, while TShopWindowBase declares
-// it without parameters.
-struct TShopMessageTarget : public TObject {
-    virtual void vfunc_6(s32 id, s32 flags);
-};
-
 extern "C" {
 s32 get_entity_id(TObjPlayer *);
 TWindowMenu *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
@@ -151,7 +145,7 @@ void TShopGetItemWindow::rebuild_item_list() {
     m_54 = 1;
     m_50 = TCheckRoomSequence::get_room_table_entry(x = sub_8022397C());
     if (m_50 == 0) {
-        ((TShopMessageTarget *)this)->vfunc_6(0x3E, 1);
+        vfunc_6(0x3E, 1);
         set_field_20(6);
         if (m_28 != NULL) {
             m_28->reset_list();
@@ -302,7 +296,7 @@ void TShopGetItemWindow::handle_withdraw_confirm() {
                     record.set_stack_count(m_54);
                 }
                 if (m_24->can_inventory_accept_item((u8 *)&record) == 0) {
-                    ((TShopMessageTarget *)this)->vfunc_6(0x4B, 1);
+                    vfunc_6(0x4B, 1);
                     set_field_20(6);
                 } else {
                     m_24->request_inventory_item(&record);
@@ -338,9 +332,9 @@ s32 TShopGetItemWindow::close() {
     set_field_20(1);
 }
 
-void TShopGetItemWindow::vfunc_6() {
+void TShopGetItemWindow::vfunc_6(s32 id, s32 flags) {
     if (this->m_5c != NULL) {
-        this->m_5c->vfunc_6();
+        this->m_5c->vfunc_6(id, flags);
     }
 }
 

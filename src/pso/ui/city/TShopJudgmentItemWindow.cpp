@@ -692,7 +692,7 @@ void TShopJudgmentItemWindow::invoke_callback_174_and_destroy() {
     }
 }
 
-void TShopJudgmentItemWindow::vfunc_8() {
+void TShopJudgmentItemWindow::vfunc_8(s32 id, s32 flags) {
     struct VObj_8022061C_802205E4 *temp_r3;
 
     temp_r3 = (struct VObj_8022061C_802205E4 *)this->m_164;

@@ -10,14 +10,6 @@
 #include "pso/ui/city/TShopWindowBase.h"
 #include "pso/ui/city/TShopJudgmentItemWindow.h"
 
-// Slot 8 of the shop window vtable takes a message id and flags here, while TShopWindowBase declares
-// it without parameters.
-struct TShopMessageTarget : public TObject {
-    virtual void vfunc_6();
-    virtual void display_message(const char *text, s32 flags);
-    virtual void vfunc_8(s32 id, s32 flags);
-};
-
 extern "C" {
 TObject *set_service_counter_camera(void *, int);
 s32 get_window_layout_position(int, f32);
@@ -53,7 +45,7 @@ void TJudgmentSequence__sub_80215BCC(TShopWindowBase *window) {
 
 void TJudgmentSequence__sub_80215BF8(TShopWindowBase *window) {
     if (window != NULL) {
-        ((TShopMessageTarget *)window)->vfunc_8(0xD, 1);
+        window->vfunc_8(0xD, 1);
         window->set_field_20(4);
     }
 }
@@ -91,7 +83,7 @@ void TJudgmentSequence::setup_counter_camera() {
     pos[1] = 80.0f;
     x = 332.0f;
     create_message_window(get_window_layout_position(0x2C, x), (s32)pos);
-    ((TShopMessageTarget *)this)->vfunc_8(1, 1);
+    vfunc_8(1, 1);
     m_2c = (TWindowBase *)create_meseta_window(((s32)get_child_field1c()) & 0xFFFF);
     set_field_20(2);
     counter_camera = set_service_counter_camera(this, 2);
@@ -163,5 +155,5 @@ void TJudgmentSequence__sub_80216058(void) {
     }
 }
 
-void TShopWindowBase::vfunc_8() {  }
+void TShopWindowBase::vfunc_8(s32 id, s32 flags) {  }
 }

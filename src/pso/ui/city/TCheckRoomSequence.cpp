@@ -1165,5 +1165,5 @@ void TAdSinglePlyChrSelectGC::init_item_entry() {
 
 void* TAdSinglePlyChrSelectGC__sub_802115C0(void* p) { ((TAdSinglePlyChrSelectGC *)p)->init_item_entry(); return p; }
 
-void TShopWindowBase::vfunc_6() {  }
+void TShopWindowBase::vfunc_6(s32 id, s32 flags) {  }
 }

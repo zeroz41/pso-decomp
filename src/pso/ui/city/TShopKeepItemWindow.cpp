@@ -31,12 +31,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TMessageWindowController.h"
 #include "pso/ui/window/TWindowInputNumber.h"
-// Slot 6 of the shop window vtable takes a message id and flags here, while TShopWindowBase declares
-// it without parameters.
-struct TShopMessageTarget : public TObject {
-    virtual void vfunc_6(s32 id, s32 flags);
-};
-
 s32 bank_has_free_row(s32 slot);
 
 extern "C" {
@@ -132,7 +126,7 @@ s32 TShopKeepItemWindow::rebuild_item_list() {
     if (this->entry_count != 0) {
         set_field_20(1);
     } else {
-        ((TShopMessageTarget *)this)->vfunc_6(0x49, 1);
+        vfunc_6(0x49, 1);
         set_field_20(7);
         return;
     }
@@ -202,7 +196,7 @@ void TShopKeepItemWindow::handle_deposit_list_select() {
             count = 0;
         }
         if (count == 0) {
-            ((TShopMessageTarget *)this)->vfunc_6(0x3C, 1);
+            vfunc_6(0x3C, 1);
             set_field_20(7);
             return;
         }
@@ -212,7 +206,7 @@ void TShopKeepItemWindow::handle_deposit_list_select() {
     case 2:
     default:
         if (bank_has_free_row(bank) == 0) {
-            ((TShopMessageTarget *)this)->vfunc_6(0x3C, 1);
+            vfunc_6(0x3C, 1);
             set_field_20(7);
             return;
         }
@@ -283,7 +277,7 @@ void TShopKeepItemWindow::handle_deposit_confirm() {
                 set_field_20(0);
                 return;
             }
-            ((TShopMessageTarget *)this)->vfunc_6(0x3C, 1);
+            vfunc_6(0x3C, 1);
             play_sound_effect(0x53F06, 0, 0, 0);
             ((TWindowBase *)this->confirm_window)->close();
             this->confirm_window = 0;
@@ -334,10 +328,10 @@ s32 TShopKeepItemWindow::close_with_cancel_callback() {
     queue_destruction();
 }
 
-void TShopKeepItemWindow::vfunc_6() {
+void TShopKeepItemWindow::vfunc_6(s32 id, s32 flags) {
     TShopWindowBase *owner = this->message_window;
     if (owner != NULL) {
-        owner->vfunc_6();
+        owner->vfunc_6(id, flags);
     }
 }
 

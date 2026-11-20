@@ -596,7 +596,7 @@ void TShopArmorListWindow::update_selection(void *arg1) {
     }
 }
 
-void TShopArmorListWindow::vfunc_6() {
+void TShopArmorListWindow::vfunc_6(s32 id, s32 flags) {
     struct VObj_8021A3CC_8021A394 *o = (struct VObj_8021A3CC_8021A394 *)*(void **)((s8 *)this + 0x28);
     if (o != NULL) {
         o->m4();

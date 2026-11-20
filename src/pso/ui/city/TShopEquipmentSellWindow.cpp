@@ -477,7 +477,7 @@ s32 TShopEquipmentSellWindow::update() {
     }
 }
 
-void TShopEquipmentSellWindow::vfunc_6() {
+void TShopEquipmentSellWindow::vfunc_6(s32 id, s32 flags) {
     struct VObj_8021C8A8_8021C870 *o = (struct VObj_8021C8A8_8021C870 *)*(void **)((s8 *)this + 0x388);
     if (o != NULL) {
         o->m4();

@@ -26,12 +26,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/text_80222C28.h"
 
-// Slot 6 of the shop window vtable takes a message id and flags here, while TShopWindowBase declares
-// it without parameters.
-struct TShopMessageTarget : public TObject {
-    virtual void vfunc_6(s32 id, s32 flags);
-};
-
 extern "C" {
 s32 compact_items__18TCheckRoomSequenceFi(int);
 s32 remove_bank_item_amount__18TCheckRoomSequenceFiii(int, int, int);
@@ -126,14 +120,14 @@ void TShopDeleteItemWindow::sub_80337E2C() {
     base = sub_8022397C();
     m_58 = TCheckRoomSequence::get_room_table_entry(base);
     if (m_58 == 0) {
-        ((TShopMessageTarget *)this)->vfunc_6(0x3E, 1);
+        vfunc_6(0x3E, 1);
         set_field_20(6);
         if (m_30 != NULL) {
             m_30->reset_list();
         }
         return;
     }
-    ((TShopMessageTarget *)this)->vfunc_6(0x4C, 1);
+    vfunc_6(0x4C, 1);
     if (m_30 == NULL) {
         TItemData item;
         s32 count;
@@ -231,7 +225,7 @@ s32 TShopDeleteItemWindow::update_item_select(void *arg0) {
                 ((TWindowSubComCardList *)self->m_34)->set_selected_index(1);
                 ((TWindowAddition *)self->m_34)->set_position_xy(self->get_scale(), self->get_scale());
                 self->set_field_20(3);
-                ((TShopMessageTarget *)self)->vfunc_6(0x4D, 1);
+                self->vfunc_6(0x4D, 1);
             }
         }
     }
@@ -254,7 +248,7 @@ void TShopDeleteItemWindow::handle_number_input() {
         ((TWindowBase *)m_38)->close();
         m_38 = NULL;
         set_field_20(3);
-        ((TShopMessageTarget *)this)->vfunc_6(0x4D, 1);
+        vfunc_6(0x4D, 1);
         return;
     }
     if (m_38 != NULL && ((TShopEquipmentSellWindow *)m_38)->is_confirmed() != 0) {
@@ -307,13 +301,13 @@ s32 TShopDeleteItemWindow::destroy() {
         m_30->clear_decided();
     }
     set_field_20(1);
-    ((TShopMessageTarget *)this)->vfunc_6(0x4C, 1);
+    vfunc_6(0x4C, 1);
 }
 
-void TShopDeleteItemWindow::vfunc_6() {
+void TShopDeleteItemWindow::vfunc_6(s32 id, s32 flags) {
     TShopWindowBase *owner = m_64;
     if (owner != NULL) {
-        owner->vfunc_6();
+        owner->vfunc_6(id, flags);
     }
 }
 
