@@ -92,7 +92,6 @@ extern const f32 lbl_805DFBE8;
 extern const f32 lbl_805DFBEC;
 extern const f32 lbl_805DFC28;
 void TWindowDD__sub_80347E04(W_80347E04 *arg0, s32 arg1);
-s32 refresh_status_display__9TWindowDDFv(void *);
 extern s32 local_client_id;
 extern uaddr TWindowDD__work_buffer;
 extern const f32 TWindowDD__data_805DFB58;
@@ -461,7 +460,7 @@ void TWindowDD__sub_80347CC8(W_80347CC8 *arg0, void *window_dd) {
     if (s != NULL) {
         e = (E_80347CC8 *)((TWindowBase *)s)->get_array_entry(0);
         if (e != NULL) {
-            refresh_status_display__9TWindowDDFv(e);
+            ((TWindowDD *)e)->refresh_status_display();
             x = 10.0f + e->f10;
             if (x >= 580.0f) {
                 e->f8 = 580.0f - e->f10;

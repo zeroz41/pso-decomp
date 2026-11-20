@@ -16,7 +16,6 @@
 const char *lbl_805D42E0 = "TWindowDD_WS_Word";
 
 extern "C" {
-int refresh_status_display__9TWindowDDFv(void *);
 void draw_visible_window_entries(TWindowDD_WS_Word *, TWindowDDWordEntryList *, WindowDrawContext *);
 extern const s32 TWindowDD__data_805DFC14;
 extern const s32 lbl_805DFC18;
@@ -39,7 +38,7 @@ void TWindowDD_WS_Word::render() {
             item = (TUnk_804CFA28 *)self->get_array_entry(i);
             set_text_entry_string((u8 *)item, get_word_select_token_text(((s16 *)self->m_80)[idx]), 0xC0);
             item->y = (f32)(i * 20);
-            refresh_status_display__9TWindowDDFv(item);
+            ((TWindowDD *)item)->refresh_status_display();
             ((TWindowHelpItem *)item)->reset_float_field();
             item->color = TWindowDD__data_805DFC14;
         }
@@ -415,7 +414,7 @@ void TWindowDD::load_element_list() {
         ent = (Entry_80341FFC *)((TWindowBase *)self)->get_array_entry(i);
         set_text_entry_string((u8 *)ent, get_word_select_token_text((s16)self->buf[i]), 0xC0);
         ent->y = i * 20;
-        refresh_status_display__9TWindowDDFv(ent);
+        ((TWindowDD *)ent)->refresh_status_display();
     }
 }
 

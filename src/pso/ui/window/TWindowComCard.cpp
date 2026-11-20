@@ -99,7 +99,6 @@ struct ComCardDisplay { u8 pad[4]; ComCardTextSet *set; };
 extern "C" {
 s8 TWindowSubComCard__sub_8007B6EC(void *);
 s32 TWindowSubComCard__sub_8007B6F4(void *);
-void refresh_status_display__9TWindowDDFv(void *);
 }
 s32 get_class_name_text(s32 arg0);
 
@@ -144,7 +143,7 @@ extern "C" void update_com_card_display(ComCardDisplay *arg0, void *arg1) {
             text_builder_reset();
             text_builder_append_int(id);
             set_text_entry_string((u8 *)t4, (uaddr)((void *)get_shared_text_buffer()), 0x20);
-            refresh_status_display__9TWindowDDFv(t4);
+            ((TWindowDD *)t4)->refresh_status_display();
             t4->x = 198.0f - t4->w;
             t4->flags &= ~2;
         }

@@ -182,7 +182,7 @@ void TWindowSubTrade::run_task() {
         if ((u32) this->m_message_window == 0U) {
             this->m_message_window = ((TWindowSubTrade *)arg0)->open_player_message_window(this->m_24, (saddr) (TWindowSubStatusDisp::get_message_10(0xD7)));
         }
-        TLobby::send_modify_trade_proposal((this->m_24));
+        send_modify_trade_proposal__6TLobbyFi((this->m_24));
         this->m_1c = 6U;
     case 6:
         temp_r5 = temp_r30 * 0x50;

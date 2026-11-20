@@ -67,7 +67,7 @@ void TWindowDD__sub_803412A0(TWindowDD_WS_String *self) {
     u8 *entry;
     entry = (u8 *)self->get_array_entry(0);
     if (entry != NULL) {
-        TWindowDD::refresh_status_display();
+        ((TWindowDD *)entry)->refresh_status_display();
         self->pad_38[0] = (2.0f * TWindowDD__data_805DFB58) + *(f32 *)((s8 *)entry + 0x10);
     }
 }

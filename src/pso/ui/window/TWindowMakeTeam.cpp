@@ -57,7 +57,6 @@ s32 measure_string_len__20TWindowSubStatusDispFv(char *);
 void *create_entry_menu_window__15TWindowMakeTeamFv(void *);
 void *create_status_menu_window__15TWindowMakeTeamFv(void *);
 extern s32 __vt__15TWindowMakeTeam[];
-s32 create_menu__15TWindowMakeTeamFv(struct TWMT *);
 s32 __ct__7TObjectFP7TObject();
 }
 
@@ -75,7 +74,7 @@ void *TWindowMakeTeam__ct(void *arg0, void *arg1, s32 arg2) {
     ((TWindowMakeTeam *)self)->m_1c = 0;
     ((TWindowMakeTeam *)self)->m_1d = 0;
     ((TWindowMakeTeam *)self)->m_20 = arg2;
-    ((TWindowMakeTeam *)self)->m_menu = create_menu__15TWindowMakeTeamFv(self);
+    ((TWindowMakeTeam *)self)->m_menu = ((TWindowMakeTeam *)self)->create_menu();
     ((TWindowMakeTeam *)self)->m_30 = 0;
     ((TWindowMakeTeam *)self)->m_34 = 0;
     ((TWindowMakeTeam *)self)->m_24 = 0;

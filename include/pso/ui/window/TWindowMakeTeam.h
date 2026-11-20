@@ -23,7 +23,7 @@ struct TWindowMakeTeam : public TObject {
     void update_ok_button();
     s32 create_status_menu_window();
     s32 create_entry_menu_window();
-    static s32 create_menu();
+    s32 create_menu();
     virtual void render();
     virtual void run_task();
     void set_entry_string_by_id(void *arg1, s32 arg2);

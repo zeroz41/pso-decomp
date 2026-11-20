@@ -140,7 +140,6 @@ extern "C" {
 u32 obj_getArrWord_254(LockOnEnemyView *, s32);
 s16 obj_getS16_2BA(LockOnEnemyView *);
 u16 get_entity_id(void *);
-void refresh_status_display__9TWindowDDFv(void *);
 void init_window_layout_entries(void *, void *, int);
 f32 get_target_distance__13TWindowLockOnFv(s32);
 s32 draw_visible_window_entries(void *, void *, int);
@@ -264,7 +263,7 @@ void TWindowLockOn::update_for_other_player(TObjCollidable *player) {
     id = get_entity_id(player);
     ((TWindowLockOn *)w)->update_for_player_index(id);
     ((TWindowHelpItem *)w)->reset_float_field();
-    refresh_status_display__9TWindowDDFv(w);
+    ((TWindowDD *)w)->refresh_status_display();
     m_38 = 34.0f + w->w;
     m_3c = 49.0f;
     m_38 += 28.0f;

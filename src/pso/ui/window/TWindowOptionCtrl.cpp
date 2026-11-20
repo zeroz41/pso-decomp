@@ -46,13 +46,11 @@ const vec2f lbl_8044F49C = {470.0f, 80.0f};
 const vec2f lbl_8044F4A4 = {470.0f, 80.0f};
 
 extern "C" {
-void *create_menu__17TWindowOptionCtrlFv(void *);
 u8 *get_window_layout_position(s32);
 s32 create__19TWindowMessageYesNoFPvPvPvPv(s32, s32, s32, s32);
 s32 free_member__17TWindowSubComCardFv(int, int);
 s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(int, void *, int, f32);
 saddr warn_if_empty__17TWindowOptionCtrlFPUc(void *);
-void *get_chr_select_base_plus_1154c__17TWindowOptionCtrlFv();
 s32 get_localized_text_entry(s32 arg0, s32 arg1);
 s32 align_menu_entry_positions(int);
 s32 forward_trade_action_default__16TObjCityMainWarpFPviii(s32, s32, s32, s32);
@@ -81,16 +79,9 @@ struct Opt_8026BCC0 {
 };
 
 extern "C" {
-void *create_select_menu_window__17TWindowOptionCtrlFv(void *);
-void *create_list_window__17TWindowOptionCtrlFv(void *);
-void *create_sound_mode_menu__17TWindowOptionCtrlFv(void *);
-void *create_sound_balance_window__17TWindowOptionCtrlFv(void *);
 s32 get_field_64__17TWindowOptionCtrlFv(void *p);
 void set_params__17TWindowOptionCtrlFPvsSc(void *arg0, s16 arg1, s8 arg2);
-void *create_snap_shot_window__17TWindowOptionCtrlFv(void *);
 void *ct__13TUnk_804F01A8Fv(void *arg0);
-void *create_sub_menu_window__17TWindowOptionCtrlFv(void *);
-void *create_option_menu__17TWindowOptionCtrlFv(void *);
 void set_field_value__17TWindowOptionCtrlFls(s32 arg0, s16 arg1);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 void play_sound_effect(int, int, int, int);
@@ -115,7 +106,7 @@ void TWindowSubComCardList::set_flag70_bit100() { this->m_70 |= 0x100; }
 
 void TWindowOptionCtrl::set_flag70_bit400() { *(u16*)((char*)this + 0x70) |= 0x400; }
 
-s32 TWindowOptionCtrl::get_chr_select_base_plus_1154c() {
+saddr TWindowOptionCtrl::get_chr_select_base_plus_1154c() {
     return TAdSinglePlyChrSelectGC::get_instance() + 0x1154C;
 }
 
@@ -207,7 +198,7 @@ void TWindowOptionCtrl::run_task() {
             self->f2C = NULL;
         }
         if (self->f28 == NULL) {
-            self->f28 = create_menu__17TWindowOptionCtrlFv(self);
+            self->f28 = (void *)((TWindowOptionCtrl *)self)->create_menu();
         }
         ((TWindowSubComCard *)(self->f28))->clear_transition_flag();
         ((TWindowSubComCard *)(self->f28))->clear_flag_and_release();
@@ -222,7 +213,7 @@ void TWindowOptionCtrl::run_task() {
     case 3:
         ((TWindowOptionCtrl *)(self->f28))->open();
         if (self->f34 == NULL) {
-            self->f34 = create_select_menu_window__17TWindowOptionCtrlFv(self);
+            self->f34 = (void *)((TWindowOptionCtrl *)self)->create_select_menu_window();
         }
         self->state = 4;
     case 4:
@@ -237,7 +228,7 @@ void TWindowOptionCtrl::run_task() {
         TWindowOptionCtrl__sub_802273B4(0x1E);
         ((TWindowOptionCtrl *)(self->f28))->open();
         if (self->f2C == NULL) {
-            self->f2C = create_list_window__17TWindowOptionCtrlFv(self);
+            self->f2C = (void *)((TWindowOptionCtrl *)self)->create_list_window();
         }
         self->state = 6;
     case 6:
@@ -262,7 +253,7 @@ void TWindowOptionCtrl::run_task() {
     case 7:
         ((TWindowOptionCtrl *)(self->f28))->open();
         if (self->f34 == NULL) {
-            self->f34 = create_sound_mode_menu__17TWindowOptionCtrlFv(self);
+            self->f34 = (void *)((TWindowOptionCtrl *)self)->create_sound_mode_menu();
         }
         self->state = 8;
     case 8:
@@ -274,7 +265,7 @@ void TWindowOptionCtrl::run_task() {
     case 9:
         ((TWindowOptionCtrl *)(self->f28))->open();
         if (self->f38 == NULL) {
-            self->f38 = create_sound_balance_window__17TWindowOptionCtrlFv(self);
+            self->f38 = (void *)((TWindowOptionCtrl *)self)->create_sound_balance_window();
         }
         self->state = 0xA;
     case 10:
@@ -300,7 +291,7 @@ void TWindowOptionCtrl::run_task() {
         if (TObjBoss2Tunnel::load_snapshot() != 0) {
             ((TWindowOptionCtrl *)(self->f28))->open();
             if (self->f3C == NULL) {
-                self->f3C = create_snap_shot_window__17TWindowOptionCtrlFv(self);
+                self->f3C = (void *)((TWindowOptionCtrl *)self)->create_snap_shot_window();
             }
             self->state = 0xD;
         }
@@ -349,7 +340,7 @@ void TWindowOptionCtrl::run_task() {
             self->f30 = NULL;
         }
         if (self->f2C == NULL) {
-            self->f2C = create_sub_menu_window__17TWindowOptionCtrlFv(self);
+            self->f2C = (void *)((TWindowOptionCtrl *)self)->create_sub_menu_window();
         }
         ((TWindowOptionCtrl *)(self->f28))->open();
         ((TWindowSubComCard *)(self->f2C))->clear_transition_flag();
@@ -365,7 +356,7 @@ void TWindowOptionCtrl::run_task() {
     case 18:
         ((TWindowOptionCtrl *)(self->f2C))->open();
         if (self->f34 == NULL) {
-            self->f34 = create_option_menu__17TWindowOptionCtrlFv(self);
+            self->f34 = (void *)((TWindowOptionCtrl *)self)->create_option_menu();
         }
         self->state = 0x13;
     case 19:
@@ -438,7 +429,7 @@ void TWindowOptionCtrl::run_task() {
 void TWindowOptionCtrl::render() {  }
 
 extern "C" {
-s32 TWindowOptionCtrl::create_menu() {
+saddr TWindowOptionCtrl::create_menu() {
     saddr temp_r31;
 
     temp_r31 = check_room_seq_4__16TAdChrSelASlotGCFl((saddr)TWindowOptionCtrl::get_option_entry(0xCE), 9);
@@ -455,7 +446,7 @@ s32 TWindowOptionCtrl::create_menu() {
     return temp_r31;
 }
 
-s32 TWindowOptionCtrl::create_select_menu_window() {
+saddr TWindowOptionCtrl::create_select_menu_window() {
     saddr temp_r31;
     temp_r31 = (saddr)TWindowSubStatusDisp::refresh_with_default_list((saddr)TWindowOptionCtrl::get_option_entry(0xCF), (saddr)(&lbl_8044F48C));
     TWindowOptionCtrl::add_menu_item(temp_r31, (get_localized_text_entry(0xF, 8)), 0);
@@ -467,7 +458,7 @@ s32 TWindowOptionCtrl::create_select_menu_window() {
     return temp_r31;
 }
 
-s32 TWindowOptionCtrl::create_list_window() {
+saddr TWindowOptionCtrl::create_list_window() {
     s32 idx;
     saddr list;
 
@@ -491,7 +482,7 @@ s32 TWindowOptionCtrl::create_list_window() {
     return list;
 }
 
-s32 TWindowOptionCtrl::create_sound_mode_menu() {
+saddr TWindowOptionCtrl::create_sound_mode_menu() {
     saddr temp_r31;
 
     s32 temp_r3_after_cba4 = (saddr)TWindowOptionCtrl::get_option_entry(0xCF);
@@ -513,21 +504,21 @@ s32 TWindowOptionCtrl::create_sound_mode_menu() {
     return temp_r31;
 }
 
-s32 TWindowOptionCtrl::create_sound_balance_window() {
+saddr TWindowOptionCtrl::create_sound_balance_window() {
     s32 var_r31;
 
     var_r31 = (saddr)new TWindowSoundBalance((saddr)TWindowOptionCtrl::get_option_entry(0xCF));
     return var_r31;
 }
 
-s32 TWindowOptionCtrl::create_snap_shot_window() {
+saddr TWindowOptionCtrl::create_snap_shot_window() {
     s32 window_snap_shot;
 
     window_snap_shot = (saddr)new TWindowSnapShot((saddr)TWindowOptionCtrl::get_option_entry(0xCF));
     return window_snap_shot;
 }
 
-s32 TWindowOptionCtrl::create_sub_menu_window() {
+saddr TWindowOptionCtrl::create_sub_menu_window() {
     saddr temp_r31;
     temp_r31 = check_room_seq_4__16TAdChrSelASlotGCFl((saddr)TWindowOptionCtrl::get_option_entry(0xCF), 3);
     forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 0x1A), 6, 0x12);
@@ -538,7 +529,7 @@ s32 TWindowOptionCtrl::create_sub_menu_window() {
     return temp_r31;
 }
 
-s32 TWindowOptionCtrl::create_option_menu() {
+saddr TWindowOptionCtrl::create_option_menu() {
     saddr temp_r31;
 
     temp_r31 = (saddr)TWindowSubStatusDisp::refresh_with_default_list((saddr)TWindowOptionCtrl::get_option_entry(0xD0), (saddr)(&lbl_8044F49C));
@@ -569,7 +560,7 @@ saddr TWindowOptionCtrl::create_serial_info_window(s32 arg1) {
     case 1:
         ((TWindowOptionCtrl *)w)->add_label_value_line((const char *)(get_localized_text_entry(0xF, 0x16)), (const char *)(warn_if_empty__17TWindowOptionCtrlFPUc(TAdEnterSerialAccessGC__sub_80321738())), (u32)0);
         ((TWindowOptionCtrl *)w)->add_label_value_line((const char *)(get_localized_text_entry(0xF, 0x17)), (const char *)(warn_if_empty__17TWindowOptionCtrlFPUc(TAdEnterSerialAccessGC::get_formatted_serial())), (u32)0);
-        ((TWindowOptionCtrl *)w)->add_label_value_line((const char *)(get_localized_text_entry(0xF, 0x18)), (const char *)(warn_if_empty__17TWindowOptionCtrlFPUc(get_chr_select_base_plus_1154c__17TWindowOptionCtrlFv())), (u32)0);
+        ((TWindowOptionCtrl *)w)->add_label_value_line((const char *)(get_localized_text_entry(0xF, 0x18)), (const char *)(warn_if_empty__17TWindowOptionCtrlFPUc((void *)TWindowOptionCtrl::get_chr_select_base_plus_1154c())), (u32)0);
         break;
     }
     ((TWindowMessage *)w)->complete_reveal();
@@ -596,7 +587,7 @@ s32 TWindowOptionCtrl::handle_input(s32 language) {
             ((TObject *)(*(void **)((s8 *)this + 0x28)))->queue_destruction();
             *(u32 *)((s8 *)this + 0x28) = 0U;
         }
-        *(void **)((s8 *)this + 0x28) = create_menu__17TWindowOptionCtrlFv(this);
+        *(void **)((s8 *)this + 0x28) = (void *)create_menu();
         window_request_refresh((u8 *)(*(uaddr *)((s8 *)this + 0x28)));
         return 1;
     }

@@ -51,7 +51,6 @@ s32 text_builder_append(s32);
 void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
 void text_builder_reset(void);
 extern "C" {
-void refresh_status_display__9TWindowDDFv(void *);
 extern u8 lobby_rule_settings[];
 void sub_8024F094__17TWindowDuelResultFv(Win_8024F094 *self);
 void sub_8024F090__17TWindowDuelResultFv(void);
@@ -219,7 +218,7 @@ void sub_8024F094__17TWindowDuelResultFv(Win_8024F094 *self) {
             text_builder_reset();
             text_builder_append_int(e->value);
             set_text_entry_string(d, (uaddr)((void *)get_shared_text_buffer(text_builder_append(get_localized_text_entry(0x10, 0xD)))), 0x20);
-            refresh_status_display__9TWindowDDFv(d);
+            ((TWindowDD *)d)->refresh_status_display();
             *(f32 *)(d + 8) = (372.0f) - *(f32 *)(d + 0x10);
         }
     }

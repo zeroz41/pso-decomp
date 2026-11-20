@@ -37,7 +37,7 @@ struct TWindowLockOn : public TWindowBase {
     f32 m_6c;
     void (TWindowLockOn::*m_70)();
     s32 get_target_id();
-    static f32 get_target_distance();
+    f32 get_target_distance();
     void validate_target();
     void refresh_ground_item();
     void update_photon_blast_marker();

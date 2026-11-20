@@ -652,7 +652,7 @@ void TWindowSubTradeMain::run_task() {
         if (o->timer > 0) {
             o->timer--;
         } else {
-            TLobby::reset();
+            reset__6TLobbyFv();
             o->state = 0x22;
         }
         break;
