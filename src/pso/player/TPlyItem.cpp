@@ -1068,7 +1068,7 @@ s32 TItemList__sub_801D5868(Arr_801D5868 *arg0, s32 arg1) {
 void* get_ptr_0x44__9TItemListFPv(void* p) { return (char*)p + 0x44; }
 void TUnk_804C4498::sub_801D5884(u8 v) { this->ring = v; }
 
-void TItemList::lookup_entry_by_count(s32 arg1) {
+void TItemList::lookup_entry_by_count(saddr arg1) {
     TItemList__sub_801D58C8((void*)(((u8 *)TItemList__sub_801D5868((Arr_801D5868 *)(arg1), (s8)(get_item_count())))));
 }
 
