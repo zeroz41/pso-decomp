@@ -478,7 +478,6 @@ extern "C" {
 s32 TObjPlayer__sub_801C1AC8();
 }
 extern "C" {
-void TLobby__sub_80141038(u8 *arg0, s32 arg1, s32 arg2);
 }
 extern "C" {
 void *memcpy(void *, const void *, u32);
@@ -498,7 +497,7 @@ void qst_op_olga_flow_is_dead(s32 arg0) {
 void qst_op_initial_floor(void) {
     Tbl_801E6CA4 t = lobby_index_identity_table_b;
     if (qst_args[0] <= 0x11U) {
-        TLobby__sub_80141038(reinterpret_cast<u8 *>(&floor_transition_state), t.w[qst_args[0]], 0);
+        initialize_floor_transition(&floor_transition_state, t.w[qst_args[0]], 0);
     }
 }
 
@@ -1236,7 +1235,6 @@ s32 play_sound_effect(int, int, int, int);
 void play_cue_stream_file(s32 name);
 int TLobby__sub_802272B4(void*);
 int TLobby__sub_8022733C(void*);
-void set_area__6TLobbyFl(void *, int, int);
 Card_801EB10C * __ct__13TUnk_804CC048FP7TObjectPvPv(void *, void *, void *, void *);
 u8 is_current_floor_switch_set(s32 id);
 void * __nw__7TObjectFUl(u32);
@@ -1304,7 +1302,6 @@ int clear_partner_dialogue_flags(void*);
 void send_stop_at_position__10TNpcPlayerFUsPvs(u16, Vec *, s32);
 int enable_partner_chatter__10TNpcPlayerFv(void*);
 int disable_partner_chatter__10TNpcPlayerFv(void*);
-void send_inter_level_warp_all__10TNpcPlayerFl();
 s32 send_npc_control_6x69__10TNpcPlayerFs(int);
 s32 send_npc_stop_6x69__10TNpcPlayerFs(int);
 void send_npc_control_create__10TNpcPlayerFsUssPUcl(u16, u16, s32, Vec *, s32);
@@ -3779,10 +3776,9 @@ void qst_op_get_num_kills(s32 arg0, s32 arg1) {
 void qst_op_go_floor(s32 a, s32 b) {
     u32 r = ((u32 (*)(int, int))get_player_by_client_id)(qst_registers[(u8)a], b);
     if (r != 0 && local_client_id == qst_registers[(u8)a]) {
-        set_area__6TLobbyFl(reinterpret_cast<u8 *>(&floor_transition_state), qst_registers[(u8)b], get_floor_map_terrain(qst_registers[(u8)b]));
+        floor_transition_state.set_next_floor(qst_registers[(u8)b], get_floor_map_terrain(qst_registers[(u8)b]));
         mark_area_change_pending();
-        floor_transition_state.get_next_floor();
-        send_inter_level_warp_all__10TNpcPlayerFl();
+        TNpcPlayer::send_inter_level_warp_all(floor_transition_state.get_next_floor());
         send_6x21_inter_level_warp((void *)r, (s32)((void *)floor_transition_state.get_next_floor()));
     }
 }
@@ -3993,7 +3989,7 @@ void qst_op_clear_ba_rules() {
 void qst_op_ba_initial_floor(void) {
     Tbl_801EDC98 t = lobby_sub_801edc98_id_table;
     if ((u32)qst_args[0] <= 0x11U) {
-        TLobby__sub_80141038(reinterpret_cast<u8 *>(&floor_transition_state), t.w[(u32)qst_args[0]], 0);
+        initialize_floor_transition(&floor_transition_state, t.w[(u32)qst_args[0]], 0);
     }
 }
 

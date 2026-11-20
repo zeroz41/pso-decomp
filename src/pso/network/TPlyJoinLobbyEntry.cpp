@@ -353,7 +353,6 @@ void send_player_data_98__9TProtocolFPvPvPvPvPvPvPv(void *, void *, void *, void
 void init__23TAdSinglePlyChrSelectGCFv(void);
 u8 * get_character_save_record(u32);
 void * get_char_index__23TAdSinglePlyChrSelectGCFUi(u32);
-void set_area__6TLobbyFl(void *, s32, s32);
 void * __nw__7TObjectFUl(u32);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 s32 has_window_task_root();
@@ -3036,7 +3035,7 @@ void handle_game_join__6TLobbyFPv(Pkt_80136C94 *pkt) {
     }
     clear_enabled_main_warps();
     TLobby__deferred_player_setup_state = 4;
-    set_area__6TLobbyFl(reinterpret_cast<u8 *>(&floor_transition_state), 0, 0);
+    floor_transition_state.set_next_floor(0, 0);
     TLobby::set_flag_and_update();
     mark_area_change_pending();
 }

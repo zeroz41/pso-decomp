@@ -666,7 +666,7 @@ force_active:
   - TLobby__sub_801A20C8
   - TLobby__sub_801A3CF8
   - TLobby__sub_801A3E94
-  - TLobby__sub_801A4C6C
+  - set_floor_transition_ready
   - TLobby__sub_801C26A8
   - TLobby__sub_801C2C34
   - TLobby__sub_801C38A4

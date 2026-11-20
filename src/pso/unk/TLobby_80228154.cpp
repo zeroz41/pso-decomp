@@ -152,24 +152,25 @@ void Obj_80515BA0::clear_ready_flag_unless_locked() {
     }
 }
 
-void TLobby::set_area(s32 arg1) {
-    *(s32 *)&this->m_next = arg1;
-    *(s32 *)((s8 *)this + 0x18) = get_floor_map_terrain(*(s32 *)&this->m_next);
+// Callers supply an existing terrain hint. The transition recomputes its map from the selected floor.
+void Obj_80515BA0::set_next_floor(s32 floor, s32) {
+    next_floor = floor;
+    next_map = get_floor_map_terrain(next_floor);
 }
 
 #pragma push
 #pragma fp_contract on
-s32 select_area_entrance(void *arg0) {
+s32 select_area_entrance(Obj_80515BA0 *transition) {
     s32 temp_r0;
     s32 temp_r3;
-    if ((s32) *(s32 *)((s8 *)arg0 + 0) > 0x11) {
+    if ((s32) transition->previous_floor > 0x11) {
         return 4;
     }
-    if (*(s32 *)((s8 *)arg0 + 0x20) & 1) {
+    if (transition->state_flags & 1) {
         return 2;
     }
-    if ((TLobby::get_instance() == 0) && (get_floor_area(*(s32 *)((s8 *)arg0 + 0)) == 0xD)) {
-        switch (get_floor_area(*(s32 *)((s8 *)arg0 + 4))) {
+    if ((TLobby::get_instance() == 0) && (get_floor_area(transition->previous_floor) == 0xD)) {
+        switch (get_floor_area(transition->current_floor)) {
         case 8:
         case 9:
         case 10:
@@ -178,7 +179,7 @@ s32 select_area_entrance(void *arg0) {
             return 0;
         }
     }
-    temp_r0 = *(s32 *)((s8 *)arg0 + 4) - *(s32 *)((s8 *)arg0 + 0);
+    temp_r0 = transition->current_floor - transition->previous_floor;
     if (temp_r0 >= 0) {
         return 1;
     }
@@ -233,20 +234,20 @@ AreaInitializer area_initializer_dispatch_table[] = {
     { "JUNGLE07", init_jungle_area, TLobby::update_floor_state_deferred },
 };
 
-void run_area_scene_cleanup(u8 *arg0) {
+void run_area_scene_cleanup(Obj_80515BA0 *transition) {
     FloorMapSelection selection;
     FloorMapSelection *var_r4;
-    u8 *var_r31;
+    Obj_80515BA0 *var_r31;
     var_r4 = &selection;
-    var_r31 = arg0;
-    if (lookup_floor_map_selection(*(s32 *)((s8 *)arg0 + 4), var_r4) != 0) {
+    var_r31 = transition;
+    if (lookup_floor_map_selection(transition->current_floor, var_r4) != 0) {
         area_initializer_dispatch_table[selection.area].cleanup();
     } else {
-        area_initializer_dispatch_table[*(s32 *)((s8 *)var_r31 + 4)].cleanup();
+        area_initializer_dispatch_table[var_r31->current_floor].cleanup();
     }
-    *(s32 *)((s8 *)var_r31 + 4) = 0;
-    *(s32 *)((s8 *)var_r31 + 8) = 0;
-    *(s32 *)((s8 *)var_r31 + 0xC) = 0;
+    var_r31->current_floor = 0;
+    var_r31->f8 = 0;
+    var_r31->next_floor = 0;
 }
 extern "C" {
 
@@ -270,20 +271,20 @@ void load_area_scene_and_init(u8 *arg0) {
 }
 }
 
-void promote_area_floor(u8 *arg0) {
+void promote_area_floor(Obj_80515BA0 *transition) {
     FloorMapSelection selection;
     FloorMapSelection *var_r4;
-    u8 *var_r31;
+    Obj_80515BA0 *var_r31;
     var_r4 = &selection;
-    var_r31 = arg0;
-    if (lookup_floor_map_selection(*(s32 *)((s8 *)arg0 + 4), var_r4) != 0) {
+    var_r31 = transition;
+    if (lookup_floor_map_selection(transition->current_floor, var_r4) != 0) {
         area_initializer_dispatch_table[selection.area].cleanup();
     } else {
-        area_initializer_dispatch_table[*(s32 *)((s8 *)var_r31 + 4)].cleanup();
+        area_initializer_dispatch_table[var_r31->current_floor].cleanup();
     }
-    *(s32 *)((s8 *)var_r31 + 0) = (s32) *(s32 *)((s8 *)var_r31 + 4);
-    *(s32 *)((s8 *)var_r31 + 4) = (s32) *(s32 *)((s8 *)var_r31 + 0xC);
-    *(s32 *)((s8 *)var_r31 + 0x10) = (s32) *(s32 *)((s8 *)var_r31 + 0x18);
+    var_r31->previous_floor = (s32) var_r31->current_floor;
+    var_r31->current_floor = (s32) var_r31->next_floor;
+    var_r31->current_map = (s32) var_r31->next_map;
     TLobby::reset_story_select_state();
 }
 

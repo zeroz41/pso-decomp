@@ -89,7 +89,6 @@ struct Obj_8019B8D8 { u8 pad[0x88]; s32 id; };
 
 struct Obj_8019C924 { u8 pad0[0x84]; s32 id; u8 pad1[0xbc - 0x88]; s32 saved_id; };
 
-struct Pkt_8019C988 { u8 pad0[4]; s16 f4; };
 
 struct Ids_8019BD84 { u16 id[2]; };
 
@@ -155,7 +154,6 @@ void TObjWarpString__sub_8019B728(void *arg0);
 void update_fade_in__14TObjWarpStringFPv(u8 *arg0);
 void sub_8019B77C__14TObjWarpStringFv(void *arg0);
 u8 * __ct__14TObjWarpStringFv(u8 *arg0, u8 *arg1, s32 arg2, s16 arg3);
-void handle_6x94_inter_level_warp(Pkt_8019C988 *arg0);
 s32 can_warp__11TObjMapWarpFlUs(void *, u16);
 void TObjAreaWarpQuest__sub_8019DCD8(TObjPlayer *, s32);
 s32 TObjWarpJung__sub_801A0404(s32);
@@ -163,7 +161,6 @@ int check_flag_100__10TObjPlayerFPv(void *p);
 void send_6x21_inter_level_warp(void *obj, s32 value);
 s32 init__23TAdSinglePlyChrSelectGCFv();
 s32 get_floor_map_terrain(s32);
-void set_area__6TLobbyFl(void *, int, int);
 void * __nw__7TObjectFUl(int);
 void __ct__7TObjectFP7TObject(void *, void *);
 s32 align_menu_entry_positions(u32);
@@ -172,7 +169,6 @@ s32 find_active_player__12TObjAreaWarpFv(void *);
 void *destroy__13TAdVIConfigGCFPvs(void *arg0, s16 arg1);
 s32 init__13TAdVIConfigGCFf(int, void *, f32);
 s32 get_game_play_mode(int);
-void send_inter_level_warp_all__10TNpcPlayerFl();
 s32 PPCSync();
 int sprintf(char *, const char *, ...);
 void strncpy(s32, s32, s32);
@@ -185,7 +181,7 @@ extern RecoveredGlobal_8019B854___vt__14TObjWarpString __vt__14TObjWarpString;
 extern s32 local_client_id;
 
 void *create_TObjWarpString(char *text, u16 client_id);
-void bswap_6x94_inter_level_warp(void *);
+void bswap_6x94_inter_level_warp(G_InterLevelWarp_6x94 *packet);
 void mask_action_buttons(void *p, u32 v);
 s32 should_record_episode1_quest_completion();union WarpStringPos {
     s64 packed;
@@ -283,7 +279,10 @@ void fn_8019DD24(void *p, u32 v) { *(u32 *)((char *)p + 0x8) |= v; }
 
 void mask_action_buttons(void *p, u32 v) { *(u32 *)((char *)p + 0x8) &= ~v; }
 
-void bswap_6x94_inter_level_warp(void *p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16((u16 *)((char *)p + 0x4)); }
+void bswap_6x94_inter_level_warp(G_InterLevelWarp_6x94 *packet) {
+    packet->header.bswap();
+    bswap_16(reinterpret_cast<u16 *>(&packet->floor));
+}
 
 void TObjAreaWarpQuest__sub_8019DCD8(TObjPlayer *p, s32 v) { *(s32 *)((char *)p + 0x3c8) = v; }
 
@@ -727,22 +726,21 @@ void TObjAreaWarp::handle_area_selection() {
 }
 
 void TObjAreaWarp::confirm_area_transfer(TObjPlayer *player) {
-    ((s32 (*)(void *, int, int))set_area__6TLobbyFl)(&floor_transition_state, (int) (this->dest_floor), (int) (get_floor_map_terrain(this->dest_floor)));
+    floor_transition_state.set_next_floor((int) (this->dest_floor), (int) (get_floor_map_terrain(this->dest_floor)));
     ((s32 (*)(void))mark_area_change_pending)();
-    floor_transition_state.get_next_floor();
-    ((s32 (*)(void))send_inter_level_warp_all__10TNpcPlayerFl)();
+    TNpcPlayer::send_inter_level_warp_all(floor_transition_state.get_next_floor());
     send_6x21_inter_level_warp(player, (floor_transition_state.get_next_floor()));
     ((s32 (*)(s32, u32, s16, s32))play_sound_effect)(0x40003205, 0U, 0, 0);
 }
 
-void handle_6x94_inter_level_warp(Pkt_8019C988 *arg0) {
-    bswap_6x94_inter_level_warp(arg0);
-    if (arg0->f4 != get_current_floor()) {
-        set_area__6TLobbyFl(((u8 *)&floor_transition_state), arg0->f4, get_floor_map_terrain(arg0->f4));
+void handle_6x94_inter_level_warp(game_command_header *command) {
+    G_InterLevelWarp_6x94 *packet = reinterpret_cast<G_InterLevelWarp_6x94 *>(command);
+    bswap_6x94_inter_level_warp(packet);
+    if (packet->floor != get_current_floor()) {
+        floor_transition_state.set_next_floor(packet->floor, get_floor_map_terrain(packet->floor));
         mark_area_change_pending();
         ((TWindowCtrl *)local_client_id)->suppress_slot();
-        floor_transition_state.get_next_floor();
-        send_inter_level_warp_all__10TNpcPlayerFl();
+        TNpcPlayer::send_inter_level_warp_all(floor_transition_state.get_next_floor());
         void *p = get_player_by_client_id(local_client_id);
         if (p != 0) {
             send_6x21_inter_level_warp(p, (s32)(floor_transition_state.get_next_floor()));
@@ -969,7 +967,7 @@ void TObjAreaWarpQuest::debug_print_area_num() {
 void TObjAreaWarpQuest::confirm_area_transfer(TObjPlayer *player) {
     s32 i;
     TObjPlayer *p;
-    set_area__6TLobbyFl(((u8 *)&floor_transition_state), dest_floor, get_floor_map_terrain(dest_floor));
+    floor_transition_state.set_next_floor(dest_floor, get_floor_map_terrain(dest_floor));
     mark_area_change_pending();
     if (player != 0 && player_set_id > 1) {
         TObjAreaWarpQuest__sub_8019DCD8(player, player_set_id);
@@ -982,8 +980,7 @@ void TObjAreaWarpQuest::confirm_area_transfer(TObjPlayer *player) {
             }
         }
     }
-    floor_transition_state.get_next_floor();
-    send_inter_level_warp_all__10TNpcPlayerFl();
+    TNpcPlayer::send_inter_level_warp_all(floor_transition_state.get_next_floor());
     send_6x21_inter_level_warp(player, (s32)(floor_transition_state.get_next_floor()));
 }
 

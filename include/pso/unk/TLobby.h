@@ -372,7 +372,6 @@ struct TLobby : public TObject {
     static void set_menu_index_main(u8 *arg0);
     static void refresh_render_state();
     static void wait_for_sound_init();
-    void set_area(s32 arg1);
     void add_token(const char *src);
     void trim_whitespace();
     static void refresh_player_status();

@@ -186,7 +186,7 @@ void TLoadCtrl::start_loading(u32 arg0) {
     TCameraCtrl::reset_view_state();
     TCameraCtrl::init_default_view();
     if (var_r31 == 2U) {
-        temp_r3 = select_area_entrance(reinterpret_cast<u8 *>(&floor_transition_state));
+        temp_r3 = select_area_entrance(&floor_transition_state);
         if (temp_r3 == 0) {
             var_r31 = 3U;
         } else if (temp_r3 == 1) {

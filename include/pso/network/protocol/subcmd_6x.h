@@ -400,10 +400,13 @@ struct G_InterLevelWarp_6x21 {
 };
 
 struct G_InterLevelWarp_6x94 {
- struct G_UnusedHeader header;
- u16 floor;
+ G_ClientIDHeader header; // This command leaves the client ID word unused.
+ s16 floor;
  u8 unused[2];
 };
+
+typedef char G_InterLevelWarp_6x94_size[sizeof(G_InterLevelWarp_6x94) == 8 ? 1 : -1];
+typedef char G_InterLevelWarp_6x94_floor_offset[offsetof(G_InterLevelWarp_6x94, floor) == 4 ? 1 : -1];
 
 struct G_IntraMapWarp_6x55 {
  G_ClientIDHeader header;
@@ -422,6 +425,7 @@ typedef char G_IntraMapWarp_6x55_destination_offset[offsetof(G_IntraMapWarp_6x55
 
 struct game_command_header;
 extern "C" {
+void handle_6x94_inter_level_warp(game_command_header *command);
 void send_6x55_intra_map_warp(u16 id, const Vec *destination, s32 yaw);
 void handle_6x55_intra_map_warp(game_command_header *command);
 }

@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/npc/TNpcPlayer.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/unk/text_8024AC64.h"
 #include "pso/unk/text_8024ACA8.h"
@@ -32,8 +33,6 @@ void *get_player_by_client_id(s32);
 s32 get_floor_map_terrain(s32);
 void mark_area_change_pending(void);
 s32 prepare_hospital_return__10TObjPlayerFv();
-s32 set_area__6TLobbyFl(void *, int, int);
-s32 send_inter_level_warp_all__10TNpcPlayerFl();
 s32 __ct__7TObjectFP7TObject(void *, void *);
 s32 get_window_layout_position(int);
 void TWindowCtrl__sub_8026D4E8(void);
@@ -59,10 +58,9 @@ void return_to_city_after_defeat(void) {
         if (((s32)get_player_by_client_id((s32)((u32) (*(s32 *)&TWindowReturnCity__client_scan_index)))) != 0U) {
             prepare_hospital_return__10TObjPlayerFv();
         }
-        set_area__6TLobbyFl(&floor_transition_state, 0, (int) (get_floor_map_terrain(0)));
+        floor_transition_state.set_next_floor(0, (int) (get_floor_map_terrain(0)));
         mark_area_change_pending();
-        floor_transition_state.get_next_floor();
-        send_inter_level_warp_all__10TNpcPlayerFl();
+        TNpcPlayer::send_inter_level_warp_all(floor_transition_state.get_next_floor());
         (*(s32 *)&TWindowReturnCity__client_scan_index) = 4;
     }
 }

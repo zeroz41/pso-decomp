@@ -132,7 +132,6 @@ struct PV_801A39BC : PVB_801A39BC {
 extern "C" {
 s32 TLobby__sub_801A3B98();
 }
-void run_area_scene_cleanup(u8 *arg0);
 extern "C" {
 void TLobby__sub_802075F4(void);
 void TWindowCtrlMain__sub_8024D838(void);
@@ -208,12 +207,10 @@ void unlock_main_warp_destination(s32);
 void reset_controller_input_state();
 void load_area_scene_and_init(void *);
 }
-void promote_area_floor(u8 *arg0);
 extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 s32 is_area_transfer_pending();
 s32 apply_phase_keyboard_mode();
-s32 TLobby__sub_80141038(void *, int, int);
 s32 TLobby__sub_801A2E00();
 s32 for_each_player_slot__10TObjPlayerFv(void *);
 s32 rebuild_player_inventory(void *);
@@ -304,7 +301,7 @@ void TLobby::reload_offline_area() {
     }
     TLobby::reset_quest_state();
     main_task.delete_layer_children();
-    promote_area_floor((u8 *)&floor_transition_state);
+    promote_area_floor(&floor_transition_state);
     TLobby::backup_story_select();
     TKeyBoardControl::update();
     get_team_state__6TLobbyFPv();
@@ -318,7 +315,7 @@ void TLobby::reload_offline_area() {
     TLobby::load_set_gsl_files();
     TLobby::load_set_event_gsl();
     load_battle_param_entry();
-    TLobby__sub_80141038(&floor_transition_state, 0, 0);
+    initialize_floor_transition(&floor_transition_state, 0, 0);
     load_area_scene_and_init(&floor_transition_state);
     TLoadCtrl::cleanup_scene();
     if (is_area_transfer_pending() != 0) {
@@ -362,7 +359,7 @@ void TLobby::rebuild_area_keep_players() {
         }
     }
     main_task.delete_layer_children();
-    promote_area_floor((u8 *)&floor_transition_state);
+    promote_area_floor(&floor_transition_state);
     TLobby::sync_story_select();
     TAdStorySelectGC::set_state(0);
     TKeyBoardControl::update();
@@ -397,7 +394,7 @@ void TLobby::rebuild_area_keep_players() {
     if (TRaderMapCore::is_not_split_screen() == 1) {
         load_area_scene_and_init(&floor_transition_state);
     } else {
-        TLobby__sub_80141038(&floor_transition_state, 0, 0);
+        initialize_floor_transition(&floor_transition_state, 0, 0);
         load_area_scene_and_init(&floor_transition_state);
     }
     TLoadCtrl::cleanup_scene();
@@ -434,7 +431,7 @@ void run_offline_area_transfer(void) {
         }
     }
     main_task.delete_layer_children();
-    promote_area_floor((u8 *)&floor_transition_state);
+    promote_area_floor(&floor_transition_state);
     TKeyBoardControl::update();
     TLobby::create_map_csn_ctrl();
     TParticleCtrl::create_quad_sprites();
@@ -472,7 +469,7 @@ void TLobby::teardown_scene() {
     main_task.delete_layer_children();
     main_task.resume_layers();
     ((TObject *)tl_su)->delete_children();
-    run_area_scene_cleanup((u8 *)&floor_transition_state);
+    run_area_scene_cleanup(&floor_transition_state);
     TLobby::call_funcs_reverse(offline_game_scene_callbacks, sizeof(offline_game_scene_callbacks));
     clear_resource_load_tasks();
     TKeyBoardControl::update();

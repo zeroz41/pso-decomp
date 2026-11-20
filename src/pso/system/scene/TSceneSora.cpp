@@ -180,7 +180,7 @@ void prepare_adventure_maps(void);
 void prepare_adventure_maps(void) {
     randomize_adventure_maps();
     if ((s32) pending_adventure_map_floor != -1) {
-        TLobby__sub_80141038((u8 *)&floor_transition_state, pending_adventure_map_floor, get_floor_map_terrain(pending_adventure_map_floor));
+        initialize_floor_transition(&floor_transition_state, pending_adventure_map_floor, get_floor_map_terrain(pending_adventure_map_floor));
         pending_adventure_map_floor = -1;
     }
 }

@@ -109,7 +109,6 @@ s32 is_player_in_range__9TObjLukerFv(s32 arg0, f32 farg0);
 s32 get_main_phase();
 s32 mark_area_change_pending();
 s32 send_6x21_inter_level_warp(int, void *);
-s32 set_area__6TLobbyFl(void *, int, int);
 s32 init_fields__9TTecLukerFs(void *, int);
 extern s32 lbl_805D55C0;
 void *TObjLuker__create(void *arg0);
@@ -327,7 +326,7 @@ void TObjLuker::transfer_to_town() {
   {
     return;
   }
-  set_area__6TLobbyFl(reinterpret_cast<u8 *>(&floor_transition_state), *((s16 *) (((s8 *) self) + 0x832)), get_floor_map_terrain(*((s16 *) (((s8 *) self) + 0x832))));
+  floor_transition_state.set_next_floor(*((s16 *) (((s8 *) self) + 0x832)), get_floor_map_terrain(*((s16 *) (((s8 *) self) + 0x832))));
   mark_area_change_pending();
   for (i = 0; i < 4; i++)
   {

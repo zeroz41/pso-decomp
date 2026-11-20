@@ -2193,7 +2193,6 @@ s32 poll_memcard_result(s32);
 int is_item_area_enabled(void);
 s32 __ct__17TMedicalCenterMesFP7TObjectP10TObjPlayer(void *, void *, void *);
 s32 play_sound_effect(s32, s32, s32, s32);
-void set_area__6TLobbyFl(void *, int, int);
 void text_builder_append_int(s32 arg0);
 void text_builder_append(u8 *str);
 u32 __nw__7TObjectFUl(s32);
@@ -6138,7 +6137,7 @@ void complete_deferred_player_death(void) {
                 return;
             }
             ((TObjPlayer *)p)->prepare_hospital_return();
-            ((s32 (*)(void *, int, int))set_area__6TLobbyFl)(&floor_transition_state, 0, get_floor_map_terrain(0));
+            floor_transition_state.set_next_floor(0, get_floor_map_terrain(0));
             ((s32 (*)(void))mark_area_change_pending)();
             TNpcPlayer::send_inter_level_warp_all(floor_transition_state.get_next_floor());
             return;
@@ -6171,7 +6170,7 @@ int TLobby::player_flag_1() { return set_battle_flag__10TObjPlayerFl(this, 1); }
 #pragma scheduling off
 #pragma scheduling on
 void prepare_guild_return__10TObjPlayerFPv(void *player) {
-    set_area__6TLobbyFl(((u8 *)&floor_transition_state), 0, get_floor_map_terrain(0));
+    floor_transition_state.set_next_floor(0, get_floor_map_terrain(0));
     mark_area_change_pending();
     ((void (*)(s16, s32, s32))set_arrival_override_pos)(((s16 (*)(s32))get_entity_id)((s32) player), get_guild_return_yaw__10TObjPlayerFv(player), get_guild_return_position__10TObjPlayerFv(player));
     set_state_flags__10TObjPlayerFUl(player, 0x800);

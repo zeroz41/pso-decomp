@@ -142,7 +142,6 @@ s32 mark_area_change_pending();
 s32 send_6x21_inter_level_warp(void *, s32);
 s32 get_floor_map_terrain(s32);
 s32 play_persistent_sound(s32, void *, void *, s32, s32);
-s32 set_area__6TLobbyFl(s32 *, s32, s32);
 f32 horizontal_distance_squared(void *, void *);
 extern s32 camera_ctrl_instance;
 Hit_8023453C *csnVecterUnder(void *, s32);
@@ -396,7 +395,7 @@ block_43:
         if (is_split_screen() != 0) {
             TWindowCtrl::init_all_slots2();
         }
-        set_area__6TLobbyFl(reinterpret_cast<s32 *>(&floor_transition_state), 0, get_floor_map_terrain(0));
+        floor_transition_state.set_next_floor(0, get_floor_map_terrain(0));
         mark_area_change_pending();
         return;
     case 4:

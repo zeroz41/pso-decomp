@@ -142,7 +142,7 @@ TObjPlayerSet *find_player_arrival_set(TObjPlayer *player, s32 slot) {
     if (side != -1) {
         player->reset_entrance_id();
     } else {
-        switch (select_area_entrance(reinterpret_cast<u8 *>(&floor_transition_state))) {
+        switch (select_area_entrance(&floor_transition_state)) {
         case 0:
             side = 1;
             break;

@@ -174,7 +174,6 @@ extern "C" void handle_6x90_set_player_battle_team(s32 arg0);
 extern "C" void handle_6x91_update_attackable_col_state();
 void handle_6x92(u8 *arg0);
 extern "C" void handle_6x93_set_switch_flag_from_timer();
-extern "C" void handle_6x94_inter_level_warp();
 extern "C" void handle_6x95_set_challenge_time();
 void handle_6x96();
 void handle_6x97_select_challenge_mode_failure_option(void *arg0);
@@ -364,7 +363,7 @@ PsoCommandHandler pso_command_dispatch_table[] = {
     {0x8B, 0x0006, (PsoCommandFn)handle_6x8B},
     {0x65, 0x0006, (PsoCommandFn)handle_6x65},
     {0x8C, 0x0006, (PsoCommandFn)handle_6x8C},
-    {0x94, 0x0007, (PsoCommandFn)handle_6x94_inter_level_warp},
+    {0x94, 0x0007, handle_6x94_inter_level_warp},
     {0x95, 0x0006, (PsoCommandFn)handle_6x95_set_challenge_time},
     {0x96, 0x0004, (PsoCommandFn)handle_6x96},
     {0x97, 0x0006, (PsoCommandFn)handle_6x97_select_challenge_mode_failure_option},
