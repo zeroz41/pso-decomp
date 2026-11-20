@@ -39,11 +39,9 @@ WindowDescriptor window_input_number_layout = {
 extern "C" {
 
 s32 play_sound_effect(s32 a0 = 0, s32 a1 = 0, s32 a2 = 0, s32 a3 = 0);
-s32 is_confirmed__18TWindowInputNumberFv();
-s32 save_position__11TWindowBaseFv();
 
 void TWindowInputNumber::mark_confirmed() {
-    if (!(this->inputFlags & 8) && (is_confirmed__18TWindowInputNumberFv() == 0)) {
+    if (!(this->inputFlags & 8) && (is_confirmed() == 0)) {
         this->inputFlags = (u16) (this->inputFlags | 4);
     }
 }
@@ -113,7 +111,7 @@ void TWindowInputNumber::move_cursor_next() {
 
 void TWindowInputNumber::set_value(f32 farg0) {
     this->m_38 = farg0;
-    save_position__11TWindowBaseFv();
+    TWindowBase::save_position();
     align_digits();
 }
 

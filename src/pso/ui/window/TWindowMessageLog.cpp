@@ -82,14 +82,13 @@ void TWindowMessageLog::update_scroll_position() {
     this->clamp_scroll_offset();
 }
 
-s32 update_fade__11TWindowBaseFv();
 
 void TWindowMessageLog::update_fade_offset() {
     f32 temp_f1;
     f32 temp_f31;
 
     temp_f31 = this->m_4c;
-    update_fade__11TWindowBaseFv();
+    TWindowBase::update_fade();
     temp_f1 = this->m_4c - temp_f31;
     if (0.0f != temp_f1) {
         this->m_84 = (f32) (this->m_84 - temp_f1);

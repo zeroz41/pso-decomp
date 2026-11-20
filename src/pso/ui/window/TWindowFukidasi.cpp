@@ -202,7 +202,6 @@ void set_text__15TWindowFukidasiFPvii(u8 *arg0, saddr arg1, saddr arg2);
 void init_flags__15TWindowFukidasiFPvi(void *arg0, s32 arg1);
 void draw_name_plate__15TWindowFukidasiFv(TUnk_804CF0B8 *, View_80252764 *, u32);
 void TWindowFukidasi__sub_80252C38(void *p);
-void clear_flag_20__13TUnk_804CF0B8Fv();
 s32 fn_80252CBC(void);
 void draw_visible_window_entries(void *, void *, View_80252764 *);
 s32 init_window_layout_entries(void *, void *, int);
@@ -917,7 +916,7 @@ s32 TUnk_804CF0B8::is_speaker_far_or_offscreen() {
     f32 xx;
     f32 yy;
     f32 zz;
-    clear_flag_20__13TUnk_804CF0B8Fv();
+    clear_flag_20();
     if (project_anchor(pos, scr) == 0) {
         return 1;
     }

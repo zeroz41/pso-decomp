@@ -901,7 +901,6 @@ void TWindowKeyBoardSoft::render() {
 
 #pragma push
 #pragma fp_contract on
-s32 sub_80244994__11TWindowBaseFv();
 
 
 void TWindowKeyBoardSoft::run_task() {
@@ -909,7 +908,7 @@ void TWindowKeyBoardSoft::run_task() {
     s32 port;
 
     if (m_control != NULL) {
-        if ((sub_80244994__11TWindowBaseFv() != 0) && (m_control->is_confirmed() == 0)) {
+        if ((TWindowBase::sub_80244994() != 0) && (m_control->is_confirmed() == 0)) {
             port = is_player_input_active(*(s16 *)((s8 *)this + 0x20));
             handle_page_cycle_input(port);
             sub_80260E30(port);

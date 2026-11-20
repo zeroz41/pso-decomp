@@ -156,13 +156,10 @@ s32 sub_80246948__11TWindowBaseFv();
 int TWindowFukidasi__sub_8024695C(void *p);
 TObject *TWindowCtrlMain__sub_8024CE24(void);
 s32 init_window_layout_entries(void *, int, int);
-s32 sub_8026CC28__11TWindowBaseFv();
 s32 resort_window_order__11TWindowBaseFv(void *);
 
 extern int lbl_805D3614;
 
-extern "C" {
-}
 
 int TWindowSubComCard__sub_80244774(void) {  return lbl_805D3614; }
 
@@ -331,7 +328,7 @@ saddr TWindowDD::draw_default_entry(saddr arg0) {
 }
 
 void TWindowBase::set_depth(f32 farg0) {
-    sub_8026CC28__11TWindowBaseFv();
+    sub_8026CC28();
     *(f32 *)((s8 *)this + 0x1C) = farg0;
     resort_window_order();
 }

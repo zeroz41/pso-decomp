@@ -24,7 +24,6 @@ typedef struct Disp_80244238 {
 } Disp_80244238;
 
 extern "C" {
-s32 set_position_xy__15TWindowAdditionFff(f32, f32);
 const char *lbl_805D3878 = "TWindowAddition";
 Ctx_80244364 *setup_window_draw_context__11TWindowBaseFl(Obj_80244364 *self, f32 *p);
 Ctx_80244364 *get_draw_context__11TWindowBaseFPv(Obj_80244364 *self);
@@ -62,7 +61,7 @@ void TWindowAddition::sub_802443B4() {
     this->m_name = lbl_805D3878;
     *(f32 *)((s8 *)arg0 + 0x68) = 0.0f;
     *(f32 *)((s8 *)arg0 + 0x6C) = 0.0f;
-    set_position_xy__15TWindowAdditionFff(1.0f, 1.0f);
+    set_position_xy(1.0f, 1.0f);
 }
 
 }

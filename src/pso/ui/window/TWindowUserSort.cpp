@@ -47,7 +47,6 @@ extern "C" {
 s32 draw_default_entry__9TWindowDDFl();
 s32 draw_visible_window_entries(void *, void *, int);
 void *get_player_by_client_id(s32 i);
-s32 close_and_clear_flags__15TWindowMainMenuFv();
 
 void TWindowUserSort::render() {
     saddr temp_r3;
@@ -83,7 +82,7 @@ void TWindowMainMenu1P::vfunc_7() {
 
 void TWindowMainMenu1P::vfunc_8() {
     if (*(s32 *)((s8 *)this + 0x4C) & 1) {
-        close_and_clear_flags__15TWindowMainMenuFv();
+        TWindowMainMenu::close_and_clear_flags();
     }
 }
 void TWindowMainMenu1P::vfunc_6() {

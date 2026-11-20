@@ -45,7 +45,6 @@ s32 draw_list_page_indicator(s32, s32);
 void __dl__7TObjectFPv(void *);
 void *__dt__11TWindowMenuFv(void *arg0, s16 arg1);
 s32 forward_render__20TWindowSubStatusDispFv(s32, s32);
-s32 run_task__11TWindowMenuFv();
 
 void render__21TWindowSubComCardListFv(TWindowSubComCardList *arg0) {
     saddr temp_r3;
@@ -64,7 +63,7 @@ void render__21TWindowSubComCardListFv(TWindowSubComCardList *arg0) {
 }
 
 void TWindowSubComCardList::run_task() {
-    run_task__11TWindowMenuFv();
+    TWindowMenu::run_task();
     if ((is_decided() == 0) && (handle_list_page_flip_input(this->m_8c) != 0)) {
         set_selected_index(0);
         sub_80275360();

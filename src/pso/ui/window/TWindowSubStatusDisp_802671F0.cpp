@@ -52,7 +52,6 @@ void fn_80266BD0(s32 index, u8 *first, u8 *second, s32 player) {
 extern "C" {
 
 s32 is_decided__19TWindowMenuIconLineFv(void *);
-s32 set_visible__19TWindowSubTradeMainFv();
 
 void TWindowSubTradeMain::update_trade_state() {
     if ((u32) this->m_80 != 0U) {
@@ -67,7 +66,7 @@ void TWindowSubTradeMain::update_trade_state() {
 }
 
 void TWindowSubTradeMain::close() {
-    set_visible__19TWindowSubTradeMainFv();
+    set_visible();
     set_close_flag();
     if ((u32) this->m_80 != 0U) {
         ((TWindowSubStatusDisp *)(this->m_80))->set_entry_state(0);

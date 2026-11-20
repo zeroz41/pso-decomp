@@ -92,7 +92,7 @@ void TWindowMeseta::run_task() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r3;
 
-    temp_r3 = get_meseta_value__13TWindowMesetaFv();
+    temp_r3 = get_meseta_value();
     if (temp_r3 != (s32) this->m_68) {
         this->m_68 = temp_r3;
         ((TWindowSubStatusDisp *)(((TWindowBase *)arg0)->get_array_entry(1)))->set_animated_target(this->m_68, 9.0f);

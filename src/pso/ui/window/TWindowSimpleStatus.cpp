@@ -518,7 +518,7 @@ void TWindowSimpleStatus::draw_background(u8 *arg1) {
     f32 scale;
     f32 f;
 
-    get_width__19TWindowSimpleStatusFv();
+    get_width();
     if (((u32 (*)(void))get_player_by_client_id)() != 0) {
         f = get_photon_blast_charge__10TObjPlayerFv();
     } else {

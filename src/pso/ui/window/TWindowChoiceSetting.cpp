@@ -33,7 +33,7 @@ s32 is_open__13TUnk_804D0658Fv();
 s32 get_array_entry__11TWindowBaseFi(void * a0 = 0, s16 a1 = 0);
 
 void TUnk_804D0658::request_close() {
-    if (!(this->m_70 & 8) && (is_open__13TUnk_804D0658Fv() == 0)) {
+    if (!(this->m_70 & 8) && (is_open() == 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
         this->m_70 = (u16) (this->m_70 | 4);
     }

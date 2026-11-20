@@ -8,13 +8,12 @@
 
 extern "C" {
 void *get_player_by_client_id(s32 i);
-s32 close_and_clear_flags__15TWindowMainMenuFv();
 
 void TWindowMainMenu4P::vfunc_9() { if (close_active_submenu() != 0) { this->show_child_window(); } }
 
 void TWindowMainMenu4P::vfunc_8() {
     if (this->m_4c & 1) {
-        close_and_clear_flags__15TWindowMainMenuFv();
+        TWindowMainMenu::close_and_clear_flags();
     }
 }
 
