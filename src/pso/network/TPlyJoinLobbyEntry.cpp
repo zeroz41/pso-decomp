@@ -1,6 +1,7 @@
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "types.h"
+#include "versions.h"
 #include "pso/system/task/TObject.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/unk/TUnk_804A7008.h"
@@ -463,12 +464,23 @@ void render_shadows__7TObjectFv();
 const char *lobby_class_name = "TLobby";
 #pragma pop
 // Lobby server host names (each listed twice in its table).
+#if VERSION == VERSION_GPOP8P
+const char join_lobby_playsega_server_host[] = "pso-gc1.pso.playsega.com";
+#else
 const char join_lobby_game04_server_host[] = "game04.st-pso.games.sega.net";
+#endif
 const char join_lobby_ss702_server_host[] = "ss702.sonicteam.com";
 const char join_lobby_ddplanet_server_host[] = "ddplanet.sega.co.jp";
+#if VERSION == VERSION_GPOP8P
+// The European tables list a 60 Hz port and a 50 Hz port.
+Server_801399B8 join_lobby_server_table[2] = { { join_lobby_playsega_server_host, 0x23F0 }, { join_lobby_playsega_server_host, 0x23F1 } };
+Server_801399B8 lbl_804A6FE8[2] = { { join_lobby_ss702_server_host, 0x23F0 }, { join_lobby_ss702_server_host, 0x23F1 } };
+Server_801399B8 lbl_804A6FF8[2] = { { join_lobby_ddplanet_server_host, 0x232A }, { join_lobby_ddplanet_server_host, 0x232B } };
+#else
 Server_801399B8 join_lobby_server_table[2] = { { join_lobby_game04_server_host, 0x238F }, { join_lobby_game04_server_host, 0x238F } };
 Server_801399B8 lbl_804A6FE8[2] = { { join_lobby_ss702_server_host, 0x238C }, { join_lobby_ss702_server_host, 0x238C } };
 Server_801399B8 lbl_804A6FF8[2] = { { join_lobby_ddplanet_server_host, 0x2329 }, { join_lobby_ddplanet_server_host, 0x2329 } };
+#endif
 void *lbl_804A7008[6] = { 0, 0, (void *)__dt__13TUnk_804A7008Fv, (void *)update_idle_timeout__6TLobbyFPv, (void *)TLobby__sub_8013A2DC, (void *)render_shadows__7TObjectFv };
 }
 }
@@ -1693,8 +1705,10 @@ void run_task__6TLobbyFv(void *self) {
             update_state__6TLobbyFv();
             return;
         }
+#if VERSION != VERSION_GPOP8P
         while (poll_memcard_result(get_chr_select_state__23TAdSinglePlyChrSelectGCFv()) == -1) {
         }
+#endif
         ((void (*)(void))TLobby__sub_801384E4)();
     }
 }
@@ -3592,6 +3606,9 @@ extern u8 *TLobby__join_lobby_controller;
 u8 *TLobby__ct(u8 *object, void *arg1) {
     s32 access_key_input_buffer;
     s32 temp_r26;
+#if VERSION == VERSION_GPOP8P
+    s32 protocol_param;
+#endif
     u8 *var_r27;
 
     __ct__7TObjectFP7TObject(object, arg1);
@@ -3636,11 +3653,18 @@ u8 *TLobby__ct(u8 *object, void *arg1) {
     memset(lbl_80509D3C, 0, 0x20);
     memset(TLobby__player_names, 0, 0xC0);
     memset(lobby_player_status_records, 0, 0xD50);
+#if VERSION == VERSION_GPOP8P
+    protocol_param = (TKeyBoardControl__sub_8000F828() == 0 ? 1 : 0) + 0x32;
+#endif
     var_r27 = (u8 *)(heap_alloc__6TLobbyFPv(0xBCA4));
     if (var_r27 != NULL) {
         temp_r26 = TAdEnterPasswordGC__sub_8013ADE4();
         access_key_input_buffer = get_access_key_input_buffer();
+#if VERSION == VERSION_GPOP8P
+        var_r27 = (u8 *)(__ct__9TProtocolFP7TObjectUsiPcPcPc(var_r27, object, protocol_param, current_language, init_serial_access__6TLobbyFv(), access_key_input_buffer, temp_r26));
+#else
         var_r27 = (u8 *)(__ct__9TProtocolFP7TObjectUsiPcPcPc(var_r27, object, 0x36, current_language, init_serial_access__6TLobbyFv(), access_key_input_buffer, temp_r26));
+#endif
     }
     TLobby__protocol_instance = var_r27;
     *(s32 **)((s8 *)var_r27 + 0xBBD4) = (s32 *)&handle_regist_check__6TLobbyFi;

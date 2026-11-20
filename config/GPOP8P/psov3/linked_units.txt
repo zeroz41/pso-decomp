@@ -2073,8 +2073,11 @@ os/OSRtc.c
 pad/Pad.c
 dsp/dsp.c
 dsp/dsp_task.c
+pso/unk/text_801DF280.cpp
 pso/unk/text_801A3014.cpp
 pso/unk/TLobby_801A3C48.cpp
+pso/network/TPlyJoinLobbyEntry.cpp
+pso/network/TGameProtocol.cpp
 gx/GXInit.c
 pso/ui/keyboard/TKeyBoardControl_80290CB0.cpp
 pso/unk/TLobby_80299A60.cpp
@@ -2087,7 +2090,9 @@ pso/unk/text_80145A94.cpp
 pso/network/NetworkInfoLoader.cpp
 pso/unk/text_803F4D84.cpp
 pso/network/NetworkInfoCodec.cpp
+pso/network/TProtocol_801DB10C.cpp
 pso/unk/text_801D94C8.cpp
+pso/network/TProtocol.cpp
 pso/boss/olgaflow/TBoss6Demo11_TYPE1_DEAD.cpp
 PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/ctype.c
 pso/audio/AdxAiff.cpp

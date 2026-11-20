@@ -1,3 +1,4 @@
+#include "versions.h"
 #include "types.h"
 #include "pso/network/TPlyMeetUserExtension.h"
 #include "pso/player/TPlySmth.h"
@@ -115,6 +116,21 @@ s32 *copy_entry_table(s32 *arg0, s32 *arg1) {
 }
 
 void* copy_cmd_88_marker_record(void* p, void* a1) { __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag(p); *(void**)((char*)p + 0x8) = *(void**)((char*)a1 + 0x8); return p; }
+#if VERSION == VERSION_GPOP8P
+extern "C" void fn_801DF9E8(u8 *self) {
+    bswap__13packet_headerFv(self);
+    bswap_32__FPUl(self + 4);
+    bswap_32__FPUl(self + 8);
+}
+
+extern "C" void fn_801DFA24(u8 *self) {
+    bswap__13packet_headerFv(self);
+    bswap_32__FPUl(self + 4);
+    bswap_32__FPUl(self + 8);
+    bswap_32__FPUl(self + 0xC);
+}
+#endif
+
 void bswap_cmd_c4_body(void* p) { ((packet_header *)p)->bswap(); { int i; for (i = 0; i < 32; i++) { bswap_cmd_c4_entry((void *)((char*)p + 0x4 + i * 212)); } } }
 
 void bswap_cmd_c4_entry(void *arg0) {

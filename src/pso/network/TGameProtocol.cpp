@@ -8,6 +8,7 @@
 #include "pso/unk/text_800C7FEC.h"
 #include "pso/item/TItem.h"
 #include "types.h"
+#include "versions.h"
 #include "pso/system/task/TObject.h"
 #include "pso/network/protocol/packet_classes.h"
 #include "pso/unk/TLobby.h"
@@ -202,7 +203,11 @@ extern "C" void handle_6xAE_set_animation_state(void *arg0);
 extern "C" void handle_6xAF_turn_or_move_lobby_chair(void *arg0);
 extern "C" void handle_6xB0_turn_or_move_lobby_chair(void *arg0);
 extern "C" void handle_6xB1();
+#if VERSION == VERSION_GPOP8P
+u32 lbl_804C5238[12] = { 0 };
+#else
 u32 lbl_804C5238[10] = { 0 };
+#endif
 
 u8 subcommand_area_masks[36] = {
     2, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
