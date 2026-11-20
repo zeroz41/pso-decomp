@@ -16,7 +16,7 @@ NJS_OBJECT *get_boss_warp_confirmation_model(void);
 NJS_OBJECT *get_boss_warp_model(void);
 AnimationMotion *get_boss_warp_motion(void);
 AnimationMotion *get_boss_warp_bml_motion(void);
-NJS_OBJECT *get_boss_warp_model_handle(void);
+GinjaTextureList *get_boss_warp_base_textures(void);
 extern "C" {
 GinjaTextureList *get_boss_warp_effect_textures(void);
 }
