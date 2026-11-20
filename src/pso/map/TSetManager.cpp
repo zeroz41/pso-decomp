@@ -1,3 +1,4 @@
+#include "pso/map/MapSetArchive.h"
 #include "pso/map/FloorPopulation.h"
 #include "pso/system/ResourceFile.h"
 #include "pso/map/TSetManager.h"
@@ -89,12 +90,6 @@ void *TSetManager__ct(void *set_manager, void *parent) {
 
 struct Vec3_8020DB44 { s32 a, b, c; };
 
-struct Room_8020D9A0 { u8 pad0[8]; s32 name; };
-
-struct Grp_8020D9A0 { Room_8020D9A0 *room; s32 count; };
-
-struct Map_8020D9A0 { Grp_8020D9A0 *grp; s32 count; };
-
 struct Rec_8020D9A0 { u8 pad0[2]; s16 f2; s16 f4; u8 pad6[2]; u16 f8; u8 padA[0x3A]; };
 
 extern "C" {
@@ -118,7 +113,6 @@ void arrive_floor_population(void);
 void swap_object_row_endian(void *);
 extern const char lbl_8044BC24[7] = "ad.dat";
 extern const char lbl_8044BC2C[6] = "d.dat";
-extern Map_8020D9A0 *TLobby__data_805D6068;
 s32 load_map_decoration_rows(s32 map, s32 grp, s32 room);
 extern "C" {
 void* __nw__7TObjectFUl(u32);
@@ -148,21 +142,21 @@ void TLobby__sub_8020D94C(void) {
 }
 
 s32 load_map_decoration_rows(s32 map, s32 grp, s32 room) {
-    Room_8020D9A0 *r;
+    MapSetEntry *r;
     s32 i;
     s32 size;
     char path[0x20];
-    if (TLobby__data_805D6068[map].grp == NULL || TLobby__data_805D6068[map].count - 1 < grp) {
+    if (TLobby__data_805D6068[map].variants == NULL || TLobby__data_805D6068[map].count - 1 < grp) {
         return 0;
     }
-    r = TLobby__data_805D6068[map].grp[grp].room;
-    if (r == NULL || TLobby__data_805D6068[map].grp[grp].count - 1 < room) {
+    r = TLobby__data_805D6068[map].variants[grp].entries;
+    if (r == NULL || TLobby__data_805D6068[map].variants[grp].count - 1 < room) {
         return 0;
     }
     if (TLobby::is_online_ready() != 0) {
-        replace_file_extension__6TLobbyFPvPvPv((char *)path, (char *)r->name, (char *)lbl_8044BC24);
+        replace_file_extension__6TLobbyFPvPvPv((char *)path, (char *)r->decoration_set_name, (char *)lbl_8044BC24);
     } else {
-        replace_file_extension__6TLobbyFPvPvPv((char *)path, (char *)r->name, (char *)lbl_8044BC2C);
+        replace_file_extension__6TLobbyFPvPvPv((char *)path, (char *)r->decoration_set_name, (char *)lbl_8044BC2C);
     }
     size = get_resource_file_size((const char *)path);
     if (size < 0) {

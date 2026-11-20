@@ -1,3 +1,4 @@
+#include "pso/map/MapSetArchive.h"
 #include "pso/system/ResourceFile.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/TLobby_80207DA8.h"
@@ -459,16 +460,16 @@ s32 TLobby::get_drop_item_mode() {
 
 s32 load_relocatable_file(s32 arg0, s32 arg1);
 
-s32 TLobby__data_805D6068;
+MapSetArea *TLobby__data_805D6068;
 // inferred: first word of the loaded SetDataTable*.rel module (update_drop_item/load_item_data)
-s32 forest_rel_set_data_table;
+MapSetArea *forest_rel_set_data_table;
 // inferred: the SetDataTable*.rel module load_relocatable_file returns
-s32 *forest_rel_module;
+MapSetModule *forest_rel_module;
 u32 forest_rel_work_buffer;
 
 void TLobby::update_drop_item() {
-    s32 *temp_r3;
-    s32 temp_r0;
+    MapSetModule *temp_r3;
+    MapSetArea *temp_r0;
     s32 drop_item_mode;
 
     forest_rel_set_data_table = 0;
@@ -476,10 +477,10 @@ void TLobby::update_drop_item() {
     if ((u32) forest_rel_work_buffer != 0U) {
         drop_item_mode = TLobby::get_drop_item_mode();
         if (get_resource_file_size((const char *)(forest_rel_filename_table[drop_item_mode])) <= 0x24B8) {
-            temp_r3 = (s32 *)load_relocatable_file(forest_rel_filename_table[drop_item_mode], forest_rel_work_buffer);
+            temp_r3 = (MapSetModule *)load_relocatable_file(forest_rel_filename_table[drop_item_mode], forest_rel_work_buffer);
             forest_rel_module = temp_r3;
             if (temp_r3 != NULL) {
-                temp_r0 = *temp_r3;
+                temp_r0 = temp_r3->areas;
                 forest_rel_set_data_table = temp_r0;
                 TLobby__data_805D6068 = temp_r0;
             }
@@ -488,8 +489,6 @@ void TLobby::update_drop_item() {
 }
 
 void TLobby__sub_802083C0(void);
-
-#define forest_rel_module (*(s32 *)&forest_rel_module)
 
 void TLobby__sub_802083C0(void) {
     if ((u32) forest_rel_work_buffer != 0U) {
@@ -502,7 +501,6 @@ void TLobby__sub_802083C0(void) {
 }
 }
 
-#undef forest_rel_module
 
 struct Pkt_802084B0 { u8 hdr[2]; u16 a; s32 b; s32 c; s32 d; };
 
@@ -523,8 +521,8 @@ extern "C" {
 void set_destroy_event__6TLobbyFi(int a0);
 
 void TLobby::load_item_data() {
-    s32 *temp_r3_2;
-    s32 temp_r0;
+    MapSetModule *temp_r3_2;
+    MapSetArea *temp_r0;
     s32 drop_item_mode;
     u32 temp_r3;
 
@@ -535,10 +533,10 @@ void TLobby::load_item_data() {
     if (temp_r3 != 0U) {
         drop_item_mode = TLobby::get_drop_item_mode();
         if (get_resource_file_size((const char *)(forest_rel_filename_table[drop_item_mode])) <= 0x24B8) {
-            temp_r3_2 = (s32 *)load_relocatable_file(forest_rel_filename_table[drop_item_mode], forest_rel_work_buffer);
+            temp_r3_2 = (MapSetModule *)load_relocatable_file(forest_rel_filename_table[drop_item_mode], forest_rel_work_buffer);
             forest_rel_module = temp_r3_2;
             if (temp_r3_2 != NULL) {
-                temp_r0 = *temp_r3_2;
+                temp_r0 = temp_r3_2->areas;
                 forest_rel_set_data_table = temp_r0;
                 TLobby__data_805D6068 = temp_r0;
             }

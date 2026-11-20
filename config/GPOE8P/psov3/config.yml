@@ -8882,7 +8882,7 @@ force_active:
   - load_bin_motion_callback__FPv
   - load_chr_select_slot__23TAdSinglePlyChrSelectGCFv
   - load_downloaded_quest__12TQuestListVMFv
-  - load_enemy_set_file__Fll
+  - load_enemy_set_file__FlPCc
   - load_entry_into_slot__8TFogCtrlFll
   - load_entry_params__16TObjEneMerillLiaFl
   - load_entry_params_volopt__16TBoss3VoloptCoreFl
@@ -8896,7 +8896,7 @@ force_active:
   - load_map_texture_archive__6TSceneFl
   - load_model__15TBoss3VoloptP01Fl
   - load_models__22TObjContainerJungEnemyFv
-  - load_object_set_file__Fll
+  - load_object_set_file__FlPCc
   - load_param_record__8TItemMagFv
   - load_params__15TObjEneMe1GiGueFv
   - load_params_from_table__14TObjEneDolmOlmFl
