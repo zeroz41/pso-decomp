@@ -1,4 +1,6 @@
 #include "types.h"
+#include "pso/ui/frontend/TAdBackTxtGC.h"
+#include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
@@ -27,9 +29,7 @@ extern "C" {
 void play_sound_effect(int, int, int, int);
 extern u8 controller_input_state[];
 extern u8 controller_physical_port_bank[];
-void *__ct__12TAdBackTxtGCFv(void *, void *);
 void __ct__7TObjectFP7TObject(void *);
-void *__ct__9TAdBackGCFv(void *, void *);
 
     extern int aram_request_busy_flag;
 void clear_aram_request_busy(void) { aram_request_busy_flag = 0; }
@@ -104,14 +104,8 @@ TAdWarningBaseGC::TAdWarningBaseGC(TObject *parent) : TObject(parent) {
     m_1c = 0;
     m_24 = 0;
     m_2c = 0;
-    o = TObject::operator new(0x24);
-    if (o != NULL) {
-        __ct__9TAdBackGCFv(o, this);
-    }
-    o2 = TObject::operator new(0x28);
-    if (o2 != NULL) {
-        __ct__12TAdBackTxtGCFv(o2, this);
-    }
+    o = new TAdBackGC(this);
+    o2 = new TAdBackTxtGC(this);
 }
 
 }

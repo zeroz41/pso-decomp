@@ -1,4 +1,6 @@
 #include "types.h"
+#include "pso/ui/frontend/TAdBackTxtGC.h"
+#include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/unk/TLobby_80291D94.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/unk/text_803000C8.h"
@@ -78,8 +80,6 @@ s32 is_multiplayer_character_slot_selected(s32 arg0);
 extern "C" {
 Ent_80300850 *get_char_table_entry__23TAdSinglePlyChrSelectGCFi(int);
 void __ct__7TObjectFP7TObject(void *);
-void __ct__9TAdBackGCFv(void *, void *);
-void __ct__12TAdBackTxtGCFv(void *, void *);
 void __ct__8TAdRayGCFv(void *, void *);
 void __ct__10TAdTitleGCFP7TObjectl(void *, void *, s32);
 void *__ct__14TAdSelectTxtGCFP7TObjectPvPv(void *, void *, const void *, s32);
@@ -335,12 +335,8 @@ Obj_8030095C *__ct__21TAdMultiSelGameModeGCFv(Obj_8030095C *self, s32 parent, s3
         TAdStorySelectGC::set_state(1);
         break;
     }
-    if ((p = TObject::operator new(0x24)) != NULL) {
-        __ct__9TAdBackGCFv(p, self);
-    }
-    if ((p = TObject::operator new(0x28)) != NULL) {
-        __ct__12TAdBackTxtGCFv(p, self);
-    }
+    new TAdBackGC((TObject *)self);
+    new TAdBackTxtGC((TObject *)self);
     if ((p = TObject::operator new(0x24)) != NULL) {
         __ct__8TAdRayGCFv(p, self);
     }

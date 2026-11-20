@@ -8,6 +8,8 @@
 #include "pso/object/TObjPathObj.h"
 
 #include "types.h"
+#include "pso/ui/frontend/TAdBackTxtGC.h"
+#include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/frontend/TAdSelectGameModeGC.h"
 #include "pso/ui/TLevelSelect.h"
@@ -34,8 +36,6 @@ extern "C" {
 void play_sound_effect(s32, s32, s32, s32);
 extern u8 controller_input_state[];
 void __ct__7TObjectFP7TObject(void *, void *);
-void __ct__9TAdBackGCFv(void *, void *);
-void __ct__12TAdBackTxtGCFv(void *, void *);
 void __ct__8TAdRayGCFv(void *, void *);
 void __ct__10TAdTitleGCFP7TObjectl(void *, void *, s32);
 void __ct__14TAdSelectTxtGCFP7TObjectPvPv(void *, void *, void *, s32);
@@ -99,14 +99,8 @@ Self_802C3400 *__ct__16TAdStorySelectGCFv(Self_802C3400 *self, void *parent) {
         }
         return self;
     }
-    p = TObject::operator new(0x24);
-    if (p != NULL) {
-        __ct__9TAdBackGCFv(p, self);
-    }
-    p = TObject::operator new(0x28);
-    if (p != NULL) {
-        __ct__12TAdBackTxtGCFv(p, self);
-    }
+    p = new TAdBackGC((TObject *)self);
+    p = new TAdBackTxtGC((TObject *)self);
     p = TObject::operator new(0x24);
     if (p != NULL) {
         __ct__8TAdRayGCFv(p, self);

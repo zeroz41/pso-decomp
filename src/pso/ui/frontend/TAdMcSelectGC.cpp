@@ -1,5 +1,7 @@
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "types.h"
+#include "pso/ui/frontend/TAdBackTxtGC.h"
+#include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/unk/text_8033F314.h"
 #include "pso/ui/frontend/TAdChrSelSlotGC.h"
 #include "pso/ui/frontend/TAdMcSelectGC.h"
@@ -29,8 +31,6 @@ struct Self_80329EC8 {
 
 extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
-void *__ct__9TAdBackGCFv(void *, void *);
-void *__ct__12TAdBackTxtGCFv(void *, void *);
 void *__ct__10TAdTitleGCFP7TObjectl(void *, void *, s32);
 void *__ct__15TAdChrSelSlotGCFP7TObject(void *, void *);
 void TAdMcSelectGC__sub_8032A180(void *, s32);
@@ -85,8 +85,8 @@ TAdMcSelectGC::~TAdMcSelectGC() {
 
 #define self ((Self_80329EC8 *)this)
 TAdMcSelectGC::TAdMcSelectGC(TObject *parent) : TObject(parent) {
-    void *back;
-    void *txt;
+    TAdBackGC *back;
+    TAdBackTxtGC *txt;
     void *p;
     s32 i;
     s32 j;
@@ -96,18 +96,12 @@ TAdMcSelectGC::TAdMcSelectGC(TObject *parent) : TObject(parent) {
     self->f24 = 0;
     self->f2C = 0;
     self->f30 = 0;
-    back = TObject::operator new(0x24);
-    if (back != NULL) {
-        back = __ct__9TAdBackGCFv(back, self);
-    }
-    txt = TObject::operator new(0x28);
-    if (txt != NULL) {
-        txt = __ct__12TAdBackTxtGCFv(txt, self);
-    }
-    ((TAdMcSelectGC *)back)->set_float_1c(-160.0f);
-    ((TAdMcSelectGC *)back)->set_field_20(0);
-    ((TAdMcSelectGC *)txt)->set_field20(0.006666667f);
-    ((TAdMcSelectGC *)txt)->set_field_24(0);
+    back = new TAdBackGC((TObject *)self);
+    txt = new TAdBackTxtGC((TObject *)self);
+    back->set_depth(-160.0f);
+    back->set_field_20(0);
+    txt->set_depth(0.006666667f);
+    txt->set_field_24(0);
     p = TObject::operator new(0x138);
     if (p != NULL) {
         p = __ct__10TAdTitleGCFP7TObjectl(p, self, 0xD);
@@ -162,8 +156,8 @@ void TAdMcSelectGC::set_field_134(s32 arg1) {
     TAdMcSelectGC__sub_8032A180((void*)((int) (*(s32 *)((s8 *)arg0 + 0x130))), arg1);
 }
 
-void TAdMcSelectGC::set_field_24(s32 v) { this->m_24 = v; }
-void TAdMcSelectGC::set_field20(f32 v) { *(f32 *)&this->_pad20 = v; }
-void TAdMcSelectGC::set_field_20(s32 v) { *(s32 *)&this->_pad20 = v; }
-void TAdMcSelectGC::set_float_1c(f32 v) { *(f32 *)&this->m_1c = v; }
+void TAdBackTxtGC::set_field_24(s32 v) { m_24 = v; }
+void TAdBackTxtGC::set_depth(f32 v) { m_depth = v; }
+void TAdBackGC::set_field_20(s32 v) { m_20 = v; }
+void TAdBackGC::set_depth(f32 v) { m_depth = v; }
 

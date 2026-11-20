@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/frontend/TAdBackTxtGC.h"
+#include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/unk/TLobby_80132ED0.h"
@@ -18,8 +20,6 @@ s32 get_message_text(s32 arg0);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 s32 create_window_menu_default(const void *, int);
 s32 verify_system_file__23TAdSinglePlyChrSelectGCFPv();
-void *__ct__12TAdBackTxtGCFv(void *, void *);
-void *__ct__9TAdBackGCFv(void *, void *);
 }
 
 static const f32 TAdMultiSaveGC__data_80474D70[2] = { 80.0f, 176.0f };
@@ -35,14 +35,8 @@ TAdMultiSaveGC::TAdMultiSaveGC(TObject *parent) : TObject(parent) {
     saving_window = NULL;
     load_error_window = NULL;
     retry_menu = NULL;
-    void *o = TObject::operator new(0x24);
-    if (o != NULL) {
-        __ct__9TAdBackGCFv(o, this);
-    }
-    void *o2 = TObject::operator new(0x28);
-    if (o2 != NULL) {
-        __ct__12TAdBackTxtGCFv(o2, this);
-    }
+    void *o = new TAdBackGC(this);
+    void *o2 = new TAdBackTxtGC(this);
     copy_chr_slots_from_request__23TAdSinglePlyChrSelectGCFv();
 }
 

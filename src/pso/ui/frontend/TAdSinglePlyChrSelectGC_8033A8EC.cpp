@@ -7,6 +7,8 @@
 #pragma push
 
 #include "types.h"
+#include "pso/ui/frontend/TAdBackTxtGC.h"
+#include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/system/PadRumble.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8001C5E8.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8033A8EC.h"
@@ -491,8 +493,6 @@ struct RecoveredGlobal_8033B9C4_lbl_80513910 {
 };
 
 extern "C" {
-s32 __ct__12TAdBackTxtGCFv(void *, void *);
-s32 __ct__9TAdBackGCFv(void *, void *);
 
 extern RecoveredGlobal_8033B9C4_lbl_80513910 chr_select_serial_seeds;
 extern char pso_system_card_filename[];
@@ -554,14 +554,8 @@ TUnk_804EF8C0::TUnk_804EF8C0() : TObject(tl_01) {
     state = 0;
     download_buffer = NULL;
     download_buffer_size = 0;
-    p = TObject::operator new(0x24);
-    if (p != NULL) {
-        __ct__9TAdBackGCFv(p, this);
-    }
-    p = TObject::operator new(0x28);
-    if (p != NULL) {
-        __ct__12TAdBackTxtGCFv(p, this);
-    }
+    p = new TAdBackGC(this);
+    p = new TAdBackTxtGC(this);
     alloc_download_buffer();
     clear_buffer();
     stop_pad_rumble();

@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/frontend/TAdBackTxtGC.h"
+#include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/system/save/TSaveChCr.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
@@ -50,8 +52,6 @@ extern "C" {
 extern s32 pso_character_card_filename[];
 extern s32 pso_system_card_filename[];
 extern s32 pso_guildcard_card_filename[];
-void *__ct__9TAdBackGCFv(void *, void *);
-void *__ct__12TAdBackTxtGCFv(void *, void *);
 s32 poll_memcard_result(s32);
 s32 poll_memcard_status__23TAdSinglePlyChrSelectGCFv();
 s32 load_character_from_card__23TAdSinglePlyChrSelectGCFi(s32 arg0);
@@ -190,15 +190,9 @@ void TSaveChCr::close_window() {
 void TSaveChCr::create_backgrounds() {
     void *o;
     void *o2;
-    o = TObject::operator new(0x24);
-    if (o != NULL) {
-        o = __ct__9TAdBackGCFv(o, this);
-    }
+    o = new TAdBackGC(this);
     *(void **)((s8 *)this + 0x30) = o;
-    o2 = TObject::operator new(0x28);
-    if (o2 != NULL) {
-        o2 = __ct__12TAdBackTxtGCFv(o2, this);
-    }
+    o2 = new TAdBackTxtGC(this);
     this->m_34 = o2;
 }
 

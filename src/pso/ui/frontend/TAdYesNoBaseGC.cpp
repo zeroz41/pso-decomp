@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/frontend/TAdBackTxtGC.h"
+#include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/frontend/TAdYesNoBaseGC.h"
@@ -42,8 +44,6 @@ struct VtObj8032C1C8_8032C188 : VtBase8032C1C8_8032C188 {
     virtual void m7();
 };
 
-void *__ct__12TAdBackTxtGCFv(void *, void *);
-void *__ct__9TAdBackGCFv(void *, void *);
 void copy_vec2__FPvPv(void *);
 
 #pragma readonly_strings on
@@ -155,12 +155,6 @@ TAdYesNoBaseGC::TAdYesNoBaseGC(TObject *parent) : TObject(parent) {
     m_2c = 1;
     m_40 = 0;
     m_44 = 0;
-    o = TObject::operator new(0x24);
-    if (o != NULL) {
-        __ct__9TAdBackGCFv(o, this);
-    }
-    o2 = TObject::operator new(0x28);
-    if (o2 != NULL) {
-        __ct__12TAdBackTxtGCFv(o2, this);
-    }
+    o = new TAdBackGC(this);
+    o2 = new TAdBackTxtGC(this);
 }

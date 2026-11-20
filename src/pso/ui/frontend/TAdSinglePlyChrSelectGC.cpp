@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/frontend/TAdBackTxtGC.h"
+#include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/frontend/TAdFadeGC.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TMainTask.h"
@@ -492,8 +494,6 @@ typedef void (TAdSinglePlyChrSelectGC::*Act_802D4B6C)();
 
 extern "C" {
 s32 __ct__7TObjectFP7TObject(void *, void *);
-s32 __ct__9TAdBackGCFv(void *, void *);
-s32 __ct__12TAdBackTxtGCFv(void *, void *);
 s32 __ct__10TAdTitleGCFP7TObjectl(void *, void *, int);
 void *__ct__13TAdTitleTexGCFv(void *, void *);
 void *__ct__14TAdSelectCurGCFv(void *, void *, void *, void *);
@@ -622,14 +622,8 @@ u8 *TAdSinglePlyChrSelectGC__ct(u8 *arg0, void *parent) {
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__23TAdSinglePlyChrSelectGC;
     ((TObject *)arg0)->m_name = TAdSinglePlyChrSelectGC__class_name;
     ((TAdSinglePlyChrSelectGC *)arg0)->sub_802D4E08();
-    p = TObject::operator new(0x24);
-    if (p != NULL) {
-        __ct__9TAdBackGCFv(p, arg0);
-    }
-    p = TObject::operator new(0x28);
-    if (p != NULL) {
-        __ct__12TAdBackTxtGCFv(p, arg0);
-    }
+    p = new TAdBackGC((TObject *)arg0);
+    p = new TAdBackTxtGC((TObject *)arg0);
     p = TObject::operator new(0x138);
     if (p != NULL) {
         __ct__10TAdTitleGCFP7TObjectl(p, arg0, 0);

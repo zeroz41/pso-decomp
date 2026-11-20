@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/frontend/TAdBackTxtGC.h"
+#include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/system/task/TObject.h"
@@ -133,8 +135,6 @@ int sprintf(char *, const char *, ...);
 void sscanf(int, const char *, ...);
 extern char lbl_80543010[];
 extern char lbl_80543050[];
-void __ct__9TAdBackGCFv(void *, void *);
-void __ct__12TAdBackTxtGCFv(void *, void *);
 void *__ct__14TAdSelectCurGCFv(void *, TObject *, void *, void *);
 extern s32 __vt__22TAdEnterSerialAccessGC[];
 void TAdEnterSerialAccessGC__sub_802C4B64(void *, void *, Col_803214C4, int);
@@ -706,12 +706,8 @@ u8 *TAdEnterSerialAccessGC__ct(TAdEnterSerialAccessGC *ad_enter_serial_access_gc
         TAdEnterSerialAccessGC__sub_80322418(get_field_118__22TAdEnterSerialAccessGCFv(), 1);
         TAdEnterSerialAccessGC__sub_80322418(get_field_118__22TAdEnterSerialAccessGCFv(), 0);
     }
-    if ((p = TObject::operator new(0x24)) != 0) {
-        __ct__9TAdBackGCFv(p, ad_enter_serial_access_gc);
-    }
-    if ((p = TObject::operator new(0x28)) != 0) {
-        __ct__12TAdBackTxtGCFv(p, ad_enter_serial_access_gc);
-    }
+    new TAdBackGC(ad_enter_serial_access_gc);
+    new TAdBackTxtGC(ad_enter_serial_access_gc);
     p = TObject::operator new(0x708);
     if (p != 0) {
         p = __ct__14TAdSelectCurGCFv(p, tl_clipout, (void *)&TAdEnterSerialAccessGC__selection_positions[0], (void *)&lbl_804764F8);

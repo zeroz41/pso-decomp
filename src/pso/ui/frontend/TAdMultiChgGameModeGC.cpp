@@ -5,6 +5,8 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801334D4.h"
 
 #include "types.h"
+#include "pso/ui/frontend/TAdBackTxtGC.h"
+#include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
@@ -43,8 +45,6 @@ struct Obj_802FFE58 {
 extern "C" {
 s32 lbl_805D69E8;
 void __ct__7TObjectFP7TObject(void *);
-void __ct__9TAdBackGCFv(void *, void *);
-void __ct__12TAdBackTxtGCFv(void *, void *);
 void __ct__8TAdRayGCFv(void *, void *);
 void __ct__10TAdTitleGCFP7TObjectl(void *, void *, s32);
 void __ct__14TAdSelectTxtGCFP7TObjectPvPv(void *, void *, void *, s32);
@@ -135,12 +135,8 @@ Obj_802FFE58 *__ct__21TAdMultiChgGameModeGCFv(Obj_802FFE58 *self) {
     self->f24 = -1;
     self->f28 = 0;
     self->f2C = 0;
-    if ((p = TObject::operator new(0x24)) != NULL) {
-        __ct__9TAdBackGCFv(p, self);
-    }
-    if ((p = TObject::operator new(0x28)) != NULL) {
-        __ct__12TAdBackTxtGCFv(p, self);
-    }
+    new TAdBackGC((TObject *)self);
+    new TAdBackTxtGC((TObject *)self);
     if ((p = TObject::operator new(0x24)) != NULL) {
         __ct__8TAdRayGCFv(p, self);
     }

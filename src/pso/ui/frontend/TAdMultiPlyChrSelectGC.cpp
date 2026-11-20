@@ -1,6 +1,8 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/frontend/TAdChrMoveEffectGC.h"
 #include "types.h"
+#include "pso/ui/frontend/TAdBackTxtGC.h"
+#include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802DBCC4.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
@@ -155,8 +157,6 @@ struct I2_802DF9B4 { s32 a, b; };
 struct Blk_802DF9B4 { NJS_POINT2 a, b, c; };
 
 extern "C" {
-s32 __ct__9TAdBackGCFv(void *, void *);
-s32 __ct__12TAdBackTxtGCFv(void *, void *);
 s32 __ct__10TAdTitleGCFP7TObjectl(void *, void *, int);
 u32 __ct__13TAdTitleTexGCFv(void *, void *);
 u32 __ct__14TAdSelectCurGCFv(void *, void *, void *, void *);
@@ -610,14 +610,8 @@ void TAdMultiPlyChrSelectGC::handle_event(s32 arg1) {
 
 void TAdMultiPlyChrSelectGC::create_widgets() {
     u32 p;
-    p = __nw__7TObjectFUl(0x24);
-    if (p != 0) {
-        __ct__9TAdBackGCFv((void *) p, this);
-    }
-    p = __nw__7TObjectFUl(0x28);
-    if (p != 0) {
-        __ct__12TAdBackTxtGCFv((void *) p, this);
-    }
+    new TAdBackGC(this);
+    new TAdBackTxtGC(this);
     switch (this->m_48) {
     case 0:
     case 2:

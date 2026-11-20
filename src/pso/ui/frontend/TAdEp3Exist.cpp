@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/frontend/TAdBackTxtGC.h"
+#include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/frontend/TAdEp3Exist.h"
@@ -87,8 +89,6 @@ s32 get_localized_text_entry(s32 arg0, s32 arg1);
 u32 calc_text_width(char *s);
 void __ct__7TObjectFP7TObject(void);
 
-void __ct__9TAdBackGCFv(void *, void *);
-void __ct__12TAdBackTxtGCFv(void *, void *);
 u32 __ct__14TAdSelectCurGCFv(void *, TObject *, void *, void *);
 extern s32 __vt__11TAdEp3Exist[];
 void *TAdEp3Exist__ct(Ep3_8036F354 *o);
@@ -212,14 +212,8 @@ void *TAdEp3Exist__ct(Ep3_8036F354 *o) {
         ((TObject *)o)->queue_destruction();
         return o;
     }
-    p = TObject::operator new(0x24);
-    if (p != 0) {
-        __ct__9TAdBackGCFv(p, o);
-    }
-    p = TObject::operator new(0x28);
-    if (p != 0) {
-        __ct__12TAdBackTxtGCFv(p, o);
-    }
+    p = new TAdBackGC((TObject *)o);
+    p = new TAdBackTxtGC((TObject *)o);
     r = (u32)TObject::operator new(0x54);
     if (r != 0) {
         r = (u32)TAdScrollWinGC__ct((TAdScrollWinGC *)((void *)r), (void *)o, 3, (s32)(get_localized_text_entry(0x2C, 9)));

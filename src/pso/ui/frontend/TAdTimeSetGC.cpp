@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/frontend/TAdBackTxtGC.h"
+#include "pso/ui/frontend/TAdBackGC.h"
 #include <stdio.h>
 #include <string.h>
 #include "pso/system/ControllerInputState.h"
@@ -36,8 +38,6 @@ s32 get_memcard_free_files(s32 chan);
 s32 poll_memcard_result(s32 chan);
 s32 start_memcard_format(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 s32 align_menu_entry_positions(TWindowMenu *menu);
-void *__ct__9TAdBackGCFv(void *self, void *parent);
-void *__ct__12TAdBackTxtGCFv(void *self, void *parent);
 s32 load_system_file_blocking__23TAdSinglePlyChrSelectGCFv(void);
 s32 load_character_and_wait__23TAdSinglePlyChrSelectGCFv(void);
 s32 load_player_and_wait__23TAdSinglePlyChrSelectGCFv(void);
@@ -767,17 +767,11 @@ void TAdTimeSetGC::create_backgrounds() {
     void *object;
 
     if (back == NULL) {
-        object = TObject::operator new(0x24);
-        if (object != NULL) {
-            object = __ct__9TAdBackGCFv(object, this);
-        }
+        object = new TAdBackGC(this);
         back = (TAdBackGC *)object;
     }
     if (back_text == NULL) {
-        object = TObject::operator new(0x28);
-        if (object != NULL) {
-            object = __ct__12TAdBackTxtGCFv(object, this);
-        }
+        object = new TAdBackTxtGC(this);
         back_text = (TAdBackTxtGC *)object;
     }
 }

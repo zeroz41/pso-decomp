@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/frontend/TAdBackTxtGC.h"
+#include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TMainTask.h"
@@ -41,8 +43,6 @@ static const NJS_POINT2 lbl_804770BC = {85.0f, 384.0f};
 static const NJS_POINT2 lbl_804770C4 = {470.0f, 60.0f};
 
 extern "C" {
-void __ct__9TAdBackGCFv(void *, void *);
-void __ct__12TAdBackTxtGCFv(void *, void *);
 void *__ct__14TAdSelectCurGCFv(void *, TObject *, void *, void *);
 void *get_localized_text_entry(int, u32);
 void draw_window_frame__11TWindowBaseFPv();
@@ -142,14 +142,8 @@ TAdAgreementBaseGC::TAdAgreementBaseGC(TObject *arg1) : TObject(arg1) {
     arg0->f34 = 0;
     arg0->f2C = 0;
     arg0->cur = 0;
-    p = TObject::operator new(0x24);
-    if (p != 0) {
-        __ct__9TAdBackGCFv(p, arg0);
-    }
-    p = TObject::operator new(0x28);
-    if (p != 0) {
-        __ct__12TAdBackTxtGCFv(p, arg0);
-    }
+    p = new TAdBackGC((TObject *)arg0);
+    p = new TAdBackTxtGC((TObject *)arg0);
     p = TObject::operator new(0x708);
     if (p != 0) {
         p = __ct__14TAdSelectCurGCFv(p, tl_clipout, (void *)agreement_item_rect_table, (void *)&lbl_804770A0);

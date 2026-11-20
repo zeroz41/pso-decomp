@@ -11,6 +11,8 @@
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 
 #include "types.h"
+#include "pso/ui/frontend/TAdBackTxtGC.h"
+#include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/ui/window/TWindowActionPalette.h"
@@ -41,8 +43,6 @@ s32 free_sub_ctrls__19TAdSelectGameModeGCFv();
 s32 play_sound_effect(int, int, int, int);
 extern s32 TAdSelectGameModeGC__cached_mode_value;
 void __ct__7TObjectFP7TObject(void *, void *);
-void *__ct__9TAdBackGCFv(void *, void *);
-void *__ct__12TAdBackTxtGCFv(void *, void *);
 void __ct__8TAdRayGCFv(void *, void *);
 void *__ct__10TAdTitleGCFP7TObjectl(void *, void *, int);
 void *__ct__14TAdSelectTxtGCFP7TObjectPvPv(void *, void *, void *, int);
@@ -108,12 +108,8 @@ u8 *__ct__19TAdSelectGameModeGCFv(u8 *arg0, void *parent) {
     TAdSelectGameModeGC__cached_mode_value = 0;
     *(void **)((s8 *)arg0 + 0x1C) = 0;
     *(void **)((s8 *)arg0 + 0x20) = 0;
-    if ((p = TObject::operator new(0x24)) != 0) {
-        __ct__9TAdBackGCFv(p, arg0);
-    }
-    if ((p = TObject::operator new(0x28)) != 0) {
-        __ct__12TAdBackTxtGCFv(p, arg0);
-    }
+    new TAdBackGC((TObject *)arg0);
+    new TAdBackTxtGC((TObject *)arg0);
     if ((p = TObject::operator new(0x24)) != 0) {
         __ct__8TAdRayGCFv(p, arg0);
     }

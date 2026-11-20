@@ -1,6 +1,8 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
 #include "types.h"
+#include "pso/ui/frontend/TAdBackTxtGC.h"
+#include "pso/ui/frontend/TAdBackGC.h"
 
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/system/task/TObject.h"
@@ -159,9 +161,7 @@ char serial_access_hex_string_buf[0x40];
 
 extern "C" {
 
-s32 __ct__9TAdBackGCFv(int, void *);
 
-s32 __ct__12TAdBackTxtGCFv(int, void *);
 
 u32 __ct__14TAdSelectCurGCFv(int, int, const void *, const void *);
 
@@ -188,20 +188,12 @@ TAdEnterBaseGC::~TAdEnterBaseGC() {
 void TAdEnterBaseGC::sub_8032B460(int a1) { *(int *)&this->m_24 = 0; this->m_20 = 0; TAdEnterBaseGC__entry_mode = a1; *(int*)((char*)this + 0x38) = 0; *(int*)((char*)this + 0x3c) = 0; this->m_28 = 0; *(int *)&this->unk_2C = 0; this->m_30 = 0; *(int *)&this->unk_34 = 0; password_entry_keyboard_control = 0; }
 
 void TAdEnterBaseGC::create_parts() {
-    u32 temp_r3;
-    u32 temp_r3_2;
     u32 temp_r3_3;
     u32 temp_r3_4;
     u32 var_r0;
     u32 var_r0_2;
-    temp_r3 = __nw__7TObjectFUl(0x24);
-    if (temp_r3 != 0U) {
-        __ct__9TAdBackGCFv(temp_r3, this);
-    }
-    temp_r3_2 = __nw__7TObjectFUl(0x28);
-    if (temp_r3_2 != 0U) {
-        __ct__12TAdBackTxtGCFv(temp_r3_2, this);
-    }
+    new TAdBackGC(this);
+    new TAdBackTxtGC(this);
     if ((s32) (*(s32 *)&TAdEnterBaseGC__entry_mode) == 3) {
         temp_r3_3 = __nw__7TObjectFUl(0x708);
         var_r0 = temp_r3_3;

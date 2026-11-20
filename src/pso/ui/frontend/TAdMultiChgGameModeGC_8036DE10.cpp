@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/frontend/TAdBackTxtGC.h"
+#include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/TUnk_804F3A20.h"
@@ -48,8 +50,6 @@ struct Self_8036E2AC {
 };
 
 extern "C" {
-void *__ct__9TAdBackGCFv(void *, void *);
-void *__ct__12TAdBackTxtGCFv(void *, void *);
 s32 load_system_file(s32 arg0);
 void refresh_char_slots__23TAdSinglePlyChrSelectGCFv(void);
 s32 encrypt_save_and_write__23TAdSinglePlyChrSelectGCFv();
@@ -384,17 +384,11 @@ void TAdMultiChgGameModeGC::create_back_objects() {
     void *o;
     void *o2;
     if (*(void **)((s8 *)this + 0x28) == NULL) {
-        o = TObject::operator new(0x24);
-        if (o != NULL) {
-            o = __ct__9TAdBackGCFv(o, this);
-        }
+        o = new TAdBackGC(this);
         *(void **)((s8 *)this + 0x28) = o;
     }
     if (*(void **)((s8 *)this + 0x2C) == NULL) {
-        o2 = TObject::operator new(0x28);
-        if (o2 != NULL) {
-            o2 = __ct__12TAdBackTxtGCFv(o2, this);
-        }
+        o2 = new TAdBackTxtGC(this);
         *(void **)((s8 *)this + 0x2C) = o2;
     }
 }
