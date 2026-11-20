@@ -1,3 +1,4 @@
+#include "pso/network/FloorEventCommand.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/collision/TObjEvtCollision.h"
@@ -9,8 +10,6 @@
 #include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
-
-struct Pkt_80190CFC { u8 hdr[2]; u16 id; s32 player; s32 x10; s32 x14; };
 
 struct Obj_80190CFC { u8 pad0[0x1C]; u16 id; u8 pad1E[0x84 - 0x1E]; s32 x84; u8 pad88[0xAC - 0x88]; f32 radius; u8 padB0[4]; s32 timer; };
 
@@ -59,15 +58,15 @@ void TObjEvtCollision::render() {  }
 
 void TObjEvtCollision::run_task() {
     Obj_80190CFC *arg0 = (Obj_80190CFC *)this;
-    Pkt_80190CFC pkt;
+    G_FloorEvent_6x67 pkt;
     if (--arg0->timer <= 0) {
         if (is_any_player_in_range(arg0->radius * arg0->radius) == 1) {
-            ((TLobby *)(&pkt))->init_packet_67_04();
-            pkt.id = arg0->id;
-            pkt.player = get_current_floor();
-            pkt.x10 = arg0->x84;
-            pkt.x14 = local_client_id;
-            ((TLobby *)(&pkt))->byteswap_and_send();
+            pkt.init();
+            pkt.header.client_id = arg0->id;
+            pkt.floor = get_current_floor();
+            pkt.event_id = arg0->x84;
+            pkt.sender_client_id = local_client_id;
+            pkt.send();
             ((TObjBase *)arg0)->set_event_source_flag(8);
             ((TObject *)arg0)->queue_destruction();
         }

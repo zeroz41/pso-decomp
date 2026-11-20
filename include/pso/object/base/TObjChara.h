@@ -118,7 +118,7 @@ public:
     virtual void vfunc_76(f32 charge);
     virtual void vfunc_77();
     virtual void vfunc_78(s32);
-    void request_box_item_drop(void *, s16);
+    void request_box_item_drop(const Vec *position, s32 random_item);
     virtual void *get_center();
     virtual void reset_motion_fields();
     int m_fc;

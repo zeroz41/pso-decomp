@@ -1,3 +1,4 @@
+#include "pso/network/FloorEventCommand.h"
 #include "pso/network/TGameProtocol.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
 #include "pso/unk/TLobby_801C25B4.h"
@@ -134,7 +135,6 @@ void handle_6x63_destroy_floor_item(void *arg0);
 extern "C" void handle_6x64();
 extern "C" void handle_6x65();
 void handle_6x66_use_star_atomizer(u8 *arg0);
-extern "C" void handle_6x67_trigger_set_event();
 extern "C" void handle_6x68_set_telepipe_state();
 extern "C" void handle_6x69_npc_control();
 void handle_6x6A_set_boss_warp_flags(void *arg0);
@@ -328,7 +328,7 @@ PsoCommandHandler pso_command_dispatch_table[] = {
     {0xA4, 0x0004, (PsoCommandFn)handle_6xA4_olga_flow_boss_actions},
     {0xA5, 0x0004, (PsoCommandFn)handle_6xA5_olga_flow_boss_actions},
     {0xAD, 0x0004, (PsoCommandFn)handle_6xAD_olga_flow_subordinate_boss_actions},
-    {0x67, 0x0007, (PsoCommandFn)handle_6x67_trigger_set_event},
+    {0x67, 0x0007, handle_6x67_trigger_set_event},
     {0x68, 0x0006, (PsoCommandFn)handle_6x68_set_telepipe_state},
     {0x69, 0x0007, (PsoCommandFn)handle_6x69_npc_control},
     {0x6A, 0x0007, (PsoCommandFn)handle_6x6A_set_boss_warp_flags},

@@ -1,5 +1,6 @@
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/map/MapSetArchive.h"
+#include "pso/network/FloorEventCommand.h"
 #include "pso/system/ResourceFile.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/TLobby_80207DA8.h"
@@ -504,8 +505,6 @@ void TLobby__sub_802083C0(void) {
 }
 
 
-struct Pkt_802084B0 { u8 hdr[2]; u16 a; s32 b; s32 c; s32 d; };
-
 struct Pkt_8020857C { u8 hdr[2]; u16 a; s16 b; s16 pad; s16 c; s8 d; s8 e; };
 
 struct Pkt_8020851C {
@@ -558,16 +557,16 @@ void send_6x67_wave_trigger_event(s32 arg0);
 void send_6x05_wave_set_switch(s16 arg0);
 void send_6x05_wave_clear_switch(s32 arg0);
 void send_6x67_wave_trigger_event(s32 arg0) {
-    Pkt_802084B0 pkt;
+    G_FloorEvent_6x67 pkt;
     s32 t = wave_event_trigger_count;
     wave_event_trigger_count = t + 1;
     ((void (*)(int, int))set_destroy_event__6TLobbyFi)(1, t);
-    ((TLobby *)(&pkt))->init_packet_67_04();
-    pkt.a = 0xFFFF;
-    pkt.b = get_current_floor();
-    pkt.c = arg0;
-    pkt.d = local_client_id;
-    ((TLobby *)(&pkt))->byteswap_and_send();
+    pkt.init();
+    pkt.header.client_id = 0xFFFF;
+    pkt.floor = get_current_floor();
+    pkt.event_id = arg0;
+    pkt.sender_client_id = local_client_id;
+    pkt.send();
 }
 
 void send_6x05_wave_clear_switch(s32 arg0) {

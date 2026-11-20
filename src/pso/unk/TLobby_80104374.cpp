@@ -898,23 +898,6 @@ struct Pkt_8010567C {
     s32 f24;
 };
 
-struct Obj_8010567C {
-    u8 pad[0x28];
-    s16 f28;
-    u8 pad2a[2];
-    s16 f2c;
-    u8 pad2e[0x38 - 0x2E];
-    f32 x;
-    f32 y;
-    f32 z;
-    u8 pad44[0x70 - 0x44];
-    f32 f70;
-    u8 pad74[0x84 - 0x74];
-    s32 f84;
-    s32 f88;
-    s32 f8c;
-};
-
 
 struct Rec_80105538 { s32 a; u16 b; u16 b2; s32 c; };
 
@@ -1280,11 +1263,10 @@ void send_6x60_standard_drop_item_request(Obj_80105538 *self) {
     }
 }
 
-void TObjChara::request_box_item_drop(void *unused, s16 arg2) {
-    Obj_8010567C *self = (Obj_8010567C *)this;
+void TObjChara::request_box_item_drop(const Vec *, s32 random_item) {
     void *p1;
     void *p2;
-    if (self != 0) {
+    if (this != NULL) {
         p1 = get_player_by_client_id(TLobby__designated_client_id);
         p2 = get_player_by_client_id(local_client_id);
         if (p1 != 0 && p2 != 0 && TObjPlayer__sub_80104840(get_current_floor_area()) != AREA_PIONEER2_EP1 &&
@@ -1297,15 +1279,15 @@ void TObjChara::request_box_item_drop(void *unused, s16 arg2) {
                     ((TLobby *)(&pkt))->build_6x06_guild_card_packet();
                     pkt.f4 = get_current_floor();
                     pkt.f5 = 0x30;
-                    pkt.x = self->x;
-                    pkt.z = self->z;
-                    pkt.f10 = self->f28;
-                    pkt.f12 = arg2;
+                    pkt.x = position.x;
+                    pkt.z = position.z;
+                    pkt.f10 = room;
+                    pkt.f12 = random_item;
                     pkt.f6 = this->set_index;
                     pkt.f14 = get_current_floor_area();
-                    pkt.f18 = self->f70;
+                    pkt.f18 = scale.z;
                     pkt.f1c = this->set_params[0];
-                    pkt.f20 = self->f88;
+                    pkt.f20 = set_params[1];
                     pkt.f24 = this->set_params[2];
                     ((TLobby *)(&pkt))->process_and_dispatch_packet();
                 }
