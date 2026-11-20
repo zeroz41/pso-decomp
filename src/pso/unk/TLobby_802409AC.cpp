@@ -1128,7 +1128,7 @@ void TLobby::remove_com_card_entry(s32 arg0) {
     u8 *lobby;
     if (arg0 < 7) {
         lobby = (u8 *)&com_card_entries[arg0];
-        ((TLobby *)lobby)->move_words((u32 *)(lobby + 0xBC), (saddr)((void *) ((u32) ((7 - arg0) * 0xBC) >> 2U)));
+        ((TLobby *)lobby)->move_words((u32 *)(lobby + 0xBC), (saddr)((u32) ((7 - arg0) * 0xBC) >> 2U));
     }
     (*(s32 *)&com_card_entry_count) -= 1;
 }

@@ -162,7 +162,7 @@ void lsc_stop(LscStream *lsc_stream) {
                 TLobby__sub_803C89C4((u8 *)lsc_stream->file_handle);
                 lsc_stream->read_started = 0U;
             }
-            TLobby__sub_803C8B38((u8 *)((int) ((uaddr)lsc_stream->file_handle)));
+            TLobby__sub_803C8B38((u8 *)((uaddr)lsc_stream->file_handle));
             lsc_stream->file_handle = 0;
         }
         lsc_stream->file_sector_count = 0;
@@ -297,7 +297,7 @@ void lsc_destroy(LscStream *lsc_stream) {
                     TLobby__sub_803C89C4((u8 *)lsc_stream->file_handle);
                     lsc_stream->read_started = 0U;
                 }
-                TLobby__sub_803C8B38((u8 *)((int) ((uaddr)lsc_stream->file_handle)));
+                TLobby__sub_803C8B38((u8 *)((uaddr)lsc_stream->file_handle));
                 lsc_stream->file_handle = 0;
             }
             lsc_stream->file_sector_count = 0;

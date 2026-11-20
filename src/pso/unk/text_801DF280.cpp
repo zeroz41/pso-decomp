@@ -97,14 +97,14 @@ typedef struct RecoveredFields_801DF394_arg0 RecoveredFields_801DF394_arg0;
 typedef struct RecoveredFields_801DF394_arg1 RecoveredFields_801DF394_arg1;
 
 s32 *copy_entry_table(s32 *arg0, s32 *arg1) {
-  u32 var_r30;
-  s32 var_r29;
-  var_r30 = (unsigned long) (((u8 *) arg0) + 4);
-  var_r29 = (long) (((u8 *) arg1) + 4);
+  uaddr var_r30;
+  saddr var_r29;
+  var_r30 = (uaddr) (((u8 *) arg0) + 4);
+  var_r29 = (saddr) (((u8 *) arg1) + 4);
   ((RecoveredFields_801DF394_arg0 *) arg0)->field_0 = ((RecoveredFields_801DF394_arg1 *) arg1)->field_0;
   do
   {
-    copy_cmd_88_marker_record((void*)((int) var_r30), (void*)((int) var_r29));
+    copy_cmd_88_marker_record((void*)var_r30, (void*)var_r29);
     var_r30 += 0xC;
     var_r29 += 0xC;
   }

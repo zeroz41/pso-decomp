@@ -121,7 +121,7 @@ TLoadCtrl::~TLoadCtrl() {
 }
 
 }
-TLoadCtrl::TLoadCtrl(s32 arg1) : TObject((TObject *)((void *)arg1)) {
+TLoadCtrl::TLoadCtrl(saddr arg1) : TObject((TObject *)((void *)arg1)) {
     s32 temp_r3;
     s32 var_r0;
     this->m_1c = 1;

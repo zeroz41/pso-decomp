@@ -3046,7 +3046,7 @@ void qst_op_call_image_data() {
 
 void qst_op_animation_check(s32 arg0, s32 arg1) {
     u8 *motion;
-    motion = (u8 *)(((s32)((u32 (*)(int, int))get_player_by_client_id)((int)((u32) (u16) qst_registers[(u8)arg0]), (int)(arg1))));
+    motion = (u8 *)(((saddr)((uaddr (*)(int, int))get_player_by_client_id)((int)((u32) (u16) qst_registers[(u8)arg0]), (int)(arg1))));
     if (motion != NULL) {
         qst_registers[(u8)arg1] = ((TObjMotion *)motion)->is_motion_held();
     }
@@ -3772,7 +3772,7 @@ void qst_op_reset_kills(s32 arg0) {
 
 void qst_op_get_num_kills(s32 arg0, s32 arg1) {
     u8 *player;
-    player = (u8 *)(((s32)((u32 (*)(int, int))get_player_by_client_id)((int)(qst_registers[(u8)arg0]), arg1)));
+    player = (u8 *)(((saddr)((uaddr (*)(int, int))get_player_by_client_id)((int)(qst_registers[(u8)arg0]), arg1)));
     if (player != NULL) {
         qst_registers[(u8)arg1] = (s32) ((TObjPlayer *)player)->get_kill_count();
         return;
@@ -4855,7 +4855,7 @@ void qst_op_p_hpstat(void) {
         return;
     }
     limit = 1.0f / pct;
-    obj = (void *)((s32)get_player_by_client_id(player));
+    obj = (void *)((saddr)get_player_by_client_id(player));
     if (obj != NULL) {
         hp = ((TObjChara *)obj)->get_actor_hp();
         if (hp / ((TItemProShield *)obj)->get_field_2b8() < limit) {

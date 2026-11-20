@@ -16,7 +16,7 @@ void TLobby::update_scroll() {
         TLobby__sub_803CE220();
         ((TLobby *)(*(saddr *)&this->m_flags))->get_entry_pair((s32)((int) (*(s32 *)((s8 *)arg0 + 0x1B0))), &spC, &sp8);
         ((TLobby *)(*(saddr *)&this->m_prev))->set_scroll_offset((int) (spC / 2048));
-        ((TLobby *)(*(saddr *)&this->m_prev))->set_scroll_position((saddr)((void *) ((s32) (spC + sp8) / 2048)));
+        ((TLobby *)(*(saddr *)&this->m_prev))->set_scroll_position((saddr)((s32) (spC + sp8) / 2048));
         ((TLobby *)(*(saddr *)&this->m_prev))->init_stream_position();
         TLobby::update_scroll_impl();
     }

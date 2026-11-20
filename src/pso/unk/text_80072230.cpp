@@ -209,7 +209,7 @@ void TLobby__sub_80072618(void) {
     if (TLobby::is_flag_set() != 0) {
         q = (s32 *)(((u8 *)&challenge_mode_state) + local_client_id * 0x104 + 0x270);
         if (((u32)get_character_save_record(0xFFFF)) != 0) {
-            TLobby__sub_800703D0(q + 1, (void *)(((u32)get_character_save_record(0xFFFF)) + 0x21C4));
+            TLobby__sub_800703D0(q + 1, (void *)(((uaddr)get_character_save_record(0xFFFF)) + 0x21C4));
             if ((*(u32 *)&challenge_task) != 0) {
                 TLobby::send_challenge_records((u32)((*(u32 *)&challenge_task)));
             }
