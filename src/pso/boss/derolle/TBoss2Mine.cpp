@@ -1278,7 +1278,7 @@ void TUnk_80482D04::vfunc_106(s32 arg1) {
         this->rotation_x = 0;
         *(s32 *)((s8 *)arg0 + 0x3B0) = 0;
         *(s32 *)((s8 *)arg0 + 0x3C8) = 0;
-        *(s32 *)((s8 *)arg0 + 0x3CC) = (s32)((6e+01f) * calc_elapsed_scaled__9TObjEneDDFv(arg0)) + 0xF0;
+        *(s32 *)((s8 *)arg0 + 0x3CC) = (s32)((6e+01f) * ((TObjEneDD *)arg0)->calc_elapsed_scaled()) + 0xF0;
         init_params__10TBoss2MineFlf(arg0, 0x1E, (0.25f));
         break;
     case 3:

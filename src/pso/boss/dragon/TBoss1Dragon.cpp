@@ -165,7 +165,6 @@ extern saddr tl_05;
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
 void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed);
 extern "C" {
-s32 get_random_scaled__9TObjEneDDFv(void *);
 
 void rotate_vec_xz(void *, void *, s32);
 u8 *TBoss1DragonEffBullet__ct(u8 *arg0, saddr arg1, saddr arg2, saddr arg3);
@@ -195,7 +194,6 @@ s32 vec3_add_to(void *, void *);
 extern saddr TBoss1Dragon__part_hp_stats[5];
 
 f32 newton_sqrtf(f32);
-s32 is_valid_target__9TObjEneDDFv(void *);
 f32 horizontal_distance_squared(void *, void *);
 
 s32 next_sequence_action__12TBoss1DragonFv(void *);
@@ -289,7 +287,6 @@ extern "C" {
 s32 matrix_mult_vec(int, void *, void *);
 extern u8 identity_matrix[];
 f32 TBoss1Dragon__sub_80027010(TBoss1Dragon *arg0, f32 farg0, f32 farg1, f32 farg2);
-f32 random_ratio__9TObjCharaFv(void);
 
 s32 choose_burrow_ring_destination__12TBoss1DragonFPvPv(TBoss1Dragon *arg0, Vec *arg1);
 u16 get_entity_id(void *);
@@ -1259,7 +1256,6 @@ void TBoss1Dragon::update_wander_state(s32 arg1) {
 extern "C" {
 
 
-f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 
 #pragma push
 #pragma fp_contract on
@@ -1349,8 +1345,8 @@ void TBoss1Dragon::state_circle_flight(u32 arg1) {
         this->m_874 = -0x180;
         return;
     case 6:
-        this->destinationX = (f32) ((65536.0f) * random_ratio__9TObjCharaFv());
-        this->destinationZ = calc_elapsed_scaled__9TObjEneDDFv(arg0);
+        this->destinationX = (f32) ((65536.0f) * this->random_ratio());
+        this->destinationZ = ((TObjEneDD *)arg0)->calc_elapsed_scaled();
         return;
     case ENEMY_STATE_UPDATE:
         this->facingAngle = (s32) (this->facingAngle + this->m_874);
@@ -2236,7 +2232,7 @@ void TBoss1Dragon__sub_80023A2C(TBoss1Dragon *arg0, u32 arg1) {
         }
         return;
     case 6:
-        arg0->position.x = (f32) ((350.0f) * sin_table_lookup(temp_r30 = (s32) ((65536.0f) * random_ratio__9TObjCharaFv())));
+        arg0->position.x = (f32) ((350.0f) * sin_table_lookup(temp_r30 = (s32) ((65536.0f) * ((TObjChara *)arg0)->random_ratio())));
         arg0->position.z = (f32) ((350.0f) * cos_table_lookup(temp_r30));
         ((TBoss1Dragon *)arg0)->saveCurrentDestination();
         return;
@@ -2408,7 +2404,7 @@ void TBoss1Dragon::update_burrow_inward_run(u32 arg1, s32 arg2) {
         }
         return;
     case 6:
-        this->position.x = (f32) ((350.0f) * sin_table_lookup(temp_r30 = (s32) ((65536.0f) * random_ratio__9TObjCharaFv())));
+        this->position.x = (f32) ((350.0f) * sin_table_lookup(temp_r30 = (s32) ((65536.0f) * this->random_ratio())));
         this->position.z = (f32) ((350.0f) * cos_table_lookup(temp_r30));
         this->saveCurrentDestination();
         return;
@@ -2597,7 +2593,7 @@ void TBoss1Dragon::update_dive_state(u32 arg1) {
                 ((TBoss1Dragon *)(((u8 *)this)))->vfunc_94();
                 ((TBoss1Dragon *)((u8 *)this))->setPhase2();
             }
-            r = get_random_scaled__9TObjEneDDFv(((u8 *)this));
+            r = TObjEneDD::get_random_scaled();
             sn = sin_table_lookup(r);
             cs = cos_table_lookup(r);
             pos.x = (20.0f) * sn + ((TBoss1Dragon *)((u8 *)this))->targetX;
@@ -3146,7 +3142,7 @@ void TBoss1Dragon::update_air_fire_state(u32 arg1) {
             if (((TBoss1Dragon *)arg0)->select_air_fire_target(tgt) != 0) {
                 this->m_874 = (s32)(boss1_dragon_angle_units_per_radian * atan2_float(tgt->x - this->position.x, tgt->z - this->position.z));
             } else {
-                this->m_874 = get_random_scaled__9TObjEneDDFv(arg0);
+                this->m_874 = ((TObjEneDD *)arg0)->get_random_scaled();
                 tgt->x = 125.0f * sin_table_lookup(this->m_874);
                 tgt->y = (0.0f);
                 tgt->z = 125.0f * cos_table_lookup(this->m_874);
@@ -4828,7 +4824,7 @@ s32 select_forward_target__12TBoss1DragonFPv(u8 *self) {
         enemy_set_target_id(self, selected[0]);
         return 1;
     }
-    enemy_set_target_id(self, selected[(s32)floor_to_float((f32)n * ((f32 (*)(void *))random_ratio__9TObjCharaFv)(self))]);
+    enemy_set_target_id(self, selected[(s32)floor_to_float((f32)n * ((TObjChara *)self)->random_ratio())]);
     return 1;
 }
 
@@ -4847,7 +4843,7 @@ void prepare_flight_destination__12TBoss1DragonFPv(u8 *arg0) {
 s32 choose_burrow_ring_destination__12TBoss1DragonFPvPv(TBoss1Dragon *arg0, Vec *arg1) {
     s32 idx;
     f32 r;
-    idx = (s32)floor_to_float((12.0f) * random_ratio__9TObjCharaFv());
+    idx = (s32)floor_to_float((12.0f) * ((TObjChara *)arg0)->random_ratio());
     if (arg0->m_6a0 < 12) {
         arg0->m_6a0++;
         while ((0.0f) != arg0->m_6a8[idx]) {
@@ -4888,7 +4884,7 @@ s32 TBoss1Dragon::select_air_fire_target(void *out_) {
     count = 0;
     for (i = 0; i < 12; i++) {
         p = (TObjChara *)get_player_by_client_id(i);
-        if (is_valid_target__9TObjEneDDFv(p) != 0 && horizontal_distance_squared(&p->position, &this->position) >= range) {
+        if (((TObjEneDD *)p)->is_valid_target() != 0 && horizontal_distance_squared(&p->position, &this->position) >= range) {
             list[count++] = p;
         }
     }

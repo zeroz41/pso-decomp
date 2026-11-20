@@ -121,7 +121,6 @@ void TBoss8Dragon__sub_802FB70C(saddr arg0);
 void TBoss8Dragon__sub_802FBA1C(TBoss8Dragon *arg0);
 void spawn_trap__12TBoss8DragonFii(s32 arg0, s32 arg1);
 void TBoss8Dragon__sub_802FC850(TBoss8Dragon *dragon);
-f32 random_ratio__9TObjCharaFv();
 f32 atan2_float(f32 y, f32 x);
 void fill_value_array(saddr);
 f32 normalize_vector_xz__FP3Vec(void *);
@@ -689,7 +688,6 @@ void enemy_set_target_id(void *, u16);
 s32 reload_stats_keep_hp_tp__9TObjEneDDFv(void *, void *, int, void *);
 void get_camera_ctrl__9TObjEneDDFv(s32, s32);
 void update_camera_sequence__9TObjEneDDFv(void);
-f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 int emit_effect_at_position__9TObjEneDDFPv(void*);
 int emit_enemy_effect__9TObjEneDDFllPUcl(void*);
 int setup_instance__9TObjEneDDFllPUcl(void*);
@@ -1268,7 +1266,6 @@ struct VObj_18_444bc5x : VBase_18_444bc5x {
 };
 void rotate_vec_xz(void *, void *, s32);
 TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
-s32 get_random_scaled__9TObjEneDDFv(void *);
 s32 TBoss8DragonEffBullet__ct(void *, void *, void *, void *, s32, u16);
 extern f32 lbl_805D69C0;
 void subtractive_rng_seed(void *, s32);
@@ -2171,7 +2168,7 @@ s32 TBoss8Dragon__sub_802FC580(Obj_802FC580 *obj, f32 *out) {
     s32 i;
     s32 n;
     f32 r;
-    i = (s32)floor_to_float(12.0f * random_ratio__9TObjCharaFv());
+    i = (s32)floor_to_float(12.0f * ((TObjChara *)obj)->random_ratio());
     n = obj->count;
     if (n < 12) {
         obj->count = n + 1;
@@ -2243,7 +2240,7 @@ s32 select_target_in_front__12TBoss8DragonFPv(u8 *ene_dd_st) {
         enemy_set_target_id(ene_dd_st, ids[0]);
         return 1;
     }
-    enemy_set_target_id(ene_dd_st, ids[(s32)floor_to_float((f32)n * ((f32 (*)(void *))random_ratio__9TObjCharaFv)(ene_dd_st))]);
+    enemy_set_target_id(ene_dd_st, ids[(s32)floor_to_float((f32)n * ((TObjChara *)ene_dd_st)->random_ratio())]);
     return 1;
 }
 
@@ -3517,7 +3514,7 @@ void TBoss8Dragon::sub_802F8F88(s32 arg1) {
             if (TBoss8Dragon__sub_802FC674((Obj_802FC674 *)(this), d) != 0) {
                 F(s32, 0x85C) = (s32)(RADIANS_TO_ANGLE * atan2_float(d[0] - F(f32, 0x38), d[2] - F(f32, 0x40)));
             } else {
-                F(s32, 0x85C) = get_random_scaled__9TObjEneDDFv(this);
+                F(s32, 0x85C) = TObjEneDD::get_random_scaled();
                 d[0] = 125.0f * sin_table_lookup(F(s32, 0x85C));
                 d[1] = 0.0f;
                 d[2] = 125.0f * cos_table_lookup(F(s32, 0x85C));
@@ -4293,7 +4290,7 @@ void TBoss8Dragon__sub_802F7808(u8 *arg0, u32 arg1, s32 arg2) {
         }
         break;
     case 6:
-        a = (s32)(65536.0f * random_ratio__9TObjCharaFv());
+        a = (s32)(65536.0f * ((TObjChara *)arg0)->random_ratio());
         F(f32, 0x38) = 350.0f * sin_table_lookup(a);
         F(f32, 0x40) = 350.0f * cos_table_lookup(a);
         copy_pos_to_field688__12TBoss8DragonFPv(arg0);
@@ -4432,7 +4429,7 @@ void TBoss8Dragon::handle_spiral_state(s32 arg1) {
         }
         break;
     case 6:
-        a = (s32)(65536.0f * random_ratio__9TObjCharaFv());
+        a = (s32)(65536.0f * this->random_ratio());
         F(f32, 0x38) = 350.0f * sin_table_lookup(a);
         F(f32, 0x40) = 350.0f * cos_table_lookup(a);
         copy_pos_to_field688__12TBoss8DragonFPv(this);
@@ -5301,8 +5298,8 @@ void TBoss8Dragon::sub_802F57E4(s32 arg1) {
         *(s32 *)((s8 *)this + 0x85C) = -0x180;
         return;
     case 6:
-        *(f32 *)((s8 *)this + 0x688) = (f32) (65536.0f * random_ratio__9TObjCharaFv());
-        *(f32 *)((s8 *)this + 0x68C) = calc_elapsed_scaled__9TObjEneDDFv(this);
+        *(f32 *)((s8 *)this + 0x688) = (f32) (65536.0f * this->random_ratio());
+        *(f32 *)((s8 *)this + 0x68C) = TObjEneDD::calc_elapsed_scaled();
         return;
     case 0:
         *(s32 *)((s8 *)this + 0x758) = (s32) (*(s32 *)((s8 *)this + 0x758) + *(s32 *)((s8 *)this + 0x85C));

@@ -390,7 +390,6 @@ void *spawn_particle_effect(const void *pos, s32 id);
 void fn_800D88E4(void *);
 extern s32 actor_frame_tick;
 void spawn_ground_effects__14TObjEneDolmOlmFPvPv(u8 *arg0, Vec *arg1);
-f32 random_ratio__9TObjCharaFv();
 s32 obj_setFlags30(void *, s32);
 s32 get_current_floor();
 f32 fabs_float(f32);
@@ -955,7 +954,7 @@ void TObjEneDolmOlm::vfunc_83() {
     }
 }
 void TObjEneDolmOlm::vfunc_100() {
-    if (random_ratio__9TObjCharaFv() < *(f32 *)((s8 *)this + 0x3CC)) {
+    if (this->random_ratio() < *(f32 *)((s8 *)this + 0x3CC)) {
         this->mode = 0xA;
         this->phase = 0;
     }

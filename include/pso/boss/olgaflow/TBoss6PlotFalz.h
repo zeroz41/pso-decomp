@@ -81,8 +81,8 @@ struct TBoss6PlotFalz : public TObjEnemy {
     void advance_intro_timer();
     void advance_if_ready();
     static void *create(void *arg0, void *arg1);
-    static u8 is_ending_or_split_screen();
-    static int is_ready();
+    s32 is_ending_or_split_screen();
+    int is_ready();
     void finish_and_dispatch_next_phase();
     void check_action_7();
     void advance_timer();

@@ -52,7 +52,7 @@ struct TObjEneRecon : public TObjEneDD_ST {
     u8 is_anim_5();
     void spawn_trap_a();
     void spawn_trap_b();
-    static f32 approach_value(f32 farg0, f32 farg1);
+    f32 approach_value(f32 farg0, f32 farg1);
     void clamp_min_height();
     void update_position_from_offsets();
     void init_state();

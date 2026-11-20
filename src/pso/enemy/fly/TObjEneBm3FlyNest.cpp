@@ -48,8 +48,6 @@ struct Pair_800B23A0 { s32 k; Ent_800B23A0 *e; };
 void free_bin_model_request(void*, int);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
 void get_camera_ctrl__9TObjEneDDFv(const Vec *origin, Vec *out);
-s32 get_random_scaled__9TObjEneDDFv(void *);
-s32 noop__12TBoss8DragonFv(void *);
 s32 TBoss8Dragon__sub_800BB7D4(void *, s32);
 s32 pack_debug_text_position(s32, s32);
 saddr load_enemy_bml_resource_named(saddr arg0, saddr arg1);
@@ -818,7 +816,7 @@ void TObjEneBm3FlyNest::handle_motion_event(s32 reason) {
     switch (reason) {
     case 4:
         vfunc_96();
-        noop__12TBoss8DragonFv(this);
+        ((TBoss8Dragon *)this)->noop();
         TBoss8Dragon__sub_800BB7D4(this, 0xF1);
         play_sound_effect(remap_sound_for_area(0x4003A829), &position, 0, 0);
         if (unk_3a8 != 0) {
@@ -896,7 +894,7 @@ void TObjEneBm3FlyNest::state_dying(s32 reason) {
                 unk_4c8 += 1;
                 if (unk_4c8 >= 4) {
                     r = rand_range(5.0f, 10.0f);
-                    a = get_random_scaled__9TObjEneDDFv(this);
+                    a = TObjEneDD::get_random_scaled();
                     VecCopy(&p, (Vec *)&m_2fc);
                     p.x = r * sin_table_lookup(a) + p.x;
                     p.y += 5.0f;

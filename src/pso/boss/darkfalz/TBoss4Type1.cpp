@@ -199,7 +199,6 @@ struct Stack_80053670 {
     f32 sp10;
 };
 
-f32 random_ratio__9TObjCharaFv(void *);
 void VecCopy__FP3VecPC3Vec(void *, void *);
 u16 get_entity_id(void *);
 f32 atan2_float(f32 y, f32 x);
@@ -1373,7 +1372,7 @@ void TBoss4Type2::update_scale_state() {
     s32 var_r31;
 
     if ((s32) *(s32 *)((s8 *)this + 0x398) == 0) {
-        if (((f32 (*)(void))random_ratio__9TObjCharaFv)() < 0.5) {
+        if (((TObjChara *)this)->random_ratio() < 0.5) {
             ((s32 (*)(void *))TBoss4Type2__sub_80053504)(this);
             return;
         }
@@ -1432,7 +1431,7 @@ void TBoss4Type2::init_timer() {
 
 void TBoss4Type2::sub_800528B8() {
     if ((s32) *(s32 *)((s8 *)this + 0x398) == 0) {
-        if (((f32 (*)(void))random_ratio__9TObjCharaFv)() < 0.75f) {
+        if (((TObjChara *)this)->random_ratio() < 0.75f) {
             ((s32 (*)(void *))TBoss4Type2__sub_800535A8)(this);
             return;
         }

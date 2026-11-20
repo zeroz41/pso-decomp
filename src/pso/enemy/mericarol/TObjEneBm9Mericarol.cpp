@@ -88,7 +88,6 @@ s32 attack_target_history_add(AreaAttackHistory *history, TObjChara *target);
 void mult_vec_array__10TObjPlayerFUll(u32 matrix, Vec *src, Vec *dst, s32 count);
 void create__9TTecKafunFllllllff(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, f32 farg0, f32 farg1);
 void enemy_set_target_id(TObjEneBm9Mericarol *self, u16 id);
-u16 set_squared_value__9TObjEneDDFf(TObjEneBm9Mericarol *self, f32 range);
 u16 enemy_find_nearest_player_in_range(u8 *self, f32 range);
 }
 
@@ -612,7 +611,7 @@ void TObjEneBm9Mericarol::sub_802D01D8(s32 arg1) {
         if (tick_period_counter((saddr)this, &m_450, 0x14) != 0) {
             if (m_3ac > 30.0f) {
                 if (vfunc_99() != 0) {
-                    target = set_squared_value__9TObjEneDDFf(this, m_3ac - 30.0f);
+                    target = set_squared_value(m_3ac - 30.0f);
                 }
                 if (target == 0xFFFF) {
                     target = enemy_find_nearest_player_in_range((u8 *)this, (f32)(m_3ac - 30.0f));

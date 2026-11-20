@@ -1182,7 +1182,6 @@ saddr obj_fish_count;
 extern "C" {
 s32 restore_player_cameras();
 void play_area_music(char *name);
-s32 is_ending_or_split_screen__14TBoss6PlotFalzFv(void *);
 extern saddr TBoss6PlotFalz__instance;
 u8 *get_enemy_entity(u16 arg0);
 void fn_802ACD40();
@@ -1250,7 +1249,7 @@ TBoss6PlotFalz::~TBoss6PlotFalz() {
         send_entity_set_flags();
         break;
     }
-    if (is_ending_or_split_screen__14TBoss6PlotFalzFv(this) == 0) {
+    if (((TBoss6PlotFalz *)this)->is_ending_or_split_screen() == 0) {
         TLobby::stop_audio_streams();
         if (m_378 == 7) {
             play_area_music("HALL.adx");

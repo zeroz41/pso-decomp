@@ -900,7 +900,6 @@ int play_sound_effect(void*, void*, void*, void*);
 
 void TObjFish__sub_802EBBC8(u8 *arg0, u32 arg1);
 
-s32 get_random_scaled__9TObjEneDDFv(void *);
 
 s32 TBoss7Tentacle__sub_802F0904(s32);
 
@@ -931,7 +930,6 @@ f32 fabs_float(f32);
 
 s32 advance_scalar_motion_profile(void *);
 
-f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 
 void spawn_particle_201__8TObjFishFii(s32 arg1, s32 arg2);
 
@@ -2170,7 +2168,7 @@ void TBoss7DeRolLeC::advance_action_sequence() {
         var_r4 = lbl_804E3C2C[game_difficulty_selection][this->action_index].a;
         switch (var_r4) {
         case 0x1E:
-            if (calc_elapsed_scaled__9TObjEneDDFv(this) > 0.0f) {
+            if (TObjEneDD::calc_elapsed_scaled() > 0.0f) {
                 var_r4 = 8;
             } else {
                 var_r4 = 6;
@@ -2184,7 +2182,7 @@ void TBoss7DeRolLeC::advance_action_sequence() {
             }
             break;
         case 0x20:
-            if (calc_elapsed_scaled__9TObjEneDDFv(this) > 0.0f) {
+            if (TObjEneDD::calc_elapsed_scaled() > 0.0f) {
                 var_r4 = 0xC;
             } else {
                 var_r4 = 0xE;
@@ -3091,7 +3089,7 @@ void TObjFish__sub_802EAAC8(u8 *arg0, u32 arg1, s32 arg2, s32 arg3) {
                         }
                         v.x = v.x - self->dir * (20.0f * ((TObjChara *)self)->random_ratio() + 40.0f);
                         v.y = -5.0f;
-                        v.z = v.z + (20.0f * calc_elapsed_scaled__9TObjEneDDFv(self) + 70.0f);
+                        v.z = v.z + (20.0f * ((TObjEneDD *)self)->calc_elapsed_scaled() + 70.0f);
                         ((void (*)(void *, void *)) spawn_particle_201__8TObjFishFii)(self, &v);
                     }
                 } else if (frame >= 41.0f && frame <= 46.0f && self->tick >= 3) {
@@ -3100,7 +3098,7 @@ void TObjFish__sub_802EAAC8(u8 *arg0, u32 arg1, s32 arg2, s32 arg3) {
                     ((void (*)(void *, void *)) VecCopy__FP3VecPC3Vec)(&v, &self->x);
                     v.x = v.x + self->dir * (20.0f * ((TObjChara *)self)->random_ratio() + 20.0f);
                     v.y = -5.0f;
-                    v.z = v.z + (60.0f * calc_elapsed_scaled__9TObjEneDDFv(self) + 10.0f);
+                    v.z = v.z + (60.0f * ((TObjEneDD *)self)->calc_elapsed_scaled() + 10.0f);
                     ((void (*)(void *, void *)) spawn_particle_201__8TObjFishFii)(self, &v);
                 }
             }
@@ -3255,7 +3253,7 @@ void TObjFish__sub_802EA4D8(u8 *arg0, u32 arg1) {
                     Vec v;
                     *(s32 *)((s8 *)arg0 + 0x734) = 0;
                     VecCopy__FP3VecPC3Vec((saddr)&v, arg0 + 0x38);
-                    v.x = 50.0f * calc_elapsed_scaled__9TObjEneDDFv(arg0) + v.x;
+                    v.x = 50.0f * ((TObjEneDD *)arg0)->calc_elapsed_scaled() + v.x;
                     v.y = -5.0f;
                     v.z += 180.0f;
                     spawn_particle_201__8TObjFishFii((saddr)arg0, (saddr)&v);
@@ -3270,7 +3268,7 @@ void TObjFish__sub_802EA4D8(u8 *arg0, u32 arg1) {
                         Vec v;
                         *(s32 *)((s8 *)arg0 + 0x734) = 0;
                         VecCopy__FP3VecPC3Vec((saddr)&v, arg0 + 0x38);
-                        v.x = 50.0f * calc_elapsed_scaled__9TObjEneDDFv(arg0) + v.x;
+                        v.x = 50.0f * ((TObjEneDD *)arg0)->calc_elapsed_scaled() + v.x;
                         v.y = -5.0f;
                         v.z += -20.0f;
                         spawn_particle_201__8TObjFishFii((saddr)arg0, (saddr)&v);
@@ -3601,7 +3599,7 @@ void handle_tentacle_attack_state__8TObjFishFPvUii(Fish_802E9ADC *o, u32 arg1, s
                     VecCopy__FP3VecPC3Vec((saddr)&v, o->target + 0x38);
                 } else {
                     f32 r = 120.0f * ((TObjChara *)o)->random_ratio();
-                    ang = get_random_scaled__9TObjEneDDFv(o);
+                    ang = ((TObjEneDD *)o)->get_random_scaled();
                     v.x = r * sin_table_lookup(ang);
                     v.y = -1.85f;
                     v.z = r * cos_table_lookup(ang);
@@ -3818,7 +3816,7 @@ void TObjFish__sub_802E9458(u8 *arg0, u32 arg1) {
         if ((temp_f1 >= 10.0f) && (temp_f1 <= 14.0f) && ((f32) *(s32 *)((s8 *)arg0 + 0x728) >= 3.0f)) {
             *(s32 *)((s8 *)arg0 + 0x728) = 0;
             VecCopy__FP3VecPC3Vec((saddr)&v, arg0 + 0x38);
-            v.x = 30.0f * calc_elapsed_scaled__9TObjEneDDFv(arg0) + v.x;
+            v.x = 30.0f * ((TObjEneDD *)arg0)->calc_elapsed_scaled() + v.x;
             v.y = -5.0f;
             v.z += 80.0f;
             spawn_particle_201__8TObjFishFii((saddr)arg0, (saddr)&v);
@@ -4317,7 +4315,7 @@ void TObjFish__sub_802E85E0(u8 *arg0, u32 arg1, s32 arg2) {
                         ((s32 (*)(Vec *, Vec *))VecCopy__FP3VecPC3Vec)(&v, &self->target->pos);
                     } else {
                         scale = 120.0f * ((TObjChara *)self)->random_ratio();
-                        r = get_random_scaled__9TObjEneDDFv(self);
+                        r = ((TObjEneDD *)self)->get_random_scaled();
                         v.x = scale * sin_table_lookup(r);
                         v.y = -1.85f;
                         v.z = scale * cos_table_lookup(r);

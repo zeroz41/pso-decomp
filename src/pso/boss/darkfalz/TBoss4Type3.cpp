@@ -350,7 +350,6 @@ struct VObj_8005B218 : VBase_8005B218 {
     virtual void m21(s32, Dmg_8005B218 *, s32, s32, s32);
 };
 
-f32 random_ratio__9TObjCharaFv(void *);
 u16 get_entity_id(void *);
 s32 is_split_screen();
 saddr get_bml_motion(s32, s32);
@@ -1324,7 +1323,7 @@ void TBoss4Type3::spawn_random_effect() {
     s32 arg0 = (saddr)this;
     s32 temp_r5;
 
-    temp_r5 = (s32) (15.99f * ((f32 (*)(void))random_ratio__9TObjCharaFv)());
+    temp_r5 = (s32) (15.99f * this->random_ratio());
     send_packed_action(0xF, temp_r5, temp_r5);
 }
 
@@ -1410,7 +1409,7 @@ s32 TBoss4Type3::choose_attack_heading_sector() {
 }
 
 s32 TBoss4Type3::get_random_scaled(void * _w0) {
-    return (s32) (15.84f * ((f32 (*)(void))random_ratio__9TObjCharaFv)());
+    return (s32) (15.84f * ((TObjChara *)_w0)->random_ratio());
 }
 
 void TBoss4Type3::turn_toward_player(s32 arg1) {

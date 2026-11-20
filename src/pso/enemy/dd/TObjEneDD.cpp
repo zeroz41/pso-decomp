@@ -42,7 +42,6 @@ extern "C" {
 s32 transform_relative_position__9TObjEneDDFPv(void *, int);
 s32 calc_shot_position__13TBoss5GryphonFPUcfff(void *, s32, f32, f32, f32);
 f32 atan2_float(f32 y, f32 x);
-u16 set_squared_value__9TObjEneDDFf(void *, f32);
 }
 struct O_800B98C0 { u8 pad[0x38c]; u16 f38c; u8 pad2[2]; s32 f390; };
 struct Obj_800B9958 { u8 pad[0x38c]; u16 id; u8 pad2[2]; s32 ptr; };
@@ -102,7 +101,6 @@ int apply_split_screen_view_matrix__11TCameraCtrlFv(void*);
 int restore_scene_lighting(void*);
 int select_actor_lighting(void*);
 extern int model_render_flags;
-f32 random_ratio__9TObjCharaFv();
 }
 
 
@@ -825,8 +823,8 @@ u16 enemy_nearest_visible_enemy_sq(Ent_800BB388 *self, f32 range) {
     return best;
 }
 
-void TObjEneDD::set_squared_value(f32 farg0) {
-    ((s32 (*)(f32))enemy_nearest_visible_enemy_sq)(farg0 * farg0);
+u16 TObjEneDD::set_squared_value(f32 farg0) {
+    return enemy_nearest_visible_enemy_sq((Ent_800BB388 *)this, farg0 * farg0);
 }
 
 u8 *TObjEneDD::vfunc_103(u8 *arg1) {
@@ -1328,15 +1326,15 @@ s32 TObjEneDD::vfunc_99() {
 }
 
 f32 TObjEneDD::calc_elapsed_scaled() {
-    return 2.0f * (random_ratio__9TObjCharaFv() - 0.5f);
+    return 2.0f * (this->random_ratio() - 0.5f);
 }
 
 f32 TObjEneDD::rand_range(f32 farg0, f32 farg1) {
-    return ((farg1 - farg0) * random_ratio__9TObjCharaFv()) + farg0;
+    return ((farg1 - farg0) * this->random_ratio()) + farg0;
 }
 
 s32 TObjEneDD::get_random_scaled() {
-    return (s32) (65535.0f * random_ratio__9TObjCharaFv());
+    return (s32) (65535.0f * this->random_ratio());
 }
 
 void TObjEneDD::initialize_enemy_state(s32 parameter) {
@@ -1535,7 +1533,7 @@ s32 TObjEneDD_ST::select_and_apply_target(f32 range) {
     u16 var_r4;
 
     if (this->vfunc_99() != 0) {
-        temp_r3 = set_squared_value__9TObjEneDDFf(this, range);
+        temp_r3 = set_squared_value(range);
         var_r4 = temp_r3;
         if (temp_r3 == 0xFFFF) {
             var_r4 = enemy_find_nearest_player_in_range((u8 *)this, range);

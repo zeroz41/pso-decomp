@@ -24,7 +24,6 @@ extern "C" {
 
 s32 is_player_entity_id();
 s32 apply_hit_if_active__13TUnk_804928CCFPvPf();
-f32 random_ratio__9TObjCharaFv();
 u16 get_entity_id(void *);
 
 int TObjEneRe7BeruraPunch::is_patrol_active() { return (*(u32 *)&this->owner_id >> 2) & 0x1; }
@@ -37,7 +36,7 @@ void TObjEneRe7BeruraPunch::apply_hit_if_active(void *target, f32 *) {
         get_entity_id((void *)target);
         if (is_player_entity_id() != 0) {
             entity = (saddr)find_entity_by_id(this->owner_id);
-            if ((entity != 0) && (random_ratio__9TObjCharaFv() < 0.1f)) {
+            if ((entity != 0) && (((TObjChara *)entity)->random_ratio() < 0.1f)) {
                 TObjEneDD__sub_800BA438(entity, (u8 *)target);
             }
         }

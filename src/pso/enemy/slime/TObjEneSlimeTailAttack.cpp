@@ -1076,7 +1076,7 @@ void TObjEneSlimeOne::set_state(s32 arg1) {
 }
 
 void set_random_timer__15TObjEneSlimeOneFPvii(void *arg0, s32 arg1, s32 arg2) {
-    *(s32 *)((s8 *)arg0 + 0x390) = (s32) (arg1 + (s32) ((f32) arg2 * ((f32 (*)(void))random_ratio__9TObjCharaFv)()));
+    *(s32 *)((s8 *)arg0 + 0x390) = (s32) (arg1 + (s32) ((f32) arg2 * ((TObjChara *)arg0)->random_ratio()));
 }
 s32 TObjEneSlimeOne__sub_800EAD84(Obj_800EAD84 *arg0) {
     Vec sp = arg0->pos;

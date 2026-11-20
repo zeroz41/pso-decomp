@@ -69,7 +69,6 @@ extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
 f32 atan2_float(f32 y, f32 x);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
-f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 f32 subtract_vector(void *, void *);
 void TObjEneEpsilon__sub_800B92F8(u8 *arg0, s32 arg1, f32 farg0);
 u32 __cvt_fp2unsigned(f32);
@@ -542,7 +541,7 @@ void TObjEneMe1Canadin::calc_move_vector(int leader, void *out) {
     f32 x;
     f32 dist;
 
-    angle = TObjEneDD::get_random_scaled();
+    angle = ((TObjEneDD *)leader)->get_random_scaled();
     f32 ratio = ((TObjEneMe1Canadin *)leader)->random_ratio();
     dist = (30.0f * ratio) + 10.0f;
     x = dist * sin_table_lookup(angle);
@@ -1540,7 +1539,7 @@ void TObjEneMe1Canadin__sub_8009C91C(TObjEneMe1Canadin *self, s32 arg1) {
                     f32 t;
                     self->enemy_copy_target_destination();
                     self->update_velocity();
-                    t = 8192.0f * calc_elapsed_scaled__9TObjEneDDFv(self);
+                    t = 8192.0f * ((TObjEneDD *)self)->calc_elapsed_scaled();
                     if (t >= 0.0f) {
                         t += 12288.0f;
                     } else {

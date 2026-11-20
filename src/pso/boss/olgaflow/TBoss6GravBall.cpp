@@ -331,7 +331,6 @@ void VecCopy__FP3VecPC3Vec(void *, void *);
 s32 play_persistent_sound(int, void *, void *, int, int);
 
 
-void clear_player_grav_flags__14TBoss6GravBallFv(void *);
 
 void update_charge_effects__14TBoss6GravBallFPv(u8 *self) {
     s32 temp_r0;
@@ -386,7 +385,7 @@ void update_charge_effects__14TBoss6GravBallFPv(u8 *self) {
         ((TBoss6GravBall *)self)->destroy_part(7);
         ((TBoss6GravBall *)self)->destroy_part(8);
         *(s32 *)((s8 *)self + 0xB4) = 0;
-        clear_player_grav_flags__14TBoss6GravBallFv(self);
+        ((TBoss6GravBall *)self)->clear_player_grav_flags();
         *(s32 *)((s8 *)self + 0xB0) = 2;
         play_sound_effect(0x4003C417, self + 0xC8, 0, 0);
         return;
@@ -458,7 +457,7 @@ void run_task__14TBoss6GravBallFv(TBoss6GravBall_80323BBC *arg0) {
 }
 TBoss6GravBall::~TBoss6GravBall() {
     init_parts();
-    clear_player_grav_flags__14TBoss6GravBallFv(this);
+    ((TBoss6GravBall *)this)->clear_player_grav_flags();
 }
 TBoss6GravBall::TBoss6GravBall(saddr arg1, void *arg2) : TObjCollidable((TObject *)arg1) {
     s32 i;

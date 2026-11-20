@@ -108,7 +108,6 @@ static saddr gee_object_handle_table[3];
 static TObjEneMe1GeeParams *gee_shared_handler_a_table[3];
 static f32 gee_camera_ctrl_vec[4];
 f32 atan2_float(f32 y, f32 x);
-f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
 s32 play_sound_effect(s32, u32, s16, s32);
 f32 subtract_vector(void *, void *);
@@ -1459,7 +1458,7 @@ void TObjEneMe1Gee::sub_800C9A94(s32 arg1) {
                     f32 t;
                     this->enemy_copy_target_destination();
                     this->update_velocity();
-                    t = 8192.0f * calc_elapsed_scaled__9TObjEneDDFv(this);
+                    t = 8192.0f * TObjEneDD::calc_elapsed_scaled();
                     if (t >= 0.0f) {
                         t += 12288.0f;
                     } else {

@@ -1235,7 +1235,6 @@ void pick_random_target__13TBoss2DeRolLeFi(saddr arg0);
 
 void set_move_direction__13TBoss2DeRolLeFPv(void *, s32);
 
-s32 get_random_scaled__9TObjEneDDFv(void *);
 
 s32 TBoss2Tentacle__sub_80039CA0(void *);
 
@@ -1270,7 +1269,6 @@ s32 activate_camera_mode(int);
 
 void set_scripted_camera_pose(void *, void *, void *);
 
-f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 
 int play_sound_effect(void*, int, int, int);
 
@@ -1288,7 +1286,6 @@ void get_node_world_pos__13TBoss2DeRolLeFPvPv(u8 *arg0, u8 *arg1);
 
 s32 vec3_add_to(int, void *);
 
-f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 
 void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, saddr arg2);
 
@@ -1318,7 +1315,6 @@ void set_position_index__13TBoss2DeRolLeFPvi(void *, s32);
 
 s32 advance_scalar_motion_profile(void *);
 
-f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 
 void TBoss2DeRolLe__sub_800320B4(void *arg0, void *arg1, int arg2, int arg3);
 
@@ -1516,7 +1512,6 @@ s32 enemy_set_target_id(void * a0 = 0, u16 a1 = 0);
 
 void project_sound_origin_from_camera(saddr arg0, u8 *arg1, f32 farg0);
 
-f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 
 
 
@@ -1636,7 +1631,6 @@ s32 advance_scalar_motion_profile(void *);
 void update_angle__13TBoss2DeRolLeFPv(void *arg0);
 
 
-f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 
 void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, saddr arg2);
 
@@ -3984,7 +3978,7 @@ void advance_action_sequence__13TBoss2DeRolLeFPv(Obj_80034034 *self) {
         }
         switch (mode) {
         case 33:
-            if (calc_elapsed_scaled__9TObjEneDDFv(self) > 0.0f) {
+            if (((TObjEneDD *)self)->calc_elapsed_scaled() > 0.0f) {
                 mode = 8;
             } else {
                 mode = 6;
@@ -3998,7 +3992,7 @@ void advance_action_sequence__13TBoss2DeRolLeFPv(Obj_80034034 *self) {
             }
             break;
         case 35:
-            if (calc_elapsed_scaled__9TObjEneDDFv(self) > 0.0f) {
+            if (((TObjEneDD *)self)->calc_elapsed_scaled() > 0.0f) {
                 mode = 0xC;
             } else {
                 mode = 0xE;
@@ -4012,7 +4006,7 @@ void advance_action_sequence__13TBoss2DeRolLeFPv(Obj_80034034 *self) {
             }
             break;
         case 37:
-            if (calc_elapsed_scaled__9TObjEneDDFv(self) > 0.0f) {
+            if (((TObjEneDD *)self)->calc_elapsed_scaled() > 0.0f) {
                 mode = 0x18;
             } else {
                 mode = 0x19;
@@ -4451,7 +4445,7 @@ void TBoss2DeRolLe__sub_80032E38(void *arg0, void *arg1) {
                     o->f6E4 = 0;
                     ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&v1, &o->pos);
                     ((void (*)(void *, void *))vec3_add_to)(&v1, p);
-                    v1.x += 30.0f * calc_elapsed_scaled__9TObjEneDDFv(o);
+                    v1.x += 30.0f * ((TObjEneDD *)o)->calc_elapsed_scaled();
                     v1.y = -5.0f;
                     v1.z += 70.0f;
                     ((void (*)(void *, void *))spawn_ceil_junk__13TBoss2DeRolLeFii)(o, &v1);
@@ -4461,7 +4455,7 @@ void TBoss2DeRolLe__sub_80032E38(void *arg0, void *arg1) {
                     o->f6E4 = 0;
                     ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&v2, &o->pos);
                     ((void (*)(void *, void *))vec3_add_to)(&v2, p);
-                    v2.x += 40.0f * calc_elapsed_scaled__9TObjEneDDFv(o);
+                    v2.x += 40.0f * ((TObjEneDD *)o)->calc_elapsed_scaled();
                     v2.y = -5.0f;
                     v2.z += 40.0f;
                     ((void (*)(void *, void *))spawn_ceil_junk__13TBoss2DeRolLeFii)(o, &v2);
@@ -4470,7 +4464,7 @@ void TBoss2DeRolLe__sub_80032E38(void *arg0, void *arg1) {
                 o->f6E4 = 0;
                 ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&v3, &o->pos);
                 ((void (*)(void *, void *))vec3_add_to)(&v3, p);
-                v3.x += 30.0f * calc_elapsed_scaled__9TObjEneDDFv(o);
+                v3.x += 30.0f * ((TObjEneDD *)o)->calc_elapsed_scaled();
                 v3.y = -5.0f;
                 v3.z += 70.0f;
                 ((void (*)(void *, void *))spawn_ceil_junk__13TBoss2DeRolLeFii)(o, &v3);
@@ -4882,7 +4876,7 @@ void TBoss2DeRolLe__sub_800320B4(void *arg0, void *arg1, int arg2, int arg3) {
                         }
                         v.x = v.x - self->dir * (20.0f * ((TObjChara *)self)->random_ratio() + 40.0f);
                         v.y = -5.0f;
-                        v.z = v.z + (20.0f * calc_elapsed_scaled__9TObjEneDDFv(self) + 70.0f);
+                        v.z = v.z + (20.0f * ((TObjEneDD *)self)->calc_elapsed_scaled() + 70.0f);
                         ((void (*)(void *, void *)) spawn_ceil_junk__13TBoss2DeRolLeFii)(self, &v);
                     }
                 } else if (frame >= 41.0f && frame <= 46.0f && self->tick >= 3) {
@@ -4891,7 +4885,7 @@ void TBoss2DeRolLe__sub_800320B4(void *arg0, void *arg1, int arg2, int arg3) {
                     ((void (*)(void *, void *)) VecCopy__FP3VecPC3Vec)(&v, &self->x);
                     v.x = v.x + self->dir * (20.0f * ((TObjChara *)self)->random_ratio() + 20.0f);
                     v.y = -5.0f;
-                    v.z = v.z + (60.0f * calc_elapsed_scaled__9TObjEneDDFv(self) + 10.0f);
+                    v.z = v.z + (60.0f * ((TObjEneDD *)self)->calc_elapsed_scaled() + 10.0f);
                     ((void (*)(void *, void *)) spawn_ceil_junk__13TBoss2DeRolLeFii)(self, &v);
                 }
             }
@@ -5050,7 +5044,7 @@ void TBoss2DeRolLe__sub_80031AD4(void *arg0, void *arg1) {
                 if (o->fC0 >= 13.5f && o->f6EC >= 2) {
                     o->f6EC = 0;
                     ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&va, &o->pos);
-                    va.x += 50.0f * calc_elapsed_scaled__9TObjEneDDFv(o);
+                    va.x += 50.0f * ((TObjEneDD *)o)->calc_elapsed_scaled();
                     va.y = -5.0f;
                     va.z += 180.0f;
                     ((void (*)(void *, void *))spawn_ceil_junk__13TBoss2DeRolLeFii)(o, &va);
@@ -5062,7 +5056,7 @@ void TBoss2DeRolLe__sub_80031AD4(void *arg0, void *arg1) {
                 if (o->f6EC >= 2 && o->fC0 >= 21.0f && o->fC0 <= 26.0f) {
                     o->f6EC = 0;
                     ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&vb, &o->pos);
-                    vb.x += 50.0f * calc_elapsed_scaled__9TObjEneDDFv(o);
+                    vb.x += 50.0f * ((TObjEneDD *)o)->calc_elapsed_scaled();
                     vb.y = -5.0f;
                     vb.z += -20.0f;
                     ((void (*)(void *, void *))spawn_ceil_junk__13TBoss2DeRolLeFii)(o, &vb);
@@ -5395,7 +5389,7 @@ void TBoss2DeRolLe__sub_800310F8(void *arg0, void *arg1, int arg2) {
                     VecCopy__FP3VecPC3Vec((saddr)&v, self->f390 + 0x38);
                 } else {
                     f32 r = 120.0f * ((TObjChara *)self)->random_ratio();
-                    a = get_random_scaled__9TObjEneDDFv(self);
+                    a = ((TObjEneDD *)self)->get_random_scaled();
                     v.x = r * sin_table_lookup(a);
                     v.y = -1.85f;
                     v.z = r * cos_table_lookup(a);
@@ -5597,7 +5591,7 @@ void TBoss2DeRolLe__sub_80030A38(u8 *arg0, u32 arg1) {
             }
             if (((TObjChara *)arg0)->random_ratio() <= *(f32 *)((s8 *)TBoss2DeRolLe__data_805D4BA0 + 0x10)) {
                 VecCopy__FP3VecPC3Vec((saddr)&v, arg0 + 0x38);
-                v.x = *(f32 *)((s8 *)TBoss2DeRolLe__data_805D4BA0 + 0xC) * calc_elapsed_scaled__9TObjEneDDFv(arg0) + v.x;
+                v.x = *(f32 *)((s8 *)TBoss2DeRolLe__data_805D4BA0 + 0xC) * ((TObjEneDD *)arg0)->calc_elapsed_scaled() + v.x;
                 v.z -= 100.0f * ((TObjChara *)arg0)->random_ratio();
                 v.y += 10.0f + *(f32 *)((s8 *)arg0 + 0x6A4);
                 TObjBoss2CeilJunk::create(&v);
@@ -5789,7 +5783,7 @@ void state_ceiling_attack__13TBoss2DeRolLeFPvUi(TBoss2DeRolLe *arg0, u32 arg1) {
         if (frame >= 10.0f && frame <= 14.0f && (f32)*(s32 *)((s8 *)arg0 + 0x6E0) >= 3.0f) {
             *(s32 *)((s8 *)arg0 + 0x6E0) = 0;
             VecCopy__FP3VecPC3Vec((saddr)&v, (u8 *)arg0 + 0x38);
-            v.x = 30.0f * calc_elapsed_scaled__9TObjEneDDFv(arg0) + v.x;
+            v.x = 30.0f * ((TObjEneDD *)arg0)->calc_elapsed_scaled() + v.x;
             v.y = -5.0f;
             v.z += 80.0f;
             spawn_ceil_junk__13TBoss2DeRolLeFii((saddr)arg0, (saddr)&v);
@@ -6183,7 +6177,7 @@ void handle_death_state__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1) {
                         }
                         ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&v, q + 0x540);
                     }
-                    v.x += 40.0f * calc_elapsed_scaled__9TObjEneDDFv(o);
+                    v.x += 40.0f * ((TObjEneDD *)o)->calc_elapsed_scaled();
                     v.y = -5.0f;
                     v.z += 80.0f * ((TObjChara *)o)->random_ratio();
                     ((void (*)(void *, void *))spawn_ceil_junk__13TBoss2DeRolLeFii)(o, &v);
@@ -6191,9 +6185,9 @@ void handle_death_state__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1) {
             } else if (t >= 99.0f && t <= 140.0f && (f32)o->f6E4 >= 2.0f) {
                 o->f6E4 = 0;
                 ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&w, &o->pos);
-                w.x += 40.0f * calc_elapsed_scaled__9TObjEneDDFv(o) + 20.0f;
+                w.x += 40.0f * ((TObjEneDD *)o)->calc_elapsed_scaled() + 20.0f;
                 w.y = -5.0f;
-                w.z += 40.0f * calc_elapsed_scaled__9TObjEneDDFv(o) + 20.0f;
+                w.z += 40.0f * ((TObjEneDD *)o)->calc_elapsed_scaled() + 20.0f;
                 ((void (*)(void *, void *))spawn_ceil_junk__13TBoss2DeRolLeFii)(o, &w);
             }
             if (o->fC0 >= 20.0f) {
