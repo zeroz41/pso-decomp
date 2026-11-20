@@ -5,7 +5,7 @@
 
 // --- C functions defined in TObjContainerIdo_8018BEE4.cpp ---
 extern "C" {
-u8 *TObjContainerIdo__ct(u8 *arg0, saddr arg1, s32 arg2);
+u8 *TObjContainerIdo__ct(u8 *arg0, saddr arg1, saddr arg2);
 void render__16TObjContainerIdoFv(u8 *container_ido);
 }
 // --- end of C functions

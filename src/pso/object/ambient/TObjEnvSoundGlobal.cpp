@@ -75,7 +75,7 @@ extern "C" {
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__18TObjEnvSoundGlobal[];
 u8 *TObjEnvSoundGlobal__ct(u8 *arg0, saddr arg1, saddr arg2);
-u8 *TObjEnvSoundEx__ct(u8 *arg0, s32 arg1, saddr arg2);
+u8 *TObjEnvSoundEx__ct(u8 *arg0, saddr arg1, saddr arg2);
 void copy_pair__18TObjEnvSoundGlobalFPvPv(void* p, void* q);
 const Row_80190AA0 *environment_sound_tables_by_area[36] = {
     lbl_804456F0, lbl_80445708, lbl_80445708, lbl_80445738,
@@ -248,7 +248,7 @@ s32 TObjEnvSound::is_sound_enabled(void *self, s32 cue) {
     return 1;
 }
 
-u8 *TObjEnvSoundEx__ct(u8 *env_sound_ex, s32 arg1, saddr arg2) {
+u8 *TObjEnvSoundEx__ct(u8 *env_sound_ex, saddr arg1, saddr arg2) {
     ((s32 (*)(void *))__ct__8TObjBaseFP7TObject)(env_sound_ex);
     *(s32 **)((s8 *)env_sound_ex + 0x18) = __vt__14TObjEnvSoundEx;
     ((TObjEnvSoundEx *)env_sound_ex)->m_name = TObjEnvSoundEx__class_name;
@@ -336,7 +336,7 @@ void * TObjEnvSoundEx__create(void *rader_map_core) {
     }
     o = TObject::operator new(0xA8);
     if (o != NULL) {
-        o = TObjEnvSoundEx__ct((u8 *)o, (s32)tl_05, (s32)rader_map_core);
+        o = TObjEnvSoundEx__ct((u8 *)o, (saddr)tl_05, (s32)rader_map_core);
     }
     return o;
 }

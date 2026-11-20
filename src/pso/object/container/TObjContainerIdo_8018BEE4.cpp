@@ -257,7 +257,7 @@ extern void *tl_05;
 void *TObjContainerIdo::create(void *arg0) {
     void *o = TObject::operator new(0x10C);
     if (o != NULL) {
-        o = TObjContainerIdo__ct((u8 *)o, (saddr)tl_05, (s32)arg0);
+        o = TObjContainerIdo__ct((u8 *)o, (saddr)tl_05, (saddr)arg0);
     }
     return o;
 }

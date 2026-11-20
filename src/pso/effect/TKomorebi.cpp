@@ -75,7 +75,7 @@ extern "C" {
 
 extern void *tl_05;
 
-u8 *TKomorebi__ct(u8 *komorebi, saddr arg1, s32 arg2) {
+u8 *TKomorebi__ct(u8 *komorebi, saddr arg1, saddr arg2) {
     __ct__8TObjBaseFP7TObject(komorebi);
     *(s32 **)((s8 *)komorebi + 0x18) = __vt__9TKomorebi;
     *(s32 *)((s8 *)komorebi + 0) = (s32) ((s32)komorebi_class_name);
@@ -90,7 +90,7 @@ u8 *TKomorebi__ct(u8 *komorebi, saddr arg1, s32 arg2) {
 void *TKomorebi__create(void *arg0) {
     void *o = TObject::operator new(0x90);
     if (o != NULL) {
-        o = TKomorebi__ct((u8 *)o, (saddr)tl_05, (s32)arg0);
+        o = TKomorebi__ct((u8 *)o, (saddr)tl_05, (saddr)arg0);
     }
     return o;
 }

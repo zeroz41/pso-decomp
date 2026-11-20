@@ -135,7 +135,7 @@ void TODummyKeyCave01::run_task() {
             if (skip == 0) {
                 o = TObject::operator new(0x24);
                 if (o != NULL) {
-                    TODummyKeyCave01Sound__ct((void *)o, (s32)self, (s32)*(s32 *)&this->m_c0, (s32)*(s32 *)&this->m_c8);
+                    TODummyKeyCave01Sound__ct((void *)o, (saddr)self, (s32)*(s32 *)&this->m_c0, (s32)*(s32 *)&this->m_c8);
                 }
             }
         }
@@ -303,7 +303,7 @@ void TODummyKeyCave01::sub_80165940() {
 }
 
 extern "C" {
-void *TODummyKeyCave01Sound__ct(void *dummy_key_cave01_sound, s32 arg1, s32 arg2, s32 arg3) {
+void *TODummyKeyCave01Sound__ct(void *dummy_key_cave01_sound, saddr arg1, s32 arg2, s32 arg3) {
     __ct__7TObjectFP7TObject();
     *(s32 **)((s8 *)dummy_key_cave01_sound + 0x18) = __vt__21TODummyKeyCave01Sound;
     ((TObject *)dummy_key_cave01_sound)->m_name = TODummyKeyCave01Sound__class_name;

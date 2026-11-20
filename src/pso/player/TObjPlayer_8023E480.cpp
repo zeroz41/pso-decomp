@@ -112,7 +112,7 @@ s32 free_texture_if_valid(u32 arg0) {
     return 1;
 }
 
-s32 load_texture_if_valid(u32 arg0) {
+s32 load_texture_if_valid(uaddr arg0) {
     if (arg0 == 0U) {
         return 0;
     }

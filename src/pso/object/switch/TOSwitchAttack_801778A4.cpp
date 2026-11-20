@@ -167,7 +167,7 @@ void TOSwitchAttack::run_task() {
 void *TOSwitchAttack::create(void *arg0) {
     void *o = TObject::operator new(0xAC);
     if (o != NULL) {
-        o = TOSwitchAttack__ct((u8 *)o, (saddr)tl_05, (s32)arg0);
+        o = TOSwitchAttack__ct((u8 *)o, (saddr)tl_05, (saddr)arg0);
     }
     return o;
 }
