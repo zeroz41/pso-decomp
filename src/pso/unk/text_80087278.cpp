@@ -8,7 +8,6 @@ struct Data_8008741C { u8 pad[0x98]; };
 
 extern "C" {
 extern s32 particle_pool_limit;
-void *initialize_with_flags__13TParticleCtrlFPCvP13ParticleParamllllUs(void *, const void *, void *, s32, s32, s32, s32, s32);
 
 #pragma push
 #pragma opt_propagation off
@@ -18,7 +17,7 @@ void *spawn_particle_effect_with_flags(const void *pos, s32 id, s32 flags) {
     if (particle_pool_limit > idx) {
         p = TObject::operator new((u32)(0x78));
         if (p != 0) {
-            p = initialize_with_flags__13TParticleCtrlFPCvP13ParticleParamllllUs(p, pos, &particle_global_entry_table[idx], 1, 0, 0, 0, flags);
+            p = static_cast<TParticleCtrl *>(p)->initialize_with_flags(pos, &particle_global_entry_table[idx], 1, 0, 0, 0, flags);
         }
         return p;
     }
@@ -26,7 +25,7 @@ void *spawn_particle_effect_with_flags(const void *pos, s32 id, s32 flags) {
         idx -= 0x200;
         p = TObject::operator new((u32)(0x78));
         if (p != 0) {
-            p = initialize_with_flags__13TParticleCtrlFPCvP13ParticleParamllllUs(p, pos, &particle_area_entry_table[idx], 1, 0, 0, 0, flags);
+            p = static_cast<TParticleCtrl *>(p)->initialize_with_flags(pos, &particle_area_entry_table[idx], 1, 0, 0, 0, flags);
         }
         return p;
     }
@@ -59,14 +58,14 @@ TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx
     if (particle_pool_limit > idx) {
         p = TObject::operator new(0x78);
         if (p != 0) {
-            p = initialize_with_flags__13TParticleCtrlFPCvP13ParticleParamllllUs(p, parent, &particle_global_entry_table[idx], 0, 0, 0, 0, flags);
+            p = static_cast<TParticleCtrl *>(p)->initialize_with_flags(parent, &particle_global_entry_table[idx], 0, 0, 0, 0, flags);
         }
         return (TParticleCtrl *)p;
     } else if (particle_pool_limit + 0x40 > idx) {
         s32 j = idx - 0x200;
         p = TObject::operator new(0x78);
         if (p != 0) {
-            p = initialize_with_flags__13TParticleCtrlFPCvP13ParticleParamllllUs(p, parent, &particle_area_entry_table[j], 0, 0, 0, 0, flags);
+            p = static_cast<TParticleCtrl *>(p)->initialize_with_flags(parent, &particle_area_entry_table[j], 0, 0, 0, 0, flags);
         }
         return (TParticleCtrl *)p;
     } else {

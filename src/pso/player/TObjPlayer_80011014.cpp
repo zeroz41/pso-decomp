@@ -1,3 +1,5 @@
+#include "pso/effect/particle/TParticleCtrl_800867E4.h"
+
 #include "pso/player/TObjPlayer_800F0810.h"
 #include "pso/render/BlobShadow.h"
 #include "pso/unk/text_803D8F74.h"
@@ -1042,7 +1044,6 @@ s32 is_entity_locally_controlled(s32 id);
 void move_with_wall_slide(u8 *arg0);
 void obj_clearArrS16_FC(ObjArrFC* p, int i);
 f64 fabs_double(f64 x);
-void *create_timed_particle_emitter_with_flags(void *pos, s32 id, s32 a, s32 b, s32 c);
 void *create_oneshot_particle_emitter(void *pos, void *dir, s32 id, s32 flags);
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 void spawn_confusion_feedback_effect(s32 arg0, s32 arg1) {
@@ -3406,7 +3407,7 @@ void TObjChara::apply_poison_status() {
 void TObjPlayer::spawn_recovery_effect() {
     u8 *arg0 = (u8 *)this;
     if (((s32 (*)(void *, s32))obj_testFlags30__14TObjCollidableFUl)(arg0, 0x02000000) == 0) {
-        create_timed_particle_emitter_with_flags(((u8 *)&this->m_2fc), 0x10A, 0, 0xA, 0x40);
+        create_timed_particle_emitter_with_flags(&m_2fc, 0x10A, 0, 0xA, 0x40);
     }
 }
 extern "C" {

@@ -582,11 +582,11 @@ void *initialize_with_direction__13TParticleCtrlFPvPvPviiiii(
     return particle;
 }
 
-void *TParticleCtrl::initialize_with_flags(const void *position, ParticleParam *particle_index, s32 field30, s32 field34, s32 field38, s32 use_self, u16 flags) {
+TParticleCtrl *TParticleCtrl::initialize_with_flags(const void *position, ParticleParam *particle_index, s32 field30, s32 field34, s32 field38, s32 use_self, s32 flags) {
     INITIALIZE_PARTICLE(((ParticleCtrlData *)this), position, particle_index, field30, field34,
                         field38, use_self, flags, CLEAR_PARTICLE_DIRECTION,
                         position);
-    return ((ParticleCtrlData *)this);
+    return this;
 }
 
 void *TParticleCtrl::initialize(const void *position, ParticleParam *particle_index, s32 field30, s32 field34, s32 field38, s32 use_self) {

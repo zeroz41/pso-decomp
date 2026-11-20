@@ -45,7 +45,7 @@ public:
     u8 *construct_particle_obj(s32 arg1, s32 arg2);
     u8 *init_particle_obj(s32 arg1, s32 arg2);
     void enable();
-    void *initialize_with_flags(const void *position, ParticleParam *entry, s32 field30, s32 field34, s32 field38, s32 use_self, u16 flags);
+    TParticleCtrl *initialize_with_flags(const void *position, ParticleParam *entry, s32 field30, s32 field34, s32 field38, s32 use_self, s32 flags);
     void *initialize(const void *position, ParticleParam *entry, s32 field30, s32 field34, s32 field38, s32 use_self);
     void attach_model(s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
     static void free_system();
