@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/object/wreck/TOWreckAncientResources.h"
 
 struct TOWreckAncient : public TObjCollidable {
     TOWreckAncient(s32 model_index);
@@ -17,6 +18,4 @@ struct TOWreckAncient : public TObjCollidable {
 
 typedef char TOWreckAncient_size[sizeof(TOWreckAncient) == 0xB4 ? 1 : -1];
 
-// One collision sphere per wreck model (TOWreckAncient.cpp); each subclass passes its model's entry.
-extern CollisionBody TOWreckAncient__collision_body_templates[7];
 #endif

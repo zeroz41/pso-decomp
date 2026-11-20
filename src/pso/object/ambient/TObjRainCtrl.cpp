@@ -4,50 +4,31 @@
 
 #include "types.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer_80011014.h"
 
 
 #pragma readonly_strings on
 
+extern "C" TObject *tl_particle;
+
 extern "C" {
-extern s32 tl_particle;
-void __ct__7TObjectFP7TObject(void *, void *);
+extern const char TObjRainCtrl__class_name_string[] = "TObjRainCtrl";
+const char *lbl_805D3428 = TObjRainCtrl__class_name_string;
+}
 
-extern s32 __vt__12TObjRainCtrl[];
-const char *lbl_805D3428 = "TObjRainCtrl";
-
-#pragma push
-#pragma fp_contract on
 void TObjRainCtrl::run_task() {
-    u8 *arg0 = (u8 *)this;
-    s32 temp_r0;
-    void *p;
-    temp_r0 = *(s32 *)((s8 *)arg0 + 0x1C) - 1;
-    *(s32 *)((s8 *)arg0 + 0x1C) = temp_r0;
-    if (temp_r0 < 0) {
+    if (--ticks_until_spawn < 0) {
         if (get_current_floor_area() == AREA_GAL_GRYPHON) {
-            p = (void *) TObject::operator new(0x220);
-            if (p != NULL) {
-                __ct__8TObjRainFv((u8 *)p, (tl_particle), 0x24);
-            }
+            new TObjRain(tl_particle, 36);
         } else {
-            p = (void *) TObject::operator new(0x220);
-            if (p != NULL) {
-                __ct__8TObjRainFv((u8 *)p, (tl_particle), 9);
-            }
+            new TObjRain(tl_particle, 9);
         }
-        *(s32 *)((s8 *)arg0 + 0x1C) = 2;
+        ticks_until_spawn = 2;
     }
 }
-#pragma pop
 
 TObjRainCtrl::~TObjRainCtrl() {}
-void *TObjRainCtrl__ct(void *rain_ctrl, void *parent) {
-    __ct__7TObjectFP7TObject(rain_ctrl, parent);
-    *(s32 **)((s8 *)rain_ctrl + 0x18) = __vt__12TObjRainCtrl;
-    ((TObjRainCtrl *)rain_ctrl)->m_name = lbl_805D3428;
-    *(u32 *)((s8 *)rain_ctrl + 0x1C) = 2;
-    return rain_ctrl;
-}
 
+TObjRainCtrl::TObjRainCtrl(TObject *parent) : TObject(parent) {
+    m_name = lbl_805D3428;
+    ticks_until_spawn = 2;
 }

@@ -4,6 +4,7 @@
 #include "pso/quest/QuestVm.h"
 #include "pso/system/data/FlagWord.h"
 #include "types.h"
+#include "pso/object/warp/ForestWarpResources.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/unk/TLobby_801F2D2C.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
@@ -325,10 +326,8 @@ void TLobby::set_lobby_id(int a0) { current_lobby_id = a0; }
     extern int lbl_805D3614;
 void TLobby::set_global_805D3614(int a0) { lbl_805D3614 = a0; }
 
-    extern int lobby_quest_progress_flag;
 void TLobby__sub_801F36D8(void) { lobby_quest_progress_flag = 1; }
 
-    extern int quest_warp_enabled;
 void TLobby__sub_801F36E4(void) { quest_warp_enabled = 0; }
 
 int TLobby__sub_801F36F0(void) { return -1; }

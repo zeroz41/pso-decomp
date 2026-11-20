@@ -38,21 +38,32 @@
 
 #pragma readonly_strings on
 
+static __declspec(section ".rodata") const char fe_obj_hako01_gj[] ATTRIBUTE_ALIGN(4) = "fe_obj_hako01.gj";
+static __declspec(section ".rodata") const char fe_obj_hako01_hahen1_gj[] ATTRIBUTE_ALIGN(4) = "fe_obj_hako01_hahen1.gj";
+static __declspec(section ".rodata") const char fe_obj_hako01_hahen2_gj[] ATTRIBUTE_ALIGN(4) = "fe_obj_hako01_hahen2.gj";
+static __declspec(section ".rodata") const char fe_obj_hako01_light_gj[] ATTRIBUTE_ALIGN(4) = "fe_obj_hako01_light.gj";
+static __declspec(section ".rodata") const char bm_obj_hako01_bml[] ATTRIBUTE_ALIGN(4) = "bm_obj_hako01.bml";
+static __declspec(section ".rodata") const char fe_obj_hako02_gj[] ATTRIBUTE_ALIGN(4) = "fe_obj_hako02.gj";
+static __declspec(section ".rodata") const char fe_obj_hako02_hahen1_gj[] ATTRIBUTE_ALIGN(4) = "fe_obj_hako02_hahen1.gj";
+static __declspec(section ".rodata") const char fe_obj_hako02_hahen2_gj[] ATTRIBUTE_ALIGN(4) = "fe_obj_hako02_hahen2.gj";
+static __declspec(section ".rodata") const char fe_obj_hako02_light_gj[] ATTRIBUTE_ALIGN(4) = "fe_obj_hako02_light.gj";
+static __declspec(section ".rodata") const char fe_obj_hako02_bml[] ATTRIBUTE_ALIGN(4) = "fe_obj_hako02.bml";
+
 const char *bm_obj_hako01_model_names[5] = {
-    "fe_obj_hako01.gj", "fe_obj_hako01_hahen1.gj", "fe_obj_hako01_hahen2.gj", "fe_obj_hako01_light.gj", NULL,
+    fe_obj_hako01_gj, fe_obj_hako01_hahen1_gj, fe_obj_hako01_hahen2_gj, fe_obj_hako01_light_gj, NULL,
 };
 const char *bm_obj_hako01_motion_names[1] = { NULL };
 BmlResourceDescriptor TObjContainerJung__resource_descriptor = {
-    "bm_obj_hako01.bml", bm_obj_hako01_model_names, bm_obj_hako01_motion_names, 4, 0,
+    bm_obj_hako01_bml, bm_obj_hako01_model_names, bm_obj_hako01_motion_names, 4, 0,
 };
 
 const char *fe_obj_hako02_model_names[5] = {
-    "fe_obj_hako02.gj", "fe_obj_hako02_hahen1.gj", "fe_obj_hako02_hahen2.gj", "fe_obj_hako02_light.gj", NULL,
+    fe_obj_hako02_gj, fe_obj_hako02_hahen1_gj, fe_obj_hako02_hahen2_gj, fe_obj_hako02_light_gj, NULL,
 };
 const char *fe_obj_hako02_motion_names[1] = { NULL };
 // Loaded by TObjContainerJungEx::load_resource_instance.
 BmlResourceDescriptor fe_obj_hako02_resource_descriptor = {
-    "fe_obj_hako02.bml", fe_obj_hako02_model_names, fe_obj_hako02_motion_names, 4, 0,
+    fe_obj_hako02_bml, fe_obj_hako02_model_names, fe_obj_hako02_motion_names, 4, 0,
 };
 
 CollisionBody container_jung_collision_desc = {
@@ -82,10 +93,10 @@ extern const TObjChipParams container_jung_ex_spawn_params_b = {
 
 const char *TObjContainerJungEnemy__name = "TObjContainerJungEnemy";
 
-extern const TObjChipParams lbl_80445398 = {
+extern const TObjChipParams container_jung_enemy_spawn_params_a = {
     { 0.5f, 0.03f, 0.2f }, { 0.0f, 0.0f, 0.0f }, { 3.0f, 5.0f, 3.0f }, { 0x800, 0x100, 0x800 }, { 7, 0x32 }, { 0.0f, 1.0f }, 0, 0, 0x16,
 };
-extern const TObjChipParams lbl_804453E4 = {
+extern const TObjChipParams container_jung_enemy_spawn_params_b = {
     { 0.5f, 0.03f, 0.19f }, { 0.0f, 0.0f, 0.0f }, { 3.5f, 5.0f, 3.5f }, { 0x400, 0x100, 0x400 }, { 5, 0x32 }, { 0.0f, 1.0f }, 0, 0, 0x16,
 };
 
@@ -536,7 +547,7 @@ f32 TObjContainerJungEnemy::receive_physical_attack(void *, f32) {
 void TObjContainerJungEnemy::vfunc_79() const {
     const Obj_8018C9F0 *self = (const Obj_8018C9F0 *)this;
     if (self->f326 != 1) {
-        TObjChipParams a = lbl_80445398;
+        TObjChipParams a = container_jung_enemy_spawn_params_a;
         f32 za;
         f32 ya;
         f32 xa;
@@ -549,7 +560,7 @@ void TObjContainerJungEnemy::vfunc_79() const {
         a.pad_38[0] = ya;
         a.model = self->f36c;
         a.textures = self->f24;
-        TObjChipParams b = lbl_804453E4;
+        TObjChipParams b = container_jung_enemy_spawn_params_b;
         f32 zb;
         f32 yb;
         f32 xb;

@@ -288,6 +288,11 @@ extern const TObjChipParams lbl_80444E5C = {
 extern const TObjChipParams lbl_80444EA8 = {
     { 0.5f, 0.07f, 0.26f }, { 0.0f, 0.0f, 0.0f }, { 4.0f, 4.5f, 4.0f }, { 0x200, 0x100, 0x200 }, { 6, 0x32 }, { 0.0f, 0.5f }, 0, 0, 0x14,
 };
+static __declspec(section ".rodata") const char container_event_number_format[] ATTRIBUTE_ALIGN(4) = "EVT NO : %d";
+static __declspec(section ".rodata") const char container_random_item_message[] ATTRIBUTE_ALIGN(4) = "<- RANDOM ITEM";
+static __declspec(section ".rodata") const char container_fixed_item_message[] ATTRIBUTE_ALIGN(4) = "<- FIXED ITEM";
+static __declspec(section ".rodata") const char container_item_parameter_message[] ATTRIBUTE_ALIGN(4) = "<- ITEM PARAM";
+
 
 // Texture archive names for load_forest_box_resources. They stay outside this unit's
 // .rodata claim: the original reaches them by address while pooling .data, and a stock
@@ -520,11 +525,11 @@ void TUnk_804B6C24::debug_print_item_box_info() {
     }
     if (this->random_item != 0) {
         TObjNpcEnemy::set_global_count(0xFFFFFF);
-        debug_printf_at(0x13001C, "<- RANDOM ITEM");
+        debug_printf_at(0x13001C, container_random_item_message);
     } else {
         TObjNpcEnemy::set_global_count(0xFF00FF);
-        debug_printf_at(0x13001C, "<- FIXED ITEM");
-        debug_printf_at(0x130020, "<- ITEM PARAM");
+        debug_printf_at(0x13001C, container_fixed_item_message);
+        debug_printf_at(0x130020, container_item_parameter_message);
         item.data[0] = self->data[0];
         item.data[1] = self->data[1];
         item.data[2] = self->data[2];
@@ -749,7 +754,7 @@ void TObjContainerEnemy::vfunc_81() {
 void TObjContainerEnemy::debug_print_item_box_info() {
     Obj_801895A4 *self = (Obj_801895A4 *)this;
     TObjNpcEnemy::set_global_count(0xFF00FF);
-    debug_printf_at(0x130020, "EVT NO : %d", this->set_params[0]);
+    debug_printf_at(0x130020, container_event_number_format, this->set_params[0]);
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
     debug_draw_sphere((const Vec *)self->pos, &debug_color_blue_alpha30, lbl_805DBCF8);
 }
@@ -1087,7 +1092,7 @@ void TObjContainerAbeEnemy::vfunc_81() {
 void TObjContainerAbeEnemy::debug_print_item_box_info() {
     Obj_80188814 *self = (Obj_80188814 *)this;
     TObjNpcEnemy::set_global_count(0xFF00FF);
-    debug_printf_at(0x130020, "EVT NO : %d", this->set_params[0]);
+    debug_printf_at(0x130020, container_event_number_format, this->set_params[0]);
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
     debug_draw_sphere((const Vec *)self->pos, &debug_color_blue_alpha30, lbl_805DBCF8);
 }

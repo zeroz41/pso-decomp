@@ -1,5 +1,6 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "types.h"
+#include "pso/object/warp/ForestWarpResources.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/ui/window/TWindowSubTradeMain_80187C98.h"
 #include "pso/system/byteswap.h"
@@ -16,7 +17,6 @@ void TWindowSubTradeMain::bswap_6x6A_packet() { ((G_ClientIDHeader *)this)->bswa
 
 void TWindowSubTradeMain::init_pkt_cmd_6A() { *(u8 *)&this->m_name = 106; *(u8*)((char*)this + 0x1) = 2; }
 
-    extern int quest_warp_enabled;
 int TWindowSubTradeMain::get_warp_state() {  return quest_warp_enabled; }
 
 void TWindowSubTradeMain::set_close_flag() { this->m_70 |= 0x80; }

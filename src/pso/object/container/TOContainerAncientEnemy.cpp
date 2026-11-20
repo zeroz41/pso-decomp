@@ -53,6 +53,18 @@
 #include "pso/network/TProtocol.h"
 #include "pso/system/task/TObject.h"
 
+static __declspec(section ".rodata") const char ancient_container_model[] ATTRIBUTE_ALIGN(4) = "fe_obj_o_container.gj";
+static __declspec(section ".rodata") const char ancient_container_fragment1_model[] ATTRIBUTE_ALIGN(4) = "fe_obj_o_container_hahen01.gj";
+static __declspec(section ".rodata") const char ancient_container_fragment2_model[] ATTRIBUTE_ALIGN(4) = "fe_obj_o_container_hahen02.gj";
+static __declspec(section ".rodata") const char ancient_container_bml[] ATTRIBUTE_ALIGN(4) = "bm_o_container_ancient.bml";
+static __declspec(section ".rodata") const char vs2_container_fragment1_model[] ATTRIBUTE_ALIGN(4) = "fe_obj_o_vs2container_hahen1.gj";
+static __declspec(section ".rodata") const char vs2_container_fragment2_model[] ATTRIBUTE_ALIGN(4) = "fe_obj_o_vs2container_hahen2.gj";
+static __declspec(section ".rodata") const char vs2_container_model[] ATTRIBUTE_ALIGN(4) = "fs_obj_o_vs2container.gj";
+static __declspec(section ".rodata") const char vs2_container_bml[] ATTRIBUTE_ALIGN(4) = "fe_obj_o_vs2container.bml";
+static __declspec(section ".rodata") const char ep2_box_model[] ATTRIBUTE_ALIGN(4) = "fs_obj_ex_box1.gj";
+static __declspec(section ".rodata") const char ep2_box_fragment1_model[] ATTRIBUTE_ALIGN(4) = "fe_obj_ex_box1_hahen01.gj";
+static __declspec(section ".rodata") const char ep2_box_fragment2_model[] ATTRIBUTE_ALIGN(4) = "fe_obj_ex_box1_hahen02.gj";
+
 struct BmlResourceBlock_804B0068 { const char *model_filenames[4]; BmlResourceDescriptor descriptor; };
 typedef char BmlResourceBlock_804B0068_size[(sizeof(BmlResourceBlock_804B0068) == 0x20) ? 1 : -1];
 typedef char BmlResourceBlock_804B0068_descriptor_offset[(offsetof(BmlResourceBlock_804B0068, descriptor) == 0x10) ? 1 : -1];
@@ -76,9 +88,9 @@ extern const f32 lbl_805DB3A0;
 const char *bm_o_container_ancient_motion_names[1] = { NULL };
 const char *fe_obj_o_vs2container_motion_names[1] = { NULL };
 const char *fe_obj_ex_box1_motion_names[1] = { NULL };
-BmlResourceBlock_804B0068 bm_o_container_ancient_resource_bundle = { { "fe_obj_o_container.gj", "fe_obj_o_container_hahen01.gj", "fe_obj_o_container_hahen02.gj", NULL }, { "bm_o_container_ancient.bml", bm_o_container_ancient_resource_bundle.model_filenames, bm_o_container_ancient_motion_names, 3, 0 } };
-BmlResourceBlock_804B0088 fe_obj_o_vs2container_resource_bundle = { { "fe_obj_o_vs2container_hahen1.gj", "fe_obj_o_vs2container_hahen2.gj", "fs_obj_o_vs2container.gj", NULL }, { "fe_obj_o_vs2container.bml", fe_obj_o_vs2container_resource_bundle.model_filenames, fe_obj_o_vs2container_motion_names, 3, 0 } };
-BmlResourceBlock_804B00A8 fe_obj_ex_box1_resource_bundle = { { "fs_obj_ex_box1.gj", "fe_obj_ex_box1_hahen01.gj", "fe_obj_ex_box1_hahen02.gj", NULL }, { "fe_obj_ex_box1.bml", fe_obj_ex_box1_resource_bundle.model_filenames, fe_obj_ex_box1_motion_names, 3, 0 } };
+BmlResourceBlock_804B0068 bm_o_container_ancient_resource_bundle = { { ancient_container_model, ancient_container_fragment1_model, ancient_container_fragment2_model, NULL }, { ancient_container_bml, bm_o_container_ancient_resource_bundle.model_filenames, bm_o_container_ancient_motion_names, 3, 0 } };
+BmlResourceBlock_804B0088 fe_obj_o_vs2container_resource_bundle = { { vs2_container_fragment1_model, vs2_container_fragment2_model, vs2_container_model, NULL }, { vs2_container_bml, fe_obj_o_vs2container_resource_bundle.model_filenames, fe_obj_o_vs2container_motion_names, 3, 0 } };
+BmlResourceBlock_804B00A8 fe_obj_ex_box1_resource_bundle = { { ep2_box_model, ep2_box_fragment1_model, ep2_box_fragment2_model, NULL }, { "fe_obj_ex_box1.bml", fe_obj_ex_box1_resource_bundle.model_filenames, fe_obj_ex_box1_motion_names, 3, 0 } };
 CollisionBody TOContainerAncientEnemy__collision_body_params = { { 0.0f, 6.5f, 0.0f }, 7.5f, 7.5f, 0, 0x38003, { 0.0f, 0.0f, 0.0f }, 0.0f };
 
 const char *TOContainerAncientItemCommon__name = "TOContainerAncientItemCommon";
@@ -98,7 +110,7 @@ extern u32 *ancient_container_fragment_texture_lists;
 static const TObjChipParams fish_break_debris_desc = {
     { 0.5f, 0.07f, 0.26f }, { 0.0f, 0.0f, 0.0f }, { 5.0f, 5.0f, 5.0f }, { 0x400, 0x100, 0x400 }, { 5, 0x32 }, { 0.0f, 0.6f }, 0, 0, 0x16,
 };
-static const TObjChipParams lbl_8044074C = {
+static const TObjChipParams fish_break_debris_desc_b = {
     { 0.5f, 0.07f, 0.26f }, { 0.0f, 0.0f, 0.0f }, { 4.0f, 4.5f, 4.0f }, { 0x200, 0x100, 0x200 }, { 6, 0x32 }, { 0.0f, 0.5f }, 0, 0, 0x16,
 };
 static const TObjChipParams ancient_enemy_break_debris_desc = {
@@ -107,6 +119,17 @@ static const TObjChipParams ancient_enemy_break_debris_desc = {
 static const TObjChipParams ancient_enemy_break_debris_desc_b = {
     { 0.5f, 0.07f, 0.26f }, { 0.0f, 0.0f, 0.0f }, { 4.0f, 4.5f, 4.0f }, { 0x200, 0x100, 0x200 }, { 6, 0x32 }, { 0.0f, 0.5f }, 0, 0, 0x16,
 };
+static __declspec(section ".rodata") const char ancient_enemy_event_format[] ATTRIBUTE_ALIGN(4) = "EVT NO : %d";
+static __declspec(section ".rodata") const char fs_obj_ex_box2_texture[] ATTRIBUTE_ALIGN(4) = "fs_obj_ex_box2.gvm";
+static __declspec(section ".rodata") const char fe_obj_ex_box2_hahen01_texture[] ATTRIBUTE_ALIGN(4) = "fe_obj_ex_box2_hahen01.gvm";
+static __declspec(section ".rodata") const char fe_obj_ex_box2_hahen02_texture[] ATTRIBUTE_ALIGN(4) = "fe_obj_ex_box2_hahen02.gvm";
+static __declspec(section ".rodata") const char fs_obj_o_vs2container_r_texture[] ATTRIBUTE_ALIGN(4) = "fs_obj_o_vs2container_r.gvm";
+static __declspec(section ".rodata") const char fe_obj_o_vs2cont_hahen1_r_texture[] ATTRIBUTE_ALIGN(4) = "fe_obj_o_vs2cont_hahen1_r.gvm";
+static __declspec(section ".rodata") const char fe_obj_o_vs2cont_hahen2_r_texture[] ATTRIBUTE_ALIGN(4) = "fe_obj_o_vs2cont_hahen2_r.gvm";
+static __declspec(section ".rodata") const char fe_obj_o_container_r_texture[] ATTRIBUTE_ALIGN(4) = "fe_obj_o_container_r.gvm";
+static __declspec(section ".rodata") const char fe_obj_o_container_hahen01r_texture[] ATTRIBUTE_ALIGN(4) = "fe_obj_o_container_hahen01r.gvm";
+static __declspec(section ".rodata") const char fe_obj_o_container_hahen02r_texture[] ATTRIBUTE_ALIGN(4) = "fe_obj_o_container_hahen02r.gvm";
+
 
 
 // Built with -inline off,deferred: the compiler emits the functions (and the
@@ -160,9 +183,9 @@ void TLanguage::load_container_fragment_textures() {
         }
         ancient_container_resource_bundle = (BmlResource *)p;
         ancient_container_fragment_texture_lists = (u32 *)mem_alloc(0xC);
-        ancient_container_fragment_texture_lists[0] = (u32)load_gvm_texture_file((s32)"fs_obj_ex_box2.gvm");
-        ancient_container_fragment_texture_lists[1] = (u32)load_gvm_texture_file((s32)"fe_obj_ex_box2_hahen01.gvm");
-        ancient_container_fragment_texture_lists[2] = (u32)load_gvm_texture_file((s32)"fe_obj_ex_box2_hahen02.gvm");
+        ancient_container_fragment_texture_lists[0] = (u32)load_gvm_texture_file((s32)fs_obj_ex_box2_texture);
+        ancient_container_fragment_texture_lists[1] = (u32)load_gvm_texture_file((s32)fe_obj_ex_box2_hahen01_texture);
+        ancient_container_fragment_texture_lists[2] = (u32)load_gvm_texture_file((s32)fe_obj_ex_box2_hahen02_texture);
     } else if (enable_v2_features == 1 &&
                (area == AREA_BATTLE2 || area == AREA_VR_TEMPLE_ALPHA || area == AREA_VR_TEMPLE_BETA || area == AREA_BARBA_RAY)) {
         p = ::operator new(0x440);
@@ -171,9 +194,9 @@ void TLanguage::load_container_fragment_textures() {
         }
         ancient_container_resource_bundle = (BmlResource *)p;
         ancient_container_fragment_texture_lists = (u32 *)mem_alloc(0xC);
-        ancient_container_fragment_texture_lists[0] = (u32)load_gvm_texture_file((s32)"fs_obj_o_vs2container_r.gvm");
-        ancient_container_fragment_texture_lists[1] = (u32)load_gvm_texture_file((s32)"fe_obj_o_vs2cont_hahen1_r.gvm");
-        ancient_container_fragment_texture_lists[2] = (u32)load_gvm_texture_file((s32)"fe_obj_o_vs2cont_hahen2_r.gvm");
+        ancient_container_fragment_texture_lists[0] = (u32)load_gvm_texture_file((s32)fs_obj_o_vs2container_r_texture);
+        ancient_container_fragment_texture_lists[1] = (u32)load_gvm_texture_file((s32)fe_obj_o_vs2cont_hahen1_r_texture);
+        ancient_container_fragment_texture_lists[2] = (u32)load_gvm_texture_file((s32)fe_obj_o_vs2cont_hahen2_r_texture);
     } else {
         p = ::operator new(0x440);
         if (p != NULL) {
@@ -181,9 +204,9 @@ void TLanguage::load_container_fragment_textures() {
         }
         ancient_container_resource_bundle = (BmlResource *)p;
         ancient_container_fragment_texture_lists = (u32 *)mem_alloc(0xC);
-        ancient_container_fragment_texture_lists[0] = (u32)load_gvm_texture_file((s32)"fe_obj_o_container_r.gvm");
-        ancient_container_fragment_texture_lists[1] = (u32)load_gvm_texture_file((s32)"fe_obj_o_container_hahen01r.gvm");
-        ancient_container_fragment_texture_lists[2] = (u32)load_gvm_texture_file((s32)"fe_obj_o_container_hahen02r.gvm");
+        ancient_container_fragment_texture_lists[0] = (u32)load_gvm_texture_file((s32)fe_obj_o_container_r_texture);
+        ancient_container_fragment_texture_lists[1] = (u32)load_gvm_texture_file((s32)fe_obj_o_container_hahen01r_texture);
+        ancient_container_fragment_texture_lists[2] = (u32)load_gvm_texture_file((s32)fe_obj_o_container_hahen02r_texture);
     }
 }
 
@@ -292,7 +315,7 @@ void TUnk_804B08BC::vfunc_79() const {
     a.pad_38[0] = a.pos[1];
     a.model = get_bml_model((BmlResource *)ancient_container_resource_bundle, 1);
     a.textures = get_bml_texlist((BmlResource *)ancient_container_resource_bundle, 1);
-    TObjChipParams b = lbl_8044074C;
+    TObjChipParams b = fish_break_debris_desc_b;
     b.pos[0] = this->position.x;
     b.pos[1] = this->position.y;
     b.pos[2] = this->position.z;
@@ -444,7 +467,7 @@ void TOContainerAncientEnemy::vfunc_81() {
 
 void TOContainerAncientEnemy::debug_print_item_box_info() {
     TObjNpcEnemy::set_global_count(0xFF00FF);
-    debug_printf_at(0x130020, "EVT NO : %d", this->set_params[0]);
+    debug_printf_at(0x130020, ancient_enemy_event_format, this->set_params[0]);
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
     debug_draw_sphere(&this->position, &debug_color_blue_alpha30, lbl_805DB3A0);
 }

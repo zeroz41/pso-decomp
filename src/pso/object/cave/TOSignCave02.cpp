@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/object/cave/CaveSignRender.h"
 #include <stdlib.h>
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -19,65 +20,17 @@ BmlResourceDescriptor bm_fs_obj_dokanban02_resource_descriptor = {
 const char *TOSignCave02__class_name = "TOSignCave02";
 BmlResource *TOSignCave02__bml_resource;
 
+#ifdef __MWERKS__
+#pragma push
+#pragma dont_inline off
+#pragma inline_depth(1)
+#endif
 void TOSignCave02::render() {
-    NJS_OBJECT *node;
-    if (update_object_view_visibility(view_range, model_radius) != 0) {
-        TObjFish::set_global_param(texlist);
-        push_matrix();
-        post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
-        node = (NJS_OBJECT *)model;
-        translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
-        draw_ginja_model((s32)node->model);
-        push_matrix();
-        node = node->child;
-        translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
-        draw_ginja_model((s32)node->model);
-        TParticleCtrl::begin_effect_render();
-        push_matrix();
-        node = node->child;
-        translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
-        draw_ginja_model((s32)node->model);
-        push_matrix();
-        node = node->child;
-        translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
-        draw_ginja_model((s32)node->model);
-        pop_matrix();
-        pop_matrix();
-        TParticleCtrl::end_effect_render();
-        pop_matrix();
-        push_matrix();
-        node = ((NJS_OBJECT *)model)->child->sibling;
-        translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
-        draw_ginja_model((s32)node->model);
-        TParticleCtrl::begin_effect_render();
-        push_matrix();
-        node = node->child;
-        translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
-        draw_ginja_model((s32)node->model);
-        pop_matrix();
-        TParticleCtrl::end_effect_render();
-        pop_matrix();
-        push_matrix();
-        node = ((NJS_OBJECT *)model)->child->sibling->sibling;
-        translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
-        draw_ginja_model((s32)node->model);
-        TParticleCtrl::begin_effect_render();
-        push_matrix();
-        node = node->child;
-        translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
-        draw_ginja_model((s32)node->model);
-        push_matrix();
-        node = node->child;
-        translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
-        draw_ginja_model((s32)node->model);
-        pop_matrix();
-        pop_matrix();
-        TParticleCtrl::end_effect_render();
-        pop_matrix();
-        pop_matrix();
-    }
+    render_cave_sign(this);
 }
+#ifdef __MWERKS__
+#pragma pop
+#endif
 
 void *TOSignCave02::create(void *set_data) {
     return new TOSignCave02(tl_05, set_data);
