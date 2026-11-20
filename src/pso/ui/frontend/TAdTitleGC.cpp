@@ -62,7 +62,6 @@ s32 get_player__20TWindowSubStatusDispFv();
 uaddr lbl_805D6630;
 saddr get_localized_text_entry(s32, s32);
 void restore_saved_depth_alpha_state(void);
-s32 defer_render__7TObjectFv();
 
 // The title texture helpers. The TU is compiled deferred, so its functions come out backwards:
 // these are written first and land last.
@@ -160,7 +159,7 @@ void TAdTitleGC::render() {
         }
         goto block_5;
     }
-    if (defer_render__7TObjectFv() == 0) {
+    if (TObject::defer_render() == 0) {
         set_depth_buffer_settings_2();
 block_5:
         set_color_blending_mode(0, 8);

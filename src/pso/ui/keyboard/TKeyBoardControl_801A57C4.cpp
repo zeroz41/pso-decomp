@@ -577,7 +577,6 @@ struct Ctl_801A6510 {
 extern "C" {
 saddr TKeyBoardControl__sub_803DEB74(int);
 extern s8 lbl_805D5D08;
-s32 read_input__16TKeyBoardControlFl(u8);
 void copy_state__16TKeyBoardControlFPvPv(Rec_801A67A4 *arg0, Rec_801A67A4 *arg1);
 s32 is_split_screen(void);
 
@@ -722,7 +721,7 @@ s32 TKeyBoardControl::poll_key_state() {
     self->f0 = 0;
     self->f8 = 0;
     for (i = 0; i < 6; i++) {
-        if (read_input__16TKeyBoardControlFl(keyboard_poll_key_codes[i]) != 0) {
+        if (TKeyBoardControl::read_input((u8)keyboard_poll_key_codes[i]) != 0) {
             self->f0 |= TKeyBoardControl_key_bit_table[i];
         }
     }

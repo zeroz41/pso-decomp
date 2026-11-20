@@ -125,7 +125,6 @@ typedef struct VObj_18_dac7f3 VObj_18_dac7f3;
 #define PSO_VCALL_VObj_18_dac7f3_m0(_self, _arg0) (((VObj_18_dac7f3 *)(_self))->m0((_arg0)))
 
 
-s32 all_parents_unqueued_for_destruction__7TObjectFv();
 
 
 s32 notify_field1c__10TObjPlayerFl();
@@ -768,7 +767,7 @@ u8 TTecReverser::is_active() {
     int var_r31;
 
     var_r31 = 0;
-    if ((this != NULL) && (all_parents_unqueued_for_destruction__7TObjectFv() != 0) && !(*(s32 *)((s8 *)this + 0x30) & 0x02040800)) {
+    if ((this != NULL) && (TObject::all_parents_unqueued_for_destruction() != 0) && !(*(s32 *)((s8 *)this + 0x30) & 0x02040800)) {
         var_r31 = 1;
     }
     return (u8) var_r31;

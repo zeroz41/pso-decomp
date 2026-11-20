@@ -54,13 +54,12 @@ void TAdBackGC::sub_8029A6EC() {
 }
 
 extern "C" {
-s32 defer_render__7TObjectFv();
 void __ct__7TObjectFP7TObject(void *);
 
 void TAdBackGC::render() {
     u8 *arg0 = (u8 *)this;
     if ((s32) *(s32 *)((s8 *)arg0 + 0x20) == 0) {
-        if (defer_render__7TObjectFv() == 0) {
+        if (TObject::defer_render() == 0) {
             set_depth_buffer_settings_2();
             goto block_4;
         }

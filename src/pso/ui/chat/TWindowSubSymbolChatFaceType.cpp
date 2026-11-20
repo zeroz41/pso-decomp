@@ -18,10 +18,9 @@ extern "C" { extern const char TWindowSubSymbolChatFaceType__class_name_string[2
 extern "C" {
 
 s32 play_sound_effect(int, int, int, int);
-s32 is_open__28TWindowSubSymbolChatFaceTypeFv();
 
 void TWindowSubSymbolChatFaceType::close_when_chat_closed() {
-    if (is_open__28TWindowSubSymbolChatFaceTypeFv() == 0) {
+    if (is_open() == 0) {
         play_sound_effect(0x52F16, 0, 0, 0);
         this->m_60 = (u8) (this->m_60 | 2);
     }

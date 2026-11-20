@@ -227,7 +227,7 @@ void TWindowSubSymbolChat::select_index_and_scroll(s32 arg1) {
 #pragma pop
 
 void TWindowSubSymbolChatParts::handle_cancel() {
-    if (sub_80283974__25TWindowSubSymbolChatPartsFv() == 0) {
+    if (sub_80283974() == 0) {
         play_sound_effect(0x52F16, 0, 0, 0);
         this->m_70 = (u8) (this->m_70 | 2);
     }

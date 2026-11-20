@@ -47,7 +47,6 @@ extern "C" {
 void TWindowSubSymbolChat__sub_800771B0(Obj_800771B0 *arg0, s32 arg1);
 s32 TWindowSubSymbolChat__sub_800771C4(Obj_800771C4 *arg0, s32 arg1);
     extern int selected_symbol_chat_preset;
-s32 is_initialized__20TWindowSubSymbolChatFv();
 saddr get_instance__20TWindowSubSymbolChatFv(void*);
 extern s32 local_client_id;
 s32 play_sound_effect(s32, u32, s16, s32);
@@ -188,7 +187,7 @@ void TWindowSubSymbolChat::update_layout() { ((TWindowSubSymbolChat *)((Obj_8007
 void TWindowSubSymbolChat::update_symbol_chat_result() { selected_symbol_chat_preset = ((saddr)get_symbol_chat_preset((saddr)this)); }
 
 void TWindowSubSymbolChat::update_selected_symbol() {
-    if (is_initialized__20TWindowSubSymbolChatFv() != 0) {
+    if (is_initialized() != 0) {
         TWindowSubSymbolChat::play_symbol_sound((s32)(((u32) *(u32 *)&this->m_1c >> 5U) & 0xF));
     }
 }

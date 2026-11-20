@@ -169,7 +169,6 @@ s32 try_spend_actor_meseta(u8 *arg0, s32 arg1);
 void accept_meseta_deposit__18TCheckRoomSequenceFPv(u8 *arg0);
 void copy_item_to_bank_entry__18TCheckRoomSequenceFPvPv(u8 *arg0, u8 *arg1);
 void compact_items__18TCheckRoomSequenceFi(s32 slot);
-s8 get_chr_select_state__23TAdSinglePlyChrSelectGCFv();
 s32 poll_memcard_result(saddr chan);
 int obj_getPtr2B0_20(u8 *p);
 s16 get_child_field1c__13TShopSequenceFv(void *);
@@ -666,7 +665,7 @@ extern "C" {
 #pragma push
 #pragma optimization_level 1
 void TCheckRoomSequence::close_window() {
-    if ((vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0)) && (poll_memcard_result((get_chr_select_state__23TAdSinglePlyChrSelectGCFv())) == 0)) {
+    if ((vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0)) && (poll_memcard_result(((s8)TAdSinglePlyChrSelectGC::get_chr_select_state())) == 0)) {
         copy_bank_to_card_window(TShopWindowBase::sub_8022397C());
         close_if_single_screen();
         TShopSequence::close_window();

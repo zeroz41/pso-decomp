@@ -35,10 +35,8 @@ s32 create_guide_button(void *, void *, f32);
 s32 init_guide_button_params(void *);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 extern TAdDialingGC *TAdDialingGC__instance;
-s32 update_status_message__12TAdDialingGCFv();
 s32 __ct__10TAdTitleGCFP7TObjectl(u32, void *, s32);
 s8 func_801A5E54__Fv();
-s32 handle_state__12TAdDialingGCFv();
 extern s32 TLobby__net_session_mode;
 }
 
@@ -57,8 +55,6 @@ s32 call_146CA0_with_5708__6TLobbyFv();
 }
 
 extern "C" {
-s32 update_dial_state__12TAdDialingGCFv();
-s32 update_state__12TAdDialingGCFv();
 s32 update_dial_state__12TAdDialingGCFl();
 #pragma readonly_strings on
 const char *TAdDialingGC__name = "TAdDialingGC";
@@ -96,10 +92,10 @@ void TAdDialingGC::run_task() {
         update_dial_state__12TAdDialingGCFl();
         break;
     case 1:
-        update_state__12TAdDialingGCFv();
+        update_state();
         break;
     case 2:
-        update_dial_state__12TAdDialingGCFv();
+        update_dial_state();
         break;
     }
     update_selection();
@@ -287,13 +283,13 @@ void TAdDialingGC::update() {
         break;
     case 1:
         if ((s32) this->m_20 == 2) {
-            update_status_message__12TAdDialingGCFv();
+            update_status_message();
             return;
         }
         break;
     case 2:
         if ((s32) this->m_20 == 2) {
-            handle_state__12TAdDialingGCFv();
+            handle_state();
         }
         break;
     }

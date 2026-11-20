@@ -19,6 +19,7 @@
 #include "pso/enemy/stelth/TObjEneMe3Stelth.h"
 #include "pso/object/TMotorcycle.h"
 #include "pso/unk/TLobby.h"
+#include "pso/npc/TObjNpcBase.h"
 
 #pragma readonly_strings on
 
@@ -34,7 +35,6 @@ struct NpcMovementParameters { s32 value; u8 remaining[0x44]; };
 extern NpcMovementParameters npc_movement_parameters;
 extern s32 __vt__12TObjNpcEnemy[];
 u8 *TObjNpcEnemy__ct(u8 *arg0, s32 arg1, saddr arg2);
-s32 draw_debug_info__11TObjNpcBaseFv();
 void debug_printf_at(s32, const char *, ...);
 void * TObjNpcEnemy__create(void *arg0);
 void *__ct__11TObjControlFP7TObject(void *, void *);
@@ -226,7 +226,7 @@ void TObjNpcEnemy::set_npc_data(void *data) {
 void TObjNpcEnemy::draw_debug_info() {
     u8 *arg0 = (u8 *)this;
     TObjNpcEnemyEntry *p;
-    draw_debug_info__11TObjNpcBaseFv();
+    TObjNpcBase::draw_debug_info();
     TObjNpcEnemy::set_global_count(0xFF00FF);
     debug_printf_at(0x130018, "<- ENEMY NUMBER");
     debug_printf_at(0x13001A, "<- MOTION TEST");

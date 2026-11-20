@@ -204,7 +204,6 @@ void *lbl_804A71C4[6] = {
 
 extern "C" {
 s32 set_offset_y__11TMainCursorFs(void *, u16);
-s32 check_field_24__11TMainCursorFv();
 s32 get_rader_map__11TMainCursorFv(void *, void *);
 
 }
@@ -286,7 +285,6 @@ void TMainCursor__sub_80154230(void *arg0, s32 arg1, u16 arg2);
 s32 get_type__10TObjPlayerFPv(void *p);
 Weapon_8013CDE4 *get_weapon_range_record(void *, s32);
 void TMainCursor__sub_8013E9A0(void *p);
-Tech_8013CDE4 *get_photon_blast_entry__10TObjPlayerFi(s16);
 extern f32 lbl_8050BF60[3];
 int TObjPlayer__sub_801B066C(void *p);
 s32 get_selected_entry__11TMainCursorFv(s32, s32);
@@ -860,7 +858,7 @@ void TMainCursor::setup_action_channel(u8 *player, s32 slot, s32 kind, s32 id) {
     }
     case 5: {
         s16 pid = id;
-        tech = get_photon_blast_entry__10TObjPlayerFi(pid);
+        tech = (Tech_8013CDE4 *)TObjPlayer::get_photon_blast_entry((s16)pid);
         TMainCursor__sub_8013E9A0(cur);
         if (get_type__10TObjPlayerFPv((player + 0x828)) == 0) {
             ((TMainCursor *)C_8013CDE4)->set_color(0x8000);
@@ -1330,7 +1328,7 @@ TMainCursor::~TMainCursor() {}
 void TMainCursor::refresh_target_marker() {
     saddr temp_r3;
     s32 temp_r3_2;
-    temp_r3 = check_field_24__11TMainCursorFv();
+    temp_r3 = check_field_24();
     if (temp_r3 == 0) {
         queue_destruction();
         return;

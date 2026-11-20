@@ -100,7 +100,6 @@ extern const s32 current_language;
 void TAdChrSelSlotGC__sub_802C7498(struct S802C7498_802C70AC *arg0, s32 arg1);
 void release_texture_list(void*);
 void restore_saved_depth_alpha_state(void);
-s32 defer_render__7TObjectFv();
 
 }
 
@@ -125,7 +124,7 @@ void TAdChrSelSlotGC::render() {
         }
         goto block_5;
     }
-    if (defer_render__7TObjectFv() == 0) {
+    if (TObject::defer_render() == 0) {
         set_depth_buffer_settings_2();
 block_5:
         set_color_blending_mode(0, 8);

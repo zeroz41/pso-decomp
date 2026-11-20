@@ -47,7 +47,6 @@ void play_sound_effect(s32, s32, s32, s32);
 extern u8 controller_input_state[];
 extern u8 controller_physical_port_bank[];
 void restore_saved_depth_alpha_state(void);
-s32 defer_render__7TObjectFv();
 
 s32 TAdMcSelectCursorGC__texture_entry;
 
@@ -67,7 +66,7 @@ void TAdMcSelectCursorGC::render() {
         }
         goto block_5;
     }
-    if (defer_render__7TObjectFv() == 0) {
+    if (TObject::defer_render() == 0) {
         set_depth_buffer_settings_2();
 block_5:
         set_additive_blend();
