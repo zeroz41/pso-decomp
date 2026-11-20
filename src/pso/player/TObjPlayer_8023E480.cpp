@@ -74,9 +74,9 @@ s32 load_disc_prs_texture(s32 arg0, s32 arg1) {
             c = (s32)xmalloc(0x200000);
             prs_decompress_buffer(b, c);
             load_gvm_texture_archive(c, arg1);
-            xfree__FPv(c);
+            xfree((void *)c);
         }
-        xfree__FPv(b);
+        xfree((void *)b);
         return 1;
     }
     return 0;

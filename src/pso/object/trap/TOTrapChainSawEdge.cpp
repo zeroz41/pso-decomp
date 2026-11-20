@@ -452,7 +452,7 @@ void TOTrapChainSawKey::vfunc_16() {
     *(f32 *)((s8 *)((u8 *)this) + 0x108) = (1.0f);
 }
 
-void TOTrapChainSawKey::decode_params() { ((int (*)(void*))decode_params__14TOTrapChainSawFv)(this); }
+void TOTrapChainSawKey::decode_params() { TOTrapChainSaw::decode_params(); }
 
 void *TOTrapChainSawKey::create() {
     void *o = TObject::operator new(0x10C);

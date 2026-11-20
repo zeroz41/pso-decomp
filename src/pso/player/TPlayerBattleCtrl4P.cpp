@@ -724,7 +724,7 @@ void TPlayerBattleCtrl4P::begin_battle_reload_fade() {
 void TPlayerBattleCtrl4P::finish_battle_reload() {
     if ((s32) TPlayerBattleCtrl4P__init_flag != 0) {
         reset_players__19TPlayerBattleCtrl4PFv();
-        TLobby::set_fade_params((s32)reset_ctrl_to_default__19TPlayerBattleCtrl4PFv);
+        TLobby::set_fade_params((s32)TPlayerBattleCtrl4P::reset_ctrl_to_default);
         set_score((s32)((void*)(3)));
     }
 }

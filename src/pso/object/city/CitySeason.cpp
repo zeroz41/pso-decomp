@@ -711,7 +711,7 @@ s32 TUnk_804B5E48::advance_anim_time(s32 arg1, f32 farg0) {
     Obj_80184A08 *arg0 = (Obj_80184A08 *)this;
     Anim_80184A08 *a;
     f32 lim;
-    a = (Anim_80184A08 *)((u32 (*)(void *))get_anim_frame__13TUnk_804B5E48Fv)(arg0);
+    a = (Anim_80184A08 *)(u32)((TUnk_804B5E48 *)arg0)->get_anim_frame();
     if (a != NULL) {
         lim = (a->ents[arg1].info->n - 1);
         this->m_b0 += farg0;
@@ -775,7 +775,7 @@ void TObjCity_Season_EasterEgg::render() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r3;
 
-    temp_r3 = ((u8 * (*)(void *))get_anim_frame__13TUnk_804B5E48Fv)(arg0);
+    temp_r3 = (u8 *)((TUnk_804B5E48 *)arg0)->get_anim_frame();
     if ((temp_r3 != NULL) && (this->update_object_view_visibility(800.0f, 50.0f) != 0)) {
         TObjFish::set_global_param(city_season_xmas_model_table[0]);
         push_matrix();
@@ -826,7 +826,7 @@ void TObjCity_Season_ValentineHeart::render() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r3;
 
-    temp_r3 = ((u8 * (*)(void *))get_anim_frame__13TUnk_804B5E48Fv)(arg0);
+    temp_r3 = (u8 *)((TUnk_804B5E48 *)arg0)->get_anim_frame();
     if ((temp_r3 != NULL) && (this->update_object_view_visibility(800.0f, 50.0f) != 0)) {
         TObjFish::set_global_param(*(s32 *)((s8 *)city_season_xmas_model_table + 4));
         push_matrix();
@@ -1076,7 +1076,7 @@ void TObjCity_Season_SonicAdv2::render() {
     Vec pos;
     Vec a;
     Vec b;
-    res = ((Res_80183AF0 * (*)(void *))get_anim_frame__13TUnk_804B5E48Fv)(self);
+    res = (Res_80183AF0 *)((TUnk_804B5E48 *)self)->get_anim_frame();
     if (res != NULL && self->m8(800.0f, 20.0f) != 0) {
         TObjFish::set_global_param(city_season_xmas_model_table[5]);
         idx = ((TObjCity_Season_SonicAdv2 *)self)->sub_80183C38();

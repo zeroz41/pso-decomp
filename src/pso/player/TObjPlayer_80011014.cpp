@@ -3648,7 +3648,7 @@ s32 TObjChara::update_defense_stat_status() {
                     }
                     break;
                 }
-                obj = ((void * (*)(u32))__nw__7TObjectFUl)(0x64);
+                obj = TObject::operator new(0x64);
                 if (obj != 0) {
                     construct_actor_light_task((0.1f), obj, player_defense_stat_status_light_colors, TObjPlayer__data_80434060, 0x2D, ((u8 *)this), tl_07);
                 }
@@ -3688,7 +3688,7 @@ s32 TObjChara::update_attack_stat_status() {
                     }
                     break;
                 }
-                obj = ((void * (*)(u32))__nw__7TObjectFUl)(0x64);
+                obj = TObject::operator new(0x64);
                 if (obj != 0) {
                     construct_actor_light_task((0.1f), obj, player_attack_stat_status_light_colors, TObjPlayer__data_80434060, 0x2D, ((u8 *)this), tl_07);
                 }
@@ -4379,7 +4379,7 @@ s32 TObjChara::recalc_combat_stats(void *motion_arg, void *arg2, void *bonus_arg
         return 0;
     }
     ((Player_80018990 *)this)->f2c0 = ((Player_80018990 *)this)->f2c8 = ((Player_80018990 *)this)->motion->f0;
-    ((Player_80018990 *)this)->f2c2 = ((Player_80018990 *)this)->f2ca = ((s32 (*)(void *))get_stats_atp_max__9TObjCharaFv)(((Player_80018990 *)this)) - ((s32 (*)(void *))get_actor_attack_params_atp_min__9TObjCharaFv)(((Player_80018990 *)this));
+    ((Player_80018990 *)this)->f2c2 = ((Player_80018990 *)this)->f2ca = (s32)((TObjChara *)((Player_80018990 *)this))->get_stats_atp_max() - ((s32 (*)(void *))get_actor_attack_params_atp_min__9TObjCharaFv)(((Player_80018990 *)this));
     ((Player_80018990 *)this)->f2c4 = ((Player_80018990 *)this)->f2cc = ((Player_80018990 *)this)->motion->f4 + ((Player_80018990 *)this)->bonus->f0;
     ((Player_80018990 *)this)->f2c6 = ((Player_80018990 *)this)->f2ce = ((Player_80018990 *)this)->motion->f8 + ((Player_80018990 *)this)->bonus->f1c;
     ((Player_80018990 *)this)->f2d0 = (0.1f) * (f32)(((Player_80018990 *)this)->motion->fa + sub_800194C4());
