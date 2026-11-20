@@ -23,7 +23,7 @@ const char *TObjTank__class_name = "TObjTank";
 CollisionBody tobjtank_collision_body_parts = {{0.0f, 0.0f, 0.0f}, 20.0f, 10.0f, 0, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
 
 extern "C" {
-s32 get_bml_model(s32, s32);
+s32 get_bml_model(saddr, s32);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 s32 draw_ginja_object();

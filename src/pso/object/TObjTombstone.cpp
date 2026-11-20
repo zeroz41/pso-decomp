@@ -40,8 +40,8 @@ struct Off_800753DC { s16 x, y; };
 extern "C" {
 f32 xyz_distance(void *, void *);
 extern s32 TLobby__designated_client_id;
-s32 get_bml_texlist(s32, s32);
-s32 get_bml_model(s32, s32);
+s32 get_bml_texlist(saddr, s32);
+s32 get_bml_model(saddr, s32);
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void free_bin_model_request(void *, int);
 s32 PPCSync();
@@ -86,7 +86,7 @@ TItemData lbl_8048D278[6] = {
 Off_800753DC tombstone_name_label_offset_table[8] = {
     { 0, -2 }, { 2, -2 }, { 2, 0 }, { 2, 2 }, { 0, 2 }, { -2, 2 }, { -2, 0 }, { -2, -2 },
 };
-u32 TObjTombstone__shared_resource_object;
+uaddr TObjTombstone__shared_resource_object;
 s32 tombstone_first_run_flag;
 Vec tombstone_position_table[4];
 }
@@ -102,13 +102,13 @@ void *TLobby::create_tombstone(void *arg0, void *arg1, void *arg2) {
 }
 
 void TObjTombstone::load_resources() {
-    s32 mem;
-    s32 res;
+    saddr mem;
+    saddr res;
     if (TObjTombstone__shared_resource_object == 0) {
-        mem = (int)::operator new(0x440);
+        mem = (saddr)::operator new(0x440);
         res = mem;
         if (res != 0) {
-            res = (long)load_resource_from_descriptor((void *)mem, 1, &tombstone_resource_descriptor, 0, 0, 0);
+            res = (saddr)load_resource_from_descriptor((void *)mem, 1, &tombstone_resource_descriptor, 0, 0, 0);
         }
         TObjTombstone__shared_resource_object = res;
         TObjTombstone::reset_matrix();

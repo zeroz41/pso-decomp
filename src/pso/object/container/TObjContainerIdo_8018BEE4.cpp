@@ -37,7 +37,7 @@ const char *obj_container_ido_class_name = "TObjContainerIdo";
 
 extern "C" {
 void __ct__15RenderFadeStateFv(void *);
-s32 get_bml_model(int, int);
+s32 get_bml_model(saddr, int);
 s32 init_collision_body_parts(void *, void *, int);
 
 f32 xyz_distance_squared(u8 *arg0, u8 *arg1);

@@ -55,8 +55,8 @@ struct ByteBlock_3C { u8 bytes[0x3c]; };
 
 extern "C" {
 void __ct__15RenderFadeStateFv(void *);
-s32 get_bml_texlist(s32, s32);
-s32 get_bml_model(s32, s32);
+s32 get_bml_texlist(saddr, s32);
+s32 get_bml_model(saddr, s32);
 s32 matrix_mult_vec(int, void *, void *);
 void push_matrix(void);
 void post_translate_matrix(void *);
@@ -131,12 +131,12 @@ extern s32 __vt__11TObjTuitate[];
 
 
 void load_tuitate_bml_resource(void) {
-    s32 temp_r3;
-    s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
+    saddr temp_r3;
+    saddr var_r0;
+    temp_r3 = (saddr)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &fe_obj_tutate_resource_descriptor, 0, 0, 0));
+        var_r0 = (saddr) (load_resource_from_descriptor((void *) temp_r3, 1, &fe_obj_tutate_resource_descriptor, 0, 0, 0));
     }
     TObjTuitate__bml_resource = var_r0;
 }

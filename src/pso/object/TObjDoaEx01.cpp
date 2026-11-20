@@ -167,7 +167,7 @@ s32 post_translate_matrix(void *);
 extern u8 chunk_material_color_half_alpha_f32[];
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
-s32 get_bml_motion(s32, s32);
+s32 get_bml_motion(saddr, s32);
 
 s32 rotate_matrix_y(s32, s32);
 s32 set_global_param__8TObjFishFl();
@@ -210,9 +210,9 @@ s32 TObjDoaEx01::draw_object_tree(saddr arg1) {
 }
 
 void TObjDoaEx01::try_open() {
-    s32 bml_model;
+    saddr bml_model;
 
-    bml_model = (s32)get_bml_model((void *)TObjDoaEx01__resource_bundle, 0);
+    bml_model = (saddr)get_bml_model((void *)TObjDoaEx01__resource_bundle, 0);
     if (this->update_object_view_visibility(4e+02f, 2e+01f) != 0) {
         ((TObjDoorJung *)(*(saddr *)((s8 *)TObjDoaEx01__alpha_model_node + 4)))->free_children((void *)1);
         ((TObjDoorJung *)(*(saddr *)((s8 *)TObjDoaEx01__alpha_model_sibling + 4)))->free_children((void *)1);

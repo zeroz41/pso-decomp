@@ -155,20 +155,20 @@ TOWreckAncient::~TOWreckAncient() {
 }
 
 void TOWreckAncient::load_resources() {
-    s32 temp_r3;
-    s32 temp_r3_2;
-    s32 var_r0;
-    s32 var_r0_2;
-    temp_r3 = (int)::operator new(0x440);
+    saddr temp_r3;
+    saddr temp_r3_2;
+    saddr var_r0;
+    saddr var_r0_2;
+    temp_r3 = (saddr)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &bm_o_wreck_ancient_resource_descriptor, 0, 0, 0));
+        var_r0 = (saddr) (load_resource_from_descriptor((void *) temp_r3, 1, &bm_o_wreck_ancient_resource_descriptor, 0, 0, 0));
     }
     wreck_ancient_bml_resource = var_r0;
-    temp_r3_2 = (int)::operator new(0x440);
+    temp_r3_2 = (saddr)::operator new(0x440);
     var_r0_2 = temp_r3_2;
     if (var_r0_2 != 0) {
-        var_r0_2 = (long) (load_resource_from_descriptor((void *) temp_r3_2, 1, &TOWreckAncient__resource_descriptor, 0, 0, 0));
+        var_r0_2 = (saddr) (load_resource_from_descriptor((void *) temp_r3_2, 1, &TOWreckAncient__resource_descriptor, 0, 0, 0));
     }
     wreck_ancient_brakable_bml_resource = var_r0_2;
 }

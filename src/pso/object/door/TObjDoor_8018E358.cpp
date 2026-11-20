@@ -72,7 +72,7 @@ extern void *tl_05;
 void *TObjDoor__create(void *arg0);
 void free_bin_model_request(void*, int);
 extern s32 TObjDoor__resource_param;
-extern u32 door_resource_handle;
+extern uaddr door_resource_handle;
 u8 *TObjDoorJung__ct(u8 *arg0, saddr arg1, saddr arg2);
 void *TObjDoorJung__create(void *arg0);
 void update_opening_glow__8TObjDoorFPv(u8 *arg0);
@@ -84,8 +84,8 @@ u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 }
 u8 *load_gvm_texture_file(saddr arg0);
 extern "C" {
-s32 get_bml_model(s32, s32);
-s32 get_bml_motion(s32, s32);
+s32 get_bml_model(saddr, s32);
+s32 get_bml_motion(saddr, s32);
 s32 draw_locked__8TObjDoorFPv(Door_8018E74C *arg0);
 void set_active_camera_pose(u8 *arg0, u8 *arg1);
 s32 restore_player_cameras(void);
@@ -377,7 +377,7 @@ struct VObj_8018EAF8 : VBase_8018EAF8 {
 typedef void (VObj_8018EAF8::*Pmf_8018EAF8)();
 
 s32 TObjDoor__resource_param;
-u32 door_resource_handle;
+uaddr door_resource_handle;
 s32 TObjDoor__data_805D5BC8;
 static s8 door_run_task_init_done;
 static s8 lbl_805D5BCD;
@@ -548,9 +548,9 @@ void TObjDoor::free_resources() {
 
 extern "C" const char lbl_80445588[] = "fe_obj_door.gvm";
 void TObjDoor::load_resources() {
-    s32 p = (int)::operator new(0x440);
+    saddr p = (saddr)::operator new(0x440);
     if (p != 0) {
-        p = (s32)load_resource_from_descriptor((void *)p, 5, &door_resource_descriptor, 0, 0, 0);
+        p = (saddr)load_resource_from_descriptor((void *)p, 5, &door_resource_descriptor, 0, 0, 0);
     }
     door_resource_handle = p;
     TObjDoor__resource_param = (s32)load_gvm_texture_file((saddr)lbl_80445588);

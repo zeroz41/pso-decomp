@@ -24,9 +24,9 @@
 extern "C" {
 u8 *load_resource_from_descriptor(void *, s32, BmlResourceDescriptor *, s32, s32, s32);
 void free_bin_model_request(void *, int);
-AnimationMotion *get_bml_motion(u32, int);
-s32 get_bml_model(u32, int);
-void get_bml_texlist(u32, int);
+AnimationMotion *get_bml_motion(uaddr, int);
+s32 get_bml_model(uaddr, int);
+void get_bml_texlist(uaddr, int);
 void set_global_param__8TObjFishFl();
 void get_camera_ctrl__9TObjEneDDFv(const Vec *, Vec *);
 }

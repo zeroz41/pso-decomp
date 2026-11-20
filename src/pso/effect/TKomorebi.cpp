@@ -32,7 +32,7 @@ extern const char *komorebi_class_name;
 extern uaddr TKomorebi__resource_bundle;
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern s32 komorebi_last_uv_update_frame;
-s32 get_bml_motion(s32, s32);
+s32 get_bml_motion(saddr, s32);
 extern saddr lazer_fence_norm_bml_resource;
 void free_bin_model_request(void*, int);
 s32 scroll_ginja_mesh_uvs(s32, s32, s32, s32, s32);

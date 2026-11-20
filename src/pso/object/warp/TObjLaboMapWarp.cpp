@@ -84,11 +84,11 @@ struct Obj_80185BE8 { u8 pad[0xC4]; f32 t; };
 
 extern "C" {
 
-s32 get_bml_motion(s32, s32);
+s32 get_bml_motion(saddr, s32);
 
-s32 get_bml_texlist(s32, s32);
+s32 get_bml_texlist(saddr, s32);
 
-s32 get_bml_model(s32, s32);
+s32 get_bml_model(saddr, s32);
 
 void free_bin_model_request(void*, int);
 

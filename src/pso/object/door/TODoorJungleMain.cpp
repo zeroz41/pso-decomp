@@ -141,7 +141,7 @@ void *__ct__10TODoorBaseFP7TObject(void *a0);
 
 extern s32 __vt__16TODoorJungleMain[];
 
-void *get_bml_model(u32, int);
+void *get_bml_model(uaddr, int);
 
 s32 rotate_matrix_y(int, int);
 

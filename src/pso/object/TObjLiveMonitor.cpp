@@ -28,7 +28,7 @@ s32 TObjPlayer__sub_80084500();
 s32 free_children__12TObjDoorJungFPv(void *, u16);
 s32 TObjLiveMonitor__sub_8030C050(void* p);
 s32 draw_ginja_model(void *);
-s32 get_bml_model(s32, s32);
+s32 get_bml_model(saddr, s32);
 s32 is_split_screen();
 extern s32 __vt__20TObjLiveMonitorSmall[];
 s32 live_monitor_shared_resource;
@@ -55,7 +55,7 @@ const char *TObjLiveMonitorSmall__name = "TObjLiveMonitorSmall";
 const s32 lbl_804757E0[2] = { 0xF44E8, 0xF44E9 };
 extern "C" {
 s32 draw_ginja_object(int);
-s32 get_bml_texlist(s32, s32);
+s32 get_bml_texlist(saddr, s32);
 s32 __ct__7TObjectFP7TObject();
 extern s32 __vt__15TObjLiveMonitor[];
 }

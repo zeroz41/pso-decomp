@@ -189,11 +189,11 @@ struct Obj_8018B030 : VBase_8018B030 {
 
 extern "C" {
 void __ct__9TObjCharaFP7TObject(void *, void *, void *);
-s32 get_bml_texlist(int, int);
+s32 get_bml_texlist(saddr, int);
 void init_collision_body_parts(void *, void *, int);
 
-u32 get_bml_motion(int, int);
-s32 get_bml_model(int, int);
+u32 get_bml_motion(saddr, int);
+s32 get_bml_model(saddr, int);
 s32 submit_cursor_candidate(void *, int, f32);
 extern s32 TContainerAncient01R__bml_resource;
 
