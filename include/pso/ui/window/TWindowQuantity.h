@@ -17,7 +17,7 @@ struct TWindowQuantity : public TWindowBase {
     u8 unk_68[0x4];
 };
 
-typedef char TWindowQuantity_size[sizeof(TWindowQuantity) == 0x6C ? 1 : -1];
+LAYOUT_ASSERT(TWindowQuantity_size, sizeof(TWindowQuantity) == 0x6C);
 
 extern "C" {
 void *TWindowQuantity__ct(void *arg0, void *arg1);

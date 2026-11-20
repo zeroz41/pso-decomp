@@ -66,5 +66,5 @@ struct TWindowHelpItem : public TWindowBase
     void refresh_copied_items();
 };
 
-typedef char TWindowHelpItem_size_check[sizeof(TWindowHelpItem) == 0xBC ? 1 : -1];
+LAYOUT_ASSERT(TWindowHelpItem_size_check, sizeof(TWindowHelpItem) == 0xBC);
 #endif

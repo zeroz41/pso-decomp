@@ -10,8 +10,8 @@ typedef struct NetBufferRef {
     u8 padding[3];
 } NetBufferRef;
 
-typedef char NetBufferRef_size_check[(sizeof(NetBufferRef) == 8) ? 1 : -1];
-typedef char NetBufferRef_kind_check[(offsetof(NetBufferRef, kind) == 4) ? 1 : -1];
+LAYOUT_ASSERT(NetBufferRef_size_check, sizeof(NetBufferRef) == 8);
+LAYOUT_ASSERT(NetBufferRef_kind_check, offsetof(NetBufferRef, kind) == 4);
 #ifdef __cplusplus
 extern "C" {
 #endif

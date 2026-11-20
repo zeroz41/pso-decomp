@@ -23,7 +23,7 @@ struct TBoss7TentacleNeedle : public TObject {
     virtual void run_task();
 };
 
-typedef char TBoss7TentacleNeedle_size[sizeof(TBoss7TentacleNeedle) == 0x7C ? 1 : -1];
+LAYOUT_ASSERT(TBoss7TentacleNeedle_size, sizeof(TBoss7TentacleNeedle) == 0x7C);
 
 class TBoss7Tentacle;
 extern "C" {

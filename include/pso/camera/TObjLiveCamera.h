@@ -13,5 +13,5 @@ struct TObjLiveCamera : public TObjBase {
     static void free_static_resource(); // inferred: frees what load_static_resource loads (its pair in static_resource_callback_table)
 };
 
-typedef char TObjLiveCamera_size[sizeof(TObjLiveCamera) == 0x90 ? 1 : -1];
+LAYOUT_ASSERT(TObjLiveCamera_size, sizeof(TObjLiveCamera) == 0x90);
 #endif

@@ -29,6 +29,6 @@ public:
     u8 unk_E8[0x4];
     s32 m_ec;
 };
-typedef char TBoss6Demo20_TYPE2_APPEAR_size[sizeof(TBoss6Demo20_TYPE2_APPEAR) == 0xF0 ? 1 : -1];
+LAYOUT_ASSERT(TBoss6Demo20_TYPE2_APPEAR_size, sizeof(TBoss6Demo20_TYPE2_APPEAR) == 0xF0);
 
 #endif

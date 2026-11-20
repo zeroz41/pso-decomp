@@ -20,7 +20,7 @@ struct TWindowMainMenu4P : public TWindowMainMenu {
     u8 unk_58[0x8];
 };
 
-typedef char TWindowMainMenu4P_size[sizeof(TWindowMainMenu4P) == 0x60 ? 1 : -1];
+LAYOUT_ASSERT(TWindowMainMenu4P_size, sizeof(TWindowMainMenu4P) == 0x60);
 
 extern "C" {
 void *__dt__17TWindowMainMenu4PFv(void *arg0, s16 arg1);

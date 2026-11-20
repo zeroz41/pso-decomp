@@ -71,5 +71,5 @@ struct TAdChrSelASlotGC : public TObject {
     u8 unk_7C[0x4];
 };
 
-typedef char TAdChrSelASlotGC_size[sizeof(TAdChrSelASlotGC) == 0x80 ? 1 : -1];
+LAYOUT_ASSERT(TAdChrSelASlotGC_size, sizeof(TAdChrSelASlotGC) == 0x80);
 #endif

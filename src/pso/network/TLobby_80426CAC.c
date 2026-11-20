@@ -47,7 +47,7 @@ typedef struct PppoeTable {
     u8 mac[6];                  /* 0xE14: no code in this build writes it */
     u8 padE1A[6];
 } PppoeTable;
-typedef char PppoeTable_size_check[sizeof(PppoeTable) == 0xE20 ? 1 : -1];
+LAYOUT_ASSERT(PppoeTable_size_check, sizeof(PppoeTable) == 0xE20);
 
 extern u8 lbl_805CF240[0xA0];
 extern u8 pppoe_message_queue[0xA0];

@@ -122,20 +122,20 @@ public:
     virtual ~TUnk_804C88A8();
 };
 
-typedef char RadarPlayerMarkerSize[(sizeof(RadarPlayerMarker) == 0x28) ? 1 : -1];
-typedef char RadarViewportSize[(sizeof(RadarViewportParameters) == 0x30) ? 1 : -1];
-typedef char RadarViewportCenterX[(offsetof(RadarViewportParameters, center_x) == 0x8) ? 1 : -1];
-typedef char RadarViewportCenterY[(offsetof(RadarViewportParameters, center_y) == 0xC) ? 1 : -1];
-typedef char RadarViewportValue18[(offsetof(RadarViewportParameters, value18) == 0x18) ? 1 : -1];
-typedef char RadarViewportWidth[(offsetof(RadarViewportParameters, screen_width) == 0x28) ? 1 : -1];
-typedef char RadarViewportHeight[(offsetof(RadarViewportParameters, screen_height) == 0x2C) ? 1 : -1];
-typedef char RaderMapCoreSize[(sizeof(TRaderMapCore) == 0x1A4) ? 1 : -1];
-typedef char RaderMapCoreDelay[(offsetof(TRaderMapCore, m_90) == 0x90) ? 1 : -1];
-typedef char RaderMapCoreMarkers[(offsetof(TRaderMapCore, player_marker_records) == 0x94) ? 1 : -1];
-typedef char RaderMapCoreSelectedPlayer[(offsetof(TRaderMapCore, m_134) == 0x134) ? 1 : -1];
-typedef char RaderMapCoreViewportWidth[(offsetof(TRaderMapCore, viewport_width) == 0x160) ? 1 : -1];
-typedef char RaderMapCoreTarget[(offsetof(TRaderMapCore, m_184) == 0x184) ? 1 : -1];
-typedef char RaderMapCoreTail[(offsetof(TRaderMapCore, m_1a0) == 0x1A0) ? 1 : -1];
+LAYOUT_ASSERT(RadarPlayerMarkerSize, sizeof(RadarPlayerMarker) == 0x28);
+LAYOUT_ASSERT(RadarViewportSize, sizeof(RadarViewportParameters) == 0x30);
+LAYOUT_ASSERT(RadarViewportCenterX, offsetof(RadarViewportParameters, center_x) == 0x8);
+LAYOUT_ASSERT(RadarViewportCenterY, offsetof(RadarViewportParameters, center_y) == 0xC);
+LAYOUT_ASSERT(RadarViewportValue18, offsetof(RadarViewportParameters, value18) == 0x18);
+LAYOUT_ASSERT(RadarViewportWidth, offsetof(RadarViewportParameters, screen_width) == 0x28);
+LAYOUT_ASSERT(RadarViewportHeight, offsetof(RadarViewportParameters, screen_height) == 0x2C);
+LAYOUT_ASSERT(RaderMapCoreSize, sizeof(TRaderMapCore) == 0x1A4);
+LAYOUT_ASSERT(RaderMapCoreDelay, offsetof(TRaderMapCore, m_90) == 0x90);
+LAYOUT_ASSERT(RaderMapCoreMarkers, offsetof(TRaderMapCore, player_marker_records) == 0x94);
+LAYOUT_ASSERT(RaderMapCoreSelectedPlayer, offsetof(TRaderMapCore, m_134) == 0x134);
+LAYOUT_ASSERT(RaderMapCoreViewportWidth, offsetof(TRaderMapCore, viewport_width) == 0x160);
+LAYOUT_ASSERT(RaderMapCoreTarget, offsetof(TRaderMapCore, m_184) == 0x184);
+LAYOUT_ASSERT(RaderMapCoreTail, offsetof(TRaderMapCore, m_1a0) == 0x1A0);
 
 // Draws a door or gate marker on the radar: green when it is open to the
 // player, red when it is locked.

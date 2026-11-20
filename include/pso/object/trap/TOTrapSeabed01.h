@@ -33,5 +33,5 @@ struct TOTrapSeabed01 : public TOTrap {
     s32 sound_handle; // name inferred: play_sound_effect's result, stopped by vfunc_6
 };
 
-typedef char TOTrapSeabed01_size[sizeof(TOTrapSeabed01) == 0x35C ? 1 : -1];
+LAYOUT_ASSERT(TOTrapSeabed01_size, sizeof(TOTrapSeabed01) == 0x35C);
 #endif

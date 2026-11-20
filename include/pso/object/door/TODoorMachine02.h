@@ -28,6 +28,6 @@ struct TODoorMachine02 : public TODoorBase {
     static s32 *texture_lists;  // [0] the locked (red) light, [1] the bml's own
 };
 
-typedef char TODoorMachine02_size[sizeof(TODoorMachine02) == 0xE4 ? 1 : -1];
+LAYOUT_ASSERT(TODoorMachine02_size, sizeof(TODoorMachine02) == 0xE4);
 
 #endif

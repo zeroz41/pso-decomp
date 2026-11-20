@@ -27,6 +27,6 @@ public:
     static void draw_fading_model_5(void *p);
     void draw_fading_model_4();
 };
-typedef char TBoss6Demo21_TYPE2_DEAD_size[sizeof(TBoss6Demo21_TYPE2_DEAD) == 0xB4 ? 1 : -1];
+LAYOUT_ASSERT(TBoss6Demo21_TYPE2_DEAD_size, sizeof(TBoss6Demo21_TYPE2_DEAD) == 0xB4);
 
 #endif

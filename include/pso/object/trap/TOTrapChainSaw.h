@@ -43,5 +43,5 @@ struct TOTrapChainSaw : public TObjMapObject {
     static void unload_static_data();
 };
 
-typedef char TOTrapChainSaw_size[sizeof(TOTrapChainSaw) == 0xF8 ? 1 : -1];
+LAYOUT_ASSERT(TOTrapChainSaw_size, sizeof(TOTrapChainSaw) == 0xF8);
 #endif

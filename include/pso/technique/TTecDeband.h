@@ -19,7 +19,7 @@ struct TTecDeband : public TTecPlayerInfluence {
     void play_state_sound();
 };
 
-typedef char TTecDeband_size[sizeof(TTecDeband) == 0x140 ? 1 : -1];
+LAYOUT_ASSERT(TTecDeband_size, sizeof(TTecDeband) == 0x140);
 
 extern "C" {
 s32 TTecDeband__ct(u32 a0, s32 owner, s32 pos, s32 arg3, s32 level);

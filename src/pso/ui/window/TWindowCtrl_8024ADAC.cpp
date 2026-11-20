@@ -36,9 +36,9 @@ extern RecoveredGlobal_lbl_804CEA1C lbl_804CEA1C;
 struct RecoveredGlobal_lbl_804CEA10 { s32 value; u8 remaining[0x8]; };
 extern RecoveredGlobal_lbl_804CEA10 lbl_804CEA10;
 void TWindowCtrl__sub_8024ADAC(s32 arg0) {
-    typedef char sp8_offset[(offsetof(Stack_8024ADAC, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_8024ADAC, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_8024ADAC, sp10) == 0x8) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8024ADAC, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8024ADAC, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8024ADAC, sp10) == 0x8);
     Stack_8024ADAC stack;
     stack.sp8 = *(s32 *)((s8 *)&lbl_804CEA1C.value + 0);
     stack.spC = *(s32 *)((s8 *)&lbl_804CEA1C.value + 4);
@@ -46,9 +46,9 @@ void TWindowCtrl__sub_8024ADAC(s32 arg0) {
     call_window_method__11TWindowCtrlFPvi((void *)arg0, (void *)&stack.sp8);
 }
 void TWindowCtrl__sub_8024ADF0(s32 arg0) {
-    typedef char sp8_offset[(offsetof(Stack_8024ADF0, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_8024ADF0, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_8024ADF0, sp10) == 0x8) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8024ADF0, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8024ADF0, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8024ADF0, sp10) == 0x8);
     Stack_8024ADF0 stack;
     stack.sp8 = *(s32 *)((s8 *)&lbl_804CEA10.value + 0);
     stack.spC = *(s32 *)((s8 *)&lbl_804CEA10.value + 4);

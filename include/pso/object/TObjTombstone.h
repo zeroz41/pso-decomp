@@ -84,5 +84,5 @@ struct TObjTombstone : public TObjCollidable {
     static void *create(void *arg0, void *arg1, void *arg2);
 };
 
-typedef char TObjTombstone_size[sizeof(TObjTombstone) == 0x238 ? 1 : -1];
+LAYOUT_ASSERT(TObjTombstone_size, sizeof(TObjTombstone) == 0x238);
 #endif

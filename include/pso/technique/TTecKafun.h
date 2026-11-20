@@ -20,5 +20,5 @@ struct TTecKafun : public TUnk_804CC148 {
     static void create(s32 source, s32 pos, s32 kind, s32 effect, s32 level, f32 value, f32 radius);
 };
 
-typedef char TTecKafun_size[sizeof(TTecKafun) == 0x100 ? 1 : -1];
+LAYOUT_ASSERT(TTecKafun_size, sizeof(TTecKafun) == 0x100);
 #endif

@@ -156,7 +156,7 @@ struct TCameraCtrl : public TObject {
     static void set_target(int a0, int a1);
 };
 
-typedef char TCameraCtrl_size[sizeof(TCameraCtrl) == 0x1D4 ? 1 : -1];
+LAYOUT_ASSERT(TCameraCtrl_size, sizeof(TCameraCtrl) == 0x1D4);
 // The camera's right axis, which screen tests offset points along.
 extern f32 camera_right[3];
 

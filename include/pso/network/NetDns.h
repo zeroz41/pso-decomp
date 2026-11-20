@@ -148,12 +148,12 @@ typedef struct DnsResolverState {
     DnsQuery *queries;          /* 0x44 */
 } DnsResolverState;
 
-typedef char DnsBuffer_size_check[sizeof(DnsBuffer) == 8 ? 1 : -1];
-typedef char DnsAddr_size_check[sizeof(DnsAddr) == 0x28 ? 1 : -1];
-typedef char DnsHost_size_check[sizeof(DnsHost) == 0x20C ? 1 : -1];
-typedef char DnsPtr_size_check[sizeof(DnsPtr) == 0x11C ? 1 : -1];
-typedef char DnsQuery_size_check[sizeof(DnsQuery) == 0x3C ? 1 : -1];
-typedef char DnsResolverState_size_check[sizeof(DnsResolverState) == 0x48 ? 1 : -1];
+LAYOUT_ASSERT(DnsBuffer_size_check, sizeof(DnsBuffer) == 8);
+LAYOUT_ASSERT(DnsAddr_size_check, sizeof(DnsAddr) == 0x28);
+LAYOUT_ASSERT(DnsHost_size_check, sizeof(DnsHost) == 0x20C);
+LAYOUT_ASSERT(DnsPtr_size_check, sizeof(DnsPtr) == 0x11C);
+LAYOUT_ASSERT(DnsQuery_size_check, sizeof(DnsQuery) == 0x3C);
+LAYOUT_ASSERT(DnsResolverState_size_check, sizeof(DnsResolverState) == 0x48);
 
 extern DnsResolverState dns_resolver_state;
 

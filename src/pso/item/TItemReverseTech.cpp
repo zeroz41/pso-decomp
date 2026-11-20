@@ -55,7 +55,7 @@ extern void *__vt__18TItemReverseTechBG[];
 }
 
 struct RecoveredGlobal_80119B28___vt__21TItemReverseTechPart2 { s32 value; u8 remaining[0x14]; };
-typedef char RecoveredGlobal_80119B28___vt__21TItemReverseTechPart2_size[sizeof(RecoveredGlobal_80119B28___vt__21TItemReverseTechPart2) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_80119B28___vt__21TItemReverseTechPart2_size, sizeof(RecoveredGlobal_80119B28___vt__21TItemReverseTechPart2) == 0x18);
 
 extern RecoveredGlobal_80119B28___vt__21TItemReverseTechPart2 __vt__21TItemReverseTechPart2;
 

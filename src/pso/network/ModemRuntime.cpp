@@ -53,10 +53,10 @@ struct ModemRecvState {
     void (*callback)(s32 received);
 };
 
-typedef char ModemSendStateSize[sizeof(ModemSendState) == 0x2C ? 1 : -1];
-typedef char ModemRecvStateSize[sizeof(ModemRecvState) == 0x40 ? 1 : -1];
-typedef char ModemSendCallbackOffset[offsetof(ModemSendState, callback) == 0x28 ? 1 : -1];
-typedef char ModemRecvCallbackOffset[offsetof(ModemRecvState, callback) == 0x3C ? 1 : -1];
+LAYOUT_ASSERT(ModemSendStateSize, sizeof(ModemSendState) == 0x2C);
+LAYOUT_ASSERT(ModemRecvStateSize, sizeof(ModemRecvState) == 0x40);
+LAYOUT_ASSERT(ModemSendCallbackOffset, offsetof(ModemSendState, callback) == 0x28);
+LAYOUT_ASSERT(ModemRecvCallbackOffset, offsetof(ModemRecvState, callback) == 0x3C);
 
 struct ModemResponseState {
     void (*callback)(s32 result);

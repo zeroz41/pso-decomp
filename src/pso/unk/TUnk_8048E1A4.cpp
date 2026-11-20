@@ -46,7 +46,7 @@ void TUnk_8048E1A4::update_freeze_shell_timer() {
 }
 
 struct RecoveredGlobal_80081CD0_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
-typedef char RecoveredGlobal_80081CD0_lbl_8058D490_size[sizeof(RecoveredGlobal_80081CD0_lbl_8058D490) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_80081CD0_lbl_8058D490_size, sizeof(RecoveredGlobal_80081CD0_lbl_8058D490) == 0x30);
 
 struct VBase_80081EA4 { u8 pad[0x18]; };
 
@@ -299,26 +299,26 @@ TUnk_8048E1A4::~TUnk_8048E1A4() {
 
 #pragma push
 #pragma fp_contract on
-typedef char RecoveredFields_8008213C_arg0_18_offset[offsetof(RecoveredFields_8008213C_arg0, field_18) == 0x18 ? 1 : -1];
-typedef char RecoveredFields_8008213C_arg0_34_offset[offsetof(RecoveredFields_8008213C_arg0, field_34) == 0x34 ? 1 : -1];
-typedef char RecoveredFields_8008213C_arg0_60_offset[offsetof(RecoveredFields_8008213C_arg0, field_60) == 0x60 ? 1 : -1];
-typedef char RecoveredFields_8008213C_arg0_68_offset[offsetof(RecoveredFields_8008213C_arg0, field_68) == 0x68 ? 1 : -1];
-typedef char RecoveredFields_8008213C_arg0_6C_offset[offsetof(RecoveredFields_8008213C_arg0, field_6C) == 0x6C ? 1 : -1];
-typedef char RecoveredFields_8008213C_arg0_70_offset[offsetof(RecoveredFields_8008213C_arg0, field_70) == 0x70 ? 1 : -1];
-typedef char RecoveredFields_8008213C_arg0_334_offset[offsetof(RecoveredFields_8008213C_arg0, field_334) == 0x334 ? 1 : -1];
-typedef char RecoveredFields_8008213C_arg0_338_offset[offsetof(RecoveredFields_8008213C_arg0, field_338) == 0x338 ? 1 : -1];
-typedef char RecoveredFields_8008213C_arg0_33C_offset[offsetof(RecoveredFields_8008213C_arg0, field_33C) == 0x33C ? 1 : -1];
-typedef char RecoveredFields_8008213C_arg0_340_offset[offsetof(RecoveredFields_8008213C_arg0, field_340) == 0x340 ? 1 : -1];
-typedef char RecoveredFields_8008213C_arg0_344_offset[offsetof(RecoveredFields_8008213C_arg0, field_344) == 0x344 ? 1 : -1];
-typedef char RecoveredFields_8008213C_arg0_348_offset[offsetof(RecoveredFields_8008213C_arg0, field_348) == 0x348 ? 1 : -1];
-typedef char RecoveredFields_8008213C_arg0_34C_offset[offsetof(RecoveredFields_8008213C_arg0, field_34C) == 0x34C ? 1 : -1];
-typedef char RecoveredFields_8008213C_arg0_350_offset[offsetof(RecoveredFields_8008213C_arg0, field_350) == 0x350 ? 1 : -1];
-typedef char RecoveredFields_8008213C_arg0_354_offset[offsetof(RecoveredFields_8008213C_arg0, field_354) == 0x354 ? 1 : -1];
-typedef char RecoveredFields_8008213C_arg0_358_offset[offsetof(RecoveredFields_8008213C_arg0, field_358) == 0x358 ? 1 : -1];
-typedef char RecoveredFields_8008213C_arg2_C_offset[offsetof(RecoveredFields_8008213C_arg2, field_C) == 0xC ? 1 : -1];
-typedef char RecoveredFields_8008213C_arg1_60_offset[offsetof(RecoveredFields_8008213C_arg1, field_60) == 0x60 ? 1 : -1];
-typedef char RecoveredFields_8008213C_arg1_A4_offset[offsetof(RecoveredFields_8008213C_arg1, field_A4) == 0xA4 ? 1 : -1];
-typedef char RecoveredFields_8008213C_temp_r3_10_offset[offsetof(RecoveredFields_8008213C_temp_r3, field_10) == 0x10 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_18_offset, offsetof(RecoveredFields_8008213C_arg0, field_18) == 0x18);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_34_offset, offsetof(RecoveredFields_8008213C_arg0, field_34) == 0x34);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_60_offset, offsetof(RecoveredFields_8008213C_arg0, field_60) == 0x60);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_68_offset, offsetof(RecoveredFields_8008213C_arg0, field_68) == 0x68);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_6C_offset, offsetof(RecoveredFields_8008213C_arg0, field_6C) == 0x6C);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_70_offset, offsetof(RecoveredFields_8008213C_arg0, field_70) == 0x70);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_334_offset, offsetof(RecoveredFields_8008213C_arg0, field_334) == 0x334);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_338_offset, offsetof(RecoveredFields_8008213C_arg0, field_338) == 0x338);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_33C_offset, offsetof(RecoveredFields_8008213C_arg0, field_33C) == 0x33C);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_340_offset, offsetof(RecoveredFields_8008213C_arg0, field_340) == 0x340);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_344_offset, offsetof(RecoveredFields_8008213C_arg0, field_344) == 0x344);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_348_offset, offsetof(RecoveredFields_8008213C_arg0, field_348) == 0x348);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_34C_offset, offsetof(RecoveredFields_8008213C_arg0, field_34C) == 0x34C);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_350_offset, offsetof(RecoveredFields_8008213C_arg0, field_350) == 0x350);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_354_offset, offsetof(RecoveredFields_8008213C_arg0, field_354) == 0x354);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_358_offset, offsetof(RecoveredFields_8008213C_arg0, field_358) == 0x358);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg2_C_offset, offsetof(RecoveredFields_8008213C_arg2, field_C) == 0xC);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg1_60_offset, offsetof(RecoveredFields_8008213C_arg1, field_60) == 0x60);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg1_A4_offset, offsetof(RecoveredFields_8008213C_arg1, field_A4) == 0xA4);
+LAYOUT_ASSERT(RecoveredFields_8008213C_temp_r3_10_offset, offsetof(RecoveredFields_8008213C_temp_r3, field_10) == 0x10);
 TUnk_8048E1A4::TUnk_8048E1A4(u8 *chara, u8 *arg2) : TObjChara((TObject *)((void *)tl_05)) {
     u8 *temp_r3;
     ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_34 = get_bml_model(freeze_shell_bml_resource, 1);

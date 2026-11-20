@@ -46,5 +46,5 @@ struct TObjWarpBossMulti : public TObjAreaWarp {
     f32 frame_step;                 // 4.0
 };
 
-typedef char TObjWarpBossMulti_size[sizeof(TObjWarpBossMulti) == 0x100 ? 1 : -1];
+LAYOUT_ASSERT(TObjWarpBossMulti_size, sizeof(TObjWarpBossMulti) == 0x100);
 #endif

@@ -20,6 +20,6 @@ public:
     s32 m_cc;
     void * m_d0;
 };
-typedef char TUnk_804909C4_size[sizeof(TUnk_804909C4) == 0xD4 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804909C4_size, sizeof(TUnk_804909C4) == 0xD4);
 
 #endif

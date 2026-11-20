@@ -45,5 +45,5 @@ struct TAdPlyStatusGC : public TObject {
     void set_load_state(s32 arg1);
 };
 
-typedef char TAdPlyStatusGC_size[sizeof(TAdPlyStatusGC) == 0x70 ? 1 : -1];
+LAYOUT_ASSERT(TAdPlyStatusGC_size, sizeof(TAdPlyStatusGC) == 0x70);
 #endif

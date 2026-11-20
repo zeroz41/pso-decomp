@@ -141,7 +141,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     static void *create(void *arg0);
 };
 
-typedef char TBoss7DeRolLeC_size[sizeof(TBoss7DeRolLeC) == 0x7D4 ? 1 : -1];
+LAYOUT_ASSERT(TBoss7DeRolLeC_size, sizeof(TBoss7DeRolLeC) == 0x7D4);
 
 // Light pool element (0x38 bytes): TObjPlayer__sub_802EE574 initialises 11 of them as a linked free list.
 struct Light_802EE574 {

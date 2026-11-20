@@ -101,7 +101,7 @@ void *lookup_item_pmt_record(u8 *item);
 }
 
 #include <stddef.h>
-typedef char ItemDataSize[(sizeof(TItemData) == 0x14) ? 1 : -1];
-typedef char ItemDataIDOffset[(offsetof(TItemData, id) == 0xC) ? 1 : -1];
-typedef char ItemDataExtensionOffset[(offsetof(TItemData, data2) == 0x10) ? 1 : -1];
+LAYOUT_ASSERT(ItemDataSize, sizeof(TItemData) == 0x14);
+LAYOUT_ASSERT(ItemDataIDOffset, offsetof(TItemData, id) == 0xC);
+LAYOUT_ASSERT(ItemDataExtensionOffset, offsetof(TItemData, data2) == 0x10);
 #endif

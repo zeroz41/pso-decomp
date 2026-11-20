@@ -180,7 +180,7 @@ s32 TQuestVmDownLoadServer__sub_801F8538(void *data, s32 size);
 s32 draw_window_bg__23TAdSinglePlyChrSelectGCFllll(s32, void *, s32, s32);
 }
 extern s32 tl_03;
-typedef char SubtractiveRng_size[sizeof(SubtractiveRng) == 0xE8 ? 1 : -1];
+LAYOUT_ASSERT(SubtractiveRng_size, sizeof(SubtractiveRng) == 0xE8);
 struct SubtractiveRng;
 
 struct Src_801F87CC {

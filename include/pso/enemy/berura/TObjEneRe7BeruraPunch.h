@@ -43,6 +43,6 @@ struct TObjEneRe7BeruraPunch : public TUnk_804928CC {
     s32 m_118;
 };
 
-typedef char TObjEneRe7BeruraPunch_size[sizeof(TObjEneRe7BeruraPunch) == 0x11C ? 1 : -1];
+LAYOUT_ASSERT(TObjEneRe7BeruraPunch_size, sizeof(TObjEneRe7BeruraPunch) == 0x11C);
 
 #endif

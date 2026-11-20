@@ -32,6 +32,6 @@ struct TShopSequence : public TShopWindowBase {
     TMessageWindowController *message_window;   // 0x28: created by the ctor, deleted by the dtor
 };
 
-typedef char TShopSequence_size[sizeof(TShopSequence) == 0x2C ? 1 : -1];
+LAYOUT_ASSERT(TShopSequence_size, sizeof(TShopSequence) == 0x2C);
 
 #endif

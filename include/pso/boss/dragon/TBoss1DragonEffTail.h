@@ -23,7 +23,7 @@ struct TBoss1DragonEffTail : public TUnk_804928CC {
     int is_visible();
 };
 
-typedef char TBoss1DragonEffTail_size[sizeof(TBoss1DragonEffTail) == 0xCC ? 1 : -1];
+LAYOUT_ASSERT(TBoss1DragonEffTail_size, sizeof(TBoss1DragonEffTail) == 0xCC);
 
 extern "C" {
 void apply_hit_if_active__19TBoss1DragonEffTailFPvPf(TBoss1DragonEffTail *arg0, u8 *arg1);

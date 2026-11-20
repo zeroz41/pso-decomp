@@ -292,12 +292,12 @@ extern void *lbl_805D5680;
 // The name every TObjMotion constructor gives the object.
 extern const char *TObjMotion__class_name;
 
-typedef char TObjBaseSize[sizeof(TObjBase)==0x90?1:-1];
-typedef char TObjCollidableSize[sizeof(TObjCollidable)==0xAC?1:-1];
-typedef char CollisionBodySize[sizeof(CollisionBody)==0x2C?1:-1];
-typedef char TObjMotionSize[sizeof(TObjMotion)==0xFC?1:-1];
-typedef char WorldActorModelOffset[offsetof(TObjBase,model)==0x34?1:-1];
-typedef char MotionActionsOffset[offsetof(TObjMotion,action_table)==0xD8?1:-1];
-typedef char MotionListOffset[offsetof(TObjMotion,motion_list)==0xDC?1:-1];
-typedef char JointMatricesOffset[offsetof(TObjMotion,joint_matrices)==0xE0?1:-1];
+LAYOUT_ASSERT(TObjBaseSize, sizeof(TObjBase)==0x90);
+LAYOUT_ASSERT(TObjCollidableSize, sizeof(TObjCollidable)==0xAC);
+LAYOUT_ASSERT(CollisionBodySize, sizeof(CollisionBody)==0x2C);
+LAYOUT_ASSERT(TObjMotionSize, sizeof(TObjMotion)==0xFC);
+LAYOUT_ASSERT(WorldActorModelOffset, offsetof(TObjBase,model)==0x34);
+LAYOUT_ASSERT(MotionActionsOffset, offsetof(TObjMotion,action_table)==0xD8);
+LAYOUT_ASSERT(MotionListOffset, offsetof(TObjMotion,motion_list)==0xDC);
+LAYOUT_ASSERT(JointMatricesOffset, offsetof(TObjMotion,joint_matrices)==0xE0);
 #endif

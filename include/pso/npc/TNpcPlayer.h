@@ -137,5 +137,5 @@ struct TNpcPlayer : public TObject {
     void request_technique_cast(s32 kind);
 };
 
-typedef char TNpcPlayer_size[sizeof(TNpcPlayer) == 0xE8 ? 1 : -1];
+LAYOUT_ASSERT(TNpcPlayer_size, sizeof(TNpcPlayer) == 0xE8);
 #endif

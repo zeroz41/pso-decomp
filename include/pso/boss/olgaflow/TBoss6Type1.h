@@ -227,10 +227,10 @@ void TBoss6Type1__sub_802B715C(TBoss6Type1 *self);
 // Defined in TBoss6Type1.cpp's .rodata; init_effect_slot_1 reads it too.
 extern const Vec lbl_80470CE0;
 
-typedef char Boss6EffectPoint_size[(sizeof(Boss6EffectPoint)==0xC)?1:-1];
-typedef char TBoss6Type1_receiver_offset[(offsetof(TBoss6Type1,effect_point_receiver)==0x404)?1:-1];
-typedef char TBoss6Type1_points_offset[(offsetof(TBoss6Type1,effect_points)==0x638)?1:-1];
-typedef char TBoss6Type1_trail_receiver_offset[(offsetof(TBoss6Type1,trail_point_receiver)==0x400)?1:-1];
-typedef char TBoss6Type1_map_csn_offset[(offsetof(TBoss6Type1,map_csn)==0x680)?1:-1];
-typedef char TBoss6Type1_trail_points_offset[(offsetof(TBoss6Type1,trail_points)==0x5D8)?1:-1];
+LAYOUT_ASSERT(Boss6EffectPoint_size, sizeof(Boss6EffectPoint)==0xC);
+LAYOUT_ASSERT(TBoss6Type1_receiver_offset, offsetof(TBoss6Type1,effect_point_receiver)==0x404);
+LAYOUT_ASSERT(TBoss6Type1_points_offset, offsetof(TBoss6Type1,effect_points)==0x638);
+LAYOUT_ASSERT(TBoss6Type1_trail_receiver_offset, offsetof(TBoss6Type1,trail_point_receiver)==0x400);
+LAYOUT_ASSERT(TBoss6Type1_map_csn_offset, offsetof(TBoss6Type1,map_csn)==0x680);
+LAYOUT_ASSERT(TBoss6Type1_trail_points_offset, offsetof(TBoss6Type1,trail_points)==0x5D8);
 #endif

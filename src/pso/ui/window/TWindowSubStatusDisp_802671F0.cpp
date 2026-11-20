@@ -548,8 +548,8 @@ void TWindowSubShortCutList::set_cursor_index(s16 v) {
 }
 
 void TWindowMenuIconLine::create_menu_scroll_bar() {
-    typedef char sp8_offset[(offsetof(Stack_80267B18, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_80267B18, spC) == 0x4) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80267B18, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_80267B18, spC) == 0x4);
     Stack_80267B18 stack;
     f32 temp_f1;
     u32 temp_r3;

@@ -10,7 +10,7 @@ struct TObjNpcHRM01 : public TUnk_804A9F50 {
     static void load_resources();
 };
 
-typedef char TObjNpcHRM01_size[sizeof(TObjNpcHRM01) == 0x3B8 ? 1 : -1];
+LAYOUT_ASSERT(TObjNpcHRM01_size, sizeof(TObjNpcHRM01) == 0x3B8);
 
 class TObjControl;
 

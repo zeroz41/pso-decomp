@@ -31,7 +31,7 @@ struct TPhotonConcentrate : public TObjCollidable {
     u8 unk_100[0xC];
 };
 
-typedef char TPhotonConcentrate_size[sizeof(TPhotonConcentrate) == 0x10C ? 1 : -1];
+LAYOUT_ASSERT(TPhotonConcentrate_size, sizeof(TPhotonConcentrate) == 0x10C);
 
 extern "C" {
 u8 *__ct__18TPhotonConcentrateFPUcll(u8 *photon_concentrate, u8 *arg1, s32 arg2, s32 arg3);

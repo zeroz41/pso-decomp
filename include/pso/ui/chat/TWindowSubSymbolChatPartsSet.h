@@ -39,5 +39,5 @@ struct TWindowSubSymbolChatPartsSet : public TWindowChatSymbol {
     void get_parts_entry(s32 arg1);
 };
 
-typedef char TWindowSubSymbolChatPartsSet_size[sizeof(TWindowSubSymbolChatPartsSet) == 0x98 ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubSymbolChatPartsSet_size, sizeof(TWindowSubSymbolChatPartsSet) == 0x98);
 #endif

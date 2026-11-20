@@ -27,7 +27,7 @@ struct RecoveredGlobal_801095EC___vt__15TItemEffLandHit {
 extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_801095EC___vt__15TItemEffLandHit __vt__15TItemEffLandHit;
-typedef char RecoveredGlobal_801095EC___vt__15TItemEffLandHit_size[sizeof(RecoveredGlobal_801095EC___vt__15TItemEffLandHit) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_801095EC___vt__15TItemEffLandHit_size, sizeof(RecoveredGlobal_801095EC___vt__15TItemEffLandHit) == 0x18);
 u8 *TItemEffLandHit__ct(u8 *item_eff_land_hit, u8 *arg1, u8 *item, u8 *arg3, u8 *arg4) {
     __ct__7TObjectFP7TObject(item_eff_land_hit, arg1);
     *(s32 **)((s8 *)item_eff_land_hit + 0x18) = &__vt__15TItemEffLandHit.value;

@@ -14,5 +14,5 @@ struct TBoss6EmptyWarp : public TObject {
     u8 unk_1C[0x4];
 };
 
-typedef char TBoss6EmptyWarp_size[sizeof(TBoss6EmptyWarp) == 0x20 ? 1 : -1];
+LAYOUT_ASSERT(TBoss6EmptyWarp_size, sizeof(TBoss6EmptyWarp) == 0x20);
 #endif

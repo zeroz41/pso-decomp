@@ -66,7 +66,7 @@ public:
     u32 state;
     int mode; // 0, 1 or 2, given by the creator; from state 12 on, mode 1 also watches slot B
 };
-typedef char TAdPlayerLoadGCExtent[sizeof(TAdPlayerLoadGC) == 0x24 ? 1 : -1];
+LAYOUT_ASSERT(TAdPlayerLoadGCExtent, sizeof(TAdPlayerLoadGC) == 0x24);
 
 int get_player_load_state(void);
 void set_character_select_b_slot_state(int a0);

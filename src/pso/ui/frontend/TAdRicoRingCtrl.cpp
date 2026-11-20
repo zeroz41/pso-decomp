@@ -53,9 +53,9 @@ s8 lbl_805D4A30;
 s8 lbl_805D4A31;
 u32 __cvt_fp2unsigned(f32);
 
-typedef char RecoveredGlobal_8001B8AC___vt__15TAdRicoRingCtrl_size[sizeof(RecoveredGlobal_8001B8AC___vt__15TAdRicoRingCtrl) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8001B8AC___vt__15TAdRicoRingCtrl_size, sizeof(RecoveredGlobal_8001B8AC___vt__15TAdRicoRingCtrl) == 0x18);
 struct RecoveredGlobal_8001BD0C___vt__11TAdRicoRing { s32 value; u8 remaining[0x14]; };
-typedef char RecoveredGlobal_8001BD0C___vt__11TAdRicoRing_size[sizeof(RecoveredGlobal_8001BD0C___vt__11TAdRicoRing) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8001BD0C___vt__11TAdRicoRing_size, sizeof(RecoveredGlobal_8001BD0C___vt__11TAdRicoRing) == 0x18);
 
 s32 get_bml_texlist(void *, int);
 s32 get_bml_model(void *, int);

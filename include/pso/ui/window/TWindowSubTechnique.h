@@ -34,7 +34,7 @@ struct TWindowSubTechnique : public TObject {
     static void draw_technique_row(s32 id, s32 arg1, s32 arg2);
 };
 
-typedef char TWindowSubTechnique_size[sizeof(TWindowSubTechnique) == 0x40 ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubTechnique_size, sizeof(TWindowSubTechnique) == 0x40);
 
 extern "C" {
 void *TWindowSubTechnique__ct(TWindowSubTechnique *arg0, s32 arg1, s32 arg2);

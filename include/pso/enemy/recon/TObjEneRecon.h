@@ -92,7 +92,7 @@ struct TObjEneRecon : public TObjEneDD_ST {
     void sync_height();
 };
 
-typedef char TObjEneRecon_size[sizeof(TObjEneRecon) == 0x4E4 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneRecon_size, sizeof(TObjEneRecon) == 0x4E4);
 
 // --- C functions defined in pso/unk/text_8031EF14.cpp ---
 extern "C" {

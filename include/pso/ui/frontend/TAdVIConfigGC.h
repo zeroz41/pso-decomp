@@ -24,5 +24,5 @@ struct TAdVIConfigGC : public TAdYesNoBaseGC {
     virtual void vfunc_10();
 };
 
-typedef char TAdVIConfigGC_size[sizeof(TAdVIConfigGC) == 0x4C ? 1 : -1];
+LAYOUT_ASSERT(TAdVIConfigGC_size, sizeof(TAdVIConfigGC) == 0x4C);
 #endif

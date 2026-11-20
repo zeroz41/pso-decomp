@@ -31,6 +31,6 @@ struct TODoorVS2Door01 : public TODoorBase {
     static s32 *texture_lists;  // [0] the locked texture list, [1] the bml's own
 };
 
-typedef char TODoorVS2Door01_size[sizeof(TODoorVS2Door01) == 0xD8 ? 1 : -1];
+LAYOUT_ASSERT(TODoorVS2Door01_size, sizeof(TODoorVS2Door01) == 0xD8);
 
 #endif

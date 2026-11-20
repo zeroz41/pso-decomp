@@ -249,7 +249,7 @@ struct ScreenSnapshot {
     u32 levels[12];
     char names[12][0x18];
 };
-typedef char ScreenSnapshot_size[sizeof(ScreenSnapshot) == 0x1818C ? 1 : -1];
+LAYOUT_ASSERT(ScreenSnapshot_size, sizeof(ScreenSnapshot) == 0x1818C);
 // The "GetFrameBuffer" temp buffer: the snapshot, then its card file image at the next 32-byte boundary.
 struct SnapshotFrameBuffer {
     ScreenSnapshot snapshot;

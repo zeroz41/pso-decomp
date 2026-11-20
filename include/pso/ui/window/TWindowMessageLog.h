@@ -19,5 +19,5 @@ struct TWindowMessageLog : public TWindowMessage {
     void load_chat_history();
 };
 
-typedef char TWindowMessageLog_size[sizeof(TWindowMessageLog) == 0x98 ? 1 : -1];
+LAYOUT_ASSERT(TWindowMessageLog_size, sizeof(TWindowMessageLog) == 0x98);
 #endif

@@ -15,5 +15,5 @@ struct TObjBgmCol : public TObjBase {
     s32 is_within_distance(f32 farg0);
 };
 
-typedef char TObjBgmCol_size[sizeof(TObjBgmCol) == 0xA0 ? 1 : -1];
+LAYOUT_ASSERT(TObjBgmCol_size, sizeof(TObjBgmCol) == 0xA0);
 #endif

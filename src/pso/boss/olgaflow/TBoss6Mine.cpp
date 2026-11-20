@@ -218,11 +218,11 @@ void TBoss6Mine::state_6() {
 #pragma push
 #pragma opt_common_subs off
 void TBoss6Mine::state_5() {
-    typedef char sp8_offset[(offsetof(Stack_803242C0, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_803242C0, spC) == 0x4) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_803242C0, sp14) == 0xC) ? 1 : -1];
-    typedef char sp18_offset[(offsetof(Stack_803242C0, sp18) == 0x10) ? 1 : -1];
-    typedef char sp1C_offset[(offsetof(Stack_803242C0, sp1C) == 0x14) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_803242C0, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_803242C0, spC) == 0x4);
+    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_803242C0, sp14) == 0xC);
+    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_803242C0, sp18) == 0x10);
+    LAYOUT_ASSERT(sp1C_offset, offsetof(Stack_803242C0, sp1C) == 0x14);
     Stack_803242C0 stack;
     f32 ground_y;
     VecCopy((Vec *)&stack.sp14, &this->target_pos);

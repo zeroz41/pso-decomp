@@ -34,6 +34,6 @@ struct TObjEneMe1CanadinLeader : public TObjEneMe1Canadin {
     static void *create_canadin(void *arg0, void *arg1, void *arg2, void *arg3);
 };
 
-typedef char TObjEneMe1CanadinLeader_size[sizeof(TObjEneMe1CanadinLeader) == 0x4F8 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneMe1CanadinLeader_size, sizeof(TObjEneMe1CanadinLeader) == 0x4F8);
 
 #endif

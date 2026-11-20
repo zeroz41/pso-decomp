@@ -940,12 +940,12 @@ void fn_80198E84(void) {
 }
 
 void TWindowTimer::throw_gogo_ball(s32 arg1, s32 arg2) {
-    typedef char sp8_offset[(offsetof(Stack_80198DCC, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_80198DCC, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_80198DCC, sp10) == 0x8) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_80198DCC, sp14) == 0xC) ? 1 : -1];
-    typedef char sp18_offset[(offsetof(Stack_80198DCC, sp18) == 0x10) ? 1 : -1];
-    typedef char sp1C_offset[(offsetof(Stack_80198DCC, sp1C) == 0x14) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80198DCC, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_80198DCC, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_80198DCC, sp10) == 0x8);
+    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_80198DCC, sp14) == 0xC);
+    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_80198DCC, sp18) == 0x10);
+    LAYOUT_ASSERT(sp1C_offset, offsetof(Stack_80198DCC, sp1C) == 0x14);
     Stack_80198DCC stack;
     TWindowTimer__sub_8019A6F8((&stack.sp8));
     stack.spC = arg2;

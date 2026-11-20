@@ -26,5 +26,5 @@ struct TShopEquipmentGearSequence : public TShopSequence {
     static void *create_instance(void *arg0);
 };
 
-typedef char TShopEquipmentGearSequence_size[sizeof(TShopEquipmentGearSequence) == 0x38 ? 1 : -1];
+LAYOUT_ASSERT(TShopEquipmentGearSequence_size, sizeof(TShopEquipmentGearSequence) == 0x38);
 #endif

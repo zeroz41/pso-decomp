@@ -1573,18 +1573,18 @@ struct TObjPlayer : public TObjChara {
 };
 
 #include <stddef.h>
-typedef char PlayerActionPaletteSize[(sizeof(TObjPlayer::ActionPalette) == 0x24) ? 1 : -1];
-typedef char PlayerActionPaletteBanks[(offsetof(TObjPlayer::ActionPalette, bindings) == 4) ? 1 : -1];
-typedef char PlayerPaletteModifierOffset[(offsetof(TObjPlayer, photon_blast_gauge) == 0x4AC) ? 1 : -1];
-typedef char PlayerActionPalettesOffset[(offsetof(TObjPlayer, action_palettes) == 0x500) ? 1 : -1];
-typedef char PlayerStateAfterPalettes[(offsetof(TObjPlayer, m_550) == 0x550) ? 1 : -1];
-typedef char PlayerHairSelectorOffset[(offsetof(TObjPlayer, m_878) == 0x878) ? 1 : -1];
-typedef char PlayerHairFlagsOffset[(offsetof(TObjPlayer, m_88e) == 0x88E) ? 1 : -1];
-typedef char PlayerHairTargetOffset[(offsetof(TObjPlayer, m_8ac) == 0x8AC) ? 1 : -1];
-typedef char PlayerHairWaitOffset[(offsetof(TObjPlayer, m_cfc) == 0xCFC) ? 1 : -1];
-typedef char PlayerInventoryObjectOffset[(offsetof(TObjPlayer, inventory_objects) == 0xD00) ? 1 : -1];
+LAYOUT_ASSERT(PlayerActionPaletteSize, sizeof(TObjPlayer::ActionPalette) == 0x24);
+LAYOUT_ASSERT(PlayerActionPaletteBanks, offsetof(TObjPlayer::ActionPalette, bindings) == 4);
+LAYOUT_ASSERT(PlayerPaletteModifierOffset, offsetof(TObjPlayer, photon_blast_gauge) == 0x4AC);
+LAYOUT_ASSERT(PlayerActionPalettesOffset, offsetof(TObjPlayer, action_palettes) == 0x500);
+LAYOUT_ASSERT(PlayerStateAfterPalettes, offsetof(TObjPlayer, m_550) == 0x550);
+LAYOUT_ASSERT(PlayerHairSelectorOffset, offsetof(TObjPlayer, m_878) == 0x878);
+LAYOUT_ASSERT(PlayerHairFlagsOffset, offsetof(TObjPlayer, m_88e) == 0x88E);
+LAYOUT_ASSERT(PlayerHairTargetOffset, offsetof(TObjPlayer, m_8ac) == 0x8AC);
+LAYOUT_ASSERT(PlayerHairWaitOffset, offsetof(TObjPlayer, m_cfc) == 0xCFC);
+LAYOUT_ASSERT(PlayerInventoryObjectOffset, offsetof(TObjPlayer, inventory_objects) == 0xD00);
 
-typedef char TObjPlayer_size[sizeof(TObjPlayer) == 0xDB8 ? 1 : -1];
+LAYOUT_ASSERT(TObjPlayer_size, sizeof(TObjPlayer) == 0xDB8);
 
 // The owner joint each item attach slot hangs the equipped model from
 // (TItemEquipBase::set_attach_slot); defined with the player.

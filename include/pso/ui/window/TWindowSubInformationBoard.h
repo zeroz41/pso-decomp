@@ -31,6 +31,6 @@ struct TWindowSubInformationBoard : public TObject {
     u8 unk_44[0x8D0];
 };
 
-typedef char TWindowSubInformationBoard_size[sizeof(TWindowSubInformationBoard) == 0x914 ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubInformationBoard_size, sizeof(TWindowSubInformationBoard) == 0x914);
 
 #endif

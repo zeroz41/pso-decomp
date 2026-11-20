@@ -45,7 +45,7 @@ struct DragonAnimationEntry { u32 unknown00; s32 motionIndex; u8 unknown08[8]; }
 
 struct DragonModelEntry { u8 unknown00[8]; DragonModelNode *root; s32 m_c; u8 unknown10[8]; s32 m_18; };
 struct DragonResource { u8 unknown00[0x42C]; DragonModelEntry *model; DragonMotionEntry *motions; };
-typedef char DragonPositionKeySize[sizeof(DragonPositionKey) == 0x10 ? 1 : -1];
+LAYOUT_ASSERT(DragonPositionKeySize, sizeof(DragonPositionKey) == 0x10);
 
 extern "C" void copy_model_node(u8 *dst, u8 *src);
 
@@ -259,9 +259,9 @@ struct TBoss1Dragon : public TObjEneDD_ST {
 
 #include <stddef.h>
 #define DRAGON_OFFSET(member, offset) \
-    typedef char DragonOffset_##member[(offsetof(TBoss1Dragon, member) == offset) ? 1 : -1]
-typedef char DragonModelNodeSize[(sizeof(DragonModelNode) == 0x38) ? 1 : -1];
-typedef char DragonModelNodeChild[(offsetof(DragonModelNode, child) == 0x2C) ? 1 : -1];
+    LAYOUT_ASSERT(DragonOffset_##member, offsetof(TBoss1Dragon, member) == offset)
+LAYOUT_ASSERT(DragonModelNodeSize, sizeof(DragonModelNode) == 0x38);
+LAYOUT_ASSERT(DragonModelNodeChild, offsetof(DragonModelNode, child) == 0x2C);
 DRAGON_OFFSET(m_38c, 0x38C);
 DRAGON_OFFSET(m_40c, 0x40C);
 DRAGON_OFFSET(m_424, 0x424);
@@ -305,7 +305,7 @@ DRAGON_OFFSET(hpThreshold, 0x680);
 DRAGON_OFFSET(destinationX, 0x690);
 DRAGON_OFFSET(savedX, 0x698);
 DRAGON_OFFSET(facingAngle, 0x76C);
-typedef char DragonSize[(sizeof(TBoss1Dragon) == 0x8BC) ? 1 : -1];
+LAYOUT_ASSERT(DragonSize, sizeof(TBoss1Dragon) == 0x8BC);
 #undef DRAGON_OFFSET
 
 #endif

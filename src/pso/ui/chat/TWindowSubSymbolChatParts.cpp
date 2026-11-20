@@ -317,8 +317,8 @@ void TWindowSubSymbolChatParts::sub_80285054() {
 #pragma push
 #pragma fp_contract on
 void TWindowSubSymbolChatParts::sub_80285274(u8 *ctx) {
-    typedef char sp8_offset[(offsetof(Stack_80285274, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_80285274, spC) == 0x4) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80285274, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_80285274, spC) == 0x4);
     Stack_80285274 stack;
     stack.sp8 = ((40.0f * (f32) (s8) this->m_72) + 10.0f) - 3.0f;
     stack.spC = ((40.0f * (f32) (s8) this->m_73) + 9.0f) - 3.0f;

@@ -158,8 +158,8 @@ struct TWindowDD : public TObject
 };
 
 #include <stddef.h>
-typedef char WindowListSize[sizeof(TWindowDDValueList) == 8 ? 1 : -1];
-typedef char WindowListCountOffset[offsetof(TWindowDDValueList, count) == 4 ? 1 : -1];
+LAYOUT_ASSERT(WindowListSize, sizeof(TWindowDDValueList) == 8);
+LAYOUT_ASSERT(WindowListCountOffset, offsetof(TWindowDDValueList, count) == 4);
 
 extern "C" {
 // TWindowBase::TWindowBase(u8 *, s16, u8 *), called by the constructors that are still written by hand.

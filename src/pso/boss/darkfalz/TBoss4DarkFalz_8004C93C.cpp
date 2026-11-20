@@ -187,10 +187,10 @@ void TBoss4DarkFalz::start_phase() { TBoss4DarkFalz::end_player_camera_pans(this
 #pragma push
 #pragma fp_contract on
 void TBoss4DarkFalz::update_demo_warp3() {
-    typedef char sp8_offset[(offsetof(Stack_8004C5E8, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_8004C5E8, spC) == 0x4) ? 1 : -1];
-    typedef char sp12_offset[(offsetof(Stack_8004C5E8, sp12) == 0xA) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_8004C5E8, sp14) == 0xC) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8004C5E8, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8004C5E8, spC) == 0x4);
+    LAYOUT_ASSERT(sp12_offset, offsetof(Stack_8004C5E8, sp12) == 0xA);
+    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_8004C5E8, sp14) == 0xC);
     Stack_8004C5E8 stack;
     f32 temp_f1;
     s32 temp_r0;

@@ -22,5 +22,5 @@ struct TWindowChatSymbol : public TWindowBase {
     virtual void run_task();
 };
 
-typedef char TWindowChatSymbol_size[sizeof(TWindowChatSymbol) == 0x68 ? 1 : -1];
+LAYOUT_ASSERT(TWindowChatSymbol_size, sizeof(TWindowChatSymbol) == 0x68);
 #endif

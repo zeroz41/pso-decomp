@@ -24,7 +24,7 @@ struct TAdPlyPltAnimCtrlGC : public TObject {
     static TAdPlyPltAnimGC *get_table_value(int a0);
 };
 
-typedef char TAdPlyPltAnimCtrlGC_size[sizeof(TAdPlyPltAnimCtrlGC) == 0x2C ? 1 : -1];
+LAYOUT_ASSERT(TAdPlyPltAnimCtrlGC_size, sizeof(TAdPlyPltAnimCtrlGC) == 0x2C);
 
 extern "C" {
 u8 *TAdPlyPltAnimCtrlGC__ct(TAdPlyPltAnimCtrlGC *arg0, s32 arg1);

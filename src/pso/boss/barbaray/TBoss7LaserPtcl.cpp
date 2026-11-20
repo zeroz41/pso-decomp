@@ -26,13 +26,13 @@ s32 subtract_vector(void *, void *);
 
 }
 
-typedef char Laser_state_offset[offsetof(TBoss7LaserPtcl, state) == 0x1C ? 1 : -1];
-typedef char Laser_position_offset[offsetof(TBoss7LaserPtcl, position) == 0x20 ? 1 : -1];
-typedef char Laser_direction_offset[offsetof(TBoss7LaserPtcl, direction) == 0x2C ? 1 : -1];
-typedef char Laser_displacement_offset[offsetof(TBoss7LaserPtcl, displacement) == 0x38 ? 1 : -1];
-typedef char Laser_particles_offset[offsetof(TBoss7LaserPtcl, particles) == 0x44 ? 1 : -1];
-typedef char Laser_distance_offset[offsetof(TBoss7LaserPtcl, travel_distance) == 0x4C ? 1 : -1];
-typedef char Laser_last_known_offset[offsetof(TBoss7LaserPtcl, m_54) == 0x54 ? 1 : -1];
+LAYOUT_ASSERT(Laser_state_offset, offsetof(TBoss7LaserPtcl, state) == 0x1C);
+LAYOUT_ASSERT(Laser_position_offset, offsetof(TBoss7LaserPtcl, position) == 0x20);
+LAYOUT_ASSERT(Laser_direction_offset, offsetof(TBoss7LaserPtcl, direction) == 0x2C);
+LAYOUT_ASSERT(Laser_displacement_offset, offsetof(TBoss7LaserPtcl, displacement) == 0x38);
+LAYOUT_ASSERT(Laser_particles_offset, offsetof(TBoss7LaserPtcl, particles) == 0x44);
+LAYOUT_ASSERT(Laser_distance_offset, offsetof(TBoss7LaserPtcl, travel_distance) == 0x4C);
+LAYOUT_ASSERT(Laser_last_known_offset, offsetof(TBoss7LaserPtcl, m_54) == 0x54);
 
 typedef TBoss7LaserPtclVector Vec_8035AAEC;
 struct Ang_8035AAEC { s32 x, y, z; };

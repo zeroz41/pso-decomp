@@ -132,5 +132,5 @@ struct TWindowSubComCard : public TObject {
     static s32 create_com_card_window(s32 arg0);
 };
 
-typedef char TWindowSubComCard_size[sizeof(TWindowSubComCard) == 0x88 ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubComCard_size, sizeof(TWindowSubComCard) == 0x88);
 #endif

@@ -289,7 +289,7 @@ u8 *create_message_log_window(s32 arg0, s32 arg1, s32 arg2) {
 }
 
 struct RecoveredGlobal_8026AB3C___vt__17TWindowMessageLog { s32 value; u8 remaining[0x14]; };
-typedef char RecoveredGlobal_8026AB3C___vt__17TWindowMessageLog_size[sizeof(RecoveredGlobal_8026AB3C___vt__17TWindowMessageLog) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8026AB3C___vt__17TWindowMessageLog_size, sizeof(RecoveredGlobal_8026AB3C___vt__17TWindowMessageLog) == 0x18);
 
 
 const char *TWindowMessageLog__name = "TWindowMessageLog";
@@ -336,10 +336,10 @@ TWindowMessageLog::~TWindowMessageLog() {
     TWindowSubStatusDisp::destroy_allocation(*(s32 *)((s8 *)this + 0x90), 1);
     TWindowCtrl__sub_8026AD60();
 }
-typedef char RecoveredGlobal_8026ABA8___vt__17TWindowMessageLog_size[sizeof(RecoveredGlobal_8026ABA8___vt__17TWindowMessageLog) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8026ABA8___vt__17TWindowMessageLog_size, sizeof(RecoveredGlobal_8026ABA8___vt__17TWindowMessageLog) == 0x18);
 u8 *TWindowMessageLog__ct(TWindowMessageLog *window_message_log, s32 arg1, s32 arg2) {
-    typedef char sp8_offset[(offsetof(Stack_8026ABA8, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_8026ABA8, spC) == 0x4) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8026ABA8, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8026ABA8, spC) == 0x4);
     Stack_8026ABA8 stack;
     f32 temp_f1;
     f32 temp_f2;

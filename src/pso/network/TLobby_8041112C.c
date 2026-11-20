@@ -89,7 +89,7 @@ typedef struct Ipv6NdEvent {
     u8 *addr;
     s16 prefix_len;
 } Ipv6NdEvent;
-typedef char Ipv6NdEvent_size_check[sizeof(Ipv6NdEvent) == 8 ? 1 : -1];
+LAYOUT_ASSERT(Ipv6NdEvent_size_check, sizeof(Ipv6NdEvent) == 8);
 void TLobby__sub_80411334(void) {
     s32 NetIPv6SendUnspecifiedSourceNeighborSolicitation(u8 *, s16); /* the definition takes the address as s32 */
     s32 NetIPv6SendRouterSolicitation(s16); /* declared here with an s16 1st argument; the definition takes s32 */

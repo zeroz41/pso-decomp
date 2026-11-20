@@ -40,6 +40,6 @@ public:
     CollisionBody collisionBody;
     TObjCollidable *m_e8;
 };
-typedef char TUnk_804CC148Size[sizeof(TUnk_804CC148) == 0xEC ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804CC148Size, sizeof(TUnk_804CC148) == 0xEC);
 
 #endif

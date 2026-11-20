@@ -85,7 +85,7 @@ void TDuelEffectNumber::sub_8007FFF4(s32 arg1) {
 
 #pragma push
 #pragma opt_common_subs off
-typedef char RecoveredGlobal_800800EC_lbl_80438D7C_size[sizeof(RecoveredGlobal_800800EC_lbl_80438D7C) == 0x34 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_800800EC_lbl_80438D7C_size, sizeof(RecoveredGlobal_800800EC_lbl_80438D7C) == 0x34);
 void calc_duel_number_uv(s32 arg0, u8 *arg1, s32 arg2) {
     s32 temp_r0;
     temp_r0 = arg2 * 8;

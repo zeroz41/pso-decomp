@@ -25,7 +25,7 @@ public:
     s32 lamp_timer;  // frames left while on (from 90)
 };
 
-typedef char TOSensorGeneral01_size[sizeof(TOSensorGeneral01) == 0xF4 ? 1 : -1];
+LAYOUT_ASSERT(TOSensorGeneral01_size, sizeof(TOSensorGeneral01) == 0xF4);
 
 extern const char *TOSensorGeneral01__class_name;
 extern BmlResource *sensor_general_shared_bml_archive;

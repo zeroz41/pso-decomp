@@ -23,7 +23,7 @@ struct TAdAgreementBaseGC : public TObject {
     static void draw_agreement_text();
 };
 
-typedef char TAdAgreementBaseGC_size[sizeof(TAdAgreementBaseGC) == 0x38 ? 1 : -1];
+LAYOUT_ASSERT(TAdAgreementBaseGC_size, sizeof(TAdAgreementBaseGC) == 0x38);
 
 extern "C" {
 void *__dt__18TAdAgreementBaseGCFv(void *arg0, s16 arg1);

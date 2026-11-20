@@ -22,5 +22,5 @@ struct TObjAreaWarpEnding : public TObjAreaWarp {
     u32 textures;                  // get_forest_warp_textures(), fs_obj_warp.gvm
 };
 
-typedef char TObjAreaWarpEnding_size[sizeof(TObjAreaWarpEnding) == 0xDC ? 1 : -1];
+LAYOUT_ASSERT(TObjAreaWarpEnding_size, sizeof(TObjAreaWarpEnding) == 0xDC);
 #endif

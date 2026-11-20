@@ -30,7 +30,7 @@ struct TObjEneBalClaw : public TObjEnemyCustom {
     f32 m_3bc;
 };
 
-typedef char TObjEneBalClaw_size[sizeof(TObjEneBalClaw) == 0x3C0 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneBalClaw_size, sizeof(TObjEneBalClaw) == 0x3C0);
 
 struct BmlResource;
 struct BmlMotionEntry;

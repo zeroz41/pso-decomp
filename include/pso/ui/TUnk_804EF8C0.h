@@ -24,6 +24,6 @@ public:
     TObject *menu;
     TObject *check_memory_card; // TCheckMemoryCard::create
 };
-typedef char TUnk_804EF8C0_size[sizeof(TUnk_804EF8C0) == 0x44 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804EF8C0_size, sizeof(TUnk_804EF8C0) == 0x44);
 
 #endif

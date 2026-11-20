@@ -307,11 +307,11 @@ void handle_6x5F_drop_item(Pkt_8011ADF4 *pkt) {
 }
 
 void add_item_condition(s16 floor, f32 x, f32 z, s16 room, u8 *item) {
-    typedef char sp8_offset[(offsetof(Stack_8011AED8, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_8011AED8, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_8011AED8, sp10) == 0x8) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_8011AED8, sp14) == 0xC) ? 1 : -1];
-    typedef char sp18_offset[(offsetof(Stack_8011AED8, sp18) == 0x10) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8011AED8, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8011AED8, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8011AED8, sp10) == 0x8);
+    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_8011AED8, sp14) == 0xC);
+    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_8011AED8, sp18) == 0x10);
     Stack_8011AED8 stack;
     __ct__9FloorItemFv(&stack.sp8);
     stack.sp8 = floor;

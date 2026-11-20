@@ -4,9 +4,9 @@
 #include "pso/network/protocol/packet_classes.h"
 
 #include <stddef.h>
-typedef char TPlyJoinLobbyEntrySize[(sizeof(TPlyJoinLobbyEntry) == 0x43C) ? 1 : -1];
-typedef char TPlyJoinLobbyEntriesOffset[(offsetof(TPlyJoinLobby, entries) == 0x10) ? 1 : -1];
-typedef char TPlyJoinLobbySize[(sizeof(TPlyJoinLobby) == 0x32E0) ? 1 : -1];
+LAYOUT_ASSERT(TPlyJoinLobbyEntrySize, sizeof(TPlyJoinLobbyEntry) == 0x43C);
+LAYOUT_ASSERT(TPlyJoinLobbyEntriesOffset, offsetof(TPlyJoinLobby, entries) == 0x10);
+LAYOUT_ASSERT(TPlyJoinLobbySize, sizeof(TPlyJoinLobby) == 0x32E0);
 
 extern "C" {
 u8 *__ct__13TPlyJoinLobbyFRC13TPlyJoinLobby(u8 *arg0, u8 *arg1);

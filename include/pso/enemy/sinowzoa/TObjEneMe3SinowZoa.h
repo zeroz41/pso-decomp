@@ -127,8 +127,8 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     void init_death_params();
 };
 
-typedef char TObjEneMe3SinowZoa_m_3c0_offset[offsetof(TObjEneMe3SinowZoa, m_3c0) == 0x3C0 ? 1 : -1];
-typedef char TObjEneMe3SinowZoa_fade_offset[offsetof(TObjEneMe3SinowZoa, fade) == 0x414 ? 1 : -1];
-typedef char TObjEneMe3SinowZoa_size[sizeof(TObjEneMe3SinowZoa) == 0x45C ? 1 : -1];
+LAYOUT_ASSERT(TObjEneMe3SinowZoa_m_3c0_offset, offsetof(TObjEneMe3SinowZoa, m_3c0) == 0x3C0);
+LAYOUT_ASSERT(TObjEneMe3SinowZoa_fade_offset, offsetof(TObjEneMe3SinowZoa, fade) == 0x414);
+LAYOUT_ASSERT(TObjEneMe3SinowZoa_size, sizeof(TObjEneMe3SinowZoa) == 0x45C);
 
 #endif

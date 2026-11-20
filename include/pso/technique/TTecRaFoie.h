@@ -30,5 +30,5 @@ struct TTecRaFoie : public TUnk_804CC148 {
     void create_ex(void *origin, void *targets, void *level);
 };
 
-typedef char TTecRaFoie_size[sizeof(TTecRaFoie) == 0x14C ? 1 : -1];
+LAYOUT_ASSERT(TTecRaFoie_size, sizeof(TTecRaFoie) == 0x14C);
 #endif

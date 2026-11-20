@@ -44,7 +44,7 @@ struct TObjDFDemo5 : public TObjBase {
     Vec tail_position;
 };
 
-typedef char TObjDFDemo5_size[sizeof(TObjDFDemo5) == 0x118 ? 1 : -1];
+LAYOUT_ASSERT(TObjDFDemo5_size, sizeof(TObjDFDemo5) == 0x118);
 
 extern "C" {
 // Dark Falz's three body models (TBoss4Type3's table).

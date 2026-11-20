@@ -24,7 +24,7 @@ struct TBoss8DragonEffBullet : public TObject {
     virtual void run_task();
 };
 
-typedef char TBoss8DragonEffBullet_size[sizeof(TBoss8DragonEffBullet) == 0x58 ? 1 : -1];
+LAYOUT_ASSERT(TBoss8DragonEffBullet_size, sizeof(TBoss8DragonEffBullet) == 0x58);
 
 extern "C" {
 u8 *TBoss8DragonEffBullet__ct(u8 *boss8_dragon_eff_bullet, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s16 arg5);

@@ -26,7 +26,7 @@ struct TObjLazerFenceNorm : public TObjCollidable {
     void select_models();
 };
 
-typedef char TObjLazerFenceNorm_size[sizeof(TObjLazerFenceNorm) == 0xD8 ? 1 : -1];
+LAYOUT_ASSERT(TObjLazerFenceNorm_size, sizeof(TObjLazerFenceNorm) == 0xD8);
 
 extern "C" {
 void *TObjLazerFenceNorm__create(void *set_data);

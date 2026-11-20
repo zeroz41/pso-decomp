@@ -10,6 +10,6 @@ public:
     virtual void render();
     u8 unk_AC[0xC];
 };
-typedef char TBoss1DragonColli_C_size[sizeof(TBoss1DragonColli_C) == 0xB8 ? 1 : -1];
+LAYOUT_ASSERT(TBoss1DragonColli_C_size, sizeof(TBoss1DragonColli_C) == 0xB8);
 
 #endif

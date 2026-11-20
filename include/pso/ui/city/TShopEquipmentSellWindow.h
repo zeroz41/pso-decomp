@@ -52,5 +52,5 @@ struct TShopEquipmentSellWindow : public TShopWindowBase {
     void add_item(s32 arg1, s32 arg2, s32 arg3);
 };
 
-typedef char TShopEquipmentSellWindow_size[sizeof(TShopEquipmentSellWindow) == 0x3AC ? 1 : -1];
+LAYOUT_ASSERT(TShopEquipmentSellWindow_size, sizeof(TShopEquipmentSellWindow) == 0x3AC);
 #endif

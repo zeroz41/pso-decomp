@@ -38,7 +38,7 @@ struct TAdChrSelPlyPlateGC : public TObject {
     s32 unk_534;
 };
 
-typedef char TAdChrSelPlyPlateGC_size[sizeof(TAdChrSelPlyPlateGC) == 0x538 ? 1 : -1];
+LAYOUT_ASSERT(TAdChrSelPlyPlateGC_size, sizeof(TAdChrSelPlyPlateGC) == 0x538);
 
 extern TAdChrSelPlyPlateGC *ad_chr_sel_ply_plate_instance;
 

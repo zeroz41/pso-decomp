@@ -79,10 +79,10 @@ struct TObjEneRe4Sorcerer : public TObjEneDD_ST {
     s32 select_attack_target(f32 farg0, f32 farg1);
 };
 
-typedef char TObjEneRe4Sorcerer_m_3c0_offset[offsetof(TObjEneRe4Sorcerer, m_3c0) == 0x3C0 ? 1 : -1];
-typedef char TObjEneRe4Sorcerer_bit_ids_offset[offsetof(TObjEneRe4Sorcerer, bit_ids) == 0x3E4 ? 1 : -1];
-typedef char TObjEneRe4Sorcerer_fade_offset[offsetof(TObjEneRe4Sorcerer, fade) == 0x3FC ? 1 : -1];
-typedef char TObjEneRe4Sorcerer_fades_offset[offsetof(TObjEneRe4Sorcerer, fades) == 0x474 ? 1 : -1];
-typedef char TObjEneRe4Sorcerer_size[sizeof(TObjEneRe4Sorcerer) == 0x4F0 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneRe4Sorcerer_m_3c0_offset, offsetof(TObjEneRe4Sorcerer, m_3c0) == 0x3C0);
+LAYOUT_ASSERT(TObjEneRe4Sorcerer_bit_ids_offset, offsetof(TObjEneRe4Sorcerer, bit_ids) == 0x3E4);
+LAYOUT_ASSERT(TObjEneRe4Sorcerer_fade_offset, offsetof(TObjEneRe4Sorcerer, fade) == 0x3FC);
+LAYOUT_ASSERT(TObjEneRe4Sorcerer_fades_offset, offsetof(TObjEneRe4Sorcerer, fades) == 0x474);
+LAYOUT_ASSERT(TObjEneRe4Sorcerer_size, sizeof(TObjEneRe4Sorcerer) == 0x4F0);
 
 #endif

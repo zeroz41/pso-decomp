@@ -937,7 +937,7 @@ u32 adsrHandleLowPrecision(void *arg0, void *arg1, void *arg2);
 
 extern u8 synthJobTableIndex;
 
-typedef char RecoveredGlobal_803AA0C0_lbl_80556E88_size[sizeof(RecoveredGlobal_803AA0C0_lbl_80556E88) == 0x100 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_803AA0C0_lbl_80556E88_size, sizeof(RecoveredGlobal_803AA0C0_lbl_80556E88) == 0x100);
 
 void hwActivateStudio(u8 i, s32 a, s32 b);
 

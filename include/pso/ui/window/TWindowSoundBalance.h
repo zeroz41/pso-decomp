@@ -33,7 +33,7 @@ struct TWindowSoundBalance : public TWindowBase {
     u8 unk_66[0x2];
 };
 
-typedef char TWindowSoundBalance_size[sizeof(TWindowSoundBalance) == 0x68 ? 1 : -1];
+LAYOUT_ASSERT(TWindowSoundBalance_size, sizeof(TWindowSoundBalance) == 0x68);
 
 extern "C" {
 void render__19TWindowSoundBalanceFv(s32 arg0);

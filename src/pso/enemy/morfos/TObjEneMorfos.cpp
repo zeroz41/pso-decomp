@@ -622,11 +622,11 @@ struct Self_803329E4 {
     u8 f498[4];
 };
 
-typedef char RecoveredFields_803326CC_TObjEneMorfos__data_805D6D14_42C_offset[offsetof(RecoveredFields_803326CC_TObjEneMorfos__data_805D6D14, field_42C) == 0x42C ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_803326CC_TObjEneMorfos__data_805D6D14_42C_offset, offsetof(RecoveredFields_803326CC_TObjEneMorfos__data_805D6D14, field_42C) == 0x42C);
 
-typedef char RecoveredFields_803326CC_arg0_60_offset[offsetof(RecoveredFields_803326CC_arg0, field_60) == 0x60 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_803326CC_arg0_60_offset, offsetof(RecoveredFields_803326CC_arg0, field_60) == 0x60);
 
-typedef char RecoveredFields_803326CC_arg0_3C0_offset[offsetof(RecoveredFields_803326CC_arg0, field_3C0) == 0x3C0 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_803326CC_arg0_3C0_offset, offsetof(RecoveredFields_803326CC_arg0, field_3C0) == 0x3C0);
 
 
 struct Obj_8033496C { u8 pad[0x60]; s32 f60; u8 pad1[0x2D4 - 0x64]; u16 f2D4; u8 pad2[0x2FC - 0x2D6]; Vec pos; u8 pad3[0x326 - 0x308]; s16 f326; u8 pad4[0x3C0 - 0x328]; s32 f3C0; };

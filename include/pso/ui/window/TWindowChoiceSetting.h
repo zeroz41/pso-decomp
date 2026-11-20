@@ -16,7 +16,7 @@ struct TWindowChoiceSetting : public TUnk_804D0658 {
     static s32 apply_choice(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 };
 
-typedef char TWindowChoiceSetting_size[sizeof(TWindowChoiceSetting) == 0x84 ? 1 : -1];
+LAYOUT_ASSERT(TWindowChoiceSetting_size, sizeof(TWindowChoiceSetting) == 0x84);
 extern "C" {
 void TWindowMenuInfomation__ct(u8 *arg0, u32 arg1);
 void render__13TUnk_804D0658Fv(u8 *arg0);

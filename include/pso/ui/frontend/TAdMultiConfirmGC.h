@@ -19,5 +19,5 @@ struct TAdMultiConfirmGC : public TObject {
     static int set_cursor_index_2(void* p);
 };
 
-typedef char TAdMultiConfirmGC_size[sizeof(TAdMultiConfirmGC) == 0x4C ? 1 : -1];
+LAYOUT_ASSERT(TAdMultiConfirmGC_size, sizeof(TAdMultiConfirmGC) == 0x4C);
 #endif

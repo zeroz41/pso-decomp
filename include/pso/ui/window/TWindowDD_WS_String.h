@@ -26,6 +26,6 @@ public:
     f32 pad_64[2];   // position given to the ctor
     f32 pad_6C[2];   // second ctor vector (update_position: negative x/y anchor right/bottom)
 };
-typedef char TWindowDD_WS_String_size[sizeof(TWindowDD_WS_String) == 0x74 ? 1 : -1];
+LAYOUT_ASSERT(TWindowDD_WS_String_size, sizeof(TWindowDD_WS_String) == 0x74);
 
 #endif

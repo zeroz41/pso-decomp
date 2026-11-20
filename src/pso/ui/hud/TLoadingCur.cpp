@@ -46,13 +46,13 @@ extern f32 lbl_804FF5E8[];
 extern RecoveredGlobal_8001CAD4_lbl_8058D490 identity_matrix;
 extern u32 camera_ctrl_instance;
 
-typedef char RecoveredGlobal_8001CAD4_lbl_804349FC_size[sizeof(RecoveredGlobal_8001CAD4_lbl_804349FC) == 0xC ? 1 : -1];
-typedef char RecoveredGlobal_8001CAD4_lbl_8058D490_size[sizeof(RecoveredGlobal_8001CAD4_lbl_8058D490) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8001CAD4_lbl_804349FC_size, sizeof(RecoveredGlobal_8001CAD4_lbl_804349FC) == 0xC);
+LAYOUT_ASSERT(RecoveredGlobal_8001CAD4_lbl_8058D490_size, sizeof(RecoveredGlobal_8001CAD4_lbl_8058D490) == 0x30);
 void TLoadingCur::update_camera_facing_offset() {
     u8 *arg0 = (u8 *)this;
-    typedef char sp8_offset[(offsetof(Stack_8001CAD4, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_8001CAD4, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_8001CAD4, sp10) == 0x8) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8001CAD4, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8001CAD4, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8001CAD4, sp10) == 0x8);
     Stack_8001CAD4 stack;
     if ((u32) *(u32 *)((s8 *)arg0 + 0x1C) != 0U) {
         VecCopy((Vec *)(arg0 + 0x2C), (const Vec *)(arg0 + 0x20));
@@ -251,9 +251,9 @@ TLoadingCur::~TLoadingCur() {
 #pragma push
 #pragma fp_contract on
 u8 *TLoadingCur__ct(u8 *object, s32 arg1) {
-    typedef char sp8_offset[(offsetof(Stack_8001D0A0, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_8001D0A0, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_8001D0A0, sp10) == 0x8) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8001D0A0, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8001D0A0, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8001D0A0, sp10) == 0x8);
     Stack_8001D0A0 stack;
     __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
     *(s32 **)((s8 *)object + 0x18) = __vt__11TLoadingCur;

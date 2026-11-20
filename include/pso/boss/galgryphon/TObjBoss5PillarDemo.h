@@ -10,7 +10,7 @@ struct TObjBoss5PillarDemo : public TObjBoss5Pillar {
     static s32 create();
 };
 
-typedef char TObjBoss5PillarDemo_size[sizeof(TObjBoss5PillarDemo) == 0x4C ? 1 : -1];
+LAYOUT_ASSERT(TObjBoss5PillarDemo_size, sizeof(TObjBoss5PillarDemo) == 0x4C);
 
 extern "C" {
 u8 *TObjBoss5PillarDemo__ct(TObjBoss5PillarDemo *arg0, s32 arg1, s32 arg2);

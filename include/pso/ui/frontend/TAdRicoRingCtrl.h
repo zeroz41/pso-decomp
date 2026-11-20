@@ -22,7 +22,7 @@ struct TAdRicoRingCtrl : public TObject {
     f32 m_28;
 };
 
-typedef char TAdRicoRingCtrl_size[sizeof(TAdRicoRingCtrl) == 0x2C ? 1 : -1];
+LAYOUT_ASSERT(TAdRicoRingCtrl_size, sizeof(TAdRicoRingCtrl) == 0x2C);
 
 extern "C" {
 void TAdRicoRingCtrl__sub_8001BED0(void *p, f32 v);

@@ -35,5 +35,5 @@ struct TShopGetItemWindow : public TShopWindowBase {
     void handle_withdraw_confirm();
 };
 
-typedef char TShopGetItemWindow_size[sizeof(TShopGetItemWindow) == 0x68 ? 1 : -1];
+LAYOUT_ASSERT(TShopGetItemWindow_size, sizeof(TShopGetItemWindow) == 0x68);
 #endif

@@ -14,7 +14,7 @@ struct TForceOperate : public TObject {
     TUnk_8013E020 m_1c;
 };
 
-typedef char TForceOperate_size[sizeof(TForceOperate) == 0x24 ? 1 : -1];
+LAYOUT_ASSERT(TForceOperate_size, sizeof(TForceOperate) == 0x24);
 
 void calc_death_sink_offset(void *arg0);
 void reset_player_appearance_opacity(void *a0);

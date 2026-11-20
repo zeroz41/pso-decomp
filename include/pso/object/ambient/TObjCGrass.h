@@ -18,7 +18,7 @@ struct TObjCGrass : public TObjMotion {
     u8 unk_110[0x3C];
 };
 
-typedef char TObjCGrass_size[sizeof(TObjCGrass) == 0x14C ? 1 : -1];
+LAYOUT_ASSERT(TObjCGrass_size, sizeof(TObjCGrass) == 0x14C);
 
 extern "C" {
 void *__dt__10TObjCGrassFv(void *arg0, s16 arg1);

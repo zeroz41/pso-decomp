@@ -16,7 +16,7 @@ struct TObjEneMorfosArm : public TObjMotion {
     u8 unk_102[0x2];
 };
 
-typedef char TObjEneMorfosArm_size[sizeof(TObjEneMorfosArm) == 0x104 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneMorfosArm_size, sizeof(TObjEneMorfosArm) == 0x104);
 
 extern "C" {
 void TObjEneMorfosArm__sub_8033542C(void);

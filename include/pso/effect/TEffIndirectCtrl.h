@@ -12,7 +12,7 @@ struct TUnk_804DDF04 : public TObject {
     u8 indirect_kind; // inferred: the kind passed to register_indirect_effect_ctrl
 };
 
-typedef char TUnk_804DDF04_size[sizeof(TUnk_804DDF04) == 0x20 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804DDF04_size, sizeof(TUnk_804DDF04) == 0x20);
 
 struct TEffIndirectCtrl : public TObject {
     virtual ~TEffIndirectCtrl();
@@ -43,7 +43,7 @@ struct TEffIndirectCtrl : public TObject {
     u8 unk_50[0x4];
 };
 
-typedef char TEffIndirectCtrl_size[sizeof(TEffIndirectCtrl) == 0x54 ? 1 : -1];
+LAYOUT_ASSERT(TEffIndirectCtrl_size, sizeof(TEffIndirectCtrl) == 0x54);
 
 
 extern "C" {

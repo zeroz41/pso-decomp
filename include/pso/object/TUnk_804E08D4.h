@@ -24,6 +24,6 @@ public:
     s32 m_c8;
     u8 unk_CC[0x4];
 };
-typedef char TUnk_804E08D4_size[sizeof(TUnk_804E08D4) == 0xD0 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804E08D4_size, sizeof(TUnk_804E08D4) == 0xD0);
 
 #endif

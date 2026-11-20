@@ -239,8 +239,8 @@ void TWindowKeyBoardSoft::sub_80260808(s32 arg1) {
 }
 #pragma pop
 
-typedef char RecoveredFields_8026088C_arg0_60_offset[offsetof(RecoveredFields_8026088C_arg0, field_60) == 0x60 ? 1 : -1];
-typedef char RecoveredFields_8026088C_arg0_6C_offset[offsetof(RecoveredFields_8026088C_arg0, field_6C) == 0x6C ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_8026088C_arg0_60_offset, offsetof(RecoveredFields_8026088C_arg0, field_60) == 0x60);
+LAYOUT_ASSERT(RecoveredFields_8026088C_arg0_6C_offset, offsetof(RecoveredFields_8026088C_arg0, field_6C) == 0x6C);
 void TWindowKeyBoardSoft::update_keyboard_child_input_from_controller(s32 arg1) {
     u32 temp_r3;
     if (TWindowShortListCtrl__check_controller_button((void *)((void *) ((u8 *)&controller_input_state + (arg1 * 0x50) + 0x20)), 0x400) != 0) {

@@ -23,5 +23,5 @@ struct TObjDoaEx01 : public TODoorBase {
     void draw_model();
 };
 
-typedef char TObjDoaEx01_size[sizeof(TObjDoaEx01) == 0xE4 ? 1 : -1];
+LAYOUT_ASSERT(TObjDoaEx01_size, sizeof(TObjDoaEx01) == 0xE4);
 #endif

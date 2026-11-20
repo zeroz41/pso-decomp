@@ -28,7 +28,7 @@ struct TObjEneDimedian : public TUnk_80493450 {
     u8 unk_3D0[0x6C];
 };
 
-typedef char TObjEneDimedian_size[sizeof(TObjEneDimedian) == 0x43C ? 1 : -1];
+LAYOUT_ASSERT(TObjEneDimedian_size, sizeof(TObjEneDimedian) == 0x43C);
 
 extern "C" {
 void *TObjEneDimedian__ct(void *arg0_, void *arg1_, void *arg2_);

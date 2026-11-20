@@ -143,7 +143,7 @@ struct TBoss3Volopt : public TObjEnemyCustom {
     static TObjPlayer *candidate_players[5];
 };
 
-typedef char TBoss3Volopt_size[sizeof(TBoss3Volopt) == 0x408 ? 1 : -1];
+LAYOUT_ASSERT(TBoss3Volopt_size, sizeof(TBoss3Volopt) == 0x408);
 
 void handle_6x85_vol_opt_phase2_boss_actions(VoloptPhase2Message *message);
 void handle_6x84_vol_opt_boss_actions(TBoss3VoloptAttackPacket *packet);

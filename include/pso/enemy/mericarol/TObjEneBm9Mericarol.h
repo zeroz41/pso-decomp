@@ -110,6 +110,6 @@ struct TObjEneBm9Mericarol : public TObjEneDD_ST {
 
 extern TObjEneBm9MericarolParams *mericarol_phase_param_table[3];
 
-typedef char TObjEneBm9MericarolParams_size[sizeof(TObjEneBm9MericarolParams) == 0x30 ? 1 : -1];
-typedef char TObjEneBm9Mericarol_size[sizeof(TObjEneBm9Mericarol) == 0x4B0 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneBm9MericarolParams_size, sizeof(TObjEneBm9MericarolParams) == 0x30);
+LAYOUT_ASSERT(TObjEneBm9Mericarol_size, sizeof(TObjEneBm9Mericarol) == 0x4B0);
 #endif

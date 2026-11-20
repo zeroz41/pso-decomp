@@ -209,13 +209,13 @@ s32 TSaveChCr::save_character() {
     return load_character_from_card__23TAdSinglePlyChrSelectGCFi(1);
 }
 
-typedef char MemberActionStorage_8033A184_size[sizeof(MemberActionStorage_8033A184) == 12 ? 1 : -1];
+LAYOUT_ASSERT(MemberActionStorage_8033A184_size, sizeof(MemberActionStorage_8033A184) == 12);
 void TSaveChCr::set_state(s32 arg1) {
     u8 *arg0 = (u8 *)this;
     MemberActionStorage_8033A184 member_action;
-    typedef char sp8_offset[(offsetof(Stack_8033A184, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_8033A184, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_8033A184, sp10) == 0x8) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8033A184, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8033A184, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8033A184, sp10) == 0x8);
     Stack_8033A184 stack;
     u8 *temp_r6;
     if ((s32) *(s32 *)((s8 *)arg0 + 0x1C) != arg1) {

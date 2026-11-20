@@ -18,7 +18,7 @@ struct TJudgmentSequence : public TShopSequence {
     void open_judgment_window();
 };
 
-typedef char TJudgmentSequence_size[sizeof(TJudgmentSequence) == 0x34 ? 1 : -1];
+LAYOUT_ASSERT(TJudgmentSequence_size, sizeof(TJudgmentSequence) == 0x34);
 
 extern "C" {
 void TJudgmentSequence__sub_80215BA0(void *arg0);

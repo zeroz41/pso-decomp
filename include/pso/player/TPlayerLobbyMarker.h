@@ -16,5 +16,5 @@ public:
 public:
     void set_material_index(u8 v);
 };
-typedef char LobbyMarker_size[sizeof(TPlayerLobbyMarker) == 0x24 ? 1 : -1];
+LAYOUT_ASSERT(LobbyMarker_size, sizeof(TPlayerLobbyMarker) == 0x24);
 #endif

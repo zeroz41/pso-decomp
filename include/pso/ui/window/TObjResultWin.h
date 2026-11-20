@@ -35,16 +35,16 @@ public:
     static TObjResultWin* create(const ChallengeResultRecord* result);
 };
 #include <stddef.h>
-typedef char ResultSummarySize[(sizeof(ChallengeResultSummary)==12)?1:-1];
-typedef char ResultEntrySize[(sizeof(ChallengeResultEntry)==20)?1:-1];
-typedef char ResultRecordSize[(sizeof(ChallengeResultRecord)==52)?1:-1];
-typedef char ResultBaseSize[(sizeof(TObject)==0x1C)?1:-1];
-typedef char ResultWindowSize[(sizeof(TObjResultWin)==0x15C)?1:-1];
-typedef char ResultWindowField[(offsetof(TObjResultWin,m_window)==0x1C)?1:-1];
-typedef char ResultCloseField[(offsetof(TObjResultWin,m_close_requested)==0x20)?1:-1];
-typedef char ResultTimerField[(offsetof(TObjResultWin,m_countdown)==0x24)?1:-1];
-typedef char ResultTextField[(offsetof(TObjResultWin,m_text)==0x28)?1:-1];
-typedef char ResultRecordField[(offsetof(TObjResultWin,m_result)==0x128)?1:-1];
+LAYOUT_ASSERT(ResultSummarySize, sizeof(ChallengeResultSummary)==12);
+LAYOUT_ASSERT(ResultEntrySize, sizeof(ChallengeResultEntry)==20);
+LAYOUT_ASSERT(ResultRecordSize, sizeof(ChallengeResultRecord)==52);
+LAYOUT_ASSERT(ResultBaseSize, sizeof(TObject)==0x1C);
+LAYOUT_ASSERT(ResultWindowSize, sizeof(TObjResultWin)==0x15C);
+LAYOUT_ASSERT(ResultWindowField, offsetof(TObjResultWin,m_window)==0x1C);
+LAYOUT_ASSERT(ResultCloseField, offsetof(TObjResultWin,m_close_requested)==0x20);
+LAYOUT_ASSERT(ResultTimerField, offsetof(TObjResultWin,m_countdown)==0x24);
+LAYOUT_ASSERT(ResultTextField, offsetof(TObjResultWin,m_text)==0x28);
+LAYOUT_ASSERT(ResultRecordField, offsetof(TObjResultWin,m_result)==0x128);
 
 extern "C" {
 int TObjNewFloorWin__sub_8007410C(void);

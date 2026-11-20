@@ -33,7 +33,7 @@ struct Stack_80356C80 {
 };
 
 struct RecoveredGlobal_80356B18___vt__15TBoss6SwordWave { s32 value; u8 remaining[0x14]; };
-typedef char RecoveredGlobal_80356B18___vt__15TBoss6SwordWave_size[sizeof(RecoveredGlobal_80356B18___vt__15TBoss6SwordWave) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_80356B18___vt__15TBoss6SwordWave_size, sizeof(RecoveredGlobal_80356B18___vt__15TBoss6SwordWave) == 0x18);
 
 struct W_80356D10 { s32 w[1]; };
 
@@ -425,8 +425,8 @@ u8 *TBoss6SwordWave::create(s32 arg0, s32 arg1, s32 arg2, s32 arg3, f32 farg0) {
 }
 
 u8 test_rock_bit__15TBoss6SwordWaveFiUc(s32 arg0, u8 arg1) {
-    typedef char sp8_offset[(offsetof(Stack_80356C80, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_80356C80, spC) == 0x4) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80356C80, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_80356C80, spC) == 0x4);
     Stack_80356C80 stack;
     TBoss6SwordWave::split_bit_index(arg0, arg1, &stack.spC, &stack.sp8);
     return (u8) (((1 << stack.sp8) & *(s32 *)((s8 *)arg0 + (stack.spC * 4))) != 0);

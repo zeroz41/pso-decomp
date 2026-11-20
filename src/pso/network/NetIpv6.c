@@ -742,7 +742,7 @@ extern s16 TLobby__sub_80410D6C(u8 *ctx, u8 *hdr, s16 a5, s32 a6, u32 len)
 #pragma pop
 
 typedef struct PH_80411040 { IPv6Address src; IPv6Address dst; u32 len; u8 zero[3]; u8 next_header; } PH_80411040;
-typedef char PH_80411040_size_check[sizeof(PH_80411040) == 0x28 ? 1 : -1];
+LAYOUT_ASSERT(PH_80411040_size_check, sizeof(PH_80411040) == 0x28);
 extern u16 calc_ipv6_pseudo_header_checksum(const struct IPv6Address *src, const struct IPv6Address *dst, u8 next_header, const struct NetPacket *pkt, s16 flag) {
     PH_80411040 ph;
     u32 sum;

@@ -25,7 +25,7 @@ struct TOSwitchTimer : public TObjBase {
     s32 m_b4;
 };
 
-typedef char TOSwitchTimer_size[sizeof(TOSwitchTimer) == 0xB8 ? 1 : -1];
+LAYOUT_ASSERT(TOSwitchTimer_size, sizeof(TOSwitchTimer) == 0xB8);
 
 extern "C" {
 void TOSwitchTimer__sub_80178584(void);

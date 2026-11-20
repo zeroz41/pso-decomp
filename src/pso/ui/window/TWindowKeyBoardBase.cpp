@@ -952,10 +952,10 @@ void TWindowKeyBoardBase::sub_8025E530(WindowDrawContext *box, f32 *cursor, u16 
 #pragma push
 #pragma opt_common_subs off
 void TWindowKeyBoardBase::sub_8025E6DC(u8 *arg1) {
-    typedef char sp8_offset[(offsetof(Stack_8025E6DC, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_8025E6DC, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_8025E6DC, sp10) == 0x8) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_8025E6DC, sp14) == 0xC) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8025E6DC, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8025E6DC, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8025E6DC, sp10) == 0x8);
+    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_8025E6DC, sp14) == 0xC);
     Stack_8025E6DC stack;
     s32 temp_r3_3;
     s32 temp_r3_4;

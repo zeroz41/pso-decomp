@@ -30,7 +30,7 @@ struct TODummyKeyCave01 : public TObjBase {
     static void *create(void *arg0);
 };
 
-typedef char TODummyKeyCave01_size[sizeof(TODummyKeyCave01) == 0xD4 ? 1 : -1];
+LAYOUT_ASSERT(TODummyKeyCave01_size, sizeof(TODummyKeyCave01) == 0xD4);
 
 extern "C" {
 u8 *TODummyKeyCave01__ct(u8 *arg0, s32 arg1, s32 arg2);

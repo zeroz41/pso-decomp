@@ -44,5 +44,5 @@ public:
     s32 build_node_records(u8 *node, s32 index);
 };
 
-typedef char TBreakUpMdl_size[sizeof(TBreakUpMdl) == 0x54 ? 1 : -1];
+LAYOUT_ASSERT(TBreakUpMdl_size, sizeof(TBreakUpMdl) == 0x54);
 #endif

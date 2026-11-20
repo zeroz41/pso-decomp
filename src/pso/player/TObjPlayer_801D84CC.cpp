@@ -72,9 +72,9 @@ void process_trade_target__10TObjPlayerFiPv(s32 arg0, void *player) {
     }
 }
 void TObjPlayer__sub_801D8664(s32 arg0, s8 arg1, s8 arg2) {
-    typedef char sp8_offset[(offsetof(Stack_801D8664, sp8) == 0x0) ? 1 : -1];
-    typedef char sp9_offset[(offsetof(Stack_801D8664, sp9) == 0x1) ? 1 : -1];
-    typedef char spA_offset[(offsetof(Stack_801D8664, spA) == 0x2) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_801D8664, sp8) == 0x0);
+    LAYOUT_ASSERT(sp9_offset, offsetof(Stack_801D8664, sp9) == 0x1);
+    LAYOUT_ASSERT(spA_offset, offsetof(Stack_801D8664, spA) == 0x2);
     Stack_801D8664 stack;
     ((TItemData *)(&stack.sp8))->init();
     stack.sp9 = arg1;

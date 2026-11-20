@@ -27,7 +27,7 @@ struct CsnModel {
     CsnFace *faces;
 };
 
-typedef char CsnFaceSize[sizeof(CsnFace) == 0x24 ? 1 : -1];
+LAYOUT_ASSERT(CsnFaceSize, sizeof(CsnFace) == 0x24);
 
 struct CsnGroup {
     CsnModel* model;
@@ -36,11 +36,11 @@ struct CsnGroup {
     u32 flags;
 };
 
-typedef char CsnVectorSize[sizeof(CsnVector) == 0xC ? 1 : -1];
-typedef char CsnGroupSize[sizeof(CsnGroup) == 0x18 ? 1 : -1];
-typedef char CsnGroupCenterOffset[offsetof(CsnGroup, center) == 4 ? 1 : -1];
-typedef char CsnGroupRadiusOffset[offsetof(CsnGroup, radius) == 0x10 ? 1 : -1];
-typedef char CsnGroupFlagsOffset[offsetof(CsnGroup, flags) == 0x14 ? 1 : -1];
+LAYOUT_ASSERT(CsnVectorSize, sizeof(CsnVector) == 0xC);
+LAYOUT_ASSERT(CsnGroupSize, sizeof(CsnGroup) == 0x18);
+LAYOUT_ASSERT(CsnGroupCenterOffset, offsetof(CsnGroup, center) == 4);
+LAYOUT_ASSERT(CsnGroupRadiusOffset, offsetof(CsnGroup, radius) == 0x10);
+LAYOUT_ASSERT(CsnGroupFlagsOffset, offsetof(CsnGroup, flags) == 0x14);
 
 CsnGroup* select_ground_query_groups(CsnVector* origin, u32 mask);
 

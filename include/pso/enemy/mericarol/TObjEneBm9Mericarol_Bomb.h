@@ -33,6 +33,6 @@ public:
     TParticleCtrl *effect;     // particle 0x207, follows pos
     TParticleCtrl *phase_effect;
 };
-typedef char TObjEneBm9Mericarol_Bomb_size[sizeof(TObjEneBm9Mericarol_Bomb) == 0x118 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneBm9Mericarol_Bomb_size, sizeof(TObjEneBm9Mericarol_Bomb) == 0x118);
 
 #endif

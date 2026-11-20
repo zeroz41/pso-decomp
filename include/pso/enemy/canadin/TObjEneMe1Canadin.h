@@ -134,7 +134,7 @@ struct TObjEneMe1Canadin : public TObjEneDD_ST {
     s32 fade_alpha_step(f32 scale, s32 step);
 };
 
-typedef char TObjEneMe1Canadin_size[sizeof(TObjEneMe1Canadin) == 0x4CC ? 1 : -1];
+LAYOUT_ASSERT(TObjEneMe1Canadin_size, sizeof(TObjEneMe1Canadin) == 0x4CC);
 
 extern "C" {
 void TObjEneMe1CanadinLeader__sub_8009E258(TObjEneMe1Canadin *self);

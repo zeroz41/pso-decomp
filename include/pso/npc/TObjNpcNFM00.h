@@ -10,7 +10,7 @@ struct TObjNpcNFM00 : public TUnk_804A9F50 {
     static void load_assets();
 };
 
-typedef char TObjNpcNFM00_size[sizeof(TObjNpcNFM00) == 0x3B8 ? 1 : -1];
+LAYOUT_ASSERT(TObjNpcNFM00_size, sizeof(TObjNpcNFM00) == 0x3B8);
 
 class TObjControl;
 

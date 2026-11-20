@@ -33,7 +33,7 @@ typedef struct send_buffs {
     short len;
     u8 *buff; /* 0x04 */
 } send_buffs;
-typedef char send_buffs_size_check[(sizeof(send_buffs) == 8) ? 1 : -1];
+LAYOUT_ASSERT(send_buffs_size_check, sizeof(send_buffs) == 8);
 
 /* A received datagram, as TLobby__sub_80421F10 hands it to the socket's receive callback: first with mode 0 (the
    callback sets buf, or returns nonzero to drop it), then with mode 1 once len bytes are copied to buf. */
@@ -45,7 +45,7 @@ typedef struct UdpDatagram {
     NetworkAddress dst;     /* 0x1C */
     u16 port;               /* 0x30: source port */
 } UdpDatagram;
-typedef char UdpDatagram_size_check[(sizeof(UdpDatagram) == 0x34) ? 1 : -1];
+LAYOUT_ASSERT(UdpDatagram_size_check, sizeof(UdpDatagram) == 0x34);
 
 typedef struct UdpRuntimeState {
     s16 count;

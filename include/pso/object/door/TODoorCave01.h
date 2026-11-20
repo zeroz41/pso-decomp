@@ -41,6 +41,6 @@ struct TODoorCave01 : public TODoorBase {
     static s32 *texture_lists;  // [0] the unlit (red) lights, [1] the bml's own
 };
 
-typedef char TODoorCave01_size[sizeof(TODoorCave01) == 0xEC ? 1 : -1];
+LAYOUT_ASSERT(TODoorCave01_size, sizeof(TODoorCave01) == 0xEC);
 
 #endif

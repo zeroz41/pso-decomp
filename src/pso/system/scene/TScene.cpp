@@ -240,7 +240,7 @@ struct SceneDispatchPrefix {
     SceneMemberPointerBits cleanupStorage[2];
 };
 
-typedef char SceneDispatchPrefix_size[sizeof(SceneDispatchPrefix) == 0x78 ? 1 : -1];
+LAYOUT_ASSERT(SceneDispatchPrefix_size, sizeof(SceneDispatchPrefix) == 0x78);
 
 struct Task_80204688;
 extern "C" {

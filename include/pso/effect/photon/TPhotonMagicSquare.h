@@ -26,5 +26,5 @@ struct TPhotonMagicSquare : public TObjBase {
     TPhotonMagicSquare(TObject *parent, s32 color, u16 owner_id);
 };
 
-typedef char TPhotonMagicSquare_size[sizeof(TPhotonMagicSquare) == 0xD0 ? 1 : -1];
+LAYOUT_ASSERT(TPhotonMagicSquare_size, sizeof(TPhotonMagicSquare) == 0xD0);
 #endif

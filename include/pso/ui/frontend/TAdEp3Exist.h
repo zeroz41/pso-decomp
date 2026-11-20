@@ -23,5 +23,5 @@ struct TAdEp3Exist : public TObject {
     static s32 free_if_valid(s32 arg0, s16 arg1);
 };
 
-typedef char TAdEp3Exist_size[sizeof(TAdEp3Exist) == 0x38 ? 1 : -1];
+LAYOUT_ASSERT(TAdEp3Exist_size, sizeof(TAdEp3Exist) == 0x38);
 #endif

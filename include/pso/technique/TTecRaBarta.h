@@ -23,5 +23,5 @@ struct TTecRaBarta : public TUnk_804CC148 {
     virtual void run_task();
 };
 
-typedef char TTecRaBarta_size[sizeof(TTecRaBarta) == 0x13C ? 1 : -1];
+LAYOUT_ASSERT(TTecRaBarta_size, sizeof(TTecRaBarta) == 0x13C);
 #endif

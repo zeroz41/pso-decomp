@@ -26,6 +26,6 @@ public:
     s32 source;     // the shooter, passed to receive_direct_attack
     s32 power;
 };
-typedef char TUnk_80491460_size[sizeof(TUnk_80491460) == 0x6C ? 1 : -1];
+LAYOUT_ASSERT(TUnk_80491460_size, sizeof(TUnk_80491460) == 0x6C);
 
 #endif

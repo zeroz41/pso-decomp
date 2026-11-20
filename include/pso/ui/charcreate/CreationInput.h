@@ -12,7 +12,7 @@ struct CreationInputState {
     s32 repeated_buttons;
 };
 
-typedef char CreationInputState_size[sizeof(CreationInputState) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(CreationInputState_size, sizeof(CreationInputState) == 0x18);
 
 extern CreationInputState creation_input_state;
 extern CreationInputState lbl_80465150;

@@ -23,5 +23,5 @@ struct TOSwitchAttack : public TObjBase {
     static void *create(void *arg0);
 };
 
-typedef char TOSwitchAttack_size[sizeof(TOSwitchAttack) == 0xAC ? 1 : -1];
+LAYOUT_ASSERT(TOSwitchAttack_size, sizeof(TOSwitchAttack) == 0xAC);
 #endif

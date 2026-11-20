@@ -40,5 +40,5 @@ struct TWindowSubItem : public TObject {
     static s32 is_usable(s32 arg0);
 };
 
-typedef char TWindowSubItem_size[sizeof(TWindowSubItem) == 0x44 ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubItem_size, sizeof(TWindowSubItem) == 0x44);
 #endif

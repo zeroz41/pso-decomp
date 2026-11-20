@@ -29,6 +29,6 @@ public:
     void *kind_model;  // the kind's model
     TParticleCtrl *emitter;  // the kind's particle emitter, 0 for none
 };
-typedef char TObjSeabedSuiso_CH_size[sizeof(TObjSeabedSuiso_CH) == 0xDC ? 1 : -1];
+LAYOUT_ASSERT(TObjSeabedSuiso_CH_size, sizeof(TObjSeabedSuiso_CH) == 0xDC);
 
 #endif

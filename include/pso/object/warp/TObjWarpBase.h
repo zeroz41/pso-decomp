@@ -22,6 +22,6 @@ struct TObjWarpBase : public TObjCollidable {
     u16 user_client_id;    // client id of the player using the warp, 0xFFFF for none
     u8 pad_ba[2];
 };
-typedef char TObjWarpBase_size[sizeof(TObjWarpBase) == 0xBC ? 1 : -1];
+LAYOUT_ASSERT(TObjWarpBase_size, sizeof(TObjWarpBase) == 0xBC);
 
 #endif

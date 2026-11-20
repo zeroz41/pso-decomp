@@ -226,7 +226,7 @@ typedef struct ConnectRecord {
     s8 active;
     u8 pad1[0x13];
 } ConnectRecord;
-typedef char ConnectRecord_size_check[sizeof(ConnectRecord) == 0x14 ? 1 : -1];
+LAYOUT_ASSERT(ConnectRecord_size_check, sizeof(ConnectRecord) == 0x14);
 ConnectRecord ppp_connect_records[8];
 
 s32 ppp_begin_connect(s32 ignored, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 modem_name, s32 no_modem) {

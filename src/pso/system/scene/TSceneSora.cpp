@@ -199,7 +199,7 @@ void TLobby__sub_802075F4(void) {  }
 extern RecoveredGlobal_802075F8_lbl_80515BA0 lbl_80515BA0;
 extern s32 pending_adventure_map_floor;
 void prepare_adventure_maps(void);
-typedef char RecoveredGlobal_802075F8_lbl_80515BA0_size[sizeof(RecoveredGlobal_802075F8_lbl_80515BA0) == 0x28 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_802075F8_lbl_80515BA0_size, sizeof(RecoveredGlobal_802075F8_lbl_80515BA0) == 0x28);
 void prepare_adventure_maps(void) {
     randomize_adventure_maps();
     if ((s32) pending_adventure_map_floor != -1) {

@@ -21,12 +21,12 @@ u8 *csnVector(f32 *, f32 *, s32);
 #pragma push
 #pragma opt_common_subs off
 void TUnk_804CCC68::check_technique_projectile_wall_hit() {
-    typedef char sp8_offset[(offsetof(Stack_8023A434, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_8023A434, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_8023A434, sp10) == 0x8) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_8023A434, sp14) == 0xC) ? 1 : -1];
-    typedef char sp18_offset[(offsetof(Stack_8023A434, sp18) == 0x10) ? 1 : -1];
-    typedef char sp1C_offset[(offsetof(Stack_8023A434, sp1C) == 0x14) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8023A434, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8023A434, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8023A434, sp10) == 0x8);
+    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_8023A434, sp14) == 0xC);
+    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_8023A434, sp18) == 0x10);
+    LAYOUT_ASSERT(sp1C_offset, offsetof(Stack_8023A434, sp1C) == 0x14);
     Stack_8023A434 stack;
     u8 *temp_r3;
     stack.sp8 = *(f32 *)((s8 *)((u8 *)this) + 0x78);

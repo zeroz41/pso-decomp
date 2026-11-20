@@ -66,8 +66,8 @@ struct TBoss6Mine : public TObjEnemy {
     void state_7();
 };
 
-typedef char TBoss6MineSetData_size[sizeof(TBoss6MineSetData) == 0x64 ? 1 : -1];
-typedef char TBoss6Mine_size[sizeof(TBoss6Mine) == 0x3D0 ? 1 : -1];
+LAYOUT_ASSERT(TBoss6MineSetData_size, sizeof(TBoss6MineSetData) == 0x64);
+LAYOUT_ASSERT(TBoss6Mine_size, sizeof(TBoss6Mine) == 0x3D0);
 
 extern "C" {
 s32 TBoss6Mine__ct(s32 arg0, s32 parent, TBoss6MineSetData *set_data);

@@ -42,5 +42,5 @@ struct TBoss7Crawfish : public TObjEnemy {
     void register_attack_hits();
 };
 
-typedef char TBoss7Crawfish_size[sizeof(TBoss7Crawfish) == 0x3D0 ? 1 : -1];
+LAYOUT_ASSERT(TBoss7Crawfish_size, sizeof(TBoss7Crawfish) == 0x3D0);
 #endif

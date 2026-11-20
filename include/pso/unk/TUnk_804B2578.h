@@ -39,6 +39,6 @@ public:
     s32 switch_id;  // 0x35C: set_params[0], the floor switch it waits on (inferred name)
 };
 
-typedef char TUnk_804B2578_size[sizeof(TUnk_804B2578) == 0x360 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804B2578_size, sizeof(TUnk_804B2578) == 0x360);
 
 #endif

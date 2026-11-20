@@ -27,7 +27,7 @@ struct TItemEffPG : public TUnk_804E355C {
     static void create(void *parent, void *params, void *count); // makes a TUnk_804F0C08
 };
 
-typedef char TItemEffPG_size[sizeof(TItemEffPG) == 0xD4 ? 1 : -1];
+LAYOUT_ASSERT(TItemEffPG_size, sizeof(TItemEffPG) == 0xD4);
 
 extern "C" {
 u8 *TObjPlayer__sub_8034F1AC(u8 *item);

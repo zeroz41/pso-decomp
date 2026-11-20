@@ -12,7 +12,7 @@
 
 
 struct RecoveredGlobal_8020D2B4_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
-typedef char RecoveredGlobal_8020D2B4_lbl_8058D490_size[sizeof(RecoveredGlobal_8020D2B4_lbl_8058D490) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8020D2B4_lbl_8058D490_size, sizeof(RecoveredGlobal_8020D2B4_lbl_8058D490) == 0x30);
 
 typedef struct SpawnAngles_8020D36C { u32 x, y, z; } SpawnAngles_8020D36C;
 

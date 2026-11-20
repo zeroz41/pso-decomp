@@ -29,7 +29,7 @@ public:
     s32 pulse_flags;   // bit 0: pulse_offset rising
 };
 
-typedef char TOSensorAncient01_size[sizeof(TOSensorAncient01) == 0xF8 ? 1 : -1];
+LAYOUT_ASSERT(TOSensorAncient01_size, sizeof(TOSensorAncient01) == 0xF8);
 
 // set_params[2] picks the pair: the red texture list and the plain one.
 struct TOSensorAncient01Textures {

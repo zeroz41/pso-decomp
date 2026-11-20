@@ -973,11 +973,11 @@ u32 TItemWeapon::get_attack_flags() {
 }
 
 void TItemWeapon::deliver_hit(s32 arg1, u8 *arg2, s32 arg3, s32 arg4, f32 farg0) {
-    typedef char sp8_offset[(offsetof(Stack_8011F7CC, sp8) == 0x0) ? 1 : -1];
-    typedef char sp9_offset[(offsetof(Stack_8011F7CC, sp9) == 0x1) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_8011F7CC, spC) == 0x4) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_8011F7CC, sp14) == 0xC) ? 1 : -1];
-    typedef char sp18_offset[(offsetof(Stack_8011F7CC, sp18) == 0x10) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8011F7CC, sp8) == 0x0);
+    LAYOUT_ASSERT(sp9_offset, offsetof(Stack_8011F7CC, sp9) == 0x1);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8011F7CC, spC) == 0x4);
+    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_8011F7CC, sp14) == 0xC);
+    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_8011F7CC, sp18) == 0x10);
     Stack_8011F7CC stack;
     f32 attack_accuracy_scale;
     f32 var_f31_2;

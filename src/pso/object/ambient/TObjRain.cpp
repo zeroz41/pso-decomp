@@ -69,7 +69,7 @@ extern RecoveredGlobal_80197C84___vt__8TObjRain __vt__8TObjRain;
 const char *lbl_805D3420 = TObjRain__class_name_string;
 void TObjRain::render() { draw_streaks(); }
 void TObjRain::run_task() { update_drops(); }
-typedef char RecoveredGlobal_80197C84___vt__8TObjRain_size[sizeof(RecoveredGlobal_80197C84___vt__8TObjRain) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_80197C84___vt__8TObjRain_size, sizeof(RecoveredGlobal_80197C84___vt__8TObjRain) == 0x18);
 TObjRain::~TObjRain() {}
 u8 *__ct__8TObjRainFv(u8 *rain, s32 arg1, u32 arg2) {
     __ct__7TObjectFP7TObject();

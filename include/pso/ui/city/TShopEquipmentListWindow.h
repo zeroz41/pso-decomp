@@ -37,7 +37,7 @@ struct TShopEquipmentListWindow : public TShopWindowBase {
     static void create_buy_list_windows(void *p);
 };
 
-typedef char TShopEquipmentListWindow_size[sizeof(TShopEquipmentListWindow) == 0x194 ? 1 : -1];
+LAYOUT_ASSERT(TShopEquipmentListWindow_size, sizeof(TShopEquipmentListWindow) == 0x194);
 // --- C functions defined in TShopEquipmentListWindow.cpp ---
 extern "C" {
 int TShopEquipmentListWindow__sub_8021C85C(int a0);

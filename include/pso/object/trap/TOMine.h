@@ -56,7 +56,7 @@ struct TOMine : public TObjChara {
     static void load_static_resource();
 };
 
-typedef char TOMine_size[sizeof(TOMine) == 0x374 ? 1 : -1];
+LAYOUT_ASSERT(TOMine_size, sizeof(TOMine) == 0x374);
 
 struct BmlResource;
 // bm_o_mine.bml, loaded by TOMine::load_static_resource; the mine models of every TOMine class.

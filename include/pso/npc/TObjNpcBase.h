@@ -44,6 +44,6 @@ struct TObjNpcBase : public TObjEnemy {
     void setup_common();
 };
 
-typedef char NpcBaseSize[(sizeof(TObjNpcBase) == 0x3B8) ? 1 : -1];
+LAYOUT_ASSERT(NpcBaseSize, sizeof(TObjNpcBase) == 0x3B8);
 
 #endif

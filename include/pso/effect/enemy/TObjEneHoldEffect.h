@@ -18,5 +18,5 @@ struct TObjEneHoldEffect : public TObjBase {
     s32 validate_6x49_packet();
 };
 
-typedef char TObjEneHoldEffect_size[sizeof(TObjEneHoldEffect) == 0xA0 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneHoldEffect_size, sizeof(TObjEneHoldEffect) == 0xA0);
 #endif

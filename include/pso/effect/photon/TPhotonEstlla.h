@@ -26,6 +26,6 @@ struct TPhotonEstlla : public TUnk_804C3248 {
     virtual void run_task();
 };
 
-typedef char TPhotonEstlla_size[sizeof(TPhotonEstlla) == 0x1A4 ? 1 : -1];
+LAYOUT_ASSERT(TPhotonEstlla_size, sizeof(TPhotonEstlla) == 0x1A4);
 
 #endif

@@ -53,7 +53,7 @@ struct TObjWarpBoss : public TObjAreaWarp {
     s32 local_player_in_range;  // the local player stands within warp_range + 25 (update_warp_occupants)
 };
 
-typedef char TObjWarpBoss_size[sizeof(TObjWarpBoss) == 0x184 ? 1 : -1];
-typedef char TObjWarpBoss_model[offsetof(TObjWarpBoss, model) == 0xD0 ? 1 : -1];
-typedef char TObjWarpBoss_local_player_in_range[offsetof(TObjWarpBoss, local_player_in_range) == 0x180 ? 1 : -1];
+LAYOUT_ASSERT(TObjWarpBoss_size, sizeof(TObjWarpBoss) == 0x184);
+LAYOUT_ASSERT(TObjWarpBoss_model, offsetof(TObjWarpBoss, model) == 0xD0);
+LAYOUT_ASSERT(TObjWarpBoss_local_player_in_range, offsetof(TObjWarpBoss, local_player_in_range) == 0x180);
 #endif

@@ -60,10 +60,10 @@ extern RecoveredGlobal_80107DF0_lbl_8058D4C0 model_material_color;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 
-typedef char RecoveredGlobal_80107DA4_lbl_8049EFB8_size[sizeof(RecoveredGlobal_80107DA4_lbl_8049EFB8) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_80107DA4_lbl_8049EFB8_size, sizeof(RecoveredGlobal_80107DA4_lbl_8049EFB8) == 0x18);
 
-typedef char RecoveredGlobal_80107DF0_lbl_8050BEC0_size[sizeof(RecoveredGlobal_80107DF0_lbl_8050BEC0) == 0x20 ? 1 : -1];
-typedef char RecoveredGlobal_80107DF0_lbl_8058D4C0_size[sizeof(RecoveredGlobal_80107DF0_lbl_8058D4C0) == 0x10 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_80107DF0_lbl_8050BEC0_size, sizeof(RecoveredGlobal_80107DF0_lbl_8050BEC0) == 0x20);
+LAYOUT_ASSERT(RecoveredGlobal_80107DF0_lbl_8058D4C0_size, sizeof(RecoveredGlobal_80107DF0_lbl_8058D4C0) == 0x10);
 
 }
 

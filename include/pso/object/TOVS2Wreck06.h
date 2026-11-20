@@ -8,7 +8,7 @@ struct TOVS2Wreck06 : public TOVS2 {
     virtual ~TOVS2Wreck06();
 };
 
-typedef char TOVS2Wreck06_size[sizeof(TOVS2Wreck06) == 0xD0 ? 1 : -1];
+LAYOUT_ASSERT(TOVS2Wreck06_size, sizeof(TOVS2Wreck06) == 0xD0);
 
 extern "C" {
 void *TOVS2Wreck06__create(void *arg0);

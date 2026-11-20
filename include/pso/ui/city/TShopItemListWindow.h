@@ -37,6 +37,6 @@ struct TShopItemListWindow : public TShopWindowBase {
     static void build_item_list(void *p);
 };
 
-typedef char TShopItemListWindow_size[sizeof(TShopItemListWindow) == 0x1C4 ? 1 : -1];
+LAYOUT_ASSERT(TShopItemListWindow_size, sizeof(TShopItemListWindow) == 0x1C4);
 
 #endif

@@ -17,5 +17,5 @@ struct TTecGrants : public TUnk_804CC148 {
     void init_parameters();
 };
 
-typedef char TTecGrants_size[sizeof(TTecGrants) == 0x14C ? 1 : -1];
+LAYOUT_ASSERT(TTecGrants_size, sizeof(TTecGrants) == 0x14C);
 #endif

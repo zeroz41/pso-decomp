@@ -18,6 +18,6 @@ public:
     Vec owner_offset;   // where it sits relative to the owner
     Vec direction;      // its launch direction
 };
-typedef char TUnk_80482D04_size[sizeof(TUnk_80482D04) == 0x410 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_80482D04_size, sizeof(TUnk_80482D04) == 0x410);
 
 #endif

@@ -436,9 +436,9 @@ s32 lookup_name_entry__22TQuestVmDownLoadServerFsP12Out_803E8C2C(char *arg0, s16
 void TQuestVmDownLoadServer__sub_803EFCB4(u8 *data, s32 a1, s32 a2, s32 *cnt, s32 *total, u8 *buf, s32 flags);
 extern u8 *lbl_805D7824;
 
-typedef char RecoveredGlobal_803E6ACC_lbl_805A0470_size[sizeof(RecoveredGlobal_803E6ACC_lbl_805A0470) == 0x28 ? 1 : -1];
-typedef char RecoveredGlobal_803E6ACC_lbl_805A0498_size[sizeof(RecoveredGlobal_803E6ACC_lbl_805A0498) == 0x138 ? 1 : -1];
-typedef char RecoveredGlobal_803E6ACC_lbl_805A05D0_size[sizeof(RecoveredGlobal_803E6ACC_lbl_805A05D0) == 0xC8 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_803E6ACC_lbl_805A0470_size, sizeof(RecoveredGlobal_803E6ACC_lbl_805A0470) == 0x28);
+LAYOUT_ASSERT(RecoveredGlobal_803E6ACC_lbl_805A0498_size, sizeof(RecoveredGlobal_803E6ACC_lbl_805A0498) == 0x138);
+LAYOUT_ASSERT(RecoveredGlobal_803E6ACC_lbl_805A05D0_size, sizeof(RecoveredGlobal_803E6ACC_lbl_805A05D0) == 0xC8);
 struct Ent_803E6B70 { u16 ch; u16 pad; s32 len; };
 void TQuestVmDownLoadServer__sub_803E79AC(void);
 void TQuestVmDownLoadServer__sub_803E7F9C(u8 *text, s16 mode);

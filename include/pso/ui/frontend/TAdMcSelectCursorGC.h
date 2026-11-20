@@ -28,7 +28,7 @@ struct TAdMcSelectCursorGC : public TObject {
     s32 sub_8032AAC4(); // returns m_20, the selected slot; defined in TAdMcSelectMcGC.cpp, its only caller
 };
 
-typedef char TAdMcSelectCursorGC_size[sizeof(TAdMcSelectCursorGC) == 0x140 ? 1 : -1];
+LAYOUT_ASSERT(TAdMcSelectCursorGC_size, sizeof(TAdMcSelectCursorGC) == 0x140);
 
 extern "C" {
 void *__dt__19TAdMcSelectCursorGCFv(void *arg0, s16 arg1);

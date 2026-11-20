@@ -344,7 +344,7 @@ s32 TTecZondeEff::calc_dominant_axis() {
     return 2;
 }
 
-typedef char RecoveredGlobal_8023D988___vt__12TTecZondeEff_size[sizeof(RecoveredGlobal_8023D988___vt__12TTecZondeEff) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8023D988___vt__12TTecZondeEff_size, sizeof(RecoveredGlobal_8023D988___vt__12TTecZondeEff) == 0x18);
 
 void TTecZondeEff::randomize_bolt_jitter() {
     Rec_8023D4A8 *p;
@@ -475,9 +475,9 @@ TTecZondeEff::TTecZondeEff(TObject *arg1, s32 arg2, s32 arg3, f32 farg0) : TObje
     *(s16 *)((s8 *)this + 0x25E) = 0;
 }
 
-typedef char RecoveredGlobal_8023DADC___vt__12TTecZondeEff_size[sizeof(RecoveredGlobal_8023DADC___vt__12TTecZondeEff) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8023DADC___vt__12TTecZondeEff_size, sizeof(RecoveredGlobal_8023DADC___vt__12TTecZondeEff) == 0x18);
 
-typedef char RecoveredGlobal_8023DA10___vt__12TTecZondeEff_size[sizeof(RecoveredGlobal_8023DA10___vt__12TTecZondeEff) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8023DA10___vt__12TTecZondeEff_size, sizeof(RecoveredGlobal_8023DA10___vt__12TTecZondeEff) == 0x18);
 u8 *TTecZonde::construct_bolt_effect(u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4, s32 arg5, f32 farg0, f32 farg1) {
     __ct__7TObjectFP7TObject(this, arg1);
     *(s32 **)((s8 *)((u8 *)this) + 0x18) = &(*(RecoveredGlobal_8023DA10___vt__12TTecZondeEff *)&__vt__12TTecZondeEff).value;

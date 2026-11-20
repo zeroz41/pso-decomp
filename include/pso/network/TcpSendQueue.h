@@ -13,6 +13,6 @@ typedef struct TcpSendRequest {
     s16 offset;
     TcpSendCallback callback;
 } TcpSendRequest;
-typedef char TcpSendRequest_size_check[sizeof(TcpSendRequest) == 0x10 ? 1 : -1];
+LAYOUT_ASSERT(TcpSendRequest_size_check, sizeof(TcpSendRequest) == 0x10);
 
 #endif

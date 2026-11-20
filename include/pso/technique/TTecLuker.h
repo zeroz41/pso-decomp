@@ -35,5 +35,5 @@ struct TTecLuker : public TUnk_804CC148 {
     static s32 is_parents_unqueued(u32 arg0);
 };
 
-typedef char TTecLuker_size[sizeof(TTecLuker) == 0x110 ? 1 : -1];
+LAYOUT_ASSERT(TTecLuker_size, sizeof(TTecLuker) == 0x110);
 #endif

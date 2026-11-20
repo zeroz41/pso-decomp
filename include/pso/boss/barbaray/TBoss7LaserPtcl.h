@@ -28,5 +28,5 @@ struct TBoss7LaserPtcl : public TObject {
     void free_laser_light();
 };
 
-typedef char TBoss7LaserPtcl_size[sizeof(TBoss7LaserPtcl) == 0x58 ? 1 : -1];
+LAYOUT_ASSERT(TBoss7LaserPtcl_size, sizeof(TBoss7LaserPtcl) == 0x58);
 #endif

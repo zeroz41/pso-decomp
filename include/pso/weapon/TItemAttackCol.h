@@ -69,5 +69,5 @@ struct TItemAttackCol : public TUnk_804E355C {
     void copy_pos(void* q);
 };
 
-typedef char TItemAttackCol_size[sizeof(TItemAttackCol) == 0x144 ? 1 : -1];
+LAYOUT_ASSERT(TItemAttackCol_size, sizeof(TItemAttackCol) == 0x144);
 #endif

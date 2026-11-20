@@ -15,6 +15,6 @@ struct TObjDFUsoTower : public TObjBase {
     void sub_8004D9A0(s32 v);
 };
 
-typedef char TObjDFUsoTower_size[sizeof(TObjDFUsoTower) == 0x98 ? 1 : -1];
+LAYOUT_ASSERT(TObjDFUsoTower_size, sizeof(TObjDFUsoTower) == 0x98);
 
 #endif

@@ -52,6 +52,5 @@ typedef struct GinjaSceneState {
   u8 reserved0[0x20];
   GinjaTextureList *textures;
 } GinjaSceneState;
-typedef char
-    GinjaMaterialCacheSize[(sizeof(GinjaMaterialCache) == 0x8c) ? 1 : -1];
+LAYOUT_ASSERT(GinjaMaterialCacheSize, sizeof(GinjaMaterialCache) == 0x8c);
 #endif

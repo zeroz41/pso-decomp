@@ -9,5 +9,5 @@ struct TWindowCost : public TWindowMeseta {
     virtual void run_task();
 };
 
-typedef char TWindowCost_size[sizeof(TWindowCost) == 0x74 ? 1 : -1];
+LAYOUT_ASSERT(TWindowCost_size, sizeof(TWindowCost) == 0x74);
 #endif

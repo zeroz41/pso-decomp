@@ -283,11 +283,11 @@ s32 net_add_ipv4_route(s32 arg0, s32 arg1, s32 gateway) {
 
 s32 raw_socket_deliver_ipv4(u8 *sock, s32 src, s32 dst, u32 cb, s32 flags) {
     typedef struct SockFields { u8 pad_0[8]; s32 field_8; s16 field_C; } SockFields;
-    typedef char sp1C_offset[(offsetof(Stack_80421AD8, sp1C) == 0x0) ? 1 : -1];
-    typedef char sp1E_offset[(offsetof(Stack_80421AD8, sp1E) == 0x2) ? 1 : -1];
-    typedef char sp20_offset[(offsetof(Stack_80421AD8, sp20) == 0x4) ? 1 : -1];
-    typedef char sp24_offset[(offsetof(Stack_80421AD8, sp24) == 0x8) ? 1 : -1];
-    typedef char sp28_offset[(offsetof(Stack_80421AD8, sp28) == 0xC) ? 1 : -1];
+    LAYOUT_ASSERT(sp1C_offset, offsetof(Stack_80421AD8, sp1C) == 0x0);
+    LAYOUT_ASSERT(sp1E_offset, offsetof(Stack_80421AD8, sp1E) == 0x2);
+    LAYOUT_ASSERT(sp20_offset, offsetof(Stack_80421AD8, sp20) == 0x4);
+    LAYOUT_ASSERT(sp24_offset, offsetof(Stack_80421AD8, sp24) == 0x8);
+    LAYOUT_ASSERT(sp28_offset, offsetof(Stack_80421AD8, sp28) == 0xC);
     Stack_80421AD8 stack;
     stack.sp1C = flags | 0x800;
     stack.sp1E = ((SockFields*)sock)->field_8 - ((SockFields*)sock)->field_C;

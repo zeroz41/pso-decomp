@@ -10,7 +10,7 @@ struct TObjNpcConnoisseur : public TUnk_804A9F50 {
     static void load_section_motion();
 };
 
-typedef char TObjNpcConnoisseur_size[sizeof(TObjNpcConnoisseur) == 0x3B8 ? 1 : -1];
+LAYOUT_ASSERT(TObjNpcConnoisseur_size, sizeof(TObjNpcConnoisseur) == 0x3B8);
 
 extern "C" {
 u8 *TObjNpcConnoisseur__ct(u8 *arg0, s32 arg1, s32 arg2);

@@ -17,5 +17,5 @@ struct TObjEnvSoundEx : public TObjBase {
     u8 unk_A4[0x4];
 };
 
-typedef char TObjEnvSoundEx_size[sizeof(TObjEnvSoundEx) == 0xA8 ? 1 : -1];
+LAYOUT_ASSERT(TObjEnvSoundEx_size, sizeof(TObjEnvSoundEx) == 0xA8);
 #endif

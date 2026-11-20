@@ -15,5 +15,5 @@ struct TObjEvtCollision : public TObjCollidable {
     virtual void run_task();
 };
 
-typedef char TObjEvtCollision_size[sizeof(TObjEvtCollision) == 0xB8 ? 1 : -1];
+LAYOUT_ASSERT(TObjEvtCollision_size, sizeof(TObjEvtCollision) == 0xB8);
 #endif

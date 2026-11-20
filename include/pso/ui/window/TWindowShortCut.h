@@ -24,7 +24,7 @@ struct TWindowShortCut : public TWindowBase {
     void show_shortcut(s32 index, s32 *shortcut);
 };
 
-typedef char TWindowShortCut_size[sizeof(TWindowShortCut) == 0x74 ? 1 : -1];
+LAYOUT_ASSERT(TWindowShortCut_size, sizeof(TWindowShortCut) == 0x74);
 
 extern "C" {
 void render__15TWindowShortCutFv(u8 *arg0);

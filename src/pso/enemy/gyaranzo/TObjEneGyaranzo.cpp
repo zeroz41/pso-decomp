@@ -57,9 +57,9 @@ extern "C" void test_flag_256__9TObjCharaFv();
 
 #include <stddef.h>
 
-typedef char GyaranzoPositionOffset[offsetof(TObjEneGyaranzo, position) == 0x38 ? 1 : -1];
+LAYOUT_ASSERT(GyaranzoPositionOffset, offsetof(TObjEneGyaranzo, position) == 0x38);
 
-typedef char GyaranzoYawOffset[offsetof(TObjEneGyaranzo, rotation_y) == 0x60 ? 1 : -1];
+LAYOUT_ASSERT(GyaranzoYawOffset, offsetof(TObjEneGyaranzo, rotation_y) == 0x60);
 
 typedef struct Col_800D1E4C {
     u8 pad0[0x18];

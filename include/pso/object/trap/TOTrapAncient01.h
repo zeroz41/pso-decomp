@@ -29,6 +29,6 @@ struct TOTrapAncient01 : public TOTrap {
     static s32 check_trigger_flag(s32 arg0, s32 arg1);
 };
 
-typedef char TOTrapAncient01_size[sizeof(TOTrapAncient01) == 0x3C8 ? 1 : -1];
+LAYOUT_ASSERT(TOTrapAncient01_size, sizeof(TOTrapAncient01) == 0x3C8);
 
 #endif

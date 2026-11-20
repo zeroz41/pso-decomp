@@ -27,7 +27,7 @@ public:
     void explode_and_destroy();
 };
 
-typedef char TUnk_80484AFC_size[sizeof(TUnk_80484AFC) == 0xF0 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_80484AFC_size, sizeof(TUnk_80484AFC) == 0xF0);
 
 
 #endif

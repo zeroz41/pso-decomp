@@ -13,7 +13,7 @@ struct TObjTradeCollision : public TObjCollidable {
     u8 unk_AC[0x4];
 };
 
-typedef char TObjTradeCollision_size[sizeof(TObjTradeCollision) == 0xB0 ? 1 : -1];
+LAYOUT_ASSERT(TObjTradeCollision_size, sizeof(TObjTradeCollision) == 0xB0);
 
 extern "C" {
 void *TObjTradeCollision__create(void *arg0);

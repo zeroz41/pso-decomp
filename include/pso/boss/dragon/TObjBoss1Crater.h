@@ -16,7 +16,7 @@ struct TObjBoss1Crater : public TUnk_804928CC {
     void *create(void *arg1);
 };
 
-typedef char TObjBoss1Crater_size[sizeof(TObjBoss1Crater) == 0xCC ? 1 : -1];
+LAYOUT_ASSERT(TObjBoss1Crater_size, sizeof(TObjBoss1Crater) == 0xCC);
 
 extern "C" {
 void *__dt__15TObjBoss1CraterFv(void *arg0, s16 arg1);

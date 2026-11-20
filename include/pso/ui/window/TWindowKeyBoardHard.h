@@ -58,5 +58,5 @@ int test_keyboard_card_flag_64(s32 client);
 int test_keyboard_card_flag_32(s32 client);
 int test_keyboard_card_flag_16(s32 client);
 
-typedef char TWindowKeyBoardHard_size[sizeof(TWindowKeyBoardHard) == 0x74 ? 1 : -1];
+LAYOUT_ASSERT(TWindowKeyBoardHard_size, sizeof(TWindowKeyBoardHard) == 0x74);
 #endif

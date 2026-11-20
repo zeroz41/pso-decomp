@@ -17,5 +17,5 @@ struct TTecRaZonde : public TUnk_804CC148 {
     Vec bolt_points[8];  // the constructor's spiral; a bolt runs between each neighbouring pair
 };
 
-typedef char TTecRaZonde_size[sizeof(TTecRaZonde) == 0x150 ? 1 : -1];
+LAYOUT_ASSERT(TTecRaZonde_size, sizeof(TTecRaZonde) == 0x150);
 #endif

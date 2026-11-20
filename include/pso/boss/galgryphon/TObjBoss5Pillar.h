@@ -23,7 +23,7 @@ struct TObjBoss5Pillar : public TObject {
     static void *create(void *arg0);
 };
 
-typedef char TObjBoss5Pillar_size[sizeof(TObjBoss5Pillar) == 0x4C ? 1 : -1];
+LAYOUT_ASSERT(TObjBoss5Pillar_size, sizeof(TObjBoss5Pillar) == 0x4C);
 
 extern "C" {
 u8 *TObjBoss5Pillar__ct(TObjBoss5Pillar *arg0, u8 *arg1, u8 *arg2);

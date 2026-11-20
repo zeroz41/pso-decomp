@@ -17,10 +17,9 @@ public:
 };
 
 #include <stddef.h>
-typedef char TObjInfoColRadiusOffset[
-    offsetof(TObjInfoCol, interaction_radius) == 0xAC ? 1 : -1];
+LAYOUT_ASSERT(TObjInfoColRadiusOffset, offsetof(TObjInfoCol, interaction_radius) == 0xAC);
 
-typedef char TObjInfoCol_size[sizeof(TObjInfoCol) == 0xB0 ? 1 : -1];
+LAYOUT_ASSERT(TObjInfoCol_size, sizeof(TObjInfoCol) == 0xB0);
 
 extern "C" {
 void *__dt__11TObjInfoColFv(void *arg0, s16 arg1);

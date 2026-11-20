@@ -18,5 +18,5 @@ struct TODoorJungleMain : public TODoorBase {
     virtual void run_task();
 };
 
-typedef char TODoorJungleMain_size[sizeof(TODoorJungleMain) == 0xE0 ? 1 : -1];
+LAYOUT_ASSERT(TODoorJungleMain_size, sizeof(TODoorJungleMain) == 0xE0);
 #endif

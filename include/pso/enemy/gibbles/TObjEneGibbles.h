@@ -65,7 +65,7 @@ struct TObjEneGibbles : public TObjEnemy {
     void turn_toward_target();
     void slam_damage_players(s32 arg1);
 };
-typedef char TObjEneGibbles_size[(sizeof(TObjEneGibbles) ==0x44C) ?1:-1];
+LAYOUT_ASSERT(TObjEneGibbles_size, sizeof(TObjEneGibbles) ==0x44C);
 
 extern "C" {
 u8 *TObjEneGibbles__ct(u8 *arg0, void *parent, s32 arg2);

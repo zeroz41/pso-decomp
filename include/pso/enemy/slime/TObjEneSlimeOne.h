@@ -89,5 +89,5 @@ struct TObjEneSlimeOne : public TObjEnemy {
     void init_state();
 };
 
-typedef char TObjEneSlimeOne_size[sizeof(TObjEneSlimeOne) == 0x3F4 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneSlimeOne_size, sizeof(TObjEneSlimeOne) == 0x3F4);
 #endif

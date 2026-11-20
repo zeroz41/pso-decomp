@@ -308,8 +308,8 @@ void TPhotonGolla::render() {
 
 void TPhotonGolla::run_task() {
     u8 *arg0 = (u8 *)this;
-    typedef char sp8_offset[(offsetof(Stack_801ABBAC, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_801ABBAC, spC) == 0x4) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_801ABBAC, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_801ABBAC, spC) == 0x4);
     Stack_801ABBAC stack;
     s32 temp_r0;
     s32 entity;

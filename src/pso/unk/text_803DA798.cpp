@@ -82,8 +82,8 @@ s32 set_texture_num(s32 i);
 #pragma opt_common_subs off
 #pragma scheduling off
 #pragma peephole off
-typedef char RecoveredFields_803DA84C_arg0_14_offset[offsetof(RecoveredFields_803DA84C_arg0, field_14) == 0x14 ? 1 : -1];
-typedef char RecoveredFields_803DA84C_arg0_1C_offset[offsetof(RecoveredFields_803DA84C_arg0, field_1C) == 0x1C ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_803DA84C_arg0_14_offset, offsetof(RecoveredFields_803DA84C_arg0, field_14) == 0x14);
+LAYOUT_ASSERT(RecoveredFields_803DA84C_arg0_1C_offset, offsetof(RecoveredFields_803DA84C_arg0, field_1C) == 0x1C);
 
 #pragma push
 #pragma scheduling off

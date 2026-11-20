@@ -16,7 +16,7 @@ public:
     ControllerInputContext *controller;
     f32 m_70;
 };
-typedef char TUnk_80488838_size[sizeof(TUnk_80488838) == 0x74 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_80488838_size, sizeof(TUnk_80488838) == 0x74);
 
 // --- C functions defined in TUnk_80488838.cpp ---
 extern "C" {

@@ -56,5 +56,5 @@ struct TWindowMenu : public TWindowAddition {
     s32 is_locked(s32 arg1);
 };
 
-typedef char TWindowMenu_size[sizeof(TWindowMenu) == 0x8C ? 1 : -1];
+LAYOUT_ASSERT(TWindowMenu_size, sizeof(TWindowMenu) == 0x8C);
 #endif

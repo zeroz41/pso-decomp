@@ -263,6 +263,6 @@ public:
 
 extern "C" void *__dt__9TObjCharaFv(void *, s16);
 
-typedef char TObjCharaGroundNormalOffset[offsetof(TObjChara, ground_normal) == 0x248 ? 1 : -1];
+LAYOUT_ASSERT(TObjCharaGroundNormalOffset, offsetof(TObjChara, ground_normal) == 0x248);
 
 #endif

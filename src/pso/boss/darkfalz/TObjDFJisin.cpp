@@ -290,9 +290,9 @@ void TObjDFTenchuFuru__sub_80051A7C(void);
 
 
 
-typedef char RecoveredFields_80051AD0_var_r31_0_offset[offsetof(RecoveredFields_80051AD0_var_r31, field_0) == 0x0 ? 1 : -1];
-typedef char RecoveredFields_80051AD0_var_r31_2C_offset[offsetof(RecoveredFields_80051AD0_var_r31, field_2C) == 0x2C ? 1 : -1];
-typedef char RecoveredFields_80051AD0_var_r31_30_offset[offsetof(RecoveredFields_80051AD0_var_r31, field_30) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_80051AD0_var_r31_0_offset, offsetof(RecoveredFields_80051AD0_var_r31, field_0) == 0x0);
+LAYOUT_ASSERT(RecoveredFields_80051AD0_var_r31_2C_offset, offsetof(RecoveredFields_80051AD0_var_r31, field_2C) == 0x2C);
+LAYOUT_ASSERT(RecoveredFields_80051AD0_var_r31_30_offset, offsetof(RecoveredFields_80051AD0_var_r31, field_30) == 0x30);
 
 }
 

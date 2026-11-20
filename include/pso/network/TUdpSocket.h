@@ -44,7 +44,7 @@ public:
     static s32 handle_socket_event(s16 received, UdpSocketEvent *event);
 };
 
-typedef char TUdpSocket_size[sizeof(TUdpSocket) == 0x8B8 ? 1 : -1];
+LAYOUT_ASSERT(TUdpSocket_size, sizeof(TUdpSocket) == 0x8B8);
 
 extern TUdpSocket *udp_socket_slots[16];
 

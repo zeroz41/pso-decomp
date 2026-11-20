@@ -303,11 +303,11 @@ s32 TUnk_804E355C::has_game_join_id() {
 
 s32 TUnk_804E355C::resolve_attack_col_hit(u8 *arg1) {
     u8 *arg0 = (u8 *)this;
-    typedef char sp8_offset[(offsetof(Stack_802E456C, sp8) == 0x0) ? 1 : -1];
-    typedef char sp9_offset[(offsetof(Stack_802E456C, sp9) == 0x1) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_802E456C, spC) == 0x4) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_802E456C, sp14) == 0xC) ? 1 : -1];
-    typedef char sp18_offset[(offsetof(Stack_802E456C, sp18) == 0x10) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_802E456C, sp8) == 0x0);
+    LAYOUT_ASSERT(sp9_offset, offsetof(Stack_802E456C, sp9) == 0x1);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_802E456C, spC) == 0x4);
+    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_802E456C, sp14) == 0xC);
+    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_802E456C, sp18) == 0x10);
     Stack_802E456C stack;
     s32 temp_r31;
     s32 damage;

@@ -11,7 +11,7 @@ struct GinjaTextureError {
     s32 field_10;
 };
 
-typedef char GinjaTextureErrorPrefixSize[sizeof(GinjaTextureError) == 0x14 ? 1 : -1];
+LAYOUT_ASSERT(GinjaTextureErrorPrefixSize, sizeof(GinjaTextureError) == 0x14);
 
 extern "C" {
 s32 TObjPlayer__sub_803DAE98(GinjaTextureState *texture);

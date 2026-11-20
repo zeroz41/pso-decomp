@@ -32,6 +32,6 @@ public:
     f32 range;   // 30, or the distance to the csnLookAt hit less 5 (at least 10) (inferred)
     Vec pos;     // where it is drawn (render's post_translate_matrix)
 };
-typedef char TUnk_80491478_size[sizeof(TUnk_80491478) == 0xFC ? 1 : -1];
+LAYOUT_ASSERT(TUnk_80491478_size, sizeof(TUnk_80491478) == 0xFC);
 
 #endif

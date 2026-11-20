@@ -45,5 +45,5 @@ struct TWindowSubMag : public TObject {
     static void feed_mag(void* p, void* a1, void* a2);
 };
 
-typedef char TWindowSubMag_size[sizeof(TWindowSubMag) == 0x50 ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubMag_size, sizeof(TWindowSubMag) == 0x50);
 #endif

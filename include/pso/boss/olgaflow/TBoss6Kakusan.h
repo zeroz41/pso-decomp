@@ -25,5 +25,5 @@ struct TBoss6Kakusan : public TObject {
     virtual void run_task();
 };
 
-typedef char TBoss6Kakusan_size[sizeof(TBoss6Kakusan) == 0x58 ? 1 : -1];
+LAYOUT_ASSERT(TBoss6Kakusan_size, sizeof(TBoss6Kakusan) == 0x58);
 #endif

@@ -144,7 +144,7 @@ s32 initialize_network_packet_pool(void) {
 }
 
 
-typedef char NetworkPacketDescriptorSize[sizeof(NetworkPacketBufferDescriptor)==12 ? 1 : -1];
-typedef char NetworkPacketInUseOffset[offsetof(NetworkPacketBufferDescriptor,in_use)==0 ? 1 : -1];
-typedef char NetworkPacketLengthOffset[offsetof(NetworkPacketBufferDescriptor,queued_length)==4 ? 1 : -1];
-typedef char NetworkPacketDataOffset[offsetof(NetworkPacketBufferDescriptor,data)==8 ? 1 : -1];
+LAYOUT_ASSERT(NetworkPacketDescriptorSize, sizeof(NetworkPacketBufferDescriptor)==12);
+LAYOUT_ASSERT(NetworkPacketInUseOffset, offsetof(NetworkPacketBufferDescriptor,in_use)==0);
+LAYOUT_ASSERT(NetworkPacketLengthOffset, offsetof(NetworkPacketBufferDescriptor,queued_length)==4);
+LAYOUT_ASSERT(NetworkPacketDataOffset, offsetof(NetworkPacketBufferDescriptor,data)==8);

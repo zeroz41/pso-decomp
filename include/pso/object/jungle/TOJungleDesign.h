@@ -16,7 +16,7 @@ struct TOJungleDesign : public TObjCollidable {
     virtual void render();
 };
 
-typedef char TOJungleDesign_size[sizeof(TOJungleDesign) == 0xB4 ? 1 : -1];
+LAYOUT_ASSERT(TOJungleDesign_size, sizeof(TOJungleDesign) == 0xB4);
 
 extern "C" {
 void *TOJungleDesign__create(void *arg0);

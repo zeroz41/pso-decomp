@@ -46,5 +46,5 @@ struct THunterGuildSeqOffline : public TShopSequence {
     static void zero_four_slots();
 };
 
-typedef char THunterGuildSeqOffline_size[sizeof(THunterGuildSeqOffline) == 0x3C ? 1 : -1];
+LAYOUT_ASSERT(THunterGuildSeqOffline_size, sizeof(THunterGuildSeqOffline) == 0x3C);
 #endif

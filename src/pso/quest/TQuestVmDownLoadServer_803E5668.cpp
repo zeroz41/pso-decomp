@@ -778,10 +778,10 @@ void TWindowKeyBoardSoft::dispatch_request_0x14(s32 a, s32 b) {
 }
 
 void TWindowKeyBoardSoft::dispatch_request_0x13(s32 arg0, s32 arg1, s32 arg2) {
-    typedef char sp14_offset[(offsetof(Stack_803E68D0, sp14) == 0x0) ? 1 : -1];
-    typedef char sp18_offset[(offsetof(Stack_803E68D0, sp18) == 0x4) ? 1 : -1];
-    typedef char sp1C_offset[(offsetof(Stack_803E68D0, sp1C) == 0x8) ? 1 : -1];
-    typedef char sp20_offset[(offsetof(Stack_803E68D0, sp20) == 0xC) ? 1 : -1];
+    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_803E68D0, sp14) == 0x0);
+    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_803E68D0, sp18) == 0x4);
+    LAYOUT_ASSERT(sp1C_offset, offsetof(Stack_803E68D0, sp1C) == 0x8);
+    LAYOUT_ASSERT(sp20_offset, offsetof(Stack_803E68D0, sp20) == 0xC);
     Stack_803E68D0 stack;
     stack.sp14 = 0x13;
     stack.sp18 = arg0;

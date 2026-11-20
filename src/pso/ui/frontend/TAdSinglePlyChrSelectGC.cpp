@@ -30,7 +30,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 struct RecoveredGlobal_802D4730_lbl_804C89BC { s32 value; u8 remaining[0x74]; };
-typedef char RecoveredGlobal_802D4730_lbl_804C89BC_size[sizeof(RecoveredGlobal_802D4730_lbl_804C89BC) == 0x78 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_802D4730_lbl_804C89BC_size, sizeof(RecoveredGlobal_802D4730_lbl_804C89BC) == 0x78);
 
 const vec2f single_chr_select_item_rect_table[4] = {
     { 131.0f, 182.0f }, { 131.0f, 225.0f }, { 131.0f, 268.0f }, { 131.0f, 311.0f },

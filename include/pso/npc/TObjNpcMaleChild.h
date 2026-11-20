@@ -10,7 +10,7 @@ struct TObjNpcMaleChild : public TUnk_804A9F50 {
     static void load_shared_resource();
 };
 
-typedef char TObjNpcMaleChild_size[sizeof(TObjNpcMaleChild) == 0x3B8 ? 1 : -1];
+LAYOUT_ASSERT(TObjNpcMaleChild_size, sizeof(TObjNpcMaleChild) == 0x3B8);
 
 class TObjControl;
 

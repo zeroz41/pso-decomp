@@ -33,5 +33,5 @@ struct TWindowSubShortCut : public TObject {
     u8 unk_61[0x33];
 };
 
-typedef char TWindowSubShortCut_size[sizeof(TWindowSubShortCut) == 0x94 ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubShortCut_size, sizeof(TWindowSubShortCut) == 0x94);
 #endif

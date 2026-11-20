@@ -17,5 +17,5 @@ struct TObjEneMe1GiGueMissile : public TNeedleShoot {
     f32 m_c0;
 };
 
-typedef char TObjEneMe1GiGueMissile_size[sizeof(TObjEneMe1GiGueMissile) == 0xC4 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneMe1GiGueMissile_size, sizeof(TObjEneMe1GiGueMissile) == 0xC4);
 #endif

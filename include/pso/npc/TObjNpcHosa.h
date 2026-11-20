@@ -10,7 +10,7 @@ struct TObjNpcHosa : public TUnk_804A9F50 {
     static void load_static_resource();
 };
 
-typedef char TObjNpcHosa_size[sizeof(TObjNpcHosa) == 0x3B8 ? 1 : -1];
+LAYOUT_ASSERT(TObjNpcHosa_size, sizeof(TObjNpcHosa) == 0x3B8);
 
 extern "C" {
 u8 *TObjNpcHosa__ct(u8 *arg0, s32 arg1, s32 arg2);

@@ -18,7 +18,7 @@ struct TLoadCtrl : public TObject {
     static void set_field1C(s32 arg0);
 };
 
-typedef char TLoadCtrl_size[sizeof(TLoadCtrl) == 0x24 ? 1 : -1];
+LAYOUT_ASSERT(TLoadCtrl_size, sizeof(TLoadCtrl) == 0x24);
 
 extern "C" {
 // The fade task the loader started; cleared once it is queued for destruction.

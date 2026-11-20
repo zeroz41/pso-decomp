@@ -14,6 +14,6 @@ public:
     u32 m_matrix;  // concatenated before each piece is drawn
     Vec m_origin;  // m_matrix applied to the origin
 };
-typedef char TUnk_80482090_size[sizeof(TUnk_80482090) == 0x500 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_80482090_size, sizeof(TUnk_80482090) == 0x500);
 
 #endif

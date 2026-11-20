@@ -62,7 +62,7 @@ typedef struct NetProtocolMessage {
 } NetProtocolMessage;
 
 #define NET_DISPATCH_OFFSET(type, member, value) \
-    typedef char type##_##member##_offset[(offsetof(type, member) == value) ? 1 : -1]
+    LAYOUT_ASSERT(type##_##member##_offset, offsetof(type, member) == value)
 NET_DISPATCH_OFFSET(NetProtocolHandlerEntry, used, 0x00);
 NET_DISPATCH_OFFSET(NetProtocolHandlerEntry, type, 0x02);
 NET_DISPATCH_OFFSET(NetProtocolHandlerEntry, fn, 0x04);
@@ -84,9 +84,9 @@ NET_DISPATCH_OFFSET(NetProtocolMessage, detail, 0x06);
 NET_DISPATCH_OFFSET(NetProtocolMessage, payload, 0x08);
 #undef NET_DISPATCH_OFFSET
 
-typedef char NetProtocolHandlerEntry_size[(sizeof(NetProtocolHandlerEntry) == 8) ? 1 : -1];
-typedef char NetTimerRecord_size[(sizeof(NetTimerRecord) == 0x14) ? 1 : -1];
-typedef char NetworkDispatchState_size[(sizeof(NetworkDispatchState) == 0xF8) ? 1 : -1];
-typedef char NetProtocolMessage_size[(sizeof(NetProtocolMessage) == 0x0C) ? 1 : -1];
+LAYOUT_ASSERT(NetProtocolHandlerEntry_size, sizeof(NetProtocolHandlerEntry) == 8);
+LAYOUT_ASSERT(NetTimerRecord_size, sizeof(NetTimerRecord) == 0x14);
+LAYOUT_ASSERT(NetworkDispatchState_size, sizeof(NetworkDispatchState) == 0xF8);
+LAYOUT_ASSERT(NetProtocolMessage_size, sizeof(NetProtocolMessage) == 0x0C);
 
 #endif

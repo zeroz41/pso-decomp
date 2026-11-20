@@ -44,7 +44,7 @@ struct TObjNpcEnemy : public TObjNpcBase {
     static void set_global_count(s32 arg0);
 };
 
-typedef char TObjNpcEnemy_size[sizeof(TObjNpcEnemy) == 0x3BC ? 1 : -1];
+LAYOUT_ASSERT(TObjNpcEnemy_size, sizeof(TObjNpcEnemy) == 0x3BC);
 
 extern TObjNpcEnemyEntry TObjNpcEnemy__entry_table[16];
 

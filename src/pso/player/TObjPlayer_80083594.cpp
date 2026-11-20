@@ -659,8 +659,8 @@ f32 calc_camera_fov_degrees(void) {
 
 extern "C" {
 void render_projected_shadow_receiver(u8 *arg0, s32 arg1) {
-    typedef char sp8_offset[(offsetof(Stack_80083914, sp8) == 0x0) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_80083914, sp10) == 0x8) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80083914, sp8) == 0x0);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_80083914, sp10) == 0x8);
     Stack_80083914 stack;
     f32 t;
     f32 r;
@@ -724,9 +724,9 @@ void load_projection_tex_matrix(s32 rotation_y) {
 }
 
 void load_projected_texture_matrix(f32 farg0) {
-    typedef char sp8_offset[(offsetof(Stack_800836E8, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_800836E8, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_800836E8, sp10) == 0x8) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800836E8, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_800836E8, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_800836E8, sp10) == 0x8);
     Stack_800836E8 stack;
     f32 temp_f31;
     if (is_split_screen() == 0) {
@@ -1002,14 +1002,14 @@ extern "C" void TObjPlayer__sub_80082CBC(void* effect) {
 #pragma opt_common_subs off
 #pragma opt_propagation off
 void TObjPlayer__sub_80082C30(void) {
-    typedef char sp8_offset[(offsetof(Stack_80082C30, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_80082C30, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_80082C30, sp10) == 0x8) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_80082C30, sp14) == 0xC) ? 1 : -1];
-    typedef char sp18_offset[(offsetof(Stack_80082C30, sp18) == 0x10) ? 1 : -1];
-    typedef char sp1C_offset[(offsetof(Stack_80082C30, sp1C) == 0x14) ? 1 : -1];
-    typedef char sp20_offset[(offsetof(Stack_80082C30, sp20) == 0x18) ? 1 : -1];
-    typedef char sp24_offset[(offsetof(Stack_80082C30, sp24) == 0x1C) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80082C30, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_80082C30, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_80082C30, sp10) == 0x8);
+    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_80082C30, sp14) == 0xC);
+    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_80082C30, sp18) == 0x10);
+    LAYOUT_ASSERT(sp1C_offset, offsetof(Stack_80082C30, sp1C) == 0x14);
+    LAYOUT_ASSERT(sp20_offset, offsetof(Stack_80082C30, sp20) == 0x18);
+    LAYOUT_ASSERT(sp24_offset, offsetof(Stack_80082C30, sp24) == 0x1C);
     Stack_80082C30 stack;
     f32 y;
     f32 x;

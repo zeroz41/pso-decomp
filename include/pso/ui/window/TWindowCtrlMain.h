@@ -34,7 +34,7 @@ struct TWindowCtrlMain : public TObject {
     void draw_strip_swap_color(s32 n, s32 flags, f32 _w3);
 };
 
-typedef char TWindowCtrlMain_size[sizeof(TWindowCtrlMain) == 0x1C ? 1 : -1];
+LAYOUT_ASSERT(TWindowCtrlMain_size, sizeof(TWindowCtrlMain) == 0x1C);
 
 extern "C" {
 // TWindowCtrlMain::reset_all(0): the load hook the scene hook tables pair with free_all_windows.

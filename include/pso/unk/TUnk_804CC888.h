@@ -10,6 +10,6 @@ public:
     virtual void run_task();
     u8 unk_1C[0x20];
 };
-typedef char TUnk_804CC888_size[sizeof(TUnk_804CC888) == 0x3C ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804CC888_size, sizeof(TUnk_804CC888) == 0x3C);
 
 #endif

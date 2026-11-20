@@ -26,7 +26,7 @@ struct TWindowSnapShot : public TWindowBase {
     u8 unk_61[0x3];
 };
 
-typedef char TWindowSnapShot_size[sizeof(TWindowSnapShot) == 0x64 ? 1 : -1];
+LAYOUT_ASSERT(TWindowSnapShot_size, sizeof(TWindowSnapShot) == 0x64);
 
 extern "C" {
 const char *get_player_motion_filename(void);

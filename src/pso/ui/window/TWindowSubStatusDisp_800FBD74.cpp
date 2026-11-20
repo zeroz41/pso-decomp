@@ -87,14 +87,14 @@ void build_small_font_glyph_quad(u8 c, Quad_800FC310 *q);
 #pragma dont_inline off
 
 void TWindowSubStatusDisp__sub_800FBD74(s32 arg0, f32 farg0, f32 farg1, f32 farg2) {
-    typedef char sp8_offset[(offsetof(Stack_800FBD74, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_800FBD74, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_800FBD74, sp10) == 0x8) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_800FBD74, sp14) == 0xC) ? 1 : -1];
-    typedef char sp18_offset[(offsetof(Stack_800FBD74, sp18) == 0x10) ? 1 : -1];
-    typedef char sp1C_offset[(offsetof(Stack_800FBD74, sp1C) == 0x14) ? 1 : -1];
-    typedef char sp20_offset[(offsetof(Stack_800FBD74, sp20) == 0x18) ? 1 : -1];
-    typedef char sp24_offset[(offsetof(Stack_800FBD74, sp24) == 0x1C) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800FBD74, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_800FBD74, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_800FBD74, sp10) == 0x8);
+    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_800FBD74, sp14) == 0xC);
+    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_800FBD74, sp18) == 0x10);
+    LAYOUT_ASSERT(sp1C_offset, offsetof(Stack_800FBD74, sp1C) == 0x14);
+    LAYOUT_ASSERT(sp20_offset, offsetof(Stack_800FBD74, sp20) == 0x18);
+    LAYOUT_ASSERT(sp24_offset, offsetof(Stack_800FBD74, sp24) == 0x1C);
     Stack_800FBD74 stack;
     f32 temp_f7;
     f32 temp_f8;

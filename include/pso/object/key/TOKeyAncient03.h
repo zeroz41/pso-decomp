@@ -30,7 +30,7 @@ public:
     s32 glow_rising;
 };
 
-typedef char TOKeyAncient03_size[sizeof(TOKeyAncient03) == 0xFC ? 1 : -1];
+LAYOUT_ASSERT(TOKeyAncient03_size, sizeof(TOKeyAncient03) == 0xFC);
 
 extern BmlResource *TOKeyAncient03__model_archive;
 // The red texture list while up, the model's own while down.

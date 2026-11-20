@@ -16,6 +16,6 @@ struct TObjAreaWarp : public TObjWarpBase {
     s32 dest_floor;            // set data value, or the current floor + 1 while lobby_quest_progress_flag is set
     TAdVIConfigGC *vi_config;  // created by derived constructors, destroyed by ~TObjAreaWarp
 };
-typedef char TObjAreaWarp_size[sizeof(TObjAreaWarp) == 0xC4 ? 1 : -1];
+LAYOUT_ASSERT(TObjAreaWarp_size, sizeof(TObjAreaWarp) == 0xC4);
 
 #endif

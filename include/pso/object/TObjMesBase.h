@@ -16,6 +16,6 @@ struct TObjMesBase : public TObjCollidable {
     s32 messageLabel;
     s32 messageBank;
 };
-typedef char TObjMesBaseSizeCheck[sizeof(TObjMesBase) == 0xBC ? 1 : -1];
+LAYOUT_ASSERT(TObjMesBaseSizeCheck, sizeof(TObjMesBase) == 0xBC);
 
 #endif

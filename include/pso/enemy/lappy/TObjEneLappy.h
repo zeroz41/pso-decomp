@@ -57,7 +57,7 @@ struct TObjEneLappy : public TObjEnemy {
     u8 unk_3A0[0x4];
 };
 
-typedef char TObjEneLappy_size[sizeof(TObjEneLappy) == 0x3A4 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneLappy_size, sizeof(TObjEneLappy) == 0x3A4);
 
 // The rare and the normal Rappy texture archives TObjEneLappy::load_resources picks from. The unit
 // defines them after that function, which reaches each with its own lis/addi.

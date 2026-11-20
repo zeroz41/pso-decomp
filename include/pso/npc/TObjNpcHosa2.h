@@ -10,7 +10,7 @@ struct TObjNpcHosa2 : public TUnk_804A9F50 {
     static void load_shared_resource();
 };
 
-typedef char TObjNpcHosa2_size[sizeof(TObjNpcHosa2) == 0x3B8 ? 1 : -1];
+LAYOUT_ASSERT(TObjNpcHosa2_size, sizeof(TObjNpcHosa2) == 0x3B8);
 
 extern "C" {
 u8 *TObjNpcHosa2__ct(u8 *arg0, s32 arg1, s32 arg2);

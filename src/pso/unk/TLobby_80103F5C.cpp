@@ -487,9 +487,9 @@ TLobbyFloorItemEntry *TLobby::copy_floor_item_entry(TLobbyFloorItemEntry *dst, T
     return dst;
 }
 
-typedef char SyncItemHeaderPlayerIds[offsetof(G_SyncItemState_6x6D_Decompressed, next_item_id_per_player) == 0x20 ? 1 : -1];
-typedef char SyncItemHeaderFloorCounts[offsetof(G_SyncItemState_6x6D_Decompressed, floor_item_count_per_floor) == 0x50 ? 1 : -1];
-typedef char SyncItemHeaderSize[sizeof(G_SyncItemState_6x6D_Decompressed) == 0x8C ? 1 : -1];
+LAYOUT_ASSERT(SyncItemHeaderPlayerIds, offsetof(G_SyncItemState_6x6D_Decompressed, next_item_id_per_player) == 0x20);
+LAYOUT_ASSERT(SyncItemHeaderFloorCounts, offsetof(G_SyncItemState_6x6D_Decompressed, floor_item_count_per_floor) == 0x50);
+LAYOUT_ASSERT(SyncItemHeaderSize, sizeof(G_SyncItemState_6x6D_Decompressed) == 0x8C);
 void bswap_sync_item_state_header(G_SyncItemState_6x6D_Decompressed *header) {
     for (s32 i = 0; i < 16; ++i) {
         bswap_16((&header->next_drop_number_per_floor[i]));

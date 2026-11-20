@@ -10,7 +10,7 @@ struct TObjNpcSoldierBase : public TUnk_804A9F50 {
     static void load_shared_resource();
 };
 
-typedef char TObjNpcSoldierBase_size[sizeof(TObjNpcSoldierBase) == 0x3B8 ? 1 : -1];
+LAYOUT_ASSERT(TObjNpcSoldierBase_size, sizeof(TObjNpcSoldierBase) == 0x3B8);
 
 class TObjControl;
 

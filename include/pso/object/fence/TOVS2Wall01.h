@@ -36,5 +36,5 @@ struct TOVS2Wall01 : public TObjChara {
     void save_and_send_state(u16 arg1);
 };
 
-typedef char TOVS2Wall01_size[sizeof(TOVS2Wall01) == 0x360 ? 1 : -1];
+LAYOUT_ASSERT(TOVS2Wall01_size, sizeof(TOVS2Wall01) == 0x360);
 #endif

@@ -123,7 +123,7 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     void update_card_confirm();
 };
 
-typedef char TAdMultiPlyChrSelectGC_size[sizeof(TAdMultiPlyChrSelectGC) == 0xA0 ? 1 : -1];
+LAYOUT_ASSERT(TAdMultiPlyChrSelectGC_size, sizeof(TAdMultiPlyChrSelectGC) == 0xA0);
 
 // TAdMultiPlyChrSelectGC__character_slot_positions: layout known from its uses only.
 struct TAdMultiPlyChrSelectGCCharacterSlotPositions { s32 value; u8 remaining[0x1C]; };

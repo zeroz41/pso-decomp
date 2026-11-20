@@ -21,6 +21,6 @@ struct TOMonumentAncient01 : public TOQuestTalkBase {
     static BmlResource *model_resource;
 };
 
-typedef char TOMonumentAncient01_size[sizeof(TOMonumentAncient01) == 0xE4 ? 1 : -1];
+LAYOUT_ASSERT(TOMonumentAncient01_size, sizeof(TOMonumentAncient01) == 0xE4);
 
 #endif

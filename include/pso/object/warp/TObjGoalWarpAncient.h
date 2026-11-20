@@ -30,5 +30,5 @@ struct TObjGoalWarpAncient : public TObjAreaWarp {
     AnimationMotion *naka_motion;  // motion 2, fe_obj3_swarp_naka.njm
 };
 
-typedef char TObjGoalWarpAncient_size[sizeof(TObjGoalWarpAncient) == 0xEC ? 1 : -1];
+LAYOUT_ASSERT(TObjGoalWarpAncient_size, sizeof(TObjGoalWarpAncient) == 0xEC);
 #endif

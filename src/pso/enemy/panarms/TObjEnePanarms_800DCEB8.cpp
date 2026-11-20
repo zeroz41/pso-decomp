@@ -935,11 +935,11 @@ void TObjEnePanarms::enter_dead() {
 #pragma opt_propagation off
 #pragma fp_contract on
 void TObjEnePanarms::update_dead() {
-    typedef char sp8_offset[(offsetof(Stack_800DD9A0, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_800DD9A0, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_800DD9A0, sp10) == 0x8) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_800DD9A0, sp14) == 0xC) ? 1 : -1];
-    typedef char sp18_offset[(offsetof(Stack_800DD9A0, sp18) == 0x10) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800DD9A0, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_800DD9A0, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_800DD9A0, sp10) == 0x8);
+    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_800DD9A0, sp14) == 0xC);
+    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_800DD9A0, sp18) == 0x10);
     Stack_800DD9A0 stack;
     f32 temp_f2;
     s32 temp_r0;

@@ -38,7 +38,7 @@ extern "C" void test_flag_256__13TUnk_80493450Fv();
 #include <stddef.h>
 
 struct RecoveredGlobal_800ABA9C_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
-typedef char RecoveredGlobal_800ABA9C_lbl_8058D490_size[sizeof(RecoveredGlobal_800ABA9C_lbl_8058D490) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_800ABA9C_lbl_8058D490_size, sizeof(RecoveredGlobal_800ABA9C_lbl_8058D490) == 0x30);
 
 struct VBase_14_800ABCBC { char pad[0x14]; };
 

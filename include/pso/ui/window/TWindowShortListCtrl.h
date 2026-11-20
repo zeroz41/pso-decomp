@@ -47,5 +47,5 @@ struct TWindowShortListCtrl : public TObject {
     static void assign_shortcut(s32 arg0, s32 arg1, s32 arg2);
 };
 
-typedef char TWindowShortListCtrl_size[sizeof(TWindowShortListCtrl) == 0x3C ? 1 : -1];
+LAYOUT_ASSERT(TWindowShortListCtrl_size, sizeof(TWindowShortListCtrl) == 0x3C);
 #endif

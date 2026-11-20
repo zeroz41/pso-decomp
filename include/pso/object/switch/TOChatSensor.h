@@ -33,5 +33,5 @@ struct TOChatSensor : public TObjBase {
     void init_packet_type();
 };
 
-typedef char TOChatSensor_size[sizeof(TOChatSensor) == 0xD0 ? 1 : -1];
+LAYOUT_ASSERT(TOChatSensor_size, sizeof(TOChatSensor) == 0xD0);
 #endif

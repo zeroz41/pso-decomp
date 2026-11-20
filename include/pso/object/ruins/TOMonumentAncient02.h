@@ -26,6 +26,6 @@ struct TOMonumentAncient02 : public TObjMapObject {
     static void load_resources();
 };
 
-typedef char TOMonumentAncient02_size[sizeof(TOMonumentAncient02) == 0xF0 ? 1 : -1];
+LAYOUT_ASSERT(TOMonumentAncient02_size, sizeof(TOMonumentAncient02) == 0xF0);
 
 #endif

@@ -18,7 +18,7 @@ const char *TItemAttacker__name = "TItemAttacker";
 
 
 struct RecoveredGlobal_8010355C_lbl_8043E038 { char value[0xA]; };
-typedef char RecoveredGlobal_8010355C_lbl_8043E038_size[sizeof(RecoveredGlobal_8010355C_lbl_8043E038) == 0xA ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8010355C_lbl_8043E038_size, sizeof(RecoveredGlobal_8010355C_lbl_8043E038) == 0xA);
 
 struct Rec_80103368 { u8 pad[0x1C]; f32 v[3]; u8 pad2[0x2C - 0x28]; };
 

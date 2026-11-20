@@ -54,5 +54,5 @@ struct TAdChrSelBSlotGC : public TObject {
     s32 m_7c;
 };
 
-typedef char TAdChrSelBSlotGC_size[sizeof(TAdChrSelBSlotGC) == 0x80 ? 1 : -1];
+LAYOUT_ASSERT(TAdChrSelBSlotGC_size, sizeof(TAdChrSelBSlotGC) == 0x80);
 #endif

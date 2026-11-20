@@ -416,7 +416,7 @@ void handle_trade_received_items(S_802D2BC0 *arg0) {
 void handle_6xA7(void) {  }
 
 
-typedef char RecoveredGlobal_802D2C38_lbl_804E1920_size[sizeof(trade_proposal_state_handlers) == 0x140 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_802D2C38_lbl_804E1920_size, sizeof(trade_proposal_state_handlers) == 0x140);
 void handle_6xA6_modify_trade_proposal(u8 *arg0) {
     s32 (*temp_r12)(void *);
     u16 temp_r3;
@@ -564,8 +564,8 @@ void reset__6TLobbyFv(void) {
     }
 }
 
-typedef char TradeProposalSize[(sizeof(G_ModifyTradeProposal_6xA6) == 0x10) ? 1 : -1];
-typedef char TradeProposalAmountOffset[(offsetof(G_ModifyTradeProposal_6xA6, amount) == 0xC) ? 1 : -1];
+LAYOUT_ASSERT(TradeProposalSize, sizeof(G_ModifyTradeProposal_6xA6) == 0x10);
+LAYOUT_ASSERT(TradeProposalAmountOffset, offsetof(G_ModifyTradeProposal_6xA6, amount) == 0xC);
 
 
 struct Stack_802D3228

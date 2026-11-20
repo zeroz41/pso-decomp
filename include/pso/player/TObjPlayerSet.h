@@ -11,5 +11,5 @@ struct TObjPlayerSet : public TObjBase {
     static void *create(void *arg0);
 };
 
-typedef char TObjPlayerSet_size[sizeof(TObjPlayerSet) == 0x90 ? 1 : -1];
+LAYOUT_ASSERT(TObjPlayerSet_size, sizeof(TObjPlayerSet) == 0x90);
 #endif

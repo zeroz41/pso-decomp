@@ -14,9 +14,9 @@ struct CameraPlayback {
     f32 frame_step;
 };
 
-typedef char CameraPlaybackSize[(sizeof(CameraPlayback) == 0xC) ? 1 : -1];
-typedef char CameraPlaybackFlagsOffset[(offsetof(CameraPlayback, flags) == 2) ? 1 : -1];
-typedef char CameraPlaybackFrameOffset[(offsetof(CameraPlayback, frame) == 4) ? 1 : -1];
-typedef char CameraPlaybackStepOffset[(offsetof(CameraPlayback, frame_step) == 8) ? 1 : -1];
+LAYOUT_ASSERT(CameraPlaybackSize, sizeof(CameraPlayback) == 0xC);
+LAYOUT_ASSERT(CameraPlaybackFlagsOffset, offsetof(CameraPlayback, flags) == 2);
+LAYOUT_ASSERT(CameraPlaybackFrameOffset, offsetof(CameraPlayback, frame) == 4);
+LAYOUT_ASSERT(CameraPlaybackStepOffset, offsetof(CameraPlayback, frame_step) == 8);
 
 #endif

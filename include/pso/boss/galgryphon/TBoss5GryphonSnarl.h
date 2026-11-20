@@ -17,10 +17,10 @@ public:
 public:
     static void render();
 };
-typedef char TBoss5GryphonSnarlChildren20[offsetof(TBoss5GryphonSnarl, children_20) == 0x20 ? 1 : -1];
-typedef char TBoss5GryphonSnarlChildrenA0[offsetof(TBoss5GryphonSnarl, children_a0) == 0xA0 ? 1 : -1];
-typedef char TBoss5GryphonSnarlPosition[offsetof(TBoss5GryphonSnarl, position) == 0x120 ? 1 : -1];
-typedef char TBoss5GryphonSnarlSize[sizeof(TBoss5GryphonSnarl) == 0x130 ? 1 : -1];
+LAYOUT_ASSERT(TBoss5GryphonSnarlChildren20, offsetof(TBoss5GryphonSnarl, children_20) == 0x20);
+LAYOUT_ASSERT(TBoss5GryphonSnarlChildrenA0, offsetof(TBoss5GryphonSnarl, children_a0) == 0xA0);
+LAYOUT_ASSERT(TBoss5GryphonSnarlPosition, offsetof(TBoss5GryphonSnarl, position) == 0x120);
+LAYOUT_ASSERT(TBoss5GryphonSnarlSize, sizeof(TBoss5GryphonSnarl) == 0x130);
 
 extern "C" {
 void TBoss5GryphonSnarl__sub_80066E84(void);

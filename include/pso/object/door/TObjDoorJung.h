@@ -16,5 +16,5 @@ struct TObjDoorJung : public TODoorBase {
     void free_children(void *arg1);
 };
 
-typedef char TObjDoorJung_size[sizeof(TObjDoorJung) == 0xD8 ? 1 : -1];
+LAYOUT_ASSERT(TObjDoorJung_size, sizeof(TObjDoorJung) == 0xD8);
 #endif

@@ -40,8 +40,8 @@ void *TLobby::alloc_tables(s32 ctx, s32 arg2) {
 }
 void TObjEnemy::clear_lobby_object_state() {
     s32 arg0 = (s32)this;
-    typedef char sp8_offset[(offsetof(Stack_800F5D80, sp8) == 0x0) ? 1 : -1];
-    typedef char spE_offset[(offsetof(Stack_800F5D80, spE) == 0x6) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800F5D80, sp8) == 0x0);
+    LAYOUT_ASSERT(spE_offset, offsetof(Stack_800F5D80, spE) == 0x6);
     Stack_800F5D80 stack;
     if (exchange_object_state__9TObjEnemyFls((void *)arg0, &stack.sp8, 1) != 0) {
         stack.sp8 = 0;

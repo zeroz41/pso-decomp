@@ -35,7 +35,7 @@
 #include "pso/object/base/TObjChara.h"
 
 
-typedef char PanarmsActionTimerOffset[offsetof(TObjEnePanBARA, action_timer) == 0x3B4 ? 1 : -1];
+LAYOUT_ASSERT(PanarmsActionTimerOffset, offsetof(TObjEnePanBARA, action_timer) == 0x3B4);
 
 extern "C" {
 int set_field_b8__10TObjMotionFs(void*, int);

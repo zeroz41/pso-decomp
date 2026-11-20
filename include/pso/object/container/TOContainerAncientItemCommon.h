@@ -11,7 +11,7 @@ struct TOContainerAncientItemCommon : public TUnk_804B08BC {
     s32 create();
 };
 
-typedef char TOContainerAncientItemCommon_size[sizeof(TOContainerAncientItemCommon) == 0x368 ? 1 : -1];
+LAYOUT_ASSERT(TOContainerAncientItemCommon_size, sizeof(TOContainerAncientItemCommon) == 0x368);
 
 
 #endif

@@ -399,5 +399,5 @@ void reset_gstream_globals(void) {
 GslArchiveEntry gsl_archive_entries[256];
 char gsl_archive_filename[32];
 u8 gstream_sector_buffer[0x2000];
-typedef char GslDirectoryExtent[sizeof(gsl_archive_entries)==0x3000 ? 1 : -1];
-typedef char GstreamSectorBufferExtent[sizeof(gstream_sector_buffer)==0x2000 ? 1 : -1];
+LAYOUT_ASSERT(GslDirectoryExtent, sizeof(gsl_archive_entries)==0x3000);
+LAYOUT_ASSERT(GstreamSectorBufferExtent, sizeof(gstream_sector_buffer)==0x2000);

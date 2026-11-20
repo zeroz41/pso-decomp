@@ -106,7 +106,7 @@ struct Stack_80135598 {
 
 struct RecoveredGlobal_80135198_lbl_804A7008 { s32 value; u8 remaining[0x14]; };
 
-typedef char RecoveredGlobal_80135198_lbl_804A7008_size[sizeof(RecoveredGlobal_80135198_lbl_804A7008) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_80135198_lbl_804A7008_size, sizeof(RecoveredGlobal_80135198_lbl_804A7008) == 0x18);
 
 struct Stack_80135974 {
     s32 sp8;
@@ -116,7 +116,7 @@ struct Stack_80135974 {
 
 struct RecoveredGlobal_80135974_lbl_805127F8 { s32 value; u8 remaining[0x1FC]; };
 
-typedef char RecoveredGlobal_80135974_lbl_805127F8_size[sizeof(RecoveredGlobal_80135974_lbl_805127F8) == 0x200 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_80135974_lbl_805127F8_size, sizeof(RecoveredGlobal_80135974_lbl_805127F8) == 0x200);
 
 struct RecoveredGlobal_8013561C_lbl_805127F8 {
     s32 value;
@@ -232,7 +232,7 @@ typedef struct {
     u32 w1;
 } D_80134E30;
 
-typedef char RecoveredGlobal_8013561C_lbl_805127F8_size[sizeof(RecoveredGlobal_8013561C_lbl_805127F8) == 0x200 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8013561C_lbl_805127F8_size, sizeof(RecoveredGlobal_8013561C_lbl_805127F8) == 0x200);
 
 struct Base_801361E8 { u8 pad[0x18]; };
 
@@ -806,8 +806,8 @@ void handle_6x6B_sync_game_state(Pkt_801358B4 *arg0) {
 }
 
 void send_6x6F_quest_flags(s32 arg0) {
-    typedef char sp8_offset[(offsetof(Stack_80135974, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_80135974, spC) == 0x4) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80135974, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_80135974, spC) == 0x4);
     Stack_80135974 stack;
     TLobby__sub_8013A578(&stack.sp8);
     memcpy(&stack.spC, &quest_story_flags_by_difficulty.value, 0x200);
@@ -1207,7 +1207,7 @@ extern u32 lobby_scroll_text_window;
 
 extern s32 local_client_id;
 
-typedef char RecoveredGlobal_80137B50___vt__6TLobby_size[sizeof(RecoveredGlobal_80137B50___vt__6TLobby) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_80137B50___vt__6TLobby_size, sizeof(RecoveredGlobal_80137B50___vt__6TLobby) == 0x18);
 
 extern s32 local_client_id;
 

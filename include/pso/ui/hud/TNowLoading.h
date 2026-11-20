@@ -18,7 +18,7 @@ struct TNowLoading : public TObject {
     u8 unk_38[0x4];
 };
 
-typedef char TNowLoading_size[sizeof(TNowLoading) == 0x3C ? 1 : -1];
+LAYOUT_ASSERT(TNowLoading_size, sizeof(TNowLoading) == 0x3C);
 
 // Set while the ARAM transfer started by TLobby::aram_dma_blocking and friends is in flight; their DMA
 // callback clears it.

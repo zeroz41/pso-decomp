@@ -14,7 +14,7 @@ public:
     s32 m_cc;  // the last update_object_view_visibility result
 };
 
-typedef char TOVS2Size[sizeof(TOVS2) == 0xD0 ? 1 : -1];
+LAYOUT_ASSERT(TOVS2Size, sizeof(TOVS2) == 0xD0);
 
 // The derived constructors and destructors still written out by hand call
 // these by their symbols.

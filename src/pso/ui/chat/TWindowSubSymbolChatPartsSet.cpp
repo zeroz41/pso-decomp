@@ -399,7 +399,7 @@ void render__28TWindowSubSymbolChatPartsSetFv(TWindowSubSymbolChatPartsSet *wind
     forward_render__20TWindowSubStatusDispFv((int) (*(s32 *)&window_sub_symbol_chat_parts_set->m_88), (int)c_arg);
 }
 
-typedef char RecoveredGlobal_80286824_lbl_8050E208_size[sizeof(RecoveredGlobal_80286824_lbl_8050E208) == 0x1B0 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_80286824_lbl_8050E208_size, sizeof(RecoveredGlobal_80286824_lbl_8050E208) == 0x1B0);
 void TWindowSubSymbolChatPartsSet::run_task() {
     u8 *arg0 = (u8 *)this;
     if (!(this->m_2c & 2)) {

@@ -30,6 +30,6 @@ public:
     TWindowBase *statusWindow;
     TWindowBase *callback;
 };
-typedef char TUnk_804E0B28_size[sizeof(TUnk_804E0B28) == 0x50 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804E0B28_size, sizeof(TUnk_804E0B28) == 0x50);
 
 #endif

@@ -15,7 +15,7 @@ struct TWindowSubItemList : public TWindowMenuIconLine {
     s32 m_8c;
 };
 
-typedef char TWindowSubItemList_size[sizeof(TWindowSubItemList) == 0x90 ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubItemList_size, sizeof(TWindowSubItemList) == 0x90);
 
 extern "C" {
 u8 *create_sub_item_list_window(s32 parent, s32 position, s32 client);

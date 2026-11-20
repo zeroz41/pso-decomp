@@ -18,6 +18,6 @@ public:
     s32 m_age;
     s32 m_sound_handle;
 };
-typedef char TUnk_804CC74C_size[sizeof(TUnk_804CC74C) == 0x34 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804CC74C_size, sizeof(TUnk_804CC74C) == 0x34);
 
 #endif

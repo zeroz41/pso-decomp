@@ -797,17 +797,17 @@ void TObjEneLappy::vfunc_60() {
 }
 #pragma push
 #pragma opt_common_subs off
-typedef char RecoveredFields_800C1478_arg0_30_offset[offsetof(RecoveredFields_800C1478_arg0, field_30) == 0x30 ? 1 : -1];
-typedef char RecoveredFields_800C1478_arg0_A4_offset[offsetof(RecoveredFields_800C1478_arg0, field_A4) == 0xA4 ? 1 : -1];
-typedef char RecoveredFields_800C1478_arg0_B8_offset[offsetof(RecoveredFields_800C1478_arg0, field_B8) == 0xB8 ? 1 : -1];
-typedef char RecoveredFields_800C1478_arg0_2A8_offset[offsetof(RecoveredFields_800C1478_arg0, field_2A8) == 0x2A8 ? 1 : -1];
-typedef char RecoveredFields_800C1478_arg0_30C_offset[offsetof(RecoveredFields_800C1478_arg0, field_30C) == 0x30C ? 1 : -1];
-typedef char RecoveredFields_800C1478_arg0_326_offset[offsetof(RecoveredFields_800C1478_arg0, field_326) == 0x326 ? 1 : -1];
-typedef char RecoveredFields_800C1478_arg0_338_offset[offsetof(RecoveredFields_800C1478_arg0, field_338) == 0x338 ? 1 : -1];
-typedef char RecoveredFields_800C1478_arg0_374_offset[offsetof(RecoveredFields_800C1478_arg0, field_374) == 0x374 ? 1 : -1];
-typedef char RecoveredFields_800C1478_arg0_380_offset[offsetof(RecoveredFields_800C1478_arg0, field_380) == 0x380 ? 1 : -1];
-typedef char RecoveredFields_800C1478_temp_r3_30_offset[offsetof(RecoveredFields_800C1478_temp_r3, field_30) == 0x30 ? 1 : -1];
-typedef char RecoveredFields_800C1478_temp_r3_2_18_offset[offsetof(RecoveredFields_800C1478_temp_r3_2, field_18) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_800C1478_arg0_30_offset, offsetof(RecoveredFields_800C1478_arg0, field_30) == 0x30);
+LAYOUT_ASSERT(RecoveredFields_800C1478_arg0_A4_offset, offsetof(RecoveredFields_800C1478_arg0, field_A4) == 0xA4);
+LAYOUT_ASSERT(RecoveredFields_800C1478_arg0_B8_offset, offsetof(RecoveredFields_800C1478_arg0, field_B8) == 0xB8);
+LAYOUT_ASSERT(RecoveredFields_800C1478_arg0_2A8_offset, offsetof(RecoveredFields_800C1478_arg0, field_2A8) == 0x2A8);
+LAYOUT_ASSERT(RecoveredFields_800C1478_arg0_30C_offset, offsetof(RecoveredFields_800C1478_arg0, field_30C) == 0x30C);
+LAYOUT_ASSERT(RecoveredFields_800C1478_arg0_326_offset, offsetof(RecoveredFields_800C1478_arg0, field_326) == 0x326);
+LAYOUT_ASSERT(RecoveredFields_800C1478_arg0_338_offset, offsetof(RecoveredFields_800C1478_arg0, field_338) == 0x338);
+LAYOUT_ASSERT(RecoveredFields_800C1478_arg0_374_offset, offsetof(RecoveredFields_800C1478_arg0, field_374) == 0x374);
+LAYOUT_ASSERT(RecoveredFields_800C1478_arg0_380_offset, offsetof(RecoveredFields_800C1478_arg0, field_380) == 0x380);
+LAYOUT_ASSERT(RecoveredFields_800C1478_temp_r3_30_offset, offsetof(RecoveredFields_800C1478_temp_r3, field_30) == 0x30);
+LAYOUT_ASSERT(RecoveredFields_800C1478_temp_r3_2_18_offset, offsetof(RecoveredFields_800C1478_temp_r3_2, field_18) == 0x18);
 
 void TObjEneLappy::update_moving() {
     u8 *arg0 = (u8 *)this;

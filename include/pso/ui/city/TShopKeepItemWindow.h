@@ -45,6 +45,6 @@ struct TShopKeepItemWindow : public TShopWindowBase {
     s32 rebuild_item_list();
 };
 
-typedef char TShopKeepItemWindow_size[sizeof(TShopKeepItemWindow) == 0x39C ? 1 : -1];
+LAYOUT_ASSERT(TShopKeepItemWindow_size, sizeof(TShopKeepItemWindow) == 0x39C);
 
 #endif

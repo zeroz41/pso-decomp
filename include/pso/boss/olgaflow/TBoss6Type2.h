@@ -273,16 +273,16 @@ struct TBoss6Type2 : public TObjEnemy
     static Blk_802BCFD4 *copy_block(Blk_802BCFD4 *d, const Blk_802BCFD4 *s);
 };
 
-typedef char TBoss6Type2_offset_m_374[(offsetof(TBoss6Type2, m_374) == 0x374) ? 1 : -1];
-typedef char TBoss6Type2_offset_target_position[(offsetof(TBoss6Type2, target_position) == 0x484) ? 1 : -1];
-typedef char TBoss6Type2_offset_lower_contact_index[(offsetof(TBoss6Type2, lower_contact_index) == 0x520) ? 1 : -1];
-typedef char TBoss6Type2_offset_lower_contact_delta[(offsetof(TBoss6Type2, lower_contact_delta) == 0x524) ? 1 : -1];
-typedef char TBoss6Type2_offset_previous_lower_contact[(offsetof(TBoss6Type2, previous_lower_contact) == 0x530) ? 1 : -1];
-typedef char TBoss6Type2_offset_contact_point_5c0[(offsetof(TBoss6Type2, contact_point_5c0) == 0x5c0) ? 1 : -1];
-typedef char TBoss6Type2_offset_contact_point_5fc[(offsetof(TBoss6Type2, contact_point_5fc) == 0x5fc) ? 1 : -1];
-typedef char TBoss6Type2_offset_m_764[(offsetof(TBoss6Type2, m_764) == 0x764) ? 1 : -1];
-typedef char TBoss6Type2_offset_m_768[(offsetof(TBoss6Type2, m_768) == 0x768) ? 1 : -1];
+LAYOUT_ASSERT(TBoss6Type2_offset_m_374, offsetof(TBoss6Type2, m_374) == 0x374);
+LAYOUT_ASSERT(TBoss6Type2_offset_target_position, offsetof(TBoss6Type2, target_position) == 0x484);
+LAYOUT_ASSERT(TBoss6Type2_offset_lower_contact_index, offsetof(TBoss6Type2, lower_contact_index) == 0x520);
+LAYOUT_ASSERT(TBoss6Type2_offset_lower_contact_delta, offsetof(TBoss6Type2, lower_contact_delta) == 0x524);
+LAYOUT_ASSERT(TBoss6Type2_offset_previous_lower_contact, offsetof(TBoss6Type2, previous_lower_contact) == 0x530);
+LAYOUT_ASSERT(TBoss6Type2_offset_contact_point_5c0, offsetof(TBoss6Type2, contact_point_5c0) == 0x5c0);
+LAYOUT_ASSERT(TBoss6Type2_offset_contact_point_5fc, offsetof(TBoss6Type2, contact_point_5fc) == 0x5fc);
+LAYOUT_ASSERT(TBoss6Type2_offset_m_764, offsetof(TBoss6Type2, m_764) == 0x764);
+LAYOUT_ASSERT(TBoss6Type2_offset_m_768, offsetof(TBoss6Type2, m_768) == 0x768);
 
-typedef char TBoss6Type2_size[(sizeof(TBoss6Type2) == 0x7B4) ? 1 : -1];
+LAYOUT_ASSERT(TBoss6Type2_size, sizeof(TBoss6Type2) == 0x7B4);
 
 #endif

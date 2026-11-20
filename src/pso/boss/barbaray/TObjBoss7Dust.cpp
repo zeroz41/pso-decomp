@@ -197,7 +197,7 @@ void boss7_dust_draw_at(s32 *arg0, s32 arg1) {
     pop_matrix();
 }
 
-typedef char RecoveredGlobal_802F119C___vt__13TObjBoss7Dust_size[sizeof(RecoveredGlobal_802F119C___vt__13TObjBoss7Dust) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_802F119C___vt__13TObjBoss7Dust_size, sizeof(RecoveredGlobal_802F119C___vt__13TObjBoss7Dust) == 0x18);
 
 u8 *__ct__13TObjBoss7DustFv(u8 *object, s32 arg1, s32 arg2) {
     __ct__7TObjectFP7TObject((void *)object, (void *)arg1);

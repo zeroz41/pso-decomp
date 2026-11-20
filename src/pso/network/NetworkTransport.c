@@ -25,7 +25,7 @@ typedef struct PppAuthBuffers {
     u8 pap_password[0x80];
     u8 pap_peer_id[0x80];
 } PppAuthBuffers;
-typedef char PppAuthBuffers_size[sizeof(PppAuthBuffers) == 0xA88 ? 1 : -1];
+LAYOUT_ASSERT(PppAuthBuffers_size, sizeof(PppAuthBuffers) == 0xA88);
 
 typedef struct NetworkPacketBufferStorage {
     u8 packet_slots[4][1500];
@@ -36,7 +36,7 @@ typedef struct NetworkPacketBufferStorage {
     u32 workspace_70_b[70];
     u32 workspace_550_pair[2][550];
 } NetworkPacketBufferStorage;
-typedef char NetworkPacketBufferStorage_size[sizeof(NetworkPacketBufferStorage) == 0x4C18 ? 1 : -1];
+LAYOUT_ASSERT(NetworkPacketBufferStorage_size, sizeof(NetworkPacketBufferStorage) == 0x4C18);
 
 
 

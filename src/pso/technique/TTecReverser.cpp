@@ -15,7 +15,7 @@
 #pragma readonly_strings on
 
 struct RecoveredGlobal_8023A094_lbl_804CC1CC { s32 value; u8 remaining[0x340]; };
-typedef char RecoveredGlobal_8023A094_lbl_804CC1CC_size[sizeof(RecoveredGlobal_8023A094_lbl_804CC1CC) == 0x344 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8023A094_lbl_804CC1CC_size, sizeof(RecoveredGlobal_8023A094_lbl_804CC1CC) == 0x344);
 
 struct Entry_80239E44 { s32 a; s32 b; s32 c; s32 pad; };
 

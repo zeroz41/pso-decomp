@@ -141,12 +141,12 @@ u32 __nw__7TObjectFUl(int);
 #pragma opt_common_subs off
 void TPhotonFarlla::run_task() {
     u8 *arg0 = (u8 *)this;
-    typedef char sp8_offset[(offsetof(Stack_801AB018, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_801AB018, spC) == 0x4) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_801AB018, sp14) == 0xC) ? 1 : -1];
-    typedef char sp18_offset[(offsetof(Stack_801AB018, sp18) == 0x10) ? 1 : -1];
-    typedef char sp20_offset[(offsetof(Stack_801AB018, sp20) == 0x18) ? 1 : -1];
-    typedef char sp24_offset[(offsetof(Stack_801AB018, sp24) == 0x1C) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_801AB018, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_801AB018, spC) == 0x4);
+    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_801AB018, sp14) == 0xC);
+    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_801AB018, sp18) == 0x10);
+    LAYOUT_ASSERT(sp20_offset, offsetof(Stack_801AB018, sp20) == 0x18);
+    LAYOUT_ASSERT(sp24_offset, offsetof(Stack_801AB018, sp24) == 0x1C);
     Stack_801AB018 stack;
     f32 temp_f1;
     s32 entity;

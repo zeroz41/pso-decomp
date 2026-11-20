@@ -12,7 +12,7 @@ struct TObjParticle : public TObjBase {
     virtual void run_task();
 };
 
-typedef char TObjParticle_size[sizeof(TObjParticle) == 0x98 ? 1 : -1];
+LAYOUT_ASSERT(TObjParticle_size, sizeof(TObjParticle) == 0x98);
 
 extern "C" {
 u8 *TObjParticle__create(u8 *arg0);

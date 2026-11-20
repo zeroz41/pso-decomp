@@ -17,9 +17,9 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
 
-typedef char TChallenge_state_offset[(offsetof(TChallenge, state) == 0x1C) ? 1 : -1];
-typedef char TChallenge_frame_offset[(offsetof(TChallenge, frame_count) == 0x20) ? 1 : -1];
-typedef char TChallenge_size[(sizeof(TChallenge) == 0x30) ? 1 : -1];
+LAYOUT_ASSERT(TChallenge_state_offset, offsetof(TChallenge, state) == 0x1C);
+LAYOUT_ASSERT(TChallenge_frame_offset, offsetof(TChallenge, frame_count) == 0x20);
+LAYOUT_ASSERT(TChallenge_size, sizeof(TChallenge) == 0x30);
 
 s32 challenge_task;
 s32 challenge_task_created;

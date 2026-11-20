@@ -133,5 +133,5 @@ struct TMainCursor : public TObject {
     void setup_action_channel(u8 *player, s32 slot, s32 kind, s32 id);
 };
 
-typedef char TMainCursor_size[sizeof(TMainCursor) == 0x68 ? 1 : -1];
+LAYOUT_ASSERT(TMainCursor_size, sizeof(TMainCursor) == 0x68);
 #endif

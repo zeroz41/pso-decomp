@@ -365,7 +365,7 @@ s32 TLobby__sub_801466F4(u32 arg0) {
 
 int TLobby__sub_80146724(void) { return 3; }
 
-typedef char RecoveredGlobal_8014672C_lbl_8050C0A8_size[sizeof(RecoveredGlobal_8014672C_lbl_8050C0A8) == 0x6DC ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8014672C_lbl_8050C0A8_size, sizeof(RecoveredGlobal_8014672C_lbl_8050C0A8) == 0x6DC);
 void TLobby__sub_8014672C(s32 *arg0) {
     *(s32 *)((s8 *)arg0 + 0) = *(s32 *)((s8 *)&lbl_8050C0A8.value + 4);
 }

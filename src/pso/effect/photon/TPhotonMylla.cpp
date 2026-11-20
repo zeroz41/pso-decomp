@@ -147,14 +147,14 @@ void TPhotonMylla::sub_801AD4A8() { *(float *)&this->m_184 = 0.0f; *(float*)((ch
 
 #pragma push
 #pragma opt_common_subs off
-typedef char RecoveredFields_801AD5D8_arg0_B8_offset[offsetof(RecoveredFields_801AD5D8_arg0, field_B8) == 0xB8 ? 1 : -1];
-typedef char RecoveredFields_801AD5D8_arg0_14C_offset[offsetof(RecoveredFields_801AD5D8_arg0, field_14C) == 0x14C ? 1 : -1];
-typedef char RecoveredFields_801AD5D8_arg0_150_offset[offsetof(RecoveredFields_801AD5D8_arg0, field_150) == 0x150 ? 1 : -1];
-typedef char RecoveredFields_801AD5D8_arg0_17C_offset[offsetof(RecoveredFields_801AD5D8_arg0, field_17C) == 0x17C ? 1 : -1];
-typedef char RecoveredFields_801AD5D8_arg0_184_offset[offsetof(RecoveredFields_801AD5D8_arg0, field_184) == 0x184 ? 1 : -1];
-typedef char RecoveredFields_801AD5D8_arg0_194_offset[offsetof(RecoveredFields_801AD5D8_arg0, field_194) == 0x194 ? 1 : -1];
-typedef char RecoveredFields_801AD5D8_arg0_1A0_offset[offsetof(RecoveredFields_801AD5D8_arg0, field_1A0) == 0x1A0 ? 1 : -1];
-typedef char RecoveredFields_801AD5D8_arg0_1A4_offset[offsetof(RecoveredFields_801AD5D8_arg0, field_1A4) == 0x1A4 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_801AD5D8_arg0_B8_offset, offsetof(RecoveredFields_801AD5D8_arg0, field_B8) == 0xB8);
+LAYOUT_ASSERT(RecoveredFields_801AD5D8_arg0_14C_offset, offsetof(RecoveredFields_801AD5D8_arg0, field_14C) == 0x14C);
+LAYOUT_ASSERT(RecoveredFields_801AD5D8_arg0_150_offset, offsetof(RecoveredFields_801AD5D8_arg0, field_150) == 0x150);
+LAYOUT_ASSERT(RecoveredFields_801AD5D8_arg0_17C_offset, offsetof(RecoveredFields_801AD5D8_arg0, field_17C) == 0x17C);
+LAYOUT_ASSERT(RecoveredFields_801AD5D8_arg0_184_offset, offsetof(RecoveredFields_801AD5D8_arg0, field_184) == 0x184);
+LAYOUT_ASSERT(RecoveredFields_801AD5D8_arg0_194_offset, offsetof(RecoveredFields_801AD5D8_arg0, field_194) == 0x194);
+LAYOUT_ASSERT(RecoveredFields_801AD5D8_arg0_1A0_offset, offsetof(RecoveredFields_801AD5D8_arg0, field_1A0) == 0x1A0);
+LAYOUT_ASSERT(RecoveredFields_801AD5D8_arg0_1A4_offset, offsetof(RecoveredFields_801AD5D8_arg0, field_1A4) == 0x1A4);
 
 void TPhotonMylla::render() {
     Self_801AD4C0 *self = (Self_801AD4C0 *)this;
@@ -189,14 +189,14 @@ void TPhotonMylla::render() {
 
 void TPhotonMylla::run_task() {
     u8 *arg0 = (u8 *)this;
-    typedef char sp8_offset[(offsetof(Stack_801AD5D8, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_801AD5D8, spC) == 0x4) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_801AD5D8, sp14) == 0xC) ? 1 : -1];
-    typedef char sp18_offset[(offsetof(Stack_801AD5D8, sp18) == 0x10) ? 1 : -1];
-    typedef char sp20_offset[(offsetof(Stack_801AD5D8, sp20) == 0x18) ? 1 : -1];
-    typedef char sp24_offset[(offsetof(Stack_801AD5D8, sp24) == 0x1C) ? 1 : -1];
-    typedef char sp2C_offset[(offsetof(Stack_801AD5D8, sp2C) == 0x24) ? 1 : -1];
-    typedef char sp30_offset[(offsetof(Stack_801AD5D8, sp30) == 0x28) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_801AD5D8, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_801AD5D8, spC) == 0x4);
+    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_801AD5D8, sp14) == 0xC);
+    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_801AD5D8, sp18) == 0x10);
+    LAYOUT_ASSERT(sp20_offset, offsetof(Stack_801AD5D8, sp20) == 0x18);
+    LAYOUT_ASSERT(sp24_offset, offsetof(Stack_801AD5D8, sp24) == 0x1C);
+    LAYOUT_ASSERT(sp2C_offset, offsetof(Stack_801AD5D8, sp2C) == 0x24);
+    LAYOUT_ASSERT(sp30_offset, offsetof(Stack_801AD5D8, sp30) == 0x28);
     Stack_801AD5D8 stack;
     f32 temp_f1_2;
     u8 *entity;

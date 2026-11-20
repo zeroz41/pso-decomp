@@ -279,7 +279,7 @@ extern s32 actor_frame_tick;
 s32 lbl_805D5CE0;
 extern s32 TLobby__lobby_state_flags;
 
-typedef char RecoveredGlobal_801A3540_lbl_80515BA0_size[sizeof(RecoveredGlobal_801A3540_lbl_80515BA0) == 0x28 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_801A3540_lbl_80515BA0_size, sizeof(RecoveredGlobal_801A3540_lbl_80515BA0) == 0x28);
 
 void TLobby::reload_offline_area() {
     Obj_801A3014 holder;

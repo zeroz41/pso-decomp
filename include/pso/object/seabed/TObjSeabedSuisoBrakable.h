@@ -43,7 +43,7 @@ struct TObjSeabedSuisoBrakable : public TORockCaveBrakable {
     static s32 last_uv_scroll_tick;
 };
 
-typedef char TObjSeabedSuisoBrakable_size[sizeof(TObjSeabedSuisoBrakable) == 0xC0 ? 1 : -1];
+LAYOUT_ASSERT(TObjSeabedSuisoBrakable_size, sizeof(TObjSeabedSuisoBrakable) == 0xC0);
 
 // The textures whose UVs the tanks scroll, by name, in the lower and the
 // upper seabed's texture archive.

@@ -29,9 +29,9 @@ struct TBoss4Zako {
     static s32 queue_entry(void *v, s32 a, s32 b);
     void update_target_position();
 };
-typedef char TBoss4ZakoSize[(sizeof(TBoss4Zako)==0x3C4)?1:-1];
+LAYOUT_ASSERT(TBoss4ZakoSize, sizeof(TBoss4Zako)==0x3C4);
 #include <stddef.h>
-#define ZAKO_OFFSET(field, offset) typedef char ZakoOffset_##field[(offsetof(TBoss4Zako, field)==offset)?1:-1]
+#define ZAKO_OFFSET(field, offset) LAYOUT_ASSERT(ZakoOffset_##field, offsetof(TBoss4Zako, field)==offset)
 ZAKO_OFFSET(m_1c, 0x1C);
 ZAKO_OFFSET(m_24, 0x24);
 ZAKO_OFFSET(m_34, 0x34);

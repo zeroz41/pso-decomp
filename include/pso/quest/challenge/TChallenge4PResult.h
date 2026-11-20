@@ -45,11 +45,11 @@ public:
 };
 
 #include <stddef.h>
-typedef char TChallenge4PResult_size[sizeof(TChallenge4PResult) == 0x7c ? 1 : -1];
-typedef char TChallenge4PResult_state_1c_offset[offsetof(TChallenge4PResult, state_1c) == 0x1c ? 1 : -1];
-typedef char TChallenge4PResult_slot_index_offset[offsetof(TChallenge4PResult, slot_index) == 0x24 ? 1 : -1];
-typedef char TChallenge4PResult_message_window_offset[offsetof(TChallenge4PResult, message_window) == 0x2c ? 1 : -1];
+LAYOUT_ASSERT(TChallenge4PResult_size, sizeof(TChallenge4PResult) == 0x7c);
+LAYOUT_ASSERT(TChallenge4PResult_state_1c_offset, offsetof(TChallenge4PResult, state_1c) == 0x1c);
+LAYOUT_ASSERT(TChallenge4PResult_slot_index_offset, offsetof(TChallenge4PResult, slot_index) == 0x24);
+LAYOUT_ASSERT(TChallenge4PResult_message_window_offset, offsetof(TChallenge4PResult, message_window) == 0x2c);
 
-typedef char ChallengeRewardsOffset[offsetof(TChallenge4PResult,reward_items)==0x34 ? 1 : -1];
-typedef char ChallengeRewardFlagsOffset[offsetof(TChallenge4PResult,reward_available)==0x70 ? 1 : -1];
+LAYOUT_ASSERT(ChallengeRewardsOffset, offsetof(TChallenge4PResult,reward_items)==0x34);
+LAYOUT_ASSERT(ChallengeRewardFlagsOffset, offsetof(TChallenge4PResult,reward_available)==0x70);
 #endif

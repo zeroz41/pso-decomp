@@ -367,65 +367,65 @@ struct TBoss6Type2_802BD014 {
 
 struct Pkt_802BDD6C { u8 d[0x18]; };
 
-typedef char RecoveredFields_802BC754_arg0_4B4_offset[offsetof(RecoveredFields_802BC754_arg0, field_4B4) == 0x4B4 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_802BC754_arg0_4B4_offset, offsetof(RecoveredFields_802BC754_arg0, field_4B4) == 0x4B4);
 
-typedef char RecoveredFields_802BC754_arg0_4B8_offset[offsetof(RecoveredFields_802BC754_arg0, field_4B8) == 0x4B8 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_802BC754_arg0_4B8_offset, offsetof(RecoveredFields_802BC754_arg0, field_4B8) == 0x4B8);
 
-typedef char RecoveredFields_802BC754_arg0_4BC_offset[offsetof(RecoveredFields_802BC754_arg0, field_4BC) == 0x4BC ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_802BC754_arg0_4BC_offset, offsetof(RecoveredFields_802BC754_arg0, field_4BC) == 0x4BC);
 
-typedef char RecoveredFields_802BC754_arg0_4C0_offset[offsetof(RecoveredFields_802BC754_arg0, field_4C0) == 0x4C0 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_802BC754_arg0_4C0_offset, offsetof(RecoveredFields_802BC754_arg0, field_4C0) == 0x4C0);
 
-typedef char RecoveredFields_802BC754_arg0_4C4_offset[offsetof(RecoveredFields_802BC754_arg0, field_4C4) == 0x4C4 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_802BC754_arg0_4C4_offset, offsetof(RecoveredFields_802BC754_arg0, field_4C4) == 0x4C4);
 
-typedef char RecoveredFields_802BC754_arg0_4C8_offset[offsetof(RecoveredFields_802BC754_arg0, field_4C8) == 0x4C8 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_802BC754_arg0_4C8_offset, offsetof(RecoveredFields_802BC754_arg0, field_4C8) == 0x4C8);
 
-typedef char RecoveredFields_802BC754_arg0_4CC_offset[offsetof(RecoveredFields_802BC754_arg0, field_4CC) == 0x4CC ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_802BC754_arg0_4CC_offset, offsetof(RecoveredFields_802BC754_arg0, field_4CC) == 0x4CC);
 
-typedef char RecoveredFields_802BC754_arg0_4D0_offset[offsetof(RecoveredFields_802BC754_arg0, field_4D0) == 0x4D0 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_802BC754_arg0_4D0_offset, offsetof(RecoveredFields_802BC754_arg0, field_4D0) == 0x4D0);
 
-typedef char RecoveredFields_802BC754_arg0_4D4_offset[offsetof(RecoveredFields_802BC754_arg0, field_4D4) == 0x4D4 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_802BC754_arg0_4D4_offset, offsetof(RecoveredFields_802BC754_arg0, field_4D4) == 0x4D4);
 
-typedef char RecoveredFields_802BC754_arg0_4D8_offset[offsetof(RecoveredFields_802BC754_arg0, field_4D8) == 0x4D8 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_802BC754_arg0_4D8_offset, offsetof(RecoveredFields_802BC754_arg0, field_4D8) == 0x4D8);
 
-typedef char RecoveredFields_802BC754_arg0_4DC_offset[offsetof(RecoveredFields_802BC754_arg0, field_4DC) == 0x4DC ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_802BC754_arg0_4DC_offset, offsetof(RecoveredFields_802BC754_arg0, field_4DC) == 0x4DC);
 
-typedef char RecoveredFields_802BC754_arg0_4E0_offset[offsetof(RecoveredFields_802BC754_arg0, field_4E0) == 0x4E0 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_802BC754_arg0_4E0_offset, offsetof(RecoveredFields_802BC754_arg0, field_4E0) == 0x4E0);
 
-typedef char RecoveredFields_802BC754_arg0_4E4_offset[offsetof(RecoveredFields_802BC754_arg0, field_4E4) == 0x4E4 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_802BC754_arg0_4E4_offset, offsetof(RecoveredFields_802BC754_arg0, field_4E4) == 0x4E4);
 
-typedef char RecoveredFields_802BC754_arg0_4E8_offset[offsetof(RecoveredFields_802BC754_arg0, field_4E8) == 0x4E8 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_802BC754_arg0_4E8_offset, offsetof(RecoveredFields_802BC754_arg0, field_4E8) == 0x4E8);
 
-typedef char RecoveredFields_802BC754_arg0_4EC_offset[offsetof(RecoveredFields_802BC754_arg0, field_4EC) == 0x4EC ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_802BC754_arg0_4EC_offset, offsetof(RecoveredFields_802BC754_arg0, field_4EC) == 0x4EC);
 
-typedef char RecoveredFields_802BC754_temp_r3_4_offset[offsetof(RecoveredFields_802BC754_temp_r3, field_4) == 0x4 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_802BC754_temp_r3_4_offset, offsetof(RecoveredFields_802BC754_temp_r3, field_4) == 0x4);
 
-typedef char RecoveredFields_802BC754_temp_r3_10_offset[offsetof(RecoveredFields_802BC754_temp_r3, field_10) == 0x10 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_802BC754_temp_r3_10_offset, offsetof(RecoveredFields_802BC754_temp_r3, field_10) == 0x10);
 
-typedef char RecoveredFields_802BC754_temp_r3_14_offset[offsetof(RecoveredFields_802BC754_temp_r3, field_14) == 0x14 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_802BC754_temp_r3_14_offset, offsetof(RecoveredFields_802BC754_temp_r3, field_14) == 0x14);
 
-typedef char RecoveredFields_802BC754_temp_r3_18_offset[offsetof(RecoveredFields_802BC754_temp_r3, field_18) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_802BC754_temp_r3_18_offset, offsetof(RecoveredFields_802BC754_temp_r3, field_18) == 0x18);
 
-typedef char RecoveredFields_802BC754_temp_r3_1C_offset[offsetof(RecoveredFields_802BC754_temp_r3, field_1C) == 0x1C ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_802BC754_temp_r3_1C_offset, offsetof(RecoveredFields_802BC754_temp_r3, field_1C) == 0x1C);
 
-typedef char RecoveredFields_802BC754_temp_r3_20_offset[offsetof(RecoveredFields_802BC754_temp_r3, field_20) == 0x20 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_802BC754_temp_r3_20_offset, offsetof(RecoveredFields_802BC754_temp_r3, field_20) == 0x20);
 
-typedef char RecoveredFields_802BC754_temp_r3_24_offset[offsetof(RecoveredFields_802BC754_temp_r3, field_24) == 0x24 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_802BC754_temp_r3_24_offset, offsetof(RecoveredFields_802BC754_temp_r3, field_24) == 0x24);
 
-typedef char RecoveredFields_802BC754_temp_r3_28_offset[offsetof(RecoveredFields_802BC754_temp_r3, field_28) == 0x28 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_802BC754_temp_r3_28_offset, offsetof(RecoveredFields_802BC754_temp_r3, field_28) == 0x28);
 
-typedef char RecoveredFields_802BC754_temp_r3_2C_offset[offsetof(RecoveredFields_802BC754_temp_r3, field_2C) == 0x2C ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_802BC754_temp_r3_2C_offset, offsetof(RecoveredFields_802BC754_temp_r3, field_2C) == 0x2C);
 
-typedef char RecoveredFields_802BC754_temp_r3_3_0_offset[offsetof(RecoveredFields_802BC754_temp_r3_3, field_0) == 0x0 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_802BC754_temp_r3_3_0_offset, offsetof(RecoveredFields_802BC754_temp_r3_3, field_0) == 0x0);
 
-typedef char RecoveredFields_802BC754_temp_r3_3_4_offset[offsetof(RecoveredFields_802BC754_temp_r3_3, field_4) == 0x4 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_802BC754_temp_r3_3_4_offset, offsetof(RecoveredFields_802BC754_temp_r3_3, field_4) == 0x4);
 
-typedef char RecoveredFields_802BC754_temp_r3_3_8_offset[offsetof(RecoveredFields_802BC754_temp_r3_3, field_8) == 0x8 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_802BC754_temp_r3_3_8_offset, offsetof(RecoveredFields_802BC754_temp_r3_3, field_8) == 0x8);
 
-typedef char RecoveredFields_802BC754_temp_r3_3_C_offset[offsetof(RecoveredFields_802BC754_temp_r3_3, field_C) == 0xC ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_802BC754_temp_r3_3_C_offset, offsetof(RecoveredFields_802BC754_temp_r3_3, field_C) == 0xC);
 
-typedef char RecoveredFields_802BC754_temp_r3_4_8_offset[offsetof(RecoveredFields_802BC754_temp_r3_4, field_8) == 0x8 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_802BC754_temp_r3_4_8_offset, offsetof(RecoveredFields_802BC754_temp_r3_4, field_8) == 0x8);
 
-typedef char RecoveredFields_802BC754_temp_r3_4_C_offset[offsetof(RecoveredFields_802BC754_temp_r3_4, field_C) == 0xC ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_802BC754_temp_r3_4_C_offset, offsetof(RecoveredFields_802BC754_temp_r3_4, field_C) == 0xC);
 
 struct Boss_802BC23C {
     u8 pad[0x418];
@@ -497,9 +497,9 @@ extern const Ent_802BA7BC boss6_type2_motion_param_table[] = {
 };
 extern const s32 boss6_type2_hit_effect_node_table[] = { 4, 9, 11, 0 };
 
-typedef char TypedVector_802BA6DC_size[(sizeof(TypedVector_802BA6DC) == 12) ? 1 : -1];
+LAYOUT_ASSERT(TypedVector_802BA6DC_size, sizeof(TypedVector_802BA6DC) == 12);
 
-typedef char TypedVector_802BAA74_size[(sizeof(TypedVector_802BAA74) == 12) ? 1 : -1];
+LAYOUT_ASSERT(TypedVector_802BAA74_size, sizeof(TypedVector_802BAA74) == 12);
 
 struct MagParams_802BB818 {
     s16 x;
@@ -742,8 +742,8 @@ void TBoss6Type2::parse_action_packet(void *arg1) {
 }
 
 void TBoss6Type2::send_action_packet(s8 arg1) {
-    typedef char sp8_offset[(offsetof(Stack_802BDDF8, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_802BDDF8, spC) == 0x4) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_802BDDF8, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_802BDDF8, spC) == 0x4);
     Stack_802BDDF8 stack;
     if (((TBoss6Type1 *)(this->m_3f8))->is_idle() != 0) {
         ((TBoss6Type2 *)(&stack.sp8))->init_packet();
@@ -855,14 +855,14 @@ void TBoss6Type2::update_attack_target() {
 #pragma push
 #pragma opt_common_subs off
 void TBoss6Type2__sub_802BD938(u8 *arg0, u8 *arg1) {
-    typedef char sp8_offset[(offsetof(Stack_802BD938, sp8) == 0x0) ? 1 : -1];
-    typedef char sp9_offset[(offsetof(Stack_802BD938, sp9) == 0x1) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_802BD938, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_802BD938, sp10) == 0x8) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_802BD938, sp14) == 0xC) ? 1 : -1];
-    typedef char sp18_offset[(offsetof(Stack_802BD938, sp18) == 0x10) ? 1 : -1];
-    typedef char sp1C_offset[(offsetof(Stack_802BD938, sp1C) == 0x14) ? 1 : -1];
-    typedef char sp20_offset[(offsetof(Stack_802BD938, sp20) == 0x18) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_802BD938, sp8) == 0x0);
+    LAYOUT_ASSERT(sp9_offset, offsetof(Stack_802BD938, sp9) == 0x1);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_802BD938, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_802BD938, sp10) == 0x8);
+    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_802BD938, sp14) == 0xC);
+    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_802BD938, sp18) == 0x10);
+    LAYOUT_ASSERT(sp1C_offset, offsetof(Stack_802BD938, sp1C) == 0x14);
+    LAYOUT_ASSERT(sp20_offset, offsetof(Stack_802BD938, sp20) == 0x18);
     Stack_802BD938 stack;
     f32 temp_f1;
     s32 temp_r29;

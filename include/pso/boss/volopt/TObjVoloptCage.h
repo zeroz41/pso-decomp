@@ -28,7 +28,7 @@ public:
     static s32 get_int_param(s32 index);
 };
 
-typedef char TObjVoloptCage_size[sizeof(TObjVoloptCage) == 0x394 ? 1 : -1];
+LAYOUT_ASSERT(TObjVoloptCage_size, sizeof(TObjVoloptCage) == 0x394);
 
 // Combat stats and the attack parameter table of the cage (TLobby slot 0x26).
 struct VoloptBreakUpParams {

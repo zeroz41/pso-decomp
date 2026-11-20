@@ -19,5 +19,5 @@ struct TObjLaboMapWarp : public TObjMapWarp {
     u8 unk_FC[0x4];
 };
 
-typedef char TObjLaboMapWarp_size[sizeof(TObjLaboMapWarp) == 0x100 ? 1 : -1];
+LAYOUT_ASSERT(TObjLaboMapWarp_size, sizeof(TObjLaboMapWarp) == 0x100);
 #endif

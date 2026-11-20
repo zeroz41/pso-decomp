@@ -255,7 +255,7 @@ extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 #pragma push
 #pragma opt_common_subs off
-typedef char RecoveredGlobal_80238388_lbl_8044DAF0_size[sizeof(RecoveredGlobal_80238388_lbl_8044DAF0) == 0x10 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_80238388_lbl_8044DAF0_size, sizeof(RecoveredGlobal_80238388_lbl_8044DAF0) == 0x10);
 
 typedef struct RecoveredFields_80230D9C_arg0 RecoveredFields_80230D9C_arg0;
 typedef struct RecoveredGlobal_80230D9C_lbl_804CC510 RecoveredGlobal_80230D9C_lbl_804CC510;
@@ -326,13 +326,13 @@ void TUnk_804CCB28::render() {
 
 void TUnk_804CCB28::run_task() {
     u8 *arg0 = (u8 *)this;
-    typedef char sp8_offset[(offsetof(Stack_80238388, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_80238388, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_80238388, sp10) == 0x8) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_80238388, sp14) == 0xC) ? 1 : -1];
-    typedef char sp18_offset[(offsetof(Stack_80238388, sp18) == 0x10) ? 1 : -1];
-    typedef char sp1C_offset[(offsetof(Stack_80238388, sp1C) == 0x14) ? 1 : -1];
-    typedef char sp20_offset[(offsetof(Stack_80238388, sp20) == 0x18) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80238388, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_80238388, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_80238388, sp10) == 0x8);
+    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_80238388, sp14) == 0xC);
+    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_80238388, sp18) == 0x10);
+    LAYOUT_ASSERT(sp1C_offset, offsetof(Stack_80238388, sp1C) == 0x14);
+    LAYOUT_ASSERT(sp20_offset, offsetof(Stack_80238388, sp20) == 0x18);
     Stack_80238388 stack;
     f32 temp_f1;
     this->m_58 = (this->m_58 + 1);
@@ -380,7 +380,7 @@ struct Stack_802384E0 {
 };
 
 struct RecoveredGlobal_802384E0_lbl_804CCB28 { s32 value; u8 remaining[0x14]; };
-typedef char RecoveredGlobal_802384E0_lbl_804CCB28_size[sizeof(RecoveredGlobal_802384E0_lbl_804CCB28) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_802384E0_lbl_804CCB28_size, sizeof(RecoveredGlobal_802384E0_lbl_804CCB28) == 0x18);
 
 struct Stack_802385EC {
     s32 sp8;
@@ -451,8 +451,8 @@ void clear_target_cursor_list(void *);
 
 u8 *create_rafoie_explosion(u8 *arg0, s32 *arg1, s16 arg2, s16 arg3, s32 arg4, f32 farg0);
 u8 *create_rafoie_explosion(u8 *arg0, s32 *arg1, s16 arg2, s16 arg3, s32 arg4, f32 farg0) {
-    typedef char sp8_offset[(offsetof(Stack_802384E0, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_802384E0, spC) == 0x4) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_802384E0, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_802384E0, spC) == 0x4);
     Stack_802384E0 stack;
     __ct__7TObjectFP7TObject((void *)arg0, (void *)arg4);
     *(s32 **)((s8 *)arg0 + 0x18) = &__vt__13TUnk_804CCB28.value;
@@ -480,8 +480,8 @@ u8 *create_rafoie_explosion(u8 *arg0, s32 *arg1, s16 arg2, s16 arg3, s32 arg4, f
 }
 
 u8 *create_fire_explosion_effect(u8 *arg0, s32 *arg1, s16 arg2, s32 arg3, f32 farg0) {
-    typedef char sp8_offset[(offsetof(Stack_802385EC, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_802385EC, spC) == 0x4) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_802385EC, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_802385EC, spC) == 0x4);
     Stack_802385EC stack;
     __ct__7TObjectFP7TObject((void *)arg0, (void *)arg3);
     *(s32 **)((s8 *)arg0 + 0x18) = &__vt__13TUnk_804CCB28.value;

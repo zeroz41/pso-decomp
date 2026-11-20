@@ -195,7 +195,7 @@ TObjLight::~TObjLight() {
 }
 
 
-typedef char RecoveredGlobal_80194528_TObjLight__data_80506320_size[sizeof(RecoveredGlobal_80194528_TObjLight__data_80506320) == 0x50 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_80194528_TObjLight__data_80506320_size, sizeof(RecoveredGlobal_80194528_TObjLight__data_80506320) == 0x50);
 u8 *TObjLight__ct(TObjLight *light, s32 arg1, u8 *arg2) {
     __ct__8TObjBaseFP7TObject(light);
     *(s32 **)((s8 *)light + 0x18) = __vt__9TObjLight;

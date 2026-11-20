@@ -179,5 +179,5 @@ struct TObjEneMe1Gee : public TObjEneDD_ST {
     static BmlResource *sub_800CC2BC();
 };
 
-typedef char TObjEneMe1Gee_size[sizeof(TObjEneMe1Gee) == 0x490 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneMe1Gee_size, sizeof(TObjEneMe1Gee) == 0x490);
 #endif

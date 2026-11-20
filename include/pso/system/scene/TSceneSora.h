@@ -22,5 +22,5 @@ struct TSceneSora : public TObjBase {
     static void copy_reflection_vec(u8 *arg0);
 };
 
-typedef char TSceneSora_size[sizeof(TSceneSora) == 0xA4 ? 1 : -1];
+LAYOUT_ASSERT(TSceneSora_size, sizeof(TSceneSora) == 0xA4);
 #endif

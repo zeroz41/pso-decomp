@@ -23,6 +23,6 @@ public:
     s32 texlist;
     s32 model;
 };
-typedef char TUnk_804F1280_size[sizeof(TUnk_804F1280) == 0x44 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804F1280_size, sizeof(TUnk_804F1280) == 0x44);
 
 #endif

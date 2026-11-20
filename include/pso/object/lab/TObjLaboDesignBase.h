@@ -19,5 +19,5 @@ struct TObjLaboDesignBase : public TObjCollidable {
     void *map_csn;
 };
 
-typedef char TObjLaboDesignBase_size[sizeof(TObjLaboDesignBase) == 0xC0 ? 1 : -1];
+LAYOUT_ASSERT(TObjLaboDesignBase_size, sizeof(TObjLaboDesignBase) == 0xC0);
 #endif

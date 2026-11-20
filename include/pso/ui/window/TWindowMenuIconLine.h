@@ -56,6 +56,6 @@ public:
     void * status_display;
     Scroll_8026D790 *scroll_bar; // created by create_menu_scroll_bar, drawn by draw_window_scrollbar
 };
-typedef char TWindowMenuIconLine_size[sizeof(TWindowMenuIconLine) == 0x88 ? 1 : -1];
+LAYOUT_ASSERT(TWindowMenuIconLine_size, sizeof(TWindowMenuIconLine) == 0x88);
 
 #endif

@@ -29,16 +29,16 @@
 #include "pso/object/switch/TOSwitchItem.h"
 
 
-typedef char Thanks_current_motion[offsetof(TBoss6Thanks,current_motion)==0x20?1:-1];
-typedef char Thanks_frame0[offsetof(TBoss6Thanks,frame0)==0x28?1:-1];
-typedef char Thanks_frame1[offsetof(TBoss6Thanks,frame1)==0x2c?1:-1];
-typedef char Thanks_opacity[offsetof(TBoss6Thanks,opacity)==0x30?1:-1];
-typedef char Thanks_model0[offsetof(TBoss6Thanks,model0)==0x38?1:-1];
-typedef char Thanks_model1[offsetof(TBoss6Thanks,model1)==0x3c?1:-1];
-typedef char Thanks_texture0[offsetof(TBoss6Thanks,texture0)==0x40?1:-1];
-typedef char Thanks_texture1[offsetof(TBoss6Thanks,texture1)==0x44?1:-1];
-typedef char Thanks_motions[offsetof(TBoss6Thanks,motions)==0x48?1:-1];
-typedef char Thanks_motion1[offsetof(TBoss6Thanks,motion1)==0x50?1:-1];
+LAYOUT_ASSERT(Thanks_current_motion, offsetof(TBoss6Thanks,current_motion)==0x20);
+LAYOUT_ASSERT(Thanks_frame0, offsetof(TBoss6Thanks,frame0)==0x28);
+LAYOUT_ASSERT(Thanks_frame1, offsetof(TBoss6Thanks,frame1)==0x2c);
+LAYOUT_ASSERT(Thanks_opacity, offsetof(TBoss6Thanks,opacity)==0x30);
+LAYOUT_ASSERT(Thanks_model0, offsetof(TBoss6Thanks,model0)==0x38);
+LAYOUT_ASSERT(Thanks_model1, offsetof(TBoss6Thanks,model1)==0x3c);
+LAYOUT_ASSERT(Thanks_texture0, offsetof(TBoss6Thanks,texture0)==0x40);
+LAYOUT_ASSERT(Thanks_texture1, offsetof(TBoss6Thanks,texture1)==0x44);
+LAYOUT_ASSERT(Thanks_motions, offsetof(TBoss6Thanks,motions)==0x48);
+LAYOUT_ASSERT(Thanks_motion1, offsetof(TBoss6Thanks,motion1)==0x50);
 struct ThanksMotionHeader
 {
   u32 x0;
@@ -54,7 +54,7 @@ s32 post_translate_matrix(const void *);
 }
 
 struct RecoveredGlobal_8035D10C___vt__12TBoss6Thanks { s32 value; u8 remaining[0x14]; };
-typedef char RecoveredGlobal_8035D10C___vt__12TBoss6Thanks_size[sizeof(RecoveredGlobal_8035D10C___vt__12TBoss6Thanks) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8035D10C___vt__12TBoss6Thanks_size, sizeof(RecoveredGlobal_8035D10C___vt__12TBoss6Thanks) == 0x18);
 
 struct O_8035CCAC { u8 pad[0x54]; s32 arr[4]; };
 

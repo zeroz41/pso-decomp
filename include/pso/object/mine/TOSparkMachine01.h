@@ -20,7 +20,7 @@ struct TOSparkMachine01 : public TObjBase {
     u8 unk_A4[0xC];
 };
 
-typedef char TOSparkMachine01_size[sizeof(TOSparkMachine01) == 0xB0 ? 1 : -1];
+LAYOUT_ASSERT(TOSparkMachine01_size, sizeof(TOSparkMachine01) == 0xB0);
 
 extern "C" {
 void *TOSparkMachine01__ct(void *arg0, void *arg1);

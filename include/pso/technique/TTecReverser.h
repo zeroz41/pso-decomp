@@ -17,5 +17,5 @@ struct TTecReverser : public TUnk_804CC148 {
     u8 unk_F2[0x56];
 };
 
-typedef char TTecReverser_size[sizeof(TTecReverser) == 0x148 ? 1 : -1];
+LAYOUT_ASSERT(TTecReverser_size, sizeof(TTecReverser) == 0x148);
 #endif

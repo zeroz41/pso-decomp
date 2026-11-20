@@ -20,5 +20,5 @@ struct TTecFoie : public TUnk_804CCC68 {
     void **emitters; // the particle emitters of the band, queued for destruction with it
 };
 
-typedef char TTecFoie_size[sizeof(TTecFoie) == 0x134 ? 1 : -1];
+LAYOUT_ASSERT(TTecFoie_size, sizeof(TTecFoie) == 0x134);
 #endif

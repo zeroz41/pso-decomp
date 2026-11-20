@@ -15,10 +15,10 @@ public:
 };
 
 #include <stddef.h>
-typedef char TDPBShowerSize[(sizeof(TDPBShower) == 0x30) ? 1 : -1];
-typedef char TDPBShowerPositionOffset[(offsetof(TDPBShower, m_position) == 0x1C) ? 1 : -1];
-typedef char TDPBShowerCountdownOffset[(offsetof(TDPBShower, m_countdown) == 0x28) ? 1 : -1];
-typedef char TDPBShowerEffectOffset[(offsetof(TDPBShower, m_2c) == 0x2C) ? 1 : -1];
+LAYOUT_ASSERT(TDPBShowerSize, sizeof(TDPBShower) == 0x30);
+LAYOUT_ASSERT(TDPBShowerPositionOffset, offsetof(TDPBShower, m_position) == 0x1C);
+LAYOUT_ASSERT(TDPBShowerCountdownOffset, offsetof(TDPBShower, m_countdown) == 0x28);
+LAYOUT_ASSERT(TDPBShowerEffectOffset, offsetof(TDPBShower, m_2c) == 0x2C);
 
 void *create_TDPBShower(void *arg0, void *arg1);
 

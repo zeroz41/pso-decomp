@@ -20,6 +20,6 @@ struct TTecGiBarta : public TUnk_804CCC68 {
     void run_task();
     void render();
 };
-typedef char TTecGiBarta_size[sizeof(TTecGiBarta)==0x178?1:-1];
+LAYOUT_ASSERT(TTecGiBarta_size, sizeof(TTecGiBarta)==0x178);
 
 #endif

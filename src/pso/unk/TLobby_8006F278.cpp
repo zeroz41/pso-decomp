@@ -8,7 +8,7 @@
 
 
 struct RecoveredGlobal_8006F5B0_lbl_8048C9D8 { s32 value; u8 remaining[0x744]; };
-typedef char RecoveredGlobal_8006F5B0_lbl_8048C9D8_size[sizeof(RecoveredGlobal_8006F5B0_lbl_8048C9D8) == 0x748 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8006F5B0_lbl_8048C9D8_size, sizeof(RecoveredGlobal_8006F5B0_lbl_8048C9D8) == 0x748);
 
 struct G_8006F2CC { u8 pad[0x28]; s32 x28; };
 

@@ -14,10 +14,10 @@
 #include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_8036E8DC_lbl_804C88C0 { s32 value; u8 remaining[0x50]; };
-typedef char RecoveredGlobal_8036E8DC_lbl_804C88C0_size[sizeof(RecoveredGlobal_8036E8DC_lbl_804C88C0) == 0x54 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8036E8DC_lbl_804C88C0_size, sizeof(RecoveredGlobal_8036E8DC_lbl_804C88C0) == 0x54);
 
 struct RecoveredGlobal_8036E8DC_lbl_804C89BC { s32 value; u8 remaining[0x74]; };
-typedef char RecoveredGlobal_8036E8DC_lbl_804C89BC_size[sizeof(RecoveredGlobal_8036E8DC_lbl_804C89BC) == 0x78 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8036E8DC_lbl_804C89BC_size, sizeof(RecoveredGlobal_8036E8DC_lbl_804C89BC) == 0x78);
 
 
 #include <stddef.h>
@@ -494,12 +494,12 @@ void TAdMultiChgGameModeGC::sub_8036E830() {  }
 void TAdMultiChgGameModeGC::sub_8036E834() { init_change_mode__21TAdMultiChgGameModeGCFv(this); }
 void TAdMultiChgGameModeGC::sub_8036E854() {  }
 
-typedef char MemberActionStorage_8036E858_size[sizeof(MemberActionStorage_8036E858) == 12 ? 1 : -1];
+LAYOUT_ASSERT(MemberActionStorage_8036E858_size, sizeof(MemberActionStorage_8036E858) == 12);
 void TAdMultiChgGameModeGC::set_state(s32 arg1) {
     MemberActionStorage_8036E858 member_action;
-    typedef char sp8_offset[(offsetof(Stack_8036E858, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_8036E858, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_8036E858, sp10) == 0x8) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8036E858, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8036E858, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8036E858, sp10) == 0x8);
     Stack_8036E858 stack;
     u8 *temp_r6;
     if ((s32) *(s32 *)((s8 *)((u8 *)this) + 0x1C) != arg1) {
@@ -536,13 +536,13 @@ s32 check_system_file_status__23TAdSinglePlyChrSelectGCFv(void) {
 void TAdMultiChgGameModeGC::confirm_mode_selection() { if (((int)handle_mode_selection()) == 0) { set_state((s32)((s32)((void*)((void*)1)))); } }
 void TAdMultiChgGameModeGC::sub_8036E9EC() { close_window_30(); TAdMultiChgGameModeGC__sub_8036E19C((u8 *)this, 4); }
 
-typedef char MemberActionStorage_8036EA24_size[sizeof(MemberActionStorage_8036EA24) == 12 ? 1 : -1];
+LAYOUT_ASSERT(MemberActionStorage_8036EA24_size, sizeof(MemberActionStorage_8036EA24) == 12);
 void TUnk_804F3A20::run_task() {
     u8 *arg0 = (u8 *)this;
     MemberActionStorage_8036EA24 member_action;
-    typedef char sp8_offset[(offsetof(Stack_8036EA24, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_8036EA24, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_8036EA24, sp10) == 0x8) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8036EA24, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8036EA24, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8036EA24, sp10) == 0x8);
     Stack_8036EA24 stack;
     u8 *temp_r6;
     this->m_20 = check_system_file_status__23TAdSinglePlyChrSelectGCFv();

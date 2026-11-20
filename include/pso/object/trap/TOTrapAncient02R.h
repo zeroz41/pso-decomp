@@ -32,5 +32,5 @@ struct TOTrapAncient02R : public TOTrapAncient02 {
     static void *create(void *set_data);
 };
 
-typedef char TOTrapAncient02R_size[sizeof(TOTrapAncient02R) == 0x36C ? 1 : -1];
+LAYOUT_ASSERT(TOTrapAncient02R_size, sizeof(TOTrapAncient02R) == 0x36C);
 #endif

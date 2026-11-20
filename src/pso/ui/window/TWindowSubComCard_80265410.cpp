@@ -174,8 +174,8 @@ void TWindowSubComCard__sub_80265500(u8 *arg0) {
 }
 
 void TWindowSubComCardList::sub_8026556C() {
-    typedef char sp8_offset[(offsetof(Stack_8026556C, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_8026556C, spC) == 0x4) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8026556C, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8026556C, spC) == 0x4);
     Stack_8026556C stack;
     f32 temp_f1;
     f32 temp_f2;

@@ -34,5 +34,5 @@ struct TTecPlayerInfluence : public TEffect {
     virtual void run_task();
 };
 
-typedef char TTecPlayerInfluence_size[sizeof(TTecPlayerInfluence) == 0xE0 ? 1 : -1];
+LAYOUT_ASSERT(TTecPlayerInfluence_size, sizeof(TTecPlayerInfluence) == 0xE0);
 #endif

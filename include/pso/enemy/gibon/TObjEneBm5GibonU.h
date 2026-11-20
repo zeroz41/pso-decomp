@@ -143,11 +143,11 @@ struct TObjEneBm5GibonU : public TObjEneDD_ST {
     void *update_photon_mylla();
 };
 
-typedef char TObjEneBm5GibonU_size[sizeof(TObjEneBm5GibonU) == 0x568 ? 1 : -1];
-typedef char TObjEneBm5GibonU_m_3c0[offsetof(TObjEneBm5GibonU, m_3c0) == 0x3C0 ? 1 : -1];
-typedef char TObjEneBm5GibonU_m_3d8[offsetof(TObjEneBm5GibonU, m_3d8) == 0x3D8 ? 1 : -1];
-typedef char TObjEneBm5GibonU_m_464[offsetof(TObjEneBm5GibonU, m_464) == 0x464 ? 1 : -1];
-typedef char TObjEneBm5GibonU_m_564[offsetof(TObjEneBm5GibonU, m_564) == 0x564 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneBm5GibonU_size, sizeof(TObjEneBm5GibonU) == 0x568);
+LAYOUT_ASSERT(TObjEneBm5GibonU_m_3c0, offsetof(TObjEneBm5GibonU, m_3c0) == 0x3C0);
+LAYOUT_ASSERT(TObjEneBm5GibonU_m_3d8, offsetof(TObjEneBm5GibonU, m_3d8) == 0x3D8);
+LAYOUT_ASSERT(TObjEneBm5GibonU_m_464, offsetof(TObjEneBm5GibonU, m_464) == 0x464);
+LAYOUT_ASSERT(TObjEneBm5GibonU_m_564, offsetof(TObjEneBm5GibonU, m_564) == 0x564);
 
 extern "C" {
 TObjEneBm5GibonU *TObjEneBm5GibonU__ct(TObjEneBm5GibonU *self, s32 arg1, s32 arg2);

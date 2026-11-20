@@ -43,7 +43,7 @@ struct TObjLight : public TObjBase {
     u8 *construct_actor_light(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, f32 farg0, f32 farg1, f32 farg2, s32 arg_sp0);
 };
 
-typedef char TObjLight_size[sizeof(TObjLight) == 0x100 ? 1 : -1];
+LAYOUT_ASSERT(TObjLight_size, sizeof(TObjLight) == 0x100);
 
 extern "C" {
 u8 *TObjLight__create(u8 *arg0);

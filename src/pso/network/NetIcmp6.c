@@ -16,14 +16,14 @@ typedef struct Icmp6ErrorInfo {
     u16 checksum;
     s32 pointer;
 } Icmp6ErrorInfo;
-typedef char Icmp6ErrorInfo_size_check[sizeof(Icmp6ErrorInfo) == 8 ? 1 : -1];
+LAYOUT_ASSERT(Icmp6ErrorInfo_size_check, sizeof(Icmp6ErrorInfo) == 8);
 typedef struct UdpHeader {
     u16 src_port;
     u16 dst_port;
     u16 length;
     u16 checksum;
 } UdpHeader;
-typedef char UdpHeader_size_check[sizeof(UdpHeader) == 8 ? 1 : -1];
+LAYOUT_ASSERT(UdpHeader_size_check, sizeof(UdpHeader) == 8);
 s16 NetIPv6HandleIcmpMessage(NetPacket *pkt, u8 *src, u8 *dst, u8 hop_limit, s16 iface) {
     /* The handlers are defined in TLobby_8041112C.c with their own parameter types (s32/void * for some
        arguments); this caller declares them with an s16 iface. */
@@ -233,7 +233,7 @@ typedef struct Icmp6MessageHeader {
     u8 code;
     u16 checksum;
 } Icmp6MessageHeader;
-typedef char Icmp6MessageHeader_size_check[sizeof(Icmp6MessageHeader) == 4 ? 1 : -1];
+LAYOUT_ASSERT(Icmp6MessageHeader_size_check, sizeof(Icmp6MessageHeader) == 4);
 s16 TLobby__sub_8040D718(u8 type, u8 code, u8 *src, u8 *dst, NetPacket *pkt, s16 idx) {
     Icmp6MessageHeader hdr;
     s16 r;

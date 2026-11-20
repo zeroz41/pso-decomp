@@ -1064,7 +1064,7 @@ void TBoss6Type2__sub_803300C8(u8 *arg0) {
 }
 void TBoss6Type2::copy_state(void* q) { *(u32*)((char*)this + 0x0) = *(u32*)((char*)q + 0x0); *(f32*)((char*)this + 0x4) = *(f32*)((char*)q + 0x4); *(f32*)((char*)this + 0x8) = *(f32*)((char*)q + 0x8); *(f32*)((char*)this + 0xc) = *(f32*)((char*)q + 0xc); *(f32*)((char*)this + 0x10) = *(f32*)((char*)q + 0x10); *(u32*)((char*)this + 0x14) = *(u32*)((char*)q + 0x14); *(f32*)((char*)this + 0x18) = *(f32*)((char*)q + 0x18); }
 
-typedef char MemberActionStorage_803301B8_size[sizeof(MemberActionStorage_803301B8) == 12 ? 1 : -1];
+LAYOUT_ASSERT(MemberActionStorage_803301B8_size, sizeof(MemberActionStorage_803301B8) == 12);
 
 int copy_vec3__11TBoss6Type2Fii(s32 _w0, s32 _w1) {
     S_80330178 *d = (S_80330178 *)_w0;
@@ -1090,8 +1090,8 @@ void TBoss6Mag::set_action(s32 arg1) {
     }
 }
 
-typedef char RecoveredGlobal_803300C8_lbl_80477404_size[sizeof(RecoveredGlobal_803300C8_lbl_80477404) == 0x24 ? 1 : -1];
-typedef char RecoveredGlobal_803300C8_lbl_80477428_size[sizeof(RecoveredGlobal_803300C8_lbl_80477428) == 0x1C ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_803300C8_lbl_80477404_size, sizeof(RecoveredGlobal_803300C8_lbl_80477404) == 0x24);
+LAYOUT_ASSERT(RecoveredGlobal_803300C8_lbl_80477428_size, sizeof(RecoveredGlobal_803300C8_lbl_80477428) == 0x1C);
 
 f32 receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll(void *, void *, P_80330240, void *, void *, void *);
 s32 query_teammate_state__9TObjEneDDFv();

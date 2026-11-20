@@ -100,5 +100,5 @@ struct TWindowSubSymbolChat : public TObject {
     void init_symbol_layout(s32 *arg1);
 };
 
-typedef char TWindowSubSymbolChat_size[sizeof(TWindowSubSymbolChat) == 0x60 ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubSymbolChat_size, sizeof(TWindowSubSymbolChat) == 0x60);
 #endif

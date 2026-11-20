@@ -27,7 +27,7 @@ struct TObjOnlineEnding : public TObjBase {
     s32 m_154;
 };
 
-typedef char TObjOnlineEnding_size[sizeof(TObjOnlineEnding) == 0x158 ? 1 : -1];
+LAYOUT_ASSERT(TObjOnlineEnding_size, sizeof(TObjOnlineEnding) == 0x158);
 extern "C" {
 void fn_802E52AC(void);
 }

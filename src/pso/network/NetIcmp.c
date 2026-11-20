@@ -200,7 +200,7 @@ typedef struct Icmp4Header {
     u16 checksum;
     u8 rest[4];
 } Icmp4Header;
-typedef char Icmp4Header_size_check[sizeof(Icmp4Header) == 8 ? 1 : -1];
+LAYOUT_ASSERT(Icmp4Header_size_check, sizeof(Icmp4Header) == 8);
 s16 TLobby__sub_8040CFE8(u8 type, u8 code, u32 src, u32 dst, NetPacket *pkt) {
     NetBufferRef ref;
     Icmp4Header hdr;

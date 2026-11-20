@@ -54,7 +54,7 @@ struct VObj_80301690_80300CE4 : Base_80301690_80300CE4 {
 #include "pso/object/ambient/TObjFish.h"
 
 struct RecoveredGlobal_80300FC0_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
-typedef char RecoveredGlobal_80300FC0_lbl_8058D490_size[sizeof(RecoveredGlobal_80300FC0_lbl_8058D490) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_80300FC0_lbl_8058D490_size, sizeof(RecoveredGlobal_80300FC0_lbl_8058D490) == 0x30);
 
 struct RecoveredGlobal_80301264_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
 

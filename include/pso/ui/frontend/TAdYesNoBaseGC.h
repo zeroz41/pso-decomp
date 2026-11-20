@@ -30,5 +30,5 @@ struct TAdYesNoBaseGC : public TObject {
     void init_parts(void *arg1, void *arg2);
 };
 
-typedef char TAdYesNoBaseGC_size[sizeof(TAdYesNoBaseGC) == 0x48 ? 1 : -1];
+LAYOUT_ASSERT(TAdYesNoBaseGC_size, sizeof(TAdYesNoBaseGC) == 0x48);
 #endif

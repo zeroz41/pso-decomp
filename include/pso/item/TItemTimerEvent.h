@@ -22,5 +22,5 @@ struct TItemTimerEvent : public TItemHeapObject {
     static void clear_active();
 };
 
-typedef char TItemTimerEvent_size[sizeof(TItemTimerEvent) == 0x2C ? 1 : -1];
+LAYOUT_ASSERT(TItemTimerEvent_size, sizeof(TItemTimerEvent) == 0x2C);
 #endif

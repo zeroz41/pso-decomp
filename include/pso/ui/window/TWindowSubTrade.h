@@ -21,6 +21,6 @@ struct TWindowSubTrade : public TObject {
     virtual void run_task();
 };
 
-typedef char TWindowSubTrade_size[sizeof(TWindowSubTrade) == 0x38 ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubTrade_size, sizeof(TWindowSubTrade) == 0x38);
 
 #endif

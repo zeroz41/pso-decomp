@@ -25,7 +25,7 @@ s32 play_sound_effect(int, void *, int, int);
 }
 
 struct RecoveredGlobal_8022B288_lbl_804CC1CC { s32 value; u8 remaining[0x340]; };
-typedef char RecoveredGlobal_8022B288_lbl_804CC1CC_size[sizeof(RecoveredGlobal_8022B288_lbl_804CC1CC) == 0x344 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8022B288_lbl_804CC1CC_size, sizeof(RecoveredGlobal_8022B288_lbl_804CC1CC) == 0x344);
 
 #pragma inline_depth(1)
 #pragma auto_inline off

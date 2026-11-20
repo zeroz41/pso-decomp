@@ -23,10 +23,10 @@ public:
     u32 state;
 };
 #include <stddef.h>
-typedef char EffectSize[(sizeof(TEffect) == 0x70) ? 1 : -1];
-typedef char EffectPositionOffset[(offsetof(TEffect, position) == 0x20) ? 1 : -1];
-typedef char EffectScaleOffset[(offsetof(TEffect, scale) == 0x3C) ? 1 : -1];
-typedef char EffectAgeOffset[(offsetof(TEffect, age) == 0x68) ? 1 : -1];
+LAYOUT_ASSERT(EffectSize, sizeof(TEffect) == 0x70);
+LAYOUT_ASSERT(EffectPositionOffset, offsetof(TEffect, position) == 0x20);
+LAYOUT_ASSERT(EffectScaleOffset, offsetof(TEffect, scale) == 0x3C);
+LAYOUT_ASSERT(EffectAgeOffset, offsetof(TEffect, age) == 0x68);
 
 // One frame of an animated texture list, put into a slot of the texture list
 // a model draws with.

@@ -11,6 +11,6 @@ public:
     void sub_801D5A70();
     s32 unk_54;
 };
-typedef char TUnk_804C4480_size[sizeof(TUnk_804C4480) == 0x58 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804C4480_size, sizeof(TUnk_804C4480) == 0x58);
 
 #endif

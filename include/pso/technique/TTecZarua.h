@@ -18,5 +18,5 @@ struct TTecZarua : public TUnk_804CC148 {
     TargetCursorList targets;
 };
 
-typedef char TTecZarua_size[sizeof(TTecZarua) == 0x14C ? 1 : -1];
+LAYOUT_ASSERT(TTecZarua_size, sizeof(TTecZarua) == 0x14C);
 #endif

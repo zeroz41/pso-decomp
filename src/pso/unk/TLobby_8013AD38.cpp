@@ -28,14 +28,14 @@ u8 TLobby::get_mode() { return *(u8*)((char*)this + 0x1e); }
 u8 TLobby__sub_8013AD6C(void* p) { return *(u8*)((char*)p + 0x1e); }
 int TLobby__sub_8013AD74(void* p) { return *(u8*)((char*)p + 0x1d) & 0x1; }
 
-typedef char RecoveredGlobal_8013AD80_TAdEnterSerialAccessGC__data_804EC9C4_size[sizeof(RecoveredGlobal_8013AD80_TAdEnterSerialAccessGC__data_804EC9C4) == 0x10 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8013AD80_TAdEnterSerialAccessGC__data_804EC9C4_size, sizeof(RecoveredGlobal_8013AD80_TAdEnterSerialAccessGC__data_804EC9C4) == 0x10);
 s32 *get_access_key_input_buffer(void) {
     return &TAdEnterSerialAccessGC__access_key_input_buffer.value;
 }
 
 void TLobby::init_serial_access() { get_raw_serial_input_buffer(); hex_to_decimal_string__22TAdEnterSerialAccessGCFi(); }
 
-typedef char RecoveredGlobal_8013ADB0_TAdEnterSerialAccessGC__data_804EC9B8_size[sizeof(RecoveredGlobal_8013ADB0_TAdEnterSerialAccessGC__data_804EC9B8) == 0xC ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8013ADB0_TAdEnterSerialAccessGC__data_804EC9B8_size, sizeof(RecoveredGlobal_8013ADB0_TAdEnterSerialAccessGC__data_804EC9B8) == 0xC);
 s32 *get_raw_serial_input_buffer(void) {
     return &TAdEnterSerialAccessGC__raw_serial_buffer.value;
 }

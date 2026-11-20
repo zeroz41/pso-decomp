@@ -1045,8 +1045,8 @@ void pick_target_position__13TRaderMapCoreFPvPv(O_80053914 *self, Vec *out) {
 
 #pragma pop
 void TBoss4Type1::sub_80053670() {
-    typedef char sp8_offset[(offsetof(Stack_80053670, sp8) == 0x0) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_80053670, sp10) == 0x8) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80053670, sp8) == 0x0);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_80053670, sp10) == 0x8);
     Stack_80053670 stack;
 
     f32 temp_f26;

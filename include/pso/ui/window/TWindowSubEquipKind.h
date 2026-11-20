@@ -14,7 +14,7 @@ struct TWindowSubEquipKind : public TWindowMenuIconLine {
     virtual void run_task();
 };
 
-typedef char TWindowSubEquipKind_size[sizeof(TWindowSubEquipKind) == 0x8C ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubEquipKind_size, sizeof(TWindowSubEquipKind) == 0x8C);
 
 extern const char *TWindowSubEquipKind__class_name;
 

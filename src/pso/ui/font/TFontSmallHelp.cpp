@@ -126,8 +126,8 @@ struct HelpTextPlayerState {
     u8 unresolved_858[0x558];
     u32 identity;
 };
-typedef char HelpTextPlayerPosition[offsetof(HelpTextPlayerState, position) == 0x84C ? 1 : -1];
-typedef char HelpTextPlayerIdentity[offsetof(HelpTextPlayerState, identity) == 0xDB0 ? 1 : -1];
+LAYOUT_ASSERT(HelpTextPlayerPosition, offsetof(HelpTextPlayerState, position) == 0x84C);
+LAYOUT_ASSERT(HelpTextPlayerIdentity, offsetof(HelpTextPlayerState, identity) == 0xDB0);
 
 void TFontSmallHelp::run_task() {
     HelpTextPlayerState *player = (HelpTextPlayerState *)get_player_by_client_id(player_id);

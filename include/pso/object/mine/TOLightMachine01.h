@@ -21,7 +21,7 @@ struct TOLightMachine01 : public TObjBase {
     static void load_assets();
 };
 
-typedef char TOLightMachine01_size[sizeof(TOLightMachine01) == 0xB0 ? 1 : -1];
+LAYOUT_ASSERT(TOLightMachine01_size, sizeof(TOLightMachine01) == 0xB0);
 
 extern "C" {
 u8 *TOLightMachine01__ct(TOLightMachine01 *arg0, s32 arg1);

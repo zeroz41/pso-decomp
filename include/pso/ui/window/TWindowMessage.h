@@ -49,5 +49,5 @@ struct TWindowMessage : public TWindowAddition {
     void update_line_timers();
 };
 
-typedef char TWindowMessage_size[sizeof(TWindowMessage) == 0x90 ? 1 : -1];
+LAYOUT_ASSERT(TWindowMessage_size, sizeof(TWindowMessage) == 0x90);
 #endif

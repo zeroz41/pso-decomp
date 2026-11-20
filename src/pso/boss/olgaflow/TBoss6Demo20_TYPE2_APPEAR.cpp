@@ -373,8 +373,8 @@ void *create_boss6_type2_appearance(void *arg0) {
     return o;
 }
 
-typedef char RecoveredGlobal_8033DCA8_lbl_80477F2C_size[sizeof(RecoveredGlobal_8033DCA8_lbl_80477F2C) == 0xC ? 1 : -1];
-typedef char RecoveredGlobal_8033DCA8_lbl_804EFA08_size[sizeof(RecoveredGlobal_8033DCA8_lbl_804EFA08) == 0xC ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8033DCA8_lbl_80477F2C_size, sizeof(RecoveredGlobal_8033DCA8_lbl_80477F2C) == 0xC);
+LAYOUT_ASSERT(RecoveredGlobal_8033DCA8_lbl_804EFA08_size, sizeof(RecoveredGlobal_8033DCA8_lbl_804EFA08) == 0xC);
 void initialize_boss6_type2_appear_particle_origin(void) {
     *(f32 *)((s8 *)&boss6_type2_appear_offset_particle_origin.value + 0) = (f32) *(f32 *)((s8 *)&boss6_type2_appear_origin.value + 0);
     *(f32 *)((s8 *)&boss6_type2_appear_offset_particle_origin.value + 4) = (f32) (50.0f + *(f32 *)((s8 *)&boss6_type2_appear_origin.value + 4));

@@ -11,7 +11,7 @@ struct TObjNpcAHM01 : public TUnk_804A9F50 {
     static void load_resources();
 };
 
-typedef char TObjNpcAHM01_size[sizeof(TObjNpcAHM01) == 0x3B8 ? 1 : -1];
+LAYOUT_ASSERT(TObjNpcAHM01_size, sizeof(TObjNpcAHM01) == 0x3B8);
 
 extern "C" {
 u8 *TObjNpcAHM01__ct(u8 *arg0, s32 arg1, s32 arg2);

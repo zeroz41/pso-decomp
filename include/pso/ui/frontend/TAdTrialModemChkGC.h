@@ -14,7 +14,7 @@ struct TAdTrialModemChkGC : public TAdWarningBaseGC {
     static s32 init_modem_check_params();
 };
 
-typedef char TAdTrialModemChkGC_size[sizeof(TAdTrialModemChkGC) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(TAdTrialModemChkGC_size, sizeof(TAdTrialModemChkGC) == 0x30);
 
 extern "C" {
 void *TAdTrialModemChkGC__ct(void *arg0);

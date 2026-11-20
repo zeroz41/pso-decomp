@@ -14,7 +14,7 @@ struct TWindowSubGameEnd : public TObject {
     virtual void run_task();
 };
 
-typedef char TWindowSubGameEnd_size[sizeof(TWindowSubGameEnd) == 0x2C ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubGameEnd_size, sizeof(TWindowSubGameEnd) == 0x2C);
 
 extern "C" {
 void TLobby__sub_802796FC(void);

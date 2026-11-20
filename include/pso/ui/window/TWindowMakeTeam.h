@@ -29,5 +29,5 @@ struct TWindowMakeTeam : public TObject {
     void set_entry_string_by_id(void *arg1, s32 arg2);
 };
 
-typedef char TWindowMakeTeam_size[sizeof(TWindowMakeTeam) == 0x38 ? 1 : -1];
+LAYOUT_ASSERT(TWindowMakeTeam_size, sizeof(TWindowMakeTeam) == 0x38);
 #endif

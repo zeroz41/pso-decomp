@@ -49,7 +49,7 @@ s32 TWindowSubStatusDisp::get_layout_id() {
     }
     return 5;
 }
-typedef char RecoveredGlobal_8006F23C_lbl_8048C9D8_size[sizeof(RecoveredGlobal_8006F23C_lbl_8048C9D8) == 0x748 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8006F23C_lbl_8048C9D8_size, sizeof(RecoveredGlobal_8006F23C_lbl_8048C9D8) == 0x748);
 
 typedef struct RecoveredGlobal_8006F1EC_lbl_8048C9D8 RecoveredGlobal_8006F1EC_lbl_8048C9D8;
 #pragma optimize_for_size off

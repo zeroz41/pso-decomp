@@ -21,6 +21,6 @@ public:
     TWindowMenu *category_menu;
     TWindowSubStatusDisp *status_disp;
 };
-typedef char TUnk_804D1AD0_size[sizeof(TUnk_804D1AD0) == 0x2C ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804D1AD0_size, sizeof(TUnk_804D1AD0) == 0x2C);
 
 #endif

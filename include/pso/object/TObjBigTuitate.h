@@ -13,7 +13,7 @@ struct TObjBigTuitate : public TObjCollidable {
     u8 unk_B0[0x1C];
 };
 
-typedef char TObjBigTuitate_size[sizeof(TObjBigTuitate) == 0xCC ? 1 : -1];
+LAYOUT_ASSERT(TObjBigTuitate_size, sizeof(TObjBigTuitate) == 0xCC);
 
 extern "C" {
 void *TObjBigTuitate__create(void *arg0);

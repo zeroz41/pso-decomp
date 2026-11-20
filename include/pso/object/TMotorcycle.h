@@ -17,7 +17,7 @@ struct TMotorcycle : public TObjMesBase {
     static void add_entry(s16 arg0, s32 arg1, s32 arg2, f32 farg0, f32 farg1);
 };
 
-typedef char TMotorcycle_size[sizeof(TMotorcycle) == 0xC0 ? 1 : -1];
+LAYOUT_ASSERT(TMotorcycle_size, sizeof(TMotorcycle) == 0xC0);
 
 extern "C" {
 void *TMotorcycle__ct(void *arg0, void *arg1, void *arg2);

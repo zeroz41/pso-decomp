@@ -16,7 +16,7 @@ struct TWindowGetComCard : public TObject {
     static void construct_card_tags();
 };
 
-typedef char TWindowGetComCard_size[sizeof(TWindowGetComCard) == 0x2C ? 1 : -1];
+LAYOUT_ASSERT(TWindowGetComCard_size, sizeof(TWindowGetComCard) == 0x2C);
 
 extern "C" {
 void TWindowFukidasi__sub_80252C38(void *p);

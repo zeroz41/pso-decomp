@@ -36,6 +36,6 @@ struct TTecBarta : public TUnk_804CCC68 {
     virtual void run_task();
     virtual void render();
 };
-typedef char TTecBarta_size[sizeof(TTecBarta)==0x178?1:-1];
+LAYOUT_ASSERT(TTecBarta_size, sizeof(TTecBarta)==0x178);
 
 #endif

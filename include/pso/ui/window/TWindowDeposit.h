@@ -19,7 +19,7 @@ struct TWindowDeposit : public TWindowBase {
     u8 unk_68[0x4];
 };
 
-typedef char TWindowDeposit_size[sizeof(TWindowDeposit) == 0x6C ? 1 : -1];
+LAYOUT_ASSERT(TWindowDeposit_size, sizeof(TWindowDeposit) == 0x6C);
 
 extern "C" {
 u8 *TWindowDeposit__ct(u8 *arg0, s32 arg1);

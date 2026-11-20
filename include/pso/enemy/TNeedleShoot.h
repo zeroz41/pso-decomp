@@ -43,7 +43,7 @@ struct TNeedleShoot : public TObject {
     void*get_shoot_data();
 };
 
-typedef char TNeedleShoot_size[sizeof(TNeedleShoot) == 0xBC ? 1 : -1];
+LAYOUT_ASSERT(TNeedleShoot_size, sizeof(TNeedleShoot) == 0xBC);
 
 extern "C" {
 void TNeedleShoot__sub_802A4668(void *arg0);

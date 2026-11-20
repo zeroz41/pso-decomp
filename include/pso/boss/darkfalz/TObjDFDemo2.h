@@ -17,5 +17,5 @@ struct TObjDFDemo2 : public TObjBase {
     u8 unk_C0[0x4];
 };
 
-typedef char TObjDFDemo2_size[sizeof(TObjDFDemo2) == 0xC4 ? 1 : -1];
+LAYOUT_ASSERT(TObjDFDemo2_size, sizeof(TObjDFDemo2) == 0xC4);
 #endif

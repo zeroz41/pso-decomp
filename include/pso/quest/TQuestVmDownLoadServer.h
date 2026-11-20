@@ -160,7 +160,7 @@ public:
     Node_803EB894 *detach_node_chain();
     s32 find_symbol_entry(s16 len, Info_803F0138 *out);
 };
-typedef char TQuestVmDownLoadServer_size_check[sizeof(TQuestVmDownLoadServer) == 0x2A4 ? 1 : -1];
+LAYOUT_ASSERT(TQuestVmDownLoadServer_size_check, sizeof(TQuestVmDownLoadServer) == 0x2A4);
 
 // The two seeds of the download cipher; a quest saved to a memory card is
 // encrypted with the console's serial number in both.

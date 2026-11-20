@@ -19,6 +19,6 @@ public:
     s32 age;
     s32 sound_handle;
 };
-typedef char TUnk_804CC990_size[sizeof(TUnk_804CC990) == 0x34 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804CC990_size, sizeof(TUnk_804CC990) == 0x34);
 
 #endif

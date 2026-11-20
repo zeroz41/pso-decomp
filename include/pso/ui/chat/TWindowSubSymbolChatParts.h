@@ -39,7 +39,7 @@ struct TWindowSubSymbolChatParts : public TWindowAddition {
     void handle_add();
 };
 
-typedef char TWindowSubSymbolChatParts_size[sizeof(TWindowSubSymbolChatParts) == 0x90 ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubSymbolChatParts_size, sizeof(TWindowSubSymbolChatParts) == 0x90);
 
 extern "C" {
 void fn_80284C04(u8 *arg0);

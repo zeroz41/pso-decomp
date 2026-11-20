@@ -71,5 +71,5 @@ struct TWindowSubTradeMain : public TObject {
     static void update_position_if_changed(s32 arg0, u8 *arg1, u8 *arg2);
 };
 
-typedef char TWindowSubTradeMain_size[sizeof(TWindowSubTradeMain) == 0xA8 ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubTradeMain_size, sizeof(TWindowSubTradeMain) == 0xA8);
 #endif

@@ -16,5 +16,5 @@ struct TTecGiZonde : public TUnk_804CCC68 {
     void deliver_chain_hits();
 };
 
-typedef char TTecGiZonde_size[sizeof(TTecGiZonde) == 0x18C ? 1 : -1];
+LAYOUT_ASSERT(TTecGiZonde_size, sizeof(TTecGiZonde) == 0x18C);
 #endif

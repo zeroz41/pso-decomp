@@ -84,7 +84,7 @@ typedef struct PppProtoBlocks {
     PppFsm ipv6cp;          /* 0xD4 */
     u8 tail[0x40];          /* 0x108: s32 byte count +0x110, s16 drop counters +0x122/+0x124 */
 } PppProtoBlocks;
-typedef char PppProtoBlocks_size_check[sizeof(PppProtoBlocks) == 0x148 ? 1 : -1];
+LAYOUT_ASSERT(PppProtoBlocks_size_check, sizeof(PppProtoBlocks) == 0x148);
 
 /* TLobby_803FAEA0.c: session control (stack up/down, login name, connection configuration, timeout). */
 #ifdef __cplusplus

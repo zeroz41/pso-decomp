@@ -21,7 +21,7 @@ struct TShopItemTecSequence : public TShopSequence {
     s32 open_greeting();
 };
 
-typedef char TShopItemTecSequence_size[sizeof(TShopItemTecSequence) == 0x38 ? 1 : -1];
+LAYOUT_ASSERT(TShopItemTecSequence_size, sizeof(TShopItemTecSequence) == 0x38);
 
 extern "C" {
 int TShopItemTecSequence__sub_8021FE6C(int a0);

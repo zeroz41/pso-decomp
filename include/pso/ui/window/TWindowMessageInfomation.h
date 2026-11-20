@@ -9,5 +9,5 @@ struct TWindowMessageInfomation : public TWindowMessage {
     void render();
 };
 
-typedef char TWindowMessageInfomation_size[sizeof(TWindowMessageInfomation) == 0x90 ? 1 : -1];
+LAYOUT_ASSERT(TWindowMessageInfomation_size, sizeof(TWindowMessageInfomation) == 0x90);
 #endif

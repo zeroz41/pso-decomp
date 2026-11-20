@@ -15,11 +15,10 @@ struct NetworkInfoLoadState {
     s32 card_result;
     s32 card_detail;
 };
-typedef char NetworkInfoLoadStateExtent[
-    sizeof(NetworkInfoLoadState) == 0x24 ? 1 : -1];
-typedef char NetworkInfoPhaseOffset[offsetof(NetworkInfoLoadState, phase) == 8 ? 1 : -1];
-typedef char NetworkInfoHandleOffset[offsetof(NetworkInfoLoadState, file_handle) == 0x10 ? 1 : -1];
-typedef char NetworkInfoDetailOffset[offsetof(NetworkInfoLoadState, card_detail) == 0x20 ? 1 : -1];
+LAYOUT_ASSERT(NetworkInfoLoadStateExtent, sizeof(NetworkInfoLoadState) == 0x24);
+LAYOUT_ASSERT(NetworkInfoPhaseOffset, offsetof(NetworkInfoLoadState, phase) == 8);
+LAYOUT_ASSERT(NetworkInfoHandleOffset, offsetof(NetworkInfoLoadState, file_handle) == 0x10);
+LAYOUT_ASSERT(NetworkInfoDetailOffset, offsetof(NetworkInfoLoadState, card_detail) == 0x20);
 
 extern NetworkInfoLoadState network_info_load_state;
 

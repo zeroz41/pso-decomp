@@ -639,9 +639,9 @@ u8 * TObjPlayer__sub_80155028(s32 arg0, s32 arg1) {
 }
 
 s32 test_collider_sphere_overlap_xz(s32 arg0, u8 *arg1, u32 arg2) {
-    typedef char sp8_offset[(offsetof(Stack_80155050, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_80155050, spC) == 0x4) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_80155050, sp14) == 0xC) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80155050, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_80155050, spC) == 0x4);
+    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_80155050, sp14) == 0xC);
     Stack_80155050 stack;
     VecCopy__FP3VecPC3Vec(&stack.sp8, arg1 + 0x1C);
     stack.spC = 0.0f;

@@ -27,10 +27,10 @@ public:
     s32 direct_read_mode;
     GslArchiveEntry *archive_entry;
 };
-typedef char TGStreamExtent[sizeof(TGStream) == 0x2C ? 1 : -1];
-typedef char TGStreamHandleOffset[offsetof(TGStream, adxf_handle) == 0x20 ? 1 : -1];
-typedef char TGStreamReadModeOffset[offsetof(TGStream, direct_read_mode) == 0x24 ? 1 : -1];
-typedef char TGStreamEntryOffset[offsetof(TGStream, archive_entry) == 0x28 ? 1 : -1];
+LAYOUT_ASSERT(TGStreamExtent, sizeof(TGStream) == 0x2C);
+LAYOUT_ASSERT(TGStreamHandleOffset, offsetof(TGStream, adxf_handle) == 0x20);
+LAYOUT_ASSERT(TGStreamReadModeOffset, offsetof(TGStream, direct_read_mode) == 0x24);
+LAYOUT_ASSERT(TGStreamEntryOffset, offsetof(TGStream, archive_entry) == 0x28);
 
 extern "C" {
 void reset_gstream_buffer(void);

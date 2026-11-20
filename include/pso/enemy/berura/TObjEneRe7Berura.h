@@ -33,7 +33,7 @@ struct TObjEneRe7BeruraPart {
     Vec m_58;
 };
 
-typedef char TObjEneRe7BeruraPart_size[sizeof(TObjEneRe7BeruraPart) == 0x64 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneRe7BeruraPart_size, sizeof(TObjEneRe7BeruraPart) == 0x64);
 
 struct TObjEneRe7Berura : public TObjEneDD_ST {
     TObjEneRe7Berura(TObject *parent, void *set_data);
@@ -116,7 +116,7 @@ struct TObjEneRe7Berura : public TObjEneDD_ST {
     s32 get_field_3D4_shifted();
 };
 
-typedef char TObjEneRe7Berura_size[sizeof(TObjEneRe7Berura) == 0x4E4 ? 1 : -1];
-typedef char TObjEneRe7Berura_m_3d8[offsetof(TObjEneRe7Berura, m_3d8) == 0x3D8 ? 1 : -1];
-typedef char TObjEneRe7Berura_m_448[offsetof(TObjEneRe7Berura, m_448) == 0x448 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneRe7Berura_size, sizeof(TObjEneRe7Berura) == 0x4E4);
+LAYOUT_ASSERT(TObjEneRe7Berura_m_3d8, offsetof(TObjEneRe7Berura, m_3d8) == 0x3D8);
+LAYOUT_ASSERT(TObjEneRe7Berura_m_448, offsetof(TObjEneRe7Berura, m_448) == 0x448);
 #endif

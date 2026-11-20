@@ -59,4 +59,7 @@ typedef __SIZE_TYPE__ size_t;
 #define DECL_WEAK __declspec(weak)
 #define __REGISTER register
 
+/* Checks the console's layout at compile time. A port, whose layouts differ, defines it empty. */
+#define LAYOUT_ASSERT(name, cond) typedef char name[(cond) ? 1 : -1]
+
 #endif

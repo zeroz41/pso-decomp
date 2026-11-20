@@ -18,5 +18,5 @@ struct TObjIllGillKage : public TObjBase {
     void tick_persistent_sound();
 };
 
-typedef char TObjIllGillKage_size[sizeof(TObjIllGillKage) == 0x9C ? 1 : -1];
+LAYOUT_ASSERT(TObjIllGillKage_size, sizeof(TObjIllGillKage) == 0x9C);
 #endif

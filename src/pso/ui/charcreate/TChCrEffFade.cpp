@@ -89,14 +89,14 @@ f32 chcr_eff_fade_strip_rect[4][2] = {
 };
 
 void TChCrEffFade::draw_fade_strip(f32 farg0) {
-    typedef char sp8_offset[(offsetof(Stack_80293F98, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_80293F98, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_80293F98, sp10) == 0x8) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_80293F98, sp14) == 0xC) ? 1 : -1];
-    typedef char sp18_offset[(offsetof(Stack_80293F98, sp18) == 0x10) ? 1 : -1];
-    typedef char sp1C_offset[(offsetof(Stack_80293F98, sp1C) == 0x14) ? 1 : -1];
-    typedef char sp20_offset[(offsetof(Stack_80293F98, sp20) == 0x18) ? 1 : -1];
-    typedef char sp24_offset[(offsetof(Stack_80293F98, sp24) == 0x1C) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80293F98, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_80293F98, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_80293F98, sp10) == 0x8);
+    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_80293F98, sp14) == 0xC);
+    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_80293F98, sp18) == 0x10);
+    LAYOUT_ASSERT(sp1C_offset, offsetof(Stack_80293F98, sp1C) == 0x14);
+    LAYOUT_ASSERT(sp20_offset, offsetof(Stack_80293F98, sp20) == 0x18);
+    LAYOUT_ASSERT(sp24_offset, offsetof(Stack_80293F98, sp24) == 0x1C);
     Stack_80293F98 stack;
     s32 temp_r9;
     temp_r9 = __cvt_fp2unsigned((f32) (255.0f * farg0)) << 0x18;

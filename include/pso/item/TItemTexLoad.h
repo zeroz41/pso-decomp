@@ -25,21 +25,21 @@ public:
     static void free_textures();
 };
 #include <stddef.h>
-typedef char ItemTexBaseSize[(sizeof(TObject)==0x1C)?1:-1];
-typedef char ItemTexLoadSize[(sizeof(TItemTexLoad)==0x40)?1:-1];
-typedef char ItemTexBufferOffset[(offsetof(TItemTexLoad,m_archive_buffer)==0x1C)?1:-1];
-typedef char ItemTexStateOffset[(offsetof(TItemTexLoad,m_state)==0x20)?1:-1];
-typedef char ItemTexIndexOffset[(offsetof(TItemTexLoad,m_texture_index)==0x24)?1:-1];
-typedef char ItemTexHandleOffset[(offsetof(TItemTexLoad,m_archive_handle)==0x28)?1:-1];
-typedef char ItemTexListOffset[(offsetof(TItemTexLoad,m_texture_list)==0x2C)?1:-1];
-typedef char ItemTexEntryOffset[(offsetof(TItemTexLoad,m_texture_entry)==0x34)?1:-1];
-typedef char GinjaTextureListSize[(sizeof(GinjaTextureList)==8)?1:-1];
-typedef char GinjaTextureListEntries[(offsetof(GinjaTextureList,entries)==0)?1:-1];
-typedef char GinjaTextureListCount[(offsetof(GinjaTextureList,count)==4)?1:-1];
-typedef char GinjaTextureEntrySize[(sizeof(GinjaTextureEntry)==12)?1:-1];
-typedef char GinjaTextureEntryName[(offsetof(GinjaTextureEntry,name)==0)?1:-1];
-typedef char GinjaTextureEntryValue04[(offsetof(GinjaTextureEntry,value04)==4)?1:-1];
-typedef char GinjaTextureEntryTexture[(offsetof(GinjaTextureEntry,texture)==8)?1:-1];
+LAYOUT_ASSERT(ItemTexBaseSize, sizeof(TObject)==0x1C);
+LAYOUT_ASSERT(ItemTexLoadSize, sizeof(TItemTexLoad)==0x40);
+LAYOUT_ASSERT(ItemTexBufferOffset, offsetof(TItemTexLoad,m_archive_buffer)==0x1C);
+LAYOUT_ASSERT(ItemTexStateOffset, offsetof(TItemTexLoad,m_state)==0x20);
+LAYOUT_ASSERT(ItemTexIndexOffset, offsetof(TItemTexLoad,m_texture_index)==0x24);
+LAYOUT_ASSERT(ItemTexHandleOffset, offsetof(TItemTexLoad,m_archive_handle)==0x28);
+LAYOUT_ASSERT(ItemTexListOffset, offsetof(TItemTexLoad,m_texture_list)==0x2C);
+LAYOUT_ASSERT(ItemTexEntryOffset, offsetof(TItemTexLoad,m_texture_entry)==0x34);
+LAYOUT_ASSERT(GinjaTextureListSize, sizeof(GinjaTextureList)==8);
+LAYOUT_ASSERT(GinjaTextureListEntries, offsetof(GinjaTextureList,entries)==0);
+LAYOUT_ASSERT(GinjaTextureListCount, offsetof(GinjaTextureList,count)==4);
+LAYOUT_ASSERT(GinjaTextureEntrySize, sizeof(GinjaTextureEntry)==12);
+LAYOUT_ASSERT(GinjaTextureEntryName, offsetof(GinjaTextureEntry,name)==0);
+LAYOUT_ASSERT(GinjaTextureEntryValue04, offsetof(GinjaTextureEntry,value04)==4);
+LAYOUT_ASSERT(GinjaTextureEntryTexture, offsetof(GinjaTextureEntry,texture)==8);
 
 void load_item_kt_afs(void);
 

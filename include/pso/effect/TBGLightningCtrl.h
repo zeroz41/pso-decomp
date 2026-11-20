@@ -13,7 +13,7 @@ struct TBGLightningCtrl : public TObjBase {
     static void destroy_instance();
 };
 
-typedef char TBGLightningCtrl_size[sizeof(TBGLightningCtrl) == 0x94 ? 1 : -1];
+LAYOUT_ASSERT(TBGLightningCtrl_size, sizeof(TBGLightningCtrl) == 0x94);
 
 extern "C" {
 void *TBGLightningCtrl__create(void *arg0);

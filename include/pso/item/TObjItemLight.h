@@ -11,7 +11,7 @@ struct TObjItemLight : public TObjBase {
     s32 m_94;
 };
 
-typedef char TObjItemLight_size[sizeof(TObjItemLight) == 0x98 ? 1 : -1];
+LAYOUT_ASSERT(TObjItemLight_size, sizeof(TObjItemLight) == 0x98);
 
 extern "C" {
 u8 *TObjItemLight__ct(TObjItemLight *arg0, s32 arg1, s32 arg2);

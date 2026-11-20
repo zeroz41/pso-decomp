@@ -27,7 +27,7 @@ struct TItemEffArmor : public TObject {
     virtual void run_task();
 };
 
-typedef char TItemEffArmor_size[sizeof(TItemEffArmor) == 0x7C ? 1 : -1];
+LAYOUT_ASSERT(TItemEffArmor_size, sizeof(TItemEffArmor) == 0x7C);
 
 extern "C" {
 void *__dt__13TItemEffArmorFv(void *arg0, s16 arg1);

@@ -25,7 +25,7 @@ struct TWindowSubQuestBoard : public TObject {
     u8 get_page_index();
 };
 
-typedef char TWindowSubQuestBoard_size[sizeof(TWindowSubQuestBoard) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubQuestBoard_size, sizeof(TWindowSubQuestBoard) == 0x30);
 
 extern "C" {
 u8 *TWindowSubQuestBoard__sub_8027CE74(u8 *arg0, u8 *arg1, s32 arg2);

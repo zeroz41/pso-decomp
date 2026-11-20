@@ -172,6 +172,6 @@ struct TBoss4Type2
     void sub_800531BC();
 };
 
-typedef char Type2NodeTablesOffset[(offsetof(TBoss4Type2, node_tables) == 0x378) ? 1 : -1];
+LAYOUT_ASSERT(Type2NodeTablesOffset, offsetof(TBoss4Type2, node_tables) == 0x378);
 
 #endif

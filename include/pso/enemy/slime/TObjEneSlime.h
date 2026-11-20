@@ -20,7 +20,7 @@ struct TObjEneSlime : public TObjEnemy {
     void init_slots();
 };
 
-typedef char TObjEneSlime_size[sizeof(TObjEneSlime) == 0x3B8 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneSlime_size, sizeof(TObjEneSlime) == 0x3B8);
 
 extern "C" {
 void TObjEneSlime__sub_800EB9F0(void *p, void *q);

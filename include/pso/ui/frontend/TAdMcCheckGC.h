@@ -20,7 +20,7 @@ struct TAdMcCheckGC : public TObject {
     virtual void run_task();
 };
 
-typedef char TAdMcCheckGC_size[sizeof(TAdMcCheckGC) == 0x3C ? 1 : -1];
+LAYOUT_ASSERT(TAdMcCheckGC_size, sizeof(TAdMcCheckGC) == 0x3C);
 
 extern "C" {
 void TLobby__sub_8033EE38(void *p);

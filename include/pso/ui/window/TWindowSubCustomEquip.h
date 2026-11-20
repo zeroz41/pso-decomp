@@ -47,7 +47,7 @@ struct TWindowSubCustomEquip : public TWindowBase {
     void place_bank_slot_on_ring(s32 arg1, s32 arg2);
 };
 
-typedef char TWindowSubCustomEquip_size[sizeof(TWindowSubCustomEquip) == 0x70 ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubCustomEquip_size, sizeof(TWindowSubCustomEquip) == 0x70);
 
 extern "C" {
 void render__21TWindowSubCustomEquipFv(u8 *arg0);

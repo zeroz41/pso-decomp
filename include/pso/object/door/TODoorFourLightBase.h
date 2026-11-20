@@ -24,5 +24,5 @@ struct TODoorFourLightBase : public TODoorBase {
     void draw_node_tree(u8 *arg1);
 };
 
-typedef char TODoorFourLightBase_size[sizeof(TODoorFourLightBase) == 0xFC ? 1 : -1];
+LAYOUT_ASSERT(TODoorFourLightBase_size, sizeof(TODoorFourLightBase) == 0xFC);
 #endif

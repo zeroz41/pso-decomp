@@ -40,7 +40,7 @@ struct TWindowSubCustomSelect : public TWindowAddition {
     int is_active();
 };
 
-typedef char TWindowSubCustomSelect_size[sizeof(TWindowSubCustomSelect) == 0x84 ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubCustomSelect_size, sizeof(TWindowSubCustomSelect) == 0x84);
 
 extern "C" {
 u8 *TWindowSubCustomSelect__ct(TWindowSubCustomSelect *arg0, s32 arg1);

@@ -96,7 +96,7 @@ struct DragonAttackParams {
     f32 field_C;
     s32 field_10;
 };
-typedef char DragonAttackParams_size[(sizeof(DragonAttackParams) == 0x14) ? 1 : -1];
+LAYOUT_ASSERT(DragonAttackParams_size, sizeof(DragonAttackParams) == 0x14);
 
 struct DragonCaptureVectors { DragonModelVector vectors[3]; };
 struct DragonModelState { s32 state[2]; f32 params[4]; };
@@ -443,7 +443,7 @@ struct DragonCollisionBodyPartInit {
     f32 world_center[3];
     f32 field_28;
 };
-typedef char DragonCollisionBodyPartInit_size[(sizeof(DragonCollisionBodyPartInit) == 0x2C) ? 1 : -1];
+LAYOUT_ASSERT(DragonCollisionBodyPartInit_size, sizeof(DragonCollisionBodyPartInit) == 0x2C);
 DragonCollisionBodyPartInit boss1_dragon_collision_body_parts[7] = {
     { { 0.0f, 0.0f, 0.0f }, 10.0f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },
     { { 0.0f, 0.0f, 0.0f }, 10.0f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },
@@ -4376,8 +4376,8 @@ void TBoss1Dragon::apply_head_fall_attack() {
 }
 
 void apply_landing_attack__12TBoss1DragonFi(s32 arg0) {
-    typedef char sp8_offset[(offsetof(Stack_80027E78, sp8) == 0x0) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_80027E78, sp10) == 0x8) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80027E78, sp8) == 0x0);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_80027E78, sp10) == 0x8);
     Stack_80027E78 stack;
     TBoss1Dragon__sub_80027A80((u8 *)&stack.sp8, (u8 *)&boss1_dragon_attack_sphere_params);
     stack.sp10 = *(f32 *)((s8 *)((*(u8 **)&TBoss1Dragon__data_804FE17C)) + 0xC);

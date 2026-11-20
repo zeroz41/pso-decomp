@@ -21,5 +21,5 @@ struct TWindowMeseta : public TWindowBase {
     u8 unk_70[0x4];
 };
 
-typedef char TWindowMeseta_size[sizeof(TWindowMeseta) == 0x74 ? 1 : -1];
+LAYOUT_ASSERT(TWindowMeseta_size, sizeof(TWindowMeseta) == 0x74);
 #endif

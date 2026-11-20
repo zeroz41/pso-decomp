@@ -41,7 +41,7 @@ public:
     void *m_74[6];
     s32 m_8c;
 };
-typedef char TChCrLoadReq_state_offset[(offsetof(TChCrLoadReq,state)==0x60)?1:-1];
-typedef char TChCrLoadReq_timer_offset[(offsetof(TChCrLoadReq,timer)==0x64)?1:-1];
-typedef char TChCrLoadReq_size[sizeof(TChCrLoadReq) == 0x90 ? 1 : -1];
+LAYOUT_ASSERT(TChCrLoadReq_state_offset, offsetof(TChCrLoadReq,state)==0x60);
+LAYOUT_ASSERT(TChCrLoadReq_timer_offset, offsetof(TChCrLoadReq,timer)==0x64);
+LAYOUT_ASSERT(TChCrLoadReq_size, sizeof(TChCrLoadReq) == 0x90);
 #endif

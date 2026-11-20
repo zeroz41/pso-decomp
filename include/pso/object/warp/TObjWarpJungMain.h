@@ -19,5 +19,5 @@ struct TObjWarpJungMain : public TObjAreaWarp {
     f32 m_c4;
 };
 
-typedef char TObjWarpJungMain_size[sizeof(TObjWarpJungMain) == 0xC8 ? 1 : -1];
+LAYOUT_ASSERT(TObjWarpJungMain_size, sizeof(TObjWarpJungMain) == 0xC8);
 #endif

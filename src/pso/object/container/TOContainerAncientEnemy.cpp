@@ -54,14 +54,14 @@
 #include "pso/system/task/TObject.h"
 
 struct BmlResourceBlock_804B0068 { const char *model_filenames[4]; BmlResourceDescriptor descriptor; };
-typedef char BmlResourceBlock_804B0068_size[(sizeof(BmlResourceBlock_804B0068) == 0x20) ? 1 : -1];
-typedef char BmlResourceBlock_804B0068_descriptor_offset[(offsetof(BmlResourceBlock_804B0068, descriptor) == 0x10) ? 1 : -1];
+LAYOUT_ASSERT(BmlResourceBlock_804B0068_size, sizeof(BmlResourceBlock_804B0068) == 0x20);
+LAYOUT_ASSERT(BmlResourceBlock_804B0068_descriptor_offset, offsetof(BmlResourceBlock_804B0068, descriptor) == 0x10);
 struct BmlResourceBlock_804B0088 { const char *model_filenames[4]; BmlResourceDescriptor descriptor; };
-typedef char BmlResourceBlock_804B0088_size[(sizeof(BmlResourceBlock_804B0088) == 0x20) ? 1 : -1];
-typedef char BmlResourceBlock_804B0088_descriptor_offset[(offsetof(BmlResourceBlock_804B0088, descriptor) == 0x10) ? 1 : -1];
+LAYOUT_ASSERT(BmlResourceBlock_804B0088_size, sizeof(BmlResourceBlock_804B0088) == 0x20);
+LAYOUT_ASSERT(BmlResourceBlock_804B0088_descriptor_offset, offsetof(BmlResourceBlock_804B0088, descriptor) == 0x10);
 struct BmlResourceBlock_804B00A8 { const char *model_filenames[4]; BmlResourceDescriptor descriptor; };
-typedef char BmlResourceBlock_804B00A8_size[(sizeof(BmlResourceBlock_804B00A8) == 0x20) ? 1 : -1];
-typedef char BmlResourceBlock_804B00A8_descriptor_offset[(offsetof(BmlResourceBlock_804B00A8, descriptor) == 0x10) ? 1 : -1];
+LAYOUT_ASSERT(BmlResourceBlock_804B00A8_size, sizeof(BmlResourceBlock_804B00A8) == 0x20);
+LAYOUT_ASSERT(BmlResourceBlock_804B00A8_descriptor_offset, offsetof(BmlResourceBlock_804B00A8, descriptor) == 0x10);
 
 // The 6x67 packet receive_physical_attack sends (its fields are not named yet).
 struct Pk_8015BAE0 { u8 pad[2]; u16 id; s32 a; s32 b; s32 c; };

@@ -22,5 +22,5 @@ struct TOTrapChainSawDamage : public TOTrapChainSaw {
     void *create();
 };
 
-typedef char TOTrapChainSawDamage_size[sizeof(TOTrapChainSawDamage) == 0x10C ? 1 : -1];
+LAYOUT_ASSERT(TOTrapChainSawDamage_size, sizeof(TOTrapChainSawDamage) == 0x10C);
 #endif

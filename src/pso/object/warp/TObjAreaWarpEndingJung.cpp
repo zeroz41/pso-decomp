@@ -75,7 +75,7 @@ struct RecoveredGlobal_8019B854___vt__14TObjWarpString {
     u8 remaining[0x14];
 };
 
-typedef char RecoveredGlobal_8019B854___vt__14TObjWarpString_size[sizeof(RecoveredGlobal_8019B854___vt__14TObjWarpString) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8019B854___vt__14TObjWarpString_size, sizeof(RecoveredGlobal_8019B854___vt__14TObjWarpString) == 0x18);
 
 struct Obj_8019B8D8 { u8 pad[0x88]; s32 id; };
 
@@ -265,7 +265,7 @@ struct Data_8019CAB0 {
     void *fC0;
 };
 
-typedef char RecoveredGlobal_8019CA24_lbl_80515BA0_size[sizeof(RecoveredGlobal_8019CA24_lbl_80515BA0) == 0x28 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8019CA24_lbl_80515BA0_size, sizeof(RecoveredGlobal_8019CA24_lbl_80515BA0) == 0x28);
 
 
 struct VObj_8019D250;

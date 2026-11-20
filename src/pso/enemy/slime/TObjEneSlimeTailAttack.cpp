@@ -167,9 +167,9 @@ struct RecoveredGlobal_800EA678_lbl_8043D23C {
     u8 remaining[0x8];
 };
 
-typedef char RecoveredGlobal_800EA678_lbl_8043D230_size[sizeof(RecoveredGlobal_800EA678_lbl_8043D230) == 0xC ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_800EA678_lbl_8043D230_size, sizeof(RecoveredGlobal_800EA678_lbl_8043D230) == 0xC);
 
-typedef char RecoveredGlobal_800EA678_lbl_8043D23C_size[sizeof(RecoveredGlobal_800EA678_lbl_8043D23C) == 0xC ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_800EA678_lbl_8043D23C_size, sizeof(RecoveredGlobal_800EA678_lbl_8043D23C) == 0xC);
 
 struct Stack_800EB3D4 {
     s32 sp8;
@@ -907,8 +907,8 @@ s32 TObjEneSlimeOne::create(s32 arg0, s32 arg1, s32 arg2) {
 }
 
 u8 *init__15TObjEneSlimeOneFPviii(u8 *ene_slime_one, s32 arg1, s32 arg2, s32 arg3) {
-    typedef char sp8_offset[(offsetof(Stack_800EB4A0, sp8) == 0x0) ? 1 : -1];
-    typedef char spE_offset[(offsetof(Stack_800EB4A0, spE) == 0x6) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800EB4A0, sp8) == 0x0);
+    LAYOUT_ASSERT(spE_offset, offsetof(Stack_800EB4A0, spE) == 0x6);
     Stack_800EB4A0 stack;
     __ct__9TObjEnemyFP7TObject(ene_slime_one);
     *(s32 **)((s8 *)ene_slime_one + 0x18) = __vt__15TObjEneSlimeOne;
@@ -928,8 +928,8 @@ u8 *init__15TObjEneSlimeOneFPviii(u8 *ene_slime_one, s32 arg1, s32 arg2, s32 arg
 }
 
 u8 *TObjEneSlimeOne__ct(u8 *actor, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
-    typedef char sp8_offset[(offsetof(Stack_800EB3D4, sp8) == 0x0) ? 1 : -1];
-    typedef char spE_offset[(offsetof(Stack_800EB3D4, spE) == 0x6) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800EB3D4, sp8) == 0x0);
+    LAYOUT_ASSERT(spE_offset, offsetof(Stack_800EB3D4, spE) == 0x6);
     Stack_800EB3D4 stack;
     __ct__9TObjEnemyFP7TObject(actor);
     *(s32 **)((s8 *)actor + 0x18) = __vt__15TObjEneSlimeOne;

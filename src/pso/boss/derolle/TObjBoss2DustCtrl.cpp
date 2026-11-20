@@ -58,7 +58,7 @@ struct RecoveredGlobal_8003AA9C___vt__13TObjBoss2Dust {
     s32 value;
     u8 remaining[0x14];
 };
-typedef char RecoveredGlobal_8003AA9C___vt__13TObjBoss2Dust_size[sizeof(RecoveredGlobal_8003AA9C___vt__13TObjBoss2Dust) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8003AA9C___vt__13TObjBoss2Dust_size, sizeof(RecoveredGlobal_8003AA9C___vt__13TObjBoss2Dust) == 0x18);
 
 extern "C" {
 s32 __ct__7TObjectFP7TObject(void *, void *);

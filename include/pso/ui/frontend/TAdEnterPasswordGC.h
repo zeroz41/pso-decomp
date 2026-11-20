@@ -18,7 +18,7 @@ struct TAdEnterPasswordGC : public TAdEnterBaseGC {
     s32 len; // strlen of the keyboard buffer (update_password_input)
 };
 
-typedef char TAdEnterPasswordGC_size[sizeof(TAdEnterPasswordGC) == 0x44 ? 1 : -1];
+LAYOUT_ASSERT(TAdEnterPasswordGC_size, sizeof(TAdEnterPasswordGC) == 0x44);
 
 // --- C functions defined in TAdEnterPasswordGC.cpp ---
 extern "C" {

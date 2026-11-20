@@ -771,8 +771,8 @@ void TBoss6Type1::load_params(void *arg1) {
 }
 
 void send_flow_action_if_idle__11TBoss6Type1FPvc(TBoss6Type1 *boss6_type1, s8 arg1) {
-    typedef char sp8_offset[(offsetof(Stack_802B9204_boss6_1, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_802B9204_boss6_1, spC) == 0x4) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_802B9204_boss6_1, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_802B9204_boss6_1, spC) == 0x4);
     Stack_802B9204_boss6_1 stack;
     if (((s32)((TBoss6Type1 *)(boss6_type1->m_3f8))->is_idle()) != 0) {
         build_6xA4_olga_flow_boss_actions(&stack.sp8);

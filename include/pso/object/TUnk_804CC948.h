@@ -20,6 +20,6 @@ public:
     s32 m_age;          // frames since created
     s32 m_sound_handle; // play_sound_effect's result, stopped by the dtor
 };
-typedef char TUnk_804CC948_size[sizeof(TUnk_804CC948) == 0x34 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804CC948_size, sizeof(TUnk_804CC948) == 0x34);
 
 #endif

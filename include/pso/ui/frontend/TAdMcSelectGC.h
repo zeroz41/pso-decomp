@@ -36,7 +36,7 @@ struct TAdMcSelectGC : public TObject {
     void set_float_1c(f32 v);
 };
 
-typedef char TAdMcSelectGC_size[sizeof(TAdMcSelectGC) == 0x34 ? 1 : -1];
+LAYOUT_ASSERT(TAdMcSelectGC_size, sizeof(TAdMcSelectGC) == 0x34);
 
 extern "C" {
 void *__dt__13TAdMcSelectGCFv(void *arg0, s16 arg1);

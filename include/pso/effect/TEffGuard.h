@@ -12,6 +12,6 @@ public:
 
     s32 state;
 };
-typedef char GuardEffectSize[(sizeof(TEffGuard) == 0x74) ? 1 : -1];
-typedef char GuardEffectStateOffset[(offsetof(TEffGuard, state) == 0x70) ? 1 : -1];
+LAYOUT_ASSERT(GuardEffectSize, sizeof(TEffGuard) == 0x74);
+LAYOUT_ASSERT(GuardEffectStateOffset, offsetof(TEffGuard, state) == 0x70);
 #endif

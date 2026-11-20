@@ -13,7 +13,7 @@ public:
     s32 unk_1C;
     u8 pad_20[0x7FC];
 };
-typedef char TMapCsnCtrlExtent[sizeof(TMapCsnCtrl) == 0x81C ? 1 : -1];
+LAYOUT_ASSERT(TMapCsnCtrlExtent, sizeof(TMapCsnCtrl) == 0x81C);
 
 // Defined by the map collision unit (TObjMapCsn.cpp), whose .sdata and .rodata it opens.
 extern const char *TMapCsnCtrl__class_name;

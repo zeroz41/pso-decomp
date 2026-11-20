@@ -27,7 +27,7 @@ public:
     u32 sonic_logo;   // TAdSoniclogo
     u32 adx_logo;     // TAdADXlogo
 };
-typedef char TLogoExtent[sizeof(TLogo) == 0x38 ? 1 : -1];
+LAYOUT_ASSERT(TLogoExtent, sizeof(TLogo) == 0x38);
 
 extern "C" {
 void TLogo__sub_8013F5AC(void);

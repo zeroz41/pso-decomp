@@ -17,9 +17,9 @@ public:
     s32 item_id;
 };
 
-typedef char CaneAttachmentOffset[(offsetof(TItemEffCane, attachment_index) == 0x1C) ? 1 : -1];
-typedef char CaneEffectOffset[(offsetof(TItemEffCane, effect) == 0x20) ? 1 : -1];
-typedef char CaneItemIdOffset[(offsetof(TItemEffCane, item_id) == 0x24) ? 1 : -1];
-typedef char CaneEffectSize[(sizeof(TItemEffCane) == 0x28) ? 1 : -1];
+LAYOUT_ASSERT(CaneAttachmentOffset, offsetof(TItemEffCane, attachment_index) == 0x1C);
+LAYOUT_ASSERT(CaneEffectOffset, offsetof(TItemEffCane, effect) == 0x20);
+LAYOUT_ASSERT(CaneItemIdOffset, offsetof(TItemEffCane, item_id) == 0x24);
+LAYOUT_ASSERT(CaneEffectSize, sizeof(TItemEffCane) == 0x28);
 
 #endif

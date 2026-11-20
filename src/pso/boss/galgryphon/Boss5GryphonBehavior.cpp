@@ -1329,8 +1329,8 @@ void TBoss8Dragon__sub_8005E17C(void) {
 #pragma push
 #pragma fp_contract on
 s32 TBoss8Dragon__sub_8005E1E8(f32 farg0) {
-    typedef char sp8_offset[(offsetof(Stack_8005E1E8, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_8005E1E8, spC) == 0x4) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8005E1E8, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8005E1E8, spC) == 0x4);
     Stack_8005E1E8 stack;
     f32 temp_f1;
     f32 temp_f31;
@@ -4154,8 +4154,8 @@ void TBoss8Dragon__sub_8006426C(Obj_8006426C *arg0) {
 #pragma pop
 
 void TBoss8Dragon__sub_8006435C(u8 *ene_dd) {
-    typedef char sp8_offset[(offsetof(Stack_8006435C, sp8) == 0x0) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_8006435C, sp10) == 0x8) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8006435C, sp8) == 0x0);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8006435C, sp10) == 0x8);
     Stack_8006435C stack;
     u8 *temp_r31;
     u8 *temp_r31_2;
@@ -4234,8 +4234,8 @@ void TBoss5Gryphon::update_collider_from_table() {
 #pragma auto_inline off
 #pragma dont_inline off
 void TBoss8Dragon__sub_800646F0(s32 arg0) {
-    typedef char sp8_offset[(offsetof(Stack_800646F0, sp8) == 0x0) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_800646F0, sp10) == 0x8) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800646F0, sp8) == 0x0);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_800646F0, sp10) == 0x8);
     Stack_800646F0 stack;
     TBoss1Dragon__sub_80027A80(&stack.sp8, &boss5_gryphon_params_b);
     stack.sp10 = *(f32 *)((s8 *)boss5_gryphon_behavior_params[2] + 0x10);

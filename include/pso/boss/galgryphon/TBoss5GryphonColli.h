@@ -12,7 +12,7 @@ public:
     virtual ~TBoss5GryphonColli();
 };
 
-typedef char TBoss5GryphonColliObjectsOffset[offsetof(TBoss5GryphonColli, objects) == 0x1C ? 1 : -1];
+LAYOUT_ASSERT(TBoss5GryphonColliObjectsOffset, offsetof(TBoss5GryphonColli, objects) == 0x1C);
 
 extern "C" {
 u8 *TBoss5GryphonColli__ct(u8 *object, s32 arg1);

@@ -10,7 +10,7 @@
 #include "pso/render/render_util.h"
 
 struct Param_802E5CB0 { f32 a; f32 b; s32 c; f32 d; };
-typedef char Param_802E5CB0_size[sizeof(Param_802E5CB0) == 0x10 ? 1 : -1];
+LAYOUT_ASSERT(Param_802E5CB0_size, sizeof(Param_802E5CB0) == 0x10);
 
 struct P2_802E55B8 { s16 x, y; };
 struct Hex_802E55B8 { u8 pad[0x1C]; P2_802E55B8 pts[32]; };

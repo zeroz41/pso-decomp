@@ -122,7 +122,7 @@ struct TWindowCtrl : public TObject {
     void clear_flag_bit0();
 };
 
-typedef char TWindowCtrl_size[sizeof(TWindowCtrl) == 0xE8 ? 1 : -1];
+LAYOUT_ASSERT(TWindowCtrl_size, sizeof(TWindowCtrl) == 0xE8);
 
 // TWindowCtrl__player_menu_query_cb: layout known from its uses only.
 struct TWindowCtrlPlayerMenuQueryCb { s32 value; u8 remaining[0x8]; };

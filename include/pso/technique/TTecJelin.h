@@ -18,5 +18,5 @@ struct TTecJelin : public TUnk_804CC148 {
     TargetCursorList targets;
 };
 
-typedef char TTecJelin_size[sizeof(TTecJelin) == 0x14C ? 1 : -1];
+LAYOUT_ASSERT(TTecJelin_size, sizeof(TTecJelin) == 0x14C);
 #endif

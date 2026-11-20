@@ -17,5 +17,5 @@ struct TTecAnti : public TTecPlayerInfluence {
     virtual void render();
 };
 
-typedef char TTecAnti_size[sizeof(TTecAnti) == 0x140 ? 1 : -1];
+LAYOUT_ASSERT(TTecAnti_size, sizeof(TTecAnti) == 0x140);
 #endif

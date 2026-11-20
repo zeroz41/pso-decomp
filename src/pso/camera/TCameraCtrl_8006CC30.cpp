@@ -283,9 +283,9 @@ s32 TUnk_80488E00::is_flag_set() {
     return ((u32) *(u32 *)((s8 *)(TKeyBoardControl__sub_803DEB74(0x12)) + 8) >> 0x11U) & 1;
 }
 
-typedef char RecoveredGlobal_8006D494_TCameraCtrl__data_804FF628_size[sizeof(RecoveredGlobal_8006D494_TCameraCtrl__data_804FF628) == 0xC ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8006D494_TCameraCtrl__data_804FF628_size, sizeof(RecoveredGlobal_8006D494_TCameraCtrl__data_804FF628) == 0xC);
 
-typedef char RecoveredGlobal_8006D460_TCameraCtrl__data_804FF628_size[sizeof(RecoveredGlobal_8006D460_TCameraCtrl__data_804FF628) == 0xC ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8006D460_TCameraCtrl__data_804FF628_size, sizeof(RecoveredGlobal_8006D460_TCameraCtrl__data_804FF628) == 0xC);
 
 #pragma push
 #pragma fp_contract on
@@ -465,7 +465,7 @@ void end_conversation_camera(void) {
 
 #pragma push
 #pragma opt_common_subs off
-typedef char RecoveredGlobal_8006D610_TCameraCtrl__data_804FF628_size[sizeof(RecoveredGlobal_8006D610_TCameraCtrl__data_804FF628) == 0xC ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8006D610_TCameraCtrl__data_804FF628_size, sizeof(RecoveredGlobal_8006D610_TCameraCtrl__data_804FF628) == 0xC);
 
 s32 conversation_camera_obstructed(FollowController *self,s32 heading) {
     FollowVector eye,candidate,offset;

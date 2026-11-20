@@ -45,7 +45,7 @@ struct TAdEnterSerialAccessGC : public TAdEnterBaseGC {
     static u32 create_keyboard_control(s32 arg0, s32 arg1);
 };
 
-typedef char TAdEnterSerialAccessGC_size[sizeof(TAdEnterSerialAccessGC) == 0x68 ? 1 : -1];
+LAYOUT_ASSERT(TAdEnterSerialAccessGC_size, sizeof(TAdEnterSerialAccessGC) == 0x68);
 
 extern "C" {
 u8 *TAdEnterSerialAccessGC__ct(TAdEnterSerialAccessGC *arg0, TObject *parent);

@@ -78,14 +78,14 @@ WindowDescriptor party_status_window_params = {
 void TWindowPartyStatus::draw() { ((TWindowSubStatusDisp *)this)->update_hp_entry(); ((TWindowSubStatusDisp *)this)->update_status_entry(); }
 
 void TWindowPartyStatus::draw_background(u8 *arg1) {
-    typedef char sp8_offset[(offsetof(Stack_8030C0C4, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_8030C0C4, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_8030C0C4, sp10) == 0x8) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_8030C0C4, sp14) == 0xC) ? 1 : -1];
-    typedef char sp18_offset[(offsetof(Stack_8030C0C4, sp18) == 0x10) ? 1 : -1];
-    typedef char sp1C_offset[(offsetof(Stack_8030C0C4, sp1C) == 0x14) ? 1 : -1];
-    typedef char sp20_offset[(offsetof(Stack_8030C0C4, sp20) == 0x18) ? 1 : -1];
-    typedef char sp24_offset[(offsetof(Stack_8030C0C4, sp24) == 0x1C) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8030C0C4, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8030C0C4, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8030C0C4, sp10) == 0x8);
+    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_8030C0C4, sp14) == 0xC);
+    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_8030C0C4, sp18) == 0x10);
+    LAYOUT_ASSERT(sp1C_offset, offsetof(Stack_8030C0C4, sp1C) == 0x14);
+    LAYOUT_ASSERT(sp20_offset, offsetof(Stack_8030C0C4, sp20) == 0x18);
+    LAYOUT_ASSERT(sp24_offset, offsetof(Stack_8030C0C4, sp24) == 0x1C);
     Stack_8030C0C4 stack;
     f32 temp_f2;
     f32 temp_f31;

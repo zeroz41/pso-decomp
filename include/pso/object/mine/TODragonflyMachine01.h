@@ -30,6 +30,6 @@ struct TODragonflyMachine01 : public TODragonfly {
     int animation_yaw;
 };
 
-typedef char TODragonflyMachine01_size[sizeof(TODragonflyMachine01) == 0x108 ? 1 : -1];
+LAYOUT_ASSERT(TODragonflyMachine01_size, sizeof(TODragonflyMachine01) == 0x108);
 
 #endif

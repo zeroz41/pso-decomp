@@ -12,7 +12,7 @@ struct TObjRaderHideCol : public TObjBase {
     virtual void run_task();
 };
 
-typedef char TObjRaderHideCol_size[sizeof(TObjRaderHideCol) == 0x98 ? 1 : -1];
+LAYOUT_ASSERT(TObjRaderHideCol_size, sizeof(TObjRaderHideCol) == 0x98);
 
 extern "C" {
 u8 *TObjRaderHideCol__ct(u8 *arg0, s32 arg1, s32 arg2);

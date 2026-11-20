@@ -182,11 +182,11 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void update_item_icon_colors(void *item);
 };
 
-typedef char TWindowSubStatusDisp_offset_page[(offsetof(TWindowSubStatusDisp, page) == 0x60) ? 1 : -1];
-typedef char TWindowSubStatusDisp_offset_m_62[(offsetof(TWindowSubStatusDisp, m_62) == 0x62) ? 1 : -1];
-typedef char TWindowSubStatusDisp_offset_m_68[(offsetof(TWindowSubStatusDisp, m_68) == 0x68) ? 1 : -1];
-typedef char TWindowSubStatusDisp_offset_scale_x[(offsetof(TWindowSubStatusDisp, scale_x) == 0x6C) ? 1 : -1];
-typedef char TWindowSubStatusDisp_offset_scale_y[(offsetof(TWindowSubStatusDisp, scale_y) == 0x70) ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubStatusDisp_offset_page, offsetof(TWindowSubStatusDisp, page) == 0x60);
+LAYOUT_ASSERT(TWindowSubStatusDisp_offset_m_62, offsetof(TWindowSubStatusDisp, m_62) == 0x62);
+LAYOUT_ASSERT(TWindowSubStatusDisp_offset_m_68, offsetof(TWindowSubStatusDisp, m_68) == 0x68);
+LAYOUT_ASSERT(TWindowSubStatusDisp_offset_scale_x, offsetof(TWindowSubStatusDisp, scale_x) == 0x6C);
+LAYOUT_ASSERT(TWindowSubStatusDisp_offset_scale_y, offsetof(TWindowSubStatusDisp, scale_y) == 0x70);
 
-typedef char TWindowSubStatusDisp_size[sizeof(TWindowSubStatusDisp) == 0x74 ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubStatusDisp_size, sizeof(TWindowSubStatusDisp) == 0x74);
 #endif

@@ -194,9 +194,9 @@ void interpolate_motion_quaternion_keys(u32 keys, u32 count, s32 output,
 #pragma push
 #pragma scheduling off
 void interpolate_motion_vector_keys(u8 *keys, s32 count, u8 *arg2, f32 farg0) {
-    typedef char sp8_offset[(offsetof(Stack_803D6DDC, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_803D6DDC, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_803D6DDC, sp10) == 0x8) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_803D6DDC, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_803D6DDC, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_803D6DDC, sp10) == 0x8);
     Stack_803D6DDC stack;
     f32 temp_f2;
     f32 temp_f2_2;
@@ -214,9 +214,9 @@ void interpolate_motion_vector_keys(u8 *keys, s32 count, u8 *arg2, f32 farg0) {
 #pragma push
 #pragma scheduling off
 void interpolate_motion_vector_keys_xy(u8 *keys, s32 count, u8 *arg2, f32 farg0) {
-    typedef char sp8_offset[(offsetof(Stack_803D6E8C, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_803D6E8C, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_803D6E8C, sp10) == 0x8) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_803D6E8C, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_803D6E8C, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_803D6E8C, sp10) == 0x8);
     Stack_803D6E8C stack;
     f32 temp_f2;
     f32 temp_f2_2;
@@ -235,9 +235,9 @@ void interpolate_motion_vector_keys_xy(u8 *keys, s32 count, u8 *arg2, f32 farg0)
 // Integer-key sampler; motion_key_sampler_table (TCameraCtrl_803D749C) holds it
 // next to the vector and angle samplers, so it takes the same (keys, count, out, frame).
 void interpolate_motion_key(u8 *arg0, s32 count, s32 *arg2, f32 farg0) {
-    typedef char sp8_offset[(offsetof(Stack_803D6F20, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_803D6F20, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_803D6F20, sp10) == 0x8) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_803D6F20, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_803D6F20, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_803D6F20, sp10) == 0x8);
     Stack_803D6F20 stack;
 
     s32 temp_r5;
@@ -251,9 +251,9 @@ void interpolate_motion_key(u8 *arg0, s32 count, s32 *arg2, f32 farg0) {
 #pragma push
 #pragma scheduling off
 void sample_motion_angle_keys(u8 *keys, s32 count, u8 *arg2, f32 farg0) {
-    typedef char sp8_offset[(offsetof(Stack_803D6FC8, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_803D6FC8, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_803D6FC8, sp10) == 0x8) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_803D6FC8, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_803D6FC8, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_803D6FC8, sp10) == 0x8);
     Stack_803D6FC8 stack;
 
     s32 temp_r5;
@@ -273,9 +273,9 @@ void sample_motion_angle_keys(u8 *keys, s32 count, u8 *arg2, f32 farg0) {
 #pragma push
 #pragma scheduling off
 void sample_motion_angle_keys_s16(u8 *keys, s32 count, u8 *arg2, f32 farg0) {
-    typedef char sp8_offset[(offsetof(Stack_803D7128, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_803D7128, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_803D7128, sp10) == 0x8) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_803D7128, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_803D7128, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_803D7128, sp10) == 0x8);
     Stack_803D7128 stack;
 
     s16 temp_r5;

@@ -75,7 +75,7 @@ struct TObjEneMorfos : public TObjEneDD_ST {
     s32 select_target_in_view();
 };
 
-typedef char TObjEneMorfos_size[sizeof(TObjEneMorfos) == 0x4D8 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneMorfos_size, sizeof(TObjEneMorfos) == 0x4D8);
 
 extern "C" {
 void *TObjEneMorfos__ct(void *arg0, void *arg1, void *arg2);

@@ -153,7 +153,7 @@ void TMedicalCenterSequence::clear_slot_data() {
     }
 }
 
-typedef char RecoveredGlobal_80216A70___vt__22TMedicalCenterSequence_size[sizeof(RecoveredGlobal_80216A70___vt__22TMedicalCenterSequence) == 0x38 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_80216A70___vt__22TMedicalCenterSequence_size, sizeof(RecoveredGlobal_80216A70___vt__22TMedicalCenterSequence) == 0x38);
 
 TMedicalCenterSequence::TMedicalCenterSequence(TObject *parent, TObjPlayer *player) : TShopSequence(parent) {
     m_name = TMedicalCenterSequence__class_name;
@@ -182,7 +182,7 @@ TMedicalCenterSequence::~TMedicalCenterSequence() {
     *(s32 *)((s8 *)&TMedicalCenterSequence__data_80513E90.value + (sub_8022397C__15TShopWindowBaseFv(this) * 4)) = 0;
 }
 
-typedef char RecoveredGlobal_802169A8___vt__22TMedicalCenterSequence_size[sizeof(RecoveredGlobal_802169A8___vt__22TMedicalCenterSequence) == 0x38 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_802169A8___vt__22TMedicalCenterSequence_size, sizeof(RecoveredGlobal_802169A8___vt__22TMedicalCenterSequence) == 0x38);
 
 void TMedicalCenterSequence::vfunc_11() {
     u8 *arg0 = (u8 *)this;

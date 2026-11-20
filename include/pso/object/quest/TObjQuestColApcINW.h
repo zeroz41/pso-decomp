@@ -12,6 +12,6 @@ struct TObjQuestColApcINW : public TObjQuestColBase {
     Vec warp_pos;      // copied to quest_col_apc_warp_target_pos (inferred name)
 };
 
-typedef char TObjQuestColApcINW_size[sizeof(TObjQuestColApcINW) == 0xCC ? 1 : -1];
+LAYOUT_ASSERT(TObjQuestColApcINW_size, sizeof(TObjQuestColApcINW) == 0xCC);
 
 #endif

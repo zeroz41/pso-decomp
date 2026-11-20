@@ -27,13 +27,13 @@
 // in reverse source order (so they are written last to first).
 #pragma defer_codegen on
 
-typedef char palette_children_offset[offsetof(TWindowActionPalette, children) == 0x24 ? 1 : -1];
-typedef char palette_x_offset[offsetof(TWindowActionPalette, x) == 0x40 ? 1 : -1];
-typedef char palette_resources_offset[offsetof(TWindowActionPalette, resources) == 0x60 ? 1 : -1];
-typedef char palette_state_offset[offsetof(TWindowActionPalette, state) == 0x6C ? 1 : -1];
-typedef char palette_scale_offset[offsetof(TWindowActionPalette, scale) == 0x70 ? 1 : -1];
-typedef char palette_size[sizeof(TWindowActionPalette) == 0x78 ? 1 : -1];
-typedef char icon_kind_offset[offsetof(Icon_80243630, kind) == 0x34 ? 1 : -1];
+LAYOUT_ASSERT(palette_children_offset, offsetof(TWindowActionPalette, children) == 0x24);
+LAYOUT_ASSERT(palette_x_offset, offsetof(TWindowActionPalette, x) == 0x40);
+LAYOUT_ASSERT(palette_resources_offset, offsetof(TWindowActionPalette, resources) == 0x60);
+LAYOUT_ASSERT(palette_state_offset, offsetof(TWindowActionPalette, state) == 0x6C);
+LAYOUT_ASSERT(palette_scale_offset, offsetof(TWindowActionPalette, scale) == 0x70);
+LAYOUT_ASSERT(palette_size, sizeof(TWindowActionPalette) == 0x78);
+LAYOUT_ASSERT(icon_kind_offset, offsetof(Icon_80243630, kind) == 0x34);
 
 #pragma push
 #pragma readonly_strings on

@@ -11,7 +11,7 @@ struct TWindowSubEquipList : public TWindowMenuIconLine {
     void run_task();
 };
 
-typedef char TWindowSubEquipList_size[sizeof(TWindowSubEquipList) == 0x88 ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubEquipList_size, sizeof(TWindowSubEquipList) == 0x88);
 
 extern "C" {
 u8 *create_equip_list_window(s32 parent, s32 position, s32 client);

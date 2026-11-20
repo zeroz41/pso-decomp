@@ -124,7 +124,7 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
     void handle_message(s32 arg1);
 };
 
-typedef char TObjEneMe3Stelth_size[sizeof(TObjEneMe3Stelth) == 0x44C ? 1 : -1];
+LAYOUT_ASSERT(TObjEneMe3Stelth_size, sizeof(TObjEneMe3Stelth) == 0x44C);
 
 extern "C" {
 void TObjEneMe3Stelth__sub_800F0C90(TObjEneMe3Stelth *stelth);

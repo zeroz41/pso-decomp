@@ -26,5 +26,5 @@ struct TObjLuker : public TObjBase {
     static int get_stat_table_entry(int a0);
 };
 
-typedef char TObjLuker_size[sizeof(TObjLuker) == 0xBC ? 1 : -1];
+LAYOUT_ASSERT(TObjLuker_size, sizeof(TObjLuker) == 0xBC);
 #endif

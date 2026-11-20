@@ -51,7 +51,7 @@ struct RecoveredGlobal_802C8910_lbl_804E0CC0 {
     u8 remaining[0xDC];
 };
 
-typedef char RecoveredGlobal_802C8910_lbl_804E0CC0_size[sizeof(RecoveredGlobal_802C8910_lbl_804E0CC0) == 0xE0 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_802C8910_lbl_804E0CC0_size, sizeof(RecoveredGlobal_802C8910_lbl_804E0CC0) == 0xE0);
 
 struct VBase_18_62e3d5 { char pad[0x18]; };
 

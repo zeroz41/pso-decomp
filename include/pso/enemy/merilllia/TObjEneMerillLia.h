@@ -45,7 +45,7 @@ struct TObjEneMerillLia : public TUnk_80493450 {
     u8 unk_3DA[0x2];
 };
 
-typedef char TObjEneMerillLia_size[sizeof(TObjEneMerillLia) == 0x3DC ? 1 : -1];
+LAYOUT_ASSERT(TObjEneMerillLia_size, sizeof(TObjEneMerillLia) == 0x3DC);
 
 extern "C" {
 void *TObjEneMerillLia__create(void *arg0);

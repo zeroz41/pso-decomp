@@ -16,5 +16,5 @@ struct TObjBgmColCtrl : public TObject {
     static void update_all_zones(s32 arg0);
 };
 
-typedef char TObjBgmColCtrl_size[sizeof(TObjBgmColCtrl) == 0x20 ? 1 : -1];
+LAYOUT_ASSERT(TObjBgmColCtrl_size, sizeof(TObjBgmColCtrl) == 0x20);
 #endif

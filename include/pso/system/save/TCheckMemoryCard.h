@@ -51,6 +51,6 @@ struct TCheckMemoryCard : public TObject {
     u8 pad_50[0x200];
 };
 
-typedef char TCheckMemoryCard_size[sizeof(TCheckMemoryCard) == 0x250 ? 1 : -1];
+LAYOUT_ASSERT(TCheckMemoryCard_size, sizeof(TCheckMemoryCard) == 0x250);
 
 #endif

@@ -129,7 +129,7 @@ void TJudgmentSequence::setup_counter_camera() {
 }
 
 void TJudgmentSequence::restore_player_state() { restore_player_state__13TShopSequenceFv(this); set_field_20((s32)((void*)((void*)1))); }
-typedef char RecoveredGlobal_80215EF8___vt__17TJudgmentSequence_size[sizeof(RecoveredGlobal_80215EF8___vt__17TJudgmentSequence) == 0x38 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_80215EF8___vt__17TJudgmentSequence_size, sizeof(RecoveredGlobal_80215EF8___vt__17TJudgmentSequence) == 0x38);
 
 struct Seq_80215CB8;
 void TJudgmentSequence::vfunc_11() {

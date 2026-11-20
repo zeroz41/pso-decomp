@@ -94,9 +94,9 @@ void TLobby__sub_800722AC(s32 arg0) {
 }
 
 void TLobby::send_challenge_retry_cmd(s32 arg0) {
-    typedef char sp8_offset[(offsetof(Stack_80072308, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_80072308, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_80072308, sp10) == 0x8) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80072308, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_80072308, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_80072308, sp10) == 0x8);
     Stack_80072308 stack;
     if (TLobby::is_flag_set() != 0) {
         TLobby__sub_800727EC((u8 *)&stack.sp8);
@@ -142,9 +142,9 @@ void handle_6x95_set_challenge_time(Pkt_80072230 *pkt) {
 
 void TLobby::send_seed_state() {
     s32 arg0 = (s32)this;
-    typedef char sp8_offset[(offsetof(Stack_80072448, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_80072448, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_80072448, sp10) == 0x8) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80072448, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_80072448, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_80072448, sp10) == 0x8);
     Stack_80072448 stack;
     TLobby__sub_80072880((u8 *)&stack.sp8);
     stack.sp10 = mix_seed_checked__6TLobbyFi(arg0);
@@ -164,8 +164,8 @@ void handle_6x8A_show_challenge_time_records_window(Pkt_80072494 *pkt) {
 }
 
 void TLobby::send_challenge_with_value(s32 arg0, s32 arg1) {
-    typedef char sp8_offset[(offsetof(Stack_800724F0, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_800724F0, spC) == 0x4) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800724F0, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_800724F0, spC) == 0x4);
     Stack_800724F0 stack;
     TLobby__sub_800728FC((u8 *)&stack.sp8);
     stack.spC = arg1;

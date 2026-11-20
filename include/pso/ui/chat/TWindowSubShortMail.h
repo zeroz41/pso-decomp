@@ -38,5 +38,5 @@ struct TWindowSubShortMail : public TObject {
     void advance_line(s32 arg1);
 };
 
-typedef char TWindowSubShortMail_size[sizeof(TWindowSubShortMail) == 0x60 ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubShortMail_size, sizeof(TWindowSubShortMail) == 0x60);
 #endif

@@ -48,5 +48,5 @@ struct TCheckRoomSequence : public TShopSequence {
     TObject *counter_camera;        // 0x48: set_service_counter_camera
 };
 
-typedef char TCheckRoomSequence_size[sizeof(TCheckRoomSequence) == 0x4C ? 1 : -1];
+LAYOUT_ASSERT(TCheckRoomSequence_size, sizeof(TCheckRoomSequence) == 0x4C);
 #endif

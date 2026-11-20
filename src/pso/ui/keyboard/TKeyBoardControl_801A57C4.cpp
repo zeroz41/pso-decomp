@@ -342,7 +342,7 @@ s32 func_801A5E54__Fv(void) {
 s32 TKeyBoardControl::read_key_checked(u8 arg0) {
     return TKeyBoardControl::check_and_read((s32)(arg0));
 }
-typedef char ControllerInputState_size[sizeof(ControllerInputState) == 0x1B0 ? 1 : -1];
+LAYOUT_ASSERT(ControllerInputState_size, sizeof(ControllerInputState) == 0x1B0);
 void TKeyBoardControl::update_input_frame() {
     u8 *key_board_control;
     hardware_keyboard_state.sub_80132650();

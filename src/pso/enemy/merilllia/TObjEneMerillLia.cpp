@@ -46,7 +46,7 @@ struct Pl_800D5614 { u8 pad0[0x38]; u8 pos[0xC]; };
 #pragma readonly_strings on
 
 struct RecoveredGlobal_800D5060_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
-typedef char RecoveredGlobal_800D5060_lbl_8058D490_size[sizeof(RecoveredGlobal_800D5060_lbl_8058D490) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_800D5060_lbl_8058D490_size, sizeof(RecoveredGlobal_800D5060_lbl_8058D490) == 0x30);
 
 struct VBase_18_477421
 {
@@ -1734,8 +1734,8 @@ void TObjEneMerillLia__sub_800D4EC8(s32 arg0) {
 }
 
 void spawn_ground_effect__16TObjEneMerillLiaFPv(u8 *motion) {
-    typedef char sp8_offset[(offsetof(Stack_800D4D74, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_800D4D74, spC) == 0x4) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800D4D74, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_800D4D74, spC) == 0x4);
     Stack_800D4D74 stack;
     s32 temp_r29;
     s32 particle_effect;

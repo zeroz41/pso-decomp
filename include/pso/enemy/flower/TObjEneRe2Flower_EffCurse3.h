@@ -12,6 +12,6 @@ public:
     s32 m_20;
     u8 unk_24[0x4];
 };
-typedef char TObjEneRe2Flower_EffCurse3_size[sizeof(TObjEneRe2Flower_EffCurse3) == 0x28 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneRe2Flower_EffCurse3_size, sizeof(TObjEneRe2Flower_EffCurse3) == 0x28);
 
 #endif

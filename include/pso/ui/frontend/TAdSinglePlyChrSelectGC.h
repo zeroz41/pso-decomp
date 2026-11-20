@@ -177,7 +177,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     u8 *init_char_record();
 };
 
-typedef char TAdSinglePlyChrSelectGC_size[sizeof(TAdSinglePlyChrSelectGC) == 0x60 ? 1 : -1];
+LAYOUT_ASSERT(TAdSinglePlyChrSelectGC_size, sizeof(TAdSinglePlyChrSelectGC) == 0x60);
 
 // Memory-card save state of the character select scene (.sbss of TAdSinglePlyChrSelectGC_801FBF54.cpp,
 // in definition order). The buffers hold heap addresses as words: every test of them against 0 is a cmplwi.

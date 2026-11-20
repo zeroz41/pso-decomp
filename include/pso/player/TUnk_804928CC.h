@@ -21,7 +21,7 @@ public:
     void sub_800BC3E8(u8 *);
     u32 owner;   // the actor that fired this hitbox (a TObjBase *; sub_800BC3E8 stores it and copies its room)
 };
-typedef char TUnk_804928CC_size[sizeof(TUnk_804928CC) == 0xB0 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804928CC_size, sizeof(TUnk_804928CC) == 0xB0);
 
 extern "C" void *__dt__13TUnk_804928CCFv(void *, s16);
 extern "C" void *__ct__13TUnk_804928CCFP7TObjectP8TObjBasePC13CollisionBodyl(void *, void *, void *, const void *, s32);

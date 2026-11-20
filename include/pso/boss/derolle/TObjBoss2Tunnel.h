@@ -111,5 +111,5 @@ struct TObjBoss2Tunnel : public TObject {
     static s32 is_active();
 };
 
-typedef char TObjBoss2Tunnel_size[sizeof(TObjBoss2Tunnel) == 0xDC ? 1 : -1];
+LAYOUT_ASSERT(TObjBoss2Tunnel_size, sizeof(TObjBoss2Tunnel) == 0xDC);
 #endif

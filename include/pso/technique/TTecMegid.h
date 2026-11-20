@@ -22,5 +22,5 @@ struct TTecMegid : public TUnk_804CCC68 {
     u8 unk_178[0x4];
 };
 
-typedef char TTecMegid_size[sizeof(TTecMegid) == 0x17C ? 1 : -1];
+LAYOUT_ASSERT(TTecMegid_size, sizeof(TTecMegid) == 0x17C);
 #endif

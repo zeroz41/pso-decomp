@@ -654,7 +654,7 @@ extern const RecoveredGlobal_80184B44_lbl_804440B0 city_season_collision_templat
 
 extern "C" {
 
-typedef char RecoveredGlobal_80184B44_lbl_804440B0_size[sizeof(RecoveredGlobal_80184B44_lbl_804440B0) == 0x2C ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_80184B44_lbl_804440B0_size, sizeof(RecoveredGlobal_80184B44_lbl_804440B0) == 0x2C);
 
 }
 

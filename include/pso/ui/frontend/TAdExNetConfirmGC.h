@@ -13,5 +13,5 @@ struct TAdExNetConfirmGC : public TAdWarningBaseGC {
     virtual void run_task();
 };
 
-typedef char TAdExNetConfirmGC_size[sizeof(TAdExNetConfirmGC) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(TAdExNetConfirmGC_size, sizeof(TAdExNetConfirmGC) == 0x30);
 #endif

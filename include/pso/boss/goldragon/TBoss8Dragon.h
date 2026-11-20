@@ -304,11 +304,11 @@ public:
 };
 
 #include <stddef.h>
-typedef char TBoss8DragonFadeStride[(sizeof(RenderFadeState) == 0x1C) ? 1 : -1];
-typedef char TBoss8DragonFadeOffset[(offsetof(TBoss8Dragon, renderFadeStates) == 0x6DC) ? 1 : -1];
-typedef char TBoss8DragonSize[(sizeof(TBoss8Dragon) == 0x8A4) ? 1 : -1];
-typedef char TBoss8DragonSubTasksOffset[(offsetof(TBoss8Dragon, sub_tasks) == 0x3C4) ? 1 : -1];
-typedef char TBoss8DragonAfterFadeOffset[(offsetof(TBoss8Dragon, m_74c) == 0x74C) ? 1 : -1];
+LAYOUT_ASSERT(TBoss8DragonFadeStride, sizeof(RenderFadeState) == 0x1C);
+LAYOUT_ASSERT(TBoss8DragonFadeOffset, offsetof(TBoss8Dragon, renderFadeStates) == 0x6DC);
+LAYOUT_ASSERT(TBoss8DragonSize, sizeof(TBoss8Dragon) == 0x8A4);
+LAYOUT_ASSERT(TBoss8DragonSubTasksOffset, offsetof(TBoss8Dragon, sub_tasks) == 0x3C4);
+LAYOUT_ASSERT(TBoss8DragonAfterFadeOffset, offsetof(TBoss8Dragon, m_74c) == 0x74C);
 
 // boss8_dragon_reference_pos_vec: layout known from its uses only.
 struct Boss8DragonReferencePosVec { s32 value; u8 remaining[0x8]; };

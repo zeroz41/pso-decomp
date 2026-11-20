@@ -17,5 +17,5 @@ struct TObjCityDoor_Lobby : public TObjBase {
     s32 m_250;
 };
 
-typedef char TObjCityDoor_Lobby_size[sizeof(TObjCityDoor_Lobby) == 0x254 ? 1 : -1];
+LAYOUT_ASSERT(TObjCityDoor_Lobby_size, sizeof(TObjCityDoor_Lobby) == 0x254);
 #endif

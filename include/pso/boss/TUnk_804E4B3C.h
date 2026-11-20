@@ -48,6 +48,6 @@ public:
     TObject *effect_nodes; // parent of the segments spawn creates
     TObject *render_nodes; // parent of the three TUnk_804E4AD4; render walks its children
 };
-typedef char TUnk_804E4B3C_size[sizeof(TUnk_804E4B3C) == 0x94 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804E4B3C_size, sizeof(TUnk_804E4B3C) == 0x94);
 
 #endif

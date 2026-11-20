@@ -12,7 +12,7 @@ struct TObjTank : public TObjCollidable {
     static void load_globals();
 };
 
-typedef char TObjTank_size[sizeof(TObjTank) == 0xAC ? 1 : -1];
+LAYOUT_ASSERT(TObjTank_size, sizeof(TObjTank) == 0xAC);
 
 extern "C" {
 void *TObjTank__create(void *arg0);

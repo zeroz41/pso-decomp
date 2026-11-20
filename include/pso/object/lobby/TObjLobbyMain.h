@@ -46,5 +46,5 @@ struct TObjLobbyMain : public TObjMapObject {
     static s32 computer_last_frame_tick;
 };
 
-typedef char TObjLobbyMain_size[sizeof(TObjLobbyMain) == 0xE0 ? 1 : -1];
+LAYOUT_ASSERT(TObjLobbyMain_size, sizeof(TObjLobbyMain) == 0xE0);
 #endif

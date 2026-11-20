@@ -29,7 +29,7 @@ public:
     s32 glow_rising;
 };
 
-typedef char TOKeyMachine01_size[sizeof(TOKeyMachine01) == 0xFC ? 1 : -1];
+LAYOUT_ASSERT(TOKeyMachine01_size, sizeof(TOKeyMachine01) == 0xFC);
 
 extern BmlResource *TOKeyMachine01__resource_bundle;
 // The red texture list while up, the model's own while down.

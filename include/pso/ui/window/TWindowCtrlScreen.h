@@ -10,6 +10,6 @@ struct TWindowCtrlScreen : public TObject {
     virtual void render();
 };
 
-typedef char TWindowCtrlScreen_size[sizeof(TWindowCtrlScreen) == 0x1C ? 1 : -1];
+LAYOUT_ASSERT(TWindowCtrlScreen_size, sizeof(TWindowCtrlScreen) == 0x1C);
 
 #endif

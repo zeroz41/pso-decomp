@@ -25,7 +25,7 @@ struct TWindowSubAreaMapDisp : public TWindowBase {
     void update_visibility();
 };
 
-typedef char TWindowSubAreaMapDisp_size[sizeof(TWindowSubAreaMapDisp) == 0x78 ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubAreaMapDisp_size, sizeof(TWindowSubAreaMapDisp) == 0x78);
 
 extern "C" {
 void TWindowSubStatusDisp__sub_80271A6C(s32 arg0, u8 *arg1);

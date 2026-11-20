@@ -176,7 +176,7 @@ void QuestVmContext::load_globals() {
     qst_statistic_arg2 = statistic_arg2;
 }
 
-typedef char QuestVmContext_size[sizeof(QuestVmContext) == 0x174 ? 1 : -1];
+LAYOUT_ASSERT(QuestVmContext_size, sizeof(QuestVmContext) == 0x174);
 
 void init_quest_script_context(Hdr_801F3124 *h, QuestVmContext *c) {
     u32 n;

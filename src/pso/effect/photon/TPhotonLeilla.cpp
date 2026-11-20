@@ -109,8 +109,8 @@ void TPhotonLeilla::render() {
 
 void TPhotonLeilla::run_task() {
     u8 *arg0 = (u8 *)this;
-    typedef char sp8_offset[(offsetof(Stack_801AC574, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_801AC574, spC) == 0x4) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_801AC574, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_801AC574, spC) == 0x4);
     Stack_801AC574 stack;
     f32 temp_f1;
     f32 temp_f1_2;

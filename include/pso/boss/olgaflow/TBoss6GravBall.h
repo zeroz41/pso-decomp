@@ -29,5 +29,5 @@ struct TBoss6GravBall : public TObjCollidable {
     u8 unk_D4[0x24];
 };
 
-typedef char TBoss6GravBall_size[sizeof(TBoss6GravBall) == 0xF8 ? 1 : -1];
+LAYOUT_ASSERT(TBoss6GravBall_size, sizeof(TBoss6GravBall) == 0xF8);
 #endif

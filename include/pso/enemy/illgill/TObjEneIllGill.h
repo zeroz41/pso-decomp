@@ -75,10 +75,10 @@ struct TObjEneIllGill : public TObjEnemy {
     static void load_shared_resources();
 };
 
-typedef char IllGillFadeOffset[offsetof(TObjEneIllGill, fade) == 0x374 ? 1 : -1];
-typedef char IllGillHitListOffset[offsetof(TObjEneIllGill, chargeHits) == 0x3E0 ? 1 : -1];
-typedef char IllGillEffectsOffset[offsetof(TObjEneIllGill, primaryEffect) == 0x414 ? 1 : -1];
-typedef char IllGillMovementSize[sizeof(IllGillMovementParameters) == 0x1C ? 1 : -1];
-typedef char IllGillBehaviorSize[sizeof(IllGillAttackBehavior) == 0x20 ? 1 : -1];
-typedef char TObjEneIllGill_size[sizeof(TObjEneIllGill) == 0x420 ? 1 : -1];
+LAYOUT_ASSERT(IllGillFadeOffset, offsetof(TObjEneIllGill, fade) == 0x374);
+LAYOUT_ASSERT(IllGillHitListOffset, offsetof(TObjEneIllGill, chargeHits) == 0x3E0);
+LAYOUT_ASSERT(IllGillEffectsOffset, offsetof(TObjEneIllGill, primaryEffect) == 0x414);
+LAYOUT_ASSERT(IllGillMovementSize, sizeof(IllGillMovementParameters) == 0x1C);
+LAYOUT_ASSERT(IllGillBehaviorSize, sizeof(IllGillAttackBehavior) == 0x20);
+LAYOUT_ASSERT(TObjEneIllGill_size, sizeof(TObjEneIllGill) == 0x420);
 #endif

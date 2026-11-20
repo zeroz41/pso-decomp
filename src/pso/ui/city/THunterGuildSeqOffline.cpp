@@ -222,8 +222,8 @@ void THunterGuildSeqOffline::restore_player_state() { restore_player_state__13TS
 
 void THunterGuildSeqOffline::open_greeting() {
     u8 *arg0 = (u8 *)this;
-    typedef char sp8_offset[(offsetof(Stack_802130AC, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_802130AC, spC) == 0x4) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_802130AC, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_802130AC, spC) == 0x4);
     Stack_802130AC stack;
     stack.sp8 = 332.0f;
     stack.spC = 80.0f;

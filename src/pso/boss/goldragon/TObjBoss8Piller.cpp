@@ -84,7 +84,7 @@ void __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_8030AF60___vt__15TObjBoss8Piller __vt__15TObjBoss8Piller;
 void free_bin_model_request(void*, int);
 
-typedef char RecoveredGlobal_8030AF60___vt__15TObjBoss8Piller_size[sizeof(RecoveredGlobal_8030AF60___vt__15TObjBoss8Piller) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8030AF60___vt__15TObjBoss8Piller_size, sizeof(RecoveredGlobal_8030AF60___vt__15TObjBoss8Piller) == 0x18);
 u8 *__ct__15TObjBoss8PillerFv(u8 *object, u8 *arg1, u8 *arg2, s16 arg3) {
     __ct__7TObjectFP7TObject(object, arg1);
     *(s32 **)((s8 *)object + 0x18) = &__vt__15TObjBoss8Piller.value;

@@ -16,5 +16,5 @@ struct TAdTrialAgreementGC : public TAdAgreementBaseGC {
     static s32 check_card_file(s32 arg0);
 };
 
-typedef char TAdTrialAgreementGC_size[sizeof(TAdTrialAgreementGC) == 0x3C ? 1 : -1];
+LAYOUT_ASSERT(TAdTrialAgreementGC_size, sizeof(TAdTrialAgreementGC) == 0x3C);
 #endif

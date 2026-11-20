@@ -18,7 +18,7 @@ struct TAdEnterPPPPassGC : public TAdEnterBaseGC {
     s32 m_40;
 };
 
-typedef char TAdEnterPPPPassGC_size[sizeof(TAdEnterPPPPassGC) == 0x44 ? 1 : -1];
+LAYOUT_ASSERT(TAdEnterPPPPassGC_size, sizeof(TAdEnterPPPPassGC) == 0x44);
 
 // --- C functions defined in TAdEnterPPPPassGC.cpp ---
 extern "C" {

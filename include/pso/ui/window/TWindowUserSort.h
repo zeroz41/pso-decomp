@@ -15,5 +15,5 @@ struct TWindowUserSort : public TWindowBase {
     virtual void run_task();
 };
 
-typedef char TWindowUserSort_size[sizeof(TWindowUserSort) == 0x64 ? 1 : -1];
+LAYOUT_ASSERT(TWindowUserSort_size, sizeof(TWindowUserSort) == 0x64);
 #endif

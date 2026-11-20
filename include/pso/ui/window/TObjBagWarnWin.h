@@ -20,6 +20,6 @@ public:
     s32 open_delay; // name inferred: frames left before the window opens
 };
 
-typedef char TObjBagWarnWin_size[sizeof(TObjBagWarnWin) == 0xA4 ? 1 : -1];
+LAYOUT_ASSERT(TObjBagWarnWin_size, sizeof(TObjBagWarnWin) == 0xA4);
 
 #endif

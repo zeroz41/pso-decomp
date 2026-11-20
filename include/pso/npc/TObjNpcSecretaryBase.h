@@ -10,7 +10,7 @@ struct TObjNpcSecretaryBase : public TUnk_804A8640 {
     static void load_static_data();
 };
 
-typedef char TObjNpcSecretaryBase_size[sizeof(TObjNpcSecretaryBase) == 0x3B8 ? 1 : -1];
+LAYOUT_ASSERT(TObjNpcSecretaryBase_size, sizeof(TObjNpcSecretaryBase) == 0x3B8);
 
 class TObjControl;
 

@@ -523,13 +523,13 @@ void fn_80247ED8(void* p) { *(u32*)((char*)p + 0x60) |= 0x2; }
 
 int TWindowSubSymbolChatHelp__sub_80247EE8(int a0) {  return chat_help_color_table[a0]; }
 
-typedef char RecoveredFields_8024792C_arg0_1C_offset[offsetof(RecoveredFields_8024792C_arg0, field_1C) == 0x1C ? 1 : -1];
-typedef char RecoveredFields_8024792C_arg0_1E_offset[offsetof(RecoveredFields_8024792C_arg0, field_1E) == 0x1E ? 1 : -1];
-typedef char RecoveredFields_8024792C_arg0_20_offset[offsetof(RecoveredFields_8024792C_arg0, field_20) == 0x20 ? 1 : -1];
-typedef char RecoveredFields_8024792C_arg0_24_offset[offsetof(RecoveredFields_8024792C_arg0, field_24) == 0x24 ? 1 : -1];
-typedef char RecoveredFields_8024792C_arg0_28_offset[offsetof(RecoveredFields_8024792C_arg0, field_28) == 0x28 ? 1 : -1];
-typedef char RecoveredFields_8024792C_arg0_30_offset[offsetof(RecoveredFields_8024792C_arg0, field_30) == 0x30 ? 1 : -1];
-typedef char RecoveredFields_8024792C_arg0_34_offset[offsetof(RecoveredFields_8024792C_arg0, field_34) == 0x34 ? 1 : -1];
-typedef char RecoveredFields_8024792C_arg0_38_offset[offsetof(RecoveredFields_8024792C_arg0, field_38) == 0x38 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_8024792C_arg0_1C_offset, offsetof(RecoveredFields_8024792C_arg0, field_1C) == 0x1C);
+LAYOUT_ASSERT(RecoveredFields_8024792C_arg0_1E_offset, offsetof(RecoveredFields_8024792C_arg0, field_1E) == 0x1E);
+LAYOUT_ASSERT(RecoveredFields_8024792C_arg0_20_offset, offsetof(RecoveredFields_8024792C_arg0, field_20) == 0x20);
+LAYOUT_ASSERT(RecoveredFields_8024792C_arg0_24_offset, offsetof(RecoveredFields_8024792C_arg0, field_24) == 0x24);
+LAYOUT_ASSERT(RecoveredFields_8024792C_arg0_28_offset, offsetof(RecoveredFields_8024792C_arg0, field_28) == 0x28);
+LAYOUT_ASSERT(RecoveredFields_8024792C_arg0_30_offset, offsetof(RecoveredFields_8024792C_arg0, field_30) == 0x30);
+LAYOUT_ASSERT(RecoveredFields_8024792C_arg0_34_offset, offsetof(RecoveredFields_8024792C_arg0, field_34) == 0x34);
+LAYOUT_ASSERT(RecoveredFields_8024792C_arg0_38_offset, offsetof(RecoveredFields_8024792C_arg0, field_38) == 0x38);
 
 typedef struct RecoveredFields_8024775C_arg0 RecoveredFields_8024775C_arg0;

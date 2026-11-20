@@ -160,8 +160,8 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     static void *create(void *arg0);
 };
 
-typedef char TBoss5Gryphon_size[sizeof(TBoss5Gryphon) == 0x77C ? 1 : -1];
-typedef char TBoss5Gryphon_m_480[offsetof(TBoss5Gryphon, m_480) == 0x480 ? 1 : -1];
-typedef char TBoss5Gryphon_fade[offsetof(TBoss5Gryphon, renderFadeStates) == 0x580 ? 1 : -1];
-typedef char TBoss5Gryphon_m_6dc[offsetof(TBoss5Gryphon, m_6dc) == 0x6DC ? 1 : -1];
+LAYOUT_ASSERT(TBoss5Gryphon_size, sizeof(TBoss5Gryphon) == 0x77C);
+LAYOUT_ASSERT(TBoss5Gryphon_m_480, offsetof(TBoss5Gryphon, m_480) == 0x480);
+LAYOUT_ASSERT(TBoss5Gryphon_fade, offsetof(TBoss5Gryphon, renderFadeStates) == 0x580);
+LAYOUT_ASSERT(TBoss5Gryphon_m_6dc, offsetof(TBoss5Gryphon, m_6dc) == 0x6DC);
 #endif

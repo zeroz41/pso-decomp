@@ -16,7 +16,7 @@ struct TAdSnAkPassConfirmGC : public TAdYesNoBaseGC {
     virtual void vfunc_10();
 };
 
-typedef char TAdSnAkPassConfirmGC_size[sizeof(TAdSnAkPassConfirmGC) == 0x4C ? 1 : -1];
+LAYOUT_ASSERT(TAdSnAkPassConfirmGC_size, sizeof(TAdSnAkPassConfirmGC) == 0x4C);
 
 extern "C" {
 }

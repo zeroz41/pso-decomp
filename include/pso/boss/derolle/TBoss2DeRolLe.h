@@ -82,7 +82,7 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     u8 unk_740[0x1C];
 };
 
-typedef char TBoss2DeRolLe_size[sizeof(TBoss2DeRolLe) == 0x75C ? 1 : -1];
+LAYOUT_ASSERT(TBoss2DeRolLe_size, sizeof(TBoss2DeRolLe) == 0x75C);
 extern "C" {
 void *TBoss2DeRolLe__ct(void *arg0, void *arg1, void *arg2);
 void TBoss2DeRolLe__sub_8002FE60(void *arg0, u32 arg1);

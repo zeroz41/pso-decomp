@@ -25,5 +25,5 @@ struct TOBind : public TObjCollidable {
     f32 m_d4;
 };
 
-typedef char TOBind_size[sizeof(TOBind) == 0xD8 ? 1 : -1];
+LAYOUT_ASSERT(TOBind_size, sizeof(TOBind) == 0xD8);
 #endif

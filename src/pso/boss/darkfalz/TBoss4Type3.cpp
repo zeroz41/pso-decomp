@@ -731,7 +731,7 @@ u32 drain_player_hp(s32 id, u32 arg1);
 struct Obj_80059ABC;
 struct TBoss4Type3;
 
-typedef char TypedVector_80059B78_size[(sizeof(TypedVector_80059B78) == 12) ? 1 : -1];
+LAYOUT_ASSERT(TypedVector_80059B78_size, sizeof(TypedVector_80059B78) == 12);
 
 extern "C" {
 void submit_cursor_candidate(void *, int);

@@ -24,6 +24,6 @@ public:
     TWindowMenu *menu;     // the option list create_option_menu_window makes
     u32 value_window;      // the value window sub_8027C884 opens for the selected option
 };
-typedef char TUnk_804D1818_size[sizeof(TUnk_804D1818) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804D1818_size, sizeof(TUnk_804D1818) == 0x30);
 
 #endif

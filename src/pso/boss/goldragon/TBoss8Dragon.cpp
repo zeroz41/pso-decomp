@@ -762,7 +762,7 @@ struct DragonAttackParams {
     f32 field_C;
     s32 field_10;
 };
-typedef char DragonAttackParams_size[(sizeof(DragonAttackParams) == 0x14) ? 1 : -1];
+LAYOUT_ASSERT(DragonAttackParams_size, sizeof(DragonAttackParams) == 0x14);
 
 // The tables below mirror TBoss1Dragon's (same values where the Gol Dragon kept them).
 extern const Vec TBoss8Dragon__data_804744A8 = {0.0f, 0.0f, 0.0f};
@@ -945,8 +945,8 @@ void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 void set_collider_contact_low(u8 *arg0);
 void set_collider_contact_high(u8 *arg0);
 void build_6xA8_gol_dragon_boss_actions(void *p);
-typedef char Induction_802F46F4_var_r31_size_check[sizeof(Induction_802F46F4_var_r31) == 0x1C ? 1 : -1];
-typedef char Induction_802F46F4_var_r31_offset_check[offsetof(Induction_802F46F4_var_r31_owner, elements) == 0x6DC ? 1 : -1];
+LAYOUT_ASSERT(Induction_802F46F4_var_r31_size_check, sizeof(Induction_802F46F4_var_r31) == 0x1C);
+LAYOUT_ASSERT(Induction_802F46F4_var_r31_offset_check, offsetof(Induction_802F46F4_var_r31_owner, elements) == 0x6DC);
 extern "C" {
 struct Info_802F4DD4 { u8 pad[8]; s32 a; s32 b; };
 struct Drg_802F4DD4 {
@@ -2556,8 +2556,8 @@ int TBoss8Dragon::check_condition_default(void* p) { return ((int (*)(void*, int
 int TBoss8Dragon::set_state_1(void* p) { return ((int (*)(void*, int))TBoss8Dragon__sub_802FB828)(p, 1); }
 
 void TBoss8Dragon__sub_802FB778(s32 dragon) {
-    typedef char sp8_offset[(offsetof(Stack_802FB778, sp8) == 0x0) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_802FB778, sp10) == 0x8) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_802FB778, sp8) == 0x0);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_802FB778, sp10) == 0x8);
     Stack_802FB778 stack;
     TBoss1Dragon__sub_80027A80((u8 *)((u8 *)&stack.sp8), (u8 *)((const u8 *)&lbl_804744B4));
     stack.sp10 = *(f32 *)((s8 *)(TBoss8Dragon__data_80541DDC[0]) + 0xC);
@@ -5796,8 +5796,8 @@ void apply_ground_movement__12TBoss8DragonFPvPv(u8 *arg0, f32 *arg1) {
 #pragma push
 #pragma fp_contract on
 s32 TBoss8Dragon__sub_802F4760(void *owner, Vec *point, f32 farg0) {
-    typedef char sp8_offset[(offsetof(Stack_802F4760, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_802F4760, spC) == 0x4) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_802F4760, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_802F4760, spC) == 0x4);
     Stack_802F4760 stack;
     f32 temp_f1;
     VecCopy((Vec *)&stack.sp8, point);

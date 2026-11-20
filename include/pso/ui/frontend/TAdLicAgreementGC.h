@@ -15,7 +15,7 @@ struct TAdLicAgreementGC : public TAdAgreementBaseGC {
     virtual void run_task();
 };
 
-typedef char TAdLicAgreementGC_size[sizeof(TAdLicAgreementGC) == 0x3C ? 1 : -1];
+LAYOUT_ASSERT(TAdLicAgreementGC_size, sizeof(TAdLicAgreementGC) == 0x3C);
 
 extern "C" {
 void *TAdLicAgreementGC__ct(void *arg0);

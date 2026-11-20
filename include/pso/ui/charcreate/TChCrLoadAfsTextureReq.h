@@ -36,5 +36,5 @@ struct TChCrLoadAfsTextureReq : public TObject {
     u8 m_74[8][0x24];
 };
 
-typedef char TChCrLoadAfsTextureReq_size[sizeof(TChCrLoadAfsTextureReq) == 0x194 ? 1 : -1];
+LAYOUT_ASSERT(TChCrLoadAfsTextureReq_size, sizeof(TChCrLoadAfsTextureReq) == 0x194);
 #endif

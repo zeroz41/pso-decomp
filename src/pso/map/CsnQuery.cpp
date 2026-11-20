@@ -155,7 +155,7 @@ f32 vector_length(void *);
 Wall_8007A138 *query_collision_segment_groups(Vec *a, Vec *b, u32 mask);
 s32 calc_segment_xz_distance_sq(Vec *c, Vec *o, Vec *e, Vec *d, f32 radius, f32 hsq, f32 inv);
 
-typedef char RecoveredGlobal_800790F0_lbl_804F5800_size[sizeof(RecoveredGlobal_800790F0_lbl_804F5800) == 0x100 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_800790F0_lbl_804F5800_size, sizeof(RecoveredGlobal_800790F0_lbl_804F5800) == 0x100);
 s32 get_csn_group_flags(u8 arg0) {
     return *(u8 *)((s8 *)((u8 *)&__ctype_map.value + arg0) + 0) & 0xC0;
 }

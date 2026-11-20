@@ -37,7 +37,7 @@ extern "C" {
 extern RecoveredGlobal_800661E4___vt__18TBoss5GryphonColli __vt__18TBoss5GryphonColli;
 extern const char *TBoss5GryphonColli__name;
 
-typedef char RecoveredGlobal_800661E4___vt__18TBoss5GryphonColli_size[sizeof(RecoveredGlobal_800661E4___vt__18TBoss5GryphonColli) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_800661E4___vt__18TBoss5GryphonColli_size, sizeof(RecoveredGlobal_800661E4___vt__18TBoss5GryphonColli) == 0x18);
 }
 
 struct E_8006633C { u8 pad[0x18]; u32 flags; u8 pad2[0x10]; };

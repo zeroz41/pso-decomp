@@ -63,7 +63,7 @@ const char *lbl_805D3F70 = "TWindowTradeRequest";
 u8 *TWindowTradeRequest__ct(TWindowTradeRequest *arg0);
 void TWindowTradeRequest::render() {  }
 
-typedef char RecoveredGlobal_802E0224___vt__19TWindowTradeRequest_size[sizeof(RecoveredGlobal_802E0224___vt__19TWindowTradeRequest) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_802E0224___vt__19TWindowTradeRequest_size, sizeof(RecoveredGlobal_802E0224___vt__19TWindowTradeRequest) == 0x18);
 
 void TWindowTradeRequest::run_task() {
     Obj_802E0174 *arg0 = (Obj_802E0174 *)this;

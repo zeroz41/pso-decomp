@@ -33,7 +33,7 @@ struct TBoss6Thanks : public TObject {
     static s32 try_dispatch_darkfalz_phase();
     u8 unk_54[0x10];
 };
-typedef char TBoss6Thanks_size[sizeof(TBoss6Thanks) == 0x64 ? 1 : -1];
+LAYOUT_ASSERT(TBoss6Thanks_size, sizeof(TBoss6Thanks) == 0x64);
 
 // Story flag 0x9A test next to check_ship_door(); int return for the same reason.
 extern "C" s32 fn_8035CAE0(void);

@@ -58,7 +58,7 @@ Slot_80073428 *TWindowSubStatusDisp__sub_8006F134(void *, s32);
 s32 get_slot_clamped__6TLobbyFv(s32);
 s32 has_window_task_root();
 int TWindowMenu::is_decided() { return (this->m_70 >> 1) & 0x1; }
-typedef char RecoveredGlobal_800739BC_lbl_8048C9D8_size[sizeof(RecoveredGlobal_800739BC_lbl_8048C9D8) == 0x748 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_800739BC_lbl_8048C9D8_size, sizeof(RecoveredGlobal_800739BC_lbl_8048C9D8) == 0x748);
 
 #define CHAL ((Chal_80073738 *)&challenge_mode_state)
 

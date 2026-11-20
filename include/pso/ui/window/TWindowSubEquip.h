@@ -27,5 +27,5 @@ struct TWindowSubEquip : public TObject {
     void apply_slot_selection();
 };
 
-typedef char TWindowSubEquip_size[sizeof(TWindowSubEquip) == 0x3C ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubEquip_size, sizeof(TWindowSubEquip) == 0x3C);
 #endif

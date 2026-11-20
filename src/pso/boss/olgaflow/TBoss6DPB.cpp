@@ -25,13 +25,13 @@ struct V_8035D8B0 { s32 a; f32 b; s32 c; };
 struct W_8035D8B0 { u8 pad0[0x20]; V_8035D8B0 v; };
 
 struct RecoveredGlobal_8035DB70___vt__9TBoss6DPB { s32 value; u8 remaining[0x14]; };
-typedef char RecoveredGlobal_8035DB70___vt__9TBoss6DPB_size[sizeof(RecoveredGlobal_8035DB70___vt__9TBoss6DPB) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8035DB70___vt__9TBoss6DPB_size, sizeof(RecoveredGlobal_8035DB70___vt__9TBoss6DPB) == 0x18);
 
 struct RecoveredGlobal_8035D7D0___vt__10TDPBShower {
     s32 value;
     u8 remaining[0x14];
 };
-typedef char RecoveredGlobal_8035D7D0___vt__10TDPBShower_size[sizeof(RecoveredGlobal_8035D7D0___vt__10TDPBShower) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8035D7D0___vt__10TDPBShower_size, sizeof(RecoveredGlobal_8035D7D0___vt__10TDPBShower) == 0x18);
 
 extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);

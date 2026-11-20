@@ -149,5 +149,5 @@ struct TLockOnCursor : public TObject {
     void reset_and_spawn_cursors();
 };
 
-typedef char TLockOnCursor_size[sizeof(TLockOnCursor) == 0x52C ? 1 : -1];
+LAYOUT_ASSERT(TLockOnCursor_size, sizeof(TLockOnCursor) == 0x52C);
 #endif

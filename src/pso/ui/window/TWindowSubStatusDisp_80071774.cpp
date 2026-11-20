@@ -54,7 +54,7 @@ s32 *TWindowSubStatusDisp::get_status_window(u16 arg0) {
     return TWindowSubStatusDisp__sub_80071820(character_save_record + 0x21C4);
 }
 
-typedef char RecoveredGlobal_80071820_lbl_804FF820_size[sizeof(RecoveredGlobal_80071820_lbl_804FF820) == 0xC ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_80071820_lbl_804FF820_size, sizeof(RecoveredGlobal_80071820_lbl_804FF820) == 0xC);
 s32 *TWindowSubStatusDisp__sub_80071820(u32 arg0) {
     if (arg0 == 0U) {
         return &lbl_805D2858;

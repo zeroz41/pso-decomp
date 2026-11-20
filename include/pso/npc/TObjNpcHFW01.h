@@ -10,7 +10,7 @@ struct TObjNpcHFW01 : public TUnk_804A92A8 {
     static void load_resources();
 };
 
-typedef char TObjNpcHFW01_size[sizeof(TObjNpcHFW01) == 0x3B8 ? 1 : -1];
+LAYOUT_ASSERT(TObjNpcHFW01_size, sizeof(TObjNpcHFW01) == 0x3B8);
 
 extern "C" {
 void *TObjNpcHFW01__create(void *arg0);

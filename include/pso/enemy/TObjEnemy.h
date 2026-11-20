@@ -52,5 +52,5 @@ struct TObjEnemy : public TObjChara {
     int apply_player_54a00();
     s32 mask_sub_flags(s32 arg1);
 };
-typedef char EnemyBaseSize[(sizeof(TObjEnemy)==0x374)?1:-1];
+LAYOUT_ASSERT(EnemyBaseSize, sizeof(TObjEnemy)==0x374);
 #endif

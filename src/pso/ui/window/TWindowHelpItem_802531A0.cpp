@@ -82,8 +82,8 @@ void TWindowHelpItem::update_displayed_item() {
     ((TWindowHelpItem *)arg0)->init_text((void *)(get_shared_text_buffer()));
 }
 void TWindowHelpItem__sub_80253268(u8 *window_base) {
-    typedef char sp8_offset[(offsetof(Stack_80253268, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_80253268, spC) == 0x4) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80253268, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_80253268, spC) == 0x4);
     Stack_80253268 stack;
     s32 temp_r3;
     u8 *temp_r31;

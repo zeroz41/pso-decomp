@@ -37,6 +37,6 @@ struct TODoorAncient08 : public TODoorBase {
     static s32 *texture_lists;  // [0] the bml's own (unlocked), [1] red (locked)
 };
 
-typedef char TODoorAncient08_size[sizeof(TODoorAncient08) == 0xEC ? 1 : -1];
+LAYOUT_ASSERT(TODoorAncient08_size, sizeof(TODoorAncient08) == 0xEC);
 
 #endif

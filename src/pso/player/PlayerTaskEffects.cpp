@@ -190,7 +190,7 @@ int clear__8FlagWordFUl(void*, int);
 
 extern "C" {
 
-typedef char RecoveredGlobal_801C6FF8_lbl_804C4008_size[sizeof(RecoveredGlobal_801C6FF8_lbl_804C4008) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_801C6FF8_lbl_804C4008_size, sizeof(RecoveredGlobal_801C6FF8_lbl_804C4008) == 0x18);
 
 }
 

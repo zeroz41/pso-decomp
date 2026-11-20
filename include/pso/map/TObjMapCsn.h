@@ -45,5 +45,5 @@ struct TObjMapCsn : public TObjCollidable {
     u8 unk_1F8[0x5C];
 };
 
-typedef char TObjMapCsn_size[sizeof(TObjMapCsn) == 0x254 ? 1 : -1];
+LAYOUT_ASSERT(TObjMapCsn_size, sizeof(TObjMapCsn) == 0x254);
 #endif

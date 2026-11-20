@@ -61,7 +61,7 @@ struct PhotonSummonParams_801A9870 {
     u8 count;
     f32 level;
 };
-typedef char PhotonSummonParams_801A9870_size[sizeof(PhotonSummonParams_801A9870) == 0x24 ? 1 : -1];
+LAYOUT_ASSERT(PhotonSummonParams_801A9870_size, sizeof(PhotonSummonParams_801A9870) == 0x24);
 struct VBase_18_b27ba1 { char pad[0x18]; };
 struct VObj_18_b27ba1 : VBase_18_b27ba1 {
     virtual void m0();

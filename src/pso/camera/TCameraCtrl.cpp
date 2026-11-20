@@ -501,8 +501,8 @@ void *lbl_80488AC0[6] = {
 };
 
     extern int camera_split_screen_selector;
-typedef char RecoveredGlobal_8006ABAC_lbl_8058D490_size[sizeof(RecoveredGlobal_8006ABAC_lbl_8058D490) == 0x30 ? 1 : -1];
-typedef char RecoveredGlobal_8006AC70_lbl_8058D490_size[sizeof(RecoveredGlobal_8006AC70_lbl_8058D490) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8006ABAC_lbl_8058D490_size, sizeof(RecoveredGlobal_8006ABAC_lbl_8058D490) == 0x30);
+LAYOUT_ASSERT(RecoveredGlobal_8006AC70_lbl_8058D490_size, sizeof(RecoveredGlobal_8006AC70_lbl_8058D490) == 0x30);
 
 
 
@@ -1533,17 +1533,17 @@ void TCameraCtrl::reset_viewport_scissor() {
 #pragma opt_common_subs off
 #pragma opt_propagation off
 void end_view_override() {
-    typedef char sp8_offset[(offsetof(Stack_800694A8, sp8) == 0x0) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_800694A8, sp10) == 0x8) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_800694A8, sp14) == 0xC) ? 1 : -1];
-    typedef char sp30_offset[(offsetof(Stack_800694A8, sp30) == 0x28) ? 1 : -1];
-    typedef char sp34_offset[(offsetof(Stack_800694A8, sp34) == 0x2C) ? 1 : -1];
-    typedef char sp38_offset[(offsetof(Stack_800694A8, sp38) == 0x30) ? 1 : -1];
-    typedef char sp3C_offset[(offsetof(Stack_800694A8, sp3C) == 0x34) ? 1 : -1];
-    typedef char sp40_offset[(offsetof(Stack_800694A8, sp40) == 0x38) ? 1 : -1];
-    typedef char sp44_offset[(offsetof(Stack_800694A8, sp44) == 0x3C) ? 1 : -1];
-    typedef char sp48_offset[(offsetof(Stack_800694A8, sp48) == 0x40) ? 1 : -1];
-    typedef char sp4C_offset[(offsetof(Stack_800694A8, sp4C) == 0x44) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800694A8, sp8) == 0x0);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_800694A8, sp10) == 0x8);
+    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_800694A8, sp14) == 0xC);
+    LAYOUT_ASSERT(sp30_offset, offsetof(Stack_800694A8, sp30) == 0x28);
+    LAYOUT_ASSERT(sp34_offset, offsetof(Stack_800694A8, sp34) == 0x2C);
+    LAYOUT_ASSERT(sp38_offset, offsetof(Stack_800694A8, sp38) == 0x30);
+    LAYOUT_ASSERT(sp3C_offset, offsetof(Stack_800694A8, sp3C) == 0x34);
+    LAYOUT_ASSERT(sp40_offset, offsetof(Stack_800694A8, sp40) == 0x38);
+    LAYOUT_ASSERT(sp44_offset, offsetof(Stack_800694A8, sp44) == 0x3C);
+    LAYOUT_ASSERT(sp48_offset, offsetof(Stack_800694A8, sp48) == 0x40);
+    LAYOUT_ASSERT(sp4C_offset, offsetof(Stack_800694A8, sp4C) == 0x44);
     Stack_800694A8 stack;
     if (*(s32 *)((s8 *)&TCameraCtrl__view_state + 8) & 0x400) {
         *(s32 *)((s8 *)&TCameraCtrl__view_state + 8) = (s32) (*(s32 *)((s8 *)&TCameraCtrl__view_state + 8) & 0xFFFFFBFF);
@@ -1563,18 +1563,18 @@ void end_view_override() {
 #pragma pop
 
 void TCameraCtrl::init_default_view() {
-    typedef char sp8_offset[(offsetof(Stack_800693F4, sp8) == 0x0) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_800693F4, sp10) == 0x8) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_800693F4, sp14) == 0xC) ? 1 : -1];
-    typedef char sp20_offset[(offsetof(Stack_800693F4, sp20) == 0x18) ? 1 : -1];
-    typedef char sp30_offset[(offsetof(Stack_800693F4, sp30) == 0x28) ? 1 : -1];
-    typedef char sp34_offset[(offsetof(Stack_800693F4, sp34) == 0x2C) ? 1 : -1];
-    typedef char sp38_offset[(offsetof(Stack_800693F4, sp38) == 0x30) ? 1 : -1];
-    typedef char sp3C_offset[(offsetof(Stack_800693F4, sp3C) == 0x34) ? 1 : -1];
-    typedef char sp40_offset[(offsetof(Stack_800693F4, sp40) == 0x38) ? 1 : -1];
-    typedef char sp44_offset[(offsetof(Stack_800693F4, sp44) == 0x3C) ? 1 : -1];
-    typedef char sp48_offset[(offsetof(Stack_800693F4, sp48) == 0x40) ? 1 : -1];
-    typedef char sp4C_offset[(offsetof(Stack_800693F4, sp4C) == 0x44) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800693F4, sp8) == 0x0);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_800693F4, sp10) == 0x8);
+    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_800693F4, sp14) == 0xC);
+    LAYOUT_ASSERT(sp20_offset, offsetof(Stack_800693F4, sp20) == 0x18);
+    LAYOUT_ASSERT(sp30_offset, offsetof(Stack_800693F4, sp30) == 0x28);
+    LAYOUT_ASSERT(sp34_offset, offsetof(Stack_800693F4, sp34) == 0x2C);
+    LAYOUT_ASSERT(sp38_offset, offsetof(Stack_800693F4, sp38) == 0x30);
+    LAYOUT_ASSERT(sp3C_offset, offsetof(Stack_800693F4, sp3C) == 0x34);
+    LAYOUT_ASSERT(sp40_offset, offsetof(Stack_800693F4, sp40) == 0x38);
+    LAYOUT_ASSERT(sp44_offset, offsetof(Stack_800693F4, sp44) == 0x3C);
+    LAYOUT_ASSERT(sp48_offset, offsetof(Stack_800693F4, sp48) == 0x40);
+    LAYOUT_ASSERT(sp4C_offset, offsetof(Stack_800693F4, sp4C) == 0x44);
     Stack_800693F4 stack;
     TCameraCtrl__camera_mode = 0;
     TCameraCtrl::set_target_coords(0, 0);
@@ -1597,16 +1597,16 @@ void TCameraCtrl::init_default_view() {
 }
 
 void TCameraCtrl::reset_default_view() {
-    typedef char sp8_offset[(offsetof(Stack_80069318, sp8) == 0x0) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_80069318, sp10) == 0x8) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_80069318, sp14) == 0xC) ? 1 : -1];
-    typedef char sp20_offset[(offsetof(Stack_80069318, sp20) == 0x18) ? 1 : -1];
-    typedef char sp30_offset[(offsetof(Stack_80069318, sp30) == 0x28) ? 1 : -1];
-    typedef char sp34_offset[(offsetof(Stack_80069318, sp34) == 0x2C) ? 1 : -1];
-    typedef char sp38_offset[(offsetof(Stack_80069318, sp38) == 0x30) ? 1 : -1];
-    typedef char sp3C_offset[(offsetof(Stack_80069318, sp3C) == 0x34) ? 1 : -1];
-    typedef char sp40_offset[(offsetof(Stack_80069318, sp40) == 0x38) ? 1 : -1];
-    typedef char sp44_offset[(offsetof(Stack_80069318, sp44) == 0x3C) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80069318, sp8) == 0x0);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_80069318, sp10) == 0x8);
+    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_80069318, sp14) == 0xC);
+    LAYOUT_ASSERT(sp20_offset, offsetof(Stack_80069318, sp20) == 0x18);
+    LAYOUT_ASSERT(sp30_offset, offsetof(Stack_80069318, sp30) == 0x28);
+    LAYOUT_ASSERT(sp34_offset, offsetof(Stack_80069318, sp34) == 0x2C);
+    LAYOUT_ASSERT(sp38_offset, offsetof(Stack_80069318, sp38) == 0x30);
+    LAYOUT_ASSERT(sp3C_offset, offsetof(Stack_80069318, sp3C) == 0x34);
+    LAYOUT_ASSERT(sp40_offset, offsetof(Stack_80069318, sp40) == 0x38);
+    LAYOUT_ASSERT(sp44_offset, offsetof(Stack_80069318, sp44) == 0x3C);
     Stack_80069318 stack;
     TCameraCtrl__camera_mode = 0;
     TCameraCtrl::set_target_coords(0, 0);

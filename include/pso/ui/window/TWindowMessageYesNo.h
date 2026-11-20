@@ -18,5 +18,5 @@ struct TWindowMessageYesNo : public TObject {
     static void *create(void *arg0, void *arg1, void *arg2, void *arg3);
 };
 
-typedef char TWindowMessageYesNo_size[sizeof(TWindowMessageYesNo) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(TWindowMessageYesNo_size, sizeof(TWindowMessageYesNo) == 0x30);
 #endif

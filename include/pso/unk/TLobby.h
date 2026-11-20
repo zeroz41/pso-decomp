@@ -18,8 +18,8 @@ struct TLobbyFloorItemEntry {
     TItemData item_data;
 };
 
-typedef char TLobbyFloorItemEntrySize[(sizeof(TLobbyFloorItemEntry) == 0x24) ? 1 : -1];
-typedef char TLobbyFloorItemEntryDataOffset[(offsetof(TLobbyFloorItemEntry, item_data) == 0x10) ? 1 : -1];
+LAYOUT_ASSERT(TLobbyFloorItemEntrySize, sizeof(TLobbyFloorItemEntry) == 0x24);
+LAYOUT_ASSERT(TLobbyFloorItemEntryDataOffset, offsetof(TLobbyFloorItemEntry, item_data) == 0x10);
 
 struct AdxbDecoder;
 struct Strm_803C5B50;
@@ -1031,7 +1031,7 @@ struct TLobby : public TObject {
     void update_battle_intro();
 };
 
-typedef char TLobby_size[sizeof(TLobby) == 0x1C ? 1 : -1];
+LAYOUT_ASSERT(TLobby_size, sizeof(TLobby) == 0x1C);
 // The object set entry new ground items take their placement from, and
 // whether placing one shows the drop effect.
 extern void *item_object_set_data;

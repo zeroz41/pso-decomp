@@ -23,8 +23,8 @@ struct EndingWallTextureSet {
     EndingTextureName names[14];
     EndingTextureList list;
 };
-typedef char EndingTextureNameSize[sizeof(EndingTextureName) == 12 ? 1 : -1];
-typedef char EndingWallTextureSetSize[sizeof(EndingWallTextureSet) == 0xB0 ? 1 : -1];
+LAYOUT_ASSERT(EndingTextureNameSize, sizeof(EndingTextureName) == 12);
+LAYOUT_ASSERT(EndingWallTextureSetSize, sizeof(EndingWallTextureSet) == 0xB0);
 
 const char ending_texture_name_ed_512kabe_a[] = "ed_512kabe_A";
 const char ending_texture_name_ed_512kabe_b[] = "ed_512kabe_B";

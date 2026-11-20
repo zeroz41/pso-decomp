@@ -694,7 +694,7 @@ extern "C" {
 void sndConvertMs(s32 *arg0);
 u32 sndConvert2Ms(u32 arg0);
 void salApplyMatrix(u8 *arg0, u8 *arg1, u8 *arg2);
-typedef char RecoveredGlobal_803BD5C4_lbl_805663D8_size[sizeof(RecoveredGlobal_803BD5C4_lbl_805663D8) == 0x6E0 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_803BD5C4_lbl_805663D8_size, sizeof(RecoveredGlobal_803BD5C4_lbl_805663D8) == 0x6E0);
 extern "C" {
 f32 powf(f32, f32);
 }

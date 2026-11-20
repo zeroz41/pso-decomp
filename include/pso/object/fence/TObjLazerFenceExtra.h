@@ -26,7 +26,7 @@ struct TObjLazerFenceExtra : public TObjCollidable {
     s32 size_valid;  // 1 when set_params[2] is a valid fence size (0 or 1); 0 hides it
 };
 
-typedef char TObjLazerFenceExtra_size[sizeof(TObjLazerFenceExtra) == 0xDC ? 1 : -1];
+LAYOUT_ASSERT(TObjLazerFenceExtra_size, sizeof(TObjLazerFenceExtra) == 0xDC);
 
 extern "C" {
 void *TObjLazerFenceExtra__create(void *set_data);

@@ -41,5 +41,5 @@ struct TObjEneGyaranzo : public TObjEnemyCustom {
     static void free_static_instances();
 };
 
-typedef char TObjEneGyaranzo_size[sizeof(TObjEneGyaranzo) == 0x45C ? 1 : -1];
+LAYOUT_ASSERT(TObjEneGyaranzo_size, sizeof(TObjEneGyaranzo) == 0x45C);
 #endif

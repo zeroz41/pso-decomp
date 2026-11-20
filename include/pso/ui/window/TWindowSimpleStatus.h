@@ -26,7 +26,7 @@ struct TWindowSimpleStatus : public TWindowBase {
     TWindowBase *w[5]; // child windows; the dtor closes the first four
 };
 
-typedef char TWindowSimpleStatus_size[sizeof(TWindowSimpleStatus) == 0x78 ? 1 : -1];
+LAYOUT_ASSERT(TWindowSimpleStatus_size, sizeof(TWindowSimpleStatus) == 0x78);
 
 extern "C" {
 void render__19TWindowSimpleStatusFv(s32 arg0);

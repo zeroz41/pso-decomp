@@ -417,7 +417,7 @@ void TAdEndText::free_resources() {
 }
 
 
-typedef char RecoveredGlobal_8001B3BC_lbl_804F5800_size[sizeof(RecoveredGlobal_8001B3BC_lbl_804F5800) == 0x100 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8001B3BC_lbl_804F5800_size, sizeof(RecoveredGlobal_8001B3BC_lbl_804F5800) == 0x100);
 
 void TAdEndText::load_ending_font() {
     TAdEndText__loaded_font_texture_list = (u32)&TAdEndText__ending_font_texture_list;
@@ -430,9 +430,9 @@ s32 TAdEndText__sub_8001B3BC(u8 arg0) {
     return *(u8 *)((s8 *)((u8 *)&__ctype_map.value + arg0) + 0) & 0x10;
 }
 
-typedef char RecoveredGlobal_8001B3EC_lbl_804F5800_size[sizeof(RecoveredGlobal_8001B3EC_lbl_804F5800) == 0x100 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8001B3EC_lbl_804F5800_size, sizeof(RecoveredGlobal_8001B3EC_lbl_804F5800) == 0x100);
 
-typedef char RecoveredGlobal_8001B3D4_lbl_804F5800_size[sizeof(RecoveredGlobal_8001B3D4_lbl_804F5800) == 0x100 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8001B3D4_lbl_804F5800_size, sizeof(RecoveredGlobal_8001B3D4_lbl_804F5800) == 0x100);
 s32 TAdEndText__sub_8001B3D4(u8 arg0) {
     return *(u8 *)((s8 *)((u8 *)(&(*(RecoveredGlobal_8001B3D4_lbl_804F5800 *)&__ctype_map).value) + arg0) + 0) & 0x80;
 }
@@ -441,7 +441,7 @@ s32 TAdEndText__sub_8001B3EC(u8 arg0) {
     return *(u8 *)((s8 *)((u8 *)(&(*(RecoveredGlobal_8001B3EC_lbl_804F5800 *)&__ctype_map).value) + arg0) + 0) & 0xD0;
 }
 
-typedef char RecoveredGlobal_8001B404_lbl_804F5800_size[sizeof(RecoveredGlobal_8001B404_lbl_804F5800) == 0x100 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8001B404_lbl_804F5800_size, sizeof(RecoveredGlobal_8001B404_lbl_804F5800) == 0x100);
 s32 TAdEndText__sub_8001B404(u8 arg0) {
     return *(u8 *)((s8 *)((u8 *)(&(*(RecoveredGlobal_8001B404_lbl_804F5800 *)&__ctype_map).value) + arg0) + 0) & 0x40;
 }

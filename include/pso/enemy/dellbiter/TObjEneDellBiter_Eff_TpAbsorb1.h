@@ -19,5 +19,5 @@ public:
     f32 power;
     TParticleCtrl *effect;
 };
-typedef char TObjEneDellBiter_Eff_TpAbsorb1_size[sizeof(TObjEneDellBiter_Eff_TpAbsorb1) == 0xD0 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneDellBiter_Eff_TpAbsorb1_size, sizeof(TObjEneDellBiter_Eff_TpAbsorb1) == 0xD0);
 #endif

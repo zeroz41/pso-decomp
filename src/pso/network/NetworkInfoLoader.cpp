@@ -561,7 +561,6 @@ u8 TAdPlayerLoadGC__network_info_payload_buffer[0x23C0];
 NetworkInfoLoadState network_info_load_state;
 u8 network_info_trailer_buffer[0x400];
 u8 network_info_trailer_backup[0x404];
-typedef char NetworkInfoPayloadBufferExtent[
-    sizeof(TAdPlayerLoadGC__network_info_payload_buffer) == 0x23C0 ? 1 : -1];
-typedef char NetworkInfoTrailerExtent[sizeof(network_info_trailer_buffer) == 0x400 ? 1 : -1];
-typedef char NetworkInfoTrailerBackupExtent[sizeof(network_info_trailer_backup) == 0x404 ? 1 : -1];
+LAYOUT_ASSERT(NetworkInfoPayloadBufferExtent, sizeof(TAdPlayerLoadGC__network_info_payload_buffer) == 0x23C0);
+LAYOUT_ASSERT(NetworkInfoTrailerExtent, sizeof(network_info_trailer_buffer) == 0x400);
+LAYOUT_ASSERT(NetworkInfoTrailerBackupExtent, sizeof(network_info_trailer_backup) == 0x404);

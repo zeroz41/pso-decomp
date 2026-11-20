@@ -21,7 +21,7 @@ struct TAdWarningBaseGC : public TObject {
     static void init_heap();
 };
 
-typedef char TAdWarningBaseGC_size[sizeof(TAdWarningBaseGC) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(TAdWarningBaseGC_size, sizeof(TAdWarningBaseGC) == 0x30);
 
 extern "C" {
 void *TAdWarningBaseGC__ct(TAdWarningBaseGC *arg0);

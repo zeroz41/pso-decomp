@@ -24,5 +24,5 @@ public:
     static void load_resources();
 };
 
-typedef char TOBarrierEnergy01_size[sizeof(TOBarrierEnergy01) == 0xD4 ? 1 : -1];
+LAYOUT_ASSERT(TOBarrierEnergy01_size, sizeof(TOBarrierEnergy01) == 0xD4);
 #endif

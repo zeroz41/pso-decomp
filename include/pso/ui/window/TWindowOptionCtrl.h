@@ -58,5 +58,5 @@ struct TWindowOptionCtrl : public TObject {
     s32 add_label_value_line(const char *arg1, const char *arg2, u32 arg3);
 };
 
-typedef char TWindowOptionCtrl_size[sizeof(TWindowOptionCtrl) == 0x50 ? 1 : -1];
+LAYOUT_ASSERT(TWindowOptionCtrl_size, sizeof(TWindowOptionCtrl) == 0x50);
 #endif

@@ -148,7 +148,7 @@ f32 TLobby__sub_800F7A6C(void) {
     return *(f32 *)((s8 *)&lbl_804DB1F0.value + 4);
 }
 
-typedef char RecoveredGlobal_800F7A7C_lbl_8048C9D8_size[sizeof(RecoveredGlobal_800F7A7C_lbl_8048C9D8) == 0x748 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_800F7A7C_lbl_8048C9D8_size, sizeof(RecoveredGlobal_800F7A7C_lbl_8048C9D8) == 0x748);
 f32 TLobby__sub_800F7A7C(void) {
     return *(f32 *)((s8 *)&challenge_mode_state.value + 4);
 }

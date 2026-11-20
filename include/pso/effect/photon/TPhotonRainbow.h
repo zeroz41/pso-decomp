@@ -16,7 +16,7 @@ struct TPhotonRainbow : public TObjBase {
     virtual void run_task();
 };
 
-typedef char TPhotonRainbow_size[sizeof(TPhotonRainbow) == 0xAC ? 1 : -1];
+LAYOUT_ASSERT(TPhotonRainbow_size, sizeof(TPhotonRainbow) == 0xAC);
 
 extern "C" {
 void *__dt__14TPhotonRainbowFv(void *arg0, s16 arg1);

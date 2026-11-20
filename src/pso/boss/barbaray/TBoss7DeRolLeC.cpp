@@ -644,9 +644,9 @@ void TObjPlayer__sub_802E80A0(void);
 
 int set_global_param__8TObjFishFl(void);
 
-typedef char RecoveredGlobal_802E80F4_lbl_8050BEC0_size[sizeof(RecoveredGlobal_802E80F4_lbl_8050BEC0) == 0x20 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_802E80F4_lbl_8050BEC0_size, sizeof(RecoveredGlobal_802E80F4_lbl_8050BEC0) == 0x20);
 
-typedef char RecoveredGlobal_802E80F4_lbl_8058D4C0_size[sizeof(RecoveredGlobal_802E80F4_lbl_8058D4C0) == 0x10 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_802E80F4_lbl_8058D4C0_size, sizeof(RecoveredGlobal_802E80F4_lbl_8058D4C0) == 0x10);
 #pragma push
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -4467,15 +4467,15 @@ void TObjFish__sub_802E83E8(u8 *boss, u32 k) {
 #undef release_laser_light__15TBoss7LaserPtclFPv
 #undef set_swim_direction__8TObjFishFPv
 void TObjPlayer__sub_802E8274(void) {
-    typedef char sp8_offset[(offsetof(Stack_802E8274, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_802E8274, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_802E8274, sp10) == 0x8) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_802E8274, sp14) == 0xC) ? 1 : -1];
-    typedef char sp18_offset[(offsetof(Stack_802E8274, sp18) == 0x10) ? 1 : -1];
-    typedef char sp1C_offset[(offsetof(Stack_802E8274, sp1C) == 0x14) ? 1 : -1];
-    typedef char sp20_offset[(offsetof(Stack_802E8274, sp20) == 0x18) ? 1 : -1];
-    typedef char sp24_offset[(offsetof(Stack_802E8274, sp24) == 0x1C) ? 1 : -1];
-    typedef char sp28_offset[(offsetof(Stack_802E8274, sp28) == 0x20) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_802E8274, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_802E8274, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_802E8274, sp10) == 0x8);
+    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_802E8274, sp14) == 0xC);
+    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_802E8274, sp18) == 0x10);
+    LAYOUT_ASSERT(sp1C_offset, offsetof(Stack_802E8274, sp1C) == 0x14);
+    LAYOUT_ASSERT(sp20_offset, offsetof(Stack_802E8274, sp20) == 0x18);
+    LAYOUT_ASSERT(sp24_offset, offsetof(Stack_802E8274, sp24) == 0x1C);
+    LAYOUT_ASSERT(sp28_offset, offsetof(Stack_802E8274, sp28) == 0x20);
     Stack_802E8274 stack;
     if ((s32) boss7_derolle_c_motion_id == 0x5F) {
         stack.sp20 = 0.0f;

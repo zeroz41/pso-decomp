@@ -272,7 +272,7 @@ struct FlowerSetupData {
     u32 unknown0c[4];
 };
 
-typedef char FlowerSetupData_size[sizeof(FlowerSetupData) == 0x1C ? 1 : -1];
+LAYOUT_ASSERT(FlowerSetupData_size, sizeof(FlowerSetupData) == 0x1C);
 
 FlowerSetupData TObjEneRe2Flower__setup_data = { 225.0f, 0, 0x200, { 0, 0, 0, 0 } };
 // The two collision part lists the constructor chooses between: the common

@@ -16,5 +16,5 @@ struct TODoorFourLightRuins : public TODoorBase {
     u8 unk_D8[0x20];
 };
 
-typedef char TODoorFourLightRuins_size[sizeof(TODoorFourLightRuins) == 0xF8 ? 1 : -1];
+LAYOUT_ASSERT(TODoorFourLightRuins_size, sizeof(TODoorFourLightRuins) == 0xF8);
 #endif

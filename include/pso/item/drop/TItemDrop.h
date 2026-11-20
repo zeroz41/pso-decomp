@@ -45,5 +45,5 @@ struct TItemDrop : public TObject {
     s8 get_bool_from_1d6ddc();
 };
 
-typedef char TItemDrop_size[sizeof(TItemDrop) == 0x24 ? 1 : -1];
+LAYOUT_ASSERT(TItemDrop_size, sizeof(TItemDrop) == 0x24);
 #endif

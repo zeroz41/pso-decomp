@@ -29,5 +29,5 @@ struct TOKeyJungleMain : public TOKey {
 // The story flag of each key (switch_id 0-2).
 extern const s32 TOKeyJungleMain__data_804653C8[3];
 
-typedef char TOKeyJungleMain_size[sizeof(TOKeyJungleMain) == 0xF0 ? 1 : -1];
+LAYOUT_ASSERT(TOKeyJungleMain_size, sizeof(TOKeyJungleMain) == 0xF0);
 #endif

@@ -40,5 +40,5 @@ struct TObjCityMainWarp : public TObjAreaWarp {
     s32 select_type;
 };
 
-typedef char TObjCityMainWarp_size[sizeof(TObjCityMainWarp) == 0x154 ? 1 : -1];
+LAYOUT_ASSERT(TObjCityMainWarp_size, sizeof(TObjCityMainWarp) == 0x154);
 #endif

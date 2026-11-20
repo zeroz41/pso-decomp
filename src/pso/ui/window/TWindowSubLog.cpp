@@ -57,7 +57,7 @@ int update_trade_submenu__15TWindowMainMenuFv(void*);
 
 void TWindowSubLog::render() {  }
 
-typedef char RecoveredGlobal_8027AF58_lbl_8050E208_size[sizeof(RecoveredGlobal_8027AF58_lbl_8050E208) == 0x1B0 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8027AF58_lbl_8050E208_size, sizeof(RecoveredGlobal_8027AF58_lbl_8050E208) == 0x1B0);
 void TWindowSubLog::run_task() {
     u8 *arg0 = (u8 *)this;
     u8 *context;

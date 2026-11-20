@@ -157,9 +157,9 @@ void TObjEneEpsilonGuard::free_shared_resources() {
 }
 
 void TObjEneEpsilonGuard::sub_803626A8(s32 arg1, s32 arg2) {
-    typedef char sp8_offset[(offsetof(Stack_803626A8, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_803626A8, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_803626A8, sp10) == 0x8) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_803626A8, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_803626A8, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_803626A8, sp10) == 0x8);
     Stack_803626A8 stack = { 0, 0, 0 };
     push_matrix_from((void *)&identity_matrix);
     post_translate_matrix((void *) (((u8 *)this) + 0x38));

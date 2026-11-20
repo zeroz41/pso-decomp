@@ -34,5 +34,5 @@ void mem_free(void *p);
 void *mem_alloc(u32 size);
 }
 
-typedef char TOBoss4Rock_size[sizeof(TOBoss4Rock) == 0xB8 ? 1 : -1];
+LAYOUT_ASSERT(TOBoss4Rock_size, sizeof(TOBoss4Rock) == 0xB8);
 #endif

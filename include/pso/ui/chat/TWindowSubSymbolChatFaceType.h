@@ -30,6 +30,6 @@ struct TWindowSubSymbolChatFaceType : public TWindowBase {
     void confirm_selection();
 };
 
-typedef char TWindowSubSymbolChatFaceType_size[sizeof(TWindowSubSymbolChatFaceType) == 0x6C ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubSymbolChatFaceType_size, sizeof(TWindowSubSymbolChatFaceType) == 0x6C);
 
 #endif

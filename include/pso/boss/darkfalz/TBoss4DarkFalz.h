@@ -116,5 +116,5 @@ struct TBoss4DarkFalzState {
     TBoss4DarkFalzHandler update;
 };
 
-typedef char TBoss4DarkFalz_size[sizeof(TBoss4DarkFalz) == 0x39C ? 1 : -1];
+LAYOUT_ASSERT(TBoss4DarkFalz_size, sizeof(TBoss4DarkFalz) == 0x39C);
 #endif

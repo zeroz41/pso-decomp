@@ -50,5 +50,5 @@ struct TShopArmorListWindow : public TShopWindowBase {
     void save_and_close();
 };
 
-typedef char TShopArmorListWindow_size[sizeof(TShopArmorListWindow) == 0x1F8 ? 1 : -1];
+LAYOUT_ASSERT(TShopArmorListWindow_size, sizeof(TShopArmorListWindow) == 0x1F8);
 #endif

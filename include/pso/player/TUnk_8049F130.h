@@ -15,6 +15,6 @@ public:
     u8 unk_2A[0x2];
     u32 m_2c;
 };
-typedef char TUnk_8049F130_size[sizeof(TUnk_8049F130) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_8049F130_size, sizeof(TUnk_8049F130) == 0x30);
 
 #endif

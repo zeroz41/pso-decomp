@@ -1228,29 +1228,29 @@ void TObjEneDD::emit_effect(void* p, int a1, int a2) { TObjEneDD::emit_enemy_eff
 void TObjEneDD::emit_effect_at_position(void* a1) { TObjEneDD::emit_enemy_effect((s32)this, (s32)((char*)this + 0x38), (u8 *)a1, (s32)((void*)0)); }
 
 void TObjEneDD__sub_800BA438(s32 arg0, u8 *arg1) {
-    typedef char sp8_offset[(offsetof(Stack_800BA318, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_800BA318, spC) == 0x4) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800BA318, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_800BA318, spC) == 0x4);
     Stack_800BA318 stack = {0x12, 1.0f};
     ((VObj_18_0c879f *)(arg1))->m21(arg0, &stack.sp8, 0, -1, -1);
 }
 
 void TObjEneDD::inflict_poison(s32 arg0, u8 *arg1) {
-    typedef char sp8_offset[(offsetof(Stack_800BA318, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_800BA318, spC) == 0x4) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800BA318, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_800BA318, spC) == 0x4);
     Stack_800BA318 stack = {0xF, 1.0f};
     ((VObj_18_0c879f *)(arg1))->m21(arg0, &stack.sp8, 0, -1, -1);
 }
 
 void TObjEneDD__sub_800BA378(s32 arg0, u8 *arg1) {
-    typedef char sp8_offset[(offsetof(Stack_800BA318, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_800BA318, spC) == 0x4) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800BA318, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_800BA318, spC) == 0x4);
     Stack_800BA318 stack = {0x10, 1.0f};
     ((VObj_18_0c879f *)(arg1))->m21(arg0, &stack.sp8, 0, -1, -1);
 }
 
 void TObjEneDD::send_damage_message(s32 arg0, u8 *arg1) {
-    typedef char sp8_offset[(offsetof(Stack_800BA318, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_800BA318, spC) == 0x4) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800BA318, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_800BA318, spC) == 0x4);
     Stack_800BA318 stack = {0x11, 1.0f};
     ((VObj_18_0c879f *)(arg1))->m21(arg0, &stack.sp8, 0, -1, -1);
 }

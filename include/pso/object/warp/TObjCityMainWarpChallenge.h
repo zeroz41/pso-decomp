@@ -43,9 +43,9 @@ struct TObjCityMainWarpChallenge : public TObjAreaWarp {
     u8 unk_178[0x8];
 };
 
-typedef char TObjCityMainWarpChallenge_size[sizeof(TObjCityMainWarpChallenge) == 0x180 ? 1 : -1];
-typedef char TObjCityMainWarpChallenge_m_d0[offsetof(TObjCityMainWarpChallenge, model) == 0xD0 ? 1 : -1];
-typedef char TObjCityMainWarpChallenge_warp_effect_timer[offsetof(TObjCityMainWarpChallenge, warp_effect_timer) == 0x174 ? 1 : -1];
+LAYOUT_ASSERT(TObjCityMainWarpChallenge_size, sizeof(TObjCityMainWarpChallenge) == 0x180);
+LAYOUT_ASSERT(TObjCityMainWarpChallenge_m_d0, offsetof(TObjCityMainWarpChallenge, model) == 0xD0);
+LAYOUT_ASSERT(TObjCityMainWarpChallenge_warp_effect_timer, offsetof(TObjCityMainWarpChallenge, warp_effect_timer) == 0x174);
 
 
 #endif

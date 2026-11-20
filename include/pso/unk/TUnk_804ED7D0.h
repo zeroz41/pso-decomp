@@ -73,6 +73,6 @@ public:
     virtual int vfunc_30();
     virtual s32 *get_state_table(s32);
 };
-typedef char TUnk_804ED7D0_size[sizeof(TUnk_804ED7D0) == 0xC ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804ED7D0_size, sizeof(TUnk_804ED7D0) == 0xC);
 
 #endif

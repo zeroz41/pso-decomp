@@ -81,7 +81,7 @@ struct TObjEneEpsilonGuard : public TObjEneEpsilon {
     void render_with_fade(s32 detail);
 };
 
-typedef char TObjEneEpsilonGuard_size[sizeof(TObjEneEpsilonGuard) == 0x4D8 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneEpsilonGuard_size, sizeof(TObjEneEpsilonGuard) == 0x4D8);
 // Hands the camera-ctrl callback a point to fill.
 extern "C" void get_camera_ctrl__9TObjEneDDFv(void *ctrl, Vec *out);
 extern "C" s32 is_main_phase_15__9TObjEneDDFv();

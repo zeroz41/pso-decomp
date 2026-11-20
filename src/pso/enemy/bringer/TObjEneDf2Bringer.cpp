@@ -1923,8 +1923,8 @@ void TObjEneDf2Bringer__sub_8009813C(u8 *arg0, s32 arg1) {
 #undef PRM
 #undef VO
 void TObjEneDf2Bringer__sub_80097E9C(u8 *arg0, s32 arg1) {
-    typedef char sp8_offset[(offsetof(Stack_80097E9C, sp8) == 0x0) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_80097E9C, sp14) == 0xC) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80097E9C, sp8) == 0x0);
+    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_80097E9C, sp14) == 0xC);
     Stack_80097E9C stack;
     s32 temp_r3;
     s32 entry;

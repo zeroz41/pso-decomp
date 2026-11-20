@@ -55,7 +55,7 @@ public:
     s32 in_view;         // update_object_view_visibility saw it this frame
 };
 
-typedef char TOKeySize[sizeof(TOKey) == 0xE8 ? 1 : -1];
+LAYOUT_ASSERT(TOKeySize, sizeof(TOKey) == 0xE8);
 
 // The 6x05 switch command handler (TGameProtocol's table).
 void handle_6x05_write_switch_flag(void *cmd);

@@ -225,8 +225,8 @@ void TBoss7Crawfish::render() { if (is_visible() != 0) { set_texlist(this->texli
 
 void TBoss7Crawfish::clear_object_state_exchange() {
     s32 arg0 = (s32)this;
-    typedef char sp8_offset[(offsetof(Stack_80308B38, sp8) == 0x0) ? 1 : -1];
-    typedef char spE_offset[(offsetof(Stack_80308B38, spE) == 0x6) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80308B38, sp8) == 0x0);
+    LAYOUT_ASSERT(spE_offset, offsetof(Stack_80308B38, spE) == 0x6);
     Stack_80308B38 stack;
     if (exchange_object_state__9TObjEnemyFls((void *)arg0, &stack.sp8, 1) != 0) {
         stack.sp8 = 0;

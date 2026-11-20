@@ -36,7 +36,7 @@ struct TOAttackableCol : public TObjChara {
     s32 m_34c;
 };
 
-typedef char TOAttackableCol_size[sizeof(TOAttackableCol) == 0x350 ? 1 : -1];
+LAYOUT_ASSERT(TOAttackableCol_size, sizeof(TOAttackableCol) == 0x350);
 extern "C" {
 void TOAttackableCol__sub_80157310(void *_w0);
 void TOAttackableCol__sub_80157C20(void *p, s32 v);

@@ -93,10 +93,10 @@ struct ChangeShipOrBlockPacket {
     C_ChangeShipOrBlock_A0_A1 payload;
 };
 
-typedef char CharacterSaveInfoPacket_size[sizeof(CharacterSaveInfoPacket) == 0xC ? 1 : -1];
-typedef char ChangeShipOrBlockPacket_size[sizeof(ChangeShipOrBlockPacket) == 0x1C ? 1 : -1];
-typedef char TProtocol_connected_offset[offsetof(TProtocol, m_connected) == 0x1910 ? 1 : -1];
-typedef char TProtocol_guildcard_offset[offsetof(TProtocol, m_guildcard_tag) == 0x1900 ? 1 : -1];
+LAYOUT_ASSERT(CharacterSaveInfoPacket_size, sizeof(CharacterSaveInfoPacket) == 0xC);
+LAYOUT_ASSERT(ChangeShipOrBlockPacket_size, sizeof(ChangeShipOrBlockPacket) == 0x1C);
+LAYOUT_ASSERT(TProtocol_connected_offset, offsetof(TProtocol, m_connected) == 0x1910);
+LAYOUT_ASSERT(TProtocol_guildcard_offset, offsetof(TProtocol, m_guildcard_tag) == 0x1900);
 
 void TProtocol::send_character_save_info(int creation_timestamp, int event_counter) {
     CharacterSaveInfoPacket packet;
@@ -1528,14 +1528,14 @@ void packet_header::bswap() {
     bswap_16(&size);
 }
 
-typedef char RecoveredFields_801DD33C_arg0_0_offset[offsetof(RecoveredFields_801DD33C_arg0, field_0) == 0x0 ? 1 : -1];
-typedef char RecoveredFields_801DD33C_arg0_1_offset[offsetof(RecoveredFields_801DD33C_arg0, field_1) == 0x1 ? 1 : -1];
-typedef char RecoveredFields_801DD33C_arg0_2_offset[offsetof(RecoveredFields_801DD33C_arg0, field_2) == 0x2 ? 1 : -1];
-typedef char RecoveredFields_801DD33C_arg0_4_offset[offsetof(RecoveredFields_801DD33C_arg0, field_4) == 0x4 ? 1 : -1];
-typedef char RecoveredFields_801DD33C_arg1_0_offset[offsetof(RecoveredFields_801DD33C_arg1, field_0) == 0x0 ? 1 : -1];
-typedef char RecoveredFields_801DD33C_arg1_1_offset[offsetof(RecoveredFields_801DD33C_arg1, field_1) == 0x1 ? 1 : -1];
-typedef char RecoveredFields_801DD33C_arg1_2_offset[offsetof(RecoveredFields_801DD33C_arg1, field_2) == 0x2 ? 1 : -1];
-typedef char RecoveredFields_801DD33C_arg1_4_offset[offsetof(RecoveredFields_801DD33C_arg1, field_4) == 0x4 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_801DD33C_arg0_0_offset, offsetof(RecoveredFields_801DD33C_arg0, field_0) == 0x0);
+LAYOUT_ASSERT(RecoveredFields_801DD33C_arg0_1_offset, offsetof(RecoveredFields_801DD33C_arg0, field_1) == 0x1);
+LAYOUT_ASSERT(RecoveredFields_801DD33C_arg0_2_offset, offsetof(RecoveredFields_801DD33C_arg0, field_2) == 0x2);
+LAYOUT_ASSERT(RecoveredFields_801DD33C_arg0_4_offset, offsetof(RecoveredFields_801DD33C_arg0, field_4) == 0x4);
+LAYOUT_ASSERT(RecoveredFields_801DD33C_arg1_0_offset, offsetof(RecoveredFields_801DD33C_arg1, field_0) == 0x0);
+LAYOUT_ASSERT(RecoveredFields_801DD33C_arg1_1_offset, offsetof(RecoveredFields_801DD33C_arg1, field_1) == 0x1);
+LAYOUT_ASSERT(RecoveredFields_801DD33C_arg1_2_offset, offsetof(RecoveredFields_801DD33C_arg1, field_2) == 0x2);
+LAYOUT_ASSERT(RecoveredFields_801DD33C_arg1_4_offset, offsetof(RecoveredFields_801DD33C_arg1, field_4) == 0x4);
 
 void TProtocol::bswap_cmd_AB() {
 	((packet_header *)this)->bswap();

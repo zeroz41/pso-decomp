@@ -12,7 +12,7 @@ struct TObjMistCtrl : public TObjBase {
     u8 unk_90[0x4];
 };
 
-typedef char TObjMistCtrl_size[sizeof(TObjMistCtrl) == 0x94 ? 1 : -1];
+LAYOUT_ASSERT(TObjMistCtrl_size, sizeof(TObjMistCtrl) == 0x94);
 
 extern "C" {
 void *__dt__12TObjMistCtrlFv(void *arg0, s16 arg1);

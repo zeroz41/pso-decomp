@@ -23,7 +23,7 @@ struct TWindowLoadItemTexture : public TWindowBase {
     virtual void run_task();
 };
 
-typedef char TWindowLoadItemTexture_size[sizeof(TWindowLoadItemTexture) == 0x74 ? 1 : -1];
+LAYOUT_ASSERT(TWindowLoadItemTexture_size, sizeof(TWindowLoadItemTexture) == 0x74);
 
 extern "C" {
 void *TWindowLoadItemTexture__ct(TWindowLoadItemTexture *window_load_item_texture, void *arg1, void *arg2, void *arg3);

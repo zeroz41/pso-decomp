@@ -23,7 +23,7 @@ struct TObjEneReconBomb : public TObjChara {
     virtual void run_task();
 };
 
-typedef char TObjEneReconBomb_size[sizeof(TObjEneReconBomb) == 0x364 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneReconBomb_size, sizeof(TObjEneReconBomb) == 0x364);
 
 extern "C" {
 u8 *TObjEneReconBomb__ct(TObjEneReconBomb *arg0, s32 arg1, s32 arg2, s32 arg3);

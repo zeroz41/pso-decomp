@@ -40,5 +40,5 @@ struct TCharaMaking : public TObject {
     void build_appearance_texture_names(CharacterAppearanceFields *appearance, CharacterClassAppearance *definition, CharacterTextureList *source);
 };
 
-typedef char TCharaMaking_size[sizeof(TCharaMaking) == 0x24 ? 1 : -1];
+LAYOUT_ASSERT(TCharaMaking_size, sizeof(TCharaMaking) == 0x24);
 #endif

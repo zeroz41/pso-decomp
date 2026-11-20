@@ -391,9 +391,9 @@ s32 is_state_1f__14TBoss6PlotFalzFUi(u32 arg0) {
     return 1;
 }
 
-typedef char MemberActionStorage_802AB1C8_size[sizeof(MemberActionStorage_802AB1C8) == 12 ? 1 : -1];
+LAYOUT_ASSERT(MemberActionStorage_802AB1C8_size, sizeof(MemberActionStorage_802AB1C8) == 12);
 
-typedef char MemberActionStorage_802AB14C_size[sizeof(MemberActionStorage_802AB14C) == 12 ? 1 : -1];
+LAYOUT_ASSERT(MemberActionStorage_802AB14C_size, sizeof(MemberActionStorage_802AB14C) == 12);
 void TBoss6PlotFalz::run_phase_action() {
   MemberActionStorage_802AB14C member_action;
   Stack_802AB14C stack;
@@ -574,8 +574,8 @@ s32 TBoss6PlotFalz::rand_vary_count(s32 arg0, f32 farg0) {
 }
 #pragma pop
 void TBoss6PlotFalz__sub_802AB684(s32 arg0) {
-    typedef char sp8_offset[(offsetof(Stack_802AB684, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_802AB684, spC) == 0x4) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_802AB684, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_802AB684, spC) == 0x4);
     Stack_802AB684 stack;
     VecCopy((Vec *)(&stack.sp8), (const Vec *)(arg0));
     subtract_vector(&stack.sp8, &lbl_8047059C);
@@ -895,10 +895,10 @@ __declspec(section ".sdata2") const s32 lbl_805DE0C8[1] = { 0x8810 };
 #pragma opt_dead_assignments off
 #pragma fp_contract on
 void TBoss6PlotFalz::apply_fade_material_color(f32 farg0, f32 farg1, f32 farg2, f32 farg3) {
-    typedef char sp8_offset[(offsetof(Stack_802AC040, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_802AC040, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_802AC040, sp10) == 0x8) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_802AC040, sp14) == 0xC) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_802AC040, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_802AC040, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_802AC040, sp10) == 0x8);
+    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_802AC040, sp14) == 0xC);
     Stack_802AC040 stack;
     f32 temp_f1;
     f32 temp_f2;
@@ -1015,8 +1015,8 @@ void TBoss6PlotFalz::free_buffer_pairs() {
     mem_free(self->items);
     self->items = 0;
 }
-typedef char MemberActionStorage_8004B084_size[sizeof(MemberActionStorage_8004B084) == 12 ? 1 : -1];
-typedef char MemberActionStorage_8004B0F8_size[sizeof(MemberActionStorage_8004B0F8) == 12 ? 1 : -1];
+LAYOUT_ASSERT(MemberActionStorage_8004B084_size, sizeof(MemberActionStorage_8004B084) == 12);
+LAYOUT_ASSERT(MemberActionStorage_8004B0F8_size, sizeof(MemberActionStorage_8004B0F8) == 12);
 
 void build_tables__14TBoss6PlotFalzFPvPvi(Obj_8004AA80 *arg0, Rec_8004AA80 *arg1, s32 arg2) {
     s32 h;

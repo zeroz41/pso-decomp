@@ -65,5 +65,5 @@ struct TObjFish : public TObjBase {
     void update_wobble_angle();
 };
 
-typedef char TObjFish_size[sizeof(TObjFish) == 0xA4 ? 1 : -1];
+LAYOUT_ASSERT(TObjFish_size, sizeof(TObjFish) == 0xA4);
 #endif

@@ -53,9 +53,9 @@ public:
     static void init_launch_angles(s32 *arg0, s32 *arg1, s32 arg2);
     void update();
 };
-typedef char SlicerSize[(sizeof(TTecSlicer)==0x140)?1:-1];
-typedef char SlicerPosition[(offsetof(TTecSlicer,position)==0x38)?1:-1];
-typedef char SlicerDirection[(offsetof(TTecSlicer,direction)==0x90)?1:-1];
-typedef char SlicerCapturedTargets[(offsetof(TTecSlicer,capturedTargets)==0xC8)?1:-1];
-typedef char SlicerColor[(offsetof(TTecSlicer,argb)==0x128)?1:-1];
+LAYOUT_ASSERT(SlicerSize, sizeof(TTecSlicer)==0x140);
+LAYOUT_ASSERT(SlicerPosition, offsetof(TTecSlicer,position)==0x38);
+LAYOUT_ASSERT(SlicerDirection, offsetof(TTecSlicer,direction)==0x90);
+LAYOUT_ASSERT(SlicerCapturedTargets, offsetof(TTecSlicer,capturedTargets)==0xC8);
+LAYOUT_ASSERT(SlicerColor, offsetof(TTecSlicer,argb)==0x128);
 #endif

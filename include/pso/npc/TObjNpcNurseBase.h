@@ -10,7 +10,7 @@ struct TObjNpcNurseBase : public TUnk_804A8640 {
     static void load_shared_data();
 };
 
-typedef char TObjNpcNurseBase_size[sizeof(TObjNpcNurseBase) == 0x3B8 ? 1 : -1];
+LAYOUT_ASSERT(TObjNpcNurseBase_size, sizeof(TObjNpcNurseBase) == 0x3B8);
 
 class TObjControl;
 

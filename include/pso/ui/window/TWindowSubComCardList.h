@@ -29,5 +29,5 @@ struct TWindowSubComCardList : public TWindowMenu {
     u8 unk_9D[0x3];
 };
 
-typedef char TWindowSubComCardList_size[sizeof(TWindowSubComCardList) == 0xA0 ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubComCardList_size, sizeof(TWindowSubComCardList) == 0xA0);
 #endif

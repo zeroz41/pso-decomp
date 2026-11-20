@@ -214,9 +214,9 @@ struct VtxOut_803E3390 {
     f32 nx, ny, nz;
     f32 pad[2];
 };
-typedef char ReorderedMatrix_803E3390_size[sizeof(ReorderedMatrix_803E3390) == 0x30 ? 1 : -1];
-typedef char VtxIn_803E3390_size[sizeof(VtxIn_803E3390) == 0x18 ? 1 : -1];
-typedef char VtxOut_803E3390_size[sizeof(VtxOut_803E3390) == 0x20 ? 1 : -1];
+LAYOUT_ASSERT(ReorderedMatrix_803E3390_size, sizeof(ReorderedMatrix_803E3390) == 0x30);
+LAYOUT_ASSERT(VtxIn_803E3390_size, sizeof(VtxIn_803E3390) == 0x18);
+LAYOUT_ASSERT(VtxOut_803E3390_size, sizeof(VtxOut_803E3390) == 0x20);
 
 // This chunk command transforms indexed positions and normals with signed 8.8 weights.
 #ifdef __MWERKS__
@@ -241,7 +241,7 @@ struct WeightedChunkVertex {
     u16 index;
 };
 
-typedef char WeightedChunkVertex_size[sizeof(WeightedChunkVertex) == 0x1C ? 1 : -1];
+LAYOUT_ASSERT(WeightedChunkVertex_size, sizeof(WeightedChunkVertex) == 0x1C);
 
 void GXSetVtxAttrFmtv(ChunkVertexJob *job, ReorderedMatrix_803E3390 *matrix, u32 accumulate) {
     const WeightedChunkVertex *src = (const WeightedChunkVertex *)job->src;

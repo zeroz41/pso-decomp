@@ -83,11 +83,11 @@ u8 is_flag_set__6TLobbyFv(void) {
 
     extern int chat_last_line_buffer;
 int TLobby::get_unit_list() {  return chat_last_line_buffer; }
-typedef char RecoveredGlobal_80070ACC_lbl_8048D208_size[sizeof(RecoveredGlobal_80070ACC_lbl_8048D208) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_80070ACC_lbl_8048D208_size, sizeof(RecoveredGlobal_80070ACC_lbl_8048D208) == 0x18);
 s32 *TLobby__sub_80070ACC(void) {
     return &lbl_8048D208.value;
 }
-typedef char RecoveredGlobal_80399904_lbl_804F5A00_size[sizeof(RecoveredGlobal_80399904_lbl_804F5A00) == 0x100 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_80399904_lbl_804F5A00_size, sizeof(RecoveredGlobal_80399904_lbl_804F5A00) == 0x100);
 u32 TLobby__sub_80070AD8(s32 arg0) {
     if (arg0 == -1) {
         return -1U;
@@ -326,7 +326,7 @@ loop_4:
     }
     goto loop_4;
 }
-typedef char RecoveredGlobal_800713C8_lbl_804FF82C_size[sizeof(RecoveredGlobal_800713C8_lbl_804FF82C) == 0xC ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_800713C8_lbl_804FF82C_size, sizeof(RecoveredGlobal_800713C8_lbl_804FF82C) == 0xC);
 
 void TLobby__sub_80071064(s32 arg0) {
     if (((s32 (*)(void))is_flag_set__6TLobbyFv)() != 0) {

@@ -31,6 +31,6 @@ struct TWindowTimer : public TWindowBase {
     static int set_timer_value(int a0, int a1);
 };
 
-typedef char TWindowTimer_size[sizeof(TWindowTimer) == 0x64 ? 1 : -1];
+LAYOUT_ASSERT(TWindowTimer_size, sizeof(TWindowTimer) == 0x64);
 
 #endif

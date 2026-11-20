@@ -16,6 +16,6 @@ public:
     void * m_fc;
     s32 m_100;
 };
-typedef char TObjEneRe2Flower_Bomb_size[sizeof(TObjEneRe2Flower_Bomb) == 0x104 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneRe2Flower_Bomb_size, sizeof(TObjEneRe2Flower_Bomb) == 0x104);
 
 #endif

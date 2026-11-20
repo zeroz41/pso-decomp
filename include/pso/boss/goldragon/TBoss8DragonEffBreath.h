@@ -19,7 +19,7 @@ struct TBoss8DragonEffBreath : public TObject {
     virtual void run_task();
 };
 
-typedef char TBoss8DragonEffBreath_size[sizeof(TBoss8DragonEffBreath) == 0x40 ? 1 : -1];
+LAYOUT_ASSERT(TBoss8DragonEffBreath_size, sizeof(TBoss8DragonEffBreath) == 0x40);
 
 extern "C" {
 void *__dt__21TBoss8DragonEffBreathFv(void *arg0, s16 arg1);

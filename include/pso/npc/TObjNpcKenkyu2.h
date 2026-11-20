@@ -10,7 +10,7 @@ struct TObjNpcKenkyu2 : public TUnk_804A9F50 {
     static void load_shared_resource();
 };
 
-typedef char TObjNpcKenkyu2_size[sizeof(TObjNpcKenkyu2) == 0x3B8 ? 1 : -1];
+LAYOUT_ASSERT(TObjNpcKenkyu2_size, sizeof(TObjNpcKenkyu2) == 0x3B8);
 
 extern "C" {
 void *TObjNpcHosa2__create(void *arg0);

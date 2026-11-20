@@ -26,7 +26,7 @@ struct TObjDoorKey : public TOKey {
     u32 m_f8;
 };
 
-typedef char TObjDoorKey_size[sizeof(TObjDoorKey) == 0xFC ? 1 : -1];
+LAYOUT_ASSERT(TObjDoorKey_size, sizeof(TObjDoorKey) == 0xFC);
 
 extern "C" {
 void *TObjDoorKey__create(void *arg0);

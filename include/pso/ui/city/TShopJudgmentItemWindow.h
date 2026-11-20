@@ -52,5 +52,5 @@ struct TShopJudgmentItemWindow : public TShopWindowBase {
     void handle_judge_confirm();
 };
 
-typedef char TShopJudgmentItemWindow_size[sizeof(TShopJudgmentItemWindow) == 0x178 ? 1 : -1];
+LAYOUT_ASSERT(TShopJudgmentItemWindow_size, sizeof(TShopJudgmentItemWindow) == 0x178);
 #endif

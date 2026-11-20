@@ -35,7 +35,7 @@ void TBoss8DragonDemo::run_task() {
         ((TObject *)arg0)->queue_destruction();
     }
 }
-typedef char RecoveredGlobal_802F2D8C___vt__16TBoss8DragonDemo_size[sizeof(RecoveredGlobal_802F2D8C___vt__16TBoss8DragonDemo) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_802F2D8C___vt__16TBoss8DragonDemo_size, sizeof(RecoveredGlobal_802F2D8C___vt__16TBoss8DragonDemo) == 0x18);
 TBoss8DragonDemo::~TBoss8DragonDemo() {}
 u8 *__ct__16TBoss8DragonDemoFv(u8 *object, s32 arg1, s32 arg2, f32 farg0) {
     CameraPlayback playback;

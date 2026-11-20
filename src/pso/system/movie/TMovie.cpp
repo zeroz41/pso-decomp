@@ -207,9 +207,9 @@ void TMovie::init_sfd_player(s32 arg1, s32 arg2) {
 
 s32 TMovie::decode_frame() {
     u8 *arg0 = (u8 *)this;
-    typedef char sp8_offset[(offsetof(MovieFrameInfo, field_00) == 0x0) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(MovieFrameInfo, field_08) == 0x8) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(MovieFrameInfo, field_0c) == 0xC) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(MovieFrameInfo, field_00) == 0x0);
+    LAYOUT_ASSERT(sp10_offset, offsetof(MovieFrameInfo, field_08) == 0x8);
+    LAYOUT_ASSERT(sp14_offset, offsetof(MovieFrameInfo, field_0c) == 0xC);
     MovieFrameInfo frame;
 
     s32 temp_r3_2;

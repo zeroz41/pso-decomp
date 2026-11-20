@@ -58,7 +58,7 @@ extern RecoveredGlobal_8026D18C_lbl_80515BA0 lbl_80515BA0;
 extern s32 lbl_805D55C0;
 int TWindowReturnCity__client_scan_index;
 void return_to_city_after_defeat(void);
-typedef char RecoveredGlobal_8026D18C_lbl_80515BA0_size[sizeof(RecoveredGlobal_8026D18C_lbl_80515BA0) == 0x28 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8026D18C_lbl_80515BA0_size, sizeof(RecoveredGlobal_8026D18C_lbl_80515BA0) == 0x28);
 void return_to_city_after_defeat(void) {
     if (((s32) lbl_805D55C0 != 1) && ((s32) (*(s32 *)&TWindowReturnCity__client_scan_index) < 4)) {
         if (((s32)get_player_by_client_id((s32)((u32) (*(s32 *)&TWindowReturnCity__client_scan_index)))) != 0U) {

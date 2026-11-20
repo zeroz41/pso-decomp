@@ -445,7 +445,7 @@ int TBoss4DarkFalz::is_ending_or_split_screen() {
 }
 int TBoss4DarkFalz__sub_8004B07C(void) { return 0; }
 
-typedef char MemberActionStorage_8004B084_size[sizeof(MemberActionStorage_8004B084) == 12 ? 1 : -1];
+LAYOUT_ASSERT(MemberActionStorage_8004B084_size, sizeof(MemberActionStorage_8004B084) == 12);
 void TBoss4DarkFalz::sub_8004B084() {
   MemberActionStorage_8004B084 member_action;
   Stack_8004B084 stack;
@@ -461,7 +461,7 @@ void TBoss4DarkFalz::sub_8004B084() {
   }
 }
 
-typedef char MemberActionStorage_8004B0F8_size[sizeof(MemberActionStorage_8004B0F8) == 12 ? 1 : -1];
+LAYOUT_ASSERT(MemberActionStorage_8004B0F8_size, sizeof(MemberActionStorage_8004B0F8) == 12);
 void TBoss4DarkFalz::sub_8004B0F8() {
   MemberActionStorage_8004B0F8 member_action;
   Stack_8004B0F8 stack;

@@ -407,9 +407,9 @@ void TChallenge4PItemSelect::open_menu() {
 }
 
 void TChallenge4PItemSelect::submit_selected_item() {
-    typedef char sp8_offset[(offsetof(Stack_8034B158, sp8) == 0x0) ? 1 : -1];
-    typedef char sp9_offset[(offsetof(Stack_8034B158, sp9) == 0x1) ? 1 : -1];
-    typedef char spA_offset[(offsetof(Stack_8034B158, spA) == 0x2) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8034B158, sp8) == 0x0);
+    LAYOUT_ASSERT(sp9_offset, offsetof(Stack_8034B158, sp9) == 0x1);
+    LAYOUT_ASSERT(spA_offset, offsetof(Stack_8034B158, spA) == 0x2);
     Stack_8034B158 stack;
     u32 temp_r3_2;
     u8 *temp_r31;

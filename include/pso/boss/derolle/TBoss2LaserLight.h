@@ -18,7 +18,7 @@ struct TBoss2LaserLight : public TObject {
     virtual void run_task();
 };
 
-typedef char TBoss2LaserLight_size[sizeof(TBoss2LaserLight) == 0x44 ? 1 : -1];
+LAYOUT_ASSERT(TBoss2LaserLight_size, sizeof(TBoss2LaserLight) == 0x44);
 
 extern "C" {
 void TBoss2LaserLight__sub_80037474(void *p);

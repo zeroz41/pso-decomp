@@ -177,10 +177,10 @@ void TUnk_804F322C::update_linked_state() {
 void TUnk_804F322C::render() { push_matrix(this); post_translate_matrix((char*)this + 0x38); rotate_matrix_y((void*)0, *(void**)((char*)this + 0x3ac)); update_linked_state(); pop_matrix(); }
 
 void TBoss6MagMine__sub_80368AB8(u8 *arg0, u8 *arg1) {
-    typedef char sp8_offset[(offsetof(Stack_80368AB8, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_80368AB8, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_80368AB8, sp10) == 0x8) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_80368AB8, sp14) == 0xC) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80368AB8, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_80368AB8, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_80368AB8, sp10) == 0x8);
+    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_80368AB8, sp14) == 0xC);
     Stack_80368AB8 stack;
     s32 temp_r3;
     s32 temp_r3_2;

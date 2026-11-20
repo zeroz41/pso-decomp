@@ -22,7 +22,7 @@ struct TWindowSubLog : public TObject {
     u8 unk_50[0x30];
 };
 
-typedef char TWindowSubLog_size[sizeof(TWindowSubLog) == 0x80 ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubLog_size, sizeof(TWindowSubLog) == 0x80);
 
 extern "C" {
 void *__dt__13TWindowSubLogFv(void *arg0, s16 arg1);

@@ -22,6 +22,6 @@ struct TEneParticleCtrl : public TObjCollidable {
     void*get_field_38_ptr();
 };
 
-typedef char TEneParticleCtrl_size[sizeof(TEneParticleCtrl) == 0xC4 ? 1 : -1];
+LAYOUT_ASSERT(TEneParticleCtrl_size, sizeof(TEneParticleCtrl) == 0xC4);
 
 #endif
