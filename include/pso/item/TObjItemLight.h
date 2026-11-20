@@ -14,8 +14,5 @@ struct TObjItemLight : public TObjBase {
 
 typedef char TObjItemLight_size[sizeof(TObjItemLight) == 0x98 ? 1 : -1];
 
-extern "C" {
-void *__dt__13TObjItemLightFv(void *arg0, s16 arg1);
-}
 
 #endif

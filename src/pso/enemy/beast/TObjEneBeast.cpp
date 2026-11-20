@@ -13,7 +13,6 @@
 #include "pso/object/TObjControl.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/unk/text_803D853C.h"
-extern "C" void render__12TObjEneBeastFv();
 
 #include "pso/effect/TUnk_80494968.h"
 #include "types.h"
@@ -356,7 +355,6 @@ void TObjEneBeast::render() {
 
 #include "pso/system/task/TObject_80019A50.h"
 
-extern "C" void vfunc_101__12TObjEneBeastFv();
 extern "C" void test_flag_256__13TUnk_80493450Fv();
 
 
@@ -376,7 +374,6 @@ void free_bin_model_request(void*, int);
 extern void *tl_04;
 
 extern "C" void vfunc_6__8TObjBaseFPsl();
-extern "C" void vfunc_99__12TObjEneBeastFv();
 extern "C" void vfunc_29__9TObjCharaFv();
 extern "C" void recalc_stats__9TObjCharaFv();
 extern "C" void consume_timer_field__9TObjCharaFl();
@@ -439,9 +436,6 @@ extern "C" void get_name__9TObjEnemyFv();
 extern "C" void get_pos__9TObjCharaFl();
 extern "C" void is_actor_cadence_frame__9TObjCharaFl();
 extern "C" void is_target_in_attack_range__9TObjCharaFv();
-extern "C" void vfunc_95__12TObjEneBeastFv();
-extern "C" void vfunc_97__12TObjEneBeastFv();
-extern "C" void vfunc_98__12TObjEneBeastFv();
 extern "C" void receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll();
 extern "C" void receive_physical_attack__9TObjCharaFPvf();
 extern "C" void receive_weapon_special_attack__9TObjCharaFPvPv();
@@ -453,16 +447,12 @@ extern "C" void reset_pose__9TObjCharaFv();
 extern "C" void roll_physical_accuracy__9TObjCharaFPvlf();
 extern "C" void run_task__13TUnk_80493450Fv();
 extern "C" void select_melee_contact_body__9TObjCharaFPvf();
-extern "C" void vfunc_96__12TObjEneBeastFv();
-extern "C" void vfunc_94__12TObjEneBeastFv();
 extern "C" void update_movement_status__13TUnk_80493450Fv();
 extern "C" void vfunc_58__13TUnk_80493450Fv();
 extern "C" void trigger_switch_attack__9TObjCharaFv(s32 arg0);
 extern "C" void try_start_action__9TObjCharaFll();
 extern "C" void update_action_hold_status__13TUnk_80493450Fv();
 extern "C" void update_actor_ground_y__9TObjCharaFv();
-extern "C" void vfunc_83__12TObjEneBeastFv();
-extern "C" void vfunc_93__12TObjEneBeastFv();
 extern "C" s32 update_defense_stat_status__9TObjCharaFv(u8 *player);
 extern "C" void update_flag30_timer__9TObjCharaFv();
 extern "C" void update_object_view_visibility__8TObjBaseFff();

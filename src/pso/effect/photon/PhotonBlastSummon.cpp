@@ -22,7 +22,6 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixStack.h"
 
-extern "C" { void setup_photon_blast_camera__13TUnk_804C3248Fv(u8 *); }
 #pragma push
 
 #include <stddef.h>

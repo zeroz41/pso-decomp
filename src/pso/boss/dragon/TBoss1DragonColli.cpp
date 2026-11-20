@@ -68,7 +68,6 @@ extern CollisionBody TBoss1DragonColli_sphere_chain_desc;
 
 #pragma dont_inline off
 extern "C" {
-void render__19TBoss1DragonColli_CFv(void);
 
 void TBoss1DragonColli__sub_8002B35C(void* p);
 
@@ -86,7 +85,6 @@ int push_matrix(void*);
 
 s32 __dl__7TObjectFPv(void *);
 
-void __dt__17TBoss1DragonColliFv();
 
 void run_task__7TObjectFv();
 

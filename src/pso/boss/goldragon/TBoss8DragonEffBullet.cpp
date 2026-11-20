@@ -70,12 +70,12 @@ void TBoss8DragonEffBullet::run_task() {
             spawn_particle_effect_with_flags(&m_1c, m_54[1], 0x40);
             temp_r3_3 = m_50;
             if (temp_r3_3 != NULL) {
-                ((TObject *)temp_r3_3)->queue_destruction();
+                temp_r3_3->queue_destruction();
                 m_50 = NULL;
             }
             temp_r3_4 = m_4c;
             if (temp_r3_4 != NULL) {
-                ((TObject *)temp_r3_4)->queue_destruction();
+                temp_r3_4->queue_destruction();
                 m_4c = NULL;
             }
             play_sound_effect(0x4003AD0C, &m_1c, 0, 0);

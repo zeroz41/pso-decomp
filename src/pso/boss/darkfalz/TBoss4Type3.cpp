@@ -365,9 +365,6 @@ void TBoss4Type3__sub_80059F64(Obj_80059F64 *self, s32 arg1);
 
 void TBoss4Type3__sub_8005A150(TBoss4Type3 *self);
 void TBoss4Type3__sub_80059DCC(TBoss4Type3 *self, u32 packed);
-void render__11TBoss4Type3Fv(void* p);
-void vfunc_63__11TBoss4Type3Fv(Obj_8005ACBC *self);
-void vfunc_62__11TBoss4Type3Fv(u8 *arg0);
 void * __ct__13TObjBs4CutAtkFv(void *arg0, s32 arg1, s32 arg2, s32 arg3);
 void * create__13TObjBs4CutAtkFPvPvPv(void *arg0, void *arg1, void *arg2);
 void request_follow_camera_offsets(void *arg0, void *arg1, u16 arg2);
@@ -392,30 +389,6 @@ s32 init_collision_body_parts(void *, void *, int);
 extern s32 model_render_flags;
 extern s32 tl_04;
 
-extern "C" {
-void apply_poison_status__11TBoss4Type3Fv();
-}
-extern "C" {
-void apply_paralysis__11TBoss4Type3Fv();
-}
-extern "C" {
-void apply_slow_status__11TBoss4Type3Fv();
-}
-extern "C" {
-void apply_confusion_status__11TBoss4Type3Fv();
-}
-extern "C" {
-void apply_movement_ailment__11TBoss4Type3Fl();
-}
-extern "C" {
-void apply_shock_status__11TBoss4Type3Fv();
-}
-extern "C" {
-void clear_harmful_statuses__11TBoss4Type3Fv();
-}
-extern "C" {
-void run_task__11TBoss4Type3Fv();
-}
 extern "C" {
 void vfunc_6__8TObjBaseFPsl();
 }

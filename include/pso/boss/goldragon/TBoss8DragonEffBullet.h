@@ -24,8 +24,6 @@ struct TBoss8DragonEffBullet : public TObject {
     virtual void run_task();
 };
 
-extern "C" {
-void *__dt__21TBoss8DragonEffBulletFv(void *arg0, s16 arg1);
-}
+typedef char TBoss8DragonEffBullet_size[sizeof(TBoss8DragonEffBullet) == 0x58 ? 1 : -1];
 
 #endif

@@ -31,15 +31,10 @@
 
 #include "pso/unk/text_803D96A8.h"
 
-extern "C" void vfunc_28__20TOTrapChainSawDamageFv();
 
-extern "C" void vfunc_16__18TOTrapChainSawEdgeFv();
 
-extern "C" void vfunc_25__18TOTrapChainSawEdgeFv();
 
-extern "C" void vfunc_25__17TOTrapChainSawKeyFv();
 
-extern "C" void update_extension__14TOTrapChainSawFv();
 
 #include "pso/object/base/TObjMapObject.h"
 
@@ -59,7 +54,6 @@ extern "C" void update_extension__14TOTrapChainSawFv();
 extern "C" {
 GinjaTextureList *fn_802C9924(s32 arg0);
 
-void vfunc_16__17TOTrapChainSawKeyFv(u8 *arg0);
 
 
 typedef struct P_802C86D4 {
@@ -154,54 +148,28 @@ u8 is_current_floor_switch_set(s32 id);
 
 void __dl__7TObjectFPv(void *);
 
-void update_sweep__18TOTrapChainSawEdgeFv(void *arg0);
 
-void update_extension__18TOTrapChainSawEdgeFv(void *arg0);
 
 void TParticleCtrl__sub_802C8464(NJS_OBJECT *arg0);
 
-void vfunc_27__17TOTrapChainSawKeyFv(void);
 
-void check_player_contact__17TOTrapChainSawKeyFv(void* p);
 
-void vfunc_14__17TOTrapChainSawKeyFv(void);
 
 void update_state__17TOTrapChainSawKeyFv(u8 *arg0);
 
-int decode_params__17TOTrapChainSawKeyFv(void* p);
 
-void vfunc_27__20TOTrapChainSawDamageFv(u8 *arg0);
 
-void vfunc_26__20TOTrapChainSawDamageFv(void* p);
 
-void vfunc_14__20TOTrapChainSawDamageFv(void);
 
-void vfunc_25__20TOTrapChainSawDamageFv(void *arg0);
 
 void update_state__20TOTrapChainSawDamageFv(void *arg0);
 
-void decode_params__20TOTrapChainSawDamageFv(void *arg0);
 
 s32 get_area_table_value__17TOTrapChainSawKeyFii(TOTrapChainSaw *trap, s32 sound_index);
 
 void vfunc_14__14TOTrapChainSawFv(void);
 
-void render__14TOTrapChainSawFv(u8 *arg0);
-
-int clear_field_d8__14TOTrapChainSawFv(void* p);
-
-void set_hit_cooldown_for_player__14TOTrapChainSawFP10TObjPlayer(TOTrapChainSaw *, TObjPlayer *);
-s32 consume_counter__14TOTrapChainSawFP10TObjPlayer(TOTrapChainSaw *, TObjPlayer *);
-
-int check_player_contact__14TOTrapChainSawFv(void *arg0);
-
-void update_sweep__14TOTrapChainSawFv(void *arg0);
-
 void update_state__14TOTrapChainSawFv(u8 *arg0);
-
-void run_task__14TOTrapChainSawFv(void *arg0);
-
-void decode_params__14TOTrapChainSawFv(void *arg0);
 
 void * __dt__14TOTrapChainSawFv(void *arg0, s16 arg1);
 

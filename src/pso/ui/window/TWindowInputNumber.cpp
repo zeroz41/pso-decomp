@@ -39,7 +39,6 @@ WindowDescriptor window_input_number_layout = {
 extern "C" {
 
 s32 play_sound_effect(s32 a0 = 0, s32 a1 = 0, s32 a2 = 0, s32 a3 = 0);
-s32 is_confirmed__18TWindowInputNumberFv();
 
 void TWindowInputNumber::mark_confirmed() {
     if (!(this->inputFlags & 8) && (TWindowInputNumber::is_confirmed() == 0)) {

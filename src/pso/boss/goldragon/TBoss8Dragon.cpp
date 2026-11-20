@@ -136,7 +136,6 @@ void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 s32 enemy_validate_retained_target(u8 *ene_dd_st);
 void TBoss8Dragon__sub_802FC9D8(u8 *arg0);
 f32 newton_sqrtf(f32);
-s32 is_valid_target__9TObjEneDDFv(void);
 f32 horizontal_distance_squared(void *, void *);
 s32 TBoss8Dragon__sub_802FC674(Obj_802FC674 *self, f32 *out);
 s32 TBoss8Dragon__sub_802F46F4(s32 arg0);
@@ -3080,7 +3079,7 @@ void TBoss8Dragon::state_breath_attack(s32 arg1) {
                 direction_to_rotation_xz((u8 *)&m_41c, &rot.x, &rot.z);
                 F(s32, 0x850)++;
                 if (F(s32, 0x850) >= 2) {
-                    new TBoss8DragonEffBreath(&sub_tasks, &m_410, &m_41c, F(s32, 0x75C), get_entity_id(((u8 *)this)));
+                    new TBoss8DragonEffBreath(&sub_tasks, &m_410, &m_41c, m_75c, get_entity_id(((u8 *)this)));
                     F(s32, 0x850) = 0;
                 }
                 if (F(void *, 0x894) == 0) {
@@ -3473,19 +3472,19 @@ void TBoss8Dragon::sub_802F8F88(s32 arg1) {
                 dir.y = 0.0f;
                 VecCopy__FP3VecPC3Vec(&v, d);
                 v.y = TBoss8Dragon__data_804744A8.y;
-                new TBoss8DragonEffBullet(&sub_tasks, &m_410, &v, F(s32, 0x75C), get_entity_id(((u8 *)this)));
+                new TBoss8DragonEffBullet(&sub_tasks, &m_410, &v, m_75c, get_entity_id(((u8 *)this)));
                 rotate_vec_xz(&dir, &rot, 0x1000);
                 VecCopy__FP3VecPC3Vec(&v, (u8 *)&position);
                 v.x += rot.x * len;
                 v.y = TBoss8Dragon__data_804744A8.y;
                 v.z += rot.z * len;
-                new TBoss8DragonEffBullet(&sub_tasks, &m_410, &v, F(s32, 0x75C), get_entity_id(((u8 *)this)));
+                new TBoss8DragonEffBullet(&sub_tasks, &m_410, &v, m_75c, get_entity_id(((u8 *)this)));
                 rotate_vec_xz(&dir, &rot, -0x1000);
                 VecCopy__FP3VecPC3Vec(&v, (u8 *)&position);
                 v.x += rot.x * len;
                 v.y = TBoss8Dragon__data_804744A8.y;
                 v.z += rot.z * len;
-                new TBoss8DragonEffBullet(&sub_tasks, &m_410, &v, F(s32, 0x75C), get_entity_id(((u8 *)this)));
+                new TBoss8DragonEffBullet(&sub_tasks, &m_410, &v, m_75c, get_entity_id(((u8 *)this)));
                 spawn_particle_effect_with_flags(&m_410, (s32)((void *)*(s32 *)((s8 *)(F(u8 *, 0x760)) + 0x24)), 0x40);
                 F(s32, 0x84C) = 3;
                 F(s32, 0x854) = 0;

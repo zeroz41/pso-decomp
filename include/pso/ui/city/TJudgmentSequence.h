@@ -30,7 +30,6 @@ void TJudgmentSequence__sub_80215BCC(TShopWindowBase *window);
 void TJudgmentSequence__sub_80215BF8(TShopWindowBase *window);
 void TJudgmentSequence__sub_80216030(void);
 void TJudgmentSequence__sub_80216058(void);
-u8 *__dt__17TJudgmentSequenceFv(u8 *arg0, s16 arg1);
 }
 
 #endif

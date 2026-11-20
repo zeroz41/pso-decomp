@@ -39,7 +39,7 @@ struct TBoss2MineCollisionDesc {
     s32 pad_10;
 };
 
-// Copied as five words, which gives the original's copy loop.
+// The collision template viewed as five words.
 struct TBoss2MineCollisionWords {
     s32 w[5];
 };

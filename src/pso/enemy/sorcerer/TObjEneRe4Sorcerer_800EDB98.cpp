@@ -70,9 +70,7 @@ extern "C" void test_flag_256__9TObjCharaFv();
 
 #include "pso/render/TUnk_80490470.h"
 extern "C" {
-void vfunc_106__18TObjEneRe4SorcererFv(u8 *arg0);
 
-void vfunc_105__18TObjEneRe4SorcererFv(u8 *arg0);
 
 s32 post_translate_matrix(void *);
 
@@ -137,7 +135,6 @@ extern const f32 lbl_805D9E84;
 
 extern const f32 lbl_805D9E88;
 
-void render__18TObjEneRe4SorcererFv(u8 *arg0);
 
 u16 get_entity_id(TObjBase *object);
 
@@ -189,21 +186,13 @@ void TObjEneRe4Sorcerer__sub_800EF844(TObjEneRe4Sorcerer *self);
 
 void TObjEneRe4Sorcerer__sub_800EF95C(TObjEneRe4Sorcerer *self, f32 speed);
 
-void vfunc_102__18TObjEneRe4SorcererFv(u8 *arg0);
 
-void vfunc_101__18TObjEneRe4SorcererFPUc(u8 *arg0);
 
-void vfunc_88__18TObjEneRe4SorcererFv(void *arg0);
 
-void vfunc_61__18TObjEneRe4SorcererFv(void);
 
-void vfunc_62__18TObjEneRe4SorcererFv(u8 *arg0);
 
-void vfunc_63__18TObjEneRe4SorcererFv(void* p);
 
-void vfunc_28__18TObjEneRe4SorcererFv(void);
 
-void run_task__18TObjEneRe4SorcererFv(u8 *arg0);
 
 void TBoss3Volopt__sub_800F059C(void);
 }

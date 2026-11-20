@@ -40,7 +40,6 @@ s32 draw_visible_window_entries(void *, void *, s32);
 s32 draw_list_page_indicator(s32, s32);
 void __dl__7TObjectFPv(void *);
 void *__dt__11TWindowMenuFv(void *arg0, s16 arg1);
-s32 run_task__11TWindowMenuFv();
 
 void render__21TWindowSubComCardListFv(TWindowSubComCardList *arg0) {
     s32 temp_r3;

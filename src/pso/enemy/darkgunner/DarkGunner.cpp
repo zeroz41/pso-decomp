@@ -53,7 +53,6 @@
 
 #include "pso/system/task/TObject.h"
 
-extern "C" void update_movement_status__17TObjEneDarkGunnerFv();
 
 extern "C" void has_flag_0x800__9TObjCharaFv();
 
@@ -282,11 +281,9 @@ void fn_800A0FDC(TObjEneLappy *arg0);
 
 void TObjPlayer__sub_800A100C(s32 _w0);
 
-s32 update_action_hold_status__17TObjEneDarkGunnerFv(s32 arg0);
 
 void init_scale_global__10TObjPlayerFv(void);
 
-void vfunc_61__17TObjEneDarkGunnerFv(u8 *arg0);
 
 int TObjPlayer__sub_800A1808(void* p);
 
@@ -296,13 +293,9 @@ void TObjPlayer__sub_800A1C84(TObjPlayer *arg0);
 
 void TObjPlayer__sub_800A1D70(u8 *arg0);
 
-void vfunc_62__17TObjEneDarkGunnerFv(void *arg0);
 
-void vfunc_28__17TObjEneDarkGunnerFv(void);
 
-void vfunc_58__17TObjEneDarkGunnerFv(void);
 
-void vfunc_59__17TObjEneDarkGunnerFv(void);
 
 void TEneEffHamon__sub_800A380C(void);
 
@@ -357,7 +350,6 @@ void get_anim_node_position__15TObjEnemyCustomFlP3Vec();
 
 void vfunc_6__8TObjBaseFPsl();
 
-void vfunc_63__15TObjEnemyCustomFv();
 
 void vfunc_29__9TObjCharaFv();
 
@@ -381,9 +373,7 @@ void interact__14TObjCollidableFl();
 
 struct VObj_18_800A28A4;
 
-void render__17TObjEneDarkGunnerFv(VObj_18_800A28A4 *self);
 
-void run_task__17TObjEneDarkGunnerFv(VObj_18_800A28A4 *self);
 
 void vfunc_74__9TObjEnemyFl();
 

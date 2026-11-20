@@ -180,7 +180,6 @@ extern "C" {
 u16 get_entity_id(s32);
 s32 get_type__10TObjPlayerFPv(void *p);
 f32 atan2_float(f32 y, f32 x);
-void *__ct__7TEffectFv(void *);
 s32 init_collision_body_parts(u32, void *, int);
 u32 __ct__14TObjCollidableFP7TObject(u32, void *);
 u32 __nw__7TObjectFUl(int);

@@ -3,7 +3,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
 #include "pso/effect/item/TItemEffNeedle.h"
-#include "pso/player/TObjPlayer_8011BA54.h"
 #include "pso/system/task/TMainTask.h"
 
 // launch_shot angles of the five shots (straight, then two pairs fanned out).

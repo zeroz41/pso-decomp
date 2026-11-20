@@ -20,7 +20,6 @@
 #include "pso/unk/text_8011BE50.h"
 #include "pso/unk/text_8011BEF0.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_8011BA54.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/item/TItem.h"

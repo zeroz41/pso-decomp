@@ -4,9 +4,5 @@
 #include "types.h"
 
 class TObject;
-extern "C" {
-void allow_rendering__7TObjectFv(TObject *arg0);
-void disallow_rendering__7TObjectFv(TObject *arg0);
-}
 
 #endif
