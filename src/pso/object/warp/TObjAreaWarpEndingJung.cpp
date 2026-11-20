@@ -388,15 +388,26 @@ s32 lobby_quest_progress_flag;
 
 // Function definitions in reverse address order (defer_codegen emits them reversed).
 
+static __declspec(section ".rodata") const char forest_warp_model[] ATTRIBUTE_ALIGN(4) = "fs_obj_warp.gj";
+static __declspec(section ".rodata") const char forest_warp_beam_model[] ATTRIBUTE_ALIGN(4) = "fs_obj_warp_beam.gj";
+static __declspec(section ".rodata") const char forest_warp_base_model[] ATTRIBUTE_ALIGN(4) = "fs_obj_warp_dai.gj";
+static __declspec(section ".rodata") const char forest_warp_base_beam_model[] ATTRIBUTE_ALIGN(4) = "fs_obj_warp_dai_beam.gj";
+static __declspec(section ".rodata") const char forest_warp_alternate_model[] ATTRIBUTE_ALIGN(4) = "fs_obj_warp_n.gj";
+static __declspec(section ".rodata") const char forest_warp_alternate_beam_model[] ATTRIBUTE_ALIGN(4) = "fs_obj_warp_n_beam.gj";
+static __declspec(section ".rodata") const char forest_warp_beam_motion[] ATTRIBUTE_ALIGN(4) = "fs_obj_warp_beam.njm";
+static __declspec(section ".rodata") const char forest_warp_base_beam_motion[] ATTRIBUTE_ALIGN(4) = "fs_obj_warp_dai_beam.njm";
+static __declspec(section ".rodata") const char forest_warp_alternate_beam_motion[] ATTRIBUTE_ALIGN(4) = "fs_obj_warp_n_beam.njm";
+static __declspec(section ".rodata") const char forest_warp_archive[] ATTRIBUTE_ALIGN(4) = "fs_obj_warp.bml";
+
 const char *fs_obj_warp_model_names[] = {
-    "fs_obj_warp.gj", "fs_obj_warp_beam.gj", "fs_obj_warp_dai.gj", "fs_obj_warp_dai_beam.gj",
-    "fs_obj_warp_n.gj", "fs_obj_warp_n_beam.gj", NULL,
+    forest_warp_model, forest_warp_beam_model, forest_warp_base_model, forest_warp_base_beam_model,
+    forest_warp_alternate_model, forest_warp_alternate_beam_model, NULL,
 };
 const char *fs_obj_warp_motion_names[] = {
-    "fs_obj_warp_beam.njm", "fs_obj_warp_dai_beam.njm", "fs_obj_warp_n_beam.njm", NULL,
+    forest_warp_beam_motion, forest_warp_base_beam_motion, forest_warp_alternate_beam_motion, NULL,
 };
 BmlResourceDescriptor forest_warp_resource_descriptor = {
-    "fs_obj_warp.bml", fs_obj_warp_model_names, fs_obj_warp_motion_names, 6, 3,
+    forest_warp_archive, fs_obj_warp_model_names, fs_obj_warp_motion_names, 6, 3,
 };
 
 Vec map_warp_destination_offsets[4] = {
