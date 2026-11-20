@@ -47,13 +47,13 @@ CollisionBody labo_door_collision_body_parts[] = {
 };
 // The BML archives and texture lists the door classes load and free (TODoorFourLightSeabed,
 // TODoorFourLightSeabedU, TODoorLabo, TODoorLaboNormal), in address order.
-s32 door_labo_bml_resource;
+saddr door_labo_bml_resource;
 s32 lbl_805D6604;
 s32 lbl_805D6608;
-u32 seabed_four_light_door_bml_resource;
+uaddr seabed_four_light_door_bml_resource;
 s32 seabed_four_light_door_textures;
 s32 TODoorFourLightSeabedU__texture_list;
-s32 TODoorLabo__bml_resource;
+saddr TODoorLabo__bml_resource;
 s32 TODoorLabo__green_texture_list;
 s32 labo_door_red_textures;
 u32 TODoorLabo__model_archive;
@@ -88,7 +88,7 @@ struct Door_8029FAE4 {
     f32 fC4;
     u8 padC8[0xD4 - 0xC8];
     s32 fD4;
-    s32 sw[8];
+    saddr sw[8];
     s32 fF8;
 };
 struct VBase_18_721d61 { char pad[0x18]; };
@@ -669,7 +669,7 @@ Door_8029FAE4 *TODoorLabo__ct(Door_8029FAE4 *arg0, void *parent, s32 arg) {
     tbl = door_labo_link_table;
     for (i = 0; i < 8; i++) {
         if (tbl.v[i] != -1) {
-            arg0->sw[i] = (s32)find_object_node((NJS_OBJECT *)(arg0->fD4), tbl.v[i]);
+            arg0->sw[i] = (saddr)find_object_node((NJS_OBJECT *)(arg0->fD4), tbl.v[i]);
         }
     }
     arg0->fF8 = 1;
@@ -707,8 +707,8 @@ void TODoorLabo::load_resources() {
         r = load_resource_from_descriptor(r, 5, &labo_door_resource_descriptor_2, 0, 0, 0);
     }
     (*(s32 *)&TODoorLabo__model_archive) = r;
-    (*(s32 *)&TODoorLaboNormal__green_texture_list) = (s32)load_gvm_texture_file((saddr)("o_labodoor_nrm_green.GVM"));
-    (*(s32 *)&TODoorLaboNormal__red_texture_list) = (s32)load_gvm_texture_file((saddr)("o_labodoor_nrm_red.GVM"));
+    (*(saddr *)&TODoorLaboNormal__green_texture_list) = (saddr)load_gvm_texture_file((saddr)("o_labodoor_nrm_green.GVM"));
+    (*(saddr *)&TODoorLaboNormal__red_texture_list) = (saddr)load_gvm_texture_file((saddr)("o_labodoor_nrm_red.GVM"));
 }
 
 void TODoorLabo::free_resources() {

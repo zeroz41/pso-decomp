@@ -114,7 +114,7 @@ u8 TObjBgmColCtrl::is_active() {
 void *TObjBgmCol__ct(TObjBgmCol *bgm_col, s32 arg1, void *arg2) {
     __ct__8TObjBaseFP7TObject();
     *(s32 **)((s8 *)bgm_col + 0x18) = __vt__10TObjBgmCol;
-    *(s32 *)((s8 *)bgm_col + 0) = (s32) TObjBgmCol__name;
+    *(saddr *)((s8 *)bgm_col + 0) = (saddr) TObjBgmCol__name;
     bgm_col->apply_object_set_data(arg2);
     bgm_col->m_90 = 1;
     bgm_col->m_98 = (f32) bgm_col->scale.x;

@@ -51,7 +51,7 @@ NJS_ARGB door_key_beam_color_table[10] = {
 const char *TObjDoorKey__class_name = "TObjDoorKey";
 
 s32 TObjDoorKey__ginja_model_table[4];
-u32 door_key_resource_handle;
+uaddr door_key_resource_handle;
 s32 TObjDoorKey__texture_handle;
 s16 door_key_id_counter;
 s32 TObjDoorKey__data_805D5C04;

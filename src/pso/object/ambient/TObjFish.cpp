@@ -489,7 +489,7 @@ u8 *TObjFish__ct(u8 *fish, s32 arg1, u8 *arg2) {
     f32 var_f1;
     __ct__8TObjBaseFP7TObject();
     *(s32 **)((s8 *)fish + 0x18) = (s32 *)__vt__8TObjFish;
-    *(s32 *)((s8 *)fish + 0) = (s32) lbl_805D3D58;
+    *(saddr *)((s8 *)fish + 0) = (saddr) lbl_805D3D58;
     ((TObjFish *)fish)->m_a0 = 0;
     VecCopy((Vec *)(fish + 0x38), (const Vec *)(arg2 + 0xC));
     copy_xyz(fish + 0x5C, arg2 + 0x18);
@@ -530,7 +530,7 @@ u8 *TObjFish__create(u8 *arg0) {
 
 void TObjFish::free_resource() {
     if ((u32) (*(u32 *)&TObjFish__area_bml_resource) != 0U) {
-        free_bin_model_request((void*)(*(u32 *)&TObjFish__area_bml_resource), 1);
+        free_bin_model_request((void*)(*(uaddr *)&TObjFish__area_bml_resource), 1);
         (*(u32 *)&TObjFish__area_bml_resource) = 0U;
     }
 }
@@ -631,7 +631,7 @@ void TObjFish::load_area_resource() {
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 1, base + 0x50, 0, 0, 0);
         }
-        (*(u32 *)&TObjFish__area_bml_resource) = (u32)p;
+        (*(uaddr *)&TObjFish__area_bml_resource) = (uaddr)p;
         break;
     case AREA_SEASIDE:
     case AREA_SEASIDE_NIGHT:
@@ -640,7 +640,7 @@ void TObjFish::load_area_resource() {
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 1, base + 0x80, 0, 0, 0);
         }
-        (*(u32 *)&TObjFish__area_bml_resource) = (u32)p;
+        (*(uaddr *)&TObjFish__area_bml_resource) = (uaddr)p;
         break;
     case AREA_SEABED_UPPER:
         TObjFish__area_event_stage = 3;

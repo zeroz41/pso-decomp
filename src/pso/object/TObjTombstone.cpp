@@ -464,7 +464,7 @@ void TObjTombstone::update_render_flags() {
 
     if (TObjTombstone__shared_resource_object != 0U) {
         if (tombstone_first_run_flag == 0) {
-            scroll_ginja_mesh_uvs((void *) (*(s32 *)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)this->model + 0x2C)) + 0x30)) + 4)), -8, 0, 0, 1);
+            scroll_ginja_mesh_uvs((void *) (*(saddr *)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)this->model + 0x2C)) + 0x30)) + 4)), -8, 0, 0, 1);
             tombstone_first_run_flag = 1;
             PPCSync();
         }

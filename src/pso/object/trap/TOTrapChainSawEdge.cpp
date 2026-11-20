@@ -100,13 +100,13 @@ struct Pair_802C8C60 { s32 v[2]; };
 
 struct Obj_802C8C60 {
     u8 pad0[0x24];
-    s32 f24;
+    saddr f24;
     u8 pad28[0x70 - 0x28];
     f32 f70;
     u8 pad74[0xB4 - 0x74];
     f32 fB4;
     f32 fB8;
-    s32 fBC;
+    saddr fBC;
     u8 padC0[0xC8 - 0xC0];
     s32 fC8;
     u8 padCC[0xF8 - 0xCC];
@@ -275,7 +275,7 @@ void TOTrapChainSawEdge::vfunc_16() {
     *(s32 *)((s8 *)this + 0xFC) = x < 0 ? 0 : (x > 1 ? 1 : x);
     *(s32 *)((s8 *)this + 0xC8) = ((s32 (*)(s32))get_model__17TOTrapChainSawKeyFl)(a.v[*(s32 *)((s8 *)this + 0xFC)]);
     *(s32 *)((s8 *)this + 0xBC) = (saddr)TOTrapChainSawKey::get_motion(b.v[*(s32 *)((s8 *)this + 0xFC)]);
-    *(s32 *)((s8 *)this + 0x24) = (s32)fn_802C9924(0);
+    *(saddr *)((s8 *)this + 0x24) = (saddr)fn_802C9924(0);
     *(f32 *)((s8 *)this + 0xB4) = (0.0f);
     *(f32 *)((s8 *)this + 0xB8) = (1.0f);
 }
@@ -353,7 +353,7 @@ void *__dt__18TOTrapChainSawEdgeFv(void *object, s16 arg1) {
 u8 *TOTrapChainSawEdge__ct(u8 *trap_chain_saw_edge) {
     ((s32 (*)(void))__ct__14TOTrapChainSawFP7TObjectPv)();
     *(s32 **)((s8 *)trap_chain_saw_edge + 0x18) = __vt__18TOTrapChainSawEdge;
-    *(s32 *)((s8 *)trap_chain_saw_edge + 0) = (s32) TOTrapChainSawEdge_class_name;
+    *(saddr *)((s8 *)trap_chain_saw_edge + 0) = (saddr) TOTrapChainSawEdge_class_name;
     ((TOTrapChainSawEdge *)(trap_chain_saw_edge))->decode_params();
     ((TOTrapChainSawEdge *)(trap_chain_saw_edge))->vfunc_16();
     *(s32 *)((s8 *)trap_chain_saw_edge + 0x100) = 0;
@@ -442,7 +442,7 @@ void TOTrapChainSawKey::vfunc_16() {
     *(s32 *)((s8 *)((u8 *)this) + 0xF8) = (x < 0) ? 0 : ((x > 1) ? 1 : x);
     *(s32 *)((s8 *)((u8 *)this) + 0xC8) = ((s32 (*)(int))get_model__17TOTrapChainSawKeyFl)(a.v[*(s32 *)((s8 *)((u8 *)this) + 0xF8)]);
     *(s32 *)((s8 *)((u8 *)this) + 0xBC) = (saddr)TOTrapChainSawKey::get_motion((s32)(b.v[*(s32 *)((s8 *)((u8 *)this) + 0xF8)]));
-    *(s32 *)((s8 *)((u8 *)this) + 0x24) = (s32)fn_802C9924(3);
+    *(saddr *)((s8 *)((u8 *)this) + 0x24) = (saddr)fn_802C9924(3);
     *(f32 *)((s8 *)((u8 *)this) + 0xB4) = (0.0f);
     *(f32 *)((s8 *)((u8 *)this) + 0xB8) = (1.0f);
     *(s32 *)((s8 *)((u8 *)this) + 0xFC) = get_model__17TOTrapChainSawKeyFl(2, (0.0f));

@@ -26,7 +26,7 @@ CollisionBody bind_collision_body_parts[2] = {
 
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-u32 TOBind__static_model_resource;
+uaddr TOBind__static_model_resource;
 u8 *get_bml_motion(s32, s32);
 s32 get_bml_texlist(int, int);
 s32 get_bml_model(int, int);

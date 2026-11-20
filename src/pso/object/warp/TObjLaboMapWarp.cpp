@@ -793,7 +793,7 @@ void TObjLaboMapWarp::load_static_resource() {
 
 void TObjLaboMapWarp::release_static_resource() {
     if ((u32) (*(u32 *)&TObjLaboMapWarp__resource_bundle) != 0U) {
-        free_bin_model_request((void*)(*(u32 *)&TObjLaboMapWarp__resource_bundle), 1);
+        free_bin_model_request((void*)(*(uaddr *)&TObjLaboMapWarp__resource_bundle), 1);
         (*(u32 *)&TObjLaboMapWarp__resource_bundle) = 0U;
     }
 }

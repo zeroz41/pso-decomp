@@ -19,9 +19,9 @@ struct TObjLazerFenceExtra : public TObjCollidable {
     u8 _padB2[0x2];
     s32 m_b4;
     f32 frame;  // the beam motion's frame
-    u32 m_bc;
+    uaddr m_bc;
     u8 unk_C0[0x4];
-    s32 m_c4;
+    saddr m_c4;
     u8 unk_C8[0x10];
     s32 size_valid;  // 1 when set_params[2] is a valid fence size (0 or 1); 0 hides it
 };

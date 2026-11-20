@@ -39,7 +39,7 @@ s32 enemy_name_for_rt_index(s32 arg0) {
         var_r3 = 0;
     }
     if ((s32) game_difficulty_selection >= 3) {
-        return *(s32 *)((s8 *)(*(s32 *)((s8 *)text_language_group_table + 0xC)) + (var_r3 * 4));
+        return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0xC)) + (var_r3 * 4));
     }
-    return *(s32 *)((s8 *)(*(s32 *)((s8 *)text_language_group_table + 8)) + (var_r3 * 4));
+    return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 8)) + (var_r3 * 4));
 }

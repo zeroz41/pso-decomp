@@ -34,13 +34,13 @@
 
 
 s32 lbl_805D5140;
-u32 TObjGrass__bml_resource;
+uaddr TObjGrass__bml_resource;
 s32 grass_combat_stats_handle;
 s32 lbl_805D514C;
 s32 TObjGrass__render_node_index;
 u32 TObjGrass__resource_bundle;
-u32 lbl_805D5158;
-u32 lbl_805D515C;
+uaddr lbl_805D5158;
+uaddr lbl_805D515C;
 
 #pragma readonly_strings on
 
@@ -286,12 +286,12 @@ s32 register_boss__6TLobbyFl(int);
 u8 *load_resource_from_descriptor(void *, int, void *, int, int, int);
 s32 load_enemy_bml_resource_named(saddr arg0, saddr arg1);
 extern s32 lbl_805D5140;
-extern u32 TObjGrass__bml_resource;
+extern uaddr TObjGrass__bml_resource;
 extern s32 grass_combat_stats_handle;
 extern s32 lbl_805D514C;
 extern s32 TObjGrass__render_node_index;
-extern u32 lbl_805D5158;
-extern u32 lbl_805D515C;
+extern uaddr lbl_805D5158;
+extern uaddr lbl_805D515C;
 void TObjGrass__sub_800BCA2C(void *);
 s32 submit_cursor_candidate(void *, int);
 s32 mult_vec_array__10TObjPlayerFUll(int, int, void *, int);
@@ -511,12 +511,12 @@ void TObjGrass::load_resources() {
     TObjGrass__render_node_index = 0;
     grass_origin_vec.x = grass_origin_vec.y = grass_origin_vec.z = (0.0f);
     p = (u8 *)new SampledMotionPoints(2, (0.0f), (2e+01f), (0.7f));
-    lbl_805D5158 = (u32) p;
+    lbl_805D5158 = (uaddr) p;
     p = (u8 *)new SampledMotionPoints(2, (0.0f), (2e+01f), (0.7f));
-    lbl_805D515C = (u32) p;
+    lbl_805D515C = (uaddr) p;
     ((SampledMotionPoints *)lbl_805D5158)->sample_two_nodes((NJS_OBJECT *)(((Data_800BF66C *)TObjGrass__resource_bundle)->f42c->f8), (NJS_MOTION *)(((Data_800BF66C *)TObjGrass__resource_bundle)->f430[TObjGrass__grass_type_param_table[9]].f4), 0x46, 0x48);
     ((SampledMotionPoints *)lbl_805D515C)->sample_two_nodes((NJS_OBJECT *)(((Data_800BF66C *)TObjGrass__resource_bundle)->f42c->f8), (NJS_MOTION *)(((Data_800BF66C *)TObjGrass__resource_bundle)->f430[TObjGrass__grass_type_param_table[13]].f4), 0x3C, 0x3E);
-    TObjGrass__bml_resource = (u32) mem_alloc(0xC);
+    TObjGrass__bml_resource = (uaddr) mem_alloc(0xC);
     lbl_805D5140 = (s32)TLobby::register_boss(0x4E);
     ((s32 *) TObjGrass__bml_resource)[0] = (s32)TLobby::dispatch_shared_handler_b(0x51);
     ((s32 *) TObjGrass__bml_resource)[2] = (s32)TLobby::dispatch_shared_handler_b(0x52);

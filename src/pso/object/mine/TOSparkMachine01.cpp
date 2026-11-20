@@ -19,7 +19,7 @@ const char *bm_fe_obj_tank_hikari_motion_names[1] = { NULL };
 __declspec(section ".data") const char *bm_fe_obj_tank_hikari_model_names[2] = { "fe_obj_tank_hikari.gj", NULL };
 BmlResourceDescriptor bm_fe_obj_tank_hikari_resource_descriptor = { "bm_fe_obj_tank_hikari.bml", bm_fe_obj_tank_hikari_model_names, bm_fe_obj_tank_hikari_motion_names, 1, 0 };
 const char *TOSparkMachine01__name = "TOSparkMachine01";
-u32 TOSparkMachine01__static_resource;
+uaddr TOSparkMachine01__static_resource;
 }
 
 
@@ -87,7 +87,7 @@ struct Obj_801771F4 : VBase_801771F4 {
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern BmlResourceDescriptor bm_fe_obj_tank_hikari_resource_descriptor;
-extern u32 TOSparkMachine01__static_resource;
+extern uaddr TOSparkMachine01__static_resource;
 void __ct__8TObjBaseFP7TObject(void *, s32);
 extern s32 __vt__16TOSparkMachine01[];
 extern const char *TOSparkMachine01__name;

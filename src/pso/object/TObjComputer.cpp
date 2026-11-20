@@ -113,10 +113,10 @@ const char *TObjComputer__class_name = "TObjComputer";
 const char *TObjGbAdvance__class_name = "TObjGbAdvance";
 const s16 TObjComputer__data_805DBCD8[2] = {1, 0};
 
-u32 TObjComputer__model_archive;
+uaddr TObjComputer__model_archive;
 u32 TObjComputer__texture_gvm_handle;
 s16 computer_uv_scroll_phase;
-u32 TObjGbAdvance__data_805D5B74;
+uaddr TObjGbAdvance__data_805D5B74;
 
 CollisionBody obj_computer_collision_body_parts = {{0.0f, 7.0f, 0.0f}, 7.0f, 7.0f, 1, 0x30003, {0.0f, 0.0f, 0.0f}, 0.0f};
 CollisionBody gb_advance_collision_body_parts = {{0.0f, 20.0f, -10.0f}, 5.0f, 5.0f, 1, 0x30003, {0.0f, 0.0f, 0.0f}, 0.0f};
@@ -162,7 +162,7 @@ void load_computer_resources(void) {
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 5, &fs_obj_tanmatu02_resource_descriptor, 0, 0, 0);
         }
-        TObjComputer__model_archive = (u32) p;
+        TObjComputer__model_archive = (uaddr) p;
         TObjComputer__texture_gvm_handle = (u32)load_gvm_texture_file((saddr)"fs_obj_tanmatu02.gvm");
         computer_uv_scroll_phase = 0;
         break;

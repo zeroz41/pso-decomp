@@ -60,7 +60,7 @@ CollisionBody container_jung_collision_desc = {
 };
 
 const char *TObjContainerJung__name = "TObjContainerJung";
-s32 TObjContainerJung__bml_model_resource;
+saddr TObjContainerJung__bml_model_resource;
 s32 TObjContainerJung__bml_aux_handle;
 void *TObjContainerJungEx__resource_bundle;
 
@@ -457,17 +457,17 @@ void TObjContainerJungEnemy::load_models() {
     switch (var_r0) {
     case 0:
         this->m_368 = (s32)TObjContainerJung::get_model_by_index(0);
-        this->m_36c = (s32)TObjContainerJung::get_model_by_index(1);
-        this->m_370 = (s32)TObjContainerJung::get_model_by_index(2);
-        this->m_374 = (s32)TObjContainerJung::get_model_by_index(3);
+        this->m_36c = (saddr)TObjContainerJung::get_model_by_index(1);
+        this->m_370 = (saddr)TObjContainerJung::get_model_by_index(2);
+        this->m_374 = (saddr)TObjContainerJung::get_model_by_index(3);
         this->texlist = TObjContainerJung__sub_8018D3B8(0);
         return;
     default:
     case 1:
         this->m_368 = (s32)TObjContainerJungEx::get_model(0);
-        this->m_36c = (s32)TObjContainerJungEx::get_model(1);
-        this->m_370 = (s32)TObjContainerJungEx::get_model(2);
-        this->m_374 = (s32)TObjContainerJungEx::get_model(3);
+        this->m_36c = (saddr)TObjContainerJungEx::get_model(1);
+        this->m_370 = (saddr)TObjContainerJungEx::get_model(2);
+        this->m_374 = (saddr)TObjContainerJungEx::get_model(3);
         this->texlist = TObjContainerJungEx__sub_8018D900(0);
         return;
     }

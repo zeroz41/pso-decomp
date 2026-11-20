@@ -6,7 +6,7 @@
 
 struct TObjParticle : public TObjBase {
     virtual ~TObjParticle();
-    u32 m_90;
+    uaddr m_90;
     u32 m_94;
     virtual void render();
     virtual void run_task();

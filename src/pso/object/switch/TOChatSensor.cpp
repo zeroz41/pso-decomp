@@ -159,7 +159,7 @@ u32 TOChatSensor__ct(int arg0, void *parent, void *arg2) {
     ((TOChatSensor *)arg0)->init_params();
     n = ((TOChatSensor *)arg0)->m_cc;
     if (n > 0) {
-        t = (s32 *) *(s32 *)((s8 *)chat_sensor_table + 4);
+        t = (s32 *) *(saddr *)((s8 *)chat_sensor_table + 4);
         t += n;
         ((TOChatSensor *)arg0)->set_trigger_text((void *)t[-1]);
     }

@@ -20,9 +20,9 @@ struct TObjGoalWarpAncient : public TObjAreaWarp {
     // the field names are inferred from those file names.
     f32 beam_frame;                // motion frame of beam_motion, +4 per run_task
     f32 naka_frame;                // motion frame of naka_motion, +0.25 per run_task
-    s32 beam_model;                // model 1, de_obj2_swarp_beam.gj
-    s32 gawa_model;                // model 3, fd_obj1_swarp_gawa.gj
-    s32 naka_model;                // model 5, fe_obj3_swarp_naka.gj
+    saddr beam_model;              // model 1, de_obj2_swarp_beam.gj
+    saddr gawa_model;              // model 3, fd_obj1_swarp_gawa.gj
+    saddr naka_model;              // model 5, fe_obj3_swarp_naka.gj
     s32 beam_textures;             // get_instance() for a goal (set_params[2] < 0), else register_warp_object(1)
     s32 gawa_textures;             // register_warp_object(3)
     s32 naka_textures;             // register_warp_object(5)

@@ -41,7 +41,7 @@ struct Obj_8017873C
   u8 coll[0x10];
   f32 y358;
   u8 pad35c[0x36C - 0x35C];
-  u32 ptrs[3];
+  uaddr ptrs[3];
   u16 hi[3];
   u16 lo[3];
 };
@@ -113,7 +113,7 @@ void TOSymbolchatColli::init_collision_params() {
       hi = v >> 16;
       if (lo < 0x18)
       {
-        self->ptrs[i] = (u32) (&((Ent_8017873C *) symbol_chat_colli_entries)[lo].f1c);
+        self->ptrs[i] = (uaddr) (&((Ent_8017873C *) symbol_chat_colli_entries)[lo].f1c);
       }
       else
       {

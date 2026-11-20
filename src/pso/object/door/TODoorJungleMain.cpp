@@ -187,7 +187,7 @@ u8 *TODoorJungleMain__ct(TODoorJungleMain *arg0, s32 arg1, s32 arg2) {
     saddr temp_r4;
     __ct__10TODoorBaseFP7TObject(arg0);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TODoorJungleMain;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) TODoorJungleMain__name;
+    *(saddr *)((s8 *)arg0 + 0) = (saddr) TODoorJungleMain__name;
     ((TODoorJungleMain *)(arg0))->apply_object_set_data((void *)arg2);
     arg0->motion = (AnimationMotion *)get_bml_motion((*(u8 * *)&TODoorJungleMain__bml_resource), 0);
     arg0->animation_step = 1.0f;

@@ -320,7 +320,7 @@ TLazerFenceSw::~TLazerFenceSw() {
 #pragma opt_common_subs off
 TLazerFenceSw::TLazerFenceSw(TObject *arg1, void *arg2) : TOKey(arg1) {
     __ct__18CameraDistanceFadeFv((u8 *)this + 0xF0);
-    *(s32 *)((s8 *)this + 0) = (s32)TLazerFenceSw__class_name;
+    *(saddr *)((s8 *)this + 0) = (saddr)TLazerFenceSw__class_name;
     init_key(arg2);
     if (*(s32 *)((s8 *)this + 0x8C) < 0) {
         *(s32 *)((s8 *)this + 0x8C) = 0;

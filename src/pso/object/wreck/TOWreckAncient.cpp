@@ -123,8 +123,8 @@ const Param_8017D448 TOWreckAncientBrakable__debris_param_table = {
     0, 0, 30,
 };
 
-u32 wreck_ancient_bml_resource;
-u32 wreck_ancient_brakable_bml_resource;
+uaddr wreck_ancient_bml_resource;
+uaddr wreck_ancient_brakable_bml_resource;
 
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);

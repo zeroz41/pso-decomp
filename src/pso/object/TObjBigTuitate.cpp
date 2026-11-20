@@ -62,8 +62,8 @@ void push_matrix(void);
 void post_translate_matrix(void *);
 void set_global_param__8TObjFishFl(void);
 void draw_ginja_object(void);
-u32 TObjTuitate__bml_resource;
-u32 TObjBigTuitate__bml_resource;
+uaddr TObjTuitate__bml_resource;
+uaddr TObjBigTuitate__bml_resource;
 
 s32 init_collision_body_parts(void *, void *, int);
 s32 __ct__14TObjCollidableFP7TObject();
@@ -164,7 +164,7 @@ void *TObjTuitate__ct(void *arg0, void *arg1, void *arg2) {
     __ct__14TObjCollidableFP7TObject();
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__11TObjTuitate;
     __ct__15RenderFadeStateFv(((void *)((u8 *)arg0 + 0xAC)));
-    *(s32 *)((s8 *)arg0 + 0) = (s32) TObjTuitate__class_name;
+    *(saddr *)((s8 *)arg0 + 0) = (saddr) TObjTuitate__class_name;
     ((TObjTuitate *)(arg0))->apply_object_set_data((void *)((saddr)arg2));
     init_collision_body_parts(arg0, TObjTuitate__collision_parts, 1);
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
@@ -259,7 +259,7 @@ void *TObjBigTuitate__ct(void *arg0, void *arg1, void *arg2) {
     __ct__14TObjCollidableFP7TObject();
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TObjBigTuitate;
     __ct__15RenderFadeStateFv(((void *)((u8 *)arg0 + 0xAC)));
-    *(s32 *)((s8 *)arg0 + 0) = (s32) TObjBigTuitate__name;
+    *(saddr *)((s8 *)arg0 + 0) = (saddr) TObjBigTuitate__name;
     ((TObjBigTuitate *)(arg0))->apply_object_set_data((void *)((saddr)arg2));
     init_collision_body_parts(arg0, big_tuitate_collision_body, 1);
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();

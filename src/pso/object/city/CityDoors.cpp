@@ -365,7 +365,7 @@ Obj_80181F10 *TObjCityDoor_Lobby__ct(Obj_80181F10 *self, void *arg1, s32 arg2);
 Obj_80181F10 *TObjCityDoor_Lobby__ct(Obj_80181F10 *self, void *parent, s32 arg2) {
     __ct__8TObjBaseFP7TObject(self, parent);
     *(void **)((u8 *)self + 0x18) = __vt__18TObjCityDoor_Lobby;
-    *(s32 *)self = (s32)TObjCityDoor_Lobby__name.value;
+    *(saddr *)self = (saddr)TObjCityDoor_Lobby__name.value;
     self->m5(arg2);
     self->x90 = &self->xa8;
     VecCopy((Vec *)&self->pos94, (const Vec *)&self->pos);
@@ -493,7 +493,7 @@ void *dt__16TObjCityDoor_MedFPvs(void *object, s16 arg1) {
 extern u8 city_door_med_params[]; __declspec(section ".sdata") extern const char *TObjCityDoor_Med__name;
 void *TObjCityDoor_Med__ct(void *o, void *parent, void *set) {
  init_city_door((u8*)o,(saddr)parent,(saddr)set,city_door_med_params);
- *(s32 **)((u8 *)o + 0x18)=__vt__16TObjCityDoor_Med;*(s32 *)((u8 *)o + 0)=(s32)TObjCityDoor_Med__name;
+ *(s32 **)((u8 *)o + 0x18)=__vt__16TObjCityDoor_Med;*(saddr *)((u8 *)o + 0)=(saddr)TObjCityDoor_Med__name;
  ((TObjCityDoor_Med *)o)->m_b0=(f32)(*(u32 *)((u8 *)get_city_common_motion(11) + 4)-1);
  return o;
 }
@@ -775,7 +775,7 @@ void TObjCityDoor_Shop::render() {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        draw_ginja_model_with_motion((void *)(*(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x42C)) + 0xB8)), (void *)(*(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x430)) + 0x54)), this->m_b4);
+        draw_ginja_model_with_motion((void *)(*(saddr *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x42C)) + 0xB8)), (void *)(*(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x430)) + 0x54)), this->m_b4);
         pop_matrix();
     }
 }

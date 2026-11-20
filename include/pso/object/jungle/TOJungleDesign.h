@@ -7,7 +7,7 @@
 struct TOJungleDesign : public TObjCollidable {
     TOJungleDesign(s32, s32);
     virtual ~TOJungleDesign();
-    u32 m_ac;
+    uaddr m_ac;
     u32 m_b0;
     void init_design_variant();
     // The floor table's resource pair (free_shared_resource: name inferred).

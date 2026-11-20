@@ -29,7 +29,7 @@ extern "C" {
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 s32 draw_ginja_object();
-u32 TMotorcycle__bml_resource;
+uaddr TMotorcycle__bml_resource;
 u32 TMotorcycle__texture_list;
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 }
@@ -84,7 +84,7 @@ void TMotorcycle::render() {
             push_matrix();
             post_translate_matrix((u8 *)&this->position);
             rotate_matrix_yxz(0, (this->rotation_x), (this->rotation_y), (this->rotation_z));
-            get_bml_model((void *) ((*(s32 *)&TMotorcycle__bml_resource)), this->m_bc);
+            get_bml_model((void *) ((*(saddr *)&TMotorcycle__bml_resource)), this->m_bc);
             draw_ginja_object();
             pop_matrix();
         }

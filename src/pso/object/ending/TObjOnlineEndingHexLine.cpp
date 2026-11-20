@@ -485,7 +485,7 @@ u8 *TObjOnlineEndingHexMove__ct(u8 *object, void *origin) {
     s32 i;
     __ct__7TObjectFP7TObject(object, origin);
     *(s32 **)((s8 *)object + 0x18) = __vt__23TObjOnlineEndingHexMove;
-    *(s32 *)((s8 *)object + 0) = (s32) TObjOnlineEndingHexMove__name;
+    *(saddr *)((s8 *)object + 0) = (saddr) TObjOnlineEndingHexMove__name;
     for (i = 0; i < 4; i++) {
         TObjOnlineEndingHexLine::create(origin, &TObjOnlineEndingHexLine_corner_offsets[i]);
     }

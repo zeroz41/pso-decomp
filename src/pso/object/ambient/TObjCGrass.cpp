@@ -81,7 +81,7 @@ s32 __ct__10TObjMotionFP7TObject(void *, s32);
 s32 rotate_vector_by_matrix(int, void *, void *);
 extern s32 __vt__10TObjCGrass[];
 extern u8 identity_matrix[];
-u32 TObjCGrass_bml_resource;
+uaddr TObjCGrass_bml_resource;
 extern s32 tl_06;
 u8 *TObjCGrass__ct(Grass_800B8EFC *self, u8 *arg1, s32 arg2, s32 arg3);
 void free_bin_model_request(void*, int);
@@ -119,7 +119,7 @@ void TObjCGrass::render() {
             push_matrix_from(0);
             translate_matrix_vec3((u8 *)(0), (u8 *)&arg0->recs[i]);
             rotate_matrix_y(0, arg0->recs[i].f18);
-            draw_model_motion((void *)arg0->f34, (void *)*(s32 *)&this->current_motion, this->frame);
+            draw_model_motion((void *)arg0->f34, (void *)*(saddr *)&this->current_motion, this->frame);
             set_default_alpha_blend();
             pop_matrices(1);
         }

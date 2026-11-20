@@ -74,7 +74,7 @@ TObjRain::~TObjRain() {}
 u8 *__ct__8TObjRainFv(u8 *rain, s32 arg1, u32 arg2) {
     __ct__7TObjectFP7TObject();
     *(s32 **)((s8 *)rain + 0x18) = &__vt__8TObjRain.value;
-    *(s32 *)((s8 *)rain + 0) = (s32) lbl_805D3420;
+    *(saddr *)((s8 *)rain + 0) = (saddr) lbl_805D3420;
     *(u32 *)((s8 *)rain + 0x21C) = (arg2 > 0x10U) ? 0x10U : arg2;
     ((TObjRain *)rain)->init_drops();
     return rain;

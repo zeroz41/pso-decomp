@@ -23,7 +23,7 @@ struct TObjDoorKey : public TOKey {
     u8 unk_EC[0x4];
     s32 m_f0;
     u8 unk_F4[0x4];
-    u32 m_f8;
+    uaddr m_f8;
 };
 
 LAYOUT_ASSERT(TObjDoorKey_size, sizeof(TObjDoorKey) == 0xFC);

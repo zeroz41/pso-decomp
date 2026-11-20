@@ -71,7 +71,7 @@ struct Pkt_801894F8 { u16 a; u16 b; s32 c; s32 d; s32 e; };
 struct CE_80189614 { u8 pad[0x34]; s32 f34; u8 f38[0x28]; s32 f60; u8 pad2[0x326 - 0x64]; s16 mode; };
 struct Box_80189A50 {
     u8 pad00[0x34];
-    s32 model;
+    saddr model;
     u8 pos[0x28];
     s32 rot;
     u8 pad64[0x326 - 0x64];
@@ -863,7 +863,7 @@ void TObjContainerNoItem::vfunc_81() {
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
         scale_matrix(0, lbl_805DBCFC, lbl_805DBCFC, lbl_805DBCFC);
-        draw_ginja_box_tree((u8 *)(*(s32 *)((s8 *)arg0 + 0x34)));
+        draw_ginja_box_tree((u8 *)(*(saddr *)((s8 *)arg0 + 0x34)));
         pop_matrix();
             break;
         }

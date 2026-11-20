@@ -113,7 +113,7 @@ void TObjWarpLobby::render() {
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
         TParticleCtrl::begin_effect_render();
-        draw_ginja_model_with_motion((void *)(*(s32 *)((s8 *)(*(void **)((s8 *)TObjWarpLobby__instance + 0x42C)) + 8)), (void *)(*(s32 *)((s8 *)(*(void **)((s8 *)TObjWarpLobby__instance + 0x430)) + 4)), this->m_c8);
+        draw_ginja_model_with_motion((void *)(*(saddr *)((s8 *)(*(void **)((s8 *)TObjWarpLobby__instance + 0x42C)) + 8)), (void *)(*(saddr *)((s8 *)(*(void **)((s8 *)TObjWarpLobby__instance + 0x430)) + 4)), this->m_c8);
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }

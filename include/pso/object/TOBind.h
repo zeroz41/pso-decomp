@@ -13,9 +13,9 @@ struct TOBind : public TObjCollidable {
     u8 unk_B8[0x4];
     f32 m_bc;
     u8 unk_C0[0x4];
-    u32 m_c4;
+    uaddr m_c4;
     u32 m_c8;
-    u32 m_cc;
+    uaddr m_cc;
     virtual void run_task();
     virtual void render();
     static void *create(void *arg0);

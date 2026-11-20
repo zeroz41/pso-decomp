@@ -80,11 +80,11 @@ const char *bm_obj_lobby_pigeon_model_names[3] = { "lobby_obj_hato.nj", "lobby_o
 const char *bm_obj_lobby_pigeon_motion_names[5] = { "lobby_obj_hato.njm", "path01_h_pigeon.njm", "path02_h_pigeon.njm", "path03_h_pigeon.njm", NULL };
 BmlResourceDescriptor bm_obj_lobby_pigeon_resource_descriptor = { "bm_obj_lobby_pigeon.bml", bm_obj_lobby_pigeon_model_names, bm_obj_lobby_pigeon_motion_names, 2, 4 };
 
-u32 seabed_dolphin_bml_archive;
+uaddr seabed_dolphin_bml_archive;
 s32 seabed_dolphin_texture_handle;
-u32 jungle_ebi_model_resource;
+uaddr jungle_ebi_model_resource;
 u32 jungle_ebi_texture_gvm_handle;
-u32 jungle_bird_bml_resource;
+uaddr jungle_bird_bml_resource;
 u32 lobby_pigeon_texture_gvm;
 u32 lobby_kamome_model_resource;
 u32 lobby_kamome_texture_gvm_handle;
@@ -488,7 +488,7 @@ void TUnk_804E0988::vfunc_14() {
     rotate_matrix_y(0, this->m_b8);
     rotate_matrix_z(0, this->m_c0);
     set_motion_packed_rotation();
-    draw_model_motion((void *)(*(s32 *)&this->unk_98), (void *)this->m_9c, this->m_a8);
+    draw_model_motion((void *)(*(saddr *)&this->unk_98), (void *)this->m_9c, this->m_a8);
     clear_motion_packed_rotation();
     pop_matrix();
 }
@@ -597,7 +597,7 @@ void TObjPlayer::load_seabed_dolphin() {
 
 void TObjPlayer__sub_802C2900(void) {
     if ((u32) (*(u32 *)&seabed_dolphin_texture_handle) != 0U) {
-        release_texture_list((void*)(*(u32 *)&seabed_dolphin_texture_handle));
+        release_texture_list((void*)(*(uaddr *)&seabed_dolphin_texture_handle));
         TAdSinglePlyChrSelectGC::safe_free((*(u32 *)&seabed_dolphin_texture_handle));
         (*(u32 *)&seabed_dolphin_texture_handle) = 0U;
     }
@@ -668,7 +668,7 @@ void TUnk_804E094C::vfunc_14() {
     post_translate_matrix((u8 *)&this->unk_AC);
     rotate_matrix_y(0, this->m_b8);
     rotate_matrix_z(0, this->m_c0);
-    draw_model_motion((void *)(*(s32 *)&this->unk_98), (void *)this->m_9c, this->m_a8);
+    draw_model_motion((void *)(*(saddr *)&this->unk_98), (void *)this->m_9c, this->m_a8);
     pop_matrix();
 }
 

@@ -28,7 +28,7 @@ void TOJungleDesign::init_design_variant() {
     if ((s32) this->m_b0 > 2) {
         this->m_b0 = 2;
     }
-    this->m_ac = (s32)fn_802FF064(jungle_design_variant_table[this->m_b0]);
+    this->m_ac = (saddr)fn_802FF064(jungle_design_variant_table[this->m_b0]);
     this->texlist = (s32)fn_802FF028(0);
 }
 

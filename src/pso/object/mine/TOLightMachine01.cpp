@@ -23,8 +23,8 @@ extern "C" {
 s32 get_bml_texlist(void *, s32);
 s32 get_bml_model(void *, s32);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-u32 TOLightMachine01__shared_bml_archive;
-s32 light_machine_ginja_model_handle;
+uaddr TOLightMachine01__shared_bml_archive;
+saddr light_machine_ginja_model_handle;
 s32 light_machine_ginja_param;
 s32 __ct__8TObjBaseFP7TObject(void *, int);
 extern s32 __vt__16TOLightMachine01[];
@@ -102,7 +102,7 @@ u8 *TOLightMachine01__ct(TOLightMachine01 *light_machine01, saddr arg1) {
     *(s32 **)((s8 *)light_machine01 + 0x18) = __vt__16TOLightMachine01;
     ((TOLightMachine01 *)light_machine01)->m_name = TOLightMachine01__name;
     ((TOLightMachine01 *)(light_machine01))->apply_object_set_data((void *)arg1);
-    light_machine01->model = ((u8 *)get_bml_model((void *)((*(s32 *)&TOLightMachine01__shared_bml_archive)), 1));
+    light_machine01->model = ((u8 *)get_bml_model((void *)((*(saddr *)&TOLightMachine01__shared_bml_archive)), 1));
     light_machine01->texlist = get_bml_texlist((void *)((int) ((*(s32 *)&TOLightMachine01__shared_bml_archive))), 1);
     *(f32 *)((s8 *)light_machine01 + 0x90) = 500.0f;
     light_machine01->m_94 = (f32) *(f32 *)((s8 *)(*(void **)((s8 *)light_machine01->model + 4)) + 0x14);

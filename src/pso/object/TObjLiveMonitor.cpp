@@ -347,7 +347,7 @@ void *TObjLiveCamera__create(void *arg0) {
 }
 
 TObjLiveCamera::TObjLiveCamera(s32 parent, s32 arg2) : TObjBase((TObject *)((void *)parent)) {
-    *(s32 *)((s8 *)this + 0) = (s32) TObjLiveCamera__class_name;
+    *(saddr *)((s8 *)this + 0) = (saddr) TObjLiveCamera__class_name;
     ((TObjLiveCamera *)(((u8 *)this)))->apply_object_set_data((void *)arg2);
 }
 
@@ -381,7 +381,7 @@ void *TObjLiveMonitor::create(void *arg0) {
 void *__ct__15TObjLiveMonitorFv(void *arg0) {
     __ct__7TObjectFP7TObject();
     *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)__vt__15TObjLiveMonitor;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) TObjLiveMonitor__name;
+    *(saddr *)((s8 *)arg0 + 0) = (saddr) TObjLiveMonitor__name;
     *(s32 *)((s8 *)arg0 + 0x1C) = get_bml_model(live_monitor_shared_resource, 1);
     *(s32 *)((s8 *)arg0 + 0x20) = get_bml_texlist(live_monitor_shared_resource, 0);
     *(s32 *)((s8 *)arg0 + 0x24) = 5;
@@ -466,7 +466,7 @@ int TObjLiveMonitor::render_live_monitor_screen() {
     default:
         return *(s32 *)((s8 *)this + 0x24);
     }
-    free_children__12TObjDoorJungFPv((void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x1C)) + 4)), var_r4);
+    free_children__12TObjDoorJungFPv((void *) (*(saddr *)((s8 *)(*(u8 **)((s8 *)this + 0x1C)) + 4)), var_r4);
     push_matrix();
     ::draw_ginja_model((void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x1C)) + 4)));
     return pop_matrix();

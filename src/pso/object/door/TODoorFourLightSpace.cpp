@@ -83,7 +83,7 @@ const Tbl_80289EE0 door_four_light_space_index_table = {4, 6, 8, 10, 5, 7, 9, 11
 #pragma dont_inline off
 TODoorFourLightRuins::TODoorFourLightRuins(s32 arg1, s32 arg2) : TODoorBase((TObject *)arg1) {
     s32 i;
-    *(s32 *)((s8 *)this + 0) = (s32) TODoorFourLightRuins__class_name;
+    *(saddr *)((s8 *)this + 0) = (saddr) TODoorFourLightRuins__class_name;
     ((TODoorFourLightRuins *)(((u8 *)this)))->apply_object_set_data((void *)arg2);
     ((TODoorFourLightRuins *)(((u8 *)this)))->init_door_switch_binding();
     init_collision_body_parts(((u8 *)this), &TODoorFourLight__collision_body_params, 1);
@@ -122,7 +122,7 @@ void TODoorFourLightRuins::render() {
             set_global_param__8TObjFishFl();
             post_translate_matrix((u8 *)&this->position);
             rotate_matrix_y(0, this->rotation_y);
-            draw_ginja_model_with_motion((void *)(*(s32 *)&this->m_d4), (void *)(*(s32 *)&this->motion), this->animation_frame);
+            draw_ginja_model_with_motion((void *)(*(saddr *)&this->m_d4), (void *)(*(saddr *)&this->motion), this->animation_frame);
             pop_matrix();
             return;
         case 2:
@@ -293,7 +293,7 @@ s32 TODoorFourLightRuins::init_door_switch_binding() {
 
 TODoorFourLightSpace::TODoorFourLightSpace(s32 arg1, s32 arg2) : TODoorBase((TObject *)arg1) {
     s32 i;
-    *(s32 *)((s8 *)this + 0) = (s32) TODoorFourLightSpace__class_name;
+    *(saddr *)((s8 *)this + 0) = (saddr) TODoorFourLightSpace__class_name;
     ((TODoorFourLightSpace *)(((u8 *)this)))->apply_object_set_data((void *)arg2);
     ((TODoorFourLightSpace *)(((u8 *)this)))->init_door_switch_binding();
     init_collision_body_parts(((u8 *)this), &TODoorFourLight__collision_body_params, 1);

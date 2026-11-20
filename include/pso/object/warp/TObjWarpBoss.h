@@ -30,7 +30,7 @@ struct TObjWarpBoss : public TObjAreaWarp {
     void run_task();
     f32 frame;  // motion frame: run_task steps it by 4 and wraps at the motion's frame count
     u8 pad_c8[0x8];
-    u32 model;                // drawn with motion by render while nonzero (compared unsigned)
+    uaddr model;              // drawn with motion by render while nonzero (compared unsigned)
     AnimationMotion *motion;  // get_boss_warp_motion / get_boss_warp_bml_motion
     u8 pad_d8[0x4];
     s16 next_state;

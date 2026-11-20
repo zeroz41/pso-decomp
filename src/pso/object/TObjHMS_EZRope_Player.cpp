@@ -286,7 +286,7 @@ struct Obj_800FF788 {
     u8 pad0[0x20];
     Seg_800FF788 *segs;
     Src_800FF788 *srcs;
-    u32 flag;
+    uaddr flag;
     Vec *out;
 };
 

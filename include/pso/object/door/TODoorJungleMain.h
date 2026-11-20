@@ -11,7 +11,7 @@ struct TODoorJungleMain : public TODoorBase {
     virtual void update_door_switch_state();
     u32 m_d4;
     u32 m_d8;
-    u32 m_dc;
+    uaddr m_dc;
     static void free_static_resources();
     static void load_resources();
     virtual void render();

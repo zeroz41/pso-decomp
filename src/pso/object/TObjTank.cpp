@@ -27,7 +27,7 @@ s32 get_bml_model(s32, s32);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 s32 draw_ginja_object();
-u32 tank_bml_resource;
+uaddr tank_bml_resource;
 u32 TObjTank__texture_list;
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 s32 init_collision_body_parts(void *, void *, int);
@@ -63,7 +63,7 @@ extern void *tl_05;
 u8 *TObjTank__ct(u8 *arg0, s32 arg1, saddr arg2) {
     __ct__14TObjCollidableFP7TObject(arg0, arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__8TObjTank;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) TObjTank__class_name;
+    *(saddr *)((s8 *)arg0 + 0) = (saddr) TObjTank__class_name;
     VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(arg2 + 0xC));
     copy_xyz(arg0 + 0x5C, (void *)(arg2 + 0x18));
     VecCopy((Vec *)(arg0 + 0x68), (const Vec *)(arg2 + 0x24));

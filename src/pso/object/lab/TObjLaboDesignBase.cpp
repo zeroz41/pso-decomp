@@ -248,12 +248,12 @@ void draw_node_tree__18TObjLaboDesignBaseFiPv(s32 arg0, u8 *arg1) {
 }
 
 void render__18TObjLaboDesignBaseFPv(u8 *arg0) {
-    get_bml_texlist((BmlResource *)(*(s32 *)((s8 *)arg0 + 0xAC)), 0);
+    get_bml_texlist((BmlResource *)(*(saddr *)((s8 *)arg0 + 0xAC)), 0);
     set_global_param__8TObjFishFl();
     push_matrix();
     post_translate_matrix(arg0 + 0x38);
     rotate_matrix_y(0, (int) (*(s32 *)((s8 *)arg0 + 0x60)));
-    draw_node_tree__18TObjLaboDesignBaseFiPv((s32)arg0, (u8 *)((int) (get_bml_model((BmlResource *)(*(s32 *)((s8 *)arg0 + 0xAC)), 0))));
+    draw_node_tree__18TObjLaboDesignBaseFiPv((s32)arg0, (u8 *)((int) (get_bml_model((BmlResource *)(*(saddr *)((s8 *)arg0 + 0xAC)), 0))));
     pop_matrix();
     TParticleCtrl::end_effect_render();
 }

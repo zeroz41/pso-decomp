@@ -89,7 +89,7 @@ extern "C" void sub_8018355C__28TObjCity_Season_FireWorkCtrlFv(struct Obj_801835
 
 extern "C" {
 extern s32 __vt__24TObjCity_Season_FireWork[];
-extern s32 TObjCity_Season_FireWork__name;
+extern saddr TObjCity_Season_FireWork__name;
 
 u8 *__ct__24TObjCity_Season_FireWorkFP7TObjectPvf(u8 *arg0, u8 *arg1, u8 *arg2, f32 farg0);
 void debug_printf_at(s32 id, const char *fmt, ...);
@@ -672,7 +672,7 @@ const char *TObjCity_Season_21_21__name = TObjCity_Season_21_21__class_name;
 const char *TObjCity_Season_SonicAdv2__name = TObjCity_Season_SonicAdv2__class_name;
 const char *TObjCity_Season_Board__name = TObjCity_Season_Board__class_name;
 const char *TObjCity_Season_FireWorkCtrl__name = TObjCity_Season_FireWorkCtrl__class_name;
-s32 TObjCity_Season_FireWork__name = (s32)TObjCity_Season_FireWork__class_name;
+saddr TObjCity_Season_FireWork__name = (saddr)TObjCity_Season_FireWork__class_name;
 }
 
 #pragma push
@@ -781,8 +781,8 @@ void TObjCity_Season_EasterEgg::render() {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        draw_chunk_object((void *)(*(s32 *)((s8 *)(*(void **)((s8 *)temp_r3 + 0x42C)) + 0x18)));
-        draw_chunk_object((void *)(*(s32 *)((s8 *)(*(void **)((s8 *)temp_r3 + 0x42C)) + 0x8)));
+        draw_chunk_object((void *)(*(saddr *)((s8 *)(*(void **)((s8 *)temp_r3 + 0x42C)) + 0x18)));
+        draw_chunk_object((void *)(*(saddr *)((s8 *)(*(void **)((s8 *)temp_r3 + 0x42C)) + 0x8)));
         pop_matrix();
     }
 }
@@ -832,7 +832,7 @@ void TObjCity_Season_ValentineHeart::render() {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        draw_model_motion((void *)(*(s32 *)((s8 *)(*(void **)((s8 *)temp_r3 + 0x42C)) + 0x28)), (void *)(*(s32 *)((s8 *)(*(void **)((s8 *)temp_r3 + 0x430)) + 0x14)), this->m_b0);
+        draw_model_motion((void *)(*(saddr *)((s8 *)(*(void **)((s8 *)temp_r3 + 0x42C)) + 0x28)), (void *)(*(s32 *)((s8 *)(*(void **)((s8 *)temp_r3 + 0x430)) + 0x14)), this->m_b0);
         pop_matrix();
     }
 }

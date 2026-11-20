@@ -17,7 +17,7 @@ struct TOChatSensor : public TObjBase {
     u8 unk_AA[0xA];
     s32 m_b4;
     u8 unk_B8[0xC];
-    u32 m_c4;
+    uaddr m_c4;
     u32 m_c8;
     u32 m_cc;
     static void dispatch_chat_message_to_children(s32 arg0);

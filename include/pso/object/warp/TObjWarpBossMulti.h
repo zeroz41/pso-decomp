@@ -33,9 +33,9 @@ struct TObjWarpBossMulti : public TObjAreaWarp {
     static int is_flag_clear(void* p);
     // Field names follow the get_boss_warp_* getters init_warp_params stores; the rest are inferred.
     s32 player_in_range[4];         // per player slot: a local player stands within warp_range + 25 (run_task)
-    s32 base_model;                 // get_boss_warp_base_model(), drawn with model_handle's textures
-    s32 confirmation_model;         // get_boss_warp_confirmation_model(), drawn with motion while state == 0
-    s32 warp_model;                 // get_boss_warp_model(), drawn with bml_motion while state == 1
+    saddr base_model;               // get_boss_warp_base_model(), drawn with model_handle's textures
+    saddr confirmation_model;       // get_boss_warp_confirmation_model(), drawn with motion while state == 0
+    saddr warp_model;               // get_boss_warp_model(), drawn with bml_motion while state == 1
     AnimationMotion *motion;        // get_boss_warp_motion()
     AnimationMotion *bml_motion;    // get_boss_warp_bml_motion()
     s32 model_handle;               // get_boss_warp_model_handle(): textures of base_model

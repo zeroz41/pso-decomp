@@ -210,7 +210,7 @@ f32 horizontal_distance_squared(void *, void *);
 // Effect ids load_resources picks per area (0x230/0x231 or 0x45/0x46) and the
 // pair TContainerAncient01R::init_table_entries copies for its open effect.
 s32 TContainerAncient01__effect_id_table[2];
-s32 TContainerAncient01__open_effect_table[2];
+saddr TContainerAncient01__open_effect_table[2];
 
 void TContainerAncient01__sub_8018A584(Obj_8018A584 *self, f32 range);
 
@@ -570,7 +570,7 @@ void TContainerAncient01R::render() {
         if (TObjPlayer::check_demo_mode() == 1) {
             draw_ginja_object(this->model);
         } else {
-            draw_ginja_model_with_motion((void *)(*(s32 *)&this->model), (void *)(*(s32 *)&this->current_motion), this->frame);
+            draw_ginja_model_with_motion((void *)(*(saddr *)&this->model), (void *)(*(saddr *)&this->current_motion), this->frame);
         }
         pop_matrix();
     }
