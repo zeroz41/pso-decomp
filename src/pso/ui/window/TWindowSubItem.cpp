@@ -142,7 +142,6 @@ struct Win_8027ABFC { u8 pad0[0x20]; s16 id; u8 pad1[0x72 - 0x22]; s16 sel; u8 p
 void TWindowSubItem__sub_8027AB10(Wn_8027AB10 *arg0);
 void populate_sub_item_list(Win_8027ABFC *arg0);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
-u32 is_action_active__10TObjPlayerFv(s32);
 void decrement_clamped(void *, s32);
 void play_sound_effect(s32, s32, s32, s32);
 s32 TWindowCtrl__sub_8024A228(saddr);
@@ -540,7 +539,7 @@ void TWindowSubItem::run_task() {
             }
             break;
         case 22:
-            if (is_action_active__10TObjPlayerFv(p) == 0) {
+            if ((u32)((TObjPlayer *)p)->is_action_active() == 0) {
                 F(u8, 0x1C) = 1;
             }
             break;

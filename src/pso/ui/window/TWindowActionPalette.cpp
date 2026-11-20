@@ -480,7 +480,7 @@ s32 get_palette_consumable_count(u16 slot, s32 client_id) {
         return -1;
     }
     if (slot >= 13) {
-        if (clamp_char_at__10TObjPlayerFl((uaddr)player + 0x7C4, slot - 13) > 0) {
+        if ((s8)((TObjPlayer *)((uaddr)player + 0x7C4))->clamp_char_at(slot - 13) > 0) {
             return slot;
         }
         return -1;

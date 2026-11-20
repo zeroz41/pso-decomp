@@ -167,7 +167,6 @@ u8 *TWindowDD__ws_data_table;
 
 u32 lbl_805D6E34;
 extern "C" {
-s32 free_child__9TWindowDDFv(int);
 s32 apply_input__9TWindowDDFPvPv(int, int);
 s32 update__9TWindowDDFl(int, int, int);
 void TWindowDD__sub_803434F4(u8 *arg0);
@@ -211,9 +210,6 @@ extern const f32 TWindowDD__data_805DFB6C;
 
 extern const f32 lbl_805DFB90;
 void TWindowDD__sub_803435A0(u8 *arg0);
-s32 set_clamped_page__9TWindowDDFl(int, int);
-s32 handle_input__9TWindowDDFv(int);
-s32 set_clamped_selection__9TWindowDDFl(int, int);
 s32 set_value_f32__9TWindowDDFl(int, int);
 s32 TWindowDD__sub_80341AE0(int);
 s32 TWindowDD__sub_80341AF8(int);
@@ -643,11 +639,11 @@ void TWindowDD::run_task() {
     s32 done;
     if (w->x80 != 0) {
         if (w->xB0 == 0) {
-            set_clamped_page__9TWindowDDFl(w->x80, 2);
+            ((TWindowDD *)w->x80)->set_clamped_page(2);
         } else if (w->xC4 > 1) {
-            set_clamped_page__9TWindowDDFl(w->x80, 0);
+            ((TWindowDD *)w->x80)->set_clamped_page(0);
         } else {
-            set_clamped_page__9TWindowDDFl(w->x80, 1);
+            ((TWindowDD *)w->x80)->set_clamped_page(1);
         }
     }
     cur = w->subs[w->idx];
@@ -658,7 +654,7 @@ void TWindowDD::run_task() {
     case 2:
         break;
     case 1:
-        handle_input__9TWindowDDFv(w->x80);
+        ((TWindowDD *)w->x80)->handle_input();
         done = 0;
         if (((TWindowDD *)w)->test_input_flag_4() != 0) {
             if (w->x80 != 0) {
@@ -702,7 +698,7 @@ void TWindowDD::run_task() {
             if (w->xB8 != 1 && TWindowDD_check_input_mask(w->input, 0x80) != 0) {
                 TWindowDD::spawn_window();
                 w->xA8 = 1;
-                set_clamped_selection__9TWindowDDFl(w->x80, get_cursor_index__9TWindowDDFv((saddr)w->subs[w->idx]));
+                ((TWindowDD *)w->x80)->set_clamped_selection(get_cursor_index__9TWindowDDFv((saddr)w->subs[w->idx]));
                 TWindowDD__sub_80341AE0((saddr)cur);
                 copy_chat_entry__9TWindowDDFPvPv((R_80343BC0 *)(&w->xE0), (R_80343BC0 *)(&w->xC4));
                 if (w->xE0 > 0) {
@@ -879,7 +875,7 @@ void TWindowDD__sub_803434F4(u8 *arg0) {
     var_r31 = arg0;
     var_r3 = (u8 *)(var_r31 + (*(s32 *)((s8 *)arg0 + 0x20) * 4));
     var_r3 = (u8 *)(*(u8 **)((s8 *)var_r3 + 0x24));
-    free_child__9TWindowDDFv((saddr)var_r3);
+    ((TWindowDD *)var_r3)->free_child();
     var_r3 = var_r31;
     var_r4 = (u8 *)(var_r31 + (*(s32 *)((s8 *)var_r31 + 0x20) * 4));
     var_r4 = (u8 *)(*(u8 **)((s8 *)var_r4 + 0x24));

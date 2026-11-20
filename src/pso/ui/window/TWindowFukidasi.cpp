@@ -21,6 +21,7 @@
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
 #include <string.h>
+#include "pso/ui/window/TWindowDD.h"
 
 struct Fuki_80250A24 {
     u8 pad0[0x38];
@@ -182,7 +183,6 @@ View_80252764 * get_draw_context__11TWindowBaseFPv(void *);
 saddr get_field_20__17TWindowSubComCardFv();
 s32 set_depth__11TWindowBaseFf(f32);
 s32 sub_80246948__11TWindowBaseFv(void *);
-s32 refresh_status_display__9TWindowDDFv(int);
 void TWindowSubSymbolChat__sub_802483F0(int a0, void *a1);
 void set_symbol_chat_parts__20TWindowSubSymbolChatFiPv(saddr arg0, void *arg1);
 s32 draw_resolved_window__15TWindowFukidasiFllll(Fuki_80250F70 *, f32 *, f32 *, s32);
@@ -697,7 +697,7 @@ void set_text__15TWindowFukidasiFPvii(u8 *arg0, saddr str, saddr arg2) {
   if (arg2 & 4)
   {
     *((u16 *) (((s8 *) entry) + 0)) = (u16) ((*((u16 *) (((s8 *) entry) + 0))) | 0x40);
-    refresh_status_display__9TWindowDDFv((saddr) entry);
+    ((TWindowDD *)entry)->refresh_status_display();
   }
   else
   {

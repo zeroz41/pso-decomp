@@ -64,7 +64,6 @@ extern "C" {
 extern RecoveredGlobal_80271C6C___vt__21TWindowSubAreaMapDisp __vt__21TWindowSubAreaMapDisp;
 saddr get_message_text(s32 arg0);
 u8 *get_floor_destination_name(s32);
-s32 measure_string_len__20TWindowSubStatusDispFv(int);
 void text_builder_append(u8 *str);
 }
 void text_builder_reset(void);
@@ -202,7 +201,7 @@ TWindowSubAreaMapDisp::TWindowSubAreaMapDisp() : TWindowBase((u8 *)&TWindowSubAr
     } else {
         var_r30 = (u8 *)(get_floor_destination_name(get_current_floor_area()));
     }
-    temp_r3 = measure_string_len__20TWindowSubStatusDispFv((saddr)var_r30);
+    temp_r3 = ((TWindowSubStatusDisp *)var_r30)->measure_string_len();
     this->m_74 = (saddr)mem_alloc((temp_r3 + 1));
     strncpy((char *)this->m_74, (const char *)var_r30, (u32)temp_r3 + 1);
     temp_r3_2 = (saddr)::operator new(0x24);

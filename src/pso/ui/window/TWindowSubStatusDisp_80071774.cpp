@@ -21,7 +21,6 @@ uaddr get_character_save_record(u32);
 extern RecoveredGlobal_80071820_lbl_804FF820 lbl_804FF820;
 extern s32 lbl_805D2858;
 s32 get_slot_clamped__6TLobbyFv(s32);
-s32 calc_layout_hash__20TWindowSubStatusDispFv(int);
 extern G_800718D0 challenge_mode_state;
 s32 TLobby__sub_80071654(u16);
 
@@ -85,7 +84,7 @@ s32 TWindowSubStatusDisp__sub_800718D0(void) {
     s32 sum;
     s32 i;
     s32 r;
-    hash = calc_layout_hash__20TWindowSubStatusDispFv(-1);
+    hash = ((TWindowSubStatusDisp *)-1)->calc_layout_hash();
     if (TLobby::is_flag_set() == 0 || get_character_save_record(0xFFFF) == 0) {
         return hash;
     }

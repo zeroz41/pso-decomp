@@ -193,7 +193,7 @@ void cache_last_chat_line(uaddr text) {
         if (temp_r31 != 0) {
             size += 2;
         }
-        var_r3 = heap_alloc__5THeapFUl(TAdScrollWinGC__chat_log_heap, size);
+        var_r3 = (u8 *)((THeap *)TAdScrollWinGC__chat_log_heap)->heap_alloc(size);
         if (var_r3 == NULL) {
             do {
                 chat_log_remove_line(0);
@@ -223,7 +223,7 @@ void chat_log_add_line(const char *text) {
     s32 free_chat_log_slot;
     temp_r29 = strlen(text);
     free_chat_log_slot = TLobby::find_free_chat_log_slot();
-    var_r28 = (saddr) heap_alloc__5THeapFUl(TAdScrollWinGC__chat_log_heap, temp_r29 + 1);
+    var_r28 = (saddr) (u8 *)((THeap *)TAdScrollWinGC__chat_log_heap)->heap_alloc(temp_r29 + 1);
     if (var_r28 == 0) {
         do {
             chat_log_remove_line(0);

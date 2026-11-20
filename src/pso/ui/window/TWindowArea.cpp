@@ -25,7 +25,6 @@ const char *TWindowArea__name = "TWindowArea";
 
 extern s32 TWindowSubStatusDisp__count_ratio_value;
 void sub_802443B4__15TWindowAdditionFv(void *, void *);
-u8 *get_title_entry__11TWindowRoomFv(s32);
 }
 
 extern "C" {
@@ -51,7 +50,7 @@ s32 create_window_area(void) {
     object = (saddr)new TWindowArea();
     fn_802449E0((u8 *)object);
     fn_8024450C(object);
-    temp_r31 = get_title_entry__11TWindowRoomFv(object);
+    temp_r31 = (u8 *)((TWindowRoom *)object)->get_title_entry();
     *(f32 *)((s8 *)temp_r31 + 8) = 80.0f - 0.5f * (f32) calc_text_width((char *)(((TWindowSubComCard *)temp_r31)->get_field_20()));
     return object;
 }

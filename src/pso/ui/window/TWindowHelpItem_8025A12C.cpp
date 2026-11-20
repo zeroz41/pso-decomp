@@ -12,6 +12,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include <string.h>
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 #pragma readonly_strings on
 
 typedef struct Item_8025A354 {
@@ -38,7 +39,6 @@ typedef struct Win_8025A354 {
 
 extern "C" {
 void render_summary_row__15TWindowHelpItemFv(Item_8025A354 *self, Win_8025A354 *w);
-s32 measure_string_len__20TWindowSubStatusDispFv(u32);
 
 void *lbl_804CF9F8[6] = {
     0, 0,
@@ -118,7 +118,7 @@ void TWindowHelpItem::set_help_text(uaddr arg1) {
     mem_free(*(void **)((s8 *)this + 0x18));
     *(void **)((s8 *)this + 0x18) = 0;
     if (arg1 != 0U) {
-        temp_r3 = measure_string_len__20TWindowSubStatusDispFv(arg1);
+        temp_r3 = ((TWindowSubStatusDisp *)arg1)->measure_string_len();
         *(s32 *)((s8 *)this + 0x18) = (saddr)mem_alloc(temp_r3 + 1);
         strncpy((char *)(*(saddr *)((s8 *)this + 0x18)), (const char *)arg1, (u32)temp_r3 + 1);
     }

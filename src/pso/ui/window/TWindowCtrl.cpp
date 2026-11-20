@@ -252,13 +252,12 @@ typedef struct Ctrl_8024BE80 {
 void *get_player_by_client_id(s32);
 void window_request_show(void *);
 extern "C" {
-f32 get_target_distance__13TWindowLockOnFv(s32);
 void TWindowCtrl::update_party_status_rows() {
     f32 y;
     u32 i;
     void *pl;
     Win_8024BE80 *w;
-    y = get_target_distance__13TWindowLockOnFv(0xAB);
+    y = ((TWindowLockOn *)0xAB)->get_target_distance();
     for (i = 0; i < 3; i++) {
         w = ((Ctrl_8024BE80 *)this)->slots[i];
         if (w != NULL && ((TWindowCtrl *)w)->is_flag_2_set() == 0) {

@@ -17,7 +17,6 @@ struct Stack_8025B660 {
 
 extern "C" {
 u32 calc_text_width(u32);
-s32 measure_string_len__20TWindowSubStatusDispFv(u32);
 
 void *window_label_value_part_vtable[6] = {
     0, 0,
@@ -34,7 +33,7 @@ void TWindowSubStatusDisp::set_string(uaddr arg1) {
     *(s32 *)((s8 *)this + 0x20) = 0;
     if (arg1 != 0U) {
         *(f32 *)((s8 *)this + 8) = (f32) (0.0f);
-        temp_r3 = measure_string_len__20TWindowSubStatusDispFv(arg1);
+        temp_r3 = ((TWindowSubStatusDisp *)arg1)->measure_string_len();
         *(s32 *)((s8 *)this + 0x20) = (saddr)mem_alloc(temp_r3 + 1);
         strncpy((char *)(*(saddr *)((s8 *)this + 0x20)), (const char *)arg1, (u32)temp_r3 + 1);
     }
@@ -46,7 +45,7 @@ void TWindowSubStatusDisp::set_text(uaddr arg1, s32 arg2, s32 arg3) {
     mem_free((void *)(*(saddr *)((s8 *)this + 0x1C)));
     *(s32 *)((s8 *)this + 0x1C) = 0;
     if (arg1 != 0U) {
-        temp_r3 = measure_string_len__20TWindowSubStatusDispFv(arg1);
+        temp_r3 = ((TWindowSubStatusDisp *)arg1)->measure_string_len();
         *(s32 *)((s8 *)this + 0x1C) = (saddr)mem_alloc(temp_r3 + 1);
         strncpy((char *)(*(saddr *)((s8 *)this + 0x1C)), (const char *)arg1, (u32)temp_r3 + 1);
     }
@@ -63,7 +62,7 @@ void TWindowSubStatusDisp::set_text(uaddr arg1, s32 arg2) {
     mem_free((void *)(*(saddr *)((s8 *)this + 0x1C)));
     *(s32 *)((s8 *)this + 0x1C) = 0;
     if (arg1 != 0U) {
-        temp_r3 = measure_string_len__20TWindowSubStatusDispFv(arg1);
+        temp_r3 = ((TWindowSubStatusDisp *)arg1)->measure_string_len();
         *(s32 *)((s8 *)this + 0x1C) = (saddr)mem_alloc(temp_r3 + 1);
         strncpy((char *)(*(saddr *)((s8 *)this + 0x1C)), (const char *)arg1, (u32)temp_r3 + 1);
     }

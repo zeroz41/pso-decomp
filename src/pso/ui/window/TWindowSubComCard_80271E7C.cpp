@@ -217,7 +217,6 @@ extern s32 controller_input_state[];
 extern saddr TLobby__protocol_instance;
 s32 free_member__17TWindowSubComCardFv(s32, s32);
 s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(s32, s32, s32, f32);
-s32 create__19TWindowMessageYesNoFPvPvPvPv(void *, s32, s32, s32);
 void open_yes_no_prompt(TChCrTagPlBack *arg0, u32 arg1, s32 arg2, s32 arg3, f32 farg0);
 
 void TWindowSubComCard__sub_80077980(void *);
@@ -1351,7 +1350,7 @@ s32 open_menu__17TWindowSubComCardFv(void) {
 s32 TWindowSubComCard::confirm_and_free() {
     saddr temp_r29;
 
-    temp_r29 = create__19TWindowMessageYesNoFPvPvPvPv(this, this->m_20, 0, 0);
+    temp_r29 = (saddr)TWindowMessageYesNo::create(this, (void *)this->m_20, 0, 0);
     open_yes_no_prompt((TChCrTagPlBack *)((u8 *)temp_r29), (u32)(((s32 (*)(s32))get_message_10__20TWindowSubStatusDispFl)(0x20)), (s32)(((s32 (*)(s32))get_message_10__20TWindowSubStatusDispFl)(0x39)), (s32)(get_window_layout_position(0x88)), 205.0f);
     free_member__17TWindowSubComCardFv(temp_r29, 1);
     ((TWindowSubShortMail *)temp_r29)->notify_warp_flag70();
@@ -1360,7 +1359,7 @@ s32 TWindowSubComCard::confirm_and_free() {
 
 s32 TWindowSubComCard::sub_802730E0() {
     saddr temp_r30;
-    temp_r30 = create__19TWindowMessageYesNoFPvPvPvPv(this, this->m_20, 0, 0);
+    temp_r30 = (saddr)TWindowMessageYesNo::create(this, (void *)this->m_20, 0, 0);
     forward_slot_selection__16TAdChrSelASlotGCFPvPv(temp_r30, ((s32 (*)(s32))get_message_10__20TWindowSubStatusDispFl)(0xFC), get_window_layout_position(0x96), 213.0f);
     free_member__17TWindowSubComCardFv(temp_r30, 1);
     ((TWindowSubShortMail *)temp_r30)->notify_warp_flag70();
@@ -1370,7 +1369,7 @@ s32 TWindowSubComCard::sub_802730E0() {
 s32 TWindowSubComCard::open_yesno_dialog() {
     saddr temp_r29;
 
-    temp_r29 = create__19TWindowMessageYesNoFPvPvPvPv(this, this->m_20, 0, 0);
+    temp_r29 = (saddr)TWindowMessageYesNo::create(this, (void *)this->m_20, 0, 0);
     open_yes_no_prompt((TChCrTagPlBack *)((u8 *)temp_r29), (u32)(((s32 (*)(s32))get_message_10__20TWindowSubStatusDispFl)(0x20)), (s32)(((s32 (*)(s32))get_message_10__20TWindowSubStatusDispFl)(0x100)), (s32)(get_window_layout_position(0x97)), 213.0f);
     free_member__17TWindowSubComCardFv(temp_r29, 1);
     ((TWindowSubShortMail *)temp_r29)->notify_warp_flag70();

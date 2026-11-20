@@ -58,7 +58,6 @@ void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__13TUnk_804D1818[];
-s8 get_page_index__20TWindowSubQuestBoardFv(s32);
 s32 fn_8027D1E8(s32);
 extern Ent_8027CFC8 quest_board_handlers[];
 int set_card_window_flags__19TWindowKeyBoardHardFPvll(void*, int, int);
@@ -107,7 +106,7 @@ void TWindowSubQuestBoard::run_task() {
         break;
     case 3:
         this->quest_thread_board = TQuestThreadBoard::create_instance(
-            quest_board_handlers[get_page_index__20TWindowSubQuestBoardFv(this->m_28)].f20);
+            quest_board_handlers[(s8)((TWindowSubQuestBoard *)this->m_28)->get_page_index()].f20);
         this->m_1c = 4;
     case 4:
         if (this->quest_thread_board->all_parents_unqueued_for_destruction() == 0) {

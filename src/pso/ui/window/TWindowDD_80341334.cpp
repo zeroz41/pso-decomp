@@ -107,7 +107,6 @@ WindowDescriptor TWindowDD__data_804EFC24 = {
 TWindowDD_WS_String::~TWindowDD_WS_String() {}
 
 extern "C" {
-s32 refresh_status_display__9TWindowDDFv(int);
 extern s32 __vt__19TWindowDD_WS_String[];
 
 TWindowDD_WS_String *TWindowDD__sub_8034138C(TWindowDD_WS_String *self, f32 *pos, f32 *size, u32 str, s32 style) {
@@ -123,7 +122,7 @@ TWindowDD_WS_String *TWindowDD__sub_8034138C(TWindowDD_WS_String *self, f32 *pos
         set_text_entry_string(entry, str, 0x80);
         *(f32 *)((s8 *)entry + 0x8) = 0.0f;
         *(f32 *)((s8 *)entry + 0xC) = 0.0f;
-        refresh_status_display__9TWindowDDFv((saddr)entry);
+        ((TWindowDD *)entry)->refresh_status_display();
         ((TWindowHelpItem *)entry)->reset_float_field();
     }
     if ((self->pad_60 == 1) || (self->pad_60 == 3)) {

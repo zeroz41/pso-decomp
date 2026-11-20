@@ -29,6 +29,7 @@
 #include "pso/ui/city/TShopArmorListWindow.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer.h"
 
 // inferred: name from the string the .sdata pointer holds
 const char *TWindowMenuIconLine__name = "TWindowMenuIconLine";
@@ -161,7 +162,6 @@ s32 init_entry__20TWindowSubStatusDispFScScUcUll(s32, u8, u8, int, s32, s32);
 void fn_80266BD0(s32 index, u8 *first, u8 *second, s32 player);
 void TWindowSubStatusDisp__sub_80258A28(u8 *arg0, s32 arg1, s32 arg2);
 void *get_player_by_client_id(s32 i);
-s8 clamp_char_at__10TObjPlayerFl(s32, s32);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 finalize_state__20TWindowSubStatusDispFv(s32);
 s32 is_flag80_set__20TWindowSubStatusDispFv(s32);
@@ -274,7 +274,7 @@ void add_battle_stat_entry(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
             if (arg1 == 4) {
                 var_r31 = fn_801C5404((s32 *)(player + 0x7C8));
             } else {
-                var_r31 = clamp_char_at__10TObjPlayerFl(player + 0x7C4, arg1);
+                var_r31 = (s8)((TObjPlayer *)(player + 0x7C4))->clamp_char_at(arg1);
             }
             if (var_r31 > 0) {
                 temp_r30 = ((u16 *(*)(void *, s16))get_array_entry__11TWindowBaseFi)(arg0, *(s16 *)((s8 *)arg0 + 0x72));
