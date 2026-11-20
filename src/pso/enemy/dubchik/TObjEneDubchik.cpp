@@ -490,6 +490,11 @@ TObjEneDubchik::~TObjEneDubchik() {
     delete saver;
 }
 
+// The model and texture files the loader opens (defined at the end of the file).
+inline const char *dubchik_bml_filename();
+inline const char *dubchik_v2_gvm_filename();
+inline const char *dubchik_gvm_filename();
+
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_propagation off
@@ -502,7 +507,7 @@ extern "C" void TObjPlayer__sub_800AA82C(void) {
     u32 mdl;
     Node_800AA82C *n;
     if (TObjEneDD::check_v2_mode() != 0) {
-        dubchik_resource = (Res_800AA82C *)load_enemy_bml_resource_named((s32)&bm_ene_dubchik_resource_descriptor, (s32)bm_ene_dubchik_a_bml_filename);
+        dubchik_resource = (Res_800AA82C *)load_enemy_bml_resource_named((s32)&bm_ene_dubchik_resource_descriptor, (s32)dubchik_bml_filename());
     } else {
         p = ::operator new(0x440);
         if (p != NULL) {
@@ -512,9 +517,9 @@ extern "C" void TObjPlayer__sub_800AA82C(void) {
     }
     dubchik_texlist = *(NJS_TEXLIST **)((u8 *)dubchik_resource->mdl + 0x1C);
     if (TObjEneDD::check_v2_mode() != 0) {
-        dubchik_variant_texlist = (NJS_TEXLIST *)load_gvm_texture_file((s32)me2_y_me2_z_a_gvm_filename);
+        dubchik_variant_texlist = (NJS_TEXLIST *)load_gvm_texture_file((s32)dubchik_v2_gvm_filename());
     } else {
-        dubchik_variant_texlist = (NJS_TEXLIST *)load_gvm_texture_file((s32)me2_y_me2_z_gvm_filename);
+        dubchik_variant_texlist = (NJS_TEXLIST *)load_gvm_texture_file((s32)dubchik_gvm_filename());
     }
     n = (Node_800AA82C *)find_model_node(*(s32 *)((u8 *)dubchik_resource->mdl + 0x18), 0x17);
     n->f30 = 0;
@@ -1431,4 +1436,19 @@ extern "C" void dubchik_update_dying(u8 *arg0) {
     obj_setFlags30((void *) arg0, 0x800);
     ((TObject *)arg0)->queue_destruction();
   }
+}
+
+// The loader's file names are local statics of inline accessors, so the loader addresses each by its own
+// symbol (not through the unit's .rodata base). They follow the unit's other .rodata, so they are defined last.
+inline const char *dubchik_bml_filename() {
+    static const char bm_ene_dubchik_a_bml_filename[] = "bm_ene_dubchik_a.bml";
+    return bm_ene_dubchik_a_bml_filename;
+}
+inline const char *dubchik_v2_gvm_filename() {
+    static const char me2_y_me2_z_a_gvm_filename[] = "me2_y_me2_z_a.gvm";
+    return me2_y_me2_z_a_gvm_filename;
+}
+inline const char *dubchik_gvm_filename() {
+    static const char me2_y_me2_z_gvm_filename[] = "me2_y_me2_z.gvm";
+    return me2_y_me2_z_gvm_filename;
 }

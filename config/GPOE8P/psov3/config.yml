@@ -5052,7 +5052,7 @@ force_active:
   - check_timeout__6TLobbyFPv
   - check_trigger__11TOFenceBaseFv
   - check_trigger_flag__15TOTrapAncient01Fll
-  - check_type_and_enabled__11TMainCursorFPvPv
+  - check_type_and_enabled__11TMainCursorFUcUc
   - check_valid_state__6TLobbyFi
   - check_vector_bit__15TObjEneMe1GiGueFP3Vec
   - choose_attack__13TObjEneBm3FlyFPv
@@ -5658,7 +5658,7 @@ force_active:
   - destroy_all_objects__6TLobbyFv
   - destroy_and_free__21TObjEneRe2Flower_BombFs
   - destroy_and_mark_done__11TAdSEGAlogoFv
-  - destroy_arrays__14TPlyDispConfigFii
+  - __dt__18TPlyDispConfigSmthFv
   - destroy_char_data_array__10TObjPlayerFv
   - destroy_children__15TBoss3VoloptP02Fv
   - destroy_city_vertical_model__FPvs

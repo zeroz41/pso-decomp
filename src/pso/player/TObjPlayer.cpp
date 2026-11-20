@@ -377,8 +377,6 @@ void TObjPlayer__sub_801BF690(u8 *arg0) {
 
 int TObjPlayer__sub_801BF8CC(void* p);
 int reset__8FlagWordFv(void*);
-int get_enabled__11TMainCursorFv(void*);
-int get_type__11TMainCursorFv(void*);
 
 f32 TObjPlayer__sub_801BF6B0(void* p) { return *(f32*)((char*)p + 0x8); }
 void* TObjPlayer__sub_801BF6B8(void* p) { return (char*)p + 0xc; }
@@ -386,8 +384,8 @@ void TObjPlayer__sub_801BF6C0(void* p, f32 v) { *(f32*)((char*)p + 0x8) = v; }
 void TObjPlayer__sub_801BF6C8(void* p, f32 a, f32 b) { *(f32*)((char*)p + 0xc) = a; *(f32*)((char*)p + 0x10) = b; }
 void TObjPlayer__sub_801BF6D4(void* p, s16 v) { *(s16*)((char*)p + 0x0) = v; }
 void TObjPlayer__sub_801BF6DC(void* p, s16 v) { *(s16*)((char*)p + 0x2) = v; }
-int TObjPlayer__sub_801BF6E4(void* p) { return get_enabled__11TMainCursorFv((char*)p + 0x4); }
-int TObjPlayer::update_main_cursor() { return get_type__11TMainCursorFv((char*)this + 0x4); }
+u8 TObjPlayer__sub_801BF6E4(void* p) { return ((TMainCursor *)((char*)p + 0x4))->get_enabled(); }
+u8 TObjPlayer::update_main_cursor() { return ((TMainCursor *)((char*)this + 0x4))->get_type(); }
 void*TObjPlayer::reset_sub_status_disp() { ((TWindowSubStatusDisp *)this)->clear_fields(); *(short*)((char*)this + 0x18) = 0; *(short*)((char*)this + 0x16) = 0; return this; }
 s32 TObjPlayer::update_timer() {
     s32 temp_r0;
@@ -453,7 +451,7 @@ extern RecoveredGlobal_lbl_804C3E50 lbl_804C3E50;
 void TObjPlayer::init_tag() {
     s32 *arg0 = (s32 *)this;
     *arg0 = 0;
-    init__6gc_tagFv((char *)arg0 + 4);
+    init__6gc_tagFv((gc_tag *)((char *)arg0 + 4));
 }
 
 void TObjPlayer::reset_counter_field4() {
@@ -470,7 +468,7 @@ void TObjPlayer::set_pos_z(f32 v) { *(f32*)((char*)this + 0x8) = v; }
 u8 *TObjPlayer__sub_801BF9F0(u8 *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 8) = &lbl_804C3E50.value;
-        TPlyDispConfig::free_if_valid((s32)(arg0 + 4), -1);
+        __dt__6gc_tagFv((gc_tag *)(arg0 + 4), -1);
         if (arg1 > 0) {
             ::operator delete((arg0));
         }
@@ -620,7 +618,7 @@ void TObjPlayer::setup_state_helper() { ((FlagWord *)this)->reset(); }
 u8 *TObjPlayer::init_subobject() {
     u8 *arg0 = (u8 *)this;
     *(s32 * *)&this->m_prev = &lbl_804C3E50.value;
-    init_gc_tag((s32)(arg0 + 4));
+    __ct__6gc_tagFv((gc_tag *)(arg0 + 4));
     *(s32 *)((s8 *)arg0 + 0) = 0;
     return arg0;
 }

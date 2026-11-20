@@ -6,6 +6,8 @@
 #include "pso/ui/TLevelSelect.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/vector.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/player/TForceOperate.h"
 
 struct Ent_801BC194 { u8 pad[0x14]; };
 
@@ -23,20 +25,16 @@ s32 has_active_camera_event__10TObjPlayerFv(void *);
 u8 *find_player_arrival_set(void *, s32);
 s32 TObjPlayer__sub_801BF954(void *, int);
 s32 TObjPlayer__sub_801BF95C(void *);
-s32 TForceOperate__ct(void *, s32, u16);
 s32 clear_movement_history(void *);
 s32 TObjPlayer__sub_801D8C3C(void *);
 u8 *get_lobby_entry_ptr__10TObjPlayerFv(void *);
-void *__nw__7TObjectFUl(u32);
 void *consume_telepipe_arrival(u16, void *);
 extern Ent_801BC194 TObjPlayer__arrival_override_table[];
 extern s32 local_client_id;
-extern s32 tl_02;
 extern const f32 TObjPlayer__data_805DC278;
 
 void TObjPlayer::place_on_area_entry() {
     u8 *arg0 = (u8 *)this;
-    void *obj;
     void *p;
     Ent_801BC194 *e;
     u8 *other;
@@ -49,10 +47,7 @@ void TObjPlayer::place_on_area_entry() {
         this->rotation_y = TObjPlayer__sub_801D8C3C(arg0);
         TObjPlayer::play_effect_default((int)arg0, (int)0x1E);
         TObjPlayer::set_camera_mode(3);
-        obj = __nw__7TObjectFUl(0x24);
-        if (obj != NULL) {
-            TForceOperate__ct(obj, tl_02, get_entity_id(arg0));
-        }
+        new TForceOperate(tl_02, get_entity_id(arg0));
     } else if (((TObjChara *)arg0)->obj_isState2_324() == 0) {
         p = consume_telepipe_arrival(get_entity_id(arg0), (u8 *)&this->rotation_y);
         if (p != NULL) {

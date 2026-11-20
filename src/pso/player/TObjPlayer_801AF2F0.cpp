@@ -1806,7 +1806,6 @@ void publish_actor_light_scalars(u16, f32, f32);
 void bswap_player_data__6TLobbyFi(void *);
 void TObjPlayer__sub_8013A748(void *);
 void try_add_target_candidate__11TMainCursorFPvPvPvPv(void *c, void *self, void *owner, void *p);
-u32 TLockOnCursor__ct(u32, void *, s32);
 u16 get_id__11TMainCursorFv(void* p);
 s32 set_animation__10TObjMotionFs(s32, s32);
 s32 TMainCursor__sub_80154098(int, int, int);
@@ -1924,7 +1923,7 @@ void play_effect_default__10TObjPlayerFii(s32 arg0, s32 arg1);
 void set_move_mode__10TObjPlayerFi(s32 arg0);
 int check_flag_100__10TObjPlayerFPv(void* p);
 void *TObjPlayer__sub_801B57E8(TObjPlayer *player);
-int TObjPlayer__sub_801BF6E4(void *p);
+u8 TObjPlayer__sub_801BF6E4(void *p);
 s32 is_action_channel_available__10TObjPlayerFii(s32 arg0, s32 arg1);
 void TObjPlayer__sub_801B5A44(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 void TObjPlayer__sub_801B5AF8(s32 arg0, s32 arg1);
@@ -2495,23 +2494,12 @@ void TObjPlayer::init_collision_body() {
 int clear_links__10TObjPlayerFPv(void* p) { return clear_collision_bodies__14TObjCollidableFv(p); }
 
 void TObjPlayer::create_lockon_cursor() {
-    u32 var_r31;
-    u32 var_r31_2;
-
     if (is_single_screen() != 0) {
         if ((u32) this->m_424 == 0U) {
-            var_r31 = __nw__7TObjectFUl(0x52C);
-            if (var_r31 != 0U) {
-                var_r31 = TLockOnCursor__ct(var_r31, this, get_entity_id(this));
-            }
-            this->m_424 = var_r31;
+            this->m_424 = (u32)new TLockOnCursor(this, get_entity_id(this));
         }
     } else if (((is_locally_controlled__10TObjPlayerFPv(this) != 0) || (obj_isState3_324__9TObjCharaFv(this) != 0)) && ((u32) this->m_424 == 0U)) {
-        var_r31_2 = __nw__7TObjectFUl(0x52C);
-        if (var_r31_2 != 0U) {
-            var_r31_2 = TLockOnCursor__ct(var_r31_2, this, get_entity_id(this));
-        }
-        this->m_424 = var_r31_2;
+        this->m_424 = (u32)new TLockOnCursor(this, get_entity_id(this));
     }
 }
 

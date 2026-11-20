@@ -18,7 +18,6 @@
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/unk/WindowLayoutRecord.h"
-#include "pso/unk/text_80072004.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
@@ -60,7 +59,6 @@ s32 TObjPlayer__sub_80354D5C(s32 arg0);
 s32 TObjPlayer__sub_80354C7C(s32);
 extern u8 controller_input_state[];
 s32 get_window_layout_position(s32);
-void *__construct_array(void *, void *, void *, u32, u32);
 extern u32 __vt__20TWindowActionPalette[6];
 f32 TWindowSubComCard__sub_80244784(TWindowSubComCard *);
 s32 TWindowSubComCard__sub_802452DC(int);
@@ -69,7 +67,6 @@ s32 TWindowSubComCard__sub_802454E4(int);
 s32 TWindowSubComCard__sub_80245558(void *, void *, void *);
 extern s32 lbl_805D63F0;
 void draw_visible_window_entries(void *, void *, int);
-void __destroy_arr(void *, void *, int, int);
 }
 
 const PaletteItemKind lbl_8044E5E8[13] = {
@@ -145,7 +142,6 @@ WindowDescriptor twindow_action_palette_layout = {
 TWindowActionPalette::TWindowActionPalette(s16 slot) : TWindowBase((u8 *)&twindow_action_palette_layout, (s16)slot, (u8 *)(get_window_layout_position(0x1F))) {
     u32 i;
 
-    __construct_array(this->resources, (void *)init_gc_tag, (void *)TPlyDispConfig::free_if_valid, 4, 3);
     this->m_name = TWindowActionPalette__name;
     if (TCameraCtrl::get_camera_id() > 2) {
         this->scale.x = 0.5f;
@@ -166,9 +162,7 @@ TWindowActionPalette::TWindowActionPalette(s16 slot) : TWindowBase((u8 *)&twindo
     }
 }
 
-TWindowActionPalette::~TWindowActionPalette() {
-    __destroy_arr(resources, (void *)TPlyDispConfig::free_if_valid, 4, 3);
-}
+TWindowActionPalette::~TWindowActionPalette() {}
 
 void TWindowActionPalette::run_task() {
     TObjPlayer *player;
@@ -305,7 +299,7 @@ void TWindowActionPalette::draw_frame(int arg1) {
 void TWindowActionPalette::update_slot_sprites(int idx, u16 mode, u16 slot) {
     TObjPlayer *player;
     Icon_80243630 *help;
-    u8 *cursor;
+    gc_tag *cursor;
 
     player = get_player_by_client_id(m_20);
     if (player != NULL) {
@@ -316,7 +310,7 @@ void TWindowActionPalette::update_slot_sprites(int idx, u16 mode, u16 slot) {
             help->color = 0xFF404040;
         }
         update_palette_item_count_label((TWindowHelpItem *)get_array_entry(lbl_805DCA18[idx]), help, mode, slot, m_20);
-        cursor = resources[idx];
+        cursor = &resources[idx];
         if (mode != ((TMainCursor *)cursor)->get_type() || ((TMainCursor *)cursor)->get_enabled() != slot) {
             ((TWindowActionPalette *)cursor)->set_mode(mode);
             ((TWindowActionPalette *)cursor)->set_slot(slot);

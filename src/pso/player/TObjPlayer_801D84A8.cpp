@@ -1,14 +1,12 @@
 #include "types.h"
 #include "pso/object/warp/TObjWarpBossMulti.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TPlyDispData.h"
 #include "pso/player/TUnk_804C4540.h"
 #include "pso/map/FloorArea.h"
 #include "pso/item/TItemData.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/technique/TTecCtrl.h"
-struct Tag_801D7D4C { u8 d[4]; };
-
-struct Obj_801D7D4C { s32 n; Tag_801D7D4C x[4]; Tag_801D7D4C y[4]; };
 
 struct Tec_801D7DA4 { u8 pad[0x10]; s16 cost; };
 
@@ -22,7 +20,6 @@ struct TObjPlayer_801D8044 {
 };
 
 extern "C" {
-void init__6gc_tagFv(void *);
 u8 get_cast_technique_level(void *, int);
 Tec_801D7DA4 *calc_technique_parameters(s32, s32, s32);
 s32 get_game_play_mode();
@@ -39,13 +36,16 @@ s32 TMainCursor__sub_8013F244(void *);
 s32 fn_8013F24C(void *, s32);
 s32 is_palette_entry_displayable__10TObjPlayerFv(u8 *, u8, u8);
 bool can_use_palette_action__10TObjPlayerFPvUcUc(TObjPlayer_801D8044 *self, u8 kind, u8 arg);
+// Works on a TPlyDispConfigSmth (its layout, and it sits right after
+// TPlyDispConfigSmth::bswap at 0x801D7CF4); owner inferred, not yet moved.
 void TObjPlayer::init_action_config() {
+    TPlyDispConfigSmth *smth = (TPlyDispConfigSmth *)this;
     s32 i;
     i = 0;
-    ((Obj_801D7D4C *)this)->n = 0;
+    smth->m_mbr_0x0 = 0;
     do {
-        init__6gc_tagFv(&((Obj_801D7D4C *)this)->x[i]);
-        init__6gc_tagFv(&((Obj_801D7D4C *)this)->y[i]);
+        smth->m_tags[i].init();
+        smth->m_tags1[i].init();
         i++;
     } while (i < 4);
 }

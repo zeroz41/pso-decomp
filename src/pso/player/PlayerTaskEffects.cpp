@@ -178,7 +178,6 @@ int TObjPlayer__sub_801C6F90(void* p);
 void TObjPlayer__sub_801C6FCC(void* p, f32 v);
 void TObjPlayer__sub_801C6FDC(void);
 void TObjPlayer__sub_801C6FE0(void* p, f32 a, f32 b, f32 c);
-void *__dt__13TForceOperateFv(void *arg0, s16 arg1);
 void set_stat_scale__10TObjPlayerFPvf(void* p, f32 v);
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
@@ -187,12 +186,6 @@ int clear__8FlagWordFUl(void*, int);
 }
 
 
-extern "C" {
-
-
-extern s32 __vt__13TForceOperate[];
-
-}
 
 
 extern "C" {
@@ -285,10 +278,6 @@ extern "C" {
 s32 get_contact_surface_type(s32 arg0);
 }
 
-
-extern "C" {
-void *__dt__13TForceOperateFv(void *arg0, s16 arg1);
-}
 
 
 extern "C" {
@@ -388,12 +377,9 @@ s32 obj_testFlags30__14TObjCollidableFUl(int, int);
 s32 is_inactive__10TObjPlayerFv();
 s32 check_flag_40000__10TObjPlayerFv(int);
 s32 set_flag_2000000_alt__10TObjPlayerFv();
-void *TForceOperate__ct(void *arg0, void *arg1, void *arg2);
 void *find_entity_by_id();
-void fn_8013E020(Obj_8013E020 *self);
 void *get_state__11TMainCursorFv(s32);
 s32 is_target_valid__10TObjPlayerFv();
-void set_field_0__13TForceOperateFs(void *, void *);
 s32 tick_battle_music_timer(Obj_801C5C38 *p);
 s32 get_current_floor();
 s32 is_room_free_of_active_enemies(s32, s32);
@@ -531,20 +517,7 @@ BOOL fn_801C6F2C(u8 *arg0) {
 }
 
 
-extern "C" {
-void *__dt__13TForceOperateFv(void *object, s16 arg1) {
-    if (object != NULL) {
-        *(s32 **)((s8 *)object + 0x18) = __vt__13TForceOperate;
-        TForceOperate::destroy((s32)((s8 *)object + 0x1C), (s16)(-1));
-        __dt__7TObjectFv(object, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(object);
-        }
-    }
-    return object;
-}
-
-}
+TForceOperate::~TForceOperate() {}
 
 
 extern "C" {
@@ -1180,14 +1153,9 @@ void calc_death_pose_height_offset(Out_801C58CC *arg0, Actor_801C58CC *arg1) {
 }
 #pragma pop
 
-void *TForceOperate__ct(void *force_operate, void *arg1, void *arg2) {
-    TForceOperate *self = (TForceOperate *)force_operate;
-    ((void (*)(void *))__ct__7TObjectFP7TObject)(force_operate);
-    *(s32 **)((s8 *)force_operate + 0x18) = __vt__13TForceOperate;
-    fn_8013E020(&self->m_1c);
-    self->m_name = TForceOperate__name;
-    set_field_0__13TForceOperateFs(&self->m_1c, arg2);
-    return force_operate;
+TForceOperate::TForceOperate(TObject *parent, u16 id) : TObject(parent) {
+    m_name = TForceOperate__name;
+    m_1c.set_field_0(id);
 }
 
 void TForceOperate::run_task() {
