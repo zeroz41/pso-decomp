@@ -93,7 +93,7 @@ void TAdRicoRingCtrl__sub_8001BED0(void* p, f32 v) { *(f32*)((char*)p + 0x34) = 
 void TAdRicoRingCtrl::load_static_resource() {
     s32 temp_r3;
     s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
+    temp_r3 = (saddr)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &TAdRicoRingCtrl__resource_descriptor, 0, 0, 0));
@@ -120,7 +120,7 @@ u8 *__ct__11TAdRicoRingFv(u8 *object, void *parent) {
     __ct__7TObjectFP7TObject(object, parent);
     *(s32 **)((s8 *)object + 0x18) = &__vt__11TAdRicoRing.value;
     __ct__8FlagWordFv((object + 0x2C));
-    *(s32 *)((s8 *)object + 0) = (s32) TAdRicoRing__class_name;
+    *(s32 *)((s8 *)object + 0) = (saddr) TAdRicoRing__class_name;
     *(s32 *)((s8 *)object + 0x4C) = get_bml_model((void *)TAdRicoRing__resource_bundle, 0);
     *(s32 *)((s8 *)object + 0x50) = get_bml_texlist((void *)TAdRicoRing__resource_bundle, 0);
     *(f32 *)((s8 *)object + 0x28) = 0.0f;
@@ -210,7 +210,7 @@ void TAdRicoRingCtrl::set_scale4(f32 farg0) {
     this->m_28 = farg0;
 }
 
-void TAdRicoRing::render() { push_matrix(this); TObjFish::set_global_param((s32)(*(void**)((char*)this + 0x50))); post_translate_matrix((char*)this + 0x58); rotate_matrix_zyx((void*)0, (s32)(*(void**)((char*)this + 0x64)), (s32)(*(void**)((char*)this + 0x68)), (s32)(*(void**)((char*)this + 0x6c))); set_chunk_render_flags((s32)((void*)1)); draw_chunk_object((void *)(*(void**)((char*)this + 0x4c))); set_chunk_render_flags((s32)((void*)2)); draw_chunk_object((void *)(*(void**)((char*)this + 0x4c))); clear_chunk_render_flags(); pop_matrix(); }
+void TAdRicoRing::render() { push_matrix(this); TObjFish::set_global_param((saddr)(*(void**)((char*)this + 0x50))); post_translate_matrix((char*)this + 0x58); rotate_matrix_zyx((void*)0, (saddr)(*(void**)((char*)this + 0x64)), (saddr)(*(void**)((char*)this + 0x68)), (saddr)(*(void**)((char*)this + 0x6c))); set_chunk_render_flags((saddr)((void*)1)); draw_chunk_object((void *)(*(void**)((char*)this + 0x4c))); set_chunk_render_flags((saddr)((void*)2)); draw_chunk_object((void *)(*(void**)((char*)this + 0x4c))); clear_chunk_render_flags(); pop_matrix(); }
 
 void TAdRicoRingCtrl::start_anim(f32 farg0) {
     u8 *arg0 = (u8 *)this;
@@ -251,7 +251,7 @@ u8 *TAdRicoRingCtrl__ct(TAdRicoRingCtrl *ad_rico_ring_ctrl, s32 arg1) {
     u32 temp_r3_2;
     __ct__7TObjectFP7TObject((void *)ad_rico_ring_ctrl, (void *)arg1);
     *(s32 **)((s8 *)ad_rico_ring_ctrl + 0x18) = &__vt__15TAdRicoRingCtrl.value;
-    *(s32 *)((s8 *)ad_rico_ring_ctrl + 0) = (s32) TAdRicoRingCtrl__class_name;
+    *(s32 *)((s8 *)ad_rico_ring_ctrl + 0) = (saddr) TAdRicoRingCtrl__class_name;
     ad_rico_ring_ctrl->m_1c = create__15TAdRicoRingCtrlFPv(tl_04);
     temp_r3 = ad_rico_ring_ctrl->m_1c;
     if (temp_r3 != 0U) {
@@ -267,7 +267,7 @@ u8 *TAdRicoRingCtrl__ct(TAdRicoRingCtrl *ad_rico_ring_ctrl, s32 arg1) {
     *(f32 *)((s8 *)ad_rico_ring_ctrl + 0x24) = 1.0f;
     ad_rico_ring_ctrl->m_28 = 0.0f;
     Vec pos = { 1.8f, 0.3f, -5.0f };
-    ad_rico_ring_ctrl->sub_8001B424((s32)&pos);
+    ad_rico_ring_ctrl->sub_8001B424((saddr)&pos);
     return (u8 *)ad_rico_ring_ctrl;
 }
 

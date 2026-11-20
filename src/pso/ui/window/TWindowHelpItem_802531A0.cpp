@@ -72,12 +72,12 @@ void TWindowHelpItem::init_text(void *str) {
     init_window_layout_entries(((u8 *)this) + 0x24, TWindowHelpItem__description_text_layout, this->m_20);
     *(V3_802531A4 *)(((u8 *)this) + 0xB0) = TWindowHelpItem__description_update_callback;
     e = get_array_entry__11TWindowBaseFi(this, 0);
-    set_text_entry_string(e, (u32)str, 0x20);
+    set_text_entry_string(e, (uaddr)str, 0x20);
     ((TWindowHelpItem *)e)->reset_float_field();
 }
 
 void TWindowHelpItem::update_displayed_item() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     ((TWindowHelpItem *)arg0)->format_description_with_price();
     ((TWindowHelpItem *)arg0)->init_text((void *)(get_shared_text_buffer()));
 }
@@ -89,7 +89,7 @@ void TWindowHelpItem__sub_80253268(u8 *window_base) {
     u8 *temp_r31;
     u8 *temp_r31_2;
     ((TWindowSubStatusDisp *)(&stack.sp8))->clear_fields();
-    temp_r3 = (s32)get_player_by_client_id((*(s16 *)((s8 *)window_base + 0x20)));
+    temp_r3 = (saddr)get_player_by_client_id((*(s16 *)((s8 *)window_base + 0x20)));
     if (temp_r3 != 0) {
         temp_r31 = (u8 *)(temp_r3 + 0x85C);
         if (temp_r31 != NULL) {
@@ -111,7 +111,7 @@ void TWindowHelpItem::update_tech_disk_details() {
     u8 *e4;
     u8 *e5;
     u8 *e6;
-    player = (s32)get_player_by_client_id(this->m_20);
+    player = (saddr)get_player_by_client_id(this->m_20);
     if (player != 0) {
         init_window_layout_entries(((u8 *)this) + 0x24, help_item_tech_disk_window_layout_table, this->m_20);
         *(V3_802532E8 *)(((u8 *)this) + 0xB0) = item_help_tech_disk_stats_callback;
@@ -123,7 +123,7 @@ void TWindowHelpItem::update_tech_disk_details() {
             get_help_text_string(*(*(u8 **)(((u8 *)this) + 0x68) + 4));
             text_builder_append();
         }
-        set_text_entry_string(e0, (u32)((void *)get_shared_text_buffer()), 0x20);
+        set_text_entry_string(e0, (uaddr)((void *)get_shared_text_buffer()), 0x20);
         ((TWindowHelpItem *)e0)->reset_float_field();
         e1 = get_array_entry__11TWindowBaseFi(this, 1);
         e2 = get_array_entry__11TWindowBaseFi(this, 2);
@@ -156,7 +156,7 @@ void TWindowHelpItem::sub_802534B0() {
     *(V3_802534B0 *)(((u8 *)this) + 0xB0) = item_help_description_idle_callback;
     e = get_array_entry__11TWindowBaseFi((void *)this, 0);
     this->format_description_with_price();
-    set_text_entry_string((e), (u32)(get_shared_text_buffer()), 0x20);
+    set_text_entry_string((e), (uaddr)(get_shared_text_buffer()), 0x20);
     ((TWindowHelpItem *)e)->reset_float_field();
     e2 = get_array_entry__11TWindowBaseFi((void *)this, 1);
     *(s32 *)(e2 + 0x10) = calc_display_grade__9TItemDataFv(*(void **)(((u8 *)this) + 0x68));

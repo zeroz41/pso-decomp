@@ -15,7 +15,7 @@ s32 status_disp_texture_handle;
 void TAdSelectTxtSubGC::render_status() {
     begin_screen_draw(1);
     TObjFish::set_global_param(status_disp_texture_handle);
-    set_draw_texture_and_color((s32)(*(void * *)&(*(s16 *)((u8 *)this + 0x20))), (s32)(*(void **)((s8 *)this + 0x80)));
+    set_draw_texture_and_color((saddr)(*(void * *)&(*(s16 *)((u8 *)this + 0x20))), (saddr)(*(void **)((s8 *)this + 0x80)));
     draw_textured_quad_at_depth((f32 *)((char *)this + 68), 0.25f);
     TWindowSubStatusDisp::get_player();
 }
@@ -123,7 +123,7 @@ void * TObjNpcHosa__create(void *arg0) {
     }
     o2 = TObject::operator new(0x3B8);
     if (o2 != NULL) {
-        o2 = TObjNpcHosa__ct((u8 *)o2, (s32)o, (s32)arg0);
+        o2 = TObjNpcHosa__ct((u8 *)o2, (saddr)o, (saddr)arg0);
     }
     return o2;
 }

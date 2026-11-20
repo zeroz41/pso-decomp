@@ -33,7 +33,7 @@ void TWindowSubEquipList::render() {
     draw_window_frame((void *)temp_r3);
     draw_visible_window_entries(this, (void *) (((u8 *)this) + 0x24), temp_r3);
     draw_selected_list_entry(temp_r3);
-    if ((u32) this->status_display != 0U) {
+    if ((uaddr) this->status_display != 0U) {
         forward_render__20TWindowSubStatusDispFv(this->status_display, temp_r3);
     }
 }
@@ -45,5 +45,5 @@ TWindowSubEquipList::~TWindowSubEquipList() {}
 
 TWindowSubEquipList::TWindowSubEquipList(u8 *parent, s32 client) : TWindowMenuIconLine(parent, 8, client) {
     m_name = TWindowSubEquipList__class_name;
-    ensure_status_display((s32)TWindowSubStatusDisp::get_message_10(0x25));
+    ensure_status_display((saddr)TWindowSubStatusDisp::get_message_10(0x25));
 }

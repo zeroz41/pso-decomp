@@ -169,7 +169,7 @@ void TWindowInputNumber::create(s32 arg1) {
     u32 var_r0;
 
     if ((u32) this->unknown70 == 0U) {
-        var_r0 = (int)::operator new(0x24);
+        var_r0 = (saddr)::operator new(0x24);
         if (var_r0 != 0U) {
             u32 saved = var_r0;
             var_r0 = construct_type1_heading__20TWindowSubStatusDispFll(saved, arg1, this->clientIndex);
@@ -296,7 +296,7 @@ void TWindowInputNumber::render() {
     TWindowInputNumber *arg0 = this;
     s32 ctx;
 
-    ctx = ((TWindowBase *)arg0)->setup_window_draw_context((s32)((u8 *)arg0 + 0x74));
+    ctx = ((TWindowBase *)arg0)->setup_window_draw_context((saddr)((u8 *)arg0 + 0x74));
     ((TWindowBase *)arg0)->draw_window_frame((void *)ctx);
     draw_visible_window_entries(arg0, (u8 *)arg0 + 0x24, ctx);
     draw_arrows__18TWindowInputNumberFv(arg0, (Ctx_802563A0 *)ctx, (Digit_802561E8 *)((TWindowBase *)arg0)->get_array_entry(arg0->selectedDigit), arg0->is_confirmed());
@@ -323,30 +323,30 @@ void TWindowInputNumber::run_task() {
     if ((((TWindowInputNumber *)arg0)->is_confirmed() == 0) && !(*(u16 *)((s8 *)arg0 + 0x60) & 0x40) && (((TWindowBase *)arg0)->sub_80244994() != 0)) {
         if (*(u16 *)((s8 *)arg0 + 0x60) & 0x10) {
             input = (u8 *)controller_input_state + (temp_r30 * 0x50) + 0x20;
-            if ((TWindowChoiceSetting::apply_choice((s32)input, 0x10, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x10) != 0)) {
+            if ((TWindowChoiceSetting::apply_choice((saddr)input, 0x10, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x10) != 0)) {
                 ((TWindowInputNumber *)arg0)->update_value();
             }
-            if ((TWindowChoiceSetting::apply_choice((s32)input, 0x20, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x20) != 0)) {
+            if ((TWindowChoiceSetting::apply_choice((saddr)input, 0x20, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x20) != 0)) {
                 ((TWindowInputNumber *)arg0)->update();
             }
-            if ((TWindowChoiceSetting::apply_choice((s32)input, 0x40, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x40) != 0)) {
+            if ((TWindowChoiceSetting::apply_choice((saddr)input, 0x40, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x40) != 0)) {
                 ((TWindowInputNumber *)arg0)->move_cursor_next();
             }
-            if ((TWindowChoiceSetting::apply_choice((s32)input, 0x80, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x80) != 0)) {
+            if ((TWindowChoiceSetting::apply_choice((saddr)input, 0x80, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x80) != 0)) {
                 ((TWindowInputNumber *)arg0)->handle_decrement();
             }
         } else {
             temp_r29_2 = (u8 *)controller_input_state + (temp_r30 * 0x50) + 0x20;
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)temp_r29_2, 0x10, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x10) != 0)) {
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)temp_r29_2, 0x10, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x10) != 0)) {
                 ((TWindowInputNumber *)arg0)->update_value();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)temp_r29_2, 0x20, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x20) != 0)) {
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)temp_r29_2, 0x20, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x20) != 0)) {
                 ((TWindowInputNumber *)arg0)->update();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)temp_r29_2, 0x40, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x40) != 0)) {
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)temp_r29_2, 0x40, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x40) != 0)) {
                 ((TWindowInputNumber *)arg0)->move_cursor_next();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)temp_r29_2, 0x80, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x80) != 0)) {
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)temp_r29_2, 0x80, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x80) != 0)) {
                 ((TWindowInputNumber *)arg0)->handle_decrement();
             }
         }
@@ -401,5 +401,5 @@ s32 TWindowInputNumber::is_locked(s32 arg1) {
     if (this->inputFlags & 0x20) {
         return 0;
     }
-    return TWindowChoiceSetting::apply_choice((s32)(controller_input_state + 0x160), (s32)arg1, 6, 1);
+    return TWindowChoiceSetting::apply_choice((saddr)(controller_input_state + 0x160), (s32)arg1, 6, 1);
 }

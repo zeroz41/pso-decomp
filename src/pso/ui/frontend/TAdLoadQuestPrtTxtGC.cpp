@@ -143,5 +143,5 @@ s32 get_or_create_prt_txt__14TAdLoadQuestGCFii(s32 parent, s32 slot) {
     if (quest_load_prt_txt_by_slot[slot] == NULL) {
         quest_load_prt_txt_by_slot[slot] = new TAdLoadQuestPrtTxtGC((TObject *)parent, slot);
     }
-    return (s32)quest_load_prt_txt_by_slot[slot];
+    return (saddr)quest_load_prt_txt_by_slot[slot];
 }

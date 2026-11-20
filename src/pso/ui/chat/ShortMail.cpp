@@ -97,7 +97,7 @@ void TLobby__sub_802258C8(void) {
   {
     if (((s32)is_flag_set__6TLobbyFPv(var_r30)) != 0)
     {
-      TLobby__sub_80225C8C((void*)((int) var_r30));
+      TLobby__sub_80225C8C((void*)((saddr) var_r30));
     }
     var_r31 += 1;
     var_r30 = (s32 *) (((u8 *) var_r30) + 0xD0);
@@ -173,7 +173,7 @@ void remove_short_mail_by_id(u32 id) {
 void TLobby::remove_entry_at(s32 idx) {
     if (idx < 7) {
         L_80225AD8 *p = &((L_80225AD8 *)&lbl_80513F70)[idx];
-        ((TLobby *)p)->move_words((u32 *)(p + 1), (s32)((void *)(((7 - idx) * sizeof(L_80225AD8)) >> 2)));
+        ((TLobby *)p)->move_words((u32 *)(p + 1), (saddr)((void *)(((7 - idx) * sizeof(L_80225AD8)) >> 2)));
     }
     ((L_80225AD8 *)&lbl_80513F70)[7].flags &= ~1;
     (*(s32 *)&lobby_short_mail_entry_count) = (*(s32 *)&lobby_short_mail_entry_count) - 1;

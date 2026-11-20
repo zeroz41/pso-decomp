@@ -61,7 +61,7 @@ void return_to_city_after_defeat(void);
 LAYOUT_ASSERT(RecoveredGlobal_8026D18C_lbl_80515BA0_size, sizeof(RecoveredGlobal_8026D18C_lbl_80515BA0) == 0x28);
 void return_to_city_after_defeat(void) {
     if (((s32) lbl_805D55C0 != 1) && ((s32) (*(s32 *)&TWindowReturnCity__client_scan_index) < 4)) {
-        if (((s32)get_player_by_client_id((s32)((u32) (*(s32 *)&TWindowReturnCity__client_scan_index)))) != 0U) {
+        if (((saddr)get_player_by_client_id((s32)((u32) (*(s32 *)&TWindowReturnCity__client_scan_index)))) != 0U) {
             prepare_hospital_return__10TObjPlayerFv();
         }
         set_area__6TLobbyFl(&lbl_80515BA0.value, 0, (int) (get_floor_map_terrain(0)));
@@ -138,7 +138,7 @@ u8 *TWindowReturnCity__ct(TWindowReturnCity *window_return_city, s32 arg1, s32 a
   s32 temp_r31;
   __ct__7TObjectFP7TObject((void *) window_return_city, (void *) arg1);
   *((s32 **) (((s8 *) window_return_city) + 0x18)) = __vt__17TWindowReturnCity;
-  *((s32 *) (((s8 *) window_return_city) + 0)) = (s32) TWindowReturnCity__class_name;
+  *((s32 *) (((s8 *) window_return_city) + 0)) = (saddr) TWindowReturnCity__class_name;
   window_return_city->m_24 = arg2;
   temp_r31 = create__19TWindowMessageYesNoFPvPvPvPv((void *) window_return_city, window_return_city->m_24, 0, 0);
   window_return_city->m_1c = temp_r31;
@@ -146,7 +146,7 @@ u8 *TWindowReturnCity__ct(TWindowReturnCity *window_return_city, s32 arg1, s32 a
   {
   }
   temp_r31 = get_window_layout_position(0x23);
-  forward_slot_selection__16TAdChrSelASlotGCFPvPv(window_return_city->m_1c, (int) TWindowSubStatusDisp::get_message_10(0x43), (int) temp_r31, 206.0f);
+  forward_slot_selection__16TAdChrSelASlotGCFPvPv(window_return_city->m_1c, (saddr) TWindowSubStatusDisp::get_message_10(0x43), (int) temp_r31, 206.0f);
   free_member__17TWindowSubComCardFv(window_return_city->m_1c, 1);
   fn_8024AC64((window_return_city->m_24));
   TWindowCtrl::set_close_flag();

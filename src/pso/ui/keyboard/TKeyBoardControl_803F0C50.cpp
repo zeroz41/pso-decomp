@@ -247,7 +247,7 @@ s32 TKeyBoardControl__sub_803F0E90(s32 arg0, void *arg1) {
         return ret;
     }
     p->x3 = 0xFF;
-    return TKeyBoardControl::start_get_type_async(arg0, 1, 3, (s32)TKeyBoardControl::detect_device_type);
+    return TKeyBoardControl::start_get_type_async(arg0, 1, 3, (saddr)TKeyBoardControl::detect_device_type);
 }
 
 s32 TKeyBoardControl::disable_all_channels() {

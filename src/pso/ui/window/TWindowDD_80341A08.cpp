@@ -29,7 +29,7 @@ void TWindowDD_WS_Word::render() {
     s32 idx;
     s32 i;
     s32 j;
-    entry = (WindowDrawContext *)TWindowDD::draw_default_entry((s32)self);
+    entry = (WindowDrawContext *)TWindowDD::draw_default_entry((saddr)self);
     self->calc_inner_rect((u8 *)entry);
     TWindowDD__sub_80341674(self, entry);
     if (self->m_8c != 0) {
@@ -521,7 +521,7 @@ s32 TWindowDD__sub_80342384(s32 element_list, s32 rows) {
     if (window != NULL) {
         window = TWindowDD__sub_803422F0(window, element_list, rows);
     }
-    return (s32)window;
+    return (saddr)window;
 }
 
 

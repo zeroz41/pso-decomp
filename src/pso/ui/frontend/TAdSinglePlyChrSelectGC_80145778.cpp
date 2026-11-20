@@ -94,7 +94,7 @@ void load_menu_font(void) {
     u32 u;
     u32 v;
     TLobby::load_font_texture();
-    menu_font_glyph_data = (s32)load_disc_file("S18all04.fon");
+    menu_font_glyph_data = (saddr)load_disc_file("S18all04.fon");
     TLobby::release_menu_font();
     for (i = 0; i < 2; i++) {
         ((TObjPlayer *)(menu_font_render_rects + i))->set_render_rect(0, 0x208, 0x100, 0x100);
@@ -111,7 +111,7 @@ void load_menu_font(void) {
     menu_font_palette[1] = 0x3FFF;
     menu_font_palette[2] = 0x5FFF;
     menu_font_palette[3] = 0x7FFF;
-    TObjFish::set_global_param((s32)menu_font_texture_list);
+    TObjFish::set_global_param((saddr)menu_font_texture_list);
     for (i = 0; i < 2; i++) {
         TLanguage::set_entry_index(i, 0);
     }

@@ -194,7 +194,7 @@ void TWindowLockOn::run_task() {
 void TWindowLockOn::render() {
     s32 context;
 
-    context = setup_window_draw_context((s32)&m_68);
+    context = setup_window_draw_context((saddr)&m_68);
     draw_window_frame((void *)context);
     if (m_30 == m_40 && m_34 == m_44 && m_38 == m_48 && m_3c == m_4c) {
         draw_visible_window_entries(this, &m_24, context);
@@ -349,7 +349,7 @@ void TWindowLockOn::update_for_enemy(TObjChara *enemy) {
         kind = 4;
     }
     e = get_array_entry(2);
-    TWindowDuelResult::set_default_status((void *)e, (s32)type_names[kind]);
+    TWindowDuelResult::set_default_status((void *)e, (saddr)type_names[kind]);
     ((TWindowHelpItem *)e)->reset_float_field();
     ((LockOnEntryText *)e)->y = 10.0f + (f32)width;
     ((LockOnEntryColor *)e)->color = type_colors[kind];

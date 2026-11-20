@@ -120,12 +120,12 @@ extern "C" void update_com_card_display(ComCardDisplay *arg0, void *arg1) {
     t10 = s->t10;
     t4 = s->t4;
     t14 = s->t14;
-    set_text_entry_string((u8 *)t0, (u32)((void *)((TLobby *)arg1)->get_com_card_list()), 0x220);
+    set_text_entry_string((u8 *)t0, (uaddr)((void *)((TLobby *)arg1)->get_com_card_list()), 0x220);
     n = TWindowComCard__sub_80249C20(arg1);
     if (n > 5) {
         n = 5;
     }
-    TWindowDuelResult::set_default_status(tC, (s32)com_card_status_text_table[n]);
+    TWindowDuelResult::set_default_status(tC, (saddr)com_card_status_text_table[n]);
     n = TWindowSubComCard__sub_8007B6EC(arg1);
     if (n > 0xC) {
         n = 0xC;
@@ -143,7 +143,7 @@ extern "C" void update_com_card_display(ComCardDisplay *arg0, void *arg1) {
         } else {
             text_builder_reset();
             text_builder_append_int(id);
-            set_text_entry_string((u8 *)t4, (u32)((void *)get_shared_text_buffer()), 0x20);
+            set_text_entry_string((u8 *)t4, (uaddr)((void *)get_shared_text_buffer()), 0x20);
             refresh_status_display__9TWindowDDFv(t4);
             t4->x = 198.0f - t4->w;
             t4->flags &= ~2;
@@ -151,7 +151,7 @@ extern "C" void update_com_card_display(ComCardDisplay *arg0, void *arg1) {
     } else {
         t4->flags |= 2;
     }
-    set_text_entry_string((u8 *)t14, (u32)((void *)((TWindowComCard *)arg1)->get_kbd_ptr()), 0x220);
+    set_text_entry_string((u8 *)t14, (uaddr)((void *)((TWindowComCard *)arg1)->get_kbd_ptr()), 0x220);
 }
 
 extern "C" {
@@ -164,7 +164,7 @@ void TWindowComCard__sub_80249920(s32 arg0, s32 arg1, s32 arg2) {
 }
 
 void TWindowComCard::set_display_value(s32 arg1, s32 arg2) {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     s32 temp = arg2 + (arg1 << 8);
     if (temp != 0) {
         update_com_card_display((ComCardDisplay *)(arg0 + 0x24), (void *)temp);
@@ -200,13 +200,13 @@ u8 *TWindowComCard::create_for_card(s32 arg0, s32 arg1, s32 arg2) {
 void *TWindowComCard::create(void *arg0, void *arg1) {
     void *x0;
     void *o;
-    x0 = (void *)get_card_entry__17TWindowSubComCardFi((s32)arg1);
+    x0 = (void *)get_card_entry__17TWindowSubComCardFi((saddr)arg1);
     if (x0 == NULL) {
         return NULL;
     }
     o = TObject::operator new(0x60);
     if (o != NULL) {
-        o = TWindowComCard__ct((u8 *)o, (s32)arg0, (s32)x0);
+        o = TWindowComCard__ct((u8 *)o, (saddr)arg0, (saddr)x0);
     }
     return o;
 }
@@ -222,10 +222,10 @@ s32 TWindowSubComCard::create_com_card_window(s32 arg0) {
     if (TWindowSubComCard__sub_8007B070(keyboard_mode) != 0) {
         ((TWindowSubComCard *)keyboard_mode)->clear_and_init((void *)local_client_id);
     }
-    window_dd = ((s32)TObject::operator new(0x60));
+    window_dd = ((saddr)TObject::operator new(0x60));
     var_r0 = window_dd;
     if (var_r0 != 0) {
-        var_r0 = ((s32)TWindowComCard__ct((u8 *)window_dd, (s32)arg0, (s32)keyboard_mode));
+        var_r0 = ((saddr)TWindowComCard__ct((u8 *)window_dd, (s32)arg0, (s32)keyboard_mode));
     }
     return var_r0;
 }
@@ -253,7 +253,7 @@ void *__dt__14TWindowComCardFv(void *arg0, s16 arg1) {
 u8 *TWindowComCard__ct(u8 *window_dd, s32 arg1, s32 arg2) {
     __ct__11TWindowBaseFPUcsPUc(window_dd, (u8 *)&TWindowComCard__window_desc, (s16)4, (u8 *)arg1);
     *(s32 **)((s8 *)window_dd + 0x18) = (s32 *)__vt__14TWindowComCard;
-    *(s32 *)((s8 *)window_dd + 0) = (s32) TWindowComCard__class_name;
+    *(s32 *)((s8 *)window_dd + 0) = (saddr) TWindowComCard__class_name;
     update_com_card_display((ComCardDisplay *)(window_dd + 0x24), (void *)arg2);
     return window_dd;
 }
@@ -265,7 +265,7 @@ s8 TWindowComCard__sub_80249C20(void* p) { return *(s8*)((char*)p + 0x8d); }
 extern u8 *text_language_group_table;
 s32 get_class_name_text(s32 arg0);
 s32 get_class_name_text(s32 arg0) {
-    return *(s32 *)((s8 *)(*(s32 *)((s8 *)text_language_group_table + 0x1C)) + (arg0 * 4));
+    return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x1C)) + (arg0 * 4));
 }
 
 s32 get_status_effect_icon_index(u32 arg0);
@@ -374,9 +374,9 @@ struct Obj054_80249DE4 { char pad[0x38]; u32 field38; };
 void request_active_window_close(void);
 
 void TUnk_804CE964::render() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     s8 *tmp = (s8 *)draw_default_entry__9TWindowDDFl();
-    ((s32 (*)(s32, s32, s32))draw_visible_window_entries)(arg0, arg0 + 0x24, (s32)tmp);
+    ((s32 (*)(s32, s32, s32))draw_visible_window_entries)(arg0, arg0 + 0x24, (saddr)tmp);
 }
 
 void TUnk_804CE964::run_task() {
@@ -387,7 +387,7 @@ void TUnk_804CE964::run_task() {
     temp_f1 = *(f32 *)((s8 *)temp_r4 + 0x44);
     this->m_34 = (f32) (temp_f1 + this->m_68);
     this->m_44 = (f32) this->m_34;
-    ((s32 (*)(void *, int, f32))initialize_subwindow__9TWindowDDFv)((void *)arg0, (int)temp_r4, (f32)temp_f1);
+    ((s32 (*)(void *, int, f32))initialize_subwindow__9TWindowDDFv)((void *)arg0, (saddr)temp_r4, (f32)temp_f1);
     ((TWindowBase *)arg0)->update_fade();
     ((TWindowBase *)arg0)->update_window_entry_list(arg0 + 0x24);
 }

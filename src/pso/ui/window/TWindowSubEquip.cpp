@@ -25,7 +25,7 @@ void TWindowSubEquip::update() {
     s32 var_r3;
     s32 slot;
 
-    player = (s32)get_player_by_client_id(this->m_28);
+    player = (saddr)get_player_by_client_id(this->m_28);
     if (player != 0) {
         slot = ((TWindowMenuIconLine *)this->m_34)->get_cursor_value();
         if (TObjPlayer::get_slot_value((s32 *)(player + 0xD04), slot) == 0U) {

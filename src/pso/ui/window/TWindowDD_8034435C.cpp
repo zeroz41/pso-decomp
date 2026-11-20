@@ -57,7 +57,7 @@ s16 TWindowDD__sub_8034435C(u8 *window_dd, u32 arg1, s32 arg2, s32 value_index) 
     s16 v;
     switch (arg1) {
     case 0:
-        v = TWindowDD_read_indexed_value(TWindowDD__sub_80346DB8((s32)window_dd), value_index);
+        v = TWindowDD_read_indexed_value(TWindowDD__sub_80346DB8((saddr)window_dd), value_index);
         if (v == -0x1E) {
             switch (get_word_select_context__9TWindowDDFv(window_dd)) {
             case 1:
@@ -144,7 +144,7 @@ s16 TWindowDD__sub_80344568(u8 *window_dd, u32 arg1, s32 arg2, s32 value_index) 
     s16 v;
     switch (arg1) {
     case 0:
-        v = TWindowDD_read_indexed_value(TWindowDD__sub_80346DB8((s32)window_dd), value_index);
+        v = TWindowDD_read_indexed_value(TWindowDD__sub_80346DB8((saddr)window_dd), value_index);
         if (v == -0x1E) {
             switch (get_word_select_context__9TWindowDDFv(window_dd)) {
             case 1:
@@ -231,7 +231,7 @@ s16 TWindowDD__sub_80344774(u8 *window_dd, u32 arg1, s32 arg2, s32 value_index) 
     s16 v;
     switch (arg1) {
     case 0:
-        v = TWindowDD_read_indexed_value(TWindowDD__sub_80346DB8((s32)window_dd), value_index);
+        v = TWindowDD_read_indexed_value(TWindowDD__sub_80346DB8((saddr)window_dd), value_index);
         if (v == -0x1E) {
             switch (get_word_select_context__9TWindowDDFv(window_dd)) {
             case 1:
@@ -1212,7 +1212,7 @@ s16 TWindowDD__sub_80346434(u8 *window_dd, u32 arg1, s32 arg2, s32 value_index) 
     s16 v;
     switch (arg1) {
     case 0:
-        v = TWindowDD_read_indexed_value(TWindowDD__sub_80346DB8((s32)window_dd), value_index);
+        v = TWindowDD_read_indexed_value(TWindowDD__sub_80346DB8((saddr)window_dd), value_index);
         if (v == -0x1E) {
             switch (get_word_select_context__9TWindowDDFv(window_dd)) {
             case 1:
@@ -1301,7 +1301,7 @@ s32 TWindowDD__sub_80346640(u8 *arg0, u32 arg1, s32 arg2, s32 value_index) {
 
     switch (arg1) {
     case 0:
-        var_r31 = ((s16 (*)(s32, s32))TWindowDD_read_indexed_value)(TWindowDD__sub_80346DB8((s32) arg0), value_index);
+        var_r31 = ((s16 (*)(s32, s32))TWindowDD_read_indexed_value)(TWindowDD__sub_80346DB8((saddr) arg0), value_index);
         if (var_r31 == -0x1E) {
             switch (((int (*)(u8 *)) get_word_select_context__9TWindowDDFv)(arg0)) {
             case 1:

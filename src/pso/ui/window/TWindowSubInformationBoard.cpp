@@ -89,7 +89,7 @@ TWindowSubInformationBoard::~TWindowSubInformationBoard() {
         ((TWindowBase *)this->menu_window)->close();
         this->menu_window = 0;
     }
-    TWindowSubInformationBoard::clear_if_current((u32)&this->m_40);
+    TWindowSubInformationBoard::clear_if_current((uaddr)&this->m_40);
 }
 
 extern "C" {
@@ -123,7 +123,7 @@ void TWindowSubInformationBoard::run_task() {
         }
         break;
     case 3:
-        TLobby::init_once_data((u32)((void *) ((u8 *)arg0 + 0x40)));
+        TLobby::init_once_data((uaddr)((void *) ((u8 *)arg0 + 0x40)));
         this->m_1c = 4U;
     case 4:
         if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)controller_input_state + 0x20), 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)controller_input_state + 0x160), 2) != 0)) {
@@ -136,7 +136,7 @@ void TWindowSubInformationBoard::run_task() {
         }
         break;
     case 5:
-        TWindowSubInformationBoard::clear_if_current((u32)((void *) ((u8 *)arg0 + 0x40)));
+        TWindowSubInformationBoard::clear_if_current((uaddr)((void *) ((u8 *)arg0 + 0x40)));
         this->m_1c = 1U;
         break;
     case 6:
@@ -167,7 +167,7 @@ void TWindowSubInformationBoard::run_task() {
             this->menu_window = 0U;
         }
         if ((u32) this->keyboard == 0U) {
-            this->keyboard = TWindowSubInformationBoard::open_keyboard((s32)((void *)arg0));
+            this->keyboard = TWindowSubInformationBoard::open_keyboard((saddr)((void *)arg0));
         }
         this->m_1c = 0xAU;
     case 10:
@@ -176,7 +176,7 @@ void TWindowSubInformationBoard::run_task() {
             break;
         }
         if (((TKeyBoardControl *)(this->keyboard))->is_confirmed() != 0) {
-            temp_r30 = (s32)((TKeyBoardControl *)(this->keyboard))->realloc_buffer();
+            temp_r30 = (saddr)((TKeyBoardControl *)(this->keyboard))->realloc_buffer();
             set_info_board_text__6TLobbyFv();
             TLobby::flush_pending_send();
             mem_free((void *)temp_r30);
@@ -203,17 +203,17 @@ u32 TWindowSubInformationBoard::create_info_board_menu() {
   temp_r31 = draw_card_icon__17TWindowSubComCardFll(get_window_layout_position(0xA4), 2, TWindowSubStatusDisp::get_message_10(0x1D));
   if (get_main_phase() == 0xF)
   {
-    forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, (int) TWindowSubStatusDisp::get_message_10(0x117), 6, 3);
+    forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, (saddr) TWindowSubStatusDisp::get_message_10(0x117), 6, 3);
   }
   else
   {
-    TWindowSubComCard::draw_text_gray((s32) temp_r31, (s32) TWindowSubStatusDisp::get_message_10(0x117), 6, 3);
+    TWindowSubComCard::draw_text_gray((saddr) temp_r31, (saddr) TWindowSubStatusDisp::get_message_10(0x117), 6, 3);
   }
-  forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, (int) TWindowSubStatusDisp::get_message_10(0x118), 6, 9);
+  forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, (saddr) TWindowSubStatusDisp::get_message_10(0x118), 6, 9);
   ((TWindowSubComCardList *)temp_r31)->set_flag70_bit10();
   ((TWindowSubComCardList *)temp_r31)->update_layout_height(179.0f);
-  align_menu_entry_positions((int) temp_r31);
-  return (u32)temp_r31;
+  align_menu_entry_positions((saddr) temp_r31);
+  return (uaddr)temp_r31;
 }
 
 u32 TWindowSubInformationBoard::sub_8034CDE0() {
@@ -230,7 +230,7 @@ u32 TWindowSubInformationBoard::sub_8034CDE0() {
     it = ((L_8034CDE0 *)it)->items;
     for (i = 0; i < n; i++, it++) {
         if (it->f10 != 0) {
-            forward_trade_action_default__16TObjCityMainWarpFPviii(w, (int)it, 0x16, (int)i);
+            forward_trade_action_default__16TObjCityMainWarpFPviii(w, (saddr)it, 0x16, (int)i);
         } else {
             draw_text_gray__17TWindowSubComCardFllll(w, it, 0x16, i);
         }
@@ -240,29 +240,29 @@ u32 TWindowSubInformationBoard::sub_8034CDE0() {
     }
     ((TWindowSubComCardList *)w)->set_flag70_bit10();
     ((TWindowSubComCardList *)w)->set_scroll_target(223.0f, 184.0f);
-    return (u32)w;
+    return (uaddr)w;
 }
 
 u32 TWindowSubInformationBoard::open_card_info_window() {
     static const f32 size[2] = {188.0f, 160.0f};
     u8 *window;
-    window = TWindowMessage::create((void *)get_window_layout_position(0xA5), (s32)size, 1);
+    window = TWindowMessage::create((void *)get_window_layout_position(0xA5), (saddr)size, 1);
     this->shown_index = -1;
-    return (u32)window;
+    return (uaddr)window;
 }
 
 u32 TWindowSubInformationBoard::show_card_a7() {
     static const f32 size[2] = {206.0f, 180.0f};
     u8 *window;
-    window = TWindowMessage::create((void *)get_window_layout_position(0xA7), (s32)size, 1);
+    window = TWindowMessage::create((void *)get_window_layout_position(0xA7), (saddr)size, 1);
     this->shown_index = -1;
-    return (u32)window;
+    return (uaddr)window;
 }
 
 s32 TWindowSubInformationBoard::open_keyboard(s32 arg0) {
     s32 keyboard;
 
-    keyboard = (s32)new TKeyBoardControl((TObject *)arg0, 0xC6, 5, 4, local_client_id);
+    keyboard = (saddr)new TKeyBoardControl((TObject *)arg0, 0xC6, 5, 4, local_client_id);
     ((TKeyBoardControl *)keyboard)->set_text((char *)TLobby::get_card_window_field());
     ((TKeyBoardControl *)keyboard)->set_sub_position((u8 *)(get_window_layout_position(0xBB)));
     ((TKeyBoardControl *)keyboard)->set_flag62_bit2();
@@ -274,7 +274,7 @@ void TWindowSubInformationBoard::set_message_index(s32 index) {
     static const s32 message_ids[3] = {0x119, 0x11A, 0};
     if ((s32) this->shown_index != index) {
         this->shown_index = index;
-        ((TWindowMessage *)(this->message_window))->append_line((s32)TWindowSubStatusDisp::get_message_10(message_ids[index]), 0x80);
+        ((TWindowMessage *)(this->message_window))->append_line((saddr)TWindowSubStatusDisp::get_message_10(message_ids[index]), 0x80);
     }
 }
 

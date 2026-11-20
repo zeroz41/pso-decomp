@@ -349,7 +349,7 @@ void TKeyBoardControl::update_input_frame() {
     if (is_split_screen() == 0) {
         key_board_control = controller_input_state.pad_160;
         ((TKeyBoardControl *)key_board_control)->poll_key_state();
-        update_button_hold_counters((int)key_board_control);
+        update_button_hold_counters((saddr)key_board_control);
     }
 }
 #pragma push
@@ -477,7 +477,7 @@ void controller_stuff(void) {
                     }
                     pad->ang0 = (u16)a;
                     pad->ang1 = (u16)b;
-                    update_button_hold_counters((int)pad);
+                    update_button_hold_counters((saddr)pad);
                 } else {
                     pad->hold = (*(Src_801A5F1C *)&controller_default_pad_state).b0;
                     pad->rel = (*(Src_801A5F1C *)&controller_default_pad_state).b1;

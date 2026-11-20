@@ -52,10 +52,10 @@ KeyboardTextBuffer::KeyboardTextBuffer() {
 }
 
 int TEF_LensFlare::is_player_near(f32 farg0) {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     u32 player;
 
-    player = (u32)get_player_by_client_id(local_client_id);
+    player = (uaddr)get_player_by_client_id(local_client_id);
     if (player == 0U) {
         return 0;
     }

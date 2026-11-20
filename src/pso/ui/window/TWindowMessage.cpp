@@ -364,19 +364,19 @@ u8 *TWindowMessage::create(s32 arg0, const f32 *size, u32 arg2, s32 arg3) {
 }
 
 u8 *TWindowMessage::create(void *arg0, s32 arg1, s32 arg2) {
-    return TWindowMessage::create((s32)arg0, (const f32 *)arg1, (u32)arg2, 4);
+    return TWindowMessage::create((saddr)arg0, (const f32 *)arg1, (u32)arg2, 4);
 }
 
 void TLobby::update_window_mode_from_progress(void *arg1) {
-    s32 arg0 = (s32)this;
-    TWindowMessage::create((void *)arg0, (s32)arg1, (s32)((s32)((s32) TWindowSubStatusDisp::round_away_from_zero((*(f32 *)((s8 *)arg1 + 4) - 2e+01f) / 2e+01f) + 2)));
+    s32 arg0 = (saddr)this;
+    TWindowMessage::create((void *)arg0, (saddr)arg1, (s32)((s32)((s32) TWindowSubStatusDisp::round_away_from_zero((*(f32 *)((s8 *)arg1 + 4) - 2e+01f) / 2e+01f) + 2)));
 }
 
 s32 TLobby__sub_80269DA4(NJS_POINT2 size, void *arg1) {
     NJS_POINT2 *dst = (NJS_POINT2 *)&message_window_settings;
     dst->x = size.x;
     dst->y = size.y;
-    message_window_layout_entries.rows = (u32)arg1;
+    message_window_layout_entries.rows = (uaddr)arg1;
 }
 
 s32 get_draw_context__11TWindowBaseFPv();
@@ -386,7 +386,7 @@ extern s32 __vt__14TWindowMessage[];
 
 void TWindowMessage::render() {
     s32 temp_r3;
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     temp_r3 = get_draw_context__11TWindowBaseFPv();
     ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
     draw_visible_window_entries((void *)arg0, (void *)(arg0 + 0x24), (int)temp_r3);

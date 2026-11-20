@@ -124,7 +124,7 @@ void render__18TWindowPartyStatusFv(s32 arg0) {
 }
 
 void TWindowPartyStatus::run_task() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     update_lockon_window();
     draw();
     update_status_help_item((arg0));
@@ -141,7 +141,7 @@ TWindowPartyStatus::~TWindowPartyStatus() {
 u8 *TWindowPartyStatus__ct(u8 *window_party_status, s32 arg1, s32 arg2) {
     TWindowSimpleStatus__ct((void *)window_party_status, (int) (get_window_layout_position(0xAB)), (void *)local_client_id, (void *)arg2);
     *(s32 **)((s8 *)window_party_status + 0x18) = __vt__18TWindowPartyStatus;
-    *(s32 *)((s8 *)window_party_status + 0) = (s32) ((s32)TWindowPartyStatus__name);
+    *(s32 *)((s8 *)window_party_status + 0) = (s32) ((saddr)TWindowPartyStatus__name);
     ((TWindowPartyStatus *)window_party_status)->m_20 = arg1;
     return window_party_status;
 }
@@ -156,7 +156,7 @@ void *create_party_status_window(s32 arg0) {
     u32 slot = (u32)(g + n) & 3;
     o = TObject::operator new(0x78);
     if (o != NULL) {
-        o = TWindowPartyStatus__ct((u8 *)o, slot, (s32)&party_status_window_params);
+        o = TWindowPartyStatus__ct((u8 *)o, slot, (saddr)&party_status_window_params);
     }
     return o;
 }

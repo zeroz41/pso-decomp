@@ -46,7 +46,7 @@ s32 draw_visible_window_entries(s32, s32, s32);
 s32 draw_default_entry__9TWindowDDFl();
 
 void TWindowBreakIn::render() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     s32 tmp = draw_default_entry__9TWindowDDFl();
     draw_visible_window_entries(arg0, arg0 + 0x24, tmp);
 }

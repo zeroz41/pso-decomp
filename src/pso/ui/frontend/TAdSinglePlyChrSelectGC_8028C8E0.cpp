@@ -156,10 +156,10 @@ s32 TAdSinglePlyChrSelectGC::load_preview_models() {
     Sel_8028C9B0 *self = (Sel_8028C9B0 *)this;
     for (i = 0; i < 6; i++) {
         len = 0;
-        p = (u32)TLobby__sub_801E38A0((s32)(((TAdSinglePlyChrSelectGC *)(self->f74[i]))->get_result()), &len, &tag, (s32 *)(0), (s32 *)(0));
+        p = (uaddr)TLobby__sub_801E38A0((s32)(((TAdSinglePlyChrSelectGC *)(self->f74[i]))->get_result()), &len, &tag, (s32 *)(0), (s32 *)(0));
         if (p == 0 || tag != 0x4E4A544C) return;
         TAdSinglePlyChrSelectGC::safe_free(p);
-        bufs[i] = (u32)TLobby__sub_801E38A0((s32)(((TAdSinglePlyChrSelectGC *)(self->f74[i]))->get_result()), &len, &tag, (s32 *)(0), (s32 *)(0));
+        bufs[i] = (uaddr)TLobby__sub_801E38A0((s32)(((TAdSinglePlyChrSelectGC *)(self->f74[i]))->get_result()), &len, &tag, (s32 *)(0), (s32 *)(0));
         if (bufs[i] == 0 || tag != 0x4E4A434D) {
             for (i = 0; i < 6; i++) TAdSinglePlyChrSelectGC::safe_free(bufs[i]);
             return;

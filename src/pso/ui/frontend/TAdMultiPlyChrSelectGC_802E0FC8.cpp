@@ -18,7 +18,7 @@ s32 get_or_create_player__22TAdMultiPlyChrSelectGCFiiii(s32 parent, s32 mode, s3
     if (multi_chr_select_player_slot_table[slot] == NULL) {
         multi_chr_select_player_slot_table[slot] = new TUnk_804E3008((TObject *)parent, mode, index, slot);
     }
-    return (s32)multi_chr_select_player_slot_table[slot];
+    return (saddr)multi_chr_select_player_slot_table[slot];
 }
 
 void TAdChrSelPlayerGC__sub_802E10A0(void) {

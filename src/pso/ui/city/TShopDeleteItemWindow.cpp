@@ -208,9 +208,9 @@ void TShopDeleteItemWindow::sub_80337E2C() {
         for (i = 0; i < 200; i++) {
             if (copy_bank_item_with_stack_limit(i, &item, &count, base) != 0) {
                 if (count > 1) {
-                    ((TWindowSubStatusDisp *)win->f30)->add_item_info_entry((s32)&item, i, count);
+                    ((TWindowSubStatusDisp *)win->f30)->add_item_info_entry((saddr)&item, i, count);
                 } else {
-                    ((TWindowSubStatusDisp *)win->f30)->add_item_info_entry((s32)&item, i, 0);
+                    ((TWindowSubStatusDisp *)win->f30)->add_item_info_entry((saddr)&item, i, 0);
                 }
             }
         }
@@ -225,9 +225,9 @@ void TShopDeleteItemWindow::sub_80337E2C() {
         for (j = 0; j < 200; j++) {
             if (copy_bank_item_with_stack_limit(j, &item, &count, base) != 0) {
                 if (count > 1) {
-                    ((TWindowSubStatusDisp *)win->f30)->add_item_info_entry((s32)&item, j, count);
+                    ((TWindowSubStatusDisp *)win->f30)->add_item_info_entry((saddr)&item, j, count);
                 } else {
-                    ((TWindowSubStatusDisp *)win->f30)->add_item_info_entry((s32)&item, j, 0);
+                    ((TWindowSubStatusDisp *)win->f30)->add_item_info_entry((saddr)&item, j, 0);
                 }
             }
         }
@@ -242,11 +242,11 @@ void TShopDeleteItemWindow::sub_80337E2C() {
             if (win->f3c != NULL && TLobby::is_camera_ctrl_active() > 2) {
                 ((TLobby *)win->f3c)->set_position(0.75f, 0.75f);
             }
-            ((TWindowHelpItem *)win->f3c)->set_displayed_item_colored((u32)win->f40);
+            ((TWindowHelpItem *)win->f3c)->set_displayed_item_colored((uaddr)win->f40);
             win->f60 = cursor;
         }
     } else if (copy_item_record__18TCheckRoomSequenceFiPvi(cursor, win->f40, base) != 0) {
-        ((TWindowHelpItem *)win->f3c)->set_displayed_item_colored((u32)win->f40);
+        ((TWindowHelpItem *)win->f3c)->set_displayed_item_colored((uaddr)win->f40);
         win->f60 = cursor;
     }
     ((TShopWindowBase *)win)->set_field_20(1);
@@ -271,7 +271,7 @@ s32 TShopDeleteItemWindow::update_item_select(void *arg0) {
         cursor = ((TWindowMenuIconLine *)self->f30)->get_cursor_value();
         if (self->f3c != NULL && cursor != self->f60) {
             if (copy_item_record__18TCheckRoomSequenceFiPvi(cursor, self->f40, base) != 0) {
-                ((TWindowHelpItem *)(self->f3c))->set_displayed_item_colored((u32)self->f40);
+                ((TWindowHelpItem *)(self->f3c))->set_displayed_item_colored((uaddr)self->f40);
             }
             self->f60 = cursor;
         }
@@ -293,7 +293,7 @@ s32 TShopDeleteItemWindow::update_item_select(void *arg0) {
                 ((TShopWindowBase *)self)->set_field_20(2);
             } else {
                 id = get_entity_id(self->item);
-                self->f34 = create_yes_no_window((s32)(get_window_layout_position(0x2B)), id, 0, 0);
+                self->f34 = create_yes_no_window((saddr)(get_window_layout_position(0x2B)), id, 0, 0);
                 ((TCheckRoomSequence *)(self->f34))->set_ready_flag();
                 ((TWindowSubComCardList *)(self->f34))->set_selected_index(1);
                 ((TWindowAddition *)(self->f34))->set_position_xy(((TShopWindowBase *)self)->get_scale(), ((TShopWindowBase *)self)->get_scale());
@@ -313,7 +313,7 @@ void TShopDeleteItemWindow::handle_number_input() {
     if (*(void **)(((u8 *)this) + 0x38) != 0 && ((TWindowInputNumber *)(*(void **)(((u8 *)this) + 0x38)))->is_confirmed() != 0) {
         if (*(void **)(((u8 *)this) + 0x34) == 0) {
             u32 id = get_entity_id(*(void **)(((u8 *)this) + 0x24));
-            *(void **)(((u8 *)this) + 0x34) = create_yes_no_window((s32)(get_window_layout_position(0x2B)), id, 0, 0);
+            *(void **)(((u8 *)this) + 0x34) = create_yes_no_window((saddr)(get_window_layout_position(0x2B)), id, 0, 0);
             ((TCheckRoomSequence *)(*(void **)(((u8 *)this) + 0x34)))->set_ready_flag();
             ((TWindowSubComCardList *)(*(void **)(((u8 *)this) + 0x34)))->set_selected_index(1);
             ((TWindowAddition *)(*(void **)(((u8 *)this) + 0x34)))->set_position_xy(get_scale(), get_scale());

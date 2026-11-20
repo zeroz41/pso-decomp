@@ -142,12 +142,12 @@ void TWindowSoundBalance::sub_8027095C() {
 void TWindowSoundBalance::handle_lr_input() {
     u8 *input;
     input = (u8 *)&controller_input_state.controllers[0];
-    if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)input, 0x30, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state.keyboard)), 0x30, 6, 1) != 0)) {
+    if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)input, 0x30, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((saddr)((void *) ((u8 *)&controller_input_state.keyboard)), 0x30, 6, 1) != 0)) {
         play_sound_effect(0x54100, (s32)(0U), 0, 0);
-        if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)input, 0x10, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state.keyboard)), 0x10, 6, 1) != 0)) {
+        if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)input, 0x10, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((saddr)((void *) ((u8 *)&controller_input_state.keyboard)), 0x10, 6, 1) != 0)) {
             this->selection = (this->selection - 1);
         }
-        if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)input, 0x20, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state.keyboard)), 0x20, 6, 1) != 0)) {
+        if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)input, 0x20, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((saddr)((void *) ((u8 *)&controller_input_state.keyboard)), 0x20, 6, 1) != 0)) {
             this->selection = (this->selection + 1);
         }
         if ((s8) this->selection < 0) {
@@ -163,9 +163,9 @@ void TWindowSoundBalance::handle_lr_input() {
 #pragma opt_common_subs off
 void TWindowSoundBalance::render() {
     TWindowSoundBalance *self = this;
-    WindowDrawContext *entry = (WindowDrawContext *)TWindowDD::draw_default_entry((s32)self);
+    WindowDrawContext *entry = (WindowDrawContext *)TWindowDD::draw_default_entry((saddr)self);
     self->draw_window_frame(entry);
-    draw_visible_window_entries((s32)self, (s32)&self->m_24, entry);
+    draw_visible_window_entries((saddr)self, (saddr)&self->m_24, entry);
     entry->inner_x += 174.0f;
     entry->inner_w -= 348.0f;
     self->apply_balance(entry);

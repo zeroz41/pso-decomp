@@ -141,7 +141,7 @@ TChCrLoadAfsTextureReq::TChCrLoadAfsTextureReq(TObject *parent, void *args) : TO
 }
 
 TChCrLoadAfsTextureReq *create_ch_cr_load_afs_texture_req(void *parent, void *textures, void *arg2, void *arg3) {
-    return new TChCrLoadAfsTextureReq((TObject *)parent, (GinjaTextureList *)textures, (s32 *)arg2, (s32)arg3);
+    return new TChCrLoadAfsTextureReq((TObject *)parent, (GinjaTextureList *)textures, (s32 *)arg2, (saddr)arg3);
 }
 
 void *TChCrLoadAfsTextureReq::create(void *parent, void *args) {

@@ -325,8 +325,8 @@ void *TCMCharacter__ct(void *motion, void *arg1) {
     cm = creation_player_character;
     char_select_active_flag = 0;
     char_creation_figure_draw_flag = 0;
-    creation_figure_object = (u32)motion;
-    res = (s32)(int)::operator new(0x440);
+    creation_figure_object = (uaddr)motion;
+    res = (s32)(saddr)::operator new(0x440);
     if (res != 0) {
         res = load_resource_from_descriptor(res, 6, ((s32 *)character_making_resource_descriptor_table)[((TCharaMaking *)cm)->get_display_index()], 0, 0, 0);
     }
@@ -343,11 +343,11 @@ void *TCMCharacter__ct(void *motion, void *arg1) {
     char_select_current_entry = 0;
     ((void (*)(int))TAdSinglePlyChrSelectGC__sub_8028ED54)(0);
     char_select_current_entry = 0;
-    ((TObjMotion *)motion)->set_field_d8((s32)((void *)character_making_action_table));
+    ((TObjMotion *)motion)->set_field_d8((saddr)((void *)character_making_action_table));
     ((TObjMotion *)motion)->set_field_dc(*(s32 *)((s8 *)creation_menu_main_obj + 0x430));
     ((TObjMotion *)motion)->requested_action = creation_motion_group(creation_player_character);
     ((TObjMotion *)motion)->set_animation(((TObjMotion *)motion)->requested_action);
-    *(s32 *)((s8 *)motion + 0xE0) = (s32)mem_alloc(0xC00);
+    *(s32 *)((s8 *)motion + 0xE0) = (saddr)mem_alloc(0xC00);
     *(f32 *)((s8 *)motion + 0x40) = 0.0f;
     *(f32 *)((s8 *)motion + 0x3C) = 0.0f;
     *(f32 *)((s8 *)motion + 0x38) = 0.0f;
@@ -377,7 +377,7 @@ u8 *TAdSinglePlyChrSelectGC__sub_802908CC(u8 *arg0, s16 arg1) {
         (*(s32 *)&chara_select_hair_node_b) = 0;
         (*(s32 *)&chara_select_hair_node_a) = 0;
         ((TAdSinglePlyChrSelectGC *)arg0)->m_34 = 0;
-        mem_free((void *)(*(s32 *)((s8 *)arg0 + 0xE0)));
+        mem_free((void *)(*(saddr *)((s8 *)arg0 + 0xE0)));
         creation_resource_ready_state = 0;
         creation_figure_object = 0;
         lbl_805D49B4 = 0;
@@ -466,7 +466,7 @@ void reset_creation_head_shapes() {
   s32 i = 0;
   do
   {
-    reset_creation_shape_set((s32)p);
+    reset_creation_shape_set((saddr)p);
     ++i;
     ++p;
   }
@@ -478,7 +478,7 @@ void reset_creation_head_shapes() {
     s32 j = 0;
     do
     {
-      reset_creation_shape_set((s32)q);
+      reset_creation_shape_set((saddr)q);
       ++j;
       ++q;
     }
@@ -498,7 +498,7 @@ void reset_creation_body_shapes() {
   s32 i = 0;
   do
   {
-    reset_creation_shape_set((s32)p);
+    reset_creation_shape_set((saddr)p);
     ++i;
     ++p;
   }
@@ -510,7 +510,7 @@ void reset_creation_body_shapes() {
     s32 j = 0;
     do
     {
-      reset_creation_shape_set((s32)q);
+      reset_creation_shape_set((saddr)q);
       ++j;
       ++q;
     }
@@ -551,7 +551,7 @@ void TAdSinglePlyChrSelectGC::reset_creation_parts() {
 }
 void load_creation_shape_rel(W_80290250 *arg0) {
     s32 rc;
-    arg0->bufp = (s32)TQuestVmDownLoadServer::alloc(0x44000);
+    arg0->bufp = (saddr)TQuestVmDownLoadServer::alloc(0x44000);
     rc = TLobby::request_file_read((s32)(chara_select_creation_shape_rel_files[((TCharaMaking *)(*(void * *)&creation_player_character))->get_display_index()]), (s32)arg0->bufp, (s32 *)arg0->data, (void **)0);
     arg0->rc = rc;
     if (rc >= 0) {
@@ -677,11 +677,11 @@ void TAdSinglePlyChrSelectGC::draw_creation_figure() {
         push_matrix();
         translate_matrix_vec3(0, ((u8 *)this) + 0x38);
         rotate_matrix_y(0, creation_figure_rotation_y);
-        TObjFish::set_global_param((s32)((u8 *)char_select_current_entry + 0x460));
+        TObjFish::set_global_param((saddr)((u8 *)char_select_current_entry + 0x460));
         this->draw_player_model();
         ((TObjMotion *)((u8 *)this))->get_item_ptr(0x3A);
         push_matrix_from();
-        TObjFish::set_global_param((s32)((u8 *)char_select_current_entry + 0x2EC));
+        TObjFish::set_global_param((saddr)((u8 *)char_select_current_entry + 0x2EC));
         TObjPlayer::play_phase_transition_sound(creation_head_model_parts[*(s16 *)((s8 *)char_select_current_entry + 0xA)].model);
         pop_matrix();
         v = creation_cap_model_parts[*(s16 *)((s8 *)char_select_current_entry + 0xC)].model;
@@ -689,7 +689,7 @@ void TAdSinglePlyChrSelectGC::draw_creation_figure() {
             TCharaMaking::enable_making();
             ((TObjMotion *)((u8 *)this))->get_item_ptr(0x3B);
             push_matrix_from();
-            TObjFish::set_global_param((s32)((u8 *)char_select_current_entry + 0x178));
+            TObjFish::set_global_param((saddr)((u8 *)char_select_current_entry + 0x178));
             TObjPlayer::play_phase_transition_sound(v);
             pop_matrix();
             TCharaMaking::clear_flag_bit0();
@@ -699,7 +699,7 @@ void TAdSinglePlyChrSelectGC::draw_creation_figure() {
             TCharaMaking::enable_making();
             ((TObjMotion *)((u8 *)this))->get_item_ptr(0x3B);
             push_matrix_from();
-            TObjFish::set_global_param((s32)((u8 *)char_select_current_entry + 0x178));
+            TObjFish::set_global_param((saddr)((u8 *)char_select_current_entry + 0x178));
             TCharaMaking::setup_from_data(v, creation_player_character);
             pop_matrix();
             TCharaMaking::clear_flag_bit0();
@@ -790,7 +790,7 @@ void TAdSinglePlyChrSelectGC::get_sorted_region_samples(s32 *samples) {
     s32 x;
     s32 i;
     TCharaMaking__sub_8028E3A0();
-    map_shape_region_samples((s32)(((void *)find_shape_triangle_region((u8 *)this))), (s32 *)samples);
+    map_shape_region_samples((saddr)(((void *)find_shape_triangle_region((u8 *)this))), (s32 *)samples);
     for (i = 0; i < 2; i++) {
         for (j = 2; j > i; j--) {
             x = samples[j];
@@ -1092,7 +1092,7 @@ s32 TAdSinglePlyChrSelectGC::evict_char_entries(s32 arg0) {
 }
 void TAdSinglePlyChrSelectGC::update_char_panels() {
     u8 *arg0 = (u8 *)this;
-    if (((s32) this->m_down != 0) && ((s32) this->m_up != 0)) {
+    if (((saddr) this->m_down != 0) && ((saddr) this->m_up != 0)) {
         release_texture_list(arg0 + 0x178);
     }
     if (((s32) *(s32 *)((s8 *)arg0 + 0x188) != 0) && ((s32) *(s32 *)((s8 *)arg0 + 0x184) != 0)) {

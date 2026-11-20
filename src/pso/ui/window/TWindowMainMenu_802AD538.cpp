@@ -399,7 +399,7 @@ loop_3:
 #pragma pop
 
 s32 TWindowMainMenu::find_free_slot() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     s32 counter;
     s32 ptr;
 
@@ -501,12 +501,12 @@ void TWindowMainMenu::set_target_y(f32 farg0) {
 }
 
 void TWindowMainMenu::update_scaled_position() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     set_target_y(16.0f * (f32) ((s32 (*)())count_active_items__15TWindowMainMenuFi)());
 }
 
 void TWindowMainMenu::draw_entries_reversed(u8 *arg1) {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     s32 var_r31;
     u8 *var_r30;
     var_r30 = (u8 *)(arg0 + 0x10C);

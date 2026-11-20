@@ -184,7 +184,7 @@ void TWindowActionPalette::run_task() {
         state = 3;
     }
     help = (u8 *)get_array_entry(0);
-    TWindowHelpItem::set_help_text((s32)help, m_20);
+    TWindowHelpItem::set_help_text((saddr)help, m_20);
     cnt = state;
     if ((s8)cnt > 0) {
         state = cnt - 1;
@@ -227,7 +227,7 @@ void TWindowActionPalette::run_task() {
 }
 
 void TWindowActionPalette::render() {
-    s32 context = setup_window_draw_context((s32)&scale);
+    s32 context = setup_window_draw_context((saddr)&scale);
     draw_visible_window_entries(this, &children, context);
     draw_frame(context);
 }
@@ -245,7 +245,7 @@ void TWindowActionPalette::draw_frame(int arg1) {
     scale = TWindowSubComCard__sub_80244784((TWindowSubComCard *)this);
     depth = (-1.0f) / this->m_54;
     begin_screen_draw(1);
-    TObjFish::set_global_param((s32)((void *)lbl_805D63F0));
+    TObjFish::set_global_param((saddr)((void *)lbl_805D63F0));
     set_draw_texture_and_color(2, ctx->tex);
     if (is_split_screen() == 0) {
         r1.x0 = 640.0f - 71.0f * scale;
@@ -304,7 +304,7 @@ void TWindowActionPalette::update_slot_sprites(int idx, u16 mode, u16 slot) {
     player = get_player_by_client_id(m_20);
     if (player != NULL) {
         help = (Icon_80243630 *)get_array_entry(lbl_805DCA10[idx]);
-        if (is_action_channel_available__10TObjPlayerFii((s32)player, (s32)lbl_805DCA14[idx]) != 0) {
+        if (is_action_channel_available__10TObjPlayerFii((saddr)player, (s32)lbl_805DCA14[idx]) != 0) {
             help->color = -1;
         } else {
             help->color = 0xFF404040;
@@ -452,7 +452,7 @@ void update_palette_item_count_label(TWindowHelpItem *window_help_item, Icon_802
         return;
     }
     if (index >= 0xD) {
-        p = (u32)get_player_by_client_id(client_id);
+        p = (uaddr)get_player_by_client_id(client_id);
         if (p == 0) {
             v = 0;
         } else {
@@ -480,7 +480,7 @@ s32 get_palette_consumable_count(u16 slot, s32 client_id) {
         return -1;
     }
     if (slot >= 13) {
-        if (clamp_char_at__10TObjPlayerFl((u32)player + 0x7C4, slot - 13) > 0) {
+        if (clamp_char_at__10TObjPlayerFl((uaddr)player + 0x7C4, slot - 13) > 0) {
             return slot;
         }
         return -1;

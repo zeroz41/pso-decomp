@@ -93,9 +93,9 @@ void TWindowMainMenu1P::vfunc_6() {
         player = (u8 *)(get_player_by_client_id(*(u32 *)((s8 *)arg0 + 0x54)));
         if (player != NULL) {
             if (((TObjPlayer *)player)->is_android() != 0) {
-                ((TWindowMainMenu *)arg0)->open((s32)main_menu_1p_android_entries);
+                ((TWindowMainMenu *)arg0)->open((saddr)main_menu_1p_android_entries);
             } else {
-                ((TWindowMainMenu *)arg0)->open((s32)main_menu_1p_entries);
+                ((TWindowMainMenu *)arg0)->open((saddr)main_menu_1p_entries);
             }
             ((TWindowMainMenu1P *)arg0)->create_char_select_slot();
             this->vfunc_7();

@@ -37,7 +37,7 @@ void TWindowMessagePage::update_message() {
     if ((u32) this->m_94 != 0U) {
         text_builder_reset();
         this->m_94 = copy_message_page_text__20TWindowSubStatusDispFv(this->m_94);
-        append_line((int)get_shared_text_buffer(), *(s32 *)((s8 *)this + 0x90));
+        append_line((saddr)get_shared_text_buffer(), *(s32 *)((s8 *)this + 0x90));
     }
 }
 
@@ -93,7 +93,7 @@ TWindowMessagePage::~TWindowMessagePage() {
 u8 *TWindowMessagePage__ct(u8 *window_message_page, s32 arg1, s32 arg2, s32 arg3) {
     TWindowMessage__ct((window_message_page), (arg1), (arg2), (arg3));
     *(s32 **)((s8 *)window_message_page + 0x18) = __vt__18TWindowMessagePage;
-    *(s32 *)((s8 *)window_message_page + 0) = (s32) ((s32)TWindowMessagePage__name);
+    *(s32 *)((s8 *)window_message_page + 0) = (s32) ((saddr)TWindowMessagePage__name);
     *(s32 *)((s8 *)window_message_page + 0x90) = 0;
     ((TWindowMessagePage *)window_message_page)->m_20 = (s16) arg3;
     ((TWindowMessagePage *)window_message_page)->m_94 = 0;

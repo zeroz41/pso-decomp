@@ -103,7 +103,7 @@ s32 TWindowSubComCard::get_com_count() {
 }
 void TWindowSubComCard::release() {
     if ((u32) (*(u32 *)&lbl_805D4E5C) != 0U) {
-        ::operator delete((void *)(*(u32 *)&lbl_805D4E5C));
+        ::operator delete((void *)(*(uaddr *)&lbl_805D4E5C));
         (*(u32 *)&lbl_805D4E5C) = 0U;
     }
 }
@@ -119,7 +119,7 @@ void TWindowSubComCard__sub_800778B4(Out_800778B4 *arr, Tbl_800777C4 *arg1) {
     Out_800778B4 *dst;
     Ent_800777C4 *e;
     S_80077840 tmp[5];
-    copy_struct28__17TWindowSubComCardFii((s32) tmp, (s32) arr);
+    copy_struct28__17TWindowSubComCardFii((saddr) tmp, (saddr) arr);
     TWindowSubComCard__sub_80077980((S_80077980 *) arr);
     n = arg1->count;
     dst = arr;

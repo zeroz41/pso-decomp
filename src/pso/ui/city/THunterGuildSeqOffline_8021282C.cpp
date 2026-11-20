@@ -98,7 +98,7 @@ void THunterGuildSeqOffline::handle_cancel_choice() {
                 this->display_guild_message(9, 1);
                 *(s32 *)&this->unk_38 = 1;
                 if ((s32) *(s32 *)((s8 *)&THunterGuildSeqOffline__quest_result_callbacks + 8) != -1) {
-                    this->m_34 = (s32)TQuestThread::create_in_root(*(s32 *)((s8 *)&THunterGuildSeqOffline__quest_result_callbacks + 8));
+                    this->m_34 = (saddr)TQuestThread::create_in_root(*(s32 *)((s8 *)&THunterGuildSeqOffline__quest_result_callbacks + 8));
                 }
                 ((TShopWindowBase *)arg0)->set_field_20(5);
                 return;
@@ -188,7 +188,7 @@ void THunterGuildSeqOffline::open_quest_list() {
     switch (get_game_play_mode()) {
     case 2:
         list = (List_80212B88 *)TObject::operator new(0x5C);
-        if (list != NULL) list = (List_80212B88 *)TQuestListChallenge__ct((u8 *)list, (s32)tl_05, (s32)self, (s32)self->player);
+        if (list != NULL) list = (List_80212B88 *)TQuestListChallenge__ct((u8 *)list, (s32)tl_05, (saddr)self, (s32)self->player);
         if (list != NULL) {
             list->accepted = THunterGuildSeqOffline::request_close;
             list->cancelled = THunterGuildSeqOffline::set_state_close2;
@@ -197,7 +197,7 @@ void THunterGuildSeqOffline::open_quest_list() {
         break;
     case 1:
         list = (List_80212B88 *)TObject::operator new(0x5C);
-        if (list != NULL) list = (List_80212B88 *)TQuestListChallenge__ct((u8 *)list, (s32)tl_05, (s32)self, (s32)self->player);
+        if (list != NULL) list = (List_80212B88 *)TQuestListChallenge__ct((u8 *)list, (s32)tl_05, (saddr)self, (s32)self->player);
         if (list != NULL) {
             list->accepted = THunterGuildSeqOffline::set_state_4;
             list->cancelled = THunterGuildSeqOffline::set_state_close;

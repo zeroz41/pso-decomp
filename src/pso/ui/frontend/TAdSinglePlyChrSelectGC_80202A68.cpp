@@ -256,7 +256,7 @@ u8 *TAdSinglePlyChrSelectGC::copy_character_data(u8 *arg1) {
     p = d->elems;
     q = s->elems;
     do {
-        TAdSinglePlyChrSelectGC__sub_80076D9C((s32)p, (s32)q);
+        TAdSinglePlyChrSelectGC__sub_80076D9C((saddr)p, (saddr)q);
         p++;
         q++;
     } while (p < d->elems + 20);
@@ -279,7 +279,7 @@ u8 *TAdSinglePlyChrSelectGC::construct_chardata_array() {
     return ((u8 *)this);
 }
 
-void* TAdSinglePlyChrSelectGC__sub_80203158(void* p) { __ct__12TPlyCharDataFv((s32)p); TAdSinglePlyChrSelectGC__sub_80203190((u8 *)((void*)((char*)p + 0x41c))); return p; }
+void* TAdSinglePlyChrSelectGC__sub_80203158(void* p) { __ct__12TPlyCharDataFv((saddr)p); TAdSinglePlyChrSelectGC__sub_80203190((u8 *)((void*)((char*)p + 0x41c))); return p; }
 
 u8 *TAdSinglePlyChrSelectGC__sub_80203190(u8 *arg0) {
     __construct_array(arg0 + 0x450, (void *)TAdSinglePlyChrSelectGC__sub_802115C0, 0, 0x18, 4);
@@ -287,7 +287,7 @@ u8 *TAdSinglePlyChrSelectGC__sub_80203190(u8 *arg0) {
     return arg0;
 }
 
-void*TAdSinglePlyChrSelectGC::init_guild_card_tag() { init_guild_card_tag__17TWindowSubComCardFi((s32)this); return this; }
+void*TAdSinglePlyChrSelectGC::init_guild_card_tag() { init_guild_card_tag__17TWindowSubComCardFi((saddr)this); return this; }
 void TAdSinglePlyChrSelectGC__sub_80203210(void* p) { *(u32*)((char*)p + 0x4) &= 0xfffffff7; }
 
 void TAdSinglePlyChrSelectGC::clear_inventory_slot() {

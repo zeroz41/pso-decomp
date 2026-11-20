@@ -126,7 +126,7 @@ void TAdFadeGC::run_task() {
 }
 
 void TAdFadeGC::start_fade(void *arg1) {
-    switch ((s32)arg1) {
+    switch ((saddr)arg1) {
     case 0:
         break;
     case 1:
@@ -162,7 +162,7 @@ bool TObjTradeCollision::is_player_outside_trade_radius(u32 arg1) {
     f32 temp_f31;
     s32 temp_r31;
     s32 player;
-    player = (s32)get_player_by_client_id(arg1);
+    player = (saddr)get_player_by_client_id(arg1);
     if (player == 0) {
         return 0;
     }

@@ -123,8 +123,8 @@ u8 *TWindowTradeRequest__ct(TWindowTradeRequest *window_trade_request) {
   u8 *window_layout_position;
   __ct__7TObjectFP7TObject();
   *((s32 **) (((s8 *) window_trade_request) + 0x18)) = &(*(RecoveredGlobal_802E02D4___vt__19TWindowTradeRequest *)&__vt__19TWindowTradeRequest).value;
-  *((s32 *) (((s8 *) window_trade_request) + 0)) = (s32) lbl_805D3F70;
-  player = ((s32)get_player_by_client_id(((u32) get_trade_mode__6TLobbyFv())));
+  *((s32 *) (((s8 *) window_trade_request) + 0)) = (saddr) lbl_805D3F70;
+  player = ((saddr)get_player_by_client_id(((u32) get_trade_mode__6TLobbyFv())));
   text_builder_reset();
   new_var = (u32) player;
   if (new_var)
@@ -134,12 +134,12 @@ u8 *TWindowTradeRequest__ct(TWindowTradeRequest *window_trade_request) {
   }
   TWindowSubStatusDisp::get_message_10(0xD9);
   text_builder_append();
-  window_trade_request->m_20 = create__19TWindowMessageYesNoFPvPvPvPv((s32) window_trade_request, local_client_id, 0, 0);
+  window_trade_request->m_20 = create__19TWindowMessageYesNoFPvPvPvPv((saddr) window_trade_request, local_client_id, 0, 0);
   window_layout_position = (u8 *) get_window_layout_position(0xB2);
-  forward_slot_selection__16TAdChrSelASlotGCFPvPv(window_trade_request->m_20, (int) get_shared_text_buffer(), (int) window_layout_position, 260.0f);
+  forward_slot_selection__16TAdChrSelASlotGCFPvPv(window_trade_request->m_20, (saddr) get_shared_text_buffer(), (saddr) window_layout_position, 260.0f);
   new_var2 = ((s8 *) window_trade_request) + 0x1C;
   ((TWindowSubShortMail *)(window_trade_request->m_20))->notify_warp_flag70();
-  if (((s32)get_player_by_client_id(((u32) local_client_id))) != 0U)
+  if (((saddr)get_player_by_client_id(((u32) local_client_id))) != 0U)
   {
     reset_equip_slots__10TObjPlayerFv();
   }

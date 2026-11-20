@@ -163,7 +163,7 @@ void chat_log_remove_line(s32 arg0) {
         ((THeap *)TAdScrollWinGC__chat_log_heap)->heap_free((void *)temp_r4);
         *temp_r31 = 0U;
         if (arg0 < 0x1D) {
-            ((TLobby *)temp_r31)->move_words((u32 *)((u8 *)&chat_log_lines.value + ((arg0 + 1) * 4)), (s32)((void *) ((0x1D - arg0) & 0x3FFFFFFF)));
+            ((TLobby *)temp_r31)->move_words((u32 *)((u8 *)&chat_log_lines.value + ((arg0 + 1) * 4)), (saddr)((void *) ((0x1D - arg0) & 0x3FFFFFFF)));
         }
         *(s32 *)((s8 *)&chat_log_lines.value + 0x74) = 0;
     }
@@ -225,17 +225,17 @@ void chat_log_add_line(const char *text) {
     s32 free_chat_log_slot;
     temp_r29 = strlen(text);
     free_chat_log_slot = TLobby::find_free_chat_log_slot();
-    var_r28 = (s32) heap_alloc__5THeapFUl(TAdScrollWinGC__chat_log_heap, temp_r29 + 1);
+    var_r28 = (saddr) heap_alloc__5THeapFUl(TAdScrollWinGC__chat_log_heap, temp_r29 + 1);
     if (var_r28 == 0) {
         do {
             chat_log_remove_line(0);
-            var_r28 = (s32) heap_alloc__5THeapFUl(TAdScrollWinGC__chat_log_heap, temp_r29 + 1);
+            var_r28 = (saddr) heap_alloc__5THeapFUl(TAdScrollWinGC__chat_log_heap, temp_r29 + 1);
         } while (var_r28 == 0);
         free_chat_log_slot = TLobby::find_free_chat_log_slot();
     }
     temp_r30 = free_chat_log_slot * 4;
     *(s32 *)((s8 *)((u8 *)&chat_log_lines.value + temp_r30) + 0) = var_r28;
-    strncpy((char *)(*(s32 *)((s8 *)((u8 *)&chat_log_lines.value + temp_r30) + 0)), (const char *)text, (int)temp_r29);
+    strncpy((char *)(*(saddr *)((s8 *)((u8 *)&chat_log_lines.value + temp_r30) + 0)), (const char *)text, (int)temp_r29);
     *(s8 *)((s8 *)(temp_r29 + *(s32 *)((s8 *)((u8 *)&chat_log_lines.value + temp_r30) + 0)) + 0) = 0;
 }
 
@@ -254,7 +254,7 @@ extern s32 local_client_id;
 void post_chat_log_message(u16 arg0, s32 *shared_text_buffer) {
     s32 *temp_r31;
     if ((s32) arg0 == (s32) local_client_id) {
-        cache_last_chat_line((u32)shared_text_buffer);
+        cache_last_chat_line((uaddr)shared_text_buffer);
     }
     temp_r31 = get_active_photon_object__17TWindowMessageLogFv(arg0);
     text_builder_reset();
@@ -270,7 +270,7 @@ void post_chat_log_message(u16 arg0, s32 *shared_text_buffer) {
     {
         u32 tmp_ad = TWindowCtrl::get_field44();
         if (tmp_ad != 0U) {
-            ((TWindowMessageLog *)tmp_ad)->append_line((s32) shared_text_buffer);
+            ((TWindowMessageLog *)tmp_ad)->append_line((saddr) shared_text_buffer);
         }
     }
 }
@@ -346,8 +346,8 @@ u8 *TWindowMessageLog__ct(TWindowMessageLog *window_message_log, s32 arg1, s32 a
     s32 var_r0;
     TWindowMessage__ct(((u8 *)window_message_log), (arg1), 0x1E, (arg2));
     *(s32 **)((s8 *)window_message_log + 0x18) = &(*(RecoveredGlobal_8026ABA8___vt__17TWindowMessageLog *)&__vt__17TWindowMessageLog).value;
-    *(s32 *)((s8 *)window_message_log + 0) = (s32) ((s32)TWindowMessageLog__name);
-    TWindowCtrl__sub_8026AD78((s32)window_message_log);
+    *(s32 *)((s8 *)window_message_log + 0) = (s32) ((saddr)TWindowMessageLog__name);
+    TWindowCtrl__sub_8026AD78((saddr)window_message_log);
     temp_f2 = window_message_log->m_38;
     temp_f1 = temp_f2 - 8.0f;
     stack.spC = 0.0f;

@@ -55,7 +55,7 @@ void TWindowDD::build_player_word_lists() {
     list = TWindowDD__word_select_lists->list0;
     list[n++] = 0x2c7;
     for (i = 0; i < 12; i++) {
-        p = (u32)get_player_by_client_id(i);
+        p = (uaddr)get_player_by_client_id(i);
         if (p != 0) {
             strncpy(TWindowDD__player_name_buffers[i], (char *)(p + 0x85c), 0x18);
             if (i != local_client_id) {

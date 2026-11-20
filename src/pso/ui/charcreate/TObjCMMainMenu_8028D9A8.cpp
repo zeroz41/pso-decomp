@@ -93,5 +93,5 @@ void fn_8028DBC4(s32 _w0) {
     character_appearance_fields->section = -1;
 }
 int TAdSinglePlyChrSelectGC__sub_8028DC14(void) { return 1; }
-int TAdSinglePlyChrSelectGC__sub_8028DC1C(void* p) { fn_8028DBC4((s32)p); return 1; }
+int TAdSinglePlyChrSelectGC__sub_8028DC1C(void* p) { fn_8028DBC4((saddr)p); return 1; }
 }

@@ -210,7 +210,7 @@ s32 is_slot_match__6TLobbyFv();
 
 
 void update_all__6TLobbyFi(s32 arg0) {
-    if ((u32) item_appraisal_rules != 0U) {
+    if ((uaddr) item_appraisal_rules != 0U) {
         item_appraisal_score = 0;
         item_appraisal_favored_weapon = is_slot_match__6TLobbyFv();
         adjust_appraisal_special((Obj_8021599C *)arg0);
@@ -220,10 +220,10 @@ void update_all__6TLobbyFi(s32 arg0) {
 }
 
 void TLobby::free_window() {
-    if ((u32) item_appraisal_rules != 0U) {
-        TLobby::free_nodes_with_id((u32)((void*)item_appraisal_rules));
+    if ((uaddr) item_appraisal_rules != 0U) {
+        TLobby::free_nodes_with_id((uaddr)((void*)item_appraisal_rules));
         item_appraisal_rules = 0U;
     }
 }
 }
-void load_judge_item(void) { (*(int *)&item_appraisal_rules) = create_named_object((s32)"JudgeItem.rel"); }
+void load_judge_item(void) { (*(int *)&item_appraisal_rules) = create_named_object((saddr)"JudgeItem.rel"); }

@@ -69,9 +69,9 @@ void TObjNewFloorWin::open_window() {
     }
     if ((u32) *(u32 *)((s8 *)arg0 + 0x20) != 0U) {
         sprintf((char *)(arg0 + 0x2C), "%s %02d", get_message_text(0x67), TObjNewFloorWin__sub_8007410C());
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)(*(u32 *)((s8 *)arg0 + 0x20)), (int)(arg0 + 0x2C), 0, 0);
-        ((TWindowSubComCard *)(*(u32 *)((s8 *)arg0 + 0x20)))->calc_window_size();
-        ((TAdChrSelASlotGC *)(*(u32 *)((s8 *)arg0 + 0x20)))->set_flag_40();
+        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)(*(uaddr *)((s8 *)arg0 + 0x20)), (saddr)(arg0 + 0x2C), 0, 0);
+        ((TWindowSubComCard *)(*(uaddr *)((s8 *)arg0 + 0x20)))->calc_window_size();
+        ((TAdChrSelASlotGC *)(*(uaddr *)((s8 *)arg0 + 0x20)))->set_flag_40();
         fn_800740DC();
         TWindowCtrl::close_active_window();
         TWindowCtrl::ensure_initialized();
@@ -107,7 +107,7 @@ u8 *TLobby::create_new_floor_windows() {
   u8 *var_r0;
   u8 *var_r0_2;
   u8 *var_r31;
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
   if (is_split_screen() == 0)
   {
     temp_r3 = (u8 *) TObject::operator new(0x50);

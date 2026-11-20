@@ -281,7 +281,7 @@ void TWindowKeyBoardBase::sub_8025CFA8(s32 *arg1) {
         TWindowKeyBoardSoft__sub_803E6868(out, tmp);
         return;
     }
-    TWindowKeyBoardSoft::dispatch_request_0x28((s32)out, (s32)((s32 *)tmp));
+    TWindowKeyBoardSoft::dispatch_request_0x28((saddr)out, (saddr)((s32 *)tmp));
     if (strcmp(text, out) != 0) {
         self->sel++;
         self->count++;
@@ -399,7 +399,7 @@ void TWindowKeyBoardBase::append_text_entry(u8 *arg1) {
     u8 *p;
     rec = *(Rec_8025D3CC **)(arg0 + 0xA0);
     idx = rec->len;
-    p = (u8 *)(idx + (s32)rec);
+    p = (u8 *)(idx + (saddr)rec);
     n = TWindowKeyBoardSoft::strnlen((s8 *)arg1, 0x100);
     p[3] = idx;
     p[4] = n;
@@ -502,7 +502,7 @@ void TWindowKeyBoardBase::sub_8025D664() {
             i++;
             if (i > count) {
                 self->buf = rec;
-                TWindowKeyBoardSoft::dispatch_request_0x23((s32)name, (s32)text);
+                TWindowKeyBoardSoft::dispatch_request_0x23((saddr)name, (saddr)text);
                 ((TWindowKeyBoardBase *)self)->sub_8025CF50(self->sel);
                 return;
             }
@@ -1024,7 +1024,7 @@ void TWindowKeyBoardBase::render() {
     s32 temp_r31;
 
     if ((sub_8025EB68() == 0) && ((sub_8025CB10() != 0) || (this->m_62 & 2))) {
-        temp_r31 = TWindowDD::draw_default_entry((s32)this);
+        temp_r31 = TWindowDD::draw_default_entry((saddr)this);
         if (this->m_62 & 2) {
             draw_window_frame((void *)temp_r31);
         }
@@ -1059,7 +1059,7 @@ TWindowKeyBoardBase::TWindowKeyBoardBase() : TWindowBase((u8 *)&TWindowKeyBoardB
     *(s32 *)&((TWindowKeyBoardBase *)self)->m_ac = 0;
     if (temp_r31 == 0) {
         m_text2.init(0x24, 0);
-        *(s32 *)&((TWindowKeyBoardBase *)self)->m_9c = (s32)mem_alloc((u32)((void *)0x194));
+        *(s32 *)&((TWindowKeyBoardBase *)self)->m_9c = (saddr)mem_alloc((uaddr)((void *)0x194));
         *(s32 *)&((TWindowKeyBoardBase *)self)->m_b0 = 0x94;
     }
 }
@@ -1075,7 +1075,7 @@ void TLobby::load_ask_dictionary() {
     size = TGStream::get_resource_file_size((const char *)lbl_8044F098);
     aligned = (size + 0x1F) & ~0x1F;
     aram = Dolphin_ARAlloc(aligned);
-    data = (s32)load_disc_file(lbl_8044F098);
+    data = (saddr)load_disc_file(lbl_8044F098);
     TLobby::aram_transfer_sync(3, data, aram, aligned);
     TAdSinglePlyChrSelectGC::safe_free(data);
     TQuestVmDownLoadServer__sub_803F0C04(aram, size, 3, 1, 0x2710);

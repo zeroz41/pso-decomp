@@ -187,7 +187,7 @@ void TWindowShortListCtrl::run_task() {
             queue_destruction();
             return;
         }
-        if (TWindowSubItem::is_usable((s32)player) == 0) {
+        if (TWindowSubItem::is_usable((saddr)player) == 0) {
             break;
         }
         assign_shortcut(6, ((TWindowMenuIconLine *)list_window)->get_cursor_value(), client_id);
@@ -219,7 +219,7 @@ void TWindowShortListCtrl::run_task() {
             queue_destruction();
             return;
         }
-        if (TWindowSubItem::is_usable((s32)player) == 0) {
+        if (TWindowSubItem::is_usable((saddr)player) == 0) {
             break;
         }
         sel = ((TWindowMenuIconLine *)list_window)->get_cursor_value();
@@ -254,7 +254,7 @@ void TWindowShortListCtrl::run_task() {
             queue_destruction();
             return;
         }
-        if (TWindowSubItem::is_usable((s32)player) == 0) {
+        if (TWindowSubItem::is_usable((saddr)player) == 0) {
             return;
         }
         sel = ((TWindowMenuIconLine *)list_window)->get_cursor_value();
@@ -275,14 +275,14 @@ void TWindowShortListCtrl::run_task() {
     case 9:
         if (tech_window == NULL) {
             get_current_selection__19TWindowSubTechniqueFPv(&m_20, &m_28, client_id);
-            tech_window = create_window(get_window_layout_position(1), (s32)&short_list_window_pos);
+            tech_window = create_window(get_window_layout_position(1), (saddr)&short_list_window_pos);
         }
         ((TWindowSubComCard *)tech_window)->clear_flag_and_release();
         state = 10;
     case 10:
         ((TObjPlayer *)player)->update_cursor((s16)((TWindowMenu *)tech_window)->get_selected_value());
         if (update_selection__19TWindowSubTechniqueFPsPl(&m_20, &m_28, client_id) != 0) {
-            refresh_technique_rows((s32)tech_window, (void *)&short_list_window_pos);
+            refresh_technique_rows((saddr)tech_window, (void *)&short_list_window_pos);
         }
         if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[idx], 0x400) != 0) {
             if (((TWindowSubComCardList *)tech_window)->get_selected_index() == -1) {
@@ -290,7 +290,7 @@ void TWindowShortListCtrl::run_task() {
             } else {
                 swap_card_entries(((TWindowSubComCardList *)tech_window)->get_selected_index(), ((TWindowShortListCtrl *)tech_window)->get_cursor_pos());
                 ((TWindowMenu *)tech_window)->reset_selection();
-                refresh_technique_rows((s32)tech_window, (void *)&short_list_window_pos);
+                refresh_technique_rows((saddr)tech_window, (void *)&short_list_window_pos);
             }
         }
         if (((TWindowMenu *)tech_window)->is_cancelled() != 0) {
@@ -314,7 +314,7 @@ void TWindowShortListCtrl::run_task() {
             return;
         }
         if (TWindowSubTechnique::is_technique_available((s16)((TWindowMenu *)tech_window)->get_selected_value(), client_id) == 0) {
-            refresh_technique_rows((s32)tech_window, (void *)&short_list_window_pos);
+            refresh_technique_rows((saddr)tech_window, (void *)&short_list_window_pos);
             state = 9;
             return;
         }
@@ -335,7 +335,7 @@ void *TWindowShortListCtrl::create_window(s32 arg1, s32 arg2_arg) {
     set_flag70_bit10__21TWindowSubComCardListFv();
     ((TWindowSubComCardList *)window_menu)->m_5c = 0x01000000;
     ((TWindowSubComCardList *)window_menu)->set_flag70_bit100();
-    refresh_technique_rows((s32)window_menu, (void *)arg2_arg);
+    refresh_technique_rows((saddr)window_menu, (void *)arg2_arg);
     return window_menu;
 }
 
@@ -413,7 +413,7 @@ void TWindowShortListCtrl::assign_item_to_palette(u32 item_id, u32 client_id) {
             if (item != NULL && item->get_item_type() == 3) {
                 s32 slot = get_tool_palette_index(item);
                 if (slot != -1) {
-                    if (canSetMenuCursorAction((s32)(menu + 0x520), (s32)player, 4, slot) != 0) {
+                    if (canSetMenuCursorAction((saddr)(menu + 0x520), (saddr)player, 4, slot) != 0) {
                         ((TWindowActionPalette *)(menu + 0x520))->set_mode(4);
                         ((TWindowActionPalette *)(menu + 0x520))->set_slot(slot);
                         TMainCursor__sub_8013DFC4(menu + 0x520);

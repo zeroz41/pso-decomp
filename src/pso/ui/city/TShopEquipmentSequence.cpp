@@ -195,7 +195,7 @@ s32 TShopEquipmentSequence::open_greeting() {
   Stack_8021D948 stack;
   stack.sp8 = 332.0f;
   stack.spC = 80.0f;
-  ((TShopSequence *)arg0)->create_message_window(get_window_layout_position(0x2C, 332.0f), (s32)&stack.sp8);
+  ((TShopSequence *)arg0)->create_message_window(get_window_layout_position(0x2C, 332.0f), (saddr)&stack.sp8);
   (((VObj_18_a93f07 *)(arg0))->m4(0x27, 1));
   meseta_window = (TWindowBase *)create_meseta_window((s32) get_child_field1c__13TShopSequenceFv(arg0));
   ((TShopWindowBase *)arg0)->set_field_20(2);
@@ -239,7 +239,7 @@ void TShopEquipmentSequence::update_buy_sell_choice() {
 }
 
 void TShopEquipmentSequence::open_buy_window() {
-    W_8021D750 *o = (W_8021D750 *)new TShopEquipmentListWindow((s32)tl_05, (s32)((S_8021D750 *)this), (s32)(((S_8021D750 *)this)->f24));
+    W_8021D750 *o = (W_8021D750 *)new TShopEquipmentListWindow((saddr)tl_05, (saddr)((S_8021D750 *)this), (s32)(((S_8021D750 *)this)->f24));
     o->cb0 = (void *)exit__22TShopEquipmentSequenceFPv;
     reset_controller_input_state();
     set_field_20(7);

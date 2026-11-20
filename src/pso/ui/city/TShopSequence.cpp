@@ -58,7 +58,7 @@ void TShopSequence::close_message_window() {
 u32 TShopSequence::create_message_window(s32 x, s32 y) {
     if (message_window != NULL) {
         if (player != NULL) {
-            return create_message_window__24TMessageWindowControllerFlll(message_window, x, y, (u16)get_entity_id((u32)player));
+            return create_message_window__24TMessageWindowControllerFlll(message_window, x, y, (u16)get_entity_id((uaddr)player));
         }
         return create_window__24TMessageWindowControllerFll(message_window, x, y);
     }
@@ -108,7 +108,7 @@ void TShopSequence::close_window() {
                 var_r31 += 1;
             } while (var_r31 < 4);
         }
-        TObjPlayer::clear_lobby_flag((void *)(*(u32 *)((s8 *)this + 0x24)));
+        TObjPlayer::clear_lobby_flag((void *)(*(uaddr *)((s8 *)this + 0x24)));
     }
 }
 void TShopSequence::restore_player_state() {

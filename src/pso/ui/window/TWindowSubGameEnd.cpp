@@ -105,7 +105,7 @@ void *TWindowSubGameEnd__ct(TWindowSubGameEnd *window_sub_game_end, s32 arg1, s3
     s32 var_r31;
     __ct__7TObjectFP7TObject();
     *(s32 **)((s8 *)window_sub_game_end + 0x18) = __vt__17TWindowSubGameEnd;
-    *(s32 *)((s8 *)window_sub_game_end + 0) = (s32) ((s32)TWindowSubGameEnd__class_name);
+    *(s32 *)((s8 *)window_sub_game_end + 0) = (s32) ((saddr)TWindowSubGameEnd__class_name);
     window_sub_game_end->m_24 = arg1;
     window_sub_game_end->m_20 = arg2;
     if (get_main_phase() == 0xF) {

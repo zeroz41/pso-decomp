@@ -30,7 +30,7 @@ u32 TAdPlyPltAnimCtrlGC::get_instance(s32 arg0) {
     if ((u32) plyplt_anim_ctrl_instance == 0U) {
         ad_ply_plt_anim_ctrl_gc = __nw__7TObjectFUl(0x2C);
         if (ad_ply_plt_anim_ctrl_gc != 0U) {
-            ad_ply_plt_anim_ctrl_gc = ((u32)TAdPlyPltAnimCtrlGC__ct((TAdPlyPltAnimCtrlGC *)((u8 *)ad_ply_plt_anim_ctrl_gc), (s32)arg0));
+            ad_ply_plt_anim_ctrl_gc = ((uaddr)TAdPlyPltAnimCtrlGC__ct((TAdPlyPltAnimCtrlGC *)((u8 *)ad_ply_plt_anim_ctrl_gc), (s32)arg0));
         }
         plyplt_anim_ctrl_instance = ad_ply_plt_anim_ctrl_gc;
     }

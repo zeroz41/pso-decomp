@@ -45,7 +45,7 @@ void call_window_method__11TWindowCtrlFPvi(void *, Pmf_8024AF34);
 Win_8024AF34 *get_window__11TWindowCtrlFl(void *self);
 
 void TWindowCtrl::suppress_slot() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8024AEAC, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_8024AEAC, spC) == 0x4);
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8024AEAC, sp10) == 0x8);
@@ -57,7 +57,7 @@ void TWindowCtrl::suppress_slot() {
 }
 
 void TWindowCtrl::unsuppress_slot() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8024AEF0, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_8024AEF0, spC) == 0x4);
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8024AEF0, sp10) == 0x8);
@@ -76,7 +76,7 @@ void call_window_method__11TWindowCtrlFPvi(void *self, Pmf_8024AF34 pmf) {
 }
 
 void TWindowCtrl::has_player_active_menu() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8024AF74, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_8024AF74, spC) == 0x4);
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8024AF74, sp10) == 0x8);

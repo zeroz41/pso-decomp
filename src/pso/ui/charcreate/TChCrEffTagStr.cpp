@@ -73,7 +73,7 @@ TChCrEffTagStr::~TChCrEffTagStr() {}
 }
 TChCrEffTagStr::TChCrEffTagStr(TObject *object, void *arg2, void *arg3) : TObject(object) {
     m_name = TChCrEffTagStr__name;
-    sprite_id = (s32)arg2;
+    sprite_id = (saddr)arg2;
     ((TWindowSubSymbolChatPartsSet *)&pos)->copy_vec2(arg3);
     state = 0;
     fade = 0.0f;

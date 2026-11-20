@@ -98,7 +98,7 @@ void create_sub_window__20TWindowChoiceSettingFPvi(void *arg0, s32 arg1) {
     u32 var_r0;
 
     if ((u32) *(u32 *)((s8 *)arg0 + 0x78) == 0U) {
-        var_r0 = (int)::operator new(0x24);
+        var_r0 = (saddr)::operator new(0x24);
         if (var_r0 != 0U) {
             var_r0 = construct_type1_heading__20TWindowSubStatusDispFll(var_r0, arg1, *(s16 *)((s8 *)arg0 + 0x20));
         }
@@ -164,7 +164,7 @@ void TUnk_804D0658::draw_setting(s32 window_key_board_soft) {
 void TWindowMenuInfomation__ct(u8 *lobby, u32 arg1) {
     u32 i;
     u8 *e;
-    *(s32 *)lobby = (s32) lbl_805D3970;
+    *(s32 *)lobby = (saddr) lbl_805D3970;
     *(s16 *)(lobby + 0x72) = 0;
     *(s16 *)(lobby + 0x74) = 0;
     *(u16 *)(lobby + 0x76) = arg1;
@@ -203,8 +203,8 @@ s32 create_information_counter_window(s32 arg0) {
 
     ((s32 (*)(const f32 *, s32))fn_80268C5C)(lbl_8044F3A0, arg0);
     window = new TUnk_804D0658((void *)get_window_layout_position(0xAE), arg0);
-    ((s32 (*)(s32, const char *))create_sub_window__20TWindowChoiceSettingFPvi)((s32)window, "Information Counter");
-    return (s32)window;
+    ((s32 (*)(s32, const char *))create_sub_window__20TWindowChoiceSettingFPvi)((saddr)window, "Information Counter");
+    return (saddr)window;
 }
 
 void fn_80268C5C(NJS_POINT2 v, s32 x) {
@@ -228,7 +228,7 @@ void TUnk_804D0658::render() {
     draw_visible_window_entries(((u8 *)this), ((u8 *)this) + 0x24, temp_r3);
     ((TUnk_804D0658 *)((u8 *)this))->draw_setting(temp_r3);
     if (this->heading != 0) {
-        forward_render__20TWindowSubStatusDispFv((s32)this->heading, temp_r3);
+        forward_render__20TWindowSubStatusDispFv((saddr)this->heading, temp_r3);
     }
     if ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x7C) != 0U) {
         draw_window_scrollbar(*(u32 *)((s8 *)((u8 *)this) + 0x7C), temp_r3, ((u8 *)this) + 0x68);
@@ -245,18 +245,18 @@ void TUnk_804D0658::run_task() {
     if ((((TUnk_804D0658 *)arg0)->is_selected() == 0) && (((s32 (*)(void *))is_open__13TUnk_804D0658Fv)(arg0) == 0)) {
         if (*(u16 *)((s8 *)arg0 + 0x70) & 0x10) {
             input = (u8 *)&controller_input_state + 0x20;
-            if ((TWindowChoiceSetting::apply_choice((s32)input, 0x10, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state + 0x160)), 0x10, 6, 1) != 0)) {
+            if ((TWindowChoiceSetting::apply_choice((saddr)input, 0x10, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((saddr)((void *) ((u8 *)&controller_input_state + 0x160)), 0x10, 6, 1) != 0)) {
                 ((TUnk_804D0658 *)arg0)->move_cursor_prev();
             }
-            if ((TWindowChoiceSetting::apply_choice((s32)input, 0x20, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state + 0x160)), 0x20, 6, 1) != 0)) {
+            if ((TWindowChoiceSetting::apply_choice((saddr)input, 0x20, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((saddr)((void *) ((u8 *)&controller_input_state + 0x160)), 0x20, 6, 1) != 0)) {
                 ((TUnk_804D0658 *)arg0)->move_next_choice();
             }
         } else {
             temp_r30_2 = (u8 *)&controller_input_state + 0x20;
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)temp_r30_2, 0x10, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state + 0x160)), 0x10, 6, 1) != 0)) {
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)temp_r30_2, 0x10, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((saddr)((void *) ((u8 *)&controller_input_state + 0x160)), 0x10, 6, 1) != 0)) {
                 ((TUnk_804D0658 *)arg0)->move_cursor_prev();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)temp_r30_2, 0x20, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state + 0x160)), 0x20, 6, 1) != 0)) {
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)temp_r30_2, 0x20, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((saddr)((void *) ((u8 *)&controller_input_state + 0x160)), 0x20, 6, 1) != 0)) {
                 ((TUnk_804D0658 *)arg0)->move_next_choice();
             }
         }
@@ -286,8 +286,8 @@ void TUnk_804D0658::run_task() {
 }
 
 TUnk_804D0658::~TUnk_804D0658() {
-    TWindowSubStatusDisp::destroy_allocation((s32)(*(void * *)&this->unk_7C), (s16)1);
-    TWindowSubStatusDisp::destroy_status_display((s32)this->heading, (s16)1);
+    TWindowSubStatusDisp::destroy_allocation((saddr)(*(void * *)&this->unk_7C), (s16)1);
+    TWindowSubStatusDisp::destroy_status_display((saddr)this->heading, (s16)1);
 }
 void TWindowMenuInfomation__ct(u8 *arg0, u32 arg1);
 TUnk_804D0658::TUnk_804D0658(void *parent, s32 rows)

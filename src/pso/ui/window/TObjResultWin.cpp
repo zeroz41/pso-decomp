@@ -143,7 +143,7 @@ void TObjResultWin::create_window() {
         if (TCameraCtrl::get_camera_id() == 4) {
             ((TWindowAddition *)m_window)->set_position_xy(0.75f, 0.75f);
         }
-        ((TWindowMessage *)m_window)->append_line((int)m_text, (int)0);
+        ((TWindowMessage *)m_window)->append_line((saddr)m_text, (int)0);
         ((TWindowBase *)m_window)->set_depth(36999.0f);
     }
 }

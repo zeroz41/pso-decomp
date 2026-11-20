@@ -104,7 +104,7 @@ int request_scene_change__21TAdMultiChgGameModeGCFv(void*);
 int request_transition__21TAdMultiChgGameModeGCFv(void*);
 
 void TAdEp3Exist::draw_message_window(s32 arg1) {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     ((TWindowBase *)arg0)->draw_window_frame((void *) (arg1));
     f32 x = 320.0f - (f32)(calc_text_width((char *)get_localized_text_entry(0x2C, 0xA)) >> 1U);
     TAdSubPlyItemGC::render_status_line(x, 394.0f, 0.8f, (const char *)get_localized_text_entry(0x2C, 0xA), -1);
@@ -223,12 +223,12 @@ void *TAdEp3Exist__ct(Ep3_8036F354 *o) {
     if (p != 0) {
         __ct__12TAdBackTxtGCFv(p, o);
     }
-    r = (u32)TObject::operator new(0x54);
+    r = (uaddr)TObject::operator new(0x54);
     if (r != 0) {
-        r = (u32)TAdScrollWinGC__ct((TAdScrollWinGC *)((void *)r), (void *)o, 3, (s32)(get_localized_text_entry(0x2C, 9)));
+        r = (uaddr)TAdScrollWinGC__ct((TAdScrollWinGC *)((void *)r), (void *)o, 3, (s32)(get_localized_text_entry(0x2C, 9)));
     }
     o->win1C = r;
-    r = (u32)TObject::operator new(0x708);
+    r = (uaddr)TObject::operator new(0x708);
     if (r != 0) {
         r = __ct__14TAdSelectCurGCFv((void *)r, tl_clipout, (void *)lbl_8047B8A8, (void *)lbl_8047B8B0);
     }

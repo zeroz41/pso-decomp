@@ -30,7 +30,7 @@ void TWindowSubComCard::init_card(void* a1) { bswap_guild_card(); send_subcomman
 int TWindowSubComCard::get_keyboard_mode() {  return com_card_keyboard_mode; }
 
 void *TWindowSubComCard::init_guild_card() {
-    init_guild_card_tag__17TWindowSubComCardFi((s32)((char *)this + 4));
+    init_guild_card_tag__17TWindowSubComCardFi((saddr)((char *)this + 4));
     *(u8 *)&this->m_name = 6;
     *(u8 *)((s8 *)this + 0x1) = 37;
     return this;

@@ -191,7 +191,7 @@ void TWindowSubShortCut::run_task() {
         }
         if (((TWindowMessageYesNo *)(this->m_34))->is_child_visible() != 0) {
             if (((TWindowSubComCard *)(this->m_34))->get_slot_or_neg1() == 0) {
-                store_chat_shortcut((this->m_24), (s32)(arg0 + 0x40));
+                store_chat_shortcut((this->m_24), (saddr)(arg0 + 0x40));
                 this->m_1c = 1U;
                 return;
             }
@@ -239,9 +239,9 @@ s32 TWindowSubShortCut::open_menu() {
     ((TWindowMenuIconLine *)this->m_2c)->get_cursor_value();
     chat_shortcut = get_chat_shortcut();
     temp_r31 = draw_card_icon__17TWindowSubComCardFll(get_window_layout_position(0x74), 2, get_message_10__20TWindowSubStatusDispFl(0x2C));
-    forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)(TWindowSubStatusDisp::get_message_10(0x7E)), 6, 5);
+    forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (saddr)(TWindowSubStatusDisp::get_message_10(0x7E)), 6, 5);
     if ((u32) *chat_shortcut != 0U) {
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)(TWindowSubStatusDisp::get_message_10(0x5A)), 6, 9);
+        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (saddr)(TWindowSubStatusDisp::get_message_10(0x5A)), 6, 9);
     } else {
         TWindowSubComCard::draw_text_gray(temp_r31, get_message_10__20TWindowSubStatusDispFl(0x5A), 6, 9);
     }
@@ -254,7 +254,7 @@ s32 TWindowSubShortCut::open_menu() {
 s32 TWindowSubShortCut::open_confirm_prompt() {
     Win_8027DBB8 *arg0 = (Win_8027DBB8 *)this;
     s32 r = create__19TWindowMessageYesNoFPvPvPvPv(arg0, arg0->f20, 0, 0);
-    open_yes_no_prompt((TChCrTagPlBack *)((u8 *)r), (u32)(TWindowSubStatusDisp::get_message_10(0x20)), (s32)(TWindowSubStatusDisp::get_message_10(0x3D)), (s32)(get_window_layout_position(0x75)), 205.0f);
+    open_yes_no_prompt((TChCrTagPlBack *)((u8 *)r), (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(TWindowSubStatusDisp::get_message_10(0x3D)), (s32)(get_window_layout_position(0x75)), 205.0f);
     ((TWindowSubShortMail *)r)->notify_warp_flag70();
     return r;
 }
@@ -263,7 +263,7 @@ s32 TWindowSubShortCut::open_confirm_message() {
     s32 temp_r29;
 
     temp_r29 = create__19TWindowMessageYesNoFPvPvPvPv(this, this->m_20, 0, 0);
-    open_yes_no_prompt((TChCrTagPlBack *)((u8 *)temp_r29), (u32)(TWindowSubStatusDisp::get_message_10(0x20)), (s32)(TWindowSubStatusDisp::get_message_10(0x3e)), (s32)(get_window_layout_position(0x76)), 205.0f);
+    open_yes_no_prompt((TChCrTagPlBack *)((u8 *)temp_r29), (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(TWindowSubStatusDisp::get_message_10(0x3e)), (s32)(get_window_layout_position(0x76)), 205.0f);
     free_member__17TWindowSubComCardFv(temp_r29, 1);
     ((TWindowSubShortMail *)temp_r29)->notify_warp_flag70();
     return temp_r29;

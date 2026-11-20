@@ -135,7 +135,7 @@ void TLobby::open_challenge_window(s32 arg0, s32 arg1) {
         ((TWindowAddition *)((*(Chal_8007369C *)&challenge_mode_state).window))->set_position_xy(0.75f, 0.75f);
     }
     TAdSinglePlyChrSelectGC::format_challenge_stage_times(arg0, arg1);
-    ((TWindowMessage *)((*(Chal_8007369C *)&challenge_mode_state).window))->append_line((int)challenge_progress_text_buffer, (int)0);
+    ((TWindowMessage *)((*(Chal_8007369C *)&challenge_mode_state).window))->append_line((saddr)challenge_progress_text_buffer, (int)0);
 }
 
 void TLobby::open_challenge_progress_window(void *arg1) {
@@ -171,7 +171,7 @@ void TLobby::open_challenge_progress_window(void *arg1) {
             strcat(challenge_progress_text_buffer, "\n");
         }
     }
-    ((TWindowMessage *)(CHAL->window))->append_line((int)challenge_progress_text_buffer, (int)0);
+    ((TWindowMessage *)(CHAL->window))->append_line((saddr)challenge_progress_text_buffer, (int)0);
 }
 
 void TLobby__sub_800738F4(void *lobby, s32 arg1) {
@@ -197,7 +197,7 @@ void TLobby__sub_800738F4(void *lobby, s32 arg1) {
         ((TLobby *)lobby)->open_challenge_progress_window((void *)1);
         break;
     default:
-        TLobby::open_challenge_window((s32)lobby, (s32)arg1);
+        TLobby::open_challenge_window((saddr)lobby, (s32)arg1);
         break;
     }
 }

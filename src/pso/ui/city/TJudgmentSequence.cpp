@@ -67,13 +67,13 @@ s32 sub_802239EC__13TShopSequenceFv(void *);
 
 void TJudgmentSequence__sub_80215BA0(void *shop_window_base) {
     if (shop_window_base != NULL) {
-        ((TShopWindowBase *)shop_window_base)->set_field_20((s32)((void*)(4)));
+        ((TShopWindowBase *)shop_window_base)->set_field_20((saddr)((void*)(4)));
     }
 }
 
 void TJudgmentSequence__sub_80215BCC(void *shop_window_base) {
     if (shop_window_base != NULL) {
-        ((TShopWindowBase *)shop_window_base)->set_field_20((s32)((void*)(4)));
+        ((TShopWindowBase *)shop_window_base)->set_field_20((saddr)((void*)(4)));
     }
 }
 
@@ -81,7 +81,7 @@ void TJudgmentSequence__sub_80215BF8(void *shop_window_base) {
     struct VObj_80215BF8_80215BA0 *o = (struct VObj_80215BF8_80215BA0 *)shop_window_base;
     if (o != NULL) {
         o->m6(0xD, 1);
-        ((TShopWindowBase *)shop_window_base)->set_field_20((s32)((void*)(4)));
+        ((TShopWindowBase *)shop_window_base)->set_field_20((saddr)((void*)(4)));
     }
 }
 
@@ -100,12 +100,12 @@ void TJudgmentSequence::open_judgment_window() {
     o->cb0 = (void *)TJudgmentSequence__sub_80215BCC;
     o->cb2 = (void *)TJudgmentSequence__sub_80215BA0;
     o->cb1 = (void *)TJudgmentSequence__sub_80215BF8;
-    this->set_field_20((s32)((void *)5));
+    this->set_field_20((saddr)((void *)5));
 }
 
 void TJudgmentSequence::handle_confirm() {
     if ((this->vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
-        set_field_20((s32)((void*)(3)));
+        set_field_20((saddr)((void*)(3)));
     }
 }
 
@@ -119,14 +119,14 @@ void TJudgmentSequence::setup_counter_camera() {
   stack.sp8 = 332.0f;
   stack.spC = 80.0f;
   new_var = 332.0f;
-  ((TShopSequence *)arg0)->create_message_window(get_window_layout_position(0x2C, new_var), (s32)&stack.sp8);
+  ((TShopSequence *)arg0)->create_message_window(get_window_layout_position(0x2C, new_var), (saddr)&stack.sp8);
   (((VObj_18_4a2792 *)(arg0))->m6(1, 1));
   this->m_2c = create_meseta_window(((s32) ((TShopSequence *)arg0)->get_child_field1c()) & 0xFFFF);
-  ((TShopWindowBase *)arg0)->set_field_20((s32)((void*)(2)));
+  ((TShopWindowBase *)arg0)->set_field_20((saddr)((void*)(2)));
   *((s32 *) (((s8 *) arg0) + 0x30)) = set_service_counter_camera((void *) arg0, 2);
 }
 
-void TJudgmentSequence::restore_player_state() { TShopSequence::restore_player_state(); set_field_20((s32)((void*)((void*)1))); }
+void TJudgmentSequence::restore_player_state() { TShopSequence::restore_player_state(); set_field_20((saddr)((void*)((void*)1))); }
 LAYOUT_ASSERT(RecoveredGlobal_80215EF8___vt__17TJudgmentSequence_size, sizeof(RecoveredGlobal_80215EF8___vt__17TJudgmentSequence) == 0x38);
 
 struct Seq_80215CB8;
@@ -174,7 +174,7 @@ TJudgmentSequence::TJudgmentSequence(TObject *parent, TObjPlayer *player) : TSho
     this->player = player;
     m_2c = 0;
     counter_camera = NULL;
-    judgment_sequence_instance = (s32)this;
+    judgment_sequence_instance = (saddr)this;
     set_field_20(0);
     *(s32 *)((s8 *)&TJudgmentSequence__slot_flags.value + (sub_8022397C__15TShopWindowBaseFv(this) * 4)) = 1;
 }

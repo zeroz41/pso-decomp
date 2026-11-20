@@ -110,7 +110,7 @@ void TAdChrSelSlotGC::draw_slot_icons() {
     for (i = 0; i < 5; i++) {
         if (self->visible[i] != 0) {
             begin_screen_draw(1);
-            TObjFish::set_global_param((s32)((void *)lbl_805D67F0));
+            TObjFish::set_global_param((saddr)((void *)lbl_805D67F0));
             set_draw_texture_and_color(0, self->tex[i]);
             draw_textured_quad_at_depth((f32 *)&self->quad[i], 0.1f);
             TWindowSubStatusDisp::get_player();
@@ -139,7 +139,7 @@ block_5:
     }
 }
 
-void TAdChrSelSlotGC::reset_all_slots() { TAdChrSelSlotGC__sub_802C754C((O_802C754C *)(this), (s32)((void*)0)); TAdChrSelSlotGC__sub_802C754C((O_802C754C *)(this), (s32)((void*)1)); TAdChrSelSlotGC__sub_802C7498((struct S802C7498_802C70AC *)this, (s32)((s32)((void*)0))); TAdChrSelSlotGC__sub_802C7498((struct S802C7498_802C70AC *)this, (s32)((s32)((void*)1))); TAdChrSelSlotGC__sub_802C7498((struct S802C7498_802C70AC *)this, (s32)((s32)((void*)2))); }
+void TAdChrSelSlotGC::reset_all_slots() { TAdChrSelSlotGC__sub_802C754C((O_802C754C *)(this), (saddr)((void*)0)); TAdChrSelSlotGC__sub_802C754C((O_802C754C *)(this), (saddr)((void*)1)); TAdChrSelSlotGC__sub_802C7498((struct S802C7498_802C70AC *)this, (s32)((saddr)((void*)0))); TAdChrSelSlotGC__sub_802C7498((struct S802C7498_802C70AC *)this, (s32)((saddr)((void*)1))); TAdChrSelSlotGC__sub_802C7498((struct S802C7498_802C70AC *)this, (s32)((saddr)((void*)2))); }
 
 void TAdChrSelSlotGC__sub_802C7498(struct S802C7498_802C70AC *arg0, s32 arg1) {
     arg0->arr[arg1] = 0;
@@ -205,7 +205,7 @@ TAdChrSelSlotGC::TAdChrSelSlotGC(TObject*object) : TObject((TObject*)(object)) {
     u32 j;
     u32 k;
     f32 t;
-    ((S_802C7758 *)this)->f0 = (s32)TAdChrSelSlotGC__name;
+    ((S_802C7758 *)this)->f0 = (saddr)TAdChrSelSlotGC__name;
     ((S_802C7758 *)this)->f1C = -1;
     ((S_802C7758 *)this)->f124 = 1;
     for (i = 0; i < 5; i++) {

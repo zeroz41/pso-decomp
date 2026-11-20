@@ -49,8 +49,8 @@ void TMainCursor__sub_801540FC(E_801540FC *arr, s32 n) {
     }
 }
 
-void TMainCursor::update_pair() { TMainCursor__sub_801540D8((E_801540D8 *)*(void**)((char*)this + 0xa4), (s32)*(void**)((char*)this + 0xa8)); }
-void TMainCursor::update_cursor_pair() { TMainCursor__sub_801540FC((E_801540FC *)*(void**)((char*)this + 0xa4), (s32)*(void**)((char*)this + 0xa8)); }
+void TMainCursor::update_pair() { TMainCursor__sub_801540D8((E_801540D8 *)*(void**)((char*)this + 0xa4), (saddr)*(void**)((char*)this + 0xa8)); }
+void TMainCursor::update_cursor_pair() { TMainCursor__sub_801540FC((E_801540FC *)*(void**)((char*)this + 0xa4), (saddr)*(void**)((char*)this + 0xa8)); }
 
 s32 TMainCursor::test_button(s32 arg1, u16 arg2) {
     s32 temp_r5;

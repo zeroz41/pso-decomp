@@ -146,7 +146,7 @@ void TAdMultiPlyChrSelectGC::set_status_value(s32 arg1) {
     *(s32 *)((s8 *)this + 0x110) = arg1;
     temp_r3 = get_index__14TAdPlyStatusGCFv();
     if (temp_r3 != 0U) {
-        TAdPlyStatusGC::set_status_index((int)temp_r3, (int)(*(s32 *)((s8 *)this + 0x110)));
+        TAdPlyStatusGC::set_status_index((saddr)temp_r3, (int)(*(s32 *)((s8 *)this + 0x110)));
     }
 }
 
@@ -163,7 +163,7 @@ TUnk_804E3008::~TUnk_804E3008() {
         m_170 = NULL;
         u32 status = (u32)TAdPlyStatusGC::get_index();
         if (status != 0) {
-            TAdPlyStatusGC::set_status_param((int)status, (int)m_170);
+            TAdPlyStatusGC::set_status_param((int)status, (saddr)m_170);
         }
     }
 }
@@ -199,7 +199,7 @@ void TUnk_804E3008::run_task() {
             copy_player_visual_record(arg0 + 0x120, get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF) + 0x370);
             p = ::operator new(0x4AC);
             if (p != NULL) {
-                p = init_appearance_load_request__10TNpcPlayerFPvPvii((u8 *)p, (u8 *)arg0, (s32)(arg0 + 0x120), 0);
+                p = init_appearance_load_request__10TNpcPlayerFPvPvii((u8 *)p, (u8 *)arg0, (saddr)(arg0 + 0x120), 0);
             }
             F(0x170, void *) = p;
             F(0x60, s32) = 0xF3D5;
@@ -208,7 +208,7 @@ void TUnk_804E3008::run_task() {
             copy_player_visual_record(arg0 + 0x120, get_entry__23TAdSinglePlyChrSelectGCFi(F(0x110, s32)) + 0x370);
             p = ::operator new(0x4AC);
             if (p != NULL) {
-                p = init_appearance_load_request__10TNpcPlayerFPvPvii((u8 *)p, (u8 *)arg0, (s32)(arg0 + 0x120), 0);
+                p = init_appearance_load_request__10TNpcPlayerFPvPvii((u8 *)p, (u8 *)arg0, (saddr)(arg0 + 0x120), 0);
             }
             F(0x170, void *) = p;
             F(0x60, s32) = 0xF3D5;
@@ -217,7 +217,7 @@ void TUnk_804E3008::run_task() {
             copy_player_visual_record(arg0 + 0x120, get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF) + 0x370);
             p = ::operator new(0x4AC);
             if (p != NULL) {
-                p = init_appearance_load_request__10TNpcPlayerFPvPvii((u8 *)p, (u8 *)arg0, (s32)(arg0 + 0x120), 0);
+                p = init_appearance_load_request__10TNpcPlayerFPvPvii((u8 *)p, (u8 *)arg0, (saddr)(arg0 + 0x120), 0);
             }
             F(0x170, void *) = p;
             F(0x60, s32) = 0xF3D5;
@@ -228,7 +228,7 @@ void TUnk_804E3008::run_task() {
             copy_player_visual_record(arg0 + 0x120, get_char_table_entry__23TAdSinglePlyChrSelectGCFi(F(0x10C, s32)) + 0x370);
             p = ::operator new(0x4AC);
             if (p != NULL) {
-                p = init_appearance_load_request__10TNpcPlayerFPvPvii((u8 *)p, (u8 *)arg0, (s32)(arg0 + 0x120), (s32)(F(0x10C, s32)));
+                p = init_appearance_load_request__10TNpcPlayerFPvPvii((u8 *)p, (u8 *)arg0, (saddr)(arg0 + 0x120), (s32)(F(0x10C, s32)));
             }
             F(0x170, void *) = p;
             break;
@@ -279,12 +279,12 @@ void TUnk_804E3008::run_task() {
     idx = get_index__14TAdPlyStatusGCFv();
     if (idx != NULL) {
         ((TAdPlyStatusGC *)idx)->set_load_state(F(0xFC, s32));
-        TAdPlyStatusGC::set_status_param((int)idx, (int)(F(0x170, void *)));
+        TAdPlyStatusGC::set_status_param((saddr)idx, (saddr)(F(0x170, void *)));
     }
 }
 
 void TUnk_804E3008::sub_802E0784() {
-    this->set_field_d8((s32)lbl_804E2F78);
+    this->set_field_d8((saddr)lbl_804E2F78);
     this->set_field_dc((int) (*(s32 *)((s8 *)TAdMultiPlyChrSelectGC__resource_bundle + 0x430)));
     set_cursor_index(0);
     set_animation((this->requested_action));

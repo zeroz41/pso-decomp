@@ -176,6 +176,6 @@ void TLobby__sub_802A194C(void) {
                                      &select_gamen_eng_texture_list, &select_gamen_eng_texture_list,
                                      &select_gamen_eng_texture_list};
     NJS_TEXLIST *list = texture_lists[current_language];
-    ad_select_text_texture_handle = (u32)list;
-    load_streamed_prs_texture((s32)texture_files[current_language], (s32)list);
+    ad_select_text_texture_handle = (uaddr)list;
+    load_streamed_prs_texture((saddr)texture_files[current_language], (saddr)list);
 }

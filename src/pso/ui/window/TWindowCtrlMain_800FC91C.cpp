@@ -121,7 +121,7 @@ s32 TWindowSubStatusDisp::build_status_text(s32 arg0) {
 void *TFontSmallLobby::create(void *arg0) {
     void *o = TObject::operator new(0x64);
     if (o != NULL) {
-        o = fn_800FCC78((u8 *)o, (s32)arg0);
+        o = fn_800FCC78((u8 *)o, (saddr)arg0);
     }
     return o;
 }
@@ -132,7 +132,7 @@ void TUnk_8049CA54::run_task() {
     u32 temp_r3_3;
     s32 temp_r3;
 
-    temp_r3 = (s32)get_player_by_client_id(*(s32 *)&this->player_id);
+    temp_r3 = (saddr)get_player_by_client_id(*(s32 *)&this->player_id);
     if (temp_r3 == 0) {
         queue_destruction();
         return;

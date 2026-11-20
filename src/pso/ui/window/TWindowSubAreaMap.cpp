@@ -70,22 +70,22 @@ void TWindowSubAreaMapDisp::update_manual_scroll() {
     u8 *temp_r31;
     if ((s32) this->m_6c != 0) {
         temp_r31 = (u8 *)&(*(RecoveredGlobal_802715F0_lbl_8050E208 *)&controller_input_state).value + 0x20;
-        if ((is_on_current_screen__11TCameraCtrlFv((int)temp_r31, 0x10) != 0) || (is_flag_set__11TLoadingCurFv((void *) ((u8 *)&(*(RecoveredGlobal_802715F0_lbl_8050E208 *)&controller_input_state).value + 0x160), 0x10) != 0)) {
+        if ((is_on_current_screen__11TCameraCtrlFv((saddr)temp_r31, 0x10) != 0) || (is_flag_set__11TLoadingCurFv((void *) ((u8 *)&(*(RecoveredGlobal_802715F0_lbl_8050E208 *)&controller_input_state).value + 0x160), 0x10) != 0)) {
             this->m_64 += 6.0f;
         }
-        if ((is_on_current_screen__11TCameraCtrlFv((int)temp_r31, 0x20) != 0) || (is_flag_set__11TLoadingCurFv((void *) ((u8 *)&(*(RecoveredGlobal_802715F0_lbl_8050E208 *)&controller_input_state).value + 0x160), 0x20) != 0)) {
+        if ((is_on_current_screen__11TCameraCtrlFv((saddr)temp_r31, 0x20) != 0) || (is_flag_set__11TLoadingCurFv((void *) ((u8 *)&(*(RecoveredGlobal_802715F0_lbl_8050E208 *)&controller_input_state).value + 0x160), 0x20) != 0)) {
             this->m_64 -= 6.0f;
         }
-        if ((is_on_current_screen__11TCameraCtrlFv((int)temp_r31, 0x40) != 0) || (is_flag_set__11TLoadingCurFv((void *) ((u8 *)&(*(RecoveredGlobal_802715F0_lbl_8050E208 *)&controller_input_state).value + 0x160), 0x40) != 0)) {
+        if ((is_on_current_screen__11TCameraCtrlFv((saddr)temp_r31, 0x40) != 0) || (is_flag_set__11TLoadingCurFv((void *) ((u8 *)&(*(RecoveredGlobal_802715F0_lbl_8050E208 *)&controller_input_state).value + 0x160), 0x40) != 0)) {
             *(f32 *)&this->unk_60 += 6.0f;
         }
-        if ((is_on_current_screen__11TCameraCtrlFv((int)temp_r31, 0x80) != 0) || (is_flag_set__11TLoadingCurFv((void *) ((u8 *)&(*(RecoveredGlobal_802715F0_lbl_8050E208 *)&controller_input_state).value + 0x160), 0x80) != 0)) {
+        if ((is_on_current_screen__11TCameraCtrlFv((saddr)temp_r31, 0x80) != 0) || (is_flag_set__11TLoadingCurFv((void *) ((u8 *)&(*(RecoveredGlobal_802715F0_lbl_8050E208 *)&controller_input_state).value + 0x160), 0x80) != 0)) {
             *(f32 *)&this->unk_60 -= 6.0f;
         }
-        if (is_on_current_screen__11TCameraCtrlFv((int)temp_r31, 0x20000) != 0) {
+        if (is_on_current_screen__11TCameraCtrlFv((saddr)temp_r31, 0x20000) != 0) {
             *(f32 *)&this->unk_68 -= 6.0f;
         }
-        if (is_on_current_screen__11TCameraCtrlFv((int)temp_r31, 0x10000) != 0) {
+        if (is_on_current_screen__11TCameraCtrlFv((saddr)temp_r31, 0x10000) != 0) {
             *(f32 *)&this->unk_68 += 6.0f;
         }
         TRaderMapCore::pan_horizontal((f32) (*(f32 *)&this->unk_60));

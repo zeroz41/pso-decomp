@@ -25,9 +25,9 @@ void TWindowMainMenu4P::vfunc_6() {
         player = (u8 *)(get_player_by_client_id(this->m_54));
         if (player != NULL) {
             if (((TObjPlayer *)player)->is_android() != 0) {
-                ((TWindowMainMenu *)arg0)->open((s32)main_menu_4p_android_entries);
+                ((TWindowMainMenu *)arg0)->open((saddr)main_menu_4p_android_entries);
             } else {
-                ((TWindowMainMenu *)arg0)->open((s32)main_menu_4p_entries);
+                ((TWindowMainMenu *)arg0)->open((saddr)main_menu_4p_entries);
             }
             this->vfunc_7();
         }

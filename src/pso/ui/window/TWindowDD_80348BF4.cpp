@@ -16,6 +16,6 @@ void handle_6x74_word_select(u8 *arg0) {
             ((TWindowDD *)(arg0 + 4))->update_selected_id();
         }
         TWindowDD::build_player_word_lists();
-        TWindowDD::open((s32)(arg0 + 4), (s32)((int) (*(u16 *)((s8 *)arg0 + 2))));
+        TWindowDD::open((saddr)(arg0 + 4), (s32)((int) (*(u16 *)((s8 *)arg0 + 2))));
     }
 }

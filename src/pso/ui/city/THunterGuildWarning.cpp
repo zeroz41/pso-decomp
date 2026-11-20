@@ -134,7 +134,7 @@ THunterGuildWarning::~THunterGuildWarning() {
 
 THunterGuildWarning::THunterGuildWarning(TObject *object, void *arg2) : TObject(object) {
     m_name = THunterGuildWarning__name;
-    mode = (s32)arg2;
+    mode = (saddr)arg2;
     timer = 90;
     THunterGuildWarning__sub_802119CC(this);
     sub_80211774((void *)mode);
@@ -256,9 +256,9 @@ s32 TLobby::handle_main_phase(s32 arg0) {
     }
     if (get_main_phase() == 0xF) {
         if ((s32) local_client_id == (s32) TLobby__designated_client_id) {
-            return (s32)TLobby::create_tl05_object((void *)arg0);
+            return (saddr)TLobby::create_tl05_object((void *)arg0);
         }
-        return (s32)create_lobby_object_05((void *)arg0);
+        return (saddr)create_lobby_object_05((void *)arg0);
     }
     return 0;
 }

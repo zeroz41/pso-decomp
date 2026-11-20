@@ -130,7 +130,7 @@ void TWindowSubStatusDisp::draw_number_digits(void *color, s16 value, u16 digits
     set_default_alpha_blend();
     begin_screen_draw(1);
     TWindowSubStatusDisp::render_forward();
-    set_draw_texture_and_color(0, (s32)color);
+    set_draw_texture_and_color(0, (saddr)color);
     for (i = 0; i < digits; i++) {
         id = ((s32 (*)(s32))TWindowSubStatusDisp__sub_800FC248)((u8)(value % 10) + '0');
         x -= ((u8 (*)(s32))get_small_font_glyph_width)(id);
@@ -149,7 +149,7 @@ void draw_small_font_text(void *color, const char *s, f32 x, f32 y, f32 scale) {
     set_default_alpha_blend();
     begin_screen_draw(1);
     TWindowSubStatusDisp::render_forward();
-    set_draw_texture_and_color(0, (s32)color);
+    set_draw_texture_and_color(0, (saddr)color);
     while (*s != 0) {
         u8 c = *s++;
         pos.x = x;

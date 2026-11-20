@@ -37,7 +37,7 @@ void TWindowDD__sub_8034055C(TUnk_804EFBAC *self) {
     f32 h;
     u32 color;
 
-    ctx = (WindowDrawContext *)TWindowDD::draw_default_entry((s32)self);
+    ctx = (WindowDrawContext *)TWindowDD::draw_default_entry((saddr)self);
     if (ctx->open_tick < 0) {
         return;
     }
@@ -120,13 +120,13 @@ void TWindowDD::handle_input() {
     s32 temp_r31;
     s32 temp_r3;
     temp_r31 = this->m_64[1];
-    if (TWindowDD::apply_both_choices((s32)(arg0 + 0x60), 0x10) != 0) {
+    if (TWindowDD::apply_both_choices((saddr)(arg0 + 0x60), 0x10) != 0) {
         this->m_64[1] = (this->m_64[1] - 1);
-    } else if (TWindowDD::apply_both_choices((s32)(arg0 + 0x60), 0x20) != 0) {
+    } else if (TWindowDD::apply_both_choices((saddr)(arg0 + 0x60), 0x20) != 0) {
         this->m_64[1] = (this->m_64[1] + 1);
-    } else if (TWindowDD::apply_both_choices((s32)(arg0 + 0x60), 0x20000) != 0) {
+    } else if (TWindowDD::apply_both_choices((saddr)(arg0 + 0x60), 0x20000) != 0) {
         this->m_64[1] = 0;
-    } else if (TWindowDD::apply_both_choices((s32)(arg0 + 0x60), 0x10000) != 0) {
+    } else if (TWindowDD::apply_both_choices((saddr)(arg0 + 0x60), 0x10000) != 0) {
         this->m_64[1] = 2;
     }
     temp_r0 = this->m_64[1];

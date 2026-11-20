@@ -149,14 +149,14 @@ void draw_status_window__14TAdPlyStatusGCFPvPv(void *window_base, void *arg1) {
         box.v[2] = TAdPlyStatusGC__status_window_box.v[2] + OFF_8033F3D8.x;
         box.v[1] = TAdPlyStatusGC__status_window_box.v[1] + OFF_8033F3D8.y;
         box.v[3] = TAdPlyStatusGC__status_window_box.v[3] + OFF_8033F3D8.y;
-        TObjFish::set_global_param((s32)(get_status_sub__14TAdPlyStatusGCFv(ply_status_chcr_load_afs)));
+        TObjFish::set_global_param((saddr)(get_status_sub__14TAdPlyStatusGCFv(ply_status_chcr_load_afs)));
         begin_screen_draw(1);
         set_draw_texture_and_color(0, -1);
         draw_textured_quad_at_depth((f32 *)&box, 0.8f);
         TWindowSubStatusDisp::get_player();
     }
     ((TAdPlyStatusGC *)items)->format_status_strings();
-    set_text_draw_params((s32)arg1, 1, 1, 0.8f, 100000.0f);
+    set_text_draw_params((saddr)arg1, 1, 1, 0.8f, 100000.0f);
     for (i = 0; i < 3; i++) {
         pts[i].x = ply_status_window_points_first[i].x + OFF_8033F3D8.x;
         pts[i].y = ply_status_window_points_first[i].y + OFF_8033F3D8.y;
@@ -310,7 +310,7 @@ void update_shown__14TAdPlyStatusGCFv(struct RecoveredFields_8033F9DC_arg0 *arg0
 
 void close_window__14TAdPlyStatusGCFv(void *arg0) {
     void *window_base = *(void **)((s8 *)arg0 + 0x6C);
-    if ((u32) window_base != 0U) {
+    if ((uaddr) window_base != 0U) {
         ((TWindowBase *)window_base)->close();
         *(u32 *)((s8 *)arg0 + 0x6C) = 0U;
     }

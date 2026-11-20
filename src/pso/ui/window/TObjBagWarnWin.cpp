@@ -105,7 +105,7 @@ extern f32 TObjBagWarnWin__message_window_size[2];
 extern u8 *text_language_group_table;
 
 s32 get_message_text(s32 arg0) {
-    return *(s32 *)((s8 *)(*(s32 *)((s8 *)text_language_group_table + 0x2C)) + (arg0 * 4));
+    return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x2C)) + (arg0 * 4));
 }
 
 void *TObjBagWarnWin::create(void *bag_warn_win) {
@@ -131,7 +131,7 @@ void TObjBagWarnWin::open_message_window() {
         }
         strncpy(message_text, (const char *)get_message_text(0x59), 0x7F);
         message_text[0x7F] = 0;
-        message_window->append_line((int)message_text, (int)0);
+        message_window->append_line((saddr)message_text, (int)0);
     }
 }
 
@@ -222,7 +222,7 @@ void TObjBagWarnWin4P::create_window() {
     if ((u32) *(u32 *)((s8 *)arg0 + 0x1C) != 0U) {
         strncpy((char *)(arg0 + 0x20), (const char *)get_message_text(0x69), 0x7F);
         *(s8 *)((s8 *)arg0 + 0x9F) = 0;
-        ((TWindowMessage *)(*(u32 *)((s8 *)arg0 + 0x1C)))->append_line((int)(arg0 + 0x20), (int)0);
+        ((TWindowMessage *)(*(uaddr *)((s8 *)arg0 + 0x1C)))->append_line((saddr)(arg0 + 0x20), (int)0);
     }
 }
 
@@ -245,7 +245,7 @@ void TObjBagWarnWin4P::run_task() {
             }
         }
     } else if (TObjBagWarnWin4P::check_can_open(arg0) == 0) {
-        ((TWindowBase *)(*(u32 *)((s8 *)arg0 + 0x1C)))->close();
+        ((TWindowBase *)(*(uaddr *)((s8 *)arg0 + 0x1C)))->close();
         *(u32 *)((s8 *)arg0 + 0x1C) = 0U;
         *(s32 *)((s8 *)arg0 + 0xA0) = 0x1E;
     }

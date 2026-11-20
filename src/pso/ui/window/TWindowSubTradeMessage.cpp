@@ -35,7 +35,7 @@ void TWindowSubTradeMessage::show_message(const char* text) {
 TWindowMessage* TWindowSubTradeMessage::create_message_window(const char* text) {
     TWindowMessage* window;
     window=create__14TWindowMessageFlPCfUll(get_window_layout_position(0x5B),trade_message_window_dimensions,1,playerIndex);
-    ((TWindowMessage *)window)->append_line((int)text, (int)0x82);
+    ((TWindowMessage *)window)->append_line((saddr)text, (int)0x82);
     return window;
 }
 
@@ -60,7 +60,7 @@ void TWindowSubTradeMessage::run_task() {
 }
 
 TWindowSubTradeMessage::~TWindowSubTradeMessage() {
-    TLobby__sub_802D29B8((u32)this);
+    TLobby__sub_802D29B8((uaddr)this);
     if (messageWindow != 0) {
         ((TWindowBase *)messageWindow)->close();
         messageWindow=0;
@@ -72,6 +72,6 @@ TWindowSubTradeMessage::TWindowSubTradeMessage(TObject* parent, s32 index) : TOb
     parentWindow=parent;
     playerIndex=index;
     messageWindow=0;
-    TLobby__sub_802D29DC((int)this);
+    TLobby__sub_802D29DC((saddr)this);
     state=0;
 }

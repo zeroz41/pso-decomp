@@ -332,10 +332,10 @@ void TWindowSubCustomEquip::layout_entry_group(void *arg1) {
   u32 i;
   s32 idx;
   s32 v;
-  base = (u8 *) get_array_entry((s32) arg1);
+  base = (u8 *) get_array_entry((saddr) arg1);
   for (i = 0; i < 3; i++)
   {
-    idx = ((s32) arg1) + i;
+    idx = ((saddr) arg1) + i;
     e1 = (u8 *) get_array_entry(idx + 1);
     e2 = (u8 *) get_array_entry(idx + 4);
     *((f32 *) (((s8 *) e1) + 8)) = (*((f32 *) (((s8 *) base) + 8))) + custom_equip_entry_offset_table[i].x;
@@ -357,12 +357,12 @@ s32 TWindowSubCustomEquip::refresh_palette_slots() {
     if (player == NULL || (pal = select_action_palette__10TObjPlayerFi(player, 0)) == 0) {
         return;
     }
-    update_palette_slot(0, get_slot_type__20TWindowActionPaletteFlll(pal, *(s8 *)&this->m_64, 2), (s32)TWindowActionPalette__sub_801C1D7C(pal, *(s8 *)&this->m_64, 2));
-    update_palette_slot(1, get_slot_type__20TWindowActionPaletteFlll(pal, *(s8 *)&this->m_64, 1), (s32)TWindowActionPalette__sub_801C1D7C(pal, *(s8 *)&this->m_64, 1));
-    update_palette_slot(2, get_slot_type__20TWindowActionPaletteFlll(pal, *(s8 *)&this->m_64, 3), (s32)TWindowActionPalette__sub_801C1D7C(pal, *(s8 *)&this->m_64, 3));
-    update_palette_slot(3, get_slot_type__20TWindowActionPaletteFlll(pal, *(s8 *)&this->m_65, 2), (s32)TWindowActionPalette__sub_801C1D7C(pal, *(s8 *)&this->m_65, 2));
-    update_palette_slot(4, get_slot_type__20TWindowActionPaletteFlll(pal, *(s8 *)&this->m_65, 1), (s32)TWindowActionPalette__sub_801C1D7C(pal, *(s8 *)&this->m_65, 1));
-    update_palette_slot(5, get_slot_type__20TWindowActionPaletteFlll(pal, *(s8 *)&this->m_65, 3), (s32)TWindowActionPalette__sub_801C1D7C(pal, *(s8 *)&this->m_65, 3));
+    update_palette_slot(0, get_slot_type__20TWindowActionPaletteFlll(pal, *(s8 *)&this->m_64, 2), (saddr)TWindowActionPalette__sub_801C1D7C(pal, *(s8 *)&this->m_64, 2));
+    update_palette_slot(1, get_slot_type__20TWindowActionPaletteFlll(pal, *(s8 *)&this->m_64, 1), (saddr)TWindowActionPalette__sub_801C1D7C(pal, *(s8 *)&this->m_64, 1));
+    update_palette_slot(2, get_slot_type__20TWindowActionPaletteFlll(pal, *(s8 *)&this->m_64, 3), (saddr)TWindowActionPalette__sub_801C1D7C(pal, *(s8 *)&this->m_64, 3));
+    update_palette_slot(3, get_slot_type__20TWindowActionPaletteFlll(pal, *(s8 *)&this->m_65, 2), (saddr)TWindowActionPalette__sub_801C1D7C(pal, *(s8 *)&this->m_65, 2));
+    update_palette_slot(4, get_slot_type__20TWindowActionPaletteFlll(pal, *(s8 *)&this->m_65, 1), (saddr)TWindowActionPalette__sub_801C1D7C(pal, *(s8 *)&this->m_65, 1));
+    update_palette_slot(5, get_slot_type__20TWindowActionPaletteFlll(pal, *(s8 *)&this->m_65, 3), (saddr)TWindowActionPalette__sub_801C1D7C(pal, *(s8 *)&this->m_65, 3));
 }
 
 #pragma push
@@ -518,7 +518,7 @@ void TWindowSubCustomEquip::run_task() {
     reset_selection();
     refresh_palette_slots();
     if ((f32) *(s32 *)&this->m_5c >= 7.5f) {
-        ((TWindowSubStatusDisp *)(*(s32 *)&this->m_6c))->update_subwindow();
+        ((TWindowSubStatusDisp *)(*(saddr *)&this->m_6c))->update_subwindow();
     }
     ((TWindowDD *)arg0)->initialize_subwindow();
     ((TWindowBase *)arg0)->update_window_entry_list((u8 *)&this->m_24);
@@ -526,7 +526,7 @@ void TWindowSubCustomEquip::run_task() {
 }
 
 TWindowSubCustomEquip::~TWindowSubCustomEquip() {
-    TWindowSubStatusDisp::destroy_status_display((s32)(*(void **)((s8 *)this + 0x6C)), (s16)1);
+    TWindowSubStatusDisp::destroy_status_display((saddr)(*(void **)((s8 *)this + 0x6C)), (s16)1);
 }
 
 u8 *get_window_layout_position(s32 index);
@@ -545,9 +545,9 @@ TWindowSubCustomEquip::TWindowSubCustomEquip(s32 slot) : TWindowBase((u8 *)&lbl_
     this->m_68 = 0xB200;
     heading = (void *)::operator new(0x24);
     if (heading != NULL) {
-        heading = ((TWindowSubStatusDisp *)heading)->construct_type1_heading((s32)TWindowSubStatusDisp::get_message_10(0x23), this->m_20);
+        heading = ((TWindowSubStatusDisp *)heading)->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x23), this->m_20);
     }
-    this->m_6c = (u32)heading;
+    this->m_6c = (uaddr)heading;
     this->refresh_palette_slots();
 }
 

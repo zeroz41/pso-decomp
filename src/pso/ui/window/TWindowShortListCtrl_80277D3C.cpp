@@ -15,10 +15,10 @@ void TWindowShortListCtrl::assign_shortcut(s32 slot, s32 item, s32 arg2) {
     s32 temp_r0;
     u32 temp_r3b;
 
-    player = (s32)get_player_by_client_id(arg2);
+    player = (saddr)get_player_by_client_id(arg2);
     if (player != 0) {
         slot_value = TObjPlayer::get_slot_value((s32 *)(player + 0xD04), slot);
-        temp_r3b = (u32)find_item_by_id(item);
+        temp_r3b = (uaddr)find_item_by_id(item);
         if (slot_value == temp_r3b) {
             TObjPlayer::send_6x26_unequip_item((void *)player, (void *)item);
             return;

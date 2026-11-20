@@ -92,7 +92,7 @@ int request_transition__18TAdEnterPasswordGCFPv(void* p) { return request_transi
 
 typedef struct Pw_8032B6A0 Pw_8032B6A0;
 void update_password_input__18TAdEnterPasswordGCFPv(Pw_8032B6A0 *self) {
-  s32 buf = (s32)((TKeyBoardControl *)password_entry_keyboard_control)->realloc_buffer();
+  s32 buf = (saddr)((TKeyBoardControl *)password_entry_keyboard_control)->realloc_buffer();
   s32 prev;
   int cur;
   if (((self->len == 0) && (TWindowShortListCtrl__check_controller_button(controller_physical_port_bank + 0x20, 2) != 0)) || ((self->len == 0) && (test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state + 0x160, 2) != 0)))
@@ -176,8 +176,8 @@ void open_keyboard_window__18TAdEnterPasswordGCFPv(s32 arg0) {
     *(s32 *)((s8 *)arg0 + 0x34) = create_default_callback__22TAdEnterSerialAccessGCFv((void *)arg0);
     if ((u32) *(u32 *)((s8 *)arg0 + 0x2C) != 0U) {
         ((TAdEnterSerialAccessGC *)(*(void **)((s8 *)arg0 + 0x2C)))->reset_input_state();
-        ((TLevelSelect *)(*(u32 *)((s8 *)arg0 + 0x2C)))->add_item_rect((void *)enter_password_item_rect_table[0]);
-        ((TAdEnterSerialAccessGC *)(*(u32 *)((s8 *)arg0 + 0x2C)))->set_active();
+        ((TLevelSelect *)(*(uaddr *)((s8 *)arg0 + 0x2C)))->add_item_rect((void *)enter_password_item_rect_table[0]);
+        ((TAdEnterSerialAccessGC *)(*(uaddr *)((s8 *)arg0 + 0x2C)))->set_active();
     }
     (*(u32 *)&password_entry_keyboard_control) = TAdEnterSerialAccessGC::create_keyboard_control(arg0, 2);
     password_entry_dispatch_state = 1;
@@ -213,7 +213,7 @@ TAdEnterPasswordGC::TAdEnterPasswordGC(TObject *parent) : TAdEnterBaseGC(parent)
     password_entry_dispatch_state = 0;
     len = 0;
     if ((s8) *(u8 *)((s8 *)(TAdSinglePlyChrSelectGC::get_instance()) + 0x1154C) != 0) {
-        set_password__18TAdEnterPasswordGCFi((s32)((void *) (TAdSinglePlyChrSelectGC::get_instance() + 0x1154C)));
+        set_password__18TAdEnterPasswordGCFi((saddr)((void *) (TAdSinglePlyChrSelectGC::get_instance() + 0x1154C)));
         request_main_phase(0xF);
         queue_destruction();
         return;

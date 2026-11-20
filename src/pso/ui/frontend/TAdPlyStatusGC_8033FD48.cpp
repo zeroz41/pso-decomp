@@ -224,7 +224,7 @@ void fn_8034009C(TBoss6Demo15_TYPE2_WAIT *boss6_demo15_type2_wait) {
 extern "C" {
 void *TObjFish__sub_8034029C(TBoss6Demo15_TYPE2_WAIT *, TObjFish *);
 
-void TBoss6Demo15_TYPE2_WAIT::render() { TObjPlayer__sub_8033FDB0((s32)this); }
+void TBoss6Demo15_TYPE2_WAIT::render() { TObjPlayer__sub_8033FDB0((saddr)this); }
 
 extern s32 __vt__23TBoss6Demo15_TYPE2_WAIT[];
 
@@ -240,7 +240,7 @@ void TBoss6Demo15_TYPE2_WAIT::run_task() {
             ((TParticleCtrl *)temp_r3)->set_position((u8 *)&this->m_40);
         }
         ((TBoss6Demo15_TYPE2_WAIT *)arg0)->check_any_player_near();
-        play_persistent_sound(0x4003A126, (s32)arg0, (u32)(arg0 + 0x40), 0, 0);
+        play_persistent_sound(0x4003A126, (saddr)arg0, (uaddr)(arg0 + 0x40), 0, 0);
         if (((TObjFish *)(*(u8 * *)&this->unk_1C))->get_phase() != 4) {
             ((TObject *)arg0)->queue_destruction();
         }

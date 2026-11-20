@@ -323,8 +323,8 @@ void init_game_systems(void) {
     resource_decompress_buffer = (u8 *)xmalloc__FUl(0x80000);
     lbl_805D5680 = (void *)xmalloc__FUl(0x6000);
     anim_model_matrix_array = (Mtx34 *)xmalloc__FUl(0x14A0);
-    TObjPlayer__sub_803E492C((s32)resource_decompress_buffer, 0x2000);
-    TKeyBoardControl::set_key_state((s32)TKeyBoardControl__sub_8000F764);
+    TObjPlayer__sub_803E492C((saddr)resource_decompress_buffer, 0x2000);
+    TKeyBoardControl::set_key_state((saddr)TKeyBoardControl__sub_8000F764);
     player_matrix_stack_buffer = xmalloc__FUl(0x600);
     TObjPlayer::init_matrix_stack(player_matrix_stack_buffer, 0x20);
     set_matrix_identity(0);
@@ -332,7 +332,7 @@ void init_game_systems(void) {
     TObjBoss2Tunnel::enable_and_trigger();
     init_pad_rumble();
     TKeyBoardControl::init_pad_state();
-    TObjPlayer::set_global_7778((s32)lbl_805D5680);
+    TObjPlayer::set_global_7778((saddr)lbl_805D5680);
     keyboard_input_buffer = xmalloc__FUl(0x1000);
     init_debug_text_buffer(keyboard_input_buffer, 0x80, 0x800);
     TObjNpcEnemy::set_global_count(-1);

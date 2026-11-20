@@ -357,7 +357,7 @@ u8 *__ct__10TAdEndTextFv(u8 *object, TObject *parent) {
   s32 c;
   __ct__7TObjectFP7TObject(object, parent);
   self->vtable = __vt__10TAdEndText;
-  self->name = (s32)TAdEndText__class_name;
+  self->name = (saddr)TAdEndText__class_name;
   self->f1C = 0;
   self->scroll = lbl_805D7DFC;
   TAdEndText__font_loaded_flag = 0;
@@ -411,7 +411,7 @@ void TAdEndText::free_resources() {
         TAdEndText__loaded_font_texture_list = 0U;
     }
     if ((u32) TAdEndText__credit_script_lines != 0U) {
-        TLobby::free_nodes_with_id((u32)((void*)TAdEndText__credit_script_lines));
+        TLobby::free_nodes_with_id((uaddr)((void*)TAdEndText__credit_script_lines));
         TAdEndText__credit_script_lines = 0U;
     }
 }
@@ -420,9 +420,9 @@ void TAdEndText::free_resources() {
 LAYOUT_ASSERT(RecoveredGlobal_8001B3BC_lbl_804F5800_size, sizeof(RecoveredGlobal_8001B3BC_lbl_804F5800) == 0x100);
 
 void TAdEndText::load_ending_font() {
-    TAdEndText__loaded_font_texture_list = (u32)&TAdEndText__ending_font_texture_list;
+    TAdEndText__loaded_font_texture_list = (uaddr)&TAdEndText__ending_font_texture_list;
     bind_gvm_texture_list(lbl_804347B0, &TAdEndText__ending_font_texture_list);
-    TAdEndText__credit_script_lines = (u32)create_named_object((s32)lbl_804347C0);
+    TAdEndText__credit_script_lines = (u32)create_named_object((saddr)lbl_804347C0);
     TAdEndText__font_loaded_flag = 0;
 }
 

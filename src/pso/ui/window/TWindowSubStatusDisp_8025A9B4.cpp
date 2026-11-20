@@ -171,8 +171,8 @@ void set_text_entry_string(u8 *arg0, u32 str, s32 arg2) {
     }
     if ((str != 0U) && (arg2 & 0x20)) {
         temp_r3_2 = TWindowKeyBoardSoft::strnlen((s8 *)str, (u32)(0x400));
-        *(u32 *)((s8 *)arg0 + 0x20) = ((u32)mem_alloc(temp_r3_2 + 1));
-        strncpy((char *)(*(u32 *)((s8 *)arg0 + 0x20)), (const char *)str, temp_r3_2);
+        *(u32 *)((s8 *)arg0 + 0x20) = ((uaddr)mem_alloc(temp_r3_2 + 1));
+        strncpy((char *)(*(uaddr *)((s8 *)arg0 + 0x20)), (const char *)str, temp_r3_2);
         *(s8 *)((s8 *)(temp_r3_2 + *(u32 *)((s8 *)arg0 + 0x20)) + 0) = 0;
         *(u16 *)((s8 *)arg0 + 0) = (u16) (*(u16 *)((s8 *)arg0 + 0) | 0x20);
     } else {
@@ -214,7 +214,7 @@ void render_text_entry(Win_8025AD5C *arg0, Ref_8025AD5C *arg1) {
     if (len > arg0->f1C) {
         len = arg0->f1C;
     }
-    set_text_draw_params((s32)arg1, (s32)(!(arg0->flags & 0x100)), (s32)(arg0->flags & 0x80), (f32)scale, (f32)alpha);
+    set_text_draw_params((saddr)arg1, (s32)(!(arg0->flags & 0x100)), (s32)(arg0->flags & 0x80), (f32)scale, (f32)alpha);
     if (arg0->flags & 4) {
         r = draw_small_font_string_clipped((f32 *)&pt, (const char *)arg0->text, arg0->i24, (f32)len);
     } else {
@@ -250,7 +250,7 @@ void *TWindowSubStatusDisp__sub_8025AF0C(void *window_sub_status_disp, s16 arg1)
             temp_r3 = ((TUnk_804CFA28 *)window_sub_status_disp)->flags;
             if (temp_r3 & 0x20) {
                 ((TUnk_804CFA28 *)window_sub_status_disp)->flags = (u16) (temp_r3 & 0xFFFFFFDF);
-                mem_free((void *)(*(u32 *)((s8 *)window_sub_status_disp + 0x20)));
+                mem_free((void *)(*(uaddr *)((s8 *)window_sub_status_disp + 0x20)));
             }
         }
         __dt__13TUnk_804CF998Fv(window_sub_status_disp, 0);

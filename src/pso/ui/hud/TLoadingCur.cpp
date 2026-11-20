@@ -69,7 +69,7 @@ void TLoadingCur::update_camera_facing_offset() {
         rotate_vector_by_matrix(0, (u8 *)&this->m_20, (u8 *)&this->_pad48);
         pop_matrices(1);
         vec3_add_to((u8 *)&this->_pad48, arg0 + 0x44);
-        ((TParticleCtrl *)*(u32 *)((s8 *)arg0 + 0x1C))->set_position((u8 *)&this->_pad48);
+        ((TParticleCtrl *)*(uaddr *)((s8 *)arg0 + 0x1C))->set_position((u8 *)&this->_pad48);
     }
 }
 #pragma push
@@ -164,7 +164,7 @@ int TLoadingCur::sub_8001CCD4() {
     push_matrix();
     project_world_to_screen(0, (u8 *)self + 0x2c, sp10);
     pop_matrix();
-    if (TLoadingCur::calc_clamp_offset((s32)((s32)self), (u8 *)((u8 *)sp10), (u8 *)((u8 *)&v)) != 0) {
+    if (TLoadingCur::calc_clamp_offset((s32)((saddr)self), (u8 *)((u8 *)sp10), (u8 *)((u8 *)&v)) != 0) {
         f32 t[3];
         t[0] = v.x;
         t[1] = v.y;
@@ -257,7 +257,7 @@ u8 *TLoadingCur__ct(u8 *object, s32 arg1) {
     Stack_8001D0A0 stack;
     __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
     *(s32 **)((s8 *)object + 0x18) = __vt__11TLoadingCur;
-    *(s32 *)((s8 *)object + 0) = (s32) TLoadingCur__class_name;
+    *(s32 *)((s8 *)object + 0) = (saddr) TLoadingCur__class_name;
     *(f32 *)((s8 *)object + 0x20) = 0.0f;
     *(f32 *)((s8 *)object + 0x24) = 0.0f;
     *(f32 *)((s8 *)object + 0x28) = 0.0f;
@@ -274,7 +274,7 @@ u8 *TLoadingCur__ct(u8 *object, s32 arg1) {
     stack.spC = 0;
     stack.sp10 = 0;
     direction_to_rotation_xz((object + 0x50), (&stack.sp8), (&stack.sp10));
-    *(s32 *)((s8 *)object + 0x1C) = (s32)fn_80086FE0((object + 0x20), (&stack.sp8), 0x16, 1);
+    *(s32 *)((s8 *)object + 0x1C) = (saddr)fn_80086FE0((object + 0x20), (&stack.sp8), 0x16, 1);
     return object;
 }
 #pragma pop

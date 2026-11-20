@@ -225,7 +225,7 @@ void init_window_layout_entries(List_80257D44 *self, Desc_80257D44 *desc, s32 ar
             case 9:
                 o = ::operator new(0x28);
                 if (o != NULL) {
-                    o = ((TWindowSubComCard *)o)->init_fields((int)rec, (int)arg2);
+                    o = ((TWindowSubComCard *)o)->init_fields((saddr)rec, (int)arg2);
                 }
                 *out = o;
                 rec += 1;

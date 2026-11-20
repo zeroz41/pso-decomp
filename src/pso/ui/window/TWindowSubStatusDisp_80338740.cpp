@@ -42,8 +42,8 @@ void TWindowSubStatusDisp__sub_80338740(u8 *arg0, s32 arg1, s32 arg2, s8 arg3, s
         *(s8 *)((s8 *)arg0 + 0x1C) = 0x33;
     }
     temp_r3 = measure_string_len__20TWindowSubStatusDispFv((void *)arg2);
-    *(s32 *)((s8 *)arg0 + 0x24) = (s32)mem_alloc((temp_r3 + 1));
-    strncpy((char *)(*(s32 *)((s8 *)arg0 + 0x24)), (const char *)arg2, (int)temp_r3);
+    *(s32 *)((s8 *)arg0 + 0x24) = (saddr)mem_alloc((temp_r3 + 1));
+    strncpy((char *)(*(saddr *)((s8 *)arg0 + 0x24)), (const char *)arg2, (int)temp_r3);
     *(s8 *)((s8 *)temp_r3 + (*(s32 *)((s8 *)arg0 + 0x24))) = 0;
     *(s8 *)((s8 *)arg0 + 0x1D) = arg7;
     *(s8 *)((s8 *)arg0 + 0x1E) = arg6;
@@ -98,7 +98,7 @@ void TUnk_804EF440::render(WindowDrawContext *context) {
   scale = -1.0f / (0.1495f + win->x38);
   draw_item_list_icon(win, &pos, this->icon, -1, scale);
   pos.x += 18.0f;
-  set_text_draw_params((s32)win, 1, 1, (f32)scale, 100000.0f);
+  set_text_draw_params((saddr)win, 1, 1, (f32)scale, 100000.0f);
   draw_window_text((f32 *)&pos, this->text, -1, 1, 100000.0f);
   pos.x += 210.0f;
   draw_window_text((f32 *)&pos, (const char *)(TWindowSubStatusDisp::get_flag_or_zero(this, this->m_1d)), -1, 0, 100000.0f);

@@ -51,12 +51,12 @@ void TWindowSubStatusDisp::set_entry_display_value(s32 arg1) {
 }
 
 void TWindowRoom::draw_tab(void *context) {
-    draw_window_tab((s32)context, (s32)((u8 *)context + 0x10), 3, tabParameter);
+    draw_window_tab((saddr)context, (saddr)((u8 *)context + 0x10), 3, tabParameter);
 }
 
 void TWindowRoom::render() {
     s32 temp_r3;
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
 
     temp_r3 = draw_default_entry__9TWindowDDFl();
     ((TWindowRoom *)arg0)->draw_tab((void *)temp_r3);
@@ -71,7 +71,7 @@ TWindowRoom::TWindowRoom(char *title)
     RoomTitleEntry *entry;
     m_name = TWindowRoom__class_name;
     entry = (RoomTitleEntry *)((TWindowBase *)this)->get_array_entry(0);
-    set_text_entry_string((u8 *)entry, (u32)title, 0x60);
+    set_text_entry_string((u8 *)entry, (uaddr)title, 0x60);
     refresh_status_display__9TWindowDDFv(entry);
     width = 10.0f + (entry->positionX + entry->width);
     positionX -= width;

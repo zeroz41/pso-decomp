@@ -369,7 +369,7 @@ void TShopEquipmentSellWindow::set_entry_count(void *arg1, void *arg2) {
     s32 temp_r3;
     void *temp_r31;
 
-    temp_r31 = get_array_entry__11TWindowBaseFi((s32)arg1, 1);
+    temp_r31 = get_array_entry__11TWindowBaseFi((saddr)arg1, 1);
     if (arg2 == NULL) {
         *(s32 *)((s8 *)temp_r31 + 0x20) = 0;
         return;

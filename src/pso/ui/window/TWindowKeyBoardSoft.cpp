@@ -343,7 +343,7 @@ void TWindowKeyBoardSoft::sub_80260E30(s32 port) {
     s8 dy = 0;
     s32 input;
     if (kb->flags & 2) {
-        input = (s32)((u8 *)&controller_input_state + port * 0x50 + 0x20);
+        input = (saddr)((u8 *)&controller_input_state + port * 0x50 + 0x20);
         if (TWindowChoiceSetting::apply_choice(input, 0xF0, 6, 2) == 0) {
             return;
         }
@@ -360,7 +360,7 @@ void TWindowKeyBoardSoft::sub_80260E30(s32 port) {
             dx++;
         }
     } else {
-        input = (s32)((u8 *)&controller_input_state + port * 0x50 + 0x20);
+        input = (saddr)((u8 *)&controller_input_state + port * 0x50 + 0x20);
         if (TAdMultiPlyChrSelectGC::dispatch_draw_command(input, 0xF0, 6, 2) == 0) {
             return;
         }

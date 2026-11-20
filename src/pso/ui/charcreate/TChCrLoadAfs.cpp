@@ -89,7 +89,7 @@ void TChCrLoadAfs::start_download() {
             return;
         }
         count = adxf_get_fsize_sct((u8 *)load_handle);
-        buffer = (u32)TQuestVmDownLoadServer::alloc(count << 0xB);
+        buffer = (uaddr)TQuestVmDownLoadServer::alloc(count << 0xB);
         buffer_address = buffer;
         if (buffer == 0U) {
             load_state = 3;
@@ -139,8 +139,8 @@ const char *lbl_805D3B48 = TChCrLoadAfs__class_name_string;
 TChCrLoadAfs::TChCrLoadAfs(TObject *object, void *arg2, void *arg3) : TObject(object) {
     m_name = lbl_805D3B48;
     load_handle = 0;
-    source_20 = (u32)arg2;
-    source_24 = (u32)arg3;
+    source_20 = (uaddr)arg2;
+    source_24 = (uaddr)arg3;
     buffer_address = 0;
     load_state = 0;
     state_30 = 0;
@@ -250,7 +250,7 @@ void TChCrLoadAfsTextureReq::start_read() {
         m_20 = 0;
         m_24 = 0;
         n = adxf_get_fsize_sct((u8 *)load_handle);
-        buf = (u32)TQuestVmDownLoadServer::alloc(n << 11);
+        buf = (uaddr)TQuestVmDownLoadServer::alloc(n << 11);
         buffers[index] = buf;
         if (buf != 0) {
             TLobby::read_checked_align(load_handle, n, buffers[index]);

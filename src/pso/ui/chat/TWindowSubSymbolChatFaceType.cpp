@@ -74,18 +74,18 @@ typedef struct Stack_80283F38 Stack_80283F38;
 void TWindowSubSymbolChatFaceType::handle_input() {
     u8 *input;
     input = (u8 *)&controller_input_state + 0x20;
-    if ((TWindowChoiceSetting::apply_choice((s32)input, 0xF0, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state + 0x160)), 0xF0, 6, 1) != 0)) {
+    if ((TWindowChoiceSetting::apply_choice((saddr)input, 0xF0, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((saddr)((void *) ((u8 *)&controller_input_state + 0x160)), 0xF0, 6, 1) != 0)) {
         play_sound_effect(0x54100, 0U, 0, 0);
-        if ((TWindowChoiceSetting::apply_choice((s32)input, 0x10, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state + 0x160)), 0x10, 6, 1) != 0)) {
+        if ((TWindowChoiceSetting::apply_choice((saddr)input, 0x10, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((saddr)((void *) ((u8 *)&controller_input_state + 0x160)), 0x10, 6, 1) != 0)) {
             this->m_62 = (this->m_62 - 1);
         }
-        if ((TWindowChoiceSetting::apply_choice((s32)input, 0x20, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state + 0x160)), 0x20, 6, 1) != 0)) {
+        if ((TWindowChoiceSetting::apply_choice((saddr)input, 0x20, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((saddr)((void *) ((u8 *)&controller_input_state + 0x160)), 0x20, 6, 1) != 0)) {
             this->m_62 = (this->m_62 + 1);
         }
-        if ((TWindowChoiceSetting::apply_choice((s32)input, 0x80, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state + 0x160)), 0x80, 6, 1) != 0)) {
+        if ((TWindowChoiceSetting::apply_choice((saddr)input, 0x80, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((saddr)((void *) ((u8 *)&controller_input_state + 0x160)), 0x80, 6, 1) != 0)) {
             this->m_61 = (this->m_61 + 1);
         }
-        if ((TWindowChoiceSetting::apply_choice((s32)input, 0x40, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state + 0x160)), 0x40, 6, 1) != 0)) {
+        if ((TWindowChoiceSetting::apply_choice((saddr)input, 0x40, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((saddr)((void *) ((u8 *)&controller_input_state + 0x160)), 0x40, 6, 1) != 0)) {
             this->m_61 = (this->m_61 - 1);
         }
         if ((s8) this->m_61 < 0) {
@@ -214,7 +214,7 @@ void run_task__28TWindowSubSymbolChatFaceTypeFv(TWindowSubSymbolChatFaceType *wi
         }
     }
     if ((f32) *(s32 *)&window_sub_symbol_chat_face_type->m_5c >= 7.5f) {
-        ((TWindowSubStatusDisp *)(*(s32 *)&window_sub_symbol_chat_face_type->m_68))->update_subwindow();
+        ((TWindowSubStatusDisp *)(*(saddr *)&window_sub_symbol_chat_face_type->m_68))->update_subwindow();
     }
     ((TWindowDD *)window_sub_symbol_chat_face_type)->initialize_subwindow();
     ((TWindowBase *)window_sub_symbol_chat_face_type)->update_window_entry_list((u8 *)window_sub_symbol_chat_face_type + 0x24);
@@ -225,7 +225,7 @@ void run_task__28TWindowSubSymbolChatFaceTypeFv(TWindowSubSymbolChatFaceType *wi
 extern "C" {
 
 TWindowSubSymbolChatFaceType::~TWindowSubSymbolChatFaceType() {
-    TWindowSubStatusDisp::destroy_status_display((s32)(*(void **)((s8 *)this + 0x68)), (s16)1);
+    TWindowSubStatusDisp::destroy_status_display((saddr)(*(void **)((s8 *)this + 0x68)), (s16)1);
 }
 
 }
@@ -262,7 +262,7 @@ TWindowSubSymbolChatFaceType::TWindowSubSymbolChatFaceType(s32 arg1, s32 arg2) :
     this->m_61 = 0;
     this->m_62 = 0;
     this->m_64 = arg2;
-    var_r31 = (int)::operator new(0x24);
+    var_r31 = (saddr)::operator new(0x24);
     if (var_r31 != 0) {
         var_r31 = construct_type1_heading__20TWindowSubStatusDispFll(var_r31, get_message_10__20TWindowSubStatusDispFl(0x33), (s32) this->m_20);
     }

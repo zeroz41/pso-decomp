@@ -70,7 +70,7 @@ extern const char *TAdDialingGC__name;
 }
 
 TAdDialingGC::TAdDialingGC(TObject *parent) : TObject(parent) {
-    *(s32 *)((s8 *)this + 0) = (s32) ((s32)TAdDialingGC__name);
+    *(s32 *)((s8 *)this + 0) = (s32) ((saddr)TAdDialingGC__name);
     TAdDialingGC__instance = this;
     if (TLobby::is_state_active() != 0) {
         this->m_1c = 1;
@@ -448,7 +448,7 @@ void TAdDialingGC::update_dial_state(s32 arg1) {
             return;
         default:
             show_guide_button();
-            if (TAdDialingGC__sub_803284F8((s32)this) != 0) {
+            if (TAdDialingGC__sub_803284F8((saddr)this) != 0) {
                 this->m_20 = 3;
                 return;
             }
@@ -482,7 +482,7 @@ block_11:
             return;
         }
 block_12:
-        if (TAdDialingGC__sub_803284F8((s32)this) != 0) {
+        if (TAdDialingGC__sub_803284F8((saddr)this) != 0) {
             this->m_20 = 3;
         }
         break;
@@ -513,7 +513,7 @@ block_11:
             return;
         }
 block_12:
-        if (TAdDialingGC__sub_803284F8((s32)this) != 0) {
+        if (TAdDialingGC__sub_803284F8((saddr)this) != 0) {
             this->m_20 = 3;
         }
         break;

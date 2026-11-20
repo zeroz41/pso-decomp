@@ -119,8 +119,8 @@ void TWindowHelpItem::set_help_text(u32 arg1) {
     *(void **)((s8 *)this + 0x18) = 0;
     if (arg1 != 0U) {
         temp_r3 = measure_string_len__20TWindowSubStatusDispFv(arg1);
-        *(s32 *)((s8 *)this + 0x18) = (s32)mem_alloc(temp_r3 + 1);
-        strncpy((char *)(*(s32 *)((s8 *)this + 0x18)), (const char *)arg1, (u32)temp_r3 + 1);
+        *(s32 *)((s8 *)this + 0x18) = (saddr)mem_alloc(temp_r3 + 1);
+        strncpy((char *)(*(saddr *)((s8 *)this + 0x18)), (const char *)arg1, (u32)temp_r3 + 1);
     }
 }
 
@@ -135,7 +135,7 @@ void render_summary_row__15TWindowHelpItemFv(Item_8025A354 *self, Win_8025A354 *
     }
     pos.x = w->x + self->x;
     pos.y = w->y + self->y;
-    set_text_draw_params((s32)w, 1, 0, (f32)(-1.0f / (0.0897f + w->f38)), 100000.0f);
+    set_text_draw_params((saddr)w, 1, 0, (f32)(-1.0f / (0.0897f + w->f38)), 100000.0f);
     draw_window_text((f32 *)&pos, self->label, -1, 1, 100000.0f);
     pos.x += 86.0f;
     draw_window_text((f32 *)&pos, (const char *)((void *)":"), -1, 0, 100000.0f);
@@ -174,7 +174,7 @@ void tick_display_timer__15TWindowHelpItemFPv(void *arg0) {
 void *destroy__15TWindowHelpItemFPvs(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(void ***)((s8 *)arg0 + 4) = lbl_804CF9F8;
-        mem_free((void *)(*(s32 *)((s8 *)arg0 + 0x18)));
+        mem_free((void *)(*(saddr *)((s8 *)arg0 + 0x18)));
         __dt__13TUnk_804CF918Fv(arg0, 0);
         if (arg1 > 0) {
             ::operator delete(arg0);

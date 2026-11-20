@@ -145,7 +145,7 @@ void TWindowSubStatusDisp__sub_80271A6C(s32 arg0, u8 *arg1) {
     } else {
         color = -1;
     }
-    set_text_draw_params((s32)arg1, 0, 0, (f32)scale, (f32)1e+05f);
+    set_text_draw_params((saddr)arg1, 0, 0, (f32)scale, (f32)1e+05f);
     pos.x = 487.0f + *(f32 *)(arg1 + 0x3C);
     pos.y = 41.0f + *(f32 *)(arg1 + 0x40);
     draw_window_text((f32 *)&pos, (const char *)(TWindowSubStatusDisp::get_message_10(0x11B)), color, 0, (f32)1e+06f);
@@ -202,10 +202,10 @@ TWindowSubAreaMapDisp::TWindowSubAreaMapDisp() : TWindowBase((u8 *)&TWindowSubAr
     } else {
         var_r30 = (u8 *)(get_floor_destination_name(get_current_floor_area()));
     }
-    temp_r3 = measure_string_len__20TWindowSubStatusDispFv((int)var_r30);
-    this->m_74 = (s32)mem_alloc((temp_r3 + 1));
+    temp_r3 = measure_string_len__20TWindowSubStatusDispFv((saddr)var_r30);
+    this->m_74 = (saddr)mem_alloc((temp_r3 + 1));
     strncpy((char *)this->m_74, (const char *)var_r30, (u32)temp_r3 + 1);
-    temp_r3_2 = (int)::operator new(0x24);
+    temp_r3_2 = (saddr)::operator new(0x24);
     var_r0 = temp_r3_2;
     if (var_r0 != 0) {
         var_r0 = construct_type1_heading__20TWindowSubStatusDispFll(temp_r3_2, this->m_74, (int) ((s32) this->m_20));

@@ -304,7 +304,7 @@ void TAdTimeSetGC::reset_on_load_complete() {
 void TAdTimeSetGC::open_char_select() {
     create_backgrounds();
     strcpy(text, (const char *)get_localized_text_entry(0x1C, 8));
-    close_and_dispatch((u32)text, 1, get_localized_text_entry(0x1C, 0x29), get_localized_text_entry(0x1C, 0x16));
+    close_and_dispatch((uaddr)text, 1, get_localized_text_entry(0x1C, 0x29), get_localized_text_entry(0x1C, 0x16));
 }
 
 void TAdTimeSetGC::handle_confirm_menu() {
@@ -541,7 +541,7 @@ void TAdTimeSetGC::sub_802E2588() {
 void TAdTimeSetGC::sub_802E2520() {
     create_backgrounds();
     strcpy(text, (const char *)get_localized_text_entry(0x1C, 0x25));
-    close_and_dispatch((u32)text, -2, get_localized_text_entry(0x1C, 0x16), 0);
+    close_and_dispatch((uaddr)text, -2, get_localized_text_entry(0x1C, 0x16), 0);
 }
 
 void TAdTimeSetGC::sub_802E24B8() {
@@ -557,20 +557,20 @@ void TAdTimeSetGC::sub_802E24B8() {
 void TAdTimeSetGC::sub_802E2450() {
     create_backgrounds();
     strcpy(text, (const char *)get_localized_text_entry(0x1C, 0x27));
-    close_and_dispatch((u32)text, -2, get_localized_text_entry(0x1C, 0x16), 0);
+    close_and_dispatch((uaddr)text, -2, get_localized_text_entry(0x1C, 0x16), 0);
 }
 
 void TAdTimeSetGC::sub_802E23E8() {
     create_backgrounds();
     strcpy(text, (const char *)get_localized_text_entry(0x1C, 0x26));
-    close_and_dispatch((u32)text, -2, get_localized_text_entry(0x1C, 0x16), 0);
+    close_and_dispatch((uaddr)text, -2, get_localized_text_entry(0x1C, 0x16), 0);
 }
 
 void TAdTimeSetGC::init_menu_window() {
     create_backgrounds();
     strcpy(text, (const char *)get_localized_text_entry(0x1C, 1));
     strcat(text, "\n");
-    close_and_dispatch((u32)text, -2, get_localized_text_entry(0x1C, 0x16), 0);
+    close_and_dispatch((uaddr)text, -2, get_localized_text_entry(0x1C, 0x16), 0);
 }
 
 void TAdTimeSetGC::sub_802E22A4() {
@@ -615,7 +615,7 @@ void TAdTimeSetGC::build_selection_summary() {
         strcat(text, (const char *)get_localized_text_entry(0x1C, 0x1F));
         strcat(text, "\n");
     }
-    close_and_dispatch((u32)text, 1, get_localized_text_entry(0x1C, 0x2A), get_localized_text_entry(0x1C, 0x2B));
+    close_and_dispatch((uaddr)text, 1, get_localized_text_entry(0x1C, 0x2A), get_localized_text_entry(0x1C, 0x2B));
 }
 
 void TAdTimeSetGC::create_result_bg() {
@@ -647,7 +647,7 @@ void TAdTimeSetGC::show_confirm_dialog() {
     }
     sprintf(text, "%s\n%s\n%s", get_localized_text_entry(0x1C, 0x17), files, get_localized_text_entry(0x1C, 0x14));
     create_backgrounds();
-    close_and_dispatch((u32)text, 1, get_localized_text_entry(0x1C, 0x15), get_localized_text_entry(0x1C, 0x16));
+    close_and_dispatch((uaddr)text, 1, get_localized_text_entry(0x1C, 0x15), get_localized_text_entry(0x1C, 0x16));
 }
 
 void TAdTimeSetGC::sub_802E1FAC() {
@@ -826,13 +826,13 @@ void TAdTimeSetGC::open_message_choice(u32 text, s32 sel, u32 first_text, u32 se
     }
     entry_text = first_text;
     if (first_text == 0) {
-        entry_text = (u32)TWindowSubStatusDisp::get_message_10(0x5B);
+        entry_text = (uaddr)TWindowSubStatusDisp::get_message_10(0x5B);
     }
     if (sel != -2) {
         forward_trade_action_default__16TObjCityMainWarpFPviii(menu_window, entry_text, 5, 0);
         entry_text = second_text;
         if (second_text == 0) {
-            entry_text = (u32)TWindowSubStatusDisp::get_message_10(0x5C);
+            entry_text = (uaddr)TWindowSubStatusDisp::get_message_10(0x5C);
         }
         forward_trade_action_default__16TObjCityMainWarpFPviii(menu_window, entry_text, 5, 1);
     } else {

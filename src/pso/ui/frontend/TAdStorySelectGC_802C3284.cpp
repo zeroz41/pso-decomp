@@ -147,8 +147,8 @@ Self_802C3400 *__ct__16TAdStorySelectGCFv(Self_802C3400 *self, void *parent) {
         p = __ct__13TAdGuideTxtGCFv(p, self);
     }
     self->f20 = p;
-    ((TAdMultiPlyChrSelectGC *)((s32)self->f20))->set_entry_value(0, get_localized_text_entry(0x14, 0));
-    ((TAdMultiPlyChrSelectGC *)((s32)self->f20))->set_entry_value(1, get_localized_text_entry(0x14, 1));
+    ((TAdMultiPlyChrSelectGC *)((saddr)self->f20))->set_entry_value(0, get_localized_text_entry(0x14, 0));
+    ((TAdMultiPlyChrSelectGC *)((saddr)self->f20))->set_entry_value(1, get_localized_text_entry(0x14, 1));
     create_draw_line_ctrl((TObject *)self, 0xA, 0.0f);
     return self;
 }

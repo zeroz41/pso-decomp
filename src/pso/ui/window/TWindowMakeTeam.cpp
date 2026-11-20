@@ -71,7 +71,7 @@ void *TWindowMakeTeam__ct(void *arg0, void *arg1, s32 arg2) {
     __ct__7TObjectFP7TObject();
     self = (struct TWMT *) arg0;
     *(void **)((s8 *)self + 0x18) = (void *) __vt__15TWindowMakeTeam;
-    v = (s32)TWindowMakeTeam__name;
+    v = (saddr)TWindowMakeTeam__name;
     *(s32 *)((s8 *)self + 0) = v;
     ((TWindowMakeTeam *)self)->m_1c = 0;
     ((TWindowMakeTeam *)self)->m_1d = 0;
@@ -244,12 +244,12 @@ s32 TWindowMakeTeam::create_status_menu_window() {
     s32 r;
     s32 m;
     r = check_room_seq_4__16TAdChrSelASlotGCFl(lbl_8044F308, 4);
-    forward_trade_action_default__16TObjCityMainWarpFPviii((void *)r, (int)init_status_disp__15TWindowMakeTeamFc(0), 6, 0);
-    forward_trade_action_default__16TObjCityMainWarpFPviii((void *)r, (int)init_status_disp__15TWindowMakeTeamFc(1), 6, 1);
-    forward_trade_action_default__16TObjCityMainWarpFPviii((void *)r, (int)init_status_disp__15TWindowMakeTeamFc(2), 6, 2);
+    forward_trade_action_default__16TObjCityMainWarpFPviii((void *)r, (saddr)init_status_disp__15TWindowMakeTeamFc(0), 6, 0);
+    forward_trade_action_default__16TObjCityMainWarpFPviii((void *)r, (saddr)init_status_disp__15TWindowMakeTeamFc(1), 6, 1);
+    forward_trade_action_default__16TObjCityMainWarpFPviii((void *)r, (saddr)init_status_disp__15TWindowMakeTeamFc(2), 6, 2);
     m = *(s32 *)(arg0 + 0x20);
     if (m == 1 || m == 2) {
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)r, (int)init_status_disp__15TWindowMakeTeamFc(3), 6, 3);
+        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)r, (saddr)init_status_disp__15TWindowMakeTeamFc(3), 6, 3);
     }
     ((TWindowSubComCard *)r)->calc_window_size();
     align_menu_entry_positions(r);

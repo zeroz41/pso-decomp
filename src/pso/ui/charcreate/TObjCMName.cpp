@@ -1097,7 +1097,7 @@ void *__ct__16TObjCMAssignMenuFv(void *obj_cm_assign_menu, void *parent, void *k
     ((Menu_80297128 *)obj_cm_assign_menu)->name = TObjCMAssignMenu__name;
     ((Menu_80297128 *)obj_cm_assign_menu)->chara = (*(Chara_80297128 * *)&creation_player_character);
     ((Menu_80297128 *)obj_cm_assign_menu)->f20 = 0;
-    ((Menu_80297128 *)obj_cm_assign_menu)->kind = (s32)kind;
+    ((Menu_80297128 *)obj_cm_assign_menu)->kind = (saddr)kind;
     ((Menu_80297128 *)obj_cm_assign_menu)->count = ((Row_80297128 *)&class_appearance_table)[((TCharaMaking *)(((Menu_80297128 *)obj_cm_assign_menu)->chara))->get_display_index()].v[((Menu_80297128 *)obj_cm_assign_menu)->kind];
     ((Menu_80297128 *)obj_cm_assign_menu)->f28 = ((Menu_80297128 *)obj_cm_assign_menu)->chara->f38[((Menu_80297128 *)obj_cm_assign_menu)->kind];
     ((Menu_80297128 *)obj_cm_assign_menu)->n = 0;

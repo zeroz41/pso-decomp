@@ -68,7 +68,7 @@ void *TWindowDuelResult::init(void *arg1, void *arg2, void *arg3) {
     *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_804C3E60;
     *(void * *)&this->_pad1C = arg3;
     *(void **)((s8 *)this + 0x20) = arg2;
-    TLobby::set_and_notify((int)arg2);
+    TLobby::set_and_notify((saddr)arg2);
     return this;
 }
 s32 *TWindowDuelResult__sub_801C257C(void) {

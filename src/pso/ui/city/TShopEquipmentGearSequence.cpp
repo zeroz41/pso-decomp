@@ -192,7 +192,7 @@ s32 TShopEquipmentGearSequence::open_greeting() {
   Stack_8021D948 stack;
   stack.sp8 = 332.0f;
   stack.spC = 80.0f;
-  this->create_message_window(get_window_layout_position(0x2C, 332.0f), (s32)&stack.sp8);
+  this->create_message_window(get_window_layout_position(0x2C, 332.0f), (saddr)&stack.sp8);
   PSO_VCALL_VObj_18_a93f07_m4(this, 0x2b, 1);
   meseta_window = (TWindowBase *)create_meseta_window((s32) get_child_field1c__13TShopSequenceFv(this));
   this->set_field_20(2);
@@ -240,7 +240,7 @@ void TShopEquipmentGearSequence::update_buy_sell_choice(void *self) {
 #undef arg0
 
 void TShopEquipmentGearSequence::open_armor_list_window() {
-    W_8021B4B0 *o = (W_8021B4B0 *)new TShopArmorListWindow((s32)tl_05, (s32)((S_8021B4B0 *)this), (s32)(((S_8021B4B0 *)this)->f24));
+    W_8021B4B0 *o = (W_8021B4B0 *)new TShopArmorListWindow((saddr)tl_05, (saddr)((S_8021B4B0 *)this), (s32)(((S_8021B4B0 *)this)->f24));
     o->cb0 = (void *)enter_quest_list__26TShopEquipmentGearSequenceFv;
     reset_controller_input_state();
     this->set_field_20(5);

@@ -45,7 +45,7 @@ s32 TShopSequence::get_child_field1c() {
 extern s32 lbl_805D55C0;
 
 bool TShopSequence::sub_802239EC() {
-    if (*(s32 *)((s8 *)((u8 *)&controller_input_state + (((TRaderMapCore *)(*(s32 *)((s8 *)((u8 *)this) + 0x24)))->get_map_id() * 0x50)) + 0x28) & 2) {
+    if (*(s32 *)((s8 *)((u8 *)&controller_input_state + (((TRaderMapCore *)(*(saddr *)((s8 *)((u8 *)this) + 0x24)))->get_map_id() * 0x50)) + 0x28) & 2) {
         return 1;
     }
     return test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), 2) != 0;
@@ -53,7 +53,7 @@ bool TShopSequence::sub_802239EC() {
 
 s32 TShopWindowBase::sub_80223A48() {
     u8 *arg0 = (u8 *)this;
-    if (*(s32 *)((s8 *)((u8 *)&controller_input_state + (((TRaderMapCore *)(*(s32 *)((s8 *)arg0 + 0x24)))->get_map_id() * 0x50)) + 0x28) & 4) {
+    if (*(s32 *)((s8 *)((u8 *)&controller_input_state + (((TRaderMapCore *)(*(saddr *)((s8 *)arg0 + 0x24)))->get_map_id() * 0x50)) + 0x28) & 4) {
         return 1;
     }
     if (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), 4) != 0) {

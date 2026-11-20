@@ -47,14 +47,14 @@ TUnk_804CE7D0::TUnk_804CE7D0(TObject *parent) : TObject(parent) {
         symbol_chat_preset = (u8 *)(get_symbol_chat_preset(i));
         temp_r30 = (u8 *)(((TWindowSubSymbolChat *)symbol_chat_preset)->get_symbol_chat_data());
         if (is_symbol_chat_preset_in_use((u32 *)symbol_chat_preset) != 0) {
-            forward_trade_action_default__16TObjCityMainWarpFPviii(preset_list, (s32) temp_r30, 0x66, i);
+            forward_trade_action_default__16TObjCityMainWarpFPviii(preset_list, (saddr) temp_r30, 0x66, i);
         } else {
-            TWindowSubComCard::draw_text_gray((s32)preset_list, (s32)temp_r30, 0x46, (s32)i);
+            TWindowSubComCard::draw_text_gray((saddr)preset_list, (saddr)temp_r30, 0x46, (s32)i);
         }
         i += 1;
     } while (i < 0xC);
     preset_list->set_flag70_bit10();
     preset_list->set_scroll_target(220.0f, 120.0f);
     align_menu_entry_positions(preset_list);
-    chat_symbol = new TWindowChatSymbol((s32)&lbl_8044EAC8, (s32)&lbl_8044EAD0);
+    chat_symbol = new TWindowChatSymbol((saddr)&lbl_8044EAC8, (saddr)&lbl_8044EAD0);
 }

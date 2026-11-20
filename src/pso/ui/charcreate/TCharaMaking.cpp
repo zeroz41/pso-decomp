@@ -548,7 +548,7 @@ s32 TCharaMaking::update_main_menu(s32 arg0) {
 
 void TCharaMaking::run_task() {
     if (!is_active__23TAdSinglePlyChrSelectGCFv(this)) return;
-    if (TCharaMaking::update_main_menu((s32)this)) return;
+    if (TCharaMaking::update_main_menu((saddr)this)) return;
 }
 
 void *TCharaMaking::create(void *arg0, void *arg1) {
@@ -564,11 +564,11 @@ TCharaMaking::~TCharaMaking() {
 TCharaMaking::TCharaMaking(TObject *parent) : TObject(parent) {
     u32 motion;
     m_name = TCharaMaking__name;
-    motion = ((u32)TObject::operator new(0x10C));
+    motion = ((uaddr)TObject::operator new(0x10C));
     if (motion != 0U) {
         TCMCharacter__ct((void *)motion, this);
     }
-    creation_main_menu_obj = (s32)TObjCMMainMenu::create(this);
+    creation_main_menu_obj = (saddr)TObjCMMainMenu::create(this);
     m_1c = 0x1555;
     m_20 = 0x9000;
     update_light_direction();

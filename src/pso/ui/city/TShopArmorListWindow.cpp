@@ -240,7 +240,7 @@ TShopArmorListWindow::TShopArmorListWindow(s32 parent, s32 arg2, s32 arg3) : TSh
     this->m_1f4 = 0;
     this->m_1f0 = 0;
     ((TShopGetItemWindow *)(this->m_24))->calc_item_count(&sp8);
-    TLobby::set_shop_armor_list_flag((int)((void *) (sub_8022397C__15TShopWindowBaseFv(((u8 *)this)))), sp8);
+    TLobby::set_shop_armor_list_flag((saddr)((void *) (sub_8022397C__15TShopWindowBaseFv(((u8 *)this)))), sp8);
 }
 
 TShopArmorListWindow::~TShopArmorListWindow() {
@@ -343,11 +343,11 @@ void TShopArmorListWindow::refresh_item_list(void *p) {
         for (k = 0; k < W->count; k++) {
             e = (u8 *)W + k * 0x14;
             if (*(s32 *)(e + 0x5C) != -1) {
-                ((TWindowSubStatusDisp *)(W->list))->add_ground_item((s32)(e + 0x4C), (s32)k);
+                ((TWindowSubStatusDisp *)(W->list))->add_ground_item((saddr)(e + 0x4C), (s32)k);
             }
         }
         ((TWindowMenuIconLine *)W->list)->calc_content_extent();
-        ((TWindowMenuIconLine *)((s32)W->list))->clear_decided();
+        ((TWindowMenuIconLine *)((saddr)W->list))->clear_decided();
         ((TShopArmorListWindow *)(W->list))->clamp_selection_to_valid_entry();
     }
     if (W->help == NULL) {
@@ -359,7 +359,7 @@ void TShopArmorListWindow::refresh_item_list(void *p) {
         if (W->help != NULL && TLobby::is_camera_ctrl_active() > 2) {
             ((TLobby *)(W->help))->set_position(0.75f, 0.75f);
         }
-        ((TWindowHelpItem *)((int)W->help))->set_displayed_item_colored((u32)W->recs);
+        ((TWindowHelpItem *)((saddr)W->help))->set_displayed_item_colored((uaddr)W->recs);
     }
     if (W->cost == NULL) {
         W->cost = create_cost_window(get_entity_id(W->player));
@@ -407,7 +407,7 @@ void TShopArmorListWindow::handle_selection() {
     if (w->list != NULL) {
         i = ((TWindowMenuIconLine *)(w->list))->get_cursor_value();
         if (w->help != NULL && i != w->sel) {
-            ((TWindowHelpItem *)((int)w->help))->set_displayed_item_colored((u32)&w->recs[i]);
+            ((TWindowHelpItem *)((saddr)w->help))->set_displayed_item_colored((uaddr)&w->recs[i]);
         }
         if (i != w->sel) {
             update_selection(&w->recs[i]);
@@ -495,13 +495,13 @@ void handle_buy_confirm__20TShopArmorListWindowFv(Win_8021A634 *w) {
                 it.id = advance_item_id_counter(local_client_id);
                 try_buy_item(w->player, &it);
                 item = (VObj_18_b34251 *)find_item_by_id(it.id);
-                if (item != NULL && (e = (u32)((TObjPlayer *)w->player)->get_equipped_item(item->m31())) != 0) {
+                if (item != NULL && (e = (uaddr)((TObjPlayer *)w->player)->get_equipped_item(item->m31())) != 0) {
                     TObjPlayer::send_6x26_unequip_item((void *)(w->player), (void *)(((TItem *)e)->get_item_id()));
                 }
                 send_6x25_equip_item((void *)w->player, it.id, 0);
                 ((TShopArmorListWindow *)w)->update_selection(&w->recs[i]);
                 if (is_single_purchase_shop_item((u8 *)&w->recs[i]) != 0) {
-                    TLobby::clear_shop_entry_value((s32)i, (s32)((void *)base));
+                    TLobby::clear_shop_entry_value((s32)i, (saddr)((void *)base));
                 }
                 ((TShopArmorListWindow *)(w->list))->save_cursor_selection();
             }
@@ -517,7 +517,7 @@ void handle_buy_confirm__20TShopArmorListWindowFv(Win_8021A634 *w) {
                 try_buy_item(w->player, &it);
                 ((TShopArmorListWindow *)w)->update_selection(&w->recs[i]);
                 if (is_single_purchase_shop_item((u8 *)&w->recs[i]) != 0) {
-                    TLobby::clear_shop_entry_value((s32)i, (s32)((void *)base));
+                    TLobby::clear_shop_entry_value((s32)i, (saddr)((void *)base));
                 }
                 ((TShopArmorListWindow *)(w->list))->save_cursor_selection();
             }
@@ -534,7 +534,7 @@ void handle_buy_confirm__20TShopArmorListWindowFv(Win_8021A634 *w) {
             try_buy_item(w->player, &it);
             ((TShopArmorListWindow *)w)->update_selection(&w->recs[i]);
             if (is_single_purchase_shop_item((u8 *)&w->recs[i]) != 0) {
-                TLobby::clear_shop_entry_value((s32)i, (s32)((void *)base));
+                TLobby::clear_shop_entry_value((s32)i, (saddr)((void *)base));
             }
             ((TShopArmorListWindow *)(w->list))->save_cursor_selection();
         }
@@ -557,7 +557,7 @@ void TShopArmorListWindow::handle_equip_offer() {
                 ((TWindowBase *)w->win)->close();
                 w->win = (void *)create_yes_no_window(get_window_layout_position(0x2B), get_entity_id(w->player), 0, 0);
                 sc = ((TShopWindowBase *)w)->get_scale();
-                ((TWindowAddition *)((u32)w->win))->set_position_xy(((TShopWindowBase *)w)->get_scale(), sc);
+                ((TWindowAddition *)((uaddr)w->win))->set_position_xy(((TShopWindowBase *)w)->get_scale(), sc);
                 ((TShopWindowBase *)w)->set_field_20(9);
             } else {
                 Rec_8021A43C c;
@@ -567,7 +567,7 @@ void TShopArmorListWindow::handle_equip_offer() {
                 try_buy_item(w->player, &c);
                 ((TShopArmorListWindow *)w)->update_selection(&w->recs[i]);
                 if (is_single_purchase_shop_item((u8 *)&w->recs[i]) != 0) {
-                    TLobby::clear_shop_entry_value((s32)i, (s32)((void *)sub_8022397C__15TShopWindowBaseFv(w)));
+                    TLobby::clear_shop_entry_value((s32)i, (saddr)((void *)sub_8022397C__15TShopWindowBaseFv(w)));
                 }
                 ((TShopArmorListWindow *)(w->list))->save_cursor_selection();
                 ((TWindowBase *)w->win)->close();

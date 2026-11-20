@@ -95,12 +95,12 @@ TShopKeepItemWindow::TShopKeepItemWindow(void *arg1, void *arg2, void *arg3) : T
     this->deposit_count = 1;
     this->help_item_index = 0;
     this->m_20 = 0;
-    this->message_window = (u32)arg2;
+    this->message_window = (uaddr)arg2;
     this->item_list_window = 0;
     this->confirm_window = 0;
     this->help_window = 0;
     this->number_window = 0;
-    this->m_24 = (u32)arg3;
+    this->m_24 = (uaddr)arg3;
     this->ok_callback = NULL;
     this->cancel_callback = NULL;
     memset(this->entries, 0, sizeof(this->entries));
@@ -147,7 +147,7 @@ s32 TShopKeepItemWindow::rebuild_item_list() {
     s32 i;
     s32 cur;
     this->deposit_count = 1;
-    count = ((TObjPlayer *)(*(s32 *)((s8 *)this->m_24 + 0xD00)))->count_matching_items((int)buf);
+    count = ((TObjPlayer *)(*(saddr *)((s8 *)this->m_24 + 0xD00)))->count_matching_items((saddr)buf);
     this->entry_count = 0;
     for (i = 0; i < count; i++) {
         if (buf[i] != 0 && ((TItem *)(buf[i]))->copy_to_item_data(&this->entries[this->entry_count].data) != 0) {
@@ -166,7 +166,7 @@ s32 TShopKeepItemWindow::rebuild_item_list() {
     if (this->item_list_window == 0U) {
         this->item_list_window = create_item_list_window(get_shop_text(0x30), 0x40, get_entity_id(this->m_24));
         for (s32 j = 0; j < this->entry_count; j++) {
-            ((TShopJudgmentItemWindow *)(this->item_list_window))->add_list_entry((s32)this->entries[j].item, j);
+            ((TShopJudgmentItemWindow *)(this->item_list_window))->add_list_entry((saddr)this->entries[j].item, j);
         }
         ((TWindowMenuIconLine *)this->item_list_window)->calc_content_extent();
         cur = ((TShopGetItemWindow *)(this->item_list_window))->get_cursor_index();
@@ -174,7 +174,7 @@ s32 TShopKeepItemWindow::rebuild_item_list() {
         ((TShopArmorListWindow *)(this->item_list_window))->save_cursor_selection();
         ((TWindowMenuIconLine *)(this->item_list_window))->reset_list();
         for (s32 j = 0; j < this->entry_count; j++) {
-            ((TShopJudgmentItemWindow *)(this->item_list_window))->add_list_entry((s32)this->entries[j].item, j);
+            ((TShopJudgmentItemWindow *)(this->item_list_window))->add_list_entry((saddr)this->entries[j].item, j);
         }
         ((TShopArmorListWindow *)(this->item_list_window))->clamp_selection_to_valid_entry();
         ((TWindowMenuIconLine *)this->item_list_window)->calc_content_extent();
@@ -182,7 +182,7 @@ s32 TShopKeepItemWindow::rebuild_item_list() {
         cur = ((TShopGetItemWindow *)(this->item_list_window))->get_cursor_index();
     }
     if (this->help_window == 0U) {
-        this->help_window = (u32)new TWindowHelpItem((void *)get_window_layout_position(0x27), get_entity_id(this->m_24));
+        this->help_window = (uaddr)new TWindowHelpItem((void *)get_window_layout_position(0x27), get_entity_id(this->m_24));
         if (this->help_window != 0U && TLobby::is_camera_ctrl_active() > 2) {
             ((TLobby *)(this->help_window))->set_position(0.75f, 0.75f);
         }
@@ -247,7 +247,7 @@ void TShopKeepItemWindow::handle_deposit_list_select() {
         break;
     }
     if (count > 1 && this->number_window == 0U) {
-        this->number_window = (u32)new TWindowInputNumber((void *)get_window_layout_position(0x2B), 1, count, 1, ((TShopSequence *)this)->get_child_field1c());
+        this->number_window = (uaddr)new TWindowInputNumber((void *)get_window_layout_position(0x2B), 1, count, 1, ((TShopSequence *)this)->get_child_field1c());
         if (this->number_window != 0U && TLobby::is_camera_ctrl_active() > 2) {
             ((TCheckRoomSequence *)this->number_window)->set_position(0.75f, 0.75f);
         }
@@ -255,7 +255,7 @@ void TShopKeepItemWindow::handle_deposit_list_select() {
         return;
     }
     if (this->confirm_window == 0U) {
-        this->confirm_window = (u32)create_yes_no_window(get_window_layout_position(0x2B), get_entity_id(this->m_24), 0, 0);
+        this->confirm_window = (uaddr)create_yes_no_window(get_window_layout_position(0x2B), get_entity_id(this->m_24), 0, 0);
         ((TCheckRoomSequence *)this->confirm_window)->set_ready_flag();
         f32 scale = get_scale();
         ((TWindowAddition *)this->confirm_window)->set_position_xy(get_scale(), scale);
@@ -268,7 +268,7 @@ void TShopKeepItemWindow::update_number_input() {
     w = this->number_window;
     if ((w != 0U) && (((TWindowInputNumber *)w)->is_confirmed() != 0)) {
         if ((u32) this->confirm_window == 0U) {
-            this->confirm_window = (u32)create_yes_no_window(get_window_layout_position(0x2B), get_entity_id(this->m_24), 0, 0);
+            this->confirm_window = (uaddr)create_yes_no_window(get_window_layout_position(0x2B), get_entity_id(this->m_24), 0, 0);
             ((TCheckRoomSequence *)(this->confirm_window))->set_ready_flag();
             ((TWindowAddition *)(this->confirm_window))->set_position_xy(get_scale(), get_scale());
         }

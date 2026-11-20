@@ -154,7 +154,7 @@ s32 TWindowSubEquip::open_equip_kind_list(u32 arg1) {
     equip_kind_window = create_equip_kind_window(get_window_layout_position(1), &equip_kind_window_size, this->m_28);
     TWindowSubEquip__sub_80263AF8((u8 *)this->m_2c, 1);
     set_depth__11TWindowBaseFf(equip_kind_window);
-    ((TWindowMenuIconLine *)equip_kind_window)->ensure_status_display((int) (TWindowSubStatusDisp::get_message_10(0x24)));
+    ((TWindowMenuIconLine *)equip_kind_window)->ensure_status_display((saddr) (TWindowSubStatusDisp::get_message_10(0x24)));
     ((TWindowSubShortCutList *)equip_kind_window)->set_flag70_bit10();
     switch (arg1) {
     case 6:

@@ -85,7 +85,7 @@ Ok_80307034 *__ct__12TAdMultiOkGCFv(Ok_80307034 *self, void *parent, Cfg_8030703
 const char *TAdMultiOkGC__name = "TAdMultiOkGC";
 // The unit was built with -inline off,deferred: the functions are written
 // last-to-first, which gives the original address order.
-void load_multi_confirm_textures(void) { multi_confirm_texture_list = (int)&multi_confirm_texture_descriptor; load_streamed_prs_texture((s32)multi_confirm_texture_archive_name, (s32)&multi_confirm_texture_descriptor); }
+void load_multi_confirm_textures(void) { multi_confirm_texture_list = (saddr)&multi_confirm_texture_descriptor; load_streamed_prs_texture((saddr)multi_confirm_texture_archive_name, (saddr)&multi_confirm_texture_descriptor); }
 
 void free_multi_confirm_textures(void) {
     if ((u32) multi_confirm_texture_list != 0U) {

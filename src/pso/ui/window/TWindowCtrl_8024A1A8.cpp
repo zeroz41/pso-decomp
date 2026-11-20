@@ -92,7 +92,7 @@ bool TWindowCtrl__sub_8024A1A8(void) {
 }
 
 void TWindowCtrl::call_window_method_with_default_vec() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8024A1CC, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_8024A1CC, spC) == 0x4);
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8024A1CC, sp10) == 0x8);
@@ -129,7 +129,7 @@ bool TWindowCtrl::is_submit_cooldown_clear() {
 
 void TWindowCtrl::update_focused() {
     if (((void *) TWindowCtrl__active_window != NULL) && ((u32) *(u32 *)((s8 *)TWindowCtrl__active_window + 0x38) != 0U)) {
-        ((TWindowChat *)(*(u32 *)((s8 *)TWindowCtrl__active_window + 0x38)))->update();
+        ((TWindowChat *)(*(uaddr *)((s8 *)TWindowCtrl__active_window + 0x38)))->update();
     }
 }
 
@@ -187,7 +187,7 @@ void TWindowCtrl::create_timer() {
 }
 
 void TWindowCtrl::set_timer_window_time() {
-    s32 secs = (s32)this;
+    s32 secs = (saddr)this;
     u32 temp_r3;
     if ((void *) (*(u8 * *)&TWindowCtrl__active_window) != NULL) {
         temp_r3 = *(u32 *)((s8 *)(*(u8 * *)&TWindowCtrl__active_window) + 0x30);
@@ -253,7 +253,7 @@ void get_speaker_balloon_anchor__11TWindowCtrlFPviPvPv(Ctrl_8024A928 *arg0, s32 
             *arg3 = 0;
             return;
         }
-        *arg3 = (s32)p;
+        *arg3 = (saddr)p;
         return;
     }
     *arg3 = 0;
@@ -349,7 +349,7 @@ void *acquire_balloon_slot__11TWindowCtrlFPviiPv(Ctrl_8024A928 *self, s32 player
         }
         b = TObject::operator new(0x98);
         if (b != 0) {
-            b = TWindowFukidasi__sub_80252B74((u8 *)b, (s32)player, (s32)n, (s32)local, (f32)f);
+            b = TWindowFukidasi__sub_80252B74((u8 *)b, (s32)player, (s32)n, (saddr)local, (f32)f);
         }
         self->slots[i] = b;
     }
@@ -394,7 +394,7 @@ void TWindowCtrl::handle_chat_message(char *arg1) {
         if (i < 12) {
             u16 slot = i;
             TOChatSensorCapture::capture_message(slot, v);
-            TWindowCtrl::open(slot, (s32)v, 0xCB);
+            TWindowCtrl::open(slot, (saddr)v, 0xCB);
         }
     }
 }

@@ -58,14 +58,14 @@ s32 TAdYesNoBaseGC::sub_8032C0B4() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r31;
     temp_r31 = update_window_mode_from_progress__6TLobbyFPv((u8 *)&this->unk_30, (u8 *)&this->unk_38);
-    ((TWindowMessage *)temp_r31)->append_line((int)((void *) (((VObj_18 *)(arg0))->m8())), (int)1);
+    ((TWindowMessage *)temp_r31)->append_line((saddr)((void *) (((VObj_18 *)(arg0))->m8())), (int)1);
     return temp_r31;
 }
 
 s32 TAdYesNoBaseGC::create_menu_window() {
     TAdYesNoBaseGC *arg0 = this;
     NJS_POINT2 pos = {85.0f, 384.0f};
-    s32 r = (s32)init_shop_judgment_window(&pos);
+    s32 r = (saddr)init_shop_judgment_window(&pos);
     update_layout_height__21TWindowSubComCardListFf(470.0f);
     align_menu_entry_positions(r);
     ((TWindowSubComCardList *)r)->set_selected_index((s16)arg0->m_2c);

@@ -28,7 +28,7 @@ extern "C" {
 u32 Dolphin_ARAlloc(u32);
 
     extern int snapshot_aligned_buffer_size;
-void TWindowSnapShot::init_default() { TLobby::aram_transfer_sync((s32)((void*)1), (u32)((void*)shared_snapshot_capture->get_field_8()), lbl_805D669C, snapshot_aligned_buffer_size); }
+void TWindowSnapShot::init_default() { TLobby::aram_transfer_sync((saddr)((void*)1), (uaddr)((void*)shared_snapshot_capture->get_field_8()), lbl_805D669C, snapshot_aligned_buffer_size); }
 
 void TWindowSnapShot__sub_802A7DA0(void) {  }
 
@@ -94,12 +94,12 @@ s32 load_player_motion_data(void) {
     if (shared_snapshot_capture == NULL) {
         return 0;
     }
-    shared_snapshot_capture->start_capture((s32)player_motion_data_filename_ptr);
+    shared_snapshot_capture->start_capture((saddr)player_motion_data_filename_ptr);
     return 1;
 }
 
-s32 RlcArchive::get_size() { return (s32)header; }
-s32 RlcArchive::get_field_8() { return (s32)buffer; }
+s32 RlcArchive::get_size() { return (saddr)header; }
+s32 RlcArchive::get_field_8() { return (saddr)buffer; }
 int TWindowSnapShot::get_height() { return 600; }
 
 const char *get_player_motion_filename(void) { return player_motion_data_filename_ptr; }

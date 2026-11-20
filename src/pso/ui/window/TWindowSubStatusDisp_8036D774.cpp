@@ -121,7 +121,7 @@ void TWindowSubStatusDisp::draw_bottom_bar() {
   f32 buffer_8[8];
   f32 temp_f31;
   begin_screen_draw(1);
-  TObjFish::set_global_param((s32)((void *) TBGMulti__textures));
+  TObjFish::set_global_param((saddr)((void *) TBGMulti__textures));
   set_draw_texture_and_color(0, -1);
   var_r31 = 0;
   ;
@@ -186,7 +186,7 @@ void TBGMulti__ct(void) {
         sp8[0] = TLobby::tmp_buf_use_req("TBGMulti");
         TLanguage::draw_string((void *)"f128_gr.gvp", sp8, 0x4D);
         TLobby::tmp_buf_release("TBGMulti");
-        (*(s32 *)&TBGMulti__textures) = (s32)load_gvm_texture_file((s32)"bg_multi.gvm");
+        (*(s32 *)&TBGMulti__textures) = (saddr)load_gvm_texture_file((saddr)"bg_multi.gvm");
         set_global_param__8TObjFishFl();
         TLanguage::set_entry_index(0, 0x4D);
     }

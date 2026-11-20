@@ -270,7 +270,7 @@ void add_battle_stat_entry(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
     u32 player;
 
     if ((s16) *(s16 *)((s8 *)arg0 + 0x72) < (s16) *(s16 *)((s8 *)arg0 + 0x76)) {
-        player = (u32)get_player_by_client_id(*(s16 *)((s8 *)arg0 + 0x20));
+        player = (uaddr)get_player_by_client_id(*(s16 *)((s8 *)arg0 + 0x20));
         if (player != 0U) {
             if (arg1 == 4) {
                 var_r31 = fn_801C5404((s32 *)(player + 0x7C8));
@@ -446,7 +446,7 @@ void draw_item_list_capacity(void *arg0, Win_80267714 *arg1, s32 arg2, s32 arg3)
     draw_window_tab(arg1, &pt, 0, -60.0f);
     pt.x += 50.0f;
     pt.y += 4.0f;
-    set_text_draw_params((s32)arg1, 0, 0, (f32)(-1.0f / (0.1794f + arg1->f38)), (f32)100000.0f);
+    set_text_draw_params((saddr)arg1, 0, 0, (f32)(-1.0f / (0.1794f + arg1->f38)), (f32)100000.0f);
     text_builder_reset();
     text_builder_append_int(arg2);
     get_shared_text_buffer();
@@ -554,11 +554,11 @@ void TWindowMenuIconLine::create_menu_scroll_bar() {
     f32 temp_f1;
     u32 temp_r3;
     u32 var_r0;
-    if ((u32) this->scroll_bar == 0U) {
+    if ((uaddr) this->scroll_bar == 0U) {
         temp_f1 = this->m_38 - 8.0f;
         stack.spC = 0.0f;
         stack.sp8 = temp_f1;
-        temp_r3 = (int)::operator new(0xC);
+        temp_r3 = (saddr)::operator new(0xC);
         var_r0 = temp_r3;
         if (var_r0 != 0U) {
             var_r0 = reset_selection__20TWindowSubStatusDispFv(temp_r3, &stack.sp8);
@@ -571,8 +571,8 @@ void TWindowMenuIconLine::create_menu_scroll_bar() {
 void TWindowMenuIconLine::ensure_status_display(s32 arg1) {
     u32 var_r0;
 
-    if ((u32) this->status_display == 0U) {
-        var_r0 = (int)::operator new(0x24);
+    if ((uaddr) this->status_display == 0U) {
+        var_r0 = (saddr)::operator new(0x24);
         if (var_r0 != 0U) {
             var_r0 = construct_type1_heading__20TWindowSubStatusDispFll(var_r0, arg1, this->m_20);
         }
@@ -625,14 +625,14 @@ void TWindowMenuIconLine::center_list_selection() {
 void TWindowMenuIconLine::clamp_item_list_scroll() {
     Stack_80267D14 stack;
     f32 temp_f1;
-    if ((u32) this->scroll_bar != 0U) {
+    if ((uaddr) this->scroll_bar != 0U) {
         stack.sp8 = 0.0f;
         temp_f1 = *(f32 *)&this->m_4c - 20.0f;
         stack.spC = temp_f1;
-        if ((u32) this->status_display != 0U) {
+        if ((uaddr) this->status_display != 0U) {
             stack.spC = temp_f1 - 6.0f;
         }
-        clamp_list_scroll_offset((int)this->scroll_bar, (void *) (((u8 *)this) + 0x68), &stack.sp8);
+        clamp_list_scroll_offset((saddr)this->scroll_bar, (void *) (((u8 *)this) + 0x68), &stack.sp8);
     }
 }
 
@@ -731,18 +731,18 @@ void TWindowMenuIconLine::run_task() {
     if ((this->get_flag() == 0) && (is_decided() == 0) && (this->sub_80244994() != 0)) {
         if (this->state_flags & 0x10) {
             input = (u8 *)&controller_input_state + (temp_r31 * 0x50) + 0x20;
-            if ((TWindowChoiceSetting::apply_choice((s32)input, 0x10, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state + 0x160)), 0x10, 6, 1) != 0)) {
+            if ((TWindowChoiceSetting::apply_choice((saddr)input, 0x10, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((saddr)((void *) ((u8 *)&controller_input_state + 0x160)), 0x10, 6, 1) != 0)) {
                 this->move_cursor();
             }
-            if ((TWindowChoiceSetting::apply_choice((s32)input, 0x20, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state + 0x160)), 0x20, 6, 1) != 0)) {
+            if ((TWindowChoiceSetting::apply_choice((saddr)input, 0x20, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((saddr)((void *) ((u8 *)&controller_input_state + 0x160)), 0x20, 6, 1) != 0)) {
                 this->move_cursor_next();
             }
         } else {
             temp_r29_2 = (u8 *)&controller_input_state + (temp_r31 * 0x50) + 0x20;
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)temp_r29_2, 0x10, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state + 0x160)), 0x10, 6, 1) != 0)) {
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)temp_r29_2, 0x10, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((saddr)((void *) ((u8 *)&controller_input_state + 0x160)), 0x10, 6, 1) != 0)) {
                 this->move_cursor();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)temp_r29_2, 0x20, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state + 0x160)), 0x20, 6, 1) != 0)) {
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)temp_r29_2, 0x20, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((saddr)((void *) ((u8 *)&controller_input_state + 0x160)), 0x20, 6, 1) != 0)) {
                 this->move_cursor_next();
             }
         }
@@ -773,8 +773,8 @@ void TWindowMenuIconLine::run_task() {
 }
 
 TWindowMenuIconLine::~TWindowMenuIconLine() {
-    TWindowSubStatusDisp::destroy_allocation((s32)(*(void **)((s8 *)this + 0x84)), (s16)1);
-    TWindowSubStatusDisp::destroy_status_display((s32)(*(void **)((s8 *)this + 0x80)), (s16)1);
+    TWindowSubStatusDisp::destroy_allocation((saddr)(*(void **)((s8 *)this + 0x84)), (s16)1);
+    TWindowSubStatusDisp::destroy_status_display((saddr)(*(void **)((s8 *)this + 0x80)), (s16)1);
 }
 }
 

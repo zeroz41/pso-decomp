@@ -156,7 +156,7 @@ void TWindowStatus::draw_background(u8 *arg1) {
 
     {
         u8 *e = get_array_entry__11TWindowBaseFi(this, 0xE);
-        draw_photon_blast_gauge_ring((s32)this, arg1, pos, *(s32 *)((s8 *)e + 0x20), 26.0f);
+        draw_photon_blast_gauge_ring((saddr)this, arg1, pos, *(s32 *)((s8 *)e + 0x20), 26.0f);
     }
     begin_screen_draw(1);
     TObjFish::set_global_param(lbl_805D63F0);
@@ -196,13 +196,13 @@ void TWindowStatus::render() {
     s32 ctx;
     draw_right_aligned_number((void *)entry);
     *(f32 *)((s8 *)entry + 8) = 0.5f * *(f32 *)((s8 *)entry + 0x10) + 68.0f;
-    ctx = TWindowDD::draw_default_entry((s32)this);
+    ctx = TWindowDD::draw_default_entry((saddr)this);
     draw_background((u8 *)ctx);
     draw_visible_window_entries(this, &m_24, ctx);
 }
 
 void TWindowStatus::run_task() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     ((s32 (*)(void))update_hp_tp_values__20TWindowSubStatusDispFPv)();
     update_lockon_window((u8 *)arg0);
     update_status_help_item(arg0);
@@ -235,10 +235,10 @@ s32 create_status_window(s32 arg0) {
     if (is_split_screen() != 0) {
         return create__19TWindowSimpleStatusFPv((int)window_layout_position, (void *)arg0);
     }
-    window_status = (s32)TObject::operator new(0x78);
+    window_status = (saddr)TObject::operator new(0x78);
     var_r0 = window_status;
     if (var_r0 != 0) {
-        var_r0 = (s32)TWindowStatus__ct((void *)window_status, window_layout_position, (void *)arg0, &status_window_settings);
+        var_r0 = (saddr)TWindowStatus__ct((void *)window_status, window_layout_position, (void *)arg0, &status_window_settings);
     }
     return var_r0;
 }

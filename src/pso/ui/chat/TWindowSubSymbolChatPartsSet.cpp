@@ -392,11 +392,11 @@ void render__28TWindowSubSymbolChatPartsSetFv(TWindowSubSymbolChatPartsSet *wind
     *(f32 *)((s8 *)c_arg + 0x28) = (f32) (*(f32 *)((s8 *)c_arg + 0x28) * *(f32 *)((s8 *)window_sub_symbol_chat_parts_set + 0x94));
     ctx = *(f32 *)((s8 *)c_arg + 0x2C);
     *(f32 *)((s8 *)c_arg + 0x2C) = (f32) (ctx * *(f32 *)((s8 *)window_sub_symbol_chat_parts_set + 0x94));
-    draw_visible_window_entries((void *)window_sub_symbol_chat_parts_set, (u8 *)window_sub_symbol_chat_parts_set + 0x24, (int)c_arg, (f32)ctx);
-    window_sub_symbol_chat_parts_set->draw_selected_part_cursor((int)c_arg);
+    draw_visible_window_entries((void *)window_sub_symbol_chat_parts_set, (u8 *)window_sub_symbol_chat_parts_set + 0x24, (saddr)c_arg, (f32)ctx);
+    window_sub_symbol_chat_parts_set->draw_selected_part_cursor((saddr)c_arg);
     ((TWindowSubSymbolChatPartsSet *)(c_arg + 0x10))->copy_vec2(&sp10);
     ((TWindowSubSymbolChatPartsSet *)(c_arg + 0x28))->copy_vec2(&sp8);
-    forward_render__20TWindowSubStatusDispFv((int) (*(s32 *)&window_sub_symbol_chat_parts_set->m_88), (int)c_arg);
+    forward_render__20TWindowSubStatusDispFv((int) (*(s32 *)&window_sub_symbol_chat_parts_set->m_88), (saddr)c_arg);
 }
 
 LAYOUT_ASSERT(RecoveredGlobal_80286824_lbl_8050E208_size, sizeof(RecoveredGlobal_80286824_lbl_8050E208) == 0x1B0);
@@ -417,7 +417,7 @@ void TWindowSubSymbolChatPartsSet::run_task() {
     toggle_selected_part();
     ((TWindowSubSymbolChatPartsSet *)arg0)->sub_8028625C();
     if ((f32) *(s32 *)&this->m_5c >= 7.5f) {
-        ((TWindowSubStatusDisp *)(*(s32 *)&this->m_88))->update_subwindow();
+        ((TWindowSubStatusDisp *)(*(saddr *)&this->m_88))->update_subwindow();
     }
     ((TWindowDD *)arg0)->initialize_subwindow();
     ((TWindowBase *)arg0)->update_window_entry_list((u8 *)&this->m_24);
@@ -425,12 +425,12 @@ void TWindowSubSymbolChatPartsSet::run_task() {
 
 }
 TWindowSubSymbolChatPartsSet::~TWindowSubSymbolChatPartsSet() {
-    TWindowSubStatusDisp::destroy_status_display((s32)(*(void **)((s8 *)this + 0x88)), (s16)1);
+    TWindowSubStatusDisp::destroy_status_display((saddr)(*(void **)((s8 *)this + 0x88)), (s16)1);
 }
 
 T_802869BC *TWindowSubSymbolChatPartsSet__ct(T_802869BC *self, void *parent, s16 arg2, s32 arg3, s32 arg4) {
     void *h;
-    __ct__17TWindowChatSymbolFll((TWindowChatSymbol *)((u8 *)self), (s32)parent, (s32)&lbl_8044FC30);
+    __ct__17TWindowChatSymbolFll((TWindowChatSymbol *)((u8 *)self), (saddr)parent, (saddr)&lbl_8044FC30);
     self->vt = ((s32 *)&__vt__28TWindowSubSymbolChatPartsSet);
     self->f0 = TWindowSubSymbolChatPartsSet__name;
     ((TWindowBase *)self)->set_depth(50030.0f);

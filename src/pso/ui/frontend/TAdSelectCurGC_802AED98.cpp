@@ -88,13 +88,13 @@ void run_task__14TAdSelectCurGCFv(TAdSelectCurGC_802AED98 *o) {
             ok = 1;
         }
         if (ok != 0) {
-            if (TAdMultiPlyChrSelectGC::dispatch_draw_command((s32)(controller_input_state + 0x20), 0x10, 6, 1) != 0 ||
-                TWindowChoiceSetting::apply_choice((s32)(controller_input_state + 0x160), 0x10, 6, 1) != 0) {
+            if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)(controller_input_state + 0x20), 0x10, 6, 1) != 0 ||
+                TWindowChoiceSetting::apply_choice((saddr)(controller_input_state + 0x160), 0x10, 6, 1) != 0) {
                 play_sound_effect(0x54100, 0, 0, 0);
                 o->fA4--;
             }
-            if (TAdMultiPlyChrSelectGC::dispatch_draw_command((s32)(controller_input_state + 0x20), 0x20, 6, 1) != 0 ||
-                TWindowChoiceSetting::apply_choice((s32)(controller_input_state + 0x160), 0x20, 6, 1) != 0) {
+            if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)(controller_input_state + 0x20), 0x20, 6, 1) != 0 ||
+                TWindowChoiceSetting::apply_choice((saddr)(controller_input_state + 0x160), 0x20, 6, 1) != 0) {
                 play_sound_effect(0x54100, 0, 0, 0);
                 o->fA4++;
             }
@@ -180,7 +180,7 @@ void TLobby::apply_menu_cursor_selection() {
     };
     GinjaTextureList *list = lists[current_language];
     menu_selection_cursor_texture_list = list;
-    load_streamed_prs_texture((s32)names[current_language], (s32)list);
+    load_streamed_prs_texture((saddr)names[current_language], (saddr)list);
 }
 
 void TAdSelectCurGC__sub_802AF274(void* p, f32 v) { *(f32*)((char*)p + 0x704) = v; }

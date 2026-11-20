@@ -78,9 +78,9 @@ TWindowSubComCardList::~TWindowSubComCardList() {
 u8 *TWindowSubComCardList__ct(u8 *window_menu, void *arg1) {
     void *list;
     s32 n;
-    TWindowMenu__ct(window_menu, 7, 4, (s32)arg1);
+    TWindowMenu__ct(window_menu, 7, 4, (saddr)arg1);
     *(s32 **)(window_menu + 0x18) = __vt__21TWindowSubComCardList;
-    *(s32 *)(window_menu + 0) = ((s32)TWindowSubComCardList__class_name);
+    *(s32 *)(window_menu + 0) = ((saddr)TWindowSubComCardList__class_name);
     n = TWindowSubStatusDisp::round_away_from_zero((f32)TWindowSubComCard::count_active_cards() / 7.0f);
     if (n <= 0) {
         n = 1;
@@ -105,9 +105,9 @@ u8 *TWindowSubComCardList__ct(u8 *window_menu, void *arg1) {
 u8 *TWindowSubComCardList__sub_802757AC(u8 *window_menu, void *arg1, s32 arg2, s32 arg3, s8 arg4) {
     void *list;
     s32 n;
-    TWindowMenu__ct(window_menu, 7, 4, (s32)arg1);
+    TWindowMenu__ct(window_menu, 7, 4, (saddr)arg1);
     *(s32 **)(window_menu + 0x18) = __vt__21TWindowSubComCardList;
-    *(s32 *)(window_menu + 0) = ((s32)TWindowSubComCardList__class_name);
+    *(s32 *)(window_menu + 0) = ((saddr)TWindowSubComCardList__class_name);
     n = TWindowSubStatusDisp::round_away_from_zero((f32)count_leading_active__17TWindowSubComCardFPvi(arg2, arg3) / 7.0f);
     if (n <= 0) {
         n = 1;

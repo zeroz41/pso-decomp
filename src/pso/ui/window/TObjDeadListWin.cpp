@@ -38,7 +38,7 @@ void TObjDeadListWin::build_dead_list_window() {
             }
             i += 1;
         } while (i < 4);
-        ((TWindowMessage *)m_window_handle)->append_line((int)text, (int)2);
+        ((TWindowMessage *)m_window_handle)->append_line((saddr)text, (int)2);
     }
 }
 

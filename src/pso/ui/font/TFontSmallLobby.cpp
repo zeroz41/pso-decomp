@@ -71,7 +71,7 @@ void handle_6x3B_clear_temporary_photon_blast_state_flags(s32 arg0) {
     TFontSmallLobby__sub_801D6804(&sp8, (void *)arg0);
     bswap_g_client_id_header((&sp8));
     if (validate_6x3B_clear_temporary_photon_blast_state_flags(&sp8) != 0) {
-        player = (s32)get_player_by_client_id(sp8.b);
+        player = (saddr)get_player_by_client_id(sp8.b);
         if (player != 0) {
             ((TObjPlayer *)(player + 0x4AC))->clear_photon_blast_state();
             if (TObjPlayer::is_locally_controlled((void *)player) != 0) {
@@ -122,7 +122,7 @@ void handle_6x39_set_photon_blast_ready_flag(s32 arg0) {
     ((TFontSmallLobby *)(&sp8))->handle_photon_blast_ready((void *)arg0);
     bswap_g_client_id_header((&sp8));
     if (validate_6x39_set_photon_blast_ready_flag(&sp8) != 0) {
-        player = (s32)get_player_by_client_id(sp8.b);
+        player = (saddr)get_player_by_client_id(sp8.b);
         if ((player != 0) && (is_current_area_item_enabled() != 0)) {
             temp_r31 = ((TObjPlayer *)player)->get_floor();
             v = get_current_floor();
@@ -159,7 +159,7 @@ s32 TFontSmallLobby::is_ready() {
 }
 
 void TFontSmallLobby::reset_targets() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     ((TFontSmallLobby *)(arg0 + 0x4C))->set_target_index(0);
     ((TFontSmallLobby *)(arg0 + 0x4C))->set_target_count(0);
     ((TFontSmallLobby *)arg0)->check_flag_at_40();
@@ -171,7 +171,7 @@ void handle_6x38_donate_to_photon_blast(s32 arg0) {
     ((TFontSmallLobby *)(&cmd))->copy_packet_header_6x38((void *)arg0);
     ((TFontSmallLobby *)(&cmd))->bswap_fields();
     if (validate_6x38_donate_to_photon_blast(&cmd) != 0) {
-        player = (s32)get_player_by_client_id(cmd.client);
+        player = (saddr)get_player_by_client_id(cmd.client);
         if ((player != 0) && (is_current_area_item_enabled() != 0)) {
             if (get_current_floor() == ((TObjPlayer *)player)->get_floor()) {
                 TObjPlayer::create_photon_blast_party_effects(cmd.client);
@@ -353,7 +353,7 @@ int clear__8FlagWordFUl(void*, int);
 int set__8FlagWordFUl(void*, int);
 
 s32 TFontSmallLobby::construct_pb_controller() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     __construct_array((void *)(arg0 + 0x14), fn_80152EF8, 0, 4, 0xA);
     __ct__8FlagWordFv((void *)(arg0 + 0x40));
     ((TFontSmallLobby *)(arg0 + 0x4C))->init_reset_fields();

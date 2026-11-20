@@ -49,10 +49,10 @@ void TWindowSubItemList::render() {
     draw_selected_list_entry(window_key_board_soft);
     sub_8027ACF8((u8 *)window_key_board_soft);
     draw_item_list_capacity(this, window_key_board_soft, this->m_8c, 0x1E);
-    if ((u32) this->status_display != 0U) {
+    if ((uaddr) this->status_display != 0U) {
         forward_render__20TWindowSubStatusDispFv(this->status_display, window_key_board_soft);
     }
-    if ((u32) this->scroll_bar != 0U) {
+    if ((uaddr) this->scroll_bar != 0U) {
         draw_window_scrollbar(this->scroll_bar, window_key_board_soft, (u8 *)&this->m_68);
     }
 }
@@ -64,7 +64,7 @@ TWindowSubItemList::~TWindowSubItemList() {}
 
 TWindowSubItemList::TWindowSubItemList(u8 *parent, s32 client) : TWindowMenuIconLine(parent, 0x24, client) {
     m_name = TWindowSubItemList__class_name;
-    ensure_status_display((s32)TWindowSubStatusDisp::get_message_10(0x24));
+    ensure_status_display((saddr)TWindowSubStatusDisp::get_message_10(0x24));
     create_menu_scroll_bar();
     ((TWindowSubItem *)this)->reset_selected();
     m_8c = 0;

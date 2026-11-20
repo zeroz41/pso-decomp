@@ -82,7 +82,7 @@ void *__dt__8TChCrTagFv(void *self, s16 arg1) {
 }
 TChCrTag::TChCrTag(TObject *object, void *arg2) : TObject(object) {
     m_name = lbl_805D3D90;
-    m_20 = (s32)arg2;
+    m_20 = (saddr)arg2;
     m_1c = 0;
     m_24 = 0.0f;
     m_30 = 0.0f;

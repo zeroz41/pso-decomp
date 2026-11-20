@@ -76,20 +76,20 @@ void TWindowSubStatusDisp::fill_card_text_entries(s32 arg1) {
     text_builder_reset();
     text_builder_append((u8 *)":");
     text_builder_append((u8 *)(((TWindowSubStatusDisp *)arg1)->get_sub_disp_ptr()));
-    set_text_entry_string((u8 *)temp_r31, (u32)(get_shared_text_buffer()), 0x60);
+    set_text_entry_string((u8 *)temp_r31, (uaddr)(get_shared_text_buffer()), 0x60);
     text_builder_reset();
     text_builder_append((u8 *)":");
     text_builder_append((u8 *)(((TWindowSubComCard *)arg1)->get_name()));
-    set_text_entry_string((u8 *)temp_r30, (u32)(get_shared_text_buffer()), 0x60);
+    set_text_entry_string((u8 *)temp_r30, (uaddr)(get_shared_text_buffer()), 0x60);
     text_builder_reset();
     text_builder_append((u8 *)":");
     text_builder_append((u8 *)(TWindowSubComCard__sub_8027523C((void *)arg1)));
-    set_text_entry_string((u8 *)temp_r29, (u32)(get_shared_text_buffer()), 0x60);
+    set_text_entry_string((u8 *)temp_r29, (uaddr)(get_shared_text_buffer()), 0x60);
     if ((s8) *get_card_data_ptr__17TWindowSubComCardFv(arg1) != 0) {
         text_builder_reset();
         text_builder_append((u8 *)":");
         text_builder_append((get_card_data_ptr__17TWindowSubComCardFv(arg1)));
-        set_text_entry_string((u8 *)temp_r28, (u32)(get_shared_text_buffer()), 0x60);
+        set_text_entry_string((u8 *)temp_r28, (uaddr)(get_shared_text_buffer()), 0x60);
         ((TWindowSubStatusDisp *)temp_r27)->clear_visible_flag();
         ((TWindowSubStatusDisp *)temp_r28)->clear_visible_flag();
     } else {
@@ -100,7 +100,7 @@ void TWindowSubStatusDisp::fill_card_text_entries(s32 arg1) {
         text_builder_reset();
         text_builder_append((u8 *)(((TWindowSubComCard *)arg1)->get_sub_obj()));
         text_builder_append((u8 *)(TWindowSubStatusDisp::get_message_10(0x45)));
-        set_text_entry_string((u8 *)temp_r26, (u32)(get_shared_text_buffer()), 0x60);
+        set_text_entry_string((u8 *)temp_r26, (uaddr)(get_shared_text_buffer()), 0x60);
         ((TWindowSubStatusDisp *)temp_r26)->clear_visible_flag();
         return;
     }

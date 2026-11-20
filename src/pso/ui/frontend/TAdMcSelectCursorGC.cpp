@@ -90,16 +90,16 @@ void TAdMcSelectCursorGC::run_task() {
     s32 i;
     if (self->f1C == 0) {
         t = TAdMcSelectCursorGC::get_cursor_type(1 - self->f20);
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command((s32)(controller_physical_port_bank + 0x20), 0x80, 6, 1) != 0 ||
-            TWindowChoiceSetting::apply_choice((s32)(controller_input_state + 0x160), 0x80, 6, 1) != 0) {
+        if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)(controller_physical_port_bank + 0x20), 0x80, 6, 1) != 0 ||
+            TWindowChoiceSetting::apply_choice((saddr)(controller_input_state + 0x160), 0x80, 6, 1) != 0) {
             if (TAdMcSelectCursorGC__sub_8032A6D8((void *)t) >= 4) {
                 self->f20++;
                 if (self->f20 > 1) {
                     self->f20 = 1;
                 }
             }
-        } else if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((s32)(controller_physical_port_bank + 0x20), 0x40, 6, 1) != 0 ||
-                    TWindowChoiceSetting::apply_choice((s32)(controller_input_state + 0x160), 0x40, 6, 1) != 0) &&
+        } else if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)(controller_physical_port_bank + 0x20), 0x40, 6, 1) != 0 ||
+                    TWindowChoiceSetting::apply_choice((saddr)(controller_input_state + 0x160), 0x40, 6, 1) != 0) &&
                    TAdMcSelectCursorGC__sub_8032A6D8((void *)t) >= 4) {
             self->f20--;
             if (self->f20 < 0) {
@@ -171,7 +171,7 @@ u32 TAdMcSelectCursorGC::get_instance(s32 arg0) {
     if ((u32) TAdMcSelectCursorGC__instance == 0U) {
         var_r0 = __nw__7TObjectFUl(0x140);
         if (var_r0 != 0U) {
-            var_r0 = (u32)TAdMcSelectCursorGC__ct((Obj_8032A574 *)var_r0, arg0);
+            var_r0 = (uaddr)TAdMcSelectCursorGC__ct((Obj_8032A574 *)var_r0, arg0);
         }
         TAdMcSelectCursorGC__instance = var_r0;
     }
@@ -184,12 +184,12 @@ void TAdMcSelectCursorGC::release_cursor_entry() {
     if ((void **) (*(void ** *)&TAdMcSelectCursorGC__texture_entry) != NULL) {
         temp_r4 = (u8 *)(*(*(void ** *)&TAdMcSelectCursorGC__texture_entry));
         if ((u32) *(u32 *)((s8 *)temp_r4 + 8) != 0U) {
-            release_texture_list((*(void ** *)&TAdMcSelectCursorGC__texture_entry), (s32) temp_r4);
+            release_texture_list((*(void ** *)&TAdMcSelectCursorGC__texture_entry), (saddr) temp_r4);
         }
     }
 }
 
-void TAdMcSelectCursorGC::init_resource() { TAdMcSelectCursorGC__texture_entry = (s32)&mc_select_cursor_texture_list; load_streamed_prs_texture((s32)"f256_memorycard_select", (s32)&mc_select_cursor_texture_list); }
+void TAdMcSelectCursorGC::init_resource() { TAdMcSelectCursorGC__texture_entry = (saddr)&mc_select_cursor_texture_list; load_streamed_prs_texture((saddr)"f256_memorycard_select", (saddr)&mc_select_cursor_texture_list); }
 
 s32 TAdMcSelectCursorGC__sub_8032A6D8(void* p) { return *(s32*)((char*)p + 0x1c); }
 

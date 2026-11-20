@@ -189,7 +189,7 @@ u8 *TWindowSubMagPhoton__ct(TWindowSubMagPhoton *window_sub_mag_photon, s32 arg1
     u8 *__ct__11TWindowBaseFPUcsPUc(void *, u8 *, void *, u8 *);
     __ct__11TWindowBaseFPUcsPUc((void *)window_sub_mag_photon, (u8 *)&TWindowSubMagPhoton__layout_descriptor, (void *)arg3, (u8 *)arg1);
     *(s32 **)((s8 *)window_sub_mag_photon + 0x18) = __vt__19TWindowSubMagPhoton;
-    *(s32 *)((s8 *)window_sub_mag_photon + 0) = (s32) TWindowSubMagPhoton__class_name;
+    *(s32 *)((s8 *)window_sub_mag_photon + 0) = (saddr) TWindowSubMagPhoton__class_name;
     ((TWindowSubSymbolChatPartsSet *)((u8 *)window_sub_mag_photon + 0x30))->copy_vec2((void *)arg1);
     ((TWindowBase *)window_sub_mag_photon)->save_position();
     window_sub_mag_photon->m_20 = arg3;

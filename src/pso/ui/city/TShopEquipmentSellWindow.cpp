@@ -264,7 +264,7 @@ void TShopEquipmentSellWindow::build_sell_list() {
     s32 v;
     void *p;
     u32 r;
-    n = ((TObjPlayer *)(self->owner->inventory))->count_matching_items((int)ids);
+    n = ((TObjPlayer *)(self->owner->inventory))->count_matching_items((saddr)ids);
     self->count = 0;
     for (i = 0; i < n; i++) {
         if (ids[i] != 0) {
@@ -287,7 +287,7 @@ void TShopEquipmentSellWindow::build_sell_list() {
     self->m4(0xC, 1);
     ((TShopWindowBase *)self)->set_field_20(1);
     if (self->list_win == NULL) {
-        self->list_win = create_item_list_window(get_shop_text(self->text), self->count, get_entity_id((s32)self->owner));
+        self->list_win = create_item_list_window(get_shop_text(self->text), self->count, get_entity_id((saddr)self->owner));
         for (i = 0; i < self->count; i++) {
             ((TShopEquipmentSellWindow *)(self->list_win))->add_item(self->entries[i].id, self->entries[i].price, i);
         }
@@ -307,7 +307,7 @@ void TShopEquipmentSellWindow::build_sell_list() {
     if (self->help_win == NULL) {
         p = TObject::operator new(0xBC);
         if (p != NULL) {
-            p = __ct__15TWindowHelpItemFPvUs(p, get_window_layout_position(0x27), get_entity_id((s32)self->owner));
+            p = __ct__15TWindowHelpItemFPvUs(p, get_window_layout_position(0x27), get_entity_id((saddr)self->owner));
         }
         self->help_win = p;
         if (self->help_win != NULL && TLobby::is_camera_ctrl_active() > 2) {
@@ -336,7 +336,7 @@ void TShopEquipmentSellWindow::build_sell_list() {
         }
     }
     if (self->cost_win == NULL) {
-        self->cost_win = create_cost_window(get_entity_id((s32)self->owner));
+        self->cost_win = create_cost_window(get_entity_id((saddr)self->owner));
         if (self->cost_win != NULL && self->entries[0].price > 0) {
             get_item_count__24TShopEquipmentSellWindowFv(self->cost_win, self->entries[0].price);
         }
@@ -391,7 +391,7 @@ void TShopEquipmentSellWindow::handle_selection() {
             }
         }
         if (w->menu_win == 0) {
-            w->menu_win = create_window_menu(get_window_layout_position(0x2B), 2, get_entity_id((s32)w->owner));
+            w->menu_win = create_window_menu(get_window_layout_position(0x2B), 2, get_entity_id((saddr)w->owner));
             forward_trade_action_default__16TObjCityMainWarpFPviii(w->menu_win, get_shop_text(6), 6, 0);
             forward_trade_action_default__16TObjCityMainWarpFPviii(w->menu_win, get_shop_text(7), 6, 1);
             ((TWindowSubComCard *)(w->menu_win))->calc_window_size();

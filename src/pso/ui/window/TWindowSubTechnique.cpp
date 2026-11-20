@@ -53,7 +53,7 @@ int TWindowSubTechnique::get_current_selection(void* _w1) { return get_selection
 
 s32 TWindowSubTechnique::is_technique_available(s32 sub, s32 arg1) {
     s32 player;
-    player = ((s32)get_player_by_client_id(arg1));
+    player = ((saddr)get_player_by_client_id(arg1));
     if (player == 0) {
         return 0;
     }
@@ -67,7 +67,7 @@ s32 TWindowSubTechnique::is_technique_available(s32 sub, s32 arg1) {
 }
 
 s32 TWindowSubTechnique::lookup_technique(s32 arg0, s32 arg1) {
-    u32 temp = (u32)get_player_by_client_id(arg1);
+    u32 temp = (uaddr)get_player_by_client_id(arg1);
     if (temp == 0U) {
         return 0;
     }
@@ -175,11 +175,11 @@ s32 TWindowSubTechnique::open_menu() {
     TWindowSubEquip__sub_80263AF8((u8 *)this->m_30, 0);
     set_depth__11TWindowBaseFf(titled_window_menu);
     ((TWindowSubComCardList *)titled_window_menu)->set_flag70_bit100();
-    forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, (int)(TWindowSubStatusDisp::get_message_10(0x9C)), 6, 0);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, (int)(TWindowSubStatusDisp::get_message_10(0x9D)), 6, 1);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, (int)(TWindowSubStatusDisp::get_message_10(0x9E)), 6, 2);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, (int)(TWindowSubStatusDisp::get_message_10(0x9F)), 6, 3);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, (int)(TWindowSubStatusDisp::get_message_10(0xA0)), 6, 4);
+    forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, (saddr)(TWindowSubStatusDisp::get_message_10(0x9C)), 6, 0);
+    forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, (saddr)(TWindowSubStatusDisp::get_message_10(0x9D)), 6, 1);
+    forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, (saddr)(TWindowSubStatusDisp::get_message_10(0x9E)), 6, 2);
+    forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, (saddr)(TWindowSubStatusDisp::get_message_10(0x9F)), 6, 3);
+    forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, (saddr)(TWindowSubStatusDisp::get_message_10(0xA0)), 6, 4);
     ((TWindowSubComCardList *)titled_window_menu)->set_flag70_bit10();
     ((TWindowSubComCardList *)titled_window_menu)->update_layout_height(179.0f);
     align_menu_entry_positions(titled_window_menu);
@@ -195,7 +195,7 @@ void TWindowSubTechnique::update_selected_help(s32 arg1) {
   s32 cast_technique_level;
   tech = arg1;
   toggle_help_window_on_button((*(s32 *)&this->m_3c), (this->playerIndex));
-  player = (s32)get_player_by_client_id((this->playerIndex));
+  player = (saddr)get_player_by_client_id((this->playerIndex));
   if (player != 0)
   {
     if (validate_and_clear_slot__10TObjPlayerFv((void *)(player + 0x428), (int) tech) != 0)
@@ -208,7 +208,7 @@ void TWindowSubTechnique::update_selected_help(s32 arg1) {
       *(s16 *)&this->m_1e = (s16) tech;
       if (((s16) tech) == 0x13)
       {
-        ((TWindowMessage *)(*(s32 *)&this->m_3c))->append_line((int)((void *)lbl_805DD83C), (int)0x82);
+        ((TWindowMessage *)(*(saddr *)&this->m_3c))->append_line((saddr)((void *)lbl_805DD83C), (int)0x82);
         return;
       }
       text_builder_reset();
@@ -221,7 +221,7 @@ void TWindowSubTechnique::update_selected_help(s32 arg1) {
       text_builder_append((u8 *)((int) get_help_text_string(0x2E)));
       text_builder_append_int(((s32) (*((s16 *) (((s8 *) calc_technique_parameters((s16) tech, (u8) cast_technique_level, 0xFFFF)) + 0x10)))));
       text_builder_append((u8 *)((int) get_technique_description_text((s32)((int) ((s32) ((s16) tech))))));
-      ((TWindowMessage *)(*(s32 *)&this->m_3c))->append_line((int)((void *) get_shared_text_buffer()), (int)0x82);
+      ((TWindowMessage *)(*(saddr *)&this->m_3c))->append_line((saddr)((void *) get_shared_text_buffer()), (int)0x82);
     }
   }
 }
@@ -233,7 +233,7 @@ extern s32 __vt__19TWindowSubTechnique[];
 void TWindowSubTechnique::run_task() {
     Tech_802870C4 *self = (Tech_802870C4 *)this;
     s32 port = is_player_input_active(self->player);
-    s32 ply = (s32)get_player_by_client_id(self->player);
+    s32 ply = (saddr)get_player_by_client_id(self->player);
     switch (self->state) {
     case 0:
     case 1:
@@ -253,7 +253,7 @@ void TWindowSubTechnique::run_task() {
     case 2: {
         s32 r = ((TWindowSubTechnique *)self)->sub_80286AA8();
         if (r == 1 || update_selection__19TWindowSubTechniqueFPsPl(self->f20, self->f24, self->player) != 0) {
-            ((TWindowSubTechnique *)self)->rebuildTechniqueList((s32)(self->sel), (s32)(((TWindowMenu *)self->list)->get_selected_value()));
+            ((TWindowSubTechnique *)self)->rebuildTechniqueList((saddr)(self->sel), (s32)(((TWindowMenu *)self->list)->get_selected_value()));
             if (r != 0) {
                 ((TWindowSubComCardList *)(self->sel))->set_selected_index(0);
             }
@@ -269,8 +269,8 @@ void TWindowSubTechnique::run_task() {
     case 3:
         self->help = TWindowMessage::create(get_window_layout_position(0x14), (const f32 *)technique_help_window_size, 1, self->player);
         TWindowSubEquip__sub_80263AF8((u8 *)self->f30, 2);
-        set_depth__11TWindowBaseFf((s32)self->help);
-        call_if_split_screen((u32)self->help, self->player);
+        set_depth__11TWindowBaseFf((saddr)self->help);
+        call_if_split_screen((uaddr)self->help, self->player);
         ((TWindowSubTradeMain *)(self->sel))->clear_trade_flag();
         ((TWindowSubTechnique *)(self->sel))->clear_flag70_bit80();
         ((TWindowSubComCard *)(self->sel))->clear_flag_and_release();
@@ -279,7 +279,7 @@ void TWindowSubTechnique::run_task() {
     case 4:
         ((TObjPlayer *)ply)->update_cursor((s16)((TWindowMenu *)self->sel)->get_selected_value());
         if (update_selection__19TWindowSubTechniqueFPsPl(self->f20, self->f24, self->player) != 0) {
-            ((TWindowSubTechnique *)self)->rebuildTechniqueList((s32)(self->sel), (s32)(((TWindowMenu *)self->list)->get_selected_value()));
+            ((TWindowSubTechnique *)self)->rebuildTechniqueList((saddr)(self->sel), (s32)(((TWindowMenu *)self->list)->get_selected_value()));
         }
         update_selected_help((s16)((TWindowMenu *)self->sel)->get_selected_value());
         if (((TWindowMenu *)(self->sel))->is_cancelled() != 0) {
@@ -295,7 +295,7 @@ void TWindowSubTechnique::run_task() {
             TWindowShortListCtrl__check_controller_button(controller_input_state[port].m20, 2) != 0 ||
             test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state[4].m20, 2) != 0) {
             play_sound_effect(0x52F16, 0, 0, 0);
-            ((TWindowSubTechnique *)self)->rebuildTechniqueList((s32)(self->sel), (s32)(((TWindowMenu *)self->list)->get_selected_value()));
+            ((TWindowSubTechnique *)self)->rebuildTechniqueList((saddr)(self->sel), (s32)(((TWindowMenu *)self->list)->get_selected_value()));
             self->state = 1;
         } else if (try_equip_item__10TObjPlayerFii(ply, (s16)((TWindowMenu *)self->sel)->get_selected_value()) != 0) {
             self->state = 1;
@@ -317,7 +317,7 @@ TWindowSubTechnique::~TWindowSubTechnique() {
 void *TWindowSubTechnique__ct(TWindowSubTechnique *window_sub_technique, s32 arg1, s32 arg2) {
     __ct__7TObjectFP7TObject();
     *(s32 **)((s8 *)window_sub_technique + 0x18) = __vt__19TWindowSubTechnique;
-    *(s32 *)((s8 *)window_sub_technique + 0) = (s32) TWindowSubTechnique__name;
+    *(s32 *)((s8 *)window_sub_technique + 0) = (saddr) TWindowSubTechnique__name;
     window_sub_technique->m_30 = arg1;
     window_sub_technique->playerIndex = arg2;
     window_sub_technique->m_34 = window_sub_technique->open_menu();
@@ -330,7 +330,7 @@ void *TWindowSubTechnique__ct(TWindowSubTechnique *window_sub_technique, s32 arg
 }
 
 s32 get_technique_description_text(s32 arg0) {
-    return *(s32 *)((s8 *)(*(s32 *)((s8 *)text_language_group_table + 0x14)) + (arg0 * 4));
+    return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x14)) + (arg0 * 4));
 }
 
 void TWindowSubTechnique::clear_flag70_bit80() { *(u16*)((char*)this + 0x70) &= 0xffffff7f; }

@@ -324,11 +324,11 @@ void open_get_item_window__18TCheckRoomSequenceFPv(Seq_8020F2D8 *self) {
 void accept_meseta_withdrawal__18TCheckRoomSequenceFPv(u8 *arg0) {
     s32 temp_r31;
     s32 temp_r3;
-    if (((u32) *(u32 *)((s8 *)arg0 + 0x34) != 0U) && (((s32)((TWindowInputNumber *)(*(u32 *)((s8 *)arg0 + 0x34)))->is_confirmed()) != 0)) {
-        temp_r31 = ((TShopEquipmentSellWindow *)(*(u32 *)((s8 *)arg0 + 0x34)))->get_result();
+    if (((u32) *(u32 *)((s8 *)arg0 + 0x34) != 0U) && (((s32)((TWindowInputNumber *)(*(uaddr *)((s8 *)arg0 + 0x34)))->is_confirmed()) != 0)) {
+        temp_r31 = ((TShopEquipmentSellWindow *)(*(uaddr *)((s8 *)arg0 + 0x34)))->get_result();
         temp_r3 = ((s32)sub_8022397C__15TShopWindowBaseFv(arg0));
         bank_debit_meseta(temp_r31, temp_r3);
-        ((TObjPlayer *)(*(s32 *)((s8 *)arg0 + 0x24)))->add_meseta(temp_r31);
+        ((TObjPlayer *)(*(saddr *)((s8 *)arg0 + 0x24)))->add_meseta(temp_r31);
         copy_bank_to_card_window(temp_r3);
         if ((u32) *(u32 *)((s8 *)arg0 + 0x40) != 0U) {
             TWindowMainMenu::set_entry_field_20((int) (*(u32 *)((s8 *)arg0 + 0x40)), (int) (get_room_data__18TCheckRoomSequenceFi(temp_r3)));
@@ -338,7 +338,7 @@ void accept_meseta_withdrawal__18TCheckRoomSequenceFPv(u8 *arg0) {
         ((TWindowBase *)((int) (*(u32 *)((s8 *)arg0 + 0x34))))->close();
         *(u32 *)((s8 *)arg0 + 0x34) = 0U;
     }
-    if (((u32) *(u32 *)((s8 *)arg0 + 0x34) != 0U) && (((s32)((TShopEquipmentSellWindow *)(*(u32 *)((s8 *)arg0 + 0x34)))->is_confirmed()) != 0)) {
+    if (((u32) *(u32 *)((s8 *)arg0 + 0x34) != 0U) && (((s32)((TShopEquipmentSellWindow *)(*(uaddr *)((s8 *)arg0 + 0x34)))->is_confirmed()) != 0)) {
         ((VObj_18_a93f07 *)(arg0))->m4(0x46, 1);
         set_field_20__15TShopWindowBaseFl(arg0, (void*)(0xA));
         ((TWindowBase *)((int) (*(u32 *)((s8 *)arg0 + 0x34))))->close();
@@ -393,11 +393,11 @@ void begin_meseta_withdrawal__18TCheckRoomSequenceFPv(Seq_8020F478 *self) {
 void accept_meseta_deposit__18TCheckRoomSequenceFPv(u8 *arg0) {
     s32 temp_r31;
     s32 temp_r3;
-    if (((u32) *(u32 *)((s8 *)arg0 + 0x34) != 0U) && (((s32)((TWindowInputNumber *)(*(u32 *)((s8 *)arg0 + 0x34)))->is_confirmed()) != 0)) {
-        temp_r31 = ((TShopEquipmentSellWindow *)(*(u32 *)((s8 *)arg0 + 0x34)))->get_result();
+    if (((u32) *(u32 *)((s8 *)arg0 + 0x34) != 0U) && (((s32)((TWindowInputNumber *)(*(uaddr *)((s8 *)arg0 + 0x34)))->is_confirmed()) != 0)) {
+        temp_r31 = ((TShopEquipmentSellWindow *)(*(uaddr *)((s8 *)arg0 + 0x34)))->get_result();
         temp_r3 = ((s32)sub_8022397C__15TShopWindowBaseFv(arg0));
         bank_credit_meseta(temp_r31, temp_r3);
-        try_spend_actor_meseta((u8 *)(*(s32 *)((s8 *)arg0 + 0x24)), (temp_r31));
+        try_spend_actor_meseta((u8 *)(*(saddr *)((s8 *)arg0 + 0x24)), (temp_r31));
         copy_bank_to_card_window(temp_r3);
         if ((u32) *(u32 *)((s8 *)arg0 + 0x40) != 0U) {
             TWindowMainMenu::set_entry_field_20((int) (*(u32 *)((s8 *)arg0 + 0x40)), (int) (get_room_data__18TCheckRoomSequenceFi(temp_r3)));
@@ -407,7 +407,7 @@ void accept_meseta_deposit__18TCheckRoomSequenceFPv(u8 *arg0) {
         ((TWindowBase *)((int) (*(u32 *)((s8 *)arg0 + 0x34))))->close();
         *(u32 *)((s8 *)arg0 + 0x34) = 0U;
     }
-    if (((u32) *(u32 *)((s8 *)arg0 + 0x34) != 0U) && (((s32)((TShopEquipmentSellWindow *)(*(u32 *)((s8 *)arg0 + 0x34)))->is_confirmed()) != 0)) {
+    if (((u32) *(u32 *)((s8 *)arg0 + 0x34) != 0U) && (((s32)((TShopEquipmentSellWindow *)(*(uaddr *)((s8 *)arg0 + 0x34)))->is_confirmed()) != 0)) {
         ((VObj_18_a93f07 *)(arg0))->m4(0x46, 1);
         set_field_20__15TShopWindowBaseFl(arg0, (void*)(3));
         ((TWindowBase *)((int) (*(u32 *)((s8 *)arg0 + 0x34))))->close();
@@ -475,7 +475,7 @@ void open_deposit_item_window__18TCheckRoomSequenceFv(u8 *arg0) {
     mem = TObject::operator new(0x39C);
     w = (Win_8020F8C0 *)mem;
     if (mem != NULL) {
-        w = (Win_8020F8C0 *)__ct__19TShopKeepItemWindowFPvPvPv((TShopKeepItemWindow *)((void *)mem), (void *)tl_05, (void *)arg0, (void *)(*(s32 *)((s8 *)arg0 + 0x24)));
+        w = (Win_8020F8C0 *)__ct__19TShopKeepItemWindowFPvPvPv((TShopKeepItemWindow *)((void *)mem), (void *)tl_05, (void *)arg0, (void *)(*(saddr *)((s8 *)arg0 + 0x24)));
     }
     w->cb0 = (void *)finish_room_check__18TCheckRoomSequenceFPv;
     w->cb1 = (void *)init_check_params__18TCheckRoomSequenceFUi;
@@ -496,33 +496,33 @@ void handle_withdraw_choice__18TCheckRoomSequenceFv(u8 *arg0) {
             *(u32 *)((s8 *)arg0 + 0x3C) = create_window_menu(((s32)get_window_layout_position(0x2B)), 2, get_entity_id((int) (*(s32 *)((s8 *)arg0 + 0x24))));
             forward_trade_action_default__16TObjCityMainWarpFPviii((int) (*(u32 *)((s8 *)arg0 + 0x3C)), (int) (get_shop_text(2)), 6, 0);
             forward_trade_action_default__16TObjCityMainWarpFPviii((int) (*(u32 *)((s8 *)arg0 + 0x3C)), (int) (get_shop_text(3)), 6, 1);
-            ((TWindowSubComCard *)(*(u32 *)((s8 *)arg0 + 0x3C)))->calc_window_size();
+            ((TWindowSubComCard *)(*(uaddr *)((s8 *)arg0 + 0x3C)))->calc_window_size();
             align_menu_entry_positions((int) (*(u32 *)((s8 *)arg0 + 0x3C)));
             set_ready_flag__18TCheckRoomSequenceFv((int) (*(u32 *)((s8 *)arg0 + 0x3C)));
-            ((TWindowAddition *)(*(u32 *)((s8 *)arg0 + 0x3C)))->set_position_xy(((TShopWindowBase *)arg0)->get_scale(), ((TShopWindowBase *)arg0)->get_scale());
+            ((TWindowAddition *)(*(uaddr *)((s8 *)arg0 + 0x3C)))->set_position_xy(((TShopWindowBase *)arg0)->get_scale(), ((TShopWindowBase *)arg0)->get_scale());
         }
         ((VObj_18_a93f07 *)(arg0))->m4(0x32, 1);
         *(s32 *)((s8 *)arg0 + 0x2C) = 1;
         return;
     case 1:
-        if (((u32) *(u32 *)((s8 *)arg0 + 0x3C) != 0U) && (((TWindowMenu *)(*(u32 *)((s8 *)arg0 + 0x3C)))->is_decided() != 0)) {
-            selected_menu_value = ((TWindowMenu *)(*(u32 *)((s8 *)arg0 + 0x3C)))->get_selected_value();
+        if (((u32) *(u32 *)((s8 *)arg0 + 0x3C) != 0U) && (((TWindowMenu *)(*(uaddr *)((s8 *)arg0 + 0x3C)))->is_decided() != 0)) {
+            selected_menu_value = ((TWindowMenu *)(*(uaddr *)((s8 *)arg0 + 0x3C)))->get_selected_value();
             if (selected_menu_value == 0) {
                 set_field_20__15TShopWindowBaseFl(arg0, (void *) (7));
-                ((TWindowBase *)(*(u32 *)((s8 *)arg0 + 0x3C)))->close();
+                ((TWindowBase *)(*(uaddr *)((s8 *)arg0 + 0x3C)))->close();
                 *(u32 *)((s8 *)arg0 + 0x3C) = 0U;
             }
             if (selected_menu_value == 1) {
                 set_field_20__15TShopWindowBaseFl(arg0, (void *) (9));
-                ((TWindowBase *)(*(u32 *)((s8 *)arg0 + 0x3C)))->close();
+                ((TWindowBase *)(*(uaddr *)((s8 *)arg0 + 0x3C)))->close();
                 *(u32 *)((s8 *)arg0 + 0x3C) = 0U;
             }
             *(s32 *)((s8 *)arg0 + 0x2C) = 0;
         }
-        if (((u32) *(u32 *)((s8 *)arg0 + 0x3C) != 0U) && (((TWindowMenu *)(*(u32 *)((s8 *)arg0 + 0x3C)))->is_cancelled() != 0)) {
+        if (((u32) *(u32 *)((s8 *)arg0 + 0x3C) != 0U) && (((TWindowMenu *)(*(uaddr *)((s8 *)arg0 + 0x3C)))->is_cancelled() != 0)) {
             ((VObj_18_a93f07 *)(arg0))->m4(0x46, 1);
             set_field_20__15TShopWindowBaseFl(arg0, (void *) (2));
-            ((TWindowBase *)(*(u32 *)((s8 *)arg0 + 0x3C)))->close();
+            ((TWindowBase *)(*(uaddr *)((s8 *)arg0 + 0x3C)))->close();
             *(u32 *)((s8 *)arg0 + 0x3C) = 0U;
             *(s32 *)((s8 *)arg0 + 0x2C) = 0;
         }
@@ -541,33 +541,33 @@ void handle_deposit_choice__18TCheckRoomSequenceFv(u8 *arg0) {
             *(u32 *)((s8 *)arg0 + 0x3C) = create_window_menu(((s32)get_window_layout_position(0x2B)), 2, get_entity_id((int) (*(s32 *)((s8 *)arg0 + 0x24))));
             forward_trade_action_default__16TObjCityMainWarpFPviii((int) (*(u32 *)((s8 *)arg0 + 0x3C)), (int) (get_shop_text(2)), 6, 0);
             forward_trade_action_default__16TObjCityMainWarpFPviii((int) (*(u32 *)((s8 *)arg0 + 0x3C)), (int) (get_shop_text(3)), 6, 1);
-            ((TWindowSubComCard *)(*(u32 *)((s8 *)arg0 + 0x3C)))->calc_window_size();
+            ((TWindowSubComCard *)(*(uaddr *)((s8 *)arg0 + 0x3C)))->calc_window_size();
             align_menu_entry_positions((int) (*(u32 *)((s8 *)arg0 + 0x3C)));
             set_ready_flag__18TCheckRoomSequenceFv((int) (*(u32 *)((s8 *)arg0 + 0x3C)));
-            ((TWindowAddition *)(*(u32 *)((s8 *)arg0 + 0x3C)))->set_position_xy(((TShopWindowBase *)arg0)->get_scale(), ((TShopWindowBase *)arg0)->get_scale());
+            ((TWindowAddition *)(*(uaddr *)((s8 *)arg0 + 0x3C)))->set_position_xy(((TShopWindowBase *)arg0)->get_scale(), ((TShopWindowBase *)arg0)->get_scale());
         }
         ((VObj_18_a93f07 *)(arg0))->m4(0x33, 1);
         *(s32 *)((s8 *)arg0 + 0x2C) = 1;
         return;
     case 1:
-        if (((u32) *(u32 *)((s8 *)arg0 + 0x3C) != 0U) && (((TWindowMenu *)(*(u32 *)((s8 *)arg0 + 0x3C)))->is_decided() != 0)) {
-            selected_menu_value = ((TWindowMenu *)(*(u32 *)((s8 *)arg0 + 0x3C)))->get_selected_value();
+        if (((u32) *(u32 *)((s8 *)arg0 + 0x3C) != 0U) && (((TWindowMenu *)(*(uaddr *)((s8 *)arg0 + 0x3C)))->is_decided() != 0)) {
+            selected_menu_value = ((TWindowMenu *)(*(uaddr *)((s8 *)arg0 + 0x3C)))->get_selected_value();
             if (selected_menu_value == 0) {
                 set_field_20__15TShopWindowBaseFl(arg0, (void *) (6));
-                ((TWindowBase *)(*(u32 *)((s8 *)arg0 + 0x3C)))->close();
+                ((TWindowBase *)(*(uaddr *)((s8 *)arg0 + 0x3C)))->close();
                 *(u32 *)((s8 *)arg0 + 0x3C) = 0U;
             }
             if (selected_menu_value == 1) {
                 set_field_20__15TShopWindowBaseFl(arg0, (void *) (4));
-                ((TWindowBase *)(*(u32 *)((s8 *)arg0 + 0x3C)))->close();
+                ((TWindowBase *)(*(uaddr *)((s8 *)arg0 + 0x3C)))->close();
                 *(u32 *)((s8 *)arg0 + 0x3C) = 0U;
             }
             *(s32 *)((s8 *)arg0 + 0x2C) = 0;
         }
-        if (((u32) *(u32 *)((s8 *)arg0 + 0x3C) != 0U) && (((TWindowMenu *)(*(u32 *)((s8 *)arg0 + 0x3C)))->is_cancelled() != 0)) {
+        if (((u32) *(u32 *)((s8 *)arg0 + 0x3C) != 0U) && (((TWindowMenu *)(*(uaddr *)((s8 *)arg0 + 0x3C)))->is_cancelled() != 0)) {
             ((VObj_18_a93f07 *)(arg0))->m4(0x46, 1);
             set_field_20__15TShopWindowBaseFl(arg0, (void *) (2));
-            ((TWindowBase *)(*(u32 *)((s8 *)arg0 + 0x3C)))->close();
+            ((TWindowBase *)(*(uaddr *)((s8 *)arg0 + 0x3C)))->close();
             *(u32 *)((s8 *)arg0 + 0x3C) = 0U;
             *(s32 *)((s8 *)arg0 + 0x2C) = 0;
         }
@@ -590,32 +590,32 @@ void handle_root_choice__18TCheckRoomSequenceFv(u8 *arg0) {
                 *(u32 *)((s8 *)arg0 + 0x3C) = create_window_menu(((s32)get_window_layout_position(0x2B)), 2, get_entity_id((int) (*(s32 *)((s8 *)arg0 + 0x24))));
                 forward_trade_action_default__16TObjCityMainWarpFPviii((int) (*(u32 *)((s8 *)arg0 + 0x3C)), (int) (get_shop_text(8)), 6, 0);
                 forward_trade_action_default__16TObjCityMainWarpFPviii((int) (*(u32 *)((s8 *)arg0 + 0x3C)), (int) (get_shop_text(9)), 6, 1);
-                ((TWindowSubComCard *)(*(u32 *)((s8 *)arg0 + 0x3C)))->calc_window_size();
+                ((TWindowSubComCard *)(*(uaddr *)((s8 *)arg0 + 0x3C)))->calc_window_size();
                 align_menu_entry_positions((int) (*(u32 *)((s8 *)arg0 + 0x3C)));
                 set_ready_flag__18TCheckRoomSequenceFv((int) (*(u32 *)((s8 *)arg0 + 0x3C)));
-                ((TWindowAddition *)(*(u32 *)((s8 *)arg0 + 0x3C)))->set_position_xy(((TShopWindowBase *)arg0)->get_scale(), ((TShopWindowBase *)arg0)->get_scale());
+                ((TWindowAddition *)(*(uaddr *)((s8 *)arg0 + 0x3C)))->set_position_xy(((TShopWindowBase *)arg0)->get_scale(), ((TShopWindowBase *)arg0)->get_scale());
             }
             *(s32 *)((s8 *)arg0 + 0x2C) = 1;
             return;
         case 1:
-            if (((u32) *(u32 *)((s8 *)arg0 + 0x3C) != 0U) && (((TWindowMenu *)(*(u32 *)((s8 *)arg0 + 0x3C)))->is_decided() != 0)) {
-                selected_menu_value = ((TWindowMenu *)(*(u32 *)((s8 *)arg0 + 0x3C)))->get_selected_value();
+            if (((u32) *(u32 *)((s8 *)arg0 + 0x3C) != 0U) && (((TWindowMenu *)(*(uaddr *)((s8 *)arg0 + 0x3C)))->is_decided() != 0)) {
+                selected_menu_value = ((TWindowMenu *)(*(uaddr *)((s8 *)arg0 + 0x3C)))->get_selected_value();
                 if (selected_menu_value == 0) {
                     set_field_20__15TShopWindowBaseFl(arg0, (void *) (3));
-                    ((TWindowBase *)(*(u32 *)((s8 *)arg0 + 0x3C)))->close();
+                    ((TWindowBase *)(*(uaddr *)((s8 *)arg0 + 0x3C)))->close();
                     *(u32 *)((s8 *)arg0 + 0x3C) = 0U;
                 }
                 if (selected_menu_value == 1) {
                     set_field_20__15TShopWindowBaseFl(arg0, (void *) (0xA));
-                    ((TWindowBase *)(*(u32 *)((s8 *)arg0 + 0x3C)))->close();
+                    ((TWindowBase *)(*(uaddr *)((s8 *)arg0 + 0x3C)))->close();
                     *(u32 *)((s8 *)arg0 + 0x3C) = 0U;
                 }
                 *(s32 *)((s8 *)arg0 + 0x2C) = 0;
             }
-            if (((u32) *(u32 *)((s8 *)arg0 + 0x3C) != 0U) && (((TWindowMenu *)(*(u32 *)((s8 *)arg0 + 0x3C)))->is_cancelled() != 0)) {
+            if (((u32) *(u32 *)((s8 *)arg0 + 0x3C) != 0U) && (((TWindowMenu *)(*(uaddr *)((s8 *)arg0 + 0x3C)))->is_cancelled() != 0)) {
                 ((VObj_18_a93f07 *)(arg0))->m4(0x48, 1);
                 set_field_20__15TShopWindowBaseFl(arg0, (void *) (0xD));
-                ((TWindowBase *)(*(u32 *)((s8 *)arg0 + 0x3C)))->close();
+                ((TWindowBase *)(*(uaddr *)((s8 *)arg0 + 0x3C)))->close();
                 *(u32 *)((s8 *)arg0 + 0x3C) = 0U;
                 *(s32 *)((s8 *)arg0 + 0x2C) = 0;
                 return;
@@ -628,32 +628,32 @@ void handle_root_choice__18TCheckRoomSequenceFv(u8 *arg0) {
             if ((u32) *(u32 *)((s8 *)arg0 + 0x3C) == 0U) {
                 *(u32 *)((s8 *)arg0 + 0x3C) = create_window_menu(((s32)get_window_layout_position(0x2B)), 2, get_entity_id((int) (*(s32 *)((s8 *)arg0 + 0x24))));
                 forward_trade_action_default__16TObjCityMainWarpFPviii((int) (*(u32 *)((s8 *)arg0 + 0x3C)), (int) (get_shop_text(0xA)), 6, 1);
-                ((TWindowSubComCard *)(*(u32 *)((s8 *)arg0 + 0x3C)))->calc_window_size();
+                ((TWindowSubComCard *)(*(uaddr *)((s8 *)arg0 + 0x3C)))->calc_window_size();
                 align_menu_entry_positions((int) (*(u32 *)((s8 *)arg0 + 0x3C)));
                 set_ready_flag__18TCheckRoomSequenceFv((int) (*(u32 *)((s8 *)arg0 + 0x3C)));
-                ((TWindowAddition *)(*(u32 *)((s8 *)arg0 + 0x3C)))->set_position_xy(((TShopWindowBase *)arg0)->get_scale(), ((TShopWindowBase *)arg0)->get_scale());
+                ((TWindowAddition *)(*(uaddr *)((s8 *)arg0 + 0x3C)))->set_position_xy(((TShopWindowBase *)arg0)->get_scale(), ((TShopWindowBase *)arg0)->get_scale());
             }
             *(s32 *)((s8 *)arg0 + 0x2C) = 1;
             return;
         case 1:
-            if (((u32) *(u32 *)((s8 *)arg0 + 0x3C) != 0U) && (((TWindowMenu *)(*(u32 *)((s8 *)arg0 + 0x3C)))->is_decided() != 0)) {
-                temp_r3_2 = ((TWindowMenu *)(*(u32 *)((s8 *)arg0 + 0x3C)))->get_selected_value();
+            if (((u32) *(u32 *)((s8 *)arg0 + 0x3C) != 0U) && (((TWindowMenu *)(*(uaddr *)((s8 *)arg0 + 0x3C)))->is_decided() != 0)) {
+                temp_r3_2 = ((TWindowMenu *)(*(uaddr *)((s8 *)arg0 + 0x3C)))->get_selected_value();
                 if (temp_r3_2 == 0) {
                     set_field_20__15TShopWindowBaseFl(arg0, (void *) (0xA));
-                    ((TWindowBase *)(*(u32 *)((s8 *)arg0 + 0x3C)))->close();
+                    ((TWindowBase *)(*(uaddr *)((s8 *)arg0 + 0x3C)))->close();
                     *(u32 *)((s8 *)arg0 + 0x3C) = 0U;
                 }
                 if (temp_r3_2 == 1) {
                     set_field_20__15TShopWindowBaseFl(arg0, (void *) (0x12));
-                    ((TWindowBase *)(*(u32 *)((s8 *)arg0 + 0x3C)))->close();
+                    ((TWindowBase *)(*(uaddr *)((s8 *)arg0 + 0x3C)))->close();
                     *(u32 *)((s8 *)arg0 + 0x3C) = 0U;
                 }
                 *(s32 *)((s8 *)arg0 + 0x2C) = 0;
             }
-            if (((u32) *(u32 *)((s8 *)arg0 + 0x3C) != 0U) && (((TWindowMenu *)(*(u32 *)((s8 *)arg0 + 0x3C)))->is_cancelled() != 0)) {
+            if (((u32) *(u32 *)((s8 *)arg0 + 0x3C) != 0U) && (((TWindowMenu *)(*(uaddr *)((s8 *)arg0 + 0x3C)))->is_cancelled() != 0)) {
                 ((VObj_18_a93f07 *)(arg0))->m4(0x48, 1);
                 set_field_20__15TShopWindowBaseFl(arg0, (void *) (0xD));
-                ((TWindowBase *)(*(u32 *)((s8 *)arg0 + 0x3C)))->close();
+                ((TWindowBase *)(*(uaddr *)((s8 *)arg0 + 0x3C)))->close();
                 *(u32 *)((s8 *)arg0 + 0x3C) = 0U;
                 *(s32 *)((s8 *)arg0 + 0x2C) = 0;
             }
@@ -686,7 +686,7 @@ void open_bank__18TCheckRoomSequenceFv(u8 *arg0) {
     NJS_POINT2 v;
     v.x = 332.0f;
     v.y = 80.0f;
-    ((TShopSequence *)arg0)->create_message_window((s32)(get_window_layout_position(0x2C)), (s32)&v);
+    ((TShopSequence *)arg0)->create_message_window((s32)(get_window_layout_position(0x2C)), (saddr)&v);
     ((VObj_18_a93f07 *)(arg0))->m4(0x31, 1);
     *(s32 *)((s8 *)arg0 + 0x38) = create_meseta_window(get_child_field1c__13TShopSequenceFv(arg0));
     w = TObject::operator new(0x6C);
@@ -782,7 +782,7 @@ TCheckRoomSequence::TCheckRoomSequence(TObject *parent, TObjPlayer *player) : TS
     counter_camera = NULL;
     pad_2c = 0;
     set_field_20(0);
-    TCheckRoomSequence__active_instance = (s32)this;
+    TCheckRoomSequence__active_instance = (saddr)this;
     pad_30 = 0;
     TCheckRoomSequence__slot_active_flags[sub_8022397C__15TShopWindowBaseFv(this)] = 1;
 }
@@ -986,7 +986,7 @@ void remove_bank_item_amount__18TCheckRoomSequenceFiii(s32 idx, s32 amount, s32 
 typedef struct Rec_80210F78 Rec_80210F78;
 #pragma optimization_level 1
 s32 copy_bank_item_with_stack_limit(s32 idx, void *data, s32 *out, s32 slot) {
-  s32 base = (s32) bank_item_records_by_slot[slot];
+  s32 base = (saddr) bank_item_records_by_slot[slot];
   Rec_80210F78 *t;
   s32 new_var;
   if (idx > 199)

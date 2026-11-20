@@ -117,7 +117,7 @@ typedef struct VObj_18_a93f07 VObj_18_a93f07;
 
 void set_judgment_target_flag(void *arg0, void *arg1) {
     u32 temp_r3;
-    if ((TRaderMapCore::is_not_split_screen() == 1) && ((temp_r3 = (u32)find_item_by_id(*(s32 *)((s8 *)arg1 + 0xC))) != 0U) && ((s32) *(s32 *)((s8 *)arg0 + 0x168) != 0)) {
+    if ((TRaderMapCore::is_not_split_screen() == 1) && ((temp_r3 = (uaddr)find_item_by_id(*(s32 *)((s8 *)arg1 + 0xC))) != 0U) && ((s32) *(s32 *)((s8 *)arg0 + 0x168) != 0)) {
         ((TItem *)temp_r3)->add_item_flags(0x80);
     }
 }
@@ -199,7 +199,7 @@ s32 TShopItemTecSequence::open_greeting() {
   Stack_802202BC stack;
   stack.sp8 = 332.0f;
   stack.spC = 80.0f;
-  this->create_message_window(get_window_layout_position(0x2C, 332.0f), (s32)&stack.sp8);
+  this->create_message_window(get_window_layout_position(0x2C, 332.0f), (saddr)&stack.sp8);
   (((VObj_18_a93f07 *)(this))->m4(0x2E, 1));
   meseta_window = (TWindowBase *)create_meseta_window((s32) ((((this->get_child_field1c() & 0xFFFF) & 0xFFFF) & 0xFFFF) & 0xFFFF));
   this->set_field_20(2);
@@ -210,7 +210,7 @@ void TShopItemTecSequence::update_buy_sell_choice() {
     s32 r;
     if (((Seq_80220110 *)this)->win == NULL) {
         u16 id = get_entity_id(((Seq_80220110 *)this)->x24);
-        ((Seq_80220110 *)this)->win = (void *)create_window_menu((s32)((void *)((s32 (*)(int))get_window_layout_position)(0x2B)), (s32)((void *)2), id);
+        ((Seq_80220110 *)this)->win = (void *)create_window_menu((saddr)((void *)((s32 (*)(int))get_window_layout_position)(0x2B)), (saddr)((void *)2), id);
         forward_trade_action_default__16TObjCityMainWarpFPviii(((Seq_80220110 *)this)->win, get_shop_text(4), 6, 0);
         forward_trade_action_default__16TObjCityMainWarpFPviii(((Seq_80220110 *)this)->win, get_shop_text(6), 6, 1);
         ((TWindowSubComCard *)(((Seq_80220110 *)this)->win))->calc_window_size();
@@ -243,7 +243,7 @@ void TShopItemTecSequence::update_buy_sell_choice() {
 }
 
 void TShopItemTecSequence::open_item_list_window() {
-    W_802200A8 *o = (W_802200A8 *)new TShopItemListWindow((s32)tl_05, (s32)((S_802200A8 *)this), (s32)(((S_802200A8 *)this)->f24));
+    W_802200A8 *o = (W_802200A8 *)new TShopItemListWindow((saddr)tl_05, (saddr)((S_802200A8 *)this), (s32)(((S_802200A8 *)this)->f24));
     o->cb0 = (void *)close__20TShopItemTecSequenceFPv;
     reset_controller_input_state();
     this->set_field_20(5);

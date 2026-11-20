@@ -72,7 +72,7 @@ TAdGuideTxtGC_802B19E8 *__ct__13TAdGuideTxtGCFv(TAdGuideTxtGC_802B19E8 *o) {
     u32 i;
     __ct__7TObjectFP7TObject(o);
     o->vt18 = __vt__13TAdGuideTxtGC;
-    o->f0 = (s32)TAdGuideTxtGC__class_name;
+    o->f0 = (saddr)TAdGuideTxtGC__class_name;
     for (i = 0; i < 2; i++) {
         o->a[i] = (void *)"";
         o->b[i] = (void *)"";

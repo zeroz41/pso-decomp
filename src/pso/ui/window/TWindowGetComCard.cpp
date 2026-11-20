@@ -158,20 +158,20 @@ u8 *TWindowGetComCard__ct(TWindowGetComCard *window_get_com_card) {
     s32 temp_r31;
     __ct__7TObjectFP7TObject();
     *(s32 **)((s8 *)window_get_com_card + 0x18) = ((s32 *)&__vt__17TWindowGetComCard);
-    *(s32 *)((s8 *)window_get_com_card + 0) = (s32) TWindowGetComCard__name;
+    *(s32 *)((s8 *)window_get_com_card + 0) = (saddr) TWindowGetComCard__name;
     window_get_com_card->m_1c = create__14TWindowMessageFPvll((void *)pos, (void *)size, 1);
     window_get_com_card->m_20 = 0;
     if (init_com_card__17TWindowSubComCardFv() != 0) {
-        temp_r31 = (s32)TWindowGetComCard__sub_8007B594();
+        temp_r31 = (saddr)TWindowGetComCard__sub_8007B594();
         text_builder_reset();
         ((TLobby *)temp_r31)->get_com_card_list();
         text_builder_append();
         TWindowSubStatusDisp::get_message_10(0x36);
         text_builder_append();
-        ((TWindowMessage *)(window_get_com_card->m_1c))->append_line((int) (get_shared_text_buffer()), 2);
+        ((TWindowMessage *)(window_get_com_card->m_1c))->append_line((saddr) (get_shared_text_buffer()), 2);
         window_get_com_card->m_28 = 0;
     } else {
-        ((TWindowMessage *)(window_get_com_card->m_1c))->append_line((int) (TWindowSubStatusDisp::get_message_10(0x37)), 0);
+        ((TWindowMessage *)(window_get_com_card->m_1c))->append_line((saddr) (TWindowSubStatusDisp::get_message_10(0x37)), 0);
         window_get_com_card->m_28 = 0x384;
     }
     if (get_player_by_client_id(local_client_id) != 0U) {

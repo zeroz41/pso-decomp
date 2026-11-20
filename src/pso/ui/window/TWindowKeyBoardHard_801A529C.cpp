@@ -85,7 +85,7 @@ void alloc_work_buffer(void) {
     deferred_packet_buffer_used = 0;
     lbl_805D5D00 = 0;
     lbl_805D5D04 = 0;
-    deferred_packet_buffer = (s32)mem_alloc(0x10000);
+    deferred_packet_buffer = (saddr)mem_alloc(0x10000);
     memset((void *)deferred_packet_buffer, 0, 0x10000);
 }
 }

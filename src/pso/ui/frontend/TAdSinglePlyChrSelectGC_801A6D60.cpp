@@ -12,7 +12,7 @@ u8 TAdSinglePlyChrSelectGC::test_flag_4c() {
 }
 
 s32 TWindowShortListCtrl__check_controller_button(void *pad, s32 mask) {
-    return (*(s32 *)((s8 *)pad + 0x4C) & pack_flags__13TRaderMapCoreFii((s32)pad, mask)) != 0;
+    return (*(s32 *)((s8 *)pad + 0x4C) & pack_flags__13TRaderMapCoreFii((saddr)pad, mask)) != 0;
 }
 
 }

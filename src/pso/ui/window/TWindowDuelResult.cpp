@@ -161,7 +161,7 @@ void sub_8024EF40__17TWindowDuelResultFv(Win_8024EF40 *arg0) {
     set_default_status__17TWindowDuelResultFPvi(c, get_localized_text_entry(0x10, 5));
     pl = (u8 *)get_player_by_client_id(arg0->player);
     if (pl != 0) {
-        set_text_entry_string((u8 *)(((TWindowBase *)arg0)->get_array_entry(1)), (u32)(pl + 0x85C), 0x20);
+        set_text_entry_string((u8 *)(((TWindowBase *)arg0)->get_array_entry(1)), (uaddr)(pl + 0x85C), 0x20);
         vals[0] = TWindowDuelResult__sub_801C19AC((f32 *)(pl + 0x75C));
         vals[1] = TWindowDuelResult__sub_801C19AC((f32 *)(pl + 0x76C));
         vals[2] = TWindowDuelResult__sub_801C19AC((f32 *)(pl + 0x78C));
@@ -223,10 +223,10 @@ void sub_8024F094__17TWindowDuelResultFv(Win_8024F094 *self) {
             } else {
                 set_default_status__17TWindowDuelResultFPvi(a, get_localized_text_entry(0x10, e->rank + 6));
             }
-            set_text_entry_string((u8 *)c, (u32)(p + 0x85C), 0x20);
+            set_text_entry_string((u8 *)c, (uaddr)(p + 0x85C), 0x20);
             text_builder_reset();
             text_builder_append_int(e->value);
-            set_text_entry_string(d, (u32)((void *)get_shared_text_buffer(text_builder_append(get_localized_text_entry(0x10, 0xD)))), 0x20);
+            set_text_entry_string(d, (uaddr)((void *)get_shared_text_buffer(text_builder_append(get_localized_text_entry(0x10, 0xD)))), 0x20);
             refresh_status_display__9TWindowDDFv(d);
             *(f32 *)(d + 8) = (372.0f) - *(f32 *)(d + 0x10);
         }
@@ -240,7 +240,7 @@ s32 TWindowDuelResult__sub_8024F3CC(void *arg0_) {
     static PT tbl[2] = { &TWindowDuelResult::sub_8024F094, &TWindowDuelResult::sub_8024EF40 };
     TWindowDuelResult *w = (TWindowDuelResult *)arg0;
     ((TWindowSubStatusDisp *)(arg0 + 0x24))->destroy_all_items();
-    s8 t = ((TWindowSubStatusDisp *)(*(s32 *)(arg0 + 0x68)))->get_type();
+    s8 t = ((TWindowSubStatusDisp *)(*(saddr *)(arg0 + 0x68)))->get_type();
     (w->*tbl[t])();
     TWindowDuelResult__sub_8024F330(arg0);
 }
@@ -250,14 +250,14 @@ s32 TWindowDuelResult__sub_8024F330(void *arg0_) {
     typedef void (TWindowDuelResult::*PT)();
     static PT tbl[2] = { &TWindowDuelResult::sub_8024F090, &TWindowDuelResult::sub_8024EF3C };
     TWindowDuelResult *w = (TWindowDuelResult *)arg0;
-    s8 t = ((TWindowSubStatusDisp *)(*(s32 *)(arg0 + 0x68)))->get_type();
+    s8 t = ((TWindowSubStatusDisp *)(*(saddr *)(arg0 + 0x68)))->get_type();
     (w->*tbl[t])();
 }
 #pragma defer_codegen off
 
 void draw_window__17TWindowDuelResultFPv(u8 *arg0) {
     s32 temp_r3;
-    temp_r3 = ((TWindowBase *)arg0)->setup_window_draw_context((s32)(arg0 + 0x60));
+    temp_r3 = ((TWindowBase *)arg0)->setup_window_draw_context((saddr)(arg0 + 0x60));
     ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
     draw_visible_window_entries(arg0, arg0 + 0x24, temp_r3);
     draw_list_page_indicator((int) (*(s32 *)((s8 *)arg0 + 0x68)), temp_r3);
@@ -285,7 +285,7 @@ void *lbl_804CF020[6] = {
 void *destroy__17TWindowDuelResultFPvs(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = lbl_804CF020;
-        delete_if_allocated((s32)(*(void **)((s8 *)arg0 + 0x68)), 1);
+        delete_if_allocated((saddr)(*(void **)((s8 *)arg0 + 0x68)), 1);
         __dt__11TWindowBaseFv(arg0, 0);
         if (arg1 > 0) {
             TObject::operator delete(arg0);
@@ -298,8 +298,8 @@ u8 *TWindowDuelResult__ct(u8 *arg0_, s16 arg1) {
     u8 *var_r0;
     __ct__11TWindowBaseFPUcsPUc((void *)arg0_, (u8 *)__vt__17TWindowDuelResult, (s16)arg1, (u8 *)get_window_layout_position(0x24));
     *(s32 **)((s8 *)arg0_ + 0x18) = ((s32 *)lbl_804CF020);
-    *(s32 *)((s8 *)arg0_ + 0) = (s32) ((s32)window_duel_result_class_name);
-    temp_r3 = (u8 *)((int)::operator new(0xC));
+    *(s32 *)((s8 *)arg0_ + 0) = (s32) ((saddr)window_duel_result_class_name);
+    temp_r3 = (u8 *)((saddr)::operator new(0xC));
     var_r0 = temp_r3;
     if (var_r0 != NULL) {
         var_r0 = (u8 *)(init__21TWindowSubComCardListFiii(temp_r3, 0, 2, (s32) *(s16 *)((s8 *)arg0_ + 0x20)));

@@ -284,7 +284,7 @@ TUnk_804CF0B8::~TUnk_804CF0B8() {
         this->clear_visible_flag();
         TWindowCtrl::release_slot((s8 *)&this->m_73);
     }
-    if ((u32)this->name != 0U) {
+    if ((uaddr)this->name != 0U) {
         mem_free(this->name);
         this->name = 0;
     }
@@ -418,7 +418,7 @@ void TUnk_804CF0B8::draw_body(void *ctx, u32 argb, f32 *offset, f32 depth) {
     s.f2c = 0.0f;
     s.f30 = 0.0f;
     begin_screen_draw(1);
-    TObjFish::set_global_param((s32)lbl_805D63F0);
+    TObjFish::set_global_param((saddr)lbl_805D63F0);
     set_draw_texture_and_color(1, argb);
     if (((struct Fukidasi_80252558 *)this)->size[1] < 64.0f) {
         capY = 0.5f * ((struct Fukidasi_80252558 *)this)->size[1];
@@ -607,7 +607,7 @@ void draw_name_plate__15TWindowFukidasiFv(TUnk_804CF0B8 *self, View_80252764 *ar
       pos[0] = (0.5f * (20.0f - textW)) + pos[0];
     }
     pos[1] += 3.0f;
-    set_text_draw_params((s32) arg1, 0, 1, -1.0f / (0.07475f + arg1->depth), 100000.0f);
+    set_text_draw_params((saddr) arg1, 0, 1, -1.0f / (0.07475f + arg1->depth), 100000.0f);
     draw_small_font_string_clipped__FPfPCcUlf(pos, self->name, alphaBits, 1000000.0f);
   }
 }
@@ -618,7 +618,7 @@ extern "C" {
 void TUnk_804CF0B8::sub_80251DF0(s16 arg1, s32 str, s16 arg3, f32 farg0) {
     s32 temp_r3;
 
-    *(s32 *)((s8 *)this + 0) = (s32) window_fukidasi_class_name;
+    *(s32 *)((s8 *)this + 0) = (saddr) window_fukidasi_class_name;
     this->m_70 = 0;
     this->m_71 = 0;
     *(s8 *)&this->unk_72 = 2;
@@ -627,8 +627,8 @@ void TUnk_804CF0B8::sub_80251DF0(s16 arg1, s32 str, s16 arg3, f32 farg0) {
     this->m_20 = arg3;
     if (str != 0) {
         temp_r3 = TWindowKeyBoardSoft::strnlen((s8 *)str, (u32)0x18);
-        *(s32 *)((s8 *)this + 0x78) = (s32)mem_alloc(temp_r3 + 1);
-        strncpy((char *)(*(s32 *)((s8 *)this + 0x78)), (const char *)str, (u32)temp_r3 + 1);
+        *(s32 *)((s8 *)this + 0x78) = (saddr)mem_alloc(temp_r3 + 1);
+        strncpy((char *)(*(saddr *)((s8 *)this + 0x78)), (const char *)str, (u32)temp_r3 + 1);
     } else {
         *(s32 *)((s8 *)this + 0x78) = 0;
     }
@@ -698,11 +698,11 @@ void set_text__15TWindowFukidasiFPvii(u8 *arg0, s32 str, s32 arg2) {
   if (arg2 & 4)
   {
     *((u16 *) (((s8 *) entry) + 0)) = (u16) ((*((u16 *) (((s8 *) entry) + 0))) | 0x40);
-    refresh_status_display__9TWindowDDFv((int) entry);
+    refresh_status_display__9TWindowDDFv((saddr) entry);
   }
   else
   {
-    measure_message_text_width((int) entry, 200.0f);
+    measure_message_text_width((saddr) entry, 200.0f);
   }
   if (arg2 & 0x80)
   {
@@ -755,7 +755,7 @@ void open__15TWindowFukidasiFPvPvi(u8 *arg0, u32 *arg1, s32 arg2) {
             *(s32 *)((s8 *)arg0 + 0x5C) = 0;
         }
     }
-    set_symbol_chat_parts__20TWindowSubSymbolChatFiPv((s32)(arg0 + 0x24), (void *)arg1);
+    set_symbol_chat_parts__20TWindowSubSymbolChatFiPv((saddr)(arg0 + 0x24), (void *)arg1);
     TWindowSubSymbolChat::play_symbol_sound(((u32) *arg1 >> 5U) & 0xF);
     *(s16 *)((s8 *)arg0 + 0x74) = 0x5A;
 }
@@ -1161,7 +1161,7 @@ s32 rest_balloon__15TWindowFukidasiFv(Fuki_80250A24 *b, f32 *rect, f32 *arg2) {
     if (CLAMP_80250A24(F70_80250A24, (f32 *)o, 1.0f) != 0) {
         return 0;
     }
-    return (u32) __cntlzw((u32) DRAW_80250A24(F70_80250A24, (f32 *)o, b->size, 4)) >> 5;
+    return (u32) __cntlzw((uaddr) DRAW_80250A24(F70_80250A24, (f32 *)o, b->size, 4)) >> 5;
 }
 }
 
@@ -1208,7 +1208,7 @@ s32 try_place_bubble__15TWindowFukidasiFPvPvPv(Fuki_802506E8 *b, f32 *rect, f32 
     if (CLAMP_802506E8(F70_802506E8, o, 1.0f) != 0) {
         return 0;
     }
-    return (u32) __cntlzw((u32) DRAW_802506E8(F70_802506E8, o, b->size, 4)) >> 5;
+    return (u32) __cntlzw((uaddr) DRAW_802506E8(F70_802506E8, o, b->size, 4)) >> 5;
 }
 }
 
@@ -1306,7 +1306,7 @@ void TUnk_804CF0B8::calc_text_size(f32 *out) {
         out[1] = 0.1f + (20.0f + e->h);
         break;
     case 1:
-        TWindowSubSymbolChat__sub_802483F0((int)((Fuki_80250380 *)this)->entries, (void *)out);
+        TWindowSubSymbolChat__sub_802483F0((saddr)((Fuki_80250380 *)this)->entries, (void *)out);
         break;
     case 2:
         break;

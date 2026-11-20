@@ -32,7 +32,7 @@ void TWindowDD_WS_String::render() {
 
 void TWindowDD_WS_String::draw_entry_if_visible(void *entry) {
     if (*(s32 *)((s8 *)entry + 0x30) >= 0) {
-        draw((s32)entry, pad_60, 0.0f);
+        draw((saddr)entry, pad_60, 0.0f);
     }
 }
 
@@ -49,7 +49,7 @@ extern const u32 lbl_805DFC18;
 
 void TWindowDD_WS_String::init_and_set_field50(void *arg1) {
     ((TWindowSubSymbolChatPartsSet *)pad_30)->copy_vec2(pad_64);
-    pad_50 = (s32)arg1;
+    pad_50 = (saddr)arg1;
 }
 
 void TWindowDD_WS_String::update_position(s32 arg1) {
@@ -123,7 +123,7 @@ TWindowDD_WS_String *TWindowDD__sub_8034138C(TWindowDD_WS_String *self, f32 *pos
         set_text_entry_string(entry, str, 0x80);
         *(f32 *)((s8 *)entry + 0x8) = 0.0f;
         *(f32 *)((s8 *)entry + 0xC) = 0.0f;
-        refresh_status_display__9TWindowDDFv((int)entry);
+        refresh_status_display__9TWindowDDFv((saddr)entry);
         ((TWindowHelpItem *)entry)->reset_float_field();
     }
     if ((self->pad_60 == 1) || (self->pad_60 == 3)) {

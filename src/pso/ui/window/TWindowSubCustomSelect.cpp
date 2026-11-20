@@ -170,7 +170,7 @@ void TWindowSubCustomSelect::draw_palette_cells(int ctx) {
     f32 y;
     f32 fx;
     f32 fy;
-    p = ((s32)get_player_by_client_id((this->m_20)));
+    p = ((saddr)get_player_by_client_id((this->m_20)));
     if (p == 0) {
         return;
     }
@@ -236,8 +236,8 @@ void TWindowSubCustomSelect::run_task() {
     }
     update_list_scroll();
     if ((f32) *(s32 *)&this->m_5c >= 7.5f) {
-        ((TWindowSubStatusDisp *)(*(s32 *)&this->m_7c))->update_subwindow();
-        ((TWindowSubStatusDisp *)(*(s32 *)&this->m_80))->increment_counter();
+        ((TWindowSubStatusDisp *)(*(saddr *)&this->m_7c))->update_subwindow();
+        ((TWindowSubStatusDisp *)(*(saddr *)&this->m_80))->increment_counter();
     }
     ((TWindowDD *)arg0)->initialize_subwindow();
     ((TWindowBase *)arg0)->update_window_entry_list((u8 *)&this->m_24);
@@ -245,8 +245,8 @@ void TWindowSubCustomSelect::run_task() {
 }
 
 TWindowSubCustomSelect::~TWindowSubCustomSelect() {
-    TWindowSubStatusDisp::destroy_allocation((s32)(*(void **)((s8 *)this + 0x80)), (s16)1);
-    TWindowSubStatusDisp::destroy_status_display((s32)(*(void **)((s8 *)this + 0x7C)), (s16)1);
+    TWindowSubStatusDisp::destroy_allocation((saddr)(*(void **)((s8 *)this + 0x80)), (s16)1);
+    TWindowSubStatusDisp::destroy_status_display((saddr)(*(void **)((s8 *)this + 0x7C)), (s16)1);
 }
 const u32 custom_select_organic_action_table[40] = {
     0x20000, 0x20001, 0x20002, 0x30000, 0x30006, 0x30003, 0x30001, 0x30007,

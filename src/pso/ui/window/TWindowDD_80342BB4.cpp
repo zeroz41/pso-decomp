@@ -11,7 +11,7 @@ s32 TWindowDD__sub_80347C50();
 s32 TWindowDD__sub_803482B0(void *);
 
 void TWindowDD::update_dispatch() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     TWindowDD__sub_80347C50();
     if (((TWindowDD *)arg0)->test_input_flag_4() != 0) {
         TWindowDD::play_sound();

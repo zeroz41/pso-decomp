@@ -393,10 +393,10 @@ void TWindowOptionCtrl::run_task() {
         if (self->f40 == NULL) {
             switch (((TWindowMenu *)self->f2C)->get_selected_value()) {
             case 0x14:
-                self->f40 = (void *)TWindowOptionCtrl::open_yes_no_window((s32)self, 0x22, 0xD0);
+                self->f40 = (void *)TWindowOptionCtrl::open_yes_no_window((saddr)self, 0x22, 0xD0);
                 break;
             case 0x15:
-                self->f40 = (void *)TWindowOptionCtrl::open_yes_no_window((s32)self, 0x24, 0xD0);
+                self->f40 = (void *)TWindowOptionCtrl::open_yes_no_window((saddr)self, 0x24, 0xD0);
                 break;
             }
         }
@@ -519,14 +519,14 @@ s32 TWindowOptionCtrl::create_sound_mode_menu() {
 s32 TWindowOptionCtrl::create_sound_balance_window() {
     s32 var_r31;
 
-    var_r31 = (s32)new TWindowSoundBalance(get_option_entry__17TWindowOptionCtrlFi(0xCF));
+    var_r31 = (saddr)new TWindowSoundBalance(get_option_entry__17TWindowOptionCtrlFi(0xCF));
     return var_r31;
 }
 
 s32 TWindowOptionCtrl::create_snap_shot_window() {
     s32 window_snap_shot;
 
-    window_snap_shot = (s32)new TWindowSnapShot(get_option_entry__17TWindowOptionCtrlFi(0xCF));
+    window_snap_shot = (saddr)new TWindowSnapShot(get_option_entry__17TWindowOptionCtrlFi(0xCF));
     return window_snap_shot;
 }
 
@@ -555,7 +555,7 @@ s32 TWindowOptionCtrl::create_option_menu() {
 s32 TWindowOptionCtrl::open_yes_no_window(s32 arg0, s32 arg1, s32 arg2) {
   s32 temp_r30;
   temp_r30 = create__19TWindowMessageYesNoFPvPvPvPv(arg0, 6, arg0 * 0, 0);
-  forward_slot_selection__16TAdChrSelASlotGCFPvPv((int) temp_r30, (void *) get_localized_text_entry(0xF, arg1), (int) ((u8 *) get_window_layout_position(arg2)), 470.0f);
+  forward_slot_selection__16TAdChrSelASlotGCFPvPv((int) temp_r30, (void *) get_localized_text_entry(0xF, arg1), (saddr) ((u8 *) get_window_layout_position(arg2)), 470.0f);
   free_member__17TWindowSubComCardFv((int) temp_r30, 1);
   return temp_r30;
 }
@@ -600,7 +600,7 @@ s32 TWindowOptionCtrl::handle_input(s32 language) {
             *(u32 *)((s8 *)this + 0x28) = 0U;
         }
         *(void **)((s8 *)this + 0x28) = create_menu__17TWindowOptionCtrlFv(this);
-        window_request_refresh((u8 *)(*(u32 *)((s8 *)this + 0x28)));
+        window_request_refresh((u8 *)(*(uaddr *)((s8 *)this + 0x28)));
         return 1;
     }
     return 0;

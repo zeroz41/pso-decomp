@@ -58,7 +58,7 @@ void TAdTrialAgreementGC::render() {
     o->m10();
 }
 
-void TAdTrialAgreementGC::vfunc_8() { request_main_phase((s32)((void*)0)); }
+void TAdTrialAgreementGC::vfunc_8() { request_main_phase((saddr)((void*)0)); }
 void TAdTrialAgreementGC::vfunc_7() { request_scene_change__21TAdMultiChgGameModeGCFv(this); }
 void TAdTrialAgreementGC::vfunc_6() { if (this->m_38 != 0) { ((TAdScrollWinGC *)(this->m_38))->close_window(); this->m_38 = 0; } }
 void TAdTrialAgreementGC::wait_for_load() {
@@ -133,7 +133,7 @@ u8 *TAdTrialAgreementGC__ct(u8 *ad_trial_agreement_gc) {
     *(s32 **)((s8 *)ad_trial_agreement_gc + 0x18) = __vt__19TAdTrialAgreementGC;
     *(const char **)((s8 *)ad_trial_agreement_gc + 0) = TAdTrialAgreementGC__name;
     ((TAdTrialAgreementGC *)ad_trial_agreement_gc)->m_38 = 0;
-    if (TAdTrialAgreementGC::check_card_file((s32)ad_trial_agreement_gc) != 0) {
+    if (TAdTrialAgreementGC::check_card_file((saddr)ad_trial_agreement_gc) != 0) {
         ((TAdTrialAgreementGC *)(ad_trial_agreement_gc))->vfunc_7();
         ((TObject *)ad_trial_agreement_gc)->queue_destruction();
         return ad_trial_agreement_gc;
@@ -141,7 +141,7 @@ u8 *TAdTrialAgreementGC__ct(u8 *ad_trial_agreement_gc) {
     ad_scroll_win_gc = __nw__7TObjectFUl(0x54);
     var_r0 = ad_scroll_win_gc;
     if (var_r0 != 0) {
-        var_r0 = (s32)TAdScrollWinGC__ct((TAdScrollWinGC *)((void *)ad_scroll_win_gc), (ad_trial_agreement_gc), 1, 0);
+        var_r0 = (saddr)TAdScrollWinGC__ct((TAdScrollWinGC *)((void *)ad_scroll_win_gc), (ad_trial_agreement_gc), 1, 0);
     }
     ((TAdTrialAgreementGC *)ad_trial_agreement_gc)->m_38 = var_r0;
     return ad_trial_agreement_gc;

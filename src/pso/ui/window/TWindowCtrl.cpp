@@ -64,7 +64,7 @@ s32 TWindowCtrl__sub_8024B7D4(s32 n) {
             if (player == NULL) {
                 return 0;
             }
-            return (s32)player->get_name();
+            return (saddr)player->get_name();
         }
     }
     return 0;
@@ -102,10 +102,10 @@ extern s32 local_client_id;
 void TWindowCtrl__sub_8024B9C0(void *arg0) {
     if ((u32) *(u32 *)((s8 *)arg0 + 0x30) != 0U) {
         if (is_slot_visible__11TWindowCtrlFv(local_client_id) != 0) {
-            ((TWindowLockOn *)(*(u32 *)((s8 *)arg0 + 0x30)))->request_close();
+            ((TWindowLockOn *)(*(uaddr *)((s8 *)arg0 + 0x30)))->request_close();
             return;
         }
-        window_request_show((void *)(*(u32 *)((s8 *)arg0 + 0x30)));
+        window_request_show((void *)(*(uaddr *)((s8 *)arg0 + 0x30)));
     }
 }
 
@@ -122,7 +122,7 @@ void TWindowCtrl::update_trade_window() {
 extern u8 controller_input_state[];
 
 void TWindowCtrl::handle_controller() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     if ((get_current_floor_area() == AREA_LOBBY) && (is_slot_visible__11TWindowCtrlFv(local_client_id) == 0) && (TWindowCtrl__sub_8024B000((void *)arg0, (s32)local_client_id) == 0) && (has_player_active_menu__11TWindowCtrlFv(local_client_id) == 0) && (TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, fn_8002AE08(local_client_id)) != 0)) {
         TWindowCtrlMain::advance_card_status(local_client_id);
     }
@@ -156,7 +156,7 @@ s32 TWindowCtrl__sub_8024701C(void *);
 void TWindowCtrl::update_trade_request_window() {
     void *var_r0;
 
-    if ((is_trade_active() == 0) || (has_player_active_menu__11TWindowCtrlFv(local_client_id) != 0) || (is_slot_visible__11TWindowCtrlFv(local_client_id) != 0) || ((u32) this->m_3c != 0U) || (((u32) *(void * *)&this->m_38 != 0U) && (TWindowCtrl__sub_8024701C(*(void * *)&this->m_38) != 0))) {
+    if ((is_trade_active() == 0) || (has_player_active_menu__11TWindowCtrlFv(local_client_id) != 0) || (is_slot_visible__11TWindowCtrlFv(local_client_id) != 0) || ((u32) this->m_3c != 0U) || (((uaddr) *(void * *)&this->m_38 != 0U) && (TWindowCtrl__sub_8024701C(*(void * *)&this->m_38) != 0))) {
         if ((u32) this->m_40 != 0U) {
             ((TObject *)(this->m_40))->queue_destruction();
             this->m_40 = 0U;
@@ -189,7 +189,7 @@ void TWindowCtrl::update_com_card_window() {
             this->m_3c = 0U;
         }
     } else if ((u32) this->m_3c == 0U) {
-        temp_r3_4 = (u32)TObject::operator new(0x2C);
+        temp_r3_4 = (uaddr)TObject::operator new(0x2C);
         var_r0 = temp_r3_4;
         if (var_r0 != 0U) {
             var_r0 = TWindowGetComCard__ct(temp_r3_4, arg0);
@@ -226,7 +226,7 @@ void TWindowCtrl::update_window_visibility() {
             return;
         }
         ((TWindowChat *)(this->m_38))->open_input();
-        if ((((TWindowChat *)(this->m_38))->is_mode_bit4() != 0) && (chat_accept_submission((s32)&this->m_94) != 0)) {
+        if ((((TWindowChat *)(this->m_38))->is_mode_bit4() != 0) && (chat_accept_submission((saddr)&this->m_94) != 0)) {
             TWindowChat__sub_80247E50((u8 *)this->m_38);
         }
         if (((TWindowChat *)(this->m_38))->is_visible() != 0) {

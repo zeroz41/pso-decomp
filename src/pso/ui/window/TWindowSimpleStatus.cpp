@@ -183,7 +183,7 @@ void TWindowSubStatusDisp::init_gauge_entry() {
 }
 
 void TWindowSubStatusDisp::update_status_entry() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     void *temp_r31;
     VObj_8026F77C_more_8026f8cc_0 *player;
 
@@ -200,7 +200,7 @@ s32 TWindowSubStatusDisp::update_hp_gauge() {
     s32 var_r31;
     void *temp_r30;
     void *player;
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
 
     get_width__19TWindowSimpleStatusFv();
     player = get_player_by_client_id();
@@ -278,7 +278,7 @@ void TWindowSimpleStatus::update_status_icons(void *ofs) {
                 break;
             }
         }
-        name = (s32)((TWindowComCard *)i)->get_card_name_ptr();
+        name = (saddr)((TWindowComCard *)i)->get_card_name_ptr();
         w = ((Disp_8026F9F4 *)this)->windows[j];
         if (w == NULL) {
             w = TObject::operator new(0x74);
@@ -524,7 +524,7 @@ void TWindowSimpleStatus::draw_background(u8 *arg1) {
     } else {
         f = 0.0f;
     }
-    draw_photon_blast_gauge_ring((s32)this, (Params_80270244 *)(arg1), &photon_blast_gauge_ring_offset, f, 17.0f);
+    draw_photon_blast_gauge_ring((saddr)this, (Params_80270244 *)(arg1), &photon_blast_gauge_ring_offset, f, 17.0f);
     pos.x = 6.0f + *(f32 *)((s8 *)arg1 + 0x10);
     pos.y = 2.0f + *(f32 *)((s8 *)arg1 + 0x14);
     size.x = 36.0f;
@@ -569,7 +569,7 @@ void render__19TWindowSimpleStatusFv(s32 arg0) {
 }
 
 void TWindowSimpleStatus::run_task() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     update_hp_tp_level__20TWindowSubStatusDispFv();
     update_lockon_window((u8 *)arg0);
     update_status_help_item(arg0);
@@ -609,7 +609,7 @@ void *TWindowSimpleStatus::create(void *arg1) {
     void *o;
     o = TObject::operator new(0x78);
     if (o != NULL) {
-        o = TWindowSimpleStatus__ct((SS_80270668 *)(o), (void *)this, (s32)arg1, &simple_status_window_layout);
+        o = TWindowSimpleStatus__ct((SS_80270668 *)(o), (void *)this, (saddr)arg1, &simple_status_window_layout);
     }
     return o;
 }
