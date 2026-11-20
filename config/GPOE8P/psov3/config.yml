@@ -159,7 +159,7 @@ force_active:
   - TAdGuideTxtGC__class_name
   - TAdLdQuestPrtGC__class_name
   - TAdLoadNetworkGC__object_offset_table
-  - TAdMcSelectCursorGC__ct
+  - __ct__19TAdMcSelectCursorGCFP7TObject
   - TAdMcSelectCursorGC__texture_entry
   - TAdMultiChgGameModeGC__sub_8036DE10
   - TAdMultiChgGameModeGC__sub_8036E19C
@@ -177,7 +177,7 @@ force_active:
   - TAdPlayerLoadGC__player_load_value
   - mount_memcard
   - open_or_create_memcard_file
-  - TAdPlyPltAnimCtrlGC__ct
+  - __ct__19TAdPlyPltAnimCtrlGCFP7TObject
   - TAdPlyPltAnimCtrlGC__sub_80355168
   - TLobby__sub_8041A3CC
   - TLobby__sub_8041A498

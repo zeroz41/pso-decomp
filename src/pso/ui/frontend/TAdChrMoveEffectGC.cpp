@@ -238,12 +238,9 @@ TAdChrMoveEffectGC::~TAdChrMoveEffectGC() {
 }
 
 
-void *TAdChrMoveEffectGC__ct(void *ad_chr_move_effect_gc) {
-    __ct__7TObjectFP7TObject(ad_chr_move_effect_gc);
-    *(s32 **)((s8 *)ad_chr_move_effect_gc + 0x18) = __vt__18TAdChrMoveEffectGC;
-    *(void * *)&((TAdChrMoveEffectGC *)ad_chr_move_effect_gc)->m_name = (void *)TAdChrMoveEffectGC__class_name;
-    ((TAdChrMoveEffectGC *)ad_chr_move_effect_gc)->m_20 = 0;
-    return ad_chr_move_effect_gc;
+TAdChrMoveEffectGC::TAdChrMoveEffectGC(TObject *parent) : TObject(parent) {
+    m_name = TAdChrMoveEffectGC__class_name;
+    m_20 = 0;
 }
 
 

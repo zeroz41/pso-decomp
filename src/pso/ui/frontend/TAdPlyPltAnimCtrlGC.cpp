@@ -17,8 +17,6 @@ const u32 ply_plt_anim_time_threshold_table[5] = { 0, 2, 4, 6, 12 };
 const char *TAdPlyPltAnimCtrlGC__class_name = "TAdPlyPltAnimCtrlGC";
 
 extern "C" {
-s32 __ct__7TObjectFP7TObject(void *, void *);
-extern s32 __vt__19TAdPlyPltAnimCtrlGC[];
 s32 TAdPlyPltAnimCtrlGC__sub_80355148(O_80355148 *self);
 u32 __nw__7TObjectFUl(s32);
 u32 plyplt_anim_ctrl_instance;
@@ -29,28 +27,22 @@ u32 TAdPlyPltAnimCtrlGC::get_instance(s32 arg0) {
     u32 ad_ply_plt_anim_ctrl_gc;
 
     if ((u32) plyplt_anim_ctrl_instance == 0U) {
-        ad_ply_plt_anim_ctrl_gc = __nw__7TObjectFUl(0x2C);
-        if (ad_ply_plt_anim_ctrl_gc != 0U) {
-            ad_ply_plt_anim_ctrl_gc = ((u32)TAdPlyPltAnimCtrlGC__ct((TAdPlyPltAnimCtrlGC *)((u8 *)ad_ply_plt_anim_ctrl_gc), (s32)arg0));
-        }
+        ad_ply_plt_anim_ctrl_gc = (u32)new TAdPlyPltAnimCtrlGC((TObject *)arg0);
         plyplt_anim_ctrl_instance = ad_ply_plt_anim_ctrl_gc;
     }
     return plyplt_anim_ctrl_instance;
 }
 
-u8 *TAdPlyPltAnimCtrlGC__ct(TAdPlyPltAnimCtrlGC *ad_ply_plt_anim_ctrl_gc, s32 arg1) {
+TAdPlyPltAnimCtrlGC::TAdPlyPltAnimCtrlGC(TObject *parent) : TObject(parent) {
     s32 index;
-    __ct__7TObjectFP7TObject((void *)ad_ply_plt_anim_ctrl_gc, (void *)arg1);
-    *(s32 **)((s8 *)ad_ply_plt_anim_ctrl_gc + 0x18) = __vt__19TAdPlyPltAnimCtrlGC;
     index = 0;
-    ad_ply_plt_anim_ctrl_gc->m_name = TAdPlyPltAnimCtrlGC__class_name;
-    ad_ply_plt_anim_ctrl_gc->m_1c = 0;
-    ad_ply_plt_anim_ctrl_gc->m_20 = -1;
+    m_name = TAdPlyPltAnimCtrlGC__class_name;
+    m_1c = 0;
+    m_20 = -1;
     do {
-        TAdPlyPltAnimGC::get_or_create(ad_ply_plt_anim_ctrl_gc, index);
+        TAdPlyPltAnimGC::get_or_create(this, index);
         index += 1;
     } while (index < 5);
-    return (u8 *)ad_ply_plt_anim_ctrl_gc;
 }
 
 TAdPlyPltAnimCtrlGC::~TAdPlyPltAnimCtrlGC() {

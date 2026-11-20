@@ -97,25 +97,22 @@ TAdWarningBaseGC::~TAdWarningBaseGC() {
 }
 
 
-void *TAdWarningBaseGC__ct(TAdWarningBaseGC *ad_warning_base_gc) {
+TAdWarningBaseGC::TAdWarningBaseGC(TObject *parent) : TObject(parent) {
     void *o;
     void *o2;
-    __ct__7TObjectFP7TObject(ad_warning_base_gc);
-    *(s32 **)((s8 *)ad_warning_base_gc + 0x18) = __vt__16TAdWarningBaseGC;
-    ad_warning_base_gc->m_name = lbl_805D4208;
-    ad_warning_base_gc->m_28 = 0;
-    ad_warning_base_gc->m_1c = 0;
-    ad_warning_base_gc->m_24 = 0;
-    ad_warning_base_gc->m_2c = 0;
+    m_name = lbl_805D4208;
+    m_28 = 0;
+    m_1c = 0;
+    m_24 = 0;
+    m_2c = 0;
     o = TObject::operator new(0x24);
     if (o != NULL) {
-        __ct__9TAdBackGCFv(o, ad_warning_base_gc);
+        __ct__9TAdBackGCFv(o, this);
     }
     o2 = TObject::operator new(0x28);
     if (o2 != NULL) {
-        __ct__12TAdBackTxtGCFv(o2, ad_warning_base_gc);
+        __ct__12TAdBackTxtGCFv(o2, this);
     }
-    return ad_warning_base_gc;
 }
 
 }

@@ -3,8 +3,10 @@
 
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/vector.h"
 
 struct TAdLoadNetworkGC : public TObject {
+    TAdLoadNetworkGC(TObject *parent, Vec *pos);
     virtual ~TAdLoadNetworkGC();
     u8 _pad1C[0x18];
     void* m_34;

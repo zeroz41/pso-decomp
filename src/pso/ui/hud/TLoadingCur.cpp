@@ -122,7 +122,6 @@ struct Obj_8001CCD4 { u8 pad0[0x38]; f32 f38; f32 f3c; f32 f40; };
 extern "C" {
 
 s32 __ct__7TObjectFP7TObject(void *, void *);
-extern s32 __vt__11TLoadingCur[];
 
 
 s32 play_persistent_sound(int, void *, void *, int, int);
@@ -250,13 +249,12 @@ TLoadingCur::~TLoadingCur() {
 
 #pragma push
 #pragma fp_contract on
-u8 *TLoadingCur__ct(u8 *object, s32 arg1) {
+#define object ((u8 *)this)
+TLoadingCur::TLoadingCur(TObject *parent) : TObject(parent) {
     typedef char sp8_offset[(offsetof(Stack_8001D0A0, sp8) == 0x0) ? 1 : -1];
     typedef char spC_offset[(offsetof(Stack_8001D0A0, spC) == 0x4) ? 1 : -1];
     typedef char sp10_offset[(offsetof(Stack_8001D0A0, sp10) == 0x8) ? 1 : -1];
     Stack_8001D0A0 stack;
-    __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
-    *(s32 **)((s8 *)object + 0x18) = __vt__11TLoadingCur;
     *(s32 *)((s8 *)object + 0) = (s32) TLoadingCur__class_name;
     *(f32 *)((s8 *)object + 0x20) = 0.0f;
     *(f32 *)((s8 *)object + 0x24) = 0.0f;
@@ -275,6 +273,6 @@ u8 *TLoadingCur__ct(u8 *object, s32 arg1) {
     stack.sp10 = 0;
     direction_to_rotation_xz((object + 0x50), (&stack.sp8), (&stack.sp10));
     *(s32 *)((s8 *)object + 0x1C) = (s32)fn_80086FE0((object + 0x20), (&stack.sp8), 0x16, 1);
-    return object;
 }
+#undef object
 #pragma pop

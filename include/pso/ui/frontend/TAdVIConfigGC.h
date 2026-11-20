@@ -6,6 +6,7 @@
 #include "pso/ui/frontend/TAdYesNoBaseGC.h"
 
 struct TAdVIConfigGC : public TAdYesNoBaseGC {
+    TAdVIConfigGC(TObject *parent);
     virtual ~TAdVIConfigGC();
     u32 m_48;
     u8 *init(const Vec *position, f32 radius);

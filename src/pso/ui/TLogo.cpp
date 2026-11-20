@@ -38,8 +38,8 @@ u32 __ct__10TAdADXlogoFP7TObject(void *, void *);
 u32 __ct__11TAdSEGAlogoFv(void *, void *);
 u32 __ct__12TAdSoniclogoFP7TObject(void *, void *);
 u32 __nw__7TObjectFUl(int);
-u32 TAdVIConfigGC__ct(void *, void *);
-u32 TAdTrialModemChkGC__ct(void *, void *);
+u32 __ct__13TAdVIConfigGCFP7TObject(void *, void *);
+u32 __ct__18TAdTrialModemChkGCFP7TObject(void *, void *);
 s32 TKeyBoardControl__sub_8000F92C();
 s32 set_active_camera_pose(void *, void *);
 s32 activate_camera_mode(s32 arg0);
@@ -179,7 +179,7 @@ void TLogo::run_task() {
             if (((s32)TLogo__sub_8013F808()) != 0) {
                 var_r0 = __nw__7TObjectFUl(0x4C);
                 if (var_r0 != 0U) {
-                    var_r0 = TAdVIConfigGC__ct((void *)var_r0, this);
+                    var_r0 = __ct__13TAdVIConfigGCFP7TObject((void *)var_r0, this);
                 }
                 vi_config = var_r0;
                 state = 1U;
@@ -215,7 +215,7 @@ void TLogo::run_task() {
         if (TLobby__sub_80145DB4(1) == 0) {
             var_r0_5 = __nw__7TObjectFUl(0x30);
             if (var_r0_5 != 0U) {
-                var_r0_5 = TAdTrialModemChkGC__ct((void *)var_r0_5, this);
+                var_r0_5 = __ct__18TAdTrialModemChkGCFP7TObject((void *)var_r0_5, this);
             }
             modem_check = var_r0_5;
             state = 3U;

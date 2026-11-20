@@ -34,10 +34,8 @@ s32 get_window_layout_position(s32);
 char *strncpy(char *, const char *, u32);
 __declspec(section ".data") f32 player_names_window_pos[2] = {229.0f, 104.0f};
 extern s32 local_client_id;
-void *TAdVIConfigGC__ct(TAdVIConfigGC *arg0);
 void *destroy__13TAdVIConfigGCFPvs(void *arg0, s16 arg1);
 int OSSetProgressiveMode(void*);
-void *TAdYesNoBaseGC__ct(TAdYesNoBaseGC *arg0);
 int VIWaitForRetrace(void);
 int VIConfigure(void*);
 int VIFlush(void);
@@ -164,13 +162,10 @@ TAdVIConfigGC::~TAdVIConfigGC() {
 }
 
 
-void *TAdVIConfigGC__ct(TAdVIConfigGC *ad_vi_config_gc) {
-    TAdYesNoBaseGC__ct(ad_vi_config_gc);
-    *(s32 **)((s8 *)ad_vi_config_gc + 0x18) = __vt__13TAdVIConfigGC;
-    ad_vi_config_gc->m_name = TAdVIConfigGC__class_name;
-    ad_vi_config_gc->set_field_2c(0);
-    ad_vi_config_gc->m_48 = 0;
-    return ad_vi_config_gc;
+TAdVIConfigGC::TAdVIConfigGC(TObject *parent) : TAdYesNoBaseGC(parent) {
+    m_name = TAdVIConfigGC__class_name;
+    set_field_2c(0);
+    m_48 = 0;
 }
 
 }

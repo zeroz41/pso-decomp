@@ -28,7 +28,6 @@ struct Self_80329EC8 {
 };
 
 extern "C" {
-struct Self_80329EC8 *TAdMcSelectGC__ct(struct Self_80329EC8 *self, void *parent);
 void __ct__7TObjectFP7TObject(void *, void *);
 void *__ct__9TAdBackGCFv(void *, void *);
 void *__ct__12TAdBackTxtGCFv(void *, void *);
@@ -85,14 +84,13 @@ TAdMcSelectGC::~TAdMcSelectGC() {
     }
 }
 
-Self_80329EC8 *TAdMcSelectGC__ct(Self_80329EC8 *self, void *parent) {
+#define self ((Self_80329EC8 *)this)
+TAdMcSelectGC::TAdMcSelectGC(TObject *parent) : TObject(parent) {
     void *back;
     void *txt;
     void *p;
     s32 i;
     s32 j;
-    __ct__7TObjectFP7TObject(self, parent);
-    self->vt = (void *)((s32 *)&__vt__13TAdMcSelectGC);
     self->f0 = TAdMcSelectGC__class_name;
     self->f28 = 0;
     self->f1C = 0;
@@ -134,16 +132,13 @@ Self_80329EC8 *TAdMcSelectGC__ct(Self_80329EC8 *self, void *parent) {
     for (j = 0; j < 2; j++) {
         fn_8033F314((s32)self, j);
     }
-    return self;
 }
+#undef self
 
 
 void *TAdMcSelectGC::create(void *arg0) {
     void *o;
-    o = TObject::operator new(0x34);
-    if (o != NULL) {
-        o = TAdMcSelectGC__ct((Self_80329EC8 *)o, arg0);
-    }
+    o = new TAdMcSelectGC((TObject *)arg0);
     TAdMcSelectGC__instance = o;
     return o;
 }

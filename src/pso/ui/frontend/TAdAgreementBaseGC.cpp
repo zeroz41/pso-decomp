@@ -41,12 +41,9 @@ static const NJS_POINT2 lbl_804770BC = {85.0f, 384.0f};
 static const NJS_POINT2 lbl_804770C4 = {470.0f, 60.0f};
 
 extern "C" {
-void __ct__7TObjectFP7TObject(void *, void *);
 void __ct__9TAdBackGCFv(void *, void *);
 void __ct__12TAdBackTxtGCFv(void *, void *);
 void *__ct__14TAdSelectCurGCFv(void *, TObject *, void *, void *);
-extern s32 __vt__18TAdAgreementBaseGC[];
-Obj_80329AA8 *TAdAgreementBaseGC__ct(Obj_80329AA8 *arg0, void *arg1);
 void *get_localized_text_entry(int, u32);
 void draw_window_frame__11TWindowBaseFPv();
 
@@ -135,10 +132,9 @@ TAdAgreementBaseGC::~TAdAgreementBaseGC() {
 }
 
 
-Obj_80329AA8 *TAdAgreementBaseGC__ct(Obj_80329AA8 *arg0, void *arg1) {
+#define arg0 ((Obj_80329AA8 *)this)
+TAdAgreementBaseGC::TAdAgreementBaseGC(TObject *arg1) : TObject(arg1) {
     void *p;
-    __ct__7TObjectFP7TObject(arg0, arg1);
-    arg0->vt = ((s32 *)&__vt__18TAdAgreementBaseGC);
     arg0->f0 = lbl_805D41B8;
     arg0->f28 = 0;
     arg0->f1C = 0;
@@ -163,8 +159,8 @@ Obj_80329AA8 *TAdAgreementBaseGC__ct(Obj_80329AA8 *arg0, void *arg1) {
     ((TLevelSelect *)(arg0->cur))->add_item_rect((void *)&agreement_item_rect_table[1]);
     fn_80329BAC(arg0->cur);
     ((TLobby *)(arg0->cur))->set_ad_field(1);
-    return arg0;
 }
+#undef arg0
 
 void TAdAgreementBaseGC::vfunc_6() {  }
 void TAdAgreementBaseGC::vfunc_7() {  }

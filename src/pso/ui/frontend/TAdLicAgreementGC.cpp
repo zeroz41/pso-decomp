@@ -39,7 +39,6 @@ struct VObj_80329C84_80329BB8 : Base_80329C84_80329BB8 {
 
 extern "C" {
 
-void TAdAgreementBaseGC__ct(void *);
 
 void TAdLicAgreementGC::render() {
     struct VObj_80329BB8 *o = (struct VObj_80329BB8 *)this;
@@ -56,7 +55,6 @@ void TAdLicAgreementGC::run_task() {
     o->m9();
 }
 
-extern s32 __vt__17TAdLicAgreementGC[];
 
 }
 TAdLicAgreementGC::~TAdLicAgreementGC() {
@@ -66,18 +64,15 @@ TAdLicAgreementGC::~TAdLicAgreementGC() {
 
 const char *lbl_805D41C0 = "TAdLicAgreementGC";
 
-void *TAdLicAgreementGC__ct(void *ad_lic_agreement_gc) {
+TAdLicAgreementGC::TAdLicAgreementGC(TObject *parent) : TAdAgreementBaseGC(parent) {
     void *o;
-    TAdAgreementBaseGC__ct(ad_lic_agreement_gc);
-    *(s32 **)((s8 *)ad_lic_agreement_gc + 0x18) = __vt__17TAdLicAgreementGC;
-    ((TAdLicAgreementGC *)ad_lic_agreement_gc)->m_name = lbl_805D41C0;
-    ((TAdLicAgreementGC *)ad_lic_agreement_gc)->m_34 = 0;
-    ((TAdLicAgreementGC *)ad_lic_agreement_gc)->m_38 = 0;
+    m_name = lbl_805D41C0;
+    m_34 = 0;
+    m_38 = 0;
     o = TObject::operator new(0x54);
     if (o != NULL) {
-        o = TAdScrollWinGC__ct((TAdScrollWinGC *)o, ad_lic_agreement_gc, 0, 0);
+        o = TAdScrollWinGC__ct((TAdScrollWinGC *)o, this, 0, 0);
     }
-    *(void **)((s8 *)ad_lic_agreement_gc + 0x38) = o;
-    return ad_lic_agreement_gc;
+    *(void **)((s8 *)this + 0x38) = o;
 }
 

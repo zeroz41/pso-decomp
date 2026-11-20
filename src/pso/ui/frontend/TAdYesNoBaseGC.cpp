@@ -42,9 +42,7 @@ struct VtObj8032C1C8_8032C188 : VtBase8032C1C8_8032C188 {
     virtual void m7();
 };
 
-void *TAdYesNoBaseGC__ct(TAdYesNoBaseGC *arg0);
 void *__ct__12TAdBackTxtGCFv(void *, void *);
-void __ct__7TObjectFP7TObject(void *);
 void *__ct__9TAdBackGCFv(void *, void *);
 void copy_vec2__FPvPv(void *);
 
@@ -144,29 +142,26 @@ TAdYesNoBaseGC::~TAdYesNoBaseGC() {
 }
 
 
-void *TAdYesNoBaseGC__ct(TAdYesNoBaseGC *ad_yes_no_base_gc) {
+TAdYesNoBaseGC::TAdYesNoBaseGC(TObject *parent) : TObject(parent) {
     void *o;
     void *o2;
-    __ct__7TObjectFP7TObject(ad_yes_no_base_gc);
-    *(s32 **)((s8 *)ad_yes_no_base_gc + 0x18) = __vt__14TAdYesNoBaseGC;
-    ad_yes_no_base_gc->m_name = TAdYesNoBaseGC__class_name;
-    ad_yes_no_base_gc->m_28 = 0;
-    *(f32 *)((s8 *)ad_yes_no_base_gc + 0x30) = 46.0f;
-    ad_yes_no_base_gc->m_34 = 131.0f;
-    *(f32 *)((s8 *)ad_yes_no_base_gc + 0x38) = 548.0f;
-    ad_yes_no_base_gc->m_3c = 220.0f;
-    ad_yes_no_base_gc->m_1c = 0;
-    ad_yes_no_base_gc->m_24 = 0;
-    ad_yes_no_base_gc->m_2c = 1;
-    ad_yes_no_base_gc->m_40 = 0;
-    ad_yes_no_base_gc->m_44 = 0;
+    m_name = TAdYesNoBaseGC__class_name;
+    m_28 = 0;
+    *(f32 *)((s8 *)this + 0x30) = 46.0f;
+    m_34 = 131.0f;
+    *(f32 *)((s8 *)this + 0x38) = 548.0f;
+    m_3c = 220.0f;
+    m_1c = 0;
+    m_24 = 0;
+    m_2c = 1;
+    m_40 = 0;
+    m_44 = 0;
     o = TObject::operator new(0x24);
     if (o != NULL) {
-        __ct__9TAdBackGCFv(o, ad_yes_no_base_gc);
+        __ct__9TAdBackGCFv(o, this);
     }
     o2 = TObject::operator new(0x28);
     if (o2 != NULL) {
-        __ct__12TAdBackTxtGCFv(o2, ad_yes_no_base_gc);
+        __ct__12TAdBackTxtGCFv(o2, this);
     }
-    return ad_yes_no_base_gc;
 }

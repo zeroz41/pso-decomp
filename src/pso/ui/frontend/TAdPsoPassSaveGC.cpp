@@ -9,7 +9,6 @@
 s32 TAdPsoPassSaveGC__data_805D6E80;
 extern "C" {
 
-void *TAdYesNoBaseGC__ct(TAdYesNoBaseGC *arg0);
 void *__ct__10TAdTitleGCFP7TObjectl(void *, void *, int);
 
 void TAdPsoPassSaveGC::render() {
@@ -36,7 +35,6 @@ void TAdPsoPassSaveGC::run_task() {
     vfunc_11();
 }
 
-extern s32 __vt__16TAdPsoPassSaveGC[];
 
 TAdPsoPassSaveGC::~TAdPsoPassSaveGC() {
 
@@ -44,16 +42,13 @@ TAdPsoPassSaveGC::~TAdPsoPassSaveGC() {
 
 const char *lbl_805D4310 = "TAdPsoPassSaveGC";
 
-void *TAdPsoPassSaveGC__ct(void *parent) {
+TAdPsoPassSaveGC::TAdPsoPassSaveGC(TObject *parent) : TAdYesNoBaseGC(parent) {
     void *o;
-    TAdYesNoBaseGC__ct((TAdYesNoBaseGC *)parent);
-    *(s32 **)((s8 *)parent + 0x18) = __vt__16TAdPsoPassSaveGC;
-    ((TAdPsoPassSaveGC *)parent)->m_name = lbl_805D4310;
+    m_name = lbl_805D4310;
     o = TObject::operator new(0x138);
     if (o != NULL) {
-        __ct__10TAdTitleGCFP7TObjectl(o, parent, 18);
+        __ct__10TAdTitleGCFP7TObjectl(o, this, 18);
     }
-    return parent;
 }
 
 }

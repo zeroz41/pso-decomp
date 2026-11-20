@@ -12,6 +12,7 @@
 #include "pso/unk/TLobby.h"
 
 #include "pso/system/vector.h"
+#include "pso/ui/hud/TNowLoading.h"
 
 u32 TLoadCtrl__instance;
 
@@ -41,7 +42,6 @@ void TLoadCtrl__sub_80226DA0(s32 index);
 void fn_8034AD2C(void);
 extern s32 tl_su;
 extern s32 tl_camera;
-s32 TNowLoading__ct(s32, void *, const Vec *);
 void set_active_camera_pose(u8 *arg0, u8 *arg1);
 s32 activate_camera_mode(s32 arg0);
 }
@@ -72,10 +72,7 @@ void TLoadCtrl::run_task() {
         if (++self->f20 == 2) {
             switch (TLoadCtrl__loading_mode) {
             case 0:
-                o = __nw__7TObjectFUl(0x3C);
-                if ((u32)o != 0) {
-                    TNowLoading__ct(o, self, &now_loading_pos);
-                }
+                new TNowLoading(this, (Vec *)&now_loading_pos);
                 break;
             case 1:
                 o = __nw__7TObjectFUl(0x20);

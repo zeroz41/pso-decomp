@@ -84,19 +84,8 @@ void THunterGuildSeqOnlineTask::run_task() {
 THunterGuildSeqOnlineTask::~THunterGuildSeqOnlineTask() {}
 
 
-extern "C" {
-
-void *THunterGuildSeqOnlineTask__ct(void *arg0);
-void __ct__7TObjectFP7TObject(void *);
-
-extern s32 __vt__25THunterGuildSeqOnlineTask[];
-
-void *THunterGuildSeqOnlineTask__ct(void *hunter_guild_seq_online_task) {
-    __ct__7TObjectFP7TObject(hunter_guild_seq_online_task);
-    *(s32 **)((s8 *)hunter_guild_seq_online_task + 0x18) = __vt__25THunterGuildSeqOnlineTask;
-    ((THunterGuildSeqOnlineTask *)hunter_guild_seq_online_task)->m_name = THunterGuildSeqOnlineTask__name;
-    return hunter_guild_seq_online_task;
-}
+THunterGuildSeqOnlineTask::THunterGuildSeqOnlineTask(TObject *parent) : TObject(parent) {
+    m_name = THunterGuildSeqOnlineTask__name;
 }
 void handle_6x73_exit_quest(void);
 extern unsigned char reset_random_enemies_mode[];

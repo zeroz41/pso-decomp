@@ -5,6 +5,7 @@
 #include "pso/system/task/TObject.h"
 
 struct TAdAgreementBaseGC : public TObject {
+    TAdAgreementBaseGC(TObject *parent);
     virtual ~TAdAgreementBaseGC();
     virtual void vfunc_6();
     virtual void vfunc_7();

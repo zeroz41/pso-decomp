@@ -12,6 +12,7 @@ struct PlyPltAnimVec2 {
 class TAdPlyPltAnimGC;
 
 struct TAdPlyPltAnimCtrlGC : public TObject {
+    TAdPlyPltAnimCtrlGC(TObject *parent);
     virtual ~TAdPlyPltAnimCtrlGC();
     virtual void render();
     u32 m_1c;
@@ -27,7 +28,6 @@ struct TAdPlyPltAnimCtrlGC : public TObject {
 typedef char TAdPlyPltAnimCtrlGC_size[sizeof(TAdPlyPltAnimCtrlGC) == 0x2C ? 1 : -1];
 
 extern "C" {
-u8 *TAdPlyPltAnimCtrlGC__ct(TAdPlyPltAnimCtrlGC *arg0, s32 arg1);
 void TAdPlyPltAnimCtrlGC__sub_80355168(u8 *arg0);
 u8 fn_8035510C(s32 *arg0, s32 arg1);
 }

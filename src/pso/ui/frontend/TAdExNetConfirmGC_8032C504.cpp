@@ -65,20 +65,17 @@ TAdExNetConfirmGC::~TAdExNetConfirmGC() {
 
 }
 
-u8 *TAdExNetConfirmGC__ct(u8 *object) {
-    TAdWarningBaseGC__ct((TAdWarningBaseGC *)object);
-    *(s32 **)((s8 *)object + 0x18) = __vt__17TAdExNetConfirmGC;
-    ((TAdExNetConfirmGC *)object)->m_name = lbl_805D4200;
+TAdExNetConfirmGC::TAdExNetConfirmGC(TObject *parent) : TAdWarningBaseGC(parent) {
+    m_name = lbl_805D4200;
     if ((TLobby__sub_80145DB4(1) != 0) || (TLobby__sub_80145DB4(4) != 0)) {
         if (TLobby__sub_80145A94() != 0) {
             TLobby::init_account_entries();
         } else {
             request_main_phase(0x13);
         }
-        ((TObject *)object)->queue_destruction();
+        queue_destruction();
         TAdMultiChgGameModeGC::set_game_mode();
-        return object;
+        return;
     }
-    return object;
 }
 

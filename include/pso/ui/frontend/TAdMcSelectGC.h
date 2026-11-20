@@ -7,6 +7,7 @@
 struct TAdMcSelectCursorGC;
 
 struct TAdMcSelectGC : public TObject {
+    TAdMcSelectGC(TObject *parent);
     virtual ~TAdMcSelectGC();
     virtual void render();
     u32 m_1c;
