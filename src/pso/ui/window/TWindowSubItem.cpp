@@ -211,7 +211,7 @@ void TWindowSubItem__sub_8027AB10(Wn_8027AB10 *arg0) {
     En_8027AB10 *e;
 
     for (i = 0; i < arg0->f76; i++) {
-        e = (En_8027AB10 *)((s32 (*)(void *, s32))get_array_entry__11TWindowBaseFi)(arg0, i);
+        e = (En_8027AB10 *)((saddr (*)(void *, s32))get_array_entry__11TWindowBaseFi)(arg0, i);
         if (is_flag_4_set__20TWindowSubStatusDispFv() != 0 && (((s32 (*)(void *))get_cursor_pos__14TWindowSubItemFv)(e) & -0x10) == -0x10) {
             e->c2c = 0xFFAAAAAA;
             e->c30 = 0xFF909090;
@@ -226,7 +226,7 @@ void TWindowSubItem::gray_out_unusable_entries() {
     En_8027AA80 *e;
 
     for (i = 0; i < ((Wn_8027AA80 *)this)->f76; i++) {
-        e = (En_8027AA80 *)((s32 (*)(void *, s32))get_array_entry__11TWindowBaseFi)(this, i);
+        e = (En_8027AA80 *)((saddr (*)(void *, s32))get_array_entry__11TWindowBaseFi)(this, i);
         if (is_flag_4_set__20TWindowSubStatusDispFv() != 0 && ((s32 (*)(void *))get_cursor_pos__14TWindowSubItemFv)(e) == -0xFF) {
             e->c2c = 0xFFAAAAAA;
             e->c34 = 0xFF909090;

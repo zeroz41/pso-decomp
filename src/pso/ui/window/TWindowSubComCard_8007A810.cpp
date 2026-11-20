@@ -176,11 +176,11 @@ s32 has_inactive_card__17TWindowSubComCardFPvi(Card_8007AB84 *cards, s32 n) {
 }
 
 void TWindowSubComCard::init_com_card() {
-    has_inactive_card__17TWindowSubComCardFPvi((Card_8007AB84 *)(((s32 (*)(s32))get_card_entry__17TWindowSubComCardFi)(0)), 0xD2);
+    has_inactive_card__17TWindowSubComCardFPvi((Card_8007AB84 *)(((saddr (*)(s32))get_card_entry__17TWindowSubComCardFi)(0)), 0xD2);
 }
 
 void TWindowSubComCard::remove_card_at(s32 i) {
-    Box_8007AC10 *box = ((Box_8007AC10 *)((s32 (*)(s32))get_card_entry__17TWindowSubComCardFi)(0));
+    Box_8007AC10 *box = ((Box_8007AC10 *)((saddr (*)(s32))get_card_entry__17TWindowSubComCardFi)(0));
     if (i < 0xD1) {
         Card_8007AC10 *p = &box->cards[i];
         ((TLobby *)p)->move_words((u32 *)(p + 1), (0xD1 - i) * sizeof(Card_8007AC10) / 4);

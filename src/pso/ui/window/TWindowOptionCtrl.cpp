@@ -158,7 +158,7 @@ TWindowOptionCtrl::~TWindowOptionCtrl() {
         ((TWindowBase *)(*(void **)((s8 *)this + 0x30)))->close();
         m_30 = 0U;
     }
-    if ((u32) m_2c != 0U) {
+    if ((uaddr) m_2c != 0U) {
         ((TWindowBase *)(*(void **)((s8 *)this + 0x2C)))->close();
         m_2c = 0U;
     }

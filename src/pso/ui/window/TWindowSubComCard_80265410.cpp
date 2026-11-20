@@ -204,7 +204,7 @@ void TWindowSubComCardList::reset_entries() {
     ((Win_802655E4 *)this)->f74 = 0;
     r = ((Win_802655E4 *)this)->f80;
     for (i = 0; i < ((Win_802655E4 *)this)->f76; i++, r++) {
-        e = ((void *)((s32 (*)(void *, s32))get_array_entry__11TWindowBaseFi)(this, i));
+        e = ((void *)((saddr (*)(void *, s32))get_array_entry__11TWindowBaseFi)(this, i));
         TWindowDuelResult::set_default_status(e, 0);
         ((TWindowDD *)e)->refresh_status_display();
         r->a = 0;

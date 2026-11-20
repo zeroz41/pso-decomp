@@ -268,7 +268,7 @@ void TUnk_804F01A8::set_option_and_confirm(s32 arg1, s32 arg2) {
 }
 
 void TUnk_804F01A8::open_confirm_dialog(s32 message, s32 arg2) {
-    if ((u32) this->m_2c != 0U) {
+    if ((uaddr) this->m_2c != 0U) {
         ((TWindowSubComCard *)(this->m_2c))->close();
         this->m_2c = 0U;
     }

@@ -16,7 +16,7 @@ struct TWindowOptionCtrl : public TObject {
     u8 _pad22[0x2];
     u32 m_24;
     u32 m_28;
-    u32 m_2c;
+    uaddr m_2c;
     u32 m_30;
     u32 m_34;
     u32 m_38;

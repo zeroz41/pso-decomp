@@ -259,7 +259,7 @@ void TWindowSubShortCutList::draw_entry(s32 index, u8 arg2, s32 arg3, s32 arg4) 
 
 void push_status_disp_entry(void *arg0, s32 arg1, s32 arg2) {
     if ((s16) *(s16 *)((s8 *)arg0 + 0x72) < (s16) *(s16 *)((s8 *)arg0 + 0x76)) {
-        TWindowSubStatusDisp__sub_80258A28((u8 *)(((s32 (*)(void *))get_array_entry__11TWindowBaseFi)(arg0)), arg1, arg2);
+        TWindowSubStatusDisp__sub_80258A28((u8 *)(((saddr (*)(void *))get_array_entry__11TWindowBaseFi)(arg0)), arg1, arg2);
         *(s16 *)((s8 *)arg0 + 0x72) = (s16) (*(s16 *)((s8 *)arg0 + 0x72) + 1);
     }
 }
@@ -425,7 +425,7 @@ void TWindowSubStatusDisp::add_ground_item(saddr arg1, s32 arg2) {
 
 void TLobby::add_status_disp_entry(s32 arg1, s32 arg2) {
     if ((s16) *(s16 *)((s8 *)this + 0x72) < (s16) *(s16 *)((s8 *)this + 0x76)) {
-        ((TWindowSubStatusDisp *)(((s32 (*)(void *))get_array_entry__11TWindowBaseFi)(this)))->init_display(arg1, arg2);
+        ((TWindowSubStatusDisp *)(((saddr (*)(void *))get_array_entry__11TWindowBaseFi)(this)))->init_display(arg1, arg2);
         *(s16 *)((s8 *)this + 0x72) = (s16) (*(s16 *)((s8 *)this + 0x72) + 1);
     }
 }

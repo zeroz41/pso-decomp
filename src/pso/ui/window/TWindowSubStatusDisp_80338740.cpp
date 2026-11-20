@@ -104,7 +104,7 @@ void TUnk_804EF440::render(WindowDrawContext *context) {
   pos.x += 108.0f;
   draw_window_text((f32 *)&pos, (const char *)(TWindowSubStatusDisp::query_status_field(this, this->m_1e)), -1, 0, 100000.0f);
   pos.x += 96.0f;
-  draw_window_text((f32 *)&pos, (const char *)(((s32 (*)(void *, s8)) TWindowSubStatusDisp__sub_803387F8)(this, this->m_1f)), -1, 0, 100000.0f);
+  draw_window_text((f32 *)&pos, (const char *)(((saddr (*)(void *, s8)) TWindowSubStatusDisp__sub_803387F8)(this, this->m_1f)), -1, 0, 100000.0f);
   pos.x += 126.0f;
   text_builder_reset();
   text_builder_append_int(this->m_20);

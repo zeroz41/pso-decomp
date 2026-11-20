@@ -926,7 +926,7 @@ void TWindowSubComCard::run_task() {
         }
         if ((u32) this->m_64 == 0U) {
             temp_r29_6 = ((TWindowMenu *)this->m_68)->get_selected_value();
-            ComList_8027375C *cl = (ComList_8027375C *) ((u32 (*)(void))get_com_count__17TWindowSubComCardFv)();
+            ComList_8027375C *cl = (ComList_8027375C *) ((uaddr (*)(void))get_com_count__17TWindowSubComCardFv)();
             ((s32 (*)(void*))load_selected_guild_card_record)(&cl->entries[temp_r29_6]);
             this->m_64 = ((u32 (*)(void*))create_menu_window__17TWindowSubComCardFv)((void *)this);
         }

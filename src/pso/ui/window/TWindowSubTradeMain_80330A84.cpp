@@ -585,7 +585,7 @@ void TWindowSubTradeMain::run_task() {
         }
         if ((n = TLobby::check_trade_items_and_show_error()) != 0) {
             if (o->card == 0) {
-                o->card = (void *)((int (*)(void *, s32))open_option_dialog_thunk__19TWindowSubTradeMainFPvPv)(o, n);
+                o->card = (void *)((saddr (*)(void *, s32))open_option_dialog_thunk__19TWindowSubTradeMainFPvPv)(o, n);
             }
             o->state = 0x1C;
         } else {
