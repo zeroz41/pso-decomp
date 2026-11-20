@@ -309,7 +309,7 @@ void TItemWeapon::set_weapon_flags(u32 mask) { weapon_flags |= mask; }
 void TItemWeapon::clear_weapon_flags(u32 mask) { weapon_flags &= ~mask; }
 void TItemWeapon::set_flag_8() { set_weapon_flags(8); }
 
-void set_weapon_trail_joints(s32 weapon, s32 trail, s32 start_joint, s32 end_joint) {
+void set_weapon_trail_joints(saddr weapon, s32 trail, s32 start_joint, s32 end_joint) {
     u8 *temp_r3;
     temp_r3 = (u8 *)(weapon + trail);
     *(s8 *)((s8 *)temp_r3 + 0x19C) = start_joint;
