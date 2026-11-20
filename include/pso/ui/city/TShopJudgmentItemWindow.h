@@ -31,7 +31,7 @@ struct TShopJudgmentItemWindow : public TShopWindowBase {
     u32 m_15c;
     u32 m_160;
     u32 m_164;
-    u8 _pad168[0x4];
+    s32 m_168;
     u32 m_16c;
     u32 m_170;
     u32 m_174;

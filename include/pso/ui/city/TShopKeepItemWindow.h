@@ -6,6 +6,11 @@
 #include "pso/item/TItemData.h"
 
 struct TItem;
+struct TObjPlayer;
+struct TWindowMenu;
+class TWindowMenuIconLine;
+struct TWindowInputNumber;
+struct TWindowHelpItem;
 
 // One row of the deposit list: the inventory item, a copy of its data and
 // its inventory index (field names inferred from rebuild_item_list).
@@ -24,19 +29,19 @@ struct TShopKeepItemWindow : public TShopWindowBase {
     virtual void vfunc_6();
     u8 _pad1C[0x4];
     u32 m_20;
-    u32 m_24;
+    TObjPlayer *m_24;
     TShopKeepItemEntry entries[30];
     u32 m_370;
     s32 entry_count;          // (inferred) rows filled in entries
     s32 deposit_count;        // (inferred) how many to deposit
     s32 help_item_index;      // (inferred) row the help window shows
-    u32 message_window;       // (inferred) display_message forwards to it
-    u32 item_list_window;     // TWindowMenuIconLine listing the items
-    u32 confirm_window;       // the yes/no window
-    u32 number_window;        // TWindowInputNumber for a stack count
-    u32 help_window;          // TWindowHelpItem for the selected item
-    s32 (*ok_callback)(s32);      // (inferred) run by close_with_ok_callback
-    s32 (*cancel_callback)(s32);  // (inferred) run by close_with_cancel_callback
+    TShopWindowBase *message_window;  // (inferred) display_message forwards to it
+    TWindowMenuIconLine *item_list_window;  // TWindowMenuIconLine listing the items
+    TWindowMenu *confirm_window;            // the yes/no window
+    TWindowInputNumber *number_window;      // for a stack count
+    TWindowHelpItem *help_window;           // for the selected item
+    void (*ok_callback)(TShopWindowBase *);      // (inferred) run by close_with_ok_callback
+    void (*cancel_callback)(TShopWindowBase *);  // (inferred) run by close_with_cancel_callback
     s32 close_with_cancel_callback();
     s32 close_with_ok_callback();
     s32 close();
