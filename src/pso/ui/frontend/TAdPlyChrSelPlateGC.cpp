@@ -104,9 +104,9 @@ void TAdPlyChrSelPlateGC::render() {
 
 extern "C" {
 void copy_vec2__28TWindowSubSymbolChatPartsSetFPv(void *, void *);
-bool TAdPlyChrSelPlateGC::is_slot_value_ready(s32 i) {
+s32 TAdPlyChrSelPlateGC::is_slot_value_ready(s32 i) {
     O_802C4D5C *self = (O_802C4D5C *)this;
-    return (self->v[i] >= 127.5f) ? true : false;
+    return (self->v[i] >= 127.5f) ? 1 : 0;
 }
 void TAdPlyChrSelPlateGC::reset_selection_slots() {
     S_802C4D88 *arg0 = (S_802C4D88 *)this;

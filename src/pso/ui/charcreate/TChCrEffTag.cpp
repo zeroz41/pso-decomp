@@ -4,6 +4,7 @@
 #include "pso/render/render_util.h"
 #include <stddef.h>
 #include "pso/math/TMath.h"
+#include "pso/ui/charcreate/TObjCMMainMenu.h"
 
 const char *TChCrEffTag__name = "TChCrEffTag";
 s32 TChCrEffTag__selected_heading = -1;
@@ -30,7 +31,6 @@ void TChCrEffTag::refresh_label() {
     }
 }
 
-s32 get_creation_sprite_id__14TObjCMMainMenuFl(int);
 
 }
 #pragma push
@@ -47,7 +47,7 @@ void TChCrEffTag::run_task()
   temp_r0 = heading;
   if (temp_r0 >= 0)
   {
-    targetWidth = (f32) (15.0f + ((f32) get_creation_sprite_id__14TObjCMMainMenuFl((int) lbl_804652A4[temp_r0])));
+    targetWidth = (f32) (15.0f + ((f32) TObjCMMainMenu::get_creation_sprite_id((int) lbl_804652A4[temp_r0])));
   }
   width = width;
   temp_f3 = targetWidth;

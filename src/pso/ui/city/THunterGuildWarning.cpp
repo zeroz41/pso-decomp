@@ -32,8 +32,8 @@ void THunterGuildWarning::create_instance(saddr arg0) {
     }
 }
 
-u8 THunterGuildWarning::is_active() {
-    return (u8) (THunterGuildWarning__instance != 0);
+s32 THunterGuildWarning::is_active() {
+    return THunterGuildWarning__instance != 0;
 }
 
 void THunterGuildWarning__sub_80211700(void) { THunterGuildWarning__instance = 0; }
@@ -273,7 +273,6 @@ s32 TLobby::handle_main_phase(saddr arg0) {
 extern "C" {
 s32 get_nth_view_player_id__11TCameraCtrlFl(s32);
 s32 get_map_id__13TRaderMapCoreFv();
-s32 is_active__19THunterGuildWarningFv();
 s32 THunterGuildSeqOffline__sub_80211FEC(s32);
 s32 THunterGuildSeqOffline__sub_80212000(s32);
 s32 THunterGuildSeqOffline__sub_80212060(s32);
@@ -291,14 +290,14 @@ s32 TLobby__sub_80211D58(s32 arg0) {
             if ((u16)player != arg0) {
                 return 1;
             }
-            if (is_active__19THunterGuildWarningFv() != 0) {
+            if (THunterGuildWarning::is_active() != 0) {
                 return 1;
             }
             kind = TPlayerBattleCtrl4P::fn_80211B10(player);
             if (kind != 0) {
                 if (get_player_by_client_id((u16)player) != NULL) {
                     if (TWindowShortListCtrl__check_controller_button(&controller_input_state[get_map_id__13TRaderMapCoreFv()][0x20], 4) != 0 &&
-                        is_active__19THunterGuildWarningFv() == 0) {
+                        THunterGuildWarning::is_active() == 0) {
                         switch (kind) {
                         case 1:
                         case 2:

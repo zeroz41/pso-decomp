@@ -61,7 +61,6 @@ s32 TAdSinglePlyChrSelectGC__sub_801334DC(void *p);
 s32 load_tables();
 u32 TAdSinglePlyChrSelectGC__sub_801FE4BC();
 s32 is_slot_active__23TAdSinglePlyChrSelectGCFUi();
-u32 check_flag__23TAdSinglePlyChrSelectGCFl(s32);
 s32 TAdChrSelASlotGC__sub_8030C3C0(TAdChrSelASlotGC *self, u32 i);
 s32 TAdChrSelASlotGC__sub_8030CA84(s32 arg0, s32 arg1);
 extern s32 controller_physical_port_bank[];
@@ -345,7 +344,7 @@ void TAdSinglePlyChrSelectGC::handle_slot_selection() {
             TAdSinglePlyChrSelectGC__sub_801334DC((void *)(*(saddr *)&this->m_2c));
             load_tables();
             ((TAdMultiPlyChrSelectGC *)(*(saddr *)&this->m_30))->set_field_100(2);
-            if (check_flag__23TAdSinglePlyChrSelectGCFl(1) != 0U) {
+            if (TAdSinglePlyChrSelectGC::check_flag(1) != 0U) {
                 var_r30 = 1;
                 ((TAdMultiPlyChrSelectGC *)(*(saddr *)&this->m_34))->set_entry_value(0, get_localized_text_entry(0x1E, 5));
                 ((TAdMultiPlyChrSelectGC *)(*(saddr *)&this->m_34))->set_entry_value(1, get_localized_text_entry(0x1E, 6));

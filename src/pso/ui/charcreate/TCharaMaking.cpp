@@ -507,8 +507,6 @@ void *TCMCharacter__ct(void *arg0, void *arg1);
 extern Vec TObjLight__scene_light_state;
 extern void *creation_player_character;
 s32 is_active__23TAdSinglePlyChrSelectGCFv(void *self);
-s32 is_state_3__14TObjCMMainMenuFv(s32);
-s32 is_state_4__14TObjCMMainMenuFv(s32);
 
 void TCharaMaking__sub_8028E790(void) {  }
 }
@@ -527,7 +525,7 @@ void TCharaMaking::update_light_direction() {
 s32 TCharaMaking::update_main_menu(saddr arg0) {
     saddr var_r3;
 
-    if (is_state_3__14TObjCMMainMenuFv(creation_main_menu_obj) != 0) {
+    if (((TObjCMMainMenu *)creation_main_menu_obj)->is_state_3() != 0) {
         fn_8028D8F4();
         var_r3 = 0;
         if ((s32) creation_dressing_room_mode_flag == 1) {
@@ -538,7 +536,7 @@ s32 TCharaMaking::update_main_menu(saddr arg0) {
         ((TObject *)arg0)->queue_destruction();
         return 1;
     }
-    if (is_state_4__14TObjCMMainMenuFv(creation_main_menu_obj) != 0) {
+    if (((TObjCMMainMenu *)creation_main_menu_obj)->is_state_4() != 0) {
         ((TObject *)arg0)->queue_destruction();
         TChCrCharSelect::create((void *)tl_03);
         return 1;

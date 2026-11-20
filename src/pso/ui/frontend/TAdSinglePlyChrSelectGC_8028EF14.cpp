@@ -448,8 +448,8 @@ void TCMCharacter::reset_model_parts() {
     }
     creation_models_ready = 0;
 }
-u8 TAdSinglePlyChrSelectGC::is_active() {
-    return (u8) (char_select_active_flag == 1);
+s32 TAdSinglePlyChrSelectGC::is_active() {
+    return char_select_active_flag == 1;
 }
 int TAdSinglePlyChrSelectGC__sub_802905B8(void) {  return char_creation_figure_draw_flag; }
 void TAdSinglePlyChrSelectGC__sub_802905A4(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); *(u32*)((char*)p + 0x4) = *(u32*)((char*)q + 0x4); }

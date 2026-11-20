@@ -59,8 +59,6 @@ struct Win_80281840 { u8 pad[0x24]; s32 ctrl; u8 pad2[0x34 - 0x28]; Sub_80281840
 extern "C" {
 saddr get_window_layout_position(s32);
 s32 add__20TWindowSubSymbolChatFlllll(int, int, int, int, int, int);
-s32 get_cursor_pos__20TWindowSubSymbolChatFv(int);
-s32 get_cursor_x__20TWindowSubSymbolChatFv(int);
 void * TWindowSubSymbolChat__instance;
 s8 TWindowSubSymbolChat__data_805D6494;
 s32 TWindowSubSymbolChat__data_805D6498;
@@ -978,8 +976,8 @@ void TWindowSubSymbolChat::sub_80281CC4() {
   s16 temp_r31;
   s16 temp_r3;
   s32 new_var;
-  temp_r31 = get_cursor_x__20TWindowSubSymbolChatFv(this->m_50);
-  temp_r3 = get_cursor_pos__20TWindowSubSymbolChatFv(this->m_50);
+  temp_r31 = ((TWindowSubSymbolChat *)this->m_50)->get_cursor_x();
+  temp_r3 = ((TWindowSubSymbolChat *)this->m_50)->get_cursor_pos();
   add__20TWindowSubSymbolChatFlllll(this->m_28, this->m_1e, (int) ((s32) temp_r31), (int) ((s32) temp_r3), (int) (*(s32 *)&TWindowSubSymbolChat__data_805D6498), (int) (*(s32 *)&TWindowSubSymbolChat__data_805D649C));
   new_var = (s32) temp_r3;
   if (((s32) TWindowSubSymbolChat__help_window) != 0)
@@ -991,8 +989,8 @@ void TWindowSubSymbolChat::sub_80281CC4() {
 void TWindowSubSymbolChat::sub_80281C60() {
     s16 x;
     s16 y;
-    x = get_cursor_x__20TWindowSubSymbolChatFv(this->m_50);
-    y = get_cursor_pos__20TWindowSubSymbolChatFv(this->m_50);
+    x = ((TWindowSubSymbolChat *)this->m_50)->get_cursor_x();
+    y = ((TWindowSubSymbolChat *)this->m_50)->get_cursor_pos();
     set_entry_bits__20TWindowSubSymbolChatFUsllll(this->m_28, this->m_1e, TWindowSubSymbolChat__data_805D6494, x + y * 2, TWindowSubSymbolChat__data_805D6498, TWindowSubSymbolChat__data_805D649C);
 }
 
@@ -1006,8 +1004,8 @@ void TWindowSubSymbolChat::draw_selected_entry() {
     s32 pos;
     s32 inst;
     s32 rem;
-    x = get_cursor_x__20TWindowSubSymbolChatFv(this->m_50);
-    y = get_cursor_pos__20TWindowSubSymbolChatFv(this->m_50);
+    x = ((TWindowSubSymbolChat *)this->m_50)->get_cursor_x();
+    y = ((TWindowSubSymbolChat *)this->m_50)->get_cursor_pos();
     inst = TWindowSubSymbolChat::get_instance();
     data = get_data_ptr__20TWindowSubSymbolChatFv();
     rem = TWindowSubSymbolChat::calc_remaining_slots();

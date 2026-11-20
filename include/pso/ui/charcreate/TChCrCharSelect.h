@@ -16,7 +16,7 @@ public:
     void handle_menu_input();
     void init_widgets();
     static void *create(void *arg0);
-    static void init_and_create();
+    void init_and_create();
     static void reset_proportions();
     static int get_selected_index();
     static int get_selected_char();

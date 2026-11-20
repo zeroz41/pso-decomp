@@ -80,7 +80,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void set_player_index(int a0);
     static void set_save_slot(int a0);
     static void clear_flags(s32 arg0);
-    static u8 check_flag(s32 arg0);
+    static u32 check_flag(s32 arg0);
     static void set_state(int a0);
     void clear_slot_lists();
     static void set_chr_select_state(int a0);
@@ -99,7 +99,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void *calc_preview_offset(void *arg0, s32 arg1, saddr arg2, s32 arg3);
     s32 get_result();
     static void init_entry_tables(void* _w0);
-    static u8 is_active();
+    static s32 is_active();
     void reset_creation_parts();
     void free_field_FC();
     void draw_player_model();

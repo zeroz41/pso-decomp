@@ -14,7 +14,7 @@ public:
 public:
     static void queue_destruction();
     static void create_instance(saddr arg0);
-    static u8 is_active();
+    static s32 is_active();
     void close_windows();
     void sub_80211774(void *arg);
 

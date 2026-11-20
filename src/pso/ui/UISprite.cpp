@@ -369,7 +369,7 @@ u32 creation_ruler_line_colors[4] = { 0x40404000, 0x40404000, 0xFFFFFF00, 0xFFFF
 
 NJS_POINT3COL lbl_804DA98C = { lbl_804DA94C, creation_ruler_line_colors, NULL, 4 };
 
-s16 TObjCMMainMenu::get_creation_sprite_id(s32 sprite_id) {
+s32 TObjCMMainMenu::get_creation_sprite_id(s32 sprite_id) {
     NJS_TEXANIM *cells;
     TCharaMaking__resolve_creation_sprite_table(&cells, &sprite_id);
     return cells[sprite_id].sx;

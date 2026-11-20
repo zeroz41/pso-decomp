@@ -10,7 +10,7 @@ public:
     virtual void run_task();
     virtual void render();
 public:
-    bool is_slot_value_ready(s32 i);
+    s32 is_slot_value_ready(s32 i);
     void reset_selection_slots();
     void push_plate_position();
 

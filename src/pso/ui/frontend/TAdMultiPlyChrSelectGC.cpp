@@ -41,6 +41,7 @@
 #include <string.h>
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdChrSelBSlotGC.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 struct Info_802DC024 {
     s32 val[4];
@@ -136,10 +137,8 @@ struct Stack_802DE7D0 {
 extern "C" {
 s32 *TAdSinglePlyChrSelectGC__sub_801FE4BC(u32 i);
 s32 is_slot_active__23TAdSinglePlyChrSelectGCFUi(u32 arg0);
-u32 check_flag__23TAdSinglePlyChrSelectGCFl(s32);
 s32 TAdMultiPlyChrSelectGC__sub_802C561C(s32);
 s32 TAdMultiPlyChrSelectGC__sub_802C5688(s32);
-s32 restore_selection__22TAdMultiPlyChrSelectGCFv(s32);
 s32 TAdChrSelASlotGC__sub_8030C3C0(TAdChrSelASlotGC *self, u32 i);
 s32 TAdChrSelASlotGC__sub_8030CA84(s32 arg0, s32 arg1);
 extern s32 lbl_80472850[];
@@ -973,7 +972,7 @@ void TAdMultiPlyChrSelectGC__sub_802DE7D0(void *ad_multi_ply_chr_select_gc) {
             if (TAdSinglePlyChrSelectGC__sub_801FE4BC(temp_r30) != 0U) {
                 load_tables(temp_r30);
                 ((TAdMultiPlyChrSelectGC *)(*(saddr *)((s8 *)ad_multi_ply_chr_select_gc + 0x60)))->set_field_100(2);
-                if ((check_flag__23TAdSinglePlyChrSelectGCFl(1) != 0U) && ((s32) ((TAdMultiPlyChrSelectGC *)ad_multi_ply_chr_select_gc)->m_3c != 0)) {
+                if ((TAdSinglePlyChrSelectGC::check_flag(1) != 0U) && ((s32) ((TAdMultiPlyChrSelectGC *)ad_multi_ply_chr_select_gc)->m_3c != 0)) {
                     ((TAdMultiPlyChrSelectGC *)ad_multi_ply_chr_select_gc)->m_40 = 1;
                 }
             }
@@ -986,7 +985,7 @@ void TAdMultiPlyChrSelectGC__sub_802DE7D0(void *ad_multi_ply_chr_select_gc) {
                 if (is_slot_active__23TAdSinglePlyChrSelectGCFUi(temp_r30) == 0) {
                     play_sound_effect(0x52D01, 0, 0, 0);
                     ((TAdMultiPlyChrSelectGC *)(((TAdMultiPlyChrSelectGC *)ad_multi_ply_chr_select_gc)->m_5c))->update_field_4E8();
-                    restore_selection__22TAdMultiPlyChrSelectGCFv(((TAdMultiPlyChrSelectGC *)ad_multi_ply_chr_select_gc)->m_5c);
+                    ((TAdMultiPlyChrSelectGC *)(((TAdMultiPlyChrSelectGC *)ad_multi_ply_chr_select_gc)->m_5c))->restore_selection();
                     TAdMultiPlyChrSelectGC__sub_802C5688(((TAdMultiPlyChrSelectGC *)ad_multi_ply_chr_select_gc)->m_5c);
                     if ((u32) *(u32 *)((s8 *)ad_multi_ply_chr_select_gc + 0x68) != 0U) {
                         ((TObject *)(*(void **)((s8 *)ad_multi_ply_chr_select_gc + 0x68)))->queue_destruction();
@@ -1104,7 +1103,7 @@ void TAdMultiPlyChrSelectGC::update_state_option() {
         case 1:
             play_sound_effect(0x52D01, 0, 0, 0);
             ((TAdMultiPlyChrSelectGC *)(*(saddr *)((s8 *)this + 0x5C)))->update_field_4E8();
-            restore_selection__22TAdMultiPlyChrSelectGCFv(*(s32 *)((s8 *)this + 0x5C));
+            ((TAdMultiPlyChrSelectGC *)(*(saddr *)((s8 *)this + 0x5C)))->restore_selection();
             TAdMultiPlyChrSelectGC__sub_802C5688(*(s32 *)((s8 *)this + 0x5C));
             ((TAdMultiPlyChrSelectGC *)(*(saddr *)((s8 *)this + 0x5C)))->set_state_ready();
             if ((u32) *(u32 *)((s8 *)this + 0x68) != 0U) {

@@ -124,7 +124,6 @@ struct Ent_8013B2C8 { s32 w; };
 extern "C" {
 void clear_target_cursor_list(void *);
 extern const f32 TMainCursor__data_805DB0C0;
-s32 is_channel_active__11TMainCursorFv(void *self);
 s32 can_start_technique__10TObjPlayerFPvi(TObjPlayer*, s32);
 s32 canSetMenuCursorAction(PaletteCursorOverride* cursor, TObjPlayer* player, u8 kind, u8 parameter);
 void TMainCursor__sub_8013B398(void *arg0, void *arg1);
@@ -336,7 +335,6 @@ Rec_8013EB6C *TLockOnCursor__sub_8013EB6C(Obj_8013EB6C *, s32);
 void render__13TLockOnCursorFv(saddr arg0);
 void TLockOnCursor__sub_8013EB80(void *p);
 void TLockOnCursor__sub_8013EB8C(void *p);
-s32 is_channel_active__11TMainCursorFv(void *);
 void __construct_array(void *, void *, void *, int, int);
 void __ct__7TObjectFP7TObject(void *);
 }
@@ -530,7 +528,7 @@ void TLockOnCursor::reset_and_spawn_cursors() {
 
 void TLockOnCursor::run_task() {
     saddr arg0 = (saddr)this;
-    if (is_channel_active__11TMainCursorFv((void *)(arg0 + 0x520)) != 0) {
+    if (((TMainCursor *)(arg0 + 0x520))->is_channel_active() != 0) {
         TLockOnCursor__sub_8013EB8C((void *)(arg0 + 0x520));
         return;
     }
@@ -979,7 +977,7 @@ s32 TMainCursor::bind_action_channels() {
     if (player == 0) {
         return;
     }
-    if (check_flag_100__10TObjPlayerFPv((void *)player) != 0 && is_channel_active__11TMainCursorFv(&self->channel) != 0) {
+    if (check_flag_100__10TObjPlayerFPv((void *)player) != 0 && ((TMainCursor *)(&self->channel))->is_channel_active() != 0) {
         type = self->channel.get_type();
         enabled = self->channel.get_enabled();
         if (is_current_area_item_enabled() == 0) {
@@ -1301,7 +1299,7 @@ s32 target_in_vertical_cone(Vec *p, Vec *q, s32 yaw, f32 range, f32 dist) {
 extern "C" {
 
 s32 try_move__11TMainCursorFiii(saddr arg0, u8 arg1, u8 arg2) {
-    if (is_channel_active__11TMainCursorFv((void *)arg0) != 0) {
+    if (((TMainCursor *)arg0)->is_channel_active() != 0) {
         return matches_type_and_enabled__11TMainCursorFiUcUc(arg0, arg1, arg2);
     }
     return 0;
@@ -1599,7 +1597,7 @@ void TMainCursor::update_photon_chair() {
 extern "C" {
 
 s32 canSetMenuCursorAction(PaletteCursorOverride* cursor, TObjPlayer* player, u8 kind, u8 parameter) {
-    if (is_channel_active__11TMainCursorFv(cursor) != 0) {
+    if (((TMainCursor *)cursor)->is_channel_active() != 0) {
         return 0;
     }
     switch ((s32) kind) {
@@ -1733,7 +1731,7 @@ void TObjPlayer__sub_8013DEF8(u8 *arg0) {
 
 }
 
-u8 TMainCursor::is_channel_active() {
+s32 TMainCursor::is_channel_active() {
     u8 *arg0 = (u8 *)this;
     return (u8) ((*(s16 *)((s8 *)arg0 + 2) & 1) ^ 1);
 }
@@ -1988,7 +1986,7 @@ void TMainCursor::init_slot(s32 i) {
 
 void TMainCursor__sub_8013E8A0(void *p) { TObjPlayer__sub_8013DEF8((u8 *)p); }
 
-int TMainCursor::get_selected_entry() { return is_channel_active__11TMainCursorFv(this); }
+int TMainCursor::get_selected_entry() { return is_channel_active(); }
 
 u8 TMainCursor::get_active() { return get_enabled(); }
 

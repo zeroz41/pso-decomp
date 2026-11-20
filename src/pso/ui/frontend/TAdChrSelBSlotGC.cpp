@@ -47,7 +47,6 @@ G_8030E3BC *TAdChrSelBSlotGC__sub_8030E3BC(s32 arg0, s32 arg1, s32 arg2, void *a
 void set_entry_text__15TAdSubPlyItemGCFPvPv(void *item, G_8030E3BC *entry);
 void add_plate_rect__20TAdChrSelMovePlateGCFPvPv(void *plate, void *position);
 void TAdChrSelBSlotGC__sub_8030E624(TAdChrSelBSlotGC *self);
-s32 is_slot_value_ready__19TAdPlyChrSelPlateGCFl(s32 plate, s32 i);
 s32 is_slot_state_one__16TAdChrSelBSlotGCFlUl(s32 arg0, u32 i);
 
 void TAdChrSelBSlotGC::render() {
@@ -121,7 +120,7 @@ void TAdChrSelBSlotGC__sub_8030E624(TAdChrSelBSlotGC *self) {
     u32 i;
     s32 slot;
 
-    if (is_slot_value_ready__19TAdPlyChrSelPlateGCFl(self->m_2c, 2)) {
+    if (((TAdPlyChrSelPlateGC *)self->m_2c)->is_slot_value_ready(2)) {
         ((TAdChrSelSlotGC *)*(void **)((s8 *)self + 0x28))->init_slot_entry(2, (void *)&lbl_80475908);
         slot = (saddr)self;
         for (i = 0; i < 4; i++) {

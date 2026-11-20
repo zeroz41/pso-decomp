@@ -90,11 +90,10 @@ extern "C" {
 s32 TAdAgreementBaseGC__ct(void *);
 extern s32 __vt__19TAdTrialAgreementGC[];
 const char *TAdTrialAgreementGC__name = "TAdTrialAgreementGC";
-s32 wait_for_load__19TAdTrialAgreementGCFv(s32);
 
 extern s32 pso_system_card_filename[];
 
-s32 TAdTrialAgreementGC::check_card_file(s32 arg0) {
+s32 TAdTrialAgreementGC::check_card_file(saddr arg0) {
     s32 card_file;
 
     if (TAdPlayerLoadGC::probe_card_slot(0) == 0) {
@@ -103,11 +102,11 @@ s32 TAdTrialAgreementGC::check_card_file(s32 arg0) {
     if (TAdPlayerLoadGC::probe_and_check_card(0) == 0) {
         return 0;
     }
-    wait_for_load__19TAdTrialAgreementGCFv(arg0);
+    ((TAdTrialAgreementGC *)arg0)->wait_for_load();
     if (TAdPlayerLoadGC::check_memcard_status(0) != 0) {
         return 0;
     }
-    wait_for_load__19TAdTrialAgreementGCFv(arg0);
+    ((TAdTrialAgreementGC *)arg0)->wait_for_load();
     card_file = TAdPlayerLoadGC::find_card_file(0, (const char *)pso_system_card_filename);
     if ((card_file == 0) || ((card_file + 0x10000) == 0xFF41U)) {
         return 1;

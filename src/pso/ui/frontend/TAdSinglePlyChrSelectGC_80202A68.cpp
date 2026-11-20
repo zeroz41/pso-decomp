@@ -170,9 +170,9 @@ void TAdSinglePlyChrSelectGC::clear_flags(s32 arg0) {
     }
 }
 
-u8 TAdSinglePlyChrSelectGC::check_flag(s32 arg0) {
+u32 TAdSinglePlyChrSelectGC::check_flag(s32 arg0) {
     if ((s32 *) active_character_save_record != NULL) {
-        return (u8) ((*(s32 *)active_character_save_record & arg0) != 0);
+        return (*(s32 *)active_character_save_record & arg0) != 0;
     }
     return 0U;
 }

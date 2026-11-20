@@ -44,8 +44,8 @@ public:
     static void select_char_menu();
     static s32 validate_character_name(s8 *arg0);
     static s32 get_current_char_flag();
-    static u8 is_state_4();
-    static u8 is_state_3();
+    s32 is_state_4();
+    s32 is_state_3();
     static void *create_fade(void *arg0, void *arg1);
     static void *create_fade_effect(void *arg0, void *arg1);
     static s32 try_pay_fee();
@@ -66,7 +66,7 @@ public:
     static f32 get_proportion();
     static void set_selection(int a0);
     static void set_speed(f32 farg0);
-    static s16 get_creation_sprite_id(s32 arg0);
+    static s32 get_creation_sprite_id(s32 arg0);
 };
 LAYOUT_ASSERT(CreationMainMenuSize, sizeof(TObjCMMainMenu)==0x58);
 LAYOUT_ASSERT(CreationMainMenu_character_offset, offsetof(TObjCMMainMenu,character)==0x1C);

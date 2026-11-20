@@ -87,7 +87,7 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     void update_button_input();
     virtual void run_task();
     void set_field_4ec(s32 v);
-    static void restore_selection();
+    void restore_selection();
     void update_field_4E8();
     s32 get_field_0x530();
     void set_field_1c(s32 v);

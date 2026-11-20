@@ -68,7 +68,6 @@ s32 push_plate_position__19TAdPlyChrSelPlateGCFv(int, void *);
 void set_entry_text__15TAdSubPlyItemGCFPvPv(void *item, G_8030C45C *entry);
 void add_plate_rect__20TAdChrSelMovePlateGCFPvPv(void *plate, void *position);
 s32 TAdChrSelASlotGC__sub_8030C3C0(TAdChrSelASlotGC *self, u32 arg1);
-s32 is_slot_value_ready__19TAdPlyChrSelPlateGCFl(void *, int);
 extern G_8030C45C chr_select_a_slot_entry;
 G_8030C45C *TAdChrSelASlotGC__sub_8030C45C(TAdChrSelASlotGC *self, s32 arg1, s32 arg2, void *arg3);
 extern char char_select_format_message_buffer[];
@@ -101,9 +100,9 @@ s32 TAdChrSelASlotGC::get_plate_value_for_slot(s32 k) {
     switch (k) {
     case 0:
     case 1:
-        return is_slot_value_ready__19TAdPlyChrSelPlateGCFl(o->a, 2);
+        return ((TAdPlyChrSelPlateGC *)o->a)->is_slot_value_ready(2);
     case 2:
-        return is_slot_value_ready__19TAdPlyChrSelPlateGCFl(o->b, 2);
+        return ((TAdPlyChrSelPlateGC *)o->b)->is_slot_value_ready(2);
     }
     return 0;
 }

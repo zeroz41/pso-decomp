@@ -19,6 +19,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/charcreate/CharacterAppearance.h"
+#include "pso/ui/charcreate/TChCrCharSelect.h"
 
 #pragma readonly_strings on
 
@@ -35,7 +36,6 @@ extern CreationMenuEntry TObjCMMainMenu__data_804DB9C8[10];
 extern "C" {
 u8 *TCameraCtrl__ct(u8 *arg0, void *parent);
 s32 init_menu_scene_lights(s32 *, s32);
-s32 init_and_create__15TChCrCharSelectFv(s32);
 }
 extern s32 default_scene_light_config[];
 extern saddr tl_camera;
@@ -76,7 +76,7 @@ void init_creation_menu_scene(void) {
             TObjCMMainMenu__sub_8028EC34();
             TObjCMMainMenu__sub_8028EC24();
             TObjCMMainMenu__sub_8028D9F8();
-            init_and_create__15TChCrCharSelectFv(tl_03);
+            ((TChCrCharSelect *)tl_03)->init_and_create();
             TObjCMMainMenu::create_fade_effect((void *)0xF, (void *)1);
         } else {
             TObjCMMainMenu__sub_8028EC18();
@@ -92,12 +92,12 @@ s32 TObjCMMainMenu__sub_8028EBCC(TObjCMMainMenu *menu) {
     return TObjCMMainMenu__data_804DB9C8[menu->entries[menu->selected_entry]].kind;
 }
 
-u8 TObjCMMainMenu::is_state_4() {
-    return (u8) (TObjCMMainMenu__data_805D659C == 4);
+s32 TObjCMMainMenu::is_state_4() {
+    return TObjCMMainMenu__data_805D659C == 4;
 }
 
-u8 TObjCMMainMenu::is_state_3() {
-    return (u8) (TObjCMMainMenu__data_805D659C == 3);
+s32 TObjCMMainMenu::is_state_3() {
+    return TObjCMMainMenu__data_805D659C == 3;
 }
 
 void TObjCMMainMenu__sub_8028EC18(void) { creation_dressing_room_mode_flag = 1; }
