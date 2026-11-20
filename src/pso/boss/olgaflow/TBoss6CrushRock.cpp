@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/olgaflow/TBoss6CrushRock.h"
+#include "pso/system/BmlResource.h"
 #include "pso/boss/olgaflow/TBoss6CrushPtcl.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/boss/olgaflow/TBoss6Rock.h"
@@ -8,7 +9,9 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/render/GinjaMaterial.h"
-#include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/unk/text_803D8F74.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/system/vector.h"
 #include "pso/math/AngleLookup.h"
@@ -21,35 +24,23 @@ const char TBoss6CrushRock__class_name_string[] = "TBoss6CrushRock";
 const char TBoss6CrushPtcl__class_name_string[] = "TBoss6CrushPtcl";
 const char *TBoss6CrushRock__name = TBoss6CrushRock__class_name_string;
 const char *TBoss6CrushPtcl__name = TBoss6CrushPtcl__class_name_string;
-extern const f32 lbl_805E00B8;
-extern const f32 lbl_805E00BC;
-extern const f32 lbl_805E00C0;
-extern const f32 lbl_805E00C4;
-
-struct Vec_80359EF0 { s32 x, y, z; };
 
 extern "C" {
+extern s32 TBoss6PlotFalz__instance;
 void *__ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__15TBoss6CrushPtcl[];
-u8 *TBoss6CrushPtcl__ct(u8 *arg0, void *arg1, Vec_80359EF0 *arg2);
-extern s32 TBoss6PlotFalz__instance;
-s32 get_bml_model(int, void *);
-int TBoss6Rock__sub_80353A04(void);
-int TBoss6Rock__sub_80353A0C(void);
-f32 vec3_add_to(void *, void *);
-f32 vector_length(void *);
-int post_translate_matrix(void*);
-int rotate_matrix_z(void*, void*);
-int rotate_matrix_x(void*, void*);
-int rotate_matrix_y(void*, void*);
-int push_matrix(void);
+// Keep the retail allocation and constructor calls separate.
+TBoss6CrushRock *__ct__15TBoss6CrushRockFP7TObjectPC3Vecl(
+    TBoss6CrushRock *rock, TObject *parent, const Vec *point, s32 model_index);
+TBoss6CrushPtcl *TBoss6CrushPtcl__ct(TBoss6CrushPtcl *effect, TObject *parent, Vec *point);
 }
+extern "C" f32 vector_length(const Vec *v);
 
 s32 TBoss6PlotFalz::get_hp() {
     return TBoss6PlotFalz__instance;
 }
 
-void TBoss6Rock::spawn_crush_rocks(s32 kind) {
+void TBoss6Rock::spawn_crush_rocks(Vec *point, s32 kind) {
     f32 radius;
     s32 base;
     s32 n;
@@ -59,7 +50,7 @@ void TBoss6Rock::spawn_crush_rocks(s32 kind) {
     if (TBoss6CrushRock::is_falz_alive() == 0) {
         return;
     }
-    ((TBoss6CrushPtcl *)this)->create();
+    TBoss6CrushPtcl::create(point);
     radius = 7.5f;
     base = 5;
     n = 2;
@@ -77,33 +68,33 @@ void TBoss6Rock::spawn_crush_rocks(s32 kind) {
     }
     for (i = 0; i < 0x12 / n; i++) {
         for (j = 0; j < n; j++) {
-            Vec p = *((Vec *)this);
+            Vec p = *point;
             s32 angle = (s32)(65535.0f * (0.000030517578f * (f32)rand()));
             p.x += radius * sin_table_lookup(angle);
             p.y += 35.0f * (0.000030517578f * (f32)rand());
             p.z += radius * cos_table_lookup(angle);
-            u8 *o = (u8 *)TObject::operator new(0x54);
-            if (o != NULL) {
-                ((u8 *(*)(u8 *, s32, Vec *, s32))__ct__15TBoss6CrushRockFlll)(o, (s32)tl_02, &p, base + j);
+            TBoss6CrushRock *rock = (TBoss6CrushRock *)TObject::operator new(sizeof(TBoss6CrushRock));
+            if (rock != NULL) {
+                __ct__15TBoss6CrushRockFP7TObjectPC3Vecl(rock, tl_02, &p, base + j);
             }
         }
     }
 }
 
-TBoss6CrushRock::TBoss6CrushRock(s32 arg1, s32 arg2, s32 arg3) : TObject((TObject *)((void *)arg1)) {
-    ((TObject *)this)->m_name = TBoss6CrushRock__name;
-    *(s32 *)((s8 *)this + 0x1C) = get_bml_model((int) (TBoss6Rock__sub_80353A0C()), (void *)arg3);
-    *(s32 *)((s8 *)this + 0x20) = TBoss6Rock__sub_80353A04();
-    VecCopy((Vec *)(((u8 *)this) + 0x24), (const Vec *)(arg2));
-    *(f32 *)((s8 *)this + 0x30) = (f32) (0.5f * ((0.000030517578f * (f32) rand()) - 0.5f));
-    *(f32 *)((s8 *)this + 0x34) = (f32) (0.5f * ((0.000030517578f * (f32) rand()) - 0.5f));
-    *(f32 *)((s8 *)this + 0x38) = (f32) (0.5f * ((0.000030517578f * (f32) rand()) - 0.5f));
-    *(s32 *)((s8 *)this + 0x3C) = (s32) (65535.0f * (0.000030517578f * (f32) rand()));
-    *(s32 *)((s8 *)this + 0x40) = (s32) (65535.0f * (0.000030517578f * (f32) rand()));
-    *(s32 *)((s8 *)this + 0x44) = (s32) (65535.0f * (0.000030517578f * (f32) rand()));
-    *(s32 *)((s8 *)this + 0x48) = (s32) (4096.0f * ((0.000030517578f * (f32) rand()) - 0.5f));
-    *(s32 *)((s8 *)this + 0x4C) = (s32) (4096.0f * ((0.000030517578f * (f32) rand()) - 0.5f));
-    *(s32 *)((s8 *)this + 0x50) = (s32) (4096.0f * ((0.000030517578f * (f32) rand()) - 0.5f));
+TBoss6CrushRock::TBoss6CrushRock(TObject *parent, const Vec *point, s32 model_index) : TObject(parent) {
+    m_name = TBoss6CrushRock__name;
+    model = (void *)get_bml_model(TBoss6Rock__sub_80353A0C(), model_index);
+    texture_list = TBoss6Rock__sub_80353A04();
+    VecCopy(&position, point);
+    velocity.x = (0.5f * ((0.000030517578f * (f32) rand()) - 0.5f));
+    velocity.y = (0.5f * ((0.000030517578f * (f32) rand()) - 0.5f));
+    velocity.z = (0.5f * ((0.000030517578f * (f32) rand()) - 0.5f));
+    angles.x = (s32)(65535.0f * (0.000030517578f * (f32) rand()));
+    angles.y = (s32)(65535.0f * (0.000030517578f * (f32) rand()));
+    angles.z = (s32)(65535.0f * (0.000030517578f * (f32) rand()));
+    angular_velocity.x = (s32)(4096.0f * ((0.000030517578f * (f32) rand()) - 0.5f));
+    angular_velocity.y = (s32)(4096.0f * ((0.000030517578f * (f32) rand()) - 0.5f));
+    angular_velocity.z = (s32)(4096.0f * ((0.000030517578f * (f32) rand()) - 0.5f));
 }
 
 TBoss6CrushRock::~TBoss6CrushRock() {}
@@ -111,72 +102,76 @@ TBoss6CrushRock::~TBoss6CrushRock() {}
 #pragma push
 #pragma opt_common_subs off
 void TBoss6CrushRock::run_task() {
-    u8 *arg0 = (u8 *)this;
-    if (((s32)is_falz_alive()) == 0) {
-        ((TObject *)arg0)->queue_destruction();
+    if (is_falz_alive() == 0) {
+        queue_destruction();
         return;
     }
-    *(s32 *)((s8 *)arg0 + 0x3C) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C) + *(s32 *)((s8 *)arg0 + 0x48));
-    *(s32 *)((s8 *)arg0 + 0x40) = (s32) (*(s32 *)((s8 *)arg0 + 0x40) + *(s32 *)((s8 *)arg0 + 0x4C));
-    *(s32 *)((s8 *)arg0 + 0x44) = (s32) (*(s32 *)((s8 *)arg0 + 0x44) + *(s32 *)((s8 *)arg0 + 0x50));
-    *(f32 *)((s8 *)arg0 + 0x34) = (f32) (*(f32 *)((s8 *)arg0 + 0x34) + lbl_805E00B8);
-    vec3_add_to(arg0 + 0x24, arg0 + 0x30);
-    if (*(f32 *)((s8 *)arg0 + 0x28) < lbl_805E00BC) {
-        *(f32 *)((s8 *)arg0 + 0x28) = (f32) lbl_805E00BC;
-        *(f32 *)((s8 *)arg0 + 0x30) = (f32) (*(f32 *)((s8 *)arg0 + 0x30) * lbl_805E00C0);
-        *(f32 *)((s8 *)arg0 + 0x34) = (f32) (*(f32 *)((s8 *)arg0 + 0x34) * lbl_805E00B8);
-        *(f32 *)((s8 *)arg0 + 0x38) = (f32) (*(f32 *)((s8 *)arg0 + 0x38) * lbl_805E00C0);
-        if (vector_length(arg0 + 0x30) < lbl_805E00C4) {
-            ((TObject *)arg0)->queue_destruction();
+    angles.x += angular_velocity.x;
+    angles.y += angular_velocity.y;
+    angles.z += angular_velocity.z;
+    velocity.y += -0.25f;
+    vec3_add_to(&position, &velocity);
+    if (position.y < 0.0f) {
+        position.y = 0.0f;
+        velocity.x *= 0.25f;
+        velocity.y *= -0.25f;
+        velocity.z *= 0.25f;
+        if (vector_length(&velocity) < 0.1f) {
+            queue_destruction();
         }
     }
 }
 #pragma pop
 
-void TBoss6CrushRock::render() { if (is_falz_alive() != 0) { push_matrix(); post_translate_matrix((char*)this + 0x24); rotate_matrix_y((void*)0, *(void**)((char*)this + 0x40)); rotate_matrix_x((void*)0, *(void**)((char*)this + 0x3c)); rotate_matrix_z((void*)0, *(void**)((char*)this + 0x44)); TObjFish::set_global_param((s32)(*(void**)((char*)this + 0x20))); draw_ginja_object(*(void**)((char*)this + 0x1c)); pop_matrix(); } }
+void TBoss6CrushRock::render() {
+    if (is_falz_alive() != 0) {
+        push_matrix();
+        post_translate_matrix(&position.x);
+        rotate_matrix_y(NULL, angles.y);
+        rotate_matrix_x(NULL, angles.x);
+        rotate_matrix_z(NULL, angles.z);
+        TObjFish::set_global_param((s32)texture_list);
+        draw_ginja_object(model);
+        pop_matrix();
+    }
+}
 
 s32 TBoss6CrushRock::is_falz_alive() {
     return TBoss6PlotFalz::get_hp() ? 1 : 0;
 }
 
-void *TBoss6CrushPtcl::create() {
-    void *o = TObject::operator new(0x28);
-    if (o != NULL) {
-        o = TBoss6CrushPtcl__ct((u8 *)o, (void *)tl_02, (Vec_80359EF0 *)(this));
+TBoss6CrushPtcl *TBoss6CrushPtcl::create(Vec *point) {
+    TBoss6CrushPtcl *effect = (TBoss6CrushPtcl *)TObject::operator new(sizeof(TBoss6CrushPtcl));
+    if (effect != NULL) {
+        effect = TBoss6CrushPtcl__ct(effect, tl_02, point);
     }
-    return o;
+    return effect;
 }
 
-u8 *TBoss6CrushPtcl__ct(u8 *boss6_crush_ptcl, void *arg1, Vec_80359EF0 *arg2) {
-    __ct__7TObjectFP7TObject(boss6_crush_ptcl, arg1);
-    *(s32 **)((s8 *)boss6_crush_ptcl + 0x18) = __vt__15TBoss6CrushPtcl;
-    ((TObject *)boss6_crush_ptcl)->m_name = TBoss6CrushPtcl__name;
-    Vec_80359EF0 v = *arg2;
-    ((TBoss6CrushPtcl *)boss6_crush_ptcl)->m_20 = (s32)create_particle_emitter(&v, 0x203);
-    ((TBoss6CrushPtcl *)boss6_crush_ptcl)->m_24 = (s32)create_particle_emitter(&v, 0x204);
-    ((TBoss6CrushPtcl *)boss6_crush_ptcl)->m_1C = 0;
-    return boss6_crush_ptcl;
+TBoss6CrushPtcl *TBoss6CrushPtcl__ct(TBoss6CrushPtcl *effect, TObject *parent, Vec *point) {
+    __ct__7TObjectFP7TObject(effect, parent);
+    *(s32 **)((u8 *)effect + 0x18) = __vt__15TBoss6CrushPtcl;
+    ((TObject *)effect)->m_name = TBoss6CrushPtcl__name;
+    Vec position = *point;
+    effect->dust_emitter = create_particle_emitter(&position, 0x203);
+    effect->debris_emitter = create_particle_emitter(&position, 0x204);
+    effect->age = 0;
+    return effect;
 }
 
 TBoss6CrushPtcl::~TBoss6CrushPtcl() {}
 
 void TBoss6CrushPtcl::run_task() {
-    m_1C++;
-    if (m_1C >= 6) {
-        if (m_20 != 0) {
-            TParticleCtrl::release((void *)m_20);
-            m_20 = 0;
+    age++;
+    if (age >= 6) {
+        if (dust_emitter != NULL) {
+            TParticleCtrl::release(dust_emitter);
+            dust_emitter = NULL;
         }
-        if (m_24 != 0) {
-            TParticleCtrl::release((void *)m_24);
-            m_24 = 0;
+        if (debris_emitter != NULL) {
+            TParticleCtrl::release(debris_emitter);
+            debris_emitter = NULL;
         }
         queue_destruction();
     }
 }
-
-// run_task's constants; defined after their use so the loads stay symbol loads (lead the .sdata2).
-extern const f32 lbl_805E00B8 = -0.25f;
-extern const f32 lbl_805E00BC = 0.0f;
-extern const f32 lbl_805E00C0 = 0.25f;
-extern const f32 lbl_805E00C4 = 0.1f;
