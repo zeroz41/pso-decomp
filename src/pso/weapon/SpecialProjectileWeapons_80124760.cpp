@@ -114,18 +114,18 @@ void *ct_shoot_model__10TObjPlayerFPv(void *item_shoot_model) {
 }
 
 s32 drill_launcher_create_shot(s32 arg0, s32 arg1, s32 arg2, f32 farg0) {
-    s32 var_r0;
+    saddr var_r0;
     s32 var_r31;
 
     var_r31 = 0;
     if (arg0 != 0) {
-        var_r0 = (s32)TObject::operator new(0x6C);
+        var_r0 = (saddr)TObject::operator new(0x6C);
         if (var_r0 != 0) {
             var_r0 = ((Fn_80124810_5)ct_shoot_model__10TObjPlayerFPv)(var_r0, arg0, arg1, arg2, farg0);
         }
         var_r31 = var_r0;
     }
-    var_r0 = ((u32)TObjPlayer::spawn_shoot_particle(arg0, arg1, arg2, farg0));
+    var_r0 = ((saddr)TObjPlayer::spawn_shoot_particle(arg0, arg1, arg2, farg0));
     if (var_r0 != 0U) {
         ((TItemShootParticle *)var_r0)->spawn_slot_emitter(0x1BB, 0);
     }

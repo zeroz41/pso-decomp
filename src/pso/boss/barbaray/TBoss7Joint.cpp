@@ -26,7 +26,7 @@ void TBoss7Joint::init_boss_stats() {
     reload_stats_keep_hp_tp__9TObjEneDDFv(this, ((s32)TLobby::register_boss(0x10)), ((s32)TLobby::dispatch_shared_handler_b(0xF)), ((s32)TLobby::register_object(0x10)));
     this->hp = 0x4E20;
     this->hpmax = 0x4E20;
-    u32 p = (u32)TObject::operator new(0x2C);
+    uaddr p = (uaddr)TObject::operator new(0x2C);
     if (p != 0U) {
         TObjPlayer__sub_802E72DC((void *)p, this, ((u8 *)this) + 0x38, index);
     }

@@ -23,12 +23,12 @@ s32 __ct__11TObjControlFP7TObject(s32, s32);
 extern s32 tl_04;
 
 s32 TBoss6Type2::create_mag(s32 arg0) {
-    s32 var_r31;
-    s32 var_r4;
+    saddr var_r31;
+    saddr var_r4;
 
-    var_r31 = (s32)TObject::operator new(0x45C);
+    var_r31 = (saddr)TObject::operator new(0x45C);
     if (var_r31 != 0) {
-        var_r4 = (s32)TObject::operator new(0x20);
+        var_r4 = (saddr)TObject::operator new(0x20);
         if (var_r4 != 0) {
             var_r4 = __ct__11TObjControlFP7TObject(var_r4, tl_04);
         }

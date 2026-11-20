@@ -12,8 +12,8 @@ extern u32 TItemMenuCtrl__instance;
 extern s32 tl_05;
 
 void TItemMenuCtrl::open_menu(u32 arg0) {
-    u32 obj;
-    if (((u32) TItemMenuCtrl__instance == 0U) && ((obj = (u32)TObject::operator new(0x20)) != 0U)) {
+    uaddr obj;
+    if (((u32) TItemMenuCtrl__instance == 0U) && ((obj = (uaddr)TObject::operator new(0x20)) != 0U)) {
         TItemMenuCtrl__ct(obj, tl_05);
     }
     if (arg0 < 7U) {

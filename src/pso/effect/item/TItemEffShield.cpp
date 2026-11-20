@@ -72,8 +72,8 @@ extern "C" {
 s32 __ct__14TItemEffShieldFP7TObjectsl(u32, s32, u16, u32);
 
 void TItemProShield::create_shield_effect(s32 arg0, u16 arg1, u32 arg2) {
-    u32 obj;
-    if ((arg0 != 0) && ((u16) arg1 != 0xFFFF) && (arg2 != 0U) && ((obj = (u32)TObject::operator new(0x48)) != 0U)) {
+    uaddr obj;
+    if ((arg0 != 0) && ((u16) arg1 != 0xFFFF) && (arg2 != 0U) && ((obj = (uaddr)TObject::operator new(0x48)) != 0U)) {
         __ct__14TItemEffShieldFP7TObjectsl(obj, arg0, arg1, arg2);
     }
 }

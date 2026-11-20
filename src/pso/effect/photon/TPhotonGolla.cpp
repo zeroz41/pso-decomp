@@ -163,7 +163,7 @@ s32 TPhotonGolla::spawn_concentrate(void *arg0) {
     Vec rotated;
     Owner_801AB6A0 *owner;
     u32 angle;
-    u32 beam;
+    uaddr beam;
     if (self->f19c == NULL) {
         owner = (Owner_801AB6A0 *)find_entity_by_id(self->owner_id);
         local.x = 0.0f;
@@ -199,7 +199,7 @@ s32 TPhotonGolla::spawn_concentrate(void *arg0) {
     packet.direction.z = direction.z;
     packet.owner = self->f1a8;
     packet.angle = angle;
-    beam = (u32)TObject::operator new(0x10C);
+    beam = (uaddr)TObject::operator new(0x10C);
     if (beam != 0) {
         __ct__18TPhotonConcentrateFPUcll((u8 *)beam, (u8 *)&packet, (s32)self, (s32)self->owner_id);
     }
@@ -311,7 +311,7 @@ void TPhotonGolla::run_task() {
     Stack_801ABBAC stack;
     s32 temp_r0;
     s32 entity;
-    u32 photon_magic_square;
+    uaddr photon_magic_square;
     *(s32 *)&this->unk_1C8 = (s32) (*(s32 *)&this->unk_1C8 + 1);
     if (((s32) *(s32 *)&this->unk_1C8 == 0x32) && ((s32) this->m_1c4 == 0)) {
         this->m_1c4 = 1;
@@ -321,7 +321,7 @@ void TPhotonGolla::run_task() {
             VecCopy((Vec *)(&stack.sp8), (const Vec *)(entity + 0x38));
         }
         stack.spC += 3e+01f;
-        photon_magic_square = (u32)TObject::operator new(0xD0);
+        photon_magic_square = (uaddr)TObject::operator new(0xD0);
         if (photon_magic_square != 0U) {
             TPhotonMagicSquare__ct((u8 *)photon_magic_square, (s32)arg0, 3, (s32)&stack.sp8, 0xFA, (f32)0.5f);
         }
@@ -456,13 +456,13 @@ u8 *TPhotonGolla__ct(u8 *arg0, u8 *arg1) {
     switch (get_current_floor_area()) {
     case AREA_DRAGON: case AREA_DE_ROL_LE: case AREA_VOL_OPT: case AREA_DARK_FALZ:
     case AREA_GAL_GRYPHON: case AREA_OLGA_FLOW: case AREA_BARBA_RAY: case AREA_GOL_DRAGON:
-        p = (void *)(u32)TObject::operator new(0xAC);
+        p = (void *)TObject::operator new(0xAC);
         if (p != NULL) {
             ((u8 *(*)(void *, void *, void *, int)) TPhotonRainbow__ct)(p, arg0, arg0 + 0x38, 1);
         }
         break;
     default:
-        p = (void *)(u32)TObject::operator new(0xAC);
+        p = (void *)TObject::operator new(0xAC);
         if (p != NULL) {
             ((u8 *(*)(void *, void *, void *, int)) TPhotonRainbow__ct)(p, arg0, arg0 + 0x38, 0);
         }
@@ -486,7 +486,7 @@ u8 *TPhotonGolla__ct(u8 *arg0, u8 *arg1) {
             VecCopy((Vec *)&pos, (const Vec *)(e + 0x38));
         }
         pos.y += 3e+01f;
-        p = (void *)(u32)TObject::operator new(0xD0);
+        p = (void *)TObject::operator new(0xD0);
         if (p != NULL) {
             TPhotonMagicSquare__ct((u8 *)p, (s32)arg0, 3, (s32)&pos, 0x96, (f32)0.5f);
         }

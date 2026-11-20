@@ -152,7 +152,7 @@ void TPhotonFarlla::run_task() {
     s32 temp_r3_3;
     s32 temp_r3_4;
     s32 temp_r3_5;
-    u32 photon_magic_square;
+    uaddr photon_magic_square;
     *(s32 *)&this->unk_1A4 = (s32) (*(s32 *)&this->unk_1A4 + 1);
     if (((s32) *(s32 *)&this->unk_1A4 == 0x32) && ((s32) this->m_1a0 == 0)) {
         this->m_1a0 = 1;
@@ -161,7 +161,7 @@ void TPhotonFarlla::run_task() {
             VecCopy((Vec *)(&stack.sp20), (const Vec *)(entity + 0x38));
             stack.sp24 += 3e+01f;
         }
-        photon_magic_square = (u32)TObject::operator new(0xD0);
+        photon_magic_square = (uaddr)TObject::operator new(0xD0);
         if (photon_magic_square != 0U) {
             construct_photon_magic_square_normal((u8 *)photon_magic_square, (s32)arg0, 0, (s32)&stack.sp20, 0x78);
         }
@@ -302,13 +302,13 @@ u8 *TPhotonFarlla__ct(u8 *arg0, u8 *arg1) {
     switch (get_current_floor_area()) {
     case AREA_DRAGON: case AREA_DE_ROL_LE: case AREA_VOL_OPT: case AREA_DARK_FALZ:
     case AREA_GAL_GRYPHON: case AREA_OLGA_FLOW: case AREA_BARBA_RAY: case AREA_GOL_DRAGON:
-        p = (void *)(u32)TObject::operator new(0xAC);
+        p = (void *)TObject::operator new(0xAC);
         if (p != NULL) {
             ((u8 *(*)(void *, void *, void *, int)) TPhotonRainbow__ct)(p, arg0, arg0 + 0x38, 1);
         }
         break;
     default:
-        p = (void *)(u32)TObject::operator new(0xAC);
+        p = (void *)TObject::operator new(0xAC);
         if (p != NULL) {
             ((u8 *(*)(void *, void *, void *, int)) TPhotonRainbow__ct)(p, arg0, arg0 + 0x38, 0);
         }
@@ -330,7 +330,7 @@ u8 *TPhotonFarlla__ct(u8 *arg0, u8 *arg1) {
             VecCopy((Vec *)&pos, (const Vec *)(e + 0x38));
             pos.y += 3e+01f;
         }
-        p = (void *)(u32)TObject::operator new(0xD0);
+        p = (void *)TObject::operator new(0xD0);
         if (p != NULL) {
             construct_photon_magic_square_normal((u8 *)p, (s32)arg0, 0, (s32)&pos, 0x78);
         }

@@ -190,13 +190,13 @@ void TBoss7PhotonPad::render() {  }
 void TBoss7PhotonPad::run_task() {
     Pad_802EF604 *self = (Pad_802EF604 *)this;
     s32 st;
-    u32 p;
+    uaddr p;
 
     self->timer--;
     if (self->timer <= 0) {
         st = TBoss7Joint::get_state();
         if (st != 0) {
-            p = (u32)TObject::operator new(0xF8);
+            p = (uaddr)TObject::operator new(0xF8);
             if (p != 0) {
                 ((s32 (*)(void *, void *, s32, s32, void *, f32))TBoss7PhotonBullet__ct)((void *)p, self->parent, st, self->unk1C, self->pos, 1.5f * boss7_photon_bullet_level_table[self->level].d);
             }

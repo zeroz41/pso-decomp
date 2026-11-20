@@ -470,12 +470,12 @@ s32 TBoss6MagMine__ct(s32 arg0, s32 parent, s32 arg2) {
 #pragma pop
 
 s32 create__13TBoss6MagMineFi(s32 arg0) {
-    s32 var_r31;
-    s32 parent;
+    saddr var_r31;
+    saddr parent;
 
-    var_r31 = (s32)TObject::operator new(0x3B4);
+    var_r31 = (saddr)TObject::operator new(0x3B4);
     if (var_r31 != 0) {
-        parent = (s32)TObject::operator new(0x20);
+        parent = (saddr)TObject::operator new(0x20);
         if (parent != 0) {
             parent = __ct__11TObjControlFP7TObject(parent, tl_04);
         }

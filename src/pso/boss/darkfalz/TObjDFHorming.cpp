@@ -1039,12 +1039,12 @@ void TBoss4DarkFalz::load_resources() {
 }
 
 s32 TBoss4DarkFalz::create(s32 arg0) {
-    s32 var_r31;
-    s32 var_r4;
+    saddr var_r31;
+    saddr var_r4;
 
-    var_r31 = (s32)TObject::operator new(0x3AC);
+    var_r31 = (saddr)TObject::operator new(0x3AC);
     if (var_r31 != 0) {
-        var_r4 = (s32)TObject::operator new(0x20);
+        var_r4 = (saddr)TObject::operator new(0x20);
         if (var_r4 != 0) {
             var_r4 = __ct__11TObjControlFP7TObject(var_r4, tl_04);
         }

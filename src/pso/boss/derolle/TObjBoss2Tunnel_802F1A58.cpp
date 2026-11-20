@@ -311,13 +311,13 @@ void TUnk_804E4B3C::update_spawn_timer(s32 arg1, s32 arg2, s32 arg3) {
 void TUnk_804E4B3C::update_dust_spawn() {
     u8 *arg0 = (u8 *)this;
     Vec v;
-    u32 p;
+    uaddr p;
     *(s32 *)((s8 *)arg0 + 0x74) = *(s32 *)((s8 *)arg0 + 0x74) - 1;
     if (*(s32 *)((s8 *)arg0 + 0x74) <= 0) {
         v.x = 200.0f * rand_signed_unit();
         v.y = 90.0f * (3.0517578125e-05f * (f32)rand()) + 10.0f;
         v.z = 600.0f;
-        p = (u32)TObject::operator new(0x30);
+        p = (uaddr)TObject::operator new(0x30);
         if (p != 0U) {
             __ct__13TObjBoss7DustFv((u8 *)p, (s32)tl_05, (s32)&v);
         }

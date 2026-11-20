@@ -115,7 +115,7 @@ void TPhotonEstlla::spawn_line() {
     Owner_801AA710 *owner;
     Vec forward;
     Vec direction;
-    u32 line;
+    uaddr line;
     owner = (Owner_801AA710 *)find_entity_by_id(this->m_17c);
     forward.x = 0.0f;
     forward.y = 0.0f;
@@ -131,7 +131,7 @@ void TPhotonEstlla::spawn_line() {
         packet.pos = self->pos;
         packet.dir = direction;
         packet.pad_1C = this->m_150;
-        line = (u32)TObject::operator new(0x378);
+        line = (uaddr)TObject::operator new(0x378);
         if (line) {
             TPhotonLine__ct((void *)line, &packet, self, this->m_17c);
         }
@@ -172,7 +172,7 @@ void TPhotonEstlla::run_task() {
     u8 *arg0 = (u8 *)this;
     Vec stack;
     f32 temp_f1;
-    u32 photon_magic_square;
+    uaddr photon_magic_square;
     u8 *entity;
     *(s32 *)&this->m_1a0 = (s32) (*(s32 *)&this->m_1a0 + 1);
     if (((s32) *(s32 *)&this->m_1a0 == 0x32) && ((s32) *(s32 *)&this->m_19c == 0)) {
@@ -183,7 +183,7 @@ void TPhotonEstlla::run_task() {
             stack.y = 3e+01f + *(f32 *)((s8 *)entity + 0x3C);
             stack.z = *(f32 *)((s8 *)entity + 0x40);
         }
-        photon_magic_square = (u32)TObject::operator new(0xD0);
+        photon_magic_square = (uaddr)TObject::operator new(0xD0);
         if (photon_magic_square != 0U) {
             construct_photon_magic_square_normal((u8 *)photon_magic_square, (s32)arg0, 1, (s32)&stack.x, 0x78);
         }
@@ -259,13 +259,13 @@ TPhotonEstlla::TPhotonEstlla(u8 *arg1) : TUnk_804C3248() {
     switch (get_current_floor_area()) {
     case AREA_DRAGON: case AREA_DE_ROL_LE: case AREA_VOL_OPT: case AREA_DARK_FALZ:
     case AREA_GAL_GRYPHON: case AREA_OLGA_FLOW: case AREA_BARBA_RAY: case AREA_GOL_DRAGON:
-        p = (void *)(u32)TObject::operator new(0xAC);
+        p = (void *)TObject::operator new(0xAC);
         if (p != NULL) {
             ((u8 *(*)(void *, void *, void *, int)) TPhotonRainbow__ct)(p, this, ((u8 *)this) + 0x38, 1);
         }
         break;
     default:
-        p = (void *)(u32)TObject::operator new(0xAC);
+        p = (void *)TObject::operator new(0xAC);
         if (p != NULL) {
             ((u8 *(*)(void *, void *, void *, int)) TPhotonRainbow__ct)(p, this, ((u8 *)this) + 0x38, 0);
         }
@@ -288,7 +288,7 @@ TPhotonEstlla::TPhotonEstlla(u8 *arg1) : TUnk_804C3248() {
             pos.y = 3e+01f + *(f32 *)((s8 *)e + 0x3C);
             pos.z = *(f32 *)((s8 *)e + 0x40);
         }
-        p = (void *)(u32)TObject::operator new(0xD0);
+        p = (void *)TObject::operator new(0xD0);
         if (p != NULL) {
             construct_photon_magic_square_normal((u8 *)p, (s32)this, 1, (s32)&pos, 0x78);
         }

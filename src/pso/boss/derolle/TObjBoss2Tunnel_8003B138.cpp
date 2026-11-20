@@ -491,7 +491,7 @@ s32 TObjBoss2Tunnel__sub_8003C1C8(void) {
 void TObjBoss2Tunnel::update_particles() {
     f32 t;
     s32 i;
-    u32 r;
+    uaddr r;
     u32 p;
     if (((S_8003C108 *)this)->f20 < boss2_tunnel_max_scroll_speed) {
         t = (-5.0f) * (((S_8003C108 *)this)->f20 / boss2_tunnel_max_scroll_speed);
@@ -501,7 +501,7 @@ void TObjBoss2Tunnel::update_particles() {
     for (i = 0; i < 4; i++) {
         p = ((S_8003C108 *)this)->ptr[i];
         if (p == 0) {
-            r = ((s32)TAdLoadQuestPrtTxtGC::create_particle(&boss2_tunnel_particle_pos_table[i], 0x171, 1));
+            r = ((uaddr)TAdLoadQuestPrtTxtGC::create_particle(&boss2_tunnel_particle_pos_table[i], 0x171, 1));
             if (r != 0) {
                 ((TParticleCtrl *)r)->enable();
                 ((S_8003C108 *)this)->ptr[i] = r;

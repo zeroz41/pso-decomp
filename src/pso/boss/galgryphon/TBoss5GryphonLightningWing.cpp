@@ -110,7 +110,7 @@ s32 __ct__26TBoss5GryphonLightningWingFv(int arg0, void *arg1, void *a, void *mi
 s32 spawn_lightning_wing__12TBoss8DragonFiiiiii(s32 arg0, s32 arg1, s32 mid, s32 arg3, s32 arg4, s32 arg5) {
     Vec position;
     f32 ground_height;
-    s32 allocation;
+    saddr allocation;
     s32 effect;
     u8* collision;
     VecCopy(&position, (const Vec *)arg3);
@@ -125,7 +125,7 @@ s32 spawn_lightning_wing__12TBoss8DragonFiiiiii(s32 arg0, s32 arg1, s32 mid, s32
             position.y = ground_height;
         }
     }
-    allocation = (s32)TObject::operator new(0xA0);
+    allocation = (saddr)TObject::operator new(0xA0);
     effect = allocation;
     if (effect != 0) {
         effect = __ct__26TBoss5GryphonLightningWingFv(allocation, (void *)((void*)arg0), (void *)((void*)arg1), (void *)((void*)mid), &position, (void *)((void*)arg4), (void *)((void*)arg5));

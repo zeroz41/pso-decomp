@@ -91,8 +91,8 @@ u8 *construct_item_follow_effect(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg
     return arg0;
 }
 void spawn_item_follow_effect(s32 arg0, u32 arg1, s32 arg2, s32 arg3) {
-    u32 obj;
-    if ((arg0 != 0) && (arg1 != 0U) && ((obj = (u32)TObject::operator new(0x2C)) != 0U)) {
+    uaddr obj;
+    if ((arg0 != 0) && (arg1 != 0U) && ((obj = (uaddr)TObject::operator new(0x2C)) != 0U)) {
         construct_item_follow_effect((u8 *)obj, (s32)arg0, (s32)arg1, (s32)arg2, (s32)arg3);
     }
 }

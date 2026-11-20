@@ -516,7 +516,7 @@ TTecSlicer::~TTecSlicer() {
 #pragma opt_loop_invariants off
 TTecSlicer::TTecSlicer(u16 *launch, void *player, Vec *position, int angle) : TObjBase((TObject *)tl_05) {
     s32 c;
-    s32 ext;
+    saddr ext;
     s32 i;
     s32 e;
     self->name = TTecSlicer__name;
@@ -547,7 +547,7 @@ TTecSlicer::TTecSlicer(u16 *launch, void *player, Vec *position, int angle) : TO
     VecCopy((Vec *)((s32)self + 0x9C), (const Vec *)((s32)self + 0x38));
     VecCopy((Vec *)((s32)self + 0xA8), (const Vec *)((s32)self + 0x38));
     self->fbc = 0.0f;
-    ext = ((s32)((TObjPlayer *)self->f10c)->get_extended_state());
+    ext = ((saddr)((TObjPlayer *)self->f10c)->get_extended_state());
     if (ext != 0) {
         if (get_captured_target_count(ext) == 0) {
             ((FlagWord *)((s32)self->fwd))->set(1);

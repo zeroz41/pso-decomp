@@ -1022,7 +1022,7 @@ void build_tables__14TBoss6PlotFalzFPvPvi(Obj_8004AA80 *arg0, Rec_8004AA80 *arg1
     s32 i;
     Rec_8004AA80 *r;
     s32 t;
-    s32 p;
+    saddr p;
     s32 j;
     h = TObjFish::get_fish_count();
     if (h == 0 || arg1 == NULL || arg2 < 1) {
@@ -1041,7 +1041,7 @@ void build_tables__14TBoss6PlotFalzFPvPvi(Obj_8004AA80 *arg0, Rec_8004AA80 *arg1
         t = (s32)find_model_node(get_bml_model((BmlResource *)h, r->a), r->b);
         p = (s32)::operator new(0x14);
         if (p != 0) {
-            p = ((s32)((TLobby *)p)->alloc_tables(t, r->c));
+            p = ((saddr)((TLobby *)p)->alloc_tables(t, r->c));
         }
         arg0->items[i] = p;
     }
@@ -1272,9 +1272,9 @@ TBoss6PlotFalz::~TBoss6PlotFalz() {
 #pragma opt_common_subs off
 TBoss6PlotFalz::TBoss6PlotFalz(TObject *parent, void *set_data) : TObjEnemy(parent) {
     Loc_802AC9EC sp8;
-    s32 temp_r30;
-    s32 temp_r29;
-    s32 temp_r6;
+    saddr temp_r30;
+    saddr temp_r29;
+    saddr temp_r6;
 
     m_name = TBoss6PlotFalz__name;
     sub_802AAC98();
@@ -1293,9 +1293,9 @@ TBoss6PlotFalz::TBoss6PlotFalz(TObject *parent, void *set_data) : TObjEnemy(pare
     *(f32 *)((s8 *)this + 0x30C) = 0.0f;
     *(f32 *)((s8 *)this + 0x308) = 0.0f;
     *(s32 *)((s8 *)this + 0x2A8) = 0;
-    temp_r30 = ((s32)TLobby::register_boss(0x2C));
-    temp_r29 = ((s32)TLobby::dispatch_shared_handler_b(0x2C));
-    temp_r6 = ((s32)TLobby::register_object(0x2C));
+    temp_r30 = ((saddr)TLobby::register_boss(0x2C));
+    temp_r29 = ((saddr)TLobby::dispatch_shared_handler_b(0x2C));
+    temp_r6 = ((saddr)TLobby::register_object(0x2C));
     bind_enemy_combat_stats((u8 *)temp_r30, (u8 *)temp_r29, (u8 *)temp_r6);
     register_entity_by_id((u8 *)this);
     actorFlags = (s32) (actorFlags | 0x02000000);

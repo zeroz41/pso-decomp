@@ -136,9 +136,9 @@ void deliver_delayed_weapon_hit(u8 *arg0) {
 }
 void spawn_item_attacker(s32 arg0, u32 arg1, s32 arg2, u8 *arg3);
 void spawn_item_attacker(s32 arg0, u32 arg1, s32 frames, u8 *arg3) {
-    s32 object;
+    saddr object;
     if ((arg0 != 0) && (arg3 != NULL) && (arg1 != 0U) && ((u16) *(u16 *)((s8 *)arg3 + 0xC) != 65535U) && ((u16) *(u16 *)((s8 *)arg3 + 0xE) != 65535U)) {
-        object = (s32)TObject::operator new(0x50);
+        object = (saddr)TObject::operator new(0x50);
         if (object != 0) {
             object = (s32)__ct__13TItemAttackerFllll((u8 *)object, (s32)arg0, (s32)arg1, (s32)frames, (s32)arg3);
         }
@@ -175,7 +175,7 @@ void TItemAttacker::copy_from(void *arg1) {
 void TItemAttacker::spawn_item_timer(TObject *object, ItemTimerCallback expire, s32 frames) {
     void *item_timer;
     if (object != NULL) {
-        item_timer = (void *)(s32)TObject::operator new(0x28);
+        item_timer = (void *)TObject::operator new(0x28);
         if (item_timer != NULL) {
             TItemTimer__ct((u8 *)item_timer, (s32)object, (s32)expire, frames);
         }

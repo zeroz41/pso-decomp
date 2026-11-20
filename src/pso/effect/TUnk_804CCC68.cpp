@@ -201,7 +201,7 @@ TUnk_804CCC68::TUnk_804CCC68(s32 arg1, u8 *arg2, u8 *arg3, s32 arg4) : TEffect()
     f32 dy;
     f64 t;
     s32 ang;
-    u32 var_r0;
+    uaddr var_r0;
     ((TObjPlayer *)(((u8 *)this) + 0x84))->register_object();
     this->sourceId = 0xFFFF;
     dx = *(f32 *)((s8 *)arg3 + 0) - *(f32 *)((s8 *)arg2 + 0);
@@ -260,7 +260,7 @@ TUnk_804CCC68::TUnk_804CCC68(s32 arg1, u8 *arg2, u8 *arg3, s32 arg4) : TEffect()
     } else {
         this->collisionBody.flags = 0x40007;
     }
-    var_r0 = (u32)TObject::operator new(0xAC);
+    var_r0 = (uaddr)TObject::operator new(0xAC);
     if (var_r0 != 0U) {
         var_r0 = __ct__14TObjCollidableFP7TObject(var_r0, this);
     }
@@ -273,7 +273,7 @@ TUnk_804CCC68::TUnk_804CCC68(s32 arg1, u8 *arg2, u8 *arg3, s32 arg4) : TEffect()
 // The facing form: the technique starts at `pos` and flies along the y angle
 // `angle` instead of towards a target point.
 TUnk_804CCC68::TUnk_804CCC68(s32 source, Vec *pos, s32 angle, s32 level) : TEffect() {
-    u32 var_r0;
+    uaddr var_r0;
     ((TObjPlayer *)(((u8 *)this) + 0x84))->register_object();
     this->sourceId = 0xFFFF;
     this->position.x = pos->x;
@@ -327,7 +327,7 @@ TUnk_804CCC68::TUnk_804CCC68(s32 source, Vec *pos, s32 angle, s32 level) : TEffe
     } else {
         this->collisionBody.flags = 0x40007;
     }
-    var_r0 = (u32)TObject::operator new(0xAC);
+    var_r0 = (uaddr)TObject::operator new(0xAC);
     if (var_r0 != 0U) {
         var_r0 = __ct__14TObjCollidableFP7TObject(var_r0, this);
     }

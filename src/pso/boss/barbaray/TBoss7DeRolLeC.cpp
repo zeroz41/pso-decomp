@@ -1597,7 +1597,7 @@ void TBoss7DeRolLeC::run_task() {
         this->unk_628 = (s32) (temp_r3 & 0xFFFFFF7F);
         this->unk_628 = (s32) (this->unk_628 | 0x40);
         {
-            void *p = (void *) (u32)TObject::operator new(0x3C);
+            void *p = (void *)TObject::operator new(0x3C);
             if (p != NULL) {
                 ((TObjPlayer *)p)->init_breakup_pieces(this, (s32)this->unk_6D4);
             }
@@ -3443,7 +3443,7 @@ void TObjFish__sub_802E9DBC(u8 *arg0, u32 arg1, s32 arg2) {
                 }
                 TObjFish::set_effect_target_position(self, (void *) 0x3A107, self->eff);
                 {
-                    u32 o = (u32)TObject::operator new(0x60);
+                    uaddr o = (uaddr)TObject::operator new(0x60);
                     if (o != 0) {
                         TBoss7LaserPtcl__sub_8035AE54((u8 *)o, (s32)self, (s32)&self->p4DC);
                     }
@@ -3841,7 +3841,7 @@ void TBoss7LaserPtcl__sub_802E8FCC(u8 *arg0, u32 arg1) {
     CopyStack_802E8FCC copy_storage_802E8FCC;
     struct { f32 v[3]; } sp8;
     s32 temp_r4_2;
-    u32 boss7_laser_ptcl;
+    uaddr boss7_laser_ptcl;
     u8 *temp_r30;
     u8 *src;
     u8 *temp_r3;
@@ -3901,7 +3901,7 @@ void TBoss7LaserPtcl__sub_802E8FCC(u8 *arg0, u32 arg1) {
                 if ((u32) *(u32 *)((s8 *)arg0 + 0x7A8) != 0U) {
                     ((TObject *)(*(void **)((s8 *)arg0 + 0x7A8)))->queue_destruction();
                 }
-                boss7_laser_ptcl = (u32)TObject::operator new(0x58);
+                boss7_laser_ptcl = (uaddr)TObject::operator new(0x58);
                 if (boss7_laser_ptcl != 0U) {
                     boss7_laser_ptcl = (u32)TBoss7LaserPtcl__ct((u8 *)boss7_laser_ptcl, (u8 *)arg0, (u8 *)((u8 *)arg0 + 0x4DC), (u8 *)temp_r30);
                 }

@@ -300,13 +300,13 @@ s32 TUnk_804A4948::send_srank_stat_extra(u32 arg1, s32 arg2) {
     }
 }
 void TUnk_804A4948::send_srank_stat_extra_to_locks() {
-  s32 st;
+  saddr st;
   s32 i;
   s32 e;
   u16 uid;
   s32 r;
   s32 v;
-  st = ((s32)((TObjPlayer *)(((Pl_8012A470 *)this)->f0))->get_extended_state());
+  st = ((saddr)((TObjPlayer *)(((Pl_8012A470 *)this)->f0))->get_extended_state());
   if (st != 0)
   {
     for (i = 0; i != get_captured_target_count((s32 *)((((((((((((st & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF) & 0xFFFFFFFFFFFFFFFF)); i++)

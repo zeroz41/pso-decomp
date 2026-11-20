@@ -55,10 +55,10 @@ u8 *TObjBoss5PillarDemo__ct(TObjBoss5PillarDemo *boss5_pillar_demo, s32 arg1, s3
 
 s32 TObjBoss5PillarDemo::create() {
     s32 temp_r31;
-    s32 boss5_pillar_demo;
+    saddr boss5_pillar_demo;
     s32 var_r0;
     temp_r31 = *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&lbl_805D4DD8) + 0x42C)) + 0x38);
-    boss5_pillar_demo = (s32)TObject::operator new(0x4C);
+    boss5_pillar_demo = (saddr)TObject::operator new(0x4C);
     var_r0 = boss5_pillar_demo;
     if (var_r0 != 0) {
         var_r0 = ((s32)TObjBoss5PillarDemo__ct((TObjBoss5PillarDemo *)((u8 *)boss5_pillar_demo), (s32)tl_02, temp_r31 + 8));

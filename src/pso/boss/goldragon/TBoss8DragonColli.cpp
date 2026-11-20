@@ -78,9 +78,9 @@ int push_matrix(void*);
 
 u8 *TBoss8DragonColli__ct(u8 *object, s32 arg1) {
     Vec stack;
-    s32 temp_r3;
-    s32 temp_r3_2;
-    s32 temp_r3_3;
+    saddr temp_r3;
+    saddr temp_r3_2;
+    saddr temp_r3_3;
     s32 var_r0;
     s32 var_r0_2;
     s32 var_r0_3;
@@ -90,7 +90,7 @@ u8 *TBoss8DragonColli__ct(u8 *object, s32 arg1) {
     stack.x = 0.0f;
     stack.y = 0.0f;
     stack.z = 0.0f;
-    temp_r3 = (s32)TObject::operator new(0xB8);
+    temp_r3 = (saddr)TObject::operator new(0xB8);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = init_collision_segments__17TBoss8DragonColliFiPviPvf(temp_r3, object, 1, &stack.x, 25.0f);
@@ -99,7 +99,7 @@ u8 *TBoss8DragonColli__ct(u8 *object, s32 arg1) {
     stack.x = -4.0f;
     stack.y = 0.0f;
     stack.z = 40.0f;
-    temp_r3_2 = (s32)TObject::operator new(0xB8);
+    temp_r3_2 = (saddr)TObject::operator new(0xB8);
     var_r0_2 = temp_r3_2;
     if (var_r0_2 != 0) {
         var_r0_2 = init_collision_segments__17TBoss8DragonColliFiPviPvf(temp_r3_2, object, 3, &stack.x, 10.0f);
@@ -108,7 +108,7 @@ u8 *TBoss8DragonColli__ct(u8 *object, s32 arg1) {
     stack.x = -4.0f;
     stack.y = 0.0f;
     stack.z = -100.0f;
-    temp_r3_3 = (s32)TObject::operator new(0xB8);
+    temp_r3_3 = (saddr)TObject::operator new(0xB8);
     var_r0_3 = temp_r3_3;
     if (var_r0_3 != 0) {
         var_r0_3 = init_collision_segments__17TBoss8DragonColliFiPviPvf(temp_r3_3, object, 5, &stack.x, 10.0f);

@@ -639,12 +639,12 @@ void TBoss6Type1::apply_poison_status() {  }
 #pragma push
 #pragma opt_propagation off
 s32 TBoss6Type1::create(s32 arg2_) {
-    s32 arg0_;
-    s32 var_r4;
+    saddr arg0_;
+    saddr var_r4;
 
-    arg0_ = (s32)TObject::operator new(0x684);
+    arg0_ = (saddr)TObject::operator new(0x684);
     if (arg0_ != 0) {
-        var_r4 = (s32)TObject::operator new(0x20);
+        var_r4 = (saddr)TObject::operator new(0x20);
         if (var_r4 != 0) {
             var_r4 = __ct__11TObjControlFP7TObject(var_r4, tl_04);
         }

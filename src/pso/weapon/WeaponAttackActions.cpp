@@ -318,7 +318,7 @@ void TItemWeapon::spawn_light_task() {
     Obj_8011E3E8 *arg0 = (Obj_8011E3E8 *)this;
     A12_8011E3E8 a = lbl_8043E838[0];
     A16_8011E3E8 b = lbl_8043E844[0];
-    u32 p = (u32)TObject::operator new(0x64);
+    uaddr p = (uaddr)TObject::operator new(0x64);
     if (p != 0) {
         ((void (*)(f32, u32, void *, void *, s32, s32, s32))construct_actor_light_task)(0.2f, p, &b, &a, 1, arg0->f0, (s32)tl_07);
     }

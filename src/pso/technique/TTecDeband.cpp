@@ -105,15 +105,15 @@ void TTecDeband::vfunc_7(void *arg1_arg) {
 }
 
 void TTecDeband::create(s32 owner, s32 pos, s32 arg2, s32 level) {
-    u32 obj;
-    obj = (u32)TObject::operator new(0x140);
+    uaddr obj;
+    obj = (uaddr)TObject::operator new(0x140);
     if (obj != 0U) {
         TTecDeband__ct(obj, owner, pos, arg2, level);
     }
 }
 void TTecDeband::create(s32 owner, s32 pos, s32 level) {
-    u32 obj;
-    obj = (u32)TObject::operator new(0x140);
+    uaddr obj;
+    obj = (uaddr)TObject::operator new(0x140);
     if (obj != 0U) {
         TTecDeband__sub_8022F948((TTecDeband *)((u8 *)obj), (s32)((s32)owner), (s32)((s32)pos), (s32)((s32)level));
     }

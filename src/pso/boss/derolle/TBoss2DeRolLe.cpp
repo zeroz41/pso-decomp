@@ -3851,7 +3851,7 @@ void free_laser__13TBoss2DeRolLeFPv(void *arg0) {
 
 void pick_random_target__13TBoss2DeRolLeFi(s32 actor) {
     s32 n;
-    s32 p;
+    saddr p;
     s32 j;
     s32 i;
 
@@ -3861,14 +3861,14 @@ void pick_random_target__13TBoss2DeRolLeFi(s32 actor) {
         return;
     }
     if (n == 1) {
-        p = ((int)TObjPlayer::get_player_data(0));
+        p = ((saddr)TObjPlayer::get_player_data(0));
         ((TObjEneDD_ST *)actor)->set_target_player((void *)p);
         return;
     }
     j = (s32) floor_to_float((f32) n * ((TObjChara *)actor)->random_ratio());
     enemy_clear_target__12TObjEneDD_STFUs((void *)actor);
     for (i = 0; i < n; i++) {
-        p = ((int)TObjPlayer::get_player_data(j));
+        p = ((saddr)TObjPlayer::get_player_data(j));
         if (is_alive__8TObjBaseFv() != 0) {
             ((TObjEneDD_ST *)actor)->set_target_player((void *)p);
             return;

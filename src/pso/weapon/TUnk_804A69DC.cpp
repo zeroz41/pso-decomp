@@ -62,12 +62,12 @@ s32 create_shoot_model__10TObjPlayerFiiif(s32 arg0, s32 arg1, s32 arg2, f32 farg
 void TObjPlayer__sub_801307D0(void *arg0);
 
 s32 create_shoot_model__10TObjPlayerFiiif(s32 arg0, s32 arg1, s32 arg2, f32 farg0) {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 var_r0;
     s32 var_r3;
     var_r3 = 0;
     if (arg0 != 0) {
-        temp_r3 = (s32)TObject::operator new(0x6C);
+        temp_r3 = (saddr)TObject::operator new(0x6C);
         var_r0 = temp_r3;
         if (var_r0 != 0) {
             var_r0 = init_shoot_model__13TUnk_804A69C0Fv((int)temp_r3, (void *)arg0, (void *)arg1, (void *)arg2, (f32)farg0);
