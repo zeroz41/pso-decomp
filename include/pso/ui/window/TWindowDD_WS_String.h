@@ -8,7 +8,7 @@ public:
     virtual ~TWindowDD_WS_String();
     virtual void run_task();
     virtual void render();
-    void draw(s32, s32, f32);
+    void draw(saddr, s32, f32);
     void init_and_set_field50(void *arg1);
     void update_position(s32 arg1);
     void set_first_entry_text(u32 str);

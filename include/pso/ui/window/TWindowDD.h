@@ -136,8 +136,8 @@ struct TWindowDD : public TObject
     static void show_message_by_count(s32 arg0, saddr arg1);
     void maybe_scroll(void* a1);
     s32 count_chars_since_newline(s32 *len);
-    static void append_char(s8 arg0, s32 arg1, s32 *arg2);
-    static void append_string(s32 arg0, s32 arg1, s32 *arg2);
+    static void append_char(s8 arg0, saddr arg1, s32 *arg2);
+    static void append_string(saddr arg0, saddr arg1, s32 *arg2);
     void copy_point_table(s32 idx);
     static s32 get_draw_count(void **arg0);
     static saddr get_entry(s32 arg0);

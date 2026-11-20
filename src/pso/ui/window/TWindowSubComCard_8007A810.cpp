@@ -71,7 +71,7 @@ struct ByteBlock_6C { u8 bytes[0x6C]; };
 
 extern "C" {
 struct S_8007AA70;
-s32 forward_return_arg__17TWindowSubComCardFi(s32, S_8007AA70 *);
+s32 forward_return_arg__17TWindowSubComCardFi(saddr, S_8007AA70 *);
 
 void TWindowSubComCard::swap_cards(s32 arg0, s32 arg1) {
     s32 sp8[64];
@@ -120,7 +120,7 @@ struct S_8007AA70 {
 extern "C" {
 int copy_struct__17TWindowSubComCardFPvPv(S_8007AA70 *, S_8007AA70 *);
 
-s32 forward_return_arg__17TWindowSubComCardFi(s32 arg0, S_8007AA70 * _w1) {
+s32 forward_return_arg__17TWindowSubComCardFi(saddr arg0, S_8007AA70 * _w1) {
     copy_struct__17TWindowSubComCardFPvPv((S_8007AA70 *)(arg0), (S_8007AA70 *)(_w1));
     return arg0;
 }

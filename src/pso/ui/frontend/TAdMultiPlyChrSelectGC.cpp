@@ -64,7 +64,7 @@ saddr create_window_menu(s32 arg0, s32 arg1, s32 arg2);
 extern s32 lbl_80472890[];
 extern u8 lbl_80472898[];
 extern u8 player_number_text_buffer[];
-s32 TAdMultiPlyChrSelectGC__sub_802DFFE8(s32);
+s32 TAdMultiPlyChrSelectGC__sub_802DFFE8(saddr);
 s32 TAdMultiPlyChrSelectGC__sub_802DC294(TAdMultiPlyChrSelectGC *arg0, s32 arg1);
 s32 copy_selected_characters__23TAdSinglePlyChrSelectGCFPv(void *);
 }
@@ -106,7 +106,7 @@ void create_effects__14TAdGameStartGCFPv(u8 *parent);
 
 s32 is_multiplayer_character_slot_selected(s32);
 extern "C" {
-void TAdMultiPlyChrSelectGC__sub_802E0024(s32, u32);
+void TAdMultiPlyChrSelectGC__sub_802E0024(saddr, u32);
 s32 get_card_index__22TAdMultiPlyChrSelectGCFv(s32, s32);
 extern s32 lbl_80472870[];
 extern s32 lbl_80472878[];
@@ -428,7 +428,7 @@ int TAdMultiPlyChrSelectGC::get_card_instance() {  return (saddr)ad_chr_sel_ply_
 
 s32 TAdMultiPlyChrSelectGC::get_card_index() { return *(s32*)((char*)this + 0x4e8); }
 
-void TAdMultiPlyChrSelectGC__sub_802E0024(s32 arg0, u32 v) {
+void TAdMultiPlyChrSelectGC__sub_802E0024(saddr arg0, u32 v) {
     O_802DFFE8 *self = (O_802DFFE8 *)arg0;
     self->tbl[multi_ply_chr_select_active_player][self->idx] = v;
 }
@@ -439,7 +439,7 @@ s32 TAdMultiPlyChrSelectGC::get_cursor() { return *(s32*)((char*)this + 0x4ec); 
 
 void TAdMultiPlyChrSelectGC::set_state_ready() { *(s32*)((char*)this + 0x4fc) = 1; }
 
-s32 TAdMultiPlyChrSelectGC__sub_802DFFE8(s32 arg0) {
+s32 TAdMultiPlyChrSelectGC__sub_802DFFE8(saddr arg0) {
     O_802DFFE8 *self = (O_802DFFE8 *)arg0;
     return self->tbl[multi_ply_chr_select_active_player][self->idx];
 }

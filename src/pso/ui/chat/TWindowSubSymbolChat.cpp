@@ -873,7 +873,7 @@ s32 TWindowSubSymbolChat__sub_8028233C(s32 arg0) {
     return r;
 }
 
-void TWindowSubSymbolChat::open_menu(s32 arg0, s32 arg1) {
+void TWindowSubSymbolChat::open_menu(s32 arg0, saddr arg1) {
     ((TWindowSubComCardList *)arg1)->reset_entries();
     if (refresh_parts__20TWindowSubSymbolChatFv() > 0) {
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)arg1, (saddr)(TWindowSubStatusDisp::get_message_10(0xAE)), 6, 0xC);

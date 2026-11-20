@@ -66,7 +66,7 @@ s16 TLobby__sub_80426EB8(PppoeSlot *e);
 s16 TLobby__sub_804270C0(u8 *self);
 PppoeSlot *TLobby__sub_80427B6C(u8 *p, u16 len);
 void TLobby__sub_80427378(PppoeSlot *e);
-s16 handle_pppoe_discovery_frame(s32, u16);
+s16 handle_pppoe_discovery_frame(saddr, u16);
 s16 TLobby__sub_80427988(PppoeSlot *e, u8 *p, u16 len);
 
 #define arg0 ((s32)argp)
@@ -495,7 +495,7 @@ inline s16 send_frame(PppoeSlot *e, u16 len) {
 }
 
 // PPPoE discovery receive: PADO (7) / PADS (0x65) / PADT (0xA7) by the code byte of the header.
-s16 handle_pppoe_discovery_frame(s32 frame, u16 frame_len) {
+s16 handle_pppoe_discovery_frame(saddr frame, u16 frame_len) {
     s16 ret = -1;
     u8 *base = (u8 *)frame + 0xe;
     u8 *sub = base + 6;

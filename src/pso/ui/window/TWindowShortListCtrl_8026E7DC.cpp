@@ -339,7 +339,7 @@ void *TWindowShortListCtrl::create_window(s32 arg1, s32 arg2_arg) {
     return window_menu;
 }
 
-void TWindowShortListCtrl::refresh_technique_rows(s32 arg1, void *arg2_arg) {
+void TWindowShortListCtrl::refresh_technique_rows(saddr arg1, void *arg2_arg) {
     const NJS_POINT2 *pos = (const NJS_POINT2 *)arg2_arg;
     s32 i;
     s16 cur;

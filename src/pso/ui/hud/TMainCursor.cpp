@@ -379,7 +379,7 @@ int clear__8FlagWordFUl(void*, int);
 
 }
 
-s32 TLockOnCursor__sub_8013EDC4(s32, s16);
+s32 TLockOnCursor__sub_8013EDC4(saddr, s16);
 
 extern "C" {
 
@@ -2118,7 +2118,7 @@ s32 TLockOnCursor__sub_8013ED68(saddr arg0, s16 arg1) {
     return arg0;
 }
 
-s32 TLockOnCursor__sub_8013EDC4(s32 obj, s16 flags) {
+s32 TLockOnCursor__sub_8013EDC4(saddr obj, s16 flags) {
     if ((obj != 0) && (flags > 0)) {
         __dl__FPv((void *)obj);
     }

@@ -396,7 +396,7 @@ void TAdRicoRingCtrl__sub_8001B4A0(Obj_8001B4A0 *self, f32 x) {
 
 #pragma push
 #pragma fp_contract on
-void TAdRicoRingCtrl::sub_8001B424(s32 arg1) {
+void TAdRicoRingCtrl::sub_8001B424(saddr arg1) {
     uaddr temp_r3;
     u8 *temp_r3_2;
     u8 *temp_r4;

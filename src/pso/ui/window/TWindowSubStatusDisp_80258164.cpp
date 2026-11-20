@@ -125,7 +125,7 @@ void text_builder_append(u8 *str);
 }
 void text_builder_reset(void);
 
-s32 replace_owned_string__20TWindowSubStatusDispFPviiii(void *, s32, s32, s32, s32);
+s32 replace_owned_string__20TWindowSubStatusDispFPviiii(void *, saddr, saddr, s32, s32);
 
 extern s32 lbl_805DCF00;
 
@@ -635,7 +635,7 @@ struct Quad_8025941C { f32 v[8]; };
 extern "C" {
 u32 calc_text_width(char *s);
 void set_text_draw_params(s32 arg0, s32 arg1, s32 arg2, f32 farg0, f32 farg1);
-void draw_item_list_icon(s32, u8 *, s32, s32, f32);
+void draw_item_list_icon(saddr, u8 *, s32, s32, f32);
 }
 s32 draw_window_text(f32 *pos, const char *s, s32 color, s32 mode, f32 width);
 extern const f32 lbl_805DCF14;
@@ -648,7 +648,7 @@ extern const f32 lbl_805DCF18;
 extern "C" {
 void calc_row_width__20TWindowSubStatusDispFv(Row_8025930C *arg0);
 s32 measure_string_len__20TWindowSubStatusDispFv(s32);
-s32 replace_owned_string__20TWindowSubStatusDispFPviiii(void *arg0, s32 src, s32 buf, s32 mask, s32 copy);
+s32 replace_owned_string__20TWindowSubStatusDispFPviiii(void *arg0, saddr src, saddr buf, s32 mask, s32 copy);
 #define is_wrapped__9TItemDataFPv ((s32 (*)(void *))is_wrapped__9TItemDataFPv)
 
 void TWindowSubStatusDisp::set_ground_item(void *it, s32 arg2) {
@@ -682,7 +682,7 @@ void TWindowSubStatusDisp::init_display(s32 src, s32 arg2) {
     *(u16 *)((s8 *)this + 0) = (u16) (*(u16 *)((s8 *)this + 0) | 0x45);
 }
 
-s32 replace_owned_string__20TWindowSubStatusDispFPviiii(void *arg0, s32 src, s32 buf, s32 mask, s32 copy) {
+s32 replace_owned_string__20TWindowSubStatusDispFPviiii(void *arg0, saddr src, saddr buf, s32 mask, s32 copy) {
     u16 *flags = (u16 *)arg0;
     s32 n;
     if (buf != 0 && (*flags & mask)) {
@@ -726,7 +726,7 @@ void begin_screen_draw(s32 arg0);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
 void draw_textured_quad_at_depth(f32 *q, f32 depth);
 
-void draw_item_list_icon(s32 win, u8 *pos, s32 icon, s32 style, f32 depth) {
+void draw_item_list_icon(saddr win, u8 *pos, s32 icon, s32 style, f32 depth) {
     Quad_8025941C q;
     ItemListPosition *p;
     f32 *entry;

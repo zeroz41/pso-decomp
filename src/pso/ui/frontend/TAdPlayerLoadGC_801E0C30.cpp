@@ -63,9 +63,9 @@ s32 lbl_805D5E3C;
 s32 TAdPlayerLoadGC__card_result_code;
     int lbl_805D5E44;
 extern "C" {
-s32 mount_memcard(s32);
+s32 mount_memcard(saddr);
 s32 CARDProbeEx(s32, s32 *, s32 *);
-s32 poll_memcard_result(s32);
+s32 poll_memcard_result(saddr);
 s32 CARDCheck(s32);
 s32 CARDFreeBlocks(s32, s32 *, s32 *);
 s32 CARDDelete();
@@ -242,7 +242,7 @@ s32 get_memcard_free_files(s32 chan) {
     return 0;
 }
 
-s32 mount_memcard(s32 chan) {
+s32 mount_memcard(saddr chan) {
     s32 memSize;
     s32 sectorSize;
     s32 result;
@@ -563,7 +563,7 @@ s32 start_memcard_read(s32 chan, const char *name, void *buf, u32 blocks) {
     return -0xF9;
 }
 
-s32 poll_memcard_result(s32 chan) {
+s32 poll_memcard_result(saddr chan) {
     s32 result;
     if (chan >= 2) {
         return 0;

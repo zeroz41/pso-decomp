@@ -831,7 +831,7 @@ s32 TWindowDD::count_chars_since_newline(s32 *len) {
     return n;
 }
 
-void TWindowDD::append_char(s8 arg0, s32 arg1, s32 *arg2) {
+void TWindowDD::append_char(s8 arg0, saddr arg1, s32 *arg2) {
     s32 temp_r3;
     if (TWindowDD::can_append_chars(1, (s32 *)arg2) != 0) {
         temp_r3 = *(s32 *)((s8 *)arg2 + 0);
@@ -865,7 +865,7 @@ extern const f32 TWindowDD__data_805DFB20;
 void TWindowDD__sub_803489B8(A_803489B8 *arg0, B_803489B8 *arg1, s32 arg2);
 typedef struct { char pad[0xBC]; } Buf;
 
-void TWindowDD::append_string(s32 arg0, s32 arg1, s32 *arg2) {
+void TWindowDD::append_string(saddr arg0, saddr arg1, s32 *arg2) {
     s32 temp_r31;
 
     if (arg0 != 0) {
@@ -879,7 +879,7 @@ void TWindowDD::append_string(s32 arg0, s32 arg1, s32 *arg2) {
 
 extern saddr lbl_805D63F0;
 
-void TWindowDD_WS_String::draw(s32 ctx, s32 idx, f32 farg0) {
+void TWindowDD_WS_String::draw(saddr ctx, s32 idx, f32 farg0) {
     Buf sp8;
     s32 temp_r31;
 

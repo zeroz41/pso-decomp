@@ -7,7 +7,7 @@
 struct TWindowShortListCtrl : public TObject {
     TWindowShortListCtrl(TObject *parent, s32 client_id);
     virtual ~TWindowShortListCtrl();
-    void refresh_technique_rows(s32, void *);
+    void refresh_technique_rows(saddr, void *);
     void cycle_list_page();
     void sub_8026EA48();
     virtual void run_task();

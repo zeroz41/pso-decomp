@@ -75,7 +75,7 @@ struct TWindowSubSymbolChat : public TObject {
     static s32 create_menu();
     s32 create_parts_set();
     static s32 create_parts();
-    static void open_menu(s32 arg0, s32 arg1);
+    static void open_menu(s32 arg0, saddr arg1);
     s32 open_edit_menu();
     static s32 open_main_menu(void * _w0);
     void apply_symbol();

@@ -342,7 +342,7 @@ typedef struct Rec_801D6AB4 {
 } Rec_801D6AB4;
 
 extern "C" {
-f32 fn_801D6AB4(void *, s32, s32);
+f32 fn_801D6AB4(void *, saddr, s32);
 s32 accumulate_damage_stats(u8 *arg0, s32 arg1, s32 arg2);
 void clear_player_sub_object_slots(Obj_801D6A18 *p);
 s32 __construct_array(void *, void *, int, int, int);
@@ -434,7 +434,7 @@ s32 accumulate_damage_stats(u8 *arg0v, s32 arg1, s32 arg2) {
 }
 
 #define arg0 ((Rec_801D6AB4 *)arg0v)
-f32 fn_801D6AB4(void *arg0v, s32 arg1, s32 arg2) {
+f32 fn_801D6AB4(void *arg0v, saddr arg1, s32 arg2) {
     f32 v;
     f32 k = (f32)arg2;
 

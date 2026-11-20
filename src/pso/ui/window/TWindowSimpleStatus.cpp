@@ -79,7 +79,7 @@ int obj_getArrWord_254(void *p, int i);
 void * get_player_by_client_id();
 void TWindowComCard__sub_80249D7C(u8 *arg0, s32 arg1);
 void *TWindowComCard__sub_80249ED8(void *, void *, void *, s32, s32, s32);
-void draw_photon_blast_fan(s32, NJS_POINT2 *, Params_80270244 *, u32, f32, s32, s32, f32);
+void draw_photon_blast_fan(saddr, NJS_POINT2 *, Params_80270244 *, u32, f32, s32, s32, f32);
 void draw_photon_blast_gauge_ring(s32 arg0, Params_80270244 *arg1, const NJS_POINT2 *arg2, f32 farg0, f32 farg1);
 struct VtBase4_8026f71c_more_8026f8cc_0 { void *vtable; };
 
@@ -325,7 +325,7 @@ void TWindowSimpleStatus::update_status_icons(void *ofs) {
 
 #pragma push
 #pragma fp_contract on
-void draw_photon_blast_fan(s32 arg0, NJS_POINT2 *arg1, Params_80270244 *arg2, u32 arg3, f32 arg6, s32 arg4, s32 arg5, f32 arg7) {
+void draw_photon_blast_fan(saddr arg0, NJS_POINT2 *arg1, Params_80270244 *arg2, u32 arg3, f32 arg6, s32 arg4, s32 arg5, f32 arg7) {
     f32 verts[6];
     Prim_8026FC5C prim;
     u32 colors[3];

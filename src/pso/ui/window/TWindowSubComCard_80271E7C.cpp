@@ -1494,7 +1494,7 @@ s32 TWindowSubComCard::create_entry_list_window() {
 #pragma push
 #pragma opt_loop_invariants off
 extern "C" {
-s32 TWindowSubComCard::create_option_list_window(s32 arg1, s32 key) {
+s32 TWindowSubComCard::create_option_list_window(saddr arg1, s32 key) {
     s32 i;
     s32 count;
     s32 idx;
@@ -1808,7 +1808,7 @@ u8 *TWindowSubComCard::find_entry_rest(void *arg1_arg, s32 arg2) {
     }
     return 0;
 }
-void TWindowSubComCard::sub_80271F04(void *arr, s32 key, s32 arg3) {
+void TWindowSubComCard::sub_80271F04(void *arr, s32 key, saddr arg3) {
     s32 i;
     if (key == 0) {
         if (arg3 != open_hard_keyboard__6TLobbyFPv(*(void **)(((u8 *)this) + 0x20))) {

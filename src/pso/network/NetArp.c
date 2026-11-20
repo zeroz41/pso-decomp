@@ -29,9 +29,9 @@ ArpEntry *find_or_add_peer_entry(s16 handler, s32 socket, u8 plen, void *paddr, 
 
 s32 arp_init(void);
 void TLobby__sub_804073B8(void);
-s32 arp_remove_alias(s16, s32);
-s32 arp_add_alias(s16, s32);
-s16 register_arp_interface(s16 a, s16 b, s16 c, s16 d, s16 e, s32 f, s16 g, s32 h);
+s32 arp_remove_alias(s16, saddr);
+s32 arp_add_alias(s16, saddr);
+s16 register_arp_interface(s16 a, s16 b, s16 c, s16 d, s16 e, saddr f, s16 g, saddr h);
 
 /* Inline the helpers below; this applies to the rest of the file. */
 #pragma dont_inline off
@@ -97,7 +97,7 @@ s16 forward_net_op(s16 idx, u8 *name, u8 *arg2) {
 }
 
 void forward_net_op_5args(s16 arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, s32 arg5, s8 arg6, s32 arg7) {
-    s16 register_arp_interface(s16, s16, s16, s16, s16, s32, s8, s32);
+    s16 register_arp_interface(s16, s16, s16, s16, s16, saddr, s8, saddr);
     register_arp_interface(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
 }
 
@@ -361,7 +361,7 @@ s16 arp_resolve_and_send(s16 idx, void *name, void *pkt) {
     return ret;
 }
 
-s32 arp_remove_alias(s16 id, s32 key) {
+s32 arp_remove_alias(s16 id, saddr key) {
     ArpState *tbl = &lbl_805C1AB0;
     ArpIface *base = tbl->ifaces;
     s16 ok;
@@ -438,7 +438,7 @@ inline ArpAlias *alloc2_80407D98(ArpState *t, s16 *count) {
     }
     return NULL;
 }
-s32 arp_add_alias(s16 id, s32 pkey) {
+s32 arp_add_alias(s16 id, saddr pkey) {
     s16 lim;
     ArpAlias *next;
     ArpAlias *p;
@@ -492,7 +492,7 @@ inline ArpIface *findfree_80407F20(ArpIface *base) {
     return NULL;
 }
 
-s16 register_arp_interface(s16 a, s16 b, s16 c, s16 d, s16 e, s32 f, s16 g, s32 h)
+s16 register_arp_interface(s16 a, s16 b, s16 c, s16 d, s16 e, saddr f, s16 g, saddr h)
 {
     ArpIface *base;
     ArpIface *slot;
