@@ -7345,8 +7345,8 @@ force_active:
   - is_phase_active__15TObjBoss2TunnelFl
   - is_phase_e__9TObjEneDDFPv
   - is_photon_blast_presentation_admitted__FUlPv
-  - is_player_in_range__10TObjPlayerFllf
-  - is_player_in_range__10TObjRoomIdFPvUsf
+  - is_any_city_player_in_range__13TUnk_804B5BA8FPC3Vecf
+  - is_player_in_range__10TObjRoomIdFUsf
   - is_player_in_range__13TBoss6MagMineFPv
   - is_player_in_range__15TORainbowCave01Ff
   - is_player_in_range__9TObjLukerFv

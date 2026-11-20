@@ -14,7 +14,6 @@
 #include "pso/object/collision/TObjBgmCol.h"
 #include "pso/object/collision/TObjBgmCol_8017E7F0.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer_80011014.h"
 
 
@@ -35,6 +34,7 @@ u32 TObjBgmColCtrl__current_theme_id;
 
 void create_bgm_col_zones(void);
 extern "C" {
+void *get_player_by_client_id(s32 client);
 u32 __ct__7TObjectFP7TObject(int, int);
 extern u32 TObjBgmColCtrl__instance;
 extern s32 tl_05;
@@ -172,11 +172,8 @@ s32 TObjBgmCol::check() {
 }
 
 s32 TObjBgmCol::is_within_distance(f32 farg0) {
-    s32 arg0 = (s32)this;
-    u32 player;
-
-    player = (u32)get_player_by_client_id(local_client_id);
-    if ((player != 0U) && (xyz_distance_squared((Vec *)(player + 0x38), (Vec *)(arg0 + 0x38)) < farg0)) {
+    TObjPlayer *player = static_cast<TObjPlayer *>(get_player_by_client_id(local_client_id));
+    if ((player != NULL) && (xyz_distance_squared(&player->position, &position) < farg0)) {
         return 1;
     }
     return 0;
@@ -256,7 +253,7 @@ void TObjBgmColCtrl::run_task() {
 
     temp_r4 = this->m_1c;
     this->m_1c = (temp_r4 - 1);
-    if ((temp_r4 <= 0) && ((get_current_floor_area() == AREA_LOBBY) || (get_player_by_client_id(local_client_id) != 0U)) && (get_quest_bgm_issued_flag() == 0)) {
+    if ((temp_r4 <= 0) && ((get_current_floor_area() == AREA_LOBBY) || (get_player_by_client_id(local_client_id) != NULL)) && (get_quest_bgm_issued_flag() == 0)) {
         if (TRaderMapCore::is_not_split_screen() == 1) {
             if (is_active__14TObjBgmColCtrlFv() == 0) {
                 TObjBgmColCtrl::play_lobby_theme_music();

@@ -1,4 +1,5 @@
 #include "pso/system/NinjaTypes.h"
+#include "pso/render/render_util.h"
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/container/TContainerAncient01.h"
@@ -7,14 +8,13 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/unk/text_803D853C.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/object/TObjRoomId.h"
 
-struct Obj_801A1888 { u8 pad[0x38]; f32 pos[3]; };
 
 // The class name, then the direction run_task rotates by the object's yaw into normal, the plane
 // normal its vec3_dot side test uses (room_id_base_normal is an inferred name).
@@ -22,21 +22,16 @@ const char *TObjRoomId__name = "TObjRoomId";
 static const Vec room_id_base_normal = {0.0f, 0.0f, -1.0f};
 
 extern "C" {
+void *get_player_by_client_id(s32 client);
 u16 TObjRoomId__sub_801A1DB8(u16 x);
-f32 horizontal_distance_squared(f32 *a, f32 *b);
-void debug_draw_line(Vec *, Vec *, u32, u32);
-void fn_80141CBC(void *a, void *b, f32 s);
-void debug_draw_sphere(const Vec *pos, const NJS_ARGB *color, f32 radius);
-s32 matrix_mult_vec(int, void *, void *);
-f32 vec3_dot(Vec *, Vec *);
 }
 
-s32 TObjRoomId::is_player_in_range(void *self, u16 id, f32 range) {
-    Obj_801A1888 *p = (Obj_801A1888 *)get_player_by_client_id(id);
+s32 TObjRoomId::is_player_in_range(u16 id, f32 range_squared) {
+    TObjPlayer *p = static_cast<TObjPlayer *>(get_player_by_client_id(id));
     if (p == 0) {
         return 0;
     }
-    return horizontal_distance_squared(p->pos, ((Obj_801A1888 *)self)->pos) < range;
+    return horizontal_distance_squared(&p->position, &position) < range_squared;
 }
 
 // The trigger sphere is scale.x * 10 around the object; normal is the facing
@@ -55,10 +50,10 @@ void TObjRoomId::render() {
         end.z = 10.0f * normal.z + position.z;
         debug_draw_line(&position, &end, 0xFFFF0000, 0xFFFF0000);
         debug_draw_sphere(&end, &c2, 2.0f);
-        draw_debug_line((u32)this, 0x13, 0x1C, (s32)"<- SCL_TAMA");
-        draw_debug_line((u32)this, 0x13, 0x1D, (s32)"<- + NUMBER");
-        draw_debug_line((u32)this, 0x13, 0x1E, (s32)"<- - NUMBER");
-        draw_debug_line((u32)this, 0x13, 0x22, (s32)"<- - 10000 : BLOCK ID ");
+        draw_debug_line(0x13, 0x1C, "<- SCL_TAMA");
+        draw_debug_line(0x13, 0x1D, "<- + NUMBER");
+        draw_debug_line(0x13, 0x1E, "<- - NUMBER");
+        draw_debug_line(0x13, 0x22, "<- - 10000 : BLOCK ID ");
     }
 }
 extern u8 identity_matrix[];
@@ -79,7 +74,7 @@ void TObjRoomId::run_task() {
         for (s32 i = 0; i < 4; i++) {
             if (get_player_by_client_id(i) != NULL) {
                 r = 10.0f * o->scale.x + 30.0f;
-                if (is_player_in_range(o, i, r * r) != 0) {
+                if (o->is_player_in_range(i, r * r) != 0) {
                     absent = 0;
                 }
             }
@@ -93,30 +88,30 @@ void TObjRoomId::run_task() {
     matrix_mult_vec(0, &v, &o->normal);
     pop_matrices(1);
     for (s32 i = 0; i < 4; i++) {
-        Obj_801A1888 *p = (Obj_801A1888 *)get_player_by_client_id(i);
+        TObjPlayer *p = static_cast<TObjPlayer *>(get_player_by_client_id(i));
         if (p == NULL) {
             continue;
         }
         r = 10.0f * o->scale.x;
-        if (is_player_in_range(o, i, r * r) == 0) {
+        if (o->is_player_in_range(i, r * r) == 0) {
             continue;
         }
-        d.x = p->pos[0] - o->position.x;
+        d.x = p->position.x - o->position.x;
         d.y = 0.0f;
-        d.z = p->pos[2] - o->position.z;
+        d.z = p->position.z - o->position.z;
         if (vec3_dot(&d, &o->normal) > 0.0f) {
             if (o->set_params[2] == 0x10000) {
-                *(s16 *)((s8 *)p + 0x28) = (s16)o->scale.y;
-                set_player_room_control_flag((TObjPlayer *)p);
+                p->room = (s16)o->scale.y;
+                set_player_room_control_flag(p);
             } else {
-                ((TObjPlayer *)p)->set_room((s16)o->scale.y);
+                p->set_room((s16)o->scale.y);
             }
         } else {
             if (o->set_params[2] == 0x10000) {
-                *(s16 *)((s8 *)p + 0x28) = (s16)o->scale.z;
-                set_player_room_control_flag((TObjPlayer *)p);
+                p->room = (s16)o->scale.z;
+                set_player_room_control_flag(p);
             } else {
-                ((TObjPlayer *)p)->set_room((s16)o->scale.z);
+                p->set_room((s16)o->scale.z);
             }
         }
     }

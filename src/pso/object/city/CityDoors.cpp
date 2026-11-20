@@ -25,7 +25,6 @@
 #include "pso/object/city/TObjCityDoor_Med.h"
 #include "pso/object/lobby/TObjCityDoor_Lobby.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/text_803D96A8.h"
@@ -43,6 +42,7 @@ struct RecoveredGlobal_80182D8C_lbl_80443F20 {
     u8 remaining[0x28];
 };
 extern "C" {
+void *get_player_by_client_id(s32 client);
 extern const char city_door_asset_de_obj_bigbeam_gj[];
 __declspec(section ".rodata") const char city_door_asset_de_obj_bigbeam_gj[] ATTRIBUTE_ALIGN(4) = "de_obj_bigbeam.gj";
 extern const char city_door_asset_de_obj_citybeam_gj[];
@@ -983,15 +983,15 @@ void TUnk_804B5BA8::begin_state_1() {
     }
 }
 
-s32 TObjPlayer::is_player_in_range(s32 arg0, s32 arg1, f32 farg0) {
-    s32 player;
+s32 TUnk_804B5BA8::is_any_city_player_in_range(const Vec *center, f32 range_squared) {
+    TObjPlayer *player;
     s32 temp_r3_2;
     s32 var_r30;
 
     var_r30 = 0;
 loop_1:
-    player = (s32)get_player_by_client_id(var_r30);
-    if ((player != 0) && ((temp_r3_2 = get_field_3e0__12TBoss3VoloptFv(), ((temp_r3_2 == 0) != 0)) || (temp_r3_2 == 0x12)) && (horizontal_distance_squared((const Vec *)arg1, (const Vec *)(player + 0x38)) < farg0)) {
+    player = static_cast<TObjPlayer *>(get_player_by_client_id(var_r30));
+    if ((player != 0) && ((temp_r3_2 = get_field_3e0__12TBoss3VoloptFv(), ((temp_r3_2 == 0) != 0)) || (temp_r3_2 == 0x12)) && (horizontal_distance_squared(center, &player->position) < range_squared)) {
         return 1;
     }
     var_r30 += 1;
@@ -1000,7 +1000,7 @@ loop_1:
     }
     goto loop_1;
 }
-s32 TUnk_804B5BA8::check_player_in_range(s32 _w1, f32 _w2) { return TObjPlayer::is_player_in_range((s32)(this), (s32)((s8 *)this + 0x38), _w2); }
+s32 TUnk_804B5BA8::check_player_in_range(s32 _w1, f32 _w2) { return is_any_city_player_in_range(&position, _w2); }
 void *TObjPlayer__sub_80182D24(void *collidable, s16 arg1) {
     if (collidable != NULL) {
         *(s32 **)((s8 *)collidable + 0x18) = city_door_base_vtable;
