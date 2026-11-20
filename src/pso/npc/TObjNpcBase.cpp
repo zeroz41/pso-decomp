@@ -671,7 +671,7 @@ void TObjNpcBase::run_task() {
 
 // ---- src/pso/npc/TObjNpcBase_801490F4.cpp
 
-u32 npc_town_motion_data;
+uaddr npc_town_motion_data;
 
 void TObjNpcBase::free_static() {
     if ((u32) npc_town_motion_data != 0U) {

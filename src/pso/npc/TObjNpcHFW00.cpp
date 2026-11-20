@@ -13,7 +13,7 @@
 
 
 const char *TObjNpcHFW00__name = "TObjNpcHFW00";
-u32 TObjNpcHFW00__shared_resource_obj;
+uaddr TObjNpcHFW00__shared_resource_obj;
 uaddr TObjNpcHFW00__texture_handle;
 
 extern void *tl_04;

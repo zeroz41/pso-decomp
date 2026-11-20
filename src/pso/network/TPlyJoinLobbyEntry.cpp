@@ -80,7 +80,7 @@ extern const char TLobby__data_8043EF38[];
 extern const char lobby_debug_burst_player_format[];
 extern const char lobby_debug_udp_close_player_format[];
 extern s32 TLobby__designated_client_id;
-extern saddr local_client_id;
+extern s32 local_client_id;
 void on_game_player_add__6TLobbyFiii(saddr arg0, s32 arg1, s32 arg2);
 s32 queue_destruction__7TObjectFv(void *);
 void set_menu_mode_2__6TLobbyFv();
@@ -1012,7 +1012,7 @@ s32 close_and_set_state_13__6TLobbyFv(s32);
 s32 send_server_time_request__9TProtocolFv(s32);
 s32 reset_state__6TLobbyFv(s32);
 
-    extern saddr local_client_id;
+    extern int local_client_id;
 
 extern s32 TLobby__protocol_instance;
 
@@ -1088,7 +1088,7 @@ char *get_card_window_area__6TLobbyFv(void);
 void TLobby__sub_800703D0(void *, void *);
 void *get_char_index__23TAdSinglePlyChrSelectGCFUi(u32);
 void send_player_data_61__9TProtocolFPvPvPvPvPvPvPv(void *, void *, void *, void *, void *, void *, void *);
-extern saddr local_client_id;
+extern s32 local_client_id;
 extern void *TLobby__protocol_instance;
 void send_selected_character__6TLobbyFv(void);
 void lobby_debug_printf_stub(const char *fmt, ...);
@@ -1103,7 +1103,7 @@ s32 send_login_9e_extended__6TLobbyFPvPvi(int, void *, int);
 void *get_char_index__23TAdSinglePlyChrSelectGCFUi(u32);
 extern const char lobby_msg_registed[];
 extern const char lobby_msg_name_taken[];
-extern saddr local_client_id;
+extern s32 local_client_id;
 extern void *TLobby__protocol_instance;
 void handle_register_result__6TLobbyFi(s32 arg0);
 void construct_lobby_players(Rec_801378AC *, s32, int, s32);
@@ -1119,7 +1119,7 @@ void queue_static_object_destruction__6TLobbyFv(void);
 void reset_state_flags__6TLobbyFv(void);
 s32 queue_destruction__7TObjectFv(s32);
 
-extern s32 TLobby__join_lobby_controller;
+extern saddr TLobby__join_lobby_controller;
 
 extern void *TLobby__protocol_instance;
 extern s32 TLobby__deferred_player_setup_state;
@@ -1174,7 +1174,7 @@ extern s32 TLobby__login_pending_flag;
 extern s32 lbl_805D55C0;
 extern s32 TLobby__player_setup_pending;
 extern s32 lobby_selected_game_list_index;
-extern s32 TLobby__join_lobby_controller;
+extern saddr TLobby__join_lobby_controller;
 u8 *__dt__6TLobbyFv(u8 *arg0, s16 arg1);
 extern uaddr TLobby__download_list_window;
 extern s32 TLobby__data_805D5594;
@@ -1204,11 +1204,11 @@ extern uaddr lobby_keyboard_prompt_window;
 extern uaddr lobby_keyboard_controller;
 extern uaddr lobby_scroll_text_window;
 
-extern saddr local_client_id;
+extern s32 local_client_id;
 
 LAYOUT_ASSERT(RecoveredGlobal_80137B50___vt__6TLobby_size, sizeof(RecoveredGlobal_80137B50___vt__6TLobby) == 0x18);
 
-extern saddr local_client_id;
+extern s32 local_client_id;
 
 extern uaddr lobby_com_card_window;
 
@@ -1234,10 +1234,10 @@ extern s32 TLobby__data_805D5594;
 
 extern s32 TLobby__data_805D5594;
 
-extern saddr local_client_id;
+extern s32 local_client_id;
 extern s32 TLobby__data_805D5594;
 extern uaddr lobby_keyboard_prompt_window;
-extern s32 TLobby__join_lobby_controller;
+extern saddr TLobby__join_lobby_controller;
 extern s32 lbl_805DB0B4;
 
 void close_and_send_text_list__6TLobbyFv(void);
@@ -1278,7 +1278,7 @@ s32 TWindowMakeTeam__ct(s32, s32, s32);
 s32 __nw__7TObjectFUl(s32);
 
 extern s32 TLobby__data_805D5594;
-extern s32 TLobby__join_lobby_controller;
+extern saddr TLobby__join_lobby_controller;
 
 void open_menu_window__6TLobbyFv(void);
 s32 get_seq_phase__6TLobbyFPv(s32);
@@ -2027,7 +2027,7 @@ void update_card_list_window__6TLobbyFv(void) {
     if (TLobby__download_list_window != 0) {
         sel = ((TWindowMenuIconLine *)TLobby__list_window)->get_cursor_value();
         if (sel != TLobby__card_list_selected_index) {
-            ((TWindowMessage *)TLobby__download_list_window)->append_line((saddr)(&((Lobby_80138B7C *)(*(s32 *)&(*(s32 *)&TLobby__protocol_instance)))->cards[sel].b[0x28]), (int)3);
+            ((TWindowMessage *)TLobby__download_list_window)->append_line((saddr)(&((Lobby_80138B7C *)(*(saddr *)&(*(s32 *)&TLobby__protocol_instance)))->cards[sel].b[0x28]), (int)3);
             ((TWindowMessage *)TLobby__download_list_window)->complete_reveal();
             if (TLobby__card_list_window != 0) {
                 ((TWindowBase *)TLobby__card_list_window)->close();

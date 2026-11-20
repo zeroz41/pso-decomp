@@ -46,7 +46,7 @@ saddr get_window_layout_position(int);
 s32 TWindowSimpleStatus__ct(void *, int, void *, void *);
 extern s32 __vt__18TWindowPartyStatus[];
 extern const char *TWindowPartyStatus__name;
-extern saddr local_client_id;
+extern s32 local_client_id;
 u8 *TWindowPartyStatus__ct(u8 *arg0, s32 arg1, saddr arg2);
 s32 update_lockon_window();
 }

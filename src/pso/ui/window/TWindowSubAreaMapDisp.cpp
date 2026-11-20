@@ -69,7 +69,7 @@ void text_builder_append(u8 *str);
 }
 void text_builder_reset(void);
 extern "C" {
-s32 get_window_layout_position(int);
+saddr get_window_layout_position(int);
 s32 construct_type1_heading__20TWindowSubStatusDispFll(int, int, int);
 s32 get_game_play_mode();
 const char *TWindowSubAreaMapDisp__name = "TWindowSubAreaMapDisp";

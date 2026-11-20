@@ -16,7 +16,7 @@
 
 
 const char *TObjNpcARM00__name = "TObjNpcARM00";
-u32 TObjNpcARM00__model_resource;
+uaddr TObjNpcARM00__model_resource;
 uaddr TObjNpcARM00__texture_list;
 
 extern "C" {

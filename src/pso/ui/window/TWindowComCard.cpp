@@ -22,7 +22,7 @@ saddr draw_default_entry__9TWindowDDFl();
 s32 draw_visible_window_entries(void *, void *, int);
 void render__14TWindowComCardFv(saddr arg0);
 s32 TWindowSubComCard__sub_8007B070(s32);
-extern saddr local_client_id;
+extern s32 local_client_id;
 u8 *TWindowComCard__ct(u8 *arg0, saddr arg1, saddr arg2);
 void TWindowComCard__sub_80249920(saddr arg0, s32 arg1, s32 arg2);
 s8 TWindowComCard__sub_80249C18(void* p);

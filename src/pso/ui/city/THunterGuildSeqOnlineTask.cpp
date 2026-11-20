@@ -57,7 +57,7 @@ void TKeyBoardControl__sub_8000F950();
 void *get_player_by_client_id(s32);
 void TQuestListOnline__sub_802176DC(void *, s32);
 void decompress_quest_buffer__16TQuestListOnlineFl(void *, s32);
-extern saddr local_client_id;
+extern s32 local_client_id;
 extern s32 quest_download_active;
 saddr get_message_text(s32 arg0);
 void send_quest_barrier__9TProtocolFv(s32);

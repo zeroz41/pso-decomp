@@ -62,7 +62,7 @@ int get_chat_shortcut(s32 arg0);
 s32 update_selected_symbol__20TWindowSubSymbolChatFv();
 bool TWindowCtrl__sub_8024701C(Win_8024701C *w);
 void *get_player_by_client_id(s32 i);
-extern saddr local_client_id;
+extern s32 local_client_id;
 s32 has_player_active_menu__11TWindowCtrlFv(s32);
 saddr fn_8002AE08(s32);
 void send_chat_shortcut(s32);
@@ -319,13 +319,13 @@ void TWindowChat::handle_chat_input() {
   u8 temp_r3_2;
   u8 *context;
   saddr player;
-  player = (saddr)get_player_by_client_id((saddr)((void *) local_client_id));
+  player = (saddr)get_player_by_client_id((saddr)local_client_id);
   if (player != 0)
   {
     if (((RecoveredFields_8024775C_arg0 *) arg0)->field_1E & 2)
     {
       context = (u8 *)&controller_input_state + 0x20;
-      if ((TWindowShortListCtrl__check_controller_button((void *)((void *) context), 0x200) != 0) && (is_on_current_screen__11TCameraCtrlFv((void *)((saddr) context), (saddr)((void *) fn_8002AE08((saddr)((void *) local_client_id)))) == 0))
+      if ((TWindowShortListCtrl__check_controller_button((void *)((void *) context), 0x200) != 0) && (is_on_current_screen__11TCameraCtrlFv((void *)((saddr) context), (saddr)((void *) fn_8002AE08((saddr)local_client_id))) == 0))
       {
         ((RecoveredFields_8024775C_arg0 *) arg0)->field_1E = (u16) (((RecoveredFields_8024775C_arg0 *) arg0)->field_1E & 0xFFFFFFFD);
         ((TWindowChat*)((void *) arg0))->close_all_children();
@@ -350,7 +350,7 @@ void TWindowChat::handle_chat_input() {
       if (is_mode_bit6() != 0)
       {
         ((TObjPlayer *)player)->init_parts();
-        end_player_keyboard_hold((saddr)((void *) local_client_id));
+        end_player_keyboard_hold((saddr)local_client_id);
       }
     }
     else

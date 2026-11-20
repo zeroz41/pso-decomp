@@ -14,7 +14,7 @@ const char *TObjNpcARW00__name = "TObjNpcARW00";
 extern "C" {
 s32 play_sound_effect(int, void *, int, int);
 extern s32 __vt__12TObjNpcARW00[];
-u32 TObjNpcARW00__static_model;
+uaddr TObjNpcARW00__static_model;
 uaddr TObjNpcARW00__gvm_texture_handle;
 void release_texture_list(void*);
 

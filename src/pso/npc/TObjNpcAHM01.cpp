@@ -16,7 +16,7 @@
 
 
 const char *TObjNpcAHM01__name = "TObjNpcAHM01";
-u32 TObjNpcAHM01__shared_object;
+uaddr TObjNpcAHM01__shared_object;
 uaddr TObjNpcAHM01__texture_handle;
 
 extern "C" {
