@@ -273,7 +273,6 @@ s32 TBoss7Crawfish__sub_80308ED8(TBoss7Crawfish *self, const Vec *delta);
 u16 find_nearest_visible_player(void *, void *, f32);
 f32 atan2_float(f32 y, f32 x);
 void normalize_vector(void *);
-s32 register_attack_hits__14TBoss7CrawfishFv(void *, void *, f32, f32);
 
 void TBoss7Crawfish::update_motion_and_release() {
     u8 *arg0 = (u8 *)this;
@@ -281,7 +280,7 @@ void TBoss7Crawfish::update_motion_and_release() {
 
     temp_r4 = *(f32 * *)&this->m_3a0;
     this->play_speed = 0.1f * (1.0f + *temp_r4);
-    register_attack_hits__14TBoss7CrawfishFv(arg0, temp_r4, 1.0f, 0.1f);
+    ((TBoss7Crawfish *)arg0)->register_attack_hits();
     {
         void *temp_ptr = (void *) this->m_3cc;
         if (temp_ptr != NULL) {

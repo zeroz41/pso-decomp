@@ -13,6 +13,7 @@
 #include <stddef.h>
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_80087278.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 
 
 extern "C" {
@@ -59,7 +60,6 @@ s32 __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_80356B18___vt__15TBoss6SwordWave __vt__15TBoss6SwordWave;
 extern const char *TBoss6SwordWave__name;
 u8 *__ct__15TBoss6SwordWaveFv(u8 *arg0, saddr arg1, saddr arg2, saddr arg3, saddr arg4, f32 farg0);
-s32 query_teammate_state__9TObjEneDDFv();
 void clear_bit__15TBoss6SwordWaveFPvUc(W_80356D10 *arg0, u8 arg1);
 u8 TBoss6SwordWave__sub_80356D08(u32 arg1, u32 arg2);
 f32 sin_table_lookup(int);
@@ -130,7 +130,7 @@ void damage_players_in_radius(u8 *arg0) {
 }
 
 void run_task__15TBoss6SwordShotFv(u8 *arg0) {
-    if (query_teammate_state__9TObjEneDDFv() == 0) {
+    if (((TObjEneDD *)arg0)->query_teammate_state() == 0) {
         damage_players_in_radius(arg0);
         *(s32 *)((s8 *)arg0 + 0x30) = (s32) (*(s32 *)((s8 *)arg0 + 0x30) + 1);
         if ((s32) *(s32 *)((s8 *)arg0 + 0x30) > 7) {
@@ -363,7 +363,7 @@ void TBoss6SwordWave::render() {  }
 void TBoss6SwordWave::run_task() {
     u8 *arg0 = (u8 *)this;
     f32 temp_f1;
-    if (query_teammate_state__9TObjEneDDFv() == 0) {
+    if (((TObjEneDD *)this)->query_teammate_state() == 0) {
         break_rocks_in_wave();
         check_player_hits();
         if (*(f32 *)((s8 *)arg0 + 0x58) < 6.6666665f) {

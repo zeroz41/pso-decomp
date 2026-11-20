@@ -1518,7 +1518,6 @@ void project_sound_origin_from_camera(s32 arg0, u8 *arg1, f32 farg0);
 
 f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 
-s32 vfunc_93__9TObjEneDDFv();
 
 s32 is_alive__8TObjBaseFv();
 
@@ -3896,7 +3895,7 @@ void TBoss2DeRolLe__sub_800341F0(Obj_800341F0 *self) {
 }
 
 void update_check__13TBoss2DeRolLeFPv(void *arg0) {
-    vfunc_93__9TObjEneDDFv();
+    ((TObjEneDD *)arg0)->TObjEneDD::vfunc_93();
     if ((*(s32 *)((s8 *)arg0 + 0x3C0) & 8) || (TObjEneDD::check_v2_mode() != 0)) {
         ((s32 (*)(void *))clear_play_flags__13TBoss2DeRolLeFv)(arg0);
     }

@@ -41,6 +41,7 @@ extern BmlResourceDescriptor boss6_plot_falz_resource_descriptor;
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/object/TObjControl.h"
 #include "pso/boss/olgaflow/TBoss6Thanks_8035D1F4.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 
 #pragma readonly_strings on
 const char *boss06_plotfalz_dat_model_names[15] = {
@@ -1171,7 +1172,6 @@ struct Msg_802AC7E4 { u8 pad[2]; u16 id; s8 phase; s8 mode; };
 struct Boss_802AC7E4 { u8 pad[0x37C]; u8 mode; };
 
 extern "C" {
-s32 query_teammate_state__9TObjEneDDFv();
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void fn_802E52AC(void);
 void TItemEffOrgaFlowShot__sub_80357210(void);
@@ -1193,7 +1193,7 @@ void TBoss6PlotFalz::render() {  }
 
 void TBoss6PlotFalz::run_task() {
     u8 *arg0 = (u8 *)this;
-    if (query_teammate_state__9TObjEneDDFv() == 0) {
+    if (((TObjEneDD *)this)->query_teammate_state() == 0) {
         ((TBoss6PlotFalz *)arg0)->set_visible_flag();
         if ((s32) *(s32 *)((s8 *)arg0 + 0x374) == 0) {
             ((TBoss6PlotFalz *)arg0)->call_state_action();

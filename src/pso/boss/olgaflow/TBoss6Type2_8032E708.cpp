@@ -24,6 +24,7 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/system/vector.h"
 #include "pso/boss/olgaflow/TBoss6Rock.h"
 #include "pso/boss/olgaflow/TBoss6Type2.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 
 struct Stack_8032FE50 {
     s32 sp8;
@@ -1094,11 +1095,10 @@ LAYOUT_ASSERT(RecoveredGlobal_803300C8_lbl_80477404_size, sizeof(RecoveredGlobal
 LAYOUT_ASSERT(RecoveredGlobal_803300C8_lbl_80477428_size, sizeof(RecoveredGlobal_803300C8_lbl_80477428) == 0x1C);
 
 f32 receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll(void *, void *, P_80330240, void *, void *, void *);
-s32 query_teammate_state__9TObjEneDDFv();
 
 f32 fn_80330240(O_80330240 *arg0, void *att, P_80330240 arg2, void *coll, void *tech, void *arg5) {
     while (arg0->f388 == 0) {
-        if (arg2.a != 0x14 && query_teammate_state__9TObjEneDDFv() == 0) {
+        if (arg2.a != 0x14 && ((TObjEneDD *)arg0)->query_teammate_state() == 0) {
             return (0.0f);
         }
         break;

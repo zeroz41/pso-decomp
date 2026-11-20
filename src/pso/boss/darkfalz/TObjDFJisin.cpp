@@ -43,6 +43,7 @@
 #include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 
 
 const char *TObjDFUsoTower__name = "TObjDFUsoTower";
@@ -162,7 +163,6 @@ extern "C" {
 u16 find_nearest_visible_player(void *, int, f32);
 s32 is_boss_active__13TObjDFHormingFv();
 int queue_destruction__13TObjDFHormingFPv(void* p);
-s32 query_teammate_state__9TObjEneDDFv();
 }
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 extern "C" {
@@ -246,22 +246,6 @@ extern s32 game_difficulty_selection;
 }
 
 
-extern "C" {
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
 extern const char *TObjDFRecover__name;
 
 
@@ -311,13 +295,6 @@ typedef struct Obj_80052090 {
 
 
 extern u8 *camera_ctrl_instance;
-
-
-extern "C" {
-}
-
-
-
 
 
 // Written last to first: the unit is generated deferred (see configure.py).
@@ -948,7 +925,7 @@ void run_task__13TObjDFHormingFv(u8 *arg0) {
     S_80050808 s;
     u8 *p;
     s32 i;
-    if (query_teammate_state__9TObjEneDDFv() != 0) {
+    if (((TObjEneDD *)arg0)->query_teammate_state() != 0) {
         return;
     }
     if (((TObjDFHorming *)arg0)->m_334 == 0xFFFF || (p = (u8 *)get_player_by_client_id(((TObjDFHorming *)arg0)->m_334)) == NULL) {

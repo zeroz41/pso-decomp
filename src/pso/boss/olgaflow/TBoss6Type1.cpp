@@ -402,7 +402,6 @@ extern "C" {
 
 
 u8 * TBoss6Type1__sub_802B96C0(saddr arg0, saddr arg1);
-s32 render_shadows__9TObjEnemyFv();
 s32 TBoss6Type1__ct(saddr, saddr, saddr);
 s32 __ct__11TObjControlFP7TObject(s32, s32);
 #define VLEN(p) ((f32 (*)(void *))vector_length)(p)
@@ -990,7 +989,7 @@ void TBoss6Type1::vfunc_63() { if (*(int *)&this->m_374 != 40) { set_action_stat
 
 void TBoss6Type1::render_shadows() {
     if (this->position.y >= -30.0f) {
-        render_shadows__9TObjEnemyFv();
+        TObjEnemy::render_shadows();
     }
 }
 

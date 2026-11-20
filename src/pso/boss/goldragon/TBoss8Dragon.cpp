@@ -702,7 +702,6 @@ s32 check_flag_100__10TObjPlayerFPv();
 s32 start_freeze__10TObjPlayerFv(int);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 s32 play_sound_effect(s32, s32, s32, s32);
-s32 is_closest_part__12TBoss8DragonFv();
 void set_mode_params__12TBoss8DragonFSc(void *, unsigned char);
 s32 TBoss8Dragon__sub_802F4760(void *owner, Vec *point, f32 farg0);
 void update_movement__12TBoss8DragonFPv(u8 *arg0);
@@ -984,7 +983,6 @@ s32 restore_player_cameras(void);
 void activate_camera_mode(s32, f32);
 void set_scripted_camera_pose(void *, void *, void *);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
-void refresh_and_send_entity_flags__9TObjEnemyFv(void);
 void vec3_add_to(void *, void *);
 struct VBase_18_2719b2x { char pad[0x18]; };
 struct VObj_18_2719b2x : VBase_18_2719b2x {
@@ -1466,7 +1464,6 @@ s32 has_enough_enemies__12TBoss8DragonFv();
 // (from _802F3F20)
 s32 draw__10TObjMotionFv(void *, int);
 // (from _802F42A0)
-int check_demo_mode__10TObjPlayerFv(void*);
 }
 // (from _802F4324)
 extern "C" {
@@ -1771,7 +1768,7 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     *(u8 **)((s8 *)this + 0x6D8) = controller_input_state + 0xC0;
     this->m_6d4 = 0;
     this->mode = 0;
-    if (is_main_phase_15__9TObjEneDDFv(controller_input_state) != 0) {
+    if (TObjEneDD::is_main_phase_15() != 0) {
         if (this->update_lobby_state() != 0) {
             this->m_3e0 = 0;
         } else {
@@ -2263,7 +2260,7 @@ void spawn_trap__12TBoss8DragonFii(s32 arg0, s32 arg1) {
 }
 
 void TBoss8Dragon::try_spawn_trap() {
-    if ((this->m_3c0 & 0x40) && (is_closest_part__12TBoss8DragonFv() != 0)) {
+    if ((this->m_3c0 & 0x40) && (is_closest_part() != 0)) {
         spawn_trap__12TBoss8DragonFii((saddr)this, 0x4003D013);
     }
 }
@@ -2740,7 +2737,7 @@ void TBoss8Dragon::select_freeze_target() {
     }
     this->m_754 = 0x96;
     *(u8 * *)&this->m_6d8 = controller_input_state + 0x20;
-    if (is_main_phase_15__9TObjEneDDFv(controller_input_state) != 0) {
+    if (TObjEneDD::is_main_phase_15() != 0) {
         if (TBoss8Dragon__data_805D69BC == 0xFFFFU) {
             var_r31 = TBoss8Dragon::find_player_on_floor(this);
         } else {
@@ -4747,7 +4744,7 @@ void TBoss8Dragon::sub_802F6838(s32 arg1) {
         }
         break;
     case 5:
-        refresh_and_send_entity_flags__9TObjEnemyFv();
+        TObjEnemy::refresh_and_send_entity_flags();
         TBoss4DarkFalz::dispatch_by_main_phase(0x4F);
         *(s32 *)((s8 *)this + 0x30) = 0x12008;
         this->vfunc_74(0);
@@ -5921,7 +5918,7 @@ void TBoss8Dragon::render() {
 
 int TBoss8Dragon::vfunc_105() { return get_target_info(); }
 
-void TBoss8Dragon::render_shadows() { if (check_demo_mode__10TObjPlayerFv(this) == 0) { draw(); } }
+void TBoss8Dragon::render_shadows() { if (TObjPlayer::check_demo_mode() == 0) { draw(); } }
 
 void TBoss8Dragon::draw() {
     void *temp_r31;

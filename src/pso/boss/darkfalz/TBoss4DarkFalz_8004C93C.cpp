@@ -303,7 +303,6 @@ struct RecoveredGlobal_lbl_80485448 { s32 value; u8 remaining[0x8]; };
 extern RecoveredGlobal_lbl_80485448 lbl_80485448;
 void normalize_vector(Vec *);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-s32 is_timer_expired__14TBoss4DarkFalzFv();
 
 void TBoss4DarkFalz::update_leader_die_type2() {  }
 
@@ -460,7 +459,7 @@ void TBoss4DarkFalz::spawn_trap() {
     play_persistent_sound(0x4003A30A, (saddr)this, 0, -0x18, 2);
 }
 void TBoss4DarkFalz::check_timeout() {
-    if ((is_timer_expired__14TBoss4DarkFalzFv() != 0) || (TBoss4DarkFalz__sub_8004B07C((saddr)this) != 0)) {
+    if ((is_timer_expired() != 0) || (TBoss4DarkFalz__sub_8004B07C((saddr)this) != 0)) {
         send_action_packet(5);
     }
 }
@@ -494,7 +493,6 @@ void TBoss4DarkFalz__sub_8004B8F8(TBoss4DarkFalz *arg0);
 }
 void set_dark_falz_music_request(s32 arg0);
 extern "C" {
-int check_demo_mode__10TObjPlayerFv(void*);
 int create__14TObjDFUsoTowerFPv(void);
 }
 void unlock_music_flag(s32 flag);
@@ -545,7 +543,7 @@ void TBoss4DarkFalz::check_players_near_center() {
     }
 }
 
-void TBoss4DarkFalz::update_leader_editor() { if (check_demo_mode__10TObjPlayerFv(this) == 0) { change_state((saddr)((void*)1)); } }
+void TBoss4DarkFalz::update_leader_editor() { if (TObjPlayer::check_demo_mode() == 0) { change_state((saddr)((void*)1)); } }
 
 
 TBoss4DarkFalzState dark_falz_state_table[16] = {

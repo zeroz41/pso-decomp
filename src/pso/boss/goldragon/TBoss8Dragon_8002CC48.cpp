@@ -171,7 +171,6 @@ f32 sin_table_lookup(s32);
 
 f32 cos_table_lookup(s32, f32);
 
-s32 update_scale__15TObjBoss2TunnelFv(void *, f32);
 
 u8 *TObjBoss1MokoHill_SoloM__ct(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3);
 
@@ -223,7 +222,7 @@ f32 apply_velocity_scale(Vec *vector, f32 farg0, f32 farg1) {
         vector->x = temp_f2;
         vector->y = 1.0f;
         vector->z = vector->z * temp_f1_2;
-        update_scale__15TObjBoss2TunnelFv(vector, temp_f1_2);
+        ((TObjBoss2Tunnel *)vector)->update_scale();
     }
     return var_f31;
 }

@@ -20,6 +20,7 @@ extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 
 struct Stack_8036D6D4 {
     s32 sp8;
@@ -90,7 +91,6 @@ __declspec(section ".rodata") RecoveredGlobal_8036D4E0_lbl_8047ACE8 boss6_rock_c
 };
 extern s32 __vt__15TBoss6RockChase[];
 const char *TBoss6RockChase__name = TBoss6RockChase__class_name_string;
-s32 query_teammate_state__9TObjEneDDFv(void);
 f32 vector_length(void *);
 int subtract_vector(void *, void *);
 extern RecoveredGlobal_8036D4E0_lbl_8047ACE8 boss6_rock_chase_model_radius_table;
@@ -146,7 +146,7 @@ void TBoss6RockChase::render() { push_matrix(this); post_translate_matrix((char*
 void TBoss6RockChase::run_task() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r3;
-    if (query_teammate_state__9TObjEneDDFv() == 0) {
+    if (((TObjEneDD *)this)->query_teammate_state() == 0) {
         temp_r3 = this->m_b4;
         if (temp_r3 > 0) {
             this->m_b4 = (temp_r3 - 1);

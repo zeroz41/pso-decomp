@@ -269,7 +269,6 @@ s32 DCFlushRange(int, int);
 s32 TAdPlayerLoadGC__sub_801E1538(void *, void *);
 s32 poll_memcard_result(saddr chan);
 extern s32 lbl_805D49B4;
-s32 draw_textured_screen_quad__10TObjPlayerFUlPfPfl(int, void *, void *, int, f32);
 void poll_load_status__15TAdPlayerLoadGCFl(s32 a, void *b);
 u32 calc_crc32_bitwise(u8 *arg0, u32 arg1);
 void TAdPlayerLoadGC__sub_801E14E4(void *);
@@ -1301,7 +1300,7 @@ void TObjBoss2Tunnel__sub_8007CAE8(u32 arg0) {
     }
     stack.sp8 = 345.6f;
     stack.spC = 259.2f;
-    draw_textured_screen_quad__10TObjPlayerFUlPfPfl(-1, &stack.sp10, &stack.sp8, 1, 345.6f);
+    TObjPlayer::draw_textured_screen_quad(-1, (f32 *)(&stack.sp10), (f32 *)(&stack.sp8), 1);
 }
 
 void TObjBoss2Tunnel::show_message_and_wait(s32 arg0) {

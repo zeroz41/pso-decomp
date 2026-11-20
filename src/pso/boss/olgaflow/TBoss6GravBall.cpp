@@ -325,12 +325,10 @@ typedef void (TBoss6GravBall::*ActP_80323BBC)(void *);
 typedef void (TBoss6GravBall::*Act0_80323BBC)();
 
 extern "C" {
-s32 check_demo_mode__10TObjPlayerFv(void *);
 s32 query_teammate_state__9TObjEneDDFv(void);
 void VecCopy__FP3VecPC3Vec(void *, void *);
 
 s32 play_persistent_sound(int, void *, void *, int, int);
-s32 clamp_to_ground__14TBoss6GravBallFv();
 
 
 void clear_player_grav_flags__14TBoss6GravBallFv(void *);
@@ -401,7 +399,7 @@ void update_charge_effects__14TBoss6GravBallFPv(u8 *self) {
 void update_state__14TBoss6GravBallFPv(u8 *arg0) {
     s32 temp_r3;
     s32 temp_r3_2;
-    temp_r3 = clamp_to_ground__14TBoss6GravBallFv();
+    temp_r3 = ((TBoss6GravBall *)arg0)->clamp_to_ground();
     if (temp_r3 != 0) {
         TBoss6GravBall__sub_803236F8((TBoss6GravBall *)arg0);
     }
@@ -441,7 +439,7 @@ void update_state__14TBoss6GravBallFPv(u8 *arg0) {
 }
 
 void run_task__14TBoss6GravBallFv(TBoss6GravBall_80323BBC *arg0) {
-    if (check_demo_mode__10TObjPlayerFv(arg0) != 0) {
+    if (TObjPlayer::check_demo_mode() != 0) {
         return;
     }
     if (query_teammate_state__9TObjEneDDFv() != 0) {

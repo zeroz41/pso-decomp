@@ -1179,7 +1179,7 @@ s32 TBoss8Dragon__sub_8005DC0C(Obj_8005DC0C *arg0) {
     if (arg0->f326 == 4) {
         return 0;
     }
-    if (get_flag_bit6__13TBoss5GryphonFv() != 0) {
+    if (((TBoss5Gryphon *)arg0)->get_flag_bit6() != 0) {
         return 0;
     }
     if (arg0->f4e4 != 0) {
@@ -1256,7 +1256,7 @@ void TBoss5Gryphon::render_model() {
     pop_matrix();
 }
 
-void TBoss5Gryphon::render_shadows() { if (check_demo_mode__10TObjPlayerFv(this) == 0) { render_model(); } }
+void TBoss5Gryphon::render_shadows() { if (TObjPlayer::check_demo_mode() == 0) { render_model(); } }
 
 void TBoss5Gryphon::render() {
     s32 view = 0;
@@ -1958,7 +1958,7 @@ void TBoss8Dragon::fire_at_angle(s32 arg1) {
 }
 
 void TBoss5Gryphon::update_heading(s32 arg1) {
-    update_velocity__9TObjEneDDFv();
+    TObjEneDD::update_velocity();
     turn_toward_angle_limited__13TBoss5GryphonFPvii(this, arg1, (s32) (10430.38043493439 * atan2_float(*(f32 *)((s8 *)this + 0x3A0), this->m_3a8)));
 }
 
@@ -1973,7 +1973,7 @@ void turn_toward_angle_limited__13TBoss5GryphonFPvii(void *selfv, s32 arg1, s32 
 }
 
 void TBoss8Dragon::update_facing(f32 farg0) {
-    update_velocity__9TObjEneDDFv();
+    TObjEneDD::update_velocity();
     ((s32 (*)(void *, s32, f32))move_along_angle__13TBoss5GryphonFPvif)(this, (s32) (10430.38043493439 * atan2_float(*(f32 *)((s8 *)this + 0x3A0), this->m_3a8)), farg0);
 }
 

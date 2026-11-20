@@ -79,12 +79,9 @@ int clamp_to_arena_radius__11TBoss6Type1FPvPvf(void*, void*);
 void TBoss6Type1__sub_802B5598(void *arg0, void *arg1);
 s32 calc_grid_cell_position__11TBoss6Type1FPvPv(void *, void *);
 s32 is_timer_expired__11TBoss6Type1Fv();
-s32 is_field4b0_delta_reached__11TBoss6Type1Fv();
 s32 TBoss6Type1__sub_802B6060(u8 *arg0);
-s32 damage_players_in_range__11TBoss6Type1Fv();
 s32 TBoss6Type1__sub_802B6C30(void *);
 s32 TBoss6Type1__sub_802B73AC();
-s32 update_beam_attack__11TBoss6Type1Fv();
 void TBoss6Type1__sub_802B8A70(TBoss6Type1 *self);
 void TBoss6Type1__sub_802B8BB4(u8 *arg0);
 int TBoss6Type1__sub_802B8E1C(void*);
@@ -323,7 +320,7 @@ void TBoss6Type1::tick_state_410_timer() {
 void TBoss6Type1::init_move_attack() {
     this->m_40c = 0x1E;
     this->action_timer = 0x1E;
-    damage_players_in_range__11TBoss6Type1Fv();
+    damage_players_in_range();
     ((int (*)(void*, void*, void*, void*))play_sound_effect)((void*)(0x40039C19), (u8 *)&this->position, (void*)(0), (void*)(0));
 }
 
@@ -344,7 +341,7 @@ void TBoss6Type1::update_hit_timer() {
 
 void TBoss6Type1::update_attack_state() {
     if ((s32) this->action_timer == 0) {
-        if (is_field4b0_delta_reached__11TBoss6Type1Fv() != 0) {
+        if (is_field4b0_delta_reached() != 0) {
             send_flow_action_if_idle__11TBoss6Type1FPvc(this, (0x20));
             return;
         }
@@ -651,7 +648,7 @@ void TBoss6Type1::sub_802B3564() {
     s32 temp_r0;
     s32 temp_r4;
 
-    update_beam_attack__11TBoss6Type1Fv();
+    update_beam_attack();
     boss6_type1->interpolate_pos_to_target(*(s32 *)((s8 *)boss6_type1 + 0x410), boss6_type1->m_40c);
     temp_r0 = *(s32 *)((s8 *)boss6_type1 + 0x410) - 1;
     *(s32 *)((s8 *)boss6_type1 + 0x410) = temp_r0;
@@ -682,7 +679,7 @@ void TBoss6Type1::update_timer_state() {
     s32 temp_r0;
     s32 temp_r4;
 
-    update_beam_attack__11TBoss6Type1Fv();
+    update_beam_attack();
     temp_r0 = this->action_timer - 1;
     this->action_timer = temp_r0;
     if (temp_r0 < 0) {

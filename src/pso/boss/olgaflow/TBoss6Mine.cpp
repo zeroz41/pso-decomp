@@ -75,7 +75,6 @@ struct Tmp_80324A00 { s32 a; u8 pad4[2]; s16 b; u8 pad8[8]; };
 
 extern "C" {
 f32 vector_length(void *);
-s32 render_shadows__9TObjEnemyFv();
 s32 VecCopy__FP3VecPC3Vec(s32, s32);
 s32 project_actor_to_ground(void *, void *, int);
 f32 vec3_add_to(void *, void *);
@@ -105,7 +104,7 @@ int push_matrix(void*);
 void TBoss6Mine::render_shadows() {
     u8 *arg0 = (u8 *)this;
     if (*(f32 *)((s8 *)arg0 + 0x3C) >= (0.0f)) {
-        render_shadows__9TObjEnemyFv();
+        TObjEnemy::render_shadows();
     }
 }
 
