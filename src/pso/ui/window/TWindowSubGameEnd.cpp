@@ -10,6 +10,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 #pragma readonly_strings on
 
@@ -46,7 +47,6 @@ extern const char *TWindowSubGameEnd__class_name;
 s32 setup_player_battle_ctrls__23TAdSinglePlyChrSelectGCFv();
 s32 set_queued_main_phase(s32);
 s32 request_main_phase(s32);
-s32 init__23TAdSinglePlyChrSelectGCFv();
 
 void TKeyBoardControl::init_char_select() {
     if (is_split_screen() != 0) {
@@ -54,7 +54,7 @@ void TKeyBoardControl::init_char_select() {
         request_main_phase(7);
         return;
     }
-    init__23TAdSinglePlyChrSelectGCFv();
+    TAdSinglePlyChrSelectGC::init();
     set_queued_main_phase(9);
     request_main_phase(0x12);
 }

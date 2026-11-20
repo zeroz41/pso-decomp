@@ -37,6 +37,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include <stdlib.h>
 #include <string.h>
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 
 struct Menu_80296D68
@@ -264,7 +265,6 @@ struct M_80298450 { u8 pad[0x38]; f32 f38; };
 
 extern "C" {
 void copy_player_visual_record(void *, void *);
-void * get_char_index__23TAdSinglePlyChrSelectGCFUi(s32);
 void __ct__7TObjectFP7TObject(void *);
 u8 calc_section_id_from_name();
 s32 get_creation_sprite_id__14TObjCMMainMenuFl(int);
@@ -1065,11 +1065,11 @@ s32 TObjCMMainMenu::try_pay_fee() {
     s32 temp_r4;
     void *temp_r3;
 
-    if (get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF) == NULL) {
+    if ((void *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF) == NULL) {
         play_sound_effect(0x40018519, 0, 0, 0);
         return 0;
     }
-    temp_r3 = get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF);
+    temp_r3 = (void *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF);
     temp_r4 = *(s32 *)((s8 *)temp_r3 + 0x36C);
     if (temp_r4 < 0x2710) {
         *(s32 *)((s8 *)temp_r3 + 0x36C) = 0;

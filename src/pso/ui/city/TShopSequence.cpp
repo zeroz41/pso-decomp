@@ -28,7 +28,6 @@ void set_service_counter_camera(s32 sequence, s32 counter) {
     create_conversation_camera(service_counter_camera_alt_table[counter]);
 }
 
-s32 load_character_from_card__23TAdSinglePlyChrSelectGCFi(s32);
 s32 activate_body_collision__10TObjPlayerFv();
 s32 deactivate_body_collision__10TObjPlayerFv();
 void *get_player_by_client_id(s32 i);
@@ -89,7 +88,7 @@ void TShopSequence::vfunc_6() {
 
 void TShopSequence::close_if_single_screen() {
     if ((TAdSinglePlyChrSelectGC::get_game_mode() != 0) && (is_split_screen() == 0)) {
-        load_character_from_card__23TAdSinglePlyChrSelectGCFi(0);
+        TAdSinglePlyChrSelectGC::load_character_from_card(0);
     }
 }
 void TShopSequence::close_window() {

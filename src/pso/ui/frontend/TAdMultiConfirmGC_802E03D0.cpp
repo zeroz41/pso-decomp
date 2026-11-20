@@ -17,6 +17,7 @@
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 
 struct Obj_802E0CB0 {
@@ -65,7 +66,6 @@ u8 *TAdMultiPlyChrSelectGC__resource_bundle;
 s32 copy_player_visual_record(void *, void *);
 u8 *get_entry__23TAdSinglePlyChrSelectGCFi(int);
 u8 *get_char_table_entry__23TAdSinglePlyChrSelectGCFi(int);
-u8 *get_char_index__23TAdSinglePlyChrSelectGCFUi(int);
 #define F(o, t) (*(t *)(arg0 + (o)))
 
 }
@@ -196,7 +196,7 @@ void TUnk_804E3008::run_task() {
         }
         switch (F(0x104, s32)) {
         case 0:
-            copy_player_visual_record(arg0 + 0x120, get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF) + 0x370);
+            copy_player_visual_record(arg0 + 0x120, (u8 *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF) + 0x370);
             p = ::operator new(0x4AC);
             if (p != NULL) {
                 p = init_appearance_load_request__10TNpcPlayerFPvPvii((u8 *)p, (u8 *)arg0, (saddr)(arg0 + 0x120), 0);
@@ -214,7 +214,7 @@ void TUnk_804E3008::run_task() {
             F(0x60, s32) = 0xF3D5;
             break;
         case 2:
-            copy_player_visual_record(arg0 + 0x120, get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF) + 0x370);
+            copy_player_visual_record(arg0 + 0x120, (u8 *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF) + 0x370);
             p = ::operator new(0x4AC);
             if (p != NULL) {
                 p = init_appearance_load_request__10TNpcPlayerFPvPvii((u8 *)p, (u8 *)arg0, (saddr)(arg0 + 0x120), 0);
