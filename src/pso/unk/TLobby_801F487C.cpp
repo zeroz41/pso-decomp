@@ -4,15 +4,15 @@
 #include "pso/unk/text_801F45FC.h"
 #include "pso/unk/TLobby.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/ui/hud/TRaderMapCore.h"
 
 extern "C" {
 __declspec(section ".rodata") s32 lobby_story_flag_clear_list[6] = { 151, 152, 153, 154, -1, 0 };
 extern s32 lobby_story_flag_clear_list[6];
 void *memcpy(void *, void *, u32);
 extern u8 quest_story_flags_by_difficulty[0x200];
-int is_not_split_screen__13TRaderMapCoreFv(void*);
 
-void reset_camera_if_fullscreen__6TLobbyFPv(void* p) { if (is_not_split_screen__13TRaderMapCoreFv(p) == 1) { TCameraCtrl::get_nth_view_player_id((s32)((void*)0)); ((int (*)(void))TLobby__sub_801F494C)(); } }
+void reset_camera_if_fullscreen__6TLobbyFPv(void* p) { if (TRaderMapCore::is_not_split_screen() == 1) { TCameraCtrl::get_nth_view_player_id((s32)((void*)0)); ((int (*)(void))TLobby__sub_801F494C)(); } }
 
 void TLobby::clear_story_flag_list() {
     s32 i;

@@ -23,6 +23,7 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/technique/TTecReverser.h"
 
 extern "C" {
 s32 VecCopy__FP3VecPC3Vec(void *, int);
@@ -427,14 +428,12 @@ void set_state__10TNpcPlayerFPvs(void* p, s16 v);
 void set_type__10TNpcPlayerFPvs(void* p, s16 v);
 void* fn_80152EF8(void* p);
 void TFontSmallLobby__sub_80152F28(Obj_80152F28 *self);
-s32 check_switch__22TObjFogCollisionPoisonFv(s32);
 void TObjFogCollisionPoison__sub_80153520(s32 arg0);
 void TObjFogCollisionPoison__sub_801535D0(s32 arg0);
 Actor_8014F424 * find_entity_by_id(s32);
 s32 free_collision_body_parts(u32);
 void init_collision_body_parts(void *, void *, s32);
 void * __ct__14TObjCollidableFP7TObject(void *, void *);
-s32 is_any_teammate_in_state__10TObjPlayerFv(void *self);
 s32 try_send_6x27_use_item(s32, s32, void *);
 void *get_player_by_client_id(s32 i);
 s8 get_cast_technique_level(void *, s16);
@@ -442,7 +441,6 @@ int bswap_16__FPUs(void*);
 int bswap_32__FPUl(void*);
 void __ct__7TObjectFP7TObject(void *, void *);
 Tec_80150B90 * calc_technique_parameters(s32, s32, s32);
-s32 is_active__12TTecReverserFv(void *);
 void __register_global_object(void *obj, void *dtor, void *link);
 void __construct_array(void *, void *, int, int, int);
 s32 rand(void);
@@ -1665,7 +1663,7 @@ void TUnk_804AF7B0::run_task() {
     s32 temp_r31;
 
     temp_r31 = (s32)m_up;
-    if (check_switch__22TObjFogCollisionPoisonFv(temp_r31) != 0) {
+    if (((TObjFogCollisionPoison *)temp_r31)->check_switch() != 0) {
         if (((TObjFogCollision *)temp_r31)->check_collision(client) != 0) {
             ((TObjFogCollisionPoison *)temp_r31)->record_poison_hit(client);
             damage_timer++;
@@ -3272,7 +3270,7 @@ s32 scan_nearby_enemies__10TNpcPlayerFPvPvf(View_8014F57C *view, void *pos, f32 
     range = range * range;
     for (; i < TLobby::get_game_mode() + TObjEneDD::get_enemy_count(); i++) {
         actor = (Actor_8014F57C *)TObjPlayer::get_player_data(i);
-        if (is_active__12TTecReverserFv(actor) == 0 || !(actor->flags30 & 0x20000000)) {
+        if (((TTecReverser *)actor)->is_active() == 0 || !(actor->flags30 & 0x20000000)) {
             continue;
         }
         for (c = 0; c < actor->ncols; c++) {
@@ -3785,7 +3783,7 @@ void deliver_partner_chatter(Npc_8014E250 *self) {
         self->state = 0x19;
         return;
     }
-    if (is_any_teammate_in_state__10TObjPlayerFv(self) != 0) {
+    if (TObjPlayer::is_any_teammate_in_state() != 0) {
         return;
     }
     id = get_entity_id(self->owner->obj);

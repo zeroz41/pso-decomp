@@ -58,7 +58,6 @@ extern f32 TObjGyaranzoMissile__speed_scale;
 u8 *TObjGyaranzoMissile__ct(u8 *arg0, u8 *arg1, u8 *arg2, s16 arg3);
 s32 remap_area_sound_id(s32 arg0, s32 arg1);
 void *find_entity_by_id(u16);
-void init_all_slots__10TObjPlayerFv(void *);
 void check_enemy_body_collisions(void *);
 s32 play_sound_effect(void *, void *, int, int);
 Target_800D4990 *find_active_entity_by_id(u16);
@@ -87,7 +86,7 @@ void TObjGyaranzoMissile::sub_800D47B4() {
     Col_800D4990 *&collision = (Col_800D4990 *&)bodies;
     owner = find_entity_by_id(owner_id);
     collision->radius = 6.0f;
-    init_all_slots__10TObjPlayerFv(owner);
+    TObjPlayer::init_all_slots();
     this->check_object_collisions();
     check_enemy_body_collisions(this);
     if (collision->flags & 0x180000) {

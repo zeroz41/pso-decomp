@@ -299,7 +299,6 @@ s32 TBoss6Type2__sub_8032EAB8(void *arg0, s32 arg1);
 f32 TBoss5GryphonLightningWing__sub_80324CEC(f32);
 
 s32 calc_dir_angles__11TBoss6Type2FPvPvPvPv(void *arg0, s32 *arg1, s32 *arg2, Vec *arg3);
-s32 is_active__11TBoss6Type2Fv(int);
 void *get_player_by_client_id(s32 i);
 f32 sin_table_lookup(void *);
 f32 cos_table_lookup(void *);
@@ -393,7 +392,7 @@ void TBoss6Mag::sub_8032E8DC() {
         ((TBoss6Type2 *)this)->destroy_part_object(2);
         break;
     }
-    if (!(((Obj_8032E8DC *)this)->f3C8 & 0x1F) && is_active__11TBoss6Type2Fv(((Obj_8032E8DC *)this)->f378) != 0) {
+    if (!(((Obj_8032E8DC *)this)->f3C8 & 0x1F) && ((TBoss6Type2 *)(((Obj_8032E8DC *)this)->f378))->is_active() != 0) {
         spawn_particle_effect_with_flags(((Obj_8032E8DC *)this)->sw, 0x224, 0x2040);
     }
 }

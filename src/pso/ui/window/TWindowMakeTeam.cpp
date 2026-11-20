@@ -304,11 +304,11 @@ const char *TWindowMakeTeam__sub_80264B24(Obj_80264B24 *o) {
     return lbl_805D395C;
 }
 
-u8 TWindowMakeTeam::is_enabled() {
+s32 TWindowMakeTeam::is_enabled() {
     if (get_mode__6TLobbyFv() == 1) {
-        return 0U;
+        return (u8)(0U);
     }
-    return this->m_1f;
+    return (u8)(this->m_1f);
 }
 
 s32 TWindowMakeTeam::draw_entry_0x110(s8 arg0) {

@@ -107,7 +107,7 @@ public:
     // Gives it an entity id if it has none and enters it in the id-sorted
     // entity table (unregister_object_by_id takes it out).
     void register_object_by_id();
-    u16 unregister_object_by_id();
+    s32 unregister_object_by_id();
     void send_object_state_update(void *);
     // A player (client id, 0xFFFF for none) uses the action button on it.
     virtual void interact(s32 client);

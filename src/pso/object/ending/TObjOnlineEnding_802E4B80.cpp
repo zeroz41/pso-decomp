@@ -196,7 +196,6 @@ s32 *TLobby__sub_80070ACC();
 TWindowChallengeResult *TWindowChallengeResult__ct(TWindowChallengeResult *, const void *, s32, s32);
 s32 TWindowSubStatusDisp__sub_800718D0();
 s32 __dl__7TObjectFPv(void *);
-s32 get_card_window_value__16TObjOnlineEndingFv();
 s32 get_layout_id__20TWindowSubStatusDispFv(s32);
 
 void TObjOnlineEnding::create_result_window() {
@@ -213,7 +212,7 @@ void TObjOnlineEnding::create_result_window() {
         if (t == temp_r30) {
             window = static_cast<TWindowChallengeResult *>(TObject::operator new(sizeof(TWindowChallengeResult)));
             if (window != NULL) {
-                temp_r30_2 = get_card_window_value__16TObjOnlineEndingFv();
+                temp_r30_2 = TObjOnlineEnding::get_card_window_value();
                 temp_r31 = TWindowSubStatusDisp__sub_800718D0();
                 window = TWindowChallengeResult__ct(window, TLobby__sub_80070ACC(), temp_r31, temp_r30_2);
             }

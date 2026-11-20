@@ -989,7 +989,7 @@ bool TObjChara::vfunc_29() {
 
 void TObjPlayer__sub_8000FF4C(void* p, s16 v) { *(s16*)((char*)p + 0x2d4) = v; }
 
-u16 TObjPlayer::get_field_2d4() { return this->m_2d4; }
+s32 TObjPlayer::get_field_2d4() { return (u16)(this->m_2d4); }
 
 s32 TObjPlayer::is_local_player() {
     s32 arg0 = (s32)this;
@@ -4688,8 +4688,8 @@ s16 TObjChara::get_actor_hp() {
 #pragma scheduling off
 #pragma scheduling on
 #pragma scheduling off
-u8 TObjChara::obj_testFlag_2E4(u32 mask) {
-    return (this->m_2e4 & mask) != 0;
+s32 TObjChara::obj_testFlag_2E4(u32 mask) {
+    return (u8)((this->m_2e4 & mask) != 0);
 }
 #pragma pop
 

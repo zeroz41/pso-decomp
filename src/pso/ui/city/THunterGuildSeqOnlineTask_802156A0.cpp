@@ -51,7 +51,6 @@ extern SectionIdFavoredGrindTable section_id_favored_grind_table;
 extern s32 lbl_805D6238;
 extern G_802156E0 *item_appraisal_rules;
 u8 lookup_key_value__6TLobbyFc(s8 x);
-u8 get_entry_field16__9TItemDataFv(Item_8021587C *);
 void shuffle_shop_pool_n_times(void *, s32);
 void push_shop_pool_entry(void *, u8);
 extern s32 item_appraisal_favored_weapon;
@@ -158,7 +157,7 @@ void TLobby::roll_item_grind_bonus() {
             }
             ((Item_8021587C *)this)->f3 = v;
         }
-        u8 m = get_entry_field16__9TItemDataFv(((Item_8021587C *)this));
+        u8 m = ((TItemData *)this)->get_entry_field16();
         if (((Item_8021587C *)this)->f3 > m) {
             ((Item_8021587C *)this)->f3 = m;
         }

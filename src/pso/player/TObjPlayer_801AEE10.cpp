@@ -5,7 +5,6 @@
 
 extern "C" {
 
-s32 check_camera_mode__10TObjPlayerFv();
 s32 get_game_play_mode();
 s32 reset_volopt_state__10TObjPlayerFv(s32);
 int check_flag_100__10TObjPlayerFPv(void *p);
@@ -13,26 +12,26 @@ void *get_player_by_client_id(s32 i);
 s32 TObjPlayer__sub_80354C7C(s32);
 s32 TObjPlayer__sub_80354E3C();
 
-u8 TObjPlayer::is_final_phase() {
-    return (u8) (get_main_phase() == 0xF);
+s32 TObjPlayer::is_final_phase() {
+    return (u8)((u8) (get_main_phase() == 0xF));
 }
-u8 TObjPlayer::is_camera_ready() {
+s32 TObjPlayer::is_camera_ready() {
     int var_r31;
 
     var_r31 = 0;
-    if ((check_camera_mode__10TObjPlayerFv() != 0) && (get_game_play_mode() == 2)) {
+    if ((TObjPlayer::check_camera_mode() != 0) && (get_game_play_mode() == 2)) {
         var_r31 = 1;
     }
-    return (u8)var_r31;
+    return (u8)((u8)var_r31);
 }
-u8 TObjPlayer::is_camera_mode_active() {
+s32 TObjPlayer::is_camera_mode_active() {
     int var_r31;
 
     var_r31 = 0;
-    if ((check_camera_mode__10TObjPlayerFv() != 0) && (get_game_play_mode() == 1)) {
+    if ((TObjPlayer::check_camera_mode() != 0) && (get_game_play_mode() == 1)) {
         var_r31 = 1;
     }
-    return (u8)var_r31;
+    return (u8)((u8)var_r31);
 }
 s32 TObjPlayer::is_single_screen() {
     return (u8) (TRaderMapCore::is_not_split_screen() == 1);

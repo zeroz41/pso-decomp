@@ -457,8 +457,6 @@ s32 rotate_matrix_x(int, void *);
 s32 push_matrix_from(void *);
 f32 rotate_vector_by_current_matrix(void *, void *);
 extern RecoveredGlobal_8006ABAC_lbl_8058D490 identity_matrix;
-s32 reset_view_flags__11TCameraCtrlFv(void *);
-s32 cycle_spectate_target__11TCameraCtrlFv(void *);
 int is_float_nonfinite(f32);
 int is_quest_active(void);
 int TCameraCtrl__sub_8006B3B8(void* p);
@@ -675,9 +673,9 @@ void TCameraCtrl::run_task() {
 
     arg0[0x1C] = 1;
     ((TCameraCtrl *)arg0)->update_target_from_state();
-    cycle_spectate_target__11TCameraCtrlFv(arg0);
+    ((TCameraCtrl *)arg0)->cycle_spectate_target();
     ((TCameraCtrl *)arg0)->update_active_controller();
-    reset_view_flags__11TCameraCtrlFv(arg0);
+    ((TCameraCtrl *)arg0)->reset_view_flags();
     if (G != NULL) {
         if (ISNAN(GF(0x178)) == 0 && ISNAN(GF(0x17C)) == 0) {
             ISNAN(GF(0x180));

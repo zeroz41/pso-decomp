@@ -16,6 +16,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/camera/TCameraCtrl.h"
 
 struct G_80070B34 { u8 pad[0x10]; s32 x10; };
 
@@ -233,7 +234,6 @@ s32 TWindowSubStatusDisp__sub_8006F134(s32, s32);
 s32 get_character_save_record(s32);
 s32 TLobby__sub_802924B4(s32 arg0, u16 arg1);
 u32 get_player_by_client_id(s32);
-s32 calc_layout_hash__20TWindowSubStatusDispFv(int);
 s32 calc_entry_offset__20TWindowSubStatusDispFv(int);
 s32 TLobby__sub_802923C4(s32 idx, s32 value, s32 arg);
 s32 is_level_capped__23TAdSinglePlyChrSelectGCFv();
@@ -398,7 +398,7 @@ s32 TLobby__sub_802923C4(s32 idx, s32 value, s32 arg) {
         return 0;
     }
     if (idx == 0) {
-        value = calc_layout_hash__20TWindowSubStatusDispFv(-1);
+        value = ((TWindowSubStatusDisp *)(-1))->calc_layout_hash();
     }
     e = &TBL_800712D8.entries[idx];
     if (e->value != 0) {
@@ -669,7 +669,7 @@ s32 TLobby__sub_80292AB4(s32 arg0, s32 arg1, s32 slot) {
     Ent_80292AB4 *e;
     s32 w;
     lo = calc_entry_offset__20TWindowSubStatusDispFv(slot);
-    hi = calc_layout_hash__20TWindowSubStatusDispFv(slot);
+    hi = ((TWindowSubStatusDisp *)slot)->calc_layout_hash();
     if (GCW_80292AB4((u16)arg1) == NULL) {
         return -4;
     }
@@ -851,7 +851,6 @@ struct G_8006F2CC { u8 pad[0x28]; s32 x28; };
 
 extern "C" {
 int TLobby__sub_80292F5C(void* p);
-int get_instance__11TCameraCtrlFv(void*);
 
 s32 TLobby::is_value_out_of_range(s32 arg0) {
     if ((arg0 < TLobby::get_clamped_time_limit()) || (arg0 > 0x8C9F)) {
@@ -865,7 +864,7 @@ s32 TLobby__sub_80292F34(s32 arg0) {
     }
     return 0;
 }
-int TLobby__sub_80292F5C(void* p) { return get_instance__11TCameraCtrlFv(p); }
+int TLobby__sub_80292F5C(void* p) { return TCameraCtrl::get_instance(); }
 #pragma push
 #pragma fp_contract on
 s32 TLobby::get_challenge_mode_flag() {

@@ -61,7 +61,7 @@ void TWindowSubComCard__sub_80249144(void *window_choice_setting) {
     temp_r4 = ((TWindowChoiceSetting *)window_choice_setting)->m_80;
     if (!(temp_r4 & 1)) {
         ((TWindowChoiceSetting *)window_choice_setting)->m_80 = (u16) (temp_r4 | 1);
-        e = get_array_entry__11TWindowBaseFi(window_choice_setting, (s32)((TWindowChoiceSetting *)window_choice_setting)->get_field_74());
+        e = (void *)(((TWindowBase *)window_choice_setting)->get_array_entry((s32)((TWindowChoiceSetting *)window_choice_setting)->get_field_74()));
         ((TWindowChoiceSetting *)window_choice_setting)->m_3c = 20.0f + *(f32 *)((s8 *)e + 0x14);
         if (((TWindowChoiceSetting *)window_choice_setting)->m_2c & 0x40) {
             ((TWindowChoiceSetting *)window_choice_setting)->m_3c += 6.0f;

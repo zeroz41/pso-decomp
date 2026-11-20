@@ -83,8 +83,6 @@ LobbyNameStringBuffer lobby_name_string_buffer;
 s32 decode_slot__6TLobbyFUi(u32 id);
 s32 strncmp(void *, void *, int);
 void TLobby__sub_8006F48C(void);
-s32 calc_layout_hash__20TWindowSubStatusDispFv(int);
-s32 calc_entry_offset__20TWindowSubStatusDispFv(int);
 u32 *TWindowSubStatusDisp__sub_8006F134(void *, s32);
 s32 TLobby__sub_8006F38C(s32 arg0);
 s32 TLobby::check_challenge_time_range(s32 arg0) {
@@ -111,8 +109,8 @@ s32 TLobby__sub_8006F38C(s32 arg0) {
     s32 i;
     Entry_8006F38C *e;
     u32 w;
-    lo = calc_entry_offset__20TWindowSubStatusDispFv(-1);
-    hi = calc_layout_hash__20TWindowSubStatusDispFv(-1);
+    lo = ((TWindowSubStatusDisp *)(-1))->calc_entry_offset();
+    hi = ((TWindowSubStatusDisp *)(-1))->calc_layout_hash();
     if (get_character_save_record(0xFFFF) == 0) {
         return -4;
     }

@@ -114,7 +114,6 @@ void TChCrEffFade::draw_fade_strip(f32 farg0) {
 extern "C" {
 
 void TCameraCtrl__sub_80068EF0(void);
-s32 draw_fade_strip__12TChCrEffFadeFf(void *, f32);
 
 void TChCrEffFade::render() {
     f32 temp_f0;
@@ -122,12 +121,12 @@ void TChCrEffFade::render() {
     TCameraCtrl::restore_full_screen_view();
     switch (mode) {
     case 0:
-        draw_fade_strip__12TChCrEffFadeFf(this, alpha);
+        draw_fade_strip(alpha);
         break;
     case 1:
         fn_80293E58(this, alpha);
         temp_f0 = alpha;
-        draw_fade_strip__12TChCrEffFadeFf(this, temp_f0 * temp_f0);
+        draw_fade_strip(temp_f0 * temp_f0);
         break;
     }
     TCameraCtrl__sub_80068EF0();

@@ -461,7 +461,7 @@ s32 count_active_segments__15TObjBoss2TunnelFPv(void *arg0) {
     return var_r31;
 }
 
-s16 TObjBoss2Tunnel::turn_toward_angle_limited(s32 arg0, s32 cur, s32 target, s32 step, s32 limit) {
+s32 TObjBoss2Tunnel::turn_toward_angle_limited(s32 arg0, s32 cur, s32 target, s32 step, s32 limit) {
     target = angle_diff_s16(arg0, target);
     if (target > limit) {
         target = limit;
@@ -479,7 +479,7 @@ s16 TObjBoss2Tunnel::turn_toward_angle_limited(s32 arg0, s32 cur, s32 target, s3
     } else {
         cur = approach_angle_limited(cur, target, step);
     }
-    return cur;
+    return (s16)(cur);
 }
 
 void TObjBoss2Tunnel::init_zako(void* a1, s32 _w2) { rotate_xz_pair_by_angle((f32 *)this, (f32 *)((char*)this + 0x8), (s32)_w2); vec3_add_to(this, a1); }

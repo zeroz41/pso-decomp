@@ -91,7 +91,6 @@ s32 obj_getArrWord_254(void *, int);
 u16 get_entity_id(void *);
 int get_item_field_6__10TObjPlayerFPv(void *);
 int is_quest_active(void);
-s32 is_item_usable__9TItemDataFlPUc(void *, void *);
 s32 check_equip_requirements(void *self, TItemData *p, s32 *out);
 int check_class_equip_permission(TObjPlayer *player, s32 perm);
 void *lookup_item_pmt_record(u8 *item);
@@ -977,7 +976,7 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
   {
     return 0;
   }
-  if (is_item_usable__9TItemDataFlPUc(player, this) != 0)
+  if (TItemData::is_item_usable((s32)player, (u8 *)this) != 0)
   {
     result |= 2;
   }

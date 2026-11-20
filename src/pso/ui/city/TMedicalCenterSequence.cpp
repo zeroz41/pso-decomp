@@ -126,7 +126,6 @@ struct VObj_8021658C : Base_8021658C {
 extern "C" {
 s32 create_meseta_window(unsigned short);
 s32 set_service_counter_camera(void *, int);
-s32 sub_8022397C__15TShopWindowBaseFv(void *);
 extern RecoveredGlobal_802169A8___vt__22TMedicalCenterSequence __vt__22TMedicalCenterSequence;
 extern RecoveredGlobal_TMedicalCenterSequence__data_80513E90 TMedicalCenterSequence__data_80513E90;
 u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
@@ -162,7 +161,7 @@ TMedicalCenterSequence::TMedicalCenterSequence(TObject *parent, TObjPlayer *play
     m_2c = 0;
     m_30 = 0;
     counter_camera = NULL;
-    *(s32 *)((s8 *)(&TMedicalCenterSequence__data_80513E90.value) + (sub_8022397C__15TShopWindowBaseFv(this) * 4)) = 1;
+    *(s32 *)((s8 *)(&TMedicalCenterSequence__data_80513E90.value) + (sub_8022397C() * 4)) = 1;
 }
 
 TMedicalCenterSequence::~TMedicalCenterSequence() {
@@ -179,7 +178,7 @@ TMedicalCenterSequence::~TMedicalCenterSequence() {
         ((TWindowBase *)(*(void **)((s8 *)this + 0x30)))->close();
         this->m_30 = 0U;
     }
-    *(s32 *)((s8 *)&TMedicalCenterSequence__data_80513E90.value + (sub_8022397C__15TShopWindowBaseFv(this) * 4)) = 0;
+    *(s32 *)((s8 *)&TMedicalCenterSequence__data_80513E90.value + (sub_8022397C() * 4)) = 0;
 }
 
 typedef char RecoveredGlobal_802169A8___vt__22TMedicalCenterSequence_size[sizeof(RecoveredGlobal_802169A8___vt__22TMedicalCenterSequence) == 0x38 ? 1 : -1];

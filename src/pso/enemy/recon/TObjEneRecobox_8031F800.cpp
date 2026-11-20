@@ -281,7 +281,6 @@ extern "C" {
 
 u32 create__12TObjEneReconFPvPvPvPvPv(void *, u16, s32, Vec *, Vec *);
 
-s32 alloc_child_id__12TObjEneReconFv(void *);
 
 s32 remap_area_sound_id__14TObjEneRecoboxFUl(s32, s32, s32);
 
@@ -1028,7 +1027,7 @@ void TObjEneRecon::update_child_spawn() {
         dir.z = 2.0f * cos_table_lookup(o->f60);
         break;
     }
-    id = alloc_child_id__12TObjEneReconFv(o);
+    id = ((TObjEneRecon *)o)->alloc_child_id();
     arg = o->f2C + (id - o->f1C);
     VecCopy((Vec *)&pos, (const Vec *)(get_field_38_ptr__12TObjEneReconFv(o, o->f2C)));
     if (id == 0xFFFF) {
@@ -1312,8 +1311,8 @@ void TObjEneRecon::remove_child_entity(u8 *arg1) {
 }
 
 
-u8 TObjEneRecon::is_anim_6() {
-    return (u8) (this->mode == 6);
+s32 TObjEneRecon::is_anim_6() {
+    return (u8)((u8) (this->mode == 6));
 }
 
 void TObjEneRecobox::update_floor_probe() {
@@ -1338,7 +1337,7 @@ void TObjEneRecobox::update_floor_probe() {
 
 #pragma push
 #pragma opt_propagation off
-u16 TObjEneRecon::alloc_child_id() {
+s32 TObjEneRecon::alloc_child_id() {
     Rec_8031EDF8 *o = (Rec_8031EDF8 *)this;
   s32 new_var;
   s32 i;
@@ -1350,10 +1349,10 @@ u16 TObjEneRecon::alloc_child_id() {
       v = (0, o->base + i);
       new_var = i;
       o->ids[new_var] = v + 1;
-      return o->ids[new_var];
+      return (u16)(o->ids[new_var]);
     }
   }
-  return 0xFFFF;
+  return (u16)(0xFFFF);
 }
 #pragma pop
 

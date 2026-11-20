@@ -125,7 +125,7 @@ void TAdSinglePlyChrSelectGC__sub_801FBC3C(void *arg0) {
 }
 }
 
-u8 TAdSinglePlyChrSelectGC::load_and_verify_character_save(char *desc) {
+s32 TAdSinglePlyChrSelectGC::load_and_verify_character_save(char *desc) {
     s32 sum;
     u8 *buf;
     s32 res;
@@ -143,12 +143,12 @@ u8 TAdSinglePlyChrSelectGC::load_and_verify_character_save(char *desc) {
     if (res != 0) {
         lbl_805D49B4 = 0;
         TAdSinglePlyChrSelectGC::safe_free((u32)buf);
-        return 0;
+        return (u8)(0);
     }
     if (load_system_file__23TAdSinglePlyChrSelectGCFiPv(0, &sum) == 0) {
         lbl_805D49B4 = 0;
         TAdSinglePlyChrSelectGC::safe_free((u32)buf);
-        return 0;
+        return (u8)(0);
     }
     lbl_805D49B4 = 0;
     chr_select_serial_seeds[0] = chr_select_serial_seeds[1] = sum;
@@ -162,7 +162,7 @@ u8 TAdSinglePlyChrSelectGC::load_and_verify_character_save(char *desc) {
     strncpy(desc, (char *)(data + 0x19400), 0x10);
     TAdSinglePlyChrSelectGC::safe_free((u32)data);
     TAdSinglePlyChrSelectGC::safe_free((u32)buf);
-    return saved == res;
+    return (u8)(saved == res);
 }
 
 s32 TAdSinglePlyChrSelectGC::wait_for_card_load(s32 arg0) {

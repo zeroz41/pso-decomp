@@ -90,14 +90,12 @@ extern s32 tl_07;
 void *create_ch_time_win(void *arg0);
 extern "C" {
 Info_800703D0 *TLobby__sub_800703D0(Info_800703D0 *dst, Info_800703D0 *src);
-s32 send_6x7c_reset__6TLobbyFv(void *);
 void *get_player_by_client_id(s32 i);
 extern void *challenge_mode_state[];
 void TLobby__sub_80070254(L_80070254 *arg0);
 void render__10TChallengeFv(void);
 
 int is_quest_active(void);
-s32 update_card_save_info__6TLobbyFv(void *);
 s32 TLobby__sub_800739BC(void *);
 s32 TLobby__sub_8026A328();
 s32 check_player_state_flag_2__6TLobbyFv();
@@ -380,7 +378,7 @@ void TLobby::update_battle_cleanup_flag() {
     }
     if (check_player_state_flag_2__6TLobbyFv() != 0) {
         if (((s32) *(s32 *)((s8 *)this + 0x28) != 0) && ((s32) *(s32 *)((s8 *)&challenge_mode_state + 0x34) == 0)) {
-            update_card_save_info__6TLobbyFv(this);
+            update_card_save_info();
             TLobby__sub_800722AC(local_client_id);
             TLobby__sub_80072618();
         }
@@ -492,7 +490,7 @@ void TLobby__sub_80070254(L_80070254 *arg0) {
     if (found != 0) {
         arg0->x24++;
         if (arg0->x24 % 30 == 0) {
-            send_6x7c_reset__6TLobbyFv(arg0);
+            ((TLobby *)arg0)->send_6x7c_reset();
         }
     } else {
         arg0->x24 = 0;

@@ -10,11 +10,11 @@
 
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/unk/TLobby.h"
 
 #pragma readonly_strings on
 
 extern "C" {
-s32 is_idle__6TLobbyFv();
 s32 check_flag_100__10TObjPlayerFPv();
 extern s32 local_client_id;
 const char *TObjInfoCol__class_name = "TObjInfoCol";
@@ -40,7 +40,7 @@ void TObjInfoCol::run_task() {
         ((player = (u32)get_player_by_client_id(local_client_id), player == 0) ||
          check_flag_100__10TObjPlayerFPv() == 0) &&
         (player == 0 || ((TObjPlayer *)player)->is_inactive() != 0) &&
-        is_idle__6TLobbyFv() != 0) {
+        TLobby::is_idle() != 0) {
         open_lobby_warp_menu__6TLobbyFv();
     }
 }

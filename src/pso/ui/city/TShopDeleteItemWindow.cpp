@@ -94,7 +94,6 @@ s32 compact_items__18TCheckRoomSequenceFi(int);
 s32 remove_bank_item_amount__18TCheckRoomSequenceFiii(int, int, int);
 s32 copy_item_record__18TCheckRoomSequenceFiPvi(int, void *, int);
 s32 copy_bank_to_card_window(int);
-s32 sub_8022397C__15TShopWindowBaseFv(void *);
 u16 get_entity_id(void *);
 u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
 void *get_window_layout_position(int);
@@ -189,7 +188,7 @@ void TShopDeleteItemWindow::sub_80337E2C() {
     s32 i;
     Win_80337C2C *win = (Win_80337C2C *)this;
     win->f5c = 1;
-    base = sub_8022397C__15TShopWindowBaseFv(win);
+    base = ((TShopWindowBase *)win)->sub_8022397C();
     win->room = TCheckRoomSequence::get_room_table_entry(base);
     if (win->room == 0) {
         ((VObj_80337B00 *)win)->m4(0x3E, 1);
@@ -266,7 +265,7 @@ s32 TShopDeleteItemWindow::update_item_select(void *arg0) {
     s32 cursor;
     void *p;
     s32 id;
-    base = sub_8022397C__15TShopWindowBaseFv(self);
+    base = ((TShopWindowBase *)self)->sub_8022397C();
     if (self->f30 != NULL) {
         cursor = ((TWindowMenuIconLine *)self->f30)->get_cursor_value();
         if (self->f3c != NULL && cursor != self->f60) {
@@ -341,7 +340,7 @@ void TShopDeleteItemWindow::handle_confirm_dialog() {
     u32 temp_r3_4;
     temp_r3 = this->m_34;
     if ((temp_r3 != 0U) && (((TWindowMenu *)temp_r3)->is_decided() != 0)) {
-        slot = sub_8022397C__15TShopWindowBaseFv(this);
+        slot = sub_8022397C();
         selected_menu_value = ((TWindowMenu *)this->m_34)->get_selected_value();
         if (selected_menu_value == 0) {
             idx = ((TWindowMenuIconLine *)(this->m_30))->get_cursor_value();

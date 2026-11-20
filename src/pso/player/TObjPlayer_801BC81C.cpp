@@ -13,8 +13,6 @@
 extern "C" {
 
 void for_each_player_slot__10TObjPlayerFv(void *);
-s32 sub_801A1DDC__10TObjPlayerFv(s32);
-s32 is_final_phase__10TObjPlayerFv();
 s32 obj_isState2_324__9TObjCharaFv();
 
 extern "C" {
@@ -100,7 +98,6 @@ void TObjPlayer__sub_801BCA0C(void) {  }
 void TObjPlayer__sub_801BCA10(void) {  }
 
 s32 get_record_byte_at(void *, s32);
-s32 get_slot_value_checked__10TObjPlayerFl(void *, s32);
 
 void TObjPlayer__sub_801BCA14(u8 *player, void *arg1) {
     s32 i;
@@ -109,7 +106,7 @@ void TObjPlayer__sub_801BCA14(u8 *player, void *arg1) {
     ((TObjPlayer *)(player + 0x428))->copy_all_technique_entries((void *)0x1D);
     i = 0;
     do {
-        clamp_and_set_unit_value__10TObjPlayerFiUci(player, get_slot_value_checked__10TObjPlayerFl(arg1, i) + get_record_byte_at(arg1, i), (s16)i);
+        clamp_and_set_unit_value__10TObjPlayerFiUci(player, ((TObjPlayer *)arg1)->get_slot_value_checked(i) + get_record_byte_at(arg1, i), (s16)i);
         i += 1;
     } while (i < 0x13);
 }
@@ -123,7 +120,7 @@ void TObjPlayer::update_state() {
         ((TObjPlayer *)arg0)->sync_current_area();
         ((TObjPlayer *)arg0)->sync_current_floor();
     }
-    if ((is_final_phase__10TObjPlayerFv() != 0) && (sub_801A1DDC__10TObjPlayerFv(arg0) != 0)) {
+    if ((TObjPlayer::is_final_phase() != 0) && (((TObjPlayer *)arg0)->sub_801A1DDC() != 0)) {
         ((TObjPlayer *)arg0)->apply_state_transform();
     }
 }

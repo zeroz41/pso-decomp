@@ -92,7 +92,6 @@ f32 horizontal_distance_squared(void *, void *);
 s32 notify_fish_obj__10TObjPlayerFPv(int);
 s32 queue_boss_effect__10TObjPlayerFPv(int);
 s32 TObjPlayer__sub_802E80A0();
-void draw_effect__10TObjPlayerFv(void *);
 void rotate_matrix_by_node_angles(void *, int);
 s32 scale_current_matrix(void *);
 void post_translate_matrix(void *);
@@ -490,7 +489,7 @@ void render__14TBoss7TentacleFv(u8 *arg0) {
     s32 var_r5;
     u8 *temp_r7;
     u8 *temp_r8;
-    ((s32 (*)(void))draw_effect__10TObjPlayerFv)();
+    TObjPlayer::draw_effect();
     ((s32 (*)(void))push_matrix)();
     switch (*(s32 *)((s8 *)arg0 + 0x30)) {
     case 0:
@@ -609,7 +608,7 @@ void TBoss7TentacleNeedle::run_task() {
 }
 
 void TBoss7TentacleNeedle::render() {
-    draw_effect__10TObjPlayerFv(this);
+    TObjPlayer::draw_effect();
     set_motion_packed_rotation();
     push_matrix();
     post_translate_matrix((void *)((char *)this + 28));

@@ -34,7 +34,6 @@ u8 ret_801D7924(Obj_801D70CC *p);
 u8 ret_801D791C(Obj_801D7098 *p);
 u8 ret_801D792C(Obj_801D7100 *p);
 u8 TLobby__sub_801D7100(Obj_801D7100 *p);
-s32 is_invalid_slot__10TObjPlayerFUc(u8);
 u8 ret_801D78E4();
 
 void TLobby::set_volume(u8 arg1) {
@@ -52,7 +51,7 @@ u8 TLobby__sub_801D6DDC(void *arg0) {
     s32 t;
     t = *(u8 *)((s8 *)arg0 + 0x11);
     v = t;
-    if (is_invalid_slot__10TObjPlayerFUc(t) == 0 && v > 0x1DU) {
+    if (TObjPlayer::is_invalid_slot(t) == 0 && v > 0x1DU) {
         v = 0;
     }
     return v;
@@ -62,7 +61,7 @@ void TLobby::set_validated_field_0x11(u8 arg1) {
     u8 var_r31;
 
     var_r31 = arg1;
-    if ((is_invalid_slot__10TObjPlayerFUc(var_r31) == 0) && (var_r31 > 0x1DU)) {
+    if ((TObjPlayer::is_invalid_slot(var_r31) == 0) && (var_r31 > 0x1DU)) {
         var_r31 = 0;
     }
     *(u8 *)((s8 *)this + 0x11) = var_r31;

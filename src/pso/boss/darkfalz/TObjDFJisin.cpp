@@ -160,7 +160,6 @@ struct Ang_80050808 { s32 x, y, z; };
 
 extern "C" {
 u16 find_nearest_visible_player(void *, int, f32);
-s32 is_boss_active__13TObjDFHormingFv();
 int queue_destruction__13TObjDFHormingFPv(void* p);
 s32 query_teammate_state__9TObjEneDDFv();
 }
@@ -231,7 +230,6 @@ Player_80050D74 * get_player_data__10TObjPlayerFi(s32);
 u16 get_entity_id(void *);
 f32 atan2_float(f32 y, f32 x);
 f32 newton_sqrtf(f32);
-s32 is_state_ready__14TBoss4DarkFalzFv();
 }
 void damage_players_near_point(s32 arg0, Vec *arg1);
 extern "C" {
@@ -282,7 +280,6 @@ s32 matrix_mult_vec(int, void *, void *);
 Vec lbl_804FF228;
 Vec lbl_804FF234;
 Mtx34 df_captured_matrix_pair[2];
-s32 is_active__14TBoss4DarkFalzFv();
 void TObjDFTenchuFuru__sub_80051A7C(void);
 
 
@@ -301,6 +298,7 @@ typedef char RecoveredFields_80051AD0_var_r31_30_offset[offsetof(RecoveredFields
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803DC86C.h"
 #include "pso/boss/darkfalz/TObjDFUsoTower.h"
+#include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 
 typedef struct Obj_80052090 {
     u8 pad0[0x38];
@@ -643,7 +641,7 @@ void TObjDFTenchuFuru::run_task() {
     if (effect != NULL) {
         effect->set_position(&pos);
     }
-    if (--timer < 0 || (is_active__14TBoss4DarkFalzFv() == 0 && is_state_ready__14TBoss4DarkFalzFv() == 0)) {
+    if (--timer < 0 || (TBoss4DarkFalz::is_active() == 0 && TBoss4DarkFalz::is_state_ready() == 0)) {
         queue_destruction();
     }
 }
@@ -674,7 +672,7 @@ void TObjDFRecover::run_task() {
     s32 target_address;
     u32 effect_address;
     u16 id;
-    if (is_state_ready__14TBoss4DarkFalzFv() == 0) {
+    if (TBoss4DarkFalz::is_state_ready() == 0) {
         queue_destruction();
         return;
     }
@@ -870,7 +868,7 @@ void damage_players_near_point(s32 arg0, Vec *arg1) {
     Hit_80050D74 hit;
     s32 i;
     Player_80050D74 *p;
-    if (is_state_ready__14TBoss4DarkFalzFv() == 0) {
+    if (TBoss4DarkFalz::is_state_ready() == 0) {
         return;
     }
     hit.type = 0x11;
@@ -978,7 +976,7 @@ void run_task__13TObjDFHormingFv(u8 *arg0) {
     {
         s32 id = find_nearest_visible_player(arg0, 0, 7.5f);
         if (id != 0xFFFF && (p = (u8 *)get_player_by_client_id(id)) != NULL) {
-            if (is_boss_active__13TObjDFHormingFv() != 0) {
+            if (TObjDFHorming::is_boss_active() != 0) {
                 s.a = 0;
                 s.b = *(s32 *)&((TObjDFHorming *)arg0)->m_360;
                 {

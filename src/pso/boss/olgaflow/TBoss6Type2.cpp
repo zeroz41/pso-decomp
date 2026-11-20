@@ -1465,14 +1465,14 @@ void TBoss6Type2::set_state_0x34() {
     play_sound_if_no_target();
 }
 
-u8 TBoss6Type2::is_active() {
+s32 TBoss6Type2::is_active() {
     s32 var_r4;
 
     var_r4 = 0;
     if ((((s32) *(s32 *)((s8 *)this + 0x51C) != 0) && ((s32) *(s32 *)((s8 *)this + 0x518) >= 0)) || ((s32) this->m_374 == 1)) {
         var_r4 = 1;
     }
-    return (u8) var_r4;
+    return (u8)((u8) var_r4);
 }
 
 void TBoss6Type2::update_countdown() {

@@ -494,7 +494,6 @@ void TBoss4DarkFalz__sub_8004B8F8(TBoss4DarkFalz *arg0);
 }
 void set_dark_falz_music_request(s32 arg0);
 extern "C" {
-int check_demo_mode__10TObjPlayerFv(void*);
 int create__14TObjDFUsoTowerFPv(void);
 }
 void unlock_music_flag(s32 flag);
@@ -545,7 +544,7 @@ void TBoss4DarkFalz::check_players_near_center() {
     }
 }
 
-void TBoss4DarkFalz::update_leader_editor() { if (check_demo_mode__10TObjPlayerFv(this) == 0) { change_state((s32)((void*)1)); } }
+void TBoss4DarkFalz::update_leader_editor() { if (TObjPlayer::check_demo_mode() == 0) { change_state((s32)((void*)1)); } }
 
 
 TBoss4DarkFalzState dark_falz_state_table[16] = {

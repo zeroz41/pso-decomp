@@ -13,6 +13,7 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
+#include "pso/technique/TTecCtrl.h"
 
 #pragma readonly_strings on
 
@@ -113,7 +114,6 @@ extern s32 __vt__9TTecResta[];
 extern const char *TTecResta__name;
 u8 *TTecResta__sub_80239C48(TTecResta *arg0, s32 arg1, s32 arg2, s32 arg3);
 f32 *calc_technique_parameters(s32, s32, s32);
-s32 is_technique_ready__8TTecCtrlFv(int);
 extern RecoveredGlobal_802394B0_lbl_804CC55C lbl_804CC55C;
 extern s32 __vt__13TUnk_804CCBC0[];
 Row_8023967C TTecResta__self_recovery_effect_table[3] = {
@@ -353,7 +353,7 @@ void TTecResta::init_parameters() {
   new_var = (int) calc_technique_parameters(0xF, this->m_a4, 0xFFFF);
   ((TTecAnti *)(arg0 + 0x74))->copy_params((u8 *)new_var);
   this->m_74 = (f32) ((this->m_74) + ((f32) ((this->m_98) * (this->m_a4))));
-  if (((s32 (*)(void))is_technique_ready__8TTecCtrlFv)() != 0)
+  if (TTecCtrl::is_technique_ready() != 0)
   {
     this->m_74 = (f32) ((this->m_74) * (*((f32 *) (((s8 *)&lbl_804CC55C.value) + 0x78))));
   }
@@ -365,7 +365,7 @@ f32 TTecResta::calc_heal_amount(s32 arg0) {
   temp_r3 = (f32 *) calc_technique_parameters(0xF, arg0, 0xFFFF);
   var_f31 = *((f32 *) (((s8 *) temp_r3) + 0));
   var_f31 = var_f31 + ((f32) (arg0 * 5));
-  if (is_technique_ready__8TTecCtrlFv((int) temp_r3) != 0)
+  if (TTecCtrl::is_technique_ready() != 0)
   {
     var_f31 *= *((f32 *) (((s8 *)&lbl_804CC55C.value) + 0x78));
   }

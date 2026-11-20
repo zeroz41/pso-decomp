@@ -33,7 +33,6 @@ s32 TObjEneRe4Bit__model;
 s32 re4_bit_texture_list;
 extern "C" { extern char TObjEneRe4Bit__class_name_string[]; }
 const char *lbl_805D2AE8 = TObjEneRe4Bit__class_name_string;
-f32 calc_elapsed_scaled__9TObjEneDDFv(TObjEneDD *self);
 extern BmlResource *sorcerer_bml_resource;
 extern s32 lbl_8043D2B0[];
 extern s32 lbl_8043D2B8[];
@@ -470,8 +469,8 @@ void TObjEneRe4Bit__sub_800ECD28(TObjEneRe4Bit *bit, s32 arg1) {
         bit->m_408 = bit->m_408 + 1;
         VecCopy((Vec *)&bit->m_2fc, bit->m_3c0);
         bit->m_300 = bit->m_300 + bit->m_3d8;
-        bit->m_2fc = bit->m_2fc + calc_elapsed_scaled__9TObjEneDDFv(bit);
-        bit->m_304 = bit->m_304 + calc_elapsed_scaled__9TObjEneDDFv(bit);
+        bit->m_2fc = bit->m_2fc + ((TObjEneDD *)bit)->calc_elapsed_scaled();
+        bit->m_304 = bit->m_304 + ((TObjEneDD *)bit)->calc_elapsed_scaled();
         bit->vfunc_102();
         return;
     case 5:

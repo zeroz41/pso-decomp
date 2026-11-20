@@ -233,7 +233,7 @@ s32 get_action_state__14TBoss4DarkFalzFv();
 s32 get_phase__14TBoss4DarkFalzFv();
 s32 get_state__14TBoss4DarkFalzFv();
 
-u8 TObjDFHorming::is_boss_active() {
+s32 TObjDFHorming::is_boss_active() {
     int var_r31;
 
     var_r31 = 0;
@@ -246,10 +246,10 @@ u8 TObjDFHorming::is_boss_active() {
             }
         }
     }
-    return (u8) var_r31;
+    return (u8)((u8) var_r31);
 }
 
-u8 TBoss4DarkFalz::is_state_ready() {
+s32 TBoss4DarkFalz::is_state_ready() {
     int var_r31;
 
     var_r31 = 0;
@@ -262,10 +262,10 @@ u8 TBoss4DarkFalz::is_state_ready() {
             }
         }
     }
-    return (u8) var_r31;
+    return (u8)((u8) var_r31);
 }
 
-u8 TBoss4DarkFalz::is_active() {
+s32 TBoss4DarkFalz::is_active() {
     int var_r31;
 
     var_r31 = 0;
@@ -278,9 +278,9 @@ u8 TBoss4DarkFalz::is_active() {
             }
         }
     }
-    return (u8) var_r31;
+    return (u8)((u8) var_r31);
 }
-u16 TBoss4Type3::pick_random_target_player() {
+s32 TBoss4Type3::pick_random_target_player() {
     u16 buf[4];
     s32 n;
     s32 i;
@@ -296,9 +296,9 @@ u16 TBoss4Type3::pick_random_target_player() {
         }
     }
     if (n == 0) {
-        return 0xFFFF;
+        return (u16)(0xFFFF);
     }
-    return buf[(s32)(((f32)n - 0.01f) * (3.0517578e-05f * (f32)rand()))];
+    return (u16)(buf[(s32)(((f32)n - 0.01f) * (3.0517578e-05f * (f32)rand()))]);
 }
 
 }

@@ -83,7 +83,6 @@ void TAdEp3Exist__sub_8036F574(u8 *arg0);
 u8 TAdEp3Exist__sub_8036F590(u8 *arg0);
 s32 get_localized_text_entry(s32 arg0, s32 arg1);
 u32 calc_text_width(char *s);
-s32 load_and_verify_character_save__23TAdSinglePlyChrSelectGCFPc(void *, void *);
 u8 *get_instance__23TAdSinglePlyChrSelectGCFv(void);
 void __ct__7TObjectFP7TObject(void);
 int reset_and_set_mode__21TAdMultiChgGameModeGCFv(void*);
@@ -197,7 +196,7 @@ void *TAdEp3Exist__ct(Ep3_8036F354 *o) {
     o->x28 = 0;
     o->x30 = 0;
     flag[0] = 0;
-    res = load_and_verify_character_save__23TAdSinglePlyChrSelectGCFPc(flag, save);
+    res = ((TAdSinglePlyChrSelectGC *)flag)->load_and_verify_character_save((char *)save);
     ok = false;
     if (res != 0) {
         if (flag[0] != 0) {

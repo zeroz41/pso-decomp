@@ -33,6 +33,7 @@
 #include "pso/system/task/TObject.h"
 
 #include "pso/object/base/TObjChara.h"
+#include "pso/enemy/TUnk_80493450.h"
 
 
 struct Ent_80103F68 { u8 pad[0x24]; };
@@ -114,7 +115,6 @@ extern s32 TLobby__designated_client_id;
 #pragma auto_inline off
 #pragma dont_inline off
 extern "C" {
-s32 test_elt_flag__13TUnk_80493450Fll(void *p, s32 a, s32 mask);
 extern void *tl_05;
 void TLobby__sub_801036CC(void);
 void set_boss_buf_entry__6TLobbyFii(s32, u16);
@@ -130,7 +130,7 @@ void TLobby__sub_801036CC(void) {
     Player_801036CC *p;
     for (i = 0; i != TLobby::get_lobby_flag(); i++) {
         p = (Player_801036CC *)TObjPlayer::get_player_data(i);
-        if (p != NULL && test_elt_flag__13TUnk_80493450Fll(p, 0, 0x20000) != 0 && p->owner == tl_05) {
+        if (p != NULL && ((TUnk_80493450 *)p)->test_elt_flag(0, 0x20000) != 0 && p->owner == tl_05) {
             ((TObject *)p)->queue_destruction();
         }
     }

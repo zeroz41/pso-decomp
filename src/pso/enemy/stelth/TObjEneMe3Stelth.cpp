@@ -71,6 +71,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/npc/TNpcPlayer.h"
 
 #pragma readonly_strings on
 
@@ -89,7 +90,6 @@ s32 copy_position_if_valid__10TObjPlayerFii(s32 arg0, s32 arg1);
 extern StelthBehaviorParams *TObjEneMe3Stelth__behavior_params_by_variant[];
 extern s32 game_difficulty_selection;
 u16 get_entity_id(void *);
-u32 get_valid_target_player__10TNpcPlayerFv(int);
 extern CollisionBody TObjEneMe3Stelth__collision_body_template;
 BmlResource *TObjEneMe3Stelth__bml_resource;
 s32 TObjEneMe3Stelth__render_node_index;
@@ -2064,12 +2064,12 @@ s32 TObjEneMe3Stelth__sub_800F0F84(TObjEneMe3Stelth *stelth, Vec *pos) {
     VecCopy(&stelth->position, pos);
     TObjPlayer::init_all_slots();
     stelth->vfunc_89();
-    if ((body->flags & 0x80000) && get_valid_target_player__10TNpcPlayerFv(get_entity_id(stelth->target)) == 0) {
+    if ((body->flags & 0x80000) && ((TNpcPlayer *)(get_entity_id(stelth->target)))->get_valid_target_player() == 0) {
         VecCopy(&stelth->position, &sp);
         TObjPlayer::init_all_slots();
         return 1;
     }
-    if ((body->flags & 0x100000) && get_valid_target_player__10TNpcPlayerFv(stelth->entity_id) == 0) {
+    if ((body->flags & 0x100000) && ((TNpcPlayer *)stelth->entity_id)->get_valid_target_player() == 0) {
         VecCopy(&stelth->position, &sp);
         TObjPlayer::init_all_slots();
         return 1;

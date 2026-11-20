@@ -58,7 +58,6 @@ struct Pair_801F6E08 { f32 a; f32 b; };extern "C" {
 s32 create_window__24TMessageWindowControllerFll(void*, s32, void*);
 s32 get_window_layout_position(s32);
 s32 poll_memcard_result(s32);
-void set_ready__6TSceneFv(void *);
 }
 extern s32 lbl_805D55C0;
 extern u32 lobby_player_construction_window;
@@ -1126,7 +1125,7 @@ void TQuestVmDownLoadServer::close_download() {
     }
 }
 void TQuestVmDownLoadServer::destroy() {
-    set_ready__6TSceneFv(this);
+    TScene::set_ready();
     if (lobby_player_construction_window != 0) {
         ((TObject *)((void *)lobby_player_construction_window))->allow_rendering();
     }

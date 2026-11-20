@@ -30,7 +30,7 @@ public:
     s32 get_attack_angle();
     s16 test_immunity_flags(s32);
     s16 get_actor_attack_params_atp_min();
-    u8 obj_testFlag_2E4(u32);
+    s32 obj_testFlag_2E4(u32);
     int obj_getPtr2B0_1C();
     // The character's stat block (ATP, MST, EVP, HP, DFP, ATA, LCK first).
     u8 *get_stats();

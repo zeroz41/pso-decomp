@@ -14,7 +14,6 @@ extern "C" {
 
 u32 spawn_shoot_particle__10TObjPlayerFUlllf(void *, s32, s32, f32);
 u32 create_shoot_model__10TObjPlayerFUiiif();
-int get_player_list__10TObjPlayerFv(void*);
 int rotate_matrix_y(void*, void*);
 }
 
@@ -38,7 +37,7 @@ u32 baranz_launcher_create_shot(void *player, s32 arg1, s32 arg2, f32 farg0) {
 }
 
 // Baranz Launcher (inferred)
-void TUnk_804A2A58::vfunc_60() { if (get_player_list__10TObjPlayerFv(this) == 1) { rotate_matrix_y((void*)0, *(void **)&rotation_y); } }
+void TUnk_804A2A58::vfunc_60() { if (TObjPlayer::get_player_list() == 1) { rotate_matrix_y((void*)0, *(void **)&rotation_y); } }
 
 extern "C" {
 s32 is_model_shown__5TItemFv(void *, int);

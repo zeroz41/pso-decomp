@@ -61,7 +61,6 @@ s32 TAdSinglePlyChrSelectGC__sub_801334DC(void *p);
 s32 load_tables();
 u32 TAdSinglePlyChrSelectGC__sub_801FE4BC();
 s32 is_slot_active__23TAdSinglePlyChrSelectGCFUi();
-u32 check_flag__23TAdSinglePlyChrSelectGCFl(s32);
 s32 TAdChrSelASlotGC__sub_8030C3C0(TAdChrSelASlotGC *self, u32 i);
 s32 TAdChrSelASlotGC__sub_8030CA84(s32 arg0, s32 arg1);
 extern s32 controller_physical_port_bank[];
@@ -345,7 +344,7 @@ void TAdSinglePlyChrSelectGC::handle_slot_selection() {
             TAdSinglePlyChrSelectGC__sub_801334DC((void *)(*(s32 *)&this->m_2c));
             load_tables();
             ((TAdMultiPlyChrSelectGC *)(*(s32 *)&this->m_30))->set_field_100(2);
-            if (check_flag__23TAdSinglePlyChrSelectGCFl(1) != 0U) {
+            if (TAdSinglePlyChrSelectGC::check_flag(1) != 0U) {
                 var_r30 = 1;
                 ((TAdMultiPlyChrSelectGC *)(*(s32 *)&this->m_34))->set_entry_value(0, get_localized_text_entry(0x1E, 5));
                 ((TAdMultiPlyChrSelectGC *)(*(s32 *)&this->m_34))->set_entry_value(1, get_localized_text_entry(0x1E, 6));
@@ -493,7 +492,6 @@ struct Self_802D4B6C {
 typedef void (TAdSinglePlyChrSelectGC::*Act_802D4B6C)();
 
 extern "C" {
-s32 set_default_camera__21TAdMultiChgGameModeGCFv(void *);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 s32 __ct__9TAdBackGCFv(void *, void *);
 s32 __ct__12TAdBackTxtGCFv(void *, void *);
@@ -558,7 +556,7 @@ void TAdSinglePlyChrSelectGC::cleanup() {
 
 void TAdSinglePlyChrSelectGC::run_task() {
     Self_802D4B6C *self = (Self_802D4B6C *)this;
-    set_default_camera__21TAdMultiChgGameModeGCFv(self);
+    TAdMultiChgGameModeGC::set_default_camera();
     static Act_802D4B6C tbl[13] = {
         &TAdSinglePlyChrSelectGC::cleanup,
         &TAdSinglePlyChrSelectGC::sub_802D486C,

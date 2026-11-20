@@ -23,7 +23,7 @@ struct TObjCityMainWarp : public TObjAreaWarp {
     void update_state();
     void render();
     void *create();
-    static void clear_active_bit();
+    void clear_active_bit();
     void update_warp_flags_from_story();
     void init_visible_mask();
     static s32 get_floor_warp_bit(s32 floor);

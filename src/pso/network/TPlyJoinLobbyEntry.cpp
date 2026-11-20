@@ -347,7 +347,6 @@ s32 mem_free(int);
 u8 * mem_alloc(s32);
 void clear_enabled_main_warps();
 s32 TLobby__sub_801A3E8C();
-s32 get_table_entry_by_index__6TLobbyFv(void *);
 s32 fill_player_record__10TObjPlayerFPvPv(void *, void *);
 s32 init_player_join_record(void *);
 void send_player_data_98__9TProtocolFPvPvPvPvPvPvPv(void *, void *, void *, void *, void *, void *, void *);
@@ -541,7 +540,7 @@ void update_idle_timeout__6TLobbyFPv(u8 *object) {
             (*(Obj_80134F9C * *)&TLobby__idle_timeout_object) = 0;
         }
     }
-    t->limit = get_table_entry_by_index__6TLobbyFv((void *)local_client_id);
+    t->limit = ((TLobby *)local_client_id)->get_table_entry_by_index();
     elapsed = t->now - t->start;
     switch (t->state) {
     case 0:
@@ -577,7 +576,7 @@ u8 *init_idle_timeout_timer(u8 *arg0, s32 arg1) {
     getDateStamp((DateStamp *)(&sp8));
     DateToSeconds((DateStamp *)(&sp8), (int *)(arg0 + 0x1C));
     ((TUnk_804A7008 *)arg0)->m_20 = (s32) *(s32 *)((s8 *)arg0 + 0x1C);
-    *(s32 *)((s8 *)arg0 + 0x24) = get_table_entry_by_index__6TLobbyFv((void *)local_client_id);
+    *(s32 *)((s8 *)arg0 + 0x24) = ((TLobby *)local_client_id)->get_table_entry_by_index();
     ((TUnk_804A7008 *)arg0)->m_28 = 0;
     TLobby__idle_timeout_object = 0;
     return arg0;
@@ -1480,7 +1479,6 @@ s32 TWindowMakeTeam__sub_80264B24(u32);
 s32 TWindowMakeTeam__sub_80264B38(u32);
 void close_all_windows__6TLobbyFv(void);
 s32 send_server_time_accepted__9TProtocolFv(s32);
-s32 is_enabled__15TWindowMakeTeamFv(u32);
 s32 send_create_game__9TProtocolFPcPcUcUcUcUc(s32, s32, s32, u8, u8, u8, s32);
 
 extern u32 lobby_make_team_window;
@@ -1556,7 +1554,6 @@ void handle_game_list_select__6TLobbyFv(void);
 void handle_team_select__6TLobbyFv(void);
 s32 get_link_status__Fv(void);
 s32 poll_memcard_result(s32);
-void close_windows_and_reset__16TQuestListOnlineFv(void *);
 extern s32 quest_download_active;
 void run_task__6TLobbyFv(void *self);
 void close_com_card_window__6TLobbyFv(void);
@@ -1684,7 +1681,7 @@ void run_task__6TLobbyFv(void *self) {
     if (((Flag_80139690 *)(*(struct Root_80139538_80137188 * *)&(*(struct Root_80139538_80137188 * *)&(*(struct Root_80139538_80137188 * *)&TLobby__protocol_instance))))->flag != 0 || get_link_status__Fv() == 0 || r < 0) {
         Flag_80139690 *d = (Flag_80139690 *)(*(struct Root_80139538_80137188 * *)&(*(struct Root_80139538_80137188 * *)&(*(struct Root_80139538_80137188 * *)&TLobby__protocol_instance)));
         d->flag = 0;
-        close_windows_and_reset__16TQuestListOnlineFv(d);
+        TQuestListOnline::close_windows_and_reset();
         if (r < 0) {
             update_state__6TLobbyFv();
             return;
@@ -1915,7 +1912,7 @@ void handle_create_game_window__6TLobbyFv(void) {
             if (temp_r3 != 0) {
                 temp_r30 = TWindowMakeTeam__sub_80264B24(lobby_make_team_window);
                 temp_r29 = TLobby__sub_8013AD6C(lobby_make_team_window) == 2;
-                temp_r28 = is_enabled__15TWindowMakeTeamFv(lobby_make_team_window);
+                temp_r28 = ((TWindowMakeTeam *)lobby_make_team_window)->is_enabled();
                 temp_r27 = (s8)((TLobby *)lobby_make_team_window)->get_mode() == 1;
                 temp_r0 = TLobby__sub_8013AD5C(lobby_make_team_window);
                 send_create_game__9TProtocolFPcPcUcUcUcUc((*(s32 *)&(*(s32 *)&(*(s32 *)&(*(s32 *)&TLobby__protocol_instance)))), temp_r3, temp_r30, temp_r28, temp_r29, temp_r27, temp_r0);

@@ -142,10 +142,8 @@ s16 obj_getS16_2BA(LockOnEnemyView *);
 u16 get_entity_id(void *);
 void refresh_status_display__9TWindowDDFv(void *);
 void init_window_layout_entries(void *, void *, int);
-f32 get_target_distance__13TWindowLockOnFv(s32);
 s32 draw_visible_window_entries(void *, void *, int);
 s32 get_window_layout_position(int);
-s32 obj_testFlag_2E4__9TObjCharaFUl(TObjChara *, int);
 s32 is_split_screen(void);
 }
 s32 enemy_name_for_rt_index(s32 arg0);
@@ -268,7 +266,7 @@ void TWindowLockOn::update_for_other_player(TObjCollidable *player) {
     m_38 = 34.0f + w->w;
     m_3c = 49.0f;
     m_38 += 28.0f;
-    m_34 = get_target_distance__13TWindowLockOnFv(0x1E) - m_3c * m_6c;
+    m_34 = ((TWindowLockOn *)(0x1E))->get_target_distance() - m_3c * m_6c;
     m_50 = 0;
 }
 #pragma pop
@@ -303,7 +301,7 @@ void TWindowLockOn::update_for_item(TItem *item) {
         e2->flags |= 2;
     }
     m_38 += 28.0f;
-    m_34 = get_target_distance__13TWindowLockOnFv(0x1E) - m_3c * m_6c;
+    m_34 = ((TWindowLockOn *)(0x1E))->get_target_distance() - m_3c * m_6c;
     m_50 = 0;
 }
 #pragma pop
@@ -334,15 +332,15 @@ void TWindowLockOn::update_for_enemy(TObjChara *enemy) {
     if (is_split_screen() == 0) {
         m_3c += 29.0f;
     }
-    if (obj_testFlag_2E4__9TObjCharaFUl(enemy, 0x40) != 0) {
+    if (((TObjChara *)enemy)->obj_testFlag_2E4(0x40) != 0) {
         kind = 4;
-    } else if (obj_testFlag_2E4__9TObjCharaFUl(enemy, 1) != 0) {
+    } else if (((TObjChara *)enemy)->obj_testFlag_2E4(1) != 0) {
         kind = 0;
-    } else if (obj_testFlag_2E4__9TObjCharaFUl(enemy, 2) != 0) {
+    } else if (((TObjChara *)enemy)->obj_testFlag_2E4(2) != 0) {
         kind = 1;
-    } else if (obj_testFlag_2E4__9TObjCharaFUl(enemy, 4) != 0) {
+    } else if (((TObjChara *)enemy)->obj_testFlag_2E4(4) != 0) {
         kind = 2;
-    } else if (obj_testFlag_2E4__9TObjCharaFUl(enemy, 8) != 0) {
+    } else if (((TObjChara *)enemy)->obj_testFlag_2E4(8) != 0) {
         kind = 3;
     } else {
         kind = 4;
@@ -358,7 +356,7 @@ void TWindowLockOn::update_for_enemy(TObjChara *enemy) {
         m_38 = (f32)w2;
     }
     m_38 += 28.0f;
-    m_34 = get_target_distance__13TWindowLockOnFv(0x1E) - m_3c * m_6c;
+    m_34 = ((TWindowLockOn *)(0x1E))->get_target_distance() - m_3c * m_6c;
     m_50 = 0;
     p = (LockOnEntryText *)get_array_entry(7);
     p->w = m_38 - 28.0f;

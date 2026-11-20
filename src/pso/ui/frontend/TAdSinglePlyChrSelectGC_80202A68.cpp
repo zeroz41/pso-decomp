@@ -170,11 +170,11 @@ void TAdSinglePlyChrSelectGC::clear_flags(s32 arg0) {
     }
 }
 
-u8 TAdSinglePlyChrSelectGC::check_flag(s32 arg0) {
+s32 TAdSinglePlyChrSelectGC::check_flag(s32 arg0) {
     if ((s32 *) active_character_save_record != NULL) {
-        return (u8) ((*(s32 *)active_character_save_record & arg0) != 0);
+        return (u8)((u8) ((*(s32 *)active_character_save_record & arg0) != 0));
     }
-    return 0U;
+    return (u8)(0U);
 }
 
 void TAdSinglePlyChrSelectGC::set_state(int a0) { chr_select_scene_state = a0; }

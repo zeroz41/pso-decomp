@@ -6,6 +6,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/quest/challenge/TChallenge.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 
 #pragma readonly_strings on
 
@@ -206,8 +207,6 @@ s32 TLobby__sub_8007119C(s32 arg0);
 s32 **TWindowSubStatusDisp__sub_8006F134(s32, s32);
 s32 forward_to_global_instance__23TAdSinglePlyChrSelectGCFi(s32 arg0);
 s32 TLobby__sub_800710D8(s32 arg0);
-s32 calc_layout_hash__20TWindowSubStatusDispFv(int);
-s32 calc_entry_offset__20TWindowSubStatusDispFv(int);
 s32 TLobby__sub_800712D8(s32 idx, s32 value, s32 arg);
 extern s32 challenge_time_limit_sentinel;
 extern s8 challenge_time_limit_initialized;
@@ -411,11 +410,11 @@ s32 TLobby__sub_800712D8(s32 idx, s32 value, s32 arg) {
     Entry_800712D8 *e;
     Entry_800712D8 *p;
     Entry_800712D8 *end;
-    if (idx < 0 || idx >= 3 || value < calc_entry_offset__20TWindowSubStatusDispFv(-1)) {
+    if (idx < 0 || idx >= 3 || value < ((TWindowSubStatusDisp *)(-1))->calc_entry_offset()) {
         return 0;
     }
     if (idx == 0) {
-        value = calc_layout_hash__20TWindowSubStatusDispFv(-1);
+        value = ((TWindowSubStatusDisp *)(-1))->calc_layout_hash();
     }
     e = &TBL_800712D8.entries[idx];
     if (e->value != 0) {

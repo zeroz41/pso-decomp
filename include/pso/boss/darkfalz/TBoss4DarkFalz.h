@@ -83,8 +83,8 @@ struct TBoss4DarkFalz : public TObjEnemy {
     void get_demo2_params(u16 *a, u16 *b, u16 *out);
     void get_defeat_params(u16 *a, u16 *b, u16 *out);
     s32 sub_8004D990();
-    static u8 is_state_ready();
-    static u8 is_active();
+    static s32 is_state_ready();
+    static s32 is_active();
     void spawn_zako_rings();
     void enter_demo2_phase();
     // State handlers installed in the state table dark_falz_state_table (TBoss4DarkFalz_8004C93C.cpp).

@@ -98,7 +98,6 @@ s32 lbl_805D621C;
 unsigned short get_child_field1c__13TShopSequenceFv(void *);
 s32 set_service_counter_camera(void *, int);
 s32 get_window_layout_position(int, f32);
-s32 sub_8022397C__15TShopWindowBaseFv(void *);
 s32 TShopEquipmentGearSequence__window_slot_table[4];
 TShopEquipmentGearSequence *lbl_805D6220;
 const char *TShopEquipmentGearSequence__class_name = "TShopEquipmentGearSequence";
@@ -140,7 +139,7 @@ TShopEquipmentGearSequence::TShopEquipmentGearSequence(TObject *parent, TObjPlay
     lbl_805D6220 = this;
     lbl_805D6218 = 0;
     lbl_805D621C = 0;
-    TShopEquipmentGearSequence__window_slot_table[sub_8022397C__15TShopWindowBaseFv(this)] = 1;
+    TShopEquipmentGearSequence__window_slot_table[sub_8022397C()] = 1;
 }
 
 TShopEquipmentGearSequence::~TShopEquipmentGearSequence() {
@@ -158,7 +157,7 @@ TShopEquipmentGearSequence::~TShopEquipmentGearSequence() {
     }
     close_message_window();
     lbl_805D6220 = NULL;
-    TShopEquipmentGearSequence__window_slot_table[sub_8022397C__15TShopWindowBaseFv(this)] = 0;
+    TShopEquipmentGearSequence__window_slot_table[sub_8022397C()] = 0;
 }
 
 void TShopEquipmentGearSequence::vfunc_11() {

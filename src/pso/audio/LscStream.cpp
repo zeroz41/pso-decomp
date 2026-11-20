@@ -156,7 +156,7 @@ void lsc_stop(LscStream *lsc_stream) {
         return;
     }
     if ((s8) lsc_stream->state != 0) {
-        enter_lock__6TLobbyFv(&sp8);
+        ((TLobby *)(&sp8))->enter_lock();
         lsc_stream->state = 0U;
         if ((u32) (u32)lsc_stream->file_handle != 0U) {
             if ((s32) lsc_stream->read_started == 1) {
@@ -175,7 +175,7 @@ void lsc_stop(LscStream *lsc_stream) {
             lsc_stream->queued_count = 0;
         }
         lsc_stream->field_34 = 0;
-        notify_dvd_read__6TLobbyFv(&sp8);
+        ((TLobby *)(&sp8))->notify_dvd_read();
     }
 }
 
@@ -287,11 +287,11 @@ void lsc_destroy(LscStream *lsc_stream) {
     s32 spC;
     s32 sp8;
     if (lsc_stream != NULL) {
-        enter_lock__6TLobbyFv(&spC);
+        ((TLobby *)(&spC))->enter_lock();
         if (lsc_stream == NULL) {
             TLobby::log_printf("E0003: Illigal parameter lsc=NULL");
         } else if ((s8) lsc_stream->state != 0) {
-            enter_lock__6TLobbyFv(&sp8);
+            ((TLobby *)(&sp8))->enter_lock();
             lsc_stream->state = 0U;
             if ((u32) (u32)lsc_stream->file_handle != 0U) {
                 if ((s32) lsc_stream->read_started == 1) {
@@ -310,11 +310,11 @@ void lsc_destroy(LscStream *lsc_stream) {
                 lsc_stream->queued_count = 0;
             }
             lsc_stream->field_34 = 0;
-            notify_dvd_read__6TLobbyFv(&sp8);
+            ((TLobby *)(&sp8))->notify_dvd_read();
         }
         lsc_stream->in_use = 0;
         memset(lsc_stream, 0, (unsigned long)(0x438));
-        notify_dvd_read__6TLobbyFv(&spC);
+        ((TLobby *)(&spC))->notify_dvd_read();
     }
 }
 

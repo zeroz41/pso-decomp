@@ -31,6 +31,7 @@
 #include "pso/render/render_util.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #pragma readonly_strings on
 
 struct Base_80335648 { char pad[0x18]; };
@@ -51,7 +52,6 @@ struct VObj_80335648 : Base_80335648 {
 extern "C" {
 
 s32 poll_memcard_result(s32);
-int request_scene_change__21TAdMultiChgGameModeGCFv(void*);
 
 void TAdTrialAgreementGC::render() {
     struct VObj_80335648 *o = (struct VObj_80335648 *)this;
@@ -59,7 +59,7 @@ void TAdTrialAgreementGC::render() {
 }
 
 void TAdTrialAgreementGC::vfunc_8() { request_main_phase((s32)((void*)0)); }
-void TAdTrialAgreementGC::vfunc_7() { request_scene_change__21TAdMultiChgGameModeGCFv(this); }
+void TAdTrialAgreementGC::vfunc_7() { TAdMultiChgGameModeGC::request_scene_change(); }
 void TAdTrialAgreementGC::vfunc_6() { if (this->m_38 != 0) { ((TAdScrollWinGC *)(this->m_38))->close_window(); this->m_38 = 0; } }
 void TAdTrialAgreementGC::wait_for_load() {
 loop_1:
@@ -91,7 +91,6 @@ s32 __nw__7TObjectFUl(int);
 s32 TAdAgreementBaseGC__ct(void *);
 extern s32 __vt__19TAdTrialAgreementGC[];
 const char *TAdTrialAgreementGC__name = "TAdTrialAgreementGC";
-s32 wait_for_load__19TAdTrialAgreementGCFv(s32);
 
 extern s32 pso_system_card_filename[];
 
@@ -104,11 +103,11 @@ s32 TAdTrialAgreementGC::check_card_file(s32 arg0) {
     if (TAdPlayerLoadGC::probe_and_check_card(0) == 0) {
         return 0;
     }
-    wait_for_load__19TAdTrialAgreementGCFv(arg0);
+    ((TAdTrialAgreementGC *)arg0)->wait_for_load();
     if (TAdPlayerLoadGC::check_memcard_status(0) != 0) {
         return 0;
     }
-    wait_for_load__19TAdTrialAgreementGCFv(arg0);
+    ((TAdTrialAgreementGC *)arg0)->wait_for_load();
     card_file = TAdPlayerLoadGC::find_card_file(0, (const char *)pso_system_card_filename);
     if ((card_file == 0) || ((card_file + 0x10000) == 0xFF41U)) {
         return 1;

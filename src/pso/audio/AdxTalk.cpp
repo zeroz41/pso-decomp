@@ -40,10 +40,9 @@ extern "C" {
 s32 TLobby__sub_803D3130(void *, s32, Pair_803C8678 *, Pair_803C8678 *);
 s32 memset(void *, int, int);
 s32 TLobby__sub_803C9104(Obj_803C9104 *arg0, s32 arg1, s32 arg2);
-s32 set_global_805D7520__6TLobbyFl();
 
-void TLobby::on_set_mode() {
-    set_global_805D7520__6TLobbyFl();
+void TLobby::on_set_mode(s32 mode) {
+    set_global_805D7520(mode);
 }
 
 s32 TLobby__sub_803C9104(Obj_803C9104 *arg0, s32 arg1, s32 arg2) {
@@ -277,7 +276,6 @@ s32 notify_field_4__6TLobbyFv(int);
 s32 send_packet_by_id__6TLobbyFv(int);
 s32 send_with_offset4__6TLobbyFv(int);
 s32 set_params__6TLobbyFll();
-s32 trigger_sub_task__6TLobbyFv(int);
 
 void TLobby::set_field98(s8 arg1) {
     *(s8 *)((s8 *)((u8 *)this) + 0x98) = arg1;
@@ -395,7 +393,7 @@ s16 TLobby__sub_803C96B0(u8 *arg0) {
 
 void TLobby::set_field_40_and_notify(s16 arg1) {
     *(s16 *)((s8 *)((u8 *)this) + 0x40) = arg1;
-    trigger_sub_task__6TLobbyFv((int)this->m_next);
+    ((TLobby *)this->m_next)->trigger_sub_task();
 }
 
 s16 TLobby__sub_803C96E0(Obj_803C96E0 *self, s32 i) {

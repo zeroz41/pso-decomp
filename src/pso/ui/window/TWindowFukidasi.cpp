@@ -646,7 +646,7 @@ void TUnk_804CF0B8::sub_80251DF0(s16 arg1, s32 str, s16 arg3, f32 farg0) {
 void init_flags__15TWindowFukidasiFPvi(void *arg0, s32 arg1) {
     ((TUnk_804CF0B8 *)arg0)->m_58 = 0.0f;
     set_depth__11TWindowBaseFf(60000.0f);
-    if (sub_80246948__11TWindowBaseFv(arg0) != 0) {
+    if (((TWindowBase *)arg0)->sub_80246948() != 0) {
         ((TUnk_804CF0B8 *)arg0)->m_2c = (s32) (((TUnk_804CF0B8 *)arg0)->m_2c | 1);
     }
     ((TUnk_804CF0B8 *)arg0)->m_71 = (u8) (((TUnk_804CF0B8 *)arg0)->m_71 & ~0x50);

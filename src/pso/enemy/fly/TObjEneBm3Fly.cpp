@@ -26,6 +26,7 @@
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/enemy/moja/TObjEneMoja.h"
 #include "pso/unk/TLobby.h"
+#include "pso/boss/goldragon/TBoss8Dragon.h"
 
 #pragma defer_codegen on
 
@@ -52,15 +53,12 @@ s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 void TObjEneBm3Fly__play_orbit_flight_sound(TObjEneBm3Fly *fly);
 f32 calc_scaled_value__15TObjBoss2TunnelFlf(int, int, f32, f32);
 void TObjEneBm3Fly__sub_800B02C8(TObjEneBm3Fly *arg0, s32 arg1);
-s32 noop__12TBoss8DragonFv(void *);
 f32 atan2_float(f32, f32);
 s32 enemy_clear_target__12TObjEneDD_STFUs(void *);
 extern const f32 lbl_805D9E80;
 s32 is_vec_xz_cross_negative(void *, void *);
-f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 void TObjEneBm3Fly__sub_800B0F70(TObjEneBm3Fly *arg0, s32 arg1);
 f32 fabs_float(f32);
-s32 get_random_scaled__9TObjEneDDFv(void *);
 s32 enemy_set_target_id(void *, u16);
 s32 collect_enemy_target_candidates(void *, EnemyTargetCandidate *, f32);
 u16 get_entity_id(void *);
@@ -160,8 +158,8 @@ void TObjEneBm3Fly::init_child_params() {
     this->m_440 = 0;
     this->m_444 = (0.0f);
     this->m_448 = 0;
-    this->m_44c = (2.0f) * calc_elapsed_scaled__9TObjEneDDFv(this) + (45.0f);
-    this->m_450 = (2.0f) * calc_elapsed_scaled__9TObjEneDDFv(this) + (15.0f);
+    this->m_44c = (2.0f) * calc_elapsed_scaled() + (45.0f);
+    this->m_450 = (2.0f) * calc_elapsed_scaled() + (15.0f);
     this->m_454 = 0;
     this->particle_effect = NULL;
     this->alternate_phase = 0;
@@ -437,8 +435,8 @@ void TObjEneBm3Fly::choose_attack() {
 #pragma push
 #pragma fp_contract on
 void TObjEneBm3Fly::sub_800B1634() {
-    this->m_444 = (f32) (((2.0f) * calc_elapsed_scaled__9TObjEneDDFv(this)) + ((45.0f) + this->m_41c.y));
-    this->m_448 = get_random_scaled__9TObjEneDDFv(this);
+    this->m_444 = (f32) (((2.0f) * calc_elapsed_scaled()) + ((45.0f) + this->m_41c.y));
+    this->m_448 = get_random_scaled();
 }
 #pragma pop
 u16 TObjEneBm3Fly::get_active_id() {
@@ -552,9 +550,9 @@ void TObjEneBm3Fly__sub_800B0F70(TObjEneBm3Fly *arg0, s32 arg1) {
         arg0->m_428 |= 2;
         arg0->actorFlags |= 0x01000000;
         arg0->m_3cc = 0;
-        arg0->m_3d0 = (s32)((512.0f) * calc_elapsed_scaled__9TObjEneDDFv(arg0)) + 0x800;
+        arg0->m_3d0 = (s32)((512.0f) * ((TObjEneDD *)arg0)->calc_elapsed_scaled()) + 0x800;
         arg0->m_3d4 = arg0->m_448;
-        arg0->m_3d8 = (s32)((512.0f) * calc_elapsed_scaled__9TObjEneDDFv(arg0)) + 0xA00;
+        arg0->m_3d8 = (s32)((512.0f) * ((TObjEneDD *)arg0)->calc_elapsed_scaled()) + 0xA00;
         d.x = arg0->position.x - arg0->m_41c.x;
         d.y = (0.0f);
         d.z = arg0->position.z - arg0->m_41c.z;
@@ -574,7 +572,7 @@ void TObjEneBm3Fly__sub_800B0F70(TObjEneBm3Fly *arg0, s32 arg1) {
         arg0->m_3c4++;
         if (arg0->m_3c4 > 300) {
             arg0->m_3c4 = 0;
-            arg0->m_3d8 = (s32)((512.0f) * calc_elapsed_scaled__9TObjEneDDFv(arg0)) + 0xA00;
+            arg0->m_3d8 = (s32)((512.0f) * ((TObjEneDD *)arg0)->calc_elapsed_scaled()) + 0xA00;
         }
         arg0->m_3cc += arg0->m_3d0;
         radius = (3e+01f) * cos_table_lookup(arg0->m_3cc / 2);
@@ -953,7 +951,7 @@ void TObjEneBm3Fly::update_recoil_state(s32 arg1) {
         this->m_428 &= ~1;
         this->m_428 |= 2;
         this->set_field_378(this->mode);
-        noop__12TBoss8DragonFv(this);
+        ((TBoss8Dragon *)this)->noop();
         play_sound_effect(this->remap_sound_for_area(0x4003E425), &this->position, 0, 0);
         this->m_3c0 = 0;
         break;

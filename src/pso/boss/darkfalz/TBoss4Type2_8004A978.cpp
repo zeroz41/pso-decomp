@@ -6,8 +6,8 @@ extern "C" {
 void scroll_strip_uvs(void *, s16, s16);
 extern s32 dark_falz_controller_instance;
 
-u8 TBoss4Type2::is_active() {
-    return (u8) (dark_falz_controller_instance != 0);
+s32 TBoss4Type2::is_active() {
+    return (u8)((u8) (dark_falz_controller_instance != 0));
 }
 void ModelNodeTables::scroll_strips() {
     s32 i;

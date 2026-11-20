@@ -135,7 +135,6 @@ void sscanf(int, const char *, ...);
 extern char lbl_80543010[];
 extern char lbl_80543050[];
 s32 update_window_mode_from_progress__6TLobbyFPv(void *, void *);
-s32 load_and_verify_character_save__23TAdSinglePlyChrSelectGCFPc(void *, void *);
 void __ct__9TAdBackGCFv(void *, void *);
 void __ct__12TAdBackTxtGCFv(void *, void *);
 void *__ct__14TAdSelectCurGCFv(void *, TObject *, void *, void *);
@@ -703,7 +702,7 @@ u8 *TAdEnterSerialAccessGC__ct(TAdEnterSerialAccessGC *ad_enter_serial_access_gc
         return (u8 *)ad_enter_serial_access_gc;
     }
     flag[0] = 0;
-    if (load_and_verify_character_save__23TAdSinglePlyChrSelectGCFPc(flag, sp8) != 0 && flag[0] != 0) {
+    if (((TAdSinglePlyChrSelectGC *)flag)->load_and_verify_character_save((char *)sp8) != 0 && flag[0] != 0) {
         ((void (*)(s8 *)) init__22TAdEnterSerialAccessGCFv)(flag);
         TAdEnterSerialAccessGC__sub_8032190C((s32) sp8);
         TAdEnterSerialAccessGC__sub_80322418(get_field_118__22TAdEnterSerialAccessGCFv(), 1);

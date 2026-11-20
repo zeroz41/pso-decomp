@@ -55,7 +55,7 @@ struct TObjEneRe7Berura : public TObjEneDD_ST {
     void play_band_sound();
     void reload_stats_from_tables();
     void destroy_parts();
-    u8 is_over_limit();
+    s32 is_over_limit();
     s32 step_toward_target(s32 arg1, s32 arg2);
     void init_fields4B8();
     static void init_part(s32 arg0);

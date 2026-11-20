@@ -33,7 +33,6 @@ static const char lbl_8043DA30[] = "fogentry_a.dat";
 const char *TFogCtrl__name = "TFogCtrl";
 const char *TFogCtrl_EOR__name = "TFogCtrl_EOR";
 s32 TFogCtrl__sub_800FAC84(void *p);
-int update_all__8TFogCtrlFv(void*);
 }
 
 struct ByteBlock_8 { u8 bytes[0x8]; };
@@ -908,7 +907,7 @@ TFogCtrl_EOR::~TFogCtrl_EOR() {
 
 }
 
-void TFogCtrl_EOR::run_task() { update_all__8TFogCtrlFv(this); }
+void TFogCtrl_EOR::run_task() { TFogCtrl::update_all(); }
 
 s32 TQuestVmDownLoadServer::poll_serial_access() { return TAdEnterSerialAccessGC::parse_serial_value(); }
 

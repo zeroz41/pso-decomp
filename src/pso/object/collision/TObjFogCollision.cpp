@@ -26,6 +26,7 @@
 #include "pso/unk/text_80153A7C.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 
 
 const char *TObjFogCollision__name = "TObjFogCollision";
@@ -344,7 +345,6 @@ TObjFogCollision_Manager *TObjFogCollisionPoison__instances[12];
 
 extern "C" {
 s32 get_entity_id(s32);
-s32 is_valid_target__9TObjEneDDFv(s32);
 s32 send_6x2F_change_player_hp(s32, s32, s16);
 s32 play_sound_effect(s32, s32, s32, s32);
 }
@@ -389,7 +389,7 @@ void TObjFogCollisionPoison::apply_poison_damage(s32 arg1) {
     s32 p;
     s16 v;
     p = get_player_by_client_id(arg1);
-    if (is_valid_target__9TObjEneDDFv(p) != 0) {
+    if (((TObjEneDD *)p)->is_valid_target() != 0) {
         v = ((TObjChara *)p)->get_actor_hp() - this->m_98;
         if (v < 0) {
             v = 0;
@@ -398,11 +398,11 @@ void TObjFogCollisionPoison::apply_poison_damage(s32 arg1) {
     }
 }
 
-u8 TObjFogCollisionPoison::check_switch() {
+s32 TObjFogCollisionPoison::check_switch() {
     s32 switch_mode;
 
     switch_mode = get_switch_mode();
-    return (u8) (switch_mode == is_current_floor_switch_set((u16) this->set_params[2]));
+    return (u8)((u8) (switch_mode == is_current_floor_switch_set((u16) this->set_params[2])));
 }
 
 void TObjFogCollisionPoison::vfunc_14() {

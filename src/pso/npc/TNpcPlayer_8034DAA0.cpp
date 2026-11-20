@@ -761,14 +761,14 @@ void TObjPlayer::notify_all_battle_players() {
     } while (var_r31 < 4);
 }
 
-u8 TTecReverser::is_active() {
+s32 TTecReverser::is_active() {
     int var_r31;
 
     var_r31 = 0;
     if ((this != NULL) && (all_parents_unqueued_for_destruction() != 0) && !(*(s32 *)((s8 *)this + 0x30) & 0x02040800)) {
         var_r31 = 1;
     }
-    return (u8) var_r31;
+    return (u8)((u8) var_r31);
 }
 
 void TNpcPlayer::AiParams::copy_entry_by_index(s32 arg1) {

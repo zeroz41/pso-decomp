@@ -1257,7 +1257,7 @@ void TBoss5Gryphon::render_model() {
     pop_matrix();
 }
 
-void TBoss5Gryphon::render_shadows() { if (check_demo_mode__10TObjPlayerFv(this) == 0) { render_model(); } }
+void TBoss5Gryphon::render_shadows() { if (TObjPlayer::check_demo_mode() == 0) { render_model(); } }
 
 void TBoss5Gryphon::render() {
     s32 view = 0;

@@ -96,7 +96,6 @@ extern u8 identity_matrix[];
 extern "C" {
 
 s32 scroll_strip_uvs(void *, s16, int);
-s32 clear_render_context__10TObjPlayerFv(void *);
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
 }
@@ -162,7 +161,7 @@ void TPhotonEstlla::render() {
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
         copy_argb((NJS_ARGB *)&model_material_color, (NJS_ARGB *)&saved_model_draw_color);
         model_render_flags = saved_model_render_flags;
-        clear_render_context__10TObjPlayerFv(self);
+        ((TObjPlayer *)self)->clear_render_context();
         pop_matrix();
         TParticleCtrl::end_effect_render();
     }

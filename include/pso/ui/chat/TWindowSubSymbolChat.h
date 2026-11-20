@@ -72,9 +72,9 @@ struct TWindowSubSymbolChat : public TObject {
     s32 create_keyboard_control();
     s32 create_confirm_window();
     s32 open_confirm_prompt();
-    static s32 create_menu();
+    s32 create_menu();
     s32 create_parts_set();
-    static s32 create_parts();
+    s32 create_parts();
     static void open_menu(s32 arg0, s32 arg1);
     s32 open_edit_menu();
     static s32 open_main_menu(void * _w0);
@@ -86,7 +86,7 @@ struct TWindowSubSymbolChat : public TObject {
     static void set_flag_bit2(s32 *arg0);
     static void clear_flag_bit2(s32 *arg0);
     s16 get_cursor_pos();
-    s16 get_cursor_x();
+    s32 get_cursor_x();
     void clear_flag60_bit2();
     void clear_flag60_bit4();
     void set_pos_and_flag(s32 arg1, s32 arg2);

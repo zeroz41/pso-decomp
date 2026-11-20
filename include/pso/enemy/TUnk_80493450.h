@@ -14,7 +14,7 @@ public:
     s32 update_target_near_flag();
     void sub_800C4E08();
     virtual void vfunc_62();
-    u8 test_elt_flag(s32, s32);
+    s32 test_elt_flag(s32, s32);
     s32 countChildren();
     void link_into_group_chain();
     void unlink_enemy_group_relations();

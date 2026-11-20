@@ -436,7 +436,6 @@ f32 TObjPlayer__sub_800192C4(s32, s32);
 
 u16 obj_getArrU16_FC(void *, int);
 
-s32 obj_testFlag_2E4__9TObjCharaFUl(void *, u32);
 
 s16 get_attack_params_atp_min(void *);
 
@@ -524,7 +523,6 @@ void send_6x0A_enemy_state_packet(void *);
     }
 
 extern "C" {
-int unregister_object_by_id__14TObjCollidableFv(void*);
 
 s32 copy_header__6TLobbyFPv(s32);
 }
@@ -540,7 +538,7 @@ void TObjCollidable::set_shadow_flag() { this->m_flags |= 0x400; }
 
 void TObjCollidable::clear_shadow_flag() { this->m_flags &= 0xfffffbff; }
 
-int TObjEnemy::apply_player_54a00() { return unregister_object_by_id__14TObjCollidableFv(this); }
+int TObjEnemy::apply_player_54a00() { return unregister_object_by_id(); }
 
 s32 TObjEnemy::apply_by_index(s16 arg0) {
     if (arg0 > 0xB4F) {
@@ -609,7 +607,7 @@ s32 TObjEnemy::bind_enemy_combat_stats(u8 *arg1, u8 *arg2, u8 *arg3) {
         temp_r6 = this->m_2b0;
         this->hpmax = (s16) (*(s16 *)((s8 *)temp_r6 + 6) + *(s32 *)((s8 *)temp_r6 + 0x18));
         this->hp = (s16) this->hpmax;
-        if (obj_testFlag_2E4__9TObjCharaFUl(this, 4U) != 0) {
+        if (obj_testFlag_2E4(4U) != 0) {
             this->tpmax = 0;
             this->tp = 0;
         } else {

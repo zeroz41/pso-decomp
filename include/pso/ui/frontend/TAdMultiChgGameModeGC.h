@@ -38,7 +38,7 @@ public:
     static void set_game_mode_changed();
     static void init_change_mode();
     static void create_mode_scene();
-    static void set_mode_1c();
+    void set_mode_1c();
     static void render_scene();
     static void render_game_mode_change();
     static void sync_mode_state();

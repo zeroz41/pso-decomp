@@ -39,7 +39,7 @@ struct TObjEneDD : public TObjEnemy {
     // The table ends at slot 103 (the word after it is padding): dispatch_action's state handlers
     // start at slot 104 and each subclass declares its own (TObjEneDD_ST f32, TBoss2Mine s32, FlyNest init).
     int get_flag_b4();
-    static f32 calc_elapsed_scaled();
+    f32 calc_elapsed_scaled();
     void update_velocity();
     void turn_toward_target_direction(s32 max_step);
     void set_target_destination(const Vec *position);
@@ -62,7 +62,7 @@ struct TObjEneDD : public TObjEnemy {
     int get_camera_ctrl();
     int update_camera_sequence();
     void initialize_enemy_state(s32 parameter);
-    static s32 get_random_scaled();
+    s32 get_random_scaled();
     f32 rand_range(f32 farg0, f32 farg1);
     int set_state_8();
     int check_state_flag_4();
@@ -77,7 +77,7 @@ struct TObjEneDD : public TObjEnemy {
     static void setup_instance(s32 arg0, s32 arg1, u8 *arg2, s32 arg3);
     void transform_relative_position(void* a1);
     s32 is_target_unobstructed(s32 arg1);
-    u8 is_valid_target();
+    s32 is_valid_target();
     void transform_part_positions();
     void init_model(CollisionBody *bodies, s32 count);
     void clear_field_388();

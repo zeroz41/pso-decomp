@@ -220,7 +220,6 @@ void create_all_tenchu_furu__11TBoss4Type2Fi(s32 arg0);
 void TBoss4Type2__sub_80054FC0(u8 *center, f32 min_dist);
 void TBoss4Type2__sub_80055300(void);
 void * create__9TBoss4UroFi(Params_80052CDC *);
-int toggle_particle_effect__10TObjPlayerFv(void*);
 void free_collision_body_parts(void *);
 s32 project_actor_to_ground(void *, void *, int);
 s32 add_radar_scaled_marker(void *, s32, s16, s32, f32);
@@ -699,7 +698,7 @@ void TBoss4Type1::snapshot_position() {
     *(f32 *)((s8 *)arg0 + 0x300) += 50.0f;
 }
 
-void TBoss4Type1::render_effects() { toggle_particle_effect__10TObjPlayerFv(this); push_matrix(); post_translate_matrix((char*)this + 0x38); rotate_matrix_y((void*)0, *(void**)((char*)this + 0x60)); this->draw_parts(); pop_matrix(); TParticleCtrl::end_effect_render(); }
+void TBoss4Type1::render_effects() { TObjPlayer::toggle_particle_effect(); push_matrix(); post_translate_matrix((char*)this + 0x38); rotate_matrix_y((void*)0, *(void**)((char*)this + 0x60)); this->draw_parts(); pop_matrix(); TParticleCtrl::end_effect_render(); }
 
 #pragma push
 #pragma opt_common_subs off

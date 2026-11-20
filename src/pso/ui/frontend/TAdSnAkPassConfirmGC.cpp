@@ -9,6 +9,7 @@
 #include "pso/ui/frontend/TAdYesNoBaseGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 
 struct Obj_8032C004 { const char *f0; u8 pad[0x14]; void *vt; u8 pad2[0x48 - 0x1C]; s32 f48; };
 
@@ -22,8 +23,6 @@ static const NJS_POINT2 sn_ak_pass_confirm_info_window_pos = {85.0f, 131.0f};
 static const NJS_POINT2 sn_ak_pass_confirm_message_pos = {44.0f, 231.0f};
 static const NJS_POINT2 sn_ak_pass_confirm_message_size = {552.0f, 140.0f};
 Obj_8032C004 *TAdSnAkPassConfirmGC__ct(Obj_8032C004 *arg0);
-int request_transition__21TAdMultiChgGameModeGCFv(void*);
-int set_state_0x1a__21TAdMultiChgGameModeGCFv(void*);
 
 void TAdSnAkPassConfirmGC::render() {
     vfunc_12();
@@ -32,8 +31,8 @@ void TAdSnAkPassConfirmGC::render() {
 void TAdSnAkPassConfirmGC::vfunc_10() { get_localized_text_entry((s32)((void*)39), (s32)((void*)0)); }
 void TAdSnAkPassConfirmGC::vfunc_9() { if (this->m_48 != 0) { ((TWindowBase *)this->m_48)->close(); this->m_48 = 0; } }
 void TAdSnAkPassConfirmGC::vfunc_8() { if (this->m_48 != 0) { ((TWindowBase *)this->m_48)->close(); this->m_48 = 0; } }
-void TAdSnAkPassConfirmGC::vfunc_7() { request_transition__21TAdMultiChgGameModeGCFv(this); }
-void TAdSnAkPassConfirmGC::vfunc_6() { set_state_0x1a__21TAdMultiChgGameModeGCFv(this); }
+void TAdSnAkPassConfirmGC::vfunc_7() { TAdMultiChgGameModeGC::request_transition(); }
+void TAdSnAkPassConfirmGC::vfunc_6() { TAdMultiChgGameModeGC::set_state_0x1a(); }
 
 void TAdSnAkPassConfirmGC::run_task() {
     vfunc_11();

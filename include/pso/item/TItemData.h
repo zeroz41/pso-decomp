@@ -41,7 +41,7 @@ struct TItemData {
     s32 get_name_style();
     void decode_from_network();
     void encode_for_network();
-    static u8 get_entry_field16();
+    u8 get_entry_field16();
     int register_drop();
     s32 get_max_stack_size();
     // A tool's stack count (data1 byte 5); 1 for an item that does not stack.
@@ -69,7 +69,7 @@ struct TItemData {
     int calc_display_grade();
     s32 get_base_rarity();
     s32 check_item_flags();
-    static u8 is_item_usable(s32 arg0, u8 *arg1);
+    static s32 is_item_usable(s32 arg0, u8 *arg1);
     int test_flag3();
     int get_item_field_2();
     void add_quantity(s32 arg1);

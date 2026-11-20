@@ -214,7 +214,6 @@ s32 rotate_matrix_z(int, int);
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 s32 rotate_matrix_x(int, int);
 s32 scale_current_matrix(Vec *);
-int check_demo_mode__10TObjPlayerFv(void*);
 }
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 typedef struct Stack_800DDFDC Stack_800DDFDC;
@@ -734,7 +733,7 @@ void TObjEnePanarms::vfunc_61() { this->actorFlags &= 0xfffffeff; }
 
 void TObjEnePanarms::enter_idle() { *(s32 *)((s8 *)this + 0x3E0) = 1; *(s32 *)((s8 *)this + 0x3DC) = 1; }
 
-void TObjEnePanarms::try_activate() { if (check_demo_mode__10TObjPlayerFv(this) == 0) { set_state((s32)((void*)((void*)1))); } }
+void TObjEnePanarms::try_activate() { if (TObjPlayer::check_demo_mode() == 0) { set_state((s32)((void*)((void*)1))); } }
 
 void TObjEnePanarms::enter_wait_hidden() {
     u8 *temp_r4;

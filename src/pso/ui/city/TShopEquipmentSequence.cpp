@@ -83,7 +83,6 @@ extern "C" {
 unsigned short get_child_field1c__13TShopSequenceFv(void *);
 s32 set_service_counter_camera(void *, int);
 s32 get_window_layout_position(int, f32);
-s32 sub_8022397C__15TShopWindowBaseFv(void *);
 s32 TShopEquipmentSequence__slot_active_flags[4];
 const char *TShopEquipmentSequence__class_name = "TShopEquipmentSequence";
 TShopEquipmentSequence *lbl_805D6228;
@@ -131,7 +130,7 @@ TShopEquipmentSequence::TShopEquipmentSequence(TObject *parent, TObjPlayer *play
     lbl_805D6228 = this;
     lbl_805D622C = 0;
     lbl_805D6230 = 0;
-    TShopEquipmentSequence__slot_active_flags[sub_8022397C__15TShopWindowBaseFv(this)] = 1;
+    TShopEquipmentSequence__slot_active_flags[sub_8022397C()] = 1;
 }
 
 TShopEquipmentSequence::~TShopEquipmentSequence() {
@@ -148,7 +147,7 @@ TShopEquipmentSequence::~TShopEquipmentSequence() {
         meseta_window->close();
         meseta_window = NULL;
     }
-    TShopEquipmentSequence__slot_active_flags[sub_8022397C__15TShopWindowBaseFv(this)] = 0;
+    TShopEquipmentSequence__slot_active_flags[sub_8022397C()] = 0;
 }
 
 void TShopEquipmentSequence::vfunc_11() {

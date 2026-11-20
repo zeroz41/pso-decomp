@@ -16,7 +16,6 @@ f32 TObjCMIcon__horizontal_scroll_offset;
 #pragma common reset
 
 extern "C" {
-s32 get_creation_sprite_id__14TObjCMMainMenuFl(s32);
 
 void TObjCMIcon::reset_icon_flags() {
     s32 i;
@@ -109,7 +108,7 @@ void render__10TObjCMIconFv(s32 self) {
         for (n = 0; n < g->count; n++) {
             s = TObjCMIcon__sub_80299598(self, g->sprite_ids[n]);
             draw_ui_sprite(s, &pos, z, depth);
-            pos.x += (f32)(get_creation_sprite_id__14TObjCMMainMenuFl(s) + 4);
+            pos.x += (f32)(TObjCMMainMenu::get_creation_sprite_id(s) + 4);
         }
     }
     restore_saved_depth_alpha_state();
@@ -150,7 +149,7 @@ void run_task__10TObjCMIconFv(s32 arg0) {
             s32 j;
             p->x += 0.05f * (x - p->x);
             for (j = 0; j < g->count; j++) {
-                x += (f32)(get_creation_sprite_id__14TObjCMMainMenuFl(TObjCMIcon__sub_80299598(arg0, g->sprite_ids[j])) + 4);
+                x += (f32)(TObjCMMainMenu::get_creation_sprite_id(TObjCMIcon__sub_80299598(arg0, g->sprite_ids[j])) + 4);
             }
             x += 8.0f;
         }

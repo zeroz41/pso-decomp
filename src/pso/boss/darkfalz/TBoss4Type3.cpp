@@ -1708,7 +1708,7 @@ void TBoss4Type3::advance_go_up() {
         if (self->f3ba != 0xFFFF) {
             ((int (*)(void*, void*))TBoss4Type3__sub_80059F64)(self, (void*)((void *)0xD));
         } else {
-            id = pick_random_target_player__11TBoss4Type3Fv();
+            id = TBoss4Type3::pick_random_target_player();
             if ((u16)id != 0xFFFF) {
                 ((void (*)(void *, s32, s32))TBoss4Type3__sub_80059EA8)(self, 0xB, id);
             } else {
@@ -1751,7 +1751,7 @@ void TBoss4Type3::advance_go_down() {
             ((int (*)(void*, void*))TBoss4Type3__sub_80059F64)(self, (void*)16);
             return;
         }
-        t = pick_random_target_player__11TBoss4Type3Fv();
+        t = TBoss4Type3::pick_random_target_player();
         if (this->hp <= self->f3e0 && (u16)t != 0xFFFF) {
             ((void (*)(void *, s32, s32))TBoss4Type3__sub_80059EA8)(self, 14, t);
             return;

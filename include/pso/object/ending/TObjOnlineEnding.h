@@ -36,7 +36,7 @@ struct TObjOnlineEnding : public TObjBase {
     OnlineEndingPlayer players[4];
     s32 player_count;
     s32 elapsed_frames;
-    static s16 get_card_window_value();
+    static s32 get_card_window_value();
     static int get_instance();
     static void*get_attack_entry(int a0);
     void close_window();

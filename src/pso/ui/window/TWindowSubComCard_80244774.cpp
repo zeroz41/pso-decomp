@@ -1065,9 +1065,9 @@ __declspec(section ".rodata") const char lbl_8044E734[] = "f256_duelcount.gvp";
 __declspec(section ".rodata") const char lbl_8044E748[] = "f256_carsol.gvp";
 __declspec(section ".rodata") const char lbl_8044E758[] = "f256_hyouji";
 
-u8 TWindowBase::sub_80246948() {
+s32 TWindowBase::sub_80246948() {
     Obj_80246948 *self = (Obj_80246948 *)this;
-    return !(self->f2c & 1);
+    return (u8)(!(self->f2c & 1));
 }
 
 int TWindowFukidasi__sub_8024695C(void* p) { return (*(u32*)((char*)p + 0x2c) >> 8) & 0x1; }

@@ -34,12 +34,12 @@ struct TAdDialingGC : public TObject {
     void update_status_message();
     void handle_state();
     void update_status_display();
-    static int refresh_display();
-    static void init_dialog();
-    static void draw_dialing_status();
+    int refresh_display();
+    void init_dialog();
+    void draw_dialing_status();
     void draw_if_flag_set();
     void render_if_flag_set();
-    static void create();
+    void create();
     static void close();
     static void open();
 };

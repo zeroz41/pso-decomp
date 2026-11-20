@@ -100,7 +100,7 @@ struct TNpcPlayer : public TObject {
     void set_field_0(s16 v);
     void set_state(s32 v);
     void byteswap_pos();
-    static void *get_valid_target_player();
+    void *get_valid_target_player();
     void send_6x3E();
     void bswap_6x3E();
     void init_6x3E_packet();

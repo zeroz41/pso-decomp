@@ -67,7 +67,7 @@ struct TWindowSubComCard : public TObject {
     static void scroll_list(s32 arg0);
     static void init_and_press_a(s32 arg0);
     static void init_and_press_b(s32 arg0);
-    static void update_press();
+    void update_press();
     static void select_card_entry(s32 arg0);
     static s32 contains_profanity(char *text);
     static void mask_profanity_words(char *src, char *dst);

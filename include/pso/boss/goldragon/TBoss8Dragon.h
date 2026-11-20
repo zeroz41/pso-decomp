@@ -232,7 +232,7 @@ public:
     void bswap_boss_actions();
     s32 is_within_xz_distance(u8 *arg1, f32 farg0);
     f32 calc_sq_offset(f32 farg0);
-    static void noop();
+    void noop();
     static u16 get_global_part_count(s32 arg0);
     void place_parts_in_ring(s32 arg1, s32 arg2);
     static s32 find_target_enemy();

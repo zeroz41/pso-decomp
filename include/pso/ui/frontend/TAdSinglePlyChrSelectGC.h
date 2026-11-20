@@ -29,10 +29,10 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 send_atx_command(s32 arg0);
     static s32 send_modem_hangup(s32 arg0);
     static void free_singleton_805D65C0();
-    static u8 check_slot_flags(s32 arg0, u32 arg1);
+    static s32 check_slot_flags(s32 arg0, u32 arg1);
     void cleanup();
     virtual void run_task();
-    static u8 get_chr_select_state();
+    static s32 get_chr_select_state();
     static u8 *get_global_state();
     static int get_state();
     static void safe_free(u32 arg0);
@@ -49,7 +49,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void destroy();
     static s32 create_if_key_pressed();
     static int get_game_mode();
-    u8 is_both_confirmed();
+    s32 is_both_confirmed();
     static void copy_name(s32 arg0);
     static void set_card_disk_id(s32 arg0);
     s32 init_char_slot_record();
@@ -80,7 +80,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void set_player_index(int a0);
     static void set_save_slot(int a0);
     static void clear_flags(s32 arg0);
-    static u8 check_flag(s32 arg0);
+    static s32 check_flag(s32 arg0);
     static void set_state(int a0);
     void clear_slot_lists();
     static void set_chr_select_state(int a0);
@@ -99,7 +99,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void *calc_preview_offset(void *arg0, s32 arg1, s32 arg2, s32 arg3);
     s32 get_result();
     static void init_entry_tables(void* _w0);
-    static u8 is_active();
+    static s32 is_active();
     void reset_creation_parts();
     void free_field_FC();
     void draw_player_model();
@@ -142,7 +142,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     u8 unk_58[0x4];
     s32 m_5c;
     static void free_all_resources();
-    u8 load_and_verify_character_save(char *desc);
+    s32 load_and_verify_character_save(char *desc);
     static void remove_matching_entries(s32 arg0);
     static s32 free_chardata(s32 arg0, s16 arg1);
     u8 *copy_character_data(u8 *arg1);

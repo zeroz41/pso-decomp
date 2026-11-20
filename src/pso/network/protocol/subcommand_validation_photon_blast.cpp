@@ -1,10 +1,7 @@
 #include "pso/network/protocol/subcommand_validation.h"
 #include "pso/network/protocol/subcommand_validation_photon_blast.h"
+#include "pso/player/TObjPlayer.h"
 
-extern "C" {
-s32 is_valid_technique_id__10TObjPlayerFs(s32);
-s32 is_valid_technique_slot__10TObjPlayerFUc(u8);
-}
 
 s32 validate_photon_blast_parameters(void *parameters) {
     s8 temp_r4;
@@ -30,12 +27,12 @@ s32 validate_6x48_cast_technique_complete(G_ClientIDHeader *packet) {
     if (validate_subcommand_client(packet) == 0) {
         return 0;
     }
-    return is_valid_technique_id__10TObjPlayerFs(*(s16 *)((s8 *)packet + 4)) != 0 ? 1 : 0;
+    return TObjPlayer::is_valid_technique_id(*(s16 *)((s8 *)packet + 4)) != 0 ? 1 : 0;
 }
 
 s32 validate_6x8D_set_technique_level_override(G_ClientIDHeader *packet) {
     if (validate_subcommand_client(packet) == 0) {
         return 0;
     }
-    return is_valid_technique_slot__10TObjPlayerFUc(*(u8 *)((s8 *)packet + 4)) != 0 ? 1 : 0;
+    return TObjPlayer::is_valid_technique_slot(*(u8 *)((s8 *)packet + 4)) != 0 ? 1 : 0;
 }

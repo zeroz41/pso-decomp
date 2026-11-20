@@ -82,7 +82,6 @@ s32 obj_setFlags30(void *, s32);
 u16 get_entity_id(void *);
 int queue_destruction__7TObjectFv(void*);
 s32 enemy_move_toward(void *, s32, void *, int, f32);
-s32 test_elt_flag__13TUnk_80493450Fll(void *, int, int);
 s32 get_current_floor(void);
 u8 *get_enemy_entity(u16 arg0);
 f32 enemy_backstep_from_point(void *, void *, f32);
@@ -379,7 +378,7 @@ void TUnk_80493450::beast_update_approach() {
         break;
     default:
         if (this->target != NULL) {
-            if (test_elt_flag__13TUnk_80493450Fll(arg0, 0, 0x300000) != 0) {
+            if (((TUnk_80493450 *)arg0)->test_elt_flag(0, 0x300000) != 0) {
                 if (this->m_38c++ < BEAST_HOME_CHASE_FRAME_COUNT) {
                     VecCopy(&sp14, &this->home_position);
                 } else {

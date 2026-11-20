@@ -65,7 +65,7 @@ struct TMainCursor : public TObject {
     static void set_display_flags(s32 arg0, s32 arg1, s32 arg2);
     static void setup_flags(s32 arg0, s32 arg1, s32 arg2);
     static void sort_list(s32 arg0, s32 arg1);
-    u8 is_channel_active();
+    s32 is_channel_active();
     int check_visible();
     u8 get_enabled();
     u8 get_type();

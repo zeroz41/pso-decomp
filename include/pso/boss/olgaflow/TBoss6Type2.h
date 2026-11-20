@@ -27,7 +27,7 @@ struct TBoss6Type2 : public TObjEnemy
     virtual void clear_harmful_statuses();
     virtual void vfunc_62();
     virtual void vfunc_63();
-    u8 is_active();
+    s32 is_active();
     void sub_802BC124();
     void sub_802BB554();
     void sub_802BB498();

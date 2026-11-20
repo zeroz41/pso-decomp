@@ -185,7 +185,6 @@ extern void *quest_mission_manager;
 void TKeyBoardControl__sub_8000F950(void);
 s32 reset_players();
 s32 check_flag_100__10TObjPlayerFPv();
-int update_players__19TPlayerBattleCtrl4PFv(void*);
 char team_matchup_message_buffer[256];
 }
     extern int evt2_random_enemies_mode;
@@ -208,12 +207,9 @@ struct Cnt_8031224C { s32 n[2]; };
 struct Strs_8031224C { u8 pad[0x18]; char *fmt; };
 struct O_8031224C { u8 pad[0x20]; void *w0; u8 pad2[0x240 - 0x24]; s32 timer; u8 pad3[0x274 - 0x244]; s32 team[4]; u8 pad4[0x294 - 0x284]; Strs_8031224C *strs; };
 extern "C" {
-s32 is_battle_decided__19TPlayerBattleCtrl4PFv(void *);
 char *strncpy(char *, const char *, u32);
-void update__19TPlayerBattleCtrl4PFv(void *);
 s32 __ct__15TDuelEffectCtrlFP7TObjectUc(void *, void *, s32);
 s32 update_all_players__19TPlayerBattleCtrl4PFv();
-s32 check_all_players_flag__19TPlayerBattleCtrl4PFv(void *);
 }
 typedef void (TPlayerBattleCtrl4P::*BattleAction)();
 extern "C" {
@@ -426,7 +422,7 @@ void TPlayerBattleCtrl4P::begin_ready_wait() {
 
 void TPlayerBattleCtrl4P::update_ready_wait() {
     ready_timer = (ready_timer - 1);
-    if ((check_all_players_flag__19TPlayerBattleCtrl4PFv(this) != 0) || ((s32) ready_timer >= 0)) {
+    if ((check_all_players_flag() != 0) || ((s32) ready_timer >= 0)) {
         if (this->intro_window != (void *) 0) {
         ((TWindowBase *)this->intro_window)->close();
         this->intro_window = 0U;
@@ -474,7 +470,7 @@ void TPlayerBattleCtrl4P::update_battle_time_and_rankings() {
         set_split_screen_battle_phase(3);
         return;
     }
-    if (is_battle_decided__19TPlayerBattleCtrl4PFv(this) != 0) {
+    if (is_battle_decided() != 0) {
         if (--result_confirm_timer <= 0) {
             set_split_screen_battle_phase(3);
         }
@@ -492,7 +488,7 @@ void TPlayerBattleCtrl4P::update_battle_time_and_rankings() {
 void TPlayerBattleCtrl4P::begin_battle_results() {
     s32 i;
     VObj_18_26c590 *p;
-    update__19TPlayerBattleCtrl4PFv(this);
+    update();
     {
         void *temp = TObject::operator new(0x28);
         if (temp != 0) {
@@ -580,7 +576,7 @@ void TPlayerBattleCtrl4P::open_result_windows() {
 
 #pragma pop
 
-void TPlayerBattleCtrl4P::wait_for_result_window_close() { if (close_windows_on_button() != 0) { close_player_windows(); update_players__19TPlayerBattleCtrl4PFv(this); set_score((s32)((void*)((void*)5))); } }
+void TPlayerBattleCtrl4P::wait_for_result_window_close() { if (close_windows_on_button() != 0) { close_player_windows(); update_players(); set_score((s32)((void*)((void*)5))); } }
 
 void TPlayerBattleCtrl4P::update_rematch_menu() {
     static const BattleIntroWindowSize size = {216.0f, 84.0f};
@@ -1130,7 +1126,7 @@ void send_code_45_to_window__19TPlayerBattleCtrl4PFPvii(void *arg0, s32 arg1, s3
 
 #undef get_player_by_client_id
 
-u8 TPlayerBattleCtrl4P::is_battle_decided() {
+s32 TPlayerBattleCtrl4P::is_battle_decided() {
     O_803109D4 *o = (O_803109D4 *)this;
     s32 count = 0;
     s32 i = 0;
@@ -1164,9 +1160,9 @@ u8 TPlayerBattleCtrl4P::is_battle_decided() {
         i++;
     } while (i < 4);
     if (((TLobby *)lobby_rule_settings)->get_rule_field_a() == 1 && (seen.v[0] == 0 || seen.v[1] == 0)) {
-        return 1;
+        return (u8)(1);
     }
-    return count <= 1;
+    return (u8)(count <= 1);
 }
 
 void TPlayerBattleCtrl4P::update_timed_events(s32 frames) {

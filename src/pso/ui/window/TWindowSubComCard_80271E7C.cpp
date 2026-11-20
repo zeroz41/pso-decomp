@@ -189,7 +189,6 @@ s32 TWindowSubComCard__sub_8027353C(void);
 s32 TWindowSubComCard__sub_8027346C(void);
 s32 TWindowSubComCard__sub_800778B4(void *, int);
 void TWindowSubComCard__sub_8007AF10(s32 arg0);
-s32 update_press__17TWindowSubComCardFv(int);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 play_sound_effect(int, int, int, int);
 s32 TLobby__sub_8024259C();
@@ -1125,7 +1124,7 @@ void TWindowSubComCard::run_task() {
         }
         if (((TWindowMessageYesNo *)(this->m_70))->is_child_visible() != 0) {
             if (((TWindowSubComCard *)(this->m_70))->get_slot_or_neg1() == 0) {
-                update_press__17TWindowSubComCardFv(((TWindowMenu *)this->m_84)->get_selected_value());
+                ((TWindowSubComCard *)(((TWindowMenu *)this->m_84)->get_selected_value()))->update_press();
                 this->m_1d = (u8) (this->m_1d | 2);
                 this->m_1c = 1U;
                 return;

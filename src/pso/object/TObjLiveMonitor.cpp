@@ -62,7 +62,6 @@ extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 int free_bin_model_request(void*, void*);
 extern void *tl_05;
-int update_single_screen__11TCameraCtrlFv(void*);
 int get_global_part_count__12TBoss8DragonFl(void*);
 s32 angle_diff_s16(int);
 void *get_player_by_client_id(s32 i);
@@ -335,7 +334,7 @@ int TBoss8Dragon__sub_8030B80C(void) {  return (local_client_id & 0xffff); }
 
 int call_null__12TBoss8DragonFv(void) { return get_global_part_count__12TBoss8DragonFl((void*)(0)); }
 
-void TObjLiveMonitor::update_camera() { void* m = *(void**)((char*)this + 0x50); if (m) update_single_screen__11TCameraCtrlFv(m); }
+void TObjLiveMonitor::update_camera() { void* m = *(void**)((char*)this + 0x50); if (m) ((TCameraCtrl *)m)->update_single_screen(); }
 
 void fn_8030B7B8(void) {  }
 

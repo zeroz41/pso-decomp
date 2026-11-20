@@ -156,7 +156,7 @@ void TLobby::update_trade_proposal_state() {
 #pragma scheduling off
 s32 TLobby__sub_802D268C(void) {
     text_builder_reset();
-    refresh_player_status__6TLobbyFv(TLobby__trade_partner_client_id);
+    ((TLobby *)TLobby__trade_partner_client_id)->refresh_player_status();
     TWindowSubStatusDisp::get_message_10(0xF6);
     text_builder_append();
     return get_shared_text_buffer();
@@ -488,7 +488,7 @@ s32 format_trade_out_of_range_message(s32 arg0) {
         return ((s32 (*)(s32))get_message_10__20TWindowSubStatusDispFl)(0xF0);
     }
     text_builder_reset();
-    refresh_player_status__6TLobbyFv(arg0);
+    ((TLobby *)arg0)->refresh_player_status();
     ((s32 (*)(s32))get_message_10__20TWindowSubStatusDispFl)(0xEF);
     text_builder_append();
     return get_shared_text_buffer();
@@ -505,7 +505,7 @@ s32 TLobby::show_event_message(s32 arg0, s32 arg1, s32 arg2) {
             return ((s32 (*)(s32))get_message_10__20TWindowSubStatusDispFl)(0xF4);
         }
         text_builder_reset();
-        refresh_player_status__6TLobbyFv(arg0);
+        ((TLobby *)arg0)->refresh_player_status();
         ((s32 (*)(s32))get_message_10__20TWindowSubStatusDispFl)(0xEA);
         text_builder_append();
         return get_shared_text_buffer();
@@ -519,7 +519,7 @@ s32 TLobby::show_event_message(s32 arg0, s32 arg1, s32 arg2) {
             ((s32 (*)(s32))get_message_10__20TWindowSubStatusDispFl)(0xF3);
             text_builder_append();
         } else {
-            refresh_player_status__6TLobbyFv(arg0);
+            ((TLobby *)arg0)->refresh_player_status();
             ((s32 (*)(s32))get_message_10__20TWindowSubStatusDispFl)(0xE8);
             text_builder_append();
         }
@@ -533,7 +533,7 @@ s32 TLobby::show_event_message(s32 arg0, s32 arg1, s32 arg2) {
             return ((s32 (*)(s32))get_message_10__20TWindowSubStatusDispFl)(0xF2);
         }
         text_builder_reset();
-        refresh_player_status__6TLobbyFv(arg0);
+        ((TLobby *)arg0)->refresh_player_status();
         ((s32 (*)(s32))get_message_10__20TWindowSubStatusDispFl)(0xE7);
         text_builder_append();
         return get_shared_text_buffer();
@@ -745,7 +745,7 @@ void handle_trade_partner_cancel(void *arg0) {
     switch (*(u8 *)((s8 *)arg0 + 5)) {
     case 4:
         text_builder_reset();
-        refresh_player_status__6TLobbyFv(TLobby__trade_partner_client_id);
+        ((TLobby *)TLobby__trade_partner_client_id)->refresh_player_status();
         TWindowSubStatusDisp::get_message_10(0xED);
         text_builder_append();
         reset__6TLobbyFi(get_shared_text_buffer());

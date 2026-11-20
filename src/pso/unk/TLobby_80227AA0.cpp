@@ -24,7 +24,6 @@ s32 play_sound_effect(s32, s32, s32, s32);
 u16 TCameraCtrl__sub_8006A5DC();
 void *get_player_by_client_id(s32 i);
 s32 bswap_6xB2_play_sound();
-s32 on_set_mode__6TLobbyFv(s32);
 
 void TLobby__sub_80227AF8(s32 arg0, s32 arg1) { TLobby__sub_8023F754(arg0, arg1); }
 }
@@ -72,13 +71,13 @@ s32 TLobby::is_camera_state_active() {
 void TLobby::set_mode(s32 arg0) {
     switch (arg0) {
     case 0:
-        on_set_mode__6TLobbyFv(1);
+        TLobby::on_set_mode(1);
         break;
     case 1:
-        on_set_mode__6TLobbyFv(0);
+        TLobby::on_set_mode(0);
         break;
     case 2:
-        on_set_mode__6TLobbyFv(0);
+        TLobby::on_set_mode(0);
         break;
     }
     set_mode__6TLobbyFPvi((s32 *)&sound_control_state, arg0);

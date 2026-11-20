@@ -108,7 +108,6 @@ s32 push_matrix();
 s32 scale_current_matrix(void *);
 s32 find_nearest_visible_player(void *, int, f32);
 u32 recon_bomb_bml_resource;
-s32 calc_scaled_value__12TObjEneReconFv(int);
 f32 TObjEneRecon__sub_8031C2BC(int);
 f32 TObjEneRecon__sub_8031C2C8(int);
 f32 TObjEneRecon__sub_8031C2D4(int);
@@ -264,7 +263,7 @@ u8 *TObjEneReconBomb__ct(TObjEneReconBomb *ene_recon_bomb, s32 arg1, s32 arg2, s
     *(f32 *)((s8 *)ene_recon_bomb + 0x34C) = TObjEneRecon__sub_8031C2D4(ene_recon_bomb->m_334);
     ene_recon_bomb->m_350 = TObjEneRecon__sub_8031C2C8(ene_recon_bomb->m_334);
     *(f32 *)((s8 *)ene_recon_bomb + 0x354) = TObjEneRecon__sub_8031C2BC(ene_recon_bomb->m_334);
-    ene_recon_bomb->m_358 = calc_scaled_value__12TObjEneReconFv(ene_recon_bomb->m_334);
+    ene_recon_bomb->m_358 = ((TObjEneRecon *)ene_recon_bomb->m_334)->calc_scaled_value();
     temp_r5 = (unsigned char *) (ene_recon_bomb->m_up);
     ene_recon_bomb->rotation_y = (s32) *(s32 *)((s8 *)temp_r5 + 0x60);
     VecCopy__FP3VecPC3Vec((u8 *)ene_recon_bomb + 0x38, (void *)arg3, (int)temp_r5);

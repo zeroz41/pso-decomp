@@ -128,7 +128,6 @@ u8 *get_ptr_4__10TObjPlayerFv();
 s32 __construct_new_array(void *, void *, int, int, int);
 void fn_801C1BA8(void *, void *);
 s32 fn_801D40D4(s32 arg0, Rec_801D40D4 *arg1, u8 *arg2);
-s32 is_both_confirmed__23TAdSinglePlyChrSelectGCFv(void *);
 void memcpy(void *, void *, s32);
 int is_quest_active(void);
 int memset(void*, int, int);
@@ -785,7 +784,7 @@ void remove_list_entry_by_id(s32 arg0) {
         n = *cnt;
         for (i = 0; i < n; p++, i++) {
             if (p->id == arg0) {
-                if (is_both_confirmed__23TAdSinglePlyChrSelectGCFv(p->sub) != 0) {
+                if (((TAdSinglePlyChrSelectGC *)p->sub)->is_both_confirmed() != 0) {
                     TAdSinglePlyChrSelectGC::remove_matching_entries((s32)cnt);
                 }
                 rem = n - i;

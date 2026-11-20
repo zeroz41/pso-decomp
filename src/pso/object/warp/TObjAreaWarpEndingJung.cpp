@@ -165,7 +165,6 @@ void * __nw__7TObjectFUl(int);
 void __ct__7TObjectFP7TObject(void *, void *);
 s32 align_menu_entry_positions(u32);
 s32 get_window_layout_position(s32);
-s32 find_active_player__12TObjAreaWarpFv(void *);
 void *destroy__13TAdVIConfigGCFPvs(void *arg0, s16 arg1);
 s32 init__13TAdVIConfigGCFf(int, void *, f32);
 s32 get_game_play_mode(int);
@@ -697,7 +696,7 @@ void TObjAreaWarp::handle_area_selection() {
                 if (t != NULL) {
                     found = 1;
                     if (d->fC0 != NULL) {
-                        this->open_confirm_window(find_active_player__12TObjAreaWarpFv(d->fC0));
+                        this->open_confirm_window(((TObjAreaWarp *)d->fC0)->find_active_player());
                     } else {
                         this->open_confirm_window(get_entity_id(t));
                     }

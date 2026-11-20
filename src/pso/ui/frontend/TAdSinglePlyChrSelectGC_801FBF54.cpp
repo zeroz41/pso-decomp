@@ -678,9 +678,7 @@ int draw_window_bg__23TAdSinglePlyChrSelectGCFllll(void*, void*, void*, void*);
 extern int lbl_805D49B4;
 extern s32 pso_system_card_filename[];
 int TAdSinglePlyChrSelectGC__sub_801FD990(s32 a0);
-s32 get_selection__23TAdSinglePlyChrSelectGCFv(void *self);
 Ent_801FCD04 *TAdSinglePlyChrSelectGC__sub_801FCD04(Obj_801FCD04 *self);
-s32 get_selection__23TAdSinglePlyChrSelectGCFv(void *self);
 s32 *TAdSinglePlyChrSelectGC__sub_801FCD3C(Obj_801FCD3C *self);
 bool is_entry_valid__23TAdSinglePlyChrSelectGCFPvi(Obj_801FCCDC *self, s32 i);
 s32 __dt__12TPlyCharDataFv(s32 arg0, s16 arg1);
@@ -819,14 +817,14 @@ bool is_entry_valid__23TAdSinglePlyChrSelectGCFPvi(Obj_801FCCDC *self, s32 i) {
 }
 
 Ent_801FCD04 *TAdSinglePlyChrSelectGC__sub_801FCD04(Obj_801FCD04 *self) {
-    return &self->e[get_selection__23TAdSinglePlyChrSelectGCFv(self)];
+    return &self->e[TAdSinglePlyChrSelectGC::get_selection()];
 }
 
     extern unsigned char pso_guildcard_card_filename[];
     extern int lbl_805D49B4;
 
 s32 *TAdSinglePlyChrSelectGC__sub_801FCD3C(Obj_801FCD3C *self) {
-    return &self->e[get_selection__23TAdSinglePlyChrSelectGCFv(self)].x;
+    return &self->e[TAdSinglePlyChrSelectGC::get_selection()].x;
 }
 
 void render_frame__23TAdSinglePlyChrSelectGCFv(void) {
@@ -2812,7 +2810,6 @@ s32 TAdPlayerLoadGC__sub_801FD770();
 s32 TAdSinglePlyChrSelectGC__sub_801FCD04(s32);
 s32 TAdSinglePlyChrSelectGC__sub_801FCD3C(s32);
 void TLobby__sub_801F494C(u16 arg0);
-u32 check_flag__23TAdSinglePlyChrSelectGCFl(s32);
 void reset_character_data__23TAdSinglePlyChrSelectGCFv(void);
 void init_class_starting_inventory(void *arg0);
 extern RecoveredGlobal_801FFF14_lbl_80513910 chr_select_serial_seeds;
@@ -2921,7 +2918,6 @@ void reset_character_data__23TAdSinglePlyChrSelectGCFv(void);
 u32 calc_crc32_bitwise(u8 *arg0, u32 arg1);
 void init_class_starting_inventory(void *arg0);
 void TLobby__sub_801F494C(u16 arg0);
-u32 check_flag__23TAdSinglePlyChrSelectGCFl(s32);
 s32 memcpy(void *, s32, s32);
 
 s32 init_windows__23TAdSinglePlyChrSelectGCFi(s32 arg0) {
@@ -3054,7 +3050,7 @@ void game_state_load(void) {
     memcpy((void *)active_character_save_record, TAdSinglePlyChrSelectGC__sub_801FCD3C(card_character_save_buffer), 0x2370);
     TLobby__sub_801F494C(0);
     if (TAdSinglePlyChrSelectGC::get_game_mode() == 0) {
-        if (check_flag__23TAdSinglePlyChrSelectGCFl(1) != 0U) {
+        if (TAdSinglePlyChrSelectGC::check_flag(1) != 0U) {
             reset_character_data__23TAdSinglePlyChrSelectGCFv();
         } else {
             void *a = (void *)selected_character_data;
@@ -3084,7 +3080,7 @@ s32 apply_loaded_character__23TAdSinglePlyChrSelectGCFi(s32 arg0) {
     memcpy((void *)((*(void *const *)&active_character_save_record)), (s32)(TAdSinglePlyChrSelectGC__sub_801FCD3C(card_character_save_buffer)), 0x2370);
     TLobby__sub_801F494C(0);
     if (TAdSinglePlyChrSelectGC::get_game_mode() == 0) {
-        if (check_flag__23TAdSinglePlyChrSelectGCFl(1) != 0U) {
+        if (TAdSinglePlyChrSelectGC::check_flag(1) != 0U) {
             reset_character_data__23TAdSinglePlyChrSelectGCFv();
         } else {
             void *a = (void *)selected_character_data;

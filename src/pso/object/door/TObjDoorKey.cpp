@@ -30,6 +30,7 @@
 #include "pso/object/key/TOKey.h"
 #include "pso/player/TUnk_804B6C24.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/ui/hud/TRaderMapCore.h"
 
 struct BmlResource;
 struct GinjaTextureList;
@@ -133,7 +134,6 @@ extern s32 actor_frame_tick;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 void free_bin_model_request(void*, int);
-int is_not_split_screen__13TRaderMapCoreFv(void *);
 
 void TObjDoorKey__sub_8018FAEC(u16 id, u16) {
     Obj_8018FA6C *temp_r3;
@@ -332,7 +332,7 @@ void TObjDoorKey::load_resources() {
 
 void * TObjEnvSoundGlobal__create(void *rader_map_core) {
     void *o;
-    if (is_not_split_screen__13TRaderMapCoreFv(rader_map_core) == 1) {
+    if (TRaderMapCore::is_not_split_screen() == 1) {
         return NULL;
     }
     o = TObject::operator new(0x9C);

@@ -1136,7 +1136,6 @@ void TOMineTrap__sub_80171368(f32);
 int set_instance__10TOMineTrapFi(void*);
 int set_trap_count__10TOMineTrapFi(void*);
 int clear_enabled_main_warps(void*);
-s32 clear_active_bit__16TObjCityMainWarpFv(int);
 void TLobby__sub_80190FD0(int a0);
 int TObjHashiVersus2__sub_801912A4(void*);
 int TObjHashiVersus2__sub_801912B0(void*);
@@ -4513,7 +4512,7 @@ void qst_op_pcam_param(u8 arg0) {
 int qst_op_clear_mainwarp_all(void* p) { return clear_enabled_main_warps(p); }
 
 void qst_op_clear_mainwarp() {
-    clear_active_bit__16TObjCityMainWarpFv((int) (qst_args[0]));
+    ((TObjCityMainWarp *)(qst_args[0]))->clear_active_bit();
 }
 
 void qst_op_set_mainwarp(void) {

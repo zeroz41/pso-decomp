@@ -335,14 +335,14 @@ void TObjCollidable::set_indexed_flags(s32 index, s32 flags) {
     }
 }
 
-u8 TUnk_80493450::test_elt_flag(s32 arg1, s32 arg2) {
+s32 TUnk_80493450::test_elt_flag(s32 arg1, s32 arg2) {
     struct Elt_801542CC *temp_r3;
 
     temp_r3 = *(struct Elt_801542CC * *)&this->bodies;
     if (temp_r3 != 0) {
-        return (u8) ((arg2 & temp_r3[arg1].f18) != 0);
+        return (u8)((u8) ((arg2 & temp_r3[arg1].f18) != 0));
     }
-    return 0U;
+    return (u8)(0U);
 }
 
 f32 TObjCollidable::get_collision_body_radius(s32 i) {
@@ -416,7 +416,7 @@ void TObjPlayer::clear_item_table() {
     lbl_805D5868 = 0;
 }
 
-u16 TObjCollidable::unregister_object_by_id() {
+s32 TObjCollidable::unregister_object_by_id() {
     s32 mid;
     s32 lo;
     s32 hi;
@@ -446,9 +446,9 @@ u16 TObjCollidable::unregister_object_by_id() {
             registered_entity_count--;
         }
         TObjPlayer__data_8050D460[lbl_805D5868] = 0;
-        return id;
+        return (u16)(id);
     }
-    return 0xFFFF;
+    return (u16)(0xFFFF);
 }
 
 void TObjCollidable::register_object_by_id() {

@@ -19,8 +19,8 @@ s16 TWindowSubSymbolChat::get_cursor_pos() {
     return *(s16 *)((s8 *)this + 0x6C);
 }
 
-s16 TWindowSubSymbolChat::get_cursor_x() {
-    return *(s16 *)((s8 *)this + 0x6A);
+s32 TWindowSubSymbolChat::get_cursor_x() {
+    return (s16)(*(s16 *)((s8 *)this + 0x6A));
 }
 
 s32 TWindowSubSymbolChatPartsSet::is_active() {

@@ -111,7 +111,7 @@ struct TObjPlayer : public TObjChara {
     void update_body_parts();
     void sub_801BD318();
     void sub_801BD240();
-    u8 sub_801A1DDC();
+    s32 sub_801A1DDC();
     void vfunc_77();
     void vfunc_76(f32 charge);
     void vfunc_75(f32);
@@ -367,7 +367,7 @@ struct TObjPlayer : public TObjChara {
     int set_action_palette_mode();
     void clear_flag0_bit1();
     void set_flag_2();
-    u16 get_field_2d4();
+    s32 get_field_2d4();
     s32 is_local_player();
     void apply_velocity();
     s16 clamp_tp();
@@ -517,7 +517,7 @@ struct TObjPlayer : public TObjChara {
     void set_atp(s16 v);
     s16 get_stage_strike_count();
     static void notify_hit_target(u32 arg0, u32 arg1, u32 arg2, u32 arg3);
-    static s32 is_rand_below_threshold();
+    s32 is_rand_below_threshold();
     s32 get_hp_by_flag();
     s16 get_kill_count();
     void draw_if_visible();
@@ -545,15 +545,15 @@ struct TObjPlayer : public TObjChara {
     static void destroy_buffer_pair_instance();
     int check_flag_0x80();
     static void free_buffer_pair();
-    static u8 is_final_phase();
-    static u8 is_camera_ready();
-    static u8 is_camera_mode_active();
+    static s32 is_final_phase();
+    static s32 is_camera_ready();
+    static s32 is_camera_mode_active();
     static s32 is_single_screen();
     static s32 is_player_valid_target(s32 arg0);
     void update_movement_effects();
     static int get_max_level();
     void update_position(s32 arg1);
-    static s32 has_active_camera_event();
+    s32 has_active_camera_event();
     void init_from_data(void* a1);
     void reset_state();
     void update_state();
@@ -572,7 +572,7 @@ struct TObjPlayer : public TObjChara {
     static void free_shared_data();
     static void finalize_shared();
     static void init_shared();
-    static u8 check_camera_mode();
+    static s32 check_camera_mode();
     int is_android();
     int is_newman();
     int check_stat_flag_41c();
@@ -662,7 +662,7 @@ struct TObjPlayer : public TObjChara {
     u8 get_char_class();
     u32 unpack_u32_hi();
     u32 unpack_u32_lo();
-    u8 get_slot_value_checked(s32 i);
+    s32 get_slot_value_checked(s32 i);
     void*get_ptr_4();
     void*setup_ctrl();
     int check_flag_at_428();
@@ -671,7 +671,7 @@ struct TObjPlayer : public TObjChara {
     void*init_char_data();
     s8 calc_class_stat_boost_index(s8 arg1, s32 arg2);
     s32 consume_trap_count(s32 arg1, s32 arg2);
-    u8 clamp_char_at(s32 arg1);
+    s32 clamp_char_at(s32 arg1);
     static s32 init_partial(s32 arg0);
     static s32 decrement_clamp(s32 *arg0, s32 arg1);
     void copy_offset_position(void *arg1);
@@ -954,9 +954,9 @@ struct TObjPlayer : public TObjChara {
     static s32 init_inventory_items(s32 arg0);
     s32 *get_getup_protection_ticks();
     s32 *get_hurt_protection_ticks();
-    static u8 *get_lobby_entry_ptr();
-    static s32 get_guild_return_yaw();
-    static s32 get_hospital_yaw();
+    u8 *get_lobby_entry_ptr();
+    s32 get_guild_return_yaw();
+    s32 get_hospital_yaw();
     u8 *get_hospital_position();
     long get_anim_table_entry(s32 arg1);
     s32 get_table_entry_by_clamped_index();
@@ -979,9 +979,9 @@ struct TObjPlayer : public TObjChara {
     void level_up_all_techniques(s32 add);
     static u8 clamp_to_max(s32 arg0, u8 arg1, u8 arg2);
     void validate_and_clear_slot();
-    static u8 is_invalid_slot(u8 arg0);
-    static u8 is_valid_technique_id(s16 arg0);
-    static u8 is_valid_technique_slot(u8 arg0);
+    static s32 is_invalid_slot(u8 arg0);
+    static s32 is_valid_technique_id(s16 arg0);
+    static s32 is_valid_technique_slot(u8 arg0);
     void set_tech_level(s16 arg1);
     void reset_slots();
     void set_field_1c(f32 v);
@@ -1212,7 +1212,7 @@ struct TObjPlayer : public TObjChara {
     static void update_particle_by_phase();
     void draw_blob_shadows();
     void set_flag_8_if_check_passes();
-    static void clear_render_context();
+    void clear_render_context();
     u8 *construct_freeze_shell(u8 *arg1, u8 *arg2);
     static void create_tec_zonde(void *arg0, void *arg1, void *arg2, void *arg3);
     TechniqueContactList *collect_technique_contacts(void *src);
@@ -1272,7 +1272,7 @@ struct TObjPlayer : public TObjChara {
     int get_field_828();
     static void play_phase_transition_sound(s32 arg0);
     void check_flag_40000();
-    u8 is_in_tl03_state();
+    s32 is_in_tl03_state();
     void sync_status_effect_flags();
     void cancel_status_effects();
     s32 get_next_level_exp();
@@ -1291,7 +1291,7 @@ struct TObjPlayer : public TObjChara {
     s32 execute_palette_action(s32 arg1, void *arg2);
     int attach_battle_ctrl_sub();
     void forward_1BF500_at_63c();
-    static s32 classify_action_state();
+    s32 classify_action_state();
     int update_foot_stamp(int arg1);
     void play_footstep_sound();
     void revive();

@@ -38,7 +38,6 @@ extern "C" {
 u32 __ct__7TObjectFP7TObject(int, int);
 extern u32 TObjBgmColCtrl__instance;
 extern s32 tl_05;
-s32 is_active__14TObjBgmColCtrlFv();
 }
 int get_quest_bgm_issued_flag(void);
 
@@ -107,8 +106,8 @@ extern int TQuestBgmCtrl__bgm_issued_flag;
 
 int get_quest_bgm_issued_flag(void) {  return TQuestBgmCtrl__bgm_issued_flag; }
 
-u8 TObjBgmColCtrl::is_active() {
-    return (u8) (lbl_805D62E4 != 0);
+s32 TObjBgmColCtrl::is_active() {
+    return (u8)((u8) (lbl_805D62E4 != 0));
 }
 
 void *TObjBgmCol__ct(TObjBgmCol *bgm_col, s32 arg1, void *arg2) {
@@ -255,7 +254,7 @@ void TObjBgmColCtrl::run_task() {
     this->m_1c = (temp_r4 - 1);
     if ((temp_r4 <= 0) && ((get_current_floor_area() == AREA_LOBBY) || (get_player_by_client_id(local_client_id) != NULL)) && (get_quest_bgm_issued_flag() == 0)) {
         if (TRaderMapCore::is_not_split_screen() == 1) {
-            if (is_active__14TObjBgmColCtrlFv() == 0) {
+            if (TObjBgmColCtrl::is_active() == 0) {
                 TObjBgmColCtrl::play_lobby_theme_music();
             }
         } else {
@@ -265,7 +264,7 @@ void TObjBgmColCtrl::run_task() {
                 ((TObject *)thisObj)->run_tasks();
             }
             if ((s32) lbl_805D5B04 == 0) {
-                if (is_active__14TObjBgmColCtrlFv() == 0) {
+                if (TObjBgmColCtrl::is_active() == 0) {
                     TObjBgmColCtrl::play_lobby_theme_music();
                 }
                 if ((get_current_floor_area() == AREA_LOBBY) && ((s32) TLobby__event_theme_id != (s32) TObjBgmColCtrl__current_theme_id)) {

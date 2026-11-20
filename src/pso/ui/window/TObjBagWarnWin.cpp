@@ -35,6 +35,7 @@ const char *TObjBagWarnWin4P__name = "TObjBagWarnWin4P";
 #include "pso/map/FloorArea.h"
 
 #include "pso/unk/TLobby.h"
+#include "pso/ui/city/THunterGuildWarning.h"
 
 extern "C" {
 s32 has_window_task_root();
@@ -57,7 +58,6 @@ void __ct__7TObjectFP7TObject(void *);
 
 s32 get_character_save_record(u32 arg0);
 
-s32 is_active__19THunterGuildWarningFv();
 
 s32 is_level_capped__23TAdSinglePlyChrSelectGCFv();
 
@@ -265,7 +265,7 @@ s32 TObjBagWarnWin4P::check_can_open(void * _w0) {
             return 0;
         }
     }
-    if (is_active__19THunterGuildWarningFv() != 0) {
+    if (THunterGuildWarning::is_active() != 0) {
         return 0;
     }
     i = 0;

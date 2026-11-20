@@ -74,7 +74,6 @@ extern s32 camera_ctrl_instance;
 int is_local_client_floor_leader(void*);
 int TObjPlayer__sub_801BA42C(void*);
 int freeze_all_players__10TObjPlayerFv(void*);
-int is_any_teammate_in_state__10TObjPlayerFv(void*);
 extern s32 enable_v2_features;
 extern s32 game_difficulty_selection;
 }
@@ -1155,14 +1154,14 @@ int TObjEneDD__sub_800BA804(u16 arg0) {
     return var_r3;
 }
 
-u8 TObjEneDD::is_valid_target() {
+s32 TObjEneDD::is_valid_target() {
     int var_r31;
 
     var_r31 = 0;
     if ((this != NULL) && (all_parents_unqueued_for_destruction() != 0) && !(this->actorFlags & 0x06040800)) {
         var_r31 = 1;
     }
-    return (u8)var_r31;
+    return (u8)((u8)var_r31);
 }
 
 s32 TObjEneDD::is_target_unobstructed(s32 arg1) {
@@ -1324,7 +1323,7 @@ s32 TObjEneDD::vfunc_99() {
 }
 
 f32 TObjEneDD::calc_elapsed_scaled() {
-    return 2.0f * (random_ratio__9TObjCharaFv() - 0.5f);
+    return 2.0f * (random_ratio() - 0.5f);
 }
 
 f32 TObjEneDD::rand_range(f32 farg0, f32 farg1) {
@@ -1332,7 +1331,7 @@ f32 TObjEneDD::rand_range(f32 farg0, f32 farg1) {
 }
 
 s32 TObjEneDD::get_random_scaled() {
-    return (s32) (65535.0f * random_ratio__9TObjCharaFv());
+    return (s32) (65535.0f * random_ratio());
 }
 
 void TObjEneDD::initialize_enemy_state(s32 parameter) {
@@ -1404,7 +1403,7 @@ u8 TObjEneDD::is_phase_e() {
 
 int TObjEneDD::update_lobby_state() { return is_local_client_floor_leader(this); }
 
-int TObjEneDD::query_teammate_state() { return is_any_teammate_in_state__10TObjPlayerFv(this); }
+int TObjEneDD::query_teammate_state() { return TObjPlayer::is_any_teammate_in_state(); }
 
 void project_sound_origin_from_camera(s32 arg0, u8 *boss2_tunnel, f32 farg0) {
     f32 temp_f1;

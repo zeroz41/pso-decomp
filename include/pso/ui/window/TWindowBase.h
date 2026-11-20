@@ -24,7 +24,7 @@ public:
     s32 sub_80244994();
     void save_position();
     f32 get_scale();
-    u8 sub_80246948();
+    s32 sub_80246948();
     s32 get_array_entry(int);
     virtual void render();
     virtual void run_task();

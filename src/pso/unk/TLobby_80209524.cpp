@@ -838,9 +838,8 @@ void TLobby::assign_object_ids(s32 arg1, void *lobby) {
 }
 
 // ---- pso/unk/TLobby_8020AB30
-int clear_record_flags_a__6TLobbyFv(void*);
 
-int TLobby::rebuild_entry() { return clear_record_flags_a__6TLobbyFv(this); }
+int TLobby::rebuild_entry() { return clear_record_flags_a(); }
 
 }
 
@@ -903,9 +902,8 @@ s32 load_area_enemy_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 
 extern "C" {
 
-int clear_record_flags_b__6TLobbyFv(void*);
 
-int TLobby::init_sub_state() { return clear_record_flags_b__6TLobbyFv(this); }
+int TLobby::init_sub_state() { return clear_record_flags_b(); }
 
 }
 

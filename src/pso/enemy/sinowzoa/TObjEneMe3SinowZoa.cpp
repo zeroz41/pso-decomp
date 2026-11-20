@@ -58,6 +58,7 @@
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/technique/TTecRaBarta.h"
+#include "pso/npc/TNpcPlayer.h"
 
 // load_resources fills these per kind (0 and 1) from TLobby::register_boss,
 // TLobby::dispatch_shared_handler_b, TLobby::register_object and
@@ -95,7 +96,6 @@ extern "C" {
 s32 matrix_mult_vec(int, void *, void *);
 void TObjEneMe3SinowZoa__sub_80316C3C(TObjEneMe3SinowZoa *self, s32 arg1);
 u16 get_entity_id(int);
-u32 get_valid_target_player__10TNpcPlayerFv(int);
 s32 check_move_collision__18TObjEneMe3SinowZoaFPvPv(TObjEneMe3SinowZoa *self, const Vec *pos);
 s32 get_mode__11TCameraCtrlFPv(void *);
 u32 get_item_field_6__10TObjPlayerFPv(void *);
@@ -2147,13 +2147,13 @@ s32 check_move_collision__18TObjEneMe3SinowZoaFPvPv(TObjEneMe3SinowZoa *self, co
     self->vfunc_89();
     self->update_enemy_collision_flags();
     if (body->flags & 0x80000) {
-        if (get_valid_target_player__10TNpcPlayerFv(get_entity_id((int)self->m_390)) == 0) {
+        if (((TNpcPlayer *)(get_entity_id((int)self->m_390)))->get_valid_target_player() == 0) {
             VecCopy(&self->position, &sp8);
             TObjPlayer::init_all_slots();
             return 1;
         }
     }
-    if ((body->flags & 0x100000) && get_valid_target_player__10TNpcPlayerFv(self->entity_id) == 0) {
+    if ((body->flags & 0x100000) && ((TNpcPlayer *)self->entity_id)->get_valid_target_player() == 0) {
         VecCopy(&self->position, &sp8);
         TObjPlayer::init_all_slots();
         return 1;

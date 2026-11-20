@@ -194,7 +194,6 @@ struct Win_8021AE18 {
 };
 
 extern "C" {
-s32 sub_8022397C__15TShopWindowBaseFv(void *);
 const char *TShopArmorListWindow__class_name = "TShopArmorListWindow";
 int set_field_20__15TShopWindowBaseFl(void*, int);
 int obj_getPtr2B0_20(u8 *p);
@@ -240,7 +239,7 @@ TShopArmorListWindow::TShopArmorListWindow(s32 parent, s32 arg2, s32 arg3) : TSh
     this->m_1f4 = 0;
     this->m_1f0 = 0;
     ((TShopGetItemWindow *)(this->m_24))->calc_item_count(&sp8);
-    TLobby::set_shop_armor_list_flag((int)((void *) (sub_8022397C__15TShopWindowBaseFv(((u8 *)this)))), sp8);
+    TLobby::set_shop_armor_list_flag((int)((void *) (sub_8022397C())), sp8);
 }
 
 TShopArmorListWindow::~TShopArmorListWindow() {
@@ -321,7 +320,7 @@ void TShopArmorListWindow::refresh_item_list(void *p) {
     s32 k;
     u8 *e;
     void *c;
-    base = sub_8022397C__15TShopWindowBaseFv(W);
+    base = ((TShopWindowBase *)W)->sub_8022397C();
     W->count = TLobby__sub_8021B274();
     for (i = 0; i < W->count; i++) {
         ((TLobby *)(&tmp))->copy_armor_shop_entry(i, base);
@@ -482,7 +481,7 @@ s32 TShopArmorListWindow::open_menu_window() {
 }
 
 void handle_buy_confirm__20TShopArmorListWindowFv(Win_8021A634 *w) {
-    s32 base = sub_8022397C__15TShopWindowBaseFv(w);
+    s32 base = ((TShopWindowBase *)w)->sub_8022397C();
     s32 r;
     if (w->card != NULL && ((TWindowMenu *)(w->card))->is_decided() != 0) {
         r = ((TWindowMenu *)w->card)->get_selected_value();
@@ -567,7 +566,7 @@ void TShopArmorListWindow::handle_equip_offer() {
                 try_buy_item(w->player, &c);
                 ((TShopArmorListWindow *)w)->update_selection(&w->recs[i]);
                 if (is_single_purchase_shop_item((u8 *)&w->recs[i]) != 0) {
-                    TLobby::clear_shop_entry_value((s32)i, (s32)((void *)sub_8022397C__15TShopWindowBaseFv(w)));
+                    TLobby::clear_shop_entry_value((s32)i, (s32)((void *)((TShopWindowBase *)w)->sub_8022397C()));
                 }
                 ((TShopArmorListWindow *)(w->list))->save_cursor_selection();
                 ((TWindowBase *)w->win)->close();

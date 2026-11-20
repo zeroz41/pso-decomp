@@ -39,6 +39,7 @@
 #include "pso/system/ControllerInputState.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdChrSelBSlotGC.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 struct Info_802DC024 {
     s32 val[4];
@@ -98,7 +99,6 @@ extern NJS_POINT2 multi_chr_select_item_rect_table[];
 struct Obj_802DCCA4 { u8 pad[0x2C]; s32 f2C; };
 
 extern "C" {
-void collect_player_slots__22TAdMultiPlyChrSelectGCFv(void *);
 void TAdMultiPlyChrSelectGC__sub_802DCCA4(Obj_802DCCA4 *arg0);
 s32 TAdPlyPltAnimCtrlGC__sub_80355148();
 void create_effects__14TAdGameStartGCFPv(u8 *parent);
@@ -126,7 +126,6 @@ u32 __ct__9TAdFadeGCFP7TObjectPv(u32, TObject *, s32);
 u32 __nw__7TObjectFUl(s32);
 s32 *TAdSinglePlyChrSelectGC__sub_801FE3E4(u32 i);
 s32 TAdSinglePlyChrSelectGC__sub_801FE800(u32 i);
-u32 check_slot_flags__23TAdSinglePlyChrSelectGCFlUl(s32, s32);
 void load_tables(int a0);
 extern s32 lbl_80472860[];
 }
@@ -139,11 +138,8 @@ struct Stack_802DE7D0 {
 extern "C" {
 s32 *TAdSinglePlyChrSelectGC__sub_801FE4BC(u32 i);
 s32 is_slot_active__23TAdSinglePlyChrSelectGCFUi(u32 arg0);
-u32 check_flag__23TAdSinglePlyChrSelectGCFl(s32);
 s32 TAdMultiPlyChrSelectGC__sub_802C561C(s32);
 s32 TAdMultiPlyChrSelectGC__sub_802C5688(s32);
-u32 create_choice_menu__22TAdMultiPlyChrSelectGCFv(void *);
-s32 restore_selection__22TAdMultiPlyChrSelectGCFv(s32);
 s32 TAdChrSelASlotGC__sub_8030C3C0(TAdChrSelASlotGC *self, u32 i);
 s32 TAdChrSelASlotGC__sub_8030CA84(s32 arg0, s32 arg1);
 extern s32 lbl_80472850[];
@@ -192,7 +188,6 @@ struct C_802DF114 {
 
 typedef void (C_802DF114::*Pmf_802DF114)();
 
-void set_default_camera__21TAdMultiChgGameModeGCFv(void *);
 extern "C" void update_idle_timer__22TAdMultiPlyChrSelectGCFv();
 extern "C" void reset_to_select__22TAdMultiPlyChrSelectGCFv();
 extern "C" void check_cancel_input__22TAdMultiPlyChrSelectGCFv();
@@ -681,7 +676,7 @@ void TAdMultiPlyChrSelectGC::create_widgets() {
 void TAdMultiPlyChrSelectGC::run_task() {
     C_802DF114 *self = (C_802DF114 *)this;
     static s8 init;
-    set_default_camera__21TAdMultiChgGameModeGCFv(self);
+    TAdMultiChgGameModeGC::set_default_camera();
     self->f3C = 1;
     if (self->f48 != 1 && TAdMultiPlyChrSelectGC__sub_802C6848(0) == 0) {
         self->f3C = 0;
@@ -977,7 +972,7 @@ void TAdMultiPlyChrSelectGC__sub_802DE7D0(void *ad_multi_ply_chr_select_gc) {
             if (TAdSinglePlyChrSelectGC__sub_801FE4BC(temp_r30) != 0U) {
                 load_tables(temp_r30);
                 ((TAdMultiPlyChrSelectGC *)(*(s32 *)((s8 *)ad_multi_ply_chr_select_gc + 0x60)))->set_field_100(2);
-                if ((check_flag__23TAdSinglePlyChrSelectGCFl(1) != 0U) && ((s32) ((TAdMultiPlyChrSelectGC *)ad_multi_ply_chr_select_gc)->m_3c != 0)) {
+                if ((TAdSinglePlyChrSelectGC::check_flag(1) != 0U) && ((s32) ((TAdMultiPlyChrSelectGC *)ad_multi_ply_chr_select_gc)->m_3c != 0)) {
                     ((TAdMultiPlyChrSelectGC *)ad_multi_ply_chr_select_gc)->m_40 = 1;
                 }
             }
@@ -990,7 +985,7 @@ void TAdMultiPlyChrSelectGC__sub_802DE7D0(void *ad_multi_ply_chr_select_gc) {
                 if (is_slot_active__23TAdSinglePlyChrSelectGCFUi(temp_r30) == 0) {
                     play_sound_effect(0x52D01, 0, 0, 0);
                     ((TAdMultiPlyChrSelectGC *)(((TAdMultiPlyChrSelectGC *)ad_multi_ply_chr_select_gc)->m_5c))->update_field_4E8();
-                    restore_selection__22TAdMultiPlyChrSelectGCFv(((TAdMultiPlyChrSelectGC *)ad_multi_ply_chr_select_gc)->m_5c);
+                    ((TAdMultiPlyChrSelectGC *)(((TAdMultiPlyChrSelectGC *)ad_multi_ply_chr_select_gc)->m_5c))->restore_selection();
                     TAdMultiPlyChrSelectGC__sub_802C5688(((TAdMultiPlyChrSelectGC *)ad_multi_ply_chr_select_gc)->m_5c);
                     if ((u32) *(u32 *)((s8 *)ad_multi_ply_chr_select_gc + 0x68) != 0U) {
                         ((TObject *)(*(void **)((s8 *)ad_multi_ply_chr_select_gc + 0x68)))->queue_destruction();
@@ -999,7 +994,7 @@ void TAdMultiPlyChrSelectGC__sub_802DE7D0(void *ad_multi_ply_chr_select_gc) {
                     ((TAdMultiPlyChrSelectGC *)ad_multi_ply_chr_select_gc)->m_20 = 9;
                     return;
                 }
-                ((TAdMultiPlyChrSelectGC *)ad_multi_ply_chr_select_gc)->m_7c = create_choice_menu__22TAdMultiPlyChrSelectGCFv(ad_multi_ply_chr_select_gc);
+                ((TAdMultiPlyChrSelectGC *)ad_multi_ply_chr_select_gc)->m_7c = ((TAdMultiPlyChrSelectGC *)ad_multi_ply_chr_select_gc)->create_choice_menu();
                 ((TAdMultiPlyChrSelectGC *)ad_multi_ply_chr_select_gc)->m_20 = 5;
                 return;
             }
@@ -1108,7 +1103,7 @@ void TAdMultiPlyChrSelectGC::update_state_option() {
         case 1:
             play_sound_effect(0x52D01, 0, 0, 0);
             ((TAdMultiPlyChrSelectGC *)(*(s32 *)((s8 *)this + 0x5C)))->update_field_4E8();
-            restore_selection__22TAdMultiPlyChrSelectGCFv(*(s32 *)((s8 *)this + 0x5C));
+            ((TAdMultiPlyChrSelectGC *)(*(s32 *)((s8 *)this + 0x5C)))->restore_selection();
             TAdMultiPlyChrSelectGC__sub_802C5688(*(s32 *)((s8 *)this + 0x5C));
             ((TAdMultiPlyChrSelectGC *)(*(s32 *)((s8 *)this + 0x5C)))->set_state_ready();
             if ((u32) *(u32 *)((s8 *)this + 0x68) != 0U) {
@@ -1447,7 +1442,7 @@ void TAdMultiPlyChrSelectGC::update_select() {
             load_tables(temp_r30);
             ((TAdMultiPlyChrSelectGC *)(*(s32 *)&this->unk_60))->set_status_value(temp_r30);
             ((TAdMultiPlyChrSelectGC *)(*(s32 *)&this->unk_60))->set_field_100(2);
-            if ((check_slot_flags__23TAdSinglePlyChrSelectGCFlUl(temp_r30, 1) != 0U) && ((s32) *(s32 *)&this->m_3c != 0)) {
+            if ((TAdSinglePlyChrSelectGC::check_slot_flags(temp_r30, 1) != 0U) && ((s32) *(s32 *)&this->m_3c != 0)) {
                 *(s32 *)&this->m_40 = 1;
             }
         }
@@ -1867,7 +1862,7 @@ void TAdMultiPlyChrSelectGC__sub_802DCCA4(Obj_802DCCA4 *arg0) {
         request_main_phase(3);
         break;
     case 1:
-        collect_player_slots__22TAdMultiPlyChrSelectGCFv(arg0);
+        ((TAdMultiPlyChrSelectGC *)arg0)->collect_player_slots();
         TAdMultiChgGameModeGC::begin_transition();
         break;
     }

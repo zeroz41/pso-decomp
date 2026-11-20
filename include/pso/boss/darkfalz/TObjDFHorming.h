@@ -28,7 +28,7 @@ struct TObjDFHorming : public TObjChara {
     u8 unk_370[0x8];
     f32 m_378;
     u8 unk_37C[0x4];
-    static u8 is_boss_active();
+    static s32 is_boss_active();
 };
 
 typedef char TObjDFHorming_velocity_offset[offsetof(TObjDFHorming, velocity) == 0x348 ? 1 : -1];

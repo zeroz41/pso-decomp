@@ -55,7 +55,6 @@ typedef struct Packet_801ADD10 {
 
 extern "C" {
 s32 scroll_strip_uvs(void *, s16, int);
-s32 clear_render_context__10TObjPlayerFv(void *);
 s32 rotate_matrix_y(int, int);
 extern NJS_ARGB saved_model_draw_color;
 extern NJS_ARGB model_material_color;
@@ -139,7 +138,7 @@ void TPhotonPilla::render() {
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
         copy_argb((NJS_ARGB *)&model_material_color, (NJS_ARGB *)&saved_model_draw_color);
         model_render_flags = saved_model_render_flags;
-        clear_render_context__10TObjPlayerFv(self);
+        ((TObjPlayer *)self)->clear_render_context();
         pop_matrix();
         TParticleCtrl::end_effect_render();
     }

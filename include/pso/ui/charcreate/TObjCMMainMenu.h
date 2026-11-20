@@ -66,7 +66,7 @@ public:
     static f32 get_proportion();
     static void set_selection(int a0);
     static void set_speed(f32 farg0);
-    static s16 get_creation_sprite_id(s32 arg0);
+    static s32 get_creation_sprite_id(s32 arg0);
 };
 typedef char CreationMainMenuSize[sizeof(TObjCMMainMenu)==0x58?1:-1];
 typedef char CreationMainMenu_character_offset[offsetof(TObjCMMainMenu,character)==0x1C?1:-1];

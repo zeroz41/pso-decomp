@@ -7,8 +7,8 @@
 
 extern s32 TBoss6PlotFalz__instance;
 
-u8 TBoss6PlotFalz::is_flag_set() {
-    return (u8) (TBoss6PlotFalz__instance != 0);
+s32 TBoss6PlotFalz::is_flag_set() {
+    return (u8)((u8) (TBoss6PlotFalz__instance != 0));
 }
 
 s32 TBoss6PlotFalz::get_next_point(s16 *arg1, s16 *arg2) {

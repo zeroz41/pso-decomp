@@ -242,7 +242,7 @@ struct TLobby : public TObject {
     void update_and_send_60();
 
     static void *create_npc(void *arg0);
-    static u8 is_idle();
+    static s32 is_idle();
     static void init_limits();
     static void reset_keyboard_input();
     static void shutdown_keyboard_control();
@@ -372,7 +372,7 @@ struct TLobby : public TObject {
     static void wait_for_sound_init();
     void add_token(const char *src);
     void trim_whitespace();
-    static void refresh_player_status();
+    void refresh_player_status();
     s32 get_id();
     static void clear_flag_bit2();
     static int get_com_card_data();
@@ -539,9 +539,9 @@ struct TLobby : public TObject {
     static void dec_ref_and_shutdown();
     static void init_and_add_ref();
     static void run_step_60c8();
-    static void apply_field();
+    void apply_field();
     static s32 run_step_4430();
-    static void trigger_sub_task();
+    void trigger_sub_task();
     static void run_sequence();
     static void query_available_size();
     static void dispatch_packet();
@@ -556,8 +556,8 @@ struct TLobby : public TObject {
     void update_scroll();
     static void call_callback();
     static void set_callback(u32 arg0, s32 arg1);
-    static void notify_dvd_read();
-    static void enter_lock();
+    void notify_dvd_read();
+    void enter_lock();
     u32 get_packet_size();
     u32 get_available_size();
     void move_data(const void * _w1, u32 _w2);
@@ -575,14 +575,14 @@ struct TLobby : public TObject {
     static void make_players();
     static u8 lookup_table_value(s8 x);
     bool is_slot_match();
-    static void update_card_save_info();
+    void update_card_save_info();
     static void spawn_player_tombstones();
     static void clear_floor_flags_and_depart();
     static void setup_floor_decorations();
     static void reset_id_tables();
     static void load_ask_dictionary();
     static void drain_deferred_packets();
-    static s32 get_table_entry_by_index();
+    s32 get_table_entry_by_index();
     static void open_challenge_window(s32 arg0, s32 arg1);
     void open_challenge_progress_window(void *arg1);
     static s32 get_flagged_table_entry(s32 arg0);
@@ -626,7 +626,7 @@ struct TLobby : public TObject {
     static void send_challenge_retry_cmd(s32 arg0);
     void send_seed_state();
     static void send_challenge_with_value(s32 arg0, s32 arg1);
-    static void send_6x7c_reset();
+    void send_6x7c_reset();
     static void send_challenge_records(u32 _w0);
     static s32 start_lobby_name_request();
     static void reset_tombstone_values();
@@ -696,7 +696,7 @@ struct TLobby : public TObject {
     void cvFsSetDefDev();
     static void log_printf(const char *fmt, ...);
     static void init_callback_tables();
-    static s32 run_worker_callbacks_slot5();
+    s32 run_worker_callbacks_slot5();
     static s32 run_worker_callbacks_slot4();
     static s32 run_callbacks_group2();
     static void set_callback_params(s32 arg0, s32 arg1);
@@ -906,7 +906,7 @@ struct TLobby : public TObject {
     s32 set_scroll_offset(s32 arg1);
     static void si_get_type_async();
     static s32 clear_buffer_a00();
-    static void on_set_mode();
+    static void on_set_mode(s32 mode);
     static s32 check_packet_header_8001(u16 *p, s32 size, s32 *out);
     void set_field98(s8 arg1);
     s16 get_field_60();

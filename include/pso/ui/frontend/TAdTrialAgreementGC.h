@@ -11,7 +11,7 @@ struct TAdTrialAgreementGC : public TAdAgreementBaseGC {
     virtual void vfunc_8();
     u32 m_38;
     virtual void render();
-    static void wait_for_load();
+    void wait_for_load();
     virtual void run_task();
     static s32 check_card_file(s32 arg0);
 };
