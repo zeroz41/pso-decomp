@@ -8,6 +8,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/effect/TUnk_804CCC68.h"
+#include "pso/unk/TLobby_80226070.h"
 
 typedef struct GTarget_80232598 {
     u16 id;
@@ -148,7 +149,6 @@ extern "C" {
 void *find_entity_by_id(u16 id);
 s32 is_parents_unqueued__9TTecLukerFUl();
 s16 get_entity_id(void *);
-s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 s32 play_sound_effect(s32, void *, s32, s32);
 s32 copy_technique_target_list(void *, void *);
 f32 vector_length(Vec *);
@@ -385,7 +385,7 @@ TTecGiZonde::TTecGiZonde(s32 source, Vec *pos, void *targets, s32 level) : TUnk_
     switch (band) {
     case 0:
         if ((h = play_sound_effect(0x4002A509, &position, 0, 0)) >= 0) {
-            update_technique_slot__10TTecRaFoieFl(h, 0x100, 0);
+            set_sound_pitch_request(h, 0x100, 0);
         }
         break;
     case 1:
@@ -394,17 +394,17 @@ TTecGiZonde::TTecGiZonde(s32 source, Vec *pos, void *targets, s32 level) : TUnk_
     case 2:
     case 3:
         if ((h = play_sound_effect(0x4002A509, &position, 0, 0)) >= 0) {
-            update_technique_slot__10TTecRaFoieFl(h, -0x180, 0);
+            set_sound_pitch_request(h, -0x180, 0);
         }
         break;
     case 4:
         if ((h = play_sound_effect(0x4002A509, &position, 0, 0)) >= 0) {
-            update_technique_slot__10TTecRaFoieFl(h, -0x250, 0);
+            set_sound_pitch_request(h, -0x250, 0);
         }
         break;
     case 5:
         if ((h = play_sound_effect(0x4002A509, &position, 0, 0)) >= 0) {
-            update_technique_slot__10TTecRaFoieFl(h, -0x100, 0);
+            set_sound_pitch_request(h, -0x100, 0);
         }
         break;
     }

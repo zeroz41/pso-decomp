@@ -5,6 +5,7 @@
 #include "pso/technique/TTecZonde.h"
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecCtrl.h"
+#include "pso/unk/TLobby_80226070.h"
 
 struct RecoveredGlobal_8023C558_lbl_804CC510
 {
@@ -145,7 +146,6 @@ void TTecZonde::render() {  }
 #pragma fp_contract on
 
 void *find_entity_by_id(u16 id);
-void update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 s32 play_sound_effect(s32, void *, s32, s32);
 u8 *construct_helper_effect__11TTecGiZondeFPvPvPvPvi(u8 *arg0, u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4);
 s32 rand();
@@ -261,7 +261,7 @@ void TTecZonde::run_task() {
             case 0:
                 h = play_sound_effect(0x4002A408, &t->x, 0, 0);
                 if (h >= 0) {
-                    update_technique_slot__10TTecRaFoieFl(h, 0x100, 0);
+                    set_sound_pitch_request(h, 0x100, 0);
                 }
                 break;
             case 1:
@@ -271,19 +271,19 @@ void TTecZonde::run_task() {
             case 3:
                 h = play_sound_effect(0x4002A408, &t->x, 0, 0);
                 if (h >= 0) {
-                    update_technique_slot__10TTecRaFoieFl(h, -0x180, 0);
+                    set_sound_pitch_request(h, -0x180, 0);
                 }
                 break;
             case 4:
                 h = play_sound_effect(0x4002A408, &t->x, 0, 0);
                 if (h >= 0) {
-                    update_technique_slot__10TTecRaFoieFl(h, -0x250, 0);
+                    set_sound_pitch_request(h, -0x250, 0);
                 }
                 break;
             case 5:
                 h = play_sound_effect(0x4002A408, &t->x, 0, 0);
                 if (h >= 0) {
-                    update_technique_slot__10TTecRaFoieFl(h, -0x100, 0);
+                    set_sound_pitch_request(h, -0x100, 0);
                 }
                 break;
             }

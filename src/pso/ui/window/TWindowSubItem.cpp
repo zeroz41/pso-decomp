@@ -141,7 +141,6 @@ struct Player_8027ABFC { u8 pad[0xD00]; s32 inv; };
 struct Win_8027ABFC { u8 pad0[0x20]; s16 id; u8 pad1[0x72 - 0x22]; s16 sel; u8 pad2[0x8C - 0x74]; u32 n; };
 void TWindowSubItem__sub_8027AB10(Wn_8027AB10 *arg0);
 void populate_sub_item_list(Win_8027ABFC *arg0);
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 u32 is_action_active__10TObjPlayerFv(s32);
 void decrement_clamped(void *, s32);
 void play_sound_effect(s32, s32, s32, s32);
@@ -169,7 +168,7 @@ extern s32 __vt__14TWindowSubItem[];
 
 #define F(t, o) (*(t *)(arg0 + (o)))
 #define LIST F(s32, 0x30)
-#define BACK_PRESSED(idx) (TWindowShortListCtrl__check_controller_button(controller_input_state[idx].f20, 2) != 0 || test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state[4].f20, 2) != 0)
+#define BACK_PRESSED(idx) (TWindowShortListCtrl__check_controller_button(controller_input_state[idx].f20, 2) != 0 || test_controller_flag_4c_color(controller_input_state[4].f20, 2) != 0)
 const char *TWindowSubItem__class_name = "TWindowSubItem";
 
 // Item list window position (x, y).
@@ -241,8 +240,7 @@ s32 TWindowSubItem__sub_8027AA78(s32 arg0) {
 }
 
 s32 TWindowSubItem::get_selected_entry() {
-    ((TWindowBase *)this)->get_array_entry(*(s16 *)((s8 *)this + 0x88));
-    get_cursor_pos__14TWindowSubItemFv();
+    ((TWindowSubItem *)((TWindowBase *)this)->get_array_entry(*(s16 *)((s8 *)this + 0x88)))->get_cursor_pos();
 }
 
 void TWindowSubItem::set_field_74(s16 v) { *(s16*)((char*)this + 0x74) = v; }

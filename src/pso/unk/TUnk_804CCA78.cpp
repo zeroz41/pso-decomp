@@ -4,9 +4,6 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/unk/TLobby_80226070.h"
 
-extern "C" {
-s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
-}
 
 void TUnk_804CCA78::run_task() {
     age++;
@@ -27,6 +24,6 @@ TUnk_804CCA78::TUnk_804CCA78(Vec *pos, s16 frames, s32 sound, s32 pitch, TObject
     this->sound = sound;
     sound_handle = play_sound_effect(this->sound, pos, 0, 0);
     if (sound_handle >= 0 && pitch != 0) {
-        update_technique_slot__10TTecRaFoieFl(sound_handle, pitch, 0);
+        set_sound_pitch_request(sound_handle, pitch, 0);
     }
 }

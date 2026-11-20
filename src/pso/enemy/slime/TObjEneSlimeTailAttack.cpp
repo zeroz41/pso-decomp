@@ -587,7 +587,6 @@ struct Slot_800EB984 { s32 state; void *obj; };
 struct Obj_800EB984 { u8 pad[0x3b8]; Slot_800EB984 slots[4]; };
 
 extern "C" {
-s32 set_global_param__8TObjFishFl();
 extern u32 model_render_flags;
 
 
@@ -747,8 +746,7 @@ void TObjEneSlime::render() {
         push_matrix();
         temp_r30_2 = *(s32 *)((s8 *)((u8 *)lbl_80496368 + temp_r30) + 0);
         post_translate_matrix((void *) ((u8 *)arg0 + 0x38));
-        get_bml_texlist((BmlResource *)slime_bml_resource, temp_r30_2);
-        set_global_param__8TObjFishFl();
+        TObjFish::set_global_param((s32)get_bml_texlist((BmlResource *)slime_bml_resource, temp_r30_2));
         if (temp_r31 != 0) {
             model_render_flags |= 0x400000;
             set_chunk_render_flags(1);

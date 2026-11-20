@@ -50,4 +50,7 @@ struct TWindowMessage : public TWindowAddition {
 };
 
 typedef char TWindowMessage_size[sizeof(TWindowMessage) == 0x90 ? 1 : -1];
+struct NJS_POINT2;
+extern "C" u8 *create_message_window_for_size(NJS_POINT2 *pos, NJS_POINT2 *size);
+
 #endif

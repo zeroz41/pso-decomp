@@ -151,7 +151,6 @@ void text_builder_append(u8 *str);
 }
 s32 get_help_text_string(s32 arg0);
 extern "C" {
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 s32 try_equip_item__10TObjPlayerFii(s32, s32);
 void play_sound_effect(s32, s32, s32, s32);
 // set_depth__11TWindowBaseFf declared above
@@ -293,7 +292,7 @@ void TWindowSubTechnique::run_task() {
         ((TObjPlayer *)ply)->update_cursor((s16)((TWindowMenu *)self->sel)->get_selected_value());
         if (TWindowSubTechnique::is_technique_available((s16)((TWindowMenu *)self->sel)->get_selected_value(), self->player) == 0 ||
             TWindowShortListCtrl__check_controller_button(controller_input_state[port].m20, 2) != 0 ||
-            test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state[4].m20, 2) != 0) {
+            test_controller_flag_4c_color(controller_input_state[4].m20, 2) != 0) {
             play_sound_effect(0x52F16, 0, 0, 0);
             ((TWindowSubTechnique *)self)->rebuildTechniqueList((s32)(self->sel), (s32)(((TWindowMenu *)self->list)->get_selected_value()));
             self->state = 1;

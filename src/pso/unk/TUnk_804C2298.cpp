@@ -30,7 +30,6 @@ void set_active_camera_pose(void *, void *);
 s32 activate_camera_mode(s32 arg0);
 s32 verify_system_file__23TAdSinglePlyChrSelectGCFPv(void);
 s32 pso_system_load_gc(void);
-void *update_window_mode_from_progress__6TLobbyFPv(void *, void *);
 s32 TAdSinglePlyChrSelectGC__sub_8033B9F8(void *);
 void *TWindowOptionCtrl__ct(void *, void *);
 void *__ct__10TAdTitleGCFP7TObjectl(void *, void *, int);
@@ -93,7 +92,7 @@ void TUnk_804C2298::run_task() {
         } else {
             WindowPos a = {80.0f, 176.0f};
             WindowPos b = {479.0f, 207.0f};
-            this->window = (TObject *)update_window_mode_from_progress__6TLobbyFPv(&a, &b);
+            this->window = (TObject *)(void *)create_message_window_for_size((NJS_POINT2 *)&a, (NJS_POINT2 *)&b);
             ((TWindowMessage *)(this->window))->append_line(get_message_text(0xC), 1);
             this->state = 7;
         }

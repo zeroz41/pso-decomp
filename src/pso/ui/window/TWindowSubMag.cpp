@@ -98,7 +98,6 @@ void *__ct__15TWindowHelpItemFPvUs(void *, s32, s32);
 void *fn_802628C0(s32, const f32 *, s32);
 s32 call_if_split_screen(void *, s32);
 s32 update_help_item__13TWindowSubMagFv(void *, s32);
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 u32 is_action_active__10TObjPlayerFv(void *);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 are_status_entries_ready__13TWindowSubMagFi(void *);
@@ -307,7 +306,7 @@ void TWindowSubMag::run_task() {
         break;
     case 7:
         if (TWindowShortListCtrl__check_controller_button(controller_input_state[port].sub, 2) != 0 ||
-            test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state[4].sub, 2) != 0) {
+            test_controller_flag_4c_color(controller_input_state[4].sub, 2) != 0) {
             play_sound_effect(0x52F16, 0, 0, 0);
             self->state = 5;
         } else if (TWindowSubItem::is_usable((s32)player) != 0) {

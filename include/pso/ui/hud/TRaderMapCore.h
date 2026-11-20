@@ -94,7 +94,6 @@ struct TRaderMapCore : public TObjBase {
     void update_pan_zoom_input();
     void update_target();
     static s32 pack_color_bits(s32 arg1, s32 arg2);
-    u8 has_flag();
     static void set_mode(int a0);
     void advance_scroll();
     static void create();

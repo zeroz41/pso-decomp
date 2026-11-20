@@ -38,6 +38,7 @@
 #include "pso/ui/Language.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 struct Entry_8013634C {
     u8 tag[8];
@@ -994,12 +995,12 @@ namespace P1_80137188 {
 extern "C" {
 extern const NJS_POINT2 lbl_8043EE10[];
 s32 get_window_layout_position(s32);
-u32 update_window_mode_from_progress__6TLobbyFPv(s32 arg0, void *arg1);
+u32 create_message_window_for_size(s32 arg0, void *arg1);
 void TLobby__sub_801371B0(s32 arg0);
 extern u32 TLobby__download_list_window;
 extern const NJS_POINT2 lbl_8043EE08[];
 s32 get_window_layout_position(s32);
-u32 update_window_mode_from_progress__6TLobbyFPv(s32 arg0, void *arg1);
+u32 create_message_window_for_size(s32 arg0, void *arg1);
 void TLobby__sub_80137228(s32 arg0);
 void disable_window_flags__6TLobbyFPv(void* a0);
 void handle_state__6TLobbyFi(s32 arg0);
@@ -1179,7 +1180,7 @@ extern s32 TLobby__data_805D5594;
 extern const NJS_POINT2 lbl_8043EE00[];
 s32 get_window_layout_position(s32);
 void TQuestListOnline__sub_8013ACF4(s32);
-u32 update_window_mode_from_progress__6TLobbyFPv(s32 arg0, void *arg1);
+u32 create_message_window_for_size(s32 arg0, void *arg1);
 void TLobby__sub_80137C10(s32 arg0);
 void destroy_all_objects__6TLobbyFv(void);
 void init_player_window_effect__6TLobbyFv(void);
@@ -1214,7 +1215,6 @@ void open_city_warp_menu__6TLobbyFv(void);
 s32 get_seq_phase__6TLobbyFPv(s32);
 s32 forward_trade_action_default__16TObjCityMainWarpFPviii(s32, s32, s32, s32);
 s32 align_menu_entry_positions(s32);
-s32 check_room_seq_4__16TAdChrSelASlotGCFl(s32, s32);
 s32 get_window_layout_position(s32);
 
 extern s32 TLobby__data_805D5594;
@@ -1265,7 +1265,6 @@ int close_all_windows__6TLobbyFPv(void* p);
 void open_warp_menu__6TLobbyFv(void);
 s32 align_menu_entry_positions(s32);
 s32 get_window_layout_position(s32);
-s32 check_room_seq_4__16TAdChrSelASlotGCFl(s32, s32);
 s32 forward_trade_action_default__16TObjCityMainWarpFPviii(s32, s32, s32, s32);
 s32 get_seq_phase__6TLobbyFPv(s32);
 
@@ -1282,7 +1281,6 @@ void open_menu_window__6TLobbyFv(void);
 s32 get_seq_phase__6TLobbyFPv(s32);
 s32 forward_trade_action_default__16TObjCityMainWarpFPviii(s32, s32, s32, s32);
 s32 align_menu_entry_positions(s32);
-s32 check_room_seq_4__16TAdChrSelASlotGCFl(s32, s32);
 s32 get_window_layout_position(s32);
 
 extern s32 TLobby__data_805D5594;
@@ -1312,7 +1310,6 @@ void open_lobby_warp_menu__6TLobbyFv(void);
 void update_state__6TLobbyFv(void);
 s32 align_menu_entry_positions(s32);
 s32 get_window_layout_position(s32);
-s32 check_room_seq_4__16TAdChrSelASlotGCFl(s32, s32);
 s32 forward_trade_action_default__16TObjCityMainWarpFPviii(s32, s32, s32, s32);
 s32 get_seq_phase__6TLobbyFPv(s32);
 
@@ -1517,17 +1514,17 @@ extern "C" {
 extern u32 TLobby__join_entry_window_obj;
 extern const NJS_POINT2 lbl_8043EDF8[];
 s32 get_window_layout_position(s32);
-u32 update_window_mode_from_progress__6TLobbyFPv(s32 arg0, void *arg1);
+u32 create_message_window_for_size(s32 arg0, void *arg1);
 s32 get_seq_phase__6TLobbyFPv(s32);
 extern const NJS_POINT2 lbl_8043EDF0[];
 extern const f32 lbl_805DB0B8;
 s32 get_window_layout_position(s32);
-u32 update_window_mode_from_progress__6TLobbyFPv(s32 arg0, void *arg1);
+u32 create_message_window_for_size(s32 arg0, void *arg1);
 void show_dialog_value_line(s32 arg0);
 extern const NJS_POINT2 lbl_8043EDE8[];
 extern const f32 lbl_805DB0B8;
 s32 get_window_layout_position(s32);
-u32 update_window_mode_from_progress__6TLobbyFPv(s32 arg0, void *arg1);
+u32 create_message_window_for_size(s32 arg0, void *arg1);
 s32 get_seq_phase__6TLobbyFPv(s32);
 extern const char lobby_window_title_taisen_team[];
 extern s8 controller_input_state[];
@@ -1581,7 +1578,7 @@ namespace P3_80137360 {
 void show_seq_phase_message__6TLobbyFi(s32 arg0) {
     if ((*(u32 *)&(*(u32 *)&(*(u32 *)&TLobby__current_dialog_window))) == 0) {
         NJS_POINT2 tmp = lbl_8043EDE8[0];
-        (*(u32 *)&(*(u32 *)&(*(u32 *)&TLobby__current_dialog_window))) = update_window_mode_from_progress__6TLobbyFPv(get_window_layout_position(0xc1), &tmp);
+        (*(u32 *)&(*(u32 *)&(*(u32 *)&TLobby__current_dialog_window))) = create_message_window_for_size(get_window_layout_position(0xc1), &tmp);
         ((TWindowBase *)(*(u32 *)&(*(u32 *)&(*(u32 *)&TLobby__current_dialog_window))))->set_depth(lbl_805DB0B8);
     }
     ((TWindowMessage *)(*(u32 *)&(*(u32 *)&(*(u32 *)&TLobby__current_dialog_window))))->append_line((int)(get_seq_phase__6TLobbyFPv(arg0)), (int)1);
@@ -1590,7 +1587,7 @@ void show_seq_phase_message__6TLobbyFi(s32 arg0) {
 void show_dialog_value_line(s32 arg0) {
     if ((*(u32 *)&(*(u32 *)&(*(u32 *)&TLobby__current_dialog_window))) == 0) {
         NJS_POINT2 tmp = lbl_8043EDF0[0];
-        (*(u32 *)&(*(u32 *)&(*(u32 *)&TLobby__current_dialog_window))) = update_window_mode_from_progress__6TLobbyFPv(get_window_layout_position(0xc1), &tmp);
+        (*(u32 *)&(*(u32 *)&(*(u32 *)&TLobby__current_dialog_window))) = create_message_window_for_size(get_window_layout_position(0xc1), &tmp);
         ((TWindowBase *)(*(u32 *)&(*(u32 *)&(*(u32 *)&TLobby__current_dialog_window))))->set_depth(lbl_805DB0B8);
     }
     ((TWindowMessage *)(*(u32 *)&(*(u32 *)&(*(u32 *)&TLobby__current_dialog_window))))->append_line((int)arg0, (int)1);
@@ -1606,7 +1603,7 @@ void close_com_card_window__6TLobbyFv(void) {
 void show_join_entry_message(s32 arg0) {
     if (TLobby__join_entry_window_obj == 0) {
         NJS_POINT2 tmp = lbl_8043EDF8[0];
-        TLobby__join_entry_window_obj = update_window_mode_from_progress__6TLobbyFPv(get_window_layout_position(0xc2), &tmp);
+        TLobby__join_entry_window_obj = create_message_window_for_size(get_window_layout_position(0xc2), &tmp);
     }
     ((TWindowMessage *)TLobby__join_entry_window_obj)->append_line((int)(get_seq_phase__6TLobbyFPv(arg0)), (int)1);
 }
@@ -2244,11 +2241,11 @@ void open_lobby_warp_menu__6TLobbyFv(void) {
     ((s32 (*)(s32))show_seq_phase_message__6TLobbyFi)(3);
     window_layout_position = get_window_layout_position(0xB4);
     if ((s32) TLobby__lobby_number < 0xD) {
-        (*(s32 *)&(*(s32 *)&TLobby_warp_menu_window)) = check_room_seq_4__16TAdChrSelASlotGCFl(window_layout_position, 2);
+        (*(s32 *)&(*(s32 *)&TLobby_warp_menu_window)) = create_window_menu_default(window_layout_position, 2);
         forward_trade_action_default__16TObjCityMainWarpFPviii((*(s32 *)&(*(s32 *)&TLobby_warp_menu_window)), get_seq_phase__6TLobbyFPv(0x35), 6, 0);
         forward_trade_action_default__16TObjCityMainWarpFPviii((*(s32 *)&(*(s32 *)&TLobby_warp_menu_window)), get_seq_phase__6TLobbyFPv(0x36), 6, 1);
     } else {
-        (*(s32 *)&(*(s32 *)&TLobby_warp_menu_window)) = check_room_seq_4__16TAdChrSelASlotGCFl(window_layout_position, 3);
+        (*(s32 *)&(*(s32 *)&TLobby_warp_menu_window)) = create_window_menu_default(window_layout_position, 3);
         forward_trade_action_default__16TObjCityMainWarpFPviii((*(s32 *)&(*(s32 *)&TLobby_warp_menu_window)), get_seq_phase__6TLobbyFPv(0x35), 6, 0);
         forward_trade_action_default__16TObjCityMainWarpFPviii((*(s32 *)&(*(s32 *)&TLobby_warp_menu_window)), get_seq_phase__6TLobbyFPv(0x36), 6, 1);
         forward_trade_action_default__16TObjCityMainWarpFPviii((*(s32 *)&(*(s32 *)&TLobby_warp_menu_window)), get_seq_phase__6TLobbyFPv(0x47), 6, 3);
@@ -2321,7 +2318,7 @@ void create_warp_menu__6TLobbyFv(void) {
     s32 window_layout_position;
     ((TWindowOptionCtrl *)(*(s32 *)&TLobby_warp_menu_window))->open();
     window_layout_position = get_window_layout_position(0xB5);
-    (*(s32 *)&lobby_com_card_window) = check_room_seq_4__16TAdChrSelASlotGCFl(window_layout_position, 2);
+    (*(s32 *)&lobby_com_card_window) = create_window_menu_default(window_layout_position, 2);
     forward_trade_action_default__16TObjCityMainWarpFPviii((*(s32 *)&lobby_com_card_window), get_seq_phase__6TLobbyFPv(0x39), 6, 0);
     forward_trade_action_default__16TObjCityMainWarpFPviii((*(s32 *)&lobby_com_card_window), get_seq_phase__6TLobbyFPv(0x3A), 6, 1);
     ((TWindowSubComCard *)(*(s32 *)&lobby_com_card_window))->calc_window_size();
@@ -2350,7 +2347,7 @@ void open_menu_window__6TLobbyFv(void) {
         ((TWindowOptionCtrl *)tmp_e4)->open();
     }
     ((s32 (*)(s32))show_seq_phase_message__6TLobbyFi)(0x11);
-    lobby_make_team_menu_window = check_room_seq_4__16TAdChrSelASlotGCFl(get_window_layout_position(0xB6), 2);
+    lobby_make_team_menu_window = create_window_menu_default(get_window_layout_position(0xB6), 2);
     forward_trade_action_default__16TObjCityMainWarpFPviii(lobby_make_team_menu_window, get_seq_phase__6TLobbyFPv(0x45), 6, 0);
     forward_trade_action_default__16TObjCityMainWarpFPviii(lobby_make_team_menu_window, get_seq_phase__6TLobbyFPv(0x46), 6, 1);
     ((TWindowSubComCard *)lobby_make_team_menu_window)->calc_window_size();
@@ -2377,7 +2374,7 @@ void open_warp_menu__6TLobbyFv(void) {
     s32 window_layout_position;
     ((TWindowOptionCtrl *)(*(s32 *)&TLobby_warp_menu_window))->open();
     window_layout_position = get_window_layout_position(0xB5);
-    (*(s32 *)&lobby_com_card_window) = check_room_seq_4__16TAdChrSelASlotGCFl(window_layout_position, 2);
+    (*(s32 *)&lobby_com_card_window) = create_window_menu_default(window_layout_position, 2);
     forward_trade_action_default__16TObjCityMainWarpFPviii((*(s32 *)&lobby_com_card_window), get_seq_phase__6TLobbyFPv(0x3E), 6, 0);
     forward_trade_action_default__16TObjCityMainWarpFPviii((*(s32 *)&lobby_com_card_window), get_seq_phase__6TLobbyFPv(0x3F), 6, 1);
     ((TWindowSubComCard *)(*(s32 *)&lobby_com_card_window))->calc_window_size();
@@ -2448,7 +2445,7 @@ void open_keyboard_window__6TLobbyFv(void) {
     if ((u32) lobby_keyboard_prompt_window == 0U) {
         static s32 *blank_entry = &lbl_805DB0B4;
         tmp_r3 = get_window_layout_position(0xC3);
-        lobby_keyboard_prompt_window = ((u32 (*)(s32, s32))check_room_seq_4__16TAdChrSelASlotGCFl)(tmp_r3, 2);
+        lobby_keyboard_prompt_window = ((u32 (*)(s32, s32))create_window_menu_default)(tmp_r3, 2);
         ((s32 (*)(u32, s32 *, s32, s32))forward_trade_action_default__16TObjCityMainWarpFPviii)(lobby_keyboard_prompt_window, ((s32 * (*)(s32))get_seq_phase__6TLobbyFPv)(0x44), 2, 0);
         ((s32 (*)(u32, s32 *, s32, s32))forward_trade_action_default__16TObjCityMainWarpFPviii)(lobby_keyboard_prompt_window, blank_entry, 2, 1);
         ((TWindowSubComCard *)lobby_keyboard_prompt_window)->calc_window_size();
@@ -2479,7 +2476,7 @@ void open_city_warp_menu__6TLobbyFv(void) {
     s32 window_layout_position;
     ((TWindowOptionCtrl *)(*(s32 *)&TLobby_warp_menu_window))->open();
     window_layout_position = get_window_layout_position(0xB5);
-    (*(s32 *)&lobby_com_card_window) = check_room_seq_4__16TAdChrSelASlotGCFl(window_layout_position, 5);
+    (*(s32 *)&lobby_com_card_window) = create_window_menu_default(window_layout_position, 5);
     forward_trade_action_default__16TObjCityMainWarpFPviii((*(s32 *)&lobby_com_card_window), get_seq_phase__6TLobbyFPv(0x4C), 6, 0);
     forward_trade_action_default__16TObjCityMainWarpFPviii((*(s32 *)&lobby_com_card_window), get_seq_phase__6TLobbyFPv(0x48), 6, 1);
     forward_trade_action_default__16TObjCityMainWarpFPviii((*(s32 *)&lobby_com_card_window), get_seq_phase__6TLobbyFPv(0x49), 6, 2);
@@ -2526,7 +2523,7 @@ void update_player_window__6TLobbyFv(void) {
 void TLobby__sub_80137C10(s32 arg0) {
     if (TLobby__download_list_window == 0) {
         NJS_POINT2 tmp = lbl_8043EE00[0];
-        TLobby__download_list_window = update_window_mode_from_progress__6TLobbyFPv(get_window_layout_position(0xc6), &tmp);
+        TLobby__download_list_window = create_message_window_for_size(get_window_layout_position(0xc6), &tmp);
     }
     ((TWindowMessage *)TLobby__download_list_window)->append_line((int)arg0, (int)3);
     TLobby__data_805D5594 = 0x14;
@@ -2883,7 +2880,7 @@ void handle_state__6TLobbyFi(s32 arg0) {
 void TLobby__sub_80137228(s32 arg0) {
     if (TLobby__download_list_window == 0) {
         NJS_POINT2 tmp = lbl_8043EE08[0];
-        TLobby__download_list_window = update_window_mode_from_progress__6TLobbyFPv(get_window_layout_position(0xc7), &tmp);
+        TLobby__download_list_window = create_message_window_for_size(get_window_layout_position(0xc7), &tmp);
     }
     ((TWindowMessage *)TLobby__download_list_window)->append_line((int)arg0, (int)3);
 }
@@ -2891,7 +2888,7 @@ void TLobby__sub_80137228(s32 arg0) {
 void TLobby__sub_801371B0(s32 arg0) {
     if (TLobby__join_entry_window_obj == 0) {
         NJS_POINT2 tmp = lbl_8043EE10[0];
-        TLobby__join_entry_window_obj = update_window_mode_from_progress__6TLobbyFPv(get_window_layout_position(0xc8), &tmp);
+        TLobby__join_entry_window_obj = create_message_window_for_size(get_window_layout_position(0xc8), &tmp);
     }
     ((TWindowMessage *)TLobby__join_entry_window_obj)->append_line((int)arg0, (int)3);
     TLobby__data_805D5594 = 0x16;

@@ -72,7 +72,7 @@ extern "C" {
 void request_active_window_close(void);
 s32 align_menu_entry_positions(s32);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
-s32 check_room_seq_4__16TAdChrSelASlotGCFl(f32 *, s32, f32);
+s32 create_window_menu_default(f32 *, s32, f32);
 
 s32 is_idle__6TLobbyFv();
 extern s32 local_client_id;
@@ -89,7 +89,7 @@ void TObjWarpLobby::open_lobby_menu() {
     s32 i;
     sp[0] = 4.5e+02f;
     sp[1] = 1e+02f;
-    this->menu_window = check_room_seq_4__16TAdChrSelASlotGCFl(sp, 0xF, 4.5e+02f);
+    this->menu_window = create_window_menu_default(sp, 0xF, 4.5e+02f);
     for (i = 0; i < 0xF; i++) {
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)this->menu_window, (int)warp_lobby_directory_label_table[i], 6, (int)i);
     }

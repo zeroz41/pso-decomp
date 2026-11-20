@@ -76,7 +76,6 @@ u32 TAdChrSelASlotGC__sub_8030CB08(TAdChrSelASlotGC *arg0, s32 kind, s32 text);
 s32 TAdChrSelASlotGC__sub_8030C4F8(TAdChrSelASlotGC *self, s32 kind);
 s32 TAdChrSelASlotGC__sub_8030C5C0(TAdChrSelASlotGC *self, s32 kind);
 s32 TAdChrSelASlotGC__sub_8030C688(TAdChrSelASlotGC *self, s32 kind);
-s32 check_room_seq_4__16TAdChrSelASlotGCFl(void *pos, s32 arg1);
 s32 TAdChrSelSlotGC__sub_802C7498(s32, s32);
 void TAdSubPlyItemGC__sub_802D6D88(TAdSubPlyItemGC *self);
 s32 play_sound_effect(s32, s32, s32, s32);
@@ -129,7 +128,7 @@ s32 TAdChrSelASlotGC__sub_8030C4F8(TAdChrSelASlotGC *self, s32 kind) {
         ((TWindowSubSymbolChatPartsSet *)(&pos))->copy_vec2((void *)&TAdChrSelASlotGC__data_804758B8);
         break;
     }
-    w = check_room_seq_4__16TAdChrSelASlotGCFl(&pos, 1);
+    w = (s32)create_window_menu_default((s32)(&pos), 1);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)w, get_localized_text_entry(0x16, kind + 0x2B), 0x20, 0);
     ((TAdChrSelASlotGC *)w)->set_flag_40();
     TQuestThread::set_status_flag_80((void *)w);
@@ -148,7 +147,7 @@ s32 TAdChrSelASlotGC__sub_8030C5C0(TAdChrSelASlotGC *self, s32 kind) {
         ((TWindowSubSymbolChatPartsSet *)(&pos))->copy_vec2((void *)&TAdChrSelASlotGC__data_804758B8);
         break;
     }
-    w = check_room_seq_4__16TAdChrSelASlotGCFl(&pos, 1);
+    w = (s32)create_window_menu_default((s32)(&pos), 1);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)w, get_localized_text_entry(0x16, kind + 0x29), 0x20, 0);
     ((TAdChrSelASlotGC *)w)->set_flag_40();
     TQuestThread::set_status_flag_80((void *)w);
@@ -167,7 +166,7 @@ s32 TAdChrSelASlotGC__sub_8030C688(TAdChrSelASlotGC *self, s32 kind) {
         ((TWindowSubSymbolChatPartsSet *)(&pos))->copy_vec2((void *)&TAdChrSelASlotGC__data_804758B8);
         break;
     }
-    w = check_room_seq_4__16TAdChrSelASlotGCFl(&pos, 1);
+    w = (s32)create_window_menu_default((s32)(&pos), 1);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)w, get_localized_text_entry(0x16, kind + 0x27), 0x20, 0);
     ((TAdChrSelASlotGC *)w)->set_flag_40();
     TQuestThread::set_status_flag_80((void *)w);
@@ -264,7 +263,7 @@ u32 TAdChrSelASlotGC__sub_8030CB08(TAdChrSelASlotGC *ad_chr_sel_a_slot_gc, s32 k
         ((TWindowSubSymbolChatPartsSet *)(&pos))->copy_vec2((void *)&TAdChrSelASlotGC__data_804758B8);
         break;
     }
-    w = check_room_seq_4__16TAdChrSelASlotGCFl(&pos, 1);
+    w = (s32)create_window_menu_default((s32)(&pos), 1);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)w, get_localized_text_entry(0x16, text), 0x21, 0);
     ((TAdChrSelASlotGC *)w)->set_flag_40();
     TQuestThread::set_status_flag_80((void *)w);

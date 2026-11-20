@@ -10,12 +10,12 @@
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 extern "C" {
 
 void request_active_window_close(void);
 s32 align_menu_entry_positions(u32);
-u32 check_room_seq_4__16TAdChrSelASlotGCFl(s32, s32);
 s32 get_window_layout_position(s32);
 extern s32 local_client_id;
 
@@ -29,7 +29,7 @@ void update_challenge_warp_window(TObjCityMainWarpChallenge *arg0) {
     case 1:
         if (find_local_city_warp_player(arg0, arg0->warp_range) != NULL) {
             if ((u32) *(u32 *)((s8 *)arg0 + 0xB0) == 0U) {
-                *(u32 *)((s8 *)arg0 + 0xB0) = check_room_seq_4__16TAdChrSelASlotGCFl(get_window_layout_position(0x35), 7);
+                *(u32 *)((s8 *)arg0 + 0xB0) = create_window_menu_default(get_window_layout_position(0x35), 7);
                 if ((u32) *(u32 *)((s8 *)arg0 + 0xB0) != 0U) {
                     ((TWindowSubTradeMain *)(*(u32 *)((s8 *)arg0 + 0xB0)))->add_text_entry((s32)TWindowSubStatusDisp::get_message_10(0x40), 0, 0, -1);
                     ((TAdChrSelASlotGC *)(*(u32 *)((s8 *)arg0 + 0xB0)))->set_flag_40();

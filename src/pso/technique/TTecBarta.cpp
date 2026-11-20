@@ -22,6 +22,7 @@ struct RecoveredGlobal_8022B6FC_lbl_804CC55C
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/technique/TTecAnti.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/TLobby_80226070.h"
 
 struct HitInfo_8022B8F4 { s32 type; f32 power; };
 
@@ -133,7 +134,6 @@ s32 get_type__10TObjPlayerFPv(void *);
 List_8022BD74 *find_area_contact__13TUnk_804CC148Fl(Tec_8022BD74 *, void *);
 List_8022BD74 *collect_body_contacts_for_target__10TObjPlayerFl(Tec_8022BD74 *, void *);
 s32 play_sound_effect(s32, s32, s32, s32);
-s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 
 void TTecBarta::update_technique_by_state() {
     u8 *arg0 = (u8 *)this;
@@ -143,7 +143,7 @@ void TTecBarta::update_technique_by_state() {
     case 0:
         handle = play_sound_effect(0x4002A604, (int)(arg0 + 0x20), 0, 0);
         if (handle >= 0) {
-            update_technique_slot__10TTecRaFoieFl(handle, 0x100, 0);
+            set_sound_pitch_request(handle, 0x100, 0);
         }
         return;
     case 1:
@@ -153,19 +153,19 @@ void TTecBarta::update_technique_by_state() {
     case 3:
         handle = play_sound_effect(0x4002A604, (int)(arg0 + 0x20), 0, 0);
         if (handle >= 0) {
-            update_technique_slot__10TTecRaFoieFl(handle, -0x180, 0);
+            set_sound_pitch_request(handle, -0x180, 0);
         }
         break;
     case 4:
         handle = play_sound_effect(0x4002A604, (int)(arg0 + 0x20), 0, 0);
         if (handle >= 0) {
-            update_technique_slot__10TTecRaFoieFl(handle, -0x250, 0);
+            set_sound_pitch_request(handle, -0x250, 0);
         }
         break;
     case 5:
         handle = play_sound_effect(0x4002A604, (int)(arg0 + 0x20), 0, 0);
         if (handle >= 0) {
-            update_technique_slot__10TTecRaFoieFl(handle, -0x100, 0);
+            set_sound_pitch_request(handle, -0x100, 0);
         }
         break;
     }

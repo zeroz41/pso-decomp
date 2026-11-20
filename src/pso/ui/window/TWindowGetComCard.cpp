@@ -43,8 +43,6 @@ extern void *__vt__17TWindowGetComCard[];
 const char *TWindowGetComCard__name = "TWindowGetComCard";
 extern s32 local_client_id;
 u8 *TWindowGetComCard__ct(TWindowGetComCard *arg0);
-void start_player_data_load__17TWindowSubComCardFl(void);
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 void play_sound_effect(s32, s32, s32, s32);
 s32 is_player_input_active(s32);
 u8 *init_shop_judgment_window(void *p);
@@ -112,13 +110,12 @@ void run_task__17TWindowGetComCardFv(GetCard_80252CCC *self) {
         break;
     case 4:
         if (TAdPlayerLoadGC::get_instance() == 0) {
-            TWindowGetComCard__sub_8007B594();
-            start_player_data_load__17TWindowSubComCardFl();
+            TWindowSubComCard::start_player_data_load((s32)TWindowGetComCard__sub_8007B594());
             TWindowGetComCard__sub_8007B54C();
             ((TObject *)self)->queue_destruction();
             self->state = 6;
         } else if (TWindowShortListCtrl__check_controller_button(controller_input_state[port].m20, 2) != 0 ||
-                   test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state[4].m20, 2) != 0) {
+                   test_controller_flag_4c_color(controller_input_state[4].m20, 2) != 0) {
             play_sound_effect(0x52F16, 0, 0, 0);
             self->state = 2;
         }

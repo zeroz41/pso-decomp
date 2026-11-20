@@ -39,6 +39,7 @@
 
 
 #include "pso/player/TObjPlayer_8011C000.h"
+#include "pso/unk/TLobby_80226070.h"
 
 
 // ---- pso/item/WeaponAttackActions
@@ -1495,7 +1496,6 @@ struct Player_8012065C : VBase_8012065C {
 };
 
 extern "C" {
-s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 s32 play_sound_effect(s32, s32, s32, s32);
 void set_flag_8_if_check_passes__10TObjPlayerFv();
 
@@ -1534,7 +1534,7 @@ void TItemWeapon::on_equip() {
             if (((TItemWeapon *)arg0)->test_weapon_flags(0x200) != 0U) {
                 TItemEffEquip::create((void *)tl_05, (void *)(get_entity_id(*(void **)((s8 *)arg0 + 0xF0))), (void *)0x23, (void *)0x9D, (void *)0x9E);
             }
-            update_technique_slot__10TTecRaFoieFl(play_sound_effect(0x4000B20A, *(s32 *)((s8 *)arg0 + 0xF0) + 0x38, 0, 0), 0x300, 0);
+            set_sound_pitch_request(play_sound_effect(0x4000B20A, *(s32 *)((s8 *)arg0 + 0xF0) + 0x38, 0, 0), 0x300, 0);
         }
     } else {
         ((TObjPlayer *)(*(void **)((s8 *)arg0 + 0xF0)))->set_action_provider_variant(0);

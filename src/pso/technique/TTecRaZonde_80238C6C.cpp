@@ -22,6 +22,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/unk/TLobby_80226070.h"
 
 struct RecoveredGlobal_80230D9C_lbl_804CC510
 {
@@ -52,7 +53,6 @@ s32 calc_technique_parameters(int, int, int);
 extern RecoveredGlobal_80230D9C_lbl_804CC510 tech_high_level_linear_power_table;
 extern RecoveredGlobal_80230D9C_lbl_804CC55C lbl_804CC55C;
 u16 get_entity_id(void *);
-void update_technique_slot__10TTecRaFoieFl(s32 handle, s32 pitch, s32 c);
 s32 play_sound_effect(s32 id, void *pos, s32 a, s32 b);
 f32 vector_length(void *);
 void normalize_vector(void *);
@@ -133,7 +133,6 @@ struct VObj_18_9c98dd : VBase_18_9c98dd {
 
 extern "C" {
 void *find_entity_by_id(u16 id);
-void update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 s32 play_sound_effect(s32, void *, s32, s32);
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 
@@ -298,7 +297,7 @@ TTecRaZonde::TTecRaZonde(s32 source, Vec *origin, s32 level) : TUnk_804CC148(sou
     case 0: {
         s32 h = play_sound_effect(0x4002A50A, &position, 0, 0);
         if (h >= 0) {
-            update_technique_slot__10TTecRaFoieFl(h, 0x100, 0);
+            set_sound_pitch_request(h, 0x100, 0);
         }
         break;
     }
@@ -309,21 +308,21 @@ TTecRaZonde::TTecRaZonde(s32 source, Vec *origin, s32 level) : TUnk_804CC148(sou
     case 3: {
         s32 h = play_sound_effect(0x4002A50A, &position, 0, 0);
         if (h >= 0) {
-            update_technique_slot__10TTecRaFoieFl(h, -0x180, 0);
+            set_sound_pitch_request(h, -0x180, 0);
         }
         break;
     }
     case 4: {
         s32 h = play_sound_effect(0x4002A50A, &position, 0, 0);
         if (h >= 0) {
-            update_technique_slot__10TTecRaFoieFl(h, -0x250, 0);
+            set_sound_pitch_request(h, -0x250, 0);
         }
         break;
     }
     case 5: {
         s32 h = play_sound_effect(0x4002A50A, &position, 0, 0);
         if (h >= 0) {
-            update_technique_slot__10TTecRaFoieFl(h, -0x100, 0);
+            set_sound_pitch_request(h, -0x100, 0);
         }
         break;
     }
@@ -342,7 +341,7 @@ void TTecResta::play_launch_sound() {
     case 1:
         h = play_sound_effect(0x4002AB0E, self->pos, 0, 0);
         if (h >= 0) {
-            update_technique_slot__10TTecRaFoieFl(h, 0x100, 0);
+            set_sound_pitch_request(h, 0x100, 0);
         }
         break;
     case 2:
@@ -353,7 +352,7 @@ void TTecResta::play_launch_sound() {
     case 5:
         h = play_sound_effect(0x4002AB0E, self->pos, 0, 0);
         if (h >= 0) {
-            update_technique_slot__10TTecRaFoieFl(h, -0x100, 0);
+            set_sound_pitch_request(h, -0x100, 0);
         }
         break;
     }

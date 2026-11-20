@@ -36,7 +36,6 @@ void draw_weapon_at_joint(s32 arg0, s8 arg1);
 }
 void set_shadow_material_state(void);
 extern "C" {
-s32 set_model_fade_alpha__10TObjPlayerFf();
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 extern s16 TObjPlayer__weapon_node_ids[];
 extern s16 weapon_node_material_index;
@@ -72,8 +71,7 @@ s32 TItemWeapon::draw_weapon_model() {
             }
             TObjPlayer__sub_80364198();
             model_render_flags &= 0xFFFFFFEF;
-            this->get_owner_alpha();
-            set_model_fade_alpha__10TObjPlayerFf();
+            TObjPlayer::set_model_fade_alpha((f32)this->get_owner_alpha());
             if (this->has_no_defer_render() != 0) {
                 model_render_flags |= 0x8011;
                 set_color_blend_mode(1, 4, 5, 0);

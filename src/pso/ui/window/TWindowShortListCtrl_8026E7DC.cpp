@@ -36,7 +36,6 @@ s32 fn_8002AE08(int);
 s32 is_player_input_active(s32 param_1);
 s32 get_character_save_record(u32 arg0);
 void align_menu_entry_positions(void *);
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(ControllerInputContext *, int);
 s32 try_send_6x27_use_item(void *arg0, s32 arg1);
 s32 decrement_clamped(s32 *arg0, s32 arg1);
 s32 try_equip_item__10TObjPlayerFii(u8 *, s32);
@@ -182,7 +181,7 @@ void TWindowShortListCtrl::run_task() {
         break;
     case 2:
         if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[idx], 2) != 0 ||
-            test_flag_4c__23TAdSinglePlyChrSelectGCFv(&controller_input_state.keyboard, 2) != 0) {
+            test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0) {
             play_sound_effect(0x52F16, 0, 0, 0);
             queue_destruction();
             return;
@@ -214,7 +213,7 @@ void TWindowShortListCtrl::run_task() {
     case 5:
         assign_item_to_palette(((TWindowMenuIconLine *)list_window)->get_cursor_value(), client_id);
         if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[idx], 2) != 0 ||
-            test_flag_4c__23TAdSinglePlyChrSelectGCFv(&controller_input_state.keyboard, 2) != 0) {
+            test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0) {
             play_sound_effect(0x52F16, 0, 0, 0);
             queue_destruction();
             return;
@@ -249,7 +248,7 @@ void TWindowShortListCtrl::run_task() {
         break;
     case 8:
         if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[idx], 2) != 0 ||
-            test_flag_4c__23TAdSinglePlyChrSelectGCFv(&controller_input_state.keyboard, 2) != 0) {
+            test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0) {
             play_sound_effect(0x52F16, 0, 0, 0);
             queue_destruction();
             return;
@@ -304,7 +303,7 @@ void TWindowShortListCtrl::run_task() {
     case 11:
         ((TObjPlayer *)player)->update_cursor((s16)((TWindowMenu *)tech_window)->get_selected_value());
         if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[idx], 2) != 0 ||
-            test_flag_4c__23TAdSinglePlyChrSelectGCFv(&controller_input_state.keyboard, 2) != 0) {
+            test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0) {
             play_sound_effect(0x52F16, 0, 0, 0);
             queue_destruction();
             return;

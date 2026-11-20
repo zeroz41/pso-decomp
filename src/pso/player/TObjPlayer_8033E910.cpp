@@ -11,6 +11,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby_8033ECB0.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/object/ambient/TObjFish.h"
 
 #pragma readonly_strings on
 
@@ -68,7 +69,7 @@ void play_indirect_effect_recipe(u8 arg0, u16 sampler, s32 second);
 char *get_shared_capture_texture_list(void);
 void load_list_texture(s32 idx, s32 wrapS, s32 wrapT, s32 map);
 
-void init_particle_effect__10TObjPlayerFv(void) { get_shared_capture_texture_list(); set_global_param__8TObjFishFl(); load_list_texture(0, 0, 0, 2); }
+void init_particle_effect__10TObjPlayerFv(void) { TObjFish::set_global_param((s32)get_shared_capture_texture_list()); load_list_texture(0, 0, 0, 2); }
 
     extern int model_render_flags;
 void reset_effects__10TObjPlayerFv(void) { set_ginja_post_tev_stage_count((s32)((void*)0)); set_ginja_post_texgen_count((s32)((void*)0)); TObjPlayer::set_global_effect_state((s32)((void*)0)); model_render_flags = (model_render_flags & 0xfff7ffff); }

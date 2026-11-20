@@ -368,9 +368,8 @@ u8 *TWindowMessage::create(void *arg0, s32 arg1, s32 arg2) {
     return TWindowMessage::create((s32)arg0, (const f32 *)arg1, (u32)arg2, 4);
 }
 
-void TLobby::update_window_mode_from_progress(void *arg1) {
-    s32 arg0 = (s32)this;
-    TWindowMessage::create((void *)arg0, (s32)arg1, (s32)((s32)((s32) TWindowSubStatusDisp::round_away_from_zero((*(f32 *)((s8 *)arg1 + 4) - 2e+01f) / 2e+01f) + 2)));
+u8 *create_message_window_for_size(NJS_POINT2 *pos, NJS_POINT2 *size) {
+    return TWindowMessage::create(pos, (s32)size, (s32)((s32)((s32) TWindowSubStatusDisp::round_away_from_zero((size->y - 2e+01f) / 2e+01f) + 2)));
 }
 
 s32 TLobby__sub_80269DA4(NJS_POINT2 size, void *arg1) {

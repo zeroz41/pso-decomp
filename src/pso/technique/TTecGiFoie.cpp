@@ -22,6 +22,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/text_800870BC.h"
 #include "pso/unk/text_800871A0.h"
+#include "pso/unk/TLobby_80226070.h"
 
 extern "C" {
 
@@ -94,7 +95,6 @@ struct Part_802312E4 { s32 id; u32 flags; f32 scale; };
 struct Profile_802312E4 { const Part_802312E4 *parts; u32 count; };
 
 void * find_entity_by_id(u16);
-s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 s32 play_sound_effect(s32, void *, s32, s32);
 s32 calc_technique_parameters(int, int, int);
 void matrix_mult_vec(void *, void *, void *);
@@ -159,7 +159,7 @@ TTecGiFoie::TTecGiFoie(s32 source, Vec *origin, s32 level) : TUnk_804CC148(sourc
     case 0:
         r = play_sound_effect(0x4002A801, &this->position, 0, 0);
         if (r >= 0) {
-            update_technique_slot__10TTecRaFoieFl(r, 0x100, 0);
+            set_sound_pitch_request(r, 0x100, 0);
         }
         break;
     case 1:
@@ -169,19 +169,19 @@ TTecGiFoie::TTecGiFoie(s32 source, Vec *origin, s32 level) : TUnk_804CC148(sourc
     case 3:
         r = play_sound_effect(0x4002A801, &this->position, 0, 0);
         if (r >= 0) {
-            update_technique_slot__10TTecRaFoieFl(r, -0x180, 0);
+            set_sound_pitch_request(r, -0x180, 0);
         }
         break;
     case 4:
         r = play_sound_effect(0x4002A801, &this->position, 0, 0);
         if (r >= 0) {
-            update_technique_slot__10TTecRaFoieFl(r, -0x250, 0);
+            set_sound_pitch_request(r, -0x250, 0);
         }
         break;
     case 5:
         r = play_sound_effect(0x4002A801, &this->position, 0, 0);
         if (r >= 0) {
-            update_technique_slot__10TTecRaFoieFl(r, -0x100, 0);
+            set_sound_pitch_request(r, -0x100, 0);
         }
         break;
     default:

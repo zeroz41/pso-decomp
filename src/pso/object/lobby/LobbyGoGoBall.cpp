@@ -47,6 +47,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/camera/TCameraCtrl_801A6E60.h"
 BmlResource *gogo_ball_bml_resource;
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -192,7 +193,6 @@ struct Stack_80198DCC {
     u8 trailing_storage[0x3];
 };
 extern "C" {
-s32 is_on_current_screen__11TCameraCtrlFv(void *, int);
 void TWindowTimer__sub_80198D98(void);
 }
 struct Vec_80198E84 { f32 x; f32 y; f32 z; s32 w; u8 pad10[2]; s16 f12; };
@@ -851,7 +851,7 @@ void TUnk_804B8E00::run_task() {
     s32 idx;
 
     pad = (u8 *)controller_input_state + 0x20;
-    if (is_on_current_screen__11TCameraCtrlFv(pad, 0x10000) != 0 && TWindowShortListCtrl__check_controller_button(pad, 0x400) != 0) {
+    if (test_previous_buttons_packed(pad, 0x10000) != 0 && TWindowShortListCtrl__check_controller_button(pad, 0x400) != 0) {
         TWindowTimer::set_timer_value(1, 0);
         TWindowTimer::set_timer_value(0, 0);
     }
@@ -951,7 +951,7 @@ void TWindowTimer::throw_gogo_ball(s32 arg1, s32 arg2) {
     stack.sp10 = arg1;
     stack.sp14 = *(f32 *)((s8 *)((u8 *)this) + 0);
     stack.sp18 = *(f32 *)((s8 *)((u8 *)this) + 8);
-    if (is_on_current_screen__11TCameraCtrlFv((void *) ((u8 *)&controller_input_state + 0x20), 4) != 0) {
+    if (test_previous_buttons_packed((void *) ((u8 *)&controller_input_state + 0x20), 4) != 0) {
         play_sound_effect(0x4001A311, this, 0, 0);
         stack.sp1C = 1;
     } else {

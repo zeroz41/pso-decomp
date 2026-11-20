@@ -100,9 +100,8 @@ typedef struct Arr3_803001B4 { s32 v[3]; } Arr3_803001B4;
 extern "C" {
 void align_menu_entry_positions(s32);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
-s32 check_room_seq_4__16TAdChrSelASlotGCFl(void *, u32);
+s32 create_window_menu_default(void *, u32);
 extern u8 controller_input_state[];
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 
 static const TxtSlot_8030095C lbl_80474E40[7] = {
     { -1, 133.0f, 145.0f }, { -1, 111.0f, 197.0f }, { -1, 89.0f, 250.0f }, { -1, 148.0f, 301.0f },
@@ -144,7 +143,7 @@ s32 TAdMultiSelGameModeGC::build_mode_menu(s32 arg1) {
     Arr3_803001B4 a = lbl_80474EEC;
     Arr3_803001B4 b = multi_sel_game_mode_arr3;
     n = counts[arg1];
-    r = check_room_seq_4__16TAdChrSelASlotGCFl(&pos.p[arg1], n);
+    r = create_window_menu_default(&pos.p[arg1], n);
     for (i = 0; i < n; i++) {
         if (TAdMultiSelGameModeGC::is_mode_entry_enabled(this, arg1, i) != 0) {
             forward_trade_action_default__16TObjCityMainWarpFPviii((void *)r, (int)(get_localized_text_entry(0x18, i + b.v[arg1])), 6, (int)(i + a.v[arg1]));
@@ -252,7 +251,7 @@ void TAdMultiSelGameModeGC::sub_80300648() {
         self->f2C = NULL;
     }
     if (TWindowShortListCtrl__check_controller_button(&controller_input_state[0x20], 2) != 0 ||
-        test_flag_4c__23TAdSinglePlyChrSelectGCFv(&controller_input_state[0x160], 2) != 0) {
+        test_controller_flag_4c_color(&controller_input_state[0x160], 2) != 0) {
         self->f1C = 3;
     } else if (((TAdSinglePlyChrSelectGC *)self->f3C)->get_selected_slot() == 1) {
         switch (TAdSinglePlyChrSelectGC__sub_801334DC(self->f3C)) {

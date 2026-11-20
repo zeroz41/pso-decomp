@@ -56,7 +56,7 @@ s32 refresh_with_default_list__20TWindowSubStatusDispFll(s32, const vec2f *);
 s32 get_localized_text_entry(s32 arg0, s32 arg1);
 s32 align_menu_entry_positions(int);
 s32 forward_trade_action_default__16TObjCityMainWarpFPviii(s32, s32, s32, s32);
-s32 check_room_seq_4__16TAdChrSelASlotGCFl(s32, s32);
+s32 create_window_menu_default(s32, s32);
 s32 set_flag70_bit100__21TWindowSubComCardListFv();
 s32 draw_text_gray__17TWindowSubComCardFllll(s32, const char *, s32, s32);
 }
@@ -84,7 +84,6 @@ extern "C" {
 void set_params__17TWindowOptionCtrlFPvsSc(void *arg0, s16 arg1, s8 arg2);
 void *ct__13TUnk_804F01A8Fv(void *arg0);
 void set_field_value__17TWindowOptionCtrlFls(s32 arg0, s16 arg1);
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 void play_sound_effect(int, int, int, int);
 extern u8 controller_input_state[];
 extern s32 __vt__17TWindowOptionCtrl[];
@@ -415,7 +414,7 @@ void TWindowOptionCtrl::run_task() {
         self->state = 0x1A;
     case 26:
         if (TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 6) != 0 ||
-            test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state + 0x160, 6) != 0) {
+            test_controller_flag_4c_color(controller_input_state + 0x160, 6) != 0) {
             play_sound_effect(0x52F16, 0, 0, 0);
             self->state = 1;
         }
@@ -433,7 +432,7 @@ extern "C" {
 s32 TWindowOptionCtrl::create_menu() {
     s32 temp_r31;
 
-    temp_r31 = check_room_seq_4__16TAdChrSelASlotGCFl((s32)TWindowOptionCtrl::get_option_entry(0xCE), 9);
+    temp_r31 = create_window_menu_default((s32)TWindowOptionCtrl::get_option_entry(0xCE), 9);
     forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 0), 6, 3);
     forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 1), 6, 7);
     forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 2), 6, 5);
@@ -464,7 +463,7 @@ s32 TWindowOptionCtrl::create_list_window() {
     s32 list;
 
     unlock_music_flag(2);
-    list = check_room_seq_4__16TAdChrSelASlotGCFl((s32)TWindowOptionCtrl::get_option_entry(0xCF), 0x31);
+    list = create_window_menu_default((s32)TWindowOptionCtrl::get_option_entry(0xCF), 0x31);
     set_flag70_bit100__21TWindowSubComCardListFv();
     idx = 0;
     do {
@@ -521,7 +520,7 @@ s32 TWindowOptionCtrl::create_snap_shot_window() {
 
 s32 TWindowOptionCtrl::create_sub_menu_window() {
     s32 temp_r31;
-    temp_r31 = check_room_seq_4__16TAdChrSelASlotGCFl((s32)TWindowOptionCtrl::get_option_entry(0xCF), 3);
+    temp_r31 = create_window_menu_default((s32)TWindowOptionCtrl::get_option_entry(0xCF), 3);
     forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 0x1A), 6, 0x12);
     forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 0x1B), 6, 0x14);
     forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, get_localized_text_entry(0xF, 0x1C), 6, 0x15);

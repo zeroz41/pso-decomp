@@ -33,6 +33,7 @@
 #include <stdlib.h>
 #include "pso/unk/text_80087278.h"
 #include "pso/render/render_util.h"
+#include "pso/unk/TLobby_80226070.h"
 
 
 
@@ -72,7 +73,6 @@ struct Car_80181074 {
 };
 
 extern "C" {
-s32 update_technique_slot__10TTecRaFoieFl(s32, int, int);
 s32 vec3_add_to(void *, void *);
 }
 
@@ -435,7 +435,7 @@ void TObjCityAirCar_Car::run_task() {
         if (((Car_80180E70 *)this)->model == 4) {
             play_persistent_sound(0x4004CB02, (s32)((Car_80180E70 *)this), (u32)&((Car_80180E70 *)this)->pos, 0, 0);
         } else if (((Car_80180E70 *)this)->model == 0) {
-            update_technique_slot__10TTecRaFoieFl(play_persistent_sound(0x4004C101, (s32)((Car_80180E70 *)this), (u32)&((Car_80180E70 *)this)->pos, 0, 0), -0x200, 0);
+            set_sound_pitch_request(play_persistent_sound(0x4004C101, (s32)((Car_80180E70 *)this), (u32)&((Car_80180E70 *)this)->pos, 0, 0), -0x200, 0);
         } else {
             play_persistent_sound(0x4004C101, (s32)((Car_80180E70 *)this), (u32)&((Car_80180E70 *)this)->pos, 0, 0);
         }

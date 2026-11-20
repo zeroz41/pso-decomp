@@ -34,6 +34,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/unk/TLobby_80226070.h"
 
 #pragma defer_codegen on
 extern "C" {
@@ -89,7 +90,6 @@ extern TObjMotionAction TObjEneRe7Berura__animation_definitions[];
 void TObjEneRe7Berura__sub_80093C80(TObjEneRe7Berura *self, s32 arg1);
 void TObjEneRe7Berura__sub_80094624(TObjEneRe7Berura *self, s32 arg1);
 s32 TObjEneRe7Berura__sub_80094DB4(TObjEneRe7Berura *);
-void update_technique_slot__10TTecRaFoieFl(s32);
 }
 
 
@@ -1258,7 +1258,7 @@ void TObjEneRe7Berura::run_flash_warning_state(s32 arg1) {
         }
         vfunc_102();
         vfunc_89();
-        ((void (*)(s32, s32, s32))update_technique_slot__10TTecRaFoieFl)(
+        set_sound_pitch_request(
             play_persistent_sound(remap_sound_for_area(0x4003C61E), (s32)this, (u32)&position, 0, 0),
             0x400, 0);
         break;

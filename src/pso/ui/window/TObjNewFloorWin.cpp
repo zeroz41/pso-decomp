@@ -11,6 +11,7 @@
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
 extern "C" { extern const char TObjNewFloorWin__class_name_string[16] = "TObjNewFloorWin"; }
 
 struct TObjNewFloorWin_80073DCC { u8 pad[0x1C]; s32 state; void *window; s32 timer24; s32 timer28; };
@@ -18,7 +19,6 @@ struct TObjNewFloorWin_80073DCC { u8 pad[0x1C]; s32 state; void *window; s32 tim
 extern "C" {
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2);
-u32 check_room_seq_4__16TAdChrSelASlotGCFl(s32);
 s32 get_window_layout_position(s32);
 s32 sprintf(void *, const char *, ...);
 s32 has_window_task_root();
@@ -63,7 +63,7 @@ void TObjNewFloorWin::open_window() {
     s32 pos;
     pos = get_window_layout_position(0x3D);
     if ((s32) *(s32 *)((s8 *)arg0 + 0x4C) < 0) {
-        *(u32 *)((s8 *)arg0 + 0x20) = ((u32 (*)(s32, s32, s32)) check_room_seq_4__16TAdChrSelASlotGCFl)(pos, 1, *(s32 *)((s8 *)arg0 + 0x4C));
+        *(u32 *)((s8 *)arg0 + 0x20) = ((u32 (*)(s32, s32, s32)) create_window_menu_default)(pos, 1, *(s32 *)((s8 *)arg0 + 0x4C));
     } else {
         *(u32 *)((s8 *)arg0 + 0x20) = create_window_menu(pos, 1, *(s32 *)((s8 *)arg0 + 0x4C));
     }

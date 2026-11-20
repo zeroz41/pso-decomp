@@ -154,7 +154,6 @@ struct Win_80256354 { u8 p0[0x62]; s8 f62; u8 p63[5]; s32 f68; };
 
 extern "C" {
 extern s8 controller_input_state[];
-u8 test_input_flag__18TWindowInputNumberFv(u8 *arg0);
 void draw_arrows__18TWindowInputNumberFv(TWindowInputNumber *, Ctx_802563A0 *, Digit_802561E8 *, int);
 void begin_screen_draw(s32);
 void set_draw_texture_and_color(s32, s32);
@@ -350,10 +349,10 @@ void TWindowInputNumber::run_task() {
             }
         }
         context = (u8 *)controller_input_state + (temp_r30 * 0x50) + 0x20;
-        if ((TWindowShortListCtrl__check_controller_button(context, 4) != 0) || (((s32 (*)(void *, int))test_input_flag__18TWindowInputNumberFv)((void *)arg0, 4) != 0)) {
+        if ((TWindowShortListCtrl__check_controller_button(context, 4) != 0) || (((TWindowInputNumber *)arg0)->test_input_flag(4) != 0)) {
             ((TWindowInputNumber *)arg0)->confirm_input();
         }
-        if ((TWindowShortListCtrl__check_controller_button(context, 2) != 0) || (((s32 (*)(void *, int))test_input_flag__18TWindowInputNumberFv)((void *)arg0, 2) != 0)) {
+        if ((TWindowShortListCtrl__check_controller_button(context, 2) != 0) || (((TWindowInputNumber *)arg0)->test_input_flag(2) != 0)) {
             ((TWindowInputNumber *)arg0)->mark_confirmed();
         }
     }
@@ -389,11 +388,11 @@ TWindowInputNumber::TWindowInputNumber(void *position, s32 low, s32 high, s32 in
     align_digits();
 }
 
-u8 TWindowInputNumber::test_input_flag() {
+s32 TWindowInputNumber::test_input_flag(s32 buttons) {
     if (this->inputFlags & 0x20) {
         return 0U;
     }
-    return ((TAdSinglePlyChrSelectGC *)((u8 *)&controller_input_state + 0x160))->test_flag_4c();
+    return test_controller_flag_4c_color((u8 *)&controller_input_state + 0x160, buttons);
 }
 
 s32 TWindowInputNumber::is_locked(s32 arg1) {

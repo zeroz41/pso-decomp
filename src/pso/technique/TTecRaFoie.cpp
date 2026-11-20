@@ -2,6 +2,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/effect/TUnk_804CC148.h"
 #include "pso/technique/TTecCtrl.h"
+#include "pso/unk/TLobby_80226070.h"
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/unk/TUnk_804CCB28.h"
 #include "pso/render/ChunkMaterialState.h"
@@ -67,7 +68,6 @@ extern void *lbl_805D63B0;
 
 s32 play_sound_effect(s32 id, void *pos, s32 a, s32 b);
 #define play_sound_effect ((s32 (*)(s32, s32, s32, s32))play_sound_effect)
-void update_technique_slot__10TTecRaFoieFl(s32 handle, s32 pitch, s32 c);
 
 struct RecoveredGlobal_80238388_lbl_8044DAF0 {
     s32 value;
@@ -123,7 +123,7 @@ void TTecRaFoie::vfunc_9() {
     case 0:
         handle = play_sound_effect(0x4002A602, (int)(arg0 + 0x7C), 0, 0);
         if (handle >= 0) {
-            update_technique_slot__10TTecRaFoieFl(handle, 0x100, 0);
+            set_sound_pitch_request(handle, 0x100, 0);
         }
         return;
     case 1:
@@ -133,19 +133,19 @@ void TTecRaFoie::vfunc_9() {
     case 3:
         handle = play_sound_effect(0x4002A602, (int)(arg0 + 0x7C), 0, 0);
         if (handle >= 0) {
-            update_technique_slot__10TTecRaFoieFl(handle, -0x180, 0);
+            set_sound_pitch_request(handle, -0x180, 0);
         }
         break;
     case 4:
         handle = play_sound_effect(0x4002A602, (int)(arg0 + 0x7C), 0, 0);
         if (handle >= 0) {
-            update_technique_slot__10TTecRaFoieFl(handle, -0x250, 0);
+            set_sound_pitch_request(handle, -0x250, 0);
         }
         break;
     case 5:
         handle = play_sound_effect(0x4002A602, (int)(arg0 + 0x7C), 0, 0);
         if (handle >= 0) {
-            update_technique_slot__10TTecRaFoieFl(handle, -0x100, 0);
+            set_sound_pitch_request(handle, -0x100, 0);
         }
         break;
     }
@@ -438,7 +438,6 @@ struct VObj_802386F8 : VBase_802386F8 {
 
 extern "C" {
 void run_task__10TTecRaFoieFv(TTecRaFoie *arg0);
-void update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 s32 play_sound_effect(s32, void *, s32, s32);
 extern s32 tl_particle;
 s32 __ct__7TObjectFP7TObject(void *, void *);
@@ -560,7 +559,7 @@ void TTecRaFoie::update_detonation(void *arg1) {
     case 0:
         h = play_sound_effect(0x4002A803, self->target, 0, 0);
         if (h >= 0) {
-            update_technique_slot__10TTecRaFoieFl(h, 0x100, 0);
+            set_sound_pitch_request(h, 0x100, 0);
         }
         break;
     case 1:
@@ -570,19 +569,19 @@ void TTecRaFoie::update_detonation(void *arg1) {
     case 3:
         h = play_sound_effect(0x4002A803, self->target, 0, 0);
         if (h >= 0) {
-            update_technique_slot__10TTecRaFoieFl(h, -0x180, 0);
+            set_sound_pitch_request(h, -0x180, 0);
         }
         break;
     case 4:
         h = play_sound_effect(0x4002A803, self->target, 0, 0);
         if (h >= 0) {
-            update_technique_slot__10TTecRaFoieFl(h, -0x250, 0);
+            set_sound_pitch_request(h, -0x250, 0);
         }
         break;
     case 5:
         h = play_sound_effect(0x4002A803, self->target, 0, 0);
         if (h >= 0) {
-            update_technique_slot__10TTecRaFoieFl(h, -0x100, 0);
+            set_sound_pitch_request(h, -0x100, 0);
         }
         break;
     }

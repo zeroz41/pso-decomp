@@ -92,7 +92,7 @@ Ctrl_801A0E38 *get_player_by_client_id(u16 id);
 s32 is_split_screen(void);
 void *get_window_layout_position(s32 a);
 void *create_window_menu(void *p, s32 a, s32 b);
-void *check_room_seq_4__16TAdChrSelASlotGCFl(void *p, s32 a);
+void *create_window_menu_default(void *p, s32 a);
 s32 get_floor_destination_name(s32 f);
 void align_menu_entry_positions(void *w);
 void hide_part__9TObjLukerFPvUs(Obj_801A0C38 *self, u16 i);
@@ -180,7 +180,7 @@ void TObjLuker::open_destination_windows() {
             if (is_split_screen() != 0) {
                 self->wins[i] = create_window_menu(get_window_layout_position(0x33), 1, i);
             } else {
-                self->wins[i] = check_room_seq_4__16TAdChrSelASlotGCFl(get_window_layout_position(0x33), 1);
+                self->wins[i] = create_window_menu_default(get_window_layout_position(0x33), 1);
             }
             if (self->wins[i] != 0) {
                 this->m_a0 = target;

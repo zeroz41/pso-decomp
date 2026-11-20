@@ -54,6 +54,7 @@
 
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/camera/TCameraCtrl_801A6E60.h"
 
 // Two debug chunk models other units draw with draw_chunk_object: debug_chunk_object (TObjEneBm3FlyNest,
 // TObjEneRecobox, and TObjHMS_EZRope_Player through lbl_8048DEF4) and lbl_805D28BC (TBoss1Dragon, TBoss2Mine,
@@ -286,7 +287,6 @@ void draw_projected_quads__15TObjBoss2TunnelFPvi(Vtx_8007D828 *, s32);
 extern s32 lbl_805D63F0;
 s32 get_memcard_free_files(s32);
 s32 query_memcard_capacity__15TAdPlayerLoadGCFl(s32, s32);
-s32 is_on_current_screen__11TCameraCtrlFv(void *, s32);
 }
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
 void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed);
@@ -917,7 +917,7 @@ s32 TObjBoss2Tunnel__sub_8007D1D0(void) {
         return 0;
     }
     pad = (PadSlot *)TKeyBoardControl__sub_803DEB74(0x12);
-    if (is_on_current_screen__11TCameraCtrlFv(&controller_physical_port_bank.controllers[3], 0x20000) != 0) {
+    if (test_previous_buttons_packed(&controller_physical_port_bank.controllers[3], 0x20000) != 0) {
         if (boss2_tunnel_state_flag == 0) {
             TObjBoss2Tunnel__sub_8007DB80();
             draw_snapshot_capture_overlay();

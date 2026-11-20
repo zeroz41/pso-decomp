@@ -17,6 +17,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 
 #pragma readonly_strings on
@@ -46,7 +47,6 @@ void TLobby__sub_80072AB8(void *arg0);
 s32 TLobby__sub_8006FBE4();
 s32 get_message_text(s32);
 s32 get_window_layout_position(s32);
-u32 check_room_seq_4__16TAdChrSelASlotGCFl(s32, s32);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 void TLobby__sub_8024AC20(s32 arg0);
 s32 get_player_by_client_id(s32);
@@ -217,7 +217,7 @@ void TObjChallengeRetry::open_loss_menu() {
         ((TWindowBase *)(*(u32 *)((s8 *)this + 0x2C)))->close();
         *(u32 *)((s8 *)this + 0x2C) = 0U;
     }
-    *(u32 *)((s8 *)this + 0x2C) = check_room_seq_4__16TAdChrSelASlotGCFl(get_window_layout_position(0x3A), 3);
+    *(u32 *)((s8 *)this + 0x2C) = create_window_menu_default(get_window_layout_position(0x3A), 3);
     if ((u32) *(u32 *)((s8 *)this + 0x2C) != 0U) {
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)(*(u32 *)((s8 *)this + 0x2C)), (int)(get_message_text(0x5B)), 5, 0);
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)(*(u32 *)((s8 *)this + 0x2C)), (int)(get_message_text(0x5C)), 5, 1);

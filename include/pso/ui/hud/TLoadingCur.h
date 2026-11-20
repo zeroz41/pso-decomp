@@ -17,7 +17,6 @@ struct TLoadingCur : public TObject {
     static s32 calc_clamp_offset(s32 arg0, u8 *arg1, u8 *arg2);
     void render();
     void run_task();
-    u8 is_flag_set();
     u8 unk_38[0x4];
     f32 m_3c;
     u8 unk_40[0x14];

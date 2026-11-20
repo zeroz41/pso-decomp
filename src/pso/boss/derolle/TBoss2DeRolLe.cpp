@@ -78,6 +78,7 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/boss/derolle/TBoss2Joint.h"
 
 #include "pso/boss/derolle/TBoss2Mine.h"
+#include "pso/camera/TCameraCtrl_801A6E60.h"
 
 #include "pso/boss/derolle/TUnk_80482D04.h"
 
@@ -591,7 +592,6 @@ void TBoss2Joint__sub_8003688C(u8 *arg0);
 
 s32 TObjLight__sub_801337F8(s32);
 
-s32 is_on_current_screen__11TCameraCtrlFv(void *, int);
 
 s32 rotate_matrix_z(int, int);
 
@@ -6478,7 +6478,7 @@ void TBoss2DeRolLe::render_body() {
         idx = 0x10;
     }
     model = self->anims[self->motions[idx].anim].model;
-    if (is_on_current_screen__11TCameraCtrlFv(controller_input_state + 0xC0, 4) != 0) {
+    if (test_previous_buttons_packed(controller_input_state + 0xC0, 4) != 0) {
         max = model->frames - 1;
         this->frame = this->frame + self->speed;
         while (this->frame < 0.0f) {

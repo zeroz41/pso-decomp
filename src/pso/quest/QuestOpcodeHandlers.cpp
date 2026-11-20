@@ -14,6 +14,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/item/TItemData.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 #include "pso/item/TObjItemOKWindow.h"
 #include "pso/object/base/TObjChara.h"
@@ -1248,8 +1249,6 @@ void open_default__11TWindowCtrlFi(u16, s32);
 s32 __ct__15TWindowHelpItemFPvUs(s32, s32, s32);
 void align_menu_entry_positions(s32 win);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
-s32 check_room_seq_4__16TAdChrSelASlotGCFl(s32 a, s32 b);
-u32 update_window_mode_from_progress__6TLobbyFPv(s32, Pair_801F1838 *);
 }
 void reset_cameras_to_actor(void *actor, s32 arg1);
 void init_6x40_walk_packet(void *a0);
@@ -1397,13 +1396,13 @@ void qst_op_item_create_multi_cm(u8 i) {
     item.id = ((u32 (*)(u16))advance_item_id_counter)(local_client_id);
     switch (mode) {
     case 0:
-        update_entries__18TChallenge4PResultFii((s32)&item, (s32)(2));
+        update_entries__18TChallenge4PResultFii((s32)&item, (s32)2);
         break;
     case 1:
-        update_entries__18TChallenge4PResultFii((s32)&item, (s32)(0));
+        update_entries__18TChallenge4PResultFii((s32)&item, (s32)0);
         break;
     case 2:
-        update_entries__18TChallenge4PResultFii((s32)&item, (s32)(1));
+        update_entries__18TChallenge4PResultFii((s32)&item, (s32)1);
         break;
     }
 }
@@ -1544,7 +1543,7 @@ void qst_op_find_bank_item(u8 i, u8 out) {
         item.data1[1] = qst_registers[i++];
         item.data1[2] = qst_registers[i++];
         item.data1[4] = qst_registers[i];
-        if (((TAdSinglePlyChrSelectGC *)card)->find_entry((s32)(&item)) != 0) {
+        if (((TAdSinglePlyChrSelectGC *)card)->find_entry((s32)&item) != 0) {
             qst_registers[out] = 1;
         } else {
             qst_registers[out] = 0;
@@ -4465,7 +4464,7 @@ void qst_op_pl_add_meseta(void) {
     amount = qst_args[1];
     player = get_player_by_client_id((s32)((int) (qst_args[0])));
     if (player != 0U) {
-        ((TObjPlayer *)player)->add_meseta((s32)(amount));
+        ((TObjPlayer *)player)->add_meseta((s32)amount);
     }
 }
 
@@ -4766,7 +4765,7 @@ void qst_op_pos_pipe(u8 arg0) {
     point.x = (f32)qst_registers[i++];
     point.y = (f32)qst_registers[i++];
     point.z = (f32)qst_registers[i++];
-    TTecLuker::create_for_player((int)((u16)qst_registers[i]), (s32)(&point));
+    TTecLuker::create_for_player((int)((u16)qst_registers[i]), (s32)&point);
 }
 
 void qst_op_create_pipe(void) {
@@ -5356,7 +5355,7 @@ void qst_op_disp_msg_qb(void) {
         ((TWindowBase *)qst_message_window_qb)->close();
         qst_message_window_qb = 0;
     }
-    qst_message_window_qb = (void *)update_window_mode_from_progress__6TLobbyFPv(get_window_layout_position(0x71), &pr);
+    qst_message_window_qb = (void *)(u32)create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0x71), (NJS_POINT2 *)&pr);
     ((TWindowMessage *)qst_message_window_qb)->append_line(t, 3);
     ((TWindowBase *)qst_message_window_qb)->set_depth(50030.0f);
     qst_suspend_reason = QST_WAIT_MESSAGE_QB;
@@ -5406,7 +5405,7 @@ void qst_op_list(void) {
     ((char * (*)(char *, const char *, u32))strncpy)(buf, text, 0x1FF);
     ((TLobby *)buf)->trim_whitespace();
     ((TLobby *)list)->tokenize_args(buf);
-    qst_list_window = (void *)check_room_seq_4__16TAdChrSelASlotGCFl(get_window_layout_position(0x37), list->count);
+    qst_list_window = (void *)create_window_menu_default(get_window_layout_position(0x37), list->count);
     for (i = 0; i < list->count; i++) {
         forward_trade_action_default__16TObjCityMainWarpFPviii(qst_list_window, (int)list->names[i], 7, (int)i);
     }
@@ -5751,7 +5750,7 @@ void qst_op_gclear(u16 flag) {
 }
 
 void qst_op_gset(u16 arg0) {
-    TBoss4DarkFalz::dispatch_by_main_phase((s32)(arg0));
+    TBoss4DarkFalz::dispatch_by_main_phase((s32)arg0);
 }
 
 void qst_op_rev(s32 arg0) {

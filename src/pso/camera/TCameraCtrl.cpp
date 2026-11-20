@@ -64,6 +64,7 @@ struct Out_80069F20 {
 };
 
 #include <stddef.h>
+#include "pso/camera/TCameraCtrl_801A6E60.h"
 struct Stack_80069318 {
     s32 sp8;
     u8 pad_C[0x4];
@@ -262,7 +263,6 @@ struct Sel_8006A13C { u8 busy; u8 pad1; u16 slot; u8 pad4[0x8]; };
 extern "C" {
 
 
-s32 is_on_current_screen__11TCameraCtrlFv(void *, s32);
 extern Big_8006A13C controller_input_state;
 }
 
@@ -1086,9 +1086,9 @@ void TCameraCtrl::cycle_spectate_target() {
         return;
     }
     pad = controller_input_state.unk70;
-    if (is_on_current_screen__11TCameraCtrlFv(pad, 0x20000) == 0 ||
+    if (test_previous_buttons_packed(pad, 0x20000) == 0 ||
         TWindowShortListCtrl__check_controller_button(pad, 0x10) == 0 ||
-        is_on_current_screen__11TCameraCtrlFv(pad, 0x10000) == 0 ||
+        test_previous_buttons_packed(pad, 0x10000) == 0 ||
         (pl = get_player_by_client_id(local_client_id)) == 0 ||
         (tries = 0, TCameraCtrl__view_state[0] != 0) ||
         get_current_floor_area() == AREA_DRAGON ||

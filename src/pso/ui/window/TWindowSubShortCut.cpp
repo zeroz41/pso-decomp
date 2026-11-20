@@ -6,6 +6,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
 class TChCrTagPlBack;
 struct TWindowShortCut;
 #include "pso/ui/chat/TWindowChat.h"
@@ -51,7 +52,6 @@ void open_com_card_list__18TWindowSubShortCutFv(void *arg0);
 u32 *get_chat_shortcut();
 s32 align_menu_entry_positions(s32);
 s32 get_window_layout_position(s32 a0 = 0);
-s32 draw_card_icon__17TWindowSubComCardFll(s32, s32, s32);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 s32 free_member__17TWindowSubComCardFv(s32, s32);
 
@@ -237,7 +237,7 @@ s32 TWindowSubShortCut::open_menu() {
 
     ((TWindowMenuIconLine *)this->m_2c)->get_cursor_value();
     chat_shortcut = get_chat_shortcut();
-    temp_r31 = draw_card_icon__17TWindowSubComCardFll(get_window_layout_position(0x74), 2, (s32)TWindowSubStatusDisp::get_message_10(0x2C));
+    temp_r31 = create_titled_window_menu_default(get_window_layout_position(0x74), 2, (s32)TWindowSubStatusDisp::get_message_10(0x2C));
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)(TWindowSubStatusDisp::get_message_10(0x7E)), 6, 5);
     if ((u32) *chat_shortcut != 0U) {
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)(TWindowSubStatusDisp::get_message_10(0x5A)), 6, 9);

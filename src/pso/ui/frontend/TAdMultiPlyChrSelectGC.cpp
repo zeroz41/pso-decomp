@@ -52,7 +52,7 @@ struct Sel_802DC118 { u8 pad[0x64]; u32 win; };
 extern "C" {
 s32 get_localized_text_entry(s32 arg0, s32 arg1);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
-s32 check_room_seq_4__16TAdChrSelASlotGCFl(void *, int);
+s32 create_window_menu_default(void *, int);
 s32 free_member__17TWindowSubComCardFv(int, int);
 s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(int, int, void *, f32);
 s32 create__19TWindowMessageYesNoFPvPvPvPv(void *, int, int, int);
@@ -2237,7 +2237,7 @@ s32 TAdMultiPlyChrSelectGC::create_choice_menu() {
 
 s32 TAdMultiPlyChrSelectGC__sub_802DBEC4(void *, s32 *desc) {
   s32 temp_r31;
-  temp_r31 = check_room_seq_4__16TAdChrSelASlotGCFl((void *)desc, 1);
+  temp_r31 = create_window_menu_default((void *)desc, 1);
   forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((int) get_localized_text_entry(0x1F, 6)), 0x21, 0);
   ((TAdChrSelASlotGC *)temp_r31)->set_flag_40();
   TQuestThread::set_status_flag_80((void *)temp_r31);
@@ -2247,7 +2247,7 @@ s32 TAdMultiPlyChrSelectGC__sub_802DBEC4(void *, s32 *desc) {
 
 s32 TAdMultiPlyChrSelectGC__sub_802DBE4C(void *, s32 *desc) {
   s32 temp_r31;
-  temp_r31 = check_room_seq_4__16TAdChrSelASlotGCFl((void *)desc, 1);
+  temp_r31 = create_window_menu_default((void *)desc, 1);
   forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((int) get_localized_text_entry(0x1F, 7)), 0x21, 0);
   ((TAdChrSelASlotGC *)temp_r31)->set_flag_40();
   TQuestThread::set_status_flag_80((void *)temp_r31);

@@ -91,7 +91,6 @@ void __ct__12TAdBackTxtGCFv(void *, void *);
 u32 __ct__14TAdSelectCurGCFv(void *, TObject *, void *, void *);
 extern s32 __vt__11TAdEp3Exist[];
 void *TAdEp3Exist__ct(Ep3_8036F354 *o);
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 int TAdEp3Exist__sub_8036F0AC(void* p);
 extern u8 controller_input_state[];
 extern u8 controller_physical_port_bank[];
@@ -141,7 +140,7 @@ void TAdEp3Exist::run_task() {
                 break;
             }
         } else if (TWindowShortListCtrl__check_controller_button(controller_physical_port_bank + 0x20, 2) != 0 ||
-                   test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state + 0x160, 2) != 0) {
+                   test_controller_flag_4c_color(controller_input_state + 0x160, 2) != 0) {
             o->state = 2;
             o->next = 5;
         }

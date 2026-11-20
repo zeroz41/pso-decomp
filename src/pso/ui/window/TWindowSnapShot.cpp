@@ -75,7 +75,6 @@ extern "C" {
 s32 TObjBoss2Tunnel__sub_8007CAE8(f32 *, f32);
 u8 *draw_default_entry__9TWindowDDFl();
 s32 draw_visible_window_entries(void *, void *, void *);
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 verify_snapshot_checksum__15TObjBoss2TunnelFv(void);
 s32 play_sound_effect(s32, s32, s32, s32);
 
@@ -131,7 +130,7 @@ void TWindowSnapShot::run_task() {
     if (!(this->m_2c & 2)) {
         this->m_5c = 0x01000000;
     }
-    if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + 0x20), 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), 2) != 0)) {
+    if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + 0x20), 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
         play_open_sound();
     }
     ((TWindowDD *)arg0)->initialize_subwindow();

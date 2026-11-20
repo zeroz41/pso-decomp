@@ -11,6 +11,7 @@
 #include "pso/technique/TTecLuker.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
+#include "pso/unk/TLobby_80226070.h"
 
 #pragma readonly_strings on
 
@@ -48,7 +49,6 @@ struct VObj_802386F8 : VBase_802386F8 {
 extern "C" {
 void *find_entity_by_id(u16 id);
 s32 play_sound_effect(int, void *, int, int);
-s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 s32 get_entity_id(void *);
 void copy_technique_target_list(void *, void *);
 s32 calc_technique_parameters(s32, s16, s32);
@@ -120,7 +120,7 @@ TTecZarua::TTecZarua(s32 source, Vec *pos, TargetCursorList *list, s32 level) : 
     case 1:
         r = play_sound_effect(0x4002A817, &position, 0, 0);
         if (r >= 0) {
-            update_technique_slot__10TTecRaFoieFl(r, 0x100, 0);
+            set_sound_pitch_request(r, 0x100, 0);
         }
         break;
     case 2:
@@ -131,7 +131,7 @@ TTecZarua::TTecZarua(s32 source, Vec *pos, TargetCursorList *list, s32 level) : 
     case 5:
         r = play_sound_effect(0x4002A817, &position, 0, 0);
         if (r >= 0) {
-            update_technique_slot__10TTecRaFoieFl(r, -0x100, 0);
+            set_sound_pitch_request(r, -0x100, 0);
         }
         break;
     }
@@ -155,7 +155,7 @@ TTecZarua::TTecZarua(s32 source, Vec *pos, Vec *target, s32 level) : TUnk_804CC1
     case 1:
         r = play_sound_effect(0x4002A817, &position, 0, 0);
         if (r >= 0) {
-            update_technique_slot__10TTecRaFoieFl(r, 0x100, 0);
+            set_sound_pitch_request(r, 0x100, 0);
         }
         break;
     case 2:
@@ -166,7 +166,7 @@ TTecZarua::TTecZarua(s32 source, Vec *pos, Vec *target, s32 level) : TUnk_804CC1
     case 5:
         r = play_sound_effect(0x4002A817, &position, 0, 0);
         if (r >= 0) {
-            update_technique_slot__10TTecRaFoieFl(r, -0x100, 0);
+            set_sound_pitch_request(r, -0x100, 0);
         }
         break;
     }

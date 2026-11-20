@@ -8,6 +8,7 @@
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
 #include "pso/render/render_util.h"
+#include "pso/camera/TCameraCtrl_801A6E60.h"
 
 struct Param_802E5CB0 { f32 a; f32 b; s32 c; f32 d; };
 typedef char Param_802E5CB0_size[sizeof(Param_802E5CB0) == 0x10 ? 1 : -1];
@@ -62,7 +63,6 @@ extern s32 __vt__23TObjOnlineEndingHexMove[];
 
 void bswap_6x92__14TAdGameStartGCFPv(void *p);
 s32 draw_color_lines(Desc_802E55B8 *, s32, s32, f32);
-s32 is_on_current_screen__11TCameraCtrlFv(void *, s32);
 void send_6x92__14TAdGameStartGCFPv(void *p);
 void TAdGameStartGC__sub_802E6368(void *p);
 
@@ -408,7 +408,7 @@ void TObjOnlineEndingHexMove::run_task() {
     }
     if (timer == 0) {
         pad = controller_input_state + 0x20;
-        if (is_on_current_screen__11TCameraCtrlFv(pad, 0x30000) != 0) {
+        if (test_previous_buttons_packed(pad, 0x30000) != 0) {
             TAdGameStartGC__sub_802E6368(&pkt);
             pkt.idx = local_client_id % 4;
             switch (pkt.idx) {
@@ -435,7 +435,7 @@ void TObjOnlineEndingHexMove::run_task() {
                     min = 3.0f;
                     break;
                 }
-                if (is_on_current_screen__11TCameraCtrlFv(pad, 0x10000) != 0) {
+                if (test_previous_buttons_packed(pad, 0x10000) != 0) {
                     v += step;
                     if (v > max) {
                         v = max;
@@ -450,7 +450,7 @@ void TObjOnlineEndingHexMove::run_task() {
                 break;
             case 2:
                 ang = TObjOnlineEndingHexLine__hex_line_params.c;
-                if (is_on_current_screen__11TCameraCtrlFv(pad, 0x10000) != 0) {
+                if (test_previous_buttons_packed(pad, 0x10000) != 0) {
                     ang += 0x1999;
                 } else {
                     ang -= 0x1999;

@@ -82,7 +82,6 @@ struct TWindowSubComCard : public TObject {
     void set_entry_value_clear_flag(s32 idx, s32 val);
     void clear_transition_flag();
     static void draw_text_gray(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-    void draw_card_icon(s32 arg1, s32 arg2);
     void update_selected_entry();
     void update_next_entry(s32 arg1, s32 arg2, s32 arg3);
     s32 get_entry_id();

@@ -31,7 +31,6 @@ const char *TAdStorySelectGC__class_name = TAdStorySelectGC__class_name_string;
 
 s32 story_select_cursor;
 extern "C" {
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 void play_sound_effect(s32, s32, s32, s32);
 extern u8 controller_input_state[];
 void __ct__7TObjectFP7TObject(void *, void *);
@@ -69,7 +68,7 @@ void TAdStorySelectGC::run_task() {
     case 0:
     default:
         if (TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 2) != 0 ||
-            test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state + 0x160, 2) != 0) {
+            test_controller_flag_4c_color(controller_input_state + 0x160, 2) != 0) {
             play_sound_effect(0x52F16, 0, 0, 0);
             TAdMultiChgGameModeGC::set_game_mode();
         }

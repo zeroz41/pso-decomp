@@ -36,9 +36,6 @@ s32 poll_memcard_result(s32 chan);
 s32 start_memcard_format(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 s32 query_memcard_capacity__15TAdPlayerLoadGCFl(s32 chan, s32 arg1);
 s32 poll_load_status__15TAdPlayerLoadGCFl(s32 chan, const char *name);
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(ControllerInputContext *context, s32 mask);
-TWindowMessage *update_window_mode_from_progress__6TLobbyFPv(const f32 *pos, const f32 *size);
-TWindowMenu *check_room_seq_4__16TAdChrSelASlotGCFl(const f32 *pos, s32 arg1);
 s32 align_menu_entry_positions(TWindowMenu *menu);
 void *__ct__9TAdBackGCFv(void *self, void *parent);
 void *__ct__12TAdBackTxtGCFv(void *self, void *parent);
@@ -809,7 +806,7 @@ void TAdTimeSetGC::open_message_choice(u32 text, s32 sel, u32 first_text, u32 se
     if (message_window != NULL || menu_window != NULL) {
         return;
     }
-    message_window = update_window_mode_from_progress__6TLobbyFPv(time_set_message_pos, time_set_message_size);
+    message_window = (TWindowMessage *)create_message_window_for_size((NJS_POINT2 *)time_set_message_pos, (NJS_POINT2 *)time_set_message_size);
     if (message_window == NULL) {
         return;
     }
@@ -820,7 +817,7 @@ void TAdTimeSetGC::open_message_choice(u32 text, s32 sel, u32 first_text, u32 se
     if (sel == -1) {
         return;
     }
-    menu_window = check_room_seq_4__16TAdChrSelASlotGCFl(time_set_menu_pos, 2);
+    menu_window = (TWindowMenu *)create_window_menu_default((s32)time_set_menu_pos, 2);
     if (message_window == NULL) {
         return;
     }
@@ -895,7 +892,7 @@ void TAdTimeSetGC::sub_802E18C8() {
 
 s32 TAdTimeSetGC::sub_802E1868() {
     if (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank.controllers[0], 4) != 0 ||
-        test_flag_4c__23TAdSinglePlyChrSelectGCFv(&controller_input_state.keyboard, 4) != 0) {
+        test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0) {
         return 1;
     }
     return 0;

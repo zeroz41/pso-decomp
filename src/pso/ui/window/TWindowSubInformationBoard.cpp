@@ -37,7 +37,6 @@ struct I_8034CDE0 { u8 pad[0x10]; s8 f10; u8 pad11[0xBC - 0x11]; };
 struct L_8034CDE0 { u8 f0; u8 n; u8 pad2[2]; I_8034CDE0 items[1]; };
 
 extern "C" {
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 play_sound_effect(int, int, int, int);
 s32 set_info_board_text__6TLobbyFv();
 extern s32 controller_input_state[];
@@ -45,7 +44,7 @@ s32 get_window_layout_position(s32);
 s32 __nw__7TObjectFUl(s32);
 s32 align_menu_entry_positions(int);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
-void *draw_card_icon__17TWindowSubComCardFll(s32, s32, void *);
+void *create_titled_window_menu_default(s32, s32, void *);
 s32 draw_text_gray__17TWindowSubComCardFllll(void *, void *, int, int);
 
 extern s32 local_client_id;
@@ -125,7 +124,7 @@ void TWindowSubInformationBoard::run_task() {
         TLobby::init_once_data((u32)((void *) ((u8 *)arg0 + 0x40)));
         this->m_1c = 4U;
     case 4:
-        if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)controller_input_state + 0x20), 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)controller_input_state + 0x160), 2) != 0)) {
+        if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)controller_input_state + 0x20), 2) != 0) || (test_controller_flag_4c_color((void *) ((u8 *)controller_input_state + 0x160), 2) != 0)) {
             play_sound_effect(0x52F16, 0, 0, 0);
             this->m_1c = 5U;
         }
@@ -199,7 +198,7 @@ void TWindowSubInformationBoard::render() {  }
 
 u32 TWindowSubInformationBoard::create_info_board_menu() {
   void *temp_r31;
-  temp_r31 = draw_card_icon__17TWindowSubComCardFll(get_window_layout_position(0xA4), 2, TWindowSubStatusDisp::get_message_10(0x1D));
+  temp_r31 = create_titled_window_menu_default(get_window_layout_position(0xA4), 2, TWindowSubStatusDisp::get_message_10(0x1D));
   if (get_main_phase() == 0xF)
   {
     forward_trade_action_default__16TObjCityMainWarpFPviii(temp_r31, (int) TWindowSubStatusDisp::get_message_10(0x117), 6, 3);
@@ -224,7 +223,7 @@ u32 TWindowSubInformationBoard::sub_8034CDE0() {
     if (it == NULL) {
         return 0;
     }
-    w = draw_card_icon__17TWindowSubComCardFll(get_window_layout_position(0xA6), 0xC, TWindowSubStatusDisp::get_message_10(0x1D));
+    w = create_titled_window_menu_default(get_window_layout_position(0xA6), 0xC, TWindowSubStatusDisp::get_message_10(0x1D));
     n = ((L_8034CDE0 *)it)->n;
     it = ((L_8034CDE0 *)it)->items;
     for (i = 0; i < n; i++, it++) {

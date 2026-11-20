@@ -127,7 +127,6 @@ u32 strlen(const char *);
 void draw_window_frame__11TWindowBaseFPv();
 
 
-s32 update_window_mode_from_progress__6TLobbyFPv(const void *, const void *);
 
 int sprintf(char *, const char *, ...);
 
@@ -347,7 +346,7 @@ u8 *get_serial_text__22TAdEnterSerialAccessGCFii(s32 arg0, s32 arg1) {
 }
 
 s32 TAdEnterSerialAccessGC::show_message_window(void *arg0, void *arg1) {
-    s32 r = update_window_mode_from_progress__6TLobbyFPv(lbl_80477178, lbl_80477180);
+    s32 r = (s32)create_message_window_for_size((NJS_POINT2 *)lbl_80477178, (NJS_POINT2 *)lbl_80477180);
     ((TWindowMessage *)r)->append_line(get_localized_text_entry(0x17, (s32)arg1), 1);
     return r;
 }

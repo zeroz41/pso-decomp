@@ -38,7 +38,6 @@ s32 TAdSelectGameModeGC__cached_mode_value;
 extern "C" {
 int enable_camera__19TAdSelectGameModeGCFv(void);
 s32 free_sub_ctrls__19TAdSelectGameModeGCFv();
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 play_sound_effect(int, int, int, int);
 extern s32 TAdSelectGameModeGC__cached_mode_value;
 void __ct__7TObjectFP7TObject(void *, void *);
@@ -82,7 +81,7 @@ void run_task__19TAdSelectGameModeGCFv(u8 *arg0) {
         ((TAdMultiPlyChrSelectGC *)(*(s32 *)((s8 *)arg0 + 0x20)))->set_entry_value(1, (int) (get_localized_text_entry(0x15, (s32)(TAdSinglePlyChrSelectGC__sub_801334DC((void *)(*(s32 *)((s8 *)arg0 + 0x1C))) + 1))));
     }
     TAdSelectGameModeGC__cached_mode_value = TAdSinglePlyChrSelectGC__sub_801334DC((void *)(*(s32 *)((s8 *)arg0 + 0x1C)));
-    if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_physical_port_bank + 0x20), 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), 2) != 0)) {
+    if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_physical_port_bank + 0x20), 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
         TAdMultiChgGameModeGC::request_scene_change();
         return;

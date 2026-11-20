@@ -28,6 +28,7 @@
 #include "pso/math/TMath.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 struct RecoveredGlobal_802D4730_lbl_804C89BC { s32 value; u8 remaining[0x74]; };
 typedef char RecoveredGlobal_802D4730_lbl_804C89BC_size[sizeof(RecoveredGlobal_802D4730_lbl_804C89BC) == 0x78 ? 1 : -1];
@@ -48,7 +49,6 @@ const T_802D4F2C single_chr_select_position_table = { { { 156.0f, 421.0f }, { 29
 
 extern "C" {
 s32 play_sound_effect(s32, s32, s32, s32);
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 extern char controller_input_state[];
 s32 poll_memcard_result(s32 chan);
 s32 load_player__23TAdSinglePlyChrSelectGCFv();
@@ -67,7 +67,6 @@ extern s32 controller_physical_port_bank[];
 s32 clear_entry__23TAdSinglePlyChrSelectGCFi();
 s32 TAdSinglePlyChrSelectGC__sub_802D4D9C();
 s32 align_menu_entry_positions(s32);
-s32 check_room_seq_4__16TAdChrSelASlotGCFl(s32, s32);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 
 void TAdSinglePlyChrSelectGC::render() {
@@ -78,13 +77,13 @@ s32 TAdSinglePlyChrSelectGC::create_chr_warp(s32 arg0, s32 arg1) {
     s32 var_r31 = arg1;
 
     if (TAdSinglePlyChrSelectGC__sub_802D4D9C() != 0) {
-        var_r31 = check_room_seq_4__16TAdChrSelASlotGCFl(arg1, 4);
+        var_r31 = create_window_menu_default(arg1, 4);
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)var_r31, (int)(get_localized_text_entry(0x1E, 1)), 6, 0);
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)var_r31, (int)(get_localized_text_entry(0x1E, 2)), 6, 1);
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)var_r31, (int)(get_localized_text_entry(0x1E, 3)), 6, 2);
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)var_r31, (int)(get_localized_text_entry(0x1E, 4)), 6, 3);
     } else {
-        var_r31 = check_room_seq_4__16TAdChrSelASlotGCFl(arg1, 3);
+        var_r31 = create_window_menu_default(arg1, 3);
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)var_r31, (int)(get_localized_text_entry(0x1E, 1)), 6, 0);
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)var_r31, (int)(get_localized_text_entry(0x1E, 3)), 6, 2);
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)var_r31, (int)(get_localized_text_entry(0x1E, 4)), 6, 3);
@@ -327,7 +326,7 @@ void TAdSinglePlyChrSelectGC::handle_slot_selection() {
         ((TObject *)this->m_54)->queue_destruction();
         this->m_54 = 0U;
     }
-    if ((TWindowShortListCtrl__check_controller_button((void *)((u8 *)controller_physical_port_bank + 0x20), 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state + 0x160, 2) != 0)) {
+    if ((TWindowShortListCtrl__check_controller_button((void *)((u8 *)controller_physical_port_bank + 0x20), 2) != 0) || (test_controller_flag_4c_color(controller_input_state + 0x160, 2) != 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
         *(s32 *)&this->m_20 = 0xB;
         return;
@@ -380,7 +379,7 @@ void TAdSinglePlyChrSelectGC::handle_slot_selection() {
 
 void TAdSinglePlyChrSelectGC::sub_802D4570() {
     u8 *arg0 = (u8 *)this;
-    if ((TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state + 0x160, 2) != 0)) {
+    if ((TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 2) != 0) || (test_controller_flag_4c_color(controller_input_state + 0x160, 2) != 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
         *(s32 *)((s8 *)arg0 + 0x20) = 0xB;
         return;
@@ -398,7 +397,7 @@ void TAdSinglePlyChrSelectGC::sub_802D4570() {
 
 void TAdSinglePlyChrSelectGC::sub_802D4664() {
     u8 *arg0 = (u8 *)this;
-    if ((TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state + 0x160, 2) != 0)) {
+    if ((TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 2) != 0) || (test_controller_flag_4c_color(controller_input_state + 0x160, 2) != 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
         *(s32 *)((s8 *)arg0 + 0x20) = 0xB;
         return;
@@ -419,7 +418,7 @@ void TAdSinglePlyChrSelectGC::sub_802D4664() {
 void TAdSinglePlyChrSelectGC::sub_802D4730() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r0;
-    if ((TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state + 0x160, 2) != 0)) {
+    if ((TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 2) != 0) || (test_controller_flag_4c_color(controller_input_state + 0x160, 2) != 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
         *(s32 *)((s8 *)arg0 + 0x20) = 0xB;
         return;
@@ -452,7 +451,7 @@ void TAdSinglePlyChrSelectGC::sub_802D4730() {
 void TAdSinglePlyChrSelectGC::sub_802D486C() {
     void *arg0 = this;
     s32 temp_r0;
-    if ((TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state + 0x160, 2) != 0)) {
+    if ((TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 2) != 0) || (test_controller_flag_4c_color(controller_input_state + 0x160, 2) != 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
         *(s32 *)((s8 *)arg0 + 0x20) = 0xB;
         return;
@@ -542,7 +541,7 @@ void TAdSinglePlyChrSelectGC::cleanup() {
         ((TObject *)((void *)(*(void **)((s8 *)this + 0x54))))->queue_destruction();
         *(u32 *)((s8 *)this + 0x54) = 0U;
     }
-    if ((TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state + 0x160, 2) != 0)) {
+    if ((TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 2) != 0) || (test_controller_flag_4c_color(controller_input_state + 0x160, 2) != 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
         *(s32 *)((s8 *)this + 0x20) = 0xB;
         return;

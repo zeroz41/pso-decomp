@@ -127,7 +127,6 @@ struct TCameraCtrl : public TObject {
     static int get_mode();
     static s32 get_camera_no();
     static void set_mode(int a0);
-    u8 is_on_current_screen();
     static void update_camera_state(f32 _w0, f32 _w1, f32 _w2);
     static void look_at_position(f32 farg0, f32 farg1, f32 farg2);
     static s32 translate_view_negated(f32 x, f32 y, f32 z);

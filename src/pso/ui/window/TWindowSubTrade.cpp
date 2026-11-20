@@ -85,12 +85,10 @@ s32 create__14TWindowMessageFlPCfUll(s32, const f32 *, int, int);
 const char *lbl_805D3EA8 = "TWindowSubTrade"; // TWindowSubTrade__name
 // Player message window position (x, y).
 extern const f32 lbl_80470AA8[2] = {384.0f, 120.0f};
-TWindowSubComCardList *draw_card_icon__17TWindowSubComCardFll(s32 layout, s32 kind, void *title);
 extern s32 local_client_id;
 s32 draw_text_gray__17TWindowSubComCardFllll(void *list, void *text, int kind, int id);
 s32 is_trade_range_bit_set(s32 client);
 TWindowSubComCardList *TWindowSubComCard__sub_802B1C1C(TWindowSubTrade *);
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 play_sound_effect(int, int, int, int);
 extern s32 controller_input_state[];
 }
@@ -186,7 +184,7 @@ void TWindowSubTrade::run_task() {
         this->m_1c = 6U;
     case 6:
         temp_r5 = temp_r30 * 0x50;
-        if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)(((u8 *)controller_input_state + temp_r5)) + 0x20), 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)controller_input_state + 0x160), 2) != 0)) {
+        if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)(((u8 *)controller_input_state + temp_r5)) + 0x20), 2) != 0) || (test_controller_flag_4c_color((void *) ((u8 *)controller_input_state + 0x160), 2) != 0)) {
             play_sound_effect(0x52F16, 0, 0, 0);
             TLobby::cancel_trade();
             this->m_1c = 1U;
@@ -206,7 +204,7 @@ TWindowSubComCardList *TWindowSubComCard__sub_802B1C1C(TWindowSubTrade *) {
     TObjPlayer *player;
     TWindowSubComCardList *list;
 
-    list = draw_card_icon__17TWindowSubComCardFll(get_window_layout_position(0x5A), 4, TWindowSubStatusDisp::get_message_10(0x1F));
+    list = (TWindowSubComCardList *)create_titled_window_menu_default((s32)(get_window_layout_position(0x5A)), 4, (s32)(TWindowSubStatusDisp::get_message_10(0x1F)));
     for (i = 0; i < 4; i++) {
         if (i == local_client_id) {
             continue;

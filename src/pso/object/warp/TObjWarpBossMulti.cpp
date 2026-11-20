@@ -33,6 +33,7 @@
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/unk/text_803D853C.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -115,7 +116,6 @@ extern s32 lbl_805D55C0;
 void *init__13TAdVIConfigGCFf(void *, void *, f32);
 int check_flag_100__10TObjPlayerFPv(void *p);
 s32 align_menu_entry_positions(u32);
-u32 check_room_seq_4__16TAdChrSelASlotGCFl(s32, s32);
 
 
 }
@@ -605,7 +605,7 @@ void TObjWarpBoss::warp_boss_handle_window() {
     case 1:
         if (find_local_boss_warp_player(this, warp_range) != NULL) {
             if (menu_window == 0) {
-                menu_window = check_room_seq_4__16TAdChrSelASlotGCFl(get_window_layout_position(0x35), 7);
+                menu_window = create_window_menu_default(get_window_layout_position(0x35), 7);
                 if (menu_window != 0) {
                     ((TWindowSubTradeMain *)menu_window)->add_text_entry((s32)TWindowSubStatusDisp::get_message_10(0x40), 0, 0, -1);
                     ((TAdChrSelASlotGC *)menu_window)->set_flag_40();

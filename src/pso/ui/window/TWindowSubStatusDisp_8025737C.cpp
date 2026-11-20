@@ -7,6 +7,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/TLobby_80226070.h"
 
 
 struct Bar_80256C00 {
@@ -101,7 +102,6 @@ struct Bar_8025799C {
     s16 timer;
 };
 
-void update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 s32 play_sound_effect(u32, s32, s32, s32);
 void* init_from__13TUnk_804CF930FPvi(void* a0, void* a1, int a2);
 u32 update_text_color_transition(Fade_802575C0 *fade);
@@ -289,7 +289,7 @@ void TUnk_804CF948::update() {
         --bar->timer;
         if (!bar->timer && (bar->flags & 0x10)) {
             s32 slot = play_sound_effect(0x22825, 0, 0, 0);
-            update_technique_slot__10TTecRaFoieFl(slot, -0x100, 0);
+            set_sound_pitch_request(slot, -0x100, 0);
         }
     } else {
         TUnk_804CF930::update();

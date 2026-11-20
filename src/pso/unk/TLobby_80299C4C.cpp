@@ -14,6 +14,7 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/map/FloorArea.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 #include "types.h"
 
@@ -104,7 +105,6 @@ extern "C" {
 
 const char *TObjChallenge4PRetry__class_name = "TObjChallenge4PRetry";
 
-u32 check_room_seq_4__16TAdChrSelASlotGCFl(s32, s32);
 s32 TLobby__sub_8024AC20(int);
 u32 create__14TWindowMessageFPvll(s32, s32 *, s32);
 s32 TLobby__sub_80292F5C();
@@ -147,7 +147,7 @@ void TObjChallenge4PRetry::open_giveup_window() {
         ((TWindowBase *)temp)->close();
         *(u32 *)((s8 *)this + 0x2C) = 0U;
     }
-    *(u32 *)((s8 *)this + 0x2C) = check_room_seq_4__16TAdChrSelASlotGCFl(get_window_layout_position(0x3A), 3);
+    *(u32 *)((s8 *)this + 0x2C) = create_window_menu_default(get_window_layout_position(0x3A), 3);
     if ((u32) *(u32 *)((s8 *)this + 0x2C) != 0U) {
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)(*(u32 *)((s8 *)this + 0x2C)), (int)(get_message_text(0x5B)), 5, 0);
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)(*(u32 *)((s8 *)this + 0x2C)), (int)(get_message_text(0x5C)), 5, 1);

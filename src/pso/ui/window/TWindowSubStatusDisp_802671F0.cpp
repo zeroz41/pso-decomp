@@ -167,7 +167,6 @@ void *get_player_by_client_id(s32 i);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 finalize_state__20TWindowSubStatusDispFv(s32);
 s32 is_flag80_set__20TWindowSubStatusDispFv(s32);
-s32 advance_state__20TWindowSubStatusDispFv();
 u32 reset_selection__20TWindowSubStatusDispFv(int, void *);
 u32 construct_type1_heading__20TWindowSubStatusDispFll(u32, s32, s16);
 s32 is_flag_4_set__20TWindowSubStatusDispFv();
@@ -176,7 +175,6 @@ void text_builder_reset();
 s32 draw_window_text(f32 *pos, const char *s, s32 color, s32 mode, f32 width);
 void draw_selection_bar(u8 *arg0, u8 *arg1, s32 arg2);
 extern "C" {
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 is_player_input_active(s32 param_1);
 s32 get_draw_context__11TWindowBaseFPv();
 s32 draw_visible_window_entries(void *, void *, s32);
@@ -298,8 +296,7 @@ void TWindowCheckBox::advance_all_entries(s32 arg1) {
             play_sound_effect(0x52D01, 0, 0, 0);
         }
         for (i = 0; i < this->entry_capacity; i++) {
-            get_array_entry(i);
-            advance_state__20TWindowSubStatusDispFv();
+            ((TWindowSubStatusDisp *)get_array_entry(i))->advance_state();
         }
         get_array_entry(*(s16 *)(((u8 *)this) + 0x74));
         ((s32 (*)(void))finalize_state__20TWindowSubStatusDispFv)();
@@ -748,10 +745,10 @@ void TWindowMenuIconLine::run_task() {
             }
         }
         context = (u8 *)&controller_input_state + (temp_r31 * 0x50) + 0x20;
-        if ((TWindowShortListCtrl__check_controller_button(context, 4) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), 4) != 0)) {
+        if ((TWindowShortListCtrl__check_controller_button(context, 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
             this->handle_open();
         }
-        if ((TWindowShortListCtrl__check_controller_button(context, 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), 2) != 0)) {
+        if ((TWindowShortListCtrl__check_controller_button(context, 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
             this->set_flag4();
         }
     }

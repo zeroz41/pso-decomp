@@ -12,7 +12,6 @@ struct TradeMessageParentVirtual : TradeMessageParentBase {
 };
 struct TradeMessageInput { u8 base[0x20]; u8 buttons[0x30]; };
 extern "C" {
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void*,s32);
 void play_sound_effect(s32,s32,s32,s32);
 u8* get_window_layout_position(s32);
 TWindowMessage* create__14TWindowMessageFlPCfUll(void*,const f32*,s32,s32);
@@ -48,7 +47,7 @@ void TWindowSubTradeMessage::run_task() {
         state=1;
     case 1:
         if(TWindowShortListCtrl__check_controller_button(controller_input_state[idx].buttons,2)!=0 ||
-           test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state[4].buttons,2)!=0) {
+           test_controller_flag_4c_color(controller_input_state[4].buttons,2)!=0) {
             play_sound_effect(0x52F16,0,0,0);
             ((TradeMessageParentVirtual*)parentWindow)->m7();
             state=2;

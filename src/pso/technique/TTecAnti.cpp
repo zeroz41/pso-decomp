@@ -10,6 +10,7 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
+#include "pso/unk/TLobby_80226070.h"
 
 #pragma readonly_strings on
 
@@ -19,7 +20,6 @@ const char *TTecAnti_name_ref = "TTecAnti";
 
 struct Obj_8022ACB4 { u8 pad[0xA6]; s16 state; };
 extern "C" {
-s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 s32 play_sound_effect(int, void *, int, int);
 
 }
@@ -314,7 +314,7 @@ void TTecAnti::play_anti_cast_sound() {
     case 1:
         r = play_sound_effect(0x4002AB10, (u8 *)arg0 + 0x20, 0, 0);
         if (r >= 0) {
-            update_technique_slot__10TTecRaFoieFl(r, 0x100, 0);
+            set_sound_pitch_request(r, 0x100, 0);
         }
         break;
     case 2:
@@ -325,7 +325,7 @@ void TTecAnti::play_anti_cast_sound() {
     case 5:
         r = play_sound_effect(0x4002AB10, (u8 *)arg0 + 0x20, 0, 0);
         if (r >= 0) {
-            update_technique_slot__10TTecRaFoieFl(r, -0x100, 0);
+            set_sound_pitch_request(r, -0x100, 0);
         }
         break;
     }

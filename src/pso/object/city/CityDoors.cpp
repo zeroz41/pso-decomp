@@ -32,6 +32,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/map/TObjMapCsn.h"
+#include "pso/unk/TLobby_80226070.h"
 
 
 struct RecoveredGlobal_8018289C_lbl_80443F4C
@@ -534,7 +535,6 @@ void TObjCityDoor_Warp::run_task() {
 }
 
 void city_door_tick_opening__13TUnk_804B5BA8Fv(void *);
-s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 s32 play_sound_effect(s32, s32, s32, s32);
 void city_door_tick_opening__17TObjCityDoor_WarpFv(u8 *arg0);
 void city_door_play_close_sound__17TObjCityDoor_WarpFv(s32 arg0);
@@ -542,14 +542,14 @@ void city_door_play_open_sound__17TObjCityDoor_WarpFv(s32 arg0);
 
 void TObjCityDoor_Warp::city_door_play_close_sound() {
     s32 arg0 = (s32)this;
-    update_technique_slot__10TTecRaFoieFl((s32)(play_sound_effect(0x42A05, arg0 + 0x38, 0, 0)), -0x500, 0);
+    set_sound_pitch_request((s32)(play_sound_effect(0x42A05, arg0 + 0x38, 0, 0)), -0x500, 0);
 }
 
 void TObjCityDoor_Warp::city_door_play_open_sound() {
     s32 arg0 = (s32)this;
     if (is_rader_map_active() != 0) {
         s32 r = play_sound_effect(0x42A04, arg0 + 0x38, 0, 0);
-        update_technique_slot__10TTecRaFoieFl((s32)(r), -0x800, 0);
+        set_sound_pitch_request((s32)(r), -0x800, 0);
     }
 }
 #pragma push
@@ -559,7 +559,7 @@ void TObjCityDoor_Warp::city_door_tick_opening() {
     f32 temp_f1;
     temp_f1 = this->m_b4;
     if ((temp_f1 >= 24.0f) && (temp_f1 <= 25.0f)) {
-        update_technique_slot__10TTecRaFoieFl((s32)(play_sound_effect(0x42A04, (s32)((void *) (arg0 + 0x38)), 0, 0)), -0x500, 0);
+        set_sound_pitch_request((s32)(play_sound_effect(0x42A04, (s32)((void *) (arg0 + 0x38)), 0, 0)), -0x500, 0);
     }
     ((TUnk_804B5BA8 *)arg0)->TUnk_804B5BA8::city_door_tick_opening();
 }

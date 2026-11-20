@@ -22,7 +22,6 @@ struct TTecRaFoie : public TUnk_804CC148 {
     u16 m_f0;
     u8 _padF2[0x56];
     u32 m_148;
-    static void update_technique_slot(s32 arg0);
     void calc_area_parameters();
     virtual void render();
     void update_detonation(void *arg1);

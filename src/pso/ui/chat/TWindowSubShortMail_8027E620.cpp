@@ -27,6 +27,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 class TChCrTagPlBack;
 const char *TWindowSubShortMail__class_name = "TWindowSubShortMail";
@@ -54,8 +55,6 @@ int get_card_entry__17TWindowSubComCardFi();
 void TWindowSubShortMail__sub_8027FAD0(u8 *);
 s32 get_card_window_area__6TLobbyFv();
 void * get_mail_ptr__19TWindowSubShortMailFPv(void *);
-s32 check_room_seq_4__16TAdChrSelASlotGCFl(s32, s32);
-s32 draw_card_icon__17TWindowSubComCardFll(s32, s32, s32);
 s32 fn_8007B83C(s32);
 void *TLobby__sub_8022598C(int a0);
 u32 get_lobby_id__6TLobbyFv();
@@ -497,7 +496,7 @@ s32 TWindowSubShortMail::refresh_mail_list(void *arg1) {
 s32 create_menu__19TWindowSubShortMailFv(void) {
     s32 temp_r31;
 
-    temp_r31 = draw_card_icon__17TWindowSubComCardFll(get_window_layout_position(0x9A), 3, (s32)TWindowSubStatusDisp::get_message_10(0x1D));
+    temp_r31 = create_titled_window_menu_default(get_window_layout_position(0x9A), 3, (s32)TWindowSubStatusDisp::get_message_10(0x1D));
     if (get_main_phase() == 0xF) {
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((s32)TWindowSubStatusDisp::get_message_10(0x57)), 6, 3);
     } else {
@@ -524,7 +523,7 @@ s32 create_menu__19TWindowSubShortMailFv(void) {
 s32 build_menu__19TWindowSubShortMailFv(void) {
     s32 temp_r31;
     s32 msg;
-    temp_r31 = draw_card_icon__17TWindowSubComCardFll((s32)(get_window_layout_position(0x9D)), 3, (s32)((s32)TWindowSubStatusDisp::get_message_10(0x1E)));
+    temp_r31 = create_titled_window_menu_default((s32)(get_window_layout_position(0x9D)), 3, (s32)((s32)TWindowSubStatusDisp::get_message_10(0x1E)));
     if (get_main_phase() == 0xF) {
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((s32)TWindowSubStatusDisp::get_message_10(0x7F)), 6, 0xB);
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((s32)TWindowSubStatusDisp::get_message_10(0x59)), 6, 0xF);
@@ -562,7 +561,7 @@ s32 open_confirm_prompt__19TWindowSubShortMailFPvi(void *window_message_yes_no, 
 
 s32 create_confirm_menu_window__19TWindowSubShortMailFv(void) {
     s32 temp_r31;
-    temp_r31 = check_room_seq_4__16TAdChrSelASlotGCFl((s32)((void *)(((s32)get_window_layout_position(0xA0)))), 2);
+    temp_r31 = create_window_menu_default((s32)((void *)(((s32)get_window_layout_position(0xA0)))), 2);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((int) ((s32)TWindowSubStatusDisp::get_message_10(0x107))), 6, 0x16);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((int) ((s32)TWindowSubStatusDisp::get_message_10(0x108))), 6, 0x18);
     ((TWindowSubComCardList *)temp_r31)->set_flag70_bit10();
@@ -575,7 +574,7 @@ s32 create_window__19TWindowSubShortMailFv(void) {
     s32 temp_r31;
 
     window_layout_position = get_window_layout_position(0xA1);
-    temp_r31 = check_room_seq_4__16TAdChrSelASlotGCFl(window_layout_position, 2);
+    temp_r31 = create_window_menu_default(window_layout_position, 2);
     if (get_flag_bit0__6TLobbyFv() != 0) {
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((s32)TWindowSubStatusDisp::get_message_10(0x105)), 0, 0);
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)(get_card_window_area__6TLobbyFv()), 0, 0);
@@ -594,7 +593,7 @@ s32 open_menu__19TWindowSubShortMailFv(void) {
     s32 temp_r31;
 
     window_layout_position = get_window_layout_position(0xA2);
-    temp_r31 = check_room_seq_4__16TAdChrSelASlotGCFl(window_layout_position, 2);
+    temp_r31 = create_window_menu_default(window_layout_position, 2);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((s32)TWindowSubStatusDisp::get_message_10(0x105)), 6, 1);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((s32)TWindowSubStatusDisp::get_message_10(0x106)), 6, 0);
     if (get_flag_bit0__6TLobbyFv() == 0) {

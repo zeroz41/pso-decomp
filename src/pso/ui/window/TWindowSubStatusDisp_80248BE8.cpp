@@ -16,7 +16,6 @@
 
 extern "C" {
 s32 TShopJudgmentItemWindow__sub_80267F9C(void *, int);
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 get_draw_context__11TWindowBaseFPv();
 s32 draw_visible_window_entries(void *, void *, s32);
 s32 draw_window_scrollbar(s32, s32, void *);
@@ -76,10 +75,10 @@ void TWindowCheckBox::run_task() {
             }
         }
         context = (u8 *)&controller_input_state + (temp_r31 * 0x50) + 0x20;
-        if ((TWindowShortListCtrl__check_controller_button(context, 4) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), 4) != 0)) {
+        if ((TWindowShortListCtrl__check_controller_button(context, 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
             ((TWindowCheckBox *)arg0)->sync_level_field();
         }
-        if ((TWindowShortListCtrl__check_controller_button(context, 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state + 0x160), 2) != 0)) {
+        if ((TWindowShortListCtrl__check_controller_button(context, 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
             ((TWindowMenuIconLine *)arg0)->set_flag4();
         }
     }

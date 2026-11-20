@@ -152,7 +152,6 @@ struct Parts_80285B84 {
 s32 TWindowSubSymbolChat__sub_800771B0(struct TWSC *, s32);
 s32 TWindowSubSymbolChat__sub_800771C4(struct TWSC *, s32);
 s32 refresh_parts__20TWindowSubSymbolChatFv();
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 get_draw_context__11TWindowBaseFPv();
 void clamp_list_scroll_offset(s32, NJS_POINT2 *, NJS_POINT2 *);
@@ -545,13 +544,13 @@ void run_task__25TWindowSubSymbolChatPartsFv(Parts_80285B84 *arg0) {
     if (((s32 (*)(void *))sub_80283974__25TWindowSubSymbolChatPartsFv)(arg0) == 0) {
         ((TWindowSubSymbolChatParts *)arg0)->sub_80285054();
         pad = ((u8 *)&controller_input_state) + 0x20;
-        if (TWindowShortListCtrl__check_controller_button(pad, 4) != 0 || test_flag_4c__23TAdSinglePlyChrSelectGCFv(((u8 *)&controller_input_state) + 0x160, 4) != 0) {
+        if (TWindowShortListCtrl__check_controller_button(pad, 4) != 0 || (s32)test_controller_flag_4c_color((ControllerInputContext *)(((u8 *)&controller_input_state) + 0x160), 4) != 0) {
             ((TWindowSubSymbolChatParts *)arg0)->handle_add();
         }
         if (TWindowShortListCtrl__check_controller_button(pad, 0x400) != 0) {
             ((TWindowSubSymbolChatParts *)arg0)->add_part();
         }
-        if (TWindowShortListCtrl__check_controller_button(pad, 2) != 0 || test_flag_4c__23TAdSinglePlyChrSelectGCFv(((u8 *)&controller_input_state) + 0x160, 2) != 0) {
+        if (TWindowShortListCtrl__check_controller_button(pad, 2) != 0 || (s32)test_controller_flag_4c_color((ControllerInputContext *)(((u8 *)&controller_input_state) + 0x160), 2) != 0) {
             ((TWindowSubSymbolChatParts *)arg0)->handle_cancel();
         }
     }

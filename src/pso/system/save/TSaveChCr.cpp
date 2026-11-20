@@ -52,7 +52,6 @@ extern s32 pso_system_card_filename[];
 extern s32 pso_guildcard_card_filename[];
 void *__ct__9TAdBackGCFv(void *, void *);
 void *__ct__12TAdBackTxtGCFv(void *, void *);
-u32 update_window_mode_from_progress__6TLobbyFPv(const NJS_POINT2 *, const NJS_POINT2 *);
 s32 poll_memcard_result(s32);
 s32 poll_memcard_status__23TAdSinglePlyChrSelectGCFv();
 s32 load_character_from_card__23TAdSinglePlyChrSelectGCFi(s32 arg0);
@@ -170,7 +169,7 @@ void TSaveChCr::set_message_by_index(s32 arg1) {
 }
 void TSaveChCr::open_message_window(u32 arg1) {
     if ((u32) this->owned_window == 0U) {
-        *(u32 *)&this->owned_window = update_window_mode_from_progress__6TLobbyFPv(&save_ch_cr_message_window_pos, &save_ch_cr_message_window_size);
+        *(u32 *)&this->owned_window = (u32)create_message_window_for_size((NJS_POINT2 *)&save_ch_cr_message_window_pos, (NJS_POINT2 *)&save_ch_cr_message_window_size);
         if ((u32) this->owned_window != 0U) {
             if (arg1 != 0U) {
                 ((TWindowMessage *)(this->owned_window))->append_line(arg1, 3);

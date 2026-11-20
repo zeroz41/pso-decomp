@@ -43,7 +43,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     void set_vec3(void* q);
     void render_status_disp(f32 arg1, f32 arg2);
     static void free_resources();
-    u8 test_flag_4c();
     static void set_slot(int a0);
     static u16 get_char_select_slot();
     static void destroy();

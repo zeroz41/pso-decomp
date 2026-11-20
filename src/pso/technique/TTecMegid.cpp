@@ -12,6 +12,7 @@
 #include "pso/technique/TTecCtrl.h"
 #include "pso/technique/TTecBarta.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/unk/TLobby_80226070.h"
 
 struct RecoveredGlobal_80235348_lbl_804CC510
 {
@@ -207,7 +208,6 @@ void **mem_alloc(u32, s32);
 extern s32 technique_effect_bml;
 extern s32 lbl_805D63B0;
 u32 __nw__7TObjectFUl(s32 a0 = 0);
-s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 
 void TTecMegid::update_by_state() {
     u8 *arg0 = (u8 *)this;
@@ -217,7 +217,7 @@ void TTecMegid::update_by_state() {
     case 0:
         handle = play_sound_effect(0x4002A60B, (int)(arg0 + 0x20), 0, 0);
         if (handle >= 0) {
-            update_technique_slot__10TTecRaFoieFl(handle, 0x100, 0);
+            set_sound_pitch_request(handle, 0x100, 0);
         }
         return;
     case 1:
@@ -227,19 +227,19 @@ void TTecMegid::update_by_state() {
     case 3:
         handle = play_sound_effect(0x4002A60B, (int)(arg0 + 0x20), 0, 0);
         if (handle >= 0) {
-            update_technique_slot__10TTecRaFoieFl(handle, -0x180, 0);
+            set_sound_pitch_request(handle, -0x180, 0);
         }
         break;
     case 4:
         handle = play_sound_effect(0x4002A60B, (int)(arg0 + 0x20), 0, 0);
         if (handle >= 0) {
-            update_technique_slot__10TTecRaFoieFl(handle, -0x250, 0);
+            set_sound_pitch_request(handle, -0x250, 0);
         }
         break;
     case 5:
         handle = play_sound_effect(0x4002A60B, (int)(arg0 + 0x20), 0, 0);
         if (handle >= 0) {
-            update_technique_slot__10TTecRaFoieFl(handle, -0x100, 0);
+            set_sound_pitch_request(handle, -0x100, 0);
         }
         break;
     }

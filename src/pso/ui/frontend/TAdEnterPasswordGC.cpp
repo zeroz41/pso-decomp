@@ -47,7 +47,6 @@ void request_main_phase(s32 arg0);
 u32 __nw__7TObjectFUl(int);
 s32 __ct__10TAdTitleGCFP7TObjectl(int, void *, int);
 void mem_free(void *p);
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 get_field_118__22TAdEnterSerialAccessGCFv(void);
 s32 play_sound_effect(int, int, int, int);
 s32 forward_input__22TAdEnterSerialAccessGCFPv(void *, int, s32);
@@ -97,7 +96,7 @@ void update_password_input__18TAdEnterPasswordGCFPv(Pw_8032B6A0 *self) {
   s32 buf = (s32)((TKeyBoardControl *)password_entry_keyboard_control)->realloc_buffer();
   s32 prev;
   int cur;
-  if (((self->len == 0) && (TWindowShortListCtrl__check_controller_button(controller_physical_port_bank + 0x20, 2) != 0)) || ((self->len == 0) && (test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state + 0x160, 2) != 0)))
+  if (((self->len == 0) && (TWindowShortListCtrl__check_controller_button(controller_physical_port_bank + 0x20, 2) != 0)) || ((self->len == 0) && (test_controller_flag_4c_color(controller_input_state + 0x160, 2) != 0)))
   {
     mem_free((void *)buf);
     memset(&TAdEnterPasswordGC__input_buffer.value, 0, 9);
@@ -110,7 +109,7 @@ void update_password_input__18TAdEnterPasswordGCFPv(Pw_8032B6A0 *self) {
   {
     if (((TKeyBoardControl *)password_entry_keyboard_control)->is_confirmed() != 0)
     {
-      if ((TWindowShortListCtrl__check_controller_button(controller_physical_port_bank + 0x20, 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state + 0x160, 2) != 0))
+      if ((TWindowShortListCtrl__check_controller_button(controller_physical_port_bank + 0x20, 2) != 0) || (test_controller_flag_4c_color(controller_input_state + 0x160, 2) != 0))
       {
         free_menu_object(password_entry_keyboard_control);
         self->f38 = 0;

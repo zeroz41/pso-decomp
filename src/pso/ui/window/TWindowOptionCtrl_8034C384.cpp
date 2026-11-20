@@ -15,7 +15,6 @@
 
 extern "C" {
 s32 get_localized_text_entry(s32);
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 poll_memcard_result(s32 chan);
 s32 start_memcard_format(int, int, int, int, int);
 s32 play_sound_effect(int, int, int, int);
@@ -140,7 +139,7 @@ void TUnk_804F01A8::run_task() {
             *(s32 *)((s8 *)arg0 + 0x20) = (s32) (*(s32 *)((s8 *)arg0 + 0x20) & 0xFFFFFFFD);
             *(s32 *)((s8 *)arg0 + 0x1C) = 4;
         case 4:
-            if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)controller_input_state + 0x20), 6) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)controller_input_state + 0x160), 6) != 0)) {
+            if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)controller_input_state + 0x20), 6) != 0) || (test_controller_flag_4c_color((void *) ((u8 *)controller_input_state + 0x160), 6) != 0)) {
                 play_sound_effect(0x52F16, 0, 0, 0);
                 *(s32 *)((s8 *)arg0 + 0x20) = (s32) (*(s32 *)((s8 *)arg0 + 0x20) & 0xFFFFFFFD);
                 this->m_24 = 2;
@@ -248,7 +247,7 @@ void TUnk_804F01A8::run_task() {
             }
             break;
         case 15:
-            if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)controller_input_state + 0x20), 6) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)controller_input_state + 0x160), 6) != 0)) {
+            if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)controller_input_state + 0x20), 6) != 0) || (test_controller_flag_4c_color((void *) ((u8 *)controller_input_state + 0x160), 6) != 0)) {
                 play_sound_effect(0x52F16, 0, 0, 0);
                 *(s32 *)((s8 *)arg0 + 0x1C) = 3;
             }

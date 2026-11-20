@@ -6,6 +6,7 @@
 #include "pso/object/base/TObjMapObject.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/door/TODoorBase.h"
+#include "pso/object/ambient/TObjFish.h"
 
 
 #include "pso/effect/particle/TParticleCtrl.h"

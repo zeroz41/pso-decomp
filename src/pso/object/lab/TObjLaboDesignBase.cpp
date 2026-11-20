@@ -14,6 +14,7 @@
 #include "pso/unk/text_80365348.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/lab/TObjLaboDesignBase.h"
+#include "pso/object/ambient/TObjFish.h"
 
 #pragma readonly_strings on
 

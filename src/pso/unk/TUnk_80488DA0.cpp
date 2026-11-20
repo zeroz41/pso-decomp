@@ -8,6 +8,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/camera/TCameraCtrl_801A6E60.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -32,7 +33,6 @@ struct Cam_8006C964 {
 
 extern "C" {
 Vec get_target_position__11TCameraCtrlFv(void);
-s32 is_on_current_screen__11TCameraCtrlFv(void *, s32);
 void debug_printf_at(s32, const char *, ...);
 extern Ctl_8006C964 controller_input_state;
 
@@ -53,7 +53,7 @@ void TUnk_80488DA0::run_task() {
     s16 sx = controller_input_state.pad.sx;
     s16 sy = controller_input_state.pad.sy;
     f32 r;
-    if (is_on_current_screen__11TCameraCtrlFv(pad, 0x100) != 0) {
+    if (test_previous_buttons_packed(pad, 0x100) != 0) {
         debug_printf_at(0xC0014, "PERS = %d", (s32)(0.0054931640625 * ((Cam_8006C964 *)this)->x54 + 1.0));
         if (TWindowShortListCtrl__check_controller_button(pad, 0x20000) != 0) {
             ((Cam_8006C964 *)this)->x54 += 0xB6;
@@ -65,11 +65,11 @@ void TUnk_80488DA0::run_task() {
     ((void (*)(void *))get_target_position__11TCameraCtrlFv)(&v);
     VecCopy((Vec *)&target, (const Vec *)&v);
     this->set_target_pos(&target);
-    if (is_on_current_screen__11TCameraCtrlFv(pad, 0x200) != 0) {
-        if (is_on_current_screen__11TCameraCtrlFv(pad, 0x10) != 0) {
+    if (test_previous_buttons_packed(pad, 0x200) != 0) {
+        if (test_previous_buttons_packed(pad, 0x10) != 0) {
             ((Cam_8006C964 *)this)->dist -= (2.0f);
         }
-        if (is_on_current_screen__11TCameraCtrlFv(pad, 0x20) != 0) {
+        if (test_previous_buttons_packed(pad, 0x20) != 0) {
             ((Cam_8006C964 *)this)->dist += (2.0f);
         }
         if (((Cam_8006C964 *)this)->dist < 20.0f) {
@@ -79,7 +79,7 @@ void TUnk_80488DA0::run_task() {
             ((Cam_8006C964 *)this)->dist = 400.0f;
         }
     }
-    if (is_on_current_screen__11TCameraCtrlFv(pad, 0x400) != 0) {
+    if (test_previous_buttons_packed(pad, 0x400) != 0) {
         ((Cam_8006C964 *)this)->yaw += sx * 3;
         ((Cam_8006C964 *)this)->pitch += sy * 3;
     }

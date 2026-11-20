@@ -17,6 +17,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/ui/hud/TLoadingCur_801A6DE0.h"
 
 #pragma readonly_strings on
 
@@ -55,7 +56,6 @@ WindowDescriptor window_sound_balance_settings = {
 };
 
 extern "C" {
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 play_sound_effect(s32, s32, s32, s32);
 u32 calc_text_width();
 s32 get_field_20__17TWindowSubComCardFv();
@@ -109,8 +109,8 @@ void TWindowSoundBalance::sub_8027095C() {
     s16 gain;
     s16 range;
     s16 step;
-    if (is_flag_set__11TLoadingCurFv(input, 0xC0) != 0 ||
-        is_flag_set__11TLoadingCurFv(&controller_input_state.keyboard, 0xC0) != 0) {
+    if (test_previous_buttons_color(input, 0xC0) != 0 ||
+        test_previous_buttons_color(&controller_input_state.keyboard, 0xC0) != 0) {
         if (selection != 0) {
             gain = sound_effect_gain;
             range = 100;
@@ -119,12 +119,12 @@ void TWindowSoundBalance::sub_8027095C() {
             range = 250;
         }
         step = 0.025f * range;
-        if (is_flag_set__11TLoadingCurFv(input, 0x80) != 0 ||
-            is_flag_set__11TLoadingCurFv(&controller_input_state.keyboard, 0x80) != 0) {
+        if (test_previous_buttons_color(input, 0x80) != 0 ||
+            test_previous_buttons_color(&controller_input_state.keyboard, 0x80) != 0) {
             gain += step;
         }
-        if (is_flag_set__11TLoadingCurFv(input, 0x40) != 0 ||
-            is_flag_set__11TLoadingCurFv(&controller_input_state.keyboard, 0x40) != 0) {
+        if (test_previous_buttons_color(input, 0x40) != 0 ||
+            test_previous_buttons_color(&controller_input_state.keyboard, 0x40) != 0) {
             gain -= step;
         }
         if (gain > 0) gain = 0;
@@ -177,10 +177,10 @@ void TWindowSoundBalance::run_task() {
         handle_lr_input();
         sub_8027095C();
         input = (u8 *)&controller_input_state.controllers[0];
-        if ((TWindowShortListCtrl__check_controller_button(input, 4) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state.keyboard), 4) != 0)) {
+        if ((TWindowShortListCtrl__check_controller_button(input, 4) != 0) || ((s32)test_controller_flag_4c_color((ControllerInputContext *)(&controller_input_state.keyboard), 4) != 0)) {
             play_open_sound();
         }
-        if ((TWindowShortListCtrl__check_controller_button(input, 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state.keyboard), 2) != 0)) {
+        if ((TWindowShortListCtrl__check_controller_button(input, 2) != 0) || ((s32)test_controller_flag_4c_color((ControllerInputContext *)(&controller_input_state.keyboard), 2) != 0)) {
             handle_cancel();
         }
     }

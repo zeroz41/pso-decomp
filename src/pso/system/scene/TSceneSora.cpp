@@ -21,6 +21,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/object/ambient/TObjFish.h"
 
 
 struct Ent_80207478 { s32 f0; char *name; };

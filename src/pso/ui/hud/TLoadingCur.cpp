@@ -11,6 +11,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/ui/hud/TLoadingCur_801A6DE0.h"
 
 struct Stack_8001CAD4 {
     s32 sp8;
@@ -124,7 +125,6 @@ s32 __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__11TLoadingCur[];
 
 
-s32 is_flag_set__11TLoadingCurFv(void *, s32);
 s32 play_persistent_sound(int, void *, void *, int, int);
 extern Pad_8001CD90 controller_input_state;
 
@@ -210,16 +210,16 @@ void TLoadingCur::run_task() {
         x -= 1.0f;
     }
     p = controller_input_state.f160;
-    if (is_flag_set__11TLoadingCurFv(p, 0x10) != 0) {
+    if (test_previous_buttons_color(p, 0x10) != 0) {
         y += 1.0f;
     }
-    if (is_flag_set__11TLoadingCurFv(p, 0x20) != 0) {
+    if (test_previous_buttons_color(p, 0x20) != 0) {
         y -= 1.0f;
     }
-    if (is_flag_set__11TLoadingCurFv(p, 0x80) != 0) {
+    if (test_previous_buttons_color(p, 0x80) != 0) {
         x += 1.0f;
     }
-    if (is_flag_set__11TLoadingCurFv(p, 0x40) != 0) {
+    if (test_previous_buttons_color(p, 0x40) != 0) {
         x -= 1.0f;
     }
     self->f38 += 0.51f * x;

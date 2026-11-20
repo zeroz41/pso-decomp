@@ -28,7 +28,6 @@ struct VObj_18 : VBase_18 {
 #include "pso/system/NinjaTypes.h"
 
 extern "C" {
-s32 update_window_mode_from_progress__6TLobbyFPv(void *, void *);
 void align_menu_entry_positions(s32);
 void update_layout_height__21TWindowSubComCardListFf(f32);
 u8 *init_shop_judgment_window(void *p);
@@ -49,7 +48,6 @@ void *__ct__12TAdBackTxtGCFv(void *, void *);
 void __ct__7TObjectFP7TObject(void *);
 void *__ct__9TAdBackGCFv(void *, void *);
 void copy_vec2__28TWindowSubSymbolChatPartsSetFPv(void *);
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 
 #pragma readonly_strings on
 const char *TAdYesNoBaseGC__class_name = "TAdYesNoBaseGC";
@@ -57,7 +55,7 @@ const char *TAdYesNoBaseGC__class_name = "TAdYesNoBaseGC";
 s32 TAdYesNoBaseGC::sub_8032C0B4() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r31;
-    temp_r31 = update_window_mode_from_progress__6TLobbyFPv((u8 *)&this->unk_30, (u8 *)&this->unk_38);
+    temp_r31 = (s32)create_message_window_for_size((NJS_POINT2 *)&this->unk_30, (NJS_POINT2 *)&this->unk_38);
     ((TWindowMessage *)temp_r31)->append_line((int)((void *) (((VObj_18 *)(arg0))->m8())), (int)1);
     return temp_r31;
 }
@@ -106,7 +104,7 @@ void TAdYesNoBaseGC::vfunc_11() {
                 this->m_24 = 4;
                 break;
             }
-        } else if ((TWindowShortListCtrl__check_controller_button(controller_physical_port_bank + 0x20, 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state + 0x160, 2) != 0)) {
+        } else if ((TWindowShortListCtrl__check_controller_button(controller_physical_port_bank + 0x20, 2) != 0) || (test_controller_flag_4c_color(controller_input_state + 0x160, 2) != 0)) {
             this->m_1c = 2;
             this->m_24 = 4;
         }

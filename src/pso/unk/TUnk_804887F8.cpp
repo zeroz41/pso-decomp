@@ -7,6 +7,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/system/task/TObject.h"
+#include "pso/camera/TCameraCtrl_801A6E60.h"
 
 const Vec camera_ctrl_default_offset_vecs[2] = {
     {0.0f, 25.43f, 45.42f},
@@ -17,7 +18,6 @@ extern "C" {
 f32 vector_length(void *);
 extern u8 *camera_ctrl_instance;
 void normalize_vector(void *);
-s32 is_on_current_screen__11TCameraCtrlFv(void *, s32);
 s16 get_entity_id(u32);
 
 void TUnk_80488A28::set_target(u32 arg1) {
@@ -118,7 +118,7 @@ extern u8 controller_input_state[];
 
 void TUnk_804887F8::run_task() {
     m_38 = 0x15;
-    if (is_on_current_screen__11TCameraCtrlFv(controller_input_state + 0x20, 0x10000) != 0) {
+    if (test_previous_buttons_packed(controller_input_state + 0x20, 0x10000) != 0) {
         TUnk_80488E00::run_task();
     } else {
         update_target_follow();

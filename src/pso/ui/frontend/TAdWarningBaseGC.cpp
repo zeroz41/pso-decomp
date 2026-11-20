@@ -24,8 +24,6 @@ struct V_8032D214 : B_8032D214 {
 };
 
 extern "C" {
-s32 update_window_mode_from_progress__6TLobbyFPv(void *, void *);
-s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 void play_sound_effect(int, int, int, int);
 extern u8 controller_input_state[];
 extern u8 controller_physical_port_bank[];
@@ -45,7 +43,7 @@ void TAdWarningBaseGC::vfunc_9() {
 
 s32 TAdWarningBaseGC::sub_8032D214() {
     V_8032D214 *arg0 = (V_8032D214 *)this;
-    s32 r = update_window_mode_from_progress__6TLobbyFPv((void *)lbl_80477334, (void *)lbl_8047733C);
+    s32 r = (s32)create_message_window_for_size((NJS_POINT2 *)lbl_80477334, (NJS_POINT2 *)lbl_8047733C);
     ((TWindowMessage *)r)->append_line((int)(arg0->m5()), (int)3);
     return r;
 }
@@ -66,9 +64,9 @@ void TAdWarningBaseGC::vfunc_8() {
         break;
     case 2:
         if (TWindowShortListCtrl__check_controller_button(a = controller_physical_port_bank + 0x20, 4) != 0 ||
-            test_flag_4c__23TAdSinglePlyChrSelectGCFv(b = controller_input_state + 0x160, 4) != 0 ||
+            test_controller_flag_4c_color(b = controller_input_state + 0x160, 4) != 0 ||
             TWindowShortListCtrl__check_controller_button(a, 2) != 0 ||
-            test_flag_4c__23TAdSinglePlyChrSelectGCFv(b, 2) != 0) {
+            test_controller_flag_4c_color(b, 2) != 0) {
             *(s32 *)&this->m_1c = 3;
             *(s32 *)&this->m_24 = 4;
         }

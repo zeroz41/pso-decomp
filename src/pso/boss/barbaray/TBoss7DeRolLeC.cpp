@@ -644,7 +644,6 @@ extern s32 model_render_flags;
 
 void TObjPlayer__sub_802E80A0(void);
 
-int set_global_param__8TObjFishFl(void);
 
 typedef char RecoveredGlobal_802E80F4_lbl_8050BEC0_size[sizeof(RecoveredGlobal_802E80F4_lbl_8050BEC0) == 0x20 ? 1 : -1];
 
@@ -4561,7 +4560,7 @@ void TBoss7DeRolLeC::render() {
     }
 }
 
-void TObjPlayer::draw_effect() { get_bml_texlist((BmlResource *)lbl_805D6918, 0); set_global_param__8TObjFishFl(); }
+void TObjPlayer::draw_effect() { TObjFish::set_global_param((s32)get_bml_texlist((BmlResource *)lbl_805D6918, 0)); }
 
 void TObjPlayer__sub_802E80A0(void) { get_bml_texlist((BmlResource *)lbl_805D6918, 0); }
 
