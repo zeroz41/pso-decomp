@@ -2156,6 +2156,8 @@ TRK_MINNOW_DOLPHIN/nubinit.c
 pso/ui/window/TWindowPartyStatus.cpp
 gx/GXFrameBuf.c
 pso/unk/text_800F7DAC.cpp
+pso/ui/frontend/TAdTrialModemChkGC_8042E9FC.cpp
+pso/unk/text_8042EE4C.cpp
 pso/technique/TTecGiFoie.cpp
 pso/ui/window/TWindowSnapShot_802A5B2C.cpp
 pso/enemy/panarms/TObjEnePanarms.cpp
