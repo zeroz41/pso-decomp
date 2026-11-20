@@ -90,7 +90,6 @@ struct Equip_80275CB0 {
 
 extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
-void *create__14TWindowMessageFlPCfUll(void *, const void *, s32, s32);
 void *get_window_layout_position(s32);
 extern s32 __vt__13TUnk_804D1160[];
 extern const f32 lbl_8044F718[2] = {190.0f, 168.0f};
@@ -109,7 +108,7 @@ void *TWindowSubEquip__sub_80275CB0(void *arg0, void *arg1, s32 arg2) {
     self->custom = p;
     TWindowSubEquip__sub_80263AF8((u8 *)self->parent, 0);
     set_depth__11TWindowBaseFf(self->custom);
-    self->list = create__14TWindowMessageFlPCfUll(get_window_layout_position(0x11), lbl_8044F718, 1, self->x20);
+    self->list = TWindowMessage::create((saddr)get_window_layout_position(0x11), lbl_8044F718, 1, self->x20);
     TWindowSubEquip__sub_80263AF8((u8 *)self->parent, 2);
     set_depth__11TWindowBaseFf(self->list);
     call_if_split_screen((uaddr)self->list, self->x20);
