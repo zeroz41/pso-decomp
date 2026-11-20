@@ -1,4 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include <stdio.h>
+#include <stdlib.h>
 #include "pso/map/TSetEvtDestroy.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -151,7 +153,6 @@ extern s32 local_client_id;
 void clear_counter__6TLobbyFPv(void *a0);
 struct Lobby_801C484C;
 s32 calc_player_rankings__6TLobbyFPv(Lobby_801C484C *);
-int sprintf(char *, const char *, ...);
 
 }
 
@@ -193,7 +194,6 @@ extern "C" {
 s32 TObjPlayer__send_selected_spawn_position(s32, u16);
 extern u16 battle_mode_data_table[];
 extern s32 tl_05;
-s32 rand();
 void send_6x7D_set_battle_mode_data(void *);
 s32 obj_set_flag_20000();
 s32 TLobby__sub_801C417C();
@@ -426,7 +426,6 @@ extern s32 TLobby__designated_client_id;
 void update_duel_result__6TLobbyFPv(u8 *arg0);
 
 
-int sprintf(char *str, const char *format, ...);
 
 extern s32 battle_intro_value_table[];
 extern char battle_intro_message_buffer[];

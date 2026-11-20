@@ -1,4 +1,6 @@
 #include "types.h"
+#include <stdlib.h>
+#include <string.h>
 #include "pso/unk/TLobby_8006F278.h"
 #include "pso/unk/TLobby_80070A00.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -78,10 +80,8 @@ s32 is_id_out_of_range__6TLobbyFi(s32 arg0);
 s32 mix_seed_checked__6TLobbyFi(s32);
 u32 get_character_save_record(int);
 s32 TLobby__sub_8006F5B0(s32 arg0);
-s32 strncpy(void *, void *, int);
 LobbyNameStringBuffer lobby_name_string_buffer;
 s32 decode_slot__6TLobbyFUi(u32 id);
-s32 strncmp(void *, void *, int);
 void TLobby__sub_8006F48C(void);
 s32 calc_layout_hash__20TWindowSubStatusDispFv(int);
 s32 calc_entry_offset__20TWindowSubStatusDispFv(int);
@@ -259,7 +259,7 @@ s32 TLobby__sub_8006F6B0(s32 clear_time) {
 }
 void TLobby::set_name_string() {
     s32 arg0 = (s32)this;
-    strncpy((void *)&lobby_name_string_buffer.value, (void *)arg0, 0x1F);
+    strncpy((char *)&lobby_name_string_buffer.value, (const char *)arg0, 0x1F);
     *(s8 *)((s8 *)&lobby_name_string_buffer.value + 0x1F) = 0;
 }
 
@@ -366,7 +366,6 @@ s32 mix_seed__6TLobbyFUs(u16 arg0) {
     return (temp_r3 << 0x10) | (temp_r3 ^ arg0);
 }
 
-s32 rand();
 
 u16 TLobby__sub_8006FAE4(void) {
     f32 temp_f31;

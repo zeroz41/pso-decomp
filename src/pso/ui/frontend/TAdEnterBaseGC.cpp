@@ -1,6 +1,8 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
 #include "types.h"
+#include <stdio.h>
+#include <string.h>
 
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/system/task/TObject.h"
@@ -120,16 +122,13 @@ void __dt__19TAdPlyChrSelPlateGCFv(void *, int);
 
 void *__ct__19TAdPlyChrSelPlateGCFv(void *, s32, void *);
 
-void *memset(void *, int, u32);
 
-u32 strlen(const char *);
 
 void draw_window_frame__11TWindowBaseFPv();
 
 
 s32 update_window_mode_from_progress__6TLobbyFPv(const void *, const void *);
 
-int sprintf(char *, const char *, ...);
 
 void sscanf(int, const char *, ...);
 
@@ -153,7 +152,6 @@ u32 __nw__7TObjectFUl(int);
 
 extern s32 local_client_id;
 
-s32 strncpy(s32, s32, s32);
 }
 extern s32 tl_clipout;
 char serial_access_hex_string_buf[0x40];
@@ -284,10 +282,10 @@ void TAdEnterSerialAccessGC::store_serial_access_key(s32 arg0, s32 arg1, s32 arg
 
     instance = TAdSinglePlyChrSelectGC::get_instance();
     if (instance != 0) {
-        strncpy(instance + 0x1152C, arg0, 0xF);
-        strncpy(instance + 0x1153C, arg1, 0xF);
+        strncpy((char *)(instance + 0x1152C), (const char *)arg0, 0xF);
+        strncpy((char *)(instance + 0x1153C), (const char *)arg1, 0xF);
         if (TAdPsoPassSaveGC__sub_8032B584() != 0) {
-            strncpy(instance + 0x1154C, arg2, 0xF);
+            strncpy((char *)(instance + 0x1154C), (const char *)arg2, 0xF);
         }
     }
 }

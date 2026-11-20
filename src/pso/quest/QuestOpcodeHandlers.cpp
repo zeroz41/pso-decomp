@@ -1,4 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -113,9 +116,6 @@ namespace pf2_p0 { extern "C" { extern RecoveredGlobal_8000F7FC_lbl_80515F48 que
 namespace pf2_p0 { extern "C" { extern RecoveredGlobal_8000F7FC_lbl_80515F48 quest_player_name_buffer; } }
 #define quest_player_name_buffer pf2_p0::quest_player_name_buffer
 void append_player_name(void);
-extern "C" {
-int sprintf(char *, const char *, ...);
-}
 namespace pf2_p0 { extern "C" { s32 is_message_source_exhausted(); } }
 #define is_message_source_exhausted pf2_p0::is_message_source_exhausted
 namespace pf2_p0 { extern "C" { s8 read_byte_advance__6TLobbyFv(); } }
@@ -128,8 +128,6 @@ s32 expand_message_substitutions(s32 arg0, s32 arg1);
 }
 namespace pf2_p0 { extern "C" { s32 parse_r_index(const char *); } }
 #define parse_r_index pf2_p0::parse_r_index
-namespace pf2_p0 { extern "C" { int strcmp(const char *, const char *); } }
-#define strcmp pf2_p0::strcmp
 namespace pf2_p0 { extern "C" { char *get_unit_list__6TLobbyFv(); } }
 #define get_unit_list__6TLobbyFv pf2_p0::get_unit_list__6TLobbyFv
 namespace pf2_p0 { extern "C" { char *TLobby__sub_80070ACC(); } }
@@ -347,7 +345,6 @@ s32 parse_f_index(const char *a0) {
 #undef get_unit_list__6TLobbyFv
 #undef parse_r_index
 #undef read_byte_advance__6TLobbyFv
-#undef strcmp
 #undef quest_player_name_buffer
 #undef quest_player_class_name_buffer
 
@@ -362,8 +359,6 @@ char *TLobby__sub_800713C8();
 u8 is_message_source_exhausted(void);
 s32 parse_r_index(const char *arg0);
 u8 read_byte_advance__6TLobbyFv(void);
-char *strcpy(char *, const char *);
-u32 strlen(const char *);
 
 s32 parse_r_index(const char *arg0) {
     s32 sp8;
@@ -480,7 +475,6 @@ void TLobby__sub_80141038(u8 *arg0, s32 arg1, s32 arg2);
 }
 extern u8 lbl_80515BA0[];
 extern "C" {
-void *memcpy(void *, const void *, u32);
 void begin_message_substitution(u8 *a0, char *a1);
 
 void begin_message_substitution(u8 *a0, char *a1) { TLobby__quest_script_read_ptr = a0; quest_string_append_cursor = a1; }
@@ -1083,8 +1077,6 @@ struct Obj_801F09EC {
     u32 f30;
 };
 
-void * memcpy(void *, const void *, u32);
-s32 memset(void *, int, int);
 void TKeyBoardControl__sub_8000F950(void);
 void mark_area_change_pending();
 void VecCopy__FP3VecPC3Vec(Vec *, const void *);
@@ -1337,10 +1329,6 @@ void TObjPlayer__sub_80354D14(s32 arg0);
 void TObjPlayer__sub_80354DAC(s32 arg0);
 void TObjPlayer__sub_80354DF4(s32 arg0);
 void * open_message_scroll_window__6TLobbyFlll(NJS_POINT2 *, NJS_POINT2 *, void *);
-s32 rand(void);
-int strncmp(const char *, const char *, u32);
-int strcmp(const char *, const char *);
-s32 strncpy(void *, int, int);
 u32 TLobby__sub_803DF1CC(void);
 }
 
@@ -2933,7 +2921,7 @@ void qst_op_send_mail(void) {
     if (card != NULL) {
         card = __ct__13TUnk_804CC048FP7TObjectPvPv(card, 0, 0, 0);
     }
-    strncpy(buf, (int)src, 0x3FF);
+    strncpy(buf, (const char *)src, 0x3FF);
     ((TLobby *)buf)->trim_whitespace();
     ((TLobby *)card)->tokenize_args(buf);
     if (*(s32 *)((u8 *)card + 0x109C) > 2) {
@@ -2942,9 +2930,9 @@ void qst_op_send_mail(void) {
         }
     } else {
         tag.id = qst_registers[i];
-        strncpy(tag.name, (int)((u8 *)card + 0x1C), 0xF);
+        strncpy(tag.name, (const char *)((u8 *)card + 0x1C), 0xF);
         tag.name[0xF] = 0;
-        strncpy(tag.text, (int)((u8 *)card + 0x3C), 0x1FF);
+        strncpy(tag.text, (const char *)((u8 *)card + 0x3C), 0x1FF);
         tag.text[0x1FF] = 0;
         try_close__6TLobbyFPv(&tag);
         if (card != NULL) {
@@ -3078,7 +3066,7 @@ void qst_op_get_pl_job(s32 arg0) {
     u8 *player;
     player = (u8 *)(((u8 *)((u32 (*)(int, int))get_player_by_client_id)((int)qst_registers[(u8)arg0], (int)qst_registers)));
     if (player != NULL) {
-        strncpy((void *) (&quest_player_class_name_buffer.value), (int) (TLobby::get_class_type_name((int) (((TObjPlayer *)player)->class_flags))), 0xF);
+        strncpy((char *)&quest_player_class_name_buffer.value, (const char *)(TLobby::get_class_type_name((int) (((TObjPlayer *)player)->class_flags))), 0xF);
         *(s8 *)((s8 *)(&quest_player_class_name_buffer.value) + 0xF) = 0;
         qst_registers[(u8)arg0] = 1;
         return;
@@ -3090,7 +3078,7 @@ void qst_op_get_pl_name(s32 arg0) {
     u8 *player;
     player = (u8 *)(((u8 *)((u32 (*)(int, int))get_player_by_client_id)((int)qst_registers[(u8)arg0], (int)qst_registers)));
     if (player != NULL) {
-        strncpy(((void *)(&quest_player_name_buffer.value)), (int)((TObjPlayer *)player)->get_name(), 0xF);
+        strncpy((char *)&quest_player_name_buffer.value, (const char *)((TObjPlayer *)player)->get_name(), 0xF);
         *(s8 *)((s8 *)(&quest_player_name_buffer.value) + 0xF) = 0;
         qst_registers[(u8)arg0] = 1;
         return;
@@ -3244,7 +3232,7 @@ void qst_op_set_cmode_rank_override(void) {
     if (card != NULL) {
         card = ((Card_801EBD40 *)__ct__13TUnk_804CC048FP7TObjectPvPv(card, 0, 0, 0));
     }
-    strncpy(buf, (int)src, 0x1FF);
+    strncpy(buf, (const char *)src, 0x1FF);
     ((TLobby *)buf)->trim_whitespace();
     ((TLobby *)card)->tokenize_args((char *)(buf));
     if (*(s32 *)((u8 *)card + 0x109C) == 2) {
@@ -5957,8 +5945,6 @@ namespace pf2_p12 { extern "C" { s32 expand_message_substitutions(s32, s32, s32)
 #define expand_message_substitutions pf2_p12::expand_message_substitutions
 s32 bswap_32__FPUl(s32 *, s32);
 }
-namespace pf2_p12 { extern "C" { s32 memcpy(s32 *, s32, s32); } }
-#define memcpy pf2_p12::memcpy
 namespace pf2_p12 { extern "C" { s32 strlen(s32, s32); } }
 #define strlen pf2_p12::strlen
 
@@ -5975,7 +5961,7 @@ s32 stream_read_be32(void) {
     s32 sp8;
     s32 temp_r4;
 
-    memcpy(&sp8, (s32)(qst_code + qst_pc), 4);
+    memcpy(&sp8, qst_code + qst_pc, 4);
     temp_r4 = qst_pc;
     qst_pc = temp_r4 + 4;
     bswap_32__FPUl(&sp8, temp_r4);
@@ -5988,14 +5974,12 @@ s32 stream_read_be32(void) {
 
 s32 bswap_16__FPUs(u16 *, s32);
 }
-namespace pf2_p13 { extern "C" { s32 memcpy(u16 *, s32, s32); } }
-#define memcpy pf2_p13::memcpy
 
 u16 read_be_u16(void) {
     u16 sp8;
     s32 temp_r4;
 
-    memcpy(&sp8, (s32)(qst_code + qst_pc), 2);
+    memcpy(&sp8, qst_code + qst_pc, 2);
     temp_r4 = qst_pc;
     qst_pc = temp_r4 + 2;
     bswap_16__FPUs(&sp8, temp_r4);

@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "pso/map/FloorResourceCallbacks.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/unk/text_8013F810.h"
@@ -46,7 +47,6 @@ extern "C" {
 void lzss_insert_ring_node(Lz_8013FDC4 *lz, s32 r);
 void lzss_remove_ring_node(Lz_8013FCB0 *t, s32 p);
 void bswap_32__FPUl(u32 *);
-int sprintf(char *, const char *, ...);
 s32 TLobby__sub_8013F810(TLobby *lz, u32 *data, s32 len, u8 *out);
 
 #pragma push

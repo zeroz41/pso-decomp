@@ -1,5 +1,6 @@
 
 #include <stddef.h>
+#include <stdlib.h>
 #include "pso/render/TUnk_80494938.h"
 #include "pso/math/FloatRounding.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -117,7 +118,6 @@ void matrix_mult_vec(void *, Vec *, Vec *);
 s32 post_translate_matrix(void *);
 s16 get_entity_id(void *);
 s32 set_part_position__9TObjEneDDFPvPvi(void *, int, int);
-s32 rand(f32);
 
 // One entry collect_enemy_target_candidates fills: an entity id and its horizontal squared distance
 // (TObjEneDD.cpp calls the same record Ent_800BB484).
@@ -269,7 +269,7 @@ void TObjEneMe1Gee::init_state() {
     this->fade.reset_color();
     this->m_3e8 = 45.0f;
     this->m_3ec = 15.0f;
-    this->m_3f0 = ((5.0f * (3.0517578e-05f * (f32) rand(45.0f))) + 15.0f);
+    this->m_3f0 = ((5.0f * (3.0517578e-05f * (f32) rand())) + 15.0f);
     this->m_3f4 = this->m_3ec;
     this->m_3f8 = this->position.y + this->m_3f4;
     this->m_404 = 0;

@@ -14,6 +14,7 @@
 #include "pso/quest/TQuestThread.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include <string.h>
 
 static const f32 TAdEnterPPPPassGC__selection_positions[4][2] = {{155.0f, 231.0f}, {155.0f, 251.0f}, {87.0f, 231.0f}, {87.0f, 251.0f}};
 const char *TAdEnterPPPPassGC__name = "TAdEnterPPPPassGC";
@@ -23,8 +24,6 @@ typedef void (TAdEnterPPPPassGC::*Pmf_80339378)();
 extern "C" {
 extern u8 *password_entry_keyboard_control;
 extern s32 password_entry_dispatch_state;
-void strncpy(s32, s32, s32);
-s32 memset(void *, int, int);
 extern TAdEnterBaseGC::Position password_screen_status_line_position[];
 s32 create_default_callback__22TAdEnterSerialAccessGCFv(void *);
 void request_main_phase(int);
@@ -37,7 +36,6 @@ void mem_free(void *);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 void play_sound_effect(int, int, int, int);
 s32 forward_input__22TAdEnterSerialAccessGCFPv(void *, int, char *);
-s32 strlen(const char *);
 extern u8 controller_input_state[];
 extern u8 controller_physical_port_bank[];
 int request_transition__21TAdMultiChgGameModeGCFv(void*);
@@ -176,7 +174,7 @@ void set_password__17TAdEnterPPPPassGCFi(s32 arg0) {
         return;
     }
     memset(ppp_password_buffer, 0, 0x20);
-    strncpy((s32) ppp_password_buffer, arg0, 0x1F);
+    strncpy((char *)ppp_password_buffer, (const char *)arg0, 0x1F);
 }
 
 TAdEnterPPPPassGC::~TAdEnterPPPPassGC() {}

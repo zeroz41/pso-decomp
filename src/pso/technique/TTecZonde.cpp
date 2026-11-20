@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include <stdlib.h>
 #include "pso/player/TObjPlayer.h"
 #include "pso/technique/TTecAnti.h"
 #include "pso/technique/TTecZonde.h"
@@ -148,7 +149,6 @@ void *find_entity_by_id(u16 id);
 void update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 s32 play_sound_effect(s32, void *, s32, s32);
 u8 *construct_helper_effect__11TTecGiZondeFPvPvPvPvi(u8 *arg0, u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4);
-s32 rand();
 f32 vector_length(void *);
 void normalize_vector(void *);
 extern u8 *tl_07;

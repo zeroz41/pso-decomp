@@ -4,6 +4,7 @@
 #include "pso/item/TItemData.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include <string.h>
 
 struct SRock_80224544_8022448C;
 
@@ -60,7 +61,6 @@ typedef struct Hdr_8022525C
 
 extern unsigned char lbl_80513F70[];
 extern "C" {
-s32 strncpy(void *, void *, int);
 extern s32 lbl_805D6270;
 extern int lobby_short_mail_entry_count;
 void send_simple_mail__9TProtocolFR12TChatMessage(void *, void *);
@@ -79,10 +79,10 @@ void TLobby::send_simple_mail(s32 arg0, void *arg1) {
     if (TLobby__protocol_instance != 0) {
         mode = TWindowSubComCard::get_keyboard_mode();
         __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&t.b[4], TLobby__protocol_instance + 0x1900);
-        strncpy(&t.b[0xC], (void *)(((void *)((TLobby *)mode)->get_com_card_list())), 0x17);
+        strncpy((char *)&t.b[0xC], (const char *)(((TLobby *)mode)->get_com_card_list()), 0x17);
         *(s32 *)&t.b[0x1C] = arg0;
         t.b[0x23] = 0;
-        strncpy(&t.b[0x20], arg1, 0xAB);
+        strncpy((char *)&t.b[0x20], (const char *)arg1, 0xAB);
         t.b[0xCB] = 0;
         send_simple_mail__9TProtocolFR12TChatMessage(TLobby__protocol_instance, &t);
     }
@@ -211,9 +211,9 @@ void TLobby::fill_list_entry(u8 *arg1) {
     lbl_805D6270 = temp_r7 + 1;
     *(s32 *)((s8 *)((u8 *)this) + 4) = temp_r7;
     *(s8 *)((s8 *)((u8 *)this) + 0xCC) = 0xB;
-    strncpy(((u8 *)this) + 8, arg1 + 0xC, 0x17);
+    strncpy((char *)(((u8 *)this) + 8), (const char *)(arg1 + 0xC), 0x17);
     *(s8 *)((s8 *)((u8 *)this) + 0x1F) = 0;
-    strncpy(((u8 *)this) + 0x20, arg1 + 0x20, 0xAB);
+    strncpy((char *)(((u8 *)this) + 0x20), (const char *)(arg1 + 0x20), 0xAB);
     *(s8 *)((s8 *)((u8 *)this) + 0xCB) = 0;
 }
 

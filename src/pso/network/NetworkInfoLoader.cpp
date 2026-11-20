@@ -1,4 +1,5 @@
 #include "types.h"
+#include <string.h>
 #include "pso/ui/frontend/TAdPlayerLoadGC_803F339C.h"
 
 #pragma scheduling off
@@ -55,9 +56,6 @@ extern "C" {
 
 s32 CARDGetSerialNo(s32 chan, u64 *serialNo);
 s32 CARDGetUniqueCode(s32 chan, u64 *code);
-void *memset(void *, int, u32);
-void *memcpy(void *, const void *, u32);
-char *strcpy(char *dest, const char *src);
 extern char lbl_804FCEA4[];
 extern char lbl_804FCEB4[];
 extern char lbl_804FCEC4[];

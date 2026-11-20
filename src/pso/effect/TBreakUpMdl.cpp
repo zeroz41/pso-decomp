@@ -5,6 +5,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/vector.h"
 #include "types.h"
+#include <stdlib.h>
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
@@ -114,7 +115,6 @@ void alloc_breakup_piece_records(Brk_80096EBC *arg0, void *arg1);
 extern u32 saved_model_render_flags;
 extern u32 model_render_flags;
 void __ct__7TObjectFP7TObject(void *, void *);
-s32 rand(void);
 void rotate_vector_by_matrix(s32, void *, void *);
 void rotate_matrix_y(s32, s32);
 extern s32 __vt__11TBreakUpMdl[];

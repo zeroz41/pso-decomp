@@ -16,6 +16,7 @@
 #include "pso/ui/city/TShopArmorListWindow.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/city/TShopWindowBase.h"
+#include <string.h>
 
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowMenu.h"
@@ -73,7 +74,6 @@ extern "C" {
 u32 get_entity_id(s32);
 u8 *create_yes_no_window(s32 position, u16 client, u32 arg2, u32 arg3);
 s32 get_window_layout_position(s32);
-void memset(void *, int, int);
 s32 get_item_record__23TShopJudgmentItemWindowFPv(s32, s32, s32);
 s32 store_item_in_bank(u8 *item, s32 arg1, s32 slot);
 void copy_bank_to_card_window(s32 slot);

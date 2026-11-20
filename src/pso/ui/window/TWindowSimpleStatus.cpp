@@ -15,6 +15,8 @@
 #include "pso/map/FloorArea.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8026F6DC.h"
 #include "pso/ui/window/TWindowDD.h"
+#include <stdlib.h>
+#include <string.h>
 
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/task/TObject.h"
@@ -153,8 +155,6 @@ void set_sprite_uv_from_pixels(u8 *arg0, f32 farg0, f32 farg1);
 extern "C" {
 void update_lockon_window(u8 *arg0);
 s32 update_photon_blast_player_marker(s32 arg0, s32 arg1);
-s32 rand(void);
-s32 strcmp(s32, s32);
 void begin_screen_draw(s32 arg0);
 s32 draw_textured_quad_at_depth(Rect_80270394 *, f32);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
@@ -413,7 +413,7 @@ void TWindowLockOn::update_for_player_index(s32 arg1) {
         return;
     }
     ((TWindowSubStatusDisp *)((u8 *)this))->clear_visible_flag();
-    if ((((TWindowSubComCard *)((u8 *)this))->get_field_20() == 0U) || (strcmp(((TWindowSubComCard *)((u8 *)this))->get_field_20(), temp_r31) != 0)) {
+    if ((((TWindowSubComCard *)((u8 *)this))->get_field_20() == 0U) || (strcmp((const char *)(((TWindowSubComCard *)((u8 *)this))->get_field_20()), (const char *)temp_r31) != 0)) {
         set_text_entry_string(((u8 *)this), temp_r31, 0x20);
     }
     if (temp_r30->m31() != 0) {

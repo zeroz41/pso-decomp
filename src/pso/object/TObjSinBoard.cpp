@@ -1,4 +1,5 @@
 #include "types.h"
+#include <string.h>
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/map/FloorArea.h"
@@ -34,7 +35,6 @@ extern "C" {
 s32 TAdPlayerLoadGC__sub_801E1538(Hdr_80197E64 *, void *);
 s32 poll_memcard_result(s32);
 s32 get_card_file_info__15TAdPlayerLoadGCFiPvPv(s32, const char *, Stat_80197E64 *);
-void memset(void *, int, int);
 void set_texture_name(void *, void *, int, int);
 }
 

@@ -4,13 +4,13 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowHelpItem.h"
+#include <string.h>
 
 extern "C" {
 s32 *get_shared_text_buffer(void);
 void text_builder_append(u8 *str);
 u8 *get_card_data_ptr__17TWindowSubComCardFv(s32);
 void *TWindowSubComCard__sub_8027523C(void *p);
-s32 strcmp(void *, int);
 u8 *init_heading_entry__20TWindowSubStatusDispFPvPvici(u8 *arg0, u8 *arg1, s32 arg2, s8 arg3, s32 arg4);
 extern const f32 lbl_8044FCF0[2] = { 0.0f, -13.0f };
 }
@@ -96,7 +96,7 @@ void TWindowSubStatusDisp::fill_card_text_entries(s32 arg1) {
         ((TWindowHelpItem *)temp_r27)->set_flag0_bit2();
         ((TWindowHelpItem *)temp_r28)->set_flag0_bit2();
     }
-    if (strcmp((void *) (((TWindowSubComCard *)arg1)->get_sub_obj()), (int)((u8 *)(((TWindowSubStatusDisp *)arg1)->get_sub_disp_ptr()))) != 0) {
+    if (strcmp((const char *)(((TWindowSubComCard *)arg1)->get_sub_obj()), (const char *)(((TWindowSubStatusDisp *)arg1)->get_sub_disp_ptr())) != 0) {
         text_builder_reset();
         text_builder_append((u8 *)(((TWindowSubComCard *)arg1)->get_sub_obj()));
         text_builder_append((u8 *)(TWindowSubStatusDisp::get_message_10(0x45)));

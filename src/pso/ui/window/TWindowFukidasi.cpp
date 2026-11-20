@@ -19,6 +19,8 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/math/AngleLookup.h"
+#include <stdlib.h>
+#include <string.h>
 
 struct Fuki_80250A24 {
     u8 pad0[0x38];
@@ -39,7 +41,6 @@ struct Fuki_802506E8 {
 };
 extern "C" {
 s32 clamp_position__13TUnk_804CF0B8FPvf(void *arg0, void *arg1, f32 farg0);
-int rand(void);
 f32 xyz_distance(void *, void *);
 s32 rest_balloon__15TWindowFukidasiFv(Fuki_80250A24 *b, f32 *rect, f32 *arg2);
 s32 try_place_bubble__15TWindowFukidasiFPvPvPv(Fuki_802506E8 *b, f32 *rect, f32 *o);
@@ -213,8 +214,6 @@ s32 measure_message_text_width(int, f32);
 
 void set_text_entry_string(u8 *arg0, u32 str, s32 arg2);
 extern "C" {
-s32 strcmp(s32, s32);
-s32 strncpy(s32, s32, s32);
 f32 vec3_dot(void *, void *);
 void project_world_to_screen(s32, f32 *, f32 *);
 void rotate_vector_by_matrix(s32, void *, void *);
@@ -631,7 +630,7 @@ void TUnk_804CF0B8::sub_80251DF0(s16 arg1, s32 str, s16 arg3, f32 farg0) {
     if (str != 0) {
         temp_r3 = TWindowKeyBoardSoft::strnlen((s8 *)str, (u32)0x18);
         *(s32 *)((s8 *)this + 0x78) = (s32)mem_alloc(temp_r3 + 1);
-        strncpy(*(s32 *)((s8 *)this + 0x78), str, temp_r3 + 1);
+        strncpy((char *)(*(s32 *)((s8 *)this + 0x78)), (const char *)str, (u32)temp_r3 + 1);
     } else {
         *(s32 *)((s8 *)this + 0x78) = 0;
     }
@@ -1337,7 +1336,7 @@ s32 TWindowFukidasi::check_card_match_enabled(s32 arg1) {
         return 0;
     }
     get_array_entry__11TWindowBaseFi(this, 0);
-    return (u32) __cntlzw(strcmp(get_field_20__17TWindowSubComCardFv(), arg1)) >> 5;
+    return (u32) __cntlzw(strcmp((const char *)get_field_20__17TWindowSubComCardFv(), (const char *)arg1)) >> 5;
 }
 
 #pragma push

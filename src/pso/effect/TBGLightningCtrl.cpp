@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include <stdlib.h>
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
 #include "pso/effect/TBGLightningCtrl.h"
@@ -53,7 +54,6 @@ s32 __ct__7TObjectFP7TObject(u8 *, void *);
 void fn_802A9DF4(Obj_802A9DF4 *self, Vec *dir);
 void fn_802A9F48(Obj_802A9F48 *self, Vec *dir);
 u32 __cvt_fp2unsigned(f32);
-s32 rand();
 s32 release_texture_list(void*);
 void emit_particle_strip_vertices(void *, int);
 

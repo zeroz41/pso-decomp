@@ -9,6 +9,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/charcreate/TChCrLoadAfs.h"
 #include "pso/unk/TLobby.h"
+#include <string.h>
 
 int TChCrLoadAfs::is_unloaded() { return *(u32*)((char*)this + 0x4a8) == 0; }
 
@@ -71,7 +72,6 @@ extern "C" { extern const char TChCrLoadAfsTextureReq__class_name_string[23] = "
 
 extern "C" {
 f32 TLobby__sub_8028C50C(f32);
-s32 strcmp(const char *, const char *);
 void set_texture_name(GinjaTextureEntry *, void *, s32, s32);
 s32 load_texture_list(GinjaTextureList *);
 }

@@ -12,6 +12,7 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
+#include <string.h>
 
 extern "C" {
 f32 rotate_matrix_by_node_angles(void *, void *);
@@ -23,8 +24,6 @@ void subtractive_rng_seed(void *, s32);
 void copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(void *, void *);
 extern u8 chr_select_rng_state[];
 extern s32 chr_select_serial_seeds[];
-char *strncpy(char *, const char *, u32);
-void *memcpy(void *, const void *, u32);
 extern char memory_card_character_dir_name[];
 extern s32 lbl_805D49B4;
 void poll_load_status__15TAdPlayerLoadGCFl(s32, void *);

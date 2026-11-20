@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "types.h"
@@ -68,7 +69,6 @@ char * get_seq_phase__6TLobbyFPv(int);
 void lobby_debug_printf_stub(const char *fmt, ...);
 s32 get_player_by_client_id(void *);
 u8 * create_player_object(s32, s32, void *);
-int sprintf(char *, const char *, ...);
 s32 __dt__18TPlyJoinLobbyEntryFv(s32 arg0, s16 arg1);
 void TLobby__sub_8013AA64(void *, void *);
 void __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void *, void *);
@@ -1299,7 +1299,6 @@ extern s32 TLobby__data_805D5594;
 
 void show_dialog_value_line(s32 arg0);
 s32 get_seq_phase__6TLobbyFPv(s32);
-int sprintf(char *, const char *, ...);
 extern char lbl_80509D3C[];
 extern char lobby_join_message_buffer[];
 extern void *TLobby__protocol_instance;

@@ -1,3 +1,4 @@
+#include <string.h>
 #include "pso/item/TItemTexLoad.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/player/TObjPlayer_8023E480.h"
@@ -12,7 +13,6 @@ u32 adxf_open_afs__6TLobbyFii(int, int);
 void *lookup_item_pmt_record(u8 *item);
 s32 adxf_get_stat(s32);
 void TObjPlayer__sub_803DD5E8(void*, void*, void*, int);
-char* strncpy(char*, const char*, u32);
 void TLobby__sub_801E3E9C(s32, const char*, void*, s32);
 extern const char item_kt_archive_filename[] = "ItemKT.afs";
 extern const char TItemTexLoad_class_name[] = "TItemTexLoad";

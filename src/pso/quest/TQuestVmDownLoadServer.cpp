@@ -1,4 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include <stdio.h>
+#include <string.h>
 #include "pso/system/TMCFormatSequence.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
@@ -142,13 +144,9 @@ struct Src_801F718C {
 
 struct QVm_801F7890;
 struct QVm_801F6D24;extern "C" {
-void *memset(void *, int, u32);
-int sprintf(char *, const char *, ...);
 void subtractive_rng_seed(SubtractiveRng *, u32);
 void TAdPlayerLoadGC__sub_801E14E4(void *);
 void TAdPlayerLoadGC__sub_801E14E8(u8 *arg0, s32 arg1);
-char *strncpy(char *, const char *, u32);
-void *memcpy(void *, const void *, u32);
 }
 s32 *get_quest_download_file_header(void);
 extern char TQuestVmDownLoadServer__data_804C8690[];
@@ -189,9 +187,6 @@ struct Src_801F87CC {
     s32 f34;
     u8 *f38;
 };
-extern "C" {
-int strncmp(const char *, const char *, u32);
-}
 
 struct Pos_801F8A40 { f32 a, b; };
 extern "C" {

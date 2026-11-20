@@ -1,3 +1,4 @@
+#include <string.h>
 #include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/system/scene/TScene.h"
@@ -17,11 +18,8 @@ void VIWaitForRetrace(void);
 void VIFlush(void);
 void VISetBlack(s32);
 void GXDrawDone(void);
-char *strcpy(char *, const char *);
 s32 fn_8042EAD4(u8 *arg0, u32 arg1);
 void fn_8042EBA4(DolHeader *, s32);
-void *memset(void *, s32, u32);
-u32 strlen(const char *);
 extern s32 resource_decompress_buffer;
 }
 // The switcher.dol pages: the modem check (TAdTrialModemChkGC__sub_8007FA24) and the dial screen

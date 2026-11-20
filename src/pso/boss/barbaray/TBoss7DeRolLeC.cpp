@@ -9,6 +9,7 @@
 #include "pso/system/NinjaTypes.h"
 
 #include "types.h"
+#include <string.h>
 
 #include "pso/camera/CameraPlayback.h"
 
@@ -541,7 +542,6 @@ typedef struct RecoveredFields_802E7F30_temp_r3_2 RecoveredFields_802E7F30_temp_
 
 typedef struct RecoveredFields_802E7F30_var_r3 RecoveredFields_802E7F30_var_r3;
 
-void *memset(void *, int, unsigned long);
 
 u16 get_entity_id(void *);
 

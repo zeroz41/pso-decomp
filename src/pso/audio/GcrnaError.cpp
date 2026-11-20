@@ -1,8 +1,7 @@
+#include <string.h>
 #include "pso/audio/GcrnaError.h"
 
 extern "C" {
-char* strncpy(char* destination, const char* source, unsigned long count);
-void* memset(void* destination, int value, unsigned long count);
 
 void gcrna_report_error(const char* message) {
     strncpy(gcrna_error_text, message, 255);

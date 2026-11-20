@@ -17,6 +17,7 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include <string.h>
 
 #pragma readonly_strings on
 
@@ -71,7 +72,6 @@ extern "C" {
 s32 get_window_layout_position(int);
 s32 construct_type1_heading__20TWindowSubStatusDispFll(int, int, int);
 s32 get_game_play_mode();
-s32 strncpy(int, int, void *);
 const char *TWindowSubAreaMapDisp__name = "TWindowSubAreaMapDisp";
 extern s32 local_client_id;
 extern s32 lbl_805D63F0;
@@ -204,7 +204,7 @@ TWindowSubAreaMapDisp::TWindowSubAreaMapDisp() : TWindowBase((u8 *)&TWindowSubAr
     }
     temp_r3 = measure_string_len__20TWindowSubStatusDispFv((int)var_r30);
     this->m_74 = (s32)mem_alloc((temp_r3 + 1));
-    strncpy((int)this->m_74, (int)var_r30, (void *)(temp_r3 + 1));
+    strncpy((char *)this->m_74, (const char *)var_r30, (u32)temp_r3 + 1);
     temp_r3_2 = (int)::operator new(0x24);
     var_r0 = temp_r3_2;
     if (var_r0 != 0) {

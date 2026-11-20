@@ -17,6 +17,7 @@
 #include "pso/unk/TUnk_8048E778.h"
 
 #include "types.h"
+#include <stdlib.h>
 
 #include "pso/effect/particle/TParticleCtrl_80327D30.h"
 #include "pso/player/TObjPlayer_80083594.h"
@@ -135,7 +136,6 @@ struct Part_800890F4 {
 
 extern "C" {
 f32 vec_squared_length(u8 *arg0);
-s32 rand(void);
 s32 rotate_matrix_y(s32, s32);
 void project_world_to_screen(int, void *, void *);
 s32 push_matrix(f32);

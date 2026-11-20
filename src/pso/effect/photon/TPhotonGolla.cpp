@@ -4,6 +4,7 @@
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/effect/photon/PhotonBlastSummon.h"
 #include "types.h"
+#include <stdlib.h>
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/player/TObjPlayer_801AB608.h"
@@ -131,7 +132,6 @@ extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
 u8 *__ct__18TPhotonConcentrateFPUcll(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3);
 u32 __cvt_fp2unsigned(f32);
-int rand(void);
 void vec3_add_to(void *, void *);
 void rotate_vector_by_matrix(int, void *, void *);
 void subtract_vector(void *, void *);

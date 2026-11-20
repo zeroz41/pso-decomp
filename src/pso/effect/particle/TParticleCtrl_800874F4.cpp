@@ -3,6 +3,8 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/effect/particle/ParticleRadial.h"
 #include "types.h"
+#include <stdio.h>
+#include <string.h>
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
@@ -196,9 +198,6 @@ void *load_resource_from_descriptor(void *, int, void *, int, int, int);
 }
 u8 *load_gvm_texture_file(s32 arg0);
 extern "C" {
-int sprintf(char *, const char *, ...);
-char *strcpy(char *, const char *);
-void *memset(void *, int, u32);
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
 extern u8 *camera_ctrl_instance;
 void VecCopy__FP3VecPC3Vec(void *, const void *);

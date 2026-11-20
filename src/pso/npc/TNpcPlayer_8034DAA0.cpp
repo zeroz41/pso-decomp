@@ -1,4 +1,6 @@
 #include "types.h"
+#include <stdio.h>
+#include <string.h>
 #include "pso/npc/TNpcPlayer_8034DAA0.h"
 #include "pso/unk/text_8034DAA0.h"
 #include "pso/npc/TNpcPlayer_8034DC20.h"
@@ -238,9 +240,6 @@ s32 get_entity_id(s32);
 void send_6x24_teleport_player(u16 slot, void *pos, s32 heading);
 s32 end_camera_pan__10TObjPlayerFv();
 void set_npc_control_flag__10TNpcPlayerFPvs(void* p, s16 v);
-int sprintf(char *, const char *, ...);
-char *strcpy(char *, const char *);
-u32 strlen(const char *);
 f32 atan2_float(f32, f32);
 void TNpcPlayer__ct(void *, u16, u16, s16, s32, void *);
 s32 load_npc_player_template(s16);

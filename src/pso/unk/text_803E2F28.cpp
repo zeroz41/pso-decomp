@@ -1,4 +1,5 @@
 #include "types.h"
+#include <string.h>
 #include "pso/render/ChunkVertexJob.h"
 #include "pso/render/ChunkPolygonList.h"
 #ifndef __MWERKS__
@@ -110,7 +111,6 @@ struct ChunkModel_803E44D4 { u32 *vertices; s16 *polygons; };
 struct ChunkBuffer_803E44D4 { void *vertices; s32 bytes; };
 struct ChunkRecording_803E44D4 { ChunkBuffer_803E44D4 buffers[32]; s32 index; };
 void OSReport(const char*, ...);
-void* memmove(void*, const void*, unsigned long);
 }
 char lbl_804FC810[19] = "CHNK MEMORY ASSERT";
 extern u32 lbl_805D77E4;

@@ -1,4 +1,5 @@
 #include "types.h"
+#include <string.h>
 #include "pso/player/TPlySmth.h"
 #include "pso/network/TRecvPsoRegistConnect.h"
 #include "pso/unk/TLobby_801DA7DC.h"
@@ -101,11 +102,8 @@ struct Pkt_801DAA70 {
 extern "C" {
 void handle_cmd_C5__9TProtocolFR6packet(u8 *arg0, Pkt_801DA848 *arg1);
 s32 __as__16TPlyClientConfigFRC16TPlyClientConfig(void *, void *);
-s32 strncpy(void *, void *, int);
-s32 memset(void *, int, int);
 s32 reset__18PSOV3EncryptionTCPFUl(void *, u32);
 s32 __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(void *, void *);
-s32 strcmp(const char *, const char *);
 extern u8 meet_user_settings[];
 extern char *lobby_server_greeting_text;
 void handle_cmd_02__9TProtocolFR6packet(u8 *arg0, Recv_801DAA70 *arg1);
@@ -131,7 +129,7 @@ void handle_cmd_C5__9TProtocolFR6packet(u8 *arg0, Pkt_801DA848 *arg1) {
 s32 send_login_9e_extended__6TLobbyFPvPvi(u8 *arg0, u8 *arg1, s32 arg2) {
     Pkt_801DA8C4 pkt;
     memset(arg0 + 0x3F7A, 0, 0x10);
-    strncpy(arg0 + 0x3F7A, arg1, 0x10);
+    strncpy((char *)(arg0 + 0x3F7A), (const char *)arg1, 0x10);
     *(s32 *)(arg0 + 0x1930) = arg2;
     ((TPlySmth *)(&pkt))->construct();
     memset(&pkt, 0, 0x150);
@@ -143,13 +141,13 @@ s32 send_login_9e_extended__6TLobbyFPvPvi(u8 *arg0, u8 *arg1, s32 arg2) {
     pkt.f14 = *(u16 *)(arg0 + 0x1908);
     pkt.f19 = *(s32 *)(arg0 + 0x1934);
     __as__16TPlyClientConfigFRC16TPlyClientConfig(pkt.config, arg0 + 0x3FAC);
-    strncpy(pkt.name1, arg0 + 0x3EB8, 0x10);
-    strncpy(pkt.name2, arg0 + 0x3EC9, 0x10);
-    strncpy(pkt.name3, arg0 + 0x3F8A, 0x10);
-    strncpy(pkt.name4, arg0 + 0x3F9B, 0x10);
-    strncpy(pkt.desc1, arg0 + 0x3EDA, 0x30);
-    strncpy(pkt.desc2, arg0 + 0x3F0A, 0x30);
-    strncpy(pkt.name5, arg0 + 0x3F7A, 0x10);
+    strncpy(pkt.name1, (const char *)(arg0 + 0x3EB8), 0x10);
+    strncpy(pkt.name2, (const char *)(arg0 + 0x3EC9), 0x10);
+    strncpy(pkt.name3, (const char *)(arg0 + 0x3F8A), 0x10);
+    strncpy(pkt.name4, (const char *)(arg0 + 0x3F9B), 0x10);
+    strncpy(pkt.desc1, (const char *)(arg0 + 0x3EDA), 0x30);
+    strncpy(pkt.desc2, (const char *)(arg0 + 0x3F0A), 0x30);
+    strncpy(pkt.name5, (const char *)(arg0 + 0x3F7A), 0x10);
     ((TLobby *)(&pkt))->bswap_guild_card_meet_user();
     ((VObj_801DA8C4 *)arg0)->m_call(&pkt, 0x150);
     return 0;
@@ -182,13 +180,13 @@ void handle_cmd_02__9TProtocolFR6packet(u8 *arg0, Recv_801DAA70 *arg1) {
         __as__8TPlySmthFRC8TPlySmth((s32)pkt.smth, (s32)(arg0 + 0x18F8));
         pkt.f14 = *(u16 *)(arg0 + 0x1908);
         pkt.f19 = *(s32 *)(arg0 + 0x1934);
-        strncpy(pkt.name1, arg0 + 0x3EB8, 0x10);
-        strncpy(pkt.name2, arg0 + 0x3EC9, 0x10);
-        strncpy(pkt.name3, arg0 + 0x3F8A, 0x10);
-        strncpy(pkt.name4, arg0 + 0x3F9B, 0x10);
-        strncpy(pkt.desc1, arg0 + 0x3EDA, 0x30);
-        strncpy(pkt.desc2, arg0 + 0x3F0A, 0x30);
-        strncpy(pkt.name5, arg0 + 0x3F7A, 0x10);
+        strncpy(pkt.name1, (const char *)(arg0 + 0x3EB8), 0x10);
+        strncpy(pkt.name2, (const char *)(arg0 + 0x3EC9), 0x10);
+        strncpy(pkt.name3, (const char *)(arg0 + 0x3F8A), 0x10);
+        strncpy(pkt.name4, (const char *)(arg0 + 0x3F9B), 0x10);
+        strncpy(pkt.desc1, (const char *)(arg0 + 0x3EDA), 0x30);
+        strncpy(pkt.desc2, (const char *)(arg0 + 0x3F0A), 0x30);
+        strncpy(pkt.name5, (const char *)(arg0 + 0x3F7A), 0x10);
         __as__16TPlyClientConfigFRC16TPlyClientConfig(pkt.config, arg0 + 0x3FAC);
         if (*(s32 *)(arg0 + 0x1918) != 0) {
             pkt.f18 = 1;

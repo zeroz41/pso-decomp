@@ -1,5 +1,6 @@
 // CRI adx_bsc.c: the ADXB decoder handles (ADXB_ExecHndl, the ADX block step, header decode, create/destroy).
 #include "types.h"
+#include <string.h>
 #include "pso/unk/TLobby_803C4698.h"
 #include "pso/unk/TLobby_803BFE50.h"
 #include "pso/unk/TLobby_803C1A58.h"
@@ -8,7 +9,6 @@
 #include "pso/audio/AdxbDecoder.h"
 
 extern "C" {
-s32 memset(void *, int, int);
 AdxbDecoder adx_channel_record_pool[16];
 void TLobby__sub_803C19D8(void *);
 void TLobby__sub_803C3570(AdxbDecoder *o);

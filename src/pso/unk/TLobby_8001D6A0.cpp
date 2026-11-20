@@ -1,3 +1,4 @@
+#include <string.h>
 #include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -45,7 +46,6 @@ struct Node_8001D6E0 { Node_8001D6E0 *next; Node_8001D6E0 *prev; u32 addr; u32 s
 struct Pool_8001D6E0 { u8 pad[0x2C]; Node_8001D6E0 *head; };
 
 extern "C" {
-s32 strncpy(int, int, int);
 extern s32 auto_reply_flags;
 Ent_8001D768 *find_free_pool_entry__6TLobbyFPv(Obj_8001D768 *self);
 void archive_pool_free(Pool_8001D7AC *pool, Node_8001D7AC *node);
@@ -210,7 +210,7 @@ void TLobby::set_short_mail_text() {
     u8 *temp_r31;
     temp_r31 = (u8 *)(get_character_save_record((0xFFFFU)) + 0x2050);
     TWindowSubComCard::mask_profanity_words((char *)arg0, (char *)get_shared_text_buffer());
-    strncpy((int)temp_r31, (int) (((s32 (*)(void))get_shared_text_buffer)()), 0xAB);
+    strncpy((char *)temp_r31, (const char *)((s32 (*)(void))get_shared_text_buffer)(), 0xAB);
     *(s8 *)((s8 *)temp_r31 + 0xAB) = 0;
     auto_reply_flags |= 4;
     if (TLobby::is_active() != 0) {

@@ -1,4 +1,5 @@
 #include "types.h"
+#include <string.h>
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/unk/text_801F43B4.h"
@@ -9,7 +10,6 @@
 extern "C" {
 
 int is_quest_active(void);
-s32 memcpy(s32, s32 *, s32);
 u8 quest_story_flags_by_difficulty[4][128];
 extern s32 game_difficulty_selection;
 
@@ -22,7 +22,7 @@ void copy_card_window_data(void) {
         }
         character_save_record = get_character_save_record(0);
         if (character_save_record != 0U) {
-            memcpy(character_save_record + 0x44, (s32 *)quest_story_flags_by_difficulty, 0x200);
+            memcpy((void *)(character_save_record + 0x44), quest_story_flags_by_difficulty, 0x200);
         }
     }
 }

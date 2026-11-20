@@ -1,3 +1,4 @@
+#include <string.h>
 #include <dolphin/os/OSThread.h>
 #include "pso/audio/AdxStream.h"
 #include "pso/unk/TLobby.h"
@@ -62,7 +63,6 @@ void TLobby__sub_803D3130(s32 arg0, s32 arg1, u8 *arg2, u8 *arg3);
 s32 lbl_805D7550;
 s32 tlobby_stream_read_retry_limit;
 s32 lbl_805D7558;
-s32 memset(void *, int, int);
 }
 void update_active_stream_reads(void);
 

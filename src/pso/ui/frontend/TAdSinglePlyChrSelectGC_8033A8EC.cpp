@@ -4,6 +4,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/TUnk_804EF8C0.h"
+#include <string.h>
 #pragma push
 
 #include "types.h"
@@ -52,7 +53,6 @@ s32 lbl_805D6D88;
 s32 single_ply_quest_download_server;
 s32 lbl_805D6D90;
 extern "C" {
-int memset(void*, void*, void*);
 struct TAdSinglePlyChrSelectGC__sub_8033B5F0;
 s32 setup__23TAdSinglePlyChrSelectGCFi(s32);
 s32 TAdSinglePlyChrSelectGC__sub_801FDA4C();
@@ -104,7 +104,6 @@ s32 save_character_file__23TAdSinglePlyChrSelectGCFi(int);
 s32 init_and_register__23TAdSinglePlyChrSelectGCFi(int);
 s32 get_field_118__22TAdEnterSerialAccessGCFv();
 s32 get_character_save_record(int);
-s32 memcpy(int, void *, int);
 s32 update_window_mode_from_progress__6TLobbyFPv(const f32 *, const f32 *);
 
 struct TAdSinglePlyChrSelectGC__sub_8033B9F8;
@@ -128,7 +127,7 @@ void TUnk_804EF8C0::free_buffer() {
 }
 void TUnk_804EF8C0::clear_buffer() {
     if (download_buffer != NULL) {
-        memset(download_buffer, (void *)0, (void *)download_buffer_size);
+        memset(download_buffer, 0, download_buffer_size);
     }
 }
 void TUnk_804EF8C0::alloc_download_buffer() {
@@ -289,7 +288,7 @@ void TAdSinglePlyChrSelectGC::handle_load_result() {
         if (obj != 0U) {
             obj = init_char_slots__23TAdSinglePlyChrSelectGCFi();
         }
-        memcpy(obj, (void *)(src + 0x2048), 0x1156C);
+        memcpy((void *)obj, (void *)(src + 0x2048), 0x1156C);
         decrypt_char_data__23TAdSinglePlyChrSelectGCFPv(obj);
         if (init_and_register__23TAdSinglePlyChrSelectGCFi(obj) == 0) {
             lbl_805D6D90 &= ~1;

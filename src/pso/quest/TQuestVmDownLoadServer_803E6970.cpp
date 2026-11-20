@@ -1128,7 +1128,7 @@ LAYOUT_ASSERT(RecoveredGlobal_803E875C_lbl_8058DE08_size, sizeof(RecoveredGlobal
 #pragma opt_common_subs off
 void TQuestVmDownLoadServer::set_file_info_name() {
     s32 arg0 = (s32)this;
-    strcpy((void *) (&(*(RecoveredGlobal_803E875C_lbl_8058DE08 *)&quest_vm_download_server_file_info).value), (void *)arg0);
+    strcpy((char *)&(*(RecoveredGlobal_803E875C_lbl_8058DE08 *)&quest_vm_download_server_file_info).value, (const char *)arg0);
 }
 #pragma pop
 

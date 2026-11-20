@@ -1,9 +1,7 @@
 #include "types.h"
+#include <string.h>
 #include "pso/unk/text_8036F764.h"
 
-extern "C" {
-s32 memmove(s32, s32, s32);
-}
 
 u8 prs_read_byte_at(u8 *arg0, u32 arg1) {
     u32 temp_r4;
@@ -25,7 +23,7 @@ s32 prs_next_output_byte(void *arg0) {
   if ((((u32) (*((u32 *) (((s8 *) arg0) + 0x1C)))) >= 0x17FFU) != 0)
   {
     *((u32 *) (((s8 *) arg0) + 0x1C)) = 0U;
-    memmove((*((s32 *) (((s8 *) arg0) + 0x18))) + (*((s32 *) (((s8 *) arg0) + 0x24))), *((s32 *) (((s8 *) arg0) + 0x10)), 0x17FF);
+    memmove((void *)((*((s32 *) (((s8 *) arg0) + 0x18))) + (*((s32 *) (((s8 *) arg0) + 0x24)))), (const void *)*((s32 *) (((s8 *) arg0) + 0x10)), 0x17FF);
     *((s32 *) (((s8 *) arg0) + 0x24)) = (s32) ((*((s32 *) (((s8 *) arg0) + 0x24))) + 0x17FF);
   }
   {

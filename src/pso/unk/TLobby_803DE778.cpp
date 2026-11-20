@@ -1,8 +1,8 @@
 #include "types.h"
+#include <string.h>
 #include "pso/unk/TLobby.h"
 
 extern "C" {
-s32 memmove(void *dst, const void *src, u32 n);
 void TLobby::move_data(const void * _w1, u32 _w2) {
     memmove(this, (const void *)(_w1), _w2);
 }

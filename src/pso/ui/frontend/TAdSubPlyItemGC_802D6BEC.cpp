@@ -7,13 +7,13 @@
 #include "pso/ui/frontend/TAdSubPlyItemGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include <string.h>
+#include <stdio.h>
 
 const char *TAdSubPlyItemGC__name = "TAdSubPlyItemGC";
 
 struct Entry_802D6DAC { s32 idx; const char *str; s32 id; NJS_POINT2 pos; };
 
 extern "C" {
-s32 sprintf(void *, const void *, ...);
 }
 
 u8 level_text_buffer[0x40];
@@ -69,7 +69,7 @@ void TAdSubPlyItemGC__sub_802D6D88(TAdSubPlyItemGC *self) {
 
 u8 *TAdSubPlyItemGC::format_level_text(int level) {
     memset(level_text_buffer, 0, 0x40);
-    sprintf(level_text_buffer, "LV%d", level);
+    sprintf((char *)level_text_buffer, "LV%d", level);
     return level_text_buffer;
 }
 

@@ -1,4 +1,5 @@
 #include "types.h"
+#include <stdlib.h>
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/system/PadRumble.h"
 #include "pso/player/TObjPlayer.h"
@@ -382,7 +383,6 @@ void TBoss4Type2__sub_80055300(void) { TBoss4Type2__sub_80054FC0(NULL, 0.0f); }
 
 s32 is_split_screen(void);
 extern s32 local_client_id;
-int rand(void);
 
 extern "C" void TBoss4Type2__sub_80054FC0(u8 *arg0, f32 arg1) {
   u8 *out;

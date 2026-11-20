@@ -1,3 +1,4 @@
+#include <string.h>
 #include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/system/vector.h"
@@ -144,7 +145,6 @@ extern "C" {
 int TKeyBoardControl__sub_8000F828(void);
 s32 TKeyBoardControl__sub_801E3E24(s32 id, const char *name, void *buf, s32 size);
 void TLobby__sub_803C5D24(u8 *arg0);
-char *strncpy(char *dst, const char *src, u32 n);
 }
 extern Program_80226FA0 *music_programs[];
 

@@ -1,11 +1,10 @@
 #include "pso/object/switch/TSwitch.h"
 
 #include "types.h"
+#include <string.h>
 #include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
-s32 memcpy(void *, void *, void *);
-s32 memset(void *, int, int);
 }
 
 void TSwitch::render() {  }
@@ -14,11 +13,11 @@ void TSwitch::run_task() {  }
 u8 TSwitch__floor_switch_table[18][32];
 
 void restore_switch_table(s32 arg0, s32 arg1) {
-    memcpy((void *) TSwitch__floor_switch_table, (void *)arg0, (void *)arg1);
+    memcpy(TSwitch__floor_switch_table, (void *)arg0, arg1);
 }
 
 u32 copy_switch_table(void* destination) {
-    memcpy(destination, TSwitch__floor_switch_table, (void *)(0x240));
+    memcpy(destination, TSwitch__floor_switch_table, 0x240);
     return 0x240;
 }
 

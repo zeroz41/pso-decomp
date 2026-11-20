@@ -1,4 +1,5 @@
 #include "types.h"
+#include <string.h>
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/item/shop/ShopWeaponStock.h"
 #include "pso/unk/text_80104FCC.h"
@@ -89,11 +90,9 @@ typedef struct Hdr_8022525C
 } Hdr_8022525C;
 
 extern "C" {
-s32 memset(void *, int, int);
 extern G_80225550 shop_weapon_stock_buffers;
 void get_shop_weapon_stock_item(C14_80225550 *dst, s32 idx, s32 tbl);
 extern u32 lobby_weapon_random_tables_ptr;
-s32 memcmp(const void *, const void *, u32);
 extern Cnt_80224B7C shop_weapon_stock_counts[];
 s32 is_duplicate_shop_weapon(C14_80224B7C *item, s32 tbl);
 void push_shop_pool_entry(void *, u8);

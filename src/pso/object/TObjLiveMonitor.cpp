@@ -3,6 +3,7 @@
 #include "pso/unk/text_8020BFE4.h"
 #include "pso/object/TObjLiveMonitor.h"
 #include "types.h"
+#include <string.h>
 #include "pso/player/TObjPlayer.h"
 #include "pso/camera/TObjLiveCameraCtrl.h"
 #include "pso/player/TObjPlayer_8023E480.h"
@@ -94,7 +95,6 @@ void subtractive_rng_seed(void *, s32);
 s32 __ct__14SubtractiveRngFv(void *);
 u8 *fn_800832EC(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 extern s32 tl_particlemodel;
-s32 memset(s32 *, s32, s32);
 }
 
 void reset_live_camera_ctrl_globals(void) {

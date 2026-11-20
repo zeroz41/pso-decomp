@@ -3,6 +3,7 @@
 #pragma readonly_strings on
 
 #include "pso/ui/window/TObjBagWarnWin4P.h"
+#include <string.h>
 
 #include "pso/ui/window/TWindowMessage.h"
 
@@ -62,7 +63,6 @@ s32 is_active__19THunterGuildWarningFv();
 
 s32 is_level_capped__23TAdSinglePlyChrSelectGCFv();
 
-s32 strncpy(void *, s32, s32);
 
 extern f32 TObjBagWarnWin4P__message_window_size[2];
 
@@ -99,7 +99,6 @@ u32 create__14TWindowMessageFPvll(s32, void *, s32);
 
 s32 get_window_layout_position(s32);
 
-s32 strncpy(void *, s32, s32);
 
 extern f32 TObjBagWarnWin__message_window_size[2];
 
@@ -130,7 +129,7 @@ void TObjBagWarnWin::open_message_window() {
         if (TCameraCtrl::get_camera_id() == 4) {
             message_window->set_position_xy(0.8f, 0.8f);
         }
-        strncpy(message_text, get_message_text(0x59), 0x7F);
+        strncpy(message_text, (const char *)get_message_text(0x59), 0x7F);
         message_text[0x7F] = 0;
         message_window->append_line((int)message_text, (int)0);
     }
@@ -221,7 +220,7 @@ void TObjBagWarnWin4P::create_window() {
     s32 r3 = get_window_layout_position(0x5B);
     *(u32 *)((s8 *)arg0 + 0x1C) = create__14TWindowMessageFlPCfUll(r3, TObjBagWarnWin4P__message_window_size, 1, 4);
     if ((u32) *(u32 *)((s8 *)arg0 + 0x1C) != 0U) {
-        strncpy(arg0 + 0x20, get_message_text(0x69), 0x7F);
+        strncpy((char *)(arg0 + 0x20), (const char *)get_message_text(0x69), 0x7F);
         *(s8 *)((s8 *)arg0 + 0x9F) = 0;
         ((TWindowMessage *)(*(u32 *)((s8 *)arg0 + 0x1C)))->append_line((int)(arg0 + 0x20), (int)0);
     }

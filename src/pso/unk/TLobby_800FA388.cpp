@@ -1,4 +1,5 @@
 #include "types.h"
+#include <string.h>
 #include "pso/unk/text_803CC294.h"
 #include "pso/unk/TLobby.h"
 
@@ -7,7 +8,6 @@ extern "C" {
 u8 *alloc_from_heap__6TLobbyFPv(s32);
 s32 adxf_open__6TLobbyFUii(s32, s32);
 u8 *link_into_list__6TLobbyFv();
-s32 strncpy(void *, s32, s32);
 
 struct Ent_800fa388;
 
@@ -26,7 +26,7 @@ s32 TLobby::request_file_read(s32 arg0, s32 arg1, s32 *arg2, void **arg3) {
     if (var_r31 != NULL) {
         var_r31 = (struct Ent_800fa388 *)link_into_list__6TLobbyFv();
     }
-    strncpy((u8 *)var_r31 + 8, arg0, 0x20);
+    strncpy((char *)var_r31 + 8, (const char *)arg0, 0x20);
     *(s32 *)((s8 *)var_r31 + 0) = 1;
     *(s32 *)((s8 *)var_r31 + 0x28) = arg1;
     *(s32 *)((s8 *)var_r31 + 0x2C) = ((TLobby *)temp_r3)->adxf_get_fsize_byte();

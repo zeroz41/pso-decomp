@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/unk/TLobby_80209524.h"
@@ -585,7 +586,6 @@ void TLobby::free_boss4rock() { ((TLobby *)lbl_805D60A4)->free_boss4rock(1); lbl
 // ---- pso/unk/text_8020A2AC
 s32 run_step__9TItemDropFl(int, void *);
 s32 __cvt_fp2unsigned(f32);
-s32 rand();
 s32 item_drop_server_seed;
 s32 lbl_805D60D4;
 s32 map_set_data_handle_a;

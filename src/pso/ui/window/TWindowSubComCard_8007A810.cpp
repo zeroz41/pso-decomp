@@ -7,9 +7,9 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include <string.h>
 
 extern "C" {
-s32 strncpy(void *, s32, s32);
 
 void TWindowSubComCard::set_card_text(s32 arg1) {
     s32 arg0 = (s32)this;
@@ -18,7 +18,7 @@ void TWindowSubComCard::set_card_text(s32 arg1) {
     if (arg1 != 0) {
         temp_r3 = ((u8 * (*)(void *))get_card_entry__17TWindowSubComCardFi)((void *)arg0);
         if (temp_r3 != NULL) {
-            strncpy(temp_r3 + 0x94, arg1, 0x6B);
+            strncpy((char *)(temp_r3 + 0x94), (const char *)arg1, 0x6B);
             *(s8 *)((s8 *)temp_r3 + 0xFF) = 0;
         }
     }
@@ -286,7 +286,6 @@ s32 init_card__17TWindowSubComCardFPv(s32 *, s32);
 s32 count_leading_active__17TWindowSubComCardFPvi(Card_8007AF60 *p, s32 n);
 s32 TWindowSubComCard__sub_8007B010(Card_8007B010 *p, s32 n);
 int fill_guild_card_from_char__6TLobbyFl(void*, void*);
-int memset(void*, int, int);
 
 #pragma push
 #pragma fp_contract on
@@ -397,7 +396,7 @@ void TWindowSubComCard__sub_8007B26C(O_8007B26C *self) {
     self->flags &= ~1;
 }
 
-int clear(void* p) { return memset(p, 0, 144); }
+int clear(void* p) { return (int)memset(p, 0, 144); }
 
 void TWindowSubComCard::clear_and_init(void* a1) { clear(this); fill_guild_card_from_char__6TLobbyFl(this, a1); }
 s32 fn_8007B2E0(u8 *arg0, s32 id) {

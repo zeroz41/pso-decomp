@@ -1,6 +1,7 @@
 #include "pso/system/ResourceFile.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include <string.h>
 #include "pso/ui/frontend/TAdEndText.h"
 #include "pso/item/TItemReverseTechBG.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
@@ -105,7 +106,6 @@ s32 TKeyBoardControl__sub_8000F92C();
 void request_main_phase(s32 arg0);
 s8 func_801A5E54__Fv();
 s32 prs_decompress_alloc(int, int, int);
-char *strncpy(char *, const char *, u32);
 void load_gvm_texture_archive(int, void *);
 void TKeyBoardControl__sub_8000F90C(s32);
 void set_queued_main_phase(s32);

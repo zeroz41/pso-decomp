@@ -1,8 +1,6 @@
+#include <string.h>
 #include "pso/network/NetworkInfoCodec.h"
 extern "C" {
-u32 strlen(const char *);
-int strncmp(const char *, const char *, unsigned long);
-char *strncpy(char *, const char *, unsigned long);
 int atoi(const char *);
 }
 s32 parse_netinfo(char *, u32, NetworkInfoConfig *);

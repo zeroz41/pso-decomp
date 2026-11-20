@@ -1,3 +1,4 @@
+#include <string.h>
 #include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/unk/TLobby_801F3A24.h"
@@ -110,7 +111,6 @@ void TLobby::handle_msg_type1_for_idle_slots() {
 struct Sel_801F3E1C { s32 area; s32 terrain; s32 entities; };
 
 extern "C" {
-s32 memset(void *, int, int);
 int init_sub_state__6TLobbyFv(void);
 int rebuild_entry__6TLobbyFv(void);
 

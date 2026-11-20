@@ -14,6 +14,7 @@
 #include "pso/quest/TQuestThread.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include <string.h>
 
 
 static const f32 enter_password_item_rect_table[2][2] = {{155.0f, 231.0f}, {155.0f, 251.0f}};
@@ -41,8 +42,6 @@ TAdEnterPasswordGCInputBuffer TAdEnterPasswordGC__input_buffer = { 0 };
 #pragma explicit_zero_data off
 extern u8 *password_entry_keyboard_control;
 s32 create_default_callback__22TAdEnterSerialAccessGCFv(void *);
-void strncpy(s32, s32, s32);
-s32 memset(void *, int, int);
 void request_main_phase(s32 arg0);
 u32 __nw__7TObjectFUl(int);
 s32 __ct__10TAdTitleGCFP7TObjectl(int, void *, int);
@@ -51,7 +50,6 @@ s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 get_field_118__22TAdEnterSerialAccessGCFv(void);
 s32 play_sound_effect(int, int, int, int);
 s32 forward_input__22TAdEnterSerialAccessGCFPv(void *, int, s32);
-s32 strlen(s32);
 extern u8 controller_input_state[];
 extern u8 controller_physical_port_bank[];
 void update_password_input__18TAdEnterPasswordGCFPv(Pw_8032B6A0 *self);
@@ -164,12 +162,12 @@ void update_password_input__18TAdEnterPasswordGCFPv(Pw_8032B6A0 *self) {
   }
   if ((((TAdSinglePlyChrSelectGC *)(self->serial))->get_selected_slot() == 1) && (((TKeyBoardControl *)password_entry_keyboard_control)->is_confirmed() != 0))
   {
-    strncpy((s32)&TAdEnterPasswordGC__input_buffer.value, buf, 9);
+    strncpy((char *)&TAdEnterPasswordGC__input_buffer.value, (const char *)buf, 9);
     TAdEnterSerialAccessGC__sub_80322418(get_field_118__22TAdEnterSerialAccessGCFv(), 2);
     self->f20 = 3;
     password_entry_dispatch_state = 4;
   }
-  self->len = strlen(buf);
+  self->len = strlen((const char *)buf);
   mem_free((void *)buf);
 }
 
@@ -203,7 +201,7 @@ void TAdEnterPasswordGC::run_task() {
 
 void set_password__18TAdEnterPasswordGCFi(s32 arg0) {
     memset(&TAdEnterPasswordGC__input_buffer.value, 0, 9);
-    strncpy((s32) &TAdEnterPasswordGC__input_buffer.value, arg0, 9);
+    strncpy((char *)&TAdEnterPasswordGC__input_buffer.value, (const char *)arg0, 9);
 }
 
 TAdEnterPasswordGC::~TAdEnterPasswordGC() {}

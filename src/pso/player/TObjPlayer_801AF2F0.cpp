@@ -4,6 +4,7 @@
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "types.h"
+#include <stdlib.h>
 #include "pso/system/data/FlagWord.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/system/PadRumble.h"
@@ -2217,7 +2218,6 @@ s32 fn_8036B748(void *);
 s32 fn_8036B770(void *);
 s32 validate_6xAE_set_animation_state(void *);
 void __construct_array(void *, void *(*)(void *), void *, u32, u32);
-s32 rand();
 f32 cos_table_lookup(s32);
 s32 matrix_mult_vec(int, void *, void *);
 f32 vec3_dot(Vec *, Vec *);

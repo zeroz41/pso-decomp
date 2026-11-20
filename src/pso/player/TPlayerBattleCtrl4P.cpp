@@ -6,6 +6,9 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/item/TItem.h"
 #include "types.h"
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
 #include "pso/player/TPlayerBattleCtrl4P.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TUnk_804C3E88.h"
@@ -102,7 +105,6 @@ void *TWindowDuelResult__ct(void *, int);
 s32 get_map_id__13TRaderMapCoreFv();
 u8 TLobby__sub_801D7100(void *);
 extern u8 lobby_rule_settings[];
-int sprintf(char *, const char *, ...);
 s32 TLobby__sub_801C19D0(void *);
 s32 TAdSinglePlyChrSelectGC__sub_801FCE6C();
 s32 get_character_save_record(u32 arg0);
@@ -119,7 +121,6 @@ void obj_clear_flag30_20000(TObjBase *actor);
 s32 TObjEneRe4Sorcerer__sub_801E3F14(int);
 void TObjEneRe4Sorcerer__sub_801E3F18(void);
 extern s32 TLobby__battle_ctrl_default_value;
-s32 rand();
 s32 set_player_team_id(void *, int);
 s32 fn_801D6D8C(void *, u8, int);
 s32 fn_801D726C(void *, void *);
@@ -210,7 +211,6 @@ struct Strs_8031224C { u8 pad[0x18]; char *fmt; };
 struct O_8031224C { u8 pad[0x20]; void *w0; u8 pad2[0x240 - 0x24]; s32 timer; u8 pad3[0x274 - 0x244]; s32 team[4]; u8 pad4[0x294 - 0x284]; Strs_8031224C *strs; };
 extern "C" {
 s32 is_battle_decided__19TPlayerBattleCtrl4PFv(void *);
-char *strncpy(char *, const char *, u32);
 void update__19TPlayerBattleCtrl4PFv(void *);
 s32 __ct__15TDuelEffectCtrlFP7TObjectUc(void *, void *, s32);
 s32 update_all_players__19TPlayerBattleCtrl4PFv();

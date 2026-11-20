@@ -1,4 +1,5 @@
 #include "types.h"
+#include <string.h>
 #include "pso/unk/TLobby_801F487C.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/unk/text_801F45FC.h"
@@ -8,7 +9,6 @@
 extern "C" {
 __declspec(section ".rodata") s32 lobby_story_flag_clear_list[6] = { 151, 152, 153, 154, -1, 0 };
 extern s32 lobby_story_flag_clear_list[6];
-void *memcpy(void *, void *, u32);
 extern u8 quest_story_flags_by_difficulty[0x200];
 int is_not_split_screen__13TRaderMapCoreFv(void*);
 

@@ -1,3 +1,4 @@
+#include <string.h>
 #include <dolphin/os/OSThread.h>
 #include "pso/audio/AdxHeader.h"
 #include "pso/audio/AdxStream.h"
@@ -38,7 +39,6 @@ struct Obj_803C9104 {
 
 extern "C" {
 s32 TLobby__sub_803D3130(void *, s32, Pair_803C8678 *, Pair_803C8678 *);
-s32 memset(void *, int, int);
 s32 TLobby__sub_803C9104(Obj_803C9104 *arg0, s32 arg1, s32 arg2);
 s32 set_global_805D7520__6TLobbyFl();
 

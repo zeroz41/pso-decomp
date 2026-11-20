@@ -1,5 +1,6 @@
 // ---- pso/unk/text_8020E700
 #include "types.h"
+#include <string.h>
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/text_8020E700.h"
 #include "pso/unk/text_8020EEFC.h"
@@ -35,7 +36,6 @@ struct Tbl_8020EACC { u8 *pairs; u8 count; };
 struct Rec_8020E700 { u8 a, b, c, d, e, f; u8 pad[0x14 - 6]; };
 
 extern "C" {
-s32 memset(void *, int, int);
 // Per shop list (four in split screen): the stock array (0x1A4 bytes, allocated by load_armor_random_table),
 // its entry count and whether it was generated.
 s32 shop_armor_stock_generated_flags[4];

@@ -1,4 +1,5 @@
 #include "types.h"
+#include <string.h>
 #include "pso/unk/TLobby.h"
 #include "pso/system/task/TObject.h"
 struct TAdScrollWinGC;
@@ -16,7 +17,6 @@ int get_instance__15TAdPlayerLoadGCFv(void*);
 s32 get_option_field_C__17TWindowOptionCtrlFv();
 
 void *TAdScrollWinGC__ct(TAdScrollWinGC *arg0, void *arg1, s32 arg2, s32 arg3);
-s32 strncpy(void *, s32, s32);
 extern u8 lobby_scroll_text_buffer[];
 extern s32 TLobby__data_805D5594;
 extern void *lobby_scroll_text_window;
@@ -49,7 +49,7 @@ void TLobby::dispatch_by_index(s32 arg0) {
 void TLobby::open_scroll_text_window(s32 arg0) {
     void *obj;
     if (lobby_scroll_text_window == 0) {
-        strncpy(lobby_scroll_text_buffer, arg0, 0x1000);
+        strncpy((char *)lobby_scroll_text_buffer, (const char *)arg0, 0x1000);
         lobby_scroll_text_buffer[0xFFF] = 0;
         obj = TObject::operator new(0x54);
         if (obj != 0) {

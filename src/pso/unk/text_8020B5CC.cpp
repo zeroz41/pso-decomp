@@ -1,4 +1,5 @@
 #include "types.h"
+#include <string.h>
 #include "pso/unk/text_8020B5CC.h"
 #include "pso/system/THeap.h"
 #include "pso/unk/TLobby.h"
@@ -29,8 +30,6 @@ extern s32 tl_06;
 extern s32 tl_07;
 void archive_pool_free(u32, void *);
 void *archive_pool_alloc(u32, u32);
-void *memcpy(void *, const void *, unsigned long);
-void *memset(void *, int, unsigned long);
 extern Slot_8020B970 TLobby__data_80513A40[];
 extern Tbl_8020B970 TLobby__floor_enemy_group_table[];
 extern u32 TLobby__data_805D6104;

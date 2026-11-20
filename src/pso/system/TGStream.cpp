@@ -1,3 +1,4 @@
+#include <string.h>
 #include "pso/system/ResourceFile.h"
 #include "pso/system/TGStream.h"
 #include "pso/unk/TLobby_80131794.h"
@@ -14,9 +15,6 @@
 
 extern "C" {
 s32 adxf_get_stat(s32);
-s32 strcmp(const char *, const char *);
-s32 strlen(char *);
-s32 strncpy(char *, char *, s32);
 u32 adxf_open__6TLobbyFUii(char *, s32);
 extern u8 gstream_sector_buffer[];
 extern GslArchiveEntry gsl_archive_entries[256];

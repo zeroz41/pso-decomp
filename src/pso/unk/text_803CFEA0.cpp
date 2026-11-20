@@ -1,4 +1,5 @@
 #include "types.h"
+#include <string.h>
 #include "pso/unk/TLobby.h"
 #include "pso/system/GcciRequests.h"
 #include "pso/unk/TLobby_803D0C28.h"
@@ -33,16 +34,12 @@ volatile s32 lbl_805D7610;
 s32 fileio_seek(struct File_803D0654 *arg0, s32 arg1, s32 arg2);
 s32 DVDOpen(const char *, DVDFileInfo_803D0AE8 *);
 s32 DVDClose(DVDFileInfo_803D0AE8 *);
-char *strcat(char *, const char *);
-char *strcpy(char *, const char *);
-u32 strlen(const char *);
 extern char dvd_default_path_buffer[0x100];
 extern GcciStatus dvd_active_request;
 s32 DVDGetCommandBlockStatus(void *);
 s32 DVDGetDriveStatus(void);
 s32 DVDCancel(void *);
 u32 OSGetTick(void);
-void *memset(void *, int, u32);
 extern GcciRequest dvd_request_table[40];
 s32 get_handle_field_20(GcciRequest *handle) {
     if (handle == NULL) {

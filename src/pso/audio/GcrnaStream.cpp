@@ -1,3 +1,4 @@
+#include <string.h>
 #include "pso/audio/GcrnaStream.h"
 #include "pso/audio/GcrnaError.h"
 #include <dolphin/os/OSAlloc.h>
@@ -19,7 +20,6 @@ u32 sndStreamAllocEx(u8 priority, void *buffer, u32 samples, u32 frequency, u8 v
                      u32 (*callback)(void *, u32, void *, u32, u32), u32 user,
                      SND_ADPCMSTREAM_INFO *adpcm_info);
 void DCFlushRange(void *buffer, u32 size);
-void *memset(void *, int, unsigned long);
 }
 
 extern u8 gcrna_volume_table[1000];

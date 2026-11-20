@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include <string.h>
 #include "pso/ui/frontend/DrawLineResource.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowMessage.h"
@@ -148,8 +149,6 @@ void __construct_array(void *, void *, int, int, int);
 s32 TLobby__sub_8013A23C(s32 arg0);
 void bswap_32__FPUl(void *);
 s32 handle_game_join__6TLobbyFPv(void *);
-char *strcpy(char *, const char *);
-void *memset(void *, int, u32);
 void get_team_state__6TLobbyFPv();
 }
 void clear_floor_population();

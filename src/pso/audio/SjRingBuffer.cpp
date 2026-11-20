@@ -1,3 +1,4 @@
+#include <string.h>
 #include "pso/system/MiddlewareInterruptLock.h"
 #include "pso/audio/SjRingBuffer.h"
 
@@ -7,7 +8,6 @@ extern "C" {
 s32 sj_ring_buffer_get_extra_buffer_size(SjRingBuffer* buffer) { return buffer->extra_buffer_size; }
 s32 sj_ring_buffer_get_buffer_size(SjRingBuffer* buffer) { return buffer->buffer_size; }
 u8* sj_ring_buffer_get_buffer(SjRingBuffer* buffer) { return buffer->buffer; }
-void *memcpy(void *, const void *, unsigned long);
 #define MIN_803D2A14(a, b) ((a) < (b) ? (a) : (b))
 
 #define MIN_803D2640(a, b) ((a) < (b) ? (a) : (b))
@@ -137,7 +137,6 @@ void sj_ring_buffer_get_chunk(SjRingBuffer *r, s32 which, s32 max, SjChunk *out)
 
 #pragma optimize_for_size on
 void sj_ring_buffer_set_error_callback(SjRingBuffer *arg0, SjErrorCallback arg1, void* arg2);
-s32 memset(void *, int, int);
 
 s32 sj_ring_buffer_get_available(SjRingBuffer *sj_ring_buffer, s32 arg1) {
     SjErrorCallback temp_r12;

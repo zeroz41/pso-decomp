@@ -16,6 +16,7 @@
 #include "pso/ui/Language.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include <string.h>
 
 
 #pragma push
@@ -54,7 +55,6 @@ struct KbSoft_8025D264 {
 };
 
 extern "C" {
-s32 strncpy(s32 *, u8 *, s32);
 void set_glyph_quad_extents(u8, void *);
 s32 map_char_to_font_code(u16);
 u8 get_font_char_advance(s32);
@@ -141,7 +141,6 @@ void fn_8025DE10(void *, void *);
 void draw_textured_quad_at_depth(void *, f32);
 s32 dispatch_request_0x27__19TWindowKeyBoardSoftFll(void *, s32 *);
 s32 dispatch_request_0x26__19TWindowKeyBoardSoftFll(void *, s32 *);
-int strcmp(const char *, const char *);
 s32 dispatch_request_0x25__19TWindowKeyBoardSoftFll(void *, s32 *);
 s32 dispatch_request_0x23__19TWindowKeyBoardSoftFll(void *, void *);
 s32 dispatch_request_0x24__19TWindowKeyBoardSoftFll(void *, void *);
@@ -370,7 +369,7 @@ void TWindowKeyBoardBase::insert_string(char *src) {
     q[1] = len;
     q[2] = self->kind;
     q += 3;
-    strncpy((s32 *)q, (u8 *)src, len);
+    strncpy((char *)q, (const char *)src, len);
     self->remain -= n;
     if (self->cursor > self->buf) {
         self->cursor += n;
@@ -406,7 +405,7 @@ void TWindowKeyBoardBase::append_text_entry(u8 *arg1) {
     p[4] = n;
     p[5] = 1;
     p += 6;
-    strncpy((s32 *)p, arg1, n);
+    strncpy((char *)p, (const char *)arg1, n);
     p += n;
     *p++ = 0;
     *(s32 *)(arg0 + 0xB0) = 0x94 - (p - *(u8 **)(arg0 + 0x9C));
@@ -424,7 +423,7 @@ void TWindowKeyBoardBase::write_name_and_text(char *name, char *text) {
     p[1] = n1;
     p[2] = self->kind;
     p += 3;
-    strncpy((s32 *)p, (u8 *)name, n1);
+    strncpy((char *)p, (const char *)name, n1);
     p += n1;
     n1 = (s8)n1;
     n2 = TWindowKeyBoardSoft::strnlen((s8 *)text, 0x100);
@@ -432,7 +431,7 @@ void TWindowKeyBoardBase::write_name_and_text(char *name, char *text) {
     p[1] = n2;
     p[2] = 1;
     p += 3;
-    strncpy((s32 *)p, (u8 *)text, n2);
+    strncpy((char *)p, (const char *)text, n2);
     p += n2;
     *p++ = 0;
     self->remain = 0x94 - (p - self->base);
@@ -664,7 +663,7 @@ void TWindowKeyBoardBase::convert_input_text() {
         *(u16 *)((s8 *)this + 0x60) = (u16) (*(u16 *)((s8 *)this + 0x60) | 0x10);
         *(s32 *)((s8 *)this + 0xAC) = 1;
         *(s32 *)((s8 *)this + 0xA8) = 1;
-        strncpy((s32 *)sp8, *(u8 **)((s8 *)this + 0x9C), 0x100);
+        strncpy((char *)sp8, (const char *)(*(u8 **)((s8 *)this + 0x9C)), 0x100);
         sp108[0] = 0;
     } else {
         *(u16 *)((s8 *)this + 0x60) = (u16) (*(u16 *)((s8 *)this + 0x60) & 0xFFFFFFEF);

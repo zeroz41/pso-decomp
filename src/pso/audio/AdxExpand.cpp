@@ -1,3 +1,4 @@
+#include <string.h>
 #include <dolphin/os/OSThread.h>
 #include "pso/audio/AdxExpand.h"
 #include "pso/audio/AdxHeader.h"
@@ -10,9 +11,6 @@
 #include "types.h"
 #include "pso/unk/text_803D31A4.h"
 
-extern "C" {
-s32 memset(void *, int, int);
-}
 
 struct Ch_803CB5C4 {
     s32 used;

@@ -1,4 +1,5 @@
 #include "types.h"
+#include <string.h>
 #include "pso/object/door/TObjDoorJung.h"
 
 struct Ent_8023DBEC { const char *name; u32 a; u32 b; };
@@ -6,7 +7,6 @@ struct Ent_8023DBEC { const char *name; u32 a; u32 b; };
 struct List_8023DBEC { Ent_8023DBEC *ents; u32 count; };
 
 extern "C" {
-s32 strcmp(const char *, const char *);
 void set_material_texture_slot(void *);
 
 s32 TObjDoorJung::find_entry_by_name(const char *name) {

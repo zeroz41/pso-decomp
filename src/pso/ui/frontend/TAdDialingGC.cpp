@@ -15,6 +15,7 @@
 #include "pso/unk/text_8014618C.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include <stdio.h>
 
 struct Stack_803286AC {
     s32 sp8;
@@ -57,7 +58,6 @@ extern "C" {
 int update_dialing_display__12TAdDialingGCFi(void*);
 BOOL fn_80145A44(char *dst);
 s32 call_146CA0_with_5708__6TLobbyFv();
-int sprintf(char *, const char *, ...);
 }
 
 extern "C" {

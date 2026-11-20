@@ -35,6 +35,8 @@
 #include "pso/unk/text_801E3F24.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include <stdlib.h>
+#include <string.h>
 
 
 struct Menu_80296D68
@@ -108,7 +110,6 @@ s32 get_message_text(s32 arg0);
 u32 calc_text_width(char *s);
 s32 is_active__23TAdSinglePlyChrSelectGCFv();
 int TAdSinglePlyChrSelectGC__sub_802905B8(void);
-s32 rand();
 void TObjCMMainMenu__sub_80298DA0(int a0);
 }
 
@@ -279,7 +280,6 @@ u8 is_not_dressing_room_mode__14TObjCMMainMenuFv(void);
 s32 * TObjCMMainMenu__sub_80298DD4(void);
 void fn_802993F0(void);
 u32 __cvt_fp2unsigned(f32);
-char * strncpy(char *, const char *, u32);
 extern u8 __vt__14TObjCMHairMenu[];
 extern void *__vt__16TObjCMAssignMenu[];
 extern Ent_802964B0 class_appearance_table[];

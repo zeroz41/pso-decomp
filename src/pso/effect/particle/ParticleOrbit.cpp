@@ -16,6 +16,7 @@
 #include "pso/unk/TUnk_8048E790.h"
 
 #include "types.h"
+#include <stdlib.h>
 #include "pso/effect/particle/TParticleCtrl_80327D30.h"
 #include "pso/player/TObjPlayer_80083594.h"
 #include "pso/system/task/TObject.h"
@@ -149,7 +150,6 @@ struct ODesc_8008B060 {
 struct OIVec_8008B060 { s32 x, y, z; };
 
 extern "C" {
-s32 rand(void);
 s32 is_particle_sprite_additive__13TUnk_8048E728Fv(void *, s32);
 s32 append_node_to_tail__13TParticleCtrlFPvPv(s32, void *);
 s32 all_parents_unqueued_for_destruction__7TObjectFv();

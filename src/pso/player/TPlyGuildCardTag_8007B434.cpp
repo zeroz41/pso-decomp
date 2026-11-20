@@ -1,11 +1,11 @@
 #include "types.h"
+#include <string.h>
 #include "pso/player/TPlyGuildCardTag_8007B434.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/Language.h"
 
 extern "C" {
-s32 strncpy(void *, int, int);
 extern u8 *TLobby__protocol_instance;
 void __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void *arg0, void *arg1) {
     *(u8 *)((s8 *)arg0 + 0) = (u8) *(u8 *)((s8 *)arg1 + 0);
@@ -21,7 +21,7 @@ void TLobby::fill_guild_card_from_char(s32 arg1) {
         temp_r31 = (unsigned char *) (temp_r3 + 0x370);
         if (temp_r31 != NULL) {
             *(u8 *)((s8 *)((u8 *)this) + 0x8C) = (u8) (*(u8 *)((s8 *)((u8 *)this) + 0x8C) | 1);
-            strncpy((void *) (((u8 *)this) + 8), (int)temp_r31, 0x17);
+            strncpy((char *)this + 8, (const char *)temp_r31, 0x17);
             *(s8 *)((s8 *)((u8 *)this) + 0x1F) = 0;
             *(u8 *)((s8 *)((u8 *)this) + 0x8F) = (u8) *(u8 *)((s8 *)temp_r31 + 0x31);
             *(u8 *)((s8 *)((u8 *)this) + 0x8E) = (u8) *(u8 *)((s8 *)temp_r31 + 0x30);

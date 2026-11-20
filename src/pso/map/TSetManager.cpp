@@ -1,6 +1,7 @@
 #include "pso/system/ResourceFile.h"
 #include "pso/map/TSetManager.h"
 #include "types.h"
+#include <string.h>
 
 #pragma readonly_strings on
 #include "pso/map/TSetManager_8020D918.h"
@@ -126,7 +127,6 @@ u8 lbl_80513D34[0x24];
 #pragma pop
 void archive_pool_free(void *pool, void *node);
 s32 lookup_scene_object__6TLobbyFPv(s32, void *);
-void *memset(void *, int, unsigned long);
 s32 replace_file_extension__6TLobbyFPvPvPv(char *arg0, char *arg1, char *arg2);
 void *mem_alloc(u32);
 }

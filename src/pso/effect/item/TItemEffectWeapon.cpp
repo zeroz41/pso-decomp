@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include <string.h>
 #include "pso/effect/item/TItemEffectWeapon.h"
 #include "pso/item/TItemEquipVariant_8012A82C.h"
 #include "pso/render/render_util.h"
@@ -23,7 +24,6 @@ void TItemEffectWeapon__sub_8036340C(void);
 void TItemEffectWeapon__sub_80363410(void);
 
 void decrement_timer__17TItemEffectWeaponFv(void *, s32);
-void* memcpy(void* destination, const void* source, size_t size);
 f32 xyz_distance(const f32 *a, const f32 *b);
 f32 normalize_vector(f32 *v);
 

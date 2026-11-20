@@ -23,6 +23,7 @@
 #include <dolphin/mtx.h>
 #include <stddef.h>
 #include "pso/system/task/TObject.h"
+#include <string.h>
 
 // The character-creation motion archive: no models, 49 body motions.
 const char *charamakingmot_model_names[1] = {NULL};
@@ -426,7 +427,6 @@ s32 TCharaMaking::get_display_index() {
     return ((CharacterAppearanceFields *)this)->classId;
 }
 
-unsigned int strlen(u8 *); u8 *strncpy(u8 *,u8 *,unsigned int);
 }
 void TCharaMaking::build_appearance_texture_names(CharacterAppearanceFields *appearance, CharacterClassAppearance *definition, CharacterTextureList *source) {
     if (source->count <= 8) {
@@ -440,8 +440,8 @@ void TCharaMaking::build_appearance_texture_names(CharacterAppearanceFields *app
         entry = (u8 **)source->entries;
         for (; index < source->count; ++index, ++entry, ++slot) {
             name = ((TextureOutput *)this)->names[index];
-            strlen(*entry);
-            strncpy(name, *entry, 31);
+            strlen((const char *)(*entry));
+            strncpy((char *)name, (const char *)(*entry), 31);
             name[31] = 0;
             if (definition->counts[0] > 0) {
                 char *digit = (char *)&name[6];

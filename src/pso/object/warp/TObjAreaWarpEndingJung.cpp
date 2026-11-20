@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include <string.h>
+#include <stdio.h>
 #include "pso/unk/TLobby_80070A00.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/vector.h"
@@ -312,8 +314,6 @@ s32 init__13TAdVIConfigGCFf(int, void *, f32);
 s32 get_game_play_mode(int);
 void send_inter_level_warp_all__10TNpcPlayerFl();
 s32 PPCSync();
-int sprintf(char *, const char *, ...);
-void strncpy(s32, s32, s32);
 void debug_printf_at(s32 id, const char *fmt, ...);
 s32 matrix_mult_vec(int, void *, void *);
 }
@@ -1337,7 +1337,7 @@ u8 *__ct__14TObjWarpStringFv(u8 *object, u8 *arg1, s32 arg2, s16 arg3) {
     __ct__7TObjectFP7TObject(object, arg1);
     *(s32 **)((s8 *)object + 0x18) = &__vt__14TObjWarpString.value;
     *(s32 *)((s8 *)object + 0) = (s32)TObjWarpString__name;
-    strncpy((s32)(object + 0x1C), arg2, 0x20);
+    strncpy((char *)(object + 0x1C), (const char *)arg2, 0x20);
     *(s8 *)((s8 *)object + 0x3B) = 0;
     *(s16 *)((s8 *)object + 0x48) = arg3;
     *(s32 *)((s8 *)object + 0x3C) = -1;

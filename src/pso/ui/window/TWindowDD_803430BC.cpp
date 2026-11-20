@@ -350,7 +350,6 @@ typedef struct Win_80343C64 Win_80343C64;
 
 struct WordList_80344114 { u8 *words; s32 count; };
 extern "C++" void ws_data_load(void);
-void *memset(void *dst, int c, u32 n);
 extern u32 TWindowDD__ws_data_base;
 
 extern u32 lbl_805D6E34;

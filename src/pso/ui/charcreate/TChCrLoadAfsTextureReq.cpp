@@ -25,7 +25,7 @@ void *init_bin_model_request(void *, int, char **, u32 *, int, int, int);
 extern "C" { extern char TChCrLoadAfsTextureReq__class_name_string[]; }
 const char *lbl_805D3B50 = TChCrLoadAfsTextureReq__class_name_string;
 s32 adxf_get_stat(s32);
-f64 log();
+f64 log(f64);
 
 void TChCrLoadAfsTextureReq::try_begin_load() {
     if (try_acquire_load_slot() != 0) {
@@ -148,8 +148,8 @@ void *TChCrLoadAfsTextureReq::create(void *parent, void *args) {
     return new TChCrLoadAfsTextureReq((TObject *)parent, args);
 }
 
-extern "C" f32 TLobby__sub_8028C50C(void) {
-    return (f32) log();
+extern "C" f32 TLobby__sub_8028C50C(f32 x) {
+    return (f32) log(x);
 }
 void TLobby::update_model_load() {
     s32 timer;

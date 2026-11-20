@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include <stdlib.h>
 #include <stddef.h>
 #include <dolphin/mtx.h>
 #include "pso/system/vector.h"
@@ -41,7 +42,6 @@ Ctl_80325F7C *get_player_by_client_id(s32);
 void get_wing_position__26TBoss5GryphonLightningWingFl(void *, void *);
 void copy_position__12TBoss8DragonFl(void *, void *);
 void project_point_onto_line(void *, void *, void *);
-s32 rand(void);
 void vec3_add_to(void *, void *);
 void subtract_vector(void *, void *);
 extern const f32 lbl_805D8D48;

@@ -37,6 +37,8 @@
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802DEF54.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/ControllerInputState.h"
+#include <stdio.h>
+#include <string.h>
 
 struct Info_802DC024 {
     s32 val[4];
@@ -60,8 +62,6 @@ s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2);
 extern s32 lbl_80472890[];
 extern u8 lbl_80472898[];
 extern u8 player_number_text_buffer[];
-void *memset(void *, int, u32);
-s32 sprintf(void *, const void *, ...);
 s32 TAdMultiPlyChrSelectGC__sub_802DFFE8(s32);
 s32 TAdMultiPlyChrSelectGC__sub_802DC294(TAdMultiPlyChrSelectGC *arg0, s32 arg1);
 s32 copy_selected_characters__23TAdSinglePlyChrSelectGCFPv(void *);
@@ -2160,7 +2160,7 @@ s32 TAdMultiPlyChrSelectGC__sub_802DC294(TAdMultiPlyChrSelectGC *arg0, s32 arg1)
 
 u8 *TAdMultiPlyChrSelectGC::format_player_number_text(s32 arg0, s32 arg1) {
     memset(player_number_text_buffer, 0, 0x80);
-    sprintf(player_number_text_buffer, (const void *)get_localized_text_entry(0x1F, 0), arg1 + 1);
+    sprintf((char *)player_number_text_buffer, (const char *)get_localized_text_entry(0x1F, 0), arg1 + 1);
     return player_number_text_buffer;
 }
 

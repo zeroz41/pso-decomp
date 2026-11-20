@@ -11,6 +11,7 @@
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
+#include <string.h>
 
 
 struct Seq_80212304 {
@@ -25,7 +26,6 @@ void *get_player_by_client_id(s32 i);
 extern s32 TLobby__designated_client_id;
 extern s32 local_client_id;
 void *get_window_layout_position(s32);
-char *strcpy(char *, const char *);
 __declspec(section ".data") f32 member_name_window_pos[2] = {219.0f, 100.0f};
 
     extern int THunterGuildSeqOnline_Client__instance_table[];

@@ -2,6 +2,7 @@
 #define MUSYX_RUNTIME_A_H
 
 #include "types.h"
+#include <string.h>
 #include "musyx/runtime/musyx_dspvoice.h"
 
 struct RecoveredGlobal_803AA0C0_lbl_80556E88 {
@@ -521,7 +522,6 @@ extern s32 synthFlags;
 void CheckOutputMode(s8 *arg0, s8 *arg1);
 u32 adsrSetup(u8 *arg0);
 s32 DCFlushRangeNoSync(void *, int);
-s32 memset(void *, int, int);
 void salInitHRTFBuffer(void);
 extern s32 (*salMessageCallback)(s32, s32);
 s32 salSynthSendMessage(u8 *arg0, s32 arg1);
@@ -2090,7 +2090,6 @@ extern void *dspHrtfHistoryBuffer;
 
 u32 aramGetZeroBuffer(void);
 void *salMalloc(u32 size);
-s32 memset(void *, int, int);
 void DCFlushRange(void *, int);
 void DCInvalidateRange(void *, int);
 void DCStoreRangeNoSync(void *, int);

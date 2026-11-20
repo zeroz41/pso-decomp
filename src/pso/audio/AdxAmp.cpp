@@ -1,5 +1,6 @@
 // CRI adx_amp.c: the ADXAMP volume stage (ADXAMP_SetSfreq, ADXAMP_Destroy).
 #include "types.h"
+#include <string.h>
 #include "pso/unk/text_803D31A4.h"
 #include "pso/unk/TLobby.h"
 #include "pso/audio/LscStream.h"
@@ -15,7 +16,6 @@
 
 extern "C" {
 
-s32 memset(void *, int, int);
 
 void TLobby::set_packet_flags(s32 arg1) {
     u8 *arg0 = (u8 *)this;

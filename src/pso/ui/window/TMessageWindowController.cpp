@@ -8,13 +8,10 @@
 #include "pso/ui/window/TWindowMessagePage.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/quest/TQuestThread.h"
+#include <stdio.h>
+#include <string.h>
 #pragma readonly_strings on
 extern "C" {
-void *memset(void *, int, unsigned long);
-int sprintf(char *, const char *, ...);
-unsigned long strlen(const char *);
-char *strcpy(char *, const char *);
-int strcmp(const char *, const char *);
 extern s32 local_client_id;
 const char *get_selected_entry__16TQuestListOnlineFv();
 s32 get_game_play_mode();

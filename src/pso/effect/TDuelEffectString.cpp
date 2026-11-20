@@ -83,7 +83,7 @@ void TDuelEffectNumber::calc_digit_transform(s32 arg0, f32 *arg1, f32 *arg2, s32
     *arg2 = 1.0f - ((arg3 - 5) / 25.0f);
 }
 
-f64 pow();
+f64 pow(f64, f64);
 
 #pragma push
 #pragma opt_common_subs off
@@ -130,6 +130,6 @@ TDuelEffectString::TDuelEffectString(TObject *object, void *arg2, void *arg3) : 
     pad_28 = 0;
 }
 
-f32 TBoss8Dragon__sub_8008072C(void) {
-    return (f32) pow();
+f32 TBoss8Dragon__sub_8008072C(f32 x, f32 y) {
+    return (f32) pow(x, y);
 }

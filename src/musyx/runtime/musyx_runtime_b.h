@@ -3,6 +3,7 @@
 
 #pragma dont_inline on
 #include "types.h"
+#include <string.h>
 #include "musyx/runtime/musyx_dspvoice.h"
 #include "pso/audio/SoundMixVoice.h"
 #include "pso/audio/SoundReverb.h"
@@ -471,13 +472,9 @@ void set_param_and_notify__6TLobbyFPvi(u8 *arg0, s32 arg1);
 void clear_record__6TLobbyFPv(void *);
 void release_ref__6TLobbyFv(void);
 void init_once__6TLobbyFv(void);
-s32 memset(void *, int, int);
-s32 memset(void *, int, int);
 void TLobby__sub_803C07F4(u8 *arg0);
-s32 memset(void *, int, int);
 extern RecoveredGlobal_803C0B08_lbl_80570AC0 lbl_80570AC0;
 void TLobby__sub_803C0AD8(void);
-s32 memset(void *, int, int);
 void TLobby__sub_803C406C(void);
 extern RecoveredGlobal_803C0B08_lbl_80570AC0 lbl_80570AC0;
 void TLobby__sub_803C0B08(void);
@@ -573,7 +570,6 @@ void salRemoveStudioInput(Rec_803BD660 *r, u32 x);
 void hwRemoveInput(u8 i, u32 x);
 void inpResetChannelDefaults(u8 arg0, u8 arg1);
 void inpSetMidiLastNote(u8 arg0, u8 arg1, u8 arg2);
-void *memcpy(void *dst, const void *src, u32 n);
 u8 inpGetMidiLastNote(u8 arg0, u8 arg1);
 u16 inpGetVolume(Lob_803BBFB8 *arg0);
 u16 inpGetPanning(Lob_803BC000 *arg0);

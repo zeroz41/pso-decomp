@@ -1,4 +1,5 @@
 #include "types.h"
+#include <string.h>
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/unk/text_803E2070.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
@@ -47,7 +48,6 @@ extern u32 matrix_stack_base;
 extern u32 current_matrix;
 void PSMTXIdentity(void *);
 extern Pad_803DEA18 TKeyBoardControl_prev_pad_state[4];
-void *memmove(void *, const void *, u32);
 s32 PADReset(u32);
 
 #pragma push

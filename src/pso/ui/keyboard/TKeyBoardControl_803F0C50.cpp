@@ -2,6 +2,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_803F0C50.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "dolphin/os/OSReset.h"
+#include <string.h>
 
 struct K_803F119C { u8 pad0[0x10]; s32 f10; s32 f14; u8 pad1[0x18]; s32 f30; u8 pad2[0x34]; };
 
@@ -120,18 +121,15 @@ void OSRestoreInterrupts(s32);
 void Dolphin_SIGetTypeAsync(s32, void *);
 void OSInitThreadQueue(void *);
 s32 SIRefreshSamplingRate(void);
-void *memset(void *, int, u32);
 void OSClearContext(OSContext_803F0F84 *);
 void OSSetCurrentContext(OSContext_803F0F84 *);
 void handle_pad_transfer_done__16TKeyBoardControlFiUiPv(s32 chan, u32 status, OSContext_803F0F84 *ctx);
-void *memcpy(void *, const void *, u32);
 s32 SITransfer(s32 chan, void *out, u32 outBytes, void *in, u32 inBytes, void (*cb)(s32, u32, OSContext_803F0F84 *), s64 delay);
 OSContext_803F0F84 *OSGetCurrentContext(void);
 s32 __OSReschedule(void);
 void SISetCommand(s32, u32);
 void SIEnablePolling(u32);
 s32 SIGetResponse(s32, void *);
-void *memmove(void *, const void *, u32);
 s32 SIIsChanBusy(s32);
 u32 SIGetStatus(s32);
 

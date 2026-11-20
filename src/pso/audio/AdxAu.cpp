@@ -1,12 +1,11 @@
 // CRI adx_bau.c: the Sun/NeXT .snd (AU) decoder (ADXB_ExecOneAu: mu-law, 8 and 16 bit).
 #include "types.h"
+#include <string.h>
 #include "pso/unk/TLobby_803C1A58.h"
 #include "pso/unk/TLobby.h"
 #include "pso/audio/AdxbDecoder.h"
 
 extern "C" {
-s32 memset(void *, int, int);
-int memcmp(const void *a, const void *b, unsigned long n);
 /* mu-law sample expansion table (8-bit code -> s16 PCM) */
 s16 stream_chunk_decode_table[256] = {
     -32124, -31100, -30076, -29052, -28028, -27004, -25980, -24956, -23932, -22908, -21884, -20860, -19836, -18812,

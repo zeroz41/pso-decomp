@@ -1,5 +1,7 @@
 #include "pso/system/ResourceFile.h"
 #include "types.h"
+#include <string.h>
+#include <stdio.h>
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/unk/text_800F7DAC.h"
 #include "pso/unk/TLobby.h"
@@ -15,7 +17,6 @@ char texture_prs_disc_filename_buffer[128];
 char texture_prs_stream_filename_buffer[128];
 s32 lbl_805D63C0;
 s32 lbl_805D63C4;
-s32 sprintf(char *, const char *, ...);
 void load_gvm_texture_archive(s32, s32);
 extern char texture_prs_stream_filename_buffer[];
 s32 adxf_get_fsize_sct();
@@ -24,7 +25,6 @@ s32 xmalloc__FUl(s32);
 void xfree__FPv(s32);
 extern char texture_prs_disc_filename_buffer[];
 void TObjPlayer__sub_803DD5E8(void *, s32, s32, s32);
-s32 memset(s32, s32, s32);
 extern s32 lbl_805D63C0;
 extern s32 lbl_805D63C4;
 int release_texture_list();
@@ -89,7 +89,7 @@ s32 bind_gvm_texture_list(const char *name, GinjaTextureList *texlist) {
     if (name == NULL || texlist == NULL) {
         return 0;
     }
-    memset(lbl_805D63C0, 0, 0x1800);
+    memset((void *)lbl_805D63C0, 0, 0x1800);
     TObjPlayer__sub_803DD5E8(m_texture_list, lbl_805D63C0, lbl_805D63C4, 0x200);
     if (TLobby::load_texture_pvm_file(name, (s32)m_texture_list) == -1) {
         return 0;
@@ -122,7 +122,7 @@ s32 load_texture_if_valid(u32 arg0) {
 void init_buffers(void) {
     s32 p = xmalloc__FUl(0x1800);
     lbl_805D63C0 = p;
-    memset(p, 0, 0x1800);
+    memset((void *)p, 0, 0x1800);
     lbl_805D63C4 = xmalloc__FUl(0x3800);
 }
 

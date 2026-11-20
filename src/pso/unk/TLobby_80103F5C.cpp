@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include <string.h>
 #include "pso/unk/TLobby_801E43E4.h"
 #include "types.h"
 #include "pso/player/TObjPlayer_80120FC4.h"
@@ -120,7 +121,6 @@ void TLobby__sub_801036CC(void);
 void set_boss_buf_entry__6TLobbyFii(s32, u16);
 s32 test_flags_any(s32 *flags, s32 mask);
 extern s32 lbl_805D5440;
-void *memcpy(void *, const void *, u32);
 void spawn_dropped_item_from_msg(void *, s32);
 s32 get_sync_counter__6TLobbyFi(u16);
 s32 bswap_player_packet__6TLobbyFv();

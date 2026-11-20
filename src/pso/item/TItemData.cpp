@@ -1,5 +1,7 @@
 #include "pso/item/MagStats.h"
 #include "types.h"
+#include <stdio.h>
+#include <string.h>
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/system/byteswap.h"
@@ -120,7 +122,6 @@ s32 is_usable__9TItemDataFPv(void *arg0);
 s32 is_custom_name_srank__9TItemDataFPv(u8 *arg0);
 void serialize_mag__9TItemDataFPvPv(Item_8010D510 *item, const Mag_8010D510 *mag);
 void init__9TItemDataFv(TItemData_8010E344 *self);
-s32 memset(s8 *, s32, s32);
 }
 #define lookup_item_pmt_record ((Parm_8010C1E0 * (*)(void *))lookup_item_pmt_record)
 #define getS16_06__9TItemDataFPv ((s32 (*)(void *))getS16_06__9TItemDataFPv)
@@ -649,7 +650,6 @@ s32 get_item_icon_index(const u8 *q) {
 #define lookup_item_pmt_record ((void * (*)())lookup_item_pmt_record)
 #define lookup_item_def__9TItemDataFPv ((s32 (*)())lookup_item_def__9TItemDataFPv)
 #define init__9TItemDataFv ((s32 (*)())init__9TItemDataFv)
-s32 strncpy(s8 *, u32, s32);
 void TItemData__sub_8010CA08(TItemData *arg0, u32 arg1, u8 arg2);
 s32 TItemData__sub_8010CAB0(s32 arg0, s8 arg1);
 int register_item_drop__10TObjPlayerFv(void*);
@@ -688,7 +688,7 @@ void TItemData__sub_8010CA08(TItemData *item_data, u32 arg1, u8 arg2) {
         *(s8 *)((s8 *)item_data + 2) = 0;
         memset(sp8, 0, 0xA);
         sp8[0] = 0x41;
-        strncpy(&sp8[1], arg1, 8);
+        strncpy((char *)&sp8[1], (const char *)arg1, 8);
         item_data->pack_three_colors((u8 *)sp8);
     }
 }
@@ -841,7 +841,6 @@ s32 is_rare_item__9TItemDataFPv(u8 *item);
 int get_item_chunk_buffer(int a0);
 extern "C" {
 s32 get_item_description_text(s32);
-int sprintf(char *, const char *, ...);
 }
 extern const char *lbl_805D2B10;
 s32 format_item_description(u8 *item);

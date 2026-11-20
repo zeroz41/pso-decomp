@@ -1,4 +1,5 @@
 #include "types.h"
+#include <string.h>
 #include "pso/item/shop/ShopToolStock.h"
 #include "pso/unk/text_80223B98.h"
 #include "pso/unk/TLobby.h"
@@ -105,7 +106,6 @@ const s32 shop_technique_pool_table[19] = {
 };
 
 extern "C" {
-s32 memset(void *, int, int);
 void roll_shop_technique_level(Obj_80223EE0 *arg0, s32 arg1);
 void push_shop_pool_entry(void *, u8);
 s32 TLobby__sub_80223DD8(Item_802242F8 *, s32);

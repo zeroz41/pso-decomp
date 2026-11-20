@@ -1,4 +1,5 @@
 #include "types.h"
+#include <string.h>
 #include "pso/system/date.h"
 #include "pso/system/vector.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -61,9 +62,6 @@ char *TLobby__sub_80070ACC(u8, u8, s32);
 Unit_8006FC7C *find_entity_by_id(void);
 Card_8006FC7C *get_character_save_record(u32);
 void fn_8026A1C4(char *, char *, s32);
-char *strncpy(char *, const char *, u32);
-char *strcpy(char *, const char *);
-u32 strlen(const char *);
 extern char lbl_8043857C[];
 extern s32 local_client_id;
 void TQuestVmDownLoadServer::split_time_hms(s32 arg0, s32 *arg1, s32 *arg2, s32 *arg3) {

@@ -12,6 +12,8 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/task/TObject.h"
+#include <stdio.h>
+#include <string.h>
 
 struct RecoveredGlobal_800739BC_lbl_8048C9D8 {
     s32 value;
@@ -48,8 +50,6 @@ s32 fn_80071A9C(void *, void *, void *);
 u8 *get_player_by_client_id(s32);
 void *create__14TWindowMessageFPvll(void *, void *, s32);
 void *get_window_layout_position(s32);
-int sprintf(char *, const char *, ...);
-char *strcat(char *, const char *);
 __declspec(section ".data") f32 challenge_window_extent[2] = {240.0f, 200.0f};
 char challenge_progress_text_buffer[0x100];
 const char *challenge_grade_letter_table[4] = {"", "B", "A", "S"};

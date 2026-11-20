@@ -4,11 +4,11 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/ui/charcreate/TObjCMMainMenu.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include <string.h>
 
 extern "C" {
 u8 * copy_player_visual_record(void *, void *);
 extern CharacterAppearanceFields character_creation_visual_record;
-s32 strncpy(void *, void *, int);
 }
 extern char character_creation_name_buffer[0x18];
 CharacterAppearanceFields *get_class_appearance_preset(s32 arg0);
@@ -32,7 +32,7 @@ void TObjCMMainMenu__sub_8028D9F8(void) {
 }
 
 void TObjCMMainMenu::copy_char_name() {
-    strncpy(character_creation_name_buffer, this, 0xC);
+    strncpy(character_creation_name_buffer, (const char *)this, 0xC);
     character_creation_name_buffer[0xC] = 0;
 }
 
@@ -46,7 +46,7 @@ s32 TObjCMMainMenu::validate_character_name(s8 *arg0) {
     s32 found;
     s8 *p;
     s8 *q;
-    strncpy(buf, arg0, 0xC);
+    strncpy((char *)buf, (const char *)arg0, 0xC);
     buf[12] = 0;
     found = 0;
     p = buf;

@@ -1,12 +1,11 @@
 // CRI adx_bsps.c: the SPSD decoder (ADXB_CheckSpsd, ADXB_ExecOneSpsd, header decode and info).
 #include "types.h"
+#include <string.h>
 #include "pso/unk/TLobby_803C1A58.h"
 #include "pso/unk/TLobby.h"
 #include "pso/audio/AdxbDecoder.h"
 
 extern "C" {
-s32 memset(void *, int, int);
-int memcmp(const void *a, const void *b, unsigned long n);
 
 s32 TLobby::is_spsd_header() {
     if (memcmp(this, "SPSD", 4) == 0) {

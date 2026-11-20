@@ -1,4 +1,5 @@
 #include "types.h"
+#include <string.h>
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
@@ -35,7 +36,6 @@ extern s32 __vt__12TObjNpcEnemy[];
 u8 *TObjNpcEnemy__ct(u8 *arg0, s32 arg1, s32 arg2);
 s32 draw_debug_info__11TObjNpcBaseFv();
 void debug_printf_at(s32, const char *, ...);
-void *memmove(void *, const void *, u32);
 void * TObjNpcEnemy__create(void *arg0);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 s32 rotate_matrix_y(int, int);

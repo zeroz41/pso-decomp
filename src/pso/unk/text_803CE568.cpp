@@ -1,4 +1,6 @@
 #include "types.h"
+#include <stdio.h>
+#include <string.h>
 #include "pso/unk/text_803CE568.h"
 #include "pso/unk/TLobby.h"
 
@@ -27,12 +29,8 @@ struct V_803CEF60 { void (*fn)(); };
 extern "C" {
 extern RecoveredCallback_4873a87e26d6 cvfs_completion_callback;
 extern s32 lbl_805D75FC;
-s32 strncmp(void *, void *, int);
-void *memcpy(void *, void *, u32);
-u32 strlen(void *);
 extern s8 fs_default_device_name[];
 extern Ent_803CF958 cvfs_entry_table[];
-void *memset(void *, s32, u32);
 s32 lbl_805D7600;
 u32 lbl_80581A30[75];
 // CVFS version banner: the first string of this file's pool (0x8047CF30).
@@ -41,8 +39,6 @@ s8 fs_default_device_name[12];
 Ent_803CF958 cvfs_entry_table[32];
 CvFsHandle si_type_info_table[40];
 extern const char lbl_805E0DA4[6] = "%s:%s";
-char *strcpy(char *, const char *);
-int sprintf(char *, const char *, ...);
 
 inline void cvfs_split_path(char *dev, char *file, char *path) {
     s32 i;
@@ -87,7 +83,7 @@ inline void cvfs_split_path(char *dev, char *file, char *path) {
 
 // Copies the default device name into dev and returns dev (like strcpy).
 inline char *cvfs_get_default_device(char *dev) {
-    s32 len = strlen(fs_default_device_name);
+    s32 len = strlen((const char *)fs_default_device_name);
     if (fs_default_device_name[0] == '\0') {
         dev[0] = '\0';
     } else {

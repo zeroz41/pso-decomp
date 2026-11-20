@@ -12,6 +12,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/frontend/TAdVIConfigGC.h"
+#include <string.h>
 
 #pragma readonly_strings on
 
@@ -30,7 +31,6 @@ extern "C" {
 void *VIGetDTVStatus(void *);
 void *get_player_by_client_id(s32 i);
 s32 get_window_layout_position(s32);
-char *strncpy(char *, const char *, u32);
 __declspec(section ".data") f32 player_names_window_pos[2] = {229.0f, 104.0f};
 extern s32 local_client_id;
 void *TAdVIConfigGC__ct(TAdVIConfigGC *arg0);
@@ -41,7 +41,6 @@ s32 VecCopy__FP3VecPC3Vec(void *);
 int VIWaitForRetrace(void);
 int VIConfigure(void*);
 int VIFlush(void);
-s32 memset(void *, int, int);
 
 void TAdVIConfigGC::open_player_names_window() {
     s32 i;

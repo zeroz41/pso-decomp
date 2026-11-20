@@ -1,3 +1,5 @@
+#include <stdlib.h>
+#include <string.h>
 #include "pso/system/ResourceFile.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/GbaJoybootState.h"
@@ -148,9 +150,6 @@ struct DateStamp_8032C9A8 { s32 days; s32 mins; s32 ticks; };
 struct Rec_8032C9A8 { u32 a; u32 b; u32 c; };
 
 extern "C" {
-void *memmove(void *, const void *, u32);
-s32 rand();
-void *memset(void *, int, u32);
 s32 GBAJoyBootAsync(s32, s32, s32, u8 *, s32, u8 *, void (*)(s32, s32));
 
 

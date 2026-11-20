@@ -1,5 +1,7 @@
 #include "pso/item/MagStats.h"
 #include "types.h"
+#include <stdio.h>
+#include <string.h>
 #include "pso/system/memory.h"
 #include "pso/item/drop/TItemDrop.h"
 #include "pso/ui/font/TFontSmallTask.h"
@@ -31,7 +33,6 @@ extern "C" {
 
 s32 get_game_play_mode();
 s32 get_drop_table_mode_flags(void);
-void *memset(void *dst, int c, u32 n);
 extern u8 TLobby__data_805011D8[];
 s32 item_drop_cached_offset = -1;
 const char *item_drop_class_name = "TItemDrop";
@@ -45,7 +46,6 @@ u8 fn_801D71D0(void *);
 u8 fn_801D7204(void *);
 extern s32 lobby_rule_settings[];
 void apply_drop_restrictions(void *arg0, Item_80105EA4 *it);
-s32 sprintf(void *, const char *, ...);
 extern s32 game_difficulty_selection;
 void format_drop_table_filename(char *out, const char *prefix);
 void *lookup_item_pmt_record(u8 *item);
@@ -390,7 +390,6 @@ void roll_rare_weapon_attributes__9TItemDropFiPvi(s32 rng, Obj_80106F4C *item, s
 void roll_weapon_special__9TItemDropFiPvi(s32 rng, u8 *item, s32 idx);
 void build_weapon_type_weights__9TItemDropFiPvi(s32 rng, Obj_80106F4C *item, s32 idx);
 s32 init__9TItemDataFv(void *);
-void *memcpy(void *, const void *, u32);
 void select_weapon_drop__9TItemDropFv(s32 rng, s32 level, u8 *item);
 void *load_relocatable_file(char *, s32);
 void close_gsl_archive(void);

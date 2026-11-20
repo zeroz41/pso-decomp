@@ -4,6 +4,7 @@
 // Record types and data shared by the three quest download server TUs (_803E6970, _803E8918, _803E9A24).
 
 #include "types.h"
+#include <string.h>
 #include "pso/quest/TQuestVmDownLoadServer_803E6970.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/quest/QuestDownloadCharTables.h"
@@ -328,7 +329,6 @@ struct Slot_803ED9AC {
 };
 extern Slot_803ED9AC quest_download_slot_chain_table[];
 extern const u8 romaji_kana_char_class_table[0x100];
-s32 strcpy(void *, void *);
 s32 dispatch_request_0x20__19TWindowKeyBoardSoftFll(void *, void *);
 s32 dispatch_request_0x1c__19TWindowKeyBoardSoftFv();
 extern s32 quest_download_initialized;
@@ -350,7 +350,6 @@ void TQuestVmDownLoadServer__sub_803ECD8C(Node_803ECD8C *p);
 void TQuestVmDownLoadServer__sub_803ECE5C(Node_803ECE5C *p);
 extern R_803E76A4 quest_download_slot_table[];
 N_803E9FA4 *insert_sorted_node__22TQuestVmDownLoadServerFP10N_803E9FA4(N_803E9FA4 *arg0, N_803E9FA4 *arg1);
-int strncmp(const char *, const char *, u32);
 extern s32 quest_download_name_search_lo;
 extern s32 quest_download_name_search_hi;
 Node_803EA384 *TQuestVmDownLoadServer__sub_803ECF84(void);
@@ -358,7 +357,6 @@ Node_803EA384 *build_item_list__22TQuestVmDownLoadServerFlP12Hdr_803EA384(s32 ar
 void TQuestVmDownLoadServer__sub_803EADD4(Obj_803EADD4 *arg0, s32 arg1);
 s32 TQuestVmDownLoadServer__sub_803EC95C(u16 *, const u8 *, int);
 s32 TQuestVmDownLoadServer__sub_803EB420(s32 arg0, s32 arg1, Node_803EB420 *arg2, u16 *arg3);
-char *strncpy(char *, const char *, u32);
 s32 TQuestVmDownLoadServer__sub_803E8DA0(char *, Req_803EEF2C *, s32);
 extern s32 lbl_805D7900;
 s32 TQuestVmDownLoadServer__sub_803EEF2C(Req_803EEF2C *arg0);
@@ -373,7 +371,6 @@ extern s32 quest_download_header_name_index_hi_count;
 extern s32 lbl_805D7874;
 extern s32 lbl_805D78FC;
 void append_message_text__22TQuestVmDownLoadServerFlP12Req_803EEF2CUc(u8 *arg0, s32 arg1, Req_803EEF2C *arg2, u8 arg3);
-u32 strlen(const char *);
 extern s32 lbl_805D78A4;
 extern s32 quest_text_entry_len;
 s32 count_fitting_entries__22TQuestVmDownLoadServerFP13Node_803EB328(Node_803EB328 *arg0);
@@ -393,7 +390,6 @@ void DCInvalidateRange(void *, u32);
 void ARQPostRequest(void *req, u32 owner, u32 type, u32 prio, u32 src, u32 dst, u32 len, void (*cb)(u8 *));
 u32 OSGetTick(void);
 u32 __OSBusClock : 0x800000F8;
-void *memcpy(void *, const void *, u32);
 void OSReport(const char *, ...);
 void ARQRemoveRequest(void *);
 extern u8 quest_download_aram_dma_buffer[];

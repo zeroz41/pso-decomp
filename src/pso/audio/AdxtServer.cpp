@@ -1,3 +1,4 @@
+#include <string.h>
 #include <dolphin/os/OSThread.h>
 #include "pso/unk/TLobby.h"
 #include "pso/audio/AdxStreamRuntime.h"
@@ -12,7 +13,6 @@ struct Pair_803C8678 { u32 a, b; };
 
 extern "C" {
 s32 TLobby__sub_803D3130(void *, s32, Pair_803C8678 *, Pair_803C8678 *);
-s32 memset(void *, int, int);
 s32 TLobby__sub_803C8B2C(u8 *arg0);
 
 }

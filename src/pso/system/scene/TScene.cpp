@@ -1,3 +1,4 @@
+#include <string.h>
 #include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/map/FloorArea.h"
@@ -311,7 +312,6 @@ extern "C" {
 
 s32 get_player_name_copy_buffer();
 
-s32 strncmp(s32, s32, s32);
 
 s32 release_texture_list(u32);
 
@@ -851,7 +851,7 @@ void TScene::load_scene_rel_file(s32 arg0) {
     if (TScene__data_805D5FCC != NULL) {
         Ent_802066BC *e;
         for (e = scene_format_dispatch_tables; e->name != NULL; e++) {
-            if (strncmp((s32)TScene__data_805D5FCC, (s32)e->name, 4) == 0) {
+            if (strncmp((const char *)TScene__data_805D5FCC, e->name, 4) == 0) {
                 TScene__data_805D5FE8 = e->idx;
                 return;
             }
@@ -1013,7 +1013,7 @@ void TScene::free_scene_resources() {
     }
     (*(s32 *)&scene_collision_data) = 0;
     TScene__data_805D5FCC = NULL;
-    if (strncmp(get_player_name_copy_buffer(), (s32)TScene__current_floor_name, 0x10) == 0) {
+    if (strncmp((const char *)get_player_name_copy_buffer(), TScene__current_floor_name, 0x10) == 0) {
         copy_name((s32)"..");
     }
 }
@@ -1089,7 +1089,7 @@ void load_scene_map_file(s32 arg0) {
     }
     if (TScene__data_805D5FCC != NULL) {
         for (e = scene_format_dispatch_tables; e->name != NULL; e++) {
-            if (strncmp((s32)TScene__data_805D5FCC, (s32)e->name, 4) == 0) {
+            if (strncmp((const char *)TScene__data_805D5FCC, e->name, 4) == 0) {
                 TScene__data_805D5FE8 = e->idx;
                 break;
             }

@@ -20,6 +20,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/render/render_util.h"
 #include "pso/ui/ItemListRow.h"
+#include <string.h>
 
 extern "C" {
 void mem_free(void *);
@@ -647,7 +648,6 @@ extern const f32 lbl_805DCF18;
 extern "C" {
 void calc_row_width__20TWindowSubStatusDispFv(Row_8025930C *arg0);
 s32 measure_string_len__20TWindowSubStatusDispFv(s32);
-char *strncpy(char *, const char *, unsigned long);
 s32 replace_owned_string__20TWindowSubStatusDispFPviiii(void *arg0, s32 src, s32 buf, s32 mask, s32 copy);
 #define is_wrapped__9TItemDataFPv ((s32 (*)(void *))is_wrapped__9TItemDataFPv)
 

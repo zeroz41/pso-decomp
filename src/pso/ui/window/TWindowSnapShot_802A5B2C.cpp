@@ -5,14 +5,11 @@
 #include "pso/ui/window/TWindowSnapShot.h"
 #include "pso/system/TGStream.h"
 #include "pso/unk/TLobby.h"
+#include <string.h>
 
 extern "C" {
-s32 strncpy(void *, void *, int);
-s32 strcpy(void *, void *);
-s32 strlen(void *);
 void mem_free(void *);
 void *mem_alloc(u32 size);
-s32 memset(void *, int, int);
 
 }
 
@@ -74,12 +71,12 @@ void RlcArchive::fn_802A5C7C() { directory = (RlcDirectoryEntry *)(buffer + head
 void RlcArchive::fn_802A5CB8() { header = (RlcHeader *)buffer; }
 
 void RlcArchive::fn_802A5CC4(s32 file) {
-    if (strlen((void *)file) > 0x1F) {
-        strncpy(name, (void *)file, 0x1F);
+    if ((s32)strlen((const char *)file) > 0x1F) {
+        strncpy(name, (const char *)file, 0x1F);
         name[0x1F] = 0;
         return;
     }
-    strcpy(name, (void *)file);
+    strcpy(name, (const char *)file);
 }
 
 void RlcArchive::free_buffer() {

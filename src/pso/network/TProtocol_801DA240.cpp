@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "pso/network/TProtocol.h"
 #include "pso/unk/TLobby_801DEFC4.h"
 #include "pso/unk/TLobby.h"
@@ -109,7 +110,6 @@ struct Pkt_801DA734 {
 };
 
 extern "C" {
-int sprintf(char *, const char *, ...);
 void handle_cmd_D3__9TProtocolFR6packet(u8 *arg0, Pkt_801DA35C *src);
 void send_trade_list__6TLobbyFPvPv(VObj_18_801DA4A0 *obj, Pkt_801DA4A0 *src);
 typedef void (*Fn_801DA240)(char *);

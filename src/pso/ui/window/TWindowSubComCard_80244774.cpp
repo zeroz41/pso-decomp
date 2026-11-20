@@ -24,6 +24,7 @@
 #include "pso/system/TLanguage.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
+#include <stdlib.h>
 
 
 struct UV_8024503C { f32 u, v; };
@@ -898,7 +899,6 @@ void TWindowBase::update_fade() {
 }
 
 extern "C" {
-s32 rand(void);
 
 void TWindowSubComCard__sub_8024634C(void) {
     switch (window_ui_theme_index) {

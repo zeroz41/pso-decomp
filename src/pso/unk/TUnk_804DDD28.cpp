@@ -1,5 +1,6 @@
 // TUnk_804DDD28, the base of the player action providers: its constructor,
 // destructor and key function (get_cell_address), so its table is emitted here.
+#include <string.h>
 #include "pso/system/RlcArchive.h"
 #include "pso/system/ControllerInputState.h"
 #include "types.h"
@@ -35,7 +36,6 @@ extern "C" {
 void TLobby__sub_802A7BC8(void* p);
 extern u32 snapshot_image_buffer;
 void TLobby__sub_802A7BD8(void);
-s32 memcpy(s32, s32, s32);
 void fn_802A6070(void *p, s32 v);
 void fn_802A6078(void *p, s32 v);
 extern s32 lbl_805D669C;
@@ -141,7 +141,7 @@ s32 copy_if_space(void) {
     if (shared_snapshot_capture->fn_802A5C3C() >= 0x258) {
         return 0;
     }
-    memcpy((*(s32 *)&snapshot_image_buffer), shared_snapshot_capture->get_size(), snapshot_buffer_size);
+    memcpy((void *)snapshot_image_buffer, (const void *)shared_snapshot_capture->get_size(), snapshot_buffer_size);
     return 1;
 }
 

@@ -1,5 +1,6 @@
 // CRI adx_baif.c: the AIFF decoder (ADXB_ExecOneAiff and its 8/16-bit steps, header check and parse).
 #include "types.h"
+#include <string.h>
 #include "pso/audio/AdxAiff.h"
 #include "pso/unk/TLobby_803C1A58.h"
 #include "pso/unk/TLobby.h"
@@ -7,8 +8,6 @@
 #include "pso/audio/AiffHeader.h"
 
 extern "C" {
-s32 memset(void *, int, int);
-int memcmp(const void *a, const void *b, unsigned long n);
 
 void TLobby::dispatch_network_state() {
     AdxbDecoder *o = (AdxbDecoder *)this;

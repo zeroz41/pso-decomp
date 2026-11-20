@@ -1,4 +1,5 @@
 #include "types.h"
+#include <string.h>
 #include "pso/player/TPlySmth.h"
 #include "pso/network/TRecvPsoRegistConnect.h"
 #include "pso/network/TPlyMeetUserExtension_801DAC6C.h"
@@ -50,9 +51,6 @@ struct VObjDAD38 : BaseDAD38 {
 extern "C" {
 Ext_801DAC6C *__as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(Ext_801DAC6C *arg0, const Ext_801DAC6C *arg1);
 void reset__18PSOV3EncryptionTCPFUl(void *, u32);
-s32 strcmp(const char *, const char *);
-s32 strncpy(void *, s32, s32);
-s32 memset(void *, s32, s32);
 extern char *port_map_copyright;
 void handle_cmd_9B__9TProtocolFR6packet(u8 *arg0, Regist_801DAD38 *arg1);
 s32 set_port__7TSocketFUl(void *, s16);
@@ -104,15 +102,15 @@ void handle_cmd_9B__9TProtocolFR6packet(u8 *arg0, Regist_801DAD38 *arg1) {
         memset((void *)&pkt, 0, 0xE0);
         pkt.cmd = 0xDB;
         pkt.size = 0xE0;
-        strncpy(pkt.a, (s32)((s32)(arg0 + 0x3EB8)), 0x10);
-        strncpy(pkt.b, (s32)((s32)(arg0 + 0x3EC9)), 0x10);
-        strncpy(pkt.c, (s32)((s32)(arg0 + 0x3F8A)), 0x10);
-        strncpy(pkt.d, (s32)((s32)(arg0 + 0x3F9B)), 0x10);
+        strncpy(pkt.a, (const char *)(arg0 + 0x3EB8), 0x10);
+        strncpy(pkt.b, (const char *)(arg0 + 0x3EC9), 0x10);
+        strncpy(pkt.c, (const char *)(arg0 + 0x3F8A), 0x10);
+        strncpy(pkt.d, (const char *)(arg0 + 0x3F9B), 0x10);
         __as__8TPlySmthFRC8TPlySmth((s32)pkt.smth, (s32)(arg0 + 0x18F8));
         pkt.port = *(u16 *)(arg0 + 0x1908);
-        strncpy(pkt.e, (s32)((s32)(arg0 + 0x3EDA)), 0x30);
-        strncpy(pkt.f, (s32)((s32)(arg0 + 0x3F0A)), 0x30);
-        strncpy(pkt.g, (s32)((s32)(arg0 + 0x3F3A)), 0x30);
+        strncpy(pkt.e, (const char *)(arg0 + 0x3EDA), 0x30);
+        strncpy(pkt.f, (const char *)(arg0 + 0x3F0A), 0x30);
+        strncpy(pkt.g, (const char *)(arg0 + 0x3F3A), 0x30);
         bswap_cmd_db_regist_connect_reply((packet_header *)&pkt);
         ((VObjDAD38 *)arg0)->m8(&pkt, 0xE0);
     } else {
@@ -132,10 +130,10 @@ s32 socket_set_server_info(u8 *socket, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s
     memset(socket + 0x3EC9, 0, 0x11);
     memset(socket + 0x3F8A, 0, 0x11);
     memset(socket + 0x3F9B, 0, 0x11);
-    strncpy(socket + 0x3EB8, arg1, 8);
-    strncpy(socket + 0x3EC9, arg2, 0xC);
-    strncpy(socket + 0x3F8A, arg3, 8);
-    strncpy(socket + 0x3F9B, arg4, 0xC);
+    strncpy((char *)(socket + 0x3EB8), (const char *)arg1, 8);
+    strncpy((char *)(socket + 0x3EC9), (const char *)arg2, 0xC);
+    strncpy((char *)(socket + 0x3F8A), (const char *)arg3, 8);
+    strncpy((char *)(socket + 0x3F9B), (const char *)arg4, 0xC);
     if (((VObjDA *)socket)->m4() < 0) {
         return 1;
     }

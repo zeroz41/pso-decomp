@@ -1,3 +1,4 @@
+#include <string.h>
 #include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/system/BmlResource.h"
@@ -151,7 +152,6 @@ void reset_gstream_globals(void);
 extern "C" {
 s32 xmalloc__FUl(s32);
 char TLobby__tmp_buf_name[0x20];
-s32 strcmp(void *, void *);
 u8 bml_load_state;
 s32 lobby_download_buffer;
 s32 lbl_805D4AD0;
@@ -171,7 +171,6 @@ s32 TLobby__sub_800F9FF4(s32);
 s32 release_texture_list(void *);
 Lobby_8001FE7C *free_bin_model_request(Lobby_8001FE7C *self, s16 del);
 u32 prs_decompress_buffer(s32 arg0, s32 arg1);
-char *strncpy(char *dest, const char *src, unsigned long num);
 extern u8 *resource_decompress_buffer;
 
 extern const char *lbl_805D2B10;
@@ -208,7 +207,7 @@ void TLobby__sub_8001EDD8(TBinModel *self, s32 item) {
 }
 
 void TLobby::tmp_buf_release_if_owner(const char *name) {
-    if (((s32) tmp_buf_in_use_flag == 0) && (strcmp(TLobby__tmp_buf_name, (void *)name) == 0)) {
+    if (((s32) tmp_buf_in_use_flag == 0) && (strcmp(TLobby__tmp_buf_name, name) == 0)) {
         tmp_buf_in_use_flag = 1;
         TLobby__tmp_buf_name[0] = 0;
     }
@@ -220,7 +219,7 @@ s32 TLobby::tmp_buf_release(const char *name) {
             TLobby::debug_print("TmpBufRelease(%s) Bad Release", name);
             return 0;
         }
-        if (strcmp(TLobby__tmp_buf_name, (void *)name) != 0) {
+        if (strcmp(TLobby__tmp_buf_name, name) != 0) {
             TLobby::debug_print("TmpBufRelease(%s) keycode no-match(%s)", name, TLobby__tmp_buf_name);
             return 0;
         }

@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include <string.h>
 #include "pso/object/TObjWarnChime.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/vector.h"
@@ -223,7 +224,6 @@ struct Table_800712D8 {
 
 extern "C" {
 s32 TLobby__sub_80291F9C(void);
-s32 strncpy(void *, void *, int);
 char split_screen_player_name[0x20];
 void TLobby__sub_80292200(s32 arg0);
 }
@@ -452,7 +452,7 @@ void TLobby::set_encoded_name_and_color(u8 *arg0, s32 arg1) {
 }
 void TLobby::set_split_screen_name() {
     s32 arg0 = (s32)this;
-    strncpy(split_screen_player_name, (void *)arg0, 0x20);
+    strncpy(split_screen_player_name, (const char *)arg0, 0x20);
     split_screen_player_name[0x1F] = 0;
 }
 void TLobby::update_challenge_timer(s32 arg0) {

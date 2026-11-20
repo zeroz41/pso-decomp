@@ -1,4 +1,5 @@
 #pragma readonly_strings on
+#include <string.h>
 #include "pso/audio/LscStream.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/unk/TLobby.h"
@@ -30,8 +31,6 @@ void lsc_notify_queue_empty(void) {
         lsc_queue_empty_callback(lsc_queue_empty_object, lsc_queue_empty_param);
     }
 }
-char *strncpy(char *dest, const char *src, unsigned long num);
-void *memset(void *dst, int val, unsigned long n);
 extern LscStream lsc_slot_table[];
 void notify_dvd_read__6TLobbyFv(void *);
 void enter_lock__6TLobbyFv(void *);

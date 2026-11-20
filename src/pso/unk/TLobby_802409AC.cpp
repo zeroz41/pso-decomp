@@ -1,4 +1,5 @@
 #include "types.h"
+#include <string.h>
 #include "pso/audio/SoundRequestVoice.h"
 #include "pso/unk/GuildCardRecord.h"
 #include "pso/unk/TLobby.h"
@@ -36,8 +37,6 @@ GuildCardRecord com_card_entries[8];
 
 extern "C" {
 s32 __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(void *, void *);
-s32 strncpy(void *, void *, int);
-s32 memset(void *, int, int);
 void load_selected_guild_card_record(Src_8024220C *arg0);
 }
 void TLobby::set_field0(void *owner) { ((SoundRequestVoice *)this)->owner = (SoundRequestOwner *)owner; }
@@ -1089,7 +1088,7 @@ char *TLobby::build_text_from_comma_list() {
 void TLobby__sub_8024259C(s32 arg0) {
     if ((u32) TLobby__protocol_instance != 0U) {
         memset((void *)&TLobby__data_8050AAAC.value, 0, 0x11);
-        strncpy((void *)&TLobby__data_8050AAAC.value, (void *)(arg0 + 0x19), 0x10);
+        strncpy((char *)&TLobby__data_8050AAAC.value, (const char *)(arg0 + 0x19), 0x10);
         *(s8 *)((s8 *)&TLobby__data_8050AAAC.value + 0x10) = 0;
         seq_jump__9TProtocolFPUcR21TPlyMeetUserExtension(TLobby__protocol_instance, (void *)(arg0 + 0x4C), (void *)(arg0 + 0x58));
     }
@@ -1113,9 +1112,9 @@ void init_player_entry__6TLobbyFPvPv(u8 *arg0, u8 *arg1) {
     __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(arg0 + 0x58, arg1 + 0x60);
     ((TLobby *)arg0)->get_id();
     if (find_card_by_id__17TWindowSubComCardFUl() == 0U) {
-        strncpy(arg0 + 8, (void *) (((TWindowSubStatusDisp *)arg0)->get_sub_disp_ptr()), 0x10);
+        strncpy((char *)(arg0 + 8), (const char *)((TWindowSubStatusDisp *)arg0)->get_sub_disp_ptr(), 0x10);
     } else {
-        strncpy(arg0 + 8, (void *) (get_com_card_list__6TLobbyFv()), 0x10);
+        strncpy((char *)(arg0 + 8), (const char *)get_com_card_list__6TLobbyFv(), 0x10);
     }
     *(s8 *)((s8 *)arg0 + 0x18) = 0;
     p = ((TLobby *)(arg1 + 0x1C))->build_text_from_comma_list();

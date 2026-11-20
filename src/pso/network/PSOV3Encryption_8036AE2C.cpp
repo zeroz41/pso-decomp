@@ -1,4 +1,5 @@
 #include "types.h"
+#include <string.h>
 #include "pso/boss/goldragon/TBoss8Dragon_8036AEF8.h"
 #include "pso/network/PSOV3Encryption_8036AE2C.h"
 #include "pso/system/memory.h"
@@ -20,7 +21,6 @@ struct RecoveredGlobal_8036AEA4_lbl_804F3628 {
 };
 
 extern "C" {
-s32 memset(void *, int, int);
 extern RecoveredGlobal_8036AE2C_lbl_804F3628 lbl_804F3628;
 LAYOUT_ASSERT(RecoveredGlobal_8036AE2C_lbl_804F3628_size, sizeof(RecoveredGlobal_8036AE2C_lbl_804F3628) == 0x18);
 u8 *__dt__15PSOV3EncryptionFv(u8 *arg0, s16 arg1) {

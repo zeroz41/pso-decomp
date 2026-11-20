@@ -14,6 +14,7 @@
 #include "pso/unk/text_80086B64.h"
 
 #include "types.h"
+#include <stdlib.h>
 #include "pso/effect/particle/TParticleCtrl_80327D30.h"
 #include "pso/player/TObjPlayer_80083594.h"
 #include "pso/system/task/TObject.h"
@@ -73,7 +74,6 @@ extern "C" {
 f32 vec_squared_length(u8 *arg0);
 void set_queued_main_phase(s32 arg0);
 void request_main_phase(s32 arg0);
-s32 rand(void);
 s32 is_particle_sprite_additive__13TUnk_8048E728Fv(void *, s32);
 s32 append_node_to_tail__13TParticleCtrlFPvPv(s32, void *);
 s32 all_parents_unqueued_for_destruction__7TObjectFv();

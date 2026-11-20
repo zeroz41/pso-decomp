@@ -10,6 +10,8 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include <stdio.h>
+#include <string.h>
 #pragma defer_codegen off
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -18,9 +20,6 @@
 struct ControllerInputStateResultWin { s32 value; u8 remaining[0x1AC]; };
 extern "C" {
 char* get_message_text(s32);
-int sprintf(char*, const char*, ...);
-int strncmp(const char*, const char*, unsigned long);
-char* strncat(char*, const char*, unsigned long);
 s32 has_window_task_root();
 s32 get_window_layout_position(s32);
 u32 create__14TWindowMessageFPvll(s32, void*, s32);

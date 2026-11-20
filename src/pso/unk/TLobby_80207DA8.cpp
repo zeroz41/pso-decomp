@@ -1,3 +1,4 @@
+#include <string.h>
 #include "pso/system/ResourceFile.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/TLobby_80207DA8.h"
@@ -316,7 +317,6 @@ struct R_80207F30 { s16 a; s16 b; u16 c; };
 
 extern "C" {
 s32 get_current_floor();
-void *memset(void *, int, unsigned long);
 int TLobby__sub_80207F30(R_80207F30 *arg0);
 }
 void bswap_enemy_set_row(void *arg0);
@@ -648,15 +648,12 @@ void TLobby::invoke_command(u8 opcode) {
     wave_event_action_table[opcode].action();
 }
 
-extern "C" {
-s32 memcpy(s32 *, s32, s32);
-}
 
 s32 read_be_u32(void) {
     s32 sp8;
     s32 temp_r4;
 
-    memcpy(&sp8, wave_event_stream_base + wave_event_stream_cursor, 4);
+    memcpy(&sp8, (void *)(wave_event_stream_base + wave_event_stream_cursor), 4);
     temp_r4 = wave_event_stream_cursor;
     wave_event_stream_cursor = temp_r4 + 4;
     bswap_32__FPUl(&sp8, temp_r4);

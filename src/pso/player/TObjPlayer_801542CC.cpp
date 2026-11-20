@@ -1,4 +1,5 @@
 #include "types.h"
+#include <string.h>
 #include "pso/system/data/FlagWord.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
@@ -163,7 +164,6 @@ extern unsigned char lbl_8050DAD0[];
 extern int player_unique_pair_entry_count;
 void free_collision_body_parts(G_80156720 *arg0);
 u16 get_entity_id(int);
-void *memcpy(void *, const void *, u32);
 s32 *csnVectorUnder(s32 arg0, u32 *arg1, s32 arg2);
 s32 *csnVecterUnder(s32 origin, s32 mask);
 u16 TObjRoomId__sub_801A1DB8(u16);
@@ -181,7 +181,6 @@ u8 test_elt_flag__13TUnk_80493450Fll(void *arg0, s32 arg1, s32 arg2);
 s32 obj_is_hit_receivable(u8 *arg0);
 void *resolve_hittable_target(u16 actorId, s16 collider);
 u16 register_entity_by_id(void*);
-int memset(void*, void*, void*);
 
 void TObjPlayer::apply_status_effect(s32 a) {
     TObjPlayer__sub_8015434C((CollisionBody_80155FBC *)a, 0, registered_player_count);
@@ -314,7 +313,7 @@ void TObjPlayer::add_unique_pair_entry(TObjCollidable *target, s32 body) {
     }
 }
 
-void reset_global_table(void) { memset(lbl_8050DAD0, (void*)0, (void*)128); player_unique_pair_entry_count = 0; }
+void reset_global_table(void) { memset(lbl_8050DAD0, 0, 128); player_unique_pair_entry_count = 0; }
 
 void TObjCollidable::clear_player_status_flag(s32 arg1, u32 arg2) {
     void *arg0 = (void *)this;

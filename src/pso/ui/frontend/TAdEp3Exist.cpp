@@ -8,6 +8,7 @@
 #include "pso/ui/frontend/TAdScrollWinGC_80327504.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801334D4.h"
 #include "pso/unk/text_8036F764.h"
+#include <string.h>
 
 #include "pso/ui/TLevelSelect.h"
 #include "pso/unk/TLobby.h"
@@ -98,7 +99,6 @@ extern u8 controller_input_state[];
 extern u8 controller_physical_port_bank[];
 int prs_read_control_bit(Obj_8036F4DC *arg0);
 void TAdEp3Exist__sub_8036F5A4(void* p);
-void *memmove(void *, const void *, u32);
 s32 prs_decompress(Prs_8036F5B0 *c, u8 *src, s32 arg2, s32 arg3);
 int request_scene_change__21TAdMultiChgGameModeGCFv(void*);
 int request_transition__21TAdMultiChgGameModeGCFv(void*);

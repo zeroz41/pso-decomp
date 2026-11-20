@@ -5,6 +5,8 @@
 #include "pso/system/memory.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include <stdio.h>
+#include <string.h>
 
 #pragma readonly_strings on
 
@@ -72,17 +74,11 @@ s32 CARDGetResultCode(void *);
 s32 CARDUnmount();
 const Names_801E13C4 memory_card_banner_filenames = {{"vms_sys.tp", "vms_icon1.tp", "vms_icon2.tp", "vms_down.tp", "vms_capt.tp", "vms_net.tp"}};
 s32 calc_crc32_bitwise(void *, s32, s32);
-int sprintf(char *, const char *, ...);
-char *strncpy(char *, const char *, u32);
-void *memcpy(void *, const void *, u32);
-void *memset(void *, int, u32);
 s32 build_save_file_image__15TAdPlayerLoadGCFPvPv(u8 *arg0, Src_801E17F4 *arg1);
 s32 CARDGetStatus(s32, s32, CARDStat_801E2048 *);
-int strncmp(const char *, const char *, u32);
 }
 void fill_date_from_seconds(u32 secs, DateStamp *out);
 extern "C" {
-int strcmp(const char *s1, const char *s2);
 s32 get_card_file_info__15TAdPlayerLoadGCFiPvPv(s32 chan, const char *name, Info_801E21A8 *info);
 s32 CARDGetSerialNo();
 s32 CARDFormatAsync(s32 chan, void *callback);

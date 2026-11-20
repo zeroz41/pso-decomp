@@ -11,6 +11,7 @@
 #include "pso/ui/Language.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include <string.h>
 #pragma readonly_strings on
 
 struct Msg_8025A9C0 {
@@ -27,7 +28,6 @@ struct Win_8025AD5C { u16 flags; u8 pad2[6]; f32 f8; f32 fC; u8 pad10[8]; f32 f1
 struct Ref_8025AD5C { u8 pad0[0x10]; f32 f10; f32 f14; f32 f18; u8 pad1c[0x30 - 0x1C]; s32 i30; u8 pad34[4]; f32 f38; u8 pad3c[8]; f32 f44; };
 
 extern "C" {
-s32 strncpy(s32, u32, s32);
 u8 get_small_font_glyph_width(u8);
 s32 TWindowSubStatusDisp__sub_800FC248(u8);
 s8 *parse_text_control_codes(s8 *, s32 *, s32);
@@ -172,7 +172,7 @@ void set_text_entry_string(u8 *arg0, u32 str, s32 arg2) {
     if ((str != 0U) && (arg2 & 0x20)) {
         temp_r3_2 = TWindowKeyBoardSoft::strnlen((s8 *)str, (u32)(0x400));
         *(u32 *)((s8 *)arg0 + 0x20) = ((u32)mem_alloc(temp_r3_2 + 1));
-        strncpy((s32)((int) (*(u32 *)((s8 *)arg0 + 0x20))), str, temp_r3_2);
+        strncpy((char *)(*(u32 *)((s8 *)arg0 + 0x20)), (const char *)str, temp_r3_2);
         *(s8 *)((s8 *)(temp_r3_2 + *(u32 *)((s8 *)arg0 + 0x20)) + 0) = 0;
         *(u16 *)((s8 *)arg0 + 0) = (u16) (*(u16 *)((s8 *)arg0 + 0) | 0x20);
     } else {

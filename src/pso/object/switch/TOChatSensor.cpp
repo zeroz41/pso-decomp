@@ -14,6 +14,7 @@ const char *chat_sensor_folder_name_ptr = "TOChatSensorFolder";
 const char *TOChatSensorCapture__class_name = "TOChatSensorCapture";
 
 #include "types.h"
+#include <string.h>
 
 #include "pso/unk/TLobby_8015ABD0.h"
 
@@ -56,9 +57,7 @@ TOChatSensorCapture *TOChatSensorCapture__instance;
 
 s32 find_chat_keyword(char *, char (*)[0x20], s32);
 
-char *strncpy(char *, const char *, size_t);
 
-void *memset(void *, int, size_t);
 }
 
 extern "C" {

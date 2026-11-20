@@ -1,4 +1,5 @@
 #include "types.h"
+#include <string.h>
 #include "pso/unk/text_803D2F1C.h"
 
 struct ByteBlock_8 { u8 bytes[0x8]; };
@@ -6,7 +7,6 @@ struct ByteBlock_8 { u8 bytes[0x8]; };
 typedef struct Buf_803D2F1C { u8 *data; s32 size; } Buf_803D2F1C;
 
 extern "C" {
-int strncmp(const char *, const char *, u32);
 u32 lbl_804F9E60[112] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,

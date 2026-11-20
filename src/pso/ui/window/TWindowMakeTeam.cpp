@@ -17,6 +17,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TUnk_804D0658.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include <string.h>
 
 const char *TWindowMakeTeam__name = "TWindowMakeTeam";
 const char *lbl_805D395C = "";
@@ -53,7 +54,6 @@ extern s32 local_client_id;
 void *get_window_layout_position(s32);
 char *get_shared_text_buffer(void);
 s32 measure_string_len__20TWindowSubStatusDispFv(char *);
-char *strncpy(char *, const char *, u32);
 void *create_entry_menu_window__15TWindowMakeTeamFv(void *);
 void *create_status_menu_window__15TWindowMakeTeamFv(void *);
 s32 get_message_10__20TWindowSubStatusDispFl(s32);

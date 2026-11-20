@@ -1,5 +1,6 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "types.h"
+#include <string.h>
 #include "pso/player/TObjPlayer_801E2D1C.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/trap/TOTrapChainSawEdge.h"
@@ -155,7 +156,6 @@ struct VObj_802C936C : Base_802C936C {
     virtual void m24(); virtual void m25(); virtual void m26(); virtual void m27();
 };
 
-int memset(void*, int, int);
 u16 get_entity_id(void *);
 s32 obj_setFlags30(void *, int);
 s8 get_current_floor(int);
@@ -192,7 +192,7 @@ void * TOTrapChainSawDamage__ct(void *arg0, void *arg1, void *arg2);
 s32 get_area_table_value__17TOTrapChainSawKeyFii(s32 arg0, s32 arg1);
 void vfunc_14__14TOTrapChainSawFv(void);
 void render__14TOTrapChainSawFv(u8 *arg0);
-int clear_field_d8__14TOTrapChainSawFv(void* p);
+void clear_field_d8__14TOTrapChainSawFv(void* p);
 void set_hit_cooldown_for_player__14TOTrapChainSawFPv(S_802C9124 *arg0, void *arg1);
 s32 consume_counter__14TOTrapChainSawFPv(S_802C9174 *arg0, void *arg1);
 int check_player_contact__14TOTrapChainSawFv(void *arg0);
@@ -724,7 +724,7 @@ void TOTrapChainSaw::render() {
     }
 }
 
-int TOTrapChainSaw::clear_field_d8() { return memset((char*)this + 0xd8, 0, 16); }
+void TOTrapChainSaw::clear_field_d8() { memset((char*)this + 0xd8, 0, 16); }
 
 void TOTrapChainSaw::set_hit_cooldown_for_player(void *arg1) {
     S_802C9124 *arg0 = (S_802C9124 *)this;

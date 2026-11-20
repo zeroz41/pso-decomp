@@ -26,6 +26,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/Language.h"
 #include "pso/system/task/TObject.h"
+#include <string.h>
 
 const char *TShopJudgmentItemWindow__class_name = "TShopJudgmentItemWindow";
 struct Base_802205E4 { char pad[0x18]; };
@@ -185,7 +186,6 @@ s32 get_appraisal_text(s32 arg0);
 
 extern "C" {
 u8 *create_item_list_window(s32 arg0, s32 arg1, s32 arg2);
-void *memset(void *, int, unsigned long);
 s32 try_spend_actor_meseta(u8 *arg0, s32 arg1);
 s32 get_item_record__23TShopJudgmentItemWindowFPv(int, int, int);
 void set_judgment_target_flag(void *arg0, void *arg1);

@@ -1,4 +1,5 @@
 // CRI adx_inis.c: ADXT_Finish, ADXT_Init and the SVM server callbacks they register.
+#include <string.h>
 #include "pso/unk/text_803D31A4.h"
 #include "pso/unk/text_803CE240.h"
 #include "pso/unk/TLobby.h"
@@ -14,7 +15,6 @@
 #include "pso/unk/text_803CE568.h"
 
 extern "C" {
-s32 memset(void *, int, int);
 void flush_update__6TLobbyFv(void *, int);
 s32 lbl_805D4658 = 1;
 s32 TLobby_init_ref_count;

@@ -4,6 +4,7 @@
 
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
+#include <string.h>
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjChara.h"
 
@@ -75,7 +76,6 @@ void run_task__17TOSymbolchatColliFv(Obj_80178890 *self);
 u32 prs_decompress_buffer(s32 arg0, s32 arg1);
 u32 symbolchat_colli_param_table[4];
 int symbol_chat_colli_entries;
-void *memset(void *, int, u32);
 u8 is_current_floor_switch_set(s32 id);
 s32 free_collision_body_parts(void *);
 
