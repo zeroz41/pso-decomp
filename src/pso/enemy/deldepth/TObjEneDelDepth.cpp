@@ -74,7 +74,6 @@ extern const f32 lbl_805DF294;
 
 s32 get_mode__11TCameraCtrlFPv(void *);
 void draw_blob_shadow(s32 arg0);
-s32 refresh_lobby_state__10TObjPlayerFv();
 s32 free_collision_body_parts(void *);
 s32 init_collision_body_parts(void *, void *, int);
 void scale_matrix_vec3(u8 *arg0, u8 *arg1);
@@ -1064,7 +1063,7 @@ void TObjEneDelDepth::init_move() {
     this->drawScale.z = (f32) TObjEneDelDepth__data_805DF260;
     this->drawScale.y = (f32) TObjEneDelDepth__data_805DF260;
     this->drawScale.x = (f32) TObjEneDelDepth__data_805DF260;
-    refresh_lobby_state__10TObjPlayerFv();
+    ((TObjPlayer *)this)->refresh_lobby_state();
     this->actionPhase = 0;
     if (this->motionController->get_type() < 6) {
         this->timer = 0x22;

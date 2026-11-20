@@ -97,7 +97,6 @@ struct Holder_8031EA70 { u8 pad[0x460]; Fade_8031EA70 arr[4]; };
 
 extern "C" {
 
-s32 get_target_info__9TObjEneDDFv();
 
 s32 push_matrix();
 
@@ -163,11 +162,8 @@ void remove_tracked_target__12TObjEneReconFPvPv(Obj_8031EFAC *o, u8 *target);
 
 s32 is_anim_5__12TObjEneReconFv();
 
-s32 refresh_lobby_state__10TObjPlayerFv();
 
-s32 send_entity_set_flags__9TObjEnemyFv();
 
-s32 get_flag_b4__9TObjEneDDFv();
 
 
 s32 is_out_of_range__12TObjEneReconFv();
@@ -288,7 +284,6 @@ s32 remap_area_sound_id__14TObjEneRecoboxFUl(s32, s32, s32);
 
 Vec *get_field_38_ptr__12TObjEneReconFv(void *, s32);
 
-s32 has_child_in_anim_5__12TObjEneReconFv();
 
 }
 
@@ -979,7 +974,7 @@ void TObjEneRecon__sub_8031FB6C(u8 *ene_recobox) {
 s32 TObjEneRecon__sub_8031FACC(Obj_8031FACC *arg0) {
     u8 r;
     s32 t;
-    if (has_child_in_anim_5__12TObjEneReconFv() == 1) {
+    if (((TObjEneRecon *)arg0)->has_child_in_anim_5() == 1) {
         return 0;
     }
     t = (s32)TWindowSubComCard::trunc_float(arg0->f3F8 / 2.0f);
@@ -993,7 +988,7 @@ s32 TObjEneRecon__sub_8031FACC(Obj_8031FACC *arg0) {
 u8 TObjEneRecon::is_out_of_range() {
     int var_r4;
 
-    if (has_child_in_anim_5__12TObjEneReconFv() == 1) {
+    if (has_child_in_anim_5() == 1) {
         return 1;
     }
     var_r4 = 0;
@@ -1150,7 +1145,7 @@ void TObjEneRecon::update_state(s32 arg1) {
         set_field_378(3);
         return;
     case 3:
-        if (get_flag_b4__9TObjEneDDFv() != 0) {
+        if (TObjEneDD::get_flag_b4() != 0) {
             this->m_4d8 = 0;
             *(s32 *)((s8 *)this + 0x4DC) = 0x1E;
             transition_enemy_state(4);
@@ -1195,7 +1190,7 @@ void TObjEneRecon__sub_8031F408(void *ene_dd, s32 arg1) {
         ((TObjEneDD *)ene_dd)->set_field_378(5);
         break;
     case 3:
-        if (get_flag_b4__9TObjEneDDFv() != 0) {
+        if (((TObjEneDD *)ene_dd)->get_flag_b4() != 0) {
             ((TObjEneDD *)ene_dd)->transition_enemy_state(2);
         }
         break;
@@ -1210,14 +1205,14 @@ void TObjEneRecon__sub_8031F408(void *ene_dd, s32 arg1) {
 void TObjEneRecon::handle_death_state(s32 arg1) {
     switch (arg1) {
     case 4:
-        refresh_lobby_state__10TObjPlayerFv();
+        ((TObjPlayer *)this)->refresh_lobby_state();
         *(s32 *)&this->m_428 = (s32) (*(s32 *)&this->m_428 | 1);
         TObjEneRecobox__sub_8031F1A8(this);
         this->vfunc_95();
         return;
     case 3:
         if ((s32) *(s32 *)((s8 *)this + 0x410) == 0) {
-            send_entity_set_flags__9TObjEnemyFv();
+            TObjEnemy::send_entity_set_flags();
             queue_destruction();
         }
     case 5:
@@ -1480,7 +1475,7 @@ block_37:
 #pragma push
 #pragma pool_data off
 void TObjEneRecobox::draw_with_debug_info() {
-    if (get_target_info__9TObjEneDDFv() != 0) {
+    if (TObjEneDD::get_target_info() != 0) {
         switch (this->m_3f8) {
         case 0:
             debug_printf_at(pack_debug_text_position(0, 9), "TYPE : NORMAL");

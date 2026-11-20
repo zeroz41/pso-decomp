@@ -204,8 +204,6 @@ typedef struct Obj_800A1814 {
 
 struct Raw_800A10A0 { u8 b[12]; };
 
-s32 update_movement_status__9TObjCharaFv();
-s32 update_action_hold_status__9TObjCharaFv();
 void calc_velocity_toward_destination(void *, Vec, Vec, f32);
 s32 check_path_obstructed(void *, Vec *);
 f32 atan2_float(f32, f32);
@@ -573,7 +571,7 @@ void TObjPlayer__sub_800A100C(s32 _w0) {  }
 
 s32 TObjEneDarkGunner::update_movement_status() {
     s32 arg0 = (saddr)this;
-    if (update_movement_status__9TObjCharaFv() != 0) {
+    if (TObjChara::update_movement_status() != 0) {
         TObjPlayer__sub_800A100C(arg0);
         return 1;
     }
@@ -582,7 +580,7 @@ s32 TObjEneDarkGunner::update_movement_status() {
 
 s32 TObjEneDarkGunner::update_action_hold_status() {
     s32 arg0 = (saddr)this;
-    if (update_action_hold_status__9TObjCharaFv() != 0) {
+    if (TObjChara::update_action_hold_status() != 0) {
         TObjPlayer__sub_800A100C(arg0);
         return 1;
     }

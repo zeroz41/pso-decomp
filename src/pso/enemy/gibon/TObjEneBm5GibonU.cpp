@@ -56,7 +56,6 @@ struct GibonUAnimationBinding {
 };
 
 extern "C" {
-s32 get_target_info__9TObjEneDDFv();
 s32 pack_debug_text_position(s32, s32);
 s32 debug_draw_line(void *, void *, u32, u32);
 s32 scale_matrix(s32, f32, f32, f32);
@@ -599,7 +598,7 @@ void TObjEneBm5GibonU::render_debug() {
     f32 frame;
     AnimationMotion *motion;
     TObjEneBm5GibonU *other;
-    if (get_target_info__9TObjEneDDFv() != 0) {
+    if (TObjEneDD::get_target_info() != 0) {
         debug_printf_at(pack_debug_text_position(0, 2), "GROUP:%2d", m_46c);
         if (m_470 == 1) {
             debug_printf_at(pack_debug_text_position(0, 3), "SPOT APPEAR");
@@ -661,7 +660,7 @@ void TObjEneBm5GibonU::render_debug() {
 void TObjEneBm5GibonU::vfunc_105() {
     s32 temp_r31;
 
-    if (get_target_info__9TObjEneDDFv() != 0) {
+    if (TObjEneDD::get_target_info() != 0) {
         temp_r31 = m_464;
         sub_800D10A0();
         if (temp_r31 != m_464) {

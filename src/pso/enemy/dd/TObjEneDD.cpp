@@ -74,7 +74,6 @@ extern s32 camera_ctrl_instance;
 int is_local_client_floor_leader(void*);
 int TObjPlayer__sub_801BA42C(void*);
 int freeze_all_players__10TObjPlayerFv(void*);
-int is_any_teammate_in_state__10TObjPlayerFv(void*);
 extern s32 enable_v2_features;
 extern s32 game_difficulty_selection;
 }
@@ -193,7 +192,6 @@ struct EneDDObj_800BA138 : EneDDBase_800BA138 {
     virtual void m12(void *, void *, void *);
     virtual void m13(void *, void *, void *);
 };
-int is_target_unobstructed__9TObjEneDDFl(void* a0 = 0, void* a1 = 0, void* a2 = 0);
 int add_flags_2e4__9TObjCharaFUl(void*, int);
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
 s32 get_position__12TBoss1DragonFv(void *, s32);
@@ -1179,7 +1177,7 @@ s32 TObjEneDD::is_target_unobstructed(saddr arg1) {
     return 0;
 }
 
-void TObjEneDD::transform_relative_position(void* a1) { is_target_unobstructed__9TObjEneDDFl(a1, (char*)this + 0x2fc, this); }
+void TObjEneDD::transform_relative_position(void* a1) { ((TObjEneDD *)a1)->is_target_unobstructed((saddr)((char*)this + 0x2fc)); }
 
 s32 TObjBase::is_alive() {
     int var_r31;
@@ -1411,7 +1409,7 @@ u8 TObjEneDD::is_phase_e() {
 
 int TObjEneDD::update_lobby_state() { return is_local_client_floor_leader(this); }
 
-int TObjEneDD::query_teammate_state() { return is_any_teammate_in_state__10TObjPlayerFv(this); }
+int TObjEneDD::query_teammate_state() { return TObjPlayer::is_any_teammate_in_state(); }
 
 void project_sound_origin_from_camera(s32 arg0, u8 *boss2_tunnel, f32 farg0) {
     f32 temp_f1;

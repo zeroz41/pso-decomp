@@ -38,7 +38,6 @@
 LAYOUT_ASSERT(PanarmsActionTimerOffset, offsetof(TObjEnePanBARA, action_timer) == 0x3B4);
 
 extern "C" {
-int set_field_b8__10TObjMotionFs(void*, int);
 s32 TObjEnePanarms__sub_800DFB44(s32);
 void sub_800E1C98__14TObjEnePanBARAFl(void *, s32);
 u8 check_can_attack__14TObjEnePanarmsFPv(void *arg0);
@@ -232,7 +231,6 @@ u8 TObjEnePanarms__sub_800E2E68(void *arg0);
 u8 is_below_half_hp__14TObjEnePanarmsFPv(void *arg0);
 s32 TObjEnePanarms__sub_800E2FB4(O_800E2FB4 *self);
 void clear_render_callback__8TObjFishFv(void);
-void refresh_lobby_state__10TObjPlayerFv();
 f32 horizontal_distance_squared(void *, void *);
 s32 angle_difference_abs(s32, s32);
 }
@@ -1259,7 +1257,7 @@ void TObjEnePanBARA::sub_800E0A44() {
     s16 var_r30;
     *(s32 *)((s8 *)this + 0x384) = 1;
     this->m_388 = 0;
-    refresh_lobby_state__10TObjPlayerFv();
+    ((TObjPlayer *)this)->refresh_lobby_state();
     var_r30 = 7;
     this->motion_flags &= ~1;
     if (find_nearest_visible_player((u8 *)this, &v, 500.0f) != 0xFFFF) {
@@ -1267,7 +1265,7 @@ void TObjEnePanBARA::sub_800E0A44() {
             var_r30 = 6;
         }
     }
-    set_field_b8__10TObjMotionFs((u8 *)this, var_r30);
+    TObjMotion::set_field_b8((s16)var_r30);
     static s32 TObjEnePanarms__sound_ids[2] = { remap_sound_for_area(0x4003B836), remap_sound_for_area(0x4003BB35) };
     play_sound_effect(TObjEnePanarms__sound_ids[this->m_380], &position, 0, 0);
     this->action_timer = 0xA4;

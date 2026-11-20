@@ -16,6 +16,7 @@
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/enemy/AttackTargetHistory.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjMotion.h"
 
 #pragma readonly_strings on
 
@@ -52,7 +53,6 @@ extern "C" {
 s32 TObjEneRe7Berura__sub_80094D98();
 
 void TObjEneRe7Berura__sub_80094C68(TObjEneRe7Berura *self);
-s32 refresh_collision_body_centers__14TObjCollidableFv(void *, void *, f32, f32);
 s32 post_translate_matrix(void *);
 s32 scale_matrix(s32, f32, f32, f32);
 s32 push_matrix();
@@ -151,7 +151,7 @@ s32 TObjEneRe7BeruraPunch::sub_80096150() {
     this->bodies[1].offset.y = this->m_cc;
     bodies = this->bodies;
     bodies[1].offset.z = 1.8f * (3.0f * this->m_f4);
-    refresh_collision_body_centers__14TObjCollidableFv(this, bodies, 3.0f, 1.8f);
+    TObjCollidable::refresh_collision_body_centers();
     this->update_enemy_collision_flags();
     bodies = this->bodies;
     if ((bodies[0].flags | bodies[1].flags) & 0x200000) {

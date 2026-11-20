@@ -63,9 +63,7 @@ struct G_800A7734 { u8 pad[0x42c]; E_800A7734 *tbl; };
 struct O_800A7734 { u8 pad[0x24]; s32 x24; u8 pad2[0xc]; s32 x34; };
 
 extern "C" {
-s32 update_movement_status__9TObjCharaFv();
 s32 update_movement_status__12TObjEneSaverFv(u8 *arg0);
-s32 update_action_hold_status__9TObjCharaFv();
 s32 update_action_hold_status__12TObjEneSaverFv(u8 *arg0);
 void *load_resource_from_descriptor(void *, int, void *, int, int, int);
 extern void *bm_ene_df1_saver_model_names[2];
@@ -1589,7 +1587,7 @@ void TObjEneSaver::vfunc_58() {
 
 s32 TObjEneSaver::update_movement_status() {
     u8 *arg0 = (u8 *)this;
-    if (update_movement_status__9TObjCharaFv() != 0) {
+    if (TObjChara::update_movement_status() != 0) {
         switch (this->mode) {
         case 0:
         case 1:
@@ -1612,7 +1610,7 @@ s32 TObjEneSaver::update_movement_status() {
 
 s32 TObjEneSaver::update_action_hold_status() {
     u8 *arg0 = (u8 *)this;
-    if (update_action_hold_status__9TObjCharaFv() != 0) {
+    if (TObjChara::update_action_hold_status() != 0) {
         switch (this->mode) {
         case 0:
         case 1:

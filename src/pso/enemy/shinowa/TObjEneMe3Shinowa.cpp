@@ -104,7 +104,6 @@ void TObjEneMe3ShinowaMirage__sub_800E69F0(TObjEneMe3Shinowa *, s32);
 void TObjEneMe3ShinowaMirage__sub_800E6F0C(TObjEneMe3Shinowa *shinowa);
 void TObjEneMe3Shinowa__sub_800E7268(TObjEneMe3Shinowa *);
 s32 check_in_range__23TObjEneMe3ShinowaMirageFPv(TObjEneMe3Shinowa *shinowa);
-s32 get_room__8TObjBaseFv(TObjBase *);
 s32 create__10TTecDebandFlll(void *, void *, s32);
 void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 
@@ -507,8 +506,8 @@ s32 TObjEneMe3Shinowa::can_hit_same_target() {
     ret = 0;
     if (!(m_3c4 & 0x10000)) {
         if (m_3ac > 100.0f && m_3ac < 150.0f) {
-            mine = get_room__8TObjBaseFv(this);
-            theirs = get_room__8TObjBaseFv(m_390);
+            mine = (s32)TObjBase::get_room();
+            theirs = (s32)((TObjBase *)m_390)->get_room();
             if (theirs == mine && check_body_collision_at(rotation_y, m_3ac - 20.0f) == 0) {
                 ret = 1;
             }

@@ -438,10 +438,7 @@ s32 lerp_angle_half__Fll(int, int);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 s32 update_action_hold_status__12TObjEneLappyFv(s32 arg0);
 s32 update_movement_status__12TObjEneLappyFv(s32 arg0);
-s32 update_movement_status__9TObjCharaFv();
-s32 update_action_hold_status__9TObjCharaFv();
 s32 obj_setFlags30(void *, s32);
-s32 send_entity_set_flags__9TObjEnemyFv();
 
 void TObjEneLappy::clear_flags_60() {
     u8 *arg0 = (u8 *)this;
@@ -457,7 +454,7 @@ void TObjEneLappy::clear_flags_60() {
 
 s32 TObjEneLappy::update_movement_status() {
     saddr arg0 = (saddr)this;
-    if (update_movement_status__9TObjCharaFv() != 0) {
+    if (TObjChara::update_movement_status() != 0) {
         ((TObjEneLappy *)arg0)->clear_flags_60();
         return 1;
     }
@@ -466,7 +463,7 @@ s32 TObjEneLappy::update_movement_status() {
 
 s32 TObjEneLappy::update_action_hold_status() {
     saddr arg0 = (saddr)this;
-    if (update_action_hold_status__9TObjCharaFv() != 0) {
+    if (TObjChara::update_action_hold_status() != 0) {
         ((TObjEneLappy *)arg0)->clear_flags_60();
         return 1;
     }
@@ -479,7 +476,7 @@ void TObjPlayer::set_flag_and_notify() {
     temp_r4 = *(s16 *)((s8 *)this + 0x374);
     if (!(temp_r4 & 0x80)) {
         *(s16 *)((s8 *)this + 0x374) = (s16) (temp_r4 | 0x80);
-        send_entity_set_flags__9TObjEnemyFv();
+        ((TObjEnemy *)this)->send_entity_set_flags();
     }
 }
 

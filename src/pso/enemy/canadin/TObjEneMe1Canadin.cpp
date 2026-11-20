@@ -219,7 +219,6 @@ void TObjEneDD__sub_800BA5A4(void *, void *, void *);
 s32 is_player_entity_id(u16 arg0);
 void set_part_position__9TObjEneDDFPvPvi(void *, s32, s32);
 s32 collect_enemy_target_candidates(void *, Entry_8009E860 *);
-void clear_attack_receipts__9TObjEneDDFv();
 void TBoss3Volopt__sub_800D8D88(s32 arg0);
 s32 trigger_dell_biter_events__10TObjPlayerFv(void *, f32);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
@@ -1702,7 +1701,7 @@ void TObjEneMe1Canadin__sub_8009C510(TObjEneMe1Canadin *self, s32 arg1) {
         self->vfunc_89();
         break;
     case 5:
-        clear_attack_receipts__9TObjEneDDFv();
+        ((TObjEneDD *)self)->clear_attack_receipts();
         if (self->m_3FC == 5) {
             self->requested_action = 1;
         } else {

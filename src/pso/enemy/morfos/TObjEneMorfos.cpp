@@ -427,7 +427,6 @@ f32 atan2_float(f32, f32);
 s32 update_linked_position__12TObjEneDD_STFf(f32);
 extern saddr TObjEneMorfos__param_table;
 void TObjEneMorfos__sub_80333AD0(u8 *arg0, s32 arg1);
-s32 get_flag_b4__9TObjEneDDFv();
 s32 play_sound_effect(s32, u32, s16, s32);
 void TObjEneMorfos__sub_80333690(TObjEneMorfos *arg0, s32 arg1);
 s32 enemy_validate_retained_target(u8 *arg0);
@@ -655,7 +654,6 @@ void *__dt__13TUnk_80490470Fv(void *arg0, s16 arg1);
 void enemy_set_target_id(void *, u16);
 void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);
 s32 get_camera_ctrl__9TObjEneDDFv(void *, int);
-s32 clear_attack_receipts__9TObjEneDDFv();
 void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
 s32 angle_difference_abs(s32, s32);
 s32 angle_diff_s16(s32);
@@ -1964,7 +1962,7 @@ void TObjEneMorfos__sub_80332DBC(u8 *ene_morfos, s32 arg1) {
         ((TObjEneDD_ST *)ene_morfos)->set_active();
         return;
     case 3:
-        if (get_flag_b4__9TObjEneDDFv() != 0) {
+        if (((TObjEneDD *)ene_morfos)->get_flag_b4() != 0) {
             temp_r3 = *(s32 *)((s8 *)ene_morfos + 0x3C0);
             if (temp_r3 & 0x20) {
                 *(s32 *)((s8 *)ene_morfos + 0x3C0) = (s32) (temp_r3 & 0xFFFFFFDF);
@@ -1984,7 +1982,7 @@ void TObjEneMorfos__sub_80332DBC(u8 *ene_morfos, s32 arg1) {
         ((TObjMotion *)ene_morfos)->advance_animation();
         return;
     case 5:
-        clear_attack_receipts__9TObjEneDDFv();
+        ((TObjEneDD *)ene_morfos)->clear_attack_receipts();
         ((TObjEneDD *)ene_morfos)->clear_field_388();
         break;
     }

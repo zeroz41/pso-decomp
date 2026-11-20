@@ -41,6 +41,7 @@ extern "C" void subtract_vector(void *, void *);
 
 #include <stddef.h>
 #include "pso/system/task/TObject.h"
+#include "pso/boss/volopt/TBoss3Volopt.h"
 LAYOUT_ASSERT(NanoGrow_scale, offsetof(TObjEneNanoDrago, scale.x) == 0x68);
 LAYOUT_ASSERT(NanoGrow_target_scale, offsetof(TObjEneNanoDrago, scale.y) == 0x6c);
 LAYOUT_ASSERT(NanoGrow_m_2c0, offsetof(TObjEneNanoDrago, m_2c0) == 0x2c0);
@@ -73,7 +74,6 @@ extern "C" f32 atan2_float(f32 y, f32 x);
 extern "C" void check_enemy_body_collisions(void *arg0);
 
 extern "C" u32 get_player_by_client_id(s32);
-extern "C" s32 play_area_sound_effect__12TBoss3VoloptFv(void *, s32);
 
 void move_with_wall_slide(u8 *arg0);
 
@@ -89,7 +89,6 @@ extern "C" s32 check_path_obstructed(void *, Vec *);
 extern "C" void calc_velocity_toward_destination(void *, Vec, Vec, f32);
 extern "C" void project_actor_to_ground(void *, void *, s32);
 extern "C" void TObjPlayer__sub_800D92BC(s32 point, s32 delay);
-extern "C" s32 refresh_lobby_state__10TObjPlayerFv();
 
 #pragma push
 #pragma dont_inline off
@@ -937,7 +936,7 @@ void TObjEneNanoDrago::update_knockback_state() {
 void TObjEneNanoDrago::update_dying_state() {
     switch (state) {
     case 0:
-        refresh_lobby_state__10TObjPlayerFv();
+        ((TObjPlayer *)this)->refresh_lobby_state();
         send_entity_set_flags();
         timer = 0x1E;
         play_sound_effect(0x4003A825, &position, 0, 0);
@@ -1101,7 +1100,7 @@ void TObjEneNanoDrago::update_fade_in_state() {
         flags = actorFlags | 0x04000000;
         actorFlags = flags;
         requested_action = 0;
-        play_area_sound_effect__12TBoss3VoloptFv(&m_2fc, flags);
+        ((TBoss3Volopt *)(&m_2fc))->play_area_sound_effect();
         ((TUnk_80494938 *)(&appearFade))->start_fade_in();
         state = 1;
     case 1:

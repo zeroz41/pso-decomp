@@ -347,7 +347,6 @@ f32 TObjEneRecon__sub_8031C2D4(void) {
 }
 
 void *find_entity_by_id(u16 id);
-void select_next_target__12TObjEneReconFv(void *, s32);
 void TObjEneRecon::handle_message(s32 arg1) {
     uaddr temp;
     switch (arg1) {
@@ -481,7 +480,6 @@ struct VObj_18_414afc : VBase_18_414afc {
 
 extern "C" {
 f32 normalize_vector_xz__FP3Vec(void *, s32);
-void clear_attack_receipts__9TObjEneDDFv(void);
 void noop__12TBoss8DragonFv(void *);
 void set_flag2__12TObjEneReconFv(void *, f32, f32, f32);
 void TObjEneRecon__sub_8031C624(u8 *arg0, s32 arg1);
@@ -583,7 +581,7 @@ void TObjEneRecon__sub_8031C624(u8 *arg0, s32 arg1) {
             }
             n = *(s32 *)((s8 *)arg0 + 0x378);
             if (n == 2) {
-                select_next_target__12TObjEneReconFv(arg0, n);
+                ((TObjEneRecon *)arg0)->select_next_target();
             } else {
                 ((TObjEneDD *)arg0)->transition_enemy_state(n);
             }
@@ -603,7 +601,7 @@ void TObjEneRecon__sub_8031C624(u8 *arg0, s32 arg1) {
         ((TObjEneDD *)(arg0))->vfunc_89();
         break;
     case 5:
-        clear_attack_receipts__9TObjEneDDFv();
+        ((TObjEneDD *)arg0)->clear_attack_receipts();
         break;
     }
 }
@@ -1754,7 +1752,6 @@ struct VObj_14_2f517b : VBase_14_2f517b {
 
 void obj_setFlags30(void *, u32);
 f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
-s32 init_model__9TObjEneDDFP13CollisionBodyl(void *, void *, int, int);
 void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
 void free_collision_body_parts(void *);
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
@@ -1771,7 +1768,7 @@ void TObjEneRecon::init_state() {
     *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)TObjEneRecon__recobox_static_instance + 0x42C)) + 8);
     temp_r6 = (u8 *)(*(u8 **)((s8 *)TObjEneRecon__recobox_static_instance + 0x42C));
     this->texlist = (s32) *(s32 *)((s8 *)temp_r6 + 0xC);
-    init_model__9TObjEneDDFP13CollisionBodyl((void *)arg0, (void *)&TObjEneRecon__collision_body_template, 1, (saddr)temp_r6);
+    ((TObjEneDD *)arg0)->init_model((CollisionBody *)(&TObjEneRecon__collision_body_template), 1);
     ((TObjMotion *)arg0)->set_field_d8((saddr)TObjEneRecon__animation_entries);
     ((TObjMotion *)arg0)->set_field_dc((int) (*(s32 *)((s8 *)TObjEneRecon__recobox_static_instance + 0x430)));
     this->requested_action = 0;

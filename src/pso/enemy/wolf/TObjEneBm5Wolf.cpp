@@ -118,7 +118,6 @@ extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
 s32 vec3_add_to(void *, void *);
 void TObjEneDD__sub_800BA378(s32 arg0, u8 *arg1);
-s32 get_target_info__9TObjEneDDFv();
 s32 pack_debug_text_position(s32 arg0, s32 arg1);
 s32 debug_draw_line(void *, void *, int, int);
 typedef void (*State_800B73A8)(u8 *, s32);
@@ -1972,7 +1971,7 @@ void TObjEneBm5Wolf::render_debug() {
     AnimationMotion *motion;
     TObjEneBm5Wolf *leader;
 
-    if (get_target_info__9TObjEneDDFv() != 0) {
+    if (TObjEneDD::get_target_info() != 0) {
         debug_printf_at(pack_debug_text_position(0, 0), "GROUP:%2d", this->m_3dc);
         if (this->m_3d8 != 0) {
             debug_printf_at(pack_debug_text_position(0, 1), "L/M:LEADER");

@@ -46,7 +46,6 @@ s32 mult_vec_array__10TObjPlayerFUll(s32, f32 *, f32 *, s32);
 
 struct Prm_800C2628 { f32 a, b, c, d, e; };
 extern "C" {
-s32 noop__9TObjEneDDFv(void *, s32);
 extern Prm_800C2628 enemy_dd_attack_param_block;
 extern Prm_800C2628 lbl_8043BBA0;
 extern f32 *const re2_flower_movement_params;
@@ -322,7 +321,7 @@ void TObjEneRe2Flower::handle_event(s32 arg1) {
         advance_animation();
         temp_r4 = *(s32 *)((s8 *)arg0 + 0x410);
         *(s32 *)((s8 *)arg0 + 0x410) = (temp_r4 + 1);
-        noop__9TObjEneDDFv(arg0, temp_r4);
+        ((TObjEneDD *)arg0)->noop();
         return;
     case 5:
         *(s32 *)((s8 *)arg0 + 0x3C4) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C4) & 0xFFFFFFFD);

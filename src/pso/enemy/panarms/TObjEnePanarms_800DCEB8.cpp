@@ -185,7 +185,6 @@ s32 spawn_continuous_particle_with_direction(void *, void *, int, int);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
 void *spawn_directional_particle(void *pos, void *dir, s32 id);
-void set_field_b8__10TObjMotionFs(void *, int);
 s32 TObjEnePanarms__sub_800DFB44(s32);
 void TObjEnePanarms__sub_800E1E14(u8 *arg0);
 f32 vec3_add_to(void *, void *);
@@ -199,7 +198,6 @@ f32 vector_length(void *);
 Obj_800DF634 *load_resource_from_descriptor(Obj_800DF634 *, s32, void *, s32, s32, s32);
 s32 spawn_npc_enemy__6TLobbyFslP11NJS_TEXLISTPvff(s32, s32, s32, void *, s32, const void *, f32, f32);
 void TObjEnePanarms__sub_800E1D38(void *arg0);
-s32 refresh_lobby_state__10TObjPlayerFv();
 s32 TObjEnePanarms__sub_800DE528(void *arg0, Vec *arg1);
 s32 subtract_vector(void *, void *);
 s32 normalize_vector(void *);
@@ -217,7 +215,6 @@ s32 rotate_matrix_z(int, int);
 void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 s32 rotate_matrix_x(int, int);
 s32 scale_current_matrix(Vec *);
-int check_demo_mode__10TObjPlayerFv(void*);
 }
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 typedef struct Stack_800DDFDC Stack_800DDFDC;
@@ -736,7 +733,7 @@ void TObjEnePanarms::vfunc_61() { this->actorFlags &= 0xfffffeff; }
 
 void TObjEnePanarms::enter_idle() { *(s32 *)((s8 *)this + 0x3E0) = 1; *(s32 *)((s8 *)this + 0x3DC) = 1; }
 
-void TObjEnePanarms::try_activate() { if (check_demo_mode__10TObjPlayerFv(this) == 0) { set_state((saddr)((void*)((void*)1))); } }
+void TObjEnePanarms::try_activate() { if (TObjPlayer::check_demo_mode() == 0) { set_state((saddr)((void*)((void*)1))); } }
 
 void TObjEnePanarms::enter_wait_hidden() {
     u8 *temp_r4;
@@ -827,7 +824,7 @@ void TObjEnePanarms::enter_move() {
     *(u32 *)((s8 *)(*(u8 **)((s8 *)this + 0x390)) + 0x18) |= 1;
     this->obj_clearFlags30(0x04040000);
     this->m_388 = (s32) (49.999996f * (f32) ((s32) (1.99f * random_ratio()) + 1));
-    set_field_b8__10TObjMotionFs(this, var_r30);
+    TObjMotion::set_field_b8((s16)var_r30);
 }
 
 #pragma push
@@ -901,7 +898,7 @@ void TObjEnePanarms::enter_dead() {
     s16 st;
     Vec v;
     this->m_388 = 0xA4;
-    refresh_lobby_state__10TObjPlayerFv();
+    ((TObjPlayer *)this)->refresh_lobby_state();
     this->send_entity_set_flags();
     st = 5;
     if (find_nearest_visible_player(this, &v.x, 200.0f) != 0xFFFF) {
@@ -909,7 +906,7 @@ void TObjEnePanarms::enter_dead() {
             st = 4;
         }
     }
-    set_field_b8__10TObjMotionFs(this, st);
+    TObjMotion::set_field_b8((s16)st);
     play_sound_effect(this->remap_sound_for_area(0x4003B836), (u8 *)this + 0x3AC, 0, 0);
     play_sound_effect(this->remap_sound_for_area(0x4003BB35), (u8 *)this + 0x3C4, 0, 0);
     if (*(s32 *)((s8 *)this + 0x3DC) != 0) {

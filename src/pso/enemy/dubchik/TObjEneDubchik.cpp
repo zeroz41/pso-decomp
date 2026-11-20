@@ -128,7 +128,6 @@ s32 TObjPlayer__sub_800AAF98(void *, s32);
 void apply_actor_gravity(TObjEnemy *arg0, s32 *arg1, f32 farg0);
 extern "C" {
 s32 __ct__13TUnk_80491460FPvlll(void *, void *, s32, void *, s32);
-s32 render_anim_model_at_pos__15TObjEnemyCustomFv();
 void TObjPlayer__sub_800A8FB4(void *arg0_);
 
 void free_bin_model_request(void *, s32);
@@ -213,10 +212,8 @@ s32 post_translate_matrix(void *);
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 s32 update_enemy_wander_move(void *, Vec *, s32, f32);
-s32 sub_8004292C__15TObjEnemyCustomFv();
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 void TObjPlayer__sub_800A9E9C(void *arg0_);
-s32 update_shock_clock__9TObjCharaFv();
 
 struct Ids_800AA82C { s16 v[2]; };
 __declspec(section ".data") s32 lbl_805009A0[2];
@@ -770,7 +767,7 @@ extern "C" void TObjPlayer__sub_800A9E9C(void *arg0_) {
         break;
     case 0:
         *(s32 *)((s8 *)arg0 + 0x388) |= 0x01800000;
-        sub_8004292C__15TObjEnemyCustomFv();
+        ((TObjEnemyCustom *)arg0_)->sub_8004292C();
         if (*(s32 *)((s8 *)arg0 + 0x380) != 0) {
             if (TObjEneDD::check_v2_mode() == 0) {
                 if (*(s16 *)((s8 *)arg0 + 0x392) != 0) {
@@ -1347,7 +1344,7 @@ void TObjEneDubchik::sub_800A8B8C() {
 }
 
 void TObjPlayer::render_model_and_set_attach_points() {
-    render_anim_model_at_pos__15TObjEnemyCustomFv();
+    ((TObjEnemyCustom *)this)->render_anim_model_at_pos();
     this->get_anim_node_position(0x13, (Vec *)&this->unk_3D4);
     this->get_anim_node_position(0x28, (Vec *)&this->unk_3E0);
     this->get_anim_node_position(0x29, (Vec *)&this->m_3ec);
@@ -1374,7 +1371,7 @@ void TObjEneDubchik::sub_800A8A7C() {
 
 s32 TObjEneDubchik::update_shock_clock() {
     saddr arg0 = (saddr)this;
-    if (update_shock_clock__9TObjCharaFv() != 0) {
+    if (TObjChara::update_shock_clock() != 0) {
         ((TObjPlayer *)arg0)->clear_state7_flag();
         return 1;
     }

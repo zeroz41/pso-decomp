@@ -168,9 +168,7 @@ void __construct_array(void *, void *, void *, int, int);
 void *__dt__15RenderFadeStateFv(void *arg0, s16 arg1);
 void __ct__15RenderFadeStateFv(void);
 u8 *TObjEneGibbles__ct(u8 *arg0, void *arg1, saddr arg2);
-s32 update_movement_status__9TObjCharaFv();
 s32 update_movement_status__14TObjEneGibblesFv(u8 *arg0);
-s32 update_action_hold_status__9TObjCharaFv();
 s32 update_action_hold_status__14TObjEneGibblesFv(u8 *arg0);
 struct Stack_802D7BE0 {
     s32 sp8;
@@ -288,7 +286,6 @@ void TObjPlayer__sub_800D93C4(s32 point, s32 delay);
 void * __ct__11TObjControlFP7TObject(void *, void *);
 s32 angle_diff_s16(s32, s32);
 s32 lerp_angle_half__Fll(s32, s32);
-s32 get_room__8TObjBaseFv(void *);
 void TObjEneGibbles__sub_802D7E3C(void);
 void render_and_get_joint_pos__14TObjEneGibblesFPvii(u8 *arg0, saddr arg1, s32 arg2);
 void TObjEneGibbles__sub_802D8034(void);
@@ -666,8 +663,8 @@ void TObjEneGibbles__sub_802D7A54(void *arg0) {
     s16 u;
     uaddr r;
     if ((get_main_phase() == 0xF || is_split_screen() == 0) && (r = get_player_by_client_id((void *)local_client_id)) != 0) {
-        t = get_room__8TObjBaseFv((void *)r);
-        u = get_room__8TObjBaseFv(arg0);
+        t = (s32)((TObjBase *)r)->get_room();
+        u = (s32)((TObjBase *)arg0)->get_room();
         if (u == t) {
             start_camera_shake(0x1E, 0.1f);
         }
@@ -2082,7 +2079,7 @@ void TObjEneGibbles::vfunc_58() {
 
 s32 TObjEneGibbles::update_movement_status() {
     u8 *arg0 = (u8 *)this;
-    if (update_movement_status__9TObjCharaFv() != 0) {
+    if (TObjChara::update_movement_status() != 0) {
         switch (this->mode) {
         case 0:
         case 1:
@@ -2105,7 +2102,7 @@ s32 TObjEneGibbles::update_movement_status() {
 
 s32 TObjEneGibbles::update_action_hold_status() {
     u8 *arg0 = (u8 *)this;
-    if (update_action_hold_status__9TObjCharaFv() != 0) {
+    if (TObjChara::update_action_hold_status() != 0) {
         switch (this->mode) {
         case 0:
         case 1:

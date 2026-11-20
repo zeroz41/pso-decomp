@@ -100,7 +100,6 @@ u32 get_item_field_6__10TObjPlayerFPv(void *);
 f32 fabs_float(f32);
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 s32 get_item_id__5TItemFv();
-s32 check_v2_mode__9TObjEneDDFv(s32, s32);
 void TObjEneDD__sub_800BA438(void *, void *);
 s32 TObjEneMe3SinowZoa__sub_800D72A4(TUnk_80494938 *fade);
 s32 TBoss3Volopt__sub_800D8D88(void *, f32);
@@ -753,7 +752,7 @@ void TObjEneMe3SinowZoa::action(s32 arg1) {
         this->m_3cc = (s32) (temp_r4 | 2);
         temp_r3 = this->m_3cc;
         this->m_3cc = (s32) (temp_r3 & 0xFFEFFFFA);
-        if (check_v2_mode__9TObjEneDDFv(temp_r3, temp_r4) != 0) {
+        if (TObjEneDD::check_v2_mode() != 0) {
             this->m_3cc &= 0xFFFEFFFF;
         }
         this->m_434 = 0;
