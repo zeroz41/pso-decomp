@@ -42,7 +42,6 @@ void attach_particle_model(void *, void *, void *, int, int, f32);
 extern void *technique_effect_bml;
 extern void *lbl_805D63B0;
 
-void update_technique_slot__10TTecRaFoieFl(s32 handle, s32 pitch, s32 c);
 
 struct RecoveredGlobal_80238388_lbl_8044DAF0 {
     s32 value;
@@ -321,10 +320,6 @@ extern s32 tl_particle;
 s32 __ct__7TObjectFP7TObject(void *, void *);
 u8 *create_fire_explosion_effect(u8 *arg0, s32 *arg1, s16 arg2, s32 arg3, f32 farg0);
 void copy_technique_target_list(void *, void *);
-extern void *__vt__10TTecRaFoie[];
-TTecRaFoie *construct_targeted__10TTecRaFoieFPvPvPvPvi(TTecRaFoie *self, void *source, void *origin, void *targets,
-                                                       int level);
-TTecRaFoie *TTecRaFoie__ct(TTecRaFoie *self, void *source, void *origin, void *pos, int level);
 }
 
 u8 *create_rafoie_explosion(u8 *arg0, s32 *arg1, s16 arg2, s16 arg3, s32 arg4, f32 farg0) {

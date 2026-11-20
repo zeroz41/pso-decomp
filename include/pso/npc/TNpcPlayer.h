@@ -15,8 +15,7 @@ struct Unk_8014F844Entry {
     f32 m_8;  // squared distance
 };
 
-// The 0x108-byte record TNpcPlayer allocates twice (m_74, m_78), set up by
-// init_ai_state__10TNpcPlayerFPvi.
+// The 0x108-byte record TNpcPlayer allocates twice (m_74, m_78).
 struct Unk_8014F844 {
     s32 m_0;
     Unk_8014F844Entry m_4[10];

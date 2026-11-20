@@ -15,6 +15,9 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
+#include "pso/boss/goldragon/TBoss8DragonColli.h"
+#include "pso/boss/goldragon/TBoss8DragonEffBullet.h"
+#include "pso/boss/goldragon/TBoss8DragonEffBreath.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/math/AngleLookup.h"
@@ -93,8 +96,6 @@ extern "C" {
 s32 VecCopy__FP3VecPC3Vec(void *, const void *);
 void project_sound_origin_from_camera(s32 arg0, u8 *arg1, f32 farg0);
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
-void release_grabbed_player__12TBoss8DragonFPv(TBoss8Dragon *arg0);
-s32 is_health_low__12TBoss8DragonFPv(TBoss8Dragon *arg0);
 extern s32 local_client_id;
 extern s32 TBoss8Dragon__data_805D69B8;
 void TBoss8Dragon__sub_802F48DC(TBoss8Dragon *dragon, Vec *target);
@@ -102,18 +103,14 @@ struct Dragon_802F8578;
 s32 update_linked_position__12TBoss8DragonFv(void *);
 extern u8 *TBoss8Dragon__data_80541DDC[];
 int TBoss8Dragon__sub_802FB984(void);
-void send_action_packet__12TBoss8DragonFPvi(u8 *arg0, s32 arg1);
 extern s32 lbl_805D69B4;
 s32 TBoss8Dragon__sub_802FBFA4(u8 *arg0);
 void play_cue_stream_file(s32 name);
 void TBoss8Dragon__sub_802FB09C(s32 arg0);
-s32 copy_pos_to_field688__12TBoss8DragonFPv(void* p);
-s32 restore_target_pos__12TBoss8DragonFPv(void* p);
 void spawn_effect_if_in_band__12TBoss8DragonFi(s32 arg0);
 s32 fn_802F2E7C(int, void *, int);
 s32 mask_flags__12TBoss8DragonFiii(s32 arg1, s32 arg2, s32 arg3);
-void TBoss8Dragon__sub_802FB484(void);
-void update_pos_from_data__12TBoss8DragonFv(void);
+void TBoss8Dragon__sub_802FB484(TBoss8Dragon *dragon);
 void TBoss8Dragon__sub_802FB70C(s32 arg0);
 void TBoss8Dragon__sub_802FBA1C(TBoss8Dragon *arg0);
 void spawn_trap__12TBoss8DragonFii(s32 arg0, s32 arg1);
@@ -133,14 +130,11 @@ f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
 void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed);
 extern "C" {
 s32 angle_diff_s16(s32, s32);
-void apply_ground_movement__12TBoss8DragonFPvPv(u8 *arg0, f32 *arg1);
-void sync_target_pos__12TBoss8DragonFPv(void* p);
 void TBoss8Dragon__sub_802FC500(u8 *arg0);
 u16 get_entity_id(u8 *);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 s32 enemy_validate_retained_target(u8 *ene_dd_st);
 void TBoss8Dragon__sub_802FC9D8(u8 *arg0);
-s32 __ct__21TBoss8DragonEffBreathFP7TObjectPvPvls(void *, void *, void *, void *, s32, u16);
 f32 newton_sqrtf(f32);
 s32 is_valid_target__9TObjEneDDFv(void);
 f32 horizontal_distance_squared(void *, void *);
@@ -565,98 +559,7 @@ struct VBase_18_be4a70
   char pad[0x18];
 };
 
-struct VObj_18_be4a70 : VBase_18_be4a70 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual void m81();
-    virtual void m82();
-    virtual void m83();
-    virtual void m84();
-    virtual s32 m85(s16, s32);
-};
-
 typedef struct VBase_18_be4a70 VBase_18_be4a70;
-
-typedef struct VObj_18_be4a70 VObj_18_be4a70;
 
 struct Obj_802FC580 {
     u8 pad0[0x698];
@@ -698,7 +601,6 @@ void update_movement__12TBoss8DragonFPv(u8 *arg0);
 u8 check_attack_ready__12TBoss8DragonFPv(void *arg0);
 int get_state_flags__12TBoss8DragonFPv(void* p);
 int emit_effect__12TBoss8DragonFPv(void* p);
-void draw_beam_segments__12TBoss8DragonFPvfff(u8 *arg0, f32 a, f32 b, f32 c);
 void TBoss8Dragon__sub_802FB778(s32 arg0);
 void TBoss8Dragon__sub_802FB828(u8 *arg0, s32 arg1);
 void apply_6xA8_action__12TBoss8DragonFPvPv(u8 *arg0, u8 *arg1);
@@ -1135,7 +1037,6 @@ struct Obj_802F7B70 : VObj_802F7B70 {
     u8 pad870[0x890 - 0x870];
     s32 spawned;
 };
-void sync_target_pos__12TBoss8DragonFPv(void *p);
 void TBoss8Dragon__sub_802FC060(void *, s32);
 extern void *TBoss8Dragon__dive_height_curve[];
 struct Pair_802F8578 { f32 a; f32 b; };
@@ -1261,7 +1162,6 @@ struct VObj_18_444bc5x : VBase_18_444bc5x {
 };
 void rotate_vec_xz(void *, void *, s32);
 TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
-s32 TBoss8DragonEffBullet__ct(void *, void *, void *, void *, s32, u16);
 extern f32 lbl_805D69C0;
 void subtractive_rng_seed(void *, s32);
 f32 calc_random_ratio__10TObjPlayerFv(void *);
@@ -1375,7 +1275,6 @@ struct D_802FD47C {
 extern "C" {
 s32 __ct__14SubtractiveRngFv(void *arg0);
 u8 *__ct__17AreaAttackHistoryFl(u8 *arg0, s32 arg1);
-u8 *TBoss8DragonColli__ct(u8 *arg0, s32 arg1);
 void *TBoss8Dragon__sub_802F3C24(void *arg0, void *arg1);
 void *TBoss8DragonEffTail__ct(void *, void *, void *);
 void get_camera_offsets__12TBoss8DragonFPvPv(Vec *arg0, Vec *arg1);
@@ -1707,11 +1606,7 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
         p = __ct__17AreaAttackHistoryFl((u8 *)p, 4);
     }
     this->attack_history = (u32)p;
-    p = TObject::operator new(0x28);
-    if (p != NULL) {
-        p = TBoss8DragonColli__ct((u8 *)p, (s32)&this->sub_tasks);
-    }
-    this->collider = (TObject *)p;
+    this->collider = new TBoss8DragonColli(&this->sub_tasks);
     *(f32 *)((s8 *)this + 0x688) = 0.0f;
     this->m_68c = 0.0f;
     *(f32 *)((s8 *)this + 0x690) = 0.0f;
@@ -1838,28 +1733,28 @@ void TBoss8Dragon::run_task() {
         }
         if ((s32) *(s32 *)&this->m_74c != 0) {
             if ((s32) this->m_750 == (s32) local_client_id) {
-                if ((this->test_flag30_512() != 0) && (is_health_low__12TBoss8DragonFPv((TBoss8Dragon *)arg0) != 0)) {
+                if ((this->test_flag30_512() != 0) && (((TBoss8Dragon *)arg0)->is_health_low() != 0)) {
                     if ((s16) this->hp < (s16) *(s16 *)&this->m_67a) {
                         this->hp = *(s16 *)&this->m_67a;
                     }
                     ((TObjEneDD *)arg0)->clear_attack_receipts();
                 }
                 if ((s32) TBoss8Dragon__data_805D69B8 == 0) {
-                    release_grabbed_player__12TBoss8DragonFPv((TBoss8Dragon *)arg0);
+                    ((TBoss8Dragon *)arg0)->release_grabbed_player();
                 } else {
                     ((TBoss8Dragon *)arg0)->check_death();
                 }
                 this->dispatch_action(this->mode, 8);
                 this->dispatch_action(this->mode, 0);
             } else {
-                if ((this->test_flag30_512() != 0) && (is_health_low__12TBoss8DragonFPv((TBoss8Dragon *)arg0) != 0)) {
+                if ((this->test_flag30_512() != 0) && (((TBoss8Dragon *)arg0)->is_health_low() != 0)) {
                     if ((s16) this->hp < (s16) *(s16 *)&this->m_67a) {
                         this->hp = *(s16 *)&this->m_67a;
                     }
                     ((TObjEneDD *)arg0)->clear_attack_receipts();
                 }
                 if ((s32) TBoss8Dragon__data_805D69B8 == 0) {
-                    release_grabbed_player__12TBoss8DragonFPv((TBoss8Dragon *)arg0);
+                    ((TBoss8Dragon *)arg0)->release_grabbed_player();
                 }
                 this->dispatch_action(this->mode, 0);
             }
@@ -1869,7 +1764,7 @@ void TBoss8Dragon::run_task() {
                 if (temp_r0_2 == 2) {
                     this->dispatch_action(this->mode, 2);
                 } else {
-                    if ((this->test_flag30_512() != 0) && (is_health_low__12TBoss8DragonFPv((TBoss8Dragon *)arg0) != 0)) {
+                    if ((this->test_flag30_512() != 0) && (((TBoss8Dragon *)arg0)->is_health_low() != 0)) {
                         if ((s16) this->hp < (s16) *(s16 *)&this->m_67a) {
                             this->hp = *(s16 *)&this->m_67a;
                         }
@@ -1880,7 +1775,7 @@ void TBoss8Dragon::run_task() {
                 this->dispatch_action(this->mode, 8);
                 this->dispatch_action(this->mode, 0);
             } else {
-                if ((this->test_flag30_512() != 0) && (is_health_low__12TBoss8DragonFPv((TBoss8Dragon *)arg0) != 0)) {
+                if ((this->test_flag30_512() != 0) && (((TBoss8Dragon *)arg0)->is_health_low() != 0)) {
                     if ((s16) this->hp < (s16) *(s16 *)&this->m_67a) {
                         this->hp = *(s16 *)&this->m_67a;
                     }
@@ -1913,12 +1808,12 @@ void TBoss8Dragon::select_next_action() {
     temp_r4 = this->m_3c0;
     if (temp_r4 & 0x40) {
         if (!(temp_r4 & 0x20) && (this->hp <= 0)) {
-            send_action_packet__12TBoss8DragonFPvi(arg0, 0x16);
+            ((TBoss8Dragon *)arg0)->send_action_packet(0x16);
             return;
         }
         goto block_14;
     }
-    if (((s32 (*)(void))is_health_low__12TBoss8DragonFPv)() != 0) {
+    if (is_health_low() != 0) {
         if (!(this->m_3c0 & 0x10)) {
             if (check_damage_reaction() == 0) {
                 if (((s32 (*)(void *))TBoss8Dragon__sub_802FB984)(arg0) != 0) {
@@ -1932,10 +1827,10 @@ void TBoss8Dragon::select_next_action() {
     } else {
         if (!(this->m_3c0 & 0x20) && (this->hp <= 0)) {
             if ((s32) this->m_3e4 == 1) {
-                send_action_packet__12TBoss8DragonFPvi(arg0, 0xC);
+                ((TBoss8Dragon *)arg0)->send_action_packet(0xC);
                 return;
             }
-            send_action_packet__12TBoss8DragonFPvi(arg0, 0x15);
+            ((TBoss8Dragon *)arg0)->send_action_packet(0x15);
             return;
         }
 block_14:
@@ -1952,7 +1847,7 @@ block_14:
 }
 
 void TBoss8Dragon::check_death() {
-    if (((s32 (*)(void))is_health_low__12TBoss8DragonFPv)() != 0) {
+    if (is_health_low() != 0) {
         if (check_damage_reaction() != 0) {
             return;
         }
@@ -1960,10 +1855,10 @@ void TBoss8Dragon::check_death() {
     }
     if (!(this->m_3c0 & 0x20) && (this->hp <= 0)) {
         if ((s32) this->m_3e4 == 1) {
-            ((s32 (*)(void *, s32))send_action_packet__12TBoss8DragonFPvi)(this, 0xC);
+            send_action_packet(0xC);
             return;
         }
-        ((s32 (*)(void *, s32))send_action_packet__12TBoss8DragonFPvi)(this, 0x15);
+        send_action_packet(0x15);
         return;
     }
 block_8:
@@ -1978,7 +1873,7 @@ void TBoss8Dragon::vfunc_62() {  }
 
 void TBoss8Dragon::vfunc_61() {  }
 
-void TBoss8Dragon::set_state_22() { if (this->mode != 22) { ((int (*)(void*, void*))send_action_packet__12TBoss8DragonFPvi)(this, (void*)22); } }
+void TBoss8Dragon::set_state_22() { if (this->mode != 22) { send_action_packet(22); } }
 
 s32 TBoss8Dragon__sub_802FCCBC(TBoss8Dragon *boss8_dragon) {
     if (boss8_dragon->mode != 0x1E) {
@@ -2072,7 +1967,8 @@ void TBoss8Dragon::set_damage_phase_value(s32 arg1) {
     this->m_674 = 0x32;
 }
 
-s32 is_health_low__12TBoss8DragonFPv(TBoss8Dragon *boss8_dragon) {
+s32 TBoss8Dragon::is_health_low() {
+    TBoss8Dragon * boss8_dragon = this;
     return *(s32 *)&boss8_dragon->m_674 < 0x32;
 }
 
@@ -2184,7 +2080,7 @@ s32 TBoss8Dragon__sub_802FC580(Obj_802FC580 *obj, f32 *out) {
 }
 
 void TBoss8Dragon__sub_802FC500(u8 *boss8_dragon) {
-    if (is_health_low__12TBoss8DragonFPv((TBoss8Dragon *)boss8_dragon) != 0) {
+    if (((TBoss8Dragon *)boss8_dragon)->is_health_low() != 0) {
         ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(boss8_dragon + 0x394, boss8_dragon + 0x38);
         *(f32 *)((s8 *)boss8_dragon + 0x398) = 0.0f;
         normalize_vector_xz__FP3Vec(boss8_dragon + 0x394);
@@ -2350,7 +2246,6 @@ void handle_6xA8_gol_dragon_boss_actions(void *boss8_dragon) {
     }
 }
 
-
 void apply_6xA8_action__12TBoss8DragonFPvPv(u8 *boss8_dragon, u8 *arg1) {
   s8 *new_var2;
   s16 temp_r4;
@@ -2378,14 +2273,15 @@ void TBoss8Dragon::send_6xA8_action() {
     p.b = this->mode;
     p.c = this->m_674;
     p.d = this->m_38c;
-    p.e = *(f32 *)&this->unk_688;
+    p.e = this->m_688;
     p.f = this->m_68c;
     t = 0.000030517578f * (f32)rand();
     p.g = (s8)(3.0f * t);
     ((TBoss8Dragon *)(&p))->send_swapped_packet();
 }
 
-void send_action_packet__12TBoss8DragonFPvi(u8 *boss8_dragon, s32 arg1) {
+void TBoss8Dragon::send_action_packet(int arg1) {
+    u8 * boss8_dragon = (u8 *)this;
     Pkt_802FBBFC p;
     f32 t;
     ((TBoss8Dragon *)boss8_dragon)->dispatch_action(arg1, 6);
@@ -2401,22 +2297,31 @@ void send_action_packet__12TBoss8DragonFPvi(u8 *boss8_dragon, s32 arg1) {
     ((TBoss8Dragon *)(&p))->send_swapped_packet();
 }
 
-void sync_target_pos__12TBoss8DragonFPv(void* p) { *(f32*)((char*)p + 0x394) = *(f32*)((char*)p + 0x690); *(f32*)((char*)p + 0x39c) = *(f32*)((char*)p + 0x694); }
+void TBoss8Dragon::sync_target_pos() {
+    this->m_394 = this->m_690;
+    this->m_39c = this->m_694;
+}
 
 void TBoss8Dragon__sub_802FBBC8(u8 *arg0, s32 *arg1) {
     *arg1 = (s32) *(f32 *)((s8 *)arg0 + 0x690);
 }
 
-s32 restore_target_pos__12TBoss8DragonFPv(void* p) { *(f32*)((char*)p + 0x38) = *(f32*)((char*)p + 0x690); *(f32*)((char*)p + 0x40) = *(f32*)((char*)p + 0x694); }
+void TBoss8Dragon::restore_target_pos() {
+    this->position.x = this->m_690;
+    this->position.z = this->m_694;
+}
 
-void TBoss8Dragon::save_position() { *(f32 *)&this->unk_688 = this->m_394; this->m_68c = this->m_39c; }
+void TBoss8Dragon::save_position() { this->m_688 = this->m_394; this->m_68c = this->m_39c; }
 
 void TBoss8Dragon::set_speed(s32 arg1) {
-    *(f32 *)&this->unk_688 = (f32) arg1;
+    this->m_688 = (f32) arg1;
     this->m_68c = 0.0f;
 }
 
-s32 copy_pos_to_field688__12TBoss8DragonFPv(void* p) { *(f32*)((char*)p + 0x688) = *(f32*)((char*)p + 0x38); *(f32*)((char*)p + 0x68c) = *(f32*)((char*)p + 0x40); }
+void TBoss8Dragon::copy_pos_to_field688() {
+    this->m_688 = this->position.x;
+    this->m_68c = this->position.z;
+}
 
 #pragma push
 #pragma pool_data off
@@ -2467,7 +2372,7 @@ void TBoss8Dragon::pick_next_action() {
     }
   }
   while (var_r9 != 0);
-  ((s32 (*)(void *, s32))send_action_packet__12TBoss8DragonFPvi)((void *) arg0, (int) temp_r4);
+  ((TBoss8Dragon *)arg0)->send_action_packet((int) temp_r4);
 }
 #pragma pop
 
@@ -2490,10 +2395,10 @@ s32 TBoss8Dragon::check_damage_reaction() {
         this->hp = *(s16 *)&this->m_67a;
         set_damage_phase_value(1);
         if ((s32) *(s32 *)&this->m_3e4 == 0) {
-            ((s32 (*)(void *, s32))send_action_packet__12TBoss8DragonFPvi)(this, 0xD);
+            send_action_packet(0xD);
             return 1;
         }
-        ((s32 (*)(void *, s32))send_action_packet__12TBoss8DragonFPvi)(this, 0xB);
+        send_action_packet(0xB);
         return 1;
     }
     return 0;
@@ -2556,13 +2461,14 @@ void TBoss8Dragon__sub_802FB70C(s32 arg0) {
 
 #pragma push
 #pragma fp_contract on
-void draw_beam_segments__12TBoss8DragonFPvfff(u8 *ene_dd, f32 a, f32 b, f32 c) {
+void TBoss8Dragon::draw_beam_segments(f32 a, f32 b, f32 c) {
     DragonAttackParams fx = TBoss8Dragon__body_effect_parameters;
     Vec v2;
     Vec v1;
     f32 sn;
     f32 cs;
     f32 d;
+    u8 *ene_dd = (u8 *)this;
 
     *(f32 *)((s8 *)&fx + 8) = a - 2.0f;
     fill_value_array(*(s32 *)((s8 *)ene_dd + 0x680));
@@ -2598,12 +2504,12 @@ void draw_beam_segments__12TBoss8DragonFPvfff(u8 *ene_dd, f32 a, f32 b, f32 c) {
 }
 
 #pragma pop
-void update_pos_from_data__12TBoss8DragonFv(void) {
-    ((s32 (*)(f32, f32, f32))draw_beam_segments__12TBoss8DragonFPvfff)(10.0f, -60.0f, -140.0f);
+void TBoss8Dragon::update_pos_from_data() {
+    draw_beam_segments(10.0f, -60.0f, -140.0f);
 }
 
-void TBoss8Dragon__sub_802FB484(void) {
-    ((s32 (*)(f32, f32, f32))draw_beam_segments__12TBoss8DragonFPvfff)(10.0f, 90.0f, 60.0f);
+void TBoss8Dragon__sub_802FB484(TBoss8Dragon *dragon) {
+    dragon->draw_beam_segments(10.0f, 90.0f, 60.0f);
 }
 
 void TBoss8Dragon::init_state(s32 arg0) {
@@ -2759,7 +2665,8 @@ void TBoss8Dragon::freeze_player_at_self() {
 }
 
 #pragma pop
-void release_grabbed_player__12TBoss8DragonFPv(TBoss8Dragon *boss8_dragon) {
+void TBoss8Dragon::release_grabbed_player() {
+    TBoss8Dragon * boss8_dragon = this;
     s32 var_r31;
     u16 temp_r4;
     u8 *player;
@@ -2777,7 +2684,7 @@ void release_grabbed_player__12TBoss8DragonFPv(TBoss8Dragon *boss8_dragon) {
     boss8_dragon->m_74c = 0;
     if ((s16) boss8_dragon->mode != 0x15) {
         var_r31 = 0;
-        if (is_health_low__12TBoss8DragonFPv(boss8_dragon) != 0) {
+        if (((TBoss8Dragon *)boss8_dragon)->is_health_low() != 0) {
             boss8_dragon->m_674 = 0;
             switch (boss8_dragon->mode) {
             case 24:
@@ -2983,11 +2890,11 @@ void TBoss8Dragon::sub_802FA478(s32 arg1) {
         return;
     case 2:
     case 11:
-        ((s32 (*)(void *, int))send_action_packet__12TBoss8DragonFPvi)(this, 0x18);
+        send_action_packet(0x18);
         return;
     case 9:
         if ((s32) this->m_74c != 0) {
-            ((s32 (*)(void *, int))send_action_packet__12TBoss8DragonFPvi)(this, 0x18);
+            send_action_packet(0x18);
             return;
         }
         this->pick_next_action();
@@ -3010,11 +2917,11 @@ void TBoss8Dragon::sub_802FA374(s32 arg1) {
     case 2:
     case 11:
         if (((s32 (*)(void *, s32, s32))mask_flags__12TBoss8DragonFiii)(this, *(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x6D8)) + 8), 4) != 0) {
-            ((s32 (*)(void *, int))send_action_packet__12TBoss8DragonFPvi)(this, 3);
+            send_action_packet(3);
         } else if (((s32 (*)(void *, s32, s32))mask_flags__12TBoss8DragonFiii)(this, *(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x6D8)) + 8), 0x400) != 0) {
-            ((s32 (*)(void *, int))send_action_packet__12TBoss8DragonFPvi)(this, 5);
+            send_action_packet(5);
         } else if (*(f32 *)((s8 *)(*(u8 **)((s8 *)this + 0x6D8)) + 0x24) > 0.1f) {
-            ((s32 (*)(void *, int))send_action_packet__12TBoss8DragonFPvi)(this, 0x19);
+            send_action_packet(0x19);
         }
         break;
     case 0:
@@ -3041,7 +2948,7 @@ void TBoss8Dragon::sub_802FA16C(s32 arg1) {
         return;
     case 2:
     case 11:
-        ((s32 (*)(void *, int))send_action_packet__12TBoss8DragonFPvi)(this, 0x18);
+        send_action_packet(0x18);
         return;
     case 9:
         temp_r4_2 = this->m_84c;
@@ -3077,7 +2984,7 @@ void TBoss8Dragon::sub_802FA16C(s32 arg1) {
         }
         break;
     case 7:
-        ((s32 (*)(void))sync_target_pos__12TBoss8DragonFPv)();
+        sync_target_pos();
         return;
     case 6:
         this->m_3b0 = (s32) *(s32 *)((s8 *)this + 0x3B4);
@@ -3098,7 +3005,6 @@ void TBoss8Dragon::sub_802FA16C(s32 arg1) {
 #pragma fp_contract on
 void TBoss8Dragon::state_breath_attack(s32 arg1) {
     Rot_802F9D08 rot;
-    void *mem;
     switch (arg1) {
     case 4:
         F(s16, 0xB8) = 4;
@@ -3116,7 +3022,7 @@ void TBoss8Dragon::state_breath_attack(s32 arg1) {
     case 2:
     case 11:
         if (F(s32, 0x84C) == 3) {
-            send_action_packet__12TBoss8DragonFPvi(((u8 *)this), 0x18);
+            send_action_packet(0x18);
         }
         return;
     case 9:
@@ -3125,7 +3031,7 @@ void TBoss8Dragon::state_breath_attack(s32 arg1) {
         }
         return;
     case 7:
-        sync_target_pos__12TBoss8DragonFPv(this);
+        sync_target_pos();
         return;
     case 6:
         if (enemy_validate_retained_target((u8 *)this) != 0) {
@@ -3174,10 +3080,7 @@ void TBoss8Dragon::state_breath_attack(s32 arg1) {
                 direction_to_rotation_xz((u8 *)&m_41c, &rot.x, &rot.z);
                 F(s32, 0x850)++;
                 if (F(s32, 0x850) >= 2) {
-                    mem = TObject::operator new(0x40);
-                    if (mem != 0) {
-                        __ct__21TBoss8DragonEffBreathFP7TObjectPvPvls(mem, (u8 *)&sub_tasks, (u8 *)&m_410, (u8 *)&m_41c, F(s32, 0x75C), get_entity_id(((u8 *)this)));
-                    }
+                    new TBoss8DragonEffBreath(&sub_tasks, &m_410, &m_41c, F(s32, 0x75C), get_entity_id(((u8 *)this)));
                     F(s32, 0x850) = 0;
                 }
                 if (F(void *, 0x894) == 0) {
@@ -3256,7 +3159,7 @@ void TBoss8Dragon::handle_tail_attack_state(s32 arg1) {
     case 2:
     case 11:
         if (this->get_flag_b4() != 0) {
-            ((s32 (*)(void *, int))send_action_packet__12TBoss8DragonFPvi)(this, 0x18);
+            send_action_packet(0x18);
         }
         break;
     case 9:
@@ -3344,7 +3247,7 @@ void TBoss8Dragon::sub_802F9850(s32 arg1) {
     case 11:
         *(s32 *)((s8 *)((u8 *)this) + 0x754) = 0;
         if ((s32) *(s32 *)((s8 *)((u8 *)this) + 0x850) >= 0x28) {
-            ((s32 (*)(void *, int))send_action_packet__12TBoss8DragonFPvi)(this, 0x1A);
+            send_action_packet(0x1A);
         }
         return;
     case 9:
@@ -3354,10 +3257,10 @@ void TBoss8Dragon::sub_802F9850(s32 arg1) {
         }
         break;
     case 7:
-        ((s32 (*)(void))restore_target_pos__12TBoss8DragonFPv)();
+        restore_target_pos();
         return;
     case 6:
-        ((s32 (*)(void))copy_pos_to_field688__12TBoss8DragonFPv)();
+        copy_pos_to_field688();
         return;
     case 0:
         this->advance_animation();
@@ -3417,11 +3320,11 @@ void TBoss8Dragon::state_turn_and_charge(s32 arg1) {
         d->field_864 = 0.0f;
         break;
     case 2:
-        send_action_packet__12TBoss8DragonFPvi(((u8 *)this), 26);
+        send_action_packet(26);
         break;
     case 11:
         if (d->field_84C == 2) {
-            send_action_packet__12TBoss8DragonFPvi(((u8 *)this), 15);
+            send_action_packet(15);
         }
         break;
     case 9:
@@ -3430,7 +3333,7 @@ void TBoss8Dragon::state_turn_and_charge(s32 arg1) {
         }
         break;
     case 7:
-        sync_target_pos__12TBoss8DragonFPv(d);
+        ((TBoss8Dragon *)d)->sync_target_pos();
         break;
     case 6:
         ((void (*)(u8 *, void *))TBoss8Dragon__sub_802FC500)(((u8 *)this), d->f394);
@@ -3458,7 +3361,7 @@ void TBoss8Dragon::state_turn_and_charge(s32 arg1) {
             v.x = d->dir.x * dlt;
             v.y = 0.0f;
             v.z = d->dir.z * dlt;
-            apply_ground_movement__12TBoss8DragonFPvPv(((u8 *)this), &v.x);
+            apply_ground_movement(&v);
             if (((AccelerationCurve *)d->curve0)->check_param_threshold(d->field_864) != 0) {
                 d->field_84C = 2;
             }
@@ -3492,7 +3395,7 @@ void TBoss8Dragon::sub_802F8F88(s32 arg1) {
     case 2:
     case 11:
         if (F(s32, 0x84C) == 3) {
-            send_action_packet__12TBoss8DragonFPvi(((u8 *)this), 0x1A);
+            send_action_packet(0x1A);
         }
         break;
     case 9:
@@ -3570,34 +3473,19 @@ void TBoss8Dragon::sub_802F8F88(s32 arg1) {
                 dir.y = 0.0f;
                 VecCopy__FP3VecPC3Vec(&v, d);
                 v.y = TBoss8Dragon__data_804744A8.y;
-                {
-                    void *b = TObject::operator new(0x58);
-                    if (b != 0) {
-                        TBoss8DragonEffBullet__ct(b, (u8 *)&sub_tasks, (u8 *)&m_410, &v, F(s32, 0x75C), get_entity_id(((u8 *)this)));
-                    }
-                }
+                new TBoss8DragonEffBullet(&sub_tasks, &m_410, &v, F(s32, 0x75C), get_entity_id(((u8 *)this)));
                 rotate_vec_xz(&dir, &rot, 0x1000);
                 VecCopy__FP3VecPC3Vec(&v, (u8 *)&position);
                 v.x += rot.x * len;
                 v.y = TBoss8Dragon__data_804744A8.y;
                 v.z += rot.z * len;
-                {
-                    void *b = TObject::operator new(0x58);
-                    if (b != 0) {
-                        TBoss8DragonEffBullet__ct(b, (u8 *)&sub_tasks, (u8 *)&m_410, &v, F(s32, 0x75C), get_entity_id(((u8 *)this)));
-                    }
-                }
+                new TBoss8DragonEffBullet(&sub_tasks, &m_410, &v, F(s32, 0x75C), get_entity_id(((u8 *)this)));
                 rotate_vec_xz(&dir, &rot, -0x1000);
                 VecCopy__FP3VecPC3Vec(&v, (u8 *)&position);
                 v.x += rot.x * len;
                 v.y = TBoss8Dragon__data_804744A8.y;
                 v.z += rot.z * len;
-                {
-                    void *b = TObject::operator new(0x58);
-                    if (b != 0) {
-                        TBoss8DragonEffBullet__ct(b, (u8 *)&sub_tasks, (u8 *)&m_410, &v, F(s32, 0x75C), get_entity_id(((u8 *)this)));
-                    }
-                }
+                new TBoss8DragonEffBullet(&sub_tasks, &m_410, &v, F(s32, 0x75C), get_entity_id(((u8 *)this)));
                 spawn_particle_effect_with_flags(&m_410, (s32)((void *)*(s32 *)((s8 *)(F(u8 *, 0x760)) + 0x24)), 0x40);
                 F(s32, 0x84C) = 3;
                 F(s32, 0x854) = 0;
@@ -3631,7 +3519,6 @@ void TBoss8Dragon::sub_802F8F88(s32 arg1) {
 #define F(t, o) (*(t *)(arg0 + (o)))
 #define VO ((VObj_18_667c9b *)(arg0))
 void TBoss8Dragon::sub_802F89F8(s32 event) {
-    void *bullet;
     s32 found;
     Vec pos;
     TObjPlayer *player;
@@ -3653,7 +3540,7 @@ void TBoss8Dragon::sub_802F89F8(s32 event) {
         break;
     case 2:
     case 11:
-        send_action_packet__12TBoss8DragonFPvi((u8 *)this, 0x1A);
+        send_action_packet(0x1A);
         break;
     case 9:
         if (this->m_84c == 6) {
@@ -3670,7 +3557,7 @@ void TBoss8Dragon::sub_802F89F8(s32 event) {
         }
         break;
     case 6:
-        copy_pos_to_field688__12TBoss8DragonFPv(this);
+        copy_pos_to_field688();
         break;
     case 0:
         switch (this->m_84c) {
@@ -3728,10 +3615,7 @@ void TBoss8Dragon::sub_802F89F8(s32 event) {
                     pos.y = 0.0f;
                     pos.z = 700.0f * (calc_random_ratio__10TObjPlayerFv(&this->m_764) - 0.5f);
                 }
-                bullet = TObject::operator new(0x58);
-                if (bullet != 0) {
-                    TBoss8DragonEffBullet__ct(bullet, &this->sub_tasks, &this->m_410, &pos, this->m_75c, get_entity_id((u8 *)this));
-                }
+                new TBoss8DragonEffBullet(&sub_tasks, &m_410, &pos, this->m_75c, get_entity_id((u8 *)this));
             }
             this->rotation_x -= this->m_85c;
             break;
@@ -3861,7 +3745,7 @@ void TBoss8Dragon::sub_802F8578(s32 arg1) {
     case 11:
         ((Dragon_802F8578 *)this)->field_754 = 0;
         if (((TObjEneDD *)this)->get_flag_b4() != 0) {
-            send_action_packet__12TBoss8DragonFPvi((u8 *)this, 0x18);
+            send_action_packet(0x18);
         }
         break;
     case 9:
@@ -3872,22 +3756,22 @@ void TBoss8Dragon::sub_802F8578(s32 arg1) {
                 ((TBoss8Dragon *)this)->pick_next_action();
                 break;
             case 10:
-                send_action_packet__12TBoss8DragonFPvi((u8 *)this, 9);
+                send_action_packet(9);
                 break;
             case 11:
-                send_action_packet__12TBoss8DragonFPvi((u8 *)this, 0xD);
+                send_action_packet(0xD);
                 break;
             case 12:
-                send_action_packet__12TBoss8DragonFPvi((u8 *)this, 0x15);
+                send_action_packet(0x15);
                 break;
             }
         }
         break;
     case 7:
-        restore_target_pos__12TBoss8DragonFPv(this);
+        restore_target_pos();
         break;
     case 6:
-        copy_pos_to_field688__12TBoss8DragonFPv(this);
+        copy_pos_to_field688();
         break;
     case 0:
         ((TObjMotion *)this)->advance_animation();
@@ -3951,12 +3835,12 @@ void TBoss8Dragon::sub_802F8270(s32 arg1) {
             *(s32 *)((s8 *)this + 0x84C) = 0x1C2;
         }
         if (((s32) *(s32 *)((s8 *)this + 0x850) == 2) && (this->get_flag_b4() != 0)) {
-            send_action_packet__12TBoss8DragonFPvi(((u8 *)this), 0x18);
+            send_action_packet(0x18);
         }
         return;
     case 2:
         if (((s32) *(s32 *)((s8 *)this + 0x850) == 2) && (this->get_flag_b4() != 0)) {
-            send_action_packet__12TBoss8DragonFPvi(((u8 *)this), 0x18);
+            send_action_packet(0x18);
             return;
         }
         break;
@@ -3967,10 +3851,10 @@ void TBoss8Dragon::sub_802F8270(s32 arg1) {
         }
         break;
     case 7:
-        restore_target_pos__12TBoss8DragonFPv(this);
+        restore_target_pos();
         return;
     case 6:
-        copy_pos_to_field688__12TBoss8DragonFPv(this);
+        copy_pos_to_field688();
         return;
     case 0:
         this->advance_animation();
@@ -3979,9 +3863,9 @@ void TBoss8Dragon::sub_802F8270(s32 arg1) {
             if (this->is_passing_frame(7.0f) != 0) {
                 TBoss8Dragon__sub_802FB70C((s32)this);
             } else if (this->is_passing_frame(14.0f) != 0) {
-                ((void (*)(void *))update_pos_from_data__12TBoss8DragonFv)(this);
+                update_pos_from_data();
             } else if (this->is_passing_frame(18.0f) != 0) {
-                ((void (*)(void *))TBoss8Dragon__sub_802FB484)(this);
+                TBoss8Dragon__sub_802FB484(this);
             }
             if ((s16) this->requested_action != 8) {
                 fn_802F2E7C((int) (*(s32 *)((s8 *)this + 0x684)), ((u8 *)this) + 0x38, (int) (this->rotation_y));
@@ -4035,7 +3919,7 @@ void TBoss8Dragon::sub_802F8150(s32 arg1) {
     case 2:
     case 11:
         if (this->get_flag_b4() != 0) {
-            send_action_packet__12TBoss8DragonFPvi(((u8 *)this), 0x18);
+            send_action_packet(0x18);
         }
         break;
     case 9:
@@ -4044,10 +3928,10 @@ void TBoss8Dragon::sub_802F8150(s32 arg1) {
         }
         break;
     case 7:
-        restore_target_pos__12TBoss8DragonFPv(this);
+        restore_target_pos();
         break;
     case 6:
-        copy_pos_to_field688__12TBoss8DragonFPv(this);
+        copy_pos_to_field688();
         break;
     case 0:
         this->advance_animation();
@@ -4081,10 +3965,10 @@ void TBoss8Dragon::state_roar(s32 arg1) {
         }
         break;
     case 7:
-        restore_target_pos__12TBoss8DragonFPv(this);
+        restore_target_pos();
         break;
     case 6:
-        copy_pos_to_field688__12TBoss8DragonFPv(this);
+        copy_pos_to_field688();
         break;
     case 0:
         this->advance_animation();
@@ -4129,12 +4013,12 @@ void TBoss8Dragon::sub_802F7B70(s32 arg1) {
         break;
     case 2:
         if (((Obj_802F7B70 *)this)->state == 6) {
-            send_action_packet__12TBoss8DragonFPvi((u8 *)((Obj_802F7B70 *)this), 0x1C);
+            send_action_packet(0x1C);
         }
         break;
     case 11:
         if (((Obj_802F7B70 *)this)->state == 6) {
-            send_action_packet__12TBoss8DragonFPvi((u8 *)((Obj_802F7B70 *)this), 0x25);
+            send_action_packet(0x25);
         }
         break;
     case 9:
@@ -4143,7 +4027,7 @@ void TBoss8Dragon::sub_802F7B70(s32 arg1) {
         }
         break;
     case 7:
-        sync_target_pos__12TBoss8DragonFPv(((Obj_802F7B70 *)this));
+        sync_target_pos();
         ((TObjEneDD *)((Obj_802F7B70 *)this))->update_velocity();
         break;
     case 6:
@@ -4267,7 +4151,7 @@ void TBoss8Dragon__sub_802F7808(u8 *arg0, u32 arg1, s32 arg2) {
         break;
     case 2:
     case 11:
-        send_action_packet__12TBoss8DragonFPvi(arg0, 0x1C);
+        ((TBoss8Dragon *)arg0)->send_action_packet(0x1C);
         break;
     case 9:
         if (F(s32, 0x8A0) != 0) {
@@ -4286,7 +4170,7 @@ void TBoss8Dragon__sub_802F7808(u8 *arg0, u32 arg1, s32 arg2) {
         a = (s32)(65536.0f * ((TObjChara *)arg0)->random_ratio());
         F(f32, 0x38) = 350.0f * sin_table_lookup(a);
         F(f32, 0x40) = 350.0f * cos_table_lookup(a);
-        copy_pos_to_field688__12TBoss8DragonFPv(arg0);
+        ((TBoss8Dragon *)arg0)->copy_pos_to_field688();
         break;
     case 0:
         switch (F(s32, 0x84C)) {
@@ -4295,7 +4179,7 @@ void TBoss8Dragon__sub_802F7808(u8 *arg0, u32 arg1, s32 arg2) {
             if ((f32)F(s32, 0x850) >= 60.0f) {
                 F(s32, 0x850) = 0;
                 F(s32, 0x84C) = 1;
-                restore_target_pos__12TBoss8DragonFPv(arg0);
+                ((TBoss8Dragon *)arg0)->restore_target_pos();
                 F(s32, 0x60) = (s32)(RADIANS_TO_ANGLE * atan2_float(F(f32, 0x38), F(f32, 0x40))) + 0x8000;
                 F(f32, 0x3A0) = sin_table_lookup(F(s32, 0x60));
                 F(f32, 0x3A8) = cos_table_lookup(F(s32, 0x60));
@@ -4346,7 +4230,7 @@ void TBoss8Dragon::sub_802F75C8(s32 arg1) {
         return;
     case 2:
     case 11:
-        ((s32 (*)(void *, int))send_action_packet__12TBoss8DragonFPvi)(this, 0x1C);
+        send_action_packet(0x1C);
         return;
     case 9:
         VecCopy__FP3VecPC3Vec(&sp8, ((u8 *)this) + 0x38);
@@ -4355,7 +4239,7 @@ void TBoss8Dragon::sub_802F75C8(s32 arg1) {
         }
         return;
     case 7:
-        ((s32 (*)(void))sync_target_pos__12TBoss8DragonFPv)();
+        sync_target_pos();
         return;
     case 6:
         if (((s32 (*)(void))select_target_in_front__12TBoss8DragonFPv)() != 0) {
@@ -4411,7 +4295,7 @@ void TBoss8Dragon::handle_spiral_state(s32 arg1) {
         break;
     case 2:
     case 11:
-        send_action_packet__12TBoss8DragonFPvi(((u8 *)this), 0x1C);
+        send_action_packet(0x1C);
         break;
     case 9:
         if (F(s32, 0x8A0) != 0) {
@@ -4425,7 +4309,7 @@ void TBoss8Dragon::handle_spiral_state(s32 arg1) {
         a = (s32)(65536.0f * random_ratio());
         F(f32, 0x38) = 350.0f * sin_table_lookup(a);
         F(f32, 0x40) = 350.0f * cos_table_lookup(a);
-        copy_pos_to_field688__12TBoss8DragonFPv(this);
+        copy_pos_to_field688();
         break;
     case 0:
         switch (F(s32, 0x84C)) {
@@ -4434,7 +4318,7 @@ void TBoss8Dragon::handle_spiral_state(s32 arg1) {
             if ((f32)F(s32, 0x850) >= 60.0f) {
                 F(s32, 0x850) = 0;
                 F(s32, 0x84C) = 1;
-                restore_target_pos__12TBoss8DragonFPv(this);
+                restore_target_pos();
                 F(s32, 0x85C) = (s32)(RADIANS_TO_ANGLE * atan2_float(F(f32, 0x38), F(f32, 0x40)));
                 return;
             }
@@ -4488,12 +4372,12 @@ void TBoss8Dragon::handle_leap_state(s32 arg1) {
     case 2:
     case 11:
         if (F(s32, 0x84C) == 6) {
-            send_action_packet__12TBoss8DragonFPvi(((u8 *)this), 0x1A);
+            send_action_packet(0x1A);
         }
         break;
     case 9:
         if (F(s32, 0x84C) == 6) {
-            send_action_packet__12TBoss8DragonFPvi(((u8 *)this), 8);
+            send_action_packet(8);
         }
         break;
     case 6:
@@ -4653,12 +4537,12 @@ void TBoss8Dragon::sub_802F6838(s32 arg1) {
     case 2:
     case 11:
         if (*(s32 *)((s8 *)this + 0x850) >= 50) {
-            send_action_packet__12TBoss8DragonFPvi(((u8 *)this), 0x17);
+            send_action_packet(0x17);
         }
         break;
     case 9:
         if (*(s32 *)((s8 *)this + 0x850) >= 50) {
-            send_action_packet__12TBoss8DragonFPvi(((u8 *)this), 0x17);
+            send_action_packet(0x17);
         }
         break;
     case 8:
@@ -4742,7 +4626,7 @@ void TBoss8Dragon::sub_802F6838(s32 arg1) {
             *(void **)((s8 *)this + 0x894) = 0;
         }
         if (*(s32 *)((s8 *)this + 0x74C) != 0) {
-            release_grabbed_player__12TBoss8DragonFPv(this);
+            release_grabbed_player();
         }
         break;
     }
@@ -4766,12 +4650,12 @@ void TBoss8Dragon::sub_802F6708(s32 arg1) {
     case 2:
     case 11:
         if ((s32) *(s32 *)((s8 *)this + 0x84C) >= 6) {
-            send_action_packet__12TBoss8DragonFPvi(((u8 *)this), 0x17);
+            send_action_packet(0x17);
         }
         break;
     case 9:
         if ((s32) *(s32 *)((s8 *)this + 0x84C) >= 6) {
-            send_action_packet__12TBoss8DragonFPvi(((u8 *)this), 0x17);
+            send_action_packet(0x17);
         }
         break;
     case 0:
@@ -4784,7 +4668,7 @@ void TBoss8Dragon::sub_802F6708(s32 arg1) {
         break;
     case 5:
         if ((s32) *(s32 *)((s8 *)this + 0x74C) != 0) {
-            ((void (*)(void))release_grabbed_player__12TBoss8DragonFPv)();
+            release_grabbed_player();
         }
         TObject::queue_destruction();
         break;
@@ -4835,50 +4719,50 @@ void TBoss8Dragon::sub_802F645C(s32 arg1) {
     case 11:
         temp_r4 = (u8 *)(*(u8 **)((s8 *)this + 0x6D8));
         if (*(f32 *)((s8 *)temp_r4 + 0x24) > 0.1f) {
-            ((s32 (*)(void *, int))send_action_packet__12TBoss8DragonFPvi)(this, 0x19);
+            send_action_packet(0x19);
             return;
         }
         if (((s32 (*)(void *, void *, int))mask_flags__12TBoss8DragonFiii)(this, (void *) (*(u8 **)((s8 *)temp_r4 + 8)), 4) != 0) {
-            ((s32 (*)(void *, int))send_action_packet__12TBoss8DragonFPvi)(this, 3);
+            send_action_packet(3);
             return;
         }
         if (((s32 (*)(void *, void *, int))mask_flags__12TBoss8DragonFiii)(this, (void *) (*(void **)((s8 *)(*(u8 **)((s8 *)this + 0x6D8)) + 8)), 2) != 0) {
-            ((s32 (*)(void *, int))send_action_packet__12TBoss8DragonFPvi)(this, 4);
+            send_action_packet(4);
             return;
         }
         if (((s32 (*)(void *))TBoss8Dragon__sub_802FABB4)(this) != 0) {
-            ((s32 (*)(void *, int))send_action_packet__12TBoss8DragonFPvi)(this, 5);
+            send_action_packet(5);
             return;
         }
         if (((s32 (*)(void *, void *, int))mask_flags__12TBoss8DragonFiii)(this, (void *) (*(void **)((s8 *)(*(u8 **)((s8 *)this + 0x6D8)) + 8)), (int) (fn_8002AE08((void *)TBoss8Dragon__data_805D69BC))) != 0) {
-            ((s32 (*)(void *, int))send_action_packet__12TBoss8DragonFPvi)(this, 9);
+            send_action_packet(9);
         }
         return;
     case 2:
         temp_r4_2 = (u8 *)(*(u8 **)((s8 *)this + 0x6D8));
         if (*(f32 *)((s8 *)temp_r4_2 + 0x24) > 0.1f) {
-            ((s32 (*)(void *, int))send_action_packet__12TBoss8DragonFPvi)(this, 0x19);
+            send_action_packet(0x19);
             return;
         }
         temp_r4_3 = (u8 *)(*(u8 **)((s8 *)temp_r4_2 + 8));
         if ((s32) temp_r4_3 & 4) {
-            ((s32 (*)(void *, int))send_action_packet__12TBoss8DragonFPvi)(this, 3);
+            send_action_packet(3);
             return;
         }
         if ((s32) temp_r4_3 & 2) {
-            ((s32 (*)(void *, int))send_action_packet__12TBoss8DragonFPvi)(this, 4);
+            send_action_packet(4);
             return;
         }
         if ((s32) temp_r4_3 & 0x400) {
-            ((s32 (*)(void *, int))send_action_packet__12TBoss8DragonFPvi)(this, 5);
+            send_action_packet(5);
             return;
         }
         break;
     case 7:
-        ((s32 (*)(void))restore_target_pos__12TBoss8DragonFPv)();
+        restore_target_pos();
         return;
     case 6:
-        ((s32 (*)(void))copy_pos_to_field688__12TBoss8DragonFPv)();
+        copy_pos_to_field688();
         return;
     case 0:
         this->advance_animation();
@@ -4904,42 +4788,42 @@ void TBoss8Dragon::sub_802F610C(s32 arg1) {
         return;
     case 2:
         if (*(s32 *)((s8 *)this + 0x850) == 1) {
-            send_action_packet__12TBoss8DragonFPvi(((u8 *)this), 0x18);
+            send_action_packet(0x18);
             return;
         }
         q = *(u8 **)((s8 *)(*(u8 **)((s8 *)this + 0x6D8)) + 8);
         if ((s32)q & 4) {
-            send_action_packet__12TBoss8DragonFPvi(((u8 *)this), 3);
+            send_action_packet(3);
             return;
         }
         if ((s32)q & 2) {
-            send_action_packet__12TBoss8DragonFPvi(((u8 *)this), 4);
+            send_action_packet(4);
             return;
         }
         if ((s32)q & 0x400) {
-            send_action_packet__12TBoss8DragonFPvi(((u8 *)this), 5);
+            send_action_packet(5);
             return;
         }
         break;
     case 11:
         if (*(s32 *)((s8 *)this + 0x850) == 1) {
-            send_action_packet__12TBoss8DragonFPvi(((u8 *)this), 0x18);
+            send_action_packet(0x18);
             return;
         }
         if (((s32 (*)(void *, void *, int))mask_flags__12TBoss8DragonFiii)(this, *(void **)((s8 *)(*(u8 **)((s8 *)this + 0x6D8)) + 8), 4) != 0) {
-            send_action_packet__12TBoss8DragonFPvi(((u8 *)this), 3);
+            send_action_packet(3);
             return;
         }
         if (((s32 (*)(void *, void *, int))mask_flags__12TBoss8DragonFiii)(this, *(void **)((s8 *)(*(u8 **)((s8 *)this + 0x6D8)) + 8), 2) != 0) {
-            send_action_packet__12TBoss8DragonFPvi(((u8 *)this), 4);
+            send_action_packet(4);
             return;
         }
         if (((s32 (*)(void *))TBoss8Dragon__sub_802FABB4)(this) != 0) {
-            send_action_packet__12TBoss8DragonFPvi(((u8 *)this), 5);
+            send_action_packet(5);
             return;
         }
         if (((s32 (*)(void *, void *, int))mask_flags__12TBoss8DragonFiii)(this, *(void **)((s8 *)(*(u8 **)((s8 *)this + 0x6D8)) + 8), fn_8002AE08((void *)TBoss8Dragon__data_805D69BC)) != 0) {
-            send_action_packet__12TBoss8DragonFPvi(((u8 *)this), 9);
+            send_action_packet(9);
             return;
         }
         break;
@@ -5007,47 +4891,47 @@ void TBoss8Dragon::sub_802F5F64(s32 arg1) {
         return;
     case 11:
         if (((s32) this->m_754 > 0x1C2) || (((s32 (*)(void *, void *, int))mask_flags__12TBoss8DragonFiii)(this, (void *) (*(void **)((s8 *)(*(u8 **)((s8 *)this + 0x6D8)) + 8)), 2) != 0)) {
-            ((s32 (*)(void *, int))send_action_packet__12TBoss8DragonFPvi)(this, 8);
+            send_action_packet(8);
             return;
         }
         temp_r3 = (u8 *)(*(u8 **)((s8 *)this + 0x6D8));
         if (*(f32 *)((s8 *)temp_r3 + 0x24) > 0.1f) {
-            ((s32 (*)(void *, int))send_action_packet__12TBoss8DragonFPvi)(this, 0x1B);
+            send_action_packet(0x1B);
             return;
         }
         if (((s32 (*)(void *, void *, int))mask_flags__12TBoss8DragonFiii)(this, (void *) (*(u8 **)((s8 *)temp_r3 + 8)), 4) != 0) {
-            ((s32 (*)(void *, int))send_action_packet__12TBoss8DragonFPvi)(this, 7);
+            send_action_packet(7);
             return;
         }
         if (((s32 (*)(void *))check_attack_ready__12TBoss8DragonFPv)(this) != 0) {
-            ((s32 (*)(void *, int))send_action_packet__12TBoss8DragonFPvi)(this, 0xF);
+            send_action_packet(0xF);
         }
         return;
     case 2:
         temp_r4 = (u8 *)(*(u8 **)((s8 *)this + 0x6D8));
         if (*(f32 *)((s8 *)temp_r4 + 0x24) > 0.1f) {
-            ((s32 (*)(void *, int))send_action_packet__12TBoss8DragonFPvi)(this, 0x1B);
+            send_action_packet(0x1B);
             return;
         }
         temp_r4_2 = (u8 *)(*(u8 **)((s8 *)temp_r4 + 8));
         if ((s32) temp_r4_2 & 4) {
-            ((s32 (*)(void *, int))send_action_packet__12TBoss8DragonFPvi)(this, 7);
+            send_action_packet(7);
             return;
         }
         if ((s32) temp_r4_2 & 2) {
-            ((s32 (*)(void *, int))send_action_packet__12TBoss8DragonFPvi)(this, 0xF);
+            send_action_packet(0xF);
             return;
         }
         if ((s32) temp_r4_2 & 0x400) {
-            ((s32 (*)(void *, int))send_action_packet__12TBoss8DragonFPvi)(this, 8);
+            send_action_packet(8);
             return;
         }
         break;
     case 7:
-        ((s32 (*)(void))restore_target_pos__12TBoss8DragonFPv)();
+        restore_target_pos();
         return;
     case 6:
-        ((s32 (*)(void))copy_pos_to_field688__12TBoss8DragonFPv)();
+        copy_pos_to_field688();
         return;
     case 0:
         this->advance_animation();
@@ -5076,37 +4960,37 @@ void TBoss8Dragon::sub_802F5CC8(s32 arg1) {
         return;
     case 11:
         if (*(s32 *)((s8 *)this + 0x754) > 0x1C2 || ((s32 (*)(void *, void *, int))mask_flags__12TBoss8DragonFiii)(this, *(void **)((s8 *)(*(u8 **)((s8 *)this + 0x6D8)) + 8), 2) != 0) {
-            send_action_packet__12TBoss8DragonFPvi(((u8 *)this), 8);
+            send_action_packet(8);
             return;
         }
         if (*(s32 *)((s8 *)this + 0x850) == 1) {
-            send_action_packet__12TBoss8DragonFPvi(((u8 *)this), 0x1A);
+            send_action_packet(0x1A);
             return;
         }
         if (((s32 (*)(void *, void *, int))mask_flags__12TBoss8DragonFiii)(this, *(void **)((s8 *)(*(u8 **)((s8 *)this + 0x6D8)) + 8), 4) != 0) {
-            send_action_packet__12TBoss8DragonFPvi(((u8 *)this), 7);
+            send_action_packet(7);
             return;
         }
         if (((s32 (*)(void *))check_attack_ready__12TBoss8DragonFPv)(this) != 0) {
-            send_action_packet__12TBoss8DragonFPvi(((u8 *)this), 0xF);
+            send_action_packet(0xF);
         }
         return;
     case 2:
         if (*(s32 *)((s8 *)this + 0x850) == 1) {
-            send_action_packet__12TBoss8DragonFPvi(((u8 *)this), 0x1A);
+            send_action_packet(0x1A);
             return;
         }
         q = *(u8 **)((s8 *)(*(u8 **)((s8 *)this + 0x6D8)) + 8);
         if ((s32)q & 4) {
-            send_action_packet__12TBoss8DragonFPvi(((u8 *)this), 7);
+            send_action_packet(7);
             return;
         }
         if ((s32)q & 2) {
-            send_action_packet__12TBoss8DragonFPvi(((u8 *)this), 0xF);
+            send_action_packet(0xF);
             return;
         }
         if ((s32)q & 0x400) {
-            send_action_packet__12TBoss8DragonFPvi(((u8 *)this), 8);
+            send_action_packet(8);
             return;
         }
         break;
@@ -5164,20 +5048,20 @@ void TBoss8Dragon::sub_802F5BA0(s32 arg1) {
     case 11:
         temp_r3 = (u8 *)(*(u8 **)((s8 *)this + 0x6D8));
         if (*(f32 *)((s8 *)temp_r3 + 0x24) > 0.1f) {
-            send_action_packet__12TBoss8DragonFPvi((u8 *)this, 0x1D);
+            send_action_packet(0x1D);
             break;
         }
         if (*(s32 *)((s8 *)temp_r3 + 8) & 2) {
-            send_action_packet__12TBoss8DragonFPvi((u8 *)this, 0x13);
+            send_action_packet(0x13);
             break;
         }
     default:
         break;
     case 7:
-        ((s32)restore_target_pos__12TBoss8DragonFPv(this));
+        restore_target_pos();
         break;
     case 6:
-        ((s32)copy_pos_to_field688__12TBoss8DragonFPv(this));
+        copy_pos_to_field688();
         break;
     case 0:
         this->m_84c = (this->m_84c + 1);
@@ -5220,11 +5104,11 @@ void TBoss8Dragon::handle_walk_state(s32 arg1) {
     case 2:
     case 11:
         if ((s32) this->m_850 == 1) {
-            send_action_packet__12TBoss8DragonFPvi(((u8 *)this), 0x1C);
+            send_action_packet(0x1C);
             return;
         }
         if (*(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x6D8)) + 8) & 2) {
-            send_action_packet__12TBoss8DragonFPvi(((u8 *)this), 0x13);
+            send_action_packet(0x13);
         }
         return;
     case 8:
@@ -5279,7 +5163,7 @@ void TBoss8Dragon::sub_802F57E4(s32 arg1) {
     case 2:
     case 11:
         if (((s32) *(s32 *)((s8 *)this + 0x84C) >= 0x1C2) || (((s32 (*)(void *, void *, int))mask_flags__12TBoss8DragonFiii)(this, (void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x6D8)) + 8)), 0x400) != 0)) {
-            ((s32 (*)(void *, int))send_action_packet__12TBoss8DragonFPvi)(this, 0x26);
+            send_action_packet(0x26);
         }
         return;
     case 7:
@@ -5335,14 +5219,14 @@ void TBoss8Dragon::sub_802F5644(s32 arg1) {
     case 2:
     case 11:
         if (this->m_868 >= 680.0f) {
-            ((s32 (*)(void *, int))send_action_packet__12TBoss8DragonFPvi)(this, 0x13);
+            send_action_packet(0x13);
         }
         return;
     case 7:
-        ((s32 (*)(void))restore_target_pos__12TBoss8DragonFPv)();
+        restore_target_pos();
         return;
     case 6:
-        ((s32 (*)(void))copy_pos_to_field688__12TBoss8DragonFPv)();
+        copy_pos_to_field688();
         return;
     case 0:
         *(f32 *)((s8 *)this + 0x864) += 0.1f;
@@ -5381,7 +5265,7 @@ void TBoss8Dragon::sub_802F5434(s32 arg1) {
         return;
     case 2:
     case 11:
-        ((s32 (*)(void *, int))send_action_packet__12TBoss8DragonFPvi)(this, 0x18);
+        send_action_packet(0x18);
         return;
     case 9:
         if (TBoss8Dragon__sub_802F46F4((s32)this) == 0) {
@@ -5403,7 +5287,7 @@ void TBoss8Dragon::sub_802F5434(s32 arg1) {
         }
         break;
     case 7:
-        ((s32 (*)(void))sync_target_pos__12TBoss8DragonFPv)();
+        sync_target_pos();
         return;
     case 6:
         this->m_3b0 = (s32) *(s32 *)((s8 *)this + 0x3B4);
@@ -5452,7 +5336,7 @@ void TBoss8Dragon::sub_802F51DC(s32 arg1) {
         return;
     case 2:
     case 11:
-        ((s32 (*)(void *, int))send_action_packet__12TBoss8DragonFPvi)(this, 0x18);
+        send_action_packet(0x18);
         return;
     case 9:
         if (this->hasActiveRenderFade() == 0) {
@@ -5460,7 +5344,7 @@ void TBoss8Dragon::sub_802F51DC(s32 arg1) {
         }
         return;
     case 7:
-        ((s32 (*)(void))sync_target_pos__12TBoss8DragonFPv)();
+        sync_target_pos();
         return;
     case 6:
         *(s32 *)((s8 *)this + 0x3B0) = (s32) *(s32 *)((s8 *)this + 0x3B4);
@@ -5549,7 +5433,7 @@ void TBoss8Dragon::sub_802F4DD4(s32 arg1) {
     case 2:
     case 9:
         if (o->phase == 1) {
-            send_action_packet__12TBoss8DragonFPvi((u8 *)o, 0);
+            ((TBoss8Dragon *)o)->send_action_packet(0);
         }
         break;
     case 0:
@@ -5675,7 +5559,7 @@ void TBoss8Dragon::sub_802F4B90(s32 arg1) {
         break;
     case 2:
     case 11:
-        ((s32 (*)(void *, int))send_action_packet__12TBoss8DragonFPvi)(this, 0x1C);
+        send_action_packet(0x1C);
         break;
     case 9:
         if (TBoss8Dragon::is_any_part_alive() != 0) {
@@ -5737,7 +5621,7 @@ void update_movement__12TBoss8DragonFPv(u8 *arg0) {
     d.y = *(f32 *)((s8 *)arg0 + 0x3C) - old.y;
     d.z = *(f32 *)((s8 *)arg0 + 0x40) - old.z;
     ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(arg0 + 0x38, &old);
-    apply_ground_movement__12TBoss8DragonFPvPv(arg0, (f32 *) &d);
+    ((TBoss8Dragon *)arg0)->apply_ground_movement(&d);
 }
 
 void TBoss8Dragon__sub_802F48DC(TBoss8Dragon *dragon, Vec *target) {
@@ -5758,21 +5642,21 @@ void TBoss8Dragon__sub_802F48DC(TBoss8Dragon *dragon, Vec *target) {
     }
 }
 
-void apply_ground_movement__12TBoss8DragonFPvPv(u8 *arg0, f32 *arg1) {
+void TBoss8Dragon::apply_ground_movement(Vec *step) {
     Vec c;
     Vec b;
     Vec a;
     f32 t;
-    *(f32 *)((s8 *)arg0 + 0x3C) = *(f32 *)((s8 *)arg0 + 0x3C) + arg1[1];
-    arg1[1] = 0.0f;
-    ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&a, arg0 + 0x38);
-    ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&c, arg1);
+    this->position.y = this->position.y + step->y;
+    step->y = 0.0f;
+    VecCopy__FP3VecPC3Vec(&a, &this->position);
+    VecCopy__FP3VecPC3Vec(&c, step);
     t = normalize_vector_xz__FP3Vec(&c);
-    ((TBoss5Gryphon *)arg0)->calc_shot_position((u8 *)&b, (f32)c.x, (f32)c.z, (f32)t);
-    ((TBoss5Gryphon *)arg0)->try_move_actor_xz_on_ground((u8 *)&b);
-    *(f32 *)((s8 *)arg0 + 0x3C) = a.y;
-    if ((((TBoss8Dragon *)arg0)->push_apart_from_parts() != 0) && (((TBoss8Dragon *)arg0)->is_near_other_part() != 0)) {
-        ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(arg0 + 0x38, &a);
+    ((TBoss5Gryphon *)this)->calc_shot_position((u8 *)&b, (f32)c.x, (f32)c.z, (f32)t);
+    ((TBoss5Gryphon *)this)->try_move_actor_xz_on_ground((u8 *)&b);
+    this->position.y = a.y;
+    if ((this->push_apart_from_parts() != 0) && (this->is_near_other_part() != 0)) {
+        VecCopy__FP3VecPC3Vec(&this->position, &a);
     }
 }
 
@@ -5818,7 +5702,6 @@ s32 TBoss8Dragon::hasActiveRenderFade() {
     }
     return 0;
 }
-
 
 void TBoss8Dragon::update_camera_script() {
     s32 temp_r0;
@@ -6099,5 +5982,4 @@ void TBoss8Dragon::set_mode_params(s8 arg1) {
     }
 }
 #pragma pop
-
 
