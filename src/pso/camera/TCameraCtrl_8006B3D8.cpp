@@ -72,7 +72,7 @@ Vec *TCameraCtrl__sub_8006BAB4(O_8006BAB4 *self, s32 i);
 Vec *TCameraCtrl__sub_8006BAC8(O_8006BAC8 *self, s32 i);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern const s32 __vt__13TUnk_80488AD8[];
-extern u32 camera_ctrl_instance;
+extern uaddr camera_ctrl_instance;
 f32 vector_length(void *);
 void normalize_vector(void *);
 f32 xyz_distance(void *, void *);

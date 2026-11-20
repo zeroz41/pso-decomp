@@ -131,7 +131,7 @@ void TODoorFourLightRuins::render() {
             set_global_param__8TObjFishFl();
             post_translate_matrix((u8 *)&this->position);
             rotate_matrix_y(0, this->rotation_y);
-            draw_ginja_model_with_motion((void *)(*(s32 *)&this->m_d4), (void *)(*(s32 *)&this->motion), this->animation_end_frame);
+            draw_ginja_model_with_motion((void *)(*(saddr *)&this->m_d4), (void *)(*(saddr *)&this->motion), this->animation_end_frame);
             pop_matrix();
             return;
         case 0:
@@ -330,7 +330,7 @@ void TODoorFourLightSpace::render() {
             set_global_param__8TObjFishFl();
             post_translate_matrix((u8 *)&this->position);
             rotate_matrix_y(0, this->rotation_y);
-            draw_ginja_model_with_motion((void *)(*(s32 *)&this->m_d4), (void *)(*(s32 *)&this->motion), this->animation_frame);
+            draw_ginja_model_with_motion((void *)(*(saddr *)&this->m_d4), (void *)(*(saddr *)&this->motion), this->animation_frame);
             pop_matrix();
             return;
         case 2:
@@ -339,7 +339,7 @@ void TODoorFourLightSpace::render() {
             set_global_param__8TObjFishFl();
             post_translate_matrix((u8 *)&this->position);
             rotate_matrix_y(0, this->rotation_y);
-            draw_ginja_model_with_motion((void *)(*(s32 *)&this->m_d4), (void *)(*(s32 *)&this->motion), *(f32 *)&this->animation_end_frame);
+            draw_ginja_model_with_motion((void *)(*(saddr *)&this->m_d4), (void *)(*(saddr *)&this->motion), *(f32 *)&this->animation_end_frame);
             pop_matrix();
             return;
         case 0:

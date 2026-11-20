@@ -332,7 +332,7 @@ void TOVS2Wall01::load_resources() {
   {
     var_r0 = load_resource_from_descriptor((int) temp_r3, 1, &bm_o_vs2_resource_descriptor, 0, 0, 0);
   }
-  (*(s32 *)&TOVS2Wall01__bml_resource) = var_r0;
+  (*(saddr *)&TOVS2Wall01__bml_resource) = var_r0;
   TMotorcycle::add_entry(0x3A, (int) get_bml_model(TOVS2Wall01__bml_resource, 5), (int) get_bml_texlist((BmlResource *)var_r0, 5), 10.0f, 0.0f);
 }
 void TOVS2Wall01::release_model() {

@@ -65,7 +65,7 @@ __declspec(section ".rodata") extern const char TBGLightningCtrl__class_name_str
 const char *TBGLightningCtrl__name = TBGLightningCtrl__class_name_string;
 __declspec(section ".rodata") s32 lbl_8046FC8C[3] = { 1, 5, 0 };
 extern void *camera_ctrl_instance;
-int bg_lightning_texture_handle;
+saddr bg_lightning_texture_handle;
 
 void TBGLightningCtrl__sub_802A9A08(void) { TObjFish::set_global_param(bg_lightning_texture_handle); }
 
@@ -131,14 +131,14 @@ void *TBGLightningCtrl__create(void *arg0) {
 }
 
 void TBGLightningCtrl::destroy_instance() {
-    if ((u32) (*(u32 *)&bg_lightning_texture_handle) != 0U) {
+    if ((u32) (*(uaddr *)&bg_lightning_texture_handle) != 0U) {
         release_texture_list((void*)(*(uaddr *)&bg_lightning_texture_handle));
-        TAdSinglePlyChrSelectGC::safe_free((*(u32 *)&bg_lightning_texture_handle));
-        (*(u32 *)&bg_lightning_texture_handle) = 0U;
+        TAdSinglePlyChrSelectGC::safe_free((*(uaddr *)&bg_lightning_texture_handle));
+        (*(uaddr *)&bg_lightning_texture_handle) = 0U;
     }
 }
 
-void load_bg_lightning(void) { bg_lightning_texture_handle = (int)load_gvm_texture_file((saddr)lbl_8046FCA0); }
+void load_bg_lightning(void) { bg_lightning_texture_handle = (saddr)load_gvm_texture_file((saddr)lbl_8046FCA0); }
 
 __declspec(section ".rodata") extern unsigned char lbl_8046FCA0[] = "bg_lightning.gvm";
 

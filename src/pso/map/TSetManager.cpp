@@ -217,7 +217,7 @@ void TLobby::setup_floor_decorations() {
     arrive_floor_population();
     (*(s32 *)&TLobby__data_805D611C) = 0;
     TLobby__data_805D6134 &= ~8;
-    (*(s32 *)&TLobby__data_805D6124) = 0;
+    (*(saddr *)&TLobby__data_805D6124) = 0;
     TLobby__data_805D6120 = 0;
     TLobby__data_805D6128 = 0;
     TLobby__data_805D6134 &= ~16;

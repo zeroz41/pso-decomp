@@ -754,7 +754,7 @@ void TFogCtrl::clear_split_screen_fog() {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void*TFogCtrl::get_entry(int a0) {  return (char*)((*(int *)&fog_entry_array)) + a0 * 64; }
+void*TFogCtrl::get_entry(int a0) {  return (char*)((*(saddr *)&fog_entry_array)) + a0 * 64; }
 #pragma pop
 
 #pragma push

@@ -122,7 +122,7 @@ struct Door_8029B428 : VObj_8029B428 {
     s32 count;
 };
 
-u32 TODoorJungleMain__bml_resource;
+uaddr TODoorJungleMain__bml_resource;
 
 u32 door_jungle_main_gvm_texture;
 extern "C" {
@@ -205,7 +205,7 @@ u8 *TODoorJungleMain__ct(TODoorJungleMain *arg0, s32 arg1, s32 arg2) {
     (*(f32 *)(copy_storage_8029B924.bytes + 0x28)) = 100.0f;
     (*(f32 *)(copy_storage_8029B924.bytes + 0x2C)) = 40.0f;
     (*(s32 *)(copy_storage_8029B924.bytes + 0x30)) = 2;
-    arg0->m_dc = TObjMapCsn::create((s32)copy_storage_8029B924.bytes);
+    arg0->m_dc = TObjMapCsn::create((saddr)copy_storage_8029B924.bytes);
     return (u8 *)arg0;
 }
 
@@ -324,7 +324,7 @@ void TODoorJungleMain::load_resources() {
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 0x1, &bm_o_jungle_doormain_resource_descriptor, 0, 0, 0));
     }
-    (*(s32 *)&TODoorJungleMain__bml_resource) = var_r0;
+    (*(saddr *)&TODoorJungleMain__bml_resource) = var_r0;
     (*(u8 * *)&door_jungle_main_gvm_texture) = load_gvm_texture_file((saddr) "o_jungle_doormain.gvm");
 }
 

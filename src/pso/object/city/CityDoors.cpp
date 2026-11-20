@@ -166,7 +166,7 @@ void load_city_common_resources(void) {
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &bm_obj_city_common_resource_descriptor.value, 0, 0, 0));
     }
-    (*(s32 *)&city_common_model_archive) = var_r0;
+    (*(saddr *)&city_common_model_archive) = var_r0;
     (*(u8 * *)&city_common_texture_list) = load_gvm_texture_file((saddr)city_common_texture_filename);
 }
 extern "C" {
@@ -775,7 +775,7 @@ void TObjCityDoor_Shop::render() {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        draw_ginja_model_with_motion((void *)(*(saddr *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x42C)) + 0xB8)), (void *)(*(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x430)) + 0x54)), this->m_b4);
+        draw_ginja_model_with_motion((void *)(*(saddr *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x42C)) + 0xB8)), (void *)(*(saddr *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x430)) + 0x54)), this->m_b4);
         pop_matrix();
     }
 }

@@ -68,7 +68,7 @@ s32 TObjCityMainWarp__enabled_destinations;
 
 s32 TObjCityMainWarp__visible_destination_mask;
 
-s32 TObjLaboMapWarp__resource_bundle;
+saddr TObjLaboMapWarp__resource_bundle;
 
 struct Obj_80185664 { u8 pad[0x8C]; s32 dest; };
 
@@ -788,13 +788,13 @@ void TObjLaboMapWarp::load_static_resource() {
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &bm_obj_warp_labo_resource_descriptor, 0, 0, 0));
     }
-    (*(s32 *)&TObjLaboMapWarp__resource_bundle) = var_r0;
+    (*(saddr *)&TObjLaboMapWarp__resource_bundle) = var_r0;
 }
 
 void TObjLaboMapWarp::release_static_resource() {
-    if ((u32) (*(u32 *)&TObjLaboMapWarp__resource_bundle) != 0U) {
+    if ((u32) (*(uaddr *)&TObjLaboMapWarp__resource_bundle) != 0U) {
         free_bin_model_request((void*)(*(uaddr *)&TObjLaboMapWarp__resource_bundle), 1);
-        (*(u32 *)&TObjLaboMapWarp__resource_bundle) = 0U;
+        (*(uaddr *)&TObjLaboMapWarp__resource_bundle) = 0U;
     }
 }
 

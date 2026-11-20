@@ -195,7 +195,7 @@ void init_collision_body_parts(void *, void *, int);
 u32 get_bml_motion(saddr, int);
 s32 get_bml_model(saddr, int);
 s32 submit_cursor_candidate(void *, int, f32);
-extern s32 TContainerAncient01R__bml_resource;
+extern saddr TContainerAncient01R__bml_resource;
 
 void run_task__20TContainerAncient01RFv(u8 *arg0);
 f32 xyz_distance_squared(void *, void *);
@@ -614,10 +614,10 @@ void TContainerAncient01R::run_task() {
         }
     }
     if ((uaddr) this->current_motion == get_bml_motion(TContainerAncient01R__bml_resource, 0)) {
-        *(s32 *)&this->model = get_bml_model(TContainerAncient01R__bml_resource, 0);
+        *(saddr *)&this->model = get_bml_model(TContainerAncient01R__bml_resource, 0);
     }
     if ((uaddr) this->current_motion == get_bml_motion(TContainerAncient01R__bml_resource, 1)) {
-        *(s32 *)&this->model = get_bml_model(TContainerAncient01R__bml_resource, 1);
+        *(saddr *)&this->model = get_bml_model(TContainerAncient01R__bml_resource, 1);
     }
     ((TObject *)arg0)->TObject::run_task();
 }
@@ -916,7 +916,7 @@ void TContainerAncient01::render() {
         if (TObjPlayer::check_demo_mode() == 1) {
             draw_ginja_object(this->model);
         } else {
-            draw_ginja_model_with_motion((void *)(*(s32 *)&this->model), (void *)(*(s32 *)&this->current_motion), this->frame);
+            draw_ginja_model_with_motion((void *)(*(saddr *)&this->model), (void *)(*(saddr *)&this->current_motion), this->frame);
         }
         pop_matrix();
     }
@@ -960,10 +960,10 @@ void TContainerAncient01::run_task() {
         }
     }
     if ((uaddr) this->current_motion == get_bml_motion(TContainerAncient01__bml_resource, 0)) {
-        *(s32 *)&this->model = get_bml_model(TContainerAncient01__bml_resource, 0);
+        *(saddr *)&this->model = get_bml_model(TContainerAncient01__bml_resource, 0);
     }
     if ((uaddr) this->current_motion == get_bml_motion(TContainerAncient01__bml_resource, 1)) {
-        *(s32 *)&this->model = get_bml_model(TContainerAncient01__bml_resource, 1);
+        *(saddr *)&this->model = get_bml_model(TContainerAncient01__bml_resource, 1);
     }
     ((TObject *)arg0)->TObject::run_task();
 }
@@ -1121,4 +1121,4 @@ s32 TContainerAncient01::try_start_action(s32, s32) { return 1; }
 s32 TContainerAncient01::roll_physical_accuracy(void *, s32, f32) { return 1; }
 
 s32 TContainerAncient01__bml_resource;
-s32 TContainerAncient01R__bml_resource;
+saddr TContainerAncient01R__bml_resource;

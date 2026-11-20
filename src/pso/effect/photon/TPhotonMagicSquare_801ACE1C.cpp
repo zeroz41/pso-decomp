@@ -219,7 +219,7 @@ u8 *construct_photon_magic_square_normal(u8 *photon_magic_square, s32 arg1, s32 
 TPhotonMagicSquare::TPhotonMagicSquare(TObject *parent, s32 color, u16 owner_id) : TObjBase(parent) {
     TObjCollidable *entity;
     *(s32 *)&this->m_name = (s32) ((s32)TPhotonMagicSquare__data_805D3508);
-    *(s32 *)&this->model = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x28);
+    *(saddr *)&this->model = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x28);
     *(u8 * *)&this->m_90 = (unsigned char *) ((void *) *(void **)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x430)) + 0x14));
     *(f32 *)&this->unk_9C = 0.0f;
     *(f32 *)((s8 *)((u8 *)this) + 0x94) = (f32) ((f32) *(u32 *)(this->m_90 + 4) - (1.0f));

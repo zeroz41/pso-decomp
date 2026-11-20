@@ -155,7 +155,7 @@ TObjTombstone::TObjTombstone(TObject *parent, s32 client, TObjTombstoneSpot *spo
 
 void TObjTombstone::setup(s32 client, TObjTombstoneRecord *src) {
     this->texlist = get_bml_texlist(TObjTombstone__shared_resource_object, 0);
-    *(s32 *)&this->model = get_bml_model(TObjTombstone__shared_resource_object, 0);
+    *(saddr *)&this->model = get_bml_model(TObjTombstone__shared_resource_object, 0);
     this->client_id = client;
     this->record = *src;
     VecCopy(&this->position, &this->record.position);

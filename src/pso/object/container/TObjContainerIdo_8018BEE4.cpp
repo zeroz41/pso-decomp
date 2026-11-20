@@ -101,7 +101,7 @@ s32 post_translate_matrix(void *);
 s32 rotate_matrix_x(s32, s32);
 s32 push_matrix();
 
-u32 TObjContainerIdo__model_resource;
+uaddr TObjContainerIdo__model_resource;
 
 void render__16TObjContainerIdoFv(u8 *container_ido) {
     s32 var_r31;
@@ -298,7 +298,7 @@ void TObjContainerIdo::load_resources() {
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &container_ido_resource_descriptor, 0, 0, 0));
     }
-    (*(s32 *)&TObjContainerIdo__model_resource) = var_r0;
+    (*(saddr *)&TObjContainerIdo__model_resource) = var_r0;
     (*(u8 * *)&container_ido_texture_gvm_handle) = load_gvm_texture_file((saddr) "obj_containerido.GVM");
 }
 TObjContainerIdo::~TObjContainerIdo() {

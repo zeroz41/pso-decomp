@@ -594,7 +594,7 @@ void TObjMapWarp::open_confirm_window(s32 arg1) {
         ((TWindowSubComCard *)(*(uaddr *)((s8 *)temp_r31 + 0xEC)))->calc_window_size();
         align_menu_entry_positions((int) (*(u32 *)((s8 *)temp_r31 + 0xEC)));
         ((TWindowSubComCardList *)(*(uaddr *)((s8 *)temp_r31 + 0xEC)))->set_flag70_bit10();
-        ((TAdChrSelASlotGC *)(*(u32 *)((s8 *)temp_r31 + 0xEC)))->set_flag_40();
+        ((TAdChrSelASlotGC *)(*(uaddr *)((s8 *)temp_r31 + 0xEC)))->set_flag_40();
     }
 }
 #pragma pop

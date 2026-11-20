@@ -111,7 +111,7 @@ void TODummyKeyCave01__sub_80165E88(void) {  }
 void *TODummyKeyCave01::create(void *arg0) {
     void *o = TObject::operator new(0xD4);
     if (o != NULL) {
-        o = TODummyKeyCave01__ct((u8 *)o, (saddr)tl_05, (s32)arg0);
+        o = TODummyKeyCave01__ct((u8 *)o, (saddr)tl_05, (saddr)arg0);
     }
     return o;
 }

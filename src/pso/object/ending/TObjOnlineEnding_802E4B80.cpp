@@ -227,7 +227,7 @@ void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 f32 online_ending_scene_scale = 0.88f;
 f32 online_ending_quad_y_offset = -24.0f;
 f32 online_ending_scene_z_offset;
-u32 lbl_805D68F4;
+uaddr lbl_805D68F4;
 s8 online_ending_scene_translation_initialized;
 s8 online_ending_quad_vertices_initialized;
 s32 restore_player_cameras();
@@ -475,7 +475,7 @@ void TBoss4DarkFalz::free_global_instance() {
 }
 
 s32 load_resource_from_descriptor(s32, int, void *, int, int, int);
-extern u32 lbl_805D68F4;
+extern uaddr lbl_805D68F4;
 
 void fn_802E52AC() {
     s32 r;

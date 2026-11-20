@@ -81,7 +81,7 @@ void TOBind::load_static_resource() {
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &bm_o_bind_resource_descriptor, 0, 0, 0));
     }
-    (*(s32 *)&TOBind__static_model_resource) = var_r0;
+    (*(saddr *)&TOBind__static_model_resource) = var_r0;
 }
 
 }
@@ -96,11 +96,11 @@ u8 *TOBind__ct(TOBind *bind, saddr arg1) {
     ((TOBind *)bind)->m_name = lbl_805D2EA8;
     ((TOBind *)(bind))->apply_object_set_data((void *)arg1);
     bind->m_b0 = 0;
-    *(s32 *)((s8 *)bind + 0x34) = get_bml_model((int) ((*(s32 *)&TOBind__static_model_resource)), 0);
-    bind->texlist = get_bml_texlist((int) ((*(s32 *)&TOBind__static_model_resource)), 0);
-    bind->m_c4 = get_bml_model((int) ((*(s32 *)&TOBind__static_model_resource)), 1);
-    bind->m_c8 = get_bml_texlist((int) ((*(s32 *)&TOBind__static_model_resource)), 1);
-    *(u8 **)((s8 *)bind + 0xCC) = get_bml_motion((*(s32 *)&TOBind__static_model_resource), 0);
+    *(s32 *)((s8 *)bind + 0x34) = get_bml_model((int) ((*(saddr *)&TOBind__static_model_resource)), 0);
+    bind->texlist = get_bml_texlist((int) ((*(saddr *)&TOBind__static_model_resource)), 0);
+    bind->m_c4 = get_bml_model((int) ((*(saddr *)&TOBind__static_model_resource)), 1);
+    bind->m_c8 = get_bml_texlist((int) ((*(saddr *)&TOBind__static_model_resource)), 1);
+    *(u8 **)((s8 *)bind + 0xCC) = get_bml_motion((*(saddr *)&TOBind__static_model_resource), 0);
     *(f32 *)((s8 *)bind + 0xB8) = 0.0f;
     bind->m_bc = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)bind + 0xCC)) + 4) - 1.0f);
     *(f32 *)((s8 *)bind + 0xC0) = 1.0f;

@@ -35,7 +35,7 @@ struct Ent_8029E170;
 extern "C" {
 void render__8TObjFishFv(u8 *arg0);
 s32 init_fish_school__8TObjFishFPvll(u8 *arg0, Vec *arg1, s32 arg2, s32 arg3);
-s32 TObjFish__area_bml_resource;
+saddr TObjFish__area_bml_resource;
 extern void* __vt__8TObjFish[];
 extern void* fish_resource_name_table[];
 s32 post_translate_matrix(void *);
@@ -523,15 +523,15 @@ u8 *TObjFish__create(u8 *arg0) {
     fish = (u8 *)(TObject::operator new(0xA4));
     var_r0 = fish;
     if (var_r0 != NULL) {
-        var_r0 = (u8 *)(TObjFish__ct(fish, (s32)((*(s32 *)&tl_05)), arg0));
+        var_r0 = (u8 *)(TObjFish__ct(fish, (s32)((*(saddr *)&tl_05)), arg0));
     }
     return var_r0;
 }
 
 void TObjFish::free_resource() {
-    if ((u32) (*(u32 *)&TObjFish__area_bml_resource) != 0U) {
+    if ((u32) (*(uaddr *)&TObjFish__area_bml_resource) != 0U) {
         free_bin_model_request((void*)(*(uaddr *)&TObjFish__area_bml_resource), 1);
-        (*(u32 *)&TObjFish__area_bml_resource) = 0U;
+        (*(uaddr *)&TObjFish__area_bml_resource) = 0U;
     }
 }
 void vfunc_6__8TObjBaseFPsl();
@@ -648,7 +648,7 @@ void TObjFish::load_area_resource() {
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 1, base + 0xB0, 0, 0, 0);
         }
-        (*(u32 *)&TObjFish__area_bml_resource) = (u32)p;
+        (*(uaddr *)&TObjFish__area_bml_resource) = (uaddr)p;
         break;
     case AREA_SEABED_LOWER:
         TObjFish__area_event_stage = 4;
@@ -656,7 +656,7 @@ void TObjFish::load_area_resource() {
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 1, base + 0xE0, 0, 0, 0);
         }
-        (*(u32 *)&TObjFish__area_bml_resource) = (u32)p;
+        (*(uaddr *)&TObjFish__area_bml_resource) = (uaddr)p;
         break;
     case AREA_LOBBY:
     default:
@@ -665,7 +665,7 @@ void TObjFish::load_area_resource() {
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 1, base + 0x20, 0, 0, 0);
         }
-        (*(u32 *)&TObjFish__area_bml_resource) = (u32)p;
+        (*(uaddr *)&TObjFish__area_bml_resource) = (uaddr)p;
         break;
     }
 }

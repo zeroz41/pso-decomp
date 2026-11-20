@@ -453,7 +453,7 @@ extern void *tl_clipout;
                             direction_action, direction_source) do {           \
     __ct__7TObjectFP7TObject(particle, tl_07);                                 \
     particle->vtable = __vt__13TParticleCtrl;                                  \
-    particle->descriptor = (s32)TParticleCtrl__class_name_descriptor[0];                       \
+    particle->descriptor = (saddr)TParticleCtrl__class_name_descriptor[0];                       \
     particle->field4C = 0;                                                     \
     particle->field50 = 0;                                                     \
     particle->field54 = 0;                                                     \
@@ -684,7 +684,7 @@ void load_particle_entry_resources(void) {
     if (p != 0) {
         p = load_resource_from_descriptor(p, 1, particle_regular_bml_descriptor, 0, 0, 0);
     }
-    TParticleCtrl__regular_bml_resource = (u32)p;
+    TParticleCtrl__regular_bml_resource = (uaddr)p;
     TParticleCtrl__texture_list = (u32)load_gvm_texture_file((saddr)lbl_804394D4);
 }
 extern "C" {

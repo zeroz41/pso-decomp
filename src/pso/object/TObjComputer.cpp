@@ -303,7 +303,7 @@ void TObjGbAdvance::load_resource_instance() {
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &bm_obj_gba_resource_descriptor, 0, 0, 0));
     }
-    (*(s32 *)&TObjGbAdvance__data_805D5B74) = var_r0;
+    (*(saddr *)&TObjGbAdvance__data_805D5B74) = var_r0;
 }
 
 void TObjGbAdvance::free_shared_data() {

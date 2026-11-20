@@ -31,7 +31,7 @@ s32 draw_ginja_model(void *);
 s32 get_bml_model(saddr, s32);
 s32 is_split_screen();
 extern s32 __vt__20TObjLiveMonitorSmall[];
-s32 live_monitor_shared_resource;
+saddr live_monitor_shared_resource;
 s32 live_camera_controller_next_slot;
 s32 TObjLiveCameraCtrl__instances;
 s32 live_monitor_small_spawned_flag;
@@ -365,7 +365,7 @@ void TObjLiveCamera::load_static_resource() {
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &bm_obj_boss8_monitor_resource_descriptor, 0, 0, 0));
     }
-    (*(s32 *)&live_monitor_shared_resource) = var_r0;
+    (*(saddr *)&live_monitor_shared_resource) = var_r0;
 }
 
 void TObjLiveCamera::free_static_resource() { free_bin_model_request((void*)live_monitor_shared_resource, (void*)1); }
@@ -468,7 +468,7 @@ int TObjLiveMonitor::render_live_monitor_screen() {
     }
     free_children__12TObjDoorJungFPv((void *) (*(saddr *)((s8 *)(*(u8 **)((s8 *)this + 0x1C)) + 4)), var_r4);
     push_matrix();
-    ::draw_ginja_model((void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x1C)) + 4)));
+    ::draw_ginja_model((void *) (*(saddr *)((s8 *)(*(u8 **)((s8 *)this + 0x1C)) + 4)));
     return pop_matrix();
 }
 

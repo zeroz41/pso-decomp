@@ -103,7 +103,7 @@ u8 *TOLightMachine01__ct(TOLightMachine01 *light_machine01, saddr arg1) {
     ((TOLightMachine01 *)light_machine01)->m_name = TOLightMachine01__name;
     ((TOLightMachine01 *)(light_machine01))->apply_object_set_data((void *)arg1);
     light_machine01->model = ((u8 *)get_bml_model((void *)((*(saddr *)&TOLightMachine01__shared_bml_archive)), 1));
-    light_machine01->texlist = get_bml_texlist((void *)((int) ((*(s32 *)&TOLightMachine01__shared_bml_archive))), 1);
+    light_machine01->texlist = get_bml_texlist((void *)((int) ((*(saddr *)&TOLightMachine01__shared_bml_archive))), 1);
     *(f32 *)((s8 *)light_machine01 + 0x90) = 500.0f;
     light_machine01->m_94 = (f32) *(f32 *)((s8 *)(*(void **)((s8 *)light_machine01->model + 4)) + 0x14);
     light_machine01->actorFlags = (s32) (light_machine01->actorFlags | 0x40000000);

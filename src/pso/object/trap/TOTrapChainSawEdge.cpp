@@ -477,7 +477,7 @@ void *__dt__17TOTrapChainSawKeyFv(void *collidable, s16 arg1) {
 u8 *TOTrapChainSawKey__ct(u8 *arg0, void * _w1, void * _w2) {
     ((s32 (*)(void))__ct__14TOTrapChainSawFP7TObjectPv)();
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__17TOTrapChainSawKey;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) TOTrapChainSawKey__name;
+    *(saddr *)((s8 *)arg0 + 0) = (saddr) TOTrapChainSawKey__name;
     ((TOTrapChainSawKey *)(arg0))->decode_params();
     ((TOTrapChainSawKey *)(arg0))->vfunc_16();
     init_collision_body_parts(arg0, (int) ((u8 *)(&((RecoveredGlobal_802C8910_lbl_804E0CC0 *)chain_saw_collision_body_part_table)->value) + (*(s32 *)((s8 *)arg0 + 0xF8) * 0x58)), 2);
@@ -649,7 +649,7 @@ void *TOTrapChainSawDamage__ct(void *arg0, void *arg1, void *arg2) {
     void *o;
     ((void * (*)(void *, void *, void *))__ct__14TOTrapChainSawFP7TObjectPv)(arg0, arg1, arg2);
     *(s32 **)(((u8 *)arg0) + 0x18) = __vt__20TOTrapChainSawDamage;
-    *(s32 *)(((u8 *)arg0) + 0) = (s32) TOTrapChainSawDamage_class_name;
+    *(saddr *)(((u8 *)arg0) + 0) = (saddr) TOTrapChainSawDamage_class_name;
     ((TOTrapChainSawDamage *)arg0)->decode_params();
     ((TOTrapChainSawDamage *)arg0)->vfunc_16();
     ((s32 (*)(void *, void *, int))init_collision_body_parts)(arg0, &((Ent_802C8E24 *)chain_saw_damage_collision_body_parts)[*(s32 *)(((u8 *)arg0) + 0xF8)], 2);

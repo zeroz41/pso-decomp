@@ -25,7 +25,7 @@ BmlResourceDescriptor TObjDoaEx01__resource_descriptor = { "fs_obj_ex_doa01.bml"
 CollisionBody TObjDoaEx01__collision_body_parts = {{0.0f, 20.0f, -5.0f}, 10.0f, 20.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
 const char *TObjDoaEx01__name = "TObjDoaEx01";
 
-s32 TObjDoaEx01__resource_bundle;
+saddr TObjDoaEx01__resource_bundle;
 u8 *TObjDoaEx01__alpha_model_node;
 u8 *TObjDoaEx01__alpha_model_sibling;
 
@@ -231,7 +231,7 @@ void TObjDoaEx01::draw_model() {
     s32 temp_r31_2;
     if (this->update_object_view_visibility(4e+02f, 2e+01f) != 0) {
         ((TObjDoorJung *)(*(saddr *)((s8 *)TObjDoaEx01__alpha_model_node + 4)))->free_children((void *)0);
-        ((TObjDoorJung *)(*(s32 *)((s8 *)TObjDoaEx01__alpha_model_sibling + 4)))->free_children((void *)0);
+        ((TObjDoorJung *)(*(saddr *)((s8 *)TObjDoaEx01__alpha_model_sibling + 4)))->free_children((void *)0);
         temp_r31 = (s32)get_bml_model((void *)TObjDoaEx01__resource_bundle, 0);
         get_bml_texlist((void *)TObjDoaEx01__resource_bundle, 0);
         set_global_param__8TObjFishFl();
@@ -288,7 +288,7 @@ TObjDoaEx01::TObjDoaEx01(s32 arg1, s32 arg2) : TODoorBase((TObject *)arg1) {
     ((TObjPlayer *)this)->register_object_by_id();
     this->animation_frame = 0.0f;
     this->animation_step = 0.5f;
-    this->animation_end_frame = (f32) *(u32 *)((s8 *)(get_bml_motion((*(s32 *)&TObjDoaEx01__resource_bundle), 0)) + 4);
+    this->animation_end_frame = (f32) *(u32 *)((s8 *)(get_bml_motion((*(saddr *)&TObjDoaEx01__resource_bundle), 0)) + 4);
     this->door_flags = 0x100001;
     *(f32 *)((s8 *)this + 0xD4) = 1.0f;
     this->m_d8 = 1.0f;
@@ -319,6 +319,6 @@ void TObjDoaEx01::load_resources() {
     (*(u8 * *)&TObjDoaEx01__resource_bundle) = (unsigned char *) ((void *) var_r0);
     temp_r3_2 = (u8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(get_bml_model((void *) var_r0, 0)) + 0x2C)) + 0x30)) + 0x2C)) + 0x2C));
     TObjDoaEx01__alpha_model_node = temp_r3_2;
-    TObjDoaEx01__alpha_model_sibling = (u8 *)*(s32 *)((s8 *)temp_r3_2 + 0x30);
+    TObjDoaEx01__alpha_model_sibling = (u8 *)*(saddr *)((s8 *)temp_r3_2 + 0x30);
 }
 

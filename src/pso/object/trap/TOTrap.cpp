@@ -79,9 +79,9 @@ void TOTrap::vfunc_82() {
     calc_attach_pos();
     refresh_collision_body_centers();
     if ((s32) this->set_params[0] < 0) {
-        u32 p;
+        uaddr p;
         this->receive_physical_attack(this->target, 1.0f);
-        p = *(u32 *)&this->target;
+        p = *(uaddr *)&this->target;
         if (p != 0U) {
             u32 v = (u16) get_entity_id(p);
             if (v < 0x1000U) {

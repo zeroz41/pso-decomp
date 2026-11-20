@@ -316,11 +316,11 @@ void TObjDoorKey::load_resources() {
     if (r != 0) {
         r = load_resource_from_descriptor(r, 5, &TObjDoorKey__resource_descriptor, 0, 0, 0);
     }
-    (*(s32 *)&door_key_resource_handle) = r;
+    (*(saddr *)&door_key_resource_handle) = r;
     TObjDoorKey__texture_handle = (s32)load_gvm_texture_file((saddr)"fe_obj_switch.gvm");
-    TObjDoorKey__ginja_model_table[0] = get_bml_model((*(s32 *)&door_key_resource_handle), 1);
-    TObjDoorKey__ginja_model_table[1] = get_bml_model((*(s32 *)&door_key_resource_handle), 2);
-    s32 t = get_bml_model((*(s32 *)&door_key_resource_handle), 0);
+    TObjDoorKey__ginja_model_table[0] = get_bml_model((*(saddr *)&door_key_resource_handle), 1);
+    TObjDoorKey__ginja_model_table[1] = get_bml_model((*(saddr *)&door_key_resource_handle), 2);
+    s32 t = get_bml_model((*(saddr *)&door_key_resource_handle), 0);
     door_key_id_counter = 0;
     TObjDoorKey__ginja_model_table[2] = t;
     TObjDoorKey__data_805D5C04 = 0;

@@ -186,7 +186,7 @@ void TOSparkMachine01::load_static_resource() {
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &bm_fe_obj_tank_hikari_resource_descriptor, 0, 0, 0));
     }
-    (*(s32 *)&TOSparkMachine01__static_resource) = var_r0;
+    (*(saddr *)&TOSparkMachine01__static_resource) = var_r0;
 }
 
 }

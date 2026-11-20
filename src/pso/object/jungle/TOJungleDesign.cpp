@@ -118,7 +118,7 @@ void TOJungleDesign::load_shared_resource() {
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &bm_obj_jungle_tree_resource_descriptor, 0, 0, 0));
     }
-    (*(s32 *)&TOJungleDesign__shared_model_resource) = var_r0;
+    (*(saddr *)&TOJungleDesign__shared_model_resource) = var_r0;
 }
 
 }

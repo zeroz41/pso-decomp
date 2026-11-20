@@ -175,7 +175,7 @@ void TUnk_8049F148::run_task() {
         if (temp_r3_2 != (s32) this->m_20) {
             this->m_20 = temp_r3_2;
             if ((is_current_area_item_enabled() != 0) && (temp_r3_2 == player->get_floor())) {
-                *(uaddr *)&this->unk_1C = (uaddr)create_particle_emitter(sp8, 0x101);
+                *(u32 *)&this->unk_1C = (u32)create_particle_emitter(sp8, 0x101);
             } else {
                 *(u32 *)&this->unk_1C = 0U;
             }
@@ -187,7 +187,7 @@ void TUnk_8049F148::run_task() {
                 var_r30 = 1;
             }
             if (var_r30 != 0) {
-                ((TParticleCtrl *)(*(uaddr *)&this->unk_1C))->clear_active_flag();
+                ((TParticleCtrl *)(*(u32 *)&this->unk_1C))->clear_active_flag();
             } else {
                 ((TParticleCtrl *)(*(u32 *)&this->unk_1C))->enable();
             }

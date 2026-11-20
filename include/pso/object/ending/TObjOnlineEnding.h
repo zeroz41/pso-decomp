@@ -8,9 +8,9 @@ struct TObjOnlineEnding : public TObjBase {
     virtual ~TObjOnlineEnding();
     virtual void render();
     virtual void run_task();
-    u32 m_90;
+    uaddr m_90;
     u32 m_94;
-    u32 m_98;
+    uaddr m_98;
     u32 m_9c;
     u32 m_a0;
     u32 m_a4;

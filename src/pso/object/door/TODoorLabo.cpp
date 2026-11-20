@@ -56,9 +56,9 @@ s32 TODoorFourLightSeabedU__texture_list;
 saddr TODoorLabo__bml_resource;
 s32 TODoorLabo__green_texture_list;
 s32 labo_door_red_textures;
-u32 TODoorLabo__model_archive;
-u32 TODoorLaboNormal__green_texture_list;
-u32 TODoorLaboNormal__red_texture_list;
+uaddr TODoorLabo__model_archive;
+uaddr TODoorLaboNormal__green_texture_list;
+uaddr TODoorLaboNormal__red_texture_list;
 struct Tbl_8029F7E0 { s32 v[8]; };
 struct Res_8029F7E0 { u32 f0; u32 f4; };
 struct Self_8029F7E0 {
@@ -706,7 +706,7 @@ void TODoorLabo::load_resources() {
     if (r != 0) {
         r = load_resource_from_descriptor(r, 5, &labo_door_resource_descriptor_2, 0, 0, 0);
     }
-    (*(s32 *)&TODoorLabo__model_archive) = r;
+    (*(saddr *)&TODoorLabo__model_archive) = r;
     (*(saddr *)&TODoorLaboNormal__green_texture_list) = (saddr)load_gvm_texture_file((saddr)("o_labodoor_nrm_green.GVM"));
     (*(saddr *)&TODoorLaboNormal__red_texture_list) = (saddr)load_gvm_texture_file((saddr)("o_labodoor_nrm_red.GVM"));
 }

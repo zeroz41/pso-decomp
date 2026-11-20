@@ -322,7 +322,7 @@ void TOMine::load_static_resource() {
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &mine_resource_desc, 0, 0, 0));
     }
-    (*(s32 *)&lbl_805D5A50) = var_r0;
+    (*(saddr *)&lbl_805D5A50) = var_r0;
 }
 void TOMine::free_instance() {
     if (lbl_805D5A50 != NULL) {
