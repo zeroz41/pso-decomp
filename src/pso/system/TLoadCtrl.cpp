@@ -58,7 +58,7 @@ bool TLoadCtrl__sub_8001C60C(void) {
 void TLoadCtrl::render() {  }
 
 const char *TLoadCtrl__class_name = "TLoadCtrl";
-const Vec now_loading_pos = {0.0f, 0.0f, -100.0f}; // inferred: TNowLoading__ct copies it to TNowLoading::pos
+const Vec now_loading_pos = {0.0f, 0.0f, -100.0f}; // inferred: the TNowLoading constructor copies it to TNowLoading::pos
 
 extern void *camera_ctrl_instance;
 

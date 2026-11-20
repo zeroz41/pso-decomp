@@ -115,7 +115,6 @@ void __ct__7TObjectFP7TObject(void *);
 
 void TAdChrMoveEffectGC::render() { if (TMainTask::get_render_pass() != 1) { set_color_blending_mode(0, 8); set_color_blending_mode(1, 10); sub_80348E34(); set_color_blending_mode(0, 8); set_color_blending_mode(1, 6); } }
 
-extern s32 __vt__18TAdChrMoveEffectGC[];
 extern u32 lbl_805D6E78;
 
 void TAdChrMoveEffectGC::reset_effect_entries() {

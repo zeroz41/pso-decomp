@@ -34,7 +34,6 @@ void *__ct__9TAdBackGCFv(void *, void *);
     extern int aram_request_busy_flag;
 void clear_aram_request_busy(void) { aram_request_busy_flag = 0; }
 
-extern s32 __vt__16TAdWarningBaseGC[];
 
 void TAdWarningBaseGC::vfunc_9() {
     if (TMainTask::get_render_pass() == 1) { return;

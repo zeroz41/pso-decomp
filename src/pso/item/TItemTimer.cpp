@@ -24,7 +24,6 @@ TItemTimer::~TItemTimer() {}
 extern "C" {
 void TItemTimer__sub_8011D598(u8 *arg0, s32 arg1, s32 arg2);
 
-extern s32 __vt__10TItemTimer[];
 
 #define item_timer ((u8 *)this)
 TItemTimer::TItemTimer(TObject *arg1, s32 arg2, s32 arg3) : TObject(arg1) {

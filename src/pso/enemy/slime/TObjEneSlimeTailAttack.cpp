@@ -2055,4 +2055,3 @@ void TObjPlayer__sub_800E80C0(u8 *dst) {
 #undef lbl_80496574
 #undef slime_tail_attack_id_pair
 #undef TObjEneSlime__attack_target_param_table
-#undef __vt__22TObjEneSlimeTailAttack

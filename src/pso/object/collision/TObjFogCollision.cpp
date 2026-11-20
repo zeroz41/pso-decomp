@@ -489,7 +489,7 @@ void TObjFogCollision_Manager::run_task() {
     }
 }
 
-// Per-client poison ticker under a TObjFogCollisionPoison (TObjFogCollisionPoison__ct creates one
+// Per-client poison ticker under a TObjFogCollisionPoison (its constructor creates one
 // per client; callers pass the client as u16).
 TUnk_804AF7B0::TUnk_804AF7B0(TObject *parent, u16 client) : TObject(parent) {
     this->client = client;

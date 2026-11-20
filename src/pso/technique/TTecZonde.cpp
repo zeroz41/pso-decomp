@@ -112,7 +112,6 @@ struct Zonde_8023C79C {
 extern "C" {
 u16 get_entity_id(void *);
 void copy_technique_target_list(void *, void *);
-extern s32 __vt__9TTecZonde[];
 
 TTecZonde::~TTecZonde() {
 }

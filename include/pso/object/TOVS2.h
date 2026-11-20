@@ -16,8 +16,4 @@ public:
 
 typedef char TOVS2Size[sizeof(TOVS2) == 0xD0 ? 1 : -1];
 
-// The derived constructors and destructors still written out by hand call
-// these by their symbols.
-extern "C" void *__dt__5TOVS2Fv(void *self, s16 del);
-
 #endif

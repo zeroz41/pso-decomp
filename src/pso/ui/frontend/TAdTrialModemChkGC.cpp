@@ -59,7 +59,6 @@ void TAdTrialModemChkGC::run_task() {
     o->m6();
 }
 
-extern s32 __vt__18TAdTrialModemChkGC[];
 
 }
 TAdTrialModemChkGC::~TAdTrialModemChkGC() {

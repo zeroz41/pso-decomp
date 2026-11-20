@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/technique/TTecAnti.h"
+#include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecLuker.h"
 #include "pso/unk/TUnk_804CC0E8.h"
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
@@ -25,9 +26,6 @@ extern "C" {
 s32 play_sound_effect(int, void *, int, int);
 
 }
-
-struct RecoveredGlobal_8022B288_lbl_804CC1CC { s32 value; u8 remaining[0x340]; };
-typedef char RecoveredGlobal_8022B288_lbl_804CC1CC_size[sizeof(RecoveredGlobal_8022B288_lbl_804CC1CC) == 0x344 ? 1 : -1];
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -112,8 +110,6 @@ extern "C" {
 s32 get_entity_id(int);
 int TTecAnti__sub_8022AD74(void* p);
 void TTecAnti__sub_8022AD94(void *);
-extern s32 __vt__8TTecAnti[];
-extern RecoveredGlobal_8022B288_lbl_804CC1CC technique_param_table;
 extern const char *TTecAnti_name_ref;
 S_8022B3E8 *copy_technique_target_list(S_8022B3E8 *d, S_8022B3E8 *s);
 void set_owner_id__13TParticleCtrlFUs(void *, s32);
@@ -172,7 +168,7 @@ TTecAnti::TTecAnti(void *owner, void *pos, void *arg3, s32 level) : TTecPlayerIn
     *(s32 *)((s8 *)arg0 + 0) = (s32) ((s32)TTecAnti_name_ref);
     ((TTecAnti *)arg0)->m_13c = 1;
     copy_technique_target_list((S_8022B3E8 *)(arg0 + 0xE0), (S_8022B3E8 *)(arg3));
-    ((TTecAnti *)(arg0 + 0x74))->copy_params((u8 *)((void *) ((u8 *)&technique_param_table.value + 0x2C0)));
+    ((TTecAnti *)(arg0 + 0x74))->copy_params((u8 *)&technique_param_table[16]);
     TTecAnti__sub_8022AD94(arg0);
     temp_r3 = (u8 *)(*(u8 **)((s8 *)arg0 + 0xDC));
     if (temp_r3 != NULL) {

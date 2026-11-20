@@ -70,7 +70,6 @@ struct Sifta_8023AF94 {
 extern "C" {
 s32 get_entity_id(int);
 int TTecSifta__sub_8023AC88(void* p);
-extern s32 __vt__9TTecSifta[];
 extern const char *TTecSifta__name;
 s32 play_sound_effect(int, void *, int, int);
 s32 is_split_screen();

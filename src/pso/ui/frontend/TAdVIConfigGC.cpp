@@ -155,7 +155,6 @@ void TAdVIConfigGC::run_task() {
     vfunc_11();
 }
 
-extern s32 __vt__13TAdVIConfigGC[];
 
 TAdVIConfigGC::~TAdVIConfigGC() {
 

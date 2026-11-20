@@ -20,7 +20,6 @@ s32 start_memcard_format(int, int, int, int, int);
 s32 play_sound_effect(int, int, int, int);
 extern s32 controller_input_state[];
 void __ct__7TObjectFP7TObject(void *);
-s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(u32, s32, s32, f32);
 extern s32 local_client_id;
 extern s32 tl_01;
 extern s32 __vt__13TUnk_804F01A8[];

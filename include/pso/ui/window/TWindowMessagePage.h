@@ -25,10 +25,5 @@ extern "C" {
 void *__dt__18TWindowMessagePageFv(void *arg0, s16 arg1);
 }
 
-// --- C functions defined in TWindowMessagePage.cpp ---
-extern "C" {
-u8 *TWindowMessagePage__ct(u8 *window_message_page, s32 arg1, s32 arg2, s32 arg3);
-}
-// --- end of C functions
 
 #endif

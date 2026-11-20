@@ -34,7 +34,6 @@ void *__ct__12TAdBackTxtGCFv(void *, void *);
 void *__ct__10TAdTitleGCFP7TObjectl(void *, void *, s32);
 void *__ct__15TAdChrSelSlotGCFP7TObject(void *, void *);
 void TAdMcSelectGC__sub_8032A180(void *, s32);
-extern s32 __vt__13TAdMcSelectGC[];
 
 void TAdMcSelectGC::render() {
     if (TMainTask::get_render_pass() == 1) { return;

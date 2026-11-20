@@ -202,7 +202,6 @@ s32 open_confirm_prompt__19TWindowSubShortMailFPvi(void *arg0, s32 arg1);
 s32 create_keyboard__19TWindowSubShortMailFv(void);
 extern s32 controller_input_state[];
 extern s32 TLobby__protocol_instance;
-s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(s32, s32, s32, f32);
 void open_yes_no_prompt(TChCrTagPlBack *arg0, u32 arg1, s32 arg2, s32 arg3, f32 farg0);
 
 void TWindowSubComCard__sub_80077980(void *);

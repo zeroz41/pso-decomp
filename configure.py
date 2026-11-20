@@ -519,7 +519,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/UISprite.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly")},
     # -sdata 4: its 8-byte task list sits in .bss, not .sbss.
     "pso/technique/TTecZondeEff.cpp": {"cflags": _switch(cflags_pso, "-sdata 4")},
-    # TBoss8DragonEffBullet__ct reaches each of its three .rodata particle tables with its own lis/addi: -pool off.
+    # The TBoss8DragonEffBullet constructor reaches each of its three .rodata particle tables with its own lis/addi: -pool off.
     "pso/boss/goldragon/TBoss8DragonEffBullet.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
     # run_task and get_target_position reach each .rodata object with its own lis/addi: -pool off.
     "pso/unk/TUnk_80488DA0.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
@@ -1491,7 +1491,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/window/TWindowRoom.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdGameStartShadowGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/galgryphon/TBoss5GryphonLightning.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    # TAdSnAkPassConfirmGC__ct reaches each of its three .rodata window rects with its own lis/addi: -pool off.
+    # The TAdSnAkPassConfirmGC constructor reaches each of its three .rodata window rects with its own lis/addi: -pool off.
     "pso/ui/frontend/TAdSnAkPassConfirmGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     "pso/ui/frontend/TAdGameStartLineGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdChrSelMovePlateGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},

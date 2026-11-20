@@ -41,7 +41,6 @@ struct Self_8032A2A4 {
 extern "C" {
 void __ct__7TObjectFP7TObject(void *, s32);
 const char *TAdMcSelectCursorGC__class_name = "TAdMcSelectCursorGC";
-Obj_8032A574 *TAdMcSelectCursorGC__ct(Obj_8032A574 *arg0, s32 parent);
 void play_sound_effect(s32, s32, s32, s32);
 extern u8 controller_input_state[];
 extern u8 controller_physical_port_bank[];

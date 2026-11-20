@@ -502,7 +502,7 @@ force_active:
   - TCineCtrl__instance
   - __ct__20TContainerAncient01RFP7TObjectPv
   - TContainerAncient01__collision_body_parts
-  - TContainerAncient01__ct
+  - __ct__19TContainerAncient01FP7TObjectPv
   - TContainerAncient01__resource_descriptor
   - TContainerAncient01__resource_descriptor_2
   - TContainerAncient01__sub_8018A584
@@ -5644,7 +5644,7 @@ force_active:
   - destroy__15TWindowHelpItemFPvs
   - destroy__16TObjEneBm5GibonUFls
   - destroy__16TObjOnlineEndingFPvs
-  - destroy__17TBoss8DragonColliFPvs
+  - __dt__19TBoss8DragonColli_CFv
   - destroy__17TWindowDD_WS_WordFs
   - destroy__17TWindowDuelResultFPvs
   - destroy__19TPlayerBattleCtrl4PFs
@@ -5676,7 +5676,7 @@ force_active:
   - destroy_static_array__10TObjPlayerFv
   - destroy_sub_objects__15TBoss3VoloptP02Fv
   - destroy_subobj__13TObjEneMe1GeeFPC8NJS_ARGB
-  - destroy_subobjects_recursive__10TObjPlayerFv
+  - destroy_subobjects_recursive__9TItemListFv
   - detect_device_type__16TKeyBoardControlFl
   - dimedian_action_table
   - dimedian_appear_motion_filename
@@ -7044,7 +7044,7 @@ force_active:
   - init_city_season_object
   - init_collected_entries__11TBoss6Type2Fv
   - init_collision_params__17TOSymbolchatColliFv
-  - init_collision_segments__17TBoss8DragonColliFiPviPvf
+  - __ct__19TBoss8DragonColli_CFP7TObjectlP3Vecf
   - init_control_mode__12TBoss1DragonFv
   - init_conversation_camera__11TCameraCtrlFlll
   - init_ctrl_default__19TPlayerBattleCtrl4PFPv
@@ -16131,7 +16131,7 @@ force_active:
   - stelth_bml_resource_desc
   - stelth_projection_texture_handle
   - step_along_ground__10TObjPlayerFv
-  - step_angle_clamped__10TObjPlayerFPvi
+  - step_angle_clamped
   - step_angle_toward__11TBoss6Type2Flll
   - step_camera_scalar__FPCfPCfPff
   - step_cutscene_frame__10TObjPlayerFv
@@ -16492,8 +16492,8 @@ force_active:
   - test_flag_8__10TObjPlayerFPv
   - test_flags__13MagOwnerWatchFUl
   - test_immunity_flags__9TObjCharaFl
-  - test_input_flag__18TWindowInputNumberFv
-  - test_menu_flag__11TWindowMenuFv
+  - test_input_flag__18TWindowInputNumberFl
+  - test_menu_flag__11TWindowMenuFl
   - test_rock_bit__15TBoss6SwordWaveFiUc
   - texlists__16TOFenceAncient01
   - texlists__16TOFenceAncient02

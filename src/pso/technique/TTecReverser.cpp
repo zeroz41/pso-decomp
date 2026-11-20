@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/technique/TTecReverser.h"
+#include "pso/technique/TechniqueParams.h"
 #include "pso/unk/TUnk_804CCC28.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/vector.h"
@@ -14,9 +15,6 @@
 extern "C" void *__ct__16TargetCursorListFv(void *list);
 
 #pragma readonly_strings on
-
-struct RecoveredGlobal_8023A094_lbl_804CC1CC { s32 value; u8 remaining[0x340]; };
-typedef char RecoveredGlobal_8023A094_lbl_804CC1CC_size[sizeof(RecoveredGlobal_8023A094_lbl_804CC1CC) == 0x344 ? 1 : -1];
 
 struct Entry_80239E44 { s32 a; s32 b; s32 c; s32 pad; };
 
@@ -51,8 +49,6 @@ s32 get_entity_id(int);
 s32 play_sound_effect(int, void *, int, int);
 s32 copy_technique_target_list(void *, void *);
 s32 __ct__13TUnk_804CC148Flll(void *, void *, void *, void *);
-extern RecoveredGlobal_8023A094_lbl_804CC1CC technique_param_table;
-extern s32 __vt__12TTecReverser[];
 const char *lbl_805D3818 = "TTecReverser";
 void __ct__7TObjectFP7TObject(void *self, void *parent);
 void *create_timed_particle_emitter(void *owner, s32 idx, s32 b, s32 c);
@@ -145,7 +141,7 @@ TTecReverser::TTecReverser(s32 arg1, s32 arg2, s32 arg3, s32 arg4) : TUnk_804CC1
     u32 temp_r3;
     __ct__16TargetCursorListFv((tec_reverser + 0xEC));
     ((TTecReverser *)tec_reverser)->m_name = lbl_805D3818;
-    ((TTecAnti *)(tec_reverser + 0x88))->copy_params((u8 *)((u8 *)&technique_param_table.value + 0x2EC));
+    ((TTecAnti *)(tec_reverser + 0x88))->copy_params((u8 *)&technique_param_table[17]);
     ((TTecReverser *)tec_reverser)->sub_8022BE64(tec_reverser + 0x88, arg4);
     copy_technique_target_list(tec_reverser + 0xEC, (void *)arg3);
     play_sound_effect(0x4002A812, tec_reverser + 0x20, 0, 0);

@@ -82,6 +82,5 @@ struct TObjEneEpsilonGuard : public TObjEneEpsilon {
 };
 
 typedef char TObjEneEpsilonGuard_size[sizeof(TObjEneEpsilonGuard) == 0x4D8 ? 1 : -1];
-// Hands the camera-ctrl callback a point to fill.
 
 #endif

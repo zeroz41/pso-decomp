@@ -37,7 +37,6 @@ struct VObj_8032C594_8032C504 : Base_8032C594_8032C504 {
 };
 
 extern "C" {
-extern s32 __vt__17TAdExNetConfirmGC[];
 const char *lbl_805D4200 = "TAdExNetConfirmGC";
 
 void TAdExNetConfirmGC::render() {

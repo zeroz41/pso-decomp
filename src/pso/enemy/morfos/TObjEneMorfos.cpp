@@ -806,7 +806,6 @@ TObjMotionAction morfos_motion_param_table[5] = {
     { 3, 0, 4, 0.7f, 0 },
 };
 const char *morfos_class_name = "TObjEneMorfos";
-#define __vt__13TObjEneMorfos ((s32 *)__vt__13TObjEneMorfos)
 extern "C" {
 
 struct Self_803329E4;

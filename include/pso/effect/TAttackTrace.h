@@ -11,7 +11,7 @@ public:
 };
 
 extern "C" {
-void *__ct__12TAttackTraceFP7TObject(void *attack_trace);
+void *__ct__12TAttackTraceFP7TObject(void *attack_trace, TObject *parent);
 }
 
 #endif

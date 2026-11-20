@@ -19,11 +19,6 @@ void TItemEffLandHit::run_task() {
 
 TItemEffLandHit::~TItemEffLandHit() {}
 
-struct RecoveredGlobal_801095EC___vt__15TItemEffLandHit {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 #define item_eff_land_hit ((u8 *)this)
 TItemEffLandHit::TItemEffLandHit(TObject *parent, TItem *item, Vec *arg3, Vec *arg4) : TObject(parent) {
     *(s32 *)((s8 *)item_eff_land_hit + 0) = (s32) TItemEffLandHit__class_name;

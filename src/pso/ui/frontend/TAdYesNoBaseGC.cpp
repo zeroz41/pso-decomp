@@ -133,7 +133,6 @@ void TAdYesNoBaseGC::vfunc_11() {
     }
 }
 
-extern s32 __vt__14TAdYesNoBaseGC[];
 
 }
 TAdYesNoBaseGC::~TAdYesNoBaseGC() {
