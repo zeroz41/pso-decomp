@@ -4845,7 +4845,7 @@ void qst_op_p_hpstat(void) {
     void *obj;
     f32 hp;
     s32 player;
-    s32 *args = qst_args;
+    saddr *args = qst_args;
     s32 *regs = qst_registers;
     reg = args[0];
     pct = regs[reg];
@@ -5987,7 +5987,7 @@ u16 read_be_u16(void) {
 
 #undef memcpy
 
-s32 qst_args[8];
+saddr qst_args[8];
 s32 qst_call_stack[64];
 QuestPlayerNameBuffer quest_player_name_buffer;
 QuestPlayerClassNameBuffer quest_player_class_name_buffer;

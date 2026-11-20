@@ -60,7 +60,7 @@ s32 TLobby__sub_803C5D00(void *);
 s32 TLobby__sub_803C97B8(u8 *arg0);
 }
 void stop_audio_stream(u8 *arg0);
-extern s32 lbl_804CB850[];
+extern saddr lbl_804CB850[];
 void set_dark_falz_music_request(s32 arg0);
 void stop_cue_stream(void);
 void set_music_streams_volume(s32 arg0);
@@ -322,7 +322,7 @@ s32 sndInit(u8 voices, u8 music, u8 sfx, u8 studios, u32 flags, u32 aram_size);
 }
 void init_adx_audio_system(void);
 extern u32 lbl_804CB838[6];
-s32 lbl_804CB850[3] = { 0, 0, 0 };
+saddr lbl_804CB850[3] = { 0, 0, 0 };
 
 // inferred: the four .acx streams TLoadCtrl__sub_80226DA0 starts by index.
 // MusyX allocation hooks; init_adx_audio_system hands a copy to sndSetHooks (name inferred from that use).

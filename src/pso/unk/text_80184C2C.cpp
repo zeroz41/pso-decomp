@@ -84,7 +84,7 @@ BmlResourceDescriptor *city_season_resource_descriptors[6] = {
 extern s32 TLobby__event_theme_id;
 extern "C" {
 void free_bin_model_request(void *, s32);
-int city_season_easter_egg_model_table[6];
+saddr city_season_easter_egg_model_table[6];
 int city_season_xmas_model_table[6];
 s32 lbl_805D5B30;
 void *lbl_805D5B34;

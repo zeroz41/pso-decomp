@@ -60,7 +60,7 @@ int shop_tool_stock_level;
 s32 shop_tool_stock_counts[4];
 s32 shop_tool_stock_table[4];
 s32 shop_tool_flags[4];
-s32 shop_tool_stock_buffers[4];
+saddr shop_tool_stock_buffers[4];
 
 }
 
@@ -425,7 +425,7 @@ void TLobby::generate_shop_inventory(s32 idx) {
 
 void TLobby::free_all_rocks() {
     s32 var_r28 = 3;
-    s32 *var_r29 = shop_tool_stock_buffers;
+    saddr *var_r29 = shop_tool_stock_buffers;
     s32 var_r30 = 0;
     s32 var_r31 = 3;
     do {
@@ -447,14 +447,14 @@ void load_tool_random_rel(void) {
     s32 i;
     (*(s32 *)&lobby_tool_random_rel) = create_named_object((saddr)"ToolRandom.rel");
     for (i = 0; i < 4; i++) {
-        ((s32 *)&shop_tool_stock_buffers)[i] = 0;
+        ((saddr *)&shop_tool_stock_buffers)[i] = 0;
     }
     if (is_split_screen() == 1) {
         for (i = 0; i < 4; i++) {
-            ((s32 *)&shop_tool_stock_buffers)[i] = (saddr)mem_alloc(0x168);
+            ((saddr *)&shop_tool_stock_buffers)[i] = (saddr)mem_alloc(0x168);
         }
     } else {
-        ((s32 *)&shop_tool_stock_buffers)[0] = (saddr)mem_alloc(0x168);
+        ((saddr *)&shop_tool_stock_buffers)[0] = (saddr)mem_alloc(0x168);
     }
     (*(s32 *)&shop_tool_stock_level) = 0;
 }

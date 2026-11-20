@@ -1001,7 +1001,7 @@ TItemDrop::TItemDrop(TObject *parent, s8 section) : TObject(parent) {
     s32 obj;
     m_name = item_drop_class_name;
     TItemDrop__section_id = section;
-    entries = (s32 *)mem_alloc(0x44);
+    entries = (saddr *)mem_alloc(0x44);
     for (i = 0; i != 0x11; i++) {
         a = __cvt_fp2unsigned(lbl_805DAAD8 * (lbl_805DAAE4 * (f32)rand()));
         b = __cvt_fp2unsigned(lbl_805DAAD4 * (lbl_805DAAE4 * (f32)rand()));

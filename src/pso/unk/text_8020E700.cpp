@@ -40,7 +40,7 @@ extern "C" {
 // its entry count and whether it was generated.
 s32 shop_armor_stock_generated_flags[4];
 s32 lbl_80513D68[4];
-s32 lbl_80513D78[4];
+saddr lbl_80513D78[4];
 Tbl_8020E934 ** lbl_805D6158;
 s32 lbl_805D615C;
 extern s32 shop_difficulty_tier;
@@ -281,7 +281,7 @@ void mem_free(void *p);
 
 void TLobby::free_rocks() {
     s32 var_r28 = 3;
-    s32 *var_r29 = lbl_80513D78;
+    saddr *var_r29 = lbl_80513D78;
     saddr var_r30 = 0;
     s32 var_r31 = 3;
     do {

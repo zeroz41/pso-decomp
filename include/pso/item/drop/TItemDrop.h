@@ -10,7 +10,7 @@ struct TItemDrop : public TObject {
     // create_load_unload_set(item_drop_load_unload_table) (name inferred).
     s32 load_unload_set;
     // 17 run_step-seeded entries the ctor allocates (name inferred).
-    s32 *entries;
+    saddr *entries;
     // item_drop_load_unload_table's {load, unload} pairs (names inferred:
     // the first opens ItemPT.gsl/ItemRT.gsl, the second allocates and frees
     // the unit star tables).
