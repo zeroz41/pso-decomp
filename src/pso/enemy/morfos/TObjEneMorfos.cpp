@@ -425,7 +425,7 @@ struct D_80333290 { u8 pad0[0x1C]; s32 f1C; u8 pad20[4]; s32 f24; s32 f28; };
 extern "C" {
 f32 atan2_float(f32, f32);
 s32 update_linked_position__12TObjEneDD_STFf(f32);
-extern int TObjEneMorfos__param_table;
+extern saddr TObjEneMorfos__param_table;
 void TObjEneMorfos__sub_80333AD0(u8 *arg0, s32 arg1);
 s32 get_flag_b4__9TObjEneDDFv();
 s32 play_sound_effect(s32, u32, s16, s32);
@@ -776,7 +776,7 @@ void update_poison_status__9TObjCharaFv();
 void restore_render_scissor(s32 arg0);
 void draw_chunk_model(void *arg0);
 
-extern int TObjEneMorfos__instance;
+extern saddr TObjEneMorfos__instance;
 extern s32 TObjEneMorfos__phase;
 extern s32 TObjEneMorfos__camera_path_cursor;
 extern s32 __dt__15RenderFadeStateFv[];
@@ -2284,8 +2284,8 @@ void TObjEneMorfos::vfunc_106() {
 
 s32 lbl_805D6D08[1];
 s32 lbl_805D6D0C[1];
-int TObjEneMorfos__param_table;
-int TObjEneMorfos__instance;
+saddr TObjEneMorfos__param_table;
+saddr TObjEneMorfos__instance;
 s32 TObjEneMorfos__phase;
 s32 TObjEneMorfos__camera_path_cursor;
 u8 *lbl_805D6D20;

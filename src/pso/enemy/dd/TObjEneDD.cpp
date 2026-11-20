@@ -1171,7 +1171,7 @@ u8 TObjEneDD::is_valid_target() {
     return (u8)var_r31;
 }
 
-s32 TObjEneDD::is_target_unobstructed(s32 arg1) {
+s32 TObjEneDD::is_target_unobstructed(saddr arg1) {
     saddr arg0 = (saddr)this;
     if ((((TObjBase *)arg0)->is_alive() != 0) && (csnLookAt((void *)arg1, (void *)(arg0 + 0x2FC)) == 0U)) {
         return 1;
@@ -1211,7 +1211,7 @@ void TObjEneDD::setup(void* p, int a1, int a2) { TObjEneDD::setup_instance((sadd
 
 void TObjEneDD__sub_800BA5A4(void* p, void* a1) { TObjEneDD::setup_instance((saddr)p, (saddr)((char*)p + 0x38), (u8 *)a1, (saddr)((void*)0)); }
 
-void TObjEneDD::emit_enemy_effect(s32 arg0, s32 arg1, u8 *arg2, s32 arg3) {
+void TObjEneDD::emit_enemy_effect(saddr arg0, s32 arg1, u8 *arg2, saddr arg3) {
     ((TUnk_804928CC *)obj_ene_dd_instance)->sub_800BC3E8((u8 *)arg0);
     get_position__12TBoss1DragonFv(obj_ene_dd_instance, arg1);
     *(f32 *)((s8 *)(*(void **)((s8 *)obj_ene_dd_instance + 0xA4)) + 0xC) = (f32) *(f32 *)((s8 *)arg2 + 8);

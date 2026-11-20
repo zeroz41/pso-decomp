@@ -117,8 +117,8 @@ s32 TObjPlayer__sub_800A0554(void *);
 s32 mult_vec_array__10TObjPlayerFUll(int, int, void *, int);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
-extern s32 dimedian_type3_object;
-extern s32 lbl_805D5088;
+extern saddr dimedian_type3_object;
+extern saddr lbl_805D5088;
 
 void restore_scene_lighting(void);
 void select_actor_lighting(s32 obj);
@@ -915,6 +915,6 @@ s32 dimedian_last_draw_tick[3];
 const char *TObjEneDimedian_name_ref = dimedian_class_name;
 
 G_800A884C *dimedian_resource_ptr;
-s32 dimedian_type3_object;
-s32 lbl_805D5088;
+saddr dimedian_type3_object;
+saddr lbl_805D5088;
 }

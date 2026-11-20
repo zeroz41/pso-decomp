@@ -68,10 +68,10 @@ struct TObjEneGibbles : public TObjEnemy {
 LAYOUT_ASSERT(TObjEneGibbles_size, sizeof(TObjEneGibbles) ==0x44C);
 
 extern "C" {
-u8 *TObjEneGibbles__ct(u8 *arg0, void *parent, s32 arg2);
+u8 *TObjEneGibbles__ct(u8 *arg0, void *parent, saddr arg2);
 void TObjEneGibbles__sub_802D7A54(void *arg0);
-s32 TObjEneGibbles__sub_802D7BE0(s32 arg0);
-void TObjEneGibbles__sub_802D7DAC(s32 arg0);
+s32 TObjEneGibbles__sub_802D7BE0(saddr arg0);
+void TObjEneGibbles__sub_802D7DAC(saddr arg0);
 void TObjEneGibbles__sub_802D7E3C(void);
 void TObjEneGibbles__sub_802D8034(void);
 void TObjEneGibbles__sub_802D8E8C(u8 *arg0);
@@ -80,7 +80,7 @@ void render__14TObjEneGibblesFv(TObjEneGibbles *arg0);
 }
 void gibbles_render_node_callback(void);
 extern "C" {
-void render_and_get_joint_pos__14TObjEneGibblesFPvii(u8 *arg0, s32 arg1, s32 arg2);
+void render_and_get_joint_pos__14TObjEneGibblesFPvii(u8 *arg0, saddr arg1, s32 arg2);
 void run_task__14TObjEneGibblesFv(TObjEneGibbles *arg0);
 void slam_damage_players__14TObjEneGibblesFl(s32 target, s32 arg1);
 }

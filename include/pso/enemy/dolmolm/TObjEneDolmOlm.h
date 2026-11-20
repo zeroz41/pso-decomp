@@ -5,7 +5,7 @@
 #include "pso/enemy/TUnk_80493450.h"
 
 struct TObjEneDolmOlm : public TUnk_80493450 {
-    TObjEneDolmOlm(s32 arg1, s32 arg2);
+    TObjEneDolmOlm(saddr arg1, s32 arg2);
     virtual ~TObjEneDolmOlm();
     virtual void run_task();
     virtual void render();

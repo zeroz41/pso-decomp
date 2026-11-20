@@ -173,7 +173,7 @@ __declspec(section ".ctors") static void *const __sinit_TObjEneBm5Wolf_cpp_ref =
 
 s32 TObjEneBm5Wolf::get_group_id() { return this->m_3dc; }
 
-s32 actor_rand_int(s32 actor, s32 arg1) {
+s32 actor_rand_int(saddr actor, s32 arg1) {
     return (s32) ((f32) arg1 * ((TObjChara *)actor)->random_ratio());
 }
 
@@ -287,7 +287,7 @@ void TObjEneBm5Wolf::load_resources() {
 // dead-stripped: only its literals survive. The int-to-float double (.rodata 0x8043B5B8) is pooled before
 // load_resources' file name, but its only live user actor_rand_int is compiled after load_resources
 // (defer_codegen runs this file bottom-up). Minimal body after actor_rand_int's conversion; name inferred.
-static f32 actor_rand_float(s32 actor, s32 range) {
+static f32 actor_rand_float(saddr actor, s32 range) {
     return (f32)range * ((TObjChara *)actor)->random_ratio();
 }
 

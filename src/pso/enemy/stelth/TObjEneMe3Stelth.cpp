@@ -2140,7 +2140,7 @@ void TObjEneMe3Stelth::play_hit_effect() {
     play_sound_effect(0x3A836, &position, 0, 0);
 }
 
-s32 TObjEneMe3Stelth::try_spawn_ground_effect(s32 arg1) {
+s32 TObjEneMe3Stelth::try_spawn_ground_effect(saddr arg1) {
     Vec pos;
     void *effect;
     s32 *hit;

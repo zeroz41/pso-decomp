@@ -100,7 +100,7 @@ Vec TObjEneBm3FlyNest__attachment_sample_origin;
 f32 fly_nest_vertex_table[6];
 __declspec(section ".data") s32 lbl_80500B24[2];
 Ctl_800B47C4 lbl_80500B2C;
-extern s32 debug_chunk_object;
+extern saddr debug_chunk_object;
 u8 *lbl_805D50F8;
 u8 *lbl_805D50FC;
 u8 *lbl_805D5100;
@@ -980,7 +980,7 @@ void TObjEneBm3FlyNest::capture_attachment(void * _w0) {
     ++lbl_805D510C;
 }
 
-void TObjEneBm3FlyNest::handle_attachment_sample(s32 arg0) {
+void TObjEneBm3FlyNest::handle_attachment_sample(saddr arg0) {
     Vec *pos;
     if (lbl_805D510C == bm3_fly_nest_attachment_sample_table[bm3_fly_nest_attachment_index]) {
         pos = lbl_805D5114;

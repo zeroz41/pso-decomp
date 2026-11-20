@@ -326,7 +326,7 @@ s32 TObjEnePanarms__sub_800E2FB4(O_800E2FB4 *self) {
     return self->state == 9 || self->state == 11;
 }
 
-int TObjEnePanBARA::find_nearest_enemy_with_flag_alt_target(s32 arg1, f32 farg0) {
+int TObjEnePanBARA::find_nearest_enemy_with_flag_alt_target(saddr arg1, f32 farg0) {
     u8 *arg0 = (u8 *)this;
     u16 temp_r3;
     this->actorFlags = (s32) (this->actorFlags | 0x02000000);
@@ -1663,7 +1663,7 @@ void TObjEnePanarms::spawn_npc_pair() {
     TLobby::spawn_npc_enemy(0x25, models[2].model, (NJS_TEXLIST *)models[2].m_c, &binding_b, 7.5f, 0.0f);
 }
 
-int TObjEnePanarms::find_nearest_enemy_with_flag(s32 arg1, f32 farg0) {
+int TObjEnePanarms::find_nearest_enemy_with_flag(saddr arg1, f32 farg0) {
     u8 *arg0 = (u8 *)this;
     u16 temp_r3;
     this->actorFlags = (s32) (this->actorFlags | 0x02000000);

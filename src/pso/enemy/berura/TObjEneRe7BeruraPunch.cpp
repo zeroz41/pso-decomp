@@ -171,7 +171,7 @@ s32 TObjEneRe7BeruraPunch::sub_80096150() {
     return 0;
 }
 
-void TObjEneRe7BeruraPunch::launch(s32 arg1, s32 arg2) {
+void TObjEneRe7BeruraPunch::launch(s32 arg1, saddr arg2) {
     TObjCollidable *owner;
 
     this->m_b8 = arg1;

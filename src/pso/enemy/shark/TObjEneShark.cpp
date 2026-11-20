@@ -177,8 +177,8 @@ void vfunc_94__12TObjEneSharkFv(u8 *arg0);
 void vfunc_83__12TObjEneSharkFv(Obj_800ABCBC *arg0);
 s32 mult_vec_array__10TObjPlayerFUll(int, int, void *, int);
 void set_matrix_identity(u8 *arg0);
-extern u32 TObjEneShark__attack_motion_3_trail;
-extern u32 shark_attack4_trail_buffer;
+extern uaddr TObjEneShark__attack_motion_3_trail;
+extern uaddr shark_attack4_trail_buffer;
 void vfunc_93__12TObjEneSharkFv(Obj_800ABB38 *o);
 void restore_scene_lighting(void);
 void select_actor_lighting(s32 obj);
@@ -540,7 +540,7 @@ struct Res_800AC318 { u8 pad[0x42C]; Bodies_800AC318 *bodies; Pair_800AC318 *mot
 struct Act_800AC318 { s32 a; s32 idx; f32 c; s32 d; };
 
 extern "C" {
-extern u32 shark_bml_resource;
+extern uaddr shark_bml_resource;
 extern s32 game_difficulty_selection;
 void *__dt__13TUnk_80493450Fv(void *arg0, s16 arg1);
 void free_collision_body_parts(void *);
@@ -555,10 +555,10 @@ s32 register_boss__6TLobbyFl(int);
 s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern u8 bm_ene_bm1_shark_a_bml_filename[];
-extern u32 TObjEneShark__resource_node;
-extern u32 TObjEneShark__resource_buf;
-extern u32 shark_resource_data;
-extern u32 shark_resource_buffer;
+extern uaddr TObjEneShark__resource_node;
+extern uaddr TObjEneShark__resource_buf;
+extern uaddr shark_resource_data;
+extern uaddr shark_resource_buffer;
 void vfunc_99__13TUnk_80493450Fv(void);
 void free_bin_model_request(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
@@ -1068,12 +1068,12 @@ s32 TObjEneMoja::calc_technique_level() {
 }
 const char *TObjEneShark_name_ref = TObjEneShark__class_name_string;
 
-u32 TObjEneShark__resource_node;
-u32 TObjEneShark__resource_buf;
-u32 shark_resource_data;
-u32 shark_resource_buffer;
-u32 shark_bml_resource;
-u32 TObjEneShark__attack_motion_3_trail;
-u32 shark_attack4_trail_buffer;
+uaddr TObjEneShark__resource_node;
+uaddr TObjEneShark__resource_buf;
+uaddr shark_resource_data;
+uaddr shark_resource_buffer;
+uaddr shark_bml_resource;
+uaddr TObjEneShark__attack_motion_3_trail;
+uaddr shark_attack4_trail_buffer;
 s32 shark_render_node_index;
 }

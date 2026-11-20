@@ -50,7 +50,7 @@ struct TObjEnePanarms : public TObjEnemy {
     f32 pad_470;
     s32 search_range; // range passed to find_nearest_visible_player while waiting hidden
     s32 wait_frames; // state timer start value of the hidden wait
-    int find_nearest_enemy_with_flag(s32 arg1, f32 farg0);
+    int find_nearest_enemy_with_flag(saddr arg1, f32 farg0);
     static void spawn_npc_pair();
     static int do_action_2(void* p);
     static s32 create_bara(void *setData, s32 index);

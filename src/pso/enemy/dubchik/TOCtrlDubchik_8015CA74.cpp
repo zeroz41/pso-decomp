@@ -48,7 +48,7 @@ static const char *TOCtrlDubchik__name = "TOCtrlDubchik";
 extern "C" {
 s32 exchange_object_state__9TObjEnemyFls(void *, void *, int);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-extern u32 TOCtrlDubchik__shared_resource;
+extern uaddr TOCtrlDubchik__shared_resource;
 s32 try_start_action__9TObjCharaFll(void *, void *, void *);
 s32 roll_physical_accuracy__9TObjCharaFPvlf(void *, void *, void *, f32);
 extern s32 registered_player_count;
@@ -367,5 +367,5 @@ void TOCtrlDubchik::clear_part_offsets() {
 }
 
 
-u32 TOCtrlDubchik__shared_resource;
+uaddr TOCtrlDubchik__shared_resource;
 }

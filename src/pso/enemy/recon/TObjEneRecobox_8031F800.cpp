@@ -103,7 +103,7 @@ s32 push_matrix();
 
 s32 post_translate_matrix(void *);
 
-extern s32 debug_chunk_object;
+extern saddr debug_chunk_object;
 
 
 extern s32 saved_model_render_flags;
@@ -426,7 +426,7 @@ void TObjEneRecon__sub_8031F408(void *arg0, s32 arg1);
 
 void TObjEneRecon__sub_8031F600(void *arg0, s32 arg1);
 
-void dispatch_state__12TObjEneReconFiUii(s32 arg0, u32 arg1, s32 arg2);
+void dispatch_state__12TObjEneReconFiUii(saddr arg0, u32 arg1, s32 arg2);
 
 void run_task__14TObjEneRecoboxFv(u8 *arg0);
 
@@ -924,7 +924,7 @@ void TObjEneRecobox::run_task() {
     this->update_floor_probe();
 }
 
-void dispatch_state__12TObjEneReconFiUii(s32 ene_dd, u32 arg1, s32 reason) {
+void dispatch_state__12TObjEneReconFiUii(saddr ene_dd, u32 arg1, s32 reason) {
     switch (arg1) {
     case 0:
         ((TObjEneRecobox *)ene_dd)->sub_8031F6C0(reason);

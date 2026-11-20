@@ -47,7 +47,7 @@ s32 scroll_strip_uvs(int, int, int);
 s32 translate_matrix(int, f32, f32, f32);
 s32 push_matrix();
 
-extern u32 TObjEneRe4Sorcerer__uv_scroll_buffer;
+extern uaddr TObjEneRe4Sorcerer__uv_scroll_buffer;
 extern s32 model_render_flags;
 
 void TObjEneRe4Sorcerer::vfunc_106() {
@@ -176,9 +176,9 @@ s32 subtract_vector(void *, void *);
 extern s32 __dt__15RenderFadeStateFv[];
 extern s32 __ct__15RenderFadeStateFv[];
 Vec lbl_80501070;
-extern s32 lbl_805D52D0;
-extern s32 TObjEneRe4Sorcerer__attack_params;
-extern s32 TObjEneRe4Sorcerer__resistance_params;
+extern saddr lbl_805D52D0;
+extern saddr TObjEneRe4Sorcerer__attack_params;
+extern saddr TObjEneRe4Sorcerer__resistance_params;
 extern s32 *sorcerer_behavior_params;
 extern BmlResource *sorcerer_bml_resource;
 extern void *tl_04;
@@ -1313,7 +1313,7 @@ void TObjEneRe4Sorcerer::set_photon_state() {
     }
 }
 
-s32 TObjEneRe4Sorcerer::update_farthest_target(s32 item_pro_shield, f32 *arg2) {
+s32 TObjEneRe4Sorcerer::update_farthest_target(saddr item_pro_shield, f32 *arg2) {
     f32 temp_f1;
     if (((TObjChara *)item_pro_shield)->is_alive() != 0 && check_shield((TObjChara *)item_pro_shield) != 0) {
         temp_f1 = horizontal_distance_squared(&position, &((TObjChara *)item_pro_shield)->position);
@@ -1715,14 +1715,14 @@ void TObjEneRe4Sorcerer::load_resources() {
 }
 
 void TBoss3Volopt__sub_800F059C(void) {  }
-s32 lbl_805D52D0;
-s32 TObjEneRe4Sorcerer__attack_params;
-s32 TObjEneRe4Sorcerer__resistance_params;
+saddr lbl_805D52D0;
+saddr TObjEneRe4Sorcerer__attack_params;
+saddr TObjEneRe4Sorcerer__resistance_params;
 s32 *sorcerer_behavior_params;
 BmlResource *sorcerer_bml_resource;
 s32 TObjEneRe4Sorcerer__render_node_index;
 s32 TObjEneRe4Sorcerer__saved_render_flags;
 f32 TObjEneRe4Sorcerer__effect_render_scale;
 s32 re4_sorcerer_render_node_ptr;
-u32 TObjEneRe4Sorcerer__uv_scroll_buffer;
+uaddr TObjEneRe4Sorcerer__uv_scroll_buffer;
 }

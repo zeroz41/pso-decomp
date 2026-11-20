@@ -97,7 +97,7 @@ s32 TObjEneGyaranzo::is_target_in_attack_range() { return 0; }
 void TObjEneGyaranzo::vfunc_58() {  }
 }
 
-extern s32 gyaranzo_missile_param_table;
+extern saddr gyaranzo_missile_param_table;
 f32 get_gyaranzo_missile_float_parameter(s32 arg0);
 s32 get_gyaranzo_missile_int_parameter(s32 i);
 

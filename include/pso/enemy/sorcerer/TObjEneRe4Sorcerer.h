@@ -44,7 +44,7 @@ struct TObjEneRe4Sorcerer : public TObjEneDD_ST {
     static void free_bits();
     TObjEneRe4Sorcerer *create();
     static void load_resources();
-    s32 update_farthest_target(s32 arg1, f32 *arg2);
+    s32 update_farthest_target(saddr arg1, f32 *arg2);
 
     u8 unk_374[0x4];
     s32 m_378;

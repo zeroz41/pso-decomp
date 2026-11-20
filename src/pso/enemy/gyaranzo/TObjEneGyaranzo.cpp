@@ -483,7 +483,7 @@ extern saddr gyaranzo_boss_stats_ptr_b;
 
 extern saddr gyaranzo_object_handle;
 
-extern s32 gyaranzo_missile_param_table;
+extern saddr gyaranzo_missile_param_table;
 
 extern u32 *lbl_805D5200;
 
@@ -729,7 +729,7 @@ saddr gyaranzo_boss_stats_ptr_b;
 
 saddr gyaranzo_object_handle;
 
-s32 gyaranzo_missile_param_table;
+saddr gyaranzo_missile_param_table;
 
 f32 lbl_805D51F0;
 

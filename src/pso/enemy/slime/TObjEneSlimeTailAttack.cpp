@@ -198,10 +198,10 @@ void render__22TObjEneSlimeTailAttackFv(u8 *arg0);
 void run_task__22TObjEneSlimeTailAttackFv(u8 *arg0);
 void * create__22TObjEneSlimeTailAttackFiiii(s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 void * dt__22TObjEneSlimeTailAttackFPvs(void *arg0, s16 arg1);
-void *TObjEneSlimeTailAttack__ct(TObjEneSlimeTailAttack *, void *, s32, s32, s32);
+void *TObjEneSlimeTailAttack__ct(TObjEneSlimeTailAttack *, void *, saddr, s32, s32);
 void run_task__21TObjEneSlimeWaterBombFv(Bomb_800E8D4C *arg0);
 void *TObjEneSlimeWaterBomb__ct(TObjEneSlimeWaterBomb *arg0, void *arg1, void *arg2);
-void fn_800E9238(s32 arg0);
+void fn_800E9238(saddr arg0);
 void set_display_mode__15TObjEneSlimeOneFPvi(void *arg0, s32 arg1);
 void set_random_timer__15TObjEneSlimeOneFPvii(void *arg0, s32 arg1, s32 arg2);
 u8 * TObjEneSlimeOne__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
@@ -1716,7 +1716,7 @@ void TObjEneSlimeOne::copy_position() {
     VecCopy((Vec *)(arg0 + 0x374), (const Vec *)(arg0 + 0x38));
 }
 
-void fn_800E9238(s32 arg0) {
+void fn_800E9238(saddr arg0) {
     Vec stack;
     VecCopy((Vec *)(&stack.x), (const Vec *)(arg0 + 0x38));
     ((f32 (*)(void *, void *))subtract_vector)((void *)&stack.x, (void *)(arg0 + 0x374));
@@ -1903,7 +1903,7 @@ s32 water_bomb_hit_nearby(u8 *target) {
     return hit;
 }
 extern "C" const char TObjEneSlimeTailAttack__class_name_string[] = "TObjEneSlimeTailAttack";
-void *TObjEneSlimeTailAttack__ct(TObjEneSlimeTailAttack *ene_slime_tail_attack, void *arg1, s32 arg2, s32 arg3, s32 arg4) {
+void *TObjEneSlimeTailAttack__ct(TObjEneSlimeTailAttack *ene_slime_tail_attack, void *arg1, saddr arg2, s32 arg3, s32 arg4) {
   unsigned int id;
   u8 *inst;
   ((s32 (*)(void *, void *)) __ct__9TObjEnemyFP7TObject)(ene_slime_tail_attack, arg1);

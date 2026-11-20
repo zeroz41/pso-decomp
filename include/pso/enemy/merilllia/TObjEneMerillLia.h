@@ -50,8 +50,8 @@ LAYOUT_ASSERT(TObjEneMerillLia_size, sizeof(TObjEneMerillLia) == 0x3DC);
 extern "C" {
 void *TObjEneMerillLia__create(void *arg0);
 void *TObjEneMerillLia__ct(void *arg0v, void *arg1, void *arg2);
-void TObjEneMerillLia__sub_800D4EC8(s32 arg0);
-void TObjEneMerillLia__sub_800D501C(s32 arg0);
+void TObjEneMerillLia__sub_800D4EC8(saddr arg0);
+void TObjEneMerillLia__sub_800D501C(saddr arg0);
 void TObjEneMerillLia__sub_800D5BCC(u8 *arg0);
 void *__dt__16TObjEneMerillLiaFPvs(void *arg0, s16 arg1);
 void render__16TObjEneMerillLiaFv(u8 *arg0);

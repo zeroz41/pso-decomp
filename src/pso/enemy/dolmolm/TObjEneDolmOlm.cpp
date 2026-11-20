@@ -374,15 +374,15 @@ s32 check_path_obstructed(void *, void *);
 void check_path_ahead__14TObjEneDolmOlmFlf(u8 *arg0, s32 arg1, f32 farg0);
 s32 submit_cursor_candidate(void *, int);
 s32 TObjEneDolmOlm__sub_80301C3C(void *);
-extern u32 TObjEneDolmOlm__resource_bundle;
+extern uaddr TObjEneDolmOlm__resource_bundle;
 void __dt__13TUnk_80494938Fv(void *, int);
 void free_collision_body_parts(void *);
 s32 mult_vec_array__10TObjPlayerFUll(int, int, void *, int);
 void set_matrix_identity(u8 *arg0);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
-extern u32 TObjEneDolmOlm__data_805D6A14;
-extern u32 TObjEneDolmOlm__data_805D6A18;
+extern uaddr TObjEneDolmOlm__data_805D6A14;
+extern uaddr TObjEneDolmOlm__data_805D6A18;
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 Hit_80300D00 *csnVectorUnder(void *, void *, s32, f32);
 void *spawn_particle_effect(const void *pos, s32 id);
@@ -396,7 +396,7 @@ f32 fabs_float(f32);
 u8 *get_enemy_entity(u16 arg0);
 f32 horizontal_distance_squared(void *, void *);
 void *get_player_by_client_id(s32 i);
-extern u32 TObjEneDolmOlm__behavior_params_by_variant;
+extern uaddr TObjEneDolmOlm__behavior_params_by_variant;
 s32 is_split_screen();
 s32 restore_scene_lighting();
 s32 select_actor_lighting(void *);
@@ -431,9 +431,9 @@ s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
 u8 *load_resource_from_descriptor(void *, int, void *, int, int, int);
-extern u32 dolm_olm_combat_stat_id_pair;
-extern u32 TObjEneDolmOlm__shared_handler_ids;
-extern u32 TObjEneDolmOlm__registered_object_ids;
+extern uaddr dolm_olm_combat_stat_id_pair;
+extern uaddr TObjEneDolmOlm__shared_handler_ids;
+extern uaddr TObjEneDolmOlm__registered_object_ids;
 extern void *lbl_804E67B8[4];
 extern void *lbl_804E6774[4];
 extern s32 TObjEneDolmOlm__param_table[52];
@@ -596,7 +596,7 @@ void TObjEneDolmOlm::load_params_from_table(s32 i) {
 }
 void restore_render_scissor(s32 arg0);
 int initialize_enemy_photon_effect(void *p);
-TObjEneDolmOlm::TObjEneDolmOlm(s32 arg1, s32 arg2) : TUnk_80493450((TObject *)arg1) {
+TObjEneDolmOlm::TObjEneDolmOlm(saddr arg1, s32 arg2) : TUnk_80493450((TObject *)arg1) {
     u32 col;
     __ct__13TUnk_80494938Fv((((u8 *)this) + 0x3A8));
     m_name = obj_ene_dolm_olm_class_name;
@@ -1440,11 +1440,11 @@ __declspec(section ".rodata") const f64 lbl_804750C8[] = {10430.38043493439};
 const char *obj_ene_dolm_olm_class_name = TObjEneDolmOlm__class_name_string;
 
 
-u32 dolm_olm_combat_stat_id_pair;
-u32 TObjEneDolmOlm__shared_handler_ids;
-u32 TObjEneDolmOlm__registered_object_ids;
-u32 TObjEneDolmOlm__behavior_params_by_variant;
-u32 TObjEneDolmOlm__resource_bundle;
-u32 TObjEneDolmOlm__data_805D6A14;
-u32 TObjEneDolmOlm__data_805D6A18;
+uaddr dolm_olm_combat_stat_id_pair;
+uaddr TObjEneDolmOlm__shared_handler_ids;
+uaddr TObjEneDolmOlm__registered_object_ids;
+uaddr TObjEneDolmOlm__behavior_params_by_variant;
+uaddr TObjEneDolmOlm__resource_bundle;
+uaddr TObjEneDolmOlm__data_805D6A14;
+uaddr TObjEneDolmOlm__data_805D6A18;
 s32 TObjEneDolmOlm__effect_render_state;

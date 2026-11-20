@@ -103,7 +103,7 @@ int TObjEneSlimeWaterBomb::find_nearest_enemy_masked(f32 farg0) {
 
 int TObjEneSlimeOne::is_timer_active() { return (this->actorFlags >> 4) & 0x1; }
 
-int TObjEneSlimeOne::find_nearest_enemy_with_flag(s32 arg1, f32 farg0) {
+int TObjEneSlimeOne::find_nearest_enemy_with_flag(saddr arg1, f32 farg0) {
     u8 *arg0 = (u8 *)this;
     u16 temp_r3;
     this->actorFlags = (s32) (this->actorFlags | 0x02000000);

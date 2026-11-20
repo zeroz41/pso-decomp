@@ -214,7 +214,7 @@ int get_bml_model(void*);
 void free_bin_model_request(void*, int);
 void * __dt__13TUnk_80490470Fv(void *, s16);
 s32 trigger_targets_action__10TObjPlayerFv();
-u8 * TObjEneDarkGunCenter__ct(u8 *arg0, s32 arg1, s32 arg2);
+u8 * TObjEneDarkGunCenter__ct(u8 *arg0, s32 arg1, saddr arg2);
 void clear_lappy_flag_set_param(TObjEneLappy *arg0);
 void fn_800A0FDC(TObjEneLappy *arg0);
 void TObjPlayer__sub_800A100C(s32 _w0);
@@ -553,10 +553,10 @@ extern u8 identity_matrix[];
 saddr lbl_805D5004;
 extern f32 player_scale_factor;
 extern u32 player_effect_bml_resource;
-extern u32 TObjPlayer__effect_resource;
+extern uaddr TObjPlayer__effect_resource;
 extern s32 lbl_805D5014;
 extern s32 lbl_805D5018;
-extern s32 TObjPlayer__shadow_chunk_object;
+extern saddr TObjPlayer__shadow_chunk_object;
 extern void *tl_04;
 
 void clear_lappy_flag_set_param(TObjEneLappy *ene_lappy) {
@@ -916,8 +916,8 @@ void restore_scene_lighting(void);
 void select_actor_lighting(s32 obj);
 f32 fabs_float(f32 x);
 extern s32 lbl_805D5020;
-extern s32 lbl_805D5024;
-extern s32 lbl_805D5028;
+extern saddr lbl_805D5024;
+extern saddr lbl_805D5028;
 void TObjPlayer__sub_8023DEE0(s16 *p, s16 a, s16 b, u16 id);
 }
 
@@ -1642,11 +1642,11 @@ void TObjPlayer::clear_counter() { this->m_340 = 0; }
 void TObjPlayer::set_cancel_flag() { *(s32 *)&this->m_340 = 1; }
 f32 player_scale_factor;
 u32 player_effect_bml_resource;
-u32 TObjPlayer__effect_resource;
+uaddr TObjPlayer__effect_resource;
 s32 lbl_805D5014;
 s32 lbl_805D5018;
-s32 TObjPlayer__shadow_chunk_object;
+saddr TObjPlayer__shadow_chunk_object;
 s32 lbl_805D5020;
-s32 lbl_805D5024;
-s32 lbl_805D5028;
+saddr lbl_805D5024;
+saddr lbl_805D5028;
 }

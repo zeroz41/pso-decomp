@@ -690,7 +690,7 @@ s32 TObjEnePanarms__sub_800DE494(void *self) {
 }
 #pragma pop
 
-void TObjEnePanarms__sub_800DE430(s32 arg0, s32 arg1, s32 arg2) {
+void TObjEnePanarms__sub_800DE430(saddr arg0, s32 arg1, s32 arg2) {
     Vec position;
     VecCopy((Vec *)(&position.x), (const Vec *)(arg0 + 0x2FC));
     position.y += 10.0f;

@@ -50,7 +50,7 @@ struct TObjEneBm3FlyNest : public TObjEneDD {
     Vec *sub_800B2A54();
     s32 copy_target_state(s32 sound_id);
     static void capture_attachment(void * _w0);
-    static void handle_attachment_sample(s32);
+    static void handle_attachment_sample(saddr);
     static BmlResource *sub_800B4158();
     void remove_child(u8 *child);
     s32 has_free_attack_slot(u16 id);

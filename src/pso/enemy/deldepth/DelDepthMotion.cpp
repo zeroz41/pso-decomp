@@ -26,7 +26,7 @@ extern u8 TObjEneDelDepth__animation_end_frame_initialized;
 
 int TObjEneDelDepth::get_flag_bit4() { return (this->actorFlags >> 4) & 0x1; }
 
-int TObjEneDelDepth::find_nearest_enemy_with_flag(s32 arg1, f32 farg0) {
+int TObjEneDelDepth::find_nearest_enemy_with_flag(saddr arg1, f32 farg0) {
     u8 *arg0 = (u8 *)this;
     u16 temp_r3;
     this->actorFlags = (s32) (this->actorFlags | 0x02000000);

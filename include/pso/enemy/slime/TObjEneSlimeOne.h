@@ -43,7 +43,7 @@ struct TObjEneSlimeOne : public TObjEnemy {
     s32 is_in_water_bomb_states();
     static int get_instance();
     int is_timer_active();
-    int find_nearest_enemy_with_flag(s32 arg1, f32 farg0);
+    int find_nearest_enemy_with_flag(saddr arg1, f32 farg0);
     int check_player_field_7cc();
     void draw_part(s32 arg1);
     void advance_animation_state();

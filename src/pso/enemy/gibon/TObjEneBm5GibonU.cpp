@@ -1830,7 +1830,7 @@ void TObjEneBm5GibonU__sub_800CF7CC(TObjEneBm5GibonU *self, s32 arg1) {
     }
 }
 }
-s32 actor_rand_int(s32 actor, s32 range);
+s32 actor_rand_int(saddr actor, s32 range);
 extern "C" {
 
 #pragma push
@@ -2669,7 +2669,7 @@ TObjEneBm5GibonU *TObjEneBm5GibonU__sub_800D13B8(TObjEneBm5GibonU *self, s16 arg
     return self;
 }
 
-TObjEneBm5GibonU *TObjEneBm5GibonU__ct(TObjEneBm5GibonU *self, s32 arg1, s32 set_data) {
+TObjEneBm5GibonU *TObjEneBm5GibonU__ct(TObjEneBm5GibonU *self, s32 arg1, saddr set_data) {
     void *p;
     s32 i;
     s32 b;

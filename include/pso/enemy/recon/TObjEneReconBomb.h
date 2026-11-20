@@ -26,7 +26,7 @@ struct TObjEneReconBomb : public TObjChara {
 LAYOUT_ASSERT(TObjEneReconBomb_size, sizeof(TObjEneReconBomb) == 0x364);
 
 extern "C" {
-u8 *TObjEneReconBomb__ct(TObjEneReconBomb *arg0, s32 arg1, s32 arg2, s32 arg3);
+u8 *TObjEneReconBomb__ct(TObjEneReconBomb *arg0, s32 arg1, s32 arg2, saddr arg3);
 void *__dt__16TObjEneReconBombFv(void *arg0, s16 arg1);
 }
 

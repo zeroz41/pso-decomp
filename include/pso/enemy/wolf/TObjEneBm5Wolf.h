@@ -156,7 +156,7 @@ LAYOUT_ASSERT(TObjEneBm5Wolf_size, sizeof(TObjEneBm5Wolf) == 0x46C);
 extern "C" {
 s32 __dt__14TObjEneBm5WolfFis(s32 arg0, s16 arg1);
 }
-s32 actor_rand_int(s32 actor, s32 arg1);
+s32 actor_rand_int(saddr actor, s32 arg1);
 extern "C" {
 void approach_target__14TObjEneBm5WolfFf(TObjEneBm5Wolf *wolf, f32 step);
 s32 calc_lunge_aim__14TObjEneBm5WolfFv(TObjEneBm5Wolf *wolf);

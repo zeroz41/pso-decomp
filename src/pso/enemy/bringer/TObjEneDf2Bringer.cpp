@@ -115,7 +115,7 @@ void TObjEneDf2Bringer__sub_8009859C(u8 *arg0, s32 arg1);
 void TObjEneDf2Bringer__sub_800987E8(u8 *arg0, s32 arg1);
 void TObjEneDf2Bringer__sub_80098BAC(u8 *arg0, s32 arg1);
 void sub_80098DEC__17TObjEneDf2BringerFv(u8 *arg0);
-void TObjEneDf2Bringer__sub_80098EB4(s32 arg0);
+void TObjEneDf2Bringer__sub_80098EB4(saddr arg0);
 s32 attack_visible_players__17TObjEneDf2BringerFPv(Obj_80098EFC *self);
 s32 TObjEneDf2Bringer__sub_80098FF4(Obj_80098FF4 *self);
 void update_flag_0x3C0__17TObjEneDf2BringerFPv(void *arg0);
@@ -1523,7 +1523,7 @@ s32 attack_visible_players__17TObjEneDf2BringerFPv(Obj_80098EFC *self) {
     return total;
 }
 
-void TObjEneDf2Bringer__sub_80098EB4(s32 arg0) {
+void TObjEneDf2Bringer__sub_80098EB4(saddr arg0) {
     play_persistent_sound((((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x4003B708)), arg0, (arg0 + 0x38), 0, 0);
 }
 

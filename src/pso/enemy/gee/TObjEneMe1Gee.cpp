@@ -710,7 +710,7 @@ TObjChara *TObjEneMe1Gee::sub_800CB584() {
     return NULL;
 }
 
-void TObjEneMe1Gee::vfunc_117(u32) {  }
+void TObjEneMe1Gee::vfunc_117(uaddr) {  }
 
 int TObjEneMe1Gee::vfunc_116(TObjChara *) { return 1; }
 
@@ -1998,7 +1998,7 @@ s32 TUnk_8049387C::vfunc_108() {
     return 0;
 }
 
-void TUnk_8049387C::vfunc_117(u32 arg1) {
+void TUnk_8049387C::vfunc_117(uaddr arg1) {
     s32 i;
     TObjEneMe1Gee *tmp;
 

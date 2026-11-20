@@ -251,7 +251,7 @@ extern "C" {
 
 extern const char *TObjEneReconBomb__name;
 
-u8 *TObjEneReconBomb__ct(TObjEneReconBomb *ene_recon_bomb, s32 arg1, s32 arg2, s32 arg3) {
+u8 *TObjEneReconBomb__ct(TObjEneReconBomb *ene_recon_bomb, s32 arg1, s32 arg2, saddr arg3) {
     f32 temp_f1;
     f32 temp_f31;
     u8 *temp_r5;

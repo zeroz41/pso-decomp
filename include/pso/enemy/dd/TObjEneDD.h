@@ -72,11 +72,11 @@ struct TObjEneDD : public TObjEnemy {
     static void inflict_poison(s32 arg0, u8 *arg1);
     void emit_effect_at_position(void* a1);
     static void emit_effect(void* p, int a1, int a2);
-    static void emit_enemy_effect(s32 arg0, s32 arg1, u8 *arg2, s32 arg3);
+    static void emit_enemy_effect(saddr arg0, s32 arg1, u8 *arg2, saddr arg3);
     static void setup(void* p, int a1, int a2);
     static void setup_instance(s32 arg0, s32 arg1, u8 *arg2, s32 arg3);
     void transform_relative_position(void* a1);
-    s32 is_target_unobstructed(s32 arg1);
+    s32 is_target_unobstructed(saddr arg1);
     u8 is_valid_target();
     void transform_part_positions();
     void init_model(CollisionBody *bodies, s32 count);

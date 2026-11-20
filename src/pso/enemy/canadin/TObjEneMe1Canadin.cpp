@@ -823,7 +823,7 @@ s32 fn_8009E300(TObjEneMe1Canadin *self) {
     return 0;
 }
 
-void TObjEneMe1Canadin::vfunc_117(u32) {  }
+void TObjEneMe1Canadin::vfunc_117(uaddr) {  }
 
 int TObjEneMe1Canadin::vfunc_116() { return 1; }
 
@@ -2157,7 +2157,7 @@ s32 TObjEneMe1CanadinLeader::vfunc_108() {
     return 0;
 }
 
-void TObjEneMe1CanadinLeader::vfunc_117(u32 id) {
+void TObjEneMe1CanadinLeader::vfunc_117(uaddr id) {
     TObjEneMe1Canadin *member = (TObjEneMe1Canadin *)id;
     s32 i;
     for (i = 0; i < m_4D0; i++) {
