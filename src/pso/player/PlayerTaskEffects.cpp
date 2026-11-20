@@ -19,6 +19,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/object/base/TObjChara.h"
 
 extern "C" {
 
@@ -115,10 +116,8 @@ s32 is_flag30_8_set__10TObjPlayerFi(s32);
 
 
 extern "C" {
-int obj_isState2_324__9TObjCharaFv(TObjPlayer*);
 extern s32 local_client_id;
 void request_player_shrink(PlayerScaleState* state);
-int obj_isState2_324__9TObjCharaFv(TObjPlayer*);
 void request_player_size_restore(PlayerScaleState* state);
 int check_camera_mode__10TObjPlayerFv();
 void *TObjPlayer__sub_801C7360(void *arg0, void *arg1);
@@ -613,7 +612,7 @@ u8 TPlayerLobbyMarker::get_material_index() {
 extern "C" {
 void request_player_shrink(PlayerScaleState* state) {
     TObjPlayer* player = get_player_by_client_id(((TObjPlayer *)state)->get_obj_type());
-    if (!player || !obj_isState2_324__9TObjCharaFv(player)) {
+    if (!player || !((TObjChara *)player)->obj_isState2_324()) {
         if (local_client_id == ((TObjPlayer *)state)->get_obj_type())
             update_player_scale_camera((PlayerScaleState *)(state));
         PlayerShrinkPacket packet;
@@ -655,7 +654,7 @@ void handle_6x87_shrink_player(const PlayerShrinkPacket* input) {
 extern "C" {
 void request_player_size_restore(PlayerScaleState* state) {
     TObjPlayer* player = get_player_by_client_id(((TObjPlayer *)state)->get_obj_type());
-    if (!player || !obj_isState2_324__9TObjCharaFv(player)) {
+    if (!player || !((TObjChara *)player)->obj_isState2_324()) {
         PlayerRestoreSizePacket packet;
         ((TObjPlayer *)(&packet))->init_6x88_packet();
         packet.actor_id = ((TObjPlayer *)state)->get_obj_type();
@@ -1062,7 +1061,7 @@ s32 tick_battle_music_timer(Obj_801C5C38 *p) {
 
 void TObjPlayer::clear_target_lock() { ((FlagWord *)this)->set((uaddr)((void*)1)); TLobby::set_target_id((saddr)((void*)1)); }
 
-void TObjPlayer::reset_ring() { clear__8FlagWordFUl(this, 1); set_lock_timer(-1); TLobby::set_target_id((saddr)((void*)0)); }
+void TObjPlayer::reset_ring() { ((FlagWord *)this)->clear(1); set_lock_timer(-1); TLobby::set_target_id((saddr)((void*)0)); }
 
 void TObjPlayer::set_vec4_const() { *(float*)((char*)this + 0x1c) = 1.0f; *(float *)&this->m_20 = 1.0f; *(float *)&this->texlist = 1.0f; *(float *)&this->room = 1.0f; }
 
