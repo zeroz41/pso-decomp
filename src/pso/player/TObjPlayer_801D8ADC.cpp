@@ -341,7 +341,7 @@ s32 TObjPlayer::get_class_state_field(s32 arg1) {
     saddr arg0 = (saddr)this; return TObjPlayer::get_current_state_field(((TObjPlayer *)arg0)->get_class_index(), arg1); }
 
 s32 get_ply_level_table_row(s8 cls, s32 arg1) {
-  s32 temp_r30;
+  saddr temp_r30;
   s32 temp_r31;
   temp_r30 = *(*(s32 * *)&ply_level_table);
   ;

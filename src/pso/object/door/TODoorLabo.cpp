@@ -322,7 +322,7 @@ void TODoorFourLightBase::render_lights() {
 }
 
 void TODoorFourLightBase::draw_node_tree(u8 *arg1) {
-    s32 temp_r31;
+    saddr temp_r31;
     u8 *temp_r4;
     u8 *var_r30;
     var_r30 = arg1;

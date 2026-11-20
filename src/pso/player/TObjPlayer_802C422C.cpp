@@ -16,7 +16,7 @@ void export_state_to_record__10TObjPlayerFPvPv(u8 *arg0, s8 *arg1);
 extern s32 local_client_id;
 
 s32 sync_state__10TObjPlayerFi(s32 arg0) {
-    u32 temp_r3;
+    uaddr temp_r3;
     temp_r3 = update_battle_controller__10TObjPlayerFv();
     if (temp_r3 == 0U) {
         TPlyOnCreated::create((void *)((u16) local_client_id), (void *)fn_802C4748);

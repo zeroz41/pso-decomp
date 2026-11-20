@@ -811,7 +811,7 @@ TUnk_804C349C::TUnk_804C349C(s32 owner_client_id, u8 *players, s32 *counts, s32 
         players += 0x18;
     }
     owner = get_player_by_client_id(owner_client_id);
-    apply_photon_blast_action_hold((s32)this, summon_count * 150 + 100, owner_client_id);
+    apply_photon_blast_action_hold((saddr)this, summon_count * 150 + 100, owner_client_id);
     if (this->animated != 0) {
         TLobby::send_neg30();
         TObjPlayer__sub_8024ABDC(local_client_id);

@@ -115,7 +115,7 @@ void TOChatSensor::destroy_global() {
     }
 }
 
-u32 TOChatSensor__create(s32 arg0) {
+u32 TOChatSensor__create(saddr arg0) {
     u32 temp_r3;
     u32 temp_r3_2;
     u32 var_r0;

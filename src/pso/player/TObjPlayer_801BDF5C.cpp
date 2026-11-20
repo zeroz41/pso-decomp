@@ -89,7 +89,7 @@ void TObjPlayer::free_shared_data() {
 
 void *fn_801C2360(void *arg0);
 void TObjPlayer::alloc_shared_buffers() {
-    s32 temp_r3;
+    saddr temp_r3;
     saddr var_r0;
     if ((u32) TObjPlayer__shared_model_buffer == 0U) {
         TObjPlayer__shared_model_buffer = (u32)mem_alloc((u32)((void *)0x9000));
@@ -680,7 +680,7 @@ void TObjPlayer::set_position_history_entry(s32 arg1, f32 farg0, f32 farg1) {
 
 
 void TObjPlayer::set_action_flag_2() { this->m_334 |= 0x2; }
-void set_flag_400000__10TObjPlayerFi(s32 arg0) {
+void set_flag_400000__10TObjPlayerFi(saddr arg0) {
     ((TObjPlayer *)arg0)->set_state_flags(0x400000);
 }
 int TObjPlayer::check_flag_48() { return check_flag(48); }

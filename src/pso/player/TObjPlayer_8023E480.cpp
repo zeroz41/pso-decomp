@@ -61,7 +61,7 @@ s32 load_streamed_prs_texture(s32 arg0, s32 arg1) {
 }
 
 s32 load_disc_prs_texture(s32 arg0, s32 arg1) {
-    s32 a;
+    saddr a;
     s32 b;
     s32 c;
     sprintf(texture_prs_disc_filename_buffer, "%s.prs", arg0);

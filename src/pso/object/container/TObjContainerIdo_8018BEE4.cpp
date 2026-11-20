@@ -308,7 +308,7 @@ TObjContainerIdo::~TObjContainerIdo() {
 }
 
 
-u8 *TObjContainerIdo__ct(u8 *arg0, s32 arg1, s32 arg2) {
+u8 *TObjContainerIdo__ct(u8 *arg0, s32 arg1, saddr arg2) {
     s32 i;
     ((TUnk_804B97C0 *)arg0)->init_positions();
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TObjContainerIdo;

@@ -553,7 +553,7 @@ void TPlayerBattleCtrl4P::wait_before_recording_results() {
 
 void TPlayerBattleCtrl4P::open_result_windows() {
   u32 var_r31;
-  s32 player;
+  saddr player;
   if (!((saddr)this))
   {
   }
@@ -669,7 +669,7 @@ void TPlayerBattleCtrl4P::record_battle_results_after_delay() {
 
 void TPlayerBattleCtrl4P::close_battle_results() {
     s32 i;
-    u32 p;
+    uaddr p;
     if (intro_window != NULL) {
         ((TWindowBase *)intro_window)->close();
         intro_window = NULL;
@@ -778,7 +778,7 @@ void TPlayerBattleCtrl4P::init_battle() {
 void TPlayerBattleCtrl4P::start_duel() {
     s32 i;
     s32 j;
-    u32 p;
+    uaddr p;
     const char *name;
     s32 st;
     TObjEneRe4Sorcerer__sub_801E3F14(4);
@@ -806,7 +806,7 @@ void TPlayerBattleCtrl4P::start_duel() {
 void TPlayerBattleCtrl4P::update() {
     s32 var_r31;
     s32 var_r31_2;
-    u32 player;
+    uaddr player;
 
     ((s32 (*)())refresh_split_screen_battle_alive_flags)();
     var_r31 = 0;
@@ -927,7 +927,7 @@ void TPlayerBattleCtrl4P::apply_rule_configuration(s32 arg1) {
   s32 flag;
   s32 t;
   s32 j;
-  u32 p;
+  uaddr p;
   s32 v;
   ((TLobby *)((s32 *)&lobby_rule_settings))->reset_settings_to_default();
   if (arg1 != 0)
@@ -1032,7 +1032,7 @@ s32 calculate_split_screen_battle_rankings(void *) {
     s32 n;
     s32 i;
     s32 j;
-    u32 p;
+    uaddr p;
     s32 rank;
     s32 m;
     s32 k;
@@ -1095,7 +1095,7 @@ s32 calculate_split_screen_battle_rankings(void *) {
 
 s32 TPlayerBattleCtrl4P::check_all_players_flag() {
     s32 var_r31;
-    u32 player;
+    uaddr player;
 
     var_r31 = 0;
 loop_1:

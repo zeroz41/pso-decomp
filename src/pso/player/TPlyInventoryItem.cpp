@@ -4,7 +4,7 @@
 #include "pso/item/TItemData.h"
 
 
-void bswap__17TPlyInventoryItemFv(s32 arg0) {
+void bswap__17TPlyInventoryItemFv(saddr arg0) {
     bswap_32((u32 *)(arg0 + 4));
     ((TItemData *)(arg0 + 8))->bswap();
 }

@@ -4,7 +4,7 @@
 #include "pso/item/TUnk_804EDD44.h"
 #include "pso/system/task/TMainTask.h"
 
-void start_guardianna_wall_card(s32 item_id, s32 arg1, s32 direction) {
+void start_guardianna_wall_card(s32 item_id, saddr arg1, saddr direction) {
     new TUnk_804EDD44(tl_05, (f32 *)arg1, (f32 *)direction, -0x100, item_id);
 }
 
@@ -14,7 +14,7 @@ void TObjPlayer::start_guardianna_hit_card(s32 item_id, u32 *arg1, s32 direction
     }
 }
 
-void TItemWpnCardEffect__sub_8032E588(s32 item_id, s32 arg1, s32 direction) {
+void TItemWpnCardEffect__sub_8032E588(s32 item_id, saddr arg1, saddr direction) {
     new TUnk_804EDD44(tl_05, (f32 *)arg1, (f32 *)direction, 0xFFFF0000, item_id);
 }
 
@@ -24,7 +24,7 @@ void TObjPlayer::create_aux_object(s32 item_id, u32 *arg1, s32 direction) {
     }
 }
 
-void TObjPlayer__sub_8032E648(s32 item_id, s32 arg1, s32 direction) {
+void TObjPlayer__sub_8032E648(s32 item_id, saddr arg1, saddr direction) {
     new TUnk_804EDD44(tl_05, (f32 *)arg1, (f32 *)direction, 0, item_id);
 }
 

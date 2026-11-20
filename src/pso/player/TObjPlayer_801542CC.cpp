@@ -657,7 +657,7 @@ void TObjPlayer__sub_801550B8(u8 *arg0, u8 *arg1) {
     *(f32 *)((s8 *)arg0 + 0xC) = (f32) *(f32 *)((s8 *)arg1 + 0xC);
 }
 
-s32 resolve_actor_sphere_contact(u8 *arg0, s32 arg1, s32 arg2) {
+s32 resolve_actor_sphere_contact(u8 *arg0, s32 arg1, saddr arg2) {
     Vec displacement;
     f32 tangentScale;
     s32 var_r31;
@@ -1081,7 +1081,7 @@ u32 TObjCollidable::check_actor_body_contact(void *o_arg, f32 range) {
 }
 
 void TObjCollidable::update_enemy_collision_flags() {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 j;
     void *actor_body_contact;
     void *temp_r3_3;

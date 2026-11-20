@@ -193,7 +193,7 @@ void release_boss_warp_resources(void) {
     }
 }
 
-s32 TObjWarpBossMulti__create(s32 set_data) {
+s32 TObjWarpBossMulti__create(saddr set_data) {
     if ((TRaderMapCore::is_not_split_screen() == 0) && (get_main_phase() == 0xE)) {
         return ((s32)((TObjWarpBossMulti *)set_data)->create());
     }
@@ -564,7 +564,7 @@ void TObjWarpBoss::update_warp_state() {
 }
 
 void TObjWarpBoss::update_state() {
-    s32 player;
+    saddr player;
 
     switch (state_step) {
     case 0:
@@ -717,7 +717,7 @@ void TObjWarpBoss::close_windows() {
 
 #pragma push
 #pragma fp_contract on
-s32 TObjWarpBossMulti__sub_8019E570(s32 arg0, f32 farg0) {
+s32 TObjWarpBossMulti__sub_8019E570(saddr arg0, f32 farg0) {
     s32 current_floor;
     s32 temp_r3b;
     s32 player;
@@ -835,7 +835,7 @@ TObjWarpBossMulti::~TObjWarpBossMulti() {
 
 void TObjWarpBossMulti::run_task() {
     s32 i;
-    u32 pl;
+    uaddr pl;
     f32 r;
 
     for (i = 0; i < 4; i++) {

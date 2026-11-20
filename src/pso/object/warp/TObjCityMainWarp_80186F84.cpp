@@ -29,7 +29,7 @@ s32 city_main_warp_destination_id;
 
 void TObjCityMainWarp::update_state() {
     s32 temp_r0_2;
-    s32 temp_r3;
+    saddr temp_r3;
 
     switch (*(s16 *)((s8 *)this + 0xE0)) {
     case 0:

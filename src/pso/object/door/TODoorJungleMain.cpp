@@ -184,7 +184,7 @@ void free_collision_body_parts(void *);
 u8 *TODoorJungleMain__ct(TODoorJungleMain *arg0, s32 arg1, s32 arg2) {
     struct CopyStack_8029B924 { u8 bytes[0x3C]; };
     CopyStack_8029B924 copy_storage_8029B924;
-    s32 temp_r4;
+    saddr temp_r4;
     __ct__10TODoorBaseFP7TObject(arg0);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TODoorJungleMain;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TODoorJungleMain__name;
@@ -361,7 +361,7 @@ void TOKeyJungleMain::init_key_slots(void* _w0) {
 void TLobby__sub_8029B2A4(void* p) { TOKeyJungleMain::init_key_slots(p); }
 
 
-s32 is_any_player_near(s32 arg0) {
+s32 is_any_player_near(saddr arg0) {
   f32 temp_f31;
   s32 temp_r31;
   s32 var_r29;

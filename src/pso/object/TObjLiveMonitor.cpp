@@ -191,7 +191,7 @@ void TObjLiveCameraCtrl::update_toggle_state() {
 #pragma fp_contract on
 void TObjLiveCameraCtrl::update_live_camera() {
     u8 *arg0 = (u8 *)this;
-    u32 boss8_dragon;
+    uaddr boss8_dragon;
     u8 *player;
     u8 *temp_r3_2;
     u8 *enemy_entity;
@@ -395,7 +395,7 @@ TObjLiveMonitor::~TObjLiveMonitor() {}
 int run_task__15TObjLiveMonitorFv(void* p) { return ((int (*)(void *))sub_8030B370__15TObjLiveMonitorFv)(p); }
 
 void render__15TObjLiveMonitorFv(TObjLiveMonitor *live_monitor) {
-    s32 table_entry;
+    saddr table_entry;
     table_entry = TObjLiveCameraCtrl::get_table_entry(0);
     if ((table_entry != 0) && (TObjLiveMonitor__sub_8030C050((void *)table_entry) != 0)) {
         ((TObjLiveMonitor *)table_entry)->update_camera();
@@ -429,7 +429,7 @@ void TObjLiveMonitor::sub_8030B370() {
 #pragma pop
 
 int TObjLiveMonitor::render_live_monitor_screen() {
-    s32 e;
+    saddr e;
     s32 var_r4;
     switch (*(s32 *)((s8 *)this + 0x24)) {
     case 0:

@@ -83,7 +83,7 @@ u8 is_current_floor_switch_set(s32 id);
 extern void *tl_05;
 }
 
-u8 *TODummyKeyCave01__ct(u8 *dummy_key_cave01, s32 arg1, s32 arg2) {
+u8 *TODummyKeyCave01__ct(u8 *dummy_key_cave01, s32 arg1, saddr arg2) {
     __ct__8TObjBaseFP7TObject(dummy_key_cave01);
     *(s32 **)((s8 *)dummy_key_cave01 + 0x18) = __vt__16TODummyKeyCave01;
     ((TObject *)dummy_key_cave01)->m_name = TODummyKeyCave01__class_name;

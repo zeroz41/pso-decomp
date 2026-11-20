@@ -180,7 +180,7 @@ TOSwitchAttack::~TOSwitchAttack() {
 
 }
 
-u8 *TOSwitchAttack__ct(u8 *switch_attack, s32 arg1, s32 arg2) {
+u8 *TOSwitchAttack__ct(u8 *switch_attack, s32 arg1, saddr arg2) {
     __ct__8TObjBaseFP7TObject(switch_attack);
     *(s32 **)((s8 *)switch_attack + 0x18) = __vt__14TOSwitchAttack;
     ((TOSwitchAttack *)switch_attack)->m_name = TOSwitchAttack__name;

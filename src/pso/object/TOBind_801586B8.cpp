@@ -90,7 +90,7 @@ TOBind::~TOBind() {
     free_collision_body_parts(this);
 }
 
-u8 *TOBind__ct(TOBind *bind, s32 arg1) {
+u8 *TOBind__ct(TOBind *bind, saddr arg1) {
     __ct__14TObjCollidableFP7TObject(bind, tl_05);
     *(s32 **)((s8 *)bind + 0x18) = __vt__6TOBind;
     ((TOBind *)bind)->m_name = lbl_805D2EA8;

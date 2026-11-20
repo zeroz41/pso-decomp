@@ -15,11 +15,11 @@ void register_slot(Obj_80140EE4 *self, void *p);
 void collect_collision_groups(Obj_80140F18 *self, Ent_80140F18 *e);
 }
 
-void fn_80140DFC(s32 arg0, s32 arg1) {
+void fn_80140DFC(saddr arg0, saddr arg1) {
     remove_value_from_id_list((s32)((void *)arg0), (u32)((void *) (TLobby__sub_80141030((void *)arg1))));
 }
 
-void remove_value_from_id_list(s32 arg0, u32 arg1) {
+void remove_value_from_id_list(saddr arg0, u32 arg1) {
     s32 i;
     u32 *p;
     p = (u32 *)(arg0 + 0x1C);
@@ -41,7 +41,7 @@ void remove_value_from_id_list(s32 arg0, u32 arg1) {
     }
 }
 
-void fn_80140EA8(s32 arg0, s32 arg1) {
+void fn_80140EA8(saddr arg0, saddr arg1) {
     register_slot((Obj_80140EE4 *)((void *)arg0), (void *)((void *) (TLobby__sub_80141030((void *)arg1))));
 }
 void register_slot(Obj_80140EE4 *self, void *p) {

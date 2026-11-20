@@ -90,7 +90,7 @@ TObjParticle::~TObjParticle() {
 }
 
 
-Part_80195400 *TObjParticle__ct(Part_80195400 *arg0, s32 parent, Src_80195400 *arg2) {
+Part_80195400 *TObjParticle__ct(Part_80195400 *arg0, saddr parent, Src_80195400 *arg2) {
     u32 i;
     s32 entry;
     u16 flags;

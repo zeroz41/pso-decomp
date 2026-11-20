@@ -270,7 +270,7 @@ s32 TObjPlayer::tick_countdown_timer() {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void apply_anim_action__10TObjPlayerFPvi(u8 *arg0, s32 arg1) {
+void apply_anim_action__10TObjPlayerFPvi(u8 *arg0, saddr arg1) {
     ((FlagWord *)((void *) (arg0 + 0xC)))->set(2);
     *(s32 *)((s8 *)arg0 + 0x1C) = (s32) ((TObjPlayer *)arg1)->get_attack_recovery_count();
     TObjPlayer::check_status_flag_128((void*)((void *) (arg1)));

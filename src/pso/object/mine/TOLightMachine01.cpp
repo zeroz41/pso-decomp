@@ -78,8 +78,8 @@ void TOLightMachine01::destroy_instance() {
 }
 
 void TOLightMachine01::load_assets() {
-    s32 temp_r3;
-    s32 var_r0;
+    saddr temp_r3;
+    saddr var_r0;
     temp_r3 = (int)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
@@ -97,7 +97,7 @@ TOLightMachine01::~TOLightMachine01() {
 
 #pragma push
 #pragma fp_contract on
-u8 *TOLightMachine01__ct(TOLightMachine01 *light_machine01, s32 arg1) {
+u8 *TOLightMachine01__ct(TOLightMachine01 *light_machine01, saddr arg1) {
     __ct__8TObjBaseFP7TObject(light_machine01, tl_05);
     *(s32 **)((s8 *)light_machine01 + 0x18) = __vt__16TOLightMachine01;
     ((TOLightMachine01 *)light_machine01)->m_name = TOLightMachine01__name;

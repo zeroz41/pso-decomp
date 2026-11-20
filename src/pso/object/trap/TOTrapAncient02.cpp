@@ -576,7 +576,7 @@ void TOTrapAncient02R::find_target_player() {
 
 void TOTrapAncient02R::vfunc_81() {
     f32 d;
-    s32 ang;
+    saddr ang;
     set_indexed_flags(0, 1);
     submit_cursor_candidate(this, -1);
     switch (phase) {

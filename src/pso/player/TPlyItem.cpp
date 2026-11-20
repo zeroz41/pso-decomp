@@ -189,7 +189,7 @@ void *TObjPlayer::find_inventory_item_by_field_d8() {
     Node_801D56D0 *root = (Node_801D56D0 *)this;
     Node_801D56D0 *node;
     void *found;
-    u32 owner;
+    uaddr owner;
     for (node = root->child; node != NULL; node = node->next) {
         if (TItemList::is_item_valid((s32)node) != 0) {
             owner = ((TObjPlayer *)node)->get_owner_if_alive();
@@ -212,7 +212,7 @@ void *find_matching_inventory_item_node(TObject *root) {
     s32 data[8];
     TObject *node;
     void *found;
-    u32 owner;
+    uaddr owner;
     for (node = root->m_down; node != NULL; node = node->m_next) {
         if (TItemList::is_item_valid((s32)node) != 0) {
             owner = ((TObjPlayer *)node)->get_owner_if_alive();
@@ -236,7 +236,7 @@ void *TObjPlayer::find_inventory_item_matching_data() {
     s32 data[8];
     Node_801D55A4 *node;
     void *found;
-    u32 owner;
+    uaddr owner;
     for (node = root->child; node != NULL; node = node->next) {
         if (TItemList::is_item_valid((s32)node) != 0) {
             owner = ((TObjPlayer *)node)->get_owner_if_alive();
@@ -259,7 +259,7 @@ void TObjPlayer::count_items_recursive() {
     s32 sp8[7];
     void *down;
 
-    u32 temp;
+    uaddr temp;
 
     down = this->m_down;
     while (down != NULL) {
@@ -328,7 +328,7 @@ void TObjPlayer::collect_item_owners_recursive() {
 
 void TObjPlayer__sub_801D52A8(TObject *root) {
     TObject *n;
-    s32 o;
+    saddr o;
     for (n = root->m_down; n != NULL; n = n->m_next) {
         if (TItemList::is_item_valid((s32)n) != 0) {
             o = ((TObjPlayer *)n)->get_owner_if_alive();
@@ -375,7 +375,7 @@ void TLobby::reduce_child_item_amounts() {
     Item_801D50E0 *self = (Item_801D50E0 *)this;
     TItem *owner;
     Item_801D50E0 *it;
-    s32 lobby;
+    saddr lobby;
     for (it = self->child; it != NULL; it = it->next) {
         if (TItemList::is_item_valid((s32)it) != 0) {
             owner = (TItem *)((TObjPlayer *)it)->get_owner_if_alive();
@@ -396,7 +396,7 @@ void TLobby::reduce_owner_matched_items() {
     Item_801D5004 *self = (Item_801D5004 *)this;
     TItem *owner;
     Item_801D5004 *it;
-    s32 lobby;
+    saddr lobby;
     for (it = self->child; it != NULL; it = it->next) {
         if (TItemList::is_item_valid((s32)it) != 0) {
             owner = (TItem *)((TObjPlayer *)it)->get_owner_if_alive();
@@ -577,7 +577,7 @@ int TObjPlayer::run_state_query(int a1) { owned_item_export_cursor = a1; invento
 
 int TObjPlayer::run_and_get_result(int a1) { TObjPlayer__owner_field_write_cursor = (s32 *)a1; inventory_walk_visit_count = 0; ((TObjPlayer *)this->unk_1C4)->collect_owner_fields_recursive(); return inventory_walk_visit_count; }
 
-s32 TObjPlayer__sub_801D47EC(s32 arg0, s32 key, s32 arg2) {
+s32 TObjPlayer__sub_801D47EC(saddr arg0, s32 key, s32 arg2) {
     TObjPlayer *node_a;
     TObjPlayer *node_b;
     s32 item_a;
@@ -653,7 +653,7 @@ u8 *TObjPlayer__sub_801D4678(u8 *arg0, s16 arg1) {
     return arg0;
 }
 
-void TObjPlayer__sub_801D45B0(s32 *arg0, s32 item) {
+void TObjPlayer__sub_801D45B0(s32 *arg0, saddr item) {
     s32 temp_r4;
     *arg0 = 0;
     temp_r4 = ((TItem *)item)->get_item_type() << 0x19;
@@ -757,7 +757,7 @@ extern "C" s32 TObjPlayer__sub_801D4368(TObjPlayer *player) {
     return 1;
 }
 
-s32 export_inventory_entry__10TObjPlayerFiPv(s32 arg0, u8 *arg1) {
+s32 export_inventory_entry__10TObjPlayerFiPv(saddr arg0, u8 *arg1) {
     if (((TItem *)arg0)->copy_to_item_data((TItemData *)(arg1 + 8)) != 0) {
         *(s8 *)((s8 *)arg1 + 0) = ((TItem *)arg0)->get_mode();
         *(s32 *)((s8 *)arg1 + 4) = ((TItem *)arg0)->get_item_flags();
@@ -1092,7 +1092,7 @@ void copy_position__9TItemListFPv(void *p, const Vec *v) { VecCopy((Vec *)((char
 s32 TItemList__sub_801D598C(Obj_801D598C *arg0, s32 arg1) {
     return (s32)&arg0->e[arg1];
 }
-void TItemList__sub_801D59A0(TItemList *item_list, s32 arg1) {
+void TItemList__sub_801D59A0(TItemList *item_list, saddr arg1) {
     TItemList__sub_801D59DC((void*)(((u8 *)TItemList__sub_801D5868((Arr_801D5868 *)arg1, (s8)item_list->get_item_count()))));
 }
 
@@ -1109,7 +1109,7 @@ void TItemList__sub_801D5A0C(s32 *arg0) {
     }
 }
 
-void clear_placement_search_slot(TItemList *item_list, s32 arg1) {
+void clear_placement_search_slot(TItemList *item_list, saddr arg1) {
     TItemList__sub_801D5A64((void*)(TItemList__sub_801D5868((Arr_801D5868 *)arg1, (s8)item_list->get_item_count())));
 }
 

@@ -60,7 +60,7 @@ void draw_blend_motion_tree(NJS_OBJECT *model, NJS_MOTION_LINK *motion, f32 blen
 
 void draw_object_tree_recursive(void *arg) {
     struct Node_803E49FC *arg0 = (struct Node_803E49FC *)arg;
-    u32 t;
+    uaddr t;
     do {
         push_matrix();
         ((TObjPlayer *)arg0)->apply_motion_node_transform();
@@ -114,7 +114,7 @@ void draw_motion_tree(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame, ModelDra
 }
 void traverse_animated_node_tree(void *arg) {
     struct Node_803E49FC *arg0 = (struct Node_803E49FC *)arg;
-    u32 t;
+    uaddr t;
     do {
         push_matrix();
         compose_motion_node_matrix(arg0);

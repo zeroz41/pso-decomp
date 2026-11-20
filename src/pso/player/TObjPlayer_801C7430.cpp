@@ -1562,7 +1562,7 @@ void handle_6xAF_turn_or_move_lobby_chair(void *arg0) {
     ((void (*)(void *, void *))TObjPlayer__sub_801D1194)(&sp8, arg0);
     ((TObjPlayer *)(&sp8))->swap_endian32();
     if (fn_8036B7C0(&sp8) != 0) {
-        s32 p = ((s32 (*)(s32))get_player_by_client_id)(sp8.f2);
+        saddr p = ((s32 (*)(s32))get_player_by_client_id)(sp8.f2);
         if (p != 0 && ((s32 (*)(void))is_in_tl03_state__10TObjPlayerFv)() != 0) {
             ((TObjPlayer *)p)->get_chair_state(sp8.f4);
         }
@@ -2383,7 +2383,7 @@ void TObjPlayer__sub_801C9128(void) {  }
 void TObjPlayer__sub_801C912C(void) {  }
 
 void run_warp_action_phase__10TObjPlayerFis(s32 arg0, s16 arg1) {
-  s32 new_var;
+  saddr new_var;
   {
     new_var = arg0;
     switch (arg1)
@@ -2617,7 +2617,7 @@ void TObjPlayer::enter_service_hold_action() {
 
 void handle_6x52_set_animation_state(s32 arg0) {
     Pkt_801C9838 pkt;
-    s32 temp_r3;
+    saddr temp_r3;
     ((TObjPlayer *)(&pkt))->init_6x52_packet();
     ((TObjPlayer *)(&pkt))->copy_font_state((void *) (arg0));
     ((TObjPlayer *)(&pkt))->swap_stats_bytes();
@@ -3169,7 +3169,7 @@ void TObjPlayer::request_revival_if_not_dead() {
 void TObjPlayer::check_reopen_return_city_window() {
     u8 *arg0 = (u8 *)this;
   unsigned short new_var;
-  u32 temp_r3;
+  uaddr temp_r3;
   new_var = (s32) ((s32 (*)(void *))get_entity_id)((void *) arg0);
   TObjPlayer__sub_8024ABDC(new_var);
   temp_r3 = this->m_36c;
@@ -3867,7 +3867,7 @@ void release_all_players_control_lock(void) {
 
 void release_photon_blast_player_holds(u16 *p) {
     s32 i;
-    u32 obj;
+    uaddr obj;
     if (p != NULL) {
         i = 0;
         while (*p != 0xFFFF) {
@@ -6519,7 +6519,7 @@ void TObjPlayer::swap_endian_shorts() { bswap_16((u16 *)((char*)this + 0x2)); bs
 s32 copy_photon_blast_data__10TObjPlayerFiPv(s32 arg0, u8 *arg1) {
   s32 var_r30;
   s32 var_r3;
-  s32 var_r5;
+  saddr var_r5;
   s32 var_r6;
   u8 *var_r31;
   u8 *var_r4;
@@ -6682,7 +6682,7 @@ void TObjPlayer__sub_801D2448(void* p) { ((G_ClientIDHeader *)p)->bswap(); ((TOb
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-u8 get_6x46_strike_packet_size(s32 arg0) {
+u8 get_6x46_strike_packet_size(saddr arg0) {
     return (u8) (0x30 - ((0xA - get_captured_target_count((s32 *)((void *) (arg0 + 4)))) * 4));
 }
 extern int fold_flush_14;
@@ -7355,7 +7355,7 @@ void TObjPlayer::bswap_u16_pair() { bswap_16((u16 *)this); bswap_16((u16 *)((cha
 #pragma auto_inline off
 #pragma dont_inline off
 #pragma fp_contract on
-s32 TObjPlayer__sub_801D2BB8(s32 arg0, s32 arg1) {
+s32 TObjPlayer__sub_801D2BB8(s32 arg0, saddr arg1) {
     copy_subcommand_header((void*)(arg0));
     *(ByteBlock_2C *)(arg0 + 4) = *(const ByteBlock_2C *)(arg1 + 4);
     return arg0;

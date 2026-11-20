@@ -208,7 +208,7 @@ void TOVS2Wall01::spawn_debris(s32 index) {
 // ---- TOVS2Wall01_8017BCC8
 
 
-void init__11TOVS2Wall01Fi(s32 arg0) {
+void init__11TOVS2Wall01Fi(saddr arg0) {
     s32 index;
 
     ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);

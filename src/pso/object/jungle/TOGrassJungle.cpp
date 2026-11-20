@@ -44,8 +44,8 @@ void TOGrassJungle::release_static_instance() {
     }
 }
 void TOGrassJungle::load_resources() {
-    s32 temp_r3;
-    s32 var_r0;
+    saddr temp_r3;
+    saddr var_r0;
     temp_r3 = (int)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
@@ -81,7 +81,7 @@ TOGrassJungle::~TOGrassJungle() {
 }
 
 
-u8 *TOGrassJungle__ct(TOGrassJungle *grass_jungle, s32 parent, s32 arg2) {
+u8 *TOGrassJungle__ct(TOGrassJungle *grass_jungle, saddr parent, saddr arg2) {
     __ct__8TObjBaseFP7TObject((void *)grass_jungle, (void *)parent);
     *(s32 **)((s8 *)grass_jungle + 0x18) = __vt__13TOGrassJungle;
     *(s32 *)((s8 *)grass_jungle + 0) = (s32) grass_jungle_class_name;

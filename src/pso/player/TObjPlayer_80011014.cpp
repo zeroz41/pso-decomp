@@ -1393,7 +1393,7 @@ void empty_post_damage_hook(void *defender, void *attacker) {  }
 
 #pragma push
 #pragma opt_pointer_analysis on
-void record_local_damage_if_enabled(void *mine_trap, void *arg1, s32 arg2) {
+void record_local_damage_if_enabled(void *mine_trap, void *arg1, saddr arg2) {
   if ((((((TLobby *)(&lobby_rule_settings.value))->get_rule_field_0() == 1) && (((int (*)(void *))is_locally_controlled__10TObjPlayerFPv)(mine_trap) != 0)) && (arg2 > 0)) && (arg1 != NULL))
   {
     record_damage_stats__10TOMineTrapFUiUis((void *) mine_trap, (void *) arg1, (void *) arg2);
@@ -1588,7 +1588,7 @@ s32 TObjChara::subtract_actor_tp(s32 x) {
     return 1;
 }
 
-s32 check_can_act__10TObjPlayerFii(s32 arg0, s32 arg1) {
+s32 check_can_act__10TObjPlayerFii(saddr arg0, s32 arg1) {
     if (((s32 (*)(void))obj_isState2_324__9TObjCharaFv)() != 0) {
         return 0;
     }
@@ -4264,7 +4264,7 @@ s32 TObjEnemy::enemy_turn_toward_dest(s32 turn) {
     return angle_difference_abs(((Obj_80018660 *)this)->angle, a);
 }
 
-f32 calc_xz_distance_sq(s32 arg0, u32 arg1, void *arg2) {
+f32 calc_xz_distance_sq(saddr arg0, uaddr arg1, void *arg2) {
     Vec diff;
     f32 dist;
     if (arg1 != 0U) {
@@ -4285,7 +4285,7 @@ f32 TObjPlayer::calc_distance_to_client(s32 arg0, u16 arg1, u32 arg2) {
   Stack_80018780 stack;
   f32 var_f31;
   s32 temp_r31;
-  s32 temp_r3;
+  saddr temp_r3;
   var_f31 = (1e+08f);
   if (arg1 < 0x1000U)
   {

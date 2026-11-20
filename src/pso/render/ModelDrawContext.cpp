@@ -119,7 +119,7 @@ void copy_rotation_to_current_matrix(struct Mtx_803DC994 *src) {
 struct Mtx_803DC994;
 void traverse_model_node_tree(struct N_803DC9E4 *p, s32 (*cb)(s32)) {
     do {
-        u32 f = p->flags;
+        uaddr f = p->flags;
         if (f & 0x800) {
             get_current_matrix((node_saved_matrix));
         }

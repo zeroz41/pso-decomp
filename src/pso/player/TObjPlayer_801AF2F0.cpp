@@ -3498,7 +3498,7 @@ s32 preview_unequip_stats__10TObjPlayerFv(Self_801B96BC *self, Out_801B96BC *out
 
 void TObjPlayer::send_unequip_held_item() {
     Cmd_801B9634 cmd;
-    s32 item;
+    saddr item;
     u32 arg0 = (u32)this;
     item = ((s32 (*)(void *))get_item_field_6__10TObjPlayerFPv)((void *)arg0);
     if ((item != 0) && (((TItem *)item)->check_equip_requirements((TObjPlayer *)arg0, (s16 *)0) == 0) && ((arg0 == 0U) || (((s32 (*)(u32))obj_isState2_324__9TObjCharaFv)(arg0) == 0))) {
@@ -3537,7 +3537,7 @@ void TObjPlayer::get_anim_node_position(s32 arg1, Vec *arg2) {
 
 s32 TObjPlayer::update_target_lock() {
     f32 lock_target_distance_sq;
-    u32 temp_r3;
+    uaddr temp_r3;
     u16 lock_target_id;
 
     temp_r3 = this->m_424;
@@ -3668,7 +3668,7 @@ block_7:
 
 void *pickup_item__10TObjPlayerFP5TItem(u8 *player, u8 *arg1) {
     u32 sp8[5];
-    s32 id;
+    saddr id;
     void *list;
     s32 n;
     VObj_18_p72 *owner;
@@ -3751,7 +3751,7 @@ void handle_6x29_delete_inventory_item(void *arg0) {
     ((TObjPlayer *)(&sp8))->copy_pair_fields3(arg0);
     ((TObjPlayer *)(&sp8))->bswap_body_dwords3();
     if (validate_6x29_delete_inventory_item((G_ClientIDHeader *)&sp8) != 0) {
-        s32 p = ((s32 (*)(s32))get_player_by_client_id)(sp8.f2);
+        saddr p = ((s32 (*)(s32))get_player_by_client_id)(sp8.f2);
         if (p != 0 && ((s32 (*)(void))is_volopt_phase_final__10TObjPlayerFv)() == 0) {
             ((TObjPlayer *)p)->dispatch_action(sp8.f4, sp8.f8);
         }
@@ -3768,7 +3768,7 @@ void handle_6xAC(void *arg0) {
     TObjPlayer__sub_801C1268((u8 *)&sp8, (u8 *)arg0);
     ((TObjPlayer *)(&sp8))->byteswap_data();
     if (validate_6xAC((G_ClientIDHeader *)&sp8) != 0) {
-        s32 p = ((s32 (*)(s32))get_player_by_client_id)(sp8.f2);
+        saddr p = ((s32 (*)(s32))get_player_by_client_id)(sp8.f2);
         if (p != 0 && ((s32 (*)(void))is_lobby_floor_15__15TFontSmallLobbyFv)() == 0) {
             ((void (*)(void *, void *, s32))dispatch_input__10TObjPlayerFPvii)((void *)p, sp8.f8, sp8.f4);
         }
@@ -3986,7 +3986,7 @@ void TObjPlayer::request_inventory_item(TItemData* item) {
     }
 }
 
-void handle_6x2B_create_inventory_item(s32 arg0) {
+void handle_6x2B_create_inventory_item(saddr arg0) {
     Pkt_801B8344 pkt;
     s32 player;
     s32 kind;
@@ -4118,7 +4118,7 @@ s32 try_send_6x27_use_item(void *player, s32 arg1) {
     return 1;
 }
 
-void handle_6x27_use_item(s32 arg0) {
+void handle_6x27_use_item(saddr arg0) {
     Pkt_801B7EB8 pkt;
     u8 *temp_r3;
     u8 *temp_r3_2;
@@ -4149,11 +4149,11 @@ void send_6x28_feed_mag(void *arg0, s32 arg1, s32 arg2) {
     }
 }
 
-void handle_6x28_feed_mag(s32 arg0) {
+void handle_6x28_feed_mag(saddr arg0) {
     Cmd_801B7D68 cmd;
     u8 *p;
-    s32 a;
-    s32 b;
+    saddr a;
+    saddr b;
     TObjPlayer__sub_801C0D7C((u8 *)&cmd);
     ((TObjPlayer *)(&cmd))->copy_pair_fields2((void *)arg0);
     ((TObjPlayer *)(&cmd))->bswap_body_dwords2();
@@ -4585,7 +4585,7 @@ s32 TObjPlayer::apply_exp_level_growth() {
     s32 i;
     s32 lvl;
     s32 cls;
-    s32 e;
+    saddr e;
     cls = ((s8 (*)(void))get_class_index__10TObjPlayerFv)();
     lvl = ((s32 (*)(void *))clamp_nested_index__10TObjPlayerFv)(this) + 1;
     for (i = 0; i < TObjPlayer::get_max_level(); i++) {
@@ -4720,7 +4720,7 @@ void TObjPlayer::copy_stats(void *arg1) {
 void apply_class_level_growth(s8 cls, s32 level, stats *st) {
     s32 n;
     s32 i;
-    s32 row;
+    saddr row;
     const player_stats *caps;
 
     n = TObjPlayer::clamp_index_to_max(level);
@@ -5000,7 +5000,7 @@ void TObjPlayer::update_ground_contact() {
 void TObjPlayer::select_contextual_pickup_action() {
     s32 type;
     s32 cursor;
-    s32 ent;
+    saddr ent;
     u32 obj;
     obj = this->m_424;
     if (obj != 0U) {
@@ -5962,7 +5962,7 @@ s32 TObjPlayer::can_use_camera_field() {
 }
 
 s32 TObjPlayer::can_use_item(void *arg1) {
-    u32 p;
+    uaddr p;
     if (((s32 (*)(void))is_technique_ready__8TTecCtrlFv)() != 0 && ((u8 (*)(void *))fn_801D7168)(lobby_rule_settings) == 2) {
         return 0;
     }
@@ -6813,7 +6813,7 @@ void unequip_by_field326__10TObjPlayerFPv(void *arg0) {
     TObjPlayer__sub_801B18C0((saddr)arg0, (u32)(*(s16 *)((s8 *)arg0 + 0x326)));
 }
 
-void TObjPlayer__sub_801B18C0(s32 arg0, u32 arg1) {
+void TObjPlayer__sub_801B18C0(saddr arg0, u32 arg1) {
     switch (arg1) {
     default:
         ((TObjPlayer *)arg0)->get_idle_animation();
@@ -6954,7 +6954,7 @@ u32 TObjPlayer::find_revival_item() {
 }
 extern "C" {
 s32 TObjPlayer::try_pickup_item() {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 arg0 = (s32)this;
 
     if (obj_isState2_324__9TObjCharaFv() != 0) {

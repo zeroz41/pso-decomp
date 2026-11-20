@@ -1069,7 +1069,7 @@ TContainerAncient01::~TContainerAncient01() {
 
 #pragma push
 #pragma fp_contract on
-u8 *TContainerAncient01__ct(u8 *arg0, s32 arg1, s32 parent) {
+u8 *TContainerAncient01__ct(u8 *arg0, saddr arg1, saddr parent) {
     __ct__9TObjCharaFP7TObject(arg0, (void *)arg1, (void *)parent);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TContainerAncient01;
     ((TObject *)arg0)->m_name = TContainerAncient01__name;

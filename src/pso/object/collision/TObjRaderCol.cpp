@@ -136,7 +136,7 @@ void check_any_player_in_range__12TObjRaderColFPv(Col_8019750C *arg0) {
 
 void TObjRaderCol::render() {  }
 
-u8 *TObjRaderHideCol__ct(u8 *rader_hide_col, s32 arg1, s32 arg2) {
+u8 *TObjRaderHideCol__ct(u8 *rader_hide_col, s32 arg1, saddr arg2) {
     __ct__8TObjBaseFP7TObject(rader_hide_col);
     *(s32 **)((s8 *)rader_hide_col + 0x18) = __vt__16TObjRaderHideCol;
     ((TObjRaderHideCol *)rader_hide_col)->m_name = TObjRaderHideCol__name;
@@ -170,7 +170,7 @@ void TObjRaderHideCol::run_task() {
 void TObjRaderHideCol::render() {  }
 
 
-u8 *TObjRaderIcon__ct(u8 *rader_icon, s32 arg1, s32 arg2) {
+u8 *TObjRaderIcon__ct(u8 *rader_icon, s32 arg1, saddr arg2) {
     __ct__8TObjBaseFP7TObject(rader_icon);
     *(s32 **)((s8 *)rader_icon + 0x18) = __vt__13TObjRaderIcon;
     ((TObjRaderIcon *)rader_icon)->m_name = TObjRaderIcon__name;

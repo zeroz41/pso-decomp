@@ -40,7 +40,7 @@ s32 get_class_weapon_icon_index__FPvPUc(void* a, u8* self);
 void build_equipment_list__15TWindowSubEquipFv(void* self) {
     u8 buf[0x18];
     void* q;
-    s32 i;
+    saddr i;
     s32 n;
     s32 a;
     u8* p;

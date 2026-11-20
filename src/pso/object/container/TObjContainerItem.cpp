@@ -534,7 +534,7 @@ void TUnk_804B6C24::debug_print_item_box_info() {
 }
 #pragma pool_data reset
 
-void play_container_break_sound(s32 arg0) {
+void play_container_break_sound(saddr arg0) {
     u32 area;
     area = get_current_floor_area();
     switch (area) {

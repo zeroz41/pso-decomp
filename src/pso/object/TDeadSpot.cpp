@@ -336,7 +336,7 @@ void TUnk_804949F4::vfunc_6() {
 }
 
 void TUnk_804949F4::run_task() {
-    u32 tmp34 = ((TUnk_804949F4 *)this)->m_34;
+    uaddr tmp34 = ((TUnk_804949F4 *)this)->m_34;
     if ((tmp34 == 0U) || (((TObject *)tmp34)->all_parents_unqueued_for_destruction() == 0)) {
         ((TObject *)this)->queue_destruction();
         return;

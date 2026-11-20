@@ -276,7 +276,7 @@ void emit_water_footstep_effect(s32 arg0) {
     emit_water_step_particles((arg0 + 4), (saddr)(get_surface_contact_point((void*)arg0)));
 }
 
-void emit_grass_footstep_effect(s32 arg0) {
+void emit_grass_footstep_effect(saddr arg0) {
     ((TObjPlayer *)(arg0 + 4))->emit_grass_footstep_particle((int)((int) (TObjPlayer__sub_801BF31C((void*)arg0))));
 }
 
@@ -417,7 +417,7 @@ int TObjPlayer__sub_801BF8CC(void* p) { return reset__8FlagWordFv(p); }
 
 }
 
-void set_equip_slot_entry(s32 arg0, s32 arg1, s32 arg2) {
+void set_equip_slot_entry(saddr arg0, s32 arg1, s32 arg2) {
     *(s32 *)((s8 *)arg0 + (arg1 * 4)) = arg2;
 }
 

@@ -393,7 +393,7 @@ void TObjPlayer::spawn_hit_particles_at_vec(s32 arg0, s32 arg1, s32 arg2) {
 }
 
 extern const f64 lbl_804725B8[1] = { 10430.38043493439 };
-void spawn_hit_particles__10TObjPlayerFiPv(s32 pos, const Vec *dir) {
+void spawn_hit_particles__10TObjPlayerFiPv(saddr pos, const Vec *dir) {
     s32 angles[3];
     create_timed_particle_emitter((void *)pos, 0x1EF, 0, 0xF);
     angles[0] = 0;

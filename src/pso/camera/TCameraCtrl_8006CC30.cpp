@@ -454,7 +454,7 @@ void TCameraCtrl::set_active_camera_flag() {
 }
 
 void end_conversation_camera(void) {
-    u32 temp_r3;
+    uaddr temp_r3;
     if ((u8) TCameraCtrl__view_state.value == 0) {
         temp_r3 = *(s32 *)((s8 *)&camera_controller_registry.value + ((TCameraCtrl__view_state.value * 4) & 0x3FC));
         if (temp_r3 != 0U) {

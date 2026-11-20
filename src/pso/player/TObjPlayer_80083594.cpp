@@ -701,7 +701,7 @@ void TScene::apply_single_screen_state() {
 }
 }
 
-void load_projection_tex_matrix(s32 rotation_y) {
+void load_projection_tex_matrix(saddr rotation_y) {
     GC_Mtx sp10;
     f32 spC;
     f32 sp8;

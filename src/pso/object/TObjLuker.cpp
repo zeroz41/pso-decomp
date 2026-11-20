@@ -261,7 +261,7 @@ s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range) {
 #define DB4_801A10A0 ((void (*)(void *))close_windows__9TObjLukerFPv)
 #define PBC_801A10A0 ((u32 (*)(void *))get_player_by_client_id)
 
-s32 is_player_in_range__9TObjLukerFv(s32 arg0, f32 farg0) {
+s32 is_player_in_range__9TObjLukerFv(saddr arg0, f32 farg0) {
     u32 p;
     s32 found;
     found = 0;

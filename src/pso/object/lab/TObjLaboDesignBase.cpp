@@ -212,7 +212,7 @@ s32 TObjLaboDesignBase::update_object_view_visibility(f32 near_dist, f32 far_dis
 }
 
 void draw_node_tree__18TObjLaboDesignBaseFiPv(s32 arg0, u8 *arg1) {
-    s32 temp_r31;
+    saddr temp_r31;
     u8 *temp_r4;
     u8 *var_r30;
     var_r30 = arg1;

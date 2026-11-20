@@ -784,7 +784,7 @@ TObjPlayer*TPlayerSoul::get_player() {
 extern "C" {
 void TObjPlayer::revive_or_spawn_marker() {
     s32 temp_r3;
-    s32 player = (s32)this;
+    saddr player = (s32)this;
 
     if ((check_flag_0x8000__10TObjPlayerFv() != 0) || (((TObjChara *)player)->obj_isState3_324() != 0) || (((TObjPlayer *)player)->is_script_controlled() != 0)) {
         ((TObjPlayer *)player)->set_flag_0x8000();
@@ -1035,7 +1035,7 @@ s32 TObjPlayer::decrement_clamp(s32 *arg0, s32 arg1) {
     return 1;
 }
 
-void update_target_lock__10TObjPlayerFii(s32 arg0, s32 player) {
+void update_target_lock__10TObjPlayerFii(saddr arg0, s32 player) {
 
     if (TObjPlayer__sub_801C6F90((void *)arg0) == 0) {
         if (is_room_free_of_active_enemies(get_current_floor(), get_room__8TObjBaseFv(player)) != 0) {

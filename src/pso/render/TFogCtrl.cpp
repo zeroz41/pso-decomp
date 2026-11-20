@@ -495,7 +495,7 @@ void TFogCtrl__sub_800FB400(O_800FB400 *self, s32 i, s32 j) {
 s32 TFogCtrl::is_controller_animated(s32 arg0, s32 arg1) {
   f32 temp_f31;
   f32 var_f31;
-  s32 temp_r3;
+  saddr temp_r3;
   u8 *temp_r31;
   temp_r3 = arg0 + (arg1 * 4);
   temp_r31 = (u8 *) (*((u8 **) (((s8 *) temp_r3) + 0x174)));
@@ -718,7 +718,7 @@ void TFogCtrl::clear_active_flag() {
 void TFogCtrl::update_all() {
     s32 var_r29;
     s32 var_r31;
-    s32 temp_r3;
+    saddr temp_r3;
 
     if (is_split_screen() == 0) {
         var_r29 = 0;
@@ -740,7 +740,7 @@ void TFogCtrl::update_all() {
 #pragma auto_inline off
 #pragma dont_inline off
 void TFogCtrl::clear_split_screen_fog() {
-    u32 temp_r3;
+    uaddr temp_r3;
     if (is_split_screen() == 1) {
         temp_r3 = *(s32 *)((s8 *)&TFogCtrl__fog_instance_table + ((TCameraCtrl::get_nth_view_player_id((int) (TCameraCtrl::get_camera_mode())) * 4) & 0x3FFFC));
         if (temp_r3 != 0U) {
@@ -763,7 +763,7 @@ void*TFogCtrl::get_entry(int a0) {  return (char*)((*(int *)&fog_entry_array)) +
 #pragma dont_inline off
 void copy_fog_entry(u8 *arg0, u8 *arg1) {
     s32 var_r5;
-    s32 var_r7;
+    saddr var_r7;
     u8 *var_r6;
     var_r5 = *(s32 *)((s8 *)arg1 + 0);
     var_r6 = (u8 *)arg1 + 0x14;
@@ -799,7 +799,7 @@ s32 TFogCtrl::restore_fog_for_player(s32 arg1, s32 arg0) {
         arg1 = 0;
     }
     if ((arg1 >= 0) && (arg1 < 4)) {
-        s32 elem = *(s32 *)(((s8 *)&TFogCtrl__fog_instance_table) + arg1 * 4);
+        saddr elem = *(s32 *)(((s8 *)&TFogCtrl__fog_instance_table) + arg1 * 4);
         if ((u32) elem != 0U) {
             return ((TFogCtrl *)elem)->restore_fog(arg0);
         }
@@ -826,7 +826,7 @@ s32 TFogCtrl::select_fog_for_viewport(s32 arg0, s32 arg1, s32 arg2) {
 s32 TFogCtrl::update_all(s32 arg0) {
     s32 var_r29;
     s32 var_r31;
-    s32 temp_r3;
+    saddr temp_r3;
     var_r29 = 0;
     var_r31 = 0;
     do {
@@ -855,7 +855,7 @@ s32 TFogCtrl::apply_all(s32 arg0, s32 arg1) {
     s32 *var_r30 = TFogCtrl__fog_instance_table;
     s32 var_r31 = 0;
     do {
-        u32 v = (u32)var_r30[var_r31];
+        uaddr v = (u32)var_r30[var_r31];
         if (v != 0U) {
             ((TFogCtrl *)v)->select_fog(arg0, arg1);
         }
@@ -870,7 +870,7 @@ s32 TFogCtrl::update_all(s32 arg0, s32 arg1) {
     s32 *var_r30 = TFogCtrl__fog_instance_table;
     s32 var_r31 = 0;
     do {
-        u32 v = (u32)var_r30[var_r31];
+        uaddr v = (u32)var_r30[var_r31];
         if (v != 0U) {
             request_fog__8TFogCtrlFPvii((u8 *)v, arg0, arg1);
         }

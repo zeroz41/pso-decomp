@@ -1049,7 +1049,7 @@ void *TObjPlayer__sub_80182D24(void *collidable, s16 arg1) {
 extern RecoveredGlobal_80182D8C_lbl_80443F20 city_door_init_params;
 u8 *init_city_door(u8 *arg0, saddr arg1, saddr arg2, u8 *arg3);
 LAYOUT_ASSERT(RecoveredGlobal_80182D8C_lbl_80443F20_size, sizeof(RecoveredGlobal_80182D8C_lbl_80443F20) == 0x2C);
-u8 *init_city_door(u8 *arg0, s32 arg1, s32 arg2, u8 *arg3) {
+u8 *init_city_door(u8 *arg0, s32 arg1, saddr arg2, u8 *arg3) {
     struct CopyStack_80182D8C { u8 bytes[0x2C]; };
     CopyStack_80182D8C copy_storage_80182D8C;
     u8 *temp_r4;

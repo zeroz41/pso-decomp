@@ -60,7 +60,7 @@ TObjTank::~TObjTank() {
 
 extern void *tl_05;
 
-u8 *TObjTank__ct(u8 *arg0, s32 arg1, s32 arg2) {
+u8 *TObjTank__ct(u8 *arg0, s32 arg1, saddr arg2) {
     __ct__14TObjCollidableFP7TObject(arg0, arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__8TObjTank;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TObjTank__class_name;

@@ -36,7 +36,7 @@ TObjPlayerSet::~TObjPlayerSet() {
 
 #pragma push
 #pragma opt_common_subs off
-u8 *TObjPlayerSet__ct(TObjPlayerSet *player_set, s32 arg1, s32 arg2) {
+u8 *TObjPlayerSet__ct(TObjPlayerSet *player_set, s32 arg1, saddr arg2) {
     __ct__8TObjBaseFP7TObject(player_set);
     *(s32 **)((s8 *)player_set + 0x18) = __vt__13TObjPlayerSet;
     *(s32 *)((s8 *)player_set + 0) = (s32) TObjPlayer__player_set_class_name;

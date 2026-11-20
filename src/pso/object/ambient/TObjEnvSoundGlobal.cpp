@@ -233,7 +233,7 @@ void * TObjEnvSound__create(void *rader_map_core) {
     return o;
 }
 
-s32 fn_801908F8(s32 arg0, f32 farg0) {
+s32 fn_801908F8(saddr arg0, f32 farg0) {
     return xyz_distance_squared((void *)(camera_ctrl_instance + 0x178), (void *)(arg0 + 0x38), (void *)arg0) < farg0;
 }
 
@@ -248,7 +248,7 @@ s32 TObjEnvSound::is_sound_enabled(void *self, s32 cue) {
     return 1;
 }
 
-u8 *TObjEnvSoundEx__ct(u8 *env_sound_ex, s32 arg1, s32 arg2) {
+u8 *TObjEnvSoundEx__ct(u8 *env_sound_ex, s32 arg1, saddr arg2) {
     ((s32 (*)(void *))__ct__8TObjBaseFP7TObject)(env_sound_ex);
     *(s32 **)((s8 *)env_sound_ex + 0x18) = __vt__14TObjEnvSoundEx;
     ((TObjEnvSoundEx *)env_sound_ex)->m_name = TObjEnvSoundEx__class_name;
@@ -341,7 +341,7 @@ void * TObjEnvSoundEx__create(void *rader_map_core) {
     return o;
 }
 
-u8 *TObjEnvSoundGlobal__ct(u8 *env_sound_global, s32 parent, s32 arg2) {
+u8 *TObjEnvSoundGlobal__ct(u8 *env_sound_global, saddr parent, saddr arg2) {
     __ct__8TObjBaseFP7TObject((void *)env_sound_global, (void *)parent);
     *(s32 **)((s8 *)env_sound_global + 0x18) = __vt__18TObjEnvSoundGlobal;
     ((TObjEnvSoundGlobal *)env_sound_global)->m_name = TObjEnvSoundGlobal__class_name;

@@ -838,7 +838,7 @@ TOMineTrap::~TOMineTrap() {
 
 
 void *TOMineTrap::get_mine_data_ptr() { return &float_position; }
-s32 create_placed_trap__10TOMineTrapFUiss(u32 owner, s16 kind, s16 slot) {
+s32 create_placed_trap__10TOMineTrapFUiss(uaddr owner, s16 kind, s16 slot) {
     u16 id;
     void *player;
     void *obj;
@@ -1211,7 +1211,7 @@ void TOMineDisp::run_task() {
 }
 
 void TOMineDisp::render() {
-    s32 temp_r31;
+    saddr temp_r31;
     s32 temp_r4;
     u16 id = TCameraCtrl::get_nth_view_player_id(TCameraCtrl::get_camera_mode());
     if (id != this->m_a8) {

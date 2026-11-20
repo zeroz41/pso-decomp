@@ -457,7 +457,7 @@ s32 select_deepest_wall_ray(Query_80079608 *q, Result_80079608 *r) {
 }
 #pragma pop
 
-s32 query_segment_wall_meshes(void *arg0, void *arg1, u32 arg2, Node_8007970C **list) {
+s32 query_segment_wall_meshes(void *arg0, void *arg1, uaddr arg2, Node_8007970C **list) {
     u8 dir[12];
     Mesh_8007970C *mesh;
     s32 i;

@@ -566,15 +566,15 @@ void TObjMapWarp::vfunc_14() {
 #pragma opt_common_subs off
 void TObjMapWarp::closePlayerWindow(u16 arg1) {
     saddr arg0 = (saddr)this;
-    u32 temp_r3;
-    u32 player;
+    uaddr temp_r3;
+    uaddr player;
     u8 *temp_r31;
     temp_r31 = (u8 *)(arg0 + ((arg1 * 4) & 0x3FFFC));
     temp_r3 = *(u32 *)((s8 *)temp_r31 + 0xEC);
     if (temp_r3 != 0U) {
         ((TWindowBase *)temp_r3)->close();
         *(u32 *)((s8 *)temp_r31 + 0xEC) = 0U;
-        player = ((u32)get_player_by_client_id((u32)((void *) ((s32) arg1))));
+        player = ((uaddr)get_player_by_client_id((uaddr)((void *) ((s32) arg1))));
         if (player != 0U) {
             fn_8019DD24((void *)(player + 0x550), 4);
         }

@@ -63,7 +63,7 @@ void interpolate_spline_cyclic_cubic(struct SplineKey_803D7288 *keys, u32 count,
 #pragma push
 #pragma use_lmw_stmw off
 
-void sample_camera_motion(u8 *arg0, s32 arg1, u8 *arg2, f32 farg0) {
+void sample_camera_motion(u8 *arg0, saddr arg1, u8 *arg2, f32 farg0) {
     s32 temp_r31;
     s32 *temp_r30;
     s32 *temp_r29;

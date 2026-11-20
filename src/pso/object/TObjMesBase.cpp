@@ -86,7 +86,7 @@ TObjMesBase::~TObjMesBase() {
 }
 
 
-void *TObjMesBase__ct(TObjMesBase *mes_base, s32 arg1, s32 arg2) {
+void *TObjMesBase__ct(TObjMesBase *mes_base, s32 arg1, saddr arg2) {
     __ct__14TObjCollidableFP7TObject();
     *(s32 **)((s8 *)mes_base + 0x18) = __vt__11TObjMesBase;
     mes_base->m_name = TObjMesBase__class_name;

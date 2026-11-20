@@ -1020,7 +1020,7 @@ u8 *get_enemy_entity(u16 arg0) {
                 high = mid;
             }
         }
-        u32 e = TObjPlayer__data_8050D460[low];
+        uaddr e = TObjPlayer__data_8050D460[low];
         if (e != 0 && arg0 == get_entity_id((void *)e)) {
             return (u8 *)e;
         }

@@ -238,8 +238,8 @@ void TPlyPhotonChair::free_static_model() {
 }
 
 s32 TPlyPhotonChair::load_resources() {
-    s32 temp_r3;
-    s32 var_r0;
+    saddr temp_r3;
+    saddr var_r0;
     temp_r3 = (int)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
@@ -260,7 +260,7 @@ TPlyPhotonChair::~TPlyPhotonChair() {
 }
 
 
-u8 *TPlyPhotonChair__ct(u8 *ply_photon_chair, s32 arg1, s32 parent) {
+u8 *TPlyPhotonChair__ct(u8 *ply_photon_chair, s32 arg1, saddr parent) {
     u32 player;
     __ct__8TObjBaseFP7TObject((void *)ply_photon_chair, (void *)parent);
     *(s32 **)((s8 *)ply_photon_chair + 0x18) = __vt__15TPlyPhotonChair;

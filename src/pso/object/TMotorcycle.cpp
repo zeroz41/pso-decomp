@@ -116,8 +116,8 @@ void TMotorcycle::free_statics() {
 }
 
 void TMotorcycle::load_resources() {
-    s32 temp_r3;
-    s32 var_r0;
+    saddr temp_r3;
+    saddr var_r0;
     temp_r3 = (int)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
