@@ -133,8 +133,8 @@ s32 play_sound_effect(s32, s32, s32, s32);
 s32 try_spend_actor_meseta(u8 *arg0, s32 arg1);
 int sub_802239EC__13TShopSequenceFv(void *);
 int obj_getPtr2B0_20(u8 *p);
-void send_code50_packet__10TObjPlayerFi(s32 arg0);
-void send_code_49_1__10TObjPlayerFi(s32 arg0);
+void send_code50_packet__10TObjPlayerFi(saddr arg0);
+void send_code_49_1__10TObjPlayerFi(saddr arg0);
 
 void TMedicalCenterSequence::clear_window_slots() {
     s32 i;

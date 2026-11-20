@@ -893,8 +893,8 @@ struct TLobby : public TObject {
     void remove_trade_entry(u32 arg1);
     void send_text_packet_c7(char *str);
     static void free_map_resources();
-    static void send_field1c_packet(s32 arg0);
-    static void send_font_state(s32 arg0);
+    static void send_field1c_packet(saddr arg0);
+    static void send_font_state(saddr arg0);
     static s32 count_members();
     static void apply_battle_rules_to_players();
     int player_flag_1();

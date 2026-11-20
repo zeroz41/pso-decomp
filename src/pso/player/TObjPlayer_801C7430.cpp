@@ -1163,7 +1163,7 @@ void enable_action_input__10TObjPlayerFPv(void *p);
 s32 classify_action_state__10TObjPlayerFv(void *);
 void play_footstep_sound__10TObjPlayerFv(void *, f32, f32);
 void TObjPlayer__sub_801B4430(s32 arg0);
-void send_code_49_1__10TObjPlayerFi(s32 arg0);
+void send_code_49_1__10TObjPlayerFi(saddr arg0);
 s32 check_flag_100__10TObjPlayerFPv(void *);
 u16 TObjPlayer__sub_801B5AF8(void *, s32);
 u32 resolve_move_collision__10TObjPlayerFv(void *);

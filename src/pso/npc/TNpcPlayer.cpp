@@ -2093,7 +2093,7 @@ TNpcPlayer::~TNpcPlayer() {
     if (temp_r3_2 != NULL) {
         player = (uaddr)get_player_by_client_id((get_npc_type__10TNpcPlayerFPv(temp_r3_2)));
         if (player != 0U) {
-            TObjPlayer::send_item_pickup_request((s32) player);
+            TObjPlayer::send_item_pickup_request((saddr) player);
         }
         ((TNpcPlayer *)(*(u8 **)((s8 *)this + 0x78)))->dt(1);
         *(u8 **)((s8 *)this + 0x78) = NULL;
