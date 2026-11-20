@@ -7,6 +7,7 @@
 #include "pso/item/TItemData.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/technique/TTecCtrl.h"
+#include "pso/player/TPlyItem.h"
 
 struct Tec_801D7DA4 { u8 pad[0x10]; s16 cost; };
 
@@ -227,7 +228,7 @@ bool can_use_palette_action__10TObjPlayerFPvUcUc(TObjPlayer_801D8044 *self, u8 k
             break;
         }
         if (arg < 0xd || arg > 0x10) {
-            if (((TObjPlayer *)((void *)self->fd00))->set_mode_and_refresh_object(&item) == 0) {
+            if (((TPlyItem *)((void *)self->fd00))->set_mode_and_refresh_object(&item) == 0) {
                 return 0;
             }
         } else {

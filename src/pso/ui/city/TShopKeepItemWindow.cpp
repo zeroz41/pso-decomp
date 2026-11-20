@@ -58,6 +58,7 @@ struct V_802219A0 : Base_802219A0 {
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TMessageWindowController.h"
 #include "pso/ui/window/TWindowInputNumber.h"
+#include "pso/player/TPlyItem.h"
 struct VBase_80221F08 { char pad[0x18]; };
 
 struct VObj_80221F08 : VBase_80221F08 {
@@ -146,7 +147,7 @@ s32 TShopKeepItemWindow::rebuild_item_list() {
     s32 i;
     s32 cur;
     this->deposit_count = 1;
-    count = ((TObjPlayer *)(*(s32 *)((s8 *)this->m_24 + 0xD00)))->count_matching_items((int)buf);
+    count = ((TPlyItem *)(*(s32 *)((s8 *)this->m_24 + 0xD00)))->count_matching_items((int)buf);
     this->entry_count = 0;
     for (i = 0; i < count; i++) {
         if (buf[i] != 0 && ((TItem *)(buf[i]))->copy_to_item_data(&this->entries[this->entry_count].data) != 0) {

@@ -74,6 +74,8 @@ int qst_label_address(int label);
 #include "pso/ui/Language.h"
 #include "pso/unk/TLobby_803DE778.h"
 #include "pso/player/TPlyPhotonChair.h"
+#include "pso/player/TPlyItem.h"
+#include "pso/item/TItemList.h"
 u8 *qst_code;
 s32 *qst_function_table;
 s32 *qst_registers;
@@ -4229,9 +4231,9 @@ void qst_op_find_inventory_item_ex(u8 arg0, u8 arg1) {
         item.data[1] = qst_registers[(u8)arg0++];
         item.data[2] = qst_registers[(u8)arg0++];
         item.data[4] = qst_registers[(u8)arg0];
-        obj = ((TObjPlayer *)((void *)player->fD00))->set_mode_and_refresh_object(&item);
+        obj = ((TPlyItem *)((void *)player->fD00))->set_mode_and_refresh_object(&item);
         if (obj != NULL) {
-            obj = (void *)((TObjPlayer *)obj)->get_owner_if_alive();
+            obj = (void *)((TItemList *)obj)->get_owner_if_alive();
             if (obj != NULL) {
                 qst_registers[arg1] = ((TItem *)obj)->get_item_id();
             } else {
@@ -4256,9 +4258,9 @@ void qst_op_item_check(u32 first, u32 destination) {
         item.data[0] = qst_registers[(u8)first++];
         item.data[1] = qst_registers[(u8)first++];
         item.data[2] = qst_registers[(u8)first];
-        slot = ((TObjPlayer *)(*(void **)((s8 *)player + 0xD00)))->set_mode_and_refresh_object(&item);
+        slot = ((TPlyItem *)(*(void **)((s8 *)player + 0xD00)))->set_mode_and_refresh_object(&item);
         if (slot != 0) {
-            owner = (void *)((TObjPlayer *)slot)->get_owner_if_alive();
+            owner = (void *)((TItemList *)slot)->get_owner_if_alive();
             if (owner != 0) {
                 qst_registers[(u8) destination] = ((TItem *)owner)->get_item_id();
                 return;
@@ -4286,9 +4288,9 @@ void qst_op_item_delete2(u32 src, u32 dst) {
         item.data[0] = qst_registers[(u8)src++];
         item.data[1] = qst_registers[(u8)src++];
         item.data[2] = qst_registers[(u8)src];
-        slot = ((TObjPlayer *)(*(void **)((s8 *)player + 0xD00)))->set_mode_and_refresh_object(&item);
+        slot = ((TPlyItem *)(*(void **)((s8 *)player + 0xD00)))->set_mode_and_refresh_object(&item);
         if (slot != 0) {
-            owner = (void *)((TObjPlayer *)slot)->get_owner_if_alive();
+            owner = (void *)((TItemList *)slot)->get_owner_if_alive();
             if (owner != 0) {
                 ((TItem *)owner)->copy_to_item_data((TItemData *)&item);
                 qst_registers[(u8)dst++] = item.data[0];
@@ -4325,9 +4327,9 @@ void qst_op_item_delete(u32 src, u32 dst) {
     }
     player = get_player_by_client_id(local_client_id);
     if (player != 0) {
-        slot = ((TObjPlayer *)(*(void **)((s8 *)player + 0xD00)))->start_inventory_update(qst_registers[(u8)src]);
+        slot = ((TPlyItem *)(*(void **)((s8 *)player + 0xD00)))->start_inventory_update(qst_registers[(u8)src]);
         if (slot != 0) {
-            owner = (void *)((TObjPlayer *)slot)->get_owner_if_alive();
+            owner = (void *)((TItemList *)slot)->get_owner_if_alive();
             if (owner != 0) {
                 ((TItem *)owner)->copy_to_item_data((TItemData *)&item);
                 qst_registers[(u8)dst++] = item.data[0];

@@ -934,22 +934,6 @@ struct TObjPlayer : public TObjChara {
     int is_flag32_clear();
     int get_field_340(int _w1);
     static void clear_flag_128(void* p);
-    int run_and_get_result(int a1);
-    int run_state_query(int a1);
-    s32 update_inventory_item(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
-    void find_first_inventory_entry(int a1);
-    void destroy_subobjects(int a1);
-    void destroy_subobjects_recursive();
-    void *start_inventory_update(int key);
-    void count_owned_items();
-    void collect_item_owners_recursive();
-    void collect_alive_owners();
-    void unequip_invalid_items_recursive();
-    void count_items_recursive();
-    void *find_inventory_item_matching_data();
-    void *find_inventory_item_by_field_d8();
-    s32 get_owner_if_alive();
-    void set_field_1c(s32 v);
     static s32 decrement_timer(s32 *arg0);
     static void reset_particle_ctrl(s32 *arg0);
     void*init_sub_objects();
@@ -1124,7 +1108,6 @@ struct TObjPlayer : public TObjChara {
     static void set_global_state(s32 arg0);
     static void set_global_7778(s32 arg0);
     static void update_render_state();
-    void collect_owner_fields_recursive();
     static void set_global_color_rgba(u32 v);
     static void set_global_color_rgba_alt_b(u32 v);
     static void draw_player_model_by_client(u16 arg0, s32 arg1, f32 farg0, f32 farg1);
@@ -1458,10 +1441,6 @@ struct TObjPlayer : public TObjChara {
     static s32 try_camera_action(s32 arg0, s32 arg1);
     void bswap_entry_list();
     void reset_movement_state();
-    int count_matching_items(int a1);
-    int apply_shop_judgment(int a1);
-    void set_flag_and_update(int a1);
-    s32 count_items_by_id(s32 arg1);
     static void update_party_cursors(s32 arg0, s32 arg1);
     void init_action_config();
     s32 can_use_palette_action_for_entry(u32 obj);
@@ -1570,7 +1549,6 @@ struct TObjPlayer : public TObjChara {
     static void spawn_hit_particles_at(s32 arg0, s32 arg1, s32 arg2);
     static void spawn_hit_particles_at_vec(s32 arg0, s32 arg1, s32 arg2);
     s32 get_quest_thread_id();
-    void remove_equipped_item(s32 arg1, void *arg2);
     u16 get_obj_type();
     void set_ring_action(s32 v);
     int set_lock_flag();
@@ -1586,7 +1564,6 @@ struct TObjPlayer : public TObjChara {
     int set_action_flag16();
     int test_flag_8();
     s32 can_guard();
-    void *set_mode_and_refresh_object(void *item_data);
 };
 
 #include <stddef.h>

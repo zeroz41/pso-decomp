@@ -27,6 +27,7 @@
 #include "pso/ui/Language.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/TPlyItem.h"
 
 const char *TShopJudgmentItemWindow__class_name = "TShopJudgmentItemWindow";
 struct Base_802205E4 { char pad[0x18]; };
@@ -284,7 +285,7 @@ s32 TShopJudgmentItemWindow::build_item_list(void *arg0) {
     s32 j;
     s32 k;
     memset(W->ents, 0, 0xF0);
-    n = ((TObjPlayer *)(*(s32 *)(W->player + 0xD00)))->apply_shop_judgment((int)items);
+    n = ((TPlyItem *)(*(s32 *)(W->player + 0xD00)))->apply_shop_judgment((int)items);
     W->count = 0;
     for (i = 0; i < n; i++) {
         it = items[i];
