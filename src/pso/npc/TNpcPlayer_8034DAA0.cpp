@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/network/protocol/subcmd_6x.h"
 #include "pso/npc/TNpcPlayer_8034DAA0.h"
 #include "pso/unk/text_8034DAA0.h"
 #include "pso/npc/TNpcPlayer_8034DC20.h"
@@ -210,7 +211,6 @@ public:
 
 struct Pkt_8034E814 { u8 pad0[4]; u16 client; u16 target; s16 cmd; s16 state; };
 
-struct P_8034E054 { u8 pad[0x38]; f32 x; f32 y; f32 z; };
 
 struct Pkt_8034E64C { u16 hdr; u16 id; s16 flag; s16 arg; u32 pad; f32 x, y, z; };
 
@@ -247,7 +247,6 @@ s32 load_npc_player_template(s16);
 Obj_8034E814 *create_player_object(u16, s32, s32);
 extern s32 local_client_id;
 void handle_6x69_npc_control(Pkt_8034E814 *pkt);
-void send_6x55_intra_map_warp(u16 id, void *pos, s32 c);
 
 s32 obj_isState2_324__9TObjCharaFv();
 }
@@ -715,12 +714,16 @@ void TNpcPlayer::send_code_45_to_player(int arg0) {
     }
 }
 
-void TNpcPlayer::send_warp_toward_player(u16 arg0, f32 *arg1) {
-    s32 npc = get_player_by_client_id(arg0);
-    P_8034E054 *me = (P_8034E054 *)get_player_by_client_id(local_client_id);
-    if (me == NULL || arg0 == 0) return;
-    if (((TNpcPlayer *)npc)->get_action_flags() != 0xFFFF) {
-        send_6x55_intra_map_warp(arg0, arg1, ((65536.0 / (2.0 * 3.141592f)) * atan2_float(arg1[0] - me->x, arg1[2] - me->z)));
+void TNpcPlayer::send_warp_toward_player(u16 id, const Vec *destination) {
+    TNpcPlayer *npc = reinterpret_cast<TNpcPlayer *>(get_player_by_client_id(id));
+    TObjPlayer *local_player = reinterpret_cast<TObjPlayer *>(get_player_by_client_id(local_client_id));
+    if (local_player == NULL || id == 0) {
+        return;
+    }
+    if (npc->get_action_flags() != 0xFFFF) {
+        send_6x55_intra_map_warp(id, destination,
+            (65536.0 / (2.0 * 3.141592f)) * atan2_float(destination->x - local_player->position.x,
+                                                       destination->z - local_player->position.z));
     }
 }
 

@@ -206,7 +206,8 @@ struct TObjPlayer : public TObjChara {
     void* m_64c;
     u8 _pad650[0x8];
     void* m_658;
-    u8 _pad65C[0x10];
+    s32 warp_yaw;
+    Vec warp_destination;
     void* m_66c;
     u8 _pad670[0x8];
     void* m_678;
@@ -828,8 +829,6 @@ struct TObjPlayer : public TObjChara {
     void swap_endian_words();
     void init_position_packet();
     void update_and_send2();
-    void swap_and_send();
-    void swap_endian();
     void set_type_53();
     void send_name();
     void swap_stats_bytes();

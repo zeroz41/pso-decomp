@@ -5,6 +5,8 @@
 #include "pso/player/TechniqueFlags.h"
 #include "pso/system/task/TObject.h"
 
+struct Vec;
+
 struct TNpcPlayer : public TObject {
     struct AiParams {
         s16 npc_id;
@@ -106,7 +108,7 @@ struct TNpcPlayer : public TObject {
     void init_equipment();
     static s32 send_command(s32 arg0, s8 arg1, s32 arg2, s32 arg3, s8 *arg4);
     static u8 *get_lobby_entry_ptr();
-    static void send_warp_toward_player(u16 arg0, f32 *arg1);
+    static void send_warp_toward_player(u16 id, const Vec *destination);
     static void send_code_45_to_player(int arg0);
     static void play_effect(int arg0);
     static void send_stop_at_position(u16 id, void *pos, s16 arg);

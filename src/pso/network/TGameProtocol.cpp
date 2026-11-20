@@ -1,4 +1,5 @@
 #include "pso/network/FloorEventCommand.h"
+#include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/TGameProtocol.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
 #include "pso/unk/TLobby_801C25B4.h"
@@ -122,7 +123,6 @@ extern "C" void handle_6x50_switch_interaction(const void *source);
 extern "C" void handle_6x52_set_animation_state(s32 arg0);
 extern "C" void handle_6x53(void *arg0);
 extern "C" void handle_6x54();
-extern "C" void handle_6x55_intra_map_warp(s32 arg0);
 extern "C" void handle_6x56_set_player_position_and_angle(void *arg0);
 extern "C" void handle_6x57(void *arg0);
 extern "C" void handle_6x58_lobby_animation(void *arg0);
@@ -239,7 +239,7 @@ PsoCommandHandler pso_command_dispatch_table[] = {
     {0x52, 0x0007, (PsoCommandFn)handle_6x52_set_animation_state},
     {0x53, 0x0006, (PsoCommandFn)handle_6x53},
     {0x54, 0x0007, (PsoCommandFn)handle_6x54},
-    {0x55, 0x0006, (PsoCommandFn)handle_6x55_intra_map_warp},
+    {0x55, 0x0006, handle_6x55_intra_map_warp},
     {0x56, 0x0006, (PsoCommandFn)handle_6x56_set_player_position_and_angle},
     {0x57, 0x0007, (PsoCommandFn)handle_6x57},
     {0x58, 0x0007, (PsoCommandFn)handle_6x58_lobby_animation},

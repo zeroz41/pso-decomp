@@ -24,6 +24,8 @@
 #define PSO_PROTOCOL_SUBCMD_6X_H
 
 #include "types.h"
+#include "pso/system/vector.h"
+#include <stddef.h>
 #include "pso/network/protocol/protocol_types.h"
 
 struct G_6x70_Base_DCNTE {
@@ -404,11 +406,25 @@ struct G_InterLevelWarp_6x94 {
 };
 
 struct G_IntraMapWarp_6x55 {
- struct G_ClientIDHeader header;
+ G_ClientIDHeader header;
  u32 angle_y;
- struct VectorXYZF from_pos;
- struct VectorXYZF pos;
+ Vec from_pos;
+ Vec pos;
+
+ void init();
+ void bswap();
+ void send();
 };
+
+typedef char G_IntraMapWarp_6x55_size[sizeof(G_IntraMapWarp_6x55) == 0x20 ? 1 : -1];
+typedef char G_IntraMapWarp_6x55_position_offset[offsetof(G_IntraMapWarp_6x55, from_pos) == 0x8 ? 1 : -1];
+typedef char G_IntraMapWarp_6x55_destination_offset[offsetof(G_IntraMapWarp_6x55, pos) == 0x14 ? 1 : -1];
+
+struct game_command_header;
+extern "C" {
+void send_6x55_intra_map_warp(u16 id, const Vec *destination, s32 yaw);
+void handle_6x55_intra_map_warp(game_command_header *command);
+}
 
 struct G_LegacyActivateSwitchByToken_6x04 {
  struct G_ParameterHeader header;

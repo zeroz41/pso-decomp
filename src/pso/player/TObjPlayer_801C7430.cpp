@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/protocol/protocol_types.h"
+#include "pso/network/protocol/subcmd_6x.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/TLobby_801E43E4.h"
@@ -323,7 +324,6 @@ typedef struct Player_801C851C {
 
 struct Pkt_801C85BC { u16 hdr; s16 id; s16 c; };
 
-struct Pkt_801C8CCC { u16 hdr; u16 id; s32 c; f32 x1, y1, z1; f32 x2, y2, z2; };
 
 struct Pkt_801C8BE8 { u16 hdr; s16 id; s32 c; f32 x1, y1, z1; };
 
@@ -339,16 +339,7 @@ typedef struct Player_801C8B5C {
     s32 ang;
 } Player_801C8B5C;
 
-typedef struct Cmd_801C8FCC {
-    u8 cmd;
-    u8 size;
-    u16 client;
-    s32 area;
-    Vec a;
-    Vec pos;
-} Cmd_801C8FCC;
 
-struct Pkt_801C9084 { u16 hdr; s16 id; s32 c; f32 x1, y1, z1; f32 x2, y2, z2; };
 
 typedef struct MsgA_801C9400 {
     u8 pad0[2];
@@ -1238,8 +1229,6 @@ void TObjPlayer__sub_801C8A24(void);
 void TObjPlayer__sub_801C8A28(s32 arg0, s16 arg1);
 void handle_6x56_set_player_position_and_angle(void *arg0);
 void TObjPlayer__sub_801C8C50(s32 arg0, s16 arg1);
-void send_6x55_intra_map_warp(u16 id, void *pos, s32 c);
-void handle_6x55_intra_map_warp(s32 arg0);
 void TObjPlayer__sub_801C90F8(void);
 void TObjPlayer__sub_801C9128(void);
 void TObjPlayer__sub_801C912C(void);
@@ -1364,7 +1353,7 @@ void TObjPlayer__sub_801D0E18(void* p);
 void TObjPlayer__sub_801D0E74(void* p);
 void TObjPlayer__sub_801D0E84(void* p);
 int get_flag__10TObjPlayerFPv(void* p);
-u8 * TObjPlayer__sub_801D0EA0(u8 *arg0, u8 *arg1);
+G_IntraMapWarp_6x55 *TObjPlayer__sub_801D0EA0(G_IntraMapWarp_6x55 *destination, G_IntraMapWarp_6x55 *source);
 short query_child_state2__10TObjPlayerFPv(void *arg0);
 void release_control_lock__10TObjPlayerFPv(void* p);
 void TObjPlayer__sub_801D0F70(void* p);
@@ -1398,7 +1387,6 @@ void TObjPlayer__sub_801D13EC(u8 *arg0);
 void TObjPlayer__sub_801D1440(void* p);
 void* handle_6x57__10TObjPlayerFPv(void* p);
 u8 * TObjPlayer__sub_801D1514(u8 *arg0, u8 *arg1);
-void TObjPlayer__sub_801D1658(void* a0);
 u8 * copy_6x4b_hit_by_enemy_packet__10TObjPlayerFPvPv(u8 *arg0, u8 *arg1);
 void TObjPlayer__sub_801D1BB0(u8 *arg0);
 void* copy_font__10TObjPlayerFPvPv(void* p, void* a1);
@@ -1501,7 +1489,7 @@ s32 fn_8036B798(void *);
 s32 fn_8036B7C0(void *);
 s32 validate_6x58_lobby_animation(void *);
 s32 validate_6x56_set_player_position_and_angle(void *);
-s32 validate_6x55_intra_map_warp(void *);
+s32 validate_6x55_intra_map_warp(G_ClientIDHeader *);
 s32 validate_6x52_set_animation_state(void *);
 s32 validate_6x50_switch_interaction(const void *);
 s32 validate_6x89_set_killer_entity_id(void *);
@@ -2256,17 +2244,16 @@ void TObjPlayer__sub_801C8C50(s32 arg0, s16 arg1) {
   }
 }
 
-void send_6x55_intra_map_warp(u16 id, void *pos, s32 c) {
-    struct Pkt_801C8CCC pkt;
-    u8 *p;
-    p = ((u8 * (*)(s32))get_player_by_client_id)(id);
-    if (p != NULL && (p == NULL || ((s32 (*)(void))obj_isState2_324__9TObjCharaFv)() == 0)) {
-        TObjPlayer__sub_801D1658(&pkt);
-        pkt.id = id;
-        pkt.c = c;
-        VecCopy__FP3VecPC3Vec(&pkt.x1, p + 0x38);
-        VecCopy__FP3VecPC3Vec(&pkt.x2, pos);
-        ((TObjPlayer *)(&pkt))->swap_and_send();
+void send_6x55_intra_map_warp(u16 id, const Vec *destination, s32 yaw) {
+    G_IntraMapWarp_6x55 packet;
+    TObjPlayer *player = static_cast<TObjPlayer *>(reinterpret_cast<void *(*)(s32)>(get_player_by_client_id)(id));
+    if (player != NULL && (player == NULL || player->obj_isState2_324() == 0)) {
+        packet.init();
+        packet.header.client_id = id;
+        packet.angle_y = yaw;
+        VecCopy(&packet.from_pos, &player->position);
+        VecCopy(&packet.pos, destination);
+        packet.send();
     }
 }
 
@@ -2285,8 +2272,8 @@ void TObjPlayer::update_warp_relocation() {
         if (var_f31 < 0.0f) {
             var_f31 = 0.0f;
             this->phase = 3;
-            this->rotation_y = *(s32 *)((s8 *)((u8 *)this) + 0x65C);
-            this->set_position_from(((u8 *)this) + 0x660);
+            this->rotation_y = warp_yaw;
+            this->set_position_from(&warp_destination);
             refresh_equipment_slot();
             this->clear_flag_4000();
             this->update_actor_ground_y();
@@ -2344,33 +2331,31 @@ void TObjPlayer::set_dead_state() {
     set_action_state__10TObjPlayerFPvss(this, 0x14, ((s32 (*)(void *))get_idle_animation__10TObjPlayerFv)(this));
 }
 
-void handle_6x55_intra_map_warp(s32 arg0) {
-    Cmd_801C8FCC cmd;
-    u8 *p;
-    TObjPlayer__sub_801D1658(&cmd);
-    ((void (*)(void *, void *))TObjPlayer__sub_801D0EA0)(&cmd, (void *)arg0);
-    ((TObjPlayer *)(&cmd))->swap_endian();
-    if (validate_6x55_intra_map_warp(&cmd) != 0) {
-        p = get_player_by_client_id(cmd.client);
-        if (p != NULL && is_in_tl03_state__10TObjPlayerFv(p) != 0 && ((TObjPlayer *)p)->test_action_mask(0x8200) == 0) {
-            *(s32 *)(p + 0x65C) = cmd.area;
-            ((TObjBase *)p)->set_position_from(&cmd.a);
-            VecCopy__FP3VecPC3Vec(p + 0x660, &cmd.pos);
-            ((void (*)(void *, s32, s32))run_action_state_phase__10TObjPlayerFisi)(p, 0x14, 0);
+void handle_6x55_intra_map_warp(game_command_header *command) {
+    G_IntraMapWarp_6x55 packet;
+    packet.init();
+    TObjPlayer__sub_801D0EA0(&packet, reinterpret_cast<G_IntraMapWarp_6x55 *>(command));
+    packet.bswap();
+    if (validate_6x55_intra_map_warp(&packet.header) != 0) {
+        TObjPlayer *player = reinterpret_cast<TObjPlayer *>(get_player_by_client_id(packet.header.client_id));
+        if (player != NULL && is_in_tl03_state__10TObjPlayerFv(player) != 0 && player->test_action_mask(0x8200) == 0) {
+            player->warp_yaw = packet.angle_y;
+            player->set_position_from(&packet.from_pos);
+            VecCopy(&player->warp_destination, &packet.pos);
+            ((void (*)(void *, s32, s32))run_action_state_phase__10TObjPlayerFisi)(player, 0x14, 0);
         }
     }
 }
 
 void TObjPlayer::send_warp_position() {
-    u8 *arg0 = (u8 *)this;
-    struct Pkt_801C9084 pkt;
-    if (arg0 == NULL || ((s32 (*)(void))obj_isState2_324__9TObjCharaFv)() == 0) {
-        TObjPlayer__sub_801D1658(&pkt);
-        pkt.id = get_entity_id(arg0);
-        pkt.c = *(s32 *)(arg0 + 0x60);
-        VecCopy__FP3VecPC3Vec(&pkt.x1, (u8 *)&this->position);
-        VecCopy__FP3VecPC3Vec(&pkt.x2, (u8 *)&this->position);
-        ((TObjPlayer *)(&pkt))->swap_and_send();
+    G_IntraMapWarp_6x55 packet;
+    if (this == NULL || obj_isState2_324() == 0) {
+        packet.init();
+        packet.header.client_id = get_entity_id(this);
+        packet.angle_y = rotation_y;
+        VecCopy(&packet.from_pos, &position);
+        VecCopy(&packet.pos, &position);
+        packet.send();
     }
 }
 
@@ -6187,12 +6172,12 @@ int get_flag__10TObjPlayerFPv(void* p) { return (*(u32*)((char*)p + 0x334) >> 29
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-u8 *TObjPlayer__sub_801D0EA0(u8 *arg0, u8 *arg1) {
-    ((s32 (*)(void))copy_subcommand_header)();
-    *(s32 *)((s8 *)arg0 + 4) = (s32) *(s32 *)((s8 *)arg1 + 4);
-    *(ByteBlock_C *)((s32) arg0 + 8) = *(const ByteBlock_C *)((s32) arg1 + 8);
-    *(ByteBlock_C *)((s32) arg0 + 0x14) = *(const ByteBlock_C *)((s32) arg1 + 0x14);
-    return arg0;
+G_IntraMapWarp_6x55 *TObjPlayer__sub_801D0EA0(G_IntraMapWarp_6x55 *destination, G_IntraMapWarp_6x55 *source) {
+    reinterpret_cast<void *(*)(void *, void *)>(copy_subcommand_header)(&destination->header, &source->header);
+    destination->angle_y = source->angle_y;
+    __memcpy(&destination->from_pos, &source->from_pos, sizeof(Vec));
+    __memcpy(&destination->pos, &source->pos, sizeof(Vec));
+    return destination;
 }
 extern int fold_flush_8;
 #pragma pop
@@ -6370,11 +6355,30 @@ void TObjPlayer::init_position_packet() { *(float*)((char*)this + 0x10) = 0.0f; 
 
 void TObjPlayer::update_and_send2() { swap_endian_words(); send_subcommand(this); }
 
-void TObjPlayer::swap_and_send() { swap_endian(); send_subcommand(this); }
+void G_IntraMapWarp_6x55::send() { bswap(); send_subcommand(this); }
 
-void TObjPlayer::swap_endian() { ((G_ClientIDHeader *)this)->bswap(); bswap_32__FPUl((char*)this + 0x4); bswap_32__FPUl((char*)this + 0x8); bswap_32__FPUl((char*)this + 0xc); bswap_32__FPUl((char*)this + 0x10); bswap_32__FPUl((char*)this + 0x14); bswap_32__FPUl((char*)this + 0x18); bswap_32__FPUl((char*)this + 0x1c); }
+void G_IntraMapWarp_6x55::bswap() {
+    header.bswap();
+    bswap_32__FPUl(&angle_y);
+    bswap_32__FPUl(&from_pos.x);
+    bswap_32__FPUl(&from_pos.y);
+    bswap_32__FPUl(&from_pos.z);
+    bswap_32__FPUl(&pos.x);
+    bswap_32__FPUl(&pos.y);
+    bswap_32__FPUl(&pos.z);
+}
 
-void TObjPlayer__sub_801D1658(void* a0) { *(int*)((char*)a0 + 0x4) = 0; *(float*)((char*)a0 + 0x10) = 0.0f; *(float*)((char*)a0 + 0xc) = 0.0f; *(float*)((char*)a0 + 0x8) = 0.0f; *(float*)((char*)a0 + 0x1c) = 0.0f; *(float*)((char*)a0 + 0x18) = 0.0f; *(float*)((char*)a0 + 0x14) = 0.0f; *(unsigned char*)((char*)a0 + 0x0) = 85; *(unsigned char*)((char*)a0 + 0x1) = 8; }
+void G_IntraMapWarp_6x55::init() {
+    angle_y = 0;
+    from_pos.z = 0.0f;
+    from_pos.y = 0.0f;
+    from_pos.x = 0.0f;
+    pos.z = 0.0f;
+    pos.y = 0.0f;
+    pos.x = 0.0f;
+    header.subcommand = 0x55;
+    header.size = 8;
+}
 
 void TObjPlayer::set_type_53() { *(u8*)((char*)this + 0x0) = 83; *(u8*)((char*)this + 0x1) = 1; }
 

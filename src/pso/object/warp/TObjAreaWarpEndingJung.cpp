@@ -1,4 +1,5 @@
 #include "pso/render/GinjaMaterialTextureSlot.h"
+#include "pso/network/protocol/subcmd_6x.h"
 #include "pso/object/base/CollisionBodySet.h"
 #include "pso/render/GinjaTexture.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -164,7 +165,6 @@ void TObjAreaWarpQuest__sub_8019DCD8(TObjPlayer *, s32);
 s32 TObjWarpJung__sub_801A0404(s32);
 int check_flag_100__10TObjPlayerFPv(void *p);
 void send_6x21_inter_level_warp(void *obj, s32 value);
-void send_6x55_intra_map_warp(u16 id, void *pos, s32 c);
 s32 init__23TAdSinglePlyChrSelectGCFv();
 s32 get_floor_map_terrain(s32);
 void set_area__6TLobbyFl(void *, int, int);
