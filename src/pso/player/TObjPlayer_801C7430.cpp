@@ -4160,7 +4160,7 @@ void TObjPlayer__sub_801CC9E4(void) {  }
 int TObjPlayer::try_apply_status_action_default() { return try_apply_status_action__10TObjPlayerFi(this); }
 
 void dispatch_photon_blast_action__10TObjPlayerFis(saddr arg0, s16 arg1) {
-  s32 *new_var;
+  saddr *new_var;
   {
     switch (arg1)
     {

@@ -417,7 +417,7 @@ u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 uaddr TBoss7Crawfish__shared_resource;
 s32 dispatch_shared_handler_a__6TLobbyFl(int);
 s32 get_bml_texlist(int, int);
-s32 get_bml_model(int, int);
+saddr get_bml_model(int, int);
 s32 set_field_b8__10TObjMotionFs(void *, int);
 s32 __ct__9TObjEnemyFP7TObject();
 extern s32 __vt__14TBoss7Crawfish[];

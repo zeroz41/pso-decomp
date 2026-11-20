@@ -99,7 +99,7 @@ s32 __ct__11TObjControlFP7TObject(s32, s32);
 void free_collision_body_parts(void *);
 s32 get_bml_motion(s32, s32);
 s32 get_bml_texlist(BmlResource *resource, s32 index);
-s32 get_bml_model(BmlResource *resource, s32 index);
+saddr get_bml_model(BmlResource *resource, s32 index);
 int rotate_matrix_y(void*, void*);
 int push_matrix(void*);
 

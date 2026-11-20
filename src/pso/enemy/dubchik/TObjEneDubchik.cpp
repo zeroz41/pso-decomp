@@ -226,8 +226,8 @@ saddr lbl_805009B8[20];
 u8 lbl_80500A08[0x10];
 u8 lbl_80500A18[0x30];
 u8 lbl_80500A48[0xA8];
-__declspec(section ".data") s32 lbl_80500AF0[2];
-__declspec(section ".data") s32 lbl_80500AF8[2];
+__declspec(section ".data") saddr lbl_80500AF0[2];
+__declspec(section ".data") saddr lbl_80500AF8[2];
 
 #define lbl_805009A0 ((u8 *)lbl_805009A0)
 
@@ -495,7 +495,7 @@ inline const char *dubchik_gvm_filename();
 #pragma opt_common_subs off
 #pragma opt_propagation off
 extern "C" void TObjPlayer__sub_800AA82C(void) {
-    s32 *t;
+    saddr *t;
     Node_800AA82C *nodes[3];
     void *p;
     s32 m;

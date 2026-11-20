@@ -136,7 +136,7 @@ void free_collision_body_parts(void *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 s32 get_bml_motion(s32, s32);
 s32 get_bml_texlist(BmlResource *resource, s32 index);
-s32 get_bml_model(BmlResource *resource, s32 index);
+saddr get_bml_model(BmlResource *resource, s32 index);
 int rotate_matrix_y(void*, void*);
 int push_matrix(void*);
 

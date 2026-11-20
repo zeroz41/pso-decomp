@@ -297,7 +297,7 @@ O_8033D9E4 *__dt__25TBoss6Demo20_TYPE2_APPEARFv(O_8033D9E4 *arg0, s16 arg1) {
 extern "C" {
 s32 get_bml_motion(int, int);
 s32 get_bml_texlist(BmlResource *resource, s32 index);
-s32 get_bml_model(BmlResource *resource, s32 index);
+saddr get_bml_model(BmlResource *resource, s32 index);
 void set_scripted_camera_pose(void *, void *, void *);
 void __ct__7TObjectFP7TObject(void *);
 extern const u8 boss6_type2_appear_model_node_descriptors[];

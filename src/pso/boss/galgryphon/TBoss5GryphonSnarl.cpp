@@ -25,7 +25,7 @@ extern const char *TBoss5GryphonSnarl__name;
 extern s32 boss5_gryphon_bml_resource;
 extern s32 boss5_gryphon_texture_list;
 void TBoss8Dragon__sub_8006402C(s32 arg0, s32 arg1, f32 farg0, f32 farg1);
-s32 get_bml_model(s32, s32);
+saddr get_bml_model(s32, s32);
 void attach_particle_model(void *, s32, s32, s32, s32, f32);
 
 s32 free_bin_model_request(s32, s32);

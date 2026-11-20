@@ -115,7 +115,7 @@ struct VObj14 : Base14 {
 };
 
 extern "C" {
-f32 calc_xz_distance_sq(s32 arg0, u32 arg1, void *arg2);
+f32 calc_xz_distance_sq(saddr arg0, uaddr arg1, void *arg2);
 f32 atan2_float(f32 y, f32 x);
 s32 angle_difference_abs(s32, s32);
 extern uaddr gibbles_combat_stat_entries;

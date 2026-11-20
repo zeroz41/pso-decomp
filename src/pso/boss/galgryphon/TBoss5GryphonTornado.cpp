@@ -67,7 +67,7 @@ extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__20TBoss5GryphonTornado[];
 s32 get_bml_motion(s32, s32);
-s32 get_bml_model(s32, s32);
+saddr get_bml_model(s32, s32);
 void TBoss8Dragon__sub_800640A4(s32, Vec *);
 void attach_particle_model(void *, s32, s32, s32, s32, f32);
 Res_80355570 *csnVecterUnder(Vec *, s32);
@@ -191,7 +191,7 @@ u8 *TBoss5GryphonTornado__ct(TBoss5GryphonTornado *boss5_gryphon_tornado, u8 *ar
 }
 
 extern "C" {
-s32 spawn_gryphon_tornado(s32 parent, s32 gryphon, const Vec *pos_src, u16 kind) {
+saddr spawn_gryphon_tornado(saddr parent, saddr gryphon, const Vec *pos_src, u16 kind) {
     Vec pos;
     Res_80355570 *under;
     f32 y;

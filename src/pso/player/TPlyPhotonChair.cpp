@@ -149,7 +149,7 @@ u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern uaddr TPlyPhotonChair__shared_model_resource;
 s32 get_bml_motion(int, int);
 s32 get_bml_texlist(int, int);
-s32 get_bml_model(int, int);
+saddr get_bml_model(int, int);
 s32 get_actor_section_id__15TPlyPhotonChairFv(int);
 s32 get_rader_map__11TMainCursorFv(void *, void *);
 s32 __ct__8TObjBaseFP7TObject(void *, void *);

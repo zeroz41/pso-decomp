@@ -43,7 +43,7 @@ extern "C" void render__15TObjIllGillKageFv();
 struct IllGillEffectRotation { s32 x, y, z; };
 
 extern "C" {
-f32 calc_xz_distance_sq(s32 arg0, u32 arg1, void *arg2);
+f32 calc_xz_distance_sq(saddr arg0, uaddr arg1, void *arg2);
 }
 extern int enable_v2_features;
 void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);

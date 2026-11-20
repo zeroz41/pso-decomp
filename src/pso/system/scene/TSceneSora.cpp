@@ -53,7 +53,7 @@ u8 * free_bin_model_request(void *, s16);
 void TSceneSora__sub_80207430(void);
 s32 get_bml_motion(int, int);
 s32 get_bml_texlist(int, int);
-s32 get_bml_model(int, int);
+saddr get_bml_model(int, int);
 u8 *__ct__10TSceneSoraFl(TSceneSora *arg0, s32 _w1);
 void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 s32 rotate_matrix_y(int, int);

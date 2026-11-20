@@ -144,7 +144,7 @@ union TypedVector_802BAA74 {
 };
 
 extern "C" {
-s32 get_bml_model(BmlResource *resource, s32 index);
+saddr get_bml_model(BmlResource *resource, s32 index);
 s32 submit_cursor_candidate(void *, int);
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);

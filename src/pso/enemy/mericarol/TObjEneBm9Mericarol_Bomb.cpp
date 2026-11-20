@@ -27,7 +27,7 @@ f32 fabs_float(f32);
 s32 is_area_attack_target_eligible(void *, u32);
 s32 attack_target_history_add(s32, s32);
 
-s32 TObjEneBm9Mericarol_Bomb::area_attack_deliver_direct(void *recoil, s32 arg2, void *object, f32 range) {
+s32 TObjEneBm9Mericarol_Bomb::area_attack_deliver_direct(void *recoil, saddr arg2, void *object, f32 range) {
     s32 hit;
     u32 mask;
     saddr obj;

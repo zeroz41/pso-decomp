@@ -48,7 +48,7 @@ void run_task__14TObjBoss1FloorFv(Floor_8002C968 *self);
 void TBoss8Dragon__sub_8002D5F8(void);
 void TObjBoss1Floor__sub_8002CB40(void);
 void TObjBoss1Floor__sub_8002CB78(void);
-void render_projected_shadow_receiver(u8 *arg0, s32 arg1);
+void render_projected_shadow_receiver(u8 *arg0, saddr arg1);
 s32 push_matrix();
 s32 end_effect_render__13TParticleCtrlFv(int);
 

@@ -67,7 +67,7 @@ s32 lbl_805D696C;
 s8 lbl_805D6970;
 extern "C" {
 AnimationMotion *get_bml_motion(void *, s32);
-s32 get_bml_model(void *, s32);
+saddr get_bml_model(void *, s32);
 u32 __ct__7TObjectFP7TObject(void *, void *);
 extern u8 *boss7_common_bml_resource;
 void __dl__7TObjectFPv(void *);

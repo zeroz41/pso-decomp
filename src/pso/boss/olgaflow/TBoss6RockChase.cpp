@@ -81,7 +81,7 @@ struct Chase_8036D1B4 {
 struct Param_8036D1B4 { u8 pad[0xC]; f32 v; };
 
 extern "C" {
-s32 get_bml_model(int, int);
+saddr get_bml_model(int, int);
 int TBoss6Rock__sub_80353A04(void);
 int TBoss6Rock__sub_80353A0C(void);
 __declspec(section ".rodata") char TBoss6RockChase__class_name_string[] = "TBoss6RockChase";

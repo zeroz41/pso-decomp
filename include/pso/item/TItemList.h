@@ -11,7 +11,7 @@ public:
     TItemList(TObject *parent);
     virtual ~TItemList();
 public:
-    static s32 is_item_valid(s32 arg0);
+    static s32 is_item_valid(saddr arg0);
     static void *create_node(void *arg0, void *arg1, void *arg2, s8 arg3);
     int copy_item_data();
     void lookup_entry_by_count(s32 arg1);

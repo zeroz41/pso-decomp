@@ -16,7 +16,7 @@ struct DelDepthPairBinding { DelDepthModelMotion first, second; f32 speed; };
 extern "C" {
 s32 get_bml_texlist(BmlResource *resource, s32 index);
 s32 find_nearest_hittable_enemy__10TObjPlayerFiPvf(void *, void *, f32);
-s32 get_bml_model(BmlResource *resource, s32 index);
+saddr get_bml_model(BmlResource *resource, s32 index);
 AnimationMotion *get_bml_motion(BmlResource *resource, s32 index);
 DelDepthMotionBinding lbl_804E8760[] = {{4, 0.3f}, {4, 0.3f}, {2, 0.6f}, {3, 0.4f}};
 DelDepthPairBinding lbl_804E8780[] = {{{1, 1}, {0, 8}, 0.6f}, {{1, 0}, {0, 7}, 0.6f}};

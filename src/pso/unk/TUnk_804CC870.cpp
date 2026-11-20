@@ -38,7 +38,7 @@ struct Obj_80232934 {
 };
 
 extern "C" {
-s32 get_bml_model(s32, u32);
+saddr get_bml_model(s32, u32);
 void init_texture_copy_rect(TextureFrameSlot *, void *, void *, s32, s32);
 void approach_position_if_far(Vec *, Vec *, f32);
 void scale_matrix(s32, f32, f32, f32);

@@ -44,7 +44,7 @@ s32 normalize_vector(void *);
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 void *spawn_particle_effect_with_flags(const void *pos, s32 id, s32 flags);
 s32 get_bml_motion(s32, s32);
-s32 get_bml_model(s32, s32);
+saddr get_bml_model(s32, s32);
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 
 }

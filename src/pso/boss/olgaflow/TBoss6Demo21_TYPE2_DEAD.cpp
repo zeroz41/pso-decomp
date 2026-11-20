@@ -72,7 +72,7 @@ void push_matrix();
 void post_translate_matrix(void *);
 s32 get_bml_motion(void *, int);
 s32 get_bml_texlist(BmlResource *resource, s32 index);
-s32 get_bml_model(BmlResource *resource, s32 index);
+saddr get_bml_model(BmlResource *resource, s32 index);
 void set_scripted_camera_pose(void *, void *, void *);
 void __ct__7TObjectFP7TObject(void *);
 void vec3_add_to(void *, void *);

@@ -973,7 +973,7 @@ void *destroy_buffer_pair(void *arg0, s16 arg1);
 extern "C" {
 void refresh_players_equipment__14TBoss6PlotFalzFPv(void *self);
 void scroll_strip_uvs(u32, s16, s16);
-s32 get_bml_model(BmlResource *resource, s32 index);
+saddr get_bml_model(BmlResource *resource, s32 index);
 void build_tables__14TBoss6PlotFalzFPvPvi(Obj_8004AA80 *arg0, Rec_8004AA80 *arg1, s32 arg2);
 extern s32 lbl_805D5868;
 extern s32 lbl_805D5870;

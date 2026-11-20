@@ -274,7 +274,7 @@ f32 subtract_vector(void *, int);
 f32 normalize_vector(void *);
 void TBoss6Type2__sub_8032F5C4(void *arg0);
 s32 get_bml_texlist(BmlResource *resource, s32 index);
-s32 get_bml_model(BmlResource *resource, s32 index);
+saddr get_bml_model(BmlResource *resource, s32 index);
 }
 void draw_model_blend_motion(void *arg0, void *arg1, f32 farg0);
 extern "C" {

@@ -772,7 +772,7 @@ void TObjEneBalClawBody::update_dragon_boss_state() {
 void TObjPlayer__sub_8008E934(TObjEneBalClawBody *body, s32 arg1) {
     Vec a;
     Vec b;
-    saddr angA;
+    s32 angA;
     s32 angB;
     s32 i;
     s32 id;
@@ -808,7 +808,7 @@ void TObjPlayer__sub_8008E934(TObjEneBalClawBody *body, s32 arg1) {
                     id++;
                     id2++;
                     calc_slot_offset_position__10TObjPlayerFPviPvPv(body, i, &a, &angA);
-                    ((void *(*)(void *, u16, void *, void *, void *, void *))create__18TObjEneBalClawClawFPvPvPvPvPv)(body, id, (void *)id2, &a, (void *)angA, (void *)body->hp);
+                    ((void *(*)(void *, u16, void *, void *, void *, void *))create__18TObjEneBalClawClawFPvPvPvPvPv)(body, id, (void *)id2, &a, (void *)(saddr)angA, (void *)body->hp);
                 }
             }
         } else {

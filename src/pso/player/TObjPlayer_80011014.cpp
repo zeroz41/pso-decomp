@@ -337,7 +337,7 @@ u8 obj_isState2_324__9TObjCharaFv(u8* p);
 s32 vfunc_43__9TObjCharaFv(Player_800172CC *self);
 s32 VecCopy__FP3VecPC3Vec(s32, s32);
 void subtract_vector(void *a, void *b);
-f32 calc_xz_distance_sq(s32 arg0, u32 arg1, void *arg2);
+f32 calc_xz_distance_sq(saddr arg0, uaddr arg1, void *arg2);
 s32 check_heavy_damage_flag__9TObjCharaFf(void *arg0, f32 farg0);
 void activate_switch_attacks__10TObjPlayerFii(saddr arg0, s32 arg1);
 void attach_mine_trap__10TObjPlayerFiUi(saddr arg0, u32 arg1);
@@ -3935,7 +3935,7 @@ s32 TObjChara::is_target_in_attack_range() {
                     }
                 }
             } else {
-                dist = calc_xz_distance_sq((s32)((saddr)p), (u32)((uaddr)t), &out);
+                dist = calc_xz_distance_sq((saddr)p, (uaddr)t, &out);
                 ang = ((s32)angle_difference_abs(this->rotation_y, (s32)(TObjPlayer__data_804340B8 * ((f64 (*)(f32, f32))atan2_float)(out.x, out.z))));
                 if (p->target->parts != NULL) {
                     prod = (p->target->parts->radius + ((TObjChara *)p)->get_attack_range()) * (p->target->parts->radius + ((TObjChara *)p)->get_attack_range());

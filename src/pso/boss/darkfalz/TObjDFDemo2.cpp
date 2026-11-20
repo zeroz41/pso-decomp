@@ -72,7 +72,7 @@ struct Obj_8004EB78 {
 struct Pose_8004EB78 { s32 a; s32 b; s32 c; };
 s32 get_bml_motion(s32, s32);
 s32 get_bml_texlist(BmlResource *resource, s32 index);
-s32 get_bml_model(BmlResource *resource, s32 index);
+saddr get_bml_model(BmlResource *resource, s32 index);
 void set_scripted_camera_pose(void *, void *, void *);
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 boss4_zanzo_bml_index_table[];

@@ -71,7 +71,7 @@ s32 rotate_matrix_y(int, int);
 extern RecoveredGlobal_80081CD0_lbl_8058D490 identity_matrix;
 s32 get_bml_motion(s32, s32);
 s32 get_bml_texlist(s32, s32);
-s32 get_bml_model(s32, s32);
+saddr get_bml_model(s32, s32);
 void *spawn_particle_effect(const void *pos, s32 id);
 saddr freeze_shell_bml_resource;
 extern s32 technique_effect_bml;

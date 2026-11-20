@@ -147,7 +147,7 @@ s32 try_spend_actor_meseta(u8 *arg0, s32 arg1);
 s32 lookup_item_def__9TItemDataFPv(s32);
 s32 item_identity_matches(u8 *arg0, u8 *arg1);
 s32 is_at_tekker__5TItemFv();
-s32 export_inventory_entry__10TObjPlayerFiPv(s32 arg0, u8 *arg1);
+s32 export_inventory_entry__10TObjPlayerFiPv(saddr arg0, u8 *arg1);
 }
 s32 compare_item_data_masked(void *arg0, void *arg1, s32 arg2);
 

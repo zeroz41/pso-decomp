@@ -21,7 +21,7 @@ const char *lbl_805D2818 = "TBoss5GryphonShockWave";
 extern "C" {
 const s32 *gryphon_shockwave_particle_ids_ptr;
 s32 get_bml_motion(s32, s32);
-s32 get_bml_model(s32, s32);
+saddr get_bml_model(s32, s32);
 s32 attach_particle_model(s32, s32, s32, s32, s32, f32);
 s32 spawn_particle_effect_with_flags(void *, s32, s32);
 u32 spawn_continuous_particle_effect_with_flags(void *, s32, s32);

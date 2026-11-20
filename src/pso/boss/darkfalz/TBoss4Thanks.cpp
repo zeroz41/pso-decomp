@@ -55,7 +55,7 @@ struct Thanks_8035C6FC
 extern "C" {
 s32 get_bml_motion(void *, s32);
 s32 get_bml_texlist(void *, s32);
-s32 get_bml_model(void *, s32);
+saddr get_bml_model(void *, s32);
 void TBoss4Thanks__sub_8035C480(saddr arg0);
 const char *TBoss4Thanks__class_name = "TBoss4Thanks";
 // Position of the emitters and of the proximity check (x, y, z).

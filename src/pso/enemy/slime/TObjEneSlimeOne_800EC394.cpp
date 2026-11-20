@@ -76,7 +76,7 @@ extern s32 slime_one_part_texture_index_table[];
 extern s32 model_render_flags;
 extern "C" {
 s32 get_bml_motion(s32, s32);
-s32 get_bml_model(s32, s32);
+saddr get_bml_model(s32, s32);
 extern void *lbl_80496C68[10];
 extern void *lbl_80496C90[10];
 int get_validated_attack_stage(void*);

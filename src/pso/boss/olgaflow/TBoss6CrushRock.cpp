@@ -33,7 +33,7 @@ void *__ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__15TBoss6CrushPtcl[];
 u8 *TBoss6CrushPtcl__ct(u8 *arg0, void *arg1, Vec_80359EF0 *arg2);
 extern s32 TBoss6PlotFalz__instance;
-s32 get_bml_model(int, void *);
+saddr get_bml_model(int, void *);
 int TBoss6Rock__sub_80353A04(void);
 int TBoss6Rock__sub_80353A0C(void);
 f32 vec3_add_to(void *, void *);

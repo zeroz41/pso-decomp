@@ -67,7 +67,7 @@ s32 push_matrix();
 s32 post_translate_matrix(void *);
 void render__15TObjEneSlimeOneFv(TObjEneSlimeOne *arg0);
 s32 get_bml_texlist(BmlResource *resource, s32 index);
-s32 get_bml_model(BmlResource *resource, s32 index);
+saddr get_bml_model(BmlResource *resource, s32 index);
 u8 *get_instance__15TObjEneSlimeOneFv();
 s32 init_collision_body_parts(void *, void *, int);
 extern void *lbl_80496368[2];

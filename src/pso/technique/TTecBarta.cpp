@@ -91,7 +91,7 @@ extern RecoveredGlobal_8022B6FC_lbl_804CC510 tech_high_level_linear_power_table;
 extern RecoveredGlobal_8022B6FC_lbl_804CC55C lbl_804CC55C;
 void mem_free(void *p);
 u16 get_entity_id(void *);
-s32 get_bml_model(s32, s32);
+saddr get_bml_model(s32, s32);
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 void *find_entity_by_id(u16 id);
