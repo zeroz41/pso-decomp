@@ -14,6 +14,6 @@ s32 emit_player_particle(void *p, void *a1, void *a2);
 }
 void emit_player_sprite_particle(s32 arg0, s32 arg1, s32 arg2);
 void emit_sand_step_particles(saddr owner, saddr position);
-void emit_water_step_particles(s32 owner, s32 position);
+void emit_water_step_particles(saddr owner, saddr position);
 
 #endif

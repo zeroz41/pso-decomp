@@ -183,7 +183,7 @@ void TObjPlayer::create_right_hand_ptcl(void *ply_ptcl_object_right_hand) {
     *(void **)((s8 *)this + 0x4) = new TPlyPtclObjectRightHand((TObjBase *)ply_ptcl_object_right_hand);
 }
 
-void emit_water_step_particles(s32 owner, s32 position) {
+void emit_water_step_particles(saddr owner, saddr position) {
     emit_player_model_particle(owner, position, 0x237, 2);
     emit_player_model_particle(owner, position, 0x239, 0);
     emit_player_particle((void*)owner, (void*)position, (void*)(0x238));
