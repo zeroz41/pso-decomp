@@ -178,7 +178,7 @@ void TODragonflyMachine01::load_resources() {
     node_yaw = 0;
     DragonflyMotionSetup setup = dragonfly_machine_attack_effect_params;
     setup.motions = resource->motions;
-    TObjEneMe3Stelth::spawn_attack(0x38, resource->models->model, resource->models->m_c, (s32)&setup, 3.0f, 15.0f);
+    TObjEneMe3Stelth::spawn_attack(0x38, resource->models->model, resource->models->m_c, (saddr)&setup, 3.0f, 15.0f);
 }
 
 TODragonflyMachine01::~TODragonflyMachine01() {}

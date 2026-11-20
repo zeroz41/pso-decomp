@@ -1021,7 +1021,7 @@ void TContainerAncient01::load_resources() {
     }
     ContainerAncientAnimBinding prm = container_ancient_anim_binding;
     prm.motions = ((Res_8018BB64 *)TContainerAncient01__bml_resource)->x430;
-    TObjEneMe3Stelth::spawn_attack((s16)0x3B, (s32)(get_bml_model(TContainerAncient01__bml_resource, 0)), (s32)(get_bml_texlist(TContainerAncient01__bml_resource, 0)), (s32)&prm, (f32)1e+01f, (f32)TContainerAncient01__data_805DBD14[0]);
+    TObjEneMe3Stelth::spawn_attack((s16)0x3B, (s32)(get_bml_model(TContainerAncient01__bml_resource, 0)), (s32)(get_bml_texlist(TContainerAncient01__bml_resource, 0)), (saddr)&prm, (f32)1e+01f, (f32)TContainerAncient01__data_805DBD14[0]);
 }
 
 }

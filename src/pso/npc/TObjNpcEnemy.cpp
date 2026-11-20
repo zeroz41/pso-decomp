@@ -61,7 +61,7 @@ void TObjNpcEnemy::reset_anim_fields() {
     entry->motion.action_count = 0;
 }
 
-void TObjEneMe3Stelth::spawn_attack(s16 id, s32 model, s32 texlist, s32 motion, f32 radius, f32 y_offset) {
+void TObjEneMe3Stelth::spawn_attack(s16 id, s32 model, s32 texlist, saddr motion, f32 radius, f32 y_offset) {
     TObjNpcEnemyEntry *entry = TObjNpcEnemy::insert_slot_by_id(id);
     if (entry != NULL) {
         entry->id = id;
