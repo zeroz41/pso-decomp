@@ -252,7 +252,6 @@ extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 
 
-s32 TObjGyaranzoMissile__ct(void *, void *, void *, u16);
 
 void *__nw__7TObjectFUl(int);
 
@@ -1385,7 +1384,7 @@ void TObjEneGyaranzo::sub_800D2900() {
 #undef play_sound_effect
 #undef spawn_missile_volley__19TObjGyaranzoMissileFPv
 #undef update_walk_to_target__10TObjPlayerFPv
-#define NEW(d, id) { void *o = __nw__7TObjectFUl(0xDC); if (o != NULL) { TObjGyaranzoMissile__ct(o, arg0, &d, id); } }
+#define NEW(d, id) { new TObjGyaranzoMissile(arg0, (u8 *)&d, id); }
 #define V ((VObj_18_f1aa6a *)(arg0))
 #pragma pool_data off
 void spawn_missile_volley__19TObjGyaranzoMissileFPv(u8 *arg0) {

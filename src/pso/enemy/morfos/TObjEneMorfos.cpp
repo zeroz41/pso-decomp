@@ -438,7 +438,6 @@ extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
-void render__13TObjEneMorfosFv(u8 *arg0);
 s32 check_value_in_range__13TObjEneMorfosFPvUsUsUs(void *, int, int, int);
 s32 TObjEneMorfos__sub_803344F0(void *arg0);
 extern s32 game_difficulty_selection;
@@ -651,34 +650,23 @@ u16 get_entity_id(void *);
 void free_bin_model_request(void*, int);
 s32 TObjPlayer__sub_800A04F0(void *);
 void TObjPlayer__sub_800A0554(void *);
-void *__dt__13TUnk_80490470Fv(void *arg0, s16 arg1);
 void enemy_set_target_id(void *, u16);
-void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);
-void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
 s32 angle_difference_abs(s32, s32);
 s32 angle_diff_s16(s32);
 s32 free_collision_body_parts(void *);
 void *get_player_by_client_id(s32 i);
-s32 __dl__7TObjectFPv(void *);
 void TObjPlayer__sub_8023DEE0(s16 *p, s16 a, s16 b, u16 id);
 void TObjEneMorfos__sub_80332DBC(u8 *arg0, s32 arg1);
 void TObjEneMorfos__sub_80333E48(u8 *arg0, s32 arg1);
 void TObjEneMorfos__sub_80334030(u8 *arg0, s32 arg1);
 void TObjEneMorfos__sub_803342B8(u8 *arg0, s32 arg1);
-void TObjEneMorfos__vt85(u8 *arg0, u32 arg1, s32 arg2);
 int TObjEneMorfos__sub_80334704(void);
 void vfunc_88__13TObjEneMorfosFv(void *arg0);
 void vfunc_61__13TObjEneMorfosFv(void);
 void vfunc_62__13TObjEneMorfosFv(Obj_8033496C *arg0);
-f32 TObjEneMorfos__vt20(Obj_80334A4C *arg0, Obj_80334A4C *arg1, f32 farg0);
 void vfunc_63__13TObjEneMorfosFv(void* p);
 void vfunc_28__13TObjEneMorfosFv(void);
-void run_task__13TObjEneMorfosFv(u8 *arg0);
-u8 * __dt__13TObjEneMorfosFv(u8 *arg0, s16 arg1);
-void * TObjEneMorfos__ct(void *arg0, void *arg1, void *arg2);
 void TObjEneMorfosArm__sub_8033542C(void);
-s32 __destroy_arr(void *, void *, int, int);
-void __construct_array(void *, void *, void *, int, int);
 void subtract_vector(void *, void *);
 void vfunc_6__8TObjBaseFPsl();
 void vfunc_103__9TObjEneDDFPUc();
@@ -702,7 +690,6 @@ void vfunc_101__9TObjEneDDFPUc();
 void vfunc_102__9TObjEneDDFv();
 int vfunc_104__12TObjEneDD_STFf(void *p);
 void vfunc_83__12TObjEneDD_STFv();
-void vfunc_83__13TObjEneMorfosFv();
 void vfunc_106__13TObjEneMorfosFv();
 void vfunc_29__9TObjCharaFv();
 void recalc_stats__9TObjCharaFv();
@@ -825,35 +812,6 @@ TObjMotionAction morfos_motion_param_table[5] = {
     { 3, 0, 4, 0.7f, 0 },
 };
 const char *morfos_class_name = "TObjEneMorfos";
-void *__vt__13TObjEneMorfos[107] = {
-    (void *)0x0, (void *)0x0, (void *)&__dt__13TObjEneMorfosFv, (void *)&run_task__13TObjEneMorfosFv,
-    (void *)&render__13TObjEneMorfosFv, (void *)&render_shadows__9TObjEnemyFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
-    (void *)&reset_motion_fields__9TObjCharaFv, (void *)&get_center__9TObjCharaFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
-    (void *)&get_name__9TObjEnemyFv, (void *)&interact__14TObjCollidableFl, (void *)&add_actor_exp__9TObjCharaFl, (void *)&consume_timer_field__9TObjCharaFl,
-    (void *)&get_actor_level_index__9TObjCharaFv, (void *)&update_actor_ground_y__9TObjCharaFv, (void *)&vfunc_18__9TObjCharaFPUc, (void *)&is_actor_cadence_frame__9TObjCharaFl,
-    (void *)&select_melee_contact_body__9TObjCharaFPvf, (void *)&calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf, (void *)&TObjEneMorfos__vt20, (void *)&receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll,
-    (void *)&receive_weapon_special_attack__9TObjCharaFPvPv, (void *)&apply_knockback_from_attacker__9TObjCharaFPUcf, (void *)&try_start_action__9TObjCharaFll, (void *)&roll_physical_accuracy__9TObjCharaFPvlf,
-    (void *)&vfunc_28__13TObjEneMorfosFv, (void *)&vfunc_29__9TObjCharaFv, (void *)&is_target_in_attack_range__9TObjCharaFv, (void *)&test_flag_256__9TObjCharaFv,
-    (void *)&test_flag30_512__9TObjCharaFv, (void *)&has_flag_0x800__9TObjCharaFv, (void *)&test_flag_1000__9TObjCharaFv, (void *)&update_poison_status__9TObjCharaFv,
-    (void *)&update_action_hold_status__9TObjCharaFv, (void *)&vfunc_37__9TObjCharaFv, (void *)&update_flag30_timer__9TObjCharaFv, (void *)&update_movement_status__9TObjCharaFv,
-    (void *)&update_shock_clock__9TObjCharaFv, (void *)&update_attack_stat_status__9TObjCharaFv, (void *)&update_defense_stat_status__9TObjCharaFv, (void *)&vfunc_43__9TObjCharaFv,
-    (void *)&apply_poison_status__9TObjCharaFv, (void *)&apply_paralysis__9TObjCharaFv, (void *)&apply_slow_status__9TObjCharaFv, (void *)&apply_confusion_status__9TObjCharaFv,
-    (void *)&apply_movement_ailment__9TObjCharaFl, (void *)&apply_shock_status__9TObjCharaFv, (void *)&clear_harmful_statuses__9TObjCharaFv, (void *)&apply_attack_stat_status__9TObjCharaFPv,
-    (void *)&apply_defense_stat_status__9TObjCharaFPv, (void *)&cure_poison_ailment__9TObjCharaFv, (void *)&cure_paralysis__9TObjCharaFv, (void *)&clear_all_status_effects__9TObjCharaFv,
-    (void *)&apply_action_hold_status__9TObjCharaFf, (void *)&apply_anti_technique__9TObjCharaFl, (void *)&vfunc_58__9TObjCharaFv, (void *)&vfunc_59__9TObjCharaFv,
-    (void *)&vfunc_60__9TObjCharaFv, (void *)&vfunc_61__13TObjEneMorfosFv, (void *)&vfunc_62__13TObjEneMorfosFv, (void *)&vfunc_63__13TObjEneMorfosFv,
-    (void *)&reset_pose__9TObjCharaFv, (void *)&get_anim_node_position__9TObjCharaFlP3Vec, (void *)&vfunc_66__9TObjCharaFv, (void *)&vfunc_67__9TObjCharaFf,
-    (void *)&get_pos__9TObjCharaFl, (void *)&apply_switch_attack__9TObjCharaFv, (void *)&enemy_spawn_jellen_effect__9TObjCharaFv, (void *)&trigger_switch_attack__9TObjCharaFv,
-    (void *)&enemy_spawn_zalure_effect__9TObjCharaFv, (void *)&recalc_stats__9TObjCharaFv, (void *)&vfunc_74__9TObjEnemyFl, (void *)&vfunc_75__9TObjCharaFf,
-    (void *)&vfunc_76__9TObjCharaFf, (void *)&vfunc_77__9TObjCharaFv, (void *)&vfunc_78__9TObjCharaFl, (void *)&vfunc_79__9TObjEneDDFPl,
-    (void *)&apply_hit_message_flags__9TObjEnemyFPv, (void *)&apply_set_data__9TObjEnemyFPv, (void *)&clear_lobby_object_state__9TObjEnemyFv, (void *)&vfunc_83__12TObjEneDD_STFv,
-    (void *)&vfunc_84__9TObjEneDDFv, (void *)&vfunc_85__9TObjEneDDFv, (void *)&vfunc_86__9TObjEneDDFv, (void *)&TObjEneMorfos__vt85,
-    (void *)&vfunc_88__13TObjEneMorfosFv, (void *)&vfunc_89__9TObjEneDDFv, (void *)&vfunc_90__9TObjEneDDFv, (void *)&vfunc_91__9TObjEneDDFv,
-    (void *)&vfunc_92__9TObjEneDDFv, (void *)&vfunc_93__9TObjEneDDFv, (void *)&vfunc_94__9TObjEneDDFv, (void *)&vfunc_95__9TObjEneDDFv,
-    (void *)&vfunc_96__9TObjEneDDFv, (void *)&vfunc_97__9TObjEneDDFv, (void *)&vfunc_98__9TObjEneDDFv, (void *)&vfunc_99__9TObjEneDDFv,
-    (void *)&vfunc_100__9TObjEneDDFv, (void *)&vfunc_101__9TObjEneDDFPUc, (void *)&vfunc_102__9TObjEneDDFv, (void *)&vfunc_103__9TObjEneDDFPUc,
-    (void *)&vfunc_104__12TObjEneDD_STFf, (void *)&vfunc_83__13TObjEneMorfosFv, (void *)&vfunc_106__13TObjEneMorfosFv,
-};
 #define __vt__13TObjEneMorfos ((s32 *)__vt__13TObjEneMorfos)
 extern "C" {
 
@@ -1040,11 +998,7 @@ void TObjEneMorfos__sub_803350AC(void) {
 }
 
 void *TObjEneMorfos::create() {
-    void *o = TObject::operator new(0x4D8);
-    if (o != NULL) {
-        o = TObjEneMorfos__ct(o, tl_04, this);
-    }
-    return o;
+    return new TObjEneMorfos((TObject *)tl_04, this);
 }
 
 void TObjEneMorfos::unload_static_data() {
@@ -1054,18 +1008,12 @@ void TObjEneMorfos::unload_static_data() {
         (*(u32 *)&TObjEneMorfos__instance) = 0U;
     }
 }
-void *TObjEneMorfos__ct(void *ene_morfos, void *arg1, void *set_data) {
-    __ct__12TObjEneDD_STFP7TObject(ene_morfos);
-    *(s32 **)((s8 *)ene_morfos + 0x18) = __vt__13TObjEneMorfos;
-    __ct__13TUnk_80490470Fv(((char *)ene_morfos + 1004));
-    __ct__13TUnk_80494938Fv(((char *)ene_morfos + 1032));
-    __construct_array((void *)((char *)ene_morfos + 1060), __ct__15RenderFadeStateFv, __dt__15RenderFadeStateFv, 28, 4);
-    ((TObjEneMorfos *)ene_morfos)->m_name = morfos_class_name;
-    ((TObjEneDD *)ene_morfos)->invoke_initialization_hook(set_data);
-    ((TObjEneMorfos *)ene_morfos)->init_target_offsets();
-    ((TObjEneMorfos *)ene_morfos)->init_instance();
-    *(u32 *)((s8 *)ene_morfos + 0x494) = 0;
-    return ene_morfos;
+TObjEneMorfos::TObjEneMorfos(TObject *parent, void *set_data) : TObjEneDD_ST(parent) {
+    m_name = morfos_class_name;
+    invoke_initialization_hook(set_data);
+    init_target_offsets();
+    init_instance();
+    m_494 = NULL;
 }
 void TObjEneMorfos::init_instance() {
     s32 i;
@@ -1116,28 +1064,18 @@ void TObjEneMorfos::init_instance() {
     ((VObj_80334D74 *)this)->m85(this->mode, 4);
 }
 
-u8 *__dt__13TObjEneMorfosFv(u8 *object, s16 arg1) {
-    if (object != NULL) {
-        *(s32 **)((s8 *)object + 0x18) = ((s32 *)__vt__13TObjEneMorfos);
-        if ((u32) *(u32 *)((s8 *)object + 0x494) != 0U) {
-            ((TObject *)(*(void **)((s8 *)object + 0x494)))->queue_destruction();
-            *(u32 *)((s8 *)object + 0x494) = 0U;
-        }
-        free_collision_body_parts(object);
-        __destroy_arr(object + 0x424, &__dt__15RenderFadeStateFv, 0x1C, 4);
-        __dt__13TUnk_80494938Fv((object + 0x408), -1);
-        __dt__13TUnk_80490470Fv((object + 0x3EC), -1);
-        __dt__12TObjEneDD_STFv((object), 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(object);
-        }
+TObjEneMorfos::~TObjEneMorfos() {
+    if (m_494 != NULL) {
+        m_494->queue_destruction();
+        m_494 = NULL;
     }
-    return object;
+    free_collision_body_parts(this);
 }
 
-void run_task__13TObjEneMorfosFv(u8 *ene_morfos) {
+#define ene_morfos ((u8 *)this)
+void TObjEneMorfos::run_task() {
     if (TObjPlayer::check_demo_mode() != 0) {
-        ((TObjEneMorfos *)(ene_morfos))->vfunc_106();
+        ((TObjEneMorfos *)(ene_morfos))->vfunc_105();
         return;
     }
     if (((TObjEneMorfos *)(ene_morfos))->vfunc_83() != 4) {
@@ -1156,12 +1094,15 @@ void run_task__13TObjEneMorfosFv(u8 *ene_morfos) {
     ((TObjEneMorfos *)(ene_morfos))->vfunc_100();
     ((TObjEneMorfos *)ene_morfos)->update_ground_probe();
 }
+#undef ene_morfos
 
 void TObjEneMorfos::vfunc_28() {  }
 
 void TObjEneMorfos::vfunc_63() { if (this->mode != 11) { transition_enemy_state((s32)((void*)11)); } }
 
-f32 TObjEneMorfos__vt20(Obj_80334A4C *arg0, Obj_80334A4C *att, f32 scale) {
+#define arg0 ((Obj_80334A4C *)this)
+#define att ((Obj_80334A4C *)attacker)
+f32 TObjEneMorfos::receive_physical_attack(void *attacker, f32 scale) {
     Vec v;
     f32 ret = 0.0f;
     s32 d;
@@ -1174,8 +1115,8 @@ f32 TObjEneMorfos__vt20(Obj_80334A4C *arg0, Obj_80334A4C *att, f32 scale) {
     }
     if (arg0->f3C0 & 0x10) {
         if (d < 0x4000) {
-            spawn_particle_effect(arg0->snd, 0x214);
-            spawn_particle_effect(arg0->snd, 0x21A);
+            spawn_particle_effect(&m_498, 0x214);
+            spawn_particle_effect(&m_498, 0x21A);
         } else {
             arg0->f3C0 &= ~0x10;
             arg0->f3C0 |= 0x20;
@@ -1186,6 +1127,8 @@ f32 TObjEneMorfos__vt20(Obj_80334A4C *arg0, Obj_80334A4C *att, f32 scale) {
     }
     return ret;
 }
+#undef arg0
+#undef att
 
 void TObjEneMorfos::vfunc_62() {
     Obj_8033496C *arg0 = (Obj_8033496C *)this;
@@ -1344,7 +1287,8 @@ s32 TObjEneMorfos__sub_803344F0(void *arg0) {
     return o->m97() ? 1 : 0;
 }
 
-void TObjEneMorfos__vt85(u8 *ene_morfos, u32 arg1, s32 ev) {
+#define ene_morfos ((u8 *)this)
+void TObjEneMorfos::dispatch_action(u32 arg1, s32 ev) {
     switch (arg1) {
     case 0: ((TObjEneMorfos *)ene_morfos)->handle_event_transition(ev); break;
     case 1: TObjEneMorfos__sub_803342B8(ene_morfos, ev); break;
@@ -1360,6 +1304,7 @@ void TObjEneMorfos__vt85(u8 *ene_morfos, u32 arg1, s32 ev) {
     case 11: ((TObjEneMorfos *)ene_morfos)->state_death(ev); break;
     }
 }
+#undef ene_morfos
 
 void TObjEneMorfos::handle_event_transition(s32 ev) {
     switch (ev) {
@@ -2014,7 +1959,7 @@ void TObjEneMorfos::state_death(s32 arg1) {
             if ((((TObjEneDD *)arg0)->get_flag_b4() != 0) && (temp_r30 != 0)) {
                 fn_800D911C((Vec *)(arg0 + 0x38));
                 play_sound_effect(0x4003A830, (u32)(arg0 + 0x38), 0, 0);
-                TObjPlayer__sub_800A04F0((u8 *)&this->m_408);
+                TObjPlayer__sub_800A04F0((u8 *)&this->m_3ec);
                 *(s32 *)((s8 *)arg0 + 0x3C0) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C0) | 2);
                 this->m_4b4 = 1;
                 return;
@@ -2095,7 +2040,8 @@ void TObjEneMorfos::render_part(s32 idx, s32 mode) {
 
 // inferred name: the draw_ground_shadow scale in render.
 static const Vec morfos_render_shadow_scale = {2.0f, 1.0f, 2.0f};
-void render__13TObjEneMorfosFv(u8 *ene_morfos) {
+#define ene_morfos ((u8 *)this)
+void TObjEneMorfos::render() {
     s32 cam;
     s32 vis;
     if (TObjPlayer::check_demo_mode() != 0) {
@@ -2132,6 +2078,7 @@ void render__13TObjEneMorfosFv(u8 *ene_morfos) {
         model_render_flags = saved_model_render_flags;
     }
 }
+#undef ene_morfos
 s32 TObjEneMorfos::render_model_if_visible() {
     if ((s32)main_task.get_task_flags() & 0x20) {
         if (push_reflection_matrix((Vec *)(((u8 *)this) + 0x3C8)) != 0) {
@@ -2230,7 +2177,7 @@ void TObjEneMorfos::update_ground_probe() {
     }
 }
 
-s32 TObjEneMorfos::vfunc_83() { if (get_target_info() != 0) { this->init_target_offsets(); } }
+s32 TObjEneMorfos::vfunc_105() { if (get_target_info() != 0) { this->init_target_offsets(); } }
 
 // inferred name: the draw_ground_shadow scale in vfunc_106.
 static const Vec morfos_vfunc_106_shadow_scale = {2.0f, 1.0f, 2.0f};

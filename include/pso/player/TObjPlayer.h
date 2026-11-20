@@ -278,7 +278,6 @@ struct TObjPlayer : public TObjChara {
     void render_shadow();
     void set_hidden_flag();
     void apply_fall_damage_flag();
-    static void *create_instance(void *arg0);
     static void cleanup_effects();
     int is_flag_set_388_bit26();
     void clear_counter();

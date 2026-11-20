@@ -10,6 +10,7 @@
 #include "pso/enemy/beast/TObjEneBeast.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/object/TObjControl.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/unk/text_803D853C.h"
 extern "C" void render__12TObjEneBeastFv();
@@ -365,19 +366,12 @@ struct Mot_8009241C { u8 pad0[4]; s32 f4; };
 struct Data_8009241C { u8 pad0[0x42C]; Mdl_8009241C *f42c; Mot_8009241C *f430; };
 struct Ids_8009241C { s16 id[3]; };
 
-struct O_80092724 { u8 pad0[0x18]; void *vptr; u8 pad1c[0x38c]; void *objs[2]; };
 
 extern "C" {
-void *__dt__13TUnk_80493450Fv(void *arg0, s16 arg1);
 void free_collision_body_parts(void *);
-void __dl__7TObjectFPv(void *);
-void __destroy_arr(void *, void *, int, int);
-extern u8 __dt__15RenderFadeStateFv[];
-O_80092724 *TObjPlayer__sub_80092724(O_80092724 *arg0, s16 arg1);
 u8 *load_resource_from_descriptor(void *, int, void *, int, int, int);
 s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
 void free_bin_model_request(void*, int);
-void *__ct__11TObjControlFP7TObject(void *, void *);
 
 extern void *tl_04;
 
@@ -522,47 +516,10 @@ void *beast_collision_body_table[33] = {
     (void *)0x8003, (void *)0x0, (void *)0x0, (void *)0x0,
     (void *)0x0,
 };
-void *__vt__12TObjEneBeast[103] = {
-    (void *)0x0, (void *)0x0, (void *)&TObjPlayer__sub_80092724, (void *)&run_task__13TUnk_80493450Fv,
-    (void *)&render__12TObjEneBeastFv, (void *)&render_shadows__9TObjEnemyFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
-    (void *)&reset_motion_fields__9TObjCharaFv, (void *)&get_center__9TObjCharaFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
-    (void *)&get_name__9TObjEnemyFv, (void *)&interact__14TObjCollidableFl, (void *)&add_actor_exp__9TObjCharaFl, (void *)&consume_timer_field__9TObjCharaFl,
-    (void *)&get_actor_level_index__9TObjCharaFv, (void *)&update_actor_ground_y__9TObjCharaFv, (void *)&vfunc_18__9TObjCharaFPUc, (void *)&is_actor_cadence_frame__9TObjCharaFl,
-    (void *)&select_melee_contact_body__9TObjCharaFPvf, (void *)&calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf, (void *)&receive_physical_attack__9TObjCharaFPvf, (void *)&receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll,
-    (void *)&receive_weapon_special_attack__9TObjCharaFPvPv, (void *)&apply_knockback_from_attacker__9TObjCharaFPUcf, (void *)&try_start_action__9TObjCharaFll, (void *)&roll_physical_accuracy__9TObjCharaFPvlf,
-    (void *)&vfunc_28__13TUnk_80493450Fv, (void *)&vfunc_29__9TObjCharaFv, (void *)&is_target_in_attack_range__9TObjCharaFv, (void *)&test_flag_256__13TUnk_80493450Fv,
-    (void *)&test_flag30_512__9TObjCharaFv, (void *)&has_flag_0x800__9TObjCharaFv, (void *)&test_flag_1000__9TObjCharaFv, (void *)&update_poison_status__9TObjCharaFv,
-    (void *)&update_action_hold_status__13TUnk_80493450Fv, (void *)&vfunc_37__9TObjCharaFv, (void *)&update_flag30_timer__9TObjCharaFv, (void *)&update_movement_status__13TUnk_80493450Fv,
-    (void *)&update_shock_clock__9TObjCharaFv, (void *)&update_attack_stat_status__9TObjCharaFv, (void *)&update_defense_stat_status__9TObjCharaFv, (void *)&vfunc_43__9TObjCharaFv,
-    (void *)&apply_poison_status__9TObjCharaFv, (void *)&apply_paralysis__9TObjCharaFv, (void *)&apply_slow_status__9TObjCharaFv, (void *)&apply_confusion_status__9TObjCharaFv,
-    (void *)&apply_movement_ailment__9TObjCharaFl, (void *)&apply_shock_status__9TObjCharaFv, (void *)&clear_harmful_statuses__9TObjCharaFv, (void *)&apply_attack_stat_status__9TObjCharaFPv,
-    (void *)&apply_defense_stat_status__9TObjCharaFPv, (void *)&cure_poison_ailment__9TObjCharaFv, (void *)&cure_paralysis__9TObjCharaFv, (void *)&clear_all_status_effects__9TObjCharaFv,
-    (void *)&apply_action_hold_status__9TObjCharaFf, (void *)&apply_anti_technique__9TObjCharaFl, (void *)&vfunc_58__13TUnk_80493450Fv, (void *)&vfunc_59__13TUnk_80493450Fv,
-    (void *)&vfunc_60__13TUnk_80493450Fv, (void *)&vfunc_61__13TUnk_80493450Fv, (void *)&vfunc_62__13TUnk_80493450Fv, (void *)&vfunc_63__13TUnk_80493450Fv,
-    (void *)&reset_pose__9TObjCharaFv, (void *)&get_anim_node_position__9TObjCharaFlP3Vec, (void *)&vfunc_66__9TObjCharaFv, (void *)&vfunc_67__9TObjCharaFf,
-    (void *)&get_pos__9TObjCharaFl, (void *)&apply_switch_attack__9TObjCharaFv, (void *)&enemy_spawn_jellen_effect__9TObjCharaFv, (void *)&trigger_switch_attack__9TObjCharaFv,
-    (void *)&enemy_spawn_zalure_effect__9TObjCharaFv, (void *)&recalc_stats__9TObjCharaFv, (void *)&vfunc_74__9TObjEnemyFl, (void *)&vfunc_75__9TObjCharaFf,
-    (void *)&vfunc_76__9TObjCharaFf, (void *)&vfunc_77__9TObjCharaFv, (void *)&vfunc_78__9TObjCharaFl, (void *)&vfunc_79__9TObjEnemyFPl,
-    (void *)&apply_hit_message_flags__9TObjEnemyFPv, (void *)&apply_set_data__9TObjEnemyFPv, (void *)&clear_lobby_object_state__9TObjEnemyFv, (void *)&vfunc_83__12TObjEneBeastFv,
-    (void *)&beast_idle_update__13TUnk_80493450Fv, (void *)&update_turn_toward_target__13TUnk_80493450Fv, (void *)&beast_update_approach__13TUnk_80493450Fv, (void *)&beast_update_group_chase__13TUnk_80493450Fv,
-    (void *)&beast_update_attack__13TUnk_80493450Fv, (void *)&vfunc_89__13TUnk_80493450Fv, (void *)&beast_update_hurt__13TUnk_80493450Fv, (void *)&beast_update_dead__13TUnk_80493450Fv,
-    (void *)&beast_retire_corpse__13TUnk_80493450Fv, (void *)&vfunc_93__12TObjEneBeastFv, (void *)&vfunc_94__12TObjEneBeastFv, (void *)&vfunc_95__12TObjEneBeastFv,
-    (void *)&vfunc_96__12TObjEneBeastFv, (void *)&vfunc_97__12TObjEneBeastFv, (void *)&vfunc_98__12TObjEneBeastFv, (void *)&vfunc_99__12TObjEneBeastFv,
-    (void *)&vfunc_100__13TUnk_80493450Fv, (void *)&vfunc_101__12TObjEneBeastFv, (void *)&request_stand_action__13TUnk_80493450Fv,
-};
 
 void *TObjEneBeast::create(void *arg0) {
-    void *o;
-    void *o2;
-    o = TObject::operator new(0x20);
-    if (o != NULL) {
-        o = __ct__11TObjControlFP7TObject(o, tl_04);
-    }
-    o2 = TObject::operator new(0x420);
-    if (o2 != NULL) {
-        o2 = TObjEneBeast__ct(o2, o, arg0);
-    }
-    return o2;
+    TObjControl *control = new TObjControl((TObject *)tl_04);
+    return new TObjEneBeast(control, arg0);
 }
 
 u32 ene_beast_boss_id_buffer;
@@ -666,72 +623,20 @@ extern "C" {
 // otherwise send it to .data.
 __declspec(section ".rodata") const char beast_a_bml_filename[25] = "bm_ene_re8_b_beast_a.bml"; // inferred: from the string
 
-O_80092724 *TObjPlayer__sub_80092724(O_80092724 *arg0, s16 arg1) {
-    s32 i;
-    if (arg0 != NULL) {
-        arg0->vptr = __vt__12TObjEneBeast;
-        for (i = 0; i < 2; i++) {
-            if (arg0->objs[i] != NULL) {
-                ((TObject *)arg0->objs[i])->queue_destruction();
-                arg0->objs[i] = NULL;
-            }
-        }
-        ((TUnk_80493450 *)arg0)->unlink_enemy_group_relations();
-        free_collision_body_parts(arg0);
-        __destroy_arr((u8 *)arg0 + 0x3B0, __dt__15RenderFadeStateFv, 0x1C, 4);
-        __dt__13TUnk_80493450Fv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
-#define F(o, T, off) (*(T *)(o + (off)))
-struct VBase_800927DC { char pad[0x18]; };
-struct VObj_800927DC : VBase_800927DC {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20(); virtual void m21(); virtual void m22(); virtual void m23();
-    virtual void m24(); virtual void m25(); virtual void m26(); virtual void m27();
-    virtual void m28(); virtual void m29(); virtual void m30(); virtual void m31();
-    virtual void m32(); virtual void m33(); virtual void m34(); virtual void m35();
-    virtual void m36(); virtual void m37(); virtual void m38(); virtual void m39();
-    virtual void m40(); virtual void m41(); virtual void m42(); virtual void m43();
-    virtual void m44(); virtual void m45(); virtual void m46(); virtual void m47();
-    virtual void m48(); virtual void m49(); virtual void m50(); virtual void m51();
-    virtual void m52(); virtual void m53(); virtual void m54(); virtual void m55();
-    virtual void m56(); virtual void m57(); virtual void m58(); virtual void m59();
-    virtual void m60(); virtual void m61(); virtual void m62(); virtual void m63();
-    virtual void m64(); virtual void m65(); virtual void m66(); virtual void m67();
-    virtual void m68(); virtual void m69(); virtual void m70(); virtual void m71();
-    virtual void m72(); virtual void m73(); virtual void m74(); virtual void m75();
-    virtual void m76(); virtual void m77(); virtual void m78();
-    virtual void m79(void *);
-    virtual void m80();
-};
 
-void __ct__13TUnk_80493450FP7TObject(void *, void *);
-// init_collision_body_parts: declared once above (s32 return, int arg)
-void __construct_array(void *, void *, void *, int, int);
-extern u8 __ct__15RenderFadeStateFv[];
+#pragma defer_codegen on
+#define F(o, T, off) (*(T *)(o + (off)))
 struct Rec2C_800927DC { u8 b[0x2C]; };
 struct Rec1C_800927DC { u8 b[0x1C]; };
-struct Elem_800927DC { u8 b[0x1C]; };
-struct Obj_800927DC { u8 pad[0x3B0]; Elem_800927DC arr[4]; };
 
-#define arg0 ((u8 *)arg0v)
+#define arg0 ((u8 *)this)
 
-void *TObjEneBeast__ct(void *arg0v, void *arg1, void *arg2) {
+TObjEneBeast::TObjEneBeast(TObject *parent, void *set_data) : TUnk_80493450(parent) {
     s32 i;
 
-    __ct__13TUnk_80493450FP7TObject(arg0, arg1);
-    F(arg0, u8 *, 0x18) = (u8 *)__vt__12TObjEneBeast;
-    __construct_array(arg0 + 0x3B0, __ct__15RenderFadeStateFv, __dt__15RenderFadeStateFv, 0x1C, 4);
     F(arg0, const char *, 0) = beast_class_name;
-    ((VObj_800927DC *)arg0)->m79(arg2);
+    apply_set_data(set_data);
     ((TObjPlayer *)arg0)->init_position_vectors();
     F(arg0, s32, 0x334) = F(arg0, s32, 0x368);
     ((TObjEneBeast *)arg0)->select_subtype();
@@ -760,19 +665,29 @@ void *TObjEneBeast__ct(void *arg0v, void *arg1, void *arg2) {
     ((TObjChara *)arg0)->add_flags_2e4(1);
     obj_setFlags30(arg0, 0x40000);
     F(arg0, f32, 0x380) = 0.0f;
-    F(arg0, void *, 0x3A8) = TUnk_80494968::create((u32)0xA0303030, (u32)0xFF303030);
-    F(arg0, void *, 0x3AC) = TUnk_80494968::create((u32)0xA0303030, (u32)0xFF303030);
+    m_3a8[0] = (TObject *)TUnk_80494968::create((u32)0xA0303030, (u32)0xFF303030);
+    m_3a8[1] = (TObject *)TUnk_80494968::create((u32)0xA0303030, (u32)0xFF303030);
     F(arg0, f32, 0x398) = ((f32 **)boss4_rock_shared_handler_ids)[F(arg0, s32, 0x334)][0];
     F(arg0, f32, 0x3A0) = ((f32 **)boss4_rock_shared_handler_ids)[F(arg0, s32, 0x334)][1];
     F(arg0, f32, 0x39C) = ((f32 **)boss4_rock_shared_handler_ids)[F(arg0, s32, 0x334)][2];
     F(arg0, f32, 0x3A4) = ((f32 **)boss4_rock_shared_handler_ids)[F(arg0, s32, 0x334)][3];
     F(arg0, s32, 0x390) = 1;
     for (i = 0; i < 4; i++) {
-        ((RenderFadeState *)(&((Obj_800927DC *)arg0)->arr[i]))->activate_and_dispatch();
+        m_3b0[i].activate_and_dispatch();
     }
-    ((VObj_800927DC *)arg0)->m80();
-    return arg0;
-}
+    clear_lobby_object_state();
 }
 #undef arg0
 #undef F
+
+TObjEneBeast::~TObjEneBeast() {
+    s32 i;
+    for (i = 0; i < 2; i++) {
+        if (m_3a8[i] != NULL) {
+            m_3a8[i]->queue_destruction();
+            m_3a8[i] = NULL;
+        }
+    }
+    unlink_enemy_group_relations();
+    free_collision_body_parts(this);
+}

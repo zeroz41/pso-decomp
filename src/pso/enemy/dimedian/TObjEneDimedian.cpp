@@ -13,6 +13,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/dimedian/TObjEneDimedian.h"
+#include "pso/object/TObjControl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
@@ -135,7 +136,6 @@ extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
 
-void draw_actor_model__10TObjPlayerFPv(Player_800A7CA4 *self);
 struct A7B00Base_800a7b00_800A7764 { char pad[0x14]; };
 struct A7B00Obj_800a7b00_800A7764 : A7B00Base_800a7b00_800A7764 {
     virtual void m0();
@@ -303,7 +303,8 @@ void TObjEneDimedian::vfunc_83() {
         break;
     }
 }
-void draw_actor_model__10TObjPlayerFPv(Player_800A7CA4 *self) {
+#define self ((Player_800A7CA4 *)this)
+void TObjEneDimedian::render() {
     s16 saved;
     s32 vis;
     s32 fading;
@@ -348,11 +349,11 @@ void draw_actor_model__10TObjPlayerFPv(Player_800A7CA4 *self) {
         }
         TObjPlayer::toggle_particle_effect();
         if (self->f390 == 1) {
-            if (self->sub.active() != 0) {
+            if (m_3a8.has_visible_opacity() != 0) {
                 saved_model_render_flags = model_render_flags;
                 saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
                 saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
-                self->sub.begin();
+                m_3a8.set_flags_and_apply_damage_color();
                 d = 1;
                 if (((TObject *)self)->defer_render() != 0) {
                     d = 0;
@@ -360,7 +361,7 @@ void draw_actor_model__10TObjPlayerFPv(Player_800A7CA4 *self) {
                 if (d != 0) {
                     ((TObjMotion *)self)->draw();
                 }
-                self->sub.end();
+                m_3a8.clear_flag_and_notify();
                 chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
                 chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
                 model_render_flags = saved_model_render_flags;
@@ -409,6 +410,7 @@ void draw_actor_model__10TObjPlayerFPv(Player_800A7CA4 *self) {
         break;
     }
 }
+#undef self
 
 }
 
@@ -435,67 +437,28 @@ extern "C" const u8 dimedian_walk_motion_filename[28] = "walk_bm1_s_wala_body.nj
 extern "C" const u8 dimedian_bml_filename[24] = "bm_ene_df3_dimedian.bml";
 extern "C" const char dimedian_class_name[16] = "TObjEneDimedian";
 
-typedef struct O_800A846C {
-    u8 pad0[0x18];
-    void *vptr;
-    u8 pad1c[0x3C4 - 0x1C];
-    void *objs[2];
-} O_800A846C;
 
-struct VBase_18_c99286 { char pad[0x18]; };
-struct VObj_18_c99286 : VBase_18_c99286 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); virtual void m4();
-    virtual void m5(); virtual void m6(); virtual void m7(); virtual void m8(); virtual void m9();
-    virtual void m10(); virtual void m11(); virtual void m12(); virtual void m13(); virtual void m14();
-    virtual void m15(); virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20(); virtual void m21(); virtual void m22(); virtual void m23(); virtual void m24();
-    virtual void m25(); virtual void m26(); virtual void m27(); virtual void m28(); virtual void m29();
-    virtual void m30(); virtual void m31(); virtual void m32(); virtual void m33(); virtual void m34();
-    virtual void m35(); virtual void m36(); virtual void m37(); virtual void m38(); virtual void m39();
-    virtual void m40(); virtual void m41(); virtual void m42(); virtual void m43(); virtual void m44();
-    virtual void m45(); virtual void m46(); virtual void m47(); virtual void m48(); virtual void m49();
-    virtual void m50(); virtual void m51(); virtual void m52(); virtual void m53(); virtual void m54();
-    virtual void m55(); virtual void m56(); virtual void m57(); virtual void m58(); virtual void m59();
-    virtual void m60(); virtual void m61(); virtual void m62(); virtual void m63(); virtual void m64();
-    virtual void m65(); virtual void m66(); virtual void m67(); virtual void m68(); virtual void m69();
-    virtual void m70(); virtual void m71(); virtual void m72(); virtual void m73(); virtual void m74();
-    virtual void m75(); virtual void m76(); virtual void m77(); virtual void m78();
-    virtual s32 m79(s32);
-    virtual s32 m80();
-};
 
 struct Pair_800A8118 { s32 a; s32 b; };
 struct Bodies_800A8118 { s32 a; s32 b; s32 model; s32 textures; };
 struct Res_800A8118 { u8 pad[0x42C]; Bodies_800A8118 *bodies; Pair_800A8118 *motions; };
 struct Act_800A8118 { s32 a; s32 idx; f32 c; s32 d; };
 struct Part_800A8118 { u8 pad[0xC]; f32 radius; u8 pad10[0x1C]; };
-struct Sub_800A8530 { u8 b[0x1C]; };
-struct Self_800A8530 { u8 pad[0x3CC]; Sub_800A8530 subs[4]; };
 
 extern "C" {
 s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern const u8 lbl_8043AAA4[26];
 
-void __ct__13TUnk_80493450FP7TObject(void *);
 s32 create__13TUnk_80494968FUlUl(s32, s32);
 }
 int initialize_enemy_photon_effect(void *p);
 extern "C" {
 void init_collision_body_parts(void *, void *, s32);
-void __construct_array(void *, void *, void *, int, int);
-void __ct__15RenderFadeStateFv();
 extern const char *TObjEneDimedian_name_ref;
 
-void __dt__13TUnk_80493450Fv(void *, int);
 void free_collision_body_parts(void *);
-void __dl__7TObjectFPv(void *);
-void __destroy_arr(void *, void *, int, int);
-void __dt__13TUnk_80490470Fv(void *, int);
-extern u8 __dt__15RenderFadeStateFv[];
-O_800A846C *TObjPlayer__sub_800A846C(O_800A846C *arg0, s16 arg1);
 void free_bin_model_request(void*, int);
-void *__ct__11TObjControlFP7TObject(void *, void *);
 
 extern void *tl_04;
 
@@ -640,48 +603,10 @@ void *dimedian_collision_body_table[33] = {
     (void *)0x8003, (void *)0x0, (void *)0x0, (void *)0x0,
     (void *)0x0,
 };
-void *__vt__15TObjEneDimedian[103] = {
-    (void *)0x0, (void *)0x0, (void *)&TObjPlayer__sub_800A846C, (void *)&run_task__13TUnk_80493450Fv,
-    (void *)&draw_actor_model__10TObjPlayerFPv, (void *)&render_shadows__9TObjEnemyFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
-    (void *)&reset_motion_fields__9TObjCharaFv, (void *)&get_center__9TObjCharaFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
-    (void *)&get_name__9TObjEnemyFv, (void *)&interact__14TObjCollidableFl, (void *)&add_actor_exp__9TObjCharaFl, (void *)&consume_timer_field__9TObjCharaFl,
-    (void *)&get_actor_level_index__9TObjCharaFv, (void *)&update_actor_ground_y__9TObjCharaFv, (void *)&vfunc_18__9TObjCharaFPUc, (void *)&is_actor_cadence_frame__9TObjCharaFl,
-    (void *)&select_melee_contact_body__9TObjCharaFPvf, (void *)&calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf, (void *)&receive_physical_attack__9TObjCharaFPvf, (void *)&receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll,
-    (void *)&receive_weapon_special_attack__9TObjCharaFPvPv, (void *)&apply_knockback_from_attacker__9TObjCharaFPUcf, (void *)&try_start_action__9TObjCharaFll, (void *)&roll_physical_accuracy__9TObjCharaFPvlf,
-    (void *)&vfunc_28__13TUnk_80493450Fv, (void *)&vfunc_29__9TObjCharaFv, (void *)&is_target_in_attack_range__9TObjCharaFv, (void *)&test_flag_256__13TUnk_80493450Fv,
-    (void *)&test_flag30_512__9TObjCharaFv, (void *)&has_flag_0x800__9TObjCharaFv, (void *)&test_flag_1000__9TObjCharaFv, (void *)&update_poison_status__9TObjCharaFv,
-    (void *)&update_action_hold_status__13TUnk_80493450Fv, (void *)&vfunc_37__9TObjCharaFv, (void *)&update_flag30_timer__9TObjCharaFv, (void *)&update_movement_status__13TUnk_80493450Fv,
-    (void *)&update_shock_clock__9TObjCharaFv, (void *)&update_attack_stat_status__9TObjCharaFv, (void *)&update_defense_stat_status__9TObjCharaFv, (void *)&vfunc_43__9TObjCharaFv,
-    (void *)&apply_poison_status__9TObjCharaFv, (void *)&apply_paralysis__9TObjCharaFv, (void *)&apply_slow_status__9TObjCharaFv, (void *)&apply_confusion_status__9TObjCharaFv,
-    (void *)&apply_movement_ailment__9TObjCharaFl, (void *)&apply_shock_status__9TObjCharaFv, (void *)&clear_harmful_statuses__9TObjCharaFv, (void *)&apply_attack_stat_status__9TObjCharaFPv,
-    (void *)&apply_defense_stat_status__9TObjCharaFPv, (void *)&cure_poison_ailment__9TObjCharaFv, (void *)&cure_paralysis__9TObjCharaFv, (void *)&clear_all_status_effects__9TObjCharaFv,
-    (void *)&apply_action_hold_status__9TObjCharaFf, (void *)&apply_anti_technique__9TObjCharaFl, (void *)&vfunc_58__13TUnk_80493450Fv, (void *)&vfunc_59__13TUnk_80493450Fv,
-    (void *)&vfunc_60__13TUnk_80493450Fv, (void *)&vfunc_61__13TUnk_80493450Fv, (void *)&vfunc_62__13TUnk_80493450Fv, (void *)&vfunc_63__13TUnk_80493450Fv,
-    (void *)&reset_pose__9TObjCharaFv, (void *)&get_anim_node_position__9TObjCharaFlP3Vec, (void *)&vfunc_66__9TObjCharaFv, (void *)&vfunc_67__9TObjCharaFf,
-    (void *)&get_pos__9TObjCharaFl, (void *)&apply_switch_attack__9TObjCharaFv, (void *)&enemy_spawn_jellen_effect__9TObjCharaFv, (void *)&trigger_switch_attack__9TObjCharaFv,
-    (void *)&enemy_spawn_zalure_effect__9TObjCharaFv, (void *)&recalc_stats__9TObjCharaFv, (void *)&vfunc_74__9TObjEnemyFl, (void *)&vfunc_75__9TObjCharaFf,
-    (void *)&vfunc_76__9TObjCharaFf, (void *)&vfunc_77__9TObjCharaFv, (void *)&vfunc_78__9TObjCharaFl, (void *)&vfunc_79__9TObjEnemyFPl,
-    (void *)&apply_hit_message_flags__9TObjEnemyFPv, (void *)&apply_set_data__9TObjEnemyFPv, (void *)&clear_lobby_object_state__9TObjEnemyFv, (void *)&vfunc_83__15TObjEneDimedianFv,
-    (void *)&beast_idle_update__13TUnk_80493450Fv, (void *)&update_turn_toward_target__13TUnk_80493450Fv, (void *)&beast_update_approach__13TUnk_80493450Fv, (void *)&beast_update_group_chase__13TUnk_80493450Fv,
-    (void *)&beast_update_attack__13TUnk_80493450Fv, (void *)&vfunc_89__13TUnk_80493450Fv, (void *)&beast_update_hurt__13TUnk_80493450Fv, (void *)&beast_update_dead__13TUnk_80493450Fv,
-    (void *)&beast_retire_corpse__15TObjEneDimedianFv, (void *)&vfunc_93__15TObjEneDimedianFv, (void *)&vfunc_94__15TObjEneDimedianFv, (void *)&vfunc_95__15TObjEneDimedianFv,
-    (void *)&vfunc_96__15TObjEneDimedianFv, (void *)&vfunc_97__15TObjEneDimedianFv, (void *)&vfunc_98__15TObjEneDimedianFv, (void *)&vfunc_99__15TObjEneDimedianFv,
-    (void *)&vfunc_100__13TUnk_80493450Fv, (void *)&vfunc_101__15TObjEneDimedianFv, (void *)&request_stand_action__13TUnk_80493450Fv,
-};
-#define __vt__15TObjEneDimedian ((u8 *)__vt__15TObjEneDimedian)
 
 void *TObjEneDimedian::create(void *arg2_) {
-    void *o;
-    void *o2;
-    o = TObject::operator new(0x20);
-    if (o != NULL) {
-        o = __ct__11TObjControlFP7TObject(o, tl_04);
-    }
-    o2 = TObject::operator new(0x43C);
-    if (o2 != NULL) {
-        o2 = TObjEneDimedian__ct(o2, o, arg2_);
-    }
-    return o2;
+    TObjControl *control = new TObjControl((TObject *)tl_04);
+    return new TObjEneDimedian(control, arg2_);
 }
 
 u32 dimedian_boss_object_buf;
@@ -787,44 +712,37 @@ extern "C" __declspec(section ".rodata") const u8 lbl_8043AAA4[26] = "bm_ene_df3
 #undef RES_800A8118
 #undef dimedian_action_table
 #undef dimedian_collision_body_table
+}
 
-O_800A846C *TObjPlayer__sub_800A846C(O_800A846C *arg0, s16 arg1) {
-    s32 i;
-    if (arg0 != NULL) {
-        arg0->vptr = __vt__15TObjEneDimedian;
-        for (i = 0; i < 2; i++) {
-            if (arg0->objs[i] != NULL) {
-                ((TObject *)arg0->objs[i])->queue_destruction();
-                arg0->objs[i] = NULL;
-            }
-        }
-        ((TUnk_80493450 *)arg0)->unlink_enemy_group_relations();
-        free_collision_body_parts(arg0);
-        __destroy_arr((u8 *)arg0 + 0x3CC, __dt__15RenderFadeStateFv, 0x1C, 4);
-        __dt__13TUnk_80490470Fv((u8 *)arg0 + 0x3A8, -1);
-        __dt__13TUnk_80493450Fv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
+extern "C" {
+s32 dimedian_resource_handles[3];
+s32 dimedian_last_draw_tick[3];
+
+const char *TObjEneDimedian_name_ref = dimedian_class_name;
+
+G_800A884C *dimedian_resource_ptr;
+s32 dimedian_type3_object;
+s32 lbl_805D5088;
+}
+
+#pragma defer_codegen on
+struct O_800A884C { u8 pad[0x24]; s32 x24; u8 pad2[0xc]; s32 x34; };
+
+void TObjEneDimedian::load_dimedian_param_entry(s32 i) {
+    O_800A884C *self = (O_800A884C *)this;
+    self->x34 = dimedian_resource_ptr->tbl[i].x8;
+    self->x24 = dimedian_resource_ptr->tbl[i].xc;
 }
 
 #define dimedian_action_table ((u8 *)dimedian_action_table)
 #define dimedian_movement_params ((u8 *)dimedian_movement_params)
 #define dimedian_collision_body_table ((u8 *)dimedian_collision_body_table)
-#define arg0 ((u8 *)arg0_)
-#define arg1 ((s32)arg1_)
-#define arg2 ((s32)arg2_)
-void *TObjEneDimedian__ct(void *arg0_, void *arg1_, void *arg2_) {
+#define arg0 ((u8 *)this)
+TObjEneDimedian::TObjEneDimedian(TObject *parent, void *set_data) : TUnk_80493450(parent) {
     s32 color;
     s32 i;
-    ((void (*)(void *, s32, s32))__ct__13TUnk_80493450FP7TObject)(arg0, arg1, arg2);
-    *(u8 **)((s8 *)arg0 + 0x18) = __vt__15TObjEneDimedian;
-    __ct__13TUnk_80490470Fv((arg0 + 0x3A8));
-    __construct_array(arg0 + 0x3CC, (void *)&__ct__15RenderFadeStateFv, (void *)&__dt__15RenderFadeStateFv, 0x1C, 4);
     *(const char **)((s8 *)arg0 + 0) = TObjEneDimedian_name_ref;
-    ((VObj_18_c99286 *)arg0)->m79(arg2);
+    apply_set_data(set_data);
     ((TObjPlayer *)arg0)->init_position_vectors();
     *(s32 *)((s8 *)arg0 + 0x334) = *(s32 *)((s8 *)arg0 + 0x368);
     ((TObjEneDimedian *)arg0)->sub_800A7B54();
@@ -879,40 +797,28 @@ void *TObjEneDimedian__ct(void *arg0_, void *arg1_, void *arg2_) {
             break;
         }
     }
-    *(s32 *)((s8 *)arg0 + 0x3C4) = create__13TUnk_80494968FUlUl(0xA0303030, color);
-    *(s32 *)((s8 *)arg0 + 0x3C8) = create__13TUnk_80494968FUlUl(0xA0303030, color);
+    m_3c4[0] = (TObject *)create__13TUnk_80494968FUlUl(0xA0303030, color);
+    m_3c4[1] = (TObject *)create__13TUnk_80494968FUlUl(0xA0303030, color);
     *(s32 *)((s8 *)arg0 + 0x390) = 1;
     *(f32 *)((s8 *)arg0 + 0x398) = ((f32 **)(*(s32 **)&dimedian_buffer_ptr))[*(s32 *)((s8 *)arg0 + 0x334)][0];
     *(f32 *)((s8 *)arg0 + 0x3A0) = ((f32 **)(*(s32 **)&dimedian_buffer_ptr))[*(s32 *)((s8 *)arg0 + 0x334)][1];
     *(f32 *)((s8 *)arg0 + 0x39C) = ((f32 **)(*(s32 **)&dimedian_buffer_ptr))[*(s32 *)((s8 *)arg0 + 0x334)][2];
     *(f32 *)((s8 *)arg0 + 0x3A4) = ((f32 **)(*(s32 **)&dimedian_buffer_ptr))[*(s32 *)((s8 *)arg0 + 0x334)][3];
     for (i = 0; i < 4; i++) {
-        ((RenderFadeState *)(&((Self_800A8530 *)arg0)->subs[i]))->activate_and_dispatch();
+        m_3cc[i].activate_and_dispatch();
     }
-    ((VObj_18_c99286 *)arg0)->m80();
-    return arg0;
-}
+    clear_lobby_object_state();
 }
 #undef arg0
-#undef arg1
-#undef arg2
 
-struct O_800A884C { u8 pad[0x24]; s32 x24; u8 pad2[0xc]; s32 x34; };
-
-
-void TObjEneDimedian::load_dimedian_param_entry(s32 i) {
-    O_800A884C *self = (O_800A884C *)this;
-    self->x34 = dimedian_resource_ptr->tbl[i].x8;
-    self->x24 = dimedian_resource_ptr->tbl[i].xc;
-}
-
-extern "C" {
-s32 dimedian_resource_handles[3];
-s32 dimedian_last_draw_tick[3];
-
-const char *TObjEneDimedian_name_ref = dimedian_class_name;
-
-G_800A884C *dimedian_resource_ptr;
-s32 dimedian_type3_object;
-s32 lbl_805D5088;
+TObjEneDimedian::~TObjEneDimedian() {
+    s32 i;
+    for (i = 0; i < 2; i++) {
+        if (m_3c4[i] != NULL) {
+            m_3c4[i]->queue_destruction();
+            m_3c4[i] = NULL;
+        }
+    }
+    unlink_enemy_group_relations();
+    free_collision_body_parts(this);
 }

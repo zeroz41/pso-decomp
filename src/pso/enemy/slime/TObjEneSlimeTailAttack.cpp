@@ -4,6 +4,7 @@
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/object/TObjControl.h"
 #include "pso/system/task/TObject.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/object/base/TObjMotion.h"
@@ -193,15 +194,10 @@ void TObjPlayer__sub_800E81A8(void);
 void render__22TObjEneSlimeTailAttackFv(u8 *arg0);
 void run_task__22TObjEneSlimeTailAttackFv(u8 *arg0);
 void * create__22TObjEneSlimeTailAttackFiiii(s32 arg1, s32 arg2, s32 arg3, s32 arg4);
-void * dt__22TObjEneSlimeTailAttackFPvs(void *arg0, s16 arg1);
-void *TObjEneSlimeTailAttack__ct(TObjEneSlimeTailAttack *, void *, s32, s32, s32);
 void run_task__21TObjEneSlimeWaterBombFv(Bomb_800E8D4C *arg0);
-void *TObjEneSlimeWaterBomb__ct(TObjEneSlimeWaterBomb *arg0, void *arg1, void *arg2);
 void fn_800E9238(s32 arg0);
 void set_display_mode__15TObjEneSlimeOneFPvi(void *arg0, s32 arg1);
 void set_random_timer__15TObjEneSlimeOneFPvii(void *arg0, s32 arg1, s32 arg2);
-u8 * TObjEneSlimeOne__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
-u8 * init__15TObjEneSlimeOneFPviii(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
 s16 check_player_field_7cc__15TObjEneSlimeOneFv();
 void draw_blob_shadow(s32 arg0);
 void * __ct__11TObjControlFP7TObject(void *, s32);
@@ -251,8 +247,6 @@ extern const char TObjEneSlimeOne__class_name_string[] = "TObjEneSlimeOne";
 extern const RecoveredGlobal_800EA678_lbl_8043D230 lbl_8043D230 = {0x40200000, {0x00, 0x00, 0x00, 0x00, 0x40, 0x20, 0x00, 0x00}};
 extern const RecoveredGlobal_800EA678_lbl_8043D23C lbl_8043D23C = {0x3F800000, {0x3F, 0x80, 0x00, 0x00, 0x3F, 0x80, 0x00, 0x00}};
 extern const char TObjEneSlimeWaterBomb__class_name_string[] = "TObjEneSlimeWaterBomb";
-extern s32 __vt__15TObjEneSlimeOne[];
-extern s32 __vt__21TObjEneSlimeWaterBomb[];
 RecoveredGlobal_lbl_80501010 lbl_80501010;
 void *slime_bml_resource;
 int lbl_805D52B4;
@@ -485,32 +479,8 @@ void *slime_tail_attack_zero_vec[3] = {
 void *slime_tail_attack_transform[3] = {
     (void *)0x0, (void *)0x0, (void *)0x0,
 };
-void *__vt__22TObjEneSlimeTailAttack[83] = {
-    (void *)0x0, (void *)0x0, (void *)&dt__22TObjEneSlimeTailAttackFPvs, (void *)&run_task__22TObjEneSlimeTailAttackFv,
-    (void *)&render__22TObjEneSlimeTailAttackFv, (void *)&render_shadows__9TObjEnemyFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
-    (void *)&reset_motion_fields__9TObjCharaFv, (void *)&get_center__9TObjCharaFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
-    (void *)&get_name__9TObjEnemyFv, (void *)&interact__14TObjCollidableFl, (void *)&add_actor_exp__9TObjCharaFl, (void *)&consume_timer_field__9TObjCharaFl,
-    (void *)&get_actor_level_index__9TObjCharaFv, (void *)&update_actor_ground_y__9TObjCharaFv, (void *)&vfunc_18__9TObjCharaFPUc, (void *)&is_actor_cadence_frame__9TObjCharaFl,
-    (void *)&select_melee_contact_body__9TObjCharaFPvf, (void *)&calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf, (void *)&receive_physical_attack__9TObjCharaFPvf, (void *)&receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll,
-    (void *)&receive_weapon_special_attack__9TObjCharaFPvPv, (void *)&apply_knockback_from_attacker__9TObjCharaFPUcf, (void *)&try_start_action__9TObjCharaFll, (void *)&roll_physical_accuracy__9TObjCharaFPvlf,
-    (void *)&vfunc_28__9TObjCharaFv, (void *)&vfunc_29__9TObjCharaFv, (void *)&is_target_in_attack_range__9TObjCharaFv, (void *)&test_flag_256__9TObjCharaFv,
-    (void *)&test_flag30_512__9TObjCharaFv, (void *)&has_flag_0x800__9TObjCharaFv, (void *)&test_flag_1000__9TObjCharaFv, (void *)&update_poison_status__9TObjCharaFv,
-    (void *)&update_action_hold_status__9TObjCharaFv, (void *)&vfunc_37__9TObjCharaFv, (void *)&update_flag30_timer__9TObjCharaFv, (void *)&update_movement_status__9TObjCharaFv,
-    (void *)&update_shock_clock__9TObjCharaFv, (void *)&update_attack_stat_status__9TObjCharaFv, (void *)&update_defense_stat_status__9TObjCharaFv, (void *)&vfunc_43__9TObjCharaFv,
-    (void *)&apply_poison_status__9TObjCharaFv, (void *)&apply_paralysis__9TObjCharaFv, (void *)&apply_slow_status__9TObjCharaFv, (void *)&apply_confusion_status__9TObjCharaFv,
-    (void *)&apply_movement_ailment__9TObjCharaFl, (void *)&apply_shock_status__9TObjCharaFv, (void *)&clear_harmful_statuses__9TObjCharaFv, (void *)&apply_attack_stat_status__9TObjCharaFPv,
-    (void *)&apply_defense_stat_status__9TObjCharaFPv, (void *)&cure_poison_ailment__9TObjCharaFv, (void *)&cure_paralysis__9TObjCharaFv, (void *)&clear_all_status_effects__9TObjCharaFv,
-    (void *)&apply_action_hold_status__9TObjCharaFf, (void *)&apply_anti_technique__9TObjCharaFl, (void *)&vfunc_58__9TObjCharaFv, (void *)&vfunc_59__9TObjCharaFv,
-    (void *)&vfunc_60__9TObjCharaFv, (void *)&vfunc_61__9TObjCharaFv, (void *)&vfunc_62__9TObjCharaFv, (void *)&vfunc_63__9TObjCharaFv,
-    (void *)&reset_pose__9TObjCharaFv, (void *)&get_anim_node_position__9TObjCharaFlP3Vec, (void *)&vfunc_66__9TObjCharaFv, (void *)&vfunc_67__9TObjCharaFf,
-    (void *)&get_pos__9TObjCharaFl, (void *)&apply_switch_attack__9TObjCharaFv, (void *)&enemy_spawn_jellen_effect__9TObjCharaFv, (void *)&trigger_switch_attack__9TObjCharaFv,
-    (void *)&enemy_spawn_zalure_effect__9TObjCharaFv, (void *)&recalc_stats__9TObjCharaFv, (void *)&vfunc_74__9TObjEnemyFl, (void *)&vfunc_75__9TObjCharaFf,
-    (void *)&vfunc_76__9TObjCharaFf, (void *)&vfunc_77__9TObjCharaFv, (void *)&vfunc_78__9TObjCharaFl, (void *)&vfunc_79__9TObjEnemyFPl,
-    (void *)&apply_hit_message_flags__9TObjEnemyFPv, (void *)&apply_set_data__9TObjEnemyFPv, (void *)&clear_lobby_object_state__9TObjEnemyFv,
-};
 #define slime_tail_attack_id_pair ((s32 *)slime_tail_attack_id_pair)
 #define TObjEneSlime__attack_target_param_table ((s32 *)TObjEneSlime__attack_target_param_table)
-#define __vt__22TObjEneSlimeTailAttack ((s32 *)__vt__22TObjEneSlimeTailAttack)
 
 
 extern const char TObjEneSlimeTailAttack__class_name_string[];
@@ -600,7 +570,6 @@ void TObjEneSlime__sub_800EB9F0(void* p, void* q);
 
 
 extern "C" {
-extern s32 __vt__12TObjEneSlime[];
 void free_bin_model_request(void*, int);
 
 // ---- folded from src/pso/enemy/TObjEneSlime_800EBD38.cpp ----
@@ -651,18 +620,7 @@ void TObjPlayer__sub_800EBE48(f32 farg0) {
 void TObjPlayer::init_render_globals() { chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask; chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask; model_render_flags = saved_model_render_flags; }
 
 s32 TObjEneSlime::create(s32 arg0) {
-    void *ene_slime;
-    void *var_r4;
-
-    ene_slime = __nw__7TObjectFUl(0x3D8);
-    if (ene_slime != 0) {
-        var_r4 = __nw__7TObjectFUl(0x20);
-        if (var_r4 != 0) {
-            var_r4 = __ct__11TObjControlFP7TObject(var_r4, tl_04);
-        }
-        ene_slime = TObjEneSlime__ct((TObjEneSlime *)ene_slime, (s32)var_r4, (u8 *)arg0);
-    }
-    return (s32)ene_slime;
+    return (s32)new TObjEneSlime(new TObjControl((TObject *)tl_04), (u8 *)arg0);
 }
 
 void TObjEneSlime::spawn_pair() {
@@ -688,16 +646,15 @@ void TObjEneSlime::free_instance() {
     }
 }
 
-u8 *TObjEneSlime__ct(TObjEneSlime *ene_slime, s32 arg1, u8 *arg2) {
+#define ene_slime this
+TObjEneSlime::TObjEneSlime(TObject *parent, u8 *set_data) : TObjEnemy(parent) {
     s32 temp_r0;
-    __ct__9TObjEnemyFP7TObject(ene_slime);
-    *(s32 **)((s8 *)ene_slime + 0x18) = __vt__12TObjEneSlime;
     *(s32 *)((s8 *)ene_slime + 0) = (s32) TObjEneSlime__name;
-    ((TObjEneSlime *)(ene_slime))->apply_set_data(arg2);
+    ((TObjEneSlime *)(ene_slime))->apply_set_data(set_data);
     ((TObjEneSlime *)(ene_slime))->clear_lobby_object_state();
     ((TBoss3Volopt *)ene_slime)->reset_photon_effect();
-    TBoss4DarkFalz__sub_8004B4F0(((u8 *)ene_slime + 0x374), (arg2));
-    ene_slime->m_3b4 = (s32) *(s16 *)((s8 *)arg2 + 2);
+    TBoss4DarkFalz__sub_8004B4F0(((u8 *)ene_slime + 0x374), (set_data));
+    ene_slime->m_3b4 = (s32) *(s16 *)((s8 *)set_data + 2);
     temp_r0 = ene_slime->m_3b4;
     if (temp_r0 < 1) {
         if (TObjPlayer::check_demo_mode() != 0) {
@@ -708,8 +665,8 @@ u8 *TObjEneSlime__ct(TObjEneSlime *ene_slime, s32 arg1, u8 *arg2) {
     }
     ene_slime->actorFlags = (s32) (ene_slime->actorFlags | 0x02000000);
     ene_slime->init_slots();
-    return (u8 *)ene_slime;
 }
+#undef ene_slime
 
 TObjEneSlime::~TObjEneSlime() {
     this->release_split_slimes();
@@ -871,76 +828,52 @@ s32 TObjEneSlimeOne::try_spawn_child(void *arg1) {
 }
 
 s32 TObjEneSlimeOne::create(s32 arg0, s32 arg1) {
-    s32 var_r31;
-    s32 var_r4;
-
-    var_r31 = ((s32 (*)(s32))__nw__7TObjectFUl)(0x3F8);
-    if (var_r31 != 0) {
-        var_r4 = ((s32 (*)(s32))__nw__7TObjectFUl)(0x20);
-        if (var_r4 != 0) {
-            var_r4 = ((s32 (*)(s32, s32))__ct__11TObjControlFP7TObject)(var_r4, tl_04);
-        }
-        var_r31 = ((s32)init__15TObjEneSlimeOneFPviii((u8 *)var_r31, (s32)var_r4, (s32)arg0, (s32)arg1));
-    }
-    return var_r31;
+    return (s32)new TObjEneSlimeOne(new TObjControl((TObject *)tl_04), arg0, (void *)arg1);
 }
 
 s32 TObjEneSlimeOne::create(s32 arg0, s32 arg1, s32 arg2) {
-    s32 actor;
-    s32 var_r4;
-
-    actor = ((s32 (*)(s32))__nw__7TObjectFUl)(0x3F8);
-    if (actor != 0) {
-        var_r4 = ((s32 (*)(s32))__nw__7TObjectFUl)(0x20);
-        if (var_r4 != 0) {
-            var_r4 = ((s32 (*)(s32, s32))__ct__11TObjControlFP7TObject)(var_r4, tl_04);
-        }
-        actor = ((s32)TObjEneSlimeOne__ct((u8 *)actor, (s32)var_r4, (s32)arg0, (s32)arg1, (s32)arg2));
-    }
-    return actor;
+    return (s32)new TObjEneSlimeOne(new TObjControl((TObject *)tl_04), arg0, (void *)arg1, (Vec *)arg2);
 }
 
-u8 *init__15TObjEneSlimeOneFPviii(u8 *ene_slime_one, s32 arg1, s32 arg2, s32 arg3) {
+#define ene_slime_one ((u8 *)this)
+TObjEneSlimeOne::TObjEneSlimeOne(TObject *parent, s32 parent_slime, void *set_data) : TObjEnemy(parent) {
     typedef char sp8_offset[(offsetof(Stack_800EB4A0, sp8) == 0x0) ? 1 : -1];
     typedef char spE_offset[(offsetof(Stack_800EB4A0, spE) == 0x6) ? 1 : -1];
     Stack_800EB4A0 stack;
-    __ct__9TObjEnemyFP7TObject(ene_slime_one);
-    *(s32 **)((s8 *)ene_slime_one + 0x18) = __vt__15TObjEneSlimeOne;
     *(s32 *)((s8 *)ene_slime_one + 0) = (s32) TObjEneSlimeOne_class_name;
     ((TObjChara *)ene_slime_one)->add_flags_2e4(2);
-    ((TObjEneSlimeOne *)(ene_slime_one))->apply_set_data((void *)arg3);
+    ((TObjEneSlimeOne *)(ene_slime_one))->apply_set_data(set_data);
     if (((TObjEnemy *)ene_slime_one)->exchange_object_state(&stack.sp8, 1) != 0) {
         stack.sp8 = 0;
         stack.spE = 0;
         ((TObjEnemy *)ene_slime_one)->exchange_object_state(&stack.sp8, 0);
     }
-    ((TObjEneSlimeOne *)ene_slime_one)->parent_slime = arg2;
+    ((TObjEneSlimeOne *)ene_slime_one)->parent_slime = parent_slime;
     ((TObjEneSlimeOne *)ene_slime_one)->initialize_slime_instance_state();
     project_actor_to_ground(ene_slime_one, ene_slime_one + 0x38, 0);
     ((TObjEneSlimeOne *)ene_slime_one)->set_state((s32)((void*)(0)));
-    return ene_slime_one;
 }
+#undef ene_slime_one
 
-u8 *TObjEneSlimeOne__ct(u8 *actor, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+#define actor ((u8 *)this)
+TObjEneSlimeOne::TObjEneSlimeOne(TObject *parent, s32 parent_slime, void *set_data, Vec *pos) : TObjEnemy(parent) {
     typedef char sp8_offset[(offsetof(Stack_800EB3D4, sp8) == 0x0) ? 1 : -1];
     typedef char spE_offset[(offsetof(Stack_800EB3D4, spE) == 0x6) ? 1 : -1];
     Stack_800EB3D4 stack;
-    __ct__9TObjEnemyFP7TObject(actor);
-    *(s32 **)((s8 *)actor + 0x18) = __vt__15TObjEneSlimeOne;
     *(s32 *)((s8 *)actor + 0) = (s32) TObjEneSlimeOne_class_name;
     ((TObjChara *)actor)->add_flags_2e4(2);
-    ((TObjEneSlimeOne *)(actor))->apply_set_data((void *)arg3);
+    ((TObjEneSlimeOne *)(actor))->apply_set_data(set_data);
     if (((TObjEnemy *)actor)->exchange_object_state(&stack.sp8, 1) != 0) {
         stack.sp8 = 0;
         stack.spE = 0;
         ((TObjEnemy *)actor)->exchange_object_state(&stack.sp8, 0);
     }
-    ((TObjEneSlimeOne *)actor)->parent_slime = arg2;
-    VecCopy((Vec *)(actor + 0x3DC), (const Vec *)(arg4));
+    ((TObjEneSlimeOne *)actor)->parent_slime = parent_slime;
+    VecCopy((Vec *)(actor + 0x3DC), pos);
     ((TObjEneSlimeOne *)actor)->initialize_slime_instance_state();
     ((TObjEneSlimeOne *)actor)->set_state((s32)((void*)(0xE)));
-    return actor;
 }
+#undef actor
 
 void TObjEneSlimeOne::initialize_slime_instance_state() {
   void *p;
@@ -1762,13 +1695,12 @@ void TObjEneSlimeOne::sub_800E9090() {
 }
 #pragma push
 #pragma opt_common_subs off
-void *TObjEneSlimeWaterBomb__ct(TObjEneSlimeWaterBomb *ene_slime_water_bomb, void *arg1, void *arg2) {
+#define ene_slime_water_bomb this
+TObjEneSlimeWaterBomb::TObjEneSlimeWaterBomb(TObject *parent, void *owner) : TObjEnemy(parent) {
     f32 s;
     f32 c;
-    ((s32 (*)(void *, void *))__ct__9TObjEnemyFP7TObject)(ene_slime_water_bomb, arg1);
-    *(s32 **)((s8 *)ene_slime_water_bomb + 0x18) = __vt__21TObjEneSlimeWaterBomb;
     *(s32 *)((s8 *)ene_slime_water_bomb + 0) = (s32) TObjEneSlimeWaterBomb__name;
-    *(void **)((s8 *)ene_slime_water_bomb + 0x38C) = arg2;
+    *(void **)((s8 *)ene_slime_water_bomb + 0x38C) = owner;
     ene_slime_water_bomb->rotation_y = *(s32 *)((s8 *)(*(u8 * *)&ene_slime_water_bomb->m_up) + 0x60);
     VecCopy((Vec *)((u8 *) ene_slime_water_bomb + 0x38), (const Vec *)(*(u8 * *)&ene_slime_water_bomb->m_up + 0x38));
     s = sin_table_lookup(ene_slime_water_bomb->rotation_y);
@@ -1786,8 +1718,8 @@ void *TObjEneSlimeWaterBomb__ct(TObjEneSlimeWaterBomb *ene_slime_water_bomb, voi
         *(f32 *)((s8 *)ene_slime_water_bomb + 0x390) = 0.0f;
     }
     *(s32 *)&ene_slime_water_bomb->m_394 = 0;
-    return ene_slime_water_bomb;
 }
+#undef ene_slime_water_bomb
 #pragma pop
 
 TObjEneSlimeWaterBomb::~TObjEneSlimeWaterBomb() {
@@ -1798,12 +1730,7 @@ TObjEneSlimeWaterBomb::~TObjEneSlimeWaterBomb() {
 }
 
 void *TObjEneSlimeWaterBomb::create(void *arg1) {
-    void *o;
-    o = ((void * (*)(int))__nw__7TObjectFUl)(0x398);
-    if (o != NULL) {
-        o = TObjEneSlimeWaterBomb__ct((TObjEneSlimeWaterBomb *)o, (void *)this, (void *)arg1);
-    }
-    return o;
+    return new TObjEneSlimeWaterBomb((TObject *)this, arg1);
 }
 
 void run_task__21TObjEneSlimeWaterBombFv(Bomb_800E8D4C *arg0) {
@@ -1898,13 +1825,12 @@ s32 water_bomb_hit_nearby(u8 *target) {
     return hit;
 }
 extern "C" const char TObjEneSlimeTailAttack__class_name_string[] = "TObjEneSlimeTailAttack";
-void *TObjEneSlimeTailAttack__ct(TObjEneSlimeTailAttack *ene_slime_tail_attack, void *arg1, s32 arg2, s32 arg3, s32 arg4) {
+#define ene_slime_tail_attack this
+TObjEneSlimeTailAttack::TObjEneSlimeTailAttack(TObject *parent, Vec *pos, s32 angle, s32 owner) : TObjEnemy(parent) {
   unsigned int id;
   u8 *inst;
-  ((s32 (*)(void *, void *)) __ct__9TObjEnemyFP7TObject)(ene_slime_tail_attack, arg1);
-  *((u8 **) (((s8 *) ene_slime_tail_attack) + 0x18)) = (u8 *) __vt__22TObjEneSlimeTailAttack;
   *((s32 *) (((s8 *) ene_slime_tail_attack) + 0)) = (s32) TObjEneSlimeTailAttack__name;
-  *((s32 *) (((s8 *) ene_slime_tail_attack) - -0x374)) = arg4;
+  *((s32 *) (((s8 *) ene_slime_tail_attack) - -0x374)) = owner;
   inst = (u8 *)TObjEneSlimeOne::get_instance();
   id = ((s32 *) lbl_804966F4)[((TObjEneSlimeOne *)(*((s32 *) (((s8 *) ene_slime_tail_attack) + (0x374 & 0xFFFF)))))->get_attack_target()];
   ene_slime_tail_attack->texlist = get_bml_texlist((BmlResource *)inst, id);
@@ -1916,41 +1842,21 @@ void *TObjEneSlimeTailAttack__ct(TObjEneSlimeTailAttack *ene_slime_tail_attack, 
   ene_slime_tail_attack->requested_action = 6;
   ((TObjMotion *)ene_slime_tail_attack)->set_animation(ene_slime_tail_attack->requested_action);
   ((TObjMotion *)ene_slime_tail_attack)->set_field_b8(ene_slime_tail_attack->requested_action);
-  ene_slime_tail_attack->rotation_y = arg3;
-  VecCopy((Vec *)(((u8 *) ene_slime_tail_attack) + 0x38), (const Vec *)arg2);
+  ene_slime_tail_attack->rotation_y = angle;
+  VecCopy((Vec *)(((u8 *) ene_slime_tail_attack) + 0x38), pos);
   *((s32 *) (((s8 *) ene_slime_tail_attack) + 0x378)) = 1;
   *((s32 *) (((s8 *) ene_slime_tail_attack) + 0x37C)) = 0xFFFF;
   *((f32 *) (((s8 *) ene_slime_tail_attack) + 0x388)) = 1.0f;
   *((f32 *) (((s8 *) ene_slime_tail_attack) + 0x384)) = 1.0f;
   *((f32 *) (((s8 *) ene_slime_tail_attack) + 0x380)) = 1.0f;
   *((f32 *) (((s8 *) ene_slime_tail_attack) + 0x38C)) = 1.0f;
-  return ene_slime_tail_attack;
 }
+#undef ene_slime_tail_attack
 
-void *dt__22TObjEneSlimeTailAttackFPvs(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__22TObjEneSlimeTailAttack;
-        __dt__9TObjEnemyFv((TObjEnemy *)arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
-}
+TObjEneSlimeTailAttack::~TObjEneSlimeTailAttack() {}
 
 void *create__22TObjEneSlimeTailAttackFiiii(s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
-    void *obj;
-    void *ctrl;
-
-    obj = __nw__7TObjectFUl(0x3CC);
-    if (obj != 0) {
-        ctrl = __nw__7TObjectFUl(0x20);
-        if (ctrl != 0) {
-            ctrl = __ct__11TObjControlFP7TObject(ctrl, tl_04);
-        }
-        obj = TObjEneSlimeTailAttack__ct((TObjEneSlimeTailAttack *)obj, (void *)ctrl, (s32)arg2, (s32)arg3, (s32)arg4);
-    }
-    return obj;
+    return new TObjEneSlimeTailAttack(new TObjControl((TObject *)tl_04), (Vec *)arg2, arg3, arg4);
 }
 void TObjEneSlimeTailAttack::run_task() {
     if ((s32) *(s32 *)((s8 *)((u8 *)this) + 0x378) != 0) {

@@ -84,6 +84,7 @@
 #include "pso/enemy/flower/TObjEneRe2Flower.h"
 #include "pso/enemy/shark/TObjEneShark.h"
 #include "pso/enemy/dubchik/TOCtrlDubchik.h"
+#include "pso/enemy/darkgunner/TObjEneDarkGunner.h"
 #include "pso/npc/TObjNpcCloakroomBase.h"
 #include "pso/object/ambient/TObjGrass.h"
 #include "pso/player/TObjPlayer.h"
@@ -241,7 +242,7 @@ EnemyFactoryEntry enemy_factories_floor_08[8] = {
 
 EnemyFactoryEntry enemy_factories_floor_09[10] = {
     { 0x00A0, create_ene_saver, 250000.0f, 0 },
-    { 0x00A2, TObjPlayer::create_instance, 250000.0f, 0 },
+    { 0x00A2, TObjEneDarkGunner::create, 250000.0f, 0 },
     { 0x00A3, TObjEneDarkGunCenter::create, 250000.0f, 0 },
     { 0x00A4, create__17TObjEneDf2BringerFv, 250000.0f, 0 },
     { 0x00A6, TObjEneDimedian::create, 250000.0f, 0 },
@@ -254,7 +255,7 @@ EnemyFactoryEntry enemy_factories_floor_09[10] = {
 
 EnemyFactoryEntry enemy_factories_floor_10[11] = {
     { 0x00A1, create__18TObjEneRe4SorcererFv, 250000.0f, 2 },
-    { 0x00A2, TObjPlayer::create_instance, 250000.0f, 0 },
+    { 0x00A2, TObjEneDarkGunner::create, 250000.0f, 0 },
     { 0x00A3, TObjEneDarkGunCenter::create, 250000.0f, 0 },
     { 0x00A4, create__17TObjEneDf2BringerFv, 250000.0f, 0 },
     { 0x00A5, create__16TObjEneRe7BeruraFv, 250000.0f, 0 },

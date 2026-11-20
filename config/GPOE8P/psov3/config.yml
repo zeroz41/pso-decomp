@@ -1049,7 +1049,7 @@ force_active:
   - __ct__18TObjEneBalClawClawFP7TObjectP14TObjEneBalClawllP3Vecll
   - __ct__18TObjEneBalClawClawFP7TObjectPv
   - TObjEneBeast__boss4_rock_handler_ids
-  - TObjEneBeast__ct
+  - __ct__12TObjEneBeastFP7TObjectPv
   - TObjEneBm3FlyNest__attachment_sample_origin
   - __ct__17TObjEneBm3FlyNestFP7TObjectP17Bm3FlyNestSetData
   - __dt__17TObjEneBm3FlyNestFv
@@ -1160,7 +1160,7 @@ force_active:
   - TObjEneDf2Bringer__sub_80098FF4
   - TObjEneDf2Bringer__sub_80099248
   - TObjEneDimedian__boss_objects
-  - TObjEneDimedian__ct
+  - __ct__15TObjEneDimedianFP7TObjectPv
   - TObjEneDolmOlm__param_table
   - TObjEneDolmOlm__sub_8030177C
   - TObjEneDolmOlm__sub_80301C3C
@@ -1301,7 +1301,7 @@ force_active:
   - TObjEneMerillLia__sub_800D501C
   - TObjEneMerillLia__sub_800D5BCC
   - TObjEneMorfosArm__name
-  - TObjEneMorfos__ct
+  - __ct__13TObjEneMorfosFP7TObjectPv
   - TObjEneMorfos__sub_80332DBC
   - TObjEneMorfos__sub_80332FD4
   - TObjEneMorfos__sub_80333690
@@ -1311,9 +1311,9 @@ force_active:
   - TObjEneMorfos__sub_803342B8
   - TObjEneMorfos__sub_803344F0
   - TObjEneMorfos__sub_80334704
-  - TObjEneMorfos__vt20
-  - TObjEneMorfos__vt85
-  - TObjEnePanarmsAtkColli__ct
+  - receive_physical_attack__13TObjEneMorfosFPvf
+  - dispatch_action__13TObjEneMorfosFUll
+  - __ct__22TObjEnePanarmsAtkColliFP7TObjectPvPvPv
   - TObjEnePanarmsAtkColli__type_index_table
   - TObjEnePanarmsAtkColli_class_name
   - TObjEneRe4Bit__ct
@@ -1322,7 +1322,7 @@ force_active:
   - TObjEneRe4Bit__sub_800ECE04
   - TObjEneRe4Bit__sub_800ECED0
   - TObjEneRe4Bit_boss_handles
-  - TObjEneRe4Sorcerer__ct
+  - __ct__18TObjEneRe4SorcererFP7TObjectPv
   - TObjEneRe4Sorcerer__data_805DA78C
   - TObjEneRe4Sorcerer__data_805DA790
   - TObjEneRe4Sorcerer__data_805DA794
@@ -1338,7 +1338,7 @@ force_active:
   - TObjEneRe4Sorcerer__sub_800EF844
   - TObjEneRe4Sorcerer__sub_800EF95C
   - TObjEneRe4Sorcerer__sub_800EFE30
-  - TObjEneRe4Sorcerer__vt85
+  - dispatch_action__18TObjEneRe4SorcererFUll
   - TObjEneRe7BeruraPunch__collision_body_templates
   - TObjEneRe7BeruraPunch__data_805D97A0
   - __ct__16TObjEneRe7BeruraFP7TObjectPv
@@ -1357,16 +1357,16 @@ force_active:
   - TObjEneSaver__vtable
   - TObjEneShark__action_table
   - TObjEneShark__ct
-  - TObjEneSlimeOne__ct
+  - __ct__15TObjEneSlimeOneFP7TObjectlPvP3Vec
   - TObjEneSlimeOne__sub_800EAD84
   - TObjEneSlimeOne__target_depth
   - TObjEneSlimeOne__target_depth_initialized
   - TObjEneSlimeOne_class_name
-  - TObjEneSlimeTailAttack__ct
+  - __ct__22TObjEneSlimeTailAttackFP7TObjectP3Vecll
   - TObjEneSlimeTailAttack__name
-  - TObjEneSlimeWaterBomb__ct
+  - __ct__21TObjEneSlimeWaterBombFP7TObjectPv
   - TObjEneSlime__attack_target_param_table
-  - TObjEneSlime__ct
+  - __ct__12TObjEneSlimeFP7TObjectPUc
   - TObjEneSlime__sub_800EB9F0
   - TObjEnvSoundEx__ct
   - TObjEnvSound__ct
@@ -1508,7 +1508,7 @@ force_active:
   - TObjPlayer__sub_80083F9C
   - TObjPlayer__sub_80083FA4
   - TObjPlayer__sub_8008E098
-  - TObjPlayer__sub_80092724
+  - __dt__12TObjEneBeastFv
   - TObjPlayer__sub_800A100C
   - TObjPlayer__sub_800A16C4
   - TObjPlayer__sub_800A1974
@@ -1518,15 +1518,15 @@ force_active:
   - TObjPlayer__sub_800A2390
   - TObjPlayer__sub_800A27CC
   - TObjPlayer__sub_800A28A4
-  - TObjPlayer__sub_800A2EDC
-  - TObjPlayer__sub_800A2F94
+  - __dt__17TObjEneDarkGunnerFv
+  - __ct__17TObjEneDarkGunnerFP7TObjectPv
   - TObjPlayer__sub_800A3200
   - TObjPlayer__sub_800A42C0
   - TObjPlayer__sub_800A49B4
   - TObjPlayer__sub_800A5154
   - TObjPlayer__sub_800A54B4
   - TObjPlayer__sub_800A5960
-  - TObjPlayer__sub_800A846C
+  - __dt__15TObjEneDimedianFv
   - TObjPlayer__sub_800BFF54
   - TObjPlayer__sub_800D93F0
   - TObjPlayer__sub_800E80C0
@@ -5804,7 +5804,7 @@ force_active:
   - draw__15TObjLazerFence4Fv
   - draw__18TWindowPartyStatusFv
   - draw_active_beam__11TObjDoorKeyFv
-  - draw_actor_model__10TObjPlayerFPv
+  - render__15TObjEneDimedianFv
   - draw_agreement_text__18TAdAgreementBaseGCFv
   - draw_animated_beam__18TObjLazerFenceNormFv
   - draw_area_chunk_objects__10TObjPlayerFv
@@ -5961,7 +5961,7 @@ force_active:
   - dt__17TObjCityDoor_WarpFPvs
   - dt__18TObjCityDoor_GuildFPvs
   - dt__20TContainerAncient01RFPvs
-  - dt__22TObjEneSlimeTailAttackFPvs
+  - __dt__22TObjEneSlimeTailAttackFv
   - dt__22TWindowChallengeResultFPvs
   - dt__22TWindowDD_WS_ScrollBarFs
   - dt_follow_particle_ctrl__10TObjPlayerFls
@@ -6999,7 +6999,7 @@ force_active:
   - init__15PSOV3EncryptionFUl
   - init__15TObjEneDelDepthFv
   - init__15TObjEneMe1GiGueFPv
-  - init__15TObjEneSlimeOneFPviii
+  - __ct__15TObjEneSlimeOneFP7TObjectlPv
   - init__16TAdChrSelASlotGCFl
   - init__17TWindowSubComCardFi
   - init__18TChallenge4PResultFv
