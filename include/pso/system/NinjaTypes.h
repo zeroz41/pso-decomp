@@ -7,7 +7,7 @@
 struct NJS_TEXNAME {
     void *filename;
     u32 attr;
-    u32 texaddr;
+    uaddr texaddr;
 };
 
 struct NJS_TEXLIST {

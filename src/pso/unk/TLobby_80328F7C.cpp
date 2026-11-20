@@ -247,7 +247,7 @@ int TUnk_804ED7D0::vfunc_9(s32 a, s32 b, s32 c) {
     return town_player_motion_clip_index_tables[a][b][c];
 }
 
-int TUnk_804ED7D0::vfunc_8(saddr arg1, saddr arg2) {
+int TUnk_804ED7D0::vfunc_8(s32 arg1, s32 arg2) {
     if (((s32)TLobby__sub_802A7278((void*)arg1)) == 0) {
         return 0;
     }
@@ -256,7 +256,7 @@ int TUnk_804ED7D0::vfunc_8(saddr arg1, saddr arg2) {
     }
     return 0;
 }
-int TUnk_804ED7D0::vfunc_7(saddr, saddr) {
+int TUnk_804ED7D0::vfunc_7(s32, s32) {
     s32 i = ((s32 (*)(void))is_valid_state__6TLobbyFPvi)();
     if (((s32 (*)(void))TLobby__sub_802A7278)() != 0) {
         return (saddr)*lbl_804ED728[i];

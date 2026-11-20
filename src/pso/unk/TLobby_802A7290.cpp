@@ -2700,7 +2700,7 @@ int TUnk_804DDBF0::vfunc_9(s32 a, s32 b, s32 c) {
     return player_motion_clip_roots_b[a][b][c];
 }
 
-int TUnk_804DDBF0::vfunc_8(saddr arg1, saddr arg2) {
+int TUnk_804DDBF0::vfunc_8(s32 arg1, s32 arg2) {
     if (((s32)TLobby__sub_802A7278((void*)arg1)) == 0) {
         return 0;
     }
@@ -2709,7 +2709,7 @@ int TUnk_804DDBF0::vfunc_8(saddr arg1, saddr arg2) {
     }
     return 0;
 }
-int TUnk_804DDBF0::vfunc_7(saddr arg1, saddr arg2) {
+int TUnk_804DDBF0::vfunc_7(s32 arg1, s32 arg2) {
     if (((s32)TLobby__sub_802A7278((void*)arg1)) == 0) {
         return 0;
     }

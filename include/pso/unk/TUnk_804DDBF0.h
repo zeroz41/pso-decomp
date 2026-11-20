@@ -11,8 +11,8 @@ public:
     virtual ~TUnk_804DDBF0();
     virtual int vfunc_5(s32);
     virtual int vfunc_6(s32, s32, s32);
-    virtual int vfunc_7(saddr, saddr);
-    virtual int vfunc_8(saddr, saddr);
+    virtual int vfunc_7(s32, s32);
+    virtual int vfunc_8(s32, s32);
     virtual int vfunc_9(s32, s32, s32);
     virtual int vfunc_19();
     virtual int vfunc_18();
