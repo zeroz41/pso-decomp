@@ -64,7 +64,7 @@ struct TWindowSubComCard : public TObject {
     void *init_guild_card();
     static void init_card();
     static void remove_entry(s32 arg0);
-    static void scroll_list(s32 arg0);
+    static s32 scroll_list(s32 arg0);
     static void init_and_press_a(s32 arg0);
     static void init_and_press_b(s32 arg0);
     void update_press();
@@ -82,8 +82,8 @@ struct TWindowSubComCard : public TObject {
     void set_entry_value_clear_flag(s32 idx, s32 val);
     void clear_transition_flag();
     static void draw_text_gray(saddr arg0, s32 arg1, s32 arg2, s32 arg3);
-    void draw_card_icon(saddr arg1, saddr arg2);
-    void update_selected_entry();
+    saddr draw_card_icon(saddr arg1, saddr arg2);
+    s32 update_selected_entry();
     void update_next_entry(s32 arg1, s32 arg2, s32 arg3);
     s32 get_entry_id();
     static s32 create_card_list(s32 arg0, s32 arg1, s32 arg2, s32 arg3);

@@ -44,7 +44,6 @@ extern s32 controller_input_state[];
 saddr get_window_layout_position(s32);
 s32 __nw__7TObjectFUl(s32);
 s32 align_menu_entry_positions(int);
-void *draw_card_icon__17TWindowSubComCardFll(s32, s32, void *);
 s32 draw_text_gray__17TWindowSubComCardFllll(void *, void *, int, int);
 
 extern s32 local_client_id;
@@ -198,7 +197,7 @@ void TWindowSubInformationBoard::render() {  }
 
 u32 TWindowSubInformationBoard::create_info_board_menu() {
   void *temp_r31;
-  temp_r31 = draw_card_icon__17TWindowSubComCardFll(get_window_layout_position(0xA4), 2, TWindowSubStatusDisp::get_message_10(0x1D));
+  temp_r31 = (void *)((TWindowSubComCard *)get_window_layout_position(0xA4))->draw_card_icon(2, (saddr)TWindowSubStatusDisp::get_message_10(0x1D));
   if (get_main_phase() == 0xF)
   {
     TObjCityMainWarp::forward_trade_action_default(temp_r31, (saddr) TWindowSubStatusDisp::get_message_10(0x117), 6, 3);
@@ -223,7 +222,7 @@ u32 TWindowSubInformationBoard::sub_8034CDE0() {
     if (it == NULL) {
         return 0;
     }
-    w = draw_card_icon__17TWindowSubComCardFll(get_window_layout_position(0xA6), 0xC, TWindowSubStatusDisp::get_message_10(0x1D));
+    w = (void *)((TWindowSubComCard *)get_window_layout_position(0xA6))->draw_card_icon(0xC, (saddr)TWindowSubStatusDisp::get_message_10(0x1D));
     n = ((L_8034CDE0 *)it)->n;
     it = ((L_8034CDE0 *)it)->items;
     for (i = 0; i < n; i++, it++) {

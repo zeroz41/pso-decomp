@@ -18,9 +18,9 @@ s32 is_flag_4_set__17TWindowSubComCardFv(void *);
 s32 get_array_entry__11TWindowBaseFi(void * a0 = 0, s16 a1 = 0);
 s32 get_entry_id__17TWindowSubComCardFv();
 
-void TWindowSubComCard::update_selected_entry() {
+s32 TWindowSubComCard::update_selected_entry() {
     ((TWindowBase *)this)->get_array_entry(*(s16 *)((s8 *)this + 0x74));
-    get_entry_id__17TWindowSubComCardFv();
+    return get_entry_id__17TWindowSubComCardFv();
 }
 
 s32 TWindowSubComCard::find_entry_value_by_id(s32 arg1) {

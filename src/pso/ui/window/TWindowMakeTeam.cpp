@@ -49,7 +49,6 @@ void align_menu_entry_positions(s32);
 s32 check_room_seq_4__16TAdChrSelASlotGCFl(const f32 *, s32);
 void *init_status_disp__15TWindowMakeTeamFc(s8 arg0);
 s8 get_mode__6TLobbyFv();
-s32 update_selected_entry__17TWindowSubComCardFv(void *);
 extern s32 local_client_id;
 void *get_window_layout_position(s32);
 char *get_shared_text_buffer(void);
@@ -126,7 +125,7 @@ void TWindowMakeTeam::run_task() {
             this->m_1d |= 2;
             this->m_1c = 11;
         } else if (((TUnk_804D0658 *)(self->menu))->is_open() != 0) {
-            ((TWindowMakeTeam *)self)->set_state(update_selected_entry__17TWindowSubComCardFv(self->menu));
+            ((TWindowMakeTeam *)self)->set_state(((TWindowSubComCard *)self->menu)->update_selected_entry());
         }
         break;
     case 3: {

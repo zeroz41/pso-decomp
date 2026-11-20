@@ -178,8 +178,8 @@ u8 *TWindowActionPalette__sub_801C1D7C(saddr arg0, s32 i, s32 arg2) {
   return var_r3;
 }
 
-void TWindowActionPalette::get_entry_by_index(s32 *arg0, s32 arg1) {
-    TWindowActionPalette__sub_801C1D7C((s32)((saddr) arg0), (s32)(*arg0), arg1);
+u8 *TWindowActionPalette::get_entry_by_index(s32 *arg0, s32 arg1) {
+    return TWindowActionPalette__sub_801C1D7C((s32)((saddr) arg0), (s32)(*arg0), arg1);
 }
 
 u8 *TWindowActionPalette::get_slot_type(saddr arg0, s32 i, s32 arg2) {
@@ -191,8 +191,8 @@ u8 *TWindowActionPalette::get_slot_type(saddr arg0, s32 i, s32 arg2) {
   return var_r3;
 }
 
-void TWindowActionPalette::get_slot_type_for_index(s32 *arg0, s32 arg1) {
-    TWindowActionPalette::get_slot_type((s32)((saddr) arg0), (s32)(*arg0), arg1);
+u8 *TWindowActionPalette::get_slot_type_for_index(s32 *arg0, s32 arg1) {
+    return TWindowActionPalette::get_slot_type((s32)((saddr) arg0), (s32)(*arg0), arg1);
 }
 
 void* ref_primary_action_palette(void* p) { return p; }

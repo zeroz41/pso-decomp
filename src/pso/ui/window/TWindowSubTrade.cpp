@@ -85,7 +85,6 @@ s32 create__19TWindowMessageYesNoFPvPvPvPv(void *, int, int, int);
 const char *lbl_805D3EA8 = "TWindowSubTrade"; // TWindowSubTrade__name
 // Player message window position (x, y).
 extern const f32 lbl_80470AA8[2] = {384.0f, 120.0f};
-TWindowSubComCardList *draw_card_icon__17TWindowSubComCardFll(s32 layout, s32 kind, void *title);
 extern s32 local_client_id;
 s32 draw_text_gray__17TWindowSubComCardFllll(void *list, void *text, int kind, int id);
 s32 is_trade_range_bit_set(s32 client);
@@ -206,7 +205,7 @@ TWindowSubComCardList *TWindowSubComCard__sub_802B1C1C(TWindowSubTrade *) {
     TObjPlayer *player;
     TWindowSubComCardList *list;
 
-    list = draw_card_icon__17TWindowSubComCardFll(get_window_layout_position(0x5A), 4, TWindowSubStatusDisp::get_message_10(0x1F));
+    list = (TWindowSubComCardList *)((TWindowSubComCard *)get_window_layout_position(0x5A))->draw_card_icon(4, (saddr)TWindowSubStatusDisp::get_message_10(0x1F));
     for (i = 0; i < 4; i++) {
         if (i == local_client_id) {
             continue;

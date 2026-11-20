@@ -1078,7 +1078,7 @@ s32 shift_rect_with_head__15TWindowFukidasiFPvPvPv(Fuki_80250F70 *b, f32 *rect, 
     out[0] = rect[0] + (b->head[0] - x);
     out[1] = rect[1] + (b->head[1] - y);
     ((TUnk_804CF0B8 *)b)->clamp_position(out, 1.0f);
-    if (draw_resolved_window__15TWindowFukidasiFllll(b, out, b->anchor, 4) == 0) {
+    if (TWindowFukidasi::draw_resolved_window((saddr)b, (saddr)out, (saddr)b->anchor, 4) == 0) {
         return 1;
     }
     return 0;
@@ -1231,7 +1231,7 @@ s32 TWindowFukidasi__sub_802505C0(Fuki_80251028 *b, f32 *rect, f32 *out) {
     h = (((TWindowCtrlMain *)b->viewport)->get_field_18() - ((TWindowCtrlMain *)b->viewport)->get_field10()) - b->anchor[1];
     t = 0.000030517578f * (f32) rand();
     out[1] = t * h + y;
-    return (u32) __cntlzw((u32) draw_resolved_window__15TWindowFukidasiFllll((Fuki_80250F70 *)b, out, b->anchor, 4)) >> 5;
+    return (u32) __cntlzw((u32) TWindowFukidasi::draw_resolved_window((saddr)b, (saddr)out, (saddr)b->anchor, 4)) >> 5;
 }
 
 void TUnk_804CF0B8::place_rect_at_head_or_slot() {

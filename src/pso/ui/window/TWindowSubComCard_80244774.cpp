@@ -373,9 +373,9 @@ Win_80244DFC *find_overlapping_balloon__15TWindowFukidasiFPvPvPvPv(Win_80244DFC 
     return 0;
 }
 
-void TWindowFukidasi::find_balloon_overlap_for(saddr arg1) {
+void *TWindowFukidasi::find_balloon_overlap_for(saddr arg1) {
     saddr arg0 = (saddr)this;
-    find_overlapping_balloon__15TWindowFukidasiFPvPvPvPv((Win_80244DFC *)(arg0), (void *)(arg0 + 0x30), (void *)(arg0 + 0x38), (Win_80244DFC *)(arg1));
+    return find_overlapping_balloon__15TWindowFukidasiFPvPvPvPv((Win_80244DFC *)(arg0), (void *)(arg0 + 0x30), (void *)(arg0 + 0x38), (Win_80244DFC *)(arg1));
 }
 
 void TWindowBase::sub_80244F2C(u8 *arg1, u8 *arg2, s16 arg3) {

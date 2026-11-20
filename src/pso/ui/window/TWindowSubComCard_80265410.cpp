@@ -701,9 +701,9 @@ saddr create_titled_window_menu(saddr arg0, s32 arg1, saddr arg2, s32 arg3) {
     return temp_r31;
 }
 
-void TWindowSubComCard::draw_card_icon(saddr arg1, saddr arg2) {
+saddr TWindowSubComCard::draw_card_icon(saddr arg1, saddr arg2) {
     saddr arg0 = (saddr)this;
-    ((int (*)(void*, void*, void*, void*))create_titled_window_menu)((void*)arg0, (void*)arg1, (void*)arg2, (void*)(4));
+    return ((saddr (*)(void*, void*, void*, void*))create_titled_window_menu)((void*)arg0, (void*)arg1, (void*)arg2, (void*)(4));
 }
 
 void TWindowMenu::draw_selected_bar(u8 *window_key_board_soft) {
