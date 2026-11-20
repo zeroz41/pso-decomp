@@ -79,11 +79,11 @@ struct Ent_8017B9B0 { s16 a; s16 b; };
 
 extern "C" {
 extern Ent_8017B9B0 *quest_object_entries;
-void handle_6x86_hit_destructible_object(WallHitPacket *arg0);
 
 void TOVS2Wall01__sub_8017B9AC(void *) {  }
 
-void handle_6x86_hit_destructible_object(WallHitPacket *wall_hit_packet) {
+void handle_6x86_hit_destructible_object(game_command_header *command) {
+    WallHitPacket *wall_hit_packet = reinterpret_cast<WallHitPacket *>(command);
     Ent_8017B9B0 spC;
     Ent_8017B9B0 sp8;
     TOVS2Wall01 *o;
