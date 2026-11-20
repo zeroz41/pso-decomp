@@ -75,7 +75,7 @@ void TObjDoorJung::free_buffers() {
 }
 
 s32 load_resource_from_descriptor(s32 buffer, s32 kind, void *descriptor, s32 a3, s32 a4, s32 a5);
-s32 get_bml_texlist(void *bml, s32 index);
+saddr get_bml_texlist(void *bml, s32 index);
 
 void load_door_jung_resources(void) {
     s32 handle;

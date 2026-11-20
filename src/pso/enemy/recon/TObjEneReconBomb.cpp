@@ -100,7 +100,7 @@ s32 project_actor_to_ground(void *, void *, void *);
 s32 TObjEneRecon__sub_8031C250(u32);
 s32 vec3_add_to(void *, void *);
 extern s32 lbl_805D5868;
-s32 get_bml_texlist(void *, int);
+saddr get_bml_texlist(void *, int);
 saddr get_bml_model(void *, int);
 s32 rotate_matrix_z(int, int);
 s32 rotate_matrix_x(int, void *);

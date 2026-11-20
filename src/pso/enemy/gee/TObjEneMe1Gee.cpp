@@ -113,7 +113,7 @@ void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
 s32 play_sound_effect(s32, u32, s16, s32);
 f32 subtract_vector(void *, void *);
 void TObjEneEpsilon__sub_800B92F8(u8 *arg0, s32 arg1, f32 farg0);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 void matrix_mult_vec(void *, Vec *, Vec *);
 s32 post_translate_matrix(void *);
 s16 get_entity_id(void *);
@@ -138,7 +138,7 @@ u32 vfunc_101__9TObjEneDDFPUc();
 s32 collect_enemy_target_candidates(void *, TargetCandidate *, f32);
 s32 pack_debug_text_position(s32, s32);
 
-void TBoss3Volopt__sub_800D8D88(s32);
+void TBoss3Volopt__sub_800D8D88(saddr);
 
 s32 push_matrix();
 void TObjEneEpsilon__sub_800B92AC(u8 *arg0, s32 arg1, f32 farg0);

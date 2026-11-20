@@ -58,7 +58,7 @@ s32 set_field_e4__10TObjPlayerFll(void *, int, f32);
 void spawn_dead_spot_scale15(s32 point, s32 delay);
 void *find_entity_by_id(u16 id);
 void free_collision_body_parts(void *);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 s32 play_sound_effect(s32, void *, int, int);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);

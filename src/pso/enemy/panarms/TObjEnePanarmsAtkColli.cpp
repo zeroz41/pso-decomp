@@ -346,7 +346,7 @@ struct Obj_800E37E4 {
 };
 
 extern "C" {
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 int play_sound_effect(s32, void *, void *, void *);
 extern s32 __vt__22TObjEnePanarmsAtkColli[];
 void *TObjEnePanarmsAtkColli__ct(Obj_800E37E4 *arg0, void *arg1, void *arg2, void *arg3, void *arg4);

@@ -435,7 +435,7 @@ s32 enemy_backstep_from_point(void *, void *, f32);
 f32 update_enemy_wander_move(void *, void *, int, f32);
 f32 atan2_float(f32 y, f32 x);
 s32 lerp_angle_half__Fll(int, int);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 s32 update_action_hold_status__12TObjEneLappyFv(s32 arg0);
 s32 update_movement_status__12TObjEneLappyFv(s32 arg0);
 s32 obj_setFlags30(void *, s32);
@@ -1378,7 +1378,7 @@ void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);
 s32 load_resource_from_descriptor(s32, int, void *, int, int, int);
 }
-u8 *load_gvm_texture_file(s32 arg0);
+u8 *load_gvm_texture_file(saddr arg0);
 extern s32 game_difficulty_selection;
 extern s32 TLobby__event_theme_id;
 

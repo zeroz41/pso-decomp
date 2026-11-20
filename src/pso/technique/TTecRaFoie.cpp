@@ -444,7 +444,7 @@ void update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 s32 play_sound_effect(s32, void *, s32, s32);
 extern s32 tl_particle;
 s32 __ct__7TObjectFP7TObject(void *, void *);
-u8 *create_fire_explosion_effect(u8 *arg0, s32 *arg1, s16 arg2, s32 arg3, f32 farg0);
+u8 *create_fire_explosion_effect(u8 *arg0, s32 *arg1, s16 arg2, saddr arg3, f32 farg0);
 void copy_technique_target_list(void *, void *);
 void clear_target_cursor_list(void *);
 }

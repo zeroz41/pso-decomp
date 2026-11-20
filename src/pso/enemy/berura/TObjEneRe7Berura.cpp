@@ -79,7 +79,7 @@ s32 enemy_validate_retained_target(u8 *arg0);
 void TObjEneDD__sub_800BA378(s32 arg0, u8 *arg1);
 s32 mult_vec_array__10TObjPlayerFUll(int, int, void *, int);
 void set_matrix_identity(u8 *arg0);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 void TObjEneRe7Berura__sub_8009472C(TObjEneRe7Berura *self, s32 arg1);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
 s32 launch__21TObjEneRe7BeruraPunchFll(TObjEneRe7BeruraPunch *, s32, Vec *, f32 *);

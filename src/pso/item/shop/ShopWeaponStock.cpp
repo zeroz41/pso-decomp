@@ -503,7 +503,7 @@ void roll_shop_weapon_grind(Item_80225064 *it) {
 
 void TLobby__sub_80225238(int a0, int a1) { shop_weapon_stock_level = a1; generate_shop_weapon_stock(a0); }
 }
-saddr create_named_object(s32 arg0);
+saddr create_named_object(saddr arg0);
 
 #pragma push
 #pragma optimization_level 1

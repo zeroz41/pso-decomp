@@ -391,7 +391,7 @@ void roll_weapon_special__9TItemDropFiPvi(saddr rng, u8 *item, s32 idx);
 void build_weapon_type_weights__9TItemDropFiPvi(saddr rng, Obj_80106F4C *item, s32 idx);
 s32 init__9TItemDataFv(void *);
 void select_weapon_drop__9TItemDropFv(saddr rng, s32 level, u8 *item);
-void *load_relocatable_file(char *, s32);
+void *load_relocatable_file(char *, saddr);
 void close_gsl_archive(void);
 void open_gsl_archive(char *);
 s32 get_drop_table_mode_flags(void);

@@ -40,7 +40,7 @@ struct Off_800753DC { s16 x, y; };
 extern "C" {
 f32 xyz_distance(void *, void *);
 extern s32 TLobby__designated_client_id;
-s32 get_bml_texlist(saddr, s32);
+saddr get_bml_texlist(saddr, s32);
 saddr get_bml_model(saddr, s32);
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void free_bin_model_request(void *, int);

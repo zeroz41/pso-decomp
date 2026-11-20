@@ -2147,7 +2147,7 @@ void create__15TPlyOnCountOverFPvPvPv(s16, s32, void (*)(void));
 void update_player_scale_camera(PlayerScaleState *state);
 void request_player_size_restore(PlayerScaleState *state);
 u32 create_lobby_marker__10TObjPlayerFsSc(s32 a0 = 0, s32 a1 = 0);
-s32 get_contact_surface_type(s32 arg0);
+s32 get_contact_surface_type(saddr arg0);
 void release_all_players_control_lock(void);
 s32 check_conditions__10TObjPlayerFv(void *, s16);
 u8 *TObjPlayer__sub_801CFBFC(u8 *arg0);
@@ -2363,7 +2363,7 @@ struct Unk_801B67C4 {
 struct Pkt_801B8908 { u16 f0; u16 client; s16 a; s16 b; };
 s32 validate_6x83_place_trap(G_ClientIDHeader *packet);
 extern "C" {
-u32 create_placed_trap__10TOMineTrapFUiss(u8 *, s32, s32);
+uaddr create_placed_trap__10TOMineTrapFUiss(u8 *, s32, s32);
 
 s8 clamp_char_at__10TObjPlayerFl(u8 *, s32);
 s32 TWindowCtrl__sub_8024A228(u16);

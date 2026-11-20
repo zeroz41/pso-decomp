@@ -73,7 +73,7 @@ extern const f32 TObjGyaranzoMissile__max_range;
 extern s32 gyaranzo_missile_volley_end_time;
 s32 post_translate_matrix(void *);
 void free_collision_body_parts(void *);
-s32 get_bml_texlist(void *, int);
+saddr get_bml_texlist(void *, int);
 saddr get_bml_model(void *, int);
 s32 draw_chunk_object();
 s32 push_matrix();

@@ -414,7 +414,7 @@ void TBoss7Crawfish::change_state(s32 state) {
 
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 uaddr TBoss7Crawfish__shared_resource;
-s32 get_bml_texlist(int, int);
+saddr get_bml_texlist(int, int);
 saddr get_bml_model(int, int);
 s32 set_field_b8__10TObjMotionFs(void *, int);
 s32 __ct__9TObjEnemyFP7TObject();

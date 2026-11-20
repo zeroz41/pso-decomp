@@ -545,7 +545,7 @@ void TObjEneEpsilonGuard::sub_8035EA90() {
 
 void vfunc_88__19TObjEneEpsilonGuardFv(void *);
 void vfunc_89__19TObjEneEpsilonGuardFv(void *);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 int TObjEneEpsilonGuard__sub_8035F950(TObjEneEpsilonBody *body);
 
 void TObjEneEpsilonGuard::update_guard_state() {

@@ -22,7 +22,7 @@ extern const char *TMapCsnCtrl__class_name;
 // entry); TObjMapCsn adds and removes itself through them.
 extern "C" {
 void fn_80140DFC(saddr arg0, saddr arg1);
-void fn_80140EA8(s32 arg0, saddr arg1);
+void fn_80140EA8(saddr arg0, saddr arg1);
 }
 void remove_value_from_id_list(saddr arg0, uaddr arg1);
 

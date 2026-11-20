@@ -274,7 +274,7 @@ f32 vector_length(void *);
 f32 subtract_vector(void *, int);
 f32 normalize_vector(void *);
 void TBoss6Type2__sub_8032F5C4(void *arg0);
-s32 get_bml_texlist(BmlResource *resource, s32 index);
+saddr get_bml_texlist(BmlResource *resource, s32 index);
 saddr get_bml_model(BmlResource *resource, s32 index);
 }
 void draw_model_blend_motion(void *arg0, void *arg1, f32 farg0);
@@ -1142,7 +1142,7 @@ s32 push_matrix();
 s32 post_translate_matrix(void *);
 s32 submit_cursor_candidate(void *, int);
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 
 void TObjPlayer::save_position() {
     saddr arg0 = (saddr)this;

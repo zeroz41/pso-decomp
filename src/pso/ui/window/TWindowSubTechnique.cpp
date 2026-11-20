@@ -163,7 +163,7 @@ void *TWindowSubTechnique__ct(TWindowSubTechnique *arg0, s32 arg1, s32 arg2);
 s32 __ct__7TObjectFP7TObject();
 }
 void text_builder_reset(void);
-void toggle_help_window_on_button(u32 arg0, s32 arg1);
+void toggle_help_window_on_button(uaddr arg0, s32 arg1);
 saddr create_titled_window_menu(saddr, s32, saddr, s32);
 
 

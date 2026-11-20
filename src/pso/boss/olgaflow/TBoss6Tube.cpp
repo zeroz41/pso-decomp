@@ -38,7 +38,7 @@ f32 TBoss6Tube__scroll_delta;
 void get_bml_model(s32, s32);
 s32 query_teammate_state__9TObjEneDDFv(void);
 void draw_ginja_object(void);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 
 void TBoss6Tube::render() {
     TBoss6Tube_802B1020 *o = (TBoss6Tube_802B1020 *)this;
@@ -210,7 +210,7 @@ u8 *TBoss6Tube__ct(TBoss6Tube *boss6_tube, u8 *arg1) {
 extern "C" {
 s32 load_resource_from_descriptor(s32, int, void *, int, int, int);
 }
-u8 *load_gvm_texture_file(s32 arg0);
+u8 *load_gvm_texture_file(saddr arg0);
 extern "C" {
 void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);

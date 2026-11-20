@@ -38,7 +38,7 @@ extern s32 model_render_flags;
 void TObjPlayer__sub_800A04F0(void *);
 void TObjEneBalClawClaw__sub_80091134(TObjEneBalClawClaw *claw);
 s32 check_path_obstructed(void *, void *);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 void TObjEneBalClawClaw__sub_80091200(TObjEneBalClawClaw *claw);
 TObjChara *find_active_entity_by_id(u16);
 void TObjEneBalClawClaw__sub_80090ECC(TObjEneBalClawClaw *claw);

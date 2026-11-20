@@ -80,7 +80,7 @@ void *find_entity_by_id(u16 id);
 }
 u8 *construct_photon_magic_square_normal(u8 *arg0, saddr arg1, s32 arg2, saddr arg3, s32 arg4);
 extern "C" {
-s32 play_persistent_sound(s32 id, saddr a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 
 s32 TPhotonLine__ct(void *, void *, void *, u16);
 s32 rotate_vector_by_matrix(int, void *, void *);

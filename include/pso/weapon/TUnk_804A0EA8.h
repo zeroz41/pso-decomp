@@ -14,6 +14,6 @@ public:
 };
 
 // Factory
-u8 *create_guld_milla(s32 arg0);
+u8 *create_guld_milla(saddr arg0);
 
 #endif

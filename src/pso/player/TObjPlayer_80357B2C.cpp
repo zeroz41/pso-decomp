@@ -38,7 +38,7 @@ void dispatch_weapon_special_effect(TObjPlayer *player, TObjBase *target, Vec *p
 void *spawn_continuous_particle_with_direction(void *pos, void *dir, s32 id);
 void *spawn_particle_effect(const void *pos, s32 id);
 u32 __nw__7TObjectFUl(s32);
-u32 create_fire_explosion_effect(u32, s32, s32, s32, f32);
+u32 create_fire_explosion_effect(u32, s32, s32, saddr, f32);
 f32 vector_length(void *);
 s32 normalize_vector(void *);
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);

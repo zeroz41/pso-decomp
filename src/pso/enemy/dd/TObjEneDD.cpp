@@ -381,7 +381,7 @@ typedef struct Ent_800BB388 {
 }
 Ent_800BB388;
 u16 enemy_nearest_visible_enemy_sq(Ent_800BB388 *self, f32 range);
-s32 collect_enemy_target_candidates(s32 arg0, Ent_800BB484 *out, f32 farg0);
+s32 collect_enemy_target_candidates(saddr arg0, Ent_800BB484 *out, f32 farg0);
 }
 
 

@@ -1274,7 +1274,7 @@ f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 
 int play_sound_effect(void*, int, int, int);
 
-void play_cue_stream_file(s32 name);
+void play_cue_stream_file(saddr name);
 
 void handle_death_state__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1);
 
@@ -1523,7 +1523,7 @@ s32 is_alive__8TObjBaseFv();
 
 u8 *get_enemy_entity(u16 arg0);
 
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 
 int play_sound_effect(void*, int, int, int);
 

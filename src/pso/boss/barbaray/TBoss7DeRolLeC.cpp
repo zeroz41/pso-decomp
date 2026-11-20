@@ -1190,7 +1190,7 @@ s32 is_alive__8TObjBaseFv();
 
 u8 *get_enemy_entity(u16 arg0);
 
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 #define TObjFish__sub_802E7B40 ((s32 (*)(void *))TObjFish__sub_802E7B40)
 #define TObjFish__sub_802E7B94 ((s32 (*)(void *))TObjFish__sub_802E7B94)
 void TObjFish__sub_802E8AD4(Fish_802E8AD4* o, u32 k);

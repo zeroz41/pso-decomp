@@ -84,7 +84,7 @@ extern "C" void TObjPlayer__sub_800DCD04(void *, void *, int, void *, s32, int);
 extern "C" void *find_entity_by_id(u16 id);
 extern "C" s32 enemy_turn_half_toward_dest(void *);
 extern "C" s32 construct_beam_effect__10TObjPlayerFPvPvPviPv(u32, void *, void *, u8, void *);
-extern "C" s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+extern "C" s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 extern "C" s32 check_path_obstructed(void *, Vec *);
 extern "C" void calc_velocity_toward_destination(void *, Vec, Vec, f32);
 extern "C" void project_actor_to_ground(void *, void *, s32);

@@ -323,7 +323,7 @@ void vt11__20TWindowSubStatusDispFv(Wn_80280F14 *arg0);
 void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
 s32 get_class_name_text(s32);
 extern "C" {
-s32 build_player_class_stat_template(s32 arg0, s32 arg1);
+s32 build_player_class_stat_template(saddr arg0, saddr arg1);
 s32 build_player_equipment_requirement_stats(int, void *);
 s32 get_shared_text_buffer();
 s32 get_layout_id__20TWindowSubStatusDispFv(s32);

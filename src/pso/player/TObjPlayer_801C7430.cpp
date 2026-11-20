@@ -1456,7 +1456,7 @@ int bswap_16__FPUs(void*);
 int bswap_32__FPUl(void*);
 void update_players__6TLobbyFv(s32 arg0);
 u8 * get_character_save_record(u16);
-s32 play_persistent_sound(s32 id, saddr a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 u32 __nw__7TObjectFUl(s32);
 s32 capture_technique_targets__10TObjPlayerFv(void *, void *);
 void launch_technique__10TObjPlayerFv(s32, s32, void *);

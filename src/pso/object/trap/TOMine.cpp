@@ -203,7 +203,7 @@ struct VObj_18_1da615 : VBase_18_1da615 {
     virtual s32 m23(void *, f32);
 };
 extern "C" {
-s32 get_localized_text_entry(s32 arg0, s32 arg1);
+saddr get_localized_text_entry(s32 arg0, s32 arg1);
 s32 play_sound_effect(s32, s32, s32, s32);
 void TOMineTrap__sub_80170CD4(void* p);
 void record_attack_source(void *object, u16 id);

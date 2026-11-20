@@ -148,7 +148,7 @@ extern "C" {
 s32 test_flags_any(s32 *flags, s32 mask);
 s32 play_weapon_hit_sound(void *);
 
-void apply_camera_shake__10TObjPlayerFiii(s32 arg0, s32 arg1, s32 arg2);
+void apply_camera_shake__10TObjPlayerFiii(s32 arg0, saddr arg1, s32 arg2);
 
 Hit_802E3D8C *csnVector(void *, void *, s32);
 
@@ -178,7 +178,7 @@ struct Rec_802E4798 { u8 pad[0x18]; s32 flags; u8 pad2[0x2C - 0x1C]; };
 extern "C" {
 s32 get_type__10TObjPlayerFPv(void *);
 
-void TObjPlayer__sub_801542F4(s32 a);
+void TObjPlayer__sub_801542F4(saddr a);
 
 void TObjPlayer__sub_8015431C(u8 *arg0);
 

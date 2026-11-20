@@ -57,7 +57,7 @@ LAYOUT_ASSERT(RecoveredGlobal_8001B8AC___vt__15TAdRicoRingCtrl_size, sizeof(Reco
 struct RecoveredGlobal_8001BD0C___vt__11TAdRicoRing { s32 value; u8 remaining[0x14]; };
 LAYOUT_ASSERT(RecoveredGlobal_8001BD0C___vt__11TAdRicoRing_size, sizeof(RecoveredGlobal_8001BD0C___vt__11TAdRicoRing) == 0x18);
 
-s32 get_bml_texlist(void *, int);
+saddr get_bml_texlist(void *, int);
 saddr get_bml_model(void *, int);
 extern RecoveredGlobal_8001BD0C___vt__11TAdRicoRing __vt__11TAdRicoRing;
 int post_translate_matrix(void*);

@@ -68,7 +68,7 @@ struct VObj_8031E650 *boss3_volopt_instance;
 s32 recon_intro_stage;
 u8 *recon_model_matrix_ptr;
 
-s32 get_bml_texlist(BmlResource *resource, s32 index);
+saddr get_bml_texlist(BmlResource *resource, s32 index);
 s32 push_matrix();
 void TObjEneRecon::render_shadows() {
   saddr bml_model;

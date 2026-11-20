@@ -55,7 +55,7 @@ const char *TObjLiveMonitorSmall__name = "TObjLiveMonitorSmall";
 const s32 lbl_804757E0[2] = { 0xF44E8, 0xF44E9 };
 extern "C" {
 s32 draw_ginja_object(int);
-s32 get_bml_texlist(saddr, s32);
+saddr get_bml_texlist(saddr, s32);
 s32 __ct__7TObjectFP7TObject();
 extern s32 __vt__15TObjLiveMonitor[];
 }

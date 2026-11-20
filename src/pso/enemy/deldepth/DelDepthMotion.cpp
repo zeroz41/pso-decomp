@@ -14,7 +14,7 @@ struct DelDepthModelMotion { s32 model; s32 motion; };
 struct DelDepthPairBinding { DelDepthModelMotion first, second; f32 speed; };
 
 extern "C" {
-s32 get_bml_texlist(BmlResource *resource, s32 index);
+saddr get_bml_texlist(BmlResource *resource, s32 index);
 s32 find_nearest_hittable_enemy__10TObjPlayerFiPvf(void *, void *, f32);
 saddr get_bml_model(BmlResource *resource, s32 index);
 AnimationMotion *get_bml_motion(BmlResource *resource, s32 index);

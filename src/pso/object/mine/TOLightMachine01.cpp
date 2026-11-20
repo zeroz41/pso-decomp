@@ -20,7 +20,7 @@ const char *bm_o_light_machine01_model_names[3] = { "fs_obj_light.gj", "fs_obj_t
 BmlResourceDescriptor light_machine01_resource_desc = { "bm_o_light_machine01.bml", bm_o_light_machine01_model_names, bm_o_light_machine01_motion_names, 2, 0 };
 
 extern "C" {
-s32 get_bml_texlist(void *, s32);
+saddr get_bml_texlist(void *, s32);
 saddr get_bml_model(void *, s32);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 uaddr TOLightMachine01__shared_bml_archive;

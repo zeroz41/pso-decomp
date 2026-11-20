@@ -88,7 +88,7 @@ s32 clear_ref_if_destroyed__11TObjMesBaseFv();
 
 extern s32 __vt__13TObjGbAdvance[];
 
-s32 get_bml_texlist(void *, s32);
+saddr get_bml_texlist(void *, s32);
 u8 *TObjGbAdvance__ct(u8 *arg0, s32 arg1, s32 arg2);
 }
 void load_computer_resources(void);

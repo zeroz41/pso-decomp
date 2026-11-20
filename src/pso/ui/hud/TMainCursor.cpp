@@ -167,7 +167,7 @@ extern u8 shared_effect_texture_list[];
 s32 check_flag_100__10TObjPlayerFPv(void *);
 s32 is_invalid_slot__10TObjPlayerFUc(u8);
 s32 play_sound_effect(s32, void *, s32, s32);
-s32 can_pickup_item_by_id__10TObjPlayerFP5TItem(u32, s32);
+s32 can_pickup_item_by_id__10TObjPlayerFP5TItem(uaddr, saddr);
 
 extern "C" void render__7TObjectFv();
 extern "C" void render_shadows__7TObjectFv();

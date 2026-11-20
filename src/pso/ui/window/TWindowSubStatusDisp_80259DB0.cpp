@@ -8,7 +8,7 @@
 
 extern "C" {
 f32 fabs_float(f32, f32);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 }
 
 #pragma fp_contract on

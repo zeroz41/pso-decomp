@@ -354,7 +354,7 @@ f32 random_ratio__9TObjCharaFv(void *);
 u16 get_entity_id(void *);
 s32 is_split_screen();
 saddr get_bml_motion(s32, s32);
-s32 get_bml_texlist(BmlResource *resource, s32 index);
+saddr get_bml_texlist(BmlResource *resource, s32 index);
 saddr get_bml_model(BmlResource *resource, s32 index);
 void clear_target_cursor_list(void *p);
 void TObjPlayer__sub_80052390(f32 x);

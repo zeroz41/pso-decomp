@@ -86,7 +86,7 @@ extern "C" {
 
 s32 get_bml_motion(saddr, s32);
 
-s32 get_bml_texlist(saddr, s32);
+saddr get_bml_texlist(saddr, s32);
 
 saddr get_bml_model(saddr, s32);
 
@@ -96,7 +96,7 @@ u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 
 int is_quest_active(void);
 
-s32 get_localized_text_entry(s32, s32);
+saddr get_localized_text_entry(s32, s32);
 
 void run_task__15TObjLaboMapWarpFv(u8 *arg0);
 

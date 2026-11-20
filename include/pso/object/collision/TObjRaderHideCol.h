@@ -15,13 +15,13 @@ struct TObjRaderHideCol : public TObjBase {
 LAYOUT_ASSERT(TObjRaderHideCol_size, sizeof(TObjRaderHideCol) == 0x98);
 
 extern "C" {
-u8 *TObjRaderHideCol__ct(u8 *arg0, s32 arg1, s32 arg2);
+u8 *TObjRaderHideCol__ct(u8 *arg0, s32 arg1, saddr arg2);
 void *__dt__16TObjRaderHideColFv(void *arg0, s16 arg1);
 }
 
 // --- C functions defined in TObjRaderHideCol.cpp ---
 extern "C" {
-u8 *TObjRaderHideCol__ct(u8 *rader_hide_col, s32 arg1, s32 arg2);
+u8 *TObjRaderHideCol__ct(u8 *rader_hide_col, s32 arg1, saddr arg2);
 void *__dt__16TObjRaderHideColFv(void *arg0, s16 arg1);
 }
 // --- end of C functions

@@ -21,7 +21,7 @@ u8 *TBGLightningCtrl__ct(u8 *arg0, s32 parent, s32 arg2);
 void TBGLightningCtrl__sub_802A9A08(void);
 u8 *__ct__12TBGLightningFv(u8 *arg0, void *arg1, s32 arg2, f32 farg0);
 void *__dt__16TBGLightningCtrlFv(void *arg0, s16 arg1);
-u8 *create__12TBGLightningFiif(s32 arg0, s32 arg1, f32 farg0);
+u8 *create__12TBGLightningFiif(saddr arg0, s32 arg1, f32 farg0);
 }
 void load_bg_lightning(void);
 extern "C" {

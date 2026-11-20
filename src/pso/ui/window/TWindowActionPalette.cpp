@@ -54,7 +54,7 @@ s32 is_on_current_screen__11TCameraCtrlFv(void *, s32);
 u16 select_action_palette_and_apply__10TObjPlayerFlll(TObjPlayer *, int, int, int);
 u16 get_entry_by_index__20TWindowActionPaletteFPll(int, int);
 u16 get_slot_type_for_index__20TWindowActionPaletteFPll(int, int);
-s32 is_action_channel_available__10TObjPlayerFii(s32 arg0, s32 arg1);
+s32 is_action_channel_available__10TObjPlayerFii(saddr arg0, s32 arg1);
 s32 TObjPlayer__sub_80354D5C(s32 arg0);
 s32 TObjPlayer__sub_80354C7C(s32);
 extern u8 controller_input_state[];

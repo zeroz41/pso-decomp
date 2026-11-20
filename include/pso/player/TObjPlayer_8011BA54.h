@@ -5,7 +5,7 @@
 
 // Defined in pso/weapon/shoot/TItemShoot.cpp.
 extern "C" {
-s32 create_shoot_model__10TObjPlayerFUiiif(u32 owner, s32 pos, s32 dir, f32 life);
+s32 create_shoot_model__10TObjPlayerFUiiif(uaddr owner, saddr pos, saddr dir, f32 life);
 }
 
 #endif

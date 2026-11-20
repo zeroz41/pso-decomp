@@ -283,7 +283,7 @@ void TObjButterflyLobby::run_task() {
 }
 #pragma pop
 
-s32 get_bml_texlist(void *, int);
+saddr get_bml_texlist(void *, int);
 saddr get_bml_model(void *, int);
 s32 __ct__8TObjBaseFP7TObject();
 extern s32 __vt__18TObjButterflyLobby[];

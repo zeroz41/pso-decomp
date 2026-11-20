@@ -71,7 +71,7 @@ f32 atan2_float(f32 y, f32 x);
 u8 * dispatch_shared_handler_a__6TLobbyFl(s32);
 
 void TBoss4Type2__sub_80057128(void *arg0);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 extern s32 boss4_type2_attack_pattern_table[];
 extern s32 game_difficulty_selection;
 s32 TBoss4Type2__sub_80054DA8();
@@ -176,7 +176,7 @@ struct Obj_80056DF0 { u8 pad0[0x3AC]; s32 i3AC; s32 i3B0; f32 f3B4; f32 f3B8; f3
 f32 random_ratio__9TObjCharaFv(void *);
 u16 get_entity_id(void *);
 saddr get_bml_motion(s32, s32);
-s32 get_bml_texlist(BmlResource *resource, s32 index);
+saddr get_bml_texlist(BmlResource *resource, s32 index);
 saddr get_bml_model(BmlResource *resource, s32 index);
 s32 pick_random_target_player__11TBoss4Type3Fv(void);
 s32 TBoss4DarkFalz__sub_8004AF5C(s32, s16 *, s16 *);

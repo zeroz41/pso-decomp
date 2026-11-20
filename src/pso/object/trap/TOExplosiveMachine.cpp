@@ -24,7 +24,7 @@ s32 post_translate_matrix(const Vec *);
 s32 push_matrix();
 
 void *get_bml_model(void *, s32);
-s32 get_bml_texlist(void *, s32);
+saddr get_bml_texlist(void *, s32);
 
 __declspec(section ".rodata") const char lbl_80441268[] = "fs_obj_bapipe.gj";
 __declspec(section ".rodata") const char lbl_8044127C[] = "fs_obj_bapipe_a.gj";

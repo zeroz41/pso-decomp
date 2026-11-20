@@ -50,7 +50,7 @@ extern s32 local_client_id;
 extern u32 model_render_flags;
 void *find_entity_by_id(u16 id);
 void minimap_render_dot(f32 *pos, s32 color, s32, s32);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 TObject *create_particle_emitter(Vec *pos, s32 id);
 void set_matrix_identity(s32 matrix, f32 scale);
 void rotate_vector_by_matrix(saddr matrix, Vec *src, Vec *dst);

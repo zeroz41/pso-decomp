@@ -59,7 +59,7 @@ void *find_entity_by_id(u16 id);
 }
 u8 *construct_photon_magic_square_normal(u8 *arg0, saddr arg1, s32 arg2, saddr arg3, s32 arg4);
 extern "C" {
-s32 play_persistent_sound(s32 id, saddr a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 u8 *__nw__7TObjectFUl(s32, f32);
 
 s32 scroll_strip_uvs(void *, s16, int);

@@ -38,7 +38,7 @@ s32 mfci_seek(MfciFileEntry* file, s32 sectors, s32 origin);
 void mfci_close(MfciFileEntry* file);
 MfciFileEntry* mfci_open(const char* name, s32 entry, s32 mode);
 u32 mfci_parse_file_size(char* name);
-void mfci_set_error_callback(s32 arg0, s32 arg1);
+void mfci_set_error_callback(saddr arg0, s32 arg1);
 void mfci_exec_server(void); // inferred: mfCiExecServer
 
 // The device's function table for CRI's file system: cvFsAddDev("MFS", mfci_get_interface, 0) registers

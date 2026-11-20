@@ -183,7 +183,7 @@ struct TechniqueRingwaveTextureList { u8 * value; u8 remaining[0x8]; };
 extern TechniqueRingwaveTextureList technique_ringwave_texture_list;
 u8 *load_resource_from_descriptor(u8 *, s32, void *, s32, s32, s32);
 }
-u8 *load_gvm_texture_file(s32 arg0);
+u8 *load_gvm_texture_file(saddr arg0);
 extern "C" {
 void bind_gvm_texture_list(const char *, void *);
 }

@@ -302,7 +302,7 @@ extern "C" {
 struct RecoveredGlobal_lbl_80485448 { s32 value; u8 remaining[0x8]; };
 extern RecoveredGlobal_lbl_80485448 lbl_80485448;
 void normalize_vector(Vec *);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 
 void TBoss4DarkFalz::update_leader_die_type2() {  }
 

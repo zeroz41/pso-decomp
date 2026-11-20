@@ -141,7 +141,7 @@ s32 TObjPlayer__sub_800A1FEC(void *arg0);
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
 f32 TObjPlayer__sub_800A3200(s32 arg0);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 extern s32 actor_frame_tick;
 s32 TObjPlayer__sub_800A2390(void *arg0_);
 

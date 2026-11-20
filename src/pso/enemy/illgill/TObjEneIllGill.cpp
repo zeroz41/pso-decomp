@@ -56,7 +56,7 @@ void *spawn_continuous_particle_with_direction(void *pos, void *dir, s32 id);
 s32 angle_difference_abs(s32, s32);
 void *get_player_by_client_id(s32 i);
 s32 minimap_render_dot(void *, int, int, int);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 void subtract_vector(void *, void *);
 extern saddr tl_05;
 s32 obj_setFlags30(void *, int);

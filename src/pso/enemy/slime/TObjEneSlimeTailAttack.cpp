@@ -66,7 +66,7 @@ void scale_matrix_vec3(u8 *arg0, u8 *arg1);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 void render__15TObjEneSlimeOneFv(TObjEneSlimeOne *arg0);
-s32 get_bml_texlist(BmlResource *resource, s32 index);
+saddr get_bml_texlist(BmlResource *resource, s32 index);
 saddr get_bml_model(BmlResource *resource, s32 index);
 u8 *get_instance__15TObjEneSlimeOneFv();
 s32 init_collision_body_parts(void *, void *, int);
@@ -188,7 +188,7 @@ struct Stack_800EB4A0 {
 u16 find_nearest_visible_player(void *, void *, f32);
 u8 * get_bml_motion(s32, s32);
 s32 exchange_object_state__9TObjEnemyFls(void *, void *, int);
-void transform_to_view__11TCameraCtrlFii(s32, s32);
+void transform_to_view__11TCameraCtrlFii(saddr, saddr);
 void TObjPlayer__sub_800E80C0(u8 *arg0);
 S_800E80E8 * TObjPlayer__sub_800E80E8(S_800E80E8 *dst, S_800E80E8 *src);
 void TObjPlayer__sub_800E8128(void);
@@ -370,7 +370,7 @@ void is_target_in_attack_range__9TObjCharaFv();
 
 void receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll();
 s32 minimap_render_dot(void *, s32, s32, s32);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 
 void receive_physical_attack__9TObjCharaFPvf();
 

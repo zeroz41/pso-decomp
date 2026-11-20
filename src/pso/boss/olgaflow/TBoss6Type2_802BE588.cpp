@@ -93,7 +93,7 @@ int send_action_packet__11TBoss6Type2FSc(void*, void*);
 s32 TBoss6Type2__sub_802BB768(void *);
 s32 VecCopy__FP3VecPC3Vec(void *, void *);
 extern const f32 lbl_805DE3F8;
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 extern const f32 lbl_805DE404;
 extern const f32 lbl_805DE400;
 void TBoss6Type2__sub_802BA598(TBoss6Type2 *self, s32 elapsed, s32 duration);

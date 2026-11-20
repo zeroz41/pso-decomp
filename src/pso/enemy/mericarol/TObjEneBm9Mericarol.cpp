@@ -109,7 +109,7 @@ extern const s32 lbl_804722F4[];
 extern const s32 lbl_80472300[];
 extern const s32 lbl_8047230C[];
 extern void *tl_04;
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 s32 is_valid_target__9TObjEneDDFv(TObjBase *target);
 s32 free_collision_body_parts(void *);
 void init_collision_body_parts(void *, void *, s32);

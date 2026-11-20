@@ -280,7 +280,7 @@ s32 is_split_screen();
 s32 get_current_floor();
 s32 get_split_screen_view_index__11TCameraCtrlFUs(void *);
 s32 get_floor_destination_name();
-s32 get_localized_text_entry(s32, s32);
+saddr get_localized_text_entry(s32, s32);
 s32 debug_draw_line(void *, void *, u32, u32);
 s32 fn_80141CB4(void *, f32);
 s32 test_player_body_overlap_at(void *, void *, Vec *);

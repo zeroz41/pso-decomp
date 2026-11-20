@@ -142,7 +142,7 @@ void *load_resource_from_descriptor(void *, int, void *, int, int, int);
 void TObjPlayer__sub_800A4294(void);
 saddr load_enemy_bml_resource_named(saddr arg0, saddr arg1);
 }
-u8 *load_gvm_texture_file(s32 arg0);
+u8 *load_gvm_texture_file(saddr arg0);
 Node_800AA82C *lbl_805D509C;
 Node_800AA82C *lbl_805D50A0;
 void *breakup_model_ptr;
@@ -188,7 +188,7 @@ struct Self_800AA334 { u8 pad[0x3B0]; VObj_14_fddec9 sub; };
 
 
 extern "C" {
-void TBoss3Volopt__sub_800D8D88(s32 arg0);
+void TBoss3Volopt__sub_800D8D88(saddr arg0);
 void TObjPlayer__sub_800A8E04(u8 *arg0);
 void obj_setFlags30(void *, u32);
 void dubchik_start_dying(u8 *arg0);
@@ -212,7 +212,7 @@ s32 post_translate_matrix(void *);
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 s32 update_enemy_wander_move(void *, Vec *, s32, f32);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 void TObjPlayer__sub_800A9E9C(void *arg0_);
 
 struct Ids_800AA82C { s16 v[2]; };

@@ -46,7 +46,7 @@ TUnk_8048FA00 * TObjEneBm3Fly__breakup_model;
 s32 vec3_add_to(void *, void *);
 f32 vec3_dot(void *, void *);
 s32 subtract_vector(void *, void *);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 void TObjEneBm3Fly__play_orbit_flight_sound(TObjEneBm3Fly *fly);
 f32 calc_scaled_value__15TObjBoss2TunnelFlf(int, int, f32, f32);
 void TObjEneBm3Fly__sub_800B02C8(TObjEneBm3Fly *arg0, s32 arg1);

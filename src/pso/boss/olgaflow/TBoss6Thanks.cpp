@@ -85,7 +85,7 @@ static const Ent_8035CB88 boss6_thanks_particle_emitter_table[4] = {
 
 extern "C" {
 s32 get_bml_motion(void *, s32);
-s32 get_bml_texlist(void *, s32);
+saddr get_bml_texlist(void *, s32);
 saddr get_bml_model(void *, s32);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_8035D10C___vt__12TBoss6Thanks __vt__12TBoss6Thanks;

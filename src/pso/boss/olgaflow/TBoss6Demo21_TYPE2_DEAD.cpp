@@ -71,7 +71,7 @@ extern void *__vt__23TBoss6Demo21_TYPE2_DEAD[];
 void push_matrix();
 void post_translate_matrix(void *);
 s32 get_bml_motion(void *, int);
-s32 get_bml_texlist(BmlResource *resource, s32 index);
+saddr get_bml_texlist(BmlResource *resource, s32 index);
 saddr get_bml_model(BmlResource *resource, s32 index);
 void set_scripted_camera_pose(void *, void *, void *);
 void __ct__7TObjectFP7TObject(void *);
@@ -80,7 +80,7 @@ f32 vector_length(void *);
 void subtract_vector(void *, void *);
 void normalize_vector(void *);
 #define __vt__23TBoss6Demo21_TYPE2_DEAD ((u8 *)__vt__23TBoss6Demo21_TYPE2_DEAD)
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 s32 is_state_1f__14TBoss6PlotFalzFUi(u32 arg0);
 void run_task__23TBoss6Demo21_TYPE2_DEADFv(Fish_8033E0F0 *arg0);
 

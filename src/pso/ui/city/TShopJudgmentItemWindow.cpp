@@ -178,7 +178,7 @@ struct VObj_802209D8 : VBase_802209D8 {
 
 extern "C" {
 int obj_getPtr2B0_20(u8 *p);
-void play_cue_stream_file(s32 name);
+void play_cue_stream_file(saddr name);
 u16 get_entity_id(s32);
 }
 

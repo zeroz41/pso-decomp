@@ -89,7 +89,7 @@ TObjChara *find_active_entity_by_id(u16);
 s32 fn_80090464(void *, int);
 u8 *get_enemy_entity(u16);
 s32 minimap_render_dot(void *, int, int, int);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 s32 post_translate_matrix(void *);
 s32 push_matrix();
 void queue_destruction__7TObjectFv(void *arg0);

@@ -49,7 +49,7 @@ void *alloc_and_construct__18TObjLaboDesignBaseFPv(void *arg0);
 void *create_instance__18TObjLaboDesignBaseFPv(void *arg0);
 void render__18TObjLaboDesignBaseFPv(u8 *arg0);
 void free_collision_body_parts(void *);
-s32 get_bml_texlist(BmlResource *resource, s32 index);
+saddr get_bml_texlist(BmlResource *resource, s32 index);
 saddr get_bml_model(BmlResource *resource, s32 index);
 s32 rotate_matrix_y(int, int);
 s32 set_global_param__8TObjFishFl();

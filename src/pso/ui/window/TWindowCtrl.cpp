@@ -199,7 +199,7 @@ void TWindowCtrl::update_com_card_window() {
 }
 
 }
-s32 chat_accept_submission(s32 arg0);
+s32 chat_accept_submission(saddr arg0);
 extern "C" {
 void TWindowChat__sub_80247DFC(u8 *arg0);
 void TWindowChat__sub_80247E50(u8 *arg0);

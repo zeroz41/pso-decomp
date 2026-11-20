@@ -46,7 +46,7 @@ struct Fish_8033CB4C
 
 extern "C" {
 s32 get_bml_motion(s32, s32);
-s32 get_bml_texlist(BmlResource *resource, s32 index);
+saddr get_bml_texlist(BmlResource *resource, s32 index);
 saddr get_bml_model(BmlResource *resource, s32 index);
 int set_scripted_camera_pose(void *, void *, void *);
 int build_tables__14TBoss6PlotFalzFPvPvi(void *, void *, int);

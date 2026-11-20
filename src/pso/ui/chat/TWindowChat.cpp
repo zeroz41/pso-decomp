@@ -57,7 +57,7 @@ struct RecoveredFields_8024775C_arg0
 };
 
 extern "C" {
-s32 TAdSinglePlyChrSelectGC__sub_80076D9C(s32 arg0, s32 arg1);
+saddr TAdSinglePlyChrSelectGC__sub_80076D9C(saddr arg0, saddr arg1);
 int get_chat_shortcut(s32 arg0);
 s32 update_selected_symbol__20TWindowSubSymbolChatFv();
 bool TWindowCtrl__sub_8024701C(Win_8024701C *w);

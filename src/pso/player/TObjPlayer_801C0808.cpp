@@ -80,7 +80,7 @@ void TObjPlayer::build_6x2C_impose_hold_packet() {
 
 #define copy_subcommand_header ((s32 (*)())copy_subcommand_header)
 #define bswap_pkt_u16x2_u32__10TObjPlayerFPv ((s32 (*)())bswap_pkt_u16x2_u32__10TObjPlayerFPv)
-void bswap__9TItemDataFv(s32 arg0);
+void bswap__9TItemDataFv(saddr arg0);
 
 void TObjPlayer::bswap_and_send_packet() {
     saddr cmd = (saddr)this;

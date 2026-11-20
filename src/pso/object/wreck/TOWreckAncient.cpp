@@ -128,7 +128,7 @@ uaddr wreck_ancient_brakable_bml_resource;
 
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-s32 get_bml_texlist(void *, s32);
+saddr get_bml_texlist(void *, s32);
 saddr get_bml_model(void *, s32);
 void free_bin_model_request(void*, int);
 s32 post_translate_matrix(void *);

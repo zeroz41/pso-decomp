@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-u8 *create_s_rank_shot(s32 arg0);
+u8 *create_s_rank_shot(saddr arg0);
 
 #endif

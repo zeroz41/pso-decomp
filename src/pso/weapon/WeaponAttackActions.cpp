@@ -371,7 +371,7 @@ void TItemWeapon::emit_marker_effects() {  }
 void TItemWeapon::carry_over_stats(TItemData *data, TItem *item) { memcpy((char*)data + 0x6, (char*)item + 0x1a4, 6); }
 }
 void spawn_item_attacker(s32 arg0, u32 arg1, s32 arg2, u8 *arg3);
-void spawn_land_hit_effect(s32 arg0, u32 arg1, u32 arg2, u32 arg3, s32 arg4);
+void spawn_land_hit_effect(saddr arg0, uaddr arg1, uaddr arg2, uaddr arg3, s32 arg4);
 u32 pack_weapon_trail_color(void *arg0);
 
 void TItemWeapon::activate_effect(s32 effect) {
@@ -942,7 +942,7 @@ struct Obj_8011F710 { u8 pad[0x1D1]; u8 cur; u8 pad2[0x1DC - 0x1D2]; Stats_8011F
 
 extern "C" {
 s32 play_weapon_hit_sound(void *);
-void apply_camera_shake__10TObjPlayerFiii(s32 arg0, s32 arg1, s32 arg2);
+void apply_camera_shake__10TObjPlayerFiii(s32 arg0, saddr arg1, s32 arg2);
 void play_weapon_owner_sounds(void*);
 
 s32 add_weapon_grind(Obj_8011F710 *arg0, s32 arg1);

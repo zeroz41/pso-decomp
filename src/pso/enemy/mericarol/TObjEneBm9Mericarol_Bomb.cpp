@@ -25,7 +25,7 @@ extern "C" {
 s32 obj_is_hit_receivable(u32);
 f32 fabs_float(f32);
 s32 is_area_attack_target_eligible(void *, u32);
-s32 attack_target_history_add(s32, s32);
+s32 attack_target_history_add(saddr, saddr);
 
 s32 TObjEneBm9Mericarol_Bomb::area_attack_deliver_direct(void *recoil, saddr arg2, void *object, f32 range) {
     s32 hit;

@@ -24,7 +24,7 @@ struct Node_80192434 { u32 flags; void *model; u8 pad8[0x24]; Node_80192434 *chi
 struct Fish_80192434 { u8 pad0[0x8C]; s32 f8C; u8 pad90[0x2C]; Node_80192434 *fBC; Node_80192434 *fC0; s32 fC4; void *fC8[4]; };
 
 extern "C" {
-s32 get_bml_texlist(void *, int);
+saddr get_bml_texlist(void *, int);
 saddr get_bml_model(void *, int);
 s32 __ct__8TObjBaseFP7TObject(void *);
 extern s32 __vt__9TKomorebi[];

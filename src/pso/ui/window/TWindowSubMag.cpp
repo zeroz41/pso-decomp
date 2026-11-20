@@ -125,7 +125,7 @@ void append_text_space(void);
 void text_builder_reset(void);
 void window_request_show(void *arg0);
 void window_request_refresh(u8 *arg0);
-void toggle_help_window_on_button(u32 arg0, s32 arg1);
+void toggle_help_window_on_button(uaddr arg0, s32 arg1);
 
 extern "C" const char lbl_805DD648[] = "";
 // Deferred code generation: the functions are written last to first (see configure.py).

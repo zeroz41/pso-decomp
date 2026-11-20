@@ -167,7 +167,7 @@ void TWindowSubStatusDisp::draw_split_screen_hud() {
 
 #pragma readonly_strings on
 #pragma pool_data off
-u8 *load_gvm_texture_file(s32 arg0);
+u8 *load_gvm_texture_file(saddr arg0);
 extern "C" {
 void set_global_param__8TObjFishFl();
 extern s32 split_screen_hud_animation_frame;

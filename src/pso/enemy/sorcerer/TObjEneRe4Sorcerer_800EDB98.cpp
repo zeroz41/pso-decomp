@@ -162,7 +162,7 @@ void *destroy_buffer_pair(void *arg0, s16 arg1);
 extern "C" {
 s32 approach_angle_limited(s32, s32, s32);
 s32 free_collision_body_parts(void *);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 s32 play_sound_effect(s32, void *, int, int);
 s32 create_ex__11TTecGiBartaFPvPvPv(void *, void *, s32, s32);
 void __destroy_arr(void *, void *, u32, u32);

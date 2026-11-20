@@ -305,7 +305,7 @@ void normalize_vector(void *);
 f32 project_point_onto_line(void *, void *, void *);
 f32 xyz_distance(void *, void *);
 void TBoss6Type1__sub_802B6C30(Boss_802B6C30 *self);
-s32 get_bml_texlist(s32, s32);
+saddr get_bml_texlist(s32, s32);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 // init_collision_body_parts copies these 7 spheres in TBoss6Type1__ct.
 CollisionBody lbl_804DF4E0[7] = {
