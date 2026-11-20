@@ -508,7 +508,7 @@ u8 *TObjFish__ct(u8 *fish, s32 arg1, u8 *arg2) {
     if ((s32) ((TObjFish *)fish)->m_94 < 1) {
         ((TObjFish *)fish)->m_94 = 1;
     }
-    if (init_fish_school__8TObjFishFPvll(fish, fish + 0x68, (int) (*(s32 *)((s8 *)arg2 + 0x30)), (int) (*(s32 *)((s8 *)arg2 + 0x34))) == 0) {
+    if (((TObjFish *)fish)->init_fish_school(fish + 0x68, (int) (*(s32 *)((s8 *)arg2 + 0x30)), (int) (*(s32 *)((s8 *)arg2 + 0x34))) == 0) {
         ((TObject *)fish)->queue_destruction();
     }
     return fish;

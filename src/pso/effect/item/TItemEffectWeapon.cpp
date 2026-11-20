@@ -8,13 +8,13 @@
 #include "pso/system/task/TObject.h"
 #include "pso/item/TItem.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/camera/TCameraCtrl.h"
 
 
 #pragma readonly_strings on
 const char *TItemEffectWeapon__class_name = "TItemEffectWeapon";
 
 extern "C" {
-s32 get_mode__11TCameraCtrlFPv(void *p);
 void restore_saved_depth_alpha_state();
 void TObjPlayer__sub_803DF768(s32);
 extern u32 saved_model_render_flags;
@@ -123,7 +123,7 @@ void TItemEffectWeapon::push_trail_entry(const f32* first, const f32* second) {
 }
 
 void TItemEffectWeapon::render_trail() {
-    if (get_mode__11TCameraCtrlFPv(((u8 *)&main_task)) & 0x200) {
+    if (TCameraCtrl::get_mode(((u8 *)&main_task)) & 0x200) {
         if (vertex_count != 0 && vertices != NULL) {
             TParticleCtrl::begin_effect_render();
             saved_model_render_flags = model_render_flags;

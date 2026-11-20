@@ -32,7 +32,6 @@ extern "C" void update_extension__14TOTrapChainSawFv();
 
 extern "C" {
 u8 *fn_802C9924(s32 arg0);
-s32 get_motion__17TOTrapChainSawKeyFl(s32);
 s32 get_model__17TOTrapChainSawKeyFl(int, f32);
 void vfunc_16__17TOTrapChainSawKeyFv(u8 *arg0);
 typedef struct S_802C86D4 { u8 pad0[0xE8]; s32 fE8; } S_802C86D4;
@@ -275,7 +274,7 @@ void TOTrapChainSawEdge::vfunc_16() {
     x = *(s32 *)((s8 *)this + 0xFC);
     *(s32 *)((s8 *)this + 0xFC) = x < 0 ? 0 : (x > 1 ? 1 : x);
     *(s32 *)((s8 *)this + 0xC8) = ((s32 (*)(s32))get_model__17TOTrapChainSawKeyFl)(a.v[*(s32 *)((s8 *)this + 0xFC)]);
-    *(s32 *)((s8 *)this + 0xBC) = get_motion__17TOTrapChainSawKeyFl(b.v[*(s32 *)((s8 *)this + 0xFC)]);
+    *(s32 *)((s8 *)this + 0xBC) = (saddr)TOTrapChainSawKey::get_motion(b.v[*(s32 *)((s8 *)this + 0xFC)]);
     *(s32 *)((s8 *)this + 0x24) = (s32)fn_802C9924(0);
     *(f32 *)((s8 *)this + 0xB4) = (0.0f);
     *(f32 *)((s8 *)this + 0xB8) = (1.0f);
@@ -442,12 +441,12 @@ void TOTrapChainSawKey::vfunc_16() {
     x = *(s32 *)((s8 *)((u8 *)this) + 0xF8);
     *(s32 *)((s8 *)((u8 *)this) + 0xF8) = (x < 0) ? 0 : ((x > 1) ? 1 : x);
     *(s32 *)((s8 *)((u8 *)this) + 0xC8) = ((s32 (*)(int))get_model__17TOTrapChainSawKeyFl)(a.v[*(s32 *)((s8 *)((u8 *)this) + 0xF8)]);
-    *(s32 *)((s8 *)((u8 *)this) + 0xBC) = get_motion__17TOTrapChainSawKeyFl((s32)(b.v[*(s32 *)((s8 *)((u8 *)this) + 0xF8)]));
+    *(s32 *)((s8 *)((u8 *)this) + 0xBC) = (saddr)TOTrapChainSawKey::get_motion((s32)(b.v[*(s32 *)((s8 *)((u8 *)this) + 0xF8)]));
     *(s32 *)((s8 *)((u8 *)this) + 0x24) = (s32)fn_802C9924(3);
     *(f32 *)((s8 *)((u8 *)this) + 0xB4) = (0.0f);
     *(f32 *)((s8 *)((u8 *)this) + 0xB8) = (1.0f);
     *(s32 *)((s8 *)((u8 *)this) + 0xFC) = get_model__17TOTrapChainSawKeyFl(2, (0.0f));
-    *(s32 *)((s8 *)((u8 *)this) + 0x100) = get_motion__17TOTrapChainSawKeyFl(2);
+    *(s32 *)((s8 *)((u8 *)this) + 0x100) = (saddr)TOTrapChainSawKey::get_motion(2);
     *(f32 *)((s8 *)((u8 *)this) + 0x104) = (0.0f);
     *(f32 *)((s8 *)((u8 *)this) + 0x108) = (1.0f);
 }

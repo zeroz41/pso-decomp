@@ -1642,7 +1642,7 @@ void TCameraCtrl::create() {
 }
 s32 *TCameraCtrl::get_view_matrix() {
     if (is_split_screen() != 0) {
-        if (get_mode__11TCameraCtrlFPv((void *)&main_task) & 1) {
+        if (TCameraCtrl::get_mode((void *)&main_task) & 1) {
             return (long *) ((u8 *)&TCameraCtrl__view_matrices + ((TCameraCtrl::get_instance() - 1) * 0x30));
         }
         return (long *) ((u8 *)&TCameraCtrl__view_matrices + (TCameraCtrl::get_camera_no() * 0x30));
@@ -1652,7 +1652,7 @@ s32 *TCameraCtrl::get_view_matrix() {
 
 void TCameraCtrl::apply_split_screen_view_matrix() {
     if (is_split_screen() != 0) {
-        if (get_mode__11TCameraCtrlFPv(&main_task) & 1) {
+        if (TCameraCtrl::get_mode(&main_task) & 1) {
             TCameraCtrl::concat_matrix(0U, (u32) ((u8 *)TCameraCtrl__view_matrices + ((TCameraCtrl::get_instance() - 1) * 0x30)));
             return;
         }
