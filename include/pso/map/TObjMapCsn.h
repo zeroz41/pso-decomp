@@ -41,7 +41,7 @@ struct TObjMapCsn : public TObjCollidable {
     void*get_data_ptr();
     static s32 get_map_count();
     void*init();
-    static s32 init_and_return(s32 arg0);
+    static saddr init_and_return(saddr arg0);
     u8 unk_1F8[0x5C];
 };
 

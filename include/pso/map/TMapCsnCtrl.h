@@ -21,9 +21,9 @@ extern const char *TMapCsnCtrl__class_name;
 // Helpers on a TMapCsnCtrl's zero-terminated list of 0x200 entries at +0x1C (unk_1C is its first
 // entry); TObjMapCsn adds and removes itself through them.
 extern "C" {
-void fn_80140DFC(s32 arg0, s32 arg1);
+void fn_80140DFC(saddr arg0, saddr arg1);
 void fn_80140EA8(s32 arg0, saddr arg1);
 }
-void remove_value_from_id_list(s32 arg0, u32 arg1);
+void remove_value_from_id_list(saddr arg0, uaddr arg1);
 
 #endif

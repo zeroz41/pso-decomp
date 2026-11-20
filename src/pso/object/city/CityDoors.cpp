@@ -312,7 +312,7 @@ u8 *TObjCityDoor_Lobby__create(s32 arg0) {
 u32 get_map_count__10TObjMapCsnFv();
 void __dl__7TObjectFPv(void *);
 }
-void remove_value_from_id_list(s32 arg0, uaddr arg1);
+void remove_value_from_id_list(saddr arg0, uaddr arg1);
 
 extern s32 __vt__18TObjCityDoor_Lobby[];
 

@@ -957,7 +957,7 @@ s32 csn_query_map_object[4];
 
 void __sinit_CsnQuery_cpp(void) {
     __construct_array(lbl_804FF9C0, (void *)TObjPlayer__sub_8007A7B8, 0, 0x1C, 0x20);
-    TObjMapCsn::init_and_return((s32)lbl_80500140);
+    TObjMapCsn::init_and_return((saddr)lbl_80500140);
     ((TObjMapCsn *)csn_query_map_object)->init();
 }
 
@@ -973,8 +973,8 @@ extern s32 map_csn_ctrl_instance;
 s32 TObjMapCsn::get_map_count() {
     return map_csn_ctrl_instance;
 }
-void*TObjMapCsn::init() { TObjMapCsn::init_and_return((s32)this); *(int *)&this->m_prev = -1; *(float *)&this->m_next = -1.0f; return this; }
-s32 TObjMapCsn::init_and_return(s32 arg0) {
+void*TObjMapCsn::init() { TObjMapCsn::init_and_return((saddr)this); *(int *)&this->m_prev = -1; *(float *)&this->m_next = -1.0f; return this; }
+saddr TObjMapCsn::init_and_return(saddr arg0) {
     fn_8007A7A0((u8 *)arg0);
     return arg0;
 }

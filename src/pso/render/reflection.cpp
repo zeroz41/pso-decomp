@@ -75,7 +75,7 @@ s32 fn_8029E7BC(saddr arg0, u8 *arg1) {
   }
   VecCopy((Vec *)(&stack.sp8), (const Vec *)arg0);
   stack.spC += 35.0f;
-  temp_r3 = (u8 *) csnVecterUnder((s32)&stack.sp8, var_r31);
+  temp_r3 = (u8 *) csnVecterUnder((saddr)&stack.sp8, var_r31);
   if (temp_r3 != 0)
   {
     temp_r4 = (u8 *) (*((u8 **) (((s8 *) temp_r3) + 4)));
@@ -280,7 +280,7 @@ s32 fn_8029EC3C(Vec *pos, s32 arg1) {
         return 1;
     }
     if (0.0f == sora_reflection_ray_direction.x && 0.0f == sora_reflection_ray_direction.z) {
-        r = (CsnHit *)csnVecterUnder((s32)&a, arg1);
+        r = (CsnHit *)csnVecterUnder((saddr)&a, arg1);
     } else {
         r = csnVector(&a, &b, arg1);
     }

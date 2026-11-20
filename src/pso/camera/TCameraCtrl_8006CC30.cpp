@@ -203,7 +203,7 @@ extern u8 lbl_804FF5E8[];
 FollowVector *get_position_ptr__10TObjPlayerFv(void *);
 FollowVector *get_target_ptr__11TCameraCtrlFv(void *);
 }
-extern void *local_client_id;
+extern s32 local_client_id;
 void reset_cameras_to_actor(void *p, s32 x);
 extern FollowView *camera_ctrl_instance;
 
