@@ -86,7 +86,6 @@ struct Obj_80213980 : V_80213980 { char pad1c[0x14]; s32 state; s32 f34; s32 thr
 extern "C" {
 
 s32 get_window_layout_position(s32);
-s32 sub_8022397C__15TShopWindowBaseFv(void *);
 // Online quest download state, read by TQuestListOnline (THunterGuildSeqOnlineTask.cpp).
 u8 TQuestListOnline__dat_download_state[0x3C];
 u8 TQuestListOnline__bin_download_state[0x3C];
@@ -256,12 +255,6 @@ struct Seq_80214978 : VObj_80214978 {
     u32 state;
 };
 
-extern "C" {
-
-s32 sub_8022397C__15TShopWindowBaseFv(void *);
-
-}
-
 // Written last-to-first: the unit is built with deferred code generation (see configure.py).
 
 extern "C" {
@@ -275,7 +268,7 @@ THunterGuildSeqOnline_Server::THunterGuildSeqOnline_Server(TObject *parent, TObj
     choice_menu = NULL;
     quest_thread = NULL;
     pad_40 = 1;
-    THunterGuildSeqOnline_Server__instance_table[sub_8022397C__15TShopWindowBaseFv(this)] = 1;
+    THunterGuildSeqOnline_Server__instance_table[((TShopWindowBase *)this)->sub_8022397C()] = 1;
     hunter_guild_seq_online_server_instance = this;
 }
 
@@ -289,7 +282,7 @@ THunterGuildSeqOnline_Server::~THunterGuildSeqOnline_Server() {
         choice_menu->close();
         choice_menu = NULL;
     }
-    THunterGuildSeqOnline_Server__instance_table[sub_8022397C__15TShopWindowBaseFv(this)] = 0;
+    THunterGuildSeqOnline_Server__instance_table[((TShopWindowBase *)this)->sub_8022397C()] = 0;
     hunter_guild_seq_online_server_instance = NULL;
 }
 
@@ -603,7 +596,7 @@ THunterGuildSeqOnline_Client::THunterGuildSeqOnline_Client(TObject *parent, TObj
     pad_34 = 0;
     choice_menu = NULL;
     quest_thread = NULL;
-    THunterGuildSeqOnline_Client__instance_table[sub_8022397C__15TShopWindowBaseFv(this)] = 1;
+    THunterGuildSeqOnline_Client__instance_table[((TShopWindowBase *)this)->sub_8022397C()] = 1;
     hunter_guild_seq_online_client_instance = this;
 }
 
@@ -617,7 +610,7 @@ THunterGuildSeqOnline_Client::~THunterGuildSeqOnline_Client() {
         choice_menu->close();
         choice_menu = NULL;
     }
-    THunterGuildSeqOnline_Client__instance_table[sub_8022397C__15TShopWindowBaseFv(this)] = 0;
+    THunterGuildSeqOnline_Client__instance_table[((TShopWindowBase *)this)->sub_8022397C()] = 0;
     hunter_guild_seq_online_client_instance = NULL;
 }
 

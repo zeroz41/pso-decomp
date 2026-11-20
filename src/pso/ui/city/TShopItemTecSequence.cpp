@@ -82,7 +82,6 @@ struct Seq_80220110 : VBase_18_80220110 {
 };
 
 extern "C" {
-s32 sub_8022397C__15TShopWindowBaseFv(void *);
 saddr set_service_counter_camera(void *, int);
 s32 get_window_layout_position(int, f32);
 // Per-player slot flags, set by the ctor and cleared by the dtor (as THunterGuildSeqOffline__instance_table).
@@ -146,7 +145,7 @@ TShopItemTecSequence::TShopItemTecSequence(TObject *parent, TObjPlayer *player) 
     item_tec_sequence_instance = this;
     lbl_805D6248 = 0;
     lbl_805D624C = 0;
-    TShopItemTecSequence__slot_table[sub_8022397C__15TShopWindowBaseFv(this)] = 1;
+    TShopItemTecSequence__slot_table[((TShopWindowBase *)this)->sub_8022397C()] = 1;
 }
 
 TShopItemTecSequence::~TShopItemTecSequence() {
@@ -164,7 +163,7 @@ TShopItemTecSequence::~TShopItemTecSequence() {
         choice_menu = NULL;
     }
     item_tec_sequence_instance = NULL;
-    TShopItemTecSequence__slot_table[sub_8022397C__15TShopWindowBaseFv(this)] = 0;
+    TShopItemTecSequence__slot_table[((TShopWindowBase *)this)->sub_8022397C()] = 0;
 }
 
 void TShopItemTecSequence::vfunc_11() {

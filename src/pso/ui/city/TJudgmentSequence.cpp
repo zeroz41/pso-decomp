@@ -56,7 +56,6 @@ struct Seq_80215CB8 { u8 pad[0x24]; saddr f24; };
 extern "C" {
 s32 set_service_counter_camera(void *, int);
 s32 get_window_layout_position(int, f32);
-s32 sub_8022397C__15TShopWindowBaseFv(void *);
 extern RecoveredGlobal_80215EF8___vt__17TJudgmentSequence __vt__17TJudgmentSequence;
 struct TJudgmentSequenceSlotFlags { s32 value; u8 remaining[0xC]; };
 TJudgmentSequenceSlotFlags TJudgmentSequence__slot_flags;
@@ -162,7 +161,7 @@ TJudgmentSequence::~TJudgmentSequence() {
         this->m_2c = 0U;
     }
     judgment_sequence_instance = 0;
-    *(s32 *)((s8 *)&TJudgmentSequence__slot_flags.value + (sub_8022397C__15TShopWindowBaseFv(this) * 4)) = 0;
+    *(s32 *)((s8 *)&TJudgmentSequence__slot_flags.value + (((TShopWindowBase *)this)->sub_8022397C() * 4)) = 0;
 }
 
 const char *TJudgmentSequence__class_name = "TJudgmentSequence";
@@ -176,7 +175,7 @@ TJudgmentSequence::TJudgmentSequence(TObject *parent, TObjPlayer *player) : TSho
     counter_camera = NULL;
     judgment_sequence_instance = (saddr)this;
     set_field_20(0);
-    *(s32 *)((s8 *)&TJudgmentSequence__slot_flags.value + (sub_8022397C__15TShopWindowBaseFv(this) * 4)) = 1;
+    *(s32 *)((s8 *)&TJudgmentSequence__slot_flags.value + (((TShopWindowBase *)this)->sub_8022397C() * 4)) = 1;
 }
 
 extern "C" {

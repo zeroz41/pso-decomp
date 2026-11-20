@@ -98,7 +98,6 @@ s32 compact_items__18TCheckRoomSequenceFi(int);
 s32 remove_bank_item_amount__18TCheckRoomSequenceFiii(int, int, int);
 s32 copy_item_record__18TCheckRoomSequenceFiPvi(int, void *, int);
 s32 copy_bank_to_card_window(int);
-s32 sub_8022397C__15TShopWindowBaseFv(void *);
 s32 copy_bank_item_with_stack_limit(s32 idx, void *data, s32 *out, s32 slot);
 s32 sub_802239EC__13TShopSequenceFv(void *);
 uaddr __ct__18TWindowInputNumberFPvllls(void *, s32, s32, s32, s32, s16);
@@ -200,7 +199,7 @@ void TShopGetItemWindow::rebuild_item_list() {
     void *obj;
     Win_8021EA48 *arg0 = (Win_8021EA48 *)this;
     arg0->f54 = 1;
-    x = sub_8022397C__15TShopWindowBaseFv(arg0);
+    x = ((TShopWindowBase *)arg0)->sub_8022397C();
     arg0->f50 = get_room_table_entry__18TCheckRoomSequenceFi();
     if (arg0->f50 == 0) {
         arg0->m4(0x3E, 1);
@@ -275,7 +274,7 @@ s32 TShopGetItemWindow::handle_withdraw_list_input() {
     Item_8021E870 kind;
     f32 scale;
     u32 w;
-    x = sub_8022397C__15TShopWindowBaseFv(arg0);
+    x = ((TShopWindowBase *)arg0)->sub_8022397C();
     if (arg0->f28 != 0U) {
         sel = ((TWindowMenuIconLine *)(arg0->f28))->get_cursor_value();
         if (arg0->f34 != 0U && sel != arg0->f58) {
@@ -347,7 +346,7 @@ void TShopGetItemWindow::handle_withdraw_confirm() {
   temp_r3 = ((RecoveredFields_8021E5D8_arg0 *) ((u8 *)this))->field_2C;
   if ((temp_r3 != 0U) && (((TWindowMenu *)temp_r3)->is_decided() != 0))
   {
-    slot = sub_8022397C__15TShopWindowBaseFv((void *) ((u8 *)this));
+    slot = TShopWindowBase::sub_8022397C();
     selected_menu_value = ((TWindowMenu *)(((RecoveredFields_8021E5D8_arg0 *) ((u8 *)this))->field_2C))->get_selected_value();
     if (selected_menu_value == 0)
     {

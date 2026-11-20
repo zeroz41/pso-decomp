@@ -15,7 +15,7 @@ public:
     virtual void vfunc_11();
     void set_field_20(s32);
     s32 sub_80223A48();
-    u16 sub_8022397C();
+    int sub_8022397C();
     virtual void run_task();
 public:
     f32 get_scale();

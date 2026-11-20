@@ -77,7 +77,6 @@ saddr get_window_layout_position(s32);
 s32 get_item_record__23TShopJudgmentItemWindowFPv(s32, s32, s32);
 s32 store_item_in_bank(u8 *item, s32 arg1, s32 slot);
 void copy_bank_to_card_window(s32 slot);
-s32 sub_8022397C__15TShopWindowBaseFv(void *);
 s32 sub_802239EC__13TShopSequenceFv(void *);
 s32 play_sound_effect(s32, s32, s32, s32);
 void TWindowHelpItem__set_displayed_item_by_id(u32, saddr);
@@ -195,7 +194,7 @@ s32 TShopKeepItemWindow::rebuild_item_list() {
 }
 
 void TShopKeepItemWindow::handle_deposit_list_select() {
-    s32 bank = sub_8022397C__15TShopWindowBaseFv(this);
+    s32 bank = TShopWindowBase::sub_8022397C();
     s32 cur;
     s32 count;
     s32 stack;
@@ -293,7 +292,7 @@ void TShopKeepItemWindow::handle_deposit_confirm() {
     void *win;
     win = (void *)this->confirm_window;
     if (win != NULL && ((TWindowMenu *)win)->is_decided() != 0) {
-        base = sub_8022397C__15TShopWindowBaseFv(this);
+        base = TShopWindowBase::sub_8022397C();
         r = ((TWindowMenu *)this->confirm_window)->get_selected_value();
         if (r == 0) {
             i = ((TWindowMenuIconLine *)this->item_list_window)->get_cursor_value();
@@ -342,7 +341,7 @@ s32 TShopKeepItemWindow::close_with_ok_callback() {
     if (temp_r12 != NULL) {
         temp_r12(this->message_window);
     }
-    sort_bank_items(sub_8022397C__15TShopWindowBaseFv(this));
+    sort_bank_items(TShopWindowBase::sub_8022397C());
     queue_destruction();
 }
 
@@ -353,7 +352,7 @@ s32 TShopKeepItemWindow::close_with_cancel_callback() {
     if (temp_r12 != NULL) {
         temp_r12(this->message_window);
     }
-    sort_bank_items(sub_8022397C__15TShopWindowBaseFv(this));
+    sort_bank_items(TShopWindowBase::sub_8022397C());
     queue_destruction();
 }
 

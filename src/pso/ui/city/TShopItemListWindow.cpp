@@ -138,7 +138,6 @@ struct Win_8021F9EC {
 s32 section_id_favored_grind_table[10] = {9, 7, 2, 4, 8, 10, -1, 3, -1, 5};
 
 extern "C" {
-saddr sub_8022397C__15TShopWindowBaseFv(void *);
 const char *TShopItemListWindow__class_name = "TShopItemListWindow";
 s32 sub_802239EC__13TShopSequenceFv(void *);
 s32 play_sound_effect(int, int, int, int);
@@ -175,7 +174,7 @@ TShopItemListWindow::TShopItemListWindow(saddr parent, s32 arg2, s32 arg3) : TSh
     this->m_4c = 0;
     this->m_54 = 0;
     ((TShopGetItemWindow *)(this->m_24))->calc_item_count(&sp8);
-    TLobby::set_6264_and_call_2244B0((saddr)((void *) (sub_8022397C__15TShopWindowBaseFv(((u8 *)this)))), sp8);
+    TLobby::set_6264_and_call_2244B0((saddr)((void *) ((saddr)((TShopWindowBase *)this)->sub_8022397C())), sp8);
 }
 
 TShopItemListWindow::~TShopItemListWindow() {
@@ -237,7 +236,7 @@ void TShopItemListWindow::build_item_list(void *p) {
     ((TShopWindowBase *)W)->sub_8022397C();
     W->count = TShopItemTecSequence__sub_8021FE6C();
     for (i = 0; i < W->count; i++) {
-        ((TLobby *)(&tmp))->copy_shop_item_entry(i, sub_8022397C__15TShopWindowBaseFv(W));
+        ((TLobby *)(&tmp))->copy_shop_item_entry(i, (saddr)((TShopWindowBase *)W)->sub_8022397C());
         ((TItemData *)(&W->recs[i]))->copy_from((TItemData *)(&tmp));
     }
     r = W->recs;
@@ -455,7 +454,7 @@ void TShopItemListWindow::handle_amount_confirm() {
                         ((TWindowSubStatusDisp *)status_window)->set_entry1_field20(n);
                     }
                     if (is_single_purchase_shop_item((u8 *)&self->recs[sel]) != 0) {
-                        mark_shop_tool_sold_out(sel, sub_8022397C__15TShopWindowBaseFv(this));
+                        mark_shop_tool_sold_out(sel, (saddr)TShopWindowBase::sub_8022397C());
                     }
                     ((TShopArmorListWindow *)item_list)->save_cursor_selection();
                 }
