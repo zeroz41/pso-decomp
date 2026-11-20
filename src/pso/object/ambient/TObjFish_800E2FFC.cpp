@@ -46,7 +46,7 @@ void TObjFish::set_draw_callback_list() {
     (*(State_800E3074 *)&TObjFish_draw_callback_state).counter = 0;
     (*(State_800E3074 *)&TObjFish_draw_callback_state).list = arg->list;
     (*(State_800E3074 *)&TObjFish_draw_callback_state).params = arg->params;
-    set_chunk_model_node_callback((s32)((void *)TObjFish::draw_callback_transform_to_view));
+    set_chunk_model_node_callback((saddr)((void *)TObjFish::draw_callback_transform_to_view));
 }
 
 s32 TObjFish::is_entry_table_valid() {

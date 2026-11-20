@@ -101,6 +101,6 @@ void TObjTank::load_globals() {
         var_r0 = (saddr) (load_resource_from_descriptor((void *) temp_r3, 5, &fs_obj_tank_resource_descriptor, 0, 0, 0));
     }
     (*(saddr *)&tank_bml_resource) = var_r0;
-    (*(u8 * *)&TObjTank__texture_list) = load_gvm_texture_file((s32)"fs_obj_tank.GVM");
+    (*(u8 * *)&TObjTank__texture_list) = load_gvm_texture_file((saddr)"fs_obj_tank.GVM");
 }
 

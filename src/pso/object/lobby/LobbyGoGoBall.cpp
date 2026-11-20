@@ -911,14 +911,14 @@ void TLanguage::load_lobby_textures() {
     }
     (*(void**)&gogo_ball_bml_resource) = obj;
     lobby_gvm_texture_handles[0] = (saddr)load_gvm_texture_file((saddr)"robby_chu.gvm");
-    lobby_gvm_texture_handles[1] = (s32)load_gvm_texture_file((saddr)"biri_ball.gvm");
-    lobby_gvm_texture_handles[2] = (s32)load_gvm_texture_file((saddr)"bom_ball.gvm");
-    lobby_gvm_texture_handles[3] = (s32)load_gvm_texture_file((saddr)"soft_ball.gvm");
-    lobby_gvm_texture_handles[4] = (s32)load_gvm_texture_file((saddr)"rokeorange_churoke.gvm");
-    lobby_gvm_texture_handles[5] = (s32)load_gvm_texture_file((saddr)"rokeblue_pso_churoke.gvm");
-    lobby_gvm_texture_handles[6] = (s32)load_gvm_texture_file((saddr)"robby_cat.gvm");
-    lobby_gvm_texture_handles[7] = (s32)load_gvm_texture_file((saddr)"fd_obj804_gorl03.gvm");
-    lobby_gvm_texture_handles[8] = (s32)load_gvm_texture_file((saddr)"fd_obj804_gorl03_b.gvm");
+    lobby_gvm_texture_handles[1] = (saddr)load_gvm_texture_file((saddr)"biri_ball.gvm");
+    lobby_gvm_texture_handles[2] = (saddr)load_gvm_texture_file((saddr)"bom_ball.gvm");
+    lobby_gvm_texture_handles[3] = (saddr)load_gvm_texture_file((saddr)"soft_ball.gvm");
+    lobby_gvm_texture_handles[4] = (saddr)load_gvm_texture_file((saddr)"rokeorange_churoke.gvm");
+    lobby_gvm_texture_handles[5] = (saddr)load_gvm_texture_file((saddr)"rokeblue_pso_churoke.gvm");
+    lobby_gvm_texture_handles[6] = (saddr)load_gvm_texture_file((saddr)"robby_cat.gvm");
+    lobby_gvm_texture_handles[7] = (saddr)load_gvm_texture_file((saddr)"fd_obj804_gorl03.gvm");
+    lobby_gvm_texture_handles[8] = (saddr)load_gvm_texture_file((saddr)"fd_obj804_gorl03_b.gvm");
 }
 #pragma pool_data reset
 

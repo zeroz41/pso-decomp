@@ -1131,7 +1131,7 @@ void TObjEnemy::send_6x0A_enemy_state(void *state_in) {
     u32 new_flags;
     if (((Pkt_800F65D0 *)state_in) != NULL) {
         ((TLobby *)(&state))->copy_header(((Pkt_800F65D0 *)state_in));
-    } else if (this->exchange_object_state((s32)&state, 1) == 0) {
+    } else if (this->exchange_object_state((saddr)&state, 1) == 0) {
         return;
     }
     init_6x0A_enemy_state_packet(&msg);

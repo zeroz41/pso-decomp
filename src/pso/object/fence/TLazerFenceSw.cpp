@@ -278,9 +278,9 @@ void TLazerFenceSw::load_resources() {
         }
         lazer_fence_switch_bml_resource = obj;
         if (game_difficulty_selection == 3) {
-            TLazerFenceSw__texture_list = (s32)load_gvm_texture_file((saddr)fe_obj_switch_laz_a_gvm);
+            TLazerFenceSw__texture_list = (saddr)load_gvm_texture_file((saddr)fe_obj_switch_laz_a_gvm);
         } else {
-            TLazerFenceSw__texture_list = (s32)load_gvm_texture_file((saddr)fe_obj_switch_laz_gvm);
+            TLazerFenceSw__texture_list = (saddr)load_gvm_texture_file((saddr)fe_obj_switch_laz_gvm);
         }
     }
     lazer_fence_sw_ginja_model_table[0] = (s32)get_bml_model((BmlResource *)lazer_fence_switch_bml_resource, 0);

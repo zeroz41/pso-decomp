@@ -55,10 +55,10 @@ void TObjRoomId::render() {
         end.z = 10.0f * normal.z + position.z;
         debug_draw_line(&position, &end, 0xFFFF0000, 0xFFFF0000);
         debug_draw_sphere(&end, &c2, 2.0f);
-        draw_debug_line((u32)this, 0x13, 0x1C, (s32)"<- SCL_TAMA");
-        draw_debug_line((u32)this, 0x13, 0x1D, (s32)"<- + NUMBER");
-        draw_debug_line((u32)this, 0x13, 0x1E, (s32)"<- - NUMBER");
-        draw_debug_line((u32)this, 0x13, 0x22, (s32)"<- - 10000 : BLOCK ID ");
+        draw_debug_line((uaddr)this, 0x13, 0x1C, (saddr)"<- SCL_TAMA");
+        draw_debug_line((uaddr)this, 0x13, 0x1D, (saddr)"<- + NUMBER");
+        draw_debug_line((uaddr)this, 0x13, 0x1E, (saddr)"<- - NUMBER");
+        draw_debug_line((uaddr)this, 0x13, 0x22, (saddr)"<- - 10000 : BLOCK ID ");
     }
 }
 extern u8 identity_matrix[];

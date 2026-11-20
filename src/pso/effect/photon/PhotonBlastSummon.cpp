@@ -313,7 +313,7 @@ void TUnk_804C3248::set_photon_blast_joint_callback() {
     photon_blast_joint_index=0;
     photon_blast_joint_origins[0].list=(Node_801A7578 *)self->bindings;
     photon_blast_joint_origins[0].count=self->binding_count;
-    set_chunk_model_node_callback((s32)publish_photon_blast_joint_origins);
+    set_chunk_model_node_callback((saddr)publish_photon_blast_joint_origins);
 }
 
 void TUnk_804C3248::update_photon_blast_attachments() {

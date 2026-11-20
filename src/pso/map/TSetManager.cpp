@@ -342,22 +342,22 @@ void depart_floor_population(int unused) {
         }
     }
     if (TLobby__data_805D6114 != 0) {
-        TAdSinglePlyChrSelectGC::safe_free((u32)TLobby__data_805D6114);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)TLobby__data_805D6114);
         TLobby__data_805D6114 = 0;
     }
     if (TLobby__data_805D610C != 0) {
-        TAdSinglePlyChrSelectGC::safe_free((u32)TLobby__data_805D610C);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)TLobby__data_805D610C);
         TLobby__data_805D610C = 0;
     }
 }
 
 void TLobby::free_resources() {
     if (TLobby__data_805D6144 != NULL) {
-        TAdSinglePlyChrSelectGC::safe_free((u32)TLobby__data_805D6144);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)TLobby__data_805D6144);
         TLobby__data_805D6144 = NULL;
     }
     if (quest_object_entries != NULL) {
-        TAdSinglePlyChrSelectGC::safe_free((u32)quest_object_entries);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)quest_object_entries);
         quest_object_entries = NULL;
     }
     if (TLobby__data_805D6108 != NULL) {
@@ -369,11 +369,11 @@ void TLobby::free_resources() {
         TLobby__data_805D6104 = NULL;
     }
     if (TLobby__data_805D613C != NULL) {
-        TAdSinglePlyChrSelectGC::safe_free((u32)TLobby__data_805D613C);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)TLobby__data_805D613C);
         TLobby__data_805D613C = NULL;
     }
     if (TLobby__data_805D6138 != NULL) {
-        TAdSinglePlyChrSelectGC::safe_free((u32)TLobby__data_805D6138);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)TLobby__data_805D6138);
         TLobby__data_805D6138 = NULL;
     }
 }

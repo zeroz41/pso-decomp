@@ -77,14 +77,14 @@ void TORockJungleS01::load_resources() {
     TORockJungleS01__bml_resource = resource;
     switch (get_current_floor_area()) {
     case AREA_SEASIDE:
-        TORockJungleS01__texture_resource = (GinjaTextureList *)load_gvm_texture_file((s32)"o_rock_jungle_05.GVM");
+        TORockJungleS01__texture_resource = (GinjaTextureList *)load_gvm_texture_file((saddr)"o_rock_jungle_05.GVM");
         break;
     case AREA_MOUNTAIN:
-        TORockJungleS01__texture_resource = (GinjaTextureList *)load_gvm_texture_file((s32)"o_rock_jungle_04.GVM");
+        TORockJungleS01__texture_resource = (GinjaTextureList *)load_gvm_texture_file((saddr)"o_rock_jungle_04.GVM");
         break;
     case AREA_JUNGLE_EAST:
     default:
-        TORockJungleS01__texture_resource = (GinjaTextureList *)load_gvm_texture_file((s32)"o_rock_jungle_123.GVM");
+        TORockJungleS01__texture_resource = (GinjaTextureList *)load_gvm_texture_file((saddr)"o_rock_jungle_123.GVM");
         break;
     }
     TMotorcycle::add_entry(0x3E, get_model(0), get_jungle_rock_texture_resource(0), 5.0f, 0.0f);
@@ -94,7 +94,7 @@ void TORockJungleS01::load_resources() {
 void TORockJungleS01::free_globals() {
     if (TORockJungleS01__texture_resource != NULL) {
         release_texture_list(TORockJungleS01__texture_resource);
-        TAdSinglePlyChrSelectGC::safe_free((u32)TORockJungleS01__texture_resource);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)TORockJungleS01__texture_resource);
         TORockJungleS01__texture_resource = NULL;
     }
     if (TORockJungleS01__bml_resource != NULL) {

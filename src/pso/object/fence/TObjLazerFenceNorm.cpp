@@ -137,7 +137,7 @@ void load_lazer_fence_norm_resources(void) {
             obj = load_resource_from_descriptor(obj, 5, &lazer_fence_norm_episode1_resource_descriptor, 0, 0, 0);
         }
         lazer_fence_norm_bml_resource = (saddr)obj;
-        lazer_fence_norm_texture_list = (s32)load_gvm_texture_file((saddr)"fe_obj_lazer2.gvm");
+        lazer_fence_norm_texture_list = (saddr)load_gvm_texture_file((saddr)"fe_obj_lazer2.gvm");
         break;
     }
 }
