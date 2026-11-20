@@ -282,7 +282,7 @@ void TOTrapSeabed01::render_effect_layers() {
         }
         lbl_805D681C = actor_frame_tick;
     }
-    set_model_node_callback((s32)TOTrapSeabed01::trigger_by_id);
+    set_model_node_callback((saddr)TOTrapSeabed01::trigger_by_id);
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation_y);

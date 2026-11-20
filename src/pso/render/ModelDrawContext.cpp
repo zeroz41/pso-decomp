@@ -58,7 +58,7 @@ s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
 extern s32 node_saved_matrix[];
 void traverse_model_node_tree(struct N_803DC9E4 *p, s32 (*cb)(s32));
-void set_model_node_callback(s32 arg0) {
+void set_model_node_callback(saddr arg0) {
     model_node_callback = arg0;
 }
 
