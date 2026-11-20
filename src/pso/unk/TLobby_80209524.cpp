@@ -805,7 +805,7 @@ void load_map_set_data(s32 idx, s32 arg1) {
     TLobby__next_enemy_set_actor_id = 0;
     map_object_id_counter = 0;
     map_set_enemy_id_counter = 0;
-    copy_name((saddr)"SET");
+    copy_name("SET");
     TLobby__data_805D6134 = 0;
     if (TLobby::init_handle(0x8000) != 0) {
         load_object_set_file(idx, arg1);
@@ -817,7 +817,7 @@ void load_map_set_data(s32 idx, s32 arg1) {
         TLobby::free_data_60F0();
         TLobby__data_805D6134 |= 1;
     }
-    copy_name((saddr)"..");
+    copy_name("..");
 }
 
 struct Rec_8020AA94 {
@@ -1093,7 +1093,7 @@ void clear_map_set_data(void) {
     TLobby__map_set_file_buffer_size = 0;
     const char *name = (const char *)get_player_name_copy_buffer();
     if (strncmp(name, "SET", 0x10) == 0) {
-        copy_name((saddr)"..");
+        copy_name("..");
     }
 }
 

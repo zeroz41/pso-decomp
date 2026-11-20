@@ -76,7 +76,7 @@ void TLobby__sub_803FD694(u8 *arg0) {
     lobby_timer_add((N_80405298 *)timer, fsm->proto->timeout);
 }
 
-void update_connection_state(int arg0) {
+void update_connection_state(void *arg0) {
     PppFsm *fsm;
 
     fsm = (PppFsm *)arg0;

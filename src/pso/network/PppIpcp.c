@@ -57,7 +57,7 @@ s16 TLobby__sub_803FED78(u8 *self) {
     goto test;
     while (1) {
         if (is_timed_out() != 0 || obj[0] == 4) {
-            update_connection_state((saddr)self);
+            update_connection_state(self);
             *(s16 *)(self + 8) = 0;
             *(s16 *)(p + 8) = 0;
             return -1;
@@ -104,7 +104,7 @@ after:
         }
         break;
     }
-    update_connection_state((saddr)self);
+    update_connection_state(self);
     *(s16 *)(p + 8) = 0;
     *(s16 *)(self + 8) = 0;
     return -1;

@@ -38,7 +38,7 @@ s32 wait_for_connection(Conn_804004DC *c) {
     c->abort = 0;
     while (c->state != 5) {
         if (is_timed_out() != 0 || c->abort != 0 || *sub == 4) {
-            update_connection_state((saddr)c);
+            update_connection_state(c);
             c->abort = 0;
             return -1;
         }

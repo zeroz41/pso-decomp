@@ -61,12 +61,12 @@ s32 *get_player_name_copy_buffer(void) {
     return (s32 *)player_name_copy_buffer;
 }
 
-void copy_name(s32 name) {
-    strncpy(player_name_copy_buffer, (const char *)name, 0x10);
-    if (strncmp((const char *)name, "..", 0x10) == 0) {
+void copy_name(char *name) {
+    strncpy(player_name_copy_buffer, name, 0x10);
+    if (strncmp(name, "..", 0x10) == 0) {
         fn_800F8A78();
     }
-    fn_803DEE48((const char *)name);
+    fn_803DEE48(name);
 }
 
 void fn_800F8A78(void) {
@@ -1166,7 +1166,7 @@ saddr TItemDrop__sub_800F9448(saddr data, s32 size) {
     return 0;
 }
 
-saddr load_relocatable_file(s32 name, s32 buffer) {
+saddr load_relocatable_file(saddr name, saddr buffer) {
     TUnk_8049C658 file;
     s32 size = read_disc_file((const char *)name, (void *)buffer);
 
@@ -1305,10 +1305,10 @@ saddr load_text_resource_pair(saddr name) {
     return root;
 }
 
-void load_encrypted_archive_data(s32 name) {
+void load_encrypted_archive_data(const char *name) {
     s32 size;
 
-    TLobby__sub_800F9A60((const char *)name, (u8 *)load_encrypted_text_archive((char *)name, &size), size);
+    TLobby__sub_800F9A60(name, (u8 *)load_encrypted_text_archive((char *)name, &size), size);
 }
 
 void *alloc_named_object(const char *name, u8 *data, s32 size, RelFileTrailer *relocs) {
@@ -1334,7 +1334,7 @@ void *TLobby__sub_800F9A60(const char *name, u8 *data, s32 size) {
 }
 }
 
-saddr create_named_object(s32 name) {
+saddr create_named_object(saddr name) {
     s32 size = get_resource_file_size((const char *)name);
     TUnk_8049C658 *file;
 

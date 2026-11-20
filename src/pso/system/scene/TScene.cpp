@@ -752,7 +752,7 @@ void TScene::load_current_floor() {
         scene_resource_index = res.index;
         ent = tbl[res.index].idx;
     }
-    copy_name((saddr)((s32 *)TScene__current_floor_name));
+    copy_name((char *)TScene__current_floor_name);
     TScene::load_scene_rel_file(ent);
     if (TScene__data_805D5FCC != NULL && *(u32 *)((s8 *)TScene__data_805D5FCC + 0x14) != 0) {
         found = 0;
@@ -1014,7 +1014,7 @@ void TScene::free_scene_resources() {
     (*(s32 *)&scene_collision_data) = 0;
     TScene__data_805D5FCC = NULL;
     if (strncmp((const char *)get_player_name_copy_buffer(), TScene__current_floor_name, 0x10) == 0) {
-        copy_name((saddr)"..");
+        copy_name("..");
     }
 }
 
@@ -1033,7 +1033,7 @@ void load_floor_scene(void) {
         scene_resource_index = res.index;
         ent = tbl[res.index].idx;
     }
-    copy_name((saddr)((s32 *)TScene__current_floor_name));
+    copy_name((char *)TScene__current_floor_name);
     load_scene_map_file(ent);
     load_scene_collision_file(ent);
     if (TScene__data_805D5FCC != NULL && *(u32 *)((s8 *)TScene__data_805D5FCC + 0x14) != 0) {
@@ -1051,7 +1051,7 @@ void load_floor_scene(void) {
     TScene::load_tam_file(ent);
     ((void (*)(s32))TScene__sub_802065EC)(ent);
     ((void (*)(s32))TScene__sub_802065E8)(ent);
-    copy_name((saddr)"..");
+    copy_name("..");
     TScene__floor_scene_ready_flag = 1;
     TScene__data_805D5FE0 = 0;
     TScene__map_section_render_callback = 0;

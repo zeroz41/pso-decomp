@@ -72,7 +72,7 @@ void reset_lcp_options(void *self);
 void set_active(void *self);
 s32 set_active_flag(void *self);
 s32 set_flags_and_state(void *self);
-void update_connection_state(int arg0);
+void update_connection_state(void *arg0);
 void MD5Transform(u32 *state, u8 *block);
 u8 *write_network_u32_be(u8 *p, u32 v);
 extern u8 lbl_805D7AC0[2];

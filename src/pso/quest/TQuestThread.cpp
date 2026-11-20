@@ -788,14 +788,14 @@ TUnk_804C8678::TUnk_804C8678(TObject *parent, const char *filename, s32 kind) : 
     script = 0;
     switch (this->kind) {
     case 0:
-        copy_name((saddr)"QUEST");
+        copy_name("QUEST");
         size = get_resource_file_size((const char *)filename);
         if (size < 0) {
             queue_destruction();
         } else {
             script = (saddr)TQuestVmDownLoadServer::alloc(size + 0x400);
             read_disc_file((const char *)filename, (void *)script);
-            copy_name((saddr)"..");
+            copy_name("..");
             quest_mission_manager = this;
             init_quest_script_context(script, &ctx);
             new TQuestThread(this, 0);
@@ -821,14 +821,14 @@ TUnk_804C8678::TUnk_804C8678(TObject *parent, const char *filename, s32 kind) : 
 
 TUnk_804C8678::TUnk_804C8678(TObject *parent, const char *filename) : TObject(parent) {
     s32 size;
-    copy_name((saddr)"QUEST");
+    copy_name("QUEST");
     size = get_resource_file_size((const char *)filename);
     if (size < 0) {
         queue_destruction();
     } else {
         script = (saddr)TQuestVmDownLoadServer::alloc(size + 0x400);
         read_disc_file((const char *)filename, (void *)script);
-        copy_name((saddr)"..");
+        copy_name("..");
         quest_mission_manager = this;
         init_quest_script_context(script, &ctx);
         kind = 0;

@@ -458,7 +458,7 @@ s32 TLobby::get_drop_item_mode() {
     }
 }
 
-saddr load_relocatable_file(s32 arg0, s32 arg1);
+saddr load_relocatable_file(saddr arg0, saddr arg1);
 
 s32 TLobby__data_805D6068;
 // inferred: first word of the loaded SetDataTable*.rel module (update_drop_item/load_item_data)

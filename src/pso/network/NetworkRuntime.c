@@ -242,11 +242,11 @@ s32 TLobby__sub_803F94F0(s32 *out) {
 }
 #pragma pop
 
-void unlock_mutex(int _w0) {
+void unlock_mutex(saddr _w0) {
     OSUnlockMutex((OSMutex*)_w0);
 }
 
-void lock_mutex(int _w0) {
+void lock_mutex(saddr _w0) {
     OSLockMutex((OSMutex*)_w0);
 }
 

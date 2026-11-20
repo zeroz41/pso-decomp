@@ -37,8 +37,8 @@ s16 TLobby__sub_80402BB4(void *arg0, u32 timeout) {
     c->abort = 0;
     while (c->state != 5) {
         if (is_timed_out() != 0 || c->abort != 0 || *sub == 4) {
-            update_connection_state((saddr)c);
-            update_connection_state((saddr)(c->sub + 4));
+            update_connection_state(c);
+            update_connection_state(c->sub + 4);
             c->abort = 0;
             if (ppp_auth_failed != 0) {
                 lbl_805D7A82 = 6;
@@ -49,8 +49,8 @@ s16 TLobby__sub_80402BB4(void *arg0, u32 timeout) {
             return -1;
         }
         if (get_remaining(timeout) != 0) {
-            update_connection_state((saddr)c);
-            update_connection_state((saddr)(c->sub + 4));
+            update_connection_state(c);
+            update_connection_state(c->sub + 4);
             return -0x12;
         }
         unlock_mutex(g->mutex);
@@ -277,7 +277,7 @@ void handle_request_timeout(void *self) {
         return;
     }
     opts->message = (u8 *)"Request retry exceeded";
-    update_connection_state((saddr)(fsm->sub + 4));
+    update_connection_state(fsm->sub + 4);
     fsm->f8 = 1;
 }
 
@@ -376,7 +376,7 @@ zero:
         if (fsm->f6 != 0) {
             fsm->f6--;
         } else {
-            update_connection_state((saddr)(fsm->sub + 4));
+            update_connection_state(fsm->sub + 4);
         }
     }
     return st != 2;

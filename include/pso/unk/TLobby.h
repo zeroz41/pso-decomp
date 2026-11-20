@@ -714,9 +714,9 @@ struct TLobby : public TObject {
     static s32 run_worker_callbacks_slot4();
     static s32 run_callbacks_group2();
     static void set_callback_params(s32 arg0, s32 arg1);
-    static void SVM_SetCbSvrId(s32 arg0, s32 arg1, s32 fn, s32 arg);
+    static void SVM_SetCbSvrId(s32 arg0, s32 arg1, saddr fn, s32 arg);
     static void SVM_DelCbSvr(s32 arg0, s32 arg1);
-    static s32 svm_set_cb_svr(s32 arg0, s32 fn, s32 arg);
+    static s32 svm_set_cb_svr(s32 arg0, saddr fn, s32 arg);
     static void set_message_and_notify(char *arg0);
     void set_stream_channel_pan(s32 ch, s32 pan);
     static void update_active_streams();

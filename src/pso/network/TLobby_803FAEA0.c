@@ -213,8 +213,8 @@ s32 NetLinkConnect(NetConnectCfg *cfg) {
     return -1;
 }
 
-void lock_mutex(int mutex);
-void unlock_mutex(int mutex);
+void lock_mutex(saddr mutex);
+void unlock_mutex(saddr mutex);
 void NetMemcpy(void* destination, void* source, int size);
 #pragma push
 #pragma cplusplus off
