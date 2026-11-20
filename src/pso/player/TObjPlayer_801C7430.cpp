@@ -1547,7 +1547,7 @@ void handle_6xB0_turn_or_move_lobby_chair(void *arg0) {
     ((TObjPlayer *)(&m))->copy_lobby_font_header(arg0);
     TObjPlayer__sub_801D10D4(&m);
     if (fn_8036B798(&m) != 0) {
-        p = ((Player_801C7430 *)((s32 (*)(s32))get_player_by_client_id)((s32)(m.slot)));
+        p = ((Player_801C7430 *)((void * (*)(s32))get_player_by_client_id)((s32)(m.slot)));
         if ((p != NULL) && (((s32 (*)(void))is_in_tl03_state__10TObjPlayerFv)() != 0)) {
             ((TObjPlayer *)p)->update_lobby_chair(m.c);
             calc_direction_vector(p->dir, (Vec *)p->vec, 1.0f);
@@ -1581,7 +1581,7 @@ void TObjPlayer::update_state_group() {
 void TObjPlayer__sub_801C75A4(u8 *player) {
     s32 sp8;
     f32 length;
-    ((TObjPlayer *)player)->rotation_y = interpolate_angle__10TObjPlayerFPvUsUsPl((void *) (player), (int) (((TObjPlayer *)player)->rotation_y), (void *) (((s32 (*)(void *))TObjPlayer__sub_801D0DAC)((void *) (player))), (void *) (&sp8));
+    ((TObjPlayer *)player)->rotation_y = interpolate_angle__10TObjPlayerFPvUsUsPl((void *) (player), (int) (((TObjPlayer *)player)->rotation_y), (void *) (((void * (*)(void *))TObjPlayer__sub_801D0DAC)((void *) (player))), (void *) (&sp8));
     length = ((TObjBoss2Tunnel *)(player + 0x308))->update_scale() - 0.04f;
     if (length < 0.04f) {
         clear_velocity((void *) (player));
@@ -4725,7 +4725,7 @@ void TObjPlayer::finish_attack_stage3() {
             ((s32 (*)(void *, int, int))run_action_state_phase__10TObjPlayerFisi)((void *) (arg0), 1, 5);
         }
     } else if (this->motion_flags & 0x10) {
-        if (test_flags_any((void *)(((s32 (*)(void *))get_anim_field_c__10TObjPlayerFPv)((void *) (arg0 + 0x7CC))), 1) != 0) {
+        if (test_flags_any((void *)(((void * (*)(void *))get_anim_field_c__10TObjPlayerFPv)((void *) (arg0 + 0x7CC))), 1) != 0) {
             this->phase = 4;
             this->requested_action = ((s16 (*)(void *))get_idle_animation__10TObjPlayerFv)((void *) (arg0));
             ((s32 (*)(void *))clear_status_bit6__10TObjPlayerFPv)((void *) (arg0));
@@ -5223,7 +5223,7 @@ void TObjPlayer::update_anim_action() {
                 send_attack_target_packet();
                 increment_burst_counter((u8 *)&this->attack_state);
                 if (get_burst_counter(&this->attack_state) >= 3) {
-                    ((FlagWord *)(((s32 (*)(void *))get_anim_field_c__10TObjPlayerFPv)(arg0 + 0x7CC)))->set(8);
+                    ((FlagWord *)(((void * (*)(void *))get_anim_field_c__10TObjPlayerFPv)(arg0 + 0x7CC)))->set(8);
                     ((s32 (*)(void *, void *))apply_anim_action__10TObjPlayerFPvi)(arg0 + 0x7CC, arg0);
                     set_action_flag_40();
                     this->motion_flags = (s32) (this->motion_flags | 0x10);

@@ -2422,7 +2422,7 @@ s32 TObjPlayer::send_respawn_position() {
             ok = 1;
             for (i = 0; i < 12; i++) {
                 if (i != (u16)get_entity_id(this)) {
-                    u8 *p = (u8 *)((u32 (*)(int))get_player_by_client_id)(i);
+                    u8 *p = (u8 *)((void * (*)(int))get_player_by_client_id)(i);
                     if (p != NULL && horizontal_distance_squared((const Vec *)obj->pos, (const Vec *)(p + 0x38)) < range) {
                         ok = 0;
                         break;
@@ -3862,7 +3862,7 @@ void handle_6x83_place_trap(void *arg0) {
     ((TObjPlayer *)(&pkt))->copy_short_fields(arg0);
     ((TObjPlayer *)(&pkt))->bswap_body_words();
     if (validate_6x83_place_trap((G_ClientIDHeader *)&pkt) != 0) {
-        u8 *p = (u8 *) ((u32 (*)(int))get_player_by_client_id)(pkt.client);
+        u8 *p = (u8 *) ((void * (*)(int))get_player_by_client_id)(pkt.client);
         if (p != NULL && create_placed_trap__10TOMineTrapFUiss(p, pkt.a, pkt.b) != 0) {
             ((TObjPlayer *)(p + 0x7C4))->consume_trap_count(1, pkt.a);
             if (TObjPlayer::is_locally_controlled(p) != 0) {
@@ -4549,7 +4549,7 @@ void TObjPlayer::check_level_up() {
     if ((((s32 (*)(void))is_locally_controlled__10TObjPlayerFPv)() != 0) && (is_current_area_item_enabled() != 0)) {
         temp_r30 = ((s32 (*)(void *))clamp_nested_index__10TObjPlayerFv)(arg0) + 1;
         if (temp_r30 <= TObjPlayer::get_max_level()) {
-            if (((s32 (*)(void *, int))get_current_state_field__10TObjPlayerFScl)((void *) (((s32 (*)(void *))get_class_index__10TObjPlayerFv)(arg0)), temp_r30) <= (s32) *(s32 *)(this->m_2b0 + 0x1C)) {
+            if (((s32 (*)(void *, int))get_current_state_field__10TObjPlayerFScl)((void *) (((void * (*)(void *))get_class_index__10TObjPlayerFv)(arg0)), temp_r30) <= (s32) *(s32 *)(this->m_2b0 + 0x1C)) {
                 ((TObjPlayer *)(&sp40))->reset_sub_status_disp();
                 ((TObjPlayer *)(&sp24))->reset_sub_status_disp();
                 ((TObjPlayer *)(&sp8))->reset_sub_status_disp();
@@ -5336,7 +5336,7 @@ void handle_6x2D_release_hold(void *arg0) {
     TObjPlayer::draw_small_font((s32)((saddr) &pkt), arg0);
     bswap_g_client_id_header(&pkt);
     if (validate_6x2D_release_hold((G_ClientIDHeader *)&pkt) != 0) {
-        u8 *p = (u8 *) ((s32 (*)(s32))get_player_by_client_id)(pkt.player_id);
+        u8 *p = (u8 *) ((void * (*)(s32))get_player_by_client_id)(pkt.player_id);
         if (p != NULL) {
             ((void (*)(u8 *, int))sub_8011E204__10TObjPlayerFl)(p, 1);
         }
@@ -5652,7 +5652,7 @@ void handle_6x31_use_medical_center(void *arg0) {
     TObjPlayer::update_medical_font((s32)((s32)((saddr) &pkt)), arg0);
     bswap_g_client_id_header(&pkt);
     if (validate_6x31_use_medical_center((G_ClientIDHeader *)&pkt) != 0) {
-        u8 *p = (u8 *) ((u32 (*)(int))get_player_by_client_id)(pkt.player_id);
+        u8 *p = (u8 *) ((void * (*)(int))get_player_by_client_id)(pkt.player_id);
         if (p != NULL) {
             recover_full__10TObjPlayerFPv(p);
         }
@@ -5710,7 +5710,7 @@ void handle_6xA1_revive_player_v3(void *arg0) {
     TObjPlayer::revive_6xA1((s32)((s32)((saddr) &pkt)), arg0);
     bswap_g_client_id_header(&pkt);
     if (validate_6xA1_revive_player_v3((G_ClientIDHeader *)&pkt) != 0) {
-        u8 *p = (u8 *) ((u32 (*)(int))get_player_by_client_id)(pkt.player_id);
+        u8 *p = (u8 *) ((void * (*)(int))get_player_by_client_id)(pkt.player_id);
         if (p != NULL) {
             ((TObjPlayer *)p)->revive();
         }
@@ -6295,7 +6295,7 @@ void handle_6x0E_clear_negative_status_effects(s32 arg0) {
     ((void (*)(void *, s32))clear_negative_status_effects__10TObjPlayerFi)(&e, arg0);
     bswap_g_client_id_header(&e);
     if (validate_6x0E_clear_negative_status_effects((G_ClientIDHeader *)&e) != 0) {
-        VObj_801B2CE4 *p = (VObj_801B2CE4 *)((u32 (*)(s32))get_player_by_client_id)(e.f2);
+        VObj_801B2CE4 *p = (VObj_801B2CE4 *)((void * (*)(s32))get_player_by_client_id)(e.f2);
         if (p != 0) {
             p->m48();
         }
@@ -6723,7 +6723,7 @@ void handle_6x22_set_player_invisible(void *arg0) {
     set_invisible__10TObjPlayerFv(&pkt, arg0);
     bswap_g_client_id_header(&pkt);
     if (validate_6x22_set_player_invisible((G_ClientIDHeader *)&pkt) != 0) {
-        u8 *p = (u8 *) ((u32 (*)(int))get_player_by_client_id)(pkt.client);
+        u8 *p = (u8 *) ((void * (*)(int))get_player_by_client_id)(pkt.client);
         if (p != NULL && ((TObjPlayer *)p)->check_flag_4() == 0) {
             ((TObjPlayer *)p)->set_state_flags(0x40000);
             ((TObjPlayer *)p)->deactivate_body_collision();
@@ -6754,7 +6754,7 @@ void handle_6x23_set_player_visible(void *arg0) {
     ((s32 (*)(Pkt_801B1B08 *, void *))handle_set_visible__10TObjPlayerFi)(&pkt, arg0);
     bswap_g_client_id_header(&pkt);
     if (validate_6x23_set_player_visible((G_ClientIDHeader *)&pkt) != 0) {
-        u8 *p = (u8 *) ((u32 (*)(int))get_player_by_client_id)(pkt.client);
+        u8 *p = (u8 *) ((void * (*)(int))get_player_by_client_id)(pkt.client);
         if (p != NULL) {
             ((TObjPlayer *)p)->sub_8011E204(0x40000);
         }
@@ -6880,7 +6880,7 @@ void handle_6x1B_enable_pk_mode_for_player(void *arg0) {
     ((s32 (*)(s32, void *))draw_font__10TObjPlayerFPv)((s32)((saddr) &pkt), arg0);
     bswap_g_client_id_header(&pkt);
     if (validate_6x1B_enable_pk_mode_for_player((G_ClientIDHeader *)&pkt) != 0) {
-        u8 *p = (u8 *) ((u32 (*)(int))get_player_by_client_id)(pkt.player_id);
+        u8 *p = (u8 *) ((void * (*)(int))get_player_by_client_id)(pkt.player_id);
         if (p != NULL) {
             ((TObjPlayer *)p)->set_state_flag_6043();
         }
@@ -6917,7 +6917,7 @@ void handle_6x1C_disable_pk_mode_for_player(void *arg0) {
     TObjPlayer::update_small_font((s32)((saddr) &pkt), arg0);
     bswap_g_client_id_header(&pkt);
     if (validate_6x1C_disable_pk_mode_for_player((G_ClientIDHeader *)&pkt) != 0) {
-        u8 *p = (u8 *) ((u32 (*)(int))get_player_by_client_id)(pkt.player_id);
+        u8 *p = (u8 *) ((void * (*)(int))get_player_by_client_id)(pkt.player_id);
         if (p != NULL) {
             ((TObjPlayer *)p)->set_state_flag_604B();
         }
@@ -7041,7 +7041,7 @@ void handle_6x7A_enable_stealth_suit_effect(void *arg0) {
     TFontSmallLobby__sub_801B1224((s32)((s32)((saddr) &pkt)), arg0);
     bswap_g_client_id_header(&pkt);
     if (validate_6x7A_enable_stealth_suit_effect((G_ClientIDHeader *)&pkt) != 0) {
-        u8 *p = (u8 *) ((u32 (*)(int))get_player_by_client_id)(pkt.player_id);
+        u8 *p = (u8 *) ((void * (*)(int))get_player_by_client_id)(pkt.player_id);
         if (p != NULL) {
             ((TObjPlayer *)p)->set_stealth_suit_flags();
         }
@@ -7074,7 +7074,7 @@ void handle_6x7B_disable_stealth_suit_effect(void *arg0) {
     TFontSmallLobby::disable_stealth_suit_effect((s32)((s32)((saddr) &pkt)), arg0);
     bswap_g_client_id_header(&pkt);
     if (validate_6x7B_disable_stealth_suit_effect((G_ClientIDHeader *)&pkt) != 0) {
-        u8 *p = (u8 *) ((u32 (*)(int))get_player_by_client_id)(pkt.player_id);
+        u8 *p = (u8 *) ((void * (*)(int))get_player_by_client_id)(pkt.player_id);
         if (p != NULL) {
             ((TObjPlayer *)p)->clear_stealth_suit_flags();
         }
@@ -7327,7 +7327,7 @@ void handle_6x81_disable_drop_weapon_on_death(void *arg0) {
     TLobby__sub_801B08F0((s32)((s32)((saddr) &pkt)), arg0);
     bswap_g_client_id_header(&pkt);
     if (validate_6x81_disable_drop_weapon_on_death((G_ClientIDHeader *)&pkt) != 0) {
-        u8 *p = (u8 *) ((u32 (*)(int))get_player_by_client_id)(pkt.player_id);
+        u8 *p = (u8 *) ((void * (*)(int))get_player_by_client_id)(pkt.player_id);
         if (p != NULL) {
             TObjPlayer::disable_drop_weapon_on_death(p);
         }
@@ -7359,7 +7359,7 @@ void handle_6x82_enable_drop_weapon_on_death(void *arg0) {
     TLobby__sub_801B07E0((s32)((s32)((saddr) &pkt)), arg0);
     bswap_g_client_id_header(&pkt);
     if (validate_6x82_enable_drop_weapon_on_death((G_ClientIDHeader *)&pkt) != 0) {
-        u8 *p = (u8 *) ((u32 (*)(int))get_player_by_client_id)(pkt.player_id);
+        u8 *p = (u8 *) ((void * (*)(int))get_player_by_client_id)(pkt.player_id);
         if (p != NULL) {
             ((TObjPlayer *)p)->set_flag_drop_weapon_on_death();
         }

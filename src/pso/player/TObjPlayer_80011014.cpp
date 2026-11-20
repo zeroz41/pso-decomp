@@ -1273,7 +1273,7 @@ void TObjChara::enemy_spawn_zalure_effect() {
     stack.sp10 = -0x8000;
     oneshot_particle_emitter = (saddr)create_oneshot_particle_emitter((void *)(arg0 + 0x2FC), &stack.sp8, 0x1FE, 0x50);
     if (oneshot_particle_emitter != 0) {
-        set_owner_id__13TParticleCtrlFUs(oneshot_particle_emitter, (saddr)((void *) (((s32 (*)(s32))get_entity_id)(arg0))));
+        set_owner_id__13TParticleCtrlFUs(oneshot_particle_emitter, (saddr)((void *) (((void * (*)(s32))get_entity_id)(arg0))));
     }
 }
 
@@ -1295,7 +1295,7 @@ void TObjChara::enemy_spawn_jellen_effect() {
     stack.sp10 = -0x8000;
     oneshot_particle_emitter = (saddr)create_oneshot_particle_emitter((void *)(arg0 + 0x2FC), &stack.sp8, 0x1FD, 0x50);
     if (oneshot_particle_emitter != 0) {
-        set_owner_id__13TParticleCtrlFUs(oneshot_particle_emitter, (saddr)((void *) (((s32 (*)(s32))get_entity_id)(arg0))));
+        set_owner_id__13TParticleCtrlFUs(oneshot_particle_emitter, (saddr)((void *) (((void * (*)(s32))get_entity_id)(arg0))));
     }
 }
 
@@ -1444,7 +1444,7 @@ void record_attack_source(Obj_80010F54 *self, s32 id) {
 
 void attach_mine_trap__10TObjPlayerFiUi(saddr arg0, u32 arg1) {
     if (arg1 != 0U) {
-        ((int (*)(void*, void*))record_attack_source)((void*)arg0, (void*)(((s32 (*)(u32))get_entity_id)(arg1)));
+        ((int (*)(void*, void*))record_attack_source)((void*)arg0, (void*)(((void * (*)(u32))get_entity_id)(arg1)));
     }
 }
 
