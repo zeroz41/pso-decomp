@@ -4,6 +4,7 @@
 // Record types and data shared by the three quest download server TUs (_803E6970, _803E8918, _803E9A24).
 
 #include "types.h"
+#include "versions.h"
 #include "pso/quest/TQuestVmDownLoadServer_803E6970.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/quest/QuestDownloadCharTables.h"
@@ -353,7 +354,9 @@ N_803E9FA4 *insert_sorted_node__22TQuestVmDownLoadServerFP10N_803E9FA4(N_803E9FA
 int strncmp(const char *, const char *, u32);
 extern s32 quest_download_name_search_lo;
 extern s32 quest_download_name_search_hi;
+#if VERSION != VERSION_GPOP8P
 Node_803EA384 *TQuestVmDownLoadServer__sub_803ECF84(void);
+#endif
 Node_803EA384 *build_item_list__22TQuestVmDownLoadServerFlP12Hdr_803EA384(s32 arg0, Hdr_803EA384 *arg1);
 void TQuestVmDownLoadServer__sub_803EADD4(Obj_803EADD4 *arg0, s32 arg1);
 s32 TQuestVmDownLoadServer__sub_803EC95C(u16 *, const u8 *, int);
@@ -423,8 +426,15 @@ void TQuestVmDownLoadServer__sub_803ECA1C(u16 *arg0, s32 arg1, s32 arg2);
 Seg_803E9FFC *TQuestVmDownLoadServer__sub_803E9A74(s32, s32, u8, u8);
 void *TQuestVmDownLoadServer__sub_803ECF48(void);
 void *TQuestVmDownLoadServer__sub_803E9FFC(s32 arg0, s32 arg1, const Tok_803E9FFC *t);
+#if VERSION == VERSION_GPOP8P
+#define TQuestVmDownLoadServer__sub_803ECE94() ((Q_803EC09C *)TQuestVmDownLoadServer__sub_803ECF48())
+#define TQuestVmDownLoadServer__sub_803ECED0() TQuestVmDownLoadServer__sub_803ECF48()
+#define TQuestVmDownLoadServer__sub_803ECF0C() TQuestVmDownLoadServer__sub_803ECF48()
+#define TQuestVmDownLoadServer__sub_803ECF84() ((Node_803EA384 *)TQuestVmDownLoadServer__sub_803ECF48())
+#else
 void *TQuestVmDownLoadServer__sub_803ECED0(void);
 void *TQuestVmDownLoadServer__sub_803ECF0C(void);
+#endif
 extern u8 *file_page_cache_head;
 extern NameHash_80593EC8 lbl_80593EC8;
 s32 TQuestVmDownLoadServer__sub_803E8C2C(char *arg0, s16 arg1, Out_803E8C2C *arg2);

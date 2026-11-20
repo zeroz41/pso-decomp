@@ -1,4 +1,5 @@
 #include "types.h"
+#include "versions.h"
 #include "pso/quest/TQuestVmDownLoadServer_803E5668.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
@@ -187,9 +188,11 @@ s32 quest_download_request_0x25(s32 *arg0) {
         break;
     }
     TQuestVmDownLoadServer__sub_803EBC88(k);
+#if VERSION != VERSION_GPOP8P
     if (quest_download_slot_chain_table[quest_text_cursor_pos].c == 0) {
         return -1;
     }
+#endif
     TQuestVmDownLoadServer__sub_803EC284(0, 1);
     strcpy(a, (int)get_entry_text((void *)quest_text_cursor_pos, (void *)quest_text_entry_len));
     strcpy(b, (int)get_entry_text((void *)(quest_text_cursor_pos + quest_text_entry_len), (void *)((quest_text_end - quest_text_cursor_pos) - quest_text_entry_len)));

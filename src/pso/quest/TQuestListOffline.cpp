@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "versions.h"
 #include "pso/quest/TQuestListOffline.h"
 #include "pso/quest/StoryQuestProgress.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -19,7 +20,7 @@ extern "C" {
 const NJS_POINT2 *get_window_layout_position(s32 idx);
 }
 
-OfflineQuestEntry offline_quest_catalog_ep1[28] = {
+OfflineQuestEntry offline_quest_catalog_ep1[] = {
     {1, 0, 1, 2, 106, 107, 0, "quest04"},
     {2, 3, 4, 5, 102, 103, 0, "quest02"},
     {3, 6, 7, 8, 100, 101, 0, "quest01"},
@@ -45,16 +46,24 @@ OfflineQuestEntry offline_quest_catalog_ep1[28] = {
     {23, 66, 67, 68, 144, 145, 0, "quest23"},
     {24, 69, 70, 71, 146, 147, 0, "quest24"},
     {25, 72, 73, 74, 148, 149, 0, "quest25"},
+#if VERSION == VERSION_GPOP8P
+    {0, 75, 76, 77, -1, -1, 1, ""},
+#else
     {26, 75, 76, 77, 159, 160, 0, "quest26"},
     {0, 87, 88, 89, -1, -1, 1, ""},
+#endif
     {-1, -1, -1, -1, -1, -1, -1, ""},
 };
 
-OfflineQuestEntry lbl_804C9C10[5] = {
+OfflineQuestEntry lbl_804C9C10[] = {
+#if VERSION == VERSION_GPOP8P
+    {0, 75, 76, 77, -1, -1, 1, ""},
+#else
     {27, 78, 79, 80, -1, 161, 0, "quest27"},
     {28, 81, 82, 83, 162, 163, 0, "quest28"},
     {29, 84, 85, 86, 164, 165, 0, "quest29"},
     {0, 87, 88, 89, -1, -1, 1, ""},
+#endif
     {-1, -1, -1, -1, -1, -1, -1, ""},
 };
 

@@ -1,6 +1,7 @@
 #include "pso/system/ResourceFile.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "versions.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include <string.h>
@@ -753,9 +754,13 @@ TUnk_804C8678 *TQuestThread::create_by_mode() {
     case 2:
         return new TUnk_804C8678(tl_su, (void *)TQuestListOnline::get_quest_data(), TQuestListOnline::get_quest_size());
     case 3: {
+#if VERSION == VERSION_GPOP8P
+        return new TUnk_804C8678(tl_su, TQuestListVM::get_quest_bin(), TQuestListVM::get_quest_size());
+#else
         TUnk_804C8678 *root = new TUnk_804C8678(tl_su, TQuestListVM::get_quest_bin(), TQuestListVM::get_quest_size());
         TQuestListVM::reset();
         return root;
+#endif
     }
     case 4:
         return new TUnk_804C8678(tl_su, (void *)TQuestListOnline::get_quest_data(), TQuestListOnline::get_quest_size());
@@ -851,6 +856,10 @@ void free_menu_object(void *window) {
 void fn_801F6520(void *p) { *(u16 *)((u8 *)p + 0x60) &= 0xfffe; }
 
 u32 TQuestListVM::get_quest_size() { return decompression_capacity; }
+
+#if VERSION == VERSION_GPOP8P
+u8 *TQuestListVM::get_quest_bin() { return decrypted_quest_buffer; }
+#endif
 
 int TQuestListOnline::get_quest_size() { return quest_bin_decompressed_size; }
 

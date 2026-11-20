@@ -29,6 +29,7 @@
 #include "pso/map/FloorArea.h"
 
 #include "types.h"
+#include "versions.h"
 #include "pso/unk/TLobby.h"
 #include "pso/boss/dragon/TBoss1Dragon.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
@@ -145,7 +146,11 @@ void init_6x0A_enemy_state_packet(void* p) { *(u8*)((char*)p + 0x0) = 10; *(u8*)
 int get_attack_credit_slot_count(void) { return 4; }
 
 f32 TLobby__sub_800F7A6C(void) {
+#if VERSION == VERSION_GPOP8P
+    return *(f32 *)((s8 *)&challenge_mode_state.value + 4);
+#else
     return *(f32 *)((s8 *)&lbl_804DB1F0.value + 4);
+#endif
 }
 
 typedef char RecoveredGlobal_800F7A7C_lbl_8048C9D8_size[sizeof(RecoveredGlobal_800F7A7C_lbl_8048C9D8) == 0x748 ? 1 : -1];

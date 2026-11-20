@@ -1015,7 +1015,9 @@ pso/player/TUnk_804A2548.cpp
 pso/quest/AreaDialogueScripts.cpp
 pso/quest/TOQuestTalkBase.cpp
 pso/quest/TQuestBgmCtrl.cpp
+pso/quest/TQuestListChallenge.cpp
 pso/quest/TQuestListOnline.cpp
+pso/quest/TQuestListVM_8007EAF8.cpp
 pso/quest/TQuestListVM_801F4398.cpp
 pso/quest/TQuestThreadBoard.cpp
 pso/quest/TQuestVmDownLoadServer.cpp
@@ -1563,6 +1565,7 @@ pso/ui/window/TWindowTimer.cpp
 pso/ui/window/TWindowTradeRequest.cpp
 pso/ui/window/TWindowTradeRequest_802E0170.cpp
 pso/ui/window/TWindowUserSort.cpp
+pso/quest/TQuestListOffline.cpp
 pso/unk/TLobby.cpp
 pso/unk/TLobbyEventTheme.cpp
 pso/unk/TLobby_8001D6A0.cpp
@@ -2064,7 +2067,10 @@ pso/map/CsnQuery.cpp
 pso/ui/chat/TWindowSubSymbolChatParts.cpp
 pso/ui/frontend/TAdSelectGameModeGC_802C4748.cpp
 pso/unk/text_8011A780.cpp
+pso/quest/StoryQuestProgress.cpp
+pso/quest/TQuestListVM.cpp
 pso/unk/TLobby_800F8AA8.cpp
+pso/quest/TQuestThread.cpp
 pso/ui/frontend/TAdVIConfigGC.cpp
 pso/ui/keyboard/TKeyBoardControl_8000F764.cpp
 pso/unk/Crc32_8000F824.c
@@ -2080,9 +2086,13 @@ pso/network/TPlyJoinLobbyEntry.cpp
 pso/network/TGameProtocol.cpp
 gx/GXInit.c
 pso/ui/keyboard/TKeyBoardControl_80290CB0.cpp
+pso/unk/TLobby_800F795C.cpp
 pso/unk/TLobby_80299A60.cpp
 pso/ui/window/TWindowCtrl_80145A28.cpp
 pso/unk/TLobby_801461EC.cpp
+pso/quest/challenge/TChallenge.cpp
+pso/quest/TQuestVmDownLoadServer_803E5668.cpp
+pso/quest/challenge/ChallengeMode.cpp
 pso/ui/frontend/TAdPlayerLoadGC_803F339C.cpp
 pso/unk/text_803F3BF8.cpp
 pso/ui/frontend/TAdPlayerLoadGC_803F3CF4.cpp
@@ -2090,6 +2100,7 @@ pso/unk/text_80145A94.cpp
 pso/network/NetworkInfoLoader.cpp
 pso/unk/text_803F4D84.cpp
 pso/network/NetworkInfoCodec.cpp
+pso/unk/TLobby_800726F0.cpp
 pso/network/TProtocol_801DB10C.cpp
 pso/unk/text_801D94C8.cpp
 pso/network/TProtocol.cpp
@@ -2162,6 +2173,7 @@ pso/quest/QuestDownloadBuffers.cpp
 pso/audio/AdxtServer.cpp
 TRK_MINNOW_DOLPHIN/nubinit.c
 pso/ui/window/TWindowPartyStatus.cpp
+pso/quest/QuestOpcodeHandlers.cpp
 gx/GXFrameBuf.c
 pso/unk/text_800F7DAC.cpp
 pso/ui/frontend/TAdTrialModemChkGC_8042E9FC.cpp
@@ -2213,6 +2225,7 @@ pso/effect/photon/PhotonBlastSummon.cpp
 pso/network/NetBufferPool.c
 pso/network/NetTcp.c
 pso/npc/TObjNpcKenkyuW.cpp
+pso/quest/TQuestVmDownLoadServer_803E9A24.cpp
 pso/render/GinjaMaterial.cpp
 pso/system/movie/TMovie_80143988.cpp
 pso/ui/hud/TRaderMapCore.cpp
@@ -2224,6 +2237,7 @@ pso/unk/TUnk_804CC948.cpp
 pso/unk/TUnk_804F1C58_8035A628.cpp
 pso/unk/text_8020B5CC.cpp
 pso/weapon/TItemAttackCol.cpp
+pso/quest/TQuestVmDownLoadServer_803EB0D8.cpp
 pso/object/city/CityTrafficTables.cpp
 pso/player/TObjPlayer_803E2810.cpp
 pso/ui/charcreate/TObjCMProportion.cpp

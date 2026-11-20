@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "versions.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TObject.h"
@@ -154,10 +155,16 @@ s32 __dl__7TObjectFPv(void *);
 
 extern "C" {
 struct QLCStage_80289200 { s32 a; s32 b; s32 c; const char *name; };
-struct PairPad_80288DA4 { s32 a; s32 b; s32 c; };
+struct PairPad_80288DA4 {
+    s32 a;
+    s32 b;
+#if VERSION == VERSION_GPOE8P
+    s32 c;
+#endif
+};
 extern __declspec(section ".rodata") const QLCStage_80289200 TQuestListChallenge__stage_table[5];
 extern __declspec(section ".rodata") const QLCStage_80289200 quest_list_challenge_stage_table[9];
-extern __declspec(section ".rodata") const QLCStage_80289200 quest_list_battle_stage_table[8];
+extern __declspec(section ".rodata") const QLCStage_80289200 quest_list_battle_stage_table[];
 extern const char *TQuestListChallenge__name;
 extern __declspec(section ".rodata") const PairPad_80288DA4 lbl_80450AB4[1];
 }
@@ -397,26 +404,40 @@ u8 *TQuestListChallenge__ct(u8 *shop_window_base, s32 parent, s32 arg2, s32 arg3
     temp_r3 = get_game_play_mode();
     switch (temp_r3) {
     case 1:
+#if VERSION == VERSION_GPOE8P
         if (TLobby::get_instance() == 0) {
             *(s32 **)((s8 *)shop_window_base + 0x58) = &quest_list_challenge_stage_table.value;
         } else {
             *(s32 **)((s8 *)shop_window_base + 0x58) = &TQuestListChallenge__stage_table.value;
         }
+#else
+        *(s32 **)((s8 *)shop_window_base + 0x58) = &quest_list_challenge_stage_table.value;
+#endif
         *(s32 *)((s8 *)shop_window_base + 0x50) = 0xF;
         *(s32 *)((s8 *)shop_window_base + 0x54) = (s32) (TLobby::calc_min_challenge_progress() + 1);
+#if VERSION == VERSION_GPOE8P
         temp_r3 = TLobby::get_instance();
         var_r3 = 5;
         if (temp_r3 == 0) {
             var_r3 = 9;
         }
+#else
+        var_r3 = 9;
+#endif
         if ((s32) *(s32 *)((s8 *)shop_window_base + 0x54) > var_r3) {
             *(s32 *)((s8 *)shop_window_base + 0x54) = var_r3;
         }
         break;
     case 2:
+#if VERSION == VERSION_GPOE8P
         *(s32 *)((s8 *)shop_window_base + 0x50) = 0x10;
         *(s32 **)((s8 *)shop_window_base + 0x58) = &quest_list_battle_stage_table.value;
         *(s32 *)((s8 *)shop_window_base + 0x54) = 8;
+#else
+        *(s32 **)((s8 *)shop_window_base + 0x58) = &quest_list_battle_stage_table.value;
+        *(s32 *)((s8 *)shop_window_base + 0x50) = 0x10;
+        *(s32 *)((s8 *)shop_window_base + 0x54) = 6;
+#endif
         break;
     }
     ((TShopWindowBase *)shop_window_base)->set_field_20(0);
@@ -456,6 +477,7 @@ void * TObjNpcKenkyu__create(void *arg0) {
 #undef TQuestListChallenge__stage_table
 #undef quest_list_challenge_stage_table
 #undef quest_list_battle_stage_table
+#if VERSION == VERSION_GPOE8P
 extern "C" const char lbl_804507A8[] = "challenge2_mlt_stg1";
 extern "C" const char lbl_804507BC[] = "challenge2_mlt_stg2";
 extern "C" const char lbl_804507D0[] = "challenge2_mlt_stg3";
@@ -468,6 +490,7 @@ extern "C" const QLCStage_80289200 TQuestListChallenge__stage_table[5] = {
     {36, 37, 38, lbl_804507E4},
     {39, 40, 41, lbl_804507F8},
 };
+#endif
 extern "C" const char lbl_8045085C[] = "challenge_mlt_stg1";
 extern "C" const char lbl_80450870[] = "challenge_mlt_stg2";
 extern "C" const char lbl_80450884[] = "challenge_mlt_stg3";
@@ -494,19 +517,23 @@ extern "C" const char lbl_804509C0[] = "battle_mlt_stg3";
 extern "C" const char lbl_804509D0[] = "battle_mlt_stg4";
 extern "C" const char lbl_804509E0[] = "battle_mlt_stg5";
 extern "C" const char lbl_804509F0[] = "battle_mlt_stg6";
+#if VERSION == VERSION_GPOE8P
 extern "C" const char lbl_80450A00[] = "battle_mlt_stg7";
 extern "C" const char lbl_80450A10[] = "battle_mlt_stg8";
-extern "C" const QLCStage_80289200 quest_list_battle_stage_table[8] = {
+#endif
+extern "C" const QLCStage_80289200 quest_list_battle_stage_table[] = {
     {0, 1, 2, lbl_804509A0},
     {3, 4, 5, lbl_804509B0},
     {6, 7, 8, lbl_804509C0},
     {9, 10, 11, lbl_804509D0},
     {12, 13, 14, lbl_804509E0},
     {15, 16, 17, lbl_804509F0},
+#if VERSION == VERSION_GPOE8P
     {18, 19, 20, lbl_80450A00},
     {21, 22, 23, lbl_80450A10},
+#endif
 };
 extern "C" const char TQuestListChallenge__class_name_string[] = "TQuestListChallenge";
 extern "C" const char *TQuestListChallenge__name = TQuestListChallenge__class_name_string;
 
-extern "C" const PairPad_80288DA4 lbl_80450AB4[1] = {{0x43A60000, 0x43520000, 0}};
+extern "C" const PairPad_80288DA4 lbl_80450AB4[1] = {{0x43A60000, 0x43520000}};
