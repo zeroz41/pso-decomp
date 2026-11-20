@@ -106,7 +106,6 @@ extern "C" {
 s32 get_entity_id(int);
 int set_field_20__15TShopWindowBaseFl(void*, int);
 saddr get_window_layout_position(int);
-u32 create__14TWindowMessageFPvll(s32, void *, int);
 
 s32 send_action__9TProtocolFR13GameListEntryUcPcPc(void *, void *, int, char *, char *);
 
@@ -228,7 +227,7 @@ void TQuestListOnline::build_list_window() {
         }
         if (description_window == 0U) {
             WindowSize size = online_description_window_size;
-            description_window = create__14TWindowMessageFPvll(get_window_layout_position(0x2D), &size, 1);
+            description_window = (uaddr)TWindowMessage::create((void *)get_window_layout_position(0x2D), (saddr)(&size), 1);
             ((TWindowMessage *)description_window)->append_line((saddr)(TQuestListOnline__quest_list_buffer + 0x2C), (int)0x80);
         } else {
             ((TWindowMessage *)description_window)->append_line((saddr)(TQuestListOnline__quest_list_buffer + 0x2C), (int)0x80);

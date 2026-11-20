@@ -91,7 +91,6 @@ s32 TLobby__sub_80211C3C();
 
 extern s32 local_client_id;
 
-uaddr create__14TWindowMessageFPvll(s32, void *, s32);
 
 saddr get_window_layout_position(s32);
 
@@ -119,7 +118,7 @@ extern "C" {
 TObjBagWarnWin::~TObjBagWarnWin() {}
 
 void TObjBagWarnWin::open_message_window() {
-    message_window = (TWindowMessage *)create__14TWindowMessageFPvll(get_window_layout_position(0x38), TObjBagWarnWin__message_window_size, 1);
+    message_window = (TWindowMessage *)(uaddr)TWindowMessage::create((void *)get_window_layout_position(0x38), (saddr)TObjBagWarnWin__message_window_size, 1);
     if (message_window != NULL) {
         message_window->set_depth(70200.0f);
         if (TCameraCtrl::get_camera_id() == 4) {

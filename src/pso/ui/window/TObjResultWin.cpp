@@ -22,7 +22,6 @@ extern "C" {
 char* get_message_text(s32);
 s32 has_window_task_root();
 saddr get_window_layout_position(s32);
-u32 create__14TWindowMessageFPvll(s32, void*, s32);
 extern ControllerInputStateResultWin controller_input_state;
 extern s32 current_lobby_id;
 extern TObject* tl_07;
@@ -138,7 +137,7 @@ void TObjResultWin::run_task() {
     }
 }
 void TObjResultWin::create_window() {
-    m_window = create__14TWindowMessageFPvll(get_window_layout_position(0x41), challenge_result_window_extent, 1);
+    m_window = (uaddr)TWindowMessage::create((void *)get_window_layout_position(0x41), (saddr)challenge_result_window_extent, 1);
     if ((u32) m_window != 0U) {
         if (TCameraCtrl::get_camera_id() == 4) {
             ((TWindowAddition *)m_window)->set_position_xy(0.75f, 0.75f);

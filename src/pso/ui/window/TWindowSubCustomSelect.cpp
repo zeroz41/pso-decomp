@@ -113,7 +113,7 @@ void TWindowSubCustomSelect::handle_grid_navigation() {
     window_choice_setting = (u8 *)&controller_input_state + (is_player_input_active(((s32) this->m_20)) * 0x50) + 0x20;
     if ((TWindowChoiceSetting::apply_choice((saddr)window_choice_setting, 0xF0, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((saddr)((u8 *)&controller_input_state + 0x160), 0xF0, 6, 1) != 0)) {
         play_sound_effect(0x54100, (s32)(0U), 0, 0);
-        if ((apply_choice__20TWindowChoiceSettingFllll(window_choice_setting, 0x10, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((saddr)((u8 *)&controller_input_state + 0x160), 0x10, 6, 1) != 0)) {
+        if ((TWindowChoiceSetting::apply_choice((saddr)(void *)window_choice_setting, 0x10, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((saddr)((u8 *)&controller_input_state + 0x160), 0x10, 6, 1) != 0)) {
             this->m_71 = (this->m_71 - 1);
         }
         if ((apply_choice__20TWindowChoiceSettingFllll(window_choice_setting, 0x20, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((saddr)((u8 *)&controller_input_state + 0x160), 0x20, 6, 1) != 0)) {

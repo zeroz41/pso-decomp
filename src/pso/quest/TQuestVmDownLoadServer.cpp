@@ -56,7 +56,6 @@ s32 __ct__22TQuestVmDownLoadServerFP7TObject(void *, s32);
 extern s32 tl_00;
 
 struct Pair_801F6E08 { f32 a; f32 b; };extern "C" {
-s32 create_window__24TMessageWindowControllerFll(void*, s32, void*);
 saddr get_window_layout_position(s32);
 s32 poll_memcard_result(saddr);
 void set_ready__6TSceneFv(void *);
@@ -1185,7 +1184,7 @@ void TQuestVmDownLoadServer::show_status_message(saddr text, s32 arg2) {
     if (*(u32*)(arg0 + 0x294) == 0) {
         static const Pair_801F6E08 window_size = {444.0f, 84.0f};
         Pair_801F6E08 sp = window_size;
-        *(s32*)(arg0 + 0x294) = create_window__24TMessageWindowControllerFll(arg0 + 0x1C, get_window_layout_position(0x2F), &sp);
+        *(s32*)(arg0 + 0x294) = (saddr)((TMessageWindowController *)(arg0 + 0x1C))->create_window(get_window_layout_position(0x2F), (saddr)(&sp));
     }
     ((TMessageWindowController *)(arg0 + 0x1C))->display_message((const char *)text, (s32)(arg2 | 0x80));
 }

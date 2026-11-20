@@ -466,7 +466,7 @@ void TWindowSubCustomEquip::handle_cursor_input() {
             this->m_62 = (u8) (1 - this->m_62);
             this->m_63 = 3U;
         }
-        if ((apply_choice__20TWindowChoiceSettingFllll(window_choice_setting, 0x10, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((saddr)((u8 *)&controller_input_state + 0x160), 0x10, 6, 1) != 0)) {
+        if ((TWindowChoiceSetting::apply_choice((saddr)(void *)window_choice_setting, 0x10, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((saddr)((u8 *)&controller_input_state + 0x160), 0x10, 6, 1) != 0)) {
             this->m_61 = (this->m_61 - 1);
         }
         if ((apply_choice__20TWindowChoiceSettingFllll(window_choice_setting, 0x20, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((saddr)((u8 *)&controller_input_state + 0x160), 0x20, 6, 1) != 0)) {

@@ -39,7 +39,6 @@ List_803467CC *get_element_ptr__9TWindowDDFl(s16);
 List_803467CC *get_entry__9TWindowDDFl(s32, s16);
 s32 TWindowDD__sub_80347758(DD_803461CC *, DD_803461CC *);
 s32 TWindowDD__sub_803474CC(DD_803461CC *, s32, char *, char *, s32 *);
-s32 append_string__9TWindowDDFllPl(char *, char *, s32 *);
 s32 show_message_by_count__9TWindowDDFll(char *, s32 *);
 char fn_80228C54(char);
 s32 format_message_text__9TWindowDDFPvPvUs(DD_803461CC *arg0, char *arg1, u16 arg2);
@@ -358,12 +357,12 @@ s32 format_message_text__9TWindowDDFPvPvUs(DD_803461CC *src, char *window_dd, u1
         } else if (id == 0x2C7) {
             append_word_select_token(id, window_dd, &pos);
             TWindowDD::append_char(0x2C, (saddr)window_dd, (s32 *)(&pos));
-            append_string__9TWindowDDFllPl(TWindowDD__data_805D6E28[0xA58 / 4], window_dd, &pos);
+            TWindowDD::append_string((saddr)(void *)TWindowDD__data_805D6E28[0xA58 / 4], (saddr)(void *)window_dd, (s32 *)(&pos));
             k = 2;
         } else if (id >= 0x68C && id <= 0x697) {
             append_word_select_token(id, window_dd, &pos);
             TWindowDD::append_char(0x2C, (saddr)window_dd, (s32 *)(&pos));
-            append_string__9TWindowDDFllPl(TWindowDD__data_805D6E28[0xA4C / 4], window_dd, &pos);
+            TWindowDD::append_string((saddr)(void *)TWindowDD__data_805D6E28[0xA4C / 4], (saddr)(void *)window_dd, (s32 *)(&pos));
             k = 1;
         } else if (id == 0x698) {
             TWindowDD::append_string((saddr)TWindowDD__data_805D6E28[0xA4C / 4], (saddr)window_dd, (s32 *)(&pos));
@@ -371,7 +370,7 @@ s32 format_message_text__9TWindowDDFPvPvUs(DD_803461CC *src, char *window_dd, u1
         }
         if (n > 1) {
             i = src->ids[1];
-            show_message_by_count__9TWindowDDFll(window_dd, &pos);
+            TWindowDD::show_message_by_count((saddr)(void *)window_dd, (saddr)(&pos));
             if (k == 0) {
                 append_word_select_token(i, window_dd, &pos);
             } else {
@@ -403,7 +402,7 @@ s32 format_message_text__9TWindowDDFPvPvUs(DD_803461CC *src, char *window_dd, u1
             i = TWindowDD::get_player_battle_flag_state(arg2);
         } else if (k == 0x2C7) {
             TWindowDD::append_char(0x2C, (saddr)window_dd, (s32 *)(&pos));
-            append_string__9TWindowDDFllPl(TWindowDD__data_805D6E28[0xA58 / 4], window_dd, &pos);
+            TWindowDD::append_string((saddr)(void *)TWindowDD__data_805D6E28[0xA58 / 4], (saddr)(void *)window_dd, (s32 *)(&pos));
             mode = 2;
             if (TWindowDD::get_player_battle_flag_state(arg2) == 2) {
                 i = 3;
@@ -412,7 +411,7 @@ s32 format_message_text__9TWindowDDFPvPvUs(DD_803461CC *src, char *window_dd, u1
             }
         } else if (k >= 0x68C && k <= 0x697) {
             TWindowDD::append_char(0x2C, (saddr)window_dd, (s32 *)(&pos));
-            append_string__9TWindowDDFllPl(TWindowDD__data_805D6E28[0xA4C / 4], window_dd, &pos);
+            TWindowDD::append_string((saddr)(void *)TWindowDD__data_805D6E28[0xA4C / 4], (saddr)(void *)window_dd, (s32 *)(&pos));
             mode = 1;
             i = TWindowDD::get_player_battle_flag_state(k - 0x68C);
         } else {
@@ -441,7 +440,7 @@ s32 format_message_text__9TWindowDDFPvPvUs(DD_803461CC *src, char *window_dd, u1
         if (n > 1) {
             s32 found;
             s32 j;
-            show_message_by_count__9TWindowDDFll(window_dd, &pos);
+            TWindowDD::show_message_by_count((saddr)(void *)window_dd, (saddr)(void *)(&pos));
             found = 1;
             k = src->ids[1];
             for (j = 0; j < TWindowDD__data_805D6E44[3].n; j++) {
@@ -584,7 +583,7 @@ s32 format_german_message__9TWindowDDFPvPvUs(DD_803461CC *src, char *window_dd, 
             } else {
                 TWindowDD::append_string((saddr)s1, (saddr)window_dd, (s32 *)(&pos));
                 show_message_by_count__9TWindowDDFll(window_dd, &pos);
-                append_string__9TWindowDDFllPl(s2, window_dd, &pos);
+                TWindowDD::append_string((saddr)(void *)s2, (saddr)(void *)window_dd, (s32 *)(&pos));
             }
         } else {
             TWindowDD::append_string((saddr)s1, (saddr)window_dd, (s32 *)(&pos));
@@ -685,7 +684,7 @@ s32 format_german_message__9TWindowDDFPvPvUs(DD_803461CC *src, char *window_dd, 
                     }
                 } else {
                     TWindowDD__sub_803474CC(src, src->ids[0], s1, window_dd, &pos);
-                    show_message_by_count__9TWindowDDFll(window_dd, &pos);
+                    TWindowDD::show_message_by_count((saddr)(void *)window_dd, (saddr)(&pos));
                     TWindowDD::append_string((saddr)s3, (saddr)window_dd, (s32 *)(&pos));
                 }
                 TWindowDD::show_message_by_count((saddr)window_dd, (saddr)(&pos));
@@ -734,7 +733,7 @@ s32 format_german_message__9TWindowDDFPvPvUs(DD_803461CC *src, char *window_dd, 
 #pragma inline_depth(4)
 // inferred: appends the term after the count word, chosen by the mode the first term set
 static inline void append_second_term(s32 id, s32 mode, char *window_dd, s32 *pos) {
-    show_message_by_count__9TWindowDDFll(window_dd, pos);
+    TWindowDD::show_message_by_count((saddr)(void *)window_dd, (saddr)pos);
     if (mode == 0) {
         append_word_select_token(id, window_dd, pos);
     } else {
@@ -804,11 +803,11 @@ s32 TWindowDD__sub_80345608(DD_803461CC *src, char *window_dd, u16 arg2) {
         i = 0;
         if (s == 0x2C7) {
             TWindowDD::append_char(0x2C, (saddr)window_dd, (s32 *)(&pos));
-            append_string__9TWindowDDFllPl(TWindowDD__data_805D6E28[0xA8C / 4], window_dd, &pos);
+            TWindowDD::append_string((saddr)(void *)TWindowDD__data_805D6E28[0xA8C / 4], (saddr)(void *)window_dd, (s32 *)(&pos));
             i = 2;
         } else if (s >= 0x68C && s <= 0x697) {
             TWindowDD::append_char(0x2C, (saddr)window_dd, (s32 *)(&pos));
-            append_string__9TWindowDDFllPl(TWindowDD__data_805D6E28[0xA80 / 4], window_dd, &pos);
+            TWindowDD::append_string((saddr)(void *)TWindowDD__data_805D6E28[0xA80 / 4], (saddr)(void *)window_dd, (s32 *)(&pos));
             i = 1;
         } else if (s == 0x698) {
             TWindowDD::append_string((saddr)TWindowDD__data_805D6E28[0xA80 / 4], (saddr)window_dd, (s32 *)(&pos));
@@ -844,7 +843,7 @@ s32 TWindowDD__sub_80345608(DD_803461CC *src, char *window_dd, u16 arg2) {
         } else if (k == 0x2C7) {
             mode = 2;
             TWindowDD::append_char(0x2C, (saddr)window_dd, (s32 *)(&pos));
-            append_string__9TWindowDDFllPl(TWindowDD__data_805D6E28[0xA8C / 4], window_dd, &pos);
+            TWindowDD::append_string((saddr)(void *)TWindowDD__data_805D6E28[0xA8C / 4], (saddr)(void *)window_dd, (s32 *)(&pos));
             if (TWindowDD::get_player_battle_flag_state(arg2) == 2) {
                 i = 3;
             } else {
@@ -853,7 +852,7 @@ s32 TWindowDD__sub_80345608(DD_803461CC *src, char *window_dd, u16 arg2) {
         } else if (k >= 0x68C && k <= 0x697) {
             mode = 1;
             TWindowDD::append_char(0x2C, (saddr)window_dd, (s32 *)(&pos));
-            append_string__9TWindowDDFllPl(TWindowDD__data_805D6E28[0xA80 / 4], window_dd, &pos);
+            TWindowDD::append_string((saddr)(void *)TWindowDD__data_805D6E28[0xA80 / 4], (saddr)(void *)window_dd, (s32 *)(&pos));
             i = TWindowDD::get_player_battle_flag_state(k - 0x68C);
         } else {
             mode = 3;
@@ -880,7 +879,7 @@ s32 TWindowDD__sub_80345608(DD_803461CC *src, char *window_dd, u16 arg2) {
         }
         if (n > 1) {
             s32 found;
-            show_message_by_count__9TWindowDDFll(window_dd, &pos);
+            TWindowDD::show_message_by_count((saddr)(void *)window_dd, (saddr)(&pos));
             k = src->ids[1];
             switch (lbl_805D6E4C[TWindowDD::clamp_range_5FA_682(k)]) {
             case 0:
@@ -1006,11 +1005,11 @@ s32 format_english_message__9TWindowDDFPvPvUs(DD_803461CC *src, char *window_dd,
         k = 0;
         if (id == 711) {
             TWindowDD::append_char(0x2C, (saddr)window_dd, (s32 *)(&pos));
-            append_string__9TWindowDDFllPl(TWindowDD__data_805D6E28[(0xA60 / 4)], window_dd, &pos);
+            TWindowDD::append_string((saddr)(void *)TWindowDD__data_805D6E28[(0xA60 / 4)], (saddr)(void *)window_dd, (s32 *)(&pos));
             k = 2;
         } else if (id >= 1676 && id <= 1687) {
             TWindowDD::append_char(0x2C, (saddr)window_dd, (s32 *)(&pos));
-            append_string__9TWindowDDFllPl(TWindowDD__data_805D6E28[(0xA54 / 4)], window_dd, &pos);
+            TWindowDD::append_string((saddr)(void *)TWindowDD__data_805D6E28[(0xA54 / 4)], (saddr)(void *)window_dd, (s32 *)(&pos));
             k = 2;
         } else if (id == 1688) {
             TWindowDD::append_string((saddr)TWindowDD__data_805D6E28[(0xA54 / 4)], (saddr)window_dd, (s32 *)(&pos));
@@ -1018,7 +1017,7 @@ s32 format_english_message__9TWindowDDFPvPvUs(DD_803461CC *src, char *window_dd,
         }
         if (n > 1) {
             i = src->ids[1];
-            show_message_by_count__9TWindowDDFll(window_dd, &pos);
+            TWindowDD::show_message_by_count((saddr)(void *)window_dd, (saddr)(&pos));
             if (k == 0) {
                 append_word_select_token(i, window_dd, &pos);
             } else {
@@ -1029,11 +1028,11 @@ s32 format_english_message__9TWindowDDFPvPvUs(DD_803461CC *src, char *window_dd,
             show_message_by_count__9TWindowDDFll(window_dd, &pos);
             switch (TWindowDD__data_805D6E48[TWindowDD::clamp_range_2C9_552(src->ids[2])]) {
             case 1:
-                append_string__9TWindowDDFllPl(TWindowDD__data_805D6E28[(0x19E4 / 4)], window_dd, &pos);
+                TWindowDD::append_string((saddr)(void *)TWindowDD__data_805D6E28[(0x19E4 / 4)], (saddr)(void *)window_dd, (s32 *)(&pos));
                 TWindowDD::append_char(0x20, (saddr)window_dd, (s32 *)(&pos));
                 break;
             case 2:
-                append_string__9TWindowDDFllPl(TWindowDD__data_805D6E28[(0x19E8 / 4)], window_dd, &pos);
+                TWindowDD::append_string((saddr)(void *)TWindowDD__data_805D6E28[(0x19E8 / 4)], (saddr)(void *)window_dd, (s32 *)(&pos));
                 TWindowDD::append_char(0x20, (saddr)window_dd, (s32 *)(&pos));
                 break;
             }
@@ -1055,11 +1054,11 @@ s32 format_english_message__9TWindowDDFPvPvUs(DD_803461CC *src, char *window_dd,
         } else if (id == 711) {
             kind = 2;
             TWindowDD::append_char(0x2C, (saddr)window_dd, (s32 *)(&pos));
-            append_string__9TWindowDDFllPl(TWindowDD__data_805D6E28[(0xA60 / 4)], window_dd, &pos);
+            TWindowDD::append_string((saddr)(void *)TWindowDD__data_805D6E28[(0xA60 / 4)], (saddr)(void *)window_dd, (s32 *)(&pos));
         } else if (id >= 1676 && id <= 1687) {
             kind = 1;
             TWindowDD::append_char(0x2C, (saddr)window_dd, (s32 *)(&pos));
-            append_string__9TWindowDDFllPl(TWindowDD__data_805D6E28[(0xA54 / 4)], window_dd, &pos);
+            TWindowDD::append_string((saddr)(void *)TWindowDD__data_805D6E28[(0xA54 / 4)], (saddr)(void *)window_dd, (s32 *)(&pos));
         } else {
             kind = 3;
             window_dd[0] = fn_80228C54(window_dd[0]);
@@ -1067,7 +1066,7 @@ s32 format_english_message__9TWindowDDFPvPvUs(DD_803461CC *src, char *window_dd,
         if (n > 1) {
             s32 notfound;
             char *str;
-            show_message_by_count__9TWindowDDFll(window_dd, &pos);
+            TWindowDD::show_message_by_count((saddr)(void *)window_dd, (saddr)(void *)(&pos));
             b = src->ids[1];
             notfound = 1;
             for (i = 0; i < TWindowDD__data_805D6E44[0].n; i++) {

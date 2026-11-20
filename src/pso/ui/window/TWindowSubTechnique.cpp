@@ -174,11 +174,11 @@ s32 TWindowSubTechnique::open_menu() {
     TWindowSubEquip__sub_80263AF8((u8 *)this->m_30, 0);
     set_depth__11TWindowBaseFf(titled_window_menu);
     ((TWindowSubComCardList *)titled_window_menu)->set_flag70_bit100();
-    forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, (saddr)(TWindowSubStatusDisp::get_message_10(0x9C)), 6, 0);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, (saddr)(TWindowSubStatusDisp::get_message_10(0x9D)), 6, 1);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, (saddr)(TWindowSubStatusDisp::get_message_10(0x9E)), 6, 2);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, (saddr)(TWindowSubStatusDisp::get_message_10(0x9F)), 6, 3);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, (saddr)(TWindowSubStatusDisp::get_message_10(0xA0)), 6, 4);
+    TObjCityMainWarp::forward_trade_action_default((void *)titled_window_menu, (saddr)(TWindowSubStatusDisp::get_message_10(0x9C)), 6, 0);
+    TObjCityMainWarp::forward_trade_action_default((void *)titled_window_menu, (saddr)(TWindowSubStatusDisp::get_message_10(0x9D)), 6, 1);
+    TObjCityMainWarp::forward_trade_action_default((void *)titled_window_menu, (saddr)(TWindowSubStatusDisp::get_message_10(0x9E)), 6, 2);
+    TObjCityMainWarp::forward_trade_action_default((void *)titled_window_menu, (saddr)(TWindowSubStatusDisp::get_message_10(0x9F)), 6, 3);
+    TObjCityMainWarp::forward_trade_action_default((void *)titled_window_menu, (saddr)(TWindowSubStatusDisp::get_message_10(0xA0)), 6, 4);
     ((TWindowSubComCardList *)titled_window_menu)->set_flag70_bit10();
     ((TWindowSubComCardList *)titled_window_menu)->update_layout_height(179.0f);
     align_menu_entry_positions(titled_window_menu);

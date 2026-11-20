@@ -575,8 +575,8 @@ s32 TWindowSubItem::open_purpose_window(s32 arg1) {
 s32 TWindowSubItem::create_menu_window() {
     saddr titled_window_menu;
     titled_window_menu = create_titled_window_menu(get_window_layout_position(6), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x27), this->m_24);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, (s32)((saddr) (TWindowSubStatusDisp::get_message_10(0x5D))), 6, 0);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, (s32)((saddr) (TWindowSubStatusDisp::get_message_10(0x5E))), 6, 1);
+    TObjCityMainWarp::forward_trade_action_default((void *)titled_window_menu, (s32)((saddr) (TWindowSubStatusDisp::get_message_10(0x5D))), 6, 0);
+    TObjCityMainWarp::forward_trade_action_default((void *)titled_window_menu, (s32)((saddr) (TWindowSubStatusDisp::get_message_10(0x5E))), 6, 1);
     TWindowSubEquip__sub_80263AF8(this->m_2c, 2);
     set_depth__11TWindowBaseFf(titled_window_menu);
     ((TWindowSubComCardList *)titled_window_menu)->set_flag70_bit10();
