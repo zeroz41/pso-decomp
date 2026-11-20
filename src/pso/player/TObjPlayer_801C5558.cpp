@@ -99,7 +99,7 @@ u8 TObjPlayer::clamp_char_at(s32 arg1) {
     return arg0[arg1];
 }
 
-void TObjPlayer__sub_801C5780(s32 arg0, s8 arg1, s32 arg2) {
+void TObjPlayer__sub_801C5780(saddr arg0, s8 arg1, s32 arg2) {
     s8 var_r4;
     var_r4 = arg1;
     if ((var_r4 < 0) || (var_r4 > 0x14)) {
