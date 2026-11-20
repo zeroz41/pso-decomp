@@ -19,7 +19,7 @@ void TObjPlayer::load_character_state(u8 *player) {
     s32 temp_r30;
 
     count = *player;
-    temp_r30 = get_ptr_4__10TObjPlayerFv(player);
+    temp_r30 = (s32)((TObjPlayer *)player)->get_ptr_4();
     create_inventory();
     set_action_provider_variant((s16) TObjPlayer__sub_801C2114());
     if ((obj_isState2_324() == 0) || (is_lobby_floor_15__15TFontSmallLobbyFv() == 0)) {

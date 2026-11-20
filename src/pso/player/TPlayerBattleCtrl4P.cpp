@@ -306,7 +306,7 @@ TPlayerBattleCtrl4P* TPlayerBattleCtrl4P::destroy(s16 should_free) {
         TPlayerBattleCtrl4P__instance = 0;
         __dt__7TObjectFv(this, 0);
         if (should_free > 0) {
-            __dl__7TObjectFPv(this);
+            TObject::operator delete(this);
         }
     }
     return this;

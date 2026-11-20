@@ -91,7 +91,7 @@ void *__dt__13TUnk_804A7008Fv(void *object, s16 arg1) {
         *(s32 **)((s8 *)object + 0x18) = lbl_804A7008;
         __dt__7TObjectFv(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(object);
+            TObject::operator delete(object);
         }
     }
     return object;

@@ -325,7 +325,7 @@ u8 *__dt__18TObjCityDoor_LobbyFPvs(u8 *city_door_lobby, s16 arg1) {
         }
         __dt__8TObjBaseFv(city_door_lobby, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(city_door_lobby);
+            TObject::operator delete(city_door_lobby);
         }
     }
     return city_door_lobby;
@@ -378,8 +378,8 @@ Obj_80181F10 *TObjCityDoor_Lobby__ct(Obj_80181F10 *self, void *parent, s32 arg2)
     self->x250 = 0;
     if (is_phase_e__9TObjEneDDFPv(self) != 0) {
         ((TObjCityDoor_Lobby *)self)->build_door_collision_triangles();
-        if (get_map_count__10TObjMapCsnFv() != 0) {
-            register_slot(get_map_count__10TObjMapCsnFv(), &self->x90);
+        if ((u32)TObjMapCsn::get_map_count() != 0) {
+            register_slot((u32)TObjMapCsn::get_map_count(), &self->x90);
             self->x250 = 1;
         }
     }
@@ -484,7 +484,7 @@ void *dt__16TObjCityDoor_MedFPvs(void *object, s16 arg1) {
         *(s32 **)((s8 *)object + 0x18) = __vt__16TObjCityDoor_Med;
         TObjPlayer__sub_80182D24(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(object);
+            TObject::operator delete(object);
         }
     }
     return object;
@@ -667,7 +667,7 @@ void *dt__17TObjCityDoor_WarpFPvs(void *object, s16 arg1) {
         *(s32 **)((s8 *)object + 0x18) = __vt__17TObjCityDoor_Warp;
         TObjPlayer__sub_80182D24(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(object);
+            TObject::operator delete(object);
         }
     }
     return object;
@@ -754,7 +754,7 @@ void *dt__18TObjCityDoor_GuildFPvs(void *object, s16 arg1) {
         *(s32 **)((s8 *)object + 0x18) = __vt__18TObjCityDoor_Guild;
         TObjPlayer__sub_80182D24(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(object);
+            TObject::operator delete(object);
         }
     }
     return object;
@@ -811,7 +811,7 @@ void *dt__17TObjCityDoor_ShopFPvs(void *object, s16 arg1) {
         *(s32 **)((s8 *)object + 0x18) = (s32 *)&__vt__17TObjCityDoor_Shop;
         TObjPlayer__sub_80182D24(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(object);
+            TObject::operator delete(object);
         }
     }
     return object;
@@ -1040,7 +1040,7 @@ void *TObjPlayer__sub_80182D24(void *collidable, s16 arg1) {
         free_collision_body_parts(collidable);
         __dt__14TObjCollidableFv(collidable, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(collidable);
+            TObject::operator delete(collidable);
         }
     }
     return collidable;

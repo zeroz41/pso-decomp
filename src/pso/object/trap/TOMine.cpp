@@ -417,7 +417,7 @@ void TOMine::detonate() {
     this->check_object_collisions();
     check_enemy_body_collisions(this);
     for (i = 0; i < 0x10; i++) {
-        obj = get_battle_param__10TObjPlayerFi(i);
+        obj = (u8 *)TObjPlayer::get_battle_param(i);
         if (TObjPlayer::is_valid_and_active((u32)obj) != 0) {
             DirectAttackPayload pair = attack;
             f32 r = ((VObj_18_1da615 *)obj)->m21(this, &pair, 0, -1, -1);

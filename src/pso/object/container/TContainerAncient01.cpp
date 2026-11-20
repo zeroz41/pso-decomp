@@ -647,7 +647,7 @@ void *dt__20TContainerAncient01RFPvs(void *arg0, s16 arg1) {
         free_collision_body_parts(arg0);
         __dt__9TObjCharaFv(arg0, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            TObject::operator delete(arg0);
         }
     }
     return arg0;

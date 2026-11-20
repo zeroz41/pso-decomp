@@ -9,6 +9,7 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/memory.h"
 
 #pragma readonly_strings on
 
@@ -68,9 +69,9 @@ s32 load_disc_prs_texture(s32 arg0, s32 arg1) {
         a = adxf_open__6TLobbyFUii(texture_prs_disc_filename_buffer, 0);
         b = adxf_get_fsize_sct();
         ((TLobby *)a)->close_adxf_handle();
-        b = xmalloc__FUl((s32)(b << 11));
+        b = (s32)xmalloc((s32)(b << 11));
         if (read_disc_file(texture_prs_disc_filename_buffer, (void *)b) != -1) {
-            c = xmalloc__FUl(0x200000);
+            c = (s32)xmalloc(0x200000);
             prs_decompress_buffer(b, c);
             load_gvm_texture_archive(c, arg1);
             xfree__FPv(c);
@@ -120,9 +121,9 @@ s32 load_texture_if_valid(u32 arg0) {
 }
 
 void init_buffers(void) {
-    s32 p = xmalloc__FUl(0x1800);
+    s32 p = (s32)xmalloc(0x1800);
     lbl_805D63C0 = p;
     memset((void *)p, 0, 0x1800);
-    lbl_805D63C4 = xmalloc__FUl(0x3800);
+    lbl_805D63C4 = (s32)xmalloc(0x3800);
 }
 

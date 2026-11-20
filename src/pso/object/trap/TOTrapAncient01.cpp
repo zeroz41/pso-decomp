@@ -318,7 +318,7 @@ void TOTrapAncient01::vfunc_82() {
         TObjPlayer::init_all_slots();
         this->check_object_collisions();
         for (i = 0; i < 16; i++) {
-            p = get_battle_param__10TObjPlayerFi(i);
+            p = (VObj_801797D4 *)TObjPlayer::get_battle_param(i);
             if (p == 0) {
                 break;
             }

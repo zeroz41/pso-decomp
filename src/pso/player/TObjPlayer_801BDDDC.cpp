@@ -15,9 +15,9 @@ s32 TObjPlayer::create(u32 arg0, s32 arg1) {
     s32 temp_r31;
     s32 var_r30;
 
-    var_r30 = __nw__7TObjectFUl(0xDB8);
+    var_r30 = (s32)TObject::operator new(0xDB8);
     if (var_r30 != 0) {
-        var_r30 = construct_player_instance__10TObjPlayerFlslPUc(var_r30, tl_03, (u16)arg0, get_field_0_s32((void *)arg1), get_char_data__10TObjPlayerFv(arg1));
+        var_r30 = construct_player_instance__10TObjPlayerFlslPUc(var_r30, tl_03, (u16)arg0, get_field_0_s32((void *)arg1), (s32)((TObjPlayer *)arg1)->get_char_data());
     }
     ((TLobby *)(var_r30 + 0xDAC))->copy_header_struct((void*)(((TObjPlayer *)arg1)->get_sub_obj()));
     return var_r30;

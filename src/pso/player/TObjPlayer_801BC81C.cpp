@@ -109,7 +109,7 @@ void TObjPlayer__sub_801BCA14(u8 *player, void *arg1) {
     ((TObjPlayer *)(player + 0x428))->copy_all_technique_entries((void *)0x1D);
     i = 0;
     do {
-        clamp_and_set_unit_value__10TObjPlayerFiUci(player, get_slot_value_checked__10TObjPlayerFl(arg1, i) + get_record_byte_at(arg1, i), (s16)i);
+        clamp_and_set_unit_value__10TObjPlayerFiUci(player, (s32)((TObjPlayer *)arg1)->get_slot_value_checked(i) + get_record_byte_at(arg1, i), (s16)i);
         i += 1;
     } while (i < 0x13);
 }

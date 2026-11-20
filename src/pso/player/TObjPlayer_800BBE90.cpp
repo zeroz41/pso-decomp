@@ -196,7 +196,7 @@ s32 TUnk_804928CC::area_attack_deliver_physical(void *arg1, void *object, f32 ra
     }
     if (((P_800BC080 *)this)->info->mask & mask) {
         for (i = 0; i < 0x10; i++) {
-            t = get_battle_param__10TObjPlayerFi(i);
+            t = (Tgt_800BC080 *)TObjPlayer::get_battle_param(i);
             if (t == NULL) {
                 break;
             }

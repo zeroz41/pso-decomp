@@ -8,6 +8,7 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 
 extern "C" {
 
@@ -31,7 +32,7 @@ void update_challenge_warp_window(void *arg0) {
             if ((u32) *(u32 *)((s8 *)arg0 + 0xB0) == 0U) {
                 *(u32 *)((s8 *)arg0 + 0xB0) = check_room_seq_4__16TAdChrSelASlotGCFl(get_window_layout_position(0x35), 7);
                 if ((u32) *(u32 *)((s8 *)arg0 + 0xB0) != 0U) {
-                    ((TWindowSubTradeMain *)(*(u32 *)((s8 *)arg0 + 0xB0)))->add_text_entry(get_message_10__20TWindowSubStatusDispFl(0x40), 0, 0, -1);
+                    ((TWindowSubTradeMain *)(*(u32 *)((s8 *)arg0 + 0xB0)))->add_text_entry((s32)TWindowSubStatusDisp::get_message_10(0x40), 0, 0, -1);
                     ((TAdChrSelASlotGC *)(*(u32 *)((s8 *)arg0 + 0xB0)))->set_flag_40();
                     ((TWindowSubComCard *)(*(u32 *)((s8 *)arg0 + 0xB0)))->calc_window_size();
                     align_menu_entry_positions(*(u32 *)((s8 *)arg0 + 0xB0));

@@ -130,7 +130,7 @@ void *destroy_city_vertical_model(void *base, s16 arg1) {
         *(s32 **)((s8 *)base + 0x18) = city_vertical_model_vtable;
         __dt__8TObjBaseFv(base, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(base);
+            TObject::operator delete(base);
         }
     }
     return base;

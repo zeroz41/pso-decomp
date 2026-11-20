@@ -159,8 +159,8 @@ void TObjPlayer::sub_801BEE24(s16 v) { this->tp_bonus = v; }
 void TObjPlayer::sub_801BEE2C(s16 v) { this->hp_bonus = v; }
 
 void TObjPlayer::bswap_status_effect_data() {
-    bswap_32__FPUl(this);
-    bswap_32__FPUl((void *)((char *)this + 4));
+    bswap_32((u32 *)this);
+    bswap_32((u32 *)((void *)((char *)this + 4)));
 }
 
 #pragma push

@@ -209,7 +209,7 @@ void queue_physical_attack_input(PlayerAttackController *self, TObjPlayer *obj, 
         if (get_validated_attack_stage((u8 *)self) > arg3) {
             ((TObjPlayer *)self)->set_saved_attack_stage(arg3);
         }
-        t = get_action_palette_entry__10TObjPlayerFl(obj, arg2);
+        t = obj->get_action_palette_entry(arg2);
         ((TObjPlayer *)obj)->get_field_340(2);
         ((TObjPlayer *)self)->set_attack_target((s16)(t));
         dispatch_to_child__11TWindowCtrlFPv(((s32 (*)(void *))get_entity_id)(obj), arg2);

@@ -518,12 +518,12 @@ void TObjGrass::load_resources() {
     ((SampledMotionPoints *)lbl_805D5158)->sample_two_nodes((NJS_OBJECT *)(((Data_800BF66C *)TObjGrass__resource_bundle)->f42c->f8), (NJS_MOTION *)(((Data_800BF66C *)TObjGrass__resource_bundle)->f430[TObjGrass__grass_type_param_table[9]].f4), 0x46, 0x48);
     ((SampledMotionPoints *)lbl_805D515C)->sample_two_nodes((NJS_OBJECT *)(((Data_800BF66C *)TObjGrass__resource_bundle)->f42c->f8), (NJS_MOTION *)(((Data_800BF66C *)TObjGrass__resource_bundle)->f430[TObjGrass__grass_type_param_table[13]].f4), 0x3C, 0x3E);
     TObjGrass__bml_resource = (u32) mem_alloc(0xC);
-    lbl_805D5140 = register_boss__6TLobbyFl(0x4E);
-    ((s32 *) TObjGrass__bml_resource)[0] = dispatch_shared_handler_b__6TLobbyFl(0x51);
-    ((s32 *) TObjGrass__bml_resource)[2] = dispatch_shared_handler_b__6TLobbyFl(0x52);
-    ((s32 *) TObjGrass__bml_resource)[1] = dispatch_shared_handler_b__6TLobbyFl(0x53);
-    grass_combat_stats_handle = register_object__6TLobbyFl(0x4D);
-    lbl_805D514C = dispatch_shared_handler_a__6TLobbyFl(0x4D);
+    lbl_805D5140 = (s32)TLobby::register_boss(0x4E);
+    ((s32 *) TObjGrass__bml_resource)[0] = (s32)TLobby::dispatch_shared_handler_b(0x51);
+    ((s32 *) TObjGrass__bml_resource)[2] = (s32)TLobby::dispatch_shared_handler_b(0x52);
+    ((s32 *) TObjGrass__bml_resource)[1] = (s32)TLobby::dispatch_shared_handler_b(0x53);
+    grass_combat_stats_handle = (s32)TLobby::register_object(0x4D);
+    lbl_805D514C = (s32)TLobby::dispatch_shared_handler_a(0x4D);
     {
     Quad_800BF66C q = grass_spawn_descriptor;
     q.a = (s32) ((Data_800BF66C *)TObjGrass__resource_bundle)->f430;

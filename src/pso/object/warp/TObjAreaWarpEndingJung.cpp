@@ -1461,7 +1461,7 @@ s64 fn_8019B480(void *arg0, void *camera_ctrl) {
 
 void *create_TObjWarpString(char *text, u16 client_id) {
     void *o;
-    o = __nw__7TObjectFUl(0x50);
+    o = TObject::operator new(0x50);
     if (o != NULL) {
         o = ((void * (*)(void *, void *, char *, u16))__ct__14TObjWarpStringFv)(o, tl_clipout, text, client_id);
     }

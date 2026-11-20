@@ -101,7 +101,7 @@ void *__dt__21TObjHMS_EZRope_PlayerFv(TObjHMS_EZRope_Player *arg0, s16 arg1) {
         if (arg0->m_44 != NULL) { TAdSinglePlyChrSelectGC::safe_free((u32)arg0->m_44); *(s32 *)((s8 *)arg0 + 0x44) = 0; }
         __dt__14TObjEZRopeBaseFv(arg0, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            TObject::operator delete(arg0);
         }
     }
     return arg0;

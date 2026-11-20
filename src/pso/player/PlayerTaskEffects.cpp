@@ -786,7 +786,7 @@ void TObjPlayer::revive_or_spawn_marker() {
     s32 temp_r3;
     s32 player = (s32)this;
 
-    if ((check_flag_0x8000__10TObjPlayerFv() != 0) || (obj_isState3_324__9TObjCharaFv(player) != 0) || (((TObjPlayer *)player)->is_script_controlled() != 0)) {
+    if ((check_flag_0x8000__10TObjPlayerFv() != 0) || (((TObjChara *)player)->obj_isState3_324() != 0) || (((TObjPlayer *)player)->is_script_controlled() != 0)) {
         ((TObjPlayer *)player)->set_flag_0x8000();
         return;
     }
@@ -1163,7 +1163,7 @@ void TForceOperate::run_task() {
     void *entity;
 
     if (TObjPlayer__sub_801C6DAC((u8 *)&m_1c) != 0) {
-        temp_r31 = get_state__11TMainCursorFv((s32)&m_1c);
+        temp_r31 = (void *)((TMainCursor *)((s32)&m_1c))->get_state();
         if ((is_target_valid__10TObjPlayerFv() != 0) && (((TObjPlayer *)temp_r31)->has_action_palette_entry() != 0)) {
             ((TMainCursor *)(((TObjPlayer *)temp_r31)->m_424 + 0x4F8))->get_id();
             entity = find_entity_by_id();

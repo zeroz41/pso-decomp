@@ -59,7 +59,7 @@ T_OWEHMS_Exp* T_OWEHMS_Exp::destroy(s16 should_free) {
         *(void**)((u8*)this + 0x18) = __vt__12T_OWEHMS_Exp;
         __dt__7TObjectFv(this, 0);
         if (should_free > 0) {
-            __dl__7TObjectFPv(this);
+            TObject::operator delete(this);
         }
     }
     return this;

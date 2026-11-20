@@ -692,7 +692,7 @@ extern "C" s32 TObjPlayer__sub_801D4368(TObjPlayer *player) {
     if (*(s16 *)((s8 *)player + 0x1c) > 0x1e || *(s16 *)((s8 *)player + 0x1c) < 1) {
         return 0;
     }
-    obj = __nw__FUl(8);
+    obj = (u8 *)::operator new(8);
     if (obj != NULL) {
         obj = TObjPlayer__sub_801D46D4(obj, *(s16 *)((s8 *)player + 0x1c));
     }
@@ -895,7 +895,7 @@ void *find_placement_obstruction(void *self, Body_801D3E20 *s) {
 s32 TUnk_804C4498::step_placement_search() {
     Ground_801D3C38 *g;
     if (check_player_action_allowed() != 0 && this->online != 0 &&
-        TAdPlayerLoadGC::probe_card_slot(get_chr_select_state__23TAdSinglePlyChrSelectGCFv()) != 1) {
+        TAdPlayerLoadGC::probe_card_slot((s8)TAdSinglePlyChrSelectGC::get_chr_select_state()) != 1) {
         TLobby::disconnect_protocol();
         queue_destruction();
         return 2;
@@ -929,7 +929,7 @@ s32 TUnk_804C4498::step_placement_search() {
         return 0;
     }
     if (check_player_action_allowed() != 0 && this->online != 0 &&
-        poll_memcard_result(get_chr_select_state__23TAdSinglePlyChrSelectGCFv()) != 0) {
+        poll_memcard_result((s8)TAdSinglePlyChrSelectGC::get_chr_select_state()) != 0) {
         return 0;
     }
     return 1;

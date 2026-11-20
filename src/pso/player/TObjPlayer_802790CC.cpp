@@ -11,7 +11,7 @@ void *get_array_entry__11TWindowBaseFi(void *, s16);
 void TObjPlayer::add_status_line(u8 arg1, u32 arg2, s32 arg3) {
     void *temp_r31;
 
-    temp_r31 = get_array_entry__11TWindowBaseFi(this, *(s16 *)((s8 *)this + 0x72));
+    temp_r31 = (void *)((TWindowBase *)this)->get_array_entry(*(s16 *)((s8 *)this + 0x72));
     if (arg2 == 0U) {
         init_status_entry__20TWindowSubStatusDispFPvcUii(temp_r31, arg1, 0, arg3);
         *(f32 *)((s8 *)temp_r31 + 8) += 18.0f;

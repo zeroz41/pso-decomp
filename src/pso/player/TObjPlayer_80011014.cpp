@@ -3178,7 +3178,7 @@ void TObjChara::apply_defense_stat_status(void *receipt_arg) {
         this->add_to_field_2ce((s32) (var_f30 * (f32) this->get_atp()));
         ((s32 (*)(TObjChara *, s32, s32))TObjPlayer__sub_800193FC)(this, 3, (s32) ((3e+01f) * ((1e+01f) * receipt->power + (4e+01f))));
         if (((s32 (*)(TObjChara *, s32))obj_testFlags30__14TObjCollidableFUl)(this, 0x02000000) == 0) {
-            u32 temp_obj = __nw__7TObjectFUl(0x64);
+            u32 temp_obj = (u32)TObject::operator new(0x64);
             if (temp_obj != 0U) {
                 ((s32 (*)(u32, const f32 *, const f32 *, s32, s32, f32, s32))construct_actor_light_task)(temp_obj, player_defense_stat_status_light_colors, TObjPlayer__data_80434060, 0x2D, (s32)this, (0.1f), tl_07);
             }
@@ -3221,7 +3221,7 @@ void TObjChara::apply_attack_stat_status(void *arg1_arg) {
         this->add_to_field_2ca((s32) (var_f31 * (f32) this->get_field_2c2()));
         ((s32 (*)(TObjPlayer*, s32, s32))TObjPlayer__sub_800193FC)(((TObjPlayer *)this), 2, (s32) ((3e+01f) * ((1e+01f) * arg1->power + (4e+01f))));
         if (((s32 (*)(TObjPlayer*, s32))obj_testFlags30__14TObjCollidableFUl)(((TObjPlayer *)this), 0x02000000) == 0) {
-            u32 temp_obj = __nw__7TObjectFUl(0x64);
+            u32 temp_obj = (u32)TObject::operator new(0x64);
             if (temp_obj != 0U) {
                 ((s32 (*)(u32, const f32 *, const f32 *, s32, TObjPlayer*, f32, s32))construct_actor_light_task)(temp_obj, player_attack_stat_status_light_colors, TObjPlayer__data_80434060, 0x2D, ((TObjPlayer *)this), (0.1f), tl_07);
             }
@@ -4469,7 +4469,7 @@ void *__dt__9TObjCharaFv(void *self, s16 deleteFlag) {
         *(s32 **)((s8 *)self + 0x18) = (s32 *)__vt__9TObjChara;
         __dt__10TObjMotionFv(self, 0);
         if (deleteFlag > 0) {
-            __dl__7TObjectFPv(self);
+            TObject::operator delete(self);
         }
     }
     return self;
@@ -4817,7 +4817,7 @@ void obj_setFlags30(ObjFlags* p, u32 mask) {
     p->flags_30 |= mask;
 }
 
-void TObjPlayer::bswap_head16() { ((G_ClientIDHeader *)this)->bswap(); bswap_16__FPUs((char*)this + 0x4); }
+void TObjPlayer::bswap_head16() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); }
 
 void G_ClientIDHeader::bswap() { bswap_16(&client_id); }
 

@@ -528,8 +528,8 @@ void TUnk_80488E00::update_follow_motion_state() {
     FollowVector *temp_r3;
     u8 *temp_r3_4;
     u8 *temp_r4;
-    temp_r31 = get_target_ptr__11TCameraCtrlFv(*(u8 **)((s8 *)((u8 *)this) + 0x1C));
-    temp_r3 = get_position_ptr__10TObjPlayerFv(*(u8 **)((s8 *)((u8 *)this) + 0x1C));
+    temp_r31 = (FollowVector *)((TCameraCtrl *)(*(u8 **)((s8 *)((u8 *)this) + 0x1C)))->get_target_ptr();
+    temp_r3 = (FollowVector *)((TObjPlayer *)(*(u8 **)((s8 *)((u8 *)this) + 0x1C)))->get_position_ptr();
     if (temp_r31 == NULL || temp_r3 == NULL) {
         return;
     }
@@ -804,8 +804,8 @@ void TUnk_80488E00::compute_follow_target() {
     f32 x;
     f32 y;
     f32 z;
-    t = get_target_ptr__11TCameraCtrlFv(self->actor);
-    p = get_position_ptr__10TObjPlayerFv(self->actor);
+    t = (FollowVector *)((TCameraCtrl *)self->actor)->get_target_ptr();
+    p = (FollowVector *)((TObjPlayer *)self->actor)->get_position_ptr();
     d.x = p->x - t->x;
     d.y = p->y - t->y;
     d.z = p->z - t->z;

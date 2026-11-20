@@ -143,7 +143,7 @@ void mem_free(void*);
 extern void *tl_02;
 
 void TSetManager::create() {
-    void* obj = __nw__7TObjectFUl(0x20);
+    void* obj = TObject::operator new(0x20);
     if (obj != 0) {
         TSetManager__ct(obj, tl_02);
     }

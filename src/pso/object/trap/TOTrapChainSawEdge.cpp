@@ -345,7 +345,7 @@ void *__dt__18TOTrapChainSawEdgeFv(void *object, s16 arg1) {
         *(s32 **)((s8 *)object + 0x18) = __vt__18TOTrapChainSawEdge;
         ((void (*)(void *, int))__dt__14TOTrapChainSawFv)(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(object);
+            TObject::operator delete(object);
         }
     }
     return object;
@@ -469,7 +469,7 @@ void *__dt__17TOTrapChainSawKeyFv(void *collidable, s16 arg1) {
         free_collision_body_parts(collidable);
         ((void (*)(void *, int))__dt__14TOTrapChainSawFv)(collidable, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(collidable);
+            TObject::operator delete(collidable);
         }
     }
     return collidable;
@@ -582,7 +582,7 @@ void TOTrapChainSawDamage__vt14(Obj_802C8C60 *arg0, f32 _w1) {
     v = arg0->fF8;
     arg0->fF8 = v < 0 ? 0 : (v > 1 ? 1 : v);
     arg0->fC8 = get_model__17TOTrapChainSawKeyFl(a.v[arg0->fF8], _w1);
-    arg0->fBC = get_motion__17TOTrapChainSawKeyFl(b.v[arg0->fF8]);
+    arg0->fBC = (s32)TOTrapChainSawKey::get_motion(b.v[arg0->fF8]);
     arg0->f24 = (s32)fn_802C9924(0);
     arg0->fB4 = (0.0f);
     arg0->fB8 = (1.0f);
@@ -632,7 +632,7 @@ void *__dt__20TOTrapChainSawDamageFv(void *collidable, s16 arg1) {
         free_collision_body_parts(collidable);
         ((void (*)(void *, int))__dt__14TOTrapChainSawFv)(collidable, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(collidable);
+            TObject::operator delete(collidable);
         }
     }
     return collidable;

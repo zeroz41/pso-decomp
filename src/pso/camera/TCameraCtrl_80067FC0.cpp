@@ -129,7 +129,7 @@ s32 TUnk_80488E00::predict_obstruction() {
     if (self->obj == NULL) {
         return 0;
     }
-    tgt = get_target_ptr__11TCameraCtrlFv(self->obj);
+    tgt = (Vec *)((TCameraCtrl *)self->obj)->get_target_ptr();
     pos = get_position_ptr__10TObjPlayerFv(self->obj);
     d.x = pos->x - tgt->x;
     d.y = pos->y - tgt->y;
@@ -210,7 +210,7 @@ void TUnk_80488A28::post_update_view() {
         d.z = 1.0f;
     }
     direction_to_pitch_yaw((u8 *)&d, (s32 *)camera_ctrl_instance->f190, (s32 *)camera_ctrl_instance->f194);
-    t = get_target__11TCameraCtrlFv(camera_ctrl_instance);
+    t = (Vec *)((TCameraCtrl *)camera_ctrl_instance)->get_target();
     e.x = camera_ctrl_instance->target.x + t->x;
     e.y = camera_ctrl_instance->target.y + t->y;
     e.z = camera_ctrl_instance->target.z + t->z;

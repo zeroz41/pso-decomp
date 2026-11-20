@@ -312,7 +312,7 @@ void *TObjEneRe2Flower_Bomb::destroy_and_free(s16 arg1) {
         if (this->m_fc != NULL) { ((TObject *)this->m_fc)->queue_destruction(); this->m_fc = 0; }
         __dt__13TUnk_804928CCFv(this, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(this);
+            TObject::operator delete(this);
         }
     }
     return this;

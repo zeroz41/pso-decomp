@@ -425,7 +425,7 @@ void TLobby::free_heap() { __dt__5THeapFv((void*)area_event_set_heap, (void*)1);
 void TLobby::create_heap_8000() {
     u8 *heap;
     u8 *var_r0;
-    heap = (u8 *)(__nw__5THeapFUl(0x14));
+    heap = (u8 *)(THeap::operator new(0x14));
     var_r0 = heap;
     if (var_r0 != NULL) {
         var_r0 = (u8 *)(__ct__5THeapFUli(heap, 0x8000, 0x20));

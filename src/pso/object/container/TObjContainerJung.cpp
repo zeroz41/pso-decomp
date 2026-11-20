@@ -389,7 +389,7 @@ void TObjContainerJungEx::vfunc_79() const {
     a.pos[1] = py;
     a.pos[2] = pz;
     a.pad_38[0] = py;
-    a.model = get_model__19TObjContainerJungExFl(1);
+    a.model = (s32)TObjContainerJungEx::get_model(1);
     a.textures = TObjContainerJungEx__sub_8018D900(0);
     TObjChipParams b = container_jung_ex_spawn_params_b;
     f32 qz;
@@ -402,7 +402,7 @@ void TObjContainerJungEx::vfunc_79() const {
     b.pos[1] = qy;
     b.pos[2] = qz;
     b.pad_38[0] = qy;
-    b.model = get_model__19TObjContainerJungExFl(2);
+    b.model = (s32)TObjContainerJungEx::get_model(2);
     b.textures = TObjContainerJungEx__sub_8018D900(0);
     spawn_particle_effect_with_flags(&self->pos, 0x45, 0x40);
     spawn_particle_effect_with_flags(&self->pos, 0x46, 0x40);
@@ -456,18 +456,18 @@ void TObjContainerJungEnemy::load_models() {
     }
     switch (var_r0) {
     case 0:
-        this->m_368 = get_model_by_index__17TObjContainerJungFl(0);
-        this->m_36c = get_model_by_index__17TObjContainerJungFl(1);
-        this->m_370 = get_model_by_index__17TObjContainerJungFl(2);
-        this->m_374 = get_model_by_index__17TObjContainerJungFl(3);
+        this->m_368 = (s32)TObjContainerJung::get_model_by_index(0);
+        this->m_36c = (s32)TObjContainerJung::get_model_by_index(1);
+        this->m_370 = (s32)TObjContainerJung::get_model_by_index(2);
+        this->m_374 = (s32)TObjContainerJung::get_model_by_index(3);
         this->texlist = TObjContainerJung__sub_8018D3B8(0);
         return;
     default:
     case 1:
-        this->m_368 = get_model__19TObjContainerJungExFl(0);
-        this->m_36c = get_model__19TObjContainerJungExFl(1);
-        this->m_370 = get_model__19TObjContainerJungExFl(2);
-        this->m_374 = get_model__19TObjContainerJungExFl(3);
+        this->m_368 = (s32)TObjContainerJungEx::get_model(0);
+        this->m_36c = (s32)TObjContainerJungEx::get_model(1);
+        this->m_370 = (s32)TObjContainerJungEx::get_model(2);
+        this->m_374 = (s32)TObjContainerJungEx::get_model(3);
         this->texlist = TObjContainerJungEx__sub_8018D900(0);
         return;
     }

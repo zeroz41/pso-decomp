@@ -89,7 +89,7 @@ void *__dt__10TObjPlayerFv(void *arg0, s16 arg1) {
         TObjPlayer__sub_801BF9F0((u8 *)((s8 *)arg0 + 0x340), -1);
         __dt__9TObjCharaFv(arg0, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            TObject::operator delete(arg0);
         }
     }
     return arg0;

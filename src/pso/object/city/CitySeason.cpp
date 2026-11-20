@@ -1201,7 +1201,7 @@ void TObjCity_Season_FireWorkCtrl::run_task() {
         VecCopy((Vec *)(&stack.sp8), (const Vec *)(arg0 + 0x38));
         stack.sp8 += temp_f31;
         stack.sp10 += temp_f30;
-        temp_r3 = __nw__7TObjectFUl(0x40);
+        temp_r3 = (u32)TObject::operator new(0x40);
         if (temp_r3 != 0U)
         {
           ((s32 (*)(int, void *, void *, f32))__ct__24TObjCity_Season_FireWorkFP7TObjectPvf)((int) temp_r3, (void *) arg0, (void *)&stack.sp8, (f32) temp_f29);

@@ -691,7 +691,7 @@ void TCameraCtrl::run_task() {
         }
     }
     if (G != NULL) {
-        t = get_target__11TCameraCtrlFv(arg0);
+        t = (u8 *)((TCameraCtrl *)arg0)->get_target();
         v.x = (((f32 *)t)[0] + GF(0x184)) - GF(0x178);
         v.y = (((f32 *)t)[1] + GF(0x188)) - GF(0x17C);
         v.z = (((f32 *)t)[2] + GF(0x18C)) - GF(0x180);
@@ -779,7 +779,7 @@ Ctl_8006AA90 *TCameraCtrl__sub_8006AA90(Ctl_8006AA90 *self, s16 arg1) {
         ((s32 *)&TCameraCtrl__view_state)[1] = 0;
         __dt__7TObjectFv(self, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(self);
+            TObject::operator delete(self);
         }
     }
     return self;

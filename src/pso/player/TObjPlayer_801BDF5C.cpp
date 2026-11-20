@@ -44,10 +44,10 @@ s32 get_char_data__10TObjPlayerFv(void *);
 
 u8 *TObjPlayer::create_player_instance(s32 arg0, s32 arg1) {
     u8 *p;
-    p = __nw__7TObjectFUl(0xDB8);
+    p = (u8 *)TObject::operator new(0xDB8);
     if (p != NULL) {
         p = ((u8 *(*)(void *, s32, u16, s32, s32))construct_player_instance__10TObjPlayerFlslPUc)(
-            p, tl_03, arg0, get_field_0_s32((void *)arg1), get_char_data__10TObjPlayerFv((void *)arg1));
+            p, tl_03, arg0, get_field_0_s32((void *)arg1), (s32)((TObjPlayer *)((void *)arg1))->get_char_data());
     }
     ((TLobby *)(p + 0xDAC))->copy_header_struct((void *)((TObjPlayer *)arg1)->get_sub_obj());
     ((Obj_801BDE60 *)p)->v6();
@@ -58,7 +58,7 @@ u8 *create_player_object(s16 slot, s32 role, u8 *record) {
     u8 *player;
     u8 *var_r0;
     decode_created_player_inventory(record);
-    player = (u8 *)(__nw__7TObjectFUl(0xDB8));
+    player = (u8 *)((u8 *)TObject::operator new(0xDB8));
     var_r0 = player;
     if (var_r0 != NULL) {
         var_r0 = (u8 *)(((TObjPlayer *)player)->construct_player_instance(tl_03, slot, role, record));

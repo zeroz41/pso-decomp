@@ -43,7 +43,7 @@ void TObjPlayer::clear_30_slots() { { int i; for (i = 0; i < 30; i++) { TObjPlay
 void TObjPlayer::reset_action_palette() {
     s32 i;
     s8 *p;
-    p = get_action_data__10TObjPlayerFv(this);
+    p = (s8 *)get_action_data();
     for (i = 0; i < 0x14; i++) {
         *p = TObjPlayer::get_item_count_max();
         p++;

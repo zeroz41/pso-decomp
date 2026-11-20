@@ -348,7 +348,7 @@ void *destroy__16TObjOnlineEndingFPvs(void *arg0, s16 arg1) {
         restore_player_cameras();
         __dt__8TObjBaseFv(arg0, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            TObject::operator delete(arg0);
         }
     }
     return arg0;

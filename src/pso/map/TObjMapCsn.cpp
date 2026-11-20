@@ -152,7 +152,7 @@ s32 TObjMapCsn::build_box_triangles() {
 s32 TObjMapCsn::create(s32 arg0) {
     s32 map_csn;
 
-    map_csn = __nw__7TObjectFUl(0x254);
+    map_csn = (s32)TObject::operator new(0x254);
     if (map_csn != 0) {
         map_csn = ((s32)__ct__10TObjMapCsnFll((TObjMapCsn *)((u8 *)map_csn), (s32)(TObjMapCsn::get_map_count()), (s32)arg0));
     }

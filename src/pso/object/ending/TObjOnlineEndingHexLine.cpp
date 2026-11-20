@@ -219,7 +219,7 @@ void *__dt__23TObjOnlineEndingHexLineFv(void *object, s16 arg1) {
         *(void **)((s8 *)object + 0x18) = __vt__23TObjOnlineEndingHexLine;
         __dt__7TObjectFv(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(object);
+            TObject::operator delete(object);
         }
     }
     return object;
