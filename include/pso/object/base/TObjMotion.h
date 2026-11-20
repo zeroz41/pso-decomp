@@ -197,8 +197,8 @@ public:
     void draw();
     virtual void reset_motion_fields();
     void set_animation(s16 action);
-    void set_field_d8(s32);
-    void set_field_dc(s32);
+    void set_field_d8(saddr);
+    void set_field_dc(saddr);
     void set_field_b8(s16);
     TObjMotionAction *get_anim_entry(int action);
     int test_motion_flags(s32 flags);

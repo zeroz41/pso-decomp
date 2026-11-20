@@ -271,7 +271,7 @@ u8 *TPhotonPilla__ct(u8 *photon_rainbow, u8 *arg1) {
     }
     *(s32 *)((s8 *)photon_rainbow + 0x34) = *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x38);
     ((TPhotonPilla *)photon_rainbow)->texlist = *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x3C);
-    ((TObjMotion *)photon_rainbow)->set_field_d8((s32)photon_pilla_action_table);
+    ((TObjMotion *)photon_rainbow)->set_field_d8((saddr)photon_pilla_action_table);
     ((TObjMotion *)photon_rainbow)->set_field_dc(*(s32 *)((s8 *)photon_blast_shared_resource + 0x430));
     ((TPhotonPilla *)photon_rainbow)->requested_action = 1;
     ((TObjMotion *)photon_rainbow)->set_animation(((TPhotonPilla *)photon_rainbow)->requested_action);

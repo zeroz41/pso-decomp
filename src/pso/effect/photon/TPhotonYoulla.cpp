@@ -146,7 +146,7 @@ u8 *TPhotonYoulla__ct(TPhotonYoulla *photon_youlla, u8 *arg1) {
     }
     *(s32 *)((s8 *)photon_youlla + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0xB8);
     photon_youlla->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0xBC);
-    ((TObjMotion *)photon_youlla)->set_field_d8((s32) photon_blast_youlla_params);
+    ((TObjMotion *)photon_youlla)->set_field_d8((saddr) photon_blast_youlla_params);
     ((TObjMotion *)photon_youlla)->set_field_dc(*(s32 *)((s8 *)photon_blast_shared_resource + 0x430));
     photon_youlla->requested_action = 1;
     ((TObjMotion *)photon_youlla)->set_animation(photon_youlla->requested_action);

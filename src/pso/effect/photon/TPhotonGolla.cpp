@@ -441,7 +441,7 @@ u8 *TPhotonGolla__ct(u8 *arg0, u8 *arg1) {
     }
     *(s32 *)((s8 *)arg0 + 0x34) = *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x48);
     ((TPhotonGolla *)arg0)->texlist = *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x4C);
-    ((TObjMotion *)arg0)->set_field_d8((s32) photon_blast_golla_params);
+    ((TObjMotion *)arg0)->set_field_d8((saddr) photon_blast_golla_params);
     ((TObjMotion *)arg0)->set_field_dc(*(s32 *)((s8 *)photon_blast_shared_resource + 0x430));
     ((TPhotonGolla *)arg0)->requested_action = 1;
     ((TObjMotion *)arg0)->set_animation(((TPhotonGolla *)arg0)->requested_action);

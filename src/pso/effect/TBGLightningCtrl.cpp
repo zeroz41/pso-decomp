@@ -77,7 +77,7 @@ void TBGLightningCtrl::spawn_lightning_at_angle(s32 arg1) {
     stack.x = this->scale.x * sin_table_lookup(arg1);
     stack.y = this->scale.y;
     stack.z = this->scale.x * cos_table_lookup(arg1);
-    ((s32 (*)(s32, s32, f32))create__12TBGLightningFiif)((s32) this, (s32) &stack.x, *(f32 *)((s8 *)this + 0x70) * (((0.3f) * ((3.0517578e-05f) * (f32) rand())) + (1.0f)));
+    ((s32 (*)(saddr, saddr, f32))create__12TBGLightningFiif)((saddr) this, (saddr) &stack.x, *(f32 *)((s8 *)this + 0x70) * (((0.3f) * ((3.0517578e-05f) * (f32) rand())) + (1.0f)));
 }
 #pragma pop
 

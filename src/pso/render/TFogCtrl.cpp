@@ -271,7 +271,7 @@ void create_area_fog_ctrl(void) {
             if (temp_r3 != NULL) {
                 var_r4 = (s32 *)tl_02;
                 var_r5 = var_r31;
-                ((s32 (*)(int, int, int))__ct__8TFogCtrlFP7TObjectl)((int)temp_r3, (int)var_r4, (int)var_r5);
+                ((s32 (*)(saddr, saddr, int))__ct__8TFogCtrlFP7TObjectl)((saddr)temp_r3, (saddr)var_r4, (int)var_r5);
             }
             var_r31 += 1;
         } while (var_r31 != 4);
@@ -281,7 +281,7 @@ void create_area_fog_ctrl(void) {
         if (temp_r3_2 != NULL) {
             var_r4 = (s32 *)tl_02;
             var_r5 = 0;
-            ((s32 (*)(int, int, int))__ct__8TFogCtrlFP7TObjectl)((int)temp_r3_2, (int)var_r4, 0);
+            ((s32 (*)(saddr, saddr, int))__ct__8TFogCtrlFP7TObjectl)((saddr)temp_r3_2, (saddr)var_r4, 0);
         }
     }
     TObjFogCollisionPoison::create();

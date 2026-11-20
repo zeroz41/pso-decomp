@@ -454,7 +454,7 @@ TObjGrass::TObjGrass(TObject *parent, void *set_data) : TObjEnemy(parent) {
     subtype = 0;
     init_from_table_entry(variant);
     action_table = (TObjMotionAction *)TObjGrass__grass_type_param_table;
-    set_field_d8((s32)action_table);
+    set_field_d8((saddr)action_table);
     if ((0.0f) < parameters[1]) {
         m_39c = 2;
     } else {

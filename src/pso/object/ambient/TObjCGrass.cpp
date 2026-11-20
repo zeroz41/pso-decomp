@@ -223,7 +223,7 @@ u8 *TObjCGrass__ct(Grass_800B8EFC *self, u8 *arg1, s32 arg2, s32 arg3) {
     self->f24 = (*(Mgr_800B8EFC * *)&TObjCGrass_bml_resource)->src->fC;
     self->fDC = (*(Mgr_800B8EFC * *)&TObjCGrass_bml_resource)->f430;
     self->fD8 = cgrass_action_desc;
-    ((TObjMotion *)self)->set_field_d8((s32)self->fD8);
+    ((TObjMotion *)self)->set_field_d8((saddr)self->fD8);
     ((TObjMotion *)self)->set_animation(0);
     self->f100 = self->fC4 - 1.0f;
     self->count = arg2;

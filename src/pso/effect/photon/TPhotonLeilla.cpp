@@ -217,7 +217,7 @@ void *TPhotonLeilla__ct(Leilla_801AC808 *self, Pkt_801AC808 *pkt) {
     }
     F_801AC808(self, s32, 0x34) = photon_blast_shared_resource->res->f18;
     F_801AC808(self, s32, 0x24) = photon_blast_shared_resource->res->f1C;
-    ((TObjMotion *)self)->set_field_d8((s32)photon_blast_leilla_params);
+    ((TObjMotion *)self)->set_field_d8((saddr)photon_blast_leilla_params);
     ((TObjMotion *)self)->set_field_dc(photon_blast_shared_resource->f430);
     F_801AC808(self, s16, 0xB8) = 1;
     ((TObjMotion *)self)->set_animation(F_801AC808(self, s16, 0xB8));

@@ -5823,8 +5823,8 @@ void TObjMotion::set_field_b8(s16 v) { this->requested_action = v; }
 
 extern u8 *TLobby__data_805D6144;
 
-void TObjMotion::set_field_dc(s32 v) { *(s32 *)&this->motion_list = v; }
-void TObjMotion::set_field_d8(s32 v) { (*(s32 *)&this->action_table) = v; }
+void TObjMotion::set_field_dc(saddr v) { *(saddr *)&this->motion_list = v; }
+void TObjMotion::set_field_d8(saddr v) { (*(saddr *)&this->action_table) = v; }
 void TObjPlayer::reset_lobby_model() { reset_type(); }
 void TObjPlayer::reset_type() { *(s32*)((char*)this + 0x0) = 0; }
 void ProtectionTimer::set_frames(s32 v) { frames = v; }

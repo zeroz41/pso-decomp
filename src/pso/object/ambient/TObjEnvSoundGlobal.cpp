@@ -336,7 +336,7 @@ void * TObjEnvSoundEx__create(void *rader_map_core) {
     }
     o = TObject::operator new(0xA8);
     if (o != NULL) {
-        o = TObjEnvSoundEx__ct((u8 *)o, (saddr)tl_05, (s32)rader_map_core);
+        o = TObjEnvSoundEx__ct((u8 *)o, (saddr)tl_05, (saddr)rader_map_core);
     }
     return o;
 }
