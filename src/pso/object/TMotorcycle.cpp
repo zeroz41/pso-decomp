@@ -14,6 +14,11 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/render/NinjaUtil.h"
+#include "pso/render/GinjaMaterial.h"
+#include "pso/render/GinjaTexture.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/system/BmlResourceLoad.h"
+#include "pso/system/TLanguage_801E4874.h"
 #include "pso/system/task/TObject.h"
 
 extern const char *fe_obj_baiku_model_names[3];
@@ -21,25 +26,15 @@ extern BmlResourceDescriptor motorcycle_resource_descriptor;
 extern const char *fe_obj_baiku_motion_names[1];
 
 
-extern "C" {
-s32 get_bml_model(void *, int);
-}
 void rotate_matrix_yxz(s32 matrix, s32 arg1, s32 arg2, s32 arg3);
 extern "C" {
-s32 push_matrix();
-s32 post_translate_matrix(void *);
-s32 draw_ginja_object();
-u32 TMotorcycle__bml_resource;
-u32 TMotorcycle__texture_list;
-u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
+BmlResource *TMotorcycle__bml_resource;
+GinjaTextureList *TMotorcycle__texture_list;
 }
-u8 * load_gvm_texture_file(s32);
 extern "C" {
 extern const s32 lbl_80445DF4[];
 extern CollisionBody TMotorcycle__collision_parts[1];
 extern const char *motorcycle_class_name;
-void free_bin_model_request(void*, int);
-s32 release_texture_list(void*);
 
 __declspec(section ".data") const char *fe_obj_baiku_model_names[3] = { "fe_obj_baiku.gj", "fe_obj_baiku_jimen.gj", NULL };
 BmlResourceDescriptor motorcycle_resource_descriptor = { "fe_obj_baiku.bml", fe_obj_baiku_model_names, fe_obj_baiku_motion_names, 2, 0 };
@@ -74,13 +69,12 @@ void TMotorcycle::debug_draw_label() {
 void TMotorcycle::render() {
     if ((TMainTask::get_render_pass() != 1) && (update_object_view_visibility(400.0f, 50.0f) != 0)) {
         set_draw_list_mask(3);
-        if ((u32) TMotorcycle__texture_list != 0U) {
-            TObjFish::set_global_param((s32) TMotorcycle__texture_list);
+        if (TMotorcycle__texture_list != NULL) {
+            TObjFish::set_global_param(reinterpret_cast<s32>(TMotorcycle__texture_list));
             push_matrix();
-            post_translate_matrix((u8 *)&this->position);
+            post_translate_matrix(&position.x);
             rotate_matrix_yxz(0, (this->rotation_x), (this->rotation_y), (this->rotation_z));
-            get_bml_model((void *) ((*(s32 *)&TMotorcycle__bml_resource)), this->m_bc);
-            draw_ginja_object();
+            draw_ginja_object(reinterpret_cast<NJS_OBJECT *>(get_bml_model(TMotorcycle__bml_resource, m_bc)));
             pop_matrix();
         }
         restore_draw_list_mask();
@@ -95,29 +89,28 @@ extern "C" void *create_stage_motorcycle(void *placement) {
 }
 
 void TMotorcycle::free_statics() {
-    if ((u32) TMotorcycle__texture_list != 0U) {
-        release_texture_list((void*)TMotorcycle__texture_list);
-        TAdSinglePlyChrSelectGC::safe_free(TMotorcycle__texture_list);
-        TMotorcycle__texture_list = 0U;
+    if (TMotorcycle__texture_list != NULL) {
+        release_texture_list(TMotorcycle__texture_list);
+        TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<s32>(TMotorcycle__texture_list));
+        TMotorcycle__texture_list = NULL;
     }
-    if ((u32) TMotorcycle__bml_resource != 0U) {
-        free_bin_model_request((void*)TMotorcycle__bml_resource, 1);
-        TMotorcycle__bml_resource = 0U;
+    if (TMotorcycle__bml_resource != NULL) {
+        free_bin_model_request(TMotorcycle__bml_resource, 1);
+        TMotorcycle__bml_resource = NULL;
     }
 }
 
 void TMotorcycle::load_resources() {
-    s32 temp_r3;
-    s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &motorcycle_resource_descriptor, 0, 0, 0));
+    BmlResource *storage = static_cast<BmlResource *>(::operator new(0x440));
+    if (storage != NULL) {
+        storage = load_resource_from_descriptor(storage, 5, &motorcycle_resource_descriptor, 0, 0, 0);
     }
-    (*(u8 * *)&TMotorcycle__bml_resource) = (unsigned char *) ((void *) var_r0);
-    (*(u8 * *)&TMotorcycle__texture_list) = load_gvm_texture_file((s32) "obj_motorcycle.GVM");
-    TMotorcycle::add_entry((s16)(0x3C), (s32)((void *) (((s32)get_bml_model((void *)((*(u8 * *)&TMotorcycle__bml_resource)), 0)))), (s32)((void *) ((*(u8 * *)&TMotorcycle__texture_list))), 16.0f, 0.0f);
-    TMotorcycle::add_entry((s16)(0x3D), (s32)((void *) (((s32)get_bml_model((void *)((*(u8 * *)&TMotorcycle__bml_resource)), 1)))), (s32)((void *) ((*(u8 * *)&TMotorcycle__texture_list))), 16.0f, 0.0f);
+    TMotorcycle__bml_resource = storage;
+    TMotorcycle__texture_list = reinterpret_cast<GinjaTextureList *>(load_gvm_texture_file((s32)"obj_motorcycle.GVM"));
+    TMotorcycle::add_entry(0x3C, get_bml_model(TMotorcycle__bml_resource, 0),
+                          reinterpret_cast<s32>(TMotorcycle__texture_list), 16.0f, 0.0f);
+    TMotorcycle::add_entry(0x3D, get_bml_model(TMotorcycle__bml_resource, 1),
+                          reinterpret_cast<s32>(TMotorcycle__texture_list), 16.0f, 0.0f);
 }
 
 TMotorcycle::~TMotorcycle() {
