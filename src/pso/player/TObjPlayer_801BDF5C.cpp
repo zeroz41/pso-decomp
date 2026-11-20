@@ -214,7 +214,7 @@ struct VObj_801BE3D8 : Base_801BE3D8 {
     virtual void m22();
     virtual void m23();
     virtual void m24();
-    virtual int m25();
+    virtual short m25();
 };
 struct Base_801BE40C { char pad[0x8]; };
 struct VObj_801BE40C : Base_801BE40C {
@@ -268,7 +268,7 @@ struct VObj_801BE440 : Base_801BE440 {
     virtual void m21();
     virtual void m22();
     virtual void m23();
-    virtual int m24();
+    virtual short m24();
 };
 struct Base_801BE474 { char pad[0x8]; };
 struct VObj_801BE474 : Base_801BE474 {
@@ -298,7 +298,7 @@ struct VObj_801BE474 : Base_801BE474 {
     virtual void m23();
     virtual void m24();
     virtual void m25();
-    virtual int m26();
+    virtual short m26();
 };
 struct Base_801BE4A8 { char pad[0x8]; };
 struct VObj_801BE4A8 : Base_801BE4A8 {
@@ -328,7 +328,7 @@ struct VObj_801BE4A8 : Base_801BE4A8 {
     virtual void m23();
     virtual void m24();
     virtual void m25();
-    virtual int m26();
+    virtual short m26();
 };
 struct Base_801BE4DC { char pad[0x8]; };
 struct VObj_801BE4DC : Base_801BE4DC {
@@ -351,7 +351,7 @@ struct VObj_801BE4DC : Base_801BE4DC {
     virtual void m16();
     virtual void m17();
     virtual void m18();
-    virtual int m19();
+    virtual short m19();
 };
 struct Base_801BE510 { char pad[0x8]; };
 struct VObj_801BE510 : Base_801BE510 {
@@ -382,7 +382,7 @@ struct VObj_801BE510 : Base_801BE510 {
     virtual void m24();
     virtual void m25();
     virtual void m26();
-    virtual int m27();
+    virtual short m27();
 };
 struct Base_801BE544 { char pad[0x8]; };
 struct VObj_801BE544 : Base_801BE544 {
@@ -421,7 +421,7 @@ struct VObj_801BE578 : Base_801BE578 {
     virtual void m14();
     virtual void m15();
     virtual void m16();
-    virtual int m17();
+    virtual short m17();
 };
 struct Base_801BE5AC { char pad[0x8]; };
 struct VObj_801BE5AC : Base_801BE5AC {
@@ -460,7 +460,7 @@ struct VObj_801BE5E0 : Base_801BE5E0 {
     virtual void m12();
     virtual void m13();
     virtual void m14();
-    virtual int m15();
+    virtual short m15();
 };
 struct Base_801BE614 { char pad[0x8]; };
 struct VObj_801BE614 : Base_801BE614 {
@@ -492,7 +492,7 @@ struct VObj_801BE614 : Base_801BE614 {
     virtual void m25();
     virtual void m26();
     virtual void m27();
-    virtual int m28();
+    virtual short m28();
 };
 
 extern "C" {
@@ -503,7 +503,7 @@ void TObjPlayer::set_flag_400000() {
     sub_8011E204(0x400000);
 }
 
-short TObjPlayer::get_model_field_m25() {
+s32 TObjPlayer::get_model_field_m25() {
     struct VObj_801BE3D8 *o = (struct VObj_801BE3D8 *)*(void * *)&this->unk_380;
     return o->m25();
 }
@@ -513,27 +513,27 @@ short TObjPlayer::get_action_animation() {
     return o->m22();
 }
 
-short TObjPlayer::call_model_m24() {
+s32 TObjPlayer::call_model_m24() {
     struct VObj_801BE440 *o = (struct VObj_801BE440 *)*(void * *)&this->unk_380;
     return o->m24();
 }
 
-short TObjPlayer::get_weapon_stat_c() {
+s32 TObjPlayer::get_weapon_stat_c() {
     struct VObj_801BE474 *o = (struct VObj_801BE474 *)*(void * *)&this->unk_380;
     return o->m26();
 }
 
-short TObjPlayer::call_obj_vt26() {
+s32 TObjPlayer::call_obj_vt26() {
     struct VObj_801BE4A8 *o = (struct VObj_801BE4A8 *)*(void * *)&this->unk_380;
     return o->m26();
 }
 
-short TObjPlayer::query_child_state() {
+s32 TObjPlayer::query_child_state() {
     struct VObj_801BE4DC *o = (struct VObj_801BE4DC *)*(void * *)&this->unk_380;
     return o->m19();
 }
 
-short TObjPlayer::query_equip() {
+s32 TObjPlayer::query_equip() {
     struct VObj_801BE510 *o = (struct VObj_801BE510 *)*(void * *)&this->unk_380;
     return o->m27();
 }
@@ -543,7 +543,7 @@ short TObjPlayer::get_status() {
     return o->m14();
 }
 
-short TObjPlayer::get_model_state() {
+s32 TObjPlayer::get_model_state() {
     struct VObj_801BE578 *o = (struct VObj_801BE578 *)*(void * *)&this->unk_380;
     return o->m17();
 }
@@ -553,12 +553,12 @@ short TObjPlayer::get_state() {
     return o->m16();
 }
 
-short TObjPlayer::call_subobject_m15() {
+s32 TObjPlayer::call_subobject_m15() {
     struct VObj_801BE5E0 *o = (struct VObj_801BE5E0 *)*(void * *)&this->unk_380;
     return o->m15();
 }
 
-short TObjPlayer::get_vobj_state_28() {
+s32 TObjPlayer::get_vobj_state_28() {
     struct VObj_801BE614 *o = (struct VObj_801BE614 *)*(void * *)&this->unk_380;
     return o->m28();
 }
@@ -583,10 +583,10 @@ int TObjPlayer::check_flag_0x40000000() { return (this->m_334 >> 30) & 0x1; }
 void TObjPlayer::clear_flag_0x2() { this->m_334 &= 0xfffffffd; }
 
 int TObjPlayer__sub_801BED70(void*);
-int TObjPlayer__sub_801BED78(void*);
-int TObjPlayer__sub_801BED80(void*);
-int TObjPlayer__sub_801BED88(void*);
-int TObjPlayer__sub_801BED90(void*);
+u8 TObjPlayer__sub_801BED78(void*);
+u8 TObjPlayer__sub_801BED80(void*);
+u8 TObjPlayer__sub_801BED88(void*);
+u8 TObjPlayer__sub_801BED90(void*);
 
 int TObjPlayer::is_action_active() { return (this->m_334 >> 1) & 0x1; }
 void TObjPlayer__sub_801BE784(void* p, u8 v) { *(u8*)((char*)p + 0x2e7) = v; }
@@ -598,13 +598,13 @@ u8 TObjPlayer::get_mag_level() { return *(u8*)((char*)this + 0x338); }
 void TObjPlayer__sub_801BE7B4(void* p, u8 v) { *(u8*)((char*)p + 0x293) = v; }
 int TObjPlayer__sub_801BE7BC(void* p) { return TObjPlayer__sub_801BED70((char*)p + 0x374); }
 void TObjPlayer__sub_801BE7E0(void* p, u8 v) { *(u8*)((char*)p + 0x277) = v; }
-int TObjPlayer::get_equip_flags() { return TObjPlayer__sub_801BED78((char*)this + 0x374); }
+u8 TObjPlayer::get_equip_flags() { return TObjPlayer__sub_801BED78((char*)this + 0x374); }
 void TObjPlayer__sub_801BE80C(void* p, u8 v) { *(u8*)((char*)p + 0x25b) = v; }
-int TObjPlayer::get_inventory_state() { return TObjPlayer__sub_801BED80((char*)this + 0x374); }
+u8 TObjPlayer::get_inventory_state() { return TObjPlayer__sub_801BED80((char*)this + 0x374); }
 void TObjPlayer__sub_801BE838(void* p, u8 v) { *(u8*)((char*)p + 0x23f) = v; }
-int TObjPlayer::get_field_374_state() { return TObjPlayer__sub_801BED88((char*)this + 0x374); }
+u8 TObjPlayer::get_field_374_state() { return TObjPlayer__sub_801BED88((char*)this + 0x374); }
 void TObjPlayer__sub_801BE864(void* p, u8 v) { *(u8*)((char*)p + 0x223) = v; }
-int TObjPlayer::get_field_374() { return TObjPlayer__sub_801BED90((char*)this + 0x374); }
+u8 TObjPlayer::get_field_374() { return TObjPlayer__sub_801BED90((char*)this + 0x374); }
 
 }
 

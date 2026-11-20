@@ -1992,18 +1992,15 @@ s32 check_flag_4__10TObjPlayerFv(void *);
 void clear_flag_4000_callback__10TObjPlayerFv(void);
 int set_battle_flag__10TObjPlayerFl(void*, int);
 u32 is_action_active__10TObjPlayerFv();
-void TObjPlayer__sub_801BE784(void *, s32);
-s32 get_battle_mode__10TObjPlayerFv(void *);
-void TObjPlayer__sub_801BE794(void *, s32);
-s32 get_byte_339__10TObjPlayerFv(void *);
-void TObjPlayer__sub_801BE7A4(void *, s32);
-s32 get_mag_level__10TObjPlayerFv(void *);
+void TObjPlayer__sub_801BE784(void *, u8);
+void TObjPlayer__sub_801BE794(void *, u8);
+void TObjPlayer__sub_801BE7A4(void *, u8);
 void TObjPlayer__sub_801BE7B4(void *, s32);
 s32 TObjPlayer__sub_801BE7BC(void *);
-void TObjPlayer__sub_801BE7E0(void *, s32);
-void TObjPlayer__sub_801BE80C(void *, s32);
-void TObjPlayer__sub_801BE838(void *, s32);
-void TObjPlayer__sub_801BE864(void *, s32);
+void TObjPlayer__sub_801BE7E0(void *, u8);
+void TObjPlayer__sub_801BE80C(void *, u8);
+void TObjPlayer__sub_801BE838(void *, u8);
+void TObjPlayer__sub_801BE864(void *, u8);
 void init_inventory_list__10TObjPlayerFPv(void *);
 s32 TObjPlayer__sub_801BE8F4(void *, s32, s32);
 void *TObjPlayer__sub_801BE918(void *a0, int a1, void *a2, void *a3);
@@ -5446,9 +5443,9 @@ void fill_player_record__10TObjPlayerFPvPv(Src_801B4CE4 *src, Dst_801B4CE4 *dst)
     dst->f142[1].b[1] = v >> 8;
     dst->f142[2].b[1] = v >> 16;
     dst->f142[3].b[1] = v >> 24;
-    TObjPlayer__sub_801BE7A4(dst, get_mag_level__10TObjPlayerFv(src));
-    TObjPlayer__sub_801BE794(dst, get_byte_339__10TObjPlayerFv(src));
-    TObjPlayer__sub_801BE784(dst, get_battle_mode__10TObjPlayerFv(src));
+    TObjPlayer__sub_801BE7A4(dst, ((TObjPlayer *)src)->get_mag_level());
+    TObjPlayer__sub_801BE794(dst, ((TObjPlayer *)src)->get_byte_339());
+    TObjPlayer__sub_801BE784(dst, ((TObjPlayer *)src)->get_battle_mode());
     bswap_player_data__6TLobbyFi(dst);
 }
 

@@ -82,10 +82,6 @@ s32 TObjPlayer__sub_8013A748(void *, void *);
 s32 clamp_stats__10TObjPlayerFiPv(void *, void *, void *);
 s8 query_state_if_present__10TObjPlayerFPv(void *, void *);
 u8 TObjPlayer__sub_801BE7BC(void *);
-u8 get_equip_flags__10TObjPlayerFv(void *);
-u8 get_inventory_state__10TObjPlayerFv(void *);
-u8 get_field_374_state__10TObjPlayerFv(void *);
-u8 get_field_374__10TObjPlayerFv(void *);
 s32 TObjPlayer__sub_801C0124(void *, s16);
 void split_capped_value__10TObjPlayerFUcPUcPSc(s32, u8 *, E_802C4698 *);
 s32 TObjPlayer__sub_802A1018();
@@ -105,10 +101,10 @@ void export_player_record__10TObjPlayerFPvPv(TObjPlayer *arg0, u8 *arg1) {
     clamp_stats__10TObjPlayerFiPv(arg1, (u8 *)arg0 + 0x34C, (void *) (TObjPlayer::get_class_stat_entry((u8 *)arg1)));
     *(s8 *)((s8 *)arg0 + 1) = ((TObjPlayer *)arg1)->get_hp_material_points();
     *(s8 *)((s8 *)arg0 + 2) = ((TObjPlayer *)arg1)->get_tp_materials_clamped();
-    arg0->set_flag_e7(get_field_374__10TObjPlayerFv(arg1));
-    arg0->set_flag_103(get_field_374_state__10TObjPlayerFv(arg1));
-    arg0->set_action_flags(get_inventory_state__10TObjPlayerFv(arg1));
-    arg0->set_byte_13b(get_equip_flags__10TObjPlayerFv(arg1));
+    arg0->set_flag_e7(((TObjPlayer *)arg1)->get_field_374());
+    arg0->set_flag_103(((TObjPlayer *)arg1)->get_field_374_state());
+    arg0->set_action_flags(((TObjPlayer *)arg1)->get_inventory_state());
+    arg0->set_byte_13b(((TObjPlayer *)arg1)->get_equip_flags());
     arg0->set_field_157(TObjPlayer__sub_801BE7BC(arg1));
     TObjPlayer__sub_8013A748((u8 *)arg0 + 0x3C0, arg1 + 0x500);
     for (i = 0; i < 0x13; i++) {
