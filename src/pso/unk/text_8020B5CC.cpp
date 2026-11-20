@@ -21,12 +21,12 @@ extern u32 TLobby__data_805D6104;
 extern u32 TLobby__data_805D6108;
 
 // The header is followed by the s16 flags of every object set, then of every enemy set.
-int TLobby__sub_8020B5CC(SerializedAreaSetFlags *buf) {
+int TLobby__sub_8020B5CC(FloorSetFlagsPayload *buf) {
     s32 enemies;
-    SerializedAreaSetFlagsHeader *out = buf;
+    FloorSetFlagsHeader *out = buf;
     s32 objects = 0;
     s16 *p = buf->flags;
-    out->header_size = 0x10;
+    out->object_offset = sizeof(FloorSetFlagsHeader);
     for (s32 i = 0; i < 18; i++) {
         if (TLobby__floor_enemy_group_table[i].object_count > 0) {
             FloorSavedSetRow *e = TLobby__floor_enemy_group_table[i].object_rows;
@@ -83,7 +83,7 @@ int TLobby__sub_8020B5CC(SerializedAreaSetFlags *buf) {
         }
     }
     out->enemy_count = enemies;
-    ((TLobby *)out)->bswap_4_words();
+    swap_floor_set_flags_header(out);
     return TLobby__sub_8020BF88();
 }
 

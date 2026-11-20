@@ -113,7 +113,7 @@ int init_sub_state__6TLobbyFv(void);
 int rebuild_entry__6TLobbyFv(void);
 
     extern short TLobby__data_805D6134;
-void rebuild_all__6TLobbyFi(int a0) { TLobby__data_805D5EE0 = a0; TLobby::handle_msg_type1_for_idle_slots(); init_sub_state__6TLobbyFv(); TLobby__sub_8020A2AC(); TLobby::init_floor_encounter_sections(); TLobby::free_boss4rock(); rebuild_entry__6TLobbyFv(); TLobby::init_id_tables(); TLobby__data_805D6134 = 1; TLobby__data_805D5EE0 = 0; }
+void rebuild_all__6TLobbyFi(int a0) { TLobby__data_805D5EE0 = a0; TLobby::handle_msg_type1_for_idle_slots(); init_sub_state__6TLobbyFv(); TLobby__sub_8020A2AC(); TLobby::init_floor_encounter_sections(); TLobby::release_challenge_random_state(); rebuild_entry__6TLobbyFv(); TLobby::init_id_tables(); TLobby__data_805D6134 = 1; TLobby__data_805D5EE0 = 0; }
 }
 
 void set_quest_floor_designation_ex(s16 mode, s32 floor, s32 area, s32 layout, s32 entities) {

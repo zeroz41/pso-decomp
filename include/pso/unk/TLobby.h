@@ -312,16 +312,12 @@ struct TLobby : public TObject {
     static void load_set_event_gsl();
     static void free_heap();
     static void create_heap_8000();
-    void *free_boss4rock(s16 arg1);
     static void append_swapped_u32(s32 *arg0);
-    void append_entity_entry();
     static u32 clamp_min_drop(u32 min, u32 max);
-    static void free_boss4rock();
+    static void release_challenge_random_state();
     void bswap_quad_word();
     void bswap_vec3();
     void swap_header_endian();
-    void bswap();
-    void swap_endian_header();
     static void init_sub_objects();
     int rebuild_entry();
     int init_sub_state();
@@ -329,9 +325,7 @@ struct TLobby : public TObject {
     static s32 set_flags_on_matching_entries(s32 arg0, s16 arg1, s16 arg2, s32 arg3);
     static s32 set_room_group_flags(s32 floor, s16 room, s16 group, s32 bits);
     static s32 sum_floor_enemy_counts();
-    void bswap_4_words();
     static void init_scene_objects();
-    int sync_game_state();
     static s32 spawn_matching_objects(s16 arg0, s16 arg1, s32 arg2);
     static s32 link_matching_objects(s16 arg0, s16 arg1);
     static s32 spawn_objects_at_pos(s16 arg0, s16 arg1);

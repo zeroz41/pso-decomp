@@ -1,13 +1,16 @@
 #include "pso/map/MapSetArchive.h"
+#include <stddef.h>
 #include "pso/map/FloorPopulation.h"
+
+#include "pso/map/ChallengeEnemySet.h"
 #include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/unk/TLobby_80209524.h"
 #include "pso/system/memory.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_8007C550.h"
 #include "pso/unk/text_80209584.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/byteswap.h"
 #include "pso/unk/text_802097B0.h"
 #include "pso/item/drop/TItemDrop_80105D0C.h"
@@ -34,44 +37,46 @@
 #include "pso/unk/text_800F8A0C.h"
 #include "pso/system/TGStream.h"
 #include "pso/unk/TLobby_8020B334.h"
-#include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/unk/text_8020B5CC.h"
 
 // ---- pso/unk/TLobby_80209524
 
 extern "C" {
 
+void move_data__6TLobbyFPCvUl(void *destination, const void *source, u32 size);
+void *mem_alloc(u32 size);
+void mem_free(void *memory);
 
-void *TLobby::free_boss4rock(s16 arg1) {
-    if (this != NULL) {
-        mem_free((void *)(*(s32 *)&this->m_flags));
-        ::operator delete(*(void * *)&this->m_name);
-        *(s32 *)&this->m_prev = 0;
-        *(s32 *)&this->m_next = 0;
-        if (arg1 > 0) {
-            ::operator delete(this);
+EventShuffleTable *destroy_event_shuffle_table(EventShuffleTable *table, s16 delete_storage) {
+    if (table != NULL) {
+        mem_free(table->entries);
+        ::operator delete(table->rngState);
+        table->cursor = 0;
+        table->count = 0;
+        if (delete_storage > 0) {
+            ::operator delete(table);
         }
     }
-    return this;
+    return table;
 }
 
 }
 
 struct Ent_802098AC;
 struct SpawnRecord_8020A9C4;
-struct SetEntry_80209D34;
 
 s32 item_drop_rng;
-s32 lbl_805D60A4;
-u8 *lbl_805D60A8;
+EventShuffleTable *challenge_event_shuffle;
+u8 *challenge_event_source;
 u8 *lbl_805D60AC;
 u8 *TLobby__item_data_table_buffer;
-SpawnRecord_8020A9C4 *lbl_805D60B4;
+u8 *challenge_enemy_buffer;
 Ent_802098AC *lbl_805D60B8;
-SetEntry_80209D34 *lbl_805D60BC;
-s32 lbl_805D60C0;
-u8 *lbl_805D60C4;
-s32 lbl_805D60C8;
-s32 lbl_805D60CC;
+ChallengeFixedEvent *challenge_event_buffer;
+s32 challenge_event_count;
+u8 *challenge_action_buffer;
+s32 challenge_action_size;
+s32 challenge_event_source_size;
 
 // ---- pso/unk/text_80209584
 
@@ -80,20 +85,18 @@ struct Hdr_802095EC { s32 type; s32 size; s32 id; s32 x; };
 struct Hdr_8020967C { s32 type; s32 size; s32 id; s32 x; };
 
 extern "C" {
-u8 *TLobby__sub_80209584(u8 *arg0, s32 arg1) {
-    s32 temp_r3;
-    s32 var_r0;
-    temp_r3 = (int)::operator new(0xE8);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = __ct__14SubtractiveRngFv((void *) temp_r3);
+EventShuffleTable *TLobby__sub_80209584(EventShuffleTable *table, s32 capacity) {
+    void *storage = ::operator new(0xE8);
+    SubtractiveRng *rng = static_cast<SubtractiveRng *>(storage);
+    if (rng != NULL) {
+        rng = reinterpret_cast<SubtractiveRng *>(__ct__14SubtractiveRngFv(storage));
     }
-    *(s32 *)((s8 *)arg0 + 0) = var_r0;
-    *(s32 *)((s8 *)arg0 + 4) = (s32)mem_alloc((arg1 * 4));
-    *(s32 *)((s8 *)arg0 + 8) = 0;
-    *(s32 *)((s8 *)arg0 + 0xC) = arg1;
-    *(s32 *)((s8 *)arg0 + 0x10) = arg1;
-    return arg0;
+    table->rngState = rng;
+    table->entries = static_cast<s32 *>(mem_alloc(capacity * sizeof(*table->entries)));
+    table->cursor = 0;
+    table->count = capacity;
+    table->capacity = capacity;
+    return table;
 }
 Hdr_802095EC *find_type5_header__6TLobbyFPvi(Hdr_802095EC *arg, s32 id) {
     Hdr_802095EC *p;
@@ -142,19 +145,18 @@ Hdr_8020967C *find_chunk_by_id__6TLobbyFPvi(Hdr_8020967C *arg, s32 id) {
 void TLobby::append_swapped_u32(s32 *arg0) {
     s32 sp8;
 
-    if (lbl_805D60C4 != NULL) {
+    if (challenge_action_buffer != NULL) {
         sp8 = *arg0;
         bswap_32((u32 *)&sp8);
-        ((TLobby *)(lbl_805D60C4 + lbl_805D60C8))->move_data(&sp8, 4);
-        lbl_805D60C8 += 4;
+        move_data__6TLobbyFPCvUl((void *)(challenge_action_buffer + challenge_action_size), &sp8, 4);
+        challenge_action_size += 4;
     }
 }
 
-void TLobby::append_entity_entry() {
-    s32 arg0 = (s32)this;
-    if (lbl_805D60C4 != NULL) {
-        ((TLobby *)(lbl_805D60C4 + lbl_805D60C8))->move_data((s32 *)arg0, 1);
-        lbl_805D60C8 += 1;
+void ChallengeEventCommand::append() const {
+    if (challenge_action_buffer != NULL) {
+        move_data__6TLobbyFPCvUl(challenge_action_buffer + challenge_action_size, &opcode, 1);
+        challenge_action_size += 1;
     }
 }
 
@@ -220,13 +222,13 @@ void TLobby__sub_802097B0(s16 id) {
     TLobby__sub_8020A394(&e);
     if (e.id == id) {
         lbl_805D60B8 = (Ent_802098AC *)((u32)lbl_805D60AC + hdr.data + e.offset);
-        init_event_shuffle_table((EventShuffleTable *)lbl_805D60A4, e.count);
+        init_event_shuffle_table(challenge_event_shuffle, e.count);
     }
 }
 
 void TLobby::pick_random_entry() {
     Out_802098AC *out = (Out_802098AC *)this;
-    s32 i = next_event_shuffle_entry((EventShuffleTable *)lbl_805D60A4);
+    s32 i = next_event_shuffle_entry(challenge_event_shuffle);
     Ent_802098AC e = lbl_805D60B8[i];
     ((TLobby *)(&e))->swap_header_endian();
     out->a = e.a;
@@ -349,7 +351,7 @@ Hdr_80209C58 *find_header_by_id__6TLobbyFPvi(Hdr_80209C58 *arg, s32 id) {
             ((TLobby *)(&h))->bswap_quad_word();
             if (h.type == 3) {
                 if (h.id == id) {
-                    lbl_805D60CC = h.x;
+                    challenge_event_source_size = h.x;
                     return p + 1;
                 }
             }
@@ -359,7 +361,7 @@ Hdr_80209C58 *find_header_by_id__6TLobbyFPvi(Hdr_80209C58 *arg, s32 id) {
             p = (Hdr_80209C58 *)((u8 *)p + h.size);
         }
     }
-    lbl_805D60CC = -1;
+    challenge_event_source_size = -1;
     return NULL;
 }
 
@@ -379,37 +381,6 @@ u32 TLobby::clamp_min_drop(u32 min, u32 max) {
     return value;
 }
 
-struct SetHeader_80209D34 {
-    s32 data_offset;
-    s32 record_offset;
-    s32 record_count;
-    s32 unk_c;
-};
-
-struct SetRecord_80209D34 {
-    s32 base_id;
-    s16 x;
-    s16 z;
-    s16 type;
-    s16 first_index;
-    s16 drop_min;
-    s16 drop_max;
-    u8 spawn_min;
-    u8 spawn_max;
-    s16 group_count;
-    s32 data;
-};
-
-struct SetEntry_80209D34 {
-    s32 id;
-    s16 x;
-    s16 z;
-    s16 type;
-    s16 index;
-    s32 drops;
-    s32 data;
-};
-
 struct SpawnRecord_8020A9C4 {
     s16 type;
     u16 flags;
@@ -417,144 +388,144 @@ struct SpawnRecord_8020A9C4 {
     s16 children;
     u16 reserved;
     s16 actor_id;
-    u8 pad[0x48 - 0xC];
+    s16 room;
+    s16 wave;
+    u8 placement[0x48 - 0x10];
 };
 
 extern "C" {
 void reserve_enemy_set_actor_ids(SpawnRecord_8020A9C4 *slots, s32 count, s32 floor);
 s32 init_floor_enemy_count__6TLobbyFlPUcUl(s32 floor, u8 *slots, s32 size);
-u8 *alloc_heap_slot__6TLobbyFll(s32 floor, s32 size);
 }
 
 #pragma push
-#pragma cplusplus off
 #pragma dont_inline off
-void TLobby__sub_80209D34(s32 floor_id) {
-  void append_swapped_u32__6TLobbyFPl(void *value);
-  struct SetHeader_80209D34 hdr;
-  u32 val;
-  u8 ent[4];
-  u32 out_hdr[4];
-  struct SetRecord_80209D34 rec;
-  s32 off;
-  u8 *p;
-  s32 rem;
-  s32 slots;
-  s16 index;
-  s16 id;
-  s32 i;
-  s32 groups;
-  s32 spawns;
-  s32 area;
-  s32 aligned;
-  s32 total;
-  s32 size;
-  void *dst;
-  hdr = *((struct SetHeader_80209D34 *) lbl_805D60A8);
-  swap_endian_header__6TLobbyFv((u8 *) &hdr);
-  p = ((u8 *) lbl_805D60A8) + hdr.record_offset;
-  rem = lbl_805D60CC - ((hdr.record_count * 0x18) + 0x10);
-  memset(lbl_805D60B4, 0, 0x9000);
-  memset(lbl_805D60BC, 0, 0x1400);
-  lbl_805D60C0 = 0;
-  memset(lbl_805D60C4, 0, 0x1000);
-  lbl_805D60C8 = (off = 0);
-  slots = 0;
-  for (i = 0; i < hdr.record_count; i++, p += 0x18)
-  {
-    TLobby__sub_8020A618(&rec, p);
-    bswap__6TLobbyFv(&rec);
-    groups = clamp_min_drop__6TLobbyFUlUl(1, (rec.group_count) + 1);
-    id = rec.base_id;
-    index = rec.first_index;
-    while ((groups--) > 0)
-    {
-      spawns = clamp_min_drop__6TLobbyFUlUl(rec.spawn_min, (rec.spawn_max) + 1);
-      TLobby__sub_802097B0(rec.type);
-      while ((spawns--) > 0)
-      {
-        if (pick_random_slot__6TLobbyFPv((s16 *) (((u8 *) lbl_805D60B4) + off)) == 0)
-        {
-          *((s16 *) ((((u8 *) lbl_805D60B4) + off) + 0xe)) = index;
-          *((s16 *) ((((u8 *) lbl_805D60B4) + off) + 0xc)) = rec.type;
-          slots++;
-          off += 0x48;
+typedef char ChallengeEventHeaderSize[sizeof(ChallengeEventHeader) == 0x10 ? 1 : -1];
+typedef char ChallengeRandomEventSize[sizeof(ChallengeRandomEvent) == 0x18 ? 1 : -1];
+typedef char ChallengeFixedEventSize[sizeof(ChallengeFixedEvent) == 0x14 ? 1 : -1];
+typedef char ChallengeEnemyPlacementSize[sizeof(SpawnRecord_8020A9C4) == 0x48 ? 1 : -1];
+typedef char ChallengeEnemyRoomOffset[offsetof(SpawnRecord_8020A9C4, room) == 0x0C ? 1 : -1];
+typedef char ChallengeEnemyWaveOffset[offsetof(SpawnRecord_8020A9C4, wave) == 0x0E ? 1 : -1];
+
+void build_challenge_enemy_set(s32 floor) {
+    s32 enemyOffset;
+    ChallengeRandomEvent *nextEvent;
+    u32 commandSize;
+    s32 enemyCount;
+    s16 wave;
+    s16 id;
+    s32 eventIndex;
+    s32 waves;
+    s32 enemies;
+    u32 addedSize;
+    u8 *output;
+    s32 area;
+    s32 nextId;
+
+    ChallengeEventHeader input = *reinterpret_cast<const ChallengeEventHeader *>(challenge_event_source);
+    input.swap_endian();
+    nextEvent = reinterpret_cast<ChallengeRandomEvent *>(challenge_event_source + input.eventOffset);
+    commandSize = challenge_event_source_size -
+                  (input.eventCount * sizeof(ChallengeRandomEvent) + sizeof(ChallengeEventHeader));
+
+    memset(challenge_enemy_buffer, 0, ChallengeEnemyBufferSize);
+    memset(challenge_event_buffer, 0, ChallengeEventBufferSize);
+    challenge_event_count = 0;
+    memset(challenge_action_buffer, 0, ChallengeCommandBufferSize);
+    challenge_action_size = enemyOffset = 0;
+    enemyCount = 0;
+    ChallengeRandomEvent event;
+    for (eventIndex = 0; eventIndex < input.eventCount; ++eventIndex) {
+        TLobby__sub_8020A618(&event, nextEvent);
+        event.swap_endian();
+        waves = TLobby::clamp_min_drop(1, event.maxWaves + 1);
+        wave = event.wave;
+        id = event.id;
+        while (waves-- > 0) {
+            enemies = TLobby::clamp_min_drop(event.minEnemies, event.maxEnemies + 1);
+            TLobby__sub_802097B0(event.room);
+            while (enemies-- > 0) {
+                u8 *placement = challenge_enemy_buffer + enemyOffset;
+                if (pick_random_slot__6TLobbyFPv(reinterpret_cast<s16 *>(placement)) == 0) {
+                    reinterpret_cast<SpawnRecord_8020A9C4 *>(challenge_enemy_buffer + enemyOffset)->wave = wave;
+                    reinterpret_cast<SpawnRecord_8020A9C4 *>(challenge_enemy_buffer + enemyOffset)->room = event.room;
+                    ++enemyCount;
+                    enemyOffset += sizeof(SpawnRecord_8020A9C4);
+                }
+            }
+
+            if (waves > 0) {
+                challenge_event_buffer[challenge_event_count].id = id;
+                challenge_event_buffer[challenge_event_count].flags = event.flags;
+                challenge_event_buffer[challenge_event_count].eventType = event.eventType;
+                challenge_event_buffer[challenge_event_count].room = event.room;
+                challenge_event_buffer[challenge_event_count].wave = wave;
+                challenge_event_buffer[challenge_event_count].delay =
+                    TLobby::clamp_min_drop(event.minDelay, event.maxDelay + 1);
+                challenge_event_buffer[challenge_event_count].commandOffset = commandSize + challenge_action_size;
+
+                // When this wave ends, its action stream triggers the next event.
+                id = event.id + 10000 + wave;
+                ChallengeEventCommand command;
+                command.opcode = ChallengeEventCommand::TriggerEvent;
+                command.append();
+                nextId = static_cast<u16>(id);
+                TLobby::append_swapped_u32(&nextId);
+                command.opcode = ChallengeEventCommand::Stop;
+                command.append();
+                ++challenge_event_count;
+                ++wave;
+            }
         }
-      }
 
-      if (groups > 0)
-      {
-        *((s32 *) (((u8 *) lbl_805D60BC) + (lbl_805D60C0 * 0x14))) = id;
-        *((s16 *) ((((u8 *) lbl_805D60BC) + (lbl_805D60C0 * 0x14)) + 4)) = rec.x;
-        *((s16 *) ((((u8 *) lbl_805D60BC) + (lbl_805D60C0 * 0x14)) + 6)) = rec.z;
-        *((s16 *) ((((u8 *) lbl_805D60BC) + (lbl_805D60C0 * 0x14)) + 8)) = rec.type;
-        *((s16 *) ((((u8 *) lbl_805D60BC) + (lbl_805D60C0 * 0x14)) + 0xa)) = index;
-        *((s32 *) ((((u8 *) lbl_805D60BC) + (lbl_805D60C0 * 0x14)) + 0xc)) = clamp_min_drop__6TLobbyFUlUl(rec.drop_min, (rec.drop_max) + 1);
-        *((s32 *) ((((u8 *) lbl_805D60BC) + (lbl_805D60C0 * 0x14)) + 0x10)) = rem + lbl_805D60C8;
-        id = (s16) (((rec.base_id) + 0x2710) + index);
-        ent[0] = 0xc;
-        append_entity_entry__6TLobbyFv(ent);
-        val = (u16) id;
-        append_swapped_u32__6TLobbyFPl(&val);
-        ent[0] = 1;
-        append_entity_entry__6TLobbyFv(ent);
-        lbl_805D60C0++;
-        index++;
-      }
+        // The final wave uses the original event's action stream.
+        TLobby__sub_8020A618(&event, nextEvent);
+        event.swap_endian();
+        challenge_event_buffer[challenge_event_count].id = id;
+        challenge_event_buffer[challenge_event_count].flags = event.flags;
+        challenge_event_buffer[challenge_event_count].eventType = event.eventType;
+        challenge_event_buffer[challenge_event_count].room = event.room;
+        challenge_event_buffer[challenge_event_count].wave = wave;
+        challenge_event_buffer[challenge_event_count].delay = TLobby::clamp_min_drop(event.minDelay, event.maxDelay + 1);
+        ++nextEvent;
+        challenge_event_buffer[challenge_event_count].commandOffset = event.commandOffset;
+        ++challenge_event_count;
     }
 
-    TLobby__sub_8020A618(&rec, p);
-    bswap__6TLobbyFv(&rec);
-    *((s32 *) (((u8 *) lbl_805D60BC) + (lbl_805D60C0 * 0x14))) = id;
-    *((s16 *) ((((u8 *) lbl_805D60BC) + (lbl_805D60C0 * 0x14)) + 4)) = rec.x;
-    *((s16 *) ((((u8 *) lbl_805D60BC) + (lbl_805D60C0 * 0x14)) + 6)) = rec.z;
-    *((s16 *) ((((u8 *) lbl_805D60BC) + (lbl_805D60C0 * 0x14)) + 8)) = rec.type;
-    *((s16 *) ((((u8 *) lbl_805D60BC) + (lbl_805D60C0 * 0x14)) + 0xa)) = index;
-    *((s32 *) ((((u8 *) lbl_805D60BC) + (lbl_805D60C0 * 0x14)) + 0xc)) = clamp_min_drop__6TLobbyFUlUl(rec.drop_min, (rec.drop_max) + 1);
-    *((s32 *) ((((u8 *) lbl_805D60BC) + (lbl_805D60C0 * 0x14)) + 0x10)) = rec.data;
-    lbl_805D60C0++;
-  }
-
-  if (slots > 0)
-  {
-    area = get_floor_area(floor_id);
-    reserve_enemy_set_actor_ids(lbl_805D60B4, slots, area);
-    init_floor_enemy_count__6TLobbyFlPUcUl(floor_id, (u8 *) lbl_805D60B4, slots * 0x48);
-  }
-  if (lbl_805D60C0 > 0)
-  {
-    total = lbl_805D60C0 * 0x14;
-    size = lbl_805D60C8 + 3;
-    aligned = size;
-    aligned &= ~3;
-    total += rem;
-    size = total;
-    size += aligned;
-    size += 0x10;
-    dst = alloc_heap_slot__6TLobbyFll(floor_id, size);
-    if (dst != 0)
-    {
-      out_hdr[0] = (lbl_805D60C0 * 0x14) + 0x10;
-      out_hdr[1] = 0x10;
-      out_hdr[2] = lbl_805D60C0;
-      move_data__6TLobbyFPCvUl(dst, out_hdr, 0x10);
-      if (lbl_805D60C0 > 0)
-      {
-        dst = ((u8 *) dst) + 0x10;
-        move_data__6TLobbyFPCvUl(dst, lbl_805D60BC, lbl_805D60C0 * 0x14);
-      }
-      if (rem > 0)
-      {
-        dst = ((u8 *) dst) + (lbl_805D60C0 * 0x14);
-        move_data__6TLobbyFPCvUl(dst, ((u8 *) lbl_805D60A8) + hdr.data_offset, rem);
-      }
-      if (aligned > 0)
-      {
-        dst = ((u8 *) dst) + rem;
-        move_data__6TLobbyFPCvUl(dst, lbl_805D60C4, aligned);
-      }
+    if (enemyCount > 0) {
+        area = get_floor_area(floor);
+        reserve_enemy_set_actor_ids(
+            reinterpret_cast<SpawnRecord_8020A9C4 *>(challenge_enemy_buffer), enemyCount, area);
+        TLobby::init_floor_enemy_count(floor, challenge_enemy_buffer, enemyCount * sizeof(SpawnRecord_8020A9C4));
     }
-  }
+
+    if (challenge_event_count > 0) {
+        addedSize = (challenge_action_size + 3) & ~3;
+        output = TLobby::alloc_heap_slot(
+            floor, sizeof(ChallengeEventHeader) + challenge_event_count * sizeof(ChallengeFixedEvent) +
+                       commandSize + addedSize);
+        if (output != NULL) {
+            // The original copies all 16 bytes and leaves the format word unwritten.
+            ChallengeEventHeader header;
+            header.eventOffset = sizeof(ChallengeEventHeader);
+            header.eventCount = challenge_event_count;
+            header.commandOffset = challenge_event_count * sizeof(ChallengeFixedEvent) + sizeof(ChallengeEventHeader);
+            move_data__6TLobbyFPCvUl(output, &header, sizeof(header));
+            if (challenge_event_count > 0) {
+                output += sizeof(header);
+                move_data__6TLobbyFPCvUl(output, challenge_event_buffer, challenge_event_count * sizeof(ChallengeFixedEvent));
+            }
+            if (static_cast<s32>(commandSize) > 0) {
+                output += challenge_event_count * sizeof(ChallengeFixedEvent);
+                move_data__6TLobbyFPCvUl(output, challenge_event_source + input.commandOffset, commandSize);
+            }
+            if (static_cast<s32>(addedSize) > 0) {
+                    u8 *tail = output;
+                tail += commandSize;
+                move_data__6TLobbyFPCvUl(tail, challenge_action_buffer, addedSize);
+            }
+        }
+    }
 }
 #pragma pop
 
@@ -563,26 +534,31 @@ extern "C" {
 void init_buffers__6TLobbyFii(s32 id, s32 arg1) {
     Hdr_802095EC *items;
 
-    lbl_805D60A8 = (u8 *)find_header_by_id__6TLobbyFPvi((Hdr_80209C58 *)arg1, id);
+    challenge_event_source = (u8 *)find_header_by_id__6TLobbyFPvi((Hdr_80209C58 *)arg1, id);
     lbl_805D60AC = (u8 *)find_chunk_by_id__6TLobbyFPvi((Hdr_8020967C *)arg1, id);
     items = find_type5_header__6TLobbyFPvi((Hdr_802095EC *)arg1, id);
     TLobby__item_data_table_buffer = (u8 *)items;
-    if (lbl_805D60A8 != NULL && lbl_805D60AC != NULL && items != NULL) {
-        lbl_805D60B4 = (SpawnRecord_8020A9C4 *)TQuestVmDownLoadServer::alloc(0x9000);
-        lbl_805D60BC = (SetEntry_80209D34 *)TQuestVmDownLoadServer::alloc(0x1400);
-        lbl_805D60C0 = 0;
-        lbl_805D60C4 = (u8 *)TQuestVmDownLoadServer::alloc(0x1000);
-        lbl_805D60C8 = 0;
-        TLobby__sub_80209D34(id);
-        TAdSinglePlyChrSelectGC::safe_free((u32)lbl_805D60C4);
-        TAdSinglePlyChrSelectGC::safe_free((u32)lbl_805D60BC);
-        lbl_805D60BC = NULL;
-        TAdSinglePlyChrSelectGC::safe_free((u32)lbl_805D60B4);
-        lbl_805D60B4 = NULL;
+    if (challenge_event_source != NULL && lbl_805D60AC != NULL && items != NULL) {
+        challenge_enemy_buffer = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(ChallengeEnemyBufferSize));
+        challenge_event_buffer = static_cast<ChallengeFixedEvent *>(TQuestVmDownLoadServer::alloc(ChallengeEventBufferSize));
+        challenge_event_count = 0;
+        challenge_action_buffer = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(ChallengeCommandBufferSize));
+        challenge_action_size = 0;
+        build_challenge_enemy_set(id);
+        TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<u32>(challenge_action_buffer));
+        TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<u32>(challenge_event_buffer));
+        challenge_event_buffer = NULL;
+        TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<u32>(challenge_enemy_buffer));
+        challenge_enemy_buffer = NULL;
     }
 }
 
-void TLobby::free_boss4rock() { ((TLobby *)lbl_805D60A4)->free_boss4rock(1); lbl_805D60A4 = 0; ::operator delete((void *)item_drop_rng); item_drop_rng = 0; }
+void TLobby::release_challenge_random_state() {
+    destroy_event_shuffle_table(challenge_event_shuffle, 1);
+    challenge_event_shuffle = NULL;
+    ::operator delete(reinterpret_cast<void *>(item_drop_rng));
+    item_drop_rng = 0;
+}
 
 // ---- pso/unk/text_8020A2AC
 s32 run_step__9TItemDropFl(int, void *);
@@ -600,11 +576,11 @@ u8 *TLobby__map_set_file_buffer;
 s32 TLobby__map_set_file_buffer_size;
 void TLobby__sub_8020A2AC(void) {
     s32 temp_r3;
-    s32 temp_r3_2;
     s32 var_r0;
-    s32 var_r0_2;
+    static const f32 seed_scale = 4294967296.0f;
+    static const f32 rand_reciprocal = 3.0517578e-05f;
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        item_drop_server_seed = __cvt_fp2unsigned((f32) (4294967300.0f * (3.0517578e-05f * (f32) rand())));
+        item_drop_server_seed = __cvt_fp2unsigned(seed_scale * (rand_reciprocal * (f32)rand()));
     }
     temp_r3 = (int)::operator new(0xE8);
     var_r0 = temp_r3;
@@ -612,12 +588,11 @@ void TLobby__sub_8020A2AC(void) {
         var_r0 = run_step__9TItemDropFl((int)temp_r3, (void *)item_drop_server_seed);
     }
     item_drop_rng = var_r0;
-    temp_r3_2 = (int)::operator new(0x14);
-    var_r0_2 = temp_r3_2;
-    if (var_r0_2 != 0) {
-        var_r0_2 = (s32)TLobby__sub_80209584((u8 *)temp_r3_2, 0x20);
+    EventShuffleTable *table = static_cast<EventShuffleTable *>(::operator new(sizeof(EventShuffleTable)));
+    if (table != NULL) {
+        table = TLobby__sub_80209584(table, 0x20);
     }
-    lbl_805D60A4 = var_r0_2;
+    challenge_event_shuffle = table;
 }
 
 }
@@ -662,23 +637,37 @@ void TLobby::copy_record_entry(s32 arg1) {
 
 void TLobby__sub_8020A568(void* p) { bswap_32((u32 *)p); bswap_32((u32 *)((char*)p + 0x4)); bswap_32((u32 *)((char*)p + 0x8)); bswap_32((u32 *)((char*)p + 0xc)); }
 
-void TLobby::bswap() { bswap_32((u32 *)this); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); bswap_16((u16 *)((char*)this + 0x8)); bswap_16((u16 *)((char*)this + 0xa)); bswap_16((u16 *)((char*)this + 0xc)); bswap_16((u16 *)((char*)this + 0xe)); bswap_16((u16 *)((char*)this + 0x12)); bswap_32((u32 *)((char*)this + 0x14)); }
-
-void TLobby__sub_8020A618(void *arg0, void *arg1) {
-    *(s32 *)((s8 *)arg0 + 0) = (s32) *(s32 *)((s8 *)arg1 + 0);
-    *(s16 *)((s8 *)arg0 + 4) = (s16) *(s16 *)((s8 *)arg1 + 4);
-    *(s16 *)((s8 *)arg0 + 6) = (s16) *(s16 *)((s8 *)arg1 + 6);
-    *(s16 *)((s8 *)arg0 + 8) = (s16) *(s16 *)((s8 *)arg1 + 8);
-    *(s16 *)((s8 *)arg0 + 0xA) = (s16) *(s16 *)((s8 *)arg1 + 0xA);
-    *(s16 *)((s8 *)arg0 + 0xC) = (s16) *(s16 *)((s8 *)arg1 + 0xC);
-    *(s16 *)((s8 *)arg0 + 0xE) = (s16) *(s16 *)((s8 *)arg1 + 0xE);
-    *(u8 *)((s8 *)arg0 + 0x10) = (u8) *(u8 *)((s8 *)arg1 + 0x10);
-    *(u8 *)((s8 *)arg0 + 0x11) = (u8) *(u8 *)((s8 *)arg1 + 0x11);
-    *(s16 *)((s8 *)arg0 + 0x12) = (s16) *(s16 *)((s8 *)arg1 + 0x12);
-    *(s32 *)((s8 *)arg0 + 0x14) = (s32) *(s32 *)((s8 *)arg1 + 0x14);
+void ChallengeRandomEvent::swap_endian() {
+    bswap_32(reinterpret_cast<u32 *>(&id));
+    bswap_16(reinterpret_cast<u16 *>(&flags));
+    bswap_16(reinterpret_cast<u16 *>(&eventType));
+    bswap_16(reinterpret_cast<u16 *>(&room));
+    bswap_16(reinterpret_cast<u16 *>(&wave));
+    bswap_16(reinterpret_cast<u16 *>(&minDelay));
+    bswap_16(reinterpret_cast<u16 *>(&maxDelay));
+    bswap_16(reinterpret_cast<u16 *>(&maxWaves));
+    bswap_32(reinterpret_cast<u32 *>(&commandOffset));
 }
 
-void TLobby::swap_endian_header() { bswap_32((u32 *)this); bswap_32((u32 *)((char*)this + 0x4)); bswap_32((u32 *)((char*)this + 0x8)); }
+void TLobby__sub_8020A618(ChallengeRandomEvent *dst, ChallengeRandomEvent *src) {
+    dst->id = src->id;
+    dst->flags = src->flags;
+    dst->eventType = src->eventType;
+    dst->room = src->room;
+    dst->wave = src->wave;
+    dst->minDelay = src->minDelay;
+    dst->maxDelay = src->maxDelay;
+    dst->minEnemies = src->minEnemies;
+    dst->maxEnemies = src->maxEnemies;
+    dst->maxWaves = src->maxWaves;
+    dst->commandOffset = src->commandOffset;
+}
+
+void ChallengeEventHeader::swap_endian() {
+    bswap_32(reinterpret_cast<u32 *>(&commandOffset));
+    bswap_32(reinterpret_cast<u32 *>(&eventOffset));
+    bswap_32(reinterpret_cast<u32 *>(&eventCount));
+}
 
 // ---- pso/unk/text_8020A6B0
 
@@ -1030,8 +1019,6 @@ block_6:
 
 extern "C" {
 
-u32 alloc__22TQuestVmDownLoadServerFUl();
-
 void TLobby::free_data_60F0() {
     if (TLobby__map_set_file_buffer != NULL) {
         TAdSinglePlyChrSelectGC::safe_free((u32)TLobby__map_set_file_buffer);
@@ -1040,13 +1027,11 @@ void TLobby::free_data_60F0() {
     }
 }
 
-s32 TLobby::init_handle(s32 arg0) {
-    u32 temp_r3;
-
-    temp_r3 = alloc__22TQuestVmDownLoadServerFUl();
-    TLobby__map_set_file_buffer = (u8 *)temp_r3;
-    if (temp_r3 != 0U) {
-        TLobby__map_set_file_buffer_size = arg0;
+s32 TLobby::init_handle(s32 size) {
+    u8 *buffer = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(size));
+    TLobby__map_set_file_buffer = buffer;
+    if (buffer != NULL) {
+        TLobby__map_set_file_buffer_size = size;
         return 1;
     }
     TLobby__map_set_file_buffer = NULL;
@@ -1187,26 +1172,17 @@ int TLobby::get_obj_table_entry(int a0) {  return TLobby__data_80513C80[a0]; }
 
 // ---- pso/unk/text_8020B47C
 
-// Entity set-flag block of the 6x6E game-state sync: four big-endian words, the first and third the offsets
-// of the per-floor object and enemy flag arrays from the block's start.
-struct SyncSetFlagBlock_8020B47C {
-    u32 object_flags_offset;
-    u32 unk_4;
-    u32 enemy_flags_offset;
-    u32 unk_c;
-};
-
 extern "C" {
 // Copies the received object and enemy set flags of every floor into the floor tables.
-void TLobby__sub_8020B47C(SyncSetFlagBlock_8020B47C *block) {
+void TLobby__sub_8020B47C(FloorSetFlagsHeader *block) {
     s32 j;
     FloorSavedSetRow *row;
     s32 i;
     s16 *src;
     s32 count;
 
-    ((TLobby *)block)->bswap_4_words();
-    src = (s16 *)((u8 *)block + block->object_flags_offset);
+    swap_floor_set_flags_header(block);
+    src = (s16 *)((u8 *)block + block->object_offset);
     for (i = 0; i < 18; i++) {
         if (TLobby__floor_enemy_group_table[i].object_count > 0) {
             count = TLobby__floor_enemy_group_table[i].object_count;
@@ -1220,7 +1196,7 @@ void TLobby__sub_8020B47C(SyncSetFlagBlock_8020B47C *block) {
             }
         }
     }
-    src = (s16 *)((u8 *)block + block->enemy_flags_offset);
+    src = (s16 *)((u8 *)block + block->enemy_offset);
     for (j = 0; j < 18; j++) {
         if (TLobby__floor_enemy_group_table[j].enemy_count > 0) {
             row = TLobby__floor_enemy_group_table[j].enemy_rows;
@@ -1239,4 +1215,9 @@ void TLobby__sub_8020B47C(SyncSetFlagBlock_8020B47C *block) {
 
 // ---- pso/unk/TLobby_8020B588
 
-void TLobby::bswap_4_words() { bswap_32((u32 *)this); bswap_32((u32 *)((char*)this + 0x4)); bswap_32((u32 *)((char*)this + 0x8)); bswap_32((u32 *)((char*)this + 0xc)); }
+extern "C" void swap_floor_set_flags_header(FloorSetFlagsHeader *header) {
+    bswap_32(&header->object_offset);
+    bswap_32(reinterpret_cast<u32 *>(&header->object_count));
+    bswap_32(&header->enemy_offset);
+    bswap_32(reinterpret_cast<u32 *>(&header->enemy_count));
+}

@@ -18,6 +18,8 @@
 #include <string.h>
 #include "pso/network/TPacket.h"
 #include "pso/unk/TLobby.h"
+#include "pso/unk/TLobby_8020BFC4.h"
+#include "pso/unk/text_8020B5CC.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/keyboard/KeyboardKeyState.h"
@@ -52,14 +54,16 @@ struct Pkt_8013566C
   u8 data[1];
 };
 
-struct Hdr_8013566C
-{
-  u16 f0;
-  u16 f2;
-  u16 f4;
-  u16 f6;
-  u8 data[1];
+struct GameStateSyncScratch {
+    u16 total_size;
+    u16 floor_flags_size;
+    u16 sync_records_size;
+    u16 switch_table_size;
+    u8 payload[sizeof(FloorSetFlagsPayload)];
 };
+
+typedef char GameStateSyncScratchSize[sizeof(GameStateSyncScratch) == 0x4008 ? 1 : -1];
+typedef char GameStateSyncPayloadOffset[offsetof(GameStateSyncScratch, payload) == 8 ? 1 : -1];
 
 extern "C" {
 void send_6x70_player_data__6TLobbyFi(s32 arg0);
@@ -89,7 +93,6 @@ extern const char lobby_window_title_information[];
 void open_information_list__6TLobbyFiPv(s32 arg0, Ent_80136FA0 *arg1);
 s32 TLobby__sub_8013F810(void *, void *, s32, void *);
 void bswap_6x6E_sync_game_state__6TLobbyFPv(void *p);
-void sync_game_state__6TLobbyFv(void *, u16);
 void import_sync_records__6TLobbyFPs(void *, u16);
 void activate_triggered_floor_events(void);
 void handle_6x6E_sync_game_state(Pkt_8013566C *arg0);
@@ -159,7 +162,6 @@ struct Disp_801354AC { u16 id; };
 
 struct Pkt_801354AC { u8 pad[8]; Disp_801354AC disp; };
 
-struct Hdr_801359C4 { u16 total; u16 f2; u16 f4; u16 f6; u8 data[1]; };
 
 struct Pkt_801359C4 { u8 cmd; u8 flag; u16 f2; s32 len; u8 data[1]; };
 
@@ -607,7 +609,6 @@ void set_area_random_seed(int a0);
 void *create_remote_player_object(void *arg0);
 void set_floor_map_variant(s32 arg0, s32 arg1);
 s32 request_story_select_state(s32 arg0);
-int serialize_area_set_flags(void *p);
 u32 copy_switch_table(void *destination);
 void handle_6x71_unblock_game_join(void) {
     LEntry_801352C0 *e;
@@ -703,37 +704,36 @@ void handle_6x6F_set_quest_flags_v2(s32 arg0) {
 }
 #pragma pop
 
-typedef struct Hdr_8013566C Hdr_8013566C;
 typedef struct Pkt_8013566C Pkt_8013566C;
 
 void handle_6x6E_sync_game_state(Pkt_8013566C *arg0) {
   u8 *new_var;
   u8 *new_var2;
   void *tmp;
-  Hdr_8013566C *buf;
+  GameStateSyncScratch *buf;
   s32 n;
   if ((TLobby__data_805D5CE8 == 0) && ((TLobby__data_805D5594 == 0xE) || (TLobby__data_805D5594 == 0xF)))
   {
     lobby_debug_printf_stub(lobby_debug_rcv_set_flag_format, arg0->len);
-    buf = (Hdr_8013566C *) ::operator new(0x4008);
+    buf = static_cast<GameStateSyncScratch *>(::operator new(sizeof(GameStateSyncScratch)));
     if (buf != 0)
     {
       tmp = ::operator new(0x7230);
       if (tmp != 0)
       {
-        new_var2 = buf->data;
+        new_var2 = buf->payload;
         new_var = new_var2;
         TLobby__sub_8013F810(tmp, arg0->data, arg0->len, buf);
         ::operator delete(tmp);
         bswap_6x6E_sync_game_state__6TLobbyFPv(buf);
-        sync_game_state__6TLobbyFv(new_var, buf->f2);
-        n = buf->f2;
-        import_sync_records__6TLobbyFPs(&buf->data[n], buf->f4);
-        if ((buf->f4 && buf->f4) && buf->f4)
+        apply_floor_set_flags_packet(reinterpret_cast<FloorSetFlagsHeader *>(new_var), buf->floor_flags_size);
+        n = buf->floor_flags_size;
+        import_sync_records__6TLobbyFPs(&buf->payload[n], buf->sync_records_size);
+        if ((buf->sync_records_size && buf->sync_records_size) && buf->sync_records_size)
         {
         }
-        n += buf->f4;
-        restore_switch_table((s32)&buf->data[n], buf->f6);
+        n += buf->sync_records_size;
+        restore_switch_table((s32)(&buf->payload[n]), buf->switch_table_size);
         activate_triggered_floor_events();
       }
       ::operator delete((0, buf));
@@ -819,21 +819,21 @@ void send_6x6E_sync_game_state__6TLobbyFi(s32 arg0) {
     s32 n;
     s32 len;
     Pkt_801359C4 *buf;
-    Hdr_801359C4 *hdr;
+    GameStateSyncScratch *hdr;
     void *tmp;
     buf = (Pkt_801359C4 *)mem_alloc(0x4000);
     if (buf != NULL) {
         memset(buf, 0, 0x4000);
-        hdr = (Hdr_801359C4 *)::operator new(0x4008);
+        hdr = static_cast<GameStateSyncScratch *>(::operator new(sizeof(GameStateSyncScratch)));
         if (hdr != NULL) {
-            memset(hdr, 0, 0x4008);
-            hdr->f2 = serialize_area_set_flags(hdr->data);
-            n = hdr->f2;
-            hdr->f4 = TLobby::export_sync_records((s16 *)&hdr->data[n]);
-            n += hdr->f4;
-            hdr->f6 = copy_switch_table(&hdr->data[n]);
-            n += hdr->f6;
-            hdr->total = n;
+            memset(hdr, 0, sizeof(*hdr));
+            hdr->floor_flags_size = serialize_area_set_flags(reinterpret_cast<FloorSetFlagsPayload *>(hdr->payload));
+            n = hdr->floor_flags_size;
+            hdr->sync_records_size = TLobby::export_sync_records(reinterpret_cast<s16 *>(&hdr->payload[n]));
+            n += hdr->sync_records_size;
+            hdr->switch_table_size = copy_switch_table(&hdr->payload[n]);
+            n += hdr->switch_table_size;
+            hdr->total_size = n;
             bswap_6x6E_sync_game_state__6TLobbyFPv(hdr);
             tmp = ::operator new(0x7230);
             if (tmp != NULL) {
