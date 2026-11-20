@@ -21,7 +21,7 @@ public:
     s32 rotation_y;
     s32 rotation_z;
     s32 texlist;
-    s32 model;
+    saddr model;
 };
 LAYOUT_ASSERT(TUnk_804F1280_size, sizeof(TUnk_804F1280) == 0x44);
 

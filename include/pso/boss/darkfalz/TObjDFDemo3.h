@@ -18,7 +18,7 @@ struct TObjDFDemo3 : public TObjBase {
     u32 m_ac;
     u32 m_b0;
     u8 _padB4[0x4];
-    u32 m_b8;
+    uaddr m_b8;
     void* m_bc;
     static void *create(void *arg0, void *arg1, void *arg2);
     u8 unk_C0[0x8];

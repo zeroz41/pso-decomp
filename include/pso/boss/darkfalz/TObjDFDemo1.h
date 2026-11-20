@@ -9,7 +9,7 @@ struct AnimationMotion;
 
 // One model of the scene: its model, texture list and motion.
 struct TObjDFDemo1Part {
-    s32 model;
+    saddr model;
     s32 texlist;
     AnimationMotion *motion;
 };

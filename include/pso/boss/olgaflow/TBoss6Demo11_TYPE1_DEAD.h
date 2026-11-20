@@ -12,7 +12,7 @@ class TBoss6Demo11_TYPE1_DEAD : public TObject {
 public:
     // One drawn body part: get_bml_model / get_bml_texlist / get_bml_motion results (ctor loop).
     struct Part {
-        s32 model;
+        saddr model;
         s32 texture;
         AnimationMotion *motion;
     };

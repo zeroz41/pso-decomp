@@ -1079,7 +1079,7 @@ struct DR_800313F8 {
     Vec v4E8;
     u8 pad4F4[0x518 - 0x4F4];
     u8 snd[0x620 - 0x518];
-    s32 tentacles[4];
+    saddr tentacles[4];
     u8 pad630[0x654 - 0x630];
     s32 f654;
     u8 pad658[0x6A4 - 0x658];
@@ -1358,7 +1358,7 @@ struct Obj_80030720 {
     u8 pad3C4[0x4D0 - 0x3C4];
     u8 f4D0[0x524 - 0x4D0];
     u8 f524[0x630 - 0x524];
-    s32 f630[5];
+    saddr f630[5];
     s32 f644[3];
     u8 pad650[4];
     s32 f654;

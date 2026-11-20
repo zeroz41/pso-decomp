@@ -53,7 +53,7 @@ struct Tornado_80355570 {
     f32 f38;
     f32 f3C;
     u8 pad40[0x4C - 0x40];
-    s32 f4C;
+    saddr f4C;
     void *p50;
     void *p54;
     void *p58;

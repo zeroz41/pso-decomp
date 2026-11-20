@@ -28,7 +28,7 @@ uaddr boss6_tube_texture_list;
 typedef struct TBoss6Tube_802B1020 {
     u8 pad[0x28];
     s32 f28;
-    s32 f2c;
+    saddr f2c;
 } TBoss6Tube_802B1020;
 
 extern "C" {

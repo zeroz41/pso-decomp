@@ -36,7 +36,7 @@ struct TBoss6Type1 : public TObjEnemy {
     void update_trail_points();
     u32 m_374;
     u8 unk_378[0x80];
-    s32 m_3f8;
+    saddr m_3f8;
     s32 bml_resource; // BML archive handle passed to get_bml_motion / get_bml_model, name inferred
     void* trail_point_receiver;
     void* effect_point_receiver;

@@ -22,7 +22,7 @@ struct TBoss7Crawfish : public TObjEnemy {
     u32 m_3a0;
     u8 unk_3A4[0x24];
     s32 m_3c8;
-    u32 m_3cc;
+    uaddr m_3cc;
     void spawn_effect(s32 arg1);
     void free_child();
     void spawn_ground_effects();

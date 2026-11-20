@@ -36,7 +36,7 @@ LAYOUT_ASSERT(RecoveredGlobal_80356B18___vt__15TBoss6SwordWave_size, sizeof(Reco
 
 struct W_80356D10 { s32 w[1]; };
 
-struct Wave_803564F4 { u8 pad0[0x1C]; s32 owner; Vec pos; u8 x2C[4]; u8 x30[0x24]; f32 radius; };
+struct Wave_803564F4 { u8 pad0[0x1C]; saddr owner; Vec pos; u8 x2C[4]; u8 x30[0x24]; f32 radius; };
 
 struct Pair_8035663C { s32 a; f32 b; };
 

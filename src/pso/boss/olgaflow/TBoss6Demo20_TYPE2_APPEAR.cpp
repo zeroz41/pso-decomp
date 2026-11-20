@@ -180,7 +180,7 @@ typedef struct O_8033D6DC {
     f32 fE0;
     f32 fE4;
     s32 frame;
-    s32 fEC;
+    saddr fEC;
 } O_8033D6DC;
 
 extern "C" {

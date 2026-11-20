@@ -105,7 +105,7 @@ struct E_8032E834 { s32 a; s32 b; };
 
 struct O_8032E834 { u8 pad[0x38]; Vec pos; u8 pad2[0x43C - 0x44]; u32 h[4]; Vec v[4]; };
 
-struct O_8032F5FC { u8 pad[0x38]; Vec pos; u8 pad2[0x5C - 0x44]; s32 f5c; s32 f60; u8 pad3[0x378 - 0x64]; s32 f378; u8 pad4[0x3C4 - 0x37C]; f32 f3c4; };
+struct O_8032F5FC { u8 pad[0x38]; Vec pos; u8 pad2[0x5C - 0x44]; s32 f5c; s32 f60; u8 pad3[0x378 - 0x64]; saddr f378; u8 pad4[0x3C4 - 0x37C]; f32 f3c4; };
 
 struct Ent_8032FCA4 { s16 f0; s16 v[5]; };
 
@@ -113,7 +113,7 @@ struct Obj_8032FCA4 { u8 pad[0x31C]; Ent_8032FCA4 *ent; u8 pad2[0x394 - 0x320]; 
 
 struct T_8032E748;
 struct O_8032E7B4;
-struct Obj_8032E8DC { u8 pad[0x38]; u8 sw[0x340]; s32 f378; u8 pad2[0x3C8 - 0x37C]; s32 f3C8; };
+struct Obj_8032E8DC { u8 pad[0x38]; u8 sw[0x340]; saddr f378; u8 pad2[0x3C8 - 0x37C]; s32 f3C8; };
 
 struct O_8032EBB4 { u8 pad[0x38]; Vec pos; u8 pad2[0x378 - 0x44]; void *p378; };
 

@@ -80,7 +80,7 @@ struct Dmg_8035D924 { s32 a; s32 b; s32 c; f32 d; };
 
 struct Shower_8035D924 {
     u8 pad0[0x1C];
-    s32 owner;
+    saddr owner;
     Vec pos;
     f32 radius;
     u8 pad30[4];

@@ -14,9 +14,9 @@ struct TBoss4Thanks : public TObject {
     f32 motion_frame;
     f32 fade_amount;
     s32 fade_frame;
-    s32 model;
+    saddr model;
     s32 texture_list;
-    s32 motions[2];
+    saddr motions[2];
     void *particle_emitters[4];
     // int: the body widens a bool (clrlwi) and its callers test r3 with a plain cmpwi.
     static s32 is_door_0x97_open();

@@ -472,7 +472,7 @@ f32 lbl_804E3E48[3] = {32.0f, 30.0f, 30.0f};
 
 struct Obj_802E7888 {
     u8 pad0[0x7B0];
-    u32 f7B0;
+    uaddr f7B0;
     Vec pos;
     Vec v7C0;
 };
@@ -680,7 +680,7 @@ struct Fish_802E85E0 {
     u8 pad6B8[0x6C0 - 0x6B8];
     s32 dir;
     u8 pad6C4[0x6DC - 0x6C4];
-    s32 kids[4];
+    saddr kids[4];
     u8 pad6EC[0x728 - 0x6EC];
     s32 state;
     s32 timer;
@@ -781,7 +781,7 @@ struct Fish_802E9ADC {
     u8 pad62C[0x6C0 - 0x62C];
     s32 dir;
     u8 pad6C4[0x6DC - 0x6C4];
-    s32 tent[4];
+    saddr tent[4];
     u8 pad6EC[0x728 - 0x6EC];
     s32 phase;
     s32 timer;
@@ -840,7 +840,7 @@ struct Fish_802E9DBC {
     u8 pad62C[0x6C0 - 0x62C];
     s32 mode;
     u8 pad6C4[0x6DC - 0x6C4];
-    s32 tent[4];
+    saddr tent[4];
     u8 pad6EC[0x6F0 - 0x6EC];
     f32 f6F0;
     u8 pad6F4[0x728 - 0x6F4];

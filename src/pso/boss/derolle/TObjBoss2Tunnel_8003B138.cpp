@@ -34,7 +34,7 @@ struct S_8003C108 {
 static const Vec boss2_tunnel_raft_splash_offsets[2] = {{3.0f, 0.0f, -5.0f}, {-3.0f, 0.0f, -5.0f}};
 const char *lbl_805D2708 = "TObjBoss2Tunnel";
 
-struct Model_8003B2EC { s32 a; s32 b; s32 obj; s32 c; };
+struct Model_8003B2EC { s32 a; s32 b; saddr obj; s32 c; };
 
 struct Models_8003B2EC { u8 pad[0x42C]; Model_8003B2EC *models; };
 

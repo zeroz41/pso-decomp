@@ -21,7 +21,7 @@ const char *TBoss6EffFlowSoul__name = "TBoss6EffFlowSoul";
 
 struct Soul_8036A6B0 {
     u8 pad0[0x1c];
-    s32 f1c;
+    saddr f1c;
     void *f20;
     u16 player;
     u8 pad26[0x28 - 0x26];

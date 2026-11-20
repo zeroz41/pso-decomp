@@ -19,7 +19,7 @@ public:
     u8 unk_34[0x4];
     s32 m_38;
     u8 unk_3C[0x24];
-    s32 m_60;
+    saddr m_60;
     u8 unk_64[0x4];
 };
 LAYOUT_ASSERT(TBoss6Demo10_TYPE1_APPEAR_size, sizeof(TBoss6Demo10_TYPE1_APPEAR) == 0x68);

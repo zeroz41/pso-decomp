@@ -108,7 +108,7 @@ struct Obj_8005676C {
     u8 pad44[0x60 - 0x44];
     s32 f60;
     u8 pad64[0x390 - 0x64];
-    s32 f390;
+    saddr f390;
     u8 pad394[0x3c8 - 0x394];
     s32 f3c8;
     u8 pad3cc[0x3d0 - 0x3cc];
@@ -149,7 +149,7 @@ struct Row_80057270 {
 
 struct Obj_80057270 {
     u8 pad0[0x390];
-    s32 f390;
+    saddr f390;
     u8 pad394[0x3c0 - 0x394];
     f32 f3c0;
     u8 pad3c4[0x3c8 - 0x3c4];
@@ -162,7 +162,7 @@ struct Obj_80057270 {
     f32 f3f0;
     f32 f3f4;
     u8 pad3f8[0x44c - 0x3f8];
-    s32 f44c;
+    saddr f44c;
 };
 
 struct O_80056C30 {

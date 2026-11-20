@@ -63,7 +63,7 @@ const Color_8003A1B4 boss2_ceil_junk_render_color = { 0.0f, 0, 0, 0 };
 struct Mdl_8003A1B4
 {
   u8 pad[8];
-  s32 f8;
+  saddr f8;
   u8 padC[4];
 };
 

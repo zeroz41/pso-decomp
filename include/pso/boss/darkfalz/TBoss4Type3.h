@@ -78,8 +78,8 @@ struct TBoss4Type3 : public TObjEnemy {
     u8 _pad478[0xA4];
     u32 m_51c;
     u32 m_520;
-    u32 m_524;
-    u32 m_528;
+    uaddr m_524;
+    uaddr m_528;
     u32 m_52c;
 
     void update_libera();

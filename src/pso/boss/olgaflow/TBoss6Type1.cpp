@@ -72,7 +72,7 @@ struct Obj_802B4C28 {
     u8 pad0[0x38];
     Vec_802B4C28 pos;
     u8 pad44[0x4F8 - 0x44];
-    u32 parts[4];
+    uaddr parts[4];
     u8 pad508[0x578 - 0x508];
     Vec_802B4C28 pts[1];
 };

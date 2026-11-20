@@ -13,7 +13,7 @@ public:
     virtual void render();
     virtual void run_task();
     u8 unk_1C[0x60];
-    u32 m_7c;
+    uaddr m_7c;
     u8 unk_80[0x3C];
     s32 m_bc;
     u8 unk_C0[0x4];

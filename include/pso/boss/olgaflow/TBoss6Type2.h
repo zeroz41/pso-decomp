@@ -45,8 +45,8 @@ struct TBoss6Type2 : public TObjEnemy
     u8 unk_3C4[0x8];
     s32 m_3cc;
     u8 unk_3D0[0x28];
-    u32 m_3f8;
-    u32 m_3fc;
+    uaddr m_3f8;
+    uaddr m_3fc;
     u8 unk_400[0xC];
     s32 m_40c;
     u8 unk_410[0x4];
@@ -68,7 +68,7 @@ struct TBoss6Type2 : public TObjEnemy
     s16 m_454;
     u8 unk_456[0x2];
     u32 m_458;
-    s32 state_duration;  // what state_timer was last set to
+    saddr state_duration;  // what state_timer was last set to
     s32 state_timer;     // counts down to 0 in the state handlers
     u16 m_464;
     u16 m_466;

@@ -45,7 +45,7 @@ struct Fish_8033E0F0 {
     u8 pad0[0x4C];
     f32 f4c;
     s32 timer;
-    s32 f54;
+    saddr f54;
     Vec pos;
     Vec f64;
     u8 pad70[0x74 - 0x70];

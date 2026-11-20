@@ -17,9 +17,9 @@ public:
     u8 unk_4C[0x4];
     s32 m_50;
     u8 unk_54[0x1C];
-    s32 m_70;
+    saddr m_70;
     u8 unk_74[0x28];
-    s32 m_9c;
+    saddr m_9c;
     u8 unk_A0[0x14];
 public:
     void draw_model_13();

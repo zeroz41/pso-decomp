@@ -18,7 +18,7 @@ struct TBoss4DarkFalz : public TObjEnemy {
     u32 m_388;
     u32 m_38c;
     u32 m_390;
-    u32 m_394;
+    uaddr m_394;
     u32 m_398;
     virtual void render();
     virtual void run_task();

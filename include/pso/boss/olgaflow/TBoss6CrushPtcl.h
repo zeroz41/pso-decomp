@@ -10,8 +10,8 @@ public:
     virtual void run_task();
 
     s32 m_1C;
-    u32 m_20;
-    u32 m_24;
+    uaddr m_20;
+    uaddr m_24;
 public:
     void *create();
 };

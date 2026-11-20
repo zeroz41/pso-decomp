@@ -9,7 +9,7 @@ struct TBoss6Zanzo : public TObject {
     virtual ~TBoss6Zanzo();
     void copy_trail_buffer(void *, void *);
     virtual void run_task();
-    u32 m_1c;
+    uaddr m_1c;
     u32 m_20;
     s32 m_24;
     s32 m_28;

@@ -40,7 +40,7 @@ typedef struct Floor_8002C968 {
     void *objs[4];
 } Floor_8002C968;
 
-struct Obj_8002CA38 { u8 pad[0x28]; u32 slot[4]; };
+struct Obj_8002CA38 { u8 pad[0x28]; uaddr slot[4]; };
 
 extern "C" {
 const char *TObjBoss1Floor__name = "TObjBoss1Floor";
