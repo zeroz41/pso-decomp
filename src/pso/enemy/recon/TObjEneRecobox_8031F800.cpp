@@ -974,7 +974,7 @@ void TObjEneRecon__sub_8031FB6C(u8 *ene_recobox) {
     } else {
         stack.spC += 5.0f;
     }
-    temp_r3 = (u8 *)(csnVectorUnder((Vec *)&stack.sp8, (u32 *)(ene_recobox + 0x120), 0x15));
+    temp_r3 = (u8 *)(csnVectorUnder((Vec *)&stack.sp8, (CsnGroup **)(ene_recobox + 0x120), 0x15));
     if ((temp_r3 == NULL) || (((TObjEneRecobox *)ene_recobox)->m_300 >= (40.0f + *(f32 *)((s8 *)(*(u8 **)((s8 *)temp_r3 + 4)) + 4)))) {
         ((TObjEneRecobox *)(ene_recobox))->vfunc_97();
     }
@@ -1330,7 +1330,7 @@ void TObjEneRecobox::update_floor_probe() {
     if ((actor_frame_tick % 5) == 0) {
         VecCopy((Vec *)&stack.sp8, (const Vec *)&this->position);
         stack.spC += 15.0f;
-        temp_r3 = (u8 *)(csnVectorUnder((Vec *)&stack.sp8, (u32 *)&this->m_120, 0x4000));
+        temp_r3 = (u8 *)(csnVectorUnder((Vec *)&stack.sp8, (CsnGroup **)&this->m_120, 0x4000));
         if (temp_r3 != NULL) {
             *(s32 *)((s8 *)arg0 + 0x3E0) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)temp_r3 + 4)) + 0x18);
             VecCopy((Vec *)(arg0 + 0x3E4), (const Vec *)(*(u8 **)((s8 *)temp_r3 + 4)));

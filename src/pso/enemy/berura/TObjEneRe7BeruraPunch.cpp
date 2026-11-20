@@ -73,7 +73,7 @@ void TObjEneRe7BeruraPunch::render() {
                 return;
             }
         }
-        ((TObjEneDD *)&this->position)->draw_oriented_shadow((s32)&this->ground_normal, 0, (u32)0);
+        TObjEneDD::draw_oriented_shadow(&position, &ground_normal, 0, NULL);
         TObjPlayer::toggle_particle_effect();
         push_matrix();
         post_translate_matrix(&this->position);

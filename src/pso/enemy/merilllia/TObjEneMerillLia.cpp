@@ -1,3 +1,4 @@
+#include "pso/map/CsnGroundQuery.h"
 #include "types.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/enemy/TUnk_80493450.h"
@@ -489,7 +490,6 @@ f32 horizontal_distance_squared(void *, void *);
 s32 test_elt_flag__13TUnk_80493450Fll(void *, int, int);
 void beast_update_approach__16TObjEneMerillLiaFv(u8 *arg0);
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
-s32 *csnVectorUnder(s32 arg0, u32 *arg1, s32 arg2);
 void fn_800D88E4(void *pos);
 extern s32 actor_frame_tick;
 void spawn_ground_effect__16TObjEneMerillLiaFPv(u8 *arg0);
@@ -1742,7 +1742,7 @@ void spawn_ground_effect__16TObjEneMerillLiaFPv(u8 *motion) {
     u8 *temp_r3;
     VecCopy((Vec *)&stack.sp8, (const Vec *)(motion + 0x38));
     stack.spC += 15.0f;
-    temp_r3 = (u8 *)(csnVectorUnder((s32)&stack.sp8, (u32 *)(motion + 0x120), 5));
+    temp_r3 = (u8 *)(csnVectorUnder((Vec *)&stack.sp8, (CsnGroup **)(motion + 0x120), 5));
     if ((temp_r3 != NULL) && (*(s32 *)((s8 *)temp_r3 + 0) & 4)) {
         if (((s32) ((f32) actor_frame_tick * (3.0517578125e-05f * (f32) rand())) % 5) == 0) {
             particle_effect = (s32)spawn_particle_effect((void *)(*(s32 *)((s8 *)temp_r3 + 4) + 0x38), 0x49);

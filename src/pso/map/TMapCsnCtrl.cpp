@@ -69,7 +69,7 @@ void collect_collision_groups(Obj_80140F18 *self, Ent_80140F18 *e) {
 const char *TObjMapCsn__class_name = "TObjMapCsn";
 
 void TMapCsnCtrl::sub_80140F44() {
-    unk_1C = 0;
+    groups[0] = NULL;
 }
 
 TMapCsnCtrl::~TMapCsnCtrl() {}

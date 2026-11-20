@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/map/CsnGroundQuery.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -126,7 +127,6 @@ s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
 void free_bin_model_request(void*, int);
-s32 *csnVectorUnder(s32 arg0, u32 *arg1, s32 arg2);
 s32 TObjPlayer__sub_800A04F0(void *);
 void *__dt__13TUnk_80490470Fv(void *arg0, s16 arg1);
 void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);
@@ -1400,7 +1400,7 @@ void TObjEneRe4Sorcerer__sub_800EF95C(TObjEneRe4Sorcerer *self, f32 speed) {
     t.x = out.x;
     t.y = 10.0f + out.y;
     t.z = out.z;
-    if (csnVectorUnder((s32)&t, (u32 *)&self->m_120, 0xE0) == 0) {
+    if (csnVectorUnder(&t, (CsnGroup **)&self->m_120, 0xE0) == 0) {
         VecCopy(&self->position, &out);
     }
     self->vfunc_102();

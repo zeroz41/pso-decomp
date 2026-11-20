@@ -1,4 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/map/CsnQuery.h"
+#include "pso/effect/GroundContactSound.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/RenderFadeState.h"
@@ -129,12 +131,9 @@ void check_enemy_body_collisions(void *arg0);
 s32 submit_cursor_candidate(void *, int);
 u32 get_player_by_client_id(void *);
 s32 minimap_render_dot(void *, int, int, int);
-void TObjEneGibbles__sub_802D7DAC(s32 arg0);
 s32 TObjEneGibbles__sub_802D9644(void *, s32, f32);
 void TObjEneGibbles__sub_802D8E8C(u8 *arg0);
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
-s32 * csnVectorUnder(s32 *, s32, s32, f32);
-s32 TObjEneGibbles__sub_802D7BE0(s32 arg0);
 f32 random_ratio__9TObjCharaFv(void *, int);
 s32 enemy_move_toward(void *, s32, void *, int, f32);
 s32 select_enemy_destination(void *, Vec_802DA0BC *, int);
@@ -154,7 +153,6 @@ void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
 void calc_velocity_toward_destination(void *, Vec_802DA0BC, Vec_802DA0BC, f32);
 f32 newton_sqrtf(f32);
-s32 TObjEneGibbles__sub_800D8988(void *);
 void TObjEneGibbles__sub_802D7A54(void *arg0);
 s32 TObjEneGibbles__sub_802D9A04(void *arg0);
 s32 dispatch_shared_handler_a__6TLobbyFl(int);
@@ -176,10 +174,6 @@ s32 update_movement_status__9TObjCharaFv();
 s32 update_movement_status__14TObjEneGibblesFv(u8 *arg0);
 s32 update_action_hold_status__9TObjCharaFv();
 s32 update_action_hold_status__14TObjEneGibblesFv(u8 *arg0);
-struct Stack_802D7BE0 {
-    s32 sp8;
-    f32 spC;
-};
 
 struct Stack_802D7ED4 {
     s32 sp8;
@@ -286,7 +280,6 @@ f32 calc_distance_to_client__10TObjPlayerFlUsUl(void *, u16, Vec *);
 s32 obj_setFlags30(void *, int);
 void free_bin_model_request(void*, int);
 void start_camera_shake(s32, f32);
-s32 *csnVecterUnder(s32 origin, s32 mask);
 s32 rotate_xz_pair_by_angle(f32 *, f32 *, s32, f32);
 void TObjPlayer__sub_800D93C4(s32 point, s32 delay);
 void * __ct__11TObjControlFP7TObject(void *, void *);
@@ -678,86 +671,79 @@ void TObjEneGibbles__sub_802D7A54(void *arg0) {
     }
 }
 
-s32 TObjEneGibbles::spawn_ground_impact_effects(void *pos, f32 farg0) {
-    Vec v;
-    f32 y;
-    s32 *hit;
-    u8 *p;
-    if (farg0 <= 0.0f) {
+s32 TObjEneGibbles::spawn_ground_impact_effects(const Vec *pos, f32 scale) {
+    Vec point;
+    if (scale <= 0.0f) {
         return 0;
     }
-    VecCopy((Vec *)((Vec *)&v), (const Vec *)((const Vec *)pos));
-    y = v.y;
-    v.y += 15.0f;
-    hit = (s32 *)csnVectorUnder((s32 *)&v, (s32)this + 0x120, 5, y);
-    if ((hit != NULL) && (hit[0] & 4)) {
-        p = (u8 *)spawn_particle_effect((void *)(hit[1] + 0x38), 0x49);
-        if (p != NULL) {
-            attach_particle_model(p, TParticleCtrl::get_particle_model(2), TParticleCtrl::get_instance(), 0, 1, 1.0f);
-            ((TParticleCtrl *)p)->set_scale(farg0, 1.0f);
+    VecCopy(&point, pos);
+    point.y += 15.0f;
+    CsnHit *hit = csnVectorUnder(&point, (CsnGroup **)&m_120, 5);
+    if (hit != NULL && (hit->hit_mask & 4) != 0) {
+        TParticleCtrl *spray = (TParticleCtrl *)spawn_particle_effect(&hit->contact[2].point, 0x49);
+        if (spray != NULL) {
+            attach_particle_model((u8 *)spray, TParticleCtrl::get_particle_model(2),
+                                  TParticleCtrl::get_instance(), 0, 1, 1.0f);
+            spray->set_scale(scale, 1.0f);
         }
-        p = (u8 *)spawn_particle_effect((void *)(hit[1] + 0x38), 0xA4);
-        if (p != NULL) {
-            ((TParticleCtrl *)p)->set_scale(farg0, 1.5f);
+        TParticleCtrl *ripple = (TParticleCtrl *)spawn_particle_effect(&hit->contact[2].point, 0xA4);
+        if (ripple != NULL) {
+            ripple->set_scale(scale, 1.5f);
         }
         return 1;
     }
     return 0;
 }
 
-s32 TObjEneGibbles__sub_802D7BE0(s32 arg0) {
-    Stack_802D7BE0 stack;
-    f32 temp_f1;
-    s32 *temp_r3;
-    VecCopy((Vec *)(&stack.sp8), (const Vec *)(arg0 + 0x38));
-    temp_f1 = stack.spC;
-    stack.spC += 15.0f;
-    temp_r3 = (s32 *)(csnVectorUnder(&stack.sp8, arg0 + 0x120, 0x15, temp_f1));
-    if (temp_r3 != NULL) {
-        if (*temp_r3 & 4) {
-            ((TObjEneGibbles *)arg0)->spawn_ground_impact_effects((void *)((void *) (arg0 + 0x38)), 3.0f);
+s32 TObjEneGibbles::spawn_ground_contact_effect() {
+    Vec point;
+    VecCopy(&point, &position);
+    point.y += 15.0f;
+    CsnHit *hit = csnVectorUnder(&point, (CsnGroup **)&m_120, 0x15);
+    if (hit != NULL) {
+        if (hit->hit_mask & 4) {
+            spawn_ground_impact_effects(&position, 3.0f);
             return 0;
         }
-        spawn_particle_effect((void *)(arg0 + 0x38), 0x20E);
+        spawn_particle_effect(&position, 0x20E);
         return 1;
     }
     return 2;
 }
 
 void TObjEneGibbles::play_distance_sound() {
-    s32 arg0 = (s32)this;
-    if (((TObjMotion *)arg0)->is_passing_frame(8.0f) != 0) {
-        if (((s32)spawn_ground_impact_effects((void *)((void *)(arg0 + 0x38)), 3.0f)) != 0) {
-            TObjEneGibbles__sub_800D8988((void *) (arg0 + 0x38));
+    if (is_passing_frame(8.0f) != 0) {
+        if (spawn_ground_impact_effects(&position, 3.0f) != 0) {
+            play_floor_area_ground_sound(&position);
             return;
         }
-        play_sound_effect((int)((void *) (((s32)((TObjEneGibbles*)((void *)(arg0)))->resolve_sound_id((u32)(0x3A83D))))), (void *)((void *) (arg0 + 0x38)), 0, 0);
+        play_sound_effect(resolve_sound_id(0x3A83D), &position, 0, 0);
         return;
     }
-    if (((TObjMotion *)arg0)->is_passing_frame(23.0f) != 0) {
-        if (((s32)spawn_ground_impact_effects((void *)((void *)(arg0 + 0x38)), 3.0f)) != 0) {
-            TObjEneGibbles__sub_800D8988((void *) (arg0 + 0x38));
+    if (is_passing_frame(23.0f) != 0) {
+        if (spawn_ground_impact_effects(&position, 3.0f) != 0) {
+            play_floor_area_ground_sound(&position);
             return;
         }
-        play_sound_effect((int)((void *) (((s32)((TObjEneGibbles*)((void *)(arg0)))->resolve_sound_id((u32)(0x3A83E))))), (void *)((void *) (arg0 + 0x38)), 0, 0);
+        play_sound_effect(resolve_sound_id(0x3A83E), &position, 0, 0);
         return;
     }
-    if (((TObjMotion *)arg0)->is_passing_frame(40.0f) != 0) {
-        if (((s32)spawn_ground_impact_effects((void *)((void *)(arg0 + 0x38)), 3.0f)) != 0) {
-            TObjEneGibbles__sub_800D8988((void *) (arg0 + 0x38));
+    if (is_passing_frame(40.0f) != 0) {
+        if (spawn_ground_impact_effects(&position, 3.0f) != 0) {
+            play_floor_area_ground_sound(&position);
             return;
         }
-        play_sound_effect((int)((void *) (((s32)((TObjEneGibbles*)((void *)(arg0)))->resolve_sound_id((u32)(0x3A83F))))), (void *)((void *) (arg0 + 0x38)), 0, 0);
+        play_sound_effect(resolve_sound_id(0x3A83F), &position, 0, 0);
     }
 }
 
-void TObjEneGibbles__sub_802D7DAC(s32 arg0) {
-    if ((((TObjMotion *)arg0)->is_passing_frame(7.0f) != 0) || (((TObjMotion *)arg0)->is_passing_frame(20.0f) != 0)) {
-        if (((s32)((TObjEneGibbles *)arg0)->spawn_ground_impact_effects((void *)((void *) (arg0 + 0x38)), 3.0f)) != 0) {
-            TObjEneGibbles__sub_800D8988((void *) (arg0 + 0x38));
+void TObjEneGibbles::play_ground_contact_sound() {
+    if (is_passing_frame(7.0f) != 0 || is_passing_frame(20.0f) != 0) {
+        if (spawn_ground_impact_effects(&position, 3.0f) != 0) {
+            play_floor_area_ground_sound(&position);
             return;
         }
-        play_sound_effect((int)((void *) (((s32)((TObjEneGibbles*)((void *)(arg0)))->resolve_sound_id((u32)(0x3A82B))))), (void *)((void *) (arg0 + 0x38)), 0, 0);
+        play_sound_effect(resolve_sound_id(0x3A82B), &position, 0, 0);
     }
 }
 
@@ -1206,7 +1192,7 @@ void TObjEneGibbles::sub_802D8984() {
             o->fB8 = 1;
             o->f30 &= 0xF9FBFFFF;
         done:
-            TObjEneGibbles__sub_802D7BE0((s32)o);
+            ((TObjEneGibbles *)o)->spawn_ground_contact_effect();
         }
         submit_cursor_candidate(o, -1);
         break;
@@ -1225,7 +1211,7 @@ void TObjEneGibbles::sub_802D8984() {
             o->f38C = 0.0f;
             switch (TObjEneGibbles__sub_802D9A04(o)) {
             case 0:
-                TObjEneGibbles__sub_800D8988(&o->pos);
+                play_floor_area_ground_sound(&o->pos);
                 break;
             case 1:
             default:
@@ -1273,7 +1259,7 @@ void TObjEneGibbles__sub_802D8E8C(u8 *arg0) {
     }
     *(s32 *)((s8 *)F_802D(0xA4, u8 *) + 0x18) |= 1;
     F_802D(0x30, s32) &= 0xF9FBFFFF;
-    TObjEneGibbles__sub_802D7DAC((s32)arg0);
+    ((TObjEneGibbles *)arg0)->play_ground_contact_sound();
     ((TObjMotion *)arg0)->advance_animation();
     ((TObjEneGibbles *)arg0)->clamp_angle(0);
     switch (F_802D(0x328, s16)) {
@@ -1598,7 +1584,7 @@ s32 TObjEneGibbles__sub_802D9A04(void *target) {
             }
         }
     }
-    return ((s32 (*)(void *))TObjEneGibbles__sub_802D7BE0)(target);
+    return ((TObjEneGibbles *)target)->spawn_ground_contact_effect();
 }
 #pragma pop
 
@@ -1782,7 +1768,7 @@ void TObjEneGibbles::sub_802DA0BC() {
         this->phase = 0;
         break;
     }
-    TObjEneGibbles__sub_802D7DAC((s32)this);
+    play_ground_contact_sound();
     advance_animation();
     turn_toward_target();
     this->check_object_collisions();
@@ -1824,7 +1810,7 @@ void TObjEneGibbles::update_death_sequence() {
             *(f32 *)&this->unk_390 = 0.0f;
             switch (TObjEneGibbles__sub_802D9A04(arg0)) {
             case 0:
-                TObjEneGibbles__sub_800D8988((void *) (arg0 + 0x38));
+                play_floor_area_ground_sound((Vec *)(arg0 + 0x38));
                 break;
             default:
             case 1:
@@ -1954,7 +1940,7 @@ void TObjEneGibbles::sub_802DA7A4() {
     case 1:
         if (is_passing_frame(8.0f) != 0) {
             this->phase = 2;
-            TObjEneGibbles__sub_802D7BE0((s32) (this));
+            spawn_ground_contact_effect();
             play_sound_effect((int)(this->resolve_sound_id((u32)(0x3A82F))), (void *) (((u8 *)this) + 0x38), 0, 0);
             ((V_802DA7A4 *)(((u8 *)this) + 0x3C0))->m2();
         }
@@ -2025,7 +2011,7 @@ void TObjEneGibbles::update_wander() {
     var_r4 = (u8 *)((void *)0x200000);
     ((TObjBase *)var_r3)->obj_clearFlags30(0x200000);
     var_r3 = var_r31;
-    ((s32 (*)(int))TObjEneGibbles__sub_802D7DAC)((int)var_r3);
+    ((TObjEneGibbles *)var_r3)->play_ground_contact_sound();
     var_r3 = (u8 *)(var_r31 + 0x38);
     var_r4 = (u8 *)((void *)-0x5DB4);
     var_r5 = 1;

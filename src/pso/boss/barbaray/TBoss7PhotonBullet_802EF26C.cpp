@@ -80,7 +80,7 @@ void __dl__7TObjectFPv(void *);
 
 void render__18TBoss7PhotonBulletFv(u8 *arg0) {
     if (*(s32 *)((s8 *)arg0 + 0xE8) & 1) {
-        ((TObjEneDD *)(arg0 + 0x38))->draw_oriented_shadow((s32)(arg0 + 0xCC), 0, (u32)(arg0 + 0xD8));
+        TObjEneDD::draw_oriented_shadow((const Vec *)(arg0 + 0x38), (const Vec *)(arg0 + 0xCC), 0, (const Vec *)(arg0 + 0xD8));
     }
 }
 

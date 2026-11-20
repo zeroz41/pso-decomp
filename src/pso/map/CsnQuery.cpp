@@ -3,6 +3,7 @@
 #include "pso/map/CsnQuery.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/TObjMapCsn.h"
+#include "pso/map/TMapCsnCtrl.h"
 #include "pso/object/lobby/TObjButterflyLobby.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/text_8007A7B8.h"
@@ -75,7 +76,6 @@ struct Face_800798A0 {
     Vec n;
 };
 
-struct M_80079C64 { u8 pad[4]; f32 x; f32 y; f32 z; f32 rad; u32 flags; };
 
 struct E_80079580;
 
@@ -129,7 +129,6 @@ void TObjPlayer__sub_80079120(s32);
 s32 evaluate_ground_triangles(Vec *origin, u32 mask, CsnGroup **groups);
 extern s32 lbl_80500140[];
 extern "C" {
-s32 *csnVectorUnder(Vec *arg0, u32 *arg1, s32 arg2);
 void TObjPlayer__sub_80079120(s32 _w0);
 extern u32 lbl_804FFD40[];
 s32 *csnVecterUnder(s32 arg0, s32 arg1);
@@ -148,8 +147,6 @@ extern Vec lbl_8050BF00;
 extern Vec lbl_8050BF20;
 extern Vec lbl_8050BF40;
 extern Vec lbl_8050BF60;
-CsnGroup **get_data_ptr__10TObjMapCsnFv();
-M_80079C64 *refill_csn_candidate_cache(Vec *arg0, M_80079C64 **arg1, u32 arg2);
 void TObjPlayer__sub_80079114(void);
 f32 vector_length(void *);
 Wall_8007A138 *query_collision_segment_groups(Vec *a, Vec *b, u32 mask);
@@ -612,22 +609,21 @@ s32 intersect_wall_triangle_one_sided(void *arg0, void *arg1, void *arg2, E_8007
 
 #pragma push
 #pragma fp_contract on
-M_80079C64 *refill_csn_candidate_cache(Vec *arg0, M_80079C64 **arg1, u32 arg2) {
+extern "C" CsnGroup *refill_csn_candidate_cache(Vec *arg0, CsnGroup **arg1, u32 arg2) {
     f32 rr;
     f32 dz;
     f32 dx;
     s32 n = 0;
-    M_80079C64 **it;
-    M_80079C64 *m;
-    M_80079C64 **first;
-    TObjMapCsn::get_map_count();
-    it = (M_80079C64 **)get_data_ptr__10TObjMapCsnFv();
+    CsnGroup **it;
+    CsnGroup *m;
+    CsnGroup **first;
+    it = reinterpret_cast<TMapCsnCtrl *>(TObjMapCsn::get_map_count())->get_collision_groups();
     first = arg1;
     while ((m = *it++) != 0) {
         if ((m->flags & arg2) && !(m->flags & 0x40000000)) {
-            dz = m->z - arg0->z;
-            dx = m->x - arg0->x;
-            rr = m->rad;
+            dz = m->center.z - arg0->z;
+            dx = m->center.x - arg0->x;
+            rr = m->radius;
             rr *= rr;
             if (dx * dx + dz * dz <= rr) {
                 n++;
@@ -654,8 +650,7 @@ CsnGroup *select_ground_query_groups(CsnVector *origin, u32 mask) {
   float zSquared;
   CsnGroup **output;
   float zDelta;
-  TObjMapCsn::get_map_count();
-  input = get_data_ptr__10TObjMapCsnFv();
+  input = reinterpret_cast<TMapCsnCtrl *>(TObjMapCsn::get_map_count())->get_collision_groups();
   output = ((CsnGroup * *)&lbl_804FFD40);
   while ((group = *(input++)) != 0)
   {
@@ -695,8 +690,7 @@ u32 TObjPlayer__sub_80079DE0(void *a, void *b) {
     f32 r;
     f32 dsq;
     n = 0;
-    TObjMapCsn::get_map_count();
-    src = (Wall_8007A138 **)get_data_ptr__10TObjMapCsnFv();
+    src = (Wall_8007A138 **)reinterpret_cast<TMapCsnCtrl *>(TObjMapCsn::get_map_count())->get_collision_groups();
     dst = (Wall_8007A138 **)lbl_804FFD40;
     vsub(a, b, &d);
     lenSq = d.x * d.x + d.z * d.z;
@@ -741,8 +735,7 @@ s32 prepare_wall_query_polygons(void *arg0, f32 r, s32 mask) {
     Grp_80079F58 *g;
     s32 n;
     Grp_80079F58 **dst;
-    TObjMapCsn::get_map_count();
-    src = (Grp_80079F58 **)get_data_ptr__10TObjMapCsnFv();
+    src = (Grp_80079F58 **)reinterpret_cast<TMapCsnCtrl *>(TObjMapCsn::get_map_count())->get_collision_groups();
     if (src == NULL) {
         return 0;
     }
@@ -813,8 +806,7 @@ Wall_8007A138 *query_collision_segment_groups(Vec *a, Vec *b, u32 mask) {
     f32 r;
     f32 dsq;
     n = 0;
-    TObjMapCsn::get_map_count();
-    src = (Wall_8007A138 **)get_data_ptr__10TObjMapCsnFv();
+    src = (Wall_8007A138 **)reinterpret_cast<TMapCsnCtrl *>(TObjMapCsn::get_map_count())->get_collision_groups();
     dst = (Wall_8007A138 **)lbl_804FFD40;
     vsub(a, b, &d);
     len = vector_length(&d);
@@ -884,31 +876,31 @@ CsnHit *csnLookAt(const Vec *from, const Vec *to) {
     return hit;
 }
 
-s32 *csnVectorUnder(Vec *arg0, u32 *arg1, s32 arg2) {
-    s32 *var_r31;
+CsnHit *csnVectorUnder(Vec *origin, CsnGroup **cached_groups, u32 mask) {
+    CsnHit *hit;
     TObjPlayer__sub_80079108();
     TObjPlayer__sub_8007911C();
-    TObjPlayer__sub_80079120((s32)arg0);
-    var_r31 = lbl_80500140;
-    if ((u32) *arg1 == 0U) {
-        if (((u32)refill_csn_candidate_cache((Vec *)(arg0), (M_80079C64 **)(arg1), arg2)) == 0U) {
-            var_r31 = NULL;
-        } else if (evaluate_ground_triangles(arg0, arg2, (CsnGroup **)arg1) == 0) {
-            var_r31 = NULL;
+    TObjPlayer__sub_80079120((s32)origin);
+    hit = (CsnHit *)lbl_80500140;
+    if (*cached_groups == NULL) {
+        if (refill_csn_candidate_cache(origin, cached_groups, mask) == NULL) {
+            hit = NULL;
+        } else if (evaluate_ground_triangles(origin, mask, cached_groups) == 0) {
+            hit = NULL;
         }
     } else {
-        if (evaluate_ground_triangles(arg0, arg2, (CsnGroup **)arg1) != 0) {
+        if (evaluate_ground_triangles(origin, mask, cached_groups) != 0) {
             goto done;
         }
-        if (((u32)refill_csn_candidate_cache((Vec *)(arg0), (M_80079C64 **)(arg1), arg2)) == 0U) {
-            var_r31 = NULL;
-        } else if (evaluate_ground_triangles(arg0, arg2, (CsnGroup **)arg1) == 0) {
-            var_r31 = NULL;
+        if (refill_csn_candidate_cache(origin, cached_groups, mask) == NULL) {
+            hit = NULL;
+        } else if (evaluate_ground_triangles(origin, mask, cached_groups) == 0) {
+            hit = NULL;
         }
     }
 done:
     TObjPlayer__sub_80079118("csnVectorUnder(Use Buffer)");
-    return var_r31;
+    return hit;
 }
 s32 *csnVecterUnder(s32 origin, s32 mask) {
     s32 *var_r31;
@@ -966,7 +958,7 @@ void __sinit_CsnQuery_cpp(void) {
 __declspec(section ".ctors") static void *const __sinit_CsnQuery_cpp_ref = (void *)__sinit_CsnQuery_cpp;
 
 
-void*TObjMapCsn::get_data_ptr() { return (char*)this + 0x1c; }
+CsnGroup **TMapCsnCtrl::get_collision_groups() { return groups; }
 
 extern s32 map_csn_ctrl_instance;
 

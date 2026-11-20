@@ -1459,12 +1459,11 @@ void TObjEneMe1GiGue::sub_802CACD8() {
 }
 
 s32 TObjEneMe1GiGue::check_vector_bit(Vec *pos) {
-    s32 *csnVectorUnder(Vec *, u32 *, s32, TObjEneMe1GiGue *);
-    s32 *hit = csnVectorUnder(pos, (u32 *)&m_120, 5, this);
+    CsnHit *hit = csnVectorUnder(pos, (CsnGroup **)&m_120, 5);
     if (hit == NULL) {
         return 0;
     }
-    return (u32)__cntlzw(*hit & 4) >> 5;
+    return (u32)__cntlzw(hit->hit_mask & 4) >> 5;
 }
 
 BmlResource *TObjEneMe1GiGue::sub_802CAC80() { return TObjEneMe1GiGue__data_805D6838; }

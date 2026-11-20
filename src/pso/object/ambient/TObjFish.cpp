@@ -1,5 +1,11 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/render/GinjaMaterial.h"
+#include "pso/render/ModelDrawContext.h"
+#include "pso/system/BmlResourceLoad.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
@@ -33,48 +39,36 @@ struct SVec_8029D5C8;
 struct Fish_8029D5C8;
 struct Ent_8029E170;
 extern "C" {
-void render__8TObjFishFv(u8 *arg0);
+void render__8TObjFishFv(TObjFish *fish);
 s32 init_fish_school__8TObjFishFPvll(u8 *arg0, Vec *arg1, s32 arg2, s32 arg3);
-s32 TObjFish__area_bml_resource;
+BmlResource *TObjFish__area_bml_resource;
 extern void* __vt__8TObjFish[];
-extern void* fish_resource_name_table[];
-s32 post_translate_matrix(void *);
-s32 draw_ginja_object();
-s32 draw_ginja_model_with_motion(s32, s32, f32);
-s32 get_bml_motion(s32, s32);
-s32 get_bml_texlist(s32, s32);
-s32 get_bml_model(s32, s32);
-s32 push_matrix();
-s32 set_global_param__8TObjFishFl();
 void __dl__7TObjectFPv(void *);
 s32 TObjFish__area_event_stage;
-u8 update_state__8TObjFishFv(void *arg0);
-u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-void free_bin_model_request(void*, int);
 
-u8 TObjFish::update_state() {
+s32 TObjFish::update_state() {
     if ((s32) TObjFish__area_event_stage == 0) {
-        switch (*(s16 *)((s8 *)this + 0x90)) {
+        switch (m_90) {
         case 0:
             if (is_lobby_event_active() == 0) {
-                *(s16 *)((s8 *)this + 0x90) = 2;
+                m_90 = 2;
                 this->m_92 = 0x28;
             }
             goto Lend;
         case 2:
             this->m_92 = (this->m_92 - 1);
             if (this->m_92 <= 0) {
-                *(s16 *)((s8 *)this + 0x90) = 3;
+                m_90 = 3;
             }
             goto Lend;
         case 3:
         default:
             if (is_lobby_event_active() != 0) {
-                *(s16 *)((s8 *)this + 0x90) = 0;
+                m_90 = 0;
             }
         }
 Lend:
-        return (u8) (*(s16 *)((s8 *)this + 0x90) == 3);
+        return (u8) (m_90 == 3);
     }
     return 1U;
 }
@@ -124,62 +118,38 @@ extern const char TObjFish__class_name_string[] = "TObjFish";
 }
 
 struct VBase_18_26a62c { char pad[0x18]; };
-struct SVec_8029D5C8 { s16 x, y, z; };
-struct Fish_8029D5C8 {
-    f32 x, y, z;
-    f32 tx, ty, tz;
-    u8 pad18[0xC];
-    s32 ang;
-    f32 frame;
-    s16 rot;
-    u8 pad2e[2];
-    s16 kind;
-    u8 pad32[2];
-    s32 seen;
-    u8 pad38[0xC];
-};
-
 extern "C" {
 
-extern u8 *camera_ctrl_instance;
+extern TCameraCtrl *camera_ctrl_instance;
 
 #pragma push
 #pragma fp_contract on
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline void wrap_8029D5C8(s16 *p) {
-    if (*p > 0) {
-        *p -= 0x4000;
-    } else {
-        *p += 0x4000;
-    }
-}
-
-#define F(T, o) (*(T *)(arg0 + (o)))
-void render__8TObjFishFv(u8 *arg0) {
-    Fish_8029D5C8 *f;
+void render__8TObjFishFv(TObjFish *fish) {
+    TObjFishEntry *f;
     s32 n;
     struct { f32 x, y, z; } d;
 
     if (TMainTask::get_render_pass() != 1 &&
-        ((TObjFish *)arg0)->update_object_view_visibility(400.0f, 200.0f) != 0 &&
-        F(Fish_8029D5C8 *, 0xA0) != NULL && ((s32 (*)(void *))update_state__8TObjFishFv)(arg0) != 0) {
-        f = F(Fish_8029D5C8 *, 0xA0);
-        n = F(s32, 0x94);
+        fish->update_object_view_visibility(400.0f, 200.0f) != 0 &&
+        fish->m_a0 != NULL && fish->update_state() != 0) {
+        f = fish->m_a0;
+        n = (s32)fish->m_94;
         push_matrix();
-        translate_matrix_vec3(0, arg0 + 0x38);
-        rotate_matrix_y(0, F(s32, 0x60));
+        translate_matrix_vec3(0, (u8 *)&fish->position);
+        rotate_matrix_y(0, fish->rotation_y);
         if (camera_ctrl_instance != NULL) {
-            d.x = *(f32 *)(camera_ctrl_instance + 0x178) - F(f32, 0x38);
-            d.y = *(f32 *)(camera_ctrl_instance + 0x17C) - F(f32, 0x3C);
-            d.z = *(f32 *)(camera_ctrl_instance + 0x180) - F(f32, 0x40);
+            d.x = camera_ctrl_instance->pos_x - fish->position.x;
+            d.y = camera_ctrl_instance->pos_y - fish->position.y;
+            d.z = camera_ctrl_instance->pos_z - fish->position.z;
         }
         while (n-- != 0) {
             s16 a;
             s16 *pa;
             f32 r;
             pa = &a;
-            *pa = (s16)f->ang - f->rot;
+            *pa = (s16)f->yaw - f->angle;
             if (*pa > 0) {
                 *pa -= 0x4000;
             } else {
@@ -188,61 +158,52 @@ void render__8TObjFishFv(u8 *arg0) {
             r = 0.2f * a;
             {
                 struct { f32 x, y, z; } e, t;
-                e.x = d.x - f->x;
-                e.y = d.y - f->y;
-                e.z = d.z - f->z;
-                t.x = f->tx - f->x;
-                t.y = f->ty - f->y;
-                t.z = f->tz - f->z;
+                e.x = d.x - f->pos.x;
+                e.y = d.y - f->pos.y;
+                e.z = d.z - f->pos.z;
+                t.x = f->target.x - f->pos.x;
+                t.y = f->target.y - f->pos.y;
+                t.z = f->target.z - f->pos.z;
                 if (f->seen == 0 || e.x * e.x + e.y * e.y + e.z * e.z < t.x * t.x + t.y * t.y + t.z * t.z) {
                     f->seen = 1;
-                    f->tx = d.x;
-                    f->ty = d.y;
-                    f->tz = d.z;
+                    f->target.x = d.x;
+                    f->target.y = d.y;
+                    f->target.z = d.z;
                 }
             }
             push_matrix();
-            post_translate_matrix(f);
-            rotate_matrix_y(0, f->rot + (s32)r);
+            post_translate_matrix(&f->pos.x);
+            rotate_matrix_y(0, f->angle + (s32)r);
             set_draw_list_mask(3);
             if (get_current_floor_area() == AREA_SEABED_UPPER) {
-                switch (f->kind) {
+                switch (f->anim) {
                 case 1:
-                    get_bml_texlist(TObjFish__area_bml_resource, 1);
-                    set_global_param__8TObjFishFl();
-                    get_bml_model(TObjFish__area_bml_resource, 1);
-                    draw_ginja_object();
+                    TObjFish::set_global_param(get_bml_texlist(TObjFish__area_bml_resource, 1));
+                    draw_ginja_object((void *)get_bml_model(TObjFish__area_bml_resource, 1));
                     break;
                 case 2:
-                    get_bml_texlist(TObjFish__area_bml_resource, 2);
-                    set_global_param__8TObjFishFl();
-                    get_bml_model(TObjFish__area_bml_resource, 2);
-                    draw_ginja_object();
+                    TObjFish::set_global_param(get_bml_texlist(TObjFish__area_bml_resource, 2));
+                    draw_ginja_object((void *)get_bml_model(TObjFish__area_bml_resource, 2));
                     break;
                 default:
-                    get_bml_texlist(TObjFish__area_bml_resource, 0);
-                    set_global_param__8TObjFishFl();
-                    get_bml_model(TObjFish__area_bml_resource, 0);
-                    draw_ginja_object();
+                    TObjFish::set_global_param(get_bml_texlist(TObjFish__area_bml_resource, 0));
+                    draw_ginja_object((void *)get_bml_model(TObjFish__area_bml_resource, 0));
                     break;
                 }
             } else {
                 set_motion_packed_rotation();
-                switch (f->kind) {
+                switch (f->anim) {
                 case 1:
-                    get_bml_texlist(TObjFish__area_bml_resource, 1);
-                    set_global_param__8TObjFishFl();
-                    draw_ginja_model_with_motion(get_bml_model(TObjFish__area_bml_resource, 1), get_bml_motion(TObjFish__area_bml_resource, 1), f->frame);
+                    TObjFish::set_global_param(get_bml_texlist(TObjFish__area_bml_resource, 1));
+                    draw_ginja_model_with_motion((void *)get_bml_model(TObjFish__area_bml_resource, 1), get_bml_motion(TObjFish__area_bml_resource, 1), f->frame);
                     break;
                 case 2:
-                    get_bml_texlist(TObjFish__area_bml_resource, 2);
-                    set_global_param__8TObjFishFl();
-                    draw_ginja_model_with_motion(get_bml_model(TObjFish__area_bml_resource, 2), get_bml_motion(TObjFish__area_bml_resource, 2), f->frame);
+                    TObjFish::set_global_param(get_bml_texlist(TObjFish__area_bml_resource, 2));
+                    draw_ginja_model_with_motion((void *)get_bml_model(TObjFish__area_bml_resource, 2), get_bml_motion(TObjFish__area_bml_resource, 2), f->frame);
                     break;
                 default:
-                    get_bml_texlist(TObjFish__area_bml_resource, 0);
-                    set_global_param__8TObjFishFl();
-                    draw_ginja_model_with_motion(get_bml_model(TObjFish__area_bml_resource, 0), get_bml_motion(TObjFish__area_bml_resource, 0), f->frame);
+                    TObjFish::set_global_param(get_bml_texlist(TObjFish__area_bml_resource, 0));
+                    draw_ginja_model_with_motion((void *)get_bml_model(TObjFish__area_bml_resource, 0), get_bml_motion(TObjFish__area_bml_resource, 0), f->frame);
                     break;
                 }
                 clear_motion_packed_rotation();
@@ -254,7 +215,6 @@ void render__8TObjFishFv(u8 *arg0) {
         pop_matrix();
     }
 }
-#undef F
 
 void TObjFish::run_task() {
     TObjFishEntry *f;
@@ -469,7 +429,6 @@ u8 *TObjFish__create(u8 *arg0);
 s32 __ct__8TObjBaseFP7TObject();
 extern const char *lbl_805D3D58;
 u8 *TObjFish__ct(u8 *arg0, s32 arg1, u8 *arg2);
-u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void *__dt__8TObjFishFv(void *arg0, s16 arg1);
 
 void *__dt__8TObjFishFv(void *arg0, s16 arg1) {
@@ -529,9 +488,9 @@ u8 *TObjFish__create(u8 *arg0) {
 }
 
 void TObjFish::free_resource() {
-    if ((u32) (*(u32 *)&TObjFish__area_bml_resource) != 0U) {
-        free_bin_model_request((void*)(*(u32 *)&TObjFish__area_bml_resource), 1);
-        (*(u32 *)&TObjFish__area_bml_resource) = 0U;
+    if (TObjFish__area_bml_resource != NULL) {
+        free_bin_model_request(TObjFish__area_bml_resource, 1);
+        TObjFish__area_bml_resource = NULL;
     }
 }
 void vfunc_6__8TObjBaseFPsl();
@@ -543,68 +502,32 @@ void render_shadows__7TObjectFv();
 void reset_motion_fields__8TObjBaseFv();
 void run_task__8TObjFishFv();
 void update_object_view_visibility__8TObjBaseFff();
-void *fish_resource_name_table[60] = {
-    (void *)lbl_80465A48,
-    (void *)lbl_80465A68,
-    (void *)lbl_80465A88,
-    0,
-    (void *)fish_motion_name_lobby_suisou_sakana01_yellow_njm,
-    (void *)fish_motion_name_lobby_suisou_sakana02_red_njm,
-    (void *)fish_motion_name_lobby_suisou_sakana03_bule_njm,
-    0,
-    (void *)bm_sakana_obj_lobby_bml_filename,
-    (void *)&fish_resource_name_table[0],
-    (void *)&fish_resource_name_table[4],
-    (void *)0x30003,
-    (void *)lbl_80465B24,
-    (void *)lbl_80465B38,
-    (void *)lbl_80465B4C,
-    0,
-    (void *)fish_motion_name_sakana_jungle21_njm,
-    (void *)fish_motion_name_sakana_jungle22_njm,
-    (void *)fish_motion_name_sakana_jungle23_njm,
-    0,
-    (void *)bm_sakana_obj_jungle2_bml_filename,
-    (void *)&fish_resource_name_table[12],
-    (void *)&fish_resource_name_table[16],
-    (void *)0x30003,
-    (void *)lbl_80465BB8,
-    (void *)lbl_80465BCC,
-    (void *)lbl_80465BE0,
-    0,
-    (void *)fish_motion_name_sakana_jungle51_njm,
-    (void *)fish_motion_name_sakana_jungle52_njm,
-    (void *)fish_motion_name_sakana_jungle53_njm,
-    0,
-    (void *)bm_sakana_obj_jungle5_bml_filename,
-    (void *)&fish_resource_name_table[24],
-    (void *)&fish_resource_name_table[28],
-    (void *)0x30003,
-    (void *)lbl_80465C4C,
-    (void *)lbl_80465C60,
-    (void *)lbl_80465C74,
-    0,
-    (void *)fish_motion_name_sakana01_obj1_njm,
-    (void *)fish_motion_name_sakana02_obj1_njm,
-    (void *)fish_motion_name_sakana03_obj1_njm,
-    0,
-    (void *)bm_sakana_obj_seabed1_bml_filename,
-    (void *)&fish_resource_name_table[36],
-    (void *)&fish_resource_name_table[40],
-    (void *)0x30003,
-    (void *)lbl_80465CE0,
-    (void *)lbl_80465CF4,
-    (void *)lbl_80465D08,
-    0,
-    (void *)fish_motion_name_sakana04_obj1_njm,
-    (void *)fish_motion_name_sakana05_obj1_njm,
-    (void *)fish_motion_name_sakana06_obj1_njm,
-    0,
-    (void *)bm_sakana_obj_seabed2_bml_filename,
-    (void *)&fish_resource_name_table[48],
-    (void *)&fish_resource_name_table[52],
-    (void *)0x30003,
+struct TObjFishAreaResource {
+    const char *models[4];
+    const char *motions[4];
+    BmlResourceDescriptor descriptor;
 };
+typedef char TObjFishAreaResource_size[sizeof(TObjFishAreaResource) == 0x30 ? 1 : -1];
+typedef char TObjFishAreaResource_descriptor_offset[offsetof(TObjFishAreaResource, descriptor) == 0x20 ? 1 : -1];
+
+TObjFishAreaResource fish_resource_name_table[5] = {
+    { { lbl_80465A48, lbl_80465A68, lbl_80465A88, NULL },
+      { fish_motion_name_lobby_suisou_sakana01_yellow_njm, fish_motion_name_lobby_suisou_sakana02_red_njm, fish_motion_name_lobby_suisou_sakana03_bule_njm, NULL },
+      { bm_sakana_obj_lobby_bml_filename, fish_resource_name_table[0].models, fish_resource_name_table[0].motions, 3, 3 } },
+    { { lbl_80465B24, lbl_80465B38, lbl_80465B4C, NULL },
+      { fish_motion_name_sakana_jungle21_njm, fish_motion_name_sakana_jungle22_njm, fish_motion_name_sakana_jungle23_njm, NULL },
+      { bm_sakana_obj_jungle2_bml_filename, fish_resource_name_table[1].models, fish_resource_name_table[1].motions, 3, 3 } },
+    { { lbl_80465BB8, lbl_80465BCC, lbl_80465BE0, NULL },
+      { fish_motion_name_sakana_jungle51_njm, fish_motion_name_sakana_jungle52_njm, fish_motion_name_sakana_jungle53_njm, NULL },
+      { bm_sakana_obj_jungle5_bml_filename, fish_resource_name_table[2].models, fish_resource_name_table[2].motions, 3, 3 } },
+    { { lbl_80465C4C, lbl_80465C60, lbl_80465C74, NULL },
+      { fish_motion_name_sakana01_obj1_njm, fish_motion_name_sakana02_obj1_njm, fish_motion_name_sakana03_obj1_njm, NULL },
+      { bm_sakana_obj_seabed1_bml_filename, fish_resource_name_table[3].models, fish_resource_name_table[3].motions, 3, 3 } },
+    { { lbl_80465CE0, lbl_80465CF4, lbl_80465D08, NULL },
+      { fish_motion_name_sakana04_obj1_njm, fish_motion_name_sakana05_obj1_njm, fish_motion_name_sakana06_obj1_njm, NULL },
+      { bm_sakana_obj_seabed2_bml_filename, fish_resource_name_table[4].models, fish_resource_name_table[4].motions, 3, 3 } },
+};
+
 void *__vt__8TObjFish[13] = {
     0,
     0,
@@ -622,50 +545,56 @@ void *__vt__8TObjFish[13] = {
 };
 
 void TObjFish::load_area_resource() {
-    u8 *base = (u8 *)fish_resource_name_table;
-    u8 *p;
+    // Use one base for every descriptor, as in the original loader.
+    u8 *base = reinterpret_cast<u8 *>(fish_resource_name_table);
+    BmlResource *p;
     switch (get_current_floor_area()) {
     case AREA_JUNGLE_NORTH:
         TObjFish__area_event_stage = 1;
-        p = (u8 *)::operator new(0x440);
+        p = (BmlResource *)::operator new(0x440);
         if (p != NULL) {
-            p = load_resource_from_descriptor(p, 1, base + 0x50, 0, 0, 0);
+            p = load_resource_from_descriptor(p, 1,
+                (BmlResourceDescriptor *)(base + 1 * sizeof(TObjFishAreaResource) + offsetof(TObjFishAreaResource, descriptor)), 0, 0, 0);
         }
-        (*(u32 *)&TObjFish__area_bml_resource) = (u32)p;
+        TObjFish__area_bml_resource = p;
         break;
     case AREA_SEASIDE:
     case AREA_SEASIDE_NIGHT:
         TObjFish__area_event_stage = 2;
-        p = (u8 *)::operator new(0x440);
+        p = (BmlResource *)::operator new(0x440);
         if (p != NULL) {
-            p = load_resource_from_descriptor(p, 1, base + 0x80, 0, 0, 0);
+            p = load_resource_from_descriptor(p, 1,
+                (BmlResourceDescriptor *)(base + 2 * sizeof(TObjFishAreaResource) + offsetof(TObjFishAreaResource, descriptor)), 0, 0, 0);
         }
-        (*(u32 *)&TObjFish__area_bml_resource) = (u32)p;
+        TObjFish__area_bml_resource = p;
         break;
     case AREA_SEABED_UPPER:
         TObjFish__area_event_stage = 3;
-        p = (u8 *)::operator new(0x440);
+        p = (BmlResource *)::operator new(0x440);
         if (p != NULL) {
-            p = load_resource_from_descriptor(p, 1, base + 0xB0, 0, 0, 0);
+            p = load_resource_from_descriptor(p, 1,
+                (BmlResourceDescriptor *)(base + 3 * sizeof(TObjFishAreaResource) + offsetof(TObjFishAreaResource, descriptor)), 0, 0, 0);
         }
-        (*(u32 *)&TObjFish__area_bml_resource) = (u32)p;
+        TObjFish__area_bml_resource = p;
         break;
     case AREA_SEABED_LOWER:
         TObjFish__area_event_stage = 4;
-        p = (u8 *)::operator new(0x440);
+        p = (BmlResource *)::operator new(0x440);
         if (p != NULL) {
-            p = load_resource_from_descriptor(p, 1, base + 0xE0, 0, 0, 0);
+            p = load_resource_from_descriptor(p, 1,
+                (BmlResourceDescriptor *)(base + 4 * sizeof(TObjFishAreaResource) + offsetof(TObjFishAreaResource, descriptor)), 0, 0, 0);
         }
-        (*(u32 *)&TObjFish__area_bml_resource) = (u32)p;
+        TObjFish__area_bml_resource = p;
         break;
     case AREA_LOBBY:
     default:
         TObjFish__area_event_stage = 0;
-        p = (u8 *)::operator new(0x440);
+        p = (BmlResource *)::operator new(0x440);
         if (p != NULL) {
-            p = load_resource_from_descriptor(p, 1, base + 0x20, 0, 0, 0);
+            p = load_resource_from_descriptor(p, 1,
+                (BmlResourceDescriptor *)(base + offsetof(TObjFishAreaResource, descriptor)), 0, 0, 0);
         }
-        (*(u32 *)&TObjFish__area_bml_resource) = (u32)p;
+        TObjFish__area_bml_resource = p;
         break;
     }
 }

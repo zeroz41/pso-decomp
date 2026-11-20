@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/GroundContactSound.h"
 #include <stddef.h>
 #include "pso/object/ambient/TObjFish.h"
 #include "types.h"
@@ -70,10 +71,6 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 #pragma readonly_strings on
-
-extern "C" {
-void TObjEneGibbles__sub_800D8988(Vec *pos);
-}
 
 // Class names the two constructors store in m_name (.sdata).
 const char *TObjEneMe3Stelth__class_name = stelth_class_name;
@@ -1583,7 +1580,7 @@ void TObjEneMe3Stelth__sub_800F2270(TObjEneMe3Stelth *stelth, s32 arg1) {
                         q.z += p.z - stelth->target->position.z;
                         if (TObjEneMe3Stelth__sub_800F0F84(stelth, &q) == 0 &&
                             csnVector(&stelth->target->position, &q, 0x88E0) == 0 &&
-                            csnVectorUnder(&p, (u32 *)&stelth->m_120, 0x15) != 0 &&
+                            csnVectorUnder(&p, (CsnGroup **)&stelth->m_120, 0x15) != 0 &&
                             ((TScene *)(&p))->find_section_at_position() == stelth->room) {
                             VecCopy(&stelth->position, &p);
                             stelth->rotation_y = ang + 0xC000;
@@ -2118,7 +2115,7 @@ void TObjEneMe3StelthReal::vfunc_111() {  }
 
 void TObjEneMe3Stelth__sub_800F0C90(TObjEneMe3Stelth *stelth) {
     if (stelth->is_passing_frame(12.0f) != 0 || stelth->is_passing_frame(28.0f) != 0) {
-        stelth->try_spawn_ground_effect((s32)&stelth->position);
+        stelth->try_spawn_ground_effect(&stelth->position);
     }
 }
 
@@ -2127,12 +2124,12 @@ void TObjEneMe3Stelth__sub_800F0C90(TObjEneMe3Stelth *stelth) {
 // Body after its sibling sub_800F0C90 (a ground effect on a motion frame); name inferred.
 void TObjEneMe3Stelth::spawn_ground_effect_on_frame_23() {
     if (is_passing_frame(23.0f) != 0) {
-        try_spawn_ground_effect((s32)&position);
+        try_spawn_ground_effect(&position);
     }
 }
 
 void TObjEneMe3Stelth::play_hit_effect() {
-    if (try_spawn_ground_effect((s32)&position) != 0) {
+    if (try_spawn_ground_effect(&position) != 0) {
         play_sound_effect(0x3A836, &position, 0, 0);
         return;
     }
@@ -2140,20 +2137,20 @@ void TObjEneMe3Stelth::play_hit_effect() {
     play_sound_effect(0x3A836, &position, 0, 0);
 }
 
-s32 TObjEneMe3Stelth::try_spawn_ground_effect(s32 arg1) {
+s32 TObjEneMe3Stelth::try_spawn_ground_effect(const Vec *origin) {
     Vec pos;
     void *effect;
-    s32 *hit;
-    VecCopy(&pos, (const Vec *)arg1);
+    CsnHit *hit;
+    VecCopy(&pos, origin);
     pos.y += 15.0f;
-    hit = csnVectorUnder(&pos, (u32 *)&m_120, 0x15);
-    if (hit != NULL && (hit[0] & 4)) {
-        effect = spawn_particle_effect((void *)(hit[1] + 0x38), 0x49);
+    hit = csnVectorUnder(&pos, (CsnGroup **)&m_120, 0x15);
+    if (hit != NULL && (hit->hit_mask & 4)) {
+        effect = spawn_particle_effect(&hit->contact[2].point, 0x49);
         if (effect != NULL) {
             attach_particle_model((u8 *)effect, TParticleCtrl::get_particle_model(2), TParticleCtrl::get_instance(), 0, 1, 1.0f);
         }
-        spawn_particle_effect((void *)(hit[1] + 0x38), 0xA4);
-        TObjEneGibbles__sub_800D8988(&position);
+        spawn_particle_effect(&hit->contact[2].point, 0xA4);
+        play_floor_area_ground_sound(&position);
         return 1;
     }
     return 0;

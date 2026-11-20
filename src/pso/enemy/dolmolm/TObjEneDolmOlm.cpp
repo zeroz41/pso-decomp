@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/map/CsnGroundQuery.h"
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/enemy/dolmolm/TObjEneDolmOlm.h"
 #include "pso/render/reflection.h"
@@ -225,7 +226,6 @@ typedef struct Obj_800A7A14 {
     VObj_800A7A14 *effs[2];
 } Obj_800A7A14;
 
-typedef struct Hit_80300D00 { s32 flags; u8 *obj; } Hit_80300D00;
 
 struct O_80302D80;
 struct E16_80301148 { u8 pad[8]; s32 v; u8 pad2[4]; };
@@ -384,7 +384,6 @@ s32 post_translate_matrix(void *);
 extern u32 TObjEneDolmOlm__data_805D6A14;
 extern u32 TObjEneDolmOlm__data_805D6A18;
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
-Hit_80300D00 *csnVectorUnder(void *, void *, s32, f32);
 void *spawn_particle_effect(const void *pos, s32 id);
 void fn_800D88E4(void *);
 extern s32 actor_frame_tick;
@@ -1395,36 +1394,34 @@ void TObjEneDolmOlm::init_body_sub() {
 }
 void spawn_ground_effects__14TObjEneDolmOlmFPvPv(u8 *arg0, Vec *arg1) {
     Vec v;
-    Hit_80300D00 *hit;
-    f32 y;
+    CsnHit *hit;
     s32 e;
     VecCopy((Vec *)&v, (const Vec *)arg1);
-    y = v.y;
     v.y += 15.0f;
-    hit = csnVectorUnder(&v, arg0 + 0x120, 0x4007, y);
+    hit = csnVectorUnder(&v, (CsnGroup **)(arg0 + 0x120), 0x4007);
     if (hit != NULL) {
-        if (hit->flags & 4) {
+        if (hit->hit_mask & 4) {
             if (actor_frame_tick % 5 == 0) {
                 fn_800D88E4(arg0 + 0x38);
             }
-            e = (s32)spawn_particle_effect(hit->obj + 0x38, 0x49);
+            e = (s32)spawn_particle_effect(&hit->contact[2].point, 0x49);
             if (e != 0) {
                 attach_particle_model((u8 *)e, TParticleCtrl::get_particle_model(2), TParticleCtrl::get_instance(), 0, 1, 1.0f);
             }
-            spawn_particle_effect(hit->obj + 0x38, 0xA4);
-        } else if (hit->flags & 2) {
+            spawn_particle_effect(&hit->contact[2].point, 0xA4);
+        } else if (hit->hit_mask & 2) {
             if (actor_frame_tick % 10 == 0) {
                 fn_800D88E4(arg0 + 0x38);
             }
-            e = (s32)spawn_particle_effect(hit->obj + 0x54, 0x49);
+            e = (s32)spawn_particle_effect(&hit->contact[3].point, 0x49);
             if (e != 0) {
                 attach_particle_model((u8 *)e, TParticleCtrl::get_particle_model(2), TParticleCtrl::get_instance(), 0, 1, 1.0f);
             }
-            spawn_particle_effect(hit->obj + 0x54, 0xA4);
+            spawn_particle_effect(&hit->contact[3].point, 0xA4);
         }
-        *(s32 *)(arg0 + 0x3E4) = *(s32 *)(hit->obj + 0x18);
+        *(s32 *)(arg0 + 0x3E4) = hit->contact->flags;
         if (*(s32 *)(arg0 + 0x3E4) & 0x4000) {
-            VecCopy((Vec *)(arg0 + 0x3D8), (const Vec *)hit->obj);
+            VecCopy((Vec *)(arg0 + 0x3D8), &hit->contact->point);
         } else {
             VecCopy((Vec *)(arg0 + 0x3D8), (const Vec *)(arg0 + 0x38));
         }

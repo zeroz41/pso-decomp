@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/GroundContactSound.h"
 #include "types.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/map/CsnQuery.h"
@@ -78,7 +79,6 @@ void move_with_wall_slide(u8 *arg0);
 void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 farg0);
 
 extern "C" {
-void TObjEneGibbles__sub_800D8988(void *);
 void TObjEneMe3SinowZoa__sub_80316840(TObjEneMe3SinowZoa *self);
 void debug_printf_at(s32 id, const char *fmt, ...);
 s32 scale_matrix(int, f32, f32, f32);
@@ -1722,7 +1722,7 @@ void TObjEneMe3SinowZoa__sub_80317B50(TObjEneMe3SinowZoa *self, s32 arg1) {
                         tmp.z += pos.z - self->m_390->position.z;
                         if (check_move_collision__18TObjEneMe3SinowZoaFPvPv(self, &tmp) == 0 &&
                             csnVector(&self->m_390->position, &tmp, 0x88E0) == 0 &&
-                            csnVectorUnder(&pos, (u32 *)&self->m_120, 0x15) != 0 &&
+                            csnVectorUnder(&pos, (CsnGroup **)&self->m_120, 0x15) != 0 &&
                             self->room == ((TScene *)(&pos))->find_section_at_position()) {
                             VecCopy(&self->position, &pos);
                             self->rotation_y = ang + 0xC000;
@@ -2220,13 +2220,13 @@ void TObjEneMe3SinowZoa::check_and_notify() {
     }
 }
 
-s32 TObjEneMe3SinowZoa::check_floor_contact(void *arg1) {
+s32 TObjEneMe3SinowZoa::check_floor_contact(const Vec *origin) {
     Vec v;
     CsnHit *hit;
     void *p;
-    VecCopy(&v, (const Vec *)arg1);
+    VecCopy(&v, origin);
     v.y += TObjEneMe3SinowZoa__data_805DF2F0;
-    hit = (CsnHit *)csnVectorUnder(&v, (u32 *)&this->m_120, 0x4007);
+    hit = csnVectorUnder(&v, (CsnGroup **)&this->m_120, 0x4007);
     if (hit != NULL) {
         this->m_3d0 = hit->contact->flags;
         if (this->m_3d0 & 0x4000) {
@@ -2235,7 +2235,7 @@ s32 TObjEneMe3SinowZoa::check_floor_contact(void *arg1) {
             VecCopy(&this->m_3d4, &this->position);
         }
         if (hit->hit_mask & 4) {
-            TObjEneGibbles__sub_800D8988(&this->position);
+            play_floor_area_ground_sound(&this->position);
             p = spawn_particle_effect(&hit->contact[2].point, 0x49);
             if (p != 0) {
                 attach_particle_model((u8 *)p, (s32)(TParticleCtrl::get_particle_model(2)), (s32)(TParticleCtrl::get_instance()), 0, 1, TObjEneMe3SinowZoa__data_805DF2F4);
@@ -2244,7 +2244,7 @@ s32 TObjEneMe3SinowZoa::check_floor_contact(void *arg1) {
             return 1;
         }
         if (hit->hit_mask & 2) {
-            TObjEneGibbles__sub_800D8988(&this->position);
+            play_floor_area_ground_sound(&this->position);
             p = spawn_particle_effect(&hit->contact[3].point, 0x49);
             if (p != 0) {
                 attach_particle_model((u8 *)p, (s32)(TParticleCtrl::get_particle_model(2)), (s32)(TParticleCtrl::get_instance()), 0, 1, TObjEneMe3SinowZoa__data_805DF2F4);

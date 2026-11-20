@@ -1,5 +1,8 @@
 #pragma fp_contract on
+#include "pso/map/CsnGroundQuery.h"
 #include "types.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/unk/text_803D8F74.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/enemy/dd/TObjEneDD_800BA754.h"
@@ -24,8 +27,6 @@ s32 is_valid_target__9TObjEneDDFv(s32);
 u16 get_entity_id(void *);
 u32 csnLookAt(void *, void *);
 s32 push_matrix(void);
-void post_translate_matrix(void *);
-int rotate_matrix_y(void *, void *);
 void *get_player_by_client_id(s32 i);
 }
 
@@ -96,7 +97,6 @@ struct Obj_800B9E84 {
 };
 extern "C" {
 s32 minimap_render_dot(void *, int, int, int);
-s32 scale_current_matrix(void *);
 int bind_enemy_combat_stats__9TObjEnemyFPUcPUcPUc(void*);
 int transform_to_view__11TCameraCtrlFii(void*);
 int apply_split_screen_view_matrix__11TCameraCtrlFv(void*);
@@ -215,8 +215,6 @@ void update_collider_contact_by_height(u8 *arg0, f32 farg0);
 #include "pso/math/MatrixVector.h"
 
 
-struct Part_800BA934 { u8 pad[0x1c]; u8 f1c[0x10]; };
-struct Obj_800BA934 { u8 pad[0x38]; u8 f38[0x28]; void *f60; u8 pad2[0x40]; Part_800BA934 *parts; s32 count; };
 struct Part_800BAAE4 { Vec a; u8 pad[0x10]; Vec b; u8 pad2[4]; };
 struct Obj_800BAAE4 { u8 pad[0x38]; Vec pos; u8 pad2[0x1c]; s32 angle; u8 pad3[0x40]; Part_800BAAE4 *parts; };
 struct Part_800BA9BC { Vec a; u8 pad[0x10]; Vec b; u8 pad2[4]; };
@@ -363,7 +361,6 @@ void calc_wall_slide_destination(void *arg0, void *arg1, f32 dx, f32 dz, f32 dis
 extern "C" {
 f32 fabs_float(f32);
 s32 csnVector(void *, void *, int);
-u8 *csnVectorUnder(f32 *, void *, s32);
 s32 VecCopy__FP3VecPC3Vec(void *, void *, s32);
 }
 
@@ -832,21 +829,20 @@ void TObjEneDD::set_squared_value(f32 farg0) {
 }
 
 u8 *TObjEneDD::vfunc_103(u8 *arg1) {
-    u8 *arg0 = (u8 *)this;
     Vec position;
-    u8 *temp_r3;
+    CsnHit *hit;
     position.x = *(f32 *)((s8 *)arg1 + 0);
     position.y = *(f32 *)((s8 *)arg1 + 4) + *(f32 *)(this->m_2b0 + 0x10);
     position.z = *(f32 *)((s8 *)arg1 + 8);
-    if (csnVectorUnder(&position.x, (u8 *)&this->m_120, 0xE0) != NULL) {
+    if (csnVectorUnder(&position, (CsnGroup **)&this->m_120, 0xE0) != NULL) {
         return NULL;
     }
-    temp_r3 = (u8 *)(csnVectorUnder(&position.x, (u8 *)&this->m_120, 0x15));
-    if (temp_r3 == NULL) {
+    hit = csnVectorUnder(&position, (CsnGroup **)&m_120, 0x15);
+    if (hit == NULL) {
         return NULL;
     }
-    *(f32 *)((s8 *)arg0 + 0x3C) = (f32) *(f32 *)((s8 *)(*(u8 **)((s8 *)temp_r3 + 4)) + 4);
-    return temp_r3;
+    this->position.y = hit->contact->point.y;
+    return (u8 *)hit;
 }
 
 s32 TBoss5Gryphon::enemy_probe_wall_ahead(f32 farg0, f32 farg1, f32 farg2) {
@@ -1075,7 +1071,7 @@ void update_local_colliders_from_world(Obj_800BAA2C *arg0, Vec *arg1) {
     s32 i;
     push_matrix();
     set_matrix_identity(0);
-    rotate_matrix_y((void *)(0), (void *)(-arg0->rot));
+    rotate_matrix_y(NULL, -arg0->rot);
     translate_matrix(0, -arg0->x, -arg0->y, -arg0->z);
     for (i = 0; i < arg0->count; i++) {
         VecCopy((Vec *)((Vec *)(&arg0->cols[i].pos)), (const Vec *)((const Vec *)(arg1)));
@@ -1095,15 +1091,14 @@ void set_part_position__9TObjEneDDFPvPvi(Obj_800BA9BC *self, Vec *v, s32 i) {
 }
 
 void TObjEneDD::transform_part_positions() {
-    Obj_800BA934 *self = (Obj_800BA934 *)this;
     s32 i;
     push_matrix();
     set_matrix_identity(0);
-    post_translate_matrix(self->f38);
-    rotate_matrix_y(0, self->f60);
+    post_translate_matrix(&position.x);
+    rotate_matrix_y(NULL, rotation_y);
     set_motion_packed_rotation();
     for (i = 0; i < this->body_count; i++) {
-        matrix_mult_vec(0, &self->parts[i], self->parts[i].f1c);
+        matrix_mult_vec(0, &bodies[i].offset, &bodies[i].center);
     }
     clear_motion_packed_rotation();
     pop_matrix();
@@ -1371,18 +1366,17 @@ int TObjEneDD::update_secondary_light() { return select_actor_lighting(this); }
 
 int TObjEneDD::update_primary_light() { return restore_scene_lighting(this); }
 
-void TObjEneDD::draw_oriented_shadow(s32 arg1, s32 arg2, u32 arg3) {
-    s32 arg0 = (s32)this;
+void TObjEneDD::draw_oriented_shadow(const Vec *position, const Vec *normal, s32 angle, const Vec *scale) {
     Stack_800B9D94 stack;
-    direction_to_rotation_xz((u8 *)arg1, (&stack.sp8), (&stack.sp10));
+    direction_to_rotation_xz((u8 *)normal, &stack.sp8, &stack.sp10);
     push_matrix();
-    post_translate_matrix((void *)arg0);
+    post_translate_matrix(&position->x);
     translate_matrix(0, 0.0f, 0.3f, 0.0f);
     rotate_matrix_z(0, stack.sp10);
     rotate_matrix_x(0, stack.sp8);
-    rotate_matrix_y(0, (void *)arg2);
-    if (arg3 != 0U) {
-        scale_current_matrix((void *)arg3);
+    rotate_matrix_y(NULL, angle);
+    if (scale != NULL) {
+        scale_current_matrix(&scale->x);
     }
     rotate_matrix_x(0, -0x4000);
     draw_blob_shadow(0);

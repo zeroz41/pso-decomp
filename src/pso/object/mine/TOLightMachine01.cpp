@@ -1,11 +1,16 @@
 #include "types.h"
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlResourceLoader.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/object/mine/TOLightMachine01.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/render/GinjaMaterial.h"
+#include "pso/render/GinjaModel.h"
 #include "pso/unk/text_803D96A8.h"
 
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -19,43 +24,41 @@ const char *bm_o_light_machine01_motion_names[1] = {0};
 const char *bm_o_light_machine01_model_names[3] = { "fs_obj_light.gj", "fs_obj_toudai.gj", NULL };
 BmlResourceDescriptor light_machine01_resource_desc = { "bm_o_light_machine01.bml", bm_o_light_machine01_model_names, bm_o_light_machine01_motion_names, 2, 0 };
 
+struct GinjaTextureList;
+
 extern "C" {
-s32 get_bml_texlist(void *, s32);
-s32 get_bml_model(void *, s32);
-u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-u32 TOLightMachine01__shared_bml_archive;
-s32 light_machine_ginja_model_handle;
-s32 light_machine_ginja_param;
+BmlResource *TOLightMachine01__shared_bml_archive;
+NJS_OBJECT *light_machine_ginja_model_handle;
+GinjaTextureList *light_machine_ginja_param;
 s32 __ct__8TObjBaseFP7TObject(void *, int);
 extern s32 __vt__16TOLightMachine01[];
 const char *TOLightMachine01__name = "TOLightMachine01";
 extern s32 tl_05;
-void free_bin_model_request(void*, int);
 s32 post_translate_matrix(void *);
 s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
 
 void TOLightMachine01::run_task() {
-    this->m_a8 = (s32) (this->m_a8 + this->m_a4);
-    this->m_9c = (f32) (*(f32 *)&this->unk_98 * sin_table_lookup(*(s32 *)&this->m_a8));
-    this->m_ac = (s32) (this->m_ac + this->set_params[2]);
+    this->bob_angle = (s32) (this->bob_angle + this->bob_angle_step);
+    this->bob_height = (f32) (bob_amplitude * sin_table_lookup((s32)bob_angle));
+    this->lamp_yaw = (s32) (this->lamp_yaw + this->set_params[2]);
 }
 
 
 void TOLightMachine01::render() {
-    if (this->update_object_view_visibility(*(f32 *)&this->unk_90, this->m_94) != 0) {
+    if (this->update_object_view_visibility(view_range, this->model_radius) != 0) {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
         TObjFish::set_global_param(this->texlist);
-        draw_ginja_model(*(s32 *)((s8 *)this->model + 4));
+        draw_ginja_model((s32)((NJS_OBJECT *)model)->model);
         push_matrix();
-        translate_matrix(0, 0.0f, this->m_9c, 0.0f);
-        rotate_matrix_y(0, this->m_ac);
-        draw_ginja_model(*(s32 *)((s8 *)(*(void **)((s8 *)this->model + 0x2C)) + 4));
+        translate_matrix(0, 0.0f, this->bob_height, 0.0f);
+        rotate_matrix_y(0, this->lamp_yaw);
+        draw_ginja_model((s32)((NJS_OBJECT *)model)->child->model);
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(light_machine_ginja_param);
-        draw_ginja_object((void *)light_machine_ginja_model_handle);
+        TObjFish::set_global_param((s32)light_machine_ginja_param);
+        draw_ginja_object(light_machine_ginja_model_handle);
         TParticleCtrl::end_effect_render();
         pop_matrix();
         pop_matrix();
@@ -71,23 +74,20 @@ void *TOLightMachine01::create(void *arg0) {
 }
 
 void TOLightMachine01::destroy_instance() {
-    if ((u32) TOLightMachine01__shared_bml_archive != 0U) {
-        free_bin_model_request((void*)TOLightMachine01__shared_bml_archive, 1);
-        TOLightMachine01__shared_bml_archive = 0U;
+    if (TOLightMachine01__shared_bml_archive != NULL) {
+        free_bin_model_request(TOLightMachine01__shared_bml_archive, 1);
+        TOLightMachine01__shared_bml_archive = NULL;
     }
 }
 
 void TOLightMachine01::load_assets() {
-    s32 temp_r3;
-    s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &light_machine01_resource_desc, 0, 0, 0));
+    BmlResource *archive = (BmlResource *)::operator new(0x440);
+    if (archive != NULL) {
+        archive = load_resource_from_descriptor(archive, 1, &light_machine01_resource_desc, 0, 0, 0);
     }
-    (*(u8 * *)&TOLightMachine01__shared_bml_archive) = (unsigned char *) ((void *) var_r0);
-    light_machine_ginja_model_handle = get_bml_model((void *) var_r0, 0);
-    light_machine_ginja_param = get_bml_texlist((*(u8 * *)&TOLightMachine01__shared_bml_archive), 0);
+    TOLightMachine01__shared_bml_archive = archive;
+    light_machine_ginja_model_handle = (NJS_OBJECT *)get_bml_model(archive, 0);
+    light_machine_ginja_param = (GinjaTextureList *)get_bml_texlist(TOLightMachine01__shared_bml_archive, 0);
 }
 
 }
@@ -102,17 +102,17 @@ u8 *TOLightMachine01__ct(TOLightMachine01 *light_machine01, s32 arg1) {
     *(s32 **)((s8 *)light_machine01 + 0x18) = __vt__16TOLightMachine01;
     ((TOLightMachine01 *)light_machine01)->m_name = TOLightMachine01__name;
     ((TOLightMachine01 *)(light_machine01))->apply_object_set_data((void *)arg1);
-    light_machine01->model = ((u8 *)get_bml_model((void *)((*(s32 *)&TOLightMachine01__shared_bml_archive)), 1));
-    light_machine01->texlist = get_bml_texlist((void *)((int) ((*(s32 *)&TOLightMachine01__shared_bml_archive))), 1);
-    *(f32 *)((s8 *)light_machine01 + 0x90) = 500.0f;
-    light_machine01->m_94 = (f32) *(f32 *)((s8 *)(*(void **)((s8 *)light_machine01->model + 4)) + 0x14);
+    light_machine01->model = (void *)get_bml_model(TOLightMachine01__shared_bml_archive, 1);
+    light_machine01->texlist = (s32)get_bml_texlist(TOLightMachine01__shared_bml_archive, 1);
+    light_machine01->view_range = 500.0f;
+    light_machine01->model_radius = ((GinjaModelBounds *)((NJS_OBJECT *)light_machine01->model)->model)->radius;
     light_machine01->actorFlags = (s32) (light_machine01->actorFlags | 0x40000000);
-    *(f32 *)((s8 *)light_machine01 + 0xA0) = (f32) ((0.1f * (f32) light_machine01->set_params[0]) + 1.0f);
-    light_machine01->m_a4 = (s32) (182.04445f * (360.0f / (30.0f / *(f32 *)((s8 *)light_machine01 + 0xA0))));
-    light_machine01->m_a8 = (s32) (182.04445f * (360.0f * (3.0517578e-05f * (f32) rand())));
-    *(f32 *)((s8 *)light_machine01 + 0x98) = (f32) ((0.1f * (f32) *(s32 *)((s8 *)light_machine01 + 0x88)) + 0.5f);
-    light_machine01->m_9c = (f32) (*(f32 *)((s8 *)light_machine01 + 0x98) * sin_table_lookup(light_machine01->m_a8));
-    light_machine01->m_ac = 0;
+    light_machine01->bob_speed = (f32) ((0.1f * (f32) light_machine01->set_params[0]) + 1.0f);
+    light_machine01->bob_angle_step = (s32) (182.04445f * (360.0f / (30.0f / light_machine01->bob_speed)));
+    light_machine01->bob_angle = (s32) (182.04445f * (360.0f * (3.0517578e-05f * (f32) rand())));
+    light_machine01->bob_amplitude = (f32) ((0.1f * (f32) light_machine01->set_params[1]) + 0.5f);
+    light_machine01->bob_height = (f32) (light_machine01->bob_amplitude * sin_table_lookup(light_machine01->bob_angle));
+    light_machine01->lamp_yaw = 0;
     return (u8 *)light_machine01;
 }
 #pragma pop

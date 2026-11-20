@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/map/CsnGroundQuery.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/unk/TLobby_801E43E4.h"
@@ -230,7 +231,6 @@ void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 extern "C" {
 struct Seg_80199674 { Vec a; Vec b; };
 struct Hit_80199674 { u32 f0; Seg_80199674 *seg; };
-s32 *csnVectorUnder(s32 arg0, u32 *arg1, s32 arg2);
 f32 xyz_distance(Vec *, void *);
 }
 extern u8 saved_model_draw_color[];
@@ -721,7 +721,7 @@ void draw_shadow_on_ground(u8 *arg0) {
     f32 k;
     Vec scale;
 
-    hit = (Hit_80199674 *)csnVectorUnder((s32)(arg0 + 0x38), (u32 *)(arg0 + 0x120), 0x15);
+    hit = (Hit_80199674 *)csnVectorUnder((Vec *)(arg0 + 0x38), (CsnGroup **)(arg0 + 0x120), 0x15);
     if (hit != 0) {
         Seg_80199674 *src = hit->seg;
         Seg_80199674 seg;
