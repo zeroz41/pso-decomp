@@ -6,6 +6,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "types.h"
+#include "pso/system/AreaSound.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -286,7 +287,7 @@ void TObjEneDimedian::vfunc_83() {
     default:
         if (this->m_390 == 1) {
             this->phase = 1;
-            ((TBoss3Volopt *)(arg0->sub38))->play_area_se_with_particle();
+            play_area_se_with_particle((Vec *)(arg0->sub38));
             TObjPlayer__sub_800A0554((u8 *)arg0 + 0x3A8);
         } else {
             this->phase = 2;

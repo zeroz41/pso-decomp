@@ -2,6 +2,7 @@
 #include "types.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
+#include "pso/system/AreaSound.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/system/SoundEffect.h"
@@ -739,7 +740,7 @@ void TObjEneRe7Berura::state_attack(s32 arg1) {
         m_3c0 = m_3c0 | 2;
         this->set_field_378(3);
         TObjPlayer__sub_800A0554(&m_3d8);
-        ((TBoss3Volopt *)&position)->play_area_se_with_particle();
+        play_area_se_with_particle(&position);
         init_fields4B8();
         return;
     case 3:

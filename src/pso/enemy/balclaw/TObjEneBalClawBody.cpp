@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
+#include "pso/system/AreaSound.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/balclaw/TObjEneBalClawBody.h"
 #include "pso/enemy/balclaw/TObjEneBalClawClaw.h"
@@ -732,7 +733,7 @@ void TObjPlayer__sub_8008EC3C(TObjEneBalClawBody *body) {
         body->m_388 |= 4;
         body->actorFlags |= 0x04000000;
         body->requested_action = (body->m_388 & 0x01000000) ? 0 : 5;
-        ((TBoss3Volopt *)&body->position)->play_area_se_with_particle();
+        play_area_se_with_particle(&body->position);
         TObjPlayer__sub_800A0554(&body->fade);
         body->state = 1;
     case 1:

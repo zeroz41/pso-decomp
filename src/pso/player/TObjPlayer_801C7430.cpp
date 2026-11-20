@@ -6,6 +6,7 @@
 #include "pso/render/render_util.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "types.h"
+#include "pso/system/vector.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/object/warp/TObjWarpBossMulti.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -1528,7 +1529,7 @@ void TObjPlayer__sub_801C75A4(u8 *player) {
     s32 sp8;
     f32 length;
     ((TObjPlayer *)player)->rotation_y = interpolate_angle__10TObjPlayerFPvUsUsPl((void *) (player), (int) (((TObjPlayer *)player)->rotation_y), (void *) (((s32 (*)(void *))TObjPlayer__sub_801D0DAC)((void *) (player))), (void *) (&sp8));
-    length = ((TObjBoss2Tunnel *)(player + 0x308))->update_scale() - 0.04f;
+    length = normalize_vector_safe((Vec *)(player + 0x308)) - 0.04f;
     if (length < 0.04f) {
         clear_velocity((void *) (player));
     } else {

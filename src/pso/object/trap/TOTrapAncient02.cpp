@@ -616,7 +616,7 @@ void TOTrapAncient02R::vfunc_81() {
                     scratch_vec.y += h344 + h348;
                     VecCopy(&lbl_8050BF00, (Vec *)&((TObjChara *)target)->m_2fc);
                     subtract_vector(&lbl_8050BF00, &scratch_vec);
-                    if (((TObjBoss2Tunnel *)&lbl_8050BF00)->update_scale() < 1e-5f) {
+                    if (normalize_vector_safe(&lbl_8050BF00) < 1e-5f) {
                         lbl_8050BF00.x = lbl_8050BF00.y = 0.0f;
                         lbl_8050BF00.z = 1.0f;
                         push_matrix_from(identity_matrix);

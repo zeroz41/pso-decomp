@@ -58,7 +58,7 @@ void TTecJelin::init_tech_params() {
     u8 *arg0 = (u8 *)this;
     TechniqueParams *res;
     res = calc_technique_parameters(0xB, this->m_78, 0xFFFF);
-    ((TTecAnti *)(arg0 + 0x88))->copy_params((u8 *)res);
+    ((TechniqueParams *)(arg0 + 0x88))->copy((TechniqueParams *)res);
     this->m_88 = (f32) (*(s16 *)&this->m_ac * this->m_78);
 }
 

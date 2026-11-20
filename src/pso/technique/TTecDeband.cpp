@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecDeband.h"
 #include "pso/technique/TTecLuker.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -75,7 +76,6 @@ s32 deliver_technique_to_party_targets(void *);
 void run_task__10TTecDebandFv(Deband_8022F73C *self);
 s32 is_split_screen();
 void copy_technique_target_list(void *, void *, s32);
-s32 calc_technique_parameters(s32, s16, s32);
 u32 __nw__7TObjectFUl(s32 a0 = 0);
 int spawn_support_tec_range_effect(void*);
 
@@ -83,9 +83,9 @@ int TTecDeband::init_params() { return spawn_support_tec_range_effect(this); }
 
 void TTecDeband::update_effect_params() {
     u8 *arg0 = (u8 *)this;
-    s32 res;
+    TechniqueParams *res;
     res = calc_technique_parameters(0xA, this->m_a4, 0xFFFF);
-    ((TTecAnti *)(arg0 + 0x74))->copy_params((u8 *)res);
+    ((TechniqueParams *)(arg0 + 0x74))->copy(res);
     this->m_74 = (f32) (this->m_98 * this->m_a4);
 }
 

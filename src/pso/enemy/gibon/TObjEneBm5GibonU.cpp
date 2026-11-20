@@ -14,6 +14,7 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "types.h"
+#include "pso/system/AreaSound.h"
 #include "pso/unk/TLobby.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
@@ -2083,7 +2084,7 @@ void TObjEneBm5GibonU__sub_800D02F8(TObjEneBm5GibonU *self, s32 arg1) {
         self->m_478 = 0;
         VecCopy(home, &self->position);
         self->m_3d8.start_fade_in();
-        ((TBoss3Volopt *)&self->position)->play_area_sound_effect();
+        play_area_sound_effect(&self->position);
         break;
     case 3:
         if (self->m_3d8.advance_toward_max() != 0) {

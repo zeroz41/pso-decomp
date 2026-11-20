@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecSifta.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/effect/TUnk_804CCC68.h"
@@ -77,7 +78,6 @@ void *find_entity_by_id(u16 id);
 void deliver_technique_to_party_targets(void *);
 void run_task__9TTecSiftaFv(Sifta_8023AF94 *self);
 void copy_technique_target_list(void *, void *);
-s32 calc_technique_parameters(s32, s16, s32);
 int spawn_support_tec_range_effect(void*);
 
 int TTecSifta__sub_8023AC88(void* p) { return spawn_support_tec_range_effect(p); }
@@ -109,9 +109,9 @@ void TTecSifta::play_sifta_cast_sound() {
 
 void TTecSifta::update_effect_params() {
     u8 *arg0 = (u8 *)this;
-    s32 res;
+    TechniqueParams *res;
     res = calc_technique_parameters(0xD, this->m_a4, 0xFFFF);
-    ((TTecAnti *)(arg0 + 0x74))->copy_params((u8 *)res);
+    ((TechniqueParams *)(arg0 + 0x74))->copy(res);
     this->m_74 = (f32) (this->m_98 * this->m_a4);
 }
 

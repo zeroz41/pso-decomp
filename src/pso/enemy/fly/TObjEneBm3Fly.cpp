@@ -511,7 +511,7 @@ void TObjEneBm3Fly::sub_800B1214(s32 arg1) {
             this->m_430.x -= this->position.x;
             this->m_430.y -= this->m_42c;
             this->m_430.z -= this->position.z;
-            this->m_3e0 = ((TObjBoss2Tunnel *)(&this->m_430))->update_scale();
+            this->m_3e0 = normalize_vector_safe(&this->m_430);
             if (this->m_43c < (2.0f)) {
                 this->m_43c += (0.1f);
             }
@@ -590,7 +590,7 @@ void TObjEneBm3Fly__sub_800B0F70(TObjEneBm3Fly *arg0, s32 arg1) {
         arg0->m_430.x = arg0->position.x - arg0->prev_position.x;
         arg0->m_430.y = (0.0f);
         arg0->m_430.z = arg0->position.z - arg0->prev_position.z;
-        arg0->m_43c = ((TObjBoss2Tunnel *)(&arg0->m_430))->update_scale();
+        arg0->m_43c = normalize_vector_safe(&arg0->m_430);
         break;
     }
 }
@@ -669,7 +669,7 @@ void TObjEneBm3Fly__sub_800B0B20(TObjEneBm3Fly *ene_bm3_fly, s32 arg1) {
                 vel->y = (0.0f);
                 vel->z = (0.18f) * z + vel->z;
                 VecCopy(&ene_bm3_fly->m_430, vel);
-                ((TObjBoss2Tunnel *)(&ene_bm3_fly->m_430))->update_scale();
+                normalize_vector_safe(&ene_bm3_fly->m_430);
             } else {
                 ene_bm3_fly->m_3c4 = 1;
                 VecCopy(&ene_bm3_fly->m_430, &ene_bm3_fly->m_3a0);

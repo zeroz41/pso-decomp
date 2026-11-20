@@ -10,6 +10,7 @@
 #include "pso/system/vector.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
+#include "pso/system/AreaSound.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
@@ -834,7 +835,7 @@ void TObjEneMe1Gee::state_move(s32 arg1) {
         this->actorFlags = (this->actorFlags & 0xFEFFFFFF);
         this->m_47c = 1;
         fade.start_fade_in();
-        ((TBoss3Volopt *)&this->position)->play_area_sound_effect();
+        play_area_sound_effect(&this->position);
         return;
     case 3:
         if (this->fade.advance_toward_max() != 0) {

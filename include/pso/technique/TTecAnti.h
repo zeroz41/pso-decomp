@@ -14,7 +14,6 @@ struct TTecAnti : public TTecPlayerInfluence {
     u8 _padE4[0x58];
     u32 m_13c;
     static void create(void *arg0, void *arg1, void *arg2, void *arg3);
-    void copy_params(u8 *arg1);
     virtual void render();
 };
 

@@ -11,6 +11,7 @@
 #pragma defer_codegen on
 
 #include "types.h"
+#include "pso/system/AreaSound.h"
 #include "pso/enemy/TUnk_80493450.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
@@ -933,7 +934,7 @@ void TObjEneDolmOlm::vfunc_83() {
     default:
         if (this->m_390 != 0) {
             ((TUnk_80494938 *)(&self->obj))->start_fade_in();
-            ((TBoss3Volopt *)(self->sub38))->play_area_sound_effect();
+            play_area_sound_effect((Vec *)(self->sub38));
             this->phase = 1;
             return;
         }

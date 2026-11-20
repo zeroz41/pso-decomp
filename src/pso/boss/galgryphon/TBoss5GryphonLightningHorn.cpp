@@ -120,7 +120,7 @@ void fn_80325F7C(void *arg0) {
                 dir.y = ray.d.y;
                 dir.z = ray.d.z;
                 TObjPlayer__sub_80325D58(arg0, (Vec *)&pos, (Vec *)&dir, (Vec *)&hit,
-                                         ((TObjBoss2Tunnel *)(&dir))->update_scale());
+                                         normalize_vector_safe(&dir));
                 TBoss8Dragon__sub_80063FB8(inst, &hit, 6.0f);
             }
             i++;
@@ -158,7 +158,7 @@ void TBoss5GryphonLightningHorn::rebuild_lightning_segments() {
     ((TBoss5GryphonLightningWing *)self)->copy_position(&q);
     VecCopy((Vec *)&d, (const Vec *)&p);
     subtract_vector(&d, &q);
-    len = ((TObjBoss2Tunnel *)(&d))->update_scale() / (self->n - 1);
+    len = normalize_vector_safe(&d) / (self->n - 1);
     d.x *= len;
     d.y *= len;
     d.z *= len;

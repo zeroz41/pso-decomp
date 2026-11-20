@@ -212,7 +212,7 @@ void TObjEneRe4Bit::update_homing_velocity() {
     VecCopy(&dir, m_3c0);
     dir.y = dir.y + m_3d8;
     subtract_vector(&dir, (Vec *)&m_2fc);
-    s = 0.01f * ((TObjBoss2Tunnel *)&dir)->update_scale();
+    s = 0.01f * normalize_vector_safe(&dir);
     m_3f8.x = 0.9f * (dir.x * s + m_3f8.x);
     m_3f8.y = 0.9f * (dir.y * s + m_3f8.y);
     m_3f8.z = 0.9f * (dir.z * s + m_3f8.z);

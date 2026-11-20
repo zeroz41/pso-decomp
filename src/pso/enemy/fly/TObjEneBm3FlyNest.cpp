@@ -142,7 +142,7 @@ TObjEneBm3FlyNest_CarryFly::TObjEneBm3FlyNest_CarryFly(TObject *parent, Vec *ori
     this->index = index;
     VecCopy(&v, this->origin);
     subtract_vector(&v, this->target);
-    ((TObjBoss2Tunnel *)(&v))->update_scale();
+    normalize_vector_safe(&v);
     angle = (s32) (10430.38043493439 * atan2_float(v.x, v.z));
     offset.x = 6.0f * v.x;
     offset.y = 6.0f;

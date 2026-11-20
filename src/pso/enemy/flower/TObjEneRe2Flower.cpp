@@ -3,6 +3,7 @@
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "types.h"
+#include "pso/system/AreaSound.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon_800B92AC.h"
 #include "pso/unk/text_800C3088.h"
 #include "pso/unk/text_800C3A60.h"
@@ -635,10 +636,10 @@ void TObjEneDD::handle_state(s32 arg1) {
         ((TObjEneDD_ST *)(arg0))->enemy_clear_target();
         ((TUnk_80494938 *)(arg0 + 0x3F4))->start_fade_in();
         if (((TObjEneRe2Flower *)arg0)->get_flag_11() != 0) {
-            ((TBoss3Volopt *)(arg0 + 0x38))->play_area_se_with_particle();
+            play_area_se_with_particle((Vec *)(arg0 + 0x38));
             return;
         }
-        ((TBoss3Volopt *)(arg0 + 0x38))->play_area_sound_effect();
+        play_area_sound_effect((Vec *)(arg0 + 0x38));
         return;
     case 3:
         if (((V_Sub_800c38d0 *) (arg0 + 0x3F4))->m5() != 0) {

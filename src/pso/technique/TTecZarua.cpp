@@ -61,7 +61,7 @@ void TTecZarua::calc_range() {
 
     ret = (s32)calc_technique_parameters(0xC, this->m_78, 0xFFFF);
     tmp.v = ret;
-    ((TTecAnti *)(arg0 + 0x88))->copy_params((u8 *)tmp.v);
+    ((TechniqueParams *)(arg0 + 0x88))->copy((TechniqueParams *)tmp.v);
     this->m_88 = (f32) (*(s16 *)&this->m_ac * this->m_78);
 }
 

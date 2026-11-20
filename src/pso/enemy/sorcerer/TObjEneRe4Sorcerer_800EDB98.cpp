@@ -45,6 +45,7 @@
 extern "C" void *__ct__12TObjEneDD_STFP7TObject(void *);
 
 #include "types.h"
+#include "pso/system/AreaSound.h"
 
 #include "pso/map/FloorArea.h"
 
@@ -1088,7 +1089,7 @@ s32 TObjEneRe4Sorcerer__sub_800EEDE4(TObjEneRe4Sorcerer *self, s32 arg1) {
         self->m_3f8 = 0.0f;
         self->m_4e4 = 0;
         self->m_4e8 = 0;
-        ((TBoss3Volopt *)&self->position)->play_area_variant_sound();
+        play_area_variant_sound(&self->position);
         break;
     case 3:
         if (self->m_4e4 >= 0x3C) {
@@ -1149,7 +1150,7 @@ s32 TObjEneRe4Sorcerer__sub_800EEC00(TObjEneRe4Sorcerer *self, s32 arg1) {
         self->m_4e4 = 0;
         self->m_4e8 = 0;
         self->fade.reset_color();
-        ((TBoss3Volopt *)&self->position)->play_area_variant_sound();
+        play_area_variant_sound(&self->position);
         break;
     case 3:
         if (self->m_4e4 >= 0x1E) {

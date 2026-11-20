@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/AreaSound.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/enemy/sorcerer/TObjEneRe4Sorcerer_800EDB98.h"
 #include "pso/system/vector.h"
@@ -36,8 +37,7 @@ void TBoss3Volopt::create_breakup_mdl(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s3
     }
 }
 
-void TBoss3Volopt::play_area_variant_sound() {
-    s32 arg0 = (s32)this;
+void play_area_variant_sound(Vec *position) {
     s32 area;
     area = get_current_floor_area();
     switch (area) {
@@ -46,34 +46,33 @@ void TBoss3Volopt::play_area_variant_sound() {
     case AREA_JUNGLE_EAST:
     case AREA_MOUNTAIN:
     case AREA_SEASIDE:
-        play_sound_effect(0x3AB3C, (void *)arg0, 0, 0);
+        play_sound_effect(0x3AB3C, position, 0, 0);
         return;
     case AREA_SEABED_UPPER:
     case AREA_SEABED_LOWER:
-        play_sound_effect(0x4003AD32, (void *)arg0, 0, 0);
+        play_sound_effect(0x4003AD32, position, 0, 0);
         return;
     case AREA_SEASIDE_NIGHT:
-        play_sound_effect(0x4003B22A, (void *)arg0, 0, 0);
+        play_sound_effect(0x4003B22A, position, 0, 0);
         return;
     case AREA_TOWER:
-        play_sound_effect(0x4003A35A, (void *)arg0, 0, 0);
+        play_sound_effect(0x4003A35A, position, 0, 0);
         return;
     case AREA_VR_TEMPLE_ALPHA:
     case AREA_VR_TEMPLE_BETA:
-        play_sound_effect(0x3AD43, (void *)arg0, 0, 0);
+        play_sound_effect(0x3AD43, position, 0, 0);
         return;
     case AREA_VR_SPACESHIP_ALPHA:
     case AREA_VR_SPACESHIP_BETA:
-        play_sound_effect(0x4003AD3F, (void *)arg0, 0, 0);
+        play_sound_effect(0x4003AD3F, position, 0, 0);
         return;
     default:
-        play_sound_effect((int) (::remap_area_sound_id(0x4003AD06, 0x1E)), (void *)arg0, 0, 0);
+        play_sound_effect((int) (::remap_area_sound_id(0x4003AD06, 0x1E)), position, 0, 0);
         return;
     }
 }
 
-void TBoss3Volopt::play_area_se_with_particle() {
-    s32 arg0 = (s32)this;
+void play_area_se_with_particle(Vec *position) {
     Vec v;
     switch (get_current_floor_area()) {
     case AREA_CENTRAL_CONTROL_AREA:
@@ -81,31 +80,31 @@ void TBoss3Volopt::play_area_se_with_particle() {
     case AREA_JUNGLE_EAST:
     case AREA_MOUNTAIN:
     case AREA_SEASIDE:
-        play_sound_effect(0x3AB3C, (void *)arg0, 0, 0);
+        play_sound_effect(0x3AB3C, position, 0, 0);
         break;
     case AREA_SEABED_UPPER:
     case AREA_SEABED_LOWER:
-        play_sound_effect(0x4003AD32, (void *)arg0, 0, 0);
+        play_sound_effect(0x4003AD32, position, 0, 0);
         break;
     case AREA_SEASIDE_NIGHT:
-        play_sound_effect(0x4003B22A, (void *)arg0, 0, 0);
+        play_sound_effect(0x4003B22A, position, 0, 0);
         break;
     case AREA_TOWER:
-        play_sound_effect(0x4003A35A, (void *)arg0, 0, 0);
+        play_sound_effect(0x4003A35A, position, 0, 0);
         break;
     case AREA_VR_TEMPLE_ALPHA:
     case AREA_VR_TEMPLE_BETA:
-        play_sound_effect(0x3AD43, (void *)arg0, 0, 0);
+        play_sound_effect(0x3AD43, position, 0, 0);
         break;
     case AREA_VR_SPACESHIP_ALPHA:
     case AREA_VR_SPACESHIP_BETA:
-        play_sound_effect(0x4003AD3F, (void *)arg0, 0, 0);
+        play_sound_effect(0x4003AD3F, position, 0, 0);
         break;
     default:
-        play_sound_effect(::remap_area_sound_id(0x4003AD06, 0x1E), (void *)arg0, 0, 0);
+        play_sound_effect(::remap_area_sound_id(0x4003AD06, 0x1E), position, 0, 0);
         break;
     }
-    VecCopy(&v, (const Vec *)arg0);
+    VecCopy(&v, position);
     v.y += 30.0f;
     spawn_particle_effect(&v, 0xE6);
 }
@@ -136,31 +135,30 @@ void TBoss3Volopt__sub_800D8D88(s32 arg0) {
     spawn_particles_at__12TBoss3VoloptFi(arg0);
 }
 
-void TBoss3Volopt::play_area_sound_effect() {
-    s32 arg0 = (s32)this;
+void play_area_sound_effect(Vec *position) {
     switch (get_current_floor_area()) {
     case AREA_CENTRAL_CONTROL_AREA:
     case AREA_JUNGLE_NORTH:
     case AREA_JUNGLE_EAST:
     case AREA_MOUNTAIN:
     case AREA_SEASIDE:
-        play_sound_effect(0x3AB3C, (void *)arg0, 0, 0);
+        play_sound_effect(0x3AB3C, position, 0, 0);
         break;
     case AREA_SEABED_UPPER:
     case AREA_SEABED_LOWER:
-        play_sound_effect(0x4003AB31, (void *)arg0, 0, 0);
+        play_sound_effect(0x4003AB31, position, 0, 0);
         break;
     case AREA_SEASIDE_NIGHT:
-        play_sound_effect(0x4003B22A, (void *)arg0, 0, 0);
+        play_sound_effect(0x4003B22A, position, 0, 0);
         break;
     case AREA_TOWER:
-        play_sound_effect(0x4003A359, (void *)arg0, 0, 0);
+        play_sound_effect(0x4003A359, position, 0, 0);
         break;
     default:
-        play_sound_effect(TBoss3Volopt::remap_area_sound_id(0x4003AB37), (void *)arg0, 0, 0);
+        play_sound_effect(TBoss3Volopt::remap_area_sound_id(0x4003AB37), position, 0, 0);
         break;
     }
-    spawn_particles_at__12TBoss3VoloptFi(arg0);
+    spawn_particles_at__12TBoss3VoloptFi((s32)position);
 }
 
 void spawn_particles_at__12TBoss3VoloptFi(s32 arg0) {

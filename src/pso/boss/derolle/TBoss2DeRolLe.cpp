@@ -5929,7 +5929,7 @@ void TBoss2DeRolLe__sub_8002FE60(void *arg0, u32 arg1) {
                 VCOPY(&p, &self->pos);
                 VCOPY(&d, hit);
                 subtract_vector(&d, &p);
-                dist = ((TObjBoss2Tunnel *)(&d))->update_scale();
+                dist = normalize_vector_safe(&d);
                 p.x += d.x * s;
                 p.y += d.y * s;
                 p.z += d.z * s;

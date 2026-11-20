@@ -3537,7 +3537,7 @@ bool TObjPlayer::is_target_in_facing_cone(void *target_arg) {
     to.x = target->x - x;
     to.y = TObjPlayer__data_805DC278;
     to.z = target->z - z;
-    ((TObjBoss2Tunnel *)(&to))->update_scale();
+    normalize_vector_safe(&to);
     dot = ((f32 (*)(Vec *, Vec *))vec3_dot)(&fwd, &to);
     return !(dot < cos_table_lookup(0x1555));
 }
@@ -4314,7 +4314,7 @@ void *TObjPlayer::apply_wall_response() {
         ray = blocked->index;
         normal = &blocked->hits[ray].normal;
         VecCopy(&dir, &move);
-        ((TObjBoss2Tunnel *)&dir)->update_scale();
+        normalize_vector_safe(&dir);
         if (vec3_dot(&dir, normal) > lbl_805DC2B8) {
             Vec end;
             Vec slide;
@@ -4354,7 +4354,7 @@ void *TObjPlayer::apply_wall_response() {
         ray = wall->index;
         normal = &wall->hits[ray].normal;
         VecCopy(&dir, &move);
-        ((TObjBoss2Tunnel *)&dir)->update_scale();
+        normalize_vector_safe(&dir);
         f32 facing = vec3_dot(&dir, normal);
         if (facing <= lbl_805DC2B8) {
             blocked = wall;

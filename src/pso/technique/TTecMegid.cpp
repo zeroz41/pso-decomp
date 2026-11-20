@@ -287,7 +287,7 @@ void TTecMegid::init_parameters() {
     u8 *arg0 = (u8 *)this;
   TechniqueParams *new_var;
   new_var = calc_technique_parameters(0x12, (int) ((RecoveredFields_80235348_arg0 *) arg0)->field_C4, 0xFFFF);
-  ((TTecAnti *)(arg0 + 0xCC))->copy_params((u8 *)new_var);
+  ((TechniqueParams *)(arg0 + 0xCC))->copy((TechniqueParams *)new_var);
   if ((((s16) ((RecoveredFields_80235348_arg0 *) arg0)->field_C4) >= 0xF) && (TTecCtrl::is_technique_ready() == 0))
   {
     ((RecoveredFields_80235348_arg0 *) arg0)->field_CC = (f32) (tech_high_level_linear_power_table[18].base + (tech_high_level_linear_power_table[18].per_level * ((RecoveredFields_80235348_arg0 *) arg0)->field_C4));

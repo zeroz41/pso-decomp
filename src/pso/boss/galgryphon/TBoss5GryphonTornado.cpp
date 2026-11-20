@@ -33,7 +33,7 @@ void TBoss5GryphonTornado::sub_803554F0(u8 *boss2_tunnel) {
     {
       *((f32 *) (((s8 *) boss2_tunnel) + 0)) = (f32) ((*((f32 *) (((s8 *) player) + 0x38))) - (*((f32 *) (((s8 *) arg0) + 0x28))));
       *((f32 *) (((s8 *) boss2_tunnel) + 8)) = (f32) ((*((f32 *) (((s8 *) player) + 0x40))) - (this->m_30));
-      ((TObjBoss2Tunnel *)boss2_tunnel)->update_scale();
+      normalize_vector_safe((Vec *)boss2_tunnel);
     }
   }
 }

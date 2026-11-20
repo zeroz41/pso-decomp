@@ -99,7 +99,7 @@ void TObjEneRe2Flower_EffCurse3::run_task() {
         a.y += (14.0f);
         VecCopy((Vec *)&b, (const Vec *)(camera_ctrl_instance + 0x178));
         subtract_vector(&b, &a);
-        ((TObjBoss2Tunnel *)(&b))->update_scale();
+        normalize_vector_safe(&b);
         a.x = (2e+01f) * b.x + a.x;
         a.y = (2e+01f) * b.y + a.y;
         a.z = (2e+01f) * b.z + a.z;
@@ -146,6 +146,6 @@ void TObjPlayer::create_render_texture() {
     set_texture_name(&player_render_texture_name, &player_render_target, 0x18696, 0x40800000);
     lbl_80500C30.p = &player_render_texture_name;
     lbl_80500C30.v = 1;
-    ((TLobby *)&lbl_80500C30)->pso_load_texture();
+    pso_load_texture((NJS_TEXLIST *)&lbl_80500C30);
 }
 }

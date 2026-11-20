@@ -696,7 +696,7 @@ void TUnk_80482D04::vfunc_105(s32 reason) {
             move_mine();
             VecCopy(&to_target, &m_390);
             subtract_vector(&to_target, body_center());
-            if (((TObjBoss2Tunnel *)&to_target)->update_scale() <= 4.5f) {
+            if (normalize_vector_safe(&to_target) <= 4.5f) {
                 m_3c8 = 3;
             }
             m_3e0 += 0.05f;
@@ -707,7 +707,7 @@ void TUnk_80482D04::vfunc_105(s32 reason) {
             direction.x = to_target.x * t + direction.x;
             direction.y = to_target.y * t + direction.y;
             direction.z = to_target.z * t + direction.z;
-            ((TObjBoss2Tunnel *)&direction)->update_scale();
+            normalize_vector_safe(&direction);
             m_2fc = direction.x * m_3dc + m_2fc;
             m_300 = direction.y * m_3dc + m_300;
             m_304 = direction.z * m_3dc + m_304;

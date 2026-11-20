@@ -23,6 +23,8 @@ struct TechniqueParams {
     s16 pad_26;      // pad_08 per level
     s16 pad_28;      // pad_14 per level
     s16 pad_2A;      // pad_18 per 5 levels
+
+    void copy(TechniqueParams *src);
 };
 
 // Per technique: the factor applied to tp_cost while TTecCtrl::is_technique_ready().

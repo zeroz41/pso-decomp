@@ -4,6 +4,7 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "types.h"
+#include "pso/system/AreaSound.h"
 #include "pso/unk/text_800D8830.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
@@ -493,7 +494,7 @@ void TObjEneBm9Mericarol::sub_802D05BC(s32 arg1) {
         set_field_378(2);
         this->enemy_clear_target();
         m_46c.start_fade_in();
-        ((TBoss3Volopt *)&position)->play_area_sound_effect();
+        play_area_sound_effect(&position);
         return;
     case 3:
         if (m_46c.advance_toward_max() != 0) {

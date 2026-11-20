@@ -286,7 +286,7 @@ void TUnk_804CC870::render() {
 extern "C" {
 void TTecGrants::init_parameters() {
     TechniqueParams *params = calc_technique_parameters(9, m_78, 0xFFFF);
-    ((TTecAnti *)&m_88)->copy_params((u8 *)params);
+    ((TechniqueParams *)&m_88)->copy(params);
     if (m_78 >= 15 && TTecCtrl::is_technique_ready() == 0) {
         m_88 = (f32)(tech_high_level_linear_power_table[9].base + tech_high_level_linear_power_table[9].per_level * m_78);
         return;

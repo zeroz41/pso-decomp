@@ -302,7 +302,7 @@ TechniqueParams *calc_technique_parameters(s32 technique, s32 level, u16 client)
     if (level > 29) {
         level = 29;
     }
-    ((TTecAnti *)&lbl_80515F90)->copy_params((u8 *)&technique_param_table[technique]);
+    ((TechniqueParams *)&lbl_80515F90)->copy(&technique_param_table[technique]);
     if (technique != 17 && technique != 14) {
         lbl_80515F90.tp_cost += level * (lbl_80515F90.tp_cost_percent / 100.0f);
     }

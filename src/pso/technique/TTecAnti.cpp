@@ -139,25 +139,24 @@ S_8022B3E8 *copy_technique_target_list(S_8022B3E8 *d, S_8022B3E8 *s) {
     return d;
 }
 
-void TTecAnti::copy_params(u8 *arg1) {
-    u8 *arg0 = (u8 *)this;
-    *(f32 *)&this->m_name = (f32) *(f32 *)((s8 *)arg1 + 0);
-    *(f32 *)&this->m_flags = (f32) *(f32 *)((s8 *)arg1 + 4);
-    *(f32 *)&this->m_prev = (f32) *(f32 *)((s8 *)arg1 + 8);
-    *(f32 *)&this->m_next = (f32) *(f32 *)((s8 *)arg1 + 0xC);
-    *(s16 *)&this->m_up = (s16) *(s16 *)((s8 *)arg1 + 0x10);
-    *(s16 *)((s8 *)arg0 + 0x12) = (s16) *(s16 *)((s8 *)arg1 + 0x12);
-    *(s16 *)&this->m_down = (s16) *(s16 *)((s8 *)arg1 + 0x14);
-    *(s16 *)((s8 *)arg0 + 0x16) = (s16) *(s16 *)((s8 *)arg1 + 0x16);
-    *(s32 *)((s8 *)arg0 + 0x18) = (s32) *(s32 *)((s8 *)arg1 + 0x18);
-    *(s32 *)&this->source = (s32) *(s32 *)((s8 *)arg1 + 0x1C);
-    *(s16 *)((s8 *)arg0 + 0x20) = (s16) *(s16 *)((s8 *)arg1 + 0x20);
-    *(u8 *)((s8 *)arg0 + 0x22) = (u8) *(u8 *)((s8 *)arg1 + 0x22);
-    *(u8 *)((s8 *)arg0 + 0x23) = (u8) *(u8 *)((s8 *)arg1 + 0x23);
-    *(s16 *)((s8 *)arg0 + 0x24) = (s16) *(s16 *)((s8 *)arg1 + 0x24);
-    *(s16 *)((s8 *)arg0 + 0x26) = (s16) *(s16 *)((s8 *)arg1 + 0x26);
-    *(s16 *)((s8 *)arg0 + 0x28) = (s16) *(s16 *)((s8 *)arg1 + 0x28);
-    *(s16 *)((s8 *)arg0 + 0x2A) = (s16) *(s16 *)((s8 *)arg1 + 0x2A);
+void TechniqueParams::copy(TechniqueParams *src) {
+    pad_00 = src->pad_00;
+    pad_04 = src->pad_04;
+    pad_08 = src->pad_08;
+    pad_0C = src->pad_0C;
+    tp_cost = src->tp_cost;
+    pad_12 = src->pad_12;
+    pad_14 = src->pad_14;
+    pad_16 = src->pad_16;
+    pad_18 = src->pad_18;
+    pad_1C = src->pad_1C;
+    pad_20 = src->pad_20;
+    pad_22 = src->pad_22;
+    tp_cost_percent = src->tp_cost_percent;
+    pad_24 = src->pad_24;
+    pad_26 = src->pad_26;
+    pad_28 = src->pad_28;
+    pad_2A = src->pad_2A;
 }
 
 #define arg0 ((u8 *)this)
@@ -168,7 +167,7 @@ TTecAnti::TTecAnti(void *owner, void *pos, void *arg3, s32 level) : TTecPlayerIn
     *(s32 *)((s8 *)arg0 + 0) = (s32) ((s32)TTecAnti_name_ref);
     ((TTecAnti *)arg0)->m_13c = 1;
     copy_technique_target_list((S_8022B3E8 *)(arg0 + 0xE0), (S_8022B3E8 *)(arg3));
-    ((TTecAnti *)(arg0 + 0x74))->copy_params((u8 *)&technique_param_table[16]);
+    ((TechniqueParams *)(arg0 + 0x74))->copy(&technique_param_table[16]);
     TTecAnti__sub_8022AD94(arg0);
     temp_r3 = (u8 *)(*(u8 **)((s8 *)arg0 + 0xDC));
     if (temp_r3 != NULL) {

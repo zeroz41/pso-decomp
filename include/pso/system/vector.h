@@ -10,6 +10,7 @@ void copy_xyz(void *dst, void *src);
 // Copies two words: an NJS_POINT2.
 void copy_vec2(void *dst, void *src);
 
+f32 normalize_vector_safe(Vec *vector);
 f32 normalize_vector_xz(Vec *vector);
 
 #endif

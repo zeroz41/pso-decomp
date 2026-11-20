@@ -1376,7 +1376,7 @@ s32 TObjEneMoja::update_technique_state(void *self_800AD3D8) {
                     ((s32 (*)(void *, int))spawn_particle_effect)(&pos, 0xB9);
                     ((s32 (*)(void *, int))spawn_particle_effect)(&pos, 0xBA);
                     if (ang2 < ((AttackParams *)(self->f318))->get_attack_angle() / 2) {
-                        if (((TObjBoss2Tunnel *)(&dir))->update_scale() < 0.00001f) {
+                        if (normalize_vector_safe(&dir) < 0.00001f) {
                             dir.y = dir.x = 0.0f;
                             dir.z = 1.0f;
                             ((s32 (*)(void *))push_matrix_from)(identity_matrix);

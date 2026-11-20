@@ -199,7 +199,7 @@ void TTecBarta::init_parameters() {
     u8 *arg0 = (u8 *)this;
   int new_var;
   new_var = (int) calc_technique_parameters(3, this->level, 0xFFFF);
-  ((TTecAnti *)(arg0 + 0xCC))->copy_params((u8 *)new_var);
+  ((TechniqueParams *)(arg0 + 0xCC))->copy((TechniqueParams *)new_var);
   if (((this->level) >= 0xF) && (TTecCtrl::is_technique_ready() == 0))
   {
     this->power = (f32) (tech_high_level_linear_power_table[3].base + (tech_high_level_linear_power_table[3].per_level * (this->level)));

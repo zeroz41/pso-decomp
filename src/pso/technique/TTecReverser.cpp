@@ -141,7 +141,7 @@ TTecReverser::TTecReverser(s32 arg1, s32 arg2, s32 arg3, s32 arg4) : TUnk_804CC1
     u32 temp_r3;
     __ct__16TargetCursorListFv((tec_reverser + 0xEC));
     ((TTecReverser *)tec_reverser)->m_name = lbl_805D3818;
-    ((TTecAnti *)(tec_reverser + 0x88))->copy_params((u8 *)&technique_param_table[17]);
+    ((TechniqueParams *)(tec_reverser + 0x88))->copy(&technique_param_table[17]);
     ((TTecReverser *)tec_reverser)->sub_8022BE64(tec_reverser + 0x88, arg4);
     copy_technique_target_list(tec_reverser + 0xEC, (void *)arg3);
     play_sound_effect(0x4002A812, tec_reverser + 0x20, 0, 0);

@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/AreaSound.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -1319,7 +1320,7 @@ void init__15TObjEneMe1GiGueFPv(TObjEneMe1GiGue *gigue) {
         flags = gigue->actorFlags | 0x04000000;
         gigue->actorFlags = flags;
         gigue->requested_action = 0;
-        ((TBoss3Volopt *)&gigue->m_2fc)->play_area_sound_effect();
+        play_area_sound_effect((Vec *)&gigue->m_2fc);
         gigue->m_3fc.start_fade_in();
         gigue->state = 1;
     case 1:

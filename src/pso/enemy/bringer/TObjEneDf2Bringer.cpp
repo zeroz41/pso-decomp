@@ -1128,7 +1128,7 @@ void TObjEneDf2Bringer::load_resources() {
     VecCopy((Vec *)&a, (const Vec *)&seg->p0);
     VecCopy((Vec *)&d, (const Vec *)&seg->p2);
     subtract_vector(&d, &a);
-    len = ((TObjBoss2Tunnel *)(&d))->update_scale();
+    len = normalize_vector_safe(&d);
     p1 = &seg->p1;
     s1 = 0.4f * len;
     VecCopy((Vec *)p1, (const Vec *)&a);

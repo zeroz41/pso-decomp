@@ -291,7 +291,7 @@ extern "C" {
 void __dl__FPv(void);
 int vec3_add_to(void*, void*);
 int is_float_nonfinite(f32 farg0);
-f32 vec_squared_length();
+f32 vec_squared_length(const Vec *v);
 f32 normalize_vector(void *);
 }
 
@@ -328,25 +328,25 @@ void TObjBoss2Tunnel::finalize_and_send_60() {
 }
 
 
-f32 TObjBoss2Tunnel::update_scale() {
-    f32 var_f31;
-    f32 temp_f0;
+f32 normalize_vector_safe(Vec *vector) {
+    f32 length;
+    f32 zero;
 
-    var_f31 = 0.0f;
-    if (0.0f != vec_squared_length()) {
-        var_f31 = normalize_vector(this);
-        if (is_float_nonfinite(var_f31) != 0) {
-            *(f32 *)&this->m_name = var_f31 = 0.0f;
-            *(f32 *)&this->m_flags = var_f31;
-            *(f32 *)&this->m_prev = var_f31;
+    length = 0.0f;
+    if (0.0f != vec_squared_length(vector)) {
+        length = normalize_vector(vector);
+        if (is_float_nonfinite(length) != 0) {
+            vector->x = length = 0.0f;
+            vector->y = length;
+            vector->z = length;
         }
     } else {
-        temp_f0 = 0.0f;
-        *(f32 *)&this->m_name = temp_f0;
-        *(f32 *)&this->m_flags = temp_f0;
-        *(f32 *)&this->m_prev = temp_f0;
+        zero = 0.0f;
+        vector->x = zero;
+        vector->y = zero;
+        vector->z = zero;
     }
-    return var_f31;
+    return length;
 }
 
 #pragma push

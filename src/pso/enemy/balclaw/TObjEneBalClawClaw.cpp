@@ -2,6 +2,7 @@
 #include "types.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
+#include "pso/system/AreaSound.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -44,7 +45,6 @@ s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 void TObjEneBalClawClaw__sub_80091200(TObjEneBalClawClaw *claw);
 TObjChara *find_active_entity_by_id(u16);
 void TObjEneBalClawClaw__sub_80090ECC(TObjEneBalClawClaw *claw);
-s32 play_area_se_with_particle__12TBoss3VoloptFv(void *, s32);
 s32 TObjPlayer__sub_800A0554(void *);
 s32 init_collision_body_parts(void *, void *, int);
 void *find_entity_by_id(u16 id);
@@ -481,7 +481,7 @@ void TObjEneBalClawClaw::action(void *p) {
         flags = claw->actorFlags | 0x04000000;
         claw->actorFlags = flags;
         claw->requested_action = 0;
-        play_area_se_with_particle__12TBoss3VoloptFv(&claw->position, flags);
+        play_area_se_with_particle(&claw->position);
         TObjPlayer__sub_800A0554(&claw->fade);
         claw->state = 1;
     case 1:

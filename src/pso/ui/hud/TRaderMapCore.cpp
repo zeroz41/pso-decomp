@@ -433,7 +433,7 @@ extern "C" {
 
 TUnk_804C88A8::~TUnk_804C88A8() {}
 
-s32 TRaderMapCore::init_map_ptr(s32 index) {
+s32 TRaderMapCore::init_map_ptr(s32 *counter, s32 index) {
     return get_bml_model((BmlResource *)TRaderMapCore__frame_model_resource, index);
 }
 
@@ -538,9 +538,9 @@ TRaderMapCore::TRaderMapCore(TObject *parent) : TObjBase(parent) {
     s32 i;
     u32 j;
     m_name = rader_map_core_name_ptr;
-    m_178 = (void *)((TRaderMapCore *)&m_90)->init_map_ptr(2);
-    m_17c = (void *)((TRaderMapCore *)&m_90)->init_map_ptr(0);
-    m_180 = (void *)((TRaderMapCore *)&m_90)->init_map_ptr(1);
+    m_178 = (void *)init_map_ptr(&m_90, 2);
+    m_17c = (void *)init_map_ptr(&m_90, 0);
+    m_180 = (void *)init_map_ptr(&m_90, 1);
     for (i = 0; i < 3; i++) {
         g = (GRec_801FB490 *)&TRaderMapCore__map_view_state + i;
         fn_803D64F8(g);

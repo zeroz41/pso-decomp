@@ -173,19 +173,19 @@ s32 TLobby::load_texture_pvm_file(const char *name, s32 arg1) {
     return ret;
 }
 
-s32 TLobby::pso_load_texture() {
+s32 pso_load_texture(NJS_TEXLIST *texlist) {
     s32 r;
     s32 ret;
     TLobby::pump_frames();
     while (1) {
-        r = load_texture_list(((s32 **)this));
+        r = load_texture_list((s32 **)texlist);
         if (r == 1) {
             ret = 1;
             break;
         }
         if (r == -1) {
             ret = -1;
-            TLobby::debug_print("psoLoadTexture:%s load error.", **((s32 **)this));
+            TLobby::debug_print("psoLoadTexture:%s load error.", **(s32 **)texlist);
             break;
         }
         TLobby::run_frame();

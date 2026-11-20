@@ -10,6 +10,7 @@
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "types.h"
+#include "pso/system/AreaSound.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -1285,10 +1286,10 @@ void TObjEneSaver::sub_800A5FA8() {
     switch (((TObjEneSaver *)arg0)->phase) {
     case 0:
         ((TObjEneSaver *)arg0)->phase = 1;
-        ((TBoss3Volopt *)(arg0 + 0x38))->play_area_se_with_particle();
+        play_area_se_with_particle((Vec *)(arg0 + 0x38));
         TObjPlayer__sub_800A0554((u8 *)&this->m_3a4);
         apply_actor_gravity((TObjEnemy *)(arg0), (s32 *)(0), 0.0f);
-        ((TBoss3Volopt *)(arg0 + 0x38))->play_area_variant_sound();
+        play_area_variant_sound((Vec *)(arg0 + 0x38));
         break;
     case 1:
         if (((VObj14 *) (arg0 + 0x3A4))->m5() == 1) {
@@ -1493,7 +1494,7 @@ void TObjEneSaver::sub_800A62D4() {
             *(s16 *)((s8 *)((u8 *)this) + 0x37E) = 0;
             TObjPlayer__sub_800A04F0((void *) (((u8 *)this) + 0x3A4));
             apply_actor_gravity((TObjEnemy *)(this), (s32 *)(0), 0.0f);
-            ((TBoss3Volopt *)(((u8 *)this) + 0x38))->play_area_variant_sound();
+            play_area_variant_sound((Vec *)((u8 *)this + 0x38));
         }
         break;
     case 1:

@@ -5,6 +5,7 @@
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "types.h"
+#include "pso/system/AreaSound.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/object/TObjControl.h"
 #include "pso/render/reflection.h"
@@ -535,7 +536,7 @@ void TObjEneDelDepth::try_relocate_on_timer() {
             set_default_depth_offset();
             return;
         }
-        ((TBoss3Volopt *)((u8 *)&this->position))->play_area_se_with_particle();
+        play_area_se_with_particle(&this->position);
         this->set_action_state(1);
     }
 }

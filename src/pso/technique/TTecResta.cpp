@@ -329,7 +329,7 @@ void TTecResta::init_parameters() {
     u8 *arg0 = (u8 *)this;
   int new_var;
   new_var = (int) calc_technique_parameters(0xF, this->m_a4, 0xFFFF);
-  ((TTecAnti *)(arg0 + 0x74))->copy_params((u8 *)new_var);
+  ((TechniqueParams *)(arg0 + 0x74))->copy((TechniqueParams *)new_var);
   this->m_74 = (f32) ((this->m_74) + ((f32) ((this->m_98) * (this->m_a4))));
   if (TTecCtrl::is_technique_ready() != 0)
   {

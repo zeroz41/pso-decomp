@@ -268,7 +268,7 @@ void TTecRaBarta::vfunc_9() {
 void TTecRaBarta::calc_parameters() {
     RaBarta_802377FC *self = (RaBarta_802377FC *)this;
     TechniqueParams *res = calc_technique_parameters(5, self->level, 0xFFFF);
-    ((TTecAnti *)(&self->amount))->copy_params((u8 *)res);
+    ((TechniqueParams *)(&self->amount))->copy((TechniqueParams *)res);
     if (self->level >= 0xF && TTecCtrl::is_technique_ready() == 0) {
         self->amount = tech_high_level_linear_power_table[5].base + tech_high_level_linear_power_table[5].per_level * self->level;
         return;

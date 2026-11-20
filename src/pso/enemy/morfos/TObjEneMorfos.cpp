@@ -2,6 +2,7 @@
 #include "types.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
+#include "pso/system/AreaSound.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/map/CsnQuery.h"
@@ -1320,7 +1321,7 @@ void TObjEneMorfos__sub_803342B8(u8 *ene_dd, s32 arg1) {
         ((TObjEneDD *)ene_dd)->set_field_378(3);
         TObjPlayer__sub_800A0554(ene_dd + 0x3EC);
         ((TUnk_80494938 *)(ene_dd + 0x408))->start_fade_in();
-        ((TBoss3Volopt *)(ene_dd + 0x38))->play_area_se_with_particle();
+        play_area_se_with_particle((Vec *)(ene_dd + 0x38));
         return;
     case 3:
         temp_r31 = ((VObj_14_948132 *)(ene_dd + (1032)))->m5();

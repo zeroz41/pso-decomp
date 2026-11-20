@@ -1395,7 +1395,7 @@ void project_sound_origin_from_camera(s32 arg0, u8 *boss2_tunnel, f32 farg0) {
     f32 temp_f1;
     VecCopy((Vec *)(boss2_tunnel), (const Vec *)(arg0));
     subtract_vector((Vec *)boss2_tunnel, (const Vec *)(camera_ctrl_instance + 0x178));
-    { f32 s = ((TObjBoss2Tunnel *)boss2_tunnel)->update_scale(); temp_f1 = s * farg0; }
+    { f32 s = normalize_vector_safe((Vec *)boss2_tunnel); temp_f1 = s * farg0; }
     *(f32 *)((s8 *)boss2_tunnel + 0) = (f32) (*(f32 *)((s8 *)boss2_tunnel + 0) * temp_f1);
     *(f32 *)((s8 *)boss2_tunnel + 4) = (f32) (*(f32 *)((s8 *)boss2_tunnel + 4) * temp_f1);
     *(f32 *)((s8 *)boss2_tunnel + 8) = (f32) (*(f32 *)((s8 *)boss2_tunnel + 8) * temp_f1);

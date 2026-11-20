@@ -6,6 +6,7 @@
 #include "pso/item/TItemData.h"
 
 struct NJS_TEXLIST;
+s32 pso_load_texture(NJS_TEXLIST *texlist);
 
 struct TLobbyFloorItemEntry {
     u8 n;
@@ -793,7 +794,6 @@ struct TLobby : public TObject {
     void send_60_sized();
     void bswap_switch_activate_token();
     static s32 load_texture_pvm_file(const char *name, s32 arg1);
-    s32 pso_load_texture();
     static unsigned char read_packet_byte();
     static void close_windows();
     static void clear_quest_vm_flag();

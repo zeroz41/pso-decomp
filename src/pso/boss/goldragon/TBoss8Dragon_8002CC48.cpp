@@ -220,7 +220,7 @@ f32 apply_velocity_scale(Vec *vector, f32 farg0, f32 farg1) {
         vector->x = temp_f2;
         vector->y = 1.0f;
         vector->z = vector->z * temp_f1_2;
-        ((TObjBoss2Tunnel *)vector)->update_scale();
+        normalize_vector_safe((Vec *)vector);
     }
     return var_f31;
 }

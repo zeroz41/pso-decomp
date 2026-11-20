@@ -122,7 +122,7 @@ TBoss1DragonEffBullet::TBoss1DragonEffBullet(TObject *parent, Vec *start, Vec *d
     VecCopy((Vec *)(self + 0x1C), start);
     VecCopy((Vec *)(self + 0x28), dest);
     subtract_vector(self + 0x28, self + 0x1C);
-    m_40 = ((TObjBoss2Tunnel *)(self + 0x28))->update_scale();
+    m_40 = normalize_vector_safe((Vec *)(self + 0x28));
     *(f32 *)((s8 *)self + 0x3C) = 0.0f;
     m_34 = 0;
     m_38 = 0;

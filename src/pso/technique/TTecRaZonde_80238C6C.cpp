@@ -137,7 +137,7 @@ void TTecRaZonde::calc_damage() {
     u8 *arg0 = (u8 *)this;
   TechniqueParams *new_var;
   new_var = calc_technique_parameters(8, (int) ((RecoveredFields_80238D10_arg0 *) arg0)->field_78, 0xFFFF);
-  ((TTecAnti *)(arg0 + 0x88))->copy_params((u8 *)new_var);
+  ((TechniqueParams *)(arg0 + 0x88))->copy((TechniqueParams *)new_var);
   if ((((s16) ((RecoveredFields_80238D10_arg0 *) arg0)->field_78) >= 0xF) && (TTecCtrl::is_technique_ready() == 0))
   {
     ((RecoveredFields_80238D10_arg0 *) arg0)->field_88 = (f32) (tech_high_level_linear_power_table[8].base + (tech_high_level_linear_power_table[8].per_level * ((RecoveredFields_80238D10_arg0 *) arg0)->field_78));

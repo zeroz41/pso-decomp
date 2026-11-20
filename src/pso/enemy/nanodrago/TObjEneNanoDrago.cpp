@@ -2,6 +2,7 @@
 #include "types.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
+#include "pso/system/AreaSound.h"
 #include "pso/unk/text_800DC420.h"
 #include "pso/object/TObjControl.h"
 #include "pso/system/BmlResource.h"
@@ -74,7 +75,6 @@ extern "C" f32 atan2_float(f32 y, f32 x);
 extern "C" void check_enemy_body_collisions(void *arg0);
 
 extern "C" u32 get_player_by_client_id(s32);
-extern "C" s32 play_area_sound_effect__12TBoss3VoloptFv(void *, s32);
 
 void move_with_wall_slide(u8 *arg0);
 
@@ -1096,7 +1096,7 @@ void TObjEneNanoDrago::update_fade_in_state() {
         flags = actorFlags | 0x04000000;
         actorFlags = flags;
         requested_action = 0;
-        play_area_sound_effect__12TBoss3VoloptFv(&m_2fc, flags);
+        play_area_sound_effect((Vec *)&m_2fc);
         ((TUnk_80494938 *)(&appearFade))->start_fade_in();
         state = 1;
     case 1:

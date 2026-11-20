@@ -6,6 +6,7 @@
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "types.h"
 #include "pso/object/ambient/TObjCGrass.h"
+#include "pso/system/AreaSound.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/TObjControl.h"
 #include "pso/object/ambient/TObjGrassWeb.h"
@@ -817,7 +818,7 @@ void TObjGrass::update_ai(void *arg0) {
     case 0:
         obj_setFlags30(o, 0x04040000);
         ((TUnk_80494938 *)(&o->sub))->start_fade_in();
-        ((TBoss3Volopt *)(&o->pos))->play_area_sound_effect();
+        play_area_sound_effect(&o->pos);
         o->state = 1;
         break;
     case 1:

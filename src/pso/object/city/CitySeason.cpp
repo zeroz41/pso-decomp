@@ -1179,7 +1179,7 @@ void TObjCity_Season_FireWorkCtrl::run_task() {
     {
       VecCopy((Vec *)(&stack.sp14), (const Vec *)(arg0 + 0x38));
       subtract_vector((void *)&stack.sp14, (void *)(camera_ctrl_instance + 0x178));
-      if ((((TObjBoss2Tunnel *)(&stack.sp14))->update_scale() < 450.0f) && (vec3_dot((void *)&stack.sp14, (void *) ((u8 *)&lbl_804FF5E8 + 0xC)) > 0.0f))
+      if ((normalize_vector_safe((Vec *)&stack.sp14) < 450.0f) && (vec3_dot((void *)&stack.sp14, (void *) ((u8 *)&lbl_804FF5E8 + 0xC)) > 0.0f))
       {
         temp_f30 = rand_signed_unit();
         temp_f30 = (this->scale.x) * temp_f30;

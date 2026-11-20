@@ -363,7 +363,7 @@ void TUnk_804CC800::run_task() {
 
 void TTecGiFoie::calc_params() {
     TechniqueParams *params = calc_technique_parameters(1, m_78, 0xFFFF);
-    ((TTecAnti *)&m_88)->copy_params((u8 *)params);
+    ((TechniqueParams *)&m_88)->copy(params);
     if (m_78 >= 15 && TTecCtrl::is_technique_ready() == 0) {
         m_88 = (f32)(tech_high_level_linear_power_table[1].base + tech_high_level_linear_power_table[1].per_level * m_78);
         return;

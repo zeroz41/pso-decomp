@@ -4,6 +4,7 @@
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "types.h"
+#include "pso/system/AreaSound.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/TObjControl.h"
 #include "pso/system/BmlResource.h"
@@ -1047,7 +1048,7 @@ void TObjEneIllGill::update_idle() {
     case 0:
         obj_setFlags30(arg0, 0x04040000);
         ((TUnk_80494938 *)(&this->fade))->start_fade_in();
-        ((TBoss3Volopt *)(&position))->play_area_se_with_particle();
+        play_area_se_with_particle(&position);
         this->phase = 1;
         break;
     case 1:

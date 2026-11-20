@@ -8,6 +8,7 @@
 #include "pso/effect/TUnk_80494968.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "types.h"
+#include "pso/system/AreaSound.h"
 #include "pso/enemy/TUnk_80493450.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
@@ -306,7 +307,7 @@ void TObjEneShark::vfunc_83() {
     default:
         if (*(s32 *)&this->m_390 != 0) {
             ((TUnk_80494938 *)((u8 *)arg0 + 0x3A8))->start_fade_in();
-            ((TBoss3Volopt *)(arg0->sub38))->play_area_sound_effect();
+            play_area_sound_effect((Vec *)(arg0->sub38));
             *(s16 *)&this->m_328 = 1;
         } else {
             *(s16 *)&this->m_328 = 2;

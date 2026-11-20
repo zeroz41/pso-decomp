@@ -91,7 +91,6 @@ struct TObjBoss2Tunnel : public TObject {
     static f32 calc_scaled_value(s32 arg0, f32 farg0);
     static void transform_vec_by_camera(s32 arg0, s32 arg1, s32 arg2);
     void render(void* a1);
-    f32 update_scale();
     void finalize_and_send_60();
     static void set_flag_0x200();
     static void clear_flags_0x3000();
