@@ -145,7 +145,7 @@ TUnk_804909C4::~TUnk_804909C4() {
         ((TObject *)this->m_d0)->queue_destruction();
     }
 }
-TUnk_804909C4::TUnk_804909C4(u8 *player, s32 arg2, s32 arg3) : TObjCollidable((TObject *)tl_04) {
+TUnk_804909C4::TUnk_804909C4(u8 *player, saddr arg2, saddr arg3) : TObjCollidable((TObject *)tl_04) {
     s32 var_r0;
     u8 *temp_r3;
     init_collision_body_parts(this, lbl_80490998, 1);

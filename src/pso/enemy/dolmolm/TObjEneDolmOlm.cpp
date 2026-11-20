@@ -592,7 +592,7 @@ void TObjEneDolmOlm::load_params_from_table(s32 i) {
 }
 void restore_render_scissor(s32 arg0);
 int initialize_enemy_photon_effect(void *p);
-TObjEneDolmOlm::TObjEneDolmOlm(saddr arg1, s32 arg2) : TUnk_80493450((TObject *)arg1) {
+TObjEneDolmOlm::TObjEneDolmOlm(saddr arg1, saddr arg2) : TUnk_80493450((TObject *)arg1) {
     u32 col;
     __ct__13TUnk_80494938Fv((((u8 *)this) + 0x3A8));
     m_name = obj_ene_dolm_olm_class_name;

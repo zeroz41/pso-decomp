@@ -6,7 +6,7 @@
 #include <dolphin/mtx.h>
 
 struct TBoss6GravBall : public TObjCollidable {
-    TBoss6GravBall(s32 arg1, void *arg2);
+    TBoss6GravBall(saddr arg1, void *arg2);
     virtual ~TBoss6GravBall();
     virtual void run_task();
     u32 m_ac;

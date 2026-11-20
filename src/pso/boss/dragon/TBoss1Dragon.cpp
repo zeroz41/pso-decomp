@@ -247,7 +247,7 @@ s32 enemy_set_target_id(void *, u16);
 u8 *TBoss1Dragon__ct(TBoss1Dragon *, void *, void *);
 extern saddr tl_04;
 extern saddr tl_02;
-void project_sound_origin_from_camera(s32 arg0, u8 *arg1, f32 farg0);
+void project_sound_origin_from_camera(saddr arg0, u8 *arg1, f32 farg0);
 s32 query_teammate_state__9TObjEneDDFv();
 s32 is_main_phase_15__9TObjEneDDFv();
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
@@ -586,7 +586,7 @@ void *lbl_80481280[107] = {
     (void *)&vfunc_104__12TObjEneDD_STFf, (void *)&vfunc_105__12TBoss1DragonFv, (void *)&render_low_detail__12TBoss1DragonFv,
 };
 
-void fill_value_array(s32);
+void fill_value_array(saddr);
 s32 emit_enemy_effect__9TObjEneDDFllPUcl(void *, void *, void *, s32);
 s32 update_local_colliders_from_world(void *, void *);
 void TBoss1Dragon__sub_800274A4(saddr arg0);
@@ -5861,7 +5861,7 @@ void TLobby::copy_header(void *arg1) {
 struct O_8002B094 { s32 *arr; s32 val; s32 f8; s32 count; };
 
 
-void fill_value_array(s32 address) {
+void fill_value_array(saddr address) {
     O_8002B094 *self = (O_8002B094 *)address;
     s32 i;
     for (i = 0; i < self->count; i++) {

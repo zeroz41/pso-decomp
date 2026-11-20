@@ -117,7 +117,7 @@ struct TObjEneBm5Wolf : public TObjEneDD_ST {
     void apply_global_to_position();
     void update(void* a1);
     void apply_to_position(void* a1);
-    void set_field8_from_obj(s32 arg1);
+    void set_field8_from_obj(saddr arg1);
     s32 get_group_id();
     static TObjEneBm5Wolf *find_pack_leader(s32 id);
     void advance_pose_turn(s32 target);

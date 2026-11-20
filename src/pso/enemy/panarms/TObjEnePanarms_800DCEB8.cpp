@@ -258,7 +258,7 @@ struct PanarmsParams {
     s32 wait_frames;
 };
 
-s32 TObjEnePanarms::create(s32 setData) {
+s32 TObjEnePanarms::create(saddr setData) {
     return (saddr)new TObjEnePanarms(new TObjControl(tl_04), (void *)setData);
 }
 

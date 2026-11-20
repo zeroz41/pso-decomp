@@ -91,7 +91,7 @@ struct G_802FB220 { F3_802FB220 *value; u8 rest[8]; };
 
 extern "C" {
 s32 VecCopy__FP3VecPC3Vec(void *, const void *);
-void project_sound_origin_from_camera(s32 arg0, u8 *arg1, f32 farg0);
+void project_sound_origin_from_camera(saddr arg0, u8 *arg1, f32 farg0);
 s32 query_teammate_state__9TObjEneDDFv();
 s32 is_main_phase_15__9TObjEneDDFv(void *);
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
@@ -123,7 +123,7 @@ void spawn_trap__12TBoss8DragonFii(s32 arg0, s32 arg1);
 void TBoss8Dragon__sub_802FC850(TBoss8Dragon *dragon);
 f32 random_ratio__9TObjCharaFv();
 f32 atan2_float(f32 y, f32 x);
-void fill_value_array(s32);
+void fill_value_array(saddr);
 f32 normalize_vector_xz__FP3Vec(void *);
 void TBoss8Dragon__sub_802FB300(void);
 void TBoss8Dragon__sub_802F7808(u8 *arg0, u32 arg1, s32 arg2);

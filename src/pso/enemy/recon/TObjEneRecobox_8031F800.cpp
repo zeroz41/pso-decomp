@@ -946,7 +946,7 @@ void dispatch_state__12TObjEneReconFiUii(saddr ene_dd, u32 arg1, s32 reason) {
 
 void TObjEneRecobox::vfunc_28() {  }
 
-void TObjEneRecobox::vfunc_63() { if (this->mode != 6) { transition_enemy_state((s16)((void*)6)); } }
+void TObjEneRecobox::vfunc_63() { if (this->mode != 6) { transition_enemy_state(6); } }
 
 void TObjEneRecobox::vfunc_62() { clear_attack_receipts(); }
 

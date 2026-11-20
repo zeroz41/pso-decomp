@@ -308,7 +308,7 @@ void *TObjDFUsoTower::create(void *arg0) {
     return o;
 }
 
-TObjDFUsoTower::TObjDFUsoTower(s32 _w1) : TObjBase((TObject *)_w1) {
+TObjDFUsoTower::TObjDFUsoTower(saddr _w1) : TObjBase((TObject *)_w1) {
     m_name = TObjDFUsoTower__name;
     *(s32 *)((s8 *)this + 0x34) = get_bml_model(TOBoss4::model_resource, 5);
     this->texlist = get_bml_texlist(TOBoss4::model_resource, 5);

@@ -6,7 +6,7 @@
 
 class TBoss6CrushRock : public TObject {
 public:
-    TBoss6CrushRock(s32, s32, s32);
+    TBoss6CrushRock(saddr, saddr, saddr);
     virtual ~TBoss6CrushRock();
     virtual void run_task();
     virtual void render();

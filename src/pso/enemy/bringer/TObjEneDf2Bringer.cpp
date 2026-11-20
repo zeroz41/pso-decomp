@@ -677,7 +677,7 @@ extern s32 model_render_flags;
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
 f32 atan2_float(f32 y, f32 x);
-void fill_value_array(s32);
+void fill_value_array(saddr);
 s32 turn_toward_angle_limited__15TObjBoss2TunnelFlllll(s32, s32, s32, s32, s32);
 s32 TObjEneDf2Bringer__sub_80099248(void *);
 s32 enemy_validate_retained_target(void *);

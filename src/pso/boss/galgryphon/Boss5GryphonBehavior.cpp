@@ -199,7 +199,7 @@ int VecCopy__FP3VecPC3Vec(void*, void*);
 s32 get_flag_bit6__13TBoss5GryphonFv();
 void TBoss8Dragon__sub_8005FB90(u8 *arg0);
 int check_demo_mode__10TObjPlayerFv(void*);
-void project_sound_origin_from_camera(s32 arg0, u8 *arg1, f32 farg0);
+void project_sound_origin_from_camera(saddr arg0, u8 *arg1, f32 farg0);
 s32 query_teammate_state__9TObjEneDDFv();
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
 extern const f32 lbl_805D8DAC;

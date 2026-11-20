@@ -1189,7 +1189,7 @@ s32 VecCopy__FP3VecPC3Vec(int, void *);
 
 s32 get_flag_b4__9TObjEneDDFv(void *);
 
-void fill_value_array(s32);
+void fill_value_array(saddr);
 
 int spawn_trap__13TBoss2DeRolLeFPvii(void* p, int a1, int a2);
 
@@ -1514,7 +1514,7 @@ s32 enemy_clear_target__12TObjEneDD_STFUs(void *);
 
 s32 enemy_set_target_id(void * a0 = 0, u16 a1 = 0);
 
-void project_sound_origin_from_camera(s32 arg0, u8 *arg1, f32 farg0);
+void project_sound_origin_from_camera(saddr arg0, u8 *arg1, f32 farg0);
 
 f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 

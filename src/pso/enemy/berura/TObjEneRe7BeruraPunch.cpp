@@ -201,7 +201,7 @@ s32 all_parents_unqueued_for_destruction__7TObjectFv();
 void vec3_add_to(void *, void *);
 
 void TObjEneRe7BeruraPunch__sub_800962F4(TObjEneRe7BeruraPunch *p);
-void fill_value_array(s32 address);
+void fill_value_array(saddr address);
 
 void TObjEneRe7BeruraPunch__sub_800962F4(TObjEneRe7BeruraPunch *p) { p->m_b4 = 0; }
 

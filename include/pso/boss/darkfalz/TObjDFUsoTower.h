@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjDFUsoTower : public TObjBase {
-    TObjDFUsoTower(s32 _w1);
+    TObjDFUsoTower(saddr _w1);
     virtual ~TObjDFUsoTower();
     u32 m_90;
     static void *create(void *arg0);

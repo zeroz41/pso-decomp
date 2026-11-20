@@ -874,7 +874,7 @@ struct Fish_802EB90C {
     u8 pad6F4[0x728 - 0x6F4]; s32 f728; s32 f72C; s32 f730;
 };
 extern "C" {
-void fill_value_array(s32 address);
+void fill_value_array(saddr address);
 
 u8 *csnVector(s32 *, void *, s32);
 
@@ -1186,7 +1186,7 @@ s32 enemy_clear_target__12TObjEneDD_STFUs(void *);
 
 s32 enemy_set_target_id(void * a0 = 0, u16 a1 = 0);
 
-void project_sound_origin_from_camera(s32 arg0, u8 *arg1, f32 farg0);
+void project_sound_origin_from_camera(saddr arg0, u8 *arg1, f32 farg0);
 
 s32 is_alive__8TObjBaseFv();
 

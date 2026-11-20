@@ -460,7 +460,7 @@ TBoss6GravBall::~TBoss6GravBall() {
     init_parts();
     clear_player_grav_flags__14TBoss6GravBallFv(this);
 }
-TBoss6GravBall::TBoss6GravBall(s32 arg1, void *arg2) : TObjCollidable((TObject *)arg1) {
+TBoss6GravBall::TBoss6GravBall(saddr arg1, void *arg2) : TObjCollidable((TObject *)arg1) {
     s32 i;
     ((Obj_80323D20 *)this)->name = TBoss6GravBall__name;
     ((Obj_80323D20 *)this)->fAC = arg1;

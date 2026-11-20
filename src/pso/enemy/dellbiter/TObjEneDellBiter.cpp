@@ -77,7 +77,7 @@ s32 TObjEneDellBiter__demo_script_cursor;
 saddr TObjEneDellBiter__scrolling_uv_polygon_list;
 s32 TObjEneDellBiter__last_uv_scroll_tick;
 s32 turn_toward_angle_limited__15TObjBoss2TunnelFlllll(int, int, int, int, int);
-void fill_value_array(s32 address);
+void fill_value_array(saddr address);
 s32 enemy_validate_retained_target(u8 *ene_dd_st);
 s16 get_attack_params_atp_min(void *p);
 s32 obj_is_hit_receivable(u8 *arg0);

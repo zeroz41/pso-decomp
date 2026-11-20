@@ -74,7 +74,7 @@ struct TObjEneDD : public TObjEnemy {
     static void emit_effect(void* p, int a1, int a2);
     static void emit_enemy_effect(saddr arg0, saddr arg1, u8 *arg2, saddr arg3);
     static void setup(void* p, int a1, int a2);
-    static void setup_instance(s32 arg0, s32 arg1, u8 *arg2, s32 arg3);
+    static void setup_instance(saddr arg0, s32 arg1, u8 *arg2, saddr arg3);
     void transform_relative_position(void* a1);
     s32 is_target_unobstructed(saddr arg1);
     u8 is_valid_target();

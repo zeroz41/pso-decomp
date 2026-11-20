@@ -79,7 +79,7 @@ void enemy_clear_target__12TObjEneDD_STFUs(TObjEneDD_ST *self);
 extern s32 game_difficulty_selection;
 void vec3_add_to(Vec *dst, const Vec *src);
 void TBoss8Dragon__sub_800BB7D4(TObjEneBm9Mericarol *self, s32 arg1);
-void fill_value_array(s32 address);
+void fill_value_array(saddr address);
 s32 enemy_validate_retained_target(u8 *ene_dd_st);
 s32 approach_angle_limited(s32 from, s32 to, s32 max_step);
 s32 angle_difference_abs(s32 a, s32 b);

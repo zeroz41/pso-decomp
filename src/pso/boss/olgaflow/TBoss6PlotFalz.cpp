@@ -1339,7 +1339,7 @@ void TBoss6PlotFalz::load_resources() {
     }
 }
 
-s32 TBoss6PlotFalz::create(s32 arg0) {
+s32 TBoss6PlotFalz::create(saddr arg0) {
     return (saddr) new TBoss6PlotFalz(new TObjControl((TObject *)tl_04), (void *)arg0);
 }
 

@@ -29,7 +29,7 @@ struct TObjEneMe1CanadinLeader : public TObjEneMe1Canadin {
     void set_flag3c8_bit20();
     void set_flag3c8_bit8();
     void set_attack_flag();
-    void set_leader_index(s32 arg1, s32 arg2);
+    void set_leader_index(saddr arg1, s32 arg2);
     static void update_fade_sequence(void *pv);
     static void *create_canadin(void *arg0, void *arg1, void *arg2, void *arg3);
 };

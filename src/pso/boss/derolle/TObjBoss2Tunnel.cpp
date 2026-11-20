@@ -1290,7 +1290,7 @@ bool TObjBoss2Tunnel::verify_snapshot_checksum() {
     return sum == saved;
 }
 
-void TObjBoss2Tunnel__sub_8007CAE8(u32 arg0) {
+void TObjBoss2Tunnel__sub_8007CAE8(uaddr arg0) {
     Stack_8007CAE8 stack;
     if (arg0 == 0U) {
         stack.sp10 = 192.0f;

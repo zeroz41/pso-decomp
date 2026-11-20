@@ -65,7 +65,7 @@ void *__dt__15TObjIllGillKageFv(void *base, s16 arg1) {
     return base;
 }
 }
-TObjIllGillKage::TObjIllGillKage(s32 arg1, u32 arg2) : TObjBase((TObject *)arg1) {
+TObjIllGillKage::TObjIllGillKage(saddr arg1, uaddr arg2) : TObjBase((TObject *)arg1) {
     *(s32 *)((s8 *)this + 0) = (saddr) TObjIllGillKage__class_name;
     if (arg2 != 0U) {
         VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(arg2 + 0x38));

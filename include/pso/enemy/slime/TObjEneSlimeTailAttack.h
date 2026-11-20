@@ -17,7 +17,7 @@ struct TObjEneSlimeTailAttack : public TObjEnemy {
 struct TObjEneSlimeOne;
 struct TObjEneSlimeWaterBomb;
 extern "C" {
-u8 *TObjEneSlimeOne__ct(u8 *actor, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+u8 *TObjEneSlimeOne__ct(u8 *actor, s32 arg1, s32 arg2, saddr arg3, saddr arg4);
 void *TObjEneSlimeTailAttack__ct(TObjEneSlimeTailAttack *arg0, void *arg1, saddr arg2, s32 arg3, s32 arg4);
 void *TObjEneSlimeWaterBomb__ct(TObjEneSlimeWaterBomb *arg0, void *arg1, void *arg2);
 void TObjPlayer__sub_800E80C0(u8 *dst);
@@ -31,7 +31,7 @@ void *__dt__21TObjEneSlimeWaterBombFv(void *arg0, s16 arg1);
 void *create__22TObjEneSlimeTailAttackFiiii(s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 void *dt__22TObjEneSlimeTailAttackFPvs(void *arg0, s16 arg1);
 void fn_800E9238(saddr arg0);
-u8 *init__15TObjEneSlimeOneFPviii(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
+u8 *init__15TObjEneSlimeOneFPviii(u8 *arg0, s32 arg1, s32 arg2, saddr arg3);
 void initialize_slime_instance_state__15TObjEneSlimeOneFv(u8 *actor);
 void render__15TObjEneSlimeOneFv(TObjEneSlimeOne *arg0);
 void set_display_mode__15TObjEneSlimeOneFPvi(void *arg0, s32 arg1);

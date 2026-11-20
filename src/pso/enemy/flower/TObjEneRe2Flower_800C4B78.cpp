@@ -111,7 +111,7 @@ void TObjEneRe2Flower_EffCurse3::run_task() {
 TObjEneRe2Flower_EffCurse3::~TObjEneRe2Flower_EffCurse3() {
     if (*(void * *)&this->unk_24 != NULL) { ((TObject *)(*(void * *)&this->unk_24))->queue_destruction(); *(s32 *)&this->unk_24 = 0; }
 }
-TObjEneRe2Flower_EffCurse3::TObjEneRe2Flower_EffCurse3(s32 arg1, s32 arg2) : TObject((TObject *)arg1) {
+TObjEneRe2Flower_EffCurse3::TObjEneRe2Flower_EffCurse3(saddr arg1, s32 arg2) : TObject((TObject *)arg1) {
     *(s32 *)&this->m_name = (s32) TObjEneRe2Flower_EffCurse3__name;
     *(s32 *)((s8 *)this + 0x1C) = 0;
     (this->m_20) = arg2;

@@ -741,7 +741,7 @@ u16 enemy_find_nearest_player_in_range(u8 *self, f32 range) {
 
 void TBoss8Dragon__sub_800BB650(void* p, void* q) { *(u16*)((char*)p + 0x0) = *(u16*)((char*)q + 0x0); *(f32*)((char*)p + 0x4) = *(f32*)((char*)q + 0x4); }
 
-s32 collect_enemy_target_candidates(s32 arg0, Ent_800BB484 *out, f32 farg0) {
+s32 collect_enemy_target_candidates(saddr arg0, Ent_800BB484 *out, f32 farg0) {
     s32 n;
     s32 cnt;
     Ent_800BB484 tmp;
@@ -1193,7 +1193,7 @@ int is_target_ranger(void* p) { return (((TObjPlayer *)p)->class_flags & CLASS_F
 
 int is_target_android(void* p) { return (((TObjPlayer *)p)->class_flags & CLASS_FLAG_ANDROID) != 0; }
 
-void TObjEneDD::setup_instance(s32 arg0, s32 arg1, u8 *arg2, s32 arg3) {
+void TObjEneDD::setup_instance(saddr arg0, s32 arg1, u8 *arg2, saddr arg3) {
     ((TUnk_804928CC *)obj_ene_dd_instance)->sub_800BC3E8((u8 *)arg0);
     get_position__12TBoss1DragonFv(obj_ene_dd_instance, arg1);
     *(f32 *)((s8 *)(*(void **)((s8 *)obj_ene_dd_instance + 0xA4)) + 0xC) = (f32) *(f32 *)((s8 *)arg2 + 8);
@@ -1411,7 +1411,7 @@ int TObjEneDD::update_lobby_state() { return is_local_client_floor_leader(this);
 
 int TObjEneDD::query_teammate_state() { return TObjPlayer::is_any_teammate_in_state(); }
 
-void project_sound_origin_from_camera(s32 arg0, u8 *boss2_tunnel, f32 farg0) {
+void project_sound_origin_from_camera(saddr arg0, u8 *boss2_tunnel, f32 farg0) {
     f32 temp_f1;
     VecCopy((Vec *)(boss2_tunnel), (const Vec *)(arg0));
     subtract_vector((Vec *)boss2_tunnel, (const Vec *)(camera_ctrl_instance + 0x178));
@@ -1619,7 +1619,7 @@ void TObjEneEpsilon::fire_attack_c(s32 arg1, s32 arg2, f32 farg0) {
     calc_shot_position__13TBoss5GryphonFPUcfff(this, arg1, sin_table_lookup(this->rotation_y), cos_table_lookup(this->rotation_y), temp_f30);
 }
 
-void TObjEneEpsilon::fire_attack_b(s32 arg1, s32 arg2, f32 farg0) {
+void TObjEneEpsilon::fire_attack_b(saddr arg1, s32 arg2, f32 farg0) {
     f32 dz;
     f32 dist;
 
@@ -1629,7 +1629,7 @@ void TObjEneEpsilon::fire_attack_b(s32 arg1, s32 arg2, f32 farg0) {
     calc_wall_slide_destination((void *)this, (void *)arg1, (f32)(sin_table_lookup(this->rotation_y)), (f32)((f32)dz), (f32)((f32)dist));
 }
 
-void TObjEneEpsilon::fire_attack_a(s32 out, s32 arg2, f32 farg0) {
+void TObjEneEpsilon::fire_attack_a(saddr out, s32 arg2, f32 farg0) {
     f32 dist;
 
     dist = farg0;

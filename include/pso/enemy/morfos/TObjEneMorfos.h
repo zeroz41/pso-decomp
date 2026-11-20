@@ -51,7 +51,7 @@ struct TObjEneMorfos : public TObjEneDD_ST {
     void init_instance();
     static void unload_static_data();
     void *create();
-    static s32 snap_to_ground(s32 arg0, s32 arg1);
+    static s32 snap_to_ground(s32 arg0, saddr arg1);
     void update_ground_probe();
     static u8 check_value_in_range(void *arg0, u16 arg1, u16 arg2, u16 arg3);
     u8 unk_480[0x1C];

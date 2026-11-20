@@ -1626,14 +1626,14 @@ void TObjEneRecon::sync_height() {
     *(f32 *)((s8 *)this + 0x398) = (f32) *(f32 *)((s8 *)this + 0x460);
 }
 void TObjEneRecon::vfunc_61() {  }
-void TObjEneRecon::vfunc_62() { if (this->mode != 6) { transition_enemy_state((s16)((void*)6)); } }
+void TObjEneRecon::vfunc_62() { if (this->mode != 6) { transition_enemy_state(6); } }
 
 void TObjEneRecon::vfunc_63() {
     u8 *arg0 = (u8 *)this;
     s16 temp_r0;
     temp_r0 = this->mode;
     if ((temp_r0 != 7) && (temp_r0 != 8)) {
-        ((TObjEneDD *)arg0)->transition_enemy_state((s16)((void*)(7)));
+        ((TObjEneDD *)arg0)->transition_enemy_state(7);
     }
 }
 

@@ -90,7 +90,7 @@ void TBoss6Rock::spawn_crush_rocks(s32 kind) {
     }
 }
 
-TBoss6CrushRock::TBoss6CrushRock(s32 arg1, s32 arg2, s32 arg3) : TObject((TObject *)((void *)arg1)) {
+TBoss6CrushRock::TBoss6CrushRock(saddr arg1, saddr arg2, saddr arg3) : TObject((TObject *)((void *)arg1)) {
     ((TObject *)this)->m_name = TBoss6CrushRock__name;
     *(s32 *)((s8 *)this + 0x1C) = get_bml_model((int) (TBoss6Rock__sub_80353A0C()), (void *)arg3);
     *(s32 *)((s8 *)this + 0x20) = TBoss6Rock__sub_80353A04();

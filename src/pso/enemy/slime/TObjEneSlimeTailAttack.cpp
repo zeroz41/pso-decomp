@@ -203,8 +203,8 @@ void *TObjEneSlimeWaterBomb__ct(TObjEneSlimeWaterBomb *arg0, void *arg1, void *a
 void fn_800E9238(saddr arg0);
 void set_display_mode__15TObjEneSlimeOneFPvi(void *arg0, s32 arg1);
 void set_random_timer__15TObjEneSlimeOneFPvii(void *arg0, s32 arg1, s32 arg2);
-u8 * TObjEneSlimeOne__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
-u8 * init__15TObjEneSlimeOneFPviii(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
+u8 *TObjEneSlimeOne__ct(u8 *arg0, s32 arg1, s32 arg2, saddr arg3, saddr arg4);
+u8 *init__15TObjEneSlimeOneFPviii(u8 *arg0, s32 arg1, s32 arg2, saddr arg3);
 s16 check_player_field_7cc__15TObjEneSlimeOneFv();
 void draw_blob_shadow(s32 arg0);
 void * __ct__11TObjControlFP7TObject(void *, s32);
@@ -653,7 +653,7 @@ void TObjPlayer__sub_800EBE48(f32 farg0) {
 
 void TObjPlayer::init_render_globals() { chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask; chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask; model_render_flags = saved_model_render_flags; }
 
-s32 TObjEneSlime::create(s32 arg0) {
+s32 TObjEneSlime::create(saddr arg0) {
     void *ene_slime;
     void *var_r4;
 
@@ -904,7 +904,7 @@ s32 TObjEneSlimeOne::create(s32 arg0, s32 arg1, s32 arg2) {
     return actor;
 }
 
-u8 *init__15TObjEneSlimeOneFPviii(u8 *ene_slime_one, s32 arg1, s32 arg2, s32 arg3) {
+u8 *init__15TObjEneSlimeOneFPviii(u8 *ene_slime_one, s32 arg1, s32 arg2, saddr arg3) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800EB4A0, sp8) == 0x0);
     LAYOUT_ASSERT(spE_offset, offsetof(Stack_800EB4A0, spE) == 0x6);
     Stack_800EB4A0 stack;
@@ -925,7 +925,7 @@ u8 *init__15TObjEneSlimeOneFPviii(u8 *ene_slime_one, s32 arg1, s32 arg2, s32 arg
     return ene_slime_one;
 }
 
-u8 *TObjEneSlimeOne__ct(u8 *actor, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+u8 *TObjEneSlimeOne__ct(u8 *actor, s32 arg1, s32 arg2, saddr arg3, saddr arg4) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800EB3D4, sp8) == 0x0);
     LAYOUT_ASSERT(spE_offset, offsetof(Stack_800EB3D4, spE) == 0x6);
     Stack_800EB3D4 stack;

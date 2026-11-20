@@ -832,7 +832,7 @@ void fn_8009E2DC(TObjEneMe1Canadin *self) {
     self->m_3C8 |= 1;
 }
 
-void TObjEneMe1CanadinLeader::set_leader_index(s32 arg1, s32 arg2) {
+void TObjEneMe1CanadinLeader::set_leader_index(saddr arg1, s32 arg2) {
     set_target_player((void *)arg1);
     m_400 = arg2;
     m_3C8 |= 1;

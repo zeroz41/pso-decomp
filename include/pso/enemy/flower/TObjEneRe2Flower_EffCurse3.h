@@ -5,7 +5,7 @@
 
 class TObjEneRe2Flower_EffCurse3 : public TObject {
 public:
-    TObjEneRe2Flower_EffCurse3(s32 arg1, s32 arg2);
+    TObjEneRe2Flower_EffCurse3(saddr arg1, s32 arg2);
     virtual ~TObjEneRe2Flower_EffCurse3();
     virtual void run_task();
     u8 unk_1C[0x4];

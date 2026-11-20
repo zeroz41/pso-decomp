@@ -217,7 +217,7 @@ void TObjEneBm5Wolf::push_list_node(void **arg1, void **arg2) {
     node->next = NULL;
 }
 
-void TObjEneBm5Wolf::set_field8_from_obj(s32 arg1) {
+void TObjEneBm5Wolf::set_field8_from_obj(saddr arg1) {
     ((TObjEneBm5WolfListNode *)this)->entity_id = get_entity_id((TObjBase *)arg1);
 }
 
