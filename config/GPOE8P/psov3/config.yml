@@ -5722,7 +5722,7 @@ force_active:
   - dispatch_action_state__16TObjEneNanoDragoFv
   - dispatch_by_index__19TWindowKeyBoardSoftFv
   - dispatch_callback__Fv
-  - dispatch_fish_event__6TLobbyFPv
+  - get_container_breakup_model__Fl
   - dispatch_lobby_action__18TObjCityDoor_LobbyFv
   - dispatch_lobby_callback__Fv
   - dispatch_main_phase_153__12TBoss4ThanksFv
@@ -6625,7 +6625,7 @@ force_active:
   - get_class_type__10TObjPlayerFv
   - get_color__8MagStatsFv
   - get_condition__10TNpcPlayerFv
-  - get_container_param__Fl
+  - get_forest_box_model__Fl
   - get_destroy_event_obj__6TLobbyFv
   - get_distance_to_local_player_xz__13TObjTombstoneFv
   - get_dominant_stats__8TItemMagFv

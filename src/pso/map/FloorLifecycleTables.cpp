@@ -1,3 +1,4 @@
+#include "pso/object/container/ContainerResources.h"
 #include "pso/map/FloorLifecycleTables.h"
 #include "pso/object/lobby/LobbyPigeonPath.h"
 #include "pso/object/switch/TOSwitchAttack_801778A4.h"
@@ -146,7 +147,6 @@ void fn_8030B7B8();
 void load_lobby_butterfly_bml_resource();
 }
 void load_labo_design_object_table();
-void load_forest_box_resources();
 void load_chat_sensor();
 void load_turiten_singo_resources();
 void load_city_common_resources();
@@ -180,8 +180,8 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_01[30] = {
     { TButterfly::load_resources, TButterfly::destroy_instance },
     { TObjDoorKey::load_resources, TObjDoorKey::free_key },
     { TMotorcycle::load_resources, TMotorcycle::free_statics },
-    { load_forest_box_resources, TLobby::free_char_select_resources },
-    { TLobby::load_console_resources, TLobby::free_chr_select_slot },
+    { load_forest_box_resources, free_forest_box_resources },
+    { load_container_breakup_resources, free_container_breakup_resources },
     { load_lazer_fence_norm_resources, TObjLazerFenceNorm::free_resources },
     { TLazerFenceSw::load_resources, free_lazer_fence_switch_resources },
     { TObjTank::load_globals, TObjTank::free_globals },
@@ -213,8 +213,8 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_02[32] = {
     { TButterfly::load_resources, TButterfly::destroy_instance },
     { TObjDoorKey::load_resources, TObjDoorKey::free_key },
     { TMotorcycle::load_resources, TMotorcycle::free_statics },
-    { load_forest_box_resources, TLobby::free_char_select_resources },
-    { TLobby::load_console_resources, TLobby::free_chr_select_slot },
+    { load_forest_box_resources, free_forest_box_resources },
+    { load_container_breakup_resources, free_container_breakup_resources },
     { load_lazer_fence_norm_resources, TObjLazerFenceNorm::free_resources },
     { TLazerFenceSw::load_resources, free_lazer_fence_switch_resources },
     { TObjTank::load_globals, TObjTank::free_globals },
@@ -255,8 +255,8 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_03[27] = {
     { TORockCave::load_resources, TORockCave::free_instances },
     { load_lazer_fence_norm_resources, TObjLazerFenceNorm::free_resources },
     { TLazerFenceSw::load_resources, free_lazer_fence_switch_resources },
-    { load_forest_box_resources, TLobby::free_char_select_resources },
-    { TLobby::load_console_resources, TLobby::free_chr_select_slot },
+    { load_forest_box_resources, free_forest_box_resources },
+    { load_container_breakup_resources, free_container_breakup_resources },
     { TOHealGeneral::load_resources, TOHealGeneral::unload_resources },
     { TMainCursor__sub_80154094, TMainCursor__sub_80154090 },
     { TOBind::load_static_resource, TOBind::free_static_model },
@@ -296,8 +296,8 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_04[38] = {
     { TORockCave::load_resources, TORockCave::free_instances },
     { load_lazer_fence_norm_resources, TObjLazerFenceNorm::free_resources },
     { TLazerFenceSw::load_resources, free_lazer_fence_switch_resources },
-    { load_forest_box_resources, TLobby::free_char_select_resources },
-    { TLobby::load_console_resources, TLobby::free_chr_select_slot },
+    { load_forest_box_resources, free_forest_box_resources },
+    { load_container_breakup_resources, free_container_breakup_resources },
     { TOHealGeneral::load_resources, TOHealGeneral::unload_resources },
     { TOMonumentAncient02::load_resources, TOMonumentAncient02::free_shared_data },
     { TMainCursor__sub_80154094, TMainCursor__sub_80154090 },
@@ -335,8 +335,8 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_05[36] = {
     { TORockCave::load_resources, TORockCave::free_instances },
     { load_lazer_fence_norm_resources, TObjLazerFenceNorm::free_resources },
     { TLazerFenceSw::load_resources, free_lazer_fence_switch_resources },
-    { load_forest_box_resources, TLobby::free_char_select_resources },
-    { TLobby::load_console_resources, TLobby::free_chr_select_slot },
+    { load_forest_box_resources, free_forest_box_resources },
+    { load_container_breakup_resources, free_container_breakup_resources },
     { TOHealGeneral::load_resources, TOHealGeneral::unload_resources },
     { TMainCursor__sub_80154094, TMainCursor__sub_80154090 },
     { TOBind::load_static_resource, TOBind::free_static_model },
@@ -360,8 +360,8 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_06[34] = {
     { TOMine::load_static_resource, TOMine::free_instance },
     { TMainCursor__sub_80154094, TMainCursor__sub_80154090 },
     { TOSensorGeneral01::load_assets, TOSensorGeneral01::free_assets },
-    { load_forest_box_resources, TLobby::free_char_select_resources },
-    { TLobby::load_console_resources, TLobby::free_chr_select_slot },
+    { load_forest_box_resources, free_forest_box_resources },
+    { load_container_breakup_resources, free_container_breakup_resources },
     { TOHealGeneral::load_resources, TOHealGeneral::unload_resources },
     { TODoorMachine01::load_resources, TODoorMachine01::destroy },
     { TODoorMachine02::load_resources, TODoorMachine02::destroy },
@@ -397,8 +397,8 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_07[36] = {
     { TOMine::load_static_resource, TOMine::free_instance },
     { TMainCursor__sub_80154094, TMainCursor__sub_80154090 },
     { TOSensorGeneral01::load_assets, TOSensorGeneral01::free_assets },
-    { load_forest_box_resources, TLobby::free_char_select_resources },
-    { TLobby::load_console_resources, TLobby::free_chr_select_slot },
+    { load_forest_box_resources, free_forest_box_resources },
+    { load_container_breakup_resources, free_container_breakup_resources },
     { TOHealGeneral::load_resources, TOHealGeneral::unload_resources },
     { TODoorMachine01::load_resources, TODoorMachine01::destroy },
     { TODoorMachine02::load_resources, TODoorMachine02::destroy },
@@ -542,8 +542,8 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_10[35] = {
 FloorLifecycleEntry floor_lifecycle_callbacks_floors_11_12[5] = {
     { load_forest_warp_resources, TObjWarpBase::free_globals },
     { TMainCursor__sub_80154094, TMainCursor__sub_80154090 },
-    { TLobby::load_console_resources, TLobby::free_chr_select_slot },
-    { load_forest_box_resources, TLobby::free_char_select_resources },
+    { load_container_breakup_resources, free_container_breakup_resources },
+    { load_forest_box_resources, free_forest_box_resources },
     { 0, 0 },
 };
 
@@ -553,8 +553,8 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_13[8] = {
     { load_forest_warp_resources, TObjWarpBase::free_globals },
     { TMainCursor__sub_80154094, TMainCursor__sub_80154090 },
     { TODoorVoShip::load_shared_resource, TODoorVoShip::free_static_data },
-    { TLobby::load_console_resources, TLobby::free_chr_select_slot },
-    { load_forest_box_resources, TLobby::free_char_select_resources },
+    { load_container_breakup_resources, free_container_breakup_resources },
+    { load_forest_box_resources, free_forest_box_resources },
     { 0, 0 },
 };
 
@@ -562,8 +562,8 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_14[6] = {
     { load_forest_warp_resources, TObjWarpBase::free_globals },
     { TMainCursor__sub_80154094, TMainCursor__sub_80154090 },
     { TOBoss4::load_static_resource, TOBoss4::free_instance },
-    { TLobby::load_console_resources, TLobby::free_chr_select_slot },
-    { load_forest_box_resources, TLobby::free_char_select_resources },
+    { load_container_breakup_resources, free_container_breakup_resources },
+    { load_forest_box_resources, free_forest_box_resources },
     { 0, 0 },
 };
 
@@ -954,8 +954,8 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_28[26] = {
     { TObjSeabedSuisoBrakable::load_resources, TObjSeabedSuisoBrakable::free_static_resources },
     { TOMekaFish00::load_shared_resource, TOMekaFish00::release_static_instance },
     { TOMekaFish01::load_shared_resource, TOMekaFish01::free_static_data },
-    { load_forest_box_resources, TLobby::free_char_select_resources },
-    { TLobby::load_console_resources, TLobby::free_chr_select_slot },
+    { load_forest_box_resources, free_forest_box_resources },
+    { load_container_breakup_resources, free_container_breakup_resources },
     { TOTrapAncient02::load_resources, TOTrapAncient02::destroy_instance },
     { TObjPlayer::load_seabed_dolphin, TObjPlayer__sub_802C2900 },
     { load_lazer_fence_norm_resources, TObjLazerFenceNorm::free_resources },
@@ -983,8 +983,8 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_29[26] = {
     { TObjSeabedSuisoBrakable::load_resources, TObjSeabedSuisoBrakable::free_static_resources },
     { TOMekaFish00::load_shared_resource, TOMekaFish00::release_static_instance },
     { TOMekaFish01::load_shared_resource, TOMekaFish01::free_static_data },
-    { load_forest_box_resources, TLobby::free_char_select_resources },
-    { TLobby::load_console_resources, TLobby::free_chr_select_slot },
+    { load_forest_box_resources, free_forest_box_resources },
+    { load_container_breakup_resources, free_container_breakup_resources },
     { TOTrapAncient02::load_resources, TOTrapAncient02::destroy_instance },
     { TObjPlayer::load_seabed_dolphin, TObjPlayer__sub_802C2900 },
     { load_lazer_fence_norm_resources, TObjLazerFenceNorm::free_resources },
@@ -1015,8 +1015,8 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_30[8] = {
 FloorLifecycleEntry floor_lifecycle_callbacks_floor_31[7] = {
     { load_area_dialogue_script, TQuestThread::destroy_quest_obj },
     { load_forest_warp_resources, TObjWarpBase::free_globals },
-    { load_forest_box_resources, TLobby::free_char_select_resources },
-    { TLobby::load_console_resources, TLobby::free_chr_select_slot },
+    { load_forest_box_resources, free_forest_box_resources },
+    { load_container_breakup_resources, free_container_breakup_resources },
     { TOCapsuleLabo::load_resources, TOCapsuleLabo::unload_resources },
     { load_warp_beam_resources, free_warp_jung_beam_resources },
     { 0, 0 },

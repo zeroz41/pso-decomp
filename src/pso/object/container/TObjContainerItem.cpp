@@ -1,3 +1,5 @@
+#include "pso/render/GinjaMaterialState.h"
+#include "pso/object/container/ContainerResources.h"
 #include "pso/network/FloorEventCommand.h"
 #include "pso/object/container/ContainerBreakEffects.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -57,7 +59,6 @@
 
 struct Obj_80188884 { u8 pad0[0x38]; u8 pos[0x28]; s32 id; u8 pad1[0x326 - 0x64]; s16 state; };
 struct Obj_80188814 { u8 pad0[0x38]; u8 pos[0x4c]; s32 id; };
-struct Obj_80188768 { u8 pad0[0x1C]; u16 f1C; u8 pad1[0x62]; u32 f80; s32 f84; };
 struct Obj_8018860C {
     u8 pad[0x38];
     Vec pos;
@@ -67,7 +68,6 @@ struct Obj_8018860C {
 struct Obj_80188C8C { u8 pad0[0x38]; u8 pos[0x28]; s32 id; u8 pad1[0x326 - 0x64]; s16 state; };
 struct Obj_8018990C { u8 pad[0x38]; f32 x, y, z; u8 pad44[0x326 - 0x44]; s16 f326; };
 struct Obj_801895A4 { u8 pad0[0x38]; u8 pos[0x4c]; s32 id; };
-struct Obj_801894F8 { u8 pad0[0x1C]; u16 f1C; u8 pad1[0x62]; u32 f80; s32 f84; };
 struct CE_80189614 { u8 pad[0x34]; s32 f34; u8 f38[0x28]; s32 f60; u8 pad2[0x326 - 0x64]; s16 mode; };
 struct Box_80189A50 {
     u8 pad00[0x34];
@@ -295,12 +295,12 @@ extern const TObjChipParams lbl_80444EA8 = {
 extern const char seabed_container_texture_filename[];
 extern const char forest_box_texture_filename_a[];
 extern const char forest_box_texture_filename_n[];
-BmlResource *lbl_805D5B78;
-s32 lbl_805D5B7C;
-TObjChipParams *lbl_805D5B80;
-TObjChipParams *lbl_805D5B84;
+BmlResource *forest_box_model_archive;
+GinjaTextureList *forest_box_textures;
+TObjChipParams *forest_box_debris_primary;
+TObjChipParams *forest_box_debris_secondary;
 BmlResource *container_breakup_model_archive;
-s32 lbl_805D5B8C;
+GinjaTextureList *container_breakup_textures;
 extern "C" {
 s32 push_matrix(void);
 void post_translate_matrix(const void *);
@@ -312,11 +312,10 @@ extern s32 local_client_id;
 extern const f32 lbl_805DBCF4;
 extern "C" {
 u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
-s32 dispatch_fish_event__6TLobbyFPv(void *a0);
 s32 release_texture_list(void*);
 s32 free_collision_body_parts(void *);
 }
-s32 get_container_param(s32 index);
+NJS_OBJECT *get_forest_box_model(s32 index);
 extern const f32 lbl_805DBCFC;
 extern const f32 lbl_805DBD0C;
 extern const f32 lbl_805DBCF0;
@@ -346,56 +345,56 @@ void TUnk_804B6C24::vfunc_80() {  }
 void TUnk_804B6C24::vfunc_81() {  }
 
 void load_forest_box_resources(void) {
-    void *bundle;
+    BmlResource *bundle;
     u32 *node;
-    lbl_805D5B78 = NULL;
-    lbl_805D5B7C = 0;
+    forest_box_model_archive = NULL;
+    forest_box_textures = NULL;
     switch (get_current_floor_area()) {
     case AREA_SEABED_UPPER:
     case AREA_SEABED_LOWER:
     case AREA_OLGA_FLOW:
-        bundle = (void *)::operator new(0x440);
+        bundle = (BmlResource *)::operator new(0x440);
         if (bundle != NULL) {
             bundle = load_resource_from_descriptor(bundle, 5, &bm_obj_seabed_con_resource_descriptor, 0, 0, 0);
         }
-        lbl_805D5B78 = (BmlResource *)bundle;
-        lbl_805D5B7C = (s32)load_gvm_texture_file((s32)seabed_container_texture_filename);
-        lbl_805D5B80 = &forest_box_break_params[2];
-        lbl_805D5B84 = &forest_box_break_params[3];
-        node = (u32 *)find_object_node((NJS_OBJECT *)(get_bml_model(lbl_805D5B78, 1)), 2);
+        forest_box_model_archive = bundle;
+        forest_box_textures = (GinjaTextureList *)load_gvm_texture_file((s32)seabed_container_texture_filename);
+        forest_box_debris_primary = &forest_box_break_params[2];
+        forest_box_debris_secondary = &forest_box_break_params[3];
+        node = (u32 *)find_object_node((NJS_OBJECT *)(get_bml_model(forest_box_model_archive, 1)), 2);
         if (node != NULL) {
             *node |= 0x100000;
         }
         break;
     default:
-        bundle = (void *)::operator new(0x440);
+        bundle = (BmlResource *)::operator new(0x440);
         if (bundle != NULL) {
             bundle = load_resource_from_descriptor(bundle, 5, &fe_obj_hako01_hahen02_resource_descriptor, 0, 0, 0);
         }
-        lbl_805D5B78 = (BmlResource *)bundle;
-        lbl_805D5B7C = TLobby::is_online_ready() != 0 ? (s32)load_gvm_texture_file((s32)forest_box_texture_filename_a) : (s32)load_gvm_texture_file((s32)((s32)forest_box_texture_filename_n));
-        lbl_805D5B80 = &forest_box_break_params[0];
-        lbl_805D5B84 = &forest_box_break_params[1];
+        forest_box_model_archive = bundle;
+        forest_box_textures = TLobby::is_online_ready() != 0 ? (GinjaTextureList *)load_gvm_texture_file((s32)forest_box_texture_filename_a) : (GinjaTextureList *)load_gvm_texture_file((s32)((s32)forest_box_texture_filename_n));
+        forest_box_debris_primary = &forest_box_break_params[0];
+        forest_box_debris_secondary = &forest_box_break_params[1];
         break;
     }
-    TMotorcycle::add_entry(1, get_container_param(1), lbl_805D5B7C, lbl_805DBD0C, lbl_805DBCF4);
+    TMotorcycle::add_entry(1, (s32)get_forest_box_model(1), (s32)forest_box_textures, lbl_805DBD0C, lbl_805DBCF4);
 }
 
-void TLobby::free_char_select_resources() {
-    if ((u32) lbl_805D5B7C != 0U) {
-        release_texture_list((void*)lbl_805D5B7C);
-        TAdSinglePlyChrSelectGC::safe_free(lbl_805D5B7C);
-        lbl_805D5B7C = 0U;
+void free_forest_box_resources() {
+    if (forest_box_textures != NULL) {
+        release_texture_list(forest_box_textures);
+        TAdSinglePlyChrSelectGC::safe_free((u32)forest_box_textures);
+        forest_box_textures = NULL;
     }
-    if ((u32) lbl_805D5B78 != 0U) {
-        free_bin_model_request(lbl_805D5B78, 1);
-        lbl_805D5B78 = NULL;
+    if ((u32) forest_box_model_archive != 0U) {
+        free_bin_model_request(forest_box_model_archive, 1);
+        forest_box_model_archive = NULL;
     }
 }
 
-s32 get_container_param(s32 index) { return get_bml_model(lbl_805D5B78, index); }
+NJS_OBJECT *get_forest_box_model(s32 index) { return (NJS_OBJECT *)get_bml_model(forest_box_model_archive, index); }
 
-void TLobby::load_console_resources() {
+void load_container_breakup_resources() {
     void *p;
     container_breakup_model_archive = 0;
     switch (get_current_floor_area()) {
@@ -407,7 +406,7 @@ void TLobby::load_console_resources() {
             p = load_resource_from_descriptor(p, 5, &bm_obj_seabed_con_rare_resource_descriptor, 0, 0, 0);
         }
         container_breakup_model_archive = (BmlResource *)p;
-        lbl_805D5B8C = (u32)load_gvm_texture_file((s32)"obj_seabed_con_rare.gvm");
+        container_breakup_textures = (GinjaTextureList *)load_gvm_texture_file((s32)"obj_seabed_con_rare.gvm");
         break;
     case AREA_GAL_GRYPHON:
     default:
@@ -416,16 +415,16 @@ void TLobby::load_console_resources() {
             p = load_resource_from_descriptor(p, 5, &fe_obj_con_hahen1_resource_descriptor, 0, 0, 0);
         }
         container_breakup_model_archive = (BmlResource *)p;
-        lbl_805D5B8C = (u32)load_gvm_texture_file((s32)"obj_abecon.gvm");
+        container_breakup_textures = (GinjaTextureList *)load_gvm_texture_file((s32)"obj_abecon.gvm");
         break;
     }
 }
 
-void TLobby::free_chr_select_slot() {
-    if ((u32) lbl_805D5B8C != 0U) {
-        release_texture_list((void*)lbl_805D5B8C);
-        TAdSinglePlyChrSelectGC::safe_free(lbl_805D5B8C);
-        lbl_805D5B8C = 0U;
+void free_container_breakup_resources() {
+    if (container_breakup_textures != NULL) {
+        release_texture_list(container_breakup_textures);
+        TAdSinglePlyChrSelectGC::safe_free((u32)container_breakup_textures);
+        container_breakup_textures = NULL;
     }
     if ((u32) container_breakup_model_archive != 0U) {
         free_bin_model_request(container_breakup_model_archive, 1);
@@ -433,7 +432,9 @@ void TLobby::free_chr_select_slot() {
     }
 }
 
-void TLobby::dispatch_fish_event(void* a0) { get_bml_model(container_breakup_model_archive, (s32)a0); }
+NJS_OBJECT *get_container_breakup_model(s32 index) {
+    return (NJS_OBJECT *)get_bml_model(container_breakup_model_archive, index);
+}
 
 #pragma push
 #pragma fp_contract on
@@ -591,7 +592,7 @@ void TUnk_804B6C24::request_configured_item_drop(TUnk_804B6C24 *container) {
 
 TObjContainerItem::TObjContainerItem(TObject *parent, void *set_data) : TUnk_804B6C24(parent, set_data) {
     m_name = TObjContainerItem__name;
-    model = (void *)get_container_param(1);
+    model = (void *)get_forest_box_model(1);
     mode = 0;
     actorFlags |= 0x60000000;
     init_collision_body_parts(this, &forest_box_collision_body_parts, 1);
@@ -624,10 +625,10 @@ void TObjContainerItem::vfunc_80() {
 
 void TObjContainerItem::vfunc_81() {
     struct Box_80189A50 *self = (struct Box_80189A50 *)this;
-    if (lbl_805D5B78 != 0) {
+    if (forest_box_model_archive != 0) {
         switch (self->state) {
         case 0:
-            TObjFish::set_global_param(lbl_805D5B7C);
+            TObjFish::set_global_param((s32)forest_box_textures);
             push_matrix();
             post_translate_matrix(self->pos);
             rotate_matrix_y(0, self->rot);
@@ -645,16 +646,16 @@ void TObjContainerItem::vfunc_79() const {
     const Obj_8018990C *self = (const Obj_8018990C *)this;
     void *o;
     if (this->mode != 1) {
-        TObjChipParams a = *lbl_805D5B80;
-        TObjChipParams b = *lbl_805D5B84;
+        TObjChipParams a = *forest_box_debris_primary;
+        TObjChipParams b = *forest_box_debris_secondary;
         VecCopy((Vec *)a.pos, (const Vec *)&self->x);
         a.pad_38[0] = self->y;
-        a.model = get_container_param(2);
-        a.textures = lbl_805D5B7C;
+        a.model = (s32)get_forest_box_model(2);
+        a.textures = (s32)forest_box_textures;
         VecCopy((Vec *)b.pos, (const Vec *)&self->x);
         b.pad_38[0] = self->y;
-        b.model = get_container_param(0);
-        b.textures = lbl_805D5B7C;
+        b.model = (s32)get_forest_box_model(0);
+        b.textures = (s32)forest_box_textures;
         spawn_particle_effect_with_flags(&self->x, 0x45, 0x40);
         spawn_particle_effect_with_flags(&self->x, 0x46, 0x40);
         o = TObject::operator new(0x234);
@@ -690,7 +691,7 @@ void TObjContainerItem::vfunc_6(s16 *arg1, s32 arg2) {
 
 TObjContainerEnemy::TObjContainerEnemy(TObject *parent, void *set_data) : TUnk_804B6C24(parent, set_data) {
     m_name = TObjContainerEnemy__name;
-    model = (void *)get_container_param(1);
+    model = (void *)get_forest_box_model(1);
     mode = 0;
     actorFlags |= 0x60000000;
     init_collision_body_parts(this, &forest_box_collision_body_parts, 1);
@@ -723,12 +724,12 @@ void TObjContainerEnemy::vfunc_80() {
 
 void TObjContainerEnemy::vfunc_81() {
     CE_80189614 *self = (CE_80189614 *)this;
-    if (lbl_805D5B78 == 0) {
+    if (forest_box_model_archive == 0) {
         return;
     }
     switch (self->mode) {
     case 0:
-        TObjFish::set_global_param(lbl_805D5B7C);
+        TObjFish::set_global_param((s32)forest_box_textures);
         push_matrix();
         post_translate_matrix(self->f38);
         rotate_matrix_y(0, self->f60);
@@ -750,13 +751,12 @@ void TObjContainerEnemy::debug_print_item_box_info() {
 }
 
 f32 TObjContainerEnemy::receive_physical_attack(void *, f32) {
-    Obj_801894F8 *arg0 = (Obj_801894F8 *)this;
     s16 sp8;
     G_FloorEvent_6x67 pkt;
-    if ((this->entity_id >= 0x1000U) && (arg0->f80 != 0U) && (((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 1) != 0)) {
+    if ((this->entity_id >= 0x1000U) && (set_entry != NULL) && (access_object_saved_state(&sp8, 1) != 0)) {
         sp8 = 1;
-        ((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 0);
-        ((TObjCollidable *)arg0)->send_object_state_update(&sp8);
+        access_object_saved_state(&sp8, 0);
+        send_object_state_update(&sp8);
         pkt.init();
         pkt.header.client_id = this->entity_id;
         pkt.floor = get_current_floor();
@@ -771,16 +771,16 @@ void TObjContainerEnemy::vfunc_79() const {
     const Obj_8018990C *self = (const Obj_8018990C *)this;
     void *o;
     if (this->mode != 1) {
-        TObjChipParams a = *lbl_805D5B80;
-        TObjChipParams b = *lbl_805D5B84;
+        TObjChipParams a = *forest_box_debris_primary;
+        TObjChipParams b = *forest_box_debris_secondary;
         VecCopy((Vec *)a.pos, (const Vec *)&self->x);
         a.pad_38[0] = self->y;
-        a.model = get_container_param(2);
-        a.textures = lbl_805D5B7C;
+        a.model = (s32)get_forest_box_model(2);
+        a.textures = (s32)forest_box_textures;
         VecCopy((Vec *)b.pos, (const Vec *)&self->x);
         b.pad_38[0] = self->y;
-        b.model = get_container_param(0);
-        b.textures = lbl_805D5B7C;
+        b.model = (s32)get_forest_box_model(0);
+        b.textures = (s32)forest_box_textures;
         spawn_particle_effect_with_flags(&self->x, 0x45, 0x40);
         spawn_particle_effect_with_flags(&self->x, 0x46, 0x40);
         o = TObject::operator new(0x234);
@@ -815,7 +815,7 @@ void TObjContainerEnemy::vfunc_6(s16 *arg1, s32 arg2) {
 
 TObjContainerNoItem::TObjContainerNoItem(TObject *parent, void *set_data) : TUnk_804B6C24(parent, set_data) {
     m_name = TObjContainerNoItem__name;
-    model = (void *)get_container_param(1);
+    model = (void *)get_forest_box_model(1);
     mode = 0;
     actorFlags |= 0x60000000;
     init_collision_body_parts(this, &forest_box_collision_body_parts, 1);
@@ -848,12 +848,12 @@ void TObjContainerNoItem::vfunc_80() {
 
 void TObjContainerNoItem::vfunc_81() {
     u8 *arg0 = (u8 *)this;
-    if (lbl_805D5B78 != 0U) {
+    if (forest_box_model_archive != 0U) {
         switch (this->mode) {
         case 1:
             break;
         case 0:
-        TObjFish::set_global_param(lbl_805D5B7C);
+        TObjFish::set_global_param((s32)forest_box_textures);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -880,16 +880,16 @@ void TObjContainerNoItem::vfunc_79() const {
     const Obj_8018990C *self = (const Obj_8018990C *)this;
     void *o;
     if (this->mode != 1) {
-        TObjChipParams a = *lbl_805D5B80;
-        TObjChipParams b = *lbl_805D5B84;
+        TObjChipParams a = *forest_box_debris_primary;
+        TObjChipParams b = *forest_box_debris_secondary;
         VecCopy((Vec *)a.pos, (const Vec *)&self->x);
         a.pad_38[0] = self->y;
-        a.model = get_container_param(2);
-        a.textures = lbl_805D5B7C;
+        a.model = (s32)get_forest_box_model(2);
+        a.textures = (s32)forest_box_textures;
         VecCopy((Vec *)b.pos, (const Vec *)&self->x);
         b.pad_38[0] = self->y;
-        b.model = get_container_param(0);
-        b.textures = lbl_805D5B7C;
+        b.model = (s32)get_forest_box_model(0);
+        b.textures = (s32)forest_box_textures;
         spawn_particle_effect_with_flags(&self->x, 0x45, 0x40);
         spawn_particle_effect_with_flags(&self->x, 0x46, 0x40);
         o = TObject::operator new(0x234);
@@ -955,11 +955,11 @@ void TObjContainerBase::vfunc_81() {
     if (container_breakup_model_archive != 0) {
         switch (this->mode) {
         case 0:
-            TObjFish::set_global_param(lbl_805D5B8C);
+            TObjFish::set_global_param((s32)container_breakup_textures);
             push_matrix();
             post_translate_matrix(self->pos);
             rotate_matrix_y(0, this->rotation_y);
-            draw_ginja_box_tree((u8 *)dispatch_fish_event__6TLobbyFPv((void *)2));
+            draw_ginja_box_tree((u8 *)get_container_breakup_model(2));
             pop_matrix();
             break;
         case 1:
@@ -982,8 +982,8 @@ void TObjContainerBase::vfunc_79() const {
     a.pos[1] = ya;
     a.pos[2] = za;
     a.pad_38[0] = ya;
-    a.model = dispatch_fish_event__6TLobbyFPv((void *)0);
-    a.textures = lbl_805D5B8C;
+    a.model = (s32)get_container_breakup_model(0);
+    a.textures = (s32)container_breakup_textures;
     TObjChipParams b = container_break_small_debris_parameters;
     f32 zb;
     f32 yb;
@@ -995,8 +995,8 @@ void TObjContainerBase::vfunc_79() const {
     b.pos[1] = yb;
     b.pos[2] = zb;
     b.pad_38[0] = yb;
-    b.model = dispatch_fish_event__6TLobbyFPv((void *)1);
-    b.textures = lbl_805D5B8C;
+    b.model = (s32)get_container_breakup_model(1);
+    b.textures = (s32)container_breakup_textures;
     spawn_particle_effect_with_flags(&position, 0x45, 0x40);
     spawn_particle_effect_with_flags(&position, 0x46, 0x40);
     void *o = TObject::operator new(0x234);
@@ -1066,11 +1066,11 @@ void TObjContainerAbeEnemy::vfunc_81() {
     if (container_breakup_model_archive != 0) {
         switch (this->mode) {
         case 0:
-            TObjFish::set_global_param(lbl_805D5B8C);
+            TObjFish::set_global_param((s32)container_breakup_textures);
             push_matrix();
             post_translate_matrix(self->pos);
             rotate_matrix_y(0, this->rotation_y);
-            draw_ginja_box_tree((u8 *)dispatch_fish_event__6TLobbyFPv((void *)2));
+            draw_ginja_box_tree((u8 *)get_container_breakup_model(2));
             pop_matrix();
             break;
         case 1:
@@ -1088,13 +1088,12 @@ void TObjContainerAbeEnemy::debug_print_item_box_info() {
 }
 
 f32 TObjContainerAbeEnemy::receive_physical_attack(void *, f32) {
-    Obj_80188768 *arg0 = (Obj_80188768 *)this;
     s16 sp8;
     G_FloorEvent_6x67 pkt;
-    if ((this->entity_id >= 0x1000U) && (arg0->f80 != 0U) && (((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 1) != 0)) {
+    if ((this->entity_id >= 0x1000U) && (set_entry != NULL) && (access_object_saved_state(&sp8, 1) != 0)) {
         sp8 = 1;
-        ((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 0);
-        ((TObjCollidable *)arg0)->send_object_state_update(&sp8);
+        access_object_saved_state(&sp8, 0);
+        send_object_state_update(&sp8);
         pkt.init();
         pkt.header.client_id = this->entity_id;
         pkt.floor = get_current_floor();
@@ -1121,8 +1120,8 @@ void TObjContainerAbeEnemy::vfunc_79() const {
         a.pos[1] = ya;
         a.pos[2] = za;
         a.pad_38[0] = ya;
-        a.model = dispatch_fish_event__6TLobbyFPv((void *)0);
-        a.textures = lbl_805D5B8C;
+        a.model = (s32)get_container_breakup_model(0);
+        a.textures = (s32)container_breakup_textures;
         TObjChipParams b = lbl_80444EA8;
         f32 zb;
         f32 yb;
@@ -1134,8 +1133,8 @@ void TObjContainerAbeEnemy::vfunc_79() const {
         b.pos[1] = yb;
         b.pos[2] = zb;
         b.pad_38[0] = yb;
-        b.model = dispatch_fish_event__6TLobbyFPv((void *)1);
-        b.textures = lbl_805D5B8C;
+        b.model = (s32)get_container_breakup_model(1);
+        b.textures = (s32)container_breakup_textures;
         spawn_particle_effect_with_flags(&self->pos, 0x45, 0x40);
         spawn_particle_effect_with_flags(&self->pos, 0x46, 0x40);
         void *o = TObject::operator new(0x234);

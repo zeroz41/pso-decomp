@@ -104,7 +104,6 @@ s32 set_global_param__8TObjFishFl();
 }
 
 struct Obj_8018CBF0 { u8 pad0[0x84]; s32 id; };
-struct Obj_8018CB44 { u8 pad0[0x1C]; u16 f1C; u8 pad1[0x62]; u32 f80; s32 f84; };
 struct Obj_8018CFD4 { u8 pad[0x38]; Vec pos; };
 
 // This TU was compiled -inline deferred: the functions below are written
@@ -489,13 +488,12 @@ void TObjContainerJungEnemy::debug_print_item_box_info() {
 }
 
 f32 TObjContainerJungEnemy::receive_physical_attack(void *, f32) {
-    Obj_8018CB44 *arg0 = (Obj_8018CB44 *)this;
     s16 sp8;
     G_FloorEvent_6x67 pkt;
-    if ((this->entity_id >= 0x1000U) && (arg0->f80 != 0U) && (((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 1) != 0)) {
+    if ((this->entity_id >= 0x1000U) && (set_entry != NULL) && (access_object_saved_state(&sp8, 1) != 0)) {
         sp8 = 1;
-        ((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 0);
-        ((TObjCollidable *)arg0)->send_object_state_update(&sp8);
+        access_object_saved_state(&sp8, 0);
+        send_object_state_update(&sp8);
         pkt.init();
         pkt.header.client_id = this->entity_id;
         pkt.floor = get_current_floor();

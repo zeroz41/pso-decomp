@@ -239,7 +239,6 @@ struct TLobby : public TObject {
     void bswap_header();
     void update_and_send_60();
 
-    static void free_char_select_resources();
     static void *create_npc(void *arg0);
     static u8 is_idle();
     static void init_limits();
@@ -799,9 +798,6 @@ struct TLobby : public TObject {
     static void load_network_configs();
     static void teardown_boss2();
     static s32 set_dns_servers();
-    static void dispatch_fish_event(void* a0);
-    static void free_chr_select_slot();
-    static void load_console_resources();
     void update_battle_sync(s32 t);
     static void send_battle_mode_data(void * _w0);
     void send_command(u32 arg1);
