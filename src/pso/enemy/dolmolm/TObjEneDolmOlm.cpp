@@ -53,6 +53,7 @@ struct VObj_80301690_80300CE4 : Base_80301690_80300CE4 {
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/effect/TUnk_80494968.h"
 
 struct RecoveredGlobal_80300FC0_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
 LAYOUT_ASSERT(RecoveredGlobal_80300FC0_lbl_8058D490_size, sizeof(RecoveredGlobal_80300FC0_lbl_8058D490) == 0x30);
@@ -426,10 +427,6 @@ extern "C" {
 s32 select_enemy_destination(void *, void *, int);
 s32 copy_position_if_valid__10TObjPlayerFii(void *, void *);
 s32 test_elt_flag__13TUnk_80493450Fll(void *, int, int);
-s32 dispatch_shared_handler_a__6TLobbyFl(int);
-s32 register_object__6TLobbyFl(int);
-s32 dispatch_shared_handler_b__6TLobbyFl(int);
-s32 register_boss__6TLobbyFl(int);
 u8 *load_resource_from_descriptor(void *, int, void *, int, int, int);
 extern uaddr dolm_olm_combat_stat_id_pair;
 extern uaddr TObjEneDolmOlm__shared_handler_ids;
@@ -444,7 +441,6 @@ void *__ct__11TObjControlFP7TObject(void *, void *);
 u8 *__ct__14TObjEneDolmOlmFll(u8 *, s32, s32);
 void mem_free(void*);
 s32 get_mode__11TCameraCtrlFPv(void *);
-s32 create__13TUnk_80494968FUlUl(u32, u32);
 s32 init_collision_body_parts(void *, void *, int);
 extern const char *obj_ene_dolm_olm_class_name;
 extern "C" {
@@ -638,8 +634,8 @@ TObjEneDolmOlm::TObjEneDolmOlm(saddr arg1, s32 arg2) : TUnk_80493450((TObject *)
     }
     ((VObj_14_fa0828 *) (((u8 *)this) + 0x3A8))->m3();
     this->m_390 = 1;
-    *(s32 *)&this->m_3c4 = create__13TUnk_80494968FUlUl(0xA0303030, col);
-    *(s32 *)&this->m_3c8 = create__13TUnk_80494968FUlUl(0xA0303030, col);
+    *(s32 *)&this->m_3c4 = (saddr)TUnk_80494968::create(0xA0303030, col);
+    *(s32 *)&this->m_3c8 = (saddr)TUnk_80494968::create(0xA0303030, col);
     *(f32 *)&this->m_398 = ((f32 **) TObjEneDolmOlm__behavior_params_by_variant)[*(s32 *)&this->variant][0];
     *(f32 *)&this->m_3a0 = ((f32 **) TObjEneDolmOlm__behavior_params_by_variant)[*(s32 *)&this->variant][1];
     *(f32 *)((s8 *)this + 0x39C) = ((f32 **) TObjEneDolmOlm__behavior_params_by_variant)[*(s32 *)&this->variant][2];
@@ -690,14 +686,14 @@ void TObjEneDolmOlm::load_shared_resources() {
     TObjEneDolmOlm__shared_handler_ids = (uaddr) mem_alloc(8);
     TObjEneDolmOlm__registered_object_ids = (uaddr) mem_alloc(8);
     TObjEneDolmOlm__behavior_params_by_variant = (uaddr) mem_alloc(8);
-    ((s32 *) dolm_olm_combat_stat_id_pair)[0] = register_boss__6TLobbyFl(0x4F);
-    ((s32 *) dolm_olm_combat_stat_id_pair)[1] = register_boss__6TLobbyFl(0x50);
-    ((s32 *) TObjEneDolmOlm__shared_handler_ids)[0] = dispatch_shared_handler_b__6TLobbyFl(0x54);
-    ((s32 *) TObjEneDolmOlm__shared_handler_ids)[1] = dispatch_shared_handler_b__6TLobbyFl(0x55);
-    ((s32 *) TObjEneDolmOlm__registered_object_ids)[0] = register_object__6TLobbyFl(0x4E);
-    ((s32 *) TObjEneDolmOlm__registered_object_ids)[1] = register_object__6TLobbyFl(0x4F);
-    ((s32 *) TObjEneDolmOlm__behavior_params_by_variant)[0] = dispatch_shared_handler_a__6TLobbyFl(0x4E);
-    ((s32 *) TObjEneDolmOlm__behavior_params_by_variant)[1] = dispatch_shared_handler_a__6TLobbyFl(0x4F);
+    ((s32 *) dolm_olm_combat_stat_id_pair)[0] = (saddr)TLobby::register_boss(0x4F);
+    ((s32 *) dolm_olm_combat_stat_id_pair)[1] = (saddr)TLobby::register_boss(0x50);
+    ((s32 *) TObjEneDolmOlm__shared_handler_ids)[0] = (saddr)TLobby::dispatch_shared_handler_b(0x54);
+    ((s32 *) TObjEneDolmOlm__shared_handler_ids)[1] = (saddr)TLobby::dispatch_shared_handler_b(0x55);
+    ((s32 *) TObjEneDolmOlm__registered_object_ids)[0] = (saddr)TLobby::register_object(0x4E);
+    ((s32 *) TObjEneDolmOlm__registered_object_ids)[1] = (saddr)TLobby::register_object(0x4F);
+    ((s32 *) TObjEneDolmOlm__behavior_params_by_variant)[0] = (saddr)TLobby::dispatch_shared_handler_a(0x4E);
+    ((s32 *) TObjEneDolmOlm__behavior_params_by_variant)[1] = (saddr)TLobby::dispatch_shared_handler_a(0x4F);
     TObjEneDolmOlm__effect_render_state = 0;
     {
         s16 ids[2] = { 69, 79 };

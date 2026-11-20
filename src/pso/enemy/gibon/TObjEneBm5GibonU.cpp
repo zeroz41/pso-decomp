@@ -70,10 +70,6 @@ void TObjEneDD__sub_800BA378(s32 arg0, u8 *arg1);
 s32 TObjEneBm5GibonU__sub_800D0968(TObjEneBm5GibonU *self, int);
 s32 approach_angle_limited(s32, s32, s32);
 s32 play_sound_effect(void *, void *, s32, s32);
-s32 dispatch_shared_handler_a__6TLobbyFl(s32);
-s32 register_object__6TLobbyFl(s32);
-s32 dispatch_shared_handler_b__6TLobbyFl(s32);
-s32 register_boss__6TLobbyFl(s32);
 BmlResource *load_enemy_bml_resource(BmlResourceDescriptor *);
 extern const s32 lbl_8043BF30[];
 extern const s32 lbl_8043BF38[];
@@ -480,7 +476,6 @@ s32 TObjEneBm5GibonU__render_node_index;
 s32 TObjEneBm5GibonU__render_joint_y_rotation;
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
-u32 enemy_probe_wall_ahead__13TBoss5GryphonFfff(void *, f32, f32, f32);
 s32 is_vec_xz_cross_negative(void *, void *);
 void spawn_dead_spot_scale15(s32 point, s32 delay);
 s32 vec3_add_to(void *, void *);
@@ -953,7 +948,7 @@ void TObjEneBm5GibonU__sub_800CDB98(TObjEneBm5GibonU *self, s32 arg1) {
                 if (self->check_hit_sphere(ang, 160.0f) == 0) {
                     f32 dx = 2.0f * (60.0f * sin_table_lookup(ang));
                     f32 dz = 2.0f * (60.0f * cos_table_lookup(ang));
-                    if (enemy_probe_wall_ahead__13TBoss5GryphonFfff(self, dx, dz, 1.0f) == 0) {
+                    if ((u32)((TBoss5Gryphon *)self)->enemy_probe_wall_ahead(dx, dz, 1.0f) == 0) {
                         Vec v;
                         VecCopy(&v, (const Vec *)(Vec *)&self->m_2fc);
                         v.x += dx;
@@ -2822,10 +2817,10 @@ void TObjEneBm5GibonU::load_resources() {
     v[1] = 0.0f;
     v[2] = 0.0f;
     for (i = 0; i < 2; i++) {
-        TObjEneBm5GibonU__data_80500E78[i] = register_boss__6TLobbyFl(lbl_8043BF30[i]);
-        lbl_80500E80[i] = dispatch_shared_handler_b__6TLobbyFl(lbl_8043BF38[i]);
-        lbl_80500E88[i] = register_object__6TLobbyFl(lbl_8043BF40[i]);
-        lbl_80500E90[i] = dispatch_shared_handler_a__6TLobbyFl(lbl_8043BF48[i]);
+        TObjEneBm5GibonU__data_80500E78[i] = (saddr)TLobby::register_boss(lbl_8043BF30[i]);
+        lbl_80500E80[i] = (saddr)TLobby::dispatch_shared_handler_b(lbl_8043BF38[i]);
+        lbl_80500E88[i] = (saddr)TLobby::register_object(lbl_8043BF40[i]);
+        lbl_80500E90[i] = (saddr)TLobby::dispatch_shared_handler_a(lbl_8043BF48[i]);
     }
     GibonUAnimationBinding sp = TObjEneBm5GibonU__spawn_params;
     m = TObjEneBm5GibonU__model_archive;

@@ -193,9 +193,6 @@ s32 free_bin_model_request(BmlResource *, s32);
 int create__20TObjEneMe3StelthRealFPv(void*);
 
 
-s32 register_object__6TLobbyFl(s32);
-s32 dispatch_shared_handler_b__6TLobbyFl(s32);
-s32 register_boss__6TLobbyFl(s32);
 
 void draw_model__16TObjEneMe3StelthFPv(TObjEneMe3Stelth *stelth) {
     stelth->draw_ginja_motion_model();
@@ -235,13 +232,13 @@ void TObjEneMe3Stelth::load_shared_resources() {
         TObjEneMe3Stelth__alternate_texture_list.textures[i].texaddr = TObjEneMe3Stelth__alternate_texture_list.textures[i + 3].texaddr;
     }
     for (i = 0; i < 2; i++) {
-        TObjEneMe3Stelth__base_params_by_variant[i] = register_boss__6TLobbyFl(lbl_8043D47C[i]);
+        TObjEneMe3Stelth__base_params_by_variant[i] = (saddr)TLobby::register_boss(lbl_8043D47C[i]);
     }
     for (i = 0; i < 2; i++) {
-        TObjEneMe3Stelth__attack_params_by_variant[i] = dispatch_shared_handler_b__6TLobbyFl(lbl_8043D484[i]);
+        TObjEneMe3Stelth__attack_params_by_variant[i] = (saddr)TLobby::dispatch_shared_handler_b(lbl_8043D484[i]);
     }
     for (i = 0; i < 2; i++) {
-        TObjEneMe3Stelth__resistance_params_by_variant[i] = register_object__6TLobbyFl(lbl_8043D48C[i]);
+        TObjEneMe3Stelth__resistance_params_by_variant[i] = (saddr)TLobby::register_object(lbl_8043D48C[i]);
     }
     for (i = 0; i < 2; i++) {
         TObjEneMe3Stelth__behavior_params_by_variant[i] = (StelthBehaviorParams *)TLobby::dispatch_shared_handler_a(lbl_8043D494[i]);

@@ -1672,9 +1672,6 @@ struct RecoveredFields_8031E708_temp_r5
 };
 
 extern "C" {
-s32 register_object__6TLobbyFl(int);
-s32 dispatch_shared_handler_b__6TLobbyFl(int);
-s32 register_boss__6TLobbyFl(int);
 typedef struct RecoveredFields_8031E708_temp_r5 RecoveredFields_8031E708_temp_r5;
 void TObjEneRecon::load_resources() {
   u8 *temp_r5;
@@ -1682,9 +1679,9 @@ void TObjEneRecon::load_resources() {
   boss3_volopt_instance = (VObj_8031E650 *)new TUnk_8048FA00((long)TObjEneRecon__recobox_static_instance->models->model);
   recon_intro_stage = 0;
   recon_model_matrix_ptr = 0;
-  lbl_805D6AF0 = register_boss__6TLobbyFl(0x42);
-  TObjEneRecon__attack_params = dispatch_shared_handler_b__6TLobbyFl(0x42);
-  TObjEneRecon__resistance_params = register_object__6TLobbyFl(0x42);
+  lbl_805D6AF0 = (saddr)TLobby::register_boss(0x42);
+  TObjEneRecon__attack_params = (saddr)TLobby::dispatch_shared_handler_b(0x42);
+  TObjEneRecon__resistance_params = (saddr)TLobby::register_object(0x42);
   TObjEneRecon__data_805D6AFC = (f32 *)TLobby::dispatch_shared_handler_a(0x42);
   TObjEneRecon__sub_8031BC94();
   DelDepthAnimationBinding binding = recon_anim_binding;

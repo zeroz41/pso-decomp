@@ -1379,10 +1379,6 @@ __declspec(section ".data") s32 lappy_variant_speed_ptr_table[2];
 
 void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);
-s32 dispatch_shared_handler_a__6TLobbyFl(s32);
-s32 register_object__6TLobbyFl(s32);
-s32 dispatch_shared_handler_b__6TLobbyFl(s32);
-s32 register_boss__6TLobbyFl(s32);
 s32 load_resource_from_descriptor(s32, int, void *, int, int, int);
 }
 u8 *load_gvm_texture_file(s32 arg0);
@@ -1507,10 +1503,10 @@ void TObjEneLappy::load_resources() {
     }
     (*(s32 *)&rappy_visibility_node) = (s32)find_model_node((*(s32 *)(*(u8 **)(RES_800C17B8 + 0x42C) + 8)), 0x12);
     for (i = 0; i < 2; i++) {
-        lappy_boss_stats_handles[i] = register_boss__6TLobbyFl(i + 0x18);
-        lappy_boss_stats_ptrs_b[i] = dispatch_shared_handler_b__6TLobbyFl(i + 0x18);
-        lappy_object_handles[i] = register_object__6TLobbyFl(i + 0x18);
-        lappy_variant_speed_ptr_table[i] = dispatch_shared_handler_a__6TLobbyFl(i + 0x18);
+        lappy_boss_stats_handles[i] = (saddr)TLobby::register_boss(i + 0x18);
+        lappy_boss_stats_ptrs_b[i] = (saddr)TLobby::dispatch_shared_handler_b(i + 0x18);
+        lappy_object_handles[i] = (saddr)TLobby::register_object(i + 0x18);
+        lappy_variant_speed_ptr_table[i] = (saddr)TLobby::dispatch_shared_handler_a(i + 0x18);
     }
     {
         u8 *res = RES_800C17B8;

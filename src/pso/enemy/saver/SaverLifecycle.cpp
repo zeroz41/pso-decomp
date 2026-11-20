@@ -38,6 +38,7 @@ extern "C" void test_flag_1000__9TObjCharaFv();
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
+#include "pso/effect/TUnk_80494968.h"
 
 struct Obj_800A6B14;
 
@@ -66,9 +67,6 @@ s32 update_movement_status__9TObjCharaFv();
 s32 update_movement_status__12TObjEneSaverFv(u8 *arg0);
 s32 update_action_hold_status__9TObjCharaFv();
 s32 update_action_hold_status__12TObjEneSaverFv(u8 *arg0);
-s32 register_object__6TLobbyFl(int);
-s32 dispatch_shared_handler_b__6TLobbyFl(int);
-s32 register_boss__6TLobbyFl(int);
 void *load_resource_from_descriptor(void *, int, void *, int, int, int);
 extern void *bm_ene_df1_saver_model_names[2];
 extern void *bm_ene_df1_saver_motion_names[12];
@@ -92,7 +90,6 @@ s32 free_collision_body_parts(void *);
 extern void *TObjEneSaver__vtable[83];
 Obj_800A73F8 *__dt__12TObjEneSaverFv(Obj_800A73F8 *arg0, s16 arg1);
 void* get_center__12TObjEneSaverFv(void* p);
-s32 create__13TUnk_80494968FUlUl(u32, u32);
 void __ct__9TObjEnemyFP7TObject(void *, void *, void *);
 void init_collision_body_parts(void *, void *, s32);
 u8 *TObjEneSaver__ct(TObjEneSaver *arg0, void *arg1, void *arg2);
@@ -1994,11 +1991,11 @@ void initialize_saver_resources(void) {
     dir.y = dir.z = 0.0f;
     ((SampledMotionPoints *)lbl_805D506C)->sample_node_offsets((NJS_OBJECT *)RES->sub->f8, (NJS_MOTION *)(RES->ents[saver_action_table[3].motion].b), 0x19, (const Vec *)&pos, (const Vec *)&dir);
     player_object_ptr_array = (s32 *)mem_alloc(0xC);
-    saver_boss_stat_handle = register_boss__6TLobbyFl(0x52);
-    player_object_ptr_array[0] = dispatch_shared_handler_b__6TLobbyFl(0x57);
-    player_object_ptr_array[2] = dispatch_shared_handler_b__6TLobbyFl(0x58);
-    player_object_ptr_array[1] = dispatch_shared_handler_b__6TLobbyFl(0x59);
-    saver_object_stat_handle = register_object__6TLobbyFl(0x51);
+    saver_boss_stat_handle = (saddr)TLobby::register_boss(0x52);
+    player_object_ptr_array[0] = (saddr)TLobby::dispatch_shared_handler_b(0x57);
+    player_object_ptr_array[2] = (saddr)TLobby::dispatch_shared_handler_b(0x58);
+    player_object_ptr_array[1] = (saddr)TLobby::dispatch_shared_handler_b(0x59);
+    saver_object_stat_handle = (saddr)TLobby::register_object(0x51);
     lbl_805D504C = (f32 *)TLobby::dispatch_shared_handler_a(0x51);
     Init_800A715C init = saver_init_binding_desc;
     init.motions = (saddr)RES->ents;
@@ -2079,9 +2076,9 @@ u8 *TObjEneSaver__ct(TObjEneSaver *arg0, void *arg1, void *arg2) {
     arg0->m_384 = 0x101;
     p = new TEneParticleCtrl(arg0, arg0->m_380);
     *(void **)((s8 *)arg0 + 0x3A0) = p;
-    *(s32 *)((s8 *)arg0 + 0x3C0) = create__13TUnk_80494968FUlUl(0xA0303030, 0xFFFF0088);
-    *(s32 *)((s8 *)arg0 + 0x3C4) = create__13TUnk_80494968FUlUl(0xA0303030, 0xFFFF0088);
-    *(s32 *)((s8 *)arg0 + 0x3C8) = create__13TUnk_80494968FUlUl(0xA0303030, 0xFF303030);
+    *(s32 *)((s8 *)arg0 + 0x3C0) = (saddr)TUnk_80494968::create(0xA0303030, 0xFFFF0088);
+    *(s32 *)((s8 *)arg0 + 0x3C4) = (saddr)TUnk_80494968::create(0xA0303030, 0xFFFF0088);
+    *(s32 *)((s8 *)arg0 + 0x3C8) = (saddr)TUnk_80494968::create(0xA0303030, 0xFF303030);
     arg0->clear_lobby_object_state();
     return (u8 *)arg0;
 }

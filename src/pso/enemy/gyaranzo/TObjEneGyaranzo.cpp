@@ -240,7 +240,6 @@ void init_params_from_table__15TObjEneGyaranzoFv(u8 *arg0);
 
 s32 check_path_obstructed(void *, void *);
 
-u8 *get_player_data__10TObjPlayerFi(s32);
 
 u16 get_entity_id(void *);
 
@@ -392,13 +391,9 @@ struct Gy_800D3ED8 { u8 pad[0x3EC]; E_800D3ED8 e3EC[4]; };
 s32 is_split_screen();
 
 
-s32 dispatch_shared_handler_a__6TLobbyFl(int);
 
-s32 register_object__6TLobbyFl(int);
 
-s32 dispatch_shared_handler_b__6TLobbyFl(int);
 
-s32 register_boss__6TLobbyFl(int);
 
 s32 get_bml_motion(u32, int);
 
@@ -840,10 +835,10 @@ void TLobby::load_gyaranzo_resources() {
     (*(s32 *)&lbl_805D5204) = (s32)find_model_node(AREA->res->r38, 0xD);
     p = new TUnk_8048FA00((int)AREA->res->r38, (int)get_bml_motion(gyaranzo_bml_resource, 3), 54.0f);
     (*(struct VObj_800D3BA0_800D3B38 * *)&gyaranzo_breakup_model_obj) = (VObj_800D3BA0_800D3B38 *)p;
-    gyaranzo_boss_stats_handle = register_boss__6TLobbyFl(0x1D);
-    gyaranzo_boss_stats_ptr_b = dispatch_shared_handler_b__6TLobbyFl(0x1D);
-    gyaranzo_object_handle = register_object__6TLobbyFl(0x1D);
-    gyaranzo_missile_param_table = dispatch_shared_handler_a__6TLobbyFl(0x1D);
+    gyaranzo_boss_stats_handle = (saddr)TLobby::register_boss(0x1D);
+    gyaranzo_boss_stats_ptr_b = (saddr)TLobby::dispatch_shared_handler_b(0x1D);
+    gyaranzo_object_handle = (saddr)TLobby::register_object(0x1D);
+    gyaranzo_missile_param_table = (saddr)TLobby::dispatch_shared_handler_a(0x1D);
     {
         GyaranzoAnimationBinding pos = {NULL, gyaranzo_action_table, 1, 8, 0};
         pos.motions = AREA->motions;
@@ -1488,7 +1483,7 @@ void TObjEneGyaranzo::select_targets() {
         count += lbl_805D5870;
     }
     for (i = 0; i < count; i++) {
-        p = get_player_data__10TObjPlayerFi(i);
+        p = (u8 *)TObjPlayer::get_player_data(i);
         if (TObjPlayer::is_valid_and_active((uaddr)p) == 0) continue;
         if (p == arg0) continue;
         if (*(u32 *)((s8 *)p + 0x30) & 0x2000800) continue;

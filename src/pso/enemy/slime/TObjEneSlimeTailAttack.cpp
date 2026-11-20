@@ -186,7 +186,6 @@ struct Stack_800EB4A0 {
 };
 
 u16 find_nearest_visible_player(void *, void *, f32);
-f32 * dispatch_shared_handler_a__6TLobbyFl(s32);
 u8 * get_bml_motion(s32, s32);
 s32 exchange_object_state__9TObjEnemyFls(void *, void *, int);
 void transform_to_view__11TCameraCtrlFii(s32, s32);
@@ -1786,7 +1785,7 @@ void *TObjEneSlimeWaterBomb__ct(TObjEneSlimeWaterBomb *ene_slime_water_bomb, voi
     ene_slime_water_bomb->m_37c = 0.6f * c;
     *(f32 *)((s8 *)ene_slime_water_bomb + 0x384) = 0.0f;
     *(s32 *)&ene_slime_water_bomb->m_388 = (saddr)create_particle_emitter((u8 *) ene_slime_water_bomb + 0x38, 0xCF);
-    *(f32 *)((s8 *)ene_slime_water_bomb + 0x390) = *dispatch_shared_handler_a__6TLobbyFl(TObjEneSlime__attack_target_param_table[((TObjEneSlimeOne *)(*(s32 *)&ene_slime_water_bomb->m_38c))->get_attack_target()]);
+    *(f32 *)((s8 *)ene_slime_water_bomb + 0x390) = *(f32 *)TLobby::dispatch_shared_handler_a(TObjEneSlime__attack_target_param_table[((TObjEneSlimeOne *)(*(s32 *)&ene_slime_water_bomb->m_38c))->get_attack_target()]);
     if (*(f32 *)((s8 *)ene_slime_water_bomb + 0x390) < 0.0f) {
         *(f32 *)((s8 *)ene_slime_water_bomb + 0x390) = 0.0f;
     }

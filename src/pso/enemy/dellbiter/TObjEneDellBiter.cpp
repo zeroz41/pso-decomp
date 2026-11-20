@@ -58,6 +58,7 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/task/TObject.h"
 
@@ -78,7 +79,6 @@ s32 TObjEneDellBiter__last_uv_scroll_tick;
 s32 turn_toward_angle_limited__15TObjBoss2TunnelFlllll(int, int, int, int, int);
 void fill_value_array(s32 address);
 s32 enemy_validate_retained_target(u8 *ene_dd_st);
-u32 enemy_probe_wall_ahead__13TBoss5GryphonFfff(void *, f32, f32, f32);
 s16 get_attack_params_atp_min(void *p);
 s32 obj_is_hit_receivable(u8 *arg0);
 u16 get_entity_id(void *);
@@ -122,9 +122,6 @@ extern const char *lbl_804E6C80[2];
 extern const char *lbl_804E6C88[11];
 
 extern "C" {
-s32 register_object__6TLobbyFl(int);
-s32 dispatch_shared_handler_b__6TLobbyFl(int);
-s32 register_boss__6TLobbyFl(int);
 void *load_enemy_bml_resource(void *);
 }
 DelbiterInitialParameters TObjEneDellBiter__param_table = {
@@ -185,9 +182,9 @@ void TObjEneDellBiter::load_resources() {
     } else {
         TObjEneDellBiter__shared_model_resource = (uaddr)load_enemy_bml_resource(&lbl_804E6C70);
     }
-    dellbiter_boss_stat_handle = register_boss__6TLobbyFl(0xD);
-    TObjEneDellBiter__shared_handler_param = dispatch_shared_handler_b__6TLobbyFl(0xD);
-    dellbiter_object_stat_handle = register_object__6TLobbyFl(0xD);
+    dellbiter_boss_stat_handle = (saddr)TLobby::register_boss(0xD);
+    TObjEneDellBiter__shared_handler_param = (saddr)TLobby::dispatch_shared_handler_b(0xD);
+    dellbiter_object_stat_handle = (saddr)TLobby::register_object(0xD);
     TObjEneDellBiter__movement_params = (DelbiterMovementParameters *)TLobby::dispatch_shared_handler_a(0xD);
     TObjEneDellBiter__demo_script_step = 0;
     TObjEneDellBiter__demo_rotate_x_angle = 0;
@@ -1043,7 +1040,7 @@ void TObjEneDellBiter::fn_803044AC(s32 reason) {
                 this->update_velocity();
             }
             hit = 0;
-            if (enemy_probe_wall_ahead__13TBoss5GryphonFfff(this, target_direction.x, target_direction.z, 30.0f * TObjEneDellBiter__movement_params->rush_speed) != 0) {
+            if ((u32)((TBoss5Gryphon *)this)->enemy_probe_wall_ahead(target_direction.x, target_direction.z, 30.0f * TObjEneDellBiter__movement_params->rush_speed) != 0) {
                 hit = 1;
             }
             this->move_clamped_on_ground(target_direction.x, target_direction.z, TObjEneDellBiter__movement_params->rush_speed);

@@ -168,7 +168,6 @@ TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 s32 check_hit_flag__16TObjEneRe2FlowerFv(void *);
 s32 TObjPlayer__sub_800C4A5C(int, void *, void *, int);
 s32 play_sound_effect(void *, void *, int, int);
-u32 __nw__7TObjectFUl(int);
 extern const f32 lbl_805D9FD8;
 extern const f32 lbl_805D9FDC;
 extern const f32 lbl_805D9FAC;
@@ -816,7 +815,7 @@ void fn_800C32DC(u8 *owner, s32 arg1) {
             if ((((TObjEneRe2Flower *)owner)->get_flag_11() != 0) || (TObjEneDD::check_v2_mode() != 0)) {
                 TTecMegid::create_ex((saddr)owner, (saddr)((void *)&stack.x), (s32)((int) (((TObjEneRe2Flower *)owner)->rotation_y)), (s32)((int) (TObjEneDD::clamp_frame_index((int) (*(s32 *)((s8 *)re2_flower_movement_params + 0x18))))));
             } else {
-                temp_r3_3 = __nw__7TObjectFUl(0x104);
+                temp_r3_3 = (uaddr)TObject::operator new(0x104);
                 if (temp_r3_3 != 0U) {
                     TObjPlayer__sub_800C4A5C(temp_r3_3, owner, &stack.x, (int) (((TObjEneRe2Flower *)owner)->rotation_y));
                 }

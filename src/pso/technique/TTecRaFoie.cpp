@@ -473,7 +473,7 @@ u8 *create_rafoie_explosion(u8 *arg0, s32 *arg1, s16 arg2, s16 arg3, s32 arg4, f
     VecCopy((Vec *)(&stack.sp8), (const Vec *)(arg0 + 0x28));
     stack.spC += (5.0f);
     VecCopy((Vec *)(arg0 + 0x28), (const Vec *)(&stack.sp8));
-    spawn_rafoie_explosion_bursts__13TUnk_804CCB28Fv(arg0);
+    ((TUnk_804CCB28 *)arg0)->spawn_rafoie_explosion_bursts();
     ((TUnk_804CCB28 *)arg0)->m_24 = (s32)new TUnk_804DDF04(0x11, (TObject *)arg0);
     ((TUnk_804CCB28 *)arg0)->m_40 = (f32) (1.9f);
     return arg0;
@@ -502,7 +502,7 @@ u8 *create_fire_explosion_effect(u8 *arg0, s32 *arg1, s16 arg2, s32 arg3, f32 fa
     VecCopy((Vec *)(&stack.sp8), (const Vec *)(arg0 + 0x28));
     stack.spC += (5.0f);
     VecCopy((Vec *)(arg0 + 0x28), (const Vec *)(&stack.sp8));
-    spawn_rafoie_explosion_bursts__13TUnk_804CCB28Fv(arg0);
+    ((TUnk_804CCB28 *)arg0)->spawn_rafoie_explosion_bursts();
     ((TUnk_804CCB28 *)arg0)->m_24 = (s32)new TUnk_804DDF04(0x11, (TObject *)arg0);
     ((TUnk_804CCB28 *)arg0)->m_40 = (f32) (1.9f);
     return arg0;

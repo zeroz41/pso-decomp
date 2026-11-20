@@ -122,9 +122,6 @@ void scale_matrix(s32, s32, f32, f32, f32);
 
 struct Params_800F0464 { s32 a; void *actions; s32 c, d; };
 
-s32 register_object__6TLobbyFl(int);
-s32 dispatch_shared_handler_b__6TLobbyFl(int);
-s32 register_boss__6TLobbyFl(int);
 void free_bin_model_request(void*, int);
 s32 *csnVectorUnder(s32 arg0, u32 *arg1, s32 arg2);
 s32 TObjPlayer__sub_800A04F0(void *);
@@ -1695,9 +1692,9 @@ void TObjEneRe4Sorcerer::load_resources() {
     } else {
         sorcerer_bml_resource = (BmlResource *)load_enemy_bml_resource((u8 *)&bm_ene_re4_sorcerer_resource_descriptor);
     }
-    lbl_805D52D0 = register_boss__6TLobbyFl(0xA);
-    TObjEneRe4Sorcerer__attack_params = dispatch_shared_handler_b__6TLobbyFl(0xA);
-    TObjEneRe4Sorcerer__resistance_params = register_object__6TLobbyFl(0xA);
+    lbl_805D52D0 = (saddr)TLobby::register_boss(0xA);
+    TObjEneRe4Sorcerer__attack_params = (saddr)TLobby::dispatch_shared_handler_b(0xA);
+    TObjEneRe4Sorcerer__resistance_params = (saddr)TLobby::register_object(0xA);
     sorcerer_behavior_params = (s32 *)TLobby::dispatch_shared_handler_a(0xA);
     TObjEneRe4Sorcerer__render_node_index = 0;
     TObjEneRe4Sorcerer__saved_render_flags = 0;

@@ -82,7 +82,6 @@ struct BeamRotation { s32 x, y, z; };
 extern "C" void *spawn_directional_particle(void *pos, void *dir, s32 id);
 extern "C" void TObjPlayer__sub_800DCD04(void *, void *, int, void *, s32, int);
 extern "C" void *find_entity_by_id(u16 id);
-extern "C" u32 __nw__7TObjectFUl(u32);
 extern "C" s32 enemy_turn_half_toward_dest(void *);
 extern "C" s32 construct_beam_effect__10TObjPlayerFPvPvPviPv(u32, void *, void *, u8, void *);
 extern "C" s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
@@ -131,10 +130,6 @@ struct NanoDragoAnimationBinding {
 };
 
 extern "C" void obj_setFlags30(void *, u32);
-extern "C" s32 dispatch_shared_handler_a__6TLobbyFl(int);
-extern "C" s32 register_object__6TLobbyFl(int);
-extern "C" s32 dispatch_shared_handler_b__6TLobbyFl(int);
-extern "C" s32 register_boss__6TLobbyFl(int);
 extern "C" void free_bin_model_request(void*, int);
 extern "C" u8 * load_resource_from_descriptor(void *, s32, s32 *, s32, s32, s32);
 extern "C" s32 find_active_entity_by_id(int);
@@ -271,10 +266,10 @@ void TObjEneNanoDrago::load_resources() {
         resource = (u8 *)(load_resource_from_descriptor(storage, 1, (s32 *)&bm_ene_nanodrago_resource_descriptor, 0, 0, 0));
     }
     nano_drago_entry_params_resource = (BmlResource *)resource;
-    nano_drago_base_params = register_boss__6TLobbyFl(0x1A);
-    nano_drago_attack_params = dispatch_shared_handler_b__6TLobbyFl(0x1A);
-    nano_drago_resistance_params = register_object__6TLobbyFl(0x1A);
-    lbl_805D5254 = dispatch_shared_handler_a__6TLobbyFl(0x1A);
+    nano_drago_base_params = (saddr)TLobby::register_boss(0x1A);
+    nano_drago_attack_params = (saddr)TLobby::dispatch_shared_handler_b(0x1A);
+    nano_drago_resistance_params = (saddr)TLobby::register_object(0x1A);
+    lbl_805D5254 = (saddr)TLobby::dispatch_shared_handler_a(0x1A);
     NanoDragoAnimationBinding binding = { nano_drago_entry_params_resource->motions, nanodrago_action_table, 1, 0xC0000 };
     modelEntries = nano_drago_entry_params_resource->models;
     TLobby::spawn_npc_enemy((s16)(0x22), modelEntries[0].model, (NJS_TEXLIST *)modelEntries[0].m_c, &binding, (f32)(15.0f), (f32)(0.0f));
@@ -618,7 +613,7 @@ void TObjEneNanoDrago::update_single_beam_state() {
             play_persistent_sound(0x4003AD1E, (saddr)this, (uaddr)&position, 0, 0);
             if (frame >= 20.0f) {
                 capture_beam_origins();
-                u32 obj = __nw__7TObjectFUl(0x100);
+                u32 obj = (uaddr)TObject::operator new(0x100);
                 if (obj != 0U) {
                     construct_beam_effect__10TObjPlayerFPvPvPviPv(obj, &beamOrigins[0], target + 0x2FC, (u8) !(actorFlags & 0x01000000), this);
                 }
