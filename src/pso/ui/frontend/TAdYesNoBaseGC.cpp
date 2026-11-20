@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/frontend/TAdYesNoBaseGC.h"
@@ -30,7 +31,6 @@ struct VObj_18 : VBase_18 {
 extern "C" {
 s32 update_window_mode_from_progress__6TLobbyFPv(void *, void *);
 void align_menu_entry_positions(s32);
-void update_layout_height__21TWindowSubComCardListFf(f32);
 u8 *init_shop_judgment_window(void *p);
 struct VtBase8032C1C8_8032C188 { char pad[0x18]; };
 struct VtObj8032C1C8_8032C188 : VtBase8032C1C8_8032C188 {
@@ -48,7 +48,6 @@ void *TAdYesNoBaseGC__ct(TAdYesNoBaseGC *arg0);
 void *__ct__12TAdBackTxtGCFv(void *, void *);
 void __ct__7TObjectFP7TObject(void *);
 void *__ct__9TAdBackGCFv(void *, void *);
-void copy_vec2__28TWindowSubSymbolChatPartsSetFPv(void *);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 
 #pragma readonly_strings on
@@ -66,15 +65,15 @@ s32 TAdYesNoBaseGC::create_menu_window() {
     TAdYesNoBaseGC *arg0 = this;
     NJS_POINT2 pos = {85.0f, 384.0f};
     saddr r = (saddr)init_shop_judgment_window(&pos);
-    update_layout_height__21TWindowSubComCardListFf(470.0f);
+    ((TWindowSubComCardList *)r)->update_layout_height(470.0f);
     align_menu_entry_positions(r);
     ((TWindowSubComCardList *)r)->set_selected_index((s16)arg0->m_2c);
     return r;
 }
 
 void TAdYesNoBaseGC::init_parts(void *arg1, void *arg2) {
-    copy_vec2__28TWindowSubSymbolChatPartsSetFPv((void *)((char *)this + 48));
-    ((void (*)(void *, void *))copy_vec2__28TWindowSubSymbolChatPartsSetFPv)((void *)((char *)this + 56), arg2);
+    ((TWindowSubSymbolChatPartsSet *)((char *)this + 48))->copy_vec2(arg1);
+    ((TWindowSubSymbolChatPartsSet *)((char *)this + 56))->copy_vec2(arg2);
 }
 
 extern s8 controller_input_state[];

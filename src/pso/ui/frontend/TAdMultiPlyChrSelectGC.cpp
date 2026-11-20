@@ -73,7 +73,6 @@ s32 is_multiplayer_character_slot_selected(s32 arg0);
 extern "C" {
 s32 TAdMultiPlyChrSelectGC__sub_802C6558();
 s32 TAdMultiPlyChrSelectGC__sub_802C658C(s32 arg0);
-s32 clear_entries__18TAdChrMoveEffectGCFv();
 s32 get_instance__22TAdMultiPlyChrSelectGCFv(s32);
 int request_scene_change__21TAdMultiChgGameModeGCFv(void*);
 }
@@ -1264,8 +1263,11 @@ void TAdMultiPlyChrSelectGC::reset_to_select() {
     Stack_802DDF40 stack;
     s32 temp_r31;
     s32 temp_r3;
-    if (TAdMultiPlyChrSelectGC::get_global_state() != 0U) {
-        clear_entries__18TAdChrMoveEffectGCFv();
+    {
+        uaddr effect = TAdMultiPlyChrSelectGC::get_global_state();
+        if (effect != 0U) {
+            ((TAdChrMoveEffectGC *)effect)->clear_entries();
+        }
     }
     if (TAdMultiPlyChrSelectGC__sub_802C6558() > 0) {
         if ((is_slot_active__23TAdSinglePlyChrSelectGCFUi(TAdMultiPlyChrSelectGC__sub_802C658C(TAdMultiPlyChrSelectGC__sub_802C6920())) == 0) || ((s32) this->m_54 == 0)) {
@@ -1604,8 +1606,11 @@ void TAdMultiPlyChrSelectGC::update_state() {
             ((TObject *)(*(void * *)&this->unk_80))->queue_destruction();
             *(u32 *)&this->unk_80 = 0U;
         }
-        if (TAdMultiPlyChrSelectGC::get_global_state() != 0U) {
-            clear_entries__18TAdChrMoveEffectGCFv();
+        {
+            uaddr effect = TAdMultiPlyChrSelectGC::get_global_state();
+            if (effect != 0U) {
+                ((TAdChrMoveEffectGC *)effect)->clear_entries();
+            }
         }
         *(s32 *)&this->m_20 = 0x12;
     }
@@ -1755,8 +1760,11 @@ void TAdMultiPlyChrSelectGC__sub_802DD010(void *arg0) {
             ((TObject *)(*(void **)((s8 *)arg0 + 0x80)))->queue_destruction();
             *(u32 *)((s8 *)arg0 + 0x80) = 0U;
         }
-        if (TAdMultiPlyChrSelectGC::get_global_state() != 0U) {
-            clear_entries__18TAdChrMoveEffectGCFv();
+        {
+            uaddr effect = TAdMultiPlyChrSelectGC::get_global_state();
+            if (effect != 0U) {
+                ((TAdChrMoveEffectGC *)effect)->clear_entries();
+            }
         }
         *(s32 *)((s8 *)arg0 + 0x20) = 0x17;
     }
@@ -2083,8 +2091,11 @@ void TAdMultiPlyChrSelectGC__sub_802DC440(void *arg0) {
         if (((TAdMultiPlyChrSelectGC *)(*(saddr *)((s8 *)arg0 + 0x68)))->get_player_index() < 0xE) {
             *(s32 *)((s8 *)arg0 + 0x58) = 0;
         }
-        if (TAdMultiPlyChrSelectGC::get_global_state() != 0U) {
-            clear_entries__18TAdChrMoveEffectGCFv();
+        {
+            uaddr effect = TAdMultiPlyChrSelectGC::get_global_state();
+            if (effect != 0U) {
+                ((TAdChrMoveEffectGC *)effect)->clear_entries();
+            }
         }
         *(s32 *)((s8 *)arg0 + 0x20) = 0x1D;
         return;
@@ -2099,8 +2110,11 @@ void TAdMultiPlyChrSelectGC__sub_802DC440(void *arg0) {
             ((TObject *)(*(void **)((s8 *)arg0 + 0x80)))->queue_destruction();
             *(u32 *)((s8 *)arg0 + 0x80) = 0U;
         }
-        if (TAdMultiPlyChrSelectGC::get_global_state() != 0U) {
-            clear_entries__18TAdChrMoveEffectGCFv();
+        {
+            uaddr effect = TAdMultiPlyChrSelectGC::get_global_state();
+            if (effect != 0U) {
+                ((TAdChrMoveEffectGC *)effect)->clear_entries();
+            }
         }
         ((TAdMultiPlyChrSelectGC *)(*(saddr *)((s8 *)arg0 + 0x5C)))->reset_cursor_state();
         *(s32 *)((s8 *)arg0 + 0x20) = 0x24;
@@ -2124,15 +2138,21 @@ void TAdMultiPlyChrSelectGC__sub_802DC310(void *arg0) {
         if (((TAdMultiPlyChrSelectGC *)(*(saddr *)((s8 *)arg0 + 0x68)))->get_player_index() < 0xE) {
             *(s32 *)((s8 *)arg0 + 0x58) = 0;
         }
-        if (TAdMultiPlyChrSelectGC::get_global_state() != 0U) {
-            clear_entries__18TAdChrMoveEffectGCFv();
+        {
+            uaddr effect = TAdMultiPlyChrSelectGC::get_global_state();
+            if (effect != 0U) {
+                ((TAdChrMoveEffectGC *)effect)->clear_entries();
+            }
         }
         *(s32 *)((s8 *)arg0 + 0x20) = 0x1D;
         return;
     }
     if (((TAdMultiPlyChrSelectGC *)(*(saddr *)((s8 *)arg0 + 0x6C)))->get_mode() == 0x1D) {
-        if (TAdMultiPlyChrSelectGC::get_global_state() != 0U) {
-            clear_entries__18TAdChrMoveEffectGCFv();
+        {
+            uaddr effect = TAdMultiPlyChrSelectGC::get_global_state();
+            if (effect != 0U) {
+                ((TAdChrMoveEffectGC *)effect)->clear_entries();
+            }
         }
         *(s32 *)((s8 *)arg0 + 0x20) = 0x1D;
         ((TAdMultiPlyChrSelectGC *)(*(saddr *)((s8 *)arg0 + 0x68)))->set_cursor_index(1);

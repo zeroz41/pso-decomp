@@ -51,8 +51,8 @@ struct TWindowSubSymbolChat : public TObject {
     void add(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
     void set_entry_bits(u16 v, s32 a, s32 idx, s32 b, s32 c);
     void set_symbol_flags(s32 arg1, s32 arg2);
-    void refresh_parts();
-    void update_layout();
+    static s32 refresh_parts();
+    static s32 update_layout();
     void update_symbol_chat_result();
     void update_selected_symbol();
     static void play_symbol_sound(s32 arg0);

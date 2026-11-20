@@ -90,7 +90,6 @@ struct S_802C50EC {
 extern s32 multi_ply_chr_select_slot_table[][5];
 extern "C" {
 void copy_vec2__28TWindowSubSymbolChatPartsSetFPv(void *);
-s32 get_field_20__22TAdMultiPlyChrSelectGCFv();
 s32 lbl_805D67D0;
 s32 lbl_805D67D4;
 s32 play_sound_effect(int, void *, int, int);
@@ -724,9 +723,9 @@ void TAdMultiPlyChrSelectGC::clear_slot_entries(s32 arg1) {
     arg0->f4DC[arg1] = 0;
 }
 
-void TAdMultiPlyChrSelectGC::init_slot_position(s32 arg1, s32 arg2, s32 arg3) {
+void TAdMultiPlyChrSelectGC::init_slot_position(saddr arg1, s32 arg2, s32 arg3) {
     S_802C5944 *arg0 = (S_802C5944 *)this;
-    copy_vec2__28TWindowSubSymbolChatPartsSetFPv(&arg0->v[arg2][arg3]);
+    ((TWindowSubSymbolChatPartsSet *)&arg0->v[arg2][arg3])->copy_vec2((void *)arg1);
     arg0->e[arg2][arg3].x = arg0->v[arg2][arg3].x;
     arg0->e[arg2][arg3].y = arg0->v[arg2][arg3].y;
     arg0->e[arg2][arg3].x = arg0->v[arg2][arg3].x + arg0->ox;
@@ -840,8 +839,7 @@ void TAdChrSelPlyPlateGC::draw_selection_cursors() {
     }
     if (TAdMultiPlyChrSelectGC__select_mode == 1) {
         TAdMultiPlyChrSelectGC::get_state();
-        TAdMultiPlyChrSelectGC::get_state();
-        if (get_field_20__22TAdMultiPlyChrSelectGCFv() < 0xD) {
+        if (((TAdMultiPlyChrSelectGC *)TAdMultiPlyChrSelectGC::get_state())->get_field_20() < 0xD) {
             return;
         }
     }

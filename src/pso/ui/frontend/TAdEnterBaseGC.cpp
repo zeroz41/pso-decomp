@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
 #include "types.h"
+#include "pso/ui/window/TWindowBase.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -124,7 +125,6 @@ void *__ct__19TAdPlyChrSelPlateGCFv(void *, s32, void *);
 
 
 
-void draw_window_frame__11TWindowBaseFPv();
 
 
 s32 update_window_mode_from_progress__6TLobbyFPv(const void *, const void *);
@@ -374,7 +374,7 @@ u32 TAdEnterSerialAccessGC::create_keyboard_control(saddr arg0, s32 arg1) {
 }
 
 void fn_8032AC9C(void *arg0, void *arg1) {
-    draw_window_frame__11TWindowBaseFPv();
+    ((TWindowBase *)arg0)->draw_window_frame(arg1);
     TAdSubPlyItemGC::render_status_line(password_screen_status_line_position[0].x, password_screen_status_line_position[0].y, 0.8f, (const char *)get_localized_text_entry(0x17, 4), -1);
     switch (TAdEnterBaseGC__entry_mode) {
     case 0:

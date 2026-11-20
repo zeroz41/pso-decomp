@@ -14,6 +14,7 @@
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdPlyStatusGC.h"
+#include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include <stdio.h>
 #include <string.h>
@@ -67,8 +68,6 @@ void update_hidden__14TAdPlyStatusGCFv(u8 *arg0);
 extern RecoveredGlobal_8033FB8C___vt__14TAdPlyStatusGC __vt__14TAdPlyStatusGC;
 extern u32 ply_status_gc_instance;
 void update_shown__14TAdPlyStatusGCFv(struct RecoveredFields_8033F9DC_arg0 *arg0);
-void set_depth__11TWindowBaseFf(f32);
-s32 create_callback__22TAdEnterSerialAccessGCFPvPvPv(const void *, const void *, void *);
 void draw_status_window__14TAdPlyStatusGCFPvPv(void *arg0, void *arg1);
 s32 TAdPlyStatusGC__sub_8033F8B0(void *arg0, const void *arg1);
 s32 disallow_rendering__7TObjectFv();
@@ -132,7 +131,6 @@ struct Box_8033F3D8 { f32 v[8]; };
 struct Item_8033F3D8 { s8 valid; u8 pad[0xF]; };
 struct Status_8033F3D8 { u8 pad[8]; u32 f8; };
 
-void draw_window_frame__11TWindowBaseFPv(void *);
 void draw_status_window__14TAdPlyStatusGCFPvPv(void *window_base, void *arg1) {
     Item_8033F3D8 items[3];
     Box_8033F3D8 box;
@@ -140,7 +138,7 @@ void draw_status_window__14TAdPlyStatusGCFPvPv(void *window_base, void *arg1) {
     NJS_POINT2 pts2[3];
     s32 i;
 
-    draw_window_frame__11TWindowBaseFPv(window_base);
+    ((TWindowBase *)window_base)->draw_window_frame(arg1);
     if ((u32)ply_status_chcr_load_afs != 0 && ((TChCrLoadAfs *)ply_status_chcr_load_afs)->is_unloaded() != 0 && TAdPlyStatusGC__is_shown != 0 &&
         (*(Status_8033F3D8 **)((TAdPlyStatusGC *)ply_status_chcr_load_afs)->get_status_sub())->f8 != 0) {
         box = TAdPlyStatusGC__status_window_box;
@@ -246,9 +244,9 @@ void TAdPlyStatusGC::format_status_strings() {
 }
 
 s32 TAdPlyStatusGC__sub_8033F8B0(void *arg0, const void *ad_enter_serial_access_gc) {
-    s32 r = create_callback__22TAdEnterSerialAccessGCFPvPvPv(ad_enter_serial_access_gc, &ply_status_window_position, (void *)draw_status_window__14TAdPlyStatusGCFPvPv);
-    set_depth__11TWindowBaseFf(60000.0f);
-    return r;
+    void *r = TAdEnterSerialAccessGC::create_callback((void *)ad_enter_serial_access_gc, (void *)&ply_status_window_position, (void *)draw_status_window__14TAdPlyStatusGCFPvPv);
+    ((TWindowBase *)r)->set_depth(60000.0f);
+    return (saddr)r;
 }
 
 void TAdPlyStatusGC::set_load_state(s32 arg1) {

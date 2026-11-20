@@ -47,7 +47,6 @@ extern "C" {
 void TWindowSubSymbolChat__sub_800771B0(Obj_800771B0 *arg0, s32 arg1);
 s32 TWindowSubSymbolChat__sub_800771C4(Obj_800771C4 *arg0, s32 arg1);
     extern int selected_symbol_chat_preset;
-saddr get_instance__20TWindowSubSymbolChatFv(void*);
 extern s32 local_client_id;
 s32 play_sound_effect(s32, u32, s16, s32);
 E_80077480 *get_character_save_record(u32 id);
@@ -180,9 +179,9 @@ void TWindowSubSymbolChat::set_symbol_flags(s32 arg1, s32 arg2) {
     *(s32 *)&this->m_name = (s32) (*(s32 *)&this->m_name | 1);
 }
 
-void TWindowSubSymbolChat::refresh_parts() { ((TWindowSubSymbolChat *)((Obj_80077098 *)get_instance__20TWindowSubSymbolChatFv(this)))->count_empty_slots(); }
+s32 TWindowSubSymbolChat::refresh_parts() { return ((TWindowSubSymbolChat *)TWindowSubSymbolChat::get_instance())->count_empty_slots(); }
 
-void TWindowSubSymbolChat::update_layout() { ((TWindowSubSymbolChat *)((Obj_800770D0 *)get_instance__20TWindowSubSymbolChatFv(this)))->count_used_slots(); }
+s32 TWindowSubSymbolChat::update_layout() { return ((TWindowSubSymbolChat *)TWindowSubSymbolChat::get_instance())->count_used_slots(); }
 
 void TWindowSubSymbolChat::update_symbol_chat_result() { selected_symbol_chat_preset = ((saddr)get_symbol_chat_preset((saddr)this)); }
 

@@ -217,7 +217,6 @@ f32 vec3_dot(void *, void *);
 s32 target_in_vertical_cone(Vec *p, Vec *q, s32 yaw, f32 range, f32 dist);
 extern Vec scratch_vec;
 s32 target_in_xz_cone(Vec *p, Vec *q, Vec *r, s32 yaw, f32 range, f32 dist);
-s32 set_size__11TMainCursorFf(f32);
 s32 TMainCursor__sub_8013F168(void *);
 s32 try_add_target_candidate__11TMainCursorFPvPvPvPv(u8 *cursor, u8 *player, u8 *target, Best_8013C288 *best);
 struct Ent_8013C678 { u32 id; f32 key; };
@@ -1099,8 +1098,7 @@ void TMainCursor::reset_cursor_parts() {
     var_r30 = 0;
     *(f32 *)((s8 *)arg0 + 0x18) = (f32) TMainCursor__data_805DB0C0;
     do {
-        get_record_at__11TMainCursorFPvi((u8 *)&this->m_40, var_r30);
-        set_size__11TMainCursorFf(TMainCursor__data_805DB0C0);
+        ((TMainCursor *)get_record_at__11TMainCursorFPvi((u8 *)&this->m_40, var_r30))->set_size(TMainCursor__data_805DB0C0);
         set_cursor_id__11TMainCursorFs((void *)get_record_at__11TMainCursorFPvi((u8 *)&this->m_40, var_r30), 0xFFFF);
         var_r30 += 1;
     } while (var_r30 < 0xA);
@@ -1196,7 +1194,7 @@ s32 try_add_target_candidate__11TMainCursorFPvPvPvPv(u8 *cursor, u8 *player, u8 
             slot = TMainCursor__sub_8013F168(cursor + 0x40);
             TMainCursor__sub_8013F13C((s32 *)(cursor + 0x40));
         }
-        ((void (*)(s32, f32))set_size__11TMainCursorFf)((saddr)get_record_at__11TMainCursorFPvi(cursor + 0x40, slot), dist);
+        ((TMainCursor *)get_record_at__11TMainCursorFPvi(cursor + 0x40, slot))->set_size(dist);
         ((TMainCursor *)(get_record_at__11TMainCursorFPvi(cursor + 0x40, slot)))->set_field2(i);
         set_cursor_id__11TMainCursorFs((void *)get_record_at__11TMainCursorFPvi(cursor + 0x40, slot), get_entity_id((TObjBase *)player));
         found = 1;

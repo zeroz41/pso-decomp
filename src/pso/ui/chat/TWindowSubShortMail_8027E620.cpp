@@ -57,7 +57,6 @@ void * get_mail_ptr__19TWindowSubShortMailFPv(void *);
 s32 check_room_seq_4__16TAdChrSelASlotGCFl(s32, s32);
 s32 fn_8007B83C(s32);
 void *TLobby__sub_8022598C(int a0);
-u32 get_lobby_id__6TLobbyFv();
 s32 add_status_entry__20TWindowSubStatusDispFScll(void *, s32, s32, u32);
 s32 create__19TWindowMessageYesNoFPvPvPvPv(void *, s32, s32, s32);
 s32 free_member__17TWindowSubComCardFv(s32, s32);
@@ -468,8 +467,8 @@ s32 TWindowSubShortMail::refresh_mail_list(void *arg1) {
     i = n - 1;
     while (i >= 0) {
         e = (saddr)TLobby__sub_8022598C(i);
-        add_status_entry__20TWindowSubStatusDispFScll(arg1, ((s32 (*)(s32)) get_field_cc__19TWindowSubShortMailFPv)(e), fn_8007B83C(e), ((u32 (*)(s32))get_lobby_id__6TLobbyFv)(e));
-        if (id == ((u32 (*)(s32))get_lobby_id__6TLobbyFv)(e)) {
+        add_status_entry__20TWindowSubStatusDispFScll(arg1, ((s32 (*)(s32)) get_field_cc__19TWindowSubShortMailFPv)(e), fn_8007B83C(e), (u32)((TLobby *)e)->get_lobby_id());
+        if (id == (u32)((TLobby *)e)->get_lobby_id()) {
             sel = (n - 1) - i;
         }
         i--;
@@ -650,7 +649,7 @@ void TWindowSubShortMail::close() {
     short_mail_ctrl = TLobby::get_short_mail_ctrl();
     for (var_r29 = 0; var_r29 < short_mail_ctrl; var_r29 += 1) {
         temp_r30 = (saddr)TLobby__sub_8022598C(var_r29);
-        if ((u32) this->m_30 == get_lobby_id__6TLobbyFv()) {
+        if ((u32) this->m_30 == ((TLobby *)temp_r30)->get_lobby_id()) {
             ((s32 (*)(s32)) TWindowSubShortMail__sub_8027FAD0)(temp_r30);
             return;
         }

@@ -28,8 +28,6 @@ void set_service_counter_camera(s32 sequence, s32 counter) {
     create_conversation_camera(service_counter_camera_alt_table[counter]);
 }
 
-s32 activate_body_collision__10TObjPlayerFv();
-s32 deactivate_body_collision__10TObjPlayerFv();
 void *get_player_by_client_id(s32 i);
 s32 suppress_slot__11TWindowCtrlFv(u16);
 s32 unsuppress_slot__11TWindowCtrlFv(u16);
@@ -99,8 +97,9 @@ void TShopSequence::close_window() {
         if (TRaderMapCore::is_not_split_screen() != 1) {
             var_r31 = 0;
             do {
-                if (get_player_by_client_id(var_r31) != 0U) {
-                    activate_body_collision__10TObjPlayerFv();
+                void *player = get_player_by_client_id(var_r31);
+                if (player != 0) {
+                    ((TObjPlayer *)player)->activate_body_collision();
                 }
                 var_r31 += 1;
             } while (var_r31 < 4);
@@ -116,8 +115,9 @@ void TShopSequence::restore_player_state() {
         if (TRaderMapCore::is_not_split_screen() != 1) {
             var_r31 = 0;
             do {
-                if (get_player_by_client_id(var_r31) != 0U) {
-                    deactivate_body_collision__10TObjPlayerFv();
+                void *player = get_player_by_client_id(var_r31);
+                if (player != 0) {
+                    ((TObjPlayer *)player)->deactivate_body_collision();
                 }
                 var_r31 += 1;
             } while (var_r31 < 4);

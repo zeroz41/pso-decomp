@@ -151,7 +151,6 @@ struct Parts_80285B84 {
 
 s32 TWindowSubSymbolChat__sub_800771B0(struct TWSC *, s32);
 s32 TWindowSubSymbolChat__sub_800771C4(struct TWSC *, s32);
-s32 refresh_parts__20TWindowSubSymbolChatFv();
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 get_draw_context__11TWindowBaseFPv();
@@ -237,7 +236,7 @@ void TWindowSubSymbolChatParts::add_part() {
     s32 temp_r3;
 
     temp_r3 = ((s32 (*)(void))calc_symbol_index__25TWindowSubSymbolChatPartsFv)();
-    if (((s8) this->m_71 != 0) || (temp_r3 >= (s16) *(s16 *)&this->m_76) || (refresh_parts__20TWindowSubSymbolChatFv() < 2)) {
+    if (((s8) this->m_71 != 0) || (temp_r3 >= (s16) *(s16 *)&this->m_76) || (TWindowSubSymbolChat::refresh_parts() < 2)) {
         play_sound_effect(0x53F06, 0, 0, 0);
         return;
     }

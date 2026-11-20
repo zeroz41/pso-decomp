@@ -26,6 +26,7 @@ struct Win_802473C8 { u8 pad0[0x1E]; u16 flags; };
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/unk/TUnk_804CE7D0.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
+#include "pso/ui/chat/TWindowSubSymbolChat.h"
 
 #pragma push
 #pragma readonly_strings on
@@ -59,7 +60,6 @@ struct RecoveredFields_8024775C_arg0
 extern "C" {
 saddr TAdSinglePlyChrSelectGC__sub_80076D9C(saddr arg0, saddr arg1);
 int get_chat_shortcut(s32 arg0);
-s32 update_selected_symbol__20TWindowSubSymbolChatFv();
 bool TWindowCtrl__sub_8024701C(Win_8024701C *w);
 void *get_player_by_client_id(s32 i);
 extern s32 local_client_id;
@@ -111,8 +111,7 @@ s32 TWindowChat::sub_80247080() {
     temp_r31 = (s32 *)(*(saddr *)&this->result + 4);
     *temp_r31 = ((TWindowChat *)(this->symbolChatWindow))->forward_card_at_1c();
     if (this->flags & 0x80) {
-        TWindowChat::open_symbol_chat((s32 *)temp_r31);
-        update_selected_symbol__20TWindowSubSymbolChatFv();
+        ((TWindowSubSymbolChat *)TWindowChat::open_symbol_chat((s32 *)temp_r31))->update_selected_symbol();
     }
     return 1;
 }
@@ -159,8 +158,7 @@ s32 TWindowChat::submit_keyboard_input() {
     if (((TWindowKeyBoardBase *)(this->composer))->get_flag() != 0) {
         TAdSinglePlyChrSelectGC__sub_80076D9C((saddr)this->result, (s32)(get_chat_shortcut((s32)((int) (s8)(((TWindowChat *)(this->composer))->get_input_mode())))));
         if (((u32) **(u32 * *)&this->result == 3U) && (((TWindowChat *)arg0)->is_mode_bit6() == 0)) {
-            TWindowChat::open_symbol_chat((s32 *)((u8 *) this->result + 4));
-            update_selected_symbol__20TWindowSubSymbolChatFv();
+            ((TWindowSubSymbolChat *)TWindowChat::open_symbol_chat((s32 *)((u8 *) this->result + 4)))->update_selected_symbol();
         }
     } else {
         ((TWindowKeyBoardBase *)this->composer)->export_text((char *)this->result + 4);

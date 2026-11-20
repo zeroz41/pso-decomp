@@ -142,7 +142,6 @@ void TAdEnterSerialAccessGC__sub_802C4B64(void *, void *, Col_803214C4, int);
 void __dt__19TAdPlyChrSelPlateGCFv(void *, int);
 void *__ct__19TAdPlyChrSelPlateGCFv(void *, TObject *, void *);
 void fn_8025DE10(void *arg0, void *arg1);
-void draw_window_frame__11TWindowBaseFPv();
 extern V_803212F8 serial_entry_status_line_position[];
 
 
@@ -184,7 +183,7 @@ void TAdEnterSerialAccessGC::render() {
 }
 
 void TAdEnterSerialAccessGC::draw_screen(void *arg0, void *arg1) {
-    draw_window_frame__11TWindowBaseFPv();
+    ((TWindowBase *)arg0)->draw_window_frame(arg1);
     TAdSubPlyItemGC::render_status_line(serial_entry_status_line_position[0].a, serial_entry_status_line_position[0].b, 0.8f, (const char *)get_localized_text_entry(0x17, 4), -1);
     TAdEnterSerialAccessGC::draw_serial_plates();
     TAdEnterSerialAccessGC::draw_serial_chars((saddr)arg1);

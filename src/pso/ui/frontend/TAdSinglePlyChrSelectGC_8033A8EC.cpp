@@ -69,7 +69,6 @@ extern char pso_character_card_filename[];
 s32 start_memcard_read(s32, void *, u32, s32);
 s32 poll_memcard_result(saddr);
 
-s8 get_chr_select_state__23TAdSinglePlyChrSelectGCFv(void);
 void check_ready__23TAdSinglePlyChrSelectGCFv(void);
 
 s32 TKeyBoardControl__sub_8000F92C();
@@ -245,7 +244,7 @@ void TAdSinglePlyChrSelectGC::sub_8033ACF4() {
             switch (TAdPlayerLoadGC::get_load_result((void *)arg0->chr_select_state)) {
             case 0:
                 arg0->state = 6;
-                arg0->chr_select_state = get_chr_select_state__23TAdSinglePlyChrSelectGCFv();
+                arg0->chr_select_state = (s8)TAdSinglePlyChrSelectGC::get_chr_select_state();
                 arg0->flag_count = TAdSinglePlyChrSelectGC__sub_8001C5F0();
                 check_ready__23TAdSinglePlyChrSelectGCFv();
                 break;

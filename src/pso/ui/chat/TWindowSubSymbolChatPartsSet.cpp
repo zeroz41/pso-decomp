@@ -18,7 +18,6 @@ extern "C" {
 u16 *TWindowSubSymbolChatPartsSet__sub_802482B8(void *, s32);
 u16 *get_parts_entry__28TWindowSubSymbolChatPartsSetFii(void *, s32);
 s32 TWindowSubSymbolChat__sub_800771C4(int, int);
-saddr get_data_ptr__20TWindowSubSymbolChatFv();
 
 #pragma push
 #pragma opt_lifetimes off
@@ -39,7 +38,7 @@ s32 TWindowSubSymbolChat::select_symbol_chat_record(s8 *arg1, s32 *arg2) {
     *(s32 **)((s8 *)((u8 *)this) + 0x84) = arg2;
     *(*(s32 **)((s8 *)((u8 *)this) + 0x84)) = 0;
     instance = TWindowSubSymbolChat::get_instance();
-    temp_r28 = (Data_80285E10 *)get_data_ptr__20TWindowSubSymbolChatFv();
+    temp_r28 = (Data_80285E10 *)((TWindowSubSymbolChat *)instance)->get_data_ptr();
     temp_r3_2 = TWindowSubSymbolChat::calc_remaining_slots();
     temp_r0 = *(s16 *)((s8 *)((u8 *)this) + 0x6E);
     if (temp_r3_2 > temp_r0) {
