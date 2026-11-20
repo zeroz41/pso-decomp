@@ -49,7 +49,7 @@ extern "C" NJS_OBJECT *get_ancient_warp_model(s32 index) {
     return (NJS_OBJECT *)get_bml_model(ancient_warp_shared_resource, index);
 }
 
-AnimationMotion *TObjGoalWarpAncient::get_archive_motion(s32 index) {
+AnimationMotion *TObjGoalWarpAncient::register_warp(s32 index) {
     return get_bml_motion(ancient_warp_shared_resource, index);
 }
 
@@ -88,7 +88,7 @@ TObjMapWarpAncient::TObjMapWarpAncient(TObject *parent, void *set_data) : TObjMa
     beam_textures = TObjGoalWarpAncient::get_archive_textures(2);
     ksita_textures = TObjGoalWarpAncient::get_archive_textures(0);
     nsita_textures = TObjGoalWarpAncient::get_archive_textures(4);
-    beam_motion = TObjGoalWarpAncient::get_archive_motion(1);
+    beam_motion = TObjGoalWarpAncient::register_warp(1);
 }
 
 TObjMapWarpAncient::~TObjMapWarpAncient() {}
@@ -153,8 +153,8 @@ TObjGoalWarpAncient::TObjGoalWarpAncient(TObject *parent, void *set_data) : TObj
     }
     gawa_textures = get_archive_textures(3);
     naka_textures = get_archive_textures(5);
-    beam_motion = get_archive_motion(0);
-    naka_motion = get_archive_motion(2);
+    beam_motion = register_warp(0);
+    naka_motion = register_warp(2);
     if (get_game_play_mode() == 1 && (s32)set_params[2] >= 0) {
         queue_destruction();
     }

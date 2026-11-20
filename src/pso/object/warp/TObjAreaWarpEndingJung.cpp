@@ -1334,7 +1334,7 @@ TObjAreaWarpEndingJung::~TObjAreaWarpEndingJung() {}
 
 void TObjAreaWarpEndingJung::run_task() {
     this->beam_frame += 4.0f;
-    if (this->beam_frame > (TObjWarpJung::get_beam_frame_count() - 1.0f)) {
+    if (this->beam_frame > (TObjWarpJung::get_static_field4_as_float() - 1.0f)) {
         this->beam_frame = 0.0f;
     }
     handle_area_selection();

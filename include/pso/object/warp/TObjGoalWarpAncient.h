@@ -17,7 +17,7 @@ struct TObjGoalWarpAncient : public TObjAreaWarp {
     static void load_resources();
     static GinjaTextureList *get_archive_textures(s32 index);
     static GinjaTextureList *get_goal_beam_textures();
-    static AnimationMotion *get_archive_motion(s32 index);
+    static AnimationMotion *register_warp(s32 index);
     // Indices are into bm_o_warp_ancient.bml's model and motion name tables (TObjMapWarpAncient.cpp);
     // the field names are inferred from those file names.
     f32 beam_frame;                // motion frame of beam_motion, +4 per run_task
