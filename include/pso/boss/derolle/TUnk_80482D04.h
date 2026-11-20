@@ -10,6 +10,7 @@ public:
     virtual void vfunc_105(s32);
     virtual void vfunc_106(s32);
     void move_mine();
+    void init_launch(Vec *pos, TObjBase *owner, s32 slot);
     virtual void vfunc_88();
     // Set by init_launch and followed by move_mine (names inferred):
     TObjBase *owner;     // the object the mine rides on

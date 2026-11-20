@@ -8,6 +8,7 @@
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/boss/derolle/AccelerationCurve.h"
 
+struct AreaAttackHistory;
 struct TBoss8DragonEffTail;
 class TParticleCtrl;
 struct ControllerInputContext;
@@ -204,7 +205,8 @@ public:
     static u16 find_player_on_floor(void *arg0);
     void spawn_ground_effect();
     int setup_instance(int _w1, void * _w2, int _w3);
-    static void setup_breath_instance(void *o, int x, u32 a, int w);
+    void setup_breath_instance(Vec *pos, u32 kind, AreaAttackHistory *history);
+    void emit_effect(void *pos, void *params, s32 history);
     static void init_state(s32 arg0);
     static int set_state_1(void* p);
     static int check_condition_default(void* p);

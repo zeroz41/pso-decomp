@@ -11,6 +11,7 @@ struct TBoss2Mine : public TObjEneDD {
     virtual ~TBoss2Mine();
     virtual void dispatch_action(u32 state, s32 reason);
     void set_node_offsets();
+    void init(s32 variant);
     void init_params(s32, f32);
     void update_pulse_state();
     virtual void vfunc_104(s32);
@@ -66,12 +67,5 @@ struct TBoss2Mine : public TObjEneDD {
     f32 m_3ec;
 };
 typedef char TBoss2Mine_size[sizeof(TBoss2Mine) == 0x3F0 ? 1 : -1];
-
-struct TUnk_80482D04;
-
-extern "C" {
-void init__10TBoss2MineFPvi(TBoss2Mine *self, s32 variant);
-void init_launch__10TBoss2MineFPvPvii(TUnk_80482D04 *self, Vec *pos, TObjBase *owner, s32 slot);
-}
 
 #endif

@@ -584,7 +584,6 @@ void *spawn_particle_effect_with_flags(const void *pos, s32 id, s32 flags);
 void TObjEneEpsilon__sub_800B9384(u8 *arg0, s32 arg1, f32 farg0);
 void enemy_set_target_id(void *, u16);
 int emit_effect_at_position__9TObjEneDDFPv(void*);
-int emit_enemy_effect__9TObjEneDDFPvPvPUcPv(void*);
 int setup_instance__9TObjEneDDFllPUcl(void*);
 s32 update_local_colliders_from_world(void *, void *);
 s32 __dt__17AreaAttackHistoryFv(s32 arg0, s16 arg1);
@@ -599,7 +598,6 @@ s32 TBoss8Dragon__sub_802F4760(void *owner, Vec *point, f32 farg0);
 void update_movement__12TBoss8DragonFPv(u8 *arg0);
 u8 check_attack_ready__12TBoss8DragonFPv(void *arg0);
 int get_state_flags__12TBoss8DragonFPv(void* p);
-int emit_effect__12TBoss8DragonFPv(void* p);
 void TBoss8Dragon__sub_802FB778(s32 arg0);
 void TBoss8Dragon__sub_802FB828(u8 *arg0, s32 arg1);
 void apply_6xA8_action__12TBoss8DragonFPvPv(u8 *arg0, u8 *arg1);
@@ -2431,8 +2429,8 @@ void TBoss8Dragon__sub_802FB828(u8 *ene_dd, s32 arg1) {
         b = ene_dd + 0x464;
     }
     ((TObjEneDD *)ene_dd)->reset_hp((u8 *)0, (u8 *)(TBoss8Dragon__data_80541DC8[0]), (u8 *)0);
-    ((s32 (*)(void *, void *, void *, s32))emit_effect__12TBoss8DragonFPv)(ene_dd, a, &eff, *(s32 *)(ene_dd + 0x680));
-    ((s32 (*)(void *, void *, void *, s32))emit_effect__12TBoss8DragonFPv)(ene_dd, b, &eff, *(s32 *)(ene_dd + 0x680));
+    ((TBoss8Dragon *)ene_dd)->emit_effect(a, &eff, *(s32 *)(ene_dd + 0x680));
+    ((TBoss8Dragon *)ene_dd)->emit_effect(b, &eff, *(s32 *)(ene_dd + 0x680));
     ((TObjEneDD *)ene_dd)->reset_hp((u8 *)0, (u8 *)(TBoss8Dragon__data_80541DC8[0]), (u8 *)0);
     spawn_particle_effect_with_flags((const void *)b, (s32)(*(void **)(*(u8 **)(ene_dd + 0x760) + 0x10)), (s32)(0x40));
 }
@@ -2491,7 +2489,7 @@ void TBoss8Dragon::draw_beam_segments(f32 a, f32 b, f32 c) {
         VecCopy__FP3VecPC3Vec(&v2, &v1);
         v2.x = sn * d + v2.x;
         v2.z = cs * d + v2.z;
-        ((void (*)(void *, void *, void *, s32))emit_effect__12TBoss8DragonFPv)(ene_dd, &v2, &fx, *(s32 *)((s8 *)ene_dd + 0x680));
+        ((TBoss8Dragon *)ene_dd)->emit_effect(&v2, &fx, *(s32 *)((s8 *)ene_dd + 0x680));
         d -= a;
         push_matrix();
         post_translate_matrix(&v2);
@@ -2527,12 +2525,12 @@ void TBoss8Dragon::emit_body_effects() {
     TBoss1Dragon__sub_80027A80((u8 *)&e, (u8 *)((const u8 *)&TBoss8Dragon__body_effect_parameters));
     ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&v, ((u8 *)this) + 0x4C4);
     e.f = 15.0f;
-    ((void (*)(void *, void *, void *, s32))emit_effect__12TBoss8DragonFPv)(this, &v, &e, this->attack_history);
+    emit_effect(&v, &e, this->attack_history);
     e.f = 12.0f;
     pts[0] = (Vec *)((u8 *)this + 0x488);
     pts[1] = (Vec *)((u8 *)this + 0x4A0);
     for (i = 0; i < 2; i++) {
-        ((void (*)(void *, void *, void *, s32))emit_effect__12TBoss8DragonFPv)(this, pts[i], &e, this->attack_history);
+        emit_effect(pts[i], &e, this->attack_history);
     }
     e.f = 11.0f;
     pts[0] = (Vec *)((u8 *)this + 0x4DC);
@@ -2540,18 +2538,18 @@ void TBoss8Dragon::emit_body_effects() {
     pts[2] = (Vec *)((u8 *)this + 0x4F4);
     pts[3] = (Vec *)((u8 *)this + 0x500);
     for (i = 0; i < 4; i++) {
-        ((void (*)(void *, void *, void *, s32))emit_effect__12TBoss8DragonFPv)(this, pts[i], &e, this->attack_history);
+        emit_effect(pts[i], &e, this->attack_history);
     }
     reset_hp((u8 *)0, (u8 *)(TBoss8Dragon__data_80541DC8[0]), (u8 *)0);
 }
 
 void TBoss8Dragon__sub_802FB300(void) {  }
 
-void TBoss8Dragon::setup_breath_instance(void *o, int x, u32 a, int w) {
+void TBoss8Dragon::setup_breath_instance(Vec *pos, u32 kind, AreaAttackHistory *history) {
     DragonAttackParams s = TBoss8Dragon__breath_params;
     s.field_4 = (*(G_802FB290 *)&TBoss8Dragon__data_80541DDC).value->f[0];
-    s.field_0 = a;
-    ((TBoss8Dragon *)o)->setup_instance(x, &s, w);
+    s.field_0 = kind;
+    setup_instance((int)pos, &s, (int)history);
 }
 
 void TBoss8Dragon__sub_802FB220(void *o, int x, u32 a) {
@@ -2568,7 +2566,9 @@ void TBoss8Dragon__sub_802FB1B0(TBoss8Dragon *dragon, int x, f32 c) {
     dragon->setup_instance(x, &s, dragon->attack_history);
 }
 
-int emit_effect__12TBoss8DragonFPv(void* p) { return emit_enemy_effect__9TObjEneDDFPvPvPUcPv(p); }
+void TBoss8Dragon::emit_effect(void *pos, void *params, s32 history) {
+    TObjEneDD::emit_enemy_effect(this, pos, (u8 *)params, (void *)history);
+}
 
 int get_state_flags__12TBoss8DragonFPv(void* p) { return emit_effect_at_position__9TObjEneDDFPv(p); }
 
@@ -4575,7 +4575,7 @@ void TBoss8Dragon::sub_802F6838(s32 arg1) {
                 rotate_xz_pair_by_angle(&v.x, &v.z, this->rotation_y);
                 vec3_add_to(&v, (u8 *)&position);
                 reset_hp((u8 *)0, (u8 *)(TBoss8Dragon__data_80541DC8[4]), (u8 *)0);
-                ((void (*)(void *, void *, void *, s32))emit_effect__12TBoss8DragonFPv)(this, &v, &e, 0);
+                emit_effect(&v, &e, 0);
                 reset_hp((u8 *)0, (u8 *)(TBoss8Dragon__data_80541DC8[0]), (u8 *)0);
                 spawn_particle_effect_with_flags((const void *)&v, (s32)((void *)*(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x760)) + 8)), (s32)(0x40));
                 if (*(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x760)) + 0xC) != -1) {
@@ -4589,7 +4589,7 @@ void TBoss8Dragon::sub_802F6838(s32 arg1) {
                 rotate_xz_pair_by_angle(&v.x, &v.z, this->rotation_y);
                 vec3_add_to(&v, (u8 *)&position);
                 reset_hp((u8 *)0, (u8 *)(TBoss8Dragon__data_80541DC8[4]), (u8 *)0);
-                ((void (*)(void *, void *, void *, s32))emit_effect__12TBoss8DragonFPv)(this, &v, &e, 0);
+                emit_effect(&v, &e, 0);
                 reset_hp((u8 *)0, (u8 *)(TBoss8Dragon__data_80541DC8[0]), (u8 *)0);
                 spawn_particle_effect_with_flags((const void *)&v, (s32)((void *)*(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x760)) + 8)), (s32)(0x40));
                 if (*(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x760)) + 0xC) != -1) {

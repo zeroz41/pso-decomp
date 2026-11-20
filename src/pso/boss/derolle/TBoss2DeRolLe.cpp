@@ -2290,8 +2290,6 @@ void TBoss2DeRolLe__sub_800363A0(void* p);
 
 void *create__13TBoss2DeRolLeFPv(void *arg0);
 
-s32 get_instance__13TBoss2DeRolLeFv(void);
-
 void reset_parts__13TBoss2DeRolLeFv(void);
 
 void send_6x13__13TBoss2DeRolLeFPv(void* p);
@@ -2805,8 +2803,8 @@ void TBoss2DeRolLe::apply_paralysis() {  }
 
 void TBoss2DeRolLe::apply_poison_status() {  }
 
-s32 get_instance__13TBoss2DeRolLeFv(void) {
-    return TBoss2DeRolLe__instance;
+TBoss2DeRolLe *TBoss2DeRolLe::get_instance() {
+    return (TBoss2DeRolLe *)TBoss2DeRolLe__instance;
 }
 
 }
@@ -5717,7 +5715,7 @@ void TBoss2DeRolLe__sub_80030720(Obj_80030720 *self, u32 arg1, s32 arg2) {
                 }
             } else if (((TObjEneDD_ST *)self)->enemy_has_live_target() != 0) {
                 for (j = 0; j < 3; j++) {
-                    init_launch__10TBoss2MineFPvPvii((TUnk_80482D04 *)self->f644[j], (Vec *)pos, (TObjBase *)self->f390, j);
+                    ((TUnk_80482D04 *)self->f644[j])->init_launch((Vec *)pos, (TObjBase *)self->f390, j);
                 }
             }
             ((int (*)(int, void *))play_sound)(0x4003A303, self->f524);

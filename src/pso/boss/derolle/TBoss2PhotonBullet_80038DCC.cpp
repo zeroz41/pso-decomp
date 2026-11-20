@@ -2,6 +2,7 @@
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/boss/derolle/TBoss2DeRolLe.h"
 
 #include "pso/boss/derolle/TBoss2PhotonPad.h"
 
@@ -106,7 +107,6 @@ extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 
 
-s32 get_instance__13TBoss2DeRolLeFv(void);
 
 
 void render_shadows__7TObjectFv(void);
@@ -135,7 +135,7 @@ void TBoss2PhotonPad::run_task() {
 
     self->timer--;
     if (self->timer <= 0) {
-        inst = (void *)get_instance__13TBoss2DeRolLeFv();
+        inst = (void *)TBoss2DeRolLe::get_instance();
         if (inst != NULL) {
             new TBoss2PhotonBullet((TObject *)self->parent, (TObjBase *)inst, (Vec *)self->unk1C, (Vec *)self->pos, (1.5f) * TBoss2PhotonPad__bullet_level_param_table[self->level].d);
         }

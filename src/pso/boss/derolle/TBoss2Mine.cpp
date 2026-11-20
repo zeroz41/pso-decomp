@@ -106,59 +106,59 @@ extern "C" void TBoss2Mine__sub_80038D88(void) { TObjPlayer__sub_800F0928(); }
 extern "C" void TBoss2Mine__sub_80038D84(void) {  }
 
 TBoss2Mine::TBoss2Mine(TObject *parent, u16 entity_id, s32 set_index, s32 variant) : TObjEneDD(parent) {
-    s32 boss;
+    TBoss2DeRolLe *boss;
     m_name = TBoss2Mine__name;
-    boss = get_instance__13TBoss2DeRolLeFv();
+    boss = TBoss2DeRolLe::get_instance();
     if (boss != 0) {
         init_common_from((u8 *)boss);
     }
     this->entity_id = entity_id;
     this->set_index = set_index;
-    init__10TBoss2MineFPvi(this, variant);
+    init(variant);
 }
 
 extern "C" {
 
-void init__10TBoss2MineFPvi(TBoss2Mine *self, s32 variant) {
+void TBoss2Mine::init(s32 variant) {
     u8 *res;
-    self->init_position_vectors();
-    self->model = *(void **)(*(u8 **)(lbl_805D4BA4 + 0x42C) + 0x38);
+    this->init_position_vectors();
+    this->model = *(void **)(*(u8 **)(lbl_805D4BA4 + 0x42C) + 0x38);
     res = *(u8 **)(lbl_805D4BA4 + 0x42C);
-    self->texlist = *(s32 *)(res + 0x2C);
-    self->init_model(&lbl_80482CD8, 1);
-    self->reset_hp((u8 *)TLobby::register_boss(boss2_mine_params[variant]),
+    this->texlist = *(s32 *)(res + 0x2C);
+    this->init_model(&lbl_80482CD8, 1);
+    this->reset_hp((u8 *)TLobby::register_boss(boss2_mine_params[variant]),
                    (u8 *)TLobby::dispatch_shared_handler_b(lbl_80482C90[variant]),
                    (u8 *)TLobby::register_object(lbl_80482C98[variant]));
-    self->set_state_flag_2();
-    self->movementParameters = &lbl_80482CA0[variant];
-    self->m_37c = 3.0f;
-    self->vfunc_95();
-    self->m_38c = 0;
-    self->m_390.x = 0.0f;
-    self->m_390.y = 0.0f;
-    self->m_390.z = 0.0f;
-    self->m_39c.x = 0.0f;
-    self->m_39c.y = 0.0f;
-    self->m_39c.z = 0.0f;
-    self->m_3a8 = 0;
-    self->m_3ac = 0.0f;
-    self->m_3b0 = 0;
-    self->m_3b4 = 0.0f;
-    self->m_3b8 = 0.0f;
-    self->m_3bc = 0;
-    self->m_3c0 = 0;
-    self->m_3c4 = 2;
-    self->m_3c8 = 0;
-    self->m_3cc = 0;
-    self->m_3d0 = 0;
-    self->m_3d8 = 0;
-    self->m_3dc = 0.0f;
-    self->m_3e0 = 0.0f;
-    self->m_3e4 = 0.0f;
-    self->m_3e8 = 0.0f;
-    self->m_3ec = 0.0f;
-    self->mode = 0;
-    self->dispatch_action(self->mode, 4);
+    this->set_state_flag_2();
+    this->movementParameters = &lbl_80482CA0[variant];
+    this->m_37c = 3.0f;
+    this->vfunc_95();
+    this->m_38c = 0;
+    this->m_390.x = 0.0f;
+    this->m_390.y = 0.0f;
+    this->m_390.z = 0.0f;
+    this->m_39c.x = 0.0f;
+    this->m_39c.y = 0.0f;
+    this->m_39c.z = 0.0f;
+    this->m_3a8 = 0;
+    this->m_3ac = 0.0f;
+    this->m_3b0 = 0;
+    this->m_3b4 = 0.0f;
+    this->m_3b8 = 0.0f;
+    this->m_3bc = 0;
+    this->m_3c0 = 0;
+    this->m_3c4 = 2;
+    this->m_3c8 = 0;
+    this->m_3cc = 0;
+    this->m_3d0 = 0;
+    this->m_3d8 = 0;
+    this->m_3dc = 0.0f;
+    this->m_3e0 = 0.0f;
+    this->m_3e4 = 0.0f;
+    this->m_3e8 = 0.0f;
+    this->m_3ec = 0.0f;
+    this->mode = 0;
+    this->dispatch_action(this->mode, 4);
 }
 
 }
@@ -593,17 +593,17 @@ void TUnk_80482D04::move_mine() {
 
 extern "C" {
 
-void init_launch__10TBoss2MineFPvPvii(TUnk_80482D04 *self, Vec *pos, TObjBase *owner, s32 slot) {
+void TUnk_80482D04::init_launch(Vec *pos, TObjBase *owner, s32 slot) {
     s32 angle;
     s32 heading;
-    self->m_38c |= 0x100;
-    VecCopy(self->body_center(), pos);
-    self->owner = owner;
+    this->m_38c |= 0x100;
+    VecCopy(this->body_center(), pos);
+    this->owner = owner;
     angle = slot * 0x5555;
-    self->slot = slot;
-    self->owner_offset.x = 20.0f * sin_table_lookup(angle);
-    self->owner_offset.y = 0.0f;
-    self->owner_offset.z = 20.0f * cos_table_lookup(angle);
+    this->slot = slot;
+    this->owner_offset.x = 20.0f * sin_table_lookup(angle);
+    this->owner_offset.y = 0.0f;
+    this->owner_offset.z = 20.0f * cos_table_lookup(angle);
     if (slot == 0) {
         heading = 0x8000;
     } else if (slot == 1) {
@@ -611,19 +611,19 @@ void init_launch__10TBoss2MineFPvPvii(TUnk_80482D04 *self, Vec *pos, TObjBase *o
     } else {
         heading = 0x9800;
     }
-    self->direction.x = sin_table_lookup(heading);
-    self->direction.y = 0.0f;
-    self->direction.z = cos_table_lookup(heading);
-    self->rotation_y = heading;
-    self->m_390.x = 0.0f;
-    self->m_390.y = 0.0f;
-    self->m_390.z = 0.0f;
-    self->move_mine();
-    self->rotation_x = 0x4000;
-    VecCopy(&self->position, self->body_center());
-    self->m_3a8 = 0;
-    self->hp = self->hpmax;
-    self->actorFlags &= ~0xA00;
+    this->direction.x = sin_table_lookup(heading);
+    this->direction.y = 0.0f;
+    this->direction.z = cos_table_lookup(heading);
+    this->rotation_y = heading;
+    this->m_390.x = 0.0f;
+    this->m_390.y = 0.0f;
+    this->m_390.z = 0.0f;
+    this->move_mine();
+    this->rotation_x = 0x4000;
+    VecCopy(&this->position, this->body_center());
+    this->m_3a8 = 0;
+    this->hp = this->hpmax;
+    this->actorFlags &= ~0xA00;
 }
 
 }
