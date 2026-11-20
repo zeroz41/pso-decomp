@@ -268,7 +268,7 @@ void TWindowCtrl::update_party_status_rows() {
                 is_slot_visible__11TWindowCtrlFv(local_client_id) != 0 || TWindowCtrl__sub_8024B048(this) != 0 ||
                 ((TObjPlayer *)pl)->is_script_controlled() != 0 ||
                 (((TObjChara *)pl)->obj_isState3_324() != 0 &&
-                 (((TObjPlayer *)pl)->get_field_828() != 0 || ((TNpcPlayer *)pl)->get_action_flags() == 0xFFFF))) {
+                 (((TObjPlayer *)pl)->get_field_828() != 0 || static_cast<TObjPlayer *>(pl)->get_npc_controller() == 0xFFFF))) {
                 ((TWindowLockOn *)w)->request_close();
             } else {
                 window_request_show(w);

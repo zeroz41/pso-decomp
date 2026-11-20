@@ -982,7 +982,7 @@ void TObjAreaWarpQuest::confirm_area_transfer(TObjPlayer *player) {
     if (player_set_id > 1) {
         for (i = 0; i < 4; i++) {
             p = get_player_by_client_id(i);
-            if (p != 0 && p->obj_isState3_324() != 0 && (u16)((TNpcPlayer *)p)->get_action_flags() != 0xFFFF) {
+            if (p != 0 && p->obj_isState3_324() != 0 && p->get_npc_controller() != 0xFFFF) {
                 TObjAreaWarpQuest__sub_8019DCD8(p, player_set_id);
             }
         }

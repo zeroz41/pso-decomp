@@ -1691,7 +1691,7 @@ void TUnk_804AF7B0::run_task() {
     }
 }
 
-u16 TNpcPlayer::get_action_flags() { return *(u16*)((char*)this + 0x678); }
+u16 TObjPlayer::get_npc_controller() { return npc_control.controller_client_id; }
 
 int get_registered_object_count(void) {  return registered_entity_count; }
 
@@ -2118,7 +2118,7 @@ void TNpcPlayer::run_task() {
             ((TObject *)arg0)->queue_destruction();
             return;
         }
-        if ((((TObjPlayer *)(*(void **)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94)))->is_inactive() != 0) && (((void *) *(void **)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94) == NULL) || (((TNpcPlayer *)((void *) *(void **)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94)))->get_action_flags() != 0xFFFF))) {
+        if ((((TObjPlayer *)(*(void **)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94)))->is_inactive() != 0) && (((void *) *(void **)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94) == NULL) || (((TObjPlayer *)((void *) *(void **)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94)))->get_npc_controller() != 0xFFFF))) {
             ((TNpcPlayer *)arg0)->init_state();
             if (!(*(s32 *)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)arg0 + 0x74)) + 0x94)) + 0x30) & 0x800)) {
                 if (*(s32 *)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94)) + 0x30) & 0x800) {

@@ -100,7 +100,6 @@ struct TNpcPlayer : public TObject {
     void set_field_0(s16 v);
     void set_state(s32 v);
     void byteswap_pos();
-    u16 get_action_flags();
     static void *get_valid_target_player();
     void send_6x3E();
     void bswap_6x3E();
@@ -129,8 +128,6 @@ struct TNpcPlayer : public TObject {
     static void update_player_field(u16 arg0, s32 arg1);
     static void end_camera_pan_for_client(u16 arg0);
     static void apply_to_battle_player_slot(u16 arg0, s16 arg1);
-    s32 get_field_67c();
-    void set_npc_ctrl_state(s32 v);
     void byteswap_header();
     void send_state_60();
     u8 unk_E0[0x8];

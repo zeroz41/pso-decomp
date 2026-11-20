@@ -25,6 +25,16 @@ struct ProtectionTimer {
     s32 frames;
 };
 
+struct PlayerNpcControl {
+    u16 controller_client_id;
+    u16 reserved;
+    s32 state;
+
+    void reset();
+};
+
+typedef char PlayerNpcControl_size[sizeof(PlayerNpcControl) == 0x8 ? 1 : -1];
+
 struct TObjPlayer : public TObjChara {
     TObjPlayer(TObject *arg1, void *arg2);
     TObjPlayer(TObject *parent, TUnk_801D8A4C *src);
@@ -210,8 +220,8 @@ struct TObjPlayer : public TObjChara {
     Vec warp_destination;
     void* m_66c;
     u8 _pad670[0x8];
-    void* m_678;
-    u8 unk_67C[0x1C];
+    PlayerNpcControl npc_control;
+    u8 _pad680[0x18];
     s32 m_698;
     u8 unk_69C[0x10];
     void* m_6ac;
@@ -694,6 +704,10 @@ struct TObjPlayer : public TObjChara {
     void init_flags_vec4();
     void set_dead_state();
     void send_warp_position();
+    u16 get_npc_controller();
+    void set_npc_controller(u16 client);
+    s32 get_npc_control_state();
+    void set_npc_control_state(s32 state);
     void check_state_dead();
     void reset_lobby_state();
     void try_use_mag();
@@ -1582,6 +1596,7 @@ typedef char PlayerHairTargetOffset[(offsetof(TObjPlayer, m_8ac) == 0x8AC) ? 1 :
 typedef char PlayerHairWaitOffset[(offsetof(TObjPlayer, m_cfc) == 0xCFC) ? 1 : -1];
 typedef char PlayerInventoryObjectOffset[(offsetof(TObjPlayer, inventory_objects) == 0xD00) ? 1 : -1];
 
+typedef char TObjPlayer_npc_control_offset[offsetof(TObjPlayer, npc_control) == 0x678 ? 1 : -1];
 typedef char TObjPlayer_size[sizeof(TObjPlayer) == 0xDB8 ? 1 : -1];
 
 // The owner joint each item attach slot hangs the equipped model from

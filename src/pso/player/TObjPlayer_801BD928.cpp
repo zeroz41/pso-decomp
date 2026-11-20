@@ -17,7 +17,6 @@ s32 TObjPlayer__sub_801BCA14(void *, void *);
 s32 init_player_data__10TObjPlayerFv(void *, void *);
 s32 TObjPlayer__sub_801BEB68(void *, void *);
 s32 get_quest_status__10TObjPlayerFv(void *, void *);
-s32 TObjPlayer__sub_801BEC78(void *);
 s32 sub_801BEE24__10TObjPlayerFs(void *, int);
 s32 sub_801BEE2C__10TObjPlayerFs(void *, int);
 s32 TObjPlayer__sub_801BF660(void *);
@@ -66,7 +65,7 @@ u8 *TObjPlayer::construct_player_instance(s32 arg1, s16 arg2, s32 role, u8 *arg4
     ((TObjPlayer *)(((u8 *)this) + 0x64C))->reset_fields();
     ((TObjPlayer *)(((u8 *)this) + 0x658))->reset_scale_vector();
     ((TObjPlayer *)(((u8 *)this) + 0x66C))->set_vec3_const_wrapper();
-    TObjPlayer__sub_801BEC78((void *) (((u8 *)this) + 0x678));
+    npc_control.reset();
     ((TObjPlayer *)(((u8 *)this) + 0x6AC))->forward_release();
     TObjPlayer__sub_801BF660((void *) (((u8 *)this) + 0x730));
     ((TObjPlayer *)(((u8 *)this) + 0x744))->init_vec_record();

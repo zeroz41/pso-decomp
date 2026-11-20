@@ -103,7 +103,6 @@ void TObjPlayer__sub_801BCAB0(void *, void *);
 void init_player_data__10TObjPlayerFv(void *, void *);
 void is_flag_set_550__10TObjPlayerFv(void *, void *);
 void sub_801BD240__10TObjPlayerFv(void *, void *);
-void TObjPlayer__sub_801BEC78(void *);
 void init_player_telepipe_record(void *);
 void TObjPlayer__sub_801BBB70(void *, void *);
 void TObjPlayer__sub_80309E9C(void *);
@@ -134,7 +133,7 @@ TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) 
     ((TObjPlayer *)((char *)this + 1612))->reset_fields();
     ((TObjPlayer *)((char *)this + 1624))->reset_scale_vector();
     ((TObjPlayer *)((char *)this + 1644))->set_vec3_const_wrapper();
-    TObjPlayer__sub_801BEC78((void *)((char *)this + 1656));
+    npc_control.reset();
     ((TObjPlayer *)((char *)this + 1708))->forward_release();
     TObjPlayer__sub_801BF660(((char *)this + 1840));
     ((TObjPlayer *)((char *)this + 1860))->init_vec_record();
@@ -179,7 +178,7 @@ TObjPlayer::TObjPlayer(TObject *arg1, void *arg2) : TObjChara(arg1) {
     ((TObjPlayer *)((char *)this + 1612))->reset_fields();
     ((TObjPlayer *)((char *)this + 1624))->reset_scale_vector();
     ((TObjPlayer *)((char *)this + 1644))->set_vec3_const_wrapper();
-    TObjPlayer__sub_801BEC78((void *)((char *)this + 1656));
+    npc_control.reset();
     ((TObjPlayer *)((char *)this + 1708))->forward_release();
     TObjPlayer__sub_801BF660(((char *)this + 1840));
     ((TObjPlayer *)((char *)this + 1860))->init_vec_record();
