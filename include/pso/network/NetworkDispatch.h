@@ -27,8 +27,7 @@ typedef struct NetTimerRecord {
 typedef struct NetworkDispatchState {
     s32 lock_handle;
     s32 queue_handle;
-    NetThreadHandle protocol_thread_handle;
-    NetThreadHandle timer_thread_handle;
+    NetThreadHandle thread_ids[2]; /* protocol and timer dispatch threads */
     s32 interval;
     NetProtocolHandlerEntry handlers[3];
     NetTimerRecord timers[10];
@@ -69,8 +68,7 @@ NET_DISPATCH_OFFSET(NetTimerRecord, next, 0x0C);
 NET_DISPATCH_OFFSET(NetTimerRecord, fn, 0x10);
 NET_DISPATCH_OFFSET(NetworkDispatchState, lock_handle, 0x00);
 NET_DISPATCH_OFFSET(NetworkDispatchState, queue_handle, 0x04);
-NET_DISPATCH_OFFSET(NetworkDispatchState, protocol_thread_handle, 0x08);
-NET_DISPATCH_OFFSET(NetworkDispatchState, timer_thread_handle, 0x0C);
+NET_DISPATCH_OFFSET(NetworkDispatchState, thread_ids, 0x08);
 NET_DISPATCH_OFFSET(NetworkDispatchState, interval, 0x10);
 NET_DISPATCH_OFFSET(NetworkDispatchState, handlers, 0x14);
 NET_DISPATCH_OFFSET(NetworkDispatchState, timers, 0x2C);

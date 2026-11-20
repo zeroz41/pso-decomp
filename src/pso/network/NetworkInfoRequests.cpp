@@ -12,7 +12,7 @@
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-extern "C" s32 request_network_info_load(s32 channel NETWORK_INFO_FRAME_ALIGN, void *buffer) {
+s32 request_network_info_load(s32 channel NETWORK_INFO_FRAME_ALIGN, void *buffer) {
     switch (get_network_config_mode()) {
     case 0:
         return -1;
