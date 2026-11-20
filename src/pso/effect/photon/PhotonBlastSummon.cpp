@@ -302,7 +302,6 @@ struct Self_801A7680 {
 
 extern "C" {
 
-int update_all__8TFogCtrlFl(void*);
 // Unit direction rotated into each attachment's heading.
 extern Vec lbl_80446A38;
 
@@ -384,7 +383,7 @@ void TUnk_804C3248::spawn_photon_blast_attachment_effects(s32 kind) {
 }
 
 
-int update_all_default__8TFogCtrlFv(void) { return update_all__8TFogCtrlFl((void*)(0)); }
+int update_all_default__8TFogCtrlFv(void) { return TFogCtrl::update_all(0); }
 void apply_all_default__8TFogCtrlFv(void) { TFogCtrl::apply_all((saddr)((void*)63), (saddr)((void*)0)); }
 
 #pragma pop

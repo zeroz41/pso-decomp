@@ -70,7 +70,6 @@ struct Obj_801DF61C {
 };
 
 extern "C" {
-s32 bswap_16__FPUs(s32);
 int bswap__13packet_headerFv(void* a0);
 Blk_801DF774 *copy_choice_search_parameters(Blk_801DF774 *d, const Blk_801DF774 *s);
 int __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void*);
@@ -117,15 +116,15 @@ void bswap_cmd_c4_body(void* p) { ((packet_header *)p)->bswap(); { int i; for (i
 
 void bswap_cmd_c4_entry(void *arg0) {
     bswap_32((u32 *)arg0);
-    bswap_cmd_c4_reconnect_command((s32)((saddr)((void *)((char *)arg0 + 100))));
+    bswap_cmd_c4_reconnect_command((saddr)((void *)((char *)arg0 + 100)));
     bswap__21TPlyMeetUserExtensionFv((saddr)((char *)arg0 + 112));
 }
 
 void bswap_cmd_c4_reconnect_command(saddr arg0) {
     ((packet_header *)arg0)->bswap();
     bswap_32((u32 *)(arg0 + 4));
-    bswap_16__FPUs(arg0 + 8);
-    bswap_16__FPUs(arg0 + 0xA);
+    bswap_16((u16 *)(arg0 + 8));
+    bswap_16((u16 *)(arg0 + 0xA));
 }
 
 typedef struct RecoveredFields_801DF4FC_arg0 RecoveredFields_801DF4FC_arg0;
