@@ -5,10 +5,10 @@
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include <string.h>
+#include "pso/network/TProtocol.h"
 
 extern "C" {
 u16 to_be_uint16_t__FUs(u16);
-void handle_command__9TProtocolFP6packet(void *, void *);
 extern void *TLobby__protocol_instance;
 s32 deferred_packet_buffer;
 s32 deferred_packet_buffer_used;
@@ -55,7 +55,7 @@ void TLobby::drain_deferred_packets() {
         if (p[0] == 0) {
             break;
         }
-        handle_command__9TProtocolFP6packet(TLobby__protocol_instance, p);
+        ((TProtocol *)TLobby__protocol_instance)->handle_command((union packet *)p);
         deferred_packet_buffer_used += n;
     }
 }

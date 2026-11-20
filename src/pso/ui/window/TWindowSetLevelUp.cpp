@@ -64,7 +64,6 @@ void *__dt__17TWindowSetLevelUpFv(void *arg0, s16 arg1);
 void run_task__17TWindowSetLevelUpFv(u8 *arg0);
 void render_shadows__7TObjectFv(void);
 void __dt__7TObjectFv(void *, int);
-void __dl__7TObjectFPv(void *);
 void *__vt__17TWindowSetLevelUp[6] = {
     0, 0,
     (void *)__dt__17TWindowSetLevelUpFv,
@@ -189,7 +188,7 @@ void *__dt__17TWindowSetLevelUpFv(void *object, s16 arg1) {
         *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__17TWindowSetLevelUp;
         __dt__7TObjectFv(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(object);
+            TObject::operator delete(object);
         }
     }
     return object;

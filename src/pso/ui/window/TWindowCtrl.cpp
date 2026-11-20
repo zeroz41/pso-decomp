@@ -150,7 +150,6 @@ void TWindowCtrl__sub_8024BB30(TWindowCtrl *ctrl) {
 extern "C" {
 
 void *TWindowTradeRequest__ct(void *, void *);
-void *__nw__7TObjectFUl(s32);
 s32 TWindowCtrl__sub_8024701C(void *);
 
 
@@ -163,7 +162,7 @@ void TWindowCtrl::update_trade_request_window() {
             this->m_40 = 0U;
         }
     } else if ((u32) this->m_40 == 0U) {
-        var_r0 = __nw__7TObjectFUl(0x24);
+        var_r0 = TObject::operator new(0x24);
         if (var_r0 != NULL) {
             var_r0 = TWindowTradeRequest__ct(var_r0, this);
         }
@@ -190,7 +189,7 @@ void TWindowCtrl::update_com_card_window() {
             this->m_3c = 0U;
         }
     } else if ((u32) this->m_3c == 0U) {
-        temp_r3_4 = (u32)__nw__7TObjectFUl(0x2C);
+        temp_r3_4 = (u32)TObject::operator new(0x2C);
         var_r0 = temp_r3_4;
         if (var_r0 != 0U) {
             var_r0 = TWindowGetComCard__ct(temp_r3_4, arg0);

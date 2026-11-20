@@ -18,6 +18,7 @@ struct TShopKeepItemWindow;
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowInputNumber.h"
+#include "pso/item/TItemData.h"
 
 #pragma readonly_strings on
 
@@ -145,7 +146,6 @@ struct Rec_80210F78
 
 extern "C" {
 u8 is_item_record_empty(u8 *arg0);
-void init__9TItemDataFv(void *);
 void init_item_entry__18TCheckRoomSequenceFPv(Obj_80211408 *self);
 void close_window__18TCheckRoomSequenceFPv(TCheckRoomSequence_8020F070 *self);
 int set_field_20__15TShopWindowBaseFl(void*, void*);
@@ -174,7 +174,6 @@ void compact_items__18TCheckRoomSequenceFi(s32 slot);
 s8 get_chr_select_state__23TAdSinglePlyChrSelectGCFv();
 s32 poll_memcard_result(s32 chan);
 int obj_getPtr2B0_20(u8 *p);
-void set_position__18TCheckRoomSequenceFff(void* p, f32 a, f32 b);
 s16 get_child_field1c__13TShopSequenceFv(void *);
 void *__ct__18TWindowInputNumberFPvllls(void *, s32, s32, s32, s32, s16);
 s32 get_window_layout_position(s32);
@@ -368,7 +367,7 @@ void begin_meseta_withdrawal__18TCheckRoomSequenceFPv(Seq_8020F478 *self) {
                 }
                 self->f34 = w;
                 if (self->f34 != NULL && TLobby::is_camera_ctrl_active() > 2) {
-                    set_position__18TCheckRoomSequenceFff(self->f34, 0.75f, 0.75f);
+                    ((TCheckRoomSequence *)self->f34)->set_position(0.75f, 0.75f);
                 }
             }
             ((void (*)())reset_controller_input_state)();
@@ -439,7 +438,7 @@ void begin_meseta_deposit__18TCheckRoomSequenceFPv(Seq_8020F730 *self) {
                 }
                 self->f34 = w;
                 if (self->f34 != NULL && TLobby::is_camera_ctrl_active() > 2) {
-                    set_position__18TCheckRoomSequenceFff(self->f34, 0.75f, 0.75f);
+                    ((TCheckRoomSequence *)self->f34)->set_position(0.75f, 0.75f);
                 }
             }
             ((void (*)())reset_controller_input_state)();
@@ -873,13 +872,13 @@ s32 get_bank_deposit_capacity_for_item(Item_80210A04 *item, s32 slot) {
         if (((s32 (*)(u8 *))is_item_record_empty)((u8 *)&recs[i]) == 0 &&
             item->b0 == recs[i].b0 && item->b1 == recs[i].b1 &&
             item->b2 == recs[i].b2 && item->b4 == recs[i].b4) {
-            return get_max_stack_size__9TItemDataFv(&recs[i]) - recs[i].f14;
+            return ((TItemData *)(&recs[i]))->get_max_stack_size() - recs[i].f14;
         }
     }
     if (((s32 (*)(s32))bank_has_free_row)(slot) == 0) {
         return 0;
     }
-    return get_max_stack_size__9TItemDataFv(item);
+    return ((TItemData *)item)->get_max_stack_size();
 }
 }
 #pragma pop
@@ -899,8 +898,8 @@ s32 TCheckRoomSequence__sub_80210B34(u8 *item, s32 amount, s32 slot) {
         if (((s32 (*)(u8 *))is_item_record_empty)((u8 *)&recs[i]) == 0 &&
             item[0] == recs[i].b0 && item[1] == recs[i].b1 && item[2] == recs[i].b2) {
             recs[i].f14 += amount;
-            if (recs[i].f14 > get_max_stack_size__9TItemDataFv(&recs[i])) {
-                recs[i].f14 = get_max_stack_size__9TItemDataFv(&recs[i]);
+            if (recs[i].f14 > ((TItemData *)(&recs[i]))->get_max_stack_size()) {
+                recs[i].f14 = ((TItemData *)(&recs[i]))->get_max_stack_size();
             }
             return 1;
         }
@@ -1130,7 +1129,7 @@ void alloc_item_buffers__18TCheckRoomSequenceFv(void) {
 #pragma push
 #pragma optimization_level 1
 void init_item_entry__18TCheckRoomSequenceFPv(Obj_80211408 *self) {
-    init__9TItemDataFv(self);
+    ((TItemData *)self)->init();
     self->a = 0;
     self->b = 0;
 }
@@ -1165,7 +1164,7 @@ u8 is_item_record_empty(u8 *arg0) {
 #pragma optimization_level 1
 void TAdSinglePlyChrSelectGC::init_item_entry() {
     Obj_80211584 *self = (Obj_80211584 *)this;
-    init__9TItemDataFv(self);
+    ((TItemData *)self)->init();
     self->a = 0;
     self->b = 0;
 }

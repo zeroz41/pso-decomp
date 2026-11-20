@@ -78,7 +78,6 @@ void * TWindowHelpItem__sub_8025A95C(void *, void *, s32);
 }
 u8 *construct_text_entry(u8 *arg0, u8 *arg1, s32 arg2);
 extern "C" {
-void * init_part_direct__20TWindowSubStatusDispFPUcl(void *, void *, s32);
 void * init_part_scaled__20TWindowSubStatusDispFPvPvi(void *, void *, s32);
 
 __declspec(section ".sdata2") f32 lbl_805DCEF0 = 7.5f;
@@ -210,7 +209,7 @@ void init_window_layout_entries(List_80257D44 *self, Desc_80257D44 *desc, s32 ar
             case 7:
                 o = ::operator new(0x38);
                 if (o != NULL) {
-                    o = init_part_direct__20TWindowSubStatusDispFPUcl(o, rec, arg2);
+                    o = ((TWindowSubStatusDisp *)o)->init_part_direct((u8 *)rec, arg2);
                 }
                 *out = o;
                 rec += 0x38 / 4;

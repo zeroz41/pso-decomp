@@ -56,7 +56,7 @@ s32 set_visible__19TWindowSubTradeMainFv();
 
 void TWindowSubTradeMain::update_trade_state() {
     if ((u32) this->m_80 != 0U) {
-        if (is_decided__19TWindowMenuIconLineFv(this) != 0) {
+        if (((TWindowMenuIconLine *)this)->is_decided() != 0) {
             ((TWindowSubStatusDisp *)(this->m_80))->set_entry_state(2);
         } else {
             ((TWindowSubStatusDisp *)(this->m_80))->set_entry_state(1);
@@ -668,7 +668,7 @@ void TWindowMenuIconLine::draw_selected_list_entry(s32 window_key_board_soft) {
     if (!(this->state_flags & 0x80)) {
         temp_r3 = ((u16 *(*)(void *, s16))get_array_entry__11TWindowBaseFi)(this, this->cursor);
         if (*temp_r3 & 1) {
-            draw_selection_bar((u8 *)window_key_board_soft, (u8 *)temp_r3, is_decided__19TWindowMenuIconLineFv(this));
+            draw_selection_bar((u8 *)window_key_board_soft, (u8 *)temp_r3, is_decided());
         }
     }
 }
@@ -728,7 +728,7 @@ void TWindowMenuIconLine::run_task() {
     u8 *temp_r29_2;
     u8 *context;
     temp_r31 = is_player_input_active(((s32) this->m_20));
-    if ((this->get_flag() == 0) && (is_decided__19TWindowMenuIconLineFv(this) == 0) && (this->sub_80244994() != 0)) {
+    if ((this->get_flag() == 0) && (is_decided() == 0) && (this->sub_80244994() != 0)) {
         if (this->state_flags & 0x10) {
             input = (u8 *)&controller_input_state + (temp_r31 * 0x50) + 0x20;
             if ((TWindowChoiceSetting::apply_choice((s32)input, 0x10, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state + 0x160)), 0x10, 6, 1) != 0)) {

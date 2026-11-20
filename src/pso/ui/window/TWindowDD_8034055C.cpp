@@ -16,7 +16,6 @@ extern const f32 lbl_805DFC00;
 extern const f32 lbl_805DFC04;
 extern const f32 lbl_805DFC08;
 extern const f32 lbl_805DFC2C;
-void __dl__7TObjectFPv(void *);
 void TWindowDD__sub_803489B8(void *ctx, E_803403F8 *points, s32 row);
 extern s32 lbl_805D63F0;
 extern const f32 TWindowDD__data_805DFB20;
@@ -177,7 +176,7 @@ void *__dt__13TUnk_804EFBACFv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = lbl_804EFBAC;
         __dt__11TWindowBaseFv(arg0, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            TObject::operator delete(arg0);
         }
     }
     return arg0;

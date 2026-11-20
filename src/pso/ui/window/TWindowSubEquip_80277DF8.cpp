@@ -11,6 +11,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -44,7 +45,6 @@ s32 is_player_input_active(s32);
 s32 fn_80255A38(s32);
 s32 TWindowSubEquip__sub_80263AF4(void *, s32);
 extern u8 controller_input_state[];
-void *__nw__7TObjectFUl(u32);
 s32 __ct__15TWindowHelpItemFPvUs(void *, void *, s32);
 s32 create_equip_list_window(void *, const NJS_POINT2 *, s32);
 }
@@ -60,7 +60,7 @@ TWindowSubEquip::TWindowSubEquip(s32 arg1, s32 arg2) : TObject((TObject *)((void
     TWindowSubEquip__sub_80263AF8((u8 *)this->m_2c, 0);
     set_depth__11TWindowBaseFf(this->m_34);
     ((TWindowSubShortCutList *)(this->m_34))->set_flag70_bit10();
-    p = __nw__7TObjectFUl(0xBC);
+    p = TObject::operator new(0xBC);
     if (p != 0) {
         p = (void *)__ct__15TWindowHelpItemFPvUs(p, get_window_layout_position(2), this->m_28);
     }

@@ -30,7 +30,6 @@ s8 TWindowComCard__sub_80249C20(void* p);
 void *__dt__14TWindowComCardFv(void *arg0, s16 arg1);
 void run_task__14TWindowComCardFv(void* p);
 s32 get_card_entry__17TWindowSubComCardFi(s32 arg0);
-void __dl__7TObjectFPv(void *);
 int initialize_subwindow__9TWindowDDFv(void*);
 
 extern "C" u8 lbl_805D63F0[];
@@ -245,7 +244,7 @@ void *__dt__14TWindowComCardFv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TWindowComCard;
         __dt__11TWindowBaseFv(arg0, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            TObject::operator delete(arg0);
         }
     }
     return arg0;
@@ -398,7 +397,7 @@ void *TWindowComCard__sub_80249E80(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = lbl_804CE964;
         __dt__11TWindowBaseFv(arg0, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            TObject::operator delete(arg0);
         }
     }
     return arg0;

@@ -72,7 +72,6 @@ struct Ent_80269664 { u8 pad0[0xC]; f32 y; u8 pad10[4]; f32 h; };
 extern "C" {
 u8 *get_array_entry__11TWindowBaseFi(void *, s32);
 
-u32 get_field_20__17TWindowSubComCardFv(void *);
 
 void TWindowMessage::scroll_up_line(u8 *arg1) {
     f32 d;
@@ -96,7 +95,7 @@ void TWindowMessage::advance_reveal_cursor() {
     u16 *e;
     s32 t;
     e = ((u16 *)get_array_entry__11TWindowBaseFi(((Msg_802695A8 *)this), ((Msg_802695A8 *)this)->cur));
-    while (get_field_20__17TWindowSubComCardFv(e) != 0 && (*e & 0x10)) {
+    while ((u32)((TWindowSubComCard *)e)->get_field_20() != 0 && (*e & 0x10)) {
         t = ((Msg_802695A8 *)this)->cur + 1;
         ((Msg_802695A8 *)this)->cur = t;
         if (t >= ((Msg_802695A8 *)this)->cnt) {
@@ -120,7 +119,7 @@ void TWindowMessage::update_line_timers() {
     s32 idx;
     f32 h;
     for (i = 0; i < (u32)((Q_80269664 *)this)->capacity; i++) {
-        if (get_field_20__17TWindowSubComCardFv(get_array_entry__11TWindowBaseFi(this, i)) != 0) {
+        if ((u32)((TWindowSubComCard *)get_array_entry__11TWindowBaseFi(this, i))->get_field_20() != 0) {
             if ((((Q_80269664 *)this)->meta[i].flags & 4) && ((Q_80269664 *)this)->meta[i].timer > 0) {
                 ((Q_80269664 *)this)->meta[i].timer--;
             }
@@ -129,7 +128,7 @@ void TWindowMessage::update_line_timers() {
     idx = ((Q_80269664 *)this)->oldest;
     e = (Ent_80269664 *)get_array_entry__11TWindowBaseFi(((Q_80269664 *)this), idx);
     m = &((Q_80269664 *)this)->meta[idx];
-    while (get_field_20__17TWindowSubComCardFv(e) != 0 && m->timer <= 0 && (m->flags & 4)) {
+    while ((u32)((TWindowSubComCard *)e)->get_field_20() != 0 && m->timer <= 0 && (m->flags & 4)) {
         m->flags &= ~4;
         h = (1.0f) + (e->y + e->h);
         if (((Q_80269664 *)this)->height < h) {
@@ -153,7 +152,7 @@ void TWindowMessage::retire_scrolled_lines() {
     Meta_802697B4 *m;
     e = get_array_entry__11TWindowBaseFi(w, w->oldest);
     m = &w->meta[w->oldest];
-    while (get_field_20__17TWindowSubComCardFv(e) != 0 && *(f32 *)(e + 0xC) + *(f32 *)(e + 0x14) < w->scroll) {
+    while ((u32)((TWindowSubComCard *)e)->get_field_20() != 0 && *(f32 *)(e + 0xC) + *(f32 *)(e + 0x14) < w->scroll) {
         ((TWindowMessage *)w)->scroll_up_line(e);
         m->flags = 0;
         m->timer = 0;

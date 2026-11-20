@@ -144,7 +144,6 @@ void *__ct__19TAdPlyChrSelPlateGCFv(void *, TObject *, void *);
 void fn_8025DE10(void *arg0, void *arg1);
 void draw_window_frame__11TWindowBaseFPv();
 extern V_803212F8 serial_entry_status_line_position[];
-void __dl__7TObjectFPv(void *);
 
 
 const Col_803214C4 serial_plate_color = { 0xFF };
@@ -669,7 +668,7 @@ void *__dt__22TAdEnterSerialAccessGCFv(TAdEnterSerialAccessGC *ad_enter_serial_a
         if (*(void **)((s8 *)ad_enter_serial_access_gc + 0x54) != NULL) { ((TObject *)(*(void **)((s8 *)ad_enter_serial_access_gc + 0x54)))->queue_destruction(); ad_enter_serial_access_gc->m_54 = 0; }
         __dt__14TAdEnterBaseGCFv(ad_enter_serial_access_gc, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(ad_enter_serial_access_gc);
+            TObject::operator delete(ad_enter_serial_access_gc);
         }
     }
     return ad_enter_serial_access_gc;

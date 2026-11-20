@@ -121,7 +121,6 @@ u16 get_current_target_id__10TObjPlayerFv();
 s32 is_player_input_active(s32);
 int TWindowCtrl__sub_8024C7D4(void *p);
 extern Pad_8024DCE8 controller_input_state[];
-u32 is_action_active__10TObjPlayerFv(void *);
 int TWindowMainMenu__sub_8024E3F4(void *p);
 void TWindowCtrl__sub_8024DAAC(void *arg0);
 s32 TWindowMainMenu__sub_8024E3E0(void *);
@@ -308,7 +307,7 @@ void TWindowCtrl::update_main_menu_request() {
         TWindowCtrl::update_focused();
         return;
     }
-    if (is_action_active__10TObjPlayerFv((void *) p) != 0) {
+    if ((u32)((TObjPlayer *)p)->is_action_active() != 0) {
         return;
     }
     if (key == 0x1F) {

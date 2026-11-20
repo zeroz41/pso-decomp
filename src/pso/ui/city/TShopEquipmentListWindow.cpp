@@ -421,7 +421,7 @@ void TShopEquipmentListWindow::handle_selection() {
         w->sel = i;
     }
     if (sub_802239EC__13TShopSequenceFv(w) != 0) {
-        set_field_20__15TShopWindowBaseFl(w, 3);
+        ((TShopWindowBase *)w)->set_field_20(3);
         play_sound_effect(0x52D01, 0, 0, 0);
         return;
     }
@@ -430,22 +430,22 @@ void TShopEquipmentListWindow::handle_selection() {
         switch (check_purchase_eligibility()) {
         case 0:
             w->m4(0xF, 1);
-            set_field_20__15TShopWindowBaseFl(w, 5);
+            ((TShopWindowBase *)w)->set_field_20(5);
             break;
         case 1:
             w->m4(0x19, 1);
-            set_field_20__15TShopWindowBaseFl(w, 6);
+            ((TShopWindowBase *)w)->set_field_20(6);
             break;
         case 2:
             w->m4(0x12, 1);
-            set_field_20__15TShopWindowBaseFl(w, 7);
+            ((TShopWindowBase *)w)->set_field_20(7);
             break;
         case 3:
             w->m4(0x11, 1);
-            set_field_20__15TShopWindowBaseFl(w, 7);
+            ((TShopWindowBase *)w)->set_field_20(7);
             break;
         case 4:
-            set_field_20__15TShopWindowBaseFl(w, 8);
+            ((TShopWindowBase *)w)->set_field_20(8);
             break;
         }
     }
@@ -516,7 +516,7 @@ void TShopEquipmentListWindow::handle_buy_confirm() {
             }
             ((TWindowBase *)w->card)->close();
             w->card = NULL;
-            set_field_20__15TShopWindowBaseFl(w, 0);
+            ((TShopWindowBase *)w)->set_field_20(0);
         }
         if (r == 1) {
             if (w->list != NULL) {
@@ -533,7 +533,7 @@ void TShopEquipmentListWindow::handle_buy_confirm() {
             }
             ((TWindowBase *)w->card)->close();
             w->card = NULL;
-            set_field_20__15TShopWindowBaseFl(w, 0);
+            ((TShopWindowBase *)w)->set_field_20(0);
         }
     }
     if (w->card != NULL && ((TWindowMenu *)(w->card))->is_cancelled() != 0) {
@@ -551,7 +551,7 @@ void TShopEquipmentListWindow::handle_buy_confirm() {
         }
         ((TWindowBase *)w->card)->close();
         w->card = NULL;
-        set_field_20__15TShopWindowBaseFl(w, 0);
+        ((TShopWindowBase *)w)->set_field_20(0);
     }
 }
 
@@ -569,7 +569,7 @@ void TShopEquipmentListWindow::handle_equip_offer() {
                 w->win = (void *)create_yes_no_window(get_window_layout_position(0x2B), get_entity_id(w->player), 0, 0);
                 sc = ((TShopWindowBase *)w)->get_scale();
                 ((TWindowAddition *)((u32)w->win))->set_position_xy(((TShopWindowBase *)w)->get_scale(), sc);
-                set_field_20__15TShopWindowBaseFl(w, 9);
+                ((TShopWindowBase *)w)->set_field_20(9);
             } else {
                 Rec_8021BA1C c;
                 i = ((TWindowMenuIconLine *)(w->list))->get_cursor_value();
@@ -583,19 +583,19 @@ void TShopEquipmentListWindow::handle_equip_offer() {
                 }
                 ((TWindowBase *)w->win)->close();
                 w->win = NULL;
-                set_field_20__15TShopWindowBaseFl(w, 0);
+                ((TShopWindowBase *)w)->set_field_20(0);
             }
         }
         if (r == 1) {
             ((TWindowBase *)w->win)->close();
             w->win = NULL;
-            set_field_20__15TShopWindowBaseFl(w, 0);
+            ((TShopWindowBase *)w)->set_field_20(0);
         }
     }
     if (w->win != NULL && ((TWindowMenu *)(w->win))->is_cancelled() != 0) {
         ((TWindowBase *)w->win)->close();
         w->win = NULL;
-        set_field_20__15TShopWindowBaseFl(w, 0);
+        ((TShopWindowBase *)w)->set_field_20(0);
     }
 }
 

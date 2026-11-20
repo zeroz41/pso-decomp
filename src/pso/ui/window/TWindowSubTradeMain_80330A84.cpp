@@ -725,7 +725,7 @@ u8 *open_option_dialog__19TWindowSubTradeMainFPvi(u8 *window_message_yes_no, s32
 
 u8 *TWindowSubTradeMain::open_confirm_prompt() {
     u8 *w;
-    w = create__19TWindowMessageYesNoFPvPvPvPv(this, *(void **)(((u8 *)this) + 0x28), NULL, NULL);
+    w = (u8 *)TWindowMessageYesNo::create(this, *(void **)(((u8 *)this) + 0x28), NULL, NULL);
     open_yes_no_prompt((TChCrTagPlBack *)w, (u32)(TWindowSubStatusDisp::get_message_10(0x20)), (s32)(TWindowSubStatusDisp::get_message_10(0xE4)), (s32)(get_window_layout_position(0x5F)), 282.0f);
     free_member__17TWindowSubComCardFv(w, 1);
     return w;

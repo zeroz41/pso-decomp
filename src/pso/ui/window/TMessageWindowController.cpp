@@ -16,7 +16,6 @@ extern s32 local_client_id;
 const char *get_selected_entry__16TQuestListOnlineFv();
 s32 get_game_play_mode();
 s32 get_shop_text(s32 arg0);
-TWindowMessagePage *create__18TWindowMessagePageFllll(s32, s32, s32, s32);
 TWindowMessagePage *set_text__18TWindowMessagePageFlll(s32, s32, s32);
 __declspec(section ".rodata") extern const char message_tag_error[];
 }
@@ -191,7 +190,7 @@ TWindowMessagePage *TMessageWindowController::create_message_window(s32 x, s32 y
     if (TLobby::is_camera_ctrl_active() > 2) scale = 0.75f;
     else scale = 1.0f;
     if (window == NULL) {
-        window = create__18TWindowMessagePageFllll(x, y, 1, flags);
+        window = (TWindowMessagePage *)TWindowMessagePage::create(x, y, 1, flags);
         ((TWindowAddition *)window)->set_position_xy(scale, scale);
         return window;
     }

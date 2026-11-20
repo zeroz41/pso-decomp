@@ -46,7 +46,6 @@ struct Obj_800771E4 { u8 pad0[0x28]; Ent_800771E4 e[12]; };
 extern "C" {
 void TWindowSubSymbolChat__sub_800771B0(Obj_800771B0 *arg0, s32 arg1);
 s32 TWindowSubSymbolChat__sub_800771C4(Obj_800771C4 *arg0, s32 arg1);
-u8 *get_message_10__20TWindowSubStatusDispFl(s32);
     extern int selected_symbol_chat_preset;
 s32 is_initialized__20TWindowSubSymbolChatFv();
 int get_instance__20TWindowSubSymbolChatFv(void*);
@@ -203,10 +202,10 @@ void TWindowSubSymbolChat::play_symbol_sound(s32 arg0) {
 u8 *TWindowSubSymbolChat::get_symbol_chat_data() {
     u8 *arg0 = (u8 *)this;
     if (is_symbol_chat_preset_in_use((u32 *)arg0) == 0) {
-        return get_message_10__20TWindowSubStatusDispFl(0xCC);
+        return (u8 *)TWindowSubStatusDisp::get_message_10(0xCC);
     }
     if ((s8) *(u8 *)&this->m_flags == 0) {
-        return get_message_10__20TWindowSubStatusDispFl(0xCD);
+        return (u8 *)TWindowSubStatusDisp::get_message_10(0xCD);
     }
     return (u8 *)&this->m_flags;
 }

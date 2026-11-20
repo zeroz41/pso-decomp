@@ -55,7 +55,7 @@ void TWindowSubStatusDisp__sub_80338740(u8 *arg0, s32 arg1, s32 arg2, s8 arg3, s
 }
 
 void TWindowSubStatusDisp__sub_803387F8(void *arg0, s8 arg1) {
-    get_message_10__20TWindowSubStatusDispFl(arg1 + 0x113);
+    TWindowSubStatusDisp::get_message_10(arg1 + 0x113);
 }
 s32 TWindowSubStatusDisp::query_status_field(void *arg0, s8 arg1) {
     if (arg1 == 0) {

@@ -7,6 +7,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/TUnk_804CF930.h"
 
 
 struct Bar_80256C00 {
@@ -252,9 +253,9 @@ void TUnk_804CF948::render(WindowDrawContext *context) {
         }
         if (hi > 0.0f) {
             set_constant_material_color(col);
-            draw_status_gauge_bar__13TUnk_804CF930FPvPvff(self, parent, &pos, scale, hi);
+            ((TUnk_804CF930 *)self)->draw_status_gauge_bar(parent, &pos, scale, hi);
             set_constant_material_color(self->f18);
-            draw_status_gauge_bar__13TUnk_804CF930FPvPvff(self, parent, &pos, scale, lo);
+            ((TUnk_804CF930 *)self)->draw_status_gauge_bar(parent, &pos, scale, lo);
         }
         TWindowSubStatusDisp::get_player();
     }

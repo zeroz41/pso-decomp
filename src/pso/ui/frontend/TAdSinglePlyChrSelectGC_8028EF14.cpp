@@ -74,7 +74,6 @@ void TAdSinglePlyChrSelectGC__sub_8028ED54(void);
 void blend_creation_proportion_shapes(f32 *);
 s32 free_bin_model_request(void *, int);
 void *__dt__10TObjMotionFv(void *arg0, s16 arg1);
-s32 __dl__7TObjectFPv(void *);
 void TAdSinglePlyChrSelectGC__sub_8028F084(CreationTextureCacheEntry *entry, TCharaMaking *appearance);
 void TCharaMaking__bind_appearance_texture_lists(s32 *hair, s32 *head, s32 *body, TCharaMaking *appearance);
 void copy_slot_data__23TAdSinglePlyChrSelectGCFPvPv(void *dst, void *src);
@@ -92,8 +91,6 @@ void update_pair__23TAdSinglePlyChrSelectGCFPv(void* p);
 int TAdSinglePlyChrSelectGC__sub_802905B8(void);
 void close_if_active__23TAdSinglePlyChrSelectGCFv(u8 * _w0);
 s32 release_texture_list(void *);
-int set_motion_interpolation_flag__10TObjMotionFv(void*);
-int draw_saving_joints_checked__10TObjMotionFv(void*);
 
 extern "C" {
 void run_task__12TCMCharacterFv();
@@ -387,7 +384,7 @@ u8 *TAdSinglePlyChrSelectGC__sub_802908CC(u8 *arg0, s16 arg1) {
         char_creation_figure_draw_flag = 0;
         __dt__10TObjMotionFv((arg0), 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            TObject::operator delete(arg0);
         }
     }
     return arg0;
@@ -662,7 +659,7 @@ void request_creation_motion(s32 arg0) {
     ((TObjMotion *)creation_figure_object)->set_field_b8(arg0 * 3 + creation_motion_group(creation_player_character));
 }
 
-void TAdSinglePlyChrSelectGC::draw_player_model() { set_motion_interpolation_flag__10TObjMotionFv(this); draw_saving_joints_checked__10TObjMotionFv(this); }
+void TAdSinglePlyChrSelectGC::draw_player_model() { ((TObjMotion *)this)->set_motion_interpolation_flag(); ((TObjMotion *)this)->draw_saving_joints_checked(); }
 void close_if_active__23TAdSinglePlyChrSelectGCFv(u8 * ad_single_ply_chr_select_gc) {
     if ((s32) char_select_active_flag != 0) {
         ((TAdSinglePlyChrSelectGC *)ad_single_ply_chr_select_gc)->draw_creation_figure();

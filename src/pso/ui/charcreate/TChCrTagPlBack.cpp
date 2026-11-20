@@ -58,7 +58,6 @@ void TChCrTagPlBack::draw_frame() {
 
 int TChCrTagPlBack__vt4(void);
 int render__14TChCrTagPlBackFv(void* p);
-void __dl__7TObjectFPv(void *);
 void render_shadows__7TObjectFv(void *);
 TChCrTagPlBack *__dt__14TChCrTagPlBackFv(TChCrTagPlBack *tag, s16 free);
 extern void *__vt__14TChCrTagPlBack[7];
@@ -70,7 +69,7 @@ TChCrTagPlBack *__dt__14TChCrTagPlBackFv(TChCrTagPlBack *tag, s16 free) {
         *(void ***)((u8 *)tag + 0x18) = __vt__14TChCrTagPlBack;
         __dt__8TChCrTagFv(tag, 0);
         if (free > 0) {
-            __dl__7TObjectFPv(tag);
+            TObject::operator delete(tag);
         }
     }
     return tag;

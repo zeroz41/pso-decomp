@@ -64,7 +64,6 @@ void THunterGuildSeqOffline__sub_80213410(void* p);
 s32 THunterGuildSeqOffline__sub_80213458(void);
 u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
 int fn_80223480(void*);
-int restore_player_state__13TShopSequenceFv(void*);
 
 // Written last-to-first: the unit is built with deferred code generation (see configure.py).
 
@@ -218,7 +217,7 @@ void THunterGuildSeqOffline::vfunc_11() {
     }
 }
 
-void THunterGuildSeqOffline::restore_player_state() { restore_player_state__13TShopSequenceFv(this); fn_80223480(this); THunterGuildWarning::create_instance((s32)((void*)2)); set_field_20((s32)((void*)((void*)1))); }
+void THunterGuildSeqOffline::restore_player_state() { TShopSequence::restore_player_state(); fn_80223480(this); THunterGuildWarning::create_instance((s32)((void*)2)); set_field_20((s32)((void*)((void*)1))); }
 
 void THunterGuildSeqOffline::open_greeting() {
     u8 *arg0 = (u8 *)this;

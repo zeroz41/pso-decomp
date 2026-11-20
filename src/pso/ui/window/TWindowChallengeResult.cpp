@@ -53,7 +53,6 @@ void draw_right_aligned_number(void);
 s32 get_window_layout_position(s32);
 extern const char lbl_8044E7BC[];
 
-void __dl__7TObjectFPv(void *);
 
 extern "C" void render_shadows__7TObjectFv();
 extern void *challenge_result_window_layout[44];
@@ -93,7 +92,7 @@ void *dt__22TWindowChallengeResultFPvs(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = lbl_804CE2B8;
         __dt__11TWindowBaseFv(arg0, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            TObject::operator delete(arg0);
         }
     }
     return arg0;

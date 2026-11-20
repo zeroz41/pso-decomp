@@ -85,7 +85,6 @@ struct Opt_8026BCC0 {
 
 extern "C" {
 void *create_select_menu_window__17TWindowOptionCtrlFv(void *);
-s32 update_selected_item__17TWindowOptionCtrlFv(void *);
 void *create_list_window__17TWindowOptionCtrlFv(void *);
 void *create_sound_mode_menu__17TWindowOptionCtrlFv(void *);
 void *create_sound_balance_window__17TWindowOptionCtrlFv(void *);
@@ -233,7 +232,7 @@ void TWindowOptionCtrl::run_task() {
         if (((TWindowMenuIconLine *)(self->f34))->is_cancelled() != 0) {
             self->state = 1;
         }
-        if (((TWindowOptionCtrl *)self)->handle_input(update_selected_item__17TWindowOptionCtrlFv(self->f34)) != 0) {
+        if (((TWindowOptionCtrl *)self)->handle_input(((TWindowOptionCtrl *)self->f34)->update_selected_item()) != 0) {
             self->state = 1;
         }
         break;
@@ -270,7 +269,7 @@ void TWindowOptionCtrl::run_task() {
         }
         self->state = 8;
     case 8:
-        self->f20 = update_selected_item__17TWindowOptionCtrlFv(self->f34);
+        self->f20 = ((TWindowOptionCtrl *)self->f34)->update_selected_item();
         if (((TWindowMenuIconLine *)(self->f34))->is_cancelled() != 0) {
             self->state = 1;
         }
@@ -373,7 +372,7 @@ void TWindowOptionCtrl::run_task() {
         }
         self->state = 0x13;
     case 19:
-        ((void (*)(void *, s32)) set_field_value__17TWindowOptionCtrlFls)(self, update_selected_item__17TWindowOptionCtrlFv(self->f34));
+        ((void (*)(void *, s32)) set_field_value__17TWindowOptionCtrlFls)(self, ((TWindowOptionCtrl *)self->f34)->update_selected_item());
         if (((TWindowMenuIconLine *)(self->f34))->is_cancelled() != 0) {
             self->state = 0x10;
         }

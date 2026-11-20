@@ -260,7 +260,6 @@ void begin_map_view__13TRaderMapCoreFii(s32 arg0, s32 arg1);
 extern s16 *TRaderMapCore__floor_discovery_table[];
 s32 init_radar_floor_flags(s32 floor, RadarInitMap_801F9474 *map);
 void* __ct__5THeapFUli(void*, u32, s32);
-void* __nw__5THeapFUl(u32);
 void TRaderMapCore__sub_801F95CC(void);
 void GXSetScissor(u32, u32, u32, u32);
 s32 TCameraCtrl__sub_80069304();
@@ -1467,7 +1466,7 @@ void TRaderMapCore::set_piece_flags(s32 arg0) {
 
 void TRaderMapCore__sub_801F95CC(void) {
     s32 i;
-    void* p = __nw__5THeapFUl(0x14);
+    void* p = THeap::operator new(0x14);
     if (p != NULL) {
         p = __ct__5THeapFUli(p, 0x1000, 0x20);
     }

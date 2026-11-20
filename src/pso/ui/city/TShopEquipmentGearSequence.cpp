@@ -89,9 +89,7 @@ struct Seq_8021B518 { u8 pad[0x24]; s32 f24; u8 pad28[4]; void *win; };
 
 extern "C" {
 
-s32 close_if_single_screen__13TShopSequenceFv(void *);
 s32 sub_802239EC__13TShopSequenceFv(void *);
-s32 close_window__13TShopSequenceFv(void *);
 
 s32 lbl_805D6218;
 s32 lbl_805D621C;
@@ -258,8 +256,8 @@ void TShopEquipmentGearSequence::open_sell_window() {
 
 void TShopEquipmentGearSequence::try_close() {
     if ((this->vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
-        close_if_single_screen__13TShopSequenceFv(this);
-        close_window__13TShopSequenceFv(this);
+        close_if_single_screen();
+        TShopSequence::close_window();
         queue_destruction();
     }
 }
