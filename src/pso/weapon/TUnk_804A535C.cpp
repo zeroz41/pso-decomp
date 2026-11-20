@@ -46,7 +46,7 @@ void rocket_punch_target_impact(void *self, u32 a, u32 b, s32 idx) {
     }
 }
 
-void rocket_punch_wall_impact(u32 arg0, u32 arg1, u32 arg2, u32 arg3) {
+void rocket_punch_wall_impact(u32 arg0, u32 arg1, u32 arg2, uaddr arg3) {
     if ((arg1 != 0U) && (arg3 != 0U)) {
         rocket_punch_return_timer(arg1);
         spawn_particle_effect((void *)arg3, 0x45);
@@ -96,7 +96,7 @@ Obj_8012C4E4 *TObjPlayer__sub_8012C4E4(Obj_8012C4E4 *self, void *owner, const vo
 
 }
 
-u32 rocket_punch_create_shot(s32 owner, s32 arg1, s32 arg2, f32 farg0) {
+uaddr rocket_punch_create_shot(saddr owner, saddr arg1, saddr arg2, f32 farg0) {
     uaddr var_r31;
     uaddr temp_r30;
 
