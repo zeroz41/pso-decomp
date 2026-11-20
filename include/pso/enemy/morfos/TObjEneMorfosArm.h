@@ -7,7 +7,7 @@
 struct TObjEneMorfosArm : public TObjMotion {
     TObjEneMorfosArm(TObject *parent, void *owner);
     virtual ~TObjEneMorfosArm();
-    u32 m_fc;
+    uaddr m_fc;
     u16 m_100;
     static void *create(void *arg0, void *arg1);
     static void init_global();

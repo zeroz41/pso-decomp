@@ -581,7 +581,7 @@ u8 *TObjPlayer::create_lobby_marker(s16 arg0, s8 arg1) {
 void TPlayerLobbyMarker::run_task() { rotation += 0x800; }
 
 void TPlayerLobbyMarker::render() {
-    s32 temp_r3;
+    saddr temp_r3;
     temp_r3 = (s32)get_player_by_client_id(player_id);
     if ((temp_r3 != 0) && (all_parents_unqueued_for_destruction__7TObjectFv() != 0) && (get_material_index() != 0) && (((TObjPlayer *)temp_r3)->is_body_collision_inactive() == 0)) {
         push_matrix();
@@ -998,7 +998,7 @@ void set_params__10TObjPlayerFPvPvPviPv(void *arg0, void *arg1, void *arg2, s32 
     *(s16 *)((s8 *)arg0 + 0x14) = (s16) *(s16 *)((s8 *)arg4 + 0xA);
 }
 
-void TObjPlayer::init_shield_params(s32 arg1) {
+void TObjPlayer::init_shield_params(saddr arg1) {
     ((void (*)()) set_params__10TObjPlayerFPvPvPviPv)();
     *(s16 *)((s8 *)this + 0x16) = ((TItemProShield *)arg1)->get_field_2b8();
     *(s16 *)((s8 *)this + 0x18) = obj_getS16_2BA((u8 *)arg1);

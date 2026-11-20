@@ -300,7 +300,7 @@ struct Slicer_8023BBB4 {
     u8 fc8[0x20];
     u8 fe8[0x20];
     s32 f108;
-    s32 f10c;
+    saddr f10c;
     s32 f110;
     u16 f114;
     u8 pad116[2];
@@ -420,7 +420,7 @@ void TTecSlicer::update() {
 }
 
 s32 TTecSlicer::create(u16 *arg0) {
-    s32 var_r31;
+    saddr var_r31;
     u8 *player;
     var_r31 = 0;
     if (arg0 != NULL) {
@@ -518,7 +518,7 @@ TTecSlicer::TTecSlicer(u16 *launch, void *player, Vec *position, int angle) : TO
     s32 c;
     saddr ext;
     s32 i;
-    s32 e;
+    saddr e;
     self->name = TTecSlicer__name;
     ((TObject *)((TObject *)self))->TObject::disallow_rendering();
     ((TObjBase *)self)->set_entity_id(pop_free_entity_id());
@@ -574,7 +574,7 @@ TSlicerHistory::~TSlicerHistory() {}
 s32 TTecSlicer::get_field_110() { return *(s32 *)&this->model; }
 s16 TTecSlicer::get_remain_count() { return *(s16*)((char*)this + 0x11e); }
 void TTecSlicer::destroy_if_set() {
-    u32 arg0 = (u32)this;
+    uaddr arg0 = (u32)this;
     if (arg0 != 0U) {
         ((TObject *)arg0)->queue_destruction();
     }

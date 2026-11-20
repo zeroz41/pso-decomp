@@ -252,7 +252,7 @@ struct O_801C12C8 { u8 a; u8 b; u8 pad[2]; s32 c; s32 arr[30]; };
 extern "C" {
 
 void TObjPlayer::bswap_cmd_item_data() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (s32)this;
     ((G_ClientIDHeader *)arg0)->bswap();
     bswap__9TItemDataFv(arg0 + 4);
 }

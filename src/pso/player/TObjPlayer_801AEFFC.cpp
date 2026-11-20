@@ -59,7 +59,7 @@ void TObjPlayer::apply_switch_attack() {
 #include "pso/ui/hud/TRaderMapCore.h"
 
 void TObjPlayer::update_movement_effects() {
-    s32 player = (s32)this;
+    saddr player = (s32)this;
     if ((TTecCtrl::is_technique_ready() != 0) && (TObjPlayer__sub_801AF868(player) == 0) && (update_movement_by_screen__10TObjPlayerFv(player) != 0) && (((TObjPlayer *)player)->test_action_mask(0x408000) == 0) && (((TObjPlayer *)player)->is_body_collision_inactive() == 0) && (check_flag_800000__10TObjPlayerFPv(player) == 0)) {
         ((TObjPlayer *)(player + 0x384))->emit_movement_effect_at();
     }

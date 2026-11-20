@@ -22,7 +22,7 @@ s32 create_node__9TItemListFPvPvPvSc(s32, s32, s32, s32);
 
 void insert_item_node__10TObjPlayerFiiiii(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     saddr temp_r31;
-    s32 temp_r30;
+    saddr temp_r30;
 
     temp_r31 = TItemList__sub_801D5868((void*)arg0, (void*)(0));
     temp_r30 = TItemList__sub_801D5854(arg0, 0);

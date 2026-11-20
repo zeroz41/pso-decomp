@@ -56,7 +56,7 @@ s32 calc_technique_parameters(s32, s16, s32);
 
 void TTecJelin::init_tech_params() {
     u8 *arg0 = (u8 *)this;
-    s32 res;
+    saddr res;
     res = calc_technique_parameters(0xB, this->m_78, 0xFFFF);
     ((TTecAnti *)(arg0 + 0x88))->copy_params((u8 *)res);
     this->m_88 = (f32) (*(s16 *)&this->m_ac * this->m_78);
@@ -78,7 +78,7 @@ void TTecJelin::render() {  }
 
 void TTecJelin::run_task() {
     s32 i;
-    u32 id;
+    uaddr id;
     source = (u32)find_entity_by_id(m_b4);
     if (source == 0) {
         queue_destruction();

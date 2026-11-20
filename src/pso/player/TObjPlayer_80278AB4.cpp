@@ -19,7 +19,7 @@ void TObjPlayer::build_shop_item_list() {
     u32 temp_r30;
     s32 slot_value;
     u8 *player;
-    s32 temp_r3_2;
+    saddr temp_r3_2;
     u32 i;
 
     player = (u8 *)get_player_by_client_id(*(s16 *)&this->m_20);

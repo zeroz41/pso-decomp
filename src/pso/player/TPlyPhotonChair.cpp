@@ -146,7 +146,7 @@ void *get_player_by_client_id(s32 i);
 s32 is_mounted__15TPlyPhotonChairFv();
 void TPlyPhotonChair__sub_8035B56C(void* p, f32 v);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-extern u32 TPlyPhotonChair__shared_model_resource;
+extern uaddr TPlyPhotonChair__shared_model_resource;
 s32 get_bml_motion(int, int);
 s32 get_bml_texlist(int, int);
 s32 get_bml_model(int, int);
@@ -345,4 +345,4 @@ void TPlyPhotonChair::free_instance() {
 }
 
 
-u32 TPlyPhotonChair__shared_model_resource;
+uaddr TPlyPhotonChair__shared_model_resource;

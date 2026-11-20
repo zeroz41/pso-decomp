@@ -38,7 +38,7 @@ s32 TObjPlayer::is_single_screen() {
     return (u8) (TRaderMapCore::is_not_split_screen() == 1);
 }
 s32 TObjPlayer::is_player_valid_target(s32 arg0) {
-    s32 temp_r31;
+    saddr temp_r31;
 
     if (TObjPlayer__sub_80354E3C() == 0) {
         return 0;

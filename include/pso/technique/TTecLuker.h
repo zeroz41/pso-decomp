@@ -24,7 +24,7 @@ struct TTecLuker : public TUnk_804CC148 {
     s32 phase;  // 0 placing, 1 open, 2 warping, 3 warp, 4 done
     s32 warp_frames;  // frames spent in phase 2
     static void apply_all_players();
-    static void create_for_player(int arg0, s32 arg1);
+    static void create_for_player(int arg0, saddr arg1);
     void init_fields(s16 arg1);
     void send_telepipe_packet();
     void create(void *arg1, void *arg2, void *arg3);

@@ -2581,7 +2581,7 @@ void TObjPlayer__sub_801C9648(s32 arg0, s16 arg1) {
 }
 
 s32 TObjPlayer::try_change_action() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (s32)this;
     if (is_status_locked__10TObjPlayerFv() != 0) {
         if (((TObjPlayer *)(arg0 + 0x5F0))->get_action_id() == 0x10) {
             ((s32 (*)(s32, s16, s32))run_action_state_phase__10TObjPlayerFisi)(arg0, 0x10, 5);
@@ -2778,7 +2778,7 @@ s32 handle_6x4F_revived__10TObjPlayerFi(s32 arg0) {
 }
 
 void TObjPlayer::send_6x4F_revived() {
-    u32 arg0 = (u32)this;
+    uaddr arg0 = (u32)this;
     struct Local801C9D3C sp8;
 
     if (((s32 (*)(s32, s32))test_flags_any)(arg0 + 0x858, 4) != 0) {
@@ -3847,7 +3847,7 @@ void update_active_instance__10TObjPlayerFi(s32 arg0) {
 }
 
 void TObjPlayer::vfunc_75(f32 farg0) {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (s32)this;
     if (((s32 (*)(void))is_locally_controlled__10TObjPlayerFPv)() == 0 || ((TObjCollidable *)arg0)->obj_testFlags30(0x800) != 0 ||
         (u32)((TObjPlayer *)arg0)->activate_d04_slot() == 0 || ((s32 (*)(s32, s32))is_alt_photon_blast_bank_empty__10TObjPlayerFPv)(arg0 + 0x500, 1) != 0 ||
         is_current_area_item_enabled() == 0) {
@@ -3938,7 +3938,7 @@ void TObjPlayer::send_6x37_photon_blast() {
 }
 
 s32 TObjPlayer::check_conditions() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (s32)this;
     if ((((TObjCollidable *)arg0)->obj_testFlags30(0x20006) != 0) || (((TObjPlayer *)arg0)->test_action_mask(0x11E) == 0) || (TObjPlayer__sub_801C1F50((void *)(arg0 + 0x4AC)) == 0) || (((TObjPlayer *)(arg0 + 0x4AC))->check_flag_clear() == 0) || ((((s32 (*)(s32))is_locally_controlled__10TObjPlayerFPv)(arg0) != 0) && ((((s32 (*)(s32))check_flag_100__10TObjPlayerFPv)(arg0) != 0) || (((TObjPlayer *)arg0)->get_camera_field() == 0))) || (((s32 (*)(s32))reset_volopt_state__10TObjPlayerFv)(arg0) == 0)) {
         return 0;
     }
@@ -5781,7 +5781,7 @@ void TObjPlayer::send_6x40_walk_to_position() {
 }
 
 void TObjPlayer::handle_ring_hit() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (s32)this;
     if (((s32 (*)(s32, s32))test_flags_any)(arg0 + 0x5EC, 4) != 0) {
         ((FlagWord *)(arg0 + 0x5EC))->clear(4);
         ((TObjCollidable *)arg0)->clear_player_status_flag(0, 0x01C00000);
@@ -6041,7 +6041,7 @@ void TObjPlayer::check_idle_movement_request() {
 int TObjPlayer::try_apply_status_action_2() { return try_apply_status_action__10TObjPlayerFi(this); }
 
 void run_idle_state_phase__10TObjPlayerFis(s32 arg0, s16 arg1) {
-  s32 new_var;
+  saddr new_var;
   {
     switch (arg1)
     {
@@ -6516,7 +6516,7 @@ void TObjPlayer::swap_endian_shorts() { bswap_16((u16 *)((char*)this + 0x2)); bs
 #pragma auto_inline off
 #pragma dont_inline off
 s32 copy_photon_blast_data__10TObjPlayerFiPv(s32 arg0, u8 *arg1) {
-  s32 var_r30;
+  saddr var_r30;
   s32 var_r3;
   saddr var_r5;
   s32 var_r6;

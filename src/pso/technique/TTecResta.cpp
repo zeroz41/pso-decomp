@@ -34,7 +34,7 @@ struct Target_802399F8 { u16 id; u8 pad[6]; };
 
 struct Resta_802399F8 {
     u8 pad0[0x1C];
-    u32 source;
+    uaddr source;
     u8 pad1[0xA4 - 0x20];
     s16 level;
     u8 pad2[0xA8 - 0xA6];
@@ -212,7 +212,7 @@ TTecResta::~TTecResta() {
 }
 
 void run_task__9TTecRestaFv(Resta_802399F8 *self) {
-    u32 target;
+    uaddr target;
     s32 i;
     self->source = (u32)find_entity_by_id(self->source_id);
     if (TTecLuker::is_parents_unqueued(self->source) == 0) {

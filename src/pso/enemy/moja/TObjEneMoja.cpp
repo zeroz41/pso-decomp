@@ -215,7 +215,7 @@ struct Moja_800AD3D8 {
     u8 pad2AC[0x2FC - 0x2AC];
     Vec pos;
     u8 pad308[0x318 - 0x308];
-    u32 f318;
+    uaddr f318;
     u8 pad31C[0x328 - 0x31C];
     s16 phase;
     u8 pad32A[0x338 - 0x32A];

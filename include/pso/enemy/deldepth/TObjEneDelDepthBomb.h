@@ -18,7 +18,7 @@ struct TObjEneDelDepthBomb : public TObjChara {
     f32 distance;
     TObjChara *source;
     s32 age;
-    s32 techniqueLevel;
+    saddr techniqueLevel;
     f32 speed;
 };
 

@@ -22,7 +22,7 @@ struct Target_8022F73C {
 
 struct Deband_8022F73C {
     u8 pad0[0x1C];
-    u32 source;
+    uaddr source;
     u8 pad1[0xA4 - 0x20];
     s16 level;
     u8 pad2[0xA8 - 0xA6];
@@ -83,7 +83,7 @@ int TTecDeband::init_params() { return spawn_support_tec_range_effect(this); }
 
 void TTecDeband::update_effect_params() {
     u8 *arg0 = (u8 *)this;
-    s32 res;
+    saddr res;
     res = calc_technique_parameters(0xA, this->m_a4, 0xFFFF);
     ((TTecAnti *)(arg0 + 0x74))->copy_params((u8 *)res);
     this->m_74 = (f32) (this->m_98 * this->m_a4);
@@ -126,7 +126,7 @@ TTecDeband::~TTecDeband() {
 }
 
 void run_task__10TTecDebandFv(Deband_8022F73C *self) {
-    u32 target;
+    uaddr target;
     s32 i;
     if (self->proxy == 0) {
         ((TObject *)self)->queue_destruction();

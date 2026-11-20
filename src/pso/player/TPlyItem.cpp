@@ -478,7 +478,7 @@ void TLobby::set_globals_and_update(int a1, int a2) { item_reduce_target_player 
 
 void TLobby__sub_801D4C28(void* a0, int a1, int a2, int a3) { item_reduce_target_player = a1; item_reduce_owner_match_field_ec = a2; reduce_owner_match_id = a3; ((TLobby *)(*(int*)((char*)a0 + 0x1c4)))->reduce_owner_matched_items(); }
 
-s32 TLobby::use_item(s32 arg1, s32 key, s32 arg3) {
+s32 TLobby::use_item(saddr arg1, s32 key, s32 arg3) {
     void *node;
 
     if (key == -1) {
@@ -1119,7 +1119,7 @@ void TUnk_804C4480::sub_801D5A70() {
     copy_position__9TItemListFPv((void *)TItemList__sub_801D598C((Obj_801D598C *)this->unk_54, (s8)((TItemList *)this)->get_item_count()), (const Vec *)get_ptr_0x44__9TItemListFPv(this));
 }
 
-s32 TItemList::is_item_valid(s32 arg0) {
+s32 TItemList::is_item_valid(saddr arg0) {
     u8 valid;
 
     valid = 0;

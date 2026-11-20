@@ -251,7 +251,7 @@ const char *lbl_804E7D4C[7] = {
 
 const char *TPlayerBattleCtrl4P__name = "TPlayerBattleCtrl4P";
 
-void TPlayerBattleCtrl4P::init_instance_with_text(s32 arg0, s32 arg1) {
+void TPlayerBattleCtrl4P::init_instance_with_text(saddr arg0, saddr arg1) {
     if (TPlayerBattleCtrl4P__instance == NULL) {
         void *mem = TObject::operator new(0x2A0);
         if (mem != NULL) {
@@ -1013,7 +1013,7 @@ void TPlayerBattleCtrl4P::apply_rule_configuration(s32 arg1) {
 #pragma pop
 
 void TPlayerBattleCtrl4P::remove_player(void *arg0, u16 arg1, s32 arg2) {
-    u32 id;
+    uaddr id;
     u32 temp;
 
     id = arg1;

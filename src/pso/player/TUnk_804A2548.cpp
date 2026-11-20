@@ -119,7 +119,7 @@ void spawn_faust_hit_explosion(s32 arg0, saddr arg1) {
     }
 }
 
-void TObjPlayer::spawn_faust_wall_explosion(s32 arg0, s32 arg1) {
+void TObjPlayer::spawn_faust_wall_explosion(s32 arg0, saddr arg1) {
     u32 temp_r3 = (u32)find_item_by_id(arg0);
     if (temp_r3 != 0U) {
         spawn_faust_explosion(temp_r3, *(const Vec *)arg1);

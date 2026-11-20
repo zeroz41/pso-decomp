@@ -13,7 +13,7 @@ struct TNeedleShoot : public TObject {
     virtual int queue_destruction();
     virtual void vfunc_8();
     virtual void vfunc_9(void *);
-    u32 m_1c;
+    uaddr m_1c;
     u8 unk_20[0x4];
     f32 m_24;
     Vec prev_pos;

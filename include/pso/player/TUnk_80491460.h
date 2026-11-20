@@ -23,7 +23,7 @@ public:
     f32 distance;   // how far it has flown
     TParticleCtrl *particle;
     s32 frame;
-    s32 source;     // the shooter, passed to receive_direct_attack
+    saddr source;     // the shooter, passed to receive_direct_attack
     s32 power;
 };
 LAYOUT_ASSERT(TUnk_80491460_size, sizeof(TUnk_80491460) == 0x6C);

@@ -320,7 +320,7 @@ extern u32 chunk_render_flags;
 s32 resolve_render_keys__10TObjPlayerFPPUlPPUl();
 
 
-void TObjPlayer::set_global_7778(s32 arg0) {
+void TObjPlayer::set_global_7778(saddr arg0) {
     lbl_805D7778 = (u32 *)arg0;
 }
 

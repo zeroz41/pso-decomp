@@ -68,7 +68,7 @@ struct TObjEneEpsilonGuard : public TObjEneEpsilon {
     s32 is_guard_ready();
     void clear_and_flag_state();
     void set_flag_8_and_notify();
-    void set_target(s32 arg1, s32 arg2, s32 arg3);
+    void set_target(saddr arg1, s32 arg2, s32 arg3);
     static void advance_camera_ctrl_step();
     void handle_message(s32 arg1);
     void handle_break_state(s32 arg1);

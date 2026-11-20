@@ -18,7 +18,7 @@ struct TObjEneSlimeOne : public TObjEnemy {
     u8 unk_374[0xC];
     u8 * model_archive;  // get_instance(); its texlist and bml models
     u32 state;  // index into the {enter, update} state table; set_state
-    u32 m_388;
+    uaddr m_388;
     void *collision_body_parts;  // init_collision_body_parts / free_collision_body_parts
     s32 state_timer;  // set_random_timer, counted down by the states
     u8 unk_394[0x4];
@@ -38,7 +38,7 @@ struct TObjEneSlimeOne : public TObjEnemy {
     Vec launch_velocity;  // the ctor's start vector; falls by 0.075 per frame, added to position
     void * particle;  // TParticleCtrl, released in the dtor
     u32 m_3ec;
-    u32 parent_slime;  // the ctor's spawner; try_spawn_child is called on it when this one is hit
+    uaddr parent_slime;  // the ctor's spawner; try_spawn_child is called on it when this one is hit
     s32 get_attack_target();
     s32 is_in_water_bomb_states();
     static int get_instance();

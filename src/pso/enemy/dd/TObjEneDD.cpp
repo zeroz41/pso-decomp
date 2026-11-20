@@ -1371,7 +1371,7 @@ int TObjEneDD::update_secondary_light() { return select_actor_lighting(this); }
 
 int TObjEneDD::update_primary_light() { return restore_scene_lighting(this); }
 
-void TObjEneDD::draw_oriented_shadow(s32 arg1, s32 arg2, u32 arg3) {
+void TObjEneDD::draw_oriented_shadow(saddr arg1, saddr arg2, uaddr arg3) {
     saddr arg0 = (saddr)this;
     Stack_800B9D94 stack;
     direction_to_rotation_xz((u8 *)arg1, (&stack.sp8), (&stack.sp10));

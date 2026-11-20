@@ -8,7 +8,7 @@ s32 init_status_entry__20TWindowSubStatusDispFPvcUii(void *, u8, s32, s32);
 void *get_array_entry__11TWindowBaseFi(void *, s16);
 
 
-void TObjPlayer::add_status_line(u8 arg1, u32 arg2, s32 arg3) {
+void TObjPlayer::add_status_line(u8 arg1, uaddr arg2, s32 arg3) {
     void *temp_r31;
 
     temp_r31 = (void *)((TWindowBase *)this)->get_array_entry(*(s16 *)((s8 *)this + 0x72));

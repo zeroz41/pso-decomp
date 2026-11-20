@@ -82,7 +82,7 @@ void TTecGrants::create(void *arg0, void *arg1, void *arg2, void *arg3) {
 }
 
 void run_task__10TTecGrantsFv(TTecGrants *tec_grants) {
-    u32 entity;
+    uaddr entity;
     u8 *temp_r3_2;
     *(u8 **)((s8 *)tec_grants + 0x1C) = (u8 *)find_entity_by_id(tec_grants->m_b4);
     if ((void *) *(u8 **)((s8 *)tec_grants + 0x1C) == NULL) {

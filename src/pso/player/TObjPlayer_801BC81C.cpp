@@ -116,7 +116,7 @@ void TObjPlayer__sub_801BCA14(u8 *player, void *arg1) {
 
 void TObjPlayer__sub_801BCAB0(void) {  }
 void TObjPlayer::update_state() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (s32)this;
     if (obj_isState2_324__9TObjCharaFv() != 0) {
         ((TObjPlayer *)arg0)->set_flag_400000();
     } else {

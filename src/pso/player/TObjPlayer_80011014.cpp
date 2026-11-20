@@ -991,7 +991,7 @@ void TObjPlayer__sub_8000FF4C(void* p, s16 v) { *(s16*)((char*)p + 0x2d4) = v; }
 u16 TObjPlayer::get_field_2d4() { return this->m_2d4; }
 
 s32 TObjPlayer::is_local_player() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (s32)this;
     if (((u16 (*)(void*))get_entity_id)((void*)arg0) < 0x1000U) {
         return ((s32 (*)(s32))is_locally_controlled__10TObjPlayerFPv)(arg0);
     }
@@ -1323,7 +1323,7 @@ s32 is_entity_locally_controlled(s32 id) {
 
 void handle_6x9A_update_entity_stat(Pkt_80010C54 *pkt) {
     s16 v;
-    s32 player;
+    saddr player;
     s32 amount;
     if (pkt == NULL) {
         return;
@@ -3099,7 +3099,7 @@ void TObjChara::vfunc_59() {  }
 void TObjChara::vfunc_58() {  }
 
 void TObjChara::apply_action_hold_status(f32 farg0) {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (s32)this;
     ((void (*)(s32, s32, s32))TObjPlayer__sub_8001940C)(arg0, 4, 0x14);
     ((void (*)(s32, s32, s32))TObjPlayer__sub_800193FC)(arg0, 4, (s32) farg0);
     ((void (*)(void *, u32))obj_setFlags30)((void *) arg0, 0x4000U);
@@ -4281,7 +4281,7 @@ f32 calc_xz_distance_sq(saddr arg0, uaddr arg1, void *arg2) {
     return dist;
 }
 
-f32 TObjPlayer::calc_distance_to_client(saddr arg0, u16 arg1, u32 arg2) {
+f32 TObjPlayer::calc_distance_to_client(saddr arg0, u16 arg1, uaddr arg2) {
   Stack_80018780 stack;
   f32 var_f31;
   s32 temp_r31;

@@ -90,7 +90,7 @@ const char *TTecGiZonde_name_ref = "TTecGiZonde";
 
 void TTecGiZonde::init_parameters() {
     u8 *arg0 = (u8 *)this;
-  s32 new_var;
+  saddr new_var;
   new_var = calc_technique_parameters(0x7, (int) ((RecoveredFields_8023C558_arg0 *) arg0)->field_C4, 0xFFFF);
   ((TTecAnti *)(arg0 + 0xCC))->copy_params((u8 *)new_var);
   if ((((s16) ((RecoveredFields_8023C558_arg0 *) arg0)->field_C4) >= 0xF) && (TTecCtrl::is_technique_ready() == 0))
@@ -351,7 +351,7 @@ TTecGiZonde::~TTecGiZonde() {}
 
 void TTecGiZonde::deliver_chain_hits() {
     s32 i;
-    u32 actor;
+    uaddr actor;
     for (i = 0; i < ((GChain_80232598 *)this)->count; i++) {
         actor = (u32)find_entity_by_id(((GChain_80232598 *)this)->targets[i].id);
         if (is_parents_unqueued__9TTecLukerFUl() != 0 && TObjPlayer::is_valid_and_active(actor) != 0) {

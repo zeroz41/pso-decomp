@@ -216,7 +216,7 @@ void TTecFoie::create_particle_emitters() {
 
 void TTecFoie::init_projectile_params() {
     u8 *arg0 = (u8 *)this;
-  s32 new_var;
+  saddr new_var;
   new_var = calc_technique_parameters(0, (int) ((RecoveredFields_8022FE84_arg0 *) arg0)->field_C4, 0xFFFF);
   ((TTecAnti *)(arg0 + 0xCC))->copy_params((u8 *)new_var);
   if ((((s16) ((RecoveredFields_8022FE84_arg0 *) arg0)->field_C4) >= 0xF) && (TTecCtrl::is_technique_ready() == 0))

@@ -16,7 +16,7 @@
 extern "C" {
 char texture_prs_disc_filename_buffer[128];
 char texture_prs_stream_filename_buffer[128];
-s32 lbl_805D63C0;
+saddr lbl_805D63C0;
 s32 lbl_805D63C4;
 void load_gvm_texture_archive(s32, s32);
 extern char texture_prs_stream_filename_buffer[];
@@ -26,7 +26,7 @@ s32 xmalloc__FUl(s32);
 void xfree__FPv(s32);
 extern char texture_prs_disc_filename_buffer[];
 void TObjPlayer__sub_803DD5E8(void *, s32, s32, s32);
-extern s32 lbl_805D63C0;
+extern saddr lbl_805D63C0;
 extern s32 lbl_805D63C4;
 int release_texture_list();
 s32 load_texture_list();
@@ -62,8 +62,8 @@ s32 load_streamed_prs_texture(s32 arg0, s32 arg1) {
 
 s32 load_disc_prs_texture(s32 arg0, s32 arg1) {
     saddr a;
-    s32 b;
-    s32 c;
+    saddr b;
+    saddr c;
     sprintf(texture_prs_disc_filename_buffer, "%s.prs", arg0);
     if (get_resource_file_size(texture_prs_disc_filename_buffer) != -1) {
         a = adxf_open__6TLobbyFUii(texture_prs_disc_filename_buffer, 0);
@@ -121,7 +121,7 @@ s32 load_texture_if_valid(u32 arg0) {
 }
 
 void init_buffers(void) {
-    s32 p = (s32)xmalloc(0x1800);
+    saddr p = (s32)xmalloc(0x1800);
     lbl_805D63C0 = p;
     memset((void *)p, 0, 0x1800);
     lbl_805D63C4 = (s32)xmalloc(0x3800);

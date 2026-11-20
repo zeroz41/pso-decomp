@@ -9,10 +9,10 @@ extern "C" {
 s32 get_result_entry__18TChallenge4PResultFPv(s32, s32);
 s32 can_use_palette_action_for_entry__10TObjPlayerFUl(s32, s32);
 
-void TObjPlayer::update_party_cursors(s32 arg0, s32 arg1) {
+void TObjPlayer::update_party_cursors(saddr arg0, s32 arg1) {
     s32 var_r31;
     s32 var_r30;
-    s32 temp_r29;
+    saddr temp_r29;
 
     var_r30 = 0;
     var_r31 = 0;

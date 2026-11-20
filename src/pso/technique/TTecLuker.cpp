@@ -599,8 +599,8 @@ void TUnk_804CCA0C::run_task() {
 void handle_6x68_set_telepipe_state(Pkt_802341B0 *pkt) {
     u8 *player;
     Rec_8023402C *rec;
-    u32 other;
-    u32 local;
+    uaddr other;
+    uaddr local;
     ((TTecLuker *)pkt)->byteswap_telepipe_packet();
     if (pkt->rec.owner == 0xffff) {
         return;
@@ -744,8 +744,8 @@ void create_quest_telepipe_for_client(u16 arg0) {
     }
 }
 
-void TTecLuker::create_for_player(int arg0, s32 arg1) {
-    u32 r = get_player_by_client_id((s32)((u16)arg0));
+void TTecLuker::create_for_player(int arg0, saddr arg1) {
+    uaddr r = get_player_by_client_id((s32)((u16)arg0));
     if (r != 0U) {
         ((TTecLuker *)r)->create((void *)arg1, (void *)arg1, (void *)(0xA));
     }

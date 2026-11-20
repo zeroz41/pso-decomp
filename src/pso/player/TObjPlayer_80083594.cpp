@@ -139,7 +139,7 @@ s32 GXSetZMode(int, int, int);
 void set_perspective_projection_from_fov(s32 arg0, f32 farg0, f32 farg1, f32 farg2);
 void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
 extern u8 *camera_ctrl_instance;
-extern u32 camera_render_target_singleton;
+extern uaddr camera_render_target_singleton;
 extern G_80082FCC TCameraCtrl__data_804FF634;
 void load_list_texture(s32 idx, s32 wrapS, s32 wrapT, s32 map);
 extern s32 __vt__13TUnk_8048E5DC[];
@@ -224,7 +224,7 @@ f32 cos_table_lookup(int);
 
 int lbl_805D4EE0;
 unsigned char camera_capture_flags;
-u32 camera_render_target_singleton;
+uaddr camera_render_target_singleton;
 
 extern "C" {
 void TObjPlayer__sub_80083FB0(void);
@@ -658,7 +658,7 @@ f32 calc_camera_fov_degrees(void) {
 #pragma opt_common_subs off
 
 extern "C" {
-void render_projected_shadow_receiver(u8 *arg0, s32 arg1) {
+void render_projected_shadow_receiver(u8 *arg0, saddr arg1) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80083914, sp8) == 0x0);
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_80083914, sp10) == 0x8);
     Stack_80083914 stack;
@@ -842,7 +842,7 @@ void TObjPlayer::free_singleton() {
     }
 }
 
-u8 *fn_800832EC(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0) {
+u8 *fn_800832EC(u8 *arg0, saddr arg1, s32 arg2, saddr arg3, saddr arg4, f32 farg0) {
     __ct__7TObjectFP7TObject((void *)arg0, (void *)arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_8048E5DC;
     ((TUnk_8048E5DC *)arg0)->m_38 = farg0;

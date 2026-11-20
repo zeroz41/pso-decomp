@@ -597,7 +597,7 @@ void TObjPlayer__sub_801BFE88(u8 *arg0) {
 }
 
 s32 TObjPlayer::init_state() {
-    s32 p = (s32)this;
+    saddr p = (s32)this;
     ((TObjPlayer *)p)->setup_state();
     TObjPlayer__sub_801BFED4((void *)p);
     return p;

@@ -133,7 +133,7 @@ struct Bomb_800E9090 {
     Vec pos;
     u8 pad44[0x374 - 0x44];
     Vec vel;
-    s32 f380;
+    saddr f380;
     u8 pad384[0x3A0 - 0x384];
     f32 f3A0;
     u8 pad3A4[0x3F4 - 0x3A4];
@@ -148,7 +148,7 @@ typedef struct Self_800E984C {
     u8 pad44[0x60 - 0x44];
     s32 rotation_y;
     u8 pad64[0x388 - 0x64];
-    s32 f388;
+    saddr f388;
     u8 pad38C[0x390 - 0x38C];
     s32 state_timer;
     u8 pad394[0x3CC - 0x394];

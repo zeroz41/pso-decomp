@@ -1018,7 +1018,7 @@ void*TObjCollidable::find_actor_body_contact(u8*arg1, f32 limit) {
 }
 
 void TObjCollidable::mark_enemy_body_contacts() {
-    u32 obj;
+    uaddr obj;
     s32 i;
     Flg_8015610C *f = ((P_8015610C *)this)->f;
     if (f != NULL) {

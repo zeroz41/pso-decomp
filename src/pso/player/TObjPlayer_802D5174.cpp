@@ -380,13 +380,13 @@ TUnk_804E2000::TUnk_804E2000(TObject *parent, u8 *item) : TUnk_804E23F0(parent, 
     pad_204 = (void *)TObjPlayer::spawn_hit_particles_at_vec;
 }
 
-void TObjPlayer::spawn_hit_particles_at(s32 arg0, s32 arg1, s32 arg2) {
+void TObjPlayer::spawn_hit_particles_at(s32 arg0, saddr arg1, saddr arg2) {
     Vec pos;
     TObjPlayer__sub_802D5B78((void *)arg1, &pos, (void *)arg2);
     spawn_hit_particles__10TObjPlayerFiPv((s32)&pos, (const Vec *)arg2);
 }
 
-void TObjPlayer::spawn_hit_particles_at_vec(s32 arg0, s32 arg1, s32 arg2) {
+void TObjPlayer::spawn_hit_particles_at_vec(s32 arg0, saddr arg1, saddr arg2) {
     Vec pos;
     VecCopy(&pos, (const Vec *)arg1);
     spawn_hit_particles__10TObjPlayerFiPv((s32)&pos, (const Vec *)arg2);
@@ -562,7 +562,7 @@ void *TUnk_804E1BB0::init_state_513(TObject *parent, u8 *item) {
 void TUnk_804E1BB0::reserved_53() {
     u32 temp_r0;
     u32 temp_r31;
-    s32 arg0 = (s32)this;
+    saddr arg0 = (s32)this;
     draw_weapon_at_joint(arg0, 0x30);
     ((TItemWeapon *)arg0)->update_trail_slot(0);
     temp_r0 = (u32)((TItemWeapon *)arg0)->second_model;

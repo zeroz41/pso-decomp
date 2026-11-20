@@ -54,7 +54,7 @@ struct Target_8023AF94 { u16 id; u8 pad[6]; };
 
 struct Sifta_8023AF94 {
     u8 pad0[0x1C];
-    u32 source;
+    uaddr source;
     u8 pad1[0xA4 - 0x20];
     s16 level;
     u8 pad2[0xA8 - 0xA6];
@@ -112,7 +112,7 @@ void TTecSifta::play_sifta_cast_sound() {
 
 void TTecSifta::update_effect_params() {
     u8 *arg0 = (u8 *)this;
-    s32 res;
+    saddr res;
     res = calc_technique_parameters(0xD, this->m_a4, 0xFFFF);
     ((TTecAnti *)(arg0 + 0x74))->copy_params((u8 *)res);
     this->m_74 = (f32) (this->m_98 * this->m_a4);
@@ -156,7 +156,7 @@ TTecSifta::~TTecSifta() {
 
 
 void run_task__9TTecSiftaFv(Sifta_8023AF94 *self) {
-    u32 target;
+    uaddr target;
     s32 i;
     self->source = (u32)find_entity_by_id(self->source_id);
     if (self->source == 0) {

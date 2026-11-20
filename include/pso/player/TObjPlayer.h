@@ -59,7 +59,7 @@ struct TObjPlayer : public TObjChara {
     virtual s32 add_actor_exp(s32);
     virtual void reset_pose();
     s8 get_class_index();
-    virtual void get_pos(s32);
+    virtual void get_pos(saddr);
     virtual void apply_switch_attack();
     virtual void enemy_spawn_jellen_effect();
     virtual void trigger_switch_attack();
@@ -70,7 +70,7 @@ struct TObjPlayer : public TObjChara {
     virtual s32 update_flag30_timer();
     virtual s32 update_movement_status();
     virtual s32 update_shock_clock();
-    virtual void vfunc_78(s32);
+    virtual void vfunc_78(saddr);
     virtual s32 vfunc_79();
     void set_floor(s32);
     void set_input_mode(s32);
@@ -371,7 +371,7 @@ struct TObjPlayer : public TObjChara {
     void set_attribute_entry(s32 i, void *q);
     void copy_entry_bytes(void* q);
     s16 *get_attribute_entry(s32 i);
-    static f32 calc_distance_to_client(saddr arg0, u16 arg1, u32 arg2);
+    static f32 calc_distance_to_client(saddr arg0, u16 arg1, uaddr arg2);
     s16 get_class_id();
     s16 get_item_index();
     s32 add_status_effect_timer(s32 i, s32 v);
@@ -474,7 +474,7 @@ struct TObjPlayer : public TObjChara {
     s32 is_script_controlled();
     int activate_d04_slot();
     void spawn_hit_particle_trio();
-    static void forward_item_effect_callback(s32 arg0, s32 arg1);
+    static void forward_item_effect_callback(s32 arg0, saddr arg1);
     static void invoke_menu_callback_if_set(u32 arg0);
     void init_item_data(s32 arg1);
     void bswap_fields_x4();
@@ -553,7 +553,7 @@ struct TObjPlayer : public TObjChara {
     void init_player_data();
     int is_flag_set_550();
     void init_data_table_ptr();
-    static void update_recobox(s32 arg0);
+    static void update_recobox(saddr arg0);
     void destroy_child();
     void load_character_state(u8 *arg1);
     void update_action_animation();
@@ -667,7 +667,7 @@ struct TObjPlayer : public TObjChara {
     static s32 decrement_clamp(s32 *arg0, s32 arg1);
     void copy_offset_position(void *arg1);
     void calc_pos_delta(void *arg1, void *arg2);
-    void init_shield_params(s32 arg1);
+    void init_shield_params(saddr arg1);
     void set_flag_2000000_alt();
     s32 check_flag_04000000();
     void set_flag_0x8000();
@@ -989,7 +989,7 @@ struct TObjPlayer : public TObjChara {
     void gather_contacts_for_self(s32 arg1);
     void*get_pos_ptr();
     static void create_tec_zarua(void *arg0, void *arg1, void *arg2, void *arg3);
-    void add_status_line(u8 arg1, u32 arg2, s32 arg3);
+    void add_status_line(u8 arg1, uaddr arg2, s32 arg3);
     static void clear_state_if_flag80(s32 arg0);
     static void setup_projection_texture(s32 arg0, s32 arg1, s32 arg2);
     void reset_lobby_subobject();
@@ -1046,9 +1046,9 @@ struct TObjPlayer : public TObjChara {
     static int get_max_children(void*);
     static void alloc_and_init(s32 arg0, s32 arg1, s32 arg2);
     static void create_and_init_effect(s32 arg0, u32 *arg1, s32 arg2);
-    static void start_guardianna_hit_card(s32 arg0, u32 *arg1, s32 arg2);
-    static void create_aux_object(s32 arg0, u32 *arg1, s32 arg2);
-    static void create_network_object(s32 arg0, u32 *arg1, s32 arg2);
+    static void start_guardianna_hit_card(s32 arg0, u32 *arg1, saddr arg2);
+    static void create_aux_object(s32 arg0, u32 *arg1, saddr arg2);
+    static void create_network_object(s32 arg0, u32 *arg1, saddr arg2);
     s32 can_use_more_materials(s32 arg1);
     void free_indexed_entry(s32 _w1);
     void copy_node_record(s32 arg1);
@@ -1104,7 +1104,7 @@ struct TObjPlayer : public TObjChara {
     static void setup_tex_gen();
     static void clear_move_state_bits();
     static void set_global_state(saddr arg0);
-    static void set_global_7778(s32 arg0);
+    static void set_global_7778(saddr arg0);
     static void update_render_state();
     void collect_owner_fields_recursive();
     static void set_global_color_rgba(u32 v);
@@ -1128,7 +1128,7 @@ struct TObjPlayer : public TObjChara {
     static u8 *create_set_vtable_state(u8 *arg0);
     static u8 *create_state_80125154(u8 *arg0);
     static u8 *create_configured_state(u8 *arg0);
-    static void spawn_faust_wall_explosion(s32 arg0, s32 arg1);
+    static void spawn_faust_wall_explosion(s32 arg0, saddr arg1);
     static u8 *create_state_vt2678(u8 *arg0);
     static u8 *create_obj_80125F60(u8 *arg0);
     static u8 *create_substate_b(u8 *arg0);
@@ -1162,7 +1162,7 @@ struct TObjPlayer : public TObjChara {
     void init_idle_animation();
     static void create_active_players();
     static void refresh_player_lobby_headers();
-    static u8 *create_player_instance(s32 arg0, s32 arg1);
+    static u8 *create_player_instance(s32 arg0, saddr arg1);
     static void alloc_shared_buffers();
     static void destroy_char_data_array();
     static s8 get_rule_field_0();
@@ -1309,7 +1309,7 @@ struct TObjPlayer : public TObjChara {
     void action_enable_if_present();
     s32 is_quest_interaction_blocked();
     s32 has_action_palette_entry();
-    static void is_effect_channel_active(s32 arg0, s32 arg1);
+    static void is_effect_channel_active(saddr arg0, s32 arg1);
     static void refresh_party_cursors(s32 arg0);
     void set_action_palette_entry(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
     void select_action_palette_and_apply(s32 arg1, s32 arg2, s32 arg3);
@@ -1336,7 +1336,7 @@ struct TObjPlayer : public TObjChara {
     void update_position_history();
     static void clear_lobby_flag(void *arg0);
     void init_effect_5f0();
-    void get_hand_joint_position(s32 arg1);
+    void get_hand_joint_position(saddr arg1);
     void calc_move(void* a1, void* a2);
     void calc_wall_slide_point(void *arg1, void *arg2);
     void close_sub_window();
@@ -1445,7 +1445,7 @@ struct TObjPlayer : public TObjChara {
     int apply_shop_judgment(int a1);
     void set_flag_and_update(int a1);
     s32 count_items_by_id(saddr arg1);
-    static void update_party_cursors(s32 arg0, s32 arg1);
+    static void update_party_cursors(saddr arg0, s32 arg1);
     void init_action_config();
     s32 can_use_palette_action_for_entry(u32 obj);
     static void set_animation_from_data(saddr arg0, s32 arg1);
@@ -1550,8 +1550,8 @@ struct TObjPlayer : public TObjChara {
     u8 get_mag_level();
     const Vec *get_guild_return_position();
     void spawn_item();
-    static void spawn_hit_particles_at(s32 arg0, s32 arg1, s32 arg2);
-    static void spawn_hit_particles_at_vec(s32 arg0, s32 arg1, s32 arg2);
+    static void spawn_hit_particles_at(s32 arg0, saddr arg1, saddr arg2);
+    static void spawn_hit_particles_at_vec(s32 arg0, saddr arg1, saddr arg2);
     s32 get_quest_thread_id();
     void remove_equipped_item(s32 arg1, void *arg2);
     u16 get_obj_type();

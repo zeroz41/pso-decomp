@@ -283,7 +283,7 @@ typedef char RecoveredGlobal_802308A0_lbl_804CC510_size[((sizeof(RecoveredGlobal
 typedef char RecoveredGlobal_802308A0_lbl_804CC55C_size[((sizeof(RecoveredGlobal_802308A0_lbl_804CC55C)) == 0x98) ? (1) : (-1)];
 void TTecGiBarta::calc_params() {
     u8 *arg0 = (u8 *)this;
-  s32 new_var;
+  saddr new_var;
   new_var = calc_technique_parameters(4, (int) ((RecoveredFields_802308A0_arg0 *) arg0)->field_C4, 0xFFFF);
   ((TTecAnti *)(arg0 + 0xCC))->copy_params((u8 *)new_var);
   if ((((s16) ((RecoveredFields_802308A0_arg0 *) arg0)->field_C4) >= 0xF) && (TTecCtrl::is_technique_ready() == 0))

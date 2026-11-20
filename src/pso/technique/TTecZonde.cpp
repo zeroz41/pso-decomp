@@ -43,7 +43,7 @@ typedef char RecoveredGlobal_8023C558_lbl_804CC55C_size[((sizeof(RecoveredGlobal
 const char *lbl_805D3838 = "TTecZonde"; // TTecZonde__name
 
 void TTecZonde::init_parameters() {
-  s32 new_var;
+  saddr new_var;
   new_var = calc_technique_parameters(6, (int) ((RecoveredFields_8023C558_arg0 *) ((u8 *)this))->field_C4, 0xFFFF);
   ((TTecAnti *)(((u8 *)this) + 0xCC))->copy_params((u8 *)new_var);
   if ((((s16) ((RecoveredFields_8023C558_arg0 *) ((u8 *)this))->field_C4) >= 0xF) && (TTecCtrl::is_technique_ready() == 0))

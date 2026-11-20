@@ -26,7 +26,7 @@ struct TObjEneShark {
     void* model;
     f32 position[3];
     u8 unknown44[0x1C];
-    s32 rotation_y;
+    saddr rotation_y;
     u8 unknown64[0x54];
     s16 m_b8;
     u8 unk_BA[0x6];

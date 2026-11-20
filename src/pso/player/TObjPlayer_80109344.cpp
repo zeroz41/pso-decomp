@@ -30,7 +30,7 @@ void TObjPlayer::spawn_hit_particle_trio() {
 }
 #pragma pop
 
-void TObjPlayer::forward_item_effect_callback(s32 arg0, s32 arg1) {
+void TObjPlayer::forward_item_effect_callback(s32 arg0, saddr arg1) {
     ((TObjPlayer *)arg1)->spawn_hit_particle_trio();
 }
 void spawn_weapon_impact_effect(s32 arg0, s32 arg1, s32 arg2, saddr arg3) {

@@ -64,7 +64,7 @@ struct Player_8022D27C {
     u8 pad0[0x38];
     Vec pos;
     u8 pad44[0x60 - 0x44];
-    s32 rotY;
+    saddr rotY;
     u8 pad64[0x428 - 0x64];
     u8 tech[1];
 };

@@ -189,7 +189,7 @@ void *lbl_804933D8[24] = {
 s32 TObjEneRe2Flower_Bomb::area_attack_deliver_direct(void *recoil, s32 arg2, void *object, f32 range) {
     s32 result;
     s32 flags;
-    s32 p;
+    saddr p;
     s32 i;
     s32 ok;
     result = 0;

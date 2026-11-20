@@ -48,7 +48,7 @@ struct Target_8022B150 { u16 id; u8 pad[6]; };
 
 struct Anti_8022B150 {
     u8 pad0[0x1C];
-    u32 source;
+    uaddr source;
     u8 pad1[0xA4 - 0x20];
     s16 level;
     u8 pad2[0xA8 - 0xA6];
@@ -192,7 +192,7 @@ u8 *TTecAnti__ct(u8 *arg0, s32 owner, s32 pos, s32 arg3, s32 level) {
 }
 
 void run_task__8TTecAntiFv(Anti_8022B150 *self) {
-    u32 target;
+    uaddr target;
     s32 i;
     self->source = (u32)find_entity_by_id(self->source_id);
     if (self->source == 0) {

@@ -772,7 +772,7 @@ void TObjEneBalClawBody::update_dragon_boss_state() {
 void TObjPlayer__sub_8008E934(TObjEneBalClawBody *body, s32 arg1) {
     Vec a;
     Vec b;
-    s32 angA;
+    saddr angA;
     s32 angB;
     s32 i;
     s32 id;

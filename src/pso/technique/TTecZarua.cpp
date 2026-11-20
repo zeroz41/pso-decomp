@@ -81,7 +81,7 @@ void TTecZarua::render() {  }
 
 void TTecZarua::run_task() {
     s32 i;
-    u32 id;
+    uaddr id;
     source = (u32)find_entity_by_id(m_b4);
     if (source == 0) {
         queue_destruction();

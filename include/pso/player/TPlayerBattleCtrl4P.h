@@ -57,7 +57,7 @@ public:
     s32 player_refresh_timer;
     s32 ready_timer;
     s64 battle_start_ticks;
-    s32 remaining_seconds;
+    saddr remaining_seconds;
     s32 result_confirm_timer;
     s32 timed_event_state;
     s32 player_active[4];
@@ -93,7 +93,7 @@ public:
     void shuffle_order();
     static void update();
     static void reset_random_enemies_mode();
-    static void init_instance_with_text(s32 arg0, s32 arg1);
+    static void init_instance_with_text(saddr arg0, saddr arg1);
 public:
     void update_player_alive_flags();
     void update_timed_events(s32 frames);

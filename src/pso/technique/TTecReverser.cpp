@@ -170,7 +170,7 @@ void TTecReverser::create(void *arg0, void *arg1, void *arg2, void *arg3) {
 }
 
 void run_task__12TTecReverserFv(u8 *tec_reverser) {
-    u32 entity;
+    uaddr entity;
     ((TTecReverser *)tec_reverser)->source = (u32)find_entity_by_id((((TTecReverser *)tec_reverser)->m_b4));
     if ((u32) ((TTecReverser *)tec_reverser)->source == 0U) {
         ((TObject *)tec_reverser)->queue_destruction();

@@ -42,7 +42,7 @@ u8 *__nw__7TObjectFUl(s32);
 extern s32 tl_03;
 s32 get_char_data__10TObjPlayerFv(void *);
 
-u8 *TObjPlayer::create_player_instance(s32 arg0, s32 arg1) {
+u8 *TObjPlayer::create_player_instance(s32 arg0, saddr arg1) {
     u8 *p;
     p = (u8 *)TObject::operator new(0xDB8);
     if (p != NULL) {
@@ -67,10 +67,10 @@ u8 *create_player_object(s16 slot, s32 role, u8 *record) {
 }
 
 
-u32 TObjPlayer__shared_photon_blast_state;
+uaddr TObjPlayer__shared_photon_blast_state;
 s32 lobby_player_count;
-extern u32 TObjPlayer__shared_model_buffer;
-extern u32 player_shared_buffer_base;
+extern uaddr TObjPlayer__shared_model_buffer;
+extern uaddr player_shared_buffer_base;
 
 void TObjPlayer::free_shared_data() {
     if ((u32) TObjPlayer__shared_photon_blast_state != 0U) {
@@ -160,7 +160,7 @@ s32 destroy_char_data__10TObjPlayerFis(s32 arg0, s16 arg1) {
     return arg0;
 }
 
-void TObjPlayer::get_pos(s32 arg1) {
+void TObjPlayer::get_pos(saddr arg1) {
     this->get_anim_node_position(0x3A, (Vec *)arg1);
 }
 

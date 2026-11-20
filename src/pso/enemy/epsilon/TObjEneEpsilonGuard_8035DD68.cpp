@@ -134,7 +134,7 @@ void TObjEneEpsilonGuard__sub_8035DEC0(TObjEneEpsilonGuard *guard) {
     guard->clear_all_status_effects();
 }
 
-void TObjEneEpsilonGuard::set_target(s32 pos, s32 angle, s32 arg3) {
+void TObjEneEpsilonGuard::set_target(saddr pos, s32 angle, s32 arg3) {
     VecCopy(&position, (const Vec *)pos);
     rotation_y = angle;
     if (arg3 != 0) {

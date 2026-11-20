@@ -49,7 +49,7 @@ struct Bringer_80097100 : VObj_18_26a62c {
     u8 pad1C[0x24 - 0x1C];
     void *texlist;
     u8 pad28[0x34 - 0x28];
-    s32 f34;
+    saddr f34;
     u8 pos[0x60 - 0x38];
     s32 f60;
     u8 pad64[0xD8 - 0x64];
