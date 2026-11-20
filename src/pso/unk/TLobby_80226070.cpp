@@ -229,7 +229,7 @@ u8 lbl_80514C30[0x20];
 f32 lbl_80514C50[4];
 s32 play_sound_effect(s32 id, Vec *src, s32 a2, s32 flags);
 
-s32 TOTrapAncient01::check_trigger_flag(s32 arg0, s32 arg1) {
+s32 TOTrapAncient01::check_trigger_flag(saddr arg0, s32 arg1) {
     s32 var_r3;
 
     if (arg1 & 0x2000) {
