@@ -1021,7 +1021,7 @@ s32 Dolphin_ARAlloc(s32);
 void TQuestVmDownLoadServer__sub_803F0C04(u32 aram_addr, s32 size, u32 owner, u32 priority, u32 timeout_ms);
 
 void TWindowKeyBoardBase::render() {
-    s32 temp_r31;
+    saddr temp_r31;
 
     if ((sub_8025EB68() == 0) && ((sub_8025CB10() != 0) || (this->m_62 & 2))) {
         temp_r31 = TWindowDD::draw_default_entry((saddr)this);

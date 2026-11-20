@@ -9,7 +9,7 @@ public:
     void *init(void *, void *, void *);
     virtual void run_task();
     u8 unk_1C[0x4];
-    u32 m_20;
+    uaddr m_20;
 };
 LAYOUT_ASSERT(TUnk_804F3428_size, sizeof(TUnk_804F3428) == 0x24);
 

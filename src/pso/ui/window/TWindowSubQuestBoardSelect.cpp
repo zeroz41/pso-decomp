@@ -94,7 +94,7 @@ void TWindowSubQuestBoardSelect::sub_8027D230() {
     *(f32 *)((s8 *)temp_r3 + 8) = (f32) (385.0f - *(f32 *)((s8 *)temp_r3 + 0x10));
 }
 
-extern s32 quest_mission_manager;
+extern saddr quest_mission_manager;
 
 s32 get_slot_flag__26TWindowSubQuestBoardSelectFic(s32 arg0, s8 arg1) {
     if (arg1 < 0) {
@@ -258,7 +258,7 @@ s32 TWindowSubQuestBoardSelect::handle_page_input() {
 }
 
 void render__26TWindowSubQuestBoardSelectFv(u8 *arg0) {
-    s32 ctx;
+    saddr ctx;
     ctx = draw_default_entry__9TWindowDDFl();
     ((TWindowBase *)arg0)->draw_window_frame((void *)ctx);
     forward_render__20TWindowSubStatusDispFv((int) (((TWindowSubQuestBoardSelect *)arg0)->m_64), ctx);
@@ -299,7 +299,7 @@ s32 update_slot_display_flags__26TWindowSubQuestBoardSelectFv(void *, f32, f32);
 #pragma fp_contract on
 TWindowSubQuestBoardSelect::TWindowSubQuestBoardSelect() : TWindowBase((u8 *)&TWindowSubQuestBoardSelect__window_parameters, (s16)(4), (u8 *)(get_window_layout_position(0x70))) {
     f32 temp_f2;
-    s32 temp_r30;
+    saddr temp_r30;
     s32 var_r30;
     m_name = TWindowSubQuestBoardSelect__class_name;
     var_r30 = (saddr)::operator new(0x24);

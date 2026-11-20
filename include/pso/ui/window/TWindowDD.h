@@ -30,7 +30,7 @@ struct TWindowDD : public TObject
     u32 m_24[8];
     u32 m_44[8];
     u32 m_64[6];
-    u32 m_7c;
+    uaddr m_7c;
     u32 m_80;
     u32 m_84;
     u32 m_88;

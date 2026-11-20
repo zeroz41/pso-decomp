@@ -155,7 +155,7 @@ TWindowGetComCard::~TWindowGetComCard() {
 u8 *TWindowGetComCard__ct(TWindowGetComCard *window_get_com_card) {
     static const f32 pos[2] = {10.0f, 277.0f};
     static const f32 size[3] = {264.0f, 104.0f, 0.0f};
-    s32 temp_r31;
+    saddr temp_r31;
     __ct__7TObjectFP7TObject();
     *(s32 **)((s8 *)window_get_com_card + 0x18) = ((s32 *)&__vt__17TWindowGetComCard);
     *(s32 *)((s8 *)window_get_com_card + 0) = (saddr) TWindowGetComCard__name;

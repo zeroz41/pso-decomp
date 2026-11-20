@@ -42,7 +42,7 @@ void *THunterGuildSeqOffline::create(void *arg0) {
 int THunterGuildSeqOffline__sub_80212060(int a0) {  return THunterGuildSeqOffline__instance_table[a0]; }
 
 s32 THunterGuildSeqOffline__sub_80212074(void) {
-    s32 player;
+    saddr player;
     s32 temp_r3_2;
     s32 temp_r3_3;
     if ((s32) TLobby__designated_client_id == (s32) local_client_id) {
@@ -77,7 +77,7 @@ s32 THunterGuildSeqOffline::check_party_gathered() {
         return 2;
     }
     for (i = 0; i < 4; i++) {
-        u32 q = (uaddr)get_player_by_client_id(i);
+        uaddr q = (uaddr)get_player_by_client_id(i);
         if (q != 0) {
             switch (((TBoss3Volopt *)q)->get_field_3e0()) {
             case 0:

@@ -26,9 +26,9 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     u8 unk_50[0x4];
     s32 m_54;
     u8 unk_58[0x4];
-    s32 m_5c;
+    saddr m_5c;
     u8 unk_60[0x4];
-    u32 m_64;
+    uaddr m_64;
     void set_index_and_close_status(s32 arg1);
     void set_status_value(s32 arg1);
     void handle_event(s32 arg1);
@@ -100,7 +100,7 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     static u32 get_move_effect(s32 arg0);
     static u8 *get_or_create_slot_window(int parent, int arg);
     u8 unk_68[0x4];
-    s32 m_6c;
+    saddr m_6c;
     u8 unk_70[0x4];
     u32 m_74;
     u8 unk_78[0x4];
@@ -108,9 +108,9 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     u8 unk_80[0x4];
     u32 m_84;
     u8 unk_88[0x4];
-    s32 m_8c;
+    saddr m_8c;
     u8 unk_90[0x4];
-    u32 m_94;
+    uaddr m_94;
     u8 unk_98[0x4];
     s32 m_9c;
     static s32 dispatch_draw_command(s32 arg0, s32 arg1, s32 arg2, s32 arg3);

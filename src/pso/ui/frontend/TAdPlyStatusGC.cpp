@@ -75,7 +75,7 @@ s32 disallow_rendering__7TObjectFv();
 s32 get_localized_text_entry(s32 arg0, s32 arg1);
 void __ct__7TObjectFP7TObject(void *, void *);
 void *__construct_array(void *, void *, void *, u32, u32);
-extern s32 ply_status_chcr_load_afs;
+extern saddr ply_status_chcr_load_afs;
 TAdPlyStatusGC_8033FC14 *TAdPlyStatusGC__ct(TAdPlyStatusGC_8033FC14 *self, void *parent, s32 arg2);
 s32 *TAdSinglePlyChrSelectGC__sub_801FE3E4(u32 i);
 s32 get_entry__23TAdSinglePlyChrSelectGCFi(s32 i);
@@ -88,7 +88,7 @@ extern "C" {
 s32 TAdMultiPlyChrSelectGC__sub_802DFFE8(s32);
 extern u32 ply_status_index;
 u32 ply_status_gc_instance;
-s32 ply_status_chcr_load_afs;
+saddr ply_status_chcr_load_afs;
 s32 TAdPlyStatusGC__window_offset_index;
 u32 ply_status_index;
 s32 TAdPlyStatusGC__is_shown;
@@ -268,7 +268,7 @@ void TAdPlyStatusGC::set_load_state(s32 arg1) {
 }
 
 void update_hidden__14TAdPlyStatusGCFv(u8 *arg0) {
-    s32 player_index;
+    saddr player_index;
     s32 temp_r5;
     TAdPlyStatusGC__is_shown = 0;
     if ((u32) *(u32 *)((s8 *)arg0 + 0x6C) != 0U) {
@@ -289,7 +289,7 @@ void update_hidden__14TAdPlyStatusGCFv(u8 *arg0) {
 }
 
 void update_shown__14TAdPlyStatusGCFv(struct RecoveredFields_8033F9DC_arg0 *arg0) {
-    s32 player_index;
+    saddr player_index;
     s32 temp_r5;
     TAdPlyStatusGC__is_shown = 1;
     if ((s32) TAdPlyStatusGC__window_offset_index < 3) {

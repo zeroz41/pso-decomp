@@ -127,7 +127,7 @@ TAdTrialAgreementGC::~TAdTrialAgreementGC() {
 }
 
 u8 *TAdTrialAgreementGC__ct(u8 *ad_trial_agreement_gc) {
-    s32 ad_scroll_win_gc;
+    saddr ad_scroll_win_gc;
     s32 var_r0;
     TAdAgreementBaseGC__ct(ad_trial_agreement_gc);
     *(s32 **)((s8 *)ad_trial_agreement_gc + 0x18) = __vt__19TAdTrialAgreementGC;

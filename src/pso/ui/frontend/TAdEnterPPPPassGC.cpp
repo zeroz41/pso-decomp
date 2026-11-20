@@ -133,7 +133,7 @@ void update_password_input__17TAdEnterPPPPassGCFPv(u8 *ad_enter_serial_access_gc
 }
 
 void open_keyboard_window__17TAdEnterPPPPassGCFPv(u8 *ad_enter_serial_access_gc) {
-    u32 temp_r3;
+    uaddr temp_r3;
     ((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_30 = TAdEnterSerialAccessGC::show_message_window((void *)ad_enter_serial_access_gc, (void *)3);
     *(s32 *)((s8 *)ad_enter_serial_access_gc + 0x34) = create_default_callback__22TAdEnterSerialAccessGCFv(ad_enter_serial_access_gc);
     temp_r3 = *(u32 *)((s8 *)ad_enter_serial_access_gc + 0x2C);

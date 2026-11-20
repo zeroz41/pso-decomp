@@ -155,7 +155,7 @@ s32 TWindowSubMagPhoton::draw_cursor(int arg1) {
 }
 
 void render__19TWindowSubMagPhotonFv(s32 arg0) {
-    s32 temp_r3;
+    saddr temp_r3;
     temp_r3 = draw_default_entry__9TWindowDDFl();
     ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
     draw_visible_window_entries((void *)arg0, (void *)(arg0 + 0x24), (int)temp_r3);

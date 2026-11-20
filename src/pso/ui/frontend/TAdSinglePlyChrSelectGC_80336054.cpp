@@ -38,7 +38,7 @@ int TAdSinglePlyChrSelectGC::get_data() {  return lobby_game_mode_state; }
 int TAdSinglePlyChrSelectGC__sub_8033605C(void) { return 0; }
 
 extern s32 queue_destruction_and_cleanup__6TLobbyFv[];
-extern s32 tl_fade;
+extern saddr tl_fade;
 
 s32 TAdSinglePlyChrSelectGC::start_offline_seq() {
     s32 *temp_r3;
@@ -234,7 +234,7 @@ struct Obj_80336340 { u8 pad[0x40]; void *objs[3]; };
 extern "C" {
 void request_main_phase(s32 arg0);
 extern s32 __vt__13TUnk_804EEF64[];
-u32 title_scene_instance;
+uaddr title_scene_instance;
 int lobby_game_mode_state;
 NJS_TEXLIST *lobby_title_texture_list;
     extern int lbl_805D68C8;
@@ -245,7 +245,7 @@ int TKeyBoardControl__sub_8000F828(void);
 void TKeyBoardControl__sub_8000F90C(int);
 s32 create_particle__20TAdLoadQuestPrtTxtGCFPvll(void *, int, int);
 void __ct__7TObjectFP7TObject(void *);
-extern s32 tl_clipout;
+extern saddr tl_clipout;
 
 void TWindowOptionCtrl__sub_802273B4(s32 arg0);
 s32 run_load_callback_table(void *, int);

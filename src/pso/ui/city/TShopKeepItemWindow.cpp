@@ -264,7 +264,7 @@ void TShopKeepItemWindow::handle_deposit_list_select() {
 }
 
 void TShopKeepItemWindow::update_number_input() {
-    u32 w;
+    uaddr w;
     w = this->number_window;
     if ((w != 0U) && (((TWindowInputNumber *)w)->is_confirmed() != 0)) {
         if ((u32) this->confirm_window == 0U) {

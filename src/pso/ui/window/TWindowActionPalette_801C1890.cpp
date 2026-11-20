@@ -152,7 +152,7 @@ void is_action_channel_active(s32 *arg0, s32 arg1) {
 
 void TWindowActionPalette::set_palette_entry(s32 arg0, s32 i, s32 arg2, s32 arg3, s32 arg4) {
     s32 *p = (s32 *)((saddr)TWindowActionPalette__sub_801C1C68((O_801C1C68 *)(arg0), i));
-    s32 temp_r31 = (saddr)(p + arg2);
+    saddr temp_r31 = (saddr)(p + arg2);
     ((TWindowActionPalette *)temp_r31)->set_mode((u8)arg3);
     ((TWindowActionPalette *)temp_r31)->set_slot((u8)arg4);
 }

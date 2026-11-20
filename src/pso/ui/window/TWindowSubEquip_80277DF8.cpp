@@ -150,7 +150,7 @@ void TWindowSubEquip::run_task() {
 void TWindowSubEquip::render() {  }
 
 s32 TWindowSubEquip::open_equip_kind_list(u32 arg1) {
-    s32 equip_kind_window;
+    saddr equip_kind_window;
     equip_kind_window = create_equip_kind_window(get_window_layout_position(1), &equip_kind_window_size, this->m_28);
     TWindowSubEquip__sub_80263AF8((u8 *)this->m_2c, 1);
     set_depth__11TWindowBaseFf(equip_kind_window);

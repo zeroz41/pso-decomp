@@ -491,7 +491,7 @@ void TWindowSubCustomEquip::handle_cursor_input() {
 }
 
 void render__21TWindowSubCustomEquipFv(u8 *arg0) {
-    s32 temp_r3;
+    saddr temp_r3;
     temp_r3 = draw_default_entry__9TWindowDDFl();
     ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
     draw_visible_window_entries(arg0, arg0 + 0x24, temp_r3);

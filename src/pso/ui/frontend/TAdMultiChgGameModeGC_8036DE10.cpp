@@ -223,7 +223,7 @@ void TAdMultiChgGameModeGC::sub_8036DEDC() {
 
 void TAdMultiChgGameModeGC::update_confirm_selection() {
     s32 selected_menu_value;
-    u32 temp_r3_2;
+    uaddr temp_r3_2;
 
     if (handle_mode_selection() == 0) {
         temp_r3_2 = *(u32 *)((s8 *)this + 0x34);

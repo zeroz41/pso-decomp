@@ -36,7 +36,7 @@ s32 TWindowSubSymbolChat::select_symbol_chat_record(s8 *arg1, s32 *arg2) {
     u16 temp_r8;
     u32 temp_r4;
     u8 *temp_r29;
-    s32 instance;
+    saddr instance;
     *(s32 **)((s8 *)((u8 *)this) + 0x84) = arg2;
     *(*(s32 **)((s8 *)((u8 *)this) + 0x84)) = 0;
     instance = TWindowSubSymbolChat::get_instance();
@@ -103,7 +103,7 @@ void TWindowSubSymbolChat::init_symbol_layout(s32 *arg1) {
   u16 *temp_r30;
   u16 *temp_r31;
   u16 *temp_r3;
-  s32 instance;
+  saddr instance;
   *((s32 **) (((s8 *) ((u8 *)this)) + 0x84)) = arg1;
   *((f32 *) (((s8 *) ((u8 *)this)) + 0x94)) = 2.0f;
   if (((s32) (*arg1)) == 1)

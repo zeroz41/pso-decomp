@@ -44,7 +44,7 @@ void TObjDeadListWin::build_dead_list_window() {
 
 void TObjDeadListWin::update_countdown() {
     s32 temp_r0;
-    s32 player;
+    saddr player;
     player = get_player_by_client_id(local_client_id);
     if ((player == 0) || (((TObjCollidable *)player)->obj_testFlags30(0x02000000) != 0)) {
         queue_destruction();

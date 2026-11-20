@@ -46,7 +46,7 @@ s32 get_window_layout_position(int);
 s32 TWindowSimpleStatus__ct(void *, int, void *, void *);
 extern s32 __vt__18TWindowPartyStatus[];
 extern const char *TWindowPartyStatus__name;
-extern s32 local_client_id;
+extern saddr local_client_id;
 u8 *TWindowPartyStatus__ct(u8 *arg0, s32 arg1, s32 arg2);
 s32 update_lockon_window();
 }
@@ -116,7 +116,7 @@ void TWindowPartyStatus::draw_background(u8 *arg1) {
 extern "C" {
 
 void render__18TWindowPartyStatusFv(s32 arg0) {
-    s32 ctx;
+    saddr ctx;
     ctx = draw_default_entry__9TWindowDDFl();
     ((TWindowPartyStatus *)arg0)->draw_background((u8 *)ctx);
     draw_visible_window_entries((void *)arg0, (void *)(arg0 + 0x24), (int)ctx);
@@ -124,7 +124,7 @@ void render__18TWindowPartyStatusFv(s32 arg0) {
 }
 
 void TWindowPartyStatus::run_task() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     update_lockon_window();
     draw();
     update_status_help_item((arg0));

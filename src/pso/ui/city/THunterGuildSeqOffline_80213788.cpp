@@ -107,7 +107,7 @@ s32 quest_download_graph_current_bytes;
 int is_quest_active(void);
 s32 sub_802239EC__13TShopSequenceFv(void *);
 extern s32 THunterGuildSeqOffline__quest_result_callbacks[];
-extern s32 quest_mission_manager;
+extern saddr quest_mission_manager;
 void THunterGuildSeqOffline__sub_80213980(Obj_80213980 *self);
 s32 set_service_counter_camera(void *, s32);
 s32 sub_802239EC__13TShopSequenceFv(void *);
@@ -164,7 +164,7 @@ struct VObj_80214058 : VBase_18_80214058 {
 
 struct Seq_80214058 : VObj_80214058 {
     u8 pad1c[8];
-    s32 f24;
+    saddr f24;
 };
 
 struct List_80214058 { u8 pad[0x28]; void *f28; void *f2c; void *f30; void *f34; };
@@ -194,7 +194,7 @@ extern "C" {
 void *get_entity_id(void *);
 int is_quest_active(void);
 s32 sub_802239EC__13TShopSequenceFv(void *);
-extern s32 TLobby__protocol_instance;
+extern saddr TLobby__protocol_instance;
 
 }
 
@@ -224,7 +224,7 @@ s32 get_window_layout_position(s32);
 int is_quest_active(void);
 s32 sub_802239EC__13TShopSequenceFv(void *);
 extern s32 THunterGuildSeqOffline__quest_result_callbacks[];
-extern s32 quest_mission_manager;
+extern saddr quest_mission_manager;
 s32 set_service_counter_camera(void *, s32);
 u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
 s32 sub_802239EC__13TShopSequenceFv(void *);
@@ -431,7 +431,7 @@ block_3:
 }
 
 void update__15TShopWindowBaseFPv(void *shop_sequence) {
-    u32 v = *(u32 *)((s8 *)shop_sequence + 0x3C);
+    uaddr v = *(u32 *)((s8 *)shop_sequence + 0x3C);
     if (v != 0U) {
         if (((TObject *)v)->all_parents_unqueued_for_destruction() != 1) {
             *(u32 *)((s8 *)shop_sequence + 0x3C) = 0U;

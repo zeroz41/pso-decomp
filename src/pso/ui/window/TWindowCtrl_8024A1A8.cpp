@@ -92,7 +92,7 @@ bool TWindowCtrl__sub_8024A1A8(void) {
 }
 
 void TWindowCtrl::call_window_method_with_default_vec() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8024A1CC, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_8024A1CC, spC) == 0x4);
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8024A1CC, sp10) == 0x8);
@@ -188,7 +188,7 @@ void TWindowCtrl::create_timer() {
 
 void TWindowCtrl::set_timer_window_time() {
     s32 secs = (saddr)this;
-    u32 temp_r3;
+    uaddr temp_r3;
     if ((void *) (*(u8 * *)&TWindowCtrl__active_window) != NULL) {
         temp_r3 = *(u32 *)((s8 *)(*(u8 * *)&TWindowCtrl__active_window) + 0x30);
         if (temp_r3 != 0U) {

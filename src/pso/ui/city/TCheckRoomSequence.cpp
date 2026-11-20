@@ -26,7 +26,7 @@ struct TShopKeepItemWindow;
 const char *TCheckRoomSequence__name = "TCheckRoomSequence";
 s32 lbl_805D6160;
 s32 TCheckRoomSequence__error_return_text_id;
-s32 TCheckRoomSequence__error_return_state;
+saddr TCheckRoomSequence__error_return_state;
 s32 TCheckRoomSequence__active_instance;
 
 
@@ -159,7 +159,7 @@ void *__ct__18TShopGetItemWindowFPvPvPv(void *arg0, void *arg1, void *arg2, void
 void open_get_item_window__18TCheckRoomSequenceFPv(Seq_8020F2D8 *self);
 extern s32 lbl_805D6160;
 extern s32 TCheckRoomSequence__error_return_text_id;
-extern s32 TCheckRoomSequence__error_return_state;
+extern saddr TCheckRoomSequence__error_return_state;
 extern s32 TCheckRoomSequence__active_instance;
 void finish_room_check__18TCheckRoomSequenceFPv(u8 *arg0);
 s32 sub_802239EC__13TShopSequenceFv(void *);
@@ -1001,7 +1001,7 @@ s32 copy_bank_item_with_stack_limit(s32 idx, void *data, s32 *out, s32 slot) {
   t = (Rec_80210F78 *) (base + (idx * 0x18));
   *out = t->f14;
   {
-    s32 r = ((s32 (*)(void *, void *))get_max_stack_size__9TItemDataFv)(data, t);
+    saddr r = ((s32 (*)(void *, void *))get_max_stack_size__9TItemDataFv)(data, t);
     if (r < (*out))
     {
       *out = r;

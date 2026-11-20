@@ -38,8 +38,8 @@ s32 init_menu_scene_lights(s32 *, s32);
 s32 init_and_create__15TChCrCharSelectFv(s32);
 }
 extern s32 default_scene_light_config[];
-extern s32 tl_camera;
-extern s32 tl_03;
+extern saddr tl_camera;
+extern saddr tl_03;
 void *creation_menu_main_obj;
 int creation_dressing_room_mode_flag;
 extern s32 TObjCMMainMenu__data_805D659C;

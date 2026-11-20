@@ -12,9 +12,9 @@ struct TWindowSubItem : public TObject {
     u32 m_24;
     u32 m_28;
     u32 m_2c;
-    u32 m_30;
-    u32 m_34;
-    u32 m_38;
+    uaddr m_30;
+    uaddr m_34;
+    uaddr m_38;
     u32 m_3c;
     u32 m_40;
     void set_displayed_item(s32 arg1);

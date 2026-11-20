@@ -130,7 +130,7 @@ struct Win_8021CC44 {
     s32 sel;
     u8 pad388[4];
     void *list_win;
-    u32 menu_win;
+    uaddr menu_win;
     void *qty_win;
     void *status_win;
     void *help_win;
@@ -151,7 +151,7 @@ struct Rec_8021C968 { s32 item; s32 w[4]; s32 price; s32 w18; };
 
 struct Win_8021C968 : VObj_8021C968 {
     u8 pad1c[0x24 - 0x1C];
-    s32 player;
+    saddr player;
     Rec_8021C968 recs[30];
     u8 pad370[0x37C - 0x370];
     s32 count;

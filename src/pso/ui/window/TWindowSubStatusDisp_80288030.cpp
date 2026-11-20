@@ -60,12 +60,12 @@ u8 *TWindowSubStatusDisp::construct_type1_heading(s32 arg1, s32 arg2) {
 #pragma scheduling off
 void TWindowSubStatusDisp::fill_card_text_entries(s32 arg1) {
     u8 *temp_r3;
-    s32 temp_r31;
-    s32 temp_r30;
-    s32 temp_r29;
-    s32 temp_r28;
-    s32 temp_r27;
-    s32 temp_r26;
+    saddr temp_r31;
+    saddr temp_r30;
+    saddr temp_r29;
+    saddr temp_r28;
+    saddr temp_r27;
+    saddr temp_r26;
     temp_r3 = (u8 *)(*(u8 * *)&this->m_flags);
     temp_r31 = *(s32 *)((s8 *)temp_r3 + 4);
     temp_r30 = *(s32 *)((s8 *)temp_r3 + 0xC);

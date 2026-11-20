@@ -121,12 +121,12 @@ extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
 void *creation_player_character;
-u32 creation_main_menu_obj;
+uaddr creation_main_menu_obj;
 extern "C" {
 s32 calc_section_id_from_name(s8 *arg0);
 s32 release_texture_list(void *);
 
-extern u32 creation_main_menu_obj;
+extern uaddr creation_main_menu_obj;
 
 s32 TCharaMaking::query_state() {
     if ((u32) creation_main_menu_obj == 0U) {
@@ -513,7 +513,7 @@ s32 is_state_4__14TObjCMMainMenuFv(s32);
 void TCharaMaking__sub_8028E790(void) {  }
 }
 
-extern s32 tl_03;
+extern saddr tl_03;
 extern s32 creation_dressing_room_mode_flag;
 
 void TCharaMaking::update_light_direction() {
@@ -525,7 +525,7 @@ void TCharaMaking::update_light_direction() {
 }
 
 s32 TCharaMaking::update_main_menu(s32 arg0) {
-    s32 var_r3;
+    saddr var_r3;
 
     if (is_state_3__14TObjCMMainMenuFv(creation_main_menu_obj) != 0) {
         fn_8028D8F4();
@@ -562,7 +562,7 @@ TCharaMaking::~TCharaMaking() {
 }
 
 TCharaMaking::TCharaMaking(TObject *parent) : TObject(parent) {
-    u32 motion;
+    uaddr motion;
     m_name = TCharaMaking__name;
     motion = ((uaddr)TObject::operator new(0x10C));
     if (motion != 0U) {

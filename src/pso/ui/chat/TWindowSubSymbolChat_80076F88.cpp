@@ -261,8 +261,8 @@ void TWindowSubSymbolChat::clear_entries() {
 void TWindowSubSymbolChat::load_symbol_chat_data() {
     struct Win_80077544 *w = (struct Win_80077544 *)this;
     s32 i;
-    s32 t;
-    s32 data;
+    saddr t;
+    saddr data;
     struct Ent_80077544 *e;
     e = w->e;
     data = (saddr)load_disc_file("symbolchat.dat");

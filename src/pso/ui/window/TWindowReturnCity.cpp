@@ -50,7 +50,7 @@ const char *TWindowReturnCity__class_name = "TWindowReturnCity";
 #pragma pop
 u8 *TWindowReturnCity__ct(TWindowReturnCity *arg0, s32 arg1, s32 arg2);
 u32 __nw__7TObjectFUl(s32);
-extern s32 tl_00;
+extern saddr tl_00;
 void TWindowReturnCity__sub_8026D4BC(void);
 void TWindowReturnCity__sub_8026D4C0(void);
 }
@@ -111,7 +111,7 @@ void TWindowReturnCity::run_task() {
                 temp_r3 = ((TWindowSubComCard *)(this->m_1c))->get_slot_or_neg1();
                 if (temp_r3 == 0) {
                     TWindowReturnCity__client_scan_index = this->m_24;
-                    u32 task = __nw__7TObjectFUl(0x28);
+                    uaddr task = __nw__7TObjectFUl(0x28);
                     if (task != 0U) {
                         ((THunterGuildSeqOffline *)task)->init((void *)tl_00, (void *)return_to_city_after_defeat);
                     }

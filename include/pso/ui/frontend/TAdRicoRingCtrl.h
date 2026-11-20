@@ -9,7 +9,7 @@ struct TAdRicoRingCtrl : public TObject {
     void sub_8001B424(s32);
     virtual void render();
     u32 m_1c;
-    u32 m_20;
+    uaddr m_20;
     void set_scale4(f32 farg0);
     static void *create(void *arg0);
     static void release_global_805D4A00();

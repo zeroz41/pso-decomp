@@ -46,7 +46,7 @@ void TWindowArea::run_task() { ((TWindowDD *)this)->initialize_subwindow(); this
 #pragma push
 #pragma fp_contract on
 s32 create_window_area(void) {
-    s32 object;
+    saddr object;
     u8 *temp_r31;
     object = (saddr)new TWindowArea();
     fn_802449E0((u8 *)object);
@@ -60,8 +60,8 @@ s32 create_window_area(void) {
 extern "C" {
 #pragma push
 #pragma fp_contract on
-s32 create_area_window(s32 arg0) {
-    s32 object;
+s32 create_area_window(saddr arg0) {
+    saddr object;
     u8 *temp_r31;
     object = (saddr)new TWindowArea();
     ((TWindowSubStatusDisp *)object)->set_entry_display_value(arg0);
@@ -77,7 +77,7 @@ extern "C" {
 void fn_8024450C(s32 arg0) {
     s32 var_r30;
     s32 var_r31;
-    s32 var_r3;
+    saddr var_r3;
     s32 var_r5;
     var_r30 = arg0;
     var_r31 = TObjNewFloorWin__sub_8007410C();
@@ -88,7 +88,7 @@ void fn_8024450C(s32 arg0) {
 }
 
 void TWindowSubStatusDisp::set_count_ratio_text(s32 arg1, s32 arg2) {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     text_builder_reset();
     text_builder_append((u8 *)(get_message_text(0x67)));
     append_text_space();

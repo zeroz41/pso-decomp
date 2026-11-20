@@ -62,7 +62,7 @@ u8 *TWindowDeposit__ct(u8 *arg0, s32 arg1) {
   u32 spC;
   s32 sp8;
   f32 temp_f31;
-  s32 str;
+  saddr str;
   u32 temp_r3_2;
   u8 *temp_r31;
   u8 *__ct__11TWindowBaseFPUcsPUc(void *, u8 *, s32, u8 *);

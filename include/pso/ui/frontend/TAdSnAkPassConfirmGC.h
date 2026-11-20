@@ -8,7 +8,7 @@ struct TAdSnAkPassConfirmGC : public TAdYesNoBaseGC {
     virtual ~TAdSnAkPassConfirmGC();
     virtual void vfunc_8();
     virtual void vfunc_9();
-    u32 m_48;
+    uaddr m_48;
     virtual void render();
     virtual void run_task();
     virtual void vfunc_6();

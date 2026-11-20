@@ -202,7 +202,7 @@ f32 TWindowSubComCard::get_normalized_progress() {
 #pragma pop
 
 void TWindowSubComCard::reparent_to_main_ctrl() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     ((TObject *)arg0)->set_parent((TObject *)(TWindowCtrlMain__sub_8024CE24()));
 }
 
@@ -268,7 +268,7 @@ void TWindowLockOn::request_close() {
 s32 TWindowBase::is_window_reveal_complete() {
     return (f32) *(s32 *)((s8 *)((u8 *)this) + 0x5C) >= 7.5f;
 }
-s32 lbl_805D63F0;
+saddr lbl_805D63F0;
 u16 window_ui_theme_index;
 s16 lbl_805D63F6;
 void draw_window_scanlines(u8 *arg0, u8 *arg1);
@@ -377,7 +377,7 @@ Win_80244DFC *find_overlapping_balloon__15TWindowFukidasiFPvPvPvPv(Win_80244DFC 
 }
 
 void TWindowFukidasi::find_balloon_overlap_for(s32 arg1) {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     find_overlapping_balloon__15TWindowFukidasiFPvPvPvPv((Win_80244DFC *)(arg0), (void *)(arg0 + 0x30), (void *)(arg0 + 0x38), (Win_80244DFC *)(arg1));
 }
 
@@ -1076,15 +1076,15 @@ int TWindowFukidasi::get_visible_flag() { return (*(u32*)((char*)this + 0x2c) >>
 
 int TWindowFukidasi::is_bit10_set() { return (*(u32*)((char*)this + 0x2c) >> 10) & 0x1; }
 void TWindowSubStatusDisp::update_entry_visibility() {
-    u32 temp_r31;
-    u32 temp_r30;
-    u32 temp_r29;
-    u32 temp_r28;
-    u32 temp_r27;
-    u32 temp_r26;
-    u32 temp_r25;
-    u32 temp_r24;
-    s32 arg0 = (saddr)this;
+    uaddr temp_r31;
+    uaddr temp_r30;
+    uaddr temp_r29;
+    uaddr temp_r28;
+    uaddr temp_r27;
+    uaddr temp_r26;
+    uaddr temp_r25;
+    uaddr temp_r24;
+    saddr arg0 = (saddr)this;
     temp_r31 = ((TWindowBase *)arg0)->get_array_entry(7);
     temp_r30 = ((TWindowBase *)arg0)->get_array_entry(6);
     temp_r29 = ((TWindowBase *)arg0)->get_array_entry(5);

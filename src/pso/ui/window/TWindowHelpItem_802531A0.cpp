@@ -77,7 +77,7 @@ void TWindowHelpItem::init_text(void *str) {
 }
 
 void TWindowHelpItem::update_displayed_item() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     ((TWindowHelpItem *)arg0)->format_description_with_price();
     ((TWindowHelpItem *)arg0)->init_text((void *)(get_shared_text_buffer()));
 }
@@ -103,7 +103,7 @@ void TWindowHelpItem__sub_80253268(u8 *window_base) {
 
 void TWindowHelpItem::update_tech_disk_details() {
     s32 sp8;
-    s32 player;
+    saddr player;
     u8 *e0;
     u8 *e1;
     u8 *e2;

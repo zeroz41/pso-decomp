@@ -28,7 +28,7 @@ u8 *create_equip_list_window(s32 parent, s32 position, s32 client) {
 #pragma push
 #pragma fp_contract on
 void TWindowSubEquipList::render() {
-    s32 temp_r3;
+    saddr temp_r3;
     temp_r3 = get_draw_context__11TWindowBaseFPv();
     draw_window_frame((void *)temp_r3);
     draw_visible_window_entries(this, (void *) (((u8 *)this) + 0x24), temp_r3);

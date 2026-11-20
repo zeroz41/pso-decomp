@@ -292,7 +292,7 @@ void init_game_systems(void) {
     u32 lo;
     u32 hi;
     u32 size;
-    u32 start;
+    uaddr start;
     PADSetSpec(5);
     OSInit();
     DVDInit();

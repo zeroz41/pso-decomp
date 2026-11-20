@@ -94,7 +94,7 @@ struct TObject;
 
 extern "C" {
 void TAdChrSelSlotGC__sub_802C754C(O_802C754C *self, s32 i);
-u32 lbl_805D67F0;
+uaddr lbl_805D67F0;
 f32 char_select_slot_quad_width, char_select_slot_quad_height;
 extern const s32 current_language;
 void TAdChrSelSlotGC__sub_802C7498(struct S802C7498_802C70AC *arg0, s32 arg1);

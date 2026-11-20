@@ -183,7 +183,7 @@ void TWindowSubStatusDisp::init_gauge_entry() {
 }
 
 void TWindowSubStatusDisp::update_status_entry() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     void *temp_r31;
     VObj_8026F77C_more_8026f8cc_0 *player;
 
@@ -200,7 +200,7 @@ s32 TWindowSubStatusDisp::update_hp_gauge() {
     s32 var_r31;
     void *temp_r30;
     void *player;
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
 
     get_width__19TWindowSimpleStatusFv();
     player = get_player_by_client_id();
@@ -254,7 +254,7 @@ void TWindowSimpleStatus::update_status_icons(void *ofs) {
     Slots_80270060 buf;
     s32 k;
     s32 count;
-    s32 i;
+    saddr i;
     s32 j;
     s32 name;
     void *w;
@@ -389,7 +389,7 @@ void TWindowSubStatusDisp::update_hp_tp_level() {
 }
 
 void TWindowLockOn::update_for_player_index(s32 arg1) {
-    s32 temp_r31;
+    saddr temp_r31;
     struct VObj_8026ff0c *temp_r30;
     u8 *temp_r29;
 
@@ -424,7 +424,7 @@ void TWindowLockOn::update_for_player_index(s32 arg1) {
 }
 
 void update_lockon_window(u8 *arg0) {
-    s32 temp_r31;
+    saddr temp_r31;
     temp_r31 = ((s32 (*)(void *, int))get_array_entry__11TWindowBaseFi)(arg0, 1);
     ((TWindowLockOn *)temp_r31)->update_for_player_index(((s32 (*)(void *))get_width__19TWindowSimpleStatusFv)(arg0));
 }
@@ -562,14 +562,14 @@ s32 get_window_layout_position(s32);
 s32 update_hp_tp_level__20TWindowSubStatusDispFv();
 
 void render__19TWindowSimpleStatusFv(s32 arg0) {
-    s32 ctx;
+    saddr ctx;
     ctx = draw_default_entry__9TWindowDDFl();
     ((TWindowSimpleStatus *)arg0)->draw_background((u8 *)ctx);
     draw_visible_window_entries((void *)arg0, (void *)(arg0 + 0x24), (int)ctx);
 }
 
 void TWindowSimpleStatus::run_task() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     update_hp_tp_level__20TWindowSubStatusDispFv();
     update_lockon_window((u8 *)arg0);
     update_status_help_item(arg0);

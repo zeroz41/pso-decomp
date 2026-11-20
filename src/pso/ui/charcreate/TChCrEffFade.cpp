@@ -156,7 +156,7 @@ void TChCrEffFade::run_task() {
     }
 }
 
-extern s32 tl_fade;
+extern saddr tl_fade;
 
 TChCrEffFade::~TChCrEffFade() {}
 }

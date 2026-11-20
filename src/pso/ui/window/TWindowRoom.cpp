@@ -55,8 +55,8 @@ void TWindowRoom::draw_tab(void *context) {
 }
 
 void TWindowRoom::render() {
-    s32 temp_r3;
-    s32 arg0 = (saddr)this;
+    saddr temp_r3;
+    saddr arg0 = (saddr)this;
 
     temp_r3 = draw_default_entry__9TWindowDDFl();
     ((TWindowRoom *)arg0)->draw_tab((void *)temp_r3);

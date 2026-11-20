@@ -154,7 +154,7 @@ void TWindowSubStatusDisp__sub_80271A6C(s32 arg0, u8 *arg1) {
 }
 
 void TWindowSubAreaMapDisp::render() {
-    s32 temp_r3;
+    saddr temp_r3;
 
     temp_r3 = draw_default_entry__9TWindowDDFl();
     draw_window_frame((void *)temp_r3);

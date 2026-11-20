@@ -21,7 +21,7 @@ struct TWindowSubSymbolChatPartsSet : public TWindowChatSymbol {
     u32 m_7c;
     u32 m_80;
     u8 _pad84[0x4];
-    u32 m_88;
+    uaddr m_88;
     void copy_vec2(void* q);
     s32 draw_selected_part_cursor(int arg1);
     void handle_cancel();

@@ -15,7 +15,7 @@ public:
     virtual void run_task();
     s32 download_buffer_size;
     void *download_buffer;
-    s32 chr_select_state;      // TAdSinglePlyChrSelectGC::get_chr_select_state() at construction
+    saddr chr_select_state;      // TAdSinglePlyChrSelectGC::get_chr_select_state() at construction
     s32 flag_count;            // TAdSinglePlyChrSelectGC::get_flag_count() at construction
     s32 state;                 // run_task's handler index
     s32 unk_30;

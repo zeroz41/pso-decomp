@@ -221,9 +221,9 @@ void TWindowSubComCard__sub_80265680(u8 *arg0, s16 arg1) {
   s32 *new_var;
   s16 var_r31;
   s16 var_r4;
-  s32 temp_r3;
+  saddr temp_r3;
   s32 var_r3;
-  s32 var_r5;
+  saddr var_r5;
   u8 *var_r30;
   var_r31 = arg1;
   var_r30 = (u8 *) arg0;
@@ -682,7 +682,7 @@ s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2) {
 }
 
 void TAdChrSelASlotGC::check_room_seq_4(s32 arg1) {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     ((int (*)(void*, void*, void*))create_window_menu)((void*)arg0, (void*)arg1, (void*)(4));
 }
 
@@ -702,7 +702,7 @@ s32 create_titled_window_menu(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 }
 
 void TWindowSubComCard::draw_card_icon(s32 arg1, s32 arg2) {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     ((int (*)(void*, void*, void*, void*))create_titled_window_menu)((void*)arg0, (void*)arg1, (void*)arg2, (void*)(4));
 }
 
@@ -730,7 +730,7 @@ void TWindowMenu::render_selected_entry(s32 window_key_board_soft) {
 }
 
 void render__11TWindowMenuFv(TWindowMenu *arg0) {
-    s32 window_key_board_soft;
+    saddr window_key_board_soft;
 
     window_key_board_soft = get_draw_context__11TWindowBaseFPv();
     ((TWindowBase *)arg0)->draw_window_frame((void *)window_key_board_soft);

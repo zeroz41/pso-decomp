@@ -21,11 +21,11 @@ public:
 
     u8 pad_1C[4];
     u32 state;
-    u32 vi_config;    // TAdVIConfigGC
+    uaddr vi_config;    // TAdVIConfigGC
     u32 modem_check;  // TAdTrialModemChkGC
-    u32 sega_logo;    // TAdSEGAlogo
-    u32 sonic_logo;   // TAdSoniclogo
-    u32 adx_logo;     // TAdADXlogo
+    uaddr sega_logo;    // TAdSEGAlogo
+    uaddr sonic_logo;   // TAdSoniclogo
+    uaddr adx_logo;     // TAdADXlogo
 };
 LAYOUT_ASSERT(TLogoExtent, sizeof(TLogo) == 0x38);
 

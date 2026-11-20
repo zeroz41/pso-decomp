@@ -129,8 +129,8 @@ void *TFontSmallLobby::create(void *arg0) {
 void TUnk_8049CA54::run_task() {
     s32 temp_r3_2;
     s32 temp_r4;
-    u32 temp_r3_3;
-    s32 temp_r3;
+    uaddr temp_r3_3;
+    saddr temp_r3;
 
     temp_r3 = (saddr)get_player_by_client_id(*(s32 *)&this->player_id);
     if (temp_r3 == 0) {

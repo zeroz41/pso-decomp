@@ -8,9 +8,9 @@ struct TAdDialingMessageWindow : public TObject {
     TAdDialingMessageWindow(void *arg1, void *arg2);
     virtual ~TAdDialingMessageWindow();
     u32 m_1c;
-    u32 m_20;
+    uaddr m_20;
     u32 m_24;
-    u32 m_28;
+    uaddr m_28;
     void set_flag_and_notify();
     void run_child_tasks();
     virtual void render();

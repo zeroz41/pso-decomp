@@ -80,7 +80,7 @@ s32 get_photon_blast_name(s32 arg0);
 struct TWindowSubMag_8027B62C {
     u8 pad0[0x28];
     s32 field_0x28;
-    s32 field_0x2c;
+    saddr field_0x2c;
     s32 field_0x30;
 };
 extern "C" {
@@ -408,7 +408,7 @@ void TWindowSubMag::run_task() {
 void TWindowSubMag::render() {  }
 
 s32 TWindowSubMag::setup_list() {
-    s32 equip_kind_window;
+    saddr equip_kind_window;
     s32 window_layout_position;
 
     window_layout_position = get_window_layout_position(7);
@@ -422,7 +422,7 @@ s32 TWindowSubMag::setup_list() {
 }
 
 s32 TWindowSubMag::create_list() {
-    s32 equip_kind_window;
+    saddr equip_kind_window;
 
     s32 window_layout_position = get_window_layout_position(0xD);
     equip_kind_window = create_equip_kind_window(window_layout_position, lbl_8044F9F8, this->client_id);

@@ -23,7 +23,7 @@ s32 *TWindowGetComCard__sub_8007B594(void) {
 }
 
 void TWindowGetComCard::remove_entry(s32 arg0, s32 arg1, s32 arg2) {
-    s32 temp_r3;
+    saddr temp_r3;
 
     if (arg0 < (arg2 - 1)) {
         temp_r3 = arg1 + (arg0 * 0x90);

@@ -17,7 +17,7 @@ struct TWindowChatSymbol : public TWindowBase {
     f32 m_48;
     u8 unk_4C[0x10];
     u32 m_5c;
-    u32 m_60;
+    uaddr m_60;
     u32 m_64;
     virtual void run_task();
 };

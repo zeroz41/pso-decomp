@@ -520,7 +520,7 @@ void TShopJudgmentItemWindow::handle_equip_prompt() {
     s32 sel;
     s32 id;
     VObj_802209D8 *item;
-    u32 eq;
+    uaddr eq;
 
     if (this->vfunc_10() != 0) {
         if (F(0x158, void *) == NULL) {

@@ -87,7 +87,7 @@ void __ct__13TAdTitleTexGCFv(void *, void *);
 void *__ct__14TAdSelectCurGCFv(void *, void *, void *, void *);
 void *__ct__13TAdGuideTxtGCFv(void *, void *);
 extern void *__vt__21TAdMultiSelGameModeGC[];
-extern s32 game_difficulty_selection;
+extern saddr game_difficulty_selection;
 s32 lbl_805D69F4;
 Obj_8030095C *__ct__21TAdMultiSelGameModeGCFv(Obj_8030095C *self, s32 parent, s32 mode);
 s32 set_default_camera__21TAdMultiChgGameModeGCFv(void *);
@@ -135,7 +135,7 @@ s32 TAdMultiSelGameModeGC::build_mode_menu(s32 arg1) {
     Pos3_803001B4 pos = multi_sel_game_mode_position;
     u32 counts[3];
     u32 n;
-    s32 r;
+    saddr r;
     u32 i;
     counts[0] = 4;
     counts[1] = 3;

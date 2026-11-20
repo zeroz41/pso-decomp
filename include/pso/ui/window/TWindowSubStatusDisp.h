@@ -42,7 +42,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     s16 page; // inferred: index into the dispatch_page_init/update page tables
     u16 m_62;
     u32 m_64;
-    u32 m_68;
+    uaddr m_68;
     f32 scale_x;
     f32 scale_y;
 

@@ -192,8 +192,8 @@ void TWindowStatus::draw_background(u8 *arg1) {
 
 #pragma fp_contract on
 void TWindowStatus::render() {
-    s32 entry = get_array_entry(0xE);
-    s32 ctx;
+    saddr entry = get_array_entry(0xE);
+    saddr ctx;
     draw_right_aligned_number((void *)entry);
     *(f32 *)((s8 *)entry + 8) = 0.5f * *(f32 *)((s8 *)entry + 0x10) + 68.0f;
     ctx = TWindowDD::draw_default_entry((saddr)this);
@@ -202,7 +202,7 @@ void TWindowStatus::render() {
 }
 
 void TWindowStatus::run_task() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     ((s32 (*)(void))update_hp_tp_values__20TWindowSubStatusDispFPv)();
     update_lockon_window((u8 *)arg0);
     update_status_help_item(arg0);
@@ -227,9 +227,9 @@ void *TWindowStatus__ct(void *window_status, s32 layout_pos, void *arg2, const W
     return window_status;
 }
 
-s32 create_status_window(s32 arg0) {
+s32 create_status_window(saddr arg0) {
     s32 window_layout_position;
-    s32 window_status;
+    saddr window_status;
     s32 var_r0;
     window_layout_position = get_window_layout_position(0x1C);
     if (is_split_screen() != 0) {

@@ -31,8 +31,8 @@ struct TShopEquipmentSellWindow : public TShopWindowBase {
     u32 m_384;
     u32 m_388;
     u32 m_38c;
-    u32 m_390;
-    u32 m_394;
+    uaddr m_390;
+    uaddr m_394;
     u32 m_398;
     u32 m_39c;
     u32 m_3a0;

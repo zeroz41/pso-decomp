@@ -7,7 +7,7 @@
 #pragma opt_propagation off
 s32 are_status_entries_ready__13TWindowSubMagFi(s32 arg0) {
     s32 var_r28;
-    s32 var_r3;
+    saddr var_r3;
     s32 var_r4;
     u16 *temp_r3;
     u16 *var_r29;

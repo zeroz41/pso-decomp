@@ -16,7 +16,7 @@ Win_8024B098 *get_window__11TWindowCtrlFl(void *self);
 struct WindowCtrlIsVisibleCallbackEntry { s32 value; u8 remaining[0x8]; };
 extern WindowCtrlIsVisibleCallbackEntry window_ctrl_is_visible_callback_entry;
 void TWindowCtrl::is_slot_visible() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8024B054, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_8024B054, spC) == 0x4);
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8024B054, sp10) == 0x8);

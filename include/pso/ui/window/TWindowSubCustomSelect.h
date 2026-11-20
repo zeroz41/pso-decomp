@@ -28,7 +28,7 @@ struct TWindowSubCustomSelect : public TWindowAddition {
     u8 m_73;
     u32 m_74;
     u32 m_78;
-    u32 m_7c;
+    uaddr m_7c;
     u32 m_80;
     void handle_cancel();
     void handle_decide();

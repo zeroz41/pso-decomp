@@ -84,9 +84,9 @@ u32 TAdMcSelectCursorGC__instance;
 #pragma fp_contract on
 void TAdMcSelectCursorGC::run_task() {
     Self_8032A2A4 *self = (Self_8032A2A4 *)this;
-    u32 t2;
-    u32 t;
-    u32 t1;
+    uaddr t2;
+    uaddr t;
+    uaddr t1;
     s32 i;
     if (self->f1C == 0) {
         t = TAdMcSelectCursorGC::get_cursor_type(1 - self->f20);
@@ -166,7 +166,7 @@ u32 __nw__7TObjectFUl(s32);
 
 
 u32 TAdMcSelectCursorGC::get_instance(s32 arg0) {
-    u32 var_r0;
+    uaddr var_r0;
 
     if ((u32) TAdMcSelectCursorGC__instance == 0U) {
         var_r0 = __nw__7TObjectFUl(0x140);

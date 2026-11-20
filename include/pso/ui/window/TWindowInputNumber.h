@@ -24,7 +24,7 @@ struct TWindowInputNumber : public TWindowBase {
     s32 minimum;
     s32 maximum;
     s32 value;
-    s32 unknown70;
+    saddr unknown70;
     f32 scaleX;
     f32 scaleY;
 

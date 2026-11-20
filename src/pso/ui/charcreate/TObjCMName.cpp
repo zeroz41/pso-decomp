@@ -128,7 +128,7 @@ struct Hair_802964B0 {
     const char *name;
     u8 pad4[0x14];
     void *vt;
-    s32 f1c;
+    saddr f1c;
     s32 f20;
     s32 f24;
     s32 f28;

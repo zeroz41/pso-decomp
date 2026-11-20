@@ -35,7 +35,7 @@ void TWindowMeseta::draw_value(s32 arg1) {
 }
 void TWindowMeseta::render() {
     s32 ctx;
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
 
     ctx = ((TWindowBase *)arg0)->setup_window_draw_context(arg0 + 0x6C);
     ((TWindowMeseta *)arg0)->draw_value(ctx);

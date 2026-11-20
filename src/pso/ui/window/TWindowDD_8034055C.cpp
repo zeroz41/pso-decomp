@@ -17,7 +17,7 @@ extern const f32 lbl_805DFC04;
 extern const f32 lbl_805DFC08;
 extern const f32 lbl_805DFC2C;
 void TWindowDD__sub_803489B8(void *ctx, E_803403F8 *points, s32 row);
-extern s32 lbl_805D63F0;
+extern saddr lbl_805D63F0;
 extern const f32 TWindowDD__data_805DFB20;
 extern const f32 lbl_805DFB48;
 extern const f32 lbl_805DFB4C;

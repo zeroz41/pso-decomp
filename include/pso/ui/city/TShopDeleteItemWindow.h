@@ -16,8 +16,8 @@ struct TShopDeleteItemWindow : public TShopWindowBase {
     u32 m_24;
     u32 m_28;
     u32 m_2c;
-    u32 m_30;
-    u32 m_34;
+    uaddr m_30;
+    uaddr m_34;
     u32 m_38;
     u32 m_3c;
     void* m_40;

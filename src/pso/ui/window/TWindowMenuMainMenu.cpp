@@ -17,7 +17,7 @@ s32 setup_content_frame__15TWindowMainMenuFPv();
 extern const char *TWindowMenuMainMenu__class_name;
 
 void render__19TWindowMenuMainMenuFv(s32 arg0) {
-    s32 frame;
+    saddr frame;
     frame = setup_content_frame__15TWindowMainMenuFPv();
     ((TWindowMenuMainMenu *)arg0)->draw_frame((WindowDrawContext *)frame);
     ((TWindowMainMenu *)arg0)->draw_entries_reversed((u8 *)frame);

@@ -124,7 +124,7 @@ void TWindowSubQuestBoard::render() {  }
 int TWindowSubQuestBoard::set_card_flags_direct(int a1) { return set_card_window_flags__19TWindowKeyBoardHardFPvll(this, a1, -2); }
 
 void TWindowSubQuestBoard::set_card_flags_scaled(s32 arg1) {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     TWindowKeyBoardHard::set_card_window_flags((void*)arg0, arg1 * 2, -3);
 }
 
@@ -133,17 +133,17 @@ void TWindowSubQuestBoard__sub_8027CF50(s32 arg0, s32 arg1) {
 }
 
 void TWindowSubQuestBoard::clear_card_window_flags(s32 arg1) {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     TWindowKeyBoardHard::set_card_window_flags((void*)arg0, arg1 * 8, -9);
 }
 
 void TWindowSubQuestBoard::set_card_window_flags(s32 arg1) {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     TWindowKeyBoardHard::set_card_window_flags((void*)arg0, arg1 << 8, -0x301);
 }
 
 void TWindowSubQuestBoard::set_board_flags(s32 arg1) {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     TWindowKeyBoardHard::set_card_window_flags((void*)arg0, arg1 << 0xA, -0x1C01);
 }
 
@@ -201,7 +201,7 @@ void TUnk_804D1818::run_task() {
 void TUnk_804D1818::render() {  }
 
 s32 TUnk_804D1818::create_option_menu_window() {
-    s32 titled_window_menu;
+    saddr titled_window_menu;
 
     titled_window_menu = create_titled_window_menu((saddr)get_window_layout_position(0x15), 6, (saddr)TWindowSubStatusDisp::get_message_10(0x2A), client_id);
     if (is_split_screen() == 0) {
@@ -223,7 +223,7 @@ s32 TUnk_804D1818::create_option_menu_window() {
 
 s32 TUnk_804D1818::sub_8027C884(s32 option) {
     s16 value;
-    s32 window;
+    saddr window;
     s32 flag;
     window = (saddr)TWindowSubStatusDisp__sub_80248BE8((saddr)(get_window_layout_position(0x16)), (saddr)option_value_window_size, (s32)client_id);
     switch (option) {

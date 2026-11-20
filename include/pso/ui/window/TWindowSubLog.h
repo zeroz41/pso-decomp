@@ -8,9 +8,9 @@ struct TWindowSubLog : public TObject {
     TWindowSubLog(TObject *arg1, void *arg2);
     virtual ~TWindowSubLog();
     u32 m_1c;
-    u32 m_20;
-    u32 m_24;
-    u32 m_28;
+    uaddr m_20;
+    uaddr m_24;
+    uaddr m_28;
     void* m_2c;
     virtual void render();
     virtual void run_task();

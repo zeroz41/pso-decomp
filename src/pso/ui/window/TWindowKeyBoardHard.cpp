@@ -647,7 +647,7 @@ void TWindowKeyBoardHard::draw_status_text(void *ctx) {
 #pragma pool_data reset
 
 void TWindowKeyBoardHard::render() {
-    s32 temp;
+    saddr temp;
     if (((s32) this->m_68 > 0) && (is_key_active() == 0)) {
         temp = TWindowDD::draw_default_entry((saddr)this);
         draw_status_text((Ctx_80260020 *)(temp));

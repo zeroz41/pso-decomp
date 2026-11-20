@@ -13,10 +13,10 @@ struct TWindowSubTrade : public TObject {
     u8 _pad1D[0x3];
     u32 m_20;
     u32 m_24;
-    u32 m_28;
-    u32 m_player_list; // inferred names: the windows run_task opens (trade partner list,
-    u32 m_message_window; // player message window,
-    u32 m_confirm_prompt; // trade yes/no prompt)
+    uaddr m_28;
+    uaddr m_player_list; // inferred names: the windows run_task opens (trade partner list,
+    uaddr m_message_window; // player message window,
+    uaddr m_confirm_prompt; // trade yes/no prompt)
     virtual void render();
     virtual void run_task();
 };

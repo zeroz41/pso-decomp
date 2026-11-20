@@ -50,7 +50,7 @@ void *get_player_by_client_id(s32 i);
 s32 close_and_clear_flags__15TWindowMainMenuFv();
 
 void TWindowUserSort::render() {
-    s32 temp_r3;
+    saddr temp_r3;
     temp_r3 = draw_default_entry__9TWindowDDFl();
     draw_window_frame((void *)temp_r3);
     draw_visible_window_entries(this, &entries, (int)temp_r3);

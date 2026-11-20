@@ -157,7 +157,7 @@ void TAdSinglePlyChrSelectGC::sub_8033AA64() {
             arg0->state = 0xE;
             ((s32 (*)(void *))TAdSinglePlyChrSelectGC__sub_8033B5F0)(arg0);
             close_window__23TAdSinglePlyChrSelectGCFPv(arg0);
-            u32 o = __nw__7TObjectFUl(0x28);
+            uaddr o = __nw__7TObjectFUl(0x28);
             if (o != 0U) {
                 ((THunterGuildSeqOffline *)o)->init((void *)tl_fade, (void *)TAdSinglePlyChrSelectGC__sub_8033B244);
             }
@@ -168,7 +168,7 @@ void TAdSinglePlyChrSelectGC::sub_8033AA64() {
 
 void TAdSinglePlyChrSelectGC::handle_player_load() {
     TUnk_804EF8C0 *arg0 = (TUnk_804EF8C0 *)this;
-    u32 p;
+    uaddr p;
     if (TAdPlayerLoadGC::probe_card_slot(arg0->chr_select_state) == 0) {
         arg0->state = 0;
         ((s32 (*)(void *))TAdSinglePlyChrSelectGC__sub_8033B5F0)(arg0);
@@ -278,7 +278,7 @@ void TAdSinglePlyChrSelectGC::handle_load_result() {
     s32 r;
     s32 cw;
     s32 inst;
-    u32 obj;
+    uaddr obj;
     s32 src;
     switch (poll_memcard_result(*(s32 *)((s8 *)((u8 *)this) + 0x24))) {
     case 0:
@@ -357,7 +357,7 @@ void TAdSinglePlyChrSelectGC::sub_8033AFC8() {
 
 void TAdSinglePlyChrSelectGC::sub_8033B0AC() {
     void *ad_single_ply_chr_select_gc = this;
-    u32 o;
+    uaddr o;
     if (*(void **)((s8 *)ad_single_ply_chr_select_gc + 0x40) != 0) {
         if (((s32 (*)(void *))TAdSinglePlyChrSelectGC__sub_8033B9F8)(*(void **)((s8 *)ad_single_ply_chr_select_gc + 0x40)) == 1) {
             ((TObject *)((void*)(*(void **)((s8 *)ad_single_ply_chr_select_gc + 0x40))))->queue_destruction();

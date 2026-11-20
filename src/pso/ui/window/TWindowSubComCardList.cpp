@@ -48,7 +48,7 @@ s32 forward_render__20TWindowSubStatusDispFv(s32, s32);
 s32 run_task__11TWindowMenuFv();
 
 void render__21TWindowSubComCardListFv(TWindowSubComCardList *arg0) {
-    s32 temp_r3;
+    saddr temp_r3;
 
     temp_r3 = get_draw_context__11TWindowBaseFPv();
     ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);

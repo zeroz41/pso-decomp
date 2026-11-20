@@ -25,7 +25,7 @@ struct Pw_8032B6A0
   u8 pad0[0x20];
   s32 f20;
   u8 pad24[0x2C - 0x24];
-  u32 serial;
+  uaddr serial;
   u8 pad30[0x38 - 0x30];
   s32 f38;
   s32 f3C;
@@ -92,7 +92,7 @@ int request_transition__18TAdEnterPasswordGCFPv(void* p) { return request_transi
 
 typedef struct Pw_8032B6A0 Pw_8032B6A0;
 void update_password_input__18TAdEnterPasswordGCFPv(Pw_8032B6A0 *self) {
-  s32 buf = (saddr)((TKeyBoardControl *)password_entry_keyboard_control)->realloc_buffer();
+  saddr buf = (saddr)((TKeyBoardControl *)password_entry_keyboard_control)->realloc_buffer();
   s32 prev;
   int cur;
   if (((self->len == 0) && (TWindowShortListCtrl__check_controller_button(controller_physical_port_bank + 0x20, 2) != 0)) || ((self->len == 0) && (test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state + 0x160, 2) != 0)))

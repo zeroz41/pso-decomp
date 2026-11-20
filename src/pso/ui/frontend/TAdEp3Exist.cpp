@@ -40,7 +40,7 @@ struct Ep3_8036F354 {
     u8 pad4[0x18 - 0x4];
     void *vt;
     u32 win1C;
-    u32 cur20;
+    uaddr cur20;
     s32 x24;
     s32 x28;
     s32 x2C;
@@ -57,8 +57,8 @@ struct Ep3_8036F10C : Base_8036F10C {
     virtual void m3();
     virtual u32 m4();
     u8 pad1C[0x20 - 0x1C];
-    s32 sel;
-    u32 win;
+    saddr sel;
+    uaddr win;
     s32 state;
     s32 prev;
     s32 next;
@@ -104,7 +104,7 @@ int request_scene_change__21TAdMultiChgGameModeGCFv(void*);
 int request_transition__21TAdMultiChgGameModeGCFv(void*);
 
 void TAdEp3Exist::draw_message_window(s32 arg1) {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     ((TWindowBase *)arg0)->draw_window_frame((void *) (arg1));
     f32 x = 320.0f - (f32)(calc_text_width((char *)get_localized_text_entry(0x2C, 0xA)) >> 1U);
     TAdSubPlyItemGC::render_status_line(x, 394.0f, 0.8f, (const char *)get_localized_text_entry(0x2C, 0xA), -1);
@@ -184,7 +184,7 @@ void *TAdEp3Exist__ct(Ep3_8036F354 *o) {
     u8 save[16];
     s32 res;
     void *p;
-    u32 r;
+    uaddr r;
     bool ok;
     bool go;
     __ct__7TObjectFP7TObject();

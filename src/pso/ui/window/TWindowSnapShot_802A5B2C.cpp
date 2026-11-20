@@ -94,7 +94,7 @@ s32 RlcArchive::alloc_buffer() {
     }
     return 1;
 }
-s32 RlcArchive::open_stream(s32 file) {
+s32 RlcArchive::open_stream(saddr file) {
     file_size = TGStream::read_whole_file((const char *)file, buffer);
     if (fn_802A605C() == 0) {
         set_mode(2);

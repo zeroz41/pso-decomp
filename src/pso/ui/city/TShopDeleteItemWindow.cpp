@@ -337,8 +337,8 @@ void TShopDeleteItemWindow::handle_confirm_dialog() {
     s32 slot;
     s32 selected_menu_value;
     s32 idx;
-    u32 temp_r3;
-    u32 temp_r3_4;
+    uaddr temp_r3;
+    uaddr temp_r3_4;
     temp_r3 = this->m_34;
     if ((temp_r3 != 0U) && (((TWindowMenu *)temp_r3)->is_decided() != 0)) {
         slot = sub_8022397C__15TShopWindowBaseFv(this);

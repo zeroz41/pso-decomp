@@ -401,7 +401,7 @@ loop_3:
 s32 TWindowMainMenu::find_free_slot() {
     s32 arg0 = (saddr)this;
     s32 counter;
-    s32 ptr;
+    saddr ptr;
 
     ptr = arg0 + 0x64;
     counter = 0;
@@ -427,7 +427,7 @@ int find_free_item_slot__15TWindowMainMenuFPv(Obj_802ADC04 *self) {
 
 s32 count_active_items__15TWindowMainMenuFi(s32 arg0) {
     s32 counter;
-    s32 ptr;
+    saddr ptr;
 
     ptr = arg0 + 0x64;
     counter = 0;
@@ -466,7 +466,7 @@ s32 TWindowMainMenu::update_if_active(s32 _w1) {
 s32 append_child_rows__15TWindowMainMenuFPvi(Menu_802ADD38 *arg0, s32 arg1) {
     u8 sp8[8];
     s32 n;
-    s32 slot;
+    saddr slot;
     n = ((s32 (*)(void))find_free_item_slot__15TWindowMainMenuFPv)();
     if (n >= 8) {
         return 0;

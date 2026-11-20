@@ -10,10 +10,10 @@ void *get_player_by_client_id(s32 i);
 void send_6x25_equip_item(void *arg0, s32 arg1, s32 arg2);
 
 void TWindowShortListCtrl::assign_shortcut(s32 slot, s32 item, s32 arg2) {
-    u32 slot_value;
-    s32 player;
-    s32 temp_r0;
-    u32 temp_r3b;
+    uaddr slot_value;
+    saddr player;
+    saddr temp_r0;
+    uaddr temp_r3b;
 
     player = (saddr)get_player_by_client_id(arg2);
     if (player != 0) {

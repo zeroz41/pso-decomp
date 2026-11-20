@@ -161,7 +161,7 @@ TWindowMainMenu::TWindowMainMenu(TObject *parent, s32 client) : TObject(parent) 
 }
 
 TWindowMainMenu::~TWindowMainMenu() {
-    u32 player;
+    uaddr player;
     if (*(s32 *)((s8 *)this + 0x4C) & 1) {
         player = (u32)get_player_by_client_id(*(u32 *)((s8 *)this + 0x54));
         if (player != 0U) {
@@ -179,7 +179,7 @@ void TWindowMainMenu::render() {  }
 
 void TWindowMainMenu::handle_menu_selection() {
     s32 id;
-    u32 node;
+    uaddr node;
     void *e;
     if ((((Menu_802647CC *)this)->flags & 1) && !(((Menu_802647CC *)this)->flags & 4) && (node = ((Menu_802647CC *)this)->node) != 0) {
         ((Menu_802647CC *)this)->sel = TWindowMainMenu__sub_802ADB00((u8 *)node);
@@ -277,18 +277,18 @@ void TWindowMainMenu4P::show_child_window() { if (*(unsigned int*)((char*)this +
 
 void TWindowMainMenu::create_submenu(u32 arg1) {
     s32 temp_r3_10;
-    s32 window_sub_technique;
+    saddr window_sub_technique;
     s32 temp_r3_13;
     s32 temp_r3_14;
-    s32 temp_r3_15;
+    saddr temp_r3_15;
     s32 temp_r3_16;
     s32 temp_r3_17;
     s32 temp_r3_18;
-    s32 window_sub_game_end;
-    s32 temp_r3_2;
-    s32 window_sub_equip;
-    s32 window_sub_item;
-    s32 window_sub_mag;
+    saddr window_sub_game_end;
+    saddr temp_r3_2;
+    saddr window_sub_equip;
+    saddr window_sub_item;
+    saddr window_sub_mag;
     s32 temp_r3_6;
     s32 temp_r3_7;
     s32 temp_r3_8;
@@ -598,7 +598,7 @@ void TWindowMainMenu::sub_80263D7C() {
 }
 
 void TWindowMainMenu::open(s32 arg1) {
-    s32 player;
+    saddr player;
     s32 temp_r4;
 
     player = get_player_by_client_id((s32)(*(s32 *)((s8 *)this + 0x54)));
@@ -643,7 +643,7 @@ s32 TWindowMainMenu::close_active_submenu() {
 void TWindowMainMenu::try_open_battle_menu(s16 arg1) {
     s32 spC;
     s16 sp8;
-    s32 player;
+    saddr player;
 
     sp8 = arg1;
     player = get_player_by_client_id(*(s32 *)((s8 *)this + 0x54));

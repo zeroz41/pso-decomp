@@ -26,9 +26,9 @@ struct TWindowHelpItem : public TWindowBase
     u8 m_60;
     u8 _pad61[0x3];
     u32 m_64;
-    u32 m_68;
+    uaddr m_68;
     u32 m_6c;
-    u32 m_70;
+    uaddr m_70;
     u8 _pad74[0x28];
     u32 m_9c;
     u32 m_a0;

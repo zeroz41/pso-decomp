@@ -22,7 +22,7 @@ s32 draw_default_entry__9TWindowDDFl();
 s32 draw_visible_window_entries(void *, void *, int);
 void render__14TWindowComCardFv(s32 arg0);
 s32 TWindowSubComCard__sub_8007B070(s32);
-extern s32 local_client_id;
+extern saddr local_client_id;
 u8 *TWindowComCard__ct(u8 *arg0, s32 arg1, s32 arg2);
 void TWindowComCard__sub_80249920(s32 arg0, s32 arg1, s32 arg2);
 s8 TWindowComCard__sub_80249C18(void* p);
@@ -157,7 +157,7 @@ extern "C" void update_com_card_display(ComCardDisplay *arg0, void *arg1) {
 extern "C" {
 
 void TWindowComCard__sub_80249920(s32 arg0, s32 arg1, s32 arg2) {
-    s32 temp = arg2 + (arg1 * 0x90);
+    saddr temp = arg2 + (arg1 * 0x90);
     if (temp != 0) {
         update_com_card_display((ComCardDisplay *)(arg0 + 0x24), (void *)temp);
     }
@@ -165,7 +165,7 @@ void TWindowComCard__sub_80249920(s32 arg0, s32 arg1, s32 arg2) {
 
 void TWindowComCard::set_display_value(s32 arg1, s32 arg2) {
     s32 arg0 = (saddr)this;
-    s32 temp = arg2 + (arg1 << 8);
+    saddr temp = arg2 + (arg1 << 8);
     if (temp != 0) {
         update_com_card_display((ComCardDisplay *)(arg0 + 0x24), (void *)temp);
     }
@@ -212,8 +212,8 @@ void *TWindowComCard::create(void *arg0, void *arg1) {
 }
 
 s32 TWindowSubComCard::create_com_card_window(s32 arg0) {
-    s32 keyboard_mode;
-    s32 window_dd;
+    saddr keyboard_mode;
+    saddr window_dd;
     s32 var_r0;
     keyboard_mode = TWindowSubComCard::get_keyboard_mode();
     if (keyboard_mode == 0) {
@@ -231,7 +231,7 @@ s32 TWindowSubComCard::create_com_card_window(s32 arg0) {
 }
 
 void render__14TWindowComCardFv(s32 arg0) {
-    s32 temp_r3;
+    saddr temp_r3;
     temp_r3 = draw_default_entry__9TWindowDDFl();
     ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
     draw_visible_window_entries((void *)arg0, (void *)(arg0 + 0x24), (int)temp_r3);
@@ -319,7 +319,7 @@ s32 get_status_effect_icon_index(u32 arg0) {
 extern "C" {
 
 void TWindowComCard::set_selected_index(s32 arg1) {
-    s32 temp;
+    saddr temp;
     if ((s32) *(s32 *)((s8 *)this + 0x70) != arg1) {
         *(s32 *)((s8 *)this + 0x70) = arg1;
         temp = this->get_array_entry(0);

@@ -218,7 +218,7 @@ void *__ct__17TWindowSetLevelUpFv(void *window_set_level_up, void *arg1, void *a
 #pragma auto_inline on
 #pragma dont_inline off
 void TWindowSetLevelUp::copy_stat_block(s32 arg1) {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     *(ByteBlock_16 *)(arg0) = *(const ByteBlock_16 *)(arg1);
     *(s16 *)((s8 *)arg0 + 0x16) = (s16) *(s16 *)((s8 *)arg1 + 0x16);
     *(s16 *)((s8 *)arg0 + 0x18) = (s16) *(s16 *)((s8 *)arg1 + 0x18);

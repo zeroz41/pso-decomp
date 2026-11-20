@@ -48,7 +48,7 @@ void TWindowHelpItem::update_cursor_selection() {
 }
 
 void TWindowHelpItem::render() {
-    s32 temp_r3;
+    saddr temp_r3;
     u8 temp_r3_2;
 
     temp_r3 = this->setup_window_draw_context((saddr)((u8 *)this + 0xA8));

@@ -187,7 +187,7 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
 
 
 void render__15TWindowShortCutFv(u8 *arg0) {
-    s32 temp_r3;
+    saddr temp_r3;
     temp_r3 = draw_default_entry__9TWindowDDFl();
     ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
     draw_visible_window_entries(arg0, arg0 + 0x24, temp_r3);
@@ -208,7 +208,7 @@ TWindowShortCut::~TWindowShortCut() {
     TWindowSubStatusDisp::destroy_status_display(this->heading, 1);
 }
 TWindowShortCut::TWindowShortCut(s32 arg1, s32 index, s32 *chat_shortcut) : TWindowBase((u8 *)&window_short_cut_layout, (s16)4, (u8 *)arg1) {
-    s32 var_r31;
+    saddr var_r31;
     m_name = TWindowShortCut__name;
     var_r31 = (saddr)::operator new(0x24);
     if (var_r31 != 0) {

@@ -98,12 +98,12 @@ void destroy_windows__14TAdGameStartGCFPv(Obj_802E6380 *o) {
 }
 
 void create_effects__14TAdGameStartGCFPv(u8 *parent) {
-    u32 temp_r3;
-    u32 temp_r3_2;
-    u32 temp_r3_3;
-    u32 temp_r3_4;
+    uaddr temp_r3;
+    uaddr temp_r3_2;
+    uaddr temp_r3_3;
+    uaddr temp_r3_4;
     u32 temp_r3_5;
-    u32 object;
+    uaddr object;
     u32 temp_r3_7;
     u32 temp_r3_8;
     u32 var_r0;
@@ -159,7 +159,7 @@ void create_effects__14TAdGameStartGCFPv(u8 *parent) {
 
 void run_task__14TAdGameStartGCFv(u8 *arg0) {
     GS_802E655C *gs = (GS_802E655C *) arg0;
-    s32 sub;
+    saddr sub;
     u8 *pad;
     if (gs->active != 0) {
         gs->count++;

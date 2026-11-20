@@ -20,7 +20,7 @@ struct TMedicalCenterSequence : public TShopSequence {
     void show_already_healthy();
     s32 handle_window_input();
     s32 m_2c;
-    u32 m_30;
+    uaddr m_30;
     TObject *counter_camera; // 0x34: set_service_counter_camera
     void show_fee_prompt();
 };

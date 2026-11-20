@@ -190,7 +190,7 @@ void TWindowSubSymbolChatFaceType::update_parts_entries() {
 }
 
 void render__28TWindowSubSymbolChatFaceTypeFv(u8 *arg0) {
-    s32 temp_r31;
+    saddr temp_r31;
     temp_r31 = draw_default_entry__9TWindowDDFl();
     ((TWindowSubSymbolChatFaceType *)arg0)->update_parts_entries();
     ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r31);

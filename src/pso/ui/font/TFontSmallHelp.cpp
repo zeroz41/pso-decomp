@@ -60,7 +60,7 @@ void TFontSmallHelp::set_help_text(const char *text_source) {
 void TFontSmallHelp::render() {
     TObjPlayer *player;
     f32 fade;
-    u32 rgba;
+    uaddr rgba;
 
     player = get_player_by_client_id(player_id);
     if (player != NULL && ((TObjPlayer *)player)->is_body_collision_inactive() != 0) {

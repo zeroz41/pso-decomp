@@ -13,10 +13,10 @@
 
 extern "C" {
 u8 *duel_result_window;
-extern s32 tl_00;
+extern saddr tl_00;
 extern s32 __vt__13TUnk_804C3E60[];
 
-void show_duel_result_window(s32 arg0, s32 arg1) {
+void show_duel_result_window(saddr arg0, saddr arg1) {
     u8 *window_duel_result;
     u8 *var_r0;
     if ((void *) duel_result_window != NULL) {

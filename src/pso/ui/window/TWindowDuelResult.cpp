@@ -256,7 +256,7 @@ s32 TWindowDuelResult__sub_8024F330(void *arg0_) {
 #pragma defer_codegen off
 
 void draw_window__17TWindowDuelResultFPv(u8 *arg0) {
-    s32 temp_r3;
+    saddr temp_r3;
     temp_r3 = ((TWindowBase *)arg0)->setup_window_draw_context((saddr)(arg0 + 0x60));
     ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
     draw_visible_window_entries(arg0, arg0 + 0x24, temp_r3);

@@ -345,7 +345,7 @@ u8 *get_serial_text__22TAdEnterSerialAccessGCFii(s32 arg0, s32 arg1) {
 }
 
 s32 TAdEnterSerialAccessGC::show_message_window(void *arg0, void *arg1) {
-    s32 r = update_window_mode_from_progress__6TLobbyFPv(lbl_80477178, lbl_80477180);
+    saddr r = update_window_mode_from_progress__6TLobbyFPv(lbl_80477178, lbl_80477180);
     ((TWindowMessage *)r)->append_line(get_localized_text_entry(0x17, (saddr)arg1), 1);
     return r;
 }

@@ -484,8 +484,8 @@ TLockOnCursor::~TLockOnCursor() {
 }
 
 void load_target_cursor_models(void) {
-    s32 temp_r3;
-    s32 var_r0;
+    saddr temp_r3;
+    saddr var_r0;
     if ((void *) lock_on_cursor_bml_resource == NULL) {
         temp_r3 = (saddr)::operator new(0x440);
         var_r0 = temp_r3;
@@ -513,7 +513,7 @@ void TLockOnCursor::free_cursor_resources() {
 void TLockOnCursor::reset_and_spawn_cursors() {
     TLOC_ListClear *list_clear;
     s32 i;
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     flags.reset();
     for (i = 0; i < 4; i++) {
         ((TMainCursor *)&unk_5c[i])->reset_state();
@@ -556,7 +556,7 @@ void render__13TLockOnCursorFv(s32 arg0) {
     u8 *c;
     s32 n;
     Ent_8013D91C *p;
-    s32 e;
+    saddr e;
     u8 *o;
     if (is_split_screen() != 0) {
         if (TCameraCtrl::get_camera_no() != TCameraCtrl::get_split_screen_view_index(((TLockOnCursor *)arg0)->get_target_id())) {
@@ -594,7 +594,7 @@ void TLockOnCursor::renderSecondaryCursor(u8 *arg1, s32 arg2, s32 arg3) {
     f32 sp8[3];
     f32 temp_f31;
     s32 temp_r3_2;
-    u32 player;
+    uaddr player;
     if (is_inactive() != 0) {
         player = (uaddr)get_player_by_client_id((get_target_id()));
         if (player != 0U) {
@@ -970,7 +970,7 @@ void TMainCursor::set_cursor_pos(u16 arg1, s32 arg2) {
 s32 TMainCursor::bind_action_channels() {
     ActionCursor_8013C924 *self = (ActionCursor_8013C924 *)this;
     s32 i;
-    s32 player;
+    saddr player;
     u8 type;
     s32 slot;
     s32 count;
@@ -1026,7 +1026,7 @@ s32 TMainCursor::bind_action_channels() {
 s32 TMainCursor::find_by_pos(s16 arg1, s16 arg2) {
     s32 arg0 = (saddr)this;
     s32 i;
-    s32 ptr;
+    saddr ptr;
 
     i = 0;
     ptr = arg0 + 0x5C;
@@ -1334,7 +1334,7 @@ TMainCursor::TMainCursor(TObject *parent, s32 target_index, s32 target_id, s32 a
 TMainCursor::~TMainCursor() {}
 
 void TMainCursor::refresh_target_marker() {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 temp_r3_2;
     temp_r3 = check_field_24__11TMainCursorFv();
     if (temp_r3 == 0) {
@@ -1364,7 +1364,7 @@ void TMainCursor::refresh_target_marker() {
 }
 
 void TMainCursor::update_position() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     void *entity;
 
     entity = find_entity_by_id(((TMainCursor *)(arg0 + 0x60))->get_id());
@@ -1537,9 +1537,9 @@ void TMainCursor::validate_target() {
 #pragma pop
 
 s32 TMainCursor::check_can_pickup() {
-    s32 entity;
+    saddr entity;
     u32 temp_r3b;
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
 
     entity = (saddr)find_entity_by_id(((TMainCursor *)(arg0 + 0x60))->get_id());
     if ((entity != 0) && ((u32) (((TObjCollidable *)entity)->obj_testFlags30(0x80000000) + 0x80000000) == 0U) && ((temp_r3b = ((TMainCursor *)arg0)->check_field_24()) != 0U) && (can_pickup_item_by_id__10TObjPlayerFP5TItem(temp_r3b, entity) == 0)) {

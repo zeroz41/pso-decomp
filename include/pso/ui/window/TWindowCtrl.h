@@ -14,12 +14,12 @@ struct TWindowCtrl : public TObject {
     u32 m_24;
     u16 m_28;
     u8 _pad2A[0x2];
-    u32 m_2c;
-    u32 m_30;
-    u32 m_34;
-    u32 m_38;
+    uaddr m_2c;
+    uaddr m_30;
+    uaddr m_34;
+    uaddr m_38;
     u32 m_3c;
-    u32 m_40;
+    uaddr m_40;
     u32 m_44;
     u8 unk_48[0x8];
     s32 m_50;

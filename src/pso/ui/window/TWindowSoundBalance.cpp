@@ -85,7 +85,7 @@ void TWindowSoundBalance::set_music_gain(s16 gain) {
 }
 
 void TWindowSoundBalance::apply_balance(void *window_key_board_soft) {
-    s32 temp;
+    saddr temp;
 
     temp = get_array_entry((s32)selection);
     draw_selection_bar((u8 *)window_key_board_soft, (u8 *)temp, is_active());

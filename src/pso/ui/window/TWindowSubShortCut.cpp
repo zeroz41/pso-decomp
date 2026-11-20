@@ -228,12 +228,12 @@ void TWindowSubShortCut::run_task() {
 void TWindowSubShortCut::render() {  }
 
 void TWindowSubShortCut::open_com_card_list() {
-    s32 tmp = get_window_layout_position(0x72);
+    saddr tmp = get_window_layout_position(0x72);
     ((TWindowSubShortCutList *)tmp)->create((void *)this->m_24);
 }
 
 s32 TWindowSubShortCut::open_menu() {
-    s32 temp_r31;
+    saddr temp_r31;
     u32 *chat_shortcut;
 
     ((TWindowMenuIconLine *)this->m_2c)->get_cursor_value();
@@ -253,14 +253,14 @@ s32 TWindowSubShortCut::open_menu() {
 
 s32 TWindowSubShortCut::open_confirm_prompt() {
     Win_8027DBB8 *arg0 = (Win_8027DBB8 *)this;
-    s32 r = create__19TWindowMessageYesNoFPvPvPvPv(arg0, arg0->f20, 0, 0);
+    saddr r = create__19TWindowMessageYesNoFPvPvPvPv(arg0, arg0->f20, 0, 0);
     open_yes_no_prompt((TChCrTagPlBack *)((u8 *)r), (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(TWindowSubStatusDisp::get_message_10(0x3D)), (s32)(get_window_layout_position(0x75)), 205.0f);
     ((TWindowSubShortMail *)r)->notify_warp_flag70();
     return r;
 }
 
 s32 TWindowSubShortCut::open_confirm_message() {
-    s32 temp_r29;
+    saddr temp_r29;
 
     temp_r29 = create__19TWindowMessageYesNoFPvPvPvPv(this, this->m_20, 0, 0);
     open_yes_no_prompt((TChCrTagPlBack *)((u8 *)temp_r29), (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(TWindowSubStatusDisp::get_message_10(0x3e)), (s32)(get_window_layout_position(0x76)), 205.0f);

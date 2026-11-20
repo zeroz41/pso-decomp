@@ -107,7 +107,7 @@ u8 *TLobby::create_new_floor_windows() {
   u8 *var_r0;
   u8 *var_r0_2;
   u8 *var_r31;
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
   if (is_split_screen() == 0)
   {
     temp_r3 = (u8 *) TObject::operator new(0x50);

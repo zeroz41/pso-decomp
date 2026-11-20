@@ -192,7 +192,7 @@ void TWindowLockOn::run_task() {
 }
 
 void TWindowLockOn::render() {
-    s32 context;
+    saddr context;
 
     context = setup_window_draw_context((saddr)&m_68);
     draw_window_frame((void *)context);
@@ -316,7 +316,7 @@ void TWindowLockOn::update_for_enemy(TObjChara *enemy) {
     static const char *type_names[5] = {"Native", "A.Beast", "Machine", "Dark", "\tCG???"};
     static u32 type_colors[5] = {0xFFA5FFAA, 0xFFF5FF99, 0xFFFF958B, 0xFFE1A9FF, 0xFFFFFFFF};
     u32 width;
-    s32 e;
+    saddr e;
     s32 kind;
     LockOnEntryText *p;
     u32 w2;

@@ -32,7 +32,7 @@ struct VObj_18_204a81 : VBase_18_204a81 {
 
 extern "C" {
 void send_logout__6TLobbyFv(void);
-extern s32 tl_00;
+extern saddr tl_00;
 extern int window_sub_game_end_active_flag;
 s32 get_main_phase();
 s32 get_message_10__20TWindowSubStatusDispFl(s32);

@@ -73,7 +73,7 @@ void TWindowSubComCard__sub_80249144(void *window_choice_setting) {
 
 int TWindowSubComCard__sub_80249220(void *p, void *_w1);
 
-s32 create_choice_setting_window__17TWindowSubComCardFiii(s32 arg0, s32 arg1, s32 arg2) {
+s32 create_choice_setting_window__17TWindowSubComCardFiii(saddr arg0, saddr arg1, saddr arg2) {
     TWindowSubComCard__sub_80249220((void *)arg1, (void *)arg2);
     return (saddr)new TWindowChoiceSetting((void *)arg0, arg2);
 }
@@ -88,7 +88,7 @@ s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 }
 
 void TWindowChoiceSetting::render() {
-    s32 context = get_draw_context__11TWindowBaseFPv();
+    saddr context = get_draw_context__11TWindowBaseFPv();
     draw_window_frame((void *)context);
     draw_visible_window_entries(this, (u8 *)this + 0x24, context);
     draw_setting(context);
@@ -102,7 +102,7 @@ void TWindowChoiceSetting::render() {
 
 void TWindowChoiceSetting::run_task() {
     u8 *arg0 = (u8 *)this;
-    u32 temp_r3_2;
+    uaddr temp_r3_2;
     u8 *input;
     u8 *temp_r30_2;
     u8 *context;

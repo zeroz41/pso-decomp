@@ -51,7 +51,7 @@ TAdLoadQuestLineGC::TAdLoadQuestLineGC(TObject *object, void *arg2) : TObject(ob
 
 s32 get_or_create_line__14TAdLoadQuestGCFii(s32 arg0, s32 arg1) {
     s32 temp_r30;
-    s32 temp_r3;
+    saddr temp_r3;
     s32 var_r0;
     temp_r30 = arg1 * 4;
     if ((u32) *(s32 *)((s8 *)((s32 *)ad_load_quest_line_instances) + temp_r30) == 0U) {

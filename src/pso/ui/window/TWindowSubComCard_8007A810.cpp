@@ -12,7 +12,7 @@
 extern "C" {
 
 void TWindowSubComCard::set_card_text(s32 arg1) {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     u8 *temp_r3;
 
     if (arg1 != 0) {
@@ -33,7 +33,7 @@ u8 *TWindowSubComCard::get_card_entry_data() {
 
 s32 TWindowSubComCard::find_card_by_id(u32 arg0) {
     s32 i;
-    s32 acc;
+    saddr acc;
 
     acc = get_card_entry__17TWindowSubComCardFi(0);
     for (i = 0; i < 0xD2; i++) {
@@ -214,8 +214,8 @@ s32 TWindowSubComCard__sub_8007AC7C(Card_8007AC7C *self, Card_8007AC7C *cards, s
 }
 
 s32 TWindowSubComCard::send_guild_card() {
-    s32 arg0 = (saddr)this;
-    s32 temp;
+    saddr arg0 = (saddr)this;
+    saddr temp;
     if (((s32 (*)())TWindowSubComCard__sub_8007B070)() != 0) {
         return 0;
     }
@@ -255,7 +255,7 @@ void TWindowSubComCard::start_player_data_load(s32 arg0) {
 }
 }
 void handle_6x06_send_guild_card(s32 arg0) {
-    s32 temp_r31;
+    saddr temp_r31;
     bswap_guild_card__17TWindowSubComCardFv();
     temp_r31 = arg0 + 4;
     if ((((s32 (*)(int))TWindowSubComCard__sub_8007B070)(temp_r31) == 0) && (((TWindowSubComCard *)temp_r31)->send_guild_card() == 0)) {

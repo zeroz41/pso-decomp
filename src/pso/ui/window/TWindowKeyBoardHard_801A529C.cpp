@@ -10,7 +10,7 @@
 extern "C" {
 u16 to_be_uint16_t__FUs(u16);
 extern void *TLobby__protocol_instance;
-s32 deferred_packet_buffer;
+saddr deferred_packet_buffer;
 s32 deferred_packet_buffer_used;
 s32 lbl_805D5D00;
 s32 lbl_805D5D04;

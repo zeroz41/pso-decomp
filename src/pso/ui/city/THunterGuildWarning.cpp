@@ -250,7 +250,7 @@ extern "C" {
 
 s32 create__22THunterGuildSeqOfflineFPv(s32);
 
-s32 TLobby::handle_main_phase(s32 arg0) {
+s32 TLobby::handle_main_phase(saddr arg0) {
     if (get_main_phase() == 0xE) {
         return create__22THunterGuildSeqOfflineFPv(arg0);
     }

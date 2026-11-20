@@ -41,13 +41,13 @@ void reset_creation_shape_set(s32 arg0);
 s32 char_select_active_flag;
 int char_creation_figure_draw_flag;
 u32 creation_figure_rotation_y;
-u32 creation_figure_object;
+uaddr creation_figure_object;
 CreationTextureCacheEntry *char_select_current_entry;
 u32 chara_select_hair_node_a;
 u32 chara_select_hair_node_b;
-u32 chara_select_head_node;
+uaddr chara_select_head_node;
 void ***char_creation_data_block;
-s32 chara_select_preview_resource;
+saddr chara_select_preview_resource;
 void reset_creation_body_shapes();
 void reset_creation_head_shapes();
 #pragma common off
@@ -287,8 +287,8 @@ __declspec(section ".data") CreationModelNodeState creation_empty_model_node = {
 
 struct Sel_802902CC {
     u8 pad0[4];
-    s32 a4;
-    s32 a8;
+    saddr a4;
+    saddr a8;
     s32 c[3];
     s32 d[3];
     s32 e[3];
@@ -1054,7 +1054,7 @@ CreationTextureCacheEntry *TAdSinglePlyChrSelectGC::find_free_slot() {
 }
 void TAdSinglePlyChrSelectGC__sub_8028F084(CreationTextureCacheEntry *entry, TCharaMaking *appearance) {
     CreationTextureLoadSlot *slot;
-    s32 index;
+    saddr index;
     TCharaMaking__bind_appearance_texture_lists(&entry->hair_textures.present, &entry->head_textures.present, &entry->body_textures.present, appearance);
     index = appearance->get_display_index();
     slot = &entry->hair_textures;

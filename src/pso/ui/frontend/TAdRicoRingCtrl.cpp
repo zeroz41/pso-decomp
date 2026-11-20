@@ -37,7 +37,7 @@ extern RecoveredGlobal_8001B8AC___vt__15TAdRicoRingCtrl __vt__15TAdRicoRingCtrl;
 extern s32 tl_04;
 void TAdRicoRingCtrl__sub_8001B4A0(Obj_8001B4A0 *self, f32 x);
 s32 test_flags_any(s32 *flags, s32 mask);
-s32 TAdRicoRing__resource_bundle;
+saddr TAdRicoRing__resource_bundle;
 f32 lbl_805D4A04;
 s8 lbl_805D4A08;
 f32 lbl_805D4A0C;
@@ -91,7 +91,7 @@ const char *TAdRicoRingCtrl__class_name = "TAdRicoRingCtrl";
 void TAdRicoRingCtrl__sub_8001BED0(void* p, f32 v) { *(f32*)((char*)p + 0x34) = v; }
 
 void TAdRicoRingCtrl::load_static_resource() {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 var_r0;
     temp_r3 = (saddr)::operator new(0x440);
     var_r0 = temp_r3;
@@ -247,8 +247,8 @@ void TAdRicoRingCtrl::start_fade(f32 farg0) {
 }
 
 u8 *TAdRicoRingCtrl__ct(TAdRicoRingCtrl *ad_rico_ring_ctrl, s32 arg1) {
-    u32 temp_r3;
-    u32 temp_r3_2;
+    uaddr temp_r3;
+    uaddr temp_r3_2;
     __ct__7TObjectFP7TObject((void *)ad_rico_ring_ctrl, (void *)arg1);
     *(s32 **)((s8 *)ad_rico_ring_ctrl + 0x18) = &__vt__15TAdRicoRingCtrl.value;
     *(s32 *)((s8 *)ad_rico_ring_ctrl + 0) = (saddr) TAdRicoRingCtrl__class_name;

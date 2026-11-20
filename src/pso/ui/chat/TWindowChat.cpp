@@ -62,7 +62,7 @@ int get_chat_shortcut(s32 arg0);
 s32 update_selected_symbol__20TWindowSubSymbolChatFv();
 bool TWindowCtrl__sub_8024701C(Win_8024701C *w);
 void *get_player_by_client_id(s32 i);
-extern s32 local_client_id;
+extern saddr local_client_id;
 s32 has_player_active_menu__11TWindowCtrlFv(s32);
 s32 fn_8002AE08(s32);
 void send_chat_shortcut(s32);
@@ -119,7 +119,7 @@ s32 TWindowChat::sub_80247080() {
 
 s32 TWindowChat::sub_80247128() {
     s32 temp_r3_2;
-    u32 temp_r3;
+    uaddr temp_r3;
     temp_r3 = *(u32 *)&this->wordSelectWindow;
     if (temp_r3 == 0U) {
         return 0;
@@ -143,7 +143,7 @@ s32 TWindowChat::sub_80247128() {
 
 s32 TWindowChat::submit_keyboard_input() {
     u8 *arg0 = (u8*)this;
-    u32 kb = *(u32 *)&this->composer;
+    uaddr kb = *(u32 *)&this->composer;
     if (kb == 0U) {
         return 0;
     }
@@ -170,7 +170,7 @@ s32 TWindowChat::submit_keyboard_input() {
 }
 
 void TWindowChat::update() {
-    s32 player;
+    saddr player;
     if (is_open() == 0) {
         this->flags = (u16) (this->flags | 1);
         TWindowChat__sub_80247E50((u8 *)this);
@@ -267,7 +267,7 @@ void TWindowChat::close_all_children() {
 }
 
 void TWindowChat::handle_input() {
-    s32 player;
+    saddr player;
     player = (saddr)get_player_by_client_id(local_client_id);
     if (player != 0) {
         if (this->flags & 2) {
@@ -318,7 +318,7 @@ void TWindowChat::handle_chat_input() {
     u8 *arg0 = (u8 *)this;
   u8 temp_r3_2;
   u8 *context;
-  s32 player;
+  saddr player;
   player = (saddr)get_player_by_client_id((saddr)((void *) local_client_id));
   if (player != 0)
   {
@@ -416,7 +416,7 @@ void TWindowChat::run_task() {
 }
 
 TWindowChat::~TWindowChat() {
-    s32 player;
+    saddr player;
     player = (saddr)get_player_by_client_id(local_client_id);
     if (player != 0) {
         if (!(this->flags & 2)) {

@@ -74,7 +74,7 @@ void try_close__6TLobbyFPv(void* p) { if (((TLobby *)p)->is_name_too_long() == 0
 
 void TLobby::send_simple_mail(s32 arg0, void *arg1) {
     Tag_80225828 t;
-    s32 mode;
+    saddr mode;
     ((TLobby *)(&t))->init_guild_card_tag();
     if (TLobby__protocol_instance != 0) {
         mode = TWindowSubComCard::get_keyboard_mode();

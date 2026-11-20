@@ -706,7 +706,7 @@ void TShopJudgmentItemWindow__sub_80267F9C(NJS_POINT2 v, s32 x) {
 }
 
 void TWindowMenuIconLine::render() {
-    s32 temp_r3;
+    saddr temp_r3;
 
     temp_r3 = get_draw_context__11TWindowBaseFPv();
     draw_window_frame((void *)temp_r3);
@@ -722,8 +722,8 @@ void TWindowMenuIconLine::render() {
 
 void TWindowMenuIconLine::run_task() {
     s32 temp_r31;
-    u32 temp_r3;
-    u32 temp_r3_2;
+    uaddr temp_r3;
+    uaddr temp_r3_2;
     u8 *input;
     u8 *temp_r29_2;
     u8 *context;

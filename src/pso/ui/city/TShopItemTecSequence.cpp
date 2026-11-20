@@ -116,7 +116,7 @@ typedef struct VObj_18_a93f07 VObj_18_a93f07;
 // Written last-to-first: the unit is built with deferred code generation (see configure.py).
 
 void set_judgment_target_flag(void *arg0, void *arg1) {
-    u32 temp_r3;
+    uaddr temp_r3;
     if ((TRaderMapCore::is_not_split_screen() == 1) && ((temp_r3 = (uaddr)find_item_by_id(*(s32 *)((s8 *)arg1 + 0xC))) != 0U) && ((s32) *(s32 *)((s8 *)arg0 + 0x168) != 0)) {
         ((TItem *)temp_r3)->add_item_flags(0x80);
     }

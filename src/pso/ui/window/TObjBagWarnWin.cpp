@@ -190,7 +190,7 @@ s32 TObjBagWarnWin::should_show_warning(void *arg0) {
     return 1;
 }
 
-s32 fn_8006EBC4(s32 bag_warn_win4_p) {
+s32 fn_8006EBC4(saddr bag_warn_win4_p) {
     s32 temp_r3;
     s32 var_r0;
     if (TWindowCtrl::is_map_visible() == 0) {

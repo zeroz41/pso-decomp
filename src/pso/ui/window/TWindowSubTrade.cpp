@@ -237,7 +237,7 @@ TWindowSubComCardList *TWindowSubComCard__sub_802B1C1C(TWindowSubTrade *) {
 }
 
 s32 TWindowSubTrade::open_player_message_window(s32 arg1, s32 arg2) {
-    s32 r;
+    saddr r;
     VObj_802B1B80 *p;
     p = (VObj_802B1B80 *)get_player_by_client_id(arg1);
     text_builder_reset();
@@ -252,7 +252,7 @@ s32 TWindowSubTrade::open_player_message_window(s32 arg1, s32 arg2) {
 
 s32 TWindowSubTrade::open_trade_confirm_prompt(s32 arg1) {
     u8 *arg0 = (u8 *)this;
-    s32 temp_r29;
+    saddr temp_r29;
     u8 *player;
     player = (u8 *)(get_player_by_client_id(arg1));
     text_builder_reset();

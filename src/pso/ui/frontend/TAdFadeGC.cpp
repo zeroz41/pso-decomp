@@ -161,7 +161,7 @@ bool TObjTradeCollision::is_player_outside_trade_radius(u32 arg1) {
     f32 temp_f0;
     f32 temp_f31;
     s32 temp_r31;
-    s32 player;
+    saddr player;
     player = (saddr)get_player_by_client_id(arg1);
     if (player == 0) {
         return 0;

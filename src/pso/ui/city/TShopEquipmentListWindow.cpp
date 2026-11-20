@@ -499,7 +499,7 @@ void TShopEquipmentListWindow::handle_buy_confirm() {
                 s32 i = ((TWindowMenuIconLine *)(w->list))->get_cursor_value();
                 Rec_8021BC18 it = w->recs[i];
                 VObj_18_b34251 *item;
-                u32 e;
+                uaddr e;
                 it.id = advance_item_id_counter(local_client_id);
                 ((TItemData *)(&it))->set_stack_count(1);
                 try_buy_item(w->player, &it);

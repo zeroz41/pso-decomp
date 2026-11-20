@@ -17,7 +17,7 @@ struct TShopArmorListWindow : public TShopWindowBase {
     u32 m_24;
     u32 m_28;
     TWindowBase *item_list;   // 0x2C: create_item_list_window
-    u32 choice_menu;          // 0x30: create_window_menu / create_yes_no_window
+    uaddr choice_menu;          // 0x30: create_window_menu / create_yes_no_window
     TWindowBase *help_window; // 0x34: a TWindowHelpItem
     u32 m_38;
     TWindowBase *cost_window; // 0x3C: create_cost_window

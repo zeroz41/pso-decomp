@@ -22,7 +22,7 @@ extern "C" {
 #pragma fp_contract on
 TWindowLoadItemTexture *fn_802628C0(void *layout, void *table, void *id) {
     TWindowLoadItemTexture *window;
-    s32 sprite;
+    saddr sprite;
 
     window = (TWindowLoadItemTexture *)TObject::operator new(0x74);
     if (window != NULL) {
@@ -67,7 +67,7 @@ extern s32 __vt__22TWindowLoadItemTexture[];
 #pragma readonly_strings on
 const char *TWindowLoadItemTexture__name = "TWindowLoadItemTexture";
 #pragma pop
-extern s32 tl_07;
+extern saddr tl_07;
 
 s32 draw_visible_window_entries(void *, void *, s32);
 
@@ -84,7 +84,7 @@ void *TWindowLoadItemTexture::create(void *arg1) {
 }
 
 void render__22TWindowLoadItemTextureFv(TWindowLoadItemTexture *arg0) {
-    s32 temp_r31;
+    saddr temp_r31;
 
     if ((s32) arg0->m_60 == 1) {
         arg0->m_70 = (uaddr)(*(TItemTexLoad**)((s8 *)arg0 + 0x6C))->ready_texture_list();

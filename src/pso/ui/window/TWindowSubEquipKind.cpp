@@ -20,7 +20,7 @@ u8 *create_equip_kind_window(s32 parent, s32 position, s32 client) {
 }
 
 void TWindowSubEquipKind::render() {
-    s32 context;
+    saddr context;
 
     context = get_draw_context__11TWindowBaseFPv();
     draw_window_frame((void *)context);

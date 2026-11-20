@@ -165,14 +165,14 @@ TLogo::TLogo(TObject *parent) : TObject(parent) {
 TLogo::~TLogo() {}
 
 void TLogo::run_task() {
-    u32 var_r0;
-    u32 var_r0_2;
-    u32 var_r0_3;
-    u32 var_r0_4;
-    u32 var_r0_5;
-    u32 var_r0_6;
-    u32 var_r0_7;
-    u32 var_r0_8;
+    uaddr var_r0;
+    uaddr var_r0_2;
+    uaddr var_r0_3;
+    uaddr var_r0_4;
+    uaddr var_r0_5;
+    uaddr var_r0_6;
+    uaddr var_r0_7;
+    uaddr var_r0_8;
     switch (state) {
     case 0:
         if (TLogo::check_progressive_ready() != 0) {

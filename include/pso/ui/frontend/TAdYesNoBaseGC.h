@@ -24,8 +24,8 @@ struct TAdYesNoBaseGC : public TObject {
     f32 m_34;
     u8 unk_38[0x4];
     f32 m_3c;
-    u32 m_40;
-    u32 m_44;
+    uaddr m_40;
+    uaddr m_44;
     s32 create_menu_window();
     void init_parts(void *arg1, void *arg2);
 };

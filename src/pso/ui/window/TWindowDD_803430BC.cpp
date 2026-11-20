@@ -55,7 +55,7 @@ struct Win_803438C4 {
     s32 idx;
     Sub_803438C4 *subs[(0x7C - 0x24) / 4];
     u32 x7C;
-    u32 x80;
+    uaddr x80;
     u8 pad84[0x94 - 0x84];
     s32 x94;
     u8 pad98[0xA8 - 0x98];
@@ -145,17 +145,17 @@ struct WindowPosition { f32 x, y; };
 
 s32 TWindowDD__window_mode;
 
-u32 TWindowDD__work_buffer;
+uaddr TWindowDD__work_buffer;
 
-u32 window_dd_buffer_a;
+uaddr window_dd_buffer_a;
 
-u32 window_dd_buffer_b;
+uaddr window_dd_buffer_b;
 
-u32 TWindowDD__player_name_buffers;
+uaddr TWindowDD__player_name_buffers;
 
-u32 TWindowDD__word_select_lists;
+uaddr TWindowDD__word_select_lists;
 
-u32 lbl_805D6E20;
+uaddr lbl_805D6E20;
 
 s16 lbl_805D6E24;
 
@@ -262,7 +262,7 @@ const char *word_select_type_name_pointer = "TWindowDD";
 
 extern s32 local_client_id;
 
-extern u32 TWindowDD__work_buffer;
+extern uaddr TWindowDD__work_buffer;
 
 extern s16 lbl_805D6E24;
 
@@ -326,23 +326,23 @@ extern "C" {
 NumberWindow* __ct__18TWindowInputNumberFPvllls(void* storage, const WindowPosition* position,
                                    s32 minimum, s32 maximum, s32 initial, s16 client);
 
-extern u32 window_dd_buffer_a;
+extern uaddr window_dd_buffer_a;
 
-extern u32 window_dd_buffer_b;
+extern uaddr window_dd_buffer_b;
 
-extern u32 TWindowDD__player_name_buffers;
+extern uaddr TWindowDD__player_name_buffers;
 
-extern u32 lbl_805D6E20;
+extern uaddr lbl_805D6E20;
 
-extern u32 ws_data_jp;
+extern uaddr ws_data_jp;
 
-extern u32 ws_data_us;
+extern uaddr ws_data_us;
 
-extern u32 ws_data_es;
+extern uaddr ws_data_es;
 
-extern u32 ws_data_de;
+extern uaddr ws_data_de;
 
-extern u32 TWindowDD__ws_data_buffer;
+extern uaddr TWindowDD__ws_data_buffer;
 
 typedef struct Obj_80343C64 Obj_80343C64;
 

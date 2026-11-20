@@ -66,7 +66,7 @@ void reinit_photon_blast_gauge(u16 *arg0);
 void handle_6x3A_clear_photon_blast_ready_flag(s32 arg0);
 void handle_6x3B_clear_temporary_photon_blast_state_flags(s32 arg0) {
     struct { s16 a; u16 b; } sp8;
-    s32 player;
+    saddr player;
     ((TFontSmallLobby *)(&sp8))->init_pkt_cmd_3B();
     TFontSmallLobby__sub_801D6804(&sp8, (void *)arg0);
     bswap_g_client_id_header((&sp8));
@@ -116,7 +116,7 @@ void send_6x3A_clear_photon_blast_ready_flag(u16 *arg0) {
 void handle_6x39_set_photon_blast_ready_flag(s32 arg0) {
     struct { s16 a; u16 b; } sp8;
     s32 temp_r31;
-    s32 player;
+    saddr player;
     s32 v;
     ((TFontSmallLobby *)(&sp8))->init_6x39_packet();
     ((TFontSmallLobby *)(&sp8))->handle_photon_blast_ready((void *)arg0);
@@ -159,14 +159,14 @@ s32 TFontSmallLobby::is_ready() {
 }
 
 void TFontSmallLobby::reset_targets() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     ((TFontSmallLobby *)(arg0 + 0x4C))->set_target_index(0);
     ((TFontSmallLobby *)(arg0 + 0x4C))->set_target_count(0);
     ((TFontSmallLobby *)arg0)->check_flag_at_40();
 }
 void handle_6x38_donate_to_photon_blast(s32 arg0) {
     Cmd_801D61A0 cmd;
-    s32 player;
+    saddr player;
     TFontSmallLobby__sub_801D698C((Subcommand6x38 *)&cmd);
     ((TFontSmallLobby *)(&cmd))->copy_packet_header_6x38((void *)arg0);
     ((TFontSmallLobby *)(&cmd))->bswap_fields();
@@ -353,7 +353,7 @@ int clear__8FlagWordFUl(void*, int);
 int set__8FlagWordFUl(void*, int);
 
 s32 TFontSmallLobby::construct_pb_controller() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     __construct_array((void *)(arg0 + 0x14), fn_80152EF8, 0, 4, 0xA);
     __ct__8FlagWordFv((void *)(arg0 + 0x40));
     ((TFontSmallLobby *)(arg0 + 0x4C))->init_reset_fields();

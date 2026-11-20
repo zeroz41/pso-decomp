@@ -27,7 +27,7 @@ const char *TWindowDD_WS_ScrollBar__class_name = "TWindowDD_WS_ScrollBar";
 
 extern "C" {
 
-extern s32 lbl_805D63F0;
+extern saddr lbl_805D63F0;
 
 f32 lbl_805D6DC0;
 f32 lbl_805D6DC4;

@@ -120,7 +120,7 @@ G_8030C45C *TAdChrSelASlotGC__sub_8030C45C(TAdChrSelASlotGC *self, s32 arg1, s32
 #pragma pool_data off
 s32 TAdChrSelASlotGC__sub_8030C4F8(TAdChrSelASlotGC *self, s32 kind) {
     NJS_POINT2 pos;
-    s32 w;
+    saddr w;
     switch (kind) {
     case 0:
         ((TWindowSubSymbolChatPartsSet *)(&pos))->copy_vec2((void *)(*(s32 *)self->_pad20 == 2 ? &TAdChrSelASlotGC__data_804758B0 : &TAdChrSelASlotGC__data_804758A8));
@@ -139,7 +139,7 @@ s32 TAdChrSelASlotGC__sub_8030C4F8(TAdChrSelASlotGC *self, s32 kind) {
 
 s32 TAdChrSelASlotGC__sub_8030C5C0(TAdChrSelASlotGC *self, s32 kind) {
     NJS_POINT2 pos;
-    s32 w;
+    saddr w;
     switch (kind) {
     case 0:
         ((TWindowSubSymbolChatPartsSet *)(&pos))->copy_vec2((void *)(*(s32 *)self->_pad20 == 2 ? &TAdChrSelASlotGC__data_804758B0 : &TAdChrSelASlotGC__data_804758A8));
@@ -158,7 +158,7 @@ s32 TAdChrSelASlotGC__sub_8030C5C0(TAdChrSelASlotGC *self, s32 kind) {
 
 s32 TAdChrSelASlotGC__sub_8030C688(TAdChrSelASlotGC *self, s32 kind) {
     NJS_POINT2 pos;
-    s32 w;
+    saddr w;
     switch (kind) {
     case 0:
         ((TWindowSubSymbolChatPartsSet *)(&pos))->copy_vec2((void *)(*(s32 *)self->_pad20 == 2 ? &TAdChrSelASlotGC__data_804758B0 : &TAdChrSelASlotGC__data_804758A8));
@@ -233,7 +233,7 @@ s32 TAdChrSelASlotGC__sub_8030C978(void *arg0, s32 arg1, s32 arg2) {
 #pragma pop
 
 s32 TAdChrSelASlotGC::open_yes_no_window(s32 arg0, s32 arg1, s32 arg2) {
-    s32 temp_r31;
+    saddr temp_r31;
 
     play_sound_effect(0x53F06, 0, 0, 0);
     temp_r31 = create__19TWindowMessageYesNoFPvPvPvPv(arg0, arg2, 0, 0);
@@ -244,7 +244,7 @@ s32 TAdChrSelASlotGC::open_yes_no_window(s32 arg0, s32 arg1, s32 arg2) {
 }
 
 s32 TAdChrSelASlotGC__sub_8030CA84(s32 arg0, s32 arg1) {
-    s32 temp_r31;
+    saddr temp_r31;
     temp_r31 = create__19TWindowMessageYesNoFPvPvPvPv(arg0, (s32)((int) (TAdMultiPlyChrSelectGC::get_clamped_cursor())), 0, 0);
     forward_slot_selection__16TAdChrSelASlotGCFPvPv(temp_r31, (s32)((int) (get_localized_text_entry(0x16, 0x1A))), arg1, 196.0f);
     free_member__17TWindowSubComCardFv(temp_r31, 1);
@@ -255,7 +255,7 @@ s32 TAdChrSelASlotGC__sub_8030CA84(s32 arg0, s32 arg1) {
 u32 TAdChrSelASlotGC__sub_8030CB08(TAdChrSelASlotGC *ad_chr_sel_a_slot_gc, s32 kind, s32 text) {
     TAdChrSelASlotGC *self = ad_chr_sel_a_slot_gc;
     NJS_POINT2 pos;
-    s32 w;
+    saddr w;
     switch (kind) {
     case 0:
         ((TWindowSubSymbolChatPartsSet *)(&pos))->copy_vec2((void *)(*(s32 *)self->_pad20 == 2 ? &TAdChrSelASlotGC__data_804758B0 : &TAdChrSelASlotGC__data_804758A8));

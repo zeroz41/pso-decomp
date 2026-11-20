@@ -106,7 +106,7 @@ struct Rec_8021F964 { s32 w[4]; s32 qty; };
 
 struct Win_8021F964 {
     u8 pad0[0x24];
-    s32 player;
+    saddr player;
     void *list;
     u8 pad2c[0x58 - 0x2C];
     Rec_8021F964 recs[16];

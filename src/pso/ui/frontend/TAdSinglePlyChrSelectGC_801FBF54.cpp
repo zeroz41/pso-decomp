@@ -44,24 +44,24 @@ struct GuildCardFile_804C89BC {
     char download_dir[0x20];
     u32 download_flags;
 };
-u32 card_character_save_buffer;
-u32 secondary_card_character_save_buffer;
-u32 selected_character_data;
-u32 active_character_save_record;
-u32 guild_card_save_payload;
-u32 system_save_payload;
-u32 secondary_card_system_save_payload;
+uaddr card_character_save_buffer;
+uaddr secondary_card_character_save_buffer;
+uaddr selected_character_data;
+uaddr active_character_save_record;
+uaddr guild_card_save_payload;
+uaddr system_save_payload;
+uaddr secondary_card_system_save_payload;
 s32 TAdSinglePlyChrSelectGC__selection_index;
 s32 card_load_sequence_state;
-s32 character_save_card_slot;
-s32 card_load_channel;
-s32 character_save_file_block_count;
-s32 guild_card_save_file_block_count;
-s32 system_save_card_channel;
-s32 system_save_file_block_count;
-u32 character_save_file_buffer;
-u32 guild_card_save_file_buffer;
-u32 system_save_file_buffer;
+saddr character_save_card_slot;
+saddr card_load_channel;
+saddr character_save_file_block_count;
+saddr guild_card_save_file_block_count;
+saddr system_save_card_channel;
+saddr system_save_file_block_count;
+uaddr character_save_file_buffer;
+uaddr guild_card_save_file_buffer;
+uaddr system_save_file_buffer;
 s32 chr_select_scene_state;
 s32 chr_select_game_mode;
 s32 card_load_followup_pending;
@@ -174,7 +174,7 @@ void *get_character_save_record(u16);
 
 
 void TAdSinglePlyChrSelectGC::copy_name(s32 arg0) {
-    u32 var_r3;
+    uaddr var_r3;
     if (arg0 >= 0) {
         var_r3 = CARDGetDiskID();
         if (var_r3 != 0U) {
@@ -184,7 +184,7 @@ void TAdSinglePlyChrSelectGC::copy_name(s32 arg0) {
 }
 
 void TAdSinglePlyChrSelectGC::set_card_disk_id(s32 arg0) {
-    u32 var_r3;
+    uaddr var_r3;
     if (arg0 >= 0) {
         var_r3 = CARDGetDiskID();
         if (var_r3 != 0U) {
@@ -247,7 +247,7 @@ s32 TAdSinglePlyChrSelectGC::init_char_slot_record() {
 void TAdSinglePlyChrSelectGC::remove_matching_entries(s32 arg0) {
     s32 i;
     s32 n;
-    s32 e;
+    saddr e;
     n = TAdSinglePlyChrSelectGC__sub_80202B30();
     for (i = 0; i < n; i++) {
         e = TAdSinglePlyChrSelectGC__sub_80202B1C(arg0, i);
@@ -433,7 +433,7 @@ s32 TAdSinglePlyChrSelectGC::load_player_by_slot(s32 chan) {
 }
 
 s32 TAdSinglePlyChrSelectGC::verify_system_file(void* _w0) {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 var_r30;
     var_r30 = 0;
     temp_r3 = (saddr)::operator new(0x11C);
@@ -461,7 +461,7 @@ loop_4:
 s32 TAdSinglePlyChrSelectGC::load_save_from_card() {
     u8 *buf;
     s32 size;
-    s32 p;
+    saddr p;
     s32 g;
     if (TAdPlayerLoadGC::find_card_file(character_save_card_slot, pso_character_card_filename.filename) == 0) {
     size = character_save_file_block_count << 13;
@@ -767,7 +767,7 @@ void free_char_data_slots__23TAdSinglePlyChrSelectGCFPv(Obj_801FCBA0* arg0) {
 }
 
 void alloc_char_records__23TAdSinglePlyChrSelectGCFi(s32 arg0) {
-  s32 temp_r3_2;
+  saddr temp_r3_2;
   s32 var_r0;
   s32 temp_r3;
   s32 var_r0_2;
@@ -862,7 +862,7 @@ s32 forward_to_global_instance__23TAdSinglePlyChrSelectGCFi(s32 arg0) {
 s32 TAdSinglePlyChrSelectGC__sub_801FCE6C(void) {
     s32 cw;
     s32 ret;
-    u32 obj;
+    uaddr obj;
     u32 buf;
     if (get_main_phase() == 0xE || lbl_805D55C0 == 1 || TTecCtrl::is_technique_ready() == 0) {
         return 0xFFFF0000;
@@ -978,7 +978,7 @@ s32 TAdSinglePlyChrSelectGC__sub_801FCE6C(void) {
 s32 load_character_from_card__23TAdSinglePlyChrSelectGCFv(void) {
     s32 cw;
     s32 ret;
-    u32 obj;
+    uaddr obj;
     u32 buf;
     if (get_main_phase() == 0xE || lbl_805D55C0 == 1 || TTecCtrl::is_technique_ready() != 0 ||
         fn_80203284() == 1 || TAdSinglePlyChrSelectGC::get_game_mode() == 0) {
@@ -2457,10 +2457,10 @@ void clear_load_buffers__23TAdSinglePlyChrSelectGCFv(void) {
 s32 load_character_from_card__23TAdSinglePlyChrSelectGCFi(s32 card_file) {
     s32 ret;
     u8 *obj;
-    u32 buf;
+    uaddr buf;
     s32 t;
     s32 i;
-    s32 p;
+    saddr p;
     u32 size;
     if (get_main_phase() == 0xE || (get_current_floor_area() == AREA_LOBBY && card_file != 1) ||
         lbl_805D55C0 == 1 || TTecCtrl::is_technique_ready() != 0 || fn_80203284() == 1) {
@@ -2682,7 +2682,7 @@ typedef struct ByteBlock_C0 ByteBlock_C0;
 s32 TAdSinglePlyChrSelectGC__sub_801FFCFC(s32 arg0, s32 arg1) {
   u32 end;
   u32 var_r30;
-  s32 var_r29;
+  saddr var_r29;
   *((ByteBlock_C0 *) arg0) = *((const ByteBlock_C0 *) arg1);
   var_r30 = arg0 + 0xC0;
   end = arg0;
@@ -2993,8 +2993,8 @@ void create_instance__23TAdSinglePlyChrSelectGCFv(void) {
 
 
 s32 TAdSinglePlyChrSelectGC__sub_801FFF98(void *arg0) {
-    s32 a;
-    s32 b;
+    saddr a;
+    saddr b;
     a = (saddr)::operator new(0xE28C);
     if (a != 0) {
         a = init_windows__23TAdSinglePlyChrSelectGCFi(a);
@@ -3021,8 +3021,8 @@ s32 TAdSinglePlyChrSelectGC__sub_801FFF98(void *arg0) {
 #pragma opt_common_subs off
 #define self ((s32 *)arg0_)
 s32 TAdSinglePlyChrSelectGC__sub_802000C8(void *arg0_, void *arg1) {
-    s32 a;
-    s32 b;
+    saddr a;
+    saddr b;
     *(s32 *)((u8 *)self + 0xE288) = subtractive_rng_next((s32 *)chr_select_rng_state);
     self[0] = 0;
     self[0] = calc_crc32_bitwise((u8 *)self, 0xE28C);
@@ -3187,8 +3187,8 @@ s32 copy_save_data__23TAdSinglePlyChrSelectGCFii(s32 arg0, s32 arg1) {
 
 #define self ((s32 *)arg0)
 s32 encrypt_save_data__23TAdSinglePlyChrSelectGCFPvPv(void *arg0) {
-    s32 a;
-    s32 b;
+    saddr a;
+    saddr b;
     TAdSinglePlyChrSelectGC__sub_801FCCB4((u8 *)self, (s32)(subtractive_rng_next((s32 *)chr_select_rng_state)));
     set_id__23TAdSinglePlyChrSelectGCFPvi(self, 0);
     set_id__23TAdSinglePlyChrSelectGCFPvi((void *)self, (s32)(calc_crc32_bitwise((u8 *)self, 0x1156C)));
@@ -3251,7 +3251,7 @@ s32 build_default_save_file__23TAdSinglePlyChrSelectGCFv() {
 }
 
 s32 save_character_file__23TAdSinglePlyChrSelectGCFi(int arg0) {
-    s32 base = (saddr)pso_character_card_filename;
+    saddr base = (saddr)pso_character_card_filename;
     File_80200A44 f;
     memset(&f, 0, (s32)(sizeof(f)));
     strcpy(f.name, ((Str_80200A44 *)base)->name);
@@ -3279,7 +3279,7 @@ s32 save_character_file__23TAdSinglePlyChrSelectGCFi(int arg0) {
 
 void reset_character_data__23TAdSinglePlyChrSelectGCFv(void) {
     s32 var_r31;
-    s32 var_r30;
+    saddr var_r30;
 
     if ((void *) selected_character_data != NULL) {
         TAdSinglePlyChrSelectGC__sub_801FCD04(card_character_save_buffer);
@@ -3306,8 +3306,8 @@ void reset_character_data__23TAdSinglePlyChrSelectGCFv(void) {
 s32 save_online_character__23TAdSinglePlyChrSelectGCFv(void) {
     s32 cw;
     s32 inst;
-    s32 obj;
-    u32 buf;
+    saddr obj;
+    uaddr buf;
     if (lbl_805D55C0 == 1) {
         if (active_character_save_record != NULL) {
             (*(s32 *)((s8 *)active_character_save_record + 0x14))++;
@@ -3407,7 +3407,7 @@ s32 save_online_character__23TAdSinglePlyChrSelectGCFv(void) {
             memcpy((void *)TAdSinglePlyChrSelectGC__sub_801FCD3C(card_character_save_buffer), (s32)active_character_save_record, 0x2370);
             if (TAdSinglePlyChrSelectGC::get_game_mode() == 0) {
                 s32 i;
-                s32 p;
+                saddr p;
                 TAdSinglePlyChrSelectGC__sub_801FCD04(card_character_save_buffer);
                 p = get_ptr_4__10TObjPlayerFv();
                 for (i = 0; i < 30; i++) {
@@ -3591,7 +3591,7 @@ s32 update_play_time__23TAdSinglePlyChrSelectGCFv(void) {
 }
 
 s32 init_and_register__23TAdSinglePlyChrSelectGCFi(s32 arg0) {
-    s32 var_r29;
+    saddr var_r29;
     u32 temp_r30;
     u32 temp_r31;
 
@@ -3981,96 +3981,96 @@ void init_char_select_globals__23TAdSinglePlyChrSelectGCFv(void) {
     s32 allocation;
     s32 var_r0_10;
     s32 var_r0_11;
-    s32 var_r0_12;
+    saddr var_r0_12;
     s32 var_r0_13;
     s32 var_r0_14;
     s32 var_r0_15;
-    s32 var_r0_16;
+    saddr var_r0_16;
     s32 var_r0_17;
     s32 var_r0_18;
     s32 var_r0_19;
-    s32 var_r0_20;
+    saddr var_r0_20;
     s32 var_r0_21;
     s32 var_r0_22;
     s32 var_r0_23;
-    s32 var_r0_24;
+    saddr var_r0_24;
     s32 var_r0_25;
     s32 var_r0_26;
     s32 var_r0_27;
-    s32 var_r0_28;
+    saddr var_r0_28;
     s32 var_r0_29;
     s32 var_r0_2;
     s32 var_r0_30;
     s32 var_r0_31;
-    s32 var_r0_32;
+    saddr var_r0_32;
     s32 var_r0_33;
     s32 var_r0_34;
     s32 var_r0_35;
-    s32 var_r0_36;
+    saddr var_r0_36;
     s32 var_r0_37;
     s32 var_r0_38;
     s32 var_r0_39;
-    s32 var_r0_3;
-    s32 var_r0_40;
+    saddr var_r0_3;
+    saddr var_r0_40;
     s32 var_r0_41;
     s32 var_r0_42;
     s32 var_r0_43;
-    s32 var_r0_44;
+    saddr var_r0_44;
     s32 var_r0_45;
     s32 var_r0_46;
     s32 var_r0_47;
-    s32 var_r0_48;
+    saddr var_r0_48;
     s32 var_r0_49;
     s32 var_r0_4;
     s32 var_r0_50;
     s32 var_r0_51;
-    s32 var_r0_52;
+    saddr var_r0_52;
     s32 var_r0_53;
     s32 var_r0_54;
     s32 var_r0_55;
-    s32 var_r0_56;
+    saddr var_r0_56;
     s32 var_r0_57;
     s32 var_r0_58;
     s32 var_r0_59;
     s32 var_r0_5;
-    s32 var_r0_60;
+    saddr var_r0_60;
     s32 var_r0_61;
     s32 var_r0_62;
     s32 var_r0_63;
-    s32 var_r0_64;
+    saddr var_r0_64;
     s32 var_r0_65;
     s32 var_r0_66;
     s32 var_r0_67;
-    s32 var_r0_68;
+    saddr var_r0_68;
     s32 var_r0_69;
     s32 var_r0_6;
     s32 var_r0_70;
     s32 var_r0_71;
-    s32 var_r0_72;
+    saddr var_r0_72;
     s32 var_r0_73;
     s32 var_r0_74;
     s32 var_r0_75;
-    s32 var_r0_76;
+    saddr var_r0_76;
     s32 var_r0_77;
     s32 var_r0_78;
     s32 var_r0_79;
-    s32 var_r0_7;
-    s32 var_r0_80;
+    saddr var_r0_7;
+    saddr var_r0_80;
     s32 var_r0_81;
     s32 var_r0_82;
     s32 var_r0_83;
-    s32 var_r0_84;
+    saddr var_r0_84;
     s32 var_r0_85;
     s32 var_r0_86;
     s32 var_r0_87;
-    s32 var_r0_88;
+    saddr var_r0_88;
     s32 var_r0_89;
     s32 var_r0_8;
     s32 var_r0_90;
     s32 var_r0_91;
-    s32 var_r0_92;
+    saddr var_r0_92;
     s32 var_r0_93;
-    s32 var_r0_94;
+    saddr var_r0_94;
     s32 var_r0_95;
     s32 var_r0_96;
     s32 var_r0_9;

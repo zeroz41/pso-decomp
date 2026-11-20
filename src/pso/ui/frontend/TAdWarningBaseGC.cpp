@@ -45,7 +45,7 @@ void TAdWarningBaseGC::vfunc_9() {
 
 s32 TAdWarningBaseGC::sub_8032D214() {
     V_8032D214 *arg0 = (V_8032D214 *)this;
-    s32 r = update_window_mode_from_progress__6TLobbyFPv((void *)lbl_80477334, (void *)lbl_8047733C);
+    saddr r = update_window_mode_from_progress__6TLobbyFPv((void *)lbl_80477334, (void *)lbl_8047733C);
     ((TWindowMessage *)r)->append_line((saddr)(arg0->m5()), (int)3);
     return r;
 }

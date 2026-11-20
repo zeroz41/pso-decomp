@@ -52,7 +52,7 @@ s32 forward_trade_action_default__16TObjCityMainWarpFPviii(s32, s32, s32, s16);
 int TWindowSubTechnique::get_current_selection(void* _w1) { return get_selection__19TWindowSubTechniqueFPsPll(this, _w1); }
 
 s32 TWindowSubTechnique::is_technique_available(s32 sub, s32 arg1) {
-    s32 player;
+    saddr player;
     player = ((saddr)get_player_by_client_id(arg1));
     if (player == 0) {
         return 0;
@@ -105,7 +105,7 @@ void TWindowSubTechnique::rebuildTechniqueList(s32 list, s32 category) {
 }
 
 s32 TWindowSubTechnique::create_title_window() {
-  s32 titled_window_menu;
+  saddr titled_window_menu;
   titled_window_menu = create_titled_window_menu((int) get_window_layout_position(0x13), 5, (0, get_message_10__20TWindowSubStatusDispFl(0x30)), (this->playerIndex));
   TWindowSubEquip__sub_80263AF8((u8 *)this->m_30, 1);
   set_depth__11TWindowBaseFf((int) titled_window_menu);
@@ -169,7 +169,7 @@ s32 create_titled_window_menu(s32, s32, s32, s32);
 
 
 s32 TWindowSubTechnique::open_menu() {
-    s32 titled_window_menu;
+    saddr titled_window_menu;
 
     titled_window_menu = create_titled_window_menu(get_window_layout_position(0x12), 5, get_message_10__20TWindowSubStatusDispFl(0x2F), this->playerIndex);
     TWindowSubEquip__sub_80263AF8((u8 *)this->m_30, 0);
@@ -233,7 +233,7 @@ extern s32 __vt__19TWindowSubTechnique[];
 void TWindowSubTechnique::run_task() {
     Tech_802870C4 *self = (Tech_802870C4 *)this;
     s32 port = is_player_input_active(self->player);
-    s32 ply = (saddr)get_player_by_client_id(self->player);
+    saddr ply = (saddr)get_player_by_client_id(self->player);
     switch (self->state) {
     case 0:
     case 1:

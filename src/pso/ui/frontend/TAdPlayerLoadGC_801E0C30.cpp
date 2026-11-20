@@ -122,7 +122,7 @@ void TAdPlayerLoadGC::poll_card_load(s32 arg0) {
 }
 
 s32 TAdPlayerLoadGC::check_card_result_code() {
-    s32 channel = (saddr)this;
+    saddr channel = (saddr)this;
     if (channel >= 2) {
         return 0;
     }

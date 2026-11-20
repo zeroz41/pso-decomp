@@ -122,7 +122,7 @@ void TWindowCtrl::update_trade_window() {
 extern u8 controller_input_state[];
 
 void TWindowCtrl::handle_controller() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     if ((get_current_floor_area() == AREA_LOBBY) && (is_slot_visible__11TWindowCtrlFv(local_client_id) == 0) && (TWindowCtrl__sub_8024B000((void *)arg0, (s32)local_client_id) == 0) && (has_player_active_menu__11TWindowCtrlFv(local_client_id) == 0) && (TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, fn_8002AE08(local_client_id)) != 0)) {
         TWindowCtrlMain::advance_card_status(local_client_id);
     }
@@ -173,9 +173,9 @@ void TWindowCtrl::update_trade_request_window() {
 u32 TWindowGetComCard__ct(int, void *);
 void TWindowCtrl::update_com_card_window() {
     u8 *arg0 = (u8 *)this;
-    u32 temp_r3;
-    u32 temp_r3_2;
-    u32 temp_r3_3;
+    uaddr temp_r3;
+    uaddr temp_r3_2;
+    uaddr temp_r3_3;
     u32 temp_r3_4;
     u32 var_r0;
     temp_r3 = this->m_3c;

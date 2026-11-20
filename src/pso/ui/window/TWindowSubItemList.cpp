@@ -42,7 +42,7 @@ u8 *create_sub_item_list_window(s32 parent, s32 position, s32 client) {
 #pragma push
 #pragma fp_contract on
 void TWindowSubItemList::render() {
-    s32 window_key_board_soft;
+    saddr window_key_board_soft;
     window_key_board_soft = get_draw_context__11TWindowBaseFPv();
     draw_window_frame((void *)window_key_board_soft);
     draw_visible_window_entries(this, (u8 *)this + 0x24, window_key_board_soft);

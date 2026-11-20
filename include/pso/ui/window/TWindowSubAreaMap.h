@@ -8,7 +8,7 @@ struct TWindowSubAreaMap : public TObject {
     TWindowSubAreaMap(TObject *arg1, void *arg2);
     virtual ~TWindowSubAreaMap();
     u32 m_1c;
-    u32 m_20;
+    uaddr m_20;
     u32 m_24;
     virtual void render();
     virtual void run_task();

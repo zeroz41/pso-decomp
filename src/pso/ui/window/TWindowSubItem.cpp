@@ -292,7 +292,7 @@ TWindowSubItem::~TWindowSubItem() {
 
 void TWindowSubItem::run_task() {
     u8 *arg0 = (u8 *)this;
-    s32 p;
+    saddr p;
     s32 idx;
     u32 w;
     p = get_player_by_client_id(F(s32, 0x24));
@@ -557,7 +557,7 @@ void TWindowSubItem::run_task() {
 void TWindowSubItem::render() {  }
 
 s32 TWindowSubItem::open_purpose_window(s32 arg1) {
-    s32 titled_window_menu;
+    saddr titled_window_menu;
     titled_window_menu = create_titled_window_menu(((int)get_window_layout_position(4)), 3, get_message_10__20TWindowSubStatusDispFl(0x26), this->m_24);
     if (arg1 == -0xFF) {
         TWindowSubItem::add_meseta_purpose_actions((saddr)this, titled_window_menu);
@@ -575,7 +575,7 @@ s32 TWindowSubItem::open_purpose_window(s32 arg1) {
 }
 
 s32 TWindowSubItem::create_menu_window() {
-    s32 titled_window_menu;
+    saddr titled_window_menu;
     titled_window_menu = create_titled_window_menu(((int)get_window_layout_position(6)), 2, get_message_10__20TWindowSubStatusDispFl(0x27), this->m_24);
     forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, (s32)((saddr) (TWindowSubStatusDisp::get_message_10(0x5D))), 6, 0);
     forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, (s32)((saddr) (TWindowSubStatusDisp::get_message_10(0x5E))), 6, 1);
@@ -588,7 +588,7 @@ s32 TWindowSubItem::create_menu_window() {
 }
 
 s32 TWindowSubItem::create_count_input(s32 maximum) {
-    s32 storage;
+    saddr storage;
 
     storage = __nw__7TObjectFUl(0x7C);
     if (storage != 0) {
@@ -623,8 +623,8 @@ void TWindowSubItem::draw_slot(s32 arg1, s32 arg2, s32 arg3) {
 
 void add_item_purpose_actions(TWindowSubItem *window_sub_item, s32 arg1, s32 arg2) {
   s32 sp8;
-  s32 item;
-  s32 player;
+  saddr item;
+  saddr player;
   item = ((saddr)find_item_by_id((saddr)((void *) arg2)));
   if (item != 0)
   {
@@ -712,9 +712,9 @@ void TWindowSubItem::set_cursor_row_for_mode(s32 arg1) {
 }
 
 void TWindowSubItem::exec_item_command(s32 arg1, s32 arg2) {
-    s32 player;
+    saddr player;
     void *temp_r3_2;
-    s32 t;
+    saddr t;
 
     player = get_player_by_client_id(this->m_24);
     if ((player != 0) && (temp_r3_2 = find_item_by_id(arg1), ((temp_r3_2 == NULL) == 0))) {
@@ -777,7 +777,7 @@ void TWindowSubItem::use_selected_item() {
 s32 has_armor_with_unit_slot(TWindowSubItem *window_sub_item, int arg1) {
     ItemData_80279754 d;
     s32 pl;
-    u32 item;
+    uaddr item;
     pl = get_player_by_client_id(window_sub_item->m_24);
     if (pl == 0) {
         return 0;

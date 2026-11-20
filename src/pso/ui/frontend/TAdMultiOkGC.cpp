@@ -77,7 +77,7 @@ typedef struct { u32 c[12]; } Col_80307034;
 extern "C" {
 s32 play_sound_effect(int, void *, int, int);
 extern Pad_80306DF4 controller_physical_port_bank[];
-s32 multi_confirm_texture_list;
+saddr multi_confirm_texture_list;
 void __ct__7TObjectFP7TObject(void *, void *);
 extern void *__vt__12TAdMultiOkGC[];
 Ok_80307034 *__ct__12TAdMultiOkGCFv(Ok_80307034 *self, void *parent, Cfg_80307034 *cfg);

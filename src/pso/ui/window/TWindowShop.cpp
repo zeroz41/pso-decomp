@@ -71,7 +71,7 @@ void TShopJudgmentItemWindow::open_default(s32 a) {
 #pragma push
 #pragma fp_contract on
 void TWindowShop::render() {
-    s32 context;
+    saddr context;
     s32 n;
     void *p;
     context = get_draw_context__11TWindowBaseFPv();

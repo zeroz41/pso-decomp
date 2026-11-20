@@ -48,14 +48,14 @@ void TNowLoading::render() {  }
 #pragma fp_contract on
 void TNowLoading::run_task() {
     Vec stack;
-    u32 temp_r3;
-    u32 temp_r3_2;
-    u32 temp_r3_3;
-    u32 temp_r3_4;
-    u32 temp_r3_5;
-    u32 temp_r3_6;
-    u32 temp_r3_7;
-    u32 temp_r3_8;
+    uaddr temp_r3;
+    uaddr temp_r3_2;
+    uaddr temp_r3_3;
+    uaddr temp_r3_4;
+    uaddr temp_r3_5;
+    uaddr temp_r3_6;
+    uaddr temp_r3_7;
+    uaddr temp_r3_8;
     if ((u32) camera_ctrl_instance == 0U) {
         *(f32 *)&this->m_2c = (f32) ((65.0f * *(f32 *)((s8 *)&lbl_804FF5E8 + 0xC)) + *(f32 *)((s8 *)&lbl_804FF5E8 + 0));
         *(f32 *)&this->unk_30 = (f32) ((65.0f * *(f32 *)((s8 *)&lbl_804FF5E8 + 0x10)) + *(f32 *)((s8 *)&lbl_804FF5E8 + 4));
@@ -150,7 +150,7 @@ TNowLoading_8001D3A8 *TNowLoading__ct(TNowLoading_8001D3A8 *parent, void *arg1, 
 void TNowLoading__sub_8001D4D0(void) {  }
 void TNowLoading__sub_8001D4D4(void) {  }
 
-s32 TLobby::aram_dma_blocking(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+s32 TLobby::aram_dma_blocking(s32 arg0, s32 arg1, saddr arg2, s32 arg3) {
     u8 sp8[0x20];
     s32 len;
     len = (arg3 + 0x1F) & ~0x1F;
@@ -164,7 +164,7 @@ s32 TLobby::aram_dma_blocking(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     return 1;
 }
 
-s32 TLobby::aram_read_sync(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+s32 TLobby::aram_read_sync(s32 arg0, s32 arg1, saddr arg2, s32 arg3) {
     u8 sp8[0x20];
     s32 len;
     len = (arg3 + 0x1F) & ~0x1F;
@@ -178,7 +178,7 @@ s32 TLobby::aram_read_sync(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     DCInvalidateRange((void *)arg2, len);
     return 1;
 }
-s32 TLobby::aram_transfer_sync(s32 arg0, u32 buf, s32 arg2, s32 arg3) {
+s32 TLobby::aram_transfer_sync(s32 arg0, uaddr buf, s32 arg2, s32 arg3) {
     u8 sp8[0x20];
     s32 len;
     if (arg2 == 0 && buf == 0) {

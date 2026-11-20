@@ -18,7 +18,7 @@ struct RecoveredFields_802FFCE4_arg0
   s32 field_20;
   s32 field_24;
   s32 field_28;
-  s32 field_2C;
+  saddr field_2C;
 };
 
 struct TxtSlot_802FFE58 { s32 id; f32 x; f32 y; };

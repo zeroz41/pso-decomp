@@ -87,7 +87,7 @@ void TWindowTimer::ease_window_timer_position() {
 
 void TWindowTimer::update_chat_parts() {
     u8 *arg0 = (u8 *)this;
-    s32 window_layout_position;
+    saddr window_layout_position;
 
     if (this->flags & 1) {
         window_layout_position = get_window_layout_position(0xA9);
@@ -100,7 +100,7 @@ void TWindowTimer::update_chat_parts() {
 }
 
 void TWindowTimer::draw(s32 arg1, s32 arg2) {
-    s32 array_entry;
+    saddr array_entry;
 
     array_entry = get_array_entry(0);
     text_builder_reset();
@@ -113,7 +113,7 @@ void TWindowTimer::draw(s32 arg1, s32 arg2) {
 }
 
 void TWindowTimer::set_time(u32 secs) {
-    s32 entry;
+    saddr entry;
     u32 hours;
     u32 mins;
     entry = get_array_entry(0);

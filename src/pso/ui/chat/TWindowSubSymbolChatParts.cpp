@@ -145,8 +145,8 @@ struct Parts_80285B84 {
     u8 pad2[0x5C - 0x30];
     s32 timer;
     u8 pad3[0x88 - 0x60];
-    s32 sub88;
-    s32 sub8C;
+    saddr sub88;
+    saddr sub8C;
 };
 
 s32 TWindowSubSymbolChat__sub_800771B0(struct TWSC *, s32);
@@ -517,7 +517,7 @@ extern "C" void fn_80285A28(Win_80285A28 *self, s32 *help) {
 }
 
 void render__25TWindowSubSymbolChatPartsFv(u8 *window_sub_symbol_chat_parts) {
-    s32 ctx;
+    saddr ctx;
 
     ctx = get_draw_context__11TWindowBaseFPv();
     ((TWindowBase *)window_sub_symbol_chat_parts)->draw_window_frame((void *)ctx);

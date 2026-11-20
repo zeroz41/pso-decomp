@@ -76,7 +76,7 @@ void TAdSinglePlyChrSelectGC::render() {
 }
 
 s32 TAdSinglePlyChrSelectGC::create_chr_warp(s32 arg0, s32 arg1) {
-    s32 var_r31 = arg1;
+    saddr var_r31 = arg1;
 
     if (TAdSinglePlyChrSelectGC__sub_802D4D9C() != 0) {
         var_r31 = check_room_seq_4__16TAdChrSelASlotGCFl(arg1, 4);

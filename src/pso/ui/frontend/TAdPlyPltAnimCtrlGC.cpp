@@ -25,7 +25,7 @@ u32 plyplt_anim_ctrl_instance;
 TAdPlyPltAnimGC *TAdPlyPltAnimCtrlGC::get_table_value(int a0) { return TAdPlyPltAnimGC__instances[a0]; }
 
 u32 TAdPlyPltAnimCtrlGC::get_instance(s32 arg0) {
-    u32 ad_ply_plt_anim_ctrl_gc;
+    uaddr ad_ply_plt_anim_ctrl_gc;
 
     if ((u32) plyplt_anim_ctrl_instance == 0U) {
         ad_ply_plt_anim_ctrl_gc = __nw__7TObjectFUl(0x2C);

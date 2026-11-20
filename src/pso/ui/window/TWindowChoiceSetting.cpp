@@ -221,7 +221,7 @@ s32 draw_window_scrollbar(s32, s32, void *);
 s32 forward_render__20TWindowSubStatusDispFv(s32, s32);
 
 void TUnk_804D0658::render() {
-    s32 temp_r3;
+    saddr temp_r3;
 
     temp_r3 = get_draw_context__11TWindowBaseFPv();
     ((TWindowBase *)((u8 *)this))->draw_window_frame((void *)temp_r3);
@@ -237,8 +237,8 @@ void TUnk_804D0658::render() {
 
 void TUnk_804D0658::run_task() {
     u8 *arg0 = (u8 *)this;
-    u32 temp_r3;
-    u32 temp_r3_2;
+    uaddr temp_r3;
+    uaddr temp_r3_2;
     u8 *input;
     u8 *temp_r30_2;
     u8 *context;

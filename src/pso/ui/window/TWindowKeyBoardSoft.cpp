@@ -242,7 +242,7 @@ void TWindowKeyBoardSoft::sub_80260808(s32 arg1) {
 LAYOUT_ASSERT(RecoveredFields_8026088C_arg0_60_offset, offsetof(RecoveredFields_8026088C_arg0, field_60) == 0x60);
 LAYOUT_ASSERT(RecoveredFields_8026088C_arg0_6C_offset, offsetof(RecoveredFields_8026088C_arg0, field_6C) == 0x6C);
 void TWindowKeyBoardSoft::update_keyboard_child_input_from_controller(s32 arg1) {
-    u32 temp_r3;
+    uaddr temp_r3;
     if (TWindowShortListCtrl__check_controller_button((void *)((void *) ((u8 *)&controller_input_state + (arg1 * 0x50) + 0x20)), 0x400) != 0) {
         temp_r3 = ((RecoveredFields_8026088C_arg0 *)((u8 *)this))->field_6C;
         if (temp_r3 != 0U) {
@@ -555,7 +555,7 @@ f32 TWindowKeyBoardSoft::sub_802614DC(u8 *arg1, f32 farg0, f32 farg1, f32 farg2,
 void TWindowKeyBoardSoft::spawn_key_effect(s32 arg1, s32 arg2) {
     s32 type;
     NJS_POINT2 pos;
-    s32 kind;
+    saddr kind;
 
     sub_80260760(calc_key_index(arg1, arg2), &type, 0);
     pos.x = *(f32 *)(((u8 *)this) + 0x40) + calc_key_x(arg1, arg2);
@@ -892,7 +892,7 @@ void TWindowKeyBoardSoft::sub_8026227C(WindowDrawContext *ctx) {
 #pragma pop
 
 void TWindowKeyBoardSoft::render() {
-    s32 ctx;
+    saddr ctx;
     ctx = draw_default_entry__9TWindowDDFl();
     sub_8026227C((WindowDrawContext *)ctx);
     sub_80261DD8((WindowDrawContext *)ctx);

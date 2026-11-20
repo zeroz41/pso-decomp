@@ -244,8 +244,8 @@ void TWindowSubSymbolChatHelp::handle_page_input() {
 }
 
 void TWindowSubSymbolChatHelp::render() {
-    s32 arg0 = (saddr)this;
-    s32 temp_r3;
+    saddr arg0 = (saddr)this;
+    saddr temp_r3;
     temp_r3 = draw_default_entry__9TWindowDDFl();
     ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
     draw_help_entries((void *)temp_r3);

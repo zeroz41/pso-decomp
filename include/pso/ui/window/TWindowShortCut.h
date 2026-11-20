@@ -15,7 +15,7 @@ struct TWindowShortCut : public TWindowBase {
     u8 _pad22[0x2];
     void* m_24;
     u8 _pad28[0x38];
-    u32 heading;                       // type-1 status heading titled with message 0x35
+    uaddr heading;                       // type-1 status heading titled with message 0x35
     TWindowBase *preview_window;       // text preview of a text or word-select shortcut
     TWindowChatSymbol *symbol_preview; // preview of a symbol-chat shortcut
     s32 shortcut_index;

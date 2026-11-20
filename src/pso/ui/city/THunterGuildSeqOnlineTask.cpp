@@ -50,14 +50,14 @@ extern unsigned char TQuestListOnline__bin_download_state[];
 extern s32 evt2_random_enemies_mode;
 extern int TQuestListOnline__bin_download_complete;
 extern int TQuestListOnline__dat_download_complete;
-extern u32 TQuestListOnline__download_window;
-extern u32 TQuestListOnline__quest_info_window;
+extern uaddr TQuestListOnline__download_window;
+extern uaddr TQuestListOnline__quest_info_window;
 extern void *TQuestListOnline__download_barrier_window;
 void TKeyBoardControl__sub_8000F950();
 void *get_player_by_client_id(s32);
 void TQuestListOnline__sub_802176DC(void *, s32);
 void decompress_quest_buffer__16TQuestListOnlineFl(void *, s32);
-extern s32 local_client_id;
+extern saddr local_client_id;
 extern s32 quest_download_active;
 s32 get_message_text(s32 arg0);
 void send_quest_barrier__9TProtocolFv(s32);
@@ -250,8 +250,8 @@ struct Ent_802150E8 { u8 pad[0x28]; char name[0x10]; s32 size; };
 
 
 extern "C" {
-extern u32 TQuestListOnline__quest_list_buffer;
-extern s32 TQuestListOnline__selected_quest_info;
+extern uaddr TQuestListOnline__quest_list_buffer;
+extern saddr TQuestListOnline__selected_quest_info;
 extern s32 TQuestListOnline__instance;
 }
 s32 get_guild_text(s32);

@@ -239,11 +239,11 @@ s32 lbl_805D5F2C;
 s32 TRaderMapCore__data_805D5F30;
 s8 lbl_805D5F34;
 s32 lbl_805D5F38;
-s32 TRaderMapCore__view_mode;
+saddr TRaderMapCore__view_mode;
 void *TRaderMapCore__instance;
 s32 TRaderMapCore__render_mode;
-u32 TRaderMapCore__frame_model_resource;
-u32 TRaderMapCore__data_805D5F4C;
+uaddr TRaderMapCore__frame_model_resource;
+uaddr TRaderMapCore__data_805D5F4C;
 int TRaderMapCore__map_heap;
 
 void TCameraCtrl__sub_80068EF0(void);
@@ -252,7 +252,7 @@ extern f32 lbl_804C87B4[][4];
 void TCameraCtrl__sub_801E32D8(f32 farg0, f32 farg1);
 s32 GXSetScissorBoxOffset(int, int);
 extern Rect_801F9228 radar_map_view_scissor_table[3];
-extern s32 camera_ctrl_instance;
+extern saddr camera_ctrl_instance;
 struct TRaderMapCoreMapViewState { s32 value; u8 remaining[0x74]; };
 extern TRaderMapCoreMapViewState TRaderMapCore__map_view_state;
 extern RadarViewRect_801FA9D8 radar_map_view_rect_table[3];
@@ -445,7 +445,7 @@ void TRaderMapCore::init_map_ptr() {
 void TRaderMapCore::reset() { *(float *)&this->m_prev = 0.0f; *(float *)&this->m_flags = 0.0f; *(float *)&this->m_name = 0.0f; *(int *)&this->m_next = 0; *(float *)&this->m_up = 1.0f; *(short *)&this->m_down = 0; *(short*)((char*)this + 0x16) = -1; *(float *)&this->texlist = 1.0f; *(float *)&this->m_20 = 1.0f; *(float *)&this->entity_id = 1.0f; *(float*)((char*)this + 0x18) = 1.0f; }
 
 void TRaderMapCore::load_frame_texture() {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 var_r0;
     temp_r3 = (saddr)::operator new(0x440);
     var_r0 = temp_r3;
@@ -675,7 +675,7 @@ void TRaderMapCore::update_target() {
 void TRaderMapCore::update_pan_zoom_input() {
     u8 *arg0 = (u8 *)this;
     Radar_801FAF24 *self = (Radar_801FAF24 *)arg0;
-    u32 p;
+    uaddr p;
     s32 i;
     s32 j;
     s32 k;
@@ -746,7 +746,7 @@ void TRaderMapCore::set_default_view_size() {
 
 s32 TRaderMapCore::is_render_admitted(void *arg1) {
     s32 i;
-    u32 p;
+    uaddr p;
     if (TRaderMapCore__render_mode == 0) {
         return 0;
     }
@@ -889,7 +889,7 @@ void begin_map_view__13TRaderMapCoreFii(s32 arg0, s32 arg1) {
 #pragma pop
 
 void TRaderMapCore::setup_view(s32 arg1) {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     GXSetScissorBoxOffset(0, 0);
     TCameraCtrl__sub_801E32D8(320.0f, 240.0f);
     ((TCameraCtrl *)camera_ctrl_instance)->setup_default_view(0);
@@ -1419,7 +1419,7 @@ void TRaderMapCore::pan_vertical(f32 farg0) {
 }
 
 void TRaderMapCore::open_free_map_view() {
-    s32 g = (saddr)&TRaderMapCore__map_view_state;
+    saddr g = (saddr)&TRaderMapCore__map_view_state;
     TRaderMapCore__view_mode = 1;
     {
         NJS_POINT2 p = TRaderMapCore__sub_801F9D38((TRaderMapCore *)TRaderMapCore__instance);

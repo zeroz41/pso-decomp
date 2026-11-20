@@ -49,7 +49,7 @@ void TWindowInputNumber::mark_confirmed() {
 }
 void TWindowInputNumber::confirm_input() {
     s32 temp_r3;
-    u32 temp;
+    uaddr temp;
 
     temp_r3 = this->value;
     if ((temp_r3 < (s32) this->minimum) || (temp_r3 > (s32) this->maximum)) {
@@ -294,7 +294,7 @@ void draw_arrows__18TWindowInputNumberFv(TWindowInputNumber *self, Ctx_802563A0 
 
 void TWindowInputNumber::render() {
     TWindowInputNumber *arg0 = this;
-    s32 ctx;
+    saddr ctx;
 
     ctx = ((TWindowBase *)arg0)->setup_window_draw_context((saddr)((u8 *)arg0 + 0x74));
     ((TWindowBase *)arg0)->draw_window_frame((void *)ctx);
@@ -311,7 +311,7 @@ void TWindowInputNumber::render() {
 void TWindowInputNumber::run_task() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r30;
-    u32 temp_r3;
+    uaddr temp_r3;
     u8 *input;
     u8 *temp_r29_2;
     u8 *context;

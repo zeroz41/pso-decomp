@@ -126,7 +126,7 @@ int serial_to_hex_string__22TAdEnterSerialAccessGCFi(void);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 play_sound_effect(int, int, int, int);
 s32 forward_input__22TAdEnterSerialAccessGCFPv(void *, void *, int);
-u32 TAdEnterSerialAccessGC__keyboard_control;
+uaddr TAdEnterSerialAccessGC__keyboard_control;
 s32 TAdEnterSerialAccessGC__input_state;
 extern u8 lbl_805430BC[];
 void sscanf(int, const char *, ...);
@@ -197,7 +197,7 @@ void TAdEnterSerialAccessGC::draw_serial_chars(s32 arg0) {
     char *p;
     u32 n;
     const f32 *row;
-    s32 str;
+    saddr str;
     u32 i;
     s32 r;
     if (TAdEnterSerialAccessGC__keyboard_control != 0) {
@@ -386,7 +386,7 @@ void create_draw_callback__22TAdEnterSerialAccessGCFv(void) {
 }
 
 s32 TAdEnterSerialAccessGC::open_message_window(void *arg0, void *arg1) {
-    s32 r = update_window_mode_from_progress__6TLobbyFPv((void *)&lbl_804764C8, (void *)&lbl_804764D0);
+    saddr r = update_window_mode_from_progress__6TLobbyFPv((void *)&lbl_804764C8, (void *)&lbl_804764D0);
     ((TWindowMessage *)r)->append_line(get_localized_text_entry(0x17, (saddr)arg1), 1);
     return r;
 }
@@ -721,7 +721,7 @@ u8 *TAdEnterSerialAccessGC__ct(TAdEnterSerialAccessGC *ad_enter_serial_access_gc
 }
 
 s32 TAdEnterSerialAccessGC::get_field20_state() {
-    u32 temp_r3 = this->m_20;
+    uaddr temp_r3 = this->m_20;
     if (temp_r3 == 0U) {
         return 0;
     }

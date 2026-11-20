@@ -12,12 +12,12 @@ struct TWindowSubInformationBoard : public TObject {
     u8 _pad1D[0x3];
     u32 m_20;
     u32 shown_index;    // index set_page/set_message_index last showed; -1 after a new message window
-    u32 m_28;
-    u32 menu_window;    // create_info_board_menu (TWindowMenu)
-    u32 page_menu;      // sub_8034CDE0: one entry per info-board page, picks set_page
-    u32 message_window; // TWindowMessage::create (open_card_info_window, show_card_a7)
+    uaddr m_28;
+    uaddr menu_window;    // create_info_board_menu (TWindowMenu)
+    uaddr page_menu;      // sub_8034CDE0: one entry per info-board page, picks set_page
+    uaddr message_window; // TWindowMessage::create (open_card_info_window, show_card_a7)
     u32 m_38;
-    u32 keyboard;       // open_keyboard
+    uaddr keyboard;       // open_keyboard
     void* m_40;
     virtual void render();
     virtual void run_task();

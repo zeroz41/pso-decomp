@@ -132,7 +132,7 @@ s32 is_actor_speech_balloon_done(u16 arg0) {
 }
 
 s32 TWindowCtrl::open_balloon(u16 arg0, u8 *arg1, s32 arg2, s32 arg3) {
-    s32 temp_r3;
+    saddr temp_r3;
     if ((u32) (*(u32 *)&TWindowCtrl__active_window) == 0U) {
         return 0;
     }

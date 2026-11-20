@@ -207,7 +207,7 @@ void TWindowSubCustomSelect::draw_palette_cells(int ctx) {
 #pragma pop
 
 void render__22TWindowSubCustomSelectFv(TWindowSubCustomSelect *window_sub_custom_select) {
-    s32 temp_r3;
+    saddr temp_r3;
     temp_r3 = get_draw_context__11TWindowBaseFPv();
     ((TWindowBase *)window_sub_custom_select)->draw_window_frame((void *)temp_r3);
     window_sub_custom_select->draw_palette_cells(temp_r3);

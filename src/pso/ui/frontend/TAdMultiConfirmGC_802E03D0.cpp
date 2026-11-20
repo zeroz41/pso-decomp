@@ -135,7 +135,7 @@ void TUnk_804E3008::sub_802E0CB0() {
 void TAdMultiPlyChrSelectGC::set_index_and_close_status(s32 arg1) {
     *(s32 *)((s8 *)this + 0x104) = arg1;
     ((s32 (*)(void *, s32))sub_802E0CB0__13TUnk_804E3008Fv)(this, *(s32 *)((s8 *)this + 0x104));
-    u32 index = ((u32)TAdPlyStatusGC::get_index());
+    uaddr index = ((u32)TAdPlyStatusGC::get_index());
     if (index != 0U) {
         ((TAdPlyStatusGC *)index)->close_window(arg1);
     }

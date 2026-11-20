@@ -75,7 +75,7 @@ void *TWindowSubShortCutList::create(void *arg1) {
 }
 
 void TWindowSubShortCutList::render() {
-    s32 context;
+    saddr context;
 
     context = get_draw_context__11TWindowBaseFPv();
     draw_window_frame((void *)context);

@@ -279,7 +279,7 @@ void TAdChrSelBSlotGC__sub_8030EB14(u8 *ad_chr_sel_b_slot_gc) {
     }
 }
 void TAdChrSelBSlotGC__sub_8030EBD0(u8 *arg0) {
-  u32 temp_r3;
+  uaddr temp_r3;
   u32 temp_r3_2;
   ControllerInputContext *context;
   temp_r3 = *((u32 *) (((s8 *) arg0) + 0x70));

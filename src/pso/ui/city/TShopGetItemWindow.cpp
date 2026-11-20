@@ -315,7 +315,7 @@ s32 TShopGetItemWindow::handle_withdraw_list_input() {
 }
 
 void TShopGetItemWindow::update_input_number() {
-    u32 w;
+    uaddr w;
     w = this->m_30;
     if ((w != 0U) && (((TWindowInputNumber *)w)->is_confirmed() != 0)) {
         if ((u32) this->m_2c == 0U) {
@@ -342,8 +342,8 @@ void TShopGetItemWindow::handle_withdraw_confirm() {
   s32 slot;
   s32 selected_menu_value;
   s32 idx;
-  u32 temp_r3;
-  u32 temp_r3_4;
+  uaddr temp_r3;
+  uaddr temp_r3_4;
   temp_r3 = ((RecoveredFields_8021E5D8_arg0 *) ((u8 *)this))->field_2C;
   if ((temp_r3 != 0U) && (((TWindowMenu *)temp_r3)->is_decided() != 0))
   {

@@ -14,8 +14,8 @@ struct TWindowSubTechnique : public TObject {
     void* m_24;
     s32 playerIndex;
     u32 m_2c;
-    u32 m_30;
-    u32 m_34;
+    uaddr m_30;
+    uaddr m_34;
     u32 m_38;
     u32 m_3c;
 

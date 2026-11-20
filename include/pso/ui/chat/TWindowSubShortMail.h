@@ -18,8 +18,8 @@ struct TWindowSubShortMail : public TObject {
     u32 m_2c;
     u32 m_30;
     u32 m_34;
-    u32 m_38;
-    u32 m_3c;
+    uaddr m_38;
+    uaddr m_3c;
     u32 m_40;
     u32 m_44;
     u32 m_48;
@@ -27,7 +27,7 @@ struct TWindowSubShortMail : public TObject {
     u32 m_50;
     u32 m_54;
     u32 m_58;
-    u32 m_5c;
+    uaddr m_5c;
     static s32 is_active();
     void close();
     void update_mail_count();

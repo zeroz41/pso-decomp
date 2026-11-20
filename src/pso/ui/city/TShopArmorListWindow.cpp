@@ -482,7 +482,7 @@ s32 TShopArmorListWindow::open_menu_window() {
 }
 
 void handle_buy_confirm__20TShopArmorListWindowFv(Win_8021A634 *w) {
-    s32 base = sub_8022397C__15TShopWindowBaseFv(w);
+    saddr base = sub_8022397C__15TShopWindowBaseFv(w);
     s32 r;
     if (w->card != NULL && ((TWindowMenu *)(w->card))->is_decided() != 0) {
         r = ((TWindowMenu *)w->card)->get_selected_value();
@@ -491,7 +491,7 @@ void handle_buy_confirm__20TShopArmorListWindowFv(Win_8021A634 *w) {
                 s32 i = ((TWindowMenuIconLine *)(w->list))->get_cursor_value();
                 Rec_8021A634 it = w->recs[i];
                 VObj_18_b34251 *item;
-                u32 e;
+                uaddr e;
                 it.id = advance_item_id_counter(local_client_id);
                 try_buy_item(w->player, &it);
                 item = (VObj_18_b34251 *)find_item_by_id(it.id);

@@ -47,7 +47,7 @@ struct W_80347C50 {
     TWindowDD *child[8];
     u8 pad44[0x88 - 0x44];
     s32 f88;
-    s32 f8C;
+    saddr f8C;
     u8 pad90[0xB0 - 0x90];
     s32 fB0;
 };
@@ -95,7 +95,7 @@ void TWindowDD__sub_80347E04(W_80347E04 *arg0, s32 arg1);
 E_80347CC8 *get_array_entry__11TWindowBaseFi(void *, s32);
 s32 refresh_status_display__9TWindowDDFv(void *);
 extern s32 local_client_id;
-extern u32 TWindowDD__work_buffer;
+extern uaddr TWindowDD__work_buffer;
 extern const f32 TWindowDD__data_805DFB58;
 void TWindowDD__sub_80347CC8(W_80347CC8 *arg0, void *arg1);
 void TWindowDD__sub_80348D90(void *, int);
@@ -482,7 +482,7 @@ void TWindowDD__sub_80347CC8(W_80347CC8 *arg0, void *window_dd) {
 
 s32 TWindowDD::setup_entry(s16 arg1) {
     s32 var_r31;
-    u32 temp_r30;
+    uaddr temp_r30;
 
     s32 str;
     var_r31 = 0;
@@ -878,7 +878,7 @@ void TWindowDD::append_string(s32 arg0, s32 arg1, s32 *arg2) {
     }
 }
 
-extern s32 lbl_805D63F0;
+extern saddr lbl_805D63F0;
 
 void TWindowDD_WS_String::draw(s32 ctx, s32 idx, f32 farg0) {
     Buf sp8;

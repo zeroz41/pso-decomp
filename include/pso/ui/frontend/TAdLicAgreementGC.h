@@ -10,7 +10,7 @@ struct TAdLicAgreementGC : public TAdAgreementBaseGC {
     virtual void vfunc_7();
     virtual void vfunc_8();
     virtual void vfunc_9();
-    u32 m_38;
+    uaddr m_38;
     virtual void render();
     virtual void run_task();
 };

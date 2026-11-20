@@ -13,10 +13,10 @@ struct TWindowSubEquip : public TObject {
     u32 m_20;
     u32 m_24;
     u32 m_28;
-    u32 m_2c;
-    u32 m_30;
-    u32 m_34;
-    u32 m_38;
+    uaddr m_2c;
+    uaddr m_30;
+    uaddr m_34;
+    uaddr m_38;
     void update_displayed_item();
     void update();
     static void open_submenu(s32 arg0, s32 arg1);

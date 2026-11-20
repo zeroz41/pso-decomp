@@ -21,14 +21,14 @@ int set_selected_index__21TWindowSubComCardListFs(void*);
 void TWindowSubComCard::close() { queue_destruction(); }
 void TWindowSubComCard::free_member() { void* m = *(void* *)&this->m_2c; if (m) set_selected_index__21TWindowSubComCardListFs(m); }
 s32 TWindowSubComCard::get_slot_or_neg1() {
-    s32 v = this->m_2c;
+    saddr v = this->m_2c;
     if ((u32) v == 0U) {
         return -1;
     }
     return ((TWindowMenu *)v)->get_selected_value();
 }
 s32 TWindowSubComCard::get_card_data() {
-    s32 v = this->m_2c;
+    saddr v = this->m_2c;
     if ((u32) v == 0U) {
         return 0;
     }

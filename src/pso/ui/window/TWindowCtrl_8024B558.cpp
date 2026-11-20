@@ -11,7 +11,7 @@ extern s32 local_client_id;
 extern u32 TWindowCtrl__active_window;
 
 s32 TWindowCtrl::open(s32 arg0, s32 arg1, s32 arg2) {
-    s32 temp_r3;
+    saddr temp_r3;
 
     if ((u32) TWindowCtrl__active_window == 0U) {
         return 0;

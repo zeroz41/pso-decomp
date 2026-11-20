@@ -368,7 +368,7 @@ u8 *TWindowMessage::create(void *arg0, s32 arg1, s32 arg2) {
 }
 
 void TLobby::update_window_mode_from_progress(void *arg1) {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     TWindowMessage::create((void *)arg0, (saddr)arg1, (s32)((s32)((s32) TWindowSubStatusDisp::round_away_from_zero((*(f32 *)((s8 *)arg1 + 4) - 2e+01f) / 2e+01f) + 2)));
 }
 
@@ -385,8 +385,8 @@ extern s32 __vt__14TWindowMessage[];
 
 
 void TWindowMessage::render() {
-    s32 temp_r3;
-    s32 arg0 = (saddr)this;
+    saddr temp_r3;
+    saddr arg0 = (saddr)this;
     temp_r3 = get_draw_context__11TWindowBaseFPv();
     ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
     draw_visible_window_entries((void *)arg0, (void *)(arg0 + 0x24), (int)temp_r3);

@@ -177,7 +177,7 @@ void TWindowSubStatusDisp::update_item_icon_colors(void *item) {
     s32 temp_r27;
     s32 temp_r28;
     s32 temp_r28_2;
-    s32 player;
+    saddr player;
 
     if (((TItem *)item)->is_wrapped() != 0) {
         *(s32 *)((s8 *)this + 0x30) = -1;
@@ -251,7 +251,7 @@ void TWindowSubStatusDisp::update_item_colors(s32 arg1) {
     s32 sp8;
     s32 temp_r29;
     s32 temp_r30;
-    s32 player;
+    saddr player;
 
     if (is_wrapped__9TItemDataFPv(arg1) != 0) {
         *(s32 *)((s8 *)this + 0x30) = -1;

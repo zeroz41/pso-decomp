@@ -390,7 +390,7 @@ void TWindowSubStatusDisp::run_task() {
 }
 
 void TWindowSubStatusDisp::render() {
-    s32 temp_r3;
+    saddr temp_r3;
 
     if (get_player_by_client_id(this->m_20) != 0U) {
         temp_r3 = this->setup_window_draw_context((saddr)(((u8 *)this) + 0x6C));
@@ -530,7 +530,7 @@ void vt12__20TWindowSubStatusDispFv(u8 *window_base) {
     Stats_80280B1C cur;
     Stats_80280B1C req;
     Entry_80280B1C *e2;
-    s32 pl;
+    saddr pl;
     Entry_80280B1C *e;
     u8 *q;
     ((TWindowSubStatusDisp *)(&cur))->clear_fields();
@@ -569,7 +569,7 @@ void vt12__20TWindowSubStatusDispFv(u8 *window_base) {
     }
 }
 void vt2__20TWindowSubStatusDispFv(u8 *window_base) {
-    s32 temp_r30;
+    saddr temp_r30;
     if ((f32) *(s32 *)((s8 *)window_base + 0x5C) > 7.5f) {
         *(s32 *)((s8 *)window_base + 0x5C) = 7;
     }
@@ -587,7 +587,7 @@ void vt2__20TWindowSubStatusDispFv(u8 *window_base) {
 }
 
 void TWindowSubStatusDisp::vt13() {
-    s32 player;
+    saddr player;
     void *temp_r31;
     void *temp_r31_2;
     void *temp_r31_3;

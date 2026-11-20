@@ -12,9 +12,9 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     virtual void render();
     u32 m_1c;
     u32 m_20;
-    u32 m_24;
-    u32 m_28;
-    u32 m_2c;
+    uaddr m_24;
+    uaddr m_28;
+    uaddr m_2c;
     u32 m_30;
     u32 m_34;
     void init_item_entry();
@@ -134,11 +134,11 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     u8 unk_38[0x4];
     s32 m_3c;
     u8 unk_40[0x4];
-    s32 m_44;
+    saddr m_44;
     u8 unk_48[0x4];
-    s32 m_4c;
+    saddr m_4c;
     u8 unk_50[0x4];
-    u32 m_54;
+    uaddr m_54;
     u8 unk_58[0x4];
     s32 m_5c;
     static void free_all_resources();
@@ -181,24 +181,24 @@ LAYOUT_ASSERT(TAdSinglePlyChrSelectGC_size, sizeof(TAdSinglePlyChrSelectGC) == 0
 
 // Memory-card save state of the character select scene (.sbss of TAdSinglePlyChrSelectGC_801FBF54.cpp,
 // in definition order). The buffers hold heap addresses as words: every test of them against 0 is a cmplwi.
-extern u32 card_character_save_buffer;
-extern u32 secondary_card_character_save_buffer;
-extern u32 selected_character_data;
-extern u32 active_character_save_record;
-extern u32 guild_card_save_payload;
-extern u32 system_save_payload;
-extern u32 secondary_card_system_save_payload;
+extern uaddr card_character_save_buffer;
+extern uaddr secondary_card_character_save_buffer;
+extern uaddr selected_character_data;
+extern uaddr active_character_save_record;
+extern uaddr guild_card_save_payload;
+extern uaddr system_save_payload;
+extern uaddr secondary_card_system_save_payload;
 extern s32 TAdSinglePlyChrSelectGC__selection_index;
 extern s32 card_load_sequence_state;
-extern s32 character_save_card_slot;
-extern s32 card_load_channel;
-extern s32 character_save_file_block_count;
-extern s32 guild_card_save_file_block_count;
-extern s32 system_save_card_channel;
-extern s32 system_save_file_block_count;
-extern u32 character_save_file_buffer;
-extern u32 guild_card_save_file_buffer;
-extern u32 system_save_file_buffer;
+extern saddr character_save_card_slot;
+extern saddr card_load_channel;
+extern saddr character_save_file_block_count;
+extern saddr guild_card_save_file_block_count;
+extern saddr system_save_card_channel;
+extern saddr system_save_file_block_count;
+extern uaddr character_save_file_buffer;
+extern uaddr guild_card_save_file_buffer;
+extern uaddr system_save_file_buffer;
 extern s32 chr_select_scene_state;
 extern s32 chr_select_game_mode;
 extern s32 chr_select_save_slot;

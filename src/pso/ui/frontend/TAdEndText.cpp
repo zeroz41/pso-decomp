@@ -95,8 +95,8 @@ struct EndTextTexList { EndTextTexName *textures; u32 nbTexture; };
 extern EndTextTexList TAdEndText__ending_font_texture_list;
 extern char lbl_804347B0[];
 extern char lbl_804347C0[];
-extern u32 TAdEndText__loaded_font_texture_list;
-extern u32 TAdEndText__credit_script_lines;
+extern uaddr TAdEndText__loaded_font_texture_list;
+extern uaddr TAdEndText__credit_script_lines;
 extern s32 TAdEndText__font_loaded_flag;
 void bind_gvm_texture_list(const char *name, void *data);
 void TAdEndText__sub_8001A998(s32, char *, f32, f32, f32);
@@ -451,8 +451,8 @@ s32 TAdEndText__sub_8001B41C(void) {
 }
 
 s32 TAdEndText__font_loaded_flag;
-u32 TAdEndText__loaded_font_texture_list;
-u32 TAdEndText__credit_script_lines;
+uaddr TAdEndText__loaded_font_texture_list;
+uaddr TAdEndText__credit_script_lines;
 __declspec(section ".rodata") char lbl_804347B0[] = "ed128_font.gvm";
 __declspec(section ".rodata") char lbl_804347C0[] = "AdEnding.rel";
 __declspec(section ".sdata2") extern const f32 lbl_805D7DF0 = 2.0f;

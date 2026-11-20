@@ -16,8 +16,8 @@ u8 is_selection_done__23TAdSinglePlyChrSelectGCFPv(void *arg0) {
 
 u32 lbl_80518850[4];
 u32 chr_select_load_buffer_table[8];
-u32 chr_select_load_buffer_base;
-u32 chr_select_load_buffer;
+uaddr chr_select_load_buffer_base;
+uaddr chr_select_load_buffer;
 s32 TAdSinglePlyChrSelectGC::get_result() {
     if (((s32 (*)())is_selection_done__23TAdSinglePlyChrSelectGCFPv)() != 0) {
         return this->m_28;
@@ -112,7 +112,7 @@ void TLobby::free_chr_select_singleton() {
 extern "C" {
 s32 TChCrEffCtrlPl__sub_80298F6C(void);
 s32 create__14TChCrEffCtrlPlFv(s32);
-extern s32 tl_03;
+extern saddr tl_03;
 }
 
 void alloc_quest_download_buffer(void) {

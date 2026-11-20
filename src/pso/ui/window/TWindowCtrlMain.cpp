@@ -190,8 +190,8 @@ void TWindowCtrlPlayer::render() {  }
 #pragma scheduling off
 void TWindowCtrlPlayer::sub_8024E0F0() {
     s16 temp_r3_3;
-    u32 temp_r3;
-    u32 temp_r3_2;
+    uaddr temp_r3;
+    uaddr temp_r3_2;
     switch (*(s16 *)&this->m_1e) {
     case 18:
         temp_r3 = this->m_30;
@@ -269,7 +269,7 @@ void TWindowCtrl::update_target_info_window() {
 #pragma pop
 
 void TWindowCtrl::update_main_menu_request() {
-    u32 p;
+    uaddr p;
     s16 key;
     if (*(void **)((s8 *)this + 0x28) == NULL) {
         return;

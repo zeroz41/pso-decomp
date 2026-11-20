@@ -96,7 +96,7 @@ extern "C" {
 
 void TWindowSubInformationBoard::run_task() {
     u8 *arg0 = (u8 *)this;
-    s32 temp_r30;
+    saddr temp_r30;
     u8 temp_r0;
     switch (this->m_1c) {
     case 0:
@@ -260,7 +260,7 @@ u32 TWindowSubInformationBoard::show_card_a7() {
 }
 
 s32 TWindowSubInformationBoard::open_keyboard(s32 arg0) {
-    s32 keyboard;
+    saddr keyboard;
 
     keyboard = (saddr)new TKeyBoardControl((TObject *)arg0, 0xC6, 5, 4, local_client_id);
     ((TKeyBoardControl *)keyboard)->set_text((char *)TLobby::get_card_window_field());

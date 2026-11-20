@@ -46,7 +46,7 @@ void TWindowSubTradeMain::set_trade_state(s16 arg1) {
 #pragma fp_contract on
 void TWindowSubEquipKind::draw_tab_label(void *win) {
     NJS_POINT2 pos;
-    s32 msg;
+    saddr msg;
     s16 fl;
     u8 col;
 

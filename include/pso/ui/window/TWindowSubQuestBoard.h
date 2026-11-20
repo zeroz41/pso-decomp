@@ -13,7 +13,7 @@ struct TWindowSubQuestBoard : public TObject {
     u8 _pad1D[0x3];
     u32 m_20;
     u32 m_24;
-    u32 m_28;
+    uaddr m_28;
     TQuestThreadBoard *quest_thread_board;
     void set_board_flags(s32 arg1);
     void set_card_window_flags(s32 arg1);

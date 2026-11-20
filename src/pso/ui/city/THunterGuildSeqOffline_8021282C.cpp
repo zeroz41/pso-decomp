@@ -27,7 +27,7 @@ struct Seq_80212B88 : Base_80212B88 {
     virtual s32 m7(s32, s32);
     virtual s32 m8();
     u8 pad1c[8];
-    s32 player;
+    saddr player;
 };
 
 struct List_80212B88 {
@@ -53,7 +53,7 @@ struct Seq_802129FC : Base_802129FC {
 
 extern "C" {
 extern s32 THunterGuildSeqOffline__quest_result_callbacks[];
-extern s32 tl_05;
+extern saddr tl_05;
 void get_entity_id(s32);
 void THunterGuildSeqOffline__sub_8021E180();
 void fn_802233F8(void *);

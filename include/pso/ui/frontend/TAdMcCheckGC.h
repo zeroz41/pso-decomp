@@ -10,11 +10,11 @@ struct TAdMcCheckGC : public TObject {
     u32 m_1c;
     u32 m_20;
     u32 m_24;
-    u32 m_28;
-    u32 m_2c;
-    u32 m_30;
-    u32 m_34;
-    u32 m_38;
+    uaddr m_28;
+    uaddr m_2c;
+    uaddr m_30;
+    uaddr m_34;
+    uaddr m_38;
     virtual void render();
     s32 create(s32 arg1);
     virtual void run_task();

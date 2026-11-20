@@ -30,11 +30,11 @@ struct TShopKeepItemWindow : public TShopWindowBase {
     s32 entry_count;          // (inferred) rows filled in entries
     s32 deposit_count;        // (inferred) how many to deposit
     s32 help_item_index;      // (inferred) row the help window shows
-    u32 message_window;       // (inferred) display_message forwards to it
-    u32 item_list_window;     // TWindowMenuIconLine listing the items
-    u32 confirm_window;       // the yes/no window
-    u32 number_window;        // TWindowInputNumber for a stack count
-    u32 help_window;          // TWindowHelpItem for the selected item
+    uaddr message_window;       // (inferred) display_message forwards to it
+    uaddr item_list_window;     // TWindowMenuIconLine listing the items
+    uaddr confirm_window;       // the yes/no window
+    uaddr number_window;        // TWindowInputNumber for a stack count
+    uaddr help_window;          // TWindowHelpItem for the selected item
     s32 (*ok_callback)(s32);      // (inferred) run by close_with_ok_callback
     s32 (*cancel_callback)(s32);  // (inferred) run by close_with_cancel_callback
     s32 close_with_cancel_callback();

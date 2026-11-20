@@ -65,7 +65,7 @@ s32 TWindowSubComCard__sub_802452DC(int);
 s32 TWindowSubComCard__sub_80245320(void *, void *);
 s32 TWindowSubComCard__sub_802454E4(int);
 s32 TWindowSubComCard__sub_80245558(void *, void *, void *);
-extern s32 lbl_805D63F0;
+extern saddr lbl_805D63F0;
 void draw_visible_window_entries(void *, void *, int);
 }
 
@@ -346,7 +346,7 @@ void TWindowActionPalette::set_bank_panel_art(unsigned short state) {
 #pragma fp_contract on
 void spawn_action_palette_slot_light(TWindowActionPalette *palette, s32 slot) {
     NJS_POINT2 pt;
-    s32 kind;
+    saddr kind;
     Icon_80243630 *e;
     f32 s;
     f32 hw;

@@ -298,7 +298,7 @@ void set_symbol_chat_parts__20TWindowSubSymbolChatFiPv(s32 arg0, void *arg1) {
 }
 
 void TWindowSubSymbolChat::init_layout_entries(s32 player) {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     init_window_layout_entries((void *)arg0, &symbol_chat_layout_sprite_records, (void *)player);
 }
 
@@ -320,7 +320,7 @@ void TWindowSubSymbolChatPartsSet::set_selection(u32 arg1) {
 }
 
 void TWindowSubSymbolChat::set_from_key(s32 arg1) {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     s8 *tmp = (s8 *)get_symbol_chat_preset(arg1);
     ((TWindowSubSymbolChatPartsSet *)arg0)->set_selection((u32)((saddr)tmp));
 }

@@ -6,7 +6,7 @@
 #include "pso/system/task/TObject.h"
 
     extern unsigned char texture_logo_e_descriptor[];
-extern u32 logo_texture_e_handle;
+extern uaddr logo_texture_e_handle;
 extern "C" {
 int queue_destruction__7TObjectFv(void);
     extern int TLogo__exit_requested_flag;

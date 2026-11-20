@@ -21,7 +21,7 @@ extern "C" {
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__20TAdGameStartShadowGC[];
 const char *TAdGameStartShadowGC__name = "TAdGameStartShadowGC";
-s32 TAdGameStartShadowGC__texture_list;
+saddr TAdGameStartShadowGC__texture_list;
 Shadow_80320CB8 *__ct__20TAdGameStartShadowGCFv(Shadow_80320CB8 *arg0, void *parent);
 
 struct Q_80320B38 { u8 b[0x20]; };
