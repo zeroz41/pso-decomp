@@ -4,6 +4,7 @@
 #include "pso/object/warp/TObjWarpBossMulti.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/object/warp/TObjCityMainWarpChallenge.h"
+#include "pso/object/warp/TObjCityMainWarp_80186E24.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowSubComCard.h"
@@ -52,11 +53,9 @@ extern s32 city_main_warp_destination_id;
 extern BmlResource *city_common_model_archive;
 s32 post_translate_matrix(void *);
 s32 update_floor_switch_state__16TObjCityMainWarpFv();
-s32 update_warp_sequence__16TObjCityMainWarpFv();
 void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
-s32 update_challenge_warp_window();
 s32 update_state__16TObjCityMainWarpFv();
 extern s32 camera_ctrl_instance;
 extern s32 city_common_texture_list;
@@ -166,13 +165,13 @@ void TObjCityMainWarpChallenge::update_state() {
         update_challenge_state();
         return;
     case 1:
-        update_warp_sequence__16TObjCityMainWarpFv();
+        update_warp_sequence();
         return;
     case 2:
         update_state__16TObjCityMainWarpFv();
         return;
     case 3:
-        update_challenge_warp_window();
+        update_challenge_warp_window(this);
         return;
     case 4:
         update_floor_switch_state__16TObjCityMainWarpFv();

@@ -21,7 +21,6 @@ struct TObjCityMainWarp : public TObjAreaWarp {
     static void notify_player_warp(void *arg0, s32 arg1);
     void update_floor_switch_state();
     void update_state();
-    void update_warp_sequence();
     void render();
     void *create();
     static void clear_active_bit();

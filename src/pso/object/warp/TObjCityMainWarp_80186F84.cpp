@@ -62,9 +62,8 @@ void TObjCityMainWarp::update_state() {
     }
 }
 
-void TObjCityMainWarp::update_warp_sequence() {
-    // The object is a TObjCityMainWarpChallenge: its update_state runs this as state 1.
-    TObjCityMainWarpChallenge *arg0 = (TObjCityMainWarpChallenge *)this;
+void TObjCityMainWarpChallenge::update_warp_sequence() {
+    TObjCityMainWarpChallenge *arg0 = this;
     s32 r;
     switch (arg0->state_step) {
     case 0:
