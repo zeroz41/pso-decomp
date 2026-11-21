@@ -1,136 +1,50 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_8003B138.h"
 #include "pso/boss/derolle/TObjBoss2RaftSplash.h"
+#include "pso/boss/derolle/TObjBoss2Dust.h"
 #include "pso/boss/derolle/TObjBoss2CeilJunk_8003A81C.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/BmlResource.h"
+#include "pso/system/NinjaTypes.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/system/MatrixOps.h"
 #include "pso/render/TFogCtrl.h"
+#include "pso/render/GinjaMaterialState.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/TUnk_804835D8.h"
+#include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
 #include "pso/player/TObjPlayer_8002E784.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
-#include "pso/unk/text_803D96A8.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/ui/frontend/TAdLoadQuestPrtTxtGC.h"
 #pragma defer_codegen on
 
 u32 TObjBoss2Tunnel__global_flags;
-s32 *lbl_805D4C04;
-s32 *lbl_805D4C08;
-
-struct S_8003C108 {
-    u8 pad0[0x20];
-    f32 f20;
-    u8 pad24[0xC8 - 0x24];
-    u32 ptr[4];
-};
+NJS_OBJECT *lbl_805D4C04;
+NJS_OBJECT *lbl_805D4C08;
 
 static const Vec boss2_tunnel_raft_splash_offsets[2] = {{3.0f, 0.0f, -5.0f}, {-3.0f, 0.0f, -5.0f}};
 const char *lbl_805D2708 = "TObjBoss2Tunnel";
 
-struct Model_8003B2EC { s32 a; s32 b; saddr obj; s32 c; };
-
-struct Models_8003B2EC { u8 pad[0x42C]; Model_8003B2EC *models; };
-
-struct Fog_8003B2EC { s32 a; s32 b; s32 c; };
-
-struct Tunnel_8003B2EC {
-    u8 pad0[0x1C];
-    f32 f1c;
-    u8 pad20[0x4];
-    s32 f24;
-    u8 pad28[0x4];
-    s32 f2c[6];
-    u8 pad44[0x1C];
-    f32 f60;
-    u8 pad64[0x34];
-    f32 f98;
-    u8 pad9c[0x4];
-    s32 fa0;
-    u8 pada4[0x4];
-    s32 fa8;
-    f32 fac;
-};
-
-typedef struct Tunnel_8003B6E8 {
-    u8 pad0[0x1C];
-    f32 f1c;
-    f32 f20;
-    s32 f24;
-    s32 f28;
-    u8 pad2c[0x34 - 0x2C];
-    s32 f34;
-    s32 f38;
-    u8 pad3c[0x44 - 0x3C];
-    s32 f44;
-    s32 f48;
-    f32 f4c;
-    f32 f50;
-    f32 f54;
-    s32 f58;
-    s32 f5c;
-    f32 f60;
-    s32 f64;
-    u8 f68[0x94 - 0x68];
-    f32 f94;
-    f32 f98;
-    s32 f9c;
-    s32 fa0;
-    s32 fa4;
-    s32 fa8;
-    f32 fac;
-    s32 fb0;
-    s32 fb4;
-    s32 fb8;
-    s32 fbc;
-    u8 padc0[0xD8 - 0xC0];
-    s32 fd8;
-} Tunnel_8003B6E8;
-
-typedef struct Col_8003B6E8 {
-    s32 a;
+// An RGB fog colour; `a` is not read.
+struct Boss2TunnelColor {
+    f32 a;
     f32 r;
     f32 g;
     f32 b;
-} Col_8003B6E8;
+};
 
-extern "C" {
-struct O_8003C21C;
-s32 rotate_matrix_z(s32, s32);
-s32 push_matrix();
-s32 post_translate_matrix(void *);
-extern s32 boss2_tunnel_model_index_table[];
-extern s32 boss2_tunnel_model_order_table[];
-extern Models_8003B2EC *boss2_tunnel_instance;
-extern Fog_8003B2EC **lbl_805D4BEC;
-void render__15TObjBoss2TunnelFv(u8 *arg0);
-s32 check_flag_or_state__15TObjBoss2TunnelFi(s32 arg0);
-s32 is_flag_set__15TObjBoss2TunnelFv(s32 _w0);
-void init_piecewise_curve(void *, f32, f32, f32, f32, f32);
-struct S_8003C2E4;
-struct Obj_8003C374;
-struct Obj_8003C2A0;
-void shift_queue_push_next__15TObjBoss2TunnelFPv(Obj_8003C2A0 *self);
-void * init__13TUnk_804835D8Fv(void *arg0);
-f32 rand_signed_unit(void);
-void *__ct__13TObjBoss2DustFv(void *, void *, Vec *);
-void play_persistent_sound(int, void *, int, int, int);
-void enable_fog__15TObjBoss2TunnelFv(void);
-void enable_fog__15TObjBoss2TunnelFPv(TObjBoss2Tunnel *arg0);
-void TObjBoss2Tunnel__sub_801339EC(f32, f32, f32);
-void run_task__15TObjBoss2TunnelFv(Tunnel_8003B6E8 *o);
-void TObjBoss2Tunnel__sub_8003B2B0(void);
-void *__ct__7TObjectFP7TObject(void *, void *);
-
-
-struct S_8003C108;
 s32 boss2_tunnel_model_index_table[6] = {
     0x14, 0xe, 0xf, 0x10,
     0x11, 0x13,
@@ -140,23 +54,19 @@ s32 boss2_tunnel_model_order_table[12] = {
     0x9, 0xb, 0x5, 0x0,
     0x1, 0x2, 0x3, 0x4,
 };
-void *boss2_tunnel_color_table[28] = {
-    (void *)0x3f800000, (void *)0x3f800000, (void *)0x3f19999a, (void *)0x3ecccccd,
-    (void *)0x3f800000, (void *)0x3f800000, (void *)0x3f4ccccd, (void *)0x3f000000,
-    (void *)0x3f800000, (void *)0x3f4ccccd, (void *)0x3f19999a, (void *)0x3e99999a,
-    (void *)0x3f800000, (void *)0x3f19999a, (void *)0x3f800000, (void *)0x3ecccccd,
-    (void *)0x3f800000, (void *)0x3f800000, (void *)0x3f4ccccd, (void *)0x3ecccccd,
-    (void *)0x3f800000, (void *)0x3f800000, (void *)0x3f19999a, (void *)0x3ecccccd,
-    (void *)0x3f800000, (void *)0x3f800000, (void *)0x3f19999a, (void *)0x3ecccccd,
+Boss2TunnelColor boss2_tunnel_color_table[7] = {
+    {1.0f, 1.0f, 0.6f, 0.4f},
+    {1.0f, 1.0f, 0.8f, 0.5f},
+    {1.0f, 0.8f, 0.6f, 0.3f},
+    {1.0f, 0.6f, 1.0f, 0.4f},
+    {1.0f, 1.0f, 0.8f, 0.4f},
+    {1.0f, 1.0f, 0.6f, 0.4f},
+    {1.0f, 1.0f, 0.6f, 0.4f},
 };
-void *boss2_tunnel_color[4] = {
-    (void *)0x3f800000, (void *)0x3f4ccccd, (void *)0x3f4ccccd, (void *)0x3f4ccccd,
-};
-void *lbl_80483480[15] = {
-    (void *)0x1, (void *)0xa, (void *)0x1, (void *)0x5,
-    (void *)0x1, (void *)0x2, (void *)0x2, (void *)0x14,
-    (void *)0x2, (void *)0x14, (void *)0x4, (void *)0x5,
-    (void *)0x4, (void *)0x2, (void *)0xffffffff,
+Boss2TunnelColor boss2_tunnel_color = {1.0f, 0.8f, 0.8f, 0.8f};
+// Frames each fog step of the flicker lasts; -1 ends the flicker.
+s32 boss2_tunnel_fog_flicker_frames[15] = {
+    1, 10, 1, 5, 1, 2, 2, 20, 2, 20, 4, 5, 4, 2, -1,
 };
 static s32 boss2_tunnel_queue_table[6] = {
     2, 2, 3, 1, 2, 4,
@@ -180,90 +90,10 @@ static Vec boss2_tunnel_particle_pos_table[4] = {
     {26.0f, -19.0f, 0.0f},
     {-26.0f, -19.0f, 0.0f},
 };
-#define boss2_tunnel_color_table ((Col_8003B6E8 *)boss2_tunnel_color_table)
-#define boss2_tunnel_color ((Col_8003B6E8 *)boss2_tunnel_color)
-#define lbl_80483480 ((s32 *)lbl_80483480)
 
-
-}
-
-
-struct S_8003C21C { u8 pad[0x1f]; u8 x; };
-
-struct O_8003C21C { u8 pad[0x5c]; saddr p; };
-
-extern "C" {
-s32 TObjBoss2Tunnel__sub_8003C1C8(void);
-
-
-}
-
-struct Obj_8003C374 { u8 pad[0x28]; s32 start; s32 q[6]; };
-
-struct Obj_8003C2A0 { u8 pad[0x2c]; s32 q[6]; s32 idx; };
-
-struct S_8003C2E4 {
-    u8 pad0[0x28];
-    s32 f28;
-    s32 t[6];
-};
-
-
-struct Tunnel_8003C45C {
-    const char *name;
-    u8 pad4[0x18 - 4];
-    void *vt;
-    f32 f1C;
-    f32 f20;
-    s32 i24;
-    s32 i28;
-    u8 pad2C[0x44 - 0x2C];
-    s32 i44;
-    u8 pad48[4];
-    f32 f4C;
-    f32 f50;
-    f32 f54;
-    s32 i58;
-    s32 i5C;
-    f32 f60;
-    s32 i64;
-    PiecewiseCurve curve;
-    f32 f94;
-    f32 f98;
-    s32 i9C;
-    s32 iA0;
-    s32 iA4;
-    s32 iA8;
-    f32 fAC;
-    s32 iB0;
-    s32 iB4;
-    s32 iB8;
-    s32 iBC;
-    void *splash[2];
-    s32 c8[4];
-    s32 d8;
-};
-
-extern "C" {
-void TObjBoss2Tunnel__sub_8003C5F8(void);
-void TObjBoss2Tunnel__sub_8003C610(void);
-void TObjBoss2Tunnel__sub_8003C648(void);
-
-}
-extern s32 __vt__13TUnk_804835D8[];
-
-
-#undef boss2_tunnel_instance
-
-
-#define __ct__7TObjectFP7TObject ((void (*)(void *))__ct__7TObjectFP7TObject)
-
-void *TUnk_804835D8::init() {
-    __ct__7TObjectFP7TObject(this);
-    *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_804835D8;
-    *(u32 *)&this->unk_1C = 0;
-    this->m_20 = (0.0f);
-    return this;
+TUnk_804835D8::TUnk_804835D8(TObject *parent) : TObject(parent) {
+    frame = 0;
+    slide = 0.0f;
 }
 
 TUnk_804835D8::~TUnk_804835D8() {}
@@ -271,38 +101,37 @@ TUnk_804835D8::~TUnk_804835D8() {}
 #pragma push
 #pragma opt_common_subs off
 void TUnk_804835D8::run_task() {
-    u8 *arg0 = (u8 *)this;
-    f32 temp_f1;
-    *(s32 *)&this->unk_1C = (s32) (*(s32 *)&this->unk_1C + 1);
-    if ((s32) *(s32 *)&this->unk_1C > 0x1E) {
-        this->m_20 += (1.0f);
-        temp_f1 = this->m_20;
-        if (temp_f1 > (7e+01f)) {
-            this->m_20 = (f32) (7e+01f);
-            ((TObject *)arg0)->queue_destruction();
+    f32 offset;
+    frame = frame + 1;
+    if (frame > 30) {
+        slide += 1.0f;
+        offset = slide;
+        if (offset > 70.0f) {
+            slide = 70.0f;
+            queue_destruction();
             return;
         }
-        *(f32 *)((s8 *)(*(u8 * *)&lbl_805D4C04) + 8) = (f32) -temp_f1;
-        *(f32 *)((s8 *)(*(u8 * *)&lbl_805D4C08) + 8) = (f32) this->m_20;
+        lbl_805D4C04->pos[0] = -offset;
+        lbl_805D4C08->pos[0] = slide;
     }
 }
 
 #pragma pop
 void TObjBoss2Tunnel::clear_target_flags() {
-    s32 *temp_r3;
-    s32 *temp_r3_2;
+    NJS_OBJECT *first;
+    NJS_OBJECT *second;
 
     TObjBoss2Tunnel__global_flags = 0;
-    temp_r3 = *(s32 **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)&boss2_tunnel_instance) + 0x42C)) + 0xA8)) + 0x2C)) + 0x30);
-    lbl_805D4C08 = temp_r3;
-    temp_r3_2 = *(s32 **)((s8 *)temp_r3 + 0x30);
-    lbl_805D4C04 = temp_r3_2;
-    *temp_r3_2 &= 0xFFFFFFFE;
-    *lbl_805D4C08 &= 0xFFFFFFFE;
+    first = boss2_common_resource->models[10].model->child->sibling;
+    lbl_805D4C08 = first;
+    second = first->sibling;
+    lbl_805D4C04 = second;
+    second->evalflags &= ~1;
+    lbl_805D4C08->evalflags &= ~1;
 }
 
 void *TObjBoss2Tunnel::create() {
-    return new TObjBoss2Tunnel((TObject *)tl_02);
+    return new TObjBoss2Tunnel(tl_02);
 }
 
 void TObjBoss2Tunnel__sub_8003C648(void) {  }
@@ -341,65 +170,62 @@ void TObjBoss2Tunnel::set_global_flag_200() {
     TObjBoss2Tunnel__global_flags |= 0x200;
 }
 
-#define self ((Tunnel_8003C45C *)this)
 TObjBoss2Tunnel::TObjBoss2Tunnel(TObject *parent) : TObject(parent) {
     s32 i;
     s32 j;
     m_name = lbl_805D2708;
-    self->i24 = 0;
+    state = 0;
     TObjBoss2Tunnel__global_flags = 0;
-    self->f1C = (0.0f);
-    self->f20 = (0.0f);
-    self->i28 = 0;
+    segment_pos = 0.0f;
+    scroll_speed = 0.0f;
+    queue_pos = 0;
     init_queue_from_start();
-    self->i5C = 0;
-    self->f60 = (0.0f);
-    self->i44 = 0;
-    self->f4C = (0.0f);
-    self->f50 = (0.0f);
-    self->f54 = (0.0f);
-    self->i58 = 0;
-    self->i64 = 0;
-    self->curve.reset_floats();
-    self->f94 = (1.0f);
-    self->f98 = (0.0f);
-    self->iB0 = 0x21;
-    self->iB4 = 0;
-    self->iB8 = 0;
-    self->iBC = 0;
-    self->i9C = 0;
-    self->iA4 = 0;
-    self->iA0 = 0;
-    self->iA8 = 0;
-    self->fAC = (0.0f);
+    texture_frame = 0;
+    start_offset = 0.0f;
+    shift_index = 0;
+    brake_pos = 0.0f;
+    brake_end = 0.0f;
+    brake_speed = 0.0f;
+    pad_58 = 0;
+    sway_state = 0;
+    sway_curve.reset_floats();
+    sway_dir = 1.0f;
+    sway_offset = 0.0f;
+    saved_fog = 0x21;
+    fog_state = 0;
+    fog_timer = 0;
+    fog_step = 0;
+    bob_angle = 0;
+    roll_phase = 0;
+    roll_angle = 0;
+    inner_roll_angle = 0;
+    bob_height = 0.0f;
     for (i = 0; i < 2; i++) {
-        self->splash[i] = new TObjBoss2RaftSplash((TObject *)self, &boss2_tunnel_raft_splash_positions[i], &boss2_tunnel_raft_splash_offsets[i], &self->f20);
+        raft_splashes[i] = new TObjBoss2RaftSplash(this, &boss2_tunnel_raft_splash_positions[i], &boss2_tunnel_raft_splash_offsets[i], &scroll_speed);
     }
     for (j = 0; j < 4; j++) {
-        self->c8[j] = 0;
+        particles[j] = 0;
     }
-    self->d8 = 0xA;
+    dust_timer = 0xA;
 }
-#undef self
 
 TObjBoss2Tunnel::~TObjBoss2Tunnel() {}
 
-#undef __ct__7TObjectFP7TObject
 void TObjBoss2Tunnel::init_queue_from_start() {
-    s32 k = ((Obj_8003C374 *)this)->start;
+    s32 k = queue_pos;
     s32 n = 6 - k;
     s32 i;
     s32 j;
     for (i = 0; i < n; i++) {
-        ((Obj_8003C374 *)this)->q[i] = boss2_tunnel_queue_table[k++];
+        segment_queue[i] = boss2_tunnel_queue_table[k++];
     }
     for (j = 0; i < 6; i++, j++) {
-        ((Obj_8003C374 *)this)->q[i] = boss2_tunnel_ring_queue_table[j];
+        segment_queue[i] = boss2_tunnel_ring_queue_table[j];
     }
 }
 
 void TObjBoss2Tunnel::copy_ring_buffer_window() {
-    s32 idx = ((S_8003C2E4 *)this)->f28;
+    s32 idx = queue_pos;
     s32 n = 6;
     s32 i;
     s32 j;
@@ -408,260 +234,246 @@ void TObjBoss2Tunnel::copy_ring_buffer_window() {
     }
     s32 k = idx;
     for (i = 0; i < n; i++, k++) {
-        ((S_8003C2E4 *)this)->t[i] = boss2_tunnel_ring_queue_table[k];
+        segment_queue[i] = boss2_tunnel_ring_queue_table[k];
     }
     for (j = 0; i < 6; i++, j++) {
-        ((S_8003C2E4 *)this)->t[i] = boss2_tunnel_ring_queue_table[j];
+        segment_queue[i] = boss2_tunnel_ring_queue_table[j];
     }
 }
 
-void shift_queue_push_next__15TObjBoss2TunnelFPv(Obj_8003C2A0 *self) {
+void TObjBoss2Tunnel::shift_queue_push_next() {
     s32 i;
     for (i = 0; i < 5; i++) {
-        self->q[i] = self->q[i + 1];
+        segment_queue[i] = segment_queue[i + 1];
     }
-    self->q[5] = boss2_tunnel_shift_queue_table[self->idx++];
+    segment_queue[5] = boss2_tunnel_shift_queue_table[shift_index++];
 }
 
-void enable_fog__15TObjBoss2TunnelFv(void) {
+void TObjBoss2Tunnel::enable_fog() {
     TFogCtrl::update_all(0xB, 1);
     TObjBoss2Tunnel__global_flags |= 2;
 }
 
-void enable_fog__15TObjBoss2TunnelFPv(TObjBoss2Tunnel *boss2_tunnel) {
-    TFogCtrl::update_all(boss2_tunnel->m_b0, 1);
+void TObjBoss2Tunnel::restore_fog() {
+    TFogCtrl::update_all(saved_fog, 1);
     TObjBoss2Tunnel__global_flags |= 4;
 }
 
 
-u8 *TObjBoss2Tunnel::sub_8003C21C() {
-    if (((O_8003C21C *)this)->p == 0) {
+s32 TObjBoss2Tunnel::sub_8003C21C() {
+    if (texture_frame == 0) {
         return 0;
     }
-    return &((S_8003C21C *)((O_8003C21C *)this)->p)->x;
+    return texture_frame + 31;
 }
 
-s32 check_flag_or_state__15TObjBoss2TunnelFi(s32 arg0) {
-    s32 temp_r31;
-    s32 temp_r3;
-    temp_r31 = TObjBoss2Tunnel__sub_8003C1C8();
-    temp_r3 = is_flag_set__15TObjBoss2TunnelFv(arg0);
-    return temp_r3 | temp_r31;
+s32 TObjBoss2Tunnel::is_swaying() {
+    s32 right;
+    s32 left;
+    right = sub_8003C1C8();
+    left = is_flag_set();
+    return left | right;
 }
 
-s32 is_flag_set__15TObjBoss2TunnelFv(s32 _w0) {
+s32 TObjBoss2Tunnel::is_flag_set() {
     return ((u32) TObjBoss2Tunnel__global_flags >> 0xCU) & 1;
 }
 
-s32 TObjBoss2Tunnel__sub_8003C1C8(void) {
+s32 TObjBoss2Tunnel::sub_8003C1C8() {
     return ((u32) TObjBoss2Tunnel__global_flags >> 0xDU) & 1;
 }
 
-#define check_flag_or_state__15TObjBoss2TunnelFi ((s32 (*)(void *))check_flag_or_state__15TObjBoss2TunnelFi)
-#define is_flag_set__15TObjBoss2TunnelFv ((s32 (*)(void *))is_flag_set__15TObjBoss2TunnelFv)
-#define shift_queue_push_next__15TObjBoss2TunnelFPv ((void (*)(void *))shift_queue_push_next__15TObjBoss2TunnelFPv)
-#define init__13TUnk_804835D8Fv ((void (*)(void *, void *))init__13TUnk_804835D8Fv)
-#define enable_fog__15TObjBoss2TunnelFv ((void (*)(void *))enable_fog__15TObjBoss2TunnelFv)
 void TObjBoss2Tunnel::update_particles() {
     f32 t;
     s32 i;
-    uaddr r;
-    uaddr p;
-    if (((S_8003C108 *)this)->f20 < boss2_tunnel_max_scroll_speed) {
-        t = (-5.0f) * (((S_8003C108 *)this)->f20 / boss2_tunnel_max_scroll_speed);
+    TParticleCtrl *particle;
+    if (scroll_speed < boss2_tunnel_max_scroll_speed) {
+        t = -5.0f * (scroll_speed / boss2_tunnel_max_scroll_speed);
     } else {
-        t = (-5.0f);
+        t = -5.0f;
     }
     for (i = 0; i < 4; i++) {
-        p = ((S_8003C108 *)this)->ptr[i];
-        if (p == 0) {
-            r = (saddr)TAdLoadQuestPrtTxtGC::create_particle(&boss2_tunnel_particle_pos_table[i], 0x171, 1);
-            if (r != 0) {
-                ((TParticleCtrl *)r)->enable();
-                ((S_8003C108 *)this)->ptr[i] = r;
+        particle = particles[i];
+        if (particle == 0) {
+            TParticleCtrl *created = (TParticleCtrl *)TAdLoadQuestPrtTxtGC::create_particle(&boss2_tunnel_particle_pos_table[i], 0x171, 1);
+            if (created != 0) {
+                created->enable();
+                particles[i] = created;
             }
         } else {
-            release_children((void *)p, t);
+            release_children(particle, t);
         }
     }
 }
 
 #pragma push
 #pragma fp_contract on
-void run_task__15TObjBoss2TunnelFv(Tunnel_8003B6E8 *o) {
+void TObjBoss2Tunnel::run_task() {
     f32 tmp;
     s32 flag;
     f32 prev;
-    o->f5c++;
-    if (o->f5c >= 30) {
-        o->f5c = 0;
+    texture_frame++;
+    if (texture_frame >= 30) {
+        texture_frame = 0;
     }
-    f32 k = 512.0f;
-    o->f9c = (s32)((f32)o->f9c + k);
-    o->fa4 = (s32)((f32)o->fa4 + k);
-    o->fa0 = (s32)((546.0f) * sin_table_lookup(o->fa4));
-    o->fac = (3.0f) * sin_table_lookup(o->f9c) + (2.0f);
-    if (check_flag_or_state__15TObjBoss2TunnelFi(o) != 0) {
-        o->fa8 = (o->fa0 * 2) / 3;
+    f32 step = 512.0f;
+    bob_angle = (s32)((f32)bob_angle + step);
+    roll_phase = (s32)((f32)roll_phase + step);
+    roll_angle = (s32)(546.0f * sin_table_lookup(roll_phase));
+    bob_height = 3.0f * sin_table_lookup(bob_angle) + 2.0f;
+    if (is_swaying() != 0) {
+        inner_roll_angle = (roll_angle * 2) / 3;
     } else {
-        o->fa8 = o->fa0 / 2;
+        inner_roll_angle = roll_angle / 2;
     }
-    switch (o->f64) {
+    switch (sway_state) {
     case 0:
-        if (check_flag_or_state__15TObjBoss2TunnelFi(o) != 0) {
-            if (is_flag_set__15TObjBoss2TunnelFv(o) != 0) {
-                o->f94 = (-1.0f);
+        if (is_swaying() != 0) {
+            if (is_flag_set() != 0) {
+                sway_dir = -1.0f;
             } else {
-                o->f94 = (1.0f);
+                sway_dir = 1.0f;
             }
-            o->f64 = 1;
-            init_piecewise_curve(o->f68, (0.1f), (-0.1f), (1.5e+02f), (5.0f), (2.0f));
-            o->f98 = (0.0f);
+            sway_state = 1;
+            sway_curve.init(0.1f, -0.1f, 150.0f, 5.0f, 2.0f);
+            sway_offset = 0.0f;
         }
         break;
     case 1:
-        if (check_flag_or_state__15TObjBoss2TunnelFi(o) == 0) {
-            o->f64 = 3;
-            tmp = fabs_float(o->f98);
-            init_piecewise_curve(o->f68, (0.1f), (-0.1f), o->f98, -((TObjBoss2Tunnel *)o->f68)->update_position(), (2.0f));
+        if (is_swaying() == 0) {
+            sway_state = 3;
+            tmp = fabs_float(sway_offset);
+            sway_curve.init(0.1f, -0.1f, sway_offset, -sway_curve.current_speed(), 2.0f);
         } else {
-            if (((TObjBoss2Tunnel *)o->f68)->advance_phase(&tmp) != 0) {
-                o->f64 = 2;
+            if (sway_curve.advance(&tmp) != 0) {
+                sway_state = 2;
             }
-            o->f98 = tmp * o->f94;
+            sway_offset = tmp * sway_dir;
         }
         break;
     case 2:
-        if (check_flag_or_state__15TObjBoss2TunnelFi(o) == 0) {
-            o->f64 = 3;
-            init_piecewise_curve(o->f68, (0.1f), (-0.1f), (1.5e+02f), (0.0f), (2.0f));
+        if (is_swaying() == 0) {
+            sway_state = 3;
+            sway_curve.init(0.1f, -0.1f, 150.0f, 0.0f, 2.0f);
         }
         break;
     case 3:
-        if (((TObjBoss2Tunnel *)o->f68)->advance_phase(&tmp) != 0) {
-            o->f98 = (0.0f);
-            o->f64 = 0;
+        if (sway_curve.advance(&tmp) != 0) {
+            sway_offset = 0.0f;
+            sway_state = 0;
         } else {
-            o->f98 = o->f94 * ((1.5e+02f) - tmp);
+            sway_offset = sway_dir * (150.0f - tmp);
         }
         break;
     }
-    switch (o->f24) {
+    switch (state) {
     case 0:
         TObjBoss2Tunnel::set_global_flag_100();
         if (TObjBoss2Tunnel__global_flags & 0x100) {
             TObjBoss2Tunnel__global_flags &= ~0x100;
-            o->f24 = 1;
+            state = 1;
         }
         break;
     case 1:
-        o->f20 += (0.05f);
-        if (o->f20 > boss2_tunnel_max_scroll_speed) {
-            o->f20 = boss2_tunnel_max_scroll_speed;
+        scroll_speed += 0.05f;
+        if (scroll_speed > boss2_tunnel_max_scroll_speed) {
+            scroll_speed = boss2_tunnel_max_scroll_speed;
         }
-        o->f1c += o->f20;
-        o->f60 += o->f20;
-        if (o->f1c >= 600.0f) {
-            o->f1c -= 600.0f;
-            o->f28++;
-            if (o->f28 >= 6) {
-                o->f28 = 0;
-                ((TObjBoss2Tunnel *)o)->copy_ring_buffer_window();
-                o->f24 = 2;
-                o->fb0 = TFogCtrl::update_first_active_fog();
+        segment_pos += scroll_speed;
+        start_offset += scroll_speed;
+        if (segment_pos >= 600.0f) {
+            segment_pos -= 600.0f;
+            queue_pos++;
+            if (queue_pos >= 6) {
+                queue_pos = 0;
+                copy_ring_buffer_window();
+                state = 2;
+                saved_fog = TFogCtrl::update_first_active_fog();
             } else {
-                ((TObjBoss2Tunnel *)o)->init_queue_from_start();
+                init_queue_from_start();
             }
         }
         break;
     case 2: {
-        o->f20 += (0.05f);
-        if (o->f20 > boss2_tunnel_max_scroll_speed) {
-            o->f20 = boss2_tunnel_max_scroll_speed;
+        scroll_speed += 0.05f;
+        if (scroll_speed > boss2_tunnel_max_scroll_speed) {
+            scroll_speed = boss2_tunnel_max_scroll_speed;
         }
-        o->f1c += o->f20;
-        if (o->f1c >= 600.0f) {
-            o->f1c -= 600.0f;
-            o->f28++;
-            if (o->f28 >= 31) {
-                o->f28 = 0;
+        segment_pos += scroll_speed;
+        if (segment_pos >= 600.0f) {
+            segment_pos -= 600.0f;
+            queue_pos++;
+            if (queue_pos >= 31) {
+                queue_pos = 0;
             }
-            ((TObjBoss2Tunnel *)o)->copy_ring_buffer_window();
+            copy_ring_buffer_window();
         }
         if (TObjBoss2Tunnel__global_flags & 0x200) {
-            void *p;
             TObjBoss2Tunnel__global_flags &= ~0x200;
-            o->f24 = 3;
-            o->f44 = 0;
-            o->f50 = (4.4e+03f) - ((0.5f) * (o->f20 * o->f20)) / (0.02f);
-            o->f4c = o->f1c;
-            o->f54 = o->f20;
-            o->f48 = 0;
-            p = TObject::operator new(0x24);
-            if (p != 0) {
-                init__13TUnk_804835D8Fv(p, o);
-            }
+            state = 3;
+            shift_index = 0;
+            brake_end = 4400.0f - (0.5f * (scroll_speed * scroll_speed)) / 0.02f;
+            brake_pos = segment_pos;
+            brake_speed = scroll_speed;
+            brake_frame = 0;
+            new TUnk_804835D8(this);
         }
-        o->fd8--;
-        if (o->fd8 <= 0) {
+        dust_timer--;
+        if (dust_timer <= 0) {
             Vec v;
-            void *p;
-            v.x = (2e+02f) * rand_signed_unit();
-            v.y = (9e+01f) * ((3.0517578e-05f) * (f32)rand()) + (1e+01f);
-            v.z = (6e+02f);
-            p = TObject::operator new(0x30);
-            if (p != 0) {
-                __ct__13TObjBoss2DustFv(p, tl_05, &v);
-            }
-            o->fd8 = 10;
+            v.x = 200.0f * rand_signed_unit();
+            v.y = 90.0f * (3.0517578e-05f * (f32)rand()) + 10.0f;
+            v.z = 600.0f;
+            new TObjBoss2Dust(tl_05, &v);
+            dust_timer = 10;
         }
         break;
     }
     case 3:
         flag = 0;
-        prev = o->f4c;
-        if ((f32)o->f48 <= (0.0f)) {
-            o->f4c = prev + o->f54;
-            if (o->f4c > o->f50) {
-                o->f48 = 1;
-                o->f50 = o->f4c;
+        prev = brake_pos;
+        if ((f32)brake_frame <= 0.0f) {
+            brake_pos = prev + brake_speed;
+            if (brake_pos > brake_end) {
+                brake_frame = 1;
+                brake_end = brake_pos;
                 play_sound_effect(0x4003A80E, 0, 0, 0);
             } else {
-                play_persistent_sound(0x4003B20C, o, 0, 0, 0);
+                play_persistent_sound(0x4003B20C, (saddr)this, 0, 0, 0);
             }
         } else {
             f32 lim;
-            o->f4c = (f32)o->f48 * (o->f54 - (0.01f) * (f32)o->f48) + o->f50;
-            { f32 one = 1.0f; o->f48 = (s32)((f32)o->f48 + one); }
-            lim = o->f54 / (0.02f);
-            if ((f32)o->f48 >= lim) {
-                o->f48 = (s32)lim;
-                o->f58 = 0;
-                o->f24 = 4;
+            brake_pos = (f32)brake_frame * (brake_speed - 0.01f * (f32)brake_frame) + brake_end;
+            { f32 one = 1.0f; brake_frame = (s32)((f32)brake_frame + one); }
+            lim = brake_speed / 0.02f;
+            if ((f32)brake_frame >= lim) {
+                brake_frame = (s32)lim;
+                pad_58 = 0;
+                state = 4;
             }
         }
-        o->f20 = o->f4c - prev;
-        o->f1c += o->f4c - prev;
-        if (o->f34 == 6 || o->f38 == 6) {
-            if (o->f1c >= 700.0f) {
-                o->f1c -= 700.0f;
+        scroll_speed = brake_pos - prev;
+        segment_pos += brake_pos - prev;
+        if (segment_queue[2] == 6 || segment_queue[3] == 6) {
+            if (segment_pos >= 700.0f) {
+                segment_pos -= 700.0f;
                 flag = 1;
             }
-        } else if (o->f1c >= 600.0f) {
-            o->f1c -= 600.0f;
+        } else if (segment_pos >= 600.0f) {
+            segment_pos -= 600.0f;
             flag = 1;
         }
         if (flag) {
-            shift_queue_push_next__15TObjBoss2TunnelFPv(o);
+            shift_queue_push_next();
         }
         break;
     case 4:
         break;
     }
-    if (o->f24 == 1 || o->f24 == 2) {
-        play_persistent_sound(0x4003B20C, o, 0, 0, 0);
+    if (state == 1 || state == 2) {
+        play_persistent_sound(0x4003B20C, (saddr)this, 0, 0, 0);
     }
-    ((TObjBoss2Tunnel *)o)->update_particles();
+    update_particles();
     if (TObjBoss2Tunnel__global_flags & 2) {
         TObjBoss2Tunnel__global_flags &= ~2;
         TObjBoss2Tunnel__global_flags |= 1;
@@ -669,28 +481,28 @@ void run_task__15TObjBoss2TunnelFv(Tunnel_8003B6E8 *o) {
         TObjBoss2Tunnel__global_flags &= ~4;
         TObjBoss2Tunnel__global_flags &= ~1;
     }
-    switch (o->fb4) {
+    switch (fog_state) {
     case 0:
         if (TObjBoss2Tunnel__global_flags & 0x400) {
             TObjBoss2Tunnel__global_flags &= ~0x400;
-            o->fb4 = 1;
-            o->fb8 = 0;
-            o->fbc = 0;
-            enable_fog__15TObjBoss2TunnelFv(o);
+            fog_state = 1;
+            fog_timer = 0;
+            fog_step = 0;
+            enable_fog();
         }
         break;
     case 1:
-        o->fb8++;
-        if (lbl_80483480[o->fbc] <= o->fb8) {
-            o->fb8 = 0;
-            o->fbc++;
-            if (o->fbc & 1) {
-                enable_fog__15TObjBoss2TunnelFPv((TObjBoss2Tunnel *)o);
+        fog_timer++;
+        if (boss2_tunnel_fog_flicker_frames[fog_step] <= fog_timer) {
+            fog_timer = 0;
+            fog_step++;
+            if (fog_step & 1) {
+                restore_fog();
             } else {
-                enable_fog__15TObjBoss2TunnelFv(o);
+                enable_fog();
                 play_sound_effect(0x4003A80B, 0, 0, 0);
-                if (lbl_80483480[o->fbc] == -1) {
-                    o->fb4 = 2;
+                if (boss2_tunnel_fog_flicker_frames[fog_step] == -1) {
+                    fog_state = 2;
                 }
             }
         }
@@ -698,148 +510,138 @@ void run_task__15TObjBoss2TunnelFv(Tunnel_8003B6E8 *o) {
     case 2:
         if (TObjBoss2Tunnel__global_flags & 0x800) {
             TObjBoss2Tunnel__global_flags &= ~0x800;
-            o->fb4 = 3;
-            o->fb8 = 0;
-            o->fbc = 0;
-            enable_fog__15TObjBoss2TunnelFPv((TObjBoss2Tunnel *)o);
+            fog_state = 3;
+            fog_timer = 0;
+            fog_step = 0;
+            restore_fog();
         }
         break;
     case 3:
-        o->fb8++;
-        if (lbl_80483480[o->fbc] <= o->fb8) {
-            o->fbc++;
-            o->fb8 = 0;
-            if (o->fbc & 1) {
-                enable_fog__15TObjBoss2TunnelFv(o);
+        fog_timer++;
+        if (boss2_tunnel_fog_flicker_frames[fog_step] <= fog_timer) {
+            fog_step++;
+            fog_timer = 0;
+            if (fog_step & 1) {
+                enable_fog();
             } else {
-                enable_fog__15TObjBoss2TunnelFPv((TObjBoss2Tunnel *)o);
+                restore_fog();
                 play_sound_effect(0x4003A80B, 0, 0, 0);
-                if (lbl_80483480[o->fbc] == -1) {
-                    o->fb4 = 0;
+                if (boss2_tunnel_fog_flicker_frames[fog_step] == -1) {
+                    fog_state = 0;
                 }
             }
         }
         break;
     }
     if (TObjBoss2Tunnel::is_active() == 0) {
-        f32 d = o->f1c;
-        Col_8003B6E8 *a = &boss2_tunnel_color_table[o->f34];
-        Col_8003B6E8 *b = &boss2_tunnel_color_table[o->f38];
-        if (d <= (2e+02f)) {
+        f32 d = segment_pos;
+        Boss2TunnelColor *a = &boss2_tunnel_color_table[segment_queue[2]];
+        Boss2TunnelColor *b = &boss2_tunnel_color_table[segment_queue[3]];
+        if (d <= 200.0f) {
             TObjBoss2Tunnel__sub_801339EC(a->r, a->g, a->b);
-        } else if (d <= (4e+02f)) {
+        } else if (d <= 400.0f) {
             f32 u;
             f32 t;
-            t = (d - (2e+02f)) / (2e+02f);
-            u = (1.0f) - t;
+            t = (d - 200.0f) / 200.0f;
+            u = 1.0f - t;
             TObjBoss2Tunnel__sub_801339EC(a->r * u + b->r * t, a->g * u + b->g * t, a->b * u + b->b * t);
         } else {
             TObjBoss2Tunnel__sub_801339EC(b->r, b->g, b->b);
         }
     } else {
-        TObjBoss2Tunnel__sub_801339EC(boss2_tunnel_color->r, boss2_tunnel_color->g, boss2_tunnel_color->b);
+        TObjBoss2Tunnel__sub_801339EC(boss2_tunnel_color.r, boss2_tunnel_color.g, boss2_tunnel_color.b);
     }
 }
 
 #pragma pop
-#undef boss2_tunnel_color_table
-#undef boss2_tunnel_color
-#undef lbl_80483480
-void render__15TObjBoss2TunnelFv(u8 *arg0) {
-    s32 saved;
+void TObjBoss2Tunnel::render() {
+    GinjaTextureState *saved;
     s32 i;
-    Tunnel_8003B2EC *o = (Tunnel_8003B2EC *)arg0;
     Vec v = {0.0f, 0.0f, 0.0f};
     if (TObjPlayer::is_any_teammate_in_state() == 0 && TMainTask::get_render_pass() == 0) {
     push_matrix();
     {
-        Fog_8003B2EC *f = *lbl_805D4BEC;
-        saved = f->c;
-        f->c = f[(saddr)((TObjBoss2Tunnel *)o)->sub_8003C21C()].c;
+        GinjaTextureEntry *entries = boss2_common_texture_list->entries;
+        saved = entries->texture;
+        entries->texture = entries[sub_8003C21C()].texture;
     }
-    TObjFish::set_global_param((saddr)lbl_805D4BEC);
-    if (o->f24 == 0 || o->f24 == 1) {
+    TObjFish::set_global_param((saddr)boss2_common_texture_list);
+    if (state == 0 || state == 1) {
         push_matrix();
-        translate_matrix(0, (0.0f), (0.0f), -o->f60);
-        draw_ginja_object((void *)boss2_tunnel_instance->models[13].obj);
+        translate_matrix(0, 0.0f, 0.0f, -start_offset);
+        draw_ginja_object(boss2_common_resource->models[13].model);
         pop_matrix();
     }
-    if (o->f24 == 3) {
-        v.z = -o->f1c;
-        if (o->f2c[0] == 6) {
-            v.z -= (4e+02f);
+    if (state == 3) {
+        v.z = -segment_pos;
+        if (segment_queue[0] == 6) {
+            v.z -= 400.0f;
         } else {
-            v.z -= (3e+02f);
+            v.z -= 300.0f;
         }
-        if (o->f2c[1] == 6) {
-            v.z -= (8e+02f);
+        if (segment_queue[1] == 6) {
+            v.z -= 800.0f;
         } else {
-            v.z -= (6e+02f);
+            v.z -= 600.0f;
         }
-        if (o->f2c[2] == 6) {
-            v.z -= (4e+02f);
+        if (segment_queue[2] == 6) {
+            v.z -= 400.0f;
         } else {
-            v.z -= (3e+02f);
+            v.z -= 300.0f;
         }
     } else {
-        v.z = -((1.2e+03f) + o->f1c);
+        v.z = -(1200.0f + segment_pos);
     }
-    post_translate_matrix(&v);
-    v.z = (6e+02f);
+    post_translate_matrix(&v.x);
+    v.z = 600.0f;
     for (i = 0; i < 6; i++) {
-        s32 t = o->f2c[i];
+        s32 t = segment_queue[i];
         if (t == 6) {
             if (i != 0) {
-                translate_matrix(0, (0.0f), (0.0f), (1e+02f));
+                translate_matrix(0, 0.0f, 0.0f, 100.0f);
             }
-            translate_matrix(0, (0.0f), (0.0f), (-3e+02f));
+            translate_matrix(0, 0.0f, 0.0f, -300.0f);
             push_matrix();
-            translate_matrix(0, (0.0f), o->fac, (0.0f));
-            rotate_matrix_z(0, o->fa0);
-            translate_matrix(0, o->f98, (0.0f), (0.0f));
-            draw_ginja_object((void *)boss2_tunnel_instance->models[18].obj);
-            draw_ginja_object((void *)boss2_tunnel_instance->models[21].obj);
+            translate_matrix(0, 0.0f, bob_height, 0.0f);
+            rotate_matrix_z(0, roll_angle);
+            translate_matrix(0, sway_offset, 0.0f, 0.0f);
+            draw_ginja_object(boss2_common_resource->models[18].model);
+            draw_ginja_object(boss2_common_resource->models[21].model);
             pop_matrix();
             push_matrix();
-            rotate_matrix_z(0, o->fa8);
-            translate_matrix(0, o->f98, (0.0f), (0.0f));
-            draw_ginja_object((void *)boss2_tunnel_instance->models[10].obj);
+            rotate_matrix_z(0, inner_roll_angle);
+            translate_matrix(0, sway_offset, 0.0f, 0.0f);
+            draw_ginja_object(boss2_common_resource->models[10].model);
             pop_matrix();
-            translate_matrix(0, (0.0f), (0.0f), (4e+02f));
+            translate_matrix(0, 0.0f, 0.0f, 400.0f);
             push_matrix();
-            translate_matrix(0, (0.0f), o->fac, (0.0f));
-            rotate_matrix_z(0, o->fa0);
-            translate_matrix(0, o->f98, (0.0f), (0.0f));
-            draw_ginja_object((void *)boss2_tunnel_instance->models[19].obj);
+            translate_matrix(0, 0.0f, bob_height, 0.0f);
+            rotate_matrix_z(0, roll_angle);
+            translate_matrix(0, sway_offset, 0.0f, 0.0f);
+            draw_ginja_object(boss2_common_resource->models[19].model);
             pop_matrix();
             push_matrix();
-            rotate_matrix_z(0, o->fa8);
-            translate_matrix(0, o->f98, (0.0f), (0.0f));
-            draw_ginja_object((void *)boss2_tunnel_instance->models[11].obj);
+            rotate_matrix_z(0, inner_roll_angle);
+            translate_matrix(0, sway_offset, 0.0f, 0.0f);
+            draw_ginja_object(boss2_common_resource->models[11].model);
             pop_matrix();
-            post_translate_matrix(&v);
+            post_translate_matrix(&v.x);
         } else {
             push_matrix();
-            translate_matrix(0, (0.0f), o->fac, (0.0f));
-            rotate_matrix_z(0, o->fa0);
-            translate_matrix(0, o->f98, (0.0f), (0.0f));
-            draw_ginja_object((void *)(boss2_tunnel_instance->models[boss2_tunnel_model_index_table[t]].obj));
+            translate_matrix(0, 0.0f, bob_height, 0.0f);
+            rotate_matrix_z(0, roll_angle);
+            translate_matrix(0, sway_offset, 0.0f, 0.0f);
+            draw_ginja_object(boss2_common_resource->models[boss2_tunnel_model_index_table[t]].model);
             pop_matrix();
             push_matrix();
-            rotate_matrix_z(0, o->fa8);
-            translate_matrix(0, o->f98, (0.0f), (0.0f));
-            draw_ginja_object((void *)(boss2_tunnel_instance->models[boss2_tunnel_model_order_table[t]].obj));
+            rotate_matrix_z(0, inner_roll_angle);
+            translate_matrix(0, sway_offset, 0.0f, 0.0f);
+            draw_ginja_object(boss2_common_resource->models[boss2_tunnel_model_order_table[t]].model);
             pop_matrix();
-            post_translate_matrix(&v);
+            post_translate_matrix(&v.x);
         }
     }
-    (*lbl_805D4BEC)->c = saved;
+    boss2_common_texture_list->entries->texture = saved;
     pop_matrix();
     }
 }
-
-#undef check_flag_or_state__15TObjBoss2TunnelFi
-#undef is_flag_set__15TObjBoss2TunnelFv
-#undef shift_queue_push_next__15TObjBoss2TunnelFPv
-#undef init__13TUnk_804835D8Fv
-#undef enable_fog__15TObjBoss2TunnelFv

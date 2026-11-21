@@ -2,6 +2,8 @@
 #include "pso/system/vector.h"
 #include "types.h"
 #include "pso/boss/derolle/TObjBoss2CeilJunk.h"
+#include "pso/boss/derolle/TObjBoss2CeilJunk_8003A81C.h"
+#include "pso/system/BmlResource.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -110,8 +112,6 @@ s32 spawn_effect__15TObjBoss2TunnelFlPvPv(void *, void *, void *, f32, f32);
 s32 rotate_matrix_x(int, int);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
-extern Holder_8003A1B4 *boss2_tunnel_instance;
-extern s32 lbl_805D4BEC;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 void forward_switch_phase_stats__13TBoss2DeRolLeFi(saddr arg0);
@@ -149,11 +149,11 @@ void TObjBoss2CeilJunk::render() {
     set_chunk_blend(0x2500);
   }
   push_matrix();
-  TObjFish::set_global_param(lbl_805D4BEC);
+  TObjFish::set_global_param((saddr)boss2_common_texture_list);
   post_translate_matrix(self->pos);
   rotate_matrix_y(0, this->rotation_y);
   rotate_matrix_x(0, this->rotation_x);
-  draw_ginja_object((void *)(boss2_tunnel_instance->mdls[boss2_ceil_junk_model_index_table[*(s32 *)&this->m_ac]].f8));
+  draw_ginja_object(boss2_common_resource->models[boss2_ceil_junk_model_index_table[*(s32 *)&this->m_ac]].model);
   pop_matrix();
   model_render_flags = saved_model_render_flags;
   set_chunk_material_override_pair(0xFF00, 0);

@@ -3,6 +3,14 @@
 
 #include "types.h"
 
+struct BmlResource;
+struct GinjaTextureList;
+
+// bm_obj_boss2_common.bml (rocks, tunnel segments, water) and its texture list, loaded by
+// load_boss2_common_resource and drawn by TObjBoss2CeilJunk and TObjBoss2Tunnel.
+extern BmlResource *boss2_common_resource;
+extern GinjaTextureList *boss2_common_texture_list;
+
 // Shared by the Boss2 dust, raft splash and tunnel objects: TObjBoss2Tunnel clamps its
 // scroll speed (f20) to it and the dust/splash objects drift by it each frame.
 extern const f32 boss2_tunnel_max_scroll_speed;

@@ -401,20 +401,20 @@ f32 TObjBoss2Tunnel::calc_scaled_value(s32 arg0, f32 farg0) {
     return (0.5f * farg0) / sin_table_lookup(arg0 / 2);
 }
 
-s32 TObjBoss2Tunnel::count_tree_nodes() {
-    s32 var_r31;
-    u8 *temp_r3;
-    u8 *temp_r3_2;
-    var_r31 = 1;
-    temp_r3 = (u8 *)this->m_2c;
-    if (temp_r3 != NULL) {
-        var_r31 = ((TObjBoss2Tunnel *)temp_r3)->count_tree_nodes() + 1;
+s32 count_tree_nodes(NJS_OBJECT *node) {
+    s32 count;
+    NJS_OBJECT *child;
+    NJS_OBJECT *sibling;
+    count = 1;
+    child = node->child;
+    if (child != NULL) {
+        count = count_tree_nodes(child) + 1;
     }
-    temp_r3_2 = (u8 *)this->m_30;
-    if (temp_r3_2 != NULL) {
-        var_r31 += ((TObjBoss2Tunnel *)temp_r3_2)->count_tree_nodes();
+    sibling = node->sibling;
+    if (sibling != NULL) {
+        count += count_tree_nodes(sibling);
     }
-    return var_r31;
+    return count;
 }
 
 s32 count_active_segments__15TObjBoss2TunnelFPv(void *arg0) {
@@ -602,8 +602,8 @@ void PiecewiseCurve::reset_floats() {
     accelDist = decelPos = dist = 0.0f;
 }
 
-extern "C" {
-void init_piecewise_curve(PiecewiseCurve *c, f32 accel, f32 decel, f32 dist, f32 v0, f32 peak) {
+void PiecewiseCurve::init(f32 accel, f32 decel, f32 dist, f32 v0, f32 peak) {
+    PiecewiseCurve *c = this;
     f32 sq;
     f32 up;
     f32 down;
@@ -645,12 +645,11 @@ void init_piecewise_curve(PiecewiseCurve *c, f32 accel, f32 decel, f32 dist, f32
         c->end = c->decelStart + (-c->peak / c->decel);
     }
 }
-}
 
 #pragma push
 #pragma fp_contract on
-f32 TObjBoss2Tunnel::eval_piecewise_curve(f32 farg0) {
-    PiecewiseCurve *c = (PiecewiseCurve *)this;
+f32 PiecewiseCurve::speed_at(f32 farg0) {
+    PiecewiseCurve *c = this;
     f32 t;
     f32 r = 0.0f;
     if (farg0 < r) {
@@ -672,13 +671,14 @@ f32 TObjBoss2Tunnel::eval_piecewise_curve(f32 farg0) {
 }
 
 #pragma pop
-f32 TObjBoss2Tunnel::update_position() {
-    return eval_piecewise_curve(*(f32 *)&this->_pad1C);
+f32 PiecewiseCurve::current_speed() {
+    return speed_at(t);
 }
 
 #pragma push
 #pragma fp_contract on
-s32 sample_piecewise_curve(PiecewiseCurve *c, f32 *out, f32 t) {
+s32 PiecewiseCurve::sample(f32 *out, f32 t) {
+    PiecewiseCurve *c = this;
     s32 done = 0;
     if (t < 0.0f) {
         *out = 0.0f;
@@ -697,9 +697,9 @@ s32 sample_piecewise_curve(PiecewiseCurve *c, f32 *out, f32 t) {
     return done;
 }
 #pragma pop
-s32 TObjBoss2Tunnel::advance_phase(f32 *out) {
-    PiecewiseCurve *c = (PiecewiseCurve *)this;
-    s32 done = sample_piecewise_curve(c, out, c->t);
+s32 PiecewiseCurve::advance(f32 *out) {
+    PiecewiseCurve *c = this;
+    s32 done = c->sample(out, c->t);
     c->t += 1.0f;
     return done;
 }

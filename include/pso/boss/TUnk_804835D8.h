@@ -5,11 +5,13 @@
 
 class TUnk_804835D8 : public TObject {
 public:
+    TUnk_804835D8(TObject *parent);
     virtual ~TUnk_804835D8();
-    void *init();
     virtual void run_task();
-    u8 unk_1C[0x4];
-    f32 m_20;
+    // TObjBoss2Tunnel creates it when the brake starts: after 30 frames it slides the two
+    // NJS_OBJECTs clear_target_flags picked 1 unit apart per frame, up to 70.
+    s32 frame;
+    f32 slide;
 };
 LAYOUT_ASSERT(TUnk_804835D8_size, sizeof(TUnk_804835D8) == 0x24);
 

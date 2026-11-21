@@ -36,17 +36,6 @@ extern saddr tl_05;
 
 }
 
-struct RecoveredGlobal_8003AA9C___vt__13TObjBoss2Dust {
-    s32 value;
-    u8 remaining[0x14];
-};
-LAYOUT_ASSERT(RecoveredGlobal_8003AA9C___vt__13TObjBoss2Dust_size, sizeof(RecoveredGlobal_8003AA9C___vt__13TObjBoss2Dust) == 0x18);
-
-extern "C" {
-s32 __ct__7TObjectFP7TObject(void *, void *);
-extern RecoveredGlobal_8003AA9C___vt__13TObjBoss2Dust __vt__13TObjBoss2Dust;
-}
-
 #pragma push
 #pragma readonly_strings on
 const char *TObjBoss2DustCtrl__name = "TObjBoss2DustCtrl";
@@ -154,16 +143,13 @@ void boss2_dust_draw_at(const Vec *position, s32 slot) {
     pop_matrix();
 }
 
-u8 *__ct__13TObjBoss2DustFv(u8 *object, saddr arg1, saddr arg2) {
-    __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
-    *(s32 **)((s8 *)object + 0x18) = &__vt__13TObjBoss2Dust.value;
-    *(const char **)((s8 *)object + 0) = TObjBoss2Dust__name;
-    TObjBoss2Dust *dust = (TObjBoss2Dust *)object;
-    VecCopy(&dust->position, (const Vec *)arg2);
-    dust->ticks = 0;
-    dust->strip_slot = TObjBoss2DustCtrl__sub_8003AB5C();
-    return object;
 }
+
+TObjBoss2Dust::TObjBoss2Dust(TObject *parent, const Vec *position) : TObject(parent) {
+    m_name = TObjBoss2Dust__name;
+    VecCopy(&this->position, position);
+    ticks = 0;
+    strip_slot = TObjBoss2DustCtrl__sub_8003AB5C();
 }
 
 TObjBoss2Dust::~TObjBoss2Dust() {}

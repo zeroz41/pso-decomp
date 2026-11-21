@@ -90,7 +90,6 @@ void __dt__7TObjectFv(void *, int);
 void __dl__7TObjectFPv(void *);
 void TObjBoss2Tunnel__sub_802F2278(void);
 s32 TObjBoss2Tunnel__sub_802F22F4(void);
-s32 init_piecewise_curve(void *, f32, f32, f32, f32, f32);
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
 void TObjBoss2Tunnel__sub_802F2C4C(void);
@@ -220,7 +219,7 @@ void TUnk_804E4B3C::update_phase_motion() {
                 *(f32 *)((s8 *)arg0 + 0x50) = 1.0f;
             }
             *(s32 *)((s8 *)arg0 + 0x4C) = 1;
-            init_piecewise_curve(arg0 + 0x20, 0.1f, (-0.1f), 150.0f, 5.0f, 2.0f);
+            ((PiecewiseCurve *)(arg0 + 0x20))->init(0.1f, (-0.1f), 150.0f, 5.0f, 2.0f);
             *(f32 *)((s8 *)arg0 + 0x54) = 0.0f;
         }
         break;
@@ -228,10 +227,10 @@ void TUnk_804E4B3C::update_phase_motion() {
         if (TObjBoss2Tunnel::check_both((saddr)arg0) == 0) {
             *(s32 *)((s8 *)arg0 + 0x4C) = 3;
             sp8 = fabs_float((f32) (*(f32 *)((s8 *)arg0 + 0x54)));
-            init_piecewise_curve(arg0 + 0x20, 0.1f, (-0.1f), (f32) (*(f32 *)((s8 *)arg0 + 0x54)), (f32) (-((TObjBoss2Tunnel *)(arg0 + 0x20))->update_position()), 2.0f);
+            ((PiecewiseCurve *)(arg0 + 0x20))->init(0.1f, (-0.1f), (f32) (*(f32 *)((s8 *)arg0 + 0x54)), (f32) (-((PiecewiseCurve *)(arg0 + 0x20))->current_speed()), 2.0f);
             return;
         }
-        if (((TObjBoss2Tunnel *)(arg0 + 0x20))->advance_phase(&sp8) != 0) {
+        if (((PiecewiseCurve *)(arg0 + 0x20))->advance(&sp8) != 0) {
             *(s32 *)((s8 *)arg0 + 0x4C) = 2;
         }
         *(f32 *)((s8 *)arg0 + 0x54) = (f32) (sp8 * *(f32 *)((s8 *)arg0 + 0x50));
@@ -239,12 +238,12 @@ void TUnk_804E4B3C::update_phase_motion() {
     case 2:
         if (TObjBoss2Tunnel::check_both((saddr)arg0) == 0) {
             *(s32 *)((s8 *)arg0 + 0x4C) = 3;
-            init_piecewise_curve(arg0 + 0x20, 0.1f, (-0.1f), 150.0f, 0.0f, 2.0f);
+            ((PiecewiseCurve *)(arg0 + 0x20))->init(0.1f, (-0.1f), 150.0f, 0.0f, 2.0f);
             return;
         }
         break;
     case 3:
-        if (((TObjBoss2Tunnel *)(arg0 + 0x20))->advance_phase(&sp8) != 0) {
+        if (((PiecewiseCurve *)(arg0 + 0x20))->advance(&sp8) != 0) {
             *(f32 *)((s8 *)arg0 + 0x54) = 0.0f;
             *(s32 *)((s8 *)arg0 + 0x4C) = 0;
             return;

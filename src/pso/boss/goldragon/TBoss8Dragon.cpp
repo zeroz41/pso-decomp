@@ -1435,7 +1435,7 @@ void TBoss8Dragon__sub_802FDA78(void) {
     s32 j;
 
     TBoss8Dragon__data_805D6988 = (Boss8DragonBmlRes *)load_enemy_bml_resource(&lbl_804E4E08);
-    lbl_805D69A4 = ((TObjBoss2Tunnel *)TBoss8Dragon__data_805D6988->models->node_tree)->count_tree_nodes();
+    lbl_805D69A4 = count_tree_nodes((NJS_OBJECT *)TBoss8Dragon__data_805D6988->models->node_tree);
     TBoss8Dragon__data_805D69A8 = (saddr)TQuestVmDownLoadServer::alloc(lbl_805D69A4 * 0x50);
     lbl_80541E18.unk0 = 0;
     lbl_80541E18.unk4 = 0;

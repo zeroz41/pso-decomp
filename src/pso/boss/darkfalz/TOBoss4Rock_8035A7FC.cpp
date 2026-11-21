@@ -12,7 +12,7 @@ TUnk_804F1C58::TUnk_804F1C58(TObject *parent, void *model) : TObject(parent) {
     motion = NULL;
     frame = 0.0f;
     pad_30 = 0;
-    node_count = ((TObjBoss2Tunnel *)model)->count_tree_nodes();
+    node_count = count_tree_nodes((NJS_OBJECT *)model);
     node_matrices = mem_alloc(node_count * 0x30);
     pad_34 = 0;
     node_callback = 0;
