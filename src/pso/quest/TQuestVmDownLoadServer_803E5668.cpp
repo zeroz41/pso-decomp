@@ -15,7 +15,7 @@ s32 TQuestVmDownLoadServer__sub_803F0890(void);
 void TQuestVmDownLoadServer__sub_803E6ACC(s32 arg0);
 s32 TQuestVmDownLoadServer__sub_803F08E4(s8 *arg0);
 extern s32 quest_text_end;
-void TQuestVmDownLoadServer__sub_803EBC88(s32 mode);
+void TQuestVmDownLoadServer__rebuild_current_slot_text_chain(s32 mode);
 void TQuestVmDownLoadServer__sub_803EC284(s32 pos, s32 mode);
 extern s32 quest_text_entry_len;
 extern s32 quest_text_cursor_pos;
@@ -158,7 +158,7 @@ s32 quest_download_request_0x25(s32 *arg0) {
         k = 4;
         break;
     }
-    TQuestVmDownLoadServer__sub_803EBC88(k);
+    TQuestVmDownLoadServer__rebuild_current_slot_text_chain(k);
     if (quest_download_slot_chain_table[quest_text_cursor_pos].chain == NULL) {
         return -1;
     }
