@@ -353,7 +353,7 @@ void TObjEneRe4Bit::handle_state_message(s32 msg) {
     }
 }
 
-s32 TObjEneRe4Bit::handle_event(s32 arg1) {
+void TObjEneRe4Bit::handle_event(s32 arg1) {
     u32 flags;
 
     switch (arg1) {

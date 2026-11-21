@@ -160,7 +160,6 @@ void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);
 
 int TObjEneDD__sub_800BA804(u16 arg0);
 
-u32 move_xz_on_ground__9TObjEneDDFPUc();
 
 
 
@@ -172,9 +171,9 @@ void TObjEneRe4Sorcerer__sub_800EE0F8(TObjEneRe4Sorcerer *self, s32 arg1);
 
 void TObjEneRe4Sorcerer__sub_800EE1CC(TObjEneRe4Sorcerer *self, s32 arg1);
 
-s32 TObjEneRe4Sorcerer__sub_800EEC00(TObjEneRe4Sorcerer *self, s32 arg1);
+void TObjEneRe4Sorcerer__sub_800EEC00(TObjEneRe4Sorcerer *self, s32 arg1);
 
-s32 TObjEneRe4Sorcerer__sub_800EEDE4(TObjEneRe4Sorcerer *self, s32 arg1);
+void TObjEneRe4Sorcerer__sub_800EEDE4(TObjEneRe4Sorcerer *self, s32 arg1);
 
 void TObjEneRe4Sorcerer__sub_800EEFE4(TObjEneRe4Sorcerer *self, s32 arg1);
 
@@ -672,20 +671,24 @@ void TObjEneRe4Sorcerer::update_body_colliders() {
 
 void TObjEneRe4Sorcerer__sub_800EFE30(void) {  }
 
-u8 *TObjEneRe4Sorcerer::move_xz_on_ground(u8 *) {
-    if (move_xz_on_ground__9TObjEneDDFPUc() == 0U) {
-        this->m_3c8 = (s32) (this->m_3c8 & 0xFFFFFFEF);
-        return;
+u8 *TObjEneRe4Sorcerer::move_xz_on_ground(u8 *dest) {
+    u8 *ground = TObjEneDD::move_xz_on_ground(dest);
+    if (ground == NULL) {
+        this->m_3c8 &= ~0x10;
+    } else {
+        this->m_3c8 |= 0x10;
     }
-    this->m_3c8 = (s32) (this->m_3c8 | 0x10);
+    return ground;
 }
 
 u8 *TObjEneRe4Sorcerer::update_ground_contact() {
-    if (TObjEneDD::update_ground_contact() == 0U) {
-        this->m_3c8 = (s32) (this->m_3c8 & 0xFFFFFFEF);
-        return;
+    u8 *ground = TObjEneDD::update_ground_contact();
+    if (ground == NULL) {
+        this->m_3c8 &= ~0x10;
+    } else {
+        this->m_3c8 |= 0x10;
     }
-    this->m_3c8 = (s32) (this->m_3c8 | 0x10);
+    return ground;
 }
 }
 
@@ -1016,7 +1019,7 @@ void TObjEneRe4Sorcerer::dispatch_action(u32 state, s32 reason) {
     }
 }
 
-s32 TObjEneRe4Sorcerer::handle_state(s32 arg1) {
+void TObjEneRe4Sorcerer::handle_state(s32 arg1) {
     switch (arg1) {
     case 4:
         m_4e4 = 0;
@@ -1063,7 +1066,7 @@ void TObjEneRe4Sorcerer__sub_800EEFE4(TObjEneRe4Sorcerer *self, s32 arg1) {
 #pragma push
 #pragma opt_common_subs off
 extern "C" {
-s32 TObjEneRe4Sorcerer__sub_800EEDE4(TObjEneRe4Sorcerer *self, s32 arg1) {
+void TObjEneRe4Sorcerer__sub_800EEDE4(TObjEneRe4Sorcerer *self, s32 arg1) {
     s32 i;
     TObjEneRe4Bit *bit;
 
@@ -1126,7 +1129,7 @@ s32 TObjEneRe4Sorcerer__sub_800EEDE4(TObjEneRe4Sorcerer *self, s32 arg1) {
 
 #pragma pop
 extern "C" {
-s32 TObjEneRe4Sorcerer__sub_800EEC00(TObjEneRe4Sorcerer *self, s32 arg1) {
+void TObjEneRe4Sorcerer__sub_800EEC00(TObjEneRe4Sorcerer *self, s32 arg1) {
     f32 temp_f2;
     s32 i;
     switch (arg1) {
@@ -1579,7 +1582,7 @@ void TObjEneRe4Sorcerer::step_effect_sequence(NJS_OBJECT *) {
     case 2:
     case 3:
         break;
-    case 0x34:
+    case 0x34: {
         f32 k = TObjEneRe4Sorcerer__effect_render_scale;
         t = model_render_flags;
         TObjEneRe4Sorcerer__saved_render_flags = t;
@@ -1587,6 +1590,7 @@ void TObjEneRe4Sorcerer::step_effect_sequence(NJS_OBJECT *) {
         scale_matrix(0, t, k, k, k);
         TParticleCtrl::begin_effect_render();
         break;
+    }
     case 0x37:
         model_render_flags = TObjEneRe4Sorcerer__saved_render_flags;
         TObjPlayer::toggle_particle_effect();

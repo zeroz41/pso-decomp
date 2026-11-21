@@ -139,7 +139,6 @@ void TBoss6Type2__sub_802BA7B0(void* p);
 s32 TBoss6Type2__sub_802BB694(TBoss6Type2 *self);
 void TBoss6Type2__sub_802BB818(TBoss6Type2 *self, f32);
 void TBoss6Type2__sub_802BBC74(TBoss6Type2 *self);
-u16 TBoss6PlotFalz__sub_802AAE48(s32 i);
 void TBoss4DarkFalz__sub_8004B4F0(void *dst, void *src);
 void TBoss6Rock__sub_80354A44(void);
 void free_collision_body_parts(void *);
@@ -356,7 +355,7 @@ s32 TBoss6Type2__sub_802BA944(Boss_802BA944 *o);
 s32 TBoss6Type2__sub_802BA9E4(T2_802BA9E4 *arg0);
 s32 snap_to_ground__11TBoss6Type2FPv(TBoss6Type2 *self);
 void TBoss6Type2__sub_802BAD04(saddr arg0);
-s32 request_player_camera_offsets__11TBoss6Type2FPvff(TBoss6Type2 *, f32, f32);
+void request_player_camera_offsets__11TBoss6Type2FPvff(TBoss6Type2 *, f32, f32);
 f32 fabs_float(f32);
 void TBoss6Type2__sub_802BB4DC(TBoss6Type2 *self);
 void TBoss6Type2__sub_802BB5B4(TBoss6Type2 *self, u16 *first, u16 *second);
@@ -1788,7 +1787,6 @@ void TBoss6Type2__sub_802BB768(T2_802BB768 *arg0) {
 #pragma push
 #pragma optimization_level 2
 s32 TBoss6Type2__sub_802BB694(TBoss6Type2 *self) {
-    s32 TBoss6PlotFalz__sub_802AAE48(u32 i);
     s32 count = TBoss6PlotFalz::sort_active_players();
     s32 id = 0xFFFF;
     s32 i;
@@ -1828,8 +1826,8 @@ void TBoss6Type2__sub_802BB5B4(TBoss6Type2 *self, u16 *first, u16 *second) {
         return;
     }
     if ((s32)self->m_418 == 0) {
-        u16 id0 = TBoss6PlotFalz__sub_802AAE48(0);
-        u16 id1 = TBoss6PlotFalz__sub_802AAE48(1);
+        s32 id0 = TBoss6PlotFalz__sub_802AAE48(0);
+        s32 id1 = TBoss6PlotFalz__sub_802AAE48(1);
         if (self->m_478 & 1) {
             *first = id0;
             *second = id1;
@@ -1888,7 +1886,7 @@ void TBoss6Type2::sub_802BB498() {
     }
 }
 
-s32 request_player_camera_offsets__11TBoss6Type2FPvff(TBoss6Type2 *self, f32 a, f32 b) {
+void request_player_camera_offsets__11TBoss6Type2FPvff(TBoss6Type2 *self, f32 a, f32 b) {
     Vec pp;
     Vec me;
     Vec off;
@@ -1964,7 +1962,7 @@ s32 request_player_camera_offsets__11TBoss6Type2FPvff(TBoss6Type2 *self, f32 a, 
 }
 
 void TBoss6Type2::init_range() {
-    ((s32 (*)(f32, f32))request_player_camera_offsets__11TBoss6Type2FPvff)(100.0f, -125.0f);
+    ((void (*)(f32, f32))request_player_camera_offsets__11TBoss6Type2FPvff)(100.0f, -125.0f);
 }
 
 void TBoss6Type2::request_default_follow_camera() {

@@ -382,7 +382,6 @@ extern RecoveredGlobal_80300FC0_lbl_8058D490 identity_matrix;
 s32 check_path_obstructed(void *, void *);
 void check_path_ahead__14TObjEneDolmOlmFlf(u8 *arg0, s32 arg1, f32 farg0);
 s32 submit_cursor_candidate(void *, int);
-s32 TObjEneDolmOlm__sub_80301C3C(void *);
 extern uaddr TObjEneDolmOlm__resource_bundle;
 void __dt__13TUnk_80494938Fv(void *, int);
 void free_collision_body_parts(void *);
@@ -419,7 +418,6 @@ s32 angle_difference_abs(s32, s32);
 s32 minimap_render_dot(void *, int, int, int);
 void subtract_vector(void *, void *);
 extern const f64 lbl_804750C8[];
-s32 TObjEneDolmOlm__sub_8030177C(void *arg0_);
 }
 struct Elem_80301C3C { u8 pad[0xC]; f32 r; u8 pad2[0x1C]; };
 struct Tgt_80301C3C { u8 pad[0xA4]; Elem_80301C3C *arr; s32 count; };
@@ -545,7 +543,6 @@ typedef struct RecoveredFields_8030247C_arg0 RecoveredFields_8030247C_arg0;
 typedef struct VBase_18_477421 VBase_18_477421;
 typedef struct VObj_18_477421 VObj_18_477421;
 
-s32 TObjEneDolmOlm__sub_80301C3C(void *arg0_);
 u8 *__ct__14TObjEneDolmOlmFll(u8 *arg0, s32 arg1, s32 arg2);
 
 extern const u8 lbl_80474F08[0x14];
@@ -953,7 +950,7 @@ void TObjEneDolmOlm::select_post_attack_mode() {
 #pragma push
 #pragma opt_common_subs off
 #define arg0 ((u8 *)arg0_)
-s32 TObjEneDolmOlm__sub_80301C3C(void *arg0_) {
+void TObjEneDolmOlm__sub_80301C3C(void *arg0_) {
     Vec v;
     f32 f;
 
@@ -1029,7 +1026,7 @@ s32 TObjEneDolmOlm__sub_80301C3C(void *arg0_) {
 #pragma push
 #pragma opt_common_subs off
 #define arg0 ((Obj_8030177C *)arg0_)
-s32 TObjEneDolmOlm__sub_8030177C(void *arg0_) {
+void TObjEneDolmOlm__sub_8030177C(void *arg0_) {
     if (arg0->f338 < 0x1000) {
         Obj_8030177C *tgt = (Obj_8030177C *)get_player_by_client_id(arg0->f338);
         f32 d = horizontal_distance_squared(&tgt->pos, &arg0->pos);

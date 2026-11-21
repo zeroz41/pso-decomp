@@ -404,11 +404,13 @@ void TObjEneMe1Gee::calc_position(Vec *out) {
 }
 #pragma pop
 u8 *TObjEneMe1Gee::move_xz_on_ground(u8 *dest) {
-    if (TObjEneDD::move_xz_on_ground(dest) == 0) {
+    u8 *ground = TObjEneDD::move_xz_on_ground(dest);
+    if (ground == NULL) {
         this->m_3c8 &= 0xFEFFFFFF;
-        return;
+    } else {
+        this->m_3c8 |= 0x01000000;
     }
-    this->m_3c8 |= 0x01000000;
+    return ground;
 }
 
 void TObjEneMe1Gee::sub_800CBF58(f32 farg0) {

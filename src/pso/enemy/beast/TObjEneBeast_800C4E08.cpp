@@ -97,7 +97,7 @@ void TUnk_80493450::sub_800C4E08() {
     this->play_speed = this->m_3a0;
 }
 
-s32 TUnk_80493450::update_target_near_flag() {
+void TUnk_80493450::update_target_near_flag() {
     f32 temp_f31;
     u8 *temp_r0;
     u8 *temp_r31;
@@ -134,7 +134,7 @@ s32 TUnk_80493450::update_target_near_flag() {
     }
 }
 
-int TUnk_80493450::beast_retire_corpse() { return queue_destruction__7TObjectFv(this); }
+void TUnk_80493450::beast_retire_corpse() { queue_destruction__7TObjectFv(this); }
 void TUnk_80493450::beast_update_dead() {
     u8 *arg0 = (u8 *)this;
     advance_animation();

@@ -1903,7 +1903,7 @@ void TBoss8Dragon::update_body_colliders() {
 }
 
 s32 update_linked_position__12TBoss8DragonFv(void * _w0) {
-    ((TObjEneDD_ST *)_w0)->update_linked_position(1000.0f);
+    return ((TObjEneDD_ST *)_w0)->update_linked_position(1000.0f);
 }
 
 void TBoss8Dragon__sub_802FC9D8(u8 *arg0) {

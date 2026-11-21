@@ -31,7 +31,7 @@ void calc_attack_params__12TBoss8DragonFiPvi(s32 arg0, u8 *arg1, s32 arg2);
 s32 calc_product__12TBoss8DragonFiiii(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 void calc_product_and_ratio__12TBoss8DragonFiPvi(s32 arg0, u8 *arg1, s32 arg2);
 void choose_next_action__13TBoss5GryphonFPvPv(u8 *arg0, u32 *arg1);
-int emit_part_attack_effect__13TBoss5GryphonFPvi(void *arg0, int arg1);
+void emit_part_attack_effect__13TBoss5GryphonFPvi(void *arg0, int arg1);
 }
 void handle_6x9F_gal_gryphon_boss_actions(void *arg0);
 void handle_6xA0_gal_gryphon_boss_actions(TBoss8Dragon *arg0);
@@ -72,7 +72,7 @@ void calc_attack_params__12TBoss8DragonFiPvi(s32 arg0, u8 *arg1, s32 arg2);
 s32 calc_product__12TBoss8DragonFiiii(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 void calc_product_and_ratio__12TBoss8DragonFiPvi(s32 arg0, u8 *arg1, s32 arg2);
 void choose_next_action__13TBoss5GryphonFPvPv(u8 *arg0, u32 *arg1);
-int emit_part_attack_effect__13TBoss5GryphonFPvi(void *ene_dd, int arg1);
+void emit_part_attack_effect__13TBoss5GryphonFPvi(void *ene_dd, int arg1);
 void move_along_angle__13TBoss5GryphonFPvif(void *arg0, s32 arg1, f32 farg0);
 s32 rand_scaled_offset__12TBoss8DragonFiii(s32 arg0, s32 arg1, s32 arg2);
 f32 random_in_range__12TBoss8DragonFff(f32 farg0, f32 farg1);

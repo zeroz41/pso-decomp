@@ -1149,7 +1149,7 @@ void TObjEneSaver::run_attack_action() {
     Vec v;
     switch (self->mode) {
     case 0:
-    default:
+    default: {
         VecCopy((Vec *)&v, (const Vec *)&self->target->pos);
         subtract_vector(&v, &self->pos);
         f32 a = atan2_float(v.x, v.z);
@@ -1163,6 +1163,7 @@ void TObjEneSaver::run_attack_action() {
             this->requested_action = 1;
         }
         break;
+    }
     case 2:
         this->mode = 5;
         this->phase = 0;

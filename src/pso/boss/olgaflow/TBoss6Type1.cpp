@@ -2237,7 +2237,7 @@ void TBoss6Type1::request_default_jittered_camera() {
     saddr arg0 = (saddr)this;
     TBoss6Type1::request_jittered_camera((void *)arg0, (void *)&lbl_80470FFC, (void *)&lbl_80471008, 0xFFFF);
 }
-s32 TBoss6Type1::request_jittered_camera(void *arg0, void *arg1, void *arg2, int arg3) {
+void TBoss6Type1::request_jittered_camera(void *arg0, void *arg1, void *arg2, int arg3) {
     f32 dist;
     Vec off;
     if (arg1 == NULL) {

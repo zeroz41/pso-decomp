@@ -1504,10 +1504,9 @@ void TObjEneDf2Bringer__sub_80098EB4(saddr arg0) {
 
 s32 TObjEneDf2Bringer::acquire_target(f32 farg0) {
     if (this->is_confused() != 0) {
-        ((TObjEneDD_ST *)this)->select_and_apply_target(farg0);
-        return;
+        return ((TObjEneDD_ST *)this)->select_and_apply_target(farg0);
     }
-    select_nearest_target(farg0);
+    return select_nearest_target(farg0);
 }
 
 void TObjEneDf2Bringer::sub_80098DEC() {

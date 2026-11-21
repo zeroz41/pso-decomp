@@ -93,7 +93,7 @@ int rotate_matrix_y(void*, void*);
 
 #pragma push
 #pragma opt_propagation off
-s32 TBoss6RockChase::damage_players_in_range() {
+void TBoss6RockChase::damage_players_in_range() {
     Chase_8036D1B4 *self = (Chase_8036D1B4 *)this;
     Vec d;
     s32 n;

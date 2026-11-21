@@ -1368,7 +1368,7 @@ void TObjEneMerillLia::beast_update_hurt() {
 }
 
 #define arg0 ((u8 *)p)
-s32 TObjEneMerillLia::update_kafun_attack(void *p) {
+void TObjEneMerillLia::update_kafun_attack(void *p) {
     Vec_800D57C8 sp14;
     ((TObjMotion *)arg0)->advance_animation();
     switch (*(s16 *)((s8 *)arg0 + 0x328)) {
@@ -1426,7 +1426,7 @@ s32 TObjEneMerillLia::update_kafun_attack(void *p) {
 #undef arg0
 
 #define arg0 ((u8 *)ov)
-s32 TObjEneMerillLia::update_emerge_state(void *ov) {
+void TObjEneMerillLia::update_emerge_state(void *ov) {
 
     ((TObjMotion *)arg0)->advance_animation();
     switch (*(s16 *)((s8 *)arg0 + 0x328)) {

@@ -600,7 +600,7 @@ void TObjEneLappy::set_boss4_state() {
     this->hp = 1;
     this->actorFlags = (s32) (this->actorFlags & ~0xA00);
 }
-s32 TObjEneLappy::apply_move_friction() {
+void TObjEneLappy::apply_move_friction() {
     sub_800C20B0();
     advance_animation();
     if (!(this->actorFlags & 0x800000)) {

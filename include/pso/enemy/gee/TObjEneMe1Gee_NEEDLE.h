@@ -8,8 +8,8 @@ class TObjEneMe1Gee_NEEDLE : public TNeedleShoot {
 public:
     virtual ~TObjEneMe1Gee_NEEDLE();
     virtual void vfunc_9(void *);
-    virtual int queue_destruction();
-    virtual int vfunc_6();
+    virtual void queue_destruction();
+    virtual void vfunc_6();
     virtual void render();
     virtual void run_task();
     f32 m_bc;

@@ -454,10 +454,9 @@ void TObjEneBm3Fly__play_orbit_flight_sound(TObjEneBm3Fly *fly) {
 
 s32 TObjEneBm3Fly::acquire_target(f32 farg0) {
     if (this->is_confused() != 0) {
-        this->select_and_apply_target(farg0);
-        return;
+        return this->select_and_apply_target(farg0);
     }
-    select_nearest_target(farg0);
+    return select_nearest_target(farg0);
 }
 #pragma push
 #pragma fp_contract on

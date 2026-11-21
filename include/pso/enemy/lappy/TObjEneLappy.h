@@ -24,7 +24,7 @@ struct TObjEneLappy : public TObjEnemy {
     void sub_800C20B0();
     void set_speed_params(s32);
     void update_invuln_timer();
-    s32 apply_move_friction();
+    void apply_move_friction();
     void set_boss4_state();
     void apply_variant_speeds();
     void clear_flags_60();

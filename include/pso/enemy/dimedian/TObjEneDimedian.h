@@ -23,7 +23,7 @@ struct TObjEneDimedian : public TUnk_80493450 {
     virtual void play_alert_sound();
     virtual void spawn_death_effect();
     virtual void update_attack_trail();
-    virtual int beast_retire_corpse();
+    virtual void beast_retire_corpse();
     TUnk_80490470 m_3a8;
     TObject *m_3c4[2];
     RenderFadeState m_3cc[4];

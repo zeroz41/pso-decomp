@@ -2167,7 +2167,7 @@ void TObjEneMorfos::update_ground_probe() {
     }
 }
 
-s32 TObjEneMorfos::run_demo_task() { if (get_target_info() != 0) { this->init_target_offsets(); } }
+void TObjEneMorfos::run_demo_task() { if (get_target_info() != 0) { this->init_target_offsets(); } }
 
 // inferred name: the draw_ground_shadow scale in vfunc_106.
 static const Vec morfos_vfunc_106_shadow_scale = {2.0f, 1.0f, 2.0f};

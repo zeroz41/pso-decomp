@@ -215,7 +215,7 @@ struct TBoss6Type2 : public TObjEnemy
     void update_motion_tracks();
     void init_motion_entries();
     void copy_transform(void* q);
-    void set_action_state(saddr action);
+    void set_action_state(s32 action);
     void copy_pos_620(saddr arg1);
     void get_push_points(saddr arg1, saddr arg2);
     void copy_pos_59c(saddr arg1);
@@ -293,7 +293,7 @@ struct TBoss6Type2 : public TObjEnemy
     void sub_80337160();
     void sub_803371B4();
     static void send_6xAD_grid_positions(u8 arg0, saddr arg1, s32 arg2);
-    static s32 send_subordinate_actions(s32 kind, saddr ids, s32 n, s32 force, s32 unused);
+    static void send_subordinate_actions(s32 kind, saddr ids, s32 n, s32 force, s32 unused);
     static void *create_flow_soul(void *arg0, void *arg1, void *arg2, void *arg3);
     static void capture_player_snapshots();
     s32 get_state();

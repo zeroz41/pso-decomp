@@ -29,7 +29,7 @@ struct TObjEneRe4Sorcerer : public TObjEneDD_ST {
     void handle_death_state(s32 arg1);
     void update_state_machine(s32 reason);
     void state_wait(s32 arg1);
-    s32 handle_state(s32 arg1);
+    void handle_state(s32 arg1);
     void create_effect();
     s32 cast_resta();
     s32 cast_technique();

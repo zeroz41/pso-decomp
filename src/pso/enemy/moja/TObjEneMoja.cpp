@@ -1035,7 +1035,7 @@ void TObjEneMoja::run_move_action() {
     }
 }
 
-s32 TObjEneMoja::update_approach_state() {
+void TObjEneMoja::update_approach_state() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r4;
     u8 *temp_r7;
@@ -1183,7 +1183,7 @@ void TObjEneMoja::run_attack_action() {
 }
 
 #define arg0 ((u8 *)self_800ADAAC)
-s32 TObjEneMoja::update_punch_attack(void *self_800ADAAC) {
+void TObjEneMoja::update_punch_attack(void *self_800ADAAC) {
     Vec sp14;
     Vec sp8;
     s32 t;
@@ -1282,7 +1282,7 @@ s32 TObjEneMoja::update_punch_attack(void *self_800ADAAC) {
 #pragma fp_contract on
 #pragma opt_common_subs off
 #define self ((Moja_800AD3D8 *)self_800AD3D8)
-s32 TObjEneMoja::update_technique_state(void *self_800AD3D8) {
+void TObjEneMoja::update_technique_state(void *self_800AD3D8) {
     Vec dir;
     Vec pos;
     Ang_800AD3D8 ang;

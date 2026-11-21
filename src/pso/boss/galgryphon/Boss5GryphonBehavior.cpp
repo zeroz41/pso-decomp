@@ -446,7 +446,7 @@ void TBoss8Dragon__sub_800641A8(u8 *arg0);
 void TBoss8Dragon__sub_8006435C(u8 *arg0);
 void TBoss8Dragon__sub_80064828(u8 *arg0);
 void TBoss8Dragon__sub_800648C8(u8 *arg0);
-int emit_part_attack_effect__13TBoss5GryphonFPvi(void *arg0, int arg1);
+void emit_part_attack_effect__13TBoss5GryphonFPvi(void *arg0, int arg1);
 void TBoss8Dragon__sub_80064AB0(O_80064AB0 *self);
 void apply_remote_action__13TBoss5GryphonFPvPv(u8 *arg0, u8 *arg1);
 void TBoss8Dragon__sub_80064DB8(u8 *arg0);
@@ -1003,7 +1003,7 @@ extern const f32 lbl_805D8D48;
 const f32 lbl_805D8D48 = 6.0f;
 
 extern "C" {
-int TBoss5Gryphon::render_demo() {
+void TBoss5Gryphon::render_demo() {
 #define o ((Obj_8005D708 *)this)
     Cnt_8005D708 *c;
     f32 f;
@@ -4219,28 +4219,28 @@ void TBoss8Dragon::run_default_state() { query_default(); attack_default(); }
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-int TBoss8Dragon::update_state_3() { return emit_part_attack_effect__13TBoss5GryphonFPvi(this, 3); }
+void TBoss8Dragon::update_state_3() { emit_part_attack_effect__13TBoss5GryphonFPvi(this, 3); }
 #pragma pop
 
 #pragma push
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-int TBoss8Dragon::set_state_2() { return emit_part_attack_effect__13TBoss5GryphonFPvi(this, 2); }
+void TBoss8Dragon::set_state_2() { emit_part_attack_effect__13TBoss5GryphonFPvi(this, 2); }
 #pragma pop
 
 #pragma push
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-int TBoss8Dragon::attack_default() { return emit_part_attack_effect__13TBoss5GryphonFPvi(this, 1); }
+void TBoss8Dragon::attack_default() { emit_part_attack_effect__13TBoss5GryphonFPvi(this, 1); }
 #pragma pop
 
 #pragma push
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-int TBoss8Dragon::query_default() { return emit_part_attack_effect__13TBoss5GryphonFPvi(this, 0); }
+void TBoss8Dragon::query_default() { emit_part_attack_effect__13TBoss5GryphonFPvi(this, 0); }
 #pragma pop
 
 #pragma push
@@ -4293,7 +4293,7 @@ void TBoss8Dragon__sub_800648C8(u8 *boss8_dragon) {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-int emit_part_attack_effect__13TBoss5GryphonFPvi(void *ene_dd, int arg1) {
+void emit_part_attack_effect__13TBoss5GryphonFPvi(void *ene_dd, int arg1) {
     DragonAttackParams prm = gryphon_part_attack_params;
     Vec *p;
     fill_value_array(((Obj_80064968 *)ene_dd)->attack_history);
@@ -4411,7 +4411,7 @@ void handle_6x9F_gal_gryphon_boss_actions(void *boss8_dragon) {
 #pragma dont_inline off
 extern "C" {
 
-s32 TBoss5Gryphon::reload_stats_for_phase(void *) {
+void TBoss5Gryphon::reload_stats_for_phase(void *) {
     this->reload_stats_keep_hp_tp((u8 *)(boss5_gryphon_base_params[((s32 *)lbl_80487890)[2]]), (u8 *)(boss5_gryphon_attack_params[((s32 *)lbl_8048789C)[2]]), (u8 *)(boss5_gryphon_resistance_params[((s32 *)lbl_804878A8)[2]]));
 }
 

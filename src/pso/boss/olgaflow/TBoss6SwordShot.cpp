@@ -159,7 +159,7 @@ TBoss6SwordShot *TBoss6SwordShot::create(TObject *owner, const Vec *position, s3
 #include "pso/boss/olgaflow/TBoss6Rock.h"
 #include "pso/boss/olgaflow/TBoss6Type2.h"
 
-s32 TBoss6SwordWave::spawn_wave_ring_particles() {
+void TBoss6SwordWave::spawn_wave_ring_particles() {
     Wave_803564F4 *o = (Wave_803564F4 *)this;
     f32 d;
     f32 f;
@@ -192,7 +192,7 @@ s32 TBoss6SwordWave::spawn_wave_ring_particles() {
 
 struct W_80356D10;
 
-s32 TBoss6SwordWave::check_player_hits() {
+void TBoss6SwordWave::check_player_hits() {
     void *a = (void *)this;
     s32 n;
     s32 i;
@@ -238,7 +238,7 @@ static const s32 wave_bit_count = 0x100;
 
 inline const s32 &get_wave_bit_count() { return wave_bit_count; }
 
-s32 TBoss6SwordWave::break_rocks_in_wave() {
+void TBoss6SwordWave::break_rocks_in_wave() {
     Vec pt;
     Vec d;
     Vec va;

@@ -178,10 +178,10 @@ public:
     void spawn_switch_attack();
     void spawn_attack_effect();
     void run_default_state();
-    int update_state_3();
-    int set_state_2();
-    int attack_default();
-    int query_default();
+    void update_state_3();
+    void set_state_2();
+    void attack_default();
+    void query_default();
     void copy_spawn_params(void* a1);
     void copy_action_state(u8 *arg1);
     static s32 spawn_ground_lightning(s32 arg0, saddr arg1, s32 arg2);

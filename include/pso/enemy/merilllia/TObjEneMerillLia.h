@@ -30,8 +30,8 @@ struct TObjEneMerillLia : public TUnk_80493450 {
     void init_attack_state();
     void reset_action_state();
     static void search_target(void *ov);
-    static s32 update_emerge_state(void *ov);
-    static s32 update_kafun_attack(void *p);
+    static void update_emerge_state(void *ov);
+    static void update_kafun_attack(void *p);
     void init_params_from_position();
     void select_action_by_distance();
     static void destroy_rocks();

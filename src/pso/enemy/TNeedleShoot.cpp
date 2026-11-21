@@ -207,6 +207,6 @@ TNeedleShoot_802A47C8 *TNeedleShoot__ct(TNeedleShoot_802A47C8 *self, s32 arg1, V
     return self;
 }
 
-int TNeedleShoot::vfunc_6() { TObject::queue_destruction(); }
-int TNeedleShoot::queue_destruction() { TObject::queue_destruction(); }
+void TNeedleShoot::vfunc_6() { TObject::queue_destruction(); }
+void TNeedleShoot::queue_destruction() { TObject::queue_destruction(); }
 void TNeedleShoot::vfunc_9(void *) {  }

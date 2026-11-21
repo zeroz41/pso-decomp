@@ -248,7 +248,6 @@ struct VObj_18_a328de : VBase_18_a328de {
 
 extern "C" {
 extern u16 boss6_plot_falz_player_order_table[];
-u16 TBoss6PlotFalz__sub_802AAE48(s32 i);
 s32 send_6x2F_change_player_hp(int, s32, s16);
 
 struct TBoss6PlotFalz_802AACF4 { u8 pad[0x3D0]; s32 f3D0; s32 f3D4; s32 f3D8; };
@@ -291,7 +290,7 @@ s32 TBoss6PlotFalz::damage_player_hp(s32 arg0, u32 arg1) {
     return v;
 }
 
-u16 TBoss6PlotFalz__sub_802AAE48(s32 i) {
+s32 TBoss6PlotFalz__sub_802AAE48(s32 i) {
     if (i < 0 || i >= 4) return 0xFFFF;
     return boss6_plot_falz_player_order_table[i];
 }

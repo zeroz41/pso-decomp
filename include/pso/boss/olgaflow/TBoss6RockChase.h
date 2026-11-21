@@ -17,7 +17,7 @@ struct TBoss6RockChase : public TObjCollidable {
     u32 m_bc;
     NJS_OBJECT *model;
     GinjaTextureList *textures;
-    s32 damage_players_in_range();
+    void damage_players_in_range();
     virtual void render();
     virtual void run_task();
     static TBoss6RockChase *spawn(TObject *parent, const Vec *position);

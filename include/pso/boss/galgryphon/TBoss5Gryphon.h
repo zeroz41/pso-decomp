@@ -65,7 +65,7 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     virtual void update_body_colliders();
     virtual void render_shadows();
     virtual void run_demo_task();
-    virtual int render_demo();
+    virtual void render_demo();
     virtual void vfunc_106();
     virtual void clear_harmful_statuses();
     virtual void apply_shock_status();
@@ -129,7 +129,7 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     void spawn_ground_splash();
     void update_collider_from_table();
     void set_target_from_action(void *arg1);
-    s32 reload_stats_for_phase(void *);
+    void reload_stats_for_phase(void *);
     void reload_stats_for_type();
     void set_flight_height();
     void refresh_target_periodically();

@@ -1630,7 +1630,7 @@ s32 TObjEneDD_ST::update_status_effects() {
     if ((is_player_entity_id(target_id) != 0) && (get_player_by_client_id(target_id) == 0U)) {
         this->enemy_clear_target();
     }
-    TObjEneDD::update_status_effects();
+    return TObjEneDD::update_status_effects();
 }
 
 s32 TObjEneDD_ST::enemy_check_target_valid() {
