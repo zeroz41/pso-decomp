@@ -52,6 +52,9 @@
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/system/byteswap.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
@@ -200,24 +203,6 @@ NJS_OBJECT lbl_8048DEF4 = {
 NJS_OBJECT *debug_chunk_object = &lbl_8048DEF4;
 NJS_OBJECT *lbl_805D28BC = &debug_chunk_a_object;
 
-struct Stack_8007CAE8 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-    f32 sp14;
-};
-struct VBase_8007C5C0 { char pad[0x18]; };
-struct VObj_8007C5C0 : VBase_8007C5C0 {
-    virtual ~VObj_8007C5C0();
-    virtual void m1();
-    virtual void m2();
-};
-struct VBase_8007C8AC { char pad[0x18]; };
-struct VObj_8007C8AC : VBase_8007C8AC {
-    virtual ~VObj_8007C8AC();
-    virtual void m1();
-    virtual void m2();
-};
 struct Vtx_8007D828 { f32 x; f32 y; f32 z; u32 color; };
 struct Quad_8007D828 { f32 x0; f32 y0; f32 x1; f32 y1; f32 u0; f32 v0; f32 u1; f32 v1; };
 // screen.bin / the PSO_SCREEN card file: a 256x192 capture and who was in the room.
@@ -252,23 +237,19 @@ extern "C" {
 s32 DCFlushRange(int, int);
 s32 poll_memcard_result(saddr chan);
 extern s32 lbl_805D49B4;
-u32 calc_crc32_bitwise(u8 *arg0, u32 arg1);
 extern char episode_i_and_ii_card_filename[];
 s8 func_801A5E54__Fv(void);
 extern uaddr camera_ctrl_instance;
-s32 verify_snapshot_checksum__15TObjBoss2TunnelFv();
 void set_depth_buffer_settings_1__Fv(void);
 void draw_projected_quads__15TObjBoss2TunnelFPvi(Vtx_8007D828 *, s32);
 extern s32 lbl_805D63F0;
+s32 verify_snapshot_checksum__15TObjBoss2TunnelFv();
 s32 get_memcard_free_files(s32);
 }
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
 void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed);
 extern "C" {
-void __dl__FPv(void);
-int vec3_add_to(void*, void*);
-int is_float_nonfinite(f32 farg0);
-f32 vec_squared_length(const Vec *v);
+int is_float_nonfinite(f32 value);
 f32 normalize_vector(void *);
 }
 
@@ -288,9 +269,10 @@ const char *screen_binary_filename = screen_binary_filename_string;
 // Centre of the capture frame, moved with the C stick.
 NJS_POINT2 TObjBoss2Tunnel__data_8048DF2C = {320.0f, 240.0f};
 
-void TObjBoss2Tunnel__sub_8007EAE4(u8 *arg0) {
-    *(u8 *)((s8 *)arg0 + 0) = 0xB2;
-    *(s8 *)((s8 *)arg0 + 1) = 3;
+// Fills in the 6xB2 header: subcommand 0xB2, size 3 (in words).
+void TObjBoss2Tunnel__sub_8007EAE4(G_PlaySound_6xB2 *cmd) {
+    cmd->header.subcommand = 0xB2;
+    cmd->header.size = 3;
 }
 
 void bswap_6xB2_play_sound(G_PlaySound_6xB2 *cmd) {
@@ -329,27 +311,27 @@ f32 normalize_vector_safe(Vec *vector) {
 #pragma push
 #pragma fp_contract on
 f32 normalize_vector_xz(Vec *vector) {
-    f32 temp_f31;
-    f32 temp_f30;
-    f32 temp_f29;
-    f32 temp_f28;
+    f32 x;
+    f32 z;
+    f32 length_sq;
+    f32 inv_length;
 
-    temp_f30 = vector->z;
-    temp_f31 = vector->x;
-    temp_f29 = (temp_f31 * temp_f31) + (temp_f30 * temp_f30);
-    if (0.0f != temp_f29) {
-        temp_f28 = 1.0f / newton_sqrtf(temp_f29);
-        if (is_float_nonfinite(temp_f28) != 0) {
-            vector->x = (f32) 0.0f;
-            vector->z = (f32) 0.0f;
+    z = vector->z;
+    x = vector->x;
+    length_sq = (x * x) + (z * z);
+    if (0.0f != length_sq) {
+        inv_length = 1.0f / newton_sqrtf(length_sq);
+        if (is_float_nonfinite(inv_length) != 0) {
+            vector->x = 0.0f;
+            vector->z = 0.0f;
             return 0.0f;
         }
-        vector->x = (f32) (temp_f31 * temp_f28);
-        vector->z = (f32) (temp_f30 * temp_f28);
-        return temp_f29 * temp_f28;
+        vector->x = x * inv_length;
+        vector->z = z * inv_length;
+        return length_sq * inv_length;
     }
-    vector->x = (f32) 0.0f;
-    vector->z = (f32) 0.0f;
+    vector->x = 0.0f;
+    vector->z = 0.0f;
     return 0.0f;
 }
 
@@ -359,46 +341,46 @@ void TObjBoss2Tunnel::render(void* a1) { push_matrix(); TObjPlayer::invert_matri
 
 #pragma push
 #pragma fp_contract on
-void TObjBoss2Tunnel::transform_vec_by_camera(saddr arg0, saddr arg1, saddr arg2) {
+void TObjBoss2Tunnel::transform_vec_by_camera(saddr camera, saddr in, saddr out) {
     push_matrix();
     TCameraCtrl::concat_matrix(0, (uaddr)TCameraCtrl::get_view_matrix());
-    matrix_mult_vec(NULL, (const Vec *)arg1, (Vec *)arg2);
+    matrix_mult_vec(NULL, (const Vec *)in, (Vec *)out);
     pop_matrix();
 }
 
-bool is_vec_xz_cross_negative(u8 *arg0, u8 *arg1) {
-    return (((*(f32 *)((s8 *)arg0 + 8) * *(f32 *)((s8 *)arg1 + 0)) - (*(f32 *)((s8 *)arg0 + 0) * *(f32 *)((s8 *)arg1 + 8))) >= 0.0f) == 0;
+bool is_vec_xz_cross_negative(u8 *a, u8 *b) {
+    return ((((Vec *)a)->z * ((Vec *)b)->x - ((Vec *)a)->x * ((Vec *)b)->z) >= 0.0f) == 0;
 }
 
-void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2) {
-    f32 temp_f0;
-    f32 temp_f1;
-    f32 temp_f31;
-    f32 temp_f3;
-    temp_f31 = cos_table_lookup(arg2);
-    temp_f1 = sin_table_lookup(arg2);
-    temp_f0 = *arg0;
-    temp_f3 = *arg1;
-    *arg1 = (temp_f31 * temp_f3) - (temp_f1 * temp_f0);
-    *arg0 = (temp_f1 * temp_f3) + (temp_f31 * temp_f0);
+void rotate_xz_pair_by_angle(f32 *x, f32 *z, s32 angle) {
+    f32 x0;
+    f32 sin_a;
+    f32 cos_a;
+    f32 z0;
+    cos_a = cos_table_lookup(angle);
+    sin_a = sin_table_lookup(angle);
+    x0 = *x;
+    z0 = *z;
+    *z = (cos_a * z0) - (sin_a * x0);
+    *x = (sin_a * z0) + (cos_a * x0);
 }
 
-void rotate_vec_xz(void *arg0, void *arg1, s32 arg2) {
-    f32 temp_f0;
-    f32 temp_f1;
-    f32 temp_f31;
-    f32 temp_f3;
-    temp_f31 = cos_table_lookup(arg2);
-    temp_f1 = sin_table_lookup(arg2);
-    temp_f0 = *(f32 *)((s8 *)arg0 + 0);
-    temp_f3 = *(f32 *)((s8 *)arg0 + 8);
-    *(f32 *)((s8 *)arg1 + 8) = (f32) ((temp_f31 * temp_f3) - (temp_f1 * temp_f0));
-    *(f32 *)((s8 *)arg1 + 0) = (f32) ((temp_f1 * temp_f3) + (temp_f31 * temp_f0));
+void rotate_vec_xz(void *in, void *out, s32 angle) {
+    f32 x0;
+    f32 sin_a;
+    f32 cos_a;
+    f32 z0;
+    cos_a = cos_table_lookup(angle);
+    sin_a = sin_table_lookup(angle);
+    x0 = ((Vec *)in)->x;
+    z0 = ((Vec *)in)->z;
+    ((Vec *)out)->z = (cos_a * z0) - (sin_a * x0);
+    ((Vec *)out)->x = (sin_a * z0) + (cos_a * x0);
 }
 
 #pragma pop
-f32 TObjBoss2Tunnel::calc_scaled_value(s32 arg0, f32 farg0) {
-    return (0.5f * farg0) / sin_table_lookup(arg0 / 2);
+f32 TObjBoss2Tunnel::calc_scaled_value(s32 angle, f32 length) {
+    return (0.5f * length) / sin_table_lookup(angle / 2);
 }
 
 s32 count_tree_nodes(NJS_OBJECT *node) {
@@ -417,26 +399,28 @@ s32 count_tree_nodes(NJS_OBJECT *node) {
     return count;
 }
 
-s32 count_active_segments__15TObjBoss2TunnelFPv(void *arg0) {
-    s32 temp_r3;
-    s32 var_r31;
+// Counts the nodes of a model tree that are drawn: NJD_EVAL_HIDE (8) skips a node,
+// NJD_EVAL_BREAK (0x10) its children.
+s32 count_active_segments__15TObjBoss2TunnelFPv(void *node) {
+    s32 flags;
+    s32 count;
 
-    var_r31 = 0;
+    count = 0;
     do {
-        temp_r3 = *(s32 *)((s8 *)arg0 + 0);
-        if (!(temp_r3 & 8)) {
-            var_r31 += 1;
+        flags = ((NJS_OBJECT *)node)->evalflags;
+        if (!(flags & 8)) {
+            count += 1;
         }
-        if (!(temp_r3 & 0x10)) {
-            var_r31 += count_active_segments__15TObjBoss2TunnelFPv((void *)(*(void **)((s8 *)arg0 + 0x2C)));
+        if (!(flags & 0x10)) {
+            count += count_active_segments__15TObjBoss2TunnelFPv(((NJS_OBJECT *)node)->child);
         }
-        arg0 = *(void **)((s8 *)arg0 + 0x30);
-    } while (arg0 != NULL);
-    return var_r31;
+        node = ((NJS_OBJECT *)node)->sibling;
+    } while (node != NULL);
+    return count;
 }
 
-s32 TObjBoss2Tunnel::turn_toward_angle_limited(s32 arg0, s32 cur, s32 target, s32 step, s32 limit) {
-    target = angle_diff_s16(arg0, target);
+s32 TObjBoss2Tunnel::turn_toward_angle_limited(s32 angle, s32 cur, s32 target, s32 step, s32 limit) {
+    target = angle_diff_s16(angle, target);
     if (target > limit) {
         target = limit;
     } else if (target < -limit) {
@@ -461,44 +445,45 @@ void rotate_y_and_translate(Vec *v, Vec *origin, s32 angle) {
     vec3_add_to(v, origin);
 }
 
-s32 TObjBoss2Tunnel::adjust_to_ground(saddr arg0, void *arg1) {
-    s32 *temp_r3;
+s32 TObjBoss2Tunnel::adjust_to_ground(saddr from, void *out) {
+    s32 *hit;
 
-    VecCopy((Vec *)arg1, (const Vec *)arg0);
-    ((Vec *)arg1)->y += 20.0f;
-    temp_r3 = csnVecterUnder((saddr)arg1, 0x16EF);
-    if (temp_r3 != NULL) {
-        VecCopy((Vec *)arg1, (const Vec *)(*(saddr *)((s8 *)temp_r3 + 4)));
+    VecCopy((Vec *)out, (const Vec *)from);
+    ((Vec *)out)->y += 20.0f;
+    hit = csnVecterUnder((saddr)out, 0x16EF);
+    if (hit != NULL) {
+        VecCopy((Vec *)out, (const Vec *)(*(saddr *)((s8 *)hit + 4)));
         return 1;
     }
-    VecCopy((Vec *)arg1, (const Vec *)arg0);
+    VecCopy((Vec *)out, (const Vec *)from);
     return 0;
 }
 
-s32 TObjBoss2Tunnel::spawn_effect(saddr arg0, void *arg1, void *arg2) {
-    s32 *temp_r3;
+s32 TObjBoss2Tunnel::spawn_effect(saddr from, void *out, void *normal) {
+    s32 *hit;
 
-    VecCopy((Vec *)arg1, (const Vec *)arg0);
-    ((Vec *)arg1)->y += 20.0f;
-    temp_r3 = csnVecterUnder((saddr)arg1, 0x16EF);
-    if (temp_r3 != NULL) {
-        VecCopy((Vec *)arg1, (const Vec *)(*(saddr *)((s8 *)temp_r3 + 4)));
-        VecCopy((Vec *)arg2, (const Vec *)(*(saddr *)((s8 *)temp_r3 + 4) + 0xC));
+    VecCopy((Vec *)out, (const Vec *)from);
+    ((Vec *)out)->y += 20.0f;
+    hit = csnVecterUnder((saddr)out, 0x16EF);
+    if (hit != NULL) {
+        VecCopy((Vec *)out, (const Vec *)(*(saddr *)((s8 *)hit + 4)));
+        VecCopy((Vec *)normal, (const Vec *)(*(saddr *)((s8 *)hit + 4) + 0xC));
         return 1;
     }
-    VecCopy((Vec *)arg1, (const Vec *)arg0);
+    VecCopy((Vec *)out, (const Vec *)from);
     return 0;
 }
 
-s32 TObjBoss2Tunnel::decrement_packed_timer(u32 *arg0, s32 arg1) {
-    u32 temp_r5;
+// The timer is the top byte of *packed; returns 1 once it runs out.
+s32 TObjBoss2Tunnel::decrement_packed_timer(u32 *packed, s32 step) {
+    u32 value;
 
-    temp_r5 = *arg0;
-    if ((s32)((temp_r5 >> 24) - arg1) < 0) {
-        *arg0 = temp_r5 & 0xFFFFFF;
+    value = *packed;
+    if ((s32)((value >> 24) - step) < 0) {
+        *packed = value & 0xFFFFFF;
         return 1;
     }
-    *arg0 = ((((temp_r5 >> 24) - arg1) << 24) & 0xFF000000) | (temp_r5 & 0xFFFFFF);
+    *packed = ((((value >> 24) - step) << 24) & 0xFF000000) | (value & 0xFFFFFF);
     return 0;
 }
 
@@ -648,21 +633,21 @@ void PiecewiseCurve::init(f32 accel, f32 decel, f32 dist, f32 v0, f32 peak) {
 
 #pragma push
 #pragma fp_contract on
-f32 PiecewiseCurve::speed_at(f32 farg0) {
+f32 PiecewiseCurve::speed_at(f32 time) {
     PiecewiseCurve *c = this;
     f32 t;
     f32 r = 0.0f;
-    if (farg0 < r) {
+    if (time < r) {
         r = r;
     } else {
-        if (farg0 < c->accelEnd) {
-            r = c->accel * farg0 + c->v0;
+        if (time < c->accelEnd) {
+            r = c->accel * time + c->v0;
         } else {
             t = c->decelStart;
-            if (farg0 < t) {
+            if (time < t) {
                 r = c->peak;
-            } else if (farg0 < c->end) {
-                t = farg0 - t;
+            } else if (time < c->end) {
+                t = time - t;
                 r = c->decel * t + c->peak;
             }
         }
@@ -992,7 +977,7 @@ s32 TObjBoss2Tunnel__sub_8007D1D0(void) {
         *sum = calc_crc32_bitwise((u8 *)snap, sizeof(ScreenSnapshot));
         TAdPlayerLoadGC::build_save_file_image(frame->save_image, &card);
         TAdPlayerLoadGC__sub_801E14E4(&card);
-        TObjBoss2Tunnel__sub_8007EAE4((u8 *)&cmd);
+        TObjBoss2Tunnel__sub_8007EAE4(&cmd);
         cmd.floor = get_current_floor_area();
         cmd.unused = 0;
         cmd.client_id = local_client_id;
@@ -1050,83 +1035,85 @@ s32 TObjBoss2Tunnel__sub_8007D1D0(void) {
     return 0;
 }
 
-s32 memcard_check_snapshot(s32 arg0, s32 *arg1) {
+// Checks memory card slot B for the PSO_SCREEN file; *error gets the card error code (1 when
+// the file is missing). for_save == 1 also needs a free file entry and 15 free blocks.
+s32 memcard_check_snapshot(s32 for_save, s32 *error) {
     s32 card_file;
 
     if (TAdPlayerLoadGC::get_instance() != 0) {
         return 0;
     }
     if (TAdPlayerLoadGC::probe_card_slot(1) == 0) {
-        if (arg1 != NULL) {
-            *arg1 = -4;
+        if (error != NULL) {
+            *error = -4;
         }
         return 0;
     }
     if (TAdPlayerLoadGC::probe_and_check_card(1) == 0) {
-        if (arg1 != NULL) {
+        if (error != NULL) {
             if ((u32)(TAdPlayerLoadGC::get_load_result(1) + 0x10000) == 0xff83U) {
-                if (arg1 != NULL) {
-                    *arg1 = -6;
+                if (error != NULL) {
+                    *error = -6;
                 }
             } else if ((u32)(TAdPlayerLoadGC::get_load_result(1) + 0x10000) == 0xff21U) {
-                if (arg1 != NULL) {
-                    *arg1 = -8;
+                if (error != NULL) {
+                    *error = -8;
                 }
-            } else if (arg1 != NULL) {
-                *arg1 = -2;
+            } else if (error != NULL) {
+                *error = -2;
             }
         }
         return 0;
     }
     if (TAdPlayerLoadGC::check_memcard_status(1) != 0) {
-        if (arg1 != NULL) {
-            *arg1 = -3;
+        if (error != NULL) {
+            *error = -3;
         }
         return 0;
     }
     if (poll_memcard_result(1) != 0) {
-        if (arg1 != NULL) {
-            *arg1 = -2;
+        if (error != NULL) {
+            *error = -2;
         }
         return 0;
     }
     card_file = TAdPlayerLoadGC::find_card_file(1, TObjBoss2Tunnel__data_80438A08);
     if (card_file == 0) {
-        if (arg1 != NULL) {
-            *arg1 = 1;
+        if (error != NULL) {
+            *error = 1;
         }
         return 1;
     }
     if ((card_file + 0x10000) == 0xff41U) {
-        if (arg1 != NULL) {
-            *arg1 = -9;
+        if (error != NULL) {
+            *error = -9;
         }
         return 0;
     }
-    if (arg0 != 1) {
+    if (for_save != 1) {
         return 0;
     }
     if (get_memcard_free_files(1) < 1) {
-        if (arg1 != NULL) {
-            *arg1 = -7;
+        if (error != NULL) {
+            *error = -7;
         }
         return 0;
     }
     if (TAdPlayerLoadGC::query_memcard_capacity(1, 0) < 0xF) {
-        if (arg1 != NULL) {
-            *arg1 = -1;
+        if (error != NULL) {
+            *error = -1;
         }
         return 0;
     }
-    if (arg1 != NULL) {
-        *arg1 = 0;
+    if (error != NULL) {
+        *error = 0;
     }
     return 1;
 }
 
 void load_data_buffers(void) {
-    s32 temp_r31;
-    saddr temp_r30;
+    s32 size;
+    saddr file;
     s32 *buf;
 
     TObjBoss2Tunnel__snapshot_saved_flag = 0;
@@ -1138,14 +1125,14 @@ void load_data_buffers(void) {
     if (buf != NULL) {
         memset(buf, 0, 0x1818C);
     }
-    temp_r31 = get_resource_file_size(screen_binary_filename);
-    if (temp_r31 <= 0x1818C) {
-        temp_r30 = (saddr)load_disc_file(screen_binary_filename);
-        if (temp_r30 != 0) {
+    size = get_resource_file_size(screen_binary_filename);
+    if (size <= 0x1818C) {
+        file = (saddr)load_disc_file(screen_binary_filename);
+        if (file != 0) {
             if (boss2_tunnel_snapshot_buffer != NULL) {
-                memmove(boss2_tunnel_snapshot_buffer, (void *)temp_r30, temp_r31);
+                memmove(boss2_tunnel_snapshot_buffer, (void *)file, size);
             }
-            TAdSinglePlyChrSelectGC::safe_free(temp_r30);
+            TAdSinglePlyChrSelectGC::safe_free(file);
         }
     }
 }
@@ -1164,10 +1151,10 @@ void TObjBoss2Tunnel::free_buffers() {
 }
 
 s32 TObjBoss2Tunnel::save_snapshot() {
-    s32 sp8;
+    s32 status;
 
-    memcard_check_snapshot(1, &sp8);
-    if (sp8 == 1) {
+    memcard_check_snapshot(1, &status);
+    if (status == 1) {
         if ((s32) TObjBoss2Tunnel__snapshot_saved_flag != 0) {
             return -9;
         }
@@ -1188,7 +1175,7 @@ loop_4:
     }
 block_9:
     TObjBoss2Tunnel__snapshot_saved_flag = 0;
-    return sp8;
+    return status;
 }
 
 s32 TObjBoss2Tunnel::save_snapshot_to_card() {
@@ -1269,43 +1256,45 @@ bool TObjBoss2Tunnel::verify_snapshot_checksum() {
     return sum == saved;
 }
 
-void TObjBoss2Tunnel__sub_8007CAE8(uaddr arg0) {
-    Stack_8007CAE8 stack;
-    if (arg0 == 0U) {
-        stack.sp10 = 192.0f;
-        stack.sp14 = 144.0f;
+// Draws the captured snapshot at pos (default 192,144), 345.6 x 259.2.
+void TObjBoss2Tunnel__sub_8007CAE8(uaddr pos) {
+    f32 position[2];
+    f32 size[2];
+    if (pos == 0U) {
+        position[0] = 192.0f;
+        position[1] = 144.0f;
     } else {
-        copy_vec2((&stack.sp10), (void *)arg0);
+        copy_vec2(position, (void *)pos);
     }
-    stack.sp8 = 345.6f;
-    stack.spC = 259.2f;
-    TObjPlayer::draw_textured_screen_quad(-1, (f32 *)(&stack.sp10), (f32 *)(&stack.sp8), 1);
+    size[0] = 345.6f;
+    size[1] = 259.2f;
+    TObjPlayer::draw_textured_screen_quad(-1, position, size, 1);
 }
 
-void TObjBoss2Tunnel::show_message_and_wait(s32 arg0) {
+void TObjBoss2Tunnel::show_message_and_wait(s32 message) {
     static const f32 window_pos[2] = {46.0f, 131.0f};
     static const f32 window_size[2] = {548.0f, 220.0f};
     // Text position and width inside the window, set on first call (the retail build never reads them).
     static f32 text_pos[2] = {20.0f + window_pos[0], 10.0f + (window_pos[1] + window_size[1])};
     static f32 text_width = window_size[0] - 40.0f;
-    VObj_8007C8AC *win;
+    TWindowMessage *win;
     s32 frames;
-    win = (VObj_8007C8AC *)TWindowMessage::create((saddr)window_pos, window_size, (u32)1, 4);
+    win = (TWindowMessage *)TWindowMessage::create((saddr)window_pos, window_size, (u32)1, 4);
     if (win != NULL) {
-        switch (arg0) {
+        switch (message) {
         case -2:
         case -9:
-            ((TWindowMessage *)win)->append_line(get_localized_text_entry(0x24, 3), 3);
+            win->append_line(get_localized_text_entry(0x24, 3), 3);
             break;
         case -4:
-            ((TWindowMessage *)win)->append_line(get_localized_text_entry(0x24, 0xD), 3);
+            win->append_line(get_localized_text_entry(0x24, 0xD), 3);
             break;
         default:
-            ((TWindowMessage *)win)->append_line(get_localized_text_entry(0x24, 0xC), 3);
+            win->append_line(get_localized_text_entry(0x24, 0xC), 3);
             break;
         }
-        ((TWindowBase *)win)->set_depth(36900.0f);
-        ((TWindowMessage *)win)->complete_reveal();
+        win->set_depth(36900.0f);
+        win->complete_reveal();
     }
     if (get_main_phase() == 0xF) {
         reset_state_flags__6TLobbyFv();
@@ -1347,18 +1336,18 @@ s32 TObjBoss2Tunnel::run_confirm_message_loop() {
     static f32 text_pos[2] = {20.0f + window_pos[0], 10.0f + (window_pos[1] + window_size[1])};
     static f32 text_width = window_size[0] - 40.0f;
     ControllerInputContext *pad;
-    VObj_8007C5C0 *win;
-    VObj_8007C5C0 *graph;
+    TWindowMessage *win;
+    TDLGraph *graph;
     s32 frames;
-    win = (VObj_8007C5C0 *)TWindowMessage::create((saddr)window_pos, window_size, (u32)1, 4);
+    win = (TWindowMessage *)TWindowMessage::create((saddr)window_pos, window_size, (u32)1, 4);
     if (win != NULL) {
-        ((TWindowMessage *)win)->append_line(get_localized_text_entry(0x24, 0xB), 3);
-        ((TWindowBase *)win)->set_depth(36900.0f);
+        win->append_line(get_localized_text_entry(0x24, 0xB), 3);
+        win->set_depth(36900.0f);
     }
-    ((TWindowMessage *)win)->complete_reveal();
-    graph = (VObj_8007C5C0 *)TDLGraph::create();
+    win->complete_reveal();
+    graph = (TDLGraph *)TDLGraph::create();
     if (graph != NULL) {
-        ((TDLGraph *)graph)->set_graph_param(2);
+        graph->set_graph_param(2);
     }
     frames = 0;
     if (get_main_phase() == 0xF) {
@@ -1381,10 +1370,10 @@ s32 TObjBoss2Tunnel::run_confirm_message_loop() {
         TParticleCtrl::begin_effect_render();
         if (graph != NULL) {
             TDLGraph::update_graph(frames, 0x78);
-            graph->m1();
-            graph->m2();
+            graph->run_task();
+            graph->render();
         }
-        win->m2();
+        win->render();
         TParticleCtrl::end_effect_render();
         if (frames >= 6.0) {
             if (TWindowShortListCtrl__check_controller_button(pad, 2) != 0 || frames >= 0x78) {
