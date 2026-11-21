@@ -76,8 +76,8 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     static s32 countModelNodes(DragonModelNode* source);
     void updateFacingPosition();
     void handleFallState(u32 reason);
-    int apply_foot_attack_pair_1();
-    int apply_foot_attack_pair_0();
+    void apply_foot_attack_pair_1();
+    void apply_foot_attack_pair_0();
     void saveCurrentDestination();
     void setDestinationX(int x);
     void saveTargetDestination();
@@ -227,9 +227,10 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     void release_held_player();
     void init_control_mode();
     void apply_fireball_impact_damage(saddr arg1);
-    void deliver_breath_attack(s32 arg1, s32 arg2);
+    void deliver_breath_attack(saddr arg1, s32 arg2);
     void sweep_death_body_attack();
-    int apply_foot_step_attack(int arg1);
+    void apply_foot_step_attack(int arg1);
+    void next_sequence_action();
     void receive_state_request(u8 *arg1);
     void update_air_fire_state(u32 arg1);
     void remap_sequence_after_recovery();

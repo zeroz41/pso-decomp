@@ -20,7 +20,7 @@ public:
     virtual void apply_hit_if_active(void *, f32 *);
     void sub_800BC3E8(u8 *);
     int set_position_from(void *pos);
-    u32 owner;   // the actor that fired this hitbox (a TObjBase *; sub_800BC3E8 stores it and copies its room)
+    uaddr owner;   // the actor that fired this hitbox (a TObjBase *; sub_800BC3E8 stores it and copies its room)
 };
 LAYOUT_ASSERT(TUnk_804928CC_size, sizeof(TUnk_804928CC) == 0xB0);
 
