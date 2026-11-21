@@ -2797,6 +2797,10 @@ void swap_6x13_fields__13TBoss2DeRolLeFPv(void* p) { ((G_ClientIDHeader *)p)->bs
 
 void swap_endian__13TBoss2DeRolLeFPv(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16__FPUs((char*)p + 0x4); bswap_16__FPUs((char*)p + 0x6); bswap_32__FPUl((char*)p + 0x8); }
 
+}
+
+}
+
 void TBoss2DeRolLe::clear_harmful_statuses() {  }
 
 void TBoss2DeRolLe::apply_shock_status() {  }
@@ -2810,6 +2814,10 @@ void TBoss2DeRolLe::apply_slow_status() {  }
 void TBoss2DeRolLe::apply_paralysis() {  }
 
 void TBoss2DeRolLe::apply_poison_status() {  }
+
+namespace lifecycle_view {
+
+extern "C" {
 
 saddr get_instance__13TBoss2DeRolLeFv(void) {
     return TBoss2DeRolLe__instance;
@@ -3431,17 +3439,13 @@ void TBoss2DeRolLe__sub_8003508C(void *arg0) {
     o->m85(((TBoss2DeRolLe *)arg0)->mode, 9);
 }
 
+}
+
+}
+
 void TBoss2DeRolLe::vfunc_28() {  }
 
 void TBoss2DeRolLe::vfunc_63() {  }
-
-}
-
-}
-
-namespace joint_state_view {
-
-extern "C" {
 
 void TBoss2DeRolLe::vfunc_62() {
     s32 temp_r4;
@@ -3462,6 +3466,10 @@ void TBoss2DeRolLe::vfunc_62() {
 }
 
 void TBoss2DeRolLe::vfunc_61() {  }
+
+namespace joint_state_view {
+
+extern "C" {
 
 void backup_pos__13TBoss2DeRolLeFi(s32 arg0) {
     VecCopy__FP3VecPC3Vec(arg0 + 0x2FC, arg0 + 0x38);
@@ -3899,6 +3907,10 @@ void set_flags_play_sound__13TBoss2DeRolLeFPv(u8 *arg0) {
     ((s32 (*)(s32, void *))play_sound)(0x4003AA06, arg0 + 0x38);
 }
 
+}
+
+}
+
 void TBoss2DeRolLe::clear_play_flags() {
     void *temp_r3;
     void *temp_r4;
@@ -3908,6 +3920,10 @@ void TBoss2DeRolLe::clear_play_flags() {
     temp_r3 = this->bodies;
     *(s32 *)((s8 *)temp_r3 + 0x70) = (s32) (*(s32 *)((s8 *)temp_r3 + 0x70) & 0xFFFFFFFE);
 }
+
+namespace behavior_view {
+
+extern "C" {
 
 u8 is_ready__13TBoss2DeRolLeFPv(TBoss2DeRolLe *arg0) {
     int var_r4;
@@ -3961,7 +3977,15 @@ void set_params__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1) {
     ((TObjEneDD *)arg0)->transition_enemy_state(*(s16 *)((s8 *)arg1 + 4));
 }
 
+}
+
+}
+
 void TBoss2DeRolLe::reset_fields_3d0(void* p) { *(s32*)((char*)p + 0x3d0) = 0; *(s32*)((char*)p + 0x3d4) = 0; }
+
+namespace behavior_view {
+
+extern "C" {
 
 void advance_action_sequence__13TBoss2DeRolLeFPv(Obj_80034034 *self) {
     s32 retry;
@@ -4174,6 +4198,10 @@ int play_sound(void* p, int a1) { return play_sound_effect(p, a1, 0, 0); }
 
 int spawn_trap__13TBoss2DeRolLeFPvii(void* p, int a1, int a2) { return play_persistent_sound((saddr)p, (a1), (a2), 0, 0); }
 
+}
+
+}
+
 #pragma push
 #pragma opt_common_subs off
 
@@ -4187,6 +4215,10 @@ void TBoss2DeRolLe::advance_phase_wrap() {
 }
 
 #pragma pop
+
+namespace behavior_view {
+
+extern "C" {
 
 #pragma push
 #pragma fp_contract on
