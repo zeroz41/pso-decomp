@@ -23,7 +23,6 @@ f32 get_scale__15TWindowCtrlMainFv(s32);
 extern Obj_8024FB80 *TWindowCtrl__active_window;
 TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 extern const char *TWindowEffectParty__name;
-s32 sub_80244994__11TWindowBaseFv();
 }
 
 // Built with deferred code generation (the vtable precedes the switch table
@@ -54,8 +53,10 @@ void TWindowEffectParty::run_task() {
     s32 sp8;
     u8 temp_r3;
 
+    void *window;
+
     temp_r3 = this->m_1e;
-    if (((s8) temp_r3 > 0) && ((((uaddr)TWindowCtrl__sub_8024FB80(temp_r3 - 1)) == 0U) || (sub_80244994__11TWindowBaseFv() == 0))) {
+    if (((s8) temp_r3 > 0) && (((window = TWindowCtrl__sub_8024FB80(temp_r3 - 1)) == 0) || (((TWindowBase *)window)->sub_80244994() == 0))) {
         queue_destruction();
         return;
     }

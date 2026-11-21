@@ -58,7 +58,6 @@ extern "C" {
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 play_sound_effect(s32, s32, s32, s32);
 u32 calc_text_width();
-s32 get_field_20__17TWindowSubComCardFv();
 const char *TWindowSoundBalance__name = "TWindowSoundBalance";
 s32 draw_visible_window_entries(s32, s32, void *);
 
@@ -201,11 +200,11 @@ TWindowSoundBalance::TWindowSoundBalance(saddr arg1) : TWindowBase((u8 *)&window
     this->music_gain = 1;
     this->sound_effect_gain = 1;
     e = (u8 *)((TWindowBase *)this)->get_array_entry(0);
-    get_field_20__17TWindowSubComCardFv();
+    ((TWindowSubComCard *)e)->get_field_20();
     *(f32 *)((s8 *)e + 8) = 231.0f - 0.5f * calc_text_width();
     ((TWindowDD *)e)->refresh_status_display();
     e = (u8 *)((TWindowBase *)this)->get_array_entry(1);
-    get_field_20__17TWindowSubComCardFv();
+    ((TWindowSubComCard *)e)->get_field_20();
     *(f32 *)((s8 *)e + 8) = 231.0f - 0.5f * calc_text_width();
     ((TWindowDD *)e)->refresh_status_display();
     st = (SoundBalanceSettings *)TAdSinglePlyChrSelectGC::get_global_state();
