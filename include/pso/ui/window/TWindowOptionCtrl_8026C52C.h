@@ -5,7 +5,7 @@
 
 struct TWindowOptionCtrl;
 extern "C" {
-void *TWindowOptionCtrl__ct(TWindowOptionCtrl *arg0);
+void *TWindowOptionCtrl__ct(TWindowOptionCtrl *window_option_ctrl);
 }
 
 // --- C functions defined in TWindowOptionCtrl_8026C52C.cpp ---

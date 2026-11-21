@@ -532,7 +532,7 @@ s32 get_item_group__5TItemFv(void *);
 s32 get_item_type__5TItemFv(void *);
 s32 TObjPlayer__sub_801C1AC8(void *);
 #define select_item_icon__20TWindowSubStatusDispFPviUcUci ((s32 (*)(void *, s32, s32, s32, s32))select_item_icon__20TWindowSubStatusDispFPviUcUci)
-void TWindowSubStatusDisp::set_inventory_item(void *item, s32 arg2, s32 arg3) {
+void TWindowSubStatusDisp::set_inventory_item(void *item, s32 count, s32 sid) {
     s32 temp_r29;
 
     *(f32 *)((s8 *)this + 8) = (f32) lbl_805DCF08;
@@ -540,11 +540,11 @@ void TWindowSubStatusDisp::set_inventory_item(void *item, s32 arg2, s32 arg3) {
     select_item_icon__20TWindowSubStatusDispFPviUcUci(this, temp_r29, get_item_type__5TItemFv(item), get_item_group__5TItemFv(item), ((TItem *)item)->is_wrapped());
     *(s32 *)((s8 *)this + 0x20) = replace_owned_string__20TWindowSubStatusDispFPviiii(this, (saddr)((TItem *)item)->get_name(), *(s32 *)((s8 *)this + 0x20), 8, 1);
     if (TObjPlayer__sub_801C1AC8(item) != 0) {
-        update_stat_line_if_positive__20TWindowSubStatusDispFPvi(this, arg2);
+        update_stat_line_if_positive__20TWindowSubStatusDispFPvi(this, count);
     }
     update_item_icon_colors(item);
     reinterpret_cast<ItemListRow *>(this)->suffix_style = (s32) *(s32 *)((s8 *)this + 0x30);
-    *(s32 *)((s8 *)this + 0x18) = arg3;
+    *(s32 *)((s8 *)this + 0x18) = sid;
     *(u16 *)((s8 *)this + 0) = (u16) (*(u16 *)((s8 *)this + 0) | 0x45);
 }
 

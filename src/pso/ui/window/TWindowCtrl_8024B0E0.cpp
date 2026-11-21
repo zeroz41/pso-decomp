@@ -6,11 +6,11 @@ extern "C" {
 
 saddr get_window_layout_position(s32);
 
-saddr TWindowCtrl::get_message_by_type(s8 arg0, s32 arg1) {
+saddr TWindowCtrl::get_message_by_type(s8 arg0, s32 client_id) {
     saddr window;
     s32 var_r3;
 
-    window = TWindowCtrl::get_window(arg1);
+    window = TWindowCtrl::get_window(client_id);
     if (window == 0) {
         return 0;
     }

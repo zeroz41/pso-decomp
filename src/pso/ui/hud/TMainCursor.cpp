@@ -1267,9 +1267,9 @@ s32 target_in_vertical_cone(Vec *p, Vec *q, s32 yaw, f32 range, f32 dist) {
 
 extern "C" {
 
-s32 try_move__11TMainCursorFiii(saddr arg0, u8 arg1, u8 arg2) {
+s32 try_move__11TMainCursorFiii(saddr arg0, u8 type, u8 enabled) {
     if (((TMainCursor *)arg0)->is_channel_active() != 0) {
-        return matches_type_and_enabled__11TMainCursorFiUcUc(arg0, arg1, arg2);
+        return matches_type_and_enabled__11TMainCursorFiUcUc(arg0, type, enabled);
     }
     return 0;
 }

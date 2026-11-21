@@ -66,14 +66,14 @@ struct TWindowCtrl : public TObject {
     static s32 has_player_active_menu(s32 client);
     static void apply_default_vec(s32 arg0, saddr client_id);
     static s32 is_slot_visible(s32 client);
-    static saddr get_message_by_type(s8 arg0, s32 arg1);
+    static saddr get_message_by_type(s8 arg0, s32 client_id);
     static void release_slot(s8 *arg0);
     static void close_windows_by_flags(u16 arg0);
     static s32 open_balloon(u16 player, u8 *arg1, s32 flags, s32 arg3);
     static saddr open(s32 id, saddr text, s32 flags);
     static int open_default(s32 id, s32 text);
     static void create_level_up_window(saddr arg0, saddr arg1);
-    static void set_window_flags(void *arg0, s32 flags, s32 arg2);
+    static void set_window_flags(void *client_id, s32 flags, s32 arg2);
     static void set_window_flags_off(s32 client, s32 flags);
     static void init_all(void* p, void* a1);
     void init_all_default();

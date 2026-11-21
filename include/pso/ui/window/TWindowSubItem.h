@@ -24,7 +24,7 @@ struct TWindowSubItem : public TObject {
     void set_cursor_row_for_mode(s32 arg1);
     static void draw_slot(saddr arg1, saddr arg2, s32 arg3);
     static void add_meseta_purpose_actions(saddr arg0, saddr arg1);
-    s32 create_count_input(s32 arg1);
+    s32 create_count_input(s32 maximum);
     s32 create_menu_window();
     virtual void render();
     virtual void run_task();

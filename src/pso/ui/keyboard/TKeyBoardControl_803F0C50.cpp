@@ -327,14 +327,14 @@ void TKeyBoardControl__sub_803F107C(s32 chan, u32 type) {
         __OSReschedule();
     }
 }
-s32 TKeyBoardControl::start_get_type_async(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+s32 TKeyBoardControl::start_get_type_async(s32 chan, s32 arg1, s32 arg2, s32 arg3) {
     s32 en;
-    K_803F119C *k = &((K_803F119C *)&keyboard_pad_state_table)[arg0];
+    K_803F119C *k = &((K_803F119C *)&keyboard_pad_state_table)[chan];
     en = OSDisableInterrupts();
     k->f30 = arg3;
     k->f10 = arg1;
     k->f14 = arg2;
-    SIGetTypeAsync(arg0, (void *)TKeyBoardControl__sub_803F107C);
+    SIGetTypeAsync(chan, (void *)TKeyBoardControl__sub_803F107C);
     OSRestoreInterrupts(en);
     return 0;
 }

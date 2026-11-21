@@ -521,12 +521,12 @@ void TWindowHelpItem::update_resistance_rows(void *window_base) {
 }
 #undef self
 
-void TWindowHelpItem__vt7(saddr arg0) {
+void TWindowHelpItem__vt7(saddr window_base) {
     saddr temp_r31;
     saddr temp_r31_2;
-    TWindowHelpItem::update_resistance_rows((void *)arg0);
-    temp_r31 = reinterpret_cast<saddr>(((TWindowBase *)arg0)->get_array_entry(5));
-    temp_r31_2 = reinterpret_cast<saddr>(((TWindowBase *)arg0)->get_array_entry(6));
+    TWindowHelpItem::update_resistance_rows((void *)window_base);
+    temp_r31 = reinterpret_cast<saddr>(((TWindowBase *)window_base)->get_array_entry(5));
+    temp_r31_2 = reinterpret_cast<saddr>(((TWindowBase *)window_base)->get_array_entry(6));
     ((TWindowHelpItem *)temp_r31)->set_flag0_bit2();
     ((TWindowHelpItem *)temp_r31_2)->set_flag0_bit2();
 }

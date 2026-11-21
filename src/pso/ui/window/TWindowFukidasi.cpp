@@ -669,10 +669,10 @@ void TUnk_804CF0B8::measure_text_unbounded(int entry) {
 #pragma push
 #pragma fp_contract on
 extern "C" {
-void set_text__15TWindowFukidasiFPvii(u8 *arg0, saddr str, saddr arg2) {
+void set_text__15TWindowFukidasiFPvii(u8 *arg0, saddr str, saddr flags) {
   u32 new_var;
   u8 *entry;
-  ((s32 (*)(void *, void *))init_flags__15TWindowFukidasiFPvi)((void *) arg0, (void *) arg2);
+  ((s32 (*)(void *, void *))init_flags__15TWindowFukidasiFPvi)((void *) arg0, (void *) flags);
   ((TUnk_804CF0B8 *)arg0)->clear_flag();
   if (((u8) (*((u8 *) (((s8 *) arg0) + 0x72)))) != 0)
   {
@@ -684,7 +684,7 @@ void set_text__15TWindowFukidasiFPvii(u8 *arg0, saddr str, saddr arg2) {
         (int) (*((s16 *) (((s8 *) arg0) + 0x20))));
   }
   entry = (u8 *) ((TWindowBase *)arg0)->get_array_entry(0);
-  if (arg2 & 1)
+  if (flags & 1)
   {
     set_text_entry_string(entry, str, 0x20);
   }
@@ -692,7 +692,7 @@ void set_text__15TWindowFukidasiFPvii(u8 *arg0, saddr str, saddr arg2) {
   {
     set_text_entry_string(entry, str, 0);
   }
-  if (arg2 & 4)
+  if (flags & 4)
   {
     *((u16 *) (((s8 *) entry) + 0)) = (u16) ((*((u16 *) (((s8 *) entry) + 0))) | 0x40);
     measure_message_text_width_default(entry);
@@ -701,7 +701,7 @@ void set_text__15TWindowFukidasiFPvii(u8 *arg0, saddr str, saddr arg2) {
   {
     measure_message_text_width((saddr) entry, 200.0f);
   }
-  if (arg2 & 0x80)
+  if (flags & 0x80)
   {
     *((u16 *) (((s8 *) entry) + 0)) = (u16) ((*((u16 *) (((s8 *) entry) + 0))) | 0x200);
   }
@@ -726,12 +726,12 @@ void set_text__15TWindowFukidasiFPvii(u8 *arg0, saddr str, saddr arg2) {
 
 #pragma pop
 extern "C" {
-void open__15TWindowFukidasiFPvPvi(u8 *arg0, u32 *arg1, s32 arg2) {
+void open__15TWindowFukidasiFPvPvi(u8 *arg0, u32 *arg1, s32 flags) {
     s32 var_r31;
     u8 temp_r0;
 
     var_r31 = 0;
-    ((s32 (*)(void *, s32))init_flags__15TWindowFukidasiFPvi)(arg0, arg2);
+    ((s32 (*)(void *, s32))init_flags__15TWindowFukidasiFPvi)(arg0, flags);
     if ((u8) *(u8 *)((s8 *)arg0 + 0x72) != 1) {
         *(u8 *)((s8 *)arg0 + 0x72) = 1U;
         reinterpret_cast<WindowLayoutEntries *>((arg0 + 0x24))->destroy_all_items();

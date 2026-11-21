@@ -5,7 +5,7 @@
 #include "pso/system/task/TObject.h"
 
 struct TWindowSubInformationBoard : public TObject {
-    TWindowSubInformationBoard(TObject *arg1, void *arg2);
+    TWindowSubInformationBoard(TObject *object, void *arg2);
     virtual ~TWindowSubInformationBoard();
     u32 open_card_info_window();
     u8 m_1c;
@@ -23,7 +23,7 @@ struct TWindowSubInformationBoard : public TObject {
     virtual void run_task();
     static void clear_if_current(u32 arg0);
     void set_page(s32 arg1);
-    void set_message_index(s32 arg1);
+    void set_message_index(s32 index);
     static s32 open_keyboard(saddr parent);
     u32 show_card_a7();
     u32 create_info_board_menu();

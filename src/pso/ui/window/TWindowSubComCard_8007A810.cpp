@@ -369,9 +369,9 @@ s32 TWindowSubComCard__sub_8007B0D0(Card_8007B0D0 *self, Card_8007B0D0 *cards, s
     return 0;
 }
 
-void TWindowSubComCard__sub_8007B1AC(void *arg0, u8 *arg1, s32 arg2) {
+void TWindowSubComCard__sub_8007B1AC(void *ply_guild_card_tag, u8 *arg1, s32 arg2) {
     s32 i;
-    u32 id = ((TWindowSubComCard *)arg0)->get_card_id();
+    u32 id = ((TWindowSubComCard *)ply_guild_card_tag)->get_card_id();
     for (i = 0; i < arg2; i++, arg1 += 0x90) {
         if (((TWindowSubComCard *)arg1)->is_active() == 0) {
             break;
@@ -381,7 +381,7 @@ void TWindowSubComCard__sub_8007B1AC(void *arg0, u8 *arg1, s32 arg2) {
         }
     }
     if (i < arg2) {
-        ((s32 (*)(void *, void *))forward_return_arg__17TWindowSubComCardFi)(arg1, arg0);
+        ((s32 (*)(void *, void *))forward_return_arg__17TWindowSubComCardFi)(arg1, ply_guild_card_tag);
     }
 }
 

@@ -431,9 +431,9 @@ s32 accumulate_damage_stats(u8 *arg0v, s32 arg1, s32 amount) {
 }
 
 #define arg0 ((Rec_801D6AB4 *)arg0v)
-f32 fn_801D6AB4(void *arg0v, saddr arg1, s32 arg2) {
+f32 fn_801D6AB4(void *arg0v, saddr arg1, s32 amount) {
     f32 v;
-    f32 k = (f32)arg2;
+    f32 k = (f32)amount;
 
     v = arg0->a;
     if (((TObjCollidable *)arg1)->obj_testFlags30(0x10000000) != 0) {

@@ -88,16 +88,16 @@ TWindowSubComCardList::TWindowSubComCardList(void *parent) : TWindowMenu(7, 4, (
     #undef window_menu
 }
 
-TWindowSubComCardList::TWindowSubComCardList(void *parent, s32 arg2, s32 arg3, s32 arg4) : TWindowMenu(7, 4, (saddr)parent) {
+TWindowSubComCardList::TWindowSubComCardList(void *parent, s32 card_slot, s32 arg3, s32 arg4) : TWindowMenu(7, 4, (saddr)parent) {
     s32 n;
     #define window_menu ((u8 *)this)
     *(s32 *)(window_menu + 0) = ((saddr)TWindowSubComCardList__class_name);
-    n = TWindowSubStatusDisp::round_away_from_zero((f32)count_leading_active__17TWindowSubComCardFPvi(arg2, arg3) / 7.0f);
+    n = TWindowSubStatusDisp::round_away_from_zero((f32)count_leading_active__17TWindowSubComCardFPvi(card_slot, arg3) / 7.0f);
     if (n <= 0) {
         n = 1;
     }
     m_8c = new PageIndicator(0, (s8)n, local_client_id);
-    *(s32 *)(window_menu + 0x90) = arg2;
+    *(s32 *)(window_menu + 0x90) = card_slot;
     *(s32 *)(window_menu + 0x94) = 0;
     *(s32 *)(window_menu + 0x98) = arg3;
     *(s8 *)(window_menu + 0x9C) = arg4;

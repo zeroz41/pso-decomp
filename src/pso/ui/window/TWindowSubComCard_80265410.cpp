@@ -438,7 +438,7 @@ void align_menu_entry_positions(TWindowMenu *self) {
 }
 #pragma pop
 
-void TWindowSubComCard::calc_layout_height(f32 farg0) {
+void TWindowSubComCard::calc_layout_height(f32 width) {
     f32 h;
     u32 i;
     Ent_80265C30 *e;
@@ -446,7 +446,7 @@ void TWindowSubComCard::calc_layout_height(f32 farg0) {
     for (i = 0; i < *(s16 *)(((u8 *)this) + 0x76); i++) {
         e = (Ent_80265C30 *)((TWindowBase *)this)->get_array_entry(i);
         if (((TWindowSubComCard *)e)->get_field_20() != 0 && !(e->h <= lbl_8044F330)) {
-            measure_message_text_width(e, farg0);
+            measure_message_text_width(e, width);
             h += 2.0f + e->h;
         }
     }
@@ -454,7 +454,7 @@ void TWindowSubComCard::calc_layout_height(f32 farg0) {
     if (this->m_2c & 0x40) {
         h += 6.0f;
     }
-    this->m_38 = farg0;
+    this->m_38 = width;
     *(f32 *)(((u8 *)this) + 0x3C) = 20.0f + h;
     *(f32 *)(((u8 *)this) + 0x7C) = h;
     ((TWindowBase *)((u8 *)this))->save_position();

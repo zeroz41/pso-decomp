@@ -5,7 +5,7 @@
 #include "pso/system/task/TObject.h"
 
 struct TWindowSubShortMail : public TObject {
-    TWindowSubShortMail(TObject *arg1, void *arg2);
+    TWindowSubShortMail(TObject *object, void *arg2);
     virtual ~TWindowSubShortMail();
     s32 create_list_item();
     s32 open_confirm_dialog();

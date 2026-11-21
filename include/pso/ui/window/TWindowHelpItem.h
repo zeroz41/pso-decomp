@@ -51,7 +51,7 @@ struct TWindowHelpItem : public TWindowBase
     static void draw_number_value(void *entry, f32 *pos, s32 value, s32 color, s32 percent);
     static void set_flag_0x10(u16 *arg0, s32 arg1);
     void set_flag8_and_field20(s32 arg1);
-    void set_compare_color(s32 arg1);
+    void set_compare_color(s32 count);
     void set_flag4_and_field1c(s32 count);
     void set_help_text(uaddr str);
     void reset_float_field();

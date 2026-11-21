@@ -434,11 +434,11 @@ s16 TWindowDD__sub_8034214C(u8 *child) {
     return (s16) *(s32 *)((s8 *)child + 0x70);
 }
 
-int TWindowDD__sub_80342158(u8 *arg0) {
+int TWindowDD__sub_80342158(u8 *window_dd) {
     uaddr temp_r4;
-    temp_r4 = *(u32 *)((s8 *)arg0 + 0x80);
+    temp_r4 = *(u32 *)((s8 *)window_dd + 0x80);
     if (temp_r4 != 0U) {
-        return *(s16 *)((s8 *)(temp_r4 + (*(s32 *)((s8 *)arg0 + 0x68) * 2)) + 0);
+        return *(s16 *)((s8 *)(temp_r4 + (*(s32 *)((s8 *)window_dd + 0x68) * 2)) + 0);
     }
     return 0x685;
 }

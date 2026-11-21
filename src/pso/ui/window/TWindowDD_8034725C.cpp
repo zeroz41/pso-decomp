@@ -543,9 +543,9 @@ extern const f32 TWindowDD__data_805DFC10;
     extern unsigned char lbl_804EFCA8[];
 void *TWindowDD::get_entry(void *a0, int a1) {  return (char*)lbl_804EFCA8 + a1 * 8; }
 
-void TWindowDD__sub_80347F48(u8 *arg0) {
+void TWindowDD__sub_80347F48(u8 *window_dd) {
     u8 *temp_r3;
-    temp_r3 = (u8 *)(*(u8 **)((s8 *)arg0 + 0x68));
+    temp_r3 = (u8 *)(*(u8 **)((s8 *)window_dd + 0x68));
     if (temp_r3 != NULL) {
         *(f32 *)((s8 *)temp_r3 + 0x30) = (f32) TWindowDD__data_805DFC10;
         *(s32 *)((s8 *)temp_r3 + 0x50) = (s32) TWindowDD__data_805DFB50;
@@ -562,9 +562,9 @@ void TWindowDD::init_entry_field_64(s32 arg1) {
     }
 }
 
-void TWindowDD__sub_80347FA0(saddr arg0, s32 arg1) {
+void TWindowDD__sub_80347FA0(saddr window_dd, s32 arg1) {
     u8 *var_r3;
-    var_r3 = (u8 *)(arg0 + (arg1 * 4));
+    var_r3 = (u8 *)(window_dd + (arg1 * 4));
     var_r3 = (u8 *)(*(u8 **)((s8 *)var_r3 + 0x64));
     if (var_r3 != NULL) {
         ((TWindowDD_WS_String *)var_r3)->update_position(TWindowDD__data_805DFB50);
@@ -646,18 +646,18 @@ int TWindowDD::test_input_flag_4() { return TWindowDD_check_input_mask((char*)th
 
 extern s32 TWindowDD__window_mode;
 
-s32 dispatch_by_window_mode(u8 *window_dd, u32 arg1, s32 arg2, s32 value_index) {
+s32 dispatch_by_window_mode(u8 *window_dd, u32 arg1, s32 entry_id, s32 value_index) {
     switch ((s32) TWindowDD__window_mode) {
     case 0:
-        return TWindowDD__sub_80346640(window_dd, arg1, arg2, value_index);
+        return TWindowDD__sub_80346640(window_dd, arg1, entry_id, value_index);
     default:
-        return TWindowDD__sub_80346434(window_dd, arg1, arg2, value_index);
+        return TWindowDD__sub_80346434(window_dd, arg1, entry_id, value_index);
     case 4:
-        return TWindowDD__sub_80344774(window_dd, arg1, arg2, value_index);
+        return TWindowDD__sub_80344774(window_dd, arg1, entry_id, value_index);
     case 2:
-        return TWindowDD__sub_80344568(window_dd, arg1, arg2, value_index);
+        return TWindowDD__sub_80344568(window_dd, arg1, entry_id, value_index);
     case 3:
-        return TWindowDD__sub_8034435C(window_dd, arg1, arg2, value_index);
+        return TWindowDD__sub_8034435C(window_dd, arg1, entry_id, value_index);
     }
 }
 
@@ -951,8 +951,8 @@ void TWindowDD::copy_point_table(s32 idx) {
 
 #pragma push
 #pragma fp_contract on
-f32 TWindowDD__sub_80348AD4(f32 draw_depth, f32 farg1) {
-    return (-1.0f) / ((0.299f * farg1) + draw_depth);
+f32 TWindowDD__sub_80348AD4(f32 draw_depth, f32 offset) {
+    return (-1.0f) / ((0.299f * offset) + draw_depth);
 }
 #pragma pop
 

@@ -25,7 +25,7 @@ struct TWindowSoundBalance : public TWindowBase {
     void handle_lr_input();
     void sub_8027095C();
     virtual void run_task();
-    void apply_balance(void *arg1);
+    void apply_balance(void *window_key_board_soft);
     void handle_cancel();
     u8 unk_66[0x2];
 };

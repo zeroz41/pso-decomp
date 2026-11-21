@@ -49,8 +49,8 @@ s32 TWindowSubStatusDisp::destroy_status_display(saddr arg0, s16 arg1) {
     return arg0;
 }
 
-u8 *TWindowSubStatusDisp::construct_type1_heading(s32 arg1, s32 client_index) {
-    init_heading_entry__20TWindowSubStatusDispFPvPvici(((u8 *)this), (u8 *)lbl_8044FCF0, arg1, 1, client_index);
+u8 *TWindowSubStatusDisp::construct_type1_heading(s32 title, s32 client_index) {
+    init_heading_entry__20TWindowSubStatusDispFPvPvici(((u8 *)this), (u8 *)lbl_8044FCF0, title, 1, client_index);
     return ((u8 *)this);
 }
 

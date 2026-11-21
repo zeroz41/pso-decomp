@@ -9,7 +9,7 @@ u8 *init_part_scaled__20TWindowSubStatusDispFPvPvi(u8 *arg0, u8 *rec, s32 client
 }
 void set_sprite_dimensions(void *p, f32 a, f32 b);
 void set_sprite_uv_bounds(void *p, f32 a, f32 b, f32 c, f32 d);
-void set_sprite_uv_from_pixels(u8 *arg0, f32 farg0, f32 farg1);
+void set_sprite_uv_from_pixels(u8 *help, f32 farg0, f32 farg1);
 void swap_sprite_u_edges(u8 *arg0);
 void swap_sprite_v_edges(u8 *arg0);
 

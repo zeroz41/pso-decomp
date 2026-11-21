@@ -97,7 +97,7 @@ struct TWindowDD : public TObject
     static u8 is_id_in_special_range(s16 id);
     static s32 classify_id(s16 id);
     static s32 get_player_battle_flag_state(u16 arg0);
-    void format_type6_message(saddr window_dd, void *arg2);
+    void format_type6_message(saddr window_dd, void *pos);
     static s32 is_state_zero_unless_0x2C8(s32 arg0);
     void destroy_menu_entry(s32 arg1);
     void set_item_pos(s32 i);
@@ -169,7 +169,7 @@ s32 TWindowDD_check_input_mask(void *input_context, s32 mask);
 extern "C" {
 void *__dt__13TUnk_804EFBACFv(void *arg0, s16 arg1);
 void measure_message_text_width_default(void *entry);
-s32 dispatch_by_window_mode(u8 *window_dd, u32 arg1, s32 arg2, s32 value_index);
+s32 dispatch_by_window_mode(u8 *window_dd, u32 arg1, s32 entry_id, s32 value_index);
 }
 
 // Upper bounds of the numeric word-select entries, indexed by TWindowDD::classify_id.

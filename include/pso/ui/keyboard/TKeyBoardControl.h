@@ -68,7 +68,7 @@ struct TKeyBoardControl : public TObject {
     static void update_input_frame();
     static void init_pad_state();
     s32 poll_key_state();
-    static s32 start_get_type_async(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+    static s32 start_get_type_async(s32 chan, s32 arg1, s32 arg2, s32 arg3);
     static void enable_keyboard_polling(s32 chan);
     static void update_camera();
     static void set_key_state(s32 arg0);

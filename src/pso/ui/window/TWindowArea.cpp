@@ -56,14 +56,14 @@ s32 create_window_area(void) {
 extern "C" {
 #pragma push
 #pragma fp_contract on
-s32 create_area_window(saddr arg0) {
+s32 create_area_window(saddr str) {
     TWindowArea *object;
     u8 *temp_r31;
     object = new TWindowArea();
-    ((TWindowSubStatusDisp *)object)->set_entry_display_value(arg0);
+    ((TWindowSubStatusDisp *)object)->set_entry_display_value(str);
     fn_802449E0((u8 *)object);
     temp_r31 = reinterpret_cast<u8 *>(object->get_title_entry());
-    *(f32 *)((s8 *)temp_r31 + 8) = 80.0f - 0.5f * (f32) calc_text_width((char *)(arg0));
+    *(f32 *)((s8 *)temp_r31 + 8) = 80.0f - 0.5f * (f32) calc_text_width((char *)(str));
     return reinterpret_cast<saddr>(object);
 }
 #pragma pop

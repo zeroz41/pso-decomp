@@ -67,7 +67,7 @@ void TWindowQuantity::run_task() { ((TWindowDD *)this)->initialize_subwindow(); 
 
 TWindowQuantity::~TWindowQuantity() {}
 
-TWindowQuantity::TWindowQuantity(s32 arg1) : TWindowBase((u8 *)&quantity_window_layout, (s16)arg1, (u8 *)(get_window_layout_position(0x2A))) {
+TWindowQuantity::TWindowQuantity(s32 client) : TWindowBase((u8 *)&quantity_window_layout, (s16)client, (u8 *)(get_window_layout_position(0x2A))) {
 #define self ((Quantity_8026D000 *)this)
     u8 *e1;
     u8 *e0;

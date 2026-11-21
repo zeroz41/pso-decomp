@@ -58,7 +58,7 @@ struct TWindowKeyBoardSoft : public TWindowBase
     static void dispatch_request_0x10(s32 a, s32 b);
     static void dispatch_request_0f(s32 a, s32 b);
     void calc_cursor_step(s32 *arg1, s32 *arg2);
-    f32 calc_key_x(s32 arg1, s32 arg2);
+    f32 calc_key_x(s32 col, s32 row);
     s32 calc_key_index(s32 col, s32 row);
     f32 sub_802606E0();
     void sub_80260760(s32 key, s32 *count, u32 *color);

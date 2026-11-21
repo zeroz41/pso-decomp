@@ -368,12 +368,12 @@ void TWindowSubStatusDisp::add_inventory_item(saddr item, s32 count, s32 sid) {
     }
 }
 
-void TShopEquipmentSellWindow::add_item(saddr arg1, s32 arg2, s32 arg3) {
+void TShopEquipmentSellWindow::add_item(saddr item, s32 arg2, s32 arg3) {
     int index;
-    if (arg1 != 0) {
+    if (item != 0) {
         index = this->m_72;
         if (index < (s16) this->m_76) {
-            ((TWindowSubStatusDisp *)(reinterpret_cast<TWindowBase *>(this)->get_array_entry(index)))->update_from_player((void *)arg1, (s32)arg2, (s32)arg3);
+            ((TWindowSubStatusDisp *)(reinterpret_cast<TWindowBase *>(this)->get_array_entry(index)))->update_from_player((void *)item, (s32)arg2, (s32)arg3);
             this->m_72 = (this->m_72 + 1);
         }
     }

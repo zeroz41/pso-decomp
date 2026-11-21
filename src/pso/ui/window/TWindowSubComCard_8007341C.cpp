@@ -61,7 +61,7 @@ LAYOUT_ASSERT(RecoveredGlobal_800739BC_lbl_8048C9D8_size, sizeof(RecoveredGlobal
 #define CHAL ((Chal_80073738 *)&challenge_mode_state)
 
 #define CHAL_80073428 ((Chal_80073428 *)&challenge_mode_state)
-void TAdSinglePlyChrSelectGC::format_challenge_stage_times(s32 arg0, s32 arg1) {
+void TAdSinglePlyChrSelectGC::format_challenge_stage_times(s32 lobby, s32 arg1) {
     char buf2[0x18];
     char buf1[0x10];
     s32 h1, m1, s1;

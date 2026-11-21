@@ -134,13 +134,13 @@ s32 TWindowKeyBoardSoft::sub_802605DC() {
 
 #pragma push
 #pragma fp_contract on
-f32 TWindowKeyBoardSoft::calc_key_x(s32 arg1, s32 arg2) {
+f32 TWindowKeyBoardSoft::calc_key_x(s32 col, s32 row) {
   f32 new_var;
   s32 sp8;
   s32 temp_r31;
   s32 key;
-  key = calc_key_index(arg1, arg2);
-  temp_r31 = arg1 + TWindowKeyBoardSoft__data_8044F124[soft_keyboard_key_class[key]];
+  key = calc_key_index(col, row);
+  temp_r31 = col + TWindowKeyBoardSoft__data_8044F124[soft_keyboard_key_class[key]];
   sub_80260760((int) key, &sp8, NULL);
   new_var = calc_key_coord(sp8);
   return 1.0f + ((19.0f * ((f32) temp_r31)) + (0.5f * new_var));
@@ -540,14 +540,14 @@ f32 TWindowKeyBoardSoft::sub_802614DC(WindowDrawContext *context, f32 farg0, f32
 
 #pragma push
 #pragma fp_contract on
-void TWindowKeyBoardSoft::spawn_key_effect(s32 arg1, s32 arg2) {
+void TWindowKeyBoardSoft::spawn_key_effect(s32 col, s32 row) {
     s32 type;
     NJS_POINT2 pos;
     s16 kind;
 
-    sub_80260760(calc_key_index(arg1, arg2), &type, 0);
-    pos.x = *(f32 *)(((u8 *)this) + 0x40) + calc_key_x(arg1, arg2);
-    pos.y = 26.0f + (10.0f + (19.0f * (f32)arg2 + *(f32 *)(((u8 *)this) + 0x44)));
+    sub_80260760(calc_key_index(col, row), &type, 0);
+    pos.x = *(f32 *)(((u8 *)this) + 0x40) + calc_key_x(col, row);
+    pos.y = 26.0f + (10.0f + (19.0f * (f32)row + *(f32 *)(((u8 *)this) + 0x44)));
     switch (type) {
     case 1:
         kind = 3;

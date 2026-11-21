@@ -505,7 +505,7 @@ void draw_photon_blast_gauge_ring(s32 arg0, Params_80270244 *arg1, const NJS_POI
 }
 #pragma pop
 
-void TWindowSimpleStatus::draw_background(u8 *arg1) {
+void TWindowSimpleStatus::draw_background(u8 *ctx) {
     Rect_80270394 r;
     NJS_POINT2 pos;
     NJS_POINT2 size;
@@ -518,15 +518,15 @@ void TWindowSimpleStatus::draw_background(u8 *arg1) {
     } else {
         f = 0.0f;
     }
-    draw_photon_blast_gauge_ring((saddr)this, (Params_80270244 *)(arg1), &photon_blast_gauge_ring_offset, f, 17.0f);
-    pos.x = 6.0f + *(f32 *)((s8 *)arg1 + 0x10);
-    pos.y = 2.0f + *(f32 *)((s8 *)arg1 + 0x14);
+    draw_photon_blast_gauge_ring((saddr)this, (Params_80270244 *)(ctx), &photon_blast_gauge_ring_offset, f, 17.0f);
+    pos.x = 6.0f + *(f32 *)((s8 *)ctx + 0x10);
+    pos.y = 2.0f + *(f32 *)((s8 *)ctx + 0x14);
     size.x = 36.0f;
     size.y = 35.0f;
     scale = -1.0f / this->draw_depth;
     begin_screen_draw(1);
     TObjFish::set_global_param(lbl_805D63F0);
-    set_draw_texture_and_color(0xB, *(s32 *)((s8 *)arg1 + 0x34));
+    set_draw_texture_and_color(0xB, *(s32 *)((s8 *)ctx + 0x34));
     r.x0 = pos.x;
     r.y0 = pos.y;
     r.x1 = r.x0 + size.x;
@@ -535,12 +535,12 @@ void TWindowSimpleStatus::draw_background(u8 *arg1) {
     r.v0 = 0.3125f;
     r.u1 = 0.8828125f;
     r.v1 = 0.44921875f;
-    ((WindowDrawContext *)arg1)->transform_quad((TexturedQuad *)&r);
+    ((WindowDrawContext *)ctx)->transform_quad((TexturedQuad *)&r);
     draw_textured_quad_at_depth(&r, scale);
     TWindowSubStatusDisp::get_player();
-    if (TWindowSubComCard__sub_80245558(arg1, &pos, &size) != 0) {
+    if (TWindowSubComCard__sub_80245558(ctx, &pos, &size) != 0) {
         TWindowSubComCard__sub_802454E4(0xB);
-        TWindowSubComCard__sub_80245320(&r, arg1);
+        TWindowSubComCard__sub_80245320(&r, ctx);
         TWindowSubComCard__sub_802452DC(0xB);
     }
 }
@@ -600,11 +600,11 @@ SS_80270668 *TWindowSimpleStatus__ct(SS_80270668 *arg0, void *arg1, s32 client, 
     return arg0;
 }
 
-void *TWindowSimpleStatus::create(void *arg1) {
+void *TWindowSimpleStatus::create(void *client) {
     void *o;
     o = TObject::operator new(0x78);
     if (o != NULL) {
-        o = TWindowSimpleStatus__ct((SS_80270668 *)(o), (void *)this, (saddr)arg1, &simple_status_window_layout);
+        o = TWindowSimpleStatus__ct((SS_80270668 *)(o), (void *)this, (saddr)client, &simple_status_window_layout);
     }
     return o;
 }

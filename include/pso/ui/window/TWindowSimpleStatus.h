@@ -13,7 +13,7 @@ struct TWindowSimpleStatus : public TWindowBase {
     virtual void render();
     u32 m_60;
     virtual void run_task();
-    void *create(void *arg1);
+    void *create(void *client);
     TWindowBase *w[5]; // child windows; the dtor closes the first four
 };
 

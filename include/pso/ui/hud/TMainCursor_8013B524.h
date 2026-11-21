@@ -5,7 +5,7 @@
 
 struct TMainCursor;
 extern "C" {
-void render__11TMainCursorFPv(TMainCursor *arg0);
+void render__11TMainCursorFPv(TMainCursor *main_cursor);
 }
 
 // --- C functions defined in TMainCursor_8013B524.cpp ---

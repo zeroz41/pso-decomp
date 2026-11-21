@@ -6,10 +6,10 @@ extern "C" {
 s32 clear();
 s32 fn_8007B2E0(u8 *arg0, s32 id);
 
-void TWindowSubComCard::handle_press_a(saddr arg0, s32 id) {
+void TWindowSubComCard::handle_press_a(saddr ply_guild_card_tag, s32 id) {
     clear();
-    if ((fn_8007B2E0((u8 *)arg0, id) != 0) && (TWindowSubComCard::scroll_list(arg0) == 0)) {
-        TWindowSubComCard::select_card_entry(arg0);
+    if ((fn_8007B2E0((u8 *)ply_guild_card_tag, id) != 0) && (TWindowSubComCard::scroll_list(ply_guild_card_tag) == 0)) {
+        TWindowSubComCard::select_card_entry(ply_guild_card_tag);
     }
 }
 

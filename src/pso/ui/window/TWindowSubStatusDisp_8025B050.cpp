@@ -52,14 +52,14 @@ void swap_sprite_u_edges(u8 *arg0) {
 
 void set_sprite_uv_bounds(void* p, f32 a, f32 b, f32 c, f32 d) { *(f32*)((char*)p + 0x1c) = a; *(f32*)((char*)p + 0x20) = b; *(f32*)((char*)p + 0x24) = c; *(f32*)((char*)p + 0x28) = d; }
 
-void set_sprite_uv_from_pixels(u8 *arg0, f32 farg0, f32 farg1) {
+void set_sprite_uv_from_pixels(u8 *help, f32 farg0, f32 farg1) {
     f32 x, y;
-    *(f32 *)((s8 *)arg0 + 0x1C) = (f32) (farg0 / 256.0f);
-    *(f32 *)((s8 *)arg0 + 0x20) = (f32) (farg1 / 256.0f);
-    x = farg0 + *(f32 *)((s8 *)arg0 + 0x10);
-    *(f32 *)((s8 *)arg0 + 0x24) = (f32) (x / 256.0f);
-    y = farg1 + *(f32 *)((s8 *)arg0 + 0x14);
-    *(f32 *)((s8 *)arg0 + 0x28) = (f32) (y / 256.0f);
+    *(f32 *)((s8 *)help + 0x1C) = (f32) (farg0 / 256.0f);
+    *(f32 *)((s8 *)help + 0x20) = (f32) (farg1 / 256.0f);
+    x = farg0 + *(f32 *)((s8 *)help + 0x10);
+    *(f32 *)((s8 *)help + 0x24) = (f32) (x / 256.0f);
+    y = farg1 + *(f32 *)((s8 *)help + 0x14);
+    *(f32 *)((s8 *)help + 0x28) = (f32) (y / 256.0f);
 }
 
 void set_sprite_dimensions(void* p, f32 a, f32 b) { *(f32*)((char*)p + 0x10) = a; *(f32*)((char*)p + 0x14) = b; }

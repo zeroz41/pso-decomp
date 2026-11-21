@@ -5,7 +5,7 @@
 #include "pso/system/task/TObject.h"
 
 struct TWindowSubAreaMap : public TObject {
-    TWindowSubAreaMap(TObject *arg1, void *arg2);
+    TWindowSubAreaMap(TObject *object, void *arg2);
     virtual ~TWindowSubAreaMap();
     u32 m_1c;
     uaddr m_20;

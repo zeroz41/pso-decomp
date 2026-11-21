@@ -91,21 +91,21 @@ void TWindowHelpItem::set_flag8_and_field20(s32 arg1) {
     reinterpret_cast<Item_8025A354 *>(this)->next = arg1;
 }
 
-void TWindowHelpItem::set_compare_color(s32 arg1) {
+void TWindowHelpItem::set_compare_color(s32 count) {
     s32 temp_r0;
 
     temp_r0 = reinterpret_cast<Item_8025A354 *>(this)->cur;
-    if (temp_r0 == arg1) {
+    if (temp_r0 == count) {
         reinterpret_cast<Item_8025A354 *>(this)->value10 = -1;
         return;
     }
-    if (temp_r0 > arg1) {
+    if (temp_r0 > count) {
         reinterpret_cast<Item_8025A354 *>(this)->value10 = 0xFF77E8FF;
     } else {
         reinterpret_cast<Item_8025A354 *>(this)->value10 = 0xFFDD8C41;
     }
     reinterpret_cast<Item_8025A354 *>(this)->animation = 0x1E;
-    set_flag4_and_field1c(arg1);
+    set_flag4_and_field1c(count);
 }
 
 void TWindowHelpItem::set_flag4_and_field1c(s32 count) {

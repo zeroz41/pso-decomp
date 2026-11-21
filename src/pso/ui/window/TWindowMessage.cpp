@@ -401,7 +401,7 @@ void TWindowMessage::run_task() {
 TWindowMessage::~TWindowMessage() {
     if (*(void **)((s8 *)this + 0x7C) != NULL) { mem_free(*(void **)((s8 *)this + 0x7C)); }
 }
-TWindowMessage::TWindowMessage(saddr parent, u32 arg2, s32 client) : TWindowAddition((u8 *)&message_window_settings, (s16)client, (u8 *)parent) {
+TWindowMessage::TWindowMessage(saddr parent, u32 rows, s32 client) : TWindowAddition((u8 *)&message_window_settings, (s16)client, (u8 *)parent) {
     u32 i;
     u8 *p;
     #define window_addition ((u8 *)this)
@@ -409,13 +409,13 @@ TWindowMessage::TWindowMessage(saddr parent, u32 arg2, s32 client) : TWindowAddi
     *(s32 *)(window_addition + 0x70) = 0;
     *(s32 *)(window_addition + 0x74) = 0;
     *(s32 *)(window_addition + 0x88) = 0;
-    *(u32 *)(window_addition + 0x8C) = arg2;
+    *(u32 *)(window_addition + 0x8C) = rows;
     *(s32 *)(window_addition + 0x78) = 0xB4;
     *(f32 *)(window_addition + 0x84) = 0.0f;
     *(f32 *)(window_addition + 0x80) = 0.0f;
-    *(u8 **)(window_addition + 0x7C) = (u8 *)mem_alloc(arg2 * 8);
+    *(u8 **)(window_addition + 0x7C) = (u8 *)mem_alloc(rows * 8);
     p = *(u8 **)(window_addition + 0x7C);
-    for (i = 0; i < arg2; i++) {
+    for (i = 0; i < rows; i++) {
         *(s32 *)p = 0;
         *(s32 *)(p + 4) = 0;
         p += 8;

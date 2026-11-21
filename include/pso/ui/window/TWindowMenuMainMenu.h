@@ -31,7 +31,7 @@ LAYOUT_ASSERT(TWindowMenuMainMenu_size, sizeof(TWindowMenuMainMenu) == 0x144);
 
 extern "C" {
 void render__19TWindowMenuMainMenuFv(saddr arg0);
-void run_task__19TWindowMenuMainMenuFv(TWindowMenuMainMenu *arg0);
+void run_task__19TWindowMenuMainMenuFv(TWindowMenuMainMenu *window_menu_main_menu);
 }
 
 // --- C functions defined in TWindowMenuMainMenu.cpp ---

@@ -5,7 +5,7 @@
 
 struct TMainCursor;
 extern "C" {
-int matches_id(TMainCursor *arg0, u16 arg1);
+int matches_id(TMainCursor *main_cursor, u16 arg1);
 }
 
 // --- C functions defined in TMainCursor_8013E44C.cpp ---

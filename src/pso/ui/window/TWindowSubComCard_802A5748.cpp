@@ -51,12 +51,12 @@ void initialize_option_dialog(void *arg0, s32 message, s32 position, f32 farg0) 
     ((TWindowSubComCard *)(*(saddr *)((s8 *)arg0 + 0x28)))->calc_layout_height(farg0);
 }
 
-void open_yes_no_prompt(TChCrTagPlBack *ch_cr_tag_pl_back, u32 arg1, s32 text, s32 arg3, f32 width) {
+void open_yes_no_prompt(TChCrTagPlBack *ch_cr_tag_pl_back, u32 title, s32 text, s32 arg3, f32 width) {
     s32 sp8;
-    if (arg1 == 0U) {
+    if (title == 0U) {
         *(s32 *)((s8 *)ch_cr_tag_pl_back + 0x28) = (saddr)create_window_menu((saddr)(arg3), 1, *(s32 *)((s8 *)ch_cr_tag_pl_back + 0x24));
     } else {
-        *(s32 *)((s8 *)ch_cr_tag_pl_back + 0x28) = (long) (create_titled_window_menu(arg3, 1, arg1, *(s32 *)((s8 *)ch_cr_tag_pl_back + 0x24)));
+        *(s32 *)((s8 *)ch_cr_tag_pl_back + 0x28) = (long) (create_titled_window_menu(arg3, 1, title, *(s32 *)((s8 *)ch_cr_tag_pl_back + 0x24)));
     }
     TObjCityMainWarp::forward_trade_action_default(((void *) *(saddr *)((s8 *)ch_cr_tag_pl_back + 0x28)), (text), 0x21, 0);
     ((TAdChrSelASlotGC *)(*(saddr *)((s8 *)ch_cr_tag_pl_back + 0x28)))->set_flag_40();

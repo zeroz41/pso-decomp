@@ -7,7 +7,7 @@
 class TQuestThreadBoard;
 
 struct TWindowSubQuestBoard : public TObject {
-    TWindowSubQuestBoard(TObject *arg1, void *arg2);
+    TWindowSubQuestBoard(TObject *object, void *arg2);
     virtual ~TWindowSubQuestBoard();
     u8 m_1c;
     u8 _pad1D[0x3];

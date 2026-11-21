@@ -356,18 +356,18 @@ void upload_font_glyph(u16 c, void *free_slot) {
 }
 #undef g
 
-s32 TWindowSubStatusDisp::upload_glyph_if_needed(u16 code, u8 *arg1, void **arg2) {
+s32 TWindowSubStatusDisp::upload_glyph_if_needed(u16 code, u8 *free_slot, void **arg2) {
     u8 temp_r7;
-    temp_r7 = *(u8 *)((s8 *)arg1 + 3);
+    temp_r7 = *(u8 *)((s8 *)free_slot + 3);
     if (temp_r7 == (u8) lbl_805D56C0) {
         return 0;
     }
     if (temp_r7 != (u8)(lbl_805D56C0 - 1)) {
-        upload_font_glyph(code, arg1);
+        upload_font_glyph(code, free_slot);
         return 1;
     }
     if ((void *) *arg2 == NULL) {
-        *arg2 = arg1;
+        *arg2 = free_slot;
     }
     return 0;
 }

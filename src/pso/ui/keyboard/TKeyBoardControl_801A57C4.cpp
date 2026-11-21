@@ -170,8 +170,8 @@ s32 TKeyBoardControl::is_key_down(s32 arg0) {
     return 0;
 }
 
-void update_state_from_input__16TKeyBoardControlFPv(u8 arg0) {
-    hardware_keyboard_state.sub_801323C8(arg0);
+void update_state_from_input__16TKeyBoardControlFPv(u8 key) {
+    hardware_keyboard_state.sub_801323C8(key);
 }
 
 extern s32 actor_frame_tick;

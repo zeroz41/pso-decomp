@@ -5,7 +5,7 @@
 
 extern "C" {
 void TWindowHelpItem__sub_802531A0(void);
-void TWindowHelpItem__sub_80253268(u8 *arg0);
+void TWindowHelpItem__sub_80253268(u8 *window_base);
 void TWindowHelpItem__vt11(u8 *window);
 }
 

@@ -5,7 +5,7 @@
 #include "pso/system/task/TObject.h"
 
 struct TWindowSubComCard : public TObject {
-    TWindowSubComCard(TObject *arg1, void *arg2);
+    TWindowSubComCard(TObject *object, void *arg2);
     virtual ~TWindowSubComCard();
     u32 sub_80272DE0();
     void sub_80271F04(void *, s32, saddr);
@@ -65,7 +65,7 @@ struct TWindowSubComCard : public TObject {
     static s32 init_card();
     static void remove_entry(s32 arg0);
     static s32 scroll_list(s32 ply_guild_card_tag);
-    static void init_and_press_a(s32 arg0);
+    static void init_and_press_a(s32 id);
     static void init_and_press_b(s32 arg0);
     void update_press();
     static void select_card_entry(saddr ply_guild_card_tag);
@@ -102,9 +102,9 @@ struct TWindowSubComCard : public TObject {
     static void start_player_data_load(s32 arg0);
     static s32 count_active_cards();
     void set_text(void *arg1);
-    static void handle_press_a(saddr arg0, s32 arg1);
-    static void handle_press_b(saddr arg0, s32 arg1);
-    void calc_layout_height(f32 farg0);
+    static void handle_press_a(saddr ply_guild_card_tag, s32 id);
+    static void handle_press_b(saddr ply_guild_card_tag, s32 arg1);
+    void calc_layout_height(f32 width);
 
     s32 find_entry_value_by_id(s32 key);
     void mark_entry_by_id(s32 arg1);
@@ -124,7 +124,7 @@ struct TWindowSubComCard : public TObject {
     void set_page(s16 v);
     void set_flag_10();
     void set_display_page();
-    static s32 create_com_card_window(s32 arg0);
+    static s32 create_com_card_window(s32 parent);
     static s32 create_menu();
     static s32 create_single_entry_window();
     static s32 open_menu();
