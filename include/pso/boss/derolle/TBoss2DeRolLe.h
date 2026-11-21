@@ -80,6 +80,14 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     void sub_80034034();
     void advance_action_sequence();
     void sub_8003508C();
+    void set_position_index(s32 index);
+    void pick_random_target();
+    void sub_80034258();
+    void sub_800341F0();
+    void sub_800333F4(u32 reason);
+    void sub_8002FD9C(u32 reason, s32 arg2);
+    void sub_8002FCE4(u32 reason);
+    void sub_8002F73C(u32 reason);
     u8 pad_374[0x8];
     f32 unk_37C;                       // 20.0 (TBoss7DeRolLeC's twin field too)
     u8 pad_380[0xC];
@@ -142,9 +150,6 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
 
 LAYOUT_ASSERT(TBoss2DeRolLe_size, sizeof(TBoss2DeRolLe) == 0x75C);
 extern "C" {
-void TBoss2DeRolLe__sub_8002F73C(TBoss2DeRolLe *self, u32 reason);
-void TBoss2DeRolLe__sub_8002FCE4(TBoss2DeRolLe *self, u32 reason);
-void TBoss2DeRolLe__sub_8002FD9C(TBoss2DeRolLe *self, u32 reason, s32 arg2);
 void TBoss2DeRolLe__sub_8002FE60(TBoss2DeRolLe *self, u32 reason);
 void TBoss2DeRolLe__sub_80030720(TBoss2DeRolLe *self, u32 reason, s32 state);
 void TBoss2DeRolLe__sub_80030898(TBoss2DeRolLe *self, u32 reason, s32 arg2);
@@ -156,7 +161,6 @@ void TBoss2DeRolLe__sub_80031AD4(TBoss2DeRolLe *self, u32 reason);
 void TBoss2DeRolLe__sub_800320B4(TBoss2DeRolLe *self, u32 reason, s32 arg2, s32 arg3);
 void TBoss2DeRolLe__sub_800327C8(TBoss2DeRolLe *self, u32 reason, s32 arg2, s32 arg3);
 void TBoss2DeRolLe__sub_80032E38(TBoss2DeRolLe *self, u32 reason);
-void TBoss2DeRolLe__sub_800333F4(TBoss2DeRolLe *self, u32 reason);
 void TBoss2DeRolLe__sub_800338BC(void);
 void TBoss2DeRolLe__sub_80033A80(s32 arg0, saddr arg1);
 f32 TBoss2DeRolLe__sub_80034CEC(void);
@@ -180,7 +184,6 @@ void handle_death_state__13TBoss2DeRolLeFPvPv(TBoss2DeRolLe *self, u32 reason);
 void handle_debug_pad_input__13TBoss2DeRolLeFPvPv(TBoss2DeRolLe *self, u32 reason);
 void init_from_param__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1);
 void init_head_params__13TBoss2DeRolLeFPv(u8 *arg0);
-void pick_random_target__13TBoss2DeRolLeFi(saddr actor);
 s32 play_sound(s32 id, Vec *position);
 void reload_stats_for_phase__13TBoss2DeRolLeFPvi(void *self, s32 kind);
 void render__13TBoss2DeRolLeFv(u8 *arg0);
@@ -189,7 +192,6 @@ void send_6x13__13TBoss2DeRolLeFPv(void *p);
 void set_move_direction__13TBoss2DeRolLeFPv(void *arg0);
 void set_move_target_point__13TBoss2DeRolLeFPvi(u8 *arg0, s32 arg1);
 void set_params__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1);
-void set_position_index__13TBoss2DeRolLeFPvi(u8 *arg0, s32 arg1);
 void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, saddr arg2);
 int spawn_trap__13TBoss2DeRolLeFPvii(void *p, int a1, int a2);
 void state_ceiling_attack__13TBoss2DeRolLeFPvUi(TBoss2DeRolLe *self, u32 reason);
