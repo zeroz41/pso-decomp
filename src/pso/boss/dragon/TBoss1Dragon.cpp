@@ -210,7 +210,6 @@ s32 is_split_screen();
 s32 check_parts_visible__12TBoss1DragonFiPv(saddr arg0, Obj_80021260 *arg1);
 s32 is_sphere_visible__12TBoss1DragonFf(f32 farg0);
 s32 TBoss1Dragon__sub_8002B108(TBoss1DragonColli *, s32);
-f32 normalize_vector_xz__FP3Vec(void *, f32, f32);
 u8 *find_entity_by_id(s32);
 s32 rotate_matrix_z(s32, s32);
 void subtract_vector(void *, void *);
@@ -780,7 +779,7 @@ void TBoss1Dragon::render() {
                     VecCopy__FP3VecPC3Vec((saddr) &delta, (saddr)(ent + 0x38));
                     subtract_vector(&delta, &origin);
                     delta.y = (0.0f);
-                    dist = ((f32 (*)(void *)) normalize_vector_xz__FP3Vec)(&delta);
+                    dist = normalize_vector_xz((Vec *)&delta);
                     VecCopy__FP3VecPC3Vec((saddr) lbl_804FE1D0, (saddr) &origin);
                     VecCopy__FP3VecPC3Vec((saddr) lbl_804FE1DC, (saddr) &delta);
                     *(f32 *) &boss1_dragon_visibility_distance = dist;
@@ -934,7 +933,7 @@ s32 is_sphere_visible__12TBoss1DragonFf(f32 farg0) {
     ((s32 (*)(void *))VecCopy__FP3VecPC3Vec)(&stack.sp8);
     stack.spC = (0.0f);
     subtract_vector(&stack.sp8, (void *) lbl_804FE1D0);
-    temp_f1 = ((f32 (*)(void *))normalize_vector_xz__FP3Vec)(&stack.sp8);
+    temp_f1 = normalize_vector_xz((Vec *)&stack.sp8);
     if ((temp_f1 + farg0) < boss1_dragon_visibility_distance) {
         if (vec3_dot(&stack.sp8, (void *) lbl_804FE1DC) >= (temp_f1 * ((1.0f) / newton_sqrtf((f32) ((temp_f1 * temp_f1) + (farg0 * farg0)))))) {
             return 1;
@@ -1276,7 +1275,7 @@ void TBoss1Dragon::handle_fall_state(u32 arg1) {
         self->m_3a0.x = -self->position.x;
         self->m_3a0.y = (0.0f);
         self->m_3a0.z = -self->position.z;
-        ((void (*)(void *))normalize_vector_xz__FP3Vec)(&this->m_3a0);
+        normalize_vector_xz((Vec *)&this->m_3a0);
         this->rotation_y = (s32) (boss1_dragon_angle_units_per_radian * atan2_float(self->m_3a0.x, self->m_3a0.z));
         ((TBoss8Dragon *)this->m_6d8)->set_field_3c();
         return;
@@ -2036,7 +2035,6 @@ void TBoss1Dragon::update_death_state(u32 arg1) {
 #pragma push
 #pragma fp_contract on
 #define TGT_80023450 (&TBoss1Dragon__data_80434E80)
-#define CLAMP_80023450 ((f32 (*)(void *))normalize_vector_xz__FP3Vec)
 #define UPDVEL_80023450 ((s32 (*)(void *, f32))update_velocity__9TObjEneDDFv)
 
 void TBoss1Dragon::update_emergence_state(u32 arg1) {
@@ -2087,7 +2085,7 @@ void TBoss1Dragon::update_emergence_state(u32 arg1) {
                 v->x = TGT_80023450->x - this->position.x;
                 v->y = (0.0f);
                 v->z = TGT_80023450->z - this->position.z;
-                len = CLAMP_80023450(v);
+                len = normalize_vector_xz((Vec *)v);
                 if (len <= (100.0f)) {
                     this->fallVelocity = (0.0f);
                     this->rotation_x = 0;
@@ -2312,7 +2310,7 @@ void TBoss1Dragon::update_burrow_outward_run(u32 arg1) {
         break;
     case 9:
         ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(sp8, (u8 *)&this->position);
-        if (((f32 (*)(void *))normalize_vector_xz__FP3Vec)(sp8) > (350.0f)) {
+        if (normalize_vector_xz((Vec *)sp8) > (350.0f)) {
             next_sequence_action__12TBoss1DragonFv(arg0);
         }
         break;
@@ -2397,7 +2395,7 @@ void TBoss1Dragon::update_burrow_inward_run(u32 arg1, s32 arg2) {
         if ((s32) this->stateStep == 1) {
             VecCopy__FP3VecPC3Vec(&v, (void *)&this->position);
             v.y = (0.0f);
-            if (((f32 (*)(void *))normalize_vector_xz__FP3Vec)(&v) < (50.0f)) {
+            if (normalize_vector_xz((Vec *)&v) < (50.0f)) {
                 next_sequence_action__12TBoss1DragonFv((void *)this);
             }
         }
@@ -3196,7 +3194,7 @@ void TBoss1Dragon::update_air_fire_state(u32 arg1) {
             if (((TObjMotion *)arg0)->is_passing_frame(47.0f) != 0) {
                 VecCopy__FP3VecPC3Vec(&d, tgt);
                 subtract_vector(&d, (u8 *)&this->position);
-                dist = ((f32 (*)(void *))normalize_vector_xz__FP3Vec)(&d);
+                dist = normalize_vector_xz((Vec *)&d);
                 d.y = (0.0f);
                 VecCopy__FP3VecPC3Vec(&dest, tgt);
                 dest.y = TBoss1Dragon__data_80434E80.y;
@@ -4809,7 +4807,7 @@ s32 select_forward_target__12TBoss1DragonFPv(u8 *self) {
         if (((TObjBase *)p)->is_alive() != 0) {
             ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&delta, p + 0x38);
             subtract_vector(&delta, self + 0x38);
-            ((void (*)(void *))normalize_vector_xz__FP3Vec)(&delta);
+            normalize_vector_xz((Vec *)&delta);
             if (vec3_dot(&delta, &fwd) > cutoff) {
                 selected[n++] = get_entity_id(p);
             }
@@ -4831,7 +4829,7 @@ void prepare_flight_destination__12TBoss1DragonFPv(u8 *arg0) {
     if (((TBoss1Dragon *)arg0)->is_primary_sequence() != 0) {
         ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(arg0 + 0x394, arg0 + 0x38);
         ((TBoss1Dragon *)arg0)->targetY = (f32) (0.0f);
-        ((s32 (*)(void *))normalize_vector_xz__FP3Vec)(arg0 + 0x394);
+        normalize_vector_xz((Vec *)(arg0 + 0x394));
         ((TBoss1Dragon *)arg0)->targetX *= -100.0f;
         ((TBoss1Dragon *)arg0)->targetZ *= -100.0f;
         return;
@@ -4982,7 +4980,7 @@ s32 is_destination_ahead__12TBoss1DragonFPv(u8 *s) {
     ((TBoss1Dragon *)s)->calc_forward_point(&pt.x, &pt.z);
     VecCopy__FP3VecPC3Vec((saddr) &diff, (saddr)&((TBoss1Dragon *)s)->targetX);
     subtract_vector(&diff, &pt);
-    return ((f32 (*)(void *))normalize_vector_xz__FP3Vec)(&diff) <= (35.0f);
+    return normalize_vector_xz((Vec *)&diff) <= (35.0f);
 }
 
 #pragma push
@@ -5002,7 +5000,7 @@ void TBoss1Dragon::calc_target_vector() {
     ((TBoss1Dragon *)((u8 *)this))->m_5c8.y = (f32) (0.0f);
     temp_f1 = ((TBoss1Dragon *)((u8 *)this))->targetZ;
     ((TBoss1Dragon *)((u8 *)this))->m_5c8.z = (f32) (temp_f1 - ((TBoss1Dragon *)((u8 *)this))->m_40c.z);
-    ((TBoss1Dragon *)((u8 *)this))->m_5d4 = normalize_vector_xz__FP3Vec(&((TBoss1Dragon *)((u8 *)this))->m_5c8, temp_f1, temp_f2);
+    ((TBoss1Dragon *)((u8 *)this))->m_5d4 = normalize_vector_xz(&((TBoss1Dragon *)((u8 *)this))->m_5c8);
 }
 
 void TBoss1Dragon::update_linked_epsilon_position() {

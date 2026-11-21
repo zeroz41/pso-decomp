@@ -70,6 +70,7 @@ int qst_label_address(int label);
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/ui/Language.h"
 #include "pso/system/vector.h"
+#include "pso/system/byteswap.h"
 u8 *qst_code;
 s32 *qst_function_table;
 s32 *qst_registers;
@@ -5927,7 +5928,6 @@ extern "C" {
 
 namespace pf2_p12 { extern "C" { s32 expand_message_substitutions(s32, s32, s32); } }
 #define expand_message_substitutions pf2_p12::expand_message_substitutions
-s32 bswap_32__FPUl(s32 *, s32);
 }
 namespace pf2_p12 { extern "C" { s32 strlen(s32, s32); } }
 #define strlen pf2_p12::strlen
@@ -5943,12 +5943,10 @@ extern "C" {
 
 s32 stream_read_be32(void) {
     s32 sp8;
-    s32 temp_r4;
 
     memcpy(&sp8, qst_code + qst_pc, 4);
-    temp_r4 = qst_pc;
-    qst_pc = temp_r4 + 4;
-    bswap_32__FPUl(&sp8, temp_r4);
+    qst_pc += 4;
+    bswap_32((u32 *)&sp8);
     return sp8;
 }
 
@@ -5956,17 +5954,14 @@ s32 stream_read_be32(void) {
 #undef memcpy
 #undef strlen
 
-s32 bswap_16__FPUs(u16 *, s32);
 }
 
 u16 read_be_u16(void) {
     u16 sp8;
-    s32 temp_r4;
 
     memcpy(&sp8, qst_code + qst_pc, 2);
-    temp_r4 = qst_pc;
-    qst_pc = temp_r4 + 2;
-    bswap_16__FPUs(&sp8, temp_r4);
+    qst_pc += 2;
+    bswap_16(&sp8);
     return sp8;
 }
 

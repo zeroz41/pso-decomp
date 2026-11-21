@@ -120,7 +120,6 @@ void spawn_trap__12TBoss8DragonFii(s32 arg0, s32 arg1);
 void TBoss8Dragon__sub_802FC850(TBoss8Dragon *dragon);
 f32 atan2_float(f32 y, f32 x);
 void fill_value_array(saddr);
-f32 normalize_vector_xz__FP3Vec(void *);
 void TBoss8Dragon__sub_802FB300(void);
 void TBoss8Dragon__sub_802F7808(u8 *arg0, u32 arg1, s32 arg2);
 s32 fn_8002AE08(void *p);
@@ -2040,7 +2039,7 @@ void TBoss8Dragon__sub_802FC9D8(u8 *arg0) {
     *(f32 *)((s8 *)arg0 + 0x5D0) = 0.0f;
     temp_f1 = *(f32 *)((s8 *)arg0 + 0x39C);
     *(f32 *)((s8 *)arg0 + 0x5D4) = (f32) (temp_f1 - *(f32 *)((s8 *)arg0 + 0x418));
-    *(f32 *)((s8 *)arg0 + 0x5D8) = ((f32 (*)(void *, f32, f32))normalize_vector_xz__FP3Vec)(arg0 + 0x5CC, temp_f1, temp_f2);
+    *(f32 *)((s8 *)arg0 + 0x5D8) = normalize_vector_xz((Vec *)(arg0 + 0x5CC));
 }
 
 #pragma push
@@ -2058,7 +2057,7 @@ s32 TBoss8Dragon::is_near_target() {
     calc_orbit_xz(s.b, (f32 *)&s.c);
     ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&a, &o->pos);
     subtract_vector(&a, s.b);
-    return ((f32 (*)(void *))normalize_vector_xz__FP3Vec)(&a) <= 35.0f;
+    return normalize_vector_xz((Vec *)&a) <= 35.0f;
 }
 
 void TBoss8Dragon::init_default(void *boss8_dragon) {
@@ -2188,7 +2187,7 @@ void TBoss8Dragon__sub_802FC500(u8 *boss8_dragon) {
     if (is_health_low__12TBoss8DragonFPv((TBoss8Dragon *)boss8_dragon) != 0) {
         ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(boss8_dragon + 0x394, boss8_dragon + 0x38);
         *(f32 *)((s8 *)boss8_dragon + 0x398) = 0.0f;
-        normalize_vector_xz__FP3Vec(boss8_dragon + 0x394);
+        normalize_vector_xz((Vec *)(boss8_dragon + 0x394));
         ((TBoss8Dragon *)boss8_dragon)->m_394 *= -100.0f;
         ((TBoss8Dragon *)boss8_dragon)->m_39c *= -100.0f;
         return;
@@ -2220,7 +2219,7 @@ s32 select_target_in_front__12TBoss8DragonFPv(u8 *ene_dd_st) {
         if (((TObjBase *)player)->is_alive() != 0) {
             ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&d, player + 0x38);
             subtract_vector(&d, ene_dd_st + 0x38);
-            normalize_vector_xz__FP3Vec(&d);
+            normalize_vector_xz((Vec *)&d);
             if (vec3_dot(&d, &ref) > lim) {
                 ids[n++] = get_entity_id(player);
             }
@@ -3567,7 +3566,7 @@ void TBoss8Dragon::sub_802F8F88(s32 arg1) {
                 f32 len;
                 VecCopy__FP3VecPC3Vec(&dir, d);
                 subtract_vector(&dir, (u8 *)&position);
-                len = normalize_vector_xz__FP3Vec(&dir);
+                len = normalize_vector_xz((Vec *)&dir);
                 dir.y = 0.0f;
                 VecCopy__FP3VecPC3Vec(&v, d);
                 v.y = TBoss8Dragon__data_804744A8.y;
@@ -4278,7 +4277,7 @@ void TBoss8Dragon__sub_802F7808(u8 *arg0, u32 arg1, s32 arg2) {
             Vec v;
             VecCopy__FP3VecPC3Vec(&v, arg0 + 0x38);
             v.y = 0.0f;
-            if (normalize_vector_xz__FP3Vec(&v) < 50.0f) {
+            if (normalize_vector_xz((Vec *)&v) < 50.0f) {
                 ((TBoss8Dragon *)arg0)->pick_next_action();
             }
         }
@@ -4351,7 +4350,7 @@ void TBoss8Dragon::sub_802F75C8(s32 arg1) {
         return;
     case 9:
         VecCopy__FP3VecPC3Vec(&sp8, ((u8 *)this) + 0x38);
-        if (normalize_vector_xz__FP3Vec(&sp8) > 350.0f) {
+        if (normalize_vector_xz((Vec *)&sp8) > 350.0f) {
             this->pick_next_action();
         }
         return;
@@ -4516,7 +4515,7 @@ void TBoss8Dragon::handle_leap_state(s32 arg1) {
                 d[0] = TBoss8Dragon__data_804744A8.x - F(f32, 0x38);
                 d[1] = 0.0f;
                 d[2] = TBoss8Dragon__data_804744A8.z - F(f32, 0x40);
-                v = normalize_vector_xz__FP3Vec(d);
+                v = normalize_vector_xz((Vec *)d);
                 if (v > 110.0f) {
                     v = 110.0f;
                 }
@@ -5330,7 +5329,7 @@ void TBoss8Dragon::sub_802F5644(s32 arg1) {
         *(f32 *)((s8 *)this + 0x3A0) = (f32) -*(f32 *)((s8 *)this + 0x38);
         this->m_3a4 = 0.0f;
         this->m_3a8 = (f32) -this->position.z;
-        normalize_vector_xz__FP3Vec((u8 *)this + 0x3A0);
+        normalize_vector_xz((Vec *)((u8 *)this + 0x3A0));
         this->rotation_y = (s32) (RADIANS_TO_ANGLE * atan2_float((f32) (*(f32 *)((s8 *)this + 0x3A0)), this->m_3a8));
         return;
     case 2:
@@ -5477,7 +5476,7 @@ void TBoss8Dragon::sub_802F51DC(s32 arg1) {
             v.z = cos_table_lookup(this->rotation_y);
             var_f2 = 120.0f;
         } else {
-            var_f2 = normalize_vector_xz__FP3Vec(&v);
+            var_f2 = normalize_vector_xz((Vec *)&v);
             var_f2 *= 0.5f;
         }
         *(f32 *)((s8 *)this + 0x394) = (f32) ((v.x * var_f2) + *(f32 *)((s8 *)this + 0x38));
@@ -5750,7 +5749,7 @@ void TBoss8Dragon__sub_802F48DC(TBoss8Dragon *dragon, Vec *target) {
     delta.x = target->x - (&dragon->position)->x;
     delta.y = 0.0f;
     delta.z = target->z - (&dragon->position)->z;
-    dist = normalize_vector_xz__FP3Vec(&delta);
+    dist = normalize_vector_xz((Vec *)&delta);
     ((TBoss5Gryphon *)dragon)->calc_shot_position(shot, delta.x, delta.z, dist);
     ((TBoss5Gryphon *)dragon)->try_move_actor_xz_on_ground(shot);
     (&dragon->position)->y = saved.y;
@@ -5768,7 +5767,7 @@ void apply_ground_movement__12TBoss8DragonFPvPv(u8 *arg0, f32 *arg1) {
     arg1[1] = 0.0f;
     ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&a, arg0 + 0x38);
     ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&c, arg1);
-    t = normalize_vector_xz__FP3Vec(&c);
+    t = normalize_vector_xz((Vec *)&c);
     ((TBoss5Gryphon *)arg0)->calc_shot_position((u8 *)&b, (f32)c.x, (f32)c.z, (f32)t);
     ((TBoss5Gryphon *)arg0)->try_move_actor_xz_on_ground((u8 *)&b);
     *(f32 *)((s8 *)arg0 + 0x3C) = a.y;
@@ -5787,7 +5786,7 @@ s32 TBoss8Dragon__sub_802F4760(void *owner, Vec *point, f32 farg0) {
     VecCopy((Vec *)&stack.sp8, point);
     stack.spC = 0.0f;
     ((s32 (*)(void *, void *))subtract_vector)(&stack.sp8, &boss8_dragon_reference_pos_vec.value);
-    temp_f1 = normalize_vector_xz__FP3Vec(&stack.sp8);
+    temp_f1 = normalize_vector_xz((Vec *)&stack.sp8);
     if ((temp_f1 + farg0) < boss8_dragon_visibility_distance) {
         if (vec3_dot(&stack.sp8, &dragon_forward_reference_vec.value) >= (temp_f1 * (1.0f / newton_sqrtf((f32) ((temp_f1 * temp_f1) + (farg0 * farg0)))))) {
             return 1;

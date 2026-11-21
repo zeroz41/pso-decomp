@@ -23,6 +23,7 @@
 
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
+#include "pso/system/byteswap.h"
 
 extern const char dark_falz_state_name_editor[] = "EDITOR";
 extern const char dark_falz_state_name_wait_casket[] = "WAIT_CASKET";
@@ -64,8 +65,6 @@ s32 TBoss4DarkFalz__sub_8004B730(void *, f32, int);
 void TBoss4DarkFalz__sub_8004B4F0(void *arg0p, void *arg1p);
 struct RecoveredGlobal_TBoss4DarkFalz__data_804FF1E8 { s32 value; u8 remaining[0x3C]; };
 extern RecoveredGlobal_TBoss4DarkFalz__data_804FF1E8 TBoss4DarkFalz__data_804FF1E8;
-int bswap_16__FPUs(void*);
-int bswap_32__FPUl(void*);
 
 void *TBoss4DarkFalz__sub_8004C1AC(void) {  return TBoss4DarkFalz__type3_instance; }
 
@@ -94,7 +93,7 @@ void TBoss4DarkFalz::save_position() {
 int TObjBase::set_position_from(void *pos) { return VecCopy__FP3VecPC3Vec(&this->position, pos); }
 
 void TBoss4DarkFalz::swap_and_send() { swap_bytes(); send_subcommand((u8 *)this); }
-void TBoss4DarkFalz::swap_bytes() { ((G_ClientIDHeader *)this)->bswap(); bswap_16__FPUs((char*)this + 0x4); bswap_16__FPUs((char*)this + 0x6); bswap_32__FPUl((char*)this + 0x8); bswap_32__FPUl((char*)this + 0xc); }
+void TBoss4DarkFalz::swap_bytes() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char *)this + 0x4)); bswap_16((u16 *)((char *)this + 0x6)); bswap_32((u32 *)((char *)this + 0x8)); bswap_32((u32 *)((char *)this + 0xc)); }
 void TBoss4DarkFalz::set_code_25_4() { *(u8 *)&this->m_name = 25; *(u8*)((char*)this + 0x1) = 4; }
 
 void TBoss4DarkFalz::update_ol_ending() {

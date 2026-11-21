@@ -523,6 +523,7 @@ void *__vt__13TBoss2DeRolLe[107] = {
 const char *boss2_de_rol_le_class_name = "TBoss2DeRolLe";
 
 #include <stddef.h>
+#include "pso/system/byteswap.h"
 
 typedef struct Part_8002EA64 {
     Vec pos;
@@ -2324,9 +2325,7 @@ void TObjPlayer__sub_8002EB88(void);
 void __dl__FPv(void);
 
 
-int bswap_16__FPUs(void*);
 
-int bswap_32__FPUl(void*);
 
 
 typedef struct VBase_18_bd2ad6 VBase_18_bd2ad6;
@@ -2792,9 +2791,9 @@ void TBoss2DeRolLe__sub_80036358(void* p) { *(u8*)((char*)p + 0x0) = 19; *(u8*)(
 
 void send_6x13__13TBoss2DeRolLeFPv(void* p) { swap_6x13_fields__13TBoss2DeRolLeFPv(p); send_subcommand(p); }
 
-void swap_6x13_fields__13TBoss2DeRolLeFPv(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16__FPUs((char*)p + 0x4); bswap_16__FPUs((char*)p + 0x6); }
+void swap_6x13_fields__13TBoss2DeRolLeFPv(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16((u16 *)((char *)p + 0x4)); bswap_16((u16 *)((char *)p + 0x6)); }
 
-void swap_endian__13TBoss2DeRolLeFPv(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16__FPUs((char*)p + 0x4); bswap_16__FPUs((char*)p + 0x6); bswap_32__FPUl((char*)p + 0x8); }
+void swap_endian__13TBoss2DeRolLeFPv(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16((u16 *)((char *)p + 0x4)); bswap_16((u16 *)((char *)p + 0x6)); bswap_32((u32 *)((char *)p + 0x8)); }
 
 }
 
