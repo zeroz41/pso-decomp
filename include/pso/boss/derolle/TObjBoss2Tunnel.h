@@ -41,6 +41,14 @@ struct Vec;
 // The De Rol Le tunnel the raft travels through: it scrolls the tunnel segments past the
 // camera (segment_queue, models of the bm_obj_boss2_common resource), sways and rolls them,
 // flickers the fog and drives the brake to the boss arena (state 3).
+// Vertex of TObjBoss2Tunnel::draw_projected_quads: a view-space position and an RGBA colour.
+struct ProjectedVertex {
+    f32 x;
+    f32 y;
+    f32 z;
+    u32 color;
+};
+
 struct TObjBoss2Tunnel : public TObject {
     TObjBoss2Tunnel(TObject *parent);
     virtual ~TObjBoss2Tunnel();
@@ -129,8 +137,8 @@ struct TObjBoss2Tunnel : public TObject {
     static void sub_8003C610();
     static void sub_8003C5F8();
     static void set_global_flag_100();
-    // Draws n screen-space vertices {x, y, z, colour} as a triangle strip, dividing x and y by -z.
-    static void draw_projected_quads(void *vertices, int n);
+    // Draws n vertices as a triangle strip, dividing x and y by -z.
+    static void draw_projected_quads(ProjectedVertex *vertices, s32 n);
     // Loads the screen-space matrix and the vertex state for draw_projected_quads.
     static void sub_803E2D10(s32 mode);
 };

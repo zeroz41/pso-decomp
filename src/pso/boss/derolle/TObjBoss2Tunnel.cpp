@@ -202,7 +202,6 @@ NJS_OBJECT lbl_8048DEF4 = {
 NJS_OBJECT *debug_chunk_object = &lbl_8048DEF4;
 NJS_OBJECT *lbl_805D28BC = &debug_chunk_a_object;
 
-struct Vtx_8007D828 { f32 x; f32 y; f32 z; u32 color; };
 struct Quad_8007D828 { f32 x0; f32 y0; f32 x1; f32 y1; f32 u0; f32 v0; f32 u1; f32 v1; };
 // screen.bin / the PSO_SCREEN card file: a 256x192 capture and who was in the room.
 struct ScreenSnapshot {
@@ -726,7 +725,7 @@ void TObjBoss2Tunnel__sub_8007DB80(void) {
 
 void draw_snapshot_capture_overlay(void) {
     Quad_8007D828 q;
-    Vtx_8007D828 v[4];
+    ProjectedVertex v[4];
     s32 i;
     set_default_alpha_blend();
     for (i = 0; i < 4; i++) {

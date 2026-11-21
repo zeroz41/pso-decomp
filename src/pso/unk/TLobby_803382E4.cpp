@@ -21,7 +21,7 @@
 #include "pso/math/AngleLookup.h"
 
 
-struct G_80338534 { u8 p0[0x2C]; u8 a[0x40]; u8 b[0x60]; u8 c[0x40]; };
+struct G_80338534 { u8 p0[0x2C]; ProjectedVertex a[4]; u8 b[0x60]; u8 c[0x40]; };
 
 struct Fx_803382E4 {
     u8 pad0[0x14];
