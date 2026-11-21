@@ -16,8 +16,8 @@ struct TShopEquipmentGearSequence : public TShopSequence {
     TWindowMenu *choice_menu;   // 0x2C: the buy/sell create_window_menu
     TWindowBase *meseta_window; // 0x30: create_meseta_window
     TObject *counter_camera;    // 0x34: set_service_counter_camera
-    void open_gear_shop();
-    void enter_quest_list();
+    static void open_gear_shop(TShopWindowBase *sequence);   // the sell window's callbacks
+    static void enter_quest_list(TShopWindowBase *sequence);
     void handle_confirm();
     void try_close();
     void open_sell_window();
