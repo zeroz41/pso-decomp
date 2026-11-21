@@ -3387,7 +3387,6 @@ void queue_destruction__7TObjectFv(void *);
 void init_idle_timeout_timer(void *, saddr);
 void reset_state__6TLobbyFv(int);
 s32 get_access_key_input_buffer(void);
-s32 init_serial_access__6TLobbyFv(void);
 saddr get_connection_message_text(int);
 void reset_controller_input_state(void);
 s32 socket_set_server_info(u32, const void *, const void *, saddr, saddr, saddr, u16);
@@ -3405,11 +3404,11 @@ extern const char TLobby__data_805DB0B0[4];
 #define CONNECT_801399B8(res, s)                                                                   \
     if (TKeyBoardControl__sub_8000F828() == 0) {                                                    \
         res = socket_set_server_info(TLobby__protocol_instance, TLobby__data_805DB0B0, TLobby__data_805DB0B0, \
-                                     init_serial_access__6TLobbyFv(), get_access_key_input_buffer(), \
+                                     TLobby::init_serial_access(), get_access_key_input_buffer(), \
                                      (saddr)s[0].host, s[0].port);                                     \
     } else {                                                                                        \
         res = socket_set_server_info(TLobby__protocol_instance, TLobby__data_805DB0B0, TLobby__data_805DB0B0, \
-                                     init_serial_access__6TLobbyFv(), get_access_key_input_buffer(), \
+                                     TLobby::init_serial_access(), get_access_key_input_buffer(), \
                                      (saddr)s[1].host, s[1].port);                                     \
     }
 
@@ -3478,7 +3477,6 @@ extern "C" {
 
 u8 *__ct__9TProtocolFP7TObjectUsiPcPcPc(void *, void *, s32, s32, s32, s32, s32);
 s32 get_access_key_input_buffer();
-s32 init_serial_access__6TLobbyFv();
 s32 TAdEnterPasswordGC__sub_8013ADE4();
 u8 *heap_alloc__6TLobbyFPv(s32);
 s32 __ct__7TObjectFP7TObject(void *, void *);
@@ -3612,7 +3610,7 @@ u8 *TLobby__ct(u8 *object, void *arg1) {
     if (var_r27 != NULL) {
         temp_r26 = TAdEnterPasswordGC__sub_8013ADE4();
         access_key_input_buffer = get_access_key_input_buffer();
-        var_r27 = (u8 *)(__ct__9TProtocolFP7TObjectUsiPcPcPc(var_r27, object, 0x36, current_language, init_serial_access__6TLobbyFv(), access_key_input_buffer, temp_r26));
+        var_r27 = (u8 *)(__ct__9TProtocolFP7TObjectUsiPcPcPc(var_r27, object, 0x36, current_language, TLobby::init_serial_access(), access_key_input_buffer, temp_r26));
     }
     TLobby__protocol_instance = var_r27;
     *(s32 **)((s8 *)var_r27 + 0xBBD4) = (s32 *)&handle_regist_check__6TLobbyFi;

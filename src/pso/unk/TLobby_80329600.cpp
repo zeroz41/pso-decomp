@@ -10,16 +10,16 @@ void TLobby::apply_state_6c84() {
     ((FlagWord *)(&lbl_805D6C84))->set(2);
 }
 
-void TLobby::apply_player_flag_2() {
-    test_flags_any(&lbl_805D6C84, 2);
+s32 TLobby::apply_player_flag_2() {
+    return test_flags_any(&lbl_805D6C84, 2);
 }
 
 void TLobby::init_object_flag() {
     ((FlagWord *)(&lbl_805D6C84))->set(1);
 }
 
-void TLobby::set_flag_1_at_6c84() {
-    test_flags_any(&lbl_805D6C84, 1);
+s32 TLobby::set_flag_1_at_6c84() {
+    return test_flags_any(&lbl_805D6C84, 1);
 }
 
 void TLobby::clear_flag_at_6c84() {

@@ -206,7 +206,7 @@ struct TLobby : public TObject {
     void bswap_header_3words();
     void bswap_6x6B();
     u8 get_mode();
-    static void init_serial_access();
+    static saddr init_serial_access();
     static void heap_alloc(void* a0);
     void set_range(int a1, int a2, int a3);
     static void update_floor();
@@ -460,9 +460,9 @@ struct TLobby : public TObject {
     static int get_online_ready_flag();
     static void free_char_select_singleton();
     static void apply_state_6c84();
-    static void apply_player_flag_2();
+    static s32 apply_player_flag_2();
     static void init_object_flag();
-    static void set_flag_1_at_6c84();
+    static s32 set_flag_1_at_6c84();
     static void clear_flag_at_6c84();
     static void*get_record(int a0);
     void queue_destruction_and_cleanup();

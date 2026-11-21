@@ -264,17 +264,15 @@ int TUnk_804ED7D0::vfunc_7(s32, s32) {
     return 0;
 }
 
-s32 apply_player_flag_2__6TLobbyFv();
-s32 set_flag_1_at_6c84__6TLobbyFv();
 
 int TUnk_804ED7D0::vfunc_6(s32, s32, s32) { return 1; }
 int TUnk_804ED7D0::vfunc_5(s32) {
     saddr arg0 = (saddr)this;
-    if (set_flag_1_at_6c84__6TLobbyFv() == 0) {
+    if (TLobby::set_flag_1_at_6c84() == 0) {
         TLobby::init_object_flag();
         ((TUnk_804DDD28 *)arg0)->load_action_motion_pairs(0, 0, 0);
     }
-    if (apply_player_flag_2__6TLobbyFv() == 0) {
+    if (TLobby::apply_player_flag_2() == 0) {
         TLobby::apply_state_6c84();
         ((TUnk_804DDD28 *)arg0)->load_action_motion_pairs(1, 1, 0);
     }
