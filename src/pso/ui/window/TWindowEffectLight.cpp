@@ -27,7 +27,7 @@ s32 is_window_display_enabled(void);
 void begin_screen_draw(s32);
 extern s32 lbl_805D63F0;
 const char *lbl_805D3E60 = "TWindowEffectLight";
-extern s32 tl_window;
+extern saddr tl_window;
 void draw_textured_quad_at_depth(f32 *q, f32 depth);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
 

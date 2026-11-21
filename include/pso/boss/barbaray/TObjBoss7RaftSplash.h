@@ -19,6 +19,6 @@ public:
     Vec splash_offset;
 };
 
-typedef char TObjBoss7RaftSplash_size[sizeof(TObjBoss7RaftSplash) == 0x40 ? 1 : -1];
+LAYOUT_ASSERT(TObjBoss7RaftSplash_size, sizeof(TObjBoss7RaftSplash) == 0x40);
 
 #endif

@@ -66,7 +66,7 @@ AIDCallback AIRegisterDMACallback(AIDCallback callback)
 	return old_callback;
 }
 
-void AIInitDMA(u32 start_addr, u32 length)
+void AIInitDMA(uaddr start_addr, u32 length)
 {
 	BOOL old;
 

@@ -34,11 +34,11 @@ struct Tbl_800777C4 { u8 f0; u8 count; u8 pad[2]; Ent_800777C4 e[1]; };
 
 struct Out_800778B4 { s32 a; s32 b; };
 
-s32 lbl_805D4E58;
+saddr lbl_805D4E58;
 s32 lbl_805D4E5C;
 extern "C" {
 extern s32 lbl_805D4E5C;
-extern s32 lbl_805D4E58;
+extern saddr lbl_805D4E58;
 void set_value_by_key(S_80077814 *arr, u16 key, s32 val);
 void TLobby__sub_80077798(S_80077798 *src, DO_80077798 *dst);
 void TWindowSubComCard__sub_80077980(S_80077980 *arr);
@@ -98,16 +98,16 @@ s32 TWindowSubComCard::find_value_by_key(u16 key) {
     return 0;
 }
 
-s32 TWindowSubComCard::get_com_count() {
+saddr TWindowSubComCard::get_com_count() {
     return lbl_805D4E5C;
 }
 void TWindowSubComCard::release() {
     if ((u32) (*(u32 *)&lbl_805D4E5C) != 0U) {
-        ::operator delete((void *)(*(u32 *)&lbl_805D4E5C));
+        ::operator delete((void *)(*(uaddr *)&lbl_805D4E5C));
         (*(u32 *)&lbl_805D4E5C) = 0U;
     }
 }
-s32 TWindowSubComCard::get_chr_select() {
+saddr TWindowSubComCard::get_chr_select() {
     return lbl_805D4E58;
 }
 
@@ -119,7 +119,7 @@ void TWindowSubComCard__sub_800778B4(Out_800778B4 *arr, Tbl_800777C4 *arg1) {
     Out_800778B4 *dst;
     Ent_800777C4 *e;
     S_80077840 tmp[5];
-    copy_struct28__17TWindowSubComCardFii((s32) tmp, (s32) arr);
+    copy_struct28__17TWindowSubComCardFii((saddr) tmp, (saddr) arr);
     TWindowSubComCard__sub_80077980((S_80077980 *) arr);
     n = arg1->count;
     dst = arr;
@@ -137,7 +137,7 @@ void TWindowSubComCard__sub_800778B4(Out_800778B4 *arr, Tbl_800777C4 *arg1) {
     }
 }
 
-u8 * copy_struct28__17TWindowSubComCardFii(s32 arg0, s32 arg1) {
+u8 * copy_struct28__17TWindowSubComCardFii(saddr arg0, saddr arg1) {
     *(ByteBlock_28 *)(arg0) = *(const ByteBlock_28 *)(arg1);
     return (u8 *)arg0;
 }

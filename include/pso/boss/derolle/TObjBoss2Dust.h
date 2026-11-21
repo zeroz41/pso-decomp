@@ -14,10 +14,10 @@ public:
     s32 strip_slot;
     Vec position;
 };
-typedef char TObjBoss2Dust_size[sizeof(TObjBoss2Dust) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(TObjBoss2Dust_size, sizeof(TObjBoss2Dust) == 0x30);
 
 extern "C" {
-u8 *__ct__13TObjBoss2DustFv(u8 *object, s32 arg1, s32 arg2);
+u8 *__ct__13TObjBoss2DustFv(u8 *object, saddr arg1, saddr arg2);
 }
 
 #endif

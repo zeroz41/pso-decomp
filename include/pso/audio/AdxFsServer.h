@@ -5,7 +5,7 @@
 
 // --- C functions defined in AdxFsServer.cpp ---
 extern "C" {
-void ARAlloc(void);
+void ADXT_ExecFsSvr(void);
 }
 // --- end of C functions
 

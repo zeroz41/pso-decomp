@@ -14,6 +14,6 @@ public:
     static TItemReverseTechCtrl *create(TObject *parent);
 };
 
-typedef char TItemReverseTechCtrl_size[sizeof(TItemReverseTechCtrl) == 0x28 ? 1 : -1];
+LAYOUT_ASSERT(TItemReverseTechCtrl_size, sizeof(TItemReverseTechCtrl) == 0x28);
 
 #endif

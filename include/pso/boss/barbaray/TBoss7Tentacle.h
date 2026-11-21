@@ -5,6 +5,8 @@
 #include "types.h"
 #include <stddef.h>
 
+struct NJS_OBJECT;
+
 class TBoss7Tentacle : public TObject {
 public:
     TBoss7Tentacle(TObject *arg1, s32 arg2, s32 arg3);
@@ -25,7 +27,7 @@ public:
     void init_segments();
     void start_attack_at_position(u8 *arg1, s32 arg2);
 
-    s32 m_1c;
+    NJS_OBJECT *m_1c;
     void *m_20;
     f32 m_24;
     f32 m_28;
@@ -57,7 +59,7 @@ public:
     s32 m_168;
 };
 
-typedef char TBoss7TentacleM50[offsetof(TBoss7Tentacle, m_50) == 0x50 ? 1 : -1];
-typedef char TBoss7TentacleM158[offsetof(TBoss7Tentacle, m_158) == 0x158 ? 1 : -1];
+LAYOUT_ASSERT(TBoss7TentacleM50, offsetof(TBoss7Tentacle, m_50) == 0x50);
+LAYOUT_ASSERT(TBoss7TentacleM158, offsetof(TBoss7Tentacle, m_158) == 0x158);
 
 #endif

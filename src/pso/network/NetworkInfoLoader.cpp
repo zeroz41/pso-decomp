@@ -1,4 +1,5 @@
 #include "types.h"
+#include <string.h>
 #include "pso/ui/frontend/TAdPlayerLoadGC_803F339C.h"
 
 #pragma scheduling off
@@ -55,9 +56,6 @@ extern "C" {
 
 s32 CARDGetSerialNo(s32 chan, u64 *serialNo);
 s32 CARDGetUniqueCode(s32 chan, u64 *code);
-void *memset(void *, int, u32);
-void *memcpy(void *, const void *, u32);
-char *strcpy(char *dest, const char *src);
 extern char lbl_804FCEA4[];
 extern char lbl_804FCEB4[];
 extern char lbl_804FCEC4[];
@@ -197,7 +195,7 @@ void update_network_info_load(void) {
                 } else {
                     crc = TAdPlayerLoadGC__network_config_buffer->crc;
                     TAdPlayerLoadGC__network_config_buffer->crc = 0;
-                    sum = calc_crc32((s32)TAdPlayerLoadGC__network_config_buffer, 0x8000);
+                    sum = calc_crc32((saddr)TAdPlayerLoadGC__network_config_buffer, 0x8000);
                     if (sum != crc) {
                         init_network_config_defaults();
                         TAdPlayerLoadGC::close_card_slot(network_info_load_state.file_handle);
@@ -518,7 +516,7 @@ u32 fn_803F4D10(u32 crc, u8 *buf, s32 len) {
 }
 #pragma pop
 
-u32 calc_crc32(s32 buf, s32 len) {
+u32 calc_crc32(saddr buf, s32 len) {
     return fn_803F4D10(0xFFFFFFFF, (u8 *)buf, len) ^ 0xFFFFFFFF;
 }
 
@@ -561,7 +559,6 @@ u8 TAdPlayerLoadGC__network_info_payload_buffer[0x23C0];
 NetworkInfoLoadState network_info_load_state;
 u8 network_info_trailer_buffer[0x400];
 u8 network_info_trailer_backup[0x404];
-typedef char NetworkInfoPayloadBufferExtent[
-    sizeof(TAdPlayerLoadGC__network_info_payload_buffer) == 0x23C0 ? 1 : -1];
-typedef char NetworkInfoTrailerExtent[sizeof(network_info_trailer_buffer) == 0x400 ? 1 : -1];
-typedef char NetworkInfoTrailerBackupExtent[sizeof(network_info_trailer_backup) == 0x404 ? 1 : -1];
+LAYOUT_ASSERT(NetworkInfoPayloadBufferExtent, sizeof(TAdPlayerLoadGC__network_info_payload_buffer) == 0x23C0);
+LAYOUT_ASSERT(NetworkInfoTrailerExtent, sizeof(network_info_trailer_buffer) == 0x400);
+LAYOUT_ASSERT(NetworkInfoTrailerBackupExtent, sizeof(network_info_trailer_backup) == 0x404);

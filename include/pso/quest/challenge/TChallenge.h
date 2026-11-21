@@ -20,5 +20,5 @@ struct TChallenge : public TObject {
     static void *create();
 };
 
-typedef char TChallenge_size[sizeof(TChallenge) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(TChallenge_size, sizeof(TChallenge) == 0x30);
 #endif

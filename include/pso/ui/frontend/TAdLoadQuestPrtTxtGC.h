@@ -21,5 +21,5 @@ struct TAdLoadQuestPrtTxtGC : public TObject {
     virtual void run_task();
 };
 
-typedef char TAdLoadQuestPrtTxtGC_size[sizeof(TAdLoadQuestPrtTxtGC) == 0x228 ? 1 : -1];
+LAYOUT_ASSERT(TAdLoadQuestPrtTxtGC_size, sizeof(TAdLoadQuestPrtTxtGC) == 0x228);
 #endif

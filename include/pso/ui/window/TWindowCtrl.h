@@ -14,12 +14,12 @@ struct TWindowCtrl : public TObject {
     u32 m_24;
     u16 m_28;
     u8 _pad2A[0x2];
-    u32 m_2c;
-    u32 m_30;
-    u32 m_34;
-    u32 m_38;
+    uaddr m_2c;
+    uaddr m_30;
+    uaddr m_34;
+    uaddr m_38;
     u32 m_3c;
-    u32 m_40;
+    uaddr m_40;
     u32 m_44;
     u8 unk_48[0x8];
     s32 m_50;
@@ -61,15 +61,15 @@ struct TWindowCtrl : public TObject {
     static void suppress_slot(s32 client);
     static void unsuppress_slot(s32 client);
     static s32 has_player_active_menu(s32 client);
-    static void apply_default_vec(s32 arg0, s32 arg1);
+    static void apply_default_vec(s32 arg0, saddr arg1);
     static s32 is_slot_visible(s32 client);
-    static s32 get_message_by_type(s8 arg0, s32 arg1);
+    static saddr get_message_by_type(s8 arg0, s32 arg1);
     static void release_slot(s8 *arg0);
     static void close_windows_by_flags(u16 arg0);
     static s32 open_balloon(u16 arg0, u8 *arg1, s32 arg2, s32 arg3);
-    static s32 open(s32 arg0, s32 arg1, s32 arg2);
+    static saddr open(s32 arg0, saddr arg1, s32 arg2);
     static int open_default(s32 id, s32 text);
-    static void create_level_up_window(s32 arg0, s32 arg1);
+    static void create_level_up_window(saddr arg0, saddr arg1);
     static void set_window_flags(void *arg0, s32 arg1, s32 arg2);
     static void set_window_flags_off(s32 client, s32 flags);
     static void init_all(void* p, void* a1);
@@ -89,7 +89,7 @@ struct TWindowCtrl : public TObject {
     static void close();
     void set_flag1e_bit40();
     u16 get_flags();
-    static s32 get_window(s32 arg0);
+    static saddr get_window(s32 arg0);
     static s32 get_flag_bit4();
     static s32 get_flag_bit5();
     static s32 get_display_flag();
@@ -122,7 +122,7 @@ struct TWindowCtrl : public TObject {
     void clear_flag_bit0();
 };
 
-typedef char TWindowCtrl_size[sizeof(TWindowCtrl) == 0xE8 ? 1 : -1];
+LAYOUT_ASSERT(TWindowCtrl_size, sizeof(TWindowCtrl) == 0xE8);
 
 // TWindowCtrl__player_menu_query_cb: layout known from its uses only.
 struct TWindowCtrlPlayerMenuQueryCb { s32 value; u8 remaining[0x8]; };

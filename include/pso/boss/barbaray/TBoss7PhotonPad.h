@@ -18,6 +18,6 @@ public:
     s32 timer;
 };
 
-typedef char TBoss7PhotonPad_size[sizeof(TBoss7PhotonPad) == 0x38 ? 1 : -1];
+LAYOUT_ASSERT(TBoss7PhotonPad_size, sizeof(TBoss7PhotonPad) == 0x38);
 
 #endif

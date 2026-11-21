@@ -53,22 +53,22 @@ struct LobbyPoolEntry {
     void *enemies;
 };
 
-typedef char FloorObjectSetRow_size[sizeof(FloorObjectSetRow) == 0x44 ? 1 : -1];
-typedef char FloorObjectSetRowPlacementOffset[offsetof(FloorObjectSetRow, placement) == 4 ? 1 : -1];
-typedef char FloorObjectSetRowPositionOffset[offsetof(FloorObjectSetRow, placement) + offsetof(ObjectSetData, position) == 0x10 ? 1 : -1];
-typedef char FloorObjectSetRowObjectOffset[offsetof(FloorObjectSetRow, object) == 0x40 ? 1 : -1];
-typedef char EnemySetRecordSize[sizeof(EnemySetRecord) == 0x48 ? 1 : -1];
-typedef char EnemySetRecordId[offsetof(EnemySetRecord, id) == 0xA ? 1 : -1];
-typedef char EnemySetRecordFlags[(offsetof(EnemySetRecord,flags)==2)?1:-1];
-typedef char EnemySetRecordIndex[(offsetof(EnemySetRecord,enemy_index)==4)?1:-1];
-typedef char EnemySetRecordRoom[(offsetof(EnemySetRecord,room)==0xC)?1:-1];
-typedef char EnemySetRecordWave[(offsetof(EnemySetRecord,wave)==0xE)?1:-1];
-typedef char EnemySetRecordEnemy[(offsetof(EnemySetRecord,enemy)==0x44)?1:-1];
-typedef char FloorSavedSetRow_size[sizeof(FloorSavedSetRow) == 8 ? 1 : -1];
-typedef char LobbyFloorRows_size[sizeof(LobbyFloorRows) == 0x18 ? 1 : -1];
-typedef char LobbyFloorRows_object_rows_offset[offsetof(LobbyFloorRows, object_rows) == 0x10 ? 1 : -1];
-typedef char LobbyFloorRows_enemy_rows_offset[offsetof(LobbyFloorRows, enemy_rows) == 0x14 ? 1 : -1];
-typedef char LobbyPoolEntry_size[sizeof(LobbyPoolEntry) == 8 ? 1 : -1];
+LAYOUT_ASSERT(FloorObjectSetRow_size, sizeof(FloorObjectSetRow) == 0x44);
+LAYOUT_ASSERT(FloorObjectSetRowPlacementOffset, offsetof(FloorObjectSetRow, placement) == 4);
+LAYOUT_ASSERT(FloorObjectSetRowPositionOffset, offsetof(FloorObjectSetRow, placement) + offsetof(ObjectSetData, position) == 0x10);
+LAYOUT_ASSERT(FloorObjectSetRowObjectOffset, offsetof(FloorObjectSetRow, object) == 0x40);
+LAYOUT_ASSERT(EnemySetRecordSize, sizeof(EnemySetRecord) == 0x48);
+LAYOUT_ASSERT(EnemySetRecordId, offsetof(EnemySetRecord, id) == 0xA);
+LAYOUT_ASSERT(EnemySetRecordFlags, offsetof(EnemySetRecord,flags)==2);
+LAYOUT_ASSERT(EnemySetRecordIndex, offsetof(EnemySetRecord,enemy_index)==4);
+LAYOUT_ASSERT(EnemySetRecordRoom, offsetof(EnemySetRecord,room)==0xC);
+LAYOUT_ASSERT(EnemySetRecordWave, offsetof(EnemySetRecord,wave)==0xE);
+LAYOUT_ASSERT(EnemySetRecordEnemy, offsetof(EnemySetRecord,enemy)==0x44);
+LAYOUT_ASSERT(FloorSavedSetRow_size, sizeof(FloorSavedSetRow) == 8);
+LAYOUT_ASSERT(LobbyFloorRows_size, sizeof(LobbyFloorRows) == 0x18);
+LAYOUT_ASSERT(LobbyFloorRows_object_rows_offset, offsetof(LobbyFloorRows, object_rows) == 0x10);
+LAYOUT_ASSERT(LobbyFloorRows_enemy_rows_offset, offsetof(LobbyFloorRows, enemy_rows) == 0x14);
+LAYOUT_ASSERT(LobbyPoolEntry_size, sizeof(LobbyPoolEntry) == 8);
 
 extern "C" {
 // The original callers pass the floor; these return the currently loaded rows.

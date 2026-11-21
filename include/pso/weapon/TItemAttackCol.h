@@ -47,7 +47,7 @@ struct TItemAttackCol : public TUnk_804E355C {
     f32 range_sq;
     FlagWord hit_wall_flags;
     u32 flags;          // S_802E449C::flags
-    u32 model;          // NJS_OBJECT render draws, 0 for none
+    uaddr model;          // NJS_OBJECT render draws, 0 for none
     u32 texlist;        // set_texlist before drawing it
     s32 rotation[3];    // heading the model is drawn at
     s32 spin[3];        // run_task turns spin[1] 0x888 a frame with flag 0x20
@@ -69,5 +69,5 @@ struct TItemAttackCol : public TUnk_804E355C {
     void copy_pos(void* q);
 };
 
-typedef char TItemAttackCol_size[sizeof(TItemAttackCol) == 0x144 ? 1 : -1];
+LAYOUT_ASSERT(TItemAttackCol_size, sizeof(TItemAttackCol) == 0x144);
 #endif

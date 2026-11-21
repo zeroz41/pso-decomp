@@ -16,7 +16,7 @@ struct TObjContainerEnemy : public TUnk_804B6C24 {
     static void *create(void *arg0);
 };
 
-typedef char TObjContainerEnemy_size[sizeof(TObjContainerEnemy) == 0x368 ? 1 : -1];
+LAYOUT_ASSERT(TObjContainerEnemy_size, sizeof(TObjContainerEnemy) == 0x368);
 
 
 #endif

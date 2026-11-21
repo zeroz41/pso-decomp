@@ -16,6 +16,6 @@ public:
     virtual void vfunc_6(u32 count, s32 id);
 };
 
-typedef char TWindowMenuTeamStatus_size[sizeof(TWindowMenuTeamStatus) == 0x8C ? 1 : -1];
+LAYOUT_ASSERT(TWindowMenuTeamStatus_size, sizeof(TWindowMenuTeamStatus) == 0x8C);
 
 #endif

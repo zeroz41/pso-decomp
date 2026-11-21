@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-bool fn_801C543C(s32 arg0, s32 arg1);
+bool fn_801C543C(u8 *arg0, s32 arg1);
 }
 
 // --- C functions defined in text_801C543C.cpp ---
 extern "C" {
-bool fn_801C543C(s32 arg0, s32 arg1);
+bool fn_801C543C(u8 *arg0, s32 arg1);
 }
 // --- end of C functions
 

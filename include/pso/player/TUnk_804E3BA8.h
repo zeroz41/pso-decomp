@@ -13,6 +13,6 @@ public:
     u8 unk_34[0x4];
     f32 m_38;
 };
-typedef char TUnk_804E3BA8_size[sizeof(TUnk_804E3BA8) == 0x3C ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804E3BA8_size, sizeof(TUnk_804E3BA8) == 0x3C);
 
 #endif

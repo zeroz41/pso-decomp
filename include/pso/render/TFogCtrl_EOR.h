@@ -9,6 +9,6 @@ public:
     u8 *init_object();
     virtual void run_task();
 };
-typedef char TFogCtrl_EOR_size[sizeof(TFogCtrl_EOR) == 0x1C ? 1 : -1];
+LAYOUT_ASSERT(TFogCtrl_EOR_size, sizeof(TFogCtrl_EOR) == 0x1C);
 
 #endif

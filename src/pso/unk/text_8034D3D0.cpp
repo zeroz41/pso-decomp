@@ -14,7 +14,7 @@ struct Entry_8034D3D0 {
     f32 weight;
 };
 
-s32 fn_8034D3D0(Entry_8034D3D0 *e, s32 n, s32 arg2, s32 closed, s32 arg4, f32 scale) {
+s32 fn_8034D3D0(Entry_8034D3D0 *e, s32 n, s32 arg2, s32 closed, saddr arg4, f32 scale) {
     f32 sum;
     f32 total;
     f32 ratio;

@@ -69,7 +69,7 @@ void *TOMineIcon04::create() {
 }
 
 void TOMineIcon04::vfunc_80() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     u32 area;
     area = get_current_floor_area();
     switch (area) {

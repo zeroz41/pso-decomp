@@ -13,6 +13,6 @@ public:
 public:
     static void create_instance();
 };
-typedef char TObjBoss1Floor_size[sizeof(TObjBoss1Floor) == 0x38 ? 1 : -1];
+LAYOUT_ASSERT(TObjBoss1Floor_size, sizeof(TObjBoss1Floor) == 0x38);
 
 #endif

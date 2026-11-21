@@ -41,6 +41,6 @@ struct TOHealGeneral : public TObjMapObject {
     u8 pad_f6[0x2];
 };
 
-typedef char TOHealGeneral_size[sizeof(TOHealGeneral) == 0xF8 ? 1 : -1];
+LAYOUT_ASSERT(TOHealGeneral_size, sizeof(TOHealGeneral) == 0xF8);
 
 #endif

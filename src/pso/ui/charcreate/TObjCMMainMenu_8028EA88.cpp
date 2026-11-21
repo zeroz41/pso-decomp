@@ -38,8 +38,8 @@ u8 *TCameraCtrl__ct(u8 *arg0, void *parent);
 s32 init_menu_scene_lights(s32 *, s32);
 }
 extern s32 default_scene_light_config[];
-extern s32 tl_camera;
-extern s32 tl_03;
+extern saddr tl_camera;
+extern saddr tl_03;
 void *creation_menu_main_obj;
 int creation_dressing_room_mode_flag;
 extern s32 TObjCMMainMenu__data_805D659C;
@@ -92,12 +92,12 @@ s32 TObjCMMainMenu__sub_8028EBCC(TObjCMMainMenu *menu) {
     return TObjCMMainMenu__data_804DB9C8[menu->entries[menu->selected_entry]].kind;
 }
 
-u8 TObjCMMainMenu::is_state_4() {
-    return (u8) (TObjCMMainMenu__data_805D659C == 4);
+s32 TObjCMMainMenu::is_state_4() {
+    return TObjCMMainMenu__data_805D659C == 4;
 }
 
-u8 TObjCMMainMenu::is_state_3() {
-    return (u8) (TObjCMMainMenu__data_805D659C == 3);
+s32 TObjCMMainMenu::is_state_3() {
+    return TObjCMMainMenu__data_805D659C == 3;
 }
 
 void TObjCMMainMenu__sub_8028EC18(void) { creation_dressing_room_mode_flag = 1; }

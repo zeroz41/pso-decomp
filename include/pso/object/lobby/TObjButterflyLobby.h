@@ -35,5 +35,5 @@ struct TObjButterflyLobby : public TObjBase {
     static void destroy_instance();
 };
 
-typedef char TObjButterflyLobby_size[sizeof(TObjButterflyLobby) == 0xCC ? 1 : -1];
+LAYOUT_ASSERT(TObjButterflyLobby_size, sizeof(TObjButterflyLobby) == 0xCC);
 #endif

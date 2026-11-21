@@ -24,7 +24,7 @@ f32 TBoss8Dragon::calc_sq_offset(f32 farg0) {
     return temp_f0 * temp_f0;
 }
 
-void TBoss8Dragon__sub_80067074(s32 arg0, s32 arg1) {
+void TBoss8Dragon__sub_80067074(saddr arg0, saddr arg1) {
     TObject *floor_grass;
     TObject *floor_stone;
     if (boss5_ctrl_instance != NULL) {

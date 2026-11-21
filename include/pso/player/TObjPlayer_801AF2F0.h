@@ -16,7 +16,7 @@ void send_6x2F_change_player_hp(s32 sender, s32 client, s16 hp);
 void send_6x2C_impose_hold(TObjPlayer *player, const Vec *pos, s32 frames, s32 arg3, f32 radius);
 // Takes the item off the player's equip slots (r3 = player, r4 = item; the symbol's
 // int/void* parameter list is the provisional one).
-void unequip_item__10TObjPlayerFiPv(s32 player, void *item);
+void unequip_item__10TObjPlayerFiPv(saddr player, void *item);
 }
 
 #endif

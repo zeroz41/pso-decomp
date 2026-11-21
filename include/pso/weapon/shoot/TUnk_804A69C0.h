@@ -10,6 +10,6 @@ public:
     virtual void hook();
     virtual void render();
 };
-typedef char TUnk_804A69C0_size[sizeof(TUnk_804A69C0) == 0x6C ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804A69C0_size, sizeof(TUnk_804A69C0) == 0x6C);
 
 #endif

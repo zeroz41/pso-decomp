@@ -67,11 +67,11 @@ void TTecKafun::vfunc_6(void *target) {
     }
 }
 
-void TTecKafun::create(s32 source, s32 pos, s32 kind, s32 effect, s32 second_effect, s32 level, f32 value, f32 radius) {
+void TTecKafun::create(saddr source, saddr pos, s32 kind, s32 effect, s32 second_effect, s32 level, f32 value, f32 radius) {
     new TTecKafun(source, (Vec *)pos, kind, effect, second_effect, level, value, radius);
 }
 
-void TTecKafun::create(s32 source, s32 pos, s32 kind, s32 effect, s32 level, f32 value, f32 radius) {
+void TTecKafun::create(saddr source, saddr pos, s32 kind, s32 effect, s32 level, f32 value, f32 radius) {
     new TTecKafun(source, (Vec *)pos, kind, effect, level, value, radius);
 }
 
@@ -86,7 +86,7 @@ void TTecKafun::run_task() {
         queue_destruction();
         return;
     }
-    this->source = (u32)find_entity_by_id(this->m_b4);
+    this->source = (uaddr)find_entity_by_id(this->m_b4);
     if (this->source == 0U) {
         queue_destruction();
         return;
@@ -99,7 +99,7 @@ void TTecKafun::run_task() {
     queue_destruction();
 }
 
-TTecKafun::TTecKafun(s32 source, Vec *pos, s32 kind, s32 effect, s32 second_effect, s32 level, f32 value, f32 radius)
+TTecKafun::TTecKafun(saddr source, Vec *pos, s32 kind, s32 effect, s32 second_effect, s32 level, f32 value, f32 radius)
     : TUnk_804CC148(source, pos, pos, level) {
     this->m_name = tec_kafun_class_name_ptr;
     this->hit_value = value;
@@ -116,7 +116,7 @@ TTecKafun::TTecKafun(s32 source, Vec *pos, s32 kind, s32 effect, s32 second_effe
     }
 }
 
-TTecKafun::TTecKafun(s32 source, Vec *pos, s32 kind, s32 effect, s32 level, f32 value, f32 radius)
+TTecKafun::TTecKafun(saddr source, Vec *pos, s32 kind, s32 effect, s32 level, f32 value, f32 radius)
     : TUnk_804CC148(source, pos, pos, level) {
     this->m_name = tec_kafun_class_name_ptr;
     this->hit_value = value;

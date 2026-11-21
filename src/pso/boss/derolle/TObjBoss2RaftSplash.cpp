@@ -20,7 +20,7 @@ void TObjBoss2RaftSplash::run_task() {
         elapsed = timer - period;
         VecCopy(&splash_position, &position);
         splash_position.y += *step - boss2_tunnel_max_scroll_speed;
-        spawn_splash((s32)&splash_position, 0x170, (s32)&splash_offset);
+        spawn_splash((saddr)&splash_position, 0x170, (saddr)&splash_offset);
     }
 }
 TObjBoss2RaftSplash::~TObjBoss2RaftSplash() {}
@@ -45,7 +45,7 @@ void TObjBoss2CeilJunk::create_particle(const void *position, s32 particle_index
     TObjBoss2Tunnel::create_particle_effect(position, particle_index, -5.0f);
 }
 
-void TObjBoss2RaftSplash::spawn_splash(s32 position, s32 particle_index, s32 offset) {
+void TObjBoss2RaftSplash::spawn_splash(saddr position, s32 particle_index, saddr offset) {
     void *particle;
 
     particle = TObject::operator new(0x78);

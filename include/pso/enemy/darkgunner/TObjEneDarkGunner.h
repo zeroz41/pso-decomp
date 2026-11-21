@@ -34,5 +34,5 @@ struct TObjEneDarkGunner : public TObjEnemyCustom {
     s32 material_phase;
     u8 unknown428[4];
 };
-typedef char DarkGunnerSize[(sizeof(TObjEneDarkGunner)==0x42C)?1:-1];
+LAYOUT_ASSERT(DarkGunnerSize, sizeof(TObjEneDarkGunner)==0x42C);
 #endif

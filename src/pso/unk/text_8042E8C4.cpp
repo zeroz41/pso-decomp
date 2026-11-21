@@ -1,4 +1,5 @@
 #include "types.h"
+#include <string.h>
 #include "pso/unk/SharedMemory.h"
 
 s32 lbl_805D7CA8;
@@ -19,8 +20,6 @@ s32 lbl_805D7CA8;
 
 extern "C" {
 
-void* memmove(void*, const void*, u32);
-void* memset(void*, s32, u32);
 void DCStoreRange(void*, u32);
 void ICInvalidateRange(void*, u32);
 int OSResetSystem(int, int, int);

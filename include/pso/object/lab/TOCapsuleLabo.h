@@ -25,6 +25,6 @@ struct TOCapsuleLabo : public TOQuestTalkBase {
     s32 spin_angle;  // the lid's y rotation
 };
 
-typedef char TOCapsuleLabo_size[sizeof(TOCapsuleLabo) == 0xE8 ? 1 : -1];
+LAYOUT_ASSERT(TOCapsuleLabo_size, sizeof(TOCapsuleLabo) == 0xE8);
 
 #endif

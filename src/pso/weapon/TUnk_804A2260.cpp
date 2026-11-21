@@ -92,7 +92,7 @@ void TUnk_804A2260::sub_80124C90() {
             atk.d8 = this->get_item_id();
             atk.idx = get_captured_target_collider_index(e2);
             atk.f = ((TObjPlayer *)me->pl)->query_extended_state();
-            spawn_item_attacker((s32)tl_05, (u32)&me->pl->pos38, (s32)(xyz_distance(pos, &part->v) / me->scale), (u8 *)&atk);
+            spawn_item_attacker((saddr)tl_05, (uaddr)&me->pl->pos38, (s32)(xyz_distance(pos, &part->v) / me->scale), (u8 *)&atk);
         }
     }
     {

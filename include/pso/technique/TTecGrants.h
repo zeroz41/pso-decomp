@@ -5,7 +5,7 @@
 #include "pso/effect/TUnk_804CC148.h"
 
 struct TTecGrants : public TUnk_804CC148 {
-    TTecGrants(s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+    TTecGrants(saddr arg1, saddr arg2, saddr arg3, saddr arg4);
     virtual ~TTecGrants();
     virtual void vfunc_6(void *);
     virtual void run_task();
@@ -18,5 +18,5 @@ struct TTecGrants : public TUnk_804CC148 {
     void init_parameters();
 };
 
-typedef char TTecGrants_size[sizeof(TTecGrants) == 0x14C ? 1 : -1];
+LAYOUT_ASSERT(TTecGrants_size, sizeof(TTecGrants) == 0x14C);
 #endif

@@ -6,6 +6,7 @@
 #include "types.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/system/NinjaTypes.h"
+#include <stdlib.h>
 #include "pso/system/vector.h"
 
 #pragma readonly_strings on
@@ -73,7 +74,6 @@ TObjCMHexTile::~TObjCMHexTile() {}
 #pragma fp_contract on
 extern "C" {
 
-int rand(void);
 extern const char *TObjCMHexTile__name;
 
 #pragma push

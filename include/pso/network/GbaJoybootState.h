@@ -9,10 +9,10 @@ struct GbaJoybootState {
     s8 phase;
     s8 device_present;
 };
-typedef char GbaJoybootTimeoutOffset[(offsetof(GbaJoybootState,timeout_counter)==4)?1:-1];
-typedef char GbaJoybootPhaseOffset[(offsetof(GbaJoybootState,phase)==6)?1:-1];
-typedef char GbaJoybootPresentOffset[(offsetof(GbaJoybootState,device_present)==7)?1:-1];
-typedef char GbaJoybootStateSize[(sizeof(GbaJoybootState)==8)?1:-1];
+LAYOUT_ASSERT(GbaJoybootTimeoutOffset, offsetof(GbaJoybootState,timeout_counter)==4);
+LAYOUT_ASSERT(GbaJoybootPhaseOffset, offsetof(GbaJoybootState,phase)==6);
+LAYOUT_ASSERT(GbaJoybootPresentOffset, offsetof(GbaJoybootState,device_present)==7);
+LAYOUT_ASSERT(GbaJoybootStateSize, sizeof(GbaJoybootState)==8);
 extern GbaJoybootState TLobby__data_805434A8[];
 void gba_joyboot_transfer_callback(s32 channel, s32 result);
 void update_gba_joyboot_transfer(void);

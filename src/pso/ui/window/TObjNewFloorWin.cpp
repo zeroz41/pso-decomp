@@ -11,6 +11,7 @@
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby.h"
+#include <stdio.h>
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 extern "C" { extern const char TObjNewFloorWin__class_name_string[16] = "TObjNewFloorWin"; }
 
@@ -18,9 +19,8 @@ struct TObjNewFloorWin_80073DCC { u8 pad[0x1C]; s32 state; void *window; s32 tim
 
 extern "C" {
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
-s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2);
-s32 get_window_layout_position(s32);
-s32 sprintf(void *, const char *, ...);
+saddr create_window_menu(saddr arg0, saddr arg1, saddr arg2);
+saddr get_window_layout_position(s32);
 s32 has_window_task_root();
 void TShopWindowBase::set_field_20(s32 v) { *(s32 *)&(*(u32 *)((u8 *)this + 0x20)) = v; }
 
@@ -68,10 +68,10 @@ void TObjNewFloorWin::open_window() {
         *(u32 *)((s8 *)arg0 + 0x20) = create_window_menu(pos, 1, *(s32 *)((s8 *)arg0 + 0x4C));
     }
     if ((u32) *(u32 *)((s8 *)arg0 + 0x20) != 0U) {
-        sprintf(arg0 + 0x2C, "%s %02d", get_message_text(0x67), TObjNewFloorWin__sub_8007410C());
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)(*(u32 *)((s8 *)arg0 + 0x20)), (int)(arg0 + 0x2C), 0, 0);
-        ((TWindowSubComCard *)(*(u32 *)((s8 *)arg0 + 0x20)))->calc_window_size();
-        ((TAdChrSelASlotGC *)(*(u32 *)((s8 *)arg0 + 0x20)))->set_flag_40();
+        sprintf((char *)(arg0 + 0x2C), "%s %02d", get_message_text(0x67), TObjNewFloorWin__sub_8007410C());
+        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)(*(uaddr *)((s8 *)arg0 + 0x20)), (saddr)(arg0 + 0x2C), 0, 0);
+        ((TWindowSubComCard *)(*(uaddr *)((s8 *)arg0 + 0x20)))->calc_window_size();
+        ((TAdChrSelASlotGC *)(*(uaddr *)((s8 *)arg0 + 0x20)))->set_flag_40();
         fn_800740DC();
         TWindowCtrl::close_active_window();
         TWindowCtrl::ensure_initialized();
@@ -87,7 +87,6 @@ extern "C" {
 s32 is_split_screen(void);
 void *__ct__15TObjNewFloorWinFP7TObjectPv(void *arg0, void *arg1, void *arg2);
 s32 get_player_by_client_id(u32);
-u8 *__nw__7TObjectFUl(s32);
 
 const char *TObjNewFloorWin__class_name = TObjNewFloorWin__class_name_string;
 
@@ -102,16 +101,16 @@ TObjNewFloorWin::TObjNewFloorWin(TObject *object, void *arg2) : TObject(object) 
 }
 
 u8 *TLobby::create_new_floor_windows() {
-  u32 var_r30;
+  uaddr var_r30;
   u8 *temp_r3;
   u8 *temp_r3_2;
   u8 *var_r0;
   u8 *var_r0_2;
   u8 *var_r31;
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
   if (is_split_screen() == 0)
   {
-    temp_r3 = (u8 *) __nw__7TObjectFUl(0x50);
+    temp_r3 = (u8 *) TObject::operator new(0x50);
     var_r0 = (u8 *) temp_r3;
     if (var_r0 != 0)
     {
@@ -125,11 +124,11 @@ u8 *TLobby::create_new_floor_windows() {
   {
     if (get_player_by_client_id(var_r30) != 0U)
     {
-      temp_r3_2 = (u8 *) __nw__7TObjectFUl(0x50);
+      temp_r3_2 = (u8 *) TObject::operator new(0x50);
       var_r0_2 = (u8 *) temp_r3_2;
       if (var_r0_2 != 0)
       {
-        var_r31 = ((u8 *)__ct__15TObjNewFloorWinFP7TObjectPv((void *)temp_r3_2, (void *)arg0, (void *)((s32) var_r30)));
+        var_r31 = ((u8 *)__ct__15TObjNewFloorWinFP7TObjectPv((void *)temp_r3_2, (void *)arg0, (void *)((saddr) var_r30)));
         var_r0_2 = (u8 *) var_r31;
       }
       var_r31 = (u8 *) var_r0_2;

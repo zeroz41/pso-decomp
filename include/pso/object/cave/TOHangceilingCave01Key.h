@@ -12,5 +12,5 @@ public:
     virtual void vfunc_80();
 };
 
-typedef char TOHangceilingCave01Key_size[sizeof(TOHangceilingCave01Key) == 0x360 ? 1 : -1];
+LAYOUT_ASSERT(TOHangceilingCave01Key_size, sizeof(TOHangceilingCave01Key) == 0x360);
 #endif

@@ -15,7 +15,7 @@ extern "C" {
 u32 get_player_by_client_id(s32);
 s32 has_window_task_root();
 void* get_window_layout_position(s32);
-s32 get_message_text(s32 arg0);
+saddr get_message_text(s32 arg0);
 extern s32 local_client_id;
 extern const char TObjSoloPlayWin_class_name[] = "TObjSoloPlayWin";
 const char* TObjSoloPlayWin_name = TObjSoloPlayWin_class_name;
@@ -34,7 +34,7 @@ s32 TObjSoloPlayWin::area_allows_win_timer() {
     return 1;
 }
 s32 TObjSoloPlayWin::can_start_win_timer() {
-    u32 player = get_player_by_client_id(local_client_id);
+    uaddr player = get_player_by_client_id(local_client_id);
     if (has_window_task_root() == 1 && area_allows_win_timer() != 0 &&
         player != 0U && ((TObjCollidable *)player)->obj_testFlags30(0x02000000) == 0) {
         return 1;

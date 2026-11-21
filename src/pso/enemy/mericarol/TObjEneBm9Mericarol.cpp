@@ -61,7 +61,7 @@ extern "C" {
 extern s32 game_difficulty_selection;
 void vec3_add_to(Vec *dst, const Vec *src);
 void TBoss8Dragon__sub_800BB7D4(TObjEneBm9Mericarol *self, s32 arg1);
-void fill_value_array(s32 address);
+void fill_value_array(saddr address);
 s32 enemy_validate_retained_target(u8 *ene_dd_st);
 s32 approach_angle_limited(s32 from, s32 to, s32 max_step);
 s32 angle_difference_abs(s32 a, s32 b);
@@ -82,7 +82,7 @@ extern const s32 lbl_804722F4[];
 extern const s32 lbl_80472300[];
 extern const s32 lbl_8047230C[];
 extern void *tl_04;
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 s32 free_collision_body_parts(void *);
 void init_collision_body_parts(void *, void *, s32);
 void free_bin_model_request(void *, int);
@@ -228,8 +228,8 @@ TObjEneBm9Mericarol::TObjEneBm9Mericarol(TObject *parent, void *set_data) : TObj
     model = (void *)lbl_805D6868->models[0].model;
     texlist = lbl_805D6868->models[0].m_c;
     init_model(lbl_804E1564, 1);
-    set_field_d8((s32)lbl_804E1634);
-    set_field_dc((s32)lbl_805D6868->motions);
+    set_field_d8((saddr)lbl_804E1634);
+    set_field_dc((saddr)lbl_805D6868->motions);
     requested_action = 2;
     set_animation(requested_action);
     set_field_b8(requested_action);
@@ -467,7 +467,7 @@ void TObjEneBm9Mericarol::init_size_tier_and_offsets() {
 s32 TObjEneBm9Mericarol::get_phase() { return m_45c; }
 
 void TObjEneBm9Mericarol::sub_802D073C() {
-    play_persistent_sound((s32)(remap_sound_for_area(0x3A810)), (s32)this, (u32)&position, (s32)(0), (s32)(0));
+    play_persistent_sound((s32)(remap_sound_for_area(0x3A810)), (saddr)this, (uaddr)&position, (s32)(0), (s32)(0));
 }
 
 void TObjEneBm9Mericarol::handle_action(s32 arg1) {
@@ -582,7 +582,7 @@ void TObjEneBm9Mericarol::sub_802D01D8(s32 arg1) {
     case 0:
         advance_animation();
         target = 0xFFFF;
-        if (tick_period_counter((s32)this, &m_450, 0x14) != 0) {
+        if (tick_period_counter((saddr)this, &m_450, 0x14) != 0) {
             if (m_3ac > 30.0f) {
                 if (vfunc_99() != 0) {
                     target = enemy_nearest_visible_enemy(this, m_3ac - 30.0f);
@@ -770,7 +770,7 @@ void TObjEneBm9Mericarol::sub_802CF7B4(s32 arg1) {
         m_498 = 0xA;
         m_4a4 = m_444;
         m_4a8 = 0.0f;
-        fill_value_array((s32)m_488);
+        fill_value_array((saddr)m_488);
         set_active();
         return;
     case 3:
@@ -999,7 +999,7 @@ void TObjEneBm9Mericarol::state_burrow(s32 arg1) {
                 pos.x = x;
                 pos.z = 10.0f * cos_table_lookup(rotation_y);
                 vec3_add_to(&pos, &position);
-                TObjPlayer::spawn_dead_spot_here((s32)&pos, 0x32);
+                TObjPlayer::spawn_dead_spot_here((saddr)&pos, 0x32);
                 ((TObjPlayer *)&pos)->spawn_ground_effect(0x46);
             }
             vfunc_102();
@@ -1236,7 +1236,7 @@ void TObjEneBm9Mericarol::render() {
         plist = ((NJS_CNK_MODEL *)((NJS_OBJECT *)model)->child->sibling->sibling->sibling->model)->polygon_list;
         saved = plist[5];
         plist[5] = (u8)plist[5];
-        set_chunk_model_node_callback((s32)TObjEneBm9Mericarol::update_particle_effect);
+        set_chunk_model_node_callback((saddr)TObjEneBm9Mericarol::update_particle_effect);
     }
     if (m_438 & 8) {
         if (m_46c.has_visible_opacity() != 0) {
@@ -1348,7 +1348,7 @@ void fn_802CE510(TObjEneBm9Mericarol *owner) {
         if (surface_mask != 0) {
             fn_800D8830(owner, &owner->position);
         } else {
-            play_persistent_sound(owner->remap_sound_for_area(0x3B211), (s32)owner, (u32)&owner->position, 0, 0);
+            play_persistent_sound(owner->remap_sound_for_area(0x3B211), (saddr)owner, (uaddr)&owner->position, 0, 0);
         }
         if (owner->is_passing_frame(5.0f) != 0 || owner->is_passing_frame(15.0f) != 0 ||
             owner->is_passing_frame(25.0f) != 0) {

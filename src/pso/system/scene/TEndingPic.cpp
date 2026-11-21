@@ -102,7 +102,7 @@ void TEndingPic::draw_current_pic() {
 void TEndingPic::init_positions() { *(float*)((char*)this + 0x2c) = 228.0f; *(float*)((char*)this + 0x30) = 0.0f; *(float*)((char*)this + 0x34) = 640.0f; *(float*)((char*)this + 0x38) = 480.0f; *(float*)((char*)this + 0x3c) = 0.1953125f; *(float*)((char*)this + 0x40) = 0.0f; *(float*)((char*)this + 0x44) = 1.0f; *(float*)((char*)this + 0x48) = 0.9375f; *(float*)((char*)this + 0x4c) = 0.0f; *(float*)((char*)this + 0x50) = 0.0f; *(float*)((char*)this + 0x54) = 100.0f; *(float*)((char*)this + 0x58) = 480.0f; *(float*)((char*)this + 0x5c) = 0.0f; *(float*)((char*)this + 0x60) = 0.0f; *(float*)((char*)this + 0x64) = 0.1953125f; *(float*)((char*)this + 0x68) = 0.9375f; *(float*)((char*)this + 0x6c) = 228.0f; *(float*)((char*)this + 0x70) = 0.0f; *(float*)((char*)this + 0x74) = 640.0f; *(float*)((char*)this + 0x78) = 480.0f; *(float*)((char*)this + 0x7c) = 0.1953125f; *(float*)((char*)this + 0x80) = 0.0f; *(float*)((char*)this + 0x84) = 1.0f; *(float*)((char*)this + 0x88) = 0.9375f; *(float*)((char*)this + 0x8c) = 0.0f; *(float*)((char*)this + 0x90) = 0.0f; *(float*)((char*)this + 0x94) = 100.0f; *(float*)((char*)this + 0x98) = 480.0f; *(float*)((char*)this + 0x9c) = 0.0f; *(float*)((char*)this + 0xa0) = 0.0f; *(float*)((char*)this + 0xa4) = 0.1953125f; *(float*)((char*)this + 0xa8) = 0.9375f; *(float*)((char*)this + 0xac) = 316.0f; *(float*)((char*)this + 0xb0) = 32.0f; *(float*)((char*)this + 0xb4) = 616.0f; *(float*)((char*)this + 0xb8) = 332.0f; *(float*)((char*)this + 0xbc) = 0.0f; *(float*)((char*)this + 0xc0) = 0.0f; *(float*)((char*)this + 0xc4) = 1.0f; *(float*)((char*)this + 0xc8) = 1.0f; *(float*)((char*)this + 0xcc) = 316.0f; *(float*)((char*)this + 0xd0) = 148.0f; *(float*)((char*)this + 0xd4) = 616.0f; *(float*)((char*)this + 0xd8) = 448.0f; *(float*)((char*)this + 0xdc) = 0.0f; *(float*)((char*)this + 0xe0) = 0.0f; *(float*)((char*)this + 0xe4) = 1.0f; *(float*)((char*)this + 0xe8) = 1.0f; }
 
 void TEndingPic::render() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     if ((s32) TEndingPic__animation_state != 0) {
         TObjFish::set_global_param(ending_pic_wall_texture_list);
         draw_current_pic();
@@ -120,7 +120,7 @@ TEndingPic::TEndingPic(TObject *arg1) : TObject(arg1) {
     *(s32 *)((s8 *)this + 0x20) = 0xFF;
     *(s32 *)((s8 *)this + 0x28) = 0;
     *(s32 *)((s8 *)this + 0x24) = 0;
-    ending_pic_wall_texture_list = ((s32)get_ending_ab_wall_texture_list());
+    ending_pic_wall_texture_list = ((saddr)get_ending_ab_wall_texture_list());
     this->init_positions();
     switch (TKeyBoardControl__sub_8000F828()) {
     case 0:

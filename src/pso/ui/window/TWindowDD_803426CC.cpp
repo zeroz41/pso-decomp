@@ -13,7 +13,7 @@ s32 update_numeric_parameter_input__9TWindowDDFPv();
 s32 update_close_flag__9TWindowDDFPv(void *);
 void TWindowDD__sub_803429B0(u8 *arg0);
 void enter_state_16__9TWindowDDFPv(void *arg0);
-void update__9TWindowDDFi(s32 arg0);
+void update__9TWindowDDFi(saddr arg0);
 void update_state__9TWindowDDFPv(void *arg0);
 
 void enter_state_16__9TWindowDDFPv(void *window_dd) {
@@ -71,7 +71,7 @@ void TWindowDD__sub_80342800(u8 *arg0) {
         TWindowDD::play_sound();
         var_r3 = (u8 *)(var_r31 + (*(s32 *)((s8 *)var_r31 + 0x20) * 4));
         var_r3 = (u8 *)(*(u8 **)((s8 *)var_r3 + 0x24));
-        if (TWindowDD__sub_80342158((int)var_r3) == 0x2C8) {
+        if (TWindowDD__sub_80342158((saddr)var_r3) == 0x2C8) {
             var_r3 = (u8 *)((void *)5);
             *(s32 *)((s8 *)var_r31 + 0xB4) = 0x11;
             *(s16 *)((s8 *)var_r31 + 0xC6) = 5;
@@ -103,7 +103,7 @@ void TWindowDD__sub_803428C4(u8 *arg0) {
     var_r3 = (u8 *)(var_r31 + (*(s32 *)((s8 *)arg0 + 0x20) * 4));
     var_r3 = (u8 *)(*(u8 **)((s8 *)var_r3 + 0x24));
     if (var_r3 != NULL) {
-        *(s16 *)((s8 *)var_r31 + 0xFC) = TWindowDD__sub_80342158((int)var_r3);
+        *(s16 *)((s8 *)var_r31 + 0xFC) = TWindowDD__sub_80342158((saddr)var_r3);
         if ((s16) *(s16 *)((s8 *)var_r31 + 0xFC) == 0x43) {
             var_r3 = (u8 *)((void *)0x11U);
             *(s32 *)((s8 *)var_r31 + 0xB4) = 0x11;
@@ -113,7 +113,7 @@ void TWindowDD__sub_803428C4(u8 *arg0) {
     }
 }
 
-void update__9TWindowDDFi(s32 arg0) {
+void update__9TWindowDDFi(saddr arg0) {
     TWindowDD__sub_80347C50();
     if (((TWindowDD *)arg0)->test_input_flag_4() != 0) {
         TWindowDD::play_sound();
@@ -148,7 +148,7 @@ void TWindowDD__sub_803429B0(u8 *window_dd) {
     if (var_r31 != 0) {
         var_r3 = (u8 *)(window_dd + (*(s32 *)((s8 *)window_dd + 0x20) * 4));
         var_r3 = (u8 *)(*(u8 **)((s8 *)var_r3 + 0x24));
-        if (TWindowDD_is_id_in_range_5AC_5F9(TWindowDD__sub_80342158((int)var_r3)) != 0) {
+        if (TWindowDD_is_id_in_range_5AC_5F9(TWindowDD__sub_80342158((saddr)var_r3)) != 0) {
             *(s32 *)((s8 *)window_dd + 0xB4) = 0xA;
         } else {
             *(s32 *)((s8 *)window_dd + 0xB4) = 0xB;

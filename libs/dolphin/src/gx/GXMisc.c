@@ -4,7 +4,6 @@
 #define DrawDoneCB lbl_805D72FC
 #define FinishQueue lbl_805D7304
 #define GXFinishInterruptHandler GXMisc_GXFinishInterruptHandler
-#define GXFlush Dolphin_GXFlush
 #define GXTokenInterruptHandler GXMisc_GXTokenInterruptHandler
 #define TokenCB lbl_805D72F8
 

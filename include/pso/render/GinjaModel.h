@@ -22,6 +22,6 @@ typedef struct GinjaModelBounds {
   GinjaModel model;
   f32 radius;
 } GinjaModelBounds;
-typedef char GinjaDrawRecordSize[(sizeof(GinjaDrawRecord) == 0x10) ? 1 : -1];
-typedef char GinjaModelPrefixSize[(sizeof(GinjaModel) == 0x14) ? 1 : -1];
+LAYOUT_ASSERT(GinjaDrawRecordSize, sizeof(GinjaDrawRecord) == 0x10);
+LAYOUT_ASSERT(GinjaModelPrefixSize, sizeof(GinjaModel) == 0x14);
 #endif

@@ -11,12 +11,12 @@ struct TAdLicAgreementGC : public TAdAgreementBaseGC {
     virtual void vfunc_7();
     virtual void vfunc_8();
     virtual void vfunc_9();
-    u32 m_38;
+    uaddr m_38;
     virtual void render();
     virtual void run_task();
 };
 
-typedef char TAdLicAgreementGC_size[sizeof(TAdLicAgreementGC) == 0x3C ? 1 : -1];
+LAYOUT_ASSERT(TAdLicAgreementGC_size, sizeof(TAdLicAgreementGC) == 0x3C);
 
 extern "C" {
 void *__dt__17TAdLicAgreementGCFv(void *arg0, s16 arg1);

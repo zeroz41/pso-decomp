@@ -4,11 +4,11 @@
 #include "pso/ui/window/TWindowCtrl.h"
 
 extern "C" {
-void format_message__9TWindowDDFPvPvUs(s32 src, s32 dst, s32 player);
+void format_message__9TWindowDDFPvPvUs(saddr src, uaddr dst, s32 player);
 
-extern s32 window_dd_buffer_a;
+extern uaddr window_dd_buffer_a;
 
-void TWindowDD::open(s32 arg0, s32 arg1) {
+void TWindowDD::open(saddr arg0, s32 arg1) {
     format_message__9TWindowDDFPvPvUs(arg0, window_dd_buffer_a, arg1);
     TWindowCtrl::open(arg1, window_dd_buffer_a, 0x4F);
 }

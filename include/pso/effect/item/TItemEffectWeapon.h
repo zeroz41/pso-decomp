@@ -6,7 +6,7 @@
 
 class TItemEffectWeapon : public TItemHeapObject {
 public:
-    TItemEffectWeapon(s32 arg1, s32 param);
+    TItemEffectWeapon(saddr arg1, s32 param);
     virtual ~TItemEffectWeapon();
     void run_task();
 public:
@@ -27,11 +27,11 @@ public:
 };
 
 #include <stddef.h>
-typedef char WeaponTrailVertexSize[(sizeof(TItemEffectWeapon::TrailVertex) == 0x10) ? 1 : -1];
-typedef char WeaponTrailVertexColor[(offsetof(TItemEffectWeapon::TrailVertex, color) == 0xC) ? 1 : -1];
-typedef char WeaponTrailBufferOffset[(offsetof(TItemEffectWeapon, vertices) == 0x1C) ? 1 : -1];
-typedef char WeaponTrailCountOffset[(offsetof(TItemEffectWeapon, vertex_count) == 0x20) ? 1 : -1];
-typedef char WeaponTrailColorOffset[(offsetof(TItemEffectWeapon, color) == 0x24) ? 1 : -1];
-typedef char WeaponTrailSize[(sizeof(TItemEffectWeapon) == 0x2C) ? 1 : -1];
+LAYOUT_ASSERT(WeaponTrailVertexSize, sizeof(TItemEffectWeapon::TrailVertex) == 0x10);
+LAYOUT_ASSERT(WeaponTrailVertexColor, offsetof(TItemEffectWeapon::TrailVertex, color) == 0xC);
+LAYOUT_ASSERT(WeaponTrailBufferOffset, offsetof(TItemEffectWeapon, vertices) == 0x1C);
+LAYOUT_ASSERT(WeaponTrailCountOffset, offsetof(TItemEffectWeapon, vertex_count) == 0x20);
+LAYOUT_ASSERT(WeaponTrailColorOffset, offsetof(TItemEffectWeapon, color) == 0x24);
+LAYOUT_ASSERT(WeaponTrailSize, sizeof(TItemEffectWeapon) == 0x2C);
 
 #endif

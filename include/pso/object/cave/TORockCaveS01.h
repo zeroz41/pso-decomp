@@ -9,7 +9,7 @@ struct TORockCaveS01 : public TORockCave {
     virtual ~TORockCaveS01();
 };
 
-typedef char TORockCaveS01_size[sizeof(TORockCaveS01) == 0xB4 ? 1 : -1];
+LAYOUT_ASSERT(TORockCaveS01_size, sizeof(TORockCaveS01) == 0xB4);
 
 // The object factory entry (ObjectFactoryTables.cpp).
 extern "C" void *TORockCaveS01__create(void *set_data);

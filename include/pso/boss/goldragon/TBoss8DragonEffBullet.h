@@ -33,17 +33,17 @@ struct TBoss8DragonEffBullet : public TObject {
     const DragonBulletParticles *particles;
 };
 
-typedef char TBoss8DragonEffBullet_position[offsetof(TBoss8DragonEffBullet, position) == 0x1C ? 1 : -1];
-typedef char TBoss8DragonEffBullet_direction[offsetof(TBoss8DragonEffBullet, direction) == 0x28 ? 1 : -1];
-typedef char TBoss8DragonEffBullet_lifetime[offsetof(TBoss8DragonEffBullet, lifetime) == 0x34 ? 1 : -1];
-typedef char TBoss8DragonEffBullet_state[offsetof(TBoss8DragonEffBullet, state) == 0x38 ? 1 : -1];
-typedef char TBoss8DragonEffBullet_traveled_distance[offsetof(TBoss8DragonEffBullet, traveled_distance) == 0x3C ? 1 : -1];
-typedef char TBoss8DragonEffBullet_target_distance[offsetof(TBoss8DragonEffBullet, target_distance) == 0x40 ? 1 : -1];
-typedef char TBoss8DragonEffBullet_mode[offsetof(TBoss8DragonEffBullet, mode) == 0x44 ? 1 : -1];
-typedef char TBoss8DragonEffBullet_owner_id[offsetof(TBoss8DragonEffBullet, owner_id) == 0x48 ? 1 : -1];
-typedef char TBoss8DragonEffBullet_trail[offsetof(TBoss8DragonEffBullet, trail) == 0x4C ? 1 : -1];
-typedef char TBoss8DragonEffBullet_secondary_emitter[offsetof(TBoss8DragonEffBullet, secondary_emitter) == 0x50 ? 1 : -1];
-typedef char TBoss8DragonEffBullet_particles[offsetof(TBoss8DragonEffBullet, particles) == 0x54 ? 1 : -1];
-typedef char TBoss8DragonEffBullet_size[sizeof(TBoss8DragonEffBullet) == 0x58 ? 1 : -1];
+LAYOUT_ASSERT(TBoss8DragonEffBullet_position, offsetof(TBoss8DragonEffBullet, position) == 0x1C);
+LAYOUT_ASSERT(TBoss8DragonEffBullet_direction, offsetof(TBoss8DragonEffBullet, direction) == 0x28);
+LAYOUT_ASSERT(TBoss8DragonEffBullet_lifetime, offsetof(TBoss8DragonEffBullet, lifetime) == 0x34);
+LAYOUT_ASSERT(TBoss8DragonEffBullet_state, offsetof(TBoss8DragonEffBullet, state) == 0x38);
+LAYOUT_ASSERT(TBoss8DragonEffBullet_traveled_distance, offsetof(TBoss8DragonEffBullet, traveled_distance) == 0x3C);
+LAYOUT_ASSERT(TBoss8DragonEffBullet_target_distance, offsetof(TBoss8DragonEffBullet, target_distance) == 0x40);
+LAYOUT_ASSERT(TBoss8DragonEffBullet_mode, offsetof(TBoss8DragonEffBullet, mode) == 0x44);
+LAYOUT_ASSERT(TBoss8DragonEffBullet_owner_id, offsetof(TBoss8DragonEffBullet, owner_id) == 0x48);
+LAYOUT_ASSERT(TBoss8DragonEffBullet_trail, offsetof(TBoss8DragonEffBullet, trail) == 0x4C);
+LAYOUT_ASSERT(TBoss8DragonEffBullet_secondary_emitter, offsetof(TBoss8DragonEffBullet, secondary_emitter) == 0x50);
+LAYOUT_ASSERT(TBoss8DragonEffBullet_particles, offsetof(TBoss8DragonEffBullet, particles) == 0x54);
+LAYOUT_ASSERT(TBoss8DragonEffBullet_size, sizeof(TBoss8DragonEffBullet) == 0x58);
 
 #endif

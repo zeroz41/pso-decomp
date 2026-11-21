@@ -349,13 +349,13 @@ WindowDescriptor *TLobby__sub_80269CB4(void) {
     return &message_window_settings;
 }
 
-u8 *TWindowMessage::create(s32 arg0, const f32 *size, u32 arg2, s32 arg3) {
+u8 *TWindowMessage::create(saddr arg0, const f32 *size, uaddr arg2, s32 arg3) {
     ((s32 (*)(void *, void *))TLobby__sub_80269DA4)((void *)size, (void *)arg2);
     return (u8 *)new TWindowMessage(arg0, arg2, arg3);
 }
 
-u8 *TWindowMessage::create(const NJS_POINT2 *pos, const f32 *size, s32 rows) {
-    return TWindowMessage::create((s32)pos, size, (u32)rows, 4);
+u8 *TWindowMessage::create(const NJS_POINT2 *pos, const f32 *size, saddr rows) {
+    return TWindowMessage::create((saddr)pos, size, (u32)rows, 4);
 }
 
 u8 *create_message_window_for_size(NJS_POINT2 *pos, NJS_POINT2 *size) {
@@ -366,7 +366,7 @@ s32 TLobby__sub_80269DA4(NJS_POINT2 size, void *arg1) {
     NJS_POINT2 *dst = (NJS_POINT2 *)&message_window_settings;
     dst->x = size.x;
     dst->y = size.y;
-    message_window_layout_entries.rows = (u32)arg1;
+    message_window_layout_entries.rows = (uaddr)arg1;
 }
 
 s32 get_draw_context__11TWindowBaseFPv();
@@ -374,8 +374,8 @@ s32 draw_visible_window_entries(void *, void *, int);
 
 
 void TWindowMessage::render() {
-    s32 temp_r3;
-    s32 arg0 = (s32)this;
+    saddr temp_r3;
+    saddr arg0 = (saddr)this;
     temp_r3 = get_draw_context__11TWindowBaseFPv();
     ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
     draw_visible_window_entries((void *)arg0, (void *)(arg0 + 0x24), (int)temp_r3);
@@ -398,7 +398,7 @@ void TWindowMessage::run_task() {
 TWindowMessage::~TWindowMessage() {
     if (*(void **)((s8 *)this + 0x7C) != NULL) { mem_free(*(void **)((s8 *)this + 0x7C)); }
 }
-TWindowMessage::TWindowMessage(s32 arg1, u32 arg2, s32 arg3) : TWindowAddition((u8 *)&message_window_settings, (s16)arg3, (u8 *)arg1) {
+TWindowMessage::TWindowMessage(saddr arg1, u32 arg2, s32 arg3) : TWindowAddition((u8 *)&message_window_settings, (s16)arg3, (u8 *)arg1) {
     u32 i;
     u8 *p;
     #define window_addition ((u8 *)this)

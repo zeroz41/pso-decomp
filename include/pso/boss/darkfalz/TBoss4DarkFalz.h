@@ -18,14 +18,14 @@ struct TBoss4DarkFalz : public TObjEnemy {
     u32 m_388;
     u32 m_38c;
     u32 m_390;
-    u32 m_394;
+    uaddr m_394;
     u32 m_398;
     virtual void render();
     virtual void run_task();
     static void cleanup_global();
     static void load_resources();
     static s32 create(s32 arg0);
-    static s32 get_instance();
+    static saddr get_instance();
     int is_field378_zero();
     s32 get_action_state();
     s32 get_phase();
@@ -119,5 +119,5 @@ extern "C" {
 void set_story_flag_or_send_quest_flag(u16 flag);
 }
 
-typedef char TBoss4DarkFalz_size[sizeof(TBoss4DarkFalz) == 0x39C ? 1 : -1];
+LAYOUT_ASSERT(TBoss4DarkFalz_size, sizeof(TBoss4DarkFalz) == 0x39C);
 #endif

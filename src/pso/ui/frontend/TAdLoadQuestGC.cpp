@@ -17,7 +17,7 @@
 extern "C" {
 
 s32 __nw__7TObjectFUl(s32);
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 
 s32 create_cost_window(s32 arg0) {
     s32 var_r30;
@@ -25,7 +25,7 @@ s32 create_cost_window(s32 arg0) {
     if (TCameraCtrl::get_camera_id() <= 2) {
         return 0;
     }
-    return (s32)new TWindowCost(get_window_layout_position(0x59), arg0, (s32)TWindowSubStatusDisp::get_message_10(0x109));
+    return (saddr)new TWindowCost(get_window_layout_position(0x59), arg0, (saddr)TWindowSubStatusDisp::get_message_10(0x109));
 }
 
 }
@@ -67,14 +67,14 @@ void *TAdLoadQuestGC__ct(void *ad_load_quest_gc, TObject *parent) {
     __ct__7TObjectFP7TObject(ad_load_quest_gc, parent);
     *(s32 **)((s8 *)ad_load_quest_gc + 0x18) = __vt__14TAdLoadQuestGC;
     ((TAdLoadQuestGC *)ad_load_quest_gc)->m_name = TAdLoadQuestGC__class_name;
-    get_or_create_cell__14TAdLoadQuestGCFii((s32)ad_load_quest_gc, 0);
-    get_or_create_prt_txt__14TAdLoadQuestGCFii((s32)ad_load_quest_gc, 0);
-    get_or_create_cell__14TAdLoadQuestGCFii((s32)ad_load_quest_gc, 1);
-    get_or_create_cell__14TAdLoadQuestGCFii((s32)ad_load_quest_gc, 2);
-    get_or_create_line__14TAdLoadQuestGCFii((s32)ad_load_quest_gc, 0);
-    get_or_create_line__14TAdLoadQuestGCFii((s32)ad_load_quest_gc, 1);
-    get_or_create_prt_txt__14TAdLoadQuestGCFii((s32)ad_load_quest_gc, 1);
-    get_or_create_prt_txt__14TAdLoadQuestGCFii((s32)ad_load_quest_gc, 2);
+    get_or_create_cell__14TAdLoadQuestGCFii((saddr)ad_load_quest_gc, 0);
+    get_or_create_prt_txt__14TAdLoadQuestGCFii((saddr)ad_load_quest_gc, 0);
+    get_or_create_cell__14TAdLoadQuestGCFii((saddr)ad_load_quest_gc, 1);
+    get_or_create_cell__14TAdLoadQuestGCFii((saddr)ad_load_quest_gc, 2);
+    get_or_create_line__14TAdLoadQuestGCFii((saddr)ad_load_quest_gc, 0);
+    get_or_create_line__14TAdLoadQuestGCFii((saddr)ad_load_quest_gc, 1);
+    get_or_create_prt_txt__14TAdLoadQuestGCFii((saddr)ad_load_quest_gc, 1);
+    get_or_create_prt_txt__14TAdLoadQuestGCFii((saddr)ad_load_quest_gc, 2);
     o = new TAdLdQuestPrtGC((TObject *)ad_load_quest_gc);
     *(void * *)&((TAdLoadQuestGC *)ad_load_quest_gc)->quest_display = o;
     return ad_load_quest_gc;
@@ -86,10 +86,10 @@ void TAdLoadQuestGC__sub_80309850(void) {  }
 }
 
     extern int ad_load_quest_cell_table[];
-int TAdLoadQuestGC__sub_80309854(int a0) {  return ad_load_quest_cell_table[a0]; }
+saddr TAdLoadQuestGC__sub_80309854(int a0) {  return ad_load_quest_cell_table[a0]; }
 
     extern int ad_load_quest_line_instances[];
-int TAdLoadQuestGC__sub_80309868(int a0) {  return ad_load_quest_line_instances[a0]; }
+saddr TAdLoadQuestGC__sub_80309868(int a0) {  return ad_load_quest_line_instances[a0]; }
 
     extern int quest_load_prt_txt_by_slot[];
-int TAdLoadQuestGC__sub_8030987C(int a0) {  return quest_load_prt_txt_by_slot[a0]; }
+saddr TAdLoadQuestGC__sub_8030987C(int a0) {  return quest_load_prt_txt_by_slot[a0]; }

@@ -22,6 +22,6 @@ public:
     u8 unk_5C[0x4];
     TObject *csn_objects[10]; // TObjMapCsn objects (fn_8034009C creates them)
 };
-typedef char TBoss6Demo15_TYPE2_WAIT_size[sizeof(TBoss6Demo15_TYPE2_WAIT) == 0x88 ? 1 : -1];
+LAYOUT_ASSERT(TBoss6Demo15_TYPE2_WAIT_size, sizeof(TBoss6Demo15_TYPE2_WAIT) == 0x88);
 
 #endif

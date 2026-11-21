@@ -16,7 +16,7 @@ f32 xyz_distance_squared(const Vec *a, const Vec *b);
 
 NJS_OBJECT *find_object_node(NJS_OBJECT *root, s32 index);
 // `root` and the result are model handles as the BML resources store them.
-s32 find_model_node(u32 root, s32 index);
+saddr find_model_node(uaddr root, s32 index);
 
 void debug_printf_nop(const char *format, ...);
 

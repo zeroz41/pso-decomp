@@ -24,13 +24,13 @@ s32 TWindowSubComCard__sub_8007B6F4(O_8007B6F4 *self) {
 
 void TWindowSubComCard::bswap_guild_card() { ((G_ClientIDHeader *)this)->bswap(); ((TWindowSubComCard *)((char*)this + 0x4))->bswap_guild_card_tag(); }
 int TWindowSubComCard::bswap_guild_card_tag() { return bswap__16TPlyGuildCardTagFv(this); }
-void TWindowSubComCard::init_card(void* a1) { bswap_guild_card(); ((TLobby *)this)->send_subcommand_to_client((u32)a1); }
+void TWindowSubComCard::init_card(void* a1) { bswap_guild_card(); ((TLobby *)this)->send_subcommand_to_client((uaddr)a1); }
 
     extern int com_card_keyboard_mode;
 int TWindowSubComCard::get_keyboard_mode() {  return com_card_keyboard_mode; }
 
 void *TWindowSubComCard::init_guild_card() {
-    init_guild_card_tag__17TWindowSubComCardFi((s32)((char *)this + 4));
+    init_guild_card_tag__17TWindowSubComCardFi((saddr)((char *)this + 4));
     *(u8 *)&this->m_name = 6;
     *(u8 *)((s8 *)this + 0x1) = 37;
     return this;

@@ -10,6 +10,6 @@ struct TObjQuestColA : public TObjQuestColBase {
     virtual TQuestThread *vfunc_16();
 };
 
-typedef char TObjQuestColA_size[sizeof(TObjQuestColA) == 0xBC ? 1 : -1];
+LAYOUT_ASSERT(TObjQuestColA_size, sizeof(TObjQuestColA) == 0xBC);
 
 #endif

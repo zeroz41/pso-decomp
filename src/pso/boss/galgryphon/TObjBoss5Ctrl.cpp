@@ -16,9 +16,6 @@ extern "C" {
 s32 get_current_floor();
 s32 is_room_enemy_set_cleared(s32, s32);
 s32 is_split_screen();
-TObject *create__19TObjBoss5FloorStoneFv();
-TObject *create__19TObjBoss5FloorGrassFv();
-TObject *create__19TObjBoss5PillarCtrlFv(TObject *parent);
 const char *lbl_805D2828 = "TObjBoss5Ctrl";
 }
 
@@ -59,13 +56,13 @@ TObjBoss5Ctrl::TObjBoss5Ctrl(TObject *parent) : TObject(parent) {
     if (is_room_enemy_set_cleared(get_current_floor(), 1) == 0) {
         if (is_split_screen() == 0) {
             if (floor_grass == NULL) {
-                floor_grass = create__19TObjBoss5FloorGrassFv();
+                floor_grass = (TObject *)TObjBoss5FloorGrass::create();
             }
             if (floor_stone == NULL) {
-                floor_stone = create__19TObjBoss5FloorStoneFv();
+                floor_stone = (TObject *)TObjBoss5FloorStone::create();
             }
             if (pillar_controller == NULL) {
-                pillar_controller = create__19TObjBoss5PillarCtrlFv(this);
+                pillar_controller = (TObject *)((TObjBoss5PillarCtrl *)this)->create();
             }
         }
         if (pillar_demo == NULL) {

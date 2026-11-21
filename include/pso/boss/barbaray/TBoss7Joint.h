@@ -40,7 +40,7 @@ struct TBoss7Joint : public TObjEneDD {
     int is_part_active();
 };
 
-typedef char TBoss7Joint_size[sizeof(TBoss7Joint) == 0x3C8 ? 1 : -1];
+LAYOUT_ASSERT(TBoss7Joint_size, sizeof(TBoss7Joint) == 0x3C8);
 
 extern "C" {
 void TBoss7Joint__sub_802EE7B8(void *p);

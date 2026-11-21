@@ -6,7 +6,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 s32 TObjEnemy::send_entity_set_flags() {
-    if ((u32) this->set_entry != 0U) {
+    if ((uaddr) this->set_entry != 0U) {
         send_6x76_set_entity_set_flags(this, 8);
         return 1;
     }
@@ -57,7 +57,7 @@ s32 append_wave_member(s32, void *);
 extern s32 TLobby__data_805D60FC;
 extern s32 TLobby__data_805D6144;
 
-s32 TLobby::spawn_matching_objects(s16 arg0, s16 arg1, s32 arg2) {
+s32 TLobby::spawn_matching_objects(s16 arg0, s16 arg1, saddr arg2) {
     s16 temp_r0;
     s16 temp_r3;
     s32 object_type;

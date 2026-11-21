@@ -137,5 +137,5 @@ public:
     void (*on_finish)();
 };
 
-typedef char TQuestListVM_size[sizeof(TQuestListVM) == 0x23C4 ? 1 : -1];
+LAYOUT_ASSERT(TQuestListVM_size, sizeof(TQuestListVM) == 0x23C4);
 #endif

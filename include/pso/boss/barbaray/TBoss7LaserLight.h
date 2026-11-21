@@ -29,6 +29,6 @@ public:
     void turn_off();
     void turn_on();
 };
-typedef char TBoss7LaserLight_size[sizeof(TBoss7LaserLight) == 0x44 ? 1 : -1];
+LAYOUT_ASSERT(TBoss7LaserLight_size, sizeof(TBoss7LaserLight) == 0x44);
 
 #endif

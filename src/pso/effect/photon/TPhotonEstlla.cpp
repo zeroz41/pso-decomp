@@ -25,6 +25,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/system/task/TObject.h"
 #include "pso/effect/photon/TPhotonLine.h"
 
 u16 TObjPlayer::get_entity_type() { return *(u16*)((char*)this + 0x0); }
@@ -71,10 +72,9 @@ struct Self_801AA818 {
 extern "C" {
 void *find_entity_by_id(u16 id);
 }
-u8 *construct_photon_magic_square_normal(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+u8 *construct_photon_magic_square_normal(u8 *arg0, saddr arg1, s32 arg2, saddr arg3, s32 arg4);
 extern "C" {
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-u32 __nw__7TObjectFUl(int);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 
 s32 rotate_vector_by_matrix(int, void *, void *);
 s32 rotate_matrix_y(int, int);
@@ -89,7 +89,7 @@ extern u8 identity_matrix[];
 extern "C" {
 
 s32 scroll_strip_uvs(void *, s16, int);
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
+void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
 }
 extern NJS_ARGB saved_model_draw_color;
@@ -160,7 +160,7 @@ void TPhotonEstlla::run_task() {
     u8 *arg0 = (u8 *)this;
     Vec stack;
     f32 temp_f1;
-    u32 photon_magic_square;
+    uaddr photon_magic_square;
     u8 *entity;
     *(s32 *)&this->m_1a0 = (s32) (*(s32 *)&this->m_1a0 + 1);
     if (((s32) *(s32 *)&this->m_1a0 == 0x32) && ((s32) *(s32 *)&this->m_19c == 0)) {
@@ -171,9 +171,9 @@ void TPhotonEstlla::run_task() {
             stack.y = 3e+01f + *(f32 *)((s8 *)entity + 0x3C);
             stack.z = *(f32 *)((s8 *)entity + 0x40);
         }
-        photon_magic_square = __nw__7TObjectFUl(0xD0);
+        photon_magic_square = (uaddr)TObject::operator new(0xD0);
         if (photon_magic_square != 0U) {
-            construct_photon_magic_square_normal((u8 *)photon_magic_square, (s32)arg0, 1, (s32)&stack.x, 0x78);
+            construct_photon_magic_square_normal((u8 *)photon_magic_square, (saddr)arg0, 1, (saddr)&stack.x, 0x78);
         }
     }
     if (((s32) *(s32 *)&this->m_1a0 == 0x64) && ((s16) this->requested_action == 1)) {
@@ -198,7 +198,7 @@ void TPhotonEstlla::run_task() {
         }
     }
     if ((s32) *(s32 *)&this->m_19c != 0) {
-        play_persistent_sound(0x4002462F, (s32)arg0, 0, 0, 0);
+        play_persistent_sound(0x4002462F, (saddr)arg0, 0, 0, 0);
     }
 }
 
@@ -232,7 +232,7 @@ TPhotonEstlla::TPhotonEstlla(u8 *arg1) : TUnk_804C3248() {
     }
     *(s32 *)((s8 *)this + 0x34) = *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x98);
     this->texlist = *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x9C);
-    this->set_field_d8((s32) photon_estlla_param_table);
+    this->set_field_d8((saddr) photon_estlla_param_table);
     this->set_field_dc(*(s32 *)((s8 *)photon_blast_shared_resource + 0x430));
     this->requested_action = 1;
     this->set_animation(this->requested_action);
@@ -247,13 +247,13 @@ TPhotonEstlla::TPhotonEstlla(u8 *arg1) : TUnk_804C3248() {
     switch (get_current_floor_area()) {
     case AREA_DRAGON: case AREA_DE_ROL_LE: case AREA_VOL_OPT: case AREA_DARK_FALZ:
     case AREA_GAL_GRYPHON: case AREA_OLGA_FLOW: case AREA_BARBA_RAY: case AREA_GOL_DRAGON:
-        p = (void *)__nw__7TObjectFUl(0xAC);
+        p = (void *)TObject::operator new(0xAC);
         if (p != NULL) {
             ((u8 *(*)(void *, void *, void *, int)) TPhotonRainbow__ct)(p, this, ((u8 *)this) + 0x38, 1);
         }
         break;
     default:
-        p = (void *)__nw__7TObjectFUl(0xAC);
+        p = (void *)TObject::operator new(0xAC);
         if (p != NULL) {
             ((u8 *(*)(void *, void *, void *, int)) TPhotonRainbow__ct)(p, this, ((u8 *)this) + 0x38, 0);
         }
@@ -276,15 +276,15 @@ TPhotonEstlla::TPhotonEstlla(u8 *arg1) : TUnk_804C3248() {
             pos.y = 3e+01f + *(f32 *)((s8 *)e + 0x3C);
             pos.z = *(f32 *)((s8 *)e + 0x40);
         }
-        p = (void *)__nw__7TObjectFUl(0xD0);
+        p = (void *)TObject::operator new(0xD0);
         if (p != NULL) {
-            construct_photon_magic_square_normal((u8 *)p, (s32)this, 1, (s32)&pos, 0x78);
+            construct_photon_magic_square_normal((u8 *)p, (saddr)this, 1, (saddr)&pos, 0x78);
         }
         spawn_photon_blast_attachment_effects(1);
-        play_cue_stream_file((s32)"estla2.adx");
+        play_cue_stream_file((saddr)"estla2.adx");
     } else {
         spawn_photon_blast_opening_effects(1, this->m_17c);
-        play_cue_stream_file((s32)"estla.adx");
+        play_cue_stream_file((saddr)"estla.adx");
     }
 }
 
@@ -296,9 +296,9 @@ void TObjPlayer::destroy_global_buffer() {
 }
 
 void create_estlla_photon_blast_model(void) {
-    s32 temp_r3;
-    s32 var_r0;
-    temp_r3 = (int)::operator new(0x14);
+    saddr temp_r3;
+    saddr var_r0;
+    temp_r3 = (saddr)::operator new(0x14);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (((TLobby *)temp_r3)->alloc_tables(*(s32 *)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x98)) + 0x2C), 0));

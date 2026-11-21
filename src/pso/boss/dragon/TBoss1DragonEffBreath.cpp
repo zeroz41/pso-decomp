@@ -7,7 +7,6 @@ extern "C" {
 extern const char TBoss1DragonEffBreath__class_name_string[] = "TBoss1DragonEffBreath";
 const char *TBoss1DragonEffBreath__name = TBoss1DragonEffBreath__class_name_string;
 void vec3_add_to(Vec *position, const Vec *velocity);
-void queue_destruction__7TObjectFv(void *object);
 }
 
 void TBoss1DragonEffBreath::render() {}
@@ -16,12 +15,12 @@ void TBoss1DragonEffBreath::run_task() {
     vec3_add_to(&position, &velocity);
     f32 height = position.y;
     if (height < -10.0f) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     }
     if (height < 30.0f) {
         ((TBoss1Dragon *)TBoss1Dragon::get_instance())->deliver_breath_attack(
-            (s32)&position, (s32)attack_history);
+            (saddr)&position, (saddr)attack_history);
     }
 }
 

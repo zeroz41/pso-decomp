@@ -129,5 +129,5 @@ struct TBoss3VoloptP01 : public TObjEnemyCustom {
 };
 
 
-typedef char TBoss3VoloptP01_size[sizeof(TBoss3VoloptP01) == 0x418 ? 1 : -1];
+LAYOUT_ASSERT(TBoss3VoloptP01_size, sizeof(TBoss3VoloptP01) == 0x418);
 #endif

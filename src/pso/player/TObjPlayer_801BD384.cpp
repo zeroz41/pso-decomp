@@ -55,7 +55,6 @@ void TObjPlayer__sub_801BBC64(void *);
 void TObjPlayer__sub_801BBB94(void *);
 void TObjPlayer__sub_801BB8AC(void *);
 void *TObjPlayer__sub_801BEDC0(void *arg0, s16 arg1);
-void __dl__7TObjectFPv(void *);
 extern s32 __vt__10TObjPlayer[];
 
 void *__dt__10TObjPlayerFv(void *arg0, s16 arg1) {
@@ -75,20 +74,20 @@ void *__dt__10TObjPlayerFv(void *arg0, s16 arg1) {
         TObjPlayer__sub_801BBB94(arg0);
         TObjPlayer__sub_801BB8AC(arg0);
         ((TObjPlayer *)arg0)->unregister();
-        TObjPlayer::free_owned_buffer_b((s32)((s8 *)arg0 + 0x7CC), (s16)(-1));
-        destroy__10TObjPlayerFis((s32)((s8 *)arg0 + 0x754), -1);
+        TObjPlayer::free_owned_buffer_b((saddr)((s8 *)arg0 + 0x7CC), (s16)(-1));
+        destroy__10TObjPlayerFis((saddr)((s8 *)arg0 + 0x754), -1);
         TObjPlayer__sub_801BFAD4((s8 *)arg0 + 0x644, -1);
-        TObjPlayer::dt((s32)((s8 *)arg0 + 0x550), (s16)(-1));
-        __dt__14TPlyDispConfigFv((s32)((s8 *)arg0 + 0x500), -1);
-        TObjPlayer::free_owned_buffer_a((s32)((s8 *)arg0 + 0x4AC), (s16)(-1));
-        TObjPlayer__sub_80309E4C((s32)((s8 *)arg0 + 0x384), -1);
+        TObjPlayer::dt((saddr)((s8 *)arg0 + 0x550), (s16)(-1));
+        __dt__14TPlyDispConfigFv((saddr)((s8 *)arg0 + 0x500), -1);
+        TObjPlayer::free_owned_buffer_a((saddr)((s8 *)arg0 + 0x4AC), (s16)(-1));
+        TObjPlayer__sub_80309E4C((saddr)((s8 *)arg0 + 0x384), -1);
         TObjPlayer__sub_801BEDC0((s8 *)arg0 + 0x374, -1);
-        TObjPlayer__sub_801BFA4C((s32)((s8 *)arg0 + 0x360), -1);
-        TObjPlayer::conditional_delete_ex((s32)((s8 *)arg0 + 0x34C), (s16)(-1));
+        TObjPlayer__sub_801BFA4C((saddr)((s8 *)arg0 + 0x360), -1);
+        TObjPlayer::conditional_delete_ex((saddr)((s8 *)arg0 + 0x34C), (s16)(-1));
         TObjPlayer__sub_801BF9F0((u8 *)((s8 *)arg0 + 0x340), -1);
         __dt__9TObjCharaFv(arg0, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            TObject::operator delete(arg0);
         }
     }
     return arg0;
@@ -136,14 +135,14 @@ TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) 
     TObjPlayer__sub_801BF660(((char *)this + 1840));
     ((TObjPlayer *)((char *)this + 1860))->init_vec_record();
     ((TObjPlayer *)((char *)this + 1876))->init_sub_objects();
-    TObjPlayer::init_partial((s32)((void *)((char *)this + 1988)));
+    TObjPlayer::init_partial((saddr)(((char *)this + 1988)));
     ((TObjPlayer *)((char *)this + 1992))->clear_base();
     ((TObjPlayer *)((char *)this + 1996))->init();
     TObjPlayer__sub_801C1A00(((char *)this + 2088));
     init_player_telepipe_record((void *)((char *)this + 2096));
     TObjPlayer__sub_801BFB4C((u8 *)((char *)this + 2124));
     __ct__8FlagWordFv(((char *)this + 2136));
-    TObjPlayer::reset_and_return((s32)((void *)((char *)this + 3332)));
+    TObjPlayer::reset_and_return((saddr)(((char *)this + 3332)));
     ((TObjPlayer *)((char *)this + 3500))->clear_header_struct();
     this->m_name = lbl_805D3530;
     this->init_action_provider();
@@ -181,21 +180,21 @@ TObjPlayer::TObjPlayer(TObject *arg1, void *arg2) : TObjChara(arg1) {
     TObjPlayer__sub_801BF660(((char *)this + 1840));
     ((TObjPlayer *)((char *)this + 1860))->init_vec_record();
     ((TObjPlayer *)((char *)this + 1876))->init_sub_objects();
-    TObjPlayer::init_partial((s32)((void *)((char *)this + 1988)));
+    TObjPlayer::init_partial((saddr)(((char *)this + 1988)));
     ((TObjPlayer *)((char *)this + 1992))->clear_base();
     ((TObjPlayer *)((char *)this + 1996))->init();
     TObjPlayer__sub_801C1A00(((char *)this + 2088));
     init_player_telepipe_record((void *)((char *)this + 2096));
     TObjPlayer__sub_801BFB4C((u8 *)((char *)this + 2124));
     __ct__8FlagWordFv(((char *)this + 2136));
-    TObjPlayer::reset_and_return((s32)((void *)((char *)this + 3332)));
+    TObjPlayer::reset_and_return((saddr)(((char *)this + 3332)));
     ((TObjPlayer *)((char *)this + 3500))->clear_header_struct();
     this->m_name = lbl_805D3530;
     this->init_from_data(arg2);
     this->setup_control_role(4);
     ((Fn_vpvp_801BD570)TObjPlayer__sub_801BD384)(this, (void *)((char *)arg2 + 200));
     this->load_char_data((u8 *)arg2);
-    this->update_position((s32)arg2);
+    this->update_position((saddr)arg2);
     sub_801BBC2C__10TObjPlayerFv(this, arg2);
     sub_801BD240__10TObjPlayerFv(this, arg2);
     is_flag_set_550__10TObjPlayerFv(this, arg2);
@@ -204,7 +203,7 @@ TObjPlayer::TObjPlayer(TObject *arg1, void *arg2) : TObjChara(arg1) {
     TObjPlayer__sub_801BCAB0(this, arg2);
     init_battle__10TObjPlayerFv(this, arg2);
     TObjPlayer__sub_801BBB70(this, arg2);
-    this->init_class_flags((s32)arg2);
+    this->init_class_flags((saddr)arg2);
     TObjPlayer__sub_801BB85C(this, (u8 *)arg2);
     this->hp = *(s16 *)((s8 *)arg2 + 0x22);
 }

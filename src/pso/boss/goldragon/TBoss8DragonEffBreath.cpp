@@ -20,7 +20,7 @@ void TBoss8DragonEffBreath::render() {  }
 
 void TBoss8DragonEffBreath::run_task() {
     f32 temp_f1;
-    u32 ent;
+    uaddr ent;
 
     vec3_add_to(&m_1c, &m_28);
     temp_f1 = m_1c.y;
@@ -28,7 +28,7 @@ void TBoss8DragonEffBreath::run_task() {
         queue_destruction();
         return;
     }
-    if ((temp_f1 < 30.0f) && ((ent = (u32)get_enemy_entity(m_38)) != 0U)) {
+    if ((temp_f1 < 30.0f) && ((ent = (uaddr)get_enemy_entity(m_38)) != 0U)) {
         ((TBoss8Dragon *)ent)->setup_breath_instance(&m_1c, m_34, m_3c);
     }
 }

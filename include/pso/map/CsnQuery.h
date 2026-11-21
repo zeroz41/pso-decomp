@@ -50,9 +50,9 @@ void TObjPlayer__sub_80079110(CsnHit *hit);
 void TObjPlayer__sub_80079114(CsnGroup *const *groups);
 s32 TObjPlayer__sub_80079118(const char *name);
 void TObjPlayer__sub_8007911C(void);
-void TObjPlayer__sub_80079120(s32 _w0);
+void TObjPlayer__sub_80079120(saddr _w0);
 void TObjPlayer__sub_80079124(void *_w0, void *_w1);
-s32 *csnVecterUnder(s32 origin, s32 mask);
+s32 *csnVecterUnder(saddr origin, s32 mask);
 s32 get_csn_group_flags(u8 arg0);
 }
 s32 prepare_wall_query_polygons(void *arg0, f32 r, s32 mask);

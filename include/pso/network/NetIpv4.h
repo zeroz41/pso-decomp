@@ -19,7 +19,7 @@ struct Ipv4Alias {
     u32 mask;
     Ipv4Alias *next;
 };
-typedef char Ipv4Alias_size_check[sizeof(Ipv4Alias) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(Ipv4Alias_size_check, sizeof(Ipv4Alias) == 0x18);
 /* An interface IPv4 runs on (AT_IP4_IfUp brings it up, bring_down_ipv4_interface down). */
 typedef struct Ipv4Iface {
     s16 state;                  /* 1 = up */
@@ -32,7 +32,7 @@ typedef struct Ipv4Iface {
     u32 mask;
     Ipv4Alias *aliases;
 } Ipv4Iface;
-typedef char Ipv4Iface_size_check[sizeof(Ipv4Iface) == 0x1C ? 1 : -1];
+LAYOUT_ASSERT(Ipv4Iface_size_check, sizeof(Ipv4Iface) == 0x1C);
 /* A routing table entry. */
 typedef struct Ipv4Route {
     u16 flags;
@@ -43,7 +43,7 @@ typedef struct Ipv4Route {
     s16 f10;
     s16 type;
 } Ipv4Route;
-typedef char Ipv4Route_size_check[sizeof(Ipv4Route) == 0x14 ? 1 : -1];
+LAYOUT_ASSERT(Ipv4Route_size_check, sizeof(Ipv4Route) == 0x14);
 typedef struct Ipv4RoutingState {
     s16 nroutes;
     s16 nifaces;
@@ -54,7 +54,7 @@ typedef struct Ipv4RoutingState {
     Ipv4Alias *alias_pool;
     u8 pad14[4];
 } Ipv4RoutingState;
-typedef char Ipv4RoutingState_size_check[sizeof(Ipv4RoutingState) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(Ipv4RoutingState_size_check, sizeof(Ipv4RoutingState) == 0x18);
 extern Ipv4RoutingState ipv4_address_routing_state;
 
 #ifdef __cplusplus

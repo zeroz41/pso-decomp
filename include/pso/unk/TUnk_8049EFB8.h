@@ -11,6 +11,6 @@ public:
     u16 m_20;
     u8 unk_22[0x2];
 };
-typedef char TUnk_8049EFB8_size[sizeof(TUnk_8049EFB8) == 0x24 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_8049EFB8_size, sizeof(TUnk_8049EFB8) == 0x24);
 
 #endif

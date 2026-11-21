@@ -24,6 +24,6 @@ public:
     Vec m_50;
     Vec m_5C;
 };
-typedef char TObjEneMe1Canadin_EffDischarge_size[sizeof(TObjEneMe1Canadin_EffDischarge) == 0x68 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneMe1Canadin_EffDischarge_size, sizeof(TObjEneMe1Canadin_EffDischarge) == 0x68);
 
 #endif

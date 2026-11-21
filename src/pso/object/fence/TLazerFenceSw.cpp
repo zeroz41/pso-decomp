@@ -65,22 +65,21 @@ struct Node_80193CA4 {
 
 extern "C" {
 
-void debug_draw_key_id__5TOKeyFv();
 void debug_printf_at(int, void *, ...);
 extern u8 lbl_80445CD8[];
 
 void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 }
-u8 *load_gvm_texture_file(s32 arg0);
+u8 *load_gvm_texture_file(saddr arg0);
 
 extern s32 game_difficulty_selection;
 extern "C" {
 s32 free_bin_model_request(void *, s32);
 void *__ct__18CameraDistanceFadeFv(void *self);
 
-__declspec(section ".data") u32 lazer_fence_sw_ginja_model_table[2];
-__declspec(section ".data") u32 lazer_fence_beam_motions[2];
-__declspec(section ".data") u32 lazer_fence_beam_node_table[3];
+__declspec(section ".data") uaddr lazer_fence_sw_ginja_model_table[2];
+__declspec(section ".data") uaddr lazer_fence_beam_motions[2];
+__declspec(section ".data") uaddr lazer_fence_beam_node_table[3];
 
 __declspec(section ".data") const char *fe_obj_switch_laz_model_names[4] = { "fe_obj_switch_laz.gj", "fs_obj_switch_laz_moto.gj", "fs_obj_switch_laz_moto_taiki.gj", NULL };
 __declspec(section ".data") const char *fe_obj_switch_laz_motion_names[3] = { "fe_obj_switch_laz.njm", "fs_obj_switch_laz_moto.njm", NULL };
@@ -103,7 +102,7 @@ u8 *lazer_fence_switch_scroll_node;
 struct Sw_801936E0 {
     u8 pad0[0x38];
     u8 pos[0x60 - 0x38];
-    s32 f60;
+    saddr f60;
     u8 pad64[0xB0 - 0x64];
     f32 fB0;
     u8 padB4[0xD4 - 0xB4];
@@ -130,7 +129,7 @@ void TLazerFenceSw::draw_laser_beam() {
     for (i = 0; i < 3; i++) {
         set_ginja_model_texture_slot(reinterpret_cast<void *>((lazer_fence_beam_node_table[i])), self->fE8);
     }
-    TObjFish::set_global_param((s32)TLazerFenceSw__texture_list);
+    TObjFish::set_global_param((saddr)TLazerFenceSw__texture_list);
     if (actor_frame_tick != self->f114 && self->f110 >= 1.0f) {
         self->f114 = actor_frame_tick;
         scroll_ginja_mesh_uvs(reinterpret_cast<NJS_OBJECT *>(lazer_fence_switch_scroll_node)->model, 0, (s32)self->f110, 5, 1);
@@ -188,7 +187,7 @@ void TLazerFenceSw::render() {
 
 __declspec(section ".rodata") u8 lbl_80445CD8[16] = "<- SELECT COLOR";
 void TLazerFenceSw::debug_draw_key_id() {
-    debug_draw_key_id__5TOKeyFv();
+    TOKey::debug_draw_key_id();
     if (((Sw_80193978 *)this)->f8C < 0) {
         ((Sw_80193978 *)this)->f8C = 0;
     }
@@ -253,7 +252,7 @@ void free_lazer_fence_switch_resources(void) {
         free_bin_model_request(lazer_fence_switch_bml_resource, 1);
         lazer_fence_switch_bml_resource = NULL;
     }
-    TObjPlayer::free_if_valid((s32)TLazerFenceSw__texture_list);
+    TObjPlayer::free_if_valid((saddr)TLazerFenceSw__texture_list);
     TLazerFenceSw__texture_list = NULL;
 }
 }
@@ -274,7 +273,7 @@ void TLazerFenceSw::load_resources() {
             obj = (BmlResource *)load_resource_from_descriptor(obj, 5, &fe_obj_switch_laz_j_resource_descriptor, 0, 0, 0);
         }
         lazer_fence_switch_bml_resource = obj;
-        TLazerFenceSw__texture_list = (GinjaTextureList *)load_gvm_texture_file((s32)fe_obj_switch_laz_j_gvm);
+        TLazerFenceSw__texture_list = (GinjaTextureList *)load_gvm_texture_file((saddr)fe_obj_switch_laz_j_gvm);
     } else {
         obj = (BmlResource *)::operator new(0x440);
         if (obj != NULL) {
@@ -282,15 +281,15 @@ void TLazerFenceSw::load_resources() {
         }
         lazer_fence_switch_bml_resource = obj;
         if (game_difficulty_selection == 3) {
-            TLazerFenceSw__texture_list = (GinjaTextureList *)load_gvm_texture_file((s32)fe_obj_switch_laz_a_gvm);
+            TLazerFenceSw__texture_list = (GinjaTextureList *)load_gvm_texture_file((saddr)fe_obj_switch_laz_a_gvm);
         } else {
-            TLazerFenceSw__texture_list = (GinjaTextureList *)load_gvm_texture_file((s32)fe_obj_switch_laz_gvm);
+            TLazerFenceSw__texture_list = (GinjaTextureList *)load_gvm_texture_file((saddr)fe_obj_switch_laz_gvm);
         }
     }
     lazer_fence_sw_ginja_model_table[0] = (s32)get_bml_model(lazer_fence_switch_bml_resource, 0);
     lazer_fence_sw_ginja_model_table[1] = (s32)get_bml_model(lazer_fence_switch_bml_resource, 1);
-    lazer_fence_beam_motions[0] = (u32)get_bml_motion(lazer_fence_switch_bml_resource, 0);
-    lazer_fence_beam_motions[1] = (u32)get_bml_motion(lazer_fence_switch_bml_resource, 1);
+    lazer_fence_beam_motions[0] = (uaddr)get_bml_motion(lazer_fence_switch_bml_resource, 0);
+    lazer_fence_beam_motions[1] = (uaddr)get_bml_motion(lazer_fence_switch_bml_resource, 1);
     for (j = 0; j < 3; j++) {
         lazer_fence_beam_node_table[j] = 0;
     }
@@ -324,7 +323,7 @@ TLazerFenceSw::~TLazerFenceSw() {
 #pragma opt_common_subs off
 TLazerFenceSw::TLazerFenceSw(TObject *arg1, void *arg2) : TOKey(arg1) {
     __ct__18CameraDistanceFadeFv((u8 *)this + 0xF0);
-    *(s32 *)((s8 *)this + 0) = (s32)TLazerFenceSw__class_name;
+    *(saddr *)((s8 *)this + 0) = (saddr)TLazerFenceSw__class_name;
     init_key(arg2);
     if (*(s32 *)((s8 *)this + 0x8C) < 0) {
         *(s32 *)((s8 *)this + 0x8C) = 0;

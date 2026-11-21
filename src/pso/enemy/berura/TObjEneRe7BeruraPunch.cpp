@@ -16,25 +16,25 @@
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/enemy/AttackTargetHistory.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjMotion.h"
 
 #pragma readonly_strings on
 
 extern "C" {
 
 s32 is_player_entity_id();
-s32 apply_hit_if_active__13TUnk_804928CCFPvPf();
 u16 get_entity_id(void *);
 
 int TObjEneRe7BeruraPunch::is_patrol_active() { return (*(u32 *)&this->owner_id >> 2) & 0x1; }
 
-void TObjEneRe7BeruraPunch::apply_hit_if_active(void *target, f32 *) {
-    s32 entity;
+void TObjEneRe7BeruraPunch::apply_hit_if_active(void *target, f32 *hit) {
+    saddr entity;
 
-    apply_hit_if_active__13TUnk_804928CCFPvPf();
+    TUnk_804928CC::apply_hit_if_active(target, hit);
     if (TObjEneDD::check_v2_mode() != 0) {
         get_entity_id((void *)target);
         if (is_player_entity_id() != 0) {
-            entity = (s32)find_entity_by_id(this->owner_id);
+            entity = (saddr)find_entity_by_id(this->owner_id);
             if ((entity != 0) && (((TObjChara *)entity)->random_ratio() < 0.1f)) {
                 TObjEneDD__sub_800BA438(entity, (u8 *)target);
             }
@@ -51,7 +51,6 @@ extern "C" {
 s32 TObjEneRe7Berura__sub_80094D98();
 
 void TObjEneRe7Berura__sub_80094C68(TObjEneRe7Berura *self);
-s32 refresh_collision_body_centers__14TObjCollidableFv(void *, void *, f32, f32);
 s32 post_translate_matrix(void *);
 s32 scale_matrix(s32, f32, f32, f32);
 s32 push_matrix();
@@ -150,7 +149,7 @@ s32 TObjEneRe7BeruraPunch::sub_80096150() {
     this->bodies[1].offset.y = this->m_cc;
     bodies = this->bodies;
     bodies[1].offset.z = 1.8f * (3.0f * this->m_f4);
-    refresh_collision_body_centers__14TObjCollidableFv(this, bodies, 3.0f, 1.8f);
+    TObjCollidable::refresh_collision_body_centers();
     this->update_enemy_collision_flags();
     bodies = this->bodies;
     if ((bodies[0].flags | bodies[1].flags) & 0x200000) {
@@ -170,7 +169,7 @@ s32 TObjEneRe7BeruraPunch::sub_80096150() {
     return 0;
 }
 
-void TObjEneRe7BeruraPunch::launch(s32 arg1, s32 arg2) {
+void TObjEneRe7BeruraPunch::launch(s32 arg1, saddr arg2) {
     TObjCollidable *owner;
 
     this->m_b8 = arg1;
@@ -199,7 +198,7 @@ extern const char *TObjEneRe7BeruraPunch__name;
 void vec3_add_to(void *, void *);
 
 void TObjEneRe7BeruraPunch__sub_800962F4(TObjEneRe7BeruraPunch *p);
-void fill_value_array(s32 address);
+void fill_value_array(saddr address);
 
 void TObjEneRe7BeruraPunch__sub_800962F4(TObjEneRe7BeruraPunch *p) { p->m_b4 = 0; }
 
@@ -210,7 +209,7 @@ void TObjEneRe7BeruraPunch::snap_to_ground() {
 
     VecCopy(&origin, &this->m_dc);
     origin.y = 20.0f;
-    hit = (CsnHit *)csnVecterUnder((s32)&origin, 0x16EF);
+    hit = (CsnHit *)csnVecterUnder((saddr)&origin, 0x16EF);
     if (hit != 0) {
         VecCopy(&this->position, &hit->contact->point);
         VecCopy(&this->ground_normal, &hit->contact->normal);
@@ -229,7 +228,7 @@ void TObjEneRe7BeruraPunch::snap_to_ground() {
 }
 
 void TObjEneRe7BeruraPunch::reset() {
-    fill_value_array((s32)this->attack_history);
+    fill_value_array((saddr)this->attack_history);
     this->m_f4 = 1.0f;
     this->m_f8.reset_color();
     this->m_118 = 0;

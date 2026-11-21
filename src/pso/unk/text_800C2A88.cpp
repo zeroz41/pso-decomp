@@ -191,7 +191,7 @@ void fn_800C2AC4(u8 *arg0, int arg1) {
       TBoss8Dragon__sub_800BB7D4((void *) arg0, 0xF2);
       ((RecoveredFields_800C2AC4_arg0 *) arg0)->field_410 = 0;
       ((RecoveredFields_800C2AC4_arg0 *) arg0)->field_424 = (f32) lbl_805D9FAC;
-      play_sound_effect((void *) fn_800C3A60((s32)arg0, 0x4003A812), arg0 + 0x38, 0, 0);
+      play_sound_effect((void *) fn_800C3A60((saddr)arg0, 0x4003A812), arg0 + 0x38, 0, 0);
       TObjPlayer::play_effect_if_v2(-0x200);
       return;
     case 3:
@@ -216,13 +216,13 @@ void fn_800C2AC4(u8 *arg0, int arg1) {
         vec3_add_to(&stack.x, (void *) (arg0 - -0x38));
         if (((TObjEneRe2Flower *)arg0)->get_flag_11() != 0)
         {
-          TObjPlayer::apply_effect_variant_a((s32)&stack.x, 0x32);
+          TObjPlayer::apply_effect_variant_a((saddr)&stack.x, 0x32);
           fn_800D911C((Vec *)(&stack.x));
           ((TObjEneMe3SinowZoa *)(arg0 + 0x3F4))->init_death_params();
         }
         else
         {
-          TObjPlayer__sub_800D9290((s32)&stack.x, 0x32);
+          TObjPlayer__sub_800D9290((saddr)&stack.x, 0x32);
           ((TObjPlayer *)(&stack.x))->spawn_ground_effect(0x46);
         }
       }

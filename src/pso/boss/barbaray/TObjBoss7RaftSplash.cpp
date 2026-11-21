@@ -32,7 +32,7 @@ void TObjBoss7RaftSplash::run_task() {
             elapsed = timer - period;
             VecCopy(&splash_position, &position);
             splash_position.y += *step - boss7_tunnel_max_scroll_speed;
-            TObjFish::create_splash_particle((s32)&splash_position, 0x200, (s32)&splash_offset);
+            TObjFish::create_splash_particle((saddr)&splash_position, 0x200, (saddr)&splash_offset);
         }
     }
 }
@@ -59,7 +59,7 @@ s32 fn_802F1960(void *, f32);
 
 }
 
-void TObjFish::create_splash_particle(s32 arg0, s32 arg1, s32 arg2) {
+void TObjFish::create_splash_particle(saddr arg0, s32 arg1, saddr arg2) {
     void *var_r31;
 
     var_r31 = TObject::operator new(0x78);
@@ -72,7 +72,7 @@ void TObjFish::create_splash_particle(s32 arg0, s32 arg1, s32 arg2) {
     }
 }
 
-void TObjFish::spawn_particle(s32 arg0, s32 arg1, f32 farg0) {
+void TObjFish::spawn_particle(saddr arg0, s32 arg1, f32 farg0) {
     void *var_r31;
 
     var_r31 = TObject::operator new(0x78);

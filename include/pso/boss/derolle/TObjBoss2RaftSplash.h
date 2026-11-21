@@ -11,7 +11,7 @@ public:
     virtual ~TObjBoss2RaftSplash();
     virtual void run_task();
 
-    static void spawn_splash(s32 arg0, s32 arg1, s32 arg2);
+    static void spawn_splash(saddr arg0, s32 arg1, saddr arg2);
     f32 elapsed;
     f32 interval;
     const f32 *step;
@@ -19,6 +19,6 @@ public:
     Vec splash_offset;
 };
 
-typedef char TObjBoss2RaftSplash_size[sizeof(TObjBoss2RaftSplash) == 0x40 ? 1 : -1];
+LAYOUT_ASSERT(TObjBoss2RaftSplash_size, sizeof(TObjBoss2RaftSplash) == 0x40);
 
 #endif

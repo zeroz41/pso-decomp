@@ -12,11 +12,11 @@ struct BmlResourceDescriptor {
     s16 motion_count;
 };
 
-typedef char BmlResourceDescriptor_size[sizeof(BmlResourceDescriptor) == 0x10 ? 1 : -1];
-typedef char BmlResourceDescriptor_archive_offset[offsetof(BmlResourceDescriptor, archive_filename) == 0 ? 1 : -1];
-typedef char BmlResourceDescriptor_models_offset[offsetof(BmlResourceDescriptor, model_filenames) == 4 ? 1 : -1];
-typedef char BmlResourceDescriptor_motions_offset[offsetof(BmlResourceDescriptor, motion_filenames) == 8 ? 1 : -1];
-typedef char BmlResourceDescriptor_model_count_offset[offsetof(BmlResourceDescriptor, model_count) == 0xC ? 1 : -1];
-typedef char BmlResourceDescriptor_motion_count_offset[offsetof(BmlResourceDescriptor, motion_count) == 0xE ? 1 : -1];
+LAYOUT_ASSERT(BmlResourceDescriptor_size, sizeof(BmlResourceDescriptor) == 0x10);
+LAYOUT_ASSERT(BmlResourceDescriptor_archive_offset, offsetof(BmlResourceDescriptor, archive_filename) == 0);
+LAYOUT_ASSERT(BmlResourceDescriptor_models_offset, offsetof(BmlResourceDescriptor, model_filenames) == 4);
+LAYOUT_ASSERT(BmlResourceDescriptor_motions_offset, offsetof(BmlResourceDescriptor, motion_filenames) == 8);
+LAYOUT_ASSERT(BmlResourceDescriptor_model_count_offset, offsetof(BmlResourceDescriptor, model_count) == 0xC);
+LAYOUT_ASSERT(BmlResourceDescriptor_motion_count_offset, offsetof(BmlResourceDescriptor, motion_count) == 0xE);
 
 #endif

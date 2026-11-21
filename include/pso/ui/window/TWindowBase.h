@@ -19,13 +19,13 @@ public:
     void update_fade();
     void draw_quest_message_frame(void *);
     void sub_80244F2C(u8 *, u8 *, s16);
-    s32 setup_window_draw_context(f32 *);
+    saddr setup_window_draw_context(f32 *);
     s32 is_window_reveal_complete();
     s32 sub_80244994();
     void save_position();
     f32 get_scale();
     s32 sub_80246948();
-    s32 get_array_entry(int);
+    saddr get_array_entry(int);
     virtual void render();
     virtual void run_task();
 };

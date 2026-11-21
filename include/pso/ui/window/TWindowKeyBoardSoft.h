@@ -68,7 +68,7 @@ struct TWindowKeyBoardSoft : public TWindowBase
     int get_flag_bit0();
 };
 
-typedef char TWindowKeyBoardSoft_size[sizeof(TWindowKeyBoardSoft) == 0x70 ? 1 : -1];
+LAYOUT_ASSERT(TWindowKeyBoardSoft_size, sizeof(TWindowKeyBoardSoft) == 0x70);
 
 // Key class of each cell of the 16 x 7 key grid, indexed by x + y * 16: 0/1 one-cell keys, 2..17 the cells
 // of the wide keys (it picks the key width and colour). Defined after profanity_word_table (name inferred).

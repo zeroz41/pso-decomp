@@ -6,7 +6,7 @@
 extern "C" {
 
 
-void bswap__21TRecvPsoRegistConnectFv(s32 arg0) {
+void bswap__21TRecvPsoRegistConnectFv(saddr arg0) {
     ((packet_header *)arg0)->bswap();
     bswap_32((u32 *)(arg0 + 0x44));
     bswap_32((u32 *)(arg0 + 0x48));

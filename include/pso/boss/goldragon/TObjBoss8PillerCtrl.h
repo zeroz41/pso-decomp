@@ -23,6 +23,6 @@ struct TObjBoss8PillerCtrl : public TObject {
     const Ent_8035C03C *step; // next entry of boss8_piller_ctrl_params
 };
 
-typedef char TObjBoss8PillerCtrl_size[sizeof(TObjBoss8PillerCtrl) == 0x38 ? 1 : -1];
+LAYOUT_ASSERT(TObjBoss8PillerCtrl_size, sizeof(TObjBoss8PillerCtrl) == 0x38);
 
 #endif

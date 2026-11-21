@@ -135,9 +135,9 @@ u32 lbl_80540BBC[3];
 __declspec(section ".data") u32 lbl_80540BC8[2];
 
 void fn_802D1CC8(void) {
-    ((TObjPlayer *)lbl_80540B98)->set_render_rect((int)(lbl_805D6880 = mem_alloc(0x800)), 0x902, 0x20, 0x20);
+    ((TObjPlayer *)lbl_80540B98)->set_render_rect((saddr)(lbl_805D6880 = mem_alloc(0x800)), 0x902, 0x20, 0x20);
     set_texture_name(lbl_80540BBC, lbl_80540B98, 0x18696, 0x40800000);
-    lbl_80540BC8[0] = (u32)lbl_80540BBC;
+    lbl_80540BC8[0] = (uaddr)lbl_80540BBC;
     lbl_80540BC8[1] = 1;
     pso_load_texture((NJS_TEXLIST *)lbl_80540BC8);
 }

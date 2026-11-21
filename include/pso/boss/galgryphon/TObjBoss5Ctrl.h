@@ -25,6 +25,6 @@ extern "C" {
 extern TObjBoss5Ctrl *boss5_ctrl_instance;
 }
 
-typedef char TObjBoss5Ctrl_size[sizeof(TObjBoss5Ctrl) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(TObjBoss5Ctrl_size, sizeof(TObjBoss5Ctrl) == 0x30);
 
 #endif

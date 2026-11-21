@@ -17,7 +17,7 @@ public:
     virtual void render(WindowDrawContext *context);
 };
 
-typedef char TUnk_804CF9C8_size[sizeof(TUnk_804CF9C8) == 0x24 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804CF9C8_size, sizeof(TUnk_804CF9C8) == 0x24);
 
 // A number part that counts towards its target (case 5 of init_window_layout_entries).
 class TUnk_804CF9E0 : public TUnk_804CF9C8 {
@@ -31,7 +31,7 @@ public:
     virtual void update();
 };
 
-typedef char TUnk_804CF9E0_size[sizeof(TUnk_804CF9E0) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804CF9E0_size, sizeof(TUnk_804CF9E0) == 0x30);
 
 extern "C" {
 // The constructors, called by init_window_layout_entries.

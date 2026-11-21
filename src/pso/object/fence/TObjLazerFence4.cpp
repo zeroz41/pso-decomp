@@ -55,7 +55,7 @@ struct Obj_801933C8 { u8 padA0[0xAC]; s32 fAC; f32 fB0; u8 padB4[6]; u16 fBA; u8
 
 struct Node_80193188 { u32 flags; void *model; u8 pad8[0x24]; Node_80193188 *child; Node_80193188 *sibling; };
 
-struct Fence_80193188 { u8 pad0[0x8C]; s32 f8C; u8 pad90[0x2C]; Node_80193188 *fBC; Node_80193188 *fC0; s32 fC4; void *fC8[12]; };
+struct Fence_80193188 { u8 pad0[0x8C]; s32 f8C; u8 pad90[0x2C]; Node_80193188 *fBC; Node_80193188 *fC0; saddr fC4; void *fC8[12]; };
 
 extern "C" {
 void rotate_matrix_y(int, void *);
@@ -65,7 +65,7 @@ void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 u8 is_current_floor_switch_set(s32 id);
 
 AnimationMotion *get_bml_motion(BmlResource *resource, s32 index);
-s32 get_bml_model(BmlResource *resource, s32 index);
+saddr get_bml_model(BmlResource *resource, s32 index);
 f32 xz_distance_squared(void *, s32);
 
 extern s32 camera_ctrl_instance;
@@ -90,11 +90,11 @@ void TObjLazerFence4::init_models() {
     if (arg0->f8C % 2 == 0) {
         arg0->fBC = (Node_80193188 *)get_bml_model(lazer_fence_norm_bml_resource, 4);
         arg0->fC0 = (Node_80193188 *)get_bml_model(lazer_fence_norm_bml_resource, 5);
-        arg0->fC4 = (s32)get_bml_motion(lazer_fence_norm_bml_resource, 2);
+        arg0->fC4 = (saddr)get_bml_motion(lazer_fence_norm_bml_resource, 2);
     } else {
         arg0->fBC = (Node_80193188 *)get_bml_model(lazer_fence_norm_bml_resource, 6);
         arg0->fC0 = (Node_80193188 *)get_bml_model(lazer_fence_norm_bml_resource, 7);
-        arg0->fC4 = (s32)get_bml_motion(lazer_fence_norm_bml_resource, 3);
+        arg0->fC4 = (saddr)get_bml_motion(lazer_fence_norm_bml_resource, 3);
     }
     for (j = 0; j < 12; j++) {
         arg0->fC8[j] = 0;
@@ -110,7 +110,7 @@ void TObjLazerFence4::init_models() {
 }
 
 void TObjLazerFence4::draw() {
-    TObjFish::set_global_param((s32)lazer_fence_norm_texture_list);
+    TObjFish::set_global_param((saddr)lazer_fence_norm_texture_list);
     push_matrix();
     post_translate_matrix((void *)((char *)this + 56));
     rotate_matrix_y(0, *(void * *)&this->rotation_y);
@@ -134,7 +134,7 @@ void TObjLazerFence4::draw_model() {
     var_r31 += 4;
   }
   while (var_r30 < 0xC);
-  TObjFish::set_global_param((s32)lazer_fence_norm_texture_list);
+  TObjFish::set_global_param((saddr)lazer_fence_norm_texture_list);
   push_matrix();
   post_translate_matrix((u8 *)&this->position);
   rotate_matrix_y(0, (void *)this->rotation_y);

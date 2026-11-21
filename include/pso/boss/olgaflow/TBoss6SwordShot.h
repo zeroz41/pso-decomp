@@ -20,6 +20,6 @@ private:
     s32 damage;
 };
 
-typedef char TBoss6SwordShotSize[sizeof(TBoss6SwordShot) == 0x38 ? 1 : -1];
+LAYOUT_ASSERT(TBoss6SwordShotSize, sizeof(TBoss6SwordShot) == 0x38);
 
 #endif

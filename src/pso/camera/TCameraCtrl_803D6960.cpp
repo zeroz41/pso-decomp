@@ -19,11 +19,11 @@ struct Stack_803D6E8C {
     f32 sp10;
 };
 
-struct St_803D6BA4 { u8 pad0[0xC]; u32 *keys; u32 *vals; f32 t; u8 pad18[4]; s32 idx; u8 pad20[4]; void (*fn24)(u32, u32, s32, f32); void (*fn28)(u32, u32, s32, f32); void (*fn2c)(u32, u32, s32, f32); };
+struct St_803D6BA4 { u8 pad0[0xC]; u32 *keys; u32 *vals; f32 t; u8 pad18[4]; s32 idx; u8 pad20[4]; void (*fn24)(uaddr, u32, saddr, f32); void (*fn28)(uaddr, u32, saddr, f32); void (*fn2c)(uaddr, u32, saddr, f32); };
 
-struct St_803D6C1C { u8 pad0[0xC]; u32 *keys; u32 *vals; f32 t; u8 pad18[4]; s32 idx; u8 pad20[4]; void (*fn24)(u32, u32, s32, f32); void (*fn28)(u32, u32, s32, f32); void (*fn2c)(u32, u32, s32, f32); };
+struct St_803D6C1C { u8 pad0[0xC]; u32 *keys; u32 *vals; f32 t; u8 pad18[4]; s32 idx; u8 pad20[4]; void (*fn24)(uaddr, u32, saddr, f32); void (*fn28)(uaddr, u32, saddr, f32); void (*fn2c)(uaddr, u32, saddr, f32); };
 
-struct St_803D6C94 { u8 pad0[0xC]; u32 *keys; u32 *vals; f32 t; u8 pad18[4]; s32 idx; u8 pad20[4]; void (*fn24)(u32, u32, s32, f32); void (*fn28)(u32, u32, s32, f32); void (*fn2c)(u32, u32, s32, f32); };
+struct St_803D6C94 { u8 pad0[0xC]; u32 *keys; u32 *vals; f32 t; u8 pad18[4]; s32 idx; u8 pad20[4]; void (*fn24)(uaddr, u32, saddr, f32); void (*fn28)(uaddr, u32, saddr, f32); void (*fn2c)(uaddr, u32, saddr, f32); };
 
 struct St_803D6D0C { u8 pad0[0xC]; u32 *keys; u32 *vals; f32 t; u8 pad18[4]; s32 idx; };
 
@@ -63,7 +63,7 @@ void interpolate_spline_cyclic_cubic(struct SplineKey_803D7288 *keys, u32 count,
 #pragma push
 #pragma use_lmw_stmw off
 
-void sample_camera_motion(u8 *arg0, s32 arg1, u8 *arg2, f32 farg0) {
+void sample_camera_motion(u8 *arg0, saddr arg1, u8 *arg2, f32 farg0) {
     s32 temp_r31;
     s32 *temp_r30;
     s32 *temp_r29;
@@ -77,7 +77,7 @@ void sample_camera_motion(u8 *arg0, s32 arg1, u8 *arg2, f32 farg0) {
     select_motion_sampler((s32 *)arg1, (f32)farg0);
     temp_r31 = *(s32 *)((s8 *)current_motion_context + 0x20);
     if ((u32) (temp_r31 & 1) != 0) {
-        if (sample_motion_vector_channel((int)temp_r27) == 0) {
+        if (sample_motion_vector_channel((saddr)temp_r27) == 0) {
             *(f32 *)((s8 *)temp_r27 + 0) = (f32) *(f32 *)((s8 *)arg0 + 0);
             *(f32 *)((s8 *)temp_r27 + 4) = (f32) *(f32 *)((s8 *)arg0 + 4);
             *(f32 *)((s8 *)temp_r27 + 8) = (f32) *(f32 *)((s8 *)arg0 + 8);
@@ -94,7 +94,7 @@ void sample_camera_motion(u8 *arg0, s32 arg1, u8 *arg2, f32 farg0) {
         *(s32 *)((s8 *)current_motion_context + 0x1C) = (s32) (*(s32 *)((s8 *)current_motion_context + 0x1C) + 1);
     }
     if ((u32) (temp_r31 & 0x40) != 0) {
-        if (sample_motion_vector_channel((int)temp_r26) != 0) {
+        if (sample_motion_vector_channel((saddr)temp_r26) != 0) {
             *(f32 *)((s8 *)temp_r26 + 0) = (f32) (*(f32 *)((s8 *)temp_r26 + 0) - *(f32 *)((s8 *)temp_r27 + 0));
             *(f32 *)((s8 *)temp_r26 + 4) = (f32) (*(f32 *)((s8 *)temp_r26 + 4) - *(f32 *)((s8 *)temp_r27 + 4));
             *(f32 *)((s8 *)temp_r26 + 8) = (f32) (*(f32 *)((s8 *)temp_r26 + 8) - *(f32 *)((s8 *)temp_r27 + 8));
@@ -104,7 +104,7 @@ void sample_camera_motion(u8 *arg0, s32 arg1, u8 *arg2, f32 farg0) {
             *(f32 *)((s8 *)temp_r26 + 8) = (f32) *(f32 *)((s8 *)arg0 + 0x14);
         }
     } else if ((u32) (temp_r31 & 8) != 0) {
-        if (sample_motion_vector_channel((int)temp_r26) == 0) {
+        if (sample_motion_vector_channel((saddr)temp_r26) == 0) {
             *(f32 *)((s8 *)temp_r26 + 0) = (f32) *(f32 *)((s8 *)arg0 + 0xC);
             *(f32 *)((s8 *)temp_r26 + 4) = (f32) *(f32 *)((s8 *)arg0 + 0x10);
             *(f32 *)((s8 *)temp_r26 + 8) = (f32) *(f32 *)((s8 *)arg0 + 0x14);
@@ -120,11 +120,11 @@ void sample_camera_motion(u8 *arg0, s32 arg1, u8 *arg2, f32 farg0) {
     if ((u32) (temp_r31 & 0x20) != 0) {
         *(s32 *)((s8 *)current_motion_context + 0x1C) = (s32) (*(s32 *)((s8 *)current_motion_context + 0x1C) + 1);
     }
-    if (((u32) (temp_r31 & 0x80) != 0) && (TObjPlayer__sub_803D6C1C((int)temp_r30) == 0)) {
+    if (((u32) (temp_r31 & 0x80) != 0) && (TObjPlayer__sub_803D6C1C((saddr)temp_r30) == 0)) {
         *(s32 *)((s8 *)temp_r30 + 0) = *(s32 *)((s8 *)arg0 + 0x18);
     }
     if ((u32) (temp_r31 & 0x100) != 0) {
-        if (TObjPlayer__sub_803D6C1C((int)temp_r29) == 0) {
+        if (TObjPlayer__sub_803D6C1C((saddr)temp_r29) == 0) {
             *(s32 *)((s8 *)temp_r29 + 0) = *(s32 *)((s8 *)arg0 + 0x1C);
         }
     } else {
@@ -133,7 +133,7 @@ void sample_camera_motion(u8 *arg0, s32 arg1, u8 *arg2, f32 farg0) {
 }
 #pragma pop
 
-s32 sample_motion_vector_channel(s32 arg0) {
+s32 sample_motion_vector_channel(saddr arg0) {
     if (G_803D6BA4->keys[G_803D6BA4->idx] != 0) {
         G_803D6BA4->fn24(G_803D6BA4->keys[G_803D6BA4->idx], G_803D6BA4->vals[G_803D6BA4->idx], arg0, G_803D6BA4->t);
         G_803D6BA4->idx = G_803D6BA4->idx + 1;
@@ -145,7 +145,7 @@ s32 sample_motion_vector_channel(s32 arg0) {
 
 #define G_803D6C1C ((St_803D6C1C *)current_motion_context)
 
-s32 TObjPlayer__sub_803D6C1C(s32 arg0) {
+s32 TObjPlayer__sub_803D6C1C(saddr arg0) {
     if (G_803D6C1C->keys[G_803D6C1C->idx] != 0) {
         G_803D6C1C->fn2c(G_803D6C1C->keys[G_803D6C1C->idx], G_803D6C1C->vals[G_803D6C1C->idx], arg0, G_803D6C1C->t);
         G_803D6C1C->idx = G_803D6C1C->idx + 1;
@@ -156,7 +156,7 @@ s32 TObjPlayer__sub_803D6C1C(s32 arg0) {
 }
 
 #define G_803D6C94 ((St_803D6C94 *)current_motion_context)
-s32 TObjPlayer::run_next_key_callback(s32 arg0) {
+s32 TObjPlayer::run_next_key_callback(saddr arg0) {
     if (G_803D6C94->keys[G_803D6C94->idx] != 0) {
         G_803D6C94->fn28(G_803D6C94->keys[G_803D6C94->idx], G_803D6C94->vals[G_803D6C94->idx], arg0, G_803D6C94->t);
         G_803D6C94->idx = G_803D6C94->idx + 1;
@@ -167,7 +167,7 @@ s32 TObjPlayer::run_next_key_callback(s32 arg0) {
 }
 
 #define G_803D6D0C ((St_803D6D0C *)current_motion_context)
-s32 TObjPlayer::sample_next_quaternion_key(s32 output) {
+s32 TObjPlayer::sample_next_quaternion_key(saddr output) {
     if (G_803D6D0C->keys[G_803D6D0C->idx] != 0) {
       interpolate_motion_quaternion_keys(
           G_803D6D0C->keys[G_803D6D0C->idx],
@@ -179,7 +179,7 @@ s32 TObjPlayer::sample_next_quaternion_key(s32 output) {
     return 0;
 }
 
-void interpolate_motion_quaternion_keys(u32 keys, u32 count, s32 output,
+void interpolate_motion_quaternion_keys(uaddr keys, u32 count, saddr output,
                                         f32 frame) {
   f32 fraction;
   MotionQuaternionKey *first;
@@ -194,9 +194,9 @@ void interpolate_motion_quaternion_keys(u32 keys, u32 count, s32 output,
 #pragma push
 #pragma scheduling off
 void interpolate_motion_vector_keys(u8 *keys, s32 count, u8 *arg2, f32 farg0) {
-    typedef char sp8_offset[(offsetof(Stack_803D6DDC, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_803D6DDC, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_803D6DDC, sp10) == 0x8) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_803D6DDC, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_803D6DDC, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_803D6DDC, sp10) == 0x8);
     Stack_803D6DDC stack;
     f32 temp_f2;
     f32 temp_f2_2;
@@ -214,9 +214,9 @@ void interpolate_motion_vector_keys(u8 *keys, s32 count, u8 *arg2, f32 farg0) {
 #pragma push
 #pragma scheduling off
 void interpolate_motion_vector_keys_xy(u8 *keys, s32 count, u8 *arg2, f32 farg0) {
-    typedef char sp8_offset[(offsetof(Stack_803D6E8C, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_803D6E8C, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_803D6E8C, sp10) == 0x8) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_803D6E8C, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_803D6E8C, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_803D6E8C, sp10) == 0x8);
     Stack_803D6E8C stack;
     f32 temp_f2;
     f32 temp_f2_2;
@@ -235,9 +235,9 @@ void interpolate_motion_vector_keys_xy(u8 *keys, s32 count, u8 *arg2, f32 farg0)
 // Integer-key sampler; motion_key_sampler_table (TCameraCtrl_803D749C) holds it
 // next to the vector and angle samplers, so it takes the same (keys, count, out, frame).
 void interpolate_motion_key(u8 *arg0, s32 count, s32 *arg2, f32 farg0) {
-    typedef char sp8_offset[(offsetof(Stack_803D6F20, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_803D6F20, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_803D6F20, sp10) == 0x8) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_803D6F20, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_803D6F20, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_803D6F20, sp10) == 0x8);
     Stack_803D6F20 stack;
 
     s32 temp_r5;
@@ -251,9 +251,9 @@ void interpolate_motion_key(u8 *arg0, s32 count, s32 *arg2, f32 farg0) {
 #pragma push
 #pragma scheduling off
 void sample_motion_angle_keys(u8 *keys, s32 count, u8 *arg2, f32 farg0) {
-    typedef char sp8_offset[(offsetof(Stack_803D6FC8, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_803D6FC8, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_803D6FC8, sp10) == 0x8) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_803D6FC8, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_803D6FC8, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_803D6FC8, sp10) == 0x8);
     Stack_803D6FC8 stack;
 
     s32 temp_r5;
@@ -273,9 +273,9 @@ void sample_motion_angle_keys(u8 *keys, s32 count, u8 *arg2, f32 farg0) {
 #pragma push
 #pragma scheduling off
 void sample_motion_angle_keys_s16(u8 *keys, s32 count, u8 *arg2, f32 farg0) {
-    typedef char sp8_offset[(offsetof(Stack_803D7128, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_803D7128, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_803D7128, sp10) == 0x8) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_803D7128, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_803D7128, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_803D7128, sp10) == 0x8);
     Stack_803D7128 stack;
 
     s16 temp_r5;

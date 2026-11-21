@@ -14,6 +14,6 @@ public:
     ColorLineVertex edges[2];
 };
 
-typedef char TEffStarLightChildSize[sizeof(TEffStarLightChild) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(TEffStarLightChildSize, sizeof(TEffStarLightChild) == 0x30);
 
 #endif

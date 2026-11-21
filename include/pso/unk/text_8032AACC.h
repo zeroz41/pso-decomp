@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-void draw_masked_password_field(s32 arg0);
+void draw_masked_password_field(saddr arg0);
 extern "C" {
 void fn_8032AC24(void);
 }

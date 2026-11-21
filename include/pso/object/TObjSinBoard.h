@@ -11,7 +11,7 @@ struct TObjSinBoard : public TObjBase {
     virtual void run_task();
 };
 
-typedef char TObjSinBoard_size[sizeof(TObjSinBoard) == 0x90 ? 1 : -1];
+LAYOUT_ASSERT(TObjSinBoard_size, sizeof(TObjSinBoard) == 0x90);
 
 extern "C" {
 void *TObjSinBoard__create(void *set_data);

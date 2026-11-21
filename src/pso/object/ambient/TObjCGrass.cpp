@@ -32,7 +32,7 @@ extern u8 identity_matrix[];
 BmlResource *TObjCGrass_bml_resource;
 extern s32 tl_06;
 
-s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
+saddr load_enemy_bml_resource_named(saddr arg0, saddr arg1);
 
 const char *bm_ene_cgrass_model_names[2] = {"re1c_b_cgrass_base.nj", NULL};
 const char *bm_ene_cgrass_motion_names[2] = {"re1c_b_cgrass_base.njm", NULL};
@@ -114,7 +114,7 @@ void TObjCGrass::release_global_805D5130() {
 void TObjCGrass::load_resources() {
     if (TObjEneDD::check_v2_mode() != 0) {
         TObjCGrass_bml_resource = (BmlResource *)load_enemy_bml_resource_named(
-            (s32)&bm_ene_cgrass_resource_descriptor, (s32)"bm_ene_cgrass_a.bml");
+            (saddr)&bm_ene_cgrass_resource_descriptor, (saddr)"bm_ene_cgrass_a.bml");
     } else {
         BmlResource *archive = (BmlResource *)::operator new(0x440);
         if (archive != NULL) {
@@ -150,7 +150,7 @@ TObjCGrass::TObjCGrass(Vec *origin, s32 count, s32 lifetime) : TObjMotion((TObje
     self->texlist = (s32)TObjCGrass_bml_resource->models[0].m_c;
     self->motion_list = TObjCGrass_bml_resource->motions;
     self->action_table = cgrass_action_desc;
-    self->set_field_d8((s32)self->action_table);
+    self->set_field_d8((saddr)self->action_table);
     self->set_animation(0);
     self->last_animation_frame = self->frame_count - 1.0f;
     self->fragment_count = count;

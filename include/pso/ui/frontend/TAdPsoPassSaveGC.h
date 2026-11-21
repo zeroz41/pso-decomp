@@ -14,6 +14,6 @@ struct TAdPsoPassSaveGC : public TAdYesNoBaseGC {
     virtual void vfunc_10();
 };
 
-typedef char TAdPsoPassSaveGC_size[sizeof(TAdPsoPassSaveGC) == 0x48 ? 1 : -1];
+LAYOUT_ASSERT(TAdPsoPassSaveGC_size, sizeof(TAdPsoPassSaveGC) == 0x48);
 
 #endif

@@ -48,10 +48,10 @@ struct ItemListPosition
 };
 
 #include <stddef.h>
-typedef char ItemListRow_size[sizeof(ItemListRow) == 0x38 ? 1 : -1];
-typedef char ItemListRow_icons_offset[offsetof(ItemListRow, status_icon) == 0x1C ? 1 : -1];
-typedef char ItemListRow_label_offset[offsetof(ItemListRow, label) == 0x20 ? 1 : -1];
-typedef char ItemListWindow_clip_offset[offsetof(ItemListWindowView, clip_top) == 0x40 ? 1 : -1];
+LAYOUT_ASSERT(ItemListRow_size, sizeof(ItemListRow) == 0x38);
+LAYOUT_ASSERT(ItemListRow_icons_offset, offsetof(ItemListRow, status_icon) == 0x1C);
+LAYOUT_ASSERT(ItemListRow_label_offset, offsetof(ItemListRow, label) == 0x20);
+LAYOUT_ASSERT(ItemListWindow_clip_offset, offsetof(ItemListWindowView, clip_top) == 0x40);
 
 extern "C" {
 // ItemListRow::ItemListRow(u8 *, s32), called by init_window_layout_entries.

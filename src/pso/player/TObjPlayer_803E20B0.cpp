@@ -26,7 +26,7 @@ void TObjPlayer::load_screen_space_matrix() {
     m[0][2] = s * ((0.5f * (f32)active_gx_render_mode->w) * z);
     m[1][1] = z;
     m[1][2] = (0.5f * (f32)(-active_gx_render_mode->h)) * z;
-    GXLoadPosMtxImm((int)m, 0);
+    GXLoadPosMtxImm((saddr)m, 0);
     GXSetCurrentMtx(0);
 }
 }

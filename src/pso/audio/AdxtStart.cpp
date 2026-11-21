@@ -95,7 +95,7 @@ void TLobby::adxt_start_mem_idx(u8 *arg1, s32 arg2) {
         return;
     }
     TLobby::init_once();
-    r = (s32)sj_memory_buffer_create(arg1 + *(s32 *)(arg1 + (arg2 + 1) * 8), 0x40000000);
+    r = (saddr)sj_memory_buffer_create(arg1 + *(s32 *)(arg1 + (arg2 + 1) * 8), 0x40000000);
     if (r == 0) {
         TLobby::release_ref();
         TLobby::notify_error("E8101207: can't create sj (ADXT_StartMemIdx)");

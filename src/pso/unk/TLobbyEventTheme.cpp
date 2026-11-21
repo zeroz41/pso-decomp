@@ -40,7 +40,7 @@ s32 TLobbyEventTheme::started() {
     return 0;
 }
 
-int TLobby::get_lobby_texlist() { return (int)lobby_main_texture_gvm; }
+int TLobby::get_lobby_texlist() { return (saddr)lobby_main_texture_gvm; }
 
 void TLobbyEventTheme::run_task() {
     s32 current = TLobby::get_filtered_event_theme();
@@ -74,13 +74,13 @@ TLobbyEventTheme::TLobbyEventTheme() : TObject(tl_00) {
 void free_obj_lobby_main() {
     if (lobby_main_texture_gvm != NULL) {
         release_texture_list(lobby_main_texture_gvm);
-        TAdSinglePlyChrSelectGC::safe_free((u32)lobby_main_texture_gvm);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)lobby_main_texture_gvm);
         lobby_main_texture_gvm = NULL;
     }
 }
 
 void load_obj_lobby_main() {
-    lobby_main_texture_gvm = (GinjaTextureList *)load_gvm_texture_file((s32)"obj_lobby_main.GVM");
+    lobby_main_texture_gvm = (GinjaTextureList *)load_gvm_texture_file((saddr)"obj_lobby_main.GVM");
 }
 
 s32 get_theme_lobby_type() {

@@ -10,6 +10,6 @@ public:
     virtual void run_task();
     u8 unk_1C[0x1C];
 };
-typedef char TEF_PvrWave_size[sizeof(TEF_PvrWave) == 0x38 ? 1 : -1];
+LAYOUT_ASSERT(TEF_PvrWave_size, sizeof(TEF_PvrWave) == 0x38);
 
 #endif

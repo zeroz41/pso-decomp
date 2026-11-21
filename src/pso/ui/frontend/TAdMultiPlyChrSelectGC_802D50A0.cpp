@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802D50A0.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdMultiSelGameModeGC.h"

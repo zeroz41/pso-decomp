@@ -46,7 +46,7 @@ void rocket_punch_target_impact(void *self, u32 a, u32 b, s32 idx) {
     }
 }
 
-void rocket_punch_wall_impact(u32 arg0, u32 arg1, u32 arg2, u32 arg3) {
+void rocket_punch_wall_impact(u32 arg0, u32 arg1, u32 arg2, uaddr arg3) {
     if ((arg1 != 0U) && (arg3 != 0U)) {
         rocket_punch_return_timer(arg1);
         spawn_particle_effect((void *)arg3, 0x45);
@@ -57,7 +57,6 @@ extern "C" {
 
 s32 post_translate_matrix(void *);
 s32 push_matrix();
-s32 TItemShootModel::is_owner_alive();
 }
 
 
@@ -65,9 +64,9 @@ extern "C" {
 
 void TUnk_804A5340::render() {
     u8 *arg0 = (u8 *)this;
-    if ((TItemShootModel::is_owner_alive() != 0) && ((u32) this->m_58 != 0U) && ((u32) this->m_5C != 0U)) {
+    if ((TItemShootModel::is_owner_alive() != 0) && ((uaddr) this->m_58 != 0U) && ((uaddr) this->m_5C != 0U)) {
         push_matrix();
-        set_texlist((int)this->m_5C);
+        set_texlist((saddr)this->m_5C);
         post_translate_matrix(arg0 + 0x1C);
         rotate_matrix_y(0, this->m_count);
         rotate_matrix_x(0, this->m_28 - 0x4000);
@@ -95,20 +94,19 @@ Obj_8012C4E4 *TObjPlayer__sub_8012C4E4(Obj_8012C4E4 *self, void *owner, const vo
     return self;
 }
 
-u32 __nw__7TObjectFUl(s32);
 }
 
-u32 rocket_punch_create_shot(s32 owner, s32 arg1, s32 arg2, f32 farg0) {
-    u32 var_r31;
-    u32 temp_r30;
+uaddr rocket_punch_create_shot(saddr owner, saddr arg1, saddr arg2, f32 farg0) {
+    uaddr var_r31;
+    uaddr temp_r30;
 
     var_r31 = 0U;
     if (owner != 0) {
-        var_r31 = __nw__7TObjectFUl(0x6C);
+        var_r31 = (uaddr)TObject::operator new(0x6C);
         if (var_r31 != 0U) {
-            var_r31 = (u32)TObjPlayer__sub_8012C4E4((Obj_8012C4E4 *)var_r31, (void *)owner, (const void *)arg1, (const void *)arg2, farg0);
+            var_r31 = (uaddr)TObjPlayer__sub_8012C4E4((Obj_8012C4E4 *)var_r31, (void *)owner, (const void *)arg1, (const void *)arg2, farg0);
         }
-        temp_r30 = (u32)TObjPlayer::spawn_shoot_particle(owner, arg1, arg2, farg0);
+        temp_r30 = (uaddr)TObjPlayer::spawn_shoot_particle(owner, arg1, arg2, farg0);
         if ((var_r31 != 0U) && (temp_r30 != 0U)) {
             ((TItemShootParticle *)temp_r30)->spawn_slot_emitter(0x1BB, 0);
             ((TObject *)temp_r30)->set_parent((TObject *)var_r31);
@@ -123,7 +121,7 @@ extern "C" {
 s32 test_flags_any(s32 *flags, s32 mask);
 
 void TUnk_804A535C::emit_marker_effects() {
-    s32 temp_r31;
+    saddr temp_r31;
     s32 var_r30;
     u32 temp_r3;
     u8 *arg0 = (u8 *)this;
@@ -180,7 +178,7 @@ void TUnk_804A535C::reserved_53() {
     ((TItemWeapon *)arg0)->get_joint_position(1, (arg0 + 0x1FC));
     *(s32 *)((s8 *)arg0 + 0xF4) = (s32) *(s32 *)((s8 *)arg0 + 0x180);
     ((FlagWord *)(arg0 + 0x1F8))->clear(1);
-    draw_weapon_at_joint((s32)arg0, 0x23);
+    draw_weapon_at_joint((saddr)arg0, 0x23);
     ((TItemWeapon *)arg0)->get_joint_position(1, (arg0 + 0x208));
     *(s32 *)((s8 *)arg0 + 0xF4) = temp_r31;
 }
@@ -213,13 +211,12 @@ void *TUnk_804A535C::init_trade_action() {
 }
 
 u8 * init_trade_action__13TUnk_804A535CFv(void *, s32, s32);
-u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
 u8 *TObjPlayer::create_trade_action_state(s32 arg0) {
     u8 *temp_r3;
     u8 *var_r0;
     if (arg0 != 0) {
-        temp_r3 = (u8 *)(__nw__5TItemFUl(0x214));
+        temp_r3 = (u8 *)((u8 *)TItem::operator new(0x214));
         var_r0 = temp_r3;
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(init_trade_action__13TUnk_804A535CFv(temp_r3, tl_05, arg0));
@@ -234,7 +231,7 @@ u8 *TObjPlayer::create_trade_action_state(s32 arg0) {
 TUnk_804A5340::~TUnk_804A5340() {
 
 }
-void rocket_punch_return_timer(u32 arg0) {
+void rocket_punch_return_timer(uaddr arg0) {
     if (arg0 != 0U) {
         ((FlagWord *)(arg0 + 0x1F8))->clear(2);
     }

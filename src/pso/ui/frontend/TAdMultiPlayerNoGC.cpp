@@ -38,7 +38,7 @@ void TLobby::update_menu_cursor_selection() {
     };
     GinjaTextureList *list = lists[current_language];
     player_ad_texture_list_ptr = list;
-    load_streamed_prs_texture((s32)names[current_language], (s32)list);
+    load_streamed_prs_texture((saddr)names[current_language], (saddr)list);
 }
 
 void TLobby::free_global_object() {
@@ -93,7 +93,7 @@ void TAdMultiPlayerNoGC::render() {
 
 void TAdMultiPlayerNoGC::render_status() {
     begin_screen_draw(1);
-    TObjFish::set_global_param((s32)player_ad_texture_list_ptr);
+    TObjFish::set_global_param((saddr)player_ad_texture_list_ptr);
     set_draw_texture_and_color(0, -1);
     draw_textured_quad_at_depth(quad, 0.25f);
     TWindowSubStatusDisp::get_player();

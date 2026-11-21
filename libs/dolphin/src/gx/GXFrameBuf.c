@@ -1,6 +1,5 @@
 
 
-#define GXSetCopyFilter Dolphin_GXSetCopyFilter
 
 #include <dolphin/gx.h>
 #include <dolphin/os.h>

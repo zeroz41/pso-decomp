@@ -35,7 +35,7 @@ struct S_8003C108 {
 static const Vec boss2_tunnel_raft_splash_offsets[2] = {{3.0f, 0.0f, -5.0f}, {-3.0f, 0.0f, -5.0f}};
 const char *lbl_805D2708 = "TObjBoss2Tunnel";
 
-struct Model_8003B2EC { s32 a; s32 b; s32 obj; s32 c; };
+struct Model_8003B2EC { s32 a; s32 b; saddr obj; s32 c; };
 
 struct Models_8003B2EC { u8 pad[0x42C]; Model_8003B2EC *models; };
 
@@ -115,7 +115,6 @@ s32 check_flag_or_state__15TObjBoss2TunnelFi(s32 arg0);
 s32 is_flag_set__15TObjBoss2TunnelFv(s32 _w0);
 void init_piecewise_curve(void *, f32, f32, f32, f32, f32);
 struct S_8003C2E4;
-void copy_ring_buffer_window__15TObjBoss2TunnelFv(S_8003C2E4 *o);
 struct Obj_8003C374;
 struct Obj_8003C2A0;
 void shift_queue_push_next__15TObjBoss2TunnelFPv(Obj_8003C2A0 *self);
@@ -191,7 +190,7 @@ static Vec boss2_tunnel_particle_pos_table[4] = {
 
 struct S_8003C21C { u8 pad[0x1f]; u8 x; };
 
-struct O_8003C21C { u8 pad[0x5c]; s32 p; };
+struct O_8003C21C { u8 pad[0x5c]; saddr p; };
 
 extern "C" {
 s32 TObjBoss2Tunnel__sub_8003C1C8(void);
@@ -460,15 +459,14 @@ s32 TObjBoss2Tunnel__sub_8003C1C8(void) {
 
 #define check_flag_or_state__15TObjBoss2TunnelFi ((s32 (*)(void *))check_flag_or_state__15TObjBoss2TunnelFi)
 #define is_flag_set__15TObjBoss2TunnelFv ((s32 (*)(void *))is_flag_set__15TObjBoss2TunnelFv)
-#define copy_ring_buffer_window__15TObjBoss2TunnelFv ((void (*)(void *))copy_ring_buffer_window__15TObjBoss2TunnelFv)
 #define shift_queue_push_next__15TObjBoss2TunnelFPv ((void (*)(void *))shift_queue_push_next__15TObjBoss2TunnelFPv)
 #define init__13TUnk_804835D8Fv ((void (*)(void *, void *))init__13TUnk_804835D8Fv)
 #define enable_fog__15TObjBoss2TunnelFv ((void (*)(void *))enable_fog__15TObjBoss2TunnelFv)
 void TObjBoss2Tunnel::update_particles() {
     f32 t;
     s32 i;
-    u32 r;
-    u32 p;
+    uaddr r;
+    uaddr p;
     if (((S_8003C108 *)this)->f20 < boss2_tunnel_max_scroll_speed) {
         t = (-5.0f) * (((S_8003C108 *)this)->f20 / boss2_tunnel_max_scroll_speed);
     } else {
@@ -477,7 +475,7 @@ void TObjBoss2Tunnel::update_particles() {
     for (i = 0; i < 4; i++) {
         p = ((S_8003C108 *)this)->ptr[i];
         if (p == 0) {
-            r = (s32)TAdLoadQuestPrtTxtGC::create_particle(&boss2_tunnel_particle_pos_table[i], 0x171, 1);
+            r = (saddr)TAdLoadQuestPrtTxtGC::create_particle(&boss2_tunnel_particle_pos_table[i], 0x171, 1);
             if (r != 0) {
                 ((TParticleCtrl *)r)->enable();
                 ((S_8003C108 *)this)->ptr[i] = r;
@@ -757,9 +755,9 @@ void render__15TObjBoss2TunnelFv(u8 *arg0) {
     {
         Fog_8003B2EC *f = *lbl_805D4BEC;
         saved = f->c;
-        f->c = f[(s32)((TObjBoss2Tunnel *)o)->sub_8003C21C()].c;
+        f->c = f[(saddr)((TObjBoss2Tunnel *)o)->sub_8003C21C()].c;
     }
-    TObjFish::set_global_param((s32)lbl_805D4BEC);
+    TObjFish::set_global_param((saddr)lbl_805D4BEC);
     if (o->f24 == 0 || o->f24 == 1) {
         push_matrix();
         translate_matrix(0, (0.0f), (0.0f), -o->f60);
@@ -842,7 +840,6 @@ void render__15TObjBoss2TunnelFv(u8 *arg0) {
 
 #undef check_flag_or_state__15TObjBoss2TunnelFi
 #undef is_flag_set__15TObjBoss2TunnelFv
-#undef copy_ring_buffer_window__15TObjBoss2TunnelFv
 #undef shift_queue_push_next__15TObjBoss2TunnelFPv
 #undef init__13TUnk_804835D8Fv
 #undef enable_fog__15TObjBoss2TunnelFv

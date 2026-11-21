@@ -16,7 +16,7 @@ struct TAdScrollWinGC : public TObject {
     u8 unk_34[0x4];
     f32 m_38;
     u32 m_3c;
-    u32 m_40;
+    uaddr m_40;
     u32 m_44;
     u32 m_48;
     u32 m_4c;
@@ -31,5 +31,5 @@ struct TAdScrollWinGC : public TObject {
 
 extern const char *TAdScrollWinGC__class_name;
 
-typedef char TAdScrollWinGC_size[sizeof(TAdScrollWinGC) == 0x54 ? 1 : -1];
+LAYOUT_ASSERT(TAdScrollWinGC_size, sizeof(TAdScrollWinGC) == 0x54);
 #endif

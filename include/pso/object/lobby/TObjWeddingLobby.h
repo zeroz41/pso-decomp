@@ -26,6 +26,6 @@ struct TObjWeddingLobby : public TObjMapObject {
     static u32 lobby_texlist;  // the lobby's shared texture list
 };
 
-typedef char TObjWeddingLobby_size[sizeof(TObjWeddingLobby) == 0xD4 ? 1 : -1];
+LAYOUT_ASSERT(TObjWeddingLobby_size, sizeof(TObjWeddingLobby) == 0xD4);
 
 #endif

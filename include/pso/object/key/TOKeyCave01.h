@@ -33,7 +33,7 @@ public:
     s32 lid_angle;        // the jungle key's lid, 0 to 0x2000
 };
 
-typedef char TOKeyCave01_size[sizeof(TOKeyCave01) == 0x100 ? 1 : -1];
+LAYOUT_ASSERT(TOKeyCave01_size, sizeof(TOKeyCave01) == 0x100);
 
 extern BmlResource *TOKeyCave01__resource_bundle;
 // The red texture list while up, the model's own while down.

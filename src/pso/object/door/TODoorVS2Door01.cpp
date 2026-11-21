@@ -76,19 +76,19 @@ void TODoorVS2Door01::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        TObjFish::set_global_param((s32)texture_lists[door_flags & 1]);
+        TObjFish::set_global_param((saddr)texture_lists[door_flags & 1]);
         node = (NJS_OBJECT *)model;
         post_translate_matrix(node->pos);
         push_matrix();
         translate_matrix(NULL, -slide_offset, 0.0f, 0.0f);
-        draw_ginja_model((s32)node->model);
+        draw_ginja_model((saddr)node->model);
         pop_matrix();
         node = node->child;
         push_matrix();
         post_translate_matrix(node->pos);
         push_matrix();
         translate_matrix(NULL, slide_offset, 0.0f, 0.0f);
-        draw_ginja_model((s32)node->model);
+        draw_ginja_model((saddr)node->model);
         pop_matrix();
         pop_matrix();
         TParticleCtrl::begin_effect_render();
@@ -97,7 +97,7 @@ void TODoorVS2Door01::render() {
         post_translate_matrix(node->pos);
         push_matrix();
         translate_matrix(NULL, slide_offset, 0.0f, 0.0f);
-        draw_ginja_model((s32)node->model);
+        draw_ginja_model((saddr)node->model);
         pop_matrix();
         pop_matrix();
         node = node->sibling;
@@ -105,7 +105,7 @@ void TODoorVS2Door01::render() {
         post_translate_matrix(node->pos);
         push_matrix();
         translate_matrix(NULL, slide_offset, 0.0f, 0.0f);
-        draw_ginja_model((s32)node->model);
+        draw_ginja_model((saddr)node->model);
         pop_matrix();
         pop_matrix();
         node = ((NJS_OBJECT *)model)->child->sibling;
@@ -113,7 +113,7 @@ void TODoorVS2Door01::render() {
         post_translate_matrix(node->pos);
         push_matrix();
         translate_matrix(NULL, -slide_offset, 0.0f, 0.0f);
-        draw_ginja_model((s32)node->model);
+        draw_ginja_model((saddr)node->model);
         pop_matrix();
         pop_matrix();
         node = node->sibling;
@@ -121,7 +121,7 @@ void TODoorVS2Door01::render() {
         post_translate_matrix(node->pos);
         push_matrix();
         translate_matrix(NULL, -slide_offset, 0.0f, 0.0f);
-        draw_ginja_model((s32)node->model);
+        draw_ginja_model((saddr)node->model);
         pop_matrix();
         pop_matrix();
         TParticleCtrl::end_effect_render();
@@ -135,7 +135,7 @@ void *TODoorVS2Door01::create(void *set_data) {
 
 void TODoorVS2Door01::destroy() {
     if (texture_lists != NULL) {
-        TObjPlayer::free_if_valid((s32)texture_lists[0]);
+        TObjPlayer::free_if_valid((saddr)texture_lists[0]);
         if (texture_lists != NULL) {
             mem_free(texture_lists);
             texture_lists = NULL;
@@ -155,7 +155,7 @@ void TODoorVS2Door01::load_resources() {
     bml_resource = resource;
     texture_lists = (GinjaTextureList **)mem_alloc(2 * sizeof(GinjaTextureList *));
     texture_lists[1] = (GinjaTextureList *)bml_resource->models[0].m_c;
-    texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file((s32)"fs_obj_o_vs2door01lr.gvm");
+    texture_lists[0] = (GinjaTextureList *)load_gvm_texture_file((saddr)"fs_obj_o_vs2door01lr.gvm");
 }
 
 TODoorVS2Door01::~TODoorVS2Door01() {
@@ -167,7 +167,7 @@ TODoorVS2Door01::TODoorVS2Door01(TObject *parent, void *set_data) : TODoorBase(p
     m_name = door_vs2door01_class_name;
     apply_object_set_data(set_data);
     model = (void *)bml_resource->models[0].model;
-    texlist = (s32)texture_lists[1];
+    texlist = (saddr)texture_lists[1];
     animation_end_frame = 30.0f;
     animation_step = SLIDE_DISTANCE / animation_end_frame;
     slide_offset = 0.0f;

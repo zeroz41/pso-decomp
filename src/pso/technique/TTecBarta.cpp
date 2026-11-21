@@ -78,7 +78,7 @@ struct Tec_8022BD74 {
 extern "C" {
 void mem_free(void *p);
 u16 get_entity_id(void *);
-s32 get_bml_model(s32, s32);
+saddr get_bml_model(s32, s32);
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 void *find_entity_by_id(u16 id);
@@ -127,29 +127,29 @@ void TTecBarta::update_technique_by_state() {
 
     switch (this->band) {
     case 0:
-        handle = play_sound_effect(0x4002A604, (int)(arg0 + 0x20), 0, 0);
+        handle = play_sound_effect(0x4002A604, (saddr)(arg0 + 0x20), 0, 0);
         if (handle >= 0) {
             set_sound_pitch_request(handle, 0x100, 0);
         }
         return;
     case 1:
-        play_sound_effect(0x4002A604, (int)(arg0 + 0x20), 0, 0);
+        play_sound_effect(0x4002A604, (saddr)(arg0 + 0x20), 0, 0);
         return;
     case 2:
     case 3:
-        handle = play_sound_effect(0x4002A604, (int)(arg0 + 0x20), 0, 0);
+        handle = play_sound_effect(0x4002A604, (saddr)(arg0 + 0x20), 0, 0);
         if (handle >= 0) {
             set_sound_pitch_request(handle, -0x180, 0);
         }
         break;
     case 4:
-        handle = play_sound_effect(0x4002A604, (int)(arg0 + 0x20), 0, 0);
+        handle = play_sound_effect(0x4002A604, (saddr)(arg0 + 0x20), 0, 0);
         if (handle >= 0) {
             set_sound_pitch_request(handle, -0x250, 0);
         }
         break;
     case 5:
-        handle = play_sound_effect(0x4002A604, (int)(arg0 + 0x20), 0, 0);
+        handle = play_sound_effect(0x4002A604, (saddr)(arg0 + 0x20), 0, 0);
         if (handle >= 0) {
             set_sound_pitch_request(handle, -0x100, 0);
         }
@@ -165,7 +165,7 @@ void TTecBarta::create_particle_emitters() {
     u32 i;
     const TechniqueEmitterSourceRow *row;
     u32 flags;
-    s32 base = (s32)this;
+    saddr base = (saddr)this;
     angles[0] = self->angles[0];
     angles[1] = 0;
     angles[2] = self->angles[2];
@@ -197,8 +197,8 @@ void TTecBarta::create_particle_emitters() {
 
 void TTecBarta::init_parameters() {
     u8 *arg0 = (u8 *)this;
-  int new_var;
-  new_var = (int) calc_technique_parameters(3, this->level, 0xFFFF);
+  saddr new_var;
+  new_var = (saddr) calc_technique_parameters(3, this->level, 0xFFFF);
   ((TechniqueParams *)(arg0 + 0xCC))->copy((TechniqueParams *)new_var);
   if (((this->level) >= 0xF) && (TTecCtrl::is_technique_ready() == 0))
   {
@@ -217,11 +217,11 @@ void TTecBarta::init_parameters() {
 }
 
 void TTecBarta::create(void *arg1, void *arg2, void *arg3) {
-    new TTecBarta((s32)this, (u8 *)arg1, (u8 *)arg2, (s32)arg3);
+    new TTecBarta((saddr)this, (u8 *)arg1, (u8 *)arg2, (saddr)arg3);
 }
 
 void TTecBarta::create_ex(void *arg1, void *arg2, void *arg3) {
-    new TTecBarta((s32)this, (Vec *)arg1, (s32)arg2, (s32)arg3);
+    new TTecBarta((saddr)this, (Vec *)arg1, (saddr)arg2, (saddr)arg3);
 }
 
 void TTecBarta::vfunc_8(void *target) {
@@ -259,7 +259,7 @@ TTecBarta::~TTecBarta() {
 
 void TTecBarta::run_task() {
     s32 i;
-    this->source = (u32)find_entity_by_id(this->sourceId);
+    this->source = (uaddr)find_entity_by_id(this->sourceId);
     if (this->source == NULL) {
         ((TObject *)this)->queue_destruction();
         return;
@@ -291,7 +291,7 @@ void TTecBarta::render() {  }
 
 }
 
-TTecBarta::TTecBarta(s32 source, u8 *pos, u8 *target, s32 level)
+TTecBarta::TTecBarta(saddr source, u8 *pos, u8 *target, s32 level)
     : TUnk_804CCC68(source, pos, target, level) {
     s32 i;
     m_name = TTecBarta__class_name;
@@ -309,7 +309,7 @@ TTecBarta::TTecBarta(s32 source, u8 *pos, u8 *target, s32 level)
 }
 
 // The facing form starts 5 units higher.
-TTecBarta::TTecBarta(s32 source, Vec *pos, s32 angle, s32 level)
+TTecBarta::TTecBarta(saddr source, Vec *pos, s32 angle, s32 level)
     : TUnk_804CCC68(source, pos, angle, level) {
     s32 i;
     m_name = TTecBarta__class_name;

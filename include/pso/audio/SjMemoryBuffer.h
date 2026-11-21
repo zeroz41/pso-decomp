@@ -28,8 +28,8 @@ struct SjMemoryBuffer {
     SjErrorCallback error_callback;
     void* error_context;
 };
-typedef char SjMemoryBuffer_size[sizeof(SjMemoryBuffer)==0x24 ? 1 : -1];
-typedef char SjMemoryBufferInterface_size[sizeof(SjMemoryBufferInterface)==0x30 ? 1 : -1];
+LAYOUT_ASSERT(SjMemoryBuffer_size, sizeof(SjMemoryBuffer)==0x24);
+LAYOUT_ASSERT(SjMemoryBufferInterface_size, sizeof(SjMemoryBufferInterface)==0x30);
 
 extern "C" {
 s32 sj_memory_buffer_is_chunk_available(SjMemoryBuffer* arg0, s32 arg1, s32 arg2, s32* arg3);

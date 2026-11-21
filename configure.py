@@ -297,6 +297,7 @@ cflags_pso_base = [
 cflags_pso = [
     *cflags_pso_base,
     "-i include",
+    "-i include/clib",  # the C library's headers, as the game's code sees them
     "-i src",
     "-i libs/dolphin/include",
     "-i libs/dolphin/include/dolphin",  # for "types.h" includes inside SDK headers

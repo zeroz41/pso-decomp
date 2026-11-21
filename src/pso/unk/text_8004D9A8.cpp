@@ -35,7 +35,7 @@ s32 push_matrix();
 s32 post_translate_matrix(void *);
 extern void *lbl_80485550[3];
 
-struct O_8004D9A8 { u8 pad0[0xBC]; s32 bc[6]; s32 d4[6]; s32 ec[6]; f32 f104; f32 f108; f32 f10c; };
+struct O_8004D9A8 { u8 pad0[0xBC]; saddr bc[6]; s32 d4[6]; saddr ec[6]; f32 f104; f32 f108; f32 f10c; };
 void fn_8004D9A8(u8 *arg0) {
     O_8004D9A8 *o = (O_8004D9A8 *)arg0;
     s32 i;
@@ -219,7 +219,6 @@ struct S_8004DE44 {
 };
 
 extern "C" {
-void __dl__7TObjectFPv(void *);
 extern void *__vt__11TObjDFDemo0[13];
 S_8004DE44 *__dt__11TObjDFDemo0Fv(S_8004DE44 *o, s16 flag);
 S_8004DE44 *__dt__11TObjDFDemo0Fv(S_8004DE44 *o, s16 flag) {
@@ -236,7 +235,7 @@ S_8004DE44 *__dt__11TObjDFDemo0Fv(S_8004DE44 *o, s16 flag) {
         restore_player_cameras();
         __dt__8TObjBaseFv(o, 0);
         if (flag > 0) {
-            __dl__7TObjectFPv(o);
+            TObject::operator delete(o);
         }
     }
     return o;
@@ -267,8 +266,8 @@ typedef struct Data_8004DEE0 {
 } Data_8004DEE0;
 
 s32 get_bml_motion(s32, s32);
-s32 get_bml_texlist(BmlResource *resource, s32 index);
-s32 get_bml_model(BmlResource *resource, s32 index);
+saddr get_bml_texlist(BmlResource *resource, s32 index);
+saddr get_bml_model(BmlResource *resource, s32 index);
 void set_scripted_camera_pose(void *, void *, void *);
 void __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 lbl_80485EB0[];
@@ -294,7 +293,7 @@ void *__vt__11TObjDFDemo0[13] = {
 Obj_8004DEE0 *TObjDFDemo0__ct(void *arg0, void *parent) {
     Obj_8004DEE0 *self = (Obj_8004DEE0 *)arg0;
     s32 k;
-    s32 h;
+    saddr h;
     s32 i;
     s32 j;
 

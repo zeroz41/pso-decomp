@@ -85,6 +85,6 @@ public:
     Vec fire_position;  // where action 2's fire travels to and explodes (create_fire_explosion_effect)
     Vec target_position;  // copied from the target player's position
 };
-typedef char TObjEneEpsilonBody_size[sizeof(TObjEneEpsilonBody) == 0x514 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneEpsilonBody_size, sizeof(TObjEneEpsilonBody) == 0x514);
 
 #endif

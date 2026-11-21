@@ -200,29 +200,29 @@ void TTecMegid::update_by_state() {
 
     switch (this->band) {
     case 0:
-        handle = play_sound_effect(0x4002A60B, (int)(arg0 + 0x20), 0, 0);
+        handle = play_sound_effect(0x4002A60B, (saddr)(arg0 + 0x20), 0, 0);
         if (handle >= 0) {
             set_sound_pitch_request(handle, 0x100, 0);
         }
         return;
     case 1:
-        play_sound_effect(0x4002A60B, (int)(arg0 + 0x20), 0, 0);
+        play_sound_effect(0x4002A60B, (saddr)(arg0 + 0x20), 0, 0);
         return;
     case 2:
     case 3:
-        handle = play_sound_effect(0x4002A60B, (int)(arg0 + 0x20), 0, 0);
+        handle = play_sound_effect(0x4002A60B, (saddr)(arg0 + 0x20), 0, 0);
         if (handle >= 0) {
             set_sound_pitch_request(handle, -0x180, 0);
         }
         break;
     case 4:
-        handle = play_sound_effect(0x4002A60B, (int)(arg0 + 0x20), 0, 0);
+        handle = play_sound_effect(0x4002A60B, (saddr)(arg0 + 0x20), 0, 0);
         if (handle >= 0) {
             set_sound_pitch_request(handle, -0x250, 0);
         }
         break;
     case 5:
-        handle = play_sound_effect(0x4002A60B, (int)(arg0 + 0x20), 0, 0);
+        handle = play_sound_effect(0x4002A60B, (saddr)(arg0 + 0x20), 0, 0);
         if (handle >= 0) {
             set_sound_pitch_request(handle, -0x100, 0);
         }
@@ -326,7 +326,7 @@ void TTecMegid::vfunc_8(void *target) {
         }
         HitInfo_80235490 info = tmp;
         ((VObj_80235490 *)target)->m21((void *)source, &info, contact, 0x12, -1);
-        play_sound_effect(0x4002AD29, (s32)((u8 *)target + 0x38), 0, 0);
+        play_sound_effect(0x4002AD29, (saddr)((u8 *)target + 0x38), 0, 0);
         if (sourceId < 12) {
             if ((get_technique_caster_flags(0x12, sourceId) & 1) == 0) {
                 queue_destruction();
@@ -335,10 +335,10 @@ void TTecMegid::vfunc_8(void *target) {
     }
 }
 
-void TTecMegid::create(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+void TTecMegid::create(saddr arg0, saddr arg1, saddr arg2, s32 arg3) {
     new TTecMegid(arg0, (u8 *)arg1, (u8 *)arg2, arg3);
 }
-void TTecMegid::create_ex(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+void TTecMegid::create_ex(saddr arg0, saddr arg1, s32 arg2, s32 arg3) {
     new TTecMegid(arg0, (Vec *)arg1, arg2, arg3);
 }
 void TTecMegid::render() {  }
@@ -382,7 +382,7 @@ void run_task__9TTecMegidFv(Obj_80235740 *self) {
 }
 
 // The aimed form: the technique flies from `pos` towards `target`.
-TTecMegid::TTecMegid(s32 source, u8 *pos, u8 *target, s32 level) : TUnk_804CCC68(source, pos, target, level) {
+TTecMegid::TTecMegid(saddr source, u8 *pos, u8 *target, s32 level) : TUnk_804CCC68(source, pos, target, level) {
     s32 i;
     m_name = TTecMegid__class_name;
     init_parameters();
@@ -400,7 +400,7 @@ TTecMegid::TTecMegid(s32 source, u8 *pos, u8 *target, s32 level) : TUnk_804CCC68
 }
 
 // The facing form: the technique starts at `pos` and flies along the y angle `angle`.
-TTecMegid::TTecMegid(s32 source, Vec *pos, s32 angle, s32 level) : TUnk_804CCC68(source, pos, angle, level) {
+TTecMegid::TTecMegid(saddr source, Vec *pos, s32 angle, s32 level) : TUnk_804CCC68(source, pos, angle, level) {
     s32 i;
     m_name = TTecMegid__class_name;
     init_parameters();

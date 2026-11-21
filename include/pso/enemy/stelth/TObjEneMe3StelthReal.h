@@ -15,5 +15,5 @@ struct TObjEneMe3StelthReal : public TObjEneMe3Stelth {
     static void *create(void *arg0);
 };
 
-typedef char TObjEneMe3StelthReal_size[sizeof(TObjEneMe3StelthReal) == 0x44C ? 1 : -1];
+LAYOUT_ASSERT(TObjEneMe3StelthReal_size, sizeof(TObjEneMe3StelthReal) == 0x44C);
 #endif

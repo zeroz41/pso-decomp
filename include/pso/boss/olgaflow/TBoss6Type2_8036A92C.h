@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-s32 spawn_flow_soul__11TBoss6Type2Fiii(s32 arg0, s32 arg1, s32 arg2);
+s32 spawn_flow_soul__11TBoss6Type2Fiii(saddr arg0, saddr arg1, saddr arg2);
 }
 
 // --- C functions defined in TBoss6Type2_8036A92C.cpp ---
 extern "C" {
-s32 spawn_flow_soul__11TBoss6Type2Fiii(s32 arg0, s32 arg1, s32 arg2);
+s32 spawn_flow_soul__11TBoss6Type2Fiii(saddr arg0, saddr arg1, saddr arg2);
 }
 // --- end of C functions
 

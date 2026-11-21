@@ -63,7 +63,7 @@ Ctrl_8028B23C *TObjBoss5PillarCtrl__ct(Ctrl_8028B23C *arg0, void *arg1) {
     List_8028B23C *lst;
     __ct__7TObjectFP7TObject(arg0, arg1);
     arg0->vt = __vt__19TObjBoss5PillarCtrl;
-    arg0->f0 = ((s32)TObjBoss5PillarCtrl__name);
+    arg0->f0 = ((saddr)TObjBoss5PillarCtrl__name);
     arg0->count = 0;
     arg0->pillars = NULL;
     for (n = lbl_805D4DD8->owner->list->head; n != NULL; n = n->next) {

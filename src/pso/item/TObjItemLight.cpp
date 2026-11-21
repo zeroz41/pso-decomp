@@ -56,7 +56,7 @@ TObjItemLight::~TObjItemLight() {
 const char *TObjItemLight__class_name = "TObjItemLight";
 
 #define item_light this
-TObjItemLight::TObjItemLight(TObject *arg1, s32 arg2) : TObjBase(arg1) {
+TObjItemLight::TObjItemLight(TObject *arg1, saddr arg2) : TObjBase(arg1) {
     ((TObjItemLight *)item_light)->m_name = TObjItemLight__class_name;
     item_light->apply_object_set_data((void *)arg2);
     item_light->m_94 = 0;
@@ -64,7 +64,7 @@ TObjItemLight::TObjItemLight(TObject *arg1, s32 arg2) : TObjBase(arg1) {
     if (*(f32 *)((s8 *)item_light + 0x90) < 0.0f) {
         *(f32 *)((s8 *)item_light + 0x90) = 30.0f;
     }
-    item_light->m_94 = (s32)spawn_particle_effect_with_rotation((u8 *)item_light + 0x38, (u8 *)item_light + 0x5C, 0x1CA, 0x40);
+    item_light->m_94 = (saddr)spawn_particle_effect_with_rotation((u8 *)item_light + 0x38, (u8 *)item_light + 0x5C, 0x1CA, 0x40);
 }
 #undef item_light
 

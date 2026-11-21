@@ -14,14 +14,14 @@ void fn_800D8830(void *owner, void *pos) {
     case AREA_JUNGLE_EAST:
     case AREA_MOUNTAIN:
     case AREA_SEASIDE:
-        play_persistent_sound(0x3A842, (s32)owner, (u32)pos, 0, 0);
+        play_persistent_sound(0x3A842, (saddr)owner, (uaddr)pos, 0, 0);
         break;
     case AREA_SEASIDE_NIGHT:
-        play_persistent_sound(0x4003B22D, (s32)owner, (u32)pos, 0, 0);
+        play_persistent_sound(0x4003B22D, (saddr)owner, (uaddr)pos, 0, 0);
         break;
     case AREA_SEABED_UPPER:
     case AREA_SEABED_LOWER:
-        play_persistent_sound(0x4003A835, (s32)owner, (u32)pos, 0, 0);
+        play_persistent_sound(0x4003A835, (saddr)owner, (uaddr)pos, 0, 0);
         break;
     }
 }

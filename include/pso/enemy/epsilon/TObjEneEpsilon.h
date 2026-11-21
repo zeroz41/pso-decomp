@@ -33,8 +33,8 @@ struct TObjEneEpsilon : public TObjEneDD_ST {
     f32 m_3ac;  // the xz distance to m_394
     u8 pad_3B0[0x10];
     RenderFadeState fades[4];  // built and destroyed by TObjEneEpsilon
-    void fire_attack_a(s32 arg1, s32 arg2, f32 farg0);
-    void fire_attack_b(s32 arg1, s32 arg2, f32 farg0);
+    void fire_attack_a(saddr arg1, s32 arg2, f32 farg0);
+    void fire_attack_b(saddr arg1, s32 arg2, f32 farg0);
     void fire_attack_c(s32 arg1, s32 arg2, f32 farg0);
     s32 update_death_check();
 };

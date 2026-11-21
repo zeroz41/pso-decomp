@@ -20,7 +20,7 @@ struct TObjComputer : public TObjMesBase {
     static void free_resources();
 };
 
-typedef char TObjComputer_size[sizeof(TObjComputer) == 0xC8 ? 1 : -1];
+LAYOUT_ASSERT(TObjComputer_size, sizeof(TObjComputer) == 0xC8);
 extern "C" void *create_stage_computer(void *placement);
 void load_computer_resources();
 

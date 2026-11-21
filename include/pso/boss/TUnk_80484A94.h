@@ -29,7 +29,7 @@ public:
     s32 try_capture_target();
 };
 
-typedef char TUnk_80484A94_size[sizeof(TUnk_80484A94) == 0xE0 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_80484A94_size, sizeof(TUnk_80484A94) == 0xE0);
 
 extern "C" {
 f32 fn_800499FC(s32 index);

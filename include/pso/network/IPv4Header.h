@@ -16,6 +16,6 @@ typedef struct IPv4Header {
     u32 src;
     u32 dst;
 } IPv4Header;
-typedef char IPv4Header_size_check[sizeof(IPv4Header) == 0x14 ? 1 : -1];
+LAYOUT_ASSERT(IPv4Header_size_check, sizeof(IPv4Header) == 0x14);
 
 #endif

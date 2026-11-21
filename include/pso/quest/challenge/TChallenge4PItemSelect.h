@@ -23,10 +23,10 @@ public:
 };
 
 #include <stddef.h>
-typedef char ChallengeItemSelectSize[sizeof(TChallenge4PItemSelect)==0x30 ? 1 : -1];
-typedef char ChallengeItemSelectCallback[offsetof(TChallenge4PItemSelect,onClosed)==0x1C ? 1 : -1];
-typedef char ChallengeItemSelectState[offsetof(TChallenge4PItemSelect,state)==0x20 ? 1 : -1];
-typedef char ChallengeItemSelectTimer[offsetof(TChallenge4PItemSelect,waitFrames)==0x24 ? 1 : -1];
-typedef char ChallengeItemSelectResult[offsetof(TChallenge4PItemSelect,result)==0x28 ? 1 : -1];
-typedef char ChallengeItemSelectWindow[offsetof(TChallenge4PItemSelect,menu_window)==0x2C ? 1 : -1];
+LAYOUT_ASSERT(ChallengeItemSelectSize, sizeof(TChallenge4PItemSelect)==0x30);
+LAYOUT_ASSERT(ChallengeItemSelectCallback, offsetof(TChallenge4PItemSelect,onClosed)==0x1C);
+LAYOUT_ASSERT(ChallengeItemSelectState, offsetof(TChallenge4PItemSelect,state)==0x20);
+LAYOUT_ASSERT(ChallengeItemSelectTimer, offsetof(TChallenge4PItemSelect,waitFrames)==0x24);
+LAYOUT_ASSERT(ChallengeItemSelectResult, offsetof(TChallenge4PItemSelect,result)==0x28);
+LAYOUT_ASSERT(ChallengeItemSelectWindow, offsetof(TChallenge4PItemSelect,menu_window)==0x2C);
 #endif

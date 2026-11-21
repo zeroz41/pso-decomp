@@ -4,6 +4,7 @@
 
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
+#include <string.h>
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjChara.h"
 
@@ -40,7 +41,7 @@ struct Obj_8017873C
   u8 coll[0x10];
   f32 y358;
   u8 pad35c[0x36C - 0x35C];
-  u32 ptrs[3];
+  uaddr ptrs[3];
   u16 hi[3];
   u16 lo[3];
 };
@@ -73,8 +74,7 @@ void fn_8017866C(void *, s32, u16);
 void run_task__17TOSymbolchatColliFv(Obj_80178890 *self);
 u32 prs_decompress_buffer(s32 arg0, s32 arg1);
 u32 symbolchat_colli_param_table[4];
-int symbol_chat_colli_entries;
-void *memset(void *, int, u32);
+saddr symbol_chat_colli_entries;
 u8 is_current_floor_switch_set(s32 id);
 s32 free_collision_body_parts(void *);
 
@@ -112,7 +112,7 @@ void TOSymbolchatColli::init_collision_params() {
       hi = v >> 16;
       if (lo < 0x18)
       {
-        self->ptrs[i] = (u32) (&((Ent_8017873C *) symbol_chat_colli_entries)[lo].f1c);
+        self->ptrs[i] = (uaddr) (&((Ent_8017873C *) symbol_chat_colli_entries)[lo].f1c);
       }
       else
       {
@@ -174,7 +174,7 @@ void run_task__17TOSymbolchatColliFv(Obj_80178890 *self) {
 void *TOSymbolchatColli::create(void *arg0) {
     void *o = TObject::operator new(0x384);
     if (o != NULL) {
-        o = __ct__17TOSymbolchatColliFP7TObjectl((Obj_80178AD4 *)(o), (void *)tl_05, (s32)arg0);
+        o = __ct__17TOSymbolchatColliFP7TObjectl((Obj_80178AD4 *)(o), (void *)tl_05, (saddr)arg0);
     }
     return o;
 }
@@ -182,10 +182,10 @@ void *TOSymbolchatColli::create(void *arg0) {
 void TOSymbolchatColli::free_rock() { mem_free((void *)symbol_chat_colli_entries); symbol_chat_colli_entries = 0; }
 
 void TOSymbolchatColli::load_symbol_chat_data() {
-    s32 h;
+    saddr h;
     s32 i;
-    symbol_chat_colli_entries = (int)mem_alloc(0x840);
-    h = (s32)load_disc_file(lbl_805D3190);
+    symbol_chat_colli_entries = (saddr)mem_alloc(0x840);
+    h = (saddr)load_disc_file(lbl_805D3190);
     if (h != 0) {
         prs_decompress_buffer(h, symbol_chat_colli_entries);
     }

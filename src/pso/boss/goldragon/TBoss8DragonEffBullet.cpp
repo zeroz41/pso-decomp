@@ -14,7 +14,7 @@ extern const DragonBulletParticles lbl_80474B74 = {0x21A, 0x218, 0x229};
 extern const DragonBulletParticles lbl_80474B80 = {0x20A, 0x206, 0x209};
 extern const char TBoss8DragonEffBullet__class_name_string[] = "TBoss8DragonEffBullet";
 const char *TBoss8DragonEffBullet__name = TBoss8DragonEffBullet__class_name_string;
-void TBoss8Dragon__sub_802FB220(void *boss, int position, u32 mode);
+void TBoss8Dragon__sub_802FB220(void *boss, saddr position, u32 mode);
 }
 
 void TBoss8DragonEffBullet::render() {}
@@ -63,7 +63,7 @@ void TBoss8DragonEffBullet::run_task() {
                 trail = NULL;
             }
             play_sound_effect(0x4003AD0C, &position, 0, 0);
-            TBoss8Dragon__sub_802FB220(get_enemy_entity(owner_id), (int)&position, mode);
+            TBoss8Dragon__sub_802FB220(get_enemy_entity(owner_id), (saddr)&position, mode);
         }
         if (lifetime <= 2) {
             spawn_particle_effect_with_flags(&position, particles->burst, 0x40);

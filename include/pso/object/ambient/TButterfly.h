@@ -28,7 +28,7 @@ struct TButterfly : public TObjBase {
     u8 unk_BB[0x1];
 };
 
-typedef char TButterfly_size[sizeof(TButterfly) == 0xBC ? 1 : -1];
+LAYOUT_ASSERT(TButterfly_size, sizeof(TButterfly) == 0xBC);
 
 extern "C" {
 void *__dt__10TButterflyFv(void *arg0, s16 arg1);

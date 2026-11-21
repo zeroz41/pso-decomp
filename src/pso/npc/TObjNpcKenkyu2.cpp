@@ -9,6 +9,7 @@
 #include "pso/npc/TObjNpcLappy.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/task/TObject.h"
 #pragma readonly_strings on
 
 extern "C" {
@@ -29,9 +30,9 @@ extern const char *bm_npc_kenkyu2_motion_names[1];
 
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-extern u32 TObjNpcKenkyu2__shared_model_resource;
-s32 get_bml_texlist(int, int);
-s32 get_bml_model(int, int);
+extern uaddr TObjNpcKenkyu2__shared_model_resource;
+saddr get_bml_texlist(int, int);
+saddr get_bml_model(int, int);
 extern const char *TObjNpcKenkyu2__name;
 void free_bin_model_request(void*, int);
 
@@ -43,9 +44,9 @@ void TObjNpcKenkyu2::free_static_model() {
 }
 
 void TObjNpcKenkyu2::load_shared_resource() {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
+    temp_r3 = (saddr)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &TObjNpcKenkyu2__resource_descriptor, 0, 0, 0));
@@ -59,7 +60,7 @@ extern "C" {
 
 
 TObjNpcKenkyu2::TObjNpcKenkyu2(TObject *parent, void *arg2) : TUnk_804A9F50(parent) {
-    *(s32 *)((s8 *)this + 0) = (s32) TObjNpcKenkyu2__name;
+    *(s32 *)((s8 *)this + 0) = (saddr) TObjNpcKenkyu2__name;
     ((TObjNpcKenkyu2 *)this)->apply_set_data(arg2);
     ((TObjPlayer *)this)->init_position_vectors();
     *(s32 *)((s8 *)this + 0x34) = get_bml_model((int) ((*(s32 *)&TObjNpcKenkyu2__shared_model_resource)), 0);
@@ -77,5 +78,5 @@ BmlResourceDescriptor TObjNpcKenkyu2__resource_descriptor = { "bm_npc_kenkyu2.bm
 __declspec(section ".sdata") const char *bm_npc_kenkyu2_motion_names[1] = { NULL };
 
 const char *TObjNpcKenkyu2__name = "TObjNpcKenkyu2";
-u32 TObjNpcKenkyu2__shared_model_resource;
+uaddr TObjNpcKenkyu2__shared_model_resource;
 }

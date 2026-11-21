@@ -50,15 +50,15 @@ u16 get_entity_id(void *);
 s32 init_collision_body_parts(void *, void *, int);
 s32 __ct__14TObjCollidableFP7TObject(void *, int);
 extern f32 identity_matrix[12];
-extern s32 gyaranzo_bml_resource;
-extern s32 tl_04;
+extern saddr gyaranzo_bml_resource;
+extern saddr tl_04;
 s32 matrix_mult_vec(int, int, int);
 s32 rotate_matrix_x(int, int);
 extern f32 TObjGyaranzoMissile__speed_scale;
 s32 remap_area_sound_id(s32 arg0, s32 arg1);
 void *find_entity_by_id(u16);
 void check_enemy_body_collisions(void *);
-s32 play_sound_effect(void *, void *, int, int);
+s32 play_sound_effect(s32, void *, int, int);
 Target_800D4990 *find_active_entity_by_id(u16);
 }
 s32 get_gyaranzo_missile_int_parameter(s32 i);
@@ -70,8 +70,8 @@ extern const f32 TObjGyaranzoMissile__max_range;
 extern s32 gyaranzo_missile_volley_end_time;
 s32 post_translate_matrix(void *);
 void free_collision_body_parts(void *);
-s32 get_bml_texlist(void *, int);
-s32 get_bml_model(void *, int);
+saddr get_bml_texlist(void *, int);
+saddr get_bml_model(void *, int);
 s32 draw_chunk_object();
 s32 push_matrix();
 
@@ -93,7 +93,7 @@ void TObjGyaranzoMissile::sub_800D47B4() {
             if (q == NULL) {
                 break;
             }
-            if (TObjPlayer::is_valid_and_active((u32)q) != 0) {
+            if (TObjPlayer::is_valid_and_active((uaddr)q) != 0) {
                 Parm_800D47B4 parm = lbl_8043C464[0];
                 parm.b = get_gyaranzo_missile_int_parameter(2);
                 q->v21(owner, parm, 0, -1, -1);
@@ -101,7 +101,7 @@ void TObjGyaranzoMissile::sub_800D47B4() {
         }
     }
     spawn_particle_effect(&position, 0xFB);
-    play_sound_effect((void *)remap_area_sound_id(0x4003A80C, 0x19), &position, 0, 0);
+    play_sound_effect(remap_area_sound_id(0x4003A80C, 0x19), &position, 0, 0);
     queue_destruction();
 }
 
@@ -175,7 +175,7 @@ TObjGyaranzoMissile::~TObjGyaranzoMissile() {
 #define gyaranzo_missile ((u8 *)this)
 TObjGyaranzoMissile::TObjGyaranzoMissile(u8 *arg1, u8 *arg2, u16 arg3) : TObjCollidable((TObject *)tl_04) {
     u8 *temp_r4;
-    *(s32 *)((s8 *)gyaranzo_missile + 0) = (s32) lbl_805D2A80;
+    *(s32 *)((s8 *)gyaranzo_missile + 0) = (saddr) lbl_805D2A80;
     init_collision_body_parts(gyaranzo_missile, &gyaranzo_missile_collision_body_b, 1);
     ((Col_800D4990 *)((TObjGyaranzoMissile *)gyaranzo_missile)->bodies)->radius = 4.0f;
     VecCopy(&((TObjGyaranzoMissile *)gyaranzo_missile)->position, (const Vec *)((int) (*(s32 *)((s8 *)arg2 + 0))));
@@ -194,7 +194,7 @@ TObjGyaranzoMissile::TObjGyaranzoMissile(u8 *arg1, u8 *arg2, u16 arg3) : TObjCol
     rotate_matrix_y(0, (int) (((TObjGyaranzoMissile *)gyaranzo_missile)->rotation_y));
     rotate_matrix_x(0, (int) (((TObjGyaranzoMissile *)gyaranzo_missile)->rotation_x));
     temp_r4 = (gyaranzo_missile + 0xAC);
-    matrix_mult_vec(0, (int)temp_r4, (int)temp_r4);
+    matrix_mult_vec(0, (saddr)temp_r4, (saddr)temp_r4);
     pop_matrix();
     ((TObjGyaranzoMissile *)gyaranzo_missile)->timer = 0;
 }

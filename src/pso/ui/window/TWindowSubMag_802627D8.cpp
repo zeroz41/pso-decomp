@@ -16,7 +16,7 @@ int TWindowKeyBoardSoft::get_flag_bit6() { return (this->m_60 >> 6) & 0x1; }
 int TWindowKeyBoardSoft::get_flag_bit5() { return (this->m_60 >> 5) & 0x1; }
 int TWindowKeyBoardBase::get_flag62_bit8() { return this->m_62 & 0x8; }
 
-void TWindowSubMag::set_mag_slot_state(s32 item) {
+void TWindowSubMag::set_mag_slot_state(saddr item) {
 
     *(u16 *)((TWindowBase *)this)->get_array_entry(0) |= 2;
     if ((*(TItemTexLoad**)((s8 *)this + 0x6C))->load_item_icon((TItemData*)item) != 0) {
@@ -27,7 +27,7 @@ void TWindowSubMag::set_mag_slot_state(s32 item) {
 }
 void fn_8026287C(u8 *window_base) {
     u8 *temp_r3;
-    temp_r3 = (u8 *)(((s32)((TWindowBase *)window_base)->get_array_entry(0)));
+    temp_r3 = (u8 *)(((saddr)((TWindowBase *)window_base)->get_array_entry(0)));
     *(u8 **)((s8 *)temp_r3 + 0x30) = (unsigned char *) (window_base + 0x70);
     *(u16 *)((s8 *)temp_r3 + 0) = (u16) (*(u16 *)((s8 *)temp_r3 + 0) & 0xFFFFFFFD);
 }

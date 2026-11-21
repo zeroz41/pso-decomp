@@ -19,7 +19,7 @@ void begin_screen_draw(s32 arg0);
 s32 draw_textured_quad_at_depth(void *, f32);
 s32 set_draw_texture_and_color(void *, void *);
 extern T_8029BCB4 TAdRayGC_ray_quad_table[4];
-u32 TAdRayGC__ray_texture_list;
+uaddr TAdRayGC__ray_texture_list;
 void __ct__7TObjectFP7TObject(void *);
 
 void TAdRayGC::draw_ray_quads(s32 arg0, u8 *arg1, void *arg2, s32 arg3) {
@@ -30,7 +30,7 @@ void TAdRayGC::draw_ray_quads(s32 arg0, u8 *arg1, void *arg2, s32 arg3) {
         p = (E_8029BCB4 *)arg1;
         for (i = 0; i < 2; i++) {
             begin_screen_draw(1);
-            TObjFish::set_global_param((s32)((void *) TAdRayGC__ray_texture_list));
+            TObjFish::set_global_param((saddr)((void *) TAdRayGC__ray_texture_list));
             set_draw_texture_and_color(p, arg2);
             draw_textured_quad_at_depth(&TAdRayGC_ray_quad_table[i], 0.007142857f);
             TWindowSubStatusDisp::get_player();
@@ -40,7 +40,7 @@ void TAdRayGC::draw_ray_quads(s32 arg0, u8 *arg1, void *arg2, s32 arg3) {
         p = (E_8029BCB4 *)(arg1 + 0x14);
         for (i = 2; i < 4; i++) {
             begin_screen_draw(1);
-            TObjFish::set_global_param((s32)((void *) TAdRayGC__ray_texture_list));
+            TObjFish::set_global_param((saddr)((void *) TAdRayGC__ray_texture_list));
             set_draw_texture_and_color(p, arg2);
             draw_textured_quad_at_depth(&TAdRayGC_ray_quad_table[i], 0.007142857f);
             TWindowSubStatusDisp::get_player();
@@ -56,14 +56,14 @@ void TAdRayGC::render() {
         set_color_blending_mode(1, 0xA);
         switch (*(s32 *)((s8 *)this + 0x1C)) {
         case 0:
-            TAdRayGC::draw_ray_quads((s32)this, (u8 *)(*(s32 *)((s8 *)this + 0x20)), (void *)(-1), 0);
+            TAdRayGC::draw_ray_quads((saddr)this, (u8 *)(*(saddr *)((s8 *)this + 0x20)), (void *)(-1), 0);
             break;
         case 1:
-            TAdRayGC::draw_ray_quads((s32)this, (u8 *)(*(s32 *)((s8 *)this + 0x20)), (void *)(-1), 0);
-            TAdRayGC::draw_ray_quads((s32)this, (u8 *)(*(s32 *)((s8 *)this + 0x20) - 0xD), (void *)(-1), 1);
+            TAdRayGC::draw_ray_quads((saddr)this, (u8 *)(*(saddr *)((s8 *)this + 0x20)), (void *)(-1), 0);
+            TAdRayGC::draw_ray_quads((saddr)this, (u8 *)(*(saddr *)((s8 *)this + 0x20) - 0xD), (void *)(-1), 1);
             break;
         case 2:
-            TAdRayGC::draw_ray_quads((s32)this, (u8 *)(*(s32 *)((s8 *)this + 0x20) - 0xD), (void *)(-1), 1);
+            TAdRayGC::draw_ray_quads((saddr)this, (u8 *)(*(saddr *)((s8 *)this + 0x20) - 0xD), (void *)(-1), 1);
             break;
         }
         set_color_blending_mode(0, 8);
@@ -175,4 +175,4 @@ void TAdRayGC::destroy_instance() {
 
 }
 
-void register_texture_f128_ray(void) { TAdRayGC__ray_texture_list = (u32)&lbl_804DC2D8; load_streamed_prs_texture((s32)"f128_ray", (s32)&lbl_804DC2D8); }
+void register_texture_f128_ray(void) { TAdRayGC__ray_texture_list = (uaddr)&lbl_804DC2D8; load_streamed_prs_texture((saddr)"f128_ray", (saddr)&lbl_804DC2D8); }

@@ -10,8 +10,8 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 extern "C" {
-u8 * TEF_LensFlare__ct(void *, s32, s32);
-extern s32 tl_05;
+u8 * TEF_LensFlare__ct(void *, saddr, saddr);
+extern saddr tl_05;
 u32 __cvt_fp2unsigned(f32);
 f32 horizontal_distance_squared(s32, s32);
 void *get_player_by_client_id(s32 i);
@@ -52,10 +52,10 @@ KeyboardTextBuffer::KeyboardTextBuffer() {
 }
 
 int TEF_LensFlare::is_player_near(f32 farg0) {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     u32 player;
 
-    player = (u32)get_player_by_client_id(local_client_id);
+    player = (uaddr)get_player_by_client_id(local_client_id);
     if (player == 0U) {
         return 0;
     }

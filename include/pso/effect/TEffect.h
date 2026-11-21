@@ -11,7 +11,7 @@ public:
     TEffect();
     virtual ~TEffect();
 
-    u32 source;
+    uaddr source;
     Vec position;
     NJS_ARGB color;
     Vec scale;
@@ -23,10 +23,10 @@ public:
     u32 state;
 };
 #include <stddef.h>
-typedef char EffectSize[(sizeof(TEffect) == 0x70) ? 1 : -1];
-typedef char EffectPositionOffset[(offsetof(TEffect, position) == 0x20) ? 1 : -1];
-typedef char EffectScaleOffset[(offsetof(TEffect, scale) == 0x3C) ? 1 : -1];
-typedef char EffectAgeOffset[(offsetof(TEffect, age) == 0x68) ? 1 : -1];
+LAYOUT_ASSERT(EffectSize, sizeof(TEffect) == 0x70);
+LAYOUT_ASSERT(EffectPositionOffset, offsetof(TEffect, position) == 0x20);
+LAYOUT_ASSERT(EffectScaleOffset, offsetof(TEffect, scale) == 0x3C);
+LAYOUT_ASSERT(EffectAgeOffset, offsetof(TEffect, age) == 0x68);
 
 // One frame of an animated texture list, put into a slot of the texture list
 // a model draws with.
@@ -40,7 +40,7 @@ struct TextureFrameSlot {
 // The particle textures from effect_nt.gvm, bound by load_effect_resources.
 __declspec(section ".data") extern GinjaTextureList shared_effect_texture_list;
 // EFFECT_NT.REL, the effect models.
-extern s32 effect_rel;
+extern saddr effect_rel;
 
 void approach_vector_in_place(Vec *current, const Vec *target, f32 step);
 s32 approach_alpha_clamped(f32 *current, const f32 *target, f32 step);
