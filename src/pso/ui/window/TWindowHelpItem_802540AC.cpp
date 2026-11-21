@@ -473,8 +473,8 @@ void TWindowHelpItem::update_stat_disp() {
     }
 }
 
-#define self ((HelpItem_802541E0 *)arg0)
-void TWindowHelpItem::update_resistance_rows(void *arg0) {
+#define self ((HelpItem_802541E0 *)window_base)
+void TWindowHelpItem::update_resistance_rows(void *window_base) {
     Stats_802541E0 st;
     saddr a;
     saddr b;

@@ -20,13 +20,13 @@ void TWindowCtrl::clear_flag_bit2() {
 extern "C" {
 extern PlayerWindowCommand lbl_804CEA1C;
 extern PlayerWindowCommand lbl_804CEA10;
-void TWindowCtrl__sub_8024ADAC(saddr arg0) {
+void TWindowCtrl__sub_8024ADAC(saddr client_id) {
     PlayerWindowCommand callback = lbl_804CEA1C;
-    call_window_method__11TWindowCtrlFPvi(arg0, callback);
+    call_window_method__11TWindowCtrlFPvi(client_id, callback);
 }
-void TWindowCtrl__sub_8024ADF0(saddr arg0) {
+void TWindowCtrl__sub_8024ADF0(saddr client_id) {
     PlayerWindowCommand callback = lbl_804CEA10;
-    call_window_method__11TWindowCtrlFPvi(arg0, callback);
+    call_window_method__11TWindowCtrlFPvi(client_id, callback);
 }
 
 }

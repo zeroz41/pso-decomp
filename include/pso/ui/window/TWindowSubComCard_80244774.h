@@ -8,7 +8,7 @@ struct WindowDrawContext;
 extern "C" {
 int TWindowSubComCard__sub_80244774(void);
 f32 TWindowSubComCard__sub_80244784(TWindowSubComCard *arg0);
-bool TWindowSubComCard__sub_80245558(s32 arg0, f32 *arg1, f32 *arg2);
+bool TWindowSubComCard__sub_80245558(s32 ctx, f32 *arg1, f32 *arg2);
 void TWindowSubTradeMain__sub_802448E4(void *arg0);
 }
 void draw_selection_bar(WindowDrawContext *context, u8 *entry, s32 active);
@@ -19,7 +19,7 @@ void fn_80244958(void *arg0);
 void fn_802449E0(u8 *arg0);
 }
 bool is_balloon_overlapping(u8 *arg0, u8 *arg1, u8 *arg2);
-void window_request_refresh(u8 *arg0);
+void window_request_refresh(u8 *help);
 void window_request_show(void *arg0);
 
 #endif

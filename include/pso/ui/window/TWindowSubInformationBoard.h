@@ -24,7 +24,7 @@ struct TWindowSubInformationBoard : public TObject {
     static void clear_if_current(u32 arg0);
     void set_page(s32 arg1);
     void set_message_index(s32 arg1);
-    static s32 open_keyboard(saddr arg0);
+    static s32 open_keyboard(saddr parent);
     u32 show_card_a7();
     u32 create_info_board_menu();
     u32 sub_8034CDE0();

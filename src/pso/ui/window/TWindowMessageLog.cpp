@@ -131,8 +131,8 @@ void TAdScrollWinGC::advance_scroll(f32 v) { *(f32*)((char*)this + 0x94) += v; }
 
 void fn_8026A61C(void* p, f32 v) { *(f32*)((char*)p + 0x94) += v; }
 
-void TWindowMessageLog::append_line(s32 arg1) {
-    ((TWindowMessage *)((u8 *)this))->append_line(arg1, 0x502);
+void TWindowMessageLog::append_line(s32 shared_text_buffer) {
+    ((TWindowMessage *)((u8 *)this))->append_line(shared_text_buffer, 0x502);
     update_scroll_position();
 }
 
@@ -273,9 +273,9 @@ void post_chat_log_message(u16 arg0, s32 *shared_text_buffer) {
     }
 }
 
-u8 *create_message_log_window(s32 arg0, saddr arg1, s32 arg2) {
+u8 *create_message_log_window(s32 arg0, saddr arg1, s32 client) {
     TLobby__sub_80269DA4((void *)arg1, 0x1E);
-    return (u8 *)new TWindowMessageLog(arg0, arg2);
+    return (u8 *)new TWindowMessageLog(arg0, client);
 }
 
 
@@ -316,7 +316,7 @@ TWindowMessageLog::~TWindowMessageLog() {
     TWindowSubStatusDisp::destroy_allocation(*(s32 *)((s8 *)this + 0x90), 1);
     TWindowCtrl__sub_8026AD60();
 }
-TWindowMessageLog::TWindowMessageLog(s32 arg1, s32 arg2) : TWindowMessage(arg1, 0x1E, arg2) {
+TWindowMessageLog::TWindowMessageLog(s32 parent, s32 client) : TWindowMessage(parent, 0x1E, client) {
     #define window_message_log this
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8026ABA8, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_8026ABA8, spC) == 0x4);

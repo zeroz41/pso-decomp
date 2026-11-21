@@ -58,12 +58,12 @@ struct TMainCursor : public TObject {
     static void quick_sort(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
     void reset_slots();
     void init_slots();
-    s32 find_by_pos(s16 arg1, s16 arg2);
+    s32 find_by_pos(s16 arg1, s16 kind);
     void set_cursor_pos(u16 arg1, s32 arg2);
     static s32 get_action_cursor_priority(void *arg0, saddr arg1, s32 arg2);
-    static void set_cursor_color(s32 arg0, saddr arg1, saddr arg2);
-    static void set_display_flags(s32 arg0, saddr arg1, saddr arg2);
-    static void setup_flags(s32 arg0, s32 arg1, saddr arg2);
+    static void set_cursor_color(s32 arg0, saddr player, saddr arg2);
+    static void set_display_flags(s32 arg0, saddr player, saddr arg2);
+    static void setup_flags(s32 arg0, s32 player, saddr arg2);
     static void sort_list(s32 arg0, s32 arg1);
     s32 is_channel_active();
     int check_visible();

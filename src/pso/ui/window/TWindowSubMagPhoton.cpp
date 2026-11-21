@@ -185,12 +185,12 @@ void TWindowSubMagPhoton::run_task() {
 
 TWindowSubMagPhoton::~TWindowSubMagPhoton() {}
 
-u8 *TWindowSubMagPhoton__ct(TWindowSubMagPhoton *window_sub_mag_photon, saddr arg1, s32 arg2, s32 arg3) {
+u8 *TWindowSubMagPhoton__ct(TWindowSubMagPhoton *window_sub_mag_photon, saddr parent, s32 arg2, s32 arg3) {
     s16 temp_r4;
-    __ct__11TWindowBaseFPUcsPUc((void *)window_sub_mag_photon, (u8 *)&TWindowSubMagPhoton__layout_descriptor, arg3, (u8 *)arg1);
+    __ct__11TWindowBaseFPUcsPUc((void *)window_sub_mag_photon, (u8 *)&TWindowSubMagPhoton__layout_descriptor, arg3, (u8 *)parent);
     *(s32 **)((s8 *)window_sub_mag_photon + 0x18) = __vt__19TWindowSubMagPhoton;
     *(s32 *)((s8 *)window_sub_mag_photon + 0) = (saddr) TWindowSubMagPhoton__class_name;
-    copy_vec2(((u8 *)window_sub_mag_photon + 0x30), (void *)arg1);
+    copy_vec2(((u8 *)window_sub_mag_photon + 0x30), (void *)parent);
     ((TWindowBase *)window_sub_mag_photon)->save_position();
     window_sub_mag_photon->client_index = arg3;
     window_sub_mag_photon->m_70 = arg2;

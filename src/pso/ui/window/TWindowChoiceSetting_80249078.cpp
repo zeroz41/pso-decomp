@@ -72,9 +72,9 @@ void TWindowSubComCard__sub_80249144(void *window_choice_setting) {
 
 int TWindowSubComCard__sub_80249220(void *p, void *_w1);
 
-s32 create_choice_setting_window__17TWindowSubComCardFiii(saddr arg0, saddr arg1, saddr arg2) {
-    TWindowSubComCard__sub_80249220((void *)arg1, (void *)arg2);
-    return (saddr)new TWindowChoiceSetting((void *)arg0, arg2);
+s32 create_choice_setting_window__17TWindowSubComCardFiii(saddr parent, saddr arg1, saddr rows) {
+    TWindowSubComCard__sub_80249220((void *)arg1, (void *)rows);
+    return (saddr)new TWindowChoiceSetting((void *)parent, rows);
 }
 
 int TWindowSubComCard__sub_80249220(void* p, void * _w1) { return fn_80268C5C(p); }

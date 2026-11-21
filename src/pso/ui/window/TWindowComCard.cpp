@@ -170,7 +170,7 @@ void TWindowComCard::set_display_value(s32 arg1, s32 arg2) {
     }
 }
 
-u8 *TWindowComCard::create_for_card(s32 arg0, s32 arg1, s32 arg2) {
+u8 *TWindowComCard::create_for_card(s32 arg0, s32 arg1, s32 card_slot) {
     s32 var_r30;
     s32 var_r31;
     s32 var_r4;
@@ -184,7 +184,7 @@ u8 *TWindowComCard::create_for_card(s32 arg0, s32 arg1, s32 arg2) {
         return NULL;
     }
     var_r3 = (u8 *)((void *)0x60);
-    var_r31 = arg2 + (arg1 * 0x90);
+    var_r31 = card_slot + (arg1 * 0x90);
     window_dd = (u8 *)(((u8 *)TObject::operator new(0x60)));
     var_r0 = window_dd;
     if (var_r0 != NULL) {
@@ -252,11 +252,11 @@ void *__dt__14TWindowComCardFv(void *arg0, s16 arg1) {
     return arg0;
 }
 
-u8 *TWindowComCard__ct(u8 *window_dd, saddr arg1, saddr arg2) {
-    __ct__11TWindowBaseFPUcsPUc(window_dd, (u8 *)&TWindowComCard__window_desc, (s16)4, (u8 *)arg1);
+u8 *TWindowComCard__ct(u8 *window_dd, saddr parent, saddr keyboard_mode) {
+    __ct__11TWindowBaseFPUcsPUc(window_dd, (u8 *)&TWindowComCard__window_desc, (s16)4, (u8 *)parent);
     *(s32 **)((s8 *)window_dd + 0x18) = (s32 *)__vt__14TWindowComCard;
     *(s32 *)((s8 *)window_dd + 0) = (saddr) TWindowComCard__class_name;
-    update_com_card_display((ComCardDisplay *)(window_dd + 0x24), (void *)arg2);
+    update_com_card_display((ComCardDisplay *)(window_dd + 0x24), (void *)keyboard_mode);
     return window_dd;
 }
 
@@ -274,26 +274,26 @@ s32 get_status_effect_icon_index(u32 arg0);
 void set_sprite_uv_from_pixels(u8 *arg0, f32 farg0, f32 farg1);
 
 
-void TWindowComCard::set_help_mode(s32 arg1) {
+void TWindowComCard::set_help_mode(s32 mode) {
     const ComCardHelpRect *temp_r4;
 
-    if (arg1 == 0xE) {
+    if (mode == 0xE) {
         *(u16 *)&this->m_name = (u16) (*(u16 *)&this->m_name | 2);
         return;
     }
     *(u16 *)&this->m_name = (u16) (*(u16 *)&this->m_name & 0xFFFFFFFD);
-    if (arg1 < 0xA) {
+    if (mode < 0xA) {
         reinterpret_cast<WindowSpritePart *>(this)->kind = 1;
     } else {
         reinterpret_cast<WindowSpritePart *>(this)->kind = 2;
     }
-    temp_r4 = &com_card_help_panel_rect_table[arg1];
+    temp_r4 = &com_card_help_panel_rect_table[mode];
     set_sprite_uv_from_pixels((u8 *)this, temp_r4->x, temp_r4->y);
 }
 
 void*TWindowComCard::get_card_name_ptr() { return (char*)this + 0xa; }
-s32 get_status_effect_icon_index(u32 arg0) {
-    switch (arg0) {
+s32 get_status_effect_icon_index(u32 word) {
+    switch (word) {
     case 3:
         return 1;
     case 9:
@@ -334,9 +334,9 @@ void TWindowComCard__sub_80249D7C(u8 *arg0, s32 arg1);
 
 #pragma push
 #pragma fp_contract on
-void TWindowComCard__sub_80249D7C(u8 *arg0, s32 arg1) {
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x6C) != arg1) {
-        *(s32 *)((s8 *)arg0 + 0x6C) = arg1;
+void TWindowComCard__sub_80249D7C(u8 *arg0, s32 count) {
+    if ((s32) *(s32 *)((s8 *)arg0 + 0x6C) != count) {
+        *(s32 *)((s8 *)arg0 + 0x6C) = count;
         *(f32 *)((s8 *)arg0 + 0x30) = (f32) ((16.0f * (f32) *(s32 *)((s8 *)arg0 + 0x6C)) + (*(f32 *)((s8 *)(*(void **)((s8 *)arg0 + 0x60)) + 0x40) + *(f32 *)((s8 *)arg0 + 0x64)));
         *(s32 *)((s8 *)arg0 + 0x50) = 0xF;
     }
@@ -405,8 +405,8 @@ void *TWindowComCard__sub_80249E80(void *arg0, s16 arg1) {
 
 #pragma push
 #pragma fp_contract on
-Win_80249ED8 *TWindowComCard__sub_80249ED8(Win_80249ED8 *o, Parent_80249ED8 *parent, NJS_POINT2 *ofs, s32 col, s32 mode, s32 arg5) {
-    __ct__11TWindowBaseFPUcsPUc(o, (u8 *)TWindowComCard__window_desc_b, (s16)arg5, (u8 *)(get_zero_vec2()));
+Win_80249ED8 *TWindowComCard__sub_80249ED8(Win_80249ED8 *o, Parent_80249ED8 *parent, NJS_POINT2 *ofs, s32 col, s32 mode, s32 client) {
+    __ct__11TWindowBaseFPUcsPUc(o, (u8 *)TWindowComCard__window_desc_b, (s16)client, (u8 *)(get_zero_vec2()));
     o->vtbl = (s32 *)lbl_804CE964;
     o->parent = parent;
     o->ofs.x = ofs->x;

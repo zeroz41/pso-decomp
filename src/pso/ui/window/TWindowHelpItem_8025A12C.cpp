@@ -108,20 +108,20 @@ void TWindowHelpItem::set_compare_color(s32 arg1) {
     set_flag4_and_field1c(arg1);
 }
 
-void TWindowHelpItem::set_flag4_and_field1c(s32 arg1) {
+void TWindowHelpItem::set_flag4_and_field1c(s32 count) {
     *(u16 *)((s8 *)this + 0) = (u16) (*(u16 *)((s8 *)this + 0) | 4);
-    reinterpret_cast<Item_8025A354 *>(this)->cur = arg1;
+    reinterpret_cast<Item_8025A354 *>(this)->cur = count;
 }
 
-void TWindowHelpItem::set_help_text(uaddr arg1) {
+void TWindowHelpItem::set_help_text(uaddr str) {
     s32 temp_r3;
 
     mem_free(reinterpret_cast<Item_8025A354 *>(this)->label);
     reinterpret_cast<Item_8025A354 *>(this)->label = NULL;
-    if (arg1 != 0U) {
-        temp_r3 = (s32)measure_string_len((const char *)(arg1));
+    if (str != 0U) {
+        temp_r3 = (s32)measure_string_len((const char *)(str));
         reinterpret_cast<Item_8025A354 *>(this)->label = static_cast<char *>(mem_alloc(temp_r3 + 1));
-        strncpy(reinterpret_cast<Item_8025A354 *>(this)->label, reinterpret_cast<const char *>(arg1), (u32)temp_r3 + 1);
+        strncpy(reinterpret_cast<Item_8025A354 *>(this)->label, reinterpret_cast<const char *>(str), (u32)temp_r3 + 1);
     }
 }
 
@@ -184,10 +184,10 @@ void *TWindowHelpItem::destroy(void *arg0, s16 arg1) {
     return arg0;
 }
 
-u8 *TWindowHelpItem__sub_8025A594(u8 *arg0, saddr arg1, s32 arg2) {
-    __ct__13TUnk_804CF918Fl(arg0, arg2);
+u8 *TWindowHelpItem__sub_8025A594(u8 *arg0, saddr rec, s32 client) {
+    __ct__13TUnk_804CF918Fl(arg0, client);
     *(s32 **)((s8 *)arg0 + 4) = ((s32 *)&lbl_804CF9F8);
-    copy_vec2((arg0 + 8), (void *)(arg1 + 4));
+    copy_vec2((arg0 + 8), (void *)(rec + 4));
     *(s32 *)((s8 *)arg0 + 0x10) = -1;
     *(s32 *)((s8 *)arg0 + 0x14) = 0;
     *(s32 *)((s8 *)arg0 + 0x18) = 0;

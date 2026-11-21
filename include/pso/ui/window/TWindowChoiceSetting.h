@@ -18,9 +18,9 @@ struct TWindowChoiceSetting : public TUnk_804D0658 {
 LAYOUT_ASSERT(TWindowChoiceSetting_size, sizeof(TWindowChoiceSetting) == 0x84);
 extern "C" {
 s32 test_buttons_press_or_repeat(s32 input, s32 buttons, s32 delay, s32 period);
-void TWindowMenuInfomation__ct(u8 *arg0, u32 arg1);
+void TWindowMenuInfomation__ct(u8 *arg0, u32 rows);
 }
-s32 create_information_counter_window(s32 arg0);
+s32 create_information_counter_window(s32 rows);
 extern "C" {
 void create_sub_window__20TWindowChoiceSettingFPvi(void *arg0, s32 arg1);
 }

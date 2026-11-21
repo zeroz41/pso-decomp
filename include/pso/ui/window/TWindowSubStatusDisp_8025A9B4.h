@@ -7,7 +7,7 @@ extern "C" {
 void *TWindowSubStatusDisp__sub_8025AF0C(void *arg0, s16 arg1);
 }
 void advance_text_entry_reveal(u8 *arg0);
-u8 *construct_text_entry(u8 *arg0, u8 *arg1, s32 arg2);
+u8 *construct_text_entry(u8 *arg0, u8 *rec, s32 client);
 void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
 
 // --- C functions defined in TWindowSubStatusDisp_8025A9B4.cpp ---

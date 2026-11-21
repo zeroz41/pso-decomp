@@ -86,7 +86,7 @@ void build_small_font_glyph_quad(u8 c, Quad_800FC310 *q);
 #pragma auto_inline off
 #pragma dont_inline off
 
-void TWindowSubStatusDisp__sub_800FBD74(s32 arg0, f32 farg0, f32 farg1, f32 farg2) {
+void TWindowSubStatusDisp__sub_800FBD74(s32 text_color, f32 farg0, f32 farg1, f32 farg2) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800FBD74, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_800FBD74, spC) == 0x4);
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_800FBD74, sp10) == 0x8);
@@ -101,7 +101,7 @@ void TWindowSubStatusDisp__sub_800FBD74(s32 arg0, f32 farg0, f32 farg1, f32 farg
     set_default_alpha_blend();
     begin_screen_draw(1);
     TWindowSubStatusDisp::render_forward();
-    set_draw_texture_and_color(0, (arg0));
+    set_draw_texture_and_color(0, (text_color));
     stack.sp8 = farg0;
     stack.spC = farg1;
     stack.sp10 = (109.0f) + farg0;

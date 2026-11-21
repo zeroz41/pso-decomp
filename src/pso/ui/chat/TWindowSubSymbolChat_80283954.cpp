@@ -28,6 +28,6 @@ s32 TWindowSubSymbolChat__sub_80283998(void *arg0) {
     return *(u8 *)((s8 *)arg0 + 0x60) & 2;
 }
 
-s32 fn_802839A4(void *arg0) {
-    return (s8) *(u8 *)((s8 *)arg0 + 0x61) + ((s8) *(u8 *)((s8 *)arg0 + 0x62) * 2);
+s32 fn_802839A4(void *window_base) {
+    return (s8) *(u8 *)((s8 *)window_base + 0x61) + ((s8) *(u8 *)((s8 *)window_base + 0x62) * 2);
 }

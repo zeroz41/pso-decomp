@@ -15,10 +15,10 @@ struct TWindowSubQuestBoard : public TObject {
     u32 m_24;
     uaddr m_28;
     TQuestThreadBoard *quest_thread_board;
-    void set_board_flags(s32 arg1);
-    void set_card_window_flags(s32 arg1);
-    void clear_card_window_flags(s32 arg1);
-    void set_card_flags_scaled(s32 arg1);
+    void set_board_flags(s32 value);
+    void set_card_window_flags(s32 value);
+    void clear_card_window_flags(s32 value);
+    void set_card_flags_scaled(s32 value);
     int set_card_flags_direct(int a1);
     virtual void render();
     virtual void run_task();
@@ -29,14 +29,14 @@ LAYOUT_ASSERT(TWindowSubQuestBoard_size, sizeof(TWindowSubQuestBoard) == 0x30);
 
 extern "C" {
 u8 *TWindowSubQuestBoard__sub_8027CE74(u8 *arg0, u8 *arg1, s32 arg2);
-void TWindowSubQuestBoard__sub_8027CF50(saddr arg0, s32 arg1);
+void TWindowSubQuestBoard__sub_8027CF50(saddr client_id, s32 value);
 void *__dt__20TWindowSubQuestBoardFv(void *arg0, s16 arg1);
 }
 
 // --- C functions defined in TWindowSubQuestBoard.cpp ---
 extern "C" {
 u8 *TWindowSubQuestBoard__sub_8027CE74(u8 *arg0, u8 *arg1, s32 arg2);
-void TWindowSubQuestBoard__sub_8027CF50(saddr arg0, s32 arg1);
+void TWindowSubQuestBoard__sub_8027CF50(saddr client_id, s32 value);
 }
 // --- end of C functions
 

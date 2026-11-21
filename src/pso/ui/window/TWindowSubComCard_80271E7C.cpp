@@ -1756,13 +1756,13 @@ void apply_selection__17TWindowSubComCardFi(s32 arg0) {
 
 void *TWindowSubComCard::get_message_10(s32 index) { return TWindowSubStatusDisp::get_message_10(index + 0xa6); }
 
-u8 *TWindowSubComCard::find_entry_rest(void *arg1_arg, s32 arg2) {
+u8 *TWindowSubComCard::find_entry_rest(void *arg1_arg, s32 idx) {
     Key_80272034 *arg1 = (Key_80272034 *)arg1_arg;
     Tbl_80272034 *t = ((Win_80272034 *)this)->tbl;
     Ent_80272034 *e;
     Key_80272034 *k;
     s32 i;
-    k = arg1 + arg2;
+    k = arg1 + idx;
     e = t->e;
     for (i = 0; i < t->count; i++, e++) {
         if (e->a == k->a && e->b == k->b) return e->rest;

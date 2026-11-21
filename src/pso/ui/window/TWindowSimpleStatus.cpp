@@ -382,12 +382,12 @@ void TWindowSubStatusDisp::update_hp_tp_level() {
     update_status_entry();
 }
 
-void TWindowLockOn::update_for_player_index(s32 arg1) {
+void TWindowLockOn::update_for_player_index(s32 id) {
     saddr temp_r31;
     struct VObj_8026ff0c *temp_r30;
     u8 *temp_r29;
 
-    temp_r30 = (VObj_8026ff0c *)get_player_by_client_id(arg1);
+    temp_r30 = (VObj_8026ff0c *)get_player_by_client_id(id);
     if (temp_r30 == NULL) {
         ((TWindowHelpItem *)((u8 *)this))->set_flag0_bit2();
         return;
@@ -487,7 +487,7 @@ void update_status_help_item(saddr arg0) {
 #pragma fp_contract on
 #pragma opt_common_subs off
 extern "C" {
-void draw_photon_blast_gauge_ring(s32 arg0, Params_80270244 *arg1, const NJS_POINT2 *arg2, f32 farg0, f32 farg1) {
+void draw_photon_blast_gauge_ring(s32 arg0, Params_80270244 *arg1, const NJS_POINT2 *pos, f32 farg0, f32 farg1) {
     NJS_POINT2 p;
     u32 n;
     if (farg0 > 500.0f) {
@@ -496,8 +496,8 @@ void draw_photon_blast_gauge_ring(s32 arg0, Params_80270244 *arg1, const NJS_POI
     n = TWindowSubComCard::trunc_float(0.01f * farg0);
     farg0 -= 100.0f * n;
     if (arg1->f30 >= 0) {
-        p.x = arg1->x + arg2->x;
-        p.y = arg1->y + arg2->y;
+        p.x = arg1->x + pos->x;
+        p.y = arg1->y + pos->y;
         draw_photon_blast_fan(arg0, &p, arg1, photon_blast_gauge_ring_color_table[n], 0.0f, 0, 0xD700, farg1);
         draw_photon_blast_fan(arg0, &p, arg1, photon_blast_gauge_ring_color_table[++n], 0.1f, 55040.0f - 0.01f * (55040.0f * farg0), 0xD700, farg1);
     }
@@ -586,12 +586,12 @@ TWindowSimpleStatus::~TWindowSimpleStatus() {
     }
 }
 
-SS_80270668 *TWindowSimpleStatus__ct(SS_80270668 *arg0, void *arg1, s32 arg2, void *arg3) {
+SS_80270668 *TWindowSimpleStatus__ct(SS_80270668 *arg0, void *arg1, s32 client, void *arg3) {
     s32 i;
-    __ct__11TWindowBaseFPUcsPUc(arg0, (u8 *)arg3, (s16)arg2, (u8 *)arg1);
+    __ct__11TWindowBaseFPUcsPUc(arg0, (u8 *)arg3, (s16)client, (u8 *)arg1);
     arg0->vt = __vt__19TWindowSimpleStatus;
     arg0->m_name = TWindowSimpleStatus__name;
-    arg0->f20 = arg2;
+    arg0->f20 = client;
     arg0->f60 = 0;
     arg0->f58 = -1.0f;
     for (i = 0; i < 5; i++) {

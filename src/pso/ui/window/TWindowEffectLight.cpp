@@ -39,9 +39,9 @@ void *TWindowEffectLight::create(void *position, s16 effect_kind, u32 player_id)
 
 }
 
-TWindowEffectLight::TWindowEffectLight(void *arg1, s16 arg2, u32 id) : TObject((TObject *)tl_window) {
+TWindowEffectLight::TWindowEffectLight(void *position, s16 arg2, u32 id) : TObject((TObject *)tl_window) {
     this->m_name = TWindowEffectLight__name;
-    copy_vec2((((u8 *)this) + 0x1C), arg1);
+    copy_vec2((((u8 *)this) + 0x1C), position);
     WindowDrawContext::adjust_pos_for_split_screen((NJS_POINT2 *)(((u8 *)this) + 0x1C), TCameraCtrl::get_split_screen_view_index(id));
     effect_kind = arg2;
     age = -1;

@@ -8,9 +8,9 @@ void format_message__9TWindowDDFPvPvUs(saddr src, uaddr dst, s32 player);
 
 extern uaddr window_dd_buffer_a;
 
-void TWindowDD::open(saddr arg0, s32 arg1) {
-    format_message__9TWindowDDFPvPvUs(arg0, window_dd_buffer_a, arg1);
-    TWindowCtrl::open(arg1, window_dd_buffer_a, 0x4F);
+void TWindowDD::open(saddr src, s32 player) {
+    format_message__9TWindowDDFPvPvUs(src, window_dd_buffer_a, player);
+    TWindowCtrl::open(player, window_dd_buffer_a, 0x4F);
 }
 
 u8 TWindowDD::is_id_in_special_range(s16 id) {

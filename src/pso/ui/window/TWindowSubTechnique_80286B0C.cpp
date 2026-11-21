@@ -17,10 +17,10 @@ extern "C" {
 
 void *get_player_by_client_id(s32);
 
-void TWindowSubTechnique::get_selection(s16 *arg0, s32 *arg1, s32 arg2) {
+void TWindowSubTechnique::get_selection(s16 *arg0, s32 *arg1, s32 client) {
     void *player;
 
-    player = get_player_by_client_id(arg2);
+    player = get_player_by_client_id(client);
     if (player != NULL) {
         *arg0 = *(s16 *)((s8 *)player + 0x32E);
         *arg1 = ((VObj_80286B0C *)player)->v36();

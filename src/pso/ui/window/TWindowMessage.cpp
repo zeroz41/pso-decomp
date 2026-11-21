@@ -350,9 +350,9 @@ WindowDescriptor *TLobby__sub_80269CB4(void) {
     return &message_window_settings;
 }
 
-u8 *TWindowMessage::create(saddr arg0, const f32 *size, uaddr arg2, s32 arg3) {
-    TLobby__sub_80269DA4(size, arg2);
-    return (u8 *)new TWindowMessage(arg0, arg2, arg3);
+u8 *TWindowMessage::create(saddr parent, const f32 *size, uaddr rows, s32 client) {
+    TLobby__sub_80269DA4(size, rows);
+    return (u8 *)new TWindowMessage(parent, rows, client);
 }
 
 u8 *TWindowMessage::create(const NJS_POINT2 *pos, const f32 *size, saddr rows) {
@@ -401,7 +401,7 @@ void TWindowMessage::run_task() {
 TWindowMessage::~TWindowMessage() {
     if (*(void **)((s8 *)this + 0x7C) != NULL) { mem_free(*(void **)((s8 *)this + 0x7C)); }
 }
-TWindowMessage::TWindowMessage(saddr arg1, u32 arg2, s32 arg3) : TWindowAddition((u8 *)&message_window_settings, (s16)arg3, (u8 *)arg1) {
+TWindowMessage::TWindowMessage(saddr parent, u32 arg2, s32 client) : TWindowAddition((u8 *)&message_window_settings, (s16)client, (u8 *)parent) {
     u32 i;
     u8 *p;
     #define window_addition ((u8 *)this)

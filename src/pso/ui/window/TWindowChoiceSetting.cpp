@@ -159,17 +159,17 @@ void TUnk_804D0658::draw_setting(saddr window_key_board_soft) {
     }
 }
 
-void TWindowMenuInfomation__ct(u8 *lobby, u32 arg1) {
+void TWindowMenuInfomation__ct(u8 *lobby, u32 rows) {
     u32 i;
     u8 *e;
     *(s32 *)lobby = (saddr) lbl_805D3970;
     *(s16 *)(lobby + 0x72) = 0;
     *(s16 *)(lobby + 0x74) = 0;
-    *(u16 *)(lobby + 0x76) = arg1;
+    *(u16 *)(lobby + 0x76) = rows;
     *(s16 *)(lobby + 0x70) = 0;
     *(s32 *)(lobby + 0x78) = 0;
     *(s32 *)(lobby + 0x7C) = 0;
-    for (i = 0; i < arg1; i++) {
+    for (i = 0; i < rows; i++) {
         e = (u8 *)((TWindowBase *)lobby)->get_array_entry(i);
         *(f32 *)(e + 0xC) = (f32)(i * 0x14);
     }
@@ -196,11 +196,11 @@ extern "C" {
 void fn_80268C5C(NJS_POINT2 v, s32 x);
 saddr get_window_layout_position(s32);
 }
-s32 create_information_counter_window(s32 arg0) {
+s32 create_information_counter_window(s32 rows) {
     TUnk_804D0658 *window;
 
-    ((s32 (*)(const f32 *, s32))fn_80268C5C)(lbl_8044F3A0, arg0);
-    window = new TUnk_804D0658((void *)get_window_layout_position(0xAE), arg0);
+    ((s32 (*)(const f32 *, s32))fn_80268C5C)(lbl_8044F3A0, rows);
+    window = new TUnk_804D0658((void *)get_window_layout_position(0xAE), rows);
     ((s32 (*)(s32, const char *))create_sub_window__20TWindowChoiceSettingFPvi)((saddr)window, "Information Counter");
     return (saddr)window;
 }

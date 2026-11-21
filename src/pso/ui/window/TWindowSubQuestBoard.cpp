@@ -123,28 +123,28 @@ void TWindowSubQuestBoard::render() {  }
 
 int TWindowSubQuestBoard::set_card_flags_direct(int a1) { return set_card_window_flags__19TWindowKeyBoardHardFPvll(this, a1, -2); }
 
-void TWindowSubQuestBoard::set_card_flags_scaled(s32 arg1) {
+void TWindowSubQuestBoard::set_card_flags_scaled(s32 value) {
     saddr arg0 = (saddr)this;
-    TWindowKeyBoardHard::set_card_window_flags((void*)arg0, arg1 * 2, -3);
+    TWindowKeyBoardHard::set_card_window_flags((void*)arg0, value * 2, -3);
 }
 
-void TWindowSubQuestBoard__sub_8027CF50(saddr arg0, s32 arg1) {
-    TWindowKeyBoardHard::set_card_window_flags((void*)arg0, arg1 * 4, -5);
+void TWindowSubQuestBoard__sub_8027CF50(saddr client_id, s32 value) {
+    TWindowKeyBoardHard::set_card_window_flags((void*)client_id, value * 4, -5);
 }
 
-void TWindowSubQuestBoard::clear_card_window_flags(s32 arg1) {
+void TWindowSubQuestBoard::clear_card_window_flags(s32 value) {
     saddr arg0 = (saddr)this;
-    TWindowKeyBoardHard::set_card_window_flags((void*)arg0, arg1 * 8, -9);
+    TWindowKeyBoardHard::set_card_window_flags((void*)arg0, value * 8, -9);
 }
 
-void TWindowSubQuestBoard::set_card_window_flags(s32 arg1) {
+void TWindowSubQuestBoard::set_card_window_flags(s32 value) {
     saddr arg0 = (saddr)this;
-    TWindowKeyBoardHard::set_card_window_flags((void*)arg0, arg1 << 8, -0x301);
+    TWindowKeyBoardHard::set_card_window_flags((void*)arg0, value << 8, -0x301);
 }
 
-void TWindowSubQuestBoard::set_board_flags(s32 arg1) {
+void TWindowSubQuestBoard::set_board_flags(s32 value) {
     saddr arg0 = (saddr)this;
-    TWindowKeyBoardHard::set_card_window_flags((void*)arg0, arg1 << 0xA, -0x1C01);
+    TWindowKeyBoardHard::set_card_window_flags((void*)arg0, value << 0xA, -0x1C01);
 }
 
 u8 *TWindowSubQuestBoard__sub_8027CE74(u8 *arg0, u8 *arg1, s32 arg2) {

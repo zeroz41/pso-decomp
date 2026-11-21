@@ -20,7 +20,7 @@ struct TWindowSubItem : public TObject {
     void set_displayed_item(s32 arg1);
     void use_selected_item();
     void close_windows(s32 arg1);
-    void exec_item_command(saddr arg1, s32 arg2);
+    void exec_item_command(saddr item_id, s32 arg2);
     void set_cursor_row_for_mode(s32 arg1);
     static void draw_slot(saddr arg1, saddr arg2, s32 arg3);
     static void add_meseta_purpose_actions(saddr arg0, saddr arg1);

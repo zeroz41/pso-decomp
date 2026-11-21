@@ -121,7 +121,7 @@ void TAdSinglePlyChrSelectGC::format_challenge_stage_times(s32 arg0, s32 arg1) {
     }
 }
 
-void TLobby::open_challenge_window(s32 arg0, s32 arg1) {
+void TLobby::open_challenge_window(s32 lobby, s32 arg1) {
     void *win;
     win = TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x3B)), (const f32 *)challenge_window_extent, 1);
     (*(Chal_8007369C *)&challenge_mode_state).window = win;
@@ -132,11 +132,11 @@ void TLobby::open_challenge_window(s32 arg0, s32 arg1) {
     if (TCameraCtrl::get_camera_id() >= 2) {
         ((TWindowAddition *)((*(Chal_8007369C *)&challenge_mode_state).window))->set_position_xy(0.75f, 0.75f);
     }
-    TAdSinglePlyChrSelectGC::format_challenge_stage_times(arg0, arg1);
+    TAdSinglePlyChrSelectGC::format_challenge_stage_times(lobby, arg1);
     ((TWindowMessage *)((*(Chal_8007369C *)&challenge_mode_state).window))->append_line((saddr)challenge_progress_text_buffer, (int)0);
 }
 
-void TLobby::open_challenge_progress_window(void *arg1) {
+void TLobby::open_challenge_progress_window(void *slot) {
     char tmp[32];
     s32 n;
     Rec_80073738 *rec;
@@ -157,8 +157,8 @@ void TLobby::open_challenge_progress_window(void *arg1) {
         if (rec->flag != 0) {
             strcat(challenge_progress_text_buffer, (char *)(get_player_by_client_id(i) + 0x85C));
             strcat(challenge_progress_text_buffer, "\n    ");
-            n = fn_80071A9C(this, rec->data, arg1);
-            if (n >= TWindowSubStatusDisp::get_layout_id((saddr)arg1)) {
+            n = fn_80071A9C(this, rec->data, slot);
+            if (n >= TWindowSubStatusDisp::get_layout_id((saddr)slot)) {
                 strcat(challenge_progress_text_buffer, get_message_text(0x52));
             } else if (n == 0) {
                 strcat(challenge_progress_text_buffer, get_message_text(0x51));

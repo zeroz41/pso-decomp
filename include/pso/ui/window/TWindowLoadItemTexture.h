@@ -15,7 +15,7 @@ struct TWindowLoadItemTexture : public TWindowBase {
     u8 _pad68[0x4];
     u32 m_6c;
     u32 m_70;
-    void *create(void *arg1);
+    void *create(void *client);
     virtual void run_task();
 };
 
@@ -23,14 +23,14 @@ LAYOUT_ASSERT(TWindowLoadItemTexture_size, sizeof(TWindowLoadItemTexture) == 0x7
 
 extern "C" {
 void fn_80262C2C(void *p);
-void render__22TWindowLoadItemTextureFv(TWindowLoadItemTexture *arg0);
+void render__22TWindowLoadItemTextureFv(TWindowLoadItemTexture *window_base);
 }
 
 // --- C functions defined in TWindowLoadItemTexture.cpp ---
 extern "C" {
 TWindowLoadItemTexture *fn_802628C0(void *layout, void *table, void *id);
 void fn_80262C2C(void *p);
-void render__22TWindowLoadItemTextureFv(TWindowLoadItemTexture *arg0);
+void render__22TWindowLoadItemTextureFv(TWindowLoadItemTexture *window_base);
 }
 // --- end of C functions
 

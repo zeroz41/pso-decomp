@@ -55,7 +55,7 @@ struct TKeyBoardControl : public TObject {
     static s16 scale_axis_value(s16 x);
     void clamp_axes();
     static void init_pad_states();
-    static void parse_pad_event(s32 arg0, u32 arg1);
+    static void parse_pad_event(s32 chan, u32 type);
     static void detect_device_type(s32 chan);
     static s32 disable_all_channels();
     void update_pressed_keys();
@@ -69,7 +69,7 @@ struct TKeyBoardControl : public TObject {
     static void init_pad_state();
     s32 poll_key_state();
     static s32 start_get_type_async(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-    static void enable_keyboard_polling(s32 arg0);
+    static void enable_keyboard_polling(s32 chan);
     static void update_camera();
     static void set_key_state(s32 arg0);
     static s32 get_function_key_menu(void *arg0);

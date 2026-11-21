@@ -25,13 +25,13 @@ struct TWindowSubTechnique : public TObject {
     virtual void render();
     virtual void run_task();
     void clear_flag70_bit80();
-    static void get_selection(s16 *arg0, s32 *arg1, s32 arg2);
+    static void get_selection(s16 *arg0, s32 *arg1, s32 client);
     static s32 update_selection(s16 *arg0, s32 *arg1, s32 client);
     static void get_current_selection(s16 *arg0, s32 *arg1, s32 client);
     static s32 lookup_technique(s32 arg0, s32 arg1);
     s32 create_title_window();
     static s32 is_technique_available(s32 arg0, s32 arg1);
-    static void draw_technique_row(s32 id, s32 arg1, s32 arg2);
+    static void draw_technique_row(s32 id, s32 arg1, s32 list);
 };
 
 LAYOUT_ASSERT(TWindowSubTechnique_size, sizeof(TWindowSubTechnique) == 0x40);

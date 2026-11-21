@@ -79,13 +79,13 @@ struct TWindowMainMenu : public TObject {
     void clear_menu_flags();
     saddr find_free_slot();
     s32 update_if_active(s32 _w1);
-    void draw_entries_reversed(u8 *arg1);
+    void draw_entries_reversed(u8 *frame);
     s32 is_not_split_screen();
     static void *create_menu(void *arg0, void *arg1);
-    void open_menu_with_entry(s16 arg1);
-    void try_open_battle_menu(s16 arg1);
+    void open_menu_with_entry(s16 id);
+    void try_open_battle_menu(s16 key);
     s32 filter_menu_entry(s16 *arg1, s32 *arg2);
-    void update_description_text(s32 arg1);
+    void update_description_text(s32 id);
 };
 
 LAYOUT_ASSERT(MainMenuSlotStateSize, sizeof(MainMenuSlotState) == 8);

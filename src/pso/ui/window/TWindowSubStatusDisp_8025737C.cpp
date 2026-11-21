@@ -167,25 +167,25 @@ u32 update_text_color_transition(Fade_802575C0 *fade) {
     }
 }
 
-void start_text_color_transition(Fade_802575C0 *arg0, u32 rgb, f32 time) {
+void start_text_color_transition(Fade_802575C0 *array_entry, u32 rgb, f32 time) {
     Col_802575C0 c;
-    if (arg0->rgb != rgb) {
-        arg0->rgb = rgb;
+    if (array_entry->rgb != rgb) {
+        array_entry->rgb = rgb;
         c.r = rgb >> 16;
         c.g = rgb >> 8;
         c.b = rgb;
-        arg0->tr = c.r;
-        arg0->tg = c.g;
-        arg0->tb = c.b;
-        ((TAdChrMoveEffectGC *)(&c))->copy4(&arg0->col);
+        array_entry->tr = c.r;
+        array_entry->tg = c.g;
+        array_entry->tb = c.b;
+        ((TAdChrMoveEffectGC *)(&c))->copy4(&array_entry->col);
         time = 1.0f / time;
-        arg0->cr = c.r;
-        arg0->cg = c.g;
-        arg0->cb = c.b;
-        arg0->dr = time * (arg0->tr - arg0->cr);
-        arg0->dg = time * (arg0->tg - arg0->cg);
-        arg0->db = time * (arg0->tb - arg0->cb);
-        arg0->flags |= 0x40;
+        array_entry->cr = c.r;
+        array_entry->cg = c.g;
+        array_entry->cb = c.b;
+        array_entry->dr = time * (array_entry->tr - array_entry->cr);
+        array_entry->dg = time * (array_entry->tg - array_entry->cg);
+        array_entry->db = time * (array_entry->tb - array_entry->cb);
+        array_entry->flags |= 0x40;
     }
 }
 

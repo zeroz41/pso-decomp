@@ -303,16 +303,16 @@ void park_selection__15TWindowMainMenuFPv(Menu_802AD980 *arg0) {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void copy_color_entry__15TWindowMainMenuFPvPv(Col_802ADA48 *arg0, Col_802ADA48 *arg1) {
-    arg0->h = arg1->h;
-    arg0->b0 = arg1->b0;
-    arg0->b1 = arg1->b1;
-    arg0->b2 = arg1->b2;
-    arg0->b3 = arg1->b3;
-    arg0->b4 = arg1->b4;
-    arg0->b5 = arg1->b5;
-    arg0->b6 = arg1->b6;
-    arg0->b7 = arg1->b7;
+void copy_color_entry__15TWindowMainMenuFPvPv(Col_802ADA48 *slot, Col_802ADA48 *arg1) {
+    slot->h = arg1->h;
+    slot->b0 = arg1->b0;
+    slot->b1 = arg1->b1;
+    slot->b2 = arg1->b2;
+    slot->b3 = arg1->b3;
+    slot->b4 = arg1->b4;
+    slot->b5 = arg1->b5;
+    slot->b6 = arg1->b6;
+    slot->b7 = arg1->b7;
 }
 #pragma pop
 
@@ -342,9 +342,9 @@ void TWindowMainMenu__sub_802ADADC(Obj_802ADADC *self, s8 i) {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-int TWindowMainMenu__sub_802ADB00(u8 *arg0) {
+int TWindowMainMenu__sub_802ADB00(u8 *node) {
   long long new_var;
-  return new_var = (s8) ((*((u8 *) (((s8 *) arg0) + 0x61))) & 0xFFFFFFFFFFFFFFFFu);
+  return new_var = (s8) ((*((u8 *) (((s8 *) node) + 0x61))) & 0xFFFFFFFFFFFFFFFFu);
 }
 #pragma pop
 
@@ -459,7 +459,7 @@ s32 TWindowMainMenu::update_if_active(s32 _w1) {
     return temp_r3;
 }
 
-s32 append_child_rows__15TWindowMainMenuFPvi(Menu_802ADD38 *arg0, s32 arg1) {
+s32 append_child_rows__15TWindowMainMenuFPvi(Menu_802ADD38 *arg0, s32 id) {
     u8 sp8[8];
     s32 n;
     saddr slot;
@@ -468,13 +468,13 @@ s32 append_child_rows__15TWindowMainMenuFPvi(Menu_802ADD38 *arg0, s32 arg1) {
         return 0;
     }
     ((s32 (*)(void *, void *, s32))get_row_position__15TWindowMainMenuFiPvi)(arg0, sp8, n + arg0->count);
-    slot = ((s32 (*)(void *, s32))find_active_item_by_id__15TWindowMainMenuFii)(arg0, arg1);
+    slot = ((s32 (*)(void *, s32))find_active_item_by_id__15TWindowMainMenuFii)(arg0, id);
     if (slot == 0) {
         slot = ((TWindowMainMenu *)arg0)->find_free_slot();
         if (slot == 0) {
             return 0;
         }
-        ((s32 (*)(s32, void *, s8, s8))init_row_entry__15TWindowMainMenuFPvicc)(slot, sp8, arg1, -(n * 2));
+        ((s32 (*)(s32, void *, s8, s8))init_row_entry__15TWindowMainMenuFPvicc)(slot, sp8, id, -(n * 2));
     } else {
         ((TWindowMainMenu *)slot)->set_symbol_chat_parts(sp8);
     }
@@ -500,14 +500,14 @@ void TWindowMenuMainMenu::update_scaled_position() {
     set_target_y(16.0f * (f32)count_active_items__15TWindowMainMenuFi((saddr)this));
 }
 
-void TWindowMainMenu::draw_entries_reversed(u8 *arg1) {
+void TWindowMainMenu::draw_entries_reversed(u8 *frame) {
     saddr arg0 = (saddr)this;
     s32 var_r31;
     u8 *var_r30;
     var_r30 = (u8 *)(arg0 + 0x10C);
     var_r31 = 0;
     do {
-        ((void (*)(void *, void *))draw_item_labels__15TWindowMainMenuFv)(var_r30, arg1);
+        ((void (*)(void *, void *))draw_item_labels__15TWindowMainMenuFv)(var_r30, frame);
         var_r31 += 1;
         var_r30 -= 0x18;
     } while (var_r31 < 8);

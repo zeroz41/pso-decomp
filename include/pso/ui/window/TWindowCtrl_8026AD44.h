@@ -5,13 +5,13 @@
 
 extern "C" {
 void TWindowCtrl__sub_8026AD60(void);
-void TWindowCtrl__sub_8026AD78(s32 arg0);
+void TWindowCtrl__sub_8026AD78(s32 window_message_log);
 }
 
 // --- C functions defined in TWindowCtrl_8026AD44.cpp ---
 extern "C" {
 void TWindowCtrl__sub_8026AD60(void);
-void TWindowCtrl__sub_8026AD78(s32 arg0);
+void TWindowCtrl__sub_8026AD78(s32 window_message_log);
 }
 // --- end of C functions
 

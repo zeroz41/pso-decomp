@@ -232,8 +232,8 @@ s32 create_font_small_task_default_color(s32 arg0, s32 arg1, s32 arg2, s32 arg3,
     return var_r31;
 }
 
-void TBoss3Volopt__sub_800FD344(s32 arg0, s32 arg1, s32 arg2, void *arg3, void *arg4) {
-    create_font_small_task((s32)arg0, (s32)arg1, (s32)arg2, 0, (s32 *)arg3, (saddr)arg4, 0xFFFF);
+void TBoss3Volopt__sub_800FD344(s32 arg0, s32 arg1, s32 arg2, void *str, void *arg4) {
+    create_font_small_task((s32)arg0, (s32)arg1, (s32)arg2, 0, (s32 *)str, (saddr)arg4, 0xFFFF);
 }
 
 s32 TObjEneEpsilonGuard::create_damage_font(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {

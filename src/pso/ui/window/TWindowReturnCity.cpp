@@ -125,9 +125,9 @@ TWindowReturnCity::~TWindowReturnCity() {
     if (*(void **)((s8 *)this + 0x1C) != NULL) { ((TWindowSubComCard *)(*(void **)((s8 *)this + 0x1C)))->close(); this->m_1c = 0; }
 }
 
-u8 *TWindowReturnCity__ct(TWindowReturnCity *window_return_city, saddr arg1, s32 arg2) {
+u8 *TWindowReturnCity__ct(TWindowReturnCity *window_return_city, saddr parent, s32 arg2) {
   s32 temp_r31;
-  __ct__7TObjectFP7TObject((void *) window_return_city, (void *) arg1);
+  __ct__7TObjectFP7TObject((void *) window_return_city, (void *) parent);
   *((s32 **) (((s8 *) window_return_city) + 0x18)) = __vt__17TWindowReturnCity;
   *((s32 *) (((s8 *) window_return_city) + 0)) = (saddr) TWindowReturnCity__class_name;
   window_return_city->m_24 = arg2;

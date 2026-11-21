@@ -152,18 +152,18 @@ s32 dispatch_request_0x14__19TWindowKeyBoardSoftFll(void *, void *);
 s32 dispatch_request_0x13__19TWindowKeyBoardSoftFlll(u8 *, s32 *, s8 *);
 
 
-void TWindowKeyBoardBase::init_keyboard_text_field(u32 arg1, u32 arg2) {
+void TWindowKeyBoardBase::init_keyboard_text_field(u32 width, u32 lines) {
     u8 *arg0 = (u8 *)this;
-    if (arg2 == 0) {
+    if (lines == 0) {
         this->target_size[0] = 100000.0f;
         *(f32 *)((s8 *)arg0 + 0x3C) = 38.0f;
     } else {
-        this->target_size[0] = (f32) (0.1f + (8.0f + (f32) arg1));
-        *(f32 *)((s8 *)arg0 + 0x3C) = (f32) (20.0f + (f32) (arg2 * 0x14));
+        this->target_size[0] = (f32) (0.1f + (8.0f + (f32) width));
+        *(f32 *)((s8 *)arg0 + 0x3C) = (f32) (20.0f + (f32) (lines * 0x14));
     }
     this->frame_size[0] = (f32) this->target_size[0];
     *(f32 *)((s8 *)arg0 + 0x4C) = (f32) *(f32 *)((s8 *)arg0 + 0x3C);
-    m_text.init(arg1, arg2);
+    m_text.init(width, lines);
     *(u8 **)((s8 *)arg0 + 0x68) = (unsigned char *) (arg0 + 0x6C);
     this->m_60 = 0;
 }
@@ -242,9 +242,9 @@ void TWindowKeyBoardBase::sub_8025CF50(int count) {
 }
 
 #define self ((KbSoft_8025CFA8 *)arg0)
-void TWindowKeyBoardBase::sub_8025CFA8(s32 *arg1) {
+void TWindowKeyBoardBase::sub_8025CFA8(s32 *name) {
     void * arg0 = (void *)this;
-#define text ((char *)arg1)
+#define text ((char *)name)
     char out[0x100];
     char tmp[0x100];
     char *p;
@@ -730,7 +730,7 @@ void TWindowKeyBoardBase::sub_8025DBDC(s32 arg1) {
     }
 }
 
-void fn_8025DE10(void *arg0, void *arg1) {
+void fn_8025DE10(void *ctx, void *arg1) {
     f32 pos[8];
     Desc_8025DECC d;
     u32 col[4];
@@ -740,7 +740,7 @@ void fn_8025DE10(void *arg0, void *arg1) {
     if (actor_frame_tick & 0x10) {
         return;
     }
-    depth = 0.1794f + ((Box_8025E350 *)arg0)->z;
+    depth = 0.1794f + ((Box_8025E350 *)ctx)->z;
     d.pos = pos;
     d.col = col;
     d.a = 0;
@@ -761,7 +761,7 @@ void fn_8025DE10(void *arg0, void *arg1) {
     draw_polygon_2d((NJS_POINT2COL *)&d, 4, 6, depth);
 }
 
-void TWindowKeyBoardBase::draw_text_glyphs(void *arg1, void *arg2) {
+void TWindowKeyBoardBase::draw_text_glyphs(void *ctx, void *arg2) {
     Quad_8025E350 q;
     f32 pos[8];
     Desc_8025DECC d;
@@ -776,7 +776,7 @@ void TWindowKeyBoardBase::draw_text_glyphs(void *arg1, void *arg2) {
     if (p == NULL) {
         return;
     }
-    depth = 0.0598f + ((Box_8025E350 *)arg1)->z;
+    depth = 0.0598f + ((Box_8025E350 *)ctx)->z;
     d.pos = pos;
     d.col = col;
     d.a = 0;
@@ -793,8 +793,8 @@ void TWindowKeyBoardBase::draw_text_glyphs(void *arg1, void *arg2) {
                 ch |= *p++ & 0xFF;
             }
             adv = get_font_char_advance(map_char_to_font_code(ch));
-            if (((f32 *)arg2)[0] + (f32)adv > ((Box_8025E350 *)arg1)->x + ((Box_8025E350 *)arg1)->w) {
-                ((f32 *)arg2)[0] = ((Box_8025E350 *)arg1)->x;
+            if (((f32 *)arg2)[0] + (f32)adv > ((Box_8025E350 *)ctx)->x + ((Box_8025E350 *)ctx)->w) {
+                ((f32 *)arg2)[0] = ((Box_8025E350 *)ctx)->x;
                 ((f32 *)arg2)[1] += 20.0f;
             }
             if ((s32)ch == 0x20) {
@@ -803,7 +803,7 @@ void TWindowKeyBoardBase::draw_text_glyphs(void *arg1, void *arg2) {
                 q.x = ((f32 *)arg2)[0];
                 q.y = ((f32 *)arg2)[1];
                 set_glyph_quad_extents(adv, &q);
-                ((WindowDrawContext *)arg1)->transform_quad((TexturedQuad *)&q);
+                ((WindowDrawContext *)ctx)->transform_quad((TexturedQuad *)&q);
                 d.col[0] = lbl_804CFA84[ci];
                 d.col[1] = d.col[0];
                 d.col[2] = d.col[0];
@@ -870,7 +870,7 @@ void TWindowKeyBoardBase::sub_8025E148(WindowDrawContext *box, f32 *cursor, u16 
     }
 }
 
-void TWindowKeyBoardBase::draw_wrapped_text(void *arg1, void *arg2) {
+void TWindowKeyBoardBase::draw_wrapped_text(void *ctx, void *arg2) {
     Quad_8025E350 q;
     f32 scale;
     u8 n;
@@ -882,7 +882,7 @@ void TWindowKeyBoardBase::draw_wrapped_text(void *arg1, void *arg2) {
     if (p == NULL) {
         return;
     }
-    scale = -1.0f / (0.0897f + ((Box_8025E350 *)arg1)->z);
+    scale = -1.0f / (0.0897f + ((Box_8025E350 *)ctx)->z);
     while (*p != 0) {
         n = p[1];
         p += 3;
@@ -894,8 +894,8 @@ void TWindowKeyBoardBase::draw_wrapped_text(void *arg1, void *arg2) {
                 ch |= *p++ & 0xFF;
             }
             adv = calc_gauge_scale__20TWindowSubStatusDispFUsPvl(map_char_to_font_code(ch), &q, -1);
-            if (((f32 *)arg2)[0] + (f32)adv > ((Box_8025E350 *)arg1)->x + ((Box_8025E350 *)arg1)->w) {
-                ((f32 *)arg2)[0] = ((Box_8025E350 *)arg1)->x;
+            if (((f32 *)arg2)[0] + (f32)adv > ((Box_8025E350 *)ctx)->x + ((Box_8025E350 *)ctx)->w) {
+                ((f32 *)arg2)[0] = ((Box_8025E350 *)ctx)->x;
                 ((f32 *)arg2)[1] += 20.0f;
             }
             if ((s32)ch == 0x20) {
@@ -904,7 +904,7 @@ void TWindowKeyBoardBase::draw_wrapped_text(void *arg1, void *arg2) {
                 q.x = ((f32 *)arg2)[0];
                 q.y = ((f32 *)arg2)[1];
                 set_glyph_quad_extents(adv, &q);
-                ((WindowDrawContext *)arg1)->transform_quad((TexturedQuad *)&q);
+                ((WindowDrawContext *)ctx)->transform_quad((TexturedQuad *)&q);
                 draw_textured_quad_at_depth(&q, scale);
                 ((f32 *)arg2)[0] += (f32)(s32)adv;
             }

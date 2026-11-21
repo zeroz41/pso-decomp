@@ -855,14 +855,14 @@ void TMainCursor::setup_action_channel(u8 *player, s32 slot, s32 kind, s32 id) {
 }
 #pragma pop
 
-void TMainCursor::setup_flags(s32 arg0, s32 arg1, saddr arg2) {
+void TMainCursor::setup_flags(s32 arg0, s32 player, saddr arg2) {
     ((TMainCursor *)arg2)->set_color(0x2000);
     ((TMainCursor *)arg2)->set_field_0c(0x3C000);
     ((TMainCursor *)arg2)->set_color_mode(0x800);
     ((TMainCursor *)arg2)->set_flags(0xE0000000);
 }
 
-void TMainCursor::set_display_flags(s32 arg0, saddr arg1, saddr arg2) {
+void TMainCursor::set_display_flags(s32 arg0, saddr player, saddr arg2) {
     ((TMainCursor *)arg2)->set_color(0x2000);
     ((TMainCursor *)arg2)->set_color_mode(0x10000000);
     ((TMainCursor *)arg2)->set_flags(0xE0000800);
@@ -870,15 +870,15 @@ void TMainCursor::set_display_flags(s32 arg0, saddr arg1, saddr arg2) {
         ((TMainCursor *)arg2)->set_field_0c(0x30000);
         return;
     }
-    if (TObjPlayer__sub_801B066C((void *)arg1) == 1) {
+    if (TObjPlayer__sub_801B066C((void *)player) == 1) {
         ((TMainCursor *)arg2)->set_field_0c(0x40030000);
         return;
     }
     ((TMainCursor *)arg2)->set_field_0c(0x40030000);
 }
 
-void TMainCursor::set_cursor_color(s32 arg0, saddr arg1, saddr arg2) {
-    if (get_type__10TObjPlayerFPv((void *)(arg1 + 0x828)) != 0) {
+void TMainCursor::set_cursor_color(s32 arg0, saddr player, saddr arg2) {
+    if (get_type__10TObjPlayerFPv((void *)(player + 0x828)) != 0) {
         ((TMainCursor *)arg2)->set_color(0xA000);
         ((TMainCursor *)arg2)->set_color_mode(0x70000000);
         return;
@@ -983,7 +983,7 @@ void TMainCursor::bind_action_channels() {
     }
 }
 
-s32 TMainCursor::find_by_pos(s16 arg1, s16 arg2) {
+s32 TMainCursor::find_by_pos(s16 arg1, s16 kind) {
     s32 arg0 = (saddr)this;
     s32 i;
     saddr ptr;
@@ -991,7 +991,7 @@ s32 TMainCursor::find_by_pos(s16 arg1, s16 arg2) {
     i = 0;
     ptr = arg0 + 0x5C;
 loop_1:
-    if ((arg1 == (s32) get_cursor_palette_mode((void *)ptr)) && (arg2 == (s32) ((TMainCursor *)ptr)->get_active()) && (((TMainCursor *)ptr)->get_selected_entry() != 0)) {
+    if ((arg1 == (s32) get_cursor_palette_mode((void *)ptr)) && (kind == (s32) ((TMainCursor *)ptr)->get_active()) && (((TMainCursor *)ptr)->get_selected_entry() != 0)) {
         return ptr;
     }
     i += 1;
@@ -1173,8 +1173,8 @@ s32 try_add_target_candidate__11TMainCursorFPvPvPvPv(u8 *cursor, u8 *player, u8 
     return found;
 }
 
-void init_target_vector__11TMainCursorFiii(s32 arg0, s32 arg1, s32 arg2) {
-    csnVector(arg2, arg1, 0x28A0);
+void init_target_vector__11TMainCursorFiii(s32 arg0, s32 to, s32 from) {
+    csnVector(from, to, 0x28A0);
 }
 
 }
@@ -1717,10 +1717,10 @@ void set_action_palette_tag_mode(ActionPaletteTag *tag, u8 mode) { tag->tag0 = m
 
 extern "C" {
 
-int matches_type_and_enabled__11TMainCursorFiUcUc(saddr arg0, u8 arg1, u8 arg2) {
+int matches_type_and_enabled__11TMainCursorFiUcUc(saddr arg0, u8 type, u8 enabled) {
     s32 var_r31;
     var_r31 = 0;
-    if ((arg1 == get_action_palette_tag_mode(reinterpret_cast<const ActionPaletteTag *>(arg0))) && (arg2 == get_action_palette_tag_slot(reinterpret_cast<const ActionPaletteTag *>(arg0)))) {
+    if ((type == get_action_palette_tag_mode(reinterpret_cast<const ActionPaletteTag *>(arg0))) && (enabled == get_action_palette_tag_slot(reinterpret_cast<const ActionPaletteTag *>(arg0)))) {
         var_r31 = 1;
     }
     return (u8)var_r31;

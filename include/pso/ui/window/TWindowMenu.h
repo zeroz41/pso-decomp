@@ -46,7 +46,7 @@ struct TWindowMenu : public TWindowAddition {
     void move_cursor_prev();
     virtual void run_task();
 
-    s32 is_locked(s32 arg1);
+    s32 is_locked(s32 buttons);
 };
 
 LAYOUT_ASSERT(TWindowMenu_size, sizeof(TWindowMenu) == 0x8C);

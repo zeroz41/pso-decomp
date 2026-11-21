@@ -5,7 +5,7 @@
 
 #pragma push
 #pragma opt_propagation off
-s32 are_status_entries_ready__13TWindowSubMagFi(saddr arg0) {
+s32 are_status_entries_ready__13TWindowSubMagFi(saddr help) {
     s32 var_r28;
     saddr var_r3;
     s32 var_r4;
@@ -14,8 +14,8 @@ s32 are_status_entries_ready__13TWindowSubMagFi(saddr arg0) {
     u16 *var_r30;
     u16 *var_r31;
     var_r4 = 5;
-    var_r28 = arg0;
-    var_r29 = (u16 *)(((TWindowBase *)arg0)->get_array_entry(5));
+    var_r28 = help;
+    var_r29 = (u16 *)(((TWindowBase *)help)->get_array_entry(5));
     var_r3 = var_r28;
     var_r4 = 8;
     var_r30 = (u16 *)(((TWindowBase *)var_r3)->get_array_entry(8));

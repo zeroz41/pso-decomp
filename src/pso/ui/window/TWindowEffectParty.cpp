@@ -34,7 +34,7 @@ void *TWindowCtrl__sub_8024FB80(s8 i) {
     return TWindowCtrl__active_window->arr[i];
 }
 
-TWindowEffectParty::TWindowEffectParty(TObject *object, s8 arg2, s8 arg3, void *arg4) : TObject(object) {
+TWindowEffectParty::TWindowEffectParty(TObject *object, s8 arg2, s8 arg3, void *idx) : TObject(object) {
     Pos_8024FAD8 p;
     *(s32 *)this = ((saddr)TWindowEffectParty__name);
     *(s8 *)&this->m_1d = arg2;
@@ -42,7 +42,7 @@ TWindowEffectParty::TWindowEffectParty(TObject *object, s8 arg2, s8 arg3, void *
     *(s8 *)&this->m_1e = arg3;
     TWindowEffectParty::set_slot_position((saddr)this, (s32)(*(s8 *)&this->m_1e), (void *)(((u8 *)this) + 0x28));
     this->calc_effect_position(&p);
-    this->m_particle = spawn_continuous_particle_effect_with_flags((void *)&p, (saddr)arg4, (s32)(0xC0));
+    this->m_particle = spawn_continuous_particle_effect_with_flags((void *)&p, (saddr)idx, (s32)(0xC0));
     *(s8 *)&this->m_1c = 0;
 }
 

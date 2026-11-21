@@ -67,8 +67,8 @@ void TWindowShortListCtrl::update_cursor_pos() {
 
 s16 TWindowShortListCtrl::get_cursor_pos() { return *(s16*)((char*)this + 0x78); }
 
-void TWindowShortListCtrl::set_card_window_flags(saddr arg0, s32 arg1) {
-    TWindowKeyBoardHard::set_card_window_flags((void *)arg0, (s32)(arg1 << 0x10), (s32)0xFFFCFFFF);
+void TWindowShortListCtrl::set_card_window_flags(saddr client_id, s32 page) {
+    TWindowKeyBoardHard::set_card_window_flags((void *)client_id, (s32)(page << 0x10), (s32)0xFFFCFFFF);
 }
 
 TWindowShortListCtrl::TWindowShortListCtrl(TObject *parent, s32 client_id) : TObject(parent) {
@@ -322,10 +322,10 @@ void TWindowShortListCtrl::run_task() {
 
 void TWindowShortListCtrl::render() {}
 
-void *TWindowShortListCtrl::create_window(s32 arg1, saddr arg2_arg) {
+void *TWindowShortListCtrl::create_window(s32 position, saddr arg2_arg) {
     void *window_menu;
 
-    window_menu = (void *)create_window_menu((saddr)(arg1), 0x13, client_id);
+    window_menu = (void *)create_window_menu((saddr)(position), 0x13, client_id);
     ((TWindowMenu *)window_menu)->set_flag70_bit10();
     ((TWindowSubComCardList *)window_menu)->open_tick = 0x01000000;
     ((TWindowSubComCardList *)window_menu)->set_flag70_bit100();
@@ -333,19 +333,19 @@ void *TWindowShortListCtrl::create_window(s32 arg1, saddr arg2_arg) {
     return window_menu;
 }
 
-void TWindowShortListCtrl::refresh_technique_rows(saddr arg1, void *arg2_arg) {
+void TWindowShortListCtrl::refresh_technique_rows(saddr tech_window, void *arg2_arg) {
     const NJS_POINT2 *pos = (const NJS_POINT2 *)arg2_arg;
     s32 i;
     s16 cur;
     s16 *order = (s16 *)(get_character_save_record(client_id) + 0x22C4);
-    cur = ((TWindowShortListCtrl *)arg1)->get_cursor_pos();
-    ((TWindowSubComCardList *)arg1)->reset_entries();
+    cur = ((TWindowShortListCtrl *)tech_window)->get_cursor_pos();
+    ((TWindowSubComCardList *)tech_window)->reset_entries();
     for (i = 0; i < 0x13; i++) {
-        TWindowSubTechnique::draw_technique_row(order[i], client_id, arg1);
+        TWindowSubTechnique::draw_technique_row(order[i], client_id, tech_window);
     }
-    ((TWindowSubComCardList *)arg1)->set_scroll_target(pos->x, pos->y);
-    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(arg1));
-    ((TWindowSubComCardList *)arg1)->set_selected_index(cur);
+    ((TWindowSubComCardList *)tech_window)->set_scroll_target(pos->x, pos->y);
+    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(tech_window));
+    ((TWindowSubComCardList *)tech_window)->set_selected_index(cur);
 }
 
 void TWindowShortListCtrl::cycle_list_page() {

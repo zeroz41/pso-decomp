@@ -63,9 +63,9 @@ void TWindowSubShortCutList::refresh_entries() {
     ((TShopArmorListWindow *)this)->clamp_selection_to_valid_entry();
 }
 
-void *TWindowSubShortCutList::create(void *arg1) {
+void *TWindowSubShortCutList::create(void *index) {
     TShopJudgmentItemWindow__sub_80267F9C((void *)lbl_8044FAA8, 4);
-    return new TWindowSubShortCutList((u8 *)this, (saddr)arg1);
+    return new TWindowSubShortCutList((u8 *)this, (saddr)index);
 }
 
 void TWindowSubShortCutList::render() {

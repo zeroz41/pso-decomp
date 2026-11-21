@@ -44,8 +44,8 @@ void *TWindowRoom::get_title_entry() {
     return (void *)((TWindowBase *)this)->get_array_entry(0);
 }
 
-void TWindowSubStatusDisp::set_entry_display_value(s32 arg1) {
-    set_text_entry_string((u8 *)(get_array_entry(0)), arg1, 0x60);
+void TWindowSubStatusDisp::set_entry_display_value(s32 str) {
+    set_text_entry_string((u8 *)(get_array_entry(0)), str, 0x60);
 }
 
 void TWindowRoom::draw_tab(void *context) {

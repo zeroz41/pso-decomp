@@ -144,21 +144,21 @@ u8 KeyboardKeyState::sub_8013239C(u8 arg1) {
 
 u8 KeyboardKeyState::get_pending_count() { return pending_count; }
 
-s32 KeyboardKeyState::sub_801323C8(u8 arg1) {
-    return (pressed[arg1 / 32] & (1 << (arg1 % 32))) != 0 ? 1 : 0;
+s32 KeyboardKeyState::sub_801323C8(u8 key) {
+    return (pressed[key / 32] & (1 << (key % 32))) != 0 ? 1 : 0;
 }
 
 u8 KeyboardKeyState::get_key_state() { return mode; }
 
-void KeyboardKeyState::push_key_to_buffer(u8 arg1) {
+void KeyboardKeyState::push_key_to_buffer(u8 key) {
     u8 t;
-    if ((hardware_keyboard_state.get_key_state() != 0 && arg1 == 0x5B) || (u8)(arg1 - 0x54) <= 2 || arg1 == 0x57) {
+    if ((hardware_keyboard_state.get_key_state() != 0 && key == 0x5B) || (u8)(key - 0x54) <= 2 || key == 0x57) {
         return;
     }
     t = pending_count;
     if (t < 8) {
         pending_count = t + 1;
-        pending[t] = arg1;
+        pending[t] = key;
     }
 }
 

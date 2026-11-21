@@ -21,6 +21,6 @@ TWindowMessageInfomation::~TWindowMessageInfomation() {
 
 }
 
-TWindowMessageInfomation::TWindowMessageInfomation(s32 arg1, s32 arg2) : TWindowMessage(arg1, 0x10U, arg2) {
+TWindowMessageInfomation::TWindowMessageInfomation(s32 parent, s32 client) : TWindowMessage(parent, 0x10U, client) {
     this->m_name = TWindowMessageInfomation__name;
 }

@@ -31,7 +31,7 @@ struct TWindowKeyBoardSoft : public TWindowBase
     s8 m_66;
     f32 m_68;
     TWindowKeyBoardBase *m_control;
-    f32 calc_key_coord(s32 arg1);
+    f32 calc_key_coord(s32 count);
     void update_focus_flags();
     void set_mode0();
     void set_mode1();
@@ -39,7 +39,7 @@ struct TWindowKeyBoardSoft : public TWindowBase
     void set_mode3();
     void sub_80261134();
     void update_close_mode();
-    s32 hit_test_relative(u8 *arg1, u8 *arg2);
+    s32 hit_test_relative(u8 *ctx, u8 *arg2);
     void draw_key_frame(WindowDrawContext *context, f32 x0, f32 y, f32 w, f32 scale, u32 color, s32 idx);
     static s32 strnlen(s8 *str, u32 max);
     virtual void run_task();
@@ -59,7 +59,7 @@ struct TWindowKeyBoardSoft : public TWindowBase
     static void dispatch_request_0f(s32 a, s32 b);
     void calc_cursor_step(s32 *arg1, s32 *arg2);
     f32 calc_key_x(s32 arg1, s32 arg2);
-    s32 calc_key_index(s32 arg2, s32 arg3);
+    s32 calc_key_index(s32 col, s32 row);
     f32 sub_802606E0();
     void sub_80260760(s32 key, s32 *count, u32 *color);
     void sub_80260904(s32 port);

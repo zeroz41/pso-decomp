@@ -6,7 +6,7 @@
 extern "C" {
 void TWindowHelpItem__sub_8025A900(void);
 void *TWindowHelpItem__sub_8025A904(void *arg0, s16 arg1);
-u8 *TWindowHelpItem__sub_8025A95C(u8 *arg0, saddr arg1, s32 arg2);
+u8 *TWindowHelpItem__sub_8025A95C(u8 *arg0, saddr rec, s32 client);
 }
 f32 get_item_star_row_width(u8 *arg0);
 
@@ -14,7 +14,7 @@ f32 get_item_star_row_width(u8 *arg0);
 extern "C" {
 void TWindowHelpItem__sub_8025A900(void);
 void *TWindowHelpItem__sub_8025A904(void *arg0, s16 arg1);
-u8 *TWindowHelpItem__sub_8025A95C(u8 *arg0, saddr arg1, s32 arg2);
+u8 *TWindowHelpItem__sub_8025A95C(u8 *arg0, saddr rec, s32 client);
 }
 // --- end of C functions
 

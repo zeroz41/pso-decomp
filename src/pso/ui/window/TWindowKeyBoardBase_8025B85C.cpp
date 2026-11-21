@@ -34,23 +34,23 @@ s32 is_chat_shortcut_set(int);
 s32 TWindowKeyBoardSoft__sub_803E67D4(void *, void *);
 saddr get_shared_text_buffer();
 
-int TWindowKeyBoardBase::is_alnum(u16 arg0) {
-    if ((s32) arg0 < 0x30) {
+int TWindowKeyBoardBase::is_alnum(u16 code) {
+    if ((s32) code < 0x30) {
         return 0;
     }
-    if ((s32) arg0 <= 0x39) {
+    if ((s32) code <= 0x39) {
         return 1;
     }
-    if ((s32) arg0 < 0x41) {
+    if ((s32) code < 0x41) {
         return 0;
     }
-    if ((s32) arg0 <= 0x5A) {
+    if ((s32) code <= 0x5A) {
         return 1;
     }
-    if ((s32) arg0 < 0x61) {
+    if ((s32) code < 0x61) {
         return 0;
     }
-    if ((s32) arg0 <= 0x7A) {
+    if ((s32) code <= 0x7A) {
         return 1;
     }
     return 0;

@@ -22,10 +22,10 @@ extern s32 lbl_805D2858;
 extern G_800718D0 challenge_mode_state;
 s32 TLobby__sub_80071654(u16);
 
-s32 TWindowSubStatusDisp::get_status_index(u16 arg0) {
+s32 TWindowSubStatusDisp::get_status_index(u16 client_index) {
     uaddr character_save_record;
 
-    character_save_record = ((u32)get_character_save_record(arg0));
+    character_save_record = ((u32)get_character_save_record(client_index));
     if (character_save_record == 0U) {
         return -1;
     }

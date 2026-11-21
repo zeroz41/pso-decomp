@@ -18,13 +18,13 @@ struct TWindowQuantity : public TWindowBase {
 LAYOUT_ASSERT(TWindowQuantity_size, sizeof(TWindowQuantity) == 0x6C);
 
 extern "C" {
-void *create_window_quantity(void *arg0);
+void *create_window_quantity(void *client);
 void render__15TWindowQuantityFv(saddr arg0);
 }
 
 // --- C functions defined in TWindowQuantity.cpp ---
 extern "C" {
-void *create_window_quantity(void *arg0);
+void *create_window_quantity(void *client);
 void render__15TWindowQuantityFv(saddr arg0);
 }
 // --- end of C functions

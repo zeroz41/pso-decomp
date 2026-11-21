@@ -30,8 +30,8 @@ s32 TWindowMeseta::get_meseta_value() {
     }
     return *(s32 *)(stats + 0x20);
 }
-void TWindowMeseta::draw_value(s32 arg1) {
-    draw_window_tab(arg1, arg1 + 0x10, 3, this->m_60);
+void TWindowMeseta::draw_value(s32 ctx) {
+    draw_window_tab(ctx, ctx + 0x10, 3, this->m_60);
 }
 void TWindowMeseta::render() {
     saddr ctx;

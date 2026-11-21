@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-s32 are_status_entries_ready__13TWindowSubMagFi(saddr arg0);
+s32 are_status_entries_ready__13TWindowSubMagFi(saddr help);
 }
 
 #endif

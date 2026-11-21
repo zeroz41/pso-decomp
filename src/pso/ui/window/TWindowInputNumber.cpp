@@ -393,9 +393,9 @@ s32 TWindowInputNumber::test_input_flag(s32 buttons) {
     return test_controller_flag_4c_color((u8 *)&controller_input_state + 0x160, buttons);
 }
 
-s32 TWindowInputNumber::is_locked(s32 arg1) {
+s32 TWindowInputNumber::is_locked(s32 buttons) {
     if (this->inputFlags & 0x20) {
         return 0;
     }
-    return test_buttons_press_or_repeat((saddr)(controller_input_state + 0x160), (s32)arg1, 6, 1);
+    return test_buttons_press_or_repeat((saddr)(controller_input_state + 0x160), (s32)buttons, 6, 1);
 }

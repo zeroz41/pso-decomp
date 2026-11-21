@@ -17,8 +17,8 @@ void TWindowCtrl__sub_8026AD60(void) {
     }
 }
 
-void TWindowCtrl__sub_8026AD78(s32 arg0) {
+void TWindowCtrl__sub_8026AD78(s32 window_message_log) {
     if ((void *) TWindowCtrl__active_window != NULL) {
-        *(s32 *)((s8 *)TWindowCtrl__active_window + 0x44) = arg0;
+        *(s32 *)((s8 *)TWindowCtrl__active_window + 0x44) = window_message_log;
     }
 }

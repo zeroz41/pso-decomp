@@ -75,9 +75,9 @@ bool TWindowCtrl__sub_8024A1A8(void) {
     return *(s32 *)((s8 *)(*(u8 * *)&TWindowCtrl__active_window) + 0x3C) != 0;
 }
 
-void TWindowCtrl::call_window_method_with_default_vec(s32 arg0) {
+void TWindowCtrl::call_window_method_with_default_vec(s32 client_id) {
     PlayerWindowCommand callback = window_ctrl_default_call_args;
-    call_window_method__11TWindowCtrlFPvi(arg0, callback);
+    call_window_method__11TWindowCtrlFPvi(client_id, callback);
 }
 
 void TWindowCtrl::set_field22() {
@@ -86,9 +86,9 @@ void TWindowCtrl::set_field22() {
     }
 }
 
-void TWindowCtrl__sub_8024A228(saddr arg0) {
+void TWindowCtrl__sub_8024A228(saddr client_id) {
     PlayerWindowQuery callback = window_ctrl_main_callback_desc;
-    TWindowCtrl__sub_8024B098(arg0, callback);
+    TWindowCtrl__sub_8024B098(client_id, callback);
 }
 
 bool TWindowCtrl::is_submit_cooldown_clear() {
@@ -370,7 +370,7 @@ void TWindowCtrl::handle_chat_message(char *arg1) {
     }
 }
 
-void TLobby__sub_8024AAA0(s32 arg0, s32 arg1) {
+void TLobby__sub_8024AAA0(s32 local_client_id, s32 arg1) {
     u32 temp_r3 = get_window__11TWindowCtrlFl();
     if (temp_r3 != 0U) {
         update_field28__15TWindowCtrlMainFv(temp_r3, arg1);

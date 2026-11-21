@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void TWindowSubStatusDisp__sub_800FBD74(s32 arg0, f32 farg0, f32 farg1, f32 farg2);
+void TWindowSubStatusDisp__sub_800FBD74(s32 text_color, f32 farg0, f32 farg1, f32 farg2);
 void TWindowSubStatusDisp__sub_800FC248(void);
 }
 u32 calc_small_font_text_width(const char *s);

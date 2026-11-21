@@ -11,14 +11,14 @@
 
 extern "C" {
 
-void TWindowSubComCard::set_card_text(saddr arg1) {
+void TWindowSubComCard::set_card_text(saddr src) {
     saddr arg0 = (saddr)this;
     u8 *temp_r3;
 
-    if (arg1 != 0) {
+    if (src != 0) {
         temp_r3 = ((u8 * (*)(void *))get_card_entry__17TWindowSubComCardFi)((void *)arg0);
         if (temp_r3 != NULL) {
-            strncpy((char *)(temp_r3 + 0x94), (const char *)arg1, 0x6B);
+            strncpy((char *)(temp_r3 + 0x94), (const char *)src, 0x6B);
             *(s8 *)((s8 *)temp_r3 + 0xFF) = 0;
         }
     }
@@ -160,9 +160,9 @@ s32 TWindowSubComCard__sub_8007B6F4(void *);
 s32 TWindowSubComCard__sub_8007AC7C(Card_8007AC7C *self, Card_8007AC7C *cards, s32 count);
 int __ct__16TPlyGuildCardTagFv();
 
-s32 init_guild_card_tag__17TWindowSubComCardFi(s32 arg0) {
+s32 init_guild_card_tag__17TWindowSubComCardFi(s32 ply_guild_card_tag) {
     __ct__16TPlyGuildCardTagFv();
-    return arg0;
+    return ply_guild_card_tag;
 }
 
 s32 has_inactive_card__17TWindowSubComCardFPvi(Card_8007AB84 *cards, s32 n) {
@@ -329,20 +329,20 @@ s32 TWindowSubComCard__sub_8007B010(Card_8007B010 *p, s32 n) {
     return 0;
 }
 
-u32 TWindowSubComCard__sub_8007B070(u8 *arg0) {
-    if ((s8) *(u8 *)((s8 *)arg0 + 0x87) != 0) {
+u32 TWindowSubComCard__sub_8007B070(u8 *keyboard_mode) {
+    if ((s8) *(u8 *)((s8 *)keyboard_mode + 0x87) != 0) {
         return 1U;
     }
-    if ((s32) *(u8 *)((s8 *)arg0 + 0x8C) != 1) {
+    if ((s32) *(u8 *)((s8 *)keyboard_mode + 0x8C) != 1) {
         return 1U;
     }
-    if ((s8) *(u8 *)((s8 *)arg0 + 0x8D) < 0) {
+    if ((s8) *(u8 *)((s8 *)keyboard_mode + 0x8D) < 0) {
         return 1U;
     }
-    if ((s8) *(u8 *)((s8 *)arg0 + 0x8E) < 0) {
+    if ((s8) *(u8 *)((s8 *)keyboard_mode + 0x8E) < 0) {
         return 1U;
     }
-    return (u32) (s8) *(u8 *)((s8 *)arg0 + 0x8F) >> 0x1FU;
+    return (u32) (s8) *(u8 *)((s8 *)keyboard_mode + 0x8F) >> 0x1FU;
 }
 
 s32 TWindowSubComCard__sub_8007B0D0(Card_8007B0D0 *self, Card_8007B0D0 *cards, s32 count) {

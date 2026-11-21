@@ -28,7 +28,7 @@ struct KeyboardTextBuffer {
     void make_room_in_buffer(s32 pos, s32 n);
     void insert_char_slot();
     s32 measure_char_overflow(u16 code, u32 *x, u32 *y, u32 *count);
-    s32 check_text_overflow(u16 *arg1);
+    s32 check_text_overflow(u16 *buf);
     s32 would_overflow_with(u16 ch);
     void reset_state();
 };

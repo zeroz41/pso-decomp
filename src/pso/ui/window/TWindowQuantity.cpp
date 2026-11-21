@@ -93,8 +93,8 @@ TWindowQuantity::TWindowQuantity(s32 arg1) : TWindowBase((u8 *)&quantity_window_
 #undef self
 }
 
-void *create_window_quantity(void *arg0) {
-    return new TWindowQuantity((saddr)arg0);
+void *create_window_quantity(void *client) {
+    return new TWindowQuantity((saddr)client);
 }
 
 }

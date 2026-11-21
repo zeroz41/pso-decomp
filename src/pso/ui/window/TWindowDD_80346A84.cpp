@@ -144,13 +144,13 @@ void ws_data_load(void) {
     }
 }
 
-s32 TWindowDD__sub_80346DB8(saddr arg0) {
+s32 TWindowDD__sub_80346DB8(saddr window_dd) {
   s32 var_r31;
   s32 var_r30;
   saddr var_r3;
-  var_r30 = arg0;
+  var_r30 = window_dd;
   var_r31 = 0;
-  switch (((TWindowDD *)arg0)->get_word_select_context())
+  switch (((TWindowDD *)window_dd)->get_word_select_context())
   {
     case 0:
       var_r31 = 1;

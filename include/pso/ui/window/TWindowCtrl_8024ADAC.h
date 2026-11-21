@@ -4,14 +4,14 @@
 #include "types.h"
 
 extern "C" {
-void TWindowCtrl__sub_8024ADAC(saddr arg0);
-void TWindowCtrl__sub_8024ADF0(saddr arg0);
+void TWindowCtrl__sub_8024ADAC(saddr client_id);
+void TWindowCtrl__sub_8024ADF0(saddr client_id);
 }
 
 // --- C functions defined in TWindowCtrl_8024ADAC.cpp ---
 extern "C" {
-void TWindowCtrl__sub_8024ADAC(saddr arg0);
-void TWindowCtrl__sub_8024ADF0(saddr arg0);
+void TWindowCtrl__sub_8024ADAC(saddr client_id);
+void TWindowCtrl__sub_8024ADF0(saddr client_id);
 }
 // --- end of C functions
 

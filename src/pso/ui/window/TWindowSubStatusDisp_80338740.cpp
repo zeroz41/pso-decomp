@@ -32,16 +32,16 @@ typedef struct
 } Win_80338890;
 void draw_item_list_icon(Win_80338890 *, V2_80338890 *, s8, s32, f32);
 
-void TWindowSubStatusDisp__sub_80338740(u8 *arg0, s32 arg1, saddr arg2, s8 arg3, s8 arg4, s8 arg5, s8 arg6, s8 arg7, s32 arg_sp8) {
+void TWindowSubStatusDisp__sub_80338740(u8 *arg0, s32 arg1, saddr src, s8 arg3, s8 arg4, s8 arg5, s8 arg6, s8 arg7, s32 arg_sp8) {
     saddr temp_r3;
     if (arg1 != 0) {
         *(s8 *)((s8 *)arg0 + 0x1C) = 0x18;
     } else {
         *(s8 *)((s8 *)arg0 + 0x1C) = 0x33;
     }
-    temp_r3 = (s32)measure_string_len((const char *)((void *)arg2));
+    temp_r3 = (s32)measure_string_len((const char *)((void *)src));
     *(s32 *)((s8 *)arg0 + 0x24) = (saddr)mem_alloc((temp_r3 + 1));
-    strncpy((char *)(*(saddr *)((s8 *)arg0 + 0x24)), (const char *)arg2, (int)temp_r3);
+    strncpy((char *)(*(saddr *)((s8 *)arg0 + 0x24)), (const char *)src, (int)temp_r3);
     *(s8 *)((s8 *)temp_r3 + (*(s32 *)((s8 *)arg0 + 0x24))) = 0;
     *(s8 *)((s8 *)arg0 + 0x1D) = arg7;
     *(s8 *)((s8 *)arg0 + 0x1E) = arg6;

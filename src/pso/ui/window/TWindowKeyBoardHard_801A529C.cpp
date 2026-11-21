@@ -38,9 +38,9 @@ void TWindowKeyBoardHard::set_card_window_flags(void *arg0, s32 arg1, s32 arg2) 
     }
 }
 
-void set_fresh_card_flag(void *arg0) {
-    if (arg0 != NULL) {
-        *(s32 *)((s8 *)arg0 + 0x10) = 0x40058;
+void set_fresh_card_flag(void *card) {
+    if (card != NULL) {
+        *(s32 *)((s8 *)card + 0x10) = 0x40058;
     }
 }
 
@@ -121,15 +121,15 @@ void TLobby__sub_801A54E8(u8 *arg0) {
         ((VObj_801a54e8_801A529C *) arg0)->m8(arg0 + 0x8BC, *(s32 *)((s8 *)arg0 + 0x8B8));
     }
 }
-void append_command_to_batch_buffer(S_801A5544 *arg0, u8 *arg1) {
+void append_command_to_batch_buffer(S_801A5544 *arg0, u8 *cmd) {
     s32 n;
     s32 i;
-    if (arg0->cnt + arg1[1] * 4 > 0x5B4) {
+    if (arg0->cnt + cmd[1] * 4 > 0x5B4) {
         return;
     }
-    n = arg1[1] * 4;
+    n = cmd[1] * 4;
     for (i = 0; i < n; i++) {
-        arg0->buf[arg0->cnt++] = *arg1++;
+        arg0->buf[arg0->cnt++] = *cmd++;
     }
 }
 

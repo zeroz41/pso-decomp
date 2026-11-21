@@ -270,9 +270,9 @@ void draw_window_scanlines(u8 *arg0, u8 *arg1);
 void window_request_refresh(u8 *arg0);
 void window_request_show(void *arg0);
 bool is_balloon_overlapping(u8 *arg0, u8 *arg1, u8 *arg2);
-void window_request_refresh(u8 *arg0) {
-    if (!((f32) *(s32 *)((s8 *)arg0 + 0x5C) >= 7.5f)) {
-        *(s32 *)((s8 *)arg0 + 0x5C) = 7;
+void window_request_refresh(u8 *help) {
+    if (!((f32) *(s32 *)((s8 *)help + 0x5C) >= 7.5f)) {
+        *(s32 *)((s8 *)help + 0x5C) = 7;
     }
 }
 
@@ -370,27 +370,27 @@ Win_80244DFC *find_overlapping_balloon__15TWindowFukidasiFPvPvPvPv(Win_80244DFC 
     return 0;
 }
 
-void *TWindowFukidasi::find_balloon_overlap_for(saddr arg1) {
+void *TWindowFukidasi::find_balloon_overlap_for(saddr next) {
     saddr arg0 = (saddr)this;
-    return find_overlapping_balloon__15TWindowFukidasiFPvPvPvPv((Win_80244DFC *)(arg0), (void *)(arg0 + 0x30), (void *)(arg0 + 0x38), (Win_80244DFC *)(arg1));
+    return find_overlapping_balloon__15TWindowFukidasiFPvPvPvPv((Win_80244DFC *)(arg0), (void *)(arg0 + 0x30), (void *)(arg0 + 0x38), (Win_80244DFC *)(next));
 }
 
-void TWindowBase::sub_80244F2C(u8 *arg1, u8 *arg2, s16 arg3) {
+void TWindowBase::sub_80244F2C(u8 *descriptor, u8 *parent, s16 client) {
     f32 temp_f1;
     s32 temp_r3;
     s32 temp_r3_2;
     m_name = TWindowBase__name;
-    ((s32 (*)(void *, void *))copy_vec2__FPvPv)(target_position, arg2);
-    ((s32 (*)(void *, void *))copy_vec2__FPvPv)(target_size, arg1);
+    ((s32 (*)(void *, void *))copy_vec2__FPvPv)(target_position, parent);
+    ((s32 (*)(void *, void *))copy_vec2__FPvPv)(target_size, descriptor);
     save_position();
-    temp_f1 = *(f32 *)((s8 *)arg1 + 8);
+    temp_f1 = *(f32 *)((s8 *)descriptor + 8);
     sort_depth = temp_f1;
     draw_depth = -10000.0f;
-    window_flags = (s32) *(s32 *)((s8 *)arg1 + 0x10);
+    window_flags = (s32) *(s32 *)((s8 *)descriptor + 0x10);
     resort_window_order();
     tween_ticks = 0;
-    client_index = arg3;
-    init_window_layout_entries(&entry_list, *(const void **)((s8 *)arg1 + 0xC), (int) (client_index));
+    client_index = client;
+    init_window_layout_entries(&entry_list, *(const void **)((s8 *)descriptor + 0xC), (int) (client_index));
     open_tick = 0;
     closing_tick = 0;
     temp_r3 = window_flags;
@@ -565,7 +565,7 @@ void TWindowSubComCard__sub_802454E4(s32 texture) {
 }
 #pragma push
 #pragma fp_contract on
-bool TWindowSubComCard__sub_80245558(s32 arg0, f32 *arg1, f32 *arg2) {
+bool TWindowSubComCard__sub_80245558(s32 ctx, f32 *arg1, f32 *arg2) {
     f32 temp_f1;
     f32 temp_f2;
 

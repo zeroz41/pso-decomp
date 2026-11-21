@@ -52,8 +52,8 @@ struct TWindowActionPalette : public TWindowBase {
     static void set_slot_by_index(saddr arg0, s32 arg1, s32 arg2, s32 arg3);
     static void set_slot_mode(saddr arg0, s32 arg1, s32 arg2, s32 arg3);
     static void get_entry_by_index(s32 *arg0, s32 arg1);
-    static u16 get_slot_type(void *arg0, s32 arg1, s32 arg2);
-    static u16 get_slot_type_for_index(s32 *arg0, s32 arg1);
+    static u16 get_slot_type(void *arg0, s32 arg1, s32 id);
+    static u16 get_slot_type_for_index(s32 *effect, s32 arg1);
 };
 
 struct TWindowHelpItem;

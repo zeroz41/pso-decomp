@@ -8,9 +8,9 @@
 char * text_builder_write_cursor;
 char text_builder_buffer[0x100];
 
-void TWindowSubStatusDisp::append_play_time(u32 arg0) {
-    u32 h = arg0 / 3600U;
-    u32 rem = arg0 % 3600U;
+void TWindowSubStatusDisp::append_play_time(u32 time) {
+    u32 h = time / 3600U;
+    u32 rem = time % 3600U;
     if (h > 99U) {
         text_builder_append((u8 *)"99'59\"59");
         return;

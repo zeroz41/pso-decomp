@@ -68,30 +68,30 @@ extern saddr tl_07;
 
 extern const f32 lbl_8044F280[2] = { 160.0f, 120.0f };
 
-void *TWindowLoadItemTexture::create(void *arg1) {
+void *TWindowLoadItemTexture::create(void *client) {
     void *o;
-    o = new TWindowLoadItemTexture((u8 *)this, (void *)lbl_8044F280, (saddr)arg1);
+    o = new TWindowLoadItemTexture((u8 *)this, (void *)lbl_8044F280, (saddr)client);
     set_sprite_uv_bounds((void *)((TWindowLoadItemTexture *)o)->get_array_entry(0), 0.0f, 0.0f, 0.625f, 0.46875f);
     return o;
 }
 
-void render__22TWindowLoadItemTextureFv(TWindowLoadItemTexture *arg0) {
+void render__22TWindowLoadItemTextureFv(TWindowLoadItemTexture *window_base) {
     saddr temp_r31;
 
-    if ((s32) arg0->m_60 == 1) {
-        arg0->m_70 = (uaddr)(*(TItemTexLoad**)((s8 *)arg0 + 0x6C))->ready_texture_list();
-        if ((u32) arg0->m_70 != 0U) {
-            fn_8026287C((u8 *)arg0);
-            arg0->m_60 = 1U;
+    if ((s32) window_base->m_60 == 1) {
+        window_base->m_70 = (uaddr)(*(TItemTexLoad**)((s8 *)window_base + 0x6C))->ready_texture_list();
+        if ((u32) window_base->m_70 != 0U) {
+            fn_8026287C((u8 *)window_base);
+            window_base->m_60 = 1U;
         }
     }
-    temp_r31 = reinterpret_cast<saddr>(((TWindowBase *)arg0)->setup_window_draw_context((f32 *)((u8 *)arg0 + 0x64)));
-    if (arg0->m_61 & 1) {
-        ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r31);
+    temp_r31 = reinterpret_cast<saddr>(((TWindowBase *)window_base)->setup_window_draw_context((f32 *)((u8 *)window_base + 0x64)));
+    if (window_base->m_61 & 1) {
+        ((TWindowBase *)window_base)->draw_window_frame((void *)temp_r31);
     }
     draw_visible_window_entries(
-        reinterpret_cast<const void *>(arg0),
-        reinterpret_cast<const WindowLayoutEntries *>((u8 *)arg0 + 0x24),
+        reinterpret_cast<const void *>(window_base),
+        reinterpret_cast<const WindowLayoutEntries *>((u8 *)window_base + 0x24),
         reinterpret_cast<WindowDrawContext *>(temp_r31));
 }
 
@@ -101,7 +101,7 @@ TWindowLoadItemTexture::~TWindowLoadItemTexture() {
     ((TObject *)(*(void **)((s8 *)this + 0x6C)))->queue_destruction();
 }
 
-TWindowLoadItemTexture::TWindowLoadItemTexture(u8 *arg1, void *arg2, s32 arg3) : TWindowBase((u8 *)&TWindowLoadItemTexture__window_descriptor, (s16)arg3, arg1) {
+TWindowLoadItemTexture::TWindowLoadItemTexture(u8 *layout, void *table, s32 id) : TWindowBase((u8 *)&TWindowLoadItemTexture__window_descriptor, (s16)id, layout) {
     void *e;
     #define window_load_item_texture this
     *(s32 *)((s8 *)window_load_item_texture + 0) = (saddr)TWindowLoadItemTexture__name;
@@ -117,12 +117,12 @@ TWindowLoadItemTexture::TWindowLoadItemTexture(u8 *arg1, void *arg2, s32 arg3) :
         *(f32 *)((s8 *)window_load_item_texture + 0x68) = *(f32 *)((s8 *)window_load_item_texture + 0x64) = 0.37f;
         break;
     }
-    window_load_item_texture->target_size[0] = *(f32 *)((s8 *)arg2 + 0);
-    *(f32 *)((s8 *)window_load_item_texture + 0x3C) = *(f32 *)((s8 *)arg2 + 4);
+    window_load_item_texture->target_size[0] = *(f32 *)((s8 *)table + 0);
+    *(f32 *)((s8 *)window_load_item_texture + 0x3C) = *(f32 *)((s8 *)table + 4);
     ((TWindowBase *)window_load_item_texture)->save_position();
     e = (void *)((TWindowBase *)window_load_item_texture)->get_array_entry(0);
-    *(f32 *)((s8 *)e + 0x10) = *(f32 *)((s8 *)arg2 + 0);
-    *(f32 *)((s8 *)e + 0x14) = *(f32 *)((s8 *)arg2 + 4);
+    *(f32 *)((s8 *)e + 0x10) = *(f32 *)((s8 *)table + 0);
+    *(f32 *)((s8 *)e + 0x14) = *(f32 *)((s8 *)table + 4);
     window_load_item_texture->m_6c = (saddr)TItemTexLoad::create((TObject*)tl_07);
     window_load_item_texture->m_61 = 0;
     window_load_item_texture->m_60 = 2;

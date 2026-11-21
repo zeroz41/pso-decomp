@@ -162,9 +162,9 @@ s32 TAdSinglePlyChrSelectGC::load_and_verify_character_save(char *desc) {
     return (u8)(saved == res);
 }
 
-s32 TAdSinglePlyChrSelectGC::wait_for_card_load(s32 arg0) {
-    while (poll_memcard_result(arg0) != 0) {
-        if (TAdPlayerLoadGC::probe_card_slot(arg0) != 1) {
+s32 TAdSinglePlyChrSelectGC::wait_for_card_load(s32 chan) {
+    while (poll_memcard_result(chan) != 0) {
+        if (TAdPlayerLoadGC::probe_card_slot(chan) != 1) {
             return 0;
         }
         render_frame__23TAdSinglePlyChrSelectGCFv();

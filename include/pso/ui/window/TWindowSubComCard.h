@@ -64,11 +64,11 @@ struct TWindowSubComCard : public TObject {
     void *init_guild_card();
     static s32 init_card();
     static void remove_entry(s32 arg0);
-    static s32 scroll_list(s32 arg0);
+    static s32 scroll_list(s32 ply_guild_card_tag);
     static void init_and_press_a(s32 arg0);
     static void init_and_press_b(s32 arg0);
     void update_press();
-    static void select_card_entry(saddr arg0);
+    static void select_card_entry(saddr ply_guild_card_tag);
     static s32 contains_profanity(char *text);
     static void mask_profanity_words(char *src, char *dst);
     uaddr get_field_20();
@@ -82,7 +82,7 @@ struct TWindowSubComCard : public TObject {
     s32 update_selected_entry();
     void update_next_entry(s32 arg1, s32 arg2, s32 arg3);
     s32 get_entry_id();
-    static s32 create_card_list(saddr arg0, s32 arg1, s32 arg2, s32 arg3);
+    static s32 create_card_list(saddr parent, s32 card_slot, s32 arg2, s32 arg3);
     void free_windows();
     void update_card_slot();
     void notify_trade_main();
@@ -91,8 +91,8 @@ struct TWindowSubComCard : public TObject {
     s32 get_card_data();
     void*init_fields(int a1, int a2);
     int is_flag_4_set();
-    static f32 trunc_float(f32 farg0);
-    void set_card_text(saddr arg1);
+    static f32 trunc_float(f32 value);
+    void set_card_text(saddr src);
     u8 *get_card_entry_data();
     static s32 find_card_by_id(u32 arg0);
     static void swap_cards(s32 arg0, s32 arg1);
@@ -106,9 +106,9 @@ struct TWindowSubComCard : public TObject {
     static void handle_press_b(saddr arg0, s32 arg1);
     void calc_layout_height(f32 farg0);
 
-    s32 find_entry_value_by_id(s32 arg1);
+    s32 find_entry_value_by_id(s32 key);
     void mark_entry_by_id(s32 arg1);
-    void disable_entry_by_id(s32 arg1);
+    void disable_entry_by_id(s32 id);
     void set_card_index(s32 arg1);
     void set_selected_card(s32 arg1);
     void set_help_message(s32 arg1);

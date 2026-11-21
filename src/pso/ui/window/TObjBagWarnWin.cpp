@@ -96,8 +96,8 @@ extern f32 TObjBagWarnWin__message_window_size[2];
 
 extern u8 *text_language_group_table;
 
-saddr get_message_text(s32 arg0) {
-    return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x2C)) + (arg0 * 4));
+saddr get_message_text(s32 text) {
+    return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x2C)) + (text * 4));
 }
 
 void *TObjBagWarnWin::create(void *bag_warn_win) {

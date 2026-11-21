@@ -5,7 +5,7 @@
 
 extern "C" {
 void *TWindowSubStatusDisp__sub_8025B2DC(void *arg0, s16 arg1);
-u8 *init_part_scaled__20TWindowSubStatusDispFPvPvi(u8 *arg0, u8 *arg1, s32 arg2);
+u8 *init_part_scaled__20TWindowSubStatusDispFPvPvi(u8 *arg0, u8 *rec, s32 client);
 }
 void set_sprite_dimensions(void *p, f32 a, f32 b);
 void set_sprite_uv_bounds(void *p, f32 a, f32 b, f32 c, f32 d);

@@ -68,7 +68,7 @@ TWindowMessageQuest::~TWindowMessageQuest() {
 }
 
 
-TWindowMessageQuest::TWindowMessageQuest(s32 arg1) : TWindowMessage(arg1, 1, local_client_id) {
+TWindowMessageQuest::TWindowMessageQuest(s32 parent) : TWindowMessage(parent, 1, local_client_id) {
     this->m_name = TWindowMessageQuest__name;
     frame_mode = 0;
 }

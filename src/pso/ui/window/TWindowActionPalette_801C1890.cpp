@@ -174,14 +174,14 @@ void TWindowActionPalette::get_entry_by_index(s32 *arg0, s32 arg1) {
     TWindowActionPalette__sub_801C1D7C((s32)((saddr) arg0), (s32)(*arg0), arg1);
 }
 
-u16 TWindowActionPalette::get_slot_type(void *arg0, s32 i, s32 arg2) {
+u16 TWindowActionPalette::get_slot_type(void *arg0, s32 i, s32 id) {
   saddr new_var;
   new_var = ((saddr)TWindowActionPalette__sub_801C1C68((O_801C1C68 *)(arg0), i));
-  return get_action_palette_tag_mode(reinterpret_cast<const ActionPaletteTag *>(new_var + arg2 * 4));
+  return get_action_palette_tag_mode(reinterpret_cast<const ActionPaletteTag *>(new_var + id * 4));
 }
 
-u16 TWindowActionPalette::get_slot_type_for_index(s32 *arg0, s32 arg1) {
-    return TWindowActionPalette::get_slot_type(arg0, (s32)(*arg0), arg1);
+u16 TWindowActionPalette::get_slot_type_for_index(s32 *effect, s32 arg1) {
+    return TWindowActionPalette::get_slot_type(effect, (s32)(*effect), arg1);
 }
 
 void* ref_primary_action_palette(void* p) { return p; }

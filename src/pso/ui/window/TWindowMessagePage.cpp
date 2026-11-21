@@ -49,9 +49,9 @@ void TWindowMessagePage::set_message(void *msg, s32 flags) {
     update_message();
 }
 
-u8 *TWindowMessagePage::create(s32 arg0, saddr arg1, saddr arg2, s32 arg3) {
-    TLobby__sub_80269DA4((void *)arg1, (u32)arg2);
-    return (u8 *)new TWindowMessagePage(arg0, arg2, arg3);
+u8 *TWindowMessagePage::create(s32 parent, saddr extent, saddr rows, s32 client) {
+    TLobby__sub_80269DA4((void *)extent, (u32)rows);
+    return (u8 *)new TWindowMessagePage(parent, rows, client);
 }
 
 u8 *TWindowMessagePage::set_text(s32 a, s32 b, s32 c) {
@@ -79,7 +79,7 @@ TWindowMessagePage::~TWindowMessagePage() {
 
 }
 
-TWindowMessagePage::TWindowMessagePage(s32 arg1, s32 arg2, s32 arg3) : TWindowMessage(arg1, arg2, arg3) {
+TWindowMessagePage::TWindowMessagePage(s32 parent, s32 rows, s32 arg3) : TWindowMessage(parent, rows, arg3) {
     this->m_name = TWindowMessagePage__name;
     *(s32 *)((s8 *)this + 0x90) = 0;
     this->client_index = (s16) arg3;

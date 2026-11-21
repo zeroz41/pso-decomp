@@ -49,7 +49,7 @@ struct TFontSmallLobby
     void *handle_photon_blast_ready(void *src);
     static void *create(void *arg0);
     s16 get_valid_index();
-    void set_section_index(s16 arg1);
+    void set_section_index(s16 count);
     s32 is_ready();
     void reset_targets();
     s32 construct_pb_controller();

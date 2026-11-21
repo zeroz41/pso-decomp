@@ -57,14 +57,14 @@ s32 get_status_index_or_default__20TWindowSubStatusDispFPUs(void *, s32);
     extern int TWindowCtrlMain__instance;
 saddr TWindowCtrlMain::get_instance() {  return TWindowCtrlMain__instance; }
 
-void TWindowCtrlMain::advance_card_status(s32 arg0) {
+void TWindowCtrlMain::advance_card_status(s32 local_client_id) {
     s32 var_r4;
 
-    var_r4 = TWindowShortListCtrl::get_card_status_bits(arg0) + 1;
+    var_r4 = TWindowShortListCtrl::get_card_status_bits(local_client_id) + 1;
     if (var_r4 >= 5) {
         var_r4 = 0;
     }
-    fn_800FCCC8(arg0, var_r4);
+    fn_800FCCC8(local_client_id, var_r4);
 }
 s32 TWindowSubStatusDisp::build_status_text(s32 arg0) {
     s32 mode;

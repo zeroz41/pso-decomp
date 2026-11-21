@@ -79,10 +79,10 @@ TWindowSubLog::~TWindowSubLog() {
     }
     TWindowCtrl__sub_8024ADF0((saddr)(*(void **)((s8 *)this + 0x1C)));
 }
-TWindowSubLog::TWindowSubLog(TObject *arg1, void *arg2) : TObject(arg1) {
+TWindowSubLog::TWindowSubLog(TObject *parent, void *arg2) : TObject(parent) {
     void *w;
     ((Lg_8027B194 *)this)->f0 = ((saddr)TWindowSubLog__class_name);
-    parent_menu = static_cast<TWindowMainMenu *>(arg1);
+    parent_menu = static_cast<TWindowMainMenu *>(parent);
     ((Lg_8027B194 *)this)->f1c = arg2;
     TWindowCtrl__sub_8024ADAC((saddr)(((Lg_8027B194 *)this)->f1c));
     parent_menu->hide_for_subwindow();

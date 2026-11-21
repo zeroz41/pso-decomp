@@ -506,10 +506,10 @@ s32 TWindowHelpItem::get_help_value(u16 slot, s32 client_id) {
     return item->get_amount();
 }
 
-void TWindowHelpItem::set_help_text(saddr arg0, saddr arg1) {
+void TWindowHelpItem::set_help_text(saddr help, saddr arg1) {
     if (TWindowKeyBoardHard::test_card_flag_2(arg1) != 0) {
-        set_sprite_uv_from_pixels((u8 *)arg0, 92.0f, 56.0f);
+        set_sprite_uv_from_pixels((u8 *)help, 92.0f, 56.0f);
         return;
     }
-    set_sprite_uv_from_pixels((u8 *)arg0, 92.0f, 0.0f);
+    set_sprite_uv_from_pixels((u8 *)help, 92.0f, 0.0f);
 }

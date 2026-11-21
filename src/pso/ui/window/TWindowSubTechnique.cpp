@@ -74,20 +74,20 @@ s32 TWindowSubTechnique::lookup_technique(s32 arg0, s32 arg1) {
     }
     return can_use_palette_action__10TObjPlayerFPvUcUc(temp, 3, (u8) arg0);
 }
-void TWindowSubTechnique::draw_technique_row(s32 id, s32 arg1, s32 arg2) {
+void TWindowSubTechnique::draw_technique_row(s32 id, s32 arg1, s32 list) {
     s32 technique_name;
     void add_gray_text_entry(s32, s32, s32, s16);
 
     technique_name = get_technique_name(id);
     if (TWindowSubTechnique::lookup_technique(id, arg1) == 0) {
-        add_gray_text_entry(arg2, technique_name, 6, id);
+        add_gray_text_entry(list, technique_name, 6, id);
         return;
     }
     if (TWindowSubTechnique::is_technique_available(id, arg1) == 0) {
-        add_text_entry__19TWindowSubTradeMainFllll(arg2, technique_name, 0x16, id, 0xFFFD3901);
+        add_text_entry__19TWindowSubTradeMainFllll(list, technique_name, 0x16, id, 0xFFFD3901);
         return;
     }
-    forward_trade_action_default__16TObjCityMainWarpFPviii(arg2, technique_name, 6, id);
+    forward_trade_action_default__16TObjCityMainWarpFPviii(list, technique_name, 6, id);
 }
 #pragma fp_contract on
 

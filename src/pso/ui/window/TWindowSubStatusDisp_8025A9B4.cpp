@@ -261,15 +261,15 @@ void *TWindowSubStatusDisp__sub_8025AF0C(void *window_sub_status_disp, s16 arg1)
     return window_sub_status_disp;
 }
 
-u8 *construct_text_entry(u8 *arg0, u8 *arg1, s32 arg2) {
-    __ct__13TUnk_804CF998Fl(arg0, arg2);
+u8 *construct_text_entry(u8 *arg0, u8 *rec, s32 client) {
+    __ct__13TUnk_804CF998Fl(arg0, client);
     *(s32 **)((s8 *)arg0 + 4) = ((s32 *)&lbl_804CFA28);
-    *(f32 *)((s8 *)arg0 + 8) = (f32) *(f32 *)((s8 *)arg1 + 4);
-    *(f32 *)((s8 *)arg0 + 0xC) = (f32) *(f32 *)((s8 *)arg1 + 8);
-    *(f32 *)((s8 *)arg0 + 0x18) = (f32) *(f32 *)((s8 *)arg1 + 0xC);
-    *(u16 *)((s8 *)arg0 + 0) = (u16) *(s32 *)((s8 *)arg1 + 0x14);
+    *(f32 *)((s8 *)arg0 + 8) = (f32) *(f32 *)((s8 *)rec + 4);
+    *(f32 *)((s8 *)arg0 + 0xC) = (f32) *(f32 *)((s8 *)rec + 8);
+    *(f32 *)((s8 *)arg0 + 0x18) = (f32) *(f32 *)((s8 *)rec + 0xC);
+    *(u16 *)((s8 *)arg0 + 0) = (u16) *(s32 *)((s8 *)rec + 0x14);
     *(f32 *)((s8 *)arg0 + 0x1C) = (f32) K_CFAC;
-    *(s32 *)((s8 *)arg0 + 0x24) = (s32) *(s32 *)((s8 *)arg1 + 0x10);
+    *(s32 *)((s8 *)arg0 + 0x24) = (s32) *(s32 *)((s8 *)rec + 0x10);
     *(f32 *)((s8 *)arg0 + 0x28) = TWindowSubStatusDisp::get_card_window_scale((int) ((s32) *(s16 *)((s8 *)arg0 + 2)));
     if (*(u16 *)((s8 *)arg0 + 0) & 4) {
         *(f32 *)((s8 *)arg0 + 0x28) = (f32) (*(f32 *)((s8 *)arg0 + 0x28) * K_CFC4);
@@ -277,6 +277,6 @@ u8 *construct_text_entry(u8 *arg0, u8 *arg1, s32 arg2) {
     if (*(f32 *)((s8 *)arg0 + 0x28) <= K_CFAC) {
         *(f32 *)((s8 *)arg0 + 0x1C) = (f32) (9e+05f);
     }
-    *(s32 *)((s8 *)arg0 + 0x20) = (s32) *(s32 *)((s8 *)arg1 + 0x18);
+    *(s32 *)((s8 *)arg0 + 0x20) = (s32) *(s32 *)((s8 *)rec + 0x18);
     return arg0;
 }

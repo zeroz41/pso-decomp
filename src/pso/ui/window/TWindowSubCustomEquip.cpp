@@ -165,7 +165,7 @@ void TWindowSubCustomEquip::draw_cursor(u8 *arg1) {
     ((void (*)(f32, u8 *, NJS_POINT2 *, s32))draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif)(0.8f, arg1, &pos, arg0->f66);
 }
 
-void TWindowSubCustomEquip::update_palette_slot(s32 arg1, s32 kind, s32 arg3) {
+void TWindowSubCustomEquip::update_palette_slot(s32 arg1, s32 kind, s32 index) {
     void *pl;
     u8 *a;
     u8 *b;
@@ -173,13 +173,13 @@ void TWindowSubCustomEquip::update_palette_slot(s32 arg1, s32 kind, s32 arg3) {
     if (pl != NULL) {
         a = (u8 *)this->get_array_entry(lbl_8044F738[arg1]);
         b = (u8 *)this->get_array_entry(lbl_8044F740[arg1]);
-        if (can_use_palette_action__10TObjPlayerFPvUcUc(pl, kind, arg3) != 0) {
+        if (can_use_palette_action__10TObjPlayerFPvUcUc(pl, kind, index) != 0) {
             *(s32 *)(a + 0x2C) = -1;
         } else {
             *(s32 *)(a + 0x2C) = 0xFF404040;
         }
-        draw_action_palette_icon(a, kind, arg3);
-        update_palette_item_count_label(b, a, kind, arg3, this->client_index);
+        draw_action_palette_icon(a, kind, index);
+        update_palette_item_count_label(b, a, kind, index, this->client_index);
     }
 }
 

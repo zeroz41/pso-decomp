@@ -17,7 +17,7 @@ struct TWindowCtrlMain : public TObject {
     void free_member();
     s32 get_main_menu_message();
     static saddr get_instance();
-    static void advance_card_status(s32 arg0);
+    static void advance_card_status(s32 local_client_id);
     static void free_window();
     static void release_ptr(void **arg0);
     void init_fields();

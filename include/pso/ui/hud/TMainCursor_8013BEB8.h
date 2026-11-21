@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void init_target_vector__11TMainCursorFiii(s32 arg0, s32 arg1, s32 arg2);
+void init_target_vector__11TMainCursorFiii(s32 arg0, s32 to, s32 from);
 s32 try_move__11TMainCursorFiii(saddr arg0, u8 arg1, u8 arg2);
 }
 

@@ -225,13 +225,13 @@ void populate_menu__15TWindowMainMenuFPvPv(u8 *window_main_menu, TWindowMainMenu
     ((TWindowMainMenu *)window_main_menu)->update_description_text(d);
 }
 
-void TWindowMainMenu::open_menu_with_entry(s16 arg1) {
+void TWindowMainMenu::open_menu_with_entry(s16 id) {
     u32 temp_r31;
     if ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x1C) == 0U) {
         *(u32 *)((s8 *)((u8 *)this) + 0x1C) = create_menu__15TWindowMainMenuFPvPv((void *)(get_window_layout_position(0x1A)), (int) (*(s32 *)((s8 *)((u8 *)this) + 0x54)));
     }
     temp_r31 = *(u32 *)((s8 *)((u8 *)this) + 0x1C);
-    append_child_rows__15TWindowMainMenuFPvi((void *)(uaddr)temp_r31, (s32)arg1);
+    append_child_rows__15TWindowMainMenuFPvi((void *)(uaddr)temp_r31, (s32)id);
     TWindowMainMenu__sub_802ADADC((void *)(uaddr)temp_r31, 0);
     this->update_submenu();
 }
@@ -261,7 +261,7 @@ void TWindowMainMenu::show_child_window() {
     }
 }
 
-void TWindowMainMenu::create_submenu(u32 arg1) {
+void TWindowMainMenu::create_submenu(u32 id) {
     s32 temp_r3_10;
     saddr window_sub_technique;
     s32 temp_r3_13;
@@ -293,7 +293,7 @@ void TWindowMainMenu::create_submenu(u32 arg1) {
     *(s32 *)((s8 *)((u8 *)this) + 0x4C) = (s32) (*(s32 *)((s8 *)((u8 *)this) + 0x4C) | 4);
     destroy_submenu();
     set_scale_f();
-    switch (arg1) {
+    switch (id) {
     case 25:
         this->m_20 = (saddr)new TUnk_804D1AD0(this, *(s32 *)((s8 *)((u8 *)this) + 0x54));
         return;
@@ -448,16 +448,16 @@ void TWindowMainMenu1P::create_char_select_slot() {
 
 void TWindowMainMenu::destroy_submenu() { if (*(unsigned int *)&this->m_20 != 0) { ((TObject *)(*(void* *)&this->m_20))->queue_destruction(); *(int *)&this->m_20 = 0; } }
 
-void TWindowMainMenu::update_description_text(s32 arg1) {
-    if ((s32) *(s32 *)((s8 *)this + 0x48) != arg1) {
-        *(s32 *)((s8 *)this + 0x48) = arg1;
+void TWindowMainMenu::update_description_text(s32 id) {
+    if ((s32) *(s32 *)((s8 *)this + 0x48) != id) {
+        *(s32 *)((s8 *)this + 0x48) = id;
         if ((u32) *(u32 *)((s8 *)this + 0x24) == 0U) {
             u32 tmp = get_window_layout_position(0x1B);
             *(u32 *)((s8 *)this + 0x24) = (uaddr)TWindowMessage::create(tmp, lbl_8044F2E0, 1, *(s32 *)((s8 *)this + 0x54));
             ((TWindowBase *)(*(uaddr *)((s8 *)this + 0x24)))->set_depth(49999.0f);
             call_if_split_screen(*(u32 *)((s8 *)this + 0x24), *(s32 *)((s8 *)this + 0x54));
         }
-        ((TWindowMessage *)(*(uaddr *)((s8 *)this + 0x24)))->append_line(select_main_menu_item_10(arg1), 0x80);
+        ((TWindowMessage *)(*(uaddr *)((s8 *)this + 0x24)))->append_line(select_main_menu_item_10(id), 0x80);
     }
 }
 
@@ -550,11 +550,11 @@ void TWindowMainMenu::update_selection_value() {
     }
 }
 
-void TWindowMainMenu::add_menu_entry(s16 arg1) {
+void TWindowMainMenu::add_menu_entry(s16 id) {
     struct Elt80263D94_80263d94_80263B70 *arr = (struct Elt80263D94_80263d94_80263B70 *)this;
     struct Elt80263D94_80263d94_80263B70 *e = (struct Elt80263D94_80263d94_80263B70 *)((char *)&arr[*(s16 *)((s8 *)((u8 *)this) + 0x50)] + 0x28);
     e->f0 = (s16) *(s16 *)((s8 *)((u8 *)this) + 0x52);
-    e->f2 = arg1;
+    e->f2 = id;
     e->f4 = (s32) *(s32 *)((s8 *)((u8 *)this) + 0x5C);
 }
 
@@ -606,12 +606,12 @@ s32 TWindowMainMenu::close_active_submenu() {
     return 1;
 }
 
-void TWindowMainMenu::try_open_battle_menu(s16 arg1) {
+void TWindowMainMenu::try_open_battle_menu(s16 key) {
     s32 spC;
     s16 sp8;
     TObjPlayer *player;
 
-    sp8 = arg1;
+    sp8 = key;
     player = get_player_by_client_id(*(s32 *)((s8 *)this + 0x54));
     if ((player != 0) && !(*(s32 *)((s8 *)this + 0x4C) & 1) && (filter_menu_entry(&sp8, &spC) != 0) && (spC != 0)) {
         *(s32 *)((s8 *)this + 0x4C) = (s32) (*(s32 *)((s8 *)this + 0x4C) | 1);
@@ -631,8 +631,8 @@ void TWindowSubEquip::open_submenu(saddr arg0, s32 arg1) {
 
 void TWindowMainMenu::set_scale_f() { *(float*)((char*)this + 0x58) = 50300.0f; }
 
-f32 TWindowSubEquip__sub_80263AF8(u8 *arg0, u32 arg1) {
-    return *(f32 *)((s8 *)arg0 + 0x58) - (f32) arg1;
+f32 TWindowSubEquip__sub_80263AF8(u8 *parent, u32 arg1) {
+    return *(f32 *)((s8 *)parent + 0x58) - (f32) arg1;
 }
 
 void TWindowSubEquip__sub_80263AF4(void) {  }

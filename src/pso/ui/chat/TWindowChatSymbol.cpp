@@ -191,8 +191,8 @@ void TWindowSubSymbolChatPartsSet::set_part_sprite(void *arg0, s16 id, s32 a, s3
 #undef o
 #pragma pop
 
-u16 *TWindowSubSymbolChatPartsSet::get_entry_offset_d(s32 arg1) {
-    return (u16 *)this->get_array_entry(arg1 + 0xD);
+u16 *TWindowSubSymbolChatPartsSet::get_entry_offset_d(s32 sel) {
+    return (u16 *)this->get_array_entry(sel + 0xD);
 }
 
 void apply_part_to_window__28TWindowSubSymbolChatPartsSetFPvPvi(Obj_80248088 *arg0, Part_80248088 *arg1, s32 arg2) {
@@ -204,36 +204,36 @@ void apply_part_to_window__28TWindowSubSymbolChatPartsSetFPvPvi(Obj_80248088 *ar
     TWindowSubSymbolChatPartsSet::set_part_sprite(w, arg1->id, (s32)(f & 1), (s32)((f >> 1) & 1));
 }
 
-void setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(Part_802480EC *arg0, Part_802480EC *arg1, Part_802480EC *arg2, u16 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7) {
+void setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(Part_802480EC *arg0, Part_802480EC *arg1, Part_802480EC *shortcut_icon, u16 arg3, s32 sel, s32 arg5, s32 arg6, s32 arg7) {
     f32 u;
     f32 v;
     const UV_802480EC *uv;
     if (arg3 == 0xFF) {
-        ((TWindowHelpItem *)arg2)->set_flag0_bit2();
+        ((TWindowHelpItem *)shortcut_icon)->set_flag0_bit2();
         ((TWindowHelpItem *)arg0)->set_flag0_bit2();
         ((TWindowHelpItem *)arg1)->set_flag0_bit2();
         return;
     }
-    ((TWindowSubStatusDisp *)arg2)->clear_visible_flag();
+    ((TWindowSubStatusDisp *)shortcut_icon)->clear_visible_flag();
     ((TWindowSubStatusDisp *)arg0)->clear_visible_flag();
     ((TWindowSubStatusDisp *)arg1)->clear_visible_flag();
     u = 32.0f * (f32)(arg3 & 7);
     v = 32.0f * (f32)((arg3 >> 3) & 7);
     arg0->kind = ((arg3 >> 6) & 3) + 7;
-    arg0->entry = TWindowSubSymbolChatPartsSet::get_parts_entry(arg4);
+    arg0->entry = TWindowSubSymbolChatPartsSet::get_parts_entry(sel);
     if (arg3 <= 0x12) {
         uv = &TWindowSubSymbolChatPartsSet__part_uv_table[arg7];
         set_sprite_dimensions(arg0, 31.0f, 31.0f);
-        arg2->x = arg0->x - 5.0f;
-        arg2->y = arg0->y;
-        set_sprite_dimensions(arg2, 50.0f, 40.0f);
-        set_sprite_uv_from_pixels((u8 *)arg2, uv->u, uv->v);
+        shortcut_icon->x = arg0->x - 5.0f;
+        shortcut_icon->y = arg0->y;
+        set_sprite_dimensions(shortcut_icon, 50.0f, 40.0f);
+        set_sprite_uv_from_pixels((u8 *)shortcut_icon, uv->u, uv->v);
         ((TWindowHelpItem *)arg1)->set_flag0_bit2();
     } else {
         set_sprite_dimensions(arg0, 30.0f, 30.0f);
         arg1->x = arg0->x;
         arg1->y = arg0->y;
-        ((TWindowHelpItem *)arg2)->set_flag0_bit2();
+        ((TWindowHelpItem *)shortcut_icon)->set_flag0_bit2();
     }
     set_sprite_uv_from_pixels((u8 *)arg0, u, v);
     if (arg5 != 0) {
@@ -244,16 +244,16 @@ void setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(Part_802480
     }
 }
 
-u16 *TWindowSubSymbolChatPartsSet__sub_802482B8(void *arg0, s32 arg1) {
-    return (u16 *)((TWindowBase *)arg0)->get_array_entry(arg1 + 0x1);
+u16 *TWindowSubSymbolChatPartsSet__sub_802482B8(void *arg0, s32 sel) {
+    return (u16 *)((TWindowBase *)arg0)->get_array_entry(sel + 0x1);
 }
 
 u16 *TWindowSubSymbolChatPartsSet::get_parts_entry(saddr arg1) {
     return (u16 *)this->get_array_entry(arg1 + 9);
 }
 
-u16 *TWindowSubSymbolChatPartsSet::get_parts_entry(void *arg0, int arg1) {
-    return (u16 *)((TWindowBase *)arg0)->get_array_entry(arg1 + 5);
+u16 *TWindowSubSymbolChatPartsSet::get_parts_entry(void *arg0, int sel) {
+    return (u16 *)((TWindowBase *)arg0)->get_array_entry(sel + 5);
 }
 
 void fn_80248324(Ctl_80248324 *c, s32 arg1, s32 cur) {

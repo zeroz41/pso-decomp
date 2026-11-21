@@ -262,10 +262,10 @@ void TUnk_804CF0B8::clear_flag2c_bit200() { this->window_flags &= 0xfffffdff; }
 
 void TUnk_804CF0B8::set_flag2c_bit100() { this->window_flags |= 0x100; }
 extern "C" {
-u8 *TWindowFukidasi__sub_80252B74(u8 *window_addition, s32 arg1, s32 str, s32 arg3, f32 farg0) {
-    __ct__15TWindowAdditionFPUcsPUc(window_addition, (u8 *)window_fukidasi_addition_params, (s16)arg3, (u8 *)get_zero_vec2());
+u8 *TWindowFukidasi__sub_80252B74(u8 *window_addition, s32 player, s32 str, s32 client, f32 farg0) {
+    __ct__15TWindowAdditionFPUcsPUc(window_addition, (u8 *)window_fukidasi_addition_params, (s16)client, (u8 *)get_zero_vec2());
     *(void **)(window_addition + 0x18) = __vt__13TUnk_804CF0B8;
-    sub_80251DF0__13TUnk_804CF0B8Fslsf(window_addition, arg1, str, arg3, farg0);
+    sub_80251DF0__13TUnk_804CF0B8Fslsf(window_addition, player, str, client, farg0);
     return window_addition;
 }
 }
@@ -1336,13 +1336,13 @@ s32 TWindowFukidasi::check_card_match_enabled(saddr arg1) {
 
 #pragma push
 #pragma fp_contract on
-void TWindowFukidasi::rearm_balloon(saddr arg1) {
+void TWindowFukidasi::rearm_balloon(saddr flags) {
     u32 n;
 
     if (((s32 (*)(void))sub_80246948__11TWindowBaseFv)() != 0) {
         *(s8 *)((s8 *)((u8 *)this) + 0x70) = 5;
     }
-    ((s32 (*)(void *, void *))init_flags__15TWindowFukidasiFPvi)(this, (void *)arg1);
+    ((s32 (*)(void *, void *))init_flags__15TWindowFukidasiFPvi)(this, (void *)flags);
     switch ((s32) (*(u8 *)((s8 *)((u8 *)this) + 0x72))) {
     case 0:
         n = TWindowKeyBoardSoft::strnlen((s8 *)(((TWindowSubComCard *)(void *)((TWindowBase *)this)->get_array_entry(0))->get_field_20()), (u32)0x100);
