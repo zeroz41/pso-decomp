@@ -1749,7 +1749,7 @@ force_active:
   - TSwitch__name
   - __ct__8TTecAntiFPvPvPvl
   - TTecAnti__self_effect_rows
-  - TTecAnti__sub_8022AD74
+  - spawn_anti_range_effect
   - TTecAnti__sub_8022AD94
   - TTecAnti_name_ref
   - TTecBarta__class_name

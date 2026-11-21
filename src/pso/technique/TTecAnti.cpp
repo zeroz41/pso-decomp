@@ -109,7 +109,7 @@ struct Anti_8022AEF8 {
 
 extern "C" {
 saddr get_entity_id(int);
-int TTecAnti__sub_8022AD74(void* p);
+int spawn_anti_range_effect(void* p);
 void TTecAnti__sub_8022AD94(void *);
 extern const char *TTecAnti_name_ref;
 S_8022B3E8 *copy_technique_target_list(S_8022B3E8 *d, S_8022B3E8 *s);
@@ -179,7 +179,7 @@ TTecAnti::TTecAnti(void *owner, void *pos, void *arg3, saddr level) : TTecPlayer
     }
     if ((s32) ((TTecAnti *)arg0)->m_ac != 0) {
         ((TTecAnti *)arg0)->play_anti_cast_sound();
-        TTecAnti__sub_8022AD74(arg0);
+        spawn_anti_range_effect(arg0);
     }
 }
 #undef arg0
@@ -293,7 +293,7 @@ void TUnk_804CC0E8::run_task() { queue_destruction(); }
 
 void TTecAnti__sub_8022AD94(void * _w0) {  }
 
-int TTecAnti__sub_8022AD74(void* p) { return spawn_support_tec_range_effect(p); }
+int spawn_anti_range_effect(void* p) { return spawn_support_tec_range_effect(p); }
 
 void TTecAnti::play_anti_cast_sound() {
     Obj_8022ACB4 *arg0 = (Obj_8022ACB4 *)this;
