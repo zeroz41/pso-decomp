@@ -12,10 +12,12 @@ public:
     virtual void run_task();
 public:
     static void create();
+    // Hands each new TObjBoss2Dust the next of the 10 strips of
+    // boss2_dust_output_table, wrapping to 0 (role inferred).
+    static s32 sub_8003AB5C();
 };
 
 extern "C" {
-s32 TObjBoss2DustCtrl__sub_8003AB5C(void);
 void TObjBoss2DustCtrl__sub_8003AD50(void);
 }
 void boss2_dust_draw_at(const Vec *position, s32 slot);

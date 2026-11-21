@@ -14,12 +14,10 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/unk/text_803D853C.h"
 
-extern "C" {
-
-f32 sin_table_lookup(int);
-f32 cos_table_lookup(int, f32);
-void matrix_mult_vec(s32, Vec *, TrailStripVertex *);
 Vec boss2_dust_points[6];
 s32 boss2_dust_rotation_table[20];
 TrailStripVertex boss2_dust_output_table[60];
@@ -31,28 +29,21 @@ extern const f32 lbl_805D85C4;
 extern const f32 lbl_805D85C8;
 s32 TObjBoss2DustCtrl_dust_counter;
 
-extern saddr tl_05;
-
-
-}
-
 #pragma push
 #pragma readonly_strings on
 const char *TObjBoss2DustCtrl__name = "TObjBoss2DustCtrl";
 const char *TObjBoss2Dust__name = "TObjBoss2Dust";
 #pragma pop
 
-extern "C" {
 void fn_8003AD54(void) {
     s32 i;
     s32 j;
 
     for (i = 0; i < 6; i++) {
-        s32 a = (s32)(lbl_805D85C0 * (f32)i);
-        f32 s = lbl_805D85C4 * sin_table_lookup(a);
-        boss2_dust_points[i].x = s;
+        int a = (int)(lbl_805D85C0 * (f32)i);
+        boss2_dust_points[i].x = lbl_805D85C4 * sin_table_lookup(a);
         boss2_dust_points[i].y = lbl_805D85C8 * (f32)i;
-        boss2_dust_points[i].z = lbl_805D85C4 * cos_table_lookup(a, s);
+        boss2_dust_points[i].z = lbl_805D85C4 * cos_table_lookup(a);
     }
     {
         s32 *p = boss2_dust_rotation_table;
@@ -77,10 +68,9 @@ void fn_8003AD54(void) {
 }
 
 void TObjBoss2DustCtrl__sub_8003AD50(void) {  }
-}
 
 void TObjBoss2DustCtrl::create() {
-    new TObjBoss2DustCtrl((TObject *)tl_05);
+    new TObjBoss2DustCtrl(tl_05);
 }
 
 TObjBoss2DustCtrl::TObjBoss2DustCtrl(TObject *parent) : TObject(parent) {
@@ -89,7 +79,6 @@ TObjBoss2DustCtrl::TObjBoss2DustCtrl(TObject *parent) : TObject(parent) {
 
 TObjBoss2DustCtrl::~TObjBoss2DustCtrl() {}
 
-extern "C" {
 #pragma push
 #pragma opt_propagation off
 void TObjBoss2DustCtrl::run_task() {
@@ -119,14 +108,14 @@ void TObjBoss2DustCtrl::run_task() {
         *rot += 0x555;
         rotate_matrix_x(0, *rot++);
         for (j = 0; j < 6; j++) {
-            matrix_mult_vec(0, &boss2_dust_points[j], out++);
+            matrix_mult_vec(0, &boss2_dust_points[j], (Vec *)out++);
         }
     }
     pop_matrix();
 }
 #pragma pop
 
-s32 TObjBoss2DustCtrl__sub_8003AB5C(void) {
+s32 TObjBoss2DustCtrl::sub_8003AB5C() {
     s32 slot = TObjBoss2DustCtrl_dust_counter;
     TObjBoss2DustCtrl_dust_counter = slot + 1;
     if (slot + 1 >= 10) {
@@ -143,13 +132,11 @@ void boss2_dust_draw_at(const Vec *position, s32 slot) {
     pop_matrix();
 }
 
-}
-
 TObjBoss2Dust::TObjBoss2Dust(TObject *parent, const Vec *position) : TObject(parent) {
     m_name = TObjBoss2Dust__name;
     VecCopy(&this->position, position);
     ticks = 0;
-    strip_slot = TObjBoss2DustCtrl__sub_8003AB5C();
+    strip_slot = TObjBoss2DustCtrl::sub_8003AB5C();
 }
 
 TObjBoss2Dust::~TObjBoss2Dust() {}
