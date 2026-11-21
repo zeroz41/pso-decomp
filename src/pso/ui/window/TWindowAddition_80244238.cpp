@@ -7,7 +7,7 @@
 
 extern "C" {
 s32 set_position_xy__15TWindowAdditionFff(f32, f32);
-const char *lbl_805D3878 = "TWindowAddition";
+const char *TWindowAddition__name = "TWindowAddition";
 #pragma push
 #pragma fp_contract on
 void TWindowAddition::step_window_tween() {
@@ -36,7 +36,7 @@ WindowDrawContext *TWindowAddition::get_draw_context() {
 }
 
 void TWindowAddition::sub_802443B4(u8 *) {
-    m_name = lbl_805D3878;
+    m_name = TWindowAddition__name;
     scroll_offset[0] = 0.0f;
     scroll_offset[1] = 0.0f;
     set_position_xy__15TWindowAdditionFff(1.0f, 1.0f);
