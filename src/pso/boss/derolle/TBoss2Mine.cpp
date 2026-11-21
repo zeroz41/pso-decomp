@@ -1,6 +1,7 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/boss/derolle/TBoss2Mine.h"
 #include "pso/system/vector.h"
+#include "pso/system/BmlResource.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/boss/derolle/TUnk_80482EC0.h"
 #include "pso/boss/derolle/TUnk_80482D04.h"
@@ -23,13 +24,13 @@
 #include "pso/unk/text_803E2D70.h"
 
 struct TBoss2MineMovement {
-    f32 m_0;
-    f32 m_4;
-    s32 m_8;
-    s32 m_c[4];
+    f32 target_range;
+    f32 base_speed;
+    s32 turn_speed;
+    s32 params[4];
 };
 
-// The mine's attack template: vfunc_107 copies it, sets +0x04 and hands it to
+// The mine's attack template: state_explode copies it, sets +0x04 and hands it to
 // TObjEneDD__sub_800BA5A4, whose setup_instance installs +0x08 as the collision radius.
 struct TBoss2MineCollisionDesc {
     s32 value;
@@ -48,9 +49,11 @@ static const TBoss2MineCollisionDesc boss2_mine_collision_desc = { 1, 2.0f, 50.0
 
 const char *TBoss2Mine__name = "TBoss2Mine";
 
-const Vec lbl_80435AD0 = { 2.0f, 1.0f, 2.0f };
+const Vec boss2_mine_shadow_scale = { 2.0f, 1.0f, 2.0f };
 
 const NJS_ARGB boss2_mine_render_color = { 0.0f, 0.0f, 0.0f, 0.0f };
+
+extern BmlResource *lbl_805D4BA4;
 
 extern "C" {
 
@@ -60,22 +63,20 @@ f32 newton_sqrtf(s32, f32, f32, f32);
 
 extern void *lbl_805D28BC;
 
-extern u8 *lbl_805D4BA4;
-
 void free_collision_body_parts(void *);
 
 __declspec(section ".data") s32 boss2_mine_params[2] = { 0x11, 0x11 };
 
-__declspec(section ".data") s32 lbl_80482C90[2] = { 0xF, 0xF };
+__declspec(section ".data") s32 boss2_mine_attack_params[2] = { 0xF, 0xF };
 
-__declspec(section ".data") s32 lbl_80482C98[2] = { 0x11, 0x11 };
+__declspec(section ".data") s32 boss2_mine_resist_params[2] = { 0x11, 0x11 };
 
-TBoss2MineMovement lbl_80482CA0[2] = {
+TBoss2MineMovement boss2_mine_movement[2] = {
     { 225.0f, 0.0f, 0x600, { 0, 0, 0, 0 } },
     { 225.0f, 0.0f, 0x600, { 0, 0, 0, 0 } },
 };
 
-CollisionBody lbl_80482CD8 = {
+CollisionBody boss2_mine_collision_body = {
     { 0.0f, 0.0f, 0.0f }, 5.0f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f,
 };
 
@@ -101,9 +102,9 @@ void TBoss2Mine::apply_paralysis() {  }
 
 void TBoss2Mine::apply_poison_status() {  }
 
-extern "C" void TBoss2Mine__sub_80038D88(void) { TObjPlayer__sub_800F0928(); }
+void TBoss2Mine::load_resources() { TObjPlayer__sub_800F0928(); }
 
-extern "C" void TBoss2Mine__sub_80038D84(void) {  }
+void TBoss2Mine::free_resources() {  }
 
 TBoss2Mine::TBoss2Mine(TObject *parent, u16 entity_id, s32 set_index, s32 variant) : TObjEneDD(parent) {
     TBoss2DeRolLe *boss;
@@ -117,50 +118,44 @@ TBoss2Mine::TBoss2Mine(TObject *parent, u16 entity_id, s32 set_index, s32 varian
     init(variant);
 }
 
-extern "C" {
-
 void TBoss2Mine::init(s32 variant) {
-    u8 *res;
     this->init_position_vectors();
-    this->model = *(void **)(*(u8 **)(lbl_805D4BA4 + 0x42C) + 0x38);
-    res = *(u8 **)(lbl_805D4BA4 + 0x42C);
-    this->texlist = *(s32 *)(res + 0x2C);
-    this->init_model(&lbl_80482CD8, 1);
+    this->model = lbl_805D4BA4->models[3].model;
+    this->texlist = (s32)lbl_805D4BA4->models[2].m_c;
+    this->init_model(&boss2_mine_collision_body, 1);
     this->reset_hp((u8 *)TLobby::register_boss(boss2_mine_params[variant]),
-                   (u8 *)TLobby::dispatch_shared_handler_b(lbl_80482C90[variant]),
-                   (u8 *)TLobby::register_object(lbl_80482C98[variant]));
+                   (u8 *)TLobby::dispatch_shared_handler_b(boss2_mine_attack_params[variant]),
+                   (u8 *)TLobby::register_object(boss2_mine_resist_params[variant]));
     this->set_state_flag_2();
-    this->movementParameters = &lbl_80482CA0[variant];
+    this->movementParameters = &boss2_mine_movement[variant];
     this->m_37c = 3.0f;
     this->vfunc_95();
-    this->m_38c = 0;
-    this->m_390.x = 0.0f;
-    this->m_390.y = 0.0f;
-    this->m_390.z = 0.0f;
-    this->m_39c.x = 0.0f;
-    this->m_39c.y = 0.0f;
-    this->m_39c.z = 0.0f;
-    this->m_3a8 = 0;
-    this->m_3ac = 0.0f;
-    this->m_3b0 = 0;
-    this->m_3b4 = 0.0f;
-    this->m_3b8 = 0.0f;
-    this->m_3bc = 0;
-    this->m_3c0 = 0;
-    this->m_3c4 = 2;
-    this->m_3c8 = 0;
-    this->m_3cc = 0;
+    this->mine_flags = 0;
+    this->target_pos.x = 0.0f;
+    this->target_pos.y = 0.0f;
+    this->target_pos.z = 0.0f;
+    this->throw_dir.x = 0.0f;
+    this->throw_dir.y = 0.0f;
+    this->throw_dir.z = 0.0f;
+    this->spike_angle = 0;
+    this->blast_scale = 0.0f;
+    this->flash_level = 0;
+    this->pulse = 0.0f;
+    this->pulse_step = 0.0f;
+    this->pulse_wait = 0;
+    this->pulse_interval = 0;
+    this->pulse_phase = 2;
+    this->step = 0;
+    this->timer = 0;
     this->m_3d0 = 0;
-    this->m_3d8 = 0;
+    this->tilt = 0;
     this->m_3dc = 0.0f;
     this->m_3e0 = 0.0f;
-    this->m_3e4 = 0.0f;
-    this->m_3e8 = 0.0f;
-    this->m_3ec = 0.0f;
+    this->drop_distance = 0.0f;
+    this->fall_speed = 0.0f;
+    this->throw_speed = 0.0f;
     this->mode = 0;
     this->dispatch_action(this->mode, 4);
-}
-
 }
 
 TBoss2Mine::~TBoss2Mine() {
@@ -169,7 +164,7 @@ TBoss2Mine::~TBoss2Mine() {
 
 void TBoss2Mine::run_task() {
     if (TObjPlayer::check_demo_mode() != 0) {
-        vfunc_109();
+        run_demo_task();
         return;
     }
     vfunc_83();
@@ -178,7 +173,7 @@ void TBoss2Mine::run_task() {
     }
     dispatch_action(mode, 0);
     sub_800BBA0C();
-    if (!(m_38c & 1)) {
+    if (!(mine_flags & 1)) {
         save_position();
         vfunc_88();
         submit_default_cursor_candidate();
@@ -205,83 +200,83 @@ void TBoss2Mine::update_move_flag() {
     position.x = m_2fc;
     position.z = m_304;
     if (vfunc_102() == 0) {
-        m_38c &= ~2;
+        mine_flags &= ~2;
         return;
     }
-    m_38c |= 2;
+    mine_flags |= 2;
 }
 
 void TBoss2Mine::set_node_offsets() {
     NJS_OBJECT *node = ((NJS_OBJECT *)model)->child;
     s32 i;
-    s32 angle = -m_3a8;
+    s32 angle = -spike_angle;
     for (i = 0; i < 4; i++) {
         node->ang[0] = angle;
         node = node->sibling;
     }
-    angle = m_3a8;
+    angle = spike_angle;
     for (i = 0; i < 4; i++) {
         node->ang[0] = angle;
         node = node->sibling;
     }
 }
 
-void TBoss2Mine::init_params(s32 arg1, f32 farg0) {
-    m_3b8 = farg0;
-    m_3c0 = arg1;
-    m_3c4 = 0;
-    m_3b4 = 0.0f;
-    m_3bc = 0;
+void TBoss2Mine::init_params(s32 interval, f32 rate) {
+    pulse_step = rate;
+    pulse_interval = interval;
+    pulse_phase = 0;
+    pulse = 0.0f;
+    pulse_wait = 0;
 }
 
-void TBoss2Mine::set_state_by_distance(s32 arg1) {
-    if (arg1 < 90) {
+void TBoss2Mine::set_state_by_distance(s32 time_left) {
+    if (time_left < 90) {
         f32 speed = 0.5f;
-        m_3c0 = 3;
-        m_3b8 = speed;
+        pulse_interval = 3;
+        pulse_step = speed;
         return;
     }
-    if (arg1 < 150) {
-        m_3c0 = 5;
+    if (time_left < 150) {
+        pulse_interval = 5;
         return;
     }
-    if (arg1 < 300) {
-        m_3c0 = 10;
+    if (time_left < 300) {
+        pulse_interval = 10;
         return;
     }
-    m_3c0 = 30;
+    pulse_interval = 30;
 }
 
 void TBoss2Mine::update_pulse_state() {
-    m_3bc++;
-    switch (m_3c4) {
+    pulse_wait++;
+    switch (pulse_phase) {
     case 2:
-        if (m_3bc >= m_3c0) {
-            m_3bc = 0;
-            m_3b4 = 0.0f;
-            m_3c4 = 0;
+        if (pulse_wait >= pulse_interval) {
+            pulse_wait = 0;
+            pulse = 0.0f;
+            pulse_phase = 0;
         } else {
-            m_38c &= ~4;
+            mine_flags &= ~4;
             break;
         }
     case 0:
-        m_3b4 += m_3b8;
-        if (m_3b4 >= 1.0f) {
-            m_3b4 = 1.0f;
-            m_3c4 = 1;
+        pulse += pulse_step;
+        if (pulse >= 1.0f) {
+            pulse = 1.0f;
+            pulse_phase = 1;
         }
-        m_3b0 = (s32)(255.0f * m_3b4) << 16;
-        m_38c |= 4;
+        flash_level = (s32)(255.0f * pulse) << 16;
+        mine_flags |= 4;
         break;
     case 1:
-        m_3b4 -= m_3b8;
-        if (m_3b4 <= 0.0f) {
-            m_3b4 = 0.0f;
-            m_3bc = 0;
-            m_3c4 = 2;
+        pulse -= pulse_step;
+        if (pulse <= 0.0f) {
+            pulse = 0.0f;
+            pulse_wait = 0;
+            pulse_phase = 2;
         }
-        m_3b0 = (s32)(255.0f * m_3b4) << 16;
-        m_38c |= 4;
+        flash_level = (s32)(255.0f * pulse) << 16;
+        mine_flags |= 4;
         break;
     case 3:
         break;
@@ -291,36 +286,36 @@ void TBoss2Mine::update_pulse_state() {
 void TBoss2Mine::dispatch_action(u32 state, s32 reason) {
     switch (state) {
     case 0:
-        vfunc_104(reason);
+        state_hidden(reason);
         return;
     case 1:
-        vfunc_105(reason);
+        state_launch(reason);
         return;
     case 2:
-        vfunc_106(reason);
+        state_armed(reason);
         return;
     case 3:
-        vfunc_107(reason);
+        state_explode(reason);
         return;
     case 4:
-        vfunc_108(reason);
+        state_destroyed(reason);
         return;
     }
 }
 
-void TBoss2Mine::vfunc_104(s32 reason) {
+void TBoss2Mine::state_hidden(s32 reason) {
     u32 flags;
 
     switch (reason) {
     case 4:
         vfunc_95();
-        m_38c |= 1;
-        m_38c &= ~6;
+        mine_flags |= 1;
+        mine_flags &= ~6;
         return;
     case 3:
-        flags = m_38c;
+        flags = mine_flags;
         if (flags & 0x100) {
-            m_38c = flags & ~0x100;
+            mine_flags = flags & ~0x100;
             transition_enemy_state(1);
         }
     case 5:
@@ -329,46 +324,46 @@ void TBoss2Mine::vfunc_104(s32 reason) {
     }
 }
 
-void TBoss2Mine::vfunc_105(s32) {  }
+void TBoss2Mine::state_launch(s32) {  }
 
-void TBoss2Mine::vfunc_106(s32) {  }
+void TBoss2Mine::state_armed(s32) {  }
 
-void TBoss2Mine::vfunc_107(s32 reason) {
+void TBoss2Mine::state_explode(s32 reason) {
     TBoss2MineCollisionDesc hit;
     switch (reason) {
     case 4:
         vfunc_96();
-        m_38c &= ~7;
-        m_3b0 = 0;
-        m_3c8 = 0;
-        m_3cc = 0;
+        mine_flags &= ~7;
+        flash_level = 0;
+        step = 0;
+        timer = 0;
         create_timed_particle_emitter(&bodies->center, 0x16A, 0, 6);
         return;
     case 3:
-        if (m_3cc == 2) {
+        if (timer == 2) {
             transition_enemy_state(0);
         }
     case 5:
         return;
     case 0:
-        m_3c8++;
-        if (m_3c8 > 30) {
+        step++;
+        if (step > 30) {
             *(TBoss2MineCollisionWords *)&hit = *(const TBoss2MineCollisionWords *)&boss2_mine_collision_desc;
             hit.pad_04 = TBoss2DeRolLe__sub_80034CEC();
             TObjEneDD__sub_800BA5A4(this, &hit);
             spawn_particle_effect_with_flags(&bodies->center, 0x16B, 0x40);
-            m_3cc = 2;
+            timer = 2;
             play_sound_effect(0x4003AD05, body_center(), 0, 0);
         }
         break;
     }
 }
 
-void TBoss2Mine::vfunc_108(s32 reason) {
+void TBoss2Mine::state_destroyed(s32 reason) {
     switch (reason) {
     case 4:
         vfunc_96();
-        m_38c &= ~7;
+        mine_flags &= ~7;
         return;
     case 3:
         transition_enemy_state(0);
@@ -383,17 +378,17 @@ void TBoss2Mine::vfunc_108(s32 reason) {
 
 void TBoss2Mine::render() {
     if (TObjPlayer::check_demo_mode() != 0) {
-        vfunc_110();
+        render_demo();
         return;
     }
-    if (m_38c & 1) {
+    if (mine_flags & 1) {
         return;
     }
     if (update_object_view_visibility(400.0f, 20.0f) == 0) {
         return;
     }
-    if (m_38c & 2) {
-        Vec shadow_scale = lbl_80435AD0;
+    if (mine_flags & 2) {
+        Vec shadow_scale = boss2_mine_shadow_scale;
         TObjEnemy::draw_ground_shadow(&shadow_scale, 0);
     }
     TObjFish::set_global_param(texlist);
@@ -408,10 +403,10 @@ void TBoss2Mine::render() {
     rotate_matrix_x(NULL, rotation_x);
     rotate_matrix_y(NULL, rotation_z);
     translate_matrix(0, 0.0f, -10.0f, 0.0f);
-    if (m_38c & 4) {
+    if (mine_flags & 4) {
         model_render_flags |= 0x20;
         NJS_ARGB color = boss2_mine_render_color;
-        f32 f = -(f32)(m_3b0 >> 16) / 255.0f;
+        f32 f = -(f32)(flash_level >> 16) / 255.0f;
         color.b = f;
         color.g = f;
         color.r = -f;
@@ -423,7 +418,7 @@ void TBoss2Mine::render() {
     pop_matrix();
     if (mode == 3) {
         push_matrix();
-        f32 s = 0.5f * m_3ac;
+        f32 s = 0.5f * blast_scale;
         post_translate_matrix(&position.x);
         scale_matrix(NULL, s, 3.0f, s);
         draw_chunk_object(lbl_805D28BC);
@@ -433,9 +428,9 @@ void TBoss2Mine::render() {
     TParticleCtrl::end_effect_render();
 }
 
-void TBoss2Mine::vfunc_109() {  }
+void TBoss2Mine::run_demo_task() {  }
 
-void TBoss2Mine::vfunc_110() {  }
+void TBoss2Mine::render_demo() {  }
 
 TUnk_80482EC0::TUnk_80482EC0(TObject *parent, u16 entity_id, s32 set_index)
     : TBoss2Mine(parent, entity_id, set_index, 0) {}
@@ -446,61 +441,61 @@ void TUnk_80482EC0::vfunc_88() {
     bodies->offset.y = 5.0f + (m_300 - position.y);
 }
 
-void TBoss2Mine::set_launch_position_velocity(u8 *arg1, u8 *arg2) {
-    m_38c |= 0x100;
-    VecCopy(body_center(), (const Vec *)arg1);
-    VecCopy(&m_390, (const Vec *)arg2);
-    m_390.y += 1.0f;
+void TBoss2Mine::set_launch_position_velocity(const Vec *start, const Vec *target) {
+    mine_flags |= 0x100;
+    VecCopy(body_center(), start);
+    VecCopy(&target_pos, target);
+    target_pos.y += 1.0f;
     VecCopy(&position, body_center());
-    m_3a8 = 0;
+    spike_angle = 0;
     hp = hpmax;
     actorFlags &= ~0xA00;
 }
 
 #pragma push
 #pragma fp_contract on
-void TUnk_80482EC0::vfunc_105(s32 reason) {
+void TUnk_80482EC0::state_launch(s32 reason) {
     f32 temp_f1;
     f32 y;
     s32 angle;
     switch (reason) {
     case 4:
         vfunc_95();
-        m_38c &= ~7;
-        VecCopy(&m_39c, &m_390);
-        subtract_vector(&m_39c, body_center());
-        m_3dc = normalize_vector_xz(&m_39c);
-        angle = (s32)(10430.38043493439 * atan2_float(m_39c.x, m_39c.z));
+        mine_flags &= ~7;
+        VecCopy(&throw_dir, &target_pos);
+        subtract_vector(&throw_dir, body_center());
+        m_3dc = normalize_vector_xz(&throw_dir);
+        angle = (s32)(10430.38043493439 * atan2_float(throw_dir.x, throw_dir.z));
         rotation_y = angle;
         rotation_x = 0x4000;
         y = m_300;
-        temp_f1 = newton_sqrtf(angle, (2.0f * (y - m_390.y)) / 0.2f, y, 2.0f);
-        m_3e4 = 10.0f * temp_f1;
-        m_3ec = 10.0f;
-        m_3e8 = 0.0f;
-        m_3d8 = 0;
+        temp_f1 = newton_sqrtf(angle, (2.0f * (y - target_pos.y)) / 0.2f, y, 2.0f);
+        drop_distance = 10.0f * temp_f1;
+        throw_speed = 10.0f;
+        fall_speed = 0.0f;
+        tilt = 0;
         m_3e0 = m_3dc;
         break;
     case 3:
-        if (m_300 < m_390.y) {
-            m_300 = m_390.y;
+        if (m_300 < target_pos.y) {
+            m_300 = target_pos.y;
             transition_enemy_state(2);
         }
         break;
     case 5:
         break;
     case 0:
-        m_2fc = m_39c.x * m_3ec + m_2fc;
-        m_304 = m_39c.z * m_3ec + m_304;
-        m_3e0 = m_3e0 - m_3ec;
-        if (m_3e0 < m_3e4) {
-            m_3e8 = m_3e8 - 0.2f;
-            m_300 = m_300 + m_3e8;
+        m_2fc = throw_dir.x * throw_speed + m_2fc;
+        m_304 = throw_dir.z * throw_speed + m_304;
+        m_3e0 = m_3e0 - throw_speed;
+        if (m_3e0 < drop_distance) {
+            fall_speed = fall_speed - 0.2f;
+            m_300 = m_300 + fall_speed;
             if (rotation_x >= 0x8000) {
                 rotation_x = 0x8000;
             } else {
-                m_3d8 = m_3d8 + 0x300;
-                rotation_x = m_3d8 + 0x4000;
+                tilt = tilt + 0x300;
+                rotation_x = tilt + 0x4000;
             }
         } else {
             rotation_x = 0x4000;
@@ -513,50 +508,50 @@ void TUnk_80482EC0::vfunc_105(s32 reason) {
 
 #pragma push
 #pragma fp_contract on
-void TUnk_80482EC0::vfunc_106(s32 reason) {
+void TUnk_80482EC0::state_armed(s32 reason) {
     u32 flags;
     s32 extra;
     switch (reason) {
     case 4:
         vfunc_96();
-        m_38c &= ~5;
-        m_38c |= 2;
+        mine_flags &= ~5;
+        mine_flags |= 2;
         rotation_x = 0x8000;
-        m_3b0 = 0;
-        m_3c8 = 0;
+        flash_level = 0;
+        step = 0;
         extra = (s32)(30.0f * calc_elapsed_scaled());
-        m_3cc = extra + 180;
+        timer = extra + 180;
         play_sound_effect(0x4003A804, body_center(), 0, 0);
         init_params(30, 0.25f);
         return;
     case 3:
-        flags = m_38c;
+        flags = mine_flags;
         if (flags & 0x100) {
-            m_38c = flags & ~0x100;
+            mine_flags = flags & ~0x100;
             transition_enemy_state(1);
         }
-        if (m_3c8 == 2) {
+        if (step == 2) {
             transition_enemy_state(3);
         }
         break;
     case 5:
         break;
     case 0:
-        switch (m_3c8) {
+        switch (step) {
         case 0:
-            m_3a8 = m_3a8 + 0x280;
-            if (m_3a8 >= 0x38E3) {
-                m_3a8 = 0x38E3;
-                m_3c8 = 1;
+            spike_angle = spike_angle + 0x280;
+            if (spike_angle >= 0x38E3) {
+                spike_angle = 0x38E3;
+                step = 1;
                 return;
             }
             break;
         case 1:
-            m_3cc = m_3cc - 1;
-            if (m_3cc <= 0) {
-                m_3c8 = 2;
+            timer = timer - 1;
+            if (timer <= 0) {
+                step = 2;
             }
-            set_state_by_distance(m_3cc);
+            set_state_by_distance(timer);
             update_pulse_state();
             break;
         }
@@ -585,18 +580,16 @@ void TUnk_80482D04::vfunc_88() {
 
 void TUnk_80482D04::move_mine() {
     if (owner->is_alive() != 0) {
-        VecCopy(&m_390, &owner->position);
-        vec3_add_to(&m_390, &owner_offset);
-        m_390.y += 17.0f;
+        VecCopy(&target_pos, &owner->position);
+        vec3_add_to(&target_pos, &owner_offset);
+        target_pos.y += 17.0f;
     }
 }
-
-extern "C" {
 
 void TUnk_80482D04::init_launch(Vec *pos, TObjBase *owner, s32 slot) {
     s32 angle;
     s32 heading;
-    this->m_38c |= 0x100;
+    this->mine_flags |= 0x100;
     VecCopy(this->body_center(), pos);
     this->owner = owner;
     angle = slot * 0x5555;
@@ -615,57 +608,55 @@ void TUnk_80482D04::init_launch(Vec *pos, TObjBase *owner, s32 slot) {
     this->direction.y = 0.0f;
     this->direction.z = cos_table_lookup(heading);
     this->rotation_y = heading;
-    this->m_390.x = 0.0f;
-    this->m_390.y = 0.0f;
-    this->m_390.z = 0.0f;
+    this->target_pos.x = 0.0f;
+    this->target_pos.y = 0.0f;
+    this->target_pos.z = 0.0f;
     this->move_mine();
     this->rotation_x = 0x4000;
     VecCopy(&this->position, this->body_center());
-    this->m_3a8 = 0;
+    this->spike_angle = 0;
     this->hp = this->hpmax;
     this->actorFlags &= ~0xA00;
 }
 
-}
-
 #pragma push
 #pragma fp_contract on
-void TUnk_80482D04::vfunc_105(s32 reason) {
+void TUnk_80482D04::state_launch(s32 reason) {
     Vec to_target;
     f32 t;
     switch (reason) {
     case 4:
         vfunc_95();
-        m_38c &= ~7;
-        m_3a8 = 0;
+        mine_flags &= ~7;
+        spike_angle = 0;
         rotation_x = 0x4000;
         rotation_z = 0;
-        m_3c8 = 1;
-        m_3cc = 0;
+        step = 1;
+        timer = 0;
         m_3dc = 8.0f;
         m_3e0 = 0.0f;
         break;
     case 3:
-        if (m_3c8 == 3) {
+        if (step == 3) {
             transition_enemy_state(2);
         }
         break;
     case 0:
-        switch (m_3c8) {
+        switch (step) {
         case 0:
-            m_3cc++;
-            if (m_3cc >= 15) {
-                m_3c8 = 1;
+            timer++;
+            if (timer >= 15) {
+                step = 1;
                 play_sound_effect(0x4003A804, body_center(), 0, 0);
             }
             m_2fc = direction.x * m_3dc + m_2fc;
             m_304 = direction.z * m_3dc + m_304;
             break;
         case 1:
-            m_3a8 += 0x400;
-            if (m_3a8 >= 0x38E3) {
-                m_3a8 = 0x38E3;
-                m_3c8 = 2;
+            spike_angle += 0x400;
+            if (spike_angle >= 0x38E3) {
+                spike_angle = 0x38E3;
+                step = 2;
             }
             m_2fc = direction.x * m_3dc + m_2fc;
             m_304 = direction.z * m_3dc + m_304;
@@ -681,10 +672,10 @@ void TUnk_80482D04::vfunc_105(s32 reason) {
                 m_3dc = 3.0f;
             }
             move_mine();
-            VecCopy(&to_target, &m_390);
+            VecCopy(&to_target, &target_pos);
             subtract_vector(&to_target, body_center());
             if (normalize_vector_safe(&to_target) <= 4.5f) {
-                m_3c8 = 3;
+                step = 3;
             }
             m_3e0 += 0.05f;
             if (m_3e0 > 3.0f) {
@@ -710,51 +701,51 @@ void TUnk_80482D04::vfunc_105(s32 reason) {
 
 #pragma push
 #pragma fp_contract on
-void TUnk_80482D04::vfunc_106(s32 reason) {
+void TUnk_80482D04::state_armed(s32 reason) {
     Vec to_target;
     f32 s;
     switch (reason) {
     case 4:
         vfunc_96();
-        m_38c &= ~5;
-        m_38c |= 2;
+        mine_flags &= ~5;
+        mine_flags |= 2;
         rotation_x = 0;
-        m_3b0 = 0;
-        m_3c8 = 0;
-        m_3cc = (s32)(60.0f * calc_elapsed_scaled()) + 240;
+        flash_level = 0;
+        step = 0;
+        timer = (s32)(60.0f * calc_elapsed_scaled()) + 240;
         init_params(30, 0.25f);
         break;
     case 3:
-        if (m_38c & 0x100) {
-            m_38c &= ~0x100;
+        if (mine_flags & 0x100) {
+            mine_flags &= ~0x100;
             transition_enemy_state(1);
         }
-        if (m_3c8 == 1) {
+        if (step == 1) {
             transition_enemy_state(3);
         }
         break;
     case 0:
-        m_3cc--;
-        if (m_3cc <= 0) {
-            m_3c8 = 1;
+        timer--;
+        if (timer <= 0) {
+            step = 1;
         }
         rotation_z += 2560.0f;
         move_mine();
-        VecCopy(&to_target, &m_390);
+        VecCopy(&to_target, &target_pos);
         subtract_vector(&to_target, body_center());
         s = normalize_vector_xz(&to_target);
         s *= 0.75f;
         if (s < 0.2f) {
-            VecCopy(body_center(), &m_390);
+            VecCopy(body_center(), &target_pos);
         } else {
             if (s > 4.0f) {
                 s = 4.0f;
             }
             m_2fc = to_target.x * s + m_2fc;
-            m_300 = m_390.y;
+            m_300 = target_pos.y;
             m_304 = to_target.z * s + m_304;
         }
-        set_state_by_distance(m_3cc);
+        set_state_by_distance(timer);
         update_pulse_state();
         position.x = m_2fc;
         position.z = m_304;

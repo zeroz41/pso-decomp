@@ -1948,7 +1948,6 @@ extern saddr current_scene_light;
 
 void TObjPlayer__sub_8002E7C8(void);
 
-void TBoss2Mine__sub_80038D88(void);
 
 
 
@@ -2028,7 +2027,6 @@ void *TBoss2DeRolLe__ct(void *, void *, void *);
 s32 TBoss2DeRolLe__sub_80034034(void *);
 
 
-void TBoss2Mine__sub_80038D84(void);
 
 
 
@@ -2257,7 +2255,7 @@ void load_resources__13TBoss2DeRolLeFv(void) {
     }
     TBoss2DeRolLe__instance = 0;
     TBoss2Tentacle::load_shared_model();
-    TBoss2Mine__sub_80038D88();
+    TBoss2Mine::load_resources();
     for (k = 0; k < 5; k++) {
         TObjBoss2Tunnel::adjust_to_ground((saddr)&derolle_mine_offsets[k], (u8 *)TBoss2DeRolLe__mine_ground_targets + k * 0xC);
     }
@@ -2310,7 +2308,7 @@ void reset_parts__13TBoss2DeRolLeFv(void) {
     TObjPlayer::clear_target_ref();
     TObjPlayer__sub_8002EB88();
     TBoss2Fin::release_effect_table();
-    TBoss2Mine__sub_80038D84();
+    TBoss2Mine::free_resources();
     TBoss2Tentacle::release_shared_model();
     if ((u32) lbl_805D4BA4 != 0U) {
         delete (BmlResource *)lbl_805D4BA4;
@@ -4960,7 +4958,7 @@ void TBoss2DeRolLe__sub_80030720(Obj_80030720 *self, u32 arg1, s32 arg2) {
             pos = self->f4D0;
             if (arg2 == 0x18) {
                 for (i = 0; i < 5; i++) {
-                    ((TBoss2Mine *)(self->f630[i]))->set_launch_position_velocity((u8 *)pos, (u8 *)&TBoss2DeRolLe__mine_ground_targets[i]);
+                    ((TBoss2Mine *)(self->f630[i]))->set_launch_position_velocity((Vec *)pos, (Vec *)&TBoss2DeRolLe__mine_ground_targets[i]);
                 }
             } else if (((TObjEneDD_ST *)self)->enemy_has_live_target() != 0) {
                 for (j = 0; j < 3; j++) {

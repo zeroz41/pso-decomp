@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/system/vector.h"
 
 struct TBoss2Mine : public TObjEneDD {
     // variant picks the row of the stat tables: 0 for the floor mines
@@ -12,15 +13,18 @@ struct TBoss2Mine : public TObjEneDD {
     virtual void dispatch_action(u32 state, s32 reason);
     void set_node_offsets();
     void init(s32 variant);
-    void init_params(s32, f32);
+    // Starts the warning pulse: waiting interval frames between flashes, rate brighter per frame.
+    void init_params(s32 interval, f32 rate);
     void update_pulse_state();
-    virtual void vfunc_104(s32);
-    virtual void vfunc_105(s32);
-    virtual void vfunc_106(s32);
-    virtual void vfunc_107(s32);
-    virtual void vfunc_108(s32);
-    virtual void vfunc_109();
-    virtual void vfunc_110();
+    // The handlers dispatch_action() runs for each state: 0 hidden until launched, 1 thrown at its
+    // target, 2 armed and counting down, 3 exploding, 4 destroyed (names inferred).
+    virtual void state_hidden(s32 reason);
+    virtual void state_launch(s32 reason);
+    virtual void state_armed(s32 reason);
+    virtual void state_explode(s32 reason);
+    virtual void state_destroyed(s32 reason);
+    virtual void run_demo_task();
+    virtual void render_demo();
     void vfunc_63();
     void vfunc_62();
     void vfunc_61();
@@ -34,37 +38,40 @@ struct TBoss2Mine : public TObjEneDD {
     void apply_paralysis();
     void apply_poison_status();
     void vfunc_28();
-    void set_launch_position_velocity(u8 *arg1, u8 *arg2);
+    void set_launch_position_velocity(const Vec *start, const Vec *target);
     void render();
-    void set_state_by_distance(s32 arg1);
+    void set_state_by_distance(s32 time_left);
     void update_move_flag();
     void save_position();
     void run_task();
+    // The boss's resource callbacks.
+    static void load_resources();
+    static void free_resources();
 
     u8 unk_374[0x8];
     f32 m_37c;
     u8 unk_380[0xC];
-    u32 m_38c;
-    Vec m_390;
-    Vec m_39c;
-    s32 m_3a8;
-    f32 m_3ac;
-    u32 m_3b0;
-    f32 m_3b4;
-    f32 m_3b8;
-    s32 m_3bc;
-    s32 m_3c0;
-    s32 m_3c4;
-    s32 m_3c8;
-    s32 m_3cc;
+    u32 mine_flags;            // 1 hidden, 2 on the ground (shadow), 4 flashing, 0x100 launch requested
+    Vec target_pos;
+    Vec throw_dir;
+    s32 spike_angle;           // how far the eight spikes are opened
+    f32 blast_scale;
+    u32 flash_level;           // flash colour, 0..255 in the high half
+    f32 pulse;
+    f32 pulse_step;
+    s32 pulse_wait;
+    s32 pulse_interval;
+    s32 pulse_phase;           // 0 brightening, 1 fading, 2 waiting, 3 off
+    s32 step;
+    s32 timer;
     s32 m_3d0;
     u8 unk_3D4[0x4];
-    s32 m_3d8;
-    f32 m_3dc;
-    f32 m_3e0;
-    f32 m_3e4;
-    f32 m_3e8;
-    f32 m_3ec;
+    s32 tilt;
+    f32 m_3dc;                 // the floor mine's throw distance; the launched mine's speed
+    f32 m_3e0;                 // the throw distance left; the launched mine's homing weight
+    f32 drop_distance;         // distance left when the thrown mine starts to fall
+    f32 fall_speed;
+    f32 throw_speed;
 };
 LAYOUT_ASSERT(TBoss2Mine_size, sizeof(TBoss2Mine) == 0x3F0);
 
