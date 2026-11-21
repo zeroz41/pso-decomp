@@ -336,17 +336,17 @@ force_active:
   - TBoss2PhotonPad__name
   - TBoss2Tentacle__segment_point_defaults
   - TBoss2Tentacle__segment_points
-  - TBoss2Tentacle__sub_8003998C
-  - TBoss2Tentacle__sub_80039990
-  - TBoss2Tentacle__sub_80039994
-  - TBoss2Tentacle__sub_80039CB4
-  - TBoss2Tentacle__sub_80039D50
-  - TBoss2Tentacle__sub_80039D64
-  - TBoss2Tentacle__sub_80039D98
-  - TBoss2Tentacle__sub_80039DB0
-  - TBoss2Tentacle__sub_80039DBC
-  - TBoss2Tentacle__sub_80039DC8
-  - TBoss2Tentacle__sub_80039DD4
+  - sub_8003998C__14TBoss2TentacleFv
+  - sub_80039990__14TBoss2TentacleFv
+  - shape_strike_arc__14TBoss2TentacleFf
+  - enter_drop_back__14TBoss2TentacleFv
+  - enter_turn_to_rest__14TBoss2TentacleFv
+  - enter_raise__14TBoss2TentacleFv
+  - request_drop_back__14TBoss2TentacleFv
+  - request_aim__14TBoss2TentacleFv
+  - request_turn_to_rest__14TBoss2TentacleFv
+  - request_raise__14TBoss2TentacleFv
+  - request_sway__14TBoss2TentacleFv
   - TBoss3VoloptP02_name
   - TBoss3Volopt__sub_8004DA7C
   - TBoss4Bishi__ct
@@ -16157,8 +16157,8 @@ force_active:
   - sub_800194C4__9TObjCharaFv
   - sub_8001CCD4__11TLoadingCurFv
   - sub_8002E1CC__13TObjBoss1RockFPUcPUcl
-  - sub_80039D88__14TBoss2TentacleFv
-  - sub_80039DA4__14TBoss2TentacleFv
+  - enter_sway__14TBoss2TentacleFv
+  - request_strike__14TBoss2TentacleFv
   - sub_8003C21C__15TObjBoss2TunnelFv
   - sub_8003F81C__16TBoss3VoloptCoreFv
   - sub_80040558__16TBoss3VoloptCoreFv

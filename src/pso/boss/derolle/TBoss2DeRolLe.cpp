@@ -976,7 +976,6 @@ void set_move_direction__13TBoss2DeRolLeFPv(void *, s32);
 
 s32 TBoss2Tentacle__sub_80039CA0(void *);
 
-void TBoss2Tentacle__sub_80039E68(void *);
 
 extern u8 *TBoss2DeRolLe__data_805D4BA0;
 
@@ -999,7 +998,6 @@ void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, saddr arg2);
 
 void set_position_index__13TBoss2DeRolLeFPvi(void *, s32);
 
-void TBoss2Tentacle__sub_80039E54(void *a0);
 
 s32 restore_player_cameras();
 
@@ -1952,7 +1950,6 @@ void TObjPlayer__sub_8002E7C8(void);
 
 void TBoss2Mine__sub_80038D88(void);
 
-void TBoss2Tentacle__sub_8003A0AC(void);
 
 
 
@@ -2034,7 +2031,6 @@ void TBoss2Fin__sub_800367C0(void);
 
 void TBoss2Mine__sub_80038D84(void);
 
-void TBoss2Tentacle__sub_8003A0A8(void);
 
 
 void TObjPlayer__sub_8002EB88(void);
@@ -2261,7 +2257,7 @@ void load_resources__13TBoss2DeRolLeFv(void) {
         TBoss2DeRolLe__data_805D4BA0[i] = (saddr)TLobby::dispatch_shared_handler_a(de_rol_le_shared_handler_a_ids[i]);
     }
     TBoss2DeRolLe__instance = 0;
-    TBoss2Tentacle__sub_8003A0AC();
+    TBoss2Tentacle::load_shared_model();
     TBoss2Mine__sub_80038D88();
     for (k = 0; k < 5; k++) {
         TObjBoss2Tunnel::adjust_to_ground((saddr)&derolle_mine_offsets[k], (u8 *)TBoss2DeRolLe__mine_ground_targets + k * 0xC);
@@ -2316,7 +2312,7 @@ void reset_parts__13TBoss2DeRolLeFv(void) {
     TObjPlayer__sub_8002EB88();
     TBoss2Fin__sub_800367C0();
     TBoss2Mine__sub_80038D84();
-    TBoss2Tentacle__sub_8003A0A8();
+    TBoss2Tentacle::release_shared_model();
     if ((u32) lbl_805D4BA4 != 0U) {
         delete (BmlResource *)lbl_805D4BA4;
         lbl_805D4BA4 = 0U;
@@ -4459,7 +4455,7 @@ void TBoss2DeRolLe__sub_800313F8(DR_800313F8 *o, u32 arg1, s32 arg2) {
                 }
                 ((int (*)(s32, void *))play_sound)(0x4003A507, o->snd);
                 for (i = 0; i < 4; i++) {
-                    ((TBoss2Tentacle *)(o->tentacles[i]))->forward_80039DC8();
+                    ((TBoss2Tentacle *)(o->tentacles[i]))->raise();
                 }
             }
             break;
@@ -4664,7 +4660,7 @@ void TBoss2DeRolLe__sub_800310F8(void *arg0, void *arg1, int arg2) {
         {
             s32 j;
             for (j = 0; j < 4; j++) {
-                TBoss2Tentacle__sub_80039E68(self->parts[j]);
+                ((TBoss2Tentacle *)self->parts[j])->drop_back();
             }
         }
         break;
@@ -5356,7 +5352,7 @@ void handle_death_state__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1) {
         o->f6F4 = 0;
         o->f6AC = 0;
         for (i = 0; i < 4; i++) {
-            TBoss2Tentacle__sub_80039E54((void *)o->tent[i]);
+            ((TBoss2Tentacle *)o->tent[i])->speed_up_sway();
         }
         TWindowCtrl::init_all_slots();
         cam.index = 0;
