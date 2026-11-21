@@ -20,7 +20,7 @@ WindowDescriptor window_callback_base_params = {
 
 extern "C" {
 void set_field_60__15TWindowCallBackFPvi(void* p, s32 v);
-const char *lbl_805D3E58 = "TWindowCallBack";
+const char *TWindowCallBack__name = "TWindowCallBack";
 void run_task__15TWindowCallBackFv(void* p);
 
 s32 TBoss6Type2::get_state() { return this->m_374; }
@@ -52,7 +52,7 @@ void run_task__15TWindowCallBackFv(void* p) { ((TWindowDD *)p)->initialize_subwi
 TWindowCallBack::~TWindowCallBack() {}
 #define self ((u8 *)this)
 TWindowCallBack::TWindowCallBack(saddr arg1, u8 *arg2, s32 arg3) : TWindowBase((u8 *)((saddr) &window_callback_base_params), (s16)4, (u8 *)arg1) {
-    m_name = lbl_805D3E58;
+    m_name = TWindowCallBack__name;
     copy_vec2((self + 0x38), arg2);
     ((TWindowBase *)self)->save_position();
     set_field_60__15TWindowCallBackFPvi(self, arg3);
