@@ -98,7 +98,7 @@ struct Src_801F718C {
     u8 pad0[0x10];
     char title[0x24];
     s32 f34;
-    s32 f38;
+    u8 *f38;
 };
 
 struct QVm_801F7890;
@@ -1019,7 +1019,7 @@ void TQuestVmDownLoadServer::build_file_info_image() {
                     req.field_4e = 1;
                     req.field_50 = 0;
                     req.omit_title_space = 1;
-                    req.data = (u8 *)quest_download_file_info.f38;
+                    req.data = quest_download_file_info.f38;
                     req.size = quest_download_file_info.f34;
                     TAdPlayerLoadGC__sub_801E14E8(&req, 3);
                     r = TAdPlayerLoadGC::build_save_file_image(this->m_260, &req);

@@ -79,10 +79,10 @@ public:
     static s32 poll_serial_access();
     static void destroy_instance();
     static void reset_download();
-    static s32 reset_download_buffers(s32 *);
-    static s32 poll_download_status(s32 *);
-    static s32 handle_list_scroll(s32 *args);
-    static s32 convert_jis_to_sjis_string(s32 *args);
+    static s32 reset_download_buffers(saddr *);
+    static s32 poll_download_status(saddr *);
+    static s32 handle_list_scroll(saddr *args);
+    static s32 convert_jis_to_sjis_string(saddr *args);
     static void init_buffer_pointers();
     static s32 get_buffer_size();
     static u8 lookup_value_by_key(u16 arg0);
