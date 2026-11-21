@@ -275,7 +275,7 @@ struct TObjPlayer : public TObjChara {
     static void copy_screen_to_texture(s32 mode, void *src);
     void step_along_ground();
     void update_move_to_destination();
-    s32 update_hide_sequence();
+    void update_hide_sequence();
     void trigger_action_if_not_flagged();
     void spawn_hamon_effects(s32 arg1, s32 arg2, f32 farg0);
     void render_shadow();

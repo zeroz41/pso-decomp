@@ -67,10 +67,9 @@ f32 atan2_float(f32 y, f32 x);
 u32 csnLookAt(void *, void *);
 s32 vec3_add_to(void *, void *);
 f32 vector_length(void *);
-f32 random_ratio__9TObjCharaFv(void *);
 void scale_matrix_vec3(u8 *arg0, u8 *arg1);
 s32 post_translate_matrix(void *);
-s32 init_collision_body_parts(void *, void *, int);
+CollisionBody *init_collision_body_parts(TObjCollidable *actor, const CollisionBody *bodies, s32 count);
 extern void *lbl_80496368[2];
 extern void *lbl_8049639C[28];
 
@@ -334,10 +333,8 @@ __declspec(section ".data") void *slime_debug_label_table[2] = {
 __declspec(section ".data") void *lbl_80496368[2] = {
     (void *)0x4, (void *)0x5,
 };
-void *lbl_80496370[11] = {
-    (void *)0x0, (void *)0x41700000, (void *)0x0, (void *)0x40f00000,
-    (void *)0x0, (void *)0x0, (void *)0x8003, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x0,
+CollisionBody lbl_80496370[1] = {
+    { { 0.0f, 15.0f, 0.0f }, 7.5f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
 void *lbl_8049639C[28] = {
     (void *)0x10000, (void *)0xa, (void *)0x3f000000, (void *)0x0,
@@ -377,11 +374,11 @@ __declspec(section ".data") void *slime_tail_attack_id_pair[2] = {
 __declspec(section ".data") void *TObjEneSlime__attack_target_param_table[2] = {
     (void *)0x30, (void *)0x34,
 };
-__declspec(section ".data") void *lbl_804966F4[2] = {
-    (void *)0x1, (void *)0x3,
+__declspec(section ".data") s32 lbl_804966F4[2] = {
+    1, 3,
 };
-__declspec(section ".data") void *lbl_804966FC[2] = {
-    (void *)0x30, (void *)0x34,
+__declspec(section ".data") s32 lbl_804966FC[2] = {
+    0x30, 0x34,
 };
 void *slime_tail_attack_zero_vec[3] = {
     (void *)0x0, (void *)0x0, (void *)0x0,
@@ -674,7 +671,7 @@ s32 TObjEneSlime::try_spawn_child(void *position) {
     }
     VecCopy((Vec *)&pos, (const Vec *)position);
     pos.y += 10.0f;
-    ang = (s16) (65535.0f * ((f32 (*)(int)) random_ratio__9TObjCharaFv)((int)this));
+    ang = (s16) (65535.0f * random_ratio());
     dir.x = sin_table_lookup(ang);
     dir.y = 0.0f;
     dir.z = cos_table_lookup(ang);
@@ -758,7 +755,7 @@ void TObjEneSlimeOne::initialize_slime_instance_state() {
     actor->texlist = (saddr)get_bml_texlist(actor->model_archive, id);
     actor->model = reinterpret_cast<void *>(get_bml_model(actor->model_archive, id));
     VecCopy(&actor->prev_position, VecCopy(&actor->home_position, VecCopy(&actor->center, &actor->position)));
-    actor->collision_body_parts = (CollisionBody *)init_collision_body_parts(actor, lbl_80496370, 1);
+    actor->collision_body_parts = init_collision_body_parts(actor, lbl_80496370, 1);
     actor->set_field_d8((saddr)lbl_8049639C);
     actor->set_field_dc((saddr)actor->model_archive->motions);
     actor->set_animation(0);
@@ -1694,7 +1691,7 @@ TObjEneSlimeTailAttack::TObjEneSlimeTailAttack(TObject *parent, const Vec *posit
     m_name = TObjEneSlimeTailAttack__name;
     this->owner = owner;
     BmlResource *resource = reinterpret_cast<BmlResource *>(TObjEneSlimeOne::get_instance());
-    u32 id = ((s32 *)lbl_804966F4)[this->owner->get_attack_target()];
+    u32 id = lbl_804966F4[this->owner->get_attack_target()];
     texlist = (saddr)get_bml_texlist(resource, id);
     model = (void *)get_bml_model(resource, id);
     action_table = (TObjMotionAction *)lbl_8049639C;
@@ -1768,7 +1765,7 @@ s32 TObjEneSlimeTailAttack::sub_800E85BC() {
     }
     hit.kind = 0;
     result = 0;
-    hit.power = *(s16 *)TLobby::register_boss((s32)lbl_804966FC[self->owner->get_attack_target()]);
+    hit.power = *(s16 *)TLobby::register_boss(lbl_804966FC[self->owner->get_attack_target()]);
     id = find_nearest_visible_player(self, 0, 25.0f);
     if (id != 0xFFFF && id != self->last_hit_player) {
         e = get_player_by_client_id(id);

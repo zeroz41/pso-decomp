@@ -75,7 +75,7 @@ struct TObjEneBm3Fly : public TObjEneDD_ST {
     void run_task();
     void init_child_params();
     static void release_shared_data();
-    void *create(void *arg1, void *arg2, void *arg3, void *arg4);
+    TObjEneBm3Fly *create(s32 entity_id, s32 set_index, const Vec *position, const Vec *velocity);
     static void load_resources();
 
     s32 m_3c0;

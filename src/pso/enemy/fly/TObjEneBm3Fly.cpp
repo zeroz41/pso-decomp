@@ -101,8 +101,8 @@ void TObjEneBm3Fly::load_resources() {
     }
 }
 
-void *TObjEneBm3Fly::create(void *arg1, void *arg2, void *arg3, void *arg4) {
-    return new TObjEneBm3Fly((TObject *)tl_04, (TObjEneBm3FlyNest *)this, (saddr)arg1, (saddr)arg2, (const Vec *)arg3, (const Vec *)arg4);
+TObjEneBm3Fly *TObjEneBm3Fly::create(s32 entity_id, s32 set_index, const Vec *position, const Vec *velocity) {
+    return new TObjEneBm3Fly((TObject *)tl_04, (TObjEneBm3FlyNest *)this, entity_id, set_index, position, velocity);
 }
 
 void TObjEneBm3Fly::release_shared_data() {

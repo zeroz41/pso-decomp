@@ -959,14 +959,13 @@ void TObjEneDarkGunner::run_task() {
 }
 
 void TObjPlayer::apply_fall_damage_flag() {
-    s32 arg0 = (saddr)this;
     s32 var_r4;
-    if (xz_distance_squared((Vec *)(arg0 + 0x38), (Vec *)(arg0 + 0x50)) > 100.0f) {
+    if (xz_distance_squared(&position, &home_position) > 100.0f) {
         var_r4 = 8;
     } else {
         var_r4 = 0;
     }
-    ((TObjEnemyCustom *)arg0)->update_if_active((s32)var_r4);
+    ((TObjEnemyCustom *)this)->update_if_active(var_r4);
 }
 }
 
@@ -1552,7 +1551,7 @@ void TObjPlayer::trigger_action_if_not_flagged() {
     }
 }
 
-s32 TObjPlayer::update_hide_sequence() {
+void TObjPlayer::update_hide_sequence() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r3;
     s32 temp_r4;

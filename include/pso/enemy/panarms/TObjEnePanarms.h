@@ -6,6 +6,7 @@
 #include "pso/render/RenderFadeState.h"
 
 class ModelNodePositionCapture;
+class TParticleCtrl;
 
 /* One state's motion of the Pan Arms body: motion indexes bm7_s_paa_body_motion_names
    (state 0 wait, state 4 deada); same layout as shinowa_mirage_motion_param_table. */
@@ -31,7 +32,7 @@ struct TObjEnePanarms : public TObjEnemy {
     s32 m_388;
     s32 m_38c;
     CollisionBody *collision_body_parts; // init_collision_body_parts / free_collision_body_parts
-    u32 particle_handles[2]; // released by destroy_handles
+    TParticleCtrl *particle_handles[2]; // released by destroy_handles
     ModelNodePositionCapture *m_39c;
     Vec draw_positions[5];
     void* m_3dc;

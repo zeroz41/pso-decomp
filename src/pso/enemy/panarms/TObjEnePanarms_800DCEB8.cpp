@@ -5,6 +5,8 @@
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "types.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/unk/text_803D8F74.h"
 #include "pso/system/ModelNodePositionCapture.h"
 #include "pso/enemy/panarms/TObjEnePanarms_800DCEB8.h"
 #include "pso/object/base/TObjChara.h"
@@ -61,7 +63,6 @@ struct Stack_800DD9A0 {
 
 struct Obj_800DECC4 { u8 pad[0x38]; Vec pos; u8 pad2[0x248 - 0x44]; u8 f248[0x384 - 0x248]; f32 f384; };
 
-struct Obj_800DF1B8 { u8 pad[0x394]; u32 handles[2]; };
 
 
 struct Obj_800DE2D0 { u8 pad0[0x30]; u32 f30; u8 pad1[0x374 - 0x34]; s32 f374; u8 pad2[0x3AC - 0x378]; u8 f3AC[0x18]; u8 f3C4[4]; };
@@ -205,13 +206,10 @@ u32 csnLookAt(void *, void *);
 f32 horizontal_distance_squared(void *, void *);
 s32 try_warp_to_position__14TObjEnePanarmsFPvPv(u8 *arg0, Vec *arg1);
 int TObjEnePanarms__sub_800DFBC4(void *p);
-int post_translate_matrix(void*);
-int rotate_matrix_y(void*, void*);
 void draw_blob_shadow(s32 arg0);
 s32 rotate_matrix_z(int, int);
 void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 s32 rotate_matrix_x(int, int);
-s32 scale_current_matrix(Vec *);
 }
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 typedef struct Stack_800DDFDC Stack_800DDFDC;
@@ -351,9 +349,9 @@ TObjEnePanarms::~TObjEnePanarms() {
 void TObjEnePanarms::destroy_handles() {
     s32 i;
     for (i = 0; i < 2; i++) {
-        if (((Obj_800DF1B8 *)this)->handles[i] != 0) {
-            TParticleCtrl::release((void *)((Obj_800DF1B8 *)this)->handles[i]);
-            ((Obj_800DF1B8 *)this)->handles[i] = 0;
+        if (particle_handles[i] != NULL) {
+            TParticleCtrl::release(particle_handles[i]);
+            particle_handles[i] = NULL;
         }
     }
 }
@@ -424,7 +422,16 @@ void TObjEnePanarms::render() {
     }
 }
 
-void TObjEnePanarms__sub_800DEEF8(void* p) { push_matrix(); post_translate_matrix((char*)p + 0x38); rotate_matrix_y((void*)0, *(void**)((char*)p + 0x60)); TObjFish::set_global_param((saddr)((GinjaTextureList *)((s32)(*(void**)((char*)p + 0x24))))); ((TObjEnePanarms *)p)->m_39c->install(); ((TObjMotion *)p)->draw(); ((TObjEnePanarms *)p)->m_39c->clear(); pop_matrix(); }
+void TObjEnePanarms__sub_800DEEF8(TObjEnePanarms *self) {
+    push_matrix();
+    post_translate_matrix(&self->position.x);
+    rotate_matrix_y(NULL, self->rotation_y);
+    TObjFish::set_global_param(self->texlist);
+    self->m_39c->install();
+    ((TObjMotion *)self)->draw();
+    self->m_39c->clear();
+    pop_matrix();
+}
 
 #pragma push
 #pragma fp_contract on
@@ -442,7 +449,7 @@ void TObjEnePanarms::draw_shadow() {
         translate_matrix(0, 0.25f * *(f32 *)((s8 *)((u8 *)this) + 0x38) + 0.75f * draw_positions[0].x, 0.2f + *(f32 *)&this->unk_384, 0.25f * *(f32 *)((s8 *)((u8 *)this) + 0x40) + 0.75f * draw_positions[0].z);
         direction_to_rotation_xz(((u8 *)this) + 0x248, &spC, &sp8);
         rotate_matrix_z(0, sp8);
-        rotate_matrix_y((void *) 0, *(void * *)&this->rotation_y);
+        rotate_matrix_y(NULL, rotation_y);
         rotate_matrix_x(0, spC + 0x4000);
         d = *(f32 *)((s8 *)((u8 *)this) + 0x3C) - *(f32 *)&this->unk_384;
         if (d > 40.0f) {
@@ -455,7 +462,7 @@ void TObjEnePanarms::draw_shadow() {
         v.z = 1.0f;
         v.x = 5.0f * k;
         v.y = 2.0f * k;
-        scale_current_matrix(&v);
+        scale_current_matrix(&v.x);
         draw_blob_shadow(0);
         pop_matrix();
     }
@@ -1010,12 +1017,12 @@ void TObjEnePanarms::enter_arm_attack_0() {
 
 void TObjEnePanarms::update_destroy_child() {
     s32 temp_r0;
-    uaddr temp_r3;
+    TParticleCtrl *temp_r3;
     if (this->frame >= 5.0f) {
         temp_r3 = this->particle_handles[0];
-        if (temp_r3 != 0) {
-            TParticleCtrl::release((void *)temp_r3);
-            this->particle_handles[0] = 0U;
+        if (temp_r3 != NULL) {
+            TParticleCtrl::release(temp_r3);
+            this->particle_handles[0] = NULL;
         }
     }
     temp_r0 = this->m_388 - 1;
@@ -1072,12 +1079,12 @@ void TObjEnePanarms::enter_arm_attack_1() {
 
 void TObjEnePanarms::update_wait_then_set_state() {
     s32 temp_r0;
-    uaddr temp_r3;
+    TParticleCtrl *temp_r3;
     if (this->frame >= 5.0f) {
         temp_r3 = this->particle_handles[0];
-        if (temp_r3 != 0) {
-            TParticleCtrl::release((void *)temp_r3);
-            this->particle_handles[0] = 0U;
+        if (temp_r3 != NULL) {
+            TParticleCtrl::release(temp_r3);
+            this->particle_handles[0] = NULL;
         }
     }
     temp_r0 = this->m_388 - 1;

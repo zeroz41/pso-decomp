@@ -47,6 +47,7 @@
 extern "C" void *__ct__12TObjEneDD_STFP7TObject(void *);
 
 #include "types.h"
+#include "pso/system/SoundEffect.h"
 #include "pso/system/AreaSound.h"
 
 #include "pso/map/FloorArea.h"
@@ -129,7 +130,7 @@ extern s32 TObjEneRe4Sorcerer__saved_render_flags;
 
 extern f32 TObjEneRe4Sorcerer__effect_render_scale;
 
-extern s32 re4_sorcerer_render_node_ptr;
+extern Vec *re4_sorcerer_render_node_ptr;
 
 extern s32 saved_model_render_flags;
 
@@ -206,7 +207,6 @@ s32 free_collision_body_parts(void *);
 
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 
-s32 play_sound_effect(void *, void *, int, int);
 
 void __dl__7TObjectFPv(void *);
 
@@ -477,7 +477,7 @@ s32 TObjEneRe4Sorcerer__saved_render_flags;
 
 f32 TObjEneRe4Sorcerer__effect_render_scale;
 
-s32 re4_sorcerer_render_node_ptr;
+Vec *re4_sorcerer_render_node_ptr;
 
 uaddr TObjEneRe4Sorcerer__uv_scroll_buffer;
 
@@ -500,7 +500,7 @@ void TObjEneRe4Sorcerer::load_resources() {
     TObjEneRe4Sorcerer__render_node_index = 0;
     TObjEneRe4Sorcerer__saved_render_flags = 0;
     TObjEneRe4Sorcerer__effect_render_scale = 0.0f;
-    re4_sorcerer_render_node_ptr = 0;
+    re4_sorcerer_render_node_ptr = NULL;
     TObjEneRe4Bit__sub_800EDAB4();
     r = (u32) (saddr)::operator new(0x14);
     if (r != 0) {
@@ -1556,7 +1556,7 @@ void TObjEneRe4Sorcerer::handle_death_state(s32 arg1) {
         fn_800D911C(&body_center);
         TObjPlayer__sub_800A04F0(&fade);
         m_3f8 = 0.0f;
-        play_sound_effect((void *)remap_sound_for_area(0x4003AD19), &position, 0, 0);
+        play_sound_effect(remap_sound_for_area(0x4003AD19), &position, 0, 0);
         return;
     case 0:
         advance_animation();
@@ -1659,7 +1659,7 @@ void TObjEneRe4Sorcerer::render() {
             TObjEneRe4Sorcerer__render_node_index = 0;
             TObjEneRe4Sorcerer__saved_render_flags = 0;
             TObjEneRe4Sorcerer__effect_render_scale = m_3f8;
-            re4_sorcerer_render_node_ptr = (s32)bit_anchors;
+            re4_sorcerer_render_node_ptr = bit_anchors;
             set_chunk_model_node_callback(TObjEneRe4Sorcerer::step_effect_sequence);
             model_render_flags |= 0x01000000;
             if (var_r28 == 1) {
