@@ -42,6 +42,21 @@ struct DeRolLeActionTargetPacket {
     s32 target_id;
 };
 
+// Boss parameter block 15 from TLobby::dispatch_shared_handler_a (TBoss7DeRolLeCParams is its twin).
+struct TBoss2DeRolLeParams {
+    f32 laser_power;              // the laser hit's attack power
+    f32 bullet_power;             // TBoss2PhotonBullet's attack power
+    f32 mine_power;               // TBoss2Mine's hit power
+    f32 ceil_junk_drift;          // x drift per elapsed frame of a dropped TObjBoss2CeilJunk
+    f32 ceil_junk_chance;         // per-frame chance of dropping one during the ceiling run
+    u8 pad_14[4];
+    s32 unk_18;
+    s32 shell_max_hp;             // TBoss2Joint's shell hp
+    s32 unk_20;
+    s32 unk_24;                   // unk_6EC's start in v2 mode
+    s32 unk_28;                   // unk_6F0's start in v2 mode
+};
+
 struct TBoss2DeRolLe : public TObjEneDD_ST {
     TBoss2DeRolLe(TObject *parent, void *set_data);
     virtual ~TBoss2DeRolLe();

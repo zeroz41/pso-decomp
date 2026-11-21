@@ -500,7 +500,7 @@ extern s32 chunk_polygon_flags_and_mask;
 
 saddr TBoss2DeRolLe__base_params[1];
 saddr TBoss2DeRolLe__resistance_params[1];
-u8 *TBoss2DeRolLe__data_805D4BA0;
+TBoss2DeRolLeParams *derolle_params[1];
 BmlResource *boss2_derolle_resource;
 // derolle_capture_node_points's state while the body draws (derolle_begin_node_capture sets it up).
 s32 derolle_capture_node_index;
@@ -548,8 +548,6 @@ typedef struct Node_80035D24 {
 } Node_80035D24;
 
 extern "C" {
-
-extern s32 TBoss2DeRolLe__data_805D4BA0[1];
 
 extern u8 *derolle_texture_list_handle;
 
@@ -771,7 +769,7 @@ void load_resources__13TBoss2DeRolLeFv(void) {
         TBoss2DeRolLe__resistance_params[i] = (saddr)TLobby::register_object(de_rol_le_resistance_param_ids[i]);
     }
     for (i = 0; i < 1; i++) {
-        TBoss2DeRolLe__data_805D4BA0[i] = (saddr)TLobby::dispatch_shared_handler_a(de_rol_le_shared_handler_a_ids[i]);
+        derolle_params[i] = (TBoss2DeRolLeParams *)TLobby::dispatch_shared_handler_a(de_rol_le_shared_handler_a_ids[i]);
     }
     TBoss2DeRolLe__instance = 0;
     TBoss2Tentacle::load_shared_model();
@@ -935,8 +933,8 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(par
     motion_x.init_float_block();
     motion_z.init_float_block();
     height_offset = 0.0f;
-    unk_6A8 = unk_6AC = *(s32 *)(TBoss2DeRolLe__data_805D4BA0 + 0x18);
-    unk_6B0 = *(s32 *)(TBoss2DeRolLe__data_805D4BA0 + 0x20);
+    unk_6A8 = unk_6AC = derolle_params[0]->unk_18;
+    unk_6B0 = derolle_params[0]->unk_20;
     hpmax = hp = 20000;
     photon_pad_level = 0;
     laser_light = new TBoss2LaserLight(&part_group, &laser_light_pos);
@@ -1309,15 +1307,15 @@ void TBoss2DeRolLe::emit_effect_and_step(Vec *pos) {
 }
 
 f32 TBoss2DeRolLe__sub_80034CF8(void) {
-    return *(f32 *)((s8 *)TBoss2DeRolLe__data_805D4BA0 + 4);
+    return derolle_params[0]->bullet_power;
 }
 
 f32 TBoss2DeRolLe__sub_80034CEC(void) {
-    return *(f32 *)((s8 *)TBoss2DeRolLe__data_805D4BA0 + 8);
+    return derolle_params[0]->mine_power;
 }
 
 s32 TBoss2Joint_get_shell_max_hp(void) {
-    return *(s32 *)((s8 *)TBoss2DeRolLe__data_805D4BA0 + 0x1C);
+    return derolle_params[0]->shell_max_hp;
 }
 
 }
@@ -1661,7 +1659,6 @@ void TBoss2DeRolLe::sub_80034034() {
         }
     }
 }
-
 
 extern "C" {
 
@@ -3093,8 +3090,8 @@ void TBoss2DeRolLe::sub_800310F8(u32 reason, s32 side) {
         unk_6E4 = 0;
         unk_6E8 = 0;
         if (TObjEneDD::check_v2_mode() != 0) {
-            unk_6EC = *(s32 *)((s8 *)TBoss2DeRolLe__data_805D4BA0 + 0x24);
-            unk_6F0 = *(s32 *)((s8 *)TBoss2DeRolLe__data_805D4BA0 + 0x28);
+            unk_6EC = derolle_params[0]->unk_24;
+            unk_6F0 = derolle_params[0]->unk_28;
         } else {
             unk_6EC = 0xB4;
             unk_6F0 = 0x78;
@@ -3323,9 +3320,9 @@ void TBoss2DeRolLe::sub_80030A38(u32 reason) {
                 state_step = 3;
                 state_floats[1] = 0.0f;
             }
-            if (random_ratio() <= *(f32 *)((s8 *)TBoss2DeRolLe__data_805D4BA0 + 0x10)) {
+            if (random_ratio() <= derolle_params[0]->ceil_junk_chance) {
                 VecCopy(&v, &position);
-                v.x = *(f32 *)((s8 *)TBoss2DeRolLe__data_805D4BA0 + 0xC) * calc_elapsed_scaled() + v.x;
+                v.x = derolle_params[0]->ceil_junk_drift * calc_elapsed_scaled() + v.x;
                 v.z -= 100.0f * random_ratio();
                 v.y += 10.0f + height_offset;
                 TObjBoss2CeilJunk::create(&v);
@@ -3703,7 +3700,7 @@ void TBoss2DeRolLe::sub_8002FE60(u32 reason) {
                 }
                 {
                     DeRolLeEffectParams r = derolle_laser_hit_effect_params;
-                    r.pad_04 = *(f32 *) TBoss2DeRolLe__data_805D4BA0;
+                    r.pad_04 = derolle_params[0]->laser_power;
                     TObjEneDD::setup_instance((saddr)this, (saddr)hit, (u8 *)&r, (saddr)attack_history);
                 }
             }
@@ -3993,8 +3990,6 @@ void TBoss2DeRolLe::sub_8002F73C(u32 reason) {
     }
 }
 
-namespace joint_transform_view {
-
 extern "C" {
 
 // The model-node callback the body draws with: records the listed nodes' positions, the breakup
@@ -4027,8 +4022,6 @@ void derolle_capture_node_points(NJS_OBJECT *) {
         derolle_capture_tentacle_matrices++;
     }
     derolle_capture_node_index += 1;
-}
-
 }
 
 }
