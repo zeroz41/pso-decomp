@@ -27,7 +27,6 @@
 
 
 extern void* camera_controller_registry[];
-void* camera_controller_registry[];
 
 struct CameraMotionData;
 extern "C" {

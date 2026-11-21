@@ -50,7 +50,6 @@ Bank_8006C6CC camera_path_bank_table[36] = {
 extern void *camera_ctrl_instance;
 extern void* camera_controller_registry[];
 
-void* camera_controller_registry[];
 
 struct CameraMotionData;
 #pragma push

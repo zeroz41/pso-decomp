@@ -24,7 +24,6 @@ void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
 extern f32 lbl_804FF5E8[];
 extern TCameraCtrl *camera_ctrl_instance;
 extern void* camera_controller_registry[];
-void* camera_controller_registry[];
 
 struct CameraMotionData;
 struct CameraPathMode { u32 field_00; u32 flags; };
