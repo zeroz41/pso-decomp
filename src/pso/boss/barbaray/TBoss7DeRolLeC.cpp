@@ -43,6 +43,7 @@ struct NJS_OBJECT;
 #include "pso/boss/barbaray/TBoss7LaserPtcl.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/boss/TUnk_804F1C88.h"
+#include "pso/network/protocol/subcmd_6x.h"
 #include "pso/boss/barbaray/TBoss7TentacleNeedle.h"
 
 #include "pso/boss/barbaray/TBoss7LaserLight.h"
@@ -901,10 +902,6 @@ s32 TBoss7Joint_get_shell_max_hp(void);
 
 
 #undef VecCopy__FP3VecPC3Vec
-struct PktA_802ED62C { u8 hdr[2]; u16 a; s16 b; s16 c; s32 d; };
-
-struct PktB_802ED62C { u8 hdr[2]; u16 a; s16 b; s16 c; };
-
 extern "C" {
 
 void TBoss7PhotonBullet__sub_802ED5A0(void *arg0, int arg1);
@@ -1401,23 +1398,23 @@ void TBoss7DeRolLeC::flee_if_disturbed() {
 }
 
 void TBoss7DeRolLeC::set_state_and_send(s32 arg1) {
-    PktA_802ED62C pa;
-    PktB_802ED62C pb;
+    G_BarbaRayBossActions_6xAA pa;
+    G_BarbaRayBossActions_6xA9 pb;
     dispatch_action(arg1, 6);
     if (((arg1 - 0x13) <= 1U) || ((arg1 - 0x40) <= 1U) || (arg1 == 0x44) || (arg1 == 0x18)) {
-        TBoss7Joint__sub_802EE800(&pa);
-        pa.a = this->entity_id;
-        pa.b = arg1;
-        pa.c = (s16)this->action_index;
-        pa.d = this->unk_38C;
-        ((TBoss7Joint *)(&pa))->broadcast_state();
+        pa.init();
+        pa.header.client_id = this->entity_id;
+        pa.what = arg1;
+        pa.unknown_a2 = this->action_index;
+        pa.target_client_id = this->unk_38C;
+        pa.send();
         return;
     }
-    TBoss7Joint__sub_802EE7B8(&pb);
-    pb.a = this->entity_id;
-    pb.b = arg1;
-    pb.c = (s16)this->action_index;
-    ((TBoss7Joint *)(&pb))->update_and_send_60();
+    pb.init();
+    pb.header.client_id = this->entity_id;
+    pb.what = arg1;
+    pb.unknown_a2 = this->action_index;
+    pb.send();
 }
 
 void TBoss7PhotonBullet__sub_802ED5A0(void *arg0, int arg1) {
@@ -1762,7 +1759,7 @@ void TBoss7DeRolLeC::sub_802ECAA4() {
 
 void handle_6xA9_barba_ray_boss_actions(void *boss7_joint) {
     void *x;
-    ((TBoss7Joint *)boss7_joint)->byteswap_action_packet();
+    ((G_BarbaRayBossActions_6xA9 *)boss7_joint)->bswap();
     x = get_enemy_entity(*(u16 *)((s8 *)boss7_joint + 0x2));
     if (x != NULL) {
         fn_802EC9F0((TObjEneDD *)x, boss7_joint);
@@ -1771,7 +1768,7 @@ void handle_6xA9_barba_ray_boss_actions(void *boss7_joint) {
 
 void handle_6xAA_barba_ray_boss_actions(void *boss7_joint) {
     void *x;
-    ((TBoss7Joint *)boss7_joint)->read_state();
+    ((G_BarbaRayBossActions_6xAA *)boss7_joint)->bswap();
     x = get_enemy_entity(*(u16 *)((s8 *)boss7_joint + 0x2));
     if (x != NULL) {
         fn_802EC9A4(x, boss7_joint);

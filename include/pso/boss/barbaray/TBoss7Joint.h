@@ -37,19 +37,10 @@ struct TBoss7Joint : public TObjEneDD {
     void run_task();
     s32 init_params();
     static TBoss7DeRolLeC *get_state();
-    void read_state();
-    void byteswap_action_packet();
-    void update_and_send_60();
-    void broadcast_state();
     int is_part_active();
 };
 
 LAYOUT_ASSERT(TBoss7Joint_collision_body, offsetof(TBoss7Joint, collision_body) == 0x38C);
 LAYOUT_ASSERT(TBoss7Joint_size, sizeof(TBoss7Joint) == 0x3C8);
-
-extern "C" {
-void TBoss7Joint__sub_802EE7B8(void *p);
-void TBoss7Joint__sub_802EE800(void *p);
-}
 
 #endif

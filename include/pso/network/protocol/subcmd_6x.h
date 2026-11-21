@@ -97,17 +97,26 @@ struct G_Attack_6x43_6x44_6x45 {
  u16 unknown_a2;
 };
 
+// 6xA9/6xAA: Barba Ray (TBoss7DeRolLeC) action changes. The client swaps
+// their header through G_ClientIDHeader::bswap; client_id holds the boss's
+// entity id.
 struct G_BarbaRayBossActions_6xA9 {
- struct G_EntityIDHeader header;
+ struct G_ClientIDHeader header;
  u16 what;
  u16 unknown_a2;
+ void bswap();
+ void send();
+ void init();
 };
 
 struct G_BarbaRayBossActions_6xAA {
- struct G_EntityIDHeader header;
+ struct G_ClientIDHeader header;
  u16 what;
  u16 unknown_a2;
  u32 target_client_id;
+ void bswap();
+ void send();
+ void init();
 };
 
 struct G_BuyShopItem_6x5E {
