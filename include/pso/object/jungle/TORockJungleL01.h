@@ -18,7 +18,7 @@ struct TORockJungleL01 : public TORockCave {
     TObjMapCsn *map_csn;     // the rock's map collision
 };
 
-typedef char TORockJungleL01_size[sizeof(TORockJungleL01) == 0xD8 ? 1 : -1];
+LAYOUT_ASSERT(TORockJungleL01_size, sizeof(TORockJungleL01) == 0xD8);
 
 extern "C" {
 void *TORockJungleL01__create(void *set_data);

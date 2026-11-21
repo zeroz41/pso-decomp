@@ -7,12 +7,12 @@ extern "C" {
 void TObjDFTenchuFuru__sub_80051A7C(void);
 void *create__13TObjDFRecBallFPvPvPv(void *arg0, void *arg1, void *arg2);
 void *create__16TObjDFBeamCursorFPvPv(void *arg0, void *arg1);
-void fn_spawn_particle_f3_with_flags(s32 arg0, s32 arg1);
+void fn_spawn_particle_f3_with_flags(s32 arg0, saddr arg1);
 int queue_destruction__13TObjDFHormingFPv(void *p);
 void run_task__13TObjDFHormingFv(u8 *arg0);
 }
 
 // Draws a player-like model set (body, two attached parts, hair) at alpha; used by TBoss6Type2.
-void boss6type2_draw_models(s32 arg0, s32 arg1, s32 arg2, u32 arg3, u32 arg4, u32 arg5, u32 arg6, s32 appearance, f32 alpha);
+void boss6type2_draw_models(s32 arg0, s32 arg1, s32 arg2, uaddr arg3, uaddr arg4, u32 arg5, uaddr arg6, saddr appearance, f32 alpha);
 
 #endif

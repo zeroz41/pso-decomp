@@ -6,7 +6,7 @@
 s32 TQuestListOnline::get_selection_stage() { return selection_stage; }
 
 void TWindowSubComCard::clear_flag_and_release() {
-    u32 temp;
+    uaddr temp;
     *(u16 *)((s8 *)this + 0x70) = (u16) (*(u16 *)((s8 *)this + 0x70) & 0xFFFFFFFD);
     temp = (u32) *(u32 *)((s8 *)this + 0x88);
     if (temp != 0U) {

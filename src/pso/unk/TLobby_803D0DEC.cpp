@@ -21,7 +21,7 @@ void TLobby::log_printf(const char *fmt, ...) {
     }
 }
 
-void TLobby::set_callback(u32 arg0, s32 arg1) {
+void TLobby::set_callback(uaddr arg0, s32 arg1) {
     if (arg0 == 0U) {
         log_printf_callback = 0U;
         lobby_log_callback_arg = 0;

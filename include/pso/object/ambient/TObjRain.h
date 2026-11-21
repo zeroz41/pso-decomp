@@ -25,9 +25,9 @@ public:
     u32 count;
 };
 
-typedef char TObjRainDropSize[(sizeof(TObjRain::Drop) == 0x20) ? 1 : -1];
-typedef char TObjRainDropsOffset[(offsetof(TObjRain, drops) == 0x1C) ? 1 : -1];
-typedef char TObjRainCountOffset[(offsetof(TObjRain, count) == 0x21C) ? 1 : -1];
-typedef char TObjRainSize[(sizeof(TObjRain) == 0x220) ? 1 : -1];
+LAYOUT_ASSERT(TObjRainDropSize, sizeof(TObjRain::Drop) == 0x20);
+LAYOUT_ASSERT(TObjRainDropsOffset, offsetof(TObjRain, drops) == 0x1C);
+LAYOUT_ASSERT(TObjRainCountOffset, offsetof(TObjRain, count) == 0x21C);
+LAYOUT_ASSERT(TObjRainSize, sizeof(TObjRain) == 0x220);
 
 #endif

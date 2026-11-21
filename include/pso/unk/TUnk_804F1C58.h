@@ -18,6 +18,6 @@ public:
     s32 node_callback;   // TBoss7DeRolLeC installs its per-node draw hook here
 
 };
-typedef char TUnk_804F1C58_size[sizeof(TUnk_804F1C58) == 0x3C ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804F1C58_size, sizeof(TUnk_804F1C58) == 0x3C);
 
 #endif

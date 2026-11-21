@@ -10,7 +10,7 @@ public:
     virtual ~TUnk_804928CC();
     void update_body_contact_flag(f32);
     virtual void call_vt13_with_default(void*, void*, s32);
-    virtual s32 area_attack_deliver_direct(void *, s32, void *, f32);
+    virtual s32 area_attack_deliver_direct(void *, saddr, void *, f32);
     virtual void vfunc_16(void *, void *);
     virtual void call_vt16_with_default(void *, void *);
     virtual s32 area_attack_deliver_physical(void *, void *, f32);
@@ -22,7 +22,7 @@ public:
     int set_position_from(void *pos);
     u32 owner;   // the actor that fired this hitbox (a TObjBase *; sub_800BC3E8 stores it and copies its room)
 };
-typedef char TUnk_804928CC_size[sizeof(TUnk_804928CC) == 0xB0 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804928CC_size, sizeof(TUnk_804928CC) == 0xB0);
 
 extern "C" void *__dt__13TUnk_804928CCFv(void *, s16);
 extern "C" void *__ct__13TUnk_804928CCFP7TObjectP8TObjBasePC13CollisionBodyl(void *, void *, void *, const void *, s32);

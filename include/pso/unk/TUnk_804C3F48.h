@@ -14,6 +14,6 @@ public:
     s32 timer;
     s32 owner;
 };
-typedef char TUnk_804C3F48_size[sizeof(TUnk_804C3F48) == 0x28 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804C3F48_size, sizeof(TUnk_804C3F48) == 0x28);
 
 #endif

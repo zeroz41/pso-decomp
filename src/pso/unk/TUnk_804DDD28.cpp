@@ -1,5 +1,6 @@
 // TUnk_804DDD28, the base of the player action providers: its constructor,
 // destructor and key function (get_cell_address), so its table is emitted here.
+#include <string.h>
 #include "pso/system/RlcArchive.h"
 #include "pso/system/ControllerInputState.h"
 #include "types.h"
@@ -33,15 +34,14 @@ int player_action_provider_selector;
 
 extern "C" {
 void TLobby__sub_802A7BC8(void* p);
-extern u32 snapshot_image_buffer;
+extern uaddr snapshot_image_buffer;
 void TLobby__sub_802A7BD8(void);
-s32 memcpy(s32, s32, s32);
 void fn_802A6070(void *p, s32 v);
 void fn_802A6078(void *p, s32 v);
 extern s32 lbl_805D669C;
-void set_slot_position__6TLobbyFii(s32 arg0, s32 arg1);
+void set_slot_position__6TLobbyFii(s32 arg0, saddr arg1);
 s32 aram_dma_blocking__6TLobbyFllll(s32, s32, s32, s32, s32);
-s32 TItemDrop__sub_800F9448(s32 arg0, s32 arg1);
+saddr TItemDrop__sub_800F9448(saddr arg0, s32 arg1);
 void TLobby__sub_802A7848(void* p, s32 _w1);
 int TLobby__sub_802A7868(void* p);
 int match_coordinate_pair(void*);
@@ -68,10 +68,10 @@ s32 TLobby::get_hold_effect_size_by_type() {
 s32 TLobby::send_packet(s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     s32 temp_r31;
     s32 temp_r31_2;
-    s32 temp_r3;
+    saddr temp_r3;
     s32 temp_r0;
     temp_r31_2 = (arg3 + 0x1F) & 0xFFFFFFE0;
-    temp_r3 = (s32)mem_alloc(temp_r31_2);
+    temp_r3 = (saddr)mem_alloc(temp_r31_2);
     if (temp_r3 == 0) {
         return 0;
     }
@@ -141,12 +141,12 @@ s32 copy_if_space(void) {
     if (shared_snapshot_capture->fn_802A5C3C() >= 0x258) {
         return 0;
     }
-    memcpy((*(s32 *)&snapshot_image_buffer), shared_snapshot_capture->get_size(), snapshot_buffer_size);
+    memcpy((void *)snapshot_image_buffer, (const void *)shared_snapshot_capture->get_size(), snapshot_buffer_size);
     return 1;
 }
 
 void TLobby::alloc_snapshot_buffer() {
-  s32 temp_r31;
+  saddr temp_r31;
   s32 max_players;
   u32 temp_r3;
   u8 *temp_r31_3;
@@ -157,7 +157,7 @@ void TLobby::alloc_snapshot_buffer() {
     max_players = max_players * temp_r31;
     temp_r31 = TWindowSnapShot::get_width();
     temp_r31_3 = (u8 *) (temp_r31 + max_players);
-    temp_r3 = ((int)mem_alloc((u32)temp_r31_3));
+    temp_r3 = ((saddr)mem_alloc((uaddr)temp_r31_3));
     snapshot_image_buffer = temp_r3;
     if (temp_r3 != 0U)
     {
@@ -166,9 +166,9 @@ void TLobby::alloc_snapshot_buffer() {
   }
 }
 
-void set_slot_position__6TLobbyFii(s32 arg0, s32 arg1) {
-    s32 temp_r31;
-    temp_r31 = ((RlcHeader *)(*(s32 *)&snapshot_image_buffer))->get_directory_offset();
+void set_slot_position__6TLobbyFii(s32 arg0, saddr arg1) {
+    saddr temp_r31;
+    temp_r31 = ((RlcHeader *)(*(saddr *)&snapshot_image_buffer))->get_directory_offset();
     temp_r31 = (*(s32 *)&snapshot_image_buffer) + temp_r31;
     temp_r31 = temp_r31 + arg0 * 8;
     fn_802A6078((void *)arg1, lbl_805D669C + ((RlcDirectoryEntry *)temp_r31)->get_offset());

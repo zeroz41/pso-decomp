@@ -27,7 +27,7 @@ extern void *tl_05;
 void *TOGrassJungle__create(void *arg0) {
     void *o = TObject::operator new(0x94);
     if (o != NULL) {
-        o = TOGrassJungle__ct((TOGrassJungle *)((u8 *)o), (s32)tl_05, (s32)arg0);
+        o = TOGrassJungle__ct((TOGrassJungle *)((u8 *)o), (saddr)tl_05, (saddr)arg0);
     }
     return o;
 }
@@ -35,7 +35,7 @@ void *TOGrassJungle__create(void *arg0) {
 void TOGrassJungle::release_static_instance() {
     if (TOGrassJungle__grass_gvm_texture != NULL) {
         release_texture_list(TOGrassJungle__grass_gvm_texture);
-        TAdSinglePlyChrSelectGC::safe_free((u32)TOGrassJungle__grass_gvm_texture);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)TOGrassJungle__grass_gvm_texture);
         TOGrassJungle__grass_gvm_texture = NULL;
     }
     if (TOGrassJungle__bml_resource != NULL) {
@@ -49,7 +49,7 @@ void TOGrassJungle::load_resources() {
         archive = load_resource_from_descriptor(archive, 1, &ograss_jungle_resource_descriptor, 0, 0, 0);
     }
     TOGrassJungle__bml_resource = archive;
-    TOGrassJungle__grass_gvm_texture = (GinjaTextureList *)load_gvm_texture_file((s32)"o_grass_jungle.gvm");
+    TOGrassJungle__grass_gvm_texture = (GinjaTextureList *)load_gvm_texture_file((saddr)"o_grass_jungle.gvm");
     TMotorcycle::add_entry(0x3F, reinterpret_cast<NJS_OBJECT *>(get_bml_model(TOGrassJungle__bml_resource, 0)),
                            TOGrassJungle__grass_gvm_texture, 12.0f, -10.0f);
 }
@@ -62,7 +62,7 @@ s32 push_matrix();
 
 void TOGrassJungle::render() {
     if (this->update_object_view_visibility(400.0f, 20.0f) == 1) {
-        TObjFish::set_global_param((s32)TOGrassJungle__grass_gvm_texture);
+        TObjFish::set_global_param((saddr)TOGrassJungle__grass_gvm_texture);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -77,10 +77,10 @@ TOGrassJungle::~TOGrassJungle() {
 }
 
 
-u8 *TOGrassJungle__ct(TOGrassJungle *grass_jungle, s32 parent, s32 arg2) {
+u8 *TOGrassJungle__ct(TOGrassJungle *grass_jungle, saddr parent, saddr arg2) {
     __ct__8TObjBaseFP7TObject((void *)grass_jungle, (void *)parent);
     *(s32 **)((s8 *)grass_jungle + 0x18) = __vt__13TOGrassJungle;
-    *(s32 *)((s8 *)grass_jungle + 0) = (s32) grass_jungle_class_name;
+    *(saddr *)((s8 *)grass_jungle + 0) = (saddr) grass_jungle_class_name;
     ((TOGrassJungle *)(grass_jungle))->apply_object_set_data((void *)arg2);
     grass_jungle->m_90 = (s32) grass_jungle->set_params[0];
     if ((s32) grass_jungle->m_90 < 0) {

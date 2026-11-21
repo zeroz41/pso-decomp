@@ -4,6 +4,7 @@
 #include "pso/item/TItemMenuCtrl_80115AF0.h"
 #include "pso/weapon/TItemWeaponMechgun.h"
 #include "pso/unk/text_80120D50.h"
+#include "pso/item/TItem.h"
 
 extern "C" {
 
@@ -15,7 +16,6 @@ void TUnk_804A3260::vfunc_60() {
     }
 }
 
-u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
 void spawn_weapon_impact_effect();
 }
@@ -47,7 +47,7 @@ void TUnk_804A3260::reserved_53() {
     ((TObjPlayer *)arg0)->draw_status_icons((u8 *)this->muzzle[0], (u8 *)this->muzzle[1]);
 }
 
-TUnk_804A3260::TUnk_804A3260(s32 parent, u8 *item) : TItemWeapon((TObject *)((void *)parent), item) {
+TUnk_804A3260::TUnk_804A3260(saddr parent, u8 *item) : TItemWeapon((TObject *)((void *)parent), item) {
     this->set_weapon_flags(0x203);
     *(void (**)())((s8 *)this + 0x1EC) = &spawn_weapon_impact_effect;
     this->effectJoint = -1;
@@ -73,7 +73,7 @@ u8 *create_mechgun_weapon(u8 *item) {
     u8 *temp_r3;
     u8 *var_r0;
     if (item != NULL) {
-        temp_r3 = (u8 *)(__nw__5TItemFUl(0x220));
+        temp_r3 = (u8 *)((u8 *)TItem::operator new(0x220));
         var_r0 = temp_r3;
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(__ct__13TUnk_804A3260FlPUc(temp_r3, tl_05, item));

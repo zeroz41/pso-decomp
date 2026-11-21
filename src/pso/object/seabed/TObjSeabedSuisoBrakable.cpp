@@ -39,7 +39,7 @@ NJS_OBJECT *TObjSeabedSuisoBrakable::model13_nodes[3];
 void TObjSeabedSuisoBrakable::free_static_resources() {
     if (texture_list != NULL) {
         release_texture_list(texture_list);
-        TAdSinglePlyChrSelectGC::safe_free((u32)texture_list);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)texture_list);
         texture_list = NULL;
     }
     if (bml_resource != NULL) {
@@ -60,7 +60,7 @@ void TObjSeabedSuisoBrakable::load_resources() {
             loaded = load_resource_from_descriptor(loaded, 1, &bm_obj_seabed_suiso_2_resource_descriptor, 0, 0, 0);
         }
         bml_resource = static_cast<BmlResource *>(loaded);
-        if ((texture_list = (GinjaTextureList *)load_gvm_texture_file((s32)"obj_seabed_suiso_2.GVM")) != NULL) {
+        if ((texture_list = (GinjaTextureList *)load_gvm_texture_file((saddr)"obj_seabed_suiso_2.GVM")) != NULL) {
             SeabedSuisoTextureNames names = seabed_suiso_2_texture_names;
             for (i = 0; i < 5; i++) {
                 texture_entries[i] = find_texture_entry_by_name(texture_list, names.name[i]);
@@ -75,7 +75,7 @@ void TObjSeabedSuisoBrakable::load_resources() {
             loaded = load_resource_from_descriptor(loaded, 1, &bm_obj_seabed_suiso_resource_descriptor, 0, 0, 0);
         }
         bml_resource = static_cast<BmlResource *>(loaded);
-        if ((texture_list = (GinjaTextureList *)load_gvm_texture_file((s32)"obj_seabed_suiso.GVM")) != NULL) {
+        if ((texture_list = (GinjaTextureList *)load_gvm_texture_file((saddr)"obj_seabed_suiso.GVM")) != NULL) {
             SeabedSuisoTextureNames names = seabed_suiso_texture_names;
             for (i = 0; i < 5; i++) {
                 texture_entries[i] = find_texture_entry_by_name(texture_list, names.name[i]);

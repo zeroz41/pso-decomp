@@ -24,7 +24,7 @@ struct TBoss8DragonEffTail : public TUnk_804928CC {
     static void free_statics();
 };
 
-typedef char TBoss8DragonEffTail_size[sizeof(TBoss8DragonEffTail) == 0xCC ? 1 : -1];
+LAYOUT_ASSERT(TBoss8DragonEffTail_size, sizeof(TBoss8DragonEffTail) == 0xCC);
 
 extern "C" {
 void fn_802FE48C(void);

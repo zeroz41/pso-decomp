@@ -64,8 +64,8 @@ extern const PhotonLaserParams photon_pilla_laser_packet = {
 };
 extern void *photon_pilla_laser_offset_table[];
 
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-u8 *TPhotonMagicSquare__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
+u8 *TPhotonMagicSquare__ct(u8 *arg0, saddr arg1, s32 arg2, saddr arg3, s32 arg4, f32 farg0);
 void *find_entity_by_id(u16 id);
 u32 get_entity_id();
 
@@ -133,21 +133,21 @@ void TPhotonPilla::render() {
 
 void TPhotonPilla::run_task() {
     Vec3 sp8;
-    s32 entity;
+    saddr entity;
     s32 temp_r3_2;
 
     *(s32 *)((s8 *)this + 0x1A8) = (s32) (*(s32 *)((s8 *)this + 0x1A8) + 1);
     if (((s32) *(s32 *)((s8 *)this + 0x1A8) == 0x32) && ((s32) this->m_1a4 == 0)) {
         this->m_1a4 = 1;
         *(s32 *)((s8 *)this + 0x1A8) = 0;
-        entity = (s32)find_entity_by_id(this->m_17c);
+        entity = (saddr)find_entity_by_id(this->m_17c);
         if (entity != 0) {
             VecCopy((Vec *)&sp8, (const Vec *)(entity + 0x38));
         }
         sp8.y += 3e+01f;
-        entity = (s32)TObject::operator new(0xD0);
+        entity = (saddr)TObject::operator new(0xD0);
         if (entity != 0U) {
-            TPhotonMagicSquare__ct((u8 *)entity, (s32)this, 3, (s32)&sp8, 0xD2, 0.5f);
+            TPhotonMagicSquare__ct((u8 *)entity, (saddr)this, 3, (saddr)&sp8, 0xD2, 0.5f);
         }
     }
     if ((5e+01f == (f32) *(s32 *)((s8 *)this + 0x1A8)) && ((s16) this->requested_action == 1) && ((s32) this->m_1a4 == 1)) {
@@ -170,12 +170,11 @@ void TPhotonPilla::run_task() {
         this->apply_photon_blast_effects();
     }
     if ((s32) this->m_1a4 != 0) {
-        play_persistent_sound(0x4002462F, (s32)this, 0, 0, 0);
+        play_persistent_sound(0x4002462F, (saddr)this, 0, 0, 0);
     }
 }
 
 s32 free_collision_body_parts(void *);
-s32 __dl__7TObjectFPv(void *);
 
 extern void *lbl_804C3ACC[];
 
@@ -188,7 +187,7 @@ void *destroy__12TPhotonPillaFPvs(void *photon_pilla, s16 arg1) {
         free_collision_body_parts(photon_pilla);
         __dt__13TUnk_804C3248Fv(photon_pilla, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(photon_pilla);
+            TObject::operator delete(photon_pilla);
         }
     }
     return photon_pilla;
@@ -258,7 +257,7 @@ u8 *TPhotonPilla__ct(u8 *photon_rainbow, u8 *arg1) {
     }
     *(s32 *)((s8 *)photon_rainbow + 0x34) = *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x38);
     ((TPhotonPilla *)photon_rainbow)->texlist = *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x3C);
-    ((TObjMotion *)photon_rainbow)->set_field_d8((s32)photon_pilla_action_table);
+    ((TObjMotion *)photon_rainbow)->set_field_d8((saddr)photon_pilla_action_table);
     ((TObjMotion *)photon_rainbow)->set_field_dc(*(s32 *)((s8 *)photon_blast_shared_resource + 0x430));
     ((TPhotonPilla *)photon_rainbow)->requested_action = 1;
     ((TObjMotion *)photon_rainbow)->set_animation(((TPhotonPilla *)photon_rainbow)->requested_action);
@@ -305,14 +304,14 @@ u8 *TPhotonPilla__ct(u8 *photon_rainbow, u8 *arg1) {
         pos.y += 4e+01f;
         mem = TObject::operator new(0xD0);
         if (mem != NULL) {
-            TPhotonMagicSquare__ct((u8 *)mem, (s32)photon_rainbow, 3, (s32)&pos, 0xAA, 0.5f);
+            TPhotonMagicSquare__ct((u8 *)mem, (saddr)photon_rainbow, 3, (saddr)&pos, 0xAA, 0.5f);
         }
         }
         ((TUnk_804C3248 *)photon_rainbow)->spawn_photon_blast_attachment_effects(3);
-        play_cue_stream_file((s32)"paila2.adx");
+        play_cue_stream_file((saddr)"paila2.adx");
     } else {
         spawn_photon_blast_opening_effects(3, ((TPhotonPilla *)photon_rainbow)->m_17c);
-        play_cue_stream_file((s32)"paila.adx");
+        play_cue_stream_file((saddr)"paila.adx");
     }
     return photon_rainbow;
 }
@@ -326,9 +325,9 @@ void TObjPlayer::free_buffer_pair() {
     pilla_photon_buffer_pair = NULL;
 }
 void create_pilla_photon_blast_model(void) {
-    s32 temp_r3;
-    s32 var_r0;
-    temp_r3 = (int)::operator new(0x14);
+    saddr temp_r3;
+    saddr var_r0;
+    temp_r3 = (saddr)::operator new(0x14);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (((TLobby *)temp_r3)->alloc_tables(*(s32 *)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 8)) + 0x2C), 0));

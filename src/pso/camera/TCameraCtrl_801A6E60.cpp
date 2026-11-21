@@ -6,7 +6,7 @@
 extern "C" {
 
 s32 test_previous_buttons_packed(void *pad, s32 mask) {
-    return (((ControllerInputContext *)pad)->previous_buttons & pack_flags__13TRaderMapCoreFii((s32)pad, mask)) != 0;
+    return (((ControllerInputContext *)pad)->previous_buttons & pack_flags__13TRaderMapCoreFii((saddr)pad, mask)) != 0;
 }
 
 }

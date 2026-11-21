@@ -27,7 +27,7 @@ struct ModelNodeTables {
     void **items;
 };
 
-typedef char ModelNodeTablesSize[(sizeof(ModelNodeTables) == 0x14) ? 1 : -1];
-typedef char ModelNodeTablesItemsOffset[(offsetof(ModelNodeTables, items) == 0x10) ? 1 : -1];
+LAYOUT_ASSERT(ModelNodeTablesSize, sizeof(ModelNodeTables) == 0x14);
+LAYOUT_ASSERT(ModelNodeTablesItemsOffset, offsetof(ModelNodeTables, items) == 0x10);
 
 #endif

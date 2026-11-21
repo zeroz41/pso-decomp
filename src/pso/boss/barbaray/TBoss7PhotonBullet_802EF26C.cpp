@@ -71,11 +71,10 @@ struct Bullet_802EF2AC {
 };
 
 extern "C" {
-s32 VecCopy__FP3VecPC3Vec(void *, void *);
+saddr VecCopy__FP3VecPC3Vec(void *, void *);
 s32 project_actor_to_ground(void *, void *, void *);
 extern const f32 lbl_805DEA00;
 extern const f32 lbl_805DEA04;
-void __dl__7TObjectFPv(void *);
 void render_shadows__7TObjectFv(void);
 }
 
@@ -83,7 +82,7 @@ typedef struct Pad_802EF604 {
     u8 pad0[0x10];
     void *parent;
     u8 pad14[8];
-    s32 unk1C;
+    saddr unk1C;
     u8 pos[8];
     u8 unk28[4];
     s32 level;
@@ -91,7 +90,7 @@ typedef struct Pad_802EF604 {
     s32 timer;
 } Pad_802EF604;
 
-TBoss7PhotonPad::TBoss7PhotonPad(s32 arg1, s32 arg2, s32 arg3, s32 arg4) : TObject((TObject *)arg1) {
+TBoss7PhotonPad::TBoss7PhotonPad(saddr arg1, s32 arg2, saddr arg3, s32 arg4) : TObject((TObject *)arg1) {
     this->m_name = TBoss7PhotonPad__name;
     *(s32 *)((s8 *)this + 0x1C) = arg2;
     *(s32 *)((s8 *)this + 0x2C) = arg4;
@@ -105,7 +104,7 @@ TBoss7PhotonPad::~TBoss7PhotonPad() {}
 
 void TBoss7PhotonPad::run_task() {
     Pad_802EF604 *self = (Pad_802EF604 *)this;
-    s32 st;
+    saddr st;
 
     self->timer--;
     if (self->timer <= 0) {
@@ -114,7 +113,7 @@ void TBoss7PhotonPad::run_task() {
             new TBoss7PhotonBullet((TObject *)self->parent, (TObjBase *)st, (void *)self->unk1C, self->pos, 1.5f * boss7_photon_bullet_level_table[self->level].d);
         }
         self->timer = boss7_photon_bullet_level_table[self->level].b;
-        rotate_xz_pair_by_angle((f32 *)self->pos, (f32 *)self->unk28, (s32)(boss7_photon_bullet_level_table[self->level].c / boss7_photon_bullet_level_table[self->level].a));
+        rotate_xz_pair_by_angle((f32 *)self->pos, (f32 *)self->unk28, (saddr)(boss7_photon_bullet_level_table[self->level].c / boss7_photon_bullet_level_table[self->level].a));
         self->shots--;
         if (self->shots == 0) {
             ((TObject *)self)->queue_destruction();
@@ -140,8 +139,8 @@ TBoss7PhotonBullet::TBoss7PhotonBullet(TObject *parent, TObjBase *owner, void *a
     *(s32 *)((s8 *)arg0 + 0xE4) = 0;
     *(s32 *)((s8 *)arg0 + 0xE8) = 0;
     *(f32 *)((s8 *)arg0 + 0xEC) = 0.0f;
-    *(s32 *)((s8 *)arg0 + 0xF0) = (s32)spawn_continuous_particle_effect_with_flags((arg0 + 0xC0), 0x202, 0x40);
-    *(s32 *)((s8 *)arg0 + 0xF4) = (s32)spawn_continuous_particle_effect_with_flags((arg0 + 0xC0), 0x203, 0x40);
+    *(s32 *)((s8 *)arg0 + 0xF0) = (saddr)spawn_continuous_particle_effect_with_flags((arg0 + 0xC0), 0x202, 0x40);
+    *(s32 *)((s8 *)arg0 + 0xF4) = (saddr)spawn_continuous_particle_effect_with_flags((arg0 + 0xC0), 0x203, 0x40);
 }
 #undef arg0
 

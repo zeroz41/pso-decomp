@@ -70,7 +70,7 @@ public:
     void destroy();
     void close();
     void check_client_connections();
-    void show_status_message(s32 arg1, s32 arg2);
+    void show_status_message(saddr arg1, s32 arg2);
     void close_message();
     void check_cancel_input();
     static void create();
@@ -110,7 +110,7 @@ public:
     static s32 seek_or_reopen(int arg0);
     static s32 find_file_info_index();
     void set_file_info_name();
-    s32 aram_read_thunk(u32 arg1, int _w2);
+    s32 aram_read_thunk(uaddr arg1, int _w2);
     static void unescape_copy_string(u8 *arg0, u8 *arg1, u8 *arg2);
     static s32 count_entries_until_terminator(const u8 *p, const u8 *end);
     static void copy_sjis_string(u8 *arg0, u8 *arg1);
@@ -160,7 +160,7 @@ public:
     Node_803EB894 *detach_node_chain();
     s32 find_symbol_entry(s16 len, Info_803F0138 *out);
 };
-typedef char TQuestVmDownLoadServer_size_check[sizeof(TQuestVmDownLoadServer) == 0x2A4 ? 1 : -1];
+LAYOUT_ASSERT(TQuestVmDownLoadServer_size_check, sizeof(TQuestVmDownLoadServer) == 0x2A4);
 
 // The two seeds of the download cipher; a quest saved to a memory card is
 // encrypted with the console's serial number in both.

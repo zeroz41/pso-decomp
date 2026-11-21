@@ -16,6 +16,6 @@ public:
     u16 client_id;
     s16 frames_left;
 };
-typedef char TUnk_8049FEB8_size[sizeof(TUnk_8049FEB8) == 0x20 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_8049FEB8_size, sizeof(TUnk_8049FEB8) == 0x20);
 
 #endif

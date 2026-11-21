@@ -39,7 +39,7 @@ void TUnk_804A4F60::activate_effect(s32 effect) {
 
 void TUnk_804A4F60::psycho_wand_roll_extra() {
     void *ext;
-    s32 target;
+    saddr target;
 
     get_joint_position(4, &cast_point);
     ext = owner->get_extended_state();

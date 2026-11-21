@@ -22,7 +22,6 @@
 
 #include "pso/system/SoundEffect.h"
 extern "C" {
-void __dl__7TObjectFPv(void *);
 
 typedef struct Data_80050194 Data_80050194;
 
@@ -54,9 +53,9 @@ typedef struct Data_80050194
 
 s32 get_bml_motion(s32, s32);
 
-s32 get_bml_texlist(BmlResource *resource, s32 index);
+saddr get_bml_texlist(BmlResource *resource, s32 index);
 
-s32 get_bml_model(BmlResource *resource, s32 index);
+saddr get_bml_model(BmlResource *resource, s32 index);
 
 void set_scripted_camera_pose(void *, void *, void *);
 
@@ -98,7 +97,7 @@ TObjDFDemoF::TObjDFDemoF(TObject *parent) : TObjBase(parent) {
   Obj_80050194 *arg0 = (Obj_80050194 *)this;
   s32 k;
   s32 *ids2;
-  s32 h;
+  saddr h;
   Obj_80050194 *new_var;
   s32 i;
   new_var = arg0;

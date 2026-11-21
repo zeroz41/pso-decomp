@@ -12,7 +12,7 @@ public:
 };
 
 extern "C" {
-u8 *__ct__13TObjBoss2DustFv(u8 *object, s32 arg1, s32 arg2);
+u8 *__ct__13TObjBoss2DustFv(u8 *object, saddr arg1, saddr arg2);
 }
 
 #endif

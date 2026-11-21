@@ -10,6 +10,6 @@ public:
     u8 unk_1C[0x10];
     s32 m_2c;
 };
-typedef char TUnk_804CCBC0_size[sizeof(TUnk_804CCBC0) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804CCBC0_size, sizeof(TUnk_804CCBC0) == 0x30);
 
 #endif

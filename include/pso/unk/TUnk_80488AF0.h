@@ -19,6 +19,6 @@ public:
     Vec look_goal;
     Vec look_at;
 };
-typedef char TUnk_80488AF0_size[sizeof(TUnk_80488AF0) == 0x40 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_80488AF0_size, sizeof(TUnk_80488AF0) == 0x40);
 
 #endif

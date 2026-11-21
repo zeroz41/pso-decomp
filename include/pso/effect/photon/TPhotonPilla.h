@@ -27,7 +27,7 @@ public:
     s32 m_1a4;
     u8 unk_1A8[0x4];
 };
-typedef char TPhotonPilla_size[sizeof(TPhotonPilla) == 0x1AC ? 1 : -1];
+LAYOUT_ASSERT(TPhotonPilla_size, sizeof(TPhotonPilla) == 0x1AC);
 
 extern "C" {
 void *destroy__12TPhotonPillaFPvs(void *arg0, s16 arg1);

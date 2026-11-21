@@ -12,6 +12,6 @@ public:
     virtual void render();
     BreakupPiece m_pieces[19];
 };
-typedef char TUnk_804820A8_size[sizeof(TUnk_804820A8) == 0x364 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804820A8_size, sizeof(TUnk_804820A8) == 0x364);
 
 #endif

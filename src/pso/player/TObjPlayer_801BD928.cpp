@@ -20,7 +20,7 @@ s32 TObjPlayer__sub_801BF660(void *);
 s32 TObjPlayer__sub_801BFB4C(void *);
 s32 TObjPlayer__sub_801C1A00(void *);
 s32 init_player_telepipe_record(void *);
-s32 get_byte_157(void *);
+saddr get_byte_157(void *);
 u8 get_byte_13b(void *);
 u8 get_byte_11f(void *);
 u8 get_byte_103(void *);
@@ -35,7 +35,7 @@ s32 update_body_parts__10TObjPlayerFv(void *, void *);
 extern s32 __vt__10TObjPlayer[];
 extern const char *lbl_805D3530;
 
-u8 *TObjPlayer::construct_player_instance(s32 arg1, s16 arg2, s32 role, u8 *arg4) {
+u8 *TObjPlayer::construct_player_instance(saddr arg1, s16 arg2, s32 role, u8 *arg4) {
     __ct__9TObjCharaFP7TObject();
     *(s32 **)((s8 *)((u8 *)this) + 0x18) = __vt__10TObjPlayer;
     ((TObjPlayer *)(((u8 *)this) + 0x340))->init_subobject();
@@ -64,16 +64,16 @@ u8 *TObjPlayer::construct_player_instance(s32 arg1, s16 arg2, s32 role, u8 *arg4
     TObjPlayer__sub_801BF660((void *) (((u8 *)this) + 0x730));
     ((TObjPlayer *)(((u8 *)this) + 0x744))->init_vec_record();
     ((TObjPlayer *)(((u8 *)this) + 0x754))->init_sub_objects();
-    TObjPlayer::init_partial((s32)((void *) (((u8 *)this) + 0x7C4)));
+    TObjPlayer::init_partial((saddr)((((u8 *)this) + 0x7C4)));
     ((TObjPlayer *)(((u8 *)this) + 0x7C8))->clear_base();
     ((TObjPlayer *)(((u8 *)this) + 0x7CC))->init();
     TObjPlayer__sub_801C1A00((void *) (((u8 *)this) + 0x828));
     init_player_telepipe_record((void *) (((u8 *)this) + 0x830));
     TObjPlayer__sub_801BFB4C((void *) (((u8 *)this) + 0x84C));
     __ct__8FlagWordFv((((u8 *)this) + 0x858));
-    TObjPlayer::reset_and_return((s32)((void *) (((u8 *)this) + 0xD04)));
+    TObjPlayer::reset_and_return((saddr)((((u8 *)this) + 0xD04)));
     ((TObjPlayer *)(((u8 *)this) + 0xDAC))->clear_header_struct();
-    *(s32 *)((s8 *)((u8 *)this) + 0) = (s32) lbl_805D3530;
+    *(s32 *)((s8 *)((u8 *)this) + 0) = (saddr) lbl_805D3530;
     this->init_action_provider();
     this->entity_id = arg2;
     this->setup_control_role(role);
@@ -96,7 +96,7 @@ u8 *TObjPlayer::construct_player_instance(s32 arg1, s16 arg2, s32 role, u8 *arg4
     TObjPlayer__sub_801BC8F0(this);
     this->setup_fresh_player_state((u8 *)arg4);
     this->sub_801BB8B0((u8 *)arg4);
-    TObjPlayer::set_com_card_window((s32)((void *) (get_entity_id(this))));
+    TObjPlayer::set_com_card_window((saddr)((get_entity_id(this))));
     return ((u8 *)this);
 }
 
@@ -124,7 +124,6 @@ typedef struct VObj_18_dac7f3 VObj_18_dac7f3;
 #define PSO_VCALL_VObj_18_dac7f3_m0(_self, _arg0) (((VObj_18_dac7f3 *)(_self))->m0((_arg0)))
 
 extern const char *TObjPlayer__player_set_class_name;
-extern "C" s32 check_value_equals__13TUnk_804B6C24CFl(void *self, const char *name);
 
 TObjPlayerSet *find_player_arrival_set(TObjPlayer *player, s32 slot) {
     TObjPlayerSet *set;
@@ -149,7 +148,7 @@ TObjPlayerSet *find_player_arrival_set(TObjPlayer *player, s32 slot) {
         }
     }
     for (set = (TObjPlayerSet *)tl_06->m_down; set != NULL; set = (TObjPlayerSet *)set->m_next) {
-        if (check_value_equals__13TUnk_804B6C24CFl(set, TObjPlayer__player_set_class_name) != 0 &&
+        if (((TUnk_804B6C24 *)set)->check_value_equals((saddr)TObjPlayer__player_set_class_name) != 0 &&
             slot == (s32)set->scale.x && set->set_params[0] == side) {
             return set;
         }
@@ -185,7 +184,7 @@ void TObjPlayer::refresh_player_lobby_headers() {
     {
       if (TObjPlayer::is_locally_controlled(player) != 0)
       {
-        ((TObjPlayer *)var_r29)->copy_lobby_header((int) player);
+        ((TObjPlayer *)var_r29)->copy_lobby_header((saddr) player);
       }
       if (player != 0)
       {

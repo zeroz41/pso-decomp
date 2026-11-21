@@ -5,7 +5,7 @@
 #include "pso/enemy/TUnk_80493450.h"
 
 struct TObjEneDolmOlm : public TUnk_80493450 {
-    TObjEneDolmOlm(s32 arg1, s32 arg2);
+    TObjEneDolmOlm(saddr arg1, saddr arg2);
     virtual ~TObjEneDolmOlm();
     virtual void run_task();
     virtual void render();
@@ -46,7 +46,7 @@ struct TObjEneDolmOlm : public TUnk_80493450 {
     static void reset_count();
 };
 
-typedef char TObjEneDolmOlm_size[sizeof(TObjEneDolmOlm) == 0x3E8 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneDolmOlm_size, sizeof(TObjEneDolmOlm) == 0x3E8);
 
 extern "C" {
 void *TObjEneDolmOlm__create(void *arg0);

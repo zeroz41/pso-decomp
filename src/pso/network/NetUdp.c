@@ -14,7 +14,7 @@ void TLobby__sub_803F87C8(u8 *arg0);
 void TLobby__sub_803F87C4(void *cfg);
 s32 TLobby__sub_80420D38(u16 arg0, u8 arg1);
 s16 TLobby__sub_8040D8F0(void *, void *, int, void *, int);
-s16 udp_sendto(s16 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, u16 port, s32 arg5);
+s16 udp_sendto(s16 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, u16 port, saddr arg5);
 s16 TLobby__sub_80421F10(void *, void *, void *, u16, s32, s16);
 s16 udp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, s16 arg3);
 UdpRuntimeState udp_runtime_state;
@@ -73,7 +73,7 @@ inline void add_item_80420FC8(NetPacket *pkt, void *data, s32 len) {
     s32 off = pkt->total_bytes;
     pkt->fragments[n].length = len;
     pkt->total_bytes = off + len;
-    set_value_and_enable(&pkt->fragments[n].buffer, (s32)data);
+    set_value_and_enable(&pkt->fragments[n].buffer, (saddr)data);
     pkt->fragment_count++;
 }
 
@@ -85,7 +85,7 @@ s16 udp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, s16 arg3
     NetPacketFragment *frag;
     UdpControlBlock *e;
     frag = &pkt->fragments[1];
-    set_value_and_enable((NetBufferRef *)sp20, (s32)&hdr);
+    set_value_and_enable((NetBufferRef *)sp20, (saddr)&hdr);
     netbuf_copy_by_ref(sp20, &frag->buffer, 8);
     if (hdr.sum != 0 && (u16)TLobby__sub_8040D8F0(src, dst, 0x11, pkt, 0) != 0) {
         return -1;
@@ -134,7 +134,7 @@ s16 udp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, s16 arg3
     return -2;
 }
 
-s16 udp_sendto(s16 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, u16 port, s32 arg5) {
+s16 udp_sendto(s16 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, u16 port, saddr arg5) {
     s16 r;
     UdpControlBlock *e;
     if (id < 0 || id >= udp_runtime_state.count) {
@@ -171,7 +171,7 @@ s16 udp_sendto(s16 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst,
     add_item_80420FC8(pkt, &e->sourcePort, 8);
     e->checksum = 0;
     e->checksum = TLobby__sub_8040D8F0(src, dst, 0x11, pkt, 1);
-    return dispatch_by_addr_family((s32)pkt, dst, src, (u8 *)(arg5 + 4), (void *)(arg5 + 4), (void *)0x11);
+    return dispatch_by_addr_family((saddr)pkt, dst, src, (u8 *)(arg5 + 4), (void *)(arg5 + 4), (void *)0x11);
 }
 #pragma pop
 

@@ -6,14 +6,14 @@
 
 
 s32 TWindowHelpItem::is_item_already_equipped() {
-    s32 item;
+    saddr item;
     s32 field;
     u32 diff;
     field = this->m_a4;
     if (field == -1) {
         return 0;
     }
-    item = (s32)find_item_by_id(field);
+    item = (saddr)find_item_by_id(field);
     if (item == 0) {
         return 0;
     }

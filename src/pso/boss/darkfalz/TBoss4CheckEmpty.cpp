@@ -11,9 +11,6 @@
 
 #pragma readonly_strings on
 
-extern "C" {
-s32 is_door_open_and_ready__12TBoss4ThanksFv();
-}
 void init_music_sequencer(s32 program);
 const char *TBoss4CheckEmpty__name = "TBoss4CheckEmpty";
 void TBoss4CheckEmpty::render() {  }
@@ -25,7 +22,7 @@ void TBoss4CheckEmpty::run_task() {
     }
     this->m_wait_frames = (s32) (this->m_wait_frames + 1);
     if ((s32) this->m_wait_frames > 0x5A) {
-        if (is_door_open_and_ready__12TBoss4ThanksFv() != 0) {
+        if (TBoss4Thanks::is_door_open_and_ready() != 0) {
             TBoss4Thanks::create();
             play_area_music((char *)("T1.adx"));
         } else {

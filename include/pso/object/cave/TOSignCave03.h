@@ -16,5 +16,5 @@ public:
     static void load_shared_resource();
 };
 
-typedef char TOSignCave03_size[sizeof(TOSignCave03) == 0xC8 ? 1 : -1];
+LAYOUT_ASSERT(TOSignCave03_size, sizeof(TOSignCave03) == 0xC8);
 #endif

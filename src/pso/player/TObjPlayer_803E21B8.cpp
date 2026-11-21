@@ -36,7 +36,7 @@ typedef union WGPipe_803E26A4 {
 
 extern "C" {
 s32 GXClearVtxDesc();
-s32 Dolphin_GXSetVtxDesc(int, int);
+s32 GXSetVtxDesc(int, int);
 s32 GXSetVtxAttrFmt(int, int, int, int, int);
 s32 GXSetTevOp(int, int);
 s32 GXSetTevColorIn(int, int, int, int, int);
@@ -46,7 +46,7 @@ s32 GXSetNumTevStages(void *);
 s32 apply_cached_blend_mode(s32 arg0);
 s32 GXSetNumTexGens(s32 arg0);
 s32 GXSetTexCoordGen2(int, int, int, int, int, int);
-void Dolphin_GXInitTexObj(TexObj_803E224C *, void *, u16, u16, s32, s32, s32, u8);
+void GXInitTexObj(TexObj_803E224C *, void *, u16, u16, s32, s32, s32, u8);
 void GXInitTexObjCI(TexObj_803E224C *, void *, u16, u16, s32, s32, s32, u8, u32);
 void GXLoadTexObj(TexObj_803E224C *, s32);
 extern TexObj_803E224C context_texture_obj;
@@ -109,15 +109,15 @@ void load_context_texture_obj(void) {
     if (flags & 0x8000) {
         GXInitTexObjCI(&context_texture_obj, hdr->image, hdr->width, hdr->height, hdr->format, wrapS, wrapT, mip, ctx->tlut);
     } else {
-        Dolphin_GXInitTexObj(&context_texture_obj, hdr->image, hdr->width, hdr->height, hdr->format, wrapS, wrapT, mip);
+        GXInitTexObj(&context_texture_obj, hdr->image, hdr->width, hdr->height, hdr->format, wrapS, wrapT, mip);
     }
     GXLoadTexObj(&context_texture_obj, 0);
 }
 
 void TObjPlayer::setup_vertex_format() {
     GXClearVtxDesc();
-    Dolphin_GXSetVtxDesc(9, 1);
-    Dolphin_GXSetVtxDesc(0xB, 1);
+    GXSetVtxDesc(9, 1);
+    GXSetVtxDesc(0xB, 1);
     GXSetVtxAttrFmt(4, 9, 1, 4, 0);
     GXSetVtxAttrFmt(4, 0xB, 1, 5, 0);
     TObjPlayer::setup_color_channels(1);
@@ -126,9 +126,9 @@ void TObjPlayer::setup_vertex_format() {
 }
 void TObjPlayer::setup_vtx_desc() {
     GXClearVtxDesc();
-    Dolphin_GXSetVtxDesc(9, 1);
-    Dolphin_GXSetVtxDesc(0xB, 1);
-    Dolphin_GXSetVtxDesc(0xD, 1);
+    GXSetVtxDesc(9, 1);
+    GXSetVtxDesc(0xB, 1);
+    GXSetVtxDesc(0xD, 1);
     GXSetVtxAttrFmt(4, 9, 1, 4, 0);
     GXSetVtxAttrFmt(4, 0xB, 1, 5, 0);
     GXSetVtxAttrFmt(4, 0xD, 1, 4, 0);

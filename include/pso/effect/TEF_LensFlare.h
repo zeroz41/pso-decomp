@@ -23,5 +23,5 @@ struct TEF_LensFlare : public TObjBase {
     LensFlareElement *elements;  // 0x90, the table render() draws 9 of
 };
 
-typedef char TEF_LensFlare_size[sizeof(TEF_LensFlare) == 0x94 ? 1 : -1];
+LAYOUT_ASSERT(TEF_LensFlare_size, sizeof(TEF_LensFlare) == 0x94);
 #endif

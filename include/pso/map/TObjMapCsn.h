@@ -23,7 +23,7 @@ struct MapCsnSetData {
 };
 
 struct TObjMapCsn : public TObjCollidable {
-    TObjMapCsn(s32, s32);
+    TObjMapCsn(saddr, saddr);
     virtual ~TObjMapCsn();
     CsnGroup collision_group;
     CsnModel collision_model;
@@ -32,16 +32,16 @@ struct TObjMapCsn : public TObjCollidable {
     virtual void render();
     void update_state();
     s32 build_box_triangles();
-    static s32 create(s32 arg0);
+    static saddr create(saddr arg0);
     static TMapCsnCtrl *get_collision_controller();
     void*init();
-    static s32 init_and_return(s32 arg0);
+    static saddr init_and_return(saddr arg0);
 };
 
-typedef char TObjMapCsnGroupOffset[offsetof(TObjMapCsn, collision_group) == 0xAC ? 1 : -1];
-typedef char TObjMapCsnModelOffset[offsetof(TObjMapCsn, collision_model) == 0xC4 ? 1 : -1];
-typedef char TObjMapCsnFacesOffset[offsetof(TObjMapCsn, collision_faces) == 0xD4 ? 1 : -1];
-typedef char TObjMapCsnVerticesOffset[offsetof(TObjMapCsn, collision_vertices) == 0x1F4 ? 1 : -1];
+LAYOUT_ASSERT(TObjMapCsnGroupOffset, offsetof(TObjMapCsn, collision_group) == 0xAC);
+LAYOUT_ASSERT(TObjMapCsnModelOffset, offsetof(TObjMapCsn, collision_model) == 0xC4);
+LAYOUT_ASSERT(TObjMapCsnFacesOffset, offsetof(TObjMapCsn, collision_faces) == 0xD4);
+LAYOUT_ASSERT(TObjMapCsnVerticesOffset, offsetof(TObjMapCsn, collision_vertices) == 0x1F4);
 
-typedef char TObjMapCsn_size[sizeof(TObjMapCsn) == 0x254 ? 1 : -1];
+LAYOUT_ASSERT(TObjMapCsn_size, sizeof(TObjMapCsn) == 0x254);
 #endif

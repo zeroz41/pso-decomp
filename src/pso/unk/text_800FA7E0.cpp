@@ -8,7 +8,7 @@ extern s32 lobby_list_entry_count;
 u8 *TLobby::pop_stack_entry(s16 arg1) {
     u8 *arg0 = (u8 *)this;
     if (arg0 != NULL) {
-        if ((u32) lobby_stack_entry_list_tail == (u32)arg0) {
+        if ((u32) lobby_stack_entry_list_tail == (uaddr)arg0) {
             lobby_stack_entry_list_tail = 0U;
         }
         async_file_read_current_request = *(s32 *)((s8 *)arg0 + 0x38);

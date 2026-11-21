@@ -19,8 +19,8 @@ struct RecoveredFields_802FFCE4_arg0
   u8 unknown_0[0x20];
   s32 field_20;
   s32 field_24;
-  s32 field_28;
-  s32 field_2C;
+  saddr field_28;
+  saddr field_2C;
 };
 
 struct TxtSlot_802FFE58 { s32 id; f32 x; f32 y; };
@@ -83,7 +83,7 @@ loop_1:
 typedef struct RecoveredFields_802FFCE4_arg0 RecoveredFields_802FFCE4_arg0;
 void TAdMultiChgGameModeGC::run_task() {
     RecoveredFields_802FFCE4_arg0 *arg0 = (RecoveredFields_802FFCE4_arg0 *)this;
-  s32 *new_var;
+  saddr *new_var;
   s32 temp_r4;
   TAdMultiChgGameModeGC::set_default_camera();
   arg0->field_20 = TAdSinglePlyChrSelectGC__sub_801334DC((void *)arg0->field_2C);
@@ -91,14 +91,14 @@ void TAdMultiChgGameModeGC::run_task() {
   new_var = &arg0->field_2C;
   if (((s32) arg0->field_24) != temp_r4)
   {
-    ((TAdMultiPlyChrSelectGC *)((int) arg0->field_28))->set_entry_value(0, (int) get_localized_text_entry(0x21, arg0->field_20));
+    ((TAdMultiPlyChrSelectGC *)((saddr) arg0->field_28))->set_entry_value(0, (int) get_localized_text_entry(0x21, arg0->field_20));
   }
   if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + 0x20), 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0))
   {
     TAdMultiChgGameModeGC::request_scene_change();
   }
   else
-    if (1 == ((TAdSinglePlyChrSelectGC *)((int) arg0->field_2C))->get_selected_slot())
+    if (1 == ((TAdSinglePlyChrSelectGC *)((saddr) arg0->field_2C))->get_selected_slot())
   {
     switch (TAdSinglePlyChrSelectGC__sub_801334DC((void *)(*new_var)))
     {

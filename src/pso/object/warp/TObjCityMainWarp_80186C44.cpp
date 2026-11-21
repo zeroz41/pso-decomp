@@ -25,7 +25,7 @@ struct Obj_80186DA0 {
 
 extern "C" {
 u8 is_current_floor_switch_set(s32 id);
-void end_player_keyboard_hold(s32 arg0);
+void end_player_keyboard_hold(saddr arg0);
 void obj_clear_flag30_20000(TObjBase *actor);
 void obj_set_flag_20000(TObjBase *actor);
 
@@ -59,9 +59,9 @@ void TObjCityMainWarpChallenge::send_6x6A_set_boss_warp_flags(u16 value) {
 }
 
 void TObjCityMainWarp::notify_player_warp(void *arg0, s32 arg1) {
-    s32 player;
+    saddr player;
 
-    player = (s32)get_player_by_client_id(arg1);
+    player = (saddr)get_player_by_client_id(arg1);
     if (player != 0) {
         TObjPlayer::send_code_45_1(player);
         obj_clear_flag30_20000((TObjBase *)player);
@@ -69,9 +69,9 @@ void TObjCityMainWarp::notify_player_warp(void *arg0, s32 arg1) {
 }
 
 void TObjCityMainWarpChallenge::trigger_warp_effect(s32 arg1) {
-    s32 player;
+    saddr player;
 
-    player = (s32)get_player_by_client_id(arg1);
+    player = (saddr)get_player_by_client_id(arg1);
     if (player != 0) {
         TObjPlayer::play_effect_default(player, -1);
         obj_set_flag_20000((TObjBase *)player);

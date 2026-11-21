@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void show_duel_result_window(s32 arg0, s32 arg1);
+void show_duel_result_window(saddr arg0, saddr arg1);
 }
 
 #endif

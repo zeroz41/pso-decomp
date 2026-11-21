@@ -2,7 +2,7 @@
 #include "pso/unk/text_801C5470.h"
 extern "C" {
 s32 calc_class_stat_boost_index__10TObjPlayerFScl(s32, s32, s32);
-void TObjPlayer__sub_801C5780(s32, s32, s32);
+void TObjPlayer__sub_801C5780(saddr, s32, s32);
 s32 are_trap_counts_full(s8 *counts, s32 level, s8 classId) {
     s32 kind;
     s8 max;

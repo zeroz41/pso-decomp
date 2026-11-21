@@ -27,5 +27,5 @@ struct TObjContainerIdo : public TUnk_804B97C0 {
     static void *create(void *arg0);
 };
 
-typedef char TObjContainerIdo_size[sizeof(TObjContainerIdo) == 0x10C ? 1 : -1];
+LAYOUT_ASSERT(TObjContainerIdo_size, sizeof(TObjContainerIdo) == 0x10C);
 #endif

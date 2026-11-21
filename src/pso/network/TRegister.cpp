@@ -16,13 +16,13 @@ struct ByteBlock_70 { u8 bytes[0x70]; };
 extern "C" {
 s32 __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag();
 
-void bswap__9TRegisterFv(s32 arg0) {
+void bswap__9TRegisterFv(saddr arg0) {
     ((packet_header *)arg0)->bswap();
     bswap_ply_smth_pair((void *)(arg0 + 4));
     bswap_32((u32 *)(arg0 + 0xC));
 }
 
-s32 __ct__9TRegisterFv(s32 arg0) {
+s32 __ct__9TRegisterFv(saddr arg0) {
     __ct__8TPlySmthFv((void *)(arg0 + 4));
     return arg0;
 }
@@ -68,13 +68,13 @@ TMenuList<QuestListEntry, 30, 0>::TMenuList(const TMenuList &o) {
     end = (QuestListEntryRaw_801E0038 *)(entries + 30);
     *(PacketHeaderCopy_801E0038 *)&header = *(const PacketHeaderCopy_801E0038 *)&o.header;
     do {
-        __ct__14QuestListEntryFRC14QuestListEntry((s32)d, (s32)s);
+        __ct__14QuestListEntryFRC14QuestListEntry((saddr)d, (saddr)s);
         d++;
         s++;
     } while (d < end);
 }
 
-s32 __ct__14QuestListEntryFRC14QuestListEntry(s32 arg0, s32 arg1) {
+s32 __ct__14QuestListEntryFRC14QuestListEntry(saddr arg0, saddr arg1) {
     __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag();
     *(ByteBlock_20 *)(arg0 + 4 + 4) = *(const ByteBlock_20 *)(arg1 + 4 + 4);
     *(ByteBlock_70 *)(arg0 + 0x24 + 4) = *(const ByteBlock_70 *)(arg1 + 0x24 + 4);

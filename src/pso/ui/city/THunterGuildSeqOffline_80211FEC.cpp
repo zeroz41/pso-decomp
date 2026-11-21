@@ -10,6 +10,7 @@
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
+#include <string.h>
 #include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
 
 
@@ -25,7 +26,6 @@ void *get_player_by_client_id(s32 i);
 extern s32 TLobby__designated_client_id;
 extern s32 local_client_id;
 void *get_window_layout_position(s32);
-char *strcpy(char *, const char *);
 __declspec(section ".data") f32 member_name_window_pos[2] = {219.0f, 100.0f};
 
     extern int THunterGuildSeqOnline_Client__instance_table[];
@@ -42,13 +42,13 @@ void *THunterGuildSeqOffline::create(void *arg0) {
 int THunterGuildSeqOffline__sub_80212060(int a0) {  return THunterGuildSeqOffline__instance_table[a0]; }
 
 s32 THunterGuildSeqOffline__sub_80212074(void) {
-    s32 player;
-    s32 temp_r3_2;
+    saddr player;
+    saddr temp_r3_2;
     s32 temp_r3_3;
     if ((s32) TLobby__designated_client_id == (s32) local_client_id) {
         return 0;
     }
-    player = (s32)get_player_by_client_id(local_client_id);
+    player = (saddr)get_player_by_client_id(local_client_id);
     if (player == 0) {
         return 0;
     }
@@ -56,7 +56,7 @@ s32 THunterGuildSeqOffline__sub_80212074(void) {
     if ((temp_r3_3 != 0x12) && ((temp_r3_3 >= 0x12) || (temp_r3_3 != 0))) {
         return 0;
     }
-    temp_r3_2 = (s32)get_player_by_client_id(TLobby__designated_client_id);
+    temp_r3_2 = (saddr)get_player_by_client_id(TLobby__designated_client_id);
     if (temp_r3_2 == 0) {
         return 0;
     }
@@ -67,9 +67,9 @@ s32 THunterGuildSeqOffline::check_party_gathered() {
     s32 i;
     s32 result;
     s32 j;
-    s32 me;
+    saddr me;
     f32 lim;
-    s32 p;
+    saddr p;
     if (TObjPlayer::get_player_count() != 0 && TLobby::count_members() == 1) {
         return 2;
     }
@@ -77,7 +77,7 @@ s32 THunterGuildSeqOffline::check_party_gathered() {
         return 2;
     }
     for (i = 0; i < 4; i++) {
-        u32 q = (u32)get_player_by_client_id(i);
+        uaddr q = (uaddr)get_player_by_client_id(i);
         if (q != 0) {
             switch (((TObjPlayer *)q)->get_area()) {
             case 0:
@@ -89,11 +89,11 @@ s32 THunterGuildSeqOffline::check_party_gathered() {
         }
     }
     result = 1;
-    me = (s32)get_player_by_client_id(TLobby__designated_client_id);
+    me = (saddr)get_player_by_client_id(TLobby__designated_client_id);
     lim = 625.0f;
     for (j = 0; j < 4; j++) {
         if (j != TLobby__designated_client_id) {
-            p = (s32)get_player_by_client_id(j);
+            p = (saddr)get_player_by_client_id(j);
             if (p != 0 && xz_distance_squared((void *)(me + 0x38), (void *)(p + 0x38)) > lim) {
                 result = 0;
             }
@@ -103,15 +103,15 @@ s32 THunterGuildSeqOffline::check_party_gathered() {
 }
 
 void TMemberCheck::update_member_proximity() {
-    s32 temp_r31;
-    s32 player;
+    saddr temp_r31;
+    saddr player;
     s32 var_r30;
     if (this->m_1C != 0U) {
-        temp_r31 = (s32)get_player_by_client_id(TLobby__designated_client_id);
+        temp_r31 = (saddr)get_player_by_client_id(TLobby__designated_client_id);
         var_r30 = 0;
         do {
             if (var_r30 != (s32) TLobby__designated_client_id) {
-                player = (s32)get_player_by_client_id(var_r30);
+                player = (saddr)get_player_by_client_id(var_r30);
                 if (player != 0) {
                     if (xz_distance_squared((void *)(temp_r31 + 0x38), (void *)(player + 0x38)) <= 625.0f) {
                         ((THunterGuildSeqOffline *)(this->m_1C))->advance_matching_entries(1, var_r30);
@@ -140,13 +140,13 @@ void TMemberCheck::open_member_name_window() {
         ((TWindowSubTradeMain *)(self->win))->set_visible();
         ((TWindowSubTradeMain *)(self->win))->set_close_flag();
         for (i = 0; i < 4; i++) {
-            u32 p = (u32)get_player_by_client_id(i);
+            uaddr p = (uaddr)get_player_by_client_id(i);
             if (p != 0) {
                 strcpy(self->names[i], (char *)(p + 0x85C));
-                TWindowSubStatusDisp::dispatch_without_flags((s32)self->win, (s32)self->names[i], (s32)i);
+                TWindowSubStatusDisp::dispatch_without_flags((saddr)self->win, (saddr)self->names[i], (s32)i);
             } else {
                 self->names[i][0] = 0;
-                TWindowSubStatusDisp::dispatch_without_flags((s32)self->win, (s32)self->names[i], (s32)i);
+                TWindowSubStatusDisp::dispatch_without_flags((saddr)self->win, (saddr)self->names[i], (s32)i);
             }
         }
     }

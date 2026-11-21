@@ -23,6 +23,6 @@ public:
     vec2f pos;
 };
 
-typedef char TChCrTagPlGraphic_size[sizeof(TChCrTagPlGraphic) == 0x50 ? 1 : -1];
+LAYOUT_ASSERT(TChCrTagPlGraphic_size, sizeof(TChCrTagPlGraphic) == 0x50);
 
 #endif

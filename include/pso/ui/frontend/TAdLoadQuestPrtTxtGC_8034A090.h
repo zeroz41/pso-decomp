@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-s32 get_or_create_prt_txt__14TAdLoadQuestGCFii(s32 arg0, s32 arg1);
+s32 get_or_create_prt_txt__14TAdLoadQuestGCFii(saddr arg0, s32 arg1);
 }
 
 #endif

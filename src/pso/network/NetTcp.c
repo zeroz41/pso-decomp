@@ -32,7 +32,7 @@ s32 get_tcp_stat(s16 arg0, s16 *arg1, s16 *arg2, s32 *snd_space, s32 *rcv_count)
 void insert_item_at(TcpTcb *tcb, s16 idx, s32 a, s32 b);
 s32 mark_connection_closed(s16 arg0);
 void reset_slot_index(TcpTcb *tcb);
-s16 tcp_connect_start(s16 arg0, s32 arg1, s16 arg2);
+s16 tcp_connect_start(s16 arg0, saddr arg1, s16 arg2);
 s16 tcp_get_socket_handle(s16 i);
 s16 validate_tcp_handle(s16 i);
 
@@ -592,13 +592,13 @@ send:
         if (optlen != 0) {
             m->total_bytes += optlen;
             m->fragments[m->fragment_count].length = optlen;
-            set_value_and_enable(&m->fragments[m->fragment_count].buffer, (s32)optp);
+            set_value_and_enable(&m->fragments[m->fragment_count].buffer, (saddr)optp);
             m->fragment_count++;
         }
         header_bytes = sizeof(TcpHdr);
         m->total_bytes += header_bytes;
         m->fragments[m->fragment_count].length = header_bytes;
-        set_value_and_enable(&m->fragments[m->fragment_count].buffer, (s32)th);
+        set_value_and_enable(&m->fragments[m->fragment_count].buffer, (saddr)th);
         m->fragment_count++;
         th->sum = TLobby__sub_8040D8F0(tp->local, tp->remote, 6, (u8 *)m, 1);
         if (tp->force == 0 || tp->timers[1] == 0) {
@@ -640,7 +640,7 @@ send:
             tp->snd_max = tp->snd_nxt + len;
         }
         {
-            s16 rc = dispatch_by_addr_family((s32)m, (NetworkAddress *)tp->remote, (NetworkAddress *)tp->local, tp->f2D6, tp->f2DC, (void *)6);
+            s16 rc = dispatch_by_addr_family((saddr)m, (NetworkAddress *)tp->remote, (NetworkAddress *)tp->local, tp->f2D6, tp->f2DC, (void *)6);
             release_entry(m);
             if (rc < 0) {
                 return rc;
@@ -734,10 +734,10 @@ s32 TLobby__sub_8041B3D4(void* a, void* b, s16 c, s16 d, s32 e, s32 f, u8 g_m) {
     ph = &hdr.h1;
     NetMemcpy(ph, p7, 2);
     NetMemcpy(&hdr.h2, p8, 2);
-    set_value_and_enable(&pkt->fragments[0].buffer, (s32)&hdr);
+    set_value_and_enable(&pkt->fragments[0].buffer, (saddr)&hdr);
     src.h1 = ((s16)TLobby__sub_8040D8F0(b, a, (s8)(6), (u8 *)pkt, (s16)(1)));
     NetMemcpy(ph, &src.h1, 2);
-    if (dispatch_by_addr_family((s32)pkt, (NetworkAddress *)a, (NetworkAddress *)b, buf + 4, buf + 4, (void *)6) < 0) {
+    if (dispatch_by_addr_family((saddr)pkt, (NetworkAddress *)a, (NetworkAddress *)b, buf + 4, buf + 4, (void *)6) < 0) {
         release_entry(pkt);
         return -1;
     }
@@ -1069,7 +1069,7 @@ retry:
                 int accepted_index = (TcpTcb *)ent_new - tcp_protocol_state.tcbs;
                 TLobby__sub_80422AB8(listener_index,
                                      *(TcpAcceptCallback *)(found + offsetof(TcpTcb, accept_cb)),
-                                     accepted_index, (s32)(ent_new + offsetof(TcpTcb, remote)),
+                                     accepted_index, (saddr)(ent_new + offsetof(TcpTcb, remote)),
                                      (s32)((TcpTcb *)ent_new)->hdr.sport, (s32)((TcpTcb *)ent_new)->hdr.dport);
             }
         }
@@ -2228,7 +2228,7 @@ u16 TLobby__sub_8041EA14(void);
 #pragma opt_propagation off
 #pragma push
 #pragma pool_data off
-s16 tcp_connect_start(s16 arg0, s32 arg1, s16 arg2) {
+s16 tcp_connect_start(s16 arg0, saddr arg1, s16 arg2) {
     s16 r;
     TcpTcb *e;
 

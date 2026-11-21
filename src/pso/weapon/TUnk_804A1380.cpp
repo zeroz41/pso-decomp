@@ -16,7 +16,7 @@ void TUnk_804A1380::emit_marker_effects() {
     spawn_particle_effect(&sp8, 0x1BF);
     if (is_mode_two_and_ready() != 0) {
         owner = this->owner;
-        TTecFoie::create((void *)owner, &sp8, (void *)(*(s32 *)((s8 *)owner + 0x60)), (void *)3);
+        TTecFoie::create((void *)owner, &sp8, (void *)(*(saddr *)((s8 *)owner + 0x60)), (void *)3);
         return;
     }
     ((TItemWeapon *)this)->update_active_game_effect();

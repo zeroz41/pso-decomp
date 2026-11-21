@@ -6,11 +6,11 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80338740.h"
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include <string.h>
 
 extern "C" {
 void mem_free(void *p);
 void *mem_alloc(u32 size);
-s32 strncpy(int, void *, int);
 typedef struct
 {
   f32 x;
@@ -32,16 +32,16 @@ typedef struct
 } Win_80338890;
 void draw_item_list_icon(Win_80338890 *, V2_80338890 *, s8, s32, f32);
 
-void TWindowSubStatusDisp__sub_80338740(u8 *arg0, s32 arg1, s32 arg2, s8 arg3, s8 arg4, s8 arg5, s8 arg6, s8 arg7, s32 arg_sp8) {
-    s32 temp_r3;
+void TWindowSubStatusDisp__sub_80338740(u8 *arg0, s32 arg1, saddr arg2, s8 arg3, s8 arg4, s8 arg5, s8 arg6, s8 arg7, s32 arg_sp8) {
+    saddr temp_r3;
     if (arg1 != 0) {
         *(s8 *)((s8 *)arg0 + 0x1C) = 0x18;
     } else {
         *(s8 *)((s8 *)arg0 + 0x1C) = 0x33;
     }
     temp_r3 = (s32)measure_string_len((const char *)((void *)arg2));
-    *(s32 *)((s8 *)arg0 + 0x24) = (s32)mem_alloc((temp_r3 + 1));
-    strncpy((int) (*(s32 *)((s8 *)arg0 + 0x24)), (void *)arg2, (int)temp_r3);
+    *(s32 *)((s8 *)arg0 + 0x24) = (saddr)mem_alloc((temp_r3 + 1));
+    strncpy((char *)(*(saddr *)((s8 *)arg0 + 0x24)), (const char *)arg2, (int)temp_r3);
     *(s8 *)((s8 *)temp_r3 + (*(s32 *)((s8 *)arg0 + 0x24))) = 0;
     *(s8 *)((s8 *)arg0 + 0x1D) = arg7;
     *(s8 *)((s8 *)arg0 + 0x1E) = arg6;
@@ -53,19 +53,19 @@ void TWindowSubStatusDisp__sub_80338740(u8 *arg0, s32 arg1, s32 arg2, s8 arg3, s
 }
 
 void TWindowSubStatusDisp__sub_803387F8(void *arg0, s8 arg1) {
-    (s32)TWindowSubStatusDisp::get_message_10(arg1 + 0x113);
+    (saddr)TWindowSubStatusDisp::get_message_10(arg1 + 0x113);
 }
-s32 TWindowSubStatusDisp::query_status_field(void *arg0, s8 arg1) {
+saddr TWindowSubStatusDisp::query_status_field(void *arg0, s8 arg1) {
     if (arg1 == 0) {
         return 0;
     }
-    return (s32)TWindowSubStatusDisp::get_message_10(arg1 + 0x110);
+    return (saddr)TWindowSubStatusDisp::get_message_10(arg1 + 0x110);
 }
-s32 TWindowSubStatusDisp::get_flag_or_zero(void *arg0, s8 arg1) {
+saddr TWindowSubStatusDisp::get_flag_or_zero(void *arg0, s8 arg1) {
     if (arg1 == 0) {
         return 0;
     }
-    return (s32)TWindowSubStatusDisp::get_message_10(arg1 + 0x10D);
+    return (saddr)TWindowSubStatusDisp::get_message_10(arg1 + 0x10D);
 }
 
 void TUnk_804EF440::render(WindowDrawContext *context) {
@@ -96,14 +96,14 @@ void TUnk_804EF440::render(WindowDrawContext *context) {
   scale = -1.0f / (0.1495f + win->x38);
   draw_item_list_icon(win, &pos, this->icon, -1, scale);
   pos.x += 18.0f;
-  set_text_draw_params((s32)win, 1, 1, (f32)scale, 100000.0f);
+  set_text_draw_params((saddr)win, 1, 1, (f32)scale, 100000.0f);
   draw_window_text((f32 *)&pos, this->text, -1, 1, 100000.0f);
   pos.x += 210.0f;
   draw_window_text((f32 *)&pos, (const char *)(TWindowSubStatusDisp::get_flag_or_zero(this, this->m_1d)), -1, 0, 100000.0f);
   pos.x += 108.0f;
   draw_window_text((f32 *)&pos, (const char *)(TWindowSubStatusDisp::query_status_field(this, this->m_1e)), -1, 0, 100000.0f);
   pos.x += 96.0f;
-  draw_window_text((f32 *)&pos, (const char *)(((s32 (*)(void *, s8)) TWindowSubStatusDisp__sub_803387F8)(this, this->m_1f)), -1, 0, 100000.0f);
+  draw_window_text((f32 *)&pos, (const char *)(((saddr (*)(void *, s8)) TWindowSubStatusDisp__sub_803387F8)(this, this->m_1f)), -1, 0, 100000.0f);
   pos.x += 126.0f;
   text_builder_reset();
   text_builder_append_int(this->m_20);

@@ -34,10 +34,10 @@ s32 TObjInfoCol::is_target_in_range(f32 radius_squared) {
 
 void TObjInfoCol::run_task() {
     f32 radius = interaction_radius;
-    u32 player;
+    uaddr player;
     if (is_target_in_range(radius * radius) == 1 &&
         TWindowShortListCtrl__check_controller_button((u8 *)&controller_input_state + 0x20, 4) != 0 &&
-        ((player = (u32)get_player_by_client_id(local_client_id), player == 0) ||
+        ((player = (uaddr)get_player_by_client_id(local_client_id), player == 0) ||
          check_flag_100__10TObjPlayerFPv() == 0) &&
         (player == 0 || ((TObjPlayer *)player)->is_inactive() != 0) &&
         TLobby::is_idle() != 0) {
@@ -45,7 +45,7 @@ void TObjInfoCol::run_task() {
     }
 }
 
-TObjInfoCol::TObjInfoCol(s32 arg1, s32 arg2) : TObjCollidable((TObject *)((void *)arg1)) {
+TObjInfoCol::TObjInfoCol(saddr arg1, saddr arg2) : TObjCollidable((TObject *)((void *)arg1)) {
     this->m_name = TObjInfoCol__class_name;
     ((TObjInfoCol *)(((u8 *)this)))->apply_object_set_data((void *)arg2);
     this->interaction_radius = (f32) this->scale.x;

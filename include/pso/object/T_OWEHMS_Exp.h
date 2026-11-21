@@ -18,7 +18,7 @@ public:
     TObjPlayer* player;
 };
 #include <stddef.h>
-typedef char T_OWEHMS_ExpSize[(sizeof(T_OWEHMS_Exp) == 0x24) ? 1 : -1];
-typedef char T_OWEHMS_ExpIndex[(offsetof(T_OWEHMS_Exp, descriptor_index) == 0x1C) ? 1 : -1];
-typedef char T_OWEHMS_ExpPlayer[(offsetof(T_OWEHMS_Exp, player) == 0x20) ? 1 : -1];
+LAYOUT_ASSERT(T_OWEHMS_ExpSize, sizeof(T_OWEHMS_Exp) == 0x24);
+LAYOUT_ASSERT(T_OWEHMS_ExpIndex, offsetof(T_OWEHMS_Exp, descriptor_index) == 0x1C);
+LAYOUT_ASSERT(T_OWEHMS_ExpPlayer, offsetof(T_OWEHMS_Exp, player) == 0x20);
 #endif

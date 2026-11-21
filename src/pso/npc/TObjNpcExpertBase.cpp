@@ -17,7 +17,7 @@ const char *bm_n_hakase_i_body_motion_names[1] = { NULL };
 __declspec(section ".data") const char *bm_n_hakase_i_body_model_names[2] = { "n_hakase_i_body.nj", NULL };
 BmlResourceDescriptor bm_n_hakase_i_body_resource_descriptor = { "bm_n_hakase_i_body.bml", bm_n_hakase_i_body_model_names, bm_n_hakase_i_body_motion_names, 1, 0 };
 const char *TObjNpcExpertBase__name = "TObjNpcExpertBase";
-u32 TObjNpcExpertBase__shared_resource;
+uaddr TObjNpcExpertBase__shared_resource;
 }
 
 extern "C" {
@@ -32,9 +32,9 @@ void TObjNpcExpertBase::free_shared_data() {
 }
 
 void TObjNpcExpertBase::load_shared_resource() {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
+    temp_r3 = (saddr)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &bm_n_hakase_i_body_resource_descriptor, 0, 0, 0));
@@ -46,7 +46,7 @@ void TObjNpcExpertBase::load_shared_resource() {
 TObjNpcExpertBase::~TObjNpcExpertBase() {}
 
 TObjNpcExpertBase::TObjNpcExpertBase(TObject *parent, void *arg2) : TUnk_804A9F50(parent) {
-    *(s32 *)((s8 *)this + 0) = (s32) TObjNpcExpertBase__name;
+    *(s32 *)((s8 *)this + 0) = (saddr) TObjNpcExpertBase__name;
     ((TObjNpcExpertBase *)this)->apply_set_data(arg2);
     ((TObjPlayer *)this)->init_position_vectors();
     *(s32 *)((s8 *)this + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjNpcExpertBase__shared_resource) + 0x42C)) + 8);

@@ -28,7 +28,7 @@ struct TChCrLoadAfsTextureReq : public TObject {
     u32 buffers[8];
     s32 count;
     s32 index;
-    u32 load_handle;
+    uaddr load_handle;
     s32 m_64;
     s32 m_68;
     s32 m_6c;
@@ -36,5 +36,5 @@ struct TChCrLoadAfsTextureReq : public TObject {
     u8 m_74[8][0x24];
 };
 
-typedef char TChCrLoadAfsTextureReq_size[sizeof(TChCrLoadAfsTextureReq) == 0x194 ? 1 : -1];
+LAYOUT_ASSERT(TChCrLoadAfsTextureReq_size, sizeof(TChCrLoadAfsTextureReq) == 0x194);
 #endif

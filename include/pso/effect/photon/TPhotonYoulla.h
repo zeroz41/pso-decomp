@@ -26,7 +26,7 @@ struct TPhotonYoulla : public TUnk_804C3248 {
     virtual void run_task();
 };
 
-typedef char TPhotonYoulla_size[sizeof(TPhotonYoulla) == 0x1A8 ? 1 : -1];
+LAYOUT_ASSERT(TPhotonYoulla_size, sizeof(TPhotonYoulla) == 0x1A8);
 
 extern "C" {
 void TObjPlayer__sub_801AEB74(void);

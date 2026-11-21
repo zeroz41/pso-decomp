@@ -5,7 +5,7 @@
 #include "pso/ui/city/TShopWindowBase.h"
 
 struct TShopItemListWindow : public TShopWindowBase {
-    TShopItemListWindow(s32 parent, s32, s32);
+    TShopItemListWindow(saddr parent, s32, s32);
     virtual ~TShopItemListWindow();
     void prepare_tool_purchase();
     void handle_amount_confirm();
@@ -14,15 +14,15 @@ struct TShopItemListWindow : public TShopWindowBase {
     virtual void vfunc_6(s32 id, s32 flags);
     u8 _pad1C[0x4];
     u32 m_20;
-    u32 m_24;
+    uaddr m_24;
     // Child windows, closed by the destructor: names from the window each one holds.
-    u32 item_list;      // create_item_list_window
+    uaddr item_list;      // create_item_list_window
     u32 m_2c;
-    u32 confirm_menu;   // two-entry create_window_menu shown once the quantity is confirmed
-    u32 quantity_input; // TWindowInputNumber
-    u32 help_window;    // TWindowHelpItem
-    u32 status_window;  // TWindowSubStatusDisp
-    u32 cost_window;    // create_cost_window
+    uaddr confirm_menu;   // two-entry create_window_menu shown once the quantity is confirmed
+    uaddr quantity_input; // TWindowInputNumber
+    uaddr help_window;    // TWindowHelpItem
+    uaddr status_window;  // TWindowSubStatusDisp
+    uaddr cost_window;    // create_cost_window
     u32 m_44;
     u8 _pad48[0x4];
     u32 m_4c;
@@ -37,6 +37,6 @@ struct TShopItemListWindow : public TShopWindowBase {
     static void build_item_list(void *p);
 };
 
-typedef char TShopItemListWindow_size[sizeof(TShopItemListWindow) == 0x1C4 ? 1 : -1];
+LAYOUT_ASSERT(TShopItemListWindow_size, sizeof(TShopItemListWindow) == 0x1C4);
 
 #endif

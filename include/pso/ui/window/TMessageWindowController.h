@@ -31,5 +31,5 @@ public:
     TWindowMessagePage *create_message_window(s32 x, s32 y, s32 flags);
     TWindowMessagePage *create_window(s32 x, s32 y);
 };
-typedef char TMessageWindowController_size_check[sizeof(TMessageWindowController)==0x210?1:-1];
+LAYOUT_ASSERT(TMessageWindowController_size_check, sizeof(TMessageWindowController)==0x210);
 #endif

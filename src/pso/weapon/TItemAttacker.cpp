@@ -19,7 +19,7 @@ const char *TItemAttacker__name = "TItemAttacker";
 
 
 struct RecoveredGlobal_8010355C_lbl_8043E038 { char value[0xA]; };
-typedef char RecoveredGlobal_8010355C_lbl_8043E038_size[sizeof(RecoveredGlobal_8010355C_lbl_8043E038) == 0xA ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8010355C_lbl_8043E038_size, sizeof(RecoveredGlobal_8010355C_lbl_8043E038) == 0xA);
 
 struct Rec_80103368 { u8 pad[0x1C]; f32 v[3]; u8 pad2[0x2C - 0x28]; };
 
@@ -27,15 +27,14 @@ struct M_80103368 { u8 pad[0xA4]; Rec_80103368 *recs; };
 
 extern "C" {
 s32 item_buffer_temp_mode;
-s32 item_buff_buffer;
+saddr item_buff_buffer;
 void TItemBuff__ct(void);
 extern const char *TItemAttacker__name;
-void TItemAttacker__sub_8010349C(u32 arg0);
+void TItemAttacker__sub_8010349C(uaddr arg0);
 }
-int get_item_chunk_buffer(int a0);
+saddr get_item_chunk_buffer(int a0);
 void deliver_delayed_weapon_hit(u8 *arg0);
 extern "C" {
-s32 __nw__7TObjectFUl(int);
 }
 
 struct AttackWeaponBase { char pad[0x18]; };
@@ -114,13 +113,13 @@ f32 horizontal_distance_squared(void *, void *);
 void deliver_delayed_weapon_hit(u8 *arg0) {
     u8 *temp_r3;
     u8 *temp_r30;
-    u32 player;
+    uaddr player;
     u8 *item;
     temp_r3 = (u8 *)(resolve_hittable_target(*(u16 *)((s8 *)arg0 + 0x2A), *(s16 *)((s8 *)arg0 + 0x2C)));
     if (temp_r3 != NULL) {
         temp_r30 = (u8 *)&((Tbl_801031CC *)(((TObjPlayer *)temp_r3)->bodies))->r[*(s16 *)((s8 *)arg0 + 0x2C)];
         if (horizontal_distance_squared(arg0 + 0x38, temp_r30) < 64.0f) {
-            player = (u32)get_player_by_client_id((*(u16 *)((s8 *)arg0 + 0x28)));
+            player = (uaddr)get_player_by_client_id((*(u16 *)((s8 *)arg0 + 0x28)));
             item = (u8 *)(find_item_by_id(*(s32 *)((s8 *)arg0 + 0x24)));
             if ((player != 0U) && (item != NULL)) {
                 ((AttackWeapon*)item)->m59(player,temp_r3,*(s32*)((s8 *)arg0 + 0x20),*(f32*)((s8 *)arg0 + 0x30),*(s16*)((s8 *)arg0 + 0x2C));
@@ -135,20 +134,20 @@ void deliver_delayed_weapon_hit(u8 *arg0) {
 }
 void spawn_item_attacker(s32 arg0, u32 arg1, s32 arg2, u8 *arg3);
 void spawn_item_attacker(s32 arg0, u32 arg1, s32 frames, u8 *arg3) {
-    s32 object;
+    saddr object;
     if ((arg0 != 0) && (arg3 != NULL) && (arg1 != 0U) && ((u16) *(u16 *)((s8 *)arg3 + 0xC) != 65535U) && ((u16) *(u16 *)((s8 *)arg3 + 0xE) != 65535U)) {
-        object = __nw__7TObjectFUl(0x50);
+        object = (saddr)TObject::operator new(0x50);
         if (object != 0) {
-            object = (s32)__ct__13TItemAttackerFllll((u8 *)object, (s32)arg0, (s32)arg1, (s32)frames, (s32)arg3);
+            object = (saddr)__ct__13TItemAttackerFllll((u8 *)object, (s32)arg0, (s32)arg1, (s32)frames, (saddr)arg3);
         }
         TItemAttacker::spawn_item_timer((TObject *)object, (ItemTimerCallback)TItemAttacker__sub_8010349C, frames);
     }
 }
 
-TItemAttacker::TItemAttacker(s32 arg1, s32 arg2, s32 arg3, s32 arg4) : TObject((TObject *)arg1) {
+TItemAttacker::TItemAttacker(saddr arg1, saddr arg2, s32 arg3, saddr arg4) : TObject((TObject *)arg1) {
     u8* temp_r5;
     u8 *entity;
-    *(s32 *)((s8 *)this + 0) = (s32) ((s32)TItemAttacker__name);
+    *(s32 *)((s8 *)this + 0) = (s32) ((saddr)TItemAttacker__name);
     ((TItemAttacker *)(((u8 *)this) + 0x1C))->copy_from((void *)arg4);
     *(s32 *)((s8 *)this + 0x34) = 0;
     VecCopy((Vec *)(((u8 *)this) + 0x44), (const Vec *)(arg2));
@@ -173,11 +172,11 @@ void TItemAttacker::copy_from(void *arg1) {
 
 void TItemAttacker::spawn_item_timer(TObject *object, ItemTimerCallback expire, s32 frames) {
     if (object != NULL) {
-        new TItemTimer(object, (s32)expire, frames);
+        new TItemTimer(object, (saddr)expire, frames);
     }
 }
 
-void TItemAttacker__sub_8010349C(u32 arg0) {
+void TItemAttacker__sub_8010349C(uaddr arg0) {
     if (arg0 != 0U) {
         deliver_delayed_weapon_hit((u8 *)arg0);
     }
@@ -186,15 +185,15 @@ void TItemAttacker__sub_8010349C(u32 arg0) {
 TItemAttacker::~TItemAttacker() {}
 void TItemAttacker::run_task() { if (*(int*)((char*)this + 0x34) != 0) { queue_destruction(); } }
 
-__declspec(section ".data") int item_nj_chunk_buffer_table[2];
-int get_item_chunk_buffer(int a0) {  return item_nj_chunk_buffer_table[a0]; }
+__declspec(section ".data") saddr item_nj_chunk_buffer_table[2];
+saddr get_item_chunk_buffer(int a0) {  return item_nj_chunk_buffer_table[a0]; }
 
 void TItemBuff__ct(void) {
     if ((u32) (*(u32 *)&item_buff_buffer) != 0) {
         if ((s32) item_buffer_temp_mode != 0) {
-            TLobby::tmp_buf_release((const char *)(s32) &(*(RecoveredGlobal_8010355C_lbl_8043E038 *)(s32 *)"TItemBuff").value);
+            TLobby::tmp_buf_release((const char *)(saddr) &(*(RecoveredGlobal_8010355C_lbl_8043E038 *)(s32 *)"TItemBuff").value);
         } else {
-            mem_free((void *)(*(u32 *)&item_buff_buffer));
+            mem_free((void *)(*(uaddr *)&item_buff_buffer));
         }
         (*(u32 *)&item_buff_buffer) = 0;
     }
@@ -210,7 +209,7 @@ s32 create_item_buff(s32 arg0) {
         if ((temp_r3 != 0) && (arg0 < 0x40000)) {
             item_buff_buffer = TLobby::tmp_buf_use_req((const char *)(s32 *)"TItemBuff");
         } else {
-            item_buff_buffer = (s32)mem_alloc(arg0);
+            item_buff_buffer = (saddr)mem_alloc(arg0);
         }
     }
     return item_buff_buffer;

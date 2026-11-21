@@ -50,7 +50,7 @@ public:
     s32 shown_index;                      // 0x50: entry whose description is shown
     OfflineQuestEntry *quests;            // 0x54: offline_quest_catalog_ep1 or lbl_804C9C10
 };
-typedef char TQuestListOffline_size[sizeof(TQuestListOffline) == 0x58 ? 1 : -1];
+LAYOUT_ASSERT(TQuestListOffline_size, sizeof(TQuestListOffline) == 0x58);
 
 extern void *story_quest_list_resource;
 

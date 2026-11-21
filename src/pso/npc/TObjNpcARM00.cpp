@@ -17,8 +17,8 @@
 
 
 const char *TObjNpcARM00__name = "TObjNpcARM00";
-u32 TObjNpcARM00__model_resource;
-u32 TObjNpcARM00__texture_list;
+uaddr TObjNpcARM00__model_resource;
+uaddr TObjNpcARM00__texture_list;
 
 extern "C" {
 s32 play_sound_effect(s32, s32, s32, s32);
@@ -31,14 +31,14 @@ void TObjNpcARM00::free_resources() {
         TObjNpcARM00__texture_list = 0U;
     }
     if ((u32) TObjNpcARM00__model_resource != 0U) {
-        TLobby::free_nodes_with_id((u32)((void*)TObjNpcARM00__model_resource));
+        TLobby::free_nodes_with_id((uaddr)((void*)TObjNpcARM00__model_resource));
         TObjNpcARM00__model_resource = 0U;
     }
 }
 
 void TObjNpcARM00::load_resources() {
-    TObjNpcARM00__model_resource = (u32)create_named_object((s32)"npc_e00_data.rel");
-    TObjNpcARM00__texture_list = (u32)load_gvm_texture_file((s32)"n_e00_w_body.gvm");
+    TObjNpcARM00__model_resource = (u32)create_named_object((saddr)"npc_e00_data.rel");
+    TObjNpcARM00__texture_list = (uaddr)load_gvm_texture_file((saddr)"n_e00_w_body.gvm");
 }
 
 }
@@ -46,7 +46,7 @@ TObjNpcARM00::~TObjNpcARM00() {}
 
 
 TObjNpcARM00::TObjNpcARM00(TObject *parent, void *arg2) : TUnk_804A9F50(parent) {
-    *(s32 *)((s8 *)this + 0) = (s32) TObjNpcARM00__name;
+    *(s32 *)((s8 *)this + 0) = (saddr) TObjNpcARM00__name;
     ((TObjNpcARM00 *)this)->apply_set_data(arg2);
     ((TObjPlayer *)this)->init_position_vectors();
     *(s32 *)((s8 *)this + 0x34) = (s32) *(*(s32 * *)&TObjNpcARM00__model_resource);
@@ -55,7 +55,7 @@ TObjNpcARM00::TObjNpcARM00(TObject *parent, void *arg2) : TUnk_804A9F50(parent) 
 }
 
 void TObjNpcARM00::play_voice() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     play_sound_effect(0x40003B08, arg0 + 0x38, 0, 0);
 }
 

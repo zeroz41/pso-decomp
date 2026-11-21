@@ -4,7 +4,7 @@
 #include "types.h"
 
 // Called for every node the chunk model draw visits (0 = none).
-void set_chunk_model_node_callback(s32 callback);
-extern s32 chunk_model_node_callback;
+void set_chunk_model_node_callback(saddr callback);
+extern saddr chunk_model_node_callback;
 
 #endif

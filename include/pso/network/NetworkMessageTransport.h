@@ -22,7 +22,7 @@ s16 post_send_message(void *data, u16 len);
 s32 post_message(void *queue, s32 address, s32 arg, s32 by_address);
 void message_thread_loop(void);
 void clear_message_entry_wrapper(s32 id);
-u16 recv_pppoe_message(s32 *id, u16 *len);
+u16 recv_pppoe_message(saddr *id, u16 *len);
 s32 queue_timeout_message(s16 channel, s32 id, s16 timeout);
 s32 get_local_address(s16 channel, void *address);
 s32 consume_item_count_by_id(s16 channel, void *address);

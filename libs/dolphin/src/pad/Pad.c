@@ -14,7 +14,6 @@
 #define PADOriginCallback Pad_PADOriginCallback
 #define PADOriginUpdateCallback Pad_PADOriginUpdateCallback
 #define PADProbeCallback Pad_PADProbeCallback
-#define PADRead Dolphin_PADRead
 #define PADReceiveCheckCallback Pad_PADReceiveCheckCallback
 #define PADTypeAndStatusCallback Pad_PADTypeAndStatusCallback
 #define PendingBits lbl_805D7208
@@ -22,8 +21,6 @@
 #define ResetFunctionInfo lbl_804F4AC8
 #define ResettingBits lbl_805D71F8
 #define ResettingChan lbl_805D4558
-#define SIGetTypeAsync Dolphin_SIGetTypeAsync
-#define SIUnregisterPollingHandler Dolphin_SIUnregisterPollingHandler
 #define SPEC0_MakeStatus Pad_SPEC0_MakeStatus
 #define SPEC1_MakeStatus Pad_SPEC1_MakeStatus
 #define SPEC2_MakeStatus Pad_SPEC2_MakeStatus

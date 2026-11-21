@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-u8 *fn_802754EC(s32 arg0);
+u8 *fn_802754EC(saddr arg0);
 }
 
 // --- C functions defined in text_802754EC.cpp ---
 extern "C" {
-u8 *fn_802754EC(s32 arg0);
+u8 *fn_802754EC(saddr arg0);
 }
 // --- end of C functions
 

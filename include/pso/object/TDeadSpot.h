@@ -20,8 +20,8 @@ public:
     virtual void run_task();
     u8 m_C8[0x4];
 };
-typedef char TDeadSpot_size[sizeof(TDeadSpot) == 0xC8 ? 1 : -1];
-typedef char TUnk_80494A10_size[sizeof(TUnk_80494A10) == 0xCC ? 1 : -1];
+LAYOUT_ASSERT(TDeadSpot_size, sizeof(TDeadSpot) == 0xC8);
+LAYOUT_ASSERT(TUnk_80494A10_size, sizeof(TUnk_80494A10) == 0xCC);
 
 extern "C" {
 void render__9TDeadSpotFv(u8 *arg0);

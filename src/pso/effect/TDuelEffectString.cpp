@@ -70,7 +70,7 @@ extern "C" {
 s32 __cvt_fp2unsigned(f32);
 extern s32 lbl_805D63F0;
 
-void TDuelEffectNumber::calc_digit_transform(s32 arg0, f32 *arg1, f32 *arg2, s32 arg3) {
+void TDuelEffectNumber::calc_digit_transform(saddr arg0, f32 *arg1, f32 *arg2, s32 arg3) {
     if (arg3 < 0xA) {
         *arg1 = 2.5f - 1.5f * ((f32) arg3 / 10.0f);
     } else {
@@ -83,7 +83,7 @@ void TDuelEffectNumber::calc_digit_transform(s32 arg0, f32 *arg1, f32 *arg2, s32
     *arg2 = 1.0f - ((arg3 - 5) / 25.0f);
 }
 
-f64 pow();
+f64 pow(f64, f64);
 
 #pragma push
 #pragma opt_common_subs off
@@ -93,13 +93,13 @@ void TDuelEffectString::render() {
     f32 alpha;
     s32 color;
 
-    TDuelEffectNumber::calc_digit_transform((s32)this, &scale, &alpha, pad_28);
+    TDuelEffectNumber::calc_digit_transform((saddr)this, &scale, &alpha, pad_28);
     color = __cvt_fp2unsigned(4278190080.0f * alpha) | 0xFF0000 | 0xFFFF;
     set_additive_blend();
     begin_screen_draw(1);
     TObjFish::set_global_param(lbl_805D63F0);
     set_draw_texture_and_color(6, color);
-    switch ((s32)pad_24) {
+    switch ((saddr)pad_24) {
     case 0:
         ((TDuelEffectNumber *)this)->render_number_default(scale);
         break;
@@ -130,6 +130,6 @@ TDuelEffectString::TDuelEffectString(TObject *object, void *arg2, void *arg3) : 
     pad_28 = 0;
 }
 
-f32 TBoss8Dragon__sub_8008072C(void) {
-    return (f32) pow();
+f32 TBoss8Dragon__sub_8008072C(f32 x, f32 y) {
+    return (f32) pow(x, y);
 }

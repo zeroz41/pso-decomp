@@ -45,7 +45,7 @@ public:
     f32 m_108;
     s32 m_10c;
 };
-typedef char TUnk_80488E00_size[sizeof(TUnk_80488E00) == 0x110 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_80488E00_size, sizeof(TUnk_80488E00) == 0x110);
 
 // Fallback follow-camera pose per floor area (Pioneer 2 Ep1, Lobby, Pioneer 2 Ep2), applied by
 // vfunc_10 when there is no local player; one row per camera.

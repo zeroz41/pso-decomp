@@ -35,5 +35,5 @@ struct TOTrapAncient02R : public TOTrapAncient02 {
 // Empty in this build. Called by the ancient trap and chainsaw demo update.
 extern "C" void TOTrapAncient02R__sub_80154D78(TObject *object);
 
-typedef char TOTrapAncient02R_size[sizeof(TOTrapAncient02R) == 0x36C ? 1 : -1];
+LAYOUT_ASSERT(TOTrapAncient02R_size, sizeof(TOTrapAncient02R) == 0x36C);
 #endif

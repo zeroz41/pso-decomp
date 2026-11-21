@@ -41,7 +41,7 @@ TUnk_804A66D8::TUnk_804A66D8(TObject *parent, u8 *item) : TItemWeapon(parent, it
     set_weapon_flags(547);
 }
 
-u8 *create_twin_psychogun(s32 item) {
+u8 *create_twin_psychogun(saddr item) {
     if (item != 0) {
         return (u8 *)new TUnk_804A66D8(tl_05, (u8 *)item);
     }

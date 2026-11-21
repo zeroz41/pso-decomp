@@ -303,7 +303,7 @@ u8 *layout_buffers(NetTransportParams *h, u8 *p, u8 *end) {
     for (i = 0; i < lobby_buffer_slot_count; i++, e++) {
         e->active = 0;
         e->size = h->e;
-        e->addr = (u32)p;
+        e->addr = (uaddr)p;
         p += h->e;
         if (p > end) {
             return NULL;

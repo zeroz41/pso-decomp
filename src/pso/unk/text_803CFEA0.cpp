@@ -1,4 +1,5 @@
 #include "types.h"
+#include <string.h>
 #include "pso/unk/TLobby.h"
 #include "pso/system/GcciRequests.h"
 #include "pso/unk/TLobby_803D0C28.h"
@@ -33,16 +34,12 @@ volatile s32 lbl_805D7610;
 s32 fileio_seek(struct File_803D0654 *arg0, s32 arg1, s32 arg2);
 s32 DVDOpen(const char *, DVDFileInfo_803D0AE8 *);
 s32 DVDClose(DVDFileInfo_803D0AE8 *);
-char *strcat(char *, const char *);
-char *strcpy(char *, const char *);
-u32 strlen(const char *);
 extern char dvd_default_path_buffer[0x100];
 extern GcciStatus dvd_active_request;
 s32 DVDGetCommandBlockStatus(void *);
 s32 DVDGetDriveStatus(void);
 s32 DVDCancel(void *);
 u32 OSGetTick(void);
-void *memset(void *, int, u32);
 extern GcciRequest dvd_request_table[40];
 s32 get_handle_field_20(GcciRequest *handle) {
     if (handle == NULL) {
@@ -128,7 +125,7 @@ void cancel_dvd_request(void *arg) {
     dvd_active_request.unknown08 = 0;
     if (result < 0) {
         if (fileio_error_callback != NULL) {
-            fileio_error_callback(fileio_error_context, (s32 *)"E0092917:DVDCancel failed.", (s32)r);
+            fileio_error_callback(fileio_error_context, (s32 *)"E0092917:DVDCancel failed.", (saddr)r);
         }
         return;
     }
@@ -144,7 +141,7 @@ void cancel_dvd_request(void *arg) {
         }
         if (elapsed > 2000) {
             if (fileio_error_callback != NULL) {
-                fileio_error_callback(fileio_error_context, (s32 *)"E0092918:DVDCancel time out.", (s32)r);
+                fileio_error_callback(fileio_error_context, (s32 *)"E0092918:DVDCancel time out.", (saddr)r);
             }
             break;
         }
@@ -163,7 +160,7 @@ s32 dvd_synchronous_read_enabled = 0;
 void DCInvalidateRange(void *, u32);
 s32 DVDGetTransferredSize(void *);
 s32 DVDReadAsyncPrio(void *, void *, s32, s32, void (*)(void), s32);
-s32 Dolphin_DVDReadPrio(void *, void *, s32, s32, s32);
+s32 DVDReadPrio(void *, void *, s32, s32, s32);
 void TLobby__sub_803CFE9C(void);
 
 inline s32 dvd_request_ready(GcciRequest *r) {
@@ -232,13 +229,13 @@ s32 gcCiReqRd(void *arg, s32 count, void *buf) {
     }
     if (count < 0) {
         if (fileio_error_callback != NULL) {
-            fileio_error_callback(fileio_error_context, (s32 *)"E0092913:nsct < 0.(gcCiReqRd)", (s32)r);
+            fileio_error_callback(fileio_error_context, (s32 *)"E0092913:nsct < 0.(gcCiReqRd)", (saddr)r);
         }
         return 0;
     }
     if (buf == NULL) {
         if (fileio_error_callback != NULL) {
-            fileio_error_callback(fileio_error_context, (s32 *)"E0092914:buf is null.(gcCiReqRd)", (s32)r);
+            fileio_error_callback(fileio_error_context, (s32 *)"E0092914:buf is null.(gcCiReqRd)", (saddr)r);
         }
         return 0;
     }
@@ -275,7 +272,7 @@ s32 gcCiReqRd(void *arg, s32 count, void *buf) {
     if (dvd_synchronous_read_enabled == 0) {
         result = DVDReadAsyncPrio(r->block, buf, len, offset, TLobby__sub_803CFE9C, 2);
     } else {
-        result = Dolphin_DVDReadPrio(r->block, buf, len, offset, 2);
+        result = DVDReadPrio(r->block, buf, len, offset, 2);
     }
     if (result == 0) {
         return 0;
@@ -341,7 +338,7 @@ void close_dvd_request(void *arg) {
         dvd_active_request.unknown08 = 0;
         if (result < 0) {
             if (fileio_error_callback != NULL) {
-                fileio_error_callback(fileio_error_context, (s32 *)"E0092917:DVDCancel failed.", (s32)rr);
+                fileio_error_callback(fileio_error_context, (s32 *)"E0092917:DVDCancel failed.", (saddr)rr);
             }
             goto close_req;
         }
@@ -359,7 +356,7 @@ void close_dvd_request(void *arg) {
             }
             if (elapsed > 2000) {
                 if (fileio_error_callback != NULL) {
-                    fileio_error_callback(fileio_error_context, (s32 *)"E0092918:DVDCancel time out.", (s32)rr);
+                    fileio_error_callback(fileio_error_context, (s32 *)"E0092918:DVDCancel time out.", (saddr)rr);
                 }
                 break;
             }

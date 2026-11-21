@@ -33,5 +33,5 @@ struct TOBoss4Bird : public TOBoss4 {
     s32 flight_timer;
 };
 
-typedef char TOBoss4Bird_size[sizeof(TOBoss4Bird) == 0xE8 ? 1 : -1];
+LAYOUT_ASSERT(TOBoss4Bird_size, sizeof(TOBoss4Bird) == 0xE8);
 #endif

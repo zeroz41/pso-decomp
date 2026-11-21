@@ -30,5 +30,5 @@ struct TObjDFDemo4 : public TObjBase {
     Vec node_positions[2];
 };
 
-typedef char TObjDFDemo4_size[sizeof(TObjDFDemo4) == 0x11C ? 1 : -1];
+LAYOUT_ASSERT(TObjDFDemo4_size, sizeof(TObjDFDemo4) == 0x11C);
 #endif

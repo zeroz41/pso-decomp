@@ -10,11 +10,10 @@ public:
     virtual void run_task();
     virtual void render();
 public:
-    static void render();
 };
 
 extern "C" {
-u8 *__ct__16TBoss8DragonDemoFv(u8 *arg0, s32 arg1, s32 arg2, f32 farg0);
+u8 *__ct__16TBoss8DragonDemoFv(u8 *arg0, saddr arg1, s32 arg2, f32 farg0);
 }
 
 #endif

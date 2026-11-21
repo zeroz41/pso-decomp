@@ -28,5 +28,5 @@ struct TOFenceAncient01 : public TOFenceBase {
     static const char texture_file_p[];
 };
 
-typedef char TOFenceAncient01_size[sizeof(TOFenceAncient01) == 0xD8 ? 1 : -1];
+LAYOUT_ASSERT(TOFenceAncient01_size, sizeof(TOFenceAncient01) == 0xD8);
 #endif

@@ -11,6 +11,6 @@ public:
     virtual void vfunc_106(s32);
     virtual void vfunc_88();
 };
-typedef char TUnk_80482EC0_size[sizeof(TUnk_80482EC0) == 0x3F0 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_80482EC0_size, sizeof(TUnk_80482EC0) == 0x3F0);
 
 #endif

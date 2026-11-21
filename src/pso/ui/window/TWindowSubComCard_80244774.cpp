@@ -24,6 +24,7 @@
 #include "pso/system/TLanguage.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
+#include <stdlib.h>
 
 
 struct UV_8024503C { f32 u, v; };
@@ -155,12 +156,10 @@ s32 init_window_layout_entries(void *, int, int);
 
 extern int lbl_805D3614;
 
-extern "C" {
-}
 
 int TWindowSubComCard__sub_80244774(void) {  return lbl_805D3614; }
 
-u32 TWindowSubComCard::get_field_20() { return this->m_20; }
+uaddr TWindowSubComCard::get_field_20() { return this->m_20; }
 
 f32 TWindowSubComCard__sub_80244784(TWindowSubComCard *window_sub_com_card) {
     f32 v = window_sub_com_card->calc_offset();
@@ -196,7 +195,7 @@ f32 TWindowSubComCard::get_normalized_progress() {
 #pragma pop
 
 void TWindowSubComCard::reparent_to_main_ctrl() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     ((TObject *)arg0)->set_parent((TObject *)(TWindowCtrlMain__sub_8024CE24()));
 }
 
@@ -262,7 +261,7 @@ void TWindowLockOn::request_close() {
 s32 TWindowBase::is_window_reveal_complete() {
     return (f32) *(s32 *)((s8 *)((u8 *)this) + 0x5C) >= 7.5f;
 }
-s32 lbl_805D63F0;
+saddr lbl_805D63F0;
 u16 window_ui_theme_index;
 s16 lbl_805D63F6;
 void draw_window_scanlines(u8 *arg0, u8 *arg1);
@@ -298,7 +297,7 @@ void window_request_show(void *object) {
     ((TObject *)object)->allow_rendering();
 }
 
-s32 TWindowBase::setup_window_draw_context(f32 *scale) {
+saddr TWindowBase::setup_window_draw_context(f32 *scale) {
     WindowDrawContext *context;
     s32 var_r4;
     context = WindowDrawContext::open_singleton((f32 *)(((u8 *)this) + 0x40), (f32 *)(((u8 *)this) + 0x48), scale, *(f32 *)((s8 *)((u8 *)this) + 0x54), *(s32 *)((s8 *)((u8 *)this) + 0x2C));
@@ -317,10 +316,10 @@ s32 TWindowBase::setup_window_draw_context(f32 *scale) {
     }
     context->set_open_tick(var_r4);
     context->apply_closing_stretch((*(s16 *)((s8 *)((u8 *)this) + 0x22)));
-    return (s32)context;
+    return (saddr)context;
 }
 
-s32 TWindowDD::draw_default_entry(s32 arg0) {
+saddr TWindowDD::draw_default_entry(saddr arg0) {
     return ((TWindowBase *)arg0)->setup_window_draw_context((f32 *)fn_8026CB68());
 }
 
@@ -370,8 +369,8 @@ Win_80244DFC *find_overlapping_balloon__15TWindowFukidasiFPvPvPvPv(Win_80244DFC 
     return 0;
 }
 
-void *TWindowFukidasi::find_balloon_overlap_for(s32 arg1) {
-    s32 arg0 = (s32)this;
+void *TWindowFukidasi::find_balloon_overlap_for(saddr arg1) {
+    saddr arg0 = (saddr)this;
     return find_overlapping_balloon__15TWindowFukidasiFPvPvPvPv((Win_80244DFC *)(arg0), (void *)(arg0 + 0x30), (void *)(arg0 + 0x38), (Win_80244DFC *)(arg1));
 }
 
@@ -379,7 +378,7 @@ void TWindowBase::sub_80244F2C(u8 *arg1, u8 *arg2, s16 arg3) {
     f32 temp_f1;
     s32 temp_r3;
     s32 temp_r3_2;
-    *(s32 *)((s8 *)((u8 *)this) + 0) = (s32) TWindowBase__name;
+    *(s32 *)((s8 *)((u8 *)this) + 0) = (saddr) TWindowBase__name;
     ((s32 (*)(void *, void *))copy_vec2__FPvPv)((void *) (((u8 *)this) + 0x30), arg2);
     ((s32 (*)(void *, void *))copy_vec2__FPvPv)((void *) (((u8 *)this) + 0x38), arg1);
     ((TWindowBase *)(this))->save_position();
@@ -636,7 +635,7 @@ void TWindowBase::draw_quest_message_frame(void *c_arg) {
   f32 rem;
   f32 half;
   begin_screen_draw(1);
-  TObjFish::set_global_param((s32)((*(void * *)&lbl_805D63F0)));
+  TObjFish::set_global_param((saddr)((*(void * *)&lbl_805D63F0)));
   set_draw_texture_and_color(1, -1);
   if (((struct QFrameWindow_80245808 *)this)->height < 64.0f)
   {
@@ -829,7 +828,7 @@ void TWindowBase::draw_window_frame(void *r) {
   f32 dy;
   f32 rem;
   begin_screen_draw(1);
-  TObjFish::set_global_param((s32)((*(void * *)&lbl_805D63F0)));
+  TObjFish::set_global_param((saddr)((*(void * *)&lbl_805D63F0)));
   set_draw_texture_and_color(1, ((Rect_80245F98 *)r)->f34);
   n = (s32) ((Card_80245F98 *)this)->f4C;
   n += (4 - (n & 3)) & 3;
@@ -893,7 +892,6 @@ void TWindowBase::update_fade() {
 }
 
 extern "C" {
-s32 rand(void);
 
 void TWindowSubComCard__sub_8024634C(void) {
     switch (window_ui_theme_index) {
@@ -982,7 +980,7 @@ TWindowBase::~TWindowBase() {
     sub_8026CC28();
 }
 TWindowBase::TWindowBase(u8 *descriptor, s16 client, u8 *parent)
-    : TObject(TWindowCtrlMain__sub_8024CDB0((void *)client)) {
+    : TObject(TWindowCtrlMain__sub_8024CDB0((void *)(saddr)client)) {
     sub_80244F2C(descriptor, parent, client);
 }
 
@@ -1027,9 +1025,9 @@ void load_hud_palette_textures(void) {
     TLanguage::draw_string((void *)lbl_8044E734, (void *)sp8, 0x4A);
     TLanguage::draw_string((void *)lbl_8044E748, (void *)sp8, 0x43);
     TLobby::tmp_buf_release("TWindowBase");
-    load_disc_prs_texture((s32)lbl_8044E758, (s32)f256_hyouji_texlist);
-    lbl_805D63F0 = (u32)f256_hyouji_texlist;
-    TObjFish::set_global_param((s32)((void *)f256_hyouji_texlist));
+    load_disc_prs_texture((saddr)lbl_8044E758, (saddr)f256_hyouji_texlist);
+    lbl_805D63F0 = (uaddr)f256_hyouji_texlist;
+    TObjFish::set_global_param((saddr)((void *)f256_hyouji_texlist));
     TLanguage::set_entry_index(0, 0x40);
     TLanguage::set_entry_index(1, 0x41);
     TLanguage::set_entry_index(2, 0x42);
@@ -1071,15 +1069,15 @@ int TWindowFukidasi::get_visible_flag() { return (*(u32*)((char*)this + 0x2c) >>
 
 int TWindowFukidasi::is_bit10_set() { return (*(u32*)((char*)this + 0x2c) >> 10) & 0x1; }
 void TWindowSubStatusDisp::update_entry_visibility() {
-    u32 temp_r31;
-    u32 temp_r30;
-    u32 temp_r29;
-    u32 temp_r28;
-    u32 temp_r27;
-    u32 temp_r26;
-    u32 temp_r25;
-    u32 temp_r24;
-    s32 arg0 = (s32)this;
+    uaddr temp_r31;
+    uaddr temp_r30;
+    uaddr temp_r29;
+    uaddr temp_r28;
+    uaddr temp_r27;
+    uaddr temp_r26;
+    uaddr temp_r25;
+    uaddr temp_r24;
+    saddr arg0 = (saddr)this;
     temp_r31 = ((TWindowBase *)arg0)->get_array_entry(7);
     temp_r30 = ((TWindowBase *)arg0)->get_array_entry(6);
     temp_r29 = ((TWindowBase *)arg0)->get_array_entry(5);

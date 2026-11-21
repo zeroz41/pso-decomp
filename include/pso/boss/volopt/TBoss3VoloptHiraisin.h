@@ -30,6 +30,6 @@ struct TBoss3VoloptHiraisin : public TObjEnemyCustom {
     s32 hover_angle;
 };
 
-typedef char TBoss3VoloptHiraisin_size[sizeof(TBoss3VoloptHiraisin) == 0x390 ? 1 : -1];
+LAYOUT_ASSERT(TBoss3VoloptHiraisin_size, sizeof(TBoss3VoloptHiraisin) == 0x390);
 
 #endif

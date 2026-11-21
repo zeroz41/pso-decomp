@@ -17,7 +17,7 @@ typedef struct IpcpOptions {
     s32 dns[2];      /* options 0x81 and 0x83 (RFC 1877) */
     s32 his_dns[2];
 } IpcpOptions;
-typedef char IpcpOptions_size_check[sizeof(IpcpOptions) == 0x24 ? 1 : -1];
+LAYOUT_ASSERT(IpcpOptions_size_check, sizeof(IpcpOptions) == 0x24);
 
 /* One end of the link: the options it may use, wants and has agreed. */
 typedef struct IpcpSide {
@@ -26,7 +26,7 @@ typedef struct IpcpSide {
     IpcpOptions want;
     IpcpOptions got;
 } IpcpSide;
-typedef char IpcpSide_size_check[sizeof(IpcpSide) == 0x4C ? 1 : -1];
+LAYOUT_ASSERT(IpcpSide_size_check, sizeof(IpcpSide) == 0x4C);
 
 /* The IPCP state machine's option block (the FSM's options pointer). */
 typedef struct IpcpConfig {
@@ -34,13 +34,13 @@ typedef struct IpcpConfig {
     IpcpSide peer;
     u32 net_list; /* init_net_list(local VJ slots, peer VJ slots) */
 } IpcpConfig;
-typedef char IpcpConfig_size_check[sizeof(IpcpConfig) == 0x9C ? 1 : -1];
+LAYOUT_ASSERT(IpcpConfig_size_check, sizeof(IpcpConfig) == 0x9C);
 
 typedef struct IpcpState {
     Obj_803FEF4C proto;
     IpcpConfig config;
 } IpcpState;
-typedef char IpcpState_size_check[sizeof(IpcpState) == 0xD8 ? 1 : -1];
+LAYOUT_ASSERT(IpcpState_size_check, sizeof(IpcpState) == 0xD8);
 
 /* Reads one option (hdr = type, length) from the packet at cursor into side->got and settles it against cfg. c is 1
  * for the peer's Configure-Request, 0 for a reply to ours. Returns the PPP reply code 2 (ack), 3 (nak), 4 (reject),

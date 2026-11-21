@@ -83,7 +83,7 @@ void *TChCrTagOccupation::create(void *arg0) {
 }
 
 void TChCrTagOccupation::create_all() {
-    int i;
+    saddr i;
     for (i = 0; i < 3; i++) {
         TChCrTagOccupation::create((void *)i);
     }

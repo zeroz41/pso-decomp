@@ -5,6 +5,7 @@
 #include "pso/item/TItemData.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include <string.h>
 
 struct SRock_80224544_8022448C;
 
@@ -73,7 +74,7 @@ void try_close__6TLobbyFPv(void* p) { if (((TLobby *)p)->is_name_too_long() == 0
 
 void TLobby::send_simple_mail(s32 arg0, void *arg1) {
     Tag_80225828 t;
-    s32 mode;
+    saddr mode;
     ((TLobby *)(&t))->init_guild_card_tag();
     if (TLobby__protocol_instance != 0) {
         mode = TWindowSubComCard::get_keyboard_mode();
@@ -96,7 +97,7 @@ void TLobby__sub_802258C8(void) {
   {
     if (((s32)TLobby::is_flag_set(var_r30)) != 0)
     {
-      TLobby__sub_80225C8C((void*)((int) var_r30));
+      TLobby__sub_80225C8C((void*)((saddr) var_r30));
     }
     var_r31 += 1;
     var_r30 = (s32 *) (((u8 *) var_r30) + 0xD0);
@@ -172,7 +173,7 @@ void remove_short_mail_by_id(u32 id) {
 void TLobby::remove_entry_at(s32 idx) {
     if (idx < 7) {
         L_80225AD8 *p = &((L_80225AD8 *)&lbl_80513F70)[idx];
-        ((TLobby *)p)->move_words((u32 *)(p + 1), (s32)((void *)(((7 - idx) * sizeof(L_80225AD8)) >> 2)));
+        ((TLobby *)p)->move_words((u32 *)(p + 1), (saddr)((void *)(((7 - idx) * sizeof(L_80225AD8)) >> 2)));
     }
     ((L_80225AD8 *)&lbl_80513F70)[7].flags &= ~1;
     (*(s32 *)&lobby_short_mail_entry_count) = (*(s32 *)&lobby_short_mail_entry_count) - 1;

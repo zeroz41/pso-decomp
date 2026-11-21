@@ -169,8 +169,7 @@ struct RecoveredFields_800C3088_arg0
 extern "C" {
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 s32 TObjPlayer__sub_800C4A5C(int, void *, void *, int);
-s32 play_sound_effect(void *, void *, int, int);
-u32 __nw__7TObjectFUl(int);
+s32 play_sound_effect(s32, void *, int, int);
 extern const f32 lbl_805D9FD8;
 extern const f32 lbl_805D9FDC;
 extern const f32 lbl_805D9FAC;
@@ -214,8 +213,8 @@ struct V_Sub_800c38d0 : Base_Sub_800c38d0 {
 
 
 extern "C" {
-s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
-s32 load_enemy_bml_resource(u8 *arg0);
+saddr load_enemy_bml_resource_named(saddr arg0, saddr arg1);
+saddr load_enemy_bml_resource(u8 *arg0);
 
 extern const NpcAnimationBinding lbl_8043BB90;
 extern char lbl_8043BAAC[];
@@ -261,7 +260,7 @@ struct FlowerSetupData {
     u32 unknown0c[4];
 };
 
-typedef char FlowerSetupData_size[sizeof(FlowerSetupData) == 0x1C ? 1 : -1];
+LAYOUT_ASSERT(FlowerSetupData_size, sizeof(FlowerSetupData) == 0x1C);
 
 FlowerSetupData TObjEneRe2Flower__setup_data = { 225.0f, 0, 0x200, { 0, 0, 0, 0 } };
 // The two collision part lists the constructor chooses between: the common
@@ -304,9 +303,9 @@ void load_re2_flower_resources(void) {
     BmlModelEntry *models;
 
     if (get_current_floor_area() == AREA_TOWER) {
-        re2_flower_bml_resource = (BmlResource *)load_enemy_bml_resource_named((s32)((s32 *)&TObjEneRe2Flower__resource_descriptor), (s32)("bm_ene_dkflower.bml"));
+        re2_flower_bml_resource = (BmlResource *)load_enemy_bml_resource_named((saddr)((s32 *)&TObjEneRe2Flower__resource_descriptor), (saddr)("bm_ene_dkflower.bml"));
     } else if (TObjEneDD::check_v2_mode() != 0) {
-        re2_flower_bml_resource = (BmlResource *)load_enemy_bml_resource_named((s32)((s32 *)&TObjEneRe2Flower__resource_descriptor), (s32)("bm_ene_re2_flower_a.bml"));
+        re2_flower_bml_resource = (BmlResource *)load_enemy_bml_resource_named((saddr)((s32 *)&TObjEneRe2Flower__resource_descriptor), (saddr)("bm_ene_re2_flower_a.bml"));
     } else {
         re2_flower_bml_resource = (BmlResource *)load_enemy_bml_resource((u8 *)&TObjEneRe2Flower__resource_descriptor);
     }
@@ -353,8 +352,8 @@ TObjEneRe2Flower::TObjEneRe2Flower(TObject *parent, void *setData) : TObjEneDD_S
     } else {
         init_model(lbl_80493094, 2);
     }
-    set_field_d8((s32)TObjEneRe2Flower__animation_descriptors);
-    set_field_dc((s32)re2_flower_bml_resource->motions);
+    set_field_d8((saddr)TObjEneRe2Flower__animation_descriptors);
+    set_field_dc((saddr)re2_flower_bml_resource->motions);
     requested_action = 1;
     set_animation(requested_action);
     set_field_b8(requested_action);
@@ -583,7 +582,7 @@ s32 TObjEneRe2Flower::sub_800C3B8C() {
 int TObjEneRe2Flower::get_flag_11() { return (m_3c4 >> 11) & 0x1; }
 
 extern "C" {
-s32 fn_800C3A60(s32 arg0, s32 arg1) {
+s32 fn_800C3A60(saddr arg0, s32 arg1) {
     if (((TObjEneRe2Flower *)arg0)->get_flag_11() != 0) {
         switch (arg1) {
         case 0x4003A10E:
@@ -606,7 +605,7 @@ s32 fn_800C3A60(s32 arg0, s32 arg1) {
             return 0x40039942;
         }
     }
-    return ((TObjEnemy *)((void *)arg0))->remap_sound_for_area((s32)((void *)arg1));
+    return ((TObjEnemy *)((void *)arg0))->remap_sound_for_area(arg1);
 }
 
 void TObjEneDD::noop() {  }
@@ -707,7 +706,7 @@ void TObjEneDD::state_chase_target(s32 arg1) {
         *(s32 *)((s8 *)arg0 + 0x414) = 0;
         *(s32 *)((s8 *)arg0 + 0x420) = 0;
         if (((TObjEneRe2Flower *)arg0)->get_flag_11() != 0) {
-            play_sound_effect((void *)0x4003A840, (u8 *)&this->position, 0, 0);
+            play_sound_effect(0x4003A840, (u8 *)&this->position, 0, 0);
         }
         break;
     case 3:
@@ -728,7 +727,7 @@ void TObjEneDD::state_chase_target(s32 arg1) {
     case 0:
         advance_animation();
         idx = 0xFFFF;
-        if (tick_period_counter((s32)arg0, (s32 *)(arg0 + 0x3D0), 0x14) != 0) {
+        if (tick_period_counter((saddr)arg0, (s32 *)(arg0 + 0x3D0), 0x14) != 0) {
             if (*(f32 *)((s8 *)arg0 + 0x3AC) > lbl_805D9FEC) {
                 if (this->vfunc_99() != 0) {
                     idx = enemy_nearest_visible_enemy(arg0, *(f32 *)((s8 *)arg0 + 0x3AC) - lbl_805D9FEC);
@@ -747,7 +746,7 @@ void TObjEneDD::state_chase_target(s32 arg1) {
         ((TObjEneDD *)arg0)->update_velocity();
         (*(s32 *)((s8 *)arg0 + 0x414))++;
         *(s32 *)((s8 *)arg0 + 0x420) = (s32)(10430.38043493439 * atan2_float(*(f32 *)((s8 *)arg0 + 0x3A0), *(f32 *)((s8 *)arg0 + 0x3A8)));
-        this->rotation_y = approach_angle_limited(this->rotation_y, *(s32 *)((s8 *)arg0 + 0x420), (s32)(*(void **)((s8 *)this->movementParameters + 8)));
+        this->rotation_y = approach_angle_limited(this->rotation_y, *(s32 *)((s8 *)arg0 + 0x420), (saddr)(*(void **)((s8 *)this->movementParameters + 8)));
         this->rotation_y = (s16)this->rotation_y;
         this->vfunc_102();
         this->vfunc_88();
@@ -759,10 +758,10 @@ void TObjEneDD::state_chase_target(s32 arg1) {
 extern "C" {
 void fn_800C32DC(u8 *owner, s32 arg1) {
     Vec stack;
-    u32 temp_r3;
-    u32 temp_r3_2;
+    uaddr temp_r3;
+    uaddr temp_r3_2;
     u32 temp_r3_3;
-    u32 temp_r3_4;
+    uaddr temp_r3_4;
     switch (arg1) {
     case 4:
         ((TObjEneRe2Flower *)owner)->requested_action = 0;
@@ -782,7 +781,7 @@ void fn_800C32DC(u8 *owner, s32 arg1) {
     case 0:
         ((TObjMotion *)owner)->advance_animation();
         if ((u32) *(u32 *)((s8 *)owner + 0x428) == 0U) {
-            *(u32 *)((s8 *)owner + 0x428) = (u32)create_particle_emitter((owner + 0x3E8), 0xD1);
+            *(u32 *)((s8 *)owner + 0x428) = (uaddr)create_particle_emitter((owner + 0x3E8), 0xD1);
             temp_r3 = *(u32 *)((s8 *)owner + 0x428);
             if (temp_r3 != 0U) {
                 ((TParticleCtrl *)temp_r3)->enable();
@@ -800,14 +799,14 @@ void fn_800C32DC(u8 *owner, s32 arg1) {
             VecCopy((Vec *)(&stack.x), (const Vec *)(owner + 0x3DC));
             stack.y = lbl_805D9FDC + *(f32 *)((s8 *)owner + 0x3C);
             if ((((TObjEneRe2Flower *)owner)->get_flag_11() != 0) || (TObjEneDD::check_v2_mode() != 0)) {
-                TTecMegid::create_ex((s32)owner, (s32)((void *)&stack.x), (s32)((int) (((TObjEneRe2Flower *)owner)->rotation_y)), (s32)((int) (TObjEneDD::clamp_frame_index((int) (*(s32 *)((s8 *)re2_flower_movement_params + 0x18))))));
+                TTecMegid::create_ex((saddr)owner, (saddr)((void *)&stack.x), (s32)((int) (((TObjEneRe2Flower *)owner)->rotation_y)), (s32)((int) (TObjEneDD::clamp_frame_index((int) (*(s32 *)((s8 *)re2_flower_movement_params + 0x18))))));
             } else {
-                temp_r3_3 = __nw__7TObjectFUl(0x104);
+                temp_r3_3 = (uaddr)TObject::operator new(0x104);
                 if (temp_r3_3 != 0U) {
                     TObjPlayer__sub_800C4A5C(temp_r3_3, owner, &stack.x, (int) (((TObjEneRe2Flower *)owner)->rotation_y));
                 }
             }
-            play_sound_effect((void *) (fn_800C3A60((s32)owner, 0x4003A10E)), owner + 0x3DC, 0, 0);
+            play_sound_effect((fn_800C3A60((saddr)owner, 0x4003A10E)), owner + 0x3DC, 0, 0);
         }
         ((TObjEneDD *)(owner))->vfunc_102();
         ((TObjEneDD *)(owner))->vfunc_88();
@@ -870,7 +869,7 @@ void fn_800C3088(u8 *arg0, int arg1) {
             (((VObj_18_880cfd *)((u8 *) ((RecoveredFields_800C3088_arg0 *) arg0)->field_390))->m23((arg0), (lbl_805D9FD4)));
           }
         }
-        play_sound_effect((void *) fn_800C3A60((s32)arg0, 0x4003A814), arg0 + 0x38, 0, 0);
+        play_sound_effect(fn_800C3A60((saddr)arg0, 0x4003A814), arg0 + 0x38, 0, 0);
         TObjPlayer::play_effect_if_v2(-0x200);
       }
         break;

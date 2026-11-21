@@ -8,10 +8,10 @@ struct TOContainerAncientItemCommon : public TUnk_804B08BC {
     TOContainerAncientItemCommon(void *set_data);
     virtual ~TOContainerAncientItemCommon();
     virtual void vfunc_6(s16 *, s32);
-    s32 create();
+    saddr create();
 };
 
-typedef char TOContainerAncientItemCommon_size[sizeof(TOContainerAncientItemCommon) == 0x368 ? 1 : -1];
+LAYOUT_ASSERT(TOContainerAncientItemCommon_size, sizeof(TOContainerAncientItemCommon) == 0x368);
 
 
 #endif

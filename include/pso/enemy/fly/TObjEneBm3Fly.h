@@ -123,10 +123,10 @@ struct TObjEneBm3Fly : public TObjEneDD_ST {
     void choose_attack();
 };
 
-typedef char TObjEneBm3Fly_owner_id_offset[(offsetof(TObjEneBm3Fly, owner_id) == 0x418) ? 1 : -1];
-typedef char TObjEneBm3Fly_particle_effect_offset[(offsetof(TObjEneBm3Fly, particle_effect) == 0x458) ? 1 : -1];
-typedef char TObjEneBm3Fly_alternate_phase_offset[(offsetof(TObjEneBm3Fly, alternate_phase) == 0x45C) ? 1 : -1];
-typedef char TObjEneBm3Fly_size[sizeof(TObjEneBm3Fly) == 0x4A8 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneBm3Fly_owner_id_offset, offsetof(TObjEneBm3Fly, owner_id) == 0x418);
+LAYOUT_ASSERT(TObjEneBm3Fly_particle_effect_offset, offsetof(TObjEneBm3Fly, particle_effect) == 0x458);
+LAYOUT_ASSERT(TObjEneBm3Fly_alternate_phase_offset, offsetof(TObjEneBm3Fly, alternate_phase) == 0x45C);
+LAYOUT_ASSERT(TObjEneBm3Fly_size, sizeof(TObjEneBm3Fly) == 0x4A8);
 
 extern "C" {
 void TObjEneBm3Fly__play_orbit_flight_sound(TObjEneBm3Fly *fly);

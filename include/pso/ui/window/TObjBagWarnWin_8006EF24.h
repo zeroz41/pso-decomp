@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-s32 get_message_text(s32 arg0);
+saddr get_message_text(s32 arg0);
 }
 
 #endif

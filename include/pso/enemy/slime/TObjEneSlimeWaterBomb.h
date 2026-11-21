@@ -22,5 +22,5 @@ struct TObjEneSlimeWaterBomb : public TObjEnemy {
     void *create(void *arg1);
 };
 
-typedef char TObjEneSlimeWaterBomb_size[sizeof(TObjEneSlimeWaterBomb) == 0x398 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneSlimeWaterBomb_size, sizeof(TObjEneSlimeWaterBomb) == 0x398);
 #endif

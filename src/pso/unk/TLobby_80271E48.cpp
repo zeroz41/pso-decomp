@@ -6,7 +6,7 @@ extern "C" {
 
 s32 TLobby__sub_80077798(s32, s32 *);
 
-extern s32 TLobby__protocol_instance;
+extern saddr TLobby__protocol_instance;
 
 void TLobby::send_packet(s32 arg0, s32 arg1) {
     s32 sp8[4];

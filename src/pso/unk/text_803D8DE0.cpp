@@ -7,7 +7,7 @@ typedef struct { f32 x, y, z, w; } Quat_803D8E0C;
 extern s32 current_matrix;
 #pragma push
 #pragma scheduling off
-void fn_803D8DE0(u32 matrix, Vec *src, Vec *dst, u32 count) {
+void fn_803D8DE0(uaddr matrix, Vec *src, Vec *dst, u32 count) {
     if (matrix == 0U) {
         matrix = current_matrix;
     }

@@ -14,11 +14,11 @@ struct EventShuffleTable {
 };
 
 #include <stddef.h>
-typedef char EventShuffleTableSize[(sizeof(EventShuffleTable) == 0x14) ? 1 : -1];
-typedef char EventShuffleEntriesOffset[(offsetof(EventShuffleTable, entries) == 4) ? 1 : -1];
-typedef char EventShuffleCursorOffset[(offsetof(EventShuffleTable, cursor) == 8) ? 1 : -1];
-typedef char EventShuffleCountOffset[(offsetof(EventShuffleTable, count) == 12) ? 1 : -1];
+LAYOUT_ASSERT(EventShuffleTableSize, sizeof(EventShuffleTable) == 0x14);
+LAYOUT_ASSERT(EventShuffleEntriesOffset, offsetof(EventShuffleTable, entries) == 4);
+LAYOUT_ASSERT(EventShuffleCursorOffset, offsetof(EventShuffleTable, cursor) == 8);
+LAYOUT_ASSERT(EventShuffleCountOffset, offsetof(EventShuffleTable, count) == 12);
 
-typedef char EventShuffleCapacityOffset[(offsetof(EventShuffleTable, capacity) == 0x10) ? 1 : -1];
+LAYOUT_ASSERT(EventShuffleCapacityOffset, offsetof(EventShuffleTable, capacity) == 0x10);
 
 #endif

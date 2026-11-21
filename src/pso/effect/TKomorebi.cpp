@@ -28,10 +28,10 @@ struct Node_80192434 { u32 flags; void *model; u8 pad8[0x24]; Node_80192434 *chi
 struct Fish_80192434 { u8 pad0[0x8C]; s32 f8C; u8 pad90[0x2C]; Node_80192434 *fBC; Node_80192434 *fC0; s32 fC4; void *fC8[4]; };
 
 extern "C" {
-s32 get_bml_texlist(void *, int);
-s32 get_bml_model(void *, int);
+saddr get_bml_texlist(void *, int);
+saddr get_bml_model(void *, int);
 extern const char *komorebi_class_name;
-extern u32 TKomorebi__resource_bundle;
+extern uaddr TKomorebi__resource_bundle;
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern s32 komorebi_last_uv_update_frame;
 AnimationMotion *get_bml_motion(BmlResource *, s32);
@@ -77,19 +77,19 @@ extern void *tl_05;
 
 }
 #define komorebi ((u8 *)this)
-TKomorebi::TKomorebi(TObject *parent, s32 arg2) : TObjBase(parent) {
+TKomorebi::TKomorebi(TObject *parent, saddr arg2) : TObjBase(parent) {
     *(s32 *)((s8 *)komorebi + 0) = (s32) ((s32)komorebi_class_name);
     VecCopy((Vec *)(komorebi + 0x38), (const Vec *)(arg2 + 0xC));
     copy_xyz(komorebi + 0x5C, (void *)(arg2 + 0x18));
     VecCopy((Vec *)(komorebi + 0x68), (const Vec *)(arg2 + 0x24));
-    *(s32 *)((s8 *)komorebi + 0x34) = get_bml_model((void *) ((*(s32 *)&TKomorebi__resource_bundle)), 0);
-    ((TKomorebi *)komorebi)->texlist = get_bml_texlist((void *) ((*(s32 *)&TKomorebi__resource_bundle)), 0);
+    *(s32 *)((s8 *)komorebi + 0x34) = get_bml_model((void *) ((*(saddr *)&TKomorebi__resource_bundle)), 0);
+    ((TKomorebi *)komorebi)->texlist = get_bml_texlist((void *) ((*(saddr *)&TKomorebi__resource_bundle)), 0);
 }
 #undef komorebi
 
 extern "C" {
 void *TKomorebi__create(void *arg0) {
-    return new TKomorebi((TObject *)tl_05, (s32)arg0);
+    return new TKomorebi((TObject *)tl_05, (saddr)arg0);
 }
 
 void TKomorebi::free_static() {
@@ -104,7 +104,7 @@ void TKomorebi::load_resources() {
     if (p != 0) {
         p = load_resource_from_descriptor(p, 1, &TKomorebi__resource_descriptor, 0, 0, 0);
     }
-    TKomorebi__resource_bundle = (u32)p;
+    TKomorebi__resource_bundle = (uaddr)p;
     komorebi_last_uv_update_frame = 0;
 }
 void TObjLazerFenceExtra::init_models() {
@@ -115,11 +115,11 @@ void TObjLazerFenceExtra::init_models() {
     if (this->set_params[2] % 2 == 0) {
         arg0->fBC = (Node_80192434 *)get_bml_model(lazer_fence_norm_bml_resource, 1);
         arg0->fC0 = (Node_80192434 *)get_bml_model(lazer_fence_norm_bml_resource, 0);
-        this->m_c4 = (s32)get_bml_motion(lazer_fence_norm_bml_resource, 0);
+        this->m_c4 = (saddr)get_bml_motion(lazer_fence_norm_bml_resource, 0);
     } else {
         arg0->fBC = (Node_80192434 *)get_bml_model(lazer_fence_norm_bml_resource, 3);
         arg0->fC0 = (Node_80192434 *)get_bml_model(lazer_fence_norm_bml_resource, 2);
-        this->m_c4 = (s32)get_bml_motion(lazer_fence_norm_bml_resource, 1);
+        this->m_c4 = (saddr)get_bml_motion(lazer_fence_norm_bml_resource, 1);
     }
     for (j = 0; j < 4; j++) {
         arg0->fC8[j] = 0;
@@ -141,6 +141,6 @@ BmlResourceDescriptor TKomorebi__resource_descriptor = { (char *)"bm_fe_obj_komo
 __declspec(section ".sdata") const char *bm_fe_obj_komo_motion_names[1] = { NULL };
 
 const char *komorebi_class_name = "TKomorebi";
-u32 TKomorebi__resource_bundle;
+uaddr TKomorebi__resource_bundle;
 s32 komorebi_last_uv_update_frame;
 }

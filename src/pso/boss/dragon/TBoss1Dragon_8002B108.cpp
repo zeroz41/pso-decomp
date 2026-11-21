@@ -8,7 +8,7 @@ s32 TBoss1Dragon__sub_8002B108(TBoss1DragonColli *self, s32 i);
 void disable_dragon_blocking_bodies(TBoss1DragonColli *self);
 extern "C" {
 s32 TBoss1Dragon__sub_8002B108(TBoss1DragonColli *self, s32 i) {
-    return (s32)self->objects[i];
+    return (saddr)self->objects[i];
 }
 }
 void disable_dragon_blocking_bodies(TBoss1DragonColli *self) {

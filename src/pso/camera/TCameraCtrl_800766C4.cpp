@@ -6,7 +6,7 @@
 
 extern "C" {
 
-u32 get_player_by_client_id(s32);
+uaddr get_player_by_client_id(s32);
 
     extern short TCameraCtrl__viewport_y;
 s32 TCameraCtrl::get_screen_width() {  return TCameraCtrl__viewport_y; }
@@ -18,7 +18,7 @@ extern s32 local_client_id;
 
 s32 TCameraCtrl::should_update() {
     s32 area;
-    u32 player;
+    uaddr player;
 
     if (is_split_screen() == 0) {
         if (((player = get_player_by_client_id(local_client_id)) == 0U) || (((TLobby *)player)->check_player_state_flag_2() != 0)) {

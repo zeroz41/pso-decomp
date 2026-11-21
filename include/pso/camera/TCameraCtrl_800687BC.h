@@ -16,7 +16,7 @@ void quad_80068B34(s32 i);
 s32 restore_player_cameras(void);
 void set_active_camera_pose(u8 *arg0, u8 *arg1);
 void set_active_camera_pose_from_params(u8 *arg0);
-void transform_to_view__11TCameraCtrlFii(s32 arg0, s32 arg1);
+void transform_to_view__11TCameraCtrlFii(saddr arg0, saddr arg1);
 void viewport_80068B34(void);
 }
 

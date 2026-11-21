@@ -3,13 +3,15 @@
 
 #include "types.h"
 
+class TItemEffEquip;
+
 extern "C" {
-void TItemEffEquip__sub_801088F8(u32 arg0);
+void TItemEffEquip__sub_801088F8(TItemEffEquip *effect);
 }
 
 // --- C functions defined in TItemEffEquip_801088F8.cpp ---
 extern "C" {
-void TItemEffEquip__sub_801088F8(u32 arg0);
+void TItemEffEquip__sub_801088F8(TItemEffEquip *effect);
 }
 // --- end of C functions
 

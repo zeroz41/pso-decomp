@@ -1,3 +1,4 @@
+#include <string.h>
 #include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/system/scene/TScene.h"
@@ -17,11 +18,8 @@ void VIWaitForRetrace(void);
 void VIFlush(void);
 void VISetBlack(s32);
 void GXDrawDone(void);
-char *strcpy(char *, const char *);
 s32 fn_8042EAD4(u8 *arg0, u32 arg1);
 void fn_8042EBA4(DolHeader *, s32);
-void *memset(void *, s32, u32);
-u32 strlen(const char *);
 extern s32 resource_decompress_buffer;
 }
 // The switcher.dol pages: the modem check (TAdTrialModemChkGC__sub_8007FA24) and the dial screen
@@ -62,7 +60,7 @@ void init_disc_error_messages(void) {
     lbl_805D4EC4 = z;
     disc_error_code = p[-0x55d0];
     p[-0x55d0] = z;
-    TAdTrialModemChkGC__sub_8042EC14((int)p, z);
+    TAdTrialModemChkGC__sub_8042EC14((saddr)p, z);
     fn_8042EF48(0);
     fn_8042ED98(4, disc_error_message_text);
     fn_8042ED98(1, disc_error_insert_disc_text);
@@ -76,7 +74,7 @@ void init_disc_error_messages(void) {
 s32 launch_switcher_dol(const char *url) {
     char buf[0x100];
     s32 r;
-    s32 v;
+    saddr v;
     r = get_resource_file_size(switcher_dol_filename);
     read_disc_file(switcher_dol_filename, (void *)(v = resource_decompress_buffer));
     VISetBlack(1);

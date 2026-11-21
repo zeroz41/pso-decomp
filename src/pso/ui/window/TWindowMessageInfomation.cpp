@@ -9,13 +9,13 @@ const char *TWindowMessageInfomation__name = "TWindowMessageInfomation";
 
 extern "C" {
 extern const char *TWindowMessageInfomation__name;
-s32 get_draw_context__11TWindowBaseFPv();
+saddr get_draw_context__11TWindowBaseFPv();
 s32 draw_visible_window_entries(s32, s32, s32);
 
 void TWindowMessageInfomation::render() {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     s8 *tmp = (s8 *)get_draw_context__11TWindowBaseFPv();
-    draw_visible_window_entries(arg0, arg0 + 0x24, (s32)tmp);
+    draw_visible_window_entries(arg0, arg0 + 0x24, (saddr)tmp);
 }
 
 }

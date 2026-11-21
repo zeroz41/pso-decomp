@@ -1,16 +1,14 @@
 #include "types.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_803F339C.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
+#include <string.h>
 #define PSO_SDK_COMPACT_MATH
 #include "pso/ui/frontend/CardFileEntry.h"
 #undef PSO_SDK_COMPACT_MATH
 
 extern "C" {
-s32 memset(void *, int, int);
 extern CardRequestSlot TAdPlayerLoadGC__load_request_slots[];
 extern CardFileEntry card_open_files[];
-char *strcpy(char *, const char *);
-u32 strlen(const char *);
 
 s32 TAdPlayerLoadGC::take_card_read_result(s32 arg0, s32 *arg1) {
     s32 r;

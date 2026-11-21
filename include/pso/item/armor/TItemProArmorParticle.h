@@ -29,5 +29,5 @@ struct TItemProArmorParticle : public TItemProArmor {
     s32 particle_mode;  // ARMOR_PARTICLE_*
 };
 
-typedef char TItemProArmorParticle_size[sizeof(TItemProArmorParticle) == 0x1A4 ? 1 : -1];
+LAYOUT_ASSERT(TItemProArmorParticle_size, sizeof(TItemProArmorParticle) == 0x1A4);
 #endif

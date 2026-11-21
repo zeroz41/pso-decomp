@@ -16,8 +16,8 @@ u8 is_selection_done__23TAdSinglePlyChrSelectGCFPv(void *arg0) {
 
 u32 lbl_80518850[4];
 u32 chr_select_load_buffer_table[8];
-u32 chr_select_load_buffer_base;
-u32 chr_select_load_buffer;
+uaddr chr_select_load_buffer_base;
+uaddr chr_select_load_buffer;
 s32 TAdSinglePlyChrSelectGC::get_result() {
     if (((s32 (*)())is_selection_done__23TAdSinglePlyChrSelectGCFPv)() != 0) {
         return this->m_28;
@@ -25,7 +25,7 @@ s32 TAdSinglePlyChrSelectGC::get_result() {
     return 0;
 }
 u32 TLobby::alloc_load_buffer(s32 size) {
-    s32 slot = (s32)this;
+    s32 slot = (saddr)this;
     u32 p;
     if (chr_select_load_buffer_base == 0U) {
         return 0U;
@@ -88,14 +88,14 @@ void TLobby__sub_8028D7D0(s32 i) {
 
 void TLobby::free_single_player_chr_select() {
     if (((u32) chr_select_load_buffer_base != 0U) && ((u32) chr_select_load_buffer != 0U)) {
-        TAdSinglePlyChrSelectGC::safe_free((u32)((void*)((void*)chr_select_load_buffer)));
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)((void*)((void*)chr_select_load_buffer)));
         chr_select_load_buffer = 0U;
     }
 }
 
 void TLobby::alloc_download_server() {
     if (((u32) chr_select_load_buffer_base != 0U) && ((u32) chr_select_load_buffer == 0U)) {
-        chr_select_load_buffer = (s32)TQuestVmDownLoadServer::alloc(0x50000);
+        chr_select_load_buffer = (saddr)TQuestVmDownLoadServer::alloc(0x50000);
         if ((u32) chr_select_load_buffer == 0U) {
             return;
         }
@@ -104,7 +104,7 @@ void TLobby::alloc_download_server() {
 
 void TLobby::free_chr_select_singleton() {
     if ((u32) chr_select_load_buffer_base != 0U) {
-        TAdSinglePlyChrSelectGC::safe_free((u32)((void*)((void*)chr_select_load_buffer_base)));
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)((void*)((void*)chr_select_load_buffer_base)));
         chr_select_load_buffer_base = 0U;
     }
 }
@@ -112,27 +112,27 @@ void TLobby::free_chr_select_singleton() {
 extern "C" {
 s32 TChCrEffCtrlPl__sub_80298F6C(void);
 s32 create__14TChCrEffCtrlPlFv(s32);
-extern s32 tl_03;
+extern saddr tl_03;
 }
 
 void alloc_quest_download_buffer(void) {
     if (chr_select_load_buffer_base == 0) {
-        if ((chr_select_load_buffer_base = (u32)TQuestVmDownLoadServer::alloc(0x28000)) == 0) return;
+        if ((chr_select_load_buffer_base = (uaddr)TQuestVmDownLoadServer::alloc(0x28000)) == 0) return;
     }
 }
 
 void fn_8028D8F4(void) {
     if ((u32) *(u32 *)((s8 *)(&lbl_8051C070.value) + 0) != 0U) {
-        ((TObject *)((void *)(*(u32 *)((s8 *)(&lbl_8051C070.value) + 0))))->queue_destruction();
+        ((TObject *)((void *)(*(uaddr *)((s8 *)(&lbl_8051C070.value) + 0))))->queue_destruction();
     }
     if ((u32) *(u32 *)((s8 *)(&lbl_8051C070.value) + 4) != 0U) {
-        ((TObject *)((void *)(*(u32 *)((s8 *)(&lbl_8051C070.value) + 4))))->queue_destruction();
+        ((TObject *)((void *)(*(uaddr *)((s8 *)(&lbl_8051C070.value) + 4))))->queue_destruction();
     }
 }
 
 void fn_8028D940(void) {
-    *(s32 *)((s8 *)&lbl_8051C070.value + 0) = (s32)fn_8029AE88((void *)tl_03);
-    *(s32 *)((s8 *)&lbl_8051C070.value + 4) = (s32)create_TChCrEffTag((void *)tl_03);
+    *(s32 *)((s8 *)&lbl_8051C070.value + 0) = (saddr)fn_8029AE88((void *)tl_03);
+    *(s32 *)((s8 *)&lbl_8051C070.value + 4) = (saddr)create_TChCrEffTag((void *)tl_03);
     *(s32 *)((s8 *)&lbl_8051C070.value + 8) = 0;
     if (TChCrEffCtrlPl__sub_80298F6C() != 0) {
         *(s32 *)((s8 *)&lbl_8051C070.value + 8) = create__14TChCrEffCtrlPlFv(tl_03);

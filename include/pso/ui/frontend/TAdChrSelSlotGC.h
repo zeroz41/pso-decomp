@@ -24,12 +24,12 @@ public:
     void reset_all_slots();
     void init_slot_entry(s32 arg1, void *arg2);
 };
-typedef char SlotQuadsOffset[offsetof(TAdChrSelSlotGC, quads) == 0x20 ? 1 : -1];
-typedef char SlotPositionsOffset[offsetof(TAdChrSelSlotGC, positions) == 0xC0 ? 1 : -1];
-typedef char SlotAlphaOffset[offsetof(TAdChrSelSlotGC, alpha) == 0xE8 ? 1 : -1];
-typedef char SlotColorsOffset[offsetof(TAdChrSelSlotGC, colors) == 0xFC ? 1 : -1];
-typedef char SlotVisibleOffset[offsetof(TAdChrSelSlotGC, visible) == 0x110 ? 1 : -1];
-typedef char SlotObjectSize[sizeof(TAdChrSelSlotGC) == 0x128 ? 1 : -1];
+LAYOUT_ASSERT(SlotQuadsOffset, offsetof(TAdChrSelSlotGC, quads) == 0x20);
+LAYOUT_ASSERT(SlotPositionsOffset, offsetof(TAdChrSelSlotGC, positions) == 0xC0);
+LAYOUT_ASSERT(SlotAlphaOffset, offsetof(TAdChrSelSlotGC, alpha) == 0xE8);
+LAYOUT_ASSERT(SlotColorsOffset, offsetof(TAdChrSelSlotGC, colors) == 0xFC);
+LAYOUT_ASSERT(SlotVisibleOffset, offsetof(TAdChrSelSlotGC, visible) == 0x110);
+LAYOUT_ASSERT(SlotObjectSize, sizeof(TAdChrSelSlotGC) == 0x128);
 
 extern "C" {
 void TLobby__sub_802C78EC(void);

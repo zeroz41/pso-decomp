@@ -12,12 +12,12 @@ struct ByteBlock_20 { u8 bytes[0x20]; };
 #pragma dont_inline off
 extern "C" {
 
-void bswap__13TPlyRecvLoginFv(s32 arg0) {
+void bswap__13TPlyRecvLoginFv(saddr arg0) {
     ((packet_header *)arg0)->bswap();
     ((TPlyGuildCardTag *)(arg0 + 4))->bswap();
 }
 
-s32 __ct__13TPlyRecvLoginFRC13TPlyRecvLogin(s32 arg0, s32 arg1) {
+s32 __ct__13TPlyRecvLoginFRC13TPlyRecvLogin(saddr arg0, saddr arg1) {
     ((TPlyRecvLogin *)arg0)->copy_with_guild_card_tag((s32 *)arg1);
     *(ByteBlock_20 *)(arg0 + 8 + 4) = *(const ByteBlock_20 *)(arg1 + 8 + 4);
     return arg0;

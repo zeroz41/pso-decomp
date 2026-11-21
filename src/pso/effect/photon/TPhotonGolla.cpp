@@ -4,6 +4,7 @@
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/effect/photon/PhotonBlastSummon.h"
 #include "types.h"
+#include <stdlib.h>
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/player/TObjPlayer_801AB608.h"
@@ -109,9 +110,8 @@ extern u8 *photon_blast_shared_resource;
 extern "C" {
 void *spawn_particle_effect(const void *pos, s32 id);
 void *find_entity_by_id(u16 id);
-u8 *TPhotonMagicSquare__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-u32 __nw__7TObjectFUl(int);
+u8 *TPhotonMagicSquare__ct(u8 *arg0, saddr arg1, s32 arg2, saddr arg3, s32 arg4, f32 farg0);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 
 s32 scroll_strip_uvs(void *, s16, int);
 s32 rotate_matrix_y(int, int);
@@ -130,7 +130,6 @@ extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
 u8 *__ct__18TPhotonConcentrateFPUcll(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3);
 u32 __cvt_fp2unsigned(f32);
-int rand(void);
 void vec3_add_to(void *, void *);
 void rotate_vector_by_matrix(int, void *, void *);
 void subtract_vector(void *, void *);
@@ -163,7 +162,7 @@ s32 TPhotonGolla::spawn_concentrate(void *arg0) {
     Vec rotated;
     Owner_801AB6A0 *owner;
     u32 angle;
-    u32 beam;
+    uaddr beam;
     if (self->f19c == NULL) {
         owner = (Owner_801AB6A0 *)find_entity_by_id(self->owner_id);
         local.x = 0.0f;
@@ -199,9 +198,9 @@ s32 TPhotonGolla::spawn_concentrate(void *arg0) {
     packet.direction.z = direction.z;
     packet.owner = self->f1a8;
     packet.angle = angle;
-    beam = __nw__7TObjectFUl(0x10C);
+    beam = (uaddr)TObject::operator new(0x10C);
     if (beam != 0) {
-        __ct__18TPhotonConcentrateFPUcll((u8 *)beam, (u8 *)&packet, (s32)self, (s32)self->owner_id);
+        __ct__18TPhotonConcentrateFPUcll((u8 *)beam, (u8 *)&packet, (saddr)self, (s32)self->owner_id);
     }
 }
 #undef self
@@ -306,24 +305,24 @@ void TPhotonGolla::render() {
 
 void TPhotonGolla::run_task() {
     u8 *arg0 = (u8 *)this;
-    typedef char sp8_offset[(offsetof(Stack_801ABBAC, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_801ABBAC, spC) == 0x4) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_801ABBAC, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_801ABBAC, spC) == 0x4);
     Stack_801ABBAC stack;
     s32 temp_r0;
-    s32 entity;
-    u32 photon_magic_square;
+    saddr entity;
+    uaddr photon_magic_square;
     *(s32 *)&this->unk_1C8 = (s32) (*(s32 *)&this->unk_1C8 + 1);
     if (((s32) *(s32 *)&this->unk_1C8 == 0x32) && ((s32) this->m_1c4 == 0)) {
         this->m_1c4 = 1;
         *(s32 *)&this->unk_1C8 = 0;
-        entity = (s32)find_entity_by_id((*(u16 *)((s8 *)arg0 + 0x158)));
+        entity = (saddr)find_entity_by_id((*(u16 *)((s8 *)arg0 + 0x158)));
         if (entity != 0) {
             VecCopy((Vec *)(&stack.sp8), (const Vec *)(entity + 0x38));
         }
         stack.spC += 3e+01f;
-        photon_magic_square = __nw__7TObjectFUl(0xD0);
+        photon_magic_square = (uaddr)TObject::operator new(0xD0);
         if (photon_magic_square != 0U) {
-            TPhotonMagicSquare__ct((u8 *)photon_magic_square, (s32)arg0, 3, (s32)&stack.sp8, 0xFA, (f32)0.5f);
+            TPhotonMagicSquare__ct((u8 *)photon_magic_square, (saddr)arg0, 3, (saddr)&stack.sp8, 0xFA, (f32)0.5f);
         }
     }
     if ((5e+01f == (f32) *(s32 *)&this->unk_1C8) && ((s16) this->requested_action == 1)) {
@@ -348,7 +347,7 @@ void TPhotonGolla::run_task() {
         TPhotonGolla::spawn_concentrate(arg0);
     }
     if ((s32) this->m_1c4 != 0) {
-        play_persistent_sound(0x4002462F, (s32)arg0, 0, 0, 0);
+        play_persistent_sound(0x4002462F, (saddr)arg0, 0, 0, 0);
     }
 }
 
@@ -356,7 +355,6 @@ void TPhotonGolla::run_task() {
 extern "C" {
 
 s32 free_collision_body_parts(void *);
-s32 __dl__7TObjectFPv(void *);
 
 extern void *lbl_804C35F4[];
 
@@ -369,7 +367,7 @@ void *destroy__12TPhotonGollaFPvs(void *photon_golla, s16 arg1) {
         free_collision_body_parts(photon_golla);
         __dt__13TUnk_804C3248Fv(photon_golla, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(photon_golla);
+            TObject::operator delete(photon_golla);
         }
     }
     return photon_golla;
@@ -442,7 +440,7 @@ u8 *TPhotonGolla__ct(u8 *arg0, u8 *arg1) {
     }
     *(s32 *)((s8 *)arg0 + 0x34) = *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x48);
     ((TPhotonGolla *)arg0)->texlist = *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x4C);
-    ((TObjMotion *)arg0)->set_field_d8((s32) photon_blast_golla_params);
+    ((TObjMotion *)arg0)->set_field_d8((saddr) photon_blast_golla_params);
     ((TObjMotion *)arg0)->set_field_dc(*(s32 *)((s8 *)photon_blast_shared_resource + 0x430));
     ((TPhotonGolla *)arg0)->requested_action = 1;
     ((TObjMotion *)arg0)->set_animation(((TPhotonGolla *)arg0)->requested_action);
@@ -457,13 +455,13 @@ u8 *TPhotonGolla__ct(u8 *arg0, u8 *arg1) {
     switch (get_current_floor_area()) {
     case AREA_DRAGON: case AREA_DE_ROL_LE: case AREA_VOL_OPT: case AREA_DARK_FALZ:
     case AREA_GAL_GRYPHON: case AREA_OLGA_FLOW: case AREA_BARBA_RAY: case AREA_GOL_DRAGON:
-        p = (void *)__nw__7TObjectFUl(0xAC);
+        p = (void *)TObject::operator new(0xAC);
         if (p != NULL) {
             ((u8 *(*)(void *, void *, void *, int)) TPhotonRainbow__ct)(p, arg0, arg0 + 0x38, 1);
         }
         break;
     default:
-        p = (void *)__nw__7TObjectFUl(0xAC);
+        p = (void *)TObject::operator new(0xAC);
         if (p != NULL) {
             ((u8 *(*)(void *, void *, void *, int)) TPhotonRainbow__ct)(p, arg0, arg0 + 0x38, 0);
         }
@@ -487,15 +485,15 @@ u8 *TPhotonGolla__ct(u8 *arg0, u8 *arg1) {
             VecCopy((Vec *)&pos, (const Vec *)(e + 0x38));
         }
         pos.y += 3e+01f;
-        p = (void *)__nw__7TObjectFUl(0xD0);
+        p = (void *)TObject::operator new(0xD0);
         if (p != NULL) {
-            TPhotonMagicSquare__ct((u8 *)p, (s32)arg0, 3, (s32)&pos, 0x96, (f32)0.5f);
+            TPhotonMagicSquare__ct((u8 *)p, (saddr)arg0, 3, (saddr)&pos, 0x96, (f32)0.5f);
         }
         ((TUnk_804C3248 *)arg0)->spawn_photon_blast_attachment_effects(2);
-        play_cue_stream_file((s32)"goula2.adx");
+        play_cue_stream_file((saddr)"goula2.adx");
     } else {
         spawn_photon_blast_opening_effects(2, *(u16 *)((s8 *)arg0 + 0x158));
-        play_cue_stream_file((s32)"goula.adx");
+        play_cue_stream_file((saddr)"goula.adx");
     }
     return arg0;
 }
@@ -511,9 +509,9 @@ void TObjPlayer::destroy_static_buffer_pair() {
 }
 
 void create_golla_photon_blast_model(void) {
-    s32 temp_r3;
-    s32 var_r0;
-    temp_r3 = (int)::operator new(0x14);
+    saddr temp_r3;
+    saddr var_r0;
+    temp_r3 = (saddr)::operator new(0x14);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (((TLobby *)temp_r3)->alloc_tables(*(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x48), 0));

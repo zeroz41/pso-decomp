@@ -36,7 +36,7 @@ public:
     static TAdPlyPltAnimGC *get_or_create(TObject *parent, s32 index);
 };
 
-typedef char TAdPlyPltAnimGC_size[sizeof(TAdPlyPltAnimGC) == 0x7C ? 1 : -1];
+LAYOUT_ASSERT(TAdPlyPltAnimGC_size, sizeof(TAdPlyPltAnimGC) == 0x7C);
 
 extern TAdPlyPltAnimGC *TAdPlyPltAnimGC__instances[5];
 

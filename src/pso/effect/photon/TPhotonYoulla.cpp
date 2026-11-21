@@ -134,7 +134,7 @@ u8 *TPhotonYoulla__ct(TPhotonYoulla *photon_youlla, u8 *arg1) {
     u8 *temp_r3;
     __ct__13TUnk_804C3248Fv(photon_youlla);
     *(s32 **)((s8 *)photon_youlla + 0x18) = __vt__13TPhotonYoulla;
-    *(s32 *)((s8 *)photon_youlla + 0) = (s32) ((s32)TPhotonYoulla__name);
+    *(s32 *)((s8 *)photon_youlla + 0) = (s32) ((saddr)TPhotonYoulla__name);
     *(s32 *)((s8 *)photon_youlla + 0x138) = 5;
     VecCopy((Vec *)((u8 *)photon_youlla + 0x38), (const Vec *)(arg1));
     photon_youlla->m_17c = (u16) *(u16 *)((s8 *)arg1 + 0xC);
@@ -145,7 +145,7 @@ u8 *TPhotonYoulla__ct(TPhotonYoulla *photon_youlla, u8 *arg1) {
     }
     *(s32 *)((s8 *)photon_youlla + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0xB8);
     photon_youlla->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0xBC);
-    ((TObjMotion *)photon_youlla)->set_field_d8((s32) photon_blast_youlla_params);
+    ((TObjMotion *)photon_youlla)->set_field_d8((saddr) photon_blast_youlla_params);
     ((TObjMotion *)photon_youlla)->set_field_dc(*(s32 *)((s8 *)photon_blast_shared_resource + 0x430));
     photon_youlla->requested_action = 1;
     ((TObjMotion *)photon_youlla)->set_animation(photon_youlla->requested_action);

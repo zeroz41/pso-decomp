@@ -10,5 +10,5 @@ struct TQuadSpriteCol : public TUnk_804C57F0 {
     virtual void render();
 };
 
-typedef char TQuadSpriteCol_size[sizeof(TQuadSpriteCol) == 0x2C ? 1 : -1];
+LAYOUT_ASSERT(TQuadSpriteCol_size, sizeof(TQuadSpriteCol) == 0x2C);
 #endif

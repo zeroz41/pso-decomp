@@ -14,6 +14,6 @@ public:
     u8 unk_40[0x4];
     void * m_44;
 };
-typedef char TObjHMS_EZRope_Player_size[sizeof(TObjHMS_EZRope_Player) == 0x48 ? 1 : -1];
+LAYOUT_ASSERT(TObjHMS_EZRope_Player_size, sizeof(TObjHMS_EZRope_Player) == 0x48);
 
 #endif

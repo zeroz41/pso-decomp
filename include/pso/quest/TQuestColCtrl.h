@@ -14,7 +14,8 @@ struct TQuestColCtrl : public TObject {
     static void delete_by_param(s32 arg0);
     static void init();
     static void sub_80196EC0();  // clears quest_collision_warp_pending
+    static u32 find_by_id(u16);
 };
 
-typedef char TQuestColCtrl_size[sizeof(TQuestColCtrl) == 0x1C ? 1 : -1];
+LAYOUT_ASSERT(TQuestColCtrl_size, sizeof(TQuestColCtrl) == 0x1C);
 #endif

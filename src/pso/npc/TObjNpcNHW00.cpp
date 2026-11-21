@@ -12,8 +12,8 @@
 #pragma readonly_strings on
 
 const char *TObjNpcNHW00__name = "TObjNpcNHW00";
-u32 TObjNpcNHW00__shared_named_model_object;
-u32 TObjNpcNHW00__texture_gvm_handle;
+uaddr TObjNpcNHW00__shared_named_model_object;
+uaddr TObjNpcNHW00__texture_gvm_handle;
 
 void *TObjNpcNHW00__create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);
@@ -33,8 +33,8 @@ void TObjNpcNHW00::free_static_resources() {
 }
 
 void TObjNpcNHW00::load_resources() {
-    TObjNpcNHW00__shared_named_model_object = create_named_object((s32)"npc_b00_data.rel");
-    TObjNpcNHW00__texture_gvm_handle = (u32)load_gvm_texture_file((s32)"n_b00_body.gvm");
+    TObjNpcNHW00__shared_named_model_object = create_named_object((saddr)"npc_b00_data.rel");
+    TObjNpcNHW00__texture_gvm_handle = (uaddr)load_gvm_texture_file((saddr)"n_b00_body.gvm");
 }
 
 TObjNpcNHW00::~TObjNpcNHW00() {}

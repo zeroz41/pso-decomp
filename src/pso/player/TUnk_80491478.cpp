@@ -57,7 +57,7 @@ TUnk_80491478::TUnk_80491478(s32 index, TObjEneDubchik *parent, NJS_TEXLIST *tex
     velocity.y = 0.0f;
     effect = (TObject *)TObject::operator new(0x348);
     if (effect != NULL) {
-        effect = (TObject *)TObjPlayer__sub_800A4204((u8 *)effect, (u8 *)this, (s32)target, (s32)&pos, 0x10);
+        effect = (TObject *)TObjPlayer__sub_800A4204((u8 *)effect, (u8 *)this, (saddr)target, (saddr)&pos, 0x10);
     }
     m_d0 = effect;
     if (m_d0 != NULL) {
@@ -136,8 +136,8 @@ void TUnk_80491478::run_task() {
 #pragma pop
 
 void TUnk_80491478::render() {
-    TObjFish::set_global_param((s32)dubchik_texlist);
-    TObjFish::set_global_param((s32)m_d8);
+    TObjFish::set_global_param((saddr)dubchik_texlist);
+    TObjFish::set_global_param((saddr)m_d8);
     push_matrix();
     post_translate_matrix(&pos.x);
     rotate_matrix_y(0, rot_y);

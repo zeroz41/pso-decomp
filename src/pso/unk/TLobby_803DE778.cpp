@@ -1,9 +1,9 @@
 #include "types.h"
+#include <string.h>
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_803DE778.h"
 
 extern "C" {
-s32 memmove(void *dst, const void *src, u32 n);
 void move_data(void *dst, const void *src, u32 n) {
     memmove(dst, src, n);
 }

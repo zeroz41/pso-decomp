@@ -15,13 +15,13 @@ struct TTecDeband : public TTecPlayerInfluence {
     u32 m_13c;
     int init_params();
     void update_effect_params();
-    static void create(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-    static void create(void *owner, void *pos, s32 level);
+    static void create(saddr arg0, saddr arg1, saddr arg2, s32 arg3);
+    static void create(void *owner, void *pos, saddr level);
     virtual void render();
     void play_state_sound();
 };
 
-typedef char TTecDeband_size[sizeof(TTecDeband) == 0x140 ? 1 : -1];
+LAYOUT_ASSERT(TTecDeband_size, sizeof(TTecDeband) == 0x140);
 
 extern "C" {
 void *__dt__10TTecDebandFv(void *arg0, s16 arg1);

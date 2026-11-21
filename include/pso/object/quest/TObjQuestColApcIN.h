@@ -11,6 +11,6 @@ struct TObjQuestColApcIN : public TObjQuestColBase {
     f32 party_radius;  // scale.y; every other player must stand this close (inferred name)
 };
 
-typedef char TObjQuestColApcIN_size[sizeof(TObjQuestColApcIN) == 0xC0 ? 1 : -1];
+LAYOUT_ASSERT(TObjQuestColApcIN_size, sizeof(TObjQuestColApcIN) == 0xC0);
 
 #endif

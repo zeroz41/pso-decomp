@@ -24,8 +24,8 @@ s16 TLobby__sub_803F96AC(u32*);
 static inline NetworkPacketBufferDescriptor *find_804253F8(u32 arg0) {
     s32 i;
     for (i = 0; i < 0x20; i++) {
-        if (network_packet_buffer_descriptors[i].in_use != 0 && (u32)network_packet_buffer_descriptors[i].data <= arg0 &&
-            arg0 < (u32)network_packet_buffer_descriptors[i].data + 0x600) {
+        if (network_packet_buffer_descriptors[i].in_use != 0 && (uaddr)network_packet_buffer_descriptors[i].data <= arg0 &&
+            arg0 < (uaddr)network_packet_buffer_descriptors[i].data + 0x600) {
             break;
         }
     }
@@ -38,9 +38,9 @@ static inline NetworkPacketBufferDescriptor *find_804253F8(u32 arg0) {
 void clear_message_entry(s32 a) {
     NetworkPacketBufferDescriptor *entry;
     u8 unused[8];
-    lock_mutex((int)((void *)network_packet_mutex));
+    lock_mutex((saddr)network_packet_mutex);
     entry = find_entry_by_address(a);
-    unlock_mutex((int)((void *)network_packet_mutex));
+    unlock_mutex((saddr)network_packet_mutex);
     if (entry != NULL) {
         entry->in_use = 0;
         entry->queued_length = 0;
@@ -76,9 +76,9 @@ static inline u8 *alloc_packet_buffer(u32 size) {
 
 u8 *TLobby__sub_8042558C(u32 size) {
     u8 *buf;
-    lock_mutex((int)((void *)network_packet_mutex));
+    lock_mutex((saddr)network_packet_mutex);
     buf = alloc_packet_buffer(size);
-    unlock_mutex((int)((void *)network_packet_mutex));
+    unlock_mutex((saddr)network_packet_mutex);
     return buf;
 }
 
@@ -103,9 +103,9 @@ u8 *TLobby__sub_80425640(u32 size) {
 
 NetworkPacketBufferDescriptor *TLobby__sub_804256B8(u32 addr) {
     NetworkPacketBufferDescriptor *e;
-    lock_mutex((int)((void *)network_packet_mutex));
+    lock_mutex((saddr)network_packet_mutex);
     e = find_804253F8(addr);
-    unlock_mutex((int)((void *)network_packet_mutex));
+    unlock_mutex((saddr)network_packet_mutex);
     return e;
 }
 #pragma pop
@@ -113,7 +113,7 @@ NetworkPacketBufferDescriptor *TLobby__sub_804256B8(u32 addr) {
 NetworkPacketBufferDescriptor *find_entry_by_address(s32 arg0) {
     s32 i;
     for (i = 0; i < 32; i++) {
-        if (((NetworkPacketBufferDescriptor *)&network_packet_buffer_descriptors)[i].in_use != 0 && (u32)((NetworkPacketBufferDescriptor *)&network_packet_buffer_descriptors)[i].data <= (u32)arg0 && (u32)arg0 < (u32)((NetworkPacketBufferDescriptor *)&network_packet_buffer_descriptors)[i].data + 0x600) {
+        if (((NetworkPacketBufferDescriptor *)&network_packet_buffer_descriptors)[i].in_use != 0 && (uaddr)((NetworkPacketBufferDescriptor *)&network_packet_buffer_descriptors)[i].data <= (u32)arg0 && (u32)arg0 < (uaddr)((NetworkPacketBufferDescriptor *)&network_packet_buffer_descriptors)[i].data + 0x600) {
             break;
         }
     }
@@ -142,7 +142,7 @@ s16 initialize_network_packet_pool(void) {
 }
 
 
-typedef char NetworkPacketDescriptorSize[sizeof(NetworkPacketBufferDescriptor)==12 ? 1 : -1];
-typedef char NetworkPacketInUseOffset[offsetof(NetworkPacketBufferDescriptor,in_use)==0 ? 1 : -1];
-typedef char NetworkPacketLengthOffset[offsetof(NetworkPacketBufferDescriptor,queued_length)==4 ? 1 : -1];
-typedef char NetworkPacketDataOffset[offsetof(NetworkPacketBufferDescriptor,data)==8 ? 1 : -1];
+LAYOUT_ASSERT(NetworkPacketDescriptorSize, sizeof(NetworkPacketBufferDescriptor)==12);
+LAYOUT_ASSERT(NetworkPacketInUseOffset, offsetof(NetworkPacketBufferDescriptor,in_use)==0);
+LAYOUT_ASSERT(NetworkPacketLengthOffset, offsetof(NetworkPacketBufferDescriptor,queued_length)==4);
+LAYOUT_ASSERT(NetworkPacketDataOffset, offsetof(NetworkPacketBufferDescriptor,data)==8);

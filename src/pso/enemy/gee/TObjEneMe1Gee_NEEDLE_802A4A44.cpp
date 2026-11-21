@@ -90,7 +90,7 @@ void TObjEneMe1Gee_NEEDLE::render() {
 }
 
 void TObjEneMe1Gee_NEEDLE::run_task() {
-    m_1c = (u32)find_entity_by_id(m_34);
+    m_1c = (uaddr)find_entity_by_id(m_34);
     if (m_1c == 0) {
         TObject::queue_destruction();
         return;
@@ -107,7 +107,7 @@ void TObjEneMe1Gee_NEEDLE::run_task() {
 extern "C" {
 TObjEneMe1Gee_NEEDLE *TObjEneMe1Gee_NEEDLE__ct(TObjEneMe1Gee_NEEDLE *self, TObject *owner, Vec *from, Vec *to, f32 farg0,
                                                f32 power) {
-    TNeedleShoot__ct(self, (s32)owner, from, to);
+    TNeedleShoot__ct(self, (saddr)owner, from, to);
     *(s32 **)((u8 *)self + 0x18) = &__vt__20TObjEneMe1Gee_NEEDLE.value;
     self->m_name = TObjEneMe1Gee_NEEDLE__name;
     self->m_bc = power;

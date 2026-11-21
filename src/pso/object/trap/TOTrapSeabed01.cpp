@@ -85,7 +85,7 @@ static const s32 trap_seabed01_param_index_table[6] = {0, 1, 2, 3, 4, 5};
 const char *TOTrapSeabed01_class_name = "TOTrapSeabed01";
 
 BmlResource *TOTrapSeabed01__bml_resource;
-u32 TOTrapSeabed01__texture_file;
+uaddr TOTrapSeabed01__texture_file;
 NJS_OBJECT *TOTrapSeabed01__ginja_model;
 s32 lbl_805D681C;
 s32 seabed01_ginja_mesh_index;
@@ -132,7 +132,7 @@ void TOTrapSeabed01::load_resources() {
         resource = load_resource_from_descriptor(resource, 5, &seabed_trap_resource_descriptor, 0, 0, 0);
     }
     TOTrapSeabed01__bml_resource = resource;
-    TOTrapSeabed01__texture_file = (u32)load_gvm_texture_file((s32)"obj_seabed_turigane.gvm");
+    TOTrapSeabed01__texture_file = (uaddr)load_gvm_texture_file((saddr)"obj_seabed_turigane.gvm");
     TOTrapSeabed01__ginja_model = find_object_node((NJS_OBJECT *)get_bml_model(TOTrapSeabed01__bml_resource, 0), 5);
     lbl_805D681C = 0;
     seabed01_ginja_mesh_index = -1;
@@ -208,7 +208,7 @@ void TOTrapSeabed01::vfunc_84() {}
 
 void TOTrapSeabed01::render() {
     if (TMainTask::get_render_pass() != 1 &&
-        (projected == 0 || is_split_screen() != 0 || dispatch_input_to_instance__18TAdEnterPasswordGCFi((s32)this) == 0) &&
+        (projected == 0 || is_split_screen() != 0 || dispatch_input_to_instance__18TAdEnterPasswordGCFi((saddr)this) == 0) &&
         m_340 == 1) {
         switch (mode) {
         case 0:
@@ -259,10 +259,10 @@ void TOTrapSeabed01::draw_object_tree(NJS_OBJECT *object) {
                 setup_particle_tev(0);
                 TObjFish::set_global_param(TOTrapSeabed01__texture_file);
                 load_projection_tex_matrix(0x38E);
-                draw_ginja_model((s32)object->model);
+                draw_ginja_model((saddr)object->model);
                 reset_particle_tev();
             } else {
-                draw_ginja_model((s32)object->model);
+                draw_ginja_model((saddr)object->model);
             }
         }
         if (!(flags & 0x10) && object->child != NULL) {
@@ -282,7 +282,7 @@ void TOTrapSeabed01::render_effect_layers() {
         }
         lbl_805D681C = actor_frame_tick;
     }
-    set_model_node_callback((s32)TOTrapSeabed01::trigger_by_id);
+    set_model_node_callback((saddr)TOTrapSeabed01::trigger_by_id);
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation_y);
@@ -305,7 +305,7 @@ void TOTrapSeabed01::render_effect_layers() {
 // The model node callback of render_effect_layers: the glowing node draws
 // with the effect render state.
 void TOTrapSeabed01::trigger_by_id(u32 node) {
-    if (node == (u32)TOTrapSeabed01__ginja_model) {
+    if (node == (uaddr)TOTrapSeabed01__ginja_model) {
         TParticleCtrl::begin_effect_render();
     } else {
         TParticleCtrl::end_effect_render();
@@ -368,8 +368,8 @@ int TOTrapSeabed01::vfunc_67(f32) {
     TObjChara *chara;
     for (i = 0; i < 16; i++) {
         chara = (TObjChara *)TObjPlayer::get_battle_param(i);
-        if (TObjPlayer::is_valid_and_active((u32)chara) != 0 &&
-            ((TUnk_804B6C24 *)chara)->check_value_equals((s32)lbl_805D3530) != 0) {
+        if (TObjPlayer::is_valid_and_active((uaddr)chara) != 0 &&
+            ((TUnk_804B6C24 *)chara)->check_value_equals((saddr)lbl_805D3530) != 0) {
             chara->receive_direct_attack(this, payload, NULL, -1, -1);
             if (payload.kind < 5) {
                 chara->apply_knockback_from_attacker((u8 *)this, 0.0f);
@@ -419,7 +419,7 @@ void TOTrapSeabed01::sub_802C9D38() {
             held = get_player_by_client_id(get_entity_id((TObjBase *)target));
             if (held != NULL) {
                 if (held->check_player_flag1() != 0) {
-                    TObjPlayer::send_code_45_1((s32)held);
+                    TObjPlayer::send_code_45_1((saddr)held);
                 }
                 obj_clear_flag30_20000(held);
             }
@@ -427,7 +427,7 @@ void TOTrapSeabed01::sub_802C9D38() {
     } else if (target != NULL && local_client_id == get_entity_id((TObjBase *)target)) {
         held = get_player_by_client_id(local_client_id);
         if (held != NULL && held->check_player_flag1() != 0) {
-            TObjPlayer::send_code_45_1((s32)held);
+            TObjPlayer::send_code_45_1((saddr)held);
         }
     }
 }

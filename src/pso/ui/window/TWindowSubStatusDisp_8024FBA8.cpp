@@ -5,7 +5,7 @@
 #include "pso/ui/Language.h"
 
 
-s32 text_draw_clip_context;
+saddr text_draw_clip_context;
 f32 text_draw_depth;
 f32 text_draw_right_limit_x;
 s32 text_clip_enabled_flag;
@@ -28,7 +28,7 @@ struct Quad_8024FD8C {
     f32 u[4];
 };
 
-extern s32 text_draw_clip_context;
+extern saddr text_draw_clip_context;
 extern f32 text_draw_depth;
 extern f32 text_draw_right_limit_x;
 extern s32 text_clip_enabled_flag;

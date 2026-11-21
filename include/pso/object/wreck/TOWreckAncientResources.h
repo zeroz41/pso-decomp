@@ -11,7 +11,7 @@ struct AncientWreckDebrisOffsets {
     Vec offsets[9];
 };
 
-typedef char AncientWreckDebrisOffsets_size[sizeof(AncientWreckDebrisOffsets) == 0x6C ? 1 : -1];
+LAYOUT_ASSERT(AncientWreckDebrisOffsets_size, sizeof(AncientWreckDebrisOffsets) == 0x6C);
 
 extern "C" {
 extern BmlResourceDescriptor bm_o_wreck_ancient_resource_descriptor;

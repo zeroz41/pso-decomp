@@ -10,6 +10,6 @@ struct TQuadSpriteSclColRot : public TUnk_804C57F0 {
     virtual void render();
 };
 
-typedef char TQuadSpriteSclColRot_size[sizeof(TQuadSpriteSclColRot) == 0x2C ? 1 : -1];
+LAYOUT_ASSERT(TQuadSpriteSclColRot_size, sizeof(TQuadSpriteSclColRot) == 0x2C);
 
 #endif

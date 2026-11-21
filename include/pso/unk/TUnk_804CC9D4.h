@@ -16,6 +16,6 @@ public:
     s32 always_selectable;
     s32 interacted;
 };
-typedef char TUnk_804CC9D4_size[sizeof(TUnk_804CC9D4) == 0xB4 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804CC9D4_size, sizeof(TUnk_804CC9D4) == 0xB4);
 
 #endif

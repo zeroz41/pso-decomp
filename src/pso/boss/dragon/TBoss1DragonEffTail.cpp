@@ -143,8 +143,8 @@ TBoss1DragonEffTail::TBoss1DragonEffTail(TObjBase *owner, void *arg2) : TUnk_804
     for (i = 1; i < 0x11; i++) {
         copy_collision_body(&bodies[i], (const CollisionBody *)data);
     }
-    m_b0 = (u32)owner;
-    m_b4 = (u32)arg2;
+    m_b0 = (uaddr)owner;
+    m_b4 = (uaddr)arg2;
     p = ::operator new(0x10);
     if (p != 0) {
         p = __ct__17AreaAttackHistoryFl((u8 *)p, 4);

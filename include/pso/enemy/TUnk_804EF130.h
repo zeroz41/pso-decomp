@@ -26,6 +26,6 @@ public:
     u16 owner_id;
     u8 pad_FA[0x2];
 };
-typedef char TUnk_804EF130_size[sizeof(TUnk_804EF130) == 0xFC ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804EF130_size, sizeof(TUnk_804EF130) == 0xFC);
 
 #endif

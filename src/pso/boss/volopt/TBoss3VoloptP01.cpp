@@ -146,7 +146,7 @@ TBoss3VoloptP01::TBoss3VoloptP01(TBoss3Volopt *parent, s32 index, u16 id, s32 an
 void TBoss3VoloptP01::init_params() {
     motion_list = TBoss3VoloptP01__resource_bundle->motions;
     action_table = volopt_p01_action_table;
-    set_field_d8((s32)action_table);
+    set_field_d8((saddr)action_table);
     init_collision_body_parts(this, &volopt_p01_collision_parts, 1);
     variant = 0;
     movementParameters = &volopt_p01_movement;
@@ -253,7 +253,7 @@ void TBoss3VoloptP01::render() {
 
     if (!(actorFlags & 0x02000000) && update_object_view_visibility(400.0f, 40.0f) != 0) {
         TObjFish::set_global_param(texlist);
-        select_actor_lighting((s32)this);
+        select_actor_lighting((saddr)this);
         TObjPlayer::toggle_particle_effect();
         push_matrix();
         if (TObjPlayer::check_demo_mode() == 1) {
@@ -355,7 +355,7 @@ void TBoss3VoloptP01::update_breakup() {
         this->requested_action = 4;
         state = 1;
         *(s16 *)&timer = 0x5A;
-        TObjPlayer::spawn_effect_f8((s32)&m_2fc, *(s16 *)&timer);
+        TObjPlayer::spawn_effect_f8((saddr)&m_2fc, *(s16 *)&timer);
         if (is_primary != 0) {
             volopt_breakup_flag = 1;
             TBoss3VoloptCore::link_photon(m_2d4, 0);
@@ -366,7 +366,7 @@ void TBoss3VoloptP01::update_breakup() {
         advance_animation();
         (*(s16 *)&timer)--;
         if (*(s16 *)&timer < 0) {
-            TBoss3Volopt::create_breakup_mdl((s32)TBoss3VoloptP01__breakup_model, (s32)&volopt_p01_breakup_params, texlist, (s32)&m_2fc, rotation_y);
+            TBoss3Volopt::create_breakup_mdl((saddr)TBoss3VoloptP01__breakup_model, (saddr)&volopt_p01_breakup_params, texlist, (saddr)&m_2fc, rotation_y);
             ((TObjPlayer *)&m_2fc)->trigger_dell_biter_events();
             m_388 |= 0x40000;
             play_sound_effect(0x4003AD07, &position, 0, 0);
@@ -552,7 +552,7 @@ void TBoss3VoloptP01::update_attack() {
         state = 5;
     }
     case 5:
-        play_persistent_sound(0x4002B51E, (s32)this, (u32)&position, 0, 0);
+        play_persistent_sound(0x4002B51E, (saddr)this, (uaddr)&position, 0, 0);
         if (--attack_timer <= 0) {
             if (charge_effect != NULL) {
                 charge_effect->queue_destruction();

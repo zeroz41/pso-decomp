@@ -32,5 +32,5 @@ struct TPhotonLaser : public TObjChara {
     u8 unk_372[0xE];
 };
 
-typedef char TPhotonLaser_size[sizeof(TPhotonLaser) == 0x380 ? 1 : -1];
+LAYOUT_ASSERT(TPhotonLaser_size, sizeof(TPhotonLaser) == 0x380);
 #endif

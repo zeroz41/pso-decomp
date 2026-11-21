@@ -16,14 +16,14 @@ typedef struct Icmp6ErrorInfo {
     u16 checksum;
     s32 pointer;
 } Icmp6ErrorInfo;
-typedef char Icmp6ErrorInfo_size_check[sizeof(Icmp6ErrorInfo) == 8 ? 1 : -1];
+LAYOUT_ASSERT(Icmp6ErrorInfo_size_check, sizeof(Icmp6ErrorInfo) == 8);
 typedef struct UdpHeader {
     u16 src_port;
     u16 dst_port;
     u16 length;
     u16 checksum;
 } UdpHeader;
-typedef char UdpHeader_size_check[sizeof(UdpHeader) == 8 ? 1 : -1];
+LAYOUT_ASSERT(UdpHeader_size_check, sizeof(UdpHeader) == 8);
 s16 NetIPv6HandleIcmpMessage(NetPacket *pkt, u8 *src, u8 *dst, u8 hop_limit, s16 iface) {
     /* The handlers are defined in TLobby_8041112C.c with their own parameter types (s32/void * for some
        arguments); this caller declares them with an s16 iface. */
@@ -48,7 +48,7 @@ s16 NetIPv6HandleIcmpMessage(NetPacket *pkt, u8 *src, u8 *dst, u8 hop_limit, s16
         return -1;
     }
     body = &pkt->fragments[1];
-    set_value_and_enable(&ref, (s32)&icmp);
+    set_value_and_enable(&ref, (saddr)&icmp);
     netbuf_copy_by_ref(&ref, &body->buffer, 8);
     switch (icmp.type) {
     case 128:
@@ -70,12 +70,12 @@ s16 NetIPv6HandleIcmpMessage(NetPacket *pkt, u8 *src, u8 *dst, u8 hop_limit, s16
         return r;
     case 1:
         netbuf_ref_advance(&body->buffer, 8);
-        set_value_and_enable(&ref, (s32)&ip);
+        set_value_and_enable(&ref, (saddr)&ip);
         netbuf_copy_by_ref(&ref, &body->buffer, sizeof(ip));
         netbuf_ref_advance(&body->buffer, sizeof(ip));
         switch (ip.next_header) {
         case 17:
-            set_value_and_enable(&ref, (s32)&udp);
+            set_value_and_enable(&ref, (saddr)&udp);
             netbuf_copy_by_ref(&ref, &body->buffer, sizeof(udp));
             TLobby__sub_80420D38(udp.src_port, icmp.code);
             break;
@@ -87,7 +87,7 @@ s16 NetIPv6HandleIcmpMessage(NetPacket *pkt, u8 *src, u8 *dst, u8 hop_limit, s16
         mtu = icmp.pointer;
         if (mtu > 0 && mtu < 0x8000) {
             netbuf_ref_advance(&body->buffer, 8);
-            set_value_and_enable(&ref, (s32)&ip);
+            set_value_and_enable(&ref, (saddr)&ip);
             netbuf_copy_by_ref(&ref, &body->buffer, sizeof(ip));
             TLobby__sub_80411DEC(&ip.dst, mtu);
         }
@@ -207,11 +207,11 @@ s16 icmp6_send_error(void *a, u8 *src, s16 c, s16 flag) {
     pkt->fragment_count = 0;
     pkt->total_bytes = c;
     pkt->fragments[pkt->fragment_count].length = c;
-    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (s32)src);
+    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (saddr)src);
     pkt->fragment_count += 1;
     pkt->total_bytes += 8;
     pkt->fragments[pkt->fragment_count].length = 8;
-    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (s32)a);
+    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (saddr)a);
     pkt->fragment_count += 1;
     if (pkt->total_bytes + 0x28 > 0x500) {
         d = len = pkt->total_bytes - 0x4d8;
@@ -223,7 +223,7 @@ s16 icmp6_send_error(void *a, u8 *src, s16 c, s16 flag) {
     }
     msg->checksum = 0;
     msg->checksum = calc_ipv6_pseudo_header_checksum(&buf, p, 0x3a, pkt, 1);
-    r = TLobby__sub_80410A98((s32)pkt, p, &buf, 0, (void *)0x3a);
+    r = TLobby__sub_80410A98((saddr)pkt, p, &buf, 0, (void *)0x3a);
     release_entry(pkt);
     return r;
 }
@@ -233,7 +233,7 @@ typedef struct Icmp6MessageHeader {
     u8 code;
     u16 checksum;
 } Icmp6MessageHeader;
-typedef char Icmp6MessageHeader_size_check[sizeof(Icmp6MessageHeader) == 4 ? 1 : -1];
+LAYOUT_ASSERT(Icmp6MessageHeader_size_check, sizeof(Icmp6MessageHeader) == 4);
 s16 TLobby__sub_8040D718(u8 type, u8 code, u8 *src, u8 *dst, NetPacket *pkt, s16 idx) {
     Icmp6MessageHeader hdr;
     s16 r;
@@ -249,7 +249,7 @@ s16 TLobby__sub_8040D718(u8 type, u8 code, u8 *src, u8 *dst, NetPacket *pkt, s16
         netbuf_ref_advance(&pkt->fragments[pkt->fragment_count - 1].buffer, sizeof(hdr));
         pkt->fragments[pkt->fragment_count - 1].length -= sizeof(hdr);
         pkt->fragments[pkt->fragment_count].length = sizeof(hdr);
-        set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (s32)&hdr);
+        set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (saddr)&hdr);
         pkt->fragment_count++;
         break;
     default:
@@ -259,7 +259,7 @@ s16 TLobby__sub_8040D718(u8 type, u8 code, u8 *src, u8 *dst, NetPacket *pkt, s16
     hdr.code = code;
     hdr.checksum = 0;
     hdr.checksum = calc_ipv6_pseudo_header_checksum((const IPv6Address *)src, (const IPv6Address *)dst, 0x3A, pkt, 1);
-    if (TLobby__sub_80410A98((s32)pkt, dst, src, NULL, (void *)0x3A)) {
+    if (TLobby__sub_80410A98((saddr)pkt, dst, src, NULL, (void *)0x3A)) {
         return -1;
     }
     return 0;

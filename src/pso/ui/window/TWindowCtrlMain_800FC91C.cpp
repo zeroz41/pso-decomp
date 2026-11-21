@@ -56,7 +56,7 @@ extern "C" {
 s32 get_status_index_or_default__20TWindowSubStatusDispFPUs(void *, s32);
 
     extern int TWindowCtrlMain__instance;
-int TWindowCtrlMain::get_instance() {  return TWindowCtrlMain__instance; }
+saddr TWindowCtrlMain::get_instance() {  return TWindowCtrlMain__instance; }
 
 void TWindowCtrlMain::advance_card_status(s32 arg0) {
     s32 var_r4;
@@ -121,7 +121,7 @@ s32 TWindowSubStatusDisp::build_status_text(s32 arg0) {
 void *TFontSmallLobby::create(void *arg0) {
     void *o = TObject::operator new(0x64);
     if (o != NULL) {
-        o = fn_800FCC78((u8 *)o, (s32)arg0);
+        o = fn_800FCC78((u8 *)o, (saddr)arg0);
     }
     return o;
 }
@@ -129,10 +129,10 @@ void *TFontSmallLobby::create(void *arg0) {
 void TUnk_8049CA54::run_task() {
     s32 temp_r3_2;
     s32 temp_r4;
-    u32 temp_r3_3;
-    s32 temp_r3;
+    uaddr temp_r3_3;
+    saddr temp_r3;
 
-    temp_r3 = (s32)get_player_by_client_id(*(s32 *)&this->player_id);
+    temp_r3 = (saddr)get_player_by_client_id(*(s32 *)&this->player_id);
     if (temp_r3 == 0) {
         queue_destruction();
         return;
@@ -168,7 +168,7 @@ struct RecoveredGlobal_800FCC78_lbl_8049CA54 {
 extern "C" {
 u8 * __ct__14TFontSmallHelpFUlUllUl(void *, s32, s32, s32, s32);
 extern RecoveredGlobal_800FCC78_lbl_8049CA54 __vt__13TUnk_8049CA54;
-typedef char RecoveredGlobal_800FCC78_lbl_8049CA54_size[sizeof(RecoveredGlobal_800FCC78_lbl_8049CA54) == 0x1C ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_800FCC78_lbl_8049CA54_size, sizeof(RecoveredGlobal_800FCC78_lbl_8049CA54) == 0x1C);
 u8 *fn_800FCC78(u8 *arg0, s32 arg1) {
     __ct__14TFontSmallHelpFUlUllUl(arg0, arg1, -1, -1, 0);
     *(s32 **)((s8 *)arg0 + 0x18) = &__vt__13TUnk_8049CA54.value;

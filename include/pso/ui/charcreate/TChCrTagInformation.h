@@ -16,6 +16,6 @@ struct TChCrTagInformation : public TChCrTag {
     static void *create_default();
 };
 
-typedef char TChCrTagInformation_size[sizeof(TChCrTagInformation) == 0x3C ? 1 : -1];
+LAYOUT_ASSERT(TChCrTagInformation_size, sizeof(TChCrTagInformation) == 0x3C);
 
 #endif

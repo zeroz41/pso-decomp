@@ -24,7 +24,7 @@ const char *TObjBoss8Piller__class_name = "TObjBoss8Piller";
 
 extern "C" {
 
-u32 TObjBoss8Piller__shared_resource;
+uaddr TObjBoss8Piller__shared_resource;
 u8 *get_enemy_entity(u16 arg0);
 s32 TBoss8Dragon__sub_802FB1B0(int, f32, void *);
 s32 post_translate_matrix(void *);
@@ -35,7 +35,7 @@ s32 push_matrix();
 
 void TObjBoss8Piller::render() {
     u8 *arg0 = (u8 *)this;
-    s32 var_r31;
+    saddr var_r31;
 
     if (TObjPlayer::is_any_teammate_in_state() == 0) {
         if (is_split_screen() != 0) {
@@ -43,11 +43,11 @@ void TObjBoss8Piller::render() {
         } else {
             var_r31 = *(s32 *)((s8 *)(*(void **)((s8 *)TObjBoss8Piller__shared_resource + 0x42C)) + 8);
         }
-        TObjFish::set_global_param((s32)((void *) (*(s32 *)((s8 *)(*(void **)((s8 *)TObjBoss8Piller__shared_resource + 0x42C)) + 0xC))));
+        TObjFish::set_global_param((saddr)((void *) (*(saddr *)((s8 *)(*(void **)((s8 *)TObjBoss8Piller__shared_resource + 0x42C)) + 0xC))));
         push_matrix();
         post_translate_matrix(arg0 + 0x1C);
         scale_matrix(0, 1.0f, 1.0f, 1.0f);
-        draw_model_motion((void *)var_r31, (void *)(*(s32 *)((s8 *)arg0 + 0x2C)), (f32) (*(f32 *)((s8 *)arg0 + 0x28)));
+        draw_model_motion((void *)var_r31, (void *)(*(saddr *)((s8 *)arg0 + 0x2C)), (f32) (*(f32 *)((s8 *)arg0 + 0x28)));
         pop_matrix();
         set_default_alpha_blend();
     }
@@ -57,7 +57,7 @@ void TObjBoss8Piller::run_task() {
     u32 enemy_entity;
     u32 temp_r3_2;
     *(f32 *)((s8 *)arg0 + 0x28) += 1.0f;
-    enemy_entity = (u32)get_enemy_entity((*(u16 *)((s8 *)arg0 + 0x30)));
+    enemy_entity = (uaddr)get_enemy_entity((*(u16 *)((s8 *)arg0 + 0x30)));
     if (enemy_entity != 0U) {
         TBoss8Dragon__sub_802FB1B0(enemy_entity, 25.0f, arg0 + 0x1C);
     }
@@ -84,7 +84,7 @@ void __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_8030AF60___vt__15TObjBoss8Piller __vt__15TObjBoss8Piller;
 void free_bin_model_request(void*, int);
 
-typedef char RecoveredGlobal_8030AF60___vt__15TObjBoss8Piller_size[sizeof(RecoveredGlobal_8030AF60___vt__15TObjBoss8Piller) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8030AF60___vt__15TObjBoss8Piller_size, sizeof(RecoveredGlobal_8030AF60___vt__15TObjBoss8Piller) == 0x18);
 u8 *__ct__15TObjBoss8PillerFv(u8 *object, u8 *arg1, u8 *arg2, s16 arg3) {
     __ct__7TObjectFP7TObject(object, arg1);
     *(s32 **)((s8 *)object + 0x18) = &__vt__15TObjBoss8Piller.value;
@@ -105,9 +105,9 @@ void TObjBoss8Piller::free_held_object() {
     }
 }
 void TObjBoss8Piller::load_resource_descriptor() {
-    s32 temp_r3;
+    saddr temp_r3;
     s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
+    temp_r3 = (saddr)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &bm_obj_boss8_piller_resource_descriptor, 0, 0, 0));

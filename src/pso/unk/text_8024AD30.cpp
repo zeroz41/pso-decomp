@@ -5,6 +5,6 @@
 
 extern WindowCtrlMethod window_ctrl_end_keyboard_hold_callback_entry;
 
-void end_player_keyboard_hold(s32 arg0) {
+void end_player_keyboard_hold(saddr arg0) {
     call_window_method__11TWindowCtrlFPvi((void *)arg0, window_ctrl_end_keyboard_hold_callback_entry);
 }

@@ -5,7 +5,7 @@
 
 class TUnk_804F322C : public TObjEnemy {
 public:
-    TUnk_804F322C(TObject *parent, s32 set_data);
+    TUnk_804F322C(TObject *parent, saddr set_data);
     virtual ~TUnk_804F322C();
     void update_linked_state();
     virtual void vfunc_63();

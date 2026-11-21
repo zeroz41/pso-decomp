@@ -27,7 +27,7 @@ const char *TWindowDD_WS_ScrollBar__class_name = "TWindowDD_WS_ScrollBar";
 
 extern "C" {
 
-extern s32 lbl_805D63F0;
+extern saddr lbl_805D63F0;
 
 f32 lbl_805D6DC0;
 f32 lbl_805D6DC4;
@@ -61,7 +61,7 @@ extern NJS_POINT2 TWindowDD__data_805434E8[7][8];
 static inline f32 span_start(f32 center, f32 half_extent) { return center - half_extent; }
 static inline f32 span_end(f32 center, f32 half_extent) { return center + half_extent; }
 void TWindowDD__sub_80340A78(TWindowDD_WS_ScrollBar *self) {
-    WindowDrawContext *rect = (WindowDrawContext *)TWindowDD::draw_default_entry((s32)self);
+    WindowDrawContext *rect = (WindowDrawContext *)TWindowDD::draw_default_entry((saddr)self);
     E_803403F8 verts[8];
     f32 quad[8];
     s32 tex;
@@ -198,7 +198,6 @@ void TWindowDD::set_scale(s32 arg1, s32 arg2) {
 extern "C" {
 
 void *dt__22TWindowDD_WS_ScrollBarFs(void *arg0, s16 arg1);
-void __dl__7TObjectFPv(void *);
 
 extern "C" void init__9TWindowDDFv();
 extern "C" void render_shadows__7TObjectFv();
@@ -223,7 +222,7 @@ void *TWindowDD_WS_ScrollBar::dt(s16 arg1) {
         *(s32 **)((s8 *)this + 0x18) = lbl_804EFBE4;
         __dt__11TWindowBaseFv(this, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(this);
+            TObject::operator delete(this);
         }
     }
     return this;

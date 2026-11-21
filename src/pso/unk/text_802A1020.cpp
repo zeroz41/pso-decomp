@@ -33,7 +33,6 @@ void set_queued_main_phase(s32 arg0);
 void reset_controller_input_state(void);
 s32 set_copy_clear_color_argb(s32, s32, s32);
 u8 *__ct__6TMovieFP7TObjectPSclll(void *, void *, const char *, void (*)(s32), s32, s32, s32);
-u8 *__nw__7TObjectFUl(s32);
 extern s32 lobby_cursor_active_flag;
 extern s8 movie_finished_flag;
 extern s32 opening_movie_selector;
@@ -83,7 +82,7 @@ s32 verify_game_file_integrity(void) {
         if (file_integrity_table[i].size <= 1000000) {
             buf = load_disc_file(file_integrity_table[i].file);
             if (buf == NULL) {
-                TAdSinglePlyChrSelectGC::safe_free((u32)buf);
+                TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
                 lobby_cursor_active_flag = 0;
                 return 0;
             }
@@ -98,7 +97,7 @@ s32 verify_game_file_integrity(void) {
                     }
                 }
             }
-            TAdSinglePlyChrSelectGC::safe_free((u32)buf);
+            TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
             if (~crc != file_integrity_table[i].crc) {
                 lobby_cursor_active_flag = 1;
                 return 1;
@@ -178,13 +177,13 @@ TUnk_804DCB64::TUnk_804DCB64() : TObject(tl_01) {
         return;
     }
     if ((s8) opening_movie_purpose == 0) {
-        u8 *movie = __nw__7TObjectFUl(0x4C);
+        u8 *movie = (u8 *)TObject::operator new(0x4C);
         if (movie != NULL) {
             __ct__6TMovieFP7TObjectPSclll(movie, tl_00, opening_movie_path_table[current_language + (opening_movie_selector * 5)], set_movie_finished_flag, 1, 1, 0);
         }
         opening_movie_selector = 1 - opening_movie_selector;
     } else {
-        u8 *movie = __nw__7TObjectFUl(0x4C);
+        u8 *movie = (u8 *)TObject::operator new(0x4C);
         if (movie != NULL) {
             __ct__6TMovieFP7TObjectPSclll(movie, tl_00, opening_movie_path_table[current_language], set_movie_finished_flag, 1, 1, 0);
         }

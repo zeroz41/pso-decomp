@@ -1,6 +1,5 @@
 
 
-#define ARStartDMA Dolphin_ARStartDMA
 #define __ARQCallbackHi lbl_805D7298
 #define __ARQCallbackLo lbl_805D729C
 #define __ARQChunkSize lbl_805D72A0
@@ -83,16 +82,16 @@ void __ARQServiceQueueLo(void)
 	}
 }
 
-void __ARQCallbackHack(u32 unused) { }
+void __ARQCallbackHack(uaddr unused) { }
 
 void __ARQInterruptServiceRoutine()
 {
 	if (__ARQCallbackHi) {
-		__ARQCallbackHi((u32)__ARQRequestPendingHi);
+		__ARQCallbackHi((uaddr)__ARQRequestPendingHi);
 		__ARQRequestPendingHi = NULL;
 		__ARQCallbackHi       = NULL;
 	} else if (__ARQCallbackLo) {
-		__ARQCallbackLo((u32)__ARQRequestPendingLo);
+		__ARQCallbackLo((uaddr)__ARQRequestPendingLo);
 		__ARQRequestPendingLo = NULL;
 		__ARQCallbackLo       = NULL;
 	}
@@ -133,8 +132,8 @@ void ARQInit(void)
 	}
 }
 
-void ARQPostRequest(struct ARQRequest* request, u32 owner, u32 type,
-                    u32 priority, u32 source, u32 dest, u32 length,
+void ARQPostRequest(struct ARQRequest* request, uaddr owner, u32 type,
+                    u32 priority, uaddr source, uaddr dest, u32 length,
                     ARQCallback callback)
 {
 	int level;
