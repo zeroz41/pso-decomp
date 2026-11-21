@@ -218,8 +218,8 @@ LAYOUT_ASSERT(VtxOut_803E3390_size, sizeof(VtxOut_803E3390) == 0x20);
 
 // This chunk command transforms indexed positions and normals with signed 8.8 weights.
 #ifdef __MWERKS__
-asm void GXSetVtxAttrFmtv(ChunkVertexJob *job, ReorderedMatrix_803E3390 *matrix, u32 accumulate) {
-#include "orig_asm/pso/unk/text_803E2F28/GXSetVtxAttrFmtv.inc"
+asm void transform_chunk_vertices_weighted(ChunkVertexJob *job, ReorderedMatrix_803E3390 *matrix, u32 accumulate) {
+#include "orig_asm/pso/unk/text_803E2F28/transform_chunk_vertices_weighted.inc"
 }
 #else
 static void transform_chunk_vertex(const VtxIn_803E3390 *src, const ReorderedMatrix_803E3390 *matrix, VtxOut_803E3390 *dst) {
@@ -241,7 +241,7 @@ struct WeightedChunkVertex {
 
 LAYOUT_ASSERT(WeightedChunkVertex_size, sizeof(WeightedChunkVertex) == 0x1C);
 
-void GXSetVtxAttrFmtv(ChunkVertexJob *job, ReorderedMatrix_803E3390 *matrix, u32 accumulate) {
+void transform_chunk_vertices_weighted(ChunkVertexJob *job, ReorderedMatrix_803E3390 *matrix, u32 accumulate) {
     const WeightedChunkVertex *src = (const WeightedChunkVertex *)job->src;
     for (s32 i = 0; i < job->count; ++i, ++src) {
         VtxOut_803E3390 *dst = (VtxOut_803E3390 *)(job->dst + src->index * sizeof(VtxOut_803E3390));
@@ -827,7 +827,7 @@ s32 dispatch_chunk_vertex_list(u32 *list, saddr buffer) {
         if ((type & 0xFF) == 0x29) {
             transform_chunk_vertices_pos_normal(&job, (ReorderedMatrix_803E3390 *)current_matrix);
         } else if ((type & 0xFF) == 0x2C) {
-            GXSetVtxAttrFmtv(&job, (ReorderedMatrix_803E3390 *)current_matrix, ((type & ~0x8000) >> 8) & 0xFF);
+            transform_chunk_vertices_weighted(&job, (ReorderedMatrix_803E3390 *)current_matrix, ((type & ~0x8000) >> 8) & 0xFF);
         } else if ((type & 0xFF) == 0x2A) {
             transform_vertex_list__10TObjPlayerFv(&job, current_matrix);
         } else if ((type & 0xFF) == 0x23) {
