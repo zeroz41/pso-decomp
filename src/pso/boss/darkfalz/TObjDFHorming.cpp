@@ -231,17 +231,14 @@ void TBoss4DarkFalz::push_players_out_of_zone(s32 arg0, s32 arg1) {
 s16 get_entity_id(void *);
 s32 TBoss4Type3__sub_8005254C(s16);
 
-s32 get_action_state__14TBoss4DarkFalzFv();
 
 s32 TObjDFHorming::is_boss_active() {
     int var_r31;
 
     var_r31 = 0;
-    if (TBoss4DarkFalz__sub_8004C1AC() != 0U) {
-        TBoss4DarkFalz__sub_8004C1AC();
-        if (get_action_state__14TBoss4DarkFalzFv() != 3) {
-            TBoss4DarkFalz__sub_8004C1AC();
-            if (get_action_state__14TBoss4DarkFalzFv() != 2) {
+    if (TBoss4DarkFalz__sub_8004C1AC() != NULL) {
+        if (((TBoss4DarkFalz *)TBoss4DarkFalz__sub_8004C1AC())->get_action_state() != 3) {
+            if (((TBoss4DarkFalz *)TBoss4DarkFalz__sub_8004C1AC())->get_action_state() != 2) {
                 var_r31 = 1;
             }
         }

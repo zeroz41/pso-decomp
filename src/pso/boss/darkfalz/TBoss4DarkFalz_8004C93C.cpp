@@ -54,7 +54,7 @@ saddr VecCopy__FP3VecPC3Vec(void*, void* a1);
 int freeze_all_players__14TBoss4DarkFalzFPv(void*);
 s32 obj_setArrS16_FC(void *, s32, u16);
 extern s32 lbl_80485454[];
-extern saddr TBoss4DarkFalz__type3_instance;
+extern void *TBoss4DarkFalz__type3_instance;
     extern int dark_falz_form_index;
 s32 TBoss4DarkFalz__sub_8004B07C(s32);
 int TBoss4DarkFalz__sub_8004B7DC(void);
@@ -67,7 +67,7 @@ extern RecoveredGlobal_TBoss4DarkFalz__data_804FF1E8 TBoss4DarkFalz__data_804FF1
 int bswap_16__FPUs(void*);
 int bswap_32__FPUl(void*);
 
-int TBoss4DarkFalz__sub_8004C1AC(void) {  return TBoss4DarkFalz__type3_instance; }
+void *TBoss4DarkFalz__sub_8004C1AC(void) {  return TBoss4DarkFalz__type3_instance; }
 
 extern saddr TBoss4DarkFalz__type2_instance;
 

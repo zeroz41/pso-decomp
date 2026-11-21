@@ -1080,7 +1080,6 @@ void refresh_players_equipment__14TBoss6PlotFalzFPv(void *self) {
         }
     }
 }
-void set_position_from__8TObjBaseFPv();
 }
 void reset_cameras_to_actor(void *, s32);
 
@@ -1101,7 +1100,7 @@ void place_players_in_warp_circle(void) {
             Vec pos = lbl_804705A8;
             pos.x += 350.0f * sin_table_lookup(ang);
             pos.z += 350.0f * cos_table_lookup(ang);
-            ((void (*)(void *, void *))set_position_from__8TObjBaseFPv)(p, &pos);
+            ((TObjBase *)p)->set_position_from(&pos);
             ((TBoss4DarkFalz *)p)->save_position();
             *(s32 *)(((u8 *)((TBoss4DarkFalz *)p)->get_hit_data()) + 4) = ang + 0x8000;
             ((TObjPlayer *)p)->refresh_equipment_slot();
@@ -1120,7 +1119,7 @@ void TBoss6EmptyWarp::init_warp() { place_players_in_warp_circle(); TBoss6PlotFa
 
 void release_all_players_control_lock(void);
 void end_cutscene_camera__14TBoss6PlotFalzFPv(void *self);
-void TBoss6PlotFalz__sub_802AC724(u8 *arg0, u32 arg1);
+void TBoss6PlotFalz__sub_802AC724(u8 *player, void *pos);
 void end_cutscene_camera__14TBoss6PlotFalzFPv(void *self) {
     s32 i;
     void *p;
@@ -1144,14 +1143,14 @@ void TBoss6PlotFalz::freeze_all_players() {
         }
     }
 }
-void TBoss6PlotFalz__sub_802AC724(u8 *boss4_dark_falz, u32 arg1) {
-    if (boss4_dark_falz == NULL || arg1 == 0U) {
+void TBoss6PlotFalz__sub_802AC724(u8 *player, void *pos) {
+    if (player == NULL || pos == NULL) {
         return;
     }
-    set_position_from__8TObjBaseFPv();
-    ((TBoss4DarkFalz *)boss4_dark_falz)->save_position();
-    ((TObjCollidable *)boss4_dark_falz)->set_indexed_flags(0, 0x900000);
-    *(u32 *)(boss4_dark_falz + 0x30) &= 0xFFFFFFDF;
+    ((TObjBase *)player)->set_position_from(pos);
+    ((TBoss4DarkFalz *)player)->save_position();
+    ((TObjCollidable *)player)->set_indexed_flags(0, 0x900000);
+    *(u32 *)(player + 0x30) &= 0xFFFFFFDF;
 }
 }
 

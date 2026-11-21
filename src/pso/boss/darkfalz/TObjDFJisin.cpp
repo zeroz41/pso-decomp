@@ -957,7 +957,7 @@ void run_task__13TObjDFHormingFv(u8 *arg0) {
                 s.b = *(s32 *)&((TObjDFHorming *)arg0)->m_360;
                 {
                     S_80050808 t = s;
-                    ((VObj_18_0c879f *)p)->m21(TBoss4DarkFalz__sub_8004C1AC(), &t, 0, -1, -1);
+                    ((VObj_18_0c879f *)p)->m21((saddr)TBoss4DarkFalz__sub_8004C1AC(), &t, 0, -1, -1);
                 }
             }
             queue_destruction__13TObjDFHormingFPv(arg0);
