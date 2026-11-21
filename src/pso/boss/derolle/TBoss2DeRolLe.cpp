@@ -1277,7 +1277,7 @@ void load_resources__13TBoss2DeRolLeFv(void) {
     TBoss2Tentacle::load_shared_model();
     TBoss2Mine::load_resources();
     for (k = 0; k < 5; k++) {
-        TObjBoss2Tunnel::adjust_to_ground((saddr)&derolle_mine_offsets[k], (u8 *)TBoss2DeRolLe__mine_ground_targets + k * 0xC);
+        TObjBoss2Tunnel::adjust_to_ground(&derolle_mine_offsets[k], &TBoss2DeRolLe__mine_ground_targets[k]);
     }
     TBoss2Fin::init_effect_table();
     res = (u8 *)boss2_derolle_resource;
@@ -3714,7 +3714,7 @@ void TBoss2DeRolLe::sub_800310F8(u32 reason, s32 side) {
                     v.x = r * sin_table_lookup(a);
                     v.y = -1.85f;
                     v.z = r * cos_table_lookup(a);
-                    TObjBoss2Tunnel::adjust_to_ground((saddr)&v, &v);
+                    TObjBoss2Tunnel::adjust_to_ground(&v, &v);
                 }
                 tentacles[unk_6E8]->start_attack_at_target((u8 *)&v, unk_6F0);
                 unk_6E8++;

@@ -111,14 +111,12 @@ struct TObjBoss2Tunnel : public TObject {
     static s32 save_snapshot();
     static void free_buffers();
     static void reset_state();
-    static s32 decrement_packed_timer(u32 *packed, s32 step);
-    // Drops from 20 units above from to the ground: out gets the ground point and normal its
-    // normal, or out = from and 0 when there is no ground.
-    static s32 spawn_effect(const Vec *from, Vec *out, Vec *normal);
-    static s32 adjust_to_ground(saddr from, void *out);
-    static s32 turn_toward_angle_limited(s32 angle, s32 cur, s32 target, s32 step, s32 limit);
-    static f32 calc_scaled_value(s32 angle, f32 length);
-    static void transform_vec_by_camera(saddr camera, saddr in, saddr out);
+    static s32 decrement_packed_timer(u32 *arg0, s32 arg1);
+    static s32 spawn_effect(saddr arg0, void *arg1, void *arg2);
+    static s32 adjust_to_ground(const Vec *from, Vec *out);
+    static s32 turn_toward_angle_limited(s32 arg0, s32 cur, s32 target, s32 step, s32 limit);
+    static f32 calc_scaled_value(s32 arg0, f32 farg0);
+    static void transform_vec_by_camera(saddr arg0, saddr arg1, saddr arg2);
     void render(void* a1);
     static void enable_and_trigger();
     static void reset_player_state();

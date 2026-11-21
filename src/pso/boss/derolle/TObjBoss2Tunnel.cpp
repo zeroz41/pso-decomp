@@ -438,17 +438,17 @@ void rotate_y_and_translate(Vec *v, Vec *origin, s32 angle) {
     vec3_add_to(v, origin);
 }
 
-s32 TObjBoss2Tunnel::adjust_to_ground(saddr from, void *out) {
-    CsnHit *hit;
+s32 TObjBoss2Tunnel::adjust_to_ground(const Vec *from, Vec *out) {
+    s32 *hit;
 
-    VecCopy((Vec *)out, (const Vec *)from);
-    ((Vec *)out)->y += 20.0f;
-    hit = (CsnHit *)csnVecterUnder((saddr)out, 0x16EF);
+    VecCopy(out, from);
+    out->y += 20.0f;
+    hit = csnVecterUnder((saddr)out, 0x16EF);
     if (hit != NULL) {
-        VecCopy((Vec *)out, &hit->contact->point);
+        VecCopy(out, (const Vec *)(*(saddr *)((s8 *)hit + 4)));
         return 1;
     }
-    VecCopy((Vec *)out, (const Vec *)from);
+    VecCopy(out, from);
     return 0;
 }
 

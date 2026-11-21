@@ -3043,7 +3043,7 @@ void TBoss7DeRolLeC::handle_tentacle_attack_state(u32 event, s32 position_index)
                     v.x = r * sin_table_lookup(ang);
                     v.y = -1.85f;
                     v.z = r * cos_table_lookup(ang);
-                    TObjBoss2Tunnel::adjust_to_ground((saddr)&v, (void *)&v);
+                    TObjBoss2Tunnel::adjust_to_ground(&v, &v);
                 }
                 tentacles[unk_730]->start_attack_at_position((u8 *)&v, unk_738);
                 unk_730++;
@@ -3746,7 +3746,7 @@ void TBoss7DeRolLeC::sub_802E85E0(u32 event, s32 position_index) {
                         v.x = scale * sin_table_lookup(r);
                         v.y = -1.85f;
                         v.z = scale * cos_table_lookup(r);
-                        TObjBoss2Tunnel::adjust_to_ground((saddr)&v, (void *)&v);
+                        TObjBoss2Tunnel::adjust_to_ground(&v, &v);
                     }
                     for (j = 0; j != 4; j++) {
                         tentacles[j]->start_attack_at_position((u8 *)&v, unk_738);
