@@ -53,10 +53,10 @@ struct TObjEneMe3Shinowa : public TObjEneDD_ST {
     void init_enemy();
     f32 get_node_world_y();
     s32 check_body_collision_at(s32, f32);
-    s32 sub_800E701C();
-    s32 sub_800E6FE0();
-    void sub_800E6F64();
-    void sub_800E6BB8(s32);
+    s32 is_mirage_enabled();
+    s32 is_gold_enabled();
+    void load_gold_or_mirage_models();
+    void state_action_1(s32);
     void vfunc_63();
     void vfunc_62();
     void vfunc_61();

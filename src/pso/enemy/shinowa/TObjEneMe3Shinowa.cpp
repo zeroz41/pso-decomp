@@ -65,7 +65,7 @@
 extern "C" {
 s32 is_player_entity_id(u16);
 s32 enemy_set_target_id(void *, u16);
-void fn_800E762C(TObjEneMe3Shinowa *);
+void mirage_lifecycle_hook(TObjEneMe3Shinowa *);
 u16 TObjEneMe3ShinowaReal__sub_800E45CC(TObjEneMe3Shinowa *shinowa);
 extern s32 model_render_flags;
 TObjEneMe3ShinowaMirage *create__23TObjEneMe3ShinowaMirageFPvPv(void *, s32, s32, s32);
@@ -327,7 +327,7 @@ TObjEneMe3Shinowa::TObjEneMe3Shinowa(TObject *parent) : TObjEneDD_ST(parent) {
 void TObjEneMe3Shinowa::init_enemy() {
     Tbl_800E7884 *tbl = &(*(Tbl_800E7884 *)&TObjEneMe3ShinowaMirage__data_80500FC0);
     init_position_vectors();
-    sub_800E6F64();
+    load_gold_or_mirage_models();
     model = (void *)TObjEneMe3ShinowaMirage__data_805D5298->models->model;
     init_model(shinowa_mirage_model_init_data, 1);
     motion_flags = 0;
@@ -419,7 +419,7 @@ void TObjEneMe3Shinowa::vfunc_88() {
     bodies->offset.y = m_3cc + (m_300 - position.y);
 }
 
-void fn_800E762C(TObjEneMe3Shinowa *) {  }
+void mirage_lifecycle_hook(TObjEneMe3Shinowa *) {  }
 
 f32 TObjEneMe3Shinowa::get_node_world_y() {
     TObjEneMe3Shinowa *self = this;
@@ -519,7 +519,7 @@ void TObjEneMe3Shinowa__sub_800E7268(TObjEneMe3Shinowa *shinowa) {
     shinowa->m_2cc = (s16) ((s16) shinowa->m_3dc / 2);
 }
 
-void TObjEneMe3ShinowaReal::sub_800E7250() {
+void TObjEneMe3ShinowaReal::consume_spawn_request() {
     m_3c4 &= 0xFFFFFFEF;
     m_2cc = (s16) m_3dc;
 }
@@ -582,18 +582,18 @@ void TObjEneMe3Shinowa::vfunc_89() {
     check_enemy_body_collisions(this);
 }
 
-s32 TObjEneMe3Shinowa::sub_800E701C() {
+s32 TObjEneMe3Shinowa::is_mirage_enabled() {
     return parameters[0] < 1.0f;
 }
 
 s32 TObjEneMe3Shinowa::vfunc_104(f32 range) { return select_and_apply_target(range); }
 
-s32 TObjEneMe3Shinowa::sub_800E6FE0() {
+s32 TObjEneMe3Shinowa::is_gold_enabled() {
     return parameters[1] >= 1.0f;
 }
 
-void TObjEneMe3Shinowa::sub_800E6F64() {
-    if (sub_800E6FE0() != 0) {
+void TObjEneMe3Shinowa::load_gold_or_mirage_models() {
+    if (is_gold_enabled() != 0) {
         texlist = (saddr)&lbl_80500FEC;
         initialize_enemy_state(0x1b);
         m_3c0 = 1;
@@ -615,7 +615,7 @@ void TObjEneMe3Shinowa::dispatch_action(u32 arg1, s32 arg2) {
         action(arg2);
         return;
     case 1:
-        sub_800E6BB8(arg2);
+        state_action_1(arg2);
         return;
     case 2:
         TObjEneMe3ShinowaMirage__sub_800E69F0(this, (s32)arg2);
@@ -704,7 +704,7 @@ void TObjEneMe3Shinowa::action(s32 arg1) {
     }
 }
 
-void TObjEneMe3Shinowa::sub_800E6BB8(s32 arg1) {
+void TObjEneMe3Shinowa::state_action_1(s32 arg1) {
     Vec pos;
     f32 y;
     switch (arg1) {
@@ -1134,11 +1134,11 @@ void TObjEneMe3ShinowaReal__sub_800E5950(TObjEneMe3Shinowa *shinowa, s32 arg1) {
         return;
     case 3:
         if (shinowa->m_404 == 3) {
-            if (shinowa->sub_800E6FE0() != 0) {
+            if (shinowa->is_gold_enabled() != 0) {
                 shinowa->transition_enemy_state(0xA);
-            } else if ((shinowa->m_3c4 & 0x20000) || (shinowa->sub_800E701C() == 0)) {
+            } else if ((shinowa->m_3c4 & 0x20000) || (shinowa->is_mirage_enabled() == 0)) {
                 shinowa->m_3c4 &= ~0x30000;
-                if ((TObjEneDD::check_v2_mode() != 0) && (shinowa->sub_800E701C() == 0)) {
+                if ((TObjEneDD::check_v2_mode() != 0) && (shinowa->is_mirage_enabled() == 0)) {
                     shinowa->transition_enemy_state(0x10);
                 } else {
                     shinowa->transition_enemy_state(4);
@@ -1538,7 +1538,7 @@ void TObjEneMe3Shinowa::render() {
         vfunc_118();
         return;
     }
-    sub_800E6FE0();
+    is_gold_enabled();
     if (m_3c4 & 2) {
         detail = 0;
     } else if (TObjEneDD::is_main_phase_15() != 0) {
@@ -1589,7 +1589,7 @@ void TObjEneMe3Shinowa::render() {
     TParticleCtrl::end_effect_render();
 }
 
-void TObjEneMe3Shinowa::update_mirage() { if (get_target_info() != 0) { fn_800E762C(this); sub_800E6F64(); } }
+void TObjEneMe3Shinowa::update_mirage() { if (get_target_info() != 0) { mirage_lifecycle_hook(this); load_gold_or_mirage_models(); } }
 #pragma push
 #pragma pool_data off
 // Debug viewer: the mirage and gold-texture switches, then the model posed in
@@ -1600,18 +1600,18 @@ void TObjEneMe3Shinowa::vfunc_118() {
     u32 saved_texaddr[3];
     s32 i;
     if (get_target_info() != 0) {
-        if (sub_800E701C() != 0) {
+        if (is_mirage_enabled() != 0) {
             debug_printf_at(pack_debug_text_position(0, 0), "MIRAGE:ENABLE");
         } else {
             debug_printf_at(pack_debug_text_position(0, 0), "MIRAGE:DISABLE");
         }
-        if (sub_800E6FE0() != 0) {
+        if (is_gold_enabled() != 0) {
             debug_printf_at(pack_debug_text_position(0, 1), "TEX:GOLD");
         } else {
             debug_printf_at(pack_debug_text_position(0, 1), "TEX:NORMAL");
         }
     }
-    gold = sub_800E6FE0();
+    gold = is_gold_enabled();
     if (update_object_view_visibility(400.0f, 15.0f) != 0) {
         TObjFish::set_global_param(texlist);
         TObjPlayer::toggle_particle_effect();
@@ -1679,7 +1679,7 @@ TObjEneMe3ShinowaReal::TObjEneMe3ShinowaReal(TObject *parent, void *set_data) : 
     s32 i;
     m_name = TObjEneMe3ShinowaReal_class_name;
     invoke_initialization_hook(set_data);
-    fn_800E762C(this);
+    mirage_lifecycle_hook(this);
     init_enemy();
     m_3d4 = 0;
     m_3c4 &= ~0x1000;
@@ -1704,7 +1704,7 @@ void TObjEneMe3ShinowaReal::vfunc_62() {
 
 void TObjEneMe3ShinowaReal::try_spawn_mirages() {
     if (m_3c4 & 0x10) {
-        sub_800E7250();
+        consume_spawn_request();
         spawn_mirages();
     }
 }
@@ -1902,7 +1902,7 @@ TObjEneMe3ShinowaMirage::TObjEneMe3ShinowaMirage(TObject *parent, TObjEneMe3Shin
     m_42c = get_entity_id(owner);
     init_common_from((u8 *)owner);
     parameters[1] = owner->parameters[1];
-    fn_800E762C(this);
+    mirage_lifecycle_hook(this);
     this->entity_id = entity_id;
     this->set_index = set_index;
     init_enemy();
