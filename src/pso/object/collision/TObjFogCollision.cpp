@@ -54,7 +54,6 @@ void *TObjFogCollision__create(void *set);
 extern s32 __vt__22TObjFogCollisionPoison[];
 extern s32 __vt__22TObjFogCollisionSwitch[];
 extern s32 local_client_id;
-s32 vfunc_13__16TObjFogCollisionFl();
 void record_fog_collision_hit(s32 arg0, s32 arg1, s32 arg2);
 u8 is_current_floor_switch_set(u16);
 
@@ -227,10 +226,10 @@ TObjFogCollisionSwitch::~TObjFogCollisionSwitch() {
 }
 
 
-void TObjFogCollisionSwitch::vfunc_13(s32) {
+void TObjFogCollisionSwitch::vfunc_13(s32 arg) {
     s32 temp_r0;
 
-    vfunc_13__16TObjFogCollisionFl();
+    TObjFogCollision::vfunc_13(arg);
     temp_r0 = this->set_params[2];
     if (temp_r0 < 0) {
         this->set_params[2] = 0;

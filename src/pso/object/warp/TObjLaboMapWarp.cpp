@@ -155,9 +155,7 @@ extern s32 lbl_805D55C0;
 
 s32 *TObjCityMainWarp__sub_80186AF4(void);
 
-s32 update_warp_flags_from_story__16TObjCityMainWarpFv();
 
-s32 init_visible_mask__16TObjCityMainWarpFv();
 
 }
 
@@ -317,10 +315,10 @@ void update_main_warp_visible_mask(s32 arg0) {
         TObjCityMainWarp::update_unlock_flags();
         break;
     case 1:
-        init_visible_mask__16TObjCityMainWarpFv();
+        TObjCityMainWarp::init_visible_mask();
         break;
     case 2:
-        update_warp_flags_from_story__16TObjCityMainWarpFv();
+        TObjCityMainWarp::update_warp_flags_from_story();
         break;
     }
     for (i = 11; i < 15; i++) {

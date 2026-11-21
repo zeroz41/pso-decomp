@@ -26,8 +26,8 @@ struct TObjCityMainWarp : public TObjAreaWarp {
     void render();
     void *create();
     static void clear_active_bit();
-    void update_warp_flags_from_story();
-    void init_visible_mask();
+    static void update_warp_flags_from_story();
+    static void init_visible_mask();
     static s32 get_floor_warp_bit(s32 floor);
     // Adds a text entry to the trade window `p` (TWindowSubTradeMain::add_text_entry with -1).
     static int forward_trade_action_default(void *p, int a1, int a2, int a3);
