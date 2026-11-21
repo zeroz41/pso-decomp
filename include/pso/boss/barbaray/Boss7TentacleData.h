@@ -7,8 +7,8 @@
 // unit ahead of TBoss7TentacleNeedle.cpp: its code addresses every table on its own, where tables
 // defined in that unit would be reached off one hoisted .rodata base.
 
-// Inferred name: tentacle_draw_scale; the case-3 draw scales the current matrix by it.
-extern const f32 lbl_80474070[3];
+// The striking tentacle's draw scale (TBoss7Tentacle::render, state 3).
+extern const f32 boss7_tentacle_draw_scale[3];
 extern const s32 TBoss7Tentacle__target_angle_table[4];
 extern const s32 boss7_tentacle_angle_table[4];
 extern const char *TBoss7Tentacle__name;
