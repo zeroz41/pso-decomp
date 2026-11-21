@@ -1,4 +1,5 @@
 #include "types.h"
+#include <string.h>
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/unk/text_8026A14C.h"
 #include "pso/system/THeap.h"
@@ -8,8 +9,6 @@ extern "C" {
 extern void *chat_log_lines[];
 void *TAdScrollWinGC__chat_log_heap;
 void *chat_last_line_buffer;
-char *strncpy(char *, const char *, u32);
-u32 strlen(const char *);
 void fn_8026A14C(void) {
     s32 i;
     for (i = 0x1D; i >= 0; i--) {

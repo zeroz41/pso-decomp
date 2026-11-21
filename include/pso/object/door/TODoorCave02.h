@@ -31,5 +31,5 @@ struct TODoorCave02 : public TODoorBase {
     static GinjaTextureList **texture_lists;  // [0] locked (red), [1] the bml's own
 };
 
-typedef char TODoorCave02_size[sizeof(TODoorCave02) == 0xE4 ? 1 : -1];
+LAYOUT_ASSERT(TODoorCave02_size, sizeof(TODoorCave02) == 0xE4);
 #endif

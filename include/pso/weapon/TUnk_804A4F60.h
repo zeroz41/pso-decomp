@@ -27,7 +27,7 @@ public:
     s16 last_tp;              // 0x1F8: owner TP seen last frame, -1 after (un)equip (inferred name)
     Vec cast_point;           // 0x1FC: joint 4, where the techniques start (inferred name)
     TargetCursorList targets; // 0x208: Zonde's target
-    s32 cast_rotation_y;      // 0x264: owner rotation_y for Foie and Barta (inferred name)
+    saddr cast_rotation_y;      // 0x264: owner rotation_y for Foie and Barta (inferred name)
     Vec cast_position;        // 0x268: owner position for Barta (inferred name)
     f32 extension;            // 0x274: model node 1 offset (inferred name)
     s32 rotation_z;           // 0x278: rotate_matrix_z angle of the model hook

@@ -35,9 +35,9 @@ struct TCharaMaking : public TObject {
     void update_light_direction();
     virtual void run_task();
     static void *create(void *arg0, void *arg1);
-    static s32 update_main_menu(s32 arg0);
+    static s32 update_main_menu(saddr arg0);
     void build_appearance_texture_names(CharacterAppearanceFields *appearance, CharacterClassAppearance *definition, CharacterTextureList *source);
 };
 
-typedef char TCharaMaking_size[sizeof(TCharaMaking) == 0x24 ? 1 : -1];
+LAYOUT_ASSERT(TCharaMaking_size, sizeof(TCharaMaking) == 0x24);
 #endif

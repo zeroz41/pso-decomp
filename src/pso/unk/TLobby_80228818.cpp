@@ -1,4 +1,5 @@
 #include "types.h"
+#include <string.h>
 #include "pso/unk/TLobby_80228818.h"
 #include "pso/unk/TLobby.h"
 #include "pso/item/TUnk_804CC048.h"
@@ -13,10 +14,7 @@ struct P_80228A74 { u8 pad[0x109c]; s32 count; };
 struct L_8022884C { u8 pad[0x109c]; s32 count; s32 hi; s32 lo; };
 
 extern "C" {
-char *strcpy(char *dst, const char *src);
-u32 strlen(const char *s);
 s32 debug_printf_at(u32, void *, ...);
-void memset(void *, int, int);
 }
 
 Obj_80515BA0::Obj_80515BA0() {

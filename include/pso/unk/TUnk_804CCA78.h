@@ -16,6 +16,6 @@ public:
     s32 sound; // name inferred: the sound effect id play_sound_effect takes
     s32 sound_handle; // name inferred: play_sound_effect's result, stopped by the dtor
 };
-typedef char TUnk_804CCA78_size[sizeof(TUnk_804CCA78) == 0x28 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804CCA78_size, sizeof(TUnk_804CCA78) == 0x28);
 
 #endif

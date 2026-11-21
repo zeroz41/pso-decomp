@@ -1,5 +1,6 @@
 #include "pso/map/FloorPopulation.h"
 #include "types.h"
+#include <string.h>
 #include "pso/unk/text_8020B5CC.h"
 #include "pso/system/THeap.h"
 #include "pso/unk/TLobby.h"
@@ -15,10 +16,8 @@ extern TObject *tl_06;
 extern TObject *tl_07;
 void archive_pool_free(u32, void *);
 void *archive_pool_alloc(u32, u32);
-void *memcpy(void *, const void *, unsigned long);
-void *memset(void *, int, unsigned long);
-extern u32 TLobby__data_805D6104;
-extern u32 TLobby__data_805D6108;
+extern uaddr TLobby__data_805D6104;
+extern uaddr TLobby__data_805D6108;
 
 // The header is followed by the s16 flags of every object set, then of every enemy set.
 int TLobby__sub_8020B5CC(FloorSetFlagsPayload *buf) {
@@ -91,7 +90,7 @@ int TLobby__sub_8020B5CC(FloorSetFlagsPayload *buf) {
 #pragma opt_propagation off
 s32 init_quest_floor_enemies(s32 idx, EnemySetRecord *src, u32 size) {
     if (TLobby__data_805D6108 != 0 && TLobby__data_805D6104 != 0) {
-    u32 sz = size;
+    uaddr sz = size;
     s32 n = (0, sz / 72);
     LobbyFloorRows *t = &TLobby__floor_enemy_group_table[idx];
     EnemySetRecord *s;
@@ -123,13 +122,13 @@ s32 init_quest_floor_enemies(s32 idx, EnemySetRecord *src, u32 size) {
         archive_pool_free(TLobby__data_805D6104, TLobby__data_80513A40[idx].enemies);
     }
     TLobby__data_80513A40[idx].enemies = archive_pool_alloc(TLobby__data_805D6104, sz);
-    if ((u32)src & 0x1F) {
+    if ((uaddr)src & 0x1F) {
         buf = TQuestVmDownLoadServer::alloc(sz);
         memcpy(buf, src, sz);
         if (TLobby__data_80513A40[idx].enemies != NULL) {
             TLobby::send_or_handle_packet((void *)TLobby__data_805D6104, (void *)buf, TLobby__data_80513A40[idx].enemies, (void *)sz, (u32)0);
         }
-        TAdSinglePlyChrSelectGC::safe_free((u32)buf);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
     } else if (TLobby__data_80513A40[idx].enemies != NULL) {
         TLobby::send_or_handle_packet((void *)TLobby__data_805D6104, (void *)src, TLobby__data_80513A40[idx].enemies, (void *)sz, (u32)0);
     }
@@ -143,7 +142,7 @@ s32 init_quest_floor_enemies(s32 idx, EnemySetRecord *src, u32 size) {
 #pragma opt_propagation off
 s32 load_floor_enemy_group_entries__6TLobbyFiPvUi(s32 idx, FloorObjectSetRow *src, u32 size) {
     if (TLobby__data_805D6108 != 0 && TLobby__data_805D6104 != 0) {
-    u32 sz = size;
+    uaddr sz = size;
     s32 n = sz / 68;
     LobbyFloorRows *t = &TLobby__floor_enemy_group_table[idx];
     FloorObjectSetRow *s;
@@ -175,13 +174,13 @@ s32 load_floor_enemy_group_entries__6TLobbyFiPvUi(s32 idx, FloorObjectSetRow *sr
         archive_pool_free(TLobby__data_805D6104, TLobby__data_80513A40[idx].objects);
     }
     TLobby__data_80513A40[idx].objects = archive_pool_alloc(TLobby__data_805D6104, sz);
-    if ((u32)src & 0x1F) {
+    if ((uaddr)src & 0x1F) {
         buf = TQuestVmDownLoadServer::alloc(sz);
         memcpy(buf, src, sz);
         if (TLobby__data_80513A40[idx].objects != NULL) {
             TLobby::send_or_handle_packet((void *)TLobby__data_805D6104, (void *)buf, TLobby__data_80513A40[idx].objects, (void *)sz, (u32)0);
         }
-        TAdSinglePlyChrSelectGC::safe_free((u32)buf);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
     } else if (TLobby__data_80513A40[idx].objects != NULL) {
         TLobby::send_or_handle_packet((void *)TLobby__data_805D6104, (void *)src, TLobby__data_80513A40[idx].objects, (void *)sz, (u32)0);
     }

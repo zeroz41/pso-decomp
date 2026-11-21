@@ -185,7 +185,7 @@ void TItemEffOrgaFlowShot::update_position_from_velocity() {
 #pragma pop
 
 void TItemEffOrgaFlowShot::render() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     TParticleCtrl::begin_effect_render();
     saved_model_render_flags = model_render_flags;
     set_depth_buffer_settings_1();

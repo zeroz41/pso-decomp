@@ -13,7 +13,6 @@ public:
     virtual void render();
 public:
     void reset_state();
-    static void render();
 public:
     void reset_slots(void *arg1, void *arg2);
 };

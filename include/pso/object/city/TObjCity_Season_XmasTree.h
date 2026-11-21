@@ -17,5 +17,5 @@ struct TObjCity_Season_XmasTree : public TUnk_804B5E48 {
     TParticleCtrl *emitter;
 };
 
-typedef char TObjCity_Season_XmasTree_size[sizeof(TObjCity_Season_XmasTree) == 0xB8 ? 1 : -1];
+LAYOUT_ASSERT(TObjCity_Season_XmasTree_size, sizeof(TObjCity_Season_XmasTree) == 0xB8);
 #endif

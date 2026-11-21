@@ -5,7 +5,7 @@
 
 struct TAdRicoRingCtrl;
 extern "C" {
-u8 *TAdRicoRingCtrl__ct(TAdRicoRingCtrl *arg0, s32 arg1);
+u8 *TAdRicoRingCtrl__ct(TAdRicoRingCtrl *arg0, saddr arg1);
 }
 
 #endif

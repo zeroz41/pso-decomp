@@ -158,7 +158,7 @@ TChCrTagOccHeader *create_ch_cr_tag_occ_header(s32 index) {
 }
 
 void create_all_ch_cr_tag_headers(void) {
-    int i;
+    saddr i;
     for (i = 0; i < 15; i++) {
         create_ch_cr_tag_occ_header(i);
     }

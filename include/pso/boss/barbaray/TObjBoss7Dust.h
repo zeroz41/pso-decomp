@@ -12,7 +12,7 @@ public:
 };
 
 extern "C" {
-u8 *__ct__13TObjBoss7DustFv(u8 *arg0, s32 arg1, s32 arg2);
+u8 *__ct__13TObjBoss7DustFv(u8 *arg0, saddr arg1, saddr arg2);
 void fn_802F105C(void);
 void fn_802F1084(void);
 }

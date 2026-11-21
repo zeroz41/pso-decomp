@@ -28,8 +28,8 @@ u8 *TChCrLoadAfs::get_load_buffer() {
     return 0;
 }
 
-u32 advance_character_load_buffer(s32 slot, s32 size) {
-    u32 p;
+uaddr advance_character_load_buffer(s32 slot, s32 size) {
+    uaddr p;
     if (chr_select_load_buffer_base == NULL) {
         return 0U;
     }
@@ -39,9 +39,9 @@ u32 advance_character_load_buffer(s32 slot, s32 size) {
     }
     size = (size + 0x1F) & ~0x1F;
     if (slot < 4) {
-        p = reinterpret_cast<u32>(lbl_80518850[slot]);
+        p = reinterpret_cast<uaddr>(lbl_80518850[slot]);
         p += size;
-        if (p >= reinterpret_cast<u32>(chr_select_load_buffer_base) + (slot + 1) * 0xA000) {
+        if (p >= reinterpret_cast<uaddr>(chr_select_load_buffer_base) + (slot + 1) * 0xA000) {
             return 0U;
         }
         lbl_80518850[slot] = reinterpret_cast<u8 *>(p);
@@ -49,9 +49,9 @@ u32 advance_character_load_buffer(s32 slot, s32 size) {
     }
     {
         s32 j = slot - 4;
-        p = reinterpret_cast<u32>(chr_select_load_buffer_table[j]);
+        p = reinterpret_cast<uaddr>(chr_select_load_buffer_table[j]);
         p += size;
-        if (p >= reinterpret_cast<u32>(chr_select_load_buffer) + (j + 1) * 0xA000) {
+        if (p >= reinterpret_cast<uaddr>(chr_select_load_buffer) + (j + 1) * 0xA000) {
             return 0U;
         }
         chr_select_load_buffer_table[j] = reinterpret_cast<u8 *>(p);
@@ -62,20 +62,20 @@ u32 advance_character_load_buffer(s32 slot, s32 size) {
 
 void *get_character_load_buffer(s32 slot) { return (void *)advance_character_load_buffer(slot, 0); }
 
-u32 reset_character_load_buffer(s32 slot) {
-    u32 address;
+uaddr reset_character_load_buffer(s32 slot) {
+    uaddr address;
     s32 extended_slot;
     if (chr_select_load_buffer_base == NULL) {
         return 0U;
     }
     TLobby__sub_8028D7D0(slot);
     if (slot < 4) {
-        address = reinterpret_cast<u32>(chr_select_load_buffer_base) + (u32)slot * 0xA000U;
+        address = reinterpret_cast<uaddr>(chr_select_load_buffer_base) + (u32)slot * 0xA000U;
         lbl_80518850[slot] = reinterpret_cast<u8 *>(address);
         return address;
     }
     extended_slot = slot - 4;
-    address = reinterpret_cast<u32>(chr_select_load_buffer) + (u32)extended_slot * 0xA000U;
+    address = reinterpret_cast<uaddr>(chr_select_load_buffer) + (u32)extended_slot * 0xA000U;
     chr_select_load_buffer_table[extended_slot] = reinterpret_cast<u8 *>(address);
     return address;
 }
@@ -90,7 +90,7 @@ void TLobby__sub_8028D7D0(s32 i) {
 
 void TLobby::free_single_player_chr_select() {
     if ((chr_select_load_buffer_base != NULL) && (chr_select_load_buffer != NULL)) {
-        TAdSinglePlyChrSelectGC::safe_free((u32)((void*)((void*)chr_select_load_buffer)));
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)((void*)((void*)chr_select_load_buffer)));
         chr_select_load_buffer = NULL;
     }
 }
@@ -106,13 +106,13 @@ void TLobby::alloc_download_server() {
 
 void TLobby::free_chr_select_singleton() {
     if (chr_select_load_buffer_base != NULL) {
-        TAdSinglePlyChrSelectGC::safe_free((u32)((void*)((void*)chr_select_load_buffer_base)));
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)((void*)((void*)chr_select_load_buffer_base)));
         chr_select_load_buffer_base = NULL;
     }
 }
 
 extern "C" {
-extern s32 tl_03;
+extern saddr tl_03;
 }
 
 void alloc_quest_download_buffer(void) {

@@ -23,7 +23,7 @@ struct CharacterPreviewLoadArgs {
     void copy_from(const CharacterPreviewLoadArgs *source);
 };
 
-typedef char CharacterPreviewLoadArgs_size[sizeof(CharacterPreviewLoadArgs) == 0x20 ? 1 : -1];
+LAYOUT_ASSERT(CharacterPreviewLoadArgs_size, sizeof(CharacterPreviewLoadArgs) == 0x20);
 
 class TChCrLoadReq : public TObject {
 public:
@@ -44,7 +44,7 @@ public:
     CharacterClassAppearance *m_5c;
     s32 state;
     s32 timer;
-    s32 calc_preview_last_index(s32 display_index, s32 region_index);
+    saddr calc_preview_last_index(s32 display_index, s32 region_index);
     virtual void run_task();
     void close_and_destroy();
     void try_advance_state();
@@ -58,8 +58,8 @@ public:
 };
 TChCrLoadReq *create_ch_cr_load_req(TObject *parent, const CharacterPreviewLoadArgs *args);
 
-typedef char TChCrLoadReq_inputs_offset[offsetof(TChCrLoadReq, inputs) == 0x38 ? 1 : -1];
-typedef char TChCrLoadReq_state_offset[(offsetof(TChCrLoadReq,state)==0x60)?1:-1];
-typedef char TChCrLoadReq_timer_offset[(offsetof(TChCrLoadReq,timer)==0x64)?1:-1];
-typedef char TChCrLoadReq_size[sizeof(TChCrLoadReq) == 0x90 ? 1 : -1];
+LAYOUT_ASSERT(TChCrLoadReq_inputs_offset, offsetof(TChCrLoadReq, inputs) == 0x38);
+LAYOUT_ASSERT(TChCrLoadReq_state_offset, (offsetof(TChCrLoadReq,state)==0x60));
+LAYOUT_ASSERT(TChCrLoadReq_timer_offset, (offsetof(TChCrLoadReq,timer)==0x64));
+LAYOUT_ASSERT(TChCrLoadReq_size, sizeof(TChCrLoadReq) == 0x90);
 #endif

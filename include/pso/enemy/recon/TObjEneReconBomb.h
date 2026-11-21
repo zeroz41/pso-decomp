@@ -9,7 +9,7 @@ class TObjEneRecon;
 struct TObjEneReconBomb : public TObjChara {
     TObjEneReconBomb(TObject *parent, TObjEneRecon *recon, const Vec *pos);
     virtual ~TObjEneReconBomb();
-    u32 m_334;
+    uaddr m_334;
     u16 m_338;
     u8 _pad33A[0x2];
     void* m_33c;
@@ -26,7 +26,7 @@ struct TObjEneReconBomb : public TObjChara {
     virtual void run_task();
 };
 
-typedef char TObjEneReconBomb_size[sizeof(TObjEneReconBomb) == 0x364 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneReconBomb_size, sizeof(TObjEneReconBomb) == 0x364);
 
 extern "C" {
 void *__dt__16TObjEneReconBombFv(void *arg0, s16 arg1);

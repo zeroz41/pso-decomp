@@ -21,7 +21,7 @@ struct CreationHeightBounds {
 static char split_screen_character_name[12];
 
 char *get_split_screen_character_name() {
-    s32 record = get_character_save_record(0xFFFF);
+    saddr record = get_character_save_record(0xFFFF);
     ((TLobby *)split_screen_character_name)->decode_obfuscated_string((void *)(record + 0x229C), 12);
     return split_screen_character_name;
 }

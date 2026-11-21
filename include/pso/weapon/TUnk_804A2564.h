@@ -22,6 +22,6 @@ public:
     f32 pad_238;
     u32 descriptor_flags;  // ORed into the effect descriptor's flags
 };
-typedef char TUnk_804A2564_size[sizeof(TUnk_804A2564) == 0x240 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804A2564_size, sizeof(TUnk_804A2564) == 0x240);
 
 #endif

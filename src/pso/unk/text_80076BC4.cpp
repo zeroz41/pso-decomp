@@ -30,7 +30,7 @@ void submit_chat_text(u8 *lobby) {
             Tag_80076BC8 tmp = *(Tag_80076BC8 *)&TPlyGuildCardTag(0, 0);
             send_chat__9TProtocolFR16TPlyGuildCardTagPc(TLobby__protocol_instance, (TPlyGuildCardTag *)&tmp, lobby);
         } else {
-            TWindowCtrl::open((s32)(get_entity_id(player)), (s32)lobby, 0xCB);
+            TWindowCtrl::open((saddr)(get_entity_id(player)), (saddr)lobby, 0xCB);
         }
     }
 }
@@ -38,11 +38,11 @@ void submit_chat_text(u8 *lobby) {
 void chat_dispatch_accepted_result(s32 *arg0);
 extern "C" {
 s32 is_submit_cooldown_clear__11TWindowCtrlFv();
-int get_chat_shortcut(s32 arg0);
+saddr get_chat_shortcut(s32 arg0);
 void send_chat_shortcut(void);
 void TAdSinglePlyChrSelectGC__sub_80076DF4(void* p, void* q);
 }
-s32 chat_accept_submission(s32 arg0);
+s32 chat_accept_submission(saddr arg0);
 void chat_dispatch_accepted_result(s32 *arg0) {
 
     switch (*arg0) {
@@ -58,7 +58,7 @@ void chat_dispatch_accepted_result(s32 *arg0) {
         return;
     }
 }
-s32 chat_accept_submission(s32 arg0) {
+s32 chat_accept_submission(saddr arg0) {
     if (is_submit_cooldown_clear__11TWindowCtrlFv() == 0) {
         return 0;
     }
@@ -76,7 +76,7 @@ struct ByteBlock_50 { u8 bytes[0x50]; };
 #pragma dont_inline off
 
 extern "C" {
-s32 TAdSinglePlyChrSelectGC__sub_80076D9C(s32 arg0, s32 arg1);
+saddr TAdSinglePlyChrSelectGC__sub_80076D9C(saddr arg0, saddr arg1);
 bool is_chat_shortcut_set(s32 arg0);
 void clear_chat_shortcut(s32 i);
 
@@ -88,7 +88,7 @@ void clear_chat_shortcut(s32 i) {
 s32 store_chat_shortcut(s32 arg0, s32 arg1);
 s32 store_chat_shortcut(s32 arg0, s32 arg1) { return TAdSinglePlyChrSelectGC__sub_80076D9C(((s32)get_chat_shortcut(arg0)), arg1); }
 
-s32 TAdSinglePlyChrSelectGC__sub_80076D9C(s32 arg0, s32 arg1) {
+saddr TAdSinglePlyChrSelectGC__sub_80076D9C(saddr arg0, saddr arg1) {
     TAdSinglePlyChrSelectGC__sub_80076DF4((void*)arg0, (void*)arg1);
     *(ByteBlock_50 *)(arg0 + 4) = *(const ByteBlock_50 *)(arg1 + 4);
     return arg0;
@@ -100,7 +100,7 @@ bool is_chat_shortcut_set(s32 arg0) {
     return *((s32 *)get_chat_shortcut(arg0)) != 0;
 }
 typedef struct { u8 b[0x54]; } Rec_80076E2C;
-int get_chat_shortcut(s32 arg0) {
+saddr get_chat_shortcut(s32 arg0) {
     u8 *p = (u8 *)((Rec_80076E2C *)get_character_save_record(0xFFFF) + arg0);
-    return (s32)(p + 0x19C0);
+    return (saddr)(p + 0x19C0);
 }

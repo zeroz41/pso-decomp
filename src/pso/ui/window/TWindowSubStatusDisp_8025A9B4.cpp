@@ -11,6 +11,7 @@
 #include "pso/ui/Language.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include <string.h>
 #pragma readonly_strings on
 
 struct Msg_8025A9C0 {
@@ -27,7 +28,6 @@ struct Win_8025AD5C { u16 flags; u8 pad2[6]; f32 f8; f32 fC; u8 pad10[8]; f32 f1
 struct Ref_8025AD5C { u8 pad0[0x10]; f32 f10; f32 f14; f32 f18; u8 pad1c[0x30 - 0x1C]; s32 i30; u8 pad34[4]; f32 f38; u8 pad3c[8]; f32 f44; };
 
 extern "C" {
-s32 strncpy(s32, u32, s32);
 u8 get_small_font_glyph_width(u8);
 s32 TWindowSubStatusDisp__sub_800FC248(u8);
 s8 *parse_text_control_codes(s8 *, s32 *, s32);
@@ -159,20 +159,20 @@ void measure_message_text_width(Msg_8025A9C0 *msg, f32 maxw) {
 
 #pragma push
 #pragma opt_common_subs off
-void set_text_entry_string(u8 *arg0, u32 str, s32 arg2) {
-    s32 temp_r3_2;
+void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2) {
+    saddr temp_r3_2;
     u16 temp_r3;
     if ((u32) *(u32 *)((s8 *)arg0 + 0x20) != 0U) {
         temp_r3 = *(u16 *)((s8 *)arg0 + 0);
         if (temp_r3 & 0x20) {
             *(u16 *)((s8 *)arg0 + 0) = (u16) (temp_r3 & 0xFFFFFFDF);
-            mem_free((void *)((int) (*(u32 *)((s8 *)arg0 + 0x20))));
+            mem_free((void *)((saddr) (*(uaddr *)((s8 *)arg0 + 0x20))));
         }
     }
     if ((str != 0U) && (arg2 & 0x20)) {
         temp_r3_2 = TWindowKeyBoardSoft::strnlen((s8 *)str, (u32)(0x400));
-        *(u32 *)((s8 *)arg0 + 0x20) = ((u32)mem_alloc(temp_r3_2 + 1));
-        strncpy((s32)((int) (*(u32 *)((s8 *)arg0 + 0x20))), str, temp_r3_2);
+        *(u32 *)((s8 *)arg0 + 0x20) = ((uaddr)mem_alloc(temp_r3_2 + 1));
+        strncpy((char *)(*(uaddr *)((s8 *)arg0 + 0x20)), (const char *)str, temp_r3_2);
         *(s8 *)((s8 *)(temp_r3_2 + *(u32 *)((s8 *)arg0 + 0x20)) + 0) = 0;
         *(u16 *)((s8 *)arg0 + 0) = (u16) (*(u16 *)((s8 *)arg0 + 0) | 0x20);
     } else {
@@ -214,7 +214,7 @@ void render_text_entry(Win_8025AD5C *arg0, Ref_8025AD5C *arg1) {
     if (len > arg0->f1C) {
         len = arg0->f1C;
     }
-    set_text_draw_params((s32)arg1, (s32)(!(arg0->flags & 0x100)), (s32)(arg0->flags & 0x80), (f32)scale, (f32)alpha);
+    set_text_draw_params((saddr)arg1, (s32)(!(arg0->flags & 0x100)), (s32)(arg0->flags & 0x80), (f32)scale, (f32)alpha);
     if (arg0->flags & 4) {
         r = draw_small_font_string_clipped((f32 *)&pt, (const char *)arg0->text, arg0->i24, (f32)len);
     } else {
@@ -250,7 +250,7 @@ void *TWindowSubStatusDisp__sub_8025AF0C(void *window_sub_status_disp, s16 arg1)
             temp_r3 = ((TUnk_804CFA28 *)window_sub_status_disp)->flags;
             if (temp_r3 & 0x20) {
                 ((TUnk_804CFA28 *)window_sub_status_disp)->flags = (u16) (temp_r3 & 0xFFFFFFDF);
-                mem_free((void *)(*(u32 *)((s8 *)window_sub_status_disp + 0x20)));
+                mem_free((void *)(*(uaddr *)((s8 *)window_sub_status_disp + 0x20)));
             }
         }
         __dt__13TUnk_804CF998Fv(window_sub_status_disp, 0);

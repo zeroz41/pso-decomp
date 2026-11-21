@@ -76,10 +76,10 @@ void TChCrLoadReq::load_preview_models() {
     u32 p;
     for (i = 0; i < 6; i++) {
         len = 0;
-        p = (u32)TLobby__sub_801E38A0(reinterpret_cast<s32>(m_74[i]->get_load_buffer()), &len, &tag, NULL, NULL);
+        p = (uaddr)TLobby__sub_801E38A0(reinterpret_cast<saddr>(m_74[i]->get_load_buffer()), &len, &tag, NULL, NULL);
         if (p == 0 || tag != 0x4E4A544C) return;
         TAdSinglePlyChrSelectGC::safe_free(p);
-        bufs[i] = (u32)TLobby__sub_801E38A0(reinterpret_cast<s32>(m_74[i]->get_load_buffer()), &len, &tag, NULL, NULL);
+        bufs[i] = (uaddr)TLobby__sub_801E38A0(reinterpret_cast<saddr>(m_74[i]->get_load_buffer()), &len, &tag, NULL, NULL);
         if (bufs[i] == 0 || tag != 0x4E4A434D) {
             for (i = 0; i < 6; i++) TAdSinglePlyChrSelectGC::safe_free(bufs[i]);
             return;
@@ -110,7 +110,7 @@ void TChCrLoadReq::start_preview_loads() {
     s32 id;
     TChCrLoadAfs *load;
     get_sorted_character_proportion_samples(reinterpret_cast<const f32 *>(&inputs.appearance->width), m_68);
-    disp = character_display_index(reinterpret_cast<u32>(inputs.appearance));
+    disp = character_display_index(reinterpret_cast<uaddr>(inputs.appearance));
     for (i = 0, off = 0; i < 3; i++, off += 4) {
         entry = (u8 *)this + off;
         id = *(s32 *)(entry + offsetof(TChCrLoadReq, m_68));
@@ -129,7 +129,7 @@ void TChCrLoadReq::request_texture_loads() {
     TChCrLoadAfsTextureReqArgs body;
     TChCrLoadAfsTextureReqArgs head;
     TChCrLoadAfsTextureReqArgs other;
-    s32 display = character_display_index(reinterpret_cast<u32>(inputs.appearance));
+    s32 display = character_display_index(reinterpret_cast<uaddr>(inputs.appearance));
 
     body.textures = inputs.body_textures;
     body.completion_mask = 4;
@@ -235,12 +235,12 @@ s32 TAdSinglePlyChrSelectGC__sub_8028CF6C(void) {
 
 }
 
-s32 TChCrLoadReq::calc_preview_last_index(s32 display_index, s32 region_index) {
+saddr TChCrLoadReq::calc_preview_last_index(s32 display_index, s32 region_index) {
     s32 stride=chr_select_preview_stride_table[display_index];
     return stride + region_index * stride - 1 + chr_select_preview_base_offset_table[display_index];
 }
 
-void *TAdSinglePlyChrSelectGC::calc_preview_offset(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
+void *TAdSinglePlyChrSelectGC::calc_preview_offset(void *arg0, s32 arg1, saddr arg2, s32 arg3) {
     return (void *)(arg2 + (arg3 * chr_select_preview_stride_table[arg1] + chr_select_preview_base_offset_table[arg1]));
 }
 

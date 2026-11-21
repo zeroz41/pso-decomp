@@ -12,13 +12,13 @@
 typedef void (TChCrLoadAfsTextureReq::*TChCrLoadAfsTextureReqHandler)();
 
 extern "C" {
-s32 get_bml_model(BmlResource *resource, s32 index);
+saddr get_bml_model(BmlResource *resource, s32 index);
 s32 free_bin_model_request(void *, int);
 void *init_bin_model_request(void *, int, char **, u32 *, int, int, int);
 extern "C" { extern char TChCrLoadAfsTextureReq__class_name_string[]; }
 const char *lbl_805D3B50 = TChCrLoadAfsTextureReq__class_name_string;
 s32 adxf_get_stat(s32);
-f64 log();
+f64 log(f64);
 
 void TChCrLoadAfsTextureReq::try_begin_load() {
     if (try_acquire_load_slot() != 0) {
@@ -134,15 +134,15 @@ TChCrLoadAfsTextureReq::TChCrLoadAfsTextureReq(TObject *parent, TChCrLoadAfsText
 }
 
 TChCrLoadAfsTextureReq *create_ch_cr_load_afs_texture_req(void *parent, void *textures, void *arg2, void *arg3) {
-    return new TChCrLoadAfsTextureReq((TObject *)parent, (GinjaTextureList *)textures, (s32 *)arg2, (s32)arg3);
+    return new TChCrLoadAfsTextureReq((TObject *)parent, (GinjaTextureList *)textures, (s32 *)arg2, (saddr)arg3);
 }
 
 TChCrLoadAfsTextureReq *TChCrLoadAfsTextureReq::create(TObject *parent, TChCrLoadAfsTextureReqArgs *args) {
     return new TChCrLoadAfsTextureReq(parent, args);
 }
 
-extern "C" f32 TLobby__sub_8028C50C(void) {
-    return (f32) log();
+extern "C" f32 TLobby__sub_8028C50C(f32 x) {
+    return (f32) log(x);
 }
 void TChCrLoadGmNjReq::update_model_load() {
     s32 timer;

@@ -57,7 +57,7 @@ public:
     s32 player_refresh_timer;
     s32 ready_timer;
     s64 battle_start_ticks;
-    s32 remaining_seconds;
+    saddr remaining_seconds;
     s32 result_confirm_timer;
     s32 timed_event_state;
     s32 player_active[4];
@@ -93,7 +93,7 @@ public:
     void shuffle_order();
     static void update();
     static void reset_random_enemies_mode();
-    static void init_instance_with_text(s32 arg0, s32 arg1);
+    static void init_instance_with_text(saddr arg0, saddr arg1);
 public:
     void update_player_alive_flags();
     void update_timed_events(s32 frames);
@@ -102,14 +102,14 @@ public:
     void init_battle();
 };
 #include <stddef.h>
-typedef char BattleCtrlSize[(sizeof(TPlayerBattleCtrl4P)==0x2A0)?1:-1];
-typedef char BattleCtrlOffset_rule_data[(offsetof(TPlayerBattleCtrl4P,rule_data)==0x1C)?1:-1];
-typedef char BattleCtrlOffset_intro_window[(offsetof(TPlayerBattleCtrl4P,intro_window)==0x20)?1:-1];
-typedef char BattleCtrlOffset_player_windows[(offsetof(TPlayerBattleCtrl4P,player_windows)==0x28)?1:-1];
-typedef char BattleCtrlOffset_intro_text[(offsetof(TPlayerBattleCtrl4P,intro_text)==0x38)?1:-1];
-typedef char BattleCtrlOffset_frame_timer[(offsetof(TPlayerBattleCtrl4P,frame_timer)==0x240)?1:-1];
-typedef char BattleCtrlOffset_battle_start_ticks[(offsetof(TPlayerBattleCtrl4P,battle_start_ticks)==0x250)?1:-1];
-typedef char BattleCtrlOffset_message_table[(offsetof(TPlayerBattleCtrl4P,message_table)==0x294)?1:-1];
-typedef char BattleCtrlOffset_phase[(offsetof(TPlayerBattleCtrl4P,phase)==0x298)?1:-1];
-typedef char BattleCtrlOffset_phase_state[(offsetof(TPlayerBattleCtrl4P,phase_state)==0x29C)?1:-1];
+LAYOUT_ASSERT(BattleCtrlSize, sizeof(TPlayerBattleCtrl4P)==0x2A0);
+LAYOUT_ASSERT(BattleCtrlOffset_rule_data, offsetof(TPlayerBattleCtrl4P,rule_data)==0x1C);
+LAYOUT_ASSERT(BattleCtrlOffset_intro_window, offsetof(TPlayerBattleCtrl4P,intro_window)==0x20);
+LAYOUT_ASSERT(BattleCtrlOffset_player_windows, offsetof(TPlayerBattleCtrl4P,player_windows)==0x28);
+LAYOUT_ASSERT(BattleCtrlOffset_intro_text, offsetof(TPlayerBattleCtrl4P,intro_text)==0x38);
+LAYOUT_ASSERT(BattleCtrlOffset_frame_timer, offsetof(TPlayerBattleCtrl4P,frame_timer)==0x240);
+LAYOUT_ASSERT(BattleCtrlOffset_battle_start_ticks, offsetof(TPlayerBattleCtrl4P,battle_start_ticks)==0x250);
+LAYOUT_ASSERT(BattleCtrlOffset_message_table, offsetof(TPlayerBattleCtrl4P,message_table)==0x294);
+LAYOUT_ASSERT(BattleCtrlOffset_phase, offsetof(TPlayerBattleCtrl4P,phase)==0x298);
+LAYOUT_ASSERT(BattleCtrlOffset_phase_state, offsetof(TPlayerBattleCtrl4P,phase_state)==0x29C);
 #endif

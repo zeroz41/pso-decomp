@@ -132,7 +132,7 @@ void TTecPlayerInfluence::vfunc_7(void *) {  }
 TTecPlayerInfluence::TTecPlayerInfluence(void *owner_arg, void *pos, s32 level) : TEffect() {
   Owner_80237310 *owner = (Owner_80237310 *)owner_arg;
   void *p;
-  self->f0 = (s32)lbl_805D37F0;
+  self->f0 = (saddr)lbl_805D37F0;
   self->fa8 = 0xFFFF;
   VecCopy((Vec *)self->pos, (const Vec *)pos);
   if (level < 0)
@@ -272,10 +272,10 @@ void spawn_support_tec_range_effect(Tec_80236EE8 *self) {
         band = TTecCtrl::classify_distance_band(kind, self->level, self->slot);
         {
             Arr_80236EE8 fx = lbl_8044D908;
-            fx.w[0] = (u32)spawn_particle_effect(&pos, support_tec_range_effect_id_table[band]);
+            fx.w[0] = (uaddr)spawn_particle_effect(&pos, support_tec_range_effect_id_table[band]);
             if (band == 3) {
-                fx.w[1] = (u32)spawn_particle_effect(&pos, 0x1F2);
-                fx.w[2] = (u32)spawn_particle_effect(&pos, 0x19D);
+                fx.w[1] = (uaddr)spawn_particle_effect(&pos, 0x1F2);
+                fx.w[2] = (uaddr)spawn_particle_effect(&pos, 0x19D);
             }
             switch ((s16)kind) {
             case 14:

@@ -3,6 +3,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/TLobby.h"
+#include <string.h>
 
 extern "C" void free_bin_model_request(void*, int);
 
@@ -15,7 +16,6 @@ const char *TChCrLoadGmNjReq__name = "TChCrLoadGmNjReq";
 
 extern "C" {
 
-void strncpy(void *, const void *, int);
 
 void TChCrLoadGmNjReq::run_task() {
     s32 timer;

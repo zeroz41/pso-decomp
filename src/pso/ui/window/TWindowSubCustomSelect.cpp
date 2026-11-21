@@ -60,7 +60,7 @@ void draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif(void *, void *, s32, f32
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 test_buttons_press_or_repeat(void *, int, int, int);
 void *get_player_by_client_id(s32 i);
-s32 get_window_layout_position(int);
+saddr get_window_layout_position(int);
 void *reset_selection__20TWindowSubStatusDispFv(void *, NJS_POINT2 *);
 extern s32 __vt__22TWindowSubCustomSelect[];
 const char *TWindowSubCustomSelect__class_name = "TWindowSubCustomSelect";
@@ -166,7 +166,7 @@ void TWindowSubCustomSelect::draw_palette_cells(int ctx) {
     f32 y;
     f32 fx;
     f32 fy;
-    p = ((s32)get_player_by_client_id((this->m_20)));
+    p = ((saddr)get_player_by_client_id((this->m_20)));
     if (p == 0) {
         return;
     }
@@ -203,7 +203,7 @@ void TWindowSubCustomSelect::draw_palette_cells(int ctx) {
 #pragma pop
 
 void render__22TWindowSubCustomSelectFv(TWindowSubCustomSelect *window_sub_custom_select) {
-    s32 temp_r3;
+    saddr temp_r3;
     temp_r3 = get_draw_context__11TWindowBaseFPv();
     ((TWindowBase *)window_sub_custom_select)->draw_window_frame((void *)temp_r3);
     window_sub_custom_select->draw_palette_cells(temp_r3);
@@ -232,8 +232,8 @@ void TWindowSubCustomSelect::run_task() {
     }
     update_list_scroll();
     if ((f32) *(s32 *)&this->m_5c >= 7.5f) {
-        ((TWindowSubStatusDisp *)(*(s32 *)&this->m_7c))->update_subwindow();
-        ((TWindowSubStatusDisp *)(*(s32 *)&this->m_80))->increment_counter();
+        ((TWindowSubStatusDisp *)(*(saddr *)&this->m_7c))->update_subwindow();
+        ((TWindowSubStatusDisp *)(*(saddr *)&this->m_80))->increment_counter();
     }
     ((TWindowDD *)arg0)->initialize_subwindow();
     ((TWindowBase *)arg0)->update_window_entry_list((u8 *)&this->m_24);
@@ -241,8 +241,8 @@ void TWindowSubCustomSelect::run_task() {
 }
 
 TWindowSubCustomSelect::~TWindowSubCustomSelect() {
-    TWindowSubStatusDisp::destroy_allocation((s32)(*(void **)((s8 *)this + 0x80)), (s16)1);
-    TWindowSubStatusDisp::destroy_status_display((s32)(*(void **)((s8 *)this + 0x7C)), (s16)1);
+    TWindowSubStatusDisp::destroy_allocation((saddr)(*(void **)((s8 *)this + 0x80)), (s16)1);
+    TWindowSubStatusDisp::destroy_status_display((saddr)(*(void **)((s8 *)this + 0x7C)), (s16)1);
 }
 const u32 custom_select_organic_action_table[40] = {
     0x20000, 0x20001, 0x20002, 0x30000, 0x30006, 0x30003, 0x30001, 0x30007,
@@ -295,7 +295,7 @@ u8 *TWindowSubCustomSelect__ct(TWindowSubCustomSelect *window_sub_custom_select,
     }
     o = ::operator new(0x24);
     if (o != NULL) {
-        o = ((TWindowSubStatusDisp *)o)->construct_type1_heading((s32)TWindowSubStatusDisp::get_message_10(0x22), window_sub_custom_select->m_20);
+        o = ((TWindowSubStatusDisp *)o)->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x22), window_sub_custom_select->m_20);
     }
     *(void **)((s8 *)window_sub_custom_select + 0x7C) = o;
     pos.x = 196.0f;

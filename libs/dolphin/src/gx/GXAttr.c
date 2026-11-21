@@ -1,6 +1,5 @@
 
 
-#define GXSetVtxDesc Dolphin_GXSetVtxDesc
 #define __GXXfVtxSpecs GXAttr___GXXfVtxSpecs
 
 #include <dolphin/gx.h>

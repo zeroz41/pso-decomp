@@ -5,4 +5,4 @@
 
 void TAdSelectGameModeGC::enable_camera() { TLobby__sub_801A3B90(1); TCameraCtrl__sub_801A3C30(1); TCameraCtrl__sub_801A3C24(); }
 
-void TAdSelectGameModeGC::free_sub_ctrls() { TLobby__sub_801A3B90((int)this); TCameraCtrl__sub_801A3C30((int)this); }
+void TAdSelectGameModeGC::free_sub_ctrls() { TLobby__sub_801A3B90((saddr)this); TCameraCtrl__sub_801A3C30((saddr)this); }

@@ -44,15 +44,15 @@ public:
     f32 draw_depth;
 };
 
-typedef char TAdSelectCurGC_size[sizeof(TAdSelectCurGC) == 0x708 ? 1 : -1];
-typedef char TAdSelectCurGC_position_offset[offsetof(TAdSelectCurGC, entry_positions) == 0x1C ? 1 : -1];
-typedef char TAdSelectCurGC_cursor_size_offset[offsetof(TAdSelectCurGC, cursor_size) == 0x9C ? 1 : -1];
-typedef char TAdSelectCurGC_selection_table_offset[offsetof(TAdSelectCurGC, entry_alpha) == 0x6BC ? 1 : -1];
+LAYOUT_ASSERT(TAdSelectCurGC_size, sizeof(TAdSelectCurGC) == 0x708);
+LAYOUT_ASSERT(TAdSelectCurGC_position_offset, offsetof(TAdSelectCurGC, entry_positions) == 0x1C);
+LAYOUT_ASSERT(TAdSelectCurGC_cursor_size_offset, offsetof(TAdSelectCurGC, cursor_size) == 0x9C);
+LAYOUT_ASSERT(TAdSelectCurGC_selection_table_offset, offsetof(TAdSelectCurGC, entry_alpha) == 0x6BC);
 
-typedef char SelectCursorQuadSize[sizeof(SelectCursorQuad) == 0x20 ? 1 : -1];
-typedef char SelectCursorQuadsOffset[offsetof(TAdSelectCurGC, quads) == 0xBC ? 1 : -1];
-typedef char SelectCursorIndexOffset[offsetof(TAdSelectCurGC, selected_index) == 0xA4 ? 1 : -1];
-typedef char SelectCursorConfirmationOffset[offsetof(TAdSelectCurGC, confirmation) == 0xAC ? 1 : -1];
+LAYOUT_ASSERT(SelectCursorQuadSize, sizeof(SelectCursorQuad) == 0x20);
+LAYOUT_ASSERT(SelectCursorQuadsOffset, offsetof(TAdSelectCurGC, quads) == 0xBC);
+LAYOUT_ASSERT(SelectCursorIndexOffset, offsetof(TAdSelectCurGC, selected_index) == 0xA4);
+LAYOUT_ASSERT(SelectCursorConfirmationOffset, offsetof(TAdSelectCurGC, confirmation) == 0xAC);
 
 struct GinjaTextureList;
 extern "C" GinjaTextureList *menu_selection_cursor_texture_list;

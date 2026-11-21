@@ -13,6 +13,7 @@
 #include "types.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 // TObjBoss7DustCtrl and TObjBoss7Dust share one TU, built deferred and written from the unit's last
 // function back: Dust's code comes first in .text, yet DustCtrl's class name precedes Dust's in .sdata
@@ -105,8 +106,6 @@ void TObjBoss7DustCtrl__sub_802F1450(void) {  }
 
 }
 
-extern s32 tl_05;
-
 void TObjBoss7DustCtrl::create() {
     new TObjBoss7DustCtrl((TObject *)tl_05);
 }
@@ -176,7 +175,7 @@ void boss7_dust_draw_at(s32 *arg0, s32 arg1) {
     TParticleCtrl::end_effect_render();
     push_matrix();
     var_r3 = var_r30;
-    post_translate_matrix((int)var_r3);
+    post_translate_matrix((saddr)var_r3);
     var_r5 = var_r31 * 0x60;
     var_r3 = (s32 *)((s32 *)TObjBoss7DustCtrl__transformed_vertices);
     var_r4 = 6;
@@ -186,9 +185,9 @@ void boss7_dust_draw_at(s32 *arg0, s32 arg1) {
     pop_matrix();
 }
 
-typedef char RecoveredGlobal_802F119C___vt__13TObjBoss7Dust_size[sizeof(RecoveredGlobal_802F119C___vt__13TObjBoss7Dust) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_802F119C___vt__13TObjBoss7Dust_size, sizeof(RecoveredGlobal_802F119C___vt__13TObjBoss7Dust) == 0x18);
 
-u8 *__ct__13TObjBoss7DustFv(u8 *object, s32 arg1, s32 arg2) {
+u8 *__ct__13TObjBoss7DustFv(u8 *object, saddr arg1, saddr arg2) {
     __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
     *(s32 **)((s8 *)object + 0x18) = &__vt__13TObjBoss7Dust.value;
     ((TObjBoss7Dust *)object)->m_name = TObjBoss7Dust__name;
@@ -208,7 +207,7 @@ void TObjBoss7Dust::run_task() {
     }
 }
 
-void TObjBoss7Dust::render() { boss7_dust_draw_at((s32 *)((char*)this + 0x24), (s32)(*(void**)((char*)this + 0x20))); }
+void TObjBoss7Dust::render() { boss7_dust_draw_at((s32 *)((char*)this + 0x24), (saddr)(*(void**)((char*)this + 0x20))); }
 
 void init_scene_boss2_tunnel(void) { load_boss7_common_resources(); TObjBoss2Tunnel__sub_802F2C84(); fn_802F1454(); }
 

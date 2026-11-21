@@ -22,6 +22,6 @@ extern "C" {
 TUnk_804A7254 *__ct__13TUnk_804A7254Fv(void *self);
 }
 
-typedef char TUnk_804A7254_size[sizeof(TUnk_804A7254) == 0x14 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804A7254_size, sizeof(TUnk_804A7254) == 0x14);
 
 #endif

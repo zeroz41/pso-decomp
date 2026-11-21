@@ -77,6 +77,6 @@ s32 TLobby::setup_scene() {
         }
     }
     new TQuestBgmCtrl(tl_05);
-    fn_8006EBC4((s32)tl_07);
+    fn_8006EBC4((saddr)tl_07);
     return 1;
 }

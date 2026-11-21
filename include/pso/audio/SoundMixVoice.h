@@ -26,8 +26,8 @@ struct SoundMixVoice {
     u8 studio;
     u32 flags;
 };
-typedef char SoundMixVoiceSize[sizeof(SoundMixVoice) == 0xF4 ? 1 : -1];
-typedef char SoundStudioMixViewSize[sizeof(SoundStudioMixView) == 0xBC ? 1 : -1];
+LAYOUT_ASSERT(SoundMixVoiceSize, sizeof(SoundMixVoice) == 0xF4);
+LAYOUT_ASSERT(SoundStudioMixViewSize, sizeof(SoundStudioMixView) == 0xBC);
 
 extern "C" void hwSetVolume(s32 voice, u32 volumeCurve, u32 pan,
     s32 surroundPan, f32 direct, f32 auxiliaryA, f32 auxiliaryB);

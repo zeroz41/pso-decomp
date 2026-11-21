@@ -5,14 +5,11 @@
 #include "pso/ui/window/TWindowSnapShot.h"
 #include "pso/system/TGStream.h"
 #include "pso/unk/TLobby.h"
+#include <string.h>
 
 extern "C" {
-s32 strncpy(void *, void *, int);
-s32 strcpy(void *, void *);
-s32 strlen(void *);
 void mem_free(void *);
 void *mem_alloc(u32 size);
-s32 memset(void *, int, int);
 
 }
 
@@ -73,13 +70,13 @@ s32 RlcArchive::fn_802A5C3C() {
 void RlcArchive::fn_802A5C7C() { directory = (RlcDirectoryEntry *)(buffer + header->get_directory_offset()); }
 void RlcArchive::fn_802A5CB8() { header = (RlcHeader *)buffer; }
 
-void RlcArchive::fn_802A5CC4(s32 file) {
-    if (strlen((void *)file) > 0x1F) {
-        strncpy(name, (void *)file, 0x1F);
+void RlcArchive::fn_802A5CC4(saddr file) {
+    if ((s32)strlen((const char *)file) > 0x1F) {
+        strncpy(name, (const char *)file, 0x1F);
         name[0x1F] = 0;
         return;
     }
-    strcpy(name, (void *)file);
+    strcpy(name, (const char *)file);
 }
 
 void RlcArchive::free_buffer() {
@@ -97,7 +94,7 @@ s32 RlcArchive::alloc_buffer() {
     }
     return 1;
 }
-s32 RlcArchive::open_stream(s32 file) {
+s32 RlcArchive::open_stream(saddr file) {
     file_size = TGStream::read_whole_file((const char *)file, buffer);
     if (fn_802A605C() == 0) {
         set_mode(2);
@@ -106,7 +103,7 @@ s32 RlcArchive::open_stream(s32 file) {
     }
     return 1;
 }
-s32 RlcArchive::init(s32 file) {
+s32 RlcArchive::init(saddr file) {
     file_size = TGStream::get_resource_file_size((const char *)file);
     if (fn_802A605C() == 0) {
         set_mode(1);
@@ -129,7 +126,7 @@ RlcArchive::~RlcArchive() {}
 RlcArchive::RlcArchive() { reset(); }
 
 void RlcArchive::update_both() { free_buffer(); reset(); }
-s32 RlcArchive::start_capture(s32 file) {
+s32 RlcArchive::start_capture(saddr file) {
     if (file == 0) {
         set_mode(3);
         return 0;

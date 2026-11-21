@@ -57,7 +57,7 @@ struct TObjEneMorfos : public TObjEneDD_ST {
     void init_instance();
     static void unload_static_data();
     void *create();
-    static s32 snap_to_ground(s32 arg0, s32 arg1);
+    static s32 snap_to_ground(s32 arg0, saddr arg1);
     void update_ground_probe();
     static u8 check_value_in_range(void *arg0, u16 arg1, u16 arg2, u16 arg3);
     f32 m_49c;
@@ -81,8 +81,8 @@ struct TObjEneMorfos : public TObjEneDD_ST {
 };
 
 #include <stddef.h>
-typedef char TObjEneMorfos_size[sizeof(TObjEneMorfos) == 0x4D8 ? 1 : -1];
-typedef char TObjEneMorfos_fades[offsetof(TObjEneMorfos, m_3ec) == 0x3EC ? 1 : -1];
+LAYOUT_ASSERT(TObjEneMorfos_size, sizeof(TObjEneMorfos) == 0x4D8);
+LAYOUT_ASSERT(TObjEneMorfos_fades, offsetof(TObjEneMorfos, m_3ec) == 0x3EC);
 
 extern "C" {
 void TObjEneMorfos__sub_80332DBC(u8 *arg0, s32 arg1);

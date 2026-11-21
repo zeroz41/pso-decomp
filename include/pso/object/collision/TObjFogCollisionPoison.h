@@ -18,7 +18,7 @@ struct TObjFogCollisionPoison : public TObjFogCollisionSwitch {
     void record_poison_hit(u16 arg1);
 };
 
-typedef char TObjFogCollisionPoison_size[sizeof(TObjFogCollisionPoison) == 0x9C ? 1 : -1];
+LAYOUT_ASSERT(TObjFogCollisionPoison_size, sizeof(TObjFogCollisionPoison) == 0x9C);
 extern "C" {
 void TObjFogCollisionPoison__sub_801533BC(void);
 void TObjFogCollisionPoison__sub_80153520(s32 arg0);

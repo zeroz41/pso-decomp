@@ -13,9 +13,9 @@ struct CharacterSelectionRequest {
     void reset_slot_lists();
 };
 
-typedef char CharacterSelectionRequestSize[sizeof(CharacterSelectionRequest) == 0x24 ? 1 : -1];
-typedef char CharacterSelectionRequestPlayerOffset[offsetof(CharacterSelectionRequest, player_ids) == 0x10 ? 1 : -1];
-typedef char CharacterSelectionRequestCountOffset[offsetof(CharacterSelectionRequest, count) == 0x20 ? 1 : -1];
+LAYOUT_ASSERT(CharacterSelectionRequestSize, sizeof(CharacterSelectionRequest) == 0x24);
+LAYOUT_ASSERT(CharacterSelectionRequestPlayerOffset, offsetof(CharacterSelectionRequest, player_ids) == 0x10);
+LAYOUT_ASSERT(CharacterSelectionRequestCountOffset, offsetof(CharacterSelectionRequest, count) == 0x20);
 
 extern "C" {
 extern CharacterSelectionRequest chr_select_request_buffer;

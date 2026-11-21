@@ -171,7 +171,7 @@ void TWindowSubStatusDisp__sub_802878B8(u8 *arg0, u8 *arg1) {
     stack.spC = (4.0f) + (temp_f4 + (*((f32 *) (((s8 *) arg0) + 8))));
     set_text_draw_params((void *) arg1, 0, 1, (f32) ((-1.0f) / ((0.0598f) + (*((f32 *) (((s8 *) arg1) + 0x38))))), (f32) (1e+05f), (f32) (-1.0f), (f32) temp_f4, (f32) (4.0f), (f32) (0.5f));
     new_var = *((f32 *) (((s8 *) arg0) + 0x1C));
-    draw_window_text((&stack.sp8), (const char *)(*((s32 *) (((s8 *) arg0) + 0))), (*((s32 *) (((s8 *) arg0) + 0x14))), 1, (f32) new_var);
+    draw_window_text((&stack.sp8), (const char *)(*((saddr *) (((s8 *) arg0) + 0))), (*((s32 *) (((s8 *) arg0) + 0x14))), 1, (f32) new_var);
   }
 }
 
@@ -188,7 +188,7 @@ s32 TWindowSubStatusDisp::deleting_destructor(s32 arg0, s16 arg1) {
     return arg0;
 }
 
-u8 *init_heading_entry__20TWindowSubStatusDispFPvPvici(u8 *window_sub_status_disp, u8 *arg1, s32 arg2, s8 arg3, s32 arg4) {
+u8 *init_heading_entry__20TWindowSubStatusDispFPvPvici(u8 *window_sub_status_disp, u8 *arg1, saddr arg2, s8 arg3, s32 arg4) {
     *(f32 *)((s8 *)window_sub_status_disp + 4) = (f32) *(f32 *)((s8 *)arg1 + 0);
     *(f32 *)((s8 *)window_sub_status_disp + 8) = (f32) *(f32 *)((s8 *)arg1 + 4);
     *(f32 *)((s8 *)window_sub_status_disp + 0x10) = (f32) calc_text_width((char *)(arg2));

@@ -57,7 +57,7 @@ void TOFenceAncient03::unload_resources() {
     s32 i;
     if (texlists != NULL) {
         for (i = 1; i < 4; i++) {
-            TObjPlayer::free_if_valid((s32)texlists[i]);
+            TObjPlayer::free_if_valid((saddr)texlists[i]);
         }
         if (texlists != NULL) {
             mem_free(texlists);
@@ -79,9 +79,9 @@ void TOFenceAncient03::load_resources() {
     GinjaTextureList **lists = (GinjaTextureList **)mem_alloc(4 * sizeof(GinjaTextureList *));
     texlists = lists;
     lists[0] = (GinjaTextureList *)model_resource->models[0].m_c;
-    texlists[1] = (GinjaTextureList *)load_gvm_texture_file((s32)texture_file_b);
-    texlists[2] = (GinjaTextureList *)load_gvm_texture_file((s32)texture_file_g);
-    texlists[3] = (GinjaTextureList *)load_gvm_texture_file((s32)texture_file_p);
+    texlists[1] = (GinjaTextureList *)load_gvm_texture_file((saddr)texture_file_b);
+    texlists[2] = (GinjaTextureList *)load_gvm_texture_file((saddr)texture_file_g);
+    texlists[3] = (GinjaTextureList *)load_gvm_texture_file((saddr)texture_file_p);
 }
 
 // Defined after load_resources, which addresses each by its own symbol.
@@ -98,7 +98,7 @@ TOFenceAncient03::TOFenceAncient03(TObject *parent, void *set_data) : TOFenceBas
     m_name = class_name;
     apply_object_set_data(set_data);
     model = (void *)model_resource->models[0].model;
-    texlist = (s32)texlists[read_texture_variant()];
+    texlist = (saddr)texlists[read_texture_variant()];
     motion = model_resource->motions[0].motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     init_collision_body_parts(this, fence_ancient03_collision_bodies, 8);

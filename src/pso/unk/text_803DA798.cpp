@@ -9,7 +9,7 @@ struct RecoveredFields_803DA84C_arg0 {
     u8 unknown_0[0x14];
     u32 field_14;
     u8 unknown_18[0x4];
-    s32 field_1C;
+    saddr field_1C;
 };
 
 struct S_803DA7E0 { s32 a, b, c, d, e; };
@@ -46,7 +46,7 @@ struct Rec_803DA8E4 { u32 a; u32 b; u32 c; Obj_803DA8E4 *obj; s32 cnt; s32 v14; 
 
 struct B_803DAE1C { u32 a; u32 b; Obj_803DAD84 *c; };
 
-extern s32 record_array_ptr;
+extern saddr record_array_ptr;
 extern "C" {
 void TObjPlayer__sub_803DAC1C(s32 arg0);
 s32 fn_803DB20C(void *);
@@ -72,7 +72,7 @@ extern s32 player_ref_entry_active_count;
 s32 TObjPlayer__sub_803DAA70(u32 arg0, u32 arg1, s32 *arg2);
 s32 TObjPlayer__sub_803DAC48(Obj_803DAB7C *arg0, s32 arg1, u32 arg2, u32 arg3, s32 *arg4, s32 *arg5);
 s32 TObjPlayer__sub_803DAE1C(s32 arg0, s32 arg1, u32 arg2);
-s32 TObjFish::set_global_param(s32 arg0) {
+s32 TObjFish::set_global_param(saddr arg0) {
     *(s32 *)((s8 *)current_render_context + 0x20) = arg0;
     return 1;
 }
@@ -82,8 +82,8 @@ s32 set_texture_num(s32 i);
 #pragma opt_common_subs off
 #pragma scheduling off
 #pragma peephole off
-typedef char RecoveredFields_803DA84C_arg0_14_offset[offsetof(RecoveredFields_803DA84C_arg0, field_14) == 0x14 ? 1 : -1];
-typedef char RecoveredFields_803DA84C_arg0_1C_offset[offsetof(RecoveredFields_803DA84C_arg0, field_1C) == 0x1C ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_803DA84C_arg0_14_offset, offsetof(RecoveredFields_803DA84C_arg0, field_14) == 0x14);
+LAYOUT_ASSERT(RecoveredFields_803DA84C_arg0_1C_offset, offsetof(RecoveredFields_803DA84C_arg0, field_1C) == 0x1C);
 
 #pragma push
 #pragma scheduling off
@@ -110,7 +110,7 @@ void TObjPlayer__sub_803DA7E0(void) {
 #pragma pop
 
 void TObjPlayer__sub_803DA808(void *buf, s32 arg1, void *arg2) {
-    move_data(buf, (const void *)arg1, (u32)arg2);
+    move_data(buf, (const void *)arg1, (uaddr)arg2);
     DCFlushRange(buf, arg2);
 }
 
@@ -118,7 +118,7 @@ s32 TObjPlayer__sub_803DA84C(u8 *arg0, s32 arg1, s32 arg2, s32 arg3) {
     u32 temp_r0;
     u32 temp_r6;
     u32 temp_r7;
-    u32 var_r5;
+    uaddr var_r5;
     temp_r7 = arg2 & 0xFFFFFFFC;
     temp_r6 = arg3 & 0xFFFFFFFC;
     if (temp_r6 == 0) {
@@ -198,7 +198,7 @@ s32 TObjPlayer__sub_803DAA70(u32 arg0, u32 arg1, s32 *arg2) {
         return -1;
     }
     *(s32 **)((s8 *)spC + 0xC) = sp8;
-    if (TObjPlayer__sub_803D9DA8((int)spC, (void *)arg2) != 1) {
+    if (TObjPlayer__sub_803D9DA8((saddr)spC, (void *)arg2) != 1) {
         *(s32 **)((s8 *)spC + 0xC) = NULL;
         return -1;
     }

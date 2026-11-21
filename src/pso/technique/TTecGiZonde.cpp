@@ -136,7 +136,7 @@ s32 copy_technique_target_list(void *, void *);
 f32 vector_length(Vec *);
 void normalize_vector(Vec *);
 u8 *construct_helper_effect__11TTecGiZondeFPvPvPvPvi(u8 *arg0, u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4);
-extern s32 tl_07;
+extern saddr tl_07;
 
 #define UNQ(e) TTecLuker::is_parents_unqueued(e)
 s32 TTecGiZonde::find_chain_targets() {
@@ -152,7 +152,7 @@ s32 TTecGiZonde::find_chain_targets() {
     Ent_80231C58 *b;
     void *p;
     e = (Ent_80231C58 *) find_entity_by_id(self->targets[0].id);
-    if (UNQ((u32) e) == 0) {
+    if (UNQ((uaddr) e) == 0) {
         return 0;
     }
     d.x = e->parts[self->targets[0].part].pos.x - self->pos.x;
@@ -254,9 +254,9 @@ s32 TTecGiZonde::find_chain_targets() {
     for (i = 0; i < self->count - 1; i++) {
         a = (Ent_80231C58 *) find_entity_by_id(self->targets[i].id);
         b = (Ent_80231C58 *) find_entity_by_id(self->targets[i + 1].id);
-        if (UNQ((u32) a) != 0 && UNQ((u32) b) != 0) {
+        if (UNQ((uaddr) a) != 0 && UNQ((uaddr) b) != 0) {
         if ((a->flags & 0x20000000) && (b->flags & 0x20000000) &&
-            TObjPlayer::is_valid_and_active((u32) a) != 0 && TObjPlayer::is_valid_and_active((u32) b) != 0 &&
+            TObjPlayer::is_valid_and_active((uaddr) a) != 0 && TObjPlayer::is_valid_and_active((uaddr) b) != 0 &&
             a->m31() != 0 && b->m31() != 0) {
             return 0;
         }
@@ -326,16 +326,16 @@ s32 TTecGiZonde::find_chain_targets() {
 }
 
 void TTecGiZonde::create(void *caster, Vec *pos, void *targets, s32 level) {
-    new TTecGiZonde((s32)caster, pos, targets, level);
+    new TTecGiZonde((saddr)caster, pos, targets, level);
 }
 
 TTecGiZonde::~TTecGiZonde() {}
 
 void TTecGiZonde::deliver_chain_hits() {
     s32 i;
-    u32 actor;
+    uaddr actor;
     for (i = 0; i < ((GChain_80232598 *)this)->count; i++) {
-        actor = (u32)find_entity_by_id(((GChain_80232598 *)this)->targets[i].id);
+        actor = (uaddr)find_entity_by_id(((GChain_80232598 *)this)->targets[i].id);
         if (TTecLuker::is_parents_unqueued(actor) != 0 && TObjPlayer::is_valid_and_active(actor) != 0) {
             this->vfunc_8((void *)actor);
         }
@@ -343,7 +343,7 @@ void TTecGiZonde::deliver_chain_hits() {
 }
 
 void TTecGiZonde::run_task() {
-    this->source = (u32)find_entity_by_id(this->sourceId);
+    this->source = (uaddr)find_entity_by_id(this->sourceId);
     if ((u32) this->source == 0U) {
         queue_destruction();
         return;
@@ -358,7 +358,7 @@ void TTecGiZonde::run_task() {
     queue_destruction();
 }
 // The chain starts at `pos` with no facing (angle 0).
-TTecGiZonde::TTecGiZonde(s32 source, Vec *pos, void *targets, s32 level) : TUnk_804CCC68(source, pos, 0, level) {
+TTecGiZonde::TTecGiZonde(saddr source, Vec *pos, void *targets, s32 level) : TUnk_804CCC68(source, pos, 0, level) {
     s32 h;
     m_name = TTecGiZonde_name_ref;
     init_parameters();

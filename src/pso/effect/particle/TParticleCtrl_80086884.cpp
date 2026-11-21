@@ -6,7 +6,7 @@
 #include "pso/system/task/TObject.h"
 
 extern "C" {
-s32 get_bml_model(void *, s32);
+saddr get_bml_model(void *, s32);
 ParticleParam *particle_global_entry_table;
 ParticleParam *particle_area_entry_table;
 u8 *TParticleCtrl__regular_bml_resource;

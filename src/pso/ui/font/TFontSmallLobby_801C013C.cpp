@@ -152,7 +152,7 @@ void TObjPlayer::byteswap_packet_body() {
 u8 *TObjPlayer__sub_801C07B4(u8 *arg0, u8 *arg1) {
     copy_subcommand_header(arg0, arg1);
     *(s32 *)((s8 *)arg0 + 4) = (s32) *(s32 *)((s8 *)arg1 + 4);
-    *(ByteBlock_C *)((s32) arg0 + 8) = *(const ByteBlock_C *)((s32) arg1 + 8);
+    *(ByteBlock_C *)((saddr) arg0 + 8) = *(const ByteBlock_C *)((saddr) arg1 + 8);
     return arg0;
 }
 

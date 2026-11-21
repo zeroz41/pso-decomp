@@ -22,5 +22,5 @@ struct TWindowComCard : public TWindowBase {
     void set_selected_index(s32 arg1);
 };
 
-typedef char TWindowComCard_size[sizeof(TWindowComCard) == 0x60 ? 1 : -1];
+LAYOUT_ASSERT(TWindowComCard_size, sizeof(TWindowComCard) == 0x60);
 #endif

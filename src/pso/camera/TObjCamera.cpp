@@ -26,9 +26,9 @@
 extern "C" {
 u8 *load_resource_from_descriptor(void *, s32, BmlResourceDescriptor *, s32, s32, s32);
 void free_bin_model_request(void *, int);
-AnimationMotion *get_bml_motion(u32, int);
-s32 get_bml_model(u32, int);
-s32 get_bml_texlist(u32, int);
+AnimationMotion *get_bml_motion(uaddr, int);
+saddr get_bml_model(uaddr, int);
+s32 get_bml_texlist(uaddr, int);
 }
 
 __declspec(section ".data") const char *fe_obj_cam_model_names[2] = { "fe_obj_cam840_841.gj", NULL };
@@ -137,7 +137,7 @@ void TObjCamera::render() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         camera_slot_scan_index = 0;
-        set_model_node_callback((s32)TObjCamera::update_camera_slots);
+        set_model_node_callback((saddr)TObjCamera::update_camera_slots);
         draw_ginja_model_with_motion((void *)get_bml_model(model_resource, 0),
                                      get_bml_motion(model_resource, 0), animation_frame);
         set_model_node_callback(0);
@@ -225,12 +225,12 @@ void TObjCamera::free_resources() {
 
 void TObjCamera::load_resources() {
     void *resource;
-    u32 loaded;
+    uaddr loaded;
     camera_slot_scan_index = 0;
     resource = ::operator new(0x440);
-    loaded = (u32)resource;
+    loaded = (uaddr)resource;
     if (loaded != 0) {
-        loaded = (u32)load_resource_from_descriptor(resource, 1, &fe_obj_cam_resource_descriptor, 0, 0, 0);
+        loaded = (uaddr)load_resource_from_descriptor(resource, 1, &fe_obj_cam_resource_descriptor, 0, 0, 0);
     }
     model_resource = loaded;
 }

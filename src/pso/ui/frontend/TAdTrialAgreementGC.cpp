@@ -51,14 +51,14 @@ struct VObj_80335648 : Base_80335648 {
 
 extern "C" {
 
-s32 poll_memcard_result(s32);
+s32 poll_memcard_result(saddr);
 
 void TAdTrialAgreementGC::render() {
     struct VObj_80335648 *o = (struct VObj_80335648 *)this;
     o->m10();
 }
 
-void TAdTrialAgreementGC::vfunc_8() { request_main_phase((s32)((void*)0)); }
+void TAdTrialAgreementGC::vfunc_8() { request_main_phase((saddr)((void*)0)); }
 void TAdTrialAgreementGC::vfunc_7() { TAdMultiChgGameModeGC::request_scene_change(); }
 void TAdTrialAgreementGC::vfunc_6() { if (this->m_38 != 0) { ((TAdScrollWinGC *)(this->m_38))->close_window(); this->m_38 = 0; } }
 void TAdTrialAgreementGC::wait_for_load() {
@@ -87,12 +87,11 @@ struct VObj_803357EC_8033573C : Base_803357EC_8033573C {
 
 extern "C" {
 
-s32 __nw__7TObjectFUl(int);
 const char *TAdTrialAgreementGC__name = "TAdTrialAgreementGC";
 
 extern s32 pso_system_card_filename[];
 
-s32 TAdTrialAgreementGC::check_card_file(s32 arg0) {
+s32 TAdTrialAgreementGC::check_card_file(saddr arg0) {
     s32 card_file;
 
     if (TAdPlayerLoadGC::probe_card_slot(0) == 0) {
@@ -125,19 +124,19 @@ TAdTrialAgreementGC::~TAdTrialAgreementGC() {
 
 #define ad_trial_agreement_gc ((u8 *)this)
 TAdTrialAgreementGC::TAdTrialAgreementGC(TObject *parent) : TAdAgreementBaseGC(parent) {
-    s32 ad_scroll_win_gc;
+    saddr ad_scroll_win_gc;
     s32 var_r0;
     *(const char **)((s8 *)ad_trial_agreement_gc + 0) = TAdTrialAgreementGC__name;
     ((TAdTrialAgreementGC *)ad_trial_agreement_gc)->m_38 = 0;
-    if (TAdTrialAgreementGC::check_card_file((s32)ad_trial_agreement_gc) != 0) {
+    if (TAdTrialAgreementGC::check_card_file((saddr)ad_trial_agreement_gc) != 0) {
         ((TAdTrialAgreementGC *)(ad_trial_agreement_gc))->vfunc_7();
         ((TObject *)ad_trial_agreement_gc)->queue_destruction();
         return;
     }
-    ad_scroll_win_gc = __nw__7TObjectFUl(0x54);
+    ad_scroll_win_gc = (saddr)TObject::operator new(0x54);
     var_r0 = ad_scroll_win_gc;
     if (var_r0 != 0) {
-        var_r0 = (s32)TAdScrollWinGC__ct((TAdScrollWinGC *)((void *)ad_scroll_win_gc), (ad_trial_agreement_gc), 1, 0);
+        var_r0 = (saddr)TAdScrollWinGC__ct((TAdScrollWinGC *)((void *)ad_scroll_win_gc), (ad_trial_agreement_gc), 1, 0);
     }
     ((TAdTrialAgreementGC *)ad_trial_agreement_gc)->m_38 = var_r0;
 }

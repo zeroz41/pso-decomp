@@ -31,7 +31,7 @@ struct TAdChrSelBSlotGC : public TObject {
     void check_cancel_and_close();
     static void *create(void *arg0);
     int get_global_state();
-    static int get_global_slot_data();
+    static saddr get_global_slot_data();
     u8 unk_28[0x4];
     TAdPlyChrSelPlateGC *m_2c;
     TAdSubPlyItemGC *player_items;
@@ -49,12 +49,12 @@ struct TAdChrSelBSlotGC : public TObject {
     u8 unk_60[0x4];
     s32 m_64;
     u8 unk_68[0x4];
-    s32 m_6c;
+    saddr m_6c;
     u8 unk_70[0x4];
     s32 m_74;
     u8 unk_78[0x4];
     s32 m_7c;
 };
 
-typedef char TAdChrSelBSlotGC_size[sizeof(TAdChrSelBSlotGC) == 0x80 ? 1 : -1];
+LAYOUT_ASSERT(TAdChrSelBSlotGC_size, sizeof(TAdChrSelBSlotGC) == 0x80);
 #endif

@@ -12,7 +12,7 @@ TUnk_804E3008::TUnk_804E3008(TObject *parent, s32 mode, s32 index, s32 slot) : T
 extern "C" {
 void free_bin_model_request(void*, int);
 
-extern u32 TAdMultiPlyChrSelectGC__resource_bundle;
+extern uaddr TAdMultiPlyChrSelectGC__resource_bundle;
 
 TUnk_804E3008 *TAdMultiPlyChrSelectGC::get_or_create_player(TObject *parent, s32 mode, s32 index, s32 slot) {
     if (multi_chr_select_player_slot_table[slot] == NULL) {

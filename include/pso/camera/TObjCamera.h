@@ -14,7 +14,7 @@ struct CameraSoundEvent {
     u32 played;
 };
 
-typedef char CameraSoundEventSize[sizeof(CameraSoundEvent) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(CameraSoundEventSize, sizeof(CameraSoundEvent) == 0x18);
 
 // The security camera map object (set id 0x190): a model with eight star
 // lights on its lamps, shown while the local player is near.
@@ -40,5 +40,5 @@ struct TObjCamera : public TObjMapObject {
     CameraSoundEvent sound_events[8];
 };
 
-typedef char TObjCamera_size[sizeof(TObjCamera) == 0x1AC ? 1 : -1];
+LAYOUT_ASSERT(TObjCamera_size, sizeof(TObjCamera) == 0x1AC);
 #endif

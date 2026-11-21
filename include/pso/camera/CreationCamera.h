@@ -49,8 +49,8 @@ public:
 
     static CreationCamera *create();
 };
-typedef char CreationCamera_size[sizeof(CreationCamera) == 0x90 ? 1 : -1];
-typedef char CreationCamera_distance[offsetof(CreationCamera, distance) == 0x6C ? 1 : -1];
+LAYOUT_ASSERT(CreationCamera_size, sizeof(CreationCamera) == 0x90);
+LAYOUT_ASSERT(CreationCamera_distance, offsetof(CreationCamera, distance) == 0x6C);
 
 extern s32 creation_camera_mode;
 // How far the creation view is shifted aside for an open panel (0 to 1).

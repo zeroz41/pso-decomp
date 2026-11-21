@@ -30,7 +30,7 @@ static const NJS_POINT2 mc_check_window_positions[2] = {
 };
 
 s32 TAdMcCheckGC::create(s32 arg1) {
-    s32 temp_r31;
+    saddr temp_r31;
 
     temp_r31 = create_window_menu_default(&mc_check_window_positions[this->m_28], 1);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)(get_localized_text_entry(0x16, arg1)), 0x20, 0);

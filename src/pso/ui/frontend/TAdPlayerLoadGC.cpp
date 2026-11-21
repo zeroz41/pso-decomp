@@ -10,7 +10,7 @@
 const char *TAdPlayerLoadGC__class_name = "TAdPlayerLoadGC";
 
 extern "C" {
-s32 poll_memcard_result(s32 chan);
+s32 poll_memcard_result(saddr chan);
 s32 TAdPlayerLoadGC__sub_801FD770();
 s32 TAdPlayerLoadGC__sub_801FD814();
 s32 check_system_load_result__23TAdSinglePlyChrSelectGCFv();

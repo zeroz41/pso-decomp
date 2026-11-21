@@ -11,7 +11,7 @@ struct TOContainerAncientItemNone : public TOContainerAncientItemRare {
     static void *create(void *arg0);
 };
 
-typedef char TOContainerAncientItemNone_size[sizeof(TOContainerAncientItemNone) == 0x368 ? 1 : -1];
+LAYOUT_ASSERT(TOContainerAncientItemNone_size, sizeof(TOContainerAncientItemNone) == 0x368);
 
 
 #endif

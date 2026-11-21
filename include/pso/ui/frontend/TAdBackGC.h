@@ -12,7 +12,6 @@ public:
     virtual void run_task();
     virtual void render();
 public:
-    static void run_task();
     void set_field_20(s32 v);
     void set_depth(f32 v);
 
@@ -20,7 +19,7 @@ public:
     s32 m_20;
 };
 
-typedef char TAdBackGC_size[sizeof(TAdBackGC) == 0x24 ? 1 : -1];
+LAYOUT_ASSERT(TAdBackGC_size, sizeof(TAdBackGC) == 0x24);
 
 int draw_title_background_layer(void *p, int a1, int a2, f32 a3);
 int render_logo_with_default(void *p, int a1, int a2, f32 a3);

@@ -49,7 +49,7 @@ void TOFenceBase::update_trigger() {
         }
         break;
     }
-    play_persistent_sound(0x4004C10F, (s32)this, (u32)&position, 0, 0);
+    play_persistent_sound(0x4004C10F, (saddr)this, (uaddr)&position, 0, 0);
 }
 
 void TOFenceBase::run_task() {
@@ -96,7 +96,7 @@ void TOFenceBase::render() {
             rotate_matrix_x(NULL, node->ang[0]);
             rotate_matrix_y(NULL, node->ang[1]);
             scale_current_matrix(node->scl);
-            draw_ginja_model((s32)node->model);
+            draw_ginja_model((saddr)node->model);
             pop_matrix();
         }
         pop_matrix();

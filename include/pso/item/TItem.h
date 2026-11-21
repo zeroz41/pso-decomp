@@ -193,11 +193,11 @@ struct TItem : public TObjCollidable {
     NJS_OBJECT *item_model;        // the object tree drawn for it
 };
 
-typedef char TItemCollisionOffset[(offsetof(TItem, collision_body) == 0xAC) ? 1 : -1];
-typedef char TItemIdOffset[(offsetof(TItem, item_id) == 0xD8) ? 1 : -1];
-typedef char TItemModeOffset[(offsetof(TItem, mode) == 0xEB) ? 1 : -1];
-typedef char TItemModelOffset[(offsetof(TItem, drop_model) == 0xEF) ? 1 : -1];
-typedef char TItemSize[(sizeof(TItem) == 0xF8) ? 1 : -1];
+LAYOUT_ASSERT(TItemCollisionOffset, offsetof(TItem, collision_body) == 0xAC);
+LAYOUT_ASSERT(TItemIdOffset, offsetof(TItem, item_id) == 0xD8);
+LAYOUT_ASSERT(TItemModeOffset, offsetof(TItem, mode) == 0xEB);
+LAYOUT_ASSERT(TItemModelOffset, offsetof(TItem, drop_model) == 0xEF);
+LAYOUT_ASSERT(TItemSize, sizeof(TItem) == 0xF8);
 
 extern NJS_ARGB item_box_primary_colors[6];
 extern NJS_ARGB item_box_secondary_colors[6];
@@ -214,7 +214,7 @@ extern int item_system_generation;
 
 // draw_model_node_tree's callbacks; when model_node_matrix_output_cursor
 // is set each node's matrix is stored there.
-extern void (*model_node_draw_callback)(s32 model);
+extern void (*model_node_draw_callback)(saddr model);
 extern void (*model_node_visit_callback)(NJS_OBJECT *object);
 extern u8 *model_node_matrix_output_cursor;
 extern s32 model_node_counter;

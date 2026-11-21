@@ -38,5 +38,5 @@ struct TContainerAncient01R : public TObjChara {
     u32 m_370;
 };
 
-typedef char TContainerAncient01R_size[sizeof(TContainerAncient01R) == 0x374 ? 1 : -1];
+LAYOUT_ASSERT(TContainerAncient01R_size, sizeof(TContainerAncient01R) == 0x374);
 #endif

@@ -56,9 +56,9 @@
 #pragma readonly_strings on
 
 typedef struct Rec_8004E918 {
-    s32 a;
+    saddr a;
     s32 b;
-    s32 c;
+    saddr c;
 } Rec_8004E918;
 
 typedef struct Obj_8004E918 {
@@ -99,15 +99,14 @@ struct Pose_8004EB78 { s32 a; s32 b; s32 c; };
 
 s32 get_bml_motion(s32, s32);
 
-s32 get_bml_texlist(BmlResource *resource, s32 index);
+saddr get_bml_texlist(BmlResource *resource, s32 index);
 
-s32 get_bml_model(BmlResource *resource, s32 index);
+saddr get_bml_model(BmlResource *resource, s32 index);
 
 void set_scripted_camera_pose(void *, void *, void *);
 
 extern s32 boss4_zanzo_bml_index_table[];
 
-void __dl__7TObjectFPv(void *);
 
 void vfunc_6__8TObjBaseFPsl();
 
@@ -147,10 +146,10 @@ void *TBoss4DarkFalz::create_demo2(void *arg0, void *arg1, void *arg2, void *arg
 extern "C" {
 TObjDFDemo2::TObjDFDemo2(TObject *parent, void *arg2, void *arg3, void *arg4) : TObjBase(parent) {
     s32 k;
-    s32 cnt;
+    saddr cnt;
     s32 i;
 
-    self->vt0 = (s32) TObjDFDemo2__name;
+    self->vt0 = (saddr) TObjDFDemo2__name;
     VecCopy((Vec *)self->pos, (const Vec *)arg2);
     self->b8 = arg3;
     self->a8 = arg4;
@@ -166,7 +165,7 @@ TObjDFDemo2::TObjDFDemo2(TObject *parent, void *arg2, void *arg3, void *arg4) : 
     activate_camera_mode(5);
     {
         Pose_8004EB78 p = lbl_80437384;
-        p.b = (s32) self->b8;
+        p.b = (saddr) self->b8;
         set_scripted_camera_pose(self->pos, self->pos, &p);
     }
     lbl_80485680.cache_target_and_forward(0x4444);

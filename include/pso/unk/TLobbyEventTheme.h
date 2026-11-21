@@ -31,7 +31,7 @@ public:
     u32 change_flags;
     s32 theme;
 };
-typedef char TLobbyEventTheme_size[sizeof(TLobbyEventTheme) == 0x24 ? 1 : -1];
+LAYOUT_ASSERT(TLobbyEventTheme_size, sizeof(TLobbyEventTheme) == 0x24);
 
 // The lobby texture list (obj_lobby_main.GVM), loaded and freed with the lobby.
 extern GinjaTextureList *lobby_main_texture_gvm;

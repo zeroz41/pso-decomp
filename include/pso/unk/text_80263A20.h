@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-void toggle_help_window_on_button(u32 arg0, s32 arg1);
+void toggle_help_window_on_button(uaddr arg0, s32 arg1);
 
 #endif

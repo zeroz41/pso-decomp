@@ -25,7 +25,7 @@ struct CardWriteDate {
     u8 weekday;
 };
 
-typedef char CardWriteDate_size[sizeof(CardWriteDate) == 8 ? 1 : -1];
+LAYOUT_ASSERT(CardWriteDate_size, sizeof(CardWriteDate) == 8);
 
 int getDateStamp(DateStamp *out);
 void DateToSeconds(DateStamp *date, int *seconds);

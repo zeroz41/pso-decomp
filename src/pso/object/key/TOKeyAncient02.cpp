@@ -45,32 +45,32 @@ void TOKeyAncient02::render() {
         object = (NJS_OBJECT *)model;
         push_matrix();
         post_translate_matrix(object->pos);
-        draw_ginja_model((s32)object->model);
+        draw_ginja_model((saddr)object->model);
         object = object->child;
         push_matrix();
         post_translate_matrix(object->pos);
         scale_matrix_vec3(NULL, (u8 *)&scale);
         TParticleCtrl::begin_effect_render();
-        draw_ginja_model((s32)object->model);
+        draw_ginja_model((saddr)object->model);
         TParticleCtrl::end_effect_render();
         pop_matrix();
         object = object->sibling;
         push_matrix();
         post_translate_matrix(object->pos);
-        draw_ginja_model((s32)object->model);
+        draw_ginja_model((saddr)object->model);
         pop_matrix();
         pop_matrix();
-        TObjFish::set_global_param((s32)TOKeyAncient02__texture_lists[is_on]);
+        TObjFish::set_global_param((saddr)TOKeyAncient02__texture_lists[is_on]);
         TParticleCtrl::begin_effect_render();
         object = TOKeyAncient02__glass_model;
         push_matrix();
         post_translate_matrix(object->pos);
-        draw_ginja_model((s32)object->model);
+        draw_ginja_model((saddr)object->model);
         object = object->child;
         push_matrix();
         post_translate_matrix(object->pos);
         rotate_matrix_y(NULL, lamp_angle);
-        draw_ginja_model((s32)object->model);
+        draw_ginja_model((saddr)object->model);
         pop_matrix();
         pop_matrix();
         TParticleCtrl::end_effect_render();
@@ -124,7 +124,7 @@ void *TOKeyAncient02::create(void *set_data) {
 
 void TOKeyAncient02::free_static() {
     if (TOKeyAncient02__texture_lists != NULL) {
-        TObjPlayer::free_if_valid((s32)TOKeyAncient02__texture_lists[1]);
+        TObjPlayer::free_if_valid((saddr)TOKeyAncient02__texture_lists[1]);
         if (TOKeyAncient02__texture_lists != NULL) {
             mem_free(TOKeyAncient02__texture_lists);
             TOKeyAncient02__texture_lists = NULL;
@@ -145,7 +145,7 @@ void TOKeyAncient02::load_resources() {
     TOKeyAncient02__model_archive = resource;
     TOKeyAncient02__texture_lists = (GinjaTextureList **)mem_alloc(2 * sizeof(*TOKeyAncient02__texture_lists));
     TOKeyAncient02__texture_lists[0] = (GinjaTextureList *)get_bml_texlist(TOKeyAncient02__model_archive, 0);
-    TOKeyAncient02__texture_lists[1] = (GinjaTextureList *)load_gvm_texture_file((s32) "o_key_ancient02.gvm");
+    TOKeyAncient02__texture_lists[1] = (GinjaTextureList *)load_gvm_texture_file((saddr) "o_key_ancient02.gvm");
     TOKeyAncient02__glass_model = (NJS_OBJECT *)get_bml_model(TOKeyAncient02__model_archive, 0);
 }
 

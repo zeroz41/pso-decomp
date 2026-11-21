@@ -63,7 +63,7 @@ struct RecoveredFields_8023A510_temp_r6 {
 extern "C" {
 s32 check_technique_projectile_wall_hit__13TUnk_804CCC68Fv(void *, f32, f32);
 f32 fabs_float(f32);
-s32 *csnVecterUnder(s32 origin, s32 mask);
+s32 *csnVecterUnder(saddr origin, s32 mask);
 u8 *csnVector(f32 *, f32 *, s32);
 s32 angle_difference_abs(s32 a, s32 b);
 void step_ground_technique_projectile(RecoveredFields_8023A510_arg0 *arg0);
@@ -87,35 +87,35 @@ void TUnk_804CCC68::advance_lifetime_or_destroy() {
 #pragma push
 #pragma opt_common_subs off
 #pragma fp_contract on
-typedef char RecoveredFields_8023A510_arg0_20_offset[offsetof(RecoveredFields_8023A510_arg0, field_20) == 0x20 ? 1 : -1];
-typedef char RecoveredFields_8023A510_arg0_24_offset[offsetof(RecoveredFields_8023A510_arg0, field_24) == 0x24 ? 1 : -1];
-typedef char RecoveredFields_8023A510_arg0_28_offset[offsetof(RecoveredFields_8023A510_arg0, field_28) == 0x28 ? 1 : -1];
-typedef char RecoveredFields_8023A510_arg0_48_offset[offsetof(RecoveredFields_8023A510_arg0, field_48) == 0x48 ? 1 : -1];
-typedef char RecoveredFields_8023A510_arg0_50_offset[offsetof(RecoveredFields_8023A510_arg0, field_50) == 0x50 ? 1 : -1];
-typedef char RecoveredFields_8023A510_arg0_64_offset[offsetof(RecoveredFields_8023A510_arg0, field_64) == 0x64 ? 1 : -1];
-typedef char RecoveredFields_8023A510_arg0_78_offset[offsetof(RecoveredFields_8023A510_arg0, field_78) == 0x78 ? 1 : -1];
-typedef char RecoveredFields_8023A510_arg0_7C_offset[offsetof(RecoveredFields_8023A510_arg0, field_7C) == 0x7C ? 1 : -1];
-typedef char RecoveredFields_8023A510_arg0_80_offset[offsetof(RecoveredFields_8023A510_arg0, field_80) == 0x80 ? 1 : -1];
-typedef char RecoveredFields_8023A510_temp_r3_4_offset[offsetof(RecoveredFields_8023A510_temp_r3, field_4) == 0x4 ? 1 : -1];
-typedef char RecoveredFields_8023A510_temp_r3_2_4_offset[offsetof(RecoveredFields_8023A510_temp_r3_2, field_4) == 0x4 ? 1 : -1];
-typedef char RecoveredFields_8023A510_temp_r6_C_offset[offsetof(RecoveredFields_8023A510_temp_r6, field_C) == 0xC ? 1 : -1];
-typedef char RecoveredFields_8023A510_temp_r6_10_offset[offsetof(RecoveredFields_8023A510_temp_r6, field_10) == 0x10 ? 1 : -1];
-typedef char RecoveredFields_8023A510_temp_r6_14_offset[offsetof(RecoveredFields_8023A510_temp_r6, field_14) == 0x14 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredFields_8023A510_arg0_20_offset, offsetof(RecoveredFields_8023A510_arg0, field_20) == 0x20);
+LAYOUT_ASSERT(RecoveredFields_8023A510_arg0_24_offset, offsetof(RecoveredFields_8023A510_arg0, field_24) == 0x24);
+LAYOUT_ASSERT(RecoveredFields_8023A510_arg0_28_offset, offsetof(RecoveredFields_8023A510_arg0, field_28) == 0x28);
+LAYOUT_ASSERT(RecoveredFields_8023A510_arg0_48_offset, offsetof(RecoveredFields_8023A510_arg0, field_48) == 0x48);
+LAYOUT_ASSERT(RecoveredFields_8023A510_arg0_50_offset, offsetof(RecoveredFields_8023A510_arg0, field_50) == 0x50);
+LAYOUT_ASSERT(RecoveredFields_8023A510_arg0_64_offset, offsetof(RecoveredFields_8023A510_arg0, field_64) == 0x64);
+LAYOUT_ASSERT(RecoveredFields_8023A510_arg0_78_offset, offsetof(RecoveredFields_8023A510_arg0, field_78) == 0x78);
+LAYOUT_ASSERT(RecoveredFields_8023A510_arg0_7C_offset, offsetof(RecoveredFields_8023A510_arg0, field_7C) == 0x7C);
+LAYOUT_ASSERT(RecoveredFields_8023A510_arg0_80_offset, offsetof(RecoveredFields_8023A510_arg0, field_80) == 0x80);
+LAYOUT_ASSERT(RecoveredFields_8023A510_temp_r3_4_offset, offsetof(RecoveredFields_8023A510_temp_r3, field_4) == 0x4);
+LAYOUT_ASSERT(RecoveredFields_8023A510_temp_r3_2_4_offset, offsetof(RecoveredFields_8023A510_temp_r3_2, field_4) == 0x4);
+LAYOUT_ASSERT(RecoveredFields_8023A510_temp_r6_C_offset, offsetof(RecoveredFields_8023A510_temp_r6, field_C) == 0xC);
+LAYOUT_ASSERT(RecoveredFields_8023A510_temp_r6_10_offset, offsetof(RecoveredFields_8023A510_temp_r6, field_10) == 0x10);
+LAYOUT_ASSERT(RecoveredFields_8023A510_temp_r6_14_offset, offsetof(RecoveredFields_8023A510_temp_r6, field_14) == 0x14);
 
 void step_ground_technique_projectile(RecoveredFields_8023A510_arg0 *arg0) {
-    typedef char sp8_offset[(offsetof(Stack_8023A510, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_8023A510, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_8023A510, sp10) == 0x8) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_8023A510, sp14) == 0xC) ? 1 : -1];
-    typedef char sp18_offset[(offsetof(Stack_8023A510, sp18) == 0x10) ? 1 : -1];
-    typedef char sp1C_offset[(offsetof(Stack_8023A510, sp1C) == 0x14) ? 1 : -1];
-    typedef char sp20_offset[(offsetof(Stack_8023A510, sp20) == 0x18) ? 1 : -1];
-    typedef char sp28_offset[(offsetof(Stack_8023A510, sp28) == 0x20) ? 1 : -1];
-    typedef char sp2C_offset[(offsetof(Stack_8023A510, sp2C) == 0x24) ? 1 : -1];
-    typedef char sp30_offset[(offsetof(Stack_8023A510, sp30) == 0x28) ? 1 : -1];
-    typedef char sp34_offset[(offsetof(Stack_8023A510, sp34) == 0x2C) ? 1 : -1];
-    typedef char sp38_offset[(offsetof(Stack_8023A510, sp38) == 0x30) ? 1 : -1];
-    typedef char sp3C_offset[(offsetof(Stack_8023A510, sp3C) == 0x34) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8023A510, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8023A510, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8023A510, sp10) == 0x8);
+    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_8023A510, sp14) == 0xC);
+    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_8023A510, sp18) == 0x10);
+    LAYOUT_ASSERT(sp1C_offset, offsetof(Stack_8023A510, sp1C) == 0x14);
+    LAYOUT_ASSERT(sp20_offset, offsetof(Stack_8023A510, sp20) == 0x18);
+    LAYOUT_ASSERT(sp28_offset, offsetof(Stack_8023A510, sp28) == 0x20);
+    LAYOUT_ASSERT(sp2C_offset, offsetof(Stack_8023A510, sp2C) == 0x24);
+    LAYOUT_ASSERT(sp30_offset, offsetof(Stack_8023A510, sp30) == 0x28);
+    LAYOUT_ASSERT(sp34_offset, offsetof(Stack_8023A510, sp34) == 0x2C);
+    LAYOUT_ASSERT(sp38_offset, offsetof(Stack_8023A510, sp38) == 0x30);
+    LAYOUT_ASSERT(sp3C_offset, offsetof(Stack_8023A510, sp3C) == 0x34);
     Stack_8023A510 stack;
     f32 temp_f1;
     u8 *temp_r3;
@@ -126,7 +126,7 @@ void step_ground_technique_projectile(RecoveredFields_8023A510_arg0 *arg0) {
     arg0->field_28 = (f32) ((arg0->field_50 * arg0->field_64) + arg0->field_28);
     VecCopy((Vec *)(&stack.sp1C), (const Vec *)(((u8 *)arg0) + 0x20));
     stack.sp20 += 1e+01f;
-    temp_r3 = (u8 *)(csnVecterUnder((s32)&stack.sp1C, 0x16EF));
+    temp_r3 = (u8 *)(csnVecterUnder((saddr)&stack.sp1C, 0x16EF));
     if (temp_r3 != NULL) {
         arg0->field_24 = (f32) (5.0f + *(f32 *)((s8 *)(((RecoveredFields_8023A510_temp_r3 *)temp_r3)->field_4) + 4));
     }
@@ -182,7 +182,6 @@ s32 get_type__10TObjPlayerFPv(void *p);
 f32 atan2_float(f32 y, f32 x);
 s32 init_collision_body_parts(u32, void *, int);
 u32 __ct__14TObjCollidableFP7TObject(u32, void *);
-u32 __nw__7TObjectFUl(int);
 f32 vector_length(void *);
 s32 normalize_vector(void *);
 extern const f64 lbl_8044DC00;
@@ -196,13 +195,13 @@ TUnk_804CCC68::~TUnk_804CCC68() {
 }
 }
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
-TUnk_804CCC68::TUnk_804CCC68(s32 arg1, u8 *arg2, u8 *arg3, s32 arg4) : TEffect() {
+TUnk_804CCC68::TUnk_804CCC68(saddr arg1, u8 *arg2, u8 *arg3, s32 arg4) : TEffect() {
     f32 dx;
     f32 dz;
     f32 dy;
     f64 t;
     s32 ang;
-    u32 var_r0;
+    uaddr var_r0;
     initialize_ground_candidates(ground_candidates);
     this->sourceId = 0xFFFF;
     dx = *(f32 *)((s8 *)arg3 + 0) - *(f32 *)((s8 *)arg2 + 0);
@@ -261,7 +260,7 @@ TUnk_804CCC68::TUnk_804CCC68(s32 arg1, u8 *arg2, u8 *arg3, s32 arg4) : TEffect()
     } else {
         this->collisionBody.flags = 0x40007;
     }
-    var_r0 = __nw__7TObjectFUl(0xAC);
+    var_r0 = (uaddr)TObject::operator new(0xAC);
     if (var_r0 != 0U) {
         var_r0 = __ct__14TObjCollidableFP7TObject(var_r0, this);
     }
@@ -273,8 +272,8 @@ TUnk_804CCC68::TUnk_804CCC68(s32 arg1, u8 *arg2, u8 *arg3, s32 arg4) : TEffect()
 
 // The facing form: the technique starts at `pos` and flies along the y angle
 // `angle` instead of towards a target point.
-TUnk_804CCC68::TUnk_804CCC68(s32 source, Vec *pos, s32 angle, s32 level) : TEffect() {
-    u32 var_r0;
+TUnk_804CCC68::TUnk_804CCC68(saddr source, Vec *pos, s32 angle, s32 level) : TEffect() {
+    uaddr var_r0;
     initialize_ground_candidates(ground_candidates);
     this->sourceId = 0xFFFF;
     this->position.x = pos->x;
@@ -328,7 +327,7 @@ TUnk_804CCC68::TUnk_804CCC68(s32 source, Vec *pos, s32 angle, s32 level) : TEffe
     } else {
         this->collisionBody.flags = 0x40007;
     }
-    var_r0 = __nw__7TObjectFUl(0xAC);
+    var_r0 = (uaddr)TObject::operator new(0xAC);
     if (var_r0 != 0U) {
         var_r0 = __ct__14TObjCollidableFP7TObject(var_r0, this);
     }

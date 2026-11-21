@@ -21,7 +21,7 @@ public:
 };
 
 extern "C" {
-void __as__8TPlySmthFRC8TPlySmth(s32 arg0, s32 arg1);
+void __as__8TPlySmthFRC8TPlySmth(saddr arg0, saddr arg1);
 void __ct__8TPlySmthFv(void *);
 }
 

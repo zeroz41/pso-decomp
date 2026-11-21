@@ -13,7 +13,7 @@ typedef struct NetIcmpv6NeighborAdvertisement {
     u8 reserved[3];
     IPv6Address target;
 } NetIcmpv6NeighborAdvertisement;
-typedef char NetIcmpv6NeighborAdvertisement_size_check[sizeof(NetIcmpv6NeighborAdvertisement) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(NetIcmpv6NeighborAdvertisement_size_check, sizeof(NetIcmpv6NeighborAdvertisement) == 0x18);
 
 /* ICMPv6 type 0x89. */
 typedef struct NetIcmpv6Redirect {
@@ -21,7 +21,7 @@ typedef struct NetIcmpv6Redirect {
     IPv6Address target;
     IPv6Address destination;
 } NetIcmpv6Redirect;
-typedef char NetIcmpv6Redirect_size_check[sizeof(NetIcmpv6Redirect) == 0x28 ? 1 : -1];
+LAYOUT_ASSERT(NetIcmpv6Redirect_size_check, sizeof(NetIcmpv6Redirect) == 0x28);
 
 /* The record neighbour discovery passes to TLobby__sub_80411604 for events 1, 6, 7, 8 and 9. Event 7 (a router went
    away) removes the route through addr and adds a default route through next_router; the others read addr only. */
@@ -29,14 +29,14 @@ typedef struct Ipv6NdAddrEvent {
     u8 *addr;
     u8 *next_router;
 } Ipv6NdAddrEvent;
-typedef char Ipv6NdAddrEvent_size_check[sizeof(Ipv6NdAddrEvent) == 8 ? 1 : -1];
+LAYOUT_ASSERT(Ipv6NdAddrEvent_size_check, sizeof(Ipv6NdAddrEvent) == 8);
 
 /* Event 3: a router advertisement's current hop limit. */
 typedef struct Ipv6NdHopLimitEvent {
     u8 *router;
     u8 hop_limit;
 } Ipv6NdHopLimitEvent;
-typedef char Ipv6NdHopLimitEvent_size_check[sizeof(Ipv6NdHopLimitEvent) == 8 ? 1 : -1];
+LAYOUT_ASSERT(Ipv6NdHopLimitEvent_size_check, sizeof(Ipv6NdHopLimitEvent) == 8);
 
 /* Neighbour discovery option 3 (prefix information, 32 bytes): a router advertisement's on-link prefix. */
 typedef struct Ipv6NdPrefixInfoOption {
@@ -49,7 +49,7 @@ typedef struct Ipv6NdPrefixInfoOption {
     u8 reserved[4];
     IPv6Address prefix;
 } Ipv6NdPrefixInfoOption;
-typedef char Ipv6NdPrefixInfoOption_size_check[sizeof(Ipv6NdPrefixInfoOption) == 0x20 ? 1 : -1];
+LAYOUT_ASSERT(Ipv6NdPrefixInfoOption_size_check, sizeof(Ipv6NdPrefixInfoOption) == 0x20);
 
 /* Neighbour discovery option 5 (MTU, 8 bytes). */
 typedef struct Ipv6NdMtuOption {
@@ -58,7 +58,7 @@ typedef struct Ipv6NdMtuOption {
     u16 reserved;
     s32 mtu;
 } Ipv6NdMtuOption;
-typedef char Ipv6NdMtuOption_size_check[sizeof(Ipv6NdMtuOption) == 8 ? 1 : -1];
+LAYOUT_ASSERT(Ipv6NdMtuOption_size_check, sizeof(Ipv6NdMtuOption) == 8);
 
 /* Event 2: a prefix information option, passed on to TLobby__sub_80412618. */
 typedef struct Ipv6NdPrefixEvent {
@@ -67,13 +67,13 @@ typedef struct Ipv6NdPrefixEvent {
     u32 preferred_lifetime;
     u32 valid_lifetime;
 } Ipv6NdPrefixEvent;
-typedef char Ipv6NdPrefixEvent_size_check[sizeof(Ipv6NdPrefixEvent) == 0x10 ? 1 : -1];
+LAYOUT_ASSERT(Ipv6NdPrefixEvent_size_check, sizeof(Ipv6NdPrefixEvent) == 0x10);
 
 /* Event 4: an MTU option; TLobby__sub_80411604 stores mtu in the interface. */
 typedef struct Ipv6NdMtuEvent {
     u8 *router;
     s32 mtu;
 } Ipv6NdMtuEvent;
-typedef char Ipv6NdMtuEvent_size_check[sizeof(Ipv6NdMtuEvent) == 8 ? 1 : -1];
+LAYOUT_ASSERT(Ipv6NdMtuEvent_size_check, sizeof(Ipv6NdMtuEvent) == 8);
 
 #endif

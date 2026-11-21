@@ -12,6 +12,6 @@ struct TObjQuestColALock : public TObjQuestColBase {
     virtual void update_room_id_check();
 };
 
-typedef char TObjQuestColALock_size[sizeof(TObjQuestColALock) == 0xBC ? 1 : -1];
+LAYOUT_ASSERT(TObjQuestColALock_size, sizeof(TObjQuestColALock) == 0xBC);
 
 #endif

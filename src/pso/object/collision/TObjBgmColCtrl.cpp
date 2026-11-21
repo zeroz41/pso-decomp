@@ -30,13 +30,13 @@ struct Names_8017E1E4 { const char *name[2]; };
 extern u32 TLobby__event_theme_id;
 s32 bgm_zone_category;
 s32 lbl_805D5B04;
-u32 TObjBgmColCtrl__instance;
+uaddr TObjBgmColCtrl__instance;
 u32 TObjBgmColCtrl__current_theme_id;
 
 void create_bgm_col_zones(void);
 extern "C" {
 u32 __ct__7TObjectFP7TObject(int, int);
-extern u32 TObjBgmColCtrl__instance;
+extern uaddr TObjBgmColCtrl__instance;
 extern s32 tl_05;
 }
 int get_quest_bgm_issued_flag(void);
@@ -107,7 +107,7 @@ s32 TObjBgmColCtrl::is_active() {
 
 TObjBgmCol::TObjBgmCol(TObject *parent, void *arg2) : TObjBase(parent) {
 #define bgm_col this
-    *(s32 *)((s8 *)bgm_col + 0) = (s32) TObjBgmCol__name;
+    *(saddr *)((s8 *)bgm_col + 0) = (saddr) TObjBgmCol__name;
     bgm_col->apply_object_set_data(arg2);
     bgm_col->m_90 = 1;
     bgm_col->m_98 = (f32) bgm_col->scale.x;
@@ -204,7 +204,7 @@ void TObjPlayer::set_camera_mode(s32 arg0) {
     }
 }
 
-TObjBgmColCtrl::TObjBgmColCtrl(s32 parent) : TObject((TObject *)parent) {
+TObjBgmColCtrl::TObjBgmColCtrl(saddr parent) : TObject((TObject *)parent) {
     this->m_name = TObjBgmColCtrl__name;
     this->m_1c = 3;
     TObjBgmColCtrl__current_theme_id = 0;
@@ -218,10 +218,10 @@ TObjBgmColCtrl::~TObjBgmColCtrl() {
 }
 
 void TObjBgmColCtrl::create_controller() {
-    u32 temp_r3;
+    uaddr temp_r3;
     void *ctrl;
     u32 var_r0;
-    temp_r3 = (u32)TObject::operator new(0x1C);
+    temp_r3 = (uaddr)TObject::operator new(0x1C);
     var_r0 = temp_r3;
     if (var_r0 != 0U) {
         var_r0 = __ct__7TObjectFP7TObject(temp_r3, 0);

@@ -16,6 +16,6 @@ public:
     TEffStarLight2D *light;
 };
 
-typedef char TEffStarLight2D_BaseSize[sizeof(TEffStarLight2D_Base) == 0x94 ? 1 : -1];
+LAYOUT_ASSERT(TEffStarLight2D_BaseSize, sizeof(TEffStarLight2D_Base) == 0x94);
 
 #endif

@@ -62,7 +62,7 @@ extern s32 TObjLight__actor_light_count;
 f32 vector_length(void *);
 f32 normalize_vector(void *);
 extern f32 default_scene_light_config[];
-extern u32 TObjLight__light_entry_data;
+extern uaddr TObjLight__light_entry_data;
 extern s32 TObjLight__active_light_count;
 extern s32 light_entry_file_size;
 __declspec(section ".rodata") char lbl_8043ED80[] = "lightentry.bin";
@@ -73,7 +73,6 @@ extern void *lbl_805D5564;
 int TAdSinglePlyChrSelectGC__sub_801334E4(void*);
 int TAdSinglePlyChrSelectGC__sub_80133544(void*);
 int TAdSinglePlyChrSelectGC__sub_80133548(void);
-void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
 
     extern int light_type_id_table[];
@@ -82,7 +81,7 @@ void *TObjLight__data_80506370[3];
 Light_801347A4 TObjLight__data_8050637C[32];
 Light_801347A4 TObjLight__data_805068FC[8];
 __declspec(section ".data") u32 TObjLight__data_80506A5C;
-int TLobby__sub_80134A20(void* p) { return (int)TQuestThread::create_in_root((s32)p); }
+int TLobby__sub_80134A20(void* p) { return (int)TQuestThread::create_in_root((saddr)p); }
 
 extern s32 lbl_804A7008[];
 
@@ -91,7 +90,7 @@ void *__dt__13TUnk_804A7008Fv(void *object, s16 arg1) {
         *(s32 **)((s8 *)object + 0x18) = lbl_804A7008;
         __dt__7TObjectFv(object, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(object);
+            TObject::operator delete(object);
         }
     }
     return object;
@@ -136,7 +135,7 @@ void TObjLight::init_light_tables() {
     TObjLight__light_count = 0;
 }
 
-void register_actor_light(s32 arg0, s32 arg1) {
+void register_actor_light(s32 arg0, saddr arg1) {
     u8 *temp_r5;
     if ((s32) TObjLight__actor_light_count < 0x20) {
         temp_r5 = (u8 *)TObjLight__data_8050637C + (TObjLight__actor_light_count * 0x2C);
@@ -325,7 +324,7 @@ void load_light_entry_file(void) {
     TObjLight__light_entry_data = 0;
     light_entry_file_size = get_resource_file_size(lbl_8043ED80);
     if (light_entry_file_size > 0) {
-        TObjLight__light_entry_data = (s32)TQuestVmDownLoadServer::alloc(light_entry_file_size);
+        TObjLight__light_entry_data = (saddr)TQuestVmDownLoadServer::alloc(light_entry_file_size);
         if (TObjLight__light_entry_data) {
             read_disc_file(lbl_8043ED80, (void *)TObjLight__light_entry_data);
         }
@@ -334,7 +333,7 @@ void load_light_entry_file(void) {
 
 void TObjLight::free_shared_data() {
     if ((u32) TObjLight__light_entry_data != 0U) {
-        TAdSinglePlyChrSelectGC::safe_free((u32)((void*)TObjLight__light_entry_data));
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)((void*)TObjLight__light_entry_data));
         TObjLight__light_entry_data = 0U;
     }
 }
@@ -527,18 +526,18 @@ void submit_scene_ambient_color(void) {
 
 void TObjLight__sub_801336DC(void) {  }
 
-u32 TObjLight::alloc_light_slot() {
+uaddr TObjLight::alloc_light_slot() {
     s32 i;
-    u32 *p;
+    uaddr *p;
     void *r;
-    p = ((u32 *)&TObjLight__data_80506370);
+    p = ((uaddr *)&TObjLight__data_80506370);
     for (i = 0; i < 3; p++, i++) {
         if (*p == 0) {
             r = ::operator new(0x2C);
             if (r != 0) {
                 r = ((void *)((TObjLight *)r)->init_light(i));
             }
-            *p = (u32)r;
+            *p = (uaddr)r;
             TObjLight__active_light_count++;
             return *p;
         }
@@ -572,10 +571,10 @@ f32 default_scene_light_config[17] = {
 
 TUnk_804A6F90 *lbl_805D5558;
 s32 lbl_805D555C;
-s32 current_scene_light;
+saddr current_scene_light;
 void *lbl_805D5564;
 s32 TObjLight__active_light_count;
 s32 TObjLight__actor_light_count;
 s32 TObjLight__light_count;
-u32 TObjLight__light_entry_data;
+uaddr TObjLight__light_entry_data;
 s32 light_entry_file_size;

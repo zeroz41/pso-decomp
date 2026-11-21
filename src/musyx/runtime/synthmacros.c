@@ -1472,7 +1472,7 @@ void hwSetPolyPhaseFilter(u32 v, u8 salCoefSel);
 #define DoPanningSetup(s, c, p) DoPanningSetup((Voice_803AF634 *)(s), (MSTEP_803AF634 *)(c), p)
 #define DoEnvelopeCalculation(s, c, v) DoEnvelopeCalculation((Voice_803AF9D4 *)(s), (MSTEP_803AF9D4 *)(c), v)
 #define mcmdRandomKey(s, c) mcmdRandomKey((Voice_803AFB00 *)(s), (MSTEP_803AFB00 *)(c))
-#define SelectSource(s, d, c, m, f) SelectSource((Obj_803AFCA0 *)(s), (s32)(d), (Op_803AFCA0 *)(c), m, f)
+#define SelectSource(s, d, c, m, f) SelectSource((Obj_803AFCA0 *)(s), (saddr)(d), (Op_803AFCA0 *)(c), m, f)
 #define mcmdPortamento(s, c) mcmdPortamento((Obj_803AFDD4 *)(s), (Op_803AFDD4 *)(c))
 #define varSet32(s, c, i, v) varSet32((Obj_803B0004 *)(s), c, i, v)
 #define mcmdVarCalculation(s, c, o) mcmdVarCalculation((Voice_803B0068 *)(s), (MSTEP_803B0068 *)(c), o)

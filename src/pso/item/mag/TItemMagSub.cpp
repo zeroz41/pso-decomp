@@ -269,7 +269,7 @@ void TItemMagSub::render() {
         drawn_node = 0;
         selected_node = 0;
         if (animation != NULL) {
-            set_chunk_model_node_callback((s32)TItemMagSub::update_node_oscillation);
+            set_chunk_model_node_callback((saddr)TItemMagSub::update_node_oscillation);
             set_motion_packed_rotation();
             draw_model_motion(model, animation, animation_frame);
             clear_motion_packed_rotation();
@@ -303,7 +303,7 @@ void TItemMagSub::render_shadows() {
         drawn_node = 0;
         selected_node = 0;
         if (animation != NULL) {
-            set_chunk_model_node_callback((s32)TItemMagSub::update_node_oscillation);
+            set_chunk_model_node_callback((saddr)TItemMagSub::update_node_oscillation);
             set_motion_packed_rotation();
             draw_model_motion(model, animation, animation_frame);
             clear_motion_packed_rotation();
@@ -437,7 +437,7 @@ void TItemMagSub::reset_oscillation(s32 from, s32 to) {
 }
 
 void TItemMagSub::clear_optional_oscillation_flag(void *sub) {
-    if ((u32)sub != 0) {
+    if ((uaddr)sub != 0) {
         ((TItemMagSub *)sub)->clear_flags(2);
     }
 }

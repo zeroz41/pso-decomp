@@ -35,7 +35,7 @@ s32 lbl_80485728[3] = {0x20, 0x21, 0x22};
 TObjFishNodeEntry lbl_80485734[3] = {{0x34}, {0x35}, {-1}};
 
 void *TObjDFDemo4::create(void *arg0, void *arg1, void *arg2) {
-    return new TObjDFDemo4((TObject *)arg0, (const Vec *)arg1, (s32)arg2);
+    return new TObjDFDemo4((TObject *)arg0, (const Vec *)arg1, (saddr)arg2);
 }
 
 // The nodes ModelNodeTables::init builds the strips on.
@@ -85,7 +85,7 @@ TObjDFDemo4::TObjDFDemo4(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
         set_scripted_camera_pose(&this->pos, &this->pos, &angles);
         playback.cache_target_and_forward(0x416C);
     }
-    node_list = (TObjFish *)TObjFish__sub_800E3124((u8 *)lbl_80485734, (s32)node_positions);
+    node_list = (TObjFish *)TObjFish__sub_800E3124((u8 *)lbl_80485734, (saddr)node_positions);
     timer = 0;
 }
 

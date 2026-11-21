@@ -118,7 +118,7 @@ void sndConvertMs(s32 *time) {
     *time <<= 8;
 }
 
-void sndConvertTicks(u32 *ticks, s32 seqId) {
+void sndConvertTicks(u32 *ticks, saddr seqId) {
     *ticks = ((*ticks << 16) / synthGetTicksPerSecond((void *)seqId) * 1000) >> 5;
 }
 

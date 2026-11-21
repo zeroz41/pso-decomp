@@ -14,7 +14,7 @@ struct Obj_8035B788;
 Obj_8035B788 * lbl_805D6F50;
 
 void fn_8035B750(void) {
-    if ((u32) lbl_805D6F50 != 0U) {
+    if ((uaddr) lbl_805D6F50 != 0U) {
         free_bin_model_request((void*)lbl_805D6F50, 1);
         lbl_805D6F50 = 0U;
     }

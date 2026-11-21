@@ -10,7 +10,7 @@ s32 TLobby__sub_80077798(s32, s32 *);
 s32 open_hard_keyboard__6TLobbyFPv(s32);
 
 extern s32 local_client_id;
-extern s32 TLobby__protocol_instance;
+extern saddr TLobby__protocol_instance;
 
 void TLobby::send_card_window_state() {
     s32 sp8[5];

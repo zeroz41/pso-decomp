@@ -6,9 +6,9 @@
 extern "C" {
 
 
-extern s32 tl_07;
+extern saddr tl_07;
 
-void TWindowCtrl::create_level_up_window(s32 arg0, s32 arg1) {
+void TWindowCtrl::create_level_up_window(saddr arg0, saddr arg1) {
     void *obj = TObject::operator new(0x40);
     if (obj != NULL) {
         __ct__17TWindowSetLevelUpFv(obj, (void *)tl_07, (void *)arg0, (void *)arg1);

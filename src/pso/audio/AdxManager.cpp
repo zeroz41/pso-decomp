@@ -70,7 +70,7 @@ void setup_adx_file_systems(s32 *arg0) {
     }
 }
 
-void TLobby__sub_803CB7F8(s32 arg0, s32 arg1) {
+void TLobby__sub_803CB7F8(s32 arg0, saddr arg1) {
     TLobby::notify_error((const char *)arg1);
 }
 
@@ -79,7 +79,7 @@ static const char *const volatile lbl_805E0D78 = "\nADXGC Ver.1.10 Build:Jun 13 
 void TLobby__sub_803CB81C(void) {
     lbl_805E0D78;
     TLobby__sub_803C9608();
-    ARAlloc();
+    ADXT_ExecFsSvr();
 }
 
 s32 TLobby__sub_803CB844(void) {
@@ -97,8 +97,8 @@ void TLobby__sub_803CB858(Cfg_803CBA58 *cfg) {
     lbl_805E0D78;
     if (lbl_805D7590 == 0) {
         TLobby::init_callback_tables();
-        TLobby__sub_803D33E4((s32)__OSCallResetFunctions, 0);
-        TLobby__sub_803D33D4((s32)fn_803CBCA0, 0);
+        TLobby__sub_803D33E4((saddr)__OSCallResetFunctions, 0);
+        TLobby__sub_803D33D4((saddr)fn_803CBCA0, 0);
         if (cfg == NULL) {
             lbl_804F9D80.pad_0c = 16;
             lbl_804F9D80.prio0 = 1;

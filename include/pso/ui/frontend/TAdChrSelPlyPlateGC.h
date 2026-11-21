@@ -64,12 +64,12 @@ struct TAdChrSelPlyPlateGC : public TObject {
     s32 unk_534;
 };
 
-typedef char CharacterSelectionQuadSize[sizeof(CharacterSelectionQuad) == 0x20 ? 1 : -1];
-typedef char CharacterSelectionQuadsOffset[offsetof(TAdChrSelPlyPlateGC, quad) == 0x24 ? 1 : -1];
-typedef char CharacterSelectionCursorOffset[offsetof(TAdChrSelPlyPlateGC, cursor) == 0x324 ? 1 : -1];
-typedef char CharacterSelectionHomeOffset[offsetof(TAdChrSelPlyPlateGC, home) == 0x384 ? 1 : -1];
-typedef char CharacterSelectionAlphaOffset[offsetof(TAdChrSelPlyPlateGC, cursor_alpha) == 0x444 ? 1 : -1];
-typedef char TAdChrSelPlyPlateGC_size[sizeof(TAdChrSelPlyPlateGC) == 0x538 ? 1 : -1];
+LAYOUT_ASSERT(CharacterSelectionQuadSize, sizeof(CharacterSelectionQuad) == 0x20);
+LAYOUT_ASSERT(CharacterSelectionQuadsOffset, offsetof(TAdChrSelPlyPlateGC, quad) == 0x24);
+LAYOUT_ASSERT(CharacterSelectionCursorOffset, offsetof(TAdChrSelPlyPlateGC, cursor) == 0x324);
+LAYOUT_ASSERT(CharacterSelectionHomeOffset, offsetof(TAdChrSelPlyPlateGC, home) == 0x384);
+LAYOUT_ASSERT(CharacterSelectionAlphaOffset, offsetof(TAdChrSelPlyPlateGC, cursor_alpha) == 0x444);
+LAYOUT_ASSERT(TAdChrSelPlyPlateGC_size, sizeof(TAdChrSelPlyPlateGC) == 0x538);
 
 extern TAdChrSelPlyPlateGC *ad_chr_sel_ply_plate_instance;
 
@@ -81,7 +81,7 @@ s32 TAdMultiPlyChrSelectGC__sub_802C6558(void);
 s32 TAdMultiPlyChrSelectGC__sub_802C658C(s32 arg0);
 void TAdMultiPlyChrSelectGC__sub_802C65C0(s32 arg0);
 s32 TAdMultiPlyChrSelectGC__sub_802C6848(s32 arg0);
-int TAdMultiPlyChrSelectGC__sub_802C6920(void);
+saddr TAdMultiPlyChrSelectGC__sub_802C6920(void);
 u32 get_multiplayer_controller_active_index(int param_1);
 }
 s32 is_multiplayer_character_slot_selected(s32 arg0);

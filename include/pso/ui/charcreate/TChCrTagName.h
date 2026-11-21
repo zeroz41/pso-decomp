@@ -25,7 +25,7 @@ public:
     static void create_all();
 };
 
-typedef char TChCrTagName_size[sizeof(TChCrTagName) == 0x50 ? 1 : -1];
+LAYOUT_ASSERT(TChCrTagName_size, sizeof(TChCrTagName) == 0x50);
 
 extern "C" {
 s32 TChCrTagName__vt4(TChCrTagName *tag);

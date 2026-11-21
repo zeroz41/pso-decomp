@@ -18,7 +18,7 @@ struct TObjWarpJung : public TObjAreaWarp {
     f32 beam_frame; /* beam motion frame: += 4.0 per tick, wraps past frameCount - 1 (name inferred) */
 };
 
-typedef char TObjWarpJung_size[sizeof(TObjWarpJung) == 0xC8 ? 1 : -1];
+LAYOUT_ASSERT(TObjWarpJung_size, sizeof(TObjWarpJung) == 0xC8);
 
 // Sets the texture of the six beam models: 0 red (ts064_beam_aka), 1 blue (ts064_beam_ao).
 extern "C" s32 TObjWarpJung__sub_801A0404(s32 arg0);

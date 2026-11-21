@@ -11,7 +11,7 @@ struct TChCrLoadAfsTextureReqArgs {
     s32 *completion_flags;
     s32 display_index;
 };
-typedef char TChCrLoadAfsTextureReqArgs_size[sizeof(TChCrLoadAfsTextureReqArgs) == 0x10 ? 1 : -1];
+LAYOUT_ASSERT(TChCrLoadAfsTextureReqArgs_size, sizeof(TChCrLoadAfsTextureReqArgs) == 0x10);
 
 struct TChCrLoadAfsTextureReq : public TObject {
     TChCrLoadAfsTextureReq(TObject *parent, GinjaTextureList *textures, s32 *arg3, s32 arg4);
@@ -36,7 +36,7 @@ struct TChCrLoadAfsTextureReq : public TObject {
     u32 buffers[8];
     s32 count;
     s32 index;
-    u32 load_handle;
+    uaddr load_handle;
     s32 m_64;
     s32 m_68;
     s32 m_6c;
@@ -44,5 +44,5 @@ struct TChCrLoadAfsTextureReq : public TObject {
     u8 m_74[8][0x24];
 };
 
-typedef char TChCrLoadAfsTextureReq_size[sizeof(TChCrLoadAfsTextureReq) == 0x194 ? 1 : -1];
+LAYOUT_ASSERT(TChCrLoadAfsTextureReq_size, sizeof(TChCrLoadAfsTextureReq) == 0x194);
 #endif

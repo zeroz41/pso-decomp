@@ -21,9 +21,9 @@ public:
     static TObjSoloPlayWin* create(TObject* parent);
 };
 #include <stddef.h>
-typedef char SoloWinBaseSize[(sizeof(TObject)==0x1C)?1:-1];
-typedef char SoloWinSize[(sizeof(TObjSoloPlayWin)==0x28)?1:-1];
-typedef char SoloWinState[(offsetof(TObjSoloPlayWin,m_state)==0x1C)?1:-1];
-typedef char SoloWinWindow[(offsetof(TObjSoloPlayWin,m_result_window)==0x20)?1:-1];
-typedef char SoloWinCountdown[(offsetof(TObjSoloPlayWin,m_countdown)==0x24)?1:-1];
+LAYOUT_ASSERT(SoloWinBaseSize, sizeof(TObject)==0x1C);
+LAYOUT_ASSERT(SoloWinSize, sizeof(TObjSoloPlayWin)==0x28);
+LAYOUT_ASSERT(SoloWinState, offsetof(TObjSoloPlayWin,m_state)==0x1C);
+LAYOUT_ASSERT(SoloWinWindow, offsetof(TObjSoloPlayWin,m_result_window)==0x20);
+LAYOUT_ASSERT(SoloWinCountdown, offsetof(TObjSoloPlayWin,m_countdown)==0x24);
 #endif

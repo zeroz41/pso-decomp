@@ -27,6 +27,6 @@ public:
     s32 apply_delay;
 };
 
-typedef char TChCrCharSelect_size[sizeof(TChCrCharSelect) == 0x20 ? 1 : -1];
+LAYOUT_ASSERT(TChCrCharSelect_size, sizeof(TChCrCharSelect) == 0x20);
 
 #endif

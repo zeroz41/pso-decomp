@@ -5,7 +5,7 @@
 extern u8 lbl_80438570[];
 
 __declspec(section ".sdata") extern u32 lbl_805D2850[2] = {
-    (u32)lbl_80438570, 0x00000000,
+    (uaddr)lbl_80438570, 0x00000000,
 };
 
 __declspec(section ".sdata") extern u32 lbl_805D2858[1] = {

@@ -22,6 +22,7 @@
 #include <stddef.h>
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 
 #pragma inline_depth(1)
@@ -48,7 +49,7 @@ extern "C" {
 extern s32 pso_character_card_filename[];
 extern s32 pso_system_card_filename[];
 extern s32 pso_guildcard_card_filename[];
-s32 poll_memcard_result(s32);
+s32 poll_memcard_result(saddr);
 s32 poll_memcard_status__23TAdSinglePlyChrSelectGCFv();
 s32 load_character_from_card__23TAdSinglePlyChrSelectGCFi(s32 arg0);
 extern void *tl_03;
@@ -56,7 +57,7 @@ extern void *tl_03;
 
 void TSaveChCr::destroy_if_keyboard_idle() { if (this->timer == 0) { queue_destruction(); request_queued_main_phase(); } }
 void TSaveChCr::sub_80339B94() { close_window(); }
-void TSaveChCr::save_if_dirty() { if (sub_80339F30() != 0) { set_state((s32)((void*)4)); } }
+void TSaveChCr::save_if_dirty() { if (sub_80339F30() != 0) { set_state((saddr)((void*)4)); } }
 void TSaveChCr::close_and_advance_to_3() { close_and_advance(3); }
 void TSaveChCr::update_save_status() {
     s32 var_r3;
@@ -65,7 +66,7 @@ void TSaveChCr::update_save_status() {
         this->m_28 = 0;
         this->card_status = poll_memcard_status();
         if ((s32) this->card_status != 0) {
-            set_state((s32)((void*)(1)));
+            set_state((saddr)((void*)(1)));
             return;
         }
         if (this->mode == 0) {
@@ -74,7 +75,7 @@ void TSaveChCr::update_save_status() {
             var_r3 = sub_8033A138();
         }
         if (var_r3 == 7) {
-            set_state((s32)((void*)(4)));
+            set_state((saddr)((void*)(4)));
             return;
         }
         queue_destruction();
@@ -95,11 +96,11 @@ void TSaveChCr::update_save_state() {
             }
         } else {
             if (temp_r4 & 4) {
-                set_state((s32)((void*)(1)));
+                set_state((saddr)((void*)(1)));
                 return;
             }
             if (temp_r4 == 0) {
-                set_state((s32)((void*)(2)));
+                set_state((saddr)((void*)(2)));
             }
         }
     }
@@ -166,9 +167,9 @@ void TSaveChCr::set_message_by_index(s32 arg1) {
     open_message_window((u32)get_localized_text_entry(text->group, text->entry));
 }
 void TSaveChCr::open_message_window(u32 arg1) {
-    if ((u32) this->owned_window == 0U) {
-        *(u32 *)&this->owned_window = (u32)create_message_window_for_size((NJS_POINT2 *)&save_ch_cr_message_window_pos, (NJS_POINT2 *)&save_ch_cr_message_window_size);
-        if ((u32) this->owned_window != 0U) {
+    if ((uaddr) this->owned_window == 0U) {
+        *(u32 *)&this->owned_window = (uaddr)create_message_window_for_size((NJS_POINT2 *)&save_ch_cr_message_window_pos, (NJS_POINT2 *)&save_ch_cr_message_window_size);
+        if ((uaddr) this->owned_window != 0U) {
             if (arg1 != 0U) {
                 owned_window->append_line(arg1, 3);
             }
@@ -190,7 +191,7 @@ void TSaveChCr::create_backgrounds() {
     backdrop_text = new TAdBackTxtGC(this);
 }
 
-s32 TSaveChCr::sub_8033A138() { return load_character_from_card__23TAdSinglePlyChrSelectGCFi(0); }
+s32 TSaveChCr::sub_8033A138() { return TAdSinglePlyChrSelectGC::load_character_from_card(0); }
 s32 TSaveChCr::save_character() {
     TObjPlayer::begin_action_from_char_select();
     return load_character_from_card__23TAdSinglePlyChrSelectGCFi(1);

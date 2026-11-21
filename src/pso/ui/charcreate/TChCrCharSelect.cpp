@@ -56,7 +56,7 @@ extern "C" {
 s32 copy_player_visual_record(void *, void *);
 }
 
-extern s32 tl_03;
+extern saddr tl_03;
 
 void TChCrCharSelect::tick_and_apply_selection() {
     s32 temp_r0;

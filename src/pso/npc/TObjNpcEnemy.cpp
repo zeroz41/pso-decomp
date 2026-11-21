@@ -1,4 +1,5 @@
 #include "types.h"
+#include <string.h>
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -19,6 +20,7 @@
 #include "pso/enemy/stelth/TObjEneMe3Stelth.h"
 #include "pso/object/TMotorcycle.h"
 #include "pso/unk/TLobby.h"
+#include "pso/npc/TObjNpcBase.h"
 #include "pso/object/TObjControl.h"
 
 #pragma readonly_strings on
@@ -30,7 +32,6 @@ extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
 s32 draw_debug_info__11TObjNpcBaseFv();
 void debug_printf_at(s32, const char *, ...);
-void *memmove(void *, const void *, u32);
 void * TObjNpcEnemy__create(void *arg0);
 s32 rotate_matrix_y(int, int);
 s32 translate_matrix(int, int, f32, f32, f32);
@@ -58,8 +59,8 @@ void NpcModelRegistry::register_animated_ginja(s16 id, NJS_OBJECT *model, GinjaT
         entry->id = id;
         entry->kind = 3;
         entry->y_offset = y_offset;
-        entry->model = reinterpret_cast<s32>(model);
-        entry->texlist = reinterpret_cast<s32>(textures);
+        entry->model = reinterpret_cast<saddr>(model);
+        entry->texlist = reinterpret_cast<saddr>(textures);
         entry->radius = radius;
         entry->animation = *animation;
     }
@@ -83,8 +84,8 @@ void TMotorcycle::add_entry(s16 id, NJS_OBJECT *model, GinjaTextureList *texture
         entry->id = id;
         entry->kind = 2;
         entry->y_offset = y_offset;
-        entry->model = reinterpret_cast<s32>(model);
-        entry->texlist = reinterpret_cast<s32>(textures);
+        entry->model = reinterpret_cast<saddr>(model);
+        entry->texlist = reinterpret_cast<saddr>(textures);
         entry->radius = radius;
         entry->animation.motions = 0;
         entry->animation.actions = 0;
@@ -101,8 +102,8 @@ void NpcModelRegistry::register_animated_chunk(s16 id, void *model, void *texlis
         entry->id = id;
         entry->kind = 1;
         entry->y_offset = y_offset;
-        entry->model = reinterpret_cast<s32>(model);
-        entry->texlist = (s32)texlist;
+        entry->model = reinterpret_cast<saddr>(model);
+        entry->texlist = (saddr)texlist;
         entry->radius = radius;
         entry->animation = *animation;
     }
@@ -220,7 +221,7 @@ void TObjNpcEnemy::set_npc_data(void *data) {
 void TObjNpcEnemy::draw_debug_info() {
     u8 *arg0 = (u8 *)this;
     TObjNpcEnemyEntry *p;
-    draw_debug_info__11TObjNpcBaseFv();
+    TObjNpcBase::draw_debug_info();
     TObjNpcEnemy::set_global_count(0xFF00FF);
     debug_printf_at(0x130018, "<- ENEMY NUMBER");
     debug_printf_at(0x13001A, "<- MOTION TEST");
@@ -289,7 +290,7 @@ void TObjNpcEnemy::render() {
     TObjNpcEnemyEntry *entry;
 
     if ((this->entry != NULL) && (this->update_object_view_visibility(this->m_398, this->m_39c) != 0) && ((s32) this->m_390 == 1)) {
-        select_actor_lighting((s32)arg0);
+        select_actor_lighting((saddr)arg0);
         if (((TObjNpcEnemy *)arg0)->sub_802D7444() != 0) {
             model_render_flags |= 1;
         }
@@ -297,7 +298,7 @@ void TObjNpcEnemy::render() {
         push_matrix_from(0);
         translate_matrix_vec3(0, ((u8 *)&this->position));
         entry = this->entry;
-        translate_matrix(0, (int)entry, 0.0f, entry->y_offset, 0.0f);
+        translate_matrix(0, (saddr)entry, 0.0f, entry->y_offset, 0.0f);
         rotate_matrix_y(0, this->rotation_y);
         update_state();
         pop_matrix();

@@ -9,7 +9,7 @@ struct TOWreckAncientBrakable05 : public TOWreckAncientBrakable {
     virtual ~TOWreckAncientBrakable05();
 };
 
-typedef char TOWreckAncientBrakable05_size[sizeof(TOWreckAncientBrakable05) == 0xBC ? 1 : -1];
+LAYOUT_ASSERT(TOWreckAncientBrakable05_size, sizeof(TOWreckAncientBrakable05) == 0xBC);
 
 extern "C" {
 void *TOWreckAncientBrakable05__create(void *set_data);

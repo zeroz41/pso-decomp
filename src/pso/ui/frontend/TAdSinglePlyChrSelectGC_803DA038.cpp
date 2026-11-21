@@ -2,12 +2,9 @@
 #include "pso/unk/text_803D9FF0.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_803DA038.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include <string.h>
 
 extern "C" {
-s32 strcmp(const char *, const char *);
-char *strcat(char *, const char *);
-char *strcpy(char *, const char *);
-u32 strlen(const char *);
 
 void TAdSinglePlyChrSelectGC::append_extension_if_missing(char *name, char *ext) {
     char buf[8];

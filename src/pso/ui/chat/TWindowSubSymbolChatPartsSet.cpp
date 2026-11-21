@@ -37,7 +37,7 @@ s32 TWindowSubSymbolChat::select_symbol_chat_record(s8 *arg1, s32 *arg2) {
     u16 temp_r8;
     u32 temp_r4;
     u8 *temp_r29;
-    s32 instance;
+    saddr instance;
     *(s32 **)((s8 *)((u8 *)this) + 0x84) = arg2;
     *(*(s32 **)((s8 *)((u8 *)this) + 0x84)) = 0;
     instance = TWindowSubSymbolChat::get_instance();
@@ -104,7 +104,7 @@ void TWindowSubSymbolChat::init_symbol_layout(s32 *arg1) {
   u16 *temp_r30;
   u16 *temp_r31;
   u16 *temp_r3;
-  s32 instance;
+  saddr instance;
   *((s32 **) (((s8 *) ((u8 *)this)) + 0x84)) = arg1;
   *((f32 *) (((s8 *) ((u8 *)this)) + 0x94)) = 2.0f;
   if (((s32) (*arg1)) == 1)
@@ -373,7 +373,7 @@ void render__28TWindowSubSymbolChatPartsSetFv(TWindowSubSymbolChatPartsSet *wind
     f32 ctx;
     u8 *c_arg;
 
-    c_arg = (u8 *)TWindowDD::draw_default_entry((s32)window_sub_symbol_chat_parts_set);
+    c_arg = (u8 *)TWindowDD::draw_default_entry((saddr)window_sub_symbol_chat_parts_set);
     copy_vec2((&sp10), c_arg + 0x10);
     copy_vec2((&sp8), c_arg + 0x28);
     if ((s32) *(s32 *)((s8 *)c_arg + 0x30) < 0) {
@@ -386,14 +386,14 @@ void render__28TWindowSubSymbolChatPartsSetFv(TWindowSubSymbolChatPartsSet *wind
     *(f32 *)((s8 *)c_arg + 0x28) = (f32) (*(f32 *)((s8 *)c_arg + 0x28) * *(f32 *)((s8 *)window_sub_symbol_chat_parts_set + 0x94));
     ctx = *(f32 *)((s8 *)c_arg + 0x2C);
     *(f32 *)((s8 *)c_arg + 0x2C) = (f32) (ctx * *(f32 *)((s8 *)window_sub_symbol_chat_parts_set + 0x94));
-    draw_visible_window_entries((void *)window_sub_symbol_chat_parts_set, (u8 *)window_sub_symbol_chat_parts_set + 0x24, (int)c_arg, (f32)ctx);
-    window_sub_symbol_chat_parts_set->draw_selected_part_cursor((int)c_arg);
+    draw_visible_window_entries((void *)window_sub_symbol_chat_parts_set, (u8 *)window_sub_symbol_chat_parts_set + 0x24, (saddr)c_arg, (f32)ctx);
+    window_sub_symbol_chat_parts_set->draw_selected_part_cursor((saddr)c_arg);
     copy_vec2((c_arg + 0x10), &sp10);
     copy_vec2((c_arg + 0x28), &sp8);
     ((TWindowSubStatusDisp *)((void *)((int) (*(s32 *)&window_sub_symbol_chat_parts_set->m_88))))->forward_render((void *)((int)c_arg));
 }
 
-typedef char RecoveredGlobal_80286824_lbl_8050E208_size[sizeof(RecoveredGlobal_80286824_lbl_8050E208) == 0x1B0 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_80286824_lbl_8050E208_size, sizeof(RecoveredGlobal_80286824_lbl_8050E208) == 0x1B0);
 void TWindowSubSymbolChatPartsSet::run_task() {
     u8 *arg0 = (u8 *)this;
     if (!(this->m_2c & 2)) {
@@ -411,7 +411,7 @@ void TWindowSubSymbolChatPartsSet::run_task() {
     toggle_selected_part();
     ((TWindowSubSymbolChatPartsSet *)arg0)->sub_8028625C();
     if ((f32) *(s32 *)&this->m_5c >= 7.5f) {
-        ((TWindowSubStatusDisp *)(*(s32 *)&this->m_88))->update_subwindow();
+        ((TWindowSubStatusDisp *)(*(saddr *)&this->m_88))->update_subwindow();
     }
     ((TWindowDD *)arg0)->initialize_subwindow();
     ((TWindowBase *)arg0)->update_window_entry_list((u8 *)&this->m_24);
@@ -419,12 +419,12 @@ void TWindowSubSymbolChatPartsSet::run_task() {
 
 }
 TWindowSubSymbolChatPartsSet::~TWindowSubSymbolChatPartsSet() {
-    TWindowSubStatusDisp::destroy_status_display((s32)(*(void **)((s8 *)this + 0x88)), (s16)1);
+    TWindowSubStatusDisp::destroy_status_display((saddr)(*(void **)((s8 *)this + 0x88)), (s16)1);
 }
 
 T_802869BC *TWindowSubSymbolChatPartsSet__ct(T_802869BC *self, void *parent, s16 arg2, s32 arg3, s32 arg4) {
     void *h;
-    __ct__17TWindowChatSymbolFll((TWindowChatSymbol *)((u8 *)self), (s32)parent, (s32)&lbl_8044FC30);
+    __ct__17TWindowChatSymbolFll((TWindowChatSymbol *)((u8 *)self), (saddr)parent, (saddr)&lbl_8044FC30);
     self->vt = ((s32 *)&__vt__28TWindowSubSymbolChatPartsSet);
     self->f0 = TWindowSubSymbolChatPartsSet__name;
     ((TWindowBase *)self)->set_depth(50030.0f);
@@ -437,7 +437,7 @@ T_802869BC *TWindowSubSymbolChatPartsSet__ct(T_802869BC *self, void *parent, s16
     self->f80 = arg4;
     h = ::operator new(0x24);
     if (h != 0) {
-        h = ((TWindowSubStatusDisp *)h)->construct_type1_heading((s32)TWindowSubStatusDisp::get_message_10(0x34), self->f20);
+        h = ((TWindowSubStatusDisp *)h)->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x34), self->f20);
     }
     self->f88 = h;
     self->f8c = 21.0f;

@@ -83,7 +83,7 @@ TChCrTagOccupation *TChCrTagOccupation::create(s32 index) {
 }
 
 void TChCrTagOccupation::create_all() {
-    int i;
+    saddr i;
     for (i = 0; i < 3; i++) {
         TChCrTagOccupation::create(i);
     }

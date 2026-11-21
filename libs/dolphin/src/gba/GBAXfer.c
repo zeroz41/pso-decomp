@@ -1,4 +1,3 @@
-#define SIGetTypeAsync Dolphin_SIGetTypeAsync
 #define __GBA lbl_805D2200
 #define __GBAReset lbl_805D7CF8
 

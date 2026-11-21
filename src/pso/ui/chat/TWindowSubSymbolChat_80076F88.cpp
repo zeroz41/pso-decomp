@@ -4,6 +4,7 @@
 #include "pso/unk/text_80076E84.h"
 #include "pso/ui/chat/TWindowSubSymbolChat_80076F88.h"
 #include "pso/ui/chat/TWindowSubSymbolChat_8007763C.h"
+#include <string.h>
 
 #include "pso/network/protocol/subcmd_6x.h"
 #include <stddef.h>
@@ -48,15 +49,14 @@ extern "C" {
 void TWindowSubSymbolChat__sub_800771B0(Obj_800771B0 *arg0, s32 arg1);
 s32 TWindowSubSymbolChat__sub_800771C4(Obj_800771C4 *arg0, s32 arg1);
     extern int selected_symbol_chat_preset;
-s32 strncpy(void *, void *, int);
 extern s32 local_client_id;
 s32 play_sound_effect(s32, u32, s16, s32);
 
 void TWindowSubSymbolChat::send_selected_symbol_chat(s32 *arg0) {
     G_SymbolChat_6x07 packet;
-    s32 symbol_chat_preset;
+    saddr symbol_chat_preset;
     TWindowSubSymbolChat__sub_80077704((&packet.header));
-    symbol_chat_preset = ((s32)((int)get_symbol_chat_preset((s32)((void *)((void *) (*arg0))))));
+    symbol_chat_preset = ((s32)((saddr)get_symbol_chat_preset((saddr)(*arg0))));
     packet.client_id = local_client_id;
     copy_symbol_chat_entry__6TLobbyFPvPv((void *)&packet.data[0], (void *)(symbol_chat_preset + 0x1C));
     ((TWindowSubSymbolChat *)(&packet.header))->send_symbol_chat();
@@ -66,7 +66,7 @@ int TWindowSubSymbolChat__sub_80076FE0(void* p) { return (*(u32*)((char*)p + 0x1
 
 void TWindowSubSymbolChat::set_entry_name(void *arg1) {
     u8 *arg0 = (u8 *)this;
-    strncpy((u8 *)&this->m_flags, arg1, 0x16);
+    strncpy((char *)&this->m_flags, (const char *)arg1, 0x16);
     *(s8 *)((s8 *)arg0 + 0x1A) = 0;
     *(s32 *)&this->m_name = (s32) (*(s32 *)&this->m_name | 1);
 }
@@ -156,7 +156,7 @@ void TWindowSubSymbolChat::set_entry(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32
 void TWindowSubSymbolChat::add(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5) {
     s32 *arg0 = (s32 *)this;
     s32 temp;
-    temp = find_free_entry((s32)((void*)((void*)((void*)(0)))));
+    temp = find_free_entry((saddr)((void*)((void*)((void*)(0)))));
     if (temp < 0xC) {
         set_entry(temp, arg1, arg2, arg3, arg4, arg5);
         *arg0 |= 1;
@@ -184,7 +184,7 @@ s32 TWindowSubSymbolChat::count_instance_empty_slots() { return ((TWindowSubSymb
 
 void TWindowSubSymbolChat::update_layout() { ((TWindowSubSymbolChat *)((Obj_800770D0 *)TWindowSubSymbolChat::get_instance()))->count_used_slots(); }
 
-void TWindowSubSymbolChat::update_symbol_chat_result() { selected_symbol_chat_preset = ((int)get_symbol_chat_preset((s32)this)); }
+void TWindowSubSymbolChat::update_symbol_chat_result() { selected_symbol_chat_preset = ((saddr)get_symbol_chat_preset((saddr)this)); }
 
 void TWindowSubSymbolChat::update_selected_symbol() {
     if (((TWindowSubSymbolChat *)this)->is_initialized() != 0) {
@@ -260,16 +260,16 @@ void TWindowSubSymbolChat::clear_entries() {
 void TWindowSubSymbolChat::load_symbol_chat_data() {
     struct Win_80077544 *w = (struct Win_80077544 *)this;
     s32 i;
-    s32 t;
-    s32 data;
+    saddr t;
+    saddr data;
     struct Ent_80077544 *e;
     e = w->e;
-    data = (s32)load_disc_file("symbolchat.dat");
+    data = (saddr)load_disc_file("symbolchat.dat");
     move_data((void *)(e), (const void *)((const void *)data), (u32)0x420);
     TAdSinglePlyChrSelectGC::safe_free(data);
     for (i = 0; i < 6; i++) {
         ((TWindowSubSymbolChat *)(&e[i]))->bswap_entry();
-        t = (s32)get_symbol_chat_preset(i);
+        t = (saddr)get_symbol_chat_preset(i);
         ((TWindowSubSymbolChat *)t)->set_entry_name((void *)(TWindowSubStatusDisp::get_message_10(i + 0xC6)));
     }
     for (; i < 12; i++) {
@@ -297,7 +297,7 @@ void TWindowSubSymbolChat::send_symbol_chat() { bswap_symbol_chat_packet(); ((TL
 void TWindowSubSymbolChat__sub_80077704(void* p) { *(u8*)((char*)p + 0x0) = 7; *(u8*)((char*)p + 0x1) = 17; }
 
     extern int selected_symbol_chat_preset;
-int TWindowSubSymbolChat::get_instance() {  return selected_symbol_chat_preset; }
+saddr TWindowSubSymbolChat::get_instance() {  return selected_symbol_chat_preset; }
 
 int TWindowSubSymbolChat::is_initialized() { return *(u32 *)&this->m_name & 0x1; }
 void TWindowSubSymbolChat::bswap_entry() { bswap_32((u32 *)this); ((TWindowSubSymbolChat *)((char*)this + 0x1c))->byteswap_entry(); }

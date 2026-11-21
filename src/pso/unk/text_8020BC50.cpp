@@ -39,7 +39,7 @@ void TLobby__sub_8020BCE4(void) {
     p = get_active_floor_enemy_rows(get_current_floor());
     n = TLobby::get_object_type(get_current_floor());
     for (i = 0; i < n; i++, p++) {
-        u32 r = (u32)find_entity_by_id(p->id);
+        u32 r = (uaddr)find_entity_by_id(p->id);
         if (r != 0) {
             obj_setFlags30(r, 0x800);
         }

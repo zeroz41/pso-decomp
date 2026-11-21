@@ -138,7 +138,7 @@ void TObjEneDellBiter_Eff_TpAbsorb1::run_task() {
         }
         attack.kind = lbl_80475124.kind;
         attack.power = power;
-        call_vt13_with_default((void *)&lbl_8047511C, &attack, (s32)attack_history);
+        call_vt13_with_default((void *)&lbl_8047511C, &attack, (saddr)attack_history);
         return;
     }
     queue_destruction();

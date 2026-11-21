@@ -41,7 +41,7 @@ s32 fn_802E0454(void *);
 int multi_confirm_cancel_requested(void *p);
 extern "C" {
 s32 are_all_entries_finished(s32);
-s32 get_localized_text_entry(s32 arg0, s32 arg1);
+saddr get_localized_text_entry(s32 arg0, s32 arg1);
 void __ct__10TAdTitleGCFP7TObjectl(void *, void *, s32);
 void __ct__13TAdTitleTexGCFv(void *, void *);
 }

@@ -39,7 +39,7 @@ struct Obj_80232934 {
 };
 
 extern "C" {
-s32 get_bml_model(s32, u32);
+saddr get_bml_model(s32, u32);
 void init_texture_copy_rect(TextureFrameSlot *, void *, void *, s32, s32);
 void approach_position_if_far(Vec *, Vec *, f32);
 void scale_matrix(s32, f32, f32, f32);
@@ -161,7 +161,7 @@ void TUnk_804CC888::run_task() {
     u32 i;
     s32 dir;
     u8 *obj;
-    s32 r;
+    saddr r;
     void *p;
     ((Ctl_80232C50 *)this)->timer++;
     if (((Ctl_80232C50 *)this)->timer % 5 == 0) {
@@ -176,7 +176,7 @@ void TUnk_804CC888::run_task() {
             if (obj != 0) {
                 const SEnt_80232C50 *e = &technique_effect_entry_table[((Ctl_80232C50 *)this)->kind].ents[i];
                 if (e->flags & 0x20) {
-                    r = (s32)spawn_particle_effect(obj + 0x38, e->a);
+                    r = (saddr)spawn_particle_effect(obj + 0x38, e->a);
                     if (r != 0) {
                         attach_particle_model((u8 *)r, (s32)(get_bml_model(technique_effect_bml, technique_effect_entry_table[((Ctl_80232C50 *)this)->kind].ents[i].flags >> 16)), (s32)lbl_805D63B0, 0, 1, 1.0f);
                     }
@@ -236,8 +236,8 @@ TUnk_804CC870::~TUnk_804CC870() {
 
 void TUnk_804CC870::run_task() {
     u8 *arg0 = (u8 *)this;
-    s32 entity;
-    entity = (s32)find_entity_by_id((*(u16 *)((s8 *)arg0 + 0x1C)));
+    saddr entity;
+    entity = (saddr)find_entity_by_id((*(u16 *)((s8 *)arg0 + 0x1C)));
     if (entity != 0) {
         VecCopy((Vec *)(arg0 + 0x20), (const Vec *)(entity + 0x38));
     }
@@ -274,7 +274,7 @@ void TUnk_804CC870::render() {
     post_translate_matrix(arg0->f20);
     scale_matrix(0, arg0->pos.x, arg0->pos.y, arg0->pos.z);
     translate_matrix(0, 0.0f, 1e+01f, 0.0f);
-    TObjFish::set_global_param((s32)&lbl_804CC868);
+    TObjFish::set_global_param((saddr)&lbl_804CC868);
     get_bml_model(technique_effect_bml, 10);
     draw_ginja_object();
     pop_matrix();
@@ -304,7 +304,7 @@ void TTecGrants::init_parameters() {
 struct Task_80232EC0 {
     u8 pad0[0x18];
     void **vt;
-    u32 *emitters;
+    uaddr *emitters;
     s32 sound;
     s32 tier;
     s32 level;
@@ -331,9 +331,9 @@ TUnk_804CC888::TUnk_804CC888(u8 *src, s32 level, TObject *parent) : TObject(pare
         ((Task_80232EC0 *)this)->level = 0x1E;
     }
     ((Task_80232EC0 *)this)->tier = TObjPlayer::get_level_tier(((Task_80232EC0 *)this)->level);
-    ((Task_80232EC0 *)this)->emitters = (u32 *)mem_alloc(grants_effect_emitter_table[((Task_80232EC0 *)this)->tier].count * 4);
+    ((Task_80232EC0 *)this)->emitters = (uaddr *)mem_alloc(grants_effect_emitter_table[((Task_80232EC0 *)this)->tier].count * sizeof(uaddr));
     for (i = 0; i < grants_effect_emitter_table[((Task_80232EC0 *)this)->tier].count; i++) {
-        ((Task_80232EC0 *)this)->emitters[i] = (u32)spawn_continuous_particle_effect_with_flags(((Task_80232EC0 *)this)->pos, grants_effect_emitter_table[((Task_80232EC0 *)this)->tier].parts[i].id, 0x10);
+        ((Task_80232EC0 *)this)->emitters[i] = (uaddr)spawn_continuous_particle_effect_with_flags(((Task_80232EC0 *)this)->pos, grants_effect_emitter_table[((Task_80232EC0 *)this)->tier].parts[i].id, 0x10);
         if (((Task_80232EC0 *)this)->emitters[i] != 0) {
             ((TParticleCtrl *)(((Task_80232EC0 *)this)->emitters[i]))->set_owner_id(((Task_80232EC0 *)this)->owner);
         }

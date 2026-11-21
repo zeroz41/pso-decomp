@@ -18,9 +18,9 @@ struct CardSaveDescriptor {
     s32 size;
 };
 
-typedef char CardSaveDescriptor_banner_offset[offsetof(CardSaveDescriptor, banner) == 0x44 ? 1 : -1];
-typedef char CardSaveDescriptor_data_offset[offsetof(CardSaveDescriptor, data) == 0x58 ? 1 : -1];
-typedef char CardSaveDescriptor_size[sizeof(CardSaveDescriptor) == 0x60 ? 1 : -1];
+LAYOUT_ASSERT(CardSaveDescriptor_banner_offset, offsetof(CardSaveDescriptor, banner) == 0x44);
+LAYOUT_ASSERT(CardSaveDescriptor_data_offset, offsetof(CardSaveDescriptor, data) == 0x58);
+LAYOUT_ASSERT(CardSaveDescriptor_size, sizeof(CardSaveDescriptor) == 0x60);
 
 extern "C" {
 void TAdPlayerLoadGC__sub_801E14E8(CardSaveDescriptor *file, s32 index);

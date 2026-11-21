@@ -83,8 +83,8 @@ void TAdAgreementBaseGC::update_state() {
         *(s32 *)&this->m_1c = 1;
         break;
     case 1:
-        if (((TAdSelectCurGC *)(*(s32 *)&this->m_30))->confirmation_result() == 1) {
-            switch (reinterpret_cast<TAdSelectCurGC *>((*(s32 *)&this->m_30))->selection_index()) {
+        if (((TAdSelectCurGC *)(*(saddr *)&this->m_30))->confirmation_result() == 1) {
+            switch (reinterpret_cast<TAdSelectCurGC *>((*(saddr *)&this->m_30))->selection_index()) {
             case 0:
                 *(s32 *)&this->m_1c = 2;
                 *(s32 *)&this->m_24 = 3;

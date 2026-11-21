@@ -51,7 +51,6 @@ struct O_8002B4CC {
     u8 pos[0xc];
 };
 extern "C" {
-s32 __nw__7TObjectFUl(int);
 
 u16 register_entity_by_id(void *ov);
 
@@ -83,7 +82,6 @@ int rotate_matrix_y(void*, void*);
 
 int push_matrix(void*);
 
-s32 __dl__7TObjectFPv(void *);
 
 
 void run_task__7TObjectFv();

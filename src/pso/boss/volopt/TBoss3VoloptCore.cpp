@@ -50,10 +50,10 @@ extern s32 local_client_id;
 extern u32 model_render_flags;
 void *find_entity_by_id(u16 id);
 void minimap_render_dot(f32 *pos, s32 color, s32, s32);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 TObject *create_particle_emitter(Vec *pos, s32 id);
 void set_matrix_identity(s32 matrix, f32 scale);
-void rotate_vector_by_matrix(s32 matrix, Vec *src, Vec *dst);
+void rotate_vector_by_matrix(saddr matrix, Vec *src, Vec *dst);
 void free_collision_body_parts(TObjEnemyCustom *object);
 void init_collision_body_parts(TObjEnemyCustom *object, TBoss3VoloptCoreBodyPart *parts, s32 count);
 void obj_setFlags30(TObjEnemyCustom *object, u32 flags);
@@ -86,7 +86,7 @@ static TBoss3VoloptCoreBodyPart core_body_parts[1] = {
     { { 0 }, 0.001f, { 0 }, 0x8003, { 0 } },
 };
 
-extern int player_battle_param_table[];
+extern saddr player_battle_param_table[];
 
 void TObjEnemyCustom::set_state(s32 action) {
     s16 current = mode;
@@ -102,7 +102,7 @@ void TObjEnemyCustom::update_if_active(s32 action) {
     }
 }
 
-int TObjPlayer::get_battle_param(int index) {
+saddr TObjPlayer::get_battle_param(int index) {
     return player_battle_param_table[index];
 }
 
@@ -137,7 +137,7 @@ void TBoss3VoloptCore::init_params() {
     m_name = TBoss3VoloptCore_name;
     motion_list = core_resources->motions;
     action_table = core_motions;
-    set_field_d8((s32)action_table);
+    set_field_d8((saddr)action_table);
     init_collision_body_parts(this, core_body_parts, 1);
     variant = 0;
     movementParameters = &core_movement;
@@ -573,7 +573,7 @@ void TBoss3VoloptCore::update_orbit_state() {
             drop_angle = orbit_angle;
             this->update_if_active(9);
         }
-        play_persistent_sound((s32)(0x4003BC05), (s32)this, (u32)&position.x, (s32)(0), (s32)(0));
+        play_persistent_sound((s32)(0x4003BC05), (saddr)this, (uaddr)&position.x, (s32)(0), (s32)(0));
         break;
     case -1:
         break;
@@ -682,7 +682,7 @@ void TBoss3VoloptCore::update_topple_state() {
         }
         break;
     case 3:
-        play_persistent_sound((s32)(0x4003BC05), (s32)this, (u32)&position.x, (s32)(0), (s32)(0));
+        play_persistent_sound((s32)(0x4003BC05), (saddr)this, (uaddr)&position.x, (s32)(0), (s32)(0));
         advance_animation();
         orbit_angle -= get_orbit_speed(0);
         sweep_angle -= get_orbit_speed(0);

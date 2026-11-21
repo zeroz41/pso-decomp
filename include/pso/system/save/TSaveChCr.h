@@ -56,14 +56,14 @@ struct TSaveChCrStateActions {
 };
 
 #include <stddef.h>
-typedef char SaveChCrSize[sizeof(TSaveChCr) == 0x40 ? 1 : -1];
-typedef char TSaveChCr_owned_window_offset[offsetof(TSaveChCr, owned_window) == 0x3c ? 1 : -1];
-typedef char TSaveChCr_state_index_offset[offsetof(TSaveChCr, state_index) == 0x1c ? 1 : -1];
-typedef char TSaveChCr_card_status_offset[offsetof(TSaveChCr, card_status) == 0x2c ? 1 : -1];
-typedef char TSaveChCr_timer_offset[offsetof(TSaveChCr, timer) == 0x38 ? 1 : -1];
-typedef char TSaveChCrActionSize[sizeof(TSaveChCrStateAction) == 12 ? 1 : -1];
-typedef char TSaveChCrEntrySize[sizeof(TSaveChCrStateActions) == 24 ? 1 : -1];
-typedef char TSaveChCrStateTaskOffset[offsetof(TSaveChCrStateActions, task) == 12 ? 1 : -1];
+LAYOUT_ASSERT(SaveChCrSize, sizeof(TSaveChCr) == 0x40);
+LAYOUT_ASSERT(TSaveChCr_owned_window_offset, offsetof(TSaveChCr, owned_window) == 0x3c);
+LAYOUT_ASSERT(TSaveChCr_state_index_offset, offsetof(TSaveChCr, state_index) == 0x1c);
+LAYOUT_ASSERT(TSaveChCr_card_status_offset, offsetof(TSaveChCr, card_status) == 0x2c);
+LAYOUT_ASSERT(TSaveChCr_timer_offset, offsetof(TSaveChCr, timer) == 0x38);
+LAYOUT_ASSERT(TSaveChCrActionSize, sizeof(TSaveChCrStateAction) == 12);
+LAYOUT_ASSERT(TSaveChCrEntrySize, sizeof(TSaveChCrStateActions) == 24);
+LAYOUT_ASSERT(TSaveChCrStateTaskOffset, offsetof(TSaveChCrStateActions, task) == 12);
 
 
 #endif

@@ -178,8 +178,8 @@ void TObjMotion::set_animation(s16 action) {
 }
 
 void TObjMotion::init_motion(TObjMotionAction *actions, BmlMotionEntry *motions, s16 action) {
-    set_field_d8((s32)actions);
-    set_field_dc((s32)motions);
+    set_field_d8((saddr)actions);
+    set_field_dc((saddr)motions);
     set_animation(action);
 }
 
@@ -294,7 +294,7 @@ void TObjMotion::draw_saving_joints_checked() {
     matrices = (Mtx34 *)joint_matrices;
     if (matrices != NULL) {
         player_joint_matrix_write_ptr = matrices;
-        set_chunk_model_node_callback((s32)save_joint_matrix_callback);
+        set_chunk_model_node_callback((saddr)save_joint_matrix_callback);
         flags = motion_flags;
         if ((flags & MOTION_BLENDING) && !(flags & MOTION_DRAW_UNBLENDED)) {
             draw_model_blend_motion(model, &blend, frame);
@@ -309,7 +309,7 @@ void TObjMotion::draw_saving_joints_checked() {
 void TObjMotion::draw_saving_joints() {
     u32 flags;
     player_joint_matrix_write_ptr = (Mtx34 *)joint_matrices;
-    set_chunk_model_node_callback((s32)save_joint_matrix_callback);
+    set_chunk_model_node_callback((saddr)save_joint_matrix_callback);
     flags = motion_flags;
     if ((flags & MOTION_BLENDING) && !(flags & MOTION_DRAW_UNBLENDED)) {
         draw_model_blend_motion(model, &blend, frame);
@@ -348,20 +348,20 @@ s32 TObjEnemy::calc_joint_matrices(f32 at_frame) {
     }
     set_motion_packed_rotation();
     player_joint_matrix_write_ptr = anim_model_matrix_array;
-    set_chunk_model_node_callback((s32)save_joint_matrix_callback);
+    set_chunk_model_node_callback((saddr)save_joint_matrix_callback);
     draw_motion((NJS_OBJECT *)model, current_motion, at_frame);
     set_chunk_model_node_callback(0);
     clear_motion_packed_rotation();
     return 1;
 }
 
-s32 TObjPlayer::calc_joint_matrices(NJS_MOTION *with, f32 at_frame, s32 matrices) {
+s32 TObjPlayer::calc_joint_matrices(NJS_MOTION *with, f32 at_frame, saddr matrices) {
     if (with == NULL || model == NULL) {
         return 0;
     }
     set_motion_packed_rotation();
     player_joint_matrix_write_ptr = (Mtx34 *)matrices;
-    set_chunk_model_node_callback((s32)save_joint_matrix_callback);
+    set_chunk_model_node_callback((saddr)save_joint_matrix_callback);
     draw_motion((NJS_OBJECT *)model, with, at_frame);
     set_chunk_model_node_callback(0);
     clear_motion_packed_rotation();

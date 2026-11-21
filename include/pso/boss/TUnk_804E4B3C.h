@@ -23,7 +23,7 @@ public:
     void sub_802F23FC();
     void sub_802F273C();
     void update_dust_spawn();
-    void update_spawn_timer(s32 arg1, s32 arg2, s32 arg3);
+    void update_spawn_timer(saddr arg1, s32 arg2, s32 arg3);
     void double_scroll_speed();
     void advance_effect_timer();
     // Out-of-line helpers at the end of the tunnel file (0x802F2C90..0x802F2CC4),
@@ -48,6 +48,6 @@ public:
     TObject *effect_nodes; // parent of the segments spawn creates
     TObject *render_nodes; // parent of the three TUnk_804E4AD4; render walks its children
 };
-typedef char TUnk_804E4B3C_size[sizeof(TUnk_804E4B3C) == 0x94 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804E4B3C_size, sizeof(TUnk_804E4B3C) == 0x94);
 
 #endif

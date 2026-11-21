@@ -115,7 +115,7 @@ public:
     ItemModelResource *get_resource();
     BOOL is_done();
 };
-typedef char TItemModelLoadTask_size[sizeof(TItemModelLoadTask) == 0x44 ? 1 : -1];
+LAYOUT_ASSERT(TItemModelLoadTask_size, sizeof(TItemModelLoadTask) == 0x44);
 
 class TItemLoad : public TObject {
 public:

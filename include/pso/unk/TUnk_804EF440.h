@@ -23,7 +23,7 @@ public:
     virtual void render(WindowDrawContext *context);
 };
 
-typedef char TUnk_804EF440_size[sizeof(TUnk_804EF440) == 0x28 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804EF440_size, sizeof(TUnk_804EF440) == 0x28);
 
 extern "C" {
 // TUnk_804EF440::TUnk_804EF440(u8 *, s32), called by init_window_layout_entries.

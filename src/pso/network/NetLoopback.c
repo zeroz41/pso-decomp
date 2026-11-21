@@ -89,7 +89,7 @@ s32 TLobby__sub_80415230(s16 idx, s16 mode, u8 *addr, void *pkt) {
         if (*used == 0) {
             *used = 1;
             TLobby__sub_80409908(slot, pkt);
-            TLobby__sub_80409818((s32)slot, len, g->handler, idx, g->protos[idx].type);
+            TLobby__sub_80409818((saddr)slot, len, g->handler, idx, g->protos[idx].type);
             return 0;
         }
         slot += g->slot_size;
@@ -125,7 +125,7 @@ s32 TLobby__sub_80415320(id, unused, arr)
         if (*cnt == 0) {
             *cnt = 1;
             TLobby__sub_80409908(base, arr);
-            TLobby__sub_80409818((s32)base, sum, p->handler, id, p->protos[id].type);
+            TLobby__sub_80409818((saddr)base, sum, p->handler, id, p->protos[id].type);
             return 0;
         }
         base += sz;

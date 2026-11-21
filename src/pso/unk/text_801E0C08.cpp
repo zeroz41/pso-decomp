@@ -5,7 +5,7 @@
 extern "C" {
 s32 construct_guild_card_tag_array(s32);
 void __sinit_text_801E0C08_cpp(void) {
-    construct_guild_card_tag_array((s32)&meet_user_settings);
+    construct_guild_card_tag_array((saddr)&meet_user_settings);
 }
 
 }

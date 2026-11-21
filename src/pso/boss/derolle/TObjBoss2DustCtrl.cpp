@@ -48,7 +48,7 @@ extern const f32 lbl_805D85C4;
 extern const f32 lbl_805D85C8;
 s32 TObjBoss2DustCtrl_dust_counter;
 
-extern s32 tl_05;
+extern saddr tl_05;
 
 s32 post_translate_matrix(int);
 }
@@ -57,7 +57,7 @@ struct RecoveredGlobal_8003AA9C___vt__13TObjBoss2Dust {
     s32 value;
     u8 remaining[0x14];
 };
-typedef char RecoveredGlobal_8003AA9C___vt__13TObjBoss2Dust_size[sizeof(RecoveredGlobal_8003AA9C___vt__13TObjBoss2Dust) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_8003AA9C___vt__13TObjBoss2Dust_size, sizeof(RecoveredGlobal_8003AA9C___vt__13TObjBoss2Dust) == 0x18);
 
 extern "C" {
 s32 __ct__7TObjectFP7TObject(void *, void *);
@@ -175,7 +175,7 @@ void boss2_dust_draw_at(s32 *arg0, s32 arg1) {
     TParticleCtrl::end_effect_render();
     push_matrix();
     var_r3 = var_r30;
-    post_translate_matrix((int)var_r3);
+    post_translate_matrix((saddr)var_r3);
     var_r5 = var_r31 * 0x60;
     var_r3 = (s32 *)((s32 *)boss2_dust_output_table);
     var_r4 = 6;
@@ -185,7 +185,7 @@ void boss2_dust_draw_at(s32 *arg0, s32 arg1) {
     pop_matrix();
 }
 
-u8 *__ct__13TObjBoss2DustFv(u8 *object, s32 arg1, s32 arg2) {
+u8 *__ct__13TObjBoss2DustFv(u8 *object, saddr arg1, saddr arg2) {
     s32 TObjBoss2DustCtrl__sub_8003AB5C();
     __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
     *(s32 **)((s8 *)object + 0x18) = &__vt__13TObjBoss2Dust.value;

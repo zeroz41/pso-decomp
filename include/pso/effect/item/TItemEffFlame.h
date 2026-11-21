@@ -21,7 +21,7 @@ public:
     s32 body_index;
 };
 
-typedef char TItemEffFlameSize[(sizeof(TItemEffFlame) == 0x28) ? 1 : -1];
+LAYOUT_ASSERT(TItemEffFlameSize, sizeof(TItemEffFlame) == 0x28);
 
 // Weapon hit callbacks: a burst where a shot hits a wall, and flames on an
 // actor's body.

@@ -22,5 +22,5 @@ public:
     static void *create(void *set_data);
 };
 
-typedef char TOKeyCol_size[sizeof(TOKeyCol) == 0xE8 ? 1 : -1];
+LAYOUT_ASSERT(TOKeyCol_size, sizeof(TOKeyCol) == 0xE8);
 #endif

@@ -20,7 +20,7 @@ public:
     f32 m_38;
 };
 
-typedef char TChCrTag_size[sizeof(TChCrTag) == 0x3C ? 1 : -1];
+LAYOUT_ASSERT(TChCrTag_size, sizeof(TChCrTag) == 0x3C);
 
 // TChCrTag's destructor, run_task slot and slot 6 are still written as C functions.
 extern "C" {

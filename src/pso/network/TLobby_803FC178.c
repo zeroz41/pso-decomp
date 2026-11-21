@@ -3,12 +3,12 @@
 #include "pso/network/TLobby_803FCF44.h"
 #include "pso/network/TLobby_804050DC.h"
 /* This file's functions. */
-void chap_input(void *self, s32 arg1);
+void chap_input(void *self, saddr arg1);
 void init_net_state_a(void);
 s32 init_net_state_b(void);
 s32 mark_sub_ready(void *obj);
 s32 set_active_flag(void *self);
-void update_connection_state(int arg0);
+void update_connection_state(void *arg0);
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/TLobby_804048E8.h"
 extern s32 is_timed_out(void);
@@ -44,7 +44,7 @@ s16 TLobby__sub_803FC1CC(Conn_804004DC *c, s32 timeout) {
     auth = (PppChap *)c->opts;
     if (lbl_805D7A90 & 2) {
         auth->active = 1;
-        TLobby__sub_803FE820((s32)c);
+        TLobby__sub_803FE820((saddr)c);
         ppp_fsm_send_packet(c, 1, 0, build_avetcp_net_buffer(c));
     } else {
         auth->active = 0;
@@ -178,7 +178,7 @@ s32 mark_sub_ready(void *obj) {
 
 struct O_80400ACC;
 
-void chap_input(void *self, s32 arg1) {
+void chap_input(void *self, saddr arg1) {
     u8 *arg0 = (u8 *)self;
     PppHeader hdr;
     u8 temp_r0;
@@ -239,8 +239,8 @@ void chap_input(void *self, s32 arg1) {
         case 4:
             lobby_timer_stop((void *) (arg0 + 0x10));
             temp_r30_4 = (u8 *)(*(u8 **)((s8 *)arg0 + 0xC));
-            update_connection_state((int) (temp_r30_4 + 0xA0));
-            update_connection_state((int) (temp_r30_4 + 4));
+            update_connection_state(temp_r30_4 + 0xA0);
+            update_connection_state(temp_r30_4 + 4);
             *(s16 *)((s8 *)arg0 + 8) = 1;
             ppp_auth_failed = 1;
             break;
@@ -277,8 +277,8 @@ void TLobby__sub_803FC728(Conn_804004DC *c) {
         }
         chap->msg = "Request retry exceeded";
         sub = c->sub;
-        update_connection_state((int)(sub + 0xA0));
-        update_connection_state((int)(sub + 4));
+        update_connection_state(sub + 0xA0);
+        update_connection_state(sub + 4);
         c->abort = 1;
         return;
     }
@@ -290,8 +290,8 @@ void TLobby__sub_803FC728(Conn_804004DC *c) {
         return;
     }
     sub = c->sub;
-    update_connection_state((int)(sub + 0xA0));
-    update_connection_state((int)(sub + 4));
+    update_connection_state(sub + 0xA0);
+    update_connection_state(sub + 4);
     c->abort = 1;
 }
 
@@ -489,8 +489,8 @@ void chap_recv_challenge(Conn_804004DC *connection, PppHeader *header, PppFrame 
         connection->f6--;
     } else {
         header = (PppHeader *)connection->sub;
-        update_connection_state((int)((u8 *)header + 0xA0));
-        update_connection_state((int)((u8 *)header + 4));
+        update_connection_state((u8 *)header + 0xA0);
+        update_connection_state((u8 *)header + 4);
     }
 }
 #pragma pop

@@ -35,6 +35,8 @@
 #include "pso/unk/text_801E3F24.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include <stdlib.h>
+#include <string.h>
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/vector.h"
 
@@ -106,10 +108,9 @@ extern "C" {
 s32 play_sound_effect(s32, s32, s32, s32);
 void run_task__16TObjCMAssignMenuFv(void *arg0);
 void TCameraCtrl__sub_80068EF0(void);
-s32 get_message_text(s32 arg0);
+saddr get_message_text(s32 arg0);
 u32 calc_text_width(char *s);
 int TAdSinglePlyChrSelectGC__sub_802905B8(void);
-s32 rand();
 void TObjCMMainMenu__sub_80298DA0(int a0);
 }
 
@@ -128,7 +129,7 @@ struct Hair_802964B0 {
     const char *name;
     u8 pad4[0x14];
     void *vt;
-    s32 f1c;
+    saddr f1c;
     s32 f20;
     s32 f24;
     s32 f28;
@@ -260,7 +261,6 @@ struct M_80298450 { u8 pad[0x38]; f32 f38; };
 
 extern "C" {
 void copy_player_visual_record(void *, void *);
-void * get_char_index__23TAdSinglePlyChrSelectGCFUi(s32);
 void __ct__7TObjectFP7TObject(void *);
 u8 calc_section_id_from_name();
 void fn_802947A8(void);
@@ -275,7 +275,6 @@ u8 is_not_dressing_room_mode__14TObjCMMainMenuFv(void);
 s32 * TObjCMMainMenu__sub_80298DD4(void);
 void fn_802993F0(void);
 u32 __cvt_fp2unsigned(f32);
-char * strncpy(char *, const char *, u32);
 extern u8 __vt__14TObjCMHairMenu[];
 extern void *__vt__16TObjCMAssignMenu[];
 extern Ent_802964B0 class_appearance_table[];
@@ -1061,11 +1060,11 @@ s32 TObjCMMainMenu::try_pay_fee() {
     s32 temp_r4;
     void *temp_r3;
 
-    if (get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF) == NULL) {
+    if ((void *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF) == NULL) {
         play_sound_effect(0x40018519, 0, 0, 0);
         return 0;
     }
-    temp_r3 = get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF);
+    temp_r3 = (void *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF);
     temp_r4 = *(s32 *)((s8 *)temp_r3 + 0x36C);
     if (temp_r4 < 0x2710) {
         *(s32 *)((s8 *)temp_r3 + 0x36C) = 0;
@@ -1093,8 +1092,8 @@ void *__ct__16TObjCMAssignMenuFv(void *obj_cm_assign_menu, void *parent, void *k
     ((Menu_80297128 *)obj_cm_assign_menu)->name = TObjCMAssignMenu__name;
     ((Menu_80297128 *)obj_cm_assign_menu)->chara = (*(Chara_80297128 * *)&creation_player_character);
     ((Menu_80297128 *)obj_cm_assign_menu)->f20 = 0;
-    ((Menu_80297128 *)obj_cm_assign_menu)->kind = (s32)kind;
-    ((Menu_80297128 *)obj_cm_assign_menu)->count = ((Row_80297128 *)&class_appearance_table)[character_display_index(reinterpret_cast<u32>(((Menu_80297128 *)obj_cm_assign_menu)->chara))].v[((Menu_80297128 *)obj_cm_assign_menu)->kind];
+    ((Menu_80297128 *)obj_cm_assign_menu)->kind = (saddr)kind;
+    ((Menu_80297128 *)obj_cm_assign_menu)->count = ((Row_80297128 *)&class_appearance_table)[character_display_index(reinterpret_cast<uaddr>(((Menu_80297128 *)obj_cm_assign_menu)->chara))].v[((Menu_80297128 *)obj_cm_assign_menu)->kind];
     ((Menu_80297128 *)obj_cm_assign_menu)->f28 = ((Menu_80297128 *)obj_cm_assign_menu)->chara->f38[((Menu_80297128 *)obj_cm_assign_menu)->kind];
     ((Menu_80297128 *)obj_cm_assign_menu)->n = 0;
     ((Menu_80297128 *)obj_cm_assign_menu)->mask = 0;
@@ -1538,7 +1537,7 @@ Hair_802964B0 *__ct__14TObjCMHairMenuFv(Hair_802964B0 *arg0, void *arg1) {
     arg0->f1c = (*(s32 *)&creation_player_character);
     arg0->f20 = 0;
     arg0->f24 = 0;
-    arg0->f28 = class_appearance_table[character_display_index((u32)arg0->f1c)].f8;
+    arg0->f28 = class_appearance_table[character_display_index((uaddr)arg0->f1c)].f8;
     arg0->f30 = 1;
     arg0->f34 = 0.0f;
     for (i = 0; i < 3; i++) {
@@ -1922,7 +1921,7 @@ void TObjCMAutoMkData::run_task() {
     {
       break;
     }
-      lim = ((Limits_802952E0 *)&class_appearance_table)[character_display_index((u32)self->app)].lim;
+      lim = ((Limits_802952E0 *)&class_appearance_table)[character_display_index((uaddr)self->app)].lim;
       sel = (*new_var)->sel;
       for (i = 0; i <= 4; i++, lim++, sel++)
     {

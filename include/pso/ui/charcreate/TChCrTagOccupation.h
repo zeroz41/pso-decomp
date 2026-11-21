@@ -18,7 +18,7 @@ public:
     f32 m_40;
 };
 
-typedef char TChCrTagOccupation_size[sizeof(TChCrTagOccupation) == 0x44 ? 1 : -1];
+LAYOUT_ASSERT(TChCrTagOccupation_size, sizeof(TChCrTagOccupation) == 0x44);
 
 // --- C functions defined in TChCrTagOccupation.cpp ---
 extern "C" {

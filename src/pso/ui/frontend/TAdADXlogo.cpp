@@ -9,7 +9,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdBackGC.h"
 
-s32 get_logo_texture_e_handle();
+saddr get_logo_texture_e_handle();
 
 const char *TAdADXlogo_name = "TAdADXlogo";
 

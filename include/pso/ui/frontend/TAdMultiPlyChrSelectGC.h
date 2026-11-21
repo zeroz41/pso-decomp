@@ -56,7 +56,7 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     s32 get_field_20();
     static TAdMultiPlyChrSelectGC *get_state();
     static TAdMultiPlyChrSelectGC *get_or_create(TObject *parent, s32 mode);
-    static int get_selected_slot();
+    static saddr get_selected_slot();
     static int get_global_6700();
     s32 get_player_index();
     void set_cursor_index(s32 v);
@@ -87,14 +87,14 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     void set_field_1c(s32 v);
     s32 get_mode();
     s32 is_state_closing();
-    static int get_global_state();
+    static saddr get_global_state();
     static int get_select_flag();
     static int get_chr_select_state();
     s32 get_ready_state();
-    static u32 get_move_effect(s32 arg0);
+    static u32 get_move_effect(saddr arg0);
     static TAdChrSelASlotGC *get_or_create_slot_window(TObject *parent, s32 mode);
     u8 unk_68[0x4];
-    s32 m_6c;
+    saddr m_6c;
     u8 unk_70[0x4];
     u32 m_74;
     u8 unk_78[0x4];
@@ -102,9 +102,9 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     u8 unk_80[0x4];
     u32 m_84;
     u8 unk_88[0x4];
-    s32 m_8c;
+    saddr m_8c;
     u8 unk_90[0x4];
-    u32 m_94;
+    uaddr m_94;
     u8 unk_98[0x4];
     s32 m_9c;
     static s32 dispatch_draw_command(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
@@ -119,7 +119,7 @@ struct TAdMultiPlyChrSelectGC : public TObject {
 
 extern "C" TAdMultiPlyChrSelectGC *TAdMultiPlyChrSelectGC__instance;
 
-typedef char TAdMultiPlyChrSelectGC_size[sizeof(TAdMultiPlyChrSelectGC) == 0xA0 ? 1 : -1];
+LAYOUT_ASSERT(TAdMultiPlyChrSelectGC_size, sizeof(TAdMultiPlyChrSelectGC) == 0xA0);
 
 // TAdMultiPlyChrSelectGC__character_slot_positions: layout known from its uses only.
 struct TAdMultiPlyChrSelectGCCharacterSlotPositions { s32 value; u8 remaining[0x1C]; };

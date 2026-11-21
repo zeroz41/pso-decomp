@@ -23,6 +23,7 @@
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/object/switch/TOSwitchItem.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 
 
 struct O_8035C480 { u8 pad[0x44]; s32 arr[4]; };
@@ -54,9 +55,9 @@ struct Thanks_8035C6FC
 
 extern "C" {
 s32 get_bml_motion(void *, s32);
-s32 get_bml_texlist(void *, s32);
-s32 get_bml_model(void *, s32);
-void TBoss4Thanks__sub_8035C480(s32 arg0);
+saddr get_bml_texlist(void *, s32);
+saddr get_bml_model(void *, s32);
+void TBoss4Thanks__sub_8035C480(saddr arg0);
 const char *TBoss4Thanks__class_name = "TBoss4Thanks";
 // Position of the emitters and of the proximity check (x, y, z).
 extern const f32 boss4_thanks_position[3] = {-9860.0f, 29.0f, -238.9f};
@@ -68,7 +69,6 @@ extern const Ent_8035C35C boss4_thanks_emitter_table[4] = {
 f32 xyz_distance(void *, const void *);
 void TObjPlayer__sub_80052390(void);
 void post_translate_matrix(const f32 *);
-int set_story_flag_or_send_quest_flag(void*);
 
 s32 fn_8035C2B4(void) {
     return get_story_flag(0x99) != 0;
@@ -76,8 +76,8 @@ s32 fn_8035C2B4(void) {
 s32 TBoss4Thanks::is_door_0x97_open() {
     return get_story_flag(0x97) != 0;
 }
-int TBoss4Thanks::dispatch_main_phase_153() { return set_story_flag_or_send_quest_flag((void*)(153)); }
-int TBoss4Thanks::dispatch_main_phase() { return set_story_flag_or_send_quest_flag((void*)(151)); }
+void TBoss4Thanks::dispatch_main_phase_153() { set_story_flag_or_send_quest_flag(153); }
+void TBoss4Thanks::dispatch_main_phase() { set_story_flag_or_send_quest_flag(151); }
 
 
 void TBoss4Thanks::update_particle_emitters() {
@@ -112,7 +112,7 @@ void TBoss4Thanks::destroy_effects() {
     }
 }
 
-void TBoss4Thanks__sub_8035C480(s32 arg0) {
+void TBoss4Thanks__sub_8035C480(saddr arg0) {
     O_8035C480 *self = (O_8035C480 *)arg0;
     s32 i;
     for (i = 0; i < 4; i++) {
@@ -226,13 +226,13 @@ TBoss4Thanks::~TBoss4Thanks() {
 
 TBoss4Thanks::TBoss4Thanks(TObject *arg1) : TObject(arg1) {
     u8 *instance_count;
-    *(s32 *)((s8 *)this + 0) = (s32) TBoss4Thanks__class_name;
+    *(s32 *)((s8 *)this + 0) = (saddr) TBoss4Thanks__class_name;
     instance_count = (u8 *)(TBoss4Uro::get_instance_count());
     this->model = get_bml_model(instance_count, 1);
     this->texture_list = get_bml_texlist(instance_count, 1);
     *(s32 *)((s8 *)this + 0x3C) = get_bml_motion(instance_count, 0x46);
     *(s32 *)((s8 *)this + 0x40) = get_bml_motion(instance_count, 0x47);
-    TBoss4Thanks__sub_8035C480((s32)((s32) ((u8 *)this)));
+    TBoss4Thanks__sub_8035C480((saddr)((saddr) ((u8 *)this)));
     this->state = 0;
     this->next_motion = 0;
     this->current_motion = 0;

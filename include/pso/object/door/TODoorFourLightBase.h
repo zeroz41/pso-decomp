@@ -14,7 +14,7 @@ struct TODoorFourLightBase : public TODoorBase {
     virtual void update_door_switch_state();
     virtual void vfunc_6(s16 *, s32);
     virtual void render();
-    u32 m_d4;
+    uaddr m_d4;
     u8 unk_D8[0x4];
     u32 m_dc;
     u8 unk_E0[0x18];
@@ -24,5 +24,5 @@ struct TODoorFourLightBase : public TODoorBase {
     void draw_node_tree(u8 *arg1);
 };
 
-typedef char TODoorFourLightBase_size[sizeof(TODoorFourLightBase) == 0xFC ? 1 : -1];
+LAYOUT_ASSERT(TODoorFourLightBase_size, sizeof(TODoorFourLightBase) == 0xFC);
 #endif

@@ -23,6 +23,6 @@ public:
     s32 frames_left;         // inferred: 10 frames, then it queues its own destruction
     TParticleCtrl *particle; // the particle it moves, released by the destructor
 };
-typedef char TUnk_804F166C_size[sizeof(TUnk_804F166C) == 0x50 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804F166C_size, sizeof(TUnk_804F166C) == 0x50);
 
 #endif

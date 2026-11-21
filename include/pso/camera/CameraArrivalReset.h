@@ -14,9 +14,9 @@ struct ArrivalCameraActor {
     u8 unknown44[0x1C];
     s32 heading;
 };
-typedef char ArrivalPoseHeading[offsetof(ArrivalCameraPose,heading)==0x30?1:-1];
-typedef char ArrivalPosePosition[offsetof(ArrivalCameraPose,position)==0x3C?1:-1];
-typedef char ArrivalPoseTarget[offsetof(ArrivalCameraPose,target)==0x48?1:-1];
-typedef char ArrivalActorHeading[offsetof(ArrivalCameraActor,heading)==0x60?1:-1];
+LAYOUT_ASSERT(ArrivalPoseHeading, offsetof(ArrivalCameraPose,heading)==0x30);
+LAYOUT_ASSERT(ArrivalPosePosition, offsetof(ArrivalCameraPose,position)==0x3C);
+LAYOUT_ASSERT(ArrivalPoseTarget, offsetof(ArrivalCameraPose,target)==0x48);
+LAYOUT_ASSERT(ArrivalActorHeading, offsetof(ArrivalCameraActor,heading)==0x60);
 extern "C" void vfunc_8__13TUnk_80488E00FPv(ArrivalCameraPose *, const ArrivalCameraActor *);
 #endif

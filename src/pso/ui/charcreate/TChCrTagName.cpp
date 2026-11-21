@@ -242,7 +242,7 @@ TChCrTagName *TChCrTagName::create(s32 index) {
 }
 
 void TChCrTagName::create_all() {
-    int i;
+    saddr i;
     for (i = 0; i < 12; i++) {
         TChCrTagName::create(i);
     }

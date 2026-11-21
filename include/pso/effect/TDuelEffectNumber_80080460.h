@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-f32 TBoss8Dragon__sub_8008072C(void);
+f32 TBoss8Dragon__sub_8008072C(f32 x, f32 y);
 }
 
 #endif

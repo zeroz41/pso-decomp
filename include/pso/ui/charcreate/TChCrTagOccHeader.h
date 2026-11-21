@@ -14,7 +14,7 @@ public:
     s32 m_3c;
 };
 
-typedef char TChCrTagOccHeader_size[sizeof(TChCrTagOccHeader) == 0x40 ? 1 : -1];
+LAYOUT_ASSERT(TChCrTagOccHeader_size, sizeof(TChCrTagOccHeader) == 0x40);
 
 // --- C functions defined in TChCrTagOccHeader.cpp ---
 extern "C" {

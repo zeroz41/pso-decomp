@@ -17,12 +17,12 @@ u8 *photon_field_weapon_ct(TObjPlayer *arg0, u8 *arg1);
 void TUnk_804F1320::activate_effect(s32 item) {
     s32 temp_r31;
 
-    if (((u32) this->owner != 0U) && (is_current_area_item_enabled() != 0)) {
+    if (((uaddr) this->owner != 0U) && (is_current_area_item_enabled() != 0)) {
         temp_r31 = ((TObjPlayer *)(this->owner))->get_floor();
         {
         s32 t = get_current_floor();
         if ((t == temp_r31) && (this->get_mode() == 2)) {
-            spawn_pg_effect((void *)(*(u32 *)&this->owner + 0x2FC), (s32)item, (f32)(*(f32 *)&this->unk_1F8));
+            spawn_pg_effect((void *)(*(uaddr *)&this->owner + 0x2FC), (s32)item, (f32)(*(f32 *)&this->unk_1F8));
         }
         }
     }

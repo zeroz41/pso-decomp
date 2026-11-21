@@ -22,7 +22,6 @@ struct H_800FE32C { u8 pad[0x878]; u8 state; u8 pad879[0x88E - 0x879]; s8 flags;
 extern "C" {
 s32 get_move_done_result__24TObjWaitEntryHairMoveSimFPv(H_800FE32C *h);
 extern void *hair_bone_rotation_descriptor[];
-void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
 
 int is_move_done__24TObjWaitEntryHairMoveSimFv(void) {
@@ -42,7 +41,7 @@ s32 get_move_done_result__24TObjWaitEntryHairMoveSimFPv(H_800FE32C *h) {
 
 }
 void T_OWEHMS_Exp::start_bone_rotation() {
-    s32 bone = (s32)player->m_8ac;
+    saddr bone = (saddr)player->m_8ac;
     TObjWaitEntryHairMoveSim__sub_800FE3BC(bone);
     TObjEZBoneRotPlayer::create((void *)player, (void *)bone, (void *)((u8*)&hair_bone_rotation_descriptor + descriptor_index * 0x14));
 }
@@ -60,7 +59,7 @@ T_OWEHMS_Exp* T_OWEHMS_Exp::destroy(s16 should_free) {
         *(void**)((u8*)this + 0x18) = __vt__12T_OWEHMS_Exp;
         __dt__7TObjectFv(this, 0);
         if (should_free > 0) {
-            __dl__7TObjectFPv(this);
+            TObject::operator delete(this);
         }
     }
     return this;
@@ -72,7 +71,6 @@ T_OWEHMS_Exp* T_OWEHMS_Exp::destroy(s16 should_free) {
 extern "C" {
 
 int __ct__7TObjectFP7TObject(void);
-void *__nw__7TObjectFUl(int);
 
     const char *TObjWaitEntryHairMoveSim__name = "TObjWaitEntryHairMoveSim";
     const char *T_OWEHMS_Exp__name = "T_OWEHMS_Exp";
@@ -118,7 +116,7 @@ struct Obj_800FE698 {
     s16 v9C;
 };
 
-struct EntX_800FE5A0 { s8 a; s8 b; s8 c; s8 d; void *p4; void *p8; s32 pc; };
+struct EntX_800FE5A0 { s8 a; s8 b; s8 c; s8 d; void *p4; void *p8; saddr pc; };
 
 struct Pl_800FE5A0 {
     u8 pad0[0x88D];
@@ -719,7 +717,7 @@ void *__ct__24TObjWaitEntryHairMoveSimFv(void *arg0, void *arg1) {
 void create_hair_effects__24TObjWaitEntryHairMoveSimFPv(void *arg0) {
     Self_800FE5A0 *self = (Self_800FE5A0 *)arg0;
     EntX_800FE5A0 *e;
-    s32 v;
+    saddr v;
     for (e = hair_effect_selection_table; e->a >= 0 && e->a <= self->pl->lvl; e++) {
         if (self->pl->lvl == e->a) {
             if (self->pl->v9C == e->b) {
@@ -755,9 +753,9 @@ s32 is_level_in_table__24TObjWaitEntryHairMoveSimFPv(Obj_800FE698 *o) {
 }
 
 s32 fn_800FE73C(TObjPlayer *player) {
-    s32 temp_r3;
-    s32 var_r0;
-    if (character_display_index(reinterpret_cast<u32>((const u8 *)player + 0x85C)) == 0xE) {
+    saddr temp_r3;
+    saddr var_r0;
+    if (character_display_index(reinterpret_cast<uaddr>((const u8 *)player + 0x85C)) == 0xE) {
         TObjTailsTailsMove::create(player);
         return 0;
     }
@@ -766,10 +764,10 @@ s32 fn_800FE73C(TObjPlayer *player) {
         return 0;
     }
     if (is_level_in_table__24TObjWaitEntryHairMoveSimFPv((Obj_800FE698 *)player) != 0) {
-        temp_r3 = ((s32 (*)(int))__nw__7TObjectFUl)(0x20);
+        temp_r3 = (saddr)TObject::operator new(0x20);
         var_r0 = temp_r3;
         if (var_r0 != 0) {
-            var_r0 = ((s32)__ct__24TObjWaitEntryHairMoveSimFv((void *)temp_r3, (void *)player));
+            var_r0 = ((saddr)__ct__24TObjWaitEntryHairMoveSimFv((void *)temp_r3, (void *)player));
         }
         return var_r0;
     }

@@ -30,9 +30,9 @@ public:
     u8 pad_24[4];
 };
 
-typedef char FloorTransitionState_size[sizeof(Obj_80515BA0) == 0x28 ? 1 : -1];
-typedef char FloorTransitionState_next_floor_offset[offsetof(Obj_80515BA0, next_floor) == 0xC ? 1 : -1];
-typedef char FloorTransitionState_flags_offset[offsetof(Obj_80515BA0, state_flags) == 0x20 ? 1 : -1];
+LAYOUT_ASSERT(FloorTransitionState_size, sizeof(Obj_80515BA0) == 0x28);
+LAYOUT_ASSERT(FloorTransitionState_next_floor_offset, offsetof(Obj_80515BA0, next_floor) == 0xC);
+LAYOUT_ASSERT(FloorTransitionState_flags_offset, offsetof(Obj_80515BA0, state_flags) == 0x20);
 extern Obj_80515BA0 floor_transition_state;
 
 extern "C" {

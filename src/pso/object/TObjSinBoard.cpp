@@ -1,5 +1,6 @@
 #include "pso/system/save/CardSaveFile.h"
 #include "types.h"
+#include <string.h>
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/map/FloorArea.h"
@@ -31,9 +32,8 @@ struct Uv_8019806C { u32 w[4]; };
 struct Desc_8019806C { Pos_8019806C *pos; Uv_8019806C *uv; s16 *col; s32 count; };
 
 extern "C" {
-s32 poll_memcard_result(s32);
-s32 get_card_file_info__15TAdPlayerLoadGCFiPvPv(s32, const char *, Stat_80197E64 *);
-void memset(void *, int, int);
+s32 poll_memcard_result(saddr);
+s32 get_card_file_info__15TAdPlayerLoadGCFiPvPv(saddr, const char *, Stat_80197E64 *);
 void set_texture_name(void *, void *, int, int);
 }
 
@@ -92,11 +92,11 @@ void load_memcard_file(void) {
         TLobby::run_frame();
     }
     if (TAdPlayerLoadGC__sub_801E1538(&hdr, buf) != 0) {
-        TAdSinglePlyChrSelectGC::safe_free((u32)buf);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
         return;
     }
     fn_80197FD0(hdr.data, hdr.size);
-    TAdSinglePlyChrSelectGC::safe_free((u32)buf);
+    TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
 }
 
 void TLobby__sub_80197F74(void) {}
@@ -114,7 +114,7 @@ void TLobby::free_global_buffer() {
 void clear_signboard_texture_buffer_pointer(void) { TObjSinBoard__texture_buffer = 0; }
 
 void fn_80197FD0(const void *image, u32 size) {
-    u32 t = (u32)TQuestVmDownLoadServer::alloc(size);
+    uaddr t = (uaddr)TQuestVmDownLoadServer::alloc(size);
     TObjSinBoard__texture_buffer = t;
     if (t != 0) {
         move_data((void *)(t), (const void *)(image), size);
@@ -122,7 +122,7 @@ void fn_80197FD0(const void *image, u32 size) {
         signboard_texture_list.count = 1;
         ((TObjPlayer *)TObjSinBoard__texture_surface)->set_render_rect(TObjSinBoard__texture_buffer, 0, 0, 0);
         set_texture_name(&TObjSinBoard__texture_name, TObjSinBoard__texture_surface, 0, 0x40000000);
-        load_texture_if_valid((u32)&signboard_texture_list);
+        load_texture_if_valid((uaddr)&signboard_texture_list);
     }
 }
 
@@ -147,7 +147,7 @@ void TObjSinBoard::render() {
         d.col = col;
         d.count = 4;
         set_default_alpha_blend();
-        TObjFish::set_global_param((s32)&signboard_texture_list);
+        TObjFish::set_global_param((saddr)&signboard_texture_list);
         set_texture_num(0);
         TParticleCtrl::begin_effect_render();
         push_matrix();

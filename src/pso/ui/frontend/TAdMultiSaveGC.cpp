@@ -17,9 +17,9 @@
 #include "pso/system/task/TMainTask.h"
 
 extern "C" {
-s32 get_message_text(s32 arg0);
+saddr get_message_text(s32 arg0);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
-s32 create_window_menu_default(const void *, int);
+saddr create_window_menu_default(const void *, int);
 s32 verify_system_file__23TAdSinglePlyChrSelectGCFPv();
 }
 
@@ -163,25 +163,25 @@ void TAdMultiSaveGC::run_task() {
 }
 
 TWindowMessage *TAdMultiSaveGC::sub_802FF314() {
-    TWindowMessage *msg = (TWindowMessage *)(s32)create_message_window_for_size((NJS_POINT2 *)TAdMultiSaveGC__data_80474D70, (NJS_POINT2 *)TAdMultiSaveGC__data_80474D78);
+    TWindowMessage *msg = (TWindowMessage *)(saddr)create_message_window_for_size((NJS_POINT2 *)TAdMultiSaveGC__data_80474D70, (NJS_POINT2 *)TAdMultiSaveGC__data_80474D78);
     msg->append_line(get_localized_text_entry(0x20, 0), 1);
     return msg;
 }
 
 TWindowMessage *TAdMultiSaveGC::sub_802FF2B4() {
-    TWindowMessage *msg = (TWindowMessage *)(s32)create_message_window_for_size((NJS_POINT2 *)TAdMultiSaveGC__data_80474D70, (NJS_POINT2 *)TAdMultiSaveGC__data_80474D78);
+    TWindowMessage *msg = (TWindowMessage *)(saddr)create_message_window_for_size((NJS_POINT2 *)TAdMultiSaveGC__data_80474D70, (NJS_POINT2 *)TAdMultiSaveGC__data_80474D78);
     msg->append_line(get_localized_text_entry(0x20, 3), 1);
     return msg;
 }
 
 TWindowMessage *TAdMultiSaveGC::sub_802FF254() {
-    TWindowMessage *msg = (TWindowMessage *)(s32)create_message_window_for_size((NJS_POINT2 *)TAdMultiSaveGC__data_80474D70, (NJS_POINT2 *)TAdMultiSaveGC__data_80474D78);
+    TWindowMessage *msg = (TWindowMessage *)(saddr)create_message_window_for_size((NJS_POINT2 *)TAdMultiSaveGC__data_80474D70, (NJS_POINT2 *)TAdMultiSaveGC__data_80474D78);
     msg->append_line(get_localized_text_entry(0x20, 3), 1);
     return msg;
 }
 
 TWindowMessage *TAdMultiSaveGC::sub_802FF1F4() {
-    TWindowMessage *msg = (TWindowMessage *)(s32)create_message_window_for_size((NJS_POINT2 *)TAdMultiSaveGC__data_80474D70, (NJS_POINT2 *)TAdMultiSaveGC__data_80474D78);
+    TWindowMessage *msg = (TWindowMessage *)(saddr)create_message_window_for_size((NJS_POINT2 *)TAdMultiSaveGC__data_80474D70, (NJS_POINT2 *)TAdMultiSaveGC__data_80474D78);
     msg->append_line(get_localized_text_entry(0x20, 2), 1);
     return msg;
 }

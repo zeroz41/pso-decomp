@@ -777,7 +777,7 @@ u8 find_dhcp_option(u8 *p, u8 tag, u8 **out) {
     u8 t;
     u8 len;
     p += 4;
-    while ((s32)((u32)base - (u32)p) < 0x4D4) {
+    while ((s32)((uaddr)base - (uaddr)p) < 0x4D4) {
         t = *p++;
         if (t == 0) {
             continue;
@@ -901,7 +901,7 @@ void TLobby__sub_80424CA8(void) {
     lbl_805D7B14 = TLobby__sub_804250A8(0);
 }
 
-s32 TLobby__sub_80424CF4(void *, void *, s32 timeout) {
+s32 TLobby__sub_80424CF4(s32 session, s32 ip, s32 timeout) {
     s32 state;
     *(volatile s32 *)&dhcp_state = 6;
     *(volatile s32 *)&dhcp_step = 0;

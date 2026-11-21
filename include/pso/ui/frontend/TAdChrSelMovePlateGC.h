@@ -24,5 +24,5 @@ public:
     s32 opacity[12];
     s32 other[12];
 };
-typedef char TAdChrSelMovePlateGC_size[sizeof(TAdChrSelMovePlateGC) == 0x208 ? 1 : -1];
+LAYOUT_ASSERT(TAdChrSelMovePlateGC_size, sizeof(TAdChrSelMovePlateGC) == 0x208);
 #endif

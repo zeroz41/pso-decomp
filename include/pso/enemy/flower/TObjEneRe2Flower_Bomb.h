@@ -6,7 +6,7 @@
 class TObjEneRe2Flower_Bomb : public TUnk_804928CC {
 public:
     virtual ~TObjEneRe2Flower_Bomb();
-    virtual s32 area_attack_deliver_direct(void *, s32, void *, f32);
+    virtual s32 area_attack_deliver_direct(void *, saddr, void *, f32);
     void *destroy_and_free(s16);
     virtual void render();
     virtual void run_task();
@@ -16,6 +16,6 @@ public:
     void * m_fc;
     s32 m_100;
 };
-typedef char TObjEneRe2Flower_Bomb_size[sizeof(TObjEneRe2Flower_Bomb) == 0x104 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneRe2Flower_Bomb_size, sizeof(TObjEneRe2Flower_Bomb) == 0x104);
 
 #endif

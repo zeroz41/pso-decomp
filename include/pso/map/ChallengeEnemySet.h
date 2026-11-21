@@ -56,10 +56,10 @@ struct ChallengeEventCommand {
     void append() const;
 };
 
-typedef char ChallengeEventHeaderSize[sizeof(ChallengeEventHeader) == 0x10 ? 1 : -1];
-typedef char ChallengeRandomEventSize[sizeof(ChallengeRandomEvent) == 0x18 ? 1 : -1];
-typedef char ChallengeFixedEventSize[sizeof(ChallengeFixedEvent) == 0x14 ? 1 : -1];
-typedef char ChallengeFixedEventCommandOffset[offsetof(ChallengeFixedEvent, commandOffset) == 0x10 ? 1 : -1];
+LAYOUT_ASSERT(ChallengeEventHeaderSize, sizeof(ChallengeEventHeader) == 0x10);
+LAYOUT_ASSERT(ChallengeRandomEventSize, sizeof(ChallengeRandomEvent) == 0x18);
+LAYOUT_ASSERT(ChallengeFixedEventSize, sizeof(ChallengeFixedEvent) == 0x14);
+LAYOUT_ASSERT(ChallengeFixedEventCommandOffset, offsetof(ChallengeFixedEvent, commandOffset) == 0x10);
 
 extern "C" {
 extern u8 *challenge_event_source;

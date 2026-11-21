@@ -28,6 +28,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/camera/TCameraCtrl.h"
 
 struct Nd_802F2348 { u8 pad[0xC]; Nd_802F2348 *next; };
 struct Li_802F2348 { u8 pad[0x14]; Nd_802F2348 *head; };
@@ -69,7 +70,7 @@ s32 lbl_805D696C;
 s8 lbl_805D6970;
 extern "C" {
 AnimationMotion *get_bml_motion(void *, s32);
-s32 get_bml_model(void *, s32);
+saddr get_bml_model(void *, s32);
 u32 __ct__7TObjectFP7TObject(void *, void *);
 extern u8 *boss7_common_bml_resource;
 void __dl__7TObjectFPv(void *);
@@ -86,7 +87,6 @@ extern u8 *boss7_common_bml_resource;
 extern u8 *boss7_common_texture_list;
 void __dt__7TObjectFv(void *, int);
 void __dl__7TObjectFPv(void *);
-u32 __nw__7TObjectFUl(s32);
 void TObjBoss2Tunnel__sub_802F2278(void);
 s32 TObjBoss2Tunnel__sub_802F22F4(void);
 s32 init_piecewise_curve(void *, f32, f32, f32, f32, f32);
@@ -105,7 +105,7 @@ void fn_802F1DAC(u8 *arg0);
 void fn_802F1E54(u8 *arg0);
 s32 is_room_enemy_set_cleared(s32 floor, s16 room);
 f32 rand_signed_unit();
-u8 *__ct__13TObjBoss7DustFv(u8 *arg0, s32 arg1, s32 arg2);
+u8 *__ct__13TObjBoss7DustFv(u8 *arg0, saddr arg1, saddr arg2);
 s32 TObjBoss2Tunnel__sub_802F2070(void);
 }
 
@@ -159,7 +159,7 @@ TUnk_804E4B3C::TUnk_804E4B3C(TObject *parent) : TObject(parent) {
     unk_78.z = 0.0f;
     dust_timer = 30;
     for (i = 0; i < 2; i++) {
-        new TObjBoss7RaftSplash((TObject *)this, (u8 *)&lbl_804E4A44[i], (u8 *)&TObjBoss2Tunnel__raft_splash_offset_table[i], (s32)&scroll_speed);
+        new TObjBoss7RaftSplash((TObject *)this, (u8 *)&lbl_804E4A44[i], (u8 *)&TObjBoss2Tunnel__raft_splash_offset_table[i], (saddr)&scroll_speed);
     }
     new TUnk_804E4AD4(render_nodes, 0);
     new TUnk_804E4AD4(render_nodes, 1);
@@ -212,8 +212,8 @@ void TUnk_804E4B3C::update_phase_motion() {
     f32 sp8;
     switch (*(s32 *)((s8 *)arg0 + 0x4C)) {
     case 0:
-        if (TObjBoss2Tunnel::check_both((s32)arg0) != 0) {
-            if (TObjBoss2Tunnel::is_phase_active((s32)arg0) != 0) {
+        if (TObjBoss2Tunnel::check_both((saddr)arg0) != 0) {
+            if (TObjBoss2Tunnel::is_phase_active((saddr)arg0) != 0) {
                 *(f32 *)((s8 *)arg0 + 0x50) = (-1.0f);
             } else {
                 *(f32 *)((s8 *)arg0 + 0x50) = 1.0f;
@@ -224,7 +224,7 @@ void TUnk_804E4B3C::update_phase_motion() {
         }
         break;
     case 1:
-        if (TObjBoss2Tunnel::check_both((s32)arg0) == 0) {
+        if (TObjBoss2Tunnel::check_both((saddr)arg0) == 0) {
             *(s32 *)((s8 *)arg0 + 0x4C) = 3;
             sp8 = fabs_float((f32) (*(f32 *)((s8 *)arg0 + 0x54)));
             init_piecewise_curve(arg0 + 0x20, 0.1f, (-0.1f), (f32) (*(f32 *)((s8 *)arg0 + 0x54)), (f32) (-((TObjBoss2Tunnel *)(arg0 + 0x20))->update_position()), 2.0f);
@@ -236,7 +236,7 @@ void TUnk_804E4B3C::update_phase_motion() {
         *(f32 *)((s8 *)arg0 + 0x54) = (f32) (sp8 * *(f32 *)((s8 *)arg0 + 0x50));
         return;
     case 2:
-        if (TObjBoss2Tunnel::check_both((s32)arg0) == 0) {
+        if (TObjBoss2Tunnel::check_both((saddr)arg0) == 0) {
             *(s32 *)((s8 *)arg0 + 0x4C) = 3;
             init_piecewise_curve(arg0 + 0x20, 0.1f, (-0.1f), 150.0f, 0.0f, 2.0f);
             return;
@@ -272,7 +272,7 @@ void TUnk_804E4B3C::double_scroll_speed() {
 
 #pragma push
 #pragma opt_common_subs off
-void TUnk_804E4B3C::update_spawn_timer(s32 arg1, s32 arg2, s32 arg3) {
+void TUnk_804E4B3C::update_spawn_timer(saddr arg1, s32 arg2, s32 arg3) {
     Vec position;
     f32 temp_f1;
     this->scroll_offset = (f32) (this->scroll_offset + this->scroll_speed);
@@ -300,15 +300,15 @@ void TUnk_804E4B3C::update_spawn_timer(s32 arg1, s32 arg2, s32 arg3) {
 void TUnk_804E4B3C::update_dust_spawn() {
     u8 *arg0 = (u8 *)this;
     Vec v;
-    u32 p;
+    uaddr p;
     *(s32 *)((s8 *)arg0 + 0x74) = *(s32 *)((s8 *)arg0 + 0x74) - 1;
     if (*(s32 *)((s8 *)arg0 + 0x74) <= 0) {
         v.x = 200.0f * rand_signed_unit();
         v.y = 90.0f * (3.0517578125e-05f * (f32)rand()) + 10.0f;
         v.z = 600.0f;
-        p = __nw__7TObjectFUl(0x30);
+        p = (uaddr)TObject::operator new(0x30);
         if (p != 0U) {
-            __ct__13TObjBoss7DustFv((u8 *)p, (s32)tl_05, (s32)&v);
+            __ct__13TObjBoss7DustFv((u8 *)p, (saddr)tl_05, (saddr)&v);
         }
         *(s32 *)((s8 *)arg0 + 0x74) = 0x1E;
     }
@@ -317,7 +317,7 @@ void TUnk_804E4B3C::update_dust_spawn() {
 
 void TUnk_804E4B3C::init_effect() {
     advance_effect_timer();
-    update_spawn_timer((s32)boss2_tunnel_spawn_timer_table, 0x1F, 0);
+    update_spawn_timer((saddr)boss2_tunnel_spawn_timer_table, 0x1F, 0);
     if ((*(s32 *)&boss2_tunnel_state_flags) & 0x200) {
         (*(s32 *)&boss2_tunnel_state_flags) &= 0xFFFFFDFF;
         phase = 1;
@@ -329,7 +329,7 @@ void TUnk_804E4B3C::init_effect() {
 void TUnk_804E4B3C::sub_802F2400() {
     f32 temp_f1;
     TObject *object;
-    update_spawn_timer((s32)boss2_tunnel_spawn_timer_table_b, 0xA, 1);
+    update_spawn_timer((saddr)boss2_tunnel_spawn_timer_table_b, 0xA, 1);
     if ((*(s32 *)&boss2_tunnel_state_flags) & 8) {
         temp_f1 = unk_78.z;
         if (temp_f1 < 1.0f) {
@@ -488,9 +488,9 @@ extern "C" {
 void fn_802F1E54(u8 *arg0) {
     if (((TObjBoss7TunnelCol *)arg0)->is_in_camera_range() != 0) {
         set_draw_list_mask(1);
-        TObjFish::set_global_param((int)boss7_common_texture_list);
+        TObjFish::set_global_param((saddr)boss7_common_texture_list);
         push_matrix();
-        TObjPlayer::concat_matrix(0, (int)(arg0 + 0x48));
+        TObjPlayer::concat_matrix(0, (saddr)(arg0 + 0x48));
         ((s32 (*)(int, void *))draw_ginja_object)((*(GE_802F1E54 **)((s8 *)boss7_common_bml_resource + 0x42C))[(*(s32 **)((s8 *)arg0 + 0x3C))[0]].obj, boss7_common_bml_resource);
         pop_matrix();
         restore_draw_list_mask();
@@ -502,9 +502,9 @@ extern "C" {
 void fn_802F1DAC(u8 *arg0) {
     if (((TObjBoss7TunnelCol *)arg0)->is_in_camera_range() != 0) {
         set_draw_list_mask(2);
-        TObjFish::set_global_param((int)boss7_common_texture_list);
+        TObjFish::set_global_param((saddr)boss7_common_texture_list);
         push_matrix();
-        TObjPlayer::concat_matrix(0, (int)(arg0 + 0x48));
+        TObjPlayer::concat_matrix(0, (saddr)(arg0 + 0x48));
         ((s32 (*)(int, void *))draw_ginja_object)((*(GE_802F1DAC **)((s8 *)boss7_common_bml_resource + 0x42C))[(*(s32 **)((s8 *)arg0 + 0x3C))[1]].obj, boss7_common_bml_resource);
         if ((s32) *(s32 *)((s8 *)arg0 + 0x38) == 4) {
             ((s32 (*)(int, void *))draw_ginja_object)((*(GE_802F1DAC **)((s8 *)boss7_common_bml_resource + 0x42C))[(*(s32 **)((s8 *)arg0 + 0x3C))[2]].obj, boss7_common_bml_resource);
@@ -528,17 +528,17 @@ void draw_tunnel_segment(u8 *boss7_tunnel_col) {
         var_r31 = *(s32 *)((s8 *)var_r4 + (-4));
         set_draw_list_mask(2);
         var_r3 = boss7_common_texture_list;
-        TObjFish::set_global_param((int)var_r3);
+        TObjFish::set_global_param((saddr)var_r3);
         TParticleCtrl::begin_effect_render();
         push_matrix();
         var_r4 = (var_r30 + 0x48);
         var_r3 = NULL;
-        TObjPlayer::concat_matrix(0, (int)var_r4);
+        TObjPlayer::concat_matrix(0, (saddr)var_r4);
         var_r3 = boss7_common_bml_resource;
         var_r3 = (u8 *)(*(u8 **)((s8 *)var_r3 + 0x42C));
         var_r3 += var_r31 * 0x10;
         var_r3 = (u8 *)(*(u8 **)((s8 *)var_r3 + 8));
-        draw_ginja_object((int)var_r3);
+        draw_ginja_object((saddr)var_r3);
         pop_matrix();
         TParticleCtrl::end_effect_render();
         restore_draw_list_mask();
@@ -560,7 +560,7 @@ s32 TObjBoss7TunnelCol::is_in_camera_range() {
 void TUnk_804E4B24::update_collision() {
     set_matrix_identity((u8 *)matrix);
     translate_matrix_vec3((u8 *)matrix, (u8 *)&position);
-    rotate_matrix_yxz((s32)matrix, rotation_x, rotation_y, rotation_z);
+    rotate_matrix_yxz((saddr)matrix, rotation_x, rotation_y, rotation_z);
 }
 
 #define player ((u8 *)this)

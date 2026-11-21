@@ -51,8 +51,8 @@ force_active:
   - DoEnvelopeCalculation
   - DoPanningSetup
   - DoSetPitch
-  - Dolphin_DVDCancelAsync
-  - Dolphin_GXFlush
+  - DVDCancelAsync
+  - GXFlush
   - Down
   - EXIClearInterrupts
   - EmitterShutdown

@@ -19,12 +19,11 @@ extern "C" {
 extern const f64 lbl_8044ECF0;
 void *__ct__18TWindowEffectPartyFP7TObjectScScPv(void *, void *, u16, u16, s32);
 extern s32 local_client_id;
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 f32 get_scale__15TWindowCtrlMainFv(s32);
 extern Obj_8024FB80 *TWindowCtrl__active_window;
 TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 extern const char *TWindowEffectParty__name;
-s32 sub_80244994__11TWindowBaseFv();
 }
 
 // Built with deferred code generation (the vtable precedes the switch table
@@ -37,13 +36,13 @@ void *TWindowCtrl__sub_8024FB80(s8 i) {
 
 TWindowEffectParty::TWindowEffectParty(TObject *object, s8 arg2, s8 arg3, void *arg4) : TObject(object) {
     Pos_8024FAD8 p;
-    *(s32 *)this = ((s32)TWindowEffectParty__name);
+    *(s32 *)this = ((saddr)TWindowEffectParty__name);
     *(s8 *)&this->m_1d = arg2;
-    TWindowEffectParty::set_slot_position((s32)this, (s32)(*(s8 *)&this->m_1d), (void *)(((u8 *)this) + 0x20));
+    TWindowEffectParty::set_slot_position((saddr)this, (s32)(*(s8 *)&this->m_1d), (void *)(((u8 *)this) + 0x20));
     *(s8 *)&this->m_1e = arg3;
-    TWindowEffectParty::set_slot_position((s32)this, (s32)(*(s8 *)&this->m_1e), (void *)(((u8 *)this) + 0x28));
+    TWindowEffectParty::set_slot_position((saddr)this, (s32)(*(s8 *)&this->m_1e), (void *)(((u8 *)this) + 0x28));
     this->calc_effect_position(&p);
-    this->m_particle = spawn_continuous_particle_effect_with_flags((void *)&p, (s32)arg4, (s32)(0xC0));
+    this->m_particle = spawn_continuous_particle_effect_with_flags((void *)&p, (saddr)arg4, (s32)(0xC0));
     *(s8 *)&this->m_1c = 0;
 }
 
@@ -55,8 +54,10 @@ void TWindowEffectParty::run_task() {
     s32 sp8;
     u8 temp_r3;
 
+    void *window;
+
     temp_r3 = this->m_1e;
-    if (((s8) temp_r3 > 0) && ((((u32)TWindowCtrl__sub_8024FB80(temp_r3 - 1)) == 0U) || (sub_80244994__11TWindowBaseFv() == 0))) {
+    if (((s8) temp_r3 > 0) && (((window = TWindowCtrl__sub_8024FB80(temp_r3 - 1)) == 0) || (((TWindowBase *)window)->sub_80244994() == 0))) {
         queue_destruction();
         return;
     }

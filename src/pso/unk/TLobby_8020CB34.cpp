@@ -14,7 +14,7 @@ struct VObj8020 {
     virtual void m3();
     virtual void m4(s32, s32);
 };
-extern s32 TLobby__data_805D60FC;
+extern saddr TLobby__data_805D60FC;
 extern s32 quest_object_entries;
 
 s32 TLobby::spawn_objects_at_pos(s16 arg0, s16 arg1) {

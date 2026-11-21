@@ -54,7 +54,7 @@ void TWindowDD::bswap_word_select() {
 
 void TWindowDD::reset_index() { *(s32*)((char*)this + 0x14) = 0; }
 void TWindowDD::set_field14(s32 v) { *(s32*)((char*)this + 0x14) = v; }
-s32 TWindowDD__sub_80348D88(void* p) { return *(s32*)((char*)p + 0x14); }
+saddr TWindowDD__sub_80348D88(void* p) { return *(s32*)((char*)p + 0x14); }
 
 void TWindowDD__sub_80348D90(S_80348D90 *self, s16 v) {
     if (self->count > 0) {

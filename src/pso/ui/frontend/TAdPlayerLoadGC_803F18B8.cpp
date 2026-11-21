@@ -12,7 +12,7 @@
 struct CardSlotInfo { s32 state; s32 mem_size; u32 sector_size; };
 
 typedef void (*CardSlotChangeCallback)(s32 channel, s32 memory_size, u32 sector_size);
-typedef char CardSlotInfoSize[(sizeof(CardSlotInfo) == 0xC) ? 1 : -1];
+LAYOUT_ASSERT(CardSlotInfoSize, (sizeof(CardSlotInfo) == 0xC));
 
 extern "C" {
 // memory-card library version banner

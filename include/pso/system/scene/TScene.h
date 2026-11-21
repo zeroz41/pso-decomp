@@ -54,30 +54,30 @@ public:
     void cleanup_fmt1_materials();
     void cleanup_fmt2_materials();
     static void create();
-    static void load_floor_rel_file(s32 arg0);
-    static void load_tam_file(s32 arg0);
+    static void load_floor_rel_file(saddr arg0);
+    static void load_tam_file(saddr arg0);
     static void free_scene_resources();
-    static void load_file_to_buffer(s32 arg0);
-    static void load_floor_bin_file(s32 arg0);
-    static void load_map_texture_archive(s32 arg0);
-    static void load_supplementary_t_rel(s32 arg0);
-    static void load_scene_rel_file(s32 arg0);
-    static void load_scene_data(s32 arg0);
+    static void load_file_to_buffer(saddr arg0);
+    static void load_floor_bin_file(saddr arg0);
+    static void load_map_texture_archive(saddr arg0);
+    static void load_supplementary_t_rel(saddr arg0);
+    static void load_scene_rel_file(saddr arg0);
+    static void load_scene_data(saddr arg0);
     static void load_current_floor();
     void offset_position(s32 arg1, s32 arg2);
     void apply_uv_offset(s16 arg1, s16 arg2);
     void *destroy_buffers(s16 arg1);
-    void *init_buffers(s32 arg1, s32 arg2);
+    void *init_buffers(saddr arg1, s32 arg2);
 };
 
 #include <stddef.h>
-typedef char TScene_size[sizeof(TScene) == 0x40 ? 1 : -1];
-typedef char TScene_field_1c_offset[offsetof(TScene, m_1c) == 0x1C ? 1 : -1];
-typedef char TScene_field_30_offset[offsetof(TScene, m_30) == 0x30 ? 1 : -1];
-typedef char TScene_field_34_offset[offsetof(TScene, m_34) == 0x34 ? 1 : -1];
-typedef char TScene_field_38_offset[offsetof(TScene, m_38) == 0x38 ? 1 : -1];
-typedef char TScene_field_3c_offset[offsetof(TScene, m_3c) == 0x3C ? 1 : -1];
+LAYOUT_ASSERT(TScene_size, sizeof(TScene) == 0x40);
+LAYOUT_ASSERT(TScene_field_1c_offset, offsetof(TScene, m_1c) == 0x1C);
+LAYOUT_ASSERT(TScene_field_30_offset, offsetof(TScene, m_30) == 0x30);
+LAYOUT_ASSERT(TScene_field_34_offset, offsetof(TScene, m_34) == 0x34);
+LAYOUT_ASSERT(TScene_field_38_offset, offsetof(TScene, m_38) == 0x38);
+LAYOUT_ASSERT(TScene_field_3c_offset, offsetof(TScene, m_3c) == 0x3C);
 
-void load_scene_collision_file(s32 scene_file_index);
+void load_scene_collision_file(saddr scene_file_index);
 
 #endif

@@ -94,7 +94,7 @@ void TChCrLoadReq::reset_request() {
     s32 i;
     s32 index;
     m_58 = inputs.part_models + 2;
-    index = character_display_index(reinterpret_cast<u32>(inputs.appearance));
+    index = character_display_index(reinterpret_cast<uaddr>(inputs.appearance));
     m_5c = &class_appearance_table[index];
     reset_character_load_buffer(inputs.load_slot);
     inputs.body_model[0] = 0;

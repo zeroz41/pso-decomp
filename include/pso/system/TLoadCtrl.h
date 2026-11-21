@@ -5,7 +5,7 @@
 #include "pso/system/task/TObject.h"
 
 struct TLoadCtrl : public TObject {
-    TLoadCtrl(s32);
+    TLoadCtrl(saddr);
     virtual ~TLoadCtrl();
     s32 m_1c;
     s32 m_20;
@@ -18,10 +18,10 @@ struct TLoadCtrl : public TObject {
     static void set_field1C(s32 arg0);
 };
 
-typedef char TLoadCtrl_size[sizeof(TLoadCtrl) == 0x24 ? 1 : -1];
+LAYOUT_ASSERT(TLoadCtrl_size, sizeof(TLoadCtrl) == 0x24);
 
 extern "C" {
 // The fade task the loader started; cleared once it is queued for destruction.
-extern s32 TLoadCtrl__fade_task;
+extern saddr TLoadCtrl__fade_task;
 }
 #endif

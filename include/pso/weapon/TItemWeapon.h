@@ -53,7 +53,7 @@ typedef s32 (*WeaponShotCallback)(void *weapon, void *origin, f32 *end, f32 fram
 struct TItemWeapon : public TItemEquipBase {
     TItemWeapon(TObject *parent, u8 *item);
     virtual ~TItemWeapon();
-    s32 get_tp();
+    saddr get_tp();
     void update_active_game_effect();
     void launch_rare_weapon_special(void *, s32, f32);
     void fill_status_info(void *);
@@ -159,26 +159,26 @@ struct TItemWeapon : public TItemEquipBase {
 
 struct WeaponMarkerPacket { s8 kind,variant; u8 pad[2]; TObjPlayer* player; s32 unobserved[3]; };
 
-typedef char WeaponTrailsOffset[(offsetof(TItemWeapon,trails)==0x18C)?1:-1];
-typedef char WeaponTechniqueRollOffset[(offsetof(TItemWeapon,technique_roll)==0x1BC)?1:-1];
-typedef char WeaponPreviousTechniqueRollOffset[(offsetof(TItemWeapon,previous_technique_roll)==0x1C0)?1:-1];
-typedef char WeaponTechniqueRollRangeOffset[(offsetof(TItemWeapon,technique_roll_range)==0x1C4)?1:-1];
-typedef char WeaponSpecialSelectorOffset[(offsetof(TItemWeapon,special_selector)==0x1D2)?1:-1];
-typedef char WeaponAttributesOffset[(offsetof(TItemWeapon,attributes)==0x1A4)?1:-1];
-typedef char WeaponGrindOffset[(offsetof(TItemWeapon,grind)==0x1D1)?1:-1];
-typedef char WeaponStageOffset[(offsetof(TItemWeapon,stage)==0x1D4)?1:-1];
-typedef char WeaponFrameOffset[(offsetof(TItemWeapon,motion_frame)==0x1D8)?1:-1];
-typedef char WeaponTechniqueBoostsOffset[(offsetof(TItemWeapon,technique_boosts)==0x1E0)?1:-1];
-typedef char WeaponPhotonPhaseOffset[(offsetof(TItemWeapon,photon_phase)==0x1C8)?1:-1];
-typedef char WeaponPhotonColorOffset[(offsetof(TItemWeapon,photon_color_id)==0x1E8)?1:-1];
-typedef char WeaponParamsSpecialOffset[(offsetof(WeaponParams,special)==0x18)?1:-1];
-typedef char WeaponFlagsOffset[(offsetof(TItemWeapon,weapon_flags)==0x1B8)?1:-1];
-typedef char WeaponShotSpeedOffset[(offsetof(TItemWeapon,shot_speed)==0x1E4)?1:-1];
-typedef char WeaponShotCallbackOffset[(offsetof(TItemWeapon,shot_callback)==0x1F0)?1:-1];
-typedef char WeaponGunPointOffset[(offsetof(TItemWeapon,gun_point_joint)==0x1CE)?1:-1];
-typedef char WeaponHitCallbackOffset[(offsetof(TItemWeapon,hit_callback)==0x1F4)?1:-1];
-typedef char WeaponBaseSize[(sizeof(TItemWeapon)==0x1F8)?1:-1];
-typedef char WeaponMarkerPacketSize[(sizeof(WeaponMarkerPacket)==0x14)?1:-1];
+LAYOUT_ASSERT(WeaponTrailsOffset, offsetof(TItemWeapon,trails)==0x18C);
+LAYOUT_ASSERT(WeaponTechniqueRollOffset, offsetof(TItemWeapon,technique_roll)==0x1BC);
+LAYOUT_ASSERT(WeaponPreviousTechniqueRollOffset, offsetof(TItemWeapon,previous_technique_roll)==0x1C0);
+LAYOUT_ASSERT(WeaponTechniqueRollRangeOffset, offsetof(TItemWeapon,technique_roll_range)==0x1C4);
+LAYOUT_ASSERT(WeaponSpecialSelectorOffset, offsetof(TItemWeapon,special_selector)==0x1D2);
+LAYOUT_ASSERT(WeaponAttributesOffset, offsetof(TItemWeapon,attributes)==0x1A4);
+LAYOUT_ASSERT(WeaponGrindOffset, offsetof(TItemWeapon,grind)==0x1D1);
+LAYOUT_ASSERT(WeaponStageOffset, offsetof(TItemWeapon,stage)==0x1D4);
+LAYOUT_ASSERT(WeaponFrameOffset, offsetof(TItemWeapon,motion_frame)==0x1D8);
+LAYOUT_ASSERT(WeaponTechniqueBoostsOffset, offsetof(TItemWeapon,technique_boosts)==0x1E0);
+LAYOUT_ASSERT(WeaponPhotonPhaseOffset, offsetof(TItemWeapon,photon_phase)==0x1C8);
+LAYOUT_ASSERT(WeaponPhotonColorOffset, offsetof(TItemWeapon,photon_color_id)==0x1E8);
+LAYOUT_ASSERT(WeaponParamsSpecialOffset, offsetof(WeaponParams,special)==0x18);
+LAYOUT_ASSERT(WeaponFlagsOffset, offsetof(TItemWeapon,weapon_flags)==0x1B8);
+LAYOUT_ASSERT(WeaponShotSpeedOffset, offsetof(TItemWeapon,shot_speed)==0x1E4);
+LAYOUT_ASSERT(WeaponShotCallbackOffset, offsetof(TItemWeapon,shot_callback)==0x1F0);
+LAYOUT_ASSERT(WeaponGunPointOffset, offsetof(TItemWeapon,gun_point_joint)==0x1CE);
+LAYOUT_ASSERT(WeaponHitCallbackOffset, offsetof(TItemWeapon,hit_callback)==0x1F4);
+LAYOUT_ASSERT(WeaponBaseSize, sizeof(TItemWeapon)==0x1F8);
+LAYOUT_ASSERT(WeaponMarkerPacketSize, sizeof(WeaponMarkerPacket)==0x14);
 extern "C" {
 // TItemWeapon's destructor under its own symbol, for the derived classes
 // still written as C functions.

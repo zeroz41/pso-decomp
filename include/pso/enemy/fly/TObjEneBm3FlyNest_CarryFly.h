@@ -31,6 +31,6 @@ public:
     f32 arc;        // 0x60
     f32 height;     // 0x64
 };
-typedef char TObjEneBm3FlyNest_CarryFly_size[sizeof(TObjEneBm3FlyNest_CarryFly) == 0x68 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneBm3FlyNest_CarryFly_size, sizeof(TObjEneBm3FlyNest_CarryFly) == 0x68);
 
 #endif

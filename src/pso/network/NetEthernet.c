@@ -122,7 +122,7 @@ inline EthSocket *find_socket(EthSocket *ent, s16 n, s16 dev, u16 type) {
     }
     return 0;
 }
-s32 TLobby__sub_804089A8(s16 dev, s16 mode, s16 b, EthernetFrameHeader *frame) {
+saddr TLobby__sub_804089A8(s16 dev, s16 mode, s16 b, EthernetFrameHeader *frame) {
     EthernetState *tbl = &lbl_805C1AD8;
     EthSocket *ent;
     EthSocket *base;
@@ -165,7 +165,7 @@ s32 TLobby__sub_804089A8(s16 dev, s16 mode, s16 b, EthernetFrameHeader *frame) {
             return 0;
         }
         ent->slot = slot;
-        return (s32)slot->frame;
+        return (saddr)slot->frame;
     }
     if (mode == 1) {
         key = hdr.ether_type;
@@ -189,7 +189,7 @@ s32 TLobby__sub_804089A8(s16 dev, s16 mode, s16 b, EthernetFrameHeader *frame) {
             OSRestoreInterrupts(lvl);
             return 0;
         } else {
-            TLobby__sub_80409818((s32)(slot->frame + sizeof(EthernetFrameHeader)), slot->len - sizeof(EthernetFrameHeader), slot->link, slot->socket, key);
+            TLobby__sub_80409818((saddr)(slot->frame + sizeof(EthernetFrameHeader)), slot->len - sizeof(EthernetFrameHeader), slot->link, slot->socket, key);
             return 0;
         }
     }
@@ -266,7 +266,7 @@ s32 send_ethernet_frame(s16 idx, s16 mode, u8 *addr, void *pkt) {
     NetMemcpy(c->frame, &hdr, sizeof(hdr));
     len = TLobby__sub_804098B4(pkt);
     if (len > 0x5DC) {
-        clear_message_entry((s32)c->frame);
+        clear_message_entry((saddr)c->frame);
         return -2;
     }
     TLobby__sub_80409908(c->frame + sizeof(EthernetFrameHeader), pkt);
@@ -275,9 +275,9 @@ s32 send_ethernet_frame(s16 idx, s16 mode, u8 *addr, void *pkt) {
     }
     fn = g->drivers[e->dev].send;
     if (fn != NULL) {
-        fn(c->dev, (s32)c->frame, len + 0xE);
+        fn(c->dev, (saddr)c->frame, len + 0xE);
     } else {
-        clear_message_entry((s32)c->frame);
+        clear_message_entry((saddr)c->frame);
         return -0x111;
     }
     return 0;
@@ -599,7 +599,7 @@ found:
     }
     switch (b) {
     case 0x800:
-        ret = forward_net_op_5args(a, idx, 1, b, 6, (s32)p1->mac, c, (s32)k);
+        ret = forward_net_op_5args(a, idx, 1, b, 6, (saddr)p1->mac, c, (saddr)k);
         if (ret < 0) {
             err = ret;
             goto fail;

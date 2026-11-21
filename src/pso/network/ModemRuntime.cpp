@@ -1,4 +1,5 @@
 #define PSO_SDK_COMPACT_MATH
+#include <string.h>
 #include "pso/network/NetworkTransport.h"
 #include "pso/network/ModemRuntime.h"
 #include "pso/network/NetworkMessageTransport.h"
@@ -53,10 +54,10 @@ struct ModemRecvState {
     void (*callback)(s32 received);
 };
 
-typedef char ModemSendStateSize[sizeof(ModemSendState) == 0x2C ? 1 : -1];
-typedef char ModemRecvStateSize[sizeof(ModemRecvState) == 0x40 ? 1 : -1];
-typedef char ModemSendCallbackOffset[offsetof(ModemSendState, callback) == 0x28 ? 1 : -1];
-typedef char ModemRecvCallbackOffset[offsetof(ModemRecvState, callback) == 0x3C ? 1 : -1];
+LAYOUT_ASSERT(ModemSendStateSize, sizeof(ModemSendState) == 0x2C);
+LAYOUT_ASSERT(ModemRecvStateSize, sizeof(ModemRecvState) == 0x40);
+LAYOUT_ASSERT(ModemSendCallbackOffset, offsetof(ModemSendState, callback) == 0x28);
+LAYOUT_ASSERT(ModemRecvCallbackOffset, offsetof(ModemRecvState, callback) == 0x3C);
 
 struct ModemResponseState {
     void (*callback)(s32 result);
@@ -111,8 +112,6 @@ struct ModemConnectionInfo { s32 value; s32 f4; s32 f8; char carrier[5]; char er
 static ModemConnectionInfo modem_connection_info;
 static ModemResponseState modem_command_response_state;
 int atoi(const char *);
-void *memcpy(void *, const void *, unsigned long);
-void *memmove(void *, const void *, unsigned long);
 int sscanf(const char *, const char *, ...);
 void modem_write_string(char *str);
 typedef struct Ent_804267F0 {
@@ -125,10 +124,7 @@ typedef struct Tbl_804267F0 {
     Ent_804267F0 ent[6];
 } Tbl_804267F0;
 
-char *strcat(char *, const char *);
-char *strcpy(char *, const char *);
 s32 modem_send_at_command(char *cmd);
-void *memset(void *, int, unsigned long);
 struct ModemRegs_805D7C90 { u16 f0; u16 f2; u8 f4; u8 f5; u8 f6; u8 f7; };
 ModemRegs_805D7C90 lbl_805D7C90;
 s32 lbl_805D7C98;
@@ -137,8 +133,6 @@ OSThreadQueue lbl_805D7CA0;
 static ModemSendState modem_send_state;
 static ModemRecvState modem_recv_state;
 s32 TAdSinglePlyChrSelectGC__sub_8042E184(void);
-unsigned long strlen(const char *);
-int memcmp(const void *, const void *, unsigned long);
 }
 s32 modem_wait_ok_or_error(void);
 extern "C" {
@@ -1038,7 +1032,7 @@ s32 TAdSinglePlyChrSelectGC::send_at_compression_cmd(s32 arg0) {
 }
 
 s32 TAdSinglePlyChrSelectGC::copy_default_and_get_state() {
-    u32 arg0 = (u32)this;
+    uaddr arg0 = (uaddr)this;
     if (arg0 != 0U) {
         *(ByteBlock_1C *)(arg0) = *(const ByteBlock_1C *)(&modem_connection_info.value);
     }

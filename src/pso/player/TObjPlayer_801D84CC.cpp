@@ -29,7 +29,7 @@ struct Stack_801D8664 {
 
 extern "C" {
 s32 copy_player_visual_record(void *, void *);
-s32 fn_801D40D4(void *, void *, void *);
+s32 fn_801D40D4(s32, void *, void *);
 struct VObj_84Base_801d859c_801D84CC { char pad[0x18]; };
 struct VObj_84_801d859c_801D84CC : VObj_84Base_801d859c_801D84CC {
     virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
@@ -45,10 +45,10 @@ struct VObj_84_801d859c_801D84CC : VObj_84Base_801d859c_801D84CC {
 
 s32 advance_item_id_counter();
 void send_6x29_delete_item__10TObjPlayerFPvii(void *obj, s32 a, s32 b);
-void set_equip_slot_entry(s32 arg0, s32 arg1, s32 arg2);
+void set_equip_slot_entry(saddr arg0, s32 arg1, s32 arg2);
 u16 get_entity_id(void *);
 
-void process_trade_target__10TObjPlayerFiPv(s32 arg0, void *player) {
+void process_trade_target__10TObjPlayerFiPv(saddr arg0, void *player) {
     void *item;
 
     ((s32 (*)())get_entity_id)();
@@ -70,9 +70,9 @@ void process_trade_target__10TObjPlayerFiPv(s32 arg0, void *player) {
     }
 }
 void TObjPlayer__sub_801D8664(s32 arg0, s8 arg1, s8 arg2) {
-    typedef char sp8_offset[(offsetof(Stack_801D8664, sp8) == 0x0) ? 1 : -1];
-    typedef char sp9_offset[(offsetof(Stack_801D8664, sp9) == 0x1) ? 1 : -1];
-    typedef char spA_offset[(offsetof(Stack_801D8664, spA) == 0x2) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_801D8664, sp8) == 0x0);
+    LAYOUT_ASSERT(sp9_offset, offsetof(Stack_801D8664, sp9) == 0x1);
+    LAYOUT_ASSERT(spA_offset, offsetof(Stack_801D8664, spA) == 0x2);
     Stack_801D8664 stack;
     ((TItemData *)(&stack.sp8))->init();
     stack.sp9 = arg1;
@@ -82,10 +82,10 @@ void TObjPlayer__sub_801D8664(s32 arg0, s8 arg1, s8 arg2) {
 }
 
 void restore_scene_lighting(void);
-void select_actor_lighting(s32 obj);
+void select_actor_lighting(saddr obj);
 s32 TObjPlayer__sub_801BAC48(void *);
 }
-int player_ending_motion_object;
+saddr player_ending_motion_object;
 void save_render_material_state(u8 *arg0);
 extern "C" {
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
@@ -99,19 +99,19 @@ TUnk_804C4540 *TUnk_804C4540::create(TPlyCharData *data) {
     ((TObjPlayer *)(&sp8))->init_inventory();
     copy_player_visual_record(sp8.visual, &data->m_disp_data.m_disp_part2);
     TLobby::copy_data(sp8.stats, &data->m_disp_data);
-    fn_801D40D4((void *)data->m_inventory.m_num_items, (void *)((TObjPlayer *)data)->get_ptr_4(), sp8.items);
+    fn_801D40D4(data->m_inventory.m_num_items, (void *)((TObjPlayer *)data)->get_ptr_4(), sp8.items);
     return new TUnk_804C4540(tl_03, &sp8);
 }
 
 void TUnk_804C4540::render() {
     if ((obj_testFlags30(0x02000000) == 0) && ((s32)m_cfc == 0)) {
-        select_actor_lighting((s32)this);
+        select_actor_lighting((saddr)this);
         push_matrix();
         translate_matrix_vec3(0, (u8 *)&position);
         rotate_matrix_y(0, rotation_y);
         save_render_material_state((u8 *)&render_material_state);
         apply_material_color_override();
-        TObjFish::set_global_param((s32)((u8 *)this + 0xCF4));
+        TObjFish::set_global_param((saddr)((u8 *)this + 0xCF4));
         set_motion_packed_rotation();
         draw_saving_joints_checked();
         clear_motion_packed_rotation();
@@ -125,7 +125,7 @@ void TUnk_804C4540::render() {
     push_matrix();
     translate_matrix_vec3(0, (u8 *)&position);
     rotate_matrix_y(0, rotation_y);
-    calc_joint_matrices(current_motion, frame, (s32)joint_matrices);
+    calc_joint_matrices(current_motion, frame, (saddr)joint_matrices);
     pop_matrix();
 }
 
@@ -146,8 +146,8 @@ extern u8 *TObjPlayer__shared_model_buffer;
 void TObjPlayer__sub_801BFF80(u8 *arg0);
 }
 void create_player_ending_motion(void);
-s32 create_named_object(s32 arg0);
-void create_player_ending_motion(void) { TObjPlayer::alloc_shared_buffers(); player_ending_motion_object = create_named_object((s32)"PlyEndingMotionData.rel"); }
+saddr create_named_object(saddr arg0);
+void create_player_ending_motion(void) { TObjPlayer::alloc_shared_buffers(); player_ending_motion_object = create_named_object((saddr)"PlyEndingMotionData.rel"); }
 
 TUnk_804C4540::TUnk_804C4540(TObject *parent, TUnk_801D8A4C *src) : TObjPlayer(parent, src) {
     set_floor_index(1);
@@ -156,25 +156,25 @@ TUnk_804C4540::TUnk_804C4540(TObject *parent, TUnk_801D8A4C *src) : TObjPlayer(p
     rotation_y = ((TObjPlayer *)src->pose)->get_lock_timer();
     select_class_action_provider();
     joint_matrices = TObjPlayer__shared_model_buffer + get_entity_id(this) * 0xC00;
-    init_motion((TObjMotionAction *)get_table_entry_by_clamped_index(), (BmlMotionEntry *)*(s32 *)player_ending_motion_object, 1);
+    init_motion((TObjMotionAction *)get_table_entry_by_clamped_index(), (BmlMotionEntry *)*(saddr *)player_ending_motion_object, 1);
     frame = src->frame;
     set_action_flag_40();
     push_matrix();
     translate_matrix_vec3(0, (u8 *)&position);
     rotate_matrix_y(0, rotation_y);
-    calc_joint_matrices(current_motion, 0.0f, (s32)joint_matrices);
+    calc_joint_matrices(current_motion, 0.0f, (saddr)joint_matrices);
     pop_matrix();
-    TObjPlayer::assign_lobby_slot_if_flagged((s32)this, &src->items[0]);
-    TObjPlayer::assign_lobby_slot_if_flagged((s32)this, &src->items[1]);
+    TObjPlayer::assign_lobby_slot_if_flagged((saddr)this, &src->items[0]);
+    TObjPlayer::assign_lobby_slot_if_flagged((saddr)this, &src->items[1]);
 }
 
 TUnk_804C4540::~TUnk_804C4540() {}
 
 void TObjPlayer__sub_801D8A38(void* a0) { *(short*)((char*)a0 + 0x0) = 1; *(float*)((char*)a0 + 0x4) = 0.0f; }
 
-void*TObjPlayer::init_inventory() { TObjPlayer::init_inventory_items((s32)((s32)((char*)this + 0x50))); TObjPlayer__sub_801BFF80((u8 *)((char*)this + 0xac)); TObjPlayer__sub_801D8A38((void*)((void*)((char*)this + 0xc0))); return this; }
+void*TObjPlayer::init_inventory() { TObjPlayer::init_inventory_items((s32)((saddr)((char*)this + 0x50))); TObjPlayer__sub_801BFF80((u8 *)((char*)this + 0xac)); TObjPlayer__sub_801D8A38((void*)((void*)((char*)this + 0xc0))); return this; }
 
-s32 TObjPlayer::init_inventory_items(s32 arg0) {
+s32 TObjPlayer::init_inventory_items(saddr arg0) {
     s32 var_r30;
     s32 var_r31;
 

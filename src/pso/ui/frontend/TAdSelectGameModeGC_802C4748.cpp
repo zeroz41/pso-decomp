@@ -78,16 +78,16 @@ void TAdSelectGameModeGC__sub_802C478C(void) {
 void run_task__19TAdSelectGameModeGCFv(u8 *arg0) {
     s32 mode_data;
     TAdMultiChgGameModeGC::set_default_camera();
-    if ((s32) TAdSelectGameModeGC__cached_mode_value != reinterpret_cast<TAdSelectCurGC *>((*(s32 *)((s8 *)arg0 + 0x1C)))->selection_index()) {
-        ((TAdGuideTxtGC *)(*(s32 *)((s8 *)arg0 + 0x20)))->set_line(1, reinterpret_cast<const char *>((get_localized_text_entry(0x15, (s32)(reinterpret_cast<TAdSelectCurGC *>((*(s32 *)((s8 *)arg0 + 0x1C)))->selection_index() + 1)))));
+    if ((s32) TAdSelectGameModeGC__cached_mode_value != reinterpret_cast<TAdSelectCurGC *>((*(saddr *)((s8 *)arg0 + 0x1C)))->selection_index()) {
+        ((TAdGuideTxtGC *)(*(saddr *)((s8 *)arg0 + 0x20)))->set_line(1, reinterpret_cast<const char *>((get_localized_text_entry(0x15, (s32)(reinterpret_cast<TAdSelectCurGC *>((*(saddr *)((s8 *)arg0 + 0x1C)))->selection_index() + 1)))));
     }
-    TAdSelectGameModeGC__cached_mode_value = reinterpret_cast<TAdSelectCurGC *>((*(s32 *)((s8 *)arg0 + 0x1C)))->selection_index();
+    TAdSelectGameModeGC__cached_mode_value = reinterpret_cast<TAdSelectCurGC *>((*(saddr *)((s8 *)arg0 + 0x1C)))->selection_index();
     if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_physical_port_bank + 0x20), 2) != 0) || (test_controller_flag_4c_color((void *) ((u8 *)&controller_input_state + 0x160), 2) != 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
         TAdMultiChgGameModeGC::request_scene_change();
         return;
     }
-    if (((TAdSelectCurGC *)(*(s32 *)((s8 *)arg0 + 0x1C)))->confirmation_result() == 1) {
+    if (((TAdSelectCurGC *)(*(saddr *)((s8 *)arg0 + 0x1C)))->confirmation_result() == 1) {
         mode_data = TAdSelectGameModeGC::get_mode_data();
         switch (mode_data) {
         case 0:
@@ -141,8 +141,8 @@ u8 *__ct__19TAdSelectGameModeGCFv(u8 *arg0, void *parent) {
     }
     p = new TAdGuideTxtGC(reinterpret_cast<TObject *>(arg0));
     *(void **)((s8 *)arg0 + 0x20) = p;
-    ((TAdGuideTxtGC *)(*(s32 *)((s8 *)arg0 + 0x20)))->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x15, 0)));
-    ((TAdGuideTxtGC *)(*(s32 *)((s8 *)arg0 + 0x20)))->set_line(1, reinterpret_cast<const char *>(get_localized_text_entry(0x15, 1)));
+    ((TAdGuideTxtGC *)(*(saddr *)((s8 *)arg0 + 0x20)))->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x15, 0)));
+    ((TAdGuideTxtGC *)(*(saddr *)((s8 *)arg0 + 0x20)))->set_line(1, reinterpret_cast<const char *>(get_localized_text_entry(0x15, 1)));
     create_draw_line_ctrl((TObject *)arg0, 0xA, 0.0f);
     return arg0;
 }

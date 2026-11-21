@@ -14,14 +14,14 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 extern "C" {
-s32 get_localized_text_entry(s32);
-s32 poll_memcard_result(s32 chan);
+saddr get_localized_text_entry(s32);
+s32 poll_memcard_result(saddr chan);
 s32 start_memcard_format(int, int, int, int, int);
 s32 play_sound_effect(int, int, int, int);
 extern s32 controller_input_state[];
 void __ct__7TObjectFP7TObject(void *);
 extern s32 local_client_id;
-extern s32 tl_01;
+extern saddr tl_01;
 extern s32 __vt__13TUnk_804F01A8[];
 
 void *TUnk_804F01A8::ct() {
@@ -254,7 +254,7 @@ void TUnk_804F01A8::run_task() {
     }
 }
 
-void TUnk_804F01A8::render() { if (*(int*)((char*)this + 0x1c) == 6) { TLobby::update_pulse_colors((s32)((void*)1)); TLobby__sub_80338534(); } }
+void TUnk_804F01A8::render() { if (*(int*)((char*)this + 0x1c) == 6) { TLobby::update_pulse_colors((saddr)((void*)1)); TLobby__sub_80338534(); } }
 
 void TUnk_804F01A8::set_option_and_confirm(s32 arg1, s32 arg2) {
     if (arg1 != (s32) this->m_28) {
@@ -264,16 +264,16 @@ void TUnk_804F01A8::set_option_and_confirm(s32 arg1, s32 arg2) {
 }
 
 void TUnk_804F01A8::open_confirm_dialog(s32 message, s32 arg2) {
-    if ((u32) this->m_2c != 0U) {
+    if ((uaddr) this->m_2c != 0U) {
         ((TWindowSubComCard *)(this->m_2c))->close();
         this->m_2c = 0U;
     }
-    this->m_2c = (u32)TWindowMessageYesNo::create((void *)(tl_01), (void *)(local_client_id), 0, 0);
+    this->m_2c = (uaddr)TWindowMessageYesNo::create((void *)(tl_01), (void *)((saddr)local_client_id), 0, 0);
     if (arg2 != 0) {
-        open_yes_no_prompt_with_text((TChCrTagPlBack *)this->m_2c, (s32)message, (s32)TWindowOptionCtrl::get_option_entry(0xCF), 470.0f);
+        open_yes_no_prompt_with_text((TChCrTagPlBack *)this->m_2c, (s32)message, (saddr)TWindowOptionCtrl::get_option_entry(0xCF), 470.0f);
         return;
     }
-    initialize_option_dialog((void *)this->m_2c, message, ((s32)TWindowOptionCtrl::get_option_entry(0xCF)), 470.0f);
+    initialize_option_dialog((void *)this->m_2c, message, ((saddr)TWindowOptionCtrl::get_option_entry(0xCF)), 470.0f);
 }
 
 s32 TUnk_804F01A8::get_field_24() { return this->m_24; }

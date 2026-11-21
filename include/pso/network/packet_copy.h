@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-struct packet;
+union packet;
 
 void copy_packet(packet *pkt);
 

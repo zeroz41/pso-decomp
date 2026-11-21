@@ -14,8 +14,8 @@
 
 
 const char *TObjNpcHFW00__name = "TObjNpcHFW00";
-u32 TObjNpcHFW00__shared_resource_obj;
-u32 TObjNpcHFW00__texture_handle;
+uaddr TObjNpcHFW00__shared_resource_obj;
+uaddr TObjNpcHFW00__texture_handle;
 
 extern void *tl_04;
 extern "C" {
@@ -33,14 +33,14 @@ void TObjNpcHFW00::free_resources() {
         TObjNpcHFW00__texture_handle = 0U;
     }
     if ((u32) TObjNpcHFW00__shared_resource_obj != 0U) {
-        TLobby::free_nodes_with_id((u32)((void*)TObjNpcHFW00__shared_resource_obj));
+        TLobby::free_nodes_with_id((uaddr)((void*)TObjNpcHFW00__shared_resource_obj));
         TObjNpcHFW00__shared_resource_obj = 0U;
     }
 }
 
 void TObjNpcHFW00::load_resources() {
-    TObjNpcHFW00__shared_resource_obj = (u32)create_named_object((s32)"npc_g00_data.rel");
-    TObjNpcHFW00__texture_handle = (u32)load_gvm_texture_file((s32)"n_g00_body.gvm");
+    TObjNpcHFW00__shared_resource_obj = (u32)create_named_object((saddr)"npc_g00_data.rel");
+    TObjNpcHFW00__texture_handle = (uaddr)load_gvm_texture_file((saddr)"n_g00_body.gvm");
 }
 
 }
@@ -48,7 +48,7 @@ TObjNpcHFW00::~TObjNpcHFW00() {}
 
 
 TObjNpcHFW00::TObjNpcHFW00(TObject *parent, void *arg2) : TUnk_804A92A8(parent) {
-    *(s32 *)((s8 *)this + 0) = (s32) TObjNpcHFW00__name;
+    *(s32 *)((s8 *)this + 0) = (saddr) TObjNpcHFW00__name;
     ((TObjNpcHFW00 *)this)->apply_set_data(arg2);
     ((TObjPlayer *)this)->init_position_vectors();
     *(s32 *)((s8 *)this + 0x34) = (s32) *(*(s32 * *)&TObjNpcHFW00__shared_resource_obj);

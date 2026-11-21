@@ -10,5 +10,5 @@ struct TObjCityDoor_Med : public TUnk_804B5BA8 {
     virtual void run_task();
 };
 
-typedef char TObjCityDoor_Med_size[sizeof(TObjCityDoor_Med) == 0xBC ? 1 : -1];
+LAYOUT_ASSERT(TObjCityDoor_Med_size, sizeof(TObjCityDoor_Med) == 0xBC);
 #endif

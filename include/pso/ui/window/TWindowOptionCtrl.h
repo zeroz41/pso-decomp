@@ -16,7 +16,7 @@ struct TWindowOptionCtrl : public TObject {
     u8 _pad22[0x2];
     u32 m_24;
     u32 m_28;
-    u32 m_2c;
+    uaddr m_2c;
     u32 m_30;
     u32 m_34;
     u32 m_38;
@@ -32,23 +32,23 @@ struct TWindowOptionCtrl : public TObject {
     s32 handle_input(s32 arg1);
     // The cursor position of the entry at m_88.
     s32 update_selected_item();
-    static void add_menu_item(s32 arg1, s32 arg2, s32 arg3);
+    static void add_menu_item(saddr arg1, s32 arg2, s32 arg3);
     static void set_field_value(s32 arg0, s16 arg1);
     static s32 get_option_field_C();
     static const char *text_or_default(const char *text);
-    static s32 create_serial_info_window(const NJS_POINT2 *pos, s32 kind);
-    static s32 open_yes_no_window(s32 arg0, s32 arg1, s32 arg2);
-    s32 create_option_menu();
-    s32 create_sub_menu_window();
-    s32 create_snap_shot_window();
-    s32 create_sound_balance_window();
-    s32 create_sound_mode_menu();
-    s32 create_list_window();
-    s32 create_select_menu_window();
-    s32 create_menu();
+    static saddr create_serial_info_window(const NJS_POINT2 *pos, s32 kind);
+    static saddr open_yes_no_window(saddr arg0, s32 arg1, s32 arg2);
+    saddr create_option_menu();
+    saddr create_sub_menu_window();
+    saddr create_snap_shot_window();
+    saddr create_sound_balance_window();
+    saddr create_sound_mode_menu();
+    saddr create_list_window();
+    saddr create_select_menu_window();
+    saddr create_menu();
     virtual void render();
     virtual void run_task();
-    static s32 get_chr_select_base_plus_1154c();
+    static saddr get_chr_select_base_plus_1154c();
     void set_flag70_bit400();
     void clear_flag70_bit4();
     s32 get_field_64();
@@ -58,5 +58,5 @@ struct TWindowOptionCtrl : public TObject {
     s32 add_label_value_line(const char *arg1, const char *arg2, u32 arg3);
 };
 
-typedef char TWindowOptionCtrl_size[sizeof(TWindowOptionCtrl) == 0x50 ? 1 : -1];
+LAYOUT_ASSERT(TWindowOptionCtrl_size, sizeof(TWindowOptionCtrl) == 0x50);
 #endif

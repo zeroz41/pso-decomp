@@ -20,6 +20,6 @@ struct TCineCtrl : public TObject {
     void update_letterbox_hide();
 };
 
-typedef char TCineCtrl_size[sizeof(TCineCtrl) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(TCineCtrl_size, sizeof(TCineCtrl) == 0x30);
 
 #endif

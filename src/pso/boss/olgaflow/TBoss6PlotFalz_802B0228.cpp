@@ -25,13 +25,12 @@
 extern "C" {
 void end_cutscene_camera__14TBoss6PlotFalzFPv(void);
 void refresh_players_equipment__14TBoss6PlotFalzFPv(void);
-s32 is_ending_or_split_screen__14TBoss6PlotFalzFv(void *);
 s32 destroy_static_instance__14TBoss6PlotFalzFv(void *);
 s32 queue_instance_destruction__14TBoss6PlotFalzFv(void *);
 s32 obj_setArrS16_FC(void *, int, void *);
 }
 
-extern u32 TBoss6PlotFalz__type2_instance;
+extern uaddr TBoss6PlotFalz__type2_instance;
 
 // --- FALL_ELEV ---
 void TBoss6PlotFalz::sub_802B0A34() { *(s32*)((char*)this + 0x3d0) = 0; *(s32*)((char*)this + 0x3cc) = 0; }
@@ -79,7 +78,7 @@ void TBoss6PlotFalz::sub_802B0808() {  }
 // --- DEMO_DED_T1 ---
 void TBoss6PlotFalz::reset_and_recreate() {
     s32 sp8;
-    TBoss6PlotFalz::get_target_pos_b((s32)this, (s32)((void *)&sp8));
+    TBoss6PlotFalz::get_target_pos_b((saddr)this, (saddr)((void *)&sp8));
     queue_instance_destruction__14TBoss6PlotFalzFv(this);
     TLobby::stop_audio_streams();
     TBoss6PlotFalz::freeze_all_players();
@@ -110,7 +109,7 @@ void TBoss6PlotFalz::init_hall_boss_scene() {
     play_area_music("HALL.adx");
     refresh_players_equipment__14TBoss6PlotFalzFPv();
     *(s32 *)((s8 *)this + 0x3CC) = 0;
-    *(s32 *)((s8 *)this + 0x3DC) = (s32)TObjFish::alloc(this);
+    *(s32 *)((s8 *)this + 0x3DC) = (saddr)TObjFish::alloc(this);
 }
 void TBoss6PlotFalz::check_and_advance_state() {
     void *player = *(void **)((s8 *)this + 0x3DC);
@@ -178,7 +177,7 @@ void TBoss6PlotFalz::finish_and_dispatch_next_phase() {
             i += 1;
         } while (i < 4);
     }
-    TBoss6PlotFalz::get_target_pos_a((s32)this, (s32)sp10);
+    TBoss6PlotFalz::get_target_pos_a((saddr)this, (saddr)sp10);
     destroy_static_instance__14TBoss6PlotFalzFv(this);
     TLobby::stop_audio_streams();
     TBoss6PlotFalz::freeze_all_players();
@@ -198,7 +197,7 @@ void TBoss6PlotFalz::update_plot_timer() {
     temp_r0 = *(s32 *)((s8 *)this + 0x3CC) + 1;
     *(s32 *)((s8 *)this + 0x3CC) = temp_r0;
     if (temp_r0 > 0x2CA) {
-        if (is_ending_or_split_screen__14TBoss6PlotFalzFv(this) != 0) {
+        if (is_ending_or_split_screen() != 0) {
             set_state(8);
             return;
         }

@@ -13,5 +13,5 @@ struct TPlyPtclObjectLeftHand : public TPlyFollowParticleCtrl {
 
 extern const char *TPlyPtclObjectLeftHand__class_name;
 
-typedef char TPlyPtclObjectLeftHand_size[sizeof(TPlyPtclObjectLeftHand) == 0xB0 ? 1 : -1];
+LAYOUT_ASSERT(TPlyPtclObjectLeftHand_size, sizeof(TPlyPtclObjectLeftHand) == 0xB0);
 #endif

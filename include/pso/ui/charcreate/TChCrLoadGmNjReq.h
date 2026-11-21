@@ -14,7 +14,7 @@ struct TChCrLoadGmNjReqArgs {
     s32 completion_mask;
     u32 *completion_flags;
 };
-typedef char TChCrLoadGmNjReqArgs_size[sizeof(TChCrLoadGmNjReqArgs) == 0x14 ? 1 : -1];
+LAYOUT_ASSERT(TChCrLoadGmNjReqArgs_size, sizeof(TChCrLoadGmNjReqArgs) == 0x14);
 
 class TChCrLoadGmNjReq : public TObject {
 public:
@@ -41,17 +41,17 @@ public:
     virtual void run_task();
 };
 
-typedef char TChCrLoadGmNjReq_size[sizeof(TChCrLoadGmNjReq) == 0x78 ? 1 : -1];
-typedef char TChCrLoadGmNjReq_completion_mask_offset[offsetof(TChCrLoadGmNjReq, completion_mask) == 0x20 ? 1 : -1];
-typedef char TChCrLoadGmNjReq_load_slot_offset[offsetof(TChCrLoadGmNjReq, load_slot) == 0x24 ? 1 : -1];
-typedef char TChCrLoadGmNjReq_completion_flags_offset[offsetof(TChCrLoadGmNjReq, completion_flags) == 0x28 ? 1 : -1];
-typedef char TChCrLoadGmNjReq_state_offset[offsetof(TChCrLoadGmNjReq, state) == 0x2C ? 1 : -1];
-typedef char TChCrLoadGmNjReq_name_offset[offsetof(TChCrLoadGmNjReq, name) == 0x30 ? 1 : -1];
-typedef char TChCrLoadGmNjReq_model_ids_offset[offsetof(TChCrLoadGmNjReq, model_ids) == 0x60 ? 1 : -1];
-typedef char TChCrLoadGmNjReq_loaded_bml_offset[offsetof(TChCrLoadGmNjReq, loaded_bml) == 0x68 ? 1 : -1];
-typedef char TChCrLoadGmNjReq_slot_claimed_offset[offsetof(TChCrLoadGmNjReq, slot_claimed) == 0x6C ? 1 : -1];
-typedef char TChCrLoadGmNjReq_lifetime_remaining_offset[offsetof(TChCrLoadGmNjReq, lifetime_remaining) == 0x70 ? 1 : -1];
-typedef char TChCrLoadGmNjReq_load_timer_offset[offsetof(TChCrLoadGmNjReq, load_timer) == 0x74 ? 1 : -1];
+LAYOUT_ASSERT(TChCrLoadGmNjReq_size, sizeof(TChCrLoadGmNjReq) == 0x78);
+LAYOUT_ASSERT(TChCrLoadGmNjReq_completion_mask_offset, offsetof(TChCrLoadGmNjReq, completion_mask) == 0x20);
+LAYOUT_ASSERT(TChCrLoadGmNjReq_load_slot_offset, offsetof(TChCrLoadGmNjReq, load_slot) == 0x24);
+LAYOUT_ASSERT(TChCrLoadGmNjReq_completion_flags_offset, offsetof(TChCrLoadGmNjReq, completion_flags) == 0x28);
+LAYOUT_ASSERT(TChCrLoadGmNjReq_state_offset, offsetof(TChCrLoadGmNjReq, state) == 0x2C);
+LAYOUT_ASSERT(TChCrLoadGmNjReq_name_offset, offsetof(TChCrLoadGmNjReq, name) == 0x30);
+LAYOUT_ASSERT(TChCrLoadGmNjReq_model_ids_offset, offsetof(TChCrLoadGmNjReq, model_ids) == 0x60);
+LAYOUT_ASSERT(TChCrLoadGmNjReq_loaded_bml_offset, offsetof(TChCrLoadGmNjReq, loaded_bml) == 0x68);
+LAYOUT_ASSERT(TChCrLoadGmNjReq_slot_claimed_offset, offsetof(TChCrLoadGmNjReq, slot_claimed) == 0x6C);
+LAYOUT_ASSERT(TChCrLoadGmNjReq_lifetime_remaining_offset, offsetof(TChCrLoadGmNjReq, lifetime_remaining) == 0x70);
+LAYOUT_ASSERT(TChCrLoadGmNjReq_load_timer_offset, offsetof(TChCrLoadGmNjReq, load_timer) == 0x74);
 
 TChCrLoadGmNjReq *create_ch_cr_load_gm_nj_req(TObject *parent, TChCrLoadGmNjReqArgs *args);
 

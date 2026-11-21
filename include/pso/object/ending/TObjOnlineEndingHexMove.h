@@ -13,6 +13,6 @@ public:
     s32 timer;
 };
 
-typedef char EndingHexMoveSize[sizeof(TObjOnlineEndingHexMove) == 0x20 ? 1 : -1];
+LAYOUT_ASSERT(EndingHexMoveSize, sizeof(TObjOnlineEndingHexMove) == 0x20);
 
 #endif

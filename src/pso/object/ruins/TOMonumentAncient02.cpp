@@ -120,7 +120,7 @@ void TOMonumentAncient02::run_task() {
         }
         break;
     case 2:
-        play_persistent_sound(sound_id, (s32)this, (u32)&position, 0, 0);
+        play_persistent_sound(sound_id, (saddr)this, (uaddr)&position, 0, 0);
         break;
     }
 }
@@ -140,7 +140,7 @@ void TOMonumentAncient02::render() {
         TObjFish::set_global_param(texlist);
         node = (NJS_OBJECT *)model;
         post_translate_matrix(node->pos);
-        draw_ginja_model((s32)node->model);
+        draw_ginja_model((saddr)node->model);
         if (activated == 1) {
             if (brightening != 0) {
                 light_color.a += 0.05f;
@@ -162,7 +162,7 @@ void TOMonumentAncient02::render() {
             saved_model_render_flags = model_render_flags;
             model_render_flags |= 0x20;
             set_constant_material(&light_color);
-            draw_ginja_model((s32)node->model);
+            draw_ginja_model((saddr)node->model);
             set_constant_material(&chunk_material_color_half_alpha_f32);
             model_render_flags = saved_model_render_flags;
             TParticleCtrl::end_effect_render();

@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-u8 *load_rel_module(u8 *arg0, s32 arg1);
+u8 *load_rel_module(u8 *arg0, saddr arg1);
 }
 
 // --- C functions defined in text_80320358.cpp ---
 extern "C" {
-u8 *load_rel_module(u8 *arg0, s32 arg1);
+u8 *load_rel_module(u8 *arg0, saddr arg1);
 }
 // --- end of C functions
 

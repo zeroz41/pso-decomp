@@ -23,6 +23,6 @@ struct TObjKabochaLobby : public TObjMapObject {
     static u32 lobby_texlist;  // the lobby's shared texture list
 };
 
-typedef char TObjKabochaLobby_size[sizeof(TObjKabochaLobby) == 0xD0 ? 1 : -1];
+LAYOUT_ASSERT(TObjKabochaLobby_size, sizeof(TObjKabochaLobby) == 0xD0);
 
 #endif

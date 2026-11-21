@@ -27,6 +27,7 @@
 #include "pso/technique/TTecSifta.h"
 #include "pso/technique/TTecZondeEff.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/system/vector.h"
 #include "pso/technique/TTecDeband.h"
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/technique/TTecResta.h"
@@ -67,7 +68,7 @@ struct Player_8022D27C {
     u8 pad0[0x38];
     Vec pos;
     u8 pad44[0x60 - 0x44];
-    s32 rotY;
+    saddr rotY;
     u8 pad64[0x428 - 0x64];
     u8 tech[1];
 };
@@ -84,7 +85,6 @@ void *TObjPlayer__sub_80116620(void *, int);
 s32 get_obj_id__10TObjPlayerFv(void *);
 void set_slot_type_state__10TObjPlayerFllss(void *, int, u16, s32);
 void capture_technique_targets__10TObjPlayerFv(int kind, Owner_8022CDE8 *owner);
-void VecCopy__FP3VecPC3Vec(void *, void *);
 u16 get_entity_id(void *);
 s32 is_split_screen();
 Ent_8022D27C *find_entity_by_id(u16);
@@ -182,7 +182,7 @@ struct TechniqueRingwaveTextureList { u8 * value; u8 remaining[0x8]; };
 extern TechniqueRingwaveTextureList technique_ringwave_texture_list;
 u8 *load_resource_from_descriptor(u8 *, s32, void *, s32, s32, s32);
 }
-u8 *load_gvm_texture_file(s32 arg0);
+u8 *load_gvm_texture_file(saddr arg0);
 extern "C" {
 void bind_gvm_texture_list(const char *, void *);
 }
@@ -226,7 +226,7 @@ extern s32 __vt__8TTecCtrl[];
     if (ent->colls == NULL) {                                           \
         return;                                                         \
     }                                                                   \
-    VecCopy__FP3VecPC3Vec(&aim, &ent->colls[targets->part].pos);
+    VecCopy((Vec *)(&aim), (const Vec *)(&ent->colls[targets->part].pos));
 
 // This unit was built with deferred inlining, which emits functions in reverse
 // order: they are defined here from the last address to the first.
@@ -237,7 +237,7 @@ void load_technique_resources(void) {
         p = load_resource_from_descriptor(p, 1, &technique_resource_descriptor, 0, 0, 0);
     }
     technique_effect_bml = p;
-    lbl_805D63B0 = (void **)load_gvm_texture_file((s32)"technic.gvm");
+    lbl_805D63B0 = (void **)load_gvm_texture_file((saddr)"technic.gvm");
     bind_gvm_texture_list("technic_pt", ((u8 *)&technique_ringwave_texture_list));
     TTecZondeEff::init_resources();
 }
@@ -246,14 +246,14 @@ void TLobby__sub_8022F068(void) {
     u8 *temp_r4;
     clear_zonde_beam_vertex_pointer();
     if ((u32) *(u32 *)((s8 *)technique_ringwave_texture_list.value + 8) != 0U) {
-        release_texture_list(&technique_ringwave_texture_list.value, (s32) technique_ringwave_texture_list.value);
+        release_texture_list(&technique_ringwave_texture_list.value, (saddr) technique_ringwave_texture_list.value);
     }
     if ((void **) lbl_805D63B0 != NULL) {
         temp_r4 = (u8 *)(*lbl_805D63B0);
         if ((u32) *(u32 *)((s8 *)temp_r4 + 8) != 0U) {
-            release_texture_list(lbl_805D63B0, (s32) temp_r4);
+            release_texture_list(lbl_805D63B0, (saddr) temp_r4);
         }
-        TAdSinglePlyChrSelectGC::safe_free((u32) lbl_805D63B0);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr) lbl_805D63B0);
         lbl_805D63B0 = NULL;
     }
     if ((void *) technique_effect_bml != NULL) {
@@ -602,7 +602,7 @@ void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl)
         break;
     case 10:
         COLLECT_8022D27C()
-        TTecDeband::create((s32)pl, (s32)(&hand), (s32)(&list), (s32)(get_cast_technique_level(td, 10)));
+        TTecDeband::create((saddr)pl, (saddr)(&hand), (saddr)(&list), (s32)(get_cast_technique_level(td, 10)));
         break;
     case 11:
         COLLECT_8022D27C()
@@ -641,9 +641,9 @@ void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl)
     case 18:
         if (n != 0) {
             AIM_8022D27C()
-            TTecMegid::create((s32)pl, (s32)&hand, (s32)&aim, (s32)(get_cast_technique_level(td, 18)));
+            TTecMegid::create((saddr)pl, (saddr)&hand, (saddr)&aim, (s32)(get_cast_technique_level(td, 18)));
         } else {
-            TTecMegid::create_ex((s32)pl, (s32)&hand, pl->rotY, (s32)(get_cast_technique_level(td, 18)));
+            TTecMegid::create_ex((saddr)pl, (saddr)&hand, pl->rotY, (s32)(get_cast_technique_level(td, 18)));
         }
         break;
     }

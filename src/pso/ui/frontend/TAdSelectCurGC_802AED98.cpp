@@ -49,13 +49,13 @@ void TAdSelectCurGC::run_task() {
             ok = 1;
         }
         if (ok != 0) {
-            if (TAdMultiPlyChrSelectGC::dispatch_draw_command((s32)(&controller_input_state.controllers[0]), 0x10, 6, 1) != 0 ||
-                test_buttons_press_or_repeat((s32)(&controller_input_state.keyboard), 0x10, 6, 1) != 0) {
+            if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)(&controller_input_state.controllers[0]), 0x10, 6, 1) != 0 ||
+                test_buttons_press_or_repeat((saddr)(&controller_input_state.keyboard), 0x10, 6, 1) != 0) {
                 play_sound_effect(0x54100, 0, 0, 0);
                 selected_index--;
             }
-            if (TAdMultiPlyChrSelectGC::dispatch_draw_command((s32)(&controller_input_state.controllers[0]), 0x20, 6, 1) != 0 ||
-                test_buttons_press_or_repeat((s32)(&controller_input_state.keyboard), 0x20, 6, 1) != 0) {
+            if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)(&controller_input_state.controllers[0]), 0x20, 6, 1) != 0 ||
+                test_buttons_press_or_repeat((saddr)(&controller_input_state.keyboard), 0x20, 6, 1) != 0) {
                 play_sound_effect(0x54100, 0, 0, 0);
                 selected_index++;
             }
@@ -139,7 +139,7 @@ void TLobby::apply_menu_cursor_selection() {
     };
     GinjaTextureList *list = lists[current_language];
     menu_selection_cursor_texture_list = list;
-    load_streamed_prs_texture((s32)names[current_language], (s32)list);
+    load_streamed_prs_texture((saddr)names[current_language], (saddr)list);
 }
 
 void TAdSelectCurGC::set_draw_depth(f32 depth) { draw_depth = depth; }

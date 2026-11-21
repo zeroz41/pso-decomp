@@ -67,7 +67,7 @@ int TObjEneMe1GiGueMissile::vfunc_6() { explode(&pos); TObject::queue_destructio
 
 void TObjEneMe1GiGueMissile::vfunc_9(void *a1) { explode(&((TObjBase *)a1)->position); TObject::queue_destruction(); }
 
-void TObjEneMe1GiGueMissile::create(s32 owner, s32 from, s32 to, f32 speed, f32 power) {
+void TObjEneMe1GiGueMissile::create(s32 owner, saddr from, saddr to, f32 speed, f32 power) {
     void *o = TObject::operator new(0xC4);
     if (o != NULL) {
         TObjEneMe1GiGueMissile__ct((TObjEneMe1GiGueMissile *)o, owner, (Vec *)from, (Vec *)to, speed, power);
@@ -101,7 +101,7 @@ void TObjEneMe1GiGueMissile::render() {
 #pragma opt_common_subs off
 void TObjEneMe1GiGueMissile::run_task() {
     f32 frame;
-    m_1c = (u32)find_entity_by_id(m_34);
+    m_1c = (uaddr)find_entity_by_id(m_34);
     if (m_1c == 0) {
         TObject::queue_destruction();
         return;

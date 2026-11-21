@@ -19,5 +19,5 @@ struct TObjGrassWeb : public TObjBase {
     u8 unk_A6[0x2];
 };
 
-typedef char TObjGrassWeb_size[sizeof(TObjGrassWeb) == 0xA8 ? 1 : -1];
+LAYOUT_ASSERT(TObjGrassWeb_size, sizeof(TObjGrassWeb) == 0xA8);
 #endif

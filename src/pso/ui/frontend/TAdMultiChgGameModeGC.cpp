@@ -22,8 +22,8 @@ struct RecoveredFields_802FFCE4_arg0
   u8 unknown_0[0x20];
   s32 field_20;
   s32 field_24;
-  s32 field_28;
-  s32 field_2C;
+  saddr field_28;
+  saddr field_2C;
 };
 
 struct TxtSlot_802FFE58 { s32 id; f32 x; f32 y; };
@@ -84,7 +84,7 @@ loop_1:
 typedef struct RecoveredFields_802FFCE4_arg0 RecoveredFields_802FFCE4_arg0;
 void TAdMultiChgGameModeGC::run_task() {
     RecoveredFields_802FFCE4_arg0 *arg0 = (RecoveredFields_802FFCE4_arg0 *)this;
-  s32 *new_var;
+  saddr *new_var;
   s32 temp_r4;
   TAdMultiChgGameModeGC::set_default_camera();
   arg0->field_20 = reinterpret_cast<TAdSelectCurGC *>(arg0->field_2C)->selection_index();

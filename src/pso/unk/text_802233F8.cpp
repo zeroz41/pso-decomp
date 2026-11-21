@@ -20,7 +20,7 @@ void fn_802233F8(void) {
             if (self_slot != i) {
                 p = get_player_by_client_id(i);
                 if (p != NULL && ((TObjPlayer *)p)->check_player_flag1() != 0) {
-                    TObjPlayer::send_code_45_1((s32)p);
+                    TObjPlayer::send_code_45_1((saddr)p);
                     TLobby__sub_8024AC20(get_entity_id(p));
                 }
             }
@@ -37,7 +37,7 @@ void fn_80223480(void) {
             if (self_slot != i) {
                 p = get_player_by_client_id(i);
                 if (p != NULL && ((TObjPlayer *)p)->check_player_flag1() == 0) {
-                    TObjPlayer::play_effect_default((int)p, (int)(-1));
+                    TObjPlayer::play_effect_default((saddr)p, (int)(-1));
                     TObjPlayer__sub_8024ABDC(get_entity_id(p));
                 }
             }

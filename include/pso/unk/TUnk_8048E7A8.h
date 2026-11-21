@@ -5,7 +5,7 @@
 
 class TUnk_8048E7A8 : public TUnk_8048E728 {
 public:
-    TUnk_8048E7A8(u8 *param, u8 *pos, s32 parent, u16 flags, s16 target_id);
+    TUnk_8048E7A8(u8 *param, u8 *pos, saddr parent, u16 flags, s16 target_id);
     TUnk_8048E7A8(void *param, void *pos, void *parent);
     virtual ~TUnk_8048E7A8();
     virtual void run_task();

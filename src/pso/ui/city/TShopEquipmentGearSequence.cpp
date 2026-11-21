@@ -26,7 +26,7 @@ s32 lbl_805D621C;
 
 extern "C" {
 TObject *set_service_counter_camera(void *, int);
-s32 get_window_layout_position(int, f32);
+saddr get_window_layout_position(int, f32);
 extern s32 TShopEquipmentGearSequence__window_slot_table[4];
 extern const char *TShopEquipmentGearSequence__class_name;
 void enter_quest_list__26TShopEquipmentGearSequenceFv(TShopWindowBase *);
@@ -36,7 +36,7 @@ s32 get_entity_id(TObjPlayer *);
 s32 get_shop_text(s32);
 s32 align_menu_entry_positions(void *);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
-s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2);
+saddr create_window_menu(saddr arg0, saddr arg1, saddr arg2);
 }
 
 #pragma readonly_strings on
@@ -144,7 +144,7 @@ s32 TShopEquipmentGearSequence::open_greeting() {
     f32 pos[2];
     pos[0] = 332.0f;
     pos[1] = 80.0f;
-    create_message_window(get_window_layout_position(0x2C, 332.0f), (s32)pos);
+    create_message_window(get_window_layout_position(0x2C, 332.0f), (saddr)pos);
     vfunc_6(0x2b, 1);
     meseta_window = (TWindowBase *)create_meseta_window((s32)(unsigned short)get_child_field1c());
     set_field_20(2);
@@ -193,7 +193,7 @@ void TShopEquipmentGearSequence::update_buy_sell_choice(void *self) {
 #undef arg0
 
 void TShopEquipmentGearSequence::open_armor_list_window() {
-    W_8021B4B0 *o = (W_8021B4B0 *)new TShopArmorListWindow((s32)tl_05, (s32)((S_8021B4B0 *)this), (s32)(((S_8021B4B0 *)this)->f24));
+    W_8021B4B0 *o = (W_8021B4B0 *)new TShopArmorListWindow((saddr)tl_05, (saddr)((S_8021B4B0 *)this), (s32)(((S_8021B4B0 *)this)->f24));
     o->cb0 = (void *)enter_quest_list__26TShopEquipmentGearSequenceFv;
     reset_controller_input_state();
     this->set_field_20(5);
@@ -201,8 +201,8 @@ void TShopEquipmentGearSequence::open_armor_list_window() {
 
 void TShopEquipmentGearSequence::open_sell_window() {
     TShopEquipmentSellWindow *o = new TShopEquipmentSellWindow(tl_05, this, player, (void *)0x2a);
-    o->m_3a4 = (u32)enter_quest_list__26TShopEquipmentGearSequenceFv;
-    o->m_3a8 = (u32)open_gear_shop__26TShopEquipmentGearSequenceFv;
+    o->m_3a4 = (uaddr)enter_quest_list__26TShopEquipmentGearSequenceFv;
+    o->m_3a8 = (uaddr)open_gear_shop__26TShopEquipmentGearSequenceFv;
     reset_controller_input_state();
     set_field_20(5);
 }

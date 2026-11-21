@@ -17,6 +17,6 @@ public:
     virtual void render();
 };
 
-typedef char TUnk_80484870_size[sizeof(TUnk_80484870) == 0x28 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_80484870_size, sizeof(TUnk_80484870) == 0x28);
 
 #endif
