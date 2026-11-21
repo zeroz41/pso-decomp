@@ -584,7 +584,7 @@ struct TObjPlayer : public TObjChara {
     short get_state();
     s32 call_subobject_m15();
     s32 get_vobj_state_28();
-    static void update_battle_controller();
+    static TObjPlayer *update_battle_controller();
     void set_flag_200000();
     int check_flag_4();
     void*set_invisible();

@@ -562,7 +562,7 @@ s32 TObjPlayer::get_vobj_state_28() {
 }
 
     extern int local_client_id;
-void TObjPlayer::update_battle_controller() { get_player_by_client_id((local_client_id)); }
+TObjPlayer *TObjPlayer::update_battle_controller() { return (TObjPlayer *)get_player_by_client_id((local_client_id)); }
 
 int copy_subcommand_header(void*);
 int set_state_flags__10TObjPlayerFUl(void*, int);
