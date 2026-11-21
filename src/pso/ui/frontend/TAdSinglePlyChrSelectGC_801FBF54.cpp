@@ -94,7 +94,7 @@ struct SubtractiveRng {
 };
 
 u32 lbl_805137C8[4];
-u32 chr_select_buffer_ptr_table[8];
+uaddr chr_select_buffer_ptr_table[8];
 u32 chr_select_request_buffer[9];
 SubtractiveRng chr_select_rng_state;
 
@@ -1662,11 +1662,11 @@ extern RecoveredGlobal_801FE4BC_lbl_805137C8 lbl_805137C8;
 s32 *TAdSinglePlyChrSelectGC__sub_801FE4BC(u32 arg0);
 void *memcpy(void *, const void *, u32);
 void *memset(void *, int, u32);
-extern int chr_select_buffer_ptr_table[];
+extern uaddr chr_select_buffer_ptr_table[];
 extern u8 chr_select_request_buffer[];
 void copy_selected_characters__23TAdSinglePlyChrSelectGCFPv(Req_801FE5F8 *arg0);
 void *memcpy(void *, const void *, u32);
-extern int chr_select_buffer_ptr_table[];
+extern uaddr chr_select_buffer_ptr_table[];
 extern u8 chr_select_request_buffer[];
 void copy_chr_slots_from_request__23TAdSinglePlyChrSelectGCFv(void);
 void copy_request__23TAdSinglePlyChrSelectGCFPvPv(void *arg0, void *arg1);
@@ -1699,7 +1699,7 @@ s32 get_entry__23TAdSinglePlyChrSelectGCFi(s32 i) {
     return 0;
 }
 
-    extern int chr_select_buffer_ptr_table[];
+    extern uaddr chr_select_buffer_ptr_table[];
 
 LAYOUT_ASSERT(RecoveredGlobal_801FE4BC_lbl_805137C8_size, sizeof(RecoveredGlobal_801FE4BC_lbl_805137C8) == 0x10);
 s32 *TAdSinglePlyChrSelectGC__sub_801FE4BC(u32 i) {
@@ -1768,7 +1768,7 @@ s32 load_chr_select_slot__23TAdSinglePlyChrSelectGCFv(void) {
 
 int get_split_screen_character_save_record(int a0) {  return chr_select_buffer_ptr_table[a0 + 4]; }
 
-    extern int chr_select_buffer_ptr_table[];
+    extern uaddr chr_select_buffer_ptr_table[];
 int get_char_table_entry__23TAdSinglePlyChrSelectGCFi(int a0) {  return chr_select_buffer_ptr_table[a0]; }
 
 
