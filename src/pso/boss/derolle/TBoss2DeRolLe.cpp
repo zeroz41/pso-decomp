@@ -97,6 +97,10 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/boss/derolle/TUnk_80482EC0.h"
 #include "pso/enemy/AttackTargetHistory.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/camera/TCameraCtrl_803D749C.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 
@@ -322,12 +326,6 @@ extern f32 lbl_804FF5E8[];
 void TObjPlayer__sub_8002E7C8(void);
 
 
-f32 vec3_add_to(void *, void *);
-
-void scale_matrix(int, f32, f32, f32);
-
-void push_matrix(void);
-
 void VecCopy__FP3VecPC3Vec(void *, void *);
 
 void fn_8002F5AC(u8 *arg0);
@@ -335,14 +333,6 @@ void fn_8002F5AC(u8 *arg0);
 
 s32 TObjLight__sub_801337F8(s32);
 
-
-s32 rotate_matrix_z(int, int);
-
-s32 rotate_matrix_x(int, int);
-
-s32 scale_current_matrix(void *);
-
-s32 post_translate_matrix(void *);
 
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 
@@ -666,46 +656,6 @@ struct Rol_80032E38 {
     Vec f724;
 };
 
-struct D_800320B4 {
-    u8 pad0[0x38];
-    f32 x;
-    f32 y;
-    f32 z;
-    u8 pad44[0xB0 - 0x44];
-    u32 fB0;
-    u8 padB4[0xB8 - 0xB4];
-    s16 fB8;
-    u8 padBA[0xC0 - 0xBA];
-    f32 frame;
-    u8 padC4[0x3C0 - 0xC4];
-    u32 flags;
-    u8 pad3C4[0x518 - 0x3C4];
-    u8 snd[0x540 - 0x518];
-    Vec recs[10];
-    u8 pad5B8[0x654 - 0x5B8];
-    s32 mode;
-    s32 next_mode;
-    u8 pad65C[0x684 - 0x65C];
-    u8 mover[0x694 - 0x684];
-    f32 f694;
-    u8 pad698[0x69C - 0x698];
-    f32 f69C;
-    u8 pad6A0[0x6A4 - 0x6A0];
-    f32 f6A4;
-    u8 pad6A8[0x6E0 - 0x6A8];
-    s32 phase;
-    s32 f6E4;
-    s32 step;
-    s32 tick;
-    u8 pad6F0[0x6FC - 0x6F0];
-    f32 dir;
-    f32 f700;
-    f32 f704;
-    f32 vy;
-    f32 vx;
-    f32 ay;
-};
-
 struct Sub_800313F8 { u8 pad0[8]; u32 f8; };
 
 struct DR_800313F8 {
@@ -881,7 +831,6 @@ s32 VecCopy__FP3VecPC3Vec(int, void *);
 
 s32 activate_camera_mode(int);
 
-void get_node_world_pos__13TBoss2DeRolLeFPvPv(u8 *arg0, u8 *arg1);
 
 s32 vec3_add_to(int, void *);
 
@@ -903,12 +852,10 @@ s32 VecCopy__FP3VecPC3Vec(int, void *);
 int play_sound(void* p, int a1);
 
 
-f32 calc_node_height__13TBoss2DeRolLeFPv(void *);
 
 s32 advance_scalar_motion_profile(void *);
 
 
-void TBoss2DeRolLe__sub_800320B4(void *arg0, void *arg1, int arg2, int arg3);
 
 
 
@@ -1016,7 +963,6 @@ extern "C" {
 
 s32 VecCopy__FP3VecPC3Vec(int, void *);
 
-f32 calc_node_height__13TBoss2DeRolLeFPv(void *);
 
 s32 advance_scalar_motion_profile(void *);
 
@@ -1077,7 +1023,6 @@ struct RecoveredFields_80034C2C_arg0 {
     f32 field_3AC;
 };
 
-struct Obj_80034B60 { u8 pad0[0x34]; saddr f34; u8 pad1[0xC0 - 0x38]; f32 fC0; u8 pad2[0xF8 - 0xC4]; saddr fF8; };
 
 
 
@@ -1116,7 +1061,6 @@ s32 set_matrix_identity(int);
 
 s32 push_matrix();
 
-void get_node_world_pos__13TBoss2DeRolLeFPvPv(u8 *arg0, u8 *arg1);
 
 s32 matrix_mult_vec(int, void *, void *);
 
@@ -1124,7 +1068,6 @@ s32 scale_matrix(int, f32, f32, f32);
 
 extern u8 identity_matrix[];
 
-f32 calc_node_height__13TBoss2DeRolLeFPv(Obj_80034B60 *self);
 
 
 extern s32 TBoss2DeRolLe__attack_params_table[];
@@ -2157,40 +2100,34 @@ void TBoss2DeRolLe::set_move_direction(s32) {
     height_offset = 4.0f;
 }
 
-namespace joint_state_view {
-
-extern "C" {
-
-f32 calc_node_height__13TBoss2DeRolLeFPv(Obj_80034B60 *self) {
+// The height of the model's root node in the current motion frame (body scale 2).
+f32 TBoss2DeRolLe::calc_node_height() {
     Vec v;
     v.x = 0.0f;
     v.y = 0.0f;
     v.z = 0.0f;
     push_matrix_from(identity_matrix);
     scale_matrix(0, 2.0f, 2.0f, 2.0f);
-    bind_motion_context((NJS_MOTION *)self->fF8, self->fC0);
-    compose_motion_node_matrix((void *)self->f34);
+    bind_motion_context(current_motion, frame);
+    compose_motion_node_matrix(model);
     matrix_mult_vec(0, &v, &v);
     pop_matrix();
     return v.y;
 }
 
-void get_node_world_pos__13TBoss2DeRolLeFPvPv(u8 *arg0, u8 *arg1) {
-    *(f32 *)((s8 *)arg1 + 0) = 0.0f;
-    *(f32 *)((s8 *)arg1 + 4) = 0.0f;
-    *(f32 *)((s8 *)arg1 + 8) = 0.0f;
+// Where the model's root node sits in the current motion frame (body scale 2).
+void TBoss2DeRolLe::get_node_world_pos(Vec *out) {
+    out->x = 0.0f;
+    out->y = 0.0f;
+    out->z = 0.0f;
     push_matrix();
     set_matrix_identity(0);
     Vec scale = {2.0f, 2.0f, 2.0f};
-    scale_current_matrix(&scale);
-    bind_motion_context((NJS_MOTION *)(*(saddr *)((s8 *)arg0 + 0xF8)), (f32) (*(f32 *)((s8 *)arg0 + 0xC0)));
-    compose_motion_node_matrix((void *)(*(saddr *)((s8 *)arg0 + 0x34)));
-    matrix_mult_vec(0, arg1, arg1);
+    scale_current_matrix(&scale.x);
+    bind_motion_context(current_motion, frame);
+    compose_motion_node_matrix(model);
+    matrix_mult_vec(0, out, out);
     pop_matrix();
-}
-
-}
-
 }
 
 void TBoss2DeRolLe::update_angle() {
@@ -2837,7 +2774,7 @@ void TBoss2DeRolLe::dispatch_action(u32 state, s32 reason) {
         sub_800327C8(reason, 0, 1);
         return;
     case 4:
-        TBoss2DeRolLe__sub_800320B4(this, reason, 0, 2);
+        sub_800320B4(reason, 0, 2);
         return;
     case 5:
         sub_800327C8(reason, 0, 3);
@@ -2852,7 +2789,7 @@ void TBoss2DeRolLe::dispatch_action(u32 state, s32 reason) {
         sub_800327C8(reason, 2, 3);
         return;
     case 10:
-        TBoss2DeRolLe__sub_800320B4(this, reason, 2, 0);
+        sub_800320B4(reason, 2, 0);
         return;
     case 11:
         sub_800327C8(reason, 2, 1);
@@ -3030,7 +2967,7 @@ void TBoss2DeRolLe__sub_80032E38(void *arg0, void *arg1) {
             }
             break;
         case 1:
-            get_node_world_pos__13TBoss2DeRolLeFPvPv((u8 *)o, (u8 *)p);
+            ((TBoss2DeRolLe *)o)->get_node_world_pos(p);
             o->f6E4++;
             t = o->fC0;
             if (t >= 34.0f && t <= 42.0f) {
@@ -3367,177 +3304,179 @@ namespace behavior_view {
 
 extern "C" {
 
-#define self ((D_800320B4 *) arg0)
+}
 
-void TBoss2DeRolLe__sub_800320B4(void *arg0, void *arg1, int arg2, int arg3) {
-    switch ((uaddr) arg1) {
+}
+
+void TBoss2DeRolLe::sub_800320B4(u32 reason, s32 from, s32 to) {
+    switch (reason) {
     case 4:
-        ((TBoss2DeRolLe *)self)->sub_800341F0();
-        self->flags |= 4;
-        self->flags &= ~0x100;
-        self->mode = arg2;
-        self->next_mode = arg3;
-        ((TBoss2DeRolLe *)self)->set_position_index(self->mode);
-        if (self->mode == 0) {
-            self->fB8 = 5;
-            self->dir = -1.0f;
+        sub_800341F0();
+        state_flags |= 4;
+        state_flags &= ~0x100;
+        position_index = from;
+        next_position_index = to;
+        set_position_index(position_index);
+        if (position_index == 0) {
+            requested_action = 5;
+            state_floats[0] = -1.0f;
         } else {
-            self->fB8 = 6;
-            self->dir = 1.0f;
+            requested_action = 6;
+            state_floats[0] = 1.0f;
         }
-        self->phase = 0;
-        self->f6E4 = 0;
-        self->step = 0;
-        self->f700 = 0.0f;
-        self->f704 = 0.0f;
-        self->vx = 0.0f;
-        self->ay = 0.0f;
-        self->vy = 0.0f;
-        self->tick = 0;
+        state_step = 0;
+        unk_6E4 = 0;
+        unk_6E8 = 0;
+        state_floats[1] = 0.0f;
+        state_floats[2] = 0.0f;
+        state_floats[4] = 0.0f;
+        state_floats[5] = 0.0f;
+        state_floats[3] = 0.0f;
+        unk_6EC = 0;
         break;
     case 2:
-        if (self->phase == 2) {
-            ((TBoss2DeRolLe *)self)->set_state_and_send(2);
+        if (state_step == 2) {
+            set_state_and_send(2);
         }
         break;
     case 9:
-        if (self->phase == 2) {
-            ((TBoss2DeRolLe *)self)->advance_action_sequence();
+        if (state_step == 2) {
+            advance_action_sequence();
         }
         break;
     case 0:
-        switch (self->phase) {
+        switch (state_step) {
         case 0:
-            ((TObjMotion *)self)->advance_animation();
-            if (!(self->fB0 & 4)) {
-                self->phase = 1;
+            advance_animation();
+            if (!(motion_flags & 4)) {
+                state_step = 1;
             }
             break;
         case 1:
-            ((TObjMotion *)self)->advance_animation();
-            switch (self->step) {
+            advance_animation();
+            switch (unk_6E8) {
             case 0:
-                if (self->frame >= 10.0f) {
-                    self->step = 1;
-                    self->vx = 3.25f * self->dir;
+                if (frame >= 10.0f) {
+                    unk_6E8 = 1;
+                    state_floats[4] = 3.25f * state_floats[0];
                 }
                 break;
             case 1:
-                if (self->frame >= 20.0f) {
-                    self->step = 2;
-                    self->vx = -5.625f * self->dir;
-                    self->ay = (270.0f - self->z + 72.666664f * -self->vy) / 1034.6666f;
+                if (frame >= 20.0f) {
+                    unk_6E8 = 2;
+                    state_floats[4] = -5.625f * state_floats[0];
+                    state_floats[5] = (270.0f - position.z + 72.666664f * -state_floats[3]) / 1034.6666f;
                 }
                 break;
             case 2:
-                if (self->frame >= 28.0f) {
-                    self->step = 3;
-                    self->f700 = (calc_node_height__13TBoss2DeRolLeFPv(self) - self->f700) / 2.5f;
-                    self->f704 = (2.0f * self->f700) / 56.666664f;
-                    self->vx = -6.5294123f * self->dir;
-                    self->tick = 0;
+                if (frame >= 28.0f) {
+                    unk_6E8 = 3;
+                    state_floats[1] = (calc_node_height() - state_floats[1]) / 2.5f;
+                    state_floats[2] = (2.0f * state_floats[1]) / 56.666664f;
+                    state_floats[4] = -6.5294123f * state_floats[0];
+                    unk_6EC = 0;
                 }
                 break;
             case 3:
-                if (self->frame >= 45.0f) {
-                    self->step = 4;
-                    self->vx = -15.0f * self->dir;
-                    ((TUnk_80036250 *)self->mover)->set_move_params(7.0f, fabs_float(25.0f - self->z), 0.2f, 0.05f);
-                    self->f694 = -(0.5f * self->vy);
-                    self->vy = self->z;
+                if (frame >= 45.0f) {
+                    unk_6E8 = 4;
+                    state_floats[4] = -15.0f * state_floats[0];
+                    motion_z.set_move_params(7.0f, fabs_float(25.0f - position.z), 0.2f, 0.05f);
+                    motion_z.speed = -(0.5f * state_floats[3]);
+                    state_floats[3] = position.z;
                 }
                 break;
             case 4:
-                if (self->frame >= 46.0f) {
-                    self->step = 5;
-                    self->vx = self->dir * ((-175.0f - self->x * self->dir) / 36.0f);
+                if (frame >= 46.0f) {
+                    unk_6E8 = 5;
+                    state_floats[4] = state_floats[0] * ((-175.0f - position.x * state_floats[0]) / 36.0f);
                 }
                 break;
             case 5:
-                if (self->frame >= 64.0f) {
-                    self->step = 6;
+                if (frame >= 64.0f) {
+                    unk_6E8 = 6;
                 }
                 break;
             }
-            if (self->fB8 != 1) {
-                if (((TObjMotion *)self)->is_passing_frame(10.0f) != 0 || ((TObjMotion *)self)->is_passing_frame(41.0f) != 0) {
-                    ((int (*)(int, void *))play_sound)(0x4003AD11, self->snd);
-                } else if (((TObjMotion *)self)->is_passing_frame(25.0f) != 0) {
-                    ((int (*)(int, void *))play_sound)(0x4003AD12, self->snd);
+            if (requested_action != 1) {
+                if (is_passing_frame(10.0f) != 0 || is_passing_frame(41.0f) != 0) {
+                    play_sound(0x4003AD11, &unk_518[0]);
+                } else if (is_passing_frame(25.0f) != 0) {
+                    play_sound(0x4003AD12, &unk_518[0]);
                 }
             }
-            self->tick++;
-            if (self->step != 6) {
-                f32 frame = self->frame;
-                if (frame >= 24.0f && frame <= 32.0f) {
-                    if (self->tick >= 3) {
+            unk_6EC++;
+            if (unk_6E8 != 6) {
+                f32 f = frame;
+                if (f >= 24.0f && f <= 32.0f) {
+                    if (unk_6EC >= 3) {
                         Vec v;
                         s32 i;
-                        self->tick = 0;
-                        ((void (*)(void *, void *)) VecCopy__FP3VecPC3Vec)(&v, &self->x);
+                        unk_6EC = 0;
+                        VecCopy(&v, &position);
                         for (i = 0; i < 10; i++) {
-                            if (v.y * self->recs[i].y < 0.0f) {
+                            if (v.y * joint_positions[i].y < 0.0f) {
                                 break;
                             }
-                            ((void (*)(void *, void *)) VecCopy__FP3VecPC3Vec)(&v, &self->recs[i]);
+                            VecCopy(&v, &joint_positions[i]);
                         }
-                        v.x = v.x - self->dir * (20.0f * ((TObjChara *)self)->random_ratio() + 40.0f);
+                        v.x = v.x - state_floats[0] * (20.0f * random_ratio() + 40.0f);
                         v.y = -5.0f;
-                        v.z = v.z + (20.0f * ((TObjEneDD *)self)->calc_elapsed_scaled() + 70.0f);
-                        ((TBoss2DeRolLe *)self)->spawn_ceil_junk(&v);
+                        v.z = v.z + (20.0f * calc_elapsed_scaled() + 70.0f);
+                        spawn_ceil_junk(&v);
                     }
-                } else if (frame >= 41.0f && frame <= 46.0f && self->tick >= 3) {
+                } else if (f >= 41.0f && f <= 46.0f && unk_6EC >= 3) {
                     Vec v;
-                    self->tick = 0;
-                    ((void (*)(void *, void *)) VecCopy__FP3VecPC3Vec)(&v, &self->x);
-                    v.x = v.x + self->dir * (20.0f * ((TObjChara *)self)->random_ratio() + 20.0f);
+                    unk_6EC = 0;
+                    VecCopy(&v, &position);
+                    v.x = v.x + state_floats[0] * (20.0f * random_ratio() + 20.0f);
                     v.y = -5.0f;
-                    v.z = v.z + (60.0f * ((TObjEneDD *)self)->calc_elapsed_scaled() + 10.0f);
-                    ((TBoss2DeRolLe *)self)->spawn_ceil_junk(&v);
+                    v.z = v.z + (60.0f * calc_elapsed_scaled() + 10.0f);
+                    spawn_ceil_junk(&v);
                 }
             }
-            switch (self->step) {
+            switch (unk_6E8) {
             case 0:
-                self->vy = self->vy - 0.2f;
-                self->z = self->z + self->vy;
+                state_floats[3] = state_floats[3] - 0.2f;
+                position.z = position.z + state_floats[3];
                 break;
             case 1:
-                self->x = self->x + self->vx;
-                self->z = self->z + self->vy;
+                position.x = position.x + state_floats[4];
+                position.z = position.z + state_floats[3];
                 break;
             case 2:
-                self->x = self->x + self->vx;
-                self->vy = self->vy + self->ay;
-                self->z = self->z + self->vy;
-                self->f700 = calc_node_height__13TBoss2DeRolLeFPv(self);
+                position.x = position.x + state_floats[4];
+                state_floats[3] = state_floats[3] + state_floats[5];
+                position.z = position.z + state_floats[3];
+                state_floats[1] = calc_node_height();
                 break;
             case 3:
-                self->x = self->x + self->vx;
-                self->frame = self->frame - 0.19999999f;
-                self->f6A4 = self->f6A4 + self->f700;
-                self->f700 = self->f700 - self->f704;
-                self->z = self->z + self->vy;
+                position.x = position.x + state_floats[4];
+                frame = frame - 0.19999999f;
+                height_offset = height_offset + state_floats[1];
+                state_floats[1] = state_floats[1] - state_floats[2];
+                position.z = position.z + state_floats[3];
                 break;
             case 4:
-                self->x = self->x + self->vx;
-                ((TBoss2DeRolLe *)self)->update_angle();
-                advance_scalar_motion_profile(self->mover);
-                self->z = self->vy - self->f69C;
+                position.x = position.x + state_floats[4];
+                update_angle();
+                advance_scalar_motion_profile(&motion_z);
+                position.z = state_floats[3] - motion_z.travelled;
                 break;
             case 5:
-                self->x = self->x + self->vx;
-                ((TBoss2DeRolLe *)self)->update_angle();
-                advance_scalar_motion_profile(self->mover);
-                self->z = self->vy - self->f69C;
+                position.x = position.x + state_floats[4];
+                update_angle();
+                advance_scalar_motion_profile(&motion_z);
+                position.z = state_floats[3] - motion_z.travelled;
                 break;
             case 6:
-                ((TBoss2DeRolLe *)self)->update_angle();
-                if (advance_scalar_motion_profile(self->mover) == 3) {
-                    self->phase = 2;
+                update_angle();
+                if (advance_scalar_motion_profile(&motion_z) == 3) {
+                    state_step = 2;
                 }
-                self->z = self->vy - self->f69C;
-                if (self->fB8 == 1) {
-                    self->flags |= 0x100;
+                position.z = state_floats[3] - motion_z.travelled;
+                if (requested_action == 1) {
+                    state_flags |= 0x100;
                 }
                 break;
             }
@@ -3545,11 +3484,15 @@ void TBoss2DeRolLe__sub_800320B4(void *arg0, void *arg1, int arg2, int arg3) {
         }
         break;
     case 5:
-        self->mode = self->next_mode;
-        self->flags &= ~4;
+        position_index = next_position_index;
+        state_flags &= ~4;
         break;
     }
 }
+
+namespace behavior_view {
+
+extern "C" {
 
 #undef o
 #undef self
@@ -3681,7 +3624,7 @@ void TBoss2DeRolLe__sub_80031AD4(void *arg0, void *arg1) {
             case 1:
                 o->f704 += o->f708;
                 o->pos.z += o->f704;
-                o->f6FC = calc_node_height__13TBoss2DeRolLeFPv(o);
+                o->f6FC = ((TBoss2DeRolLe *)o)->calc_node_height();
                 break;
             case 2:
                 o->pos.z += o->f704;
@@ -4971,14 +4914,14 @@ void TBoss2DeRolLe::render() {
     TObjEneDD::clear_global_flag_400();
     TParticleCtrl::begin_effect_render();
     push_matrix();
-    post_translate_matrix(&e->pos);
+    post_translate_matrix(&e->pos.x);
     translate_matrix(0, 0.0f, e->height, 0.0f);
     rotate_matrix_y(0, e->ry);
     rotate_matrix_x(0, e->rx);
     rotate_matrix_z(0, e->rz);
     {
         Vec sc = {2.0f, 2.0f, 2.0f};
-        scale_current_matrix(&sc);
+        scale_current_matrix(&sc.x);
     }
     update_pulsing_colors();
     for (i = 0; i < 10; i++) {
@@ -5058,13 +5001,13 @@ void TBoss2DeRolLe::render_body() {
     saved_model_render_flags = model_render_flags;
     TObjEneDD::clear_global_flag_400();
     push_matrix();
-    post_translate_matrix(self->pos);
+    post_translate_matrix(&position.x);
     rotate_matrix_y(0, this->rotation_y);
     rotate_matrix_x(0, this->rotation_x);
     rotate_matrix_z(0, this->rotation_z);
     Vec scale = {2.0f, 2.0f, 2.0f};
     TObjEneDD::check_v2_mode();
-    scale_current_matrix(&scale);
+    scale_current_matrix(&scale.x);
     for (i = 0; i < 10; i++) {
         ((TBoss2Joint *)self->joints[i])->apply_flash_color();
     }

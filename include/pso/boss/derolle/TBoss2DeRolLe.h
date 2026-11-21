@@ -113,6 +113,9 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     void sub_80030A38(u32 reason);
     void handle_debug_pad_input(u32 reason);
     void sub_800327C8(u32 reason, s32 from, s32 to);
+    f32 calc_node_height();
+    void get_node_world_pos(Vec *out);
+    void sub_800320B4(u32 reason, s32 from, s32 to);
     s32 state_flags;                   // 0x8 shell broken, 0x40/0x80 breakup pieces, 0x8000 already beaten
     s32 unk_3C4;
     s32 debug_pad_active;              // handle_debug_pad_input drives the boss from debug_pad when set
@@ -173,7 +176,6 @@ extern "C" {
 void TBoss2DeRolLe__sub_8002FE60(TBoss2DeRolLe *self, u32 reason);
 void TBoss2DeRolLe__sub_800313F8(TBoss2DeRolLe *self, u32 reason, s32 arg2);
 void TBoss2DeRolLe__sub_80031AD4(TBoss2DeRolLe *self, u32 reason);
-void TBoss2DeRolLe__sub_800320B4(TBoss2DeRolLe *self, u32 reason, s32 arg2, s32 arg3);
 void TBoss2DeRolLe__sub_80032E38(TBoss2DeRolLe *self, u32 reason);
 f32 TBoss2DeRolLe__sub_80034CEC(void);
 f32 TBoss2DeRolLe__sub_80034CF8(void);
@@ -189,7 +191,6 @@ void backup_pos__13TBoss2DeRolLeFi(s32 arg0);
 void emit_effect_and_step__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1);
 void fn_8002F5AC(u8 *arg0);
 void forward_switch_phase_stats__13TBoss2DeRolLeFi(saddr arg0);
-void get_node_world_pos__13TBoss2DeRolLeFPvPv(u8 *arg0, u8 *arg1);
 void handle_6x13_de_rol_le_boss_actions(void *arg0);
 void handle_6x14_de_rol_le_boss_actions_with_target(void *arg0);
 void handle_death_state__13TBoss2DeRolLeFPvPv(TBoss2DeRolLe *self, u32 reason);
