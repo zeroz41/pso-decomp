@@ -23,7 +23,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/boss/galgryphon/TBoss5GryphonLightningWing_80324CEC.h"
+#include "pso/math/InverseTrig.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();

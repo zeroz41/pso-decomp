@@ -8,7 +8,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/player/TObjPlayer_80036824.h"
+#include "pso/math/InverseTrig.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/math/MatrixVector.h"
@@ -137,4 +137,8 @@ void TBoss2Fin::init_effect_table() {
         seg++;
     }
     seg->count = -1;
+}
+
+f32 acosf(f32 x) {
+    return acos(x);
 }

@@ -1,9 +1,0 @@
-#ifndef PSO_BOSS_GALGRYPHON_TBOSS5GRYPHONLIGHTNINGWING_80324CEC_H
-#define PSO_BOSS_GALGRYPHON_TBOSS5GRYPHONLIGHTNINGWING_80324CEC_H
-
-#include "types.h"
-
-// The f32 form of the C library's asin.
-f32 asinf(f32 x);
-
-#endif

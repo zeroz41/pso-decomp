@@ -36,7 +36,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/boss/galgryphon/TBoss5GryphonLightningWing_80324CEC.h"
+#include "pso/math/InverseTrig.h"
 
 #pragma readonly_strings on
 extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
@@ -450,3 +450,7 @@ TBoss6Mine *TBoss6Mine::create(TBoss6MineSetData *set_data) {
     return new TBoss6Mine(new TObjControl((TObject *)tl_04), set_data);
 }
 
+
+f32 asinf(f32 x) {
+    return asin(x);
+}

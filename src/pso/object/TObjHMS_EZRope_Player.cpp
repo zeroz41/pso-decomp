@@ -18,7 +18,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/TObjEZBoneRotPlayer.h"
-#include "pso/player/TObjPlayer_80036824.h"
+#include "pso/math/InverseTrig.h"
 #include "pso/unk/text_803D96A8.h"
 
 #pragma push

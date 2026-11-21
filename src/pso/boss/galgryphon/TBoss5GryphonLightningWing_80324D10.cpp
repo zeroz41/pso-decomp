@@ -1,12 +1,5 @@
 #include "types.h"
-#include "pso/boss/galgryphon/TBoss5GryphonLightningWing_80324CEC.h"
 #include "pso/boss/galgryphon/TBoss5GryphonLightningWing.h"
-
-extern "C" f64 asin(f64 x);
-
-f32 asinf(f32 x) {
-    return asin(x);
-}
 
 extern "C" {
 

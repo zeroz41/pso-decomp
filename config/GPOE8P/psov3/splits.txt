@@ -286,15 +286,12 @@ pso/boss/derolle/TBoss2DeRolLe.cpp:
 	.sdata2     start:0x805D8278 end:0x805D8450
 
 pso/boss/derolle/TBoss2Fin.cpp:
-	.text       start:0x800363B4 end:0x80036824
+	.text       start:0x800363B4 end:0x80036848
 	.rodata     start:0x80435A38 end:0x80435A58
 	.data       start:0x80482A38 end:0x80482A50
 	.bss        start:0x804FE590 end:0x804FE5D8
 	.sdata      start:0x805D26B8 end:0x805D26C0
 	.sdata2     start:0x805D8450 end:0x805D8468
-
-pso/player/TObjPlayer_80036824.cpp:
-	.text       start:0x80036824 end:0x80036848
 
 pso/boss/derolle/TBoss2Joint.cpp:
 	.text       start:0x80036848 end:0x80037178
@@ -9492,15 +9489,15 @@ pso/boss/olgaflow/TBoss6Type1_80323DCC.cpp:
 	.text       start:0x80323DCC end:0x80323E1C
 
 pso/boss/olgaflow/TBoss6Mine.cpp:
-	.text       start:0x80323E1C end:0x80324CEC
+	.text       start:0x80323E1C end:0x80324D10
 	.rodata     start:0x80476690 end:0x804766B0
 	.data       start:0x804ECAC0 end:0x804ECCF8
 	.sdata      start:0x805D4178 end:0x805D4180
 	.sbss       start:0x805D6C48 end:0x805D6C50
 	.sdata2     start:0x805DF580 end:0x805DF5E0
 
-pso/boss/galgryphon/TBoss5GryphonLightningWing_80324CEC.cpp:
-	.text       start:0x80324CEC end:0x80324D3C
+pso/boss/galgryphon/TBoss5GryphonLightningWing_80324D10.cpp:
+	.text       start:0x80324D10 end:0x80324D3C
 
 pso/boss/goldragon/TBoss8Dragon_80324D3C.cpp:
 	.text       start:0x80324D3C end:0x80324E10
