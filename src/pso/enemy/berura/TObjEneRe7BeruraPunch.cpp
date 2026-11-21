@@ -23,15 +23,14 @@
 extern "C" {
 
 s32 is_player_entity_id();
-s32 apply_hit_if_active__13TUnk_804928CCFPvPf();
 u16 get_entity_id(void *);
 
 int TObjEneRe7BeruraPunch::is_patrol_active() { return (*(u32 *)&this->owner_id >> 2) & 0x1; }
 
-void TObjEneRe7BeruraPunch::apply_hit_if_active(void *target, f32 *) {
+void TObjEneRe7BeruraPunch::apply_hit_if_active(void *target, f32 *hit) {
     saddr entity;
 
-    apply_hit_if_active__13TUnk_804928CCFPvPf();
+    TUnk_804928CC::apply_hit_if_active(target, hit);
     if (TObjEneDD::check_v2_mode() != 0) {
         get_entity_id((void *)target);
         if (is_player_entity_id() != 0) {

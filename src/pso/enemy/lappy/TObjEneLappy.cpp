@@ -434,7 +434,6 @@ void vfunc_58__12TObjEneLappyFv(void *arg0);
 s32 enemy_backstep_from_point(void *, void *, f32);
 f32 update_enemy_wander_move(void *, void *, int, f32);
 f32 atan2_float(f32 y, f32 x);
-s32 lerp_angle_half__Fll(int, int);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 s32 update_action_hold_status__12TObjEneLappyFv(s32 arg0);
 s32 update_movement_status__12TObjEneLappyFv(s32 arg0);
@@ -884,7 +883,7 @@ void TObjEneLappy::update_moving() {
         case 2:
             break;
         case 3:
-            this->rotation_y = lerp_angle_half__Fll(this->rotation_y, this->m_390);
+            this->rotation_y = lerp_angle_half(this->rotation_y, this->m_390);
             if ((u32) this->action_flags == 1U) {
                 *(s32 *)&this->actorFlags = (*(s32 *)&this->actorFlags & 0xFBFFFFFF);
                 *(s16 *)&this->m_37a = 4;

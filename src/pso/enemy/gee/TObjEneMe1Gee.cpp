@@ -133,7 +133,6 @@ extern s32 model_render_flags;
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
 void get_camera_ctrl__9TObjEneDDFv(s32, s32);
-u32 vfunc_101__9TObjEneDDFPUc();
 s32 collect_enemy_target_candidates(void *, TargetCandidate *, f32);
 s32 pack_debug_text_position(s32, s32);
 
@@ -404,8 +403,8 @@ void TObjEneMe1Gee::calc_position(Vec *out) {
     vec3_add_to(out, &this->position);
 }
 #pragma pop
-u8 *TObjEneMe1Gee::vfunc_101(u8 *) {
-    if (vfunc_101__9TObjEneDDFPUc() == 0U) {
+u8 *TObjEneMe1Gee::vfunc_101(u8 *dest) {
+    if (TObjEneDD::vfunc_101(dest) == 0) {
         this->m_3c8 &= 0xFEFFFFFF;
         return;
     }

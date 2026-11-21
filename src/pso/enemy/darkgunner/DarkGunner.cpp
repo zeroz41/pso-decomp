@@ -211,7 +211,6 @@ saddr get_bml_texlist(void*, void*);
 saddr get_bml_model(void*);
 void free_bin_model_request(void*, int);
 void * __dt__13TUnk_80490470Fv(void *, s16);
-s32 trigger_targets_action__10TObjPlayerFv();
 u8 * TObjEneDarkGunCenter__ct(u8 *arg0, s32 arg1, saddr arg2);
 void clear_lappy_flag_set_param(TObjEneLappy *arg0);
 void fn_800A0FDC(TObjEneLappy *arg0);
@@ -1101,10 +1100,11 @@ void TObjPlayer__sub_800A1D70(u8 *arg0) {
 
 void TObjEneDarkGunner::vfunc_62() {
     s16 temp_r0;
+    u8 *player;
     temp_r0 = this->mode;
     if (temp_r0 != 4) {
-        if ((temp_r0 == 2) && (((TObjPlayer *)this)->is_flag_set_388_bit26() != 0) && (get_enemy_entity(*(u16 *)((s8 *)this + 0x428)) != 0U)) {
-            trigger_targets_action__10TObjPlayerFv();
+        if ((temp_r0 == 2) && (((TObjPlayer *)this)->is_flag_set_388_bit26() != 0) && ((player = get_enemy_entity(*(u16 *)((s8 *)this + 0x428))) != 0)) {
+            ((TObjPlayer *)player)->trigger_targets_action();
             return;
         }
         this->set_state(4);

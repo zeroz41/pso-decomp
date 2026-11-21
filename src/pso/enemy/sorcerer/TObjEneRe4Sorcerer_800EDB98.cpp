@@ -128,8 +128,6 @@ void *__dt__13TUnk_80490470Fv(void *arg0, s16 arg1);
 void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);
 int TObjEneDD__sub_800BA804(u16 arg0);
 s32 init_model__9TObjEneDDFP13CollisionBodyl(void *, void *, int, int);
-u32 vfunc_102__9TObjEneDDFv();
-u32 vfunc_101__9TObjEneDDFPUc();
 saddr load_enemy_bml_resource_named(saddr arg0, saddr arg1);
 saddr load_enemy_bml_resource(u8 *arg0);
 void TObjEneRe4Bit__sub_800EDAB0(void);
@@ -1491,15 +1489,15 @@ s32 TObjEneRe4Sorcerer::select_attack_target(f32 farg0, f32 farg1) {
 #pragma pop
 
 u8 *TObjEneRe4Sorcerer::vfunc_102() {
-    if (vfunc_102__9TObjEneDDFv() == 0U) {
+    if (TObjEneDD::vfunc_102() == 0) {
         this->m_3c8 = (s32) (this->m_3c8 & 0xFFFFFFEF);
         return;
     }
     this->m_3c8 = (s32) (this->m_3c8 | 0x10);
 }
 
-u8 *TObjEneRe4Sorcerer::vfunc_101(u8 *) {
-    if (vfunc_101__9TObjEneDDFPUc() == 0U) {
+u8 *TObjEneRe4Sorcerer::vfunc_101(u8 *dest) {
+    if (TObjEneDD::vfunc_101(dest) == 0) {
         this->m_3c8 = (s32) (this->m_3c8 & 0xFFFFFFEF);
         return;
     }
