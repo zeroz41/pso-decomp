@@ -276,7 +276,7 @@ void TShopJudgmentItemWindow::close() { if (this->m_50 != 0) { ((TObject *)(this
 #define W ((Win_80221440 *)arg0)
 
 extern "C" {
-s32 TShopJudgmentItemWindow::build_item_list(void *arg0) {
+void TShopJudgmentItemWindow::build_item_list(void *arg0) {
     VObj_18_2e9c25 *items[32];
     s32 n;
     s32 i;
@@ -478,7 +478,7 @@ void TShopJudgmentItemWindow::update_judge_confirm() {
                     ((TShopWindowBase *)arg0)->set_field_20(7);
                     return;
                 }
-                delete_item((void *)(*(s32 *)((s8 *)arg0 + 0x24)), (s32)(*(s32 *)((s8 *)arg0 + 0x48)), 1);
+                delete_item(*(void **)((s8 *)arg0 + 0x24), *(s32 *)((s8 *)arg0 + 0x48), 1);
                 *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)arg0 + 0x48);
                 ((TObjPlayer *)(*(saddr *)((s8 *)arg0 + 0x24)))->request_inventory_item((TItemData*)(arg0 + 0x28));
                 set_judgment_target_flag((arg0), ((u8 *)&this->unk_28));
@@ -547,7 +547,7 @@ void TShopJudgmentItemWindow::handle_equip_prompt() {
                 }
                 ((TWindowBase *)(F(0x158, void *)))->close();
                 F(0x158, void *) = NULL;
-                delete_item((void *)(F(0x24, s32)), (s32)(F(0x48, s32)), 1);
+                delete_item(F(0x24, void *), F(0x48, s32), 1);
                 F(0x34, s32) = F(0x48, s32);
                 ((TObjPlayer *)(F(0x24, saddr)))->request_inventory_item((TItemData*)(arg0 + 0x28));
                 set_judgment_target_flag(arg0, &this->unk_28);
@@ -565,7 +565,7 @@ void TShopJudgmentItemWindow::handle_equip_prompt() {
             if (sel == 1) {
                 ((TWindowBase *)(F(0x158, void *)))->close();
                 F(0x158, void *) = NULL;
-                delete_item((void *)(F(0x24, s32)), (s32)(F(0x48, s32)), 1);
+                delete_item(F(0x24, void *), F(0x48, s32), 1);
                 F(0x34, s32) = F(0x48, s32);
                 ((TObjPlayer *)(F(0x24, saddr)))->request_inventory_item((TItemData*)(arg0 + 0x28));
                 set_judgment_target_flag(arg0, &this->unk_28);
@@ -579,7 +579,7 @@ void TShopJudgmentItemWindow::handle_equip_prompt() {
         if (F(0x158, void *) != NULL && ((TWindowMenu *)(F(0x158, void *)))->is_cancelled() != 0) {
             ((TWindowBase *)(F(0x158, void *)))->close();
             F(0x158, void *) = NULL;
-            delete_item((void *)(F(0x24, s32)), (s32)(F(0x48, s32)), 1);
+            delete_item(F(0x24, void *), F(0x48, s32), 1);
             F(0x34, s32) = F(0x48, s32);
             ((TObjPlayer *)(F(0x24, saddr)))->request_inventory_item((TItemData*)(arg0 + 0x28));
             set_judgment_target_flag(arg0, &this->unk_28);

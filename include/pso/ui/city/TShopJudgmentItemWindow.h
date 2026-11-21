@@ -42,7 +42,7 @@ struct TShopJudgmentItemWindow : public TShopWindowBase {
     void handle_equip_prompt();
     void create_result_windows();
     void handle_input();
-    static s32 build_item_list(void *arg0);
+    static void build_item_list(void *arg0);
     void close();
     static u8 *open_default(s32 a);
     void add_list_entry(saddr arg1, s32 arg2);
