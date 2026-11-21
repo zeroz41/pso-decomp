@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+class TAdSelectCurGC;
+
 struct TAdEnterBaseGC : public TObject {
     TAdEnterBaseGC(TObject *parent);
     virtual ~TAdEnterBaseGC();
@@ -17,7 +19,7 @@ struct TAdEnterBaseGC : public TObject {
     int m_20;
     u32 m_24;
     int m_28;
-    u8 unk_2C[0x4];
+    TAdSelectCurGC *select_cursor;
     int m_30;
     u8 unk_34[0x4];
 };

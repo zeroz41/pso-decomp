@@ -133,7 +133,7 @@ void *__ct__19TAdPlyChrSelPlateGCFv(void *, s32, void *);
 
 
 
-void sscanf(int, const char *, ...);
+int sscanf(const char *, const char *, ...);
 
 extern char serial_access_hex_string_buf[];
 
@@ -183,24 +183,20 @@ TAdEnterBaseGC::~TAdEnterBaseGC() {
 }
 
 
-void TAdEnterBaseGC::sub_8032B460(int a1) { *(int *)&this->m_24 = 0; this->m_20 = 0; TAdEnterBaseGC__entry_mode = a1; *(int*)((char*)this + 0x38) = 0; *(int*)((char*)this + 0x3c) = 0; this->m_28 = 0; *(int *)&this->unk_2C = 0; this->m_30 = 0; *(int *)&this->unk_34 = 0; password_entry_keyboard_control = 0; }
+void TAdEnterBaseGC::sub_8032B460(int a1) { *(int *)&this->m_24 = 0; this->m_20 = 0; TAdEnterBaseGC__entry_mode = a1; *(int*)((char*)this + 0x38) = 0; *(int*)((char*)this + 0x3c) = 0; this->m_28 = 0; this->select_cursor = NULL; this->m_30 = 0; *(int *)&this->unk_34 = 0; password_entry_keyboard_control = 0; }
 
 void TAdEnterBaseGC::create_parts() {
-    u32 var_r0;
-    u32 var_r0_2;
     new TAdBackGC(this);
     new TAdBackTxtGC(this);
-    if ((s32) (*(s32 *)&TAdEnterBaseGC__entry_mode) == 3) {
-        var_r0 = reinterpret_cast<u32>(new TAdSelectCurGC(reinterpret_cast<TObject *>(tl_clipout),
+    if (TAdEnterBaseGC__entry_mode == 3) {
+        this->select_cursor = new TAdSelectCurGC(reinterpret_cast<TObject *>(tl_clipout),
             reinterpret_cast<const NJS_POINT2 *>(&lbl_80477198[2]),
-            reinterpret_cast<const NJS_POINT2 *>(&lbl_804771B8[1])));
-        *(u32 *)&this->unk_2C = var_r0;
+            reinterpret_cast<const NJS_POINT2 *>(&lbl_804771B8[1]));
         return;
     }
-    var_r0_2 = reinterpret_cast<u32>(new TAdSelectCurGC(reinterpret_cast<TObject *>(tl_clipout),
+    this->select_cursor = new TAdSelectCurGC(reinterpret_cast<TObject *>(tl_clipout),
         reinterpret_cast<const NJS_POINT2 *>(lbl_80477198),
-        reinterpret_cast<const NJS_POINT2 *>(lbl_804771B8)));
-    *(u32 *)&this->unk_2C = var_r0_2;
+        reinterpret_cast<const NJS_POINT2 *>(lbl_804771B8));
 }
 
 void TAdEnterBaseGC::run_task() {  }
@@ -254,7 +250,7 @@ int validate_input__22TAdEnterSerialAccessGCFPviPv(void *arg0, s32 arg1, const c
 
 char *TAdEnterSerialAccessGC::serial_to_hex_string(const char *arg0) {
     u32 v = 0;
-    sscanf((s32)arg0, "%08X", &v);
+    sscanf(arg0, "%08X", &v);
     memset(serial_access_hex_string_buf, 0, 0x40);
     if (v != 0) {
         sprintf(serial_access_hex_string_buf, "%010lu", v);
