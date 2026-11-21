@@ -134,32 +134,32 @@ extern s32 saved_model_render_flags;
 #define play_sound_effect (*(s32 (*)(s32, s32, s32, s32))&play_sound_effect)
 extern "C" void render_shadows__9TObjEnemyFv(u8 *arg0);
 void TObjEneBeast::run_demo_task() {  }
-void TObjEneBeast::vfunc_99() {
+void TObjEneBeast::play_group_chase_sound() {
     s32 arg0 = (saddr)this;
     play_sound_effect(0x4003E431, arg0 + 0x38, 0, 0);
 }
-void TObjEneBeast::vfunc_98() {
+void TObjEneBeast::play_death_sound() {
     s32 arg0 = (saddr)this;
     play_sound_effect(0x4003AB2D, arg0 + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x200);
 }
-void TObjEneBeast::vfunc_97() {
+void TObjEneBeast::play_hurt_sound() {
     s32 arg0 = (saddr)this;
     play_sound_effect(0x4003A32E, arg0 + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
-void TObjEneBeast::vfunc_96() {
+void TObjEneBeast::play_attack_sound() {
     s32 arg0 = (saddr)this;
     play_sound_effect(0x4003A62F, arg0 + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
-void TObjEneBeast::vfunc_95() {
+void TObjEneBeast::play_alert_sound() {
     s32 arg0 = (saddr)this;
     play_sound_effect(0x4003A82C, arg0 + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x200);
 }
 
-void TObjEneBeast::vfunc_94() {
+void TObjEneBeast::spawn_death_effect() {
     Vec stack;
     stack.x = 0.0f;
     stack.y = 1e+01f;
@@ -173,7 +173,7 @@ void TObjEneBeast::vfunc_94() {
     TObjPlayer::spawn_dead_spot_type2((saddr)&stack.x, 0xF);
 }
 
-void TObjEneBeast::vfunc_93() {
+void TObjEneBeast::update_attack_trail() {
     Obj_80091EA4 *self = (Obj_80091EA4 *)this;
     Vec dir;
     Vec pos;
@@ -233,7 +233,7 @@ void TObjEneBeast::select_subtype() {
         return;
     }
 }
-void TObjEneBeast::vfunc_83() {
+void TObjEneBeast::beast_update_appear() {
     u8 *arg0 = (u8 *)this;
     switch (*(s16 *)((s8 *)arg0 + 0x328)) {
     case 0:
@@ -384,7 +384,7 @@ extern "C" void update_shock_clock__9TObjCharaFv();
 extern "C" void vfunc_43__9TObjCharaFv();
 extern "C" void vfunc_18__9TObjCharaFPUc();
 extern "C" void interact__14TObjCollidableFl();
-extern "C" void vfunc_100__13TUnk_80493450Fv();
+extern "C" void select_post_attack_mode__13TUnk_80493450Fv();
 extern "C" void vfunc_89__13TUnk_80493450Fv();
 extern "C" void update_turn_toward_target__13TUnk_80493450Fv();
 extern "C" void vfunc_74__9TObjEnemyFl();

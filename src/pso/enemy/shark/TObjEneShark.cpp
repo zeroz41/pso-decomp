@@ -172,19 +172,19 @@ void run_demo_task__12TObjEneSharkFv(void);
 extern s32 shark_render_node_index;
 s32 vec3_add_to(void *, void *);
 s32 play_sound_effect(s32, void *, int, int);
-void vfunc_96__12TObjEneSharkFv(s32 arg0);
-void vfunc_98__12TObjEneSharkFv(s32 arg0);
-void vfunc_97__12TObjEneSharkFv(s32 arg0);
-void vfunc_95__12TObjEneSharkFv(s32 arg0);
+void play_attack_sound__12TObjEneSharkFv(s32 arg0);
+void play_death_sound__12TObjEneSharkFv(s32 arg0);
+void play_hurt_sound__12TObjEneSharkFv(s32 arg0);
+void play_alert_sound__12TObjEneSharkFv(s32 arg0);
 void TObjPlayer__sub_800D92BC(s32 point, s32 delay);
 s32 rotate_vector_by_matrix(int, void *, void *);
 extern RecoveredGlobal_800ABA9C_lbl_8058D490 identity_matrix;
-void vfunc_94__12TObjEneSharkFv(u8 *arg0);
-void vfunc_83__12TObjEneSharkFv(Obj_800ABCBC *arg0);
+void spawn_death_effect__12TObjEneSharkFv(u8 *arg0);
+void beast_update_appear__12TObjEneSharkFv(Obj_800ABCBC *arg0);
 void set_matrix_identity(u8 *arg0);
 extern uaddr TObjEneShark__attack_motion_3_trail;
 extern uaddr shark_attack4_trail_buffer;
-void vfunc_93__12TObjEneSharkFv(Obj_800ABB38 *o);
+void update_attack_trail__12TObjEneSharkFv(Obj_800ABB38 *o);
 void restore_scene_lighting(void);
 void select_actor_lighting(s32 obj);
 extern s32 saved_model_render_flags;
@@ -199,30 +199,30 @@ extern s32 chunk_polygon_flags_and_mask;
 
 void TObjEneShark::run_demo_task() {  }
 
-void TObjEneShark::vfunc_98() {
+void TObjEneShark::play_death_sound() {
     saddr arg0 = (saddr)this;
     play_sound_effect((((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x4003A60C)), (void *)(arg0 + 0x38), 0, 0);
     TObjPlayer::play_effect_if_v2(-0x300);
 }
 
-void TObjEneShark::vfunc_97() {
+void TObjEneShark::play_hurt_sound() {
     saddr arg0 = (saddr)this;
     play_sound_effect((((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x4003A60B)), (void *)(arg0 + 0x38), 0, 0);
     TObjPlayer::play_effect_if_v2(-0x300);
 }
 
-void TObjEneShark::vfunc_96() {
+void TObjEneShark::play_attack_sound() {
     saddr arg0 = (saddr)this;
     play_sound_effect((((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x4003A60D)), (void *)(arg0 + 0x38), 0, 0);
 }
 
-void TObjEneShark::vfunc_95() {
+void TObjEneShark::play_alert_sound() {
     saddr arg0 = (saddr)this;
     play_sound_effect((((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x4003A60B)), (void *)(arg0 + 0x38), 0, 0);
     TObjPlayer::play_effect_if_v2(-0x300);
 }
 
-void TObjEneShark::vfunc_94() {
+void TObjEneShark::spawn_death_effect() {
     u8 *arg0 = (u8 *)this;
     Vec stack;
     stack.x = 0.0f;
@@ -237,7 +237,7 @@ void TObjEneShark::vfunc_94() {
     TObjPlayer__sub_800D92BC((saddr)&stack.x, 0xF);
 }
 
-void TObjEneShark::vfunc_93() {
+void TObjEneShark::update_attack_trail() {
     Obj_800ABB38 *o = (Obj_800ABB38 *)this;
     Vec b;
     Vec a;
@@ -300,7 +300,7 @@ void TObjEneShark::apply_clamped_mode_param() {
     }
 }
 
-void TObjEneShark::vfunc_83() {
+void TObjEneShark::beast_update_appear() {
     Obj_800ABCBC *arg0 = (Obj_800ABCBC *)this;
     ((TObjMotion *)this)->advance_animation();
     switch (*(s16 *)&this->m_328) {
@@ -557,7 +557,7 @@ extern uaddr TObjEneShark__resource_node;
 extern uaddr TObjEneShark__resource_buf;
 extern uaddr shark_resource_data;
 extern uaddr shark_resource_buffer;
-void vfunc_99__13TUnk_80493450Fv(void);
+void play_group_chase_sound__13TUnk_80493450Fv(void);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 
 extern void *tl_04;
@@ -571,7 +571,7 @@ extern "C" void get_anim_node_position__9TObjCharaFlP3Vec();
 extern "C" void vfunc_43__9TObjCharaFv();
 extern "C" void vfunc_18__9TObjCharaFPUc();
 extern "C" void interact__14TObjCollidableFl();
-extern "C" void vfunc_100__13TUnk_80493450Fv();
+extern "C" void select_post_attack_mode__13TUnk_80493450Fv();
 extern "C" void render__12TObjEneSharkFv();
 extern "C" void vfunc_89__13TUnk_80493450Fv();
 extern "C" void vfunc_74__9TObjEnemyFl();
@@ -731,12 +731,12 @@ void *lbl_8049168C[103] = {
     (void *)&get_pos__9TObjCharaFl, (void *)&apply_switch_attack__9TObjCharaFv, (void *)&enemy_spawn_jellen_effect__9TObjCharaFv, (void *)&trigger_switch_attack__9TObjCharaFv,
     (void *)&enemy_spawn_zalure_effect__9TObjCharaFv, (void *)&recalc_stats__9TObjCharaFv, (void *)&vfunc_74__9TObjEnemyFl, (void *)&gain_photon_blast_charge__9TObjCharaFf,
     (void *)&spend_photon_blast_charge__9TObjCharaFf, (void *)&gain_photon_blast_chain_charge__9TObjCharaFv, (void *)&vfunc_78__9TObjCharaFl, (void *)&apply_enemy_state__9TObjEnemyFPl,
-    (void *)&apply_hit_message_flags__9TObjEnemyFPv, (void *)&apply_set_data__9TObjEnemyFPv, (void *)&clear_lobby_object_state__9TObjEnemyFv, (void *)&vfunc_83__12TObjEneSharkFv,
+    (void *)&apply_hit_message_flags__9TObjEnemyFPv, (void *)&apply_set_data__9TObjEnemyFPv, (void *)&clear_lobby_object_state__9TObjEnemyFv, (void *)&beast_update_appear__12TObjEneSharkFv,
     (void *)&beast_idle_update__13TUnk_80493450Fv, (void *)&update_turn_toward_target__13TUnk_80493450Fv, (void *)&beast_update_approach__13TUnk_80493450Fv, (void *)&beast_update_group_chase__13TUnk_80493450Fv,
     (void *)&beast_update_attack__13TUnk_80493450Fv, (void *)&vfunc_89__13TUnk_80493450Fv, (void *)&beast_update_hurt__13TUnk_80493450Fv, (void *)&beast_update_dead__13TUnk_80493450Fv,
-    (void *)&beast_retire_corpse__13TUnk_80493450Fv, (void *)&vfunc_93__12TObjEneSharkFv, (void *)&vfunc_94__12TObjEneSharkFv, (void *)&vfunc_95__12TObjEneSharkFv,
-    (void *)&vfunc_96__12TObjEneSharkFv, (void *)&vfunc_97__12TObjEneSharkFv, (void *)&vfunc_98__12TObjEneSharkFv, (void *)&vfunc_99__13TUnk_80493450Fv,
-    (void *)&vfunc_100__13TUnk_80493450Fv, (void *)&run_demo_task__12TObjEneSharkFv, (void *)&request_stand_action__13TUnk_80493450Fv,
+    (void *)&beast_retire_corpse__13TUnk_80493450Fv, (void *)&update_attack_trail__12TObjEneSharkFv, (void *)&spawn_death_effect__12TObjEneSharkFv, (void *)&play_alert_sound__12TObjEneSharkFv,
+    (void *)&play_attack_sound__12TObjEneSharkFv, (void *)&play_hurt_sound__12TObjEneSharkFv, (void *)&play_death_sound__12TObjEneSharkFv, (void *)&play_group_chase_sound__13TUnk_80493450Fv,
+    (void *)&select_post_attack_mode__13TUnk_80493450Fv, (void *)&run_demo_task__12TObjEneSharkFv, (void *)&request_stand_action__13TUnk_80493450Fv,
 };
 #define TObjEneShark__action_table ((Act_800AC318 *)TObjEneShark__action_table)
 
@@ -1030,7 +1030,7 @@ void *TObjEneShark__ct(void *arg0, void *arg1, void *arg2) {
 }
 #undef lbl_804915B4
 #undef lbl_80491608
-void TUnk_80493450::vfunc_99() {  }
+void TUnk_80493450::play_group_chase_sound() {  }
 
 void TObjEneShark::sub_800AC9DC(s32 i) {
     O_800AC9DC *self = (O_800AC9DC *)this;

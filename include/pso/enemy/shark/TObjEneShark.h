@@ -7,14 +7,14 @@
 struct TObjEneShark {
     void sub_800AC9DC(s32);
     void apply_clamped_mode_param();
-    void vfunc_83();
+    void beast_update_appear();
     void run_demo_task();
-    void vfunc_98();
-    void vfunc_97();
-    void vfunc_96();
-    void vfunc_95();
-    void vfunc_94();
-    void vfunc_93();
+    void play_death_sound();
+    void play_hurt_sound();
+    void play_attack_sound();
+    void play_alert_sound();
+    void spawn_death_effect();
+    void update_attack_trail();
     void render();
 
     u8 unknown00[0x18];

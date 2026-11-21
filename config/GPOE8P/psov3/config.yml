@@ -17410,7 +17410,7 @@ force_active:
   - varSet32
   - verify_save_checksum__23TAdSinglePlyChrSelectGCFi
   - verify_save_checksum__23TAdSinglePlyChrSelectGCFv
-  - vfunc_100__14TObjEneDolmOlmFv
+  - select_post_attack_mode__14TObjEneDolmOlmFv
   - run_demo_task__12TObjEneBeastFv
   - run_demo_task__12TObjEneSharkFv
   - run_demo_task__14TObjEneDolmOlmFv
@@ -17680,12 +17680,12 @@ force_active:
   - vfunc_82__12TOMineIcon04Fv
   - vfunc_82__14TOTrapSeabed01Fv
   - vfunc_82__16TOTrapAncient02RFv
-  - vfunc_83__12TObjEneBeastFv
-  - vfunc_83__12TObjEneSharkFv
-  - vfunc_83__14TObjEneDolmOlmFv
-  - vfunc_83__15TObjEneDimedianFv
+  - beast_update_appear__12TObjEneBeastFv
+  - beast_update_appear__12TObjEneSharkFv
+  - beast_update_appear__14TObjEneDolmOlmFv
+  - beast_update_appear__15TObjEneDimedianFv
   - vfunc_83__16TObjEneBm5GibonUFv
-  - vfunc_83__16TObjEneMerillLiaFv
+  - beast_update_appear__16TObjEneMerillLiaFv
   - vfunc_83__18TObjEneRe4SorcererFv
   - vfunc_84__12TOMineIcon04Fv
   - vfunc_84__14TOTrapSeabed01Fv
@@ -17714,38 +17714,38 @@ force_active:
   - vfunc_8__17TWindowMainMenu4PFv
   - vfunc_8__18TAdAgreementBaseGCFv
   - vfunc_8__20TAdSnAkPassConfirmGCFv
-  - vfunc_93__12TObjEneBeastFv
-  - vfunc_93__12TObjEneSharkFv
-  - vfunc_93__14TObjEneDolmOlmFv
-  - vfunc_93__15TObjEneDimedianFv
-  - vfunc_93__16TObjEneMerillLiaFv
-  - vfunc_94__12TObjEneBeastFv
-  - vfunc_94__12TObjEneSharkFv
-  - vfunc_94__14TObjEneDolmOlmFv
-  - vfunc_94__15TObjEneDimedianFv
-  - vfunc_94__16TObjEneMerillLiaFv
-  - vfunc_95__12TObjEneBeastFv
-  - vfunc_95__12TObjEneSharkFv
-  - vfunc_95__14TObjEneDolmOlmFv
-  - vfunc_95__15TObjEneDimedianFv
-  - vfunc_96__12TObjEneBeastFv
-  - vfunc_96__12TObjEneSharkFv
-  - vfunc_96__14TObjEneDolmOlmFv
-  - vfunc_96__15TObjEneDimedianFv
-  - vfunc_96__16TObjEneMerillLiaFv
-  - vfunc_97__12TObjEneBeastFv
-  - vfunc_97__12TObjEneSharkFv
-  - vfunc_97__14TObjEneDolmOlmFv
-  - vfunc_97__15TObjEneDimedianFv
-  - vfunc_97__16TObjEneMerillLiaFv
-  - vfunc_98__12TObjEneBeastFv
-  - vfunc_98__12TObjEneSharkFv
-  - vfunc_98__14TObjEneDolmOlmFv
-  - vfunc_98__15TObjEneDimedianFv
-  - vfunc_98__16TObjEneMerillLiaFv
-  - vfunc_99__12TObjEneBeastFv
-  - vfunc_99__15TObjEneDimedianFv
-  - vfunc_99__16TObjEneMerillLiaFv
+  - update_attack_trail__12TObjEneBeastFv
+  - update_attack_trail__12TObjEneSharkFv
+  - update_attack_trail__14TObjEneDolmOlmFv
+  - update_attack_trail__15TObjEneDimedianFv
+  - update_attack_trail__16TObjEneMerillLiaFv
+  - spawn_death_effect__12TObjEneBeastFv
+  - spawn_death_effect__12TObjEneSharkFv
+  - spawn_death_effect__14TObjEneDolmOlmFv
+  - spawn_death_effect__15TObjEneDimedianFv
+  - spawn_death_effect__16TObjEneMerillLiaFv
+  - play_alert_sound__12TObjEneBeastFv
+  - play_alert_sound__12TObjEneSharkFv
+  - play_alert_sound__14TObjEneDolmOlmFv
+  - play_alert_sound__15TObjEneDimedianFv
+  - play_attack_sound__12TObjEneBeastFv
+  - play_attack_sound__12TObjEneSharkFv
+  - play_attack_sound__14TObjEneDolmOlmFv
+  - play_attack_sound__15TObjEneDimedianFv
+  - play_attack_sound__16TObjEneMerillLiaFv
+  - play_hurt_sound__12TObjEneBeastFv
+  - play_hurt_sound__12TObjEneSharkFv
+  - play_hurt_sound__14TObjEneDolmOlmFv
+  - play_hurt_sound__15TObjEneDimedianFv
+  - play_hurt_sound__16TObjEneMerillLiaFv
+  - play_death_sound__12TObjEneBeastFv
+  - play_death_sound__12TObjEneSharkFv
+  - play_death_sound__14TObjEneDolmOlmFv
+  - play_death_sound__15TObjEneDimedianFv
+  - play_death_sound__16TObjEneMerillLiaFv
+  - play_group_chase_sound__12TObjEneBeastFv
+  - play_group_chase_sound__15TObjEneDimedianFv
+  - play_group_chase_sound__16TObjEneMerillLiaFv
   - vfunc_9__10TTecRaFoieFv
   - vfunc_9__11TTecRaBartaFv
   - vfunc_9__12TNeedleShootFPv

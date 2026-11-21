@@ -139,11 +139,11 @@ void TUnk_80493450::beast_update_dead() {
     u8 *arg0 = (u8 *)this;
     advance_animation();
     if (((TObjMotion *)arg0)->is_passing_frame(BEAST_ANIMATION_START_FRAME) != 0) {
-        this->vfunc_98();
+        this->play_death_sound();
     }
     if (((TObjMotion *)arg0)->is_passing_frame(BEAST_DEATH_EFFECT_FRAME) != 0) {
         spawn_particle_effect(&this->position, 0xF3);
-        this->vfunc_94();
+        this->spawn_death_effect();
     }
     if (this->frame < (BEAST_DEATH_SLIDE_FRAME_SCALE * (BEAST_DEATH_SLIDE_FRAME_COUNT * this->play_speed))) {
         move_with_wall_slide((arg0));
@@ -182,7 +182,7 @@ void TUnk_80493450::beast_update_hurt() {
     }
     ((TObjPlayer *)this)->update_collisions();
     if (is_passing_frame(BEAST_ANIMATION_START_FRAME) != 0) {
-        this->vfunc_97();
+        this->play_hurt_sound();
     }
     if (action_flags != 8) {
         obj_clearFlags30(0x600);
@@ -230,9 +230,9 @@ void TUnk_80493450::beast_update_attack() {
                 ((TObjChara *)target)->receive_physical_attack(this, BEAST_ATTACK_SCALE);
                 ((TObjChara *)target)->apply_knockback_from_attacker((u8 *)this, BEAST_ATTACK_KNOCKBACK);
             }
-            vfunc_96();
+            play_attack_sound();
         }
-        vfunc_93();
+        update_attack_trail();
         if (action_flags != 4) {
             phase = 2;
             requested_action = 0;
@@ -244,7 +244,7 @@ void TUnk_80493450::beast_update_attack() {
         if (timer < 0) {
             obj_clearFlags30(0x200000);
             timer = 0;
-            vfunc_100();
+            select_post_attack_mode();
         }
         break;
     }
@@ -342,7 +342,7 @@ void TUnk_80493450::beast_update_group_chase() {
     switch (phase) {
     case 0:
         phase = 1;
-        vfunc_99();
+        play_group_chase_sound();
         break;
     }
     if (target != NULL) {
@@ -370,7 +370,7 @@ void TUnk_80493450::beast_update_approach() {
         apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), BEAST_GROUND_HEIGHT_OFFSET);
         ((TObjMotion *)arg0)->advance_animation();
         if (((TObjMotion *)arg0)->is_passing_frame(BEAST_ANIMATION_START_FRAME) != 0) {
-            this->vfunc_95();
+            this->play_alert_sound();
         }
         if (this->action_flags != 0x20U) {
             this->phase = 1;
@@ -418,7 +418,7 @@ void TUnk_80493450::update_turn_toward_target() {
     switch (arg0->phase) {
     case 0:
         if (arg0->is_passing_frame(BEAST_ANIMATION_START_FRAME) != 0) {
-            arg0->vfunc_95();
+            arg0->play_alert_sound();
         }
         if (arg0->action_flags != 0x20) {
             arg0->phase = 1;
@@ -742,7 +742,7 @@ void TUnk_80493450::run_task() {
     switch (temp_r0)
     {
       case 0:
-        (this->vfunc_83());
+        (this->beast_update_appear());
         break;
       case 1:
         (this->beast_idle_update());

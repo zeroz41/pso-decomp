@@ -751,7 +751,7 @@ void TObjEneDolmOlm::run_task() {
     switch (temp_r0)
     {
       case 0:
-        (this->vfunc_83());
+        (this->beast_update_appear());
         break;
       case 1:
         (this->beast_idle_update());
@@ -920,7 +920,7 @@ void TObjEneDolmOlm::toggle_effect_render(NJS_OBJECT *) {
     }
     TObjEneDolmOlm__effect_render_state += 1;
 }
-void TObjEneDolmOlm::vfunc_83() {
+void TObjEneDolmOlm::beast_update_appear() {
     Ene_80302004 *self = (Ene_80302004 *)this;
     advance_animation();
     switch (this->phase) {
@@ -946,7 +946,7 @@ void TObjEneDolmOlm::vfunc_83() {
         break;
     }
 }
-void TObjEneDolmOlm::vfunc_100() {
+void TObjEneDolmOlm::select_post_attack_mode() {
     if (((TObjChara *)this)->random_ratio() < *(f32 *)((s8 *)this + 0x3CC)) {
         this->mode = 0xA;
         this->phase = 0;
@@ -1311,7 +1311,7 @@ void TObjEneDolmOlm::sub_80301148() {
     *(f32 *)((s8 *)((u8 *)this) + 0x3CC) = 0.3f + *(f32 *)((s8 *)((u8 *)this) + 0x35C);
     this->m_3d0 = 0.3f + *(f32 *)((s8 *)((u8 *)this) + 0x360);
 }
-void TObjEneDolmOlm::vfunc_93() {
+void TObjEneDolmOlm::update_attack_trail() {
     Obj_800A7A14 *o = (Obj_800A7A14 *)this;
     Vec b;
     Vec a;
@@ -1348,7 +1348,7 @@ void TObjEneDolmOlm::vfunc_93() {
         eff->m4(&a, &b);
     }
 }
-void TObjEneDolmOlm::vfunc_94() {
+void TObjEneDolmOlm::spawn_death_effect() {
     u8 *arg0 = (u8 *)this;
     Vec stack;
     stack.x = 0.0f;
@@ -1362,19 +1362,19 @@ void TObjEneDolmOlm::vfunc_94() {
     ((TObjPlayer *)(&stack.x))->spawn_ground_effect(0x23);
     TObjPlayer__sub_800D92BC((saddr)&stack.x, 0xF);
 }
-void TObjEneDolmOlm::vfunc_95() {
+void TObjEneDolmOlm::play_alert_sound() {
     saddr arg0 = (saddr)this;
     play_sound_effect((((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x4003AD00)), (void *)(arg0 + 0x38), 0, 0);
 }
-void TObjEneDolmOlm::vfunc_96() {
+void TObjEneDolmOlm::play_attack_sound() {
     saddr arg0 = (saddr)this;
     play_sound_effect((((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x4003B203)), (void *)(arg0 + 0x38), 0, 0);
 }
-void TObjEneDolmOlm::vfunc_97() {
+void TObjEneDolmOlm::play_hurt_sound() {
     saddr arg0 = (saddr)this;
     play_sound_effect((((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x4003A802)), (void *)(arg0 + 0x38), 0, 0);
 }
-void TObjEneDolmOlm::vfunc_98() {
+void TObjEneDolmOlm::play_death_sound() {
     saddr arg0 = (saddr)this;
     play_sound_effect((((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x4003A801)), (void *)(arg0 + 0x38), 0, 0);
 }

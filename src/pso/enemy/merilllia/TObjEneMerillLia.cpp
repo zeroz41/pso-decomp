@@ -451,16 +451,16 @@ void move_with_wall_slide(u8 *arg0);
 extern "C" {
 s32 play_sound_effect(s32, void *, int, int);
 void TObjEneMerillLia__sub_800D4EC8(saddr arg0);
-void vfunc_99__16TObjEneMerillLiaFv(s32 arg0);
-void vfunc_98__16TObjEneMerillLiaFv(s32 arg0);
-void vfunc_97__16TObjEneMerillLiaFv(s32 arg0);
-void vfunc_96__16TObjEneMerillLiaFv(s32 arg0);
+void play_group_chase_sound__16TObjEneMerillLiaFv(s32 arg0);
+void play_death_sound__16TObjEneMerillLiaFv(s32 arg0);
+void play_hurt_sound__16TObjEneMerillLiaFv(s32 arg0);
+void play_attack_sound__16TObjEneMerillLiaFv(s32 arg0);
 void TObjEneMerillLia__sub_800D501C(saddr arg0);
 void TObjPlayer__sub_800D92BC(s32 point, s32 delay);
 f32 vec3_add_to(void *, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
 extern RecoveredGlobal_800D5060_lbl_8058D490 identity_matrix;
-void vfunc_94__16TObjEneMerillLiaFv(u8 *arg0);
+void spawn_death_effect__16TObjEneMerillLiaFv(u8 *arg0);
 s32 get_current_floor();
 f32 xz_distance_squared(void *, void *);
 void run_task__16TObjEneMerillLiaFv(u8 *arg0);
@@ -480,7 +480,7 @@ uaddr TObjEneMerillLia__entry_params_resource;
 extern s32 game_difficulty_selection;
 void run_move_action__16TObjEneMerillLiaFv(Ene_800D51C8 *arg0);
 s32 obj_setFlags30(void *, s32);
-void vfunc_83__16TObjEneMerillLiaFv(Ene_800D64F0 *arg0);
+void beast_update_appear__16TObjEneMerillLiaFv(Ene_800D64F0 *arg0);
 void run_attack_action__16TObjEneMerillLiaFv(Ene_800D52DC *arg0);
 s32 minimap_render_dot(void *, int, int, int);
 s32 create__9TTecKafunFlllllff(void *, void *, int, int, int, f32, f32);
@@ -509,7 +509,7 @@ extern Vec lbl_8050BF00;
 void TObjEneMerillLia__sub_800D5BCC(u8 *arg0);
 void * TObjEneMerillLia__create(void *arg0);
 void run_demo_task__16TObjEneMerillLiaFv(void);
-void vfunc_93__16TObjEneMerillLiaFv(void);
+void update_attack_trail__16TObjEneMerillLiaFv(void);
 void *__dt__16TObjEneMerillLiaFPvs(void *arg0, s16 arg1);
 void run_idle_action__16TObjEneMerillLiaFv(void *arg0);
 void *__ct__11TObjControlFP7TObject(void *, void *);
@@ -533,10 +533,10 @@ extern "C" void update_shock_clock__9TObjCharaFv();
 extern "C" void vfunc_43__9TObjCharaFv();
 extern "C" void vfunc_18__9TObjCharaFPUc();
 extern "C" void interact__14TObjCollidableFl();
-extern "C" void vfunc_100__13TUnk_80493450Fv();
+extern "C" void select_post_attack_mode__13TUnk_80493450Fv();
 extern "C" void vfunc_89__13TUnk_80493450Fv();
 extern "C" void update_turn_toward_target__13TUnk_80493450Fv();
-extern "C" void vfunc_95__13TUnk_80493450Fv();
+extern "C" void play_alert_sound__13TUnk_80493450Fv();
 extern "C" void vfunc_74__9TObjEnemyFl();
 extern "C" void apply_hit_message_flags__9TObjEnemyFPv();
 extern "C" void add_actor_exp__9TObjCharaFl();
@@ -681,12 +681,12 @@ void *lbl_80494728[103] = {
     (void *)&get_pos__9TObjCharaFl, (void *)&apply_switch_attack__9TObjCharaFv, (void *)&enemy_spawn_jellen_effect__9TObjCharaFv, (void *)&trigger_switch_attack__9TObjCharaFv,
     (void *)&enemy_spawn_zalure_effect__9TObjCharaFv, (void *)&recalc_stats__9TObjCharaFv, (void *)&vfunc_74__9TObjEnemyFl, (void *)&gain_photon_blast_charge__9TObjCharaFf,
     (void *)&spend_photon_blast_charge__9TObjCharaFf, (void *)&gain_photon_blast_chain_charge__9TObjCharaFv, (void *)&vfunc_78__9TObjCharaFl, (void *)&apply_enemy_state__9TObjEnemyFPl,
-    (void *)&apply_hit_message_flags__9TObjEnemyFPv, (void *)&apply_set_data__9TObjEnemyFPv, (void *)&clear_lobby_object_state__9TObjEnemyFv, (void *)&vfunc_83__16TObjEneMerillLiaFv,
+    (void *)&apply_hit_message_flags__9TObjEnemyFPv, (void *)&apply_set_data__9TObjEnemyFPv, (void *)&clear_lobby_object_state__9TObjEnemyFv, (void *)&beast_update_appear__16TObjEneMerillLiaFv,
     (void *)&TObjEneMerillLia__sub_800D5BCC, (void *)&update_turn_toward_target__13TUnk_80493450Fv, (void *)&beast_update_approach__16TObjEneMerillLiaFv, (void *)&beast_update_group_chase__16TObjEneMerillLiaFv,
     (void *)&beast_update_attack__13TUnk_80493450Fv, (void *)&vfunc_89__13TUnk_80493450Fv, (void *)&beast_update_hurt__16TObjEneMerillLiaFv, (void *)&beast_update_dead__13TUnk_80493450Fv,
-    (void *)&beast_retire_corpse__13TUnk_80493450Fv, (void *)&vfunc_93__16TObjEneMerillLiaFv, (void *)&vfunc_94__16TObjEneMerillLiaFv, (void *)&vfunc_95__13TUnk_80493450Fv,
-    (void *)&vfunc_96__16TObjEneMerillLiaFv, (void *)&vfunc_97__16TObjEneMerillLiaFv, (void *)&vfunc_98__16TObjEneMerillLiaFv, (void *)&vfunc_99__16TObjEneMerillLiaFv,
-    (void *)&vfunc_100__13TUnk_80493450Fv, (void *)&run_demo_task__16TObjEneMerillLiaFv, (void *)&request_stand_action__13TUnk_80493450Fv,
+    (void *)&beast_retire_corpse__13TUnk_80493450Fv, (void *)&update_attack_trail__16TObjEneMerillLiaFv, (void *)&spawn_death_effect__16TObjEneMerillLiaFv, (void *)&play_alert_sound__13TUnk_80493450Fv,
+    (void *)&play_attack_sound__16TObjEneMerillLiaFv, (void *)&play_hurt_sound__16TObjEneMerillLiaFv, (void *)&play_death_sound__16TObjEneMerillLiaFv, (void *)&play_group_chase_sound__16TObjEneMerillLiaFv,
+    (void *)&select_post_attack_mode__13TUnk_80493450Fv, (void *)&run_demo_task__16TObjEneMerillLiaFv, (void *)&request_stand_action__13TUnk_80493450Fv,
 };
 #define lbl_80494728 ((s32 *)lbl_80494728)
 
@@ -877,7 +877,7 @@ void TObjEneMerillLia::run_task() {
     switch (temp_r0)
     {
       case 0:
-        (this->vfunc_83());
+        (this->beast_update_appear());
         break;
       case 1:
         (this->beast_idle_update());
@@ -1078,7 +1078,7 @@ void TObjEneMerillLia::beast_update_approach() {
     ((TObjBase *)arg0)->obj_clearFlags30(0x200000);
 }
 
-void TObjEneMerillLia::vfunc_83() {
+void TObjEneMerillLia::beast_update_appear() {
     Ene_800D64F0 *arg0 = (Ene_800D64F0 *)this;
     switch (arg0->sub) {
     case 0:
@@ -1355,7 +1355,7 @@ void TObjEneMerillLia::beast_update_hurt() {
     ((TObjPlayer *)((u8 *)this))->update_collisions();
     this->update_enemy_collision_flags();
     if (this->is_passing_frame(0.0f) != 0) {
-        this->vfunc_97();
+        this->play_hurt_sound();
     }
     if (this->action_flags != 8) {
         this->obj_clearFlags30(0x600);
@@ -1679,9 +1679,9 @@ s32 TObjEneMerillLia::get_clamped_level() {
     return v;
 }
 
-void TObjEneMerillLia::vfunc_93() {  }
+void TObjEneMerillLia::update_attack_trail() {  }
 
-void TObjEneMerillLia::vfunc_94() {
+void TObjEneMerillLia::spawn_death_effect() {
     u8 *arg0 = (u8 *)this;
     Vec stack;
     stack.x = 0.0f;
@@ -1700,22 +1700,22 @@ void TObjEneMerillLia__sub_800D501C(saddr arg0) {
     play_sound_effect((((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x3B206)), (void *)(arg0 + 0x38), 0, 0);
 }
 
-void TObjEneMerillLia::vfunc_96() {
+void TObjEneMerillLia::play_attack_sound() {
     saddr arg0 = (saddr)this;
     play_sound_effect((((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x3AB02)), (void *)(arg0 + 0x38), 0, 0);
 }
 
-void TObjEneMerillLia::vfunc_97() {
+void TObjEneMerillLia::play_hurt_sound() {
     saddr arg0 = (saddr)this;
     play_sound_effect((((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x3B201)), (void *)(arg0 + 0x38), 0, 0);
 }
 
-void TObjEneMerillLia::vfunc_98() {
+void TObjEneMerillLia::play_death_sound() {
     saddr arg0 = (saddr)this;
     play_sound_effect((((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x3AD00)), (void *)(arg0 + 0x38), 0, 0);
 }
 
-void TObjEneMerillLia::vfunc_99() {
+void TObjEneMerillLia::play_group_chase_sound() {
     saddr arg0 = (saddr)this;
     play_sound_effect((((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x3B205)), (void *)(arg0 + 0x38), 0, 0);
 }

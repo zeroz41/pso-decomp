@@ -163,31 +163,31 @@ void TObjMotion::sub_800A7798(f32 farg0) {
 void TObjMotion::set_flags_B0(u32 v) { this->motion_flags |= v; }
 void TObjEneDimedian::run_demo_task() {  }
 
-void TObjEneDimedian::vfunc_99() {
+void TObjEneDimedian::play_group_chase_sound() {
     saddr arg0 = (saddr)this;
     play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003AD40), arg0 + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 
-void TObjEneDimedian::vfunc_98() {
+void TObjEneDimedian::play_death_sound() {
     saddr arg0 = (saddr)this;
     play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003AD3D), arg0 + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 
-void TObjEneDimedian::vfunc_97() {
+void TObjEneDimedian::play_hurt_sound() {
     saddr arg0 = (saddr)this;
     play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003A83E), arg0 + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 
-void TObjEneDimedian::vfunc_96() {
+void TObjEneDimedian::play_attack_sound() {
     saddr arg0 = (saddr)this;
     play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003A83F), arg0 + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 
-void TObjEneDimedian::vfunc_95() {
+void TObjEneDimedian::play_alert_sound() {
     saddr arg0 = (saddr)this;
     s32 temp_r3;
     if (random_ratio() < 0.5f) {
@@ -200,7 +200,7 @@ void TObjEneDimedian::vfunc_95() {
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 
-void TObjEneDimedian::vfunc_94() {
+void TObjEneDimedian::spawn_death_effect() {
     saddr arg0 = (saddr)this;
     s32 area;
     TObjPlayer::apply_effect_variant_a(arg0 + 0x38, 0);
@@ -213,7 +213,7 @@ void TObjEneDimedian::vfunc_94() {
     play_sound_effect((s32)(((s32)((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003AD25))), arg0 + 0x38, 0, 0);
 }
 
-void TObjEneDimedian::vfunc_93() {
+void TObjEneDimedian::update_attack_trail() {
     Obj_800A7A14 *o = (Obj_800A7A14 *)this;
     Vec b;
     Vec a;
@@ -282,7 +282,7 @@ void TObjEneDimedian::sub_800A7B54() {
         return;
     }
 }
-void TObjEneDimedian::vfunc_83() {
+void TObjEneDimedian::beast_update_appear() {
     Obj_800A7BEC *arg0 = (Obj_800A7BEC *)this;
     advance_animation();
     switch (this->phase) {
@@ -475,7 +475,7 @@ extern "C" void update_shock_clock__9TObjCharaFv();
 extern "C" void vfunc_43__9TObjCharaFv();
 extern "C" void vfunc_18__9TObjCharaFPUc();
 extern "C" void interact__14TObjCollidableFl();
-extern "C" void vfunc_100__13TUnk_80493450Fv();
+extern "C" void select_post_attack_mode__13TUnk_80493450Fv();
 
 extern "C" void vfunc_89__13TUnk_80493450Fv();
 extern "C" void update_turn_toward_target__13TUnk_80493450Fv();
