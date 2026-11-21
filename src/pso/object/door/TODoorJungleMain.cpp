@@ -41,6 +41,8 @@ struct AnimationMotion;
 #include "pso/unk/text_803D96A8.h"
 
 #include "pso/math/MatrixVector.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/unk/text_803D8F74.h"
 
 #include "pso/render/GinjaMaterial.h"
 
@@ -145,7 +147,6 @@ void *__ct__10TODoorBaseFP7TObject(void *a0);
 extern s32 __vt__16TODoorJungleMain[];
 
 
-s32 rotate_matrix_y(int, int);
 
 
 int post_translate_matrix(void *);
@@ -161,7 +162,6 @@ struct Door_8029B524 {
     s32 count;
 };
 
-struct Mtx_8029B640 { f32 m[12]; };
 
 extern "C" {
 
@@ -171,7 +171,6 @@ s32 minimap_render_gate(void *, u32, u16, s32, s32);
 
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 
-s32 matrix_mult_vec(void *, void *, void *);
 
 
 s32 release_texture_list(void*);
@@ -221,7 +220,7 @@ TODoorJungleMain::~TODoorJungleMain() {
 
 void TODoorJungleMain::run_task() {
     u8 *arg0 = (u8 *)this;
-    Mtx_8029B640 mtx;
+    GC_Mtx mtx;
     s32 flag;
     f32 t;
 
@@ -252,9 +251,9 @@ void TODoorJungleMain::run_task() {
                 Vec b = {-40.0f, 0.0f, 0.0f};
                 set_matrix_identity((u8 *)&mtx);
                 translate_matrix_vec3((u8 *)&mtx, (u8 *)&this->position);
-                rotate_matrix_y((int)&mtx, this->rotation_y);
-                matrix_mult_vec(&mtx, &a, &a);
-                matrix_mult_vec(&mtx, &b, &b);
+                rotate_matrix_y(mtx, this->rotation_y);
+                matrix_mult_vec(mtx, &a, &a);
+                matrix_mult_vec(mtx, &b, &b);
                 spawn_particle_effect_with_flags(&a, 0x229, 0x800);
                 spawn_particle_effect_with_flags(&b, 0x229, 0x800);
             }
@@ -305,7 +304,7 @@ void TODoorJungleMain::render() {
         TObjFish::set_global_param((saddr)door_jungle_main_gvm_texture);
         push_matrix();
         post_translate_matrix(self->xf);
-        rotate_matrix_y(0, self->f60);
+        rotate_matrix_y(NULL, self->f60);
         if (self->flags & 1) {
             draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)TODoorJungleMain__bml_resource, 3), self->fbc, self->fb4);
         } else {

@@ -484,7 +484,7 @@ s32 fn_801B0480(void *, void *, s32);
 
 s32 draw_player_status(void *, void *, const char *);
 
-s32 submit_cursor_candidate(int, int);
+s32 submit_cursor_candidate(void *, int);
 
 Plr_800F6BF0 * get_player_by_client_id(u16);
 
@@ -1259,7 +1259,7 @@ void TObjControl::run_task() {
         if (((EnemyControlDispatch *)(enemy))->m41() == 0) {
             ((EnemyControlDispatch *)(enemy))->m36();
             if ((((EnemyControlDispatch *)(enemy))->m34() != 0) || (((EnemyControlDispatch *)(enemy))->m38() != 0) || (((EnemyControlDispatch *)(enemy))->m37() != 0)) {
-                submit_cursor_candidate((int)enemy, -1);
+                submit_cursor_candidate(enemy, -1);
                 minimap_render_dot(enemy + 0x38, -0x5DB4, 1, 0);
                 ((EnemyControlDispatch *)(enemy))->m26();
                 ((TObject *)enemy)->pause_update();

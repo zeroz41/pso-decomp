@@ -206,9 +206,9 @@ u32 calc_pulse_flash_color(u8 r, u8 g, u8 b, s32 frame, s32 period, s32 start, s
 
 extern "C" {
 
-s32 delete_object_if_delete_flag(s32 self, s16 del) {
-    if (self != 0 && del > 0) {
-        operator delete((void *)self);
+void *delete_object_if_delete_flag(void *self, s16 del) {
+    if (self != NULL && del > 0) {
+        operator delete(self);
     }
     return self;
 }

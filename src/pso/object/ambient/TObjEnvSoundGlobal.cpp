@@ -350,11 +350,11 @@ void copy_pair__18TObjEnvSoundGlobalFPvPv(void* p, void* q) { *(u32*)((char*)p +
 #pragma opt_common_subs off
 s32 TObjEnvSoundGlobal::setup_sound() {
     s32 var_r31;
-    uaddr temp_r4;
+    const Row_80190AA0 *table;
     var_r31 = 1;
-    temp_r4 = (uaddr)environment_sound_tables_by_area[get_current_floor_area()];
-    if (temp_r4 != 0U) {
-        copy_pair__18TObjEnvSoundGlobalFPvPv((u8 *)&this->m_94, (void*)((int) (temp_r4 + (this->set_params[0] * 8))));
+    table = environment_sound_tables_by_area[get_current_floor_area()];
+    if (table != NULL) {
+        copy_pair__18TObjEnvSoundGlobalFPvPv(&this->m_94, (void *)&table[this->set_params[0]]);
     } else {
         var_r31 = 0;
         this->m_94 = -1;
