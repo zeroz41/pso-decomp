@@ -15,6 +15,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecCtrl.h"
+#include "pso/system/task/TMainTask.h"
 extern "C" void *__ct__16TargetCursorListFv(void *list);
 
 #pragma readonly_strings on
@@ -127,7 +128,6 @@ int spawn_support_tec_range_effect(void*);
 
 }
 u8 *construct_delayed_point_sound(u8 *arg0, u8 *arg1, s16 arg2, s32 arg3, u8 *arg4);
-extern saddr tl_07;
 void TTecReverser::vfunc_6(void *arg1_arg) {
     Obj_80239CF4 *arg0 = (Obj_80239CF4 *)this;
     VObj_18_9c98dd *arg1 = (VObj_18_9c98dd *)arg1_arg;
@@ -248,7 +248,7 @@ void TTecResta::vfunc_7(void *arg1_arg) {
         if (*(s32 *)&arg0->m_ac != 0) {
             void *o = TObject::operator new(0x30);
             if (o != NULL) {
-                construct_self_recovery__9TTecRestaFPvPviPv((Resta_8023967C *)o, (Vec *)((u8 *)player + 0x2FC), arg0->source, (void *)tl_07);
+                construct_self_recovery__9TTecRestaFPvPviPv((Resta_8023967C *)o, (Vec *)((u8 *)player + 0x2FC), arg0->source, tl_07);
             }
         }
     } else if (*(s32 *)&arg0->m_ac != 0) {

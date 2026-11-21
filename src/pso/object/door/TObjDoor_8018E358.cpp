@@ -19,6 +19,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 struct BmlResource;
 struct GinjaTextureList;
@@ -74,7 +75,6 @@ s32 project_world_to_screen(int, void *, void *);
 extern saddr camera_ctrl_instance;
 s32 free_collision_body_parts(void *);
 extern s32 __vt__8TObjDoor[];
-extern void *tl_05;
 void *TObjDoor__create(void *arg0);
 extern GinjaTextureList *TObjDoor__resource_param;
 extern BmlResource *door_resource_handle;

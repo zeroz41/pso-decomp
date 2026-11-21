@@ -12,9 +12,9 @@
 #include "pso/player/TObjPlayer_80011014.h"
 
 #include "pso/unk/text_803D853C.h"
+#include "pso/system/task/TMainTask.h"
 
 extern "C" {
-extern void* tl_00;
 
 const char *TObjMesBase__class_name = "TObjMesBase";
 
@@ -46,7 +46,7 @@ void TObjMesBase::interact(s32) {
         case 0:
             if (!messageChild && label != 0 && root) {
                 messageChild = new TQuestThread(root, messageLabel);
-                if (messageChild) messageChild->set_parent((TObject *)tl_00);
+                if (messageChild) messageChild->set_parent(tl_00);
                 messagePhase = 1;
             }
             break;

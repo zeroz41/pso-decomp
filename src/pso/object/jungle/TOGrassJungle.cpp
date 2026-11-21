@@ -14,6 +14,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 extern "C" {
 BmlResource *TOGrassJungle__bml_resource;
@@ -23,7 +24,6 @@ const char *bm_o_grass_jungle_model_names[3] = { "fe_obj_kusa_hinata.gj", "fe_ob
 BmlResourceDescriptor ograss_jungle_resource_descriptor = { "bm_o_grass_jungle.bml", bm_o_grass_jungle_model_names, bm_o_grass_jungle_motion_names, 2, 0 };
 const char *grass_jungle_class_name = "TOGrassJungle";
 
-extern void *tl_05;
 
 void *TOGrassJungle__create(void *arg0) {
     void *o = TObject::operator new(0x94);

@@ -15,6 +15,7 @@
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/system/task/TMainTask.h"
 
 extern "C" {
 
@@ -23,7 +24,6 @@ void init_collision_body_parts(void *, void *, s32);
 s32 rotate_matrix_y(s32, s32);
 extern u8 *lbl_805D50D8;
 extern s32 model_render_flags;
-extern void *tl_04;
 }
 
 TObjMotionAction moja_action_table[2] = {
@@ -56,7 +56,7 @@ TObjNpcMoja::TObjNpcMoja(TObject *parent, void *set_data) : TObjNpcBase(parent) 
 TObjNpcMoja::~TObjNpcMoja() {}
 
 void *TObjNpcMoja::create(void *set_data) {
-    TObjControl *control = new TObjControl((TObject *)tl_04);
+    TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcMoja(control, set_data);
 }
 

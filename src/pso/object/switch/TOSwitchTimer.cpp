@@ -7,6 +7,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/system/task/TMainTask.h"
 #pragma readonly_strings on
 
 extern "C" {
@@ -105,7 +106,6 @@ void TOSwitchTimer::run_task() {
     }
 }
 
-extern void *tl_05;
 
 void *TOSwitchTimer::create(void *arg0) {
     void *o = (void *)new TOSwitchTimer((saddr)tl_05, (saddr)arg0);

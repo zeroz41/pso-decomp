@@ -194,7 +194,6 @@ extern s32 local_client_id;
 
 extern s32 game_difficulty_selection;
 
-extern void *tl_05;
 
 const char *chainsaw_ginja_model_filenames[6] = {
     "fe_obj_nokogiri_2m.gj", "fe_obj_nokogiri_4m.gj", "fe_obj_sekigai_light_moto.gj",
@@ -271,6 +270,7 @@ extern "C" { BmlResource *lbl_805D6808; }
 #include "pso/render/NinjaUtil.h"
 
 #include "pso/object/seabed/TObjSeabedSuisoBrakable.h"
+#include "pso/system/task/TMainTask.h"
 
 void TOTrapChainSaw::vfunc_16() {  }
 
@@ -626,7 +626,7 @@ TOTrapChainSawDamage::~TOTrapChainSawDamage() {
 }
 
 void *TOTrapChainSawDamage::create() {
-    return new TOTrapChainSawDamage((TObject *)tl_05, this);
+    return new TOTrapChainSawDamage(tl_05, this);
 }
 
 void TOTrapChainSawDamage::decode_params() {
@@ -744,7 +744,7 @@ TOTrapChainSawKey::~TOTrapChainSawKey() {
 }
 
 void *TOTrapChainSawKey::create() {
-    return new TOTrapChainSawKey((TObject *)tl_05, this);
+    return new TOTrapChainSawKey(tl_05, this);
 }
 
 void TOTrapChainSawKey::decode_params() { TOTrapChainSaw::decode_params(); }

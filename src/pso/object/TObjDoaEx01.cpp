@@ -22,6 +22,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/task/TMainTask.h"
 
 __declspec(section ".data") const char *fs_obj_ex_doa01_model_names[2] = { "fs_obj_ex_doa01.gj", NULL };
 __declspec(section ".data") const char *fs_obj_ex_doa01_motion_names[2] = { "fs_obj_ex_doa01.njm", NULL };
@@ -272,7 +273,6 @@ TObjDoaEx01::~TObjDoaEx01() {
 }
 
 
-extern void *tl_05;
 
 TObjDoaEx01::TObjDoaEx01(saddr arg1, saddr arg2) : TODoorBase((TObject *)arg1) {
     *(saddr *)((s8 *)this + 0) = (saddr) TObjDoaEx01__name;

@@ -95,7 +95,6 @@ void run_task__14TObjEnvSoundExFv(Env_80190624 *o);
 void * TObjEnvSoundEx__create(void *arg0);
 
 
-extern void *tl_05;
 
 
 #define F(o) (*(f32 *)(self + (o)))
@@ -120,6 +119,7 @@ f32 xyz_distance_squared(void *, void *, void *);
 
 
 #include "pso/unk/text_80190940.h"
+#include "pso/system/task/TMainTask.h"
 
 
 struct Obj_80190AA0 {
@@ -211,7 +211,7 @@ void * TObjEnvSound__create(void *rader_map_core) {
     if (TRaderMapCore::is_not_split_screen() == 1) {
         return NULL;
     }
-    return new TObjEnvSound((TObject *)tl_05, rader_map_core);
+    return new TObjEnvSound(tl_05, rader_map_core);
 }
 
 s32 fn_801908F8(saddr arg0, f32 farg0) {
@@ -313,7 +313,7 @@ void * TObjEnvSoundEx__create(void *rader_map_core) {
     if (TRaderMapCore::is_not_split_screen() == 1) {
         return NULL;
     }
-    return new TObjEnvSoundEx((TObject *)tl_05, (saddr)rader_map_core);
+    return new TObjEnvSoundEx(tl_05, (saddr)rader_map_core);
 }
 
 #define env_sound_global this

@@ -11,6 +11,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 const char *bm_n_kanteib_i_body_motion_names[1] = { NULL };
 __declspec(section ".data") const char *bm_n_kanteib_i_body_model_names[2] = { "n_kanteib_i_body_1.nj", NULL };
@@ -75,7 +76,6 @@ void TObjNpcConnoisseur::load_section_motion() {
 TObjNpcConnoisseur::~TObjNpcConnoisseur() {}
 
 
-extern void *tl_04;
 
 TObjNpcConnoisseur::TObjNpcConnoisseur(TObject *parent, void *arg2) : TUnk_804A9F50(parent) {
     ((TObjNpcConnoisseur *)this)->m_name = TObjNpcConnoisseur__name;
@@ -87,7 +87,7 @@ TObjNpcConnoisseur::TObjNpcConnoisseur(TObject *parent, void *arg2) : TUnk_804A9
 }
 
 void *TObjNpcExpertBase__create(void *set_data) {
-    TObjControl *control = new TObjControl((TObject *)tl_04);
+    TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcExpertBase(control, set_data);
 }
 

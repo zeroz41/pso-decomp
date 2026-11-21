@@ -7,10 +7,10 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/text_800870BC.h"
 #include "pso/unk/text_800871A0.h"
+#include "pso/system/task/TMainTask.h"
 
 extern "C" {
 s32 is_split_screen(void);
-extern TObject *tl_05;
 extern const char TObjParticle__class_name_string[] = "TObjParticle";
 const char *obj_particle_class_name = TObjParticle__class_name_string;
 extern TCameraCtrl *camera_ctrl_instance;

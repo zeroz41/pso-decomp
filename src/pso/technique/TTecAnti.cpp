@@ -14,6 +14,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby_80226070.h"
+#include "pso/system/task/TMainTask.h"
 extern "C" void *__ct__16TargetCursorListFv(void *list);
 
 #pragma readonly_strings on
@@ -129,7 +130,6 @@ s32 is_split_screen();
 int spawn_support_tec_range_effect(void*);
 }
 u8 *construct_delayed_point_sound(u8 *arg0, u8 *arg1, s16 arg2, s32 arg3, u8 *arg4);
-extern void *tl_07;
 void TTecAnti::render() {  }
 
 S_8022B3E8 *copy_technique_target_list(S_8022B3E8 *d, S_8022B3E8 *s) {

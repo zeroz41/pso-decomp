@@ -12,6 +12,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 struct Atk_801778A8 {
     s32 a;
@@ -59,7 +60,6 @@ u8 is_current_floor_switch_set(s32 id);
 
 void TOSwitchAttack::render() {  }
 
-extern void *tl_05;
 
 #pragma push
 #pragma opt_lifetimes off
@@ -163,7 +163,7 @@ void TOSwitchAttack::run_task() {
 #pragma pop
 
 void *TOSwitchAttack::create(void *arg0) {
-    return new TOSwitchAttack((TObject *)tl_05, arg0);
+    return new TOSwitchAttack(tl_05, arg0);
 }
 
 void TOSwitchAttack__sub_80177C20(void) {  }

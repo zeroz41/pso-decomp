@@ -12,6 +12,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 #pragma readonly_strings on
 
@@ -46,7 +47,6 @@ void TObjNpcHosa::load_static_resource() {
 TObjNpcHosa::~TObjNpcHosa() {}
 
 
-extern void *tl_04;
 
 TObjNpcHosa::TObjNpcHosa(TObject *parent, void *arg2) : TUnk_804A9F50(parent) {
     *(s32 *)((s8 *)this + 0) = (saddr) TObjNpcHosa__name;
@@ -58,7 +58,7 @@ TObjNpcHosa::TObjNpcHosa(TObject *parent, void *arg2) : TUnk_804A9F50(parent) {
 }
 
 void *TObjNpcKenkyuW__create(void *set_data) {
-    TObjControl *control = new TObjControl((TObject *)tl_04);
+    TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcKenkyuW(control, set_data);
 }
 

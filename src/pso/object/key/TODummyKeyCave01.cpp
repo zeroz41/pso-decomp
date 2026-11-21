@@ -21,6 +21,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/task/TMainTask.h"
 
 const char *TODummyKeyCave01__class_name = "TODummyKeyCave01";
 const char *TODummyKeyCave01Sound__class_name = "TODummyKeyCave01Sound";
@@ -73,7 +74,6 @@ extern u8 chunk_material_color_half_alpha_f32[];
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 u8 is_current_floor_switch_set(s32 id);
-extern void *tl_05;
 }
 
 #define dummy_key_cave01 this
@@ -101,7 +101,7 @@ extern "C" {
 void TODummyKeyCave01__sub_80165E8C(void) {  }
 void TODummyKeyCave01__sub_80165E88(void) {  }
 void *TODummyKeyCave01::create(void *arg0) {
-    return new TODummyKeyCave01((TObject *)tl_05, arg0);
+    return new TODummyKeyCave01(tl_05, arg0);
 }
 
 void TODummyKeyCave01::run_task() {

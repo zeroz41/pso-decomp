@@ -36,6 +36,7 @@
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/unk/text_803D853C.h"
+#include "pso/system/task/TMainTask.h"
 
 
 struct RecoveredGlobal_8018289C_lbl_80443F4C
@@ -265,7 +266,6 @@ void TObjCityDoor_Lobby::build_door_collision_triangles() {
 #pragma pop
 
 Obj_80181F10 *TObjCityDoor_Lobby__ct(Obj_80181F10 *, void *, s32);
-extern void *tl_05;
 int check_phase_e(void *) { return TObjEneDD::is_phase_e(); }
 u8 *TObjCityDoor_Lobby__create(s32 arg0) {
     u8 *temp_r3;

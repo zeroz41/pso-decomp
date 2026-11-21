@@ -13,6 +13,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/system/task/TMainTask.h"
 
 struct VBase_80178AD4 { u8 pad[0x18]; };
 
@@ -88,7 +89,6 @@ s32 TOSymbolchatColli::get_state() {
     return (u32) __cntlzw(1 - is_current_floor_switch_set(this->m_378)) >> 5;
 }
 
-extern void *tl_05;
 
 typedef struct Ent_8017873C Ent_8017873C;
 typedef struct HL_8017873C HL_8017873C;
@@ -174,7 +174,7 @@ void run_task__17TOSymbolchatColliFv(Obj_80178890 *self) {
 void *TOSymbolchatColli::create(void *arg0) {
     void *o = TObject::operator new(0x384);
     if (o != NULL) {
-        o = __ct__17TOSymbolchatColliFP7TObjectl((Obj_80178AD4 *)(o), (void *)tl_05, (saddr)arg0);
+        o = __ct__17TOSymbolchatColliFP7TObjectl((Obj_80178AD4 *)(o), tl_05, (saddr)arg0);
     }
     return o;
 }

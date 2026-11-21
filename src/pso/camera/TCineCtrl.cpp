@@ -5,6 +5,7 @@
 
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/system/task/TMainTask.h"
 
 #pragma readonly_strings on
 
@@ -131,7 +132,6 @@ void TCineCtrl::reset(s32 arg0) {
     }
 }
 
-extern void *tl_fade;
 const char *TCineCtrl__class_name = "TCineCtrl";
 
 
@@ -154,7 +154,7 @@ void TCineCtrl::run_task() {
 TCineCtrl::~TCineCtrl() {
     TCineCtrl__instance = NULL;
 }
-TCineCtrl::TCineCtrl() : TObject((TObject *)tl_fade) {
+TCineCtrl::TCineCtrl() : TObject(tl_fade) {
     this->m_name = TCineCtrl__class_name;
     *(f32 *)((s8 *)this + 0x1C) = 0.0f;
     this->m_20 = 0.0f;

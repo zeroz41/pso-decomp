@@ -48,6 +48,7 @@ const char *TOChatSensorCapture__class_name = "TOChatSensorCapture";
 #include "pso/object/switch/TOChatSensor_8015B214.h"
 
 #include "pso/system/byteswap.h"
+#include "pso/system/task/TMainTask.h"
 
 extern "C" {
 void *TOChatSensorFolder__instance;
@@ -74,12 +75,10 @@ extern "C" {
 u8 is_current_floor_switch_set(s32 id);
 
 
-extern void *tl_00;
 
 extern s32 local_client_id;
 
 
-extern s32 tl_05;
 
 
 }
@@ -108,7 +107,7 @@ void *TOChatSensor__create(void *set) {
     u32 temp_r3_2;
     u32 var_r0;
     if ((uaddr) TOChatSensorFolder__instance == 0U) {
-        new TOChatSensorFolder((TObject *)tl_05);
+        new TOChatSensorFolder(tl_05);
     }
     if ((uaddr) TOChatSensorFolder__instance != 0U) {
         return new TOChatSensor((TObject *)TOChatSensorFolder__instance, set);
@@ -233,7 +232,7 @@ void TOChatSensor::handle_chat_message(void *arg1) {
                     o = new TQuestThread(quest_mission_manager, *(u32 *)(arg0 + 0x94));
                     *(void **)(arg0 + 0xC4) = o;
                     if (*(void **)(arg0 + 0xC4) != NULL) {
-                        ((TObject *)(*(void **)(arg0 + 0xC4)))->set_parent((TObject *)tl_00);
+                        ((TObject *)(*(void **)(arg0 + 0xC4)))->set_parent(tl_00);
                     }
                     *(s32 *)(arg0 + 0xC8) = 1;
                 }

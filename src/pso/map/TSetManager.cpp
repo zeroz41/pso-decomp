@@ -17,6 +17,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/map/FloorArea.h"
+#include "pso/system/task/TMainTask.h"
 
 extern "C" {
 extern "C" void apply_floor_set_rows__11TSetManagerFv();
@@ -115,7 +116,6 @@ extern "C" {
 void* __nw__7TObjectFUl(u32);
 void mem_free(void*);
 
-extern void *tl_02;
 
 void TSetManager::create() {
     void* obj = TObject::operator new(0x20);

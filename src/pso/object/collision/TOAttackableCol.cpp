@@ -16,6 +16,7 @@
 
 
 #include "pso/player/TUnk_804B6C24.h"
+#include "pso/system/task/TMainTask.h"
 
 
 #pragma readonly_strings on
@@ -59,10 +60,8 @@ void *fn_80157CA8(void *arg0);
 void TOAttackableCol__sub_80157310(void *_w0);
 u8 is_current_floor_switch_set(s32 id);
 u16 get_entity_id(void *);
-extern s32 tl_00;
 s32 obj_setFlags30(void *, int);
 s32 init_collision_body_parts(void *, void *, int);
-extern saddr tl_05;
 s32 get_current_floor(void);
 void TOAttackableCol__sub_80157C20(void* p, s32 v);
 s32 TOAttackableCol__sub_80157C28(void* p);
@@ -244,7 +243,7 @@ f32 TOAttackableCol::apply_hit(saddr arg1) {
           var_r0 = (uaddr)new TQuestThread(quest_mission_manager, this->m_344);
           if (var_r0 != 0U)
           {
-            ((TObject *)var_r0)->set_parent((TObject *)tl_00);
+            ((TObject *)var_r0)->set_parent(tl_00);
           }
         }
         else
@@ -253,7 +252,7 @@ f32 TOAttackableCol::apply_hit(saddr arg1) {
           var_r0_2 = (uaddr)new TQuestThread(quest_area_manager, this->m_344);
           if (var_r0_2 != 0U)
           {
-            ((TObject *)var_r0_2)->set_parent((TObject *)tl_00);
+            ((TObject *)var_r0_2)->set_parent(tl_00);
           }
         }
       }
@@ -315,7 +314,7 @@ TOAttackableCol::~TOAttackableCol() {
 }
 
 
-TOAttackableCol::TOAttackableCol(saddr arg1) : TObjChara((TObject *)tl_05) {
+TOAttackableCol::TOAttackableCol(saddr arg1) : TObjChara(tl_05) {
     ((TObject *)this)->m_name = TOAttackableCol__name;
     ((TOAttackableCol *)(((u8 *)this)))->apply_object_set_data((void *)arg1);
     ((TObjChara *)this)->calc_attach_pos();

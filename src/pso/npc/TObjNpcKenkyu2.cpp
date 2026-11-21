@@ -12,15 +12,15 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 #pragma readonly_strings on
 
 extern "C" {
 
 
-extern void *tl_04;
 
 void *TObjNpcKenkyu2__create(void *set_data) {
-    TObjControl *control = new TObjControl((TObject *)tl_04);
+    TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcKenkyu2(control, set_data);
 }
 
@@ -62,7 +62,7 @@ TObjNpcKenkyu2::TObjNpcKenkyu2(TObject *parent, void *arg2) : TUnk_804A9F50(pare
 }
 
 void *TObjNpcHosa2__create(void *set_data) {
-    TObjControl *control = new TObjControl((TObject *)tl_04);
+    TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcHosa2(control, set_data);
 }
 }

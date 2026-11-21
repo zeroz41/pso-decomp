@@ -9,6 +9,7 @@
 #include "pso/object/TUnk_804B5C08.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/system/task/TMainTask.h"
 
 struct VBase_18_26a62c
 {
@@ -42,7 +43,6 @@ void vfunc_13__13TUnk_804B5C08Fl(void* a0);
 s32 post_translate_matrix(void *);
 void render__13TUnk_804B5C08Fv(u8 *arg0);
 void run_task__13TUnk_804B5C08Fv(u8 *arg0);
-extern void *tl_05;
 extern s32 city_vertical_model_vtable[];
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 void TUnk_804B5C08::vfunc_13(s32) { this->m_9c = 0.0f; *(int*)((char*)this + 0x90) = 1; }

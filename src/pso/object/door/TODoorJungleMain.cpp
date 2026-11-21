@@ -45,6 +45,7 @@ struct AnimationMotion;
 #include "pso/render/GinjaMaterial.h"
 
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 
 struct Ids_8029B428 {
@@ -86,7 +87,6 @@ void TLobby__sub_8029B2A4(void* p);
 void *TODoorJungleMain__create(void *arg0);
 
 
-extern void *tl_05;
 }
 s32 is_any_player_near(saddr arg0);
 

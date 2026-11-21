@@ -13,6 +13,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include <stdlib.h>
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 #pragma readonly_strings on
 
@@ -31,7 +32,6 @@ extern "C" {
 extern BmlResourceDescriptor bm_fe_obj_tank_hikari_resource_descriptor;
 extern BmlResource *TOSparkMachine01__static_resource;
 extern const char *TOSparkMachine01__name;
-extern s32 tl_05;
 void rotate_matrix_y(int, int);
 void post_translate_matrix(void *);
 
@@ -117,7 +117,7 @@ TOSparkMachine01::~TOSparkMachine01() {
 
 }
 
-TOSparkMachine01::TOSparkMachine01(void *arg1) : TObjBase((TObject *)tl_05) {
+TOSparkMachine01::TOSparkMachine01(void *arg1) : TObjBase(tl_05) {
     TOSparkMachine01 *self = this;
     s32 i;
     self->m_name = TOSparkMachine01__name;

@@ -14,6 +14,7 @@
 #include "pso/render/ModelDrawContext.h"
 #include <stdlib.h>
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/system/task/TMainTask.h"
 
 __declspec(section ".data") const char *bm_o_abe_butterfly_model_names[2] = { "abecyou_fe_obj001_cyou.gj", NULL };
 __declspec(section ".data") const char *bm_o_abe_butterfly_motion_names[2] = { "abecyou2_fe_obj001_cyou.njm", NULL };
@@ -227,10 +228,9 @@ TButterfly::TButterfly(TObject *arg1, void *arg2) : TObjBase(arg1) {
 }
 extern "C" {
 
-extern void *tl_05;
 
 void *TButterfly__create(void *arg0) {
-    void *o = (void *)new TButterfly((TObject *)tl_05, (void *)arg0);
+    void *o = (void *)new TButterfly(tl_05, (void *)arg0);
     return o;
 }
 

@@ -10,6 +10,7 @@
 #include "pso/npc/TNpcPlayer_80190E64.h"
 #include "pso/unk/TLobby_80191218.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
@@ -47,7 +48,6 @@ void *get_player_by_client_id(s32 i);
 f32 horizontal_distance_squared(void *, void *);
 int npc_proximity_target_id = -1;
 extern s32 local_client_id;
-extern void *tl_07;
 void TLobby__sub_80190FD0(int a0);
 void send_6x24_teleport_player(u16 slot, void *pos, s32 heading);
 u8 *create_player_object(u16, s32, s32);
@@ -56,7 +56,6 @@ s32 queue_player_injured_pose();
 void set_player_quest_control_flag(TObjPlayer *player);
 
 #pragma defer_codegen on
-extern void *tl_05;
 int hashi_versus2_flag;
 extern "C" {
 

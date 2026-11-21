@@ -22,6 +22,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/object/TObjControl.h"
+#include "pso/system/task/TMainTask.h"
 
 #pragma readonly_strings on
 
@@ -313,7 +314,6 @@ void TObjNpcEnemy::render() {
 TObjNpcEnemy::~TObjNpcEnemy() {}
 
 
-extern void *tl_04;
 
 TObjNpcEnemy::TObjNpcEnemy(TObject *parent, void *set_data) : TObjNpcBase(parent) {
     m_name = TObjNpcEnemy_class_name;
@@ -330,7 +330,7 @@ TObjNpcEnemy::TObjNpcEnemy(TObject *parent, void *set_data) : TObjNpcBase(parent
 }
 
 void *TObjNpcEnemy__create(void *set_data) {
-    TObjControl *control = new TObjControl((TObject *)tl_04);
+    TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcEnemy(control, set_data);
 }
 

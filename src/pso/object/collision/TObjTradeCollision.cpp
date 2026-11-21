@@ -7,6 +7,7 @@
 
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 #pragma readonly_strings on
 
@@ -38,7 +39,6 @@ TObjTradeCollision::~TObjTradeCollision() {
 }
 
 
-extern void *tl_05;
 
 TObjTradeCollision::TObjTradeCollision(saddr arg1, saddr arg2) : TObjCollidable((TObject *)arg1) {
     *(s32 *)((s8 *)this + 0) = (s32) ((saddr)TObjTradeCollision__name);

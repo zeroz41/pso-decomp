@@ -19,6 +19,7 @@
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 #pragma readonly_strings on
 
@@ -33,7 +34,6 @@ BmlResource *TOLightMachine01__shared_bml_archive;
 NJS_OBJECT *light_machine_ginja_model_handle;
 GinjaTextureList *light_machine_ginja_param;
 const char *TOLightMachine01__name = "TOLightMachine01";
-extern s32 tl_05;
 s32 post_translate_matrix(void *);
 s32 rotate_matrix_y(s32, s32);
 
@@ -90,7 +90,7 @@ TOLightMachine01::~TOLightMachine01() {
 #pragma push
 #pragma fp_contract on
 #define light_machine01 this
-TOLightMachine01::TOLightMachine01(void *arg1) : TObjBase((TObject *)tl_05) {
+TOLightMachine01::TOLightMachine01(void *arg1) : TObjBase(tl_05) {
     ((TOLightMachine01 *)light_machine01)->m_name = TOLightMachine01__name;
     ((TOLightMachine01 *)(light_machine01))->apply_object_set_data((void *)arg1);
     light_machine01->model = (void *)get_bml_model((BmlResource *)TOLightMachine01__shared_bml_archive, 1);

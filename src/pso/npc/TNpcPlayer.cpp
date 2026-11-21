@@ -28,6 +28,7 @@
 #include "pso/network/protocol/protocol.h"
 #include "pso/technique/TTecReverser.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/system/task/TMainTask.h"
 
 extern "C" {
 s32 VecCopy__FP3VecPC3Vec(void *, int);
@@ -214,7 +215,6 @@ f32 xyz_distance(Vec *, Vec *);
 extern int registered_entity_count;
 extern Text_8014E250 npc_partner_dialogue_state[];
 extern uaddr npc_player_char_data_buffer;
-extern void *tl_05;
 
 void copy_player_visual_record(void *, void *);
 void bswap__15disp_data_part2Fv(saddr arg0);

@@ -30,17 +30,16 @@
 #include "pso/player/TUnk_804B6C24.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/unk/TLobby.h"
+#include "pso/system/task/TMainTask.h"
 
 extern NJS_ARGB debug_color_green_half_alpha;
 extern NJS_ARGB debug_color_purple_half_alpha;
 
 extern "C" {
-extern saddr tl_00;
 void debug_draw_sphere(const Vec *pos, const NJS_ARGB *color, f32 radius);
 // render_util.h declares (pos, color, size); the lock code still loads its collision body into r5 first, which
 // only a third argument explains, though debug_draw_uniform_scaled never reads r5 (TObjRoomId passes nothing there).
 void debug_draw_uniform_scaled(const Vec *pos, const NJS_ARGB *color, CollisionBody *body, f32 size);
-extern s32 tl_05;
 extern s8 controller_input_state[];
 int check_flag_100__10TObjPlayerFPv(void *player);
 void enable_action_input__10TObjPlayerFPv(void *p);
@@ -474,7 +473,7 @@ void TQuestColCtrl::render() { }
 
 void TQuestColCtrl::init() {
     quest_collision_task_root = new TObject(NULL);
-    new TQuestColCtrl((TObject *)tl_05);
+    new TQuestColCtrl(tl_05);
 }
 
 void TQuestColCtrl::delete_by_param(s32 arg0) {
@@ -598,7 +597,7 @@ TQuestThread *TObjQuestColALock2::vfunc_16() {
     if (thread_root != NULL) {
         thread = new TQuestThread(thread_root, m_b0);
         if (thread != NULL) {
-            thread->set_parent((TObject *)tl_00);
+            thread->set_parent(tl_00);
         }
     }
     return thread;
@@ -655,7 +654,7 @@ TQuestThread *TObjQuestCol2::vfunc_16() {
     if (thread_root != NULL) {
         thread = new TQuestThread(thread_root, m_b0);
         if (thread != NULL) {
-            thread->set_parent((TObject *)tl_00);
+            thread->set_parent(tl_00);
         }
     }
     return thread;

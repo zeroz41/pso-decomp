@@ -10,9 +10,9 @@
 #include "pso/system/BmlResource.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/system/task/TMainTask.h"
 
 extern s32 game_difficulty_selection;
-extern void *tl_05;
 
 const char *TOMineIcon03__name = "TOMineIcon03";
 
@@ -25,7 +25,7 @@ void TOMineIcon03::vfunc_82() {
 }
 
 void *TOMineIcon03::create(void *arg0) {
-    return new TOMineIcon03((TObject *)tl_05, arg0);
+    return new TOMineIcon03(tl_05, arg0);
 }
 
 TOMineIcon03::~TOMineIcon03() {

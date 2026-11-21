@@ -18,6 +18,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 
 // One TU: TLobby__sub_8034DAA0 (jumptable after the TUnk_804F07C8 vtable in .data),
@@ -115,7 +116,6 @@ extern "C" {
 struct TNpcPlayerTemplateTable { s32 value; u8 remaining[0x9FC]; };
 extern TNpcPlayerTemplateTable TNpcPlayer__template_table;
 void construct_partner__10TNpcPlayerFPviisPv(void *, u16, u16, s32, void *);
-extern void *tl_00;
 
 typedef struct VBase_18_dac7f3 VBase_18_dac7f3;
 typedef struct VObj_18_dac7f3 VObj_18_dac7f3;

@@ -27,6 +27,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/system/task/TMainTask.h"
 
 
 const char *TObjFogCollision__name = "TObjFogCollision";
@@ -45,7 +46,6 @@ struct O_801538D4 { u8 pad[0x8C]; s32 v; };
 
 struct O_80153D98 { u8 pad[0x88]; s32 mode; };
 
-extern TObject *tl_05;
 
 extern "C" {
 

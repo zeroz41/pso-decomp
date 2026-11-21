@@ -12,6 +12,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/task/TMainTask.h"
 
 #pragma readonly_strings on
 
@@ -38,10 +39,9 @@ void TObjNpcCloakroomBase::play_voice() {
     play_sound_effect(0x40003802, arg0 + 0x38, 0, 0);
 }
 
-extern void *tl_04;
 
 void *TObjNpcCloakroomBase::create(void *set_data) {
-    TObjControl *control = new TObjControl((TObject *)tl_04);
+    TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcCloakroomBase(control, set_data);
 }
 
@@ -77,7 +77,7 @@ f32 TObjNpcCloakroomBase::receive_direct_attack(void *, DirectAttackPayload, voi
 }
 
 void *TObjNpcConnoisseur__create(void *set_data) {
-    TObjControl *control = new TObjControl((TObject *)tl_04);
+    TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcConnoisseur(control, set_data);
 }
 

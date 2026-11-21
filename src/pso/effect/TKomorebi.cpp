@@ -16,6 +16,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 struct AnimationMotion;
 
@@ -72,7 +73,6 @@ TKomorebi::~TKomorebi() {
 }
 extern "C" {
 
-extern void *tl_05;
 
 }
 #define komorebi ((u8 *)this)
@@ -88,7 +88,7 @@ TKomorebi::TKomorebi(TObject *parent, saddr arg2) : TObjBase(parent) {
 
 extern "C" {
 void *TKomorebi__create(void *arg0) {
-    return new TKomorebi((TObject *)tl_05, (saddr)arg0);
+    return new TKomorebi(tl_05, (saddr)arg0);
 }
 
 void TKomorebi::free_static() {

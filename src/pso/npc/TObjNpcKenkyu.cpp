@@ -12,6 +12,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 #pragma readonly_strings on
 
@@ -44,7 +45,6 @@ void TObjNpcKenkyu::load_shared_resource() {
 TObjNpcKenkyu::~TObjNpcKenkyu() {}
 
 
-extern void *tl_04;
 
 TObjNpcKenkyu::TObjNpcKenkyu(TObject *parent, void *arg2) : TUnk_804A9F50(parent) {
     *(s32 *)((s8 *)this + 0) = (saddr) TObjNpcKenkyu__name;
@@ -56,7 +56,7 @@ TObjNpcKenkyu::TObjNpcKenkyu(TObject *parent, void *arg2) : TUnk_804A9F50(parent
 }
 
 void *TObjNpcSoutokufu__create(void *set_data) {
-    TObjControl *control = new TObjControl((TObject *)tl_04);
+    TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcSoutokufu(control, set_data);
 }
 

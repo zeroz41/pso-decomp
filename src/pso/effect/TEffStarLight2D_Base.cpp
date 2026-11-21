@@ -11,8 +11,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/system/task/TMainTask.h"
 
-extern TObject *tl_particle;
 void set_additive_blend();
 void set_default_alpha_blend();
 

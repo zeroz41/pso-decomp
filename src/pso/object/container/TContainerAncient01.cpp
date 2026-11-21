@@ -395,7 +395,6 @@ static const NpcAnimationBinding container_ancient_anim_binding = {
 
 const char *TContainerAncient01R__name = "TContainerAncient01R";
 
-extern void *tl_05;
 }
 
 #include "pso/system/task/TObject_80019A50.h"
@@ -447,6 +446,7 @@ s32 reset_state__19TContainerAncient01Fv();
 #include "pso/object/container/TObjContainerIdo.h"
 
 #include "pso/item/TUnk_804B97C0.h"
+#include "pso/system/task/TMainTask.h"
 
 struct B_8018BE30 { u8 pad[0x18]; };
 
@@ -561,7 +561,7 @@ void TContainerAncient01::release_static_resource() {
 }
 
 void *TContainerAncient01::create(void *arg0) {
-    return new TContainerAncient01((TObject *)tl_05, arg0);
+    return new TContainerAncient01(tl_05, arg0);
 }
 
 void TContainerAncient01::run_task() {
@@ -865,7 +865,7 @@ void TContainerAncient01R::init_table_entries() {
 void TContainerAncient01R__sub_8018AF74(void) { TContainerAncient01R__bml_resource = NULL; }
 
 void *TContainerAncient01R__create(void *parent) {
-    return new TContainerAncient01R((TObject *)tl_05, parent);
+    return new TContainerAncient01R(tl_05, parent);
 }
 
 void TContainerAncient01R::run_task() {

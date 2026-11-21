@@ -11,6 +11,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 #pragma readonly_strings on
 
@@ -28,7 +29,6 @@ extern s32 local_client_id;
 void add_radar_scaled_gate(void *, u32, u16, s32, s32, f32);
 u8 is_current_floor_switch_set(u16);
 
-extern void *tl_05;
 }
 
 
@@ -227,5 +227,5 @@ void TObjRaderIcon::render() {  }
 
 
 void *TObjRaderIcon__create(void *arg0) {
-    return new TObjRaderIcon((TObject *)tl_05, arg0);
+    return new TObjRaderIcon(tl_05, arg0);
 }

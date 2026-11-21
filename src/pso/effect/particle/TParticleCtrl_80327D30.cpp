@@ -20,6 +20,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 #pragma defer_codegen on
 
 struct Vtx_80327D30 { f32 x, y, z, u, v; u32 color; };
@@ -32,7 +33,6 @@ int GXSetNumIndStages(int);
 int GXSetTevDirect(int);
 extern s32 __vt__13TUnk_804ED5B0[];
 s32 __ct__7TObjectFP7TObject(void *, void *);
-extern saddr tl_05;
 s32 GXSetNumTexGens(int);
 s32 GXSetNumTevStages(int);
 s32 rotate_matrix_y(int, int);

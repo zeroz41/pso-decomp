@@ -26,6 +26,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/system/task/TMainTask.h"
 
 struct RecoveredFields_80230D9C_arg0
 {
@@ -43,7 +44,6 @@ extern "C" {
 u16 get_entity_id(void *);
 s32 play_sound_effect(s32 id, void *pos, s32 a, s32 b);
 f32 vector_length(void *);
-extern saddr tl_07;
 #pragma push
 #pragma opt_common_subs off
 

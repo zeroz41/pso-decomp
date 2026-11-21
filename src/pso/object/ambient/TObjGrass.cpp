@@ -40,6 +40,7 @@
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/system/task/TMainTask.h"
 
 
 saddr lbl_805D5140;
@@ -292,7 +293,6 @@ f32 newton_sqrtf(f32);
 s32 spawn_directional_particle(void *, void *, s32);
 }
 extern s32 game_difficulty_selection;
-extern saddr tl_05;
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
 f32 fabs_float(f32);
@@ -360,7 +360,6 @@ Vec grass_render_vec;
 Vec grass_origin_vec;
 extern u8 lbl_804FF5E8[];
 f32 calc_xz_distance_sq(saddr arg0, uaddr arg1, void *arg2);
-extern void *tl_04;
 struct VBase_14_d701ad { char pad[0x14]; };
 struct VObj_14_d701ad : VBase_14_d701ad {
     virtual void m0();
@@ -524,7 +523,7 @@ void TObjGrass::destroy_all() {
 }
 
 void *TObjGrass::create(void *arg0) {
-    TObjControl *parent = new TObjControl((TObject *)tl_04);
+    TObjControl *parent = new TObjControl(tl_04);
     return new TObjGrass(parent, arg0);
 }
 
@@ -1447,7 +1446,7 @@ s32 TObjGrass::update_web_attack() {
                     if (enable_v2_features == 1 && game_difficulty_selection == 3) {
                         arg0->target->m46(0);
                     } else {
-                        new TObjGrassWeb((TObject *)tl_05, (TObjCollidable *)arg0->target);
+                        new TObjGrassWeb(tl_05, (TObjCollidable *)arg0->target);
                     }
                 }
             } else {

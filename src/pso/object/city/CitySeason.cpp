@@ -168,7 +168,6 @@ extern "C" {
 
 void __dl__7TObjectFPv(void *);
 
-extern void *tl_05;
 
 }
 
@@ -227,7 +226,6 @@ extern "C" {
 
 void __dl__7TObjectFPv(void *);
 
-extern void *tl_05;
 
 }
 
@@ -308,7 +306,6 @@ extern "C" {
 
 void __dl__7TObjectFPv(void *);
 
-extern void *tl_05;
 
 
 }
@@ -352,7 +349,6 @@ extern "C" {
 
 void __dl__7TObjectFPv(void *);
 
-extern void *tl_05;
 
 
 }
@@ -401,7 +397,6 @@ extern "C" {
 
 void __dl__7TObjectFPv(void *);
 
-extern void *tl_05;
 
 
 }
@@ -484,7 +479,6 @@ void __dl__7TObjectFPv(void *);
 
 int get_anim_frame__13TUnk_804B5E48Fv(void* a0);
 
-extern void *tl_05;
 
 
 
@@ -511,7 +505,6 @@ s32 post_translate_matrix(void *);
 
 void __dl__7TObjectFPv(void *);
 
-extern void *tl_05;
 
 
 
@@ -535,7 +528,6 @@ extern "C" {
 s32 post_translate_matrix(void *);
 void __dl__7TObjectFPv(void *);
 
-extern void *tl_05;
 
 
 
@@ -567,7 +559,6 @@ extern "C" {
 
 void __dl__7TObjectFPv(void *);
 
-extern void *tl_05;
 
 
 }
@@ -595,6 +586,7 @@ s32 free_collision_body_parts(void *);
 
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TMainTask.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -717,7 +709,7 @@ TObjCity_Season_EasterEgg::~TObjCity_Season_EasterEgg() {
 
 extern "C" {
 void *TObjCity_Season_EasterEgg__create(void *arg0) {
-    return new TObjCity_Season_EasterEgg((TObject *)tl_05, arg0);
+    return new TObjCity_Season_EasterEgg(tl_05, arg0);
 }
 }
 
@@ -772,7 +764,7 @@ TObjCity_Season_ValentineHeart::~TObjCity_Season_ValentineHeart() {
 
 extern "C" {
 void *TObjCity_Season_ValentineHeart__create(void *arg0) {
-    return new TObjCity_Season_ValentineHeart((TObject *)tl_05, arg0);
+    return new TObjCity_Season_ValentineHeart(tl_05, arg0);
 }
 }
 
@@ -822,7 +814,7 @@ TObjCity_Season_XmasTree::~TObjCity_Season_XmasTree() {
 
 extern "C" {
 void *TObjCity_Season_XmasTree__create(void *arg0) {
-    return new TObjCity_Season_XmasTree((TObject *)tl_05, arg0);
+    return new TObjCity_Season_XmasTree(tl_05, arg0);
 }
 }
 
@@ -869,7 +861,7 @@ TObjCity_Season_XmasWreath::~TObjCity_Season_XmasWreath() {}
 
 extern "C" {
 void *TObjCity_Season_XmasWreath__create(void *arg0) {
-    return new TObjCity_Season_XmasWreath((TObject *)tl_05, arg0);
+    return new TObjCity_Season_XmasWreath(tl_05, arg0);
 }
 }
 
@@ -905,7 +897,7 @@ TObjCity_Season_HalloweenPumpkin::~TObjCity_Season_HalloweenPumpkin() {}
 
 extern "C" {
 void *TObjCity_Season_HalloweenPumpkin__create(void *arg0) {
-    return new TObjCity_Season_HalloweenPumpkin((TObject *)tl_05, arg0);
+    return new TObjCity_Season_HalloweenPumpkin(tl_05, arg0);
 }
 }
 
@@ -963,7 +955,7 @@ TObjCity_Season_21_21::~TObjCity_Season_21_21() {
 
 extern "C" {
 void *TObjCity_Season_21_21__create(void *arg0) {
-    return new TObjCity_Season_21_21((TObject *)tl_05, arg0);
+    return new TObjCity_Season_21_21(tl_05, arg0);
 }
 }
 
@@ -1006,7 +998,7 @@ TObjCity_Season_SonicAdv2::~TObjCity_Season_SonicAdv2() {}
 
 extern "C" {
 void *TObjCity_Season_SonicAdv2__create(void *arg0) {
-    return new TObjCity_Season_SonicAdv2((TObject *)tl_05, arg0);
+    return new TObjCity_Season_SonicAdv2(tl_05, arg0);
 }
 }
 
@@ -1086,7 +1078,7 @@ TObjCity_Season_Board::~TObjCity_Season_Board() {}
 
 extern "C" {
 void *TObjCity_Season_Board__create(void *arg0) {
-    return new TObjCity_Season_Board((TObject *)tl_05, arg0);
+    return new TObjCity_Season_Board(tl_05, arg0);
 }
 }
 
@@ -1127,7 +1119,7 @@ TObjCity_Season_FireWorkCtrl::~TObjCity_Season_FireWorkCtrl() {}
 
 extern "C" {
 void *TObjCity_Season_FireWorkCtrl__create(void *arg0) {
-    return new TObjCity_Season_FireWorkCtrl((TObject *)tl_05, arg0);
+    return new TObjCity_Season_FireWorkCtrl(tl_05, arg0);
 }
 }
 

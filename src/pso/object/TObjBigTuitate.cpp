@@ -25,6 +25,7 @@
 
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 
 struct FadeBase_8019AA18 { char pad[0x14]; };
@@ -90,7 +91,6 @@ void free_collision_body_parts(void *);
 
 
 }
-extern void *tl_05;
 struct FadeBase_8019ADA0 { char pad[0x14]; };
 
 struct Fade_8019ADA0 : FadeBase_8019ADA0 {
@@ -138,7 +138,7 @@ void free_tuitate_bml_resource(void) {
 }
 
 void *TObjTuitate__create(void *arg0) {
-    return new TObjTuitate((TObject *)tl_05, arg0);
+    return new TObjTuitate(tl_05, arg0);
 }
 
 #pragma push
@@ -220,7 +220,7 @@ void TObjBigTuitate::free_instance() {
 }
 
 void *TObjBigTuitate__create(void *arg0) {
-    return new TObjBigTuitate((TObject *)tl_05, arg0);
+    return new TObjBigTuitate(tl_05, arg0);
 }
 
 #pragma push

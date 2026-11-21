@@ -30,6 +30,7 @@ struct NJS_OBJECT;
 #include <stddef.h>
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/system/task/TMainTask.h"
 
 struct RecoveredGlobal_801A7310_TCameraCtrl__data_804FF628 {
     s32 value;
@@ -393,7 +394,6 @@ extern u32 TSceneSora__instance;
 u16 TCameraCtrl__sub_8006A5DC();
 CameraPlayback *get_scripted_camera_playback();
 
-extern void *tl_05;
 
 void TUnk_804C3248::update_if_active() {
     if (!(*(s32 *)&this->unk_154 & 1)) {
@@ -403,7 +403,7 @@ void TUnk_804C3248::update_if_active() {
         TObjPlayer__sub_800D8A6C();
     }
     if (tl_05 != 0) {
-        ((TObject *)tl_05)->allow_rendering();
+        tl_05->allow_rendering();
     }
 }
 
@@ -414,7 +414,7 @@ void TUnk_804C3248::enter_scene() {
     ((s32 (*)(s32))apply_all_default__8TFogCtrlFv)(arg0);
     TObjPlayer__sub_800D8A60();
     if (tl_05 != NULL) {
-        ((TObject *)tl_05)->disallow_rendering();
+        tl_05->disallow_rendering();
     }
 }
 void TSceneSora::update(s32 _w0) {
@@ -499,7 +499,6 @@ void TUnk_804C3248::setup_photon_blast_camera() {
   }
 }
 
-extern void *tl_06;
 
 }
 
@@ -507,7 +506,7 @@ TUnk_804C3248::~TUnk_804C3248() {
     m_148 = 0;
 }
 
-TUnk_804C3248::TUnk_804C3248() : TObjMotion((TObject *)tl_06) {
+TUnk_804C3248::TUnk_804C3248() : TObjMotion(tl_06) {
     this->m_134 = 0;
     this->m_100 = 0;
     *(u32 *)((s8 *)this + 0x138) = 0;

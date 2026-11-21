@@ -9,6 +9,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 #pragma readonly_strings on
 
@@ -42,7 +43,6 @@ block_10:
     return 0;
 }
 
-extern void *tl_05;
 
 void *TObjEvtCollision__create(void *arg0) {
     void *o = TObject::operator new(0xB8);

@@ -17,6 +17,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/BmlResource.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/system/task/TMainTask.h"
 
 
 #pragma readonly_strings on
@@ -43,7 +44,6 @@ extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_800A38A4___vt__12TEneEffHamon __vt__12TEneEffHamon;
 const char *TEneEffHamon__name = "TEneEffHamon";
-extern saddr tl_06;
 s32 scale_matrix(int, f32, f32, f32);
 s32 post_translate_matrix(void *);
 extern u8 chunk_material_color_half_alpha_f32[];
@@ -110,7 +110,7 @@ TEneEffHamon::~TEneEffHamon() {}
 
 LAYOUT_ASSERT(RecoveredGlobal_800A38A4___vt__12TEneEffHamon_size, sizeof(RecoveredGlobal_800A38A4___vt__12TEneEffHamon) == 0x18);
 u8 *__ct__12TEneEffHamonFv(u8 *object, saddr arg1, s32 arg2, s32 arg3, f32 farg0) {
-    __ct__7TObjectFP7TObject((void *)object, (void *)tl_06);
+    __ct__7TObjectFP7TObject((void *)object, tl_06);
     *(s32 **)((s8 *)object + 0x18) = &__vt__12TEneEffHamon.value;
     ((TEneEffHamon *)object)->m_name = TEneEffHamon__name;
     *(s32 *)((s8 *)object + 0x30) = 0;

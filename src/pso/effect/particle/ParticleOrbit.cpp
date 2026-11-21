@@ -164,8 +164,6 @@ void setup_particle_tev(s32 arg0);
 void load_projected_texture_matrix(f32 farg0);
 extern void *__vt__13TParticleCtrl[];
 extern s32 TParticleCtrl__class_name_descriptor;
-extern void *tl_07;
-extern void *tl_clipout;
 extern const f32 TParticleCtrl__data_805D94E0;
 extern const f32 TParticleCtrl__data_805D94E4;
 
@@ -226,6 +224,7 @@ extern const f32 TParticleCtrl__data_805D94E4;
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/task/TMainTask.h"
 
 
 u8 *create_orbit_particle(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, u16 arg4, s16 arg5) {

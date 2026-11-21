@@ -28,6 +28,7 @@
 #include "pso/ui/city/TJudgmentSequence.h"
 #include "pso/ui/city/TJudgmentSequence_8021E4C4.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/task/TMainTask.h"
 
 // One shop counter of the generator's set (set_params[0] picks it). Field names follow the targets and the
 // callers: run_fn_table_forward/run_fn_table_reverse call the two hooks, run_task opens the counter's sequence
@@ -76,7 +77,6 @@ extern u8 controller_input_state[];
 extern s32 local_client_id;
 extern s32 lbl_805D55C0;
 void TMedicalCenterMes__sub_80216260(void);
-extern saddr tl_05;
 // run_task reads the bool through an int-returning call (no clrlwi after either call); kept as found.
 bool is_player_in_service_range__14TShopGeneratorFPUcf(u8 *self, u8 *player, f32 range);
 }
@@ -170,7 +170,7 @@ void TShopGenerator::run_task() {
 TShopGenerator::~TShopGenerator() {
 }
 
-TShopGenerator::TShopGenerator(saddr arg1) : TObjBase((TObject *)tl_05) {
+TShopGenerator::TShopGenerator(saddr arg1) : TObjBase(tl_05) {
     s32 temp_r0;
     m_name = TShopGenerator__class_name;
     this->apply_object_set_data((void *)arg1);

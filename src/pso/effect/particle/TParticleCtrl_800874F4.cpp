@@ -22,6 +22,7 @@
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/system/task/TMainTask.h"
 
 
 struct O_80087638 { u8 pad[0x2e]; u16 x2e; };
@@ -193,8 +194,6 @@ s32 TLoadCtrl__sub_8001C60C();
 f32 horizontal_distance_squared(void *, void *);
 u8 *get_player_by_client_id(s32);
 extern GenEntry_8008767C particle_ctrl_generator_table[];
-extern void *tl_07;
-extern void *tl_particlemodel;
 void run_task__13TParticleCtrlFv(Ctrl_8008767C *self);
 void clear_active_flag__13TParticleCtrlFv(void* p);
 
@@ -417,7 +416,6 @@ struct ParticleCtrlData {
 void __ct__7TObjectFP7TObject(void *, void *);
 
 extern void *__vt__13TParticleCtrl[];
-extern void *tl_clipout;
 
 #define COPY_PARTICLE_DIRECTION(particle, direction) do {                      \
     s32 component;                                                             \

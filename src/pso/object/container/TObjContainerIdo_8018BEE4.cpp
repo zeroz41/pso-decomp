@@ -29,6 +29,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 
 extern "C" {
@@ -254,7 +255,6 @@ void run_task__16TObjContainerIdoFv(Ido_8018C18C *self) {
 }
 #pragma pop
 
-extern void *tl_05;
 
 void *TObjContainerIdo::create(void *arg0) {
     void *o = TObject::operator new(0x10C);

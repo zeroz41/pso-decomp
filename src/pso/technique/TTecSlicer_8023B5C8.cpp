@@ -170,6 +170,7 @@ void fn_8023B590(TTecSlicerTargets_8023B454 *o, u16 v, s8 b) {
 
 
 #include "pso/weapon/TItemAttacker.h"
+#include "pso/system/task/TMainTask.h"
 
 
 struct RecoveredFields_8023B770_var_r29
@@ -326,7 +327,6 @@ s8 get_captured_target_collider_index(s32);
 s32 get_captured_target_entry(s32, s32);
 s32 get_captured_target_count(s32);
 f32 vector_length(void *);
-extern saddr tl_05;
 u32 csnVector(s32, s32, s32);
 
 TTecSlicerTargets_8023B454::TTecSlicerTargets_8023B454() { count = 0; idx = 0; }
@@ -512,7 +512,7 @@ TTecSlicer::~TTecSlicer() {
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_loop_invariants off
-TTecSlicer::TTecSlicer(u16 *launch, void *player, Vec *position, int angle) : TObjBase((TObject *)tl_05) {
+TTecSlicer::TTecSlicer(u16 *launch, void *player, Vec *position, int angle) : TObjBase(tl_05) {
     s32 c;
     saddr ext;
     s32 i;

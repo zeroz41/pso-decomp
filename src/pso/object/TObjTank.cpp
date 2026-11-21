@@ -17,6 +17,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
 __declspec(section ".data") const char *fs_obj_tank_model_names[2] = { "fs_obj_tank.gj", NULL };
@@ -55,7 +56,6 @@ TObjTank::~TObjTank() {
 }
 
 
-extern void *tl_05;
 
 #define arg0 ((u8 *)this)
 TObjTank::TObjTank(TObject *parent, saddr arg2) : TObjCollidable(parent) {
@@ -70,7 +70,7 @@ TObjTank::TObjTank(TObject *parent, saddr arg2) : TObjCollidable(parent) {
 #undef arg0
 
 void *TObjTank__create(void *arg0) {
-    return new TObjTank((TObject *)tl_05, (saddr)arg0);
+    return new TObjTank(tl_05, (saddr)arg0);
 }
 
 void TObjTank::free_globals() {
