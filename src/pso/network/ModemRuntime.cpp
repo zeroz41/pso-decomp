@@ -1,4 +1,5 @@
 #define PSO_SDK_COMPACT_MATH
+#include <stdio.h>
 #include <string.h>
 #include "pso/network/NetworkTransport.h"
 #include "pso/network/ModemRuntime.h"
@@ -112,7 +113,6 @@ struct ModemConnectionInfo { s32 value; s32 f4; s32 f8; char carrier[5]; char er
 static ModemConnectionInfo modem_connection_info;
 static ModemResponseState modem_command_response_state;
 int atoi(const char *);
-int sscanf(const char *, const char *, ...);
 void modem_write_string(char *str);
 typedef struct Ent_804267F0 {
     s16 count;

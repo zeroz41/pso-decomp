@@ -1,4 +1,5 @@
 #include "pso/system/CharacterSaveRecordLookup.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "pso/network/FloorEventCommand.h"
@@ -159,7 +160,6 @@ namespace pf2_p0 { extern "C" { char *TLobby__sub_80070ACC(); } }
 #define TLobby__sub_80070ACC pf2_p0::TLobby__sub_80070ACC
 void append_team_name(void);
 extern "C" {
-int sscanf(const char *, const char *, ...);
 s32 dispatch_chat_message_to_children__12TOChatSensorFl();
 }
 void append_episode_progress_string(void);
