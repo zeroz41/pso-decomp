@@ -1,17 +1,18 @@
+#define PSO_SDK_COMPACT_MATH
 #include "types.h"
+#include <dolphin/gx/GXFrameBuffer.h>
+#undef PSO_SDK_COMPACT_MATH
 #include "pso/boss/derolle/TObjBoss2Tunnel_8036EF0C.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 
-extern "C" {
-s32 GXSetCopyFilter(int, void *, void *, void *, void *);
-}
 
 s32 display_copy_filter_enabled = 1;
-extern u8 *active_gx_render_mode;
+extern GXRenderModeObj *active_gx_render_mode;
 
-void set_display_copy_filter(int sample_pattern) {
-    display_copy_filter_enabled = (s32) sample_pattern;
-    GXSetCopyFilter((int) (*(u8 *)((s8 *)active_gx_render_mode + 0x19)), active_gx_render_mode + 0x1A, (void *) ((u8) sample_pattern), active_gx_render_mode + 0x32, active_gx_render_mode);
+void set_display_copy_filter(int enabled) {
+    display_copy_filter_enabled = enabled;
+    GXSetCopyFilter(active_gx_render_mode->aa, active_gx_render_mode->sample_pattern, (GXBool)enabled,
+                    active_gx_render_mode->vfilter);
 }
 
 s32 get_display_copy_filter(void) {  return display_copy_filter_enabled; }

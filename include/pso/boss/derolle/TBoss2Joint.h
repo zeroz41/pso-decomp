@@ -17,8 +17,8 @@ struct TBoss2JointMaterial {
 struct TBoss2Joint : public TObjEneDD {
     enum { SHELL_BROKEN = 1 };  // joint_flags
 
-    TBoss2Joint(TObject *parent, u16 entity_id, s32 set_index, const Vec *anchor, s32 body_material,
-                s32 rim_material);
+    TBoss2Joint(TObject *parent, u16 entity_id, s32 set_index, const Vec *anchor, saddr body_material,
+                saddr rim_material);
     virtual ~TBoss2Joint();
     void update_flash_color();
     virtual void run_task();
@@ -43,7 +43,7 @@ struct TBoss2Joint : public TObjEneDD {
     void start_pad_flash();
     void start_flash(s32 kind);
     void update_position_history();
-    s32 init_params();
+    void init_params();
 
     s32 joint_flags;     // SHELL_BROKEN
     const Vec *anchor;   // run_task copies the joint's position from it (a TBoss2DeRolLe body point)

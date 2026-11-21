@@ -196,7 +196,7 @@ TBoss2Joint::~TBoss2Joint() {
 
 #pragma push
 #pragma opt_propagation off
-s32 TBoss2Joint::init_params() {
+void TBoss2Joint::init_params() {
     init_position_vectors();
     model = NULL;
     texlist = 0;
@@ -221,8 +221,8 @@ s32 TBoss2Joint::init_params() {
 }
 #pragma pop
 
-TBoss2Joint::TBoss2Joint(TObject *parent, u16 entity_id, s32 set_index, const Vec *anchor, s32 body_material,
-                         s32 rim_material)
+TBoss2Joint::TBoss2Joint(TObject *parent, u16 entity_id, s32 set_index, const Vec *anchor, saddr body_material,
+                         saddr rim_material)
     : TObjEneDD(parent) {
     m_name = TBoss2Joint__name;
     init_common_from((u8 *)parent);

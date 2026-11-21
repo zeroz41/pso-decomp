@@ -252,7 +252,7 @@ void TObjPlayer::clear_target_ref() {
     lbl_805D4B8C = NULL;
 }
 
-TUnk_80482090::TUnk_80482090(TObject *parent, u32 matrix) : TUnk_804820C0(parent) {
+TUnk_80482090::TUnk_80482090(TObject *parent, uaddr matrix) : TUnk_804820C0(parent) {
     BreakupPiece *p;
     s32 i;
     Vec *v;
