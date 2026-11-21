@@ -31,23 +31,20 @@ extern BmlResourceDescriptor TObjNpcKenkyu2__resource_descriptor;
 extern const char *bm_npc_kenkyu2_motion_names[1];
 
 extern "C" {
-extern uaddr TObjNpcKenkyu2__shared_model_resource;
+extern BmlResource *TObjNpcKenkyu2__shared_model_resource;
 
 
 extern const char *TObjNpcKenkyu2__name;
 
 void TObjNpcKenkyu2::free_static_model() {
-    if ((u32) TObjNpcKenkyu2__shared_model_resource != 0U) {
-        delete (BmlResource *)TObjNpcKenkyu2__shared_model_resource;
-        TObjNpcKenkyu2__shared_model_resource = 0U;
+    if (TObjNpcKenkyu2__shared_model_resource != NULL) {
+        delete TObjNpcKenkyu2__shared_model_resource;
+        TObjNpcKenkyu2__shared_model_resource = NULL;
     }
 }
 
 void TObjNpcKenkyu2::load_shared_resource() {
-    saddr temp_r3;
-    s32 var_r0;
-    var_r0 = (saddr)new BmlResource(1, &TObjNpcKenkyu2__resource_descriptor, 0, 0, NULL);
-    (*(s32 *)&TObjNpcKenkyu2__shared_model_resource) = var_r0;
+    TObjNpcKenkyu2__shared_model_resource = new BmlResource(1, &TObjNpcKenkyu2__resource_descriptor, 0, 0, NULL);
 }
 
 }
@@ -59,8 +56,8 @@ TObjNpcKenkyu2::TObjNpcKenkyu2(TObject *parent, void *arg2) : TUnk_804A9F50(pare
     *(s32 *)((s8 *)this + 0) = (saddr) TObjNpcKenkyu2__name;
     ((TObjNpcKenkyu2 *)this)->apply_set_data(arg2);
     ((TObjPlayer *)this)->init_position_vectors();
-    *(s32 *)((s8 *)this + 0x34) = (saddr)get_bml_model((BmlResource *)(int) ((*(s32 *)&TObjNpcKenkyu2__shared_model_resource)), 0);
-    ((TObjNpcKenkyu2 *)this)->texlist = (saddr)get_bml_texlist((BmlResource *)(int) ((*(s32 *)&TObjNpcKenkyu2__shared_model_resource)), 0);
+    model = get_bml_model(TObjNpcKenkyu2__shared_model_resource, 0);
+    texlist = (saddr)get_bml_texlist(TObjNpcKenkyu2__shared_model_resource, 0);
     ((TObjNpcBase *)this)->setup_common();
 }
 
@@ -76,5 +73,5 @@ __declspec(section ".sdata") const char *bm_npc_kenkyu2_motion_names[1] = { NULL
 extern "C" {
 
 const char *TObjNpcKenkyu2__name = "TObjNpcKenkyu2";
-uaddr TObjNpcKenkyu2__shared_model_resource;
+BmlResource *TObjNpcKenkyu2__shared_model_resource;
 }

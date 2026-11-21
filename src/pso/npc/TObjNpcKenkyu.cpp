@@ -22,7 +22,7 @@ const char *bm_npc_kenkyu_motion_names[1] = { NULL };
 __declspec(section ".data") const char *bm_npc_kenkyu_model_names[2] = { "kenkyu_body.nj", NULL };
 BmlResourceDescriptor bm_npc_kenkyu_resource_descriptor = { "bm_npc_kenkyu.bml", bm_npc_kenkyu_model_names, bm_npc_kenkyu_motion_names, 1, 0 };
 const char *TObjNpcKenkyu__name = "TObjNpcKenkyu";
-uaddr TObjNpcKenkyu__static_model;
+BmlResource *TObjNpcKenkyu__static_model;
 }
 
 extern "C" {
@@ -30,17 +30,14 @@ extern "C" {
 
 
 void TObjNpcKenkyu::free_static_model() {
-    if ((u32) TObjNpcKenkyu__static_model != 0U) {
-        delete (BmlResource *)TObjNpcKenkyu__static_model;
-        TObjNpcKenkyu__static_model = 0U;
+    if (TObjNpcKenkyu__static_model != NULL) {
+        delete TObjNpcKenkyu__static_model;
+        TObjNpcKenkyu__static_model = NULL;
     }
 }
 
 void TObjNpcKenkyu::load_shared_resource() {
-    saddr temp_r3;
-    s32 var_r0;
-    var_r0 = (saddr)new BmlResource(1, &bm_npc_kenkyu_resource_descriptor, 0, 0, NULL);
-    (*(s32 *)&TObjNpcKenkyu__static_model) = var_r0;
+    TObjNpcKenkyu__static_model = new BmlResource(1, &bm_npc_kenkyu_resource_descriptor, 0, 0, NULL);
 }
 
 }
@@ -53,8 +50,8 @@ TObjNpcKenkyu::TObjNpcKenkyu(TObject *parent, void *arg2) : TUnk_804A9F50(parent
     *(s32 *)((s8 *)this + 0) = (saddr) TObjNpcKenkyu__name;
     ((TObjNpcKenkyu *)this)->apply_set_data(arg2);
     ((TObjPlayer *)this)->init_position_vectors();
-    *(s32 *)((s8 *)this + 0x34) = (saddr)get_bml_model((BmlResource *)(int) ((*(s32 *)&TObjNpcKenkyu__static_model)), 0);
-    ((TObjNpcKenkyu *)this)->texlist = (saddr)get_bml_texlist((BmlResource *)(int) ((*(s32 *)&TObjNpcKenkyu__static_model)), 0);
+    model = get_bml_model(TObjNpcKenkyu__static_model, 0);
+    texlist = (saddr)get_bml_texlist(TObjNpcKenkyu__static_model, 0);
     ((TObjNpcBase *)this)->setup_common();
 }
 
