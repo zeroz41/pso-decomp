@@ -1,4 +1,5 @@
 #include "pso/system/BmlResource.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/system/AreaSound.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
@@ -9,7 +10,6 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/unk/TUnk_804949D8.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
@@ -193,7 +193,7 @@ void fn_800D911C(Vec *position) {
     create_timed_particle_emitter(position, 236, 10, 1);
 }
 
-void TObjPlayer::trigger_dell_biter_events() { spawn_particle_effect(this, (saddr)((void*)251)); spawn_particle_effect(this, (saddr)((void*)252)); spawn_particle_effect(this, (saddr)((void*)227)); }
+void TObjPlayer::trigger_dell_biter_events() { spawn_particle_effect((const Vec *)this, 251); spawn_particle_effect((const Vec *)this, 252); spawn_particle_effect((const Vec *)this, 227); }
 
 void TObjPlayer::spawn_ground_effect(s32 arg1) {
     s32 sp8;

@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/item/TItemTimerEvent.h"
 #include "pso/item/TUnk_804A0568.h"
@@ -20,7 +21,6 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
 #include <stdlib.h>
-#include "pso/unk/text_80087278.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 
 extern const char TItemTimerEvent__class_name_string[] = "TItemTimerEvent";
@@ -230,7 +230,7 @@ void TUnk_804A05C8::vfunc_6() {
 
     if ((((TObjPlayer *)this->m_28)->is_body_collision_inactive() == 0) && (((TObjPlayer *)(this->m_28))->is_flag_20000_set() == 0)) {
                 if ((is_item_area_enabled(((TObjPlayer *)(this->m_28))->get_area()) == 1) && (((TObjCollidable *)((void *)this->m_28))->obj_testFlags30(0x800) == 0)) {
-            particle = (TParticleCtrl *)spawn_particle_effect_with_flags((void *)(*(saddr *)&this->m_28 + 0x2FC), this->unk_2C, 0x10);
+            particle = spawn_particle_effect_with_flags((const Vec *)(*(saddr *)&this->m_28 + 0x2FC), this->unk_2C, 0x10);
             if (particle != 0) {
                 particle->set_owner_id(get_entity_id((TObjBase *)this->m_28));
             }

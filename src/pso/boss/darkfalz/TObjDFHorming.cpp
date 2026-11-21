@@ -2,6 +2,7 @@
 #include "pso/unk/text_8035966C.h"
 #include "pso/boss/darkfalz/TBoss4Fade.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz_8004C93C.h"
 #include "pso/object/ending/TObjOnlineEnding_802E4B80.h"
@@ -27,7 +28,6 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
-#include "pso/unk/text_80087278.h"
 
 
 #include "pso/system/task/TObject.h"

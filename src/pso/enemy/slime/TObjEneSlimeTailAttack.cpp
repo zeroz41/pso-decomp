@@ -4,6 +4,7 @@
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/system/BmlResource.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 
 struct NJS_OBJECT;
@@ -23,7 +24,6 @@ struct NJS_OBJECT;
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"

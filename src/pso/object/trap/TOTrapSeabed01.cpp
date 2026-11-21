@@ -1,6 +1,7 @@
 #include "pso/system/BmlAccessors.h"
 #include "pso/render/GinjaTexture.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TMainTask.h"
@@ -26,7 +27,6 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_80226070.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/map/FloorArea.h"
@@ -396,7 +396,7 @@ void TOTrapSeabed01::play_sounds() {
         translate_matrix_vec3((u8 *)m, (u8 *)&position);
         rotate_matrix_y(m, rotation_y);
         matrix_mult_vec(m, &v, &v);
-        TParticleCtrl *particle = (TParticleCtrl *)spawn_particle_effect(&v, 0x8B);
+        TParticleCtrl *particle = spawn_particle_effect(&v, 0x8B);
         if (particle != NULL) {
             particle->set_scale(0.5f, 0.5f);
         }

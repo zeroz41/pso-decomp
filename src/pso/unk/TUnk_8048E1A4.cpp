@@ -1,6 +1,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include <stddef.h>
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -75,7 +76,6 @@ extern RecoveredGlobal_80081CD0_lbl_8058D490 identity_matrix;
 s32 get_bml_motion(s32, s32);
 
 
-void *spawn_particle_effect(const void *pos, s32 id);
 saddr freeze_shell_bml_resource;
 extern s32 technique_effect_bml;
 extern s32 lbl_805D63B0;
@@ -99,11 +99,11 @@ s32 TUnk_8048E1A4::freeze_shell_hold() {
         }
     }
     *(s32 *)((s8 *)this + 0x334) = 2;
-    p = (saddr)spawn_particle_effect((u8 *)this + 0x35C, 0x153);
+    p = (saddr)spawn_particle_effect((const Vec *)((u8 *)this + 0x35C), 0x153);
     if (p != 0) {
         attach_particle_model((u8 *)p, (s32)(get_bml_model((BmlResource *)technique_effect_bml, 5)), (s32)lbl_805D63B0, 0, 0, 1.0f);
     }
-    p = (saddr)spawn_particle_effect((u8 *)this + 0x38, 0x33);
+    p = (saddr)spawn_particle_effect((const Vec *)((u8 *)this + 0x38), 0x33);
     if (p != 0) {
         attach_particle_model((u8 *)p, (s32)(get_bml_model((BmlResource *)freeze_shell_bml_resource, 0)), (s32)(get_bml_texlist((BmlResource *)freeze_shell_bml_resource, 1)), (s32)(get_bml_motion(freeze_shell_bml_resource, 0)), 0, 1.0f);
         ((TParticleCtrl *)p)->set_scale(this->scale.x, this->scale.y);

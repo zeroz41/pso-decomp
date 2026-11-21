@@ -5,7 +5,7 @@
 #include "pso/unk/TUnk_804C57F0.h"
 
 struct TQuadSpriteNormal : public TUnk_804C57F0 {
-    TQuadSpriteNormal(TObject *arg_r4, void *arg2);
+    TQuadSpriteNormal(TObject *parent, ParticleDefinition *sprite_definition);
     virtual ~TQuadSpriteNormal();
     virtual void render();
 };

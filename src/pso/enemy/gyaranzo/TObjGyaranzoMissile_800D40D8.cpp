@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/gyaranzo/TObjEneGyaranzo.h"
@@ -11,7 +12,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/map/CsnQuery.h"
@@ -162,7 +162,7 @@ void TUnk_8049442C::sub_800D4200() {
             }
         }
     }
-    spawn_particle_effect(arg0 + 0x38, 0xFB);
+    spawn_particle_effect((const Vec *)(arg0 + 0x38), 0xFB);
     play_sound_effect(remap_area_sound_id(0x4003A80C, 0x19), arg0 + 0x38, 0, 0);
     ((TObject *)arg0)->queue_destruction();
 }

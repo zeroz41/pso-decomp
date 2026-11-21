@@ -1,9 +1,9 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/weapon/TUnk_804A1190.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/system/task/TMainTask.h"
 
 void TUnk_804A1190::emit_marker_effects() {
@@ -11,7 +11,7 @@ void TUnk_804A1190::emit_marker_effects() {
     saddr arg0 = (saddr)this;
 
     ((TItemWeapon *)arg0)->get_joint_position(1, sp8);
-    spawn_particle_effect(sp8, 0xC1);
+    spawn_particle_effect((const Vec *)sp8, 0xC1);
 }
 
 TUnk_804A1190::~TUnk_804A1190() {}

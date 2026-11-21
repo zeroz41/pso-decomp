@@ -1,7 +1,7 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/weapon/TUnk_804A1858.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/system/task/TMainTask.h"
 
 void TUnk_804A1858::emit_marker_effects() {
@@ -9,7 +9,7 @@ void TUnk_804A1858::emit_marker_effects() {
 
     get_joint_position(2, &pos);
     pos.y -= 15.0f;
-    spawn_particle_effect(&pos, 0x1D2);
+    spawn_particle_effect((const Vec *)&pos, 0x1D2);
 }
 
 void TUnk_804A1858::update_weapon() {

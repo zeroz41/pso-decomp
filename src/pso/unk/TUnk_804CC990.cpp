@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/unk/TUnk_804CC990.h"
 #include "pso/unk/TLobby_80226070.h"

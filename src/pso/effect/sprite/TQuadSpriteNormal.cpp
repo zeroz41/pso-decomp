@@ -149,7 +149,7 @@ TQuadSpriteNormal::~TQuadSpriteNormal() {
 const char *TQuadSpriteNormal__class_name = "TQuadSpriteNormal";
 
 #define quad_sprite_normal ((u8 *)this)
-TQuadSpriteNormal::TQuadSpriteNormal(TObject *arg_r4, void *arg2) : TUnk_804C57F0(arg_r4, arg2) {
+TQuadSpriteNormal::TQuadSpriteNormal(TObject *parent, ParticleDefinition *sprite_definition) : TUnk_804C57F0(parent, sprite_definition) {
     ((TQuadSpriteNormal *)quad_sprite_normal)->m_name = TQuadSpriteNormal__class_name;
 }
 #undef quad_sprite_normal

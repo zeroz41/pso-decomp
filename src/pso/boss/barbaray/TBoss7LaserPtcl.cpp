@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/vector.h"
 #include "pso/boss/barbaray/TBoss7LaserPtcl.h"
 #include "pso/boss/TUnk_804F1C88.h"
@@ -185,7 +186,7 @@ void TBoss7LaserPtcl::init_laser() {
     normalize_vector_xz((Vec *)(arg0 + 0x2C));
     *(f32 *)((s8 *)arg0 + 0x30) = 0.0f;
     this->m_54 = (s32) (10430.38043493439 * atan2_float((f32) (*(f32 *)((s8 *)arg0 + 0x2C)), (f32) (*(f32 *)((s8 *)arg0 + 0x34))));
-    spawn_particle_effect_with_flags((arg0 + 0x20), 0x20A, 0x40);
+    spawn_particle_effect_with_flags((const Vec *)(arg0 + 0x20), 0x20A, 0x40);
     *(s32 *)((s8 *)arg0 + 0x44) = (saddr)spawn_continuous_particle_effect_with_flags((arg0 + 0x20), 0x177, 0x40);
     this->state = 1;
 }

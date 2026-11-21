@@ -1,6 +1,6 @@
 #include "pso/system/BmlAccessors.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/trap/TOMine.h"
@@ -20,8 +20,8 @@ void TOMineIcon02::vfunc_84() {  }
 
 void TOMineIcon02::vfunc_82() {
     saddr arg0 = (saddr)this;
-    spawn_particle_effect((void *)(arg0 + 0x2FC), 0x8E);
-    spawn_particle_effect((void *)(arg0 + 0x2FC), 0x8E);
+    spawn_particle_effect((const Vec *)(arg0 + 0x2FC), 0x8E);
+    spawn_particle_effect((const Vec *)(arg0 + 0x2FC), 0x8E);
 }
 
 void *TOMineIcon02::create() {

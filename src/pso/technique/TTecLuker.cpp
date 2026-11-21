@@ -1,3 +1,4 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/network/protocol/protocol_types.h"
@@ -74,7 +75,6 @@ s32 play_sound_effect(int, void *, int, int);
 s32 obj_setFlags30(void *, int);
 s32 init_collision_body_parts(void *, void *, int);
 bool TTecLuker__sub_8023401C(u8 *arg0);
-void* spawn_particle_effect(float*,u32);
 }
 // The collision body every telepipe field collider starts from: a 0.01 sphere.
 CollisionBody telepipe_field_collision_body_template = {
@@ -322,7 +322,7 @@ void TTecLuker::run_task() {
         }
         if ((get_player_by_client_id(traveller) != 0) && (get_pipe_interaction_latch(field) != 0) && (are_players_gathered_near(&pipe_pos, 0, 10.0f) != 0)) {
             offset_point_toward_camera((u8 *)&pipe_pos, (u8 *)&sp8, 10.0f);
-            spawn_particle_effect((float *) &sp8, 0xB3);
+            spawn_particle_effect((const Vec *)&sp8, 0xB3);
             player = (u8 *)get_player_by_client_id(traveller);
             if (player != NULL) {
                 TObjPlayer::play_effect_default((saddr)player, (int)0xA);

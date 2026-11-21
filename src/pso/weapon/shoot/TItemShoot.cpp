@@ -37,7 +37,7 @@
 #include "pso/math/AngleUnits.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/unk/text_80087278.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/unk/text_800870BC.h"
 
 // The weapon's colour as TItemWeapon::get_weapon_color returns it
@@ -264,14 +264,14 @@ void TItemShootParticle::hook() {
 }
 
 s32 create_gun_shot(saddr owner, saddr pos, saddr endpoint, f32 life) {
-    spawn_particle_effect((void *)pos, 9);
+    spawn_particle_effect((const Vec *)pos, 9);
     return (saddr)new TItemShootGun((void *)owner, (const Vec *)pos, (const Vec *)endpoint, life);
 }
 
 u32 TItemShootGun::create(saddr owner, saddr pos, saddr endpoint, f32 life) {
     TItemShootGun *result;
 
-    spawn_particle_effect((void *)pos, 0x1BF);
+    spawn_particle_effect((const Vec *)pos, 0x1BF);
     result = new TItemShootGun((void *)owner, (const Vec *)pos, (const Vec *)endpoint, life);
     if (result != 0) {
         result->set_texture_id(4);

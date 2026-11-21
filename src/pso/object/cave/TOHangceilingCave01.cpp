@@ -1,4 +1,5 @@
 #include "pso/system/BmlAccessors.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/render/GinjaTexture.h"
 #include "types.h"
 #include <string.h>
@@ -28,7 +29,6 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D8F74.h"
 
 struct Q_801681D0 { f32 w[4]; };

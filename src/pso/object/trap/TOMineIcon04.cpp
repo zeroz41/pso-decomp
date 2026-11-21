@@ -1,4 +1,5 @@
 #include "pso/system/BmlAccessors.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/trap/TOMine.h"
@@ -10,7 +11,6 @@
 #include "pso/map/FloorArea.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/system/BmlResource.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/player/TObjPlayer_801542CC.h"
@@ -114,5 +114,5 @@ void TOMineIcon04::vfunc_80() {
     }
 }
 
-void TOMineIcon04::vfunc_82() { spawn_particle_effect((char*)this + 0x2fc, 140); }
+void TOMineIcon04::vfunc_82() { spawn_particle_effect((const Vec *)((char*)this + 0x2fc), 140); }
 void TOMineIcon04::vfunc_84() {  }

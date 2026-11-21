@@ -1,7 +1,7 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/player/TObjPlayer_8012121C.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/weapon/TUnk_804A3358.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
@@ -22,9 +22,9 @@ void TUnk_804A3358::emit_marker_effects() {
     Rec_80127694 rec;
     void *st;
     get_joint_position(2, pos);
-    spawn_particle_effect(pos, 0x1BE);
+    spawn_particle_effect((const Vec *)pos, 0x1BE);
     get_joint_position(3, pos);
-    spawn_particle_effect(pos, 0x1BE);
+    spawn_particle_effect((const Vec *)pos, 0x1BE);
     get_joint_position(0, pos);
     if (owner->is_status_subsystem_ready() == 2) {
         if (is_identified() == 1) {

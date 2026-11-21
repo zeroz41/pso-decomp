@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/player/TUnk_8049F130.h"
 #include "pso/item/TUnk_8049F148.h"
@@ -50,7 +51,6 @@ const s32 lbl_8043E280[8] = { 1, 1, 1, 0, 1, 0, 0, 0 };
 const s32 lbl_8043E2A0[8] = { -1, 446, 447, 145, 32, 416, 417, 177 };
 extern "C" {
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
-void *spawn_particle_effect(const void *pos, s32 id);
 s32 is_item_area_enabled(s32 area);
 void *get_player_by_client_id(s32 i);
 
@@ -232,7 +232,7 @@ void TUnk_8049F130::run_task() {
                     if ((s32) *(s32 *)&this->unk_24 == 0) {
                         create_timed_particle_emitter((void *)(player + 0x2FC), this->m_20, 0, 0xA);
                     } else {
-                        spawn_particle_effect((const void *)(player + 0x2FC), this->m_20);
+                        spawn_particle_effect((const Vec *)(player + 0x2FC), this->m_20);
                     }
                 }
             }

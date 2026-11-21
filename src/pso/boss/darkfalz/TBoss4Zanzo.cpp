@@ -5,6 +5,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/unk/TLobby_8001EF5C.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/math/FloatRounding.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -73,7 +74,6 @@ s32 vec3_add_to(void *, void *);
 f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
 s32 normalize_vector(void *);
-void *spawn_particle_effect(const void *pos, s32 id);
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 f32 atan2_float(f32 y, f32 x);
 u8 * dispatch_shared_handler_a__6TLobbyFl(s32);
@@ -1293,7 +1293,7 @@ void TBoss4Type2::md_recover_update() {
   }
   if ((*((int *) (((s8 *) boss4_type2) + 0x398))) == 0x46)
   {
-    particle_effect = (uaddr)spawn_particle_effect(boss4_type2 + 0x468, 0x13E);
+    particle_effect = (uaddr)spawn_particle_effect((const Vec *)(boss4_type2 + 0x468), 0x13E);
     if (particle_effect != 0)
     {
       ((TParticleCtrl *)particle_effect)->set_flags(0x40);
@@ -1306,7 +1306,7 @@ void TBoss4Type2::md_recover_update() {
       {
         VecCopy((Vec *)(&stack.sp8), (const Vec *)((saddr) ((TObjPlayer *)temp_r3_5)->get_position_ptr()));
         stack.spC += 10.0f;
-        temp_r3_6 = (uaddr)spawn_particle_effect(&stack.sp8, 0x38);
+        temp_r3_6 = (uaddr)spawn_particle_effect((const Vec *)&stack.sp8, 0x38);
         if (temp_r3_6 != 0)
         {
           ((TParticleCtrl *)temp_r3_6)->set_flags(0x40);

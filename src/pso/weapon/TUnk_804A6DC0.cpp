@@ -1,6 +1,6 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/weapon/TUnk_804A6CC8.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/weapon/TUnk_804A6DC0.h"

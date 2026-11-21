@@ -1,8 +1,8 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/unk/TUnk_804CCD0C.h"
 #include "pso/unk/TLobby_80226070.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer.h"

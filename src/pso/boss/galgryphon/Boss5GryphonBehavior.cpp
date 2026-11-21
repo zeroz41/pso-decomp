@@ -2,6 +2,7 @@
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/DragonAttackParams.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -200,7 +201,6 @@ void TBoss8Dragon__sub_8006426C(Obj_8006426C *arg0);
 s32 TBoss8Dragon__sub_800670E0(int, void *);
 void TBoss8Dragon__sub_8006442C(Dragon_8006442C *arg0);
 s32 TBoss8Dragon__sub_8005FAE0(u8 *arg0);
-s32 spawn_particle_effect_with_flags(void *, s32, s32);
 TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 u8 *__ct__22TBoss5GryphonShockWaveFP7TObjectlPUcPUcls(u8 *arg0, u8 *arg1_parent, s32 arg2, u8 *arg3, u8 *arg4, s32 arg5, s16 arg6);
 extern const f32 lbl_805D8D80;
@@ -3497,15 +3497,15 @@ void TBoss5Gryphon::update_demo_state(u32 arg1) {
             case 0:
                 if (is_passing_frame((f32)lbl_805D8E60) != 0) {
                     ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)((void *)sp8, (void *)boss5_gryphon_waypoint_vecs);
-                    ((s32 (*)(void *, void *, int))spawn_particle_effect_with_flags)((void *)sp8, (void *) (*(saddr *)((s8 *)(*(u8 **)((s8 *)this + 0x5F0)) + 4)), 0x40);
+                    spawn_particle_effect_with_flags((const Vec *)sp8, *(saddr *)((s8 *)(*(u8 **)((s8 *)this + 0x5F0)) + 4), 0x40);
                     start_pad_rumble_all(0x1C, 0x3C);
                 } else if (is_passing_frame((f32)lbl_805D8E64) != 0) {
                     ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)((void *)sp8, (void *)&boss5_gryphon_waypoint_vecs[1]);
-                    ((s32 (*)(void *, void *, int))spawn_particle_effect_with_flags)((void *)sp8, (void *) (*(saddr *)((s8 *)(*(u8 **)((s8 *)this + 0x5F0)) + 4)), 0x40);
+                    spawn_particle_effect_with_flags((const Vec *)sp8, *(saddr *)((s8 *)(*(u8 **)((s8 *)this + 0x5F0)) + 4), 0x40);
                     start_pad_rumble_all(0xC0, 0xF);
                 } else if ((is_passing_frame((f32)lbl_805D8E68) != 0) || (is_passing_frame((f32)lbl_805D8E6C) != 0)) {
                     ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)((void *)sp8, (void *)&boss5_gryphon_waypoint_vecs[1]);
-                    ((s32 (*)(void *, void *, int))spawn_particle_effect_with_flags)((void *)sp8, (void *) (*(saddr *)((s8 *)(*(u8 **)((s8 *)this + 0x5F0)) + 0)), 0x40);
+                    spawn_particle_effect_with_flags((const Vec *)sp8, *(saddr *)((s8 *)(*(u8 **)((s8 *)this + 0x5F0)) + 0), 0x40);
                 }
                 if (is_passing_frame((f32)lbl_805D8E70) != 0) {
                     play_sound_effect(0x40032A00, (void *) (0), 0, 0);
@@ -3960,11 +3960,11 @@ void TBoss5Gryphon::dispatch_action(u32 state, s32 event) {
 #pragma auto_inline off
 #pragma dont_inline off
 void TBoss8Dragon::spawn_switch_attack() {
-    saddr particle_effect_with_flags;
+    TParticleCtrl *particle;
 
-    particle_effect_with_flags = spawn_particle_effect_with_flags(this, 0x211, 0x40);
-    if (particle_effect_with_flags != 0) {
-        attach_particle_model((u8 *)particle_effect_with_flags, (s32)(get_bml_model((BmlResource *)boss5_gryphon_bml_resource, 2)), (s32)boss5_gryphon_texture_list, 0, 0, (f32)lbl_805D8D88);
+    particle = spawn_particle_effect_with_flags((const Vec *)this, 0x211, 0x40);
+    if (particle != 0) {
+        attach_particle_model((u8 *)particle, (saddr)(get_bml_model((BmlResource *)boss5_gryphon_bml_resource, 2)), (saddr)boss5_gryphon_texture_list, 0, 0, (f32)lbl_805D8D88);
     }
 }
 #pragma pop
@@ -3974,11 +3974,11 @@ void TBoss8Dragon::spawn_switch_attack() {
 #pragma auto_inline off
 #pragma dont_inline off
 void TBoss8Dragon::spawn_attack_effect() {
-    saddr particle_effect_with_flags;
+    TParticleCtrl *particle;
 
-    particle_effect_with_flags = spawn_particle_effect_with_flags(this, 0x210, 0x40);
-    if (particle_effect_with_flags != 0) {
-        attach_particle_model((u8 *)particle_effect_with_flags, (s32)(get_bml_model((BmlResource *)boss5_gryphon_bml_resource, 1)), (s32)boss5_gryphon_texture_list, 0, 0, (f32)lbl_805D8D88);
+    particle = spawn_particle_effect_with_flags((const Vec *)this, 0x210, 0x40);
+    if (particle != 0) {
+        attach_particle_model((u8 *)particle, (saddr)(get_bml_model((BmlResource *)boss5_gryphon_bml_resource, 1)), (saddr)boss5_gryphon_texture_list, 0, 0, (f32)lbl_805D8D88);
     }
 }
 #pragma pop
@@ -4042,7 +4042,7 @@ void TBoss5Gryphon::spawn_ground_splash() {
         temp_f1 = *(f32 *)((s8 *)(*(void **)((s8 *)temp_r3 + 4)) + 4);
         if (!(temp_f1 > 6.0f)) {
             stack.spC = temp_f1;
-            spawn_particle_effect_with_flags((void *)(&stack.sp8), (saddr)((void *) (**(s32 **)((s8 *)((u8 *)this) + 0x5F0))), 0x40);
+            spawn_particle_effect_with_flags((const Vec *)&stack.sp8, (saddr)((void *) (**(s32 **)((s8 *)((u8 *)this) + 0x5F0))), 0x40);
             play_se(0x40032D01);
         }
     }

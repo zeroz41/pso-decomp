@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecRaZonde.h"
@@ -167,7 +168,6 @@ struct RProfile_80238F84 { RBurst_80238F84 *entries; u32 count; };
 
 extern "C" {
 void create_timed_particle_emitter(void *, s32, s32, s32, void *);
-void spawn_particle_effect(void *, s32, void *);
 void TTecRaZonde::create(void *origin, void *level) {
     new TTecRaZonde((saddr)this, (Vec *)origin, (saddr)level);
 }
@@ -211,7 +211,7 @@ void TTecRaZonde::run_task() {
             if (i == 1) {
                 create_timed_particle_emitter((u8 *)this->source + 0x2FC, TTecRaZonde__band_profile_table[this->band].entries[i].entry, 0, 60, (void *)this->source);
             } else {
-                spawn_particle_effect((u8 *)this->source + 0x2FC, TTecRaZonde__band_profile_table[this->band].entries[i].entry, (void *)this->source);
+                spawn_particle_effect((const Vec *)((u8 *)this->source + 0x2FC), TTecRaZonde__band_profile_table[this->band].entries[i].entry);
             }
         }
     }

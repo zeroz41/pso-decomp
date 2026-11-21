@@ -1,5 +1,5 @@
 #include "pso/system/EnemyBmlResource.h"
-#include "pso/unk/text_80087278.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/TObjEnemy.h"

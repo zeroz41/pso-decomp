@@ -1,4 +1,5 @@
 #include "pso/system/BmlAccessors.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
@@ -28,7 +29,6 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
-#include "pso/unk/text_80087278.h"
 #include "pso/render/render_util.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -1801,7 +1801,7 @@ void TBoss4Type3::update_light_magic() {
         ((TBoss4Type3 *)arg0)->set_anim_state(7);
     }
     if ((s32) *(s32 *)((s8 *)arg0 + 0x398) == 0x49) {
-        p = spawn_particle_effect(sub, 0x133);
+        p = spawn_particle_effect((const Vec *)sub, 0x133);
         if (p != 0) {
             ((TParticleCtrl *)p)->set_flags(0x40);
         }

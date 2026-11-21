@@ -1,4 +1,5 @@
 #include "pso/enemy/EnemyTargeting.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -21,7 +22,6 @@
 #include "pso/enemy/illgill/TObjEneIllGill.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/unk/TLobby.h"
@@ -575,7 +575,7 @@ void TObjEneIllGill::vfunc_63() {
         temp_r5 = (u8 *)this->bodies;
         bodies->flags = (s32) (bodies->flags & 0xFFFF7FFE);
         this->free_resources();
-        spawn_particle_effect(&m_2fc, 0xF2);
+        spawn_particle_effect((const Vec *)&m_2fc, 0xF2);
         ((TObjPlayer *)arg0)->refresh_lobby_state();
         ((TObjEnemy *)arg0)->send_entity_set_flags();
     }

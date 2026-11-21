@@ -1,5 +1,6 @@
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecRaBarta.h"
@@ -11,7 +12,6 @@
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/system/vector.h"
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/unk/TUnk_804CCB28.h"

@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/boss/darkfalz/TBoss4Zako.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
@@ -7,7 +8,6 @@
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 
@@ -604,7 +604,7 @@ void TBoss4Zako::update_sink_state() {
     m_38.y += -0.33333334f;
     temp_f1 = m_38.y;
     if ((temp_f1 < 0.0f) && (temp_f1 >= -0.33333334f)) {
-        spawn_particle_effect((&m_38), 0xF3);
+        spawn_particle_effect((const Vec *)&m_38, 0xF3);
     }
     m_5c = (m_5c + 0x111);
     if (m_38.y < -13.0f) {
@@ -882,7 +882,7 @@ void vt5__9TBoss4UroFv(u8 *object) {
     *(f32 *)((s8 *)object + 0x3C) += -0.33333334f;
     temp_f1 = *(f32 *)((s8 *)object + 0x3C);
     if ((temp_f1 < 0.0f) && (temp_f1 >= -0.33333334f)) {
-        spawn_particle_effect((object + 0x38), 0xF3);
+        spawn_particle_effect((const Vec *)(object + 0x38), 0xF3);
     }
     *(s32 *)((s8 *)object + 0x5C) = (s32) (*(s32 *)((s8 *)object + 0x5C) + 0x111);
     if (*(f32 *)((s8 *)object + 0x3C) < -13.0f) {
@@ -1055,7 +1055,7 @@ void vt2__11TBoss4BishiFv(u8 *object) {
     *(f32 *)((s8 *)object + 0x3C) += -0.33333334f;
     temp_f1 = *(f32 *)((s8 *)object + 0x3C);
     if ((temp_f1 < 0.0f) && (temp_f1 >= -0.33333334f)) {
-        spawn_particle_effect((object + 0x38), 0xF3);
+        spawn_particle_effect((const Vec *)(object + 0x38), 0xF3);
     }
     *(s32 *)((s8 *)object + 0x5C) = (s32) (*(s32 *)((s8 *)object + 0x5C) + 0x111);
     if (*(f32 *)((s8 *)object + 0x3C) < -13.0f) {

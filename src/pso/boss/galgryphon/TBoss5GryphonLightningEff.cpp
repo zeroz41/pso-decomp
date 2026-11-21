@@ -1,8 +1,8 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/boss/galgryphon/TBoss5GryphonLightningEff.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/technique/TTecZondeEff.h"
 #include "pso/render/ChunkMaterialState.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/render/render_util.h"
 #include "pso/system/vector.h"
 #include "types.h"
@@ -121,7 +121,7 @@ void TBoss5GryphonLightningEff::run_task() {
     ((TTecZondeEff *)arg0)->TTecZondeEff::run_task();
     if ((3.0517578e-05f) * (f32)rand() > (0.95f)) {
         s32 i = (f32)arg0->n * ((3.0517578e-05f) * (f32)rand());
-        spawn_particle_effect_with_flags(&arg0->ents[i], 0x215, 0x40);
+        spawn_particle_effect_with_flags((const Vec *)&arg0->ents[i], 0x215, 0x40);
     }
     (*(s16 *)((u8 *)arg0 + 0x25C))++;
 }

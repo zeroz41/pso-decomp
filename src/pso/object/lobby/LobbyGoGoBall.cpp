@@ -1,4 +1,5 @@
 #include "pso/system/BmlAccessors.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/BmlResourceLoader.h"
 #include "pso/system/BmlResource.h"
 #include "pso/render/GinjaMaterialState.h"
@@ -17,7 +18,6 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/GinjaMaterial.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803DA798.h"
 #include "pso/system/vector.h"
@@ -199,8 +199,6 @@ void fn_80198E84(void);
 }
 struct Cfg_80198F14 { f32 f0; f32 f4; f32 f8; s32 fC; u8 pad10[2]; s16 f12; u8 pad14[4]; s8 f18; };
 struct Pair_80198F14 { s32 a; s32 b; };
-extern "C" {
-}
 u8 *load_gvm_texture_file(saddr arg0);
 struct ByteBlock_C { u8 bytes[0xc]; };
 struct G_80199078 { u8 pad[0x10]; s16 flags; };

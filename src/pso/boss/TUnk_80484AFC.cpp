@@ -1,5 +1,6 @@
 #pragma fp_contract on
 
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/boss/TUnk_80484AFC.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
@@ -15,7 +16,6 @@
 #include "pso/render/GinjaTextureMatrices.h"
 #include "pso/system/vector.h"
 #include "pso/unk/text_800870BC.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
 #include <stdlib.h>

@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/system/EnemyBmlResource.h"
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/enemy/EnemyTargetCandidate.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -33,7 +34,6 @@
 
 #include "pso/player/TObjPlayer_801AF2F0.h"
 
-#include "pso/unk/text_80087278.h"
 
 #include "pso/unk/text_803D96A8.h"
 
@@ -1297,7 +1297,7 @@ void TObjEneGyaranzo::spawn_missile() {
     this->get_anim_node_position(0x18, &launch_position);
     temp_r31 = (s32) (182.04445f * ((240.0f * random_ratio()) - 120.0f));
     new TUnk_8049442C(this, &launch_position, rotation_y, temp_r31);
-    spawn_particle_effect((void *)((saddr) &launch_position), 0xF3);
+    spawn_particle_effect(&launch_position, 0xF3);
     play_sound_effect(this->remap_sound_for_area(0x4003B20D), &position, 0, 0);
 }
 #pragma pop

@@ -1,5 +1,6 @@
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -37,7 +38,6 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/network/client_id.h"
 #include "pso/unk/TLobby.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_800FD8A0.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/object/TObjChip.h"
@@ -366,7 +366,7 @@ void TOTrapAncient01::play_sounds() {
     new TObjChip(tl_06, &chip0);
     new TObjChip(tl_06, &chip1);
     new TObjChip(tl_06, &chip2);
-    TParticleCtrl *particle = (TParticleCtrl *)spawn_particle_effect(&position, 0x8B);
+    TParticleCtrl *particle = spawn_particle_effect(&position, 0x8B);
     if (particle != NULL) {
         particle->set_scale(1.25f, 1.25f);
     }

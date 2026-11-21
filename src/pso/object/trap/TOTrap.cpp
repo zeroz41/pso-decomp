@@ -1,7 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/trap/TOTrap.h"
 #include "pso/object/trap/TOMineTrap.h"
@@ -108,8 +108,8 @@ void TOTrap::find_target_player() {
 }
 
 void TOTrap::play_sounds() {
-    spawn_particle_effect(&m_2fc, 0x45);
-    spawn_particle_effect(&m_2fc, 0x46);
+    spawn_particle_effect((const Vec *)&m_2fc, 0x45);
+    spawn_particle_effect((const Vec *)&m_2fc, 0x46);
 }
 
 void TOTrap::vfunc_6(s16 *arg1, s32 arg2) {
