@@ -428,7 +428,7 @@ struct TObjPlayer : public TObjChara {
     static void reset_movie_state();
     static s32 get_camera_flag();
     static void set_tex_coord_gen(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-    static f32 get_end_text_value();
+    static f32 get_end_text_value(f32 x);
     int is_inactive();
     static void set_visibility_flags_by_count(void *arg0, s32 arg1);
     void init_position_vectors();

@@ -157,7 +157,6 @@ void check_enemy_body_collisions(void *arg0);
 extern unsigned char lbl_8050DAD0[];
 void free_collision_body_parts(G_80156720 *arg0);
 u16 get_entity_id(int);
-void *memcpy(void *, const void *, u32);
 s32 *csnVecterUnder(saddr origin, s32 mask);
 u16 TObjRoomId__sub_801A1DB8(u16);
 s32 project_actor_to_ground(Obj_80156844 *self, Vec *pos, Vec *normal);

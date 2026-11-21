@@ -163,7 +163,6 @@ void sub_803C0BE8(Snd_803C0BE8 *arg0);
 void sub_803C0018(void);
 void decode_audio_stream_step(AudioStreamInputState *st);
 s32 TLobby__sub_803C3B68(saddr arg0, u16 *hdr, saddr size);
-void *memcpy(void *, const void *, u32);
 void process_audio_stream_input(AudioStreamInputState *arg0);
 
 void TLobby__sub_803C3B5C(TLobby *decoder, void (*callback)(void *, s32 *, s32 *, s32 *), void *context);

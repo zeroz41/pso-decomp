@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/math/InverseTrig.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/player/TObjPlayer.h"
 
@@ -11,7 +12,6 @@ void PSMTXRotRad(Matrix34*, char, f32);
 f32 PSMTXConcat(int, int, int);
 void rotate_matrix_y(Matrix34* matrix, s32 angle);
 
-f64 acos(f32);
 void scale_matrix(u32, f32, f32, f32);
 
 void rotate_matrix_x(u32, s32);

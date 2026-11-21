@@ -27,7 +27,6 @@ extern "C" {
 s32 TProtocol__send_60(int, int, int);
 s32 dispatch_6x_subcommand(void *);
 extern uaddr TLobby__protocol_instance;
-char *strncpy(char *, const char *, u32);
 s32 load_texture_list(s32 **);
 s32 append_command_to_batch_buffer(void *, s32);
 u8 *TQuestVmDownLoadServer__sub_8007EBDC(s32, s32);

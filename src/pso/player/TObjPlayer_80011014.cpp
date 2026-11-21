@@ -15,6 +15,8 @@
 #include "pso/system/vector.h"
 
 #include "pso/system/byteswap.h"
+#include "pso/math/InverseTrig.h"
+#include <stdlib.h>
 
 #include "pso/network/protocol/protocol_types.h"
 
@@ -835,8 +837,6 @@ s32 play_sound_effect(s32, s32, s32, s32);
 void __dl__7TObjectFPv(void *);
 u32 __nw__7TObjectFUl(s32);
 s32 construct_actor_light_task(f32, void *, const f32 *, const f32 *, s32, void *, s32);
-s32 rand();
-f64 atan2(f64 y, f64 x);
 s32 vec3_add_to(void *, void *);
 void matrix_mult_vec(s32, void *, void *);
 s32 scale_matrix(int, f32, f32, f32);

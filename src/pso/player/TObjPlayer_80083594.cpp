@@ -3,6 +3,7 @@
 #pragma readonly_strings on
 
 #include "types.h"
+#include "pso/math/InverseTrig.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
@@ -214,7 +215,6 @@ extern "C" {
 // The game passes 8 floats; the SDK's C_MTXLightFrustum takes 9, so transT is whatever f9 holds.
 s32 C_MTXLightFrustum(void *, f32, f32, f32, f32, f32, f32, f32, f32);
 f32 rotate_matrix_by_node_angles(void *, int);
-f64 get_end_text_value__10TObjPlayerFv(f32);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
 }
@@ -271,7 +271,6 @@ void setup_blended_textured_draw(void);
 #define VIEW ((View_80083D54 *)camera_ctrl_instance)
 
 extern "C" {
-f64 atan();
 s32 GXSetTexCoordGen2(s32 a0 = 0, s32 a1 = 0, s32 a2 = 0, s32 a3 = 0, s32 a4 = 0, s32 a5 = 0);
 
 int TObjPlayer::is_inactive() { return this->m_cfc == 0; }
@@ -291,8 +290,8 @@ void GXTexCoord2f32_80083594(f32 farg0, f32 farg1) {
     *(f32 *)0xCC008000 = farg1;
 }
 
-f32 TObjPlayer::get_end_text_value() {
-    return (f32) atan();
+f32 TObjPlayer::get_end_text_value(f32 x) {
+    return atan(x);
 }
 
 void TObjPlayer__sub_800847FC(void) {  }
@@ -644,7 +643,7 @@ f32 calc_camera_fov_degrees(void) {
         temp_f2 *= 0.85f;
         temp_r31 = (s32) (temp_f2 / 2.0f);
         temp_f31 = cos_table_lookup(temp_r31);
-        var_f1 = (f32) ((s32) (10430.38043493439 * get_end_text_value__10TObjPlayerFv((f32) ((sin_table_lookup(temp_r31) / temp_f31) / 1.1333334f))) * 2);
+        var_f1 = (f32) ((s32) (10430.38043493439 * TObjPlayer::get_end_text_value((f32) ((sin_table_lookup(temp_r31) / temp_f31) / 1.1333334f))) * 2);
     }
     return var_f1;
 }
