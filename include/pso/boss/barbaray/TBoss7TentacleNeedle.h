@@ -23,6 +23,10 @@ struct TBoss7TentacleNeedle : public TObject {
     void damage_nearby_players();
     void update_retract_state();
     void advance_needle_timer();
+    // Load and release the needle's model and motions (the boss's resource callback table, as the
+    // TBoss7Crawfish pair next to them).
+    static void load_static_resource();
+    static void destroy_instance();
 
     Vec position;
     s32 rotation[3];
@@ -36,12 +40,6 @@ struct TBoss7TentacleNeedle : public TObject {
 };
 
 LAYOUT_ASSERT(TBoss7TentacleNeedle_size, sizeof(TBoss7TentacleNeedle) == 0x7C);
-
-// Load and release the needle's model and motions (the boss's resource callback table calls them).
-extern "C" {
-void TObjPlayer__sub_802EFEC4(void);
-void fn_802EFEA8(void);
-}
 
 extern NJS_OBJECT *boss7_tentacle_needle_model;
 extern AnimationMotion *boss7_tentacle_needle_motions[4];

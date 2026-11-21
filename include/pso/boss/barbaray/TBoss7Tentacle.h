@@ -36,6 +36,16 @@ public:
     void sub_802F0A44();
     void init_segments();
     void start_attack_at_position(u8 *target, s32 hold_time);
+    s32 sub_802F0904();
+    void sub_802F0AD0();
+    void sub_802F0AF0();
+    void sub_802F0B58();
+    void sub_802F0B70();
+    void sub_802F0B80();
+    // Load and release the shared tentacle model nodes (the boss's resource callback table, as the
+    // TBoss7Crawfish pair next to them).
+    static void load_static_resource();
+    static void destroy_instance();
 
     NJS_OBJECT *model;
     AnimationMotion *motion;   // get_boss7_motion(0x11)
@@ -66,18 +76,5 @@ public:
 LAYOUT_ASSERT(TBoss7TentacleSegmentPos, offsetof(TBoss7Tentacle, segment_pos) == 0x50);
 LAYOUT_ASSERT(TBoss7TentacleReach, offsetof(TBoss7Tentacle, reach) == 0x158);
 LAYOUT_ASSERT(TBoss7Tentacle_size, sizeof(TBoss7Tentacle) == 0x16C);
-
-// Called by the boss with the tentacle as an untyped pointer; the two TObjPlayer__ ones load and release
-// the shared tentacle model nodes (the boss's resource callback table).
-extern "C" {
-s32 TBoss7Tentacle__sub_802F0904(u8 *tentacle);
-void TBoss7Tentacle__sub_802F0AD0(void *tentacle);
-void TBoss7Tentacle__sub_802F0AF0(u8 *tentacle);
-void TBoss7Tentacle__sub_802F0B58(u8 *tentacle);
-void TBoss7Tentacle__sub_802F0B70(void *tentacle);
-void TBoss7Tentacle__sub_802F0B80(void *tentacle);
-void TObjPlayer__sub_802F0D2C(void);
-void TObjPlayer__sub_802F0D30(void);
-}
 
 #endif

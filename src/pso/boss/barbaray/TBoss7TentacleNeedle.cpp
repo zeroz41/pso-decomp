@@ -47,7 +47,7 @@ NJS_OBJECT *boss7_tentacle_needle_model;
 // Written last-to-first: built with -inline off,deferred, which emits functions in reverse source order
 // (the Needle vtable 0x804E4830 precedes the Tentacle one although every Needle virtual comes first).
 
-void TObjPlayer__sub_802F0D30(void) {
+void TBoss7Tentacle::load_static_resource() {
     DragonModelNode *src;
     DragonModelNode *dst;
     s32 i;
@@ -73,7 +73,7 @@ void TObjPlayer__sub_802F0D30(void) {
     }
 }
 
-void TObjPlayer__sub_802F0D2C(void) {  }
+void TBoss7Tentacle::destroy_instance() {}
 
 TBoss7Tentacle::TBoss7Tentacle(TObject *parent, s32 joint, s32 index) : TObject(parent) {
     m_name = TBoss7Tentacle__name;
@@ -106,13 +106,13 @@ TBoss7Tentacle::TBoss7Tentacle(TObject *parent, s32 joint, s32 index) : TObject(
 
 TBoss7Tentacle::~TBoss7Tentacle() {}
 
-void TBoss7Tentacle__sub_802F0B80(void *tentacle) { ((TBoss7Tentacle *)tentacle)->flags &= ~TBoss7Tentacle::HIDDEN; }
+void TBoss7Tentacle::sub_802F0B80() { flags &= ~HIDDEN; }
 
-void TBoss7Tentacle__sub_802F0B70(void *tentacle) { ((TBoss7Tentacle *)tentacle)->flags |= TBoss7Tentacle::HIDDEN; }
+void TBoss7Tentacle::sub_802F0B70() { flags |= HIDDEN; }
 
-void TBoss7Tentacle__sub_802F0B58(u8 *tentacle) {
-    ((TBoss7Tentacle *)tentacle)->next_state = 1;
-    ((TBoss7Tentacle *)tentacle)->flags &= ~TBoss7Tentacle::HIDDEN;
+void TBoss7Tentacle::sub_802F0B58() {
+    next_state = 1;
+    flags &= ~HIDDEN;
 }
 
 void TBoss7Tentacle::start_attack_at_position(u8 *target, s32 hold_time) {
@@ -124,16 +124,16 @@ void TBoss7Tentacle::start_attack_at_position(u8 *target, s32 hold_time) {
     sub_802F0A14();
 }
 
-void TBoss7Tentacle__sub_802F0AF0(u8 *tentacle) {
-    ((TBoss7Tentacle *)tentacle)->next_state = 5;
-    ((TBoss7Tentacle *)tentacle)->flags &= ~TBoss7Tentacle::HIDDEN;
+void TBoss7Tentacle::sub_802F0AF0() {
+    next_state = 5;
+    flags &= ~HIDDEN;
 }
 
-void TBoss7Tentacle__sub_802F0AD0(void *tentacle) {
-    ((TBoss7Tentacle *)tentacle)->frame_speed = 1.6f;
-    ((TBoss7Tentacle *)tentacle)->sway_speed = 3038;
-    ((TBoss7Tentacle *)tentacle)->pitch = 0;
-    ((TBoss7Tentacle *)tentacle)->next_state = 0;
+void TBoss7Tentacle::sub_802F0AD0() {
+    frame_speed = 1.6f;
+    sway_speed = 3038;
+    pitch = 0;
+    next_state = 0;
 }
 
 void TBoss7Tentacle::init_segments() {
@@ -201,8 +201,8 @@ void TBoss7Tentacle::sub_802F0918() {
     pitch = 0x4000;
 }
 
-s32 TBoss7Tentacle__sub_802F0904(u8 *tentacle) {
-    return ((TBoss7Tentacle *)tentacle)->state == 4;
+s32 TBoss7Tentacle::sub_802F0904() {
+    return state == 4;
 }
 
 void TBoss7Tentacle::advance_path_position() {
@@ -475,14 +475,14 @@ void TBoss7Tentacle::render() {
     pop_matrix();
 }
 
-void TObjPlayer__sub_802EFEC4(void) {
+void TBoss7TentacleNeedle::load_static_resource() {
     boss7_tentacle_needle_model = TBoss7DeRolLeC::get_archive_model(5);
     boss7_tentacle_needle_motions[0] = get_boss7_motion(0x13);
     boss7_tentacle_needle_motions[1] = get_boss7_motion(0x14);
     boss7_tentacle_needle_motions[2] = get_boss7_motion(0x12);
 }
 
-void fn_802EFEA8(void) {
+void TBoss7TentacleNeedle::destroy_instance() {
     boss7_tentacle_needle_motions[0] = NULL;
     boss7_tentacle_needle_model = NULL;
     boss7_tentacle_needle_motions[1] = NULL;

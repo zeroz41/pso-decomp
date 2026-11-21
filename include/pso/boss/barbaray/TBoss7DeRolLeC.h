@@ -84,6 +84,12 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     void update_attached_orientation();
     void handle_death_state(u32 event);
     void sub_802E8AD4(u32 event);
+    void sub_802EBE50(u32 event);
+    void sub_802E8584(u32 event);
+    void sub_802E8528(u32 event);
+    void sub_802E83E8(u32 event);
+    void sub_802E7B94();
+    void sub_802E7B40();
     u8 pad_374[0x8];
     f32 unk_37C;                  // 20.0 (the joints set 3.0)
     u8 pad_380[0xC];
@@ -161,10 +167,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     TParticleCtrl *unk_7B0;       // destroy_child releases it, update_attached_orientation aims it
     Vec unk_7B4;                  // where unk_7B0 sits
     Vec unk_7C0;                  // the point unk_7B0 is aimed away from
-    u16 unk_7CC;
-    u16 unk_7CE;
-    u16 unk_7D0;
-    u16 unk_7D2;
+    u16 needle_targets[4];        // client ids of the players sub_802E83E8 sends a TBoss7TentacleNeedle under
     static void run_exit_callbacks();
     static void *create(void *arg0);
 };
@@ -208,8 +211,7 @@ extern "C" {
 void TBoss7LaserPtcl__sub_802E8FCC(u8 *arg0, u32 arg1);
 void TBoss7LaserPtcl__sub_802ECE28(u8 *arg0);
 void TBoss7PhotonBullet__sub_802ED5A0(void *arg0, int arg1);
-void TObjFish__sub_802E8528(void *o, u32 k);
-void TObjFish__sub_802E8584(void *o, u32 k);
+
 void TObjFish__sub_802E85E0(u8 *arg0, u32 arg1, s32 arg2);
 void TObjFish__sub_802E88F8(u8 *arg0, u32 arg1);
 void TObjFish__sub_802E8990(u8 *arg0, u32 arg1);
@@ -221,7 +223,7 @@ void TObjFish__sub_802E9DBC(u8 *arg0, u32 arg1, s32 arg2);
 void TObjFish__sub_802EA4D8(u8 *arg0, u32 arg1);
 void TObjFish__sub_802EAAC8(u8 *arg0, u32 arg1, s32 arg2, s32 arg3);
 void TObjFish__sub_802EBBC8(u8 *arg0, u32 arg1);
-void TObjFish__sub_802EBE50(void *o, u32 k);
+
 void TObjFish__sub_802EC32C(TBoss7DeRolLeC *self);
 void TObjFish__sub_802EC468(saddr arg0, f32 farg0, f32 farg1);
 void TObjPlayer__sub_802E7F30(void *unused, s32 arg1);
