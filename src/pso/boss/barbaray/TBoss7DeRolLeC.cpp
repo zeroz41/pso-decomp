@@ -41,6 +41,7 @@ struct NJS_OBJECT;
 #include "pso/boss/barbaray/TBoss7Joint.h"
 
 #include "pso/boss/barbaray/TBoss7LaserPtcl.h"
+#include "pso/map/CsnQuery.h"
 #include "pso/boss/barbaray/TBoss7TentacleNeedle.h"
 
 #include "pso/boss/barbaray/TBoss7LaserLight.h"
@@ -633,7 +634,7 @@ LAYOUT_ASSERT(RecoveredGlobal_802E80F4_lbl_8058D4C0_size, sizeof(RecoveredGlobal
 #pragma push
 #pragma inline_depth(1)
 #pragma auto_inline off
-void TBoss7LaserPtcl__sub_802ECE28(u8 *arg0);
+
 
 
 
@@ -645,26 +646,7 @@ struct ByteBlock_14 { u8 bytes[0x14]; };
 
 
 
-struct Tgt_802E85E0 { u8 pad[0x38]; Vec pos; };
 
-struct Fish_802E85E0 {
-    u8 pad0[0x390];
-    Tgt_802E85E0 *target;
-    u8 pad394[0x628 - 0x394];
-    u32 flags;
-    u8 pad62C[0x6B4 - 0x62C];
-    s32 f6B4;
-    u8 pad6B8[0x6C0 - 0x6B8];
-    s32 dir;
-    u8 pad6C4[0x6DC - 0x6C4];
-    saddr kids[4];
-    u8 pad6EC[0x728 - 0x6EC];
-    s32 state;
-    s32 timer;
-    s32 fired;
-    s32 wait;
-    s32 f738;
-};
 
 struct Fish_802EAAC8 {
     u8 pad0[0x38];
@@ -853,11 +835,11 @@ struct Fish_802EB90C {
 extern "C" {
 void fill_value_array(saddr address);
 
-u8 *csnVector(s32 *, void *, s32);
 
 
 
-void TBoss7LaserPtcl__sub_802E8FCC(u8 *arg0, u32 arg1);
+
+
 
 
 
@@ -875,7 +857,7 @@ void TObjFish__sub_802EBBC8(u8 *arg0, u32 arg1);
 
 
 
-void TObjFish__sub_802E85E0(u8 *arg0, u32 arg1, s32 arg2);
+
 
 
 
@@ -1205,12 +1187,12 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
     unk_760 = 0.0f;
     unk_764 = 0.0f;
     unk_768 = 0.0f;
-    unk_76C = 0.0f;
-    unk_770 = 0.0f;
-    unk_774 = 0.0f;
-    unk_778 = 0.0f;
-    unk_77C = 0.0f;
-    unk_780 = 0.0f;
+    unk_76C.x = 0.0f;
+    unk_76C.y = 0.0f;
+    unk_76C.z = 0.0f;
+    unk_778.x = 0.0f;
+    unk_778.y = 0.0f;
+    unk_778.z = 0.0f;
     unk_784 = NULL;
     unk_6AC = 0;
     unk_624 = &controller_input_state.controllers[1];
@@ -1730,11 +1712,11 @@ void TBoss7DeRolLeC::sub_802ECE90(s32 joint, s32 shot_level) {
 #pragma push
 #pragma fp_contract on
 
-void TBoss7LaserPtcl__sub_802ECE28(u8 *arg0) {
-    VecCopy__FP3VecPC3Vec(arg0 + 0x70C, arg0 + 0x4DC);
-    *(f32 *)((s8 *)arg0 + 0x70C) = (f32) ((30.0f * *(f32 *)((s8 *)arg0 + 0x4E8)) + *(f32 *)((s8 *)arg0 + 0x70C));
-    *(f32 *)((s8 *)arg0 + 0x710) = (f32) ((30.0f * *(f32 *)((s8 *)arg0 + 0x4EC)) + *(f32 *)((s8 *)arg0 + 0x710));
-    *(f32 *)((s8 *)arg0 + 0x714) = (f32) ((30.0f * *(f32 *)((s8 *)arg0 + 0x4F0)) + *(f32 *)((s8 *)arg0 + 0x714));
+void TBoss7DeRolLeC::sub_802ECE28() {
+    VecCopy(&unk_70C, &unk_4DC[0]);
+    unk_70C.x += 30.0f * unk_4DC[1].x;
+    unk_70C.y += 30.0f * unk_4DC[1].y;
+    unk_70C.z += 30.0f * unk_4DC[1].z;
 }
 #pragma pop
 void TBoss7DeRolLeC::turn_on_laser_light() {
@@ -2136,7 +2118,7 @@ void TBoss7DeRolLeC::dispatch_action(u32 state, s32 reason) {
         sub_802E9458(reason);
         return;
     case 0x18:
-        TBoss7LaserPtcl__sub_802E8FCC((u8 *)this, reason);
+        sub_802E8FCC(reason);
         return;
     case 0x19:
         sub_802E8EEC(reason, 0);
@@ -2229,10 +2211,10 @@ void TBoss7DeRolLeC::dispatch_action(u32 state, s32 reason) {
         sub_802E88F8(reason);
         return;
     case 0x40:
-        TObjFish__sub_802E85E0((u8 *)this, reason, 0);
+        sub_802E85E0(reason, 0);
         return;
     case 0x41:
-        TObjFish__sub_802E85E0((u8 *)this, reason, 2);
+        sub_802E85E0(reason, 2);
         return;
     case 0x42:
         sub_802E8584(reason);
@@ -3527,162 +3509,157 @@ void TBoss7DeRolLeC::sub_802E9458(u32 event) {
     }
 }
 #pragma pop
-void TBoss7LaserPtcl__sub_802E8FCC(u8 *arg0, u32 arg1) {
-    struct CopyStack_802E8FCC { u8 bytes[0x14]; };
-    CopyStack_802E8FCC copy_storage_802E8FCC;
-    struct { f32 v[3]; } sp8;
-    s32 temp_r4_2;
-    uaddr boss7_laser_ptcl;
-    u8 *temp_r30;
-    u8 *src;
-    u8 *temp_r3;
-    temp_r30 = (u8 *)((void *)((u8 *)arg0 + 0x76C));
-    switch (arg1) {
+void TBoss7DeRolLeC::sub_802E8FCC(u32 event) {
+    Vec from;
+    CsnHit *hit;
+    Vec *aim = &unk_76C;
+    Vec *beam_end;
+    switch (event) {
     case 4:
-        *(s32 *)((s8 *)arg0 + 0x628) = (s32) (*(s32 *)((s8 *)arg0 + 0x628) & 0xFFFFFFFB);
-        *(s32 *)((s8 *)arg0 + 0x628) = (s32) (*(s32 *)((s8 *)arg0 + 0x628) | 0x100);
-        ((TBoss7DeRolLeC *)arg0)->sub_802ECBDC();
-        ((TObjMotion *)arg0)->set_field_b8(0xF);
-        *(s32 *)((s8 *)arg0 + 0x6C0) = 3;
-        ((TBoss7DeRolLeC *)(arg0))->set_position_index((*(s32 *)((s8 *)arg0 + 0x6C0)));
-        fill_value_array((saddr)(*(PointerBuffer **)((s8 *)arg0 + 0x718)));
-        *(s32 *)((s8 *)arg0 + 0x728) = 0;
-        *(s32 *)((s8 *)arg0 + 0x72C) = 0;
-        *(s32 *)((s8 *)arg0 + 0x730) = 0;
-        *(s32 *)((s8 *)arg0 + 0x73C) = 0;
-        *(f32 *)((s8 *)arg0 + 0x748) = 0.0f;
-        *(f32 *)((s8 *)arg0 + 0x76C) = 0.0f;
-        *(f32 *)((s8 *)temp_r30 + 4) = 0.0f;
-        *(f32 *)((s8 *)temp_r30 + 8) = 0.0f;
-        *(u32 *)((s8 *)arg0 + 0x784) = 0U;
+        unk_628 &= ~4;
+        unk_628 |= 0x100;
+        sub_802ECBDC();
+        set_field_b8(0xF);
+        unk_6C0 = 3;
+        set_position_index(unk_6C0);
+        fill_value_array((saddr)unk_718);
+        unk_728 = 0;
+        unk_72C = 0;
+        unk_730 = 0;
+        unk_73C = 0;
+        unk_748 = 0.0f;
+        aim->x = 0.0f;
+        aim->y = 0.0f;
+        aim->z = 0.0f;
+        unk_784 = NULL;
         return;
     case 2:
-        if ((s32) *(s32 *)((s8 *)arg0 + 0x728) == 4) {
-            if ((s32) *(s32 *)((s8 *)arg0 + 0x724) >= 4) {
-                ((TBoss7DeRolLeC *)arg0)->set_state_and_send(0x19);
+        if (unk_728 == 4) {
+            if (unk_724 >= 4) {
+                set_state_and_send(0x19);
             } else {
-                ((TBoss7DeRolLeC *)arg0)->set_state_and_send(0x18);
+                set_state_and_send(0x18);
             }
         }
         break;
     case 9:
-        if ((s32) *(s32 *)((s8 *)arg0 + 0x728) == 4) {
-            ((TBoss7DeRolLeC *)arg0)->advance_action_sequence();
+        if (unk_728 == 4) {
+            advance_action_sequence();
             return;
         }
         break;
     case 0:
-        (((TObjMotion *)arg0)->advance_animation());
-        *(s32 *)((s8 *)arg0 + 0x7A0) = 6;
-        switch (*(s32 *)((s8 *)arg0 + 0x728)) {
+        advance_animation();
+        unk_7A0 = 6;
+        switch (unk_728) {
         case 0:
-            *(s32 *)((s8 *)arg0 + 0x72C) = (s32) (*(s32 *)((s8 *)arg0 + 0x72C) + 1);
-            if ((s32) *(s32 *)((s8 *)arg0 + 0x72C) >= 0x14) {
-                *(s32 *)((s8 *)arg0 + 0x72C) = 0;
-                *(s32 *)((s8 *)arg0 + 0x728) = 1;
-                fill_value_array((saddr)(*(PointerBuffer **)((s8 *)arg0 + 0x718)));
-                ((TObjMotion *)arg0)->set_field_b8(0xD);
-                if (((TObjEneDD_ST *)arg0)->enemy_check_target_valid() != 0) {
-                    VecCopy__FP3VecPC3Vec((saddr)((saddr)temp_r30), (void *)((saddr) (*(saddr *)((s8 *)arg0 + 0x390) + 0x38)));
+            unk_72C++;
+            if (unk_72C >= 0x14) {
+                unk_72C = 0;
+                unk_728 = 1;
+                fill_value_array((saddr)unk_718);
+                set_field_b8(0xD);
+                if (enemy_check_target_valid() != 0) {
+                    VecCopy(aim, &target->position);
                 } else {
-                    *(f32 *)((s8 *)arg0 + 0x76C) = 0.0f;
-                    *(f32 *)((s8 *)temp_r30 + 4) = 0.0f;
-                    *(f32 *)((s8 *)temp_r30 + 8) = 0.0f;
+                    aim->x = 0.0f;
+                    aim->y = 0.0f;
+                    aim->z = 0.0f;
                 }
-                if ((u32) *(u32 *)((s8 *)arg0 + 0x7A8) != 0U) {
-                    ((TObject *)(*(void **)((s8 *)arg0 + 0x7A8)))->queue_destruction();
+                if (unk_7A8 != NULL) {
+                    unk_7A8->queue_destruction();
                 }
-                boss7_laser_ptcl = (uaddr)new TBoss7LaserPtcl((TObject *)arg0, (TBoss7LaserPtclVector *)((u8 *)arg0 + 0x4DC), (TBoss7LaserPtclVector *)temp_r30);
-                *(u32 *)((s8 *)arg0 + 0x7A8) = boss7_laser_ptcl;
-                TBoss7LaserPtcl__sub_802ECE28((arg0));
-                ((TBoss7DeRolLeC *)arg0)->turn_on_laser_light();
-                ((TBoss7DeRolLeC *)arg0)->play_sound_at(0x39E0F, (Vec *)(((u8 *)arg0 + 0x50C)));
+                unk_7A8 = new TBoss7LaserPtcl(this, (TBoss7LaserPtclVector *)&unk_4DC[0], (TBoss7LaserPtclVector *)aim);
+                sub_802ECE28();
+                turn_on_laser_light();
+                play_sound_at(0x39E0F, &unk_50C[0]);
                 return;
             }
             break;
         case 1:
-            if ((u32) *(u32 *)((s8 *)arg0 + 0x7A8) != 0U) {
-                ((TBoss7LaserPtcl *)(*(void **)((s8 *)arg0 + 0x7A8)))->calc_position((u8 *)((u8 *)arg0 + 0x4DC), (u8 *)((u8 *)arg0 + 0x4E8));
+            if (unk_7A8 != NULL) {
+                unk_7A8->calc_position((u8 *)&unk_4DC[0], (u8 *)&unk_4DC[1]);
             }
-            if ((12.0f < *(f32 *)((s8 *)arg0 + 0xC0)) && ((u32) *(u32 *)((s8 *)arg0 + 0x7A8) != 0U)) {
-                ((TBoss7LaserPtcl *)(*(void **)((s8 *)arg0 + 0x7A8)))->destroy_particles();
+            if (12.0f < frame && unk_7A8 != NULL) {
+                unk_7A8->destroy_particles();
             }
-            TBoss7LaserPtcl__sub_802ECE28((arg0));
-            if (13.0f <= *(f32 *)((s8 *)arg0 + 0xC0)) {
-                *(f32 *)((s8 *)arg0 + 0xC0) = 13.0f;
-                *(s32 *)((s8 *)arg0 + 0x728) = 2;
-                if ((u32) *(u32 *)((s8 *)arg0 + 0x7A8) != 0U) {
-                    ((TBoss7LaserPtcl *)(*(void **)((s8 *)arg0 + 0x7A8)))->init_laser();
+            sub_802ECE28();
+            if (13.0f <= frame) {
+                frame = 13.0f;
+                unk_728 = 2;
+                if (unk_7A8 != NULL) {
+                    unk_7A8->init_laser();
                 }
-                ((TBoss7DeRolLeC *)arg0)->play_sound_at(0x3A310, (Vec *)(((u8 *)arg0 + 0x50C)));
+                play_sound_at(0x3A310, &unk_50C[0]);
                 return;
             }
             break;
         case 2:
-            src = (u8 *)((void *)((u8 *)arg0 + 0x778));
-            *(f32 *)((s8 *)arg0 + 0xC0) = 13.0f;
-            if ((u32) *(u32 *)((s8 *)arg0 + 0x7A8) != 0U) {
-                ((TBoss7LaserPtcl *)(*(void **)((s8 *)arg0 + 0x7A8)))->calc_position((u8 *)((u8 *)arg0 + 0x4DC), (u8 *)((u8 *)arg0 + 0x4E8));
-                ((TBoss7LaserPtcl *)(*(uaddr *)((s8 *)arg0 + 0x7A8)))->calc_world_position((void *)src);
-                calc_laser_ray_hit_point((u8 *)(*(uaddr *)((s8 *)arg0 + 0x7A8)), (u8 *)&sp8);
+            beam_end = &unk_778;
+            frame = 13.0f;
+            if (unk_7A8 != NULL) {
+                unk_7A8->calc_position((u8 *)&unk_4DC[0], (u8 *)&unk_4DC[1]);
+                unk_7A8->calc_world_position(beam_end);
+                calc_laser_ray_hit_point((u8 *)unk_7A8, (u8 *)&from);
             }
-            temp_r3 = (u8 *)(csnVector((s32 *)&sp8, src, 0x16EF));
-            if (temp_r3 != NULL) {
-                VecCopy__FP3VecPC3Vec((saddr)((saddr)src), (void *)((saddr) (*(saddr *)((s8 *)temp_r3 + 4))));
-                if ((u32) *(u32 *)((s8 *)arg0 + 0x71C) == 0U) {
-                    *(TUnk_804E4788 **)((s8 *)arg0 + 0x71C) = new TUnk_804E4788((TObject *)arg0, 6, 0x208);
+            hit = csnVector(&from, beam_end, 0x16EF);
+            if (hit != NULL) {
+                VecCopy(beam_end, &hit->contact->point);
+                if (unk_71C == NULL) {
+                    unk_71C = new TUnk_804E4788(this, 6, 0x208);
                 } else {
-                    (*(TUnk_804E4788 **)((s8 *)arg0 + 0x71C))->push_ring_point((const Vec *)src);
+                    unk_71C->push_ring_point(beam_end);
                 }
-                if ((u32) *(u32 *)((s8 *)arg0 + 0x720) == 0U) {
-                    *(TUnk_804E4788 **)((s8 *)arg0 + 0x720) = new TUnk_804E4788((TObject *)arg0, 0xF, 0x209);
+                if (unk_720 == NULL) {
+                    unk_720 = new TUnk_804E4788(this, 0xF, 0x209);
                 } else {
-                    (*(TUnk_804E4788 **)((s8 *)arg0 + 0x720))->push_ring_point((const Vec *)src);
+                    unk_720->push_ring_point(beam_end);
                 }
             }
-            *(ByteBlock_14 *)(copy_storage_802E8FCC.bytes) = *(const ByteBlock_14 *)((saddr) ((u8 *)((void *)((u8 *)&boss7_laser_particle_params + -4))) + 4);
-            (*(f32 *)(copy_storage_802E8FCC.bytes + 0x4)) = *(f32 *)((s8 *)(*(f32 **)((s8 *)arg0 + 0x620)) + 0);
-            TObjEneDD::setup_instance((saddr)((void *)arg0), (saddr)((saddr)src), (u8 *)copy_storage_802E8FCC.bytes, (s32)((int) (*(s32 *)((s8 *)arg0 + 0x718))));
-            if ((u32) *(u32 *)((s8 *)arg0 + 0x7A8) != 0U) {
-                if (((TBoss7LaserPtcl *)(*(void **)((s8 *)arg0 + 0x7A8)))->is_state_2() != 0) {
-                    *(s32 *)((s8 *)arg0 + 0x728) = 3;
+            {
+                Boss7AttackParams params = boss7_laser_particle_params;
+                params.field_4 = unk_620->unk_00;
+                TObjEneDD::setup_instance((saddr)this, (saddr)beam_end, (u8 *)&params, (saddr)unk_718);
+            }
+            if (unk_7A8 != NULL) {
+                if (unk_7A8->is_state_2() != 0) {
+                    unk_728 = 3;
                     return;
                 }
             } else {
-                *(s32 *)((s8 *)arg0 + 0x728) = 3;
+                unk_728 = 3;
                 return;
             }
             break;
         case 3:
-            if (((TObjEneDD *)arg0)->get_flag_b4() != 0) {
-                *(s32 *)((s8 *)arg0 + 0x728) = 4;
+            if (get_flag_b4() != 0) {
+                unk_728 = 4;
                 return;
             }
             break;
         }
         break;
     case 6:
-        ((TBoss7DeRolLeC *)arg0)->pick_random_target();
+        pick_random_target();
         return;
     case 5:
-        temp_r4_2 = *(s32 *)((s8 *)arg0 + 0x724);
-        *(s32 *)((s8 *)arg0 + 0x724) = (s32)(temp_r4_2 + 1);
-        ((TBoss7DeRolLeC *)arg0)->turn_off_laser_light();
-        if ((u32) *(u32 *)((s8 *)arg0 + 0x784) != 0U) {
-            ((TObject *)(*(void **)((s8 *)arg0 + 0x784)))->queue_destruction();
-            *(u32 *)((s8 *)arg0 + 0x784) = 0U;
+        unk_724++;
+        turn_off_laser_light();
+        if (unk_784 != NULL) {
+            unk_784->queue_destruction();
+            unk_784 = NULL;
         }
-        if ((u32) *(u32 *)((s8 *)arg0 + 0x71C) != 0U) {
-            ((TObject *)(*(void **)((s8 *)arg0 + 0x71C)))->queue_destruction();
-            *(u32 *)((s8 *)arg0 + 0x71C) = 0U;
+        if (unk_71C != NULL) {
+            unk_71C->queue_destruction();
+            unk_71C = NULL;
         }
-        if ((u32) *(u32 *)((s8 *)arg0 + 0x720) != 0U) {
-            ((TObject *)(*(void **)((s8 *)arg0 + 0x720)))->queue_destruction();
-            *(u32 *)((s8 *)arg0 + 0x720) = 0U;
+        if (unk_720 != NULL) {
+            unk_720->queue_destruction();
+            unk_720 = NULL;
         }
-        if ((u32) *(u32 *)((s8 *)arg0 + 0x7A8) != 0U) {
-            ((TObject *)(*(void **)((s8 *)arg0 + 0x7A8)))->queue_destruction();
-            *(u32 *)((s8 *)arg0 + 0x7A8) = 0U;
+        if (unk_7A8 != NULL) {
+            unk_7A8->queue_destruction();
+            unk_7A8 = NULL;
         }
         break;
     }
@@ -3946,8 +3923,7 @@ void TBoss7DeRolLeC::sub_802E88F8(u32 event) {
     case 9: return;
     }
 }
-#define self ((Fish_802E85E0 *)arg0)
-void TObjFish__sub_802E85E0(u8 *arg0, u32 arg1, s32 arg2) {
+void TBoss7DeRolLeC::sub_802E85E0(u32 event, s32 position_index) {
     Vec v;
     f32 scale;
     s32 r;
@@ -3955,95 +3931,95 @@ void TObjFish__sub_802E85E0(u8 *arg0, u32 arg1, s32 arg2) {
     s32 j;
     s32 i;
     s32 k;
-    switch (arg1) {
+    switch (event) {
     case 4:
-        ((TBoss7DeRolLeC *)arg0)->sub_802ECBDC();
-        self->flags &= ~4;
-        self->flags &= ~0x100;
-        self->dir = arg2;
-        ((TBoss7DeRolLeC *)self)->set_swim_direction(self->dir);
-        if (self->dir == 0) {
-            ((TObjMotion *)self)->set_field_b8(9);
+        sub_802ECBDC();
+        unk_628 &= ~4;
+        unk_628 &= ~0x100;
+        unk_6C0 = position_index;
+        set_swim_direction(unk_6C0);
+        if (unk_6C0 == 0) {
+            set_field_b8(9);
         } else {
-            ((TObjMotion *)self)->set_field_b8(0xA);
+            set_field_b8(0xA);
         }
-        self->state = 0;
-        self->timer = 0;
-        self->fired = 0;
-        self->wait = 0xB4;
-        self->f738 = 0x78;
+        unk_728 = 0;
+        unk_72C = 0;
+        unk_730 = 0;
+        unk_734 = 0xB4;
+        unk_738 = 0x78;
         return;
     case 2:
-        if (self->state == 3) {
-            if (self->dir == 0) {
-                ((TBoss7DeRolLeC *)self)->set_state_and_send(0x15);
+        if (unk_728 == 3) {
+            if (unk_6C0 == 0) {
+                set_state_and_send(0x15);
             } else {
-                ((TBoss7DeRolLeC *)self)->set_state_and_send(0x16);
+                set_state_and_send(0x16);
             }
         }
         return;
     case 9:
-        if (self->state == 3) {
-            ((TBoss7DeRolLeC *)arg0)->advance_action_sequence();
+        if (unk_728 == 3) {
+            advance_action_sequence();
         }
         return;
     case 0:
-        ((TObjMotion *)self)->advance_animation();
-        switch (self->state) {
+        advance_animation();
+        switch (unk_728) {
         case 0:
-            self->timer++;
-            if (self->timer > lbl_804E3C2C[game_difficulty_selection][self->f6B4].b * 0x1E) {
-                self->state = 1;
-                self->timer = 0;
-                self->fired = 0;
+            unk_72C++;
+            if (unk_72C > lbl_804E3C2C[game_difficulty_selection][action_index].b * 0x1E) {
+                unk_728 = 1;
+                unk_72C = 0;
+                unk_730 = 0;
             }
             break;
         case 1:
-            self->timer++;
-            if (self->timer >= self->wait) {
-                if (self->fired == 0) {
-                    self->timer = 0;
-                    if (((TObjEneDD_ST *)self)->enemy_has_live_target() != 0) {
-                        ((s32 (*)(Vec *, Vec *))VecCopy__FP3VecPC3Vec)(&v, &self->target->pos);
+            unk_72C++;
+            if (unk_72C >= unk_734) {
+                if (unk_730 == 0) {
+                    unk_72C = 0;
+                    if (enemy_has_live_target() != 0) {
+                        VecCopy(&v, &target->position);
                     } else {
-                        scale = 120.0f * ((TObjChara *)self)->random_ratio();
-                        r = ((TObjEneDD *)self)->get_random_scaled();
+                        scale = 120.0f * random_ratio();
+                        r = get_random_scaled();
                         v.x = scale * sin_table_lookup(r);
                         v.y = -1.85f;
                         v.z = scale * cos_table_lookup(r);
                         TObjBoss2Tunnel::adjust_to_ground((saddr)&v, (void *)&v);
                     }
                     for (j = 0; j != 4; j++) {
-                        ((TBoss7Tentacle *)(self->kids[j]))->start_attack_at_position((u8 *)&v, self->f738);
+                        unk_6DC[j]->start_attack_at_position((u8 *)&v, unk_738);
                     }
-                    self->fired = 1;
-                    self->timer = 0;
+                    unk_730 = 1;
+                    unk_72C = 0;
                 } else {
-                    self->state = 2;
+                    unk_728 = 2;
                 }
             }
             break;
         case 2:
             ok = 1;
-            self->timer++;
+            unk_72C++;
             for (i = 0; i < 4; i++) {
-                if (((TBoss7Tentacle *)self->kids[i])->sub_802F0904() == 0) {
+                if (unk_6DC[i]->sub_802F0904() == 0) {
                     ok = 0;
                     break;
                 }
             }
-            if (ok != 0 || self->timer > 600) {
-                self->state = 3;
+            if (ok != 0 || unk_72C > 600) {
+                unk_728 = 3;
             }
             break;
         }
         return;
     case 6:
-        ((TBoss7DeRolLeC *)arg0)->pick_random_target();
+        pick_random_target();
         return;
     case 5:
         for (k = 0; k < 4; k++) {
-            ((TBoss7Tentacle *)self->kids[k])->sub_802F0AF0();
+            unk_6DC[k]->sub_802F0AF0();
         }
         return;
     case 1:
@@ -4053,7 +4029,6 @@ void TObjFish__sub_802E85E0(u8 *arg0, u32 arg1, s32 arg2) {
         return;
     }
 }
-#undef self
 void TBoss7DeRolLeC::sub_802E8584(u32 event) {
     switch (event) {
     case 0:

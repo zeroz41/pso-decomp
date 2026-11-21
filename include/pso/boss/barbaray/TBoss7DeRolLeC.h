@@ -19,10 +19,13 @@ class TBoss7LaserLight;
 class AreaAttackHistory;
 class TUnk_804F1C58;
 class TParticleCtrl;
+class TUnk_804E4788;
+struct TBoss7LaserPtcl;
 
 // Boss parameter block 15 from TLobby::dispatch_shared_handler_a.
 struct TBoss7DeRolLeCParams {
-    u8 pad_00[0x18];
+    f32 unk_00;                   // the laser's attack power (sub_802E8FCC)
+    u8 pad_04[0x14];
     s32 unk_18;
     u8 pad_1C[0x4];
     s32 unk_20;
@@ -98,11 +101,16 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     void sub_802ECE90(s32 joint, s32 shot_level);
     void sub_802E95F8(u32 event, s32 position_index);
     void sub_802E9458(u32 event);
+    void sub_802ECE28();
+    void sub_802E8FCC(u32 event);
+    void sub_802E85E0(u32 event, s32 position_index);
     u8 pad_374[0x8];
     f32 unk_37C;                  // 20.0 (the joints set 3.0)
     u8 pad_380[0xC];
     u16 unk_38C;
-    u8 pad_38E[0x32];
+    u8 pad_38E[0x2];
+    TObjChara *target;            // TObjEneDD_ST's target (enemy_clear_target clears it)
+    u8 pad_394[0x2C];
     CollisionBody unk_3C0;        // copy of lbl_80473C3C, the body's collision sphere
     Vec unk_3EC[20];
     Vec unk_4DC[4];
@@ -140,8 +148,8 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     TBoss7LaserLight *unk_708;
     Vec unk_70C;                  // the laser light's position
     AreaAttackHistory *unk_718;
-    TObject *unk_71C;
-    TObject *unk_720;
+    TUnk_804E4788 *unk_71C;       // ring trail of the laser's hit point
+    TUnk_804E4788 *unk_720;
     s32 unk_724;
     s32 unk_728;                  // state step (sub_802EB270: 1 = arrived)
     s32 unk_72C;
@@ -160,17 +168,13 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     f32 unk_760;
     f32 unk_764;
     f32 unk_768;
-    f32 unk_76C;
-    f32 unk_770;
-    f32 unk_774;
-    f32 unk_778;
-    f32 unk_77C;
-    f32 unk_780;
+    Vec unk_76C;                  // where the laser aims (the target's position, or the origin)
+    Vec unk_778;                  // where the laser beam hits
     TObject *unk_784;             // released by the destructor
     TObject *unk_788[6];          // released by the destructor
     s32 unk_7A0;
     TObject *crawfish_parent;     // the group spawned crawfish are children of
-    s32 unk_7A8;
+    TBoss7LaserPtcl *unk_7A8;
     TUnk_804F1C58 *unk_7AC;
     TParticleCtrl *unk_7B0;       // destroy_child releases it, update_attached_orientation aims it
     Vec unk_7B4;                  // where unk_7B0 sits
@@ -216,11 +220,11 @@ void TBoss7DeRolLeC__sub_802EC994(void *p);
 }
 s32 TBoss7Joint_get_shell_max_hp(void);
 extern "C" {
-void TBoss7LaserPtcl__sub_802E8FCC(u8 *arg0, u32 arg1);
-void TBoss7LaserPtcl__sub_802ECE28(u8 *arg0);
+
+
 void TBoss7PhotonBullet__sub_802ED5A0(void *arg0, int arg1);
 
-void TObjFish__sub_802E85E0(u8 *arg0, u32 arg1, s32 arg2);
+
 
 
 void TObjFish__sub_802E9DBC(u8 *arg0, u32 arg1, s32 arg2);
