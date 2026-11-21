@@ -371,9 +371,8 @@ extern const Vec lbl_80473F84 = {0.0f, 0.0f, -275.0f};
 
 extern const Vec lbl_80473F90 = {0.0f, 0.0f, -520.0f};
 
-struct Ang_802E7888 { s32 x, y, z; };
 
-extern const Ang_802E7888 lbl_80473F9C = {0, 0, 0};
+extern const Boss7Angles lbl_80473F9C = {0, 0, 0};
 
 extern s32 game_difficulty_selection;
 
@@ -481,61 +480,28 @@ f32 newton_sqrtf(f32);
 
 f32 subtract_vector(void *, void *);
 
-void TBoss7DeRolLeC__try_spawn_pattern_crawfish(TBoss7DeRolLeC *self, s32 variant, s32 index);
 
 
 }
 
-typedef struct Obj_802E79B0 {
-    u8 pad0[0x3EC];
-    Vec pts[20];
-    u8 pad[0x530 - 0x3EC - 20 * 12];
-    Vec out[10];
-} Obj_802E79B0;
 extern "C" {
 s32 VecCopy__FP3VecPC3Vec(int, void *);
 
 
-void fn_802E79B0(Obj_802E79B0 *arg0);
 }
 
-struct RecoveredFields_802E7F30_temp_r3
-{
-  u8 unknown_0[0x4];
-  u8 *field_4;
-};
-
-struct RecoveredFields_802E7F30_var_r3
-{
-  u8 unknown_0[0x4];
-  s32 field_4;
-};
-
-struct RecoveredFields_802E7F30_temp_r3_2
-{
-  u8 unknown_0[0x4];
-  u8 *field_4;
-};
 
 
 extern "C" {
 
-void TObjPlayer__sub_802E7F30(void *unused, s32 arg1);
 
 
-typedef struct RecoveredFields_802E7F30_temp_r3 RecoveredFields_802E7F30_temp_r3;
-
-typedef struct RecoveredFields_802E7F30_temp_r3_2 RecoveredFields_802E7F30_temp_r3_2;
-
-typedef struct RecoveredFields_802E7F30_var_r3 RecoveredFields_802E7F30_var_r3;
 
 
 u16 get_entity_id(void *);
 
-s16 TObjFish__sub_802E7CC4(TBoss7DeRolLeC *self);
 
 
-void TBoss7DeRolLeC__spawn_crawfish_child(TBoss7DeRolLeC *self, s16 slot, const Vec *position, Ang_802E7888 *angle, s32 flags);
 
 // The set entry a crawfish spawned by De Rol Le C is built from (layout from
 // the stores below; position and rotation as TObjMotion reads them).
@@ -549,7 +515,7 @@ struct Boss7CrawfishSetData {
     s16 unk_0C;
     s16 unk_0E;
     Vec position;
-    Ang_802E7888 rotation;
+    Boss7Angles rotation;
     f32 unk_28;
     f32 unk_2C;
     f32 unk_30;
@@ -571,11 +537,6 @@ static inline void add_crawfish_slot_base(CrawfishSlotOffset &offset) {
 }
 
 #pragma pop
-struct EffectNode_802E7EA0 { u8 pad[4]; s32 value; };
-
-struct EffectRef_802E7EA0 { u8 pad[4]; EffectNode_802E7EA0 *node; };
-
-struct Saved_802E7EA0 { u8 pad[0x5A8]; s32 a[10]; s32 b[10]; };
 
 struct Stack_802E8274 {
     f32 sp8;
@@ -606,7 +567,6 @@ s32 push_matrix();
 void TObjPlayer__sub_802E8274(NJS_OBJECT *);
 
 
-void TObjPlayer__sub_802E7FC0(void *arg0);
 
 extern RecoveredGlobal_802E80F4_lbl_8050BEC0 saved_model_draw_color;
 
@@ -689,12 +649,6 @@ struct Fish_802EAAC8 {
     u8 ppos[0xC];
 };
 
-struct PCtrl_802EC550 {
-    u8 pad0[0x530];
-    Vec pos[(0x788 - 0x530) / 0xC];
-    void *objs[6];
-    s32 idx;
-};
 
 struct Body_802E8B50 { u8 pad[8]; s32 flags; };
 
@@ -833,9 +787,7 @@ void TObjFish__sub_802EAAC8(u8 *arg0, u32 arg1, s32 arg2, s32 arg3);
 void *create_particle_controller_with_angles(void *arg0, void *arg1, s32 arg2, s32 arg3, u16 arg4);
 extern "C" {
 
-void fn_802EC52C(s32 arg0, saddr arg1);
 
-void TParticleCtrl__sub_802EC550(PCtrl_802EC550 *o);
 
 void assign_slots_from_list(void *arg0, saddr arg1);
 
@@ -866,7 +818,6 @@ u8 *get_enemy_entity(u16 arg0);
 
 
 
-void TObjFish__sub_802EC32C(TBoss7DeRolLeC *self);
 
 void TObjFish__sub_802EC468(saddr arg0, f32 farg0, f32 farg1);
 
@@ -904,7 +855,6 @@ s32 TBoss7Joint_get_shell_max_hp(void);
 #undef VecCopy__FP3VecPC3Vec
 extern "C" {
 
-void TBoss7PhotonBullet__sub_802ED5A0(void *arg0, int arg1);
 
 s32 update_local_colliders_from_world(void *, void *);
 #define VecCopy__FP3VecPC3Vec ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)
@@ -927,7 +877,6 @@ extern const CollisionBody lbl_80473C3C;
 extern const Vec lbl_80473F6C;
 
 
-void TObjPlayer__sub_802E7EA0(void *arg0);
 
 
 
@@ -1038,7 +987,7 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
     init_position_vectors();
     model = (void *)get_bml_model((BmlResource *)lbl_805D6918, 0);
     texlist = (saddr)get_bml_texlist((BmlResource *)lbl_805D6918, 0);
-    TObjPlayer__sub_802E7EA0(this);
+    save_joint_polygons();
     copy_collision_body(&unk_3C0, &lbl_80473C3C);
     set_collision_body(&unk_3C0);
     transform_part_positions();
@@ -1296,7 +1245,7 @@ void TBoss7DeRolLeC::run_task() {
     this->vfunc_88();
     sync_position_vectors();
     this->flee_if_disturbed();
-    TParticleCtrl__sub_802EC550((PCtrl_802EC550 *)this);
+    update_particle_ctrls();
     if (temp_r30 == 0) {
         this->unk_690.run_tasks();
     }
@@ -1312,7 +1261,7 @@ void TBoss7DeRolLeC::run_task() {
         unk_7AC->apply_with_callback((NJS_MOTION *)current_motion, get_frame());
         pop_matrix();
         clear_motion_packed_rotation();
-        fn_802E79B0((Obj_802E79B0 *)this);
+        calc_joint_positions();
     }
 }
 
@@ -1417,9 +1366,9 @@ void TBoss7DeRolLeC::set_state_and_send(s32 arg1) {
     pb.send();
 }
 
-void TBoss7PhotonBullet__sub_802ED5A0(void *arg0, int arg1) {
+void TBoss7DeRolLeC::reload_stats_for_phase(s32 phase) {
     s32 v;
-    switch (arg1) {
+    switch (phase) {
     case 0:
     default:
         v = 0xF;
@@ -1431,13 +1380,13 @@ void TBoss7PhotonBullet__sub_802ED5A0(void *arg0, int arg1) {
         v = 0x11;
         break;
     }
-    ((TObjEneDD *)arg0)->reload_stats_keep_hp_tp((u8 *)(TLobby::register_boss(0xF)), (u8 *)(TLobby::dispatch_shared_handler_b(v)), (u8 *)(TLobby::register_object(0xF)));
+    reload_stats_keep_hp_tp((u8 *)TLobby::register_boss(0xF), (u8 *)TLobby::dispatch_shared_handler_b(v), (u8 *)TLobby::register_object(0xF));
 }
 
 void TBoss7DeRolLeC::emit_hit_effect(const Vec *position) {
-    TBoss7PhotonBullet__sub_802ED5A0(this, 2);
+    reload_stats_for_phase(2);
     TObjEneDD::emit_effect(this, (saddr)position, (saddr)&lbl_80472D7C);
-    TBoss7PhotonBullet__sub_802ED5A0(this, unk_62C);
+    reload_stats_for_phase(unk_62C);
 }
 
 f32 TBoss7PhotonBullet::get_target_pos_y() {
@@ -1869,33 +1818,31 @@ void TBoss7DeRolLeC::advance_action_sequence() {
 }
 #pragma push
 #pragma fp_contract on
-void TParticleCtrl__sub_802EC550(PCtrl_802EC550 *o) {
+void TBoss7DeRolLeC::update_particle_ctrls() {
     Vec v;
     s32 p[3];
     s32 ok;
     s32 i;
     s32 k;
     f32 w;
-    f32 off;
     f32 r;
-    f32 kk;
     s32 j;
     s32 m;
     ok = 1;
     for (i = 0; i < 6; i++) {
-        if (o->objs[i] == 0) {
+        if (unk_788[i] == 0) {
             void *r;
             p[2] = 0;
             p[1] = 0;
             p[0] = 0;
-            r = create_particle_controller_with_angles(o->pos, p, 0x200, 1, 0x40);
+            r = create_particle_controller_with_angles(unk_530, p, 0x200, 1, 0x40);
             if (r != 0) {
-                o->objs[i] = r;
-                ((TParticleCtrl *)(o->objs[i]))->set_flags(2);
-                ((TParticleCtrl *)(o->objs[i]))->enable();
+                unk_788[i] = (TParticleCtrl *)r;
+                unk_788[i]->set_flags(2);
+                unk_788[i]->enable();
             } else {
                 for (ok = 0; ok < i; ok++) {
-                    ((TParticleCtrl *)(o->objs[ok]))->enable();
+                    unk_788[ok]->enable();
                 }
                 ok = 0;
                 break;
@@ -1903,44 +1850,44 @@ void TParticleCtrl__sub_802EC550(PCtrl_802EC550 *o) {
         }
     }
     if (ok != 0) {
-        if (o->idx == 0) {
+        if (unk_7A0 == 0) {
             for (k = 0; k < 3; k++) {
-                Vec *src = &o->pos[particle_pos_index_table[k]];
+                Vec *src = &unk_530[particle_pos_index_table[k]];
                 r = fabs_float(src->y - -10.0f);
                 w = lbl_804E3E48[k];
                 if (r < 0.9f * w) {
-                    ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&v, src);
+                    VecCopy(&v, src);
                     w -= r;
                     v.y = -5.0f;
                     v.x += w;
-                    ((TParticleCtrl *)o->objs[k * 2])->set_position(&v);
+                    unk_788[k * 2]->set_position(&v);
                     v.x -= 2.0f * w;
-                    ((TParticleCtrl *)o->objs[k * 2 + 1])->set_position(&v);
+                    unk_788[k * 2 + 1]->set_position(&v);
                 } else {
-                    ((TParticleCtrl *)(o->objs[k * 2]))->enable();
-                    ((TParticleCtrl *)(o->objs[k * 2 + 1]))->enable();
+                    unk_788[k * 2]->enable();
+                    unk_788[k * 2 + 1]->enable();
                 }
             }
         } else {
-            ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&v, &o->pos[o->idx]);
+            VecCopy(&v, &unk_530[unk_7A0]);
             v.y = -5.0f;
             v.x += 20.0f;
-            ((TParticleCtrl *)o->objs[0])->set_position(&v);
+            unk_788[0]->set_position(&v);
             v.x -= 40.0f;
-            ((TParticleCtrl *)o->objs[1])->set_position(&v);
+            unk_788[1]->set_position(&v);
             for (j = 2; j < 6; j++) {
-                ((TParticleCtrl *)(o->objs[j]))->enable();
+                unk_788[j]->enable();
             }
-            o->idx = 0;
+            unk_7A0 = 0;
         }
         for (m = 0; m < 6; m++) {
-            ((void (*)(void *, void *))fn_802EC52C)(o, o->objs[m]);
+            sub_802EC52C(unk_788[m]);
         }
     }
 }
 #pragma pop
-void fn_802EC52C(s32 arg0, saddr arg1) {
-    TObjFish__sub_802F18E8((void *)arg1);
+void TBoss7DeRolLeC::sub_802EC52C(TParticleCtrl *ctrl) {
+    TObjFish__sub_802F18E8(ctrl);
 }
 
 void TBoss7DeRolLeC::spawn_particle_201(Vec *pos) {
@@ -1950,11 +1897,11 @@ void TBoss7DeRolLeC::spawn_particle_201(Vec *pos) {
 #pragma fp_contract on
 void TObjFish__sub_802EC468(saddr arg0, f32 farg0, f32 farg1) {
     Vec stack;
-    VecCopy__FP3VecPC3Vec((saddr)((void *)&stack.x), (void *)arg0);
-    stack.x = -((*(f32 *)((s8 *)&lbl_804FF5E8 + 0xC) * farg1) - stack.x);
-    stack.y -= (*(f32 *)((s8 *)&lbl_804FF5E8 + 0x10) * farg1) - farg0;
-    stack.z = -((*(f32 *)((s8 *)&lbl_804FF5E8 + 0x14) * farg1) - stack.z);
-    spawn_particle_effect_with_flags((const Vec *)&stack.x, 0x127, 0x40);
+    VecCopy(&stack, (const Vec *)arg0);
+    stack.x -= lbl_804FF5E8[3] * farg1;
+    stack.y -= lbl_804FF5E8[4] * farg1 - farg0;
+    stack.z -= lbl_804FF5E8[5] * farg1;
+    spawn_particle_effect_with_flags(&stack, 0x127, 0x40);
 }
 #pragma pop
 void TBoss7DeRolLeC::update_projectile_spawns() {
@@ -1984,7 +1931,7 @@ void TBoss7DeRolLeC::update_projectile_spawns() {
     }
 }
 
-void TObjFish__sub_802EC32C(TBoss7DeRolLeC *) {  }
+void TBoss7DeRolLeC::sub_802EC32C() {}
 
 void TBoss7DeRolLeC::play_sound_at(s32 id, Vec *pos) { play_sound_effect(id, pos, 0, 0); }
 
@@ -2540,7 +2487,7 @@ void TBoss7DeRolLeC::sub_802EB270(u32 event, s32 mode, s32 next_mode) {
         break;
     case 0:
         this->advance_animation();
-        TObjFish__sub_802EC32C(this);
+        sub_802EC32C();
         done = 0;
         switch (unk_72C) {
         case 0:
@@ -3799,7 +3746,7 @@ void TBoss7DeRolLeC::handle_crawfish_spawn_state(u32 event, s32 variant) {
         if (index < unk_72C) {
             if (unk_730 <= 0) {
                 unk_728 = index + 1;
-                TBoss7DeRolLeC__try_spawn_pattern_crawfish(this, variant, index);
+                try_spawn_pattern_crawfish(variant, index);
                 unk_730 = 5;
             } else {
                 unk_730--;
@@ -4126,7 +4073,7 @@ void TBoss7DeRolLeC::render() {
         var_r29 = 0;
         do {
             if (((TBoss7Joint *)(*var_r30))->is_part_active() != 0U) {
-                TObjPlayer__sub_802E7F30(this, var_r29);
+                hide_joint_polygons(var_r29);
             }
             var_r29 += 1;
             var_r30 = (s32 *)((u8 *)var_r30 + (4));
@@ -4153,7 +4100,7 @@ void TBoss7DeRolLeC::render() {
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
         model_render_flags = saved_model_render_flags;
-        TObjPlayer__sub_802E7FC0(this);
+        restore_joint_polygons();
         this->unk_690.render_nodes();
     }
 }
@@ -4165,88 +4112,66 @@ GinjaTextureList *TBoss7DeRolLeC::get_archive_textures() { return (GinjaTextureL
 NJS_OBJECT *TBoss7DeRolLeC::get_archive_model(s32 index) { return (NJS_OBJECT *)get_bml_model((BmlResource *)lbl_805D6918, index); }
 
 AnimationMotion *get_boss7_motion(s32 kind) { return get_bml_motion((BmlResource *)lbl_805D6918, kind); }
-void TObjPlayer__sub_802E7FC0(void *arg0) {
-    uaddr effect;
+void TBoss7DeRolLeC::restore_joint_polygons() {
+    uaddr model;
     s32 i;
-    EffectRef_802E7EA0 *ref;
-    effect = (uaddr)TBoss7DeRolLeC::get_archive_model(0);
+    NJS_OBJECT *node;
+    model = (uaddr)get_archive_model(0);
     for (i = 0; i != 10; i++) {
-        ref = (EffectRef_802E7EA0 *)find_model_node(effect, lbl_804739AC[i]);
-        ref->node->value = ((Saved_802E7EA0 *)arg0)->a[i];
-        ref = (EffectRef_802E7EA0 *)find_model_node(effect, lbl_804739D4[i]);
-        ref->node->value = ((Saved_802E7EA0 *)arg0)->b[i];
+        node = (NJS_OBJECT *)find_model_node(model, lbl_804739AC[i]);
+        ((NJS_CNK_MODEL *)node->model)->polygon_list = joint_polygons[i];
+        node = (NJS_OBJECT *)find_model_node(model, lbl_804739D4[i]);
+        ((NJS_CNK_MODEL *)node->model)->polygon_list = shell_polygons[i];
     }
 }
 
-void TObjPlayer__sub_802E7F30(void *unused, s32 arg1) {
-  s32 *var_r4;
-  s32 var_r31;
-  u8 *model_node;
-  u8 *temp_r3_2;
-  u8 *var_r3;
-  var_r31 = arg1;
-  if ((var_r31 >= 0) && (var_r31 < 0xA))
-  {
-    var_r3 = (u8 *) 0;
-    var_r4 = (s32 *)lbl_804739AC;
-    var_r31 *= 4;
-    if (1)
-    {
-      var_r4 = (s32 *)lbl_804739AC;
-      var_r4 = (s32 *) (*((saddr *) (((s8 *)lbl_804739AC) + var_r31)));
-      model_node = (u8 *) find_model_node((saddr)TBoss7DeRolLeC::get_archive_model(0), (saddr) var_r4);
+void TBoss7DeRolLeC::hide_joint_polygons(s32 joint) {
+    NJS_OBJECT *node;
+    if (joint >= 0 && joint < 10) {
+        node = (NJS_OBJECT *)find_model_node((uaddr)get_archive_model(0), lbl_804739AC[joint]);
+        if (node != NULL) {
+            ((NJS_CNK_MODEL *)node->model)->polygon_list = NULL;
+        }
+        node = (NJS_OBJECT *)find_model_node((uaddr)get_archive_model(0), lbl_804739D4[joint]);
+        if (node != NULL) {
+            ((NJS_CNK_MODEL *)node->model)->polygon_list = NULL;
+        }
     }
-    if (model_node != 0)
-    {
-      var_r3 = (u8 *) ((RecoveredFields_802E7F30_temp_r3 *) model_node)->field_4;
-      ((RecoveredFields_802E7F30_var_r3 *) var_r3)->field_4 = 0;
-    }
-    var_r3 = (u8 *) 0;
-    var_r4 = (s32 *)lbl_804739D4;
-    var_r4 = (s32 *)lbl_804739D4;
-    var_r4 = (s32 *) (*((saddr *) (((s8 *)lbl_804739D4) + var_r31)));
-    temp_r3_2 = (u8 *) find_model_node((saddr)TBoss7DeRolLeC::get_archive_model(0), (saddr) var_r4);
-    if (temp_r3_2 != 0)
-    {
-      var_r3 = (u8 *) ((RecoveredFields_802E7F30_temp_r3_2 *) temp_r3_2)->field_4;
-      ((RecoveredFields_802E7F30_var_r3 *) var_r3)->field_4 = 0;
-    }
-  }
 }
 
-void TObjPlayer__sub_802E7EA0(void *arg0) {
-    uaddr effect;
+void TBoss7DeRolLeC::save_joint_polygons() {
+    uaddr model;
     s32 i;
-    effect = (uaddr)TBoss7DeRolLeC::get_archive_model(0);
+    model = (uaddr)get_archive_model(0);
     for (i = 0; i != 10; i++) {
-        ((Saved_802E7EA0 *)arg0)->a[i] = ((EffectRef_802E7EA0 *)find_model_node(effect, lbl_804739AC[i]))->node->value;
-        ((Saved_802E7EA0 *)arg0)->b[i] = ((EffectRef_802E7EA0 *)find_model_node(effect, lbl_804739D4[i]))->node->value;
+        joint_polygons[i] = ((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(model, lbl_804739AC[i]))->model)->polygon_list;
+        shell_polygons[i] = ((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(model, lbl_804739D4[i]))->model)->polygon_list;
     }
 }
 #pragma push
 #pragma inline_depth(4)
 #pragma opt_propagation off
 #pragma opt_lifetimes off
-void TBoss7DeRolLeC__spawn_crawfish_child(TBoss7DeRolLeC *self, s16 slot, const Vec *position, Ang_802E7888 *angle, s32 flags) {
+void TBoss7DeRolLeC::spawn_crawfish_child(s16 slot, const Vec *position, Boss7Angles *angle, s32 flags) {
     Boss7CrawfishSetData set;
     u16 id;
     TObject *child;
-    if (self->crawfish_parent != NULL && slot > 0) {
-        u16 base_id = get_entity_id(self);
+    if (crawfish_parent != NULL && slot > 0) {
+        u16 base_id = get_entity_id(this);
         CrawfishSlotOffset offset;
         offset.value = slot;
         add_crawfish_slot_base(offset);
         id = offset.value + base_id;
-        for (child = self->crawfish_parent->m_down; child != NULL; child = child->m_next) {
+        for (child = crawfish_parent->m_down; child != NULL; child = child->m_next) {
             if (id == get_entity_id(child)) {
                 return;
             }
         }
-        set.set_index = self->set_index + offset.value;
+        set.set_index = set_index + offset.value;
         set.unk_02 = 1;
         set.unk_04 = 0;
         set.entity_id = id;
-        set.room = self->room;
+        set.room = room;
         set.unk_0A = 0;
         set.unk_0C = 0;
         set.unk_0E = 0;
@@ -4263,18 +4188,18 @@ void TBoss7DeRolLeC__spawn_crawfish_child(TBoss7DeRolLeC *self, s16 slot, const 
         set.unk_38 = 0.0f;
         set.unk_3C = 0;
         set.unk_3E = 0;
-        new TBoss7Crawfish((TObject *)self->crawfish_parent, &set);
+        new TBoss7Crawfish((TObject *)crawfish_parent, &set);
     }
 }
 #pragma pop
-s16 TObjFish__sub_802E7CC4(TBoss7DeRolLeC *self) {
+s16 TBoss7DeRolLeC::find_free_crawfish_slot() {
     u8 used[36];
     u16 base;
     TObject *child;
     s16 i;
     memset(used, 0, sizeof(used));
-    base = get_entity_id(self) + 11;
-    for (child = self->crawfish_parent->m_down; child != NULL; child = child->m_next) {
+    base = get_entity_id(this) + 11;
+    for (child = crawfish_parent->m_down; child != NULL; child = child->m_next) {
         used[get_entity_id(child) - base] = 1;
     }
     for (i = 35; i >= 0; i--) {
@@ -4287,8 +4212,8 @@ s16 TObjFish__sub_802E7CC4(TBoss7DeRolLeC *self) {
 
 // Spawns the crawfish of step `index` of the boss's current spawn pattern when
 // the difficulty's table asks for one (2 = the other kind, flag bit 0 clear).
-void TBoss7DeRolLeC__try_spawn_pattern_crawfish(TBoss7DeRolLeC *self, s32 variant, s32 index) {
-    s32 kind = lbl_80473844[lbl_804E3C2C[game_difficulty_selection][self->action_index].b][index];
+void TBoss7DeRolLeC::try_spawn_pattern_crawfish(s32 variant, s32 index) {
+    s32 kind = lbl_80473844[lbl_804E3C2C[game_difficulty_selection][action_index].b][index];
     if (kind != 0) {
         const Vec *positions = lbl_804E3C3C[variant];
         const s32 *angles = lbl_804E3C4C[variant];
@@ -4298,9 +4223,9 @@ void TBoss7DeRolLeC__try_spawn_pattern_crawfish(TBoss7DeRolLeC *self, s32 varian
         } else {
             flag = 0;
         }
-        Ang_802E7888 angle = lbl_80473F9C;
+        Boss7Angles angle = lbl_80473F9C;
         angle.y = angles[index];
-        TBoss7DeRolLeC__spawn_crawfish_child(self, TObjFish__sub_802E7CC4(self), &positions[index], &angle, flag);
+        spawn_crawfish_child(find_free_crawfish_slot(), &positions[index], &angle, flag);
     }
 }
 
@@ -4328,27 +4253,27 @@ void TBoss7DeRolLeC::render_shadows() {
     }
 }
 void TBoss7DeRolLeC::set_flag_800() { *(u32*)((char*)this + 0x628) |= 0x800; }
-void fn_802E79B0(Obj_802E79B0 *arg0) {
+void TBoss7DeRolLeC::calc_joint_positions() {
     Vec v;
     Vec *out;
     s32 i;
-    out = arg0->out;
-    VecCopy(&v, &arg0->pts[0]);
-    vec3_add_to(&v, &arg0->pts[9]);
+    out = unk_530;
+    VecCopy(&v, &unk_3EC[0]);
+    vec3_add_to(&v, &unk_3EC[9]);
     v.x *= 0.5f;
     v.y *= 0.5f;
     v.z *= 0.5f;
     VecCopy(&out[0], &v);
-    VecCopy(&v, &arg0->pts[9]);
-    vec3_add_to(&v, &arg0->pts[11]);
+    VecCopy(&v, &unk_3EC[9]);
+    vec3_add_to(&v, &unk_3EC[11]);
     v.x *= 0.5f;
     v.y *= 0.5f;
     v.z *= 0.5f;
     VecCopy(&out[1], &v);
     out += 2;
     for (i = 0; i < 8; i++, out++) {
-        VecCopy(&v, &arg0->pts[i + 11]);
-        vec3_add_to(&v, &arg0->pts[i + 12]);
+        VecCopy(&v, &unk_3EC[i + 11]);
+        vec3_add_to(&v, &unk_3EC[i + 12]);
         v.x *= 0.5f;
         v.y *= 0.5f;
         v.z *= 0.5f;
@@ -4366,7 +4291,7 @@ void TBoss7DeRolLeC::destroy_child() {
 void TBoss7DeRolLeC::update_attached_orientation() {
     if (unk_7B0 != NULL) {
         Vec d = unk_7B4;
-        Ang_802E7888 ang;
+        Boss7Angles ang;
         subtract_vector(&d, &unk_7C0);
         ang.x = -(s32)(10430.38043493439 * atan2_float(d.y, newton_sqrtf(d.x * d.x + d.z * d.z))) - 0x4000;
         ang.y = (s32)(10430.38043493439 * atan2_float(d.x, d.z));

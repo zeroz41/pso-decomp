@@ -31,6 +31,9 @@ struct TBoss7DeRolLeCParams {
     s32 unk_20;
 };
 
+// An s32 rotation triple (x, y, z) as a set entry stores it.
+struct Boss7Angles { s32 x, y, z; };
+
 struct TBoss7DeRolLeC : public TObjEneDD_ST {
     TBoss7DeRolLeC(TObject *parent, void *set_data);
     virtual ~TBoss7DeRolLeC();
@@ -105,6 +108,19 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     void sub_802E8FCC(u32 event);
     void handle_tentacle_attack_state(u32 event, s32 position_index);
     void sub_802E979C(u32 event, s32 position_index);
+    void sub_802EC32C();
+    void reload_stats_for_phase(s32 phase);
+    void update_particle_ctrls();
+    void sub_802EC52C(TParticleCtrl *ctrl);
+    // The ten joints' model nodes: save_joint_polygons keeps their polygon lists, hide_joint_polygons
+    // clears one joint's pair while it draws, restore_joint_polygons puts them back.
+    void save_joint_polygons();
+    void hide_joint_polygons(s32 joint);
+    void restore_joint_polygons();
+    void calc_joint_positions();
+    s16 find_free_crawfish_slot();
+    void spawn_crawfish_child(s16 slot, const Vec *position, Boss7Angles *angle, s32 flags);
+    void try_spawn_pattern_crawfish(s32 variant, s32 index);
     void sub_802E85E0(u32 event, s32 position_index);
     u8 pad_374[0x8];
     f32 unk_37C;                  // 20.0 (the joints set 3.0)
@@ -118,13 +134,13 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     Vec unk_4DC[4];
     Vec unk_50C[3];               // effect source passed to TObjFish::set_effect_target_position
     Vec unk_530[10];              // joint positions, one per TBoss7Joint in unk_5F8
-    s32 unk_5A8[10];              // read by TObjPlayer__sub_802E7EA0
-    s32 unk_5D0[10];
+    s16 *joint_polygons[10];      // polygon lists of the lbl_804739AC nodes, saved by the ctor
+    s16 *shell_polygons[10];      // polygon lists of the lbl_804739D4 nodes
     TBoss7Joint *unk_5F8[10];
     TBoss7DeRolLeCParams *unk_620; // TLobby::dispatch_shared_handler_a(15)
     ControllerInputContext *unk_624; // controller_input_state.controllers[1]
     s32 unk_628;                  // state flags (0x4, 0x8, 0x40, 0x80, 0x8000 tested)
-    s32 unk_62C;
+    s32 unk_62C;                  // the stat phase reload_stats_for_phase restores after a hit
     TUnk_80036250 motion_x;       // drives position.x (sub_802EB270)
     TUnk_80036250 motion_y;       // drives position.y
     TUnk_80036250 motion_z;       // drives position.z
@@ -173,7 +189,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     Vec unk_76C;                  // where the laser aims (the target's position, or the origin)
     Vec unk_778;                  // where the laser beam hits
     TObject *unk_784;             // released by the destructor
-    TObject *unk_788[6];          // released by the destructor
+    TParticleCtrl *unk_788[6];    // splash emitters kept on the joints (update_particle_ctrls); released by the destructor
     s32 unk_7A0;
     TObject *crawfish_parent;     // the group spawned crawfish are children of
     TBoss7LaserPtcl *unk_7A8;
@@ -224,7 +240,6 @@ s32 TBoss7Joint_get_shell_max_hp(void);
 extern "C" {
 
 
-void TBoss7PhotonBullet__sub_802ED5A0(void *arg0, int arg1);
 
 
 
@@ -234,12 +249,8 @@ void TObjFish__sub_802EA4D8(u8 *arg0, u32 arg1);
 void TObjFish__sub_802EAAC8(u8 *arg0, u32 arg1, s32 arg2, s32 arg3);
 void TObjFish__sub_802EBBC8(u8 *arg0, u32 arg1);
 
-void TObjFish__sub_802EC32C(TBoss7DeRolLeC *self);
 void TObjFish__sub_802EC468(saddr arg0, f32 farg0, f32 farg1);
-void TObjPlayer__sub_802E7F30(void *unused, s32 arg1);
-void render__14TBoss7DeRolLeCFv(u8 *unused);
 void TObjPlayer__sub_802E8274(NJS_OBJECT *);
-void fn_802EC52C(s32 arg0, saddr arg1);
 void fn_802EC9A4(void *arg0, void *arg1);
 void fn_802EC9F0(TObjEneDD *arg0, void *arg1);
 }
