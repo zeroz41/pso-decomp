@@ -3051,7 +3051,7 @@ void TBoss7DeRolLeC::handle_tentacle_attack_state(u32 event, s32 position_index)
             ok = 1;
             unk_72C++;
             for (i = 0; i < 4; i++) {
-                if (tentacles[i]->sub_802F0904() == 0) {
+                if (tentacles[i]->is_retract_complete() == 0) {
                     ok = 0;
                     break;
                 }
@@ -3499,7 +3499,7 @@ void TBoss7DeRolLeC::handle_death_state(u32 event) {
         unk_73C = 0;
         unk_6FC = 0;
         for (i = 0; i < 4; i++) {
-            tentacles[i]->sub_802F0AD0();
+            tentacles[i]->enable_fast_wobble_advance();
         }
         if (crawfish_parent != NULL) {
             crawfish_parent->queue_destruction_for_each_node();
@@ -3756,7 +3756,7 @@ void TBoss7DeRolLeC::TObjFish__handle_tentacle_volley_state(u32 event, s32 posit
             ok = 1;
             unk_72C++;
             for (i = 0; i < 4; i++) {
-                if (tentacles[i]->sub_802F0904() == 0) {
+                if (tentacles[i]->is_retract_complete() == 0) {
                     ok = 0;
                     break;
                 }
@@ -4090,7 +4090,7 @@ void TBoss7DeRolLeC::TObjFish__retract_all_tentacles() {
     s32 i;
     for (i = 0; i < 4; i++) {
         if (tentacles[i] != NULL) {
-            tentacles[i]->sub_802F0B70();
+            tentacles[i]->enable_retract();
         }
     }
 }
@@ -4099,7 +4099,7 @@ void TBoss7DeRolLeC::TObjFish__extend_all_tentacles() {
     s32 i;
     for (i = 0; i < 4; i++) {
         if (tentacles[i] != NULL) {
-            tentacles[i]->sub_802F0B80();
+            tentacles[i]->enable_extend();
         }
     }
 }
