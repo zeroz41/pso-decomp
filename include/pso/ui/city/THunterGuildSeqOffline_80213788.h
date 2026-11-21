@@ -5,6 +5,7 @@
 #include "pso/ui/city/TShopSequence.h"
 
 class TWindowBase;
+struct TWindowMenu;
 
 // The hunter's guild counter in an online lobby: the client side (vtable 0x804C9740) and the
 // server side (vtable 0x804C97F0). Both derive straight from TShopSequence (their ctors call it).
@@ -35,10 +36,17 @@ struct THunterGuildSeqOnline_Server : public TShopSequence {
     void restore_player_state();
     void close_window();
     void init_window();
+    void sub_802145F8();
+    void sub_80214058();
+    void update_confirm_input();
+    void update();
+    void create_judgment_item_window();
+    void sub_80214254();
+    void confirm_and_close_if_valid();
     TObject *counter_camera;  // 0x2C: set_service_counter_camera
     s32 pad_30;
     s32 pad_34;
-    TWindowBase *choice_menu; // 0x38: create_yes_no_window
+    TWindowMenu *choice_menu; // 0x38: create_yes_no_window
     TObject *quest_thread;    // 0x3C: TQuestThread::create_in_root
     s32 pad_40;
 };
@@ -58,10 +66,7 @@ void THunterGuildSeqOffline__sub_80213CA4(void);
 void THunterGuildSeqOffline__sub_80213E64(void);
 void THunterGuildSeqOffline__sub_80213EBC(void);
 void THunterGuildSeqOffline__sub_80213F78(void);
-void THunterGuildSeqOffline__sub_802145F8(u8 *shop_sequence);
-void fn_80214254(u8 *shop_window_base);
 void reset_random_enemies_mode(void);
-void update__15TShopWindowBaseFPv(void *shop_sequence);
 }
 // --- end of C functions
 

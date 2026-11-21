@@ -556,7 +556,7 @@ force_active:
   - THunterGuildSeqOffline__sub_80213E64
   - THunterGuildSeqOffline__sub_80213EBC
   - THunterGuildSeqOffline__sub_80213F78
-  - THunterGuildSeqOffline__sub_802145F8
+  - sub_802145F8__28THunterGuildSeqOnline_ServerFv
   - TItemAttacker__name
   - TItemAttacker__sub_8010349C
   - TItemData__sub_8010CAB0
@@ -5292,7 +5292,7 @@ force_active:
   - computer_screen_model__13TObjLobbyMain
   - computer_screen_model_b__13TObjLobbyMain
   - configure_scripted_camera_playback__FPUcl
-  - confirm_and_close_if_valid__15TShopWindowBaseFv
+  - confirm_and_close_if_valid__28THunterGuildSeqOnline_ServerFv
   - confirm_and_free__17TWindowSubComCardFv
   - confirm_mode_selection__21TAdMultiChgGameModeGCFv
   - constant_material_color
@@ -6406,8 +6406,8 @@ force_active:
   - __sinit_text_801E0C08_cpp
   - fn_801F6520
   - reset_download_graph__Fv
-  - fn_80214058
-  - fn_80214254
+  - sub_80214058__28THunterGuildSeqOnline_ServerFv
+  - sub_80214254__28THunterGuildSeqOnline_ServerFv
   - fn_80223B98
   - fn_80223C28
   - fn_80235078
@@ -16661,7 +16661,7 @@ force_active:
   - update__14TObjEneBm5WolfFPv
   - update__15PadRumbleEffectFv
   - update__15TObjEnemyCustomFv
-  - update__15TShopWindowBaseFPv
+  - update__28THunterGuildSeqOnline_ServerFv
   - update__16PadRumbleChannelFP14PadRumbleLevel
   - update__17TObjWarpBossMultiFv
   - update__20TShopArmorListWindowFv
