@@ -353,7 +353,7 @@ void *capture_lockon_targets(Self_801D32A0 *self, Pl_801D32A0 *player) {
     ((void (*)(void *))clear_lockon_list__10TObjPlayerFPvPvff)(&self->count);
     cur = TObjPlayer__sub_801B57E8(player);
     if (cur == 0) return 0;
-    if (TMainCursor__sub_8013E900(cur) != 2) return 0;
+    if (get_main_cursor_type(cur) != 2) return 0;
     self->f20 = cur->x28;
     self->f24 = cur->x2c;
     self->f28 = cur->x30;

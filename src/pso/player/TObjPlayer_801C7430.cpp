@@ -1113,7 +1113,7 @@ int TObjPlayer__sub_8012AF00(void*);
 s32 publish_actor_light_scalars(u16, f32, f32);
 s32 canSetMenuCursorAction(s32, void *, s32, u8);
 void TMainCursor__sub_8013DFC4(u8 *arg0);
-u8 TMainCursor__sub_8013E900(void *);
+u8 get_main_cursor_type(void *);
 s32 approach_angle_adaptive(s32, s32);
 s32 lerp_angle_half__Fll(s32, s32);
 void init_6x45_attack_packet(u8 *arg0);
