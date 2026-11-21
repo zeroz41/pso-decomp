@@ -383,7 +383,7 @@ const Vec *lbl_804E3C3C[4] = {lbl_804739FC, lbl_80473A68, lbl_80473AD4, lbl_8047
 
 const s32 *lbl_804E3C4C[4] = {lbl_80473BAC, lbl_80473BD0, lbl_80473BF4, lbl_80473C18};
 extern "C" {
-void TObjPlayer__sub_802F0D30(void);
+void TObjPlayer__init_tentacle_segment_data(void);
 
 void TObjPlayer__sub_802F0D2C(void);
 
@@ -395,9 +395,9 @@ void TObjPlayer__sub_802E7088(void);
 
 void TObjPlayer__sub_802E746C(void);
 
-void TObjPlayer__sub_802EFEC4(void);
+void TObjPlayer__capture_tentacle_needle_target_state(void);
 
-void fn_802EFEA8(void);
+void reset_tentacle_needle_target_state(void);
 
 void TBoss7LaserPtcl__sub_8035AF10(void);
 
@@ -405,11 +405,11 @@ void TBoss7LaserPtcl__sub_8035AF0C(void);
 }
 
 Boss7LoadCallback lbl_804E3C5C[6] = {
-    {TObjPlayer__sub_802F0D30, TObjPlayer__sub_802F0D2C},
+    {TObjPlayer__init_tentacle_segment_data, TObjPlayer__sub_802F0D2C},
     {TObjPlayer__sub_802E7470, TObjPlayer__sub_802E7084},
     {TObjPlayer__sub_802E7088, TObjPlayer__sub_802E746C},
     {TBoss7Crawfish::load_static_resource, TBoss7Crawfish::destroy_instance},
-    {TObjPlayer__sub_802EFEC4, fn_802EFEA8},
+    {TObjPlayer__capture_tentacle_needle_target_state, reset_tentacle_needle_target_state},
     {TBoss7LaserPtcl__sub_8035AF10, TBoss7LaserPtcl__sub_8035AF0C},
 };
 
@@ -535,11 +535,11 @@ extern "C" {
 
 void TObjPlayer__sub_802E7F30(void *unused, s32 arg1);
 
-void TBoss7Tentacle__sub_802F0B80(void* p);
+void TBoss7Tentacle__enable_extend(void* p);
 
 void TObjFish__extend_all_tentacles(Fish_802E7B40* o);
 
-void TBoss7Tentacle__sub_802F0B70(void* p);
+void TBoss7Tentacle__enable_retract(void* p);
 
 void TObjFish__retract_all_tentacles(Fish_802E7B94* o);
 typedef struct RecoveredFields_802E7F30_temp_r3 RecoveredFields_802E7F30_temp_r3;
@@ -939,7 +939,7 @@ void fn_802EC52C(s32 arg0, saddr arg1);
 void TParticleCtrl__sub_802EC550(PCtrl_802EC550 *o);
 
 void assign_slots_from_list(void *arg0, saddr arg1);
-void TBoss7Tentacle__sub_802F0AD0(void *a0);
+void TBoss7Tentacle__enable_fast_wobble_advance(void *a0);
 
 void handle_tentacle_attack_state__8TObjFishFPvUii(Fish_802E9ADC *o, u32 arg1, s32 arg2);
 
@@ -3593,7 +3593,7 @@ void handle_tentacle_attack_state__8TObjFishFPvUii(Fish_802E9ADC *o, u32 arg1, s
             ok = 1;
             o->timer++;
             for (i = 0; i < 4; i++) {
-                if (TBoss7Tentacle__sub_802F0904((u8 *)o->tent[i]) == 0) {
+                if (TBoss7Tentacle__is_retract_complete((u8 *)o->tent[i]) == 0) {
                     ok = 0;
                     break;
                 }
@@ -4047,7 +4047,7 @@ void TObjFish::handle_death_state(u32 arg1) {
         o->f73C = 0;
         o->f6FC = 0;
         for (i = 0; i < 4; i++) {
-            TBoss7Tentacle__sub_802F0AD0(o->tent[i]);
+            TBoss7Tentacle__enable_fast_wobble_advance(o->tent[i]);
         }
         if (o->nodes != NULL) {
             ((TObject *)(o->nodes))->queue_destruction_for_each_node();
@@ -4308,7 +4308,7 @@ void TObjFish__handle_tentacle_volley_state(u8 *arg0, u32 arg1, s32 arg2) {
             ok = 1;
             self->timer++;
             for (i = 0; i < 4; i++) {
-                if (TBoss7Tentacle__sub_802F0904((u8 *)self->kids[i]) == 0) {
+                if (TBoss7Tentacle__is_retract_complete((u8 *)self->kids[i]) == 0) {
                     ok = 0;
                     break;
                 }
@@ -4676,7 +4676,7 @@ void TObjFish__retract_all_tentacles(Fish_802E7B94* o) {
     s32 i;
     for (i = 0; i < 4; i++) {
         if (o->t[i] != 0) {
-            TBoss7Tentacle__sub_802F0B70(o->t[i]);
+            TBoss7Tentacle__enable_retract(o->t[i]);
         }
     }
 }
@@ -4685,7 +4685,7 @@ void TObjFish__extend_all_tentacles(Fish_802E7B40* o) {
     s32 i;
     for (i = 0; i < 4; i++) {
         if (o->t[i] != 0) {
-            TBoss7Tentacle__sub_802F0B80(o->t[i]);
+            TBoss7Tentacle__enable_extend(o->t[i]);
         }
     }
 }

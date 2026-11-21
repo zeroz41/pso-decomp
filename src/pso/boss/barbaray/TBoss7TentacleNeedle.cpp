@@ -117,7 +117,7 @@ NJS_OBJECT *lbl_805D6948;
 // Written last-to-first: built with -inline off,deferred, which emits functions in reverse source order
 // (the Needle vtable 0x804E4830 precedes the Tentacle one although every Needle virtual comes first).
 
-void TObjPlayer__sub_802F0D30(void) {
+void TObjPlayer__init_tentacle_segment_data(void) {
     Node_802EFF24 *src;
     Node_802EFF24 *dst;
     s32 i;
@@ -178,9 +178,9 @@ TBoss7Tentacle::TBoss7Tentacle(TObject *object, s32 arg2, s32 arg3) : TObject(ob
 
 TBoss7Tentacle::~TBoss7Tentacle() {}
 
-void TBoss7Tentacle__sub_802F0B80(void* p) { *(u32*)((char*)p + 0x3c) &= 0xfffffffd; }
+void TBoss7Tentacle__enable_extend(void* p) { *(u32*)((char*)p + 0x3c) &= 0xfffffffd; }
 
-void TBoss7Tentacle__sub_802F0B70(void* p) { *(u32*)((char*)p + 0x3c) |= 0x2; }
+void TBoss7Tentacle__enable_retract(void* p) { *(u32*)((char*)p + 0x3c) |= 0x2; }
 
 void TBoss7Tentacle__sub_802F0B58(u8 *arg0) {
     *(s32 *)((s8 *)arg0 + 0x34) = 1;
@@ -204,7 +204,7 @@ void TBoss7Tentacle__sub_802F0AF0(u8 *arg0) {
     *(s32 *)((s8 *)arg0 + 0x3C) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C) & 0xFFFFFFFD);
 }
 
-void TBoss7Tentacle__sub_802F0AD0(void* a0) { *(float*)((char*)a0 + 0x138) = 1.6f; *(int*)((char*)a0 + 0x144) = 3038; *(int*)((char*)a0 + 0x140) = 0; *(int*)((char*)a0 + 0x34) = 0; }
+void TBoss7Tentacle__enable_fast_wobble_advance(void* a0) { *(float*)((char*)a0 + 0x138) = 1.6f; *(int*)((char*)a0 + 0x144) = 3038; *(int*)((char*)a0 + 0x140) = 0; *(int*)((char*)a0 + 0x34) = 0; }
 
 void TBoss7Tentacle::init_segments() {
     Ten_802F0A5C *o = (Ten_802F0A5C *)this;
@@ -247,7 +247,7 @@ void TBoss7Tentacle::reset_state() { *(int*)((char*)this + 0x13c) = 0; *(int*)((
 
 void TBoss7Tentacle__sub_802F0918(void* p) { *(s32*)((char*)p + 0x13c) = 0; *(s32*)((char*)p + 0x140) = 16384; }
 
-s32 TBoss7Tentacle__sub_802F0904(u8 *arg0) {
+s32 TBoss7Tentacle__is_retract_complete(u8 *arg0) {
     return (s32) (*(s32 *)((s8 *)arg0 + 0x30) == 4);
 }
 
@@ -531,14 +531,14 @@ void render__14TBoss7TentacleFv(u8 *arg0) {
 
 extern "C" {
 
-void TObjPlayer__sub_802EFEC4(void) {
+void TObjPlayer__capture_tentacle_needle_target_state(void) {
     lbl_805D6948 = TBoss7DeRolLeC::get_archive_model(5);
     *(s32 *)((s8 *)(&boss7_tentacle_needle_target_state.value) + 0) = (saddr)get_boss7_motion(0x13);
     *(s32 *)((s8 *)(&boss7_tentacle_needle_target_state.value) + 4) = (saddr)get_boss7_motion(0x14);
     *(s32 *)((s8 *)(&boss7_tentacle_needle_target_state.value) + 8) = (saddr)get_boss7_motion(0x12);
 }
 
-void fn_802EFEA8(void) {
+void reset_tentacle_needle_target_state(void) {
     *(s32 *)((s8 *)(&boss7_tentacle_needle_target_state.value) + 0) = 0;
     lbl_805D6948 = 0;
     *(s32 *)((s8 *)(&boss7_tentacle_needle_target_state.value) + 4) = 0;
