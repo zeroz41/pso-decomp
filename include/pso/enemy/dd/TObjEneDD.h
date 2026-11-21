@@ -60,14 +60,14 @@ struct TObjEneDD : public TObjEnemy {
     void reload_stats_keep_hp_tp();
     void reset_hp(u8 *base_stats, u8 *attack_stats, u8 *resistance_stats);
     int get_camera_ctrl();
-    int update_camera_sequence();
+    static void update_camera_sequence();
     void initialize_enemy_state(s32 parameter);
     s32 get_random_scaled();
     f32 rand_range(f32 farg0, f32 farg1);
-    int set_state_8();
-    int check_state_flag_4();
-    int check_state_flag_2();
-    int check_state_flag_1();
+    void set_state_8();
+    void check_state_flag_4();
+    void check_state_flag_2();
+    void check_state_flag_1();
     static void send_damage_message(s32 arg0, u8 *arg1);
     static void inflict_poison(s32 arg0, u8 *arg1);
     void emit_effect_at_position(void* a1);
@@ -75,7 +75,7 @@ struct TObjEneDD : public TObjEnemy {
     static void emit_enemy_effect(saddr arg0, saddr arg1, u8 *arg2, saddr arg3);
     static void setup(void* p, int a1, int a2);
     static void setup_instance(saddr arg0, s32 arg1, u8 *arg2, saddr arg3);
-    void transform_relative_position(void* a1);
+    s32 transform_relative_position(void* a1);
     s32 is_target_unobstructed(saddr arg1);
     s32 is_valid_target();
     void transform_part_positions();
@@ -83,7 +83,7 @@ struct TObjEneDD : public TObjEnemy {
     void clear_field_388();
     int has_move_failures(s32 arg1);
     void move_to_wall_clamped_destination(f32 farg0, f32 farg1, f32 farg2);
-    void move_with_wall_slide_commit(f32 farg0, f32 farg1, f32 farg2);
+    u8 *move_with_wall_slide_commit(f32 farg0, f32 farg1, f32 farg2);
     void move_with_wall_stop(f32 farg0, f32 farg1, f32 farg2);
     void move_clamped_on_ground(f32 farg0, f32 farg1, f32 farg2);
     void move_with_wall_slide_on_ground(f32 farg0, f32 farg1, f32 farg2);

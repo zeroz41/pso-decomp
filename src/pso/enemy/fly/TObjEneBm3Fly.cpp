@@ -62,7 +62,6 @@ s32 collect_enemy_target_candidates(void *, EnemyTargetCandidate *, f32);
 u16 get_entity_id(void *);
 void TObjEneBm3Fly__sub_800B0B20(TObjEneBm3Fly *arg0, s32 arg1);
 u32 TObjEneEpsilon__sub_800B92F8(void *, s32, f32);
-u32 move_with_wall_slide_commit__9TObjEneDDFfff(TObjEneDD *, f32, f32, f32);
 void free_collision_body_parts(void *);
 extern void *tl_04;
 
@@ -330,7 +329,7 @@ void TObjEneBm3Fly::update_collide_flag() {
 }
 
 void TObjEneBm3Fly::update_dd_flag(f32 x, f32 z, f32 speed) {
-    if (move_with_wall_slide_commit__9TObjEneDDFfff(this, x, z, speed) != 0U) {
+    if (this->move_with_wall_slide_commit(x, z, speed) != 0) {
         this->m_428 |= 2;
         return;
     }

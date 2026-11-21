@@ -458,7 +458,6 @@ struct Hit_800CCC6C;
 
 extern "C" {
 void enemy_clear_target__12TObjEneDD_STFUs(void *);
-s32 transform_relative_position__9TObjEneDDFPv(void *, int);
 extern s32 game_difficulty_selection;
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 Hit_800CCC6C *csnVectorUnder(Vec *, void *, s32);
@@ -2309,7 +2308,7 @@ s32 TObjEneBm5GibonU__sub_800D0968(TObjEneBm5GibonU *self, int _w1) {
     f32 temp_f4;
     f32 temp_f5;
     f32 var_f0;
-    if (transform_relative_position__9TObjEneDDFPv(self, (saddr)self->m_390) != 0) {
+    if (self->transform_relative_position(self->m_390) != 0) {
         self->enemy_copy_target_destination();
         self->update_velocity();
         if (((TObjEneBm5GibonU *)self)->is_active() != 0) {

@@ -116,7 +116,6 @@ s32 enemy_bind_or_clear_target(void *, u16);
 s32 enemy_clear_target__12TObjEneDD_STFUs(void *);
 void enemy_set_target_id(void *, u16);
 int is_target_ranger(void *p);
-s32 transform_relative_position__9TObjEneDDFPv(void *, void *);
 f32 horizontal_distance_squared(void *, void *);
 void scale_matrix(s32, s32, f32, f32, f32);
 
@@ -1235,7 +1234,7 @@ s32 TObjEneRe4Sorcerer::cast_technique() {
     Vec v;
     s32 frame;
     Vec *src;
-    if (transform_relative_position__9TObjEneDDFPv(this, m_390) != 0) {
+    if (this->transform_relative_position(m_390) != 0) {
         TObjEneRe4Bit *bit = (TObjEneRe4Bit *)find_entity_by_id(bit_ids[0]);
         if (bit != NULL) {
             src = bit->get_spell_data();
@@ -1467,11 +1466,11 @@ s32 TObjEneRe4Sorcerer::select_attack_target(f32 farg0, f32 farg1) {
         if (((TObjBase *)q)->is_alive() != 0) {
             e = horizontal_distance_squared(&this->m_2fc, &q->m_2fc);
             if (is_target_ranger(q) != 0) {
-                if (e < farg0 && transform_relative_position__9TObjEneDDFPv(this, q) != 0) {
+                if (e < farg0 && this->transform_relative_position(q) != 0) {
                     farg0 = e;
                     tA = ((s32 (*)(void *))get_entity_id)(q);
                 }
-            } else if (e < farg1 && transform_relative_position__9TObjEneDDFPv(this, q) != 0) {
+            } else if (e < farg1 && this->transform_relative_position(q) != 0) {
                 farg1 = e;
                 tB = ((s32 (*)(void *))get_entity_id)(q);
             }

@@ -222,14 +222,13 @@ void render__12TObjEneReconFv(u8 *ene_recon) {
 }
 #pragma pop
 
-s32 update_camera_sequence__9TObjEneDDFv();
 
 
 void TObjEneRecon::advance_intro_stage() {
     switch ((s32) recon_intro_stage) {
     case 0:
         push_matrix();
-        update_camera_sequence__9TObjEneDDFv();
+        TObjEneDD::update_camera_sequence();
         matrix_mult_vec(0, (Vec *)recon_model_matrix_ptr, (Vec *)recon_model_matrix_ptr);
         pop_matrix();
         break;

@@ -60,7 +60,6 @@
 #pragma defer_codegen on
 extern "C" {
 s32 enemy_clear_target__12TObjEneDD_STFUs(void *);
-s32 transform_relative_position__9TObjEneDDFPv(void *, void *);
 s32 is_player_entity_id(u16);
 s32 enemy_set_target_id(void *, u16);
 void fn_800E762C(TObjEneMe3Shinowa *);
@@ -1232,7 +1231,7 @@ void TObjEneMe3ShinowaMirage__sub_800E54E8(TObjEneMe3Shinowa *shinowa, s32 arg1)
     case 0:
         shinowa->advance_animation();
         shinowa->m_404++;
-        if (transform_relative_position__9TObjEneDDFPv(shinowa, shinowa->m_390) != 0) {
+        if (shinowa->transform_relative_position(shinowa->m_390) != 0) {
             if ((s16)shinowa->get_room() == (s16)((TObjBase *)shinowa->m_390)->get_room()) {
                 shinowa->enemy_copy_target_destination();
             }
@@ -1767,7 +1766,7 @@ void TObjEneMe3ShinowaReal::vfunc_114(s32 arg1) {
             m_3b8 = m_3bc;
             i = 0;
             if (vfunc_99() != 0 || is_player_entity_id(m_38c) != 0) {
-                if (transform_relative_position__9TObjEneDDFPv(this, m_390) != 0) {
+                if (this->transform_relative_position(m_390) != 0) {
                     i = 1;
                 }
             } else {

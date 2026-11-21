@@ -128,7 +128,6 @@ void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 
 #pragma defer_codegen on
 extern "C" {
-s32 transform_relative_position__9TObjEneDDFPv(void *, int);
 f32 newton_sqrtf(f32);
 #pragma push
 #pragma fp_contract on
@@ -684,7 +683,7 @@ s32 TObjEneBm5Wolf::calc_lunge_aim() {
     f32 temp_f4;
     f32 temp_f5;
     f32 var_f0;
-    if (transform_relative_position__9TObjEneDDFPv(this, (saddr)this->target) != 0) {
+    if (this->transform_relative_position(this->target) != 0) {
         this->enemy_copy_target_destination();
         this->update_velocity();
         if (((s32)get_flag_bit0()) != 0) {

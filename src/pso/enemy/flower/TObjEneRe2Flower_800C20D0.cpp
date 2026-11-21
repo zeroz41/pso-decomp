@@ -40,7 +40,6 @@ extern const f32 lbl_805D9FB0;
 extern const f32 lbl_805D9FB4;
 extern const f32 lbl_805D9FB8;
 extern "C" {
-s32 update_camera_sequence__9TObjEneDDFv();
 s32 mult_vec_array__10TObjPlayerFUll(s32, f32 *, f32 *, s32);
 }
 
@@ -186,7 +185,7 @@ void TObjPlayer::update_effect_sequence() {
         break;
     case 14:
         push_matrix();
-        update_camera_sequence__9TObjEneDDFv();
+        TObjEneDD::update_camera_sequence();
         mult_vec_array__10TObjPlayerFUll(0, re2_flower_node_points, re2_flower_node_points, 2);
         pop_matrix();
         break;

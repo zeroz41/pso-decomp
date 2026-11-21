@@ -668,7 +668,6 @@ s32 TObjPlayer__sub_800A04F0(void *);
 s32 get_camera_ctrl__9TObjEneDDFv(void *, int);
 s32 rotate_matrix_x(int, int);
 s32 update_linked_position__12TObjEneDD_STFf(void *, f32);
-s32 set_field_378__9TObjEneDDFl(void *, s32);
 s32 is_split_screen();
 s32 scroll_strip_uvs(int, int, int);
 extern s32 saved_model_render_flags;
@@ -1609,7 +1608,7 @@ void TObjEneDf2Bringer::handle_state(s32 arg1) {
 void TObjEneDf2Bringer__sub_80098BAC(u8 *ene_dd_st, s32 arg1) {
     switch (arg1) {
     case 4:
-        ((s32)set_field_378__9TObjEneDDFl(ene_dd_st, 1));
+        ((TObjEneDD *)ene_dd_st)->set_field_378(1);
         *(s32 *)((s8 *)ene_dd_st + 0x3C0) = (s32) (*(s32 *)((s8 *)ene_dd_st + 0x3C0) | 1);
         ((TObjEneDD_ST *)(ene_dd_st))->vfunc_95();
         return;

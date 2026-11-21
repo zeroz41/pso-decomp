@@ -20,7 +20,6 @@ const char *TObjEneDD_ST__name = "TObjEneDD_ST";
 extern "C" {
 void enemy_clear_target__12TObjEneDD_STFUs(void *);
 u16 enemy_find_nearest_player_in_range(u8 *self, f32 range);
-s32 is_valid_target__9TObjEneDDFv(s32);
 u16 get_entity_id(void *);
 u32 csnLookAt(void *, void *);
 s32 push_matrix(void);
@@ -39,7 +38,6 @@ void *get_player_by_client_id(s32 i);
 #include "pso/unk/TLobby.h"
 struct O_800B98C0;
 extern "C" {
-s32 transform_relative_position__9TObjEneDDFPv(void *, int);
 s32 calc_shot_position__13TBoss5GryphonFPUcfff(void *, s32, f32, f32, f32);
 f32 atan2_float(f32 y, f32 x);
 }
@@ -97,7 +95,7 @@ s32 minimap_render_dot(void *, int, int, int);
 s32 scale_current_matrix(void *);
 int bind_enemy_combat_stats__9TObjEnemyFPUcPUcPUc(void*);
 int transform_to_view__11TCameraCtrlFii(void*);
-int apply_split_screen_view_matrix__11TCameraCtrlFv(void*);
+#include "pso/camera/TCameraCtrl.h"
 int restore_scene_lighting(void*);
 int select_actor_lighting(void*);
 extern int model_render_flags;
@@ -190,7 +188,6 @@ struct EneDDObj_800BA138 : EneDDBase_800BA138 {
     virtual void m12(void *, void *, void *);
     virtual void m13(void *, void *, void *);
 };
-int add_flags_2e4__9TObjCharaFUl(void*, int);
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
 s32 get_position__12TBoss1DragonFv(void *, s32);
 u8 * obj_ene_dd_instance;
@@ -1024,11 +1021,11 @@ void TObjEneDD::move_with_wall_stop(f32 farg0, f32 farg1, f32 farg2) {
     this->vfunc_101((u8 *)&sp8);
 }
 
-void TObjEneDD::move_with_wall_slide_commit(f32 dx, f32 dz, f32 dist) {
+u8 *TObjEneDD::move_with_wall_slide_commit(f32 dx, f32 dz, f32 dist) {
     u8 *arg0 = (u8 *)this;
     s32 sp8;
     calc_wall_slide_destination(arg0, &sp8, dx, dz, dist);
-    this->vfunc_101((u8 *)&sp8);
+    return this->vfunc_101((u8 *)&sp8);
 }
 
 void TObjEneDD::move_to_wall_clamped_destination(f32 farg0, f32 farg1, f32 dist) {
@@ -1175,7 +1172,7 @@ s32 TObjEneDD::is_target_unobstructed(saddr arg1) {
     return 0;
 }
 
-void TObjEneDD::transform_relative_position(void* a1) { ((TObjEneDD *)a1)->is_target_unobstructed((saddr)((char*)this + 0x2fc)); }
+s32 TObjEneDD::transform_relative_position(void* a1) { return ((TObjEneDD *)a1)->is_target_unobstructed((saddr)((char*)this + 0x2fc)); }
 
 s32 TObjBase::is_alive() {
     int var_r31;
@@ -1251,13 +1248,13 @@ void TObjEneDD::send_damage_message(s32 arg0, u8 *arg1) {
     ((VObj_18_0c879f *)(arg1))->m21(arg0, &stack.sp8, 0, -1, -1);
 }
 
-int TObjEneDD::check_state_flag_1() { return add_flags_2e4__9TObjCharaFUl(this, 1); }
+void TObjEneDD::check_state_flag_1() { this->add_flags_2e4(1); }
 
-int TObjEneDD::check_state_flag_2() { return add_flags_2e4__9TObjCharaFUl(this, 2); }
+void TObjEneDD::check_state_flag_2() { this->add_flags_2e4(2); }
 
-int TObjEneDD::check_state_flag_4() { return add_flags_2e4__9TObjCharaFUl(this, 4); }
+void TObjEneDD::check_state_flag_4() { this->add_flags_2e4(4); }
 
-int TObjEneDD::set_state_8() { return add_flags_2e4__9TObjCharaFUl(this, 8); }
+void TObjEneDD::set_state_8() { this->add_flags_2e4(8); }
 
 void TObjEneDD::vfunc_91() {
     Obj_800BA244 *self = (Obj_800BA244 *)this;
@@ -1341,7 +1338,7 @@ void TObjEneDD::initialize_enemy_state(s32 parameter) {
     set_param(parameter);
 }
 
-int TObjEneDD::update_camera_sequence() { return apply_split_screen_view_matrix__11TCameraCtrlFv(this); }
+void TObjEneDD::update_camera_sequence() { TCameraCtrl::apply_split_screen_view_matrix(); }
 
 int TObjEneDD::get_camera_ctrl() { return transform_to_view__11TCameraCtrlFii(this); }
 
@@ -1584,7 +1581,7 @@ void TObjEneDD_ST::enemy_init_validate_period(s32 arg1) {
 
 s32 enemy_validate_retained_target(u8 *ene_dd_st) {
     if (tick_period_counter((saddr)ene_dd_st, (s32 *)(ene_dd_st + 0x3B8), (*(s32 *)((s8 *)ene_dd_st + 0x3BC))) != 0) {
-        if (transform_relative_position__9TObjEneDDFPv(ene_dd_st, (int) (*(s32 *)((s8 *)ene_dd_st + 0x390))) != 0) {
+        if (((TObjEneDD *)ene_dd_st)->transform_relative_position(*(void **)((s8 *)ene_dd_st + 0x390)) != 0) {
             return 1;
         }
         goto block_5;
@@ -1676,7 +1673,7 @@ s32 TObjEneDD_ST::enemy_check_target_valid() {
         enemy_clear_target__12TObjEneDD_STFUs(this);
         return 0;
     }
-    return is_valid_target__9TObjEneDDFv(*(s32 *)((s8 *)this + 0x390));
+    return (*(TObjEneDD **)((s8 *)this + 0x390))->is_valid_target();
 }
 
 #pragma push

@@ -213,7 +213,6 @@ s32 TObjEneMe1Canadin__sub_8009E860(TObjEneMe1Canadin *self, f32 *out, f32 _w2);
 void TObjEneEpsilon__sub_800B92AC(u8 *arg0, s32 arg1, f32 farg0);
 int select_and_apply_target__12TObjEneDD_STFf(void*);
 s32 get_camera_ctrl__9TObjEneDDFv(Vec *, Vec *);
-s32 update_camera_sequence__9TObjEneDDFv();
 void TObjEneDD__sub_800BA5A4(void *, void *, void *);
 s32 is_player_entity_id(u16 arg0);
 void set_part_position__9TObjEneDDFPvPvi(void *, s32, s32);
@@ -1915,7 +1914,7 @@ void fn_8009BD00(void) {
     case 2:
     case 3:
         push_matrix();
-        update_camera_sequence__9TObjEneDDFv();
+        TObjEneDD::update_camera_sequence();
         temp_r5 = TObjEneMe1Canadin__render_point_cursor;
         TObjEneMe1Canadin__render_point_cursor = temp_r5 + 1;
         matrix_mult_vec(0, &lbl_80500960, temp_r5);
