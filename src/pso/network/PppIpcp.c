@@ -3,6 +3,7 @@
 #include "types.h"
 #include "pso/network/TLobby_803FC178.h"
 #include "pso/network/TLobby_803FCF44.h"
+#include "pso/network/PppFsm.h"
 #include "pso/network/TLobby_804050DC.h"
 #include "pso/network/TLobby_8041112C.h"
 #include "pso/network/PppIpcp.h"
@@ -388,7 +389,7 @@ extern s32 TLobby__sub_803FF698(Conn_804004DC *self, PppHeader *item, s32 arg) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline uaddr first_803FA664(Sub_803FF858 *s) {
+inline uaddr build_requested_options(IpcpConfig *opts) {
     uaddr t;
     uaddr v = 0;
     t = v;
@@ -396,31 +397,31 @@ inline uaddr first_803FA664(Sub_803FF858 *s) {
     if (t == 0) {
         return v;
     }
-    append_masked_ipcp_options(&t, &s->h1C, s->h1C);
+    append_masked_ipcp_options(&t, &opts->local.got, opts->local.got.flags);
     v = t;
     return v;
 }
-inline s32 read_803FA664(uaddr *p) {
+inline s32 read_option_byte(uaddr *p) {
     if (ppp_buffer_read(p, &lcp_read_byte_buffer, 1) != 1) {
         return -1;
     }
     return (s16)lcp_read_byte_buffer;
 }
-s32 TLobby__sub_803FF858(Obj_803FF858 *obj_803_ff858, PppHeader *msg_803_fa664, uaddr arg2) {
+s32 TLobby__sub_803FF858(PppFsm *fsm, PppHeader *msg, uaddr expected) {
     uaddr cur;
     s16 err;
     s16 a;
     s16 b;
     err = 0;
-    if (msg_803_fa664->id != obj_803_ff858->b1) {
+    if (msg->id != fsm->id) {
         return -1;
     }
-    cur = first_803FA664(obj_803_ff858->p30);
-    if (msg_803_fa664->len != get_field_4((void *)cur)) {
+    cur = build_requested_options((IpcpConfig *)fsm->opts);
+    if (msg->len != get_field_4((void *)cur)) {
         err = 1;
     } else {
-        while ((a = read_803FA664(&cur)) != -1) {
-            b = read_803FA664(&arg2);
+        while ((a = read_option_byte(&cur)) != -1) {
+            b = read_option_byte(&expected);
             if (b == -1 || b != a) {
                 err = 1;
                 break;
@@ -430,7 +431,7 @@ s32 TLobby__sub_803FF858(Obj_803FF858 *obj_803_ff858, PppHeader *msg_803_fa664, 
     if (err != 0) {
         return -1;
     }
-    obj_803_ff858->bB++;
+    fsm->ack_count++;
     return 0;
 }
 #pragma pop

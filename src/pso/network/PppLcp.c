@@ -3,6 +3,7 @@
 #include "types.h"
 #include "pso/network/TLobby_803FC178.h"
 #include "pso/network/TLobby_803FCF44.h"
+#include "pso/network/PppFsm.h"
 #include "pso/network/TLobby_804050DC.h"
 #include "pso/network/TLobby_8041112C.h"
 #include "pso/network/PppLcp.h"
@@ -54,8 +55,8 @@ s32 wait_for_connection(Conn_804004DC *c) {
 extern saddr TLobby__sub_8040172C(Conn_804004DC *c);
 extern s32 recv_lcp_config_reject(Conn_804004DC *fsm, PppHeader *msg, s32 src);
 extern s32 recv_lcp_config_nak(Conn_804004DC *fsm, PppHeader *msg, s32 src);
-s16 recv_lcp_config_request(Obj_803FF858 *fsm, PppHeader *msg, u32 src);
-s32 verify_lcp_config_ack(Obj_803FF858 *arg0, PppHeader *arg1, uaddr arg2);
+s16 recv_lcp_config_request(PppFsm *fsm, PppHeader *msg, u32 src);
+s32 verify_lcp_config_ack(PppFsm *fsm, PppHeader *msg, uaddr expected);
 
 void init_lcp_protocol(u8 *conn)
 {
@@ -346,7 +347,7 @@ inline void loop_8040172C(uaddr *self, void *src, s16 mask) {
         i++;
     }
 }
-inline s32 read_80400F1C(uaddr *p) {
+inline s32 read_option_byte(uaddr *p) {
     if (ppp_buffer_read(p, lobby_read_byte_buffer, 1) != 1) {
         return -1;
     }
@@ -355,8 +356,8 @@ inline s32 read_80400F1C(uaddr *p) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline uaddr first2_80400F1C(Obj_803FF858 *fsm) {
-    LcpOpts *o = (LcpOpts *)fsm->p30;
+inline uaddr build_requested_options(PppFsm *fsm) {
+    LcpOpts *o = (LcpOpts *)fsm->opts;
     uaddr t = 0;
     t = (uaddr)init_net_buffer_entry(0);
     if (t == 0) {
@@ -365,21 +366,21 @@ inline uaddr first2_80400F1C(Obj_803FF858 *fsm) {
     loop_8040172C(&t, &o->local.got, o->local.got.mask);
     return t;
 }
-s32 verify_lcp_config_ack(Obj_803FF858 *fsm, PppHeader *msg_803_fa664, uaddr arg2) {
+s32 verify_lcp_config_ack(PppFsm *fsm, PppHeader *msg, uaddr expected) {
     s16 err;
     s16 a;
     s16 b;
     err = 0;
-    if (msg_803_fa664->id != fsm->b1) {
+    if (msg->id != fsm->id) {
         return -1;
     }
     {
-        uaddr cur = first2_80400F1C(fsm);
-        if (msg_803_fa664->len != get_field_4((void *)cur)) {
+        uaddr cur = build_requested_options(fsm);
+        if (msg->len != get_field_4((void *)cur)) {
             err = 1;
         } else {
-            while ((a = read_80400F1C(&cur)) != -1) {
-                b = read_80400F1C(&arg2);
+            while ((a = read_option_byte(&cur)) != -1) {
+                b = read_option_byte(&expected);
                 if (b == -1 || b != a) {
                     err = 1;
                     break;
@@ -407,7 +408,7 @@ inline void add_lcp_options(PppFrame **pbuf, s16 *vals, s16 mask) {
     }
 }
 
-s16 recv_lcp_config_request(Obj_803FF858 *fsm, PppHeader *msg, u32 src) {
+s16 recv_lcp_config_request(PppFsm *fsm, PppHeader *msg, u32 src) {
     LcpOpts *opts;
     s32 remaining;
     s16 status;
@@ -417,7 +418,7 @@ s16 recv_lcp_config_request(Obj_803FF858 *fsm, PppHeader *msg, u32 src) {
     s16 missing;
 
     status = 2;
-    opts = (LcpOpts *)fsm->p30;
+    opts = (LcpOpts *)fsm->opts;
     remaining = msg->len;
     reply = NULL;
     opts->remote.got.mask = 0;
@@ -452,9 +453,9 @@ s16 recv_lcp_config_request(Obj_803FF858 *fsm, PppHeader *msg, u32 src) {
     }
     missing = opts->remote.want.mask & ~opts->remote.got.mask;
     if (status == 3) {
-        if (fsm->b6 != 0) {
+        if (fsm->f6 != 0) {
             add_lcp_options(&reply, &opts->remote.got.mask, missing);
-            fsm->b6--;
+            fsm->f6--;
         } else {
             status = 4;
             ppp_fsm_send_packet(fsm, 4, msg->id, reply);

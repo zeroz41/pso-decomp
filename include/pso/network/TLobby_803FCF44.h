@@ -15,8 +15,7 @@ typedef struct Self_803FD74C Self_803FD74C;
 typedef struct Tbl_803FD74C Tbl_803FD74C;
 typedef struct Self_803FD85C Self_803FD85C;
 typedef struct Tbl_803FD85C Tbl_803FD85C;
-typedef struct Sub_803FF858 Sub_803FF858;
-typedef struct Obj_803FF858 Obj_803FF858;
+struct PppFsm;
 struct PppHeader;
 typedef struct O_80400ACC O_80400ACC;
 typedef struct Self_803FDA68 Self_803FDA68;
@@ -50,8 +49,6 @@ struct Tbl_803FD85C {
     u8 pad18[8];
     void (*f20)(Self_803FD85C *, Tbl_803FD85C *);
 };
-struct Sub_803FF858 { u8 pad0[0x28]; s16 h1C; };
-struct Obj_803FF858 { u8 pad0; u8 b1; u8 pad2[4]; u8 b6; u8 pad7[4]; u8 bB; u8 padC[0x24]; Sub_803FF858 *p30; };
 struct O_80400ACC { u8 b0; u8 b1; u8 b2; u8 pad3[0x108 - 3]; s32 f108; };
 struct Self_803FDA68 {
     u8 f0; u8 f1; u8 f2; u8 f3; u8 f4; u8 f5; u8 f6; u8 f7;
@@ -131,7 +128,7 @@ void setup_auth_after_lcp_negotiation(Conn_804004DC *c);
 s16 TLobby__sub_80403F4C(void *ov, PppFrame **spp);
 PppFrame *init_net_buffer_entry(u16 idx);
 void append_masked_ipcp_options(uaddr *self, void *opt, s32 mask);
-s32 TLobby__sub_803FF858(Obj_803FF858 *arg0, struct PppHeader *arg1, uaddr arg2);
+s32 TLobby__sub_803FF858(struct PppFsm *fsm, struct PppHeader *msg, uaddr expected);
 s16 TLobby__sub_803FD5A4(s16 h, s16 v);
 s32 TLobby__sub_803FD21C(s16 arg0, s32 arg1, s32 arg2, u8 *arg3);
 s32 TLobby__sub_803FD310(s16 arg0, s32 arg1, u8 *arg2);
