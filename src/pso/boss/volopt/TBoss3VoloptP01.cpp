@@ -38,8 +38,6 @@
 #include "pso/unk/text_803D853C.h"
 
 extern "C" {
-f32 normalize_vector(Vec *v);
-s32 push_matrix();
 s32 post_translate_matrix(const void *pos);
 void *find_entity_by_id(u16 id);
 void init_collision_body_parts(void *obj, void *parts, s32 count);
@@ -206,9 +204,9 @@ void TBoss3VoloptP01::run_task() {
         return;
     }
     if (has_flag_0x800() != 0) {
-        vfunc_63();
+        run_death_reaction();
     } else if (test_flag30_512() != 0 && !(actorFlags & 0x04000000)) {
-        vfunc_62();
+        run_hit_reaction();
     }
     if (obj_testFlags30(0x4000) != 0) {
         if (((TObjPlayer *)this)->add_status_effect_timer(4, -1) <= 0) {
@@ -225,9 +223,9 @@ void TBoss3VoloptP01::run_task() {
             state = 0;
         }
         dispatch_state();
-        VecCopy((Vec *)&m_2fc, &position);
-        y = m_300;
-        m_300 = y + (18.0f + y_offset);
+        VecCopy(&body_center, &position);
+        y = body_center.y;
+        body_center.y = y + (18.0f + y_offset);
         ((TBoss3VoloptP01Collision *)bodies)->height = 18.0f + y_offset;
         ((TBoss3VoloptHiraisin *)this)->copy_position();
         angle = pulse_angle;
@@ -294,7 +292,7 @@ void TBoss3VoloptP01::update_state() {
         referenceHp = hp;
         if (is_primary != 0) {
             volopt_breakup_flag = 1;
-            TBoss3VoloptCore::link_photon(m_2d4, 0);
+            TBoss3VoloptCore::link_photon(attacker_id, 0);
             TBoss3VoloptCore::set_grabbed_state(0x12C);
         }
         if (TBoss3Volopt::is_v2_mode() != 0) {
@@ -320,7 +318,7 @@ void TBoss3VoloptP01::update_state() {
                 flags = m_388;
                 if (flags & 0x10000) {
                     m_388 = flags & ~1;
-                    vfunc_60();
+                    run_attack_action();
                 } else if (flags & 0x20000) {
                     m_388 = flags & ~1;
                     sub_80042F84();
@@ -334,7 +332,7 @@ void TBoss3VoloptP01::update_state() {
     case 2:
         if (update_sink() == 1) {
             m_388 &= ~1;
-            vfunc_58();
+            run_idle_action();
         }
         break;
     case -1:
@@ -355,10 +353,10 @@ void TBoss3VoloptP01::update_breakup() {
         this->requested_action = 4;
         state = 1;
         *(s16 *)&timer = 0x5A;
-        TObjPlayer::spawn_effect_f8((saddr)&m_2fc, *(s16 *)&timer);
+        TObjPlayer::spawn_effect_f8((saddr)&body_center, *(s16 *)&timer);
         if (is_primary != 0) {
             volopt_breakup_flag = 1;
-            TBoss3VoloptCore::link_photon(m_2d4, 0);
+            TBoss3VoloptCore::link_photon(attacker_id, 0);
             TBoss3VoloptCore::set_grabbed_state(0x12C);
         }
         state = 1;
@@ -366,8 +364,8 @@ void TBoss3VoloptP01::update_breakup() {
         advance_animation();
         (*(s16 *)&timer)--;
         if (*(s16 *)&timer < 0) {
-            TBoss3Volopt::create_breakup_mdl((saddr)TBoss3VoloptP01__breakup_model, (saddr)&volopt_p01_breakup_params, texlist, (saddr)&m_2fc, rotation_y);
-            ((TObjPlayer *)&m_2fc)->trigger_dell_biter_events();
+            TBoss3Volopt::create_breakup_mdl((saddr)TBoss3VoloptP01__breakup_model, (saddr)&volopt_p01_breakup_params, texlist, (saddr)&body_center, rotation_y);
+            ((TObjPlayer *)&body_center)->trigger_dell_biter_events();
             m_388 |= 0x40000;
             play_sound_effect(0x4003AD07, &position, 0, 0);
             state = 2;
@@ -433,13 +431,13 @@ void TBoss3VoloptP01::run_state_machine() {
         break;
     case 2:
         if (glow_effect == NULL) {
-            glow_effect = (TObject *)create_particle_emitter(&m_2fc, 0x21);
+            glow_effect = (TObject *)create_particle_emitter(&body_center, 0x21);
             ((TParticleCtrl *)glow_effect)->set_flags(0x40U);
         }
         state = 3;
     case 3:
         if (glow_effect != NULL) {
-            ((TParticleCtrl *)glow_effect)->set_position(&m_2fc);
+            ((TParticleCtrl *)glow_effect)->set_position(&body_center);
         }
         effect_timer--;
         if (effect_timer <= 0) {
@@ -455,7 +453,7 @@ void TBoss3VoloptP01::run_state_machine() {
         set_flags_30();
         if (update_sink() == 1) {
             shutter->close();
-            vfunc_58();
+            run_idle_action();
         }
         break;
     case -1:
@@ -604,7 +602,7 @@ void TBoss3VoloptP01::update_attack() {
         set_flags_30();
         if (update_sink() == 1) {
             shutter->close();
-            vfunc_58();
+            run_idle_action();
             m_388 &= ~0x80000;
         }
         break;
@@ -755,7 +753,7 @@ s32 TBoss3VoloptP01::fire_zonde_at_players() {
         get_node_position(12, &pos);
         for (j = 0; j < n; j++) {
             target = list[j];
-            target_pos = (Vec *)&target->m_2fc;
+            target_pos = &target->body_center;
             VecCopy(&dir, target_pos);
             subtract_vector(&dir, &pos);
             len = normalize_vector(&dir);
@@ -819,7 +817,7 @@ void TBoss3VoloptP01::cast_tech_on_players() {
         for (j = 0; j < registered_player_count; j++) {
             player = TObjPlayer::get_player_data(j);
             if (player != NULL && get_entity_id(player) < 0x1000 && !(player->actorFlags & 0x02000800)) {
-                TTecFoie::create_ex(this, &pos, &player->m_2fc, (void *)0x1D);
+                TTecFoie::create_ex(this, &pos, &player->body_center, (void *)0x1D);
             }
         }
         break;
@@ -827,7 +825,7 @@ void TBoss3VoloptP01::cast_tech_on_players() {
         for (k = 0; k < registered_player_count; k++) {
             target = TObjPlayer::get_player_data(k);
             if (target != NULL && get_entity_id(target) < 0x1000 && !(target->actorFlags & 0x02000800)) {
-                ((TTecGiBarta *)this)->create(&pos, &target->m_2fc, (void *)0x1D);
+                ((TTecGiBarta *)this)->create(&pos, &target->body_center, (void *)0x1D);
             }
         }
         break;

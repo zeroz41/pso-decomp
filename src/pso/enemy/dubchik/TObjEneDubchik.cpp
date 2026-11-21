@@ -209,7 +209,6 @@ s32 calc_velocity_toward_destination(void *, Vec_800A8C4C, Vec_800A8C4C, f32);
 void TObjPlayer__sub_800A8C4C(u8 *arg0);
 void restore_scene_lighting(void);
 void select_actor_lighting(s32 obj);
-s32 push_matrix();
 s32 post_translate_matrix(void *);
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
@@ -421,9 +420,9 @@ f32 TObjEneDubchik::sub_800AAF78(s32 arg1) {
     return ((f32 *)lbl_805009B8[variant])[arg1];
 }
 
-void TObjEneDubchik::vfunc_59() {  }
+void TObjEneDubchik::run_move_action() {  }
 
-void TObjEneDubchik::vfunc_58() {  }
+void TObjEneDubchik::run_idle_action() {  }
 
 TObjEneDubchik::TObjEneDubchik(TObject *parent, void *set_data) : TObjEnemyCustom(parent) {
     s32 i;
@@ -622,7 +621,7 @@ void TObjEneDubchik::run_task() {
     ((TObjPlayer *)arg0)->run_synced_state_handler();
     ((TObjEneDubchik *)arg0)->sub_800AB068();
     ((TObjEnemy *)arg0)->update_prev_position();
-    VecCopy(&this->center, (const Vec *)&this->m_2fc);
+    VecCopy(&this->center, &this->body_center);
     if (((TObjCollidable *)arg0)->obj_testFlags30(0x04000000) == 0) {
         submit_cursor_candidate(arg0, -1);
     }
@@ -927,7 +926,7 @@ void TObjEneDubchik::update_fall_apart() {
         state = 1;
     case 1: {
         advance_animation();
-        Vec pos = *body_center();
+        Vec pos = body_center;
         pos.x += velocity()->x;
         pos.z += velocity()->z;
         if (check_path_obstructed(this, &pos) == 0) {
@@ -965,8 +964,8 @@ void TObjEneDubchik::update_fall_apart() {
             }
             if (parts[1] != NULL && parts[2] != NULL && part_hit[1] + part_hit[2] == 0) {
                 s32 k;
-                f32 dist = xz_distance_squared(body_center(), &parts[1]->pos);
-                if (dist < xz_distance_squared(body_center(), &parts[2]->pos)) {
+                f32 dist = xz_distance_squared(&body_center, &parts[1]->pos);
+                if (dist < xz_distance_squared(&body_center, &parts[2]->pos)) {
                     k = 1;
                 } else {
                     k = 2;

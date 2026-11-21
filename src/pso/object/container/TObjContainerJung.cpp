@@ -109,7 +109,6 @@ extern "C" {
 u32 init_collision_body_parts(void *, saddr, s32);
 s32 free_collision_body_parts(void *);
 s32 post_translate_matrix(void *);
-s32 push_matrix();
 extern s32 local_client_id;
 u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
 }
@@ -154,7 +153,7 @@ TObjContainerJung::TObjContainerJung(TObject *parent, void *set_data) : TUnk_804
     init_collision_body_parts(this, (saddr)&container_jung_collision_desc, 1);
     register_object_by_id();
     VecCopy(&center, &position);
-    VecCopy((Vec *)&m_2fc, &position);
+    VecCopy(&body_center, &position);
     center.y += container_jung_collision_desc.offset.y;
 }
 
@@ -295,7 +294,7 @@ TObjContainerJungEx::TObjContainerJungEx(TObject *parent, void *set_data) : TUnk
     init_collision_body_parts(this, (saddr)&container_jung_collision_desc, 1);
     register_object_by_id();
     VecCopy(&center, &position);
-    VecCopy((Vec *)&m_2fc, &position);
+    VecCopy(&body_center, &position);
     center.y += container_jung_collision_desc.offset.y;
 }
 
@@ -407,7 +406,7 @@ TObjContainerJungEnemy::TObjContainerJungEnemy(TObject *parent, void *set_data) 
     init_collision_body_parts(this, (saddr)&container_jung_collision_desc, 1);
     register_object_by_id();
     VecCopy(&center, &position);
-    VecCopy((Vec *)&m_2fc, &position);
+    VecCopy(&body_center, &position);
     center.y += container_jung_collision_desc.offset.y;
 }
 

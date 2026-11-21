@@ -26,12 +26,12 @@ struct TObjEneBm3FlyNest : public TObjEneDD {
     virtual void run_task();
     virtual void render();
     virtual void render_shadows();
-    virtual void vfunc_28();
-    virtual void vfunc_61();
-    virtual void vfunc_62();
-    virtual void vfunc_63();
+    virtual void refresh_target();
+    virtual void run_miss_reaction();
+    virtual void run_hit_reaction();
+    virtual void run_death_reaction();
     virtual void dispatch_action(u32 state, s32 reason);
-    virtual void vfunc_88();
+    virtual void update_body_colliders();
     // Slot 104, the first one TObjEneDD leaves to its subclasses; run_task calls it in demo mode.
     virtual void init();
     virtual void render_with_state_debug();
@@ -64,10 +64,6 @@ struct TObjEneBm3FlyNest : public TObjEneDD {
     static void load_resources();
     static void init_vertex_table();
 
-    u8 pad_374[0x4];
-    s32 unk_378;         // TObjEneDD's area: set_field_378 stores it, state 7 returns to it
-    f32 unk_37c;         // TObjEneDD's area: the ctor sets it to 10.0f
-    u8 pad_380[0xC];
     s32 state;           // 0x38C "STATE : NORMAL/DEAD/FALLEN" (2/9/5) in render_with_state_debug
     s32 start_num;       // 0x390 "START NUM"
     s32 total_num;       // 0x394 "TOTAL NUM", capped by the set entry

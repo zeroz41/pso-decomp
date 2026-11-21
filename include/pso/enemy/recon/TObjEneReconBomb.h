@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/object/base/TObjChara.h"
 
+struct BmlResource;
+
 class TObjEneRecon;
 
 struct TObjEneReconBomb : public TObjChara {
@@ -24,6 +26,9 @@ struct TObjEneReconBomb : public TObjChara {
     u32 m_360;
     virtual void render();
     virtual void run_task();
+    static void release_resources();
+    static void *create(void *parent, void *recon, void *pos);
+    static void load_resources();
 };
 
 LAYOUT_ASSERT(TObjEneReconBomb_size, sizeof(TObjEneReconBomb) == 0x364);

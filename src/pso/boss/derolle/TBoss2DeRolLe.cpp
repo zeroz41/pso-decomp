@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/system/BmlResource.h"
+#include "pso/animation/ActorAnimationState.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/animation/MotionContext.h"
 
@@ -13,10 +14,13 @@ struct NJS_OBJECT;
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 
 #include "pso/system/vector.h"
+#include "pso/math/MatrixTransforms.h"
 
 #include "pso/network/protocol/protocol_types.h"
 
 #include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/protocol/protocol.h"
+#include "pso/object/TObjControl.h"
 
 #include "pso/system/NinjaTypes.h"
 
@@ -57,14 +61,8 @@ struct NJS_OBJECT;
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-
-extern "C" void has_flag_0x800__9TObjCharaFv();
-
-extern "C" void test_flag30_512__9TObjCharaFv();
-
-extern "C" void test_flag_1000__9TObjCharaFv();
-
-extern "C" void test_flag_256__9TObjCharaFv();
+#include "pso/enemy/dd/TObjEneDD_800B9B84.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
 
 #include "pso/effect/TBreakUpMdl.h"
 
@@ -77,6 +75,8 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/system/task/TObject.h"
 #include "pso/boss/derolle/TBoss2PhotonPad.h"
 #include "pso/boss/derolle/TBoss2LaserLight.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/boss/TUnk_80482C58.h"
 
 #include "pso/effect/particle/TParticleCtrl.h"
 
@@ -90,6 +90,18 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/boss/derolle/TUnk_80482D04.h"
 
 #include "pso/boss/derolle/TUnk_80482EC0.h"
+#include "pso/enemy/AttackTargetHistory.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/camera/TCameraCtrl_803D749C.h"
+#include "pso/camera/TCameraCtrl_800687BC.h"
+#include "pso/camera/CameraHelpers.h"
+#include "pso/unk/TLobby_802268F4.h"
+#include "pso/map/CsnQuery.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
 #include "pso/boss/volopt/TBoss3Volopt.h"
 
@@ -102,7 +114,6 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/boss/derolle/TObjBoss2CeilJunk.h"
 
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8003B138.h"
 
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 
@@ -132,7 +143,8 @@ struct DeRolLeEffectParams {
     s32 pad_10;
 };
 
-const s32 derolle_attack_sequence_id_table[21] = {
+// The model nodes whose positions derolle_capture_node_points records into node_positions, -1 ended.
+const s32 derolle_position_node_ids[21] = {
     0x18, 0x1A, 0x1C, 0x1D, 0x1E, 0x1F, 0x22, 0x45, 0x4A, 0x5F, 0x60,
     0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, -1,
 };
@@ -166,267 +178,43 @@ s32 de_rol_le_resistance_param_ids[1] = {0xF};
 // counterpart of TBoss2DeRolLe__shared_handler_id_table (dispatch_shared_handler_b)
 s32 de_rol_le_shared_handler_a_ids[1] = {0xF};
 
-namespace constructor_data {
-
-extern "C" {
-
-extern "C" void render_body__13TBoss2DeRolLeFv(u8 *arg0);
-
-extern "C" void dispatch_action__13TBoss2DeRolLeFiUii(saddr arg0, u32 arg1, saddr arg2);
-
-extern "C" void update_colliders_from_offsets__13TBoss2DeRolLeFi(s32 arg0);
-
-extern "C" void vfunc_61__13TBoss2DeRolLeFv();
-
-extern "C" void vfunc_62__13TBoss2DeRolLeFv(TBoss2DeRolLe *arg0);
-
-extern "C" void vfunc_63__13TBoss2DeRolLeFv();
-
-extern "C" void vfunc_28__13TBoss2DeRolLeFv();
-
-extern "C" u8 *__dt__13TBoss2DeRolLeFv(u8 *arg0, s16 arg1);
-
-extern "C" void apply_poison_status__13TBoss2DeRolLeFv();
-
-extern "C" void apply_paralysis__13TBoss2DeRolLeFv();
-
-extern "C" void apply_slow_status__13TBoss2DeRolLeFv();
-
-extern "C" void apply_confusion_status__13TBoss2DeRolLeFv();
-
-extern "C" void apply_movement_ailment__13TBoss2DeRolLeFl();
-
-extern "C" void apply_shock_status__13TBoss2DeRolLeFv();
-
-extern "C" void clear_harmful_statuses__13TBoss2DeRolLeFv();
-
-extern "C" void vfunc_6__8TObjBaseFPsl();
-
-extern "C" void vfunc_103__9TObjEneDDFPUc();
-
-extern "C" void vfunc_79__9TObjEneDDFPl();
-
-extern "C" void vfunc_84__9TObjEneDDFv();
-
-extern "C" void vfunc_85__9TObjEneDDFv();
-
-extern "C" void vfunc_86__9TObjEneDDFv();
-
-extern "C" void vfunc_89__9TObjEneDDFv();
-
-extern "C" void vfunc_90__9TObjEneDDFv();
-
-extern "C" void vfunc_91__9TObjEneDDFv();
-
-extern "C" void vfunc_92__9TObjEneDDFv();
-
-extern "C" void vfunc_94__9TObjEneDDFv();
-
-extern "C" void vfunc_95__9TObjEneDDFv();
-
-extern "C" void vfunc_96__9TObjEneDDFv();
-
-extern "C" void vfunc_97__9TObjEneDDFv();
-
-extern "C" void vfunc_98__9TObjEneDDFv();
-
-extern "C" void vfunc_99__9TObjEneDDFv();
-
-extern "C" void vfunc_100__9TObjEneDDFv();
-
-extern "C" void vfunc_101__9TObjEneDDFPUc();
-
-extern "C" void vfunc_102__9TObjEneDDFv();
-
-extern "C" int vfunc_104__12TObjEneDD_STFf(void *p);
-
-extern "C" void vfunc_83__12TObjEneDD_STFv();
-
-extern "C" void vfunc_105__13TBoss2DeRolLeFv();
-
-extern "C" void render__13TBoss2DeRolLeFv(u8 *arg0);
-
-extern "C" void vfunc_29__9TObjCharaFv();
-
-extern "C" void recalc_stats__9TObjCharaFv();
-
-extern "C" void consume_timer_field__9TObjCharaFl();
-
-extern "C" void vfunc_67__9TObjCharaFf();
-
-extern "C" void vfunc_66__9TObjCharaFv();
-
-extern "C" void get_anim_node_position__9TObjCharaFlP3Vec();
-
-extern "C" void vfunc_60__9TObjCharaFv();
-
-extern "C" void vfunc_59__9TObjCharaFv();
-
-extern "C" void vfunc_58__9TObjCharaFv();
-
-extern "C" void update_shock_clock__9TObjCharaFv();
-
-extern "C" void vfunc_43__9TObjCharaFv();
-
-extern "C" void vfunc_18__9TObjCharaFPUc();
-
-extern "C" void interact__14TObjCollidableFl();
-
-extern "C" void vfunc_74__9TObjEnemyFl();
-
-extern "C" void apply_hit_message_flags__9TObjEnemyFPv();
-
-extern "C" void add_actor_exp__9TObjCharaFl();
-
-extern "C" void apply_action_hold_status__9TObjCharaFf();
-
-extern "C" void apply_anti_technique__9TObjCharaFl();
-
-extern "C" void apply_attack_stat_status__9TObjCharaFPv();
-
-extern "C" void apply_knockback_from_attacker__9TObjCharaFPUcf();
-
-extern "C" void apply_object_set_data__8TObjBaseFPv();
-
-extern "C" void apply_set_data__9TObjEnemyFPv();
-
-extern "C" void apply_switch_attack__9TObjCharaFv();
-
-extern "C" void calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf();
-
-extern "C" void classify_actor_view_detail__8TObjBaseFfff();
-
-extern "C" void clear_all_status_effects__9TObjCharaFv();
-
-extern "C" void cure_paralysis__9TObjCharaFv();
-
-extern "C" void cure_poison_ailment__9TObjCharaFv();
-
-extern "C" void apply_defense_stat_status__9TObjCharaFPv();
-
-extern "C" void enemy_spawn_jellen_effect__9TObjCharaFv();
-
-extern "C" void enemy_spawn_zalure_effect__9TObjCharaFv();
-
-extern "C" void vfunc_78__9TObjCharaFl();
-
-extern "C" void vfunc_77__9TObjCharaFv();
-
-extern "C" void vfunc_76__9TObjCharaFf();
-
-extern "C" void vfunc_75__9TObjCharaFf();
-
-extern "C" void clear_lobby_object_state__9TObjEnemyFv();
-
-extern "C" void get_center__9TObjCharaFv();
-
-extern "C" void get_actor_level_index__9TObjCharaFv();
-
-extern "C" void get_name__9TObjEnemyFv();
-
-extern "C" void get_pos__9TObjCharaFl();
-
-extern "C" void is_actor_cadence_frame__9TObjCharaFl();
-
-extern "C" void is_target_in_attack_range__9TObjCharaFv();
-
-extern "C" void receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll();
-
-extern "C" void receive_physical_attack__9TObjCharaFPvf();
-
-extern "C" void receive_weapon_special_attack__9TObjCharaFPvPv();
-
-extern "C" void render_shadows__9TObjEnemyFv(u8 *arg0);
-
-extern "C" void reset_motion_fields__9TObjCharaFv();
-
-extern "C" void reset_pose__9TObjCharaFv();
-
-extern "C" void roll_physical_accuracy__9TObjCharaFPvlf();
-
-extern "C" void run_task__13TBoss2DeRolLeFPv(u8 *arg0);
-
-extern "C" void select_melee_contact_body__9TObjCharaFPvf();
-
-extern "C" void trigger_switch_attack__9TObjCharaFv(s32 arg0);
-
-extern "C" void try_start_action__9TObjCharaFll();
-
-extern "C" void update_action_hold_status__9TObjCharaFv();
-
-extern "C" s32 vfunc_37__9TObjCharaFv(u8 *arg0);
-
-extern "C" void update_actor_ground_y__9TObjCharaFv();
-
-extern "C" s32 update_attack_stat_status__9TObjCharaFv(u8 *arg0);
-
-extern "C" void update_check__13TBoss2DeRolLeFPv(void *arg0);
-
-extern "C" s32 update_defense_stat_status__9TObjCharaFv(u8 *arg0);
-
-extern "C" void update_flag30_timer__9TObjCharaFv();
-
-extern "C" void update_movement_status__9TObjCharaFv();
-
-extern "C" void update_object_view_visibility__8TObjBaseFff();
-
-extern "C" void update_poison_status__9TObjCharaFv();
-
-void *derolle_part_transform_template[12] = {
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0x3f800000, (void *)0x0, (void *)0x0,
-    (void *)0x40800000, (void *)0x0, (void *)0x0, (void *)0x41500000,
+// What TObjEnemy::movementParameters points at.
+struct TBoss2DeRolLeMovement {
+    EnemyMoveParams move;
+    s32 unk_0C[4];
 };
 
-void *derolle_action_mode_sequence_table[44] = {
-    (void *)0x1, (void *)0x3, (void *)0x18, (void *)0x6,
-    (void *)0x11, (void *)0x9, (void *)0xc, (void *)0x12,
-    (void *)0x14, (void *)0x16, (void *)0x3, (void *)0x6,
-    (void *)0x11, (void *)0x9, (void *)0xd, (void *)0x19,
-    (void *)0x8, (void *)0x10, (void *)0x4, (void *)0x13,
-    (void *)0x15, (void *)0x17, (void *)0x9, (void *)0xf,
-    (void *)0x21, (void *)0x22, (void *)0x1a, (void *)0x1b,
-    (void *)0x1b, (void *)0x1b, (void *)0x1b, (void *)0x1c,
-    (void *)0x23, (void *)0x24, (void *)0x25, (void *)0x21,
-    (void *)0x22, (void *)0x1a, (void *)0x1b, (void *)0x1b,
-    (void *)0x1b, (void *)0x1b, (void *)0x1d, (void *)0x2c,
+// The four points matrix_mult_vec_array places along a breakup piece (derolle_capture_node_points).
+Vec derolle_part_transform_template[4] = {
+    {0.0f, 0.0f, 0.0f},
+    {0.0f, 0.0f, 1.0f},
+    {0.0f, 0.0f, 4.0f},
+    {0.0f, 0.0f, 13.0f},
 };
 
-void *derolle_action_sequence_table[50] = {
-    (void *)0x1, (void *)0x28, (void *)0x29, (void *)0x2a,
-    (void *)0x2b, (void *)0x22, (void *)0xd, (void *)0x25,
-    (void *)0x21, (void *)0x28, (void *)0x27, (void *)0x29,
-    (void *)0x2a, (void *)0x2b, (void *)0x27, (void *)0x22,
-    (void *)0xf, (void *)0x21, (void *)0x28, (void *)0x27,
-    (void *)0x28, (void *)0x27, (void *)0x28, (void *)0x22,
-    (void *)0x1a, (void *)0x1b, (void *)0x1b, (void *)0x1b,
-    (void *)0x1b, (void *)0x1b, (void *)0x1c, (void *)0xd,
-    (void *)0x25, (void *)0x21, (void *)0x28, (void *)0x29,
-    (void *)0x2a, (void *)0x2b, (void *)0x28, (void *)0x22,
-    (void *)0x1a, (void *)0x1b, (void *)0x1b, (void *)0x1b,
-    (void *)0x1b, (void *)0x1b, (void *)0x1b, (void *)0x1b,
-    (void *)0x1d, (void *)0x2c,
+s32 derolle_action_mode_sequence_table[44] = {
+    0x1, 0x3, 0x18, 0x6, 0x11, 0x9, 0xC, 0x12, 0x14, 0x16, 0x3,
+    0x6, 0x11, 0x9, 0xD, 0x19, 0x8, 0x10, 0x4, 0x13, 0x15, 0x17,
+    0x9, 0xF, 0x21, 0x22, 0x1A, 0x1B, 0x1B, 0x1B, 0x1B, 0x1C, 0x23,
+    0x24, 0x25, 0x21, 0x22, 0x1A, 0x1B, 0x1B, 0x1B, 0x1B, 0x1D, 0x2C,
 };
 
-void *TBoss2DeRolLe__shared_handler_id_table[3] = {
-    (void *)0xf, (void *)0x10, (void *)0x11,
+s32 derolle_action_sequence_table[50] = {
+    0x1, 0x28, 0x29, 0x2A, 0x2B, 0x22, 0xD, 0x25, 0x21, 0x28,
+    0x27, 0x29, 0x2A, 0x2B, 0x27, 0x22, 0xF, 0x21, 0x28, 0x27,
+    0x28, 0x27, 0x28, 0x22, 0x1A, 0x1B, 0x1B, 0x1B, 0x1B, 0x1B,
+    0x1C, 0xD, 0x25, 0x21, 0x28, 0x29, 0x2A, 0x2B, 0x28, 0x22,
+    0x1A, 0x1B, 0x1B, 0x1B, 0x1B, 0x1B, 0x1B, 0x1B, 0x1D, 0x2C,
 };
 
-void *lbl_8048228C[7] = {
-    (void *)0x43610000, (void *)0x0, (void *)0x600, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x0,
-};
+s32 TBoss2DeRolLe__shared_handler_id_table[3] = {0xF, 0x10, 0x11};
 
-void *lbl_804822A8[33] = {
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x41c80000,
-    (void *)0x0, (void *)0x0, (void *)0x8003, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x41200000, (void *)0x0,
-    (void *)0x0, (void *)0x8003, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0x41200000, (void *)0x0, (void *)0x0,
-    (void *)0x8003, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0x0,
+TBoss2DeRolLeMovement boss2_derolle_movement = {{225.0f, 0.0f, 0x600}, {0, 0, 0, 0}};
+
+CollisionBody boss2_derolle_collision_bodies[3] = {
+    {{0.0f, 0.0f, 0.0f}, 25.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
+    {{0.0f, 0.0f, 0.0f}, 10.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
+    {{0.0f, 0.0f, 0.0f}, 10.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
 
 const char *bm_boss2_de_rol_le_model_names[8] = {
@@ -466,153 +254,49 @@ BmlResourceDescriptor boss2_derolle_bml_descriptor = {
     "bm_boss2_de_rol_le.bml", bm_boss2_de_rol_le_model_names, bm_boss2_de_rol_le_motion_names, 7, 18,
 };
 
-void *lbl_804823A8[68] = {
-    (void *)0x30000, (void *)0x8, (void *)0x3f4ccccd, (void *)0xc0000000,
-    (void *)0x10000, (void *)0xb, (void *)0x3f19999a, (void *)0x0,
-    (void *)0x10000, (void *)0x9, (void *)0x3f800000, (void *)0x0,
-    (void *)0x30000, (void *)0x0, (void *)0x3ecccccd, (void *)0x0,
-    (void *)0x20001, (void *)0xa, (void *)0x3e99999a, (void *)0x0,
-    (void *)0x20001, (void *)0xe, (void *)0x3f000000, (void *)0x0,
-    (void *)0x20001, (void *)0xc, (void *)0x3f000000, (void *)0x0,
-    (void *)0x20009, (void *)0xf, (void *)0x3e8f5c29, (void *)0x0,
-    (void *)0x2000a, (void *)0xd, (void *)0x3e8f5c29, (void *)0x0,
-    (void *)0x10000, (void *)0x6, (void *)0x40000000, (void *)0x0,
-    (void *)0x10000, (void *)0x5, (void *)0x40000000, (void *)0x0,
-    (void *)0x30000, (void *)0x10, (void *)0x3f19999a, (void *)0x0,
-    (void *)0x2000f, (void *)0x2, (void *)0x3ecccccd, (void *)0x0,
-    (void *)0x30000, (void *)0x3, (void *)0x3e99999a, (void *)0x0,
-    (void *)0x20001, (void *)0x4, (void *)0x3ecccccd, (void *)0x0,
-    (void *)0x10000, (void *)0x1, (void *)0x3f000000, (void *)0x0,
-    (void *)0x30000, (void *)0x7, (void *)0x3f333333, (void *)0x0,
+TObjMotionAction boss2_derolle_action_table[17] = {
+    {3, 0, 8, 0.8f, ACTION_NO_BLEND_IN | ACTION_NO_BLEND_OUT},
+    {1, 0, 11, 0.6f, 0x0},
+    {1, 0, 9, 1.0f, 0x0},
+    {3, 0, 0, 0.4f, 0x0},
+    {2, 1, 10, 0.3f, 0x0},
+    {2, 1, 14, 0.5f, 0x0},
+    {2, 1, 12, 0.5f, 0x0},
+    {2, 9, 15, 0.28f, 0x0},
+    {2, 10, 13, 0.28f, 0x0},
+    {1, 0, 6, 2.0f, 0x0},
+    {1, 0, 5, 2.0f, 0x0},
+    {3, 0, 16, 0.6f, 0x0},
+    {2, 15, 2, 0.4f, 0x0},
+    {3, 0, 3, 0.3f, 0x0},
+    {2, 1, 4, 0.4f, 0x0},
+    {1, 0, 1, 0.5f, 0x0},
+    {3, 0, 7, 0.7f, 0x0},
 };
 
-void *boss2_derolle_particle_node_indices[3] = {
-    (void *)0x0, (void *)0x5, (void *)0x9,
-};
+s32 boss2_derolle_particle_node_indices[3] = {0, 5, 9};
 
-void *boss2_derolle_particle_limits[3] = {
-    (void *)0x42000000, (void *)0x41f00000, (void *)0x41f00000,
-};
-
-void *__vt__13TBoss2DeRolLe[107] = {
-    (void *)0x0, (void *)0x0, (void *)&__dt__13TBoss2DeRolLeFv, (void *)&run_task__13TBoss2DeRolLeFPv,
-    (void *)&render__13TBoss2DeRolLeFv, (void *)&render_shadows__9TObjEnemyFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
-    (void *)&reset_motion_fields__9TObjCharaFv, (void *)&get_center__9TObjCharaFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
-    (void *)&get_name__9TObjEnemyFv, (void *)&interact__14TObjCollidableFl, (void *)&add_actor_exp__9TObjCharaFl, (void *)&consume_timer_field__9TObjCharaFl,
-    (void *)&get_actor_level_index__9TObjCharaFv, (void *)&update_actor_ground_y__9TObjCharaFv, (void *)&vfunc_18__9TObjCharaFPUc, (void *)&is_actor_cadence_frame__9TObjCharaFl,
-    (void *)&select_melee_contact_body__9TObjCharaFPvf, (void *)&calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf, (void *)&receive_physical_attack__9TObjCharaFPvf, (void *)&receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll,
-    (void *)&receive_weapon_special_attack__9TObjCharaFPvPv, (void *)&apply_knockback_from_attacker__9TObjCharaFPUcf, (void *)&try_start_action__9TObjCharaFll, (void *)&roll_physical_accuracy__9TObjCharaFPvlf,
-    (void *)&vfunc_28__13TBoss2DeRolLeFv, (void *)&vfunc_29__9TObjCharaFv, (void *)&is_target_in_attack_range__9TObjCharaFv, (void *)&test_flag_256__9TObjCharaFv,
-    (void *)&test_flag30_512__9TObjCharaFv, (void *)&has_flag_0x800__9TObjCharaFv, (void *)&test_flag_1000__9TObjCharaFv, (void *)&update_poison_status__9TObjCharaFv,
-    (void *)&update_action_hold_status__9TObjCharaFv, (void *)&vfunc_37__9TObjCharaFv, (void *)&update_flag30_timer__9TObjCharaFv, (void *)&update_movement_status__9TObjCharaFv,
-    (void *)&update_shock_clock__9TObjCharaFv, (void *)&update_attack_stat_status__9TObjCharaFv, (void *)&update_defense_stat_status__9TObjCharaFv, (void *)&vfunc_43__9TObjCharaFv,
-    (void *)&apply_poison_status__13TBoss2DeRolLeFv, (void *)&apply_paralysis__13TBoss2DeRolLeFv, (void *)&apply_slow_status__13TBoss2DeRolLeFv, (void *)&apply_confusion_status__13TBoss2DeRolLeFv,
-    (void *)&apply_movement_ailment__13TBoss2DeRolLeFl, (void *)&apply_shock_status__13TBoss2DeRolLeFv, (void *)&clear_harmful_statuses__13TBoss2DeRolLeFv, (void *)&apply_attack_stat_status__9TObjCharaFPv,
-    (void *)&apply_defense_stat_status__9TObjCharaFPv, (void *)&cure_poison_ailment__9TObjCharaFv, (void *)&cure_paralysis__9TObjCharaFv, (void *)&clear_all_status_effects__9TObjCharaFv,
-    (void *)&apply_action_hold_status__9TObjCharaFf, (void *)&apply_anti_technique__9TObjCharaFl, (void *)&vfunc_58__9TObjCharaFv, (void *)&vfunc_59__9TObjCharaFv,
-    (void *)&vfunc_60__9TObjCharaFv, (void *)&vfunc_61__13TBoss2DeRolLeFv, (void *)&vfunc_62__13TBoss2DeRolLeFv, (void *)&vfunc_63__13TBoss2DeRolLeFv,
-    (void *)&reset_pose__9TObjCharaFv, (void *)&get_anim_node_position__9TObjCharaFlP3Vec, (void *)&vfunc_66__9TObjCharaFv, (void *)&vfunc_67__9TObjCharaFf,
-    (void *)&get_pos__9TObjCharaFl, (void *)&apply_switch_attack__9TObjCharaFv, (void *)&enemy_spawn_jellen_effect__9TObjCharaFv, (void *)&trigger_switch_attack__9TObjCharaFv,
-    (void *)&enemy_spawn_zalure_effect__9TObjCharaFv, (void *)&recalc_stats__9TObjCharaFv, (void *)&vfunc_74__9TObjEnemyFl, (void *)&vfunc_75__9TObjCharaFf,
-    (void *)&vfunc_76__9TObjCharaFf, (void *)&vfunc_77__9TObjCharaFv, (void *)&vfunc_78__9TObjCharaFl, (void *)&vfunc_79__9TObjEneDDFPl,
-    (void *)&apply_hit_message_flags__9TObjEnemyFPv, (void *)&apply_set_data__9TObjEnemyFPv, (void *)&clear_lobby_object_state__9TObjEnemyFv, (void *)&vfunc_83__12TObjEneDD_STFv,
-    (void *)&vfunc_84__9TObjEneDDFv, (void *)&vfunc_85__9TObjEneDDFv, (void *)&vfunc_86__9TObjEneDDFv, (void *)&dispatch_action__13TBoss2DeRolLeFiUii,
-    (void *)&update_colliders_from_offsets__13TBoss2DeRolLeFi, (void *)&vfunc_89__9TObjEneDDFv, (void *)&vfunc_90__9TObjEneDDFv, (void *)&vfunc_91__9TObjEneDDFv,
-    (void *)&vfunc_92__9TObjEneDDFv, (void *)&update_check__13TBoss2DeRolLeFPv, (void *)&vfunc_94__9TObjEneDDFv, (void *)&vfunc_95__9TObjEneDDFv,
-    (void *)&vfunc_96__9TObjEneDDFv, (void *)&vfunc_97__9TObjEneDDFv, (void *)&vfunc_98__9TObjEneDDFv, (void *)&vfunc_99__9TObjEneDDFv,
-    (void *)&vfunc_100__9TObjEneDDFv, (void *)&vfunc_101__9TObjEneDDFPUc, (void *)&vfunc_102__9TObjEneDDFv, (void *)&vfunc_103__9TObjEneDDFPUc,
-    (void *)&vfunc_104__12TObjEneDD_STFf, (void *)&vfunc_105__13TBoss2DeRolLeFv, (void *)&render_body__13TBoss2DeRolLeFv,
-};
-
-}
-
-}
+f32 boss2_derolle_particle_limits[3] = {32.0f, 30.0f, 30.0f};
 
 const char *boss2_de_rol_le_class_name = "TBoss2DeRolLe";
 
 #include <stddef.h>
 
-typedef struct Part_8002EA64 {
-    Vec pos;
-    Vec vel;
-    s32 unk18;
-    s32 unk1C;
-    s32 unk20;
-    f32 unk24;
-    s32 unk28;
-} Part_8002EA64;
-
-typedef struct Obj_8002EA64 {
-    u8 pad0[0x18];
-    s32 *vtbl;
-    u8 pad1C[4];
-    Part_8002EA64 parts[19];
-} Obj_8002EA64;
-
-struct Motion_8002EFE8 { s32 f0; s32 anim; s32 f8; s32 fC; };
-
-struct Model_8002EFE8 { s32 f0; u32 frames; };
-
-struct Anim_8002EFE8 { s32 f0; Model_8002EFE8 *model; };
-
-struct Self_8002EFE8 {
-    u8 pad0[0x24];
-    s32 x24;
-    u8 pad28[0x34 - 0x28];
-    saddr x34;
-    u8 pos[0xC];
-    u8 pad44[0x5C - 0x44];
-    s32 rotX;
-    s32 rotY;
-    s32 rotZ;
-    u8 pad68[0xC0 - 0x68];
-    f32 frame;
-    u8 padC4[0xD8 - 0xC4];
-    Motion_8002EFE8 *motions;
-    Anim_8002EFE8 *anims;
-    u8 padE0[0x354 - 0xE0];
-    f32 motionIdx;
-    f32 fixedFrame;
-    f32 speed;
-    u8 pad360[0x5E0 - 0x360];
-    saddr joints[10];
-};
-
 extern "C" {
+
+void *__ct__9TBoss2FinFv(void *, TObject *, Vec *, Vec *);
+
+void fill_value_array(AreaAttackHistory *history);
+
+
+void update_local_colliders_from_world(TObjEneDD *self, Vec *offsets);
+extern f32 lbl_804FF5E8[];
 
 void TObjPlayer__sub_8002E7C8(void);
 
-
-f32 vec3_add_to(void *, void *);
-
-void scale_matrix(int, f32, f32, f32);
-
-void set_matrix_identity(int);
-
-void push_matrix(void);
-
-void VecCopy__FP3VecPC3Vec(void *, void *);
-
-void fn_8002F5AC(u8 *arg0);
-
-void TBoss2Joint__sub_8003688C(u8 *arg0);
-
 s32 TObjLight__sub_801337F8(s32);
 
-
-s32 rotate_matrix_z(int, int);
-
-s32 rotate_matrix_x(int, int);
-
-s32 scale_current_matrix(void *);
-
-s32 post_translate_matrix(void *);
-
-void draw_model_motion(void *arg0, void *arg1, f32 farg0);
-
-void TObjPlayer__sub_8002F61C(NJS_OBJECT *);
-
-extern u8 controller_input_state[];
+void draw_model_motion(void *model, void *motion, f32 frame);
 
 extern saddr current_scene_light;
 
@@ -620,178 +304,20 @@ extern s32 saved_model_render_flags;
 
 extern s32 model_render_flags;
 
-void render_body__13TBoss2DeRolLeFv(u8 *arg0);
-
-struct VObj8002EB88_8002eb88_8002E784 {
-    char pad[0xC];
-    virtual void m0(int);
-};
-
-int vfunc_105__13TBoss2DeRolLeFv(void* p);
-
 void TObjPlayer__sub_8002EB88(void);
-
-void __ct__7TObjectFP7TObject(void *);
-
-void __dl__7TObjectFPv(void *);
-
-void __dt__7TObjectFv(void *, int);
-
-struct VObj8002EB88_8002eb88_8002E784;
 
 }
 
-struct VBase_18_3a6650 { char pad[0x18]; };
-
-struct VObj_18_3a6650 : VBase_18_3a6650 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual void m81();
-    virtual void m82();
-    virtual void m83();
-    virtual void m84();
-    virtual void m85();
-    virtual void m86();
-    virtual void m87();
-    virtual void m88();
-    virtual void m89();
-    virtual void m90();
-    virtual void m91();
-    virtual void m92();
-    virtual void m93();
-    virtual void m94();
-    virtual void m95();
-    virtual void m96();
-    virtual void m97();
-    virtual void m98();
-    virtual void m99();
-    virtual void m100();
-    virtual void m101();
-    virtual void m102();
-    virtual void m103();
-    virtual s32 m104();
-};
-
-struct Vec4_8002F258 { f32 x, y, z, w; };
-
-struct Light_8002F258 { u8 pad0[0x24]; Vec4_8002F258 col; };
-
-struct Ctx_8002F258 { u8 pad0[0x2C]; void *tex; };
-
-struct Me_8002F258 : VObj_18_3a6650 {
-    u8 pad1C[0x24 - 0x1C];
-    s32 f24;
-    u8 pad28[0x38 - 0x28];
-    Vec pos;
-    u8 pad44[0x5C - 0x44];
-    s32 rx;
-    s32 ry;
-    s32 rz;
-    u8 pad68[0x3C0 - 0x68];
-    s32 flags;
-    u8 pad3c4[0x3D8 - 0x3C4];
-    u8 nodes[0x3F8 - 0x3D8];
-    Vec pts[20];
-    u8 pad4e8[0x540 - 0x4E8];
-    Vec mids[10];
-    u8 pad5b8[0x5E0 - 0x5B8];
-    saddr joints[10];
-    u8 pad608[0x6A4 - 0x608];
-    f32 height;
-};
+// TObjLight__scene_light_state as render uses it: the scene light's colour.
+struct SceneLightColor { u8 pad_00[0x24]; NJS_ARGB color; };
 
 extern "C" {
-
-void update_pulsing_colors__13TBoss2DeRolLeFPv(u8 *arg0);
 
 s32 TObjLight__sub_801336DC(s32);
 
 s32 TObjLight__sub_8013379C(s32, void *);
 
-void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
-
-extern u8 derolle_segment_texture_slots[];
-
-extern Light_8002F258 TObjLight__scene_light_state;
+extern SceneLightColor TObjLight__scene_light_state;
 
 extern s32 lbl_805D5564;
 
@@ -805,1991 +331,72 @@ extern s32 chunk_polygon_flags_and_mask;
 
 }
 
-void get_current_matrix(void *m);
-
 saddr TBoss2DeRolLe__base_params[1];
 saddr TBoss2DeRolLe__resistance_params[1];
-u8 *TBoss2DeRolLe__data_805D4BA0;
-u8 *lbl_805D4BA4;
-s32 TBoss2DeRolLe__current_attack_id;
-s32 TBoss2DeRolLe__sequence_match_index;
-s32 lbl_805D4BB0;
-u8 *lbl_805D4BB4;
-u8 *lbl_805D4BB8;
-saddr lbl_805D4BBC;
-saddr lbl_805D4BC0;
-u8 *TBoss2DeRolLe__instance;
-Ctx_8002F258 *derolle_texture_list_handle;
-void *lbl_805D4BCC;
+TBoss2DeRolLeParams *derolle_params[1];
+BmlResource *boss2_derolle_resource;
+// derolle_capture_node_points's state while the body draws (derolle_begin_node_capture sets it up).
+s32 derolle_capture_node_index;
+s32 derolle_capture_position_index;
+s32 derolle_capture_flags;
+Vec *derolle_capture_positions;
+Vec *derolle_capture_part_points;
+GC_Mtx *derolle_capture_tentacle_matrices;
+GC_Mtx *derolle_capture_node_matrices;
+TBoss2DeRolLe *TBoss2DeRolLe__instance;
+NJS_OBJECT *derolle_breakup_node;        // body node 0x4D; its children are swapped while broken up
+NJS_OBJECT *derolle_breakup_node_child;  // the node's own first child
 
-namespace joint_transform_view {
-
-extern "C" {
-
-
-
-s32 matrix_mult_vec_array(int, void *, void *, int);
-
-s32 subtract_vector(void *, void *);
-
-s32 push_matrix();
-
-extern s32 TBoss2DeRolLe__current_attack_id;
-
-extern s32 TBoss2DeRolLe__sequence_match_index;
-
-extern s32 lbl_805D4BB0;
-
-extern s32 lbl_805D4BB4;
-
-extern saddr lbl_805D4BB8;
-
-extern saddr lbl_805D4BBC;
-
-extern saddr lbl_805D4BC0;
-
-void TObjPlayer__sub_8002F61C(NJS_OBJECT *);
-
-}
-
-}
 
 void *create_particle_controller_with_angles(void *arg0, void *arg1, s32 arg2, s32 arg3, u16 arg4);
-namespace behavior_view {
 
-struct Obj_80034034;
+Vec TBoss2DeRolLe__mine_ground_targets[5];
 
-struct Obj_800341F0;
-
-struct Self_800310F8 {
-    u8 pad0[0xB8];
-    s16 fB8;
-    u8 padBA[0x390 - 0xBA];
-    u8 *f390;
-    u8 pad394[0x3C0 - 0x394];
-    s32 flags;
-    u8 pad3C4[0x620 - 0x3C4];
-    void *parts[4];
-    u8 pad630[0x654 - 0x630];
-    s32 dir;
-    u8 pad658[0x6E0 - 0x658];
-    s32 phase;
-    s32 timer;
-    s32 idx;
-    s32 limit;
-    s32 life;
-};
-
-struct DR_800327C8 {
-    u8 pad0[0x38];
-    f32 x;
-    f32 y;
-    f32 z;
-    u8 pad44[0xB8 - 0x44];
-    s16 fB8;
-    u8 padBA[0x3C0 - 0xBA];
-    u32 flags;
-    u8 pad3C4[0x654 - 0x3C4];
-    s32 mode;
-    s32 sub;
-    u8 pad65C[0x67C - 0x65C];
-    f32 ampX;
-    u8 pad680[0x69C - 0x680];
-    f32 ampZ;
-    u8 pad6A0[0x6E0 - 0x6A0];
-    s32 done;
-    s32 kind;
-    u8 pad6E8[0x6FC - 0x6E8];
-    f32 baseX;
-    f32 baseZ;
-    f32 scaleX;
-    f32 scaleZ;
-};
-
-struct Obj_80034258;
-
-struct VBase_18_8002F7C4 { char pad[0x18]; };
-
-struct VObj_18_8002F7C4 : VBase_18_8002F7C4 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20(); virtual void m21(); virtual void m22(); virtual void m23();
-    virtual void m24(); virtual void m25(); virtual void m26(); virtual void m27();
-    virtual void m28(); virtual void m29(); virtual void m30(); virtual void m31();
-    virtual void m32(); virtual void m33(); virtual void m34(); virtual void m35();
-    virtual void m36(); virtual void m37(); virtual void m38(); virtual void m39();
-    virtual void m40(); virtual void m41(); virtual void m42(); virtual void m43();
-    virtual void m44(); virtual void m45(); virtual void m46(); virtual void m47();
-    virtual void m48(); virtual void m49(); virtual void m50(); virtual void m51();
-    virtual void m52(); virtual void m53(); virtual void m54(); virtual void m55();
-    virtual void m56(); virtual void m57(); virtual void m58(); virtual void m59();
-    virtual void m60(); virtual void m61(); virtual void m62(); virtual void m63();
-    virtual void m64(); virtual void m65(); virtual void m66(); virtual void m67();
-    virtual void m68(); virtual void m69(); virtual void m70(); virtual void m71();
-    virtual void m72(s32);
-};
-
-struct Sub_8002F7C4 { u8 pad0[8]; u32 f8; };
-
-struct Rol_8002F7C4 : VObj_18_8002F7C4 {
-    u8 pad1C[0x30 - 0x1C];
-    u32 flags30;
-    u8 pad34[0x38 - 0x34];
-    Vec pos;
-    u8 pad44[0x5C - 0x44];
-    s32 f5C;
-    u8 pad60[0xB8 - 0x60];
-    s16 fB8;
-    u8 padBA[0xC0 - 0xBA];
-    f32 fC0;
-    u8 padC4[0x3C0 - 0xC4];
-    u32 f3C0;
-    u8 pad3C4[0x3CC - 0x3C4];
-    Sub_8002F7C4 *f3CC;
-    u8 pad3D0[0x540 - 0x3D0];
-    Vec pts[10];
-    u8 pad5B8[0x5E0 - 0x5B8];
-    s32 slots[10];
-    u8 pad608[0x620 - 0x608];
-    saddr tent[4];
-    u8 pad630[0x654 - 0x630];
-    s32 f654;
-    u8 pad658[0x6A4 - 0x658];
-    f32 f6A4;
-    u8 pad6A8[4];
-    s32 f6AC;
-    u8 pad6B0[0x6E0 - 0x6B0];
-    s32 f6E0;
-    s32 f6E4;
-    u8 pad6E8[0x6F4 - 0x6E8];
-    s32 f6F4;
-    u8 pad6F8[0x758 - 0x6F8];
-    s32 f758;
-};
-
-struct Rol_80032E38 {
-    u8 pad0[0x38];
-    Vec pos;
-    u8 pad44[0x64 - 0x44];
-    s32 f64;
-    u8 pad68[0xB8 - 0x68];
-    s16 fB8;
-    u8 padBA[0xC0 - 0xBA];
-    f32 fC0;
-    u8 padC4[0x3A0 - 0xC4];
-    f32 f3A0;
-    u8 pad3A4[0x3A8 - 0x3A4];
-    f32 f3A8;
-    f32 f3AC;
-    u8 pad3B0[0x3C0 - 0x3B0];
-    u32 f3C0;
-    u8 pad3C4[0x654 - 0x3C4];
-    s32 f654;
-    u8 pad658[0x6A4 - 0x658];
-    f32 f6A4;
-    u8 pad6A8[0x6E0 - 0x6A8];
-    s32 f6E0;
-    s32 f6E4;
-    s32 f6E8;
-    u8 pad6EC[0x6FC - 0x6EC];
-    f32 f6FC;
-    u8 pad700[0x724 - 0x700];
-    Vec f724;
-};
-
-struct D_800320B4 {
-    u8 pad0[0x38];
-    f32 x;
-    f32 y;
-    f32 z;
-    u8 pad44[0xB0 - 0x44];
-    u32 fB0;
-    u8 padB4[0xB8 - 0xB4];
-    s16 fB8;
-    u8 padBA[0xC0 - 0xBA];
-    f32 frame;
-    u8 padC4[0x3C0 - 0xC4];
-    u32 flags;
-    u8 pad3C4[0x518 - 0x3C4];
-    u8 snd[0x540 - 0x518];
-    Vec recs[10];
-    u8 pad5B8[0x654 - 0x5B8];
-    s32 mode;
-    s32 next_mode;
-    u8 pad65C[0x684 - 0x65C];
-    u8 mover[0x694 - 0x684];
-    f32 f694;
-    u8 pad698[0x69C - 0x698];
-    f32 f69C;
-    u8 pad6A0[0x6A4 - 0x6A0];
-    f32 f6A4;
-    u8 pad6A8[0x6E0 - 0x6A8];
-    s32 phase;
-    s32 f6E4;
-    s32 step;
-    s32 tick;
-    u8 pad6F0[0x6FC - 0x6F0];
-    f32 dir;
-    f32 f700;
-    f32 f704;
-    f32 vy;
-    f32 vx;
-    f32 ay;
-};
-
-typedef struct DeRolLe_800344A4 {
-    u8 pad0[0x3D8];
-    u8 unk3D8[0x540 - 0x3D8];
-    Vec pts[8];
-    u8 pad5A0[0x5E0 - 0x5A0];
-    void *joints[8];
-    u8 pad600[0x654 - 0x600];
-    s32 mode;
-} DeRolLe_800344A4;
-
-struct Vec3i_80033AA4 { s32 x, y, z; };
-
-struct Obj_80033AA4 {
-    u8 pad0[0x540];
-    Vec pos[42];
-    u8 pad738[8];
-    void *ctl[6];
-    s32 f758;
-};
-
-struct Sub_800313F8 { u8 pad0[8]; u32 f8; };
-
-struct DR_800313F8 {
-    u8 pad0[0x38];
-    Vec pos;
-    u8 pad44[0x64 - 0x44];
-    s32 f64;
-    u8 pad68[0xB0 - 0x68];
-    u32 fB0;
-    u8 padB4[0xB8 - 0xB4];
-    s16 fB8;
-    u8 padBA[0xC0 - 0xBA];
-    f32 fC0;
-    u8 padC4[0x3C0 - 0xC4];
-    u32 f3C0;
-    u8 pad3C4[0x3CC - 0x3C4];
-    Sub_800313F8 *f3CC;
-    u8 pad3D0[0x44C - 0x3D0];
-    Vec v44C;
-    Vec v458;
-    u8 pad464[0x4E8 - 0x464];
-    Vec v4E8;
-    u8 pad4F4[0x518 - 0x4F4];
-    u8 snd[0x620 - 0x518];
-    saddr tentacles[4];
-    u8 pad630[0x654 - 0x630];
-    s32 f654;
-    u8 pad658[0x6A4 - 0x658];
-    f32 f6A4;
-    u8 pad6A8[0x6E0 - 0x6A8];
-    s32 f6E0;
-    s32 f6E4;
-    s32 f6E8;
-    s32 f6EC;
-    u8 pad6F0[0x6FC - 0x6F0];
-    f32 f6FC;
-    f32 f700;
-    f32 f704;
-    f32 f708;
-    f32 f70C;
-    f32 f710;
-    f32 f714;
-    f32 f718;
-    u8 pad71C[0x73C - 0x71C];
-    void *f73C;
-};
-
-struct D_8002FE60 {
-    u8 pad0[0xB8];
-    s16 fB8;
-    u8 padBA[0xC0 - 0xBA];
-    f32 frame;
-    u8 padC4[0x390 - 0xC4];
-    u8 *target;
-    u8 pad394[0x3C0 - 0x394];
-    u32 flags;
-    u8 pad3C4[0x4E8 - 0x3C4];
-    Vec pos;
-    Vec dir;
-    u8 pad500[0x518 - 0x500];
-    u8 snd[0x654 - 0x518];
-    s32 mode;
-    u8 pad658[0x6C8 - 0x658];
-    s32 f6C8;
-    void *laser1;
-    void *laser2;
-    u8 pad6D4[0x6DC - 0x6D4];
-    s32 count;
-    s32 phase;
-    s32 timer;
-    s32 f6E8;
-    u8 pad6EC[0x6F4 - 0x6EC];
-    s32 f6F4;
-    u8 pad6F8[0x6FC - 0x6F8];
-    f32 speed;
-    f32 f700;
-    u8 pad704[0x724 - 0x704];
-    Vec vel;
-    Vec hit;
-    void *ptcl;
-    u8 pad740[0x758 - 0x740];
-    s32 f758;
-};
-
-extern "C" {
-
-u8 TBoss2DeRolLe__sub_80034574(u8 *arg0);
-
-void init_wave_params__13TBoss2DeRolLeFPv(u8 *arg0);
-
-u8 update_state__13TBoss2DeRolLeFPv(u8 *arg0);
-
-void init_move_params__13TBoss2DeRolLeFPv(u8 *arg0);
-
-u8 TBoss2DeRolLe__sub_80034800(u8 *arg0);
-
-void init_movement__13TBoss2DeRolLeFPv(u8 *arg0);
-
-u8 update_phase_is_done__13TBoss2DeRolLeFPv(u8 *arg0);
-
-void TBoss2DeRolLe__sub_800344A4(DeRolLe_800344A4 *self, s32 idx, s32 arg2);
-
-s32 VecCopy__FP3VecPC3Vec(int, void *);
-
-
-void TBoss2DeRolLe__sub_80033A80(s32 arg0, saddr arg1);
-
-extern s32 boss2_derolle_particle_node_indices[];
-
-extern f32 boss2_derolle_particle_limits[];
-
-void update_particle_ctrls__13TBoss2DeRolLeFPv(Obj_80033AA4 *o);
-
-
-s32 VecCopy__FP3VecPC3Vec(int, void *);
-
-
-int play_sound(void* p, int a1);
-
-void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, saddr arg2);
-
-void set_position_index__13TBoss2DeRolLeFPvi(void *, s32);
-
-void TObjBoss2Tunnel__sub_8003C5F8(void);
-
-void TObjBoss2Tunnel__sub_8003C610(void);
-
-void TBoss2DeRolLe__sub_800313F8(DR_800313F8 *o, u32 arg1, s32 arg2);
-
-s32 VecCopy__FP3VecPC3Vec(int, void *);
-
-
-
-void fill_value_array(saddr);
-
-int spawn_trap__13TBoss2DeRolLeFPvii(void* p, int a1, int a2);
-
-int play_sound(void* p, int a1);
-
-void pick_random_target__13TBoss2DeRolLeFi(saddr arg0);
-
-void free_laser__13TBoss2DeRolLeFPv(void *arg0);
-
-void activate_laser_light__13TBoss2DeRolLeFPv(void *arg0);
-
-void calc_offset_position__13TBoss2DeRolLeFPv(u8 *arg0);
-
-void set_position_index__13TBoss2DeRolLeFPvi(void *, s32);
-
-void push_trail_position__13TBoss2DeRolLeFPvPv(void *, void *);
-
-void *__ct__13TUnk_80482C58FP7TObjectll(void *, void *, int, int);
-
-u8 *csnVector(void *, void *, int);
-
-
-s32 vec3_add_to(int, void *);
-
-void subtract_vector(void *, void *);
-
-extern u8 *TBoss2DeRolLe__data_805D4BA0;
-
-void TBoss2DeRolLe__sub_8002FE60(void *arg0, u32 arg1);
-
-u32 __cvt_fp2unsigned(f32);
-
-extern u32 *boss2_derolle_primary_color_targets[];
-
-extern u32 *boss2_derolle_segment_color_targets[];
-
-void update_pulsing_colors__13TBoss2DeRolLeFPv(u8 *arg0);
-
-
-s32 VecCopy__FP3VecPC3Vec(int, void *);
-
-void pick_random_target__13TBoss2DeRolLeFi(saddr arg0);
-
-void set_move_direction__13TBoss2DeRolLeFPv(void *, s32);
-
-
-s32 TBoss2Tentacle__sub_80039CA0(void *);
-
-void TBoss2Tentacle__sub_80039E68(void *);
-
-extern u8 *TBoss2DeRolLe__data_805D4BA0;
-
-void TBoss2DeRolLe__sub_800310F8(void *arg0, void *arg1, int arg2);
-
-void TBoss2DeRolLe__sub_800338BC(void);
-
-s32 init_head_params__13TBoss2DeRolLeFPv(void *);
-
-void set_position_index__13TBoss2DeRolLeFPvi(void *, s32);
-
-void TBoss2DeRolLe__sub_800327C8(void *arg0, void *arg1, int arg2, int arg3);
-
-void assign_slots_from_list(void *, saddr);
-
-
-s32 VecCopy__FP3VecPC3Vec(int, void *);
-
-void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, saddr arg2);
-
-void set_position_index__13TBoss2DeRolLeFPvi(void *, s32);
-
-void TBoss2Tentacle__sub_80039E54(void *a0);
-
-s32 restore_player_cameras();
-
-s32 activate_camera_mode(int);
-
-void set_scripted_camera_pose(void *, void *, void *);
-
-
-int play_sound_effect(void*, int, int, int);
-
-void play_cue_stream_file(saddr name);
-
-void handle_death_state__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1);
-
-s32 VecCopy__FP3VecPC3Vec(int, void *);
-
-s32 activate_camera_mode(int);
-
-void set_move_target_point__13TBoss2DeRolLeFPvi(u8 *arg0, s32 arg1);
-
-void get_node_world_pos__13TBoss2DeRolLeFPvPv(u8 *arg0, u8 *arg1);
-
-s32 vec3_add_to(int, void *);
-
-
-void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, saddr arg2);
-
-int play_sound_effect(void*, int, int, int);
-
-
-CameraPlayback *get_scripted_camera_playback(void);
-
-s32 restore_player_cameras();
-
-void TBoss2DeRolLe__sub_80032E38(void *arg0, void *arg1);
-
-
-s32 VecCopy__FP3VecPC3Vec(int, void *);
-
-
-int play_sound(void* p, int a1);
-
-void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, saddr arg2);
-
-void update_angle__13TBoss2DeRolLeFPv(void *arg0);
-
-f32 calc_node_height__13TBoss2DeRolLeFPv(void *);
-
-void set_position_index__13TBoss2DeRolLeFPvi(void *, s32);
-
-s32 advance_scalar_motion_profile(void *);
-
-
-void TBoss2DeRolLe__sub_800320B4(void *arg0, void *arg1, int arg2, int arg3);
-
-struct Obj_80034034 { u8 pad[0x326]; s16 f326; };
-
-struct Obj_800333F4 { u8 pad0[0xB8]; s16 f_B8; };
-
-struct Obj_8002F73C { u8 pad0[0xB8]; s16 fB8; u8 pad1[0x3C0 - 0xBA]; u32 f3C0; };
-
-struct Obj_8002FCE4 {
-    u8 pad0[0x5C];
-    s32 f5C;
-    u8 pad1[0xB8 - 0x60];
-    s16 fB8;
-    u8 pad2[0x3C0 - 0xBA];
-    u32 f3C0;
-    u8 pad3[0x6A4 - 0x3C4];
-    f32 f6A4;
-};
-
-typedef struct DeRolLe_8002FD9C {
-    u8 pad0[0xB8];
-    s16 state;
-    u8 padBA[0x3C0 - 0xBA];
-    s32 flags;
-    u8 pad3C4[0x654 - 0x3C4];
-    s32 mode;
-} DeRolLe_8002FD9C;
-
-struct Obj_80030720 {
-    u8 pad0[0xB8];
-    s16 fB8;
-    u8 padBA[0x390 - 0xBA];
-    s32 f390;
-    u8 pad394[0x3C0 - 0x394];
-    u32 f3C0;
-    u8 pad3C4[0x4D0 - 0x3C4];
-    u8 f4D0[0x524 - 0x4D0];
-    u8 f524[0x630 - 0x524];
-    saddr f630[5];
-    saddr f644[3];
-    u8 pad650[4];
-    s32 f654;
-};
-
-struct Obj_80034034;
-
-struct VBase_800341F0 { char pad[0x18]; };
-
-struct V_800341F0 : VBase_800341F0 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); virtual void m4(); virtual void m5();
-    virtual void m6(); virtual void m7(); virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15(); virtual void m16(); virtual void m17();
-    virtual void m18(); virtual void m19(); virtual void m20(); virtual void m21(); virtual void m22(); virtual void m23();
-    virtual void m24(); virtual void m25(); virtual void m26(); virtual void m27(); virtual void m28(); virtual void m29();
-    virtual void m30(); virtual void m31(); virtual void m32(); virtual void m33(); virtual void m34(); virtual void m35();
-    virtual void m36(); virtual void m37(); virtual void m38(); virtual void m39(); virtual void m40(); virtual void m41();
-    virtual void m42(); virtual void m43(); virtual void m44(); virtual void m45(); virtual void m46(); virtual void m47();
-    virtual void m48(); virtual void m49(); virtual void m50(); virtual void m51(); virtual void m52(); virtual void m53();
-    virtual void m54(); virtual void m55(); virtual void m56(); virtual void m57(); virtual void m58(); virtual void m59();
-    virtual void m60(); virtual void m61(); virtual void m62(); virtual void m63(); virtual void m64(); virtual void m65();
-    virtual void m66(); virtual void m67(); virtual void m68(); virtual void m69(); virtual void m70(); virtual void m71();
-    virtual void m72(); virtual void m73(); virtual void m74(); virtual void m75(); virtual void m76(); virtual void m77();
-    virtual void m78(); virtual void m79(); virtual void m80(); virtual void m81(); virtual void m82(); virtual void m83();
-    virtual void m84(); virtual void m85(); virtual void m86(); virtual void m87(); virtual void m88(); virtual void m89();
-    virtual void m90(); virtual void m91(); virtual void m92(); virtual void m93();
-    virtual void m94();
-};
-
-struct Obj_800341F0 : V_800341F0 {
-    u8 pad1c[0x5e0 - 0x1c];
-    V_800341F0 *parts[10];
-};
-
-struct B_80034258 { u8 pad[0x18]; };
-
-struct V_80034258 : B_80034258 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); virtual void m4();
-    virtual void m5(); virtual void m6(); virtual void m7(); virtual void m8(); virtual void m9();
-    virtual void m10(); virtual void m11(); virtual void m12(); virtual void m13(); virtual void m14();
-    virtual void m15(); virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20(); virtual void m21(); virtual void m22(); virtual void m23(); virtual void m24();
-    virtual void m25(); virtual void m26(); virtual void m27(); virtual void m28(); virtual void m29();
-    virtual void m30(); virtual void m31(); virtual void m32(); virtual void m33(); virtual void m34();
-    virtual void m35(); virtual void m36(); virtual void m37(); virtual void m38(); virtual void m39();
-    virtual void m40(); virtual void m41(); virtual void m42(); virtual void m43(); virtual void m44();
-    virtual void m45(); virtual void m46(); virtual void m47(); virtual void m48(); virtual void m49();
-    virtual void m50(); virtual void m51(); virtual void m52(); virtual void m53(); virtual void m54();
-    virtual void m55(); virtual void m56(); virtual void m57(); virtual void m58(); virtual void m59();
-    virtual void m60(); virtual void m61(); virtual void m62(); virtual void m63(); virtual void m64();
-    virtual void m65(); virtual void m66(); virtual void m67(); virtual void m68(); virtual void m69();
-    virtual void m70(); virtual void m71(); virtual void m72(); virtual void m73(); virtual void m74();
-    virtual void m75(); virtual void m76(); virtual void m77(); virtual void m78(); virtual void m79();
-    virtual void m80(); virtual void m81(); virtual void m82(); virtual void m83(); virtual void m84();
-    virtual void m85(); virtual void m86(); virtual void m87(); virtual void m88(); virtual void m89();
-    virtual void m90(); virtual void m91(); virtual void m92(); virtual void m93();
-};
-
-struct Obj_80034258 : V_80034258 {
-    u8 pad2[0x5e0 - 0x1c];
-    V_80034258 *parts[10];
-};
-
-struct Rec_80030898 { f32 a; f32 b; f32 c; };
-
-struct Obj_80030898 { u8 pad0[0x544]; Rec_80030898 recs[8]; };
-
-
-s32 VecCopy__FP3VecPC3Vec(int, void *);
-
-
-
-
-void TBoss2DeRolLe__sub_8002F73C(Obj_8002F73C *self, u32 kind);
-
-void TBoss2DeRolLe__sub_8002FCE4(Obj_8002FCE4 *self, u32 kind);
-
-void TBoss2DeRolLe__sub_8002FD9C(DeRolLe_8002FD9C *self, u32 arg1, s32 arg2);
-
-void state_ceiling_attack__13TBoss2DeRolLeFPvUi(TBoss2DeRolLe *arg0, u32 arg1);
-
-void TBoss2DeRolLe__sub_80030720(Obj_80030720 *self, u32 arg1, s32 arg2);
-
-void TBoss2DeRolLe__sub_80030898(u8 *arg0, u32 arg1, s32 arg2);
-
-void TBoss2DeRolLe__sub_80030A38(u8 *arg0, u32 arg1);
-
-void TBoss2DeRolLe__sub_80030DFC(void *, void *, int);
-
-void TBoss2DeRolLe__sub_80031AD4(void *, void *);
-
-void handle_debug_pad_input__13TBoss2DeRolLeFPvPv(void *, void *);
-
-void TBoss2DeRolLe__sub_800333F4(Obj_800333F4 *self, u32 arg1);
-
-void dispatch_action__13TBoss2DeRolLeFiUii(saddr arg0, u32 arg1, saddr arg2);
-
-
-int spawn_trap__13TBoss2DeRolLeFPvii(void* p, int a1, int a2);
-
-int play_sound(void* p, int a1);
-
-void TBoss2DeRolLe__sub_800338BC(void);
-
-void update_projectile_spawns__13TBoss2DeRolLeFPv(u8 *arg0);
-
-void spawn_offset_particle__13TBoss2DeRolLeFiff(saddr arg0, f32 farg0, f32 farg1);
-
-void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, saddr arg2);
-
-void TBoss2DeRolLe__sub_80033A80(s32 arg0, saddr arg1);
-
-void advance_action_sequence__13TBoss2DeRolLeFPv(Obj_80034034 *self);
-
-void reset_fields_3d0__13TBoss2DeRolLeFPv(void* p);
-
-void set_params__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1);
-
-void init_from_param__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1);
-
-void handle_6x14_de_rol_le_boss_actions_with_target(void *arg0);
-
-void handle_6x13_de_rol_le_boss_actions(void *arg0);
-
-void TBoss2DeRolLe__sub_80034034(Obj_80034034 *self);
-
-void clear_play_flags__13TBoss2DeRolLeFv(void *arg0);
-
-void set_flags_play_sound__13TBoss2DeRolLeFPv(u8 *arg0);
-
-void apply_hp_damage_with_sound__13TBoss2DeRolLeFPvi(u8 *arg0, s32 arg1);
-
-void update_check__13TBoss2DeRolLeFPv(void *arg0);
-
-void TBoss2DeRolLe__sub_800341F0(Obj_800341F0 *self);
-
-void TBoss2DeRolLe__sub_80034258(Obj_80034258 *self);
-
-void pick_random_target__13TBoss2DeRolLeFi(saddr arg0);
-
-void set_position_index__13TBoss2DeRolLeFPvi(void *, s32);
-
-void set_state_and_send__13TBoss2DeRolLeFPvi(Obj_80034034 *self, s32 mode);
-
-void swap_endian__13TBoss2DeRolLeFPv(void *);
-
-void swap_6x13_fields__13TBoss2DeRolLeFPv(void *);
-
-
-
-s32 enemy_set_target_id(void * a0 = 0, u16 a1 = 0);
-
-void project_sound_origin_from_camera(saddr arg0, u8 *arg1, f32 farg0);
-
-
-
-
-u8 *get_enemy_entity(u16 arg0);
-
-s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
-
-int play_sound_effect(void*, int, int, int);
-
-s32 vec3_add_to(int, void *);
-
-extern Vec TBoss2DeRolLe__mine_ground_targets[];
-
-extern s32 derolle_action_mode_sequence_table[];
-
-extern s32 derolle_action_sequence_table[];
-
-extern f32 lbl_804FF5E8[];
-
-extern "C" {
-
-void advance_action_sequence__13TBoss2DeRolLeFPv(Obj_80034034 *self);
-
-void TBoss2DeRolLe__sub_800341F0(Obj_800341F0 *self);
-
-void set_state_and_send__13TBoss2DeRolLeFPvi(Obj_80034034 *self, s32 mode);
-
-void TBoss2DeRolLe__sub_800341F0(Obj_800341F0 *self);
-
-void advance_action_sequence__13TBoss2DeRolLeFPv(Obj_80034034 *self);
-
-void set_state_and_send__13TBoss2DeRolLeFPvi(Obj_80034034 *self, s32 mode);
-
-void TBoss2DeRolLe__sub_800341F0(Obj_800341F0 *self);
-
-void TBoss2DeRolLe__sub_80034258(Obj_80034258 *self);
-
-void set_state_and_send__13TBoss2DeRolLeFPvi(Obj_80034034 *self, s32 mode);
-
-void set_state_and_send__13TBoss2DeRolLeFPvi(Obj_80034034 *self, s32 mode);
-
-void advance_action_sequence__13TBoss2DeRolLeFPv(Obj_80034034 *self);
-
-void TBoss2DeRolLe__sub_80034258(Obj_80034258 *self);
-
-void advance_action_sequence__13TBoss2DeRolLeFPv(Obj_80034034 *self);
-
-void TBoss2DeRolLe__sub_800341F0(Obj_800341F0 *self);
-
-void set_state_and_send__13TBoss2DeRolLeFPvi(Obj_80034034 *self, s32 mode);
-
-void advance_action_sequence__13TBoss2DeRolLeFPv(Obj_80034034 *self);
-
-void TBoss2DeRolLe__sub_800341F0(Obj_800341F0 *self);
-
-void set_state_and_send__13TBoss2DeRolLeFPvi(Obj_80034034 *self, s32 mode);
-
-void advance_action_sequence__13TBoss2DeRolLeFPv(Obj_80034034 *self);
-
-void TBoss2DeRolLe__sub_800341F0(Obj_800341F0 *self);
-
-void set_state_and_send__13TBoss2DeRolLeFPvi(Obj_80034034 *self, s32 mode);
-
-}
-
-extern int fold_flush_0;
-
-struct Obj_800341F0;
-
-struct Rol_80031AD4 {
-    u8 pad0[0x38];
-    Vec pos;
-    u8 pad44[0xB0 - 0x44];
-    s32 fB0;
-    u8 padB4[0xB8 - 0xB4];
-    s16 fB8;
-    u8 padBA[0xC0 - 0xBA];
-    f32 fC0;
-    u8 padC4[0x3C0 - 0xC4];
-    u32 f3C0;
-    u8 pad3C4[0x518 - 0x3C4];
-    u8 f518[0x654 - 0x518];
-    s32 f654;
-    u8 pad658[0x684 - 0x658];
-    u8 f684[0x69C - 0x684];
-    f32 f69C;
-    u8 pad6A0[0x6A4 - 0x6A0];
-    f32 f6A4;
-    u8 pad6A8[0x6E0 - 0x6A8];
-    s32 f6E0;
-    s32 f6E4;
-    s32 f6E8;
-    s32 f6EC;
-    u8 pad6F0[0x6FC - 0x6F0];
-    f32 f6FC;
-    f32 f700;
-    f32 f704;
-    f32 f708;
-};
-
-extern "C" {
-
-s32 VecCopy__FP3VecPC3Vec(int, void *);
-
-void set_state_and_send__13TBoss2DeRolLeFPvi(Obj_80034034 *self, s32 mode);
-
-void advance_action_sequence__13TBoss2DeRolLeFPv(Obj_80034034 *self);
-
-void TBoss2DeRolLe__sub_800341F0(Obj_800341F0 *self);
-
-void set_position_index__13TBoss2DeRolLeFPvi(void *, s32);
-
-f32 calc_node_height__13TBoss2DeRolLeFPv(void *);
-
-s32 advance_scalar_motion_profile(void *);
-
-void update_angle__13TBoss2DeRolLeFPv(void *arg0);
-
-
-
-void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, saddr arg2);
-
-int play_sound(void* p, int a1);
-
-}
-
-struct Pad_80032B28 { u8 pad[8]; u32 buttons; };
-
-extern int fold_flush_1;
-
-extern int fold_flush_2;
-
-s32 advance_scalar_motion_profile(void *);
-
-u8 TBoss2DeRolLe__sub_80034800(u8 *arg0);
-
-void calc_offset_position__13TBoss2DeRolLeFPv(u8 *arg0);
-
-s32 advance_scalar_motion_profile(void *);
-
-u8 update_phase_is_done__13TBoss2DeRolLeFPv(u8 *arg0);
-
-
-
-void TBoss2DeRolLe__sub_800344A4(DeRolLe_800344A4 *self, s32 idx, s32 arg2);
-
-s32 advance_scalar_motion_profile(void *);
-
-u8 TBoss2DeRolLe__sub_80034574(u8 *arg0);
-
-void activate_laser_light__13TBoss2DeRolLeFPv(void *arg0);
-
-void init_move_params__13TBoss2DeRolLeFPv(u8 *arg0);
-
-void init_movement__13TBoss2DeRolLeFPv(u8 *arg0);
-
-void init_wave_params__13TBoss2DeRolLeFPv(u8 *arg0);
-
-u8 update_state__13TBoss2DeRolLeFPv(u8 *arg0);
-
-s32 advance_scalar_motion_profile(void *);
-
-void TBoss2LaserLight__sub_80037474(void *p);
-
-void TBoss2LaserLight__sub_80037480(void *p);
-
-
-}
-
-}
-
-void compose_motion_node_matrix(void *arg0);
-void compose_motion_node_matrix(void *arg0);
-namespace joint_state_view {
-
-struct VBase18 { char pad[0x18]; };
-
-struct VObj18 : VBase18 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20(void *, f32);
-};
-
-struct RecoveredFields_80034C2C_arg0 {
-    u8 unknown_0[0x3AC];
-    f32 field_3AC;
-};
-
-struct Obj_80034B60 { u8 pad0[0x34]; saddr f34; u8 pad1[0xC0 - 0x38]; f32 fC0; u8 pad2[0xF8 - 0xC4]; saddr fF8; };
-
-struct Base_80034E90 { char pad[0x18]; };
-
-struct Obj_80034E90 : Base_80034E90 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual void m81();
-    virtual void m82();
-    virtual void m83();
-    virtual void m84();
-    virtual void m85(s32, s32);
-    u8 pad1c[0x1C - 0x1C];
-};
-
-struct Pkt8_80034E90 { u8 hdr[2]; u16 a; s16 b; s16 c; };
-
-struct Pkt16_80034E90 { u8 hdr[2]; u16 a; s16 b; s16 c; s32 d; };
-
-struct Fld_80034E90 { u8 pad0[0x1C]; u16 f1C; u8 pad1[0x38C - 0x1E]; u16 f38C; u8 pad2[0x3D4 - 0x38E]; s32 f3D4; };
-
-extern "C" {
-
-f32 TBoss2DeRolLe__sub_80034CEC(void);
-
-f32 TBoss2DeRolLe__sub_80034CF8(void);
-
-extern u8 *TBoss2DeRolLe__instance;
-
-void forward_switch_phase_stats__13TBoss2DeRolLeFi(saddr arg0);
-
-void switch_phase_stats__13TBoss2DeRolLeFPvPv(u8 *arg0, u8 *arg1);
-
-s32 VecCopy__FP3VecPC3Vec(s32, s32);
-
-s32 update_local_colliders_from_world(s32, Vec *);
-
-void update_colliders_from_offsets__13TBoss2DeRolLeFi(s32 arg0);
-
-int play_sound(void *, int);
-
-void spawn_offset_particle__13TBoss2DeRolLeFiff(saddr, f32, f32);
-
-void set_flags_play_sound__13TBoss2DeRolLeFPv(u8 *arg0);
-
-void vfunc_62__13TBoss2DeRolLeFv(TBoss2DeRolLe *arg0);
-
-s32 VecCopy__FP3VecPC3Vec(s32, s32);
-
-void set_position_index__13TBoss2DeRolLeFPvi(u8 *arg0, s32 arg1);
-
-s32 VecCopy__FP3VecPC3Vec(s32, s32);
-
-f32 subtract_vector(void *, void *);
-
-void set_move_target_point__13TBoss2DeRolLeFPvi(u8 *arg0, s32 arg1);
-
-s32 matrix_mult_vec(int, void *, void *);
-
-s32 set_matrix_identity(int);
-
-s32 push_matrix();
-
-void get_node_world_pos__13TBoss2DeRolLeFPvPv(u8 *arg0, u8 *arg1);
-
-s32 matrix_mult_vec(int, void *, void *);
-
-s32 scale_matrix(int, f32, f32, f32);
-
-extern u8 identity_matrix[];
-
-f32 calc_node_height__13TBoss2DeRolLeFPv(Obj_80034B60 *self);
-
-
-extern s32 TBoss2DeRolLe__attack_params_table[];
-
-extern saddr TBoss2DeRolLe__base_params[1];
-
-extern saddr TBoss2DeRolLe__resistance_params[1];
-
-void reload_stats_for_phase__13TBoss2DeRolLeFPvi(void *self, s32 kind);
-
-void send_6x13__13TBoss2DeRolLeFPv(void *p);
-
-void TBoss2DeRolLe__sub_80036358(void *p);
-
-void update_and_send__13TBoss2DeRolLeFPv(void *p);
-
-void TBoss2DeRolLe__sub_800363A0(void *p);
-
-void set_state_and_send__13TBoss2DeRolLeFPvi(Obj_80034E90 *self, s32 kind);
-
-void vfunc_61__13TBoss2DeRolLeFv(void);
-
-s32 TBoss2Joint_get_shell_max_hp(void);
-
-void backup_pos__13TBoss2DeRolLeFi(s32 arg0);
-
-void emit_effect_and_step__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1);
-
-void init_head_params__13TBoss2DeRolLeFPv(u8 *arg0);
-
-void set_move_direction__13TBoss2DeRolLeFPv(void *arg0);
-
-void update_angle__13TBoss2DeRolLeFPv(void *arg0);
-
-s32 VecCopy__FP3VecPC3Vec(s32, s32);
-
-
-extern u8 *TBoss2DeRolLe__data_805D4BA0;
-
-LAYOUT_ASSERT(RecoveredFields_80034C2C_arg0_3AC_offset, offsetof(RecoveredFields_80034C2C_arg0, field_3AC) == 0x3AC);
-
-}
-
-}
-
-namespace lifecycle_view {
-
-struct VBase_8003508C_80035084 {
-    char pad[0x18];
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual void m81();
-    virtual void m82();
-    virtual void m83();
-    virtual void m84();
-    virtual void m85(s16, int);
-};
-
-struct VBase_18_bd2ad6
-{
-  char pad[0x18];
-};
-
-struct VObj_18_bd2ad6 : VBase_18_bd2ad6 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual s32 m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual s32 m39();
-    virtual s32 m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual s32 m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual void m81();
-    virtual void m82();
-    virtual void m83();
-    virtual void m84();
-    virtual s32 m85(s16, s32);
-    virtual s32 m86();
-    virtual void m87();
-    virtual void m88();
-    virtual void m89();
-    virtual void m90();
-    virtual void m91();
-    virtual void m92();
-    virtual void m93();
-    virtual void m94();
-    virtual void m95();
-    virtual void m96();
-    virtual void m97();
-    virtual void m98();
-    virtual void m99();
-    virtual void m100();
-    virtual void m101();
-    virtual void m102();
-    virtual s32 m103();
-};
-
-struct Self_80035420 {
-    u8 pad0[0x18];
-    void *vtable;
-    u8 pad1C[0x5E0 - 0x1C];
-    void *a5E0[10];
-    s32 x608[4];
-    saddr x618;
-    saddr x61C;
-    void *a620[4];
-    void *a630[5];
-    void *a644[3];
-    void *x650;
-    u8 pad654[0x6B8 - 0x654];
-    void *x6B8;
-    u8 pad6BC[0x6C8 - 0x6BC];
-    void *x6C8;
-    void *x6CC;
-    void *x6D0;
-    u8 pad6D4[0x73C - 0x6D4];
-    void *x73C;
-    void *a740[6];
-};
-
-struct Seg_800363B4 { s8 n; u8 pad1[0xF]; void *model1; void *model2; };
-
-typedef struct Slot_80035D24 {
-    s32 kind;
-    s32 f04;
-    f32 f08[3];
-    s32 f14;
-    s32 f18;
-    s32 f1C;
-    f32 f20[3];
-    struct Slot_80035D24 *next;
-    s32 f30;
-    s32 f34;
-} Slot_80035D24;
-
-typedef struct Node_80035D24 {
-    u8 pad0[4];
-    struct { u8 pad[4]; s32 v; } *h;
-    u8 pad8[0x2C - 8];
-    struct Node_80035D24 *sub;
-    struct Node_80035D24 *next;
-} Node_80035D24;
-
-extern "C" {
-
-void VecCopy__FP3VecPC3Vec(void *, void *);
-
-
-void TBoss2DeRolLe__sub_800360A8(void *arg0);
-
-s32 advance_action_sequence__13TBoss2DeRolLeFPv(void *);
-
-
-void update_projectile_spawns__13TBoss2DeRolLeFPv(u8 *arg0);
-
-s32 update_particle_ctrls__13TBoss2DeRolLeFPv(void *);
-
-s32 TBoss2DeRolLe__sub_80034034(void *);
-
-s32 is_ready__13TBoss2DeRolLeFPv(void *);
-
-void backup_pos__13TBoss2DeRolLeFi(s32 arg0);
-
-void TBoss2DeRolLe__sub_8003508C(void *arg0);
-
-
-
-s32 add_radar_scaled_marker(void *, int, int, int, f32);
-
-
-void run_task__13TBoss2DeRolLeFPv(u8 *arg0);
-
-s32 __dt__7TObjectFv(void *, int);
-
-
-void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);
-
-s32 __dt__17AreaAttackHistoryFv(s32 arg0, s16 arg1);
-
-
-s32 free_collision_body_parts(void *);
-
-s32 __dl__7TObjectFPv(void *);
-
-extern u8 __vt__13TBoss2DeRolLe[];
-
-extern s32 TBoss2DeRolLe__instance;
-
-u8 *__dt__13TBoss2DeRolLeFv(u8 *arg0, s16 arg1);
-
-void VecCopy__FP3VecPC3Vec(void *, void *);
-
-
-s32 TObjLight__sub_801337F8(s32);
-
-s32 scale_matrix(int, f32, f32, f32);
-
-f32 vector_length(void *);
-
-void translate_matrix_vec3(u8 *arg0, u8 *arg1);
-
-s32 subtract_vector(void *, void *);
-
-s32 rotate_matrix_x(int, int);
-
-s32 normalize_vector(void *);
-
-s32 push_matrix();
-
-extern u32 lbl_805D4BA4;
-
-extern saddr current_scene_light;
-
-
-
-
-
-void TObjPlayer__sub_8002E7C8(void);
-
-void TBoss2Mine__sub_80038D88(void);
-
-void TBoss2Tentacle__sub_8003A0AC(void);
-
-
-
-extern s32 TBoss2DeRolLe__shared_handler_id_table[];
-
-using constructor_data::boss2_derolle_bml_descriptor;
-
-extern saddr TBoss2DeRolLe__base_params[1];
-
-extern saddr TBoss2DeRolLe__resistance_params[1];
-
-extern s32 TBoss2DeRolLe__data_805D4BA0[1];
-
-extern u32 lbl_805D4BA4;
-
-extern s32 TBoss2DeRolLe__current_attack_id;
-
-extern s32 TBoss2DeRolLe__sequence_match_index;
-
-extern s32 lbl_805D4BB0;
-
-extern s32 lbl_805D4BB4;
-
-extern saddr lbl_805D4BB8;
-
-extern saddr lbl_805D4BBC;
-
-extern saddr lbl_805D4BC0;
-
-extern s32 TBoss2DeRolLe__instance;
-
-extern u8 *derolle_texture_list_handle;
-
-extern s32 lbl_805D4BCC;
-
-void load_resources__13TBoss2DeRolLeFv(void);
-
-s32 advance_scalar_motion_profile(void *arg0);
-
-void vfunc_63__13TBoss2DeRolLeFv(void);
-
-void vfunc_28__13TBoss2DeRolLeFv(void);
-
-void TBoss2DeRolLe__sub_8003508C(void *arg0);
-
-void apply_poison_status__13TBoss2DeRolLeFv(void);
-
-void apply_paralysis__13TBoss2DeRolLeFv(void);
-
-void apply_slow_status__13TBoss2DeRolLeFv(void);
-
-void apply_confusion_status__13TBoss2DeRolLeFv(void);
-
-void apply_movement_ailment__13TBoss2DeRolLeFl(void);
-
-void apply_shock_status__13TBoss2DeRolLeFv(void);
-
-void clear_harmful_statuses__13TBoss2DeRolLeFv(void);
-
-void TBoss2DeRolLe__sub_80036358(void* p);
-
-void TBoss2DeRolLe__sub_800363A0(void* p);
-
-void *create__13TBoss2DeRolLeFPv(void *arg0);
-
-void reset_parts__13TBoss2DeRolLeFv(void);
-
-void send_6x13__13TBoss2DeRolLeFPv(void* p);
-
-void swap_6x13_fields__13TBoss2DeRolLeFPv(void* p);
-
-void swap_endian__13TBoss2DeRolLeFPv(void* p);
-
-void update_and_send__13TBoss2DeRolLeFPv(void* p);
-
-void *TBoss2DeRolLe__ct(void *, void *, void *);
-
-s32 TBoss2DeRolLe__sub_80034034(void *);
-
-void TBoss2Fin__sub_800367C0(void);
-
-void TBoss2Mine__sub_80038D84(void);
-
-void TBoss2Tentacle__sub_8003A0A8(void);
-
-
-void TObjPlayer__sub_8002EB88(void);
-
-void __dl__FPv(void);
-
-
-int bswap_16__FPUs(void*);
-
-int bswap_32__FPUl(void*);
-
-extern u32 lbl_805D4BA4;
-
-typedef struct VBase_18_bd2ad6 VBase_18_bd2ad6;
-
-typedef struct VObj_18_bd2ad6 VObj_18_bd2ad6;
-
-}
-
-}
-
-namespace constructor_view {
-
-extern "C" {
-
-struct Buf_8003563C { u8 b[0x30]; };
-
-struct VBase_18_bd2ad6 { char pad[0x18]; };
-
-struct VObj_18_bd2ad6 : VBase_18_bd2ad6 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual void m81();
-    virtual void m82();
-    virtual void m83();
-    virtual void m84();
-    virtual s32 m85(s16, s32);
-};
-
-s32 fill_value_array(void *);
-
-void reset_fields_3d0__13TBoss2DeRolLeFPv(void *p);
-
-void *__ct__9TBoss2FinFv(void *, void *, void *, void *);
-
-
-void *__ct__14TBoss2TentacleFP7TObjectll(void *, void *, void *, s32);
-
-s32 __ct__12TObjEneDD_STFP7TObject(void *, void *);
-
-
-
-
-
-u8 *__ct__17AreaAttackHistoryFl(u8 *arg0, s32 arg1);
-
-Buf_8003563C *mem_alloc(int);
-
-
-s32 __ct__7TObjectFP7TObject(void *, void *);
-
-s32 set_matrix_identity(void *);
-
-extern u8 controller_input_state[];
-
-extern saddr TBoss2DeRolLe__base_params;
-
-extern saddr TBoss2DeRolLe__resistance_params;
-
-extern u8 *TBoss2DeRolLe__data_805D4BA0;
-
-extern u32 lbl_805D4BA4;
-
-extern s32 TBoss2DeRolLe__instance;
-
-extern "C" void render_body__13TBoss2DeRolLeFv(u8 *arg0);
-
-extern "C" void dispatch_action__13TBoss2DeRolLeFiUii(saddr arg0, u32 arg1, saddr arg2);
-
-extern "C" void update_colliders_from_offsets__13TBoss2DeRolLeFi(s32 arg0);
-
-extern "C" void vfunc_61__13TBoss2DeRolLeFv();
-
-extern "C" void vfunc_62__13TBoss2DeRolLeFv(TBoss2DeRolLe *arg0);
-
-extern "C" void vfunc_63__13TBoss2DeRolLeFv();
-
-extern "C" void vfunc_28__13TBoss2DeRolLeFv();
-
-extern "C" u8 *__dt__13TBoss2DeRolLeFv(u8 *arg0, s16 arg1);
-
-extern "C" void apply_poison_status__13TBoss2DeRolLeFv();
-
-extern "C" void apply_paralysis__13TBoss2DeRolLeFv();
-
-extern "C" void apply_slow_status__13TBoss2DeRolLeFv();
-
-extern "C" void apply_confusion_status__13TBoss2DeRolLeFv();
-
-extern "C" void apply_movement_ailment__13TBoss2DeRolLeFl();
-
-extern "C" void apply_shock_status__13TBoss2DeRolLeFv();
-
-extern "C" void clear_harmful_statuses__13TBoss2DeRolLeFv();
-
-extern "C" void vfunc_6__8TObjBaseFPsl();
-
-extern "C" void vfunc_103__9TObjEneDDFPUc();
-
-extern "C" void vfunc_79__9TObjEneDDFPl();
-
-extern "C" void vfunc_84__9TObjEneDDFv();
-
-extern "C" void vfunc_85__9TObjEneDDFv();
-
-extern "C" void vfunc_86__9TObjEneDDFv();
-
-extern "C" void vfunc_89__9TObjEneDDFv();
-
-extern "C" void vfunc_90__9TObjEneDDFv();
-
-extern "C" void vfunc_91__9TObjEneDDFv();
-
-extern "C" void vfunc_92__9TObjEneDDFv();
-
-extern "C" void vfunc_94__9TObjEneDDFv();
-
-extern "C" void vfunc_95__9TObjEneDDFv();
-
-extern "C" void vfunc_96__9TObjEneDDFv();
-
-extern "C" void vfunc_97__9TObjEneDDFv();
-
-extern "C" void vfunc_98__9TObjEneDDFv();
-
-extern "C" void vfunc_99__9TObjEneDDFv();
-
-extern "C" void vfunc_100__9TObjEneDDFv();
-
-extern "C" void vfunc_101__9TObjEneDDFPUc();
-
-extern "C" void vfunc_102__9TObjEneDDFv();
-
-extern "C" int vfunc_104__12TObjEneDD_STFf(void *p);
-
-extern "C" void vfunc_83__12TObjEneDD_STFv();
-
-extern "C" void vfunc_105__13TBoss2DeRolLeFv();
-
-extern "C" void render__13TBoss2DeRolLeFv(u8 *arg0);
-
-extern "C" void vfunc_29__9TObjCharaFv();
-
-extern "C" void recalc_stats__9TObjCharaFv();
-
-extern "C" void consume_timer_field__9TObjCharaFl();
-
-extern "C" void vfunc_67__9TObjCharaFf();
-
-extern "C" void vfunc_66__9TObjCharaFv();
-
-extern "C" void get_anim_node_position__9TObjCharaFlP3Vec();
-
-extern "C" void vfunc_60__9TObjCharaFv();
-
-extern "C" void vfunc_59__9TObjCharaFv();
-
-extern "C" void vfunc_58__9TObjCharaFv();
-
-extern "C" void update_shock_clock__9TObjCharaFv();
-
-extern "C" void vfunc_43__9TObjCharaFv();
-
-extern "C" void vfunc_18__9TObjCharaFPUc();
-
-extern "C" void interact__14TObjCollidableFl();
-
-extern "C" void vfunc_74__9TObjEnemyFl();
-
-extern "C" void apply_hit_message_flags__9TObjEnemyFPv();
-
-extern "C" void add_actor_exp__9TObjCharaFl();
-
-extern "C" void apply_action_hold_status__9TObjCharaFf();
-
-extern "C" void apply_anti_technique__9TObjCharaFl();
-
-extern "C" void apply_attack_stat_status__9TObjCharaFPv();
-
-extern "C" void apply_knockback_from_attacker__9TObjCharaFPUcf();
-
-extern "C" void apply_object_set_data__8TObjBaseFPv();
-
-extern "C" void apply_set_data__9TObjEnemyFPv();
-
-extern "C" void apply_switch_attack__9TObjCharaFv();
-
-extern "C" void calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf();
-
-extern "C" void classify_actor_view_detail__8TObjBaseFfff();
-
-extern "C" void clear_all_status_effects__9TObjCharaFv();
-
-extern "C" void cure_paralysis__9TObjCharaFv();
-
-extern "C" void cure_poison_ailment__9TObjCharaFv();
-
-extern "C" void apply_defense_stat_status__9TObjCharaFPv();
-
-extern "C" void enemy_spawn_jellen_effect__9TObjCharaFv();
-
-extern "C" void enemy_spawn_zalure_effect__9TObjCharaFv();
-
-extern "C" void vfunc_78__9TObjCharaFl();
-
-extern "C" void vfunc_77__9TObjCharaFv();
-
-extern "C" void vfunc_76__9TObjCharaFf();
-
-extern "C" void vfunc_75__9TObjCharaFf();
-
-extern "C" void clear_lobby_object_state__9TObjEnemyFv();
-
-extern "C" void get_center__9TObjCharaFv();
-
-extern "C" void get_actor_level_index__9TObjCharaFv();
-
-extern "C" void get_name__9TObjEnemyFv();
-
-extern "C" void get_pos__9TObjCharaFl();
-
-extern "C" void is_actor_cadence_frame__9TObjCharaFl();
-
-extern "C" void is_target_in_attack_range__9TObjCharaFv();
-
-extern "C" void receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll();
-
-extern "C" void receive_physical_attack__9TObjCharaFPvf();
-
-extern "C" void receive_weapon_special_attack__9TObjCharaFPvPv();
-
-extern "C" void render_shadows__9TObjEnemyFv(u8 *arg0);
-
-extern "C" void reset_motion_fields__9TObjCharaFv();
-
-extern "C" void reset_pose__9TObjCharaFv();
-
-extern "C" void roll_physical_accuracy__9TObjCharaFPvlf();
-
-extern "C" void run_task__13TBoss2DeRolLeFPv(u8 *arg0);
-
-extern "C" void select_melee_contact_body__9TObjCharaFPvf();
-
-extern "C" void trigger_switch_attack__9TObjCharaFv(s32 arg0);
-
-extern "C" void try_start_action__9TObjCharaFll();
-
-extern "C" void update_action_hold_status__9TObjCharaFv();
-
-extern "C" s32 vfunc_37__9TObjCharaFv(u8 *arg0);
-
-extern "C" void update_actor_ground_y__9TObjCharaFv();
-
-extern "C" s32 update_attack_stat_status__9TObjCharaFv(u8 *arg0);
-
-extern "C" void update_check__13TBoss2DeRolLeFPv(void *arg0);
-
-extern "C" s32 update_defense_stat_status__9TObjCharaFv(u8 *arg0);
-
-extern "C" void update_flag30_timer__9TObjCharaFv();
-
-extern "C" void update_movement_status__9TObjCharaFv();
-
-extern "C" void update_object_view_visibility__8TObjBaseFff();
-
-extern "C" void update_poison_status__9TObjCharaFv();
-
-using constructor_data::derolle_part_transform_template;
-
-using constructor_data::derolle_action_mode_sequence_table;
-
-using constructor_data::derolle_action_sequence_table;
-
-using constructor_data::TBoss2DeRolLe__shared_handler_id_table;
-
-using constructor_data::lbl_8048228C;
-
-using constructor_data::lbl_804822A8;
-
-using constructor_data::bm_boss2_de_rol_le_model_names;
-
-using constructor_data::bm_boss2_de_rol_le_motion_names;
-
-using constructor_data::boss2_derolle_bml_descriptor;
-
-using constructor_data::lbl_804823A8;
-
-using constructor_data::boss2_derolle_particle_node_indices;
-
-using constructor_data::boss2_derolle_particle_limits;
-
-using constructor_data::__vt__13TBoss2DeRolLe;
-
-u32 TBoss2DeRolLe__mine_ground_targets[15];
-
-u32 boss2_derolle_primary_color_targets[3];
+u32 *boss2_derolle_primary_color_targets[3];
 
 u32 derolle_segment_joint_node_offsets[10];
 
-u32 boss2_derolle_segment_color_targets[10];
+u32 *boss2_derolle_segment_color_targets[10];
 
 u32 TBoss2DeRolLe__attack_params_table[3];
+NJS_ARGB derolle_capture_color;  // the body colour while it draws (derolle_begin_node_capture)
+Vec derolle_capture_origin;      // the node-local point derolle_capture_node_points places
 
-struct Self_8003563C {
-    const char *f0;
-    u8 pad4[0x20];
-    s32 f24;
-    u8 pad28[0x34 - 0x28];
-    s32 f34;
-    Vec pos;
-    u8 pad44[0x3C0 - 0x44];
-    s32 f3C0;
-    s32 f3C4;
-    s32 f3C8;
-    void *f3CC;
-    s32 f3D0;
-    s32 f3D4;
-    u8 obj3D8[0x3F4 - 0x3D8];
-    s32 f3F4;
-    Vec v3F8[20];
-    Vec v4E8[4];
-    Vec v518[3];
-    s32 f53C;
-    Vec v540[10];
-    s32 f5B8[10];
-    void *f5E0[10];
-    f32 f608, f60C, f610, f614;
-    Buf_8003563C *f618;
-    Buf_8003563C *f61C;
-    void *f620[4];
-    void *f630[5];
-    void *f644[3];
-    void *f650;
-    s32 f654, f658, f65C, f660;
-    TUnk_80036250 r664;
-    TUnk_80036250 r684;
-    f32 f6A4;
-    s32 f6A8, f6AC, f6B0, f6B4;
-    void *f6B8;
-    f32 f6BC, f6C0, f6C4;
-    void *f6C8;
-    s32 f6CC, f6D0;
-    f32 f6D4, f6D8;
-    s32 f6DC, f6E0, f6E4, f6E8, f6EC, f6F0, f6F4, f6F8;
-    f32 f6FC[16];
-    s32 f73C;
-    s32 f740[6];
-    s32 f758;
-};
+// The hidden nodes that stand in for derolle_breakup_node's children while the body is broken up.
+NJS_OBJECT derolle_breakup_stub_nodes[11];
 
+void TBoss2DeRolLe::init_6x14(DeRolLeActionTargetPacket *packet) {
+    packet->header.subcommand = 0x14;
+    packet->header.size = 3;
 }
 
+void TBoss2DeRolLe::update_and_send(DeRolLeActionTargetPacket *packet) {
+    swap_endian(packet);
+    send_subcommand(packet);
 }
 
-namespace lifecycle_view {
+void TBoss2DeRolLe::init_6x13(DeRolLeActionPacket *packet) {
+    packet->header.subcommand = 0x13;
+    packet->header.size = 2;
+}
 
-extern "C" {
+void TBoss2DeRolLe::send_6x13(DeRolLeActionPacket *packet) {
+    swap_6x13_fields(packet);
+    send_subcommand(packet);
+}
 
-extern void *tl_04;
+void TBoss2DeRolLe::swap_6x13_fields(DeRolLeActionPacket *packet) {
+    packet->header.bswap();
+    bswap_16((u16 *)&packet->state);
+    bswap_16((u16 *)&packet->sequence_index);
+}
 
-using constructor_view::TBoss2DeRolLe__mine_ground_targets;
-
-using constructor_view::boss2_derolle_primary_color_targets;
-
-using constructor_view::derolle_segment_joint_node_offsets;
-
-using constructor_view::boss2_derolle_segment_color_targets;
-
-using constructor_view::TBoss2DeRolLe__attack_params_table;
-
-u32 lbl_804FE30C[4];
-
-u32 lbl_804FE31C[3];
-
-Slot_80035D24 derolle_segment_texture_slots[11];
-
-extern s32 TBoss2DeRolLe__instance;
-
-void TBoss2DeRolLe__sub_800363A0(void* p) { *(u8*)((char*)p + 0x0) = 20; *(u8*)((char*)p + 0x1) = 3; }
-
-void update_and_send__13TBoss2DeRolLeFPv(void* p) { swap_endian__13TBoss2DeRolLeFPv(p); send_subcommand(p); }
-
-void TBoss2DeRolLe__sub_80036358(void* p) { *(u8*)((char*)p + 0x0) = 19; *(u8*)((char*)p + 0x1) = 2; }
-
-void send_6x13__13TBoss2DeRolLeFPv(void* p) { swap_6x13_fields__13TBoss2DeRolLeFPv(p); send_subcommand(p); }
-
-void swap_6x13_fields__13TBoss2DeRolLeFPv(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16__FPUs((char*)p + 0x4); bswap_16__FPUs((char*)p + 0x6); }
-
-void swap_endian__13TBoss2DeRolLeFPv(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16__FPUs((char*)p + 0x4); bswap_16__FPUs((char*)p + 0x6); bswap_32__FPUl((char*)p + 0x8); }
+void TBoss2DeRolLe::swap_endian(DeRolLeActionTargetPacket *packet) {
+    packet->header.bswap();
+    bswap_16((u16 *)&packet->state);
+    bswap_16((u16 *)&packet->sequence_index);
+    bswap_32((u32 *)&packet->target_id);
+}
 
 void TBoss2DeRolLe::clear_harmful_statuses() {  }
 
@@ -2807,10 +414,6 @@ void TBoss2DeRolLe::apply_poison_status() {  }
 
 TBoss2DeRolLe *TBoss2DeRolLe::get_instance() {
     return (TBoss2DeRolLe *)TBoss2DeRolLe__instance;
-}
-
-}
-
 }
 
 TUnk_80036250::TUnk_80036250() {
@@ -2838,7 +441,7 @@ void TUnk_80036250::init_params(f32 max_speed, f32 distance, f32 accel) {
     speed = 0.0f;
     this->distance = distance;
     travelled = 0.0f;
-    TBoss2DeRolLe__sub_800360A8(this);
+    plan_profile();
 }
 
 void TUnk_80036250::set_move_params(f32 max_speed, f32 distance, f32 accel, f32 decel) {
@@ -2849,99 +452,84 @@ void TUnk_80036250::set_move_params(f32 max_speed, f32 distance, f32 accel, f32 
     speed = 0.0f;
     this->distance = distance;
     travelled = 0.0f;
-    TBoss2DeRolLe__sub_800360A8(this);
+    plan_profile();
 }
-
-namespace lifecycle_view {
 
 extern "C" {
 
-void TBoss2DeRolLe__sub_800360A8(void *arg0) {
-  s8 *new_var;
-  s8 *new_var2;
-  f32 temp_f0;
-  f32 temp_f1;
-  f32 temp_f31;
-  f32 temp_f3;
-  f32 temp_f4;
-  f32 temp_f5;
-  new_var = ((s8 *) arg0) + 0xC;
-  temp_f4 = *((f32 *) (((s8 *) arg0) + 0x10));
-  temp_f31 = -(*((f32 *) (((s8 *) arg0) + 8)));
-  temp_f5 = temp_f4 * temp_f4;
-  temp_f3 = (1.0f / (*((f32 *) (((s8 *) arg0) + 4)))) - (1.0f / temp_f31);
-  new_var2 = ((s8 *) arg0) + 0x1C;
-  temp_f1 = (*((f32 *) (((s8 *) arg0) + 0x14))) + (temp_f5 / (-2.0f * temp_f31));
-  if ((((1.0f / (*((f32 *) (((s8 *) arg0) + 4)))) - (1.0f / temp_f31)) * (0.5f * temp_f5)) > temp_f1)
-  {
-    *((f32 *) new_var) = newton_sqrtf((2.0f * temp_f1) / temp_f3);
-    temp_f3 = (1.0f / (*((f32 *) (((s8 *) arg0) + 4)))) - (1.0f / temp_f31);
-  }
-  temp_f0 = *((f32 *) new_var);
-  *((f32 *) new_var2) = (f32) ((*((f32 *) (((s8 *) arg0) + 0x14))) + ((0.5f * (temp_f0 * temp_f0)) / temp_f31));
+void TUnk_80036250::plan_profile() {
+    f32 cur_speed = speed;
+    f32 neg_decel = -decel;
+    f32 speed_sq = cur_speed * cur_speed;
+    f32 ramp = 1.0f / accel - 1.0f / neg_decel;
+    f32 reach = distance + speed_sq / (-2.0f * neg_decel);
+    f32 top;
+    if ((1.0f / accel - 1.0f / neg_decel) * (0.5f * speed_sq) > reach) {
+        max_speed = newton_sqrtf((2.0f * reach) / ramp);
+    }
+    top = max_speed;
+    brake_point = distance + (0.5f * (top * top)) / neg_decel;
 }
 
-s32 advance_scalar_motion_profile(void *arg0) {
-    f32 temp_f1;
-    f32 temp_f1_2;
-    switch (*(s32 *)((s8 *)arg0 + 0)) {
+s32 TUnk_80036250::advance() {
+    switch (state) {
     case 0:
-        *(f32 *)((s8 *)arg0 + 0x10) = (f32) (*(f32 *)((s8 *)arg0 + 0x10) + *(f32 *)((s8 *)arg0 + 4));
-        if (*(f32 *)((s8 *)arg0 + 0x10) > *(f32 *)((s8 *)arg0 + 0xC)) {
-            *(f32 *)((s8 *)arg0 + 0x10) = *(f32 *)((s8 *)arg0 + 0xC);
-            *(s32 *)((s8 *)arg0 + 0) = 1;
+        speed = speed + accel;
+        if (speed > max_speed) {
+            speed = max_speed;
+            state = 1;
         }
         break;
     case 1:
-        if (*(f32 *)((s8 *)arg0 + 0x18) > *(f32 *)((s8 *)arg0 + 0x1C)) {
-            *(f32 *)((s8 *)arg0 + 0x10) = (f32) (*(f32 *)((s8 *)arg0 + 0x10) - *(f32 *)((s8 *)arg0 + 8));
-            *(s32 *)((s8 *)arg0 + 0) = 2;
+        if (travelled > brake_point) {
+            speed = speed - decel;
+            state = 2;
         }
         break;
     case 2:
-        *(f32 *)((s8 *)arg0 + 0x10) = (f32) (*(f32 *)((s8 *)arg0 + 0x10) - *(f32 *)((s8 *)arg0 + 8));
-        if (*(f32 *)((s8 *)arg0 + 0x10) < 0.0f) {
-            *(f32 *)((s8 *)arg0 + 0x10) = 0.0f;
-            *(s32 *)((s8 *)arg0 + 0) = 3;
+        speed = speed - decel;
+        if (speed < 0.0f) {
+            speed = 0.0f;
+            state = 3;
         }
         break;
     }
-    *(f32 *)((s8 *)arg0 + 0x18) = (f32) (*(f32 *)((s8 *)arg0 + 0x18) + *(f32 *)((s8 *)arg0 + 0x10));
-    if (*(f32 *)((s8 *)arg0 + 0x18) > *(f32 *)((s8 *)arg0 + 0x14)) {
-        *(f32 *)((s8 *)arg0 + 0x18) = *(f32 *)((s8 *)arg0 + 0x14);
+    travelled = travelled + speed;
+    if (travelled > distance) {
+        travelled = distance;
     }
-    return *(s32 *)((s8 *)arg0 + 0);
+    return state;
 }
 
-void load_resources__13TBoss2DeRolLeFv(void) {
+void TBoss2DeRolLe::load_resources() {
     s32 k;
     s32 m2;
     s32 m3;
-    u8 *res;
+    BmlResource *res;
     s32 i;
-    Node_80035D24 *n;
-    Node_80035D24 *m;
-    Slot_80035D24 *p;
+    NJS_OBJECT *n;
+    NJS_OBJECT *m;
+    NJS_OBJECT *p;
     if (TObjEneDD::check_v2_mode() != 0) {
-        res = (u8 *)load_enemy_bml_resource_named(&boss2_derolle_bml_descriptor, "bm_boss2_de_rol_le_a.bml");
+        res = (BmlResource *)load_enemy_bml_resource_named(&boss2_derolle_bml_descriptor, "bm_boss2_de_rol_le_a.bml");
     } else {
-        res = (u8 *)load_enemy_bml_resource(&boss2_derolle_bml_descriptor);
+        res = (BmlResource *)load_enemy_bml_resource(&boss2_derolle_bml_descriptor);
     }
-    (*(u8 * *)&lbl_805D4BA4) = res;
-    TBoss2DeRolLe__current_attack_id = 0;
-    TBoss2DeRolLe__sequence_match_index = 0;
-    lbl_805D4BB0 = 0;
-    ((f32 *)lbl_804FE30C)[0] = 0.0f;
-    ((f32 *)lbl_804FE30C)[1] = 0.0f;
-    ((f32 *)lbl_804FE30C)[2] = 0.0f;
-    ((f32 *)lbl_804FE30C)[3] = 0.0f;
-    ((f32 *)lbl_804FE31C)[0] = 0.0f;
-    ((f32 *)lbl_804FE31C)[1] = 0.0f;
-    ((f32 *)lbl_804FE31C)[2] = 0.0f;
-    lbl_805D4BB4 = 0;
-    lbl_805D4BB8 = 0;
-    lbl_805D4BBC = 0;
-    lbl_805D4BC0 = 0;
+    boss2_derolle_resource = res;
+    derolle_capture_node_index = 0;
+    derolle_capture_position_index = 0;
+    derolle_capture_flags = 0;
+    derolle_capture_color.a = 0.0f;
+    derolle_capture_color.r = 0.0f;
+    derolle_capture_color.g = 0.0f;
+    derolle_capture_color.b = 0.0f;
+    derolle_capture_origin.x = 0.0f;
+    derolle_capture_origin.y = 0.0f;
+    derolle_capture_origin.z = 0.0f;
+    derolle_capture_positions = NULL;
+    derolle_capture_part_points = NULL;
+    derolle_capture_tentacle_matrices = NULL;
+    derolle_capture_node_matrices = NULL;
     for (i = 0; i < 1; i++) {
         TBoss2DeRolLe__base_params[i] = (saddr)TLobby::register_boss(de_rol_le_base_param_ids[i]);
     }
@@ -2952,75 +540,70 @@ void load_resources__13TBoss2DeRolLeFv(void) {
         TBoss2DeRolLe__resistance_params[i] = (saddr)TLobby::register_object(de_rol_le_resistance_param_ids[i]);
     }
     for (i = 0; i < 1; i++) {
-        TBoss2DeRolLe__data_805D4BA0[i] = (saddr)TLobby::dispatch_shared_handler_a(de_rol_le_shared_handler_a_ids[i]);
+        derolle_params[i] = (TBoss2DeRolLeParams *)TLobby::dispatch_shared_handler_a(de_rol_le_shared_handler_a_ids[i]);
     }
     TBoss2DeRolLe__instance = 0;
-    TBoss2Tentacle__sub_8003A0AC();
-    TBoss2Mine__sub_80038D88();
+    TBoss2Tentacle::load_shared_model();
+    TBoss2Mine::load_resources();
     for (k = 0; k < 5; k++) {
-        TObjBoss2Tunnel::adjust_to_ground((saddr)&derolle_mine_offsets[k], (u8 *)TBoss2DeRolLe__mine_ground_targets + k * 0xC);
+        TObjBoss2Tunnel::adjust_to_ground(&derolle_mine_offsets[k], &TBoss2DeRolLe__mine_ground_targets[k]);
     }
     TBoss2Fin::init_effect_table();
-    res = (*(u8 * *)&lbl_805D4BA4);
-    n = *(Node_80035D24 **)(*(u8 **)(*(u8 **)(res + 0x42C) + 0x28) + 0x2C);
+    res = boss2_derolle_resource;
+    // The shell segments' material colour words (just past each chunk list's first 8 bytes).
+    n = res->models[2].model->child;
     for (i = 0; i < 10; i++) {
-        ((s32 *)derolle_segment_joint_node_offsets)[i] = n->h->v + 8;
-        ((s32 *)boss2_derolle_segment_color_targets)[i] = n->sub->h->v + 8;
-        n = n->next;
+        derolle_segment_joint_node_offsets[i] = (u32)(((NJS_CNK_MODEL *)n->model)->polygon_list + 4);
+        boss2_derolle_segment_color_targets[i] = (u32 *)(((NJS_CNK_MODEL *)n->child->model)->polygon_list + 4);
+        n = n->sibling;
     }
-    ((s32 *)boss2_derolle_primary_color_targets)[0] = n->h->v + 8;
-    m = n->next;
-    ((s32 *)boss2_derolle_primary_color_targets)[1] = m->h->v + 8;
-    ((s32 *)boss2_derolle_primary_color_targets)[2] = m->next->h->v + 8;
-    derolle_texture_list_handle = (u8 *)find_model_node(*(s32 *)(*(u8 **)(res + 0x42C) + 0x28), 0x4D);
-    lbl_805D4BCC = *(s32 *)(derolle_texture_list_handle + 0x2C);
+    boss2_derolle_primary_color_targets[0] = (u32 *)(((NJS_CNK_MODEL *)n->model)->polygon_list + 4);
+    m = n->sibling;
+    boss2_derolle_primary_color_targets[1] = (u32 *)(((NJS_CNK_MODEL *)m->model)->polygon_list + 4);
+    boss2_derolle_primary_color_targets[2] = (u32 *)(((NJS_CNK_MODEL *)m->sibling->model)->polygon_list + 4);
+    derolle_breakup_node = (NJS_OBJECT *)find_model_node((uaddr)res->models[2].model, 0x4D);
+    derolle_breakup_node_child = derolle_breakup_node->child;
     for (m2 = 0; m2 < 11; m2++) {
-        p = &derolle_segment_texture_slots[m2];
-        p->kind = 0xF;
-        p->f04 = 0;
-        p->f08[0] = 0.0f;
-        p->f08[1] = 0.0f;
-        p->f08[2] = 0.0f;
-        p->f14 = 0;
-        p->f18 = 0;
-        p->f1C = 0;
-        p->f20[0] = 0.0f;
-        p->f20[1] = 0.0f;
-        p->f20[2] = 0.0f;
-        p->next = 0;
-        p->f30 = 0;
+        p = &derolle_breakup_stub_nodes[m2];
+        p->evalflags = NJD_EVAL_UNIT_POS | NJD_EVAL_UNIT_ANG | NJD_EVAL_UNIT_SCL | NJD_EVAL_HIDE;
+        p->model = 0;
+        p->pos[0] = 0.0f;
+        p->pos[1] = 0.0f;
+        p->pos[2] = 0.0f;
+        p->ang[0] = 0;
+        p->ang[1] = 0;
+        p->ang[2] = 0;
+        p->scl[0] = 0.0f;
+        p->scl[1] = 0.0f;
+        p->scl[2] = 0.0f;
+        p->child = 0;
+        p->sibling = 0;
     }
     for (m3 = 0; m3 < 10; m3++) {
-        derolle_segment_texture_slots[m3].next = &derolle_segment_texture_slots[m3 + 1];
+        derolle_breakup_stub_nodes[m3].child = &derolle_breakup_stub_nodes[m3 + 1];
     }
-    p = &derolle_segment_texture_slots[10];
-    p->kind = 0x1F;
-    p->next = 0;
+    p = &derolle_breakup_stub_nodes[10];
+    p->evalflags = NJD_EVAL_UNIT_POS | NJD_EVAL_UNIT_ANG | NJD_EVAL_UNIT_SCL | NJD_EVAL_HIDE | NJD_EVAL_BREAK;
+    p->child = 0;
     TObjPlayer::create_breakup_model();
     TObjPlayer__sub_8002E7C8();
     TWindowCtrl::init_all_slots();
 }
 
-void *create__13TBoss2DeRolLeFPv(void *arg0) {
-    void *o = TObject::operator new(0x75C);
-    if (o != NULL) {
-        o = TBoss2DeRolLe__ct(o, tl_04, arg0);
-    }
-    return o;
+void *TBoss2DeRolLe::create(void *set_data) {
+    return new TBoss2DeRolLe(tl_04, set_data);
 }
 
-void reset_parts__13TBoss2DeRolLeFv(void) {
+void TBoss2DeRolLe::reset_parts() {
     TObjPlayer::clear_target_ref();
     TObjPlayer__sub_8002EB88();
-    TBoss2Fin__sub_800367C0();
-    TBoss2Mine__sub_80038D84();
-    TBoss2Tentacle__sub_8003A0A8();
-    if ((u32) lbl_805D4BA4 != 0U) {
-        delete (BmlResource *)lbl_805D4BA4;
-        lbl_805D4BA4 = 0U;
+    TBoss2Fin::release_effect_table();
+    TBoss2Mine::free_resources();
+    TBoss2Tentacle::release_shared_model();
+    if (boss2_derolle_resource != NULL) {
+        delete boss2_derolle_resource;
+        boss2_derolle_resource = NULL;
     }
-}
-
 }
 
 }
@@ -3032,469 +615,413 @@ void reset_parts__13TBoss2DeRolLeFv(void) {
 #pragma auto_inline off
 #pragma dont_inline off
 
-#define self ((Self_8003563C *)arg0)
-
-namespace constructor_view {
-
-extern "C" {
-
-void *TBoss2DeRolLe__ct(void *arg0, void *arg1, void *arg2) {
-    u16 a;
-    void *p;
-    s32 b;
+TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(parent), part_group(NULL) {
+    u16 id;
+    s32 set;
     s32 i;
     s32 j;
     s32 k;
     s32 m;
 
-    __ct__12TObjEneDD_STFP7TObject(arg0, arg1);
-    *(u8 **)((s8 *)self + 0x18) = (u8 *)__vt__13TBoss2DeRolLe;
-    __ct__7TObjectFP7TObject(self->obj3D8, 0);
-    __ct__13TUnk_80036250Fv(&self->r664);
-    __ct__13TUnk_80036250Fv(&self->r684);
-    self->f0 = boss2_de_rol_le_class_name;
-    if ((u32)TBoss2DeRolLe__instance == 0) {
-        TBoss2DeRolLe__instance = (saddr)self;
+    m_name = boss2_de_rol_le_class_name;
+    if (TBoss2DeRolLe__instance == NULL) {
+        TBoss2DeRolLe__instance = this;
     }
-    ((TObjEneDD *)self)->invoke_initialization_hook(arg2);
-    self->f3C0 = 0;
+    invoke_initialization_hook(set_data);
+    state_flags = 0;
     {
         // exchange_object_state copies the object's whole 12-byte lobby record
         u32 flags[3];
-        if (((TObjEnemy *)self)->exchange_object_state(flags, 1) != 0 && (flags[0] & 0x12008) == 0x12008) {
-            self->f3C0 |= 0x8000;
+        if (exchange_object_state(flags, 1) != 0 && (flags[0] & 0x12008) == 0x12008) {
+            state_flags |= 0x8000;
         }
     }
-    ((TObjEneDD *)self)->init_position_vectors();
-    {
-        u8 *q;
-        q = *(u8 **)((s8 *)lbl_805D4BA4 + 0x42C);
-        self->f34 = *(s32 *)((s8 *)q + 0x28);
-        q = *(u8 **)((s8 *)lbl_805D4BA4 + 0x42C);
-        self->f24 = *(s32 *)((s8 *)q + 0x2C);
-        ((TObjEneDD *)self)->init_model((CollisionBody *)((u8 *)lbl_804822A8), 3);
-    }
-    ((TBoss2DeRolLe *)self)->motion_flags = 0;
-    ((TObjMotion *)self)->set_field_d8((saddr)((u8 *)lbl_804823A8));
-    ((TObjMotion *)self)->set_field_dc(*(s32 *)((s8 *)lbl_805D4BA4 + 0x430));
-    ((TBoss2DeRolLe *)self)->requested_action = 0;
-    ((TObjMotion *)self)->set_animation(((TBoss2DeRolLe *)self)->requested_action);
-    ((TObjMotion *)self)->set_field_b8(((TBoss2DeRolLe *)self)->requested_action);
-    ((TObjEneDD *)self)->reset_hp((u8 *)TBoss2DeRolLe__base_params, (u8 *)(((saddr *)TBoss2DeRolLe__attack_params_table)[0]), (u8 *)TBoss2DeRolLe__resistance_params);
-    ((TObjEneDD *)self)->set_state_flag_2();
-    ((TBoss2DeRolLe *)self)->movementParameters = (u8 *)lbl_8048228C;
-    ((TObjEneDD *)self)->initialize_enemy_state(0x2D);
-    ((TBoss2DeRolLe *)self)->m_37c = 20.0f;
-    ((TObjEneDD_ST *)self)->enemy_init_acquire_period(0x1E);
-    ((TObjEneDD_ST *)self)->enemy_init_validate_period(0x1E);
-    self->f3C4 = 0;
-    self->f3D0 = 0;
-    self->f3D4 = 0;
+    init_position_vectors();
+    model = boss2_derolle_resource->models[2].model;
+    texlist = (saddr)boss2_derolle_resource->models[2].m_c;
+    init_model(boss2_derolle_collision_bodies, 3);
+    motion_flags = 0;
+    set_field_d8((saddr)boss2_derolle_action_table);
+    set_field_dc((saddr)boss2_derolle_resource->motions);
+    requested_action = 0;
+    set_animation(requested_action);
+    set_field_b8(requested_action);
+    reset_hp((u8 *)TBoss2DeRolLe__base_params[0], (u8 *)TBoss2DeRolLe__attack_params_table[0], (u8 *)TBoss2DeRolLe__resistance_params[0]);
+    set_state_flag_2();
+    movementParameters = &boss2_derolle_movement;
+    initialize_enemy_state(0x2D);
+    wall_reach = 20.0f;
+    enemy_init_acquire_period(30);
+    enemy_init_validate_period(30);
+    unk_3C4 = 0;
+    unk_3D0 = 0;
+    action_index = 0;
     for (i = 0; i < 20; i++) {
-        self->v3F8[i].x = 0.0f;
-        self->v3F8[i].y = 0.0f;
-        self->v3F8[i].z = 0.0f;
+        node_positions[i].x = 0.0f;
+        node_positions[i].y = 0.0f;
+        node_positions[i].z = 0.0f;
     }
     for (i = 0; i < 4; i++) {
-        self->v4E8[i].x = 0.0f;
-        self->v4E8[i].y = 0.0f;
-        self->v4E8[i].z = 0.0f;
+        part_points[i].x = 0.0f;
+        part_points[i].y = 0.0f;
+        part_points[i].z = 0.0f;
     }
-    self->f61C = mem_alloc(0xC0);
+    tentacle_matrices = (GC_Mtx *)mem_alloc(4 * sizeof(GC_Mtx));
     for (i = 0; i < 4; i++) {
-        set_matrix_identity(&self->f61C[i]);
-        p = TObject::operator new(0x158);
-        if (p != NULL) {
-            p = __ct__14TBoss2TentacleFP7TObjectll(p, self->obj3D8, &self->f61C[i], i);
-        }
-        self->f620[i] = p;
+        set_matrix_identity((u8 *)tentacle_matrices[i]);
+        tentacles[i] = new TBoss2Tentacle(&part_group, (s32)&tentacle_matrices[i], i);
     }
     Vec v = {10000.0f, 10000.0f, 10000.0f};
-    a = ((TBoss2DeRolLe *)self)->entity_id + 1;
-    b = ((TBoss2DeRolLe *)self)->set_index + 1;
+    id = entity_id + 1;
+    set = set_index + 1;
     for (j = 0; j < 10; j++) {
-        VecCopy__FP3VecPC3Vec(&self->v540[j], &v);
-        self->f5B8[j] = -1;
-        p = new TBoss2Joint((TObject *)self, a++, b++, (const Vec *)&self->v540[j], ((s32 *)derolle_segment_joint_node_offsets)[j], ((s32 *)boss2_derolle_segment_color_targets)[j]);
-        self->f5E0[j] = p;
+        VecCopy(&joint_positions[j], &v);
+        unk_5B8[j] = -1;
+        joints[j] = new TBoss2Joint(this, id++, set++, &joint_positions[j], derolle_segment_joint_node_offsets[j], (s32)boss2_derolle_segment_color_targets[j]);
     }
     for (i = 0; i < 5; i++) {
-        p = new TUnk_80482EC0((TObject *)self->obj3D8, a++, b++);
-        self->f630[i] = p;
+        mines[i] = new TUnk_80482EC0(&part_group, id++, set++);
     }
     for (i = 0; i < 3; i++) {
-        p = new TUnk_80482D04((TObject *)self->obj3D8, a++, b++);
-        self->f644[i] = p;
+        target_mines[i] = new TUnk_80482D04(&part_group, id++, set++);
     }
-    p = TObject::operator new(0x88);
-    if (p != NULL) {
-        p = __ct__9TBoss2FinFv(p, self->obj3D8, (u8 *)self + 0x404, (u8 *)self + 0x470);
+    {
+        void *p = TObject::operator new(0x88);
+        if (p != NULL) {
+            p = __ct__9TBoss2FinFv(p, &part_group, &node_positions[1], &node_positions[10]);
+        }
+        fin = (TBoss2Fin *)p;
     }
-    self->f650 = p;
-    self->f654 = 0;
-    self->f658 = 0;
-    self->f65C = 0;
-    self->f660 = 0;
-    self->r664.init_float_block();
-    self->r684.init_float_block();
-    self->f6A4 = 0.0f;
-    self->f6A8 = self->f6AC = *(s32 *)((s8 *)TBoss2DeRolLe__data_805D4BA0 + 0x18);
-    self->f6B0 = *(s32 *)((s8 *)TBoss2DeRolLe__data_805D4BA0 + 0x20);
-    ((TBoss2DeRolLe *)self)->hpmax = ((TBoss2DeRolLe *)self)->hp = 0x4E20;
-    self->f6B4 = 0;
-    self->f6B8 = new TBoss2LaserLight((TObject *)self->obj3D8, (u32)(uaddr)&self->f6BC);
-    self->f6BC = 0.0f;
-    self->f6C0 = 0.0f;
-    self->f6C4 = 0.0f;
-    p = ::operator new(0x10);
-    if (p != NULL) {
-        p = __ct__17AreaAttackHistoryFl((u8 *)p, 4);
-    }
-    self->f6C8 = p;
-    fill_value_array(self->f6C8);
-    self->f6CC = 0;
-    self->f6D0 = 0;
-    self->f6D4 = 1.0f;
-    self->f6D8 = 0.1f;
+    position_index = 0;
+    next_position_index = 0;
+    unk_65C = 0;
+    unk_660 = 0;
+    motion_x.init_float_block();
+    motion_z.init_float_block();
+    height_offset = 0.0f;
+    unk_6A8 = unk_6AC = derolle_params[0]->unk_18;
+    unk_6B0 = derolle_params[0]->unk_20;
+    hpmax = hp = 20000;
+    photon_pad_level = 0;
+    laser_light = new TBoss2LaserLight(&part_group, &laser_light_pos);
+    laser_light_pos.x = 0.0f;
+    laser_light_pos.y = 0.0f;
+    laser_light_pos.z = 0.0f;
+    attack_history = new AreaAttackHistory(4);
+    fill_value_array(attack_history);
+    hit_trail = NULL;
+    hit_trail_long = NULL;
+    pulse_phase = 1.0f;
+    pulse_speed = 0.1f;
     for (k = 0; k < 3; k++) {
-        VecCopy__FP3VecPC3Vec(&self->v518[k], &self->pos);
+        VecCopy(&unk_518[k], &position);
     }
-    self->f53C = 0;
-    self->f608 = 1.0f;
-    self->f60C = 1.0f;
-    self->f610 = 1.0f;
-    self->f614 = 1.0f;
-    self->f618 = mem_alloc(0x240);
+    unk_53C = 0;
+    body_color.a = 1.0f;
+    body_color.r = 1.0f;
+    body_color.g = 1.0f;
+    body_color.b = 1.0f;
+    node_matrices = (GC_Mtx *)mem_alloc(12 * sizeof(GC_Mtx));
     for (i = 0; i < 12; i++) {
-        set_matrix_identity(&self->f618[i]);
+        set_matrix_identity((u8 *)node_matrices[i]);
     }
     for (m = 0; m < 6; m++) {
-        self->f740[m] = 0;
+        splash_ctrls[m] = NULL;
     }
-    self->f758 = 0;
-    self->f6DC = 0;
-    self->f6E0 = 0;
-    self->f6E4 = 0;
-    self->f6E8 = 0;
-    self->f6EC = 0;
-    self->f6F0 = 0;
-    self->f6F4 = 0;
-    self->f6F8 = 0;
-    self->f6FC[0] = 0.0f;
-    self->f6FC[1] = 0.0f;
-    self->f6FC[2] = 0.0f;
-    self->f6FC[3] = 0.0f;
-    self->f6FC[4] = 0.0f;
-    self->f6FC[5] = 0.0f;
-    self->f6FC[6] = 0.0f;
-    self->f6FC[7] = 0.0f;
-    self->f6FC[8] = 0.0f;
-    self->f6FC[9] = 0.0f;
-    self->f6FC[10] = 0.0f;
-    self->f6FC[11] = 0.0f;
-    self->f6FC[12] = 0.0f;
-    self->f6FC[13] = 0.0f;
-    self->f6FC[14] = 0.0f;
-    self->f6FC[15] = 0.0f;
-    self->f73C = 0;
-    self->f3C8 = 0;
-    self->f3CC = controller_input_state + 0x70;
+    splash_joint = 0;
+    laser_shot_count = 0;
+    state_step = 0;
+    unk_6E4 = 0;
+    unk_6E8 = 0;
+    unk_6EC = 0;
+    unk_6F0 = 0;
+    unk_6F4 = 0;
+    unk_6F8 = 0;
+    state_floats[0] = 0.0f;
+    state_floats[1] = 0.0f;
+    state_floats[2] = 0.0f;
+    state_floats[3] = 0.0f;
+    state_floats[4] = 0.0f;
+    state_floats[5] = 0.0f;
+    state_floats[6] = 0.0f;
+    state_floats[7] = 0.0f;
+    state_floats[8] = 0.0f;
+    state_floats[9] = 0.0f;
+    state_vectors[0].x = 0.0f;
+    state_vectors[0].y = 0.0f;
+    state_vectors[0].z = 0.0f;
+    state_vectors[1].x = 0.0f;
+    state_vectors[1].y = 0.0f;
+    state_vectors[1].z = 0.0f;
+    unk_73C = NULL;
+    debug_pad_active = 0;
+    debug_pad = &controller_input_state.controllers[1];
     if (TObjEneDD::is_main_phase_15() != 0) {
-        if (((TObjEneDD *)self)->update_lobby_state() != 0) {
-            self->f3F4 = 0;
+        if (update_lobby_state() != 0) {
+            unk_3F4 = 0;
         } else {
-            self->f3F4 = 1;
+            unk_3F4 = 1;
         }
     } else {
-        self->f3F4 = 0;
+        unk_3F4 = 0;
     }
-    reset_fields_3d0__13TBoss2DeRolLeFPv(self);
-    if (!(self->f3C0 & 0x8000)) {
-        ((TBoss2DeRolLe *)self)->mode = 1;
-        ((VObj_18_bd2ad6 *)self)->m85(((TBoss2DeRolLe *)self)->mode, 4);
+    reset_action_sequence();
+    if (!(state_flags & 0x8000)) {
+        mode = 1;
+        dispatch_action(mode, 4);
     }
-    return self;
-}
-
-}
-
 }
 
 #pragma pop
 
-#undef self
-#define self ((Self_80035420 *)arg0)
-
-namespace lifecycle_view {
+TBoss2DeRolLe::~TBoss2DeRolLe() {
+    s32 i;
+    if (unk_73C != NULL) {
+        unk_73C->queue_destruction();
+        unk_73C = NULL;
+    }
+    for (i = 0; i < 6; i++) {
+        if (splash_ctrls[i] != NULL) {
+            splash_ctrls[i]->queue_destruction();
+            splash_ctrls[i] = NULL;
+        }
+    }
+    mem_free(node_matrices);
+    node_matrices = NULL;
+    if (hit_trail != NULL) {
+        hit_trail->queue_destruction();
+        hit_trail = NULL;
+    }
+    if (hit_trail_long != NULL) {
+        hit_trail_long->queue_destruction();
+        hit_trail_long = NULL;
+    }
+    if (attack_history != NULL) {
+        delete attack_history;
+        attack_history = NULL;
+    }
+    if (laser_light != NULL) {
+        laser_light->queue_destruction();
+        laser_light = NULL;
+    }
+    if (fin != NULL) {
+        fin->queue_destruction();
+        fin = NULL;
+    }
+    for (i = 2; i >= 0; i--) {
+        target_mines[i]->queue_destruction();
+        target_mines[i] = NULL;
+    }
+    for (i = 4; i >= 0; i--) {
+        mines[i]->queue_destruction();
+        mines[i] = NULL;
+    }
+    for (i = 9; i >= 0; i--) {
+        joints[i]->queue_destruction();
+        joints[i] = NULL;
+    }
+    for (i = 3; i >= 0; i--) {
+        tentacles[i]->queue_destruction();
+        tentacles[i] = NULL;
+    }
+    mem_free(tentacle_matrices);
+    free_collision_body_parts(this);
+    if (TBoss2DeRolLe__instance == this) {
+        TBoss2DeRolLe__instance = NULL;
+    }
+}
 
 extern "C" {
 
-u8 *__dt__13TBoss2DeRolLeFv(u8 *arg0, s16 arg1) {
-    s32 i;
-    if (arg0 != NULL) {
-        self->vtable = __vt__13TBoss2DeRolLe;
-        if (self->x73C != NULL) {
-            ((TObject *)self->x73C)->queue_destruction();
-            self->x73C = NULL;
-        }
-        for (i = 0; i < 6; i++) {
-            if (self->a740[i] != NULL) {
-                ((TObject *)self->a740[i])->queue_destruction();
-                self->a740[i] = NULL;
-            }
-        }
-        mem_free((void *)self->x618);
-        self->x618 = 0;
-        if (self->x6CC != NULL) {
-            ((TObject *)self->x6CC)->queue_destruction();
-            self->x6CC = NULL;
-        }
-        if (self->x6D0 != NULL) {
-            ((TObject *)self->x6D0)->queue_destruction();
-            self->x6D0 = NULL;
-        }
-        if (self->x6C8 != NULL) {
-            __dt__17AreaAttackHistoryFv((saddr)self->x6C8, 1);
-            self->x6C8 = NULL;
-        }
-        if (self->x6B8 != NULL) {
-            ((TObject *)self->x6B8)->queue_destruction();
-            self->x6B8 = NULL;
-        }
-        if (self->x650 != NULL) {
-            ((TObject *)self->x650)->queue_destruction();
-            self->x650 = NULL;
-        }
-        for (i = 2; i >= 0; i--) {
-            ((TObject *)self->a644[i])->queue_destruction();
-            self->a644[i] = NULL;
-        }
-        for (i = 4; i >= 0; i--) {
-            ((TObject *)self->a630[i])->queue_destruction();
-            self->a630[i] = NULL;
-        }
-        for (i = 9; i >= 0; i--) {
-            ((TObject *)self->a5E0[i])->queue_destruction();
-            self->a5E0[i] = NULL;
-        }
-        for (i = 3; i >= 0; i--) {
-            ((TObject *)self->a620[i])->queue_destruction();
-            self->a620[i] = NULL;
-        }
-        mem_free((void *)self->x61C);
-        free_collision_body_parts(self);
-        if ((u32)TBoss2DeRolLe__instance == (uaddr)arg0) {
-            TBoss2DeRolLe__instance = 0;
-        }
-        ((TUnk_80036250 *)(arg0 + 0x684))->~TUnk_80036250();
-        ((TUnk_80036250 *)(arg0 + 0x664))->~TUnk_80036250();
-        __dt__7TObjectFv(arg0 + 0x3D8, -1);
-        __dt__12TObjEneDD_STFv(self, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(self);
-        }
-    }
-    return arg0;
-}
-
-#undef self
-
-void run_task__13TBoss2DeRolLeFPv(u8 *arg0) {
-  s16 temp_r0_2;
-  s32 temp_r0_3;
-  s32 temp_r30;
-  s32 temp_r3;
-  if (((TObjEneDD *)arg0)->get_target_info() != 0)
+void TBoss2DeRolLe::run_task() {
+  s32 teammate_state;
+  s32 flags;
+  if (get_target_info() != 0)
   {
-    (((VObj_18_bd2ad6 *)(arg0))->m103());
+    vfunc_105();
     return;
   }
-  temp_r3 = *((s32 *) (((s8 *) arg0) + 0x3C0));
-  if (temp_r3 & 0x8000)
+  flags = state_flags;
+  if (flags & 0x8000)
   {
-    ((TObjEnemy *)arg0)->send_entity_set_flags();
-    ((TObject *)arg0)->queue_destruction();
+    send_entity_set_flags();
+    queue_destruction();
     return;
   }
-  if (temp_r3 & 0x80)
+  if (flags & 0x80)
   {
-    *((s32 *) (((s8 *) arg0) + 0x3C0)) = (s32) (temp_r3 & 0xFFFFFF7F);
-    *((s32 *) (((s8 *) arg0) + 0x3C0)) = (s32) ((*((s32 *) (((s8 *) arg0) + 0x3C0))) | 0x40);
-    new TUnk_80482090((TObject *) arg0, *((u32 *) (((s8 *) arg0) + 0x618)));
+    state_flags = flags & ~0x80;
+    state_flags |= 0x40;
+    new TUnk_80482090(this, (u32)node_matrices);
   }
-  if ((TObjEneDD::is_main_phase_15() != 0) && (((s32) (*((s32 *) (((s8 *) arg0) + 0x3C8)))) == 0))
+  if ((TObjEneDD::is_main_phase_15() != 0) && (debug_pad_active == 0))
   {
-    if (((TObjEneDD *)arg0)->update_lobby_state() != 0)
+    if (update_lobby_state() != 0)
     {
-      *((s32 *) (((s8 *) arg0) + 0x3F4)) = 0;
+      unk_3F4 = 0;
     }
     else
     {
-      *((s32 *) (((s8 *) arg0) + 0x3F4)) = 1;
+      unk_3F4 = 1;
     }
   }
-  if ((((s32) (*((s32 *) (((s8 *) arg0) + 0x3C8)))) != 0) && ((*((s32 *) (((s8 *) (*((u8 **) (((s8 *) arg0) + 0x3CC)))) + 8))) & 0x10000))
+  if ((debug_pad_active != 0) && (debug_pad->unknown_08 & 0x10000))
   {
-    switch (*((s32 *) (((s8 *) arg0) + 0x3F4)))
+    switch (unk_3F4)
     {
       case 1:
-        *((s32 *) (((s8 *) arg0) + 0x3F4)) = 0;
-        advance_action_sequence__13TBoss2DeRolLeFPv((void *) arg0);
+        unk_3F4 = 0;
+        advance_action_sequence();
         break;
       case 0:
-        *((s32 *) (((s8 *) arg0) + 0x3F4)) = 2;
+        unk_3F4 = 2;
         break;
       case 2:
-        *((s32 *) (((s8 *) arg0) + 0x3F4)) = 1;
+        unk_3F4 = 1;
         break;
     }
   }
-  temp_r30 = TObjEneDD::query_teammate_state();
-  (((TBoss2DeRolLe *)(arg0))->update_attack_stat_status());
-  (((TBoss2DeRolLe *)(arg0))->update_defense_stat_status());
-  if (temp_r30 == 0)
+  teammate_state = TObjEneDD::query_teammate_state();
+  update_attack_stat_status();
+  update_defense_stat_status();
+  if (teammate_state == 0)
   {
-    temp_r0_2 = ((TBoss2DeRolLe *)arg0)->mode;
-    temp_r3 = temp_r0_2;
-    if (((temp_r0_2 == 0x1F) || (temp_r3 == 0x20)) || (temp_r0_2 == 0x1E))
+    if (mode == 0x1F || mode == 0x20 || mode == 0x1E)
     {
-      ((TBoss2DeRolLe *)arg0)->actorFlags = (s32) ((((TBoss2DeRolLe *)arg0)->actorFlags) | 0x800);
+      actorFlags |= 0x800;
     }
     else
     {
-      ((TBoss2DeRolLe *)arg0)->actorFlags = (s32) ((((TBoss2DeRolLe *)arg0)->actorFlags) & 0xFFFFF7FF);
+      actorFlags &= ~0x800;
     }
-    temp_r0_3 = *((s32 *) (((s8 *) arg0) + 0x3F4));
-    if (temp_r0_3 != 1)
+    if (unk_3F4 != 1)
     {
-      if (temp_r0_3 == 2)
+      if (unk_3F4 == 2)
       {
-        if (is_ready__13TBoss2DeRolLeFPv((void *)((void *) arg0)) != 0)
+        if (is_ready() != 0)
         {
-          TBoss2DeRolLe__sub_80034034((void *) arg0);
+          sub_80034034();
         }
         else
         {
-          (((VObj_18_bd2ad6 *)(arg0))->m85((((TBoss2DeRolLe *)arg0)->mode), 2));
+          dispatch_action(mode, 2);
         }
       }
       else
       {
-        TBoss2DeRolLe__sub_8003508C((void *) arg0);
+        sub_8003508C();
       }
-      if ((((TBoss2DeRolLe *)(arg0))->test_flag30_512()) != 0)
+      if (test_flag30_512() != 0)
       {
-        (((TBoss2DeRolLe *)(arg0))->vfunc_62());
+        run_hit_reaction();
       }
-      (((VObj_18_bd2ad6 *)(arg0))->m85((((TBoss2DeRolLe *)arg0)->mode), 8));
-      (((VObj_18_bd2ad6 *)(arg0))->m85((((TBoss2DeRolLe *)arg0)->mode), 0));
+      dispatch_action(mode, 8);
+      dispatch_action(mode, 0);
     }
     else
     {
-      if ((((TBoss2DeRolLe *)(arg0))->test_flag30_512()) != 0)
+      if (test_flag30_512() != 0)
       {
-        (((TBoss2DeRolLe *)(arg0))->vfunc_62());
+        run_hit_reaction();
       }
-      (((VObj_18_bd2ad6 *)(arg0))->m85((((TBoss2DeRolLe *)arg0)->mode), 0));
+      dispatch_action(mode, 0);
     }
-    ((TBoss2DeRolLe *)arg0)->advance_phase_wrap();
-    update_projectile_spawns__13TBoss2DeRolLeFPv(arg0);
+    advance_phase_wrap();
+    update_projectile_spawns();
   }
-  ((TObjEneDD *)arg0)->sub_800BBA0C();
-  (((VObj_18_bd2ad6 *)(arg0))->m86());
-  backup_pos__13TBoss2DeRolLeFi((saddr)arg0);
-  ((TObjEnemy *)arg0)->submit_default_cursor_candidate();
-  add_radar_scaled_marker(arg0 + 0x38, -0x5DB4, 1, 1, 2.0f);
-  update_particle_ctrls__13TBoss2DeRolLeFPv((void *) arg0);
-  if (temp_r30 == 0)
+  sub_800BBA0C();
+  update_body_colliders();
+  backup_pos__13TBoss2DeRolLeFi(this);
+  submit_default_cursor_candidate();
+  add_radar_scaled_marker(&position, -0x5DB4, 1, 1, 2.0f);
+  update_particle_ctrls();
+  if (teammate_state == 0)
   {
-    ((TObject *)(arg0 + 0x3D8))->run_tasks();
+    part_group.run_tasks();
   }
 }
 
-void TBoss2DeRolLe__sub_8003508C(void *arg0) {
-    struct VBase_8003508C_80035084 *o = (struct VBase_8003508C_80035084 *)arg0;
-    if (is_ready__13TBoss2DeRolLeFPv(arg0) != 0) {
-        TBoss2DeRolLe__sub_80034034(arg0);
+}
+
+void TBoss2DeRolLe::sub_8003508C() {
+    if (is_ready() != 0) {
+        sub_80034034();
         return;
     }
-    o->m85(((TBoss2DeRolLe *)arg0)->mode, 9);
+    dispatch_action(mode, 9);
 }
-
-void TBoss2DeRolLe::vfunc_28() {  }
-
-void TBoss2DeRolLe::vfunc_63() {  }
-
-}
-
-}
-
-namespace joint_state_view {
 
 extern "C" {
 
-void TBoss2DeRolLe::vfunc_62() {
-    s32 temp_r4;
-    temp_r4 = this->hpmax - this->hp;
-    if (*(s32 *)((s8 *)this + 0x3C0) & 8) {
-        this->m_6c8 = (s32) (this->m_6c8 - temp_r4);
-        spawn_offset_particle__13TBoss2DeRolLeFiff(*(s32 *)((s8 *)this + 0xA4) + 0x1C, 2.0f, 8.0f);
-        play_sound((void *)0x4003A80F, (saddr)((u8 *)this + 0x518));
-    } else {
-        this->m_6cc = (s32) (this->m_6cc - temp_r4);
-        if ((s32) this->m_6cc < 0) {
-            this->m_6cc = 0;
-            set_flags_play_sound__13TBoss2DeRolLeFPv((u8 *)this);
-        }
-    }
-    this->hp = (s16) this->hpmax;
-    ((TObjEneDD *)this)->clear_attack_receipts();
+void TBoss2DeRolLe::refresh_target() {  }
+
+void TBoss2DeRolLe::run_death_reaction() {  }
+
 }
 
-void TBoss2DeRolLe::vfunc_61() {  }
+extern "C" {
 
-void backup_pos__13TBoss2DeRolLeFi(s32 arg0) {
-    VecCopy__FP3VecPC3Vec(arg0 + 0x2FC, arg0 + 0x38);
-    VecCopy__FP3VecPC3Vec(arg0 + 0x74, arg0 + 0x2FC);
+void TBoss2DeRolLe::run_hit_reaction() {
+    s32 damage;
+    damage = hpmax - hp;
+    if (state_flags & 8) {
+        unk_6AC = unk_6AC - damage;
+        spawn_offset_particle(&bodies->center, 2.0f, 8.0f);
+        play_sound(0x4003A80F, &unk_518[0]);
+    } else {
+        unk_6B0 = unk_6B0 - damage;
+        if (unk_6B0 < 0) {
+            unk_6B0 = 0;
+            set_flags_play_sound();
+        }
+    }
+    hp = hpmax;
+    clear_attack_receipts();
+}
+
+void TBoss2DeRolLe::run_miss_reaction() {  }
+
+void backup_pos__13TBoss2DeRolLeFi(TBoss2DeRolLe *boss) {
+    VecCopy(&boss->body_center, &boss->position);
+    VecCopy(&boss->center, &boss->body_center);
 }
 
 #pragma push
 #pragma fp_contract on
 
-void update_colliders_from_offsets__13TBoss2DeRolLeFi(s32 arg0) {
-    Vec sp20;
-    Vec sp14;
-    Vec sp8;
-    VecCopy__FP3VecPC3Vec((saddr)&sp8, arg0 + 0x440);
-    VecCopy__FP3VecPC3Vec((saddr)&sp14, arg0 + 0x500);
-    VecCopy__FP3VecPC3Vec((saddr)&sp20, arg0 + 0x50C);
-    update_local_colliders_from_world(arg0, &sp8);
+void TBoss2DeRolLe::update_body_colliders() {
+    Vec offsets[3];
+    VecCopy(&offsets[0], &node_positions[6]);
+    VecCopy(&offsets[1], &part_points[2]);
+    VecCopy(&offsets[2], &part_points[3]);
+    update_local_colliders_from_world(this, offsets);
 }
 
 #pragma pop
 
-void set_state_and_send__13TBoss2DeRolLeFPvi(Obj_80034E90 *self, s32 kind) {
-    Pkt16_80034E90 p16;
-    Pkt8_80034E90 p8;
-    Fld_80034E90 *f = (Fld_80034E90 *)self;
-    self->m85(kind, 6);
-    if (kind == 0x19 || (kind - 0x14) <= 1U || kind == 0x1B) {
-        TBoss2DeRolLe__sub_800363A0(&p16);
-        p16.a = f->f1C;
-        p16.b = kind;
-        p16.c = f->f3D4;
-        p16.d = f->f38C;
-        update_and_send__13TBoss2DeRolLeFPv(&p16);
-        return;
-    }
-    TBoss2DeRolLe__sub_80036358(&p8);
-    p8.a = f->f1C;
-    p8.b = kind;
-    p8.c = f->f3D4;
-    send_6x13__13TBoss2DeRolLeFPv(&p8);
 }
 
-void reload_stats_for_phase__13TBoss2DeRolLeFPvi(void *self, s32 kind) {
+void TBoss2DeRolLe::set_state_and_send(s32 state) {
+    DeRolLeActionTargetPacket target_packet;
+    DeRolLeActionPacket packet;
+    dispatch_action(state, 6);
+    if (state == 0x19 || (state - 0x14) <= 1U || state == 0x1B) {
+        init_6x14(&target_packet);
+        target_packet.header.client_id = entity_id;
+        target_packet.state = state;
+        target_packet.sequence_index = action_index;
+        target_packet.target_id = target_id;
+        update_and_send(&target_packet);
+        return;
+    }
+    init_6x13(&packet);
+    packet.header.client_id = entity_id;
+    packet.state = state;
+    packet.sequence_index = action_index;
+    send_6x13(&packet);
+}
+
+void TBoss2DeRolLe::reload_stats_for_phase(s32 kind) {
     s32 a;
     s32 i;
     s32 b;
@@ -3516,333 +1043,315 @@ void reload_stats_for_phase__13TBoss2DeRolLeFPvi(void *self, s32 kind) {
         b = 0;
         break;
     }
-    ((TObjEneDD *)self)->reload_stats_keep_hp_tp((u8 *)TBoss2DeRolLe__base_params[a], (u8 *)TBoss2DeRolLe__attack_params_table[i], (u8 *)TBoss2DeRolLe__resistance_params[b]);
+    reload_stats_keep_hp_tp((u8 *)TBoss2DeRolLe__base_params[a], (u8 *)TBoss2DeRolLe__attack_params_table[i], (u8 *)TBoss2DeRolLe__resistance_params[b]);
 }
 
-void forward_switch_phase_stats__13TBoss2DeRolLeFi(saddr arg0) {
-    if ((void *) TBoss2DeRolLe__instance != NULL) {
-        switch_phase_stats__13TBoss2DeRolLeFPvPv((u8 *)TBoss2DeRolLe__instance, (u8 *)arg0);
+extern "C" {
+
+// A ceiling junk piece that lands on a player (TObjBoss2CeilJunk) hits it through the boss.
+void TBoss2DeRolLe::forward_switch_phase_stats(TObjChara *victim) {
+    if (TBoss2DeRolLe__instance != NULL) {
+        TBoss2DeRolLe__instance->switch_phase_stats(victim);
     }
 }
 
-void switch_phase_stats__13TBoss2DeRolLeFPvPv(u8 *arg0, u8 *arg1) {
-    u8 *temp_r5;
-    temp_r5 = *(u8 **)((s8 *)arg1 + 0xA4);
-    if (temp_r5 != NULL) {
-        *(s32 *)((s8 *)temp_r5 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r5 + 0x18) | 0x04000000);
-        reload_stats_for_phase__13TBoss2DeRolLeFPvi((void *)((void *)arg0), 1);
-        ((VObj18 *)arg1)->m20(arg0, 1.0f);
-        reload_stats_for_phase__13TBoss2DeRolLeFPvi(arg0, (s32)((int) (*(s32 *)((s8 *)arg0 + 0x3C4))));
+// Hits victim with the phase-1 attack stats, then restores the running phase's stats.
+void TBoss2DeRolLe::switch_phase_stats(TObjChara *victim) {
+    if (victim->bodies != NULL) {
+        victim->bodies->flags |= 0x04000000;
+        reload_stats_for_phase(1);
+        victim->receive_physical_attack(this, 1.0f);
+        reload_stats_for_phase(unk_3C4);
     }
 }
 
-void emit_effect_and_step__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1) {
-    reload_stats_for_phase__13TBoss2DeRolLeFPvi(arg0, 2);
-    TObjEneDD::emit_effect((void*)arg0, (saddr)arg1, (saddr)&derolle_effect_params);
-    ((void (*)(void *, void *))reload_stats_for_phase__13TBoss2DeRolLeFPvi)(arg0, *(void **)((s8 *)arg0 + 0x3C4));
+// A tentacle's strike (TBoss2Tentacle) emits its effect at pos with the phase-2 stats.
+void TBoss2DeRolLe::emit_effect_and_step(Vec *pos) {
+    reload_stats_for_phase(2);
+    TObjEneDD::emit_effect(this, (saddr)pos, (saddr)&derolle_effect_params);
+    reload_stats_for_phase(unk_3C4);
 }
 
-f32 TBoss2DeRolLe__sub_80034CF8(void) {
-    return *(f32 *)((s8 *)TBoss2DeRolLe__data_805D4BA0 + 4);
+f32 TBoss2DeRolLe::get_bullet_power() {
+    return derolle_params[0]->bullet_power;
 }
 
-f32 TBoss2DeRolLe__sub_80034CEC(void) {
-    return *(f32 *)((s8 *)TBoss2DeRolLe__data_805D4BA0 + 8);
+f32 TBoss2DeRolLe::get_mine_power() {
+    return derolle_params[0]->mine_power;
 }
 
-s32 TBoss2Joint_get_shell_max_hp(void) {
-    return *(s32 *)((s8 *)TBoss2DeRolLe__data_805D4BA0 + 0x1C);
+s32 TBoss2DeRolLe::get_shell_max_hp() {
+    return derolle_params[0]->shell_max_hp;
 }
 
-void set_position_index__13TBoss2DeRolLeFPvi(u8 *arg0, s32 arg1) {
-    VecCopy__FP3VecPC3Vec((saddr)(arg0 + 0x38), (saddr)&TBoss2DeRolLe__position_point_table[arg1]);
-    *(f32 *)((s8 *)arg0 + 0x6A4) = 0.0f;
-    *(s32 *)((s8 *)arg0 + 0x64) = 0;
+}
+
+void TBoss2DeRolLe::set_position_index(s32 index) {
+    VecCopy(&position, &TBoss2DeRolLe__position_point_table[index]);
+    height_offset = 0.0f;
+    rotation_z = 0;
 }
 
 #pragma push
 #pragma opt_common_subs off
 
-void set_move_target_point__13TBoss2DeRolLeFPvi(u8 *arg0, s32 arg1) {
-    VecCopy__FP3VecPC3Vec((saddr)(arg0 + 0x394), (saddr)&TBoss2DeRolLe__position_point_table[arg1]);
-    VecCopy__FP3VecPC3Vec((saddr)(arg0 + 0x3A0), (saddr)(arg0 + 0x394));
-    subtract_vector(arg0 + 0x3A0, arg0 + 0x38);
-    ((RecoveredFields_80034C2C_arg0 *)arg0)->field_3AC = normalize_vector_xz((Vec *)(arg0 + 0x3A0));
+void TBoss2DeRolLe::set_move_target_point(s32 index) {
+    VecCopy(&destination, &TBoss2DeRolLe__position_point_table[index]);
+    VecCopy(&destination_direction, &destination);
+    subtract_vector(&destination_direction, &position);
+    destination_distance = normalize_vector_xz(&destination_direction);
 }
 
 #pragma pop
 
-void set_move_direction__13TBoss2DeRolLeFPv(void *arg0) {
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x654) == 0) {
-        *(f32 *)((s8 *)arg0 + 0x38) = -100.0f;
-        *(s32 *)((s8 *)arg0 + 0x64) = 0x500;
+// Puts the body at the side of position_index it swims out from (the TBoss7DeRolLeC twin is
+// set_swim_direction); the callers pass position_index, which it reads itself.
+void TBoss2DeRolLe::set_move_direction(s32) {
+    if (position_index == 0) {
+        position.x = -100.0f;
+        rotation_z = 0x500;
     } else {
-        *(f32 *)((s8 *)arg0 + 0x38) = 100.0f;
-        *(s32 *)((s8 *)arg0 + 0x64) = -0x500;
+        position.x = 100.0f;
+        rotation_z = -0x500;
     }
-    *(f32 *)((s8 *)arg0 + 0x40) = 10.0f;
-    *(f32 *)((s8 *)arg0 + 0x6A4) = 4.0f;
+    position.z = 10.0f;
+    height_offset = 4.0f;
 }
 
-f32 calc_node_height__13TBoss2DeRolLeFPv(Obj_80034B60 *self) {
+// The height of the model's root node in the current motion frame (body scale 2).
+f32 TBoss2DeRolLe::calc_node_height() {
     Vec v;
     v.x = 0.0f;
     v.y = 0.0f;
     v.z = 0.0f;
     push_matrix_from(identity_matrix);
     scale_matrix(0, 2.0f, 2.0f, 2.0f);
-    bind_motion_context((NJS_MOTION *)self->fF8, self->fC0);
-    compose_motion_node_matrix((void *)self->f34);
+    bind_motion_context(current_motion, frame);
+    compose_motion_node_matrix(model);
     matrix_mult_vec(0, &v, &v);
     pop_matrix();
     return v.y;
 }
 
-void get_node_world_pos__13TBoss2DeRolLeFPvPv(u8 *arg0, u8 *arg1) {
-    *(f32 *)((s8 *)arg1 + 0) = 0.0f;
-    *(f32 *)((s8 *)arg1 + 4) = 0.0f;
-    *(f32 *)((s8 *)arg1 + 8) = 0.0f;
+// Where the model's root node sits in the current motion frame (body scale 2).
+void TBoss2DeRolLe::get_node_world_pos(Vec *out) {
+    out->x = 0.0f;
+    out->y = 0.0f;
+    out->z = 0.0f;
     push_matrix();
     set_matrix_identity(0);
     Vec scale = {2.0f, 2.0f, 2.0f};
-    scale_current_matrix(&scale);
-    bind_motion_context((NJS_MOTION *)(*(saddr *)((s8 *)arg0 + 0xF8)), (f32) (*(f32 *)((s8 *)arg0 + 0xC0)));
-    compose_motion_node_matrix((void *)(*(saddr *)((s8 *)arg0 + 0x34)));
-    matrix_mult_vec(0, arg1, arg1);
+    scale_current_matrix(&scale.x);
+    bind_motion_context(current_motion, frame);
+    compose_motion_node_matrix(model);
+    matrix_mult_vec(0, out, out);
     pop_matrix();
 }
 
-void update_angle__13TBoss2DeRolLeFPv(void *arg0) {
-    if (*(f32 *)((s8 *)arg0 + 0x6A4) > 0.4f) {
-        *(f32 *)((s8 *)arg0 + 0x6A4) -= 0.4f;
+void TBoss2DeRolLe::update_angle() {
+    if (height_offset > 0.4f) {
+        height_offset -= 0.4f;
         return;
     }
-    if (*(f32 *)((s8 *)arg0 + 0x6A4) < -0.4f) {
-        *(f32 *)((s8 *)arg0 + 0x6A4) += 0.4f;
+    if (height_offset < -0.4f) {
+        height_offset += 0.4f;
         return;
     }
-    *(f32 *)((s8 *)arg0 + 0x6A4) = 0.0f;
+    height_offset = 0.0f;
 }
 
-void init_head_params__13TBoss2DeRolLeFPv(u8 *arg0) {
-    *(s32 *)((s8 *)arg0 + 0x65C) = 0;
-    ((TUnk_80036250 *)(arg0 + 0x664))->init_params(3.0f, fabs_float(-*(f32 *)((s8 *)arg0 + 0x38)), 0.08f);
-    ((TUnk_80036250 *)(arg0 + 0x684))->init_params(5.0f, fabs_float(500.0f - *(f32 *)((s8 *)arg0 + 0x40)), 0.08f);
-}
-
-}
-
+void TBoss2DeRolLe::init_head_params() {
+    unk_65C = 0;
+    motion_x.init_params(3.0f, fabs_float(-position.x), 0.08f);
+    motion_z.init_params(5.0f, fabs_float(500.0f - position.z), 0.08f);
 }
 
 #pragma push
 #pragma opt_common_subs off
 
-#define VecCopy__FP3VecPC3Vec ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)
-#define play_sound_effect ((void (*)(s32, Vec *, s32, s32))play_sound_effect)
-
-namespace behavior_view {
-
-extern "C" {
-
-u8 update_phase_is_done__13TBoss2DeRolLeFPv(u8 *arg0) {
-    advance_scalar_motion_profile(arg0 + 0x684);
-    switch (*(s32 *)((s8 *)arg0 + 0x65C)) {
+s32 TBoss2DeRolLe::update_phase_is_done() {
+    motion_z.advance();
+    switch (unk_65C) {
     case 0:
-        if (*(f32 *)((s8 *)arg0 + 0x69C) > 380.0f) {
-            *(s32 *)((s8 *)arg0 + 0x65C) = 1;
+        if (motion_z.travelled > 380.0f) {
+            unk_65C = 1;
         }
         break;
     case 1:
-        if (advance_scalar_motion_profile(arg0 + 0x664) == 3) {
-            *(s32 *)((s8 *)arg0 + 0x65C) = 2;
+        if (motion_x.advance() == 3) {
+            unk_65C = 2;
         }
         break;
     }
-    *(f32 *)((s8 *)arg0 + 0xC8) += 0.1f;
-    if (*(f32 *)((s8 *)arg0 + 0xC8) > 0.9f) {
-        *(f32 *)((s8 *)arg0 + 0xC8) = 0.9f;
+    play_speed += 0.1f;
+    if (play_speed > 0.9f) {
+        play_speed = 0.9f;
     }
-    return (u8) (*(s32 *)((s8 *)arg0 + 0x65C) == 2);
+    return unk_65C == 2;
 }
 
 #pragma pop
 
-void init_movement__13TBoss2DeRolLeFPv(u8 *arg0) {
-    *(s32 *)((s8 *)arg0 + 0x660) = 0;
-    ((TUnk_80036250 *)(arg0 + 0x664))->init_params(3.0f, fabs_float(-175.0f - *(f32 *)((s8 *)arg0 + 0x38)), 0.08f);
-    ((TUnk_80036250 *)(arg0 + 0x684))->set_move_params(7.0f, fabs_float(25.0f - *(f32 *)((s8 *)arg0 + 0x40)), 0.2f, 0.05f);
+void TBoss2DeRolLe::init_movement() {
+    unk_660 = 0;
+    motion_x.init_params(3.0f, fabs_float(-175.0f - position.x), 0.08f);
+    motion_z.set_move_params(7.0f, fabs_float(25.0f - position.z), 0.2f, 0.05f);
 }
 
-u8 TBoss2DeRolLe__sub_80034800(u8 *arg0) {
-  advance_scalar_motion_profile(arg0 + 0x664);
-  switch (*((s32 *) (((s8 *) arg0) + 0x660)))
-  {
+s32 TBoss2DeRolLe::sub_80034800() {
+    motion_x.advance();
+    switch (unk_660) {
     case 0:
-      if ((*((f32 *) (((s8 *) arg0) + 0x67C))) > 160.0f)
-    {
-      *((s32 *) (((s8 *) arg0) + 0x660)) = 2;
-    }
-      break;
+        if (motion_x.travelled > 160.0f) {
+            unk_660 = 2;
+        }
+        break;
     case 2:
-      *((f32 *) (((s8 *) arg0) + 0xC8)) = 0.3f;
-      *((s32 *) (((s8 *) arg0) + 0x660)) = 3;
-      break;
+        play_speed = 0.3f;
+        unk_660 = 3;
+        break;
     case 3:
-      if (advance_scalar_motion_profile(arg0 + 0x684) == 3)
-    {
-      *((s32 *) (((s8 *) arg0) + 0x660)) = 4;
+        if (motion_z.advance() == 3) {
+            unk_660 = 4;
+        }
+        if (motion_z.travelled > 200.0f) {
+            play_speed += 0.1f;
+            if (play_speed > 0.9f) {
+                play_speed = 0.9f;
+            }
+        }
+        break;
     }
-      if ((*((f32 *) (((s8 *) arg0) + 0x69C))) > 200.0f)
-    {
-      *((f32 *) (((s8 *) arg0) + 0xC8)) += 0.1f;
-      if ((*((f32 *) (((s8 *) arg0) + 0xC8))) > 0.9f)
-      {
-        *((f32 *) (((s8 *) arg0) + 0xC8)) = 0.9f;
-      }
-    }
-      break;
-  }
-  return (u8) ((*((s32 *) (((s8 *) arg0) + 0x660))) == 4);
+    return unk_660 == 4;
 }
 
-void init_move_params__13TBoss2DeRolLeFPv(u8 *arg0) {
-    *(s32 *)((s8 *)arg0 + 0x65C) = 0;
-    ((TUnk_80036250 *)(arg0 + 0x664))->init_params(3.0f, fabs_float(-*(f32 *)((s8 *)arg0 + 0x38)), 0.08f);
-    ((TUnk_80036250 *)(arg0 + 0x684))->set_move_params(7.0f, fabs_float(-250.0f - *(f32 *)((s8 *)arg0 + 0x40)), 0.2f, 0.05f);
+void TBoss2DeRolLe::init_move_params() {
+    unk_65C = 0;
+    motion_x.init_params(3.0f, fabs_float(-position.x), 0.08f);
+    motion_z.set_move_params(7.0f, fabs_float(-250.0f - position.z), 0.2f, 0.05f);
 }
 
-u8 update_state__13TBoss2DeRolLeFPv(u8 *arg0) {
+s32 TBoss2DeRolLe::update_state() {
 
-    advance_scalar_motion_profile(arg0 + 0x684);
-    switch (*(s32 *)((s8 *)arg0 + 0x65C)) {
+    motion_z.advance();
+    switch (unk_65C) {
     case 0:
-        *(f32 *)((s8 *)arg0 + 0xC8) = 0.3f;
-        if (*(f32 *)((s8 *)arg0 + 0x69C) > 100.0f) {
-            *(s32 *)((s8 *)arg0 + 0x65C) = 1;
+        play_speed = 0.3f;
+        if (motion_z.travelled > 100.0f) {
+            unk_65C = 1;
         }
         break;
     case 1:
-        if (advance_scalar_motion_profile(arg0 + 0x664) == 3) {
-            *(s32 *)((s8 *)arg0 + 0x65C) = 2;
+        if (motion_x.advance() == 3) {
+            unk_65C = 2;
         }
         break;
     }
-    if (*(f32 *)((s8 *)arg0 + 0x69C) > 100.0f) {
-        *(f32 *)((s8 *)arg0 + 0xC8) = 0.9f;
+    if (motion_z.travelled > 100.0f) {
+        play_speed = 0.9f;
     }
-    return (u8) (*(s32 *)((s8 *)arg0 + 0x65C) == 2);
+    return unk_65C == 2;
 }
 
-void init_wave_params__13TBoss2DeRolLeFPv(u8 *arg0) {
-    *(s32 *)((s8 *)arg0 + 0x660) = 1;
-    ((TUnk_80036250 *)(arg0 + 0x664))->init_params(3.0f, fabs_float(-175.0f - *(f32 *)((s8 *)arg0 + 0x38)), 0.08f);
-    ((TUnk_80036250 *)(arg0 + 0x684))->init_params(5.0f, fabs_float(25.0f - *(f32 *)((s8 *)arg0 + 0x40)), 0.08f);
+void TBoss2DeRolLe::init_wave_params() {
+    unk_660 = 1;
+    motion_x.init_params(3.0f, fabs_float(-175.0f - position.x), 0.08f);
+    motion_z.init_params(5.0f, fabs_float(25.0f - position.z), 0.08f);
 }
 
-u8 TBoss2DeRolLe__sub_80034574(u8 *arg0) {
-    f32 var_f2;
-    advance_scalar_motion_profile(arg0 + 0x664);
-    switch (*(s32 *)((s8 *)arg0 + 0x660)) {
+s32 TBoss2DeRolLe::sub_80034574() {
+    f32 speed;
+    motion_x.advance();
+    switch (unk_660) {
     case 2:
         break;
     case 1:
-        var_f2 = *(f32 *)((s8 *)arg0 + 0x694) - 0.1f;
-        if (var_f2 < -4.0f) {
-            var_f2 = -4.0f;
+        speed = motion_z.speed - 0.1f;
+        if (speed < -4.0f) {
+            speed = -4.0f;
         }
-        *(f32 *)((s8 *)arg0 + 0x694) = var_f2;
-        *(f32 *)((s8 *)arg0 + 0x69C) = (f32) (*(f32 *)((s8 *)arg0 + 0x69C) + var_f2);
-        if (*(f32 *)((s8 *)arg0 + 0x67C) > 30.0f) {
-            *(s32 *)((s8 *)arg0 + 0x660) = 3;
+        motion_z.speed = speed;
+        motion_z.travelled = motion_z.travelled + speed;
+        if (motion_x.travelled > 30.0f) {
+            unk_660 = 3;
         }
         break;
     case 3:
-        if (advance_scalar_motion_profile(arg0 + 0x684) == 3) {
-            *(s32 *)((s8 *)arg0 + 0x660) = 4;
+        if (motion_z.advance() == 3) {
+            unk_660 = 4;
         }
         break;
     }
-    *(f32 *)((s8 *)arg0 + 0xC8) += 0.1f;
-    if (*(f32 *)((s8 *)arg0 + 0xC8) > 0.9f) {
-        *(f32 *)((s8 *)arg0 + 0xC8) = 0.9f;
+    play_speed += 0.1f;
+    if (play_speed > 0.9f) {
+        play_speed = 0.9f;
     }
-    return (u8) (*(s32 *)((s8 *)arg0 + 0x660) == 4);
+    return unk_660 == 4;
 }
 
-void TBoss2DeRolLe__sub_800344A4(DeRolLe_800344A4 *self, s32 idx, s32 arg2) {
-    Vec v;
+void TBoss2DeRolLe::spawn_photon_pad(s32 joint, s32 level) {
+    Vec dir;
     s32 ang;
-    ang = 0x3800 - idx * 0x33;
-    v.x = sin_table_lookup(ang);
-    v.y = 0.0f;
-    v.z = cos_table_lookup(ang);
-    if (self->mode == 2) {
-        v.x *= -1.0f;
+    ang = 0x3800 - joint * 0x33;
+    dir.x = sin_table_lookup(ang);
+    dir.y = 0.0f;
+    dir.z = cos_table_lookup(ang);
+    if (position_index == 2) {
+        dir.x *= -1.0f;
     }
-    new TBoss2PhotonPad((TObject *)self->unk3D8, &self->pts[idx], &v, arg2);
-    play_sound_effect(0x4003B708, &self->pts[idx], 0, 1);
-    ((TBoss2Joint *)(self->joints[idx]))->call_36A90_with_1();
+    new TBoss2PhotonPad(&part_group, &joint_positions[joint], &dir, level);
+    play_sound_effect(0x4003B708, &joint_positions[joint], 0, 1);
+    joints[joint]->start_pad_flash();
 }
 
 #pragma push
 #pragma fp_contract on
 
-void calc_offset_position__13TBoss2DeRolLeFPv(u8 *arg0) {
-    VecCopy__FP3VecPC3Vec(arg0 + 0x6BC, arg0 + 0x4E8);
-    *(f32 *)((s8 *)arg0 + 0x6BC) = (f32) ((30.0f * *(f32 *)((s8 *)arg0 + 0x4F4)) + *(f32 *)((s8 *)arg0 + 0x6BC));
-    *(f32 *)((s8 *)arg0 + 0x6C0) = (f32) ((30.0f * *(f32 *)((s8 *)arg0 + 0x4F8)) + *(f32 *)((s8 *)arg0 + 0x6C0));
-    *(f32 *)((s8 *)arg0 + 0x6C4) = (f32) ((30.0f * *(f32 *)((s8 *)arg0 + 0x4FC)) + *(f32 *)((s8 *)arg0 + 0x6C4));
+void TBoss2DeRolLe::calc_offset_position() {
+    VecCopy(&laser_light_pos, &part_points[0]);
+    laser_light_pos.x = 30.0f * part_points[1].x + laser_light_pos.x;
+    laser_light_pos.y = 30.0f * part_points[1].y + laser_light_pos.y;
+    laser_light_pos.z = 30.0f * part_points[1].z + laser_light_pos.z;
 }
 
 #pragma pop
 
-void activate_laser_light__13TBoss2DeRolLeFPv(void *arg0) {
-    if ((u32) *(u32 *)((s8 *)arg0 + 0x6B8) != 0U) {
-        TBoss2LaserLight__sub_80037480(*(void **)((s8 *)arg0 + 0x6B8));
+void TBoss2DeRolLe::activate_laser_light() {
+    if (laser_light != NULL) {
+        laser_light->turn_on();
     }
-    *(s32 *)((s8 *)arg0 + 0x3C0) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C0) | 0x10);
+    state_flags |= 0x10;
 }
 
-void free_laser__13TBoss2DeRolLeFPv(void *arg0) {
-    if ((u32) *(u32 *)((s8 *)arg0 + 0x6B8) != 0U) {
-        TBoss2LaserLight__sub_80037474(*(void **)((s8 *)arg0 + 0x6B8));
+void TBoss2DeRolLe::free_laser() {
+    if (laser_light != NULL) {
+        laser_light->turn_off();
     }
-    *(s32 *)((s8 *)arg0 + 0x3C0) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C0) & 0xFFFFFFEF);
+    state_flags &= ~0x10;
 }
 
-#undef VecCopy__FP3VecPC3Vec
-#undef play_sound_effect
-#define TBoss2DeRolLe__sub_800344A4 ((s32 (*)(void *, int, int))TBoss2DeRolLe__sub_800344A4)
-#define TBoss2DeRolLe__sub_80034574 ((s32 (*)(void *))TBoss2DeRolLe__sub_80034574)
-#define TBoss2DeRolLe__sub_80034800 ((s32 (*)(void *))TBoss2DeRolLe__sub_80034800)
-#define init_move_params__13TBoss2DeRolLeFPv ((s32 (*)(void *))init_move_params__13TBoss2DeRolLeFPv)
-#define init_movement__13TBoss2DeRolLeFPv ((s32 (*)(void *))init_movement__13TBoss2DeRolLeFPv)
-#define init_wave_params__13TBoss2DeRolLeFPv ((s32 (*)(void *))init_wave_params__13TBoss2DeRolLeFPv)
-#define update_phase_is_done__13TBoss2DeRolLeFPv ((s32 (*)(void *))update_phase_is_done__13TBoss2DeRolLeFPv)
-#define update_state__13TBoss2DeRolLeFPv ((s32 (*)(void *))update_state__13TBoss2DeRolLeFPv)
-
-void pick_random_target__13TBoss2DeRolLeFi(saddr actor) {
+void TBoss2DeRolLe::pick_random_target() {
     s32 n;
-    saddr p;
+    TObjPlayer *player;
     s32 j;
     s32 i;
 
     n = TLobby::get_game_mode();
     if (n == 0) {
-        ((TObjEneDD_ST *)((void *)actor))->enemy_clear_target();
+        enemy_clear_target();
         return;
     }
     if (n == 1) {
-        p = (saddr)TObjPlayer::get_player_data(0);
-        ((TObjEneDD_ST *)actor)->set_target_player((void *)p);
+        player = TObjPlayer::get_player_data(0);
+        set_target_player(player);
         return;
     }
-    j = (s32) floor_to_float((f32) n * ((TObjChara *)actor)->random_ratio());
-    ((TObjEneDD_ST *)((void *)actor))->enemy_clear_target();
+    j = (s32)floor_to_float((f32)n * random_ratio());
+    enemy_clear_target();
     for (i = 0; i < n; i++) {
-        p = (saddr)TObjPlayer::get_player_data(j);
-        if (((TObjBase *)p)->is_alive() != 0) {
-            ((TObjEneDD_ST *)actor)->set_target_player((void *)p);
+        player = TObjPlayer::get_player_data(j);
+        if (player->is_alive() != 0) {
+            set_target_player(player);
             return;
         }
         if (++j >= n) {
@@ -3851,181 +1360,191 @@ void pick_random_target__13TBoss2DeRolLeFi(saddr actor) {
     }
 }
 
-void TBoss2DeRolLe__sub_80034258(Obj_80034258 *self) {
+void TBoss2DeRolLe::sub_80034258() {
     s32 i;
-    self->m93();
+    set_intangible();
     for (i = 0; i < 10; i++) {
-        self->parts[i]->m93();
+        joints[i]->set_intangible();
     }
 }
 
-void TBoss2DeRolLe__sub_800341F0(Obj_800341F0 *self) {
+void TBoss2DeRolLe::sub_800341F0() {
     s32 i;
-    self->m94();
+    clear_intangible();
     for (i = 0; i < 10; i++) {
-        self->parts[i]->m94();
+        joints[i]->clear_intangible();
     }
 }
 
-void update_check__13TBoss2DeRolLeFPv(void *arg0) {
-    ((TObjEneDD *)arg0)->TObjEneDD::vfunc_93();
-    if ((*(s32 *)((s8 *)arg0 + 0x3C0) & 8) || (TObjEneDD::check_v2_mode() != 0)) {
-        ((s32 (*)(void *))clear_play_flags__13TBoss2DeRolLeFv)(arg0);
+extern "C" {
+
+void TBoss2DeRolLe::enable_body_collision() {
+    TObjEneDD::enable_body_collision();
+    if ((state_flags & 8) || TObjEneDD::check_v2_mode() != 0) {
+        clear_play_flags();
     }
 }
 
-void apply_hp_damage_with_sound__13TBoss2DeRolLeFPvi(u8 *arg0, s32 arg1) {
-    *(s32 *)((s8 *)arg0 + 0x6AC) = (s32) (*(s32 *)((s8 *)arg0 + 0x6AC) - (s32) (0.5f * (f32) arg1));
-    ((s32 (*)(s32, void *))play_sound)(0x4003A80F, arg0 + 0x38);
 }
 
-void set_flags_play_sound__13TBoss2DeRolLeFPv(u8 *arg0) {
-    *(s32 *)((s8 *)arg0 + 0x3C0) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C0) | 0x88);
-    ((s32 (*)(void))clear_play_flags__13TBoss2DeRolLeFv)();
-    ((s32 (*)(s32, void *))play_sound)(0x4003AA06, arg0 + 0x38);
+void TBoss2DeRolLe::apply_hp_damage_with_sound(s32 damage, u16) {
+    unk_6AC = unk_6AC - (s32)(0.5f * damage);
+    play_sound(0x4003A80F, &position);
+}
+
+void TBoss2DeRolLe::set_flags_play_sound() {
+    state_flags |= 0x88;
+    clear_play_flags();
+    play_sound(0x4003AA06, &position);
 }
 
 void TBoss2DeRolLe::clear_play_flags() {
-    void *temp_r3;
-    void *temp_r4;
-
-    temp_r4 = this->bodies;
-    *(s32 *)((s8 *)temp_r4 + 0x44) = (s32) (*(s32 *)((s8 *)temp_r4 + 0x44) & 0xFFFFFFFE);
-    temp_r3 = this->bodies;
-    *(s32 *)((s8 *)temp_r3 + 0x70) = (s32) (*(s32 *)((s8 *)temp_r3 + 0x70) & 0xFFFFFFFE);
+    bodies[1].flags &= ~1;
+    bodies[2].flags &= ~1;
 }
 
-u8 is_ready__13TBoss2DeRolLeFPv(TBoss2DeRolLe *arg0) {
-    int var_r4;
+s32 TBoss2DeRolLe::is_ready() {
+    int ready;
 
-    var_r4 = 0;
-    if (((s32) arg0->m_6c8 <= 0) && !(*(s32 *)((s8 *)arg0 + 0x3C0) & 4)) {
-        var_r4 = 1;
+    ready = 0;
+    if (unk_6AC <= 0 && !(state_flags & 4)) {
+        ready = 1;
     }
-    return (u8)var_r4;
+    return (u8)ready;
 }
 
-void TBoss2DeRolLe__sub_80034034(Obj_80034034 *self) {
-    s16 st = self->f326;
+void TBoss2DeRolLe::sub_80034034() {
+    s16 st = mode;
     if (st != 0x1f && st != 0x20) {
         if (st == 0x14 || st == 0x15) {
-            advance_action_sequence__13TBoss2DeRolLeFPv((Obj_80034034 *)(self));
+            advance_action_sequence();
         } else if (st == 0x16 || st == 0x17) {
-            set_state_and_send__13TBoss2DeRolLeFPvi(self, 0x1f);
+            set_state_and_send(0x1f);
         } else {
-            set_state_and_send__13TBoss2DeRolLeFPvi(self, 0x1e);
+            set_state_and_send(0x1e);
         }
     }
 }
 
-void handle_6x13_de_rol_le_boss_actions(void *arg0) {
-    void *x;
-    swap_6x13_fields__13TBoss2DeRolLeFPv(arg0);
-    x = get_enemy_entity(*(u16 *)((s8 *)arg0 + 0x2));
-    if (x != NULL) {
-        init_from_param__13TBoss2DeRolLeFPvPv(x, arg0);
+extern "C" {
+
+void handle_6x13_de_rol_le_boss_actions(void *data) {
+    DeRolLeActionPacket *packet = (DeRolLeActionPacket *)data;
+    TBoss2DeRolLe *boss;
+    TBoss2DeRolLe::swap_6x13_fields(packet);
+    boss = (TBoss2DeRolLe *)get_enemy_entity(packet->header.client_id);
+    if (boss != NULL) {
+        boss->init_from_param(packet);
     }
 }
 
-void handle_6x14_de_rol_le_boss_actions_with_target(void *arg0) {
-    void *x;
-    swap_endian__13TBoss2DeRolLeFPv(arg0);
-    x = get_enemy_entity(*(u16 *)((s8 *)arg0 + 0x2));
-    if (x != NULL) {
-        set_params__13TBoss2DeRolLeFPvPv(x, arg0);
+void handle_6x14_de_rol_le_boss_actions_with_target(void *data) {
+    DeRolLeActionTargetPacket *packet = (DeRolLeActionTargetPacket *)data;
+    TBoss2DeRolLe *boss;
+    TBoss2DeRolLe::swap_endian(packet);
+    boss = (TBoss2DeRolLe *)get_enemy_entity(packet->header.client_id);
+    if (boss != NULL) {
+        boss->set_params(packet);
     }
 }
 
-void init_from_param__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1) {
-    *(s32 *)((s8 *)arg0 + 0x3D4) = (s32) *(s16 *)((s8 *)arg1 + 6);
-    ((TObjEneDD *)arg0)->transition_enemy_state(*(s16 *)((s8 *)arg1 + 4));
+void TBoss2DeRolLe::init_from_param(DeRolLeActionPacket *packet) {
+    action_index = packet->sequence_index;
+    transition_enemy_state(packet->state);
 }
 
-void set_params__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1) {
-    enemy_set_target_id(arg0, (u16) *(s32 *)((s8 *)arg1 + 8));
-    *(s32 *)((s8 *)arg0 + 0x3D4) = (s32) *(s16 *)((s8 *)arg1 + 6);
-    ((TObjEneDD *)arg0)->transition_enemy_state(*(s16 *)((s8 *)arg1 + 4));
+void TBoss2DeRolLe::set_params(DeRolLeActionTargetPacket *packet) {
+    enemy_set_target_id(this, packet->target_id);
+    action_index = packet->sequence_index;
+    transition_enemy_state(packet->state);
 }
 
-void reset_fields_3d0__13TBoss2DeRolLeFPv(void* p) { *(s32*)((char*)p + 0x3d0) = 0; *(s32*)((char*)p + 0x3d4) = 0; }
+void TBoss2DeRolLe::reset_action_sequence() {
+    unk_3D0 = 0;
+    action_index = 0;
+}
 
-void advance_action_sequence__13TBoss2DeRolLeFPv(Obj_80034034 *self) {
+}
+
+
+
+void TBoss2DeRolLe::advance_action_sequence() {
     s32 retry;
     s32 mode;
     do {
         retry = 0;
-        (*(s32 *)((s8 *)self + 0x3D4))++;
+        action_index++;
         if (TObjEneDD::check_v2_mode() != 0) {
-            mode = derolle_action_sequence_table[*(s32 *)((s8 *)self + 0x3D4)];
+            mode = derolle_action_sequence_table[action_index];
         } else {
-            mode = derolle_action_mode_sequence_table[*(s32 *)((s8 *)self + 0x3D4)];
+            mode = derolle_action_mode_sequence_table[action_index];
         }
         switch (mode) {
         case 33:
-            if (((TObjEneDD *)self)->calc_elapsed_scaled() > 0.0f) {
+            if (calc_elapsed_scaled() > 0.0f) {
                 mode = 8;
             } else {
                 mode = 6;
             }
             break;
         case 34:
-            if (*(s32 *)((s8 *)self + 0x658) == 0) {
+            if (next_position_index == 0) {
                 mode = 5;
             } else {
                 mode = 9;
             }
             break;
         case 35:
-            if (((TObjEneDD *)self)->calc_elapsed_scaled() > 0.0f) {
+            if (calc_elapsed_scaled() > 0.0f) {
                 mode = 0xC;
             } else {
                 mode = 0xE;
             }
             break;
         case 36:
-            if (*(s32 *)((s8 *)self + 0x658) == 0) {
+            if (next_position_index == 0) {
                 mode = 3;
             } else {
                 mode = 0xB;
             }
             break;
         case 37:
-            if (((TObjEneDD *)self)->calc_elapsed_scaled() > 0.0f) {
+            if (calc_elapsed_scaled() > 0.0f) {
                 mode = 0x18;
             } else {
                 mode = 0x19;
             }
             break;
         case 39:
-            if (*(s32 *)((s8 *)self + 0x658) == 0) {
+            if (next_position_index == 0) {
                 mode = 4;
             } else {
                 mode = 0xA;
             }
             break;
         case 40:
-            if (*(s32 *)((s8 *)self + 0x658) == 0) {
+            if (next_position_index == 0) {
                 mode = 0x10;
             } else {
                 mode = 0x11;
             }
             break;
         case 41:
-            if (*(s32 *)((s8 *)self + 0x658) == 0) {
+            if (next_position_index == 0) {
                 mode = 0x12;
             } else {
                 mode = 0x13;
             }
             break;
         case 42:
-            if (*(s32 *)((s8 *)self + 0x658) == 0) {
+            if (next_position_index == 0) {
                 mode = 0x14;
             } else {
                 mode = 0x15;
             }
             break;
         case 43:
-            if (*(s32 *)((s8 *)self + 0x658) == 0) {
+            if (next_position_index == 0) {
                 mode = 0x16;
             } else {
                 mode = 0x17;
@@ -4033,19 +1552,19 @@ void advance_action_sequence__13TBoss2DeRolLeFPv(Obj_80034034 *self) {
             break;
         case 44:
             retry = 1;
-            *(s32 *)((s8 *)self + 0x3D4) = 5;
+            action_index = 5;
             break;
         }
     } while (retry != 0);
-    set_state_and_send__13TBoss2DeRolLeFPvi(self, mode);
+    set_state_and_send(mode);
 }
 
 #pragma push
 #pragma fp_contract on
 
-void update_particle_ctrls__13TBoss2DeRolLeFPv(Obj_80033AA4 *o) {
+void TBoss2DeRolLe::update_particle_ctrls() {
     Vec t;
-    Vec3i_80033AA4 ang;
+    s32 ang[3];
     s32 ok;
     s32 j;
     s32 i;
@@ -4055,18 +1574,18 @@ void update_particle_ctrls__13TBoss2DeRolLeFPv(Obj_80033AA4 *o) {
     s32 n;
     ok = 1;
     for (i = 0; i < 6; i++) {
-        if (o->ctl[i] == NULL) {
-            ang.z = 0;
-            ang.y = 0;
-            ang.x = 0;
-            p = create_particle_controller_with_angles(o->pos, &ang, 0x120, 1, 0x40);
+        if (splash_ctrls[i] == NULL) {
+            ang[2] = 0;
+            ang[1] = 0;
+            ang[0] = 0;
+            p = create_particle_controller_with_angles(joint_positions, ang, 0x120, 1, 0x40);
             if (p != NULL) {
-                o->ctl[i] = p;
-                ((TParticleCtrl *)(o->ctl[i]))->set_flags(2);
-                ((TParticleCtrl *)(o->ctl[i]))->enable();
+                splash_ctrls[i] = (TParticleCtrl *)p;
+                splash_ctrls[i]->set_flags(2);
+                splash_ctrls[i]->enable();
             } else {
                 for (j = 0; j < i; j++) {
-                    ((TParticleCtrl *)(o->ctl[j]))->enable();
+                    splash_ctrls[j]->enable();
                 }
                 ok = 0;
                 break;
@@ -4074,101 +1593,105 @@ void update_particle_ctrls__13TBoss2DeRolLeFPv(Obj_80033AA4 *o) {
         }
     }
     if (ok != 0) {
-        if (o->f758 == 0) {
+        if (splash_joint == 0) {
             for (k = 0; k < 3; k++) {
-                Vec *v = &o->pos[boss2_derolle_particle_node_indices[k]];
+                Vec *v = &joint_positions[boss2_derolle_particle_node_indices[k]];
                 f32 r = fabs_float(v->y - -10.0f);
                 f32 lim = boss2_derolle_particle_limits[k];
                 if (r < 0.9f * lim) {
-                    ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&t, v);
+                    VecCopy(&t, v);
                     lim -= r;
                     t.y = -5.0f;
                     t.x += lim;
-                    ((TParticleCtrl *)o->ctl[k * 2])->set_position(&t);
+                    splash_ctrls[k * 2]->set_position(&t);
                     t.x -= 2.0f * lim;
-                    ((TParticleCtrl *)o->ctl[k * 2 + 1])->set_position(&t);
+                    splash_ctrls[k * 2 + 1]->set_position(&t);
                 } else {
-                    ((TParticleCtrl *)(o->ctl[k * 2]))->enable();
-                    ((TParticleCtrl *)(o->ctl[k * 2 + 1]))->enable();
+                    splash_ctrls[k * 2]->enable();
+                    splash_ctrls[k * 2 + 1]->enable();
                 }
             }
         } else {
-            ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&t, &o->pos[o->f758]);
+            VecCopy(&t, &joint_positions[splash_joint]);
             t.y = -5.0f;
             t.x += 20.0f;
-            ((TParticleCtrl *)o->ctl[0])->set_position(&t);
+            splash_ctrls[0]->set_position(&t);
             t.x -= 40.0f;
-            ((TParticleCtrl *)o->ctl[1])->set_position(&t);
+            splash_ctrls[1]->set_position(&t);
             for (m = 2; m < 6; m++) {
-                ((TParticleCtrl *)(o->ctl[m]))->enable();
+                splash_ctrls[m]->enable();
             }
-            o->f758 = 0;
+            splash_joint = 0;
         }
         for (n = 0; n < 6; n++) {
-            ((void (*)(void *, void *))TBoss2DeRolLe__sub_80033A80)(o, o->ctl[n]);
+            sub_80033A80(splash_ctrls[n]);
         }
     }
 }
 
 #pragma pop
 
-void TBoss2DeRolLe__sub_80033A80(s32 arg0, saddr arg1) {
-    TObjBoss2Tunnel__sub_8003B1D8((void *)arg1);
+void TBoss2DeRolLe::sub_80033A80(TParticleCtrl *ctrl) {
+    TObjBoss2Tunnel::sub_8003B1D8(ctrl);
 }
 
-void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, saddr arg2) {
-    TObjBoss2CeilJunk::create_particle((const void *)arg2, 0x121);
+void TBoss2DeRolLe::spawn_ceil_junk(Vec *pos) {
+    TObjBoss2CeilJunk::create_particle(pos, 0x121);
 }
 
 #pragma push
 #pragma fp_contract on
 
-void spawn_offset_particle__13TBoss2DeRolLeFiff(saddr arg0, f32 farg0, f32 farg1) {
-    Vec stack;
-    VecCopy__FP3VecPC3Vec((saddr)((void *)&stack.x), (void *)arg0);
-    stack.x = -((*(f32 *)((s8 *)&lbl_804FF5E8 + 0xC) * farg1) - stack.x);
-    stack.y -= (*(f32 *)((s8 *)&lbl_804FF5E8 + 0x10) * farg1) - farg0;
-    stack.z = -((*(f32 *)((s8 *)&lbl_804FF5E8 + 0x14) * farg1) - stack.z);
-    spawn_particle_effect_with_flags((const Vec *)&stack.x, 0x127, 0x40);
+void TBoss2DeRolLe::spawn_offset_particle(Vec *position, f32 height, f32 distance) {
+    Vec pos;
+    VecCopy(&pos, position);
+    pos.x = -((lbl_804FF5E8[3] * distance) - pos.x);
+    pos.y -= (lbl_804FF5E8[4] * distance) - height;
+    pos.z = -((lbl_804FF5E8[5] * distance) - pos.z);
+    spawn_particle_effect_with_flags(&pos, 0x127, 0x40);
 }
 
 #pragma pop
 
-void update_projectile_spawns__13TBoss2DeRolLeFPv(u8 *arg0) {
-    u8 *temp_r31;
+void TBoss2DeRolLe::update_projectile_spawns() {
+    Vec *mid;
 
-    project_sound_origin_from_camera((saddr)(arg0 + 0x38), (u8 *)(arg0 + 0x518), 0.3f);
-    project_sound_origin_from_camera((saddr)(arg0 + 0x4D0), (u8 *)(arg0 + 0x524), 0.3f);
-    temp_r31 = arg0 + 0x530;
-    VecCopy__FP3VecPC3Vec((saddr)temp_r31, arg0 + 0x524);
-    vec3_add_to((saddr)temp_r31, arg0 + 0x524);
-    *(f32 *)((s8 *)temp_r31 + 0) *= 0.5f;
-    *(f32 *)((s8 *)temp_r31 + 4) *= 0.5f;
-    *(f32 *)((s8 *)temp_r31 + 8) *= 0.5f;
-    if ((*(s32 *)((s8 *)arg0 + 0x3C0) & 0x100) && ((((TObjMotion *)arg0)->is_passing_frame(3.0f) != 0) || (((TObjMotion *)arg0)->is_passing_frame(20.0f) != 0))) {
-        *(s32 *)((s8 *)arg0 + 0x53C) = 0;
+    project_sound_origin_from_camera((saddr)&position, (u8 *)&unk_518[0], 0.3f);
+    project_sound_origin_from_camera((saddr)&node_positions[18], (u8 *)&unk_518[1], 0.3f);
+    mid = &unk_518[2];
+    VecCopy(mid, &unk_518[1]);
+    vec3_add_to(mid, &unk_518[1]);
+    mid->x *= 0.5f;
+    mid->y *= 0.5f;
+    mid->z *= 0.5f;
+    if ((state_flags & 0x100) && ((is_passing_frame(3.0f) != 0) || (is_passing_frame(20.0f) != 0))) {
+        unk_53C = 0;
     }
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x53C) <= 0x10) {
-        play_persistent_sound(0x4003AD00, (saddr)arg0, (uaddr)(arg0 + 0x530), 0, 0);
-        *(s32 *)((s8 *)arg0 + 0x53C) = (s32) (*(s32 *)((s8 *)arg0 + 0x53C) + 1);
+    if (unk_53C <= 0x10) {
+        play_persistent_sound(0x4003AD00, (saddr)this, (uaddr)&unk_518[2], 0, 0);
+        unk_53C = unk_53C + 1;
     }
 }
 
-void TBoss2DeRolLe__sub_800338BC(void) {  }
+void TBoss2DeRolLe::sub_800338BC() {  }
 
-int play_sound(void* p, int a1) { return play_sound_effect(p, a1, 0, 0); }
+extern "C" s32 play_sound(s32 id, Vec *position) {
+    return play_sound_effect(id, position, 0, 0);
+}
 
-int spawn_trap__13TBoss2DeRolLeFPvii(void* p, int a1, int a2) { return play_persistent_sound((saddr)p, (a1), (a2), 0, 0); }
+extern "C" int spawn_trap__13TBoss2DeRolLeFPvii(s32 id, void *owner, Vec *pos) {
+    return play_persistent_sound(id, (saddr)owner, (uaddr)pos, 0, 0);
+}
 
 #pragma push
 #pragma opt_common_subs off
 
 void TBoss2DeRolLe::advance_phase_wrap() {
-    f32 temp_f1;
-    *(f32 *)((s8 *)((u8 *)this) + 0x6D4) = (f32) (*(f32 *)((s8 *)((u8 *)this) + 0x6D4) + *(f32 *)((s8 *)((u8 *)this) + 0x6D8));
-    temp_f1 = *(f32 *)((s8 *)((u8 *)this) + 0x6D4);
-    if (temp_f1 >= 2.0f) {
-        *(f32 *)((s8 *)((u8 *)this) + 0x6D4) = (f32) (temp_f1 - 2.0f);
+    f32 phase;
+    pulse_phase = pulse_phase + pulse_speed;
+    phase = pulse_phase;
+    if (phase >= 2.0f) {
+        pulse_phase = phase - 2.0f;
     }
 }
 
@@ -4180,13 +1703,16 @@ void TBoss2DeRolLe::advance_phase_wrap() {
 #define SWAP_COLOR_HALVES(x) ((((x) & 0xFF00) << 16) | ((x) >> 16) | (((x) & 0xFF) << 16))
 
 // SWAP_COLOR_HALVES swaps the two halfwords of a packed colour (0xAARRGGBB -> 0xGGBBAARR)
-void update_pulsing_colors__13TBoss2DeRolLeFPv(u8 *arg0) {
+// The runtime's float to unsigned conversion, called directly here.
+extern "C" u32 __cvt_fp2unsigned(f32);
+
+void TBoss2DeRolLe::update_pulsing_colors() {
     s32 i;
     f32 t;
     u8 v;
     u32 c;
     f32 ph;
-    t = *(f32 *)((s8 *)arg0 + 0x6D4);
+    t = pulse_phase;
     if (t > 1.0f) {
         t = 2.0f - t;
     }
@@ -4199,7 +1725,7 @@ void update_pulsing_colors__13TBoss2DeRolLeFPv(u8 *arg0) {
     c |= v << 16;
     c |= v << 8;
     *boss2_derolle_primary_color_targets[1] = SWAP_COLOR_HALVES(c);
-    ph = *(f32 *)((s8 *)arg0 + 0x6D4);
+    ph = pulse_phase;
     for (i = 0; i < 10; i++) {
         ph += 0.2f;
         if (ph > 2.0f) {
@@ -4221,113 +1747,117 @@ void update_pulsing_colors__13TBoss2DeRolLeFPv(u8 *arg0) {
 
 #undef SWAP_COLOR_HALVES
 
-void dispatch_action__13TBoss2DeRolLeFiUii(saddr arg0, u32 arg1, saddr arg2) {
-    switch (arg1) {
+extern "C" {
+
+void TBoss2DeRolLe::dispatch_action(u32 state, s32 reason) {
+    switch (state) {
     case 0:
-        TBoss2DeRolLe__sub_800333F4((Obj_800333F4 *)(arg0), arg2);
+        sub_800333F4(reason);
         return;
     case 1:
-        TBoss2DeRolLe__sub_80032E38((void *)arg0, (void *)arg2);
+        sub_80032E38(reason);
         return;
     case 2:
-        handle_debug_pad_input__13TBoss2DeRolLeFPvPv((void *)arg0, (void *)arg2);
+        handle_debug_pad_input(reason);
         return;
     case 3:
-        TBoss2DeRolLe__sub_800327C8((void *)arg0, (void *)arg2, 0, 1);
+        sub_800327C8(reason, 0, 1);
         return;
     case 4:
-        TBoss2DeRolLe__sub_800320B4((void *)arg0, (void *)arg2, 0, 2);
+        sub_800320B4(reason, 0, 2);
         return;
     case 5:
-        TBoss2DeRolLe__sub_800327C8((void *)arg0, (void *)arg2, 0, 3);
+        sub_800327C8(reason, 0, 3);
         return;
     case 6:
-        TBoss2DeRolLe__sub_800327C8((void *)arg0, (void *)arg2, 1, 2);
+        sub_800327C8(reason, 1, 2);
         return;
     case 8:
-        TBoss2DeRolLe__sub_800327C8((void *)arg0, (void *)arg2, 1, 0);
+        sub_800327C8(reason, 1, 0);
         return;
     case 9:
-        TBoss2DeRolLe__sub_800327C8((void *)arg0, (void *)arg2, 2, 3);
+        sub_800327C8(reason, 2, 3);
         return;
     case 10:
-        TBoss2DeRolLe__sub_800320B4((void *)arg0, (void *)arg2, 2, 0);
+        sub_800320B4(reason, 2, 0);
         return;
     case 11:
-        TBoss2DeRolLe__sub_800327C8((void *)arg0, (void *)arg2, 2, 1);
+        sub_800327C8(reason, 2, 1);
         return;
     case 12:
-        TBoss2DeRolLe__sub_800327C8((void *)arg0, (void *)arg2, 3, 0);
+        sub_800327C8(reason, 3, 0);
         return;
     case 13:
-        TBoss2DeRolLe__sub_80031AD4((void *)arg0, (void *)arg2);
+        sub_80031AD4(reason);
         return;
     case 14:
-        TBoss2DeRolLe__sub_800327C8((void *)arg0, (void *)arg2, 3, 2);
+        sub_800327C8(reason, 3, 2);
         return;
     case 18:
-        TBoss2DeRolLe__sub_800313F8((DR_800313F8 *)(arg0), arg2, 0);
+        sub_800313F8(reason, 0);
         return;
     case 19:
-        TBoss2DeRolLe__sub_800313F8((DR_800313F8 *)(arg0), arg2, 2);
+        sub_800313F8(reason, 2);
         return;
     case 20:
-        TBoss2DeRolLe__sub_800310F8((void *)arg0, (void *)arg2, 0);
+        sub_800310F8(reason, 0);
         return;
     case 21:
-        TBoss2DeRolLe__sub_800310F8((void *)arg0, (void *)arg2, 2);
+        sub_800310F8(reason, 2);
         return;
     case 22:
-        TBoss2DeRolLe__sub_80030DFC((void *)arg0, (void *)arg2, 0);
+        sub_80030DFC(reason, 0);
         return;
     case 23:
-        TBoss2DeRolLe__sub_80030DFC((void *)arg0, (void *)arg2, 2);
+        sub_80030DFC(reason, 2);
         return;
     case 16:
-        ((s32 (*)(void *, void *, int))TBoss2DeRolLe__sub_80030898)((void *)arg0, (void *)arg2, 0);
+        state_photon_pads(reason, 0);
         return;
     case 17:
-        ((s32 (*)(void *, void *, int))TBoss2DeRolLe__sub_80030898)((void *)arg0, (void *)arg2, 2);
+        state_photon_pads(reason, 2);
         return;
     case 15:
-        ((s32 (*)(void *, void *))TBoss2DeRolLe__sub_80030A38)((void *)arg0, (void *)arg2);
+        sub_80030A38(reason);
         return;
     case 24:
-        TBoss2DeRolLe__sub_80030720((Obj_80030720 *)(arg0), arg2, 0x18);
+        state_launch_mines(reason, 0x18);
         return;
     case 25:
-        TBoss2DeRolLe__sub_80030720((Obj_80030720 *)(arg0), arg2, 0x19);
+        state_launch_mines(reason, 0x19);
         return;
     case 26:
-        ((s32 (*)(void *, void *))state_ceiling_attack__13TBoss2DeRolLeFPvUi)((void *)arg0, (void *)arg2);
+        state_ceiling_attack(reason);
         return;
     case 27:
-        TBoss2DeRolLe__sub_8002FE60((void *)arg0, (u32)arg2);
+        sub_8002FE60(reason);
         return;
     case 28:
-        TBoss2DeRolLe__sub_8002FD9C((DeRolLe_8002FD9C *)(arg0), arg2, 0);
+        sub_8002FD9C(reason, 0);
         return;
     case 29:
-        TBoss2DeRolLe__sub_8002FD9C((DeRolLe_8002FD9C *)(arg0), arg2, 1);
+        sub_8002FD9C(reason, 1);
         return;
     case 30:
-        TBoss2DeRolLe__sub_8002FCE4((Obj_8002FCE4 *)(arg0), arg2);
+        sub_8002FCE4(reason);
         return;
     case 31:
-        handle_death_state__13TBoss2DeRolLeFPvPv((void *)arg0, (void *)arg2);
+        handle_death_state(reason);
         return;
     case 32:
-        TBoss2DeRolLe__sub_8002F73C((Obj_8002F73C *)(arg0), arg2);
+        sub_8002F73C(reason);
     default:
         return;
     }
 }
 
-void TBoss2DeRolLe__sub_800333F4(Obj_800333F4 *self, u32 arg1) {
-    switch (arg1) {
-    case 4: self->f_B8 = 1; return;
-    case 2: set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)(self), 1); return;
-    case 0: ((TObjMotion *)self)->advance_animation(); return;
+}
+
+void TBoss2DeRolLe::sub_800333F4(u32 reason) {
+    switch (reason) {
+    case 4: requested_action = 1; return;
+    case 2: set_state_and_send(1); return;
+    case 0: advance_animation(); return;
     case 1: return;
     case 3: return;
     case 5: return;
@@ -4341,29 +1871,27 @@ void TBoss2DeRolLe__sub_800333F4(Obj_800333F4 *self, u32 arg1) {
 #pragma push
 #pragma fp_contract on
 
-#define o ((Rol_80032E38 *)arg0)
-
-void TBoss2DeRolLe__sub_80032E38(void *arg0, void *arg1) {
-    Vec *p = &o->f724;
+void TBoss2DeRolLe::sub_80032E38(u32 reason) {
+    Vec *p = &state_vectors[0];
     CameraPlayback cam;
     CameraPlayback cam2;
     Vec v1;
     Vec v2;
     Vec v3;
     f32 t;
-    switch ((uaddr)arg1) {
+    switch (reason) {
     case 4:
-        o->fB8 = 0;
-        TBoss2DeRolLe__sub_80034258((Obj_80034258 *)o);
-        o->f3C0 &= ~4;
-        o->f3C0 &= ~0x100;
-        o->pos.x = 70.0f;
-        o->f6A4 = 0.0f;
-        o->f64 = 0;
-        o->f6E0 = 1;
-        o->f6E4 = 0;
-        o->f6E8 = 0;
-        o->f6FC = 0.0f;
+        requested_action = 0;
+        sub_80034258();
+        state_flags &= ~4;
+        state_flags &= ~0x100;
+        position.x = 70.0f;
+        height_offset = 0.0f;
+        rotation_z = 0;
+        state_step = 1;
+        unk_6E4 = 0;
+        unk_6E8 = 0;
+        state_floats[0] = 0.0f;
         p->x = 0.0f;
         p->y = 0.0f;
         p->z = 0.0f;
@@ -4373,7 +1901,7 @@ void TBoss2DeRolLe__sub_80032E38(void *arg0, void *arg1) {
             cam.flags = 0;
             cam.frame = 0.0f;
             cam.frame_step = 0.8f;
-            ((s32 (*)(int, f32))activate_camera_mode)(5, 0.0f);
+            activate_camera_mode(5);
             cam.cache_target_and_forward(0x1C71);
         } else {
             cam2.index = 0;
@@ -4381,107 +1909,107 @@ void TBoss2DeRolLe__sub_80032E38(void *arg0, void *arg1) {
             cam2.flags = 0;
             cam2.frame = 0.0f;
             cam2.frame_step = 0.8f;
-            ((s32 (*)(int, f32))activate_camera_mode)(5, 0.0f);
+            activate_camera_mode(5);
             cam2.cache_target_and_forward(0x1C71);
         }
         TWindowCtrl::init_all_slots();
-        ((TObjEneDD *)o)->get_target_state_b();
+        get_target_state_b();
         break;
     case 2:
-        if (o->f6E0 == 5) {
-            o->f654 = 0;
-            set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)o, 2);
+        if (state_step == 5) {
+            position_index = 0;
+            set_state_and_send(2);
         }
         break;
     case 9:
-        if (o->f6E0 == 5) {
-            o->f654 = 0;
-            advance_action_sequence__13TBoss2DeRolLeFPv((Obj_80034034 *)o);
+        if (state_step == 5) {
+            position_index = 0;
+            advance_action_sequence();
         }
         break;
     case 0:
-        if (o->f6E0 == 2) {
-            o->fB8 = 1;
-            ((void (*)(void *, void *))vec3_add_to)(&o->pos, p);
-            set_move_target_point__13TBoss2DeRolLeFPvi((u8 *)o, 0);
-            o->f6E0 = 3;
+        if (state_step == 2) {
+            requested_action = 1;
+            vec3_add_to(&position, p);
+            set_move_target_point(0);
+            state_step = 3;
         }
-        ((TObjMotion *)o)->advance_animation();
-        switch (o->f6E0) {
+        advance_animation();
+        switch (state_step) {
         case 0:
-            o->f6E8++;
-            if (o->f6E8 >= 0x37) {
-                o->f6E8 = 0;
-                o->f6E0 = 1;
-                o->pos.x = 0.0f;
-                o->pos.y = 7.0f;
-                o->pos.z = -190.0f;
-                o->f6A4 = 0.0f;
-                o->f64 = 0;
+            unk_6E8++;
+            if (unk_6E8 >= 0x37) {
+                unk_6E8 = 0;
+                state_step = 1;
+                position.x = 0.0f;
+                position.y = 7.0f;
+                position.z = -190.0f;
+                height_offset = 0.0f;
+                rotation_z = 0;
             }
             break;
         case 1:
-            get_node_world_pos__13TBoss2DeRolLeFPvPv((u8 *)o, (u8 *)p);
-            o->f6E4++;
-            t = o->fC0;
+            get_node_world_pos(p);
+            unk_6E4++;
+            t = frame;
             if (t >= 34.0f && t <= 42.0f) {
-                if ((f32)o->f6E4 >= 3.0f) {
-                    o->f6E4 = 0;
-                    ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&v1, &o->pos);
-                    ((void (*)(void *, void *))vec3_add_to)(&v1, p);
-                    v1.x += 30.0f * ((TObjEneDD *)o)->calc_elapsed_scaled();
+                if ((f32)unk_6E4 >= 3.0f) {
+                    unk_6E4 = 0;
+                    VecCopy(&v1, &position);
+                    vec3_add_to(&v1, p);
+                    v1.x += 30.0f * calc_elapsed_scaled();
                     v1.y = -5.0f;
                     v1.z += 70.0f;
-                    ((void (*)(void *, void *))spawn_ceil_junk__13TBoss2DeRolLeFii)(o, &v1);
+                    spawn_ceil_junk(&v1);
                 }
             } else if (t >= 64.0f && t <= 72.0f) {
-                if ((f32)o->f6E4 >= 2.0f) {
-                    o->f6E4 = 0;
-                    ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&v2, &o->pos);
-                    ((void (*)(void *, void *))vec3_add_to)(&v2, p);
-                    v2.x += 40.0f * ((TObjEneDD *)o)->calc_elapsed_scaled();
+                if ((f32)unk_6E4 >= 2.0f) {
+                    unk_6E4 = 0;
+                    VecCopy(&v2, &position);
+                    vec3_add_to(&v2, p);
+                    v2.x += 40.0f * calc_elapsed_scaled();
                     v2.y = -5.0f;
                     v2.z += 40.0f;
-                    ((void (*)(void *, void *))spawn_ceil_junk__13TBoss2DeRolLeFii)(o, &v2);
+                    spawn_ceil_junk(&v2);
                 }
-            } else if (t >= 110.0f && t <= 120.0f && (f32)o->f6E4 >= 2.0f) {
-                o->f6E4 = 0;
-                ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&v3, &o->pos);
-                ((void (*)(void *, void *))vec3_add_to)(&v3, p);
-                v3.x += 30.0f * ((TObjEneDD *)o)->calc_elapsed_scaled();
+            } else if (t >= 110.0f && t <= 120.0f && (f32)unk_6E4 >= 2.0f) {
+                unk_6E4 = 0;
+                VecCopy(&v3, &position);
+                vec3_add_to(&v3, p);
+                v3.x += 30.0f * calc_elapsed_scaled();
                 v3.y = -5.0f;
                 v3.z += 70.0f;
-                ((void (*)(void *, void *))spawn_ceil_junk__13TBoss2DeRolLeFii)(o, &v3);
+                spawn_ceil_junk(&v3);
             }
-            if (((TObjMotion *)o)->is_passing_frame(35.0f) != 0 || ((TObjMotion *)o)->is_passing_frame(112.0f) != 0) {
-                play_sound_effect((void *)0x4003AD11, 0, 0, 0);
-            } else if (((TObjMotion *)o)->is_passing_frame(65.0f) != 0) {
-                play_sound_effect((void *)0x4003AD12, 0, 0, 0);
+            if (is_passing_frame(35.0f) != 0 || is_passing_frame(112.0f) != 0) {
+                play_sound_effect(0x4003AD11, 0, 0, 0);
+            } else if (is_passing_frame(65.0f) != 0) {
+                play_sound_effect(0x4003AD12, 0, 0, 0);
             }
-            if (o->fC0 >= 34.0f) {
-                o->pos.x -= 1.0f;
-            } else if (o->fC0 >= 18.0f) {
-                o->pos.x -= 5.0f;
+            if (frame >= 34.0f) {
+                position.x -= 1.0f;
+            } else if (frame >= 18.0f) {
+                position.x -= 5.0f;
             }
-            if (((TObjEneDD *)o)->get_flag_b4() != 0) {
-                o->f6E0 = 2;
-                o->f3C0 |= 0x100;
+            if (get_flag_b4() != 0) {
+                state_step = 2;
+                state_flags |= 0x100;
             }
             break;
         case 2:
             break;
         case 3:
-            o->pos.x = 3.0f * o->f3A0 + o->pos.x;
-            o->pos.z = 3.0f * o->f3A8 + o->pos.z;
-            o->f6FC += 3.0f;
-            if (o->f6FC >= o->f3AC) {
-                o->f6E0 = 4;
+            position.x = 3.0f * destination_direction.x + position.x;
+            position.z = 3.0f * destination_direction.z + position.z;
+            state_floats[0] += 3.0f;
+            if (state_floats[0] >= destination_distance) {
+                state_step = 4;
             }
             break;
         case 4:
             if (get_scripted_camera_playback()->flags & 1) {
                 restore_player_cameras();
-                o->f6E0 = 5;
+                state_step = 5;
             }
             break;
         }
@@ -4489,94 +2017,92 @@ void TBoss2DeRolLe__sub_80032E38(void *arg0, void *arg1) {
     case 5:
         restore_player_cameras();
         TWindowCtrl::init_all_slots2();
-        ((TObjEneDD *)o)->get_target_state_a();
+        get_target_state_a();
         break;
     }
 }
 
 #pragma pop
 
-#undef o
-#define arg0 ((u8 *)arg0_)
+#undef arg0
 
-void handle_debug_pad_input__13TBoss2DeRolLeFPvPv(void *arg0_, void *arg1_) {
-    u32 arg1 = (uaddr)arg1_;
+void TBoss2DeRolLe::handle_debug_pad_input(u32 reason) {
     u32 b;
 
-    switch (arg1) {
+    switch (reason) {
     case 4:
-        ((TBoss2DeRolLe *)arg0)->requested_action = 1;
-        TBoss2DeRolLe__sub_800341F0((Obj_800341F0 *)arg0);
-        *(s32 *)((s8 *)arg0 + 0x3C0) &= ~4;
-        *(s32 *)((s8 *)arg0 + 0x3C0) |= 0x100;
-        *(f32 *)((s8 *)arg0 + 0x6A4) = 0.0f;
-        ((TBoss2DeRolLe *)arg0)->rotation_z = 0;
-        *(s32 *)((s8 *)arg0 + 0x6E4) = 1;
-        *(s32 *)((s8 *)arg0 + 0x6E8) = 0;
-        *(s32 *)((s8 *)arg0 + 0x6E0) = 0;
+        requested_action = 1;
+        sub_800341F0();
+        state_flags &= ~4;
+        state_flags |= 0x100;
+        height_offset = 0.0f;
+        rotation_z = 0;
+        unk_6E4 = 1;
+        unk_6E8 = 0;
+        state_step = 0;
         break;
     case 2:
-        switch (*(s32 *)((s8 *)arg0 + 0x654)) {
+        switch (position_index) {
         case 0:
-            b = (*(Pad_80032B28 **)((s8 *)arg0 + 0x3CC))->buttons;
+            b = debug_pad->unknown_08;
             if (b & 0x10) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 3);
+                set_state_and_send(3);
             } else if (b & 0x40) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 4);
+                set_state_and_send(4);
             } else if (b & 0x20) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 5);
+                set_state_and_send(5);
             } else if (b & 0x400) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 0x12);
+                set_state_and_send(0x12);
             } else if (b & 4) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 0x10);
+                set_state_and_send(0x10);
             } else if (b & 2) {
-                *(f32 *)((s8 *)arg0 + 0x40) = -210.0f;
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 1);
+                position.z = -210.0f;
+                set_state_and_send(1);
             }
             break;
         case 1:
-            b = (*(Pad_80032B28 **)((s8 *)arg0 + 0x3CC))->buttons;
+            b = debug_pad->unknown_08;
             if (b & 0x40) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 6);
+                set_state_and_send(6);
             } else if (b & 0x20) {
             } else if (b & 0x80) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 8);
+                set_state_and_send(8);
             } else if (b & 0x400) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 0x18);
+                set_state_and_send(0x18);
             } else if (b & 4) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 0x19);
+                set_state_and_send(0x19);
             } else if (b & 2) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 0x1E);
+                set_state_and_send(0x1E);
             }
             break;
         case 2:
-            b = (*(Pad_80032B28 **)((s8 *)arg0 + 0x3CC))->buttons;
+            b = debug_pad->unknown_08;
             if (b & 0x20) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 9);
+                set_state_and_send(9);
             } else if (b & 0x80) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 0xA);
+                set_state_and_send(0xA);
             } else if (b & 0x10) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 0xB);
+                set_state_and_send(0xB);
             } else if (b & 0x400) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 0x13);
+                set_state_and_send(0x13);
             } else if (b & 4) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 0x11);
+                set_state_and_send(0x11);
             } else if (b & 2) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 0x1E);
+                set_state_and_send(0x1E);
             }
             break;
         case 3:
-            b = (*(Pad_80032B28 **)((s8 *)arg0 + 0x3CC))->buttons;
+            b = debug_pad->unknown_08;
             if (b & 0x80) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 0xC);
+                set_state_and_send(0xC);
             } else if (b & 0x10) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 0xD);
+                set_state_and_send(0xD);
             } else if (b & 0x40) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 0xE);
+                set_state_and_send(0xE);
             } else if (b & 0x400) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 0xF);
+                set_state_and_send(0xF);
             } else if (b & 4) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 0x1A);
+                set_state_and_send(0x1A);
             } else if (b & 0x200) {
                 if (TObjBoss2Tunnel::is_active() != 0) {
                     TObjBoss2Tunnel::set_global_flag_800();
@@ -4584,17 +2110,17 @@ void handle_debug_pad_input__13TBoss2DeRolLeFPvPv(void *arg0_, void *arg1_) {
                     TObjBoss2Tunnel::set_global_flag_400();
                 }
             } else if (b & 2) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 0x1F);
+                set_state_and_send(0x1F);
             }
             break;
         }
         break;
     case 0:
-        ((TObjMotion *)arg0)->advance_animation();
-        if (!(((TBoss2DeRolLe *)arg0)->motion_flags & 4)) {
-            ((TBoss2DeRolLe *)arg0)->play_speed -= 0.03f;
-            if (((TBoss2DeRolLe *)arg0)->play_speed < 0.6f) {
-                ((TBoss2DeRolLe *)arg0)->play_speed = 0.6f;
+        advance_animation();
+        if (!(motion_flags & 4)) {
+            play_speed -= 0.03f;
+            if (play_speed < 0.6f) {
+                play_speed = 0.6f;
             }
         }
         break;
@@ -4608,313 +2134,314 @@ void handle_debug_pad_input__13TBoss2DeRolLeFPvPv(void *arg0_, void *arg1_) {
     }
 }
 
+extern "C" {
+
 #pragma push
 #pragma fp_contract on
 
 #undef arg0
-#define o ((DR_800327C8 *)arg0)
 
-void TBoss2DeRolLe__sub_800327C8(void *arg0, void *arg1, int arg2, int arg3) {
+}
+
+void TBoss2DeRolLe::sub_800327C8(u32 reason, s32 from, s32 to) {
     s32 r;
-    switch ((uaddr)arg1) {
+    switch (reason) {
     case 4:
-        o->fB8 = 1;
-        ((void (*)(void *))TBoss2DeRolLe__sub_800341F0)(o);
-        o->flags &= ~4;
-        o->flags |= 0x100;
-        o->mode = arg2;
-        o->sub = arg3;
-        set_position_index__13TBoss2DeRolLeFPvi(o, o->mode);
-        o->done = 0;
-        o->baseX = o->x;
-        o->baseZ = o->z;
-        switch (o->mode) {
+        requested_action = 1;
+        sub_800341F0();
+        state_flags &= ~4;
+        state_flags |= 0x100;
+        position_index = from;
+        next_position_index = to;
+        set_position_index(position_index);
+        state_step = 0;
+        state_floats[0] = position.x;
+        state_floats[1] = position.z;
+        switch (position_index) {
         case 0:
-            o->scaleX = 1.0f;
-            switch (o->sub) {
+            state_floats[2] = 1.0f;
+            switch (next_position_index) {
             case 2:
                 break;
             case 1:
-                o->kind = 1;
+                unk_6E4 = 1;
                 break;
             case 3:
-                o->kind = 3;
+                unk_6E4 = 3;
                 break;
             }
             break;
         case 1:
-            o->kind = 2;
-            switch (o->sub) {
+            unk_6E4 = 2;
+            switch (next_position_index) {
             case 1:
                 break;
             case 2:
-                o->scaleX = 1.0f;
+                state_floats[2] = 1.0f;
                 break;
             case 0:
-                o->scaleX = -1.0f;
+                state_floats[2] = -1.0f;
                 break;
             }
             break;
         case 2:
-            o->scaleX = -1.0f;
-            switch (o->sub) {
+            state_floats[2] = -1.0f;
+            switch (next_position_index) {
             case 2:
                 break;
             case 1:
-                o->kind = 1;
+                unk_6E4 = 1;
                 break;
             case 3:
-                o->kind = 3;
+                unk_6E4 = 3;
                 break;
             }
             break;
         case 3:
-            o->kind = 0;
-            switch (o->sub) {
+            unk_6E4 = 0;
+            switch (next_position_index) {
             case 1:
                 break;
             case 2:
-                o->scaleX = 1.0f;
+                state_floats[2] = 1.0f;
                 break;
             case 0:
-                o->scaleX = -1.0f;
+                state_floats[2] = -1.0f;
                 break;
             }
             break;
         }
-        switch (o->kind) {
+        switch (unk_6E4) {
         case 0:
-            init_wave_params__13TBoss2DeRolLeFPv(o);
-            o->scaleZ = 1.0f;
+            init_wave_params();
+            state_floats[3] = 1.0f;
             break;
         case 1:
-            init_head_params__13TBoss2DeRolLeFPv(o);
-            o->scaleZ = 1.0f;
+            init_head_params();
+            state_floats[3] = 1.0f;
             break;
         case 2:
-            init_movement__13TBoss2DeRolLeFPv(o);
-            o->scaleZ = -1.0f;
+            init_movement();
+            state_floats[3] = -1.0f;
             break;
         case 3:
-            init_move_params__13TBoss2DeRolLeFPv(o);
-            o->scaleZ = -1.0f;
+            init_move_params();
+            state_floats[3] = -1.0f;
             break;
         }
         break;
     case 2:
-        if (o->done == 1) {
-            set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)o, 2);
+        if (state_step == 1) {
+            set_state_and_send(2);
         }
         break;
     case 9:
-        if (o->done == 1) {
-            advance_action_sequence__13TBoss2DeRolLeFPv((Obj_80034034 *)o);
+        if (state_step == 1) {
+            advance_action_sequence();
         }
         break;
     case 0:
-        ((TObjMotion *)arg0)->advance_animation();
-        ((void (*)(void *))TBoss2DeRolLe__sub_800338BC)(o);
+        advance_animation();
+        sub_800338BC();
         r = 0;
-        switch (o->kind) {
+        switch (unk_6E4) {
         case 0:
-            r = TBoss2DeRolLe__sub_80034574(o);
+            r = sub_80034574();
             break;
         case 1:
-            r = update_phase_is_done__13TBoss2DeRolLeFPv(o);
-            o->z = o->baseZ + o->ampZ;
+            r = update_phase_is_done();
+            position.z = state_floats[1] + motion_z.travelled;
             break;
         case 2:
-            r = TBoss2DeRolLe__sub_80034800(o);
-            o->z = o->baseZ - o->ampZ;
+            r = sub_80034800();
+            position.z = state_floats[1] - motion_z.travelled;
             break;
         case 3:
-            r = update_state__13TBoss2DeRolLeFPv(o);
-            o->z = o->baseZ - o->ampZ;
+            r = update_state();
+            position.z = state_floats[1] - motion_z.travelled;
             break;
         }
         if (r != 0) {
-            o->done = 1;
+            state_step = 1;
         }
-        o->x = o->ampX * o->scaleX + o->baseX;
-        o->z = o->ampZ * o->scaleZ + o->baseZ;
+        position.x = motion_x.travelled * state_floats[2] + state_floats[0];
+        position.z = motion_z.travelled * state_floats[3] + state_floats[1];
         break;
     case 5:
-        o->mode = o->sub;
+        position_index = next_position_index;
         break;
     }
 }
 
-#define self ((D_800320B4 *) arg0)
-
-void TBoss2DeRolLe__sub_800320B4(void *arg0, void *arg1, int arg2, int arg3) {
-    switch ((uaddr) arg1) {
+void TBoss2DeRolLe::sub_800320B4(u32 reason, s32 from, s32 to) {
+    switch (reason) {
     case 4:
-        TBoss2DeRolLe__sub_800341F0((Obj_800341F0 *) self);
-        self->flags |= 4;
-        self->flags &= ~0x100;
-        self->mode = arg2;
-        self->next_mode = arg3;
-        set_position_index__13TBoss2DeRolLeFPvi(self, self->mode);
-        if (self->mode == 0) {
-            self->fB8 = 5;
-            self->dir = -1.0f;
+        sub_800341F0();
+        state_flags |= 4;
+        state_flags &= ~0x100;
+        position_index = from;
+        next_position_index = to;
+        set_position_index(position_index);
+        if (position_index == 0) {
+            requested_action = 5;
+            state_floats[0] = -1.0f;
         } else {
-            self->fB8 = 6;
-            self->dir = 1.0f;
+            requested_action = 6;
+            state_floats[0] = 1.0f;
         }
-        self->phase = 0;
-        self->f6E4 = 0;
-        self->step = 0;
-        self->f700 = 0.0f;
-        self->f704 = 0.0f;
-        self->vx = 0.0f;
-        self->ay = 0.0f;
-        self->vy = 0.0f;
-        self->tick = 0;
+        state_step = 0;
+        unk_6E4 = 0;
+        unk_6E8 = 0;
+        state_floats[1] = 0.0f;
+        state_floats[2] = 0.0f;
+        state_floats[4] = 0.0f;
+        state_floats[5] = 0.0f;
+        state_floats[3] = 0.0f;
+        unk_6EC = 0;
         break;
     case 2:
-        if (self->phase == 2) {
-            set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *) self, 2);
+        if (state_step == 2) {
+            set_state_and_send(2);
         }
         break;
     case 9:
-        if (self->phase == 2) {
-            advance_action_sequence__13TBoss2DeRolLeFPv((Obj_80034034 *) self);
+        if (state_step == 2) {
+            advance_action_sequence();
         }
         break;
     case 0:
-        switch (self->phase) {
+        switch (state_step) {
         case 0:
-            ((TObjMotion *)self)->advance_animation();
-            if (!(self->fB0 & 4)) {
-                self->phase = 1;
+            advance_animation();
+            if (!(motion_flags & 4)) {
+                state_step = 1;
             }
             break;
         case 1:
-            ((TObjMotion *)self)->advance_animation();
-            switch (self->step) {
+            advance_animation();
+            switch (unk_6E8) {
             case 0:
-                if (self->frame >= 10.0f) {
-                    self->step = 1;
-                    self->vx = 3.25f * self->dir;
+                if (frame >= 10.0f) {
+                    unk_6E8 = 1;
+                    state_floats[4] = 3.25f * state_floats[0];
                 }
                 break;
             case 1:
-                if (self->frame >= 20.0f) {
-                    self->step = 2;
-                    self->vx = -5.625f * self->dir;
-                    self->ay = (270.0f - self->z + 72.666664f * -self->vy) / 1034.6666f;
+                if (frame >= 20.0f) {
+                    unk_6E8 = 2;
+                    state_floats[4] = -5.625f * state_floats[0];
+                    state_floats[5] = (270.0f - position.z + 72.666664f * -state_floats[3]) / 1034.6666f;
                 }
                 break;
             case 2:
-                if (self->frame >= 28.0f) {
-                    self->step = 3;
-                    self->f700 = (calc_node_height__13TBoss2DeRolLeFPv(self) - self->f700) / 2.5f;
-                    self->f704 = (2.0f * self->f700) / 56.666664f;
-                    self->vx = -6.5294123f * self->dir;
-                    self->tick = 0;
+                if (frame >= 28.0f) {
+                    unk_6E8 = 3;
+                    state_floats[1] = (calc_node_height() - state_floats[1]) / 2.5f;
+                    state_floats[2] = (2.0f * state_floats[1]) / 56.666664f;
+                    state_floats[4] = -6.5294123f * state_floats[0];
+                    unk_6EC = 0;
                 }
                 break;
             case 3:
-                if (self->frame >= 45.0f) {
-                    self->step = 4;
-                    self->vx = -15.0f * self->dir;
-                    ((TUnk_80036250 *)self->mover)->set_move_params(7.0f, fabs_float(25.0f - self->z), 0.2f, 0.05f);
-                    self->f694 = -(0.5f * self->vy);
-                    self->vy = self->z;
+                if (frame >= 45.0f) {
+                    unk_6E8 = 4;
+                    state_floats[4] = -15.0f * state_floats[0];
+                    motion_z.set_move_params(7.0f, fabs_float(25.0f - position.z), 0.2f, 0.05f);
+                    motion_z.speed = -(0.5f * state_floats[3]);
+                    state_floats[3] = position.z;
                 }
                 break;
             case 4:
-                if (self->frame >= 46.0f) {
-                    self->step = 5;
-                    self->vx = self->dir * ((-175.0f - self->x * self->dir) / 36.0f);
+                if (frame >= 46.0f) {
+                    unk_6E8 = 5;
+                    state_floats[4] = state_floats[0] * ((-175.0f - position.x * state_floats[0]) / 36.0f);
                 }
                 break;
             case 5:
-                if (self->frame >= 64.0f) {
-                    self->step = 6;
+                if (frame >= 64.0f) {
+                    unk_6E8 = 6;
                 }
                 break;
             }
-            if (self->fB8 != 1) {
-                if (((TObjMotion *)self)->is_passing_frame(10.0f) != 0 || ((TObjMotion *)self)->is_passing_frame(41.0f) != 0) {
-                    ((int (*)(int, void *))play_sound)(0x4003AD11, self->snd);
-                } else if (((TObjMotion *)self)->is_passing_frame(25.0f) != 0) {
-                    ((int (*)(int, void *))play_sound)(0x4003AD12, self->snd);
+            if (requested_action != 1) {
+                if (is_passing_frame(10.0f) != 0 || is_passing_frame(41.0f) != 0) {
+                    play_sound(0x4003AD11, &unk_518[0]);
+                } else if (is_passing_frame(25.0f) != 0) {
+                    play_sound(0x4003AD12, &unk_518[0]);
                 }
             }
-            self->tick++;
-            if (self->step != 6) {
-                f32 frame = self->frame;
-                if (frame >= 24.0f && frame <= 32.0f) {
-                    if (self->tick >= 3) {
+            unk_6EC++;
+            if (unk_6E8 != 6) {
+                f32 f = frame;
+                if (f >= 24.0f && f <= 32.0f) {
+                    if (unk_6EC >= 3) {
                         Vec v;
                         s32 i;
-                        self->tick = 0;
-                        ((void (*)(void *, void *)) VecCopy__FP3VecPC3Vec)(&v, &self->x);
+                        unk_6EC = 0;
+                        VecCopy(&v, &position);
                         for (i = 0; i < 10; i++) {
-                            if (v.y * self->recs[i].y < 0.0f) {
+                            if (v.y * joint_positions[i].y < 0.0f) {
                                 break;
                             }
-                            ((void (*)(void *, void *)) VecCopy__FP3VecPC3Vec)(&v, &self->recs[i]);
+                            VecCopy(&v, &joint_positions[i]);
                         }
-                        v.x = v.x - self->dir * (20.0f * ((TObjChara *)self)->random_ratio() + 40.0f);
+                        v.x = v.x - state_floats[0] * (20.0f * random_ratio() + 40.0f);
                         v.y = -5.0f;
-                        v.z = v.z + (20.0f * ((TObjEneDD *)self)->calc_elapsed_scaled() + 70.0f);
-                        ((void (*)(void *, void *)) spawn_ceil_junk__13TBoss2DeRolLeFii)(self, &v);
+                        v.z = v.z + (20.0f * calc_elapsed_scaled() + 70.0f);
+                        spawn_ceil_junk(&v);
                     }
-                } else if (frame >= 41.0f && frame <= 46.0f && self->tick >= 3) {
+                } else if (f >= 41.0f && f <= 46.0f && unk_6EC >= 3) {
                     Vec v;
-                    self->tick = 0;
-                    ((void (*)(void *, void *)) VecCopy__FP3VecPC3Vec)(&v, &self->x);
-                    v.x = v.x + self->dir * (20.0f * ((TObjChara *)self)->random_ratio() + 20.0f);
+                    unk_6EC = 0;
+                    VecCopy(&v, &position);
+                    v.x = v.x + state_floats[0] * (20.0f * random_ratio() + 20.0f);
                     v.y = -5.0f;
-                    v.z = v.z + (60.0f * ((TObjEneDD *)self)->calc_elapsed_scaled() + 10.0f);
-                    ((void (*)(void *, void *)) spawn_ceil_junk__13TBoss2DeRolLeFii)(self, &v);
+                    v.z = v.z + (60.0f * calc_elapsed_scaled() + 10.0f);
+                    spawn_ceil_junk(&v);
                 }
             }
-            switch (self->step) {
+            switch (unk_6E8) {
             case 0:
-                self->vy = self->vy - 0.2f;
-                self->z = self->z + self->vy;
+                state_floats[3] = state_floats[3] - 0.2f;
+                position.z = position.z + state_floats[3];
                 break;
             case 1:
-                self->x = self->x + self->vx;
-                self->z = self->z + self->vy;
+                position.x = position.x + state_floats[4];
+                position.z = position.z + state_floats[3];
                 break;
             case 2:
-                self->x = self->x + self->vx;
-                self->vy = self->vy + self->ay;
-                self->z = self->z + self->vy;
-                self->f700 = calc_node_height__13TBoss2DeRolLeFPv(self);
+                position.x = position.x + state_floats[4];
+                state_floats[3] = state_floats[3] + state_floats[5];
+                position.z = position.z + state_floats[3];
+                state_floats[1] = calc_node_height();
                 break;
             case 3:
-                self->x = self->x + self->vx;
-                self->frame = self->frame - 0.19999999f;
-                self->f6A4 = self->f6A4 + self->f700;
-                self->f700 = self->f700 - self->f704;
-                self->z = self->z + self->vy;
+                position.x = position.x + state_floats[4];
+                frame = frame - 0.19999999f;
+                height_offset = height_offset + state_floats[1];
+                state_floats[1] = state_floats[1] - state_floats[2];
+                position.z = position.z + state_floats[3];
                 break;
             case 4:
-                self->x = self->x + self->vx;
-                update_angle__13TBoss2DeRolLeFPv(self);
-                advance_scalar_motion_profile(self->mover);
-                self->z = self->vy - self->f69C;
+                position.x = position.x + state_floats[4];
+                update_angle();
+                motion_z.advance();
+                position.z = state_floats[3] - motion_z.travelled;
                 break;
             case 5:
-                self->x = self->x + self->vx;
-                update_angle__13TBoss2DeRolLeFPv(self);
-                advance_scalar_motion_profile(self->mover);
-                self->z = self->vy - self->f69C;
+                position.x = position.x + state_floats[4];
+                update_angle();
+                motion_z.advance();
+                position.z = state_floats[3] - motion_z.travelled;
                 break;
             case 6:
-                update_angle__13TBoss2DeRolLeFPv(self);
-                if (advance_scalar_motion_profile(self->mover) == 3) {
-                    self->phase = 2;
+                update_angle();
+                if (motion_z.advance() == 3) {
+                    state_step = 2;
                 }
-                self->z = self->vy - self->f69C;
-                if (self->fB8 == 1) {
-                    self->flags |= 0x100;
+                position.z = state_floats[3] - motion_z.travelled;
+                if (requested_action == 1) {
+                    state_flags |= 0x100;
                 }
                 break;
             }
@@ -4922,374 +2449,371 @@ void TBoss2DeRolLe__sub_800320B4(void *arg0, void *arg1, int arg2, int arg3) {
         }
         break;
     case 5:
-        self->mode = self->next_mode;
-        self->flags &= ~4;
+        position_index = next_position_index;
+        state_flags &= ~4;
         break;
     }
 }
 
 #undef o
 #undef self
-#define o ((Rol_80031AD4 *)arg0)
 
-extern "C" {
-
-void TBoss2DeRolLe__sub_80031AD4(void *arg0, void *arg1) {
+void TBoss2DeRolLe::sub_80031AD4(u32 reason) {
     Vec va;
     Vec vb;
 
-    switch ((uaddr)arg1) {
+    switch (reason) {
     case 4:
-        o->fB8 = 1;
-        TBoss2DeRolLe__sub_800341F0((Obj_800341F0 *)o);
-        o->f3C0 |= 4;
-        o->f3C0 &= ~0x100;
-        o->f654 = 3;
-        set_position_index__13TBoss2DeRolLeFPvi(o, o->f654);
-        o->f6E0 = 0;
-        o->f6E8 = 0;
-        o->f6E4 = 0;
-        o->f6FC = 0.0f;
-        o->f700 = 0.0f;
-        o->f704 = 0.0f;
-        o->f708 = 0.0f;
-        o->f6EC = 0;
+        requested_action = 1;
+        sub_800341F0();
+        state_flags |= 4;
+        state_flags &= ~0x100;
+        position_index = 3;
+        set_position_index(position_index);
+        state_step = 0;
+        unk_6E8 = 0;
+        unk_6E4 = 0;
+        state_floats[0] = 0.0f;
+        state_floats[1] = 0.0f;
+        state_floats[2] = 0.0f;
+        state_floats[3] = 0.0f;
+        unk_6EC = 0;
         break;
     case 2:
-        if (o->f6E0 == 3) {
-            set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)o, 2);
+        if (state_step == 3) {
+            set_state_and_send(2);
         }
         break;
     case 9:
-        if (o->f6E0 == 3) {
-            advance_action_sequence__13TBoss2DeRolLeFPv((Obj_80034034 *)o);
+        if (state_step == 3) {
+            advance_action_sequence();
         }
         break;
     case 0:
-        ((TObjMotion *)o)->advance_animation();
-        switch (o->f6E0) {
+        advance_animation();
+        switch (state_step) {
         case 0:
-            o->f6E8++;
-            if (o->f6E8 > 0x14) {
-                o->fB8 = 4;
-                o->f6E0 = 1;
+            unk_6E8++;
+            if (unk_6E8 > 0x14) {
+                requested_action = 4;
+                state_step = 1;
             }
-            o->f704 -= 0.2f;
-            if (o->f704 < -7.0f) {
-                o->f704 = -7.0f;
+            state_floats[2] -= 0.2f;
+            if (state_floats[2] < -7.0f) {
+                state_floats[2] = -7.0f;
             }
-            o->pos.z += o->f704;
+            position.z += state_floats[2];
             break;
         case 1:
-            if (!(o->fB0 & 4)) {
-                o->f6E0 = 2;
+            if (!(motion_flags & 4)) {
+                state_step = 2;
             }
             break;
         case 2:
-            switch (o->f6E4) {
+            switch (unk_6E4) {
             case 0:
-                if (o->fC0 >= 10.5f) {
-                    o->f6E4 = 1;
-                    o->f708 = (300.0f - o->pos.z + 49.102562f * -o->f704) / 732.1581f;
-                    o->f6EC = 0;
+                if (frame >= 10.5f) {
+                    unk_6E4 = 1;
+                    state_floats[3] = (300.0f - position.z + 49.102562f * -state_floats[2]) / 732.1581f;
+                    unk_6EC = 0;
                 }
                 break;
             case 1:
-                if (o->fC0 >= 16.0f) {
-                    o->f6E4 = 2;
-                    o->f6FC = 4.0f * (40.0f - o->pos.y) / 30.76923f;
-                    o->f700 = 2.0f * o->f6FC / 30.76923f;
-                    o->f6EC = 0;
+                if (frame >= 16.0f) {
+                    unk_6E4 = 2;
+                    state_floats[0] = 4.0f * (40.0f - position.y) / 30.76923f;
+                    state_floats[1] = 2.0f * state_floats[0] / 30.76923f;
+                    unk_6EC = 0;
                 }
                 break;
             case 2:
-                if (o->fC0 >= 22.0f) {
-                    o->f6E4 = 3;
-                    o->f704 *= 0.5f;
-                    o->f708 = 0.0f;
+                if (frame >= 22.0f) {
+                    unk_6E4 = 3;
+                    state_floats[2] *= 0.5f;
+                    state_floats[3] = 0.0f;
                 }
                 break;
             case 3:
-                if (o->fC0 >= 29.0f) {
-                    o->f6E4 = 4;
+                if (frame >= 29.0f) {
+                    unk_6E4 = 4;
                 }
                 break;
             }
-            if (o->fB8 != 1) {
-                if (((TObjMotion *)o)->is_passing_frame(4.0f) != 0 || ((TObjMotion *)o)->is_passing_frame(22.0f) != 0) {
-                    play_sound((void *)0x4003AD11, (saddr)o->f518);
-                } else if (((TObjMotion *)o)->is_passing_frame(14.0f) != 0) {
-                    play_sound((void *)0x4003AD12, (saddr)o->f518);
+            if (requested_action != 1) {
+                if (is_passing_frame(4.0f) != 0 || is_passing_frame(22.0f) != 0) {
+                    play_sound(0x4003AD11, &unk_518[0]);
+                } else if (is_passing_frame(14.0f) != 0) {
+                    play_sound(0x4003AD12, &unk_518[0]);
                 }
             }
-            switch (o->f6E4) {
+            switch (unk_6E4) {
             case 1:
-                o->f6EC++;
-                if (o->fC0 >= 13.5f && o->f6EC >= 2) {
-                    o->f6EC = 0;
-                    ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&va, &o->pos);
-                    va.x += 50.0f * ((TObjEneDD *)o)->calc_elapsed_scaled();
+                unk_6EC++;
+                if (frame >= 13.5f && unk_6EC >= 2) {
+                    unk_6EC = 0;
+                    VecCopy(&va, &position);
+                    va.x += 50.0f * calc_elapsed_scaled();
                     va.y = -5.0f;
                     va.z += 180.0f;
-                    ((void (*)(void *, void *))spawn_ceil_junk__13TBoss2DeRolLeFii)(o, &va);
+                    spawn_ceil_junk(&va);
                 }
                 break;
             case 2:
             case 3:
-                o->f6EC++;
-                if (o->f6EC >= 2 && o->fC0 >= 21.0f && o->fC0 <= 26.0f) {
-                    o->f6EC = 0;
-                    ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&vb, &o->pos);
-                    vb.x += 50.0f * ((TObjEneDD *)o)->calc_elapsed_scaled();
+                unk_6EC++;
+                if (unk_6EC >= 2 && frame >= 21.0f && frame <= 26.0f) {
+                    unk_6EC = 0;
+                    VecCopy(&vb, &position);
+                    vb.x += 50.0f * calc_elapsed_scaled();
                     vb.y = -5.0f;
                     vb.z += -20.0f;
-                    ((void (*)(void *, void *))spawn_ceil_junk__13TBoss2DeRolLeFii)(o, &vb);
+                    spawn_ceil_junk(&vb);
                 }
                 break;
             }
-            switch (o->f6E4) {
+            switch (unk_6E4) {
             case 0:
-                o->f704 -= 0.2f;
-                if (o->f704 < -7.0f) {
-                    o->f704 = -7.0f;
+                state_floats[2] -= 0.2f;
+                if (state_floats[2] < -7.0f) {
+                    state_floats[2] = -7.0f;
                 }
-                o->pos.z += o->f704;
+                position.z += state_floats[2];
                 break;
             case 1:
-                o->f704 += o->f708;
-                o->pos.z += o->f704;
-                o->f6FC = calc_node_height__13TBoss2DeRolLeFPv(o);
+                state_floats[2] += state_floats[3];
+                position.z += state_floats[2];
+                state_floats[0] = calc_node_height();
                 break;
             case 2:
-                o->pos.z += o->f704;
-                o->f6A4 += o->f6FC;
-                o->f6FC -= o->f700;
-                o->fC0 -= 0.105000004f;
+                position.z += state_floats[2];
+                height_offset += state_floats[0];
+                state_floats[0] -= state_floats[1];
+                frame -= 0.105000004f;
                 break;
             case 3:
             case 4:
-                if (o->f708 <= 0.0f) {
-                    o->f704 -= 0.2f;
-                    if (o->f704 <= 0.0f) {
-                        o->f708 = 1.0f;
-                        ((TUnk_80036250 *)o->f684)->set_move_params(7.0f, fabs_float(500.0f - o->pos.z), 0.2f, 0.05f);
-                        o->f704 = o->pos.z;
+                if (state_floats[3] <= 0.0f) {
+                    state_floats[2] -= 0.2f;
+                    if (state_floats[2] <= 0.0f) {
+                        state_floats[3] = 1.0f;
+                        motion_z.set_move_params(7.0f, fabs_float(500.0f - position.z), 0.2f, 0.05f);
+                        state_floats[2] = position.z;
                     } else {
-                        o->pos.z += o->f704;
+                        position.z += state_floats[2];
                     }
-                } else if (advance_scalar_motion_profile(o->f684) == 3) {
-                    o->f6E0 = 3;
+                } else if (motion_z.advance() == 3) {
+                    state_step = 3;
                 } else {
-                    o->pos.z = o->f704 - o->f69C;
+                    position.z = state_floats[2] - motion_z.travelled;
                 }
-                update_angle__13TBoss2DeRolLeFPv(o);
+                update_angle();
                 break;
             }
             break;
         }
         break;
     case 5:
-        o->f654 = 1;
-        o->f3C0 &= ~4;
+        position_index = 1;
+        state_flags &= ~4;
         break;
     }
 }
 
 #undef o
 
-void TBoss2DeRolLe__sub_800313F8(DR_800313F8 *o, u32 arg1, s32 arg2) {
-    switch (arg1) {
+void TBoss2DeRolLe::sub_800313F8(u32 reason, s32 side) {
+    switch (reason) {
     case 4:
-        o->fB8 = 1;
-        TBoss2DeRolLe__sub_800341F0((Obj_800341F0 *)(o));
-        o->f3C0 |= 4;
-        o->f3C0 &= ~0x100;
-        o->f654 = arg2;
-        set_position_index__13TBoss2DeRolLeFPvi(o, o->f654);
-        o->f6FC = 0.0f;
-        o->f708 = 0.0f;
-        o->f704 = 0.0f;
-        o->f700 = 0.0f;
-        o->f70C = -0.2f;
-        o->f710 = 0.0f;
-        o->f714 = o->pos.z;
-        o->f718 = 0.0f;
-        o->f6E4 = 0;
-        o->f6E0 = 0;
-        o->f6E8 = 0;
-        o->f73C = 0;
-        o->f6EC = 0;
+        requested_action = 1;
+        sub_800341F0();
+        state_flags |= 4;
+        state_flags &= ~0x100;
+        position_index = side;
+        set_position_index(position_index);
+        state_floats[0] = 0.0f;
+        state_floats[3] = 0.0f;
+        state_floats[2] = 0.0f;
+        state_floats[1] = 0.0f;
+        state_floats[4] = -0.2f;
+        state_floats[5] = 0.0f;
+        state_floats[6] = position.z;
+        state_floats[7] = 0.0f;
+        unk_6E4 = 0;
+        state_step = 0;
+        unk_6E8 = 0;
+        unk_73C = 0;
+        unk_6EC = 0;
         break;
     case 2: {
-        u32 fl = o->f3CC->f8;
-        if (fl & 0x400) {
-            if (o->f654 == 0) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)(o), 0x14);
+        u32 buttons = debug_pad->unknown_08;
+        if (buttons & 0x400) {
+            if (position_index == 0) {
+                set_state_and_send(0x14);
             } else {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)(o), 0x15);
+                set_state_and_send(0x15);
             }
-        } else if (fl & 4) {
-            if (o->f654 == 0) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)(o), 0x16);
+        } else if (buttons & 4) {
+            if (position_index == 0) {
+                set_state_and_send(0x16);
             } else {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)(o), 0x17);
+                set_state_and_send(0x17);
             }
         }
         break;
     }
     case 9:
-        if (o->fB8 == 0xA || o->fB8 == 9) {
-            advance_action_sequence__13TBoss2DeRolLeFPv((Obj_80034034 *)(o));
+        if (requested_action == 0xA || requested_action == 9) {
+            advance_action_sequence();
         }
         break;
     case 0:
-        ((TObjMotion *)o)->advance_animation();
-        switch (o->f6E0) {
+        advance_animation();
+        switch (state_step) {
         case 0:
-            o->f6E4++;
-            if (o->f6E4 > 0xA) {
-                o->f6E4 = 0;
-                o->f6E0 = 1;
-                if (o->f654 == 0) {
-                    o->fB8 = 7;
-                    o->f6FC = -1.0f;
+            unk_6E4++;
+            if (unk_6E4 > 0xA) {
+                unk_6E4 = 0;
+                state_step = 1;
+                if (position_index == 0) {
+                    requested_action = 7;
+                    state_floats[0] = -1.0f;
                 } else {
-                    o->fB8 = 8;
-                    o->f6FC = 1.0f;
+                    requested_action = 8;
+                    state_floats[0] = 1.0f;
                 }
             }
             break;
         case 1:
-            if (!(o->fB0 & 4)) {
-                o->f6E0 = 2;
+            if (!(motion_flags & 4)) {
+                state_step = 2;
             }
             break;
         case 2:
-            if (o->fC0 >= 6.0f) {
-                o->f6E0 = 3;
-                o->f708 = 0.0f;
-                o->f700 = o->pos.x;
-                o->f704 = (100.0f * o->f6FC - o->f700) / 7.0f;
-                o->f70C = -(o->f710 / 7.0f);
-                o->f714 = o->pos.z;
-                o->f710 = 0.0f;
+            if (frame >= 6.0f) {
+                state_step = 3;
+                state_floats[3] = 0.0f;
+                state_floats[1] = position.x;
+                state_floats[2] = (100.0f * state_floats[0] - state_floats[1]) / 7.0f;
+                state_floats[4] = -(state_floats[5] / 7.0f);
+                state_floats[6] = position.z;
+                state_floats[5] = 0.0f;
             }
             break;
         case 3:
-            if (o->fC0 >= 13.0f) {
-                o->f6E0 = 4;
-                o->f708 = 0.0f;
-                o->f700 = 100.0f * o->f6FC;
-                o->f704 = (135.0f * o->f6FC - o->f700) / 7.0f;
-                o->f714 = o->pos.z;
-                o->f70C = (2.0f * (10.0f - o->pos.z)) / 144.0f;
-                o->f710 = 0.0f;
+            if (frame >= 13.0f) {
+                state_step = 4;
+                state_floats[3] = 0.0f;
+                state_floats[1] = 100.0f * state_floats[0];
+                state_floats[2] = (135.0f * state_floats[0] - state_floats[1]) / 7.0f;
+                state_floats[6] = position.z;
+                state_floats[4] = (2.0f * (10.0f - position.z)) / 144.0f;
+                state_floats[5] = 0.0f;
             }
             break;
         case 4:
-            if (o->fC0 >= 20.0f) {
-                o->f6E0 = 5;
-                o->f708 = 0.0f;
-                o->f700 = 135.0f * o->f6FC;
-                o->f704 = (100.0f * o->f6FC - o->f700) / 5.0f;
-                o->f718 = (1280.0f * -o->f6FC) / 5.0f;
+            if (frame >= 20.0f) {
+                state_step = 5;
+                state_floats[3] = 0.0f;
+                state_floats[1] = 135.0f * state_floats[0];
+                state_floats[2] = (100.0f * state_floats[0] - state_floats[1]) / 5.0f;
+                state_floats[7] = (1280.0f * -state_floats[0]) / 5.0f;
             }
             break;
         case 5:
-            if (o->fC0 >= 25.0f) {
+            if (frame >= 25.0f) {
                 s32 i;
-                o->f6E0 = 6;
+                state_step = 6;
                 TCameraCtrl::set_shake_preset(1);
-                if (o->f654 == 0) {
-                    TObjBoss2Tunnel__sub_8003C610();
+                if (position_index == 0) {
+                    TObjBoss2Tunnel::sub_8003C610();
                 } else {
-                    TObjBoss2Tunnel__sub_8003C5F8();
+                    TObjBoss2Tunnel::sub_8003C5F8();
                 }
-                ((int (*)(s32, void *))play_sound)(0x4003A507, o->snd);
+                play_sound(0x4003A507, &unk_518[0]);
                 for (i = 0; i < 4; i++) {
-                    ((TBoss2Tentacle *)(o->tentacles[i]))->forward_80039DC8();
+                    tentacles[i]->raise();
                 }
             }
             break;
         case 6:
             break;
         }
-        o->f6E8++;
-        if (o->f6E0 != 0 && o->f6E0 != 1) {
-            if (o->fC0 >= 15.0f && o->fC0 <= 17.0f && o->f6E8 >= 2) {
+        unk_6E8++;
+        if (state_step != 0 && state_step != 1) {
+            if (frame >= 15.0f && frame <= 17.0f && unk_6E8 >= 2) {
                 Vec v;
                 f32 s;
-                o->f6E8 = 0;
-                VecCopy__FP3VecPC3Vec((saddr)&v, &o->v4E8);
-                s = 50.0f * ((TObjChara *)o)->random_ratio();
-                v.x = v.x - o->f6FC * s;
+                unk_6E8 = 0;
+                VecCopy(&v, &part_points[0]);
+                s = 50.0f * random_ratio();
+                v.x = v.x - state_floats[0] * s;
                 v.y = -5.0f;
                 v.z += 40.0f;
-                ((void (*)(void *, Vec *))spawn_ceil_junk__13TBoss2DeRolLeFii)(o, &v);
+                spawn_ceil_junk(&v);
             }
-            if (((TObjMotion *)o)->is_passing_frame(15.0f) != 0) {
-                ((int (*)(s32, void *))play_sound)(0x4003AD11, o->snd);
+            if (is_passing_frame(15.0f) != 0) {
+                play_sound(0x4003AD11, &unk_518[0]);
             }
-            if (o->f73C == 0) {
-                o->f73C = create_particle_emitter(&o->pos, 0x161);
-                if (o->f73C != 0) {
-                    ((TParticleCtrl *)(o->f73C))->enable();
+            if (unk_73C == 0) {
+                unk_73C = create_particle_emitter(&position, 0x161);
+                if (unk_73C != 0) {
+                    unk_73C->enable();
                 }
-            } else if (o->fC0 >= 24.0f && o->fC0 <= 30.0f) {
-                o->f6EC++;
-                if (o->f6EC % 4 == 0) {
-                    ((TParticleCtrl *)o->f73C)->set_position(&o->v44C);
-                } else if (o->f6EC % 4 == 2) {
-                    ((TParticleCtrl *)o->f73C)->set_position(&o->v458);
+            } else if (frame >= 24.0f && frame <= 30.0f) {
+                unk_6EC++;
+                if (unk_6EC % 4 == 0) {
+                    unk_73C->set_position(&node_positions[7]);
+                } else if (unk_6EC % 4 == 2) {
+                    unk_73C->set_position(&node_positions[8]);
                 } else {
-                    ((TParticleCtrl *)(o->f73C))->enable();
+                    unk_73C->enable();
                 }
             } else {
-                ((TParticleCtrl *)(o->f73C))->enable();
+                unk_73C->enable();
             }
         }
-        switch (o->f6E0) {
+        switch (state_step) {
         case 0:
         case 1:
         case 2:
-            o->f710 += o->f70C;
-            if (o->f710 < -7.0f) {
-                o->f710 = -7.0f;
+            state_floats[5] += state_floats[4];
+            if (state_floats[5] < -7.0f) {
+                state_floats[5] = -7.0f;
             }
-            o->pos.z += o->f710;
+            position.z += state_floats[5];
             break;
         case 3: {
-            f32 t = o->fC0 - 6.0f;
-            o->pos.x = o->f704 * t + o->f700;
-            f32 h = 0.5f * o->f70C;
-            o->pos.z = t * (h * t + -7.0f) + o->f714;
-            if (((TObjMotion *)o)->is_passing_frame(8.5f) != 0) {
-                ((int (*)(s32, void *))play_sound)(0x4003AD12, o->snd);
+            f32 t = frame - 6.0f;
+            position.x = state_floats[2] * t + state_floats[1];
+            f32 h = 0.5f * state_floats[4];
+            position.z = t * (h * t + -7.0f) + state_floats[6];
+            if (is_passing_frame(8.5f) != 0) {
+                play_sound(0x4003AD12, &unk_518[0]);
             }
             break;
         }
         case 4: {
-            f32 t = o->fC0 - 13.0f;
-            o->pos.x = o->f704 * t + o->f700;
-            f32 h = 0.5f * o->f70C;
-            o->pos.z = t * (h * t) + o->f714;
-            o->f6A4 = 28.0f * t;
-            if (o->f6A4 > 4.0f) {
-                o->f6A4 = 4.0f;
+            f32 t = frame - 13.0f;
+            position.x = state_floats[2] * t + state_floats[1];
+            f32 h = 0.5f * state_floats[4];
+            position.z = t * (h * t) + state_floats[6];
+            height_offset = 28.0f * t;
+            if (height_offset > 4.0f) {
+                height_offset = 4.0f;
             }
             break;
         }
         case 5: {
-            f32 t = o->fC0 - 20.0f;
+            f32 t = frame - 20.0f;
             f32 u;
-            o->pos.x = o->f704 * t + o->f700;
-            u = o->fC0 - 13.0f;
+            position.x = state_floats[2] * t + state_floats[1];
+            u = frame - 13.0f;
             {
-                f32 h = 0.5f * o->f70C;
+                f32 h = 0.5f * state_floats[4];
                 f32 w = u * (h * u);
-                o->pos.z = o->f714 + w;
+                position.z = state_floats[6] + w;
             }
-            o->f64 = o->f718 * t;
+            rotation_z = state_floats[7] * t;
             break;
         }
         case 6:
@@ -5297,122 +2821,118 @@ void TBoss2DeRolLe__sub_800313F8(DR_800313F8 *o, u32 arg1, s32 arg2) {
         }
         break;
     case 5:
-        o->f3C0 &= ~4;
-        if (o->f73C != 0) {
-            ((TObject *)o->f73C)->queue_destruction();
-            o->f73C = 0;
+        state_flags &= ~4;
+        if (unk_73C != 0) {
+            unk_73C->queue_destruction();
+            unk_73C = 0;
         }
         break;
     }
 }
 
-}
-
 #pragma pop
 
-#define self ((Self_800310F8 *)arg0)
+// TBoss2Tentacle's state == 4 test (turning to its rest angle).
+extern "C" s32 TBoss2Tentacle__sub_80039CA0(void *);
 
-void TBoss2DeRolLe__sub_800310F8(void *arg0, void *arg1, int arg2) {
+void TBoss2DeRolLe::sub_800310F8(u32 reason, s32 side) {
     Vec v;
     s32 a;
     s32 ok;
     s32 i;
-    switch ((uaddr)arg1) {
+    switch (reason) {
     case 4:
-        TBoss2DeRolLe__sub_800341F0((Obj_800341F0 *)self);
-        self->flags &= ~4;
-        self->flags &= ~0x100;
-        self->dir = arg2;
-        set_move_direction__13TBoss2DeRolLeFPv(self, self->dir);
-        if (self->dir == 0) {
-            self->fB8 = 9;
+        sub_800341F0();
+        state_flags &= ~4;
+        state_flags &= ~0x100;
+        position_index = side;
+        set_move_direction(position_index);
+        if (position_index == 0) {
+            requested_action = 9;
         } else {
-            self->fB8 = 10;
+            requested_action = 10;
         }
-        self->phase = 0;
-        self->timer = 0;
-        self->idx = 0;
+        state_step = 0;
+        unk_6E4 = 0;
+        unk_6E8 = 0;
         if (TObjEneDD::check_v2_mode() != 0) {
-            self->limit = *(s32 *)((s8 *)TBoss2DeRolLe__data_805D4BA0 + 0x24);
-            self->life = *(s32 *)((s8 *)TBoss2DeRolLe__data_805D4BA0 + 0x28);
+            unk_6EC = derolle_params[0]->unk_24;
+            unk_6F0 = derolle_params[0]->unk_28;
         } else {
-            self->limit = 0xB4;
-            self->life = 0x78;
+            unk_6EC = 0xB4;
+            unk_6F0 = 0x78;
         }
         break;
     case 2:
-        if (self->phase == 3) {
-            if (self->dir == 0) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)self, 0x16);
+        if (state_step == 3) {
+            if (position_index == 0) {
+                set_state_and_send(0x16);
             } else {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)self, 0x17);
+                set_state_and_send(0x17);
             }
         }
         break;
     case 9:
-        if (self->phase == 3) {
-            advance_action_sequence__13TBoss2DeRolLeFPv((Obj_80034034 *)self);
+        if (state_step == 3) {
+            advance_action_sequence();
         }
         break;
     case 0:
-        ((TObjMotion *)self)->advance_animation();
-        switch (self->phase) {
+        advance_animation();
+        switch (state_step) {
         case 0:
-            self->timer++;
-            if (self->timer > 0x28) {
-                self->phase = 1;
-                self->timer = 0;
-                self->idx = 0;
+            unk_6E4++;
+            if (unk_6E4 > 0x28) {
+                state_step = 1;
+                unk_6E4 = 0;
+                unk_6E8 = 0;
             }
             break;
         case 1:
-            self->timer++;
-            if (self->timer >= self->limit) {
-                self->timer = 0;
-                if (((TObjEneDD_ST *)self)->enemy_has_live_target() != 0) {
-                    VecCopy__FP3VecPC3Vec((saddr)&v, self->f390 + 0x38);
+            unk_6E4++;
+            if (unk_6E4 >= unk_6EC) {
+                unk_6E4 = 0;
+                if (enemy_has_live_target() != 0) {
+                    VecCopy(&v, &current_target->position);
                 } else {
-                    f32 r = 120.0f * ((TObjChara *)self)->random_ratio();
-                    a = ((TObjEneDD *)self)->get_random_scaled();
+                    f32 r = 120.0f * random_ratio();
+                    a = get_random_scaled();
                     v.x = r * sin_table_lookup(a);
                     v.y = -1.85f;
                     v.z = r * cos_table_lookup(a);
-                    TObjBoss2Tunnel::adjust_to_ground((saddr)&v, &v);
+                    TObjBoss2Tunnel::adjust_to_ground(&v, &v);
                 }
-                {
-                    Self_800310F8 *o = (Self_800310F8 *)arg0;
-                    ((TBoss2Tentacle *)(o->parts[o->idx]))->start_attack_at_target((u8 *)&v, o->life);
-                }
-                self->idx++;
-                if (self->idx >= 4) {
-                    self->timer = 0;
-                    self->phase = 2;
+                tentacles[unk_6E8]->start_attack_at_target((u8 *)&v, unk_6F0);
+                unk_6E8++;
+                if (unk_6E8 >= 4) {
+                    unk_6E4 = 0;
+                    state_step = 2;
                 }
             }
             break;
         case 2:
             ok = 1;
-            self->timer++;
+            unk_6E4++;
             for (i = 0; i < 4; i++) {
-                if (TBoss2Tentacle__sub_80039CA0(self->parts[i]) == 0) {
+                if (TBoss2Tentacle__sub_80039CA0(tentacles[i]) == 0) {
                     ok = 0;
                     break;
                 }
             }
-            if (ok != 0 || self->timer > 0x258) {
-                self->phase = 3;
+            if (ok != 0 || unk_6E4 > 0x258) {
+                state_step = 3;
             }
             break;
         }
         break;
     case 6:
-        pick_random_target__13TBoss2DeRolLeFi((saddr)self);
+        pick_random_target();
         break;
     case 5:
         {
             s32 j;
             for (j = 0; j < 4; j++) {
-                TBoss2Tentacle__sub_80039E68(self->parts[j]);
+                tentacles[j]->drop_back();
             }
         }
         break;
@@ -5422,83 +2942,79 @@ void TBoss2DeRolLe__sub_800310F8(void *arg0, void *arg1, int arg2) {
 #pragma push
 #pragma fp_contract on
 
-#undef self
-#define F(t, o) (*(t *)(arg0 + (o)))
-#define arg0 ((u8 *)arg0_)
-
-void TBoss2DeRolLe__sub_80030DFC(void *arg0_, void *arg1_, int arg2) {
-    switch ((uaddr)arg1_) {
+void TBoss2DeRolLe::sub_80030DFC(u32 reason, s32 side) {
+    switch (reason) {
     case 4:
-        TBoss2DeRolLe__sub_800341F0((Obj_800341F0 *)arg0);
-        F(s32, 0x3C0) |= 4;
-        F(s32, 0x3C0) &= ~0x100;
-        F(s32, 0x654) = arg2;
-        set_move_direction__13TBoss2DeRolLeFPv(arg0, F(s32, 0x654));
-        if (F(s32, 0x654) == 0) {
-            F(f32, 0x700) = -1.0f;
-            F(s16, 0xB8) = 9;
+        sub_800341F0();
+        state_flags |= 4;
+        state_flags &= ~0x100;
+        position_index = side;
+        set_move_direction(position_index);
+        if (position_index == 0) {
+            state_floats[1] = -1.0f;
+            requested_action = 9;
         } else {
-            F(f32, 0x700) = 1.0f;
-            F(s16, 0xB8) = 10;
+            state_floats[1] = 1.0f;
+            requested_action = 10;
         }
-        F(s32, 0x6E0) = 0;
-        F(s32, 0x6E4) = 0;
-        F(f32, 0x6FC) = 0.0f;
-        F(f32, 0x708) = -1.0f;
-        F(f32, 0x704) = 0.0f;
-        F(s32, 0x6F4) = 0x500;
+        state_step = 0;
+        unk_6E4 = 0;
+        state_floats[0] = 0.0f;
+        state_floats[3] = -1.0f;
+        state_floats[2] = 0.0f;
+        unk_6F4 = 0x500;
         TObjBoss2Tunnel::clear_global_flag_3000();
         break;
     case 2:
-        if (F(s32, 0x6E0) == 2) {
-            set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 2);
+        if (state_step == 2) {
+            set_state_and_send(2);
         }
         break;
     case 9:
-        if (F(s32, 0x6E0) == 2) {
-            advance_action_sequence__13TBoss2DeRolLeFPv((Obj_80034034 *)arg0);
+        if (state_step == 2) {
+            advance_action_sequence();
         }
         break;
     case 0:
-        ((TObjMotion *)arg0)->advance_animation();
-        switch (F(s32, 0x6E0)) {
+        advance_animation();
+        switch (state_step) {
         case 0:
-            F(f32, 0x704) += 0.2f;
-            F(f32, 0x40) -= F(f32, 0x704);
-            F(f32, 0x6FC) += 0.08f;
-            F(f32, 0x38) += F(f32, 0x6FC) * F(f32, 0x700);
-            F(f32, 0x708) += 0.1f;
-            F(f32, 0x6A4) -= F(f32, 0x708);
-            F(s32, 0x6F4) += 256.0f;
-            if ((f32)F(s32, 0x6F4) >= 16384.0f) {
-                F(s32, 0x6F4) = 0x4000;
+            state_floats[2] += 0.2f;
+            position.z -= state_floats[2];
+            state_floats[0] += 0.08f;
+            position.x += state_floats[0] * state_floats[1];
+            state_floats[3] += 0.1f;
+            height_offset -= state_floats[3];
+            unk_6F4 += 256.0f;
+            if ((f32)unk_6F4 >= 16384.0f) {
+                unk_6F4 = 0x4000;
             }
-            F(s32, 0x64) = (s32)((f32)F(s32, 0x6F4) * -F(f32, 0x700));
-            if (F(s32, 0x6E4) == 0 && F(s32, 0x6F4) >= 0x2200) {
-                F(s32, 0x6E4) = 1;
-                play_sound((void *)0x4003AD12, (saddr)(arg0 + 0x518));
+            rotation_z = (s32)((f32)unk_6F4 * -state_floats[1]);
+            if (unk_6E4 == 0 && unk_6F4 >= 0x2200) {
+                unk_6E4 = 1;
+                play_sound(0x4003AD12, &unk_518[0]);
             }
-            if (F(f32, 0x6A4) < -137.0f) {
-                F(s32, 0x6E0) = 1;
-                set_position_index__13TBoss2DeRolLeFPvi(arg0, F(s32, 0x654));
-                F(f32, 0x6A4) = -137.0f;
-                F(s16, 0xB8) = 1;
-                F(f32, 0x708) = 0.0f;
-                F(s32, 0x3C0) &= ~4;
-                F(s32, 0x3C0) |= 0x100;
+            if (height_offset < -137.0f) {
+                state_step = 1;
+                set_position_index(position_index);
+                height_offset = -137.0f;
+                requested_action = 1;
+                state_floats[3] = 0.0f;
+                state_flags &= ~4;
+                state_flags |= 0x100;
             }
             break;
         case 1:
-            F(f32, 0x6A4) += 2.0f;
-            if (F(f32, 0x6A4) >= 0.0f) {
-                F(f32, 0x6A4) = 0.0f;
-                F(s32, 0x6E0) = 2;
+            height_offset += 2.0f;
+            if (height_offset >= 0.0f) {
+                height_offset = 0.0f;
+                state_step = 2;
             }
             break;
         }
         break;
     case 5:
-        F(s32, 0x3C0) &= ~4;
+        state_flags &= ~4;
         break;
     case 1:
     case 3:
@@ -5509,113 +3025,110 @@ void TBoss2DeRolLe__sub_80030DFC(void *arg0_, void *arg1_, int arg2) {
     }
 }
 
-#undef F
-#undef arg0
-
-void TBoss2DeRolLe__sub_80030A38(u8 *arg0, u32 arg1) {
+void TBoss2DeRolLe::sub_80030A38(u32 reason) {
     Vec v;
 
-    switch (arg1) {
+    switch (reason) {
     case 4:
-        ((TBoss2DeRolLe *)arg0)->requested_action = 1;
-        ((s32 (*)(void))TBoss2DeRolLe__sub_800341F0)();
-        *(s32 *)((s8 *)arg0 + 0x3C0) = *(s32 *)((s8 *)arg0 + 0x3C0) | 4;
-        *(s32 *)((s8 *)arg0 + 0x3C0) = *(s32 *)((s8 *)arg0 + 0x3C0) & ~0x100;
-        set_position_index__13TBoss2DeRolLeFPvi(arg0, 3);
-        *(s32 *)((s8 *)arg0 + 0x6E0) = 0;
-        *(s32 *)((s8 *)arg0 + 0x6E4) = 0;
-        *(s32 *)((s8 *)arg0 + 0x6E8) = 0x1E;
-        *(f32 *)((s8 *)arg0 + 0x6FC) = 0.0f;
-        *(f32 *)((s8 *)arg0 + 0x700) = 3.0f;
+        requested_action = 1;
+        sub_800341F0();
+        state_flags = state_flags | 4;
+        state_flags = state_flags & ~0x100;
+        set_position_index(3);
+        state_step = 0;
+        unk_6E4 = 0;
+        unk_6E8 = 0x1E;
+        state_floats[0] = 0.0f;
+        state_floats[1] = 3.0f;
         return;
     case 2:
-        if (*(s32 *)((s8 *)arg0 + 0x6E0) == 6) {
-            set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 2);
+        if (state_step == 6) {
+            set_state_and_send(2);
         }
         return;
     case 9:
-        if (*(s32 *)((s8 *)arg0 + 0x6E0) == 6) {
-            advance_action_sequence__13TBoss2DeRolLeFPv((Obj_80034034 *)arg0);
+        if (state_step == 6) {
+            advance_action_sequence();
             return;
         }
         break;
     case 0:
-        ((TObjMotion *)arg0)->advance_animation();
-        switch (*(s32 *)((s8 *)arg0 + 0x6E0)) {
+        advance_animation();
+        switch (state_step) {
         case 0:
-            *(f32 *)((s8 *)arg0 + 0x6FC) += 0.2f;
-            *(f32 *)((s8 *)arg0 + 0x40) -= *(f32 *)((s8 *)arg0 + 0x6FC);
-            *(f32 *)((s8 *)arg0 + 0x700) += -0.2f;
-            *(f32 *)((s8 *)arg0 + 0x6A4) += *(f32 *)((s8 *)arg0 + 0x700);
-            if (*(f32 *)((s8 *)arg0 + 0x6A4) < -137.0f) {
-                *(s32 *)((s8 *)arg0 + 0x6E0) = 1;
-                *(s32 *)((s8 *)arg0 + 0x6E4) = 0;
+            state_floats[0] += 0.2f;
+            position.z -= state_floats[0];
+            state_floats[1] += -0.2f;
+            height_offset += state_floats[1];
+            if (height_offset < -137.0f) {
+                state_step = 1;
+                unk_6E4 = 0;
             }
             break;
         case 1:
-            *(s32 *)((s8 *)arg0 + 0x6E4) += 1;
-            if (*(s32 *)((s8 *)arg0 + 0x6E4) >= 0x2D) {
-                *(s32 *)((s8 *)arg0 + 0x6E0) = 2;
-                ((TBoss2DeRolLe *)arg0)->requested_action = 2;
-                *(f32 *)((s8 *)arg0 + 0x40) = -1200.0f;
-                ((TBoss2DeRolLe *)arg0)->rotation_z = 0x8000;
-                *(f32 *)((s8 *)arg0 + 0x6A4) = 93.0f;
+            unk_6E4 += 1;
+            if (unk_6E4 >= 0x2D) {
+                state_step = 2;
+                requested_action = 2;
+                position.z = -1200.0f;
+                rotation_z = 0x8000;
+                height_offset = 93.0f;
             }
             break;
         case 2:
-            *(s32 *)((s8 *)arg0 + 0x6E8) += 1;
-            if (*(s32 *)((s8 *)arg0 + 0x6E8) >= 0x1E) {
-                *(s32 *)((s8 *)arg0 + 0x6E8) = 0;
+            unk_6E8 += 1;
+            if (unk_6E8 >= 0x1E) {
+                unk_6E8 = 0;
             }
-            ((int (*)(int, void *, void *))spawn_trap__13TBoss2DeRolLeFPvii)(0x40039E02, arg0, arg0 + 0x518);
-            *(f32 *)((s8 *)arg0 + 0x40) += 6.0f;
-            if (*(f32 *)((s8 *)arg0 + 0x40) >= 360.0f) {
-                *(s32 *)((s8 *)arg0 + 0x6E0) = 3;
-                *(f32 *)((s8 *)arg0 + 0x700) = 0.0f;
+            spawn_trap__13TBoss2DeRolLeFPvii(0x40039E02, this, &unk_518[0]);
+            position.z += 6.0f;
+            if (position.z >= 360.0f) {
+                state_step = 3;
+                state_floats[1] = 0.0f;
             }
-            if (((TObjChara *)arg0)->random_ratio() <= *(f32 *)((s8 *)TBoss2DeRolLe__data_805D4BA0 + 0x10)) {
-                VecCopy__FP3VecPC3Vec((saddr)&v, arg0 + 0x38);
-                v.x = *(f32 *)((s8 *)TBoss2DeRolLe__data_805D4BA0 + 0xC) * ((TObjEneDD *)arg0)->calc_elapsed_scaled() + v.x;
-                v.z -= 100.0f * ((TObjChara *)arg0)->random_ratio();
-                v.y += 10.0f + *(f32 *)((s8 *)arg0 + 0x6A4);
+            if (random_ratio() <= derolle_params[0]->ceil_junk_chance) {
+                VecCopy(&v, &position);
+                v.x = derolle_params[0]->ceil_junk_drift * calc_elapsed_scaled() + v.x;
+                v.z -= 100.0f * random_ratio();
+                v.y += 10.0f + height_offset;
                 TObjBoss2CeilJunk::create(&v);
             }
             break;
         case 3:
-            ((TBoss2DeRolLe *)arg0)->play_speed -= 0.02f;
-            if (((TBoss2DeRolLe *)arg0)->play_speed < 0.0f) {
-                ((TBoss2DeRolLe *)arg0)->play_speed = 0.0f;
+            play_speed -= 0.02f;
+            if (play_speed < 0.0f) {
+                play_speed = 0.0f;
             }
-            if (*(f32 *)((s8 *)arg0 + 0x6A4) > 0.0f) {
-                *(f32 *)((s8 *)arg0 + 0x700) += -0.1f;
-                *(f32 *)((s8 *)arg0 + 0x40) += 4.8f;
+            if (height_offset > 0.0f) {
+                state_floats[1] += -0.1f;
+                position.z += 4.8f;
             } else {
-                *(f32 *)((s8 *)arg0 + 0x40) += 1.2f;
+                position.z += 1.2f;
             }
-            *(f32 *)((s8 *)arg0 + 0x6A4) += *(f32 *)((s8 *)arg0 + 0x700);
-            if (*(f32 *)((s8 *)arg0 + 0x6A4) < -137.0f) {
-                *(s32 *)((s8 *)arg0 + 0x6E0) = 4;
-                *(s32 *)((s8 *)arg0 + 0x6E4) = 0;
-                ((int (*)(int, void *))play_sound)(0x4003AD12, arg0 + 0x518);
+            height_offset += state_floats[1];
+            if (height_offset < -137.0f) {
+                state_step = 4;
+                unk_6E4 = 0;
+                play_sound(0x4003AD12, &unk_518[0]);
             }
             break;
         case 4:
-            *(s32 *)((s8 *)arg0 + 0x6E4) += 1;
-            if (*(s32 *)((s8 *)arg0 + 0x6E4) >= 0x2D) {
-                *(s32 *)((s8 *)arg0 + 0x6E0) = 5;
-                ((TBoss2DeRolLe *)arg0)->requested_action = 1;
-                *(s32 *)((s8 *)arg0 + 0x654) = 1;
-                set_position_index__13TBoss2DeRolLeFPvi(arg0, *(s32 *)((s8 *)arg0 + 0x654));
-                ((TBoss2DeRolLe *)arg0)->rotation_z = 0;
-                *(f32 *)((s8 *)arg0 + 0x6A4) = -137.0f;
+            unk_6E4 += 1;
+            if (unk_6E4 >= 0x2D) {
+                state_step = 5;
+                requested_action = 1;
+                position_index = 1;
+                set_position_index(position_index);
+                rotation_z = 0;
+                height_offset = -137.0f;
                 TObjBoss2Tunnel::set_global_flag_400();
             }
             break;
         case 5:
-            *(f32 *)((s8 *)arg0 + 0x6A4) += 0.9f;
-            if (*(f32 *)((s8 *)arg0 + 0x6A4) >= 0.0f) {
-                *(f32 *)((s8 *)arg0 + 0x6A4) = 0.0f;
-                *(s32 *)((s8 *)arg0 + 0x6E0) = 6;
+            height_offset += 0.9f;
+            if (height_offset >= 0.0f) {
+                height_offset = 0.0f;
+                state_step = 6;
             }
             break;
         }
@@ -5627,55 +3140,55 @@ void TBoss2DeRolLe__sub_80030A38(u8 *arg0, u32 arg1) {
 
 #pragma pop
 
-void TBoss2DeRolLe__sub_80030898(u8 *arg0, u32 arg1, s32 arg2) {
+void TBoss2DeRolLe::state_photon_pads(u32 reason, s32 position) {
     s32 i;
 
-    switch (arg1) {
+    switch (reason) {
     case 4:
-        ((TBoss2DeRolLe *)arg0)->requested_action = 3;
-        ((s32 (*)(void))TBoss2DeRolLe__sub_800341F0)();
-        *(s32 *)((s8 *)arg0 + 0x3C0) = *(s32 *)((s8 *)arg0 + 0x3C0) & ~4;
-        *(s32 *)((s8 *)arg0 + 0x3C0) = *(s32 *)((s8 *)arg0 + 0x3C0) & ~0x100;
-        *(s32 *)((s8 *)arg0 + 0x654) = arg2;
-        ((s32 (*)(void *, int))set_position_index__13TBoss2DeRolLeFPvi)(arg0, *(s32 *)((s8 *)arg0 + 0x654));
-        *(s32 *)((s8 *)arg0 + 0x6E0) = 0;
-        *(s32 *)((s8 *)arg0 + 0x6E4) = 0;
-        *(f32 *)((s8 *)arg0 + 0x6FC) = -1000.0f;
-        *(s32 *)((s8 *)arg0 + 0x6B4) = *(s32 *)((s8 *)arg0 + 0x6B4) + 1;
-        if (*(s32 *)((s8 *)arg0 + 0x6B4) >= 3) {
-            *(s32 *)((s8 *)arg0 + 0x6B4) = 0;
+        requested_action = 3;
+        sub_800341F0();
+        state_flags = state_flags & ~4;
+        state_flags = state_flags & ~0x100;
+        position_index = position;
+        set_position_index(position_index);
+        state_step = 0;
+        unk_6E4 = 0;
+        state_floats[0] = -1000.0f;
+        photon_pad_level = photon_pad_level + 1;
+        if (photon_pad_level >= 3) {
+            photon_pad_level = 0;
         }
         return;
     case 2:
-        if (((TObjEneDD *)arg0)->get_flag_b4() != 0) {
-            set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 2);
+        if (get_flag_b4() != 0) {
+            set_state_and_send(2);
             return;
         }
         break;
     case 9:
-        if (((TObjEneDD *)arg0)->get_flag_b4() != 0) {
-            advance_action_sequence__13TBoss2DeRolLeFPv((Obj_80034034 *)arg0);
+        if (get_flag_b4() != 0) {
+            advance_action_sequence();
             return;
         }
         break;
     case 0:
-        ((TObjMotion *)arg0)->advance_animation();
-        switch (*(s32 *)((s8 *)arg0 + 0x6E4)) {
+        advance_animation();
+        switch (unk_6E4) {
         case 0:
-            if (!(*(s32 *)((s8 *)arg0 + 0xB0) & 4)) {
-                TBoss2DeRolLe__sub_800344A4(arg0, *(s32 *)((s8 *)arg0 + 0x6E0), *(s32 *)((s8 *)arg0 + 0x6B4));
-                *(s32 *)((s8 *)arg0 + 0x6E4) = 1;
+            if (!(motion_flags & 4)) {
+                spawn_photon_pad(state_step, photon_pad_level);
+                unk_6E4 = 1;
                 return;
             }
             break;
         case 1:
-            i = *(s32 *)((s8 *)arg0 + 0x6E0);
-            if (((Obj_80030898 *)arg0)->recs[i].a < ((Obj_80030898 *)arg0)->recs[i + 1].a) {
-                *(s32 *)((s8 *)arg0 + 0x6E0) = i + 1;
-                if ((f32)*(s32 *)((s8 *)arg0 + 0x6E0) >= 4.0f) {
-                    *(s32 *)((s8 *)arg0 + 0x6E4) = 2;
+            i = state_step;
+            if (joint_positions[i].y < joint_positions[i + 1].y) {
+                state_step = i + 1;
+                if ((f32)state_step >= 4.0f) {
+                    unk_6E4 = 2;
                 }
-                TBoss2DeRolLe__sub_800344A4(arg0, *(s32 *)((s8 *)arg0 + 0x6E0), *(s32 *)((s8 *)arg0 + 0x6B4));
+                spawn_photon_pad(state_step, photon_pad_level);
             }
             break;
         }
@@ -5685,47 +3198,47 @@ void TBoss2DeRolLe__sub_80030898(u8 *arg0, u32 arg1, s32 arg2) {
     }
 }
 
-void TBoss2DeRolLe__sub_80030720(Obj_80030720 *self, u32 arg1, s32 arg2) {
-    u8 *pos;
+void TBoss2DeRolLe::state_launch_mines(u32 reason, s32 state) {
+    Vec *pos;
     s32 i;
     s32 j;
-    switch (arg1) {
+    switch (reason) {
     case 4:
-        self->f3C0 &= ~4;
-        self->f3C0 |= 0x100;
-        self->fB8 = 0xB;
-        self->f654 = 1;
-        set_position_index__13TBoss2DeRolLeFPvi(self, self->f654);
+        state_flags &= ~4;
+        state_flags |= 0x100;
+        requested_action = 0xB;
+        position_index = 1;
+        set_position_index(position_index);
         break;
     case 2:
-        if (((TObjEneDD *)self)->get_flag_b4() != 0) {
-            set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)self, 2);
+        if (get_flag_b4() != 0) {
+            set_state_and_send(2);
         }
         break;
     case 9:
-        if (((TObjEneDD *)self)->get_flag_b4() != 0) {
-            advance_action_sequence__13TBoss2DeRolLeFPv((Obj_80034034 *)self);
+        if (get_flag_b4() != 0) {
+            advance_action_sequence();
         }
         break;
     case 0:
-        ((TObjMotion *)self)->advance_animation();
-        if (((TObjMotion *)self)->is_passing_frame(18.0f) != 0) {
-            pos = self->f4D0;
-            if (arg2 == 0x18) {
+        advance_animation();
+        if (is_passing_frame(18.0f) != 0) {
+            pos = &node_positions[18];
+            if (state == 0x18) {
                 for (i = 0; i < 5; i++) {
-                    ((TBoss2Mine *)(self->f630[i]))->set_launch_position_velocity((u8 *)pos, (u8 *)&TBoss2DeRolLe__mine_ground_targets[i]);
+                    mines[i]->set_launch_position_velocity(pos, &TBoss2DeRolLe__mine_ground_targets[i]);
                 }
-            } else if (((TObjEneDD_ST *)self)->enemy_has_live_target() != 0) {
+            } else if (enemy_has_live_target() != 0) {
                 for (j = 0; j < 3; j++) {
-                    ((TUnk_80482D04 *)self->f644[j])->init_launch((Vec *)pos, (TObjBase *)self->f390, j);
+                    target_mines[j]->init_launch(pos, current_target, j);
                 }
             }
-            ((int (*)(int, void *))play_sound)(0x4003A303, self->f524);
+            play_sound(0x4003A303, &unk_518[1]);
         }
         break;
     case 6:
-        if (arg2 == 0x19) {
-            ((s32 (*)(void *))pick_random_target__13TBoss2DeRolLeFi)(self);
+        if (state == 0x19) {
+            pick_random_target();
         }
         break;
     }
@@ -5734,46 +3247,46 @@ void TBoss2DeRolLe__sub_80030720(Obj_80030720 *self, u32 arg1, s32 arg2) {
 #pragma push
 #pragma fp_contract on
 
-void state_ceiling_attack__13TBoss2DeRolLeFPvUi(TBoss2DeRolLe *arg0, u32 arg1) {
+void TBoss2DeRolLe::state_ceiling_attack(u32 reason) {
     Vec v;
-    f32 frame;
+    f32 frame_now;
 
-    switch (arg1) {
+    switch (reason) {
     case 4:
-        *(s32 *)((s8 *)arg0 + 0x3C0) = *(s32 *)((s8 *)arg0 + 0x3C0) & ~4;
-        *(s32 *)((s8 *)arg0 + 0x3C0) = *(s32 *)((s8 *)arg0 + 0x3C0) | 0x100;
-        ((s32 (*)(void))TBoss2DeRolLe__sub_800341F0)();
-        arg0->requested_action = 0xC;
-        *(s32 *)((s8 *)arg0 + 0x654) = 3;
-        ((s32 (*)(void *, int))set_position_index__13TBoss2DeRolLeFPvi)(arg0, *(s32 *)((s8 *)arg0 + 0x654));
-        *(s32 *)((s8 *)arg0 + 0x6E0) = 0;
-        arg0->m_6f8 = 0;
+        state_flags = state_flags & ~4;
+        state_flags = state_flags | 0x100;
+        sub_800341F0();
+        requested_action = 0xC;
+        position_index = 3;
+        set_position_index(position_index);
+        state_step = 0;
+        laser_shot_count = 0;
         return;
     case 2:
-        if (arg0->requested_action == 0xF) {
-            set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)arg0, 0x1B);
+        if (requested_action == 0xF) {
+            set_state_and_send(0x1B);
         }
         return;
     case 9:
-        if (arg0->requested_action == 0xF) {
-            advance_action_sequence__13TBoss2DeRolLeFPv((Obj_80034034 *)arg0);
+        if (requested_action == 0xF) {
+            advance_action_sequence();
             return;
         }
         break;
     case 0:
-        ((TObjMotion *)arg0)->advance_animation();
-        *(s32 *)((s8 *)arg0 + 0x6E0) = *(s32 *)((s8 *)arg0 + 0x6E0) + 1;
-        frame = arg0->frame;
-        if (frame >= 10.0f && frame <= 14.0f && (f32)*(s32 *)((s8 *)arg0 + 0x6E0) >= 3.0f) {
-            *(s32 *)((s8 *)arg0 + 0x6E0) = 0;
-            VecCopy__FP3VecPC3Vec((saddr)&v, (u8 *)arg0 + 0x38);
-            v.x = 30.0f * ((TObjEneDD *)arg0)->calc_elapsed_scaled() + v.x;
+        advance_animation();
+        state_step = state_step + 1;
+        frame_now = frame;
+        if (frame_now >= 10.0f && frame_now <= 14.0f && (f32)state_step >= 3.0f) {
+            state_step = 0;
+            VecCopy(&v, &position);
+            v.x = 30.0f * calc_elapsed_scaled() + v.x;
             v.y = -5.0f;
             v.z += 80.0f;
-            spawn_ceil_junk__13TBoss2DeRolLeFii((saddr)arg0, (saddr)&v);
+            spawn_ceil_junk(&v);
         }
-        if (((TObjMotion *)arg0)->is_passing_frame(10.0f) != 0) {
-            ((int (*)(int, void *))play_sound)(0x4003AD12, (u8 *)arg0 + 0x518);
+        if (is_passing_frame(10.0f) != 0) {
+            play_sound(0x4003AD12, &unk_518[0]);
         }
         break;
     default:
@@ -5781,124 +3294,120 @@ void state_ceiling_attack__13TBoss2DeRolLeFPvUi(TBoss2DeRolLe *arg0, u32 arg1) {
     }
 }
 
-#define VADD(d, s) ((void (*)(void *, void *)) vec3_add_to)((d), (s))
-#define VCOPY(d, s) ((void (*)(void *, void *)) VecCopy__FP3VecPC3Vec)((d), (s))
-
-void TBoss2DeRolLe__sub_8002FE60(void *arg0, u32 arg1) {
+void TBoss2DeRolLe::sub_8002FE60(u32 reason) {
     Vec *vel;
     Vec *hit;
-    D_8002FE60 *self = (D_8002FE60 *) arg0;
-    vel = &self->vel;
-    switch (arg1) {
+    vel = &state_vectors[0];
+    switch (reason) {
     case 4:
-        self->flags &= ~4;
-        self->flags |= 0x100;
-        TBoss2DeRolLe__sub_800341F0((Obj_800341F0 *) self);
-        self->fB8 = 0xF;
-        self->mode = 3;
-        set_position_index__13TBoss2DeRolLeFPvi(self, self->mode);
-        fill_value_array(self->f6C8);
-        self->phase = 0;
-        self->timer = 0;
-        self->f6E8 = 0;
-        self->f6F4 = 0;
-        self->speed = 0.0f;
-        self->f700 = 0.0f;
+        state_flags &= ~4;
+        state_flags |= 0x100;
+        sub_800341F0();
+        requested_action = 0xF;
+        position_index = 3;
+        set_position_index(position_index);
+        fill_value_array(attack_history);
+        state_step = 0;
+        unk_6E4 = 0;
+        unk_6E8 = 0;
+        unk_6F4 = 0;
+        state_floats[0] = 0.0f;
+        state_floats[1] = 0.0f;
         vel->x = 0.0f;
         vel->y = 0.0f;
         vel->z = 0.0f;
-        self->ptcl = NULL;
+        unk_73C = NULL;
         break;
     case 2:
-        if (self->phase == 4) {
-            if (self->count >= 4) {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *) self, 0x1C);
+        if (state_step == 4) {
+            if (laser_shot_count >= 4) {
+                set_state_and_send(0x1C);
             } else {
-                set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *) self, 0x1B);
+                set_state_and_send(0x1B);
             }
         }
         break;
     case 9:
-        if (self->phase == 4) {
-            advance_action_sequence__13TBoss2DeRolLeFPv((Obj_80034034 *) self);
+        if (state_step == 4) {
+            advance_action_sequence();
         }
         break;
     case 0:
-        ((TObjMotion *)self)->advance_animation();
-        self->f758 = 6;
-        switch (self->phase) {
+        advance_animation();
+        splash_joint = 6;
+        switch (state_step) {
         case 0:
-            self->timer++;
-            if (self->timer >= 0x14) {
-                self->timer = 0;
-                self->phase = 1;
-                fill_value_array(self->f6C8);
-                self->fB8 = 0xD;
-                if (((TObjEneDD_ST *)self)->enemy_check_target_valid() != 0) {
-                    VCOPY(vel, self->target + 0x38);
+            unk_6E4++;
+            if (unk_6E4 >= 0x14) {
+                unk_6E4 = 0;
+                state_step = 1;
+                fill_value_array(attack_history);
+                requested_action = 0xD;
+                if (enemy_check_target_valid() != 0) {
+                    VecCopy(vel, &current_target->position);
                 } else {
                     vel->x = 0.0f;
                     vel->y = 0.0f;
                     vel->z = 0.0f;
                 }
-                calc_offset_position__13TBoss2DeRolLeFPv((u8 *)self);
-                activate_laser_light__13TBoss2DeRolLeFPv(self);
-                ((int (*)(int, void *))play_sound)(0x4003A809, self->snd);
+                calc_offset_position();
+                activate_laser_light();
+                play_sound(0x4003A809, &unk_518[0]);
             }
             break;
         case 1:
-            if (self->count != 0 && TObjEneDD::check_v2_mode() != 0) {
-                self->frame = 13.0f;
+            if (laser_shot_count != 0 && TObjEneDD::check_v2_mode() != 0) {
+                frame = 13.0f;
             }
-            if (self->frame <= 12.0f) {
-                if (self->ptcl == NULL) {
-                    self->ptcl = spawn_continuous_particle_effect_with_flags(&self->pos, 0x122, 0x40);
-                    if (self->ptcl != NULL) {
-                        ((TParticleCtrl *)(self->ptcl))->enable();
+            if (frame <= 12.0f) {
+                if (unk_73C == NULL) {
+                    unk_73C = spawn_continuous_particle_effect_with_flags(&part_points[0], 0x122, 0x40);
+                    if (unk_73C != NULL) {
+                        unk_73C->enable();
                     }
                 } else {
                     Vec a;
-                    VCOPY(&a, &self->pos);
-                    a.x += 2.0f * (5.0f * self->dir.x);
-                    a.y += 5.0f * self->dir.y;
-                    a.z += 5.0f * self->dir.z;
-                    ((TParticleCtrl *)self->ptcl)->set_position(&a);
+                    VecCopy(&a, &part_points[0]);
+                    a.x += 2.0f * (5.0f * part_points[1].x);
+                    a.y += 5.0f * part_points[1].y;
+                    a.z += 5.0f * part_points[1].z;
+                    unk_73C->set_position(&a);
                 }
-            } else if (self->ptcl != NULL) {
-                ((TObject *)self->ptcl)->queue_destruction();
-                self->ptcl = NULL;
+            } else if (unk_73C != NULL) {
+                unk_73C->queue_destruction();
+                unk_73C = NULL;
             }
-            calc_offset_position__13TBoss2DeRolLeFPv((u8 *)self);
-            if (self->frame >= 13.0f) {
-                self->frame = 13.0f;
-                self->phase = 2;
-                subtract_vector(vel, &self->pos);
-                normalize_vector_xz((Vec *)vel);
+            calc_offset_position();
+            if (frame >= 13.0f) {
+                frame = 13.0f;
+                state_step = 2;
+                subtract_vector(vel, &part_points[0]);
+                normalize_vector_xz(vel);
                 vel->y = 0.0f;
-                self->f6F4 = RADIANS_TO_ANGLE * atan2_float(vel->x, vel->z);
-                self->speed = 80.0f;
-                spawn_particle_effect_with_flags(&self->pos, 0x126, 0x40);
+                unk_6F4 = RADIANS_TO_ANGLE * atan2_float(vel->x, vel->z);
+                state_floats[0] = 80.0f;
+                spawn_particle_effect_with_flags(&part_points[0], 0x126, 0x40);
             }
             break;
         case 2: {
             f32 k;
             f32 dist;
             f32 s;
-            u8 *col;
-            self->frame = 13.0f;
-            self->speed += 30.0f;
-            if (self->ptcl == NULL) {
-                self->ptcl = spawn_continuous_particle_effect_with_flags(&self->pos, 0x177, 0x40);
-                if (self->ptcl != NULL) {
-                    ((TParticleCtrl *)(self->ptcl))->enable();
+            CsnHit *col;
+            frame = 13.0f;
+            state_floats[0] += 30.0f;
+            if (unk_73C == NULL) {
+                unk_73C = spawn_continuous_particle_effect_with_flags(&part_points[0], 0x177, 0x40);
+                if (unk_73C != NULL) {
+                    unk_73C->enable();
                 }
             } else {
                 Vec b;
-                VCOPY(&b, &self->pos);
-                b.x += 2.0f * (5.0f * self->dir.x);
-                b.y += 5.0f * self->dir.y;
-                b.z += 5.0f * self->dir.z;
-                ((TParticleCtrl *)self->ptcl)->set_position(&b);
+                VecCopy(&b, &part_points[0]);
+                b.x += 2.0f * (5.0f * part_points[1].x);
+                b.y += 5.0f * part_points[1].y;
+                b.z += 5.0f * part_points[1].z;
+                unk_73C->set_position(&b);
             }
             {
                 Vec e;
@@ -5908,26 +3417,26 @@ void TBoss2DeRolLe__sub_8002FE60(void *arg0, u32 arg1) {
                 f32 h;
                 f32 dy;
                 f32 t;
-                hit = &self->hit;
-                h = self->pos.y;
+                hit = &state_vectors[1];
+                h = part_points[0].y;
                 dy = -10.0f - h;
-                e.x = vel->x * self->speed;
+                e.x = vel->x * state_floats[0];
                 e.y = dy;
-                e.z = vel->z * self->speed;
+                e.z = vel->z * state_floats[0];
                 t = (10.0f - h) / dy;
                 c.x = e.x * t;
                 c.y = dy * t;
                 c.z = e.z * t;
-                VADD(&c, &self->pos);
-                VCOPY(hit, &e);
-                VADD(hit, &self->pos);
-                self->f700 += 5.0f;
-                if (self->f700 >= 20.0f) {
-                    self->f700 -= 20.0f;
+                vec3_add_to(&c, &part_points[0]);
+                VecCopy(hit, &e);
+                vec3_add_to(hit, &part_points[0]);
+                state_floats[1] += 5.0f;
+                if (state_floats[1] >= 20.0f) {
+                    state_floats[1] -= 20.0f;
                 }
-                s = self->f700;
-                VCOPY(&p, &self->pos);
-                VCOPY(&d, hit);
+                s = state_floats[1];
+                VecCopy(&p, &part_points[0]);
+                VecCopy(&d, hit);
                 subtract_vector(&d, &p);
                 dist = normalize_vector_safe(&d);
                 p.x += d.x * s;
@@ -5939,74 +3448,66 @@ void TBoss2DeRolLe__sub_8002FE60(void *arg0, u32 arg1) {
                 d.z *= k;
                 for (; dist > s; s += k) {
                     spawn_particle_effect_with_flags(&p, 0x176, 0x40);
-                    VADD(&p, &d);
+                    vec3_add_to(&p, &d);
                 }
                 col = csnVector(&c, hit, 0x16EF);
                 if (col != NULL) {
-                    VCOPY(hit, *(void **) (col + 4));
-                    if (self->laser1 == NULL) {
-                        void *o = TObject::operator new(0x124);
-                        if (o != NULL) {
-                            o = __ct__13TUnk_80482C58FP7TObjectll(o, self, 6, 0x124);
-                        }
-                        self->laser1 = o;
+                    VecCopy(hit, &col->contact->point);
+                    if (hit_trail == NULL) {
+                        hit_trail = new TUnk_80482C58(this, 6, 0x124);
                     } else {
-                        push_trail_position__13TBoss2DeRolLeFPvPv(self->laser1, hit);
+                        hit_trail->push_ring_point(hit);
                     }
-                    if (self->laser2 == NULL) {
-                        void *o = TObject::operator new(0x124);
-                        if (o != NULL) {
-                            o = __ct__13TUnk_80482C58FP7TObjectll(o, self, 0xF, 0x125);
-                        }
-                        self->laser2 = o;
+                    if (hit_trail_long == NULL) {
+                        hit_trail_long = new TUnk_80482C58(this, 0xF, 0x125);
                     } else {
-                        push_trail_position__13TBoss2DeRolLeFPvPv(self->laser2, hit);
+                        hit_trail_long->push_ring_point(hit);
                     }
                 }
                 {
                     DeRolLeEffectParams r = derolle_laser_hit_effect_params;
-                    r.pad_04 = *(f32 *) TBoss2DeRolLe__data_805D4BA0;
-                    TObjEneDD::setup_instance((saddr)self, (saddr)hit, (u8 *)&r, self->f6C8);
+                    r.pad_04 = derolle_params[0]->laser_power;
+                    TObjEneDD::setup_instance((saddr)this, (saddr)hit, (u8 *)&r, (saddr)attack_history);
                 }
             }
-            ((int (*)(int, void *, void *))spawn_trap__13TBoss2DeRolLeFPvii)(0x4003B00A, self, hit);
-            if (self->speed >= 500.0f) {
-                self->speed = 500.0f;
-                self->phase = 3;
-                if (self->ptcl != NULL) {
-                    ((TObject *)self->ptcl)->queue_destruction();
-                    self->ptcl = NULL;
+            spawn_trap__13TBoss2DeRolLeFPvii(0x4003B00A, this, hit);
+            if (state_floats[0] >= 500.0f) {
+                state_floats[0] = 500.0f;
+                state_step = 3;
+                if (unk_73C != NULL) {
+                    unk_73C->queue_destruction();
+                    unk_73C = NULL;
                 }
             }
             break;
         }
         case 3:
             if (TObjEneDD::check_v2_mode() != 0) {
-                self->phase = 4;
+                state_step = 4;
             }
-            if (((TObjEneDD *)self)->get_flag_b4() != 0) {
-                self->phase = 4;
+            if (get_flag_b4() != 0) {
+                state_step = 4;
             }
             break;
         }
         break;
     case 6:
-        pick_random_target__13TBoss2DeRolLeFi((saddr) self);
+        pick_random_target();
         break;
     case 5:
-        self->count++;
-        free_laser__13TBoss2DeRolLeFPv(self);
-        if (self->ptcl != NULL) {
-            ((TObject *)self->ptcl)->queue_destruction();
-            self->ptcl = NULL;
+        laser_shot_count++;
+        free_laser();
+        if (unk_73C != NULL) {
+            unk_73C->queue_destruction();
+            unk_73C = NULL;
         }
-        if (self->laser1 != NULL) {
-            ((TObject *)self->laser1)->queue_destruction();
-            self->laser1 = NULL;
+        if (hit_trail != NULL) {
+            hit_trail->queue_destruction();
+            hit_trail = NULL;
         }
-        if (self->laser2 != NULL) {
-            ((TObject *)self->laser2)->queue_destruction();
-            self->laser2 = NULL;
+        if (hit_trail_long != NULL) {
+            hit_trail_long->queue_destruction();
+            hit_trail_long = NULL;
         }
         break;
     }
@@ -6014,60 +3515,57 @@ void TBoss2DeRolLe__sub_8002FE60(void *arg0, u32 arg1) {
 
 #pragma pop
 
-#undef VADD
-#undef VCOPY
-
-void TBoss2DeRolLe__sub_8002FD9C(DeRolLe_8002FD9C *self, u32 arg1, s32 arg2) {
-    switch (arg1) {
+void TBoss2DeRolLe::sub_8002FD9C(u32 reason, s32 arg2) {
+    switch (reason) {
     case 4:
-        self->flags &= ~4;
-        self->flags |= 0x100;
-        self->state = 0xE;
-        ((void (*)(void *))TBoss2DeRolLe__sub_800341F0)(self);
-        self->mode = 3;
-        set_position_index__13TBoss2DeRolLeFPvi(self, self->mode);
+        state_flags &= ~4;
+        state_flags |= 0x100;
+        requested_action = 0xE;
+        sub_800341F0();
+        position_index = 3;
+        set_position_index(position_index);
         if (arg2 != 0) {
             TObjBoss2Tunnel::set_global_flag_800();
         }
         break;
     case 2:
-        if (self->state == 1) {
-            set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)((struct Obj_80034034 *)self), 2);
+        if (requested_action == 1) {
+            set_state_and_send(2);
         }
         break;
     case 9:
-        if (self->state == 1) {
-            advance_action_sequence__13TBoss2DeRolLeFPv((Obj_80034034 *)((struct Obj_80034034 *)self));
+        if (requested_action == 1) {
+            advance_action_sequence();
         }
         break;
     case 0:
-        ((TObjMotion *)self)->advance_animation();
+        advance_animation();
         break;
     }
 }
 
-void TBoss2DeRolLe__sub_8002FCE4(Obj_8002FCE4 *self, u32 kind) {
-    switch (kind) {
+void TBoss2DeRolLe::sub_8002FCE4(u32 reason) {
+    switch (reason) {
     case 4:
-        self->f3C0 = self->f3C0 | 4;
-        self->f3C0 = self->f3C0 & 0xFFFFFEFF;
-        ((void (*)(void))TBoss2DeRolLe__sub_80034258)();
-        self->f5C = 0;
-        self->f6A4 = 0.0f;
+        state_flags = state_flags | 4;
+        state_flags = state_flags & 0xFFFFFEFF;
+        sub_80034258();
+        rotation_x = 0;
+        height_offset = 0.0f;
         return;
     case 9:
-        if (self->fB8 == 1) {
-            advance_action_sequence__13TBoss2DeRolLeFPv((Obj_80034034 *)(self));
+        if (requested_action == 1) {
+            advance_action_sequence();
         }
         break;
     case 8:
-        if (self->f6A4 < -200.0f) {
-            set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)(self), 0x1F);
+        if (height_offset < -200.0f) {
+            set_state_and_send(0x1F);
             return;
         }
         break;
     case 0:
-        self->f6A4 = self->f6A4 - 2.0f;
+        height_offset = height_offset - 2.0f;
         break;
     case 1:
         return;
@@ -6086,33 +3584,30 @@ void TBoss2DeRolLe__sub_8002FCE4(Obj_8002FCE4 *self, u32 kind) {
 
 #pragma push
 #pragma fp_contract on
-#pragma opt_common_subs off
 
-#define o ((Rol_8002F7C4 *)arg0)
-
-void handle_death_state__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1) {
+void TBoss2DeRolLe::handle_death_state(u32 reason) {
     CameraPlayback cam;
     Vec v;
     Vec w;
     Vec save;
     s32 i;
     f32 t;
-    switch ((uaddr)arg1) {
+    switch (reason) {
     case 4:
-        o->f3C0 &= ~0x100;
-        o->f3C0 |= 4;
-        TBoss2DeRolLe__sub_80034258((Obj_80034258 *)o);
-        o->fB8 = 0x10;
-        o->f654 = 3;
-        set_position_index__13TBoss2DeRolLeFPvi(o, o->f654);
-        o->f5C = 0;
-        o->f6A4 = 0.0f;
-        o->f6E0 = 0;
-        o->f6E4 = 0;
-        o->f6F4 = 0;
-        o->f6AC = 0;
+        state_flags &= ~0x100;
+        state_flags |= 4;
+        sub_80034258();
+        requested_action = 0x10;
+        position_index = 3;
+        set_position_index(position_index);
+        rotation_x = 0;
+        height_offset = 0.0f;
+        state_step = 0;
+        unk_6E4 = 0;
+        unk_6F4 = 0;
+        unk_6AC = 0;
         for (i = 0; i < 4; i++) {
-            TBoss2Tentacle__sub_80039E54((void *)o->tent[i]);
+            tentacles[i]->speed_up_sway();
         }
         TWindowCtrl::init_all_slots();
         cam.index = 0;
@@ -6120,75 +3615,74 @@ void handle_death_state__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1) {
         cam.flags = 0;
         cam.frame = 0.0f;
         cam.frame_step = 0.7f;
-        ((s32 (*)(int, f32))activate_camera_mode)(5, 0.0f);
+        activate_camera_mode(5);
         cam.cache_target_and_forward(0x2AAA);
-        set_scripted_camera_pose(&o->pos, &o->pos, &o->f5C);
+        set_scripted_camera_pose(&position, &position, (CameraAngles *)&rotation_x);
         break;
     case 2:
-        if (o->f3CC->f8 & 0x400) {
-            o->flags30 &= ~0x800;
-            TBoss2DeRolLe__sub_800341F0((Obj_800341F0 *)o);
-            set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)o, 2);
+        if (debug_pad->unknown_08 & 0x400) {
+            actorFlags &= ~0x800;
+            sub_800341F0();
+            set_state_and_send(2);
         }
         break;
     case 9:
-        if (o->f6E0 == 3) {
-            set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)o, 0x20);
+        if (state_step == 3) {
+            set_state_and_send(0x20);
         }
         break;
     case 0:
-        ((TObjMotion *)o)->advance_animation();
-        switch (o->f6E0) {
+        advance_animation();
+        switch (state_step) {
         case 0:
-            if (((TObjMotion *)o)->is_passing_frame(27.0f) != 0) {
+            if (is_passing_frame(27.0f) != 0) {
                 play_cue_stream_file((saddr)"deldeath.adx");
-            } else if (((TObjMotion *)o)->is_passing_frame(20.0f) != 0) {
-                play_sound_effect((void *)0x4003AD11, 0, 0, 0);
-            } else if (((TObjMotion *)o)->is_passing_frame(99.0f) != 0) {
-                play_sound_effect((void *)0x4003AD12, 0, 0, 0);
+            } else if (is_passing_frame(20.0f) != 0) {
+                play_sound_effect(0x4003AD11, 0, 0, 0);
+            } else if (is_passing_frame(99.0f) != 0) {
+                play_sound_effect(0x4003AD12, 0, 0, 0);
                 start_pad_rumble_all(0xC0, 0xF);
             }
-            o->f6E4++;
-            t = o->fC0;
+            unk_6E4++;
+            t = frame;
             if (t >= 20.0f && t <= 28.0f) {
-                if ((f32)o->f6E4 >= 2.0f) {
-                    o->f6E4 = 0;
-                    ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&v, &o->pos);
+                if ((f32)unk_6E4 >= 2.0f) {
+                    unk_6E4 = 0;
+                    VecCopy(&v, &position);
                     for (i = 0; i < 10; i++) {
-                        u8 *q = (u8 *)o + i * 12;
-                        if (v.y * *(f32 *)(q + 0x544) < 0.0f) {
+                        if (v.y * joint_positions[i].y < 0.0f) {
                             break;
                         }
-                        ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&v, q + 0x540);
+                        VecCopy(&v, &joint_positions[i]);
                     }
-                    v.x += 40.0f * ((TObjEneDD *)o)->calc_elapsed_scaled();
+                    v.x += 40.0f * calc_elapsed_scaled();
                     v.y = -5.0f;
-                    v.z += 80.0f * ((TObjChara *)o)->random_ratio();
-                    ((void (*)(void *, void *))spawn_ceil_junk__13TBoss2DeRolLeFii)(o, &v);
+                    v.z += 80.0f * random_ratio();
+                    spawn_ceil_junk(&v);
                 }
-            } else if (t >= 99.0f && t <= 140.0f && (f32)o->f6E4 >= 2.0f) {
-                o->f6E4 = 0;
-                ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&w, &o->pos);
-                w.x += 40.0f * ((TObjEneDD *)o)->calc_elapsed_scaled() + 20.0f;
+            } else if (t >= 99.0f && t <= 140.0f && (f32)unk_6E4 >= 2.0f) {
+                unk_6E4 = 0;
+                VecCopy(&w, &position);
+                w.x += 40.0f * calc_elapsed_scaled() + 20.0f;
                 w.y = -5.0f;
-                w.z += 40.0f * ((TObjEneDD *)o)->calc_elapsed_scaled() + 20.0f;
-                ((void (*)(void *, void *))spawn_ceil_junk__13TBoss2DeRolLeFii)(o, &w);
+                w.z += 40.0f * calc_elapsed_scaled() + 20.0f;
+                spawn_ceil_junk(&w);
             }
-            if (o->fC0 >= 20.0f) {
-                o->f758 = 5;
+            if (frame >= 20.0f) {
+                splash_joint = 5;
             }
-            if (o->fC0 > 100.0f) {
-                o->f6E0 = 2;
+            if (frame > 100.0f) {
+                state_step = 2;
             }
             break;
         case 1:
-            o->f6F4 += 0x400;
-            o->f6A4 = 0.5f * (6.0f * (cos_table_lookup(o->f6F4) - 1.0f));
+            unk_6F4 += 0x400;
+            height_offset = 0.5f * (6.0f * (cos_table_lookup(unk_6F4) - 1.0f));
             break;
         case 2:
-            o->f6A4 -= 1.0f;
-            if (o->f6A4 < -100.0f) {
-                o->f6E0 = 3;
+            height_offset -= 1.0f;
+            if (height_offset < -100.0f) {
+                state_step = 3;
                 TWindowCtrl::init_all_slots2();
                 restore_player_cameras();
             }
@@ -6200,20 +3694,20 @@ void handle_death_state__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1) {
     case 3:
         break;
     case 5:
-        ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&save, &o->pos);
-        o->pos.x = -55.8f;
-        o->pos.y = 2.0f;
-        o->pos.z = 60.29f;
-        ((TObjEnemy *)o)->update_prev_position();
+        VecCopy(&save, &position);
+        position.x = -55.8f;
+        position.y = 2.0f;
+        position.z = 60.29f;
+        update_prev_position();
         for (i = 0; i != 10; i++) {
-            assign_slots_from_list(o, o->slots[i]);
+            assign_slots_from_list(this, (saddr)joints[i]);
         }
-        ((TObjEnemy *)o)->refresh_and_send_entity_flags();
-        set_story_flag_or_send_quest_flag((u16)((void *)0x20));
-        ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&o->pos, &save);
-        ((TObjEnemy *)o)->update_prev_position();
-        o->flags30 = 0x12008;
-        o->m72(0);
+        refresh_and_send_entity_flags();
+        set_story_flag_or_send_quest_flag(0x20);
+        VecCopy(&position, &save);
+        update_prev_position();
+        actorFlags = 0x12008;
+        vfunc_74(0);
         TWindowCtrl::init_all_slots2();
         restore_player_cameras();
         break;
@@ -6228,22 +3722,20 @@ void handle_death_state__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1) {
 
 #pragma pop
 
-#undef o
-
-void TBoss2DeRolLe__sub_8002F73C(Obj_8002F73C *self, u32 kind) {
-    switch (kind) {
+void TBoss2DeRolLe::sub_8002F73C(u32 reason) {
+    switch (reason) {
     case 4:
-        self->fB8 = 0x10;
-        ((void (*)(void))TBoss2DeRolLe__sub_80034258)();
-        self->f3C0 = self->f3C0 | 4;
-        self->f3C0 = self->f3C0 & 0xFFFFFEFF;
+        requested_action = 0x10;
+        sub_80034258();
+        state_flags = state_flags | 4;
+        state_flags = state_flags & 0xFFFFFEFF;
         TObjBoss2Tunnel::set_global_flag_200();
         if (TObjBoss2Tunnel::is_active() != 0) {
             TObjBoss2Tunnel::set_global_flag_800();
         }
         break;
     case 0:
-        ((TObject *)self)->queue_destruction();
+        queue_destruction();
         break;
     case 1:
         return;
@@ -6264,66 +3756,51 @@ void TBoss2DeRolLe__sub_8002F73C(Obj_8002F73C *self, u32 kind) {
     }
 }
 
-}
-
-}
-
-#undef TBoss2DeRolLe__sub_800344A4
-#undef TBoss2DeRolLe__sub_80034574
-#undef TBoss2DeRolLe__sub_80034800
-#undef init_move_params__13TBoss2DeRolLeFPv
-#undef init_movement__13TBoss2DeRolLeFPv
-#undef init_wave_params__13TBoss2DeRolLeFPv
-#undef update_phase_is_done__13TBoss2DeRolLeFPv
-#undef update_state__13TBoss2DeRolLeFPv
-
-namespace joint_transform_view {
-
 extern "C" {
 
-void TObjPlayer__sub_8002F61C(NJS_OBJECT *) {
-    if ((s32) TBoss2DeRolLe__current_attack_id == derolle_attack_sequence_id_table[TBoss2DeRolLe__sequence_match_index]) {
-        forward_transform_to_view((const Vec *)&lbl_804FE31C.value, (Vec *)lbl_805D4BB4);
-        TBoss2DeRolLe__sequence_match_index += 1;
-        lbl_805D4BB4 += 0xC;
+// The model-node callback the body draws with: records the listed nodes' positions, the breakup
+// piece points and the matrices the tentacles and joints follow.
+void derolle_capture_node_points(NJS_OBJECT *) {
+    if (derolle_capture_node_index == derolle_position_node_ids[derolle_capture_position_index]) {
+        forward_transform_to_view(&derolle_capture_origin, derolle_capture_positions);
+        derolle_capture_position_index += 1;
+        derolle_capture_positions++;
     }
-    if ((s32) TBoss2DeRolLe__current_attack_id == 0x33) {
+    if (derolle_capture_node_index == 0x33) {
         push_matrix();
         forward_split_screen_view_matrix();
-        matrix_mult_vec_array(0, (void *)&derolle_part_transform_template.value, (void *)lbl_805D4BB8, 4);
+        matrix_mult_vec_array(0, derolle_part_transform_template, derolle_capture_part_points, 4);
         pop_matrix();
-        subtract_vector((void *)(lbl_805D4BB8 + 0xC), (void *)lbl_805D4BB8);
+        subtract_vector(&derolle_capture_part_points[1], &derolle_capture_part_points[0]);
     }
-    if ((lbl_805D4BB0 & 0x80) && ((s32) TBoss2DeRolLe__current_attack_id >= 0x4D) && ((s32) TBoss2DeRolLe__current_attack_id <= 0x58)) {
+    if ((derolle_capture_flags & 0x80) && derolle_capture_node_index >= 0x4D && derolle_capture_node_index <= 0x58) {
         push_matrix();
         forward_split_screen_view_matrix();
-        get_current_matrix((void *)lbl_805D4BC0);
+        get_current_matrix(derolle_capture_node_matrices);
         pop_matrix();
-        lbl_805D4BC0 += 0x30;
+        derolle_capture_node_matrices++;
     }
-    if (((s32) TBoss2DeRolLe__current_attack_id >= 0x1D) && ((s32) TBoss2DeRolLe__current_attack_id <= 0x20)) {
+    if (derolle_capture_node_index >= 0x1D && derolle_capture_node_index <= 0x20) {
         push_matrix();
         forward_split_screen_view_matrix();
-        get_current_matrix((void *)lbl_805D4BBC);
+        get_current_matrix(derolle_capture_tentacle_matrices);
         pop_matrix();
-        lbl_805D4BBC += 0x30;
+        derolle_capture_tentacle_matrices++;
     }
-    TBoss2DeRolLe__current_attack_id += 1;
+    derolle_capture_node_index += 1;
 }
 
 }
 
-}
-
-void fn_8002F5AC(u8 *arg0) {
-    TBoss2DeRolLe__current_attack_id = 0;
-    copy_argb((NJS_ARGB *)&lbl_804FE30C.value, (NJS_ARGB *)(arg0 + 0x608));
-    lbl_805D4BB0 = *(s32 *)((s8 *)arg0 + 0x3C0);
-    TBoss2DeRolLe__sequence_match_index = 0;
-    lbl_805D4BB4 = arg0 + 0x3F8;
-    lbl_805D4BBC = *(s32 *)((s8 *)arg0 + 0x61C);
-    lbl_805D4BC0 = *(s32 *)((s8 *)arg0 + 0x618);
-    lbl_805D4BB8 = arg0 + 0x4E8;
+void derolle_begin_node_capture(TBoss2DeRolLe *boss) {
+    derolle_capture_node_index = 0;
+    copy_argb(&derolle_capture_color, &boss->body_color);
+    derolle_capture_flags = boss->state_flags;
+    derolle_capture_position_index = 0;
+    derolle_capture_positions = boss->node_positions;
+    derolle_capture_tentacle_matrices = boss->tentacle_matrices;
+    derolle_capture_node_matrices = boss->node_matrices;
+    derolle_capture_part_points = boss->part_points;
 }
 
 extern "C" {
@@ -6336,56 +3813,55 @@ void copy_argb(NJS_ARGB *dst, NJS_ARGB *src) {
 }
 
 void TBoss2DeRolLe::render() {
-    Me_8002F258 *e = (Me_8002F258 *)this;
-    Vec4_8002F258 *col;
+    NJS_ARGB *col;
     s32 i;
     Vec *out;
 
     if (this->get_target_info() != 0) {
-        e->m104();
+        render_body();
         return;
     }
-    e->m8(1000.0f, 1000.0f);
+    update_object_view_visibility(1000.0f, 1000.0f);
     saved_model_render_flags = model_render_flags;
     saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
     saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
     TObjEneDD::clear_global_flag_400();
     TParticleCtrl::begin_effect_render();
     push_matrix();
-    post_translate_matrix(&e->pos);
-    translate_matrix(0, 0.0f, e->height, 0.0f);
-    rotate_matrix_y(0, e->ry);
-    rotate_matrix_x(0, e->rx);
-    rotate_matrix_z(0, e->rz);
+    post_translate_matrix(&position.x);
+    translate_matrix(0, 0.0f, height_offset, 0.0f);
+    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_x(0, rotation_x);
+    rotate_matrix_z(0, rotation_z);
     {
         Vec sc = {2.0f, 2.0f, 2.0f};
-        scale_current_matrix(&sc);
+        scale_current_matrix(&sc.x);
     }
-    update_pulsing_colors__13TBoss2DeRolLeFPv(((u8 *)this));
+    update_pulsing_colors();
     for (i = 0; i < 10; i++) {
-        TBoss2Joint__sub_8003688C((u8 *)e->joints[i]);
+        joints[i]->apply_flash_color();
     }
-    if (e->flags & 0x40) {
-        derolle_texture_list_handle->tex = derolle_segment_texture_slots;
+    if (state_flags & 0x40) {
+        derolle_breakup_node->child = derolle_breakup_stub_nodes;
     } else {
-        derolle_texture_list_handle->tex = lbl_805D4BCC;
+        derolle_breakup_node->child = derolle_breakup_node_child;
     }
-    fn_8002F5AC(((u8 *)this));
-    TObjFish::set_global_param(e->f24);
-    set_chunk_model_node_callback(TObjPlayer__sub_8002F61C);
+    derolle_begin_node_capture(this);
+    TObjFish::set_global_param(texlist);
+    set_chunk_model_node_callback(derolle_capture_node_points);
     {
-    Vec4_8002F258 saved;
-    col = &TObjLight__scene_light_state.col;
-    copy_argb((NJS_ARGB *)&saved, (NJS_ARGB *)col);
+    NJS_ARGB saved;
+    col = &TObjLight__scene_light_state.color;
+    copy_argb(&saved, col);
     if (TObjBoss2Tunnel::is_active() != 0) {
-        TObjLight__scene_light_state.col.y = 0.3f;
-        TObjLight__scene_light_state.col.z = 0.4f;
-        TObjLight__scene_light_state.col.w = 0.5f;
+        TObjLight__scene_light_state.color.r = 0.3f;
+        TObjLight__scene_light_state.color.g = 0.4f;
+        TObjLight__scene_light_state.color.b = 0.5f;
         TObjLight__sub_8013379C(current_scene_light, &TObjLight__scene_light_state);
         TObjLight__sub_801336DC(lbl_805D5564);
     }
     this->draw();
-    copy_argb((NJS_ARGB *)col, (NJS_ARGB *)&saved);
+    copy_argb(col, &saved);
     }
     set_chunk_model_node_callback(NULL);
     TObjLight__sub_801337F8(current_scene_light);
@@ -6396,31 +3872,31 @@ void TBoss2DeRolLe::render() {
     TParticleCtrl::end_effect_render();
     {
     Vec v;
-    out = e->mids;
-    VecCopy__FP3VecPC3Vec(&v, &e->pts[0]);
-    vec3_add_to(&v, &e->pts[9]);
+    out = joint_positions;
+    VecCopy(&v, &node_positions[0]);
+    vec3_add_to(&v, &node_positions[9]);
     v.x *= 0.5f;
     v.y *= 0.5f;
     v.z *= 0.5f;
-    VecCopy__FP3VecPC3Vec(out, &v);
-    VecCopy__FP3VecPC3Vec(&v, &e->pts[9]);
-    vec3_add_to(&v, &e->pts[11]);
+    VecCopy(out, &v);
+    VecCopy(&v, &node_positions[9]);
+    vec3_add_to(&v, &node_positions[11]);
     v.x *= 0.5f;
     v.y *= 0.5f;
     v.z *= 0.5f;
-    VecCopy__FP3VecPC3Vec(out + 1, &v);
+    VecCopy(out + 1, &v);
     out += 2;
     for (i = 0; i < 8; i++) {
-        VecCopy__FP3VecPC3Vec(&v, &e->pts[i + 11]);
-        vec3_add_to(&v, &e->pts[i + 12]);
+        VecCopy(&v, &node_positions[i + 11]);
+        vec3_add_to(&v, &node_positions[i + 12]);
         v.x *= 0.5f;
         v.y *= 0.5f;
         v.z *= 0.5f;
-        VecCopy__FP3VecPC3Vec(out, &v);
+        VecCopy(out, &v);
         out++;
     }
     }
-    ((TObject *)(e->nodes))->render_nodes();
+    part_group.render_nodes();
 }
 
 int TBoss2DeRolLe::vfunc_105() { return this->get_target_info(); }
@@ -6429,9 +3905,8 @@ int TBoss2DeRolLe::vfunc_105() { return this->get_target_info(); }
 #pragma opt_common_subs off
 
 void TBoss2DeRolLe::render_body() {
-    Self_8002EFE8 *self = (Self_8002EFE8 *)this;
     s32 i;
-    Model_8002EFE8 *model;
+    AnimationMotion *motion;
     s32 idx;
     f32 frame;
     f32 max;
@@ -6439,26 +3914,26 @@ void TBoss2DeRolLe::render_body() {
     saved_model_render_flags = model_render_flags;
     TObjEneDD::clear_global_flag_400();
     push_matrix();
-    post_translate_matrix(self->pos);
+    post_translate_matrix(&position.x);
     rotate_matrix_y(0, this->rotation_y);
     rotate_matrix_x(0, this->rotation_x);
     rotate_matrix_z(0, this->rotation_z);
     Vec scale = {2.0f, 2.0f, 2.0f};
     TObjEneDD::check_v2_mode();
-    scale_current_matrix(&scale);
+    scale_current_matrix(&scale.x);
     for (i = 0; i < 10; i++) {
-        TBoss2Joint__sub_8003688C((u8 *)self->joints[i]);
+        joints[i]->apply_flash_color();
     }
-    idx = self->motionIdx;
+    idx = parameters[0];
     if (idx < 0) {
         idx = 0;
     } else if (idx >= 0x11) {
         idx = 0x10;
     }
-    model = self->anims[self->motions[idx].anim].model;
-    if (test_previous_buttons_packed(controller_input_state + 0xC0, 4) != 0) {
-        max = model->frames - 1;
-        this->frame = this->frame + self->speed;
+    motion = motion_list[action_table[idx].motion].motion;
+    if (test_previous_buttons_packed(&controller_input_state.controllers[2], 4) != 0) {
+        max = motion->frameCount - 1;
+        this->frame = this->frame + parameters[2];
         while (this->frame < 0.0f) {
             this->frame = this->frame + max;
         }
@@ -6467,17 +3942,17 @@ void TBoss2DeRolLe::render_body() {
         }
         frame = this->frame;
     } else {
-        frame = self->fixedFrame;
+        frame = parameters[1];
         if (frame < 0.0f) {
             frame = 0.0f;
-        } else if (frame > (model->frames - 1)) {
-            frame = model->frames;
+        } else if (frame > (motion->frameCount - 1)) {
+            frame = motion->frameCount;
         }
     }
-    fn_8002F5AC((u8 *)self);
-    set_chunk_model_node_callback(TObjPlayer__sub_8002F61C);
+    derolle_begin_node_capture(this);
+    set_chunk_model_node_callback(derolle_capture_node_points);
     TObjFish::set_global_param(this->texlist);
-    draw_model_motion((void *)self->x34, (void *)model, (f32)frame);
+    draw_model_motion(model, motion, frame);
     set_chunk_model_node_callback(NULL);
     TObjLight__sub_801337F8(current_scene_light);
     pop_matrix();

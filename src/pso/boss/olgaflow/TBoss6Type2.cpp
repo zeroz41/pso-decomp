@@ -42,6 +42,8 @@
 
 #include "pso/object/TObjControl.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/unk/text_803D96A8.h"
 
 // One row per body motion. update_motion_tracks loops a mode 0 row, holds a
 // mode 2 row on its last frame and goes on to row `next`.
@@ -120,7 +122,6 @@ union TypedVector_802BAA74 {
 
 extern "C" {
 s32 submit_cursor_candidate(void *, int);
-s32 add_radar_scaled_marker(void *, int, int, int, f32);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 void TObjPlayer__sub_8023DEE0(s16 *p, s16 a, s16 b, u16 id);
 void TBoss6Type2__sub_802BA7BC(u8 *o);
@@ -371,7 +372,6 @@ s32 spawn_flow_soul__11TBoss6Type2Fiii(saddr arg0, saddr arg1, saddr arg2);
 f32 vec3_add_to(void *, void *);
 f32 vector_length(Vec *);
 void subtract_vector(Vec *, Vec *);
-f32 normalize_vector(void *);
 
 extern s32 local_client_id;
 extern s32 game_difficulty_selection;
@@ -864,7 +864,7 @@ s32 TBoss6Type2::count_matching_values(s32 arg1, s32 arg2) {
     return cnt;
 }
 
-void TBoss6Type2::vfunc_62() {
+void TBoss6Type2::run_hit_reaction() {
     actorFlags = (s32) (actorFlags & 0xFFFFFDFF);
     *(f32 *)((s8 *)this + 0x4FC) = 1.0f;
     {
@@ -878,7 +878,7 @@ void TBoss6Type2::vfunc_62() {
     }
 }
 
-void TBoss6Type2::vfunc_63() { if (*(int *)&m_374 != 35) { set_action_state(35); } }
+void TBoss6Type2::run_death_reaction() { if (*(int *)&m_374 != 35) { set_action_state(35); } }
 
 f32 TBoss6Type2::receive_physical_attack(void *att, f32 scale) {
     s32 var_r31;
@@ -998,7 +998,7 @@ void TBoss6Type2::run_task() {
     update_parts_flags();
     ((TObjPlayer *)arg0)->update_collisions();
     submit_cursor_candidate(arg0, -1);
-    add_radar_scaled_marker(arg0 + 0x38, -0x5DB4, 1, 1, 4.0f);
+    add_radar_scaled_marker(&this->position, -0x5DB4, 1, 1, 4.0f);
     ((TBoss6Type2 *)arg0)->apply_rock_hits_to_players();
     ((TBoss6Type2 *)arg0)->sub_802BB498();
     ((TBoss6Type2 *)arg0)->sub_802BC124();
@@ -1553,8 +1553,8 @@ void TBoss6Type2::copy_vec_array() {
 }
 
 void TBoss6Type2::advance_position() {
-    VecCopy((Vec *)&m_2fc, &position);
-    m_300 += 30.0f;
+    VecCopy(&body_center, &position);
+    body_center.y += 30.0f;
 }
 
 void TBoss6Type2::sub_802BBE20() {
@@ -2586,7 +2586,7 @@ void TBoss6Type2::spawn_hit_effects() {
         }
     }
     if (found == 0) {
-        spawn_particle_effect((Vec *)&m_2fc, 0x223);
+        spawn_particle_effect(&body_center, 0x223);
     }
 }
 

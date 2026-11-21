@@ -262,9 +262,9 @@ void TBoss3VoloptMonitor::run_task() {
         return;
     }
     if (has_flag_0x800() != 0) {
-        vfunc_63();
+        run_death_reaction();
     } else if (test_flag30_512() != 0) {
-        vfunc_62();
+        run_hit_reaction();
     }
     if (mode != (s32)next_action) {
         if ((s32)state != -1) {
@@ -459,7 +459,7 @@ void TBoss3VoloptMonitor::sub_80041C78() {
         state = 1;
     case 1:
         if (--*(s16 *)&timer <= 0) {
-            vfunc_59();
+            run_move_action();
         }
         break;
     case -1:
@@ -470,7 +470,7 @@ void TBoss3VoloptMonitor::sub_80041C78() {
 
 void TBoss3VoloptMonitor::damage_player_if_aligned() {
     if (!(m_388 & 0x40000) && vol_opt_active_hit_zone >= 0 && vol_opt_active_hit_zone / 4 == slot / 4) {
-        TBoss3VoloptCore::link_photon(m_2d4, 0);
+        TBoss3VoloptCore::link_photon(attacker_id, 0);
     }
 }
 
@@ -479,12 +479,12 @@ void TBoss3VoloptMonitor::spawn_effects() {
     angle[0] = 0;
     angle[1] = rotation_y;
     angle[2] = 0;
-    spawn_directional_particle(&m_2fc, angle, (slot & 3) == 0 ? 0x62 : 0x61);
-    spawn_particle_effect((const Vec *)&m_2fc, 0x45);
+    spawn_directional_particle(&body_center, angle, (slot & 3) == 0 ? 0x62 : 0x61);
+    spawn_particle_effect(&body_center, 0x45);
 }
 
 void TBoss3VoloptMonitor::set_hit_flags_and_notify() {
     m_388 |= 0x40000;
     obj_setFlags30(this, 0x800);
-    vfunc_63();
+    run_death_reaction();
 }

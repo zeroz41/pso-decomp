@@ -1,4 +1,5 @@
 #include "pso/effect/particle/ParticleFactory.h"
+#include "pso/unk/text_803D96A8.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/network/protocol/protocol_types.h"
@@ -132,10 +133,7 @@ extern s32 local_client_id;
 void handle_6x68_set_telepipe_state(Pkt_802341B0 *pkt);
 s32 matrix_mult_vec(int, void *, void *);
 s32 rotate_matrix_y(int, s32);
-s32 push_matrix_from(void *);
 }
-s32 pop_matrices(s32 arg0);
-s32 pop_matrices(s32 arg0);
 extern u8 identity_matrix[];
 extern "C" {
 s32 mark_area_change_pending();

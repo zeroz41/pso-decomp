@@ -7,10 +7,10 @@
 
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
+#include "pso/unk/text_803D96A8.h"
 
 extern "C" {
 f32 vector_length(void *, int, f32, f32);
-s32 normalize_vector(void *);
 void *get_player_by_client_id(s32 i);
 
 void TUnk_80488A28::vfunc_6() {  }
@@ -46,7 +46,7 @@ void TUnk_804887C8::run_task() {
             stack.y = 0.0f;
             stack.z = temp_f1;
             if (0.0f != vector_length(&stack.x, (int)temp_r4, (f32)temp_f1, (f32)temp_f2)) {
-                normalize_vector(&stack.x);
+                normalize_vector(&stack);
                 this->position.x = (f32) ((30.0f * stack.x) + *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x1C)) + 0x38));
                 this->position.y = (f32) (10.0f + *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x1C)) + 0x3C));
                 this->position.z = (f32) ((30.0f * stack.z) + *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x1C)) + 0x40));

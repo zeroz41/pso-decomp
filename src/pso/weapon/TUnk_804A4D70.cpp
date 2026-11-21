@@ -18,10 +18,10 @@ void TUnk_804A4D70::emit_marker_effects() {
     case 6:
         if (is_mode_two_and_ready() && obj_getPtr2B0_20((u8 *)owner) >= 10000) {
             try_spend_actor_meseta((u8 *)owner, 10000);
-            show_meseta_label((saddr)owner, (uaddr)&owner->m_2fc, 0, -10000);
+            show_meseta_label((saddr)owner, (uaddr)&owner->body_center, 0, -10000);
             apply_scale_if_active(3.0f);
-            spawn_particle_effect((const Vec *)&owner->m_2fc, 0x66);
-            spawn_particle_effect((const Vec *)&owner->m_2fc, 0x66);
+            spawn_particle_effect(&owner->body_center, 0x66);
+            spawn_particle_effect(&owner->body_center, 0x66);
         } else {
             ((TItemWeapon *)this)->update_active_game_effect();
         }

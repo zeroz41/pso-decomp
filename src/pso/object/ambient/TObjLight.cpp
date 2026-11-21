@@ -73,7 +73,6 @@ Actor_80193FE8 *get_player_by_client_id(s32);
 void matrix_mult_vec(void *, void *, void *);
 f32 vector_length(void *);
 void rotate_matrix_z(void *, s32);
-void normalize_vector(void *);
 extern u8 identity_matrix[];
 extern TCameraCtrl *camera_ctrl_instance;
 

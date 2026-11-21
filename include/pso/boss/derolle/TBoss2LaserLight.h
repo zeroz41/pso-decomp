@@ -3,34 +3,33 @@
 
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include <dolphin/mtx.h>
 
-struct TBoss2LaserLight : public TObject {
-    TBoss2LaserLight(TObject *parent, u32 arg2);
+struct TObjLight;
+
+// De Rol Le's laser glow: a light that fades in to range 60 on turn_on and back out on turn_off,
+// following the point it was given (the Barba Ray twin is TBoss7LaserLight).
+class TBoss2LaserLight : public TObject {
+public:
+    enum State { OFF, FADE_IN, ON, FADE_OUT };
+    enum Request { REQUEST_NONE, REQUEST_ON, REQUEST_OFF };
+
+    Vec *m_position;
+    s32 m_state;
+    u32 m_request;
+    f32 m_color[4];
+    f32 m_range[2];
+    TObjLight *m_light;
+
+    TBoss2LaserLight(TObject *parent, Vec *position);
     virtual ~TBoss2LaserLight();
-    u32 m_1c;
-    u32 m_20;
-    u32 m_24;
-    void* m_28;
-    u8 _pad2C[0xC];
-    void* m_38;
-    u8 _pad3C[0x4];
-    uaddr m_40;
     virtual void render();
     virtual void run_task();
+
+    void turn_off();
+    void turn_on();
 };
 
 LAYOUT_ASSERT(TBoss2LaserLight_size, sizeof(TBoss2LaserLight) == 0x44);
-
-extern "C" {
-void TBoss2LaserLight__sub_80037474(void *p);
-void TBoss2LaserLight__sub_80037480(void *p);
-}
-
-// --- C functions defined in TBoss2LaserLight.cpp ---
-extern "C" {
-void TBoss2LaserLight__sub_80037474(void *p);
-void TBoss2LaserLight__sub_80037480(void *p);
-}
-// --- end of C functions
 
 #endif

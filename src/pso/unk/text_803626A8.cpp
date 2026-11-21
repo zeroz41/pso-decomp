@@ -1,4 +1,5 @@
 #include "pso/system/BmlResource.h"
+#include "pso/unk/text_803D96A8.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/npc/NpcModelRegistry.h"
@@ -55,8 +56,6 @@ public:
 extern "C" {
 s32 matrix_mult_vec(int, void *, void *);
 s32 rotate_matrix_y(int, int);
-s32 push_matrix_from(void *);
-s32 pop_matrix();
 f32 post_translate_matrix(void *);
 
 s32 TObjPlayer__sub_800F0928(void *);

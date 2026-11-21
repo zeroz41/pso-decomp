@@ -1,7 +1,6 @@
 #include "pso/render/GvmTextureArchive.h"
 #include "pso/system/ResourceFile.h"
 #include "types.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_803E2BAC.h"
 #include "pso/unk/TLobby_803382E4.h"
 #include "pso/unk/text_800F7DAC.h"
 #include "pso/render/render_util.h"
@@ -22,7 +21,7 @@
 #include "pso/math/AngleLookup.h"
 
 
-struct G_80338534 { u8 p0[0x2C]; u8 a[0x40]; u8 b[0x60]; u8 c[0x40]; };
+struct G_80338534 { u8 p0[0x2C]; ProjectedVertex a[4]; u8 b[0x60]; u8 c[0x40]; };
 
 struct Fx_803382E4 {
     u8 pad0[0x14];
@@ -198,7 +197,7 @@ void TLobby__sub_80338534(void) {
     TCameraCtrl::restore_full_screen_view();
     set_default_alpha_blend();
     TParticleCtrl::begin_effect_render();
-    TObjBoss2Tunnel__sub_803E2D10(1);
+    TObjBoss2Tunnel::sub_803E2D10(1);
     TObjBoss2Tunnel::draw_projected_quads(t->a, 4);
     TObjBoss2Tunnel::reset_player_state();
     if ((u32)info_icon_texture != 0) {

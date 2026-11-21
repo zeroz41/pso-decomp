@@ -117,7 +117,7 @@ void TLobby::update_card_save_info() {
         }
     }
     id = -1;
-    if ((((TObjPlayer *)ply)->get_field_2d4() & 0xF000) == 0x1000) {
+    if ((((TObjPlayer *)ply)->get_attacker_id() & 0xF000) == 0x1000) {
         u = find_entity_by_id();
         if (u != NULL) {
             id = u->f370;

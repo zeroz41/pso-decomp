@@ -10,6 +10,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/text_803D96A8.h"
 
 struct RecoveredFields_8006B588_arg0
 {
@@ -75,7 +76,6 @@ s32 __ct__7TObjectFP7TObject(void *, void *);
 extern const s32 __vt__13TUnk_80488AD8[];
 extern uaddr camera_ctrl_instance;
 f32 vector_length(void *);
-void normalize_vector(void *);
 f32 xyz_distance(void *, void *);
 void approach_vector_fixed_distance(Vec *, Vec *, Vec *, f32);
 s32 restore_player_cameras();

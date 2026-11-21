@@ -51,7 +51,6 @@ void __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_80107DA4_lbl_8049EFB8 __vt__13TUnk_8049EFB8;
 s32 scale_matrix(int, f32, f32, f32);
 s32 rotate_matrix_y(int, int);
-s32 push_matrix();
 s32 post_translate_matrix(void *);
 void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 extern RecoveredGlobal_80107DF0_lbl_8050BEC0 saved_model_draw_color;

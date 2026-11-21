@@ -20,6 +20,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/text_803D96A8.h"
 
 #pragma defer_codegen on
 
@@ -93,7 +94,6 @@ extern s32 __vt__13TUnk_8048E6A8[];
 extern s32 __vt__13TUnk_8048E6DC[];
 s32 lbl_805D2930 = 1;
 s32 rotate_matrix_y(int, s32);
-s32 pop_matrix();
 extern u8 *camera_ctrl_instance;
 void begin_screen_draw(s32 arg0);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
@@ -101,8 +101,6 @@ u32 csnVector(void *, void *, int);
 f32 vec3_dot(void *, void *);
 f32 vec_squared_length(u8 *arg0);
 s32 rotate_vector_by_matrix(int, void *, void *);
-s32 normalize_vector(void *);
-s32 push_matrix_from(void *);
 extern s32 identity_matrix[];
 void project_world_to_screen(s32, void *, void *);
 void *get_player_by_client_id(s32 i);

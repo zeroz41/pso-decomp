@@ -18,12 +18,12 @@ struct TObjEneNanoDrago : public TObjEnemyCustom {
     virtual void run_task();
     virtual void render();
     virtual s32 update_action_hold_status();
-    virtual void vfunc_61();
-    virtual void vfunc_59();
-    virtual void vfunc_60();
-    virtual void vfunc_58();
-    virtual void vfunc_62();
-    virtual void vfunc_63();
+    virtual void run_miss_reaction();
+    virtual void run_move_action();
+    virtual void run_attack_action();
+    virtual void run_idle_action();
+    virtual void run_hit_reaction();
+    virtual void run_death_reaction();
     void capture_beam_origins();
     void add_target_in_front_arc(TObjChara *candidate);
     void update_fade_in_state();

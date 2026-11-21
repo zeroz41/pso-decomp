@@ -1083,7 +1083,6 @@ typedef struct Player_801CB1B0 {
 } Player_801CB1B0;
 extern "C" {
 
-s32 TObjPlayer__sub_8000FF4C(void *, s32);
 s32 clear_velocity(void *);
 s32 add_actor_tp(u8 *arg0, s32 arg1);
 s32 add_actor_hp(u8 *arg0, s16 arg1);
@@ -2679,7 +2678,7 @@ void TObjPlayer::init_action() {
     this->protection.set_frames(0x12C);
     this->phase = 0;
     this->m_2b4 = 44.0f;
-    TObjPlayer__sub_8000FF4C(arg0, 0xFFFF);
+    ((TObjPlayer *)arg0)->set_attacker_id(0xFFFF);
     ((TObjPlayer *)arg0)->set_action_state(0x12, (s16) ((s32 (*)(void))ret_801D26AC)());
     fn_800660B8(arg0);
     if (is_current_area_item_enabled() != 0) {
@@ -3007,7 +3006,7 @@ void TObjPlayer::enter_death_state() {
     }
     ((TObjPlayer *)(arg0 + 0x4AC))->clear_photon_blast_state();
     if (TTecCtrl::is_technique_ready() != 0) {
-        entity = find_entity_by_id(((TObjPlayer *)arg0)->get_field_2d4());
+        entity = find_entity_by_id(((TObjPlayer *)arg0)->get_attacker_id());
         if (entity != NULL) {
             if (check_value_equals__13TUnk_804B6C24CFl((saddr)entity, (void *)lbl_805D3530) != 0) {
                 temp_r31 = (u16)((s32 (*)(void *))get_entity_id)(arg0);
@@ -3085,7 +3084,7 @@ void TObjPlayer::prepare_death() {
     if (arg0 == NULL || ((TObjChara *)arg0)->obj_isState2_324() == 0) {
         ((TObjPlayer *)(&c1))->init_6x89_packet();
         c1.client = ((s32 (*)(void *))get_entity_id)(arg0);
-        c1.val = ((TObjPlayer *)arg0)->get_field_2d4();
+        c1.val = ((TObjPlayer *)arg0)->get_attacker_id();
         ((TObjPlayer *)(&c1))->update_and_send3();
         ((TObjPlayer *)(&c2))->init_6x4D_packet();
         c2.client = ((s32 (*)(void *))get_entity_id)(arg0);
@@ -3790,7 +3789,7 @@ void update_active_instance__10TObjPlayerFi(saddr arg0) {
     }
 }
 
-void TObjPlayer::vfunc_75(f32 farg0) {
+void TObjPlayer::gain_photon_blast_charge(f32 farg0) {
     saddr arg0 = (saddr)this;
     if (TObjPlayer::is_locally_controlled(this) == 0 || ((TObjCollidable *)arg0)->obj_testFlags30(0x800) != 0 ||
         (u32)((TObjPlayer *)arg0)->activate_d04_slot() == 0 || ((s32 (*)(s32, s32))is_alt_photon_blast_bank_empty__10TObjPlayerFPv)(arg0 + 0x500, 1) != 0 ||
@@ -4934,7 +4933,7 @@ struct WeaponHitSound {
     s32 collider;
 };
 
-int TObjPlayer::vfunc_67(f32 damage_scale) {
+int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
     s32 count;
     s32 i;
     int hit = 0;
@@ -4972,13 +4971,13 @@ int TObjPlayer::vfunc_67(f32 damage_scale) {
             switch (TObjPlayer__sub_801D2F4C((s16 *)&attack_state)) {
             case 0:
                 damage = target->receive_physical_attack(this, damage_scale * get_attack_damage_scale((s16 *)&attack_state));
-                vfunc_75(TObjPlayer::calc_photon_blast_charge(this, damage));
+                gain_photon_blast_charge(TObjPlayer::calc_photon_blast_charge(this, damage));
                 apply_camera_shake__10TObjPlayerFiii(this, target, damage);
                 break;
             case 1:
                 dealt = target->receive_physical_attack(this, damage_scale * get_attack_damage_scale((s16 *)&attack_state));
                 damage = dealt;
-                vfunc_75(TObjPlayer::calc_photon_blast_charge(this, damage));
+                gain_photon_blast_charge(TObjPlayer::calc_photon_blast_charge(this, damage));
                 apply_camera_shake__10TObjPlayerFiii(this, target, damage);
                 ((KnockbackReceiver *)target)->apply_knockback(this, 0.1f * dealt);
                 break;
@@ -5014,7 +5013,7 @@ int TObjPlayer::vfunc_67(f32 damage_scale) {
                     if (target->roll_physical_accuracy(this, collider,
                                                        ((TObjPlayer *)&attack_state)->calc_attack_stage_multiplier(2)) != 0) {
                         s32 damage = target->receive_physical_attack(this, damage_scale * get_attack_damage_scale((s16 *)&attack_state));
-                        vfunc_75(TObjPlayer::calc_photon_blast_charge(this, damage));
+                        gain_photon_blast_charge(TObjPlayer::calc_photon_blast_charge(this, damage));
                         apply_camera_shake__10TObjPlayerFiii(this, target, damage);
                         hit = 1;
                         WeaponHitSound sound;

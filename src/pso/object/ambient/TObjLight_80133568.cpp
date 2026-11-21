@@ -21,6 +21,7 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/text_803D96A8.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -60,7 +61,6 @@ s32 rotate_vector_by_matrix(int, void *, void *);
 extern TUnk_804A6F90 *lbl_805D5558;
 extern s32 TObjLight__actor_light_count;
 f32 vector_length(void *);
-f32 normalize_vector(void *);
 extern f32 default_scene_light_config[];
 extern uaddr TObjLight__light_entry_data;
 extern s32 TObjLight__active_light_count;
@@ -398,7 +398,7 @@ void init_map_lights(u8 *arg0) {
     stack.y = *(f32 *)((s8 *)arg0 + 4);
     stack.z = *(f32 *)((s8 *)arg0 + 8);
     if (0.0f != vector_length(&stack.x)) {
-        normalize_vector(&stack.x);
+        normalize_vector(&stack);
     }
     *(f32 *)((s8 *)(&TObjLight__scene_light_state.value) + 0) = stack.x;
     *(f32 *)((s8 *)(&TObjLight__scene_light_state.value) + 4) = stack.y;
@@ -424,7 +424,7 @@ void init_menu_scene_lights(u8 *arg0) {
     stack.y = *(f32 *)((s8 *)arg0 + 4);
     stack.z = *(f32 *)((s8 *)arg0 + 8);
     if (0.0f != vector_length(&stack.x)) {
-        normalize_vector(&stack.x);
+        normalize_vector(&stack);
     }
     *(f32 *)((s8 *)(&TObjLight__scene_light_state.value) + 0) = stack.x;
     *(f32 *)((s8 *)(&TObjLight__scene_light_state.value) + 4) = stack.y;

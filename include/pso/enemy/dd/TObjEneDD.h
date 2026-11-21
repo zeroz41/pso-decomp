@@ -14,35 +14,32 @@ struct TObjEneDD : public TObjEnemy {
     void reset_state_fields();
     void init_common_from(u8 *);
     void clear_attack_receipts();
-    virtual void vfunc_79(s32 *);
-    virtual s32 vfunc_83();
-    virtual s32 vfunc_84();
-    virtual void vfunc_85();
-    virtual s32 vfunc_86();
+    virtual void apply_enemy_state(s32 *);
+    virtual s32 update_status_effects();
+    virtual s32 update_immobilizing_statuses();
+    virtual void update_action_state();
+    virtual s32 has_action_state_changed();
     virtual void dispatch_action(u32 state, s32 reason) = 0;
-    virtual void vfunc_88();
-    virtual void vfunc_89();
+    virtual void update_body_colliders();
+    virtual void check_collisions();
     virtual s32 vfunc_90();
-    virtual void vfunc_91();
-    virtual void vfunc_92();
-    virtual void vfunc_93();
-    virtual void vfunc_94();
-    virtual void vfunc_95();
-    virtual void vfunc_96();
-    virtual void vfunc_97();
-    virtual void vfunc_98();
-    virtual s32 vfunc_99();
-    virtual void vfunc_100();
-    virtual u8 *vfunc_101(u8 *);
-    virtual u8 *vfunc_102();
-    virtual u8 *vfunc_103(u8 *);
+    virtual void set_invulnerable();
+    virtual void clear_invulnerable();
+    virtual void enable_body_collision();
+    virtual void disable_body_collision();
+    virtual void set_intangible();
+    virtual void clear_intangible();
+    virtual void set_colliders_contact_high();
+    virtual void set_colliders_contact_low();
+    virtual s32 is_confused();
+    virtual void render_minimap_dot();
+    virtual u8 *move_xz_on_ground(u8 *);
+    virtual u8 *update_ground_contact();
+    virtual u8 *snap_to_ground_at(u8 *);
     // The table ends at slot 103 (the word after it is padding): dispatch_action's state handlers
     // start at slot 104 and each subclass declares its own (TObjEneDD_ST f32, TBoss2Mine s32, FlyNest init).
     int get_flag_b4();
     f32 calc_elapsed_scaled();
-    void update_velocity();
-    void turn_toward_target_direction(s32 max_step);
-    void set_target_destination(const Vec *position);
     static void init_lights();
     static s32 clamp_frame_index(s32 arg0);
     static s32 check_v2_mode();
@@ -79,6 +76,9 @@ struct TObjEneDD : public TObjEnemy {
     void init_model(CollisionBody *bodies, s32 count);
     void clear_field_388();
     int has_move_failures(s32 arg1);
+    s32 enemy_probe_wall_ahead(f32, f32, f32);
+    void calc_shot_position(u8 *, f32, f32, f32);
+    u8 *try_move_actor_xz_on_ground(u8 *);
     void move_to_wall_clamped_destination(f32 farg0, f32 farg1, f32 farg2);
     u8 *move_with_wall_slide_commit(f32 farg0, f32 farg1, f32 farg2);
     void move_with_wall_stop(f32 farg0, f32 farg1, f32 farg2);
@@ -91,11 +91,17 @@ struct TObjEneDD : public TObjEnemy {
     void handle_state(s32 arg1);
     void noop();
     void state_damaged(s32 arg1);
-    void state_chase_target(s32 arg1);
     int get_target_info();
     void set_field_378(s32 v);
     void init_position_vectors();
     static void release_resource();
+
+    s32 previous_mode;         // mode when the last state handler finished; vfunc_86 tests for a change
+    s32 next_mode;             // mode a finished action hands back to (transition_enemy_state(next_mode))
+    f32 wall_reach;            // extra distance the wall probe looks ahead of a move (5.0)
+    s32 wall_probe_failures;   // moves the wall probe blocked in a row
+    s32 ground_probe_failures; // moves that found no ground in a row
+    s32 active_flags;          // bit 0 set by TObjEneDD_ST::set_active
 };
 
 extern "C" {

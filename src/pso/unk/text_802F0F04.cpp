@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_802F2070.h"
+#include "pso/boss/barbaray/TObjBoss7Tunnel.h"
 #include "pso/unk/text_802F0F04.h"
 #include "pso/object/warp/TObjAreaWarpForest.h"
 #include "pso/system/task/TMainTask.h"
@@ -11,7 +11,7 @@ void TUnk_804E48D8::render() {
 }
 
 void TUnk_804E48D8::run_task() {
-    if (TObjBoss2Tunnel__sub_802F2070() != 0) {
+    if (TObjBoss7Tunnel::has_stopped() != 0) {
         visible = 1;
     }
     TObjAreaWarpForest::run_task();

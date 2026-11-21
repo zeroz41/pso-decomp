@@ -1,12 +1,12 @@
 #include "pso/enemy/TUnk_80493450.h"
 
-void TUnk_80493450::vfunc_83() { mode = 1; }
-void TUnk_80493450::vfunc_93() {}
-void TUnk_80493450::vfunc_94() {}
-void TUnk_80493450::vfunc_95() {}
-void TUnk_80493450::vfunc_96() {}
-void TUnk_80493450::vfunc_97() {}
-void TUnk_80493450::vfunc_98() {}
-void TUnk_80493450::vfunc_101() {}
+void TUnk_80493450::beast_update_appear() { mode = 1; }
+void TUnk_80493450::update_attack_trail() {}
+void TUnk_80493450::spawn_death_effect() {}
+void TUnk_80493450::play_alert_sound() {}
+void TUnk_80493450::play_attack_sound() {}
+void TUnk_80493450::play_hurt_sound() {}
+void TUnk_80493450::play_death_sound() {}
+void TUnk_80493450::run_demo_task() {}
 
 u16 get_enemy_target_id(void* p) { return *(u16*)((char*)p + 0x338); }

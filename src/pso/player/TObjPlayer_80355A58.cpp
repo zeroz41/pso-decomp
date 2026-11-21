@@ -18,7 +18,7 @@ void TUnk_804F1320::activate_effect(s32 item) {
         s32 owner_floor = owner->get_floor();
         s32 floor = get_current_floor();
         if (floor == owner_floor && get_mode() == 2) {
-            spawn_pg_effect(owner->body_center(), item, effect_radius);
+            spawn_pg_effect(&owner->body_center, item, effect_radius);
         }
     }
 }

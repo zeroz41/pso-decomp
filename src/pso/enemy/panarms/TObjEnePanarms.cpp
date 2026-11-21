@@ -244,8 +244,6 @@ s32 scale_matrix(int, f32, f32, f32);
 f32 vector_length(void *);
 s32 rotate_matrix_z(int, int);
 s32 rotate_matrix_x(int, void *);
-s32 normalize_vector(void *);
-s32 push_matrix();
 s32 post_translate_matrix(void *, f32);
 
 extern BmlResource *TObjEnePanarms__entry_params_resource;
@@ -365,10 +363,10 @@ u8 is_phase_12__14TObjEnePanarmsFPv(void *arg0) {
     return (u8) (*(s32 *)((s8 *)arg0 + 0x378) == 0xC);
 }
 
-void TObjMotion::clear_motion_flags(s32 arg1) {
+void TObjMotion::clear_motion_flags(s32 flags) {
   s32 *new_var;
   int new_var2;
-  new_var2 = ~arg1;
+  new_var2 = ~flags;
   new_var = (s32 *) (((s8 *) this) + 0xB0);
   *new_var = (s32) ((this->motion_flags) & new_var2);
 }
@@ -461,7 +459,7 @@ TObjEnePanBARA::TObjEnePanBARA(TObject *parent, void *setData, s32 index) : TObj
     set_field_dc((saddr)TObjEnePanarms__entry_params_resource->motions);
     set_animation(0);
     set_field_b8(0);
-    VecCopy((Vec *)&m_2fc, &position);
+    VecCopy(&body_center, &position);
     x_speed = y_speed = m_310 = 0.0f;
     target = NULL;
     switch (m_380) {
@@ -565,16 +563,16 @@ void TObjEnePanBARA::run_task() {
         case 1:
             s = ((Panarms_800E2200 *)this)->fC0 / 35.0f;
             ((void (*)(void *, void *, s32, f32))calc_part_position__14TObjEnePanBARAFPUcPl)(this, &a, 0, ((Panarms_800E2200 *)this)->fC0);
-            ((void (*)(void *, void *))subtract_vector)(&a, &m_2fc);
+            ((void (*)(void *, void *))subtract_vector)(&a, &body_center);
             a.x *= s;
             a.z *= s;
-            ((void (*)(void *, void *))vec3_add_to)(&a, &m_2fc);
+            ((void (*)(void *, void *))vec3_add_to)(&a, &body_center);
             minimap_render_dot(&a, -0x5DB4, 1, 0);
             break;
         case 5:
             {
             s = ((Panarms_800E2200 *)this)->fC0 / 45.0f;
-            Vec b = *(Vec *)&m_2fc;
+            Vec b = body_center;
             ((void (*)(void *, void *))subtract_vector)(&b, &m_38c);
             b.x *= s;
             b.z *= s;
@@ -583,7 +581,7 @@ void TObjEnePanBARA::run_task() {
             }
             break;
         default:
-            minimap_render_dot(&m_2fc, -0x5DB4, 1, 0);
+            minimap_render_dot(&body_center, -0x5DB4, 1, 0);
             break;
         }
     }
@@ -631,7 +629,7 @@ void TObjEnePanBARA::render() {
     this->update_linked_effect();
 }
 
-void TObjEnePanBARA::draw() { ((int (*)(void*))push_matrix)(this); ((int (*)(void*))post_translate_matrix)((char*)this + 0x38); ((int (*)(void*, void*))rotate_matrix_y)((void*)0, *(void* *)&this->rotation_y); TObjFish::set_global_param((saddr)((GinjaTextureList *)(*(void* *)&this->texlist))); m_3dc->install(); TObjMotion::draw(); m_3dc->clear(); ((int (*)(void))pop_matrix)(); }
+void TObjEnePanBARA::draw() { push_matrix(); ((int (*)(void*))post_translate_matrix)((char*)this + 0x38); ((int (*)(void*, void*))rotate_matrix_y)((void*)0, *(void* *)&this->rotation_y); TObjFish::set_global_param((saddr)((GinjaTextureList *)(*(void* *)&this->texlist))); m_3dc->install(); TObjMotion::draw(); m_3dc->clear(); pop_matrix(); }
 
 void TObjEnePanBARA::update_linked_effect() {
     u8 *arg0 = (u8 *)this;
@@ -662,7 +660,7 @@ void TObjEnePanBARA::update_linked_effect() {
 
 #pragma push
 #pragma fp_contract on
-void TObjEnePanBARA::vfunc_63() {
+void TObjEnePanBARA::run_death_reaction() {
     u8 *arg0 = (u8 *)this;
     s32 st = this->m_378;
     switch (st) {
@@ -675,7 +673,7 @@ void TObjEnePanBARA::vfunc_63() {
             VecCopy(&this->position, (const Vec *)(this->m_39c + 0x38));
             *(f32 *)((s8 *)arg0 + 0x38) += 10.0f * sin_table_lookup(this->rotation_y);
             *(f32 *)((s8 *)arg0 + 0x40) += 10.0f * cos_table_lookup(this->rotation_y);
-            VecCopy((Vec *)&this->m_2fc, &this->position);
+            VecCopy(&this->body_center, &this->position);
         }
         ((TObjEnePanBARA *)(arg0))->sub_800E1C98(7);
         break;
@@ -683,7 +681,7 @@ void TObjEnePanBARA::vfunc_63() {
 }
 #pragma pop
 
-void TObjEnePanBARA::vfunc_62() {
+void TObjEnePanBARA::run_hit_reaction() {
     Obj_800E1E74 *self = (Obj_800E1E74 *)this;
     switch (self->state) {
     case 0:
@@ -698,7 +696,7 @@ void TObjEnePanBARA::vfunc_62() {
     }
 }
 
-void TObjEnePanBARA::vfunc_61() { this->actorFlags &= 0xfffffeff; }
+void TObjEnePanBARA::run_miss_reaction() { this->actorFlags &= 0xfffffeff; }
 
 void TObjEnePanarms__sub_800E1E14(u8 *arg0) {
     u8 *temp_r5;
@@ -978,7 +976,7 @@ void TObjEnePanBARA::snap_to_parent_position() {
     VecCopy(&position, (const Vec *)(m_39c + 0x38));
     position.x += 1000.0f;
     position.y += 1000.0f;
-    VecCopy((Vec *)&m_2fc, &position);
+    VecCopy(&body_center, &position);
 }
 
 void TObjEnePanBARA::init_split() {
@@ -1073,7 +1071,7 @@ void TObjEnePanBARA::sub_800E10D0() {
             if (vector_length(&a) <= 0.01f) {
                 a.x = a.z = 0.0f;
             } else {
-                normalize_vector(&a);
+                normalize_vector((Vec *)&a);
             }
         }
     } else {

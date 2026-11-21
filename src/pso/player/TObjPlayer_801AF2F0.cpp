@@ -2,6 +2,7 @@
 // last to first, so they are defined here from the highest address down.
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/TLobby_800FD78C.h"
+#include "pso/unk/text_803D96A8.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -16,7 +17,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/render/render_util.h"
 #include "pso/system/vector.h"
-#include "pso/enemy/recon/TObjEneRecon.h"
+#include "pso/render/reflection.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/city/TShopJudgmentItemWindow.h"
 #include "pso/ui/window/TWindowSubItem.h"
@@ -2150,7 +2151,6 @@ s32 rotate_matrix_y(s32, s32);
 void rotate_matrix_z(int, s32);
 void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 void rotate_matrix_x(int, s32);
-s32 push_matrix_from(int);
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
 void draw_chunk_object(void *child);
 
@@ -2218,7 +2218,6 @@ void reinit_photon_blast_gauge(u16 *arg0);
 s32 get_ply_level_table_row(s8 arg0, s32 arg1);
 s32 player_auxiliary_surfaces_enabled();
 void text_builder_reset(void);
-void restore_render_scissor(s32 arg0);
 s32 validate_6x0E_clear_negative_status_effects(G_ClientIDHeader *packet);
 s32 validate_6xA1_revive_player_v3(G_ClientIDHeader *packet);
 s32 validate_6x31_use_medical_center(G_ClientIDHeader *packet);
@@ -2751,7 +2750,7 @@ void render__10TObjPlayerFv(u8 *arg0) {
         temp_f31 = (f32) temp_r3;
         if (TObjPlayer__data_805DC278 != temp_f31) {
             if (((s32)main_task.get_task_flags() & 0x20) && (is_central_control_area() != 0)) {
-                if (TObjEneRecon::render_player_marker(((TObjPlayer *)arg0)->entity_id, 1) != 0) {
+                if (push_player_reflection_matrix(((TObjPlayer *)arg0)->entity_id, 1) != 0) {
                     ((TObjPlayer *)arg0)->render_body_pass(temp_f31);
                     restore_render_scissor(1);
                 }
@@ -4440,7 +4439,7 @@ void TObjPlayer::update_status_effects() {
   (this->vfunc_43());
   (this->update_poison_status());
   (this->update_action_hold_status());
-  (this->vfunc_37());
+  (this->update_slow_status());
   (this->update_flag30_timer());
   (this->update_movement_status());
   (this->update_shock_clock());
@@ -6056,7 +6055,7 @@ void complete_deferred_player_death(void) {
         }
         ((TObjPlayer *)p)->send_respawn_position();
         aim = ((TLobby *)lobby_rule_settings)->clamp_value_below_200();
-        room = TObjRoomId__sub_801A1DB8(((TObjPlayer *)p)->get_field_2d4());
+        room = TObjRoomId__sub_801A1DB8(((TObjPlayer *)p)->get_attacker_id());
         if (aim != 0 && (room == 0 || room == 0x1000)) {
             ((TObjPlayer *)p)->update_aim_angle(aim);
         }
@@ -6421,12 +6420,12 @@ s32 TObjPlayer::update_action_hold_status() {
     return TObjChara::update_action_hold_status();
 }
 
-s32 TObjPlayer::vfunc_37() {
+s32 TObjPlayer::update_slow_status() {
     saddr player = (saddr)this;
     if ((((s32 (*)(void))reset_volopt_state__10TObjPlayerFv)() == 0) || (((TObjPlayer *)player)->is_body_collision_inactive() != 0)) {
         return 0;
     }
-    return TObjChara::vfunc_37();
+    return TObjChara::update_slow_status();
 }
 
 s32 TObjPlayer::update_flag30_timer() {

@@ -4,7 +4,7 @@
 #include "pso/enemy/beast/TObjEneBeast.h"
 #include "pso/player/TObjPlayer.h"
 
-void TUnk_80493450::vfunc_100() {  }
+void TUnk_80493450::select_post_attack_mode() {  }
 int TUnk_80493450::test_flag_256() { return 0; }
 void TUnk_80493450::request_stand_action() { this->requested_action = 0; }
 void TObjPlayer::init_position_vectors() {

@@ -16,16 +16,17 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_80087278.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/render/render_util.h"
+#include "pso/boss/darkfalz/TBoss4Type2_80086C44.h"
 #include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/unk/text_803D96A8.h"
 
 #pragma readonly_strings on
 
 extern const f32 lbl_805DE9F0;
-extern "C" {
-
-s32 subtract_vector(void *, void *);
-
-}
 
 LAYOUT_ASSERT(Laser_state_offset, offsetof(TBoss7LaserPtcl, state) == 0x1C);
 LAYOUT_ASSERT(Laser_position_offset, offsetof(TBoss7LaserPtcl, position) == 0x20);
@@ -33,33 +34,15 @@ LAYOUT_ASSERT(Laser_direction_offset, offsetof(TBoss7LaserPtcl, direction) == 0x
 LAYOUT_ASSERT(Laser_displacement_offset, offsetof(TBoss7LaserPtcl, displacement) == 0x38);
 LAYOUT_ASSERT(Laser_particles_offset, offsetof(TBoss7LaserPtcl, particles) == 0x44);
 LAYOUT_ASSERT(Laser_distance_offset, offsetof(TBoss7LaserPtcl, travel_distance) == 0x4C);
-LAYOUT_ASSERT(Laser_last_known_offset, offsetof(TBoss7LaserPtcl, m_54) == 0x54);
+LAYOUT_ASSERT(Laser_yaw_offset, offsetof(TBoss7LaserPtcl, yaw) == 0x54);
+LAYOUT_ASSERT(LaserHit_body_offset, offsetof(TUnk_804F1C88, hit_body) == 0x34);
 
-typedef TBoss7LaserPtclVector Vec_8035AAEC;
-struct Ang_8035AAEC { s32 x, y, z; };
-extern "C" {
+// An x/y/z angle triple.
+struct Boss7LaserAngles { s32 x, y, z; };
 
-void vec3_add_to(void *, void *);
-void normalize_vector(void *);
-}
-void *create_oneshot_particle_emitter(void *pos, void *dir, s32 id, s32 flags);
-void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
+// Defined without a shared declaration in their owners' headers.
 
-struct Ptcl_8035AD68 {
-    u8 pad0[0x10];
-    TBoss7DeRolLeC *boss;
-    u8 pad14[0x8];
-    u8 x1c[0x24];
-    f32 x40;
-};
-
-extern "C" {
 const char *TBoss7LaserPtcl__class_name = "TBoss7LaserPtcl";
-
-void reset_global_table(void);
-
-
-}
 
 #pragma defer_codegen on
 
@@ -68,37 +51,33 @@ TUnk_804F1C88::~TUnk_804F1C88() {
 }
 
 void TUnk_804F1C88::run_task() {
-    u8 *arg0 = (u8 *)this;
     s32 i;
-    Ptcl_8035AD68 *o = (Ptcl_8035AD68 *)arg0;
-    o->x40 += 2e+01f;
+    hit_body.radius += 2e+01f;
     reset_global_table();
-    TObjPlayer::apply_status_effect((saddr)o->x1c);
+    TObjPlayer::apply_status_effect((saddr)&hit_set);
     for (i = 0; i != TObjOnlineEnding::get_instance(); i++) {
-        u8 **e = (u8 **)TObjOnlineEnding::get_attack_entry(i);
-        o->boss->emit_hit_effect(reinterpret_cast<const Vec *>(*e + 0x38));
+        ActorBodyHit *hit = (ActorBodyHit *)TObjOnlineEnding::get_attack_entry(i);
+        static_cast<TBoss7DeRolLeC *>(m_up)->emit_hit_effect(&hit->target->position);
     }
     reset_global_table();
-    if (6e+01f < o->x40) {
-        ((TObject *)o)->queue_destruction();
+    if (6e+01f < hit_body.radius) {
+        queue_destruction();
     }
 }
 
 void TUnk_804F1C88::render() {  }
 
-#define boss7_laser_ptcl ((u8 *)this)
-TBoss7LaserPtcl::TBoss7LaserPtcl(TObject *parent, TBoss7LaserPtclVector *arg2, TBoss7LaserPtclVector *arg3) : TObject(parent) {
+TBoss7LaserPtcl::TBoss7LaserPtcl(TObject *parent, TBoss7LaserPtclVector *origin, TBoss7LaserPtclVector *target) : TObject(parent) {
     m_name = TBoss7LaserPtcl__class_name;
     travel_distance = (f32) 8e+01f;
-    *(s32 *)((s8 *)boss7_laser_ptcl + 0x54) = 0;
+    yaw = 0;
     state = 0;
-    VecCopy((Vec *)(boss7_laser_ptcl + 0x20), (const Vec *)arg2);
-    VecCopy((Vec *)(boss7_laser_ptcl + 0x2C), (const Vec *)arg3);
+    VecCopy(&position, (const Vec *)origin);
+    VecCopy(&direction, (const Vec *)target);
     update_position();
-    *(s32 *)((s8 *)boss7_laser_ptcl + 0x44) = (saddr)spawn_continuous_particle_effect_with_flags(arg2, 0x204, 0x40);
-    *(s32 *)((s8 *)boss7_laser_ptcl + 0x48) = (saddr)spawn_continuous_particle_effect_with_flags(arg2, 0x205, 0x40);
+    particles[0] = spawn_continuous_particle_effect_with_flags(origin, 0x204, 0x40);
+    particles[1] = spawn_continuous_particle_effect_with_flags(origin, 0x205, 0x40);
 }
-#undef boss7_laser_ptcl
 
 TBoss7LaserPtcl::~TBoss7LaserPtcl() {
     this->destroy_particles();
@@ -108,39 +87,38 @@ TBoss7LaserPtcl::~TBoss7LaserPtcl() {
 #pragma dont_inline off
 #pragma inline_depth(4)
 void TBoss7LaserPtcl::run_task() {
-    TBoss7LaserPtcl *o = this;
-    Vec_8035AAEC v;
-    Vec_8035AAEC w;
-    Ang_8035AAEC a;
-    void **p;
+    Vec step;
+    Vec point;
+    Boss7LaserAngles angles;
+    TParticleCtrl **particle;
     s32 i;
     s32 n;
 
-    p = o->particles;
+    particle = particles;
     for (i = 2; i != 0; i--) {
-        if (*p != NULL) {
-            ((TParticleCtrl *)*p++)->set_position(&o->position);
+        if (*particle != NULL) {
+            (*particle++)->set_position(&position);
         }
     }
-    if (o->state == 1) {
-        o->travel_distance += 3e+01f;
-        ((TBoss7LaserPtcl *)o)->update_position();
-        VecCopy((Vec *)&v, (const Vec *)&o->displacement);
-        VecCopy((Vec *)&w, (const Vec *)&o->position);
-        normalize_vector(&v);
-        v.x *= 8.0f;
-        v.y *= 8.0f;
-        v.z *= 8.0f;
-        a.y = (s32)(10430.38043493439 * atan2_float(v.x, v.z));
-        direction_to_rotation_xz((u8 *)&v, (s32 *)((s32 *)&a.x), (s32 *)((s32 *)&a.z));
-        for (n = (s32)o->travel_distance / 8; n != 0; n--) {
-            create_oneshot_particle_emitter(&w, &a, 0x206, 0x40);
-            create_oneshot_particle_emitter(&w, &a, 0x207, 0x40);
-            vec3_add_to(&w, &v);
+    if (state == 1) {
+        travel_distance += 3e+01f;
+        update_position();
+        VecCopy(&step, &displacement);
+        VecCopy(&point, &position);
+        normalize_vector(&step);
+        step.x *= 8.0f;
+        step.y *= 8.0f;
+        step.z *= 8.0f;
+        angles.y = (s32)(10430.38043493439 * atan2_float(step.x, step.z));
+        direction_to_rotation_xz((u8 *)&step, &angles.x, &angles.z);
+        for (n = (s32)travel_distance / 8; n != 0; n--) {
+            create_oneshot_particle_emitter(&point, &angles, 0x206, 0x40);
+            create_oneshot_particle_emitter(&point, &angles, 0x207, 0x40);
+            vec3_add_to(&point, &step);
         }
-        if (5e+02f <= o->travel_distance) {
-            o->state = 2;
-            ((TBoss7LaserPtcl *)o)->destroy_particles();
+        if (5e+02f <= travel_distance) {
+            state = 2;
+            destroy_particles();
         }
     }
 }
@@ -149,46 +127,39 @@ void TBoss7LaserPtcl::run_task() {
 void TBoss7LaserPtcl::render() {  }
 
 void TBoss7LaserPtcl::destroy_particles() {
-    saddr arg0 = (saddr)this;
-  void **var_r30;
-  s32 var_r29;
-  u8 *object;
-  var_r30 = (void **) (arg0 + 0x44);
-  var_r29 = 2;
-  do
-  {
-    object = (u8 *) (*((u8 **) (((s8 *) var_r30) + 0)));
-    if (object != 0)
-    {
-      ((TObject *)object)->queue_destruction();
-      *((u8 **) (((s8 *) var_r30) + 0)) = 0;
-    }
-    var_r29 -= 1;
-    var_r30 = (void **) ((u8 *) ((void **) (((u8 *) var_r30) + 4)));
-  }
-  while (var_r29 != 0);
+    TParticleCtrl **particle = particles;
+    s32 n = 2;
+    do {
+        TParticleCtrl *emitter = *particle;
+        if (emitter != NULL) {
+            emitter->queue_destruction();
+            *particle = NULL;
+        }
+        n -= 1;
+        particle++;
+    } while (n != 0);
 }
 
 #pragma push
 #pragma fp_contract on
-void TBoss7LaserPtcl::calc_position(u8 *arg1, u8 *arg2) {
-    u8 *arg0 = (u8 *)this;
-    *(f32 *)((s8 *)arg0 + 0x20) = (f32) ((2.0f * (5.0f * *(f32 *)((s8 *)arg2 + 0))) + *(f32 *)((s8 *)arg1 + 0));
-    *(f32 *)((s8 *)arg0 + 0x24) = (f32) ((5.0f * *(f32 *)((s8 *)arg2 + 4)) + *(f32 *)((s8 *)arg1 + 4));
-    *(f32 *)((s8 *)arg0 + 0x28) = (f32) ((5.0f * *(f32 *)((s8 *)arg2 + 8)) + *(f32 *)((s8 *)arg1 + 8));
+void TBoss7LaserPtcl::calc_position(u8 *origin, u8 *direction) {
+    const Vec *from = (const Vec *)origin;
+    const Vec *dir = (const Vec *)direction;
+    position.x = (2.0f * (5.0f * dir->x)) + from->x;
+    position.y = (5.0f * dir->y) + from->y;
+    position.z = (5.0f * dir->z) + from->z;
 }
 #pragma pop
 
 void TBoss7LaserPtcl::init_laser() {
-    u8 *arg0 = (u8 *)this;
-    this->destroy_particles();
-    subtract_vector(arg0 + 0x2C, arg0 + 0x20);
-    normalize_vector_xz((Vec *)(arg0 + 0x2C));
-    *(f32 *)((s8 *)arg0 + 0x30) = 0.0f;
-    this->m_54 = (s32) (10430.38043493439 * atan2_float((f32) (*(f32 *)((s8 *)arg0 + 0x2C)), (f32) (*(f32 *)((s8 *)arg0 + 0x34))));
-    spawn_particle_effect_with_flags((const Vec *)(arg0 + 0x20), 0x20A, 0x40);
-    *(s32 *)((s8 *)arg0 + 0x44) = (saddr)spawn_continuous_particle_effect_with_flags((arg0 + 0x20), 0x177, 0x40);
-    this->state = 1;
+    destroy_particles();
+    subtract_vector(&direction, &position);
+    normalize_vector_xz(&direction);
+    direction.y = 0.0f;
+    yaw = (s32)(10430.38043493439 * atan2_float(direction.x, direction.z));
+    spawn_particle_effect_with_flags(&position, 0x20A, 0x40);
+    particles[0] = spawn_continuous_particle_effect_with_flags(&position, 0x177, 0x40);
+    state = 1;
 }
 
 s32 TBoss7LaserPtcl::is_state_2() {
@@ -196,30 +167,34 @@ s32 TBoss7LaserPtcl::is_state_2() {
 }
 
 void TBoss7LaserPtcl::update_position() {
-    *(f32 *)((s8 *)this + 0x38) = (f32) (*(f32 *)((s8 *)this + 0x2C) * this->travel_distance);
-    *(f32 *)((s8 *)this + 0x3C) = (f32) (lbl_805DE9F0 - *(f32 *)((s8 *)this + 0x24));
-    *(f32 *)((s8 *)this + 0x40) = (f32) (*(f32 *)((s8 *)this + 0x34) * this->travel_distance);
+    displacement.x = direction.x * travel_distance;
+    displacement.y = lbl_805DE9F0 - position.y;
+    displacement.z = direction.z * travel_distance;
 }
 
-void TBoss7LaserPtcl::calc_world_position(void *arg1) {
-    if (arg1 != NULL) {
-        *(f32 *)((s8 *)arg1 + 0) = (f32) (*(f32 *)((s8 *)this + 0x20) + *(f32 *)((s8 *)this + 0x38));
-        *(f32 *)((s8 *)arg1 + 4) = (f32) (*(f32 *)((s8 *)this + 0x24) + *(f32 *)((s8 *)this + 0x3C));
-        *(f32 *)((s8 *)arg1 + 8) = (f32) (*(f32 *)((s8 *)this + 0x28) + *(f32 *)((s8 *)this + 0x40));
+void TBoss7LaserPtcl::calc_world_position(void *out) {
+    if (out != NULL) {
+        Vec *dst = (Vec *)out;
+        dst->x = position.x + displacement.x;
+        dst->y = position.y + displacement.y;
+        dst->z = position.z + displacement.z;
     }
 }
 
 #pragma push
 #pragma fp_contract on
-void calc_laser_ray_hit_point(u8 *arg0, u8 *arg1) {
-    f32 temp_f2;
-    f32 temp_f2_2;
-    if (arg1 != NULL) {
-        temp_f2 = *(f32 *)((s8 *)arg0 + 0x24);
-        temp_f2_2 = (10.0f - temp_f2) / (lbl_805DE9F0 - temp_f2);
-        *(f32 *)((s8 *)arg1 + 0) = (f32) ((*(f32 *)((s8 *)arg0 + 0x38) * temp_f2_2) + *(f32 *)((s8 *)arg0 + 0x20));
-        *(f32 *)((s8 *)arg1 + 4) = (f32) ((*(f32 *)((s8 *)arg0 + 0x3C) * temp_f2_2) + *(f32 *)((s8 *)arg0 + 0x24));
-        *(f32 *)((s8 *)arg1 + 8) = (f32) ((*(f32 *)((s8 *)arg0 + 0x40) * temp_f2_2) + *(f32 *)((s8 *)arg0 + 0x28));
+// Where the ray from the laser's origin along its displacement crosses y = 10.
+void calc_laser_ray_hit_point(u8 *laser, u8 *out) {
+    const TBoss7LaserPtcl *ray = (const TBoss7LaserPtcl *)laser;
+    Vec *dst = (Vec *)out;
+    f32 y;
+    f32 t;
+    if (dst != NULL) {
+        y = ray->position.y;
+        t = (10.0f - y) / (lbl_805DE9F0 - y);
+        dst->x = (ray->displacement.x * t) + ray->position.x;
+        dst->y = (ray->displacement.y * t) + ray->position.y;
+        dst->z = (ray->displacement.z * t) + ray->position.z;
     }
 }
 #pragma pop

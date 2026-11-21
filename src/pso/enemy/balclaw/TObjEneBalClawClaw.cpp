@@ -38,7 +38,6 @@ s32 post_translate_matrix(void *);
 void draw_chunk_object(void *child);
 void restore_scene_lighting(void);
 void select_actor_lighting(s32 obj);
-s32 push_matrix();
 extern s32 model_render_flags;
 void TObjPlayer__sub_800A04F0(void *);
 void TObjEneBalClawClaw__sub_80091134(TObjEneBalClawClaw *claw);
@@ -121,8 +120,8 @@ void TObjEneBalClawClaw::sub_80091A38() {
     this->tp = this->tpmax;
     this->referenceHp = this->hp;
     this->set_param(0x26);
-    VecCopy((Vec *)&this->m_2fc, &this->position);
-    this->m_300 += 5.0f;
+    VecCopy(&this->body_center, &this->position);
+    this->body_center.y += 5.0f;
     ((TBoss3Volopt *)this)->reset_photon_effect();
     this->sub_80090418(2);
     this->m_3b8 = 0;
@@ -188,9 +187,9 @@ void TObjEneBalClawClaw::run_task() {
             update_wobble();
         }
         update_claw_angle();
-        VecCopy((Vec *)&m_2fc, &position);
-        center_y = m_300;
-        m_300 = center_y + (m_3b4 + m_3bc);
+        VecCopy(&body_center, &position);
+        center_y = body_center.y;
+        body_center.y = center_y + (m_3b4 + m_3bc);
         lift = m_3b4;
         body = bodies;
         body->offset.y = lift + m_3bc;
@@ -331,7 +330,7 @@ void TObjEneBalClawClaw::update_chase(void *p) {
         }
         claw->target = (u8 *)find_active_entity_by_id(claw->targetId);
         if (claw->target != NULL) {
-            VecCopy((Vec *)&claw->m_29c, (const Vec *)&((TObjChara *)claw->target)->m_2fc);
+            VecCopy((Vec *)&claw->m_29c, &((TObjChara *)claw->target)->body_center);
         }
         break;
     case 1: {
@@ -340,7 +339,7 @@ void TObjEneBalClawClaw::update_chase(void *p) {
             break;
         }
         play_persistent_sound(0x4003B235, (saddr)claw, (uaddr)&claw->position, 0, 0);
-        Vec target_pos = *(Vec *)&((TObjChara *)claw->target)->m_2fc;
+        Vec target_pos = ((TObjChara *)claw->target)->body_center;
         update_enemy_wander_move(claw, &target_pos, 1, (EnemyMoveParams *)claw->movementParameters,
                                  ((EnemyMoveParams *)claw->movementParameters)->min_distance);
         claw->turn_toward_direction(((EnemyMoveParams *)claw->movementParameters)->turn_speed, (Vec *)&claw->x_speed);
@@ -362,7 +361,7 @@ void TObjEneBalClawClaw__sub_80091200(TObjEneBalClawClaw *claw) {
         claw->state = 1;
     case 1: {
         claw->advance_animation();
-        Vec next = *(Vec *)&claw->m_2fc;
+        Vec next = claw->body_center;
         next.x += claw->x_speed;
         next.z += claw->m_310;
         if (check_path_obstructed(claw, &next) == 0) {
@@ -394,7 +393,7 @@ void TObjEneBalClawClaw__sub_80091134(TObjEneBalClawClaw *claw) {
         ((TObjPlayer *)claw)->refresh_lobby_state();
         claw->requested_action = 4;
         TObjPlayer__sub_800A04F0(&claw->fade);
-        fn_800D911C((Vec *)&claw->m_2fc);
+        fn_800D911C(&claw->body_center);
         play_sound_effect(0x4003AD37, &claw->position, 0, 0);
         claw->state = 1;
     case 1:
@@ -428,7 +427,7 @@ void TObjEneBalClawClaw__sub_80090ECC(TObjEneBalClawClaw *claw) {
             TObjEneBalClawClaw::reset_active_state(claw);
             return;
         }
-        Vec target_pos = *(Vec *)&((TObjChara *)claw->target)->m_2fc;
+        Vec target_pos = ((TObjChara *)claw->target)->body_center;
         ((s32 (*)(void *, void *, int, f32))update_enemy_wander_move)(claw, &target_pos, 1, 0.7f);
         claw->turn_toward_direction(((EnemyMoveParams *)claw->movementParameters)->turn_speed, (Vec *)&claw->x_speed);
         if (claw->m_3c0 <= ((AttackParams *)claw->m_318)->get_attack_range() * ((AttackParams *)claw->m_318)->get_attack_range()) {
@@ -441,7 +440,7 @@ void TObjEneBalClawClaw__sub_80090ECC(TObjEneBalClawClaw *claw) {
             TObjEneBalClawClaw::reset_active_state(claw);
             return;
         }
-        Vec target_pos = *(Vec *)&((TObjChara *)claw->target)->m_2fc;
+        Vec target_pos = ((TObjChara *)claw->target)->body_center;
         ((s32 (*)(void *, void *, int, f32))update_enemy_wander_move)(claw, &target_pos, 1, 0.7f);
         claw->turn_toward_direction(((EnemyMoveParams *)claw->movementParameters)->turn_speed, (Vec *)&claw->x_speed);
         if (claw->is_passing_frame(8.0f) != 0) {
@@ -647,7 +646,7 @@ void TObjEneBalClawClaw::update_move_to_target(void *p) {
         claw->state = 1;
     case 1:
         claw->y_speed = 0.0f;
-        VecCopy((Vec *)&claw->m_290, (const Vec *)&claw->m_2fc);
+        VecCopy((Vec *)&claw->m_290, &claw->body_center);
         calc_velocity_toward_destination(claw, *(Vec *)&claw->m_290, *(Vec *)&claw->m_29c,
                                          ((EnemyMoveParams *)claw->movementParameters)->min_distance);
         claw->turn_toward_direction(((EnemyMoveParams *)claw->movementParameters)->turn_speed, (Vec *)&claw->x_speed);
@@ -662,7 +661,7 @@ int TObjEneBalClawClaw::reset_active_state(void *claw) {
     return update_if_active__15TObjEnemyCustomFl(claw, 0);
 }
 
-void TObjEneBalClawClaw::vfunc_58() {
+void TObjEneBalClawClaw::run_idle_action() {
 }
 
 void TObjEneBalClawClaw::sub_80090824() {
@@ -738,7 +737,7 @@ void TObjEneBalClawClaw::update_chase_state() {
             break;
         }
         y_speed = 0.0f;
-        move_along_ground_avoiding_walls__15TObjEnemyCustomF3Vecff(this, *(Vec *)&((TObjChara *)target)->m_2fc, bodies,
+        move_along_ground_avoiding_walls__15TObjEnemyCustomF3Vecff(this, ((TObjChara *)target)->body_center, bodies,
                                                                    -0.6f, bodies->radius);
         turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, (Vec *)&x_speed);
         advance_animation();

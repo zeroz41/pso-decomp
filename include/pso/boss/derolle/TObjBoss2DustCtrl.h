@@ -12,15 +12,16 @@ public:
     virtual void run_task();
 public:
     static void create();
+    // Hands each new TObjBoss2Dust the next of the 10 strips of
+    // boss2_dust_output_table, wrapping to 0 (role inferred).
+    static s32 sub_8003AB5C();
+    // Empty; called by TLobby::init_boss2_stage.
+    static void sub_8003AD50();
+    // Builds the strip shape, rotation and phase tables and resets the slot counter;
+    // called by TLobby__sub_8003A9AC after the common resource loads.
+    static void sub_8003AD54();
 };
 
-extern "C" {
-s32 TObjBoss2DustCtrl__sub_8003AB5C(void);
-void TObjBoss2DustCtrl__sub_8003AD50(void);
-}
 void boss2_dust_draw_at(const Vec *position, s32 slot);
-extern "C" {
-void fn_8003AD54(void);
-}
 
 #endif

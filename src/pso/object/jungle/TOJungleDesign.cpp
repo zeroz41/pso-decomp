@@ -59,7 +59,6 @@ extern "C" {
 s32 init_collision_body_parts(void *, int, int);
 s32 post_translate_matrix(void *);
 void free_collision_body_parts(void *);
-s32 push_matrix();
 
 
 void TOJungleDesign::render() {
@@ -77,8 +76,6 @@ void TOJungleDesign::render() {
 TOJungleDesign::~TOJungleDesign() {
     this->unregister_object_by_id();
     free_collision_body_parts(this);
-}
-extern "C" {
 }
 TOJungleDesign::TOJungleDesign(saddr arg1, saddr arg2) : TObjCollidable((TObject *)arg1) {
     this->m_name = TOJungleDesign__name;

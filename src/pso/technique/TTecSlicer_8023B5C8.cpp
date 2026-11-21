@@ -315,7 +315,6 @@ struct Slicer_8023BBB4 {
 
 extern "C" {
 s32 subtract_vector(s32, s32);
-s32 normalize_vector(s32);
 s32 test_flags_any(s32 *flags, s32 mask);
 void *get_player_by_client_id(s32 i);
 
@@ -412,7 +411,7 @@ void TTecSlicer::update() {
             VecCopy((Vec *)(arg0 + 0x90), (const Vec *)(arg0 + 0xA8));
             subtract_vector(arg0 + 0x90, arg0 + 0x38);
         }
-        normalize_vector(arg0 + 0x90);
+        normalize_vector((Vec *)this->direction);
     }
 }
 
@@ -535,7 +534,7 @@ TTecSlicer::TTecSlicer(u16 *launch, void *player, Vec *position, int angle) : TO
     self->dir.y = 0.0f;
     self->dir.z = cos_table_lookup(angle);
     if (0.0f != vector_length(&self->dir)) {
-        normalize_vector((saddr)&self->dir);
+        normalize_vector(&self->dir);
     }
     self->f10c = (saddr)player;
     self->f108 = (saddr)find_item_by_id(self->f118);

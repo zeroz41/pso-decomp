@@ -81,7 +81,6 @@ extern s32 local_client_id;
 void run_task__13TObjWarpLobbyFv(TObjWarpLobby *arg0);
 s32 post_translate_matrix(void *);
 s32 rotate_matrix_y(s32, s32);
-s32 push_matrix();
 
 GinjaTextureList *lobby_warp_textures;
 

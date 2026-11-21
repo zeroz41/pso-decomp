@@ -28,7 +28,6 @@ extern "C" {
 f32 vector_length(void *);
 s32 scale_matrix(int, f32, f32, f32);
 s32 rotate_matrix_y(int, int);
-s32 push_matrix();
 s32 post_translate_matrix(void *);
 extern s32 technique_ringwave_texture_list[];
 extern u8 *camera_ctrl_instance;

@@ -24,8 +24,8 @@ struct TBoss4Type1 : public TObjEnemy
     virtual void apply_movement_ailment(s32);
     virtual void apply_shock_status();
     virtual void clear_harmful_statuses();
-    virtual void vfunc_62();
-    virtual void vfunc_63();
+    virtual void run_hit_reaction();
+    virtual void run_death_reaction();
     // First-form phase dispatch and state helpers.
     void check_state_transition();
     void calc_target_position();

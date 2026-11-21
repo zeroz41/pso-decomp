@@ -39,6 +39,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/unk/text_800870BC.h"
+#include "pso/unk/text_803D96A8.h"
 
 // The weapon's colour as TItemWeapon::get_weapon_color returns it
 // (WeaponAttackActions.cpp, which has no header declaration of it yet).
@@ -47,7 +48,6 @@ struct WeaponArgb {
 };
 
 extern "C" {
-f32 normalize_vector(Vec *v);
 WeaponArgb get_weapon_color__11TItemWeaponFPv(void *weapon);
 }
 

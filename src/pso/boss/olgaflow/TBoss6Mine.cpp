@@ -35,6 +35,8 @@
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/task/TObject.h"
 #include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/math/InverseTrig.h"
 
 #pragma readonly_strings on
 extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
@@ -84,8 +86,6 @@ s32 VecCopy__FP3VecPC3Vec(s32, s32);
 s32 project_actor_to_ground(void *, void *, int);
 f32 vec3_add_to(void *, void *);
 f32 subtract_vector(void *, void *);
-f32 normalize_vector(void *);
-f64 TBoss5GryphonLightningWing__sub_80324CEC(f32);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 s32 init_collision_body_parts(void *, void *, int);
 static u32 TBoss6Mine__collision_body_template[11] = {
@@ -98,7 +98,6 @@ int post_translate_matrix(void*);
 int rotate_matrix_x(void*, void*);
 void free_collision_body_parts(void *);
 int rotate_matrix_y(void*, void*);
-int push_matrix(void*);
 
 void TBoss6Mine::render_shadows() {
     u8 *arg0 = (u8 *)this;
@@ -107,13 +106,13 @@ void TBoss6Mine::render_shadows() {
     }
 }
 
-void TBoss6Mine::vfunc_63() {
+void TBoss6Mine::run_death_reaction() {
     if (this->state != 7) {
         this->state = 7;
     }
 }
 
-void TBoss6Mine::vfunc_62() { this->actorFlags = (this->actorFlags & 0xfffffdff); this->fade_amount = 1.0f; }
+void TBoss6Mine::run_hit_reaction() { this->actorFlags = (this->actorFlags & 0xfffffdff); this->fade_amount = 1.0f; }
 
 void TBoss6Mine::copy_pos() {
     s32 arg0 = (saddr)this;
@@ -136,7 +135,7 @@ void TBoss6Mine::draw() {
     clear_motion_packed_rotation();
 }
 
-void TBoss6Mine::render() { push_matrix(this); post_translate_matrix((char*)this + 0x38); rotate_matrix_y((void*)0, *(void* *)&this->m_390); rotate_matrix_x((void*)0, *(void* *)&this->m_394); rotate_matrix_y((void*)0, *(void* *)&this->m_398); draw(); pop_matrix(); }
+void TBoss6Mine::render() { push_matrix(); post_translate_matrix((char*)this + 0x38); rotate_matrix_y((void*)0, *(void* *)&this->m_390); rotate_matrix_x((void*)0, *(void* *)&this->m_394); rotate_matrix_y((void*)0, *(void* *)&this->m_398); draw(); pop_matrix(); }
 
 void TBoss6Mine::update_facing_angles() {
     u8 *arg0 = (u8 *)this;
@@ -154,7 +153,7 @@ void TBoss6Mine::update_facing_angles() {
         } else {
             normalize_vector(&v);
             a = (10430.38043493439) * atan2_float(-v.x, -v.z);
-            b = (10430.38043493439) * TBoss5GryphonLightningWing__sub_80324CEC(v.y);
+            b = (10430.38043493439) * asinf(v.y);
             if (b < -0x2000) {
                 b = -0x2000;
             } else if (b > 0x2000) {
@@ -229,7 +228,7 @@ void TBoss6Mine::state_5() {
         this->state = 6;
         return;
     }
-    normalize_vector(&stack.sp14);
+    normalize_vector((Vec *)&stack.sp14);
     stack.sp14 *= 8.333333f;
     stack.sp18 *= 8.333333f;
     stack.sp1C *= 8.333333f;
@@ -332,7 +331,6 @@ void TBoss6Mine::state_0() {
 }
 #pragma pop
 
-void add_radar_scaled_marker(void *pos, u32 color, s32 a2, s32 a3, f32 scale);
 
 void TBoss6Mine::run_task() {
     u32 color;
@@ -451,3 +449,7 @@ TBoss6Mine *TBoss6Mine::create(TBoss6MineSetData *set_data) {
     return new TBoss6Mine(new TObjControl((TObject *)tl_04), set_data);
 }
 
+
+f32 asinf(f32 x) {
+    return asin(x);
+}

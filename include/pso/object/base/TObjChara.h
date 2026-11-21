@@ -65,8 +65,8 @@ public:
     virtual void apply_knockback_from_attacker(u8 *, f32);
     virtual s32 try_start_action(s32, s32);
     virtual s32 roll_physical_accuracy(void *, s32, f32);
-    virtual void vfunc_28();
-    virtual bool vfunc_29();
+    virtual void refresh_target();
+    virtual bool has_no_target();
     virtual s32 is_target_in_attack_range();
     virtual int test_flag_256();
     virtual int test_flag30_512();
@@ -74,7 +74,7 @@ public:
     virtual int test_flag_1000();
     virtual s32 update_poison_status();
     virtual s32 update_action_hold_status();
-    virtual s32 vfunc_37();
+    virtual s32 update_slow_status();
     virtual s32 update_flag30_timer();
     virtual s32 update_movement_status();
     virtual s32 update_shock_clock();
@@ -95,16 +95,16 @@ public:
     virtual void clear_all_status_effects();
     virtual void apply_action_hold_status(f32);
     virtual void apply_anti_technique(s32);
-    virtual void vfunc_58();
-    virtual void vfunc_59();
-    virtual void vfunc_60();
-    virtual void vfunc_61();
-    virtual void vfunc_62();
-    virtual void vfunc_63();
+    virtual void run_idle_action();
+    virtual void run_move_action();
+    virtual void run_attack_action();
+    virtual void run_miss_reaction();
+    virtual void run_hit_reaction();
+    virtual void run_death_reaction();
     virtual void reset_pose();
     virtual void get_anim_node_position(s32 node, Vec *out);
     virtual int vfunc_66();
-    virtual int vfunc_67(f32 damage_scale);
+    virtual int deliver_attack_hits(f32 damage_scale);
     virtual void get_pos(s32);
     virtual void apply_switch_attack();
     virtual void enemy_spawn_jellen_effect();
@@ -114,10 +114,10 @@ public:
     // Recomputes the combat stats and clamps HP and TP to their maxima.
     virtual void recalc_stats();
     virtual s32 vfunc_74(s32);
-    virtual void vfunc_75(f32);
+    virtual void gain_photon_blast_charge(f32);
     // Spends photon blast charge; TObjPlayer forwards it to subtract_photon_blast_charge (param name inferred).
-    virtual void vfunc_76(f32 charge);
-    virtual void vfunc_77();
+    virtual void spend_photon_blast_charge(f32 charge);
+    virtual void gain_photon_blast_chain_charge();
     virtual void vfunc_78(s32);
     void request_box_item_drop(const Vec *position, s32 random_item);
     virtual void *get_center();
@@ -215,7 +215,7 @@ public:
     s16 m_2ce;
     s16 m_2d0;
     u8 unk_2D2[0x2];
-    u16 m_2d4;
+    u16 attacker_id;  // entity id of whoever last hit it; 6x89 sets a player's killer
     u16 m_2d6;
     u16 m_2d8;
     u8 unk_2DA[0x2];
@@ -232,9 +232,7 @@ public:
     s16 m_2f6;
     s16 m_2f8;
     s16 m_2fa;
-    f32 m_2fc;
-    f32 m_300;
-    f32 m_304;
+    Vec body_center;  // position raised to mid-body; effects spawn and distances are measured here
     union {
         u8 unk_308[0x4];
         f32 x_speed;
@@ -255,10 +253,8 @@ public:
     u8 unk_330[0x4];
 
     // Typed views of the vectors the fields above split up: the movement
-    // destination at 0x29C, the body centre other actors measure distance to
-    // at 0x2FC, and the velocity at 0x308.
+    // destination at 0x29C and the velocity at 0x308.
     Vec *destination() { return (Vec *)&m_29c; }
-    Vec *body_center() { return (Vec *)&m_2fc; }
     Vec *velocity() { return (Vec *)unk_308; }
 };
 

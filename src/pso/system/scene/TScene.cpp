@@ -8,7 +8,7 @@
 #include "pso/object/container/TContainerAncient01.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/unk/TLobby_80207644.h"
-#include "pso/enemy/recon/TObjEneRecon.h"
+#include "pso/render/reflection.h"
 #include "pso/object/door/TObjDoorJung.h"
 #include "pso/system/scene/TSceneMaterial.h"
 #include "pso/system/task/TMainTask.h"
@@ -32,6 +32,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/system/vector.h"
 #include <string.h>
+#include "pso/unk/text_803D96A8.h"
 
 struct SurfaceAreaTable { s32 enabled[36]; };
 
@@ -157,15 +158,12 @@ SceneMaterialNode* resolve_indirect_object_record(void*,SceneMaterialAnimated*);
 
 extern u8 identity_matrix[];
 
-void normalize_vector(Vec *);
 
-void push_matrix_from(void *);
 
 void rotate_matrix_y(s32, s32);
 
 void rotate_vector_by_matrix(saddr, void *, Vec *);
 
-void pop_matrix(void);
 
 s32 check_object_in_view_cone__6TSceneFiPvPvPvi(s32 arg0, Obj_80204B78 *obj, Vec *pos, void *arg3, s32 arg4);
 
@@ -174,7 +172,6 @@ extern s32 model_render_flags;
 extern s32 saved_model_render_flags;
 
 
-void push_matrix(void);
 
 void post_translate_matrix(f32 *);
 
@@ -257,7 +254,6 @@ struct Model_80204688 { u8 pad[0x14]; f32 x, y, z; };
 struct Node_80204688 { u32 flags; Model_80204688 *model; f32 x, y, z; };
 extern Vec lbl_8044A84C[];
 
-s32 pop_matrices(s32 arg0);
 #define CAM ((Cam_80204688 *)camera_ctrl_instance)
 #define TEST ((s32 (*)(f32, void *, void *, void *, Vec *))TScene__sub_80204024)
 #define VIS ((s32 (*)(void *, void *, f32, f32))is_in_view_depth__6TSceneFf)
@@ -1591,14 +1587,14 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
             if (e->flags & 0x80) {
                 Model_8020533C *m = (Model_8020533C *)e->node;
                 if (m != NULL) {
-                    TObjEneRecon::notify_scene(m->fF);
+                    play_reflection_particles(m->fF);
                 } else {
-                    TObjEneRecon::notify_scene(-1);
+                    play_reflection_particles(-1);
                 }
                 TObjFish::set_global_param((saddr)((void *)*(saddr *)((s8 *)TScene__data_805D5FCC + 0x14)));
                 set_material_alpha_compare_reference(TScene__data_805D5FCC->flags);
                 draw_ginja_object(node);
-                TObjEneRecon::update_particle_if_active();
+                reset_reflection_tev_stages();
             } else if (e->flags & 0x400) {
                 Model_8020533C *m = (Model_8020533C *)e->node;
                 if (m != NULL && TMainTask::get_render_pass() == 1) {

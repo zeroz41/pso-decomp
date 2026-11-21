@@ -20,7 +20,6 @@ int post_translate_matrix(void*);
 void free_collision_body_parts(void *);
 int set_matrix_identity(void*);
 int rotate_matrix_y(void*, void*);
-int push_matrix(void*);
 
 const char *TBoss8DragonColli_C__name = "TBoss8DragonColli_C";
 const char *TBoss8DragonColli__name = "TBoss8DragonColli";
@@ -75,7 +74,7 @@ void TBoss8DragonColli_C::clear_segment_flags() {
 }
 
 void init__17TBoss8DragonColliFPvPvPv(void *p, void *pos, void *angle) {
-    push_matrix(p);
+    push_matrix();
     set_matrix_identity((void *)0);
     post_translate_matrix(pos);
     rotate_matrix_y((void *)0, angle);

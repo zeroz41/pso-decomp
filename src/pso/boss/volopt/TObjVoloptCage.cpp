@@ -35,7 +35,6 @@ public:
 };
 
 extern "C" {
-s32 push_matrix(void);
 void post_translate_matrix(const Vec *v);
 void create_breakup_mdl__12TBoss3VoloptFlllll(TBreakUpMdlPieces *model, VoloptBreakUpParams *params, s32 textures,
                                               Vec *pos, s32 angle);
@@ -71,7 +70,7 @@ void fn_80048C04(TObjVoloptCage *cage) {
     }
     cage->status = 15;
     obj_setFlags30(cage, 0x800);
-    cage->vfunc_63();
+    cage->run_death_reaction();
 }
 
 void TObjVoloptCage::update_breakup() {
@@ -83,10 +82,10 @@ void TObjVoloptCage::update_breakup() {
     case 0:
         play_sound_effect(0x4001C112, &position, 0, 0);
         create_breakup_mdl__12TBoss3VoloptFlllll(volopt_cage_breakup_model, &volopt_cage_breakup_params,
-                                                 volopt_cage_textures, (Vec *)&m_2fc, rotation_y);
+                                                 volopt_cage_textures, &body_center, rotation_y);
         create_breakup_mdl__12TBoss3VoloptFlllll(volopt_cage_breakup_model, &volopt_cage_breakup_params,
-                                                 volopt_cage_textures, (Vec *)&m_2fc, rotation_y);
-        ((TObjPlayer *)&m_2fc)->trigger_dell_biter_events();
+                                                 volopt_cage_textures, &body_center, rotation_y);
+        ((TObjPlayer *)&body_center)->trigger_dell_biter_events();
         timer = 12;
         disallow_rendering();
         state = 1;
@@ -94,9 +93,9 @@ void TObjVoloptCage::update_breakup() {
     case 1:
         if (timer & 1) {
             angle = (s32)(182.04445f * (360.0f * (3.0517578e-05f * (f32)rand())));
-            pos.x = 20.0f * cos_table_lookup(angle) + m_2fc;
-            pos.y = 20.0f * (3.0517578e-05f * (f32)rand()) + m_300;
-            pos.z = 20.0f * sin_table_lookup(angle) + m_304;
+            pos.x = 20.0f * cos_table_lookup(angle) + body_center.x;
+            pos.y = 20.0f * (3.0517578e-05f * (f32)rand()) + body_center.y;
+            pos.z = 20.0f * sin_table_lookup(angle) + body_center.z;
             spawn_particle_effect(&pos, 0xFB);
         }
         if ((timer -= 1) <= 0) {
@@ -123,7 +122,7 @@ void TObjVoloptCage::update_collision_state() {
             actorFlags &= ~0x200;
             referenceHp = hp;
             m_388 &= ~1;
-            vfunc_59();
+            run_move_action();
         }
         break;
     default:
@@ -149,7 +148,7 @@ void TObjVoloptCage::update_capture() {
     case 1:
         if (--countdown <= 0) {
             obj_setFlags30(this, 0x800);
-            vfunc_63();
+            run_death_reaction();
         }
         break;
     }
@@ -168,7 +167,7 @@ void TObjVoloptCage::sub_80049000() {
             position.y = 0.0f;
             countdown = TBoss3VoloptP02::get_int_param(4) + 450;
             m_388 &= ~1;
-            vfunc_59();
+            run_move_action();
         }
         break;
     case -1:
@@ -226,9 +225,9 @@ void TObjVoloptCage::run_task() {
     }
     if (mode != 7) {
         if (has_flag_0x800() != 0) {
-            vfunc_63();
+            run_death_reaction();
         } else if (test_flag30_512() != 0) {
-            vfunc_62();
+            run_hit_reaction();
         }
     }
     if (mode != (s32)next_action) {

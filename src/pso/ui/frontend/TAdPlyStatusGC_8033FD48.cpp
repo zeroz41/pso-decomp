@@ -37,7 +37,6 @@ static const E_8034009C lbl_8047843C[10] = {
 static const Vec lbl_80478554 = {-10000.0f, 0.0f, 0.0f};
 
 extern "C" {
-s32 push_matrix();
 f32 post_translate_matrix(void *);
 u32 TAdPlyStatusGC__ct(u32, s32, s32);
 

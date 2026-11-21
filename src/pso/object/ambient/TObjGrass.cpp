@@ -285,7 +285,6 @@ extern uaddr lbl_805D515C;
 void TObjGrass__sub_800BCA2C(void *);
 s32 scale_matrix(int, f32, f32, f32);
 void set_matrix_identity(u8 *arg0);
-s32 push_matrix();
 s32 post_translate_matrix(void *);
 extern s32 enable_v2_features;
 f32 enemy_move_toward(void *, s32, void *, s32, f32);
@@ -683,7 +682,7 @@ void TObjGrass::render() {
     }
 }
 
-void TObjGrass::vfunc_28() {
+void TObjGrass::refresh_target() {
     s32 best_id;
     s32 i;
     s32 id;
@@ -714,7 +713,7 @@ void TObjGrass::vfunc_28() {
                     f32 xx;
                     f32 zz;
                     VecCopy((Vec *)&v, (const Vec *)(p + 0x2FC));
-                    subtract_vector(&v, (u8 *)&this->m_2fc);
+                    subtract_vector(&v, (u8 *)&this->body_center);
                     xx = v.x * v.x;
                     zz = v.z * v.z;
                     d = xx + zz;
@@ -778,7 +777,7 @@ s32 TObjGrass::update_movement_status() {
     return 0;
 }
 
-void TObjGrass::vfunc_58() {
+void TObjGrass::run_idle_action() {
     TObjGrass *self = this;
     switch (self->mode) {
     case 0:
@@ -924,7 +923,7 @@ void TObjGrass::update_ai(void *arg0) {
 #undef o
 #pragma pop
 
-void TObjGrass::vfunc_59() {
+void TObjGrass::run_move_action() {
     s16 temp_r0;
 
     temp_r0 = this->mode;
@@ -1089,7 +1088,7 @@ s32 TObjGrass::is_target_in_attack_range() {
 #undef T318
 #undef TBL
 
-void TObjGrass::vfunc_60() {
+void TObjGrass::run_attack_action() {
 
     switch (this->m_39e) {
     default:
@@ -1131,7 +1130,7 @@ void TObjGrass::sub_800BDD70() {
             this->timer = 0;
         } else {
             VecCopy((Vec *)&sp8, (const Vec *)(this->target + 0x2FC));
-            subtract_vector(&sp8, (u8 *)&this->m_2fc);
+            subtract_vector(&sp8, (u8 *)&this->body_center);
             ang = ((TObjEnemy *)arg0)->turn_toward_direction(*(s32 *)((s8 *)this->movementParameters + 8), (Vec *)&sp8);
             apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), (0.0f));
             if (ang < ((AttackParams *)(this->m_318))->get_attack_angle()) {
@@ -1486,7 +1485,7 @@ s32 TObjGrass::update_web_attack() {
     minimap_render_dot(&arg0->pos, -0x5DB4, 1, 0);
 }
 
-void TObjGrass::vfunc_61() {
+void TObjGrass::run_miss_reaction() {
     if ((s16) this->mode != 6) {
         this->mode = 6;
         this->requested_action = 0;
@@ -1516,7 +1515,7 @@ s32 TObjGrass::update() {
     minimap_render_dot((u8 *)&this->position, -0x5DB4, 1, 0);
 }
 
-void TObjGrass::vfunc_62() {
+void TObjGrass::run_hit_reaction() {
     if ((s16) this->mode != 7) {
         this->mode = 7;
         this->requested_action = 5;
@@ -1560,7 +1559,7 @@ s32 TObjGrass::sub_800BCE44() {
   minimap_render_dot((u8 *)&this->position, -0x5DB4, 1, 0);
 }
 
-void TObjGrass::vfunc_63() {
+void TObjGrass::run_death_reaction() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r6;
     if ((s16) *(s16 *)((s8 *)arg0 + 0x326) != 8) {

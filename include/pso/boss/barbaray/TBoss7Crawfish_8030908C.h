@@ -7,10 +7,4 @@ extern "C" {
 void *__dt__14TBoss7CrawfishFv(void *arg0, s16 arg1);
 }
 
-// --- C functions defined in TBoss7Crawfish_8030908C.cpp ---
-extern "C" {
-void *__dt__14TBoss7CrawfishFv(void *arg0, s16 arg1);
-}
-// --- end of C functions
-
 #endif

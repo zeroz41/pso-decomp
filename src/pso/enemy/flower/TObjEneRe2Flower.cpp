@@ -190,7 +190,6 @@ typedef struct VObj_18_880cfd VObj_18_880cfd;
 extern "C" {
 extern const f32 lbl_805D9FF0;
 f32 atan2_float(f32 y, f32 x);
-s32 enemy_set_target_id(void *, u16);
 u16 enemy_find_nearest_player_in_range(u8 *self, f32 range);
 }
 
@@ -382,7 +381,7 @@ TObjEneRe2Flower::TObjEneRe2Flower(TObject *parent, void *setData) : TObjEneDD_S
     } else {
         initialize_enemy_state(13);
     }
-    m_37c = lbl_805D9FBC;
+    wall_reach = lbl_805D9FBC;
     enemy_init_acquire_period(30);
     enemy_init_validate_period(30);
     m_3c0 = rotation_y;
@@ -404,7 +403,7 @@ TObjEneRe2Flower::TObjEneRe2Flower(TObject *parent, void *setData) : TObjEneDD_S
     m_424 = lbl_805D9FAC;
     m_428 = NULL;
     sub_800C3DC4();
-    vfunc_88();
+    update_body_colliders();
     transform_part_positions();
     mode = 0;
     dispatch_action(mode, 4);
@@ -421,11 +420,11 @@ TObjEneRe2Flower::~TObjEneRe2Flower() {
 void TObjEneRe2Flower::run_task() {
     s16 temp_r3;
     if (TObjPlayer::check_demo_mode() != 0) {
-        this->vfunc_105();
+        this->run_demo_task();
         return;
     }
-    if (this->vfunc_83() != 4) {
-        this->vfunc_85();
+    if (this->update_status_effects() != 4) {
+        this->update_action_state();
     } else {
         temp_r3 = this->mode;
         if ((temp_r3 == 0) || (temp_r3 == 1)) {
@@ -435,7 +434,7 @@ void TObjEneRe2Flower::run_task() {
     }
     this->sub_800C3DC4();
     submit_default_cursor_candidate();
-    this->vfunc_100();
+    this->render_minimap_dot();
 }
 
 void TObjEneRe2Flower::dispatch_action(u32 state, s32 reason) {
@@ -480,9 +479,9 @@ void TObjEneRe2Flower::dispatch_action(u32 state, s32 reason) {
     }
 }
 
-void TObjEneRe2Flower::vfunc_28() {  }
+void TObjEneRe2Flower::refresh_target() {  }
 
-void TObjEneRe2Flower::vfunc_63() {
+void TObjEneRe2Flower::run_death_reaction() {
     s16 temp_r0;
 
     temp_r0 = this->mode;
@@ -491,7 +490,7 @@ void TObjEneRe2Flower::vfunc_63() {
     }
 }
 
-void TObjEneRe2Flower::vfunc_62() {
+void TObjEneRe2Flower::run_hit_reaction() {
     s16 temp_r0;
 
     temp_r0 = this->mode;
@@ -505,16 +504,16 @@ void TObjEneRe2Flower::vfunc_62() {
     }
 }
 
-void TObjEneRe2Flower::vfunc_61() {  }
+void TObjEneRe2Flower::run_miss_reaction() {  }
 
 void TObjEneRe2Flower::sub_800C3DC4() {
-    VecCopy((Vec *)&this->m_2fc, &this->position);
-    this->m_300 = this->m_300 + lbl_805D9FF8;
-    VecCopy(&this->center, (const Vec *)&this->m_2fc);
+    VecCopy(&this->body_center, &this->position);
+    this->body_center.y = this->body_center.y + lbl_805D9FF8;
+    VecCopy(&this->center, &this->body_center);
 }
 
-void TObjEneRe2Flower::vfunc_88() {
-    bodies[1].offset.y = m_300 - position.y;
+void TObjEneRe2Flower::update_body_colliders() {
+    bodies[1].offset.y = body_center.y - position.y;
     set_part_local_pos(m_3dc, 0);
 }
 
@@ -613,7 +612,7 @@ void TObjEneDD::noop() {  }
 void TObjEneRe2Flower::dispatch_action(s32 arg1) {
     switch (arg1) {
     case 4:
-        this->vfunc_95();
+        this->set_intangible();
         return;
     case 3:
         transition_enemy_state(1);
@@ -628,7 +627,7 @@ void TObjEneDD::handle_state(s32 arg1) {
     switch (arg1) {
     case 4:
         this->requested_action = 1;
-        this->vfunc_95();
+        this->set_intangible();
         ((TObjEneRe2Flower *)arg0)->clear_child_flags();
         *(s32 *)((s8 *)arg0 + 0x3C4) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C4) | 8);
         ((TObjEneDD *)arg0)->set_field_378(2);
@@ -648,8 +647,8 @@ void TObjEneDD::handle_state(s32 arg1) {
         return;
     case 0:
         advance_animation();
-        this->vfunc_102();
-        this->vfunc_88();
+        this->update_ground_contact();
+        this->update_body_colliders();
         return;
     case 5:
         *(s32 *)((s8 *)arg0 + 0x3C4) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C4) & 0xFFFFFFF7);
@@ -663,7 +662,7 @@ void handle_flower_state_change(TObjEneDD *ene_dd, s32 arg1) {
     switch (arg1) {
     case 4:
         ene_dd->requested_action = 1;
-        ene_dd->vfunc_96();
+        ene_dd->clear_intangible();
         ((TObjEneRe2Flower *)ene_dd)->clear_child_flags();
         *(s32 *)((s8 *)ene_dd + 0x3C4) = (s32) (*(s32 *)((s8 *)ene_dd + 0x3C4) & 0xFFFFFFF7);
         ene_dd->set_field_378(2);
@@ -678,13 +677,13 @@ void handle_flower_state_change(TObjEneDD *ene_dd, s32 arg1) {
         return;
     case 0:
         ene_dd->advance_animation();
-        ene_dd->vfunc_102();
-        ene_dd->vfunc_88();
+        ene_dd->update_ground_contact();
+        ene_dd->update_body_colliders();
         break;
     }
 }
 
-void TObjEneDD::state_chase_target(s32 arg1) {
+void TObjEneDD_ST::state_chase_target(s32 arg1) {
     u8 *arg0 = (u8 *)this;
     f32 d;
     s32 t;
@@ -699,7 +698,7 @@ void TObjEneDD::state_chase_target(s32 arg1) {
         } else {
             this->requested_action = 2;
         }
-        this->vfunc_96();
+        this->clear_intangible();
         ((TObjEneRe2Flower *)arg0)->set_child_flags();
         *(s32 *)((s8 *)arg0 + 0x3C4) &= ~8;
         ((TObjEneDD *)arg0)->set_field_378(3);
@@ -729,27 +728,27 @@ void TObjEneDD::state_chase_target(s32 arg1) {
         idx = 0xFFFF;
         if (tick_period_counter((saddr)arg0, (s32 *)(arg0 + 0x3D0), 0x14) != 0) {
             if (*(f32 *)((s8 *)arg0 + 0x3AC) > lbl_805D9FEC) {
-                if (this->vfunc_99() != 0) {
+                if (this->is_confused() != 0) {
                     idx = enemy_nearest_visible_enemy(arg0, *(f32 *)((s8 *)arg0 + 0x3AC) - lbl_805D9FEC);
                 }
                 if (idx == 0xFFFF) {
                     idx = enemy_find_nearest_player_in_range(arg0, *(f32 *)((s8 *)arg0 + 0x3AC) - lbl_805D9FEC);
                 }
                 if (idx != 0xFFFF) {
-                    enemy_set_target_id(arg0, idx);
+                    enemy_set_target_id((TObjEneDD_ST *)arg0, idx);
                 }
             }
         } else if (((TObjEneEpsilon *)arg0)->update_death_check() == 0) {
             break;
         }
         ((TObjEneDD_ST *)arg0)->enemy_copy_target_destination();
-        ((TObjEneDD *)arg0)->update_velocity();
+        ((TObjEneDD_ST *)arg0)->update_velocity();
         (*(s32 *)((s8 *)arg0 + 0x414))++;
         *(s32 *)((s8 *)arg0 + 0x420) = (s32)(10430.38043493439 * atan2_float(*(f32 *)((s8 *)arg0 + 0x3A0), *(f32 *)((s8 *)arg0 + 0x3A8)));
         this->rotation_y = approach_angle_limited(this->rotation_y, *(s32 *)((s8 *)arg0 + 0x420), (saddr)(*(void **)((s8 *)this->movementParameters + 8)));
         this->rotation_y = (s16)this->rotation_y;
-        this->vfunc_102();
-        this->vfunc_88();
+        this->update_ground_contact();
+        this->update_body_colliders();
         ((TObjEneDD *)arg0)->noop();
         break;
     }
@@ -765,7 +764,7 @@ void fn_800C32DC(u8 *owner, s32 arg1) {
     switch (arg1) {
     case 4:
         ((TObjEneRe2Flower *)owner)->requested_action = 0;
-        ((TObjEneDD *)(owner))->vfunc_96();
+        ((TObjEneDD *)(owner))->clear_intangible();
         ((TObjEneRe2Flower *)owner)->set_child_flags();
         *(s32 *)((s8 *)owner + 0x3C4) = (s32) (*(s32 *)((s8 *)owner + 0x3C4) & 0xFFFFFFF7);
         ((TObjEneDD *)owner)->set_field_378(3);
@@ -808,8 +807,8 @@ void fn_800C32DC(u8 *owner, s32 arg1) {
             }
             play_sound_effect((fn_800C3A60((saddr)owner, 0x4003A10E)), owner + 0x3DC, 0, 0);
         }
-        ((TObjEneDD *)(owner))->vfunc_102();
-        ((TObjEneDD *)(owner))->vfunc_88();
+        ((TObjEneDD *)(owner))->update_ground_contact();
+        ((TObjEneDD *)(owner))->update_body_colliders();
         ((TObjEneDD *)owner)->noop();
         break;
     case 5:
@@ -827,7 +826,7 @@ void fn_800C3088(u8 *arg0, int arg1) {
   {
     case 4:
       ((RecoveredFields_800C3088_arg0 *) arg0)->field_B8 = 7;
-      (((TObjEneDD *)(arg0))->vfunc_96());
+      (((TObjEneDD *)(arg0))->clear_intangible());
       ((TObjEneRe2Flower *)arg0)->set_child_flags();
       ((RecoveredFields_800C3088_arg0 *) arg0)->field_3C4 = (int) (((RecoveredFields_800C3088_arg0 *) arg0)->field_3C4 & 0xFFFFFFF7);
       ((TObjEneDD *)arg0)->set_field_378(3);
@@ -877,8 +876,8 @@ void fn_800C3088(u8 *arg0, int arg1) {
         ((RecoveredFields_800C3088_arg0 *) arg0)->field_410 = (int) (((RecoveredFields_800C3088_arg0 *) arg0)->field_410 + 1);
         break;
     }
-      (((TObjEneDD *)(arg0))->vfunc_102());
-      (((TObjEneDD *)(arg0))->vfunc_88());
+      (((TObjEneDD *)(arg0))->update_ground_contact());
+      (((TObjEneDD *)(arg0))->update_body_colliders());
       ((TObjEneDD *)arg0)->noop();
       return;
     case 5:

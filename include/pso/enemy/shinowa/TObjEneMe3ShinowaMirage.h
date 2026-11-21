@@ -13,14 +13,14 @@ struct TObjEneMe3ShinowaMirage : public TObjEneMe3Shinowa {
     virtual ~TObjEneMe3ShinowaMirage();
     virtual void vfunc_105();
     virtual s32 can_hit_same_target();
-    virtual void vfunc_107();
+    virtual void select_next_attack_state();
     virtual void update_player_state_default();
     virtual s32 update_effect();
     virtual void dispatch_if_active();
     virtual void apply_effect_pair();
     virtual void vfunc_115(s32);
-    void vfunc_63();
-    void vfunc_62();
+    void run_death_reaction();
+    void run_hit_reaction();
     static void advance_camera_ctrl_step(NJS_OBJECT *);
     void state_break_apart(s32 arg1);
     void state_cast_support(s32 arg1);

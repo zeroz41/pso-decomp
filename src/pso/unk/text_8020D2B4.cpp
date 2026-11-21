@@ -1,4 +1,5 @@
 #include "pso/object/base/TObjMotion.h"
+#include "pso/unk/text_803D96A8.h"
 #include "pso/object/base/ObjectFactoryTables.h"
 #include "pso/map/FloorPopulation.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -43,7 +44,6 @@ struct Obj_8020D4E8 { u8 p0[0xD4]; Ent_8020D4E8 ents[13]; u8 p1[0x8]; Ent_8020D4
 typedef ObjectFactoryEntry Ent_8020D5AC;
 
 extern "C" {
-s32 push_matrix_from(void *src);
 s32 matrix_mult_vec(int, void *, void *);
 s32 rotate_matrix_y(int, int);
 s32 rotate_matrix_z(int, int);

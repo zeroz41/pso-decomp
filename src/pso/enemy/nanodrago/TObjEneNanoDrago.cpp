@@ -50,7 +50,7 @@ LAYOUT_ASSERT(NanoGrow_scale, offsetof(TObjEneNanoDrago, scale.x) == 0x68);
 LAYOUT_ASSERT(NanoGrow_target_scale, offsetof(TObjEneNanoDrago, scale.y) == 0x6c);
 LAYOUT_ASSERT(NanoGrow_m_2c0, offsetof(TObjEneNanoDrago, m_2c0) == 0x2c0);
 LAYOUT_ASSERT(NanoGrow_m_2c8, offsetof(TObjEneNanoDrago, m_2c8) == 0x2c8);
-LAYOUT_ASSERT(NanoGrow_m_2fc, offsetof(TObjEneNanoDrago, m_2fc) == 0x2fc);
+LAYOUT_ASSERT(NanoGrow_body_center, offsetof(TObjEneNanoDrago, body_center) == 0x2fc);
 LAYOUT_ASSERT(NanoGrow_params, offsetof(TObjEneNanoDrago, movementParameters) == 0x350);
 LAYOUT_ASSERT(NanoGrow_next_action, offsetof(TObjEneNanoDrago, next_action) == 0x374);
 LAYOUT_ASSERT(NanoGrow_state, offsetof(TObjEneNanoDrago, state) == 0x37c);
@@ -189,10 +189,10 @@ CollisionBody nano_drago_bodies[2] = {
 const char *nano_drago_name = "TObjEneNanoDrago";
 
 // Deferred code generation emits these methods in address order.
-void TObjEneNanoDrago::vfunc_61() {  }
-void TObjEneNanoDrago::vfunc_59() {  }
-void TObjEneNanoDrago::vfunc_60() {  }
-void TObjEneNanoDrago::vfunc_58() {  }
+void TObjEneNanoDrago::run_miss_reaction() {  }
+void TObjEneNanoDrago::run_move_action() {  }
+void TObjEneNanoDrago::run_attack_action() {  }
+void TObjEneNanoDrago::run_idle_action() {  }
 TObjEneNanoDrago::TObjEneNanoDrago(TObject *parent, void *setData) : TObjEnemyCustom(parent) {
     u8 *arg2 = (u8 *)setData;
     s32 i;
@@ -269,11 +269,11 @@ void TObjEneNanoDrago::free_resources() {
         nano_drago_entry_params_resource = NULL;
     }
 }
-void *TObjEneNanoDrago::create(void *arg0) {
+void *TObjEneNanoDrago::create(void *setData) {
     void *o;
     void *o2;
     o = new TObjControl((TObject *)tl_04);
-    o2 = new TObjEneNanoDrago((TObject *)o, arg0);
+    o2 = new TObjEneNanoDrago((TObject *)o, setData);
     return o2;
 }
 void TObjEneNanoDrago::run_task() {
@@ -302,8 +302,8 @@ void TObjEneNanoDrago::run_task() {
         mode = (s16) next_action;
         state = 0;
     }
-    VecCopy((Vec *)(&m_2fc), (const Vec *)(&position));
-    m_300 = (f32) (m_300 + (15.0f + flightHeight));
+    VecCopy((Vec *)(&body_center), (const Vec *)(&position));
+    body_center.y = (f32) (body_center.y + (15.0f + flightHeight));
     bodies[0].offset.y = (f32) (15.0f + flightHeight);
     if (!(m_388 & 0x40000)) {
         submit_cursor_candidate(this, -1);
@@ -385,7 +385,7 @@ void TObjEneNanoDrago::render() {
         saved_model_render_flags = model_render_flags;
         fade = &cameraFades[cameraIndex];
         fade->update();
-        if (fade->updateFromCamera((const f32*)(&m_2fc)) != 0) {
+        if (fade->updateFromCamera((const f32*)(&body_center)) != 0) {
             fade->set_flags_and_apply_damage_color();
             if (defer_render() != 0) {
                 model_render_flags = saved_model_render_flags;
@@ -475,13 +475,13 @@ void TObjEneNanoDrago::update_idle_state() {
         break;
     }
 }
-void TObjEneNanoDrago::vfunc_62() {
+void TObjEneNanoDrago::run_hit_reaction() {
     this->set_state(4);
     m_380 = (s32) m_378;
     m_378 = 4;
     m_388 = (s32) (m_388 | 0x10000 | 1);
 }
-void TObjEneNanoDrago::vfunc_63() {
+void TObjEneNanoDrago::run_death_reaction() {
     this->set_state(5);
     m_380 = (s32) m_378;
     m_378 = 5;
@@ -828,7 +828,7 @@ void TObjEneNanoDrago::update_growth_state() {
             requested_action = 5;
             state = 1;
             scale.y = 0.1f + scale.x;
-            spawn_particle_effect((const Vec *)&m_2fc, 0xFA);
+            spawn_particle_effect(&body_center, 0xFA);
             speed = ((NanoDragoMovementParams *)movementParameters)->baseSpeed * scale.x;
             play_sound_effect(0x4003A824, (Vec *)&position, 0, 0);
             m_2c8 += 8;
@@ -868,13 +868,13 @@ void TObjEneNanoDrago::update_knockback_state() {
             animation = 0xA;
         }
         requested_action = animation;
-        spawn_particle_effect((const Vec *)&m_2fc, 0xF2);
+        spawn_particle_effect(&body_center, 0xF2);
         play_sound_effect(0x40039E22, &position, 0, 0);
         state = 1;
     case 1:
         advance_animation();
         if (!(actorFlags & 0x01000000)) {
-            Vec v = *(Vec *)((s8 *)&m_2fc);
+            Vec v = *(Vec *)((s8 *)&body_center);
             v.x += x_speed;
             v.z += m_310;
             if (check_path_obstructed(this, &v) == 0) {
@@ -898,7 +898,7 @@ void TObjEneNanoDrago::update_knockback_state() {
         m_378 = 1;
         previousHp = referenceHp;
         if (((s32) (previousHp - hp) > (s32) (previousHp / 4)) && !(actorFlags & 2)) {
-            entity = (uaddr)find_entity_by_id(m_2d4);
+            entity = (uaddr)find_entity_by_id(attacker_id);
             if (entity != 0) {
                 retaliate = 1;
                 if ((actorFlags & 0x01000000) && (xz_distance_squared((Vec *)(&position), (Vec *)((u8 *)entity + 0x38)) > 400.0f)) {
@@ -907,7 +907,7 @@ void TObjEneNanoDrago::update_knockback_state() {
             }
         }
         if (retaliate == 1) {
-            targetId = (u16) m_2d4;
+            targetId = (u16) attacker_id;
             next_action = 0xA;
         } else if (actorFlags & 0x01000000) {
             this->update_if_active(0xB);
@@ -1090,7 +1090,7 @@ void TObjEneNanoDrago::update_fade_in_state() {
         flags = actorFlags | 0x04000000;
         actorFlags = flags;
         requested_action = 0;
-        play_area_sound_effect((Vec *)&m_2fc);
+        play_area_sound_effect(&body_center);
         ((TUnk_80494938 *)(&appearFade))->start_fade_in();
         state = 1;
     case 1:
@@ -1188,8 +1188,8 @@ void TObjEneNanoDrago::find_open_direction(Vec *direction) {
         bias = 20.0f;
         for (; i < 3; i++) {
             matrix_mult_vec(0, &v, &moveDestination);
-            vec3_add_to(&moveDestination, &m_2fc);
-            h = csnVector((Vec *)&m_2fc, &moveDestination, -1);
+            vec3_add_to(&moveDestination, &body_center);
+            h = csnVector(&body_center, &moveDestination, -1);
             if (h == NULL) {
                 pop_matrix();
                 return;
@@ -1210,7 +1210,7 @@ void TObjEneNanoDrago::find_open_direction(Vec *direction) {
         v2.x = bestv;
         rotate_matrix_y(0, best);
         matrix_mult_vec(0, &v2, &moveDestination);
-        vec3_add_to(&moveDestination, &m_2fc);
+        vec3_add_to(&moveDestination, &body_center);
         pop_matrix();
     }
 }

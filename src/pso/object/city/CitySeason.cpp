@@ -107,13 +107,7 @@ extern s32 __vt__24TObjCity_Season_FireWork[];
 
 }
 
-extern "C" {
 
-}
-
-extern "C" {
-
-}
 
 struct Stack_80183604
 {
@@ -202,9 +196,6 @@ s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern const char *TObjCity_Season_FireWorkCtrl__name;
 }
 
-extern "C" {
-
-}
 
 #pragma pop
 
@@ -218,7 +209,6 @@ extern "C" {
 
 s32 post_translate_matrix(void *);
 s32 scroll_strip_uvs(s32, s16, s32);
-s32 push_matrix();
 
 extern BmlResource *lbl_805D5B38;
 extern saddr lbl_805D5B3C;
@@ -308,9 +298,6 @@ extern "C" {
 #pragma push
 #include "types.h"
 
-extern "C" {
-
-}
 
 #pragma pop
 
@@ -350,15 +337,11 @@ extern "C" {
 
 int get_anim_frame__13TUnk_804B5E48Fv(void* a0);
 
-s32 push_matrix();
 s32 post_translate_matrix(void *);
 
 extern saddr lbl_805D5B34;
 }
 
-extern "C" {
-
-}
 
 #pragma pop
 
@@ -402,14 +385,10 @@ extern "C" {
 
 int get_anim_frame__13TUnk_804B5E48Fv(void* a0);
 
-s32 push_matrix();
 s32 post_translate_matrix(void *);
 
 }
 
-extern "C" {
-
-}
 
 #pragma pop
 
@@ -464,15 +443,11 @@ struct VObj_18_1a504b : VBase_18_1a504b {
 
 extern "C" {
 
-s32 push_matrix();
 s32 post_translate_matrix(void *);
 
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 }
 
-extern "C" {
-
-}
 
 #pragma pop
 
@@ -505,7 +480,6 @@ extern "C" {
 
 s32 post_translate_matrix(void *);
 
-s32 push_matrix();
 void __dl__7TObjectFPv(void *);
 
 int get_anim_frame__13TUnk_804B5E48Fv(void* a0);
@@ -535,7 +509,6 @@ extern "C" {
 
 s32 post_translate_matrix(void *);
 
-s32 push_matrix();
 void __dl__7TObjectFPv(void *);
 
 extern void *tl_05;
@@ -560,7 +533,6 @@ int get_anim_frame__13TUnk_804B5E48Fv(void* a0);
 extern "C" {
 
 s32 post_translate_matrix(void *);
-s32 push_matrix();
 void __dl__7TObjectFPv(void *);
 
 extern void *tl_05;
@@ -1070,11 +1042,11 @@ void TObjCity_Season_SonicAdv2::render() {
     if (res != NULL && self->m8(800.0f, 20.0f) != 0) {
         TObjFish::set_global_param((saddr)city_season_xmas_model_table[5]);
         idx = ((TObjCity_Season_SonicAdv2 *)self)->sub_80183C38();
-        ((void (*)())push_matrix)();
+        push_matrix();
         ((void (*)(void *))post_translate_matrix)(&self->pos);
         ((void (*)(int, s32))rotate_matrix_y)(0, self->x60);
         draw_model_motion((void *)res->a[idx].v, (void *)res->b[idx].v, self->xb0);
-        ((void (*)())pop_matrix)();
+        pop_matrix();
         VecCopy((Vec *)&pos, (const Vec *)&self->pos);
         pos.y += 0.037f;
         a.x = 0.0f;

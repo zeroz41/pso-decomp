@@ -56,7 +56,6 @@ void rocket_punch_wall_impact(u32 arg0, u32 arg1, u32 arg2, uaddr arg3) {
 extern "C" {
 
 s32 post_translate_matrix(void *);
-s32 push_matrix();
 }
 
 

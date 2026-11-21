@@ -146,7 +146,6 @@ extern s32 __vt__16TODoorJungleMain[];
 
 
 s32 rotate_matrix_y(int, int);
-int push_matrix();
 
 
 int post_translate_matrix(void *);

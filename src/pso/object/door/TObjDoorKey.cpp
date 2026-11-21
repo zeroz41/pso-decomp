@@ -129,7 +129,6 @@ void debug_draw_key_id__5TOKeyFv();
 u8 *load_gvm_texture_file(saddr arg0);
 extern "C" {
 void PPCSync();
-void push_matrix();
 void post_translate_matrix(void *);
 extern u8 chunk_material_color_half_alpha_f32[];
 extern s32 actor_frame_tick;

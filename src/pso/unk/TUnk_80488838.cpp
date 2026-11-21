@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/text_803D96A8.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/TUnk_80488838.h"
 #include "pso/unk/TUnk_80488E00.h"
@@ -36,7 +37,6 @@ s32 set_target_pos__13TUnk_80488DA0FPv(void *, void *, f32);
 void *get_player_by_client_id(s32 i);
 s32 matrix_mult_vec(int, void *, void *);
 s32 rotate_matrix_y(int, int);
-s32 push_matrix_from(void *);
 void * TCameraCtrl__vt7(void) {
     void *o;
     o = new TUnk_80488838();

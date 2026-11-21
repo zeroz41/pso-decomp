@@ -5,6 +5,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/unk/text_803D96A8.h"
 
 struct Cam_8034BE5C {
     u8 pad0[0x1C];
@@ -23,7 +24,6 @@ const char *lbl_805D4340 = "TAdFloorLoadCamGC";
 void set_active_camera_pose(u8 *arg0, u8 *arg1);
 s32 activate_camera_mode(s32 arg0);
 f32 vec_squared_length(u8 *arg0);
-void normalize_vector(void *);
 extern Pad_8034BE5C controller_physical_port_bank;
 extern const f32 lbl_805DFDB8;
 void TCameraCtrl__sub_800687C8(void);

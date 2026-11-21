@@ -62,6 +62,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/technique/TTecRaBarta.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/ui/hud/TRaderMapCore.h"
 
 
 struct Obj_8005683C;
@@ -69,11 +70,9 @@ struct Obj_8005683C;
 struct Obj_80055BC0 { u8 pad[0x450]; Vec f450; Vec f45c; };
 
 extern "C" {
-s32 add_radar_scaled_marker(void *, u32, int, int, f32);
 s32 vec3_add_to(void *, void *);
 f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
-s32 normalize_vector(void *);
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 f32 atan2_float(f32 y, f32 x);
 u8 * dispatch_shared_handler_a__6TLobbyFl(s32);
@@ -189,7 +188,6 @@ void find_target_pos__11TBoss4Type2FPvPv(O_80056C30 *self, Vec *out);
 s32 create__11TBoss4BishiFi(void *);
 void request_follow_camera_offsets(void *arg0, void *arg1, u16 arg2);
 void TObjEneRe4Sorcerer__sub_801E3F1C(f32, f32);
-s32 push_matrix();
 f32 post_translate_matrix(void *);
 f32 xyz_distance(Vec *, Vec *);
 
@@ -297,7 +295,7 @@ TUnk_80486924::TUnk_80486924(TObject *parent, s32 *params) : TObjEnemy(parent) {
     rotation_y = 0;
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
     collision_body_parts = init_collision_body_parts(this, boss4_type2_collision_body_parts, 1);
-    VecCopy((Vec *)&m_2fc, &position);
+    VecCopy(&body_center, &position);
     x_speed = y_speed = m_310 = 0.0f;
     target = 0;
     bind_enemy_combat_stats((u8 *)TLobby::register_boss(0x37), (u8 *)TLobby::dispatch_shared_handler_b(0x37), (u8 *)TLobby::register_object(0x37));
@@ -359,14 +357,14 @@ TUnk_80486924::~TUnk_80486924() {
     collision_body_parts = 0;
 }
 
-void TUnk_80486924::vfunc_62() {
+void TUnk_80486924::run_hit_reaction() {
     *(s32 *)((s8 *)((u8 *)this) + 0x3E4) = 1;
     *(f32 *)((s8 *)((u8 *)this) + 0x3F0) = 1.0f;
     *(s32 *)((s8 *)((u8 *)this) + 0x30) = (s32) (*(s32 *)((s8 *)((u8 *)this) + 0x30) & 0xFFFFFDFF);
     ((s32 (*)(int, void *, int, int, void *))play_sound_effect)(0x4003B723, ((u8 *)this) + 0x38, 0, 1, this);
 }
 
-void TUnk_80486924::vfunc_63() {
+void TUnk_80486924::run_death_reaction() {
     s32 temp_r0;
 
     temp_r0 = *(s32 *)((s8 *)this + 0x374);
@@ -397,7 +395,7 @@ void TUnk_80486924::run_task() {
     } else {
         collision_body_parts->flags &= ~1;
     }
-    add_radar_scaled_marker(&m_2fc, 0xFFFFA24C, 1, 1, 5.0f);
+    add_radar_scaled_marker(&body_center, 0xFFFFA24C, 1, 1, 5.0f);
     if (action != 2) {
         Vec pos = *(Vec *)&position;
         Vec dir = *(Vec *)&position;
@@ -438,7 +436,7 @@ void TBoss4Type2::advance_afterimage() {
     *(f32 *)((s8 *)arg0 + 0x300) += 75.0f;
 }
 
-void TUnk_80486924::init_hanger() { TObjPlayer::toggle_particle_effect(); ((int (*)(void))push_matrix)(); ((int (*)(void*))post_translate_matrix)((char*)this + 0x38); ((int (*)(void*, void*))rotate_matrix_y)((void*)0, *(void**)((char*)this + 0x60)); draw_hanger(); ((int (*)(void))pop_matrix)(); TParticleCtrl::end_effect_render(); }
+void TUnk_80486924::init_hanger() { TObjPlayer::toggle_particle_effect(); push_matrix(); ((int (*)(void*))post_translate_matrix)((char*)this + 0x38); ((int (*)(void*, void*))rotate_matrix_y)((void*)0, *(void**)((char*)this + 0x60)); draw_hanger(); pop_matrix(); TParticleCtrl::end_effect_render(); }
 
 #pragma push
 #pragma opt_common_subs off
@@ -936,7 +934,7 @@ void TBoss4Type2::beam_enter() {
   }
   else
   {
-    normalize_vector(arg0 + 0x3F8);
+    normalize_vector((Vec *)(arg0 + 0x3F8));
   }
   var_r31 = (s32) ((10430.38043493439) * atan2_float((f32) (*((f32 *) (((s8 *) arg0) + 0x3F8))), (f32) (*((f32 *) (((s8 *) arg0) + 0x400)))));
   temp_r31 = var_r31;
@@ -954,7 +952,7 @@ void TBoss4Type2::beam_enter() {
   *((f32 *) (((s8 *) arg0) + 0x408)) = 0.0f;
   VecCopy((Vec *)(arg0 + 0x410), (const Vec *)(arg0 + 0x38));
   *((f32 *) (((s8 *) arg0) + 0x414)) = 0.0f;
-  normalize_vector(arg0 + 0x410);
+  normalize_vector((Vec *)(arg0 + 0x410));
   *((f32 *) (((s8 *) arg0) + 0x410)) *= 280.0f;
   *((f32 *) (((s8 *) arg0) + 0x418)) *= 280.0f;
   *((s32 *) (((s8 *) arg0) + 0x398)) = 0x96;
@@ -1013,7 +1011,7 @@ void TBoss4Type2::beam_update() {
         *(f32 *)((s8 *)arg0 + 0x404) *= -1.0f;
         *(f32 *)((s8 *)arg0 + 0x40C) *= -1.0f;
         if (vector_length(arg0 + 0x410) > 280.0f) {
-            normalize_vector(arg0 + 0x410);
+            normalize_vector((Vec *)(arg0 + 0x410));
             *(f32 *)((s8 *)arg0 + 0x410) *= 280.0f;
             *(f32 *)((s8 *)arg0 + 0x418) *= 280.0f;
             a = (s32)((10430.38043493439) * atan2_float(*(f32 *)((s8 *)arg0 + 0x410), *(f32 *)((s8 *)arg0 + 0x418)));

@@ -605,7 +605,7 @@ void TOTrapAncient02R::vfunc_81() {
                     phase = 2;
                     VecCopy(&scratch_vec, &position);
                     scratch_vec.y += h344 + h348;
-                    VecCopy(&lbl_8050BF00, (Vec *)&((TObjChara *)target)->m_2fc);
+                    VecCopy(&lbl_8050BF00, &((TObjChara *)target)->body_center);
                     subtract_vector(&lbl_8050BF00, &scratch_vec);
                     if (normalize_vector_safe(&lbl_8050BF00) < 1e-5f) {
                         lbl_8050BF00.x = lbl_8050BF00.y = 0.0f;
@@ -634,13 +634,13 @@ void TOTrapAncient02R::vfunc_81() {
                         break;
                     }
                     case 0:
-                        TTecFoie::create_ex(this, &scratch_vec, (Vec *)&((TObjChara *)target)->m_2fc, (void *)tech_level);
+                        TTecFoie::create_ex(this, &scratch_vec, &((TObjChara *)target)->body_center, (void *)tech_level);
                         break;
                     case 2:
                         ((TTecGiBarta *)this)->create_ex(&scratch_vec, (void *)ang, (void *)tech_level);
                         break;
                     case 3:
-                        TTecMegid::create((saddr)this, (saddr)&scratch_vec, (saddr)(Vec *)&((TObjChara *)target)->m_2fc, tech_level);
+                        TTecMegid::create((saddr)this, (saddr)&scratch_vec, (saddr)&((TObjChara *)target)->body_center, tech_level);
                         break;
                     case 4:
                         TTecGiFoie::create(this, &scratch_vec, (void *)tech_level);

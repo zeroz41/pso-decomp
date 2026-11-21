@@ -13,6 +13,8 @@
 
 
 #include "pso/system/task/TObject.h"
+#include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/unk/text_803D96A8.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -135,7 +137,6 @@ void vt1__11TBoss4BishiFv(Obj_8005BB5C *self);
 
 s32 TBoss4Zako__ct(saddr, saddr, saddr);
 
-void normalize_vector(void *);
 extern V2_8005BF68 TBoss4Bishi_spawn_offsets[];
 extern saddr __vt__11TBoss4Bishi[];
 extern const char *TBoss4Bishi__name;
@@ -291,7 +292,6 @@ void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
 
 #define THIS self
 
-void add_radar_scaled_marker(void *, s32, s32, s32, f32);
 
 u8 *VecCopy__FP3VecPC3Vec(void *, void *);
 void TBoss4Uro__sub_8005D6D4(void *arg0);
@@ -480,7 +480,7 @@ void TBoss4Zako::run_task() {
                 minimap_render_dot(self->m_2fc, -0x5DB4, 1, 0);
             } else {
                 self->m_384->flags &= ~1;
-                add_radar_scaled_marker(self->m_2fc, 0xFF7F5126, 1, 1, 1.0f);
+                add_radar_scaled_marker((Vec *)self->m_2fc, 0xFF7F5126, 1, 1, 1.0f);
             }
         }
         self->m_3b8++;
@@ -1087,7 +1087,7 @@ void TBoss4Type3::apply_poison_status() {  }
 #pragma dont_inline off
 #pragma auto_inline off
 #pragma inline_depth(2)
-void vfunc_29__9TObjCharaFv();
+void has_no_target__9TObjCharaFv();
 void apply_anti_technique__9TObjCharaFl();
 void recalc_stats__9TObjCharaFv();
 void enemy_spawn_zalure_effect__9TObjCharaFv();
@@ -1095,10 +1095,10 @@ void trigger_switch_attack__9TObjCharaFv(s32 arg0);
 void enemy_spawn_jellen_effect__9TObjCharaFv();
 void apply_switch_attack__9TObjCharaFv();
 void vfunc_78__9TObjCharaFl();
-void vfunc_77__9TObjCharaFv();
-void vfunc_76__9TObjCharaFf();
-void vfunc_75__9TObjCharaFf();
-void vfunc_28__9TObjCharaFv();
+void gain_photon_blast_chain_charge__9TObjCharaFv();
+void spend_photon_blast_charge__9TObjCharaFf();
+void gain_photon_blast_charge__9TObjCharaFf();
+void refresh_target__9TObjCharaFv();
 void get_actor_level_index__9TObjCharaFv();
 void consume_timer_field__9TObjCharaFl();
 void add_actor_exp__9TObjCharaFl();
@@ -1108,15 +1108,15 @@ void apply_defense_stat_status__9TObjCharaFPv();
 void receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll();
 void apply_knockback_from_attacker__9TObjCharaFPUcf();
 void receive_physical_attack__9TObjCharaFPvf();
-void vfunc_67__9TObjCharaFf();
+void deliver_attack_hits__9TObjCharaFf();
 void vfunc_66__9TObjCharaFv();
 void get_anim_node_position__9TObjCharaFlP3Vec();
 void reset_pose__9TObjCharaFv();
-void vfunc_62__9TObjCharaFv();
-void vfunc_61__9TObjCharaFv();
-void vfunc_60__9TObjCharaFv();
-void vfunc_59__9TObjCharaFv();
-void vfunc_58__9TObjCharaFv();
+void run_hit_reaction__9TObjCharaFv();
+void run_miss_reaction__9TObjCharaFv();
+void run_attack_action__9TObjCharaFv();
+void run_move_action__9TObjCharaFv();
+void run_idle_action__9TObjCharaFv();
 void apply_action_hold_status__9TObjCharaFf();
 void clear_all_status_effects__9TObjCharaFv();
 void cure_paralysis__9TObjCharaFv();
@@ -1138,7 +1138,7 @@ s32 update_attack_stat_status__9TObjCharaFv(u8 *arg0);
 void update_shock_clock__9TObjCharaFv();
 void update_movement_status__9TObjCharaFv();
 void update_flag30_timer__9TObjCharaFv();
-s32 vfunc_37__9TObjCharaFv(u8 *arg0);
+s32 update_slow_status__9TObjCharaFv(u8 *arg0);
 void update_action_hold_status__9TObjCharaFv();
 void update_poison_status__9TObjCharaFv();
 void vfunc_43__9TObjCharaFv();
@@ -1155,7 +1155,7 @@ void render_shadows__9TObjEnemyFv(u8 *arg0);
 void get_name__9TObjEnemyFv();
 void vfunc_74__9TObjEnemyFl();
 void apply_hit_message_flags__9TObjEnemyFPv();
-void vfunc_79__9TObjEnemyFPl();
+void apply_enemy_state__9TObjEnemyFPl();
 void apply_set_data__9TObjEnemyFPv();
 void apply_object_set_data__8TObjBaseFPv();
 void vfunc_6__8TObjBaseFPsl();
@@ -1190,8 +1190,8 @@ saddr __vt__11TBoss4Bishi[83] = {
     (saddr)apply_knockback_from_attacker__9TObjCharaFPUcf,
     (saddr)try_start_action__9TObjCharaFll,
     (saddr)roll_physical_accuracy__9TObjCharaFPvlf,
-    (saddr)vfunc_28__9TObjCharaFv,
-    (saddr)vfunc_29__9TObjCharaFv,
+    (saddr)refresh_target__9TObjCharaFv,
+    (saddr)has_no_target__9TObjCharaFv,
     (saddr)is_target_in_attack_range__9TObjCharaFv,
     (saddr)&test_flag_256__9TObjCharaFv,
     (saddr)&test_flag30_512__9TObjCharaFv,
@@ -1199,7 +1199,7 @@ saddr __vt__11TBoss4Bishi[83] = {
     (saddr)&test_flag_1000__9TObjCharaFv,
     (saddr)update_poison_status__9TObjCharaFv,
     (saddr)update_action_hold_status__9TObjCharaFv,
-    (saddr)vfunc_37__9TObjCharaFv,
+    (saddr)update_slow_status__9TObjCharaFv,
     (saddr)update_flag30_timer__9TObjCharaFv,
     (saddr)update_movement_status__9TObjCharaFv,
     (saddr)update_shock_clock__9TObjCharaFv,
@@ -1220,16 +1220,16 @@ saddr __vt__11TBoss4Bishi[83] = {
     (saddr)clear_all_status_effects__9TObjCharaFv,
     (saddr)apply_action_hold_status__9TObjCharaFf,
     (saddr)apply_anti_technique__9TObjCharaFl,
-    (saddr)vfunc_58__9TObjCharaFv,
-    (saddr)vfunc_59__9TObjCharaFv,
-    (saddr)vfunc_60__9TObjCharaFv,
-    (saddr)vfunc_61__9TObjCharaFv,
-    (saddr)vfunc_62__9TObjCharaFv,
+    (saddr)run_idle_action__9TObjCharaFv,
+    (saddr)run_move_action__9TObjCharaFv,
+    (saddr)run_attack_action__9TObjCharaFv,
+    (saddr)run_miss_reaction__9TObjCharaFv,
+    (saddr)run_hit_reaction__9TObjCharaFv,
     (saddr)try_enter_state_3__11TBoss4BishiFPv,
     (saddr)reset_pose__9TObjCharaFv,
     (saddr)get_anim_node_position__9TObjCharaFlP3Vec,
     (saddr)vfunc_66__9TObjCharaFv,
-    (saddr)vfunc_67__9TObjCharaFf,
+    (saddr)deliver_attack_hits__9TObjCharaFf,
     (saddr)get_pos__9TObjCharaFl,
     (saddr)apply_switch_attack__9TObjCharaFv,
     (saddr)enemy_spawn_jellen_effect__9TObjCharaFv,
@@ -1237,11 +1237,11 @@ saddr __vt__11TBoss4Bishi[83] = {
     (saddr)enemy_spawn_zalure_effect__9TObjCharaFv,
     (saddr)recalc_stats__9TObjCharaFv,
     (saddr)vfunc_74__9TObjEnemyFl,
-    (saddr)vfunc_75__9TObjCharaFf,
-    (saddr)vfunc_76__9TObjCharaFf,
-    (saddr)vfunc_77__9TObjCharaFv,
+    (saddr)gain_photon_blast_charge__9TObjCharaFf,
+    (saddr)spend_photon_blast_charge__9TObjCharaFf,
+    (saddr)gain_photon_blast_chain_charge__9TObjCharaFv,
     (saddr)vfunc_78__9TObjCharaFl,
-    (saddr)vfunc_79__9TObjEnemyFPl,
+    (saddr)apply_enemy_state__9TObjEnemyFPl,
     (saddr)apply_hit_message_flags__9TObjEnemyFPv,
     (saddr)apply_set_data__9TObjEnemyFPv,
     (saddr)clear_lobby_object_state__9TObjEnemyFv,
@@ -1275,8 +1275,8 @@ saddr __vt__9TBoss4Uro[83] = {
     (saddr)apply_knockback_from_attacker__9TObjCharaFPUcf,
     (saddr)try_start_action__9TObjCharaFll,
     (saddr)roll_physical_accuracy__9TObjCharaFPvlf,
-    (saddr)vfunc_28__9TObjCharaFv,
-    (saddr)vfunc_29__9TObjCharaFv,
+    (saddr)refresh_target__9TObjCharaFv,
+    (saddr)has_no_target__9TObjCharaFv,
     (saddr)is_target_in_attack_range__9TObjCharaFv,
     (saddr)&test_flag_256__9TObjCharaFv,
     (saddr)&test_flag30_512__9TObjCharaFv,
@@ -1284,7 +1284,7 @@ saddr __vt__9TBoss4Uro[83] = {
     (saddr)&test_flag_1000__9TObjCharaFv,
     (saddr)update_poison_status__9TObjCharaFv,
     (saddr)update_action_hold_status__9TObjCharaFv,
-    (saddr)vfunc_37__9TObjCharaFv,
+    (saddr)update_slow_status__9TObjCharaFv,
     (saddr)update_flag30_timer__9TObjCharaFv,
     (saddr)update_movement_status__9TObjCharaFv,
     (saddr)update_shock_clock__9TObjCharaFv,
@@ -1305,16 +1305,16 @@ saddr __vt__9TBoss4Uro[83] = {
     (saddr)clear_all_status_effects__9TObjCharaFv,
     (saddr)apply_action_hold_status__9TObjCharaFf,
     (saddr)apply_anti_technique__9TObjCharaFl,
-    (saddr)vfunc_58__9TObjCharaFv,
-    (saddr)vfunc_59__9TObjCharaFv,
-    (saddr)vfunc_60__9TObjCharaFv,
-    (saddr)vfunc_61__9TObjCharaFv,
-    (saddr)vfunc_62__9TObjCharaFv,
+    (saddr)run_idle_action__9TObjCharaFv,
+    (saddr)run_move_action__9TObjCharaFv,
+    (saddr)run_attack_action__9TObjCharaFv,
+    (saddr)run_miss_reaction__9TObjCharaFv,
+    (saddr)run_hit_reaction__9TObjCharaFv,
     (saddr)TBoss4Uro__vt61,
     (saddr)reset_pose__9TObjCharaFv,
     (saddr)get_anim_node_position__9TObjCharaFlP3Vec,
     (saddr)vfunc_66__9TObjCharaFv,
-    (saddr)vfunc_67__9TObjCharaFf,
+    (saddr)deliver_attack_hits__9TObjCharaFf,
     (saddr)get_pos__9TObjCharaFl,
     (saddr)apply_switch_attack__9TObjCharaFv,
     (saddr)enemy_spawn_jellen_effect__9TObjCharaFv,
@@ -1322,11 +1322,11 @@ saddr __vt__9TBoss4Uro[83] = {
     (saddr)enemy_spawn_zalure_effect__9TObjCharaFv,
     (saddr)recalc_stats__9TObjCharaFv,
     (saddr)vfunc_74__9TObjEnemyFl,
-    (saddr)vfunc_75__9TObjCharaFf,
-    (saddr)vfunc_76__9TObjCharaFf,
-    (saddr)vfunc_77__9TObjCharaFv,
+    (saddr)gain_photon_blast_charge__9TObjCharaFf,
+    (saddr)spend_photon_blast_charge__9TObjCharaFf,
+    (saddr)gain_photon_blast_chain_charge__9TObjCharaFv,
     (saddr)vfunc_78__9TObjCharaFl,
-    (saddr)vfunc_79__9TObjEnemyFPl,
+    (saddr)apply_enemy_state__9TObjEnemyFPl,
     (saddr)apply_hit_message_flags__9TObjEnemyFPv,
     (saddr)apply_set_data__9TObjEnemyFPv,
     (saddr)clear_lobby_object_state__9TObjEnemyFv,
@@ -1360,8 +1360,8 @@ saddr __vt__10TBoss4Zako[83] = {
     (saddr)apply_knockback_from_attacker__9TObjCharaFPUcf,
     (saddr)try_start_action__9TObjCharaFll,
     (saddr)roll_physical_accuracy__9TObjCharaFPvlf,
-    (saddr)vfunc_28__9TObjCharaFv,
-    (saddr)vfunc_29__9TObjCharaFv,
+    (saddr)refresh_target__9TObjCharaFv,
+    (saddr)has_no_target__9TObjCharaFv,
     (saddr)is_target_in_attack_range__9TObjCharaFv,
     (saddr)&test_flag_256__9TObjCharaFv,
     (saddr)&test_flag30_512__9TObjCharaFv,
@@ -1369,7 +1369,7 @@ saddr __vt__10TBoss4Zako[83] = {
     (saddr)&test_flag_1000__9TObjCharaFv,
     (saddr)update_poison_status__9TObjCharaFv,
     (saddr)update_action_hold_status__9TObjCharaFv,
-    (saddr)vfunc_37__9TObjCharaFv,
+    (saddr)update_slow_status__9TObjCharaFv,
     (saddr)update_flag30_timer__9TObjCharaFv,
     (saddr)update_movement_status__9TObjCharaFv,
     (saddr)update_shock_clock__9TObjCharaFv,
@@ -1390,16 +1390,16 @@ saddr __vt__10TBoss4Zako[83] = {
     (saddr)clear_all_status_effects__9TObjCharaFv,
     (saddr)apply_action_hold_status__9TObjCharaFf,
     (saddr)apply_anti_technique__9TObjCharaFl,
-    (saddr)vfunc_58__9TObjCharaFv,
-    (saddr)vfunc_59__9TObjCharaFv,
-    (saddr)vfunc_60__9TObjCharaFv,
-    (saddr)vfunc_61__9TObjCharaFv,
-    (saddr)vfunc_62__9TObjCharaFv,
+    (saddr)run_idle_action__9TObjCharaFv,
+    (saddr)run_move_action__9TObjCharaFv,
+    (saddr)run_attack_action__9TObjCharaFv,
+    (saddr)run_miss_reaction__9TObjCharaFv,
+    (saddr)run_hit_reaction__9TObjCharaFv,
     (saddr)TBoss4Zako::update_state3,
     (saddr)reset_pose__9TObjCharaFv,
     (saddr)get_anim_node_position__9TObjCharaFlP3Vec,
     (saddr)vfunc_66__9TObjCharaFv,
-    (saddr)vfunc_67__9TObjCharaFf,
+    (saddr)deliver_attack_hits__9TObjCharaFf,
     (saddr)get_pos__9TObjCharaFl,
     (saddr)apply_switch_attack__9TObjCharaFv,
     (saddr)enemy_spawn_jellen_effect__9TObjCharaFv,
@@ -1407,11 +1407,11 @@ saddr __vt__10TBoss4Zako[83] = {
     (saddr)enemy_spawn_zalure_effect__9TObjCharaFv,
     (saddr)recalc_stats__9TObjCharaFv,
     (saddr)vfunc_74__9TObjEnemyFl,
-    (saddr)vfunc_75__9TObjCharaFf,
-    (saddr)vfunc_76__9TObjCharaFf,
-    (saddr)vfunc_77__9TObjCharaFv,
+    (saddr)gain_photon_blast_charge__9TObjCharaFf,
+    (saddr)spend_photon_blast_charge__9TObjCharaFf,
+    (saddr)gain_photon_blast_chain_charge__9TObjCharaFv,
     (saddr)vfunc_78__9TObjCharaFl,
-    (saddr)vfunc_79__9TObjEnemyFPl,
+    (saddr)apply_enemy_state__9TObjEnemyFPl,
     (saddr)apply_hit_message_flags__9TObjEnemyFPv,
     (saddr)apply_set_data__9TObjEnemyFPv,
     (saddr)clear_lobby_object_state__9TObjEnemyFv,

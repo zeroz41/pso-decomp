@@ -20,6 +20,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/unk/text_803D96A8.h"
 
 struct W_80290250 { u8 pad[0xfc]; s32 bufp; s32 rc; u8 data[4]; };
 
@@ -32,7 +33,6 @@ void calc_shape_region_coefficients(f32 *point);
 s32 blend_shape_chunk_vertices(void);
 extern "C" {
 f32 vector_length(f32 *v);
-s32 normalize_vector(f32 *v);
 }
 // Ninja chunk model (NJS_CNK_MODEL): vertex chunk list, polygon chunk list, bounds.
 struct CreationShapeModel { s32 *vertex_list; s16 *polygon_list; f32 center[3]; };
@@ -85,9 +85,6 @@ s32 creation_resource_ready_state;
 u8 *TAdSinglePlyChrSelectGC__sub_802908CC(u8 *arg0, s16 arg1);
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
 void rotate_matrix_y(int, u32);
-void push_matrix_from();
-void push_matrix();
-s32 pop_matrix(void);
 int fn_8001ED90(void *p);
 void update_pair__23TAdSinglePlyChrSelectGCFPv(void* p);
 int TAdSinglePlyChrSelectGC__sub_802905B8(void);
@@ -675,16 +672,14 @@ void TAdSinglePlyChrSelectGC::draw_creation_figure() {
         rotate_matrix_y(0, creation_figure_rotation_y);
         TObjFish::set_global_param((saddr)((u8 *)char_select_current_entry + 0x460));
         this->draw_player_model();
-        ((TObjMotion *)((u8 *)this))->get_item_ptr(0x3A);
-        push_matrix_from();
+        push_matrix_from((void *)((TObjMotion *)this)->get_item_ptr(0x3A));
         TObjFish::set_global_param((saddr)((u8 *)char_select_current_entry + 0x2EC));
         TObjPlayer::play_phase_transition_sound(creation_head_model_parts[*(s16 *)((s8 *)char_select_current_entry + 0xA)].model);
         pop_matrix();
         v = creation_cap_model_parts[*(s16 *)((s8 *)char_select_current_entry + 0xC)].model;
         if (v != 0) {
             TCharaMaking::enable_making();
-            ((TObjMotion *)((u8 *)this))->get_item_ptr(0x3B);
-            push_matrix_from();
+            push_matrix_from((void *)((TObjMotion *)this)->get_item_ptr(0x3B));
             TObjFish::set_global_param((saddr)((u8 *)char_select_current_entry + 0x178));
             TObjPlayer::play_phase_transition_sound(v);
             pop_matrix();
@@ -693,8 +688,7 @@ void TAdSinglePlyChrSelectGC::draw_creation_figure() {
         v = creation_hair_model_parts[*(s16 *)((s8 *)char_select_current_entry + 0xC)].model;
         if (v != 0) {
             TCharaMaking::enable_making();
-            ((TObjMotion *)((u8 *)this))->get_item_ptr(0x3B);
-            push_matrix_from();
+            push_matrix_from((void *)((TObjMotion *)this)->get_item_ptr(0x3B));
             TObjFish::set_global_param((saddr)((u8 *)char_select_current_entry + 0x178));
             TCharaMaking::setup_from_data(v, creation_player_character);
             pop_matrix();
@@ -899,7 +893,7 @@ s32 blend_shape_chunk_vertices(void) {
                 v[2] = creation_shape_blend.weights[2] * bits_to_f32(*c++) +
                        (creation_shape_blend.weights[0] * bits_to_f32(*a++) + creation_shape_blend.weights[1] * bits_to_f32(*b++));
                 if (vector_length(v) != 0.0f) {
-                    normalize_vector(v);
+                    normalize_vector((Vec *)v);
                 }
                 d[0] = f32_bits(v[0]);
                 d[1] = f32_bits(v[1]);

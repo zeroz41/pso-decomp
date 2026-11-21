@@ -18,9 +18,9 @@ struct TObjEneRe4InitParams {
 struct TObjEneRe4Bit : public TObjEneDD_ST {
     TObjEneRe4Bit(TObject *parent, TObjEneRe4Sorcerer *owner, Vec *anchor, s32 enabled, u16 id, s32 set_index);
     virtual ~TObjEneRe4Bit();
-    virtual void vfunc_88();
-    virtual void vfunc_105();
-    virtual void vfunc_106();
+    virtual void update_body_colliders();
+    virtual void run_demo_task();
+    virtual void render_demo();
     virtual void dispatch_action(u32 state, s32 reason);
     void set_flag3cc_bit2000();
     void call_vt_90_91();
@@ -37,9 +37,9 @@ struct TObjEneRe4Bit : public TObjEneDD_ST {
     s32 get_state();
     s32 sub_800ED498();
     void clear_state_flags_when_done();
-    void vfunc_63();
-    void vfunc_62();
-    void vfunc_61();
+    void run_death_reaction();
+    void run_hit_reaction();
+    void run_miss_reaction();
     void apply_defense_stat_status(void *);
     void apply_attack_stat_status(void *);
     void clear_harmful_statuses();
@@ -49,7 +49,7 @@ struct TObjEneRe4Bit : public TObjEneDD_ST {
     void apply_slow_status();
     void apply_paralysis();
     void apply_poison_status();
-    void vfunc_28();
+    void refresh_target();
     void render();
     void run_task();
     s32 handle_event(s32 arg1);
@@ -61,9 +61,6 @@ struct TObjEneRe4Bit : public TObjEneDD_ST {
     void init();
     static TObjEneRe4Bit *create(TObjEneRe4Sorcerer *owner, Vec *anchor, s32 enabled, u16 id, s32 set_index);
 
-    u8 unk_374[0x8];
-    f32 m_37c;
-    u8 unk_380[0x40];
     Vec *m_3c0;
     s16 m_3c4;
     u8 unk_3C6[0x2];

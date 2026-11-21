@@ -35,6 +35,8 @@
 
 
 #include "pso/system/task/TObject.h"
+#include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/unk/text_803D96A8.h"
 
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
@@ -175,11 +177,9 @@ union TypedVector_80059B78 {
 
 extern "C" {
 saddr VecCopy__FP3VecPC3Vec(void *, void *);
-s32 add_radar_scaled_marker(void *, u32, int, int, f32);
 s32 vec3_add_to(void *, void *);
 f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
-s32 normalize_vector(void *);
 f32 atan2_float(f32 y, f32 x);
 s32 pick_random_target_player__11TBoss4Type3Fv(void);
 s32 TBoss4Type3__sub_8005254C(u16);
@@ -389,7 +389,7 @@ extern "C" {
 void vfunc_6__8TObjBaseFPsl();
 }
 extern "C" {
-void vfunc_29__9TObjCharaFv();
+void has_no_target__9TObjCharaFv();
 }
 extern "C" {
 extern u8 apply_anti_technique__9TObjCharaFl[];
@@ -404,7 +404,7 @@ extern "C" {
 extern u8 enemy_spawn_jellen_effect__9TObjCharaFv[];
 }
 extern "C" {
-void vfunc_28__9TObjCharaFv();
+void refresh_target__9TObjCharaFv();
 }
 extern "C" {
 extern u8 get_actor_level_index__9TObjCharaFv[];
@@ -431,7 +431,7 @@ extern "C" {
 extern u8 receive_physical_attack__9TObjCharaFPvf[];
 }
 extern "C" {
-void vfunc_67__9TObjCharaFf();
+void deliver_attack_hits__9TObjCharaFf();
 }
 extern "C" {
 void vfunc_66__9TObjCharaFv();
@@ -440,16 +440,16 @@ extern "C" {
 void get_anim_node_position__9TObjCharaFlP3Vec();
 }
 extern "C" {
-void vfunc_61__9TObjCharaFv();
+void run_miss_reaction__9TObjCharaFv();
 }
 extern "C" {
-void vfunc_60__9TObjCharaFv();
+void run_attack_action__9TObjCharaFv();
 }
 extern "C" {
-void vfunc_59__9TObjCharaFv();
+void run_move_action__9TObjCharaFv();
 }
 extern "C" {
-void vfunc_58__9TObjCharaFv();
+void run_idle_action__9TObjCharaFv();
 }
 extern "C" {
 extern u8 apply_action_hold_status__9TObjCharaFf[];
@@ -533,19 +533,19 @@ extern "C" {
 void apply_switch_attack__9TObjCharaFv();
 }
 extern "C" {
-void vfunc_79__9TObjEnemyFPl();
+void apply_enemy_state__9TObjEnemyFPl();
 }
 extern "C" {
 void vfunc_78__9TObjCharaFl();
 }
 extern "C" {
-void vfunc_77__9TObjCharaFv();
+void gain_photon_blast_chain_charge__9TObjCharaFv();
 }
 extern "C" {
-void vfunc_76__9TObjCharaFf();
+void spend_photon_blast_charge__9TObjCharaFf();
 }
 extern "C" {
-void vfunc_75__9TObjCharaFf();
+void gain_photon_blast_charge__9TObjCharaFf();
 }
 extern "C" {
 void clear_lobby_object_state__9TObjEnemyFv();
@@ -575,7 +575,7 @@ extern "C" {
 void try_start_action__9TObjCharaFll();
 }
 extern "C" {
-s32 vfunc_37__9TObjCharaFv(u8 *arg0);
+s32 update_slow_status__9TObjCharaFv(u8 *arg0);
 }
 extern "C" {
 void update_flag30_timer__9TObjCharaFv();
@@ -853,13 +853,13 @@ TBoss4Type3::~TBoss4Type3() {
 }
 #undef o
 
-void TBoss4Type3::vfunc_62() {
+void TBoss4Type3::run_hit_reaction() {
     *(s32 *)((s8 *)((u8 *)this) + 0x30) = (s32) (*(s32 *)((s8 *)((u8 *)this) + 0x30) & 0xFFFFFDFF);
     *(f32 *)((s8 *)((u8 *)this) + 0x3E8) = (f32) 1.0f;
     ((s32 (*)(int, void *, int, int, void *))play_sound_effect)(0x4003B734, ((u8 *)this) + 0x38, 0, 1, this);
 }
 
-void TBoss4Type3::vfunc_63() {
+void TBoss4Type3::run_death_reaction() {
     if (((Obj_8005ACBC *)this)->f374 != 3 && ((Obj_8005ACBC *)this)->f374 != 2) {
         ((Obj_8005ACBC *)this)->f3b8 = 0xFFFF;
         ((Obj_8005ACBC *)this)->f3ba = 0xFFFF;
@@ -1393,9 +1393,9 @@ void TBoss4Type3::update_radar_markers() {
     }
     *(u32 *)((s8 *)arg0 + 0x3C4) = c[0] | ((c[2] << 16) | 0xFF000000 | (c[1] << 8));
     if (0.0f == *(f32 *)((s8 *)arg0 + 0x3B0) && (*(s32 *)((s8 *)arg0 + 0x3C0) & 4)) {
-        add_radar_scaled_marker((u8 *)&this->m_2fc, -1, 1, 1, 5.0f);
+        add_radar_scaled_marker(&this->body_center, -1, 1, 1, 5.0f);
     } else {
-        add_radar_scaled_marker((u8 *)&this->m_2fc, *(u32 *)((s8 *)arg0 + 0x3C4), 1, 1, 5.0f);
+        add_radar_scaled_marker(&this->body_center, *(u32 *)((s8 *)arg0 + 0x3C4), 1, 1, 5.0f);
     }
     if (!(*(s32 *)((s8 *)arg0 + 0x3C0) & 1) && *(u16 *)((s8 *)arg0 + 0x3BA) != 0xFFFF) {
         p = (Ply_80059ABC *)get_player_by_client_id((u16)(*(u16 *)((s8 *)arg0 + 0x3BA)));
@@ -1858,7 +1858,7 @@ void TBoss4Type3::update_dark_magic() {
                 if (0.0f == ((f32 (*)(Vec *))vector_length)(&v)) {
                     v.y = 1.0f;
                 } else {
-                    ((s32 (*)(Vec *))normalize_vector)(&v);
+                    normalize_vector(&v);
                 }
                 s = 40.0f * (3.0517578e-05f * (f32)rand()) + 35.0f;
                 v.x *= s;

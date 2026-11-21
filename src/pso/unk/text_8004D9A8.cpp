@@ -34,7 +34,6 @@ const ModelNodeSpec TObjDFDemo0__model_node_entries[7] = {
 extern "C" {
 
 s32 TObjPlayer__sub_80052390();
-s32 push_matrix();
 s32 post_translate_matrix(void *);
 extern void *lbl_80485550[3];
 
@@ -75,7 +74,6 @@ struct Ent_8004DA7C { s32 arg; s32 start; s32 end; u8 data[0xC]; };
 
 extern "C" {
 void subtract_vector(void *, void *);
-void normalize_vector(void *);
 void vec3_add_to(void *, void *);
 s32 play_sound_effect(int, void *, int, int);
 void *TObjDFDemo0__entry_table[30] = {

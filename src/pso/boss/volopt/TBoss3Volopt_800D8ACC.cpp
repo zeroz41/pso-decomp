@@ -196,16 +196,16 @@ void fn_800D911C(Vec *position) {
 void TObjPlayer::trigger_dell_biter_events() { spawn_particle_effect((const Vec *)this, 251); spawn_particle_effect((const Vec *)this, 252); spawn_particle_effect((const Vec *)this, 227); }
 
 void TObjPlayer::spawn_ground_effect(s32 arg1) {
-    s32 sp8;
+    Vec sp8;
 
-    TObjBoss2Tunnel::adjust_to_ground((saddr)this, &sp8);
+    TObjBoss2Tunnel::adjust_to_ground((const Vec *)this, &sp8);
     create_timed_particle_emitter((&sp8), 0xE5, 0, (arg1));
 }
 
 void TObjPlayer::spawn_effect_at_ground(s32 arg1) {
-    s32 sp8;
+    Vec sp8;
 
-    TObjBoss2Tunnel::adjust_to_ground((saddr)this, &sp8);
+    TObjBoss2Tunnel::adjust_to_ground((const Vec *)this, &sp8);
     create_timed_particle_emitter(&sp8, 0xE4, 0, arg1);
 }
 

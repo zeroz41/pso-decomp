@@ -43,7 +43,6 @@ struct Self_801AE744 {
 
 extern "C" {
 s32 rotate_matrix_y(int, int);
-s32 push_matrix();
 s32 post_translate_matrix(void *);
 extern NJS_ARGB saved_model_draw_color;
 extern NJS_ARGB model_material_color;

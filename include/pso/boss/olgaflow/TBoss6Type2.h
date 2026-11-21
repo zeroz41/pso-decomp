@@ -60,8 +60,8 @@ struct TBoss6Type2 : public TObjEnemy
     virtual void apply_movement_ailment(s32);
     virtual void apply_shock_status();
     virtual void clear_harmful_statuses();
-    virtual void vfunc_62();
-    virtual void vfunc_63();
+    virtual void run_hit_reaction();
+    virtual void run_death_reaction();
     s32 is_active();
     void sub_802BC124();
     void sub_802BB554();

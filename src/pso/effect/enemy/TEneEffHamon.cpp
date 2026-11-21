@@ -45,7 +45,6 @@ extern RecoveredGlobal_800A38A4___vt__12TEneEffHamon __vt__12TEneEffHamon;
 const char *TEneEffHamon__name = "TEneEffHamon";
 extern saddr tl_06;
 s32 scale_matrix(int, f32, f32, f32);
-s32 push_matrix();
 s32 post_translate_matrix(void *);
 extern u8 chunk_material_color_half_alpha_f32[];
 extern u8 saved_model_draw_color[];

@@ -31,6 +31,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/system/byteswap.h"
+#include "pso/unk/text_803D96A8.h"
 
 extern const char dark_falz_state_name_editor[] = "EDITOR";
 extern const char dark_falz_state_name_wait_casket[] = "WAIT_CASKET";
@@ -157,7 +158,7 @@ void TBoss4DarkFalz::begin_defeat_sequence() {
         TObjDFDemo5::create(this, &lbl_80485454, 0);
     }
     if (TBoss4DarkFalz__type3_instance != NULL) {
-        TBoss4DarkFalz__type3_instance->get_defeat_params(&m_2d6, &m_2d4, sp8);
+        TBoss4DarkFalz__type3_instance->get_defeat_params(&m_2d6, &attacker_id, sp8);
         TBoss4DarkFalz__type3_instance->queue_destruction();
         TBoss4DarkFalz__type3_instance = NULL;
         i = 0;
@@ -295,7 +296,6 @@ struct S_8004CB28 {
 
 extern "C" {
 extern Vec lbl_80485448;
-void normalize_vector(Vec *);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 
 void TBoss4DarkFalz::update_leader_die_type2() {  }
@@ -327,7 +327,7 @@ void TBoss4DarkFalz::enter_demo2_phase() {
     TObjDFDemo2::create(this, &cinematic_position, cinematic_angle, flag);
     set_story_flag_or_send_quest_flag(0x35);
     if (TBoss4DarkFalz__type2_instance != NULL) {
-        TBoss4DarkFalz__type2_instance->get_demo2_params(&m_2d6, &m_2d4, arr);
+        TBoss4DarkFalz__type2_instance->get_demo2_params(&m_2d6, &attacker_id, arr);
         TBoss4DarkFalz__type2_instance->queue_destruction();
         TBoss4DarkFalz__type2_instance = NULL;
         for (i = 0; i < 4; i++) {

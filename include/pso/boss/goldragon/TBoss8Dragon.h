@@ -24,7 +24,7 @@ public:
     virtual void render_shadows();
     // Slot 23: kinds 0xB and 0xC do it no damage; the rest go to TObjChara's.
     virtual f32 receive_direct_attack(void *attacker, DirectAttackPayload payload, void *arg2, s32 arg3, s32 arg4);
-    virtual void vfunc_28();
+    virtual void refresh_target();
     // Slots 44-50: the status ailments TObjChara applies; the dragon ignores them.
     virtual void apply_poison_status();
     virtual void apply_paralysis();
@@ -33,36 +33,20 @@ public:
     virtual void apply_movement_ailment(s32);
     virtual void apply_shock_status();
     virtual void clear_harmful_statuses();
-    virtual void vfunc_61();
-    virtual void vfunc_62();
-    virtual void vfunc_63();
+    virtual void run_miss_reaction();
+    virtual void run_hit_reaction();
+    virtual void run_death_reaction();
     // Slot 87: runs the current action's handler (one per action, handlers[] in the body).
     virtual void dispatch_action(u32 action, s32 event);
     // Slot 88: moves the seven collider bodies to the model's node positions.
-    virtual void vfunc_88();
+    virtual void update_body_colliders();
     // Slots 105 and 106, the two the dragon adds to TObjEneDD_ST's table.
-    virtual int vfunc_105();
+    virtual int run_demo_task();
     virtual void draw_motion_model();
 
     void sub_802F4098(u8 *);
     s32 hasActiveRenderFade();
 
-    u8 pad_374[0x8];
-    f32 m_37c;
-    u8 unk_380[0xC];
-    u16 m_38c;
-    u8 unk_38E[0x2];
-    u32 m_390;
-    f32 m_394;
-    f32 m_398;
-    f32 m_39c;
-    f32 m_3a0;
-    f32 m_3a4;
-    f32 m_3a8;
-    f32 m_3ac;
-    s32 m_3b0;
-    s32 m_3b4;
-    u8 unk_3B8[0x8];
     u32 m_3c0;
     TObject sub_tasks;  // the dragon's collider task hangs under it; run_task runs its tasks
     u32 m_3e0;

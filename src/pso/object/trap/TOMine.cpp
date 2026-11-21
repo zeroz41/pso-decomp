@@ -183,7 +183,6 @@ f32 atan2_float(f32 y, f32 x);
 f32 vec3_add_to(void *, void *);
 f32 vec_squared_length(u8 *arg0);
 f32 subtract_vector(void *, void *);
-f32 normalize_vector(void *);
 extern s32 TOMineIcon01__name;
 extern s32 TOMineIcon02__name;
 extern s32 TOMineIcon03__name;
@@ -217,7 +216,6 @@ struct VObj_801710E4 : VBase_801710E4 {
 };
 extern "C" {
 u16 find_nearest_visible_player(void *, int, f32);
-void push_matrix();
 void post_translate_matrix(void *);
 void obj_setFlags30(void *, u32);
 int submit_target_to_player_cursor(void*);
@@ -464,7 +462,7 @@ void TOMine::follow_target() {
   subtract_vector(&stack.x, (u8 *)&this->position);
   if (2.0f < vec_squared_length((u8 *)&stack.x))
   {
-    normalize_vector(&stack.x);
+    normalize_vector(&stack);
     stack.x *= 2.0f;
     stack.z *= 2.0f;
   }
@@ -854,7 +852,7 @@ void TOMineTrap::run_task() {
         if (find_target_in_range() == 1) {
             set_triggered();
         }
-        VecCopy((Vec *)&m_2fc, &float_position);
+        VecCopy(&body_center, &float_position);
         VecCopy(&bodies->center, &float_position);
         break;
     case 3:

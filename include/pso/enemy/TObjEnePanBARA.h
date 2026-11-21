@@ -21,9 +21,9 @@ public:
     virtual void run_task();
     virtual void render();
     void calc_part_position(u8 *, s32 *);
-    virtual void vfunc_63();
-    virtual void vfunc_62();
-    virtual void vfunc_61();
+    virtual void run_death_reaction();
+    virtual void run_hit_reaction();
+    virtual void run_miss_reaction();
     void set_random_action_timer(int minimum, int range);
     void update_action_timer();
     void init_attack_state();

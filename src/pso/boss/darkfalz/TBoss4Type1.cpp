@@ -55,7 +55,6 @@ f32 vector_length(void *);
 void translate_matrix_vec3(int, void *);
 void set_matrix_identity(int);
 int rotate_matrix_y(void *, void *);
-int push_matrix(void);
 
 typedef struct Params_80052CDC {
     s32 owner;
@@ -204,12 +203,10 @@ void TBoss4Type2__sub_80055300(void);
 void * create__9TBoss4UroFi(Params_80052CDC *);
 void free_collision_body_parts(void *);
 s32 project_actor_to_ground(void *, void *, int);
-s32 add_radar_scaled_marker(void *, s32, s16, s32, f32);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 void TBoss6PlotFalz__sub_802AC008(f32 farg0, f32 farg1);
 void vec3_add_to(Vec *, Vec *);
 void subtract_vector(Vec *, Vec *);
-void normalize_vector(void *);
 int post_translate_matrix(void*);
 f32 xyz_distance(Vec *, Vec *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
@@ -558,7 +555,7 @@ TBoss4Type1::TBoss4Type1(TObject *parent, s32 *params) : TObjEnemy(parent) {
     rotation_y = 0;
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
     unk_394 = init_collision_body_parts(this, lbl_80485E2C, 3);
-    VecCopy((Vec *)&m_2fc, &position);
+    VecCopy(&body_center, &position);
     x_speed = y_speed = m_310 = 0.0f;
     target = 0;
     bind_enemy_combat_stats((u8 *)TLobby::register_boss(0x36), (u8 *)TLobby::dispatch_shared_handler_b(0x36), (u8 *)TLobby::register_object(0x36));
@@ -622,14 +619,14 @@ TBoss4Type1::~TBoss4Type1() {
     unk_394 = 0;
 }
 
-void TBoss4Type1::vfunc_62() {
+void TBoss4Type1::run_hit_reaction() {
     actorFlags &= ~0x200;
     unk_3d4 = 1;
     unk_3dc = 1.0f;
     play_sound_effect(0x4003A822, &position, 0, 1);
 }
 
-void TBoss4Type1::vfunc_63() {
+void TBoss4Type1::run_death_reaction() {
     if (state != 3 && state != 4) {
         set_state(3);
     }
@@ -672,7 +669,7 @@ void TBoss4Type1::render() {
 
 void TBoss4Type1::snapshot_position() {
     u8 *arg0 = (u8 *)this;
-    VecCopy__FP3VecPC3Vec((u8 *)&this->m_2fc, arg0 + 0x38);
+    VecCopy__FP3VecPC3Vec((u8 *)&this->body_center, arg0 + 0x38);
     *(f32 *)((s8 *)arg0 + 0x300) += 50.0f;
 }
 
@@ -1036,10 +1033,10 @@ void TBoss4Type1::sub_80053670() {
     s32 var_r28;
     u8 *arg0 = (u8 *)this;
 
-    add_radar_scaled_marker(arg0 + 0x38, -0x5DB4, 1, 1, 5.0f);
-    add_radar_scaled_marker(arg0 + 0x438, -0x5DB4, 1, 1, 5.0f);
-    add_radar_scaled_marker(arg0 + 0x450, -0x5DB4, 1, 1, 5.0f);
-    add_radar_scaled_marker(arg0 + 0x468, -0x5DB4, 1, 1, 5.0f);
+    add_radar_scaled_marker(&this->position, -0x5DB4, 1, 1, 5.0f);
+    add_radar_scaled_marker(&this->unk_438[0][0], -0x5DB4, 1, 1, 5.0f);
+    add_radar_scaled_marker(&this->unk_438[1][0], -0x5DB4, 1, 1, 5.0f);
+    add_radar_scaled_marker(&this->unk_438[2][0], -0x5DB4, 1, 1, 5.0f);
     temp_f29 = sin_table_lookup(this->rotation_y);
     temp_f30 = cos_table_lookup(this->rotation_y);
     temp_f27 = 37.5f;
@@ -1049,20 +1046,20 @@ void TBoss4Type1::sub_80053670() {
         ((s32 (*)(Vec *, Vec *))VecCopy__FP3VecPC3Vec)((Vec *)&stack.sp8, (Vec *)(arg0 + 0x38));
         stack.sp8 += (f32)(-var_r28) * temp_f30;
         stack.sp10 += (f32)var_r28 * temp_f29;
-        add_radar_scaled_marker(&stack.sp8, -0x5DB4, 1, 1, 5.0f);
+        add_radar_scaled_marker((Vec *)&stack.sp8, -0x5DB4, 1, 1, 5.0f);
         ((s32 (*)(Vec *, Vec *))VecCopy__FP3VecPC3Vec)((Vec *)&stack.sp8, (Vec *)(arg0 + 0x38));
         stack.sp8 += (f32)var_r28 * temp_f29;
         stack.sp10 += (f32)var_r28 * temp_f30;
-        add_radar_scaled_marker(&stack.sp8, -0x5DB4, 1, 1, 5.0f);
+        add_radar_scaled_marker((Vec *)&stack.sp8, -0x5DB4, 1, 1, 5.0f);
         ((s32 (*)(Vec *, Vec *))VecCopy__FP3VecPC3Vec)((Vec *)&stack.sp8, (Vec *)(arg0 + 0x38));
         stack.sp8 += (f32)var_r28 * temp_f30;
         stack.sp10 += (f32)(-var_r28) * temp_f29;
-        add_radar_scaled_marker(&stack.sp8, -0x5DB4, 1, 1, 5.0f);
+        add_radar_scaled_marker((Vec *)&stack.sp8, -0x5DB4, 1, 1, 5.0f);
         if (var_r29 < 2) {
             ((s32 (*)(Vec *, Vec *))VecCopy__FP3VecPC3Vec)((Vec *)&stack.sp8, (Vec *)(arg0 + 0x38));
             stack.sp8 += (f32)(-var_r28) * temp_f29;
             stack.sp10 += (f32)(-var_r28) * temp_f30;
-            add_radar_scaled_marker(&stack.sp8, -0x5DB4, 1, 1, 5.0f);
+            add_radar_scaled_marker((Vec *)&stack.sp8, -0x5DB4, 1, 1, 5.0f);
         }
         var_r29 += 1;
         var_r28 = (s32) ((f32) var_r28 + temp_f27);

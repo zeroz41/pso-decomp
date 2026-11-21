@@ -52,7 +52,6 @@ s32 post_translate_matrix(void *);
 void draw_chunk_object(void *child);
 void restore_scene_lighting(void);
 void select_actor_lighting(s32 obj);
-s32 push_matrix();
 extern s32 model_render_flags;
 }
 #include "pso/boss/volopt/TBoss3Volopt.h"
@@ -133,33 +132,33 @@ extern void *boss4_type3_instance;
 extern s32 saved_model_render_flags;
 #define play_sound_effect (*(s32 (*)(s32, s32, s32, s32))&play_sound_effect)
 extern "C" void render_shadows__9TObjEnemyFv(u8 *arg0);
-void TObjEneBeast::vfunc_101() {  }
-void TObjEneBeast::vfunc_99() {
+void TObjEneBeast::run_demo_task() {  }
+void TObjEneBeast::play_group_chase_sound() {
     s32 arg0 = (saddr)this;
     play_sound_effect(0x4003E431, arg0 + 0x38, 0, 0);
 }
-void TObjEneBeast::vfunc_98() {
+void TObjEneBeast::play_death_sound() {
     s32 arg0 = (saddr)this;
     play_sound_effect(0x4003AB2D, arg0 + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x200);
 }
-void TObjEneBeast::vfunc_97() {
+void TObjEneBeast::play_hurt_sound() {
     s32 arg0 = (saddr)this;
     play_sound_effect(0x4003A32E, arg0 + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
-void TObjEneBeast::vfunc_96() {
+void TObjEneBeast::play_attack_sound() {
     s32 arg0 = (saddr)this;
     play_sound_effect(0x4003A62F, arg0 + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
-void TObjEneBeast::vfunc_95() {
+void TObjEneBeast::play_alert_sound() {
     s32 arg0 = (saddr)this;
     play_sound_effect(0x4003A82C, arg0 + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x200);
 }
 
-void TObjEneBeast::vfunc_94() {
+void TObjEneBeast::spawn_death_effect() {
     Vec stack;
     stack.x = 0.0f;
     stack.y = 1e+01f;
@@ -173,7 +172,7 @@ void TObjEneBeast::vfunc_94() {
     TObjPlayer::spawn_dead_spot_type2((saddr)&stack.x, 0xF);
 }
 
-void TObjEneBeast::vfunc_93() {
+void TObjEneBeast::update_attack_trail() {
     Obj_80091EA4 *self = (Obj_80091EA4 *)this;
     Vec dir;
     Vec pos;
@@ -233,7 +232,7 @@ void TObjEneBeast::select_subtype() {
         return;
     }
 }
-void TObjEneBeast::vfunc_83() {
+void TObjEneBeast::beast_update_appear() {
     u8 *arg0 = (u8 *)this;
     switch (*(s16 *)((s8 *)arg0 + 0x328)) {
     case 0:
@@ -373,10 +372,10 @@ void free_collision_body_parts(void *);
 extern void *tl_04;
 
 extern "C" void vfunc_6__8TObjBaseFPsl();
-extern "C" void vfunc_29__9TObjCharaFv();
+extern "C" void has_no_target__9TObjCharaFv();
 extern "C" void recalc_stats__9TObjCharaFv();
 extern "C" void consume_timer_field__9TObjCharaFl();
-extern "C" void vfunc_67__9TObjCharaFf();
+extern "C" void deliver_attack_hits__9TObjCharaFf();
 extern "C" void vfunc_66__9TObjCharaFv();
 extern "C" void get_anim_node_position__9TObjCharaFlP3Vec();
 extern "C" void apply_slow_status__9TObjCharaFv();
@@ -384,7 +383,7 @@ extern "C" void update_shock_clock__9TObjCharaFv();
 extern "C" void vfunc_43__9TObjCharaFv();
 extern "C" void vfunc_18__9TObjCharaFPUc();
 extern "C" void interact__14TObjCollidableFl();
-extern "C" void vfunc_100__13TUnk_80493450Fv();
+extern "C" void select_post_attack_mode__13TUnk_80493450Fv();
 extern "C" void vfunc_89__13TUnk_80493450Fv();
 extern "C" void update_turn_toward_target__13TUnk_80493450Fv();
 extern "C" void vfunc_74__9TObjEnemyFl();
@@ -402,32 +401,32 @@ extern "C" void apply_poison_status__9TObjCharaFv();
 extern "C" void apply_set_data__9TObjEnemyFPv();
 extern "C" void apply_shock_status__9TObjCharaFv();
 extern "C" void apply_switch_attack__9TObjCharaFv();
-extern "C" void vfunc_59__13TUnk_80493450Fv();
+extern "C" void run_move_action__13TUnk_80493450Fv();
 extern "C" void beast_idle_update__13TUnk_80493450Fv();
 extern "C" void beast_retire_corpse__13TUnk_80493450Fv();
-extern "C" void vfunc_28__13TUnk_80493450Fv();
-extern "C" void vfunc_60__13TUnk_80493450Fv();
+extern "C" void refresh_target__13TUnk_80493450Fv();
+extern "C" void run_attack_action__13TUnk_80493450Fv();
 extern "C" void beast_update_approach__13TUnk_80493450Fv();
 extern "C" void beast_update_attack__13TUnk_80493450Fv();
 extern "C" void beast_update_dead__13TUnk_80493450Fv();
 extern "C" void beast_update_group_chase__13TUnk_80493450Fv();
 extern "C" void beast_update_hurt__13TUnk_80493450Fv();
 extern "C" void calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf();
-extern "C" void vfunc_79__9TObjEnemyFPl();
+extern "C" void apply_enemy_state__9TObjEnemyFPl();
 extern "C" void classify_actor_view_detail__8TObjBaseFfff();
 extern "C" void clear_all_status_effects__9TObjCharaFv();
-extern "C" void vfunc_61__13TUnk_80493450Fv();
+extern "C" void run_miss_reaction__13TUnk_80493450Fv();
 extern "C" void clear_harmful_statuses__9TObjCharaFv();
 extern "C" void cure_paralysis__9TObjCharaFv();
 extern "C" void cure_poison_ailment__9TObjCharaFv();
 extern "C" void enemy_spawn_jellen_effect__9TObjCharaFv();
 extern "C" void enemy_spawn_zalure_effect__9TObjCharaFv();
-extern "C" void vfunc_62__13TUnk_80493450Fv();
-extern "C" void vfunc_63__13TUnk_80493450Fv();
+extern "C" void run_hit_reaction__13TUnk_80493450Fv();
+extern "C" void run_death_reaction__13TUnk_80493450Fv();
 extern "C" void vfunc_78__9TObjCharaFl();
-extern "C" void vfunc_77__9TObjCharaFv();
-extern "C" void vfunc_76__9TObjCharaFf();
-extern "C" void vfunc_75__9TObjCharaFf();
+extern "C" void gain_photon_blast_chain_charge__9TObjCharaFv();
+extern "C" void spend_photon_blast_charge__9TObjCharaFf();
+extern "C" void gain_photon_blast_charge__9TObjCharaFf();
 extern "C" void clear_lobby_object_state__9TObjEnemyFv();
 extern "C" void get_center__9TObjCharaFv();
 extern "C" void get_actor_level_index__9TObjCharaFv();
@@ -447,7 +446,7 @@ extern "C" void roll_physical_accuracy__9TObjCharaFPvlf();
 extern "C" void run_task__13TUnk_80493450Fv();
 extern "C" void select_melee_contact_body__9TObjCharaFPvf();
 extern "C" void update_movement_status__13TUnk_80493450Fv();
-extern "C" void vfunc_58__13TUnk_80493450Fv();
+extern "C" void run_idle_action__13TUnk_80493450Fv();
 extern "C" void trigger_switch_attack__9TObjCharaFv(s32 arg0);
 extern "C" void try_start_action__9TObjCharaFll();
 extern "C" void update_action_hold_status__13TUnk_80493450Fv();

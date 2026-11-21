@@ -15,6 +15,7 @@
 #include "pso/boss/goldragon/TBoss8Dragon_8005D700.h"
 #include "pso/unk/text_80355970.h"
 #include "pso/unk/text_80355A1C.h"
+#include "pso/ui/hud/TRaderMapCore.h"
 
 
 void TBoss5GryphonTornado::sub_803554F0(u8 *boss2_tunnel) {
@@ -72,7 +73,6 @@ s32 get_bml_motion(s32, s32);
 void TBoss8Dragon__sub_800640A4(s32, Vec *);
 void attach_particle_model(void *, s32, s32, s32, s32, f32);
 Res_80355570 *csnVecterUnder(Vec *, s32);
-void add_radar_scaled_marker(Vec *, s32, s32, s32, f32);
 void play_persistent_sound(s32, void *, Vec *, s32, s32);
 extern s32 boss5_gryphon_bml_resource;
 extern s32 boss5_gryphon_texture_list;

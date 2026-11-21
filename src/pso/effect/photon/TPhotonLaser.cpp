@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
+#include "pso/unk/text_803D96A8.h"
 #include "types.h"
 #include "pso/effect/photon/TPhotonLaser.h"
 #include "pso/system/vector.h"
@@ -60,9 +61,7 @@ void *find_entity_by_id(u16);
 void vec3_add_to(void *, void *);
 void rotate_vector_by_matrix(int, void *, void *);
 void rotate_matrix_y(int, int);
-s32 push_matrix_from(void *);
 }
-s32 pop_matrices(s32 arg0);
 extern u8 identity_matrix[];
 extern "C" {
 void run_task__12TPhotonLaserFv(Laser_801AC17C *o);

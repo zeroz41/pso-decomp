@@ -99,6 +99,7 @@ struct Obj_801547E0;
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby.h"
+#include "pso/unk/text_803D96A8.h"
 union ObjectSavedState_801548A8 {
     u32 word;
     struct { s16 flags; s16 source; } halves;
@@ -119,9 +120,7 @@ s32 test_player_overlap_with_players(void *arg0, Obj_801559D0 *self, Vec *pos, v
 s32 VecCopy__FP3VecPC3Vec(void *, void *);
 s32 vec3_add_to(void *, void *);
 s32 rotate_matrix_y(int, int);
-s32 push_matrix_from(void *);
 s32 rotate_vector_by_current_matrix(void *, void *);
-s32 pop_matrix();
 extern f32 identity_matrix[12];
 u8 * TObjPlayer__sub_80155028(saddr arg0, saddr arg1);
 s32 build_collision_box_corners(Vec pos, s32 facing, CollisionBody *body, CollisionBox *out);
@@ -153,7 +152,6 @@ extern s32 lbl_805D5868;
 void TObjPlayer__sub_80156934(void);
 f32 horizontal_distance_squared(void *, void *);
 s32 angle_diff_s16(s32 a, s32 b);
-s32 normalize_vector(void *);
 extern saddr TObjPlayer__data_8050D460[];
 void *__construct_new_array(void *, void (*)(void *), void *, s32, s32);
 Part_80156780 *init_collision_body_parts(Obj_80156780 *self, Part_80156780 *src, s32 count);

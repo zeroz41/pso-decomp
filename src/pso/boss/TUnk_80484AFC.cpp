@@ -30,7 +30,6 @@
 #include "pso/unk/text_803D853C.h"
 
 extern "C" {
-s32 push_matrix(void);
 void post_translate_matrix(const Vec *v);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 s32 obj_is_hit_receivable(u8 *arg0);
@@ -86,7 +85,7 @@ void TUnk_80484AFC::render() {
 void TUnk_80484AFC::run_task() {
     TObjPlayer *player = get_player_by_client_id(target_id);
     if (player != NULL) {
-        Vec steer = *(Vec *)&player->m_2fc;
+        Vec steer = player->body_center;
         subtract_vector(&steer, &position);
         vec_set_length((Vec *)&steer, TBoss3VoloptP02::get_float_param(1));
         vec3_add_to(&velocity, &steer);

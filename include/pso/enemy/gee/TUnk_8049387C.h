@@ -7,17 +7,17 @@ class TUnk_8049387C : public TObjEneMe1Gee {
 public:
     virtual ~TUnk_8049387C();
     void run_task();
-    virtual void vfunc_107();
-    virtual void vfunc_117(uaddr);
-    virtual void vfunc_106();
-    virtual void vfunc_105();
-    virtual s32 vfunc_108();
-    virtual int vfunc_116(TObjChara *target);
-    virtual void vfunc_113();
-    virtual int vfunc_109();
+    virtual void spawn_members();
+    virtual void remove_member(uaddr);
+    virtual void select_model();
+    virtual void select_next_attack_state();
+    virtual s32 check_retreat_trigger();
+    virtual int can_member_attack_target(TObjChara *target);
+    virtual void apply_model_color();
+    virtual int has_no_members();
     virtual void vfunc_110(s32);
     virtual void vfunc_111(s32);
-    virtual void vfunc_112(s32);
+    virtual void state_dead(s32);
     void sub_800CB764(s32);
     void sub_800C84C8();
     s32 m_490;

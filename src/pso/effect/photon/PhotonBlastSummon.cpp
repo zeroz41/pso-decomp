@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/unk/text_803D96A8.h"
 
 struct NJS_OBJECT;
 #include "pso/camera/CameraPlayback.h"
@@ -205,9 +206,7 @@ void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 void *find_entity_by_id(u16 id);
 void matrix_mult_vec(s32, Vec *, Vec *);
 void rotate_matrix_y(s32, s32);
-s32 push_matrix_from(void *src);
 }
-s32 pop_matrices(s32 arg0);
 extern Group_801A7428 photon_blast_attachment_table[];
 extern "C" {
 void update_photon_blast_camera_pose(struct PbCamera_801A73B0 *self) {

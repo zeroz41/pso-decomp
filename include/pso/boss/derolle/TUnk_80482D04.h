@@ -7,11 +7,11 @@ class TUnk_80482D04 : public TBoss2Mine {
 public:
     TUnk_80482D04(TObject *parent, u16 entity_id, s32 set_index);
     virtual ~TUnk_80482D04();
-    virtual void vfunc_105(s32);
-    virtual void vfunc_106(s32);
+    virtual void state_launch(s32 reason);
+    virtual void state_armed(s32 reason);
     void move_mine();
     void init_launch(Vec *pos, TObjBase *owner, s32 slot);
-    virtual void vfunc_88();
+    virtual void update_body_colliders();
     // Set by init_launch and followed by move_mine (names inferred):
     TObjBase *owner;     // the object the mine rides on
     s32 slot;           // its launch slot, 0-2

@@ -40,6 +40,7 @@
 
 #include <stddef.h>
 #include "pso/system/task/TObject.h"
+#include "pso/ui/hud/TRaderMapCore.h"
 
 struct Obj_802B4B34 { u8 pad[0x508]; s32 f508; s32 arr[1]; };
 
@@ -304,7 +305,6 @@ void randomize_attack__11TBoss6Type1FPvPv(Boss_802B8EE0 *self, Atk_802B8EE0 *atk
 void TBoss6PlotFalz__sub_802AC724(void *, void *);
 f32 vec3_add_to(void *, const void *);
 void vec3_cross(void *, void *, void *);
-void normalize_vector(void *);
 f32 project_point_onto_line(void *, void *, void *);
 f32 xyz_distance(void *, void *);
 void TBoss6Type1__sub_802B6C30(TBoss6Type1 *self);
@@ -347,7 +347,6 @@ void clamp_to_arena_radius__11TBoss6Type1FPvPvf(Boss_802B54F0 *o, Vec *out, f32 
 TObjPlayer *get_player_by_client_id(u16 client);
 s32 matrix_mult_vec(int, void *, void *);
 void set_matrix_identity(u8 *arg0);
-s32 push_matrix();
 void post_translate_matrix(Vec *pos);
 void rotate_matrix_x(int matrix, int angle);
 void rotate_matrix_z(int matrix, int angle);
@@ -424,7 +423,6 @@ f32 vec3_dot(void *, void *);
 
 
 s32 submit_cursor_candidate(void *, int);
-s32 add_radar_scaled_marker(void *, int, int, int, f32);
 }
 
 struct T1_802B529C;
@@ -959,13 +957,13 @@ void handle_6xA4_olga_flow_boss_actions(game_command_header *command) {
     boss->set_action_state(action);
 }
 
-void TBoss6Type1::vfunc_62() {
+void TBoss6Type1::run_hit_reaction() {
     this->actorFlags = (s32) (this->actorFlags & 0xFFFFFDFF);
     this->m_4d4 = 1.0f;
     ((void (*)(s32, void *, s32, s32, void *))play_sound_effect)(0x39E01, ((u8 *)this) + 0x584, 0, 1, this);
 }
 
-void TBoss6Type1::vfunc_63() { if (*(int *)&this->m_374 != 40) { set_action_state((saddr)((void*)40)); } }
+void TBoss6Type1::run_death_reaction() { if (*(int *)&this->m_374 != 40) { set_action_state((saddr)((void*)40)); } }
 
 void TBoss6Type1::render_shadows() {
     if (this->position.y >= -30.0f) {
@@ -996,7 +994,7 @@ void TBoss6Type1::run_task() {
     update_parts_flags();
     ((TObjPlayer *)this)->update_collisions();
     submit_cursor_candidate(this, -1);
-    add_radar_scaled_marker((u8 *)this + 0x584, -0x5DB4, 1, 1, 5.0f);
+    add_radar_scaled_marker(&this->node_points[1], -0x5DB4, 1, 1, 5.0f);
     sub_802B5CB4();
     this->m_4d4 += -0.06666667f;
     if (this->m_4d4 < 0.0f) {
@@ -1321,12 +1319,12 @@ void TBoss6Type1::update_sway() {
 }
 
 void TBoss6Type1::update_position() {
-    VecCopy((Vec *)&m_2fc, &this->position);
+    VecCopy(&body_center, &this->position);
     if ((s32) this->m_438 != 0) {
-        m_300 = (f32) (m_300 - 75.0f);
+        body_center.y = (f32) (body_center.y - 75.0f);
         return;
     }
-    m_300 = (f32) (m_300 - 50.0f);
+    body_center.y = (f32) (body_center.y - 50.0f);
 }
 
 void TBoss6Type1::update_part_positions() {

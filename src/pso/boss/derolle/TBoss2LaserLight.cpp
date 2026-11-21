@@ -1,162 +1,134 @@
 #include "types.h"
-#include "pso/system/task/TObject_80019A50.h"
 #include "pso/boss/derolle/TBoss2LaserLight.h"
 #include "pso/boss/TUnk_80482C58.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801334D4.h"
 #include "pso/system/vector.h"
+#include "pso/system/task/TObject_80019A50.h"
 
 #pragma readonly_strings on
 
-struct S_80037264 {
-    u8 pad0[0x18];
-    void *vt;
-    Vec recs[20];
-    s32 a10c, a110, a114, a118, a11c, a120;
-};
-
-struct Obj_800372F0 {
-    u8 pad0[0x1C];
-    saddr f1C;
-    s32 state;
-    u32 req;
-    u8 pad28[0x38 - 0x28];
-    f32 f38;
-    f32 f3C;
-    void *light;
-};
-
-extern "C" {
-void TAdSinglePlyChrSelectGC__sub_80133508(void *light);
-const char *lbl_805D26C8 = "TBoss2LaserLight";
-
-}
+const char *TBoss2LaserLight__name = "TBoss2LaserLight";
 
 #pragma defer_codegen on
 
-
-struct LaserLightParams_80037500 {
-    u8 pad0[0x28];
-    f32 position[2];
-    f32 f30;
-    f32 f34;
-    f32 f38;
-    f32 f3C;
-};
-
-TBoss2LaserLight::TBoss2LaserLight(TObject *parent, u32 arg2) : TObject(parent) {
-    TBoss2LaserLight *self = this;
-    LaserLightParams_80037500 *p = (LaserLightParams_80037500 *)self;
-
-    self->m_name = lbl_805D26C8;
-    self->m_1c = arg2;
-    self->m_20 = 0;
-    self->m_24 = 0;
-    p->position[0] = 1.0f;
-    p->position[1] = 1.0f;
-    p->f30 = 0.2f;
-    p->f34 = 2.0f;
-    p->f38 = 0.0f;
-    p->f3C = 0.0f;
-    self->m_40 = TObjLight::alloc_light_slot();
-    if (self->m_40 == 0) {
-        self->queue_destruction();
+TBoss2LaserLight::TBoss2LaserLight(TObject *parent, Vec *position) : TObject(parent) {
+    m_name = TBoss2LaserLight__name;
+    m_position = position;
+    m_state = OFF;
+    m_request = REQUEST_NONE;
+    m_color[0] = 1.0f;
+    m_color[1] = 1.0f;
+    m_color[2] = 0.2f;
+    m_color[3] = 2.0f;
+    m_range[0] = 0.0f;
+    m_range[1] = 0.0f;
+    m_light = (TObjLight *)TObjLight::alloc_light_slot();
+    if (m_light == NULL) {
+        queue_destruction();
         return;
     }
-    ((TAdSinglePlyChrSelectGC *)((void *)self->m_40))->noop_laser();
-    ((TAdSinglePlyChrSelectGC *)self->m_40)->set_position(&p->position);
-    ((TAdSinglePlyChrSelectGC *)self->m_40)->forward_to_field_0x14(&p->f38);
+    ((TAdSinglePlyChrSelectGC *)m_light)->noop_laser();
+    ((TAdSinglePlyChrSelectGC *)m_light)->set_position(m_color);
+    ((TAdSinglePlyChrSelectGC *)m_light)->forward_to_field_0x14(m_range);
 }
 
 TBoss2LaserLight::~TBoss2LaserLight() {
-    if (*(void **)((s8 *)this + 0x40) != NULL) { ((TObjLight *)(*(void **)((s8 *)this + 0x40)))->unregister_and_free(); this->m_40 = 0; }
+    if (m_light != NULL) {
+        m_light->unregister_and_free();
+        m_light = NULL;
+    }
 }
 
-void TBoss2LaserLight__sub_80037480(void* p) { *(s32*)((char*)p + 0x24) = 1; }
-void TBoss2LaserLight__sub_80037474(void* p) { *(s32*)((char*)p + 0x24) = 2; }
+void TBoss2LaserLight::turn_on() { m_request = REQUEST_ON; }
+void TBoss2LaserLight::turn_off() { m_request = REQUEST_OFF; }
 
 void TBoss2LaserLight::run_task() {
-    Obj_800372F0 *self = (Obj_800372F0 *)this;
-    f32 v;
-    switch (self->state) {
-    case 0:
-    case 3:
-        if (self->req == 1) {
-            self->req = 0;
-            self->state = 1;
-            TAdSinglePlyChrSelectGC__sub_80133508(self->light);
+    f32 range;
+    switch (m_state) {
+    case OFF:
+    case FADE_OUT:
+        if (m_request == REQUEST_ON) {
+            m_request = REQUEST_NONE;
+            m_state = FADE_IN;
+            TAdSinglePlyChrSelectGC__sub_80133508(m_light);
         }
         break;
-    case 1:
-    case 2:
-        if (self->req == 2) {
-            self->req = 0;
-            self->state = 3;
+    case FADE_IN:
+    case ON:
+        if (m_request == REQUEST_OFF) {
+            m_request = REQUEST_NONE;
+            m_state = FADE_OUT;
         }
         break;
     }
-    switch (self->state) {
-    case 0:
+    switch (m_state) {
+    case OFF:
         break;
-    case 1:
-        v = self->f38;
-        v += 3.0f;
-        if (v >= 60.0f) {
-            v = 60.0f;
-            self->state = 2;
+    case FADE_IN:
+        range = m_range[0];
+        range += 3.0f;
+        if (range >= 60.0f) {
+            range = 60.0f;
+            m_state = ON;
         }
-        self->f38 = v;
-        self->f3C = 40.0f + v;
-        ((TAdSinglePlyChrSelectGC *)(self->light))->forward_to_field_0x14(&self->f38);
-        ((TAdSinglePlyChrSelectGC *)(self->light))->set_vec3((void*)self->f1C);
+        m_range[0] = range;
+        m_range[1] = 40.0f + range;
+        ((TAdSinglePlyChrSelectGC *)m_light)->forward_to_field_0x14(m_range);
+        ((TAdSinglePlyChrSelectGC *)m_light)->set_vec3(m_position);
         break;
-    case 2:
-        ((TAdSinglePlyChrSelectGC *)(self->light))->set_vec3((void*)self->f1C);
+    case ON:
+        ((TAdSinglePlyChrSelectGC *)m_light)->set_vec3(m_position);
         break;
-    case 3:
-        v = self->f38;
-        v -= 3.0f;
-        if (v <= 0.0f) {
-            v = 0.0f;
-            self->state = 0;
-            ((TAdSinglePlyChrSelectGC *)(self->light))->noop_laser();
+    case FADE_OUT:
+        range = m_range[0];
+        range -= 3.0f;
+        if (range <= 0.0f) {
+            range = 0.0f;
+            m_state = OFF;
+            ((TAdSinglePlyChrSelectGC *)m_light)->noop_laser();
         }
-        self->f38 = v;
-        self->f3C = 40.0f + v;
-        ((TAdSinglePlyChrSelectGC *)(self->light))->forward_to_field_0x14(&self->f38);
-        ((TAdSinglePlyChrSelectGC *)(self->light))->set_vec3((void*)self->f1C);
+        m_range[0] = range;
+        m_range[1] = 40.0f + range;
+        ((TAdSinglePlyChrSelectGC *)m_light)->forward_to_field_0x14(m_range);
+        ((TAdSinglePlyChrSelectGC *)m_light)->set_vec3(m_position);
         break;
     }
 }
 
-void TBoss2LaserLight::render() {  }
+void TBoss2LaserLight::render() {}
 
-TUnk_80482C58::TUnk_80482C58(TObject *parent, s32 arg2, s32 arg3) : TObject(parent) {
+TUnk_80482C58::TUnk_80482C58(TObject *parent, s32 limit, s32 effect_id) : TObject(parent) {
     s32 i;
-    for (i = 0; i < 20; i++) {
-        ((S_80037264 *)this)->recs[i].x = 0.0f;
-        ((S_80037264 *)this)->recs[i].y = 0.0f;
-        ((S_80037264 *)this)->recs[i].z = 0.0f;
+    for (i = 0; i < NUM_POINTS; i++) {
+        m_points[i].x = 0.0f;
+        m_points[i].y = 0.0f;
+        m_points[i].z = 0.0f;
     }
-    ((S_80037264 *)this)->a10c = 0;
-    ((S_80037264 *)this)->a110 = 0;
-    ((S_80037264 *)this)->a114 = arg2;
-    ((S_80037264 *)this)->a118 = arg3;
-    ((S_80037264 *)this)->a11c = 0;
-    ((S_80037264 *)this)->a120 = 0;
+    m_head = 0;
+    m_cur = 0;
+    m_limit = limit;
+    m_effect_id = effect_id;
+    m_particle = NULL;
+    m_state = 0;
 }
 
 TUnk_80482C58::~TUnk_80482C58() {
-    if (this->m_11c != NULL) { queue_destruction__7TObjectFv(this->m_11c); *(s32 *)((s8 *)this + 0x11C) = 0; }
+    if (m_particle != NULL) {
+        // Called out of line: the inline copy this file emits belongs at its end, after the constructors.
+        queue_destruction__7TObjectFv(m_particle);
+        m_particle = NULL;
+    }
 }
 
-/* Pushes into the TUnk_80482C58 trail ring (the 20 records the ctor above clears); its 5.0f opens this
-   file's .sdata2 pool, so it is this translation unit's first function. */
-extern "C" void push_trail_position__13TBoss2DeRolLeFPvPv(S_80037264 *self, Vec *src) {
-    VecCopy((Vec *)&self->recs[self->a10c], (const Vec *)src);
-    self->recs[self->a10c].y += 5.0f;
-    self->a10c++;
-    if (self->a10c >= 20) {
-        self->a10c = 0;
+// Its 5.0f opens this file's .sdata2 pool, so it is this translation unit's first function.
+void TUnk_80482C58::push_ring_point(const Vec *pos) {
+    VecCopy(&m_points[m_head], pos);
+    m_points[m_head].y += 5.0f;
+    m_head++;
+    if (m_head >= NUM_POINTS) {
+        m_head = 0;
     }
 }

@@ -39,7 +39,6 @@
 extern "C" {
 s32 vec3_add_to(void *, void *);
 f32 vector_length(void *);
-s32 normalize_vector(void *);
 
 const char *TObjDFDemo3__name = "TObjDFDemo3";
 __declspec(section ".rodata") CameraAngles lbl_804373A4 = {0, 0, 0};

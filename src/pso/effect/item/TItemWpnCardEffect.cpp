@@ -22,6 +22,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
+#include "pso/unk/text_803D96A8.h"
 
 struct RecoveredGlobal_8032DC94_lbl_8050BEC0
 {
@@ -41,8 +42,6 @@ const char *item_wpn_card_effect_class_name = "TItemWpnCardEffect";
 
 extern "C" {
 s32 rotate_matrix_y(int, int);
-s32 push_matrix();
-s32 pop_matrix();
 s32 scale_current_matrix(int);
 s32 post_translate_matrix(int);
 void draw_ginja_object(void *child);
@@ -100,7 +99,6 @@ struct Eff_8032E34C {
 };
 
 extern "C" {
-s32 normalize_vector(int, int);
 
 f32 atan2_float(f32, f32);
 #pragma fp_contract on
@@ -150,7 +148,7 @@ void TUnk_804EDD44::sub_8032E294() {
   *((s32 *) (((s8 *) var_r31) + 0x24)) = 0;
   *((s32 *) (((s8 *) var_r31) + 0x54)) = 0;
   *((s32 *) (((s8 *) var_r31) + 0x5C)) = 0;
-  normalize_vector((int) var_r3, (int) var_r4);
+  normalize_vector((Vec *)var_r3);
   if (((u16) (*((u16 *) (((s8 *) var_r31) + 0x34)))) != ((-1U) & 0xFFFFu))
   {
     var_r3 = (u8 *) (*((u8 **) (((s8 *) var_r31) + 0x28)));

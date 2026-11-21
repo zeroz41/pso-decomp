@@ -155,7 +155,7 @@ void TBoss3VoloptCore::init_params() {
     m_388 |= 0x10000;
     orbit_angle = 0;
     bodies->flags |= 0xC00;
-    vfunc_58();
+    run_idle_action();
     add_flags_2e4(4);
     hit_cooldown = 0;
     obj_setFlags30(this, 0x8000);
@@ -197,12 +197,12 @@ void TBoss3VoloptCore::run_task() {
         hit_cooldown--;
     }
     if (has_flag_0x800() != 0) {
-        vfunc_63();
+        run_death_reaction();
     } else if (test_flag30_512() != 0) {
         if (hit_cooldown > 0) {
             obj_clearFlags30(0x200);
         } else {
-            vfunc_62();
+            run_hit_reaction();
         }
     }
     if (obj_testFlags30(0x4000) != 0) {
@@ -222,7 +222,7 @@ void TBoss3VoloptCore::run_task() {
         dispatch_reaction_state();
         position.y = (position.y > 7.0f) ? position.y : 7.0f;
         update_prev_position();
-        TBoss3Volopt::set_camera_focus((Vec *)&m_2fc);
+        TBoss3Volopt::set_camera_focus(&body_center);
         clear_all_status_effects();
     }
 }
@@ -321,7 +321,7 @@ void TBoss3VoloptCore::update_charge_state() {
             state = 4;
             return;
         }
-        VecCopy((Vec *)unk_308, (Vec *)&player->m_2fc);
+        VecCopy((Vec *)unk_308, &player->body_center);
         subtract_vector((Vec *)unk_308, &position);
         vec_set_length((Vec *)unk_308, 5.0f);
         turn_toward_direction(0x800, (Vec *)unk_308);
@@ -344,7 +344,7 @@ void TBoss3VoloptCore::update_charge_state() {
         check_target_collision();
         if (distance < 10.0f) {
             targetId = 0xFFFF;
-            vfunc_59();
+            run_move_action();
         }
         break;
     }
@@ -363,7 +363,7 @@ void TBoss3VoloptCore::update_grabbed_state() {
         this->requested_action = 3;
         play_sound_effect(0x4003A81F, NULL, 0, 0);
         play_sound_effect(0x4003BC20, NULL, 0, 0);
-        if (local_client_id == m_2d4) {
+        if (local_client_id == attacker_id) {
             start_camera_shake(0x1E, 0.08f);
         }
         hit_cooldown = 0x14;
@@ -464,7 +464,7 @@ void TBoss3VoloptCore::update_state_spin() {
         if (--*(s16 *)&timer <= 0) {
             actorFlags &= ~0x40000;
             m_388 &= ~1;
-            vfunc_58();
+            run_idle_action();
         }
         break;
     case -1:
@@ -539,7 +539,7 @@ void TBoss3VoloptCore::set_boss_target_pos(s32 slot, s32 moves, s32 delay_frames
         boss3_volopt_core_active_flag = 0;
         alloc_boss_target_slot();
         m_388 &= ~1;
-        vfunc_59();
+        run_move_action();
     }
 }
 
@@ -610,7 +610,7 @@ void TBoss3VoloptCore::sub_8003F81C() {
     case 3:
         if (--*(s16 *)&timer < 0) {
             boss3_volopt_core_active_flag = 1;
-            vfunc_58();
+            run_idle_action();
         }
         break;
     case -1:
@@ -638,7 +638,7 @@ s32 TBoss3VoloptCore::alloc_boss_target_slot() {
     }
     if (i == 6) {
         boss3_volopt_core_active_flag = 1;
-        vfunc_58();
+        run_idle_action();
         return 0;
     }
     orbit_angle = (s32)(182.04445f * (f32)((target_slot + 2) * 60 - 10));
@@ -689,7 +689,7 @@ void TBoss3VoloptCore::update_topple_state() {
         update_orbit_position();
         facing_angle = calc_spin_value();
         if (sweep_angle <= -0x238E) {
-            vfunc_58();
+            run_idle_action();
         }
         break;
     }

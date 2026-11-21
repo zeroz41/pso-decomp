@@ -118,7 +118,7 @@ s32 TItemEffPG::vfunc_7() {
     if (player->get_photon_blast_charge() < required_charge) {
         return 0;
     }
-    player->vfunc_76(required_charge);
+    player->spend_photon_blast_charge(required_charge);
     return 1;
 }
 

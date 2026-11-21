@@ -77,7 +77,6 @@ struct FlareGlareColor {
 
 extern "C" {
 extern TCameraCtrl *camera_ctrl_instance;
-void normalize_vector(Vec *v);
 }
 
 #pragma push

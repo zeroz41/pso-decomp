@@ -4,12 +4,10 @@
 #include "pso/unk/TLobby.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/render/GinjaTexture.h"
 
 #define ARRAY_COUNT(arr) (sizeof(arr) / sizeof((arr)[0]))
 
-extern "C" {
-void release_texture_list(void *);
-}
 
 #pragma readonly_strings on
 const char *bm_obj_boss7_common_model_names[] = {
@@ -52,8 +50,8 @@ BmlResourceDescriptor boss7_common_resource_descriptor = {
 };
 
 u32 boss7_dermt_slot_table[7];
-void *boss7_common_bml_resource;
-void *boss7_common_texture_list;
+BmlResource *boss7_common_bml_resource;
+GinjaTextureList *boss7_common_texture_list;
 __declspec(section ".sdata2") const f32 boss7_tunnel_max_scroll_speed = 9.259259f;
 
 void free_boss7_common_resources(void) {
@@ -66,17 +64,14 @@ void free_boss7_common_resources(void) {
         release_texture_list(boss7_common_texture_list);
         boss7_common_texture_list = 0;
     }
-    delete (BmlResource *)boss7_common_bml_resource;
+    delete boss7_common_bml_resource;
     boss7_common_bml_resource = 0;
 }
 
 void load_boss7_common_resources(void) {
-    void *p;
-
-    p = new BmlResource(5, &boss7_common_resource_descriptor, 0, 0, NULL);
-
-    boss7_common_bml_resource = p;
-    boss7_common_texture_list = ((BmlResource *)p)->models[0].m_c;
+    BmlResource *resource = new BmlResource(5, &boss7_common_resource_descriptor, 0, 0, NULL);
+    boss7_common_bml_resource = resource;
+    boss7_common_texture_list = resource->models[0].m_c;
 
     TLobby::load_texture_pvm_file("obj_boss7_common.gvm", (saddr)boss7_common_texture_list);
     TParticleCtrl::init_heap(0x50000);

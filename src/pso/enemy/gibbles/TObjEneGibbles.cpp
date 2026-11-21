@@ -282,13 +282,13 @@ s32 lerp_angle_half__Fll(s32, s32);
 void TObjEneGibbles__sub_802D7E3C(void);
 void render_and_get_joint_pos__14TObjEneGibblesFPvii(u8 *arg0, saddr arg1, s32 arg2);
 void TObjEneGibbles__sub_802D8034(void);
-void vfunc_63__14TObjEneGibblesFv(void *arg0);
-void vfunc_61__14TObjEneGibblesFv(void *arg0);
+void run_death_reaction__14TObjEneGibblesFv(void *arg0);
+void run_miss_reaction__14TObjEneGibblesFv(void *arg0);
 s32 test_flag_256__14TObjEneGibblesFv(u8 *arg0);
 struct Gib_802D9110;
 void TObjEneGibbles__sub_802D9110(Gib_802D9110 *);
-void vfunc_60__14TObjEneGibblesFv(u8 *arg0);
-void vfunc_58__14TObjEneGibblesFv(u8 *arg0);
+void run_attack_action__14TObjEneGibblesFv(u8 *arg0);
+void run_idle_action__14TObjEneGibblesFv(u8 *arg0);
 void run_task__14TObjEneGibblesFv(TObjEneGibbles *arg0);
 void* get_center__14TObjEneGibblesFv(void* p);
 s32 vec3_add_to(f32 *, void *);
@@ -363,14 +363,14 @@ void vfunc_6__8TObjBaseFPsl();
 }
 struct GibblesBody { u8 pad[0x18]; u32 flags; u8 pad1C[0x10]; };
 extern "C" {
-void vfunc_62__14TObjEneGibblesFv(TObjEneGibbles *self);
+void run_hit_reaction__14TObjEneGibblesFv(TObjEneGibbles *self);
 }
 extern "C" {
 struct Gib_802DB920;
 Gib_802DB920 *TObjEneGibbles__sub_802DB920(Gib_802DB920 *self, s16 arg1);
 }
 extern "C" {
-void vfunc_29__9TObjCharaFv();
+void has_no_target__9TObjCharaFv();
 }
 extern "C" {
 void recalc_stats__9TObjCharaFv();
@@ -379,7 +379,7 @@ extern "C" {
 void consume_timer_field__9TObjCharaFl();
 }
 extern "C" {
-void vfunc_67__9TObjCharaFf();
+void deliver_attack_hits__9TObjCharaFf();
 }
 extern "C" {
 void vfunc_66__9TObjCharaFv();
@@ -451,7 +451,7 @@ extern "C" {
 void calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf();
 }
 extern "C" {
-void vfunc_79__9TObjEnemyFPl();
+void apply_enemy_state__9TObjEnemyFPl();
 }
 extern "C" {
 void classify_actor_view_detail__8TObjBaseFfff();
@@ -478,13 +478,13 @@ extern "C" {
 void vfunc_78__9TObjCharaFl();
 }
 extern "C" {
-void vfunc_77__9TObjCharaFv();
+void gain_photon_blast_chain_charge__9TObjCharaFv();
 }
 extern "C" {
-void vfunc_76__9TObjCharaFf();
+void spend_photon_blast_charge__9TObjCharaFf();
 }
 extern "C" {
-void vfunc_75__9TObjCharaFf();
+void gain_photon_blast_charge__9TObjCharaFf();
 }
 extern "C" {
 void clear_lobby_object_state__9TObjEnemyFv();
@@ -533,7 +533,7 @@ extern "C" {
 void try_start_action__9TObjCharaFll();
 }
 extern "C" {
-s32 vfunc_37__9TObjCharaFv(u8 *arg0);
+s32 update_slow_status__9TObjCharaFv(u8 *arg0);
 }
 extern "C" {
 void update_actor_ground_y__9TObjCharaFv();
@@ -557,7 +557,7 @@ extern const char *TObjEneGibbles__model_filenames[2];
 extern const char *TObjEneGibbles__motion_names_and_resource_descriptor[11];
 extern const char *lbl_804E286C[2];
 extern const char *gibbles_motion_name_table[11];
-void vfunc_59__14TObjEneGibblesFv(void *arg0);
+void run_move_action__14TObjEneGibblesFv(void *arg0);
 __declspec(section ".data") const char *TObjEneGibbles__model_filenames[2] = {
     "gibb_body.nj", NULL,
 };
@@ -625,19 +625,19 @@ void *lbl_804E29F0[83] = {
     (void *)&get_actor_level_index__9TObjCharaFv, (void *)&update_actor_ground_y__9TObjCharaFv, (void *)&vfunc_18__9TObjCharaFPUc, (void *)&is_actor_cadence_frame__9TObjCharaFl,
     (void *)&select_melee_contact_body__9TObjCharaFPvf, (void *)&calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf, (void *)&receive_physical_attack__9TObjCharaFPvf, (void *)&receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll,
     (void *)&receive_weapon_special_attack__9TObjCharaFPvPv, (void *)&apply_knockback_from_attacker__9TObjCharaFPUcf, (void *)&try_start_action__9TObjCharaFll, (void *)&roll_physical_accuracy__9TObjCharaFPvlf,
-    (void *)&update_target__14TObjEneGibblesFPv, (void *)&vfunc_29__9TObjCharaFv, (void *)&is_target_in_attack_range__14TObjEneGibblesFv, (void *)&test_flag_256__14TObjEneGibblesFv,
+    (void *)&update_target__14TObjEneGibblesFPv, (void *)&has_no_target__9TObjCharaFv, (void *)&is_target_in_attack_range__14TObjEneGibblesFv, (void *)&test_flag_256__14TObjEneGibblesFv,
     (void *)&test_flag30_512__9TObjCharaFv, (void *)&has_flag_0x800__9TObjCharaFv, (void *)&test_flag_1000__9TObjCharaFv, (void *)&update_poison_status__9TObjCharaFv,
-    (void *)&update_action_hold_status__14TObjEneGibblesFv, (void *)&vfunc_37__9TObjCharaFv, (void *)&update_flag30_timer__9TObjCharaFv, (void *)&update_movement_status__14TObjEneGibblesFv,
+    (void *)&update_action_hold_status__14TObjEneGibblesFv, (void *)&update_slow_status__9TObjCharaFv, (void *)&update_flag30_timer__9TObjCharaFv, (void *)&update_movement_status__14TObjEneGibblesFv,
     (void *)&update_shock_clock__9TObjCharaFv, (void *)&update_attack_stat_status__9TObjCharaFv, (void *)&update_defense_stat_status__9TObjCharaFv, (void *)&vfunc_43__9TObjCharaFv,
     (void *)&apply_poison_status__9TObjCharaFv, (void *)&apply_paralysis__9TObjCharaFv, (void *)&apply_slow_status__9TObjCharaFv, (void *)&apply_confusion_status__9TObjCharaFv,
     (void *)&apply_movement_ailment__9TObjCharaFl, (void *)&apply_shock_status__9TObjCharaFv, (void *)&clear_harmful_statuses__9TObjCharaFv, (void *)&apply_attack_stat_status__9TObjCharaFPv,
     (void *)&apply_defense_stat_status__9TObjCharaFPv, (void *)&cure_poison_ailment__9TObjCharaFv, (void *)&cure_paralysis__9TObjCharaFv, (void *)&clear_all_status_effects__9TObjCharaFv,
-    (void *)&apply_action_hold_status__9TObjCharaFf, (void *)&apply_anti_technique__9TObjCharaFl, (void *)&vfunc_58__14TObjEneGibblesFv, (void *)&vfunc_59__14TObjEneGibblesFv,
-    (void *)&vfunc_60__14TObjEneGibblesFv, (void *)&vfunc_61__14TObjEneGibblesFv, (void *)&vfunc_62__14TObjEneGibblesFv, (void *)&vfunc_63__14TObjEneGibblesFv,
-    (void *)&reset_pose__9TObjCharaFv, (void *)&get_anim_node_position__9TObjCharaFlP3Vec, (void *)&vfunc_66__9TObjCharaFv, (void *)&vfunc_67__9TObjCharaFf,
+    (void *)&apply_action_hold_status__9TObjCharaFf, (void *)&apply_anti_technique__9TObjCharaFl, (void *)&run_idle_action__14TObjEneGibblesFv, (void *)&run_move_action__14TObjEneGibblesFv,
+    (void *)&run_attack_action__14TObjEneGibblesFv, (void *)&run_miss_reaction__14TObjEneGibblesFv, (void *)&run_hit_reaction__14TObjEneGibblesFv, (void *)&run_death_reaction__14TObjEneGibblesFv,
+    (void *)&reset_pose__9TObjCharaFv, (void *)&get_anim_node_position__9TObjCharaFlP3Vec, (void *)&vfunc_66__9TObjCharaFv, (void *)&deliver_attack_hits__9TObjCharaFf,
     (void *)&get_pos__9TObjCharaFl, (void *)&apply_switch_attack__9TObjCharaFv, (void *)&enemy_spawn_jellen_effect__9TObjCharaFv, (void *)&trigger_switch_attack__9TObjCharaFv,
-    (void *)&enemy_spawn_zalure_effect__9TObjCharaFv, (void *)&recalc_stats__9TObjCharaFv, (void *)&vfunc_74__9TObjEnemyFl, (void *)&vfunc_75__9TObjCharaFf,
-    (void *)&vfunc_76__9TObjCharaFf, (void *)&vfunc_77__9TObjCharaFv, (void *)&vfunc_78__9TObjCharaFl, (void *)&vfunc_79__9TObjEnemyFPl,
+    (void *)&enemy_spawn_zalure_effect__9TObjCharaFv, (void *)&recalc_stats__9TObjCharaFv, (void *)&vfunc_74__9TObjEnemyFl, (void *)&gain_photon_blast_charge__9TObjCharaFf,
+    (void *)&spend_photon_blast_charge__9TObjCharaFf, (void *)&gain_photon_blast_chain_charge__9TObjCharaFv, (void *)&vfunc_78__9TObjCharaFl, (void *)&apply_enemy_state__9TObjEnemyFPl,
     (void *)&apply_hit_message_flags__9TObjEnemyFPv, (void *)&apply_set_data__9TObjEnemyFPv, (void *)&clear_lobby_object_state__9TObjEnemyFv,
 };
 
@@ -743,19 +743,19 @@ void TObjEneGibbles::play_ground_contact_sound() {
 void TObjEneGibbles__sub_802D7E3C(void) {  }
 
 void TObjEneGibbles::update_shadow_height() {
-    *(f32 *)((s8 *)this->bodies + 4) = (f32) (this->m_300 - this->position.y);
+    *(f32 *)((s8 *)this->bodies + 4) = (f32) (this->body_center.y - this->position.y);
 }
 
 void TObjEneGibbles::update_position() {
     u8 *arg0 = (u8 *)this;
 
     VecCopy((Vec *)(arg0 + 0x2FC), &this->position);
-    this->m_300 += 15.0f;
+    this->body_center.y += 15.0f;
     switch (this->mode) {
     case 2:
     case 6:
     case 0xA:
-        this->m_300 = (f32) (this->m_300 + this->m_38c);
+        this->body_center.y = (f32) (this->body_center.y + this->m_38c);
         break;
     }
 }
@@ -910,7 +910,7 @@ void TObjEneGibbles::sub_802D8140() {
   }
 }
 
-void TObjEneGibbles::vfunc_63() {
+void TObjEneGibbles::run_death_reaction() {
     void *temp_r4;
 
     if ((s16) this->mode != 9) {
@@ -970,7 +970,7 @@ void TObjEneGibbles::update_action_state() {
     (this->actorFlags) = (s32) ((this->actorFlags) & 0xFFDFFFFF);
 }
 
-void TObjEneGibbles::vfunc_62() {
+void TObjEneGibbles::run_hit_reaction() {
     if (this->mode != 8) {
         if (this->m_374 & 0x100) {
             s32 i;
@@ -982,7 +982,7 @@ void TObjEneGibbles::vfunc_62() {
             }
         } else {
             Vec v;
-            u32 pl = get_player_by_client_id((void *)this->m_2d4);
+            u32 pl = get_player_by_client_id((void *)this->attacker_id);
             if (pl != 0) {
                 VecCopy(&v, (const Vec *)(pl + 0x2FC));
                 subtract_vector(&v, (u8 *)this + 0x2FC);
@@ -1052,7 +1052,7 @@ void TObjEneGibbles::sub_802D8580() {
 #pragma pop
 
 
-void TObjEneGibbles::vfunc_61() {
+void TObjEneGibbles::run_miss_reaction() {
     s16 temp_r0;
     void *temp_r5;
 
@@ -1618,14 +1618,14 @@ void TObjEneGibbles::slam_damage_players(s32 arg1) {
     }
 }
 
-void TObjEneGibbles::vfunc_60() {
+void TObjEneGibbles::run_attack_action() {
     u8 *arg0 = (u8 *)this;
     Vec v;
     switch (this->m_37c) {
     case 0:
     default: {
         VecCopy((Vec *)((Vec *) &v), (const Vec *)((Vec *) (this->target + 0x2FC)));
-        subtract_vector(&v, (u8 *)&this->m_2fc);
+        subtract_vector(&v, (u8 *)&this->body_center);
         f64 t = atan2_float(v.x, v.z);
         this->mode = 4;
         if ((s32) (10430.38043493439 * t) < 0x10) {
@@ -1848,7 +1848,7 @@ void TObjEneGibbles::update_spawn_state() {
     }
 }
 
-void TObjEneGibbles::vfunc_59() {
+void TObjEneGibbles::run_move_action() {
   s32 temp_r4;
   void *temp_r3;
   void *temp_r3_2;
@@ -2027,7 +2027,7 @@ void TObjEneGibbles::init_state() {
     *(s32 *)((s8 *)temp_r3 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r3 + 0x18) & 0xFFFFFFFE);
 }
 
-void TObjEneGibbles::vfunc_58() {
+void TObjEneGibbles::run_idle_action() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r3;
 

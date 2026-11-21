@@ -7,6 +7,7 @@
 
 class TObjBoss2Dust : public TObject {
 public:
+    TObjBoss2Dust(TObject *parent, const Vec *position);
     virtual ~TObjBoss2Dust();
     virtual void run_task();
     virtual void render();
@@ -16,8 +17,5 @@ public:
 };
 LAYOUT_ASSERT(TObjBoss2Dust_size, sizeof(TObjBoss2Dust) == 0x30);
 
-extern "C" {
-u8 *__ct__13TObjBoss2DustFv(u8 *object, saddr arg1, saddr arg2);
-}
 
 #endif

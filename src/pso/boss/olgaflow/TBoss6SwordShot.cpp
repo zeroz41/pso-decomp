@@ -15,6 +15,7 @@
 #include <stddef.h>
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/unk/text_803D96A8.h"
 
 
 extern "C" {
@@ -71,7 +72,6 @@ f32 xyz_distance(void *, void *);
 s32 vec3_add_to(void *, void *);
 f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
-s32 normalize_vector(void *);
 }
 
 const char TBoss6SwordWave__class_name_string[] = "TBoss6SwordWave";

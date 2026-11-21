@@ -1,4 +1,5 @@
 #include "pso/render/GinjaMaterial.h"
+#include "pso/unk/text_803D96A8.h"
 #include "pso/system/ModelDrawCallback.h"
 #include "pso/animation/MotionContext.h"
 #include "types.h"
@@ -7,9 +8,6 @@
 #include "pso/camera/TCameraCtrl_803D6538.h"
 
 
-extern "C" {
-
-}
 void end_ginja_model_draw();
 extern "C" {
 s32 GXLoadNrmMtxImm(s32 *, s32);
@@ -20,8 +18,6 @@ s32 PSMTXTranspose(s32 *, s32 *);
 }
 void compose_motion_node_matrix(void *arg0);
 extern "C" {
-s32 push_matrix();
-s32 pop_matrix();
 
 extern s32 current_matrix;
 

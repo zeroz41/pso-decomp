@@ -38,13 +38,13 @@ LAYOUT_ASSERT(TObjEneRe7BeruraPart_size, sizeof(TObjEneRe7BeruraPart) == 0x64);
 struct TObjEneRe7Berura : public TObjEneDD_ST {
     TObjEneRe7Berura(TObject *parent, void *set_data);
     virtual ~TObjEneRe7Berura();
-    virtual void vfunc_88();
-    virtual void vfunc_105();
-    virtual void vfunc_106();
-    void vfunc_63();
-    void vfunc_62();
-    void vfunc_61();
-    void vfunc_28();
+    virtual void update_body_colliders();
+    virtual void run_demo_task();
+    virtual void render_demo();
+    void run_death_reaction();
+    void run_hit_reaction();
+    void run_miss_reaction();
+    void refresh_target();
     void sub_80095328();
     void render();
     void run_task();
@@ -75,17 +75,6 @@ struct TObjEneRe7Berura : public TObjEneDD_ST {
     void update_death_state(s32 mode);
     s32 acquire_target_in_view();
 
-    u8 unk_374[0x4];
-    s32 m_378;
-    f32 m_37c;
-    u8 unk_380[0x10];
-    TObjChara *m_390;
-    f32 m_394;
-    f32 m_398;
-    void *m_39c;
-    Vec m_3a0;
-    f32 m_3ac;
-    u8 unk_3B0[0x10];
     u32 m_3c0;
     u32 m_3c4;
     u32 m_3c8;

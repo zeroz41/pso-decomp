@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/EnemyBmlResource.h"
+#include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "types.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -41,7 +42,6 @@
 #pragma defer_codegen on
 extern "C" {
 s32 rotate_matrix_y(int, int);
-void push_matrix(void);
 void post_translate_matrix(void *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 void TObjEneRe7Berura__sub_80093470(TObjEneRe7Berura *self, s32 mode);
@@ -110,7 +110,6 @@ void draw_node_tree__16TObjEneRe7BeruraFPv(NJS_OBJECT *obj);
 s32 TObjPlayer__sub_800A0554(void *);
 
 
-s32 enemy_set_target_id(TObjEneRe7Berura *, u16);
 
 
 s32 clear_attack_receipts();
@@ -348,7 +347,7 @@ void TObjEneRe7Berura::init_enemy() {
     set_state_8();
     movementParameters = &berura_init_params;
     initialize_enemy_state(0x25);
-    m_37c = 10.0f;
+    wall_reach = 10.0f;
     enemy_init_acquire_period(0x3C);
     enemy_init_validate_period(0x3C);
     m_3c0 = 0;
@@ -385,7 +384,7 @@ void TObjEneRe7Berura::init_enemy() {
     m_4d8 = 0.0f;
     m_4dc = 0.0f;
     m_4e0 = 0.0f;
-    vfunc_95();
+    set_intangible();
     mode = 0;
     dispatch_action(mode, 4);
 }
@@ -408,28 +407,28 @@ TObjEneRe7Berura::~TObjEneRe7Berura() {
 
 void TObjEneRe7Berura::run_task() {
     if (TObjPlayer::check_demo_mode() != 0) {
-        vfunc_105();
+        run_demo_task();
         return;
     }
-    if (vfunc_83() != 4) {
-        vfunc_85();
+    if (update_status_effects() != 4) {
+        update_action_state();
         m_3d0 = m_3d0 + m_3cc;
         m_3d0 = (u8) m_3d0;
     }
     update_collision_center();
     submit_default_cursor_candidate();
-    vfunc_100();
+    render_minimap_dot();
 }
 
-void TObjEneRe7Berura::vfunc_28() {  }
+void TObjEneRe7Berura::refresh_target() {  }
 
-void TObjEneRe7Berura::vfunc_63() {
+void TObjEneRe7Berura::run_death_reaction() {
     if (mode != 11) {
         transition_enemy_state(11);
     }
 }
 
-void TObjEneRe7Berura::vfunc_62() {
+void TObjEneRe7Berura::run_hit_reaction() {
     if ((m_3c0 & 4) || ((s32) (referenceHp - hp) < (s32) ((s16) hpmax / 5))) {
         clear_attack_receipts();
         return;
@@ -439,17 +438,17 @@ void TObjEneRe7Berura::vfunc_62() {
     }
 }
 
-void TObjEneRe7Berura::vfunc_61() {  }
+void TObjEneRe7Berura::run_miss_reaction() {  }
 
 void TObjEneRe7Berura::update_collision_center() {
-    m_2fc = position.x;
-    m_300 = 20.0f + position.y;
-    m_304 = position.z;
-    VecCopy__FP3VecPC3Vec(&center, (Vec *)&m_2fc);
+    body_center.x = position.x;
+    body_center.y = 20.0f + position.y;
+    body_center.z = position.z;
+    VecCopy__FP3VecPC3Vec(&center, &body_center);
 }
 
-void TObjEneRe7Berura::vfunc_88() {
-    bodies->offset.y = m_300 - position.y;
+void TObjEneRe7Berura::update_body_colliders() {
+    bodies->offset.y = body_center.y - position.y;
 }
 
 void TObjEneRe7Berura::sub_80095328() {  }
@@ -476,12 +475,12 @@ s32 TObjEneRe7Berura::acquire_target_in_view() {
         p = TObjPlayer::get_player_data(i);
         if (p->is_alive() != 0) {
             VecCopy__FP3VecPC3Vec(&v, &p->position);
-            subtract_vector(&v, (Vec *)&m_2fc);
+            subtract_vector(&v, &body_center);
             v.y = 0.0f;
             d = normalize_vector_xz((Vec *)(&v));
             if (d < 400.0f && d > best &&
                 s * v.x + c * v.z > limit &&
-                csnLookAt((Vec *)&m_2fc, (Vec *)&p->m_2fc) == 0) {
+                csnLookAt(&body_center, &p->body_center) == 0) {
                 id = get_entity_id(p);
                 best = d;
             }
@@ -667,7 +666,7 @@ void TObjEneRe7Berura::play_band_sound() {
 }
 
 s32 TObjEneRe7Berura::check_death_trigger() {
-    if (vfunc_99() != 0) {
+    if (is_confused() != 0) {
         transition_enemy_state((s16)9);
         return 1;
     }
@@ -732,7 +731,7 @@ void TObjEneRe7Berura::state_attack(s32 arg1) {
     switch (arg1) {
     case 4:
         requested_action = 0;
-        vfunc_95();
+        set_intangible();
         temp_r5 = m_3c0;
         m_3c0 = temp_r5 & ~5;
         m_3c0 = m_3c0 | 2;
@@ -747,8 +746,8 @@ void TObjEneRe7Berura::state_attack(s32 arg1) {
         }
         return;
     case 0:
-        vfunc_102();
-        vfunc_88();
+        update_ground_contact();
+        update_body_colliders();
         return;
     case 5:
         m_3c0 &= ~2;
@@ -764,7 +763,7 @@ void TObjEneRe7Berura__sub_8009472C(TObjEneRe7Berura *self, s32 arg1) {
     switch (arg1) {
     case 4:
         self->requested_action = 0;
-        self->vfunc_95();
+        self->set_intangible();
         self->m_3c0 &= ~7;
         self->set_field_378(4);
         self->m_3c4 = 0xFFFFFFU;
@@ -821,13 +820,13 @@ void TObjEneRe7Berura__sub_8009472C(TObjEneRe7Berura *self, s32 arg1) {
             TObjPlayer::play_effect_if_v2(-0x100);
             break;
         }
-        self->vfunc_102();
-        self->vfunc_89();
+        self->update_ground_contact();
+        self->check_collisions();
         break;
     case 5:
         self->m_3c4 = -1;
         self->m_3cc = 0xC;
-        self->vfunc_96();
+        self->clear_intangible();
         break;
     }
 }
@@ -836,13 +835,13 @@ void TObjEneRe7Berura__sub_80094624(TObjEneRe7Berura *self, s32 arg1) {
     switch (arg1) {
     case 4:
         self->requested_action = 0;
-        self->vfunc_95();
+        self->set_intangible();
         self->m_3c0 &= ~6;
         self->m_3c0 |= 1;
         self->set_field_378(2);
         VecCopy(&self->position, &self->home_position);
         VecCopy(&self->prev_position, &self->position);
-        VecCopy((Vec *)&self->m_2fc, &self->position);
+        VecCopy(&self->body_center, &self->position);
         self->m_3c4 = -1;
         self->m_3c8 = 0xFF000000;
         self->m_3d4 = 1;
@@ -864,7 +863,7 @@ void TObjEneRe7Berura::handle_state(s32 arg1) {
     switch (arg1) {
     case 4:
         requested_action = 0;
-        vfunc_95();
+        set_intangible();
         m_3c0 &= ~7;
         set_field_378(8);
         m_4c0 = 0;
@@ -905,8 +904,8 @@ void TObjEneRe7Berura::handle_state(s32 arg1) {
             }
             break;
         }
-        vfunc_102();
-        vfunc_89();
+        update_ground_contact();
+        check_collisions();
         break;
     }
 }
@@ -915,7 +914,7 @@ void TObjEneRe7Berura__sub_800940E8(TObjEneRe7Berura *self, s32 arg1) {
     switch (arg1) {
     case 4:
         self->requested_action = 1;
-        self->vfunc_96();
+        self->clear_intangible();
         self->m_3c0 &= ~7;
         self->set_field_378(4);
         self->m_4c0 = 0;
@@ -928,9 +927,9 @@ void TObjEneRe7Berura__sub_800940E8(TObjEneRe7Berura *self, s32 arg1) {
         return;
     case 3:
         if (self->check_death_trigger() == 0) {
-            if (self->m_390 == NULL) {
+            if (self->current_target == NULL) {
                 self->transition_enemy_state(8);
-            } else if (self->m_3ac <= 30.0f) {
+            } else if (self->destination_distance <= 30.0f) {
                 self->transition_enemy_state(6);
             } else if (self->m_4c4 == 3) {
                 self->transition_enemy_state(5);
@@ -951,7 +950,7 @@ void TObjEneRe7Berura__sub_800940E8(TObjEneRe7Berura *self, s32 arg1) {
         switch (self->m_4c4) {
         case 0:
             if (self->enemy_has_live_target() != 0) {
-                self->m_4c8 = (s32) (u16) (s32) (RADIANS_TO_ANGLE * atan2_float(self->m_3a0.x, self->m_3a0.z));
+                self->m_4c8 = (s32) (u16) (s32) (RADIANS_TO_ANGLE * atan2_float(self->destination_direction.x, self->destination_direction.z));
             } else {
                 self->m_4c8 = self->rotation_y;
             }
@@ -963,7 +962,7 @@ void TObjEneRe7Berura__sub_800940E8(TObjEneRe7Berura *self, s32 arg1) {
                 self->m_4e0 = cos_table_lookup(self->rotation_y);
                 self->init_fields4B8();
             }
-            self->vfunc_102();
+            self->update_ground_contact();
             break;
         case 2:
             if (TObjEneDD::check_v2_mode() != 0) {
@@ -973,7 +972,7 @@ void TObjEneRe7Berura__sub_800940E8(TObjEneRe7Berura *self, s32 arg1) {
                     self->m_4c4 = 3;
                 } else {
                     if (self->enemy_has_live_target() != 0) {
-                        self->m_4c8 = (s32) (u16) (s32) (RADIANS_TO_ANGLE * atan2_float(self->m_3a0.x, self->m_3a0.z));
+                        self->m_4c8 = (s32) (u16) (s32) (RADIANS_TO_ANGLE * atan2_float(self->destination_direction.x, self->destination_direction.z));
                     } else {
                         self->m_4c8 = self->rotation_y;
                     }
@@ -984,7 +983,7 @@ void TObjEneRe7Berura__sub_800940E8(TObjEneRe7Berura *self, s32 arg1) {
                 if (self->m_4d0 >= 20.0f) {
                     self->m_4d0 = 0.0f;
                     self->m_4c0 = self->m_4c0 + 1;
-                    if ((self->m_4c0 >= 2) && (self->m_3ac > 80.0f) && (TObjEneRe7Berura__sub_8009518C(self) != 0) && (self->acquire_target_in_view() != 0)) {
+                    if ((self->m_4c0 >= 2) && (self->destination_distance > 80.0f) && (TObjEneRe7Berura__sub_8009518C(self) != 0) && (self->acquire_target_in_view() != 0)) {
                         self->m_4c0 = 0;
                         self->enemy_copy_target_destination();
                         self->update_velocity();
@@ -997,7 +996,7 @@ void TObjEneRe7Berura__sub_800940E8(TObjEneRe7Berura *self, s32 arg1) {
             }
             break;
         }
-        self->vfunc_89();
+        self->check_collisions();
         break;
     }
 }
@@ -1008,7 +1007,7 @@ void TObjEneRe7Berura__sub_80093C80(TObjEneRe7Berura *self, s32 arg1) {
     s32 ok;
     switch (arg1) {
     case 4:
-        self->vfunc_96();
+        self->clear_intangible();
         self->m_3c0 &= ~3;
         self->m_3c0 |= 4;
         self->set_field_378(5);
@@ -1042,7 +1041,7 @@ void TObjEneRe7Berura__sub_80093C80(TObjEneRe7Berura *self, s32 arg1) {
             ok = 1;
             for (s32 i = 0; i < 2; i++) {
                 if (self->m_438[i] == 0) {
-                    self->m_438[i] = create_particle_emitter(&self->m_2fc, 0xDC);
+                    self->m_438[i] = create_particle_emitter(&self->body_center, 0xDC);
                     if (self->m_438[i] != 0) {
                         self->m_438[i]->enable();
                     } else {
@@ -1071,7 +1070,7 @@ void TObjEneRe7Berura__sub_80093C80(TObjEneRe7Berura *self, s32 arg1) {
                 VecCopy(&v, &TObjEneRe7Berura__detached_part_states[self->m_3f4].m_58);
                 rotate_xz_pair_by_angle(&v.x, &v.z, self->rotation_y);
                 vec3_add_to(&v, &self->position);
-                launch__21TObjEneRe7BeruraPunchFll(self->m_3f8, self->m_3f4, &v, &self->m_394);
+                launch__21TObjEneRe7BeruraPunchFll(self->m_3f8, self->m_3f4, &v, &self->destination.x);
                 self->m_4c0 = 1;
                 self->destroy_parts();
                 play_sound_effect(self->remap_sound_for_area(0x4003A321), &self->position, 0, 0);
@@ -1097,8 +1096,8 @@ void TObjEneRe7Berura__sub_80093C80(TObjEneRe7Berura *self, s32 arg1) {
             }
             break;
         }
-        self->vfunc_102();
-        self->vfunc_89();
+        self->update_ground_contact();
+        self->check_collisions();
         break;
     case 5:
         self->m_3fc.reset_color();
@@ -1119,7 +1118,7 @@ void TObjEneRe7Berura__sub_80093888(TObjEneRe7Berura *actor, s32 arg1) {
     switch (arg1) {
     case 4:
         actor->requested_action = 1;
-        actor->vfunc_96();
+        actor->clear_intangible();
         actor->m_3c0 &= ~7;
         actor->set_field_378(6);
         actor->m_4c0 = 0;
@@ -1133,9 +1132,9 @@ void TObjEneRe7Berura__sub_80093888(TObjEneRe7Berura *actor, s32 arg1) {
             return;
         }
         if (actor->check_death_trigger() == 0) {
-            if (actor->m_390 == NULL) {
+            if (actor->current_target == NULL) {
                 actor->transition_enemy_state(8);
-            } else if (actor->m_3ac >= 30.0f) {
+            } else if (actor->destination_distance >= 30.0f) {
                 actor->transition_enemy_state(4);
             } else if (((TObjEneRe7Berura *)actor)->is_over_limit() != 0) {
                 actor->transition_enemy_state(7);
@@ -1149,7 +1148,7 @@ void TObjEneRe7Berura__sub_80093888(TObjEneRe7Berura *actor, s32 arg1) {
             if (enemy_validate_retained_target((u8 *)actor) != 0) {
                 actor->enemy_copy_target_destination();
                 actor->update_velocity();
-                if (actor->step_toward_target((s32) (RADIANS_TO_ANGLE * atan2_float(actor->m_3a0.x, actor->m_3a0.z)), 0x100) != 0) {
+                if (actor->step_toward_target((s32) (RADIANS_TO_ANGLE * atan2_float(actor->destination_direction.x, actor->destination_direction.z)), 0x100) != 0) {
                     actor->m_4c0 = 1;
                     actor->requested_action = 2;
                     actor->init_fields4B8();
@@ -1165,17 +1164,17 @@ void TObjEneRe7Berura__sub_80093888(TObjEneRe7Berura *actor, s32 arg1) {
                 play_sound_effect(actor->remap_sound_for_area(0x4003AD22), &actor->position, 0, 0);
             }
             if ((actor->is_passing_frame(16.0f) != 0) && (actor->enemy_check_target_valid() != 0)) {
-                if (actor->m_390->select_melee_contact_body(actor, 1.0f) != 0) {
-                    if (actor->m_390->receive_physical_attack(actor, 1.0f) > 0.0f) {
+                if (actor->current_target->select_melee_contact_body(actor, 1.0f) != 0) {
+                    if (actor->current_target->receive_physical_attack(actor, 1.0f) > 0.0f) {
                         if (TObjEneDD::check_v2_mode() != 0) {
                             if (actor->random_ratio() <= 0.1f) {
-                                TObjEneDD__sub_800BA378((saddr)actor, (u8 *)actor->m_390);
+                                TObjEneDD__sub_800BA378((saddr)actor, (u8 *)actor->current_target);
                             }
                         } else if (actor->random_ratio() <= 0.3333f) {
-                            TObjEneDD__sub_800BA378((saddr)actor, (u8 *)actor->m_390);
+                            TObjEneDD__sub_800BA378((saddr)actor, (u8 *)actor->current_target);
                         }
                     }
-                    actor->m_390->apply_knockback_from_attacker((u8 *)actor, 5.0f);
+                    actor->current_target->apply_knockback_from_attacker((u8 *)actor, 5.0f);
                 }
             }
             entry = (saddr)belra_trail_buffer->lookup(actor->frame);
@@ -1203,8 +1202,8 @@ void TObjEneRe7Berura__sub_80093888(TObjEneRe7Berura *actor, s32 arg1) {
             }
             break;
         }
-        actor->vfunc_102();
-        actor->vfunc_89();
+        actor->update_ground_contact();
+        actor->check_collisions();
         break;
     }
 }
@@ -1216,7 +1215,7 @@ void TObjEneRe7Berura::run_flash_warning_state(s32 arg1) {
     switch (arg1) {
     case 4:
         requested_action = 5;
-        vfunc_96();
+        clear_intangible();
         m_3c0 &= ~3;
         m_3c0 |= 4;
         set_field_378(4);
@@ -1248,8 +1247,8 @@ void TObjEneRe7Berura::run_flash_warning_state(s32 arg1) {
         } else {
             m_3c8 = -1;
         }
-        vfunc_102();
-        vfunc_89();
+        update_ground_contact();
+        check_collisions();
         set_sound_pitch_request(
             play_persistent_sound(remap_sound_for_area(0x4003C61E), (saddr)this, (uaddr)&position, 0, 0),
             0x400, 0);
@@ -1265,13 +1264,13 @@ void TObjEneRe7Berura::run_flash_warning_state(s32 arg1) {
 }
 
 #pragma pop
-void TObjEneRe7Berura::state_patrol(void *arg0, int arg1) {
+void TObjEneRe7Berura::state_patrol(void *arg0, int msg) {
     TObjEneRe7Berura *self = (TObjEneRe7Berura *)arg0;
 
-    switch (arg1) {
+    switch (msg) {
     case 4:
         self->requested_action = 1;
-        self->vfunc_96();
+        self->clear_intangible();
         self->m_3c0 = self->m_3c0 & ~3;
         self->m_3c0 = self->m_3c0 | 4;
         self->set_field_378(9);
@@ -1289,8 +1288,8 @@ void TObjEneRe7Berura::state_patrol(void *arg0, int arg1) {
             self->play_speed = 1.6f;
         }
         self->rotation_y = self->rotation_y + 0x280;
-        self->vfunc_102();
-        self->vfunc_89();
+        self->update_ground_contact();
+        self->check_collisions();
         break;
     case 5:
         self->m_3c0 = self->m_3c0 & ~4;
@@ -1305,7 +1304,7 @@ void TObjEneRe7Berura__sub_80093470(TObjEneRe7Berura *self, s32 mode) {
     switch (mode) {
     case 4:
         self->requested_action = 6;
-        self->vfunc_96();
+        self->clear_intangible();
         self->m_3c0 &= ~7;
         self->advance_animation();
         play_sound_effect(self->remap_sound_for_area(0x4003A826), &self->position, 0, 0);
@@ -1313,7 +1312,7 @@ void TObjEneRe7Berura__sub_80093470(TObjEneRe7Berura *self, s32 mode) {
         break;
     case 3:
         if (self->get_flag_b4() != 0) {
-            ((TObjEneDD *)self)->transition_enemy_state(self->m_378);
+            ((TObjEneDD *)self)->transition_enemy_state(self->next_mode);
         }
         break;
     case 0:
@@ -1335,7 +1334,7 @@ void TObjEneRe7Berura::update_death_state(s32 mode) {
     switch (mode) {
     case 4:
         requested_action = 7;
-        vfunc_96();
+        clear_intangible();
         m_3c0 &= ~7;
         advance_animation();
         refresh_and_send_entity_flags();
@@ -1343,7 +1342,7 @@ void TObjEneRe7Berura::update_death_state(s32 mode) {
         m_4d0 = m_3cc;
         m_4c4 = 0;
         m_4c0 = 0;
-        fn_800D911C((Vec *)&m_2fc);
+        fn_800D911C(&body_center);
         TObjPlayer__sub_800A04F0(&m_3d8);
         m_3c0 |= 2;
         play_sound_effect(remap_sound_for_area(0x4003AD25), &position, 0, 0);
@@ -1430,7 +1429,7 @@ void TObjEneRe7Berura::render() {
     s32 l3;
     s32 l4;
     if (TObjPlayer::check_demo_mode() != 0) {
-        vfunc_106();
+        render_demo();
         return;
     }
     cam = 0;
@@ -1467,7 +1466,7 @@ void TObjEneRe7Berura::render() {
         scroll_strip_uvs(belra_uv_animation_buffer, (s16)m_3d0, 0);
         fade = &m_448[cam];
         fade->update();
-        cam = fade->updateFromCamera(&m_2fc);
+        cam = fade->updateFromCamera(&body_center.x);
         TObjFish::set_global_param(texlist);
         push_matrix();
         post_translate_matrix(&position);
@@ -1555,9 +1554,9 @@ void TObjEneRe7Berura::render() {
     }
 }
 
-void TObjEneRe7Berura::vfunc_105() { if (get_target_info() != 0) { sub_80095328(); } }
+void TObjEneRe7Berura::run_demo_task() { if (get_target_info() != 0) { sub_80095328(); } }
 
-void TObjEneRe7Berura::vfunc_106() {
+void TObjEneRe7Berura::render_demo() {
     s32 idx;
     AnimationMotion *mot;
     f32 frame;

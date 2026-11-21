@@ -182,7 +182,6 @@ void __ct__7TObjectFP7TObject(void *, void *);
 extern void *__vt__8TObjChip[];
 u8 *__ct__8TObjChipFP7TObjectP19TObjChipSpawnParams(u8 *arg0, u8 *arg1, u8 *arg2);
 u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
-s32 push_matrix();
 s32 post_translate_matrix(void *);
 void matrix_mult_vec(int, Vec *, Vec *);
 void project_world_to_screen(int, Vec *, NJS_POINT2 *, Vec *);

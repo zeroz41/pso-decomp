@@ -60,7 +60,6 @@ s32 play_sound_effect(s32, void *, int, int);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
 s32 vec3_add_to(void *, void *);
-s32 push_matrix();
 s32 post_translate_matrix(void *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 
@@ -296,8 +295,8 @@ TObjEneBm3FlyNest::TObjEneBm3FlyNest(TObject *parent, Bm3FlyNestSetData *set_dat
     model = (void *)lbl_805D5108->models[1].model;
     texlist = (saddr)lbl_805D5108->models[0].m_c;
     init_model(bm3_flynest_collider_params, 1);
-    m_300 = 20.0f + position.y;
-    vfunc_88();
+    body_center.y = 20.0f + position.y;
+    update_body_colliders();
     set_field_d8((saddr)bm3_flynest_hit_action_table);
     set_field_dc((saddr)lbl_805D5108->motions);
     requested_action = 0;
@@ -307,7 +306,7 @@ TObjEneBm3FlyNest::TObjEneBm3FlyNest(TObject *parent, Bm3FlyNestSetData *set_dat
     set_state_flag_1();
     movementParameters = &bm3_fly_nest_params;
     initialize_enemy_state(4);
-    unk_37c = 10.0f;
+    wall_reach = 10.0f;
     init_params();
     if (total_num > set_data->unknown_02) {
         total_num = set_data->unknown_02;
@@ -359,15 +358,15 @@ void TObjEneBm3FlyNest::run_task() {
         init();
         return;
     }
-    if (this->vfunc_83() != 4) {
-        this->vfunc_85();
+    if (this->update_status_effects() != 4) {
+        this->update_action_state();
     } else if (this->mode == 0) {
         transition_enemy_state(1);
     }
-    this->vfunc_88();
+    this->update_body_colliders();
     this->copy_pos();
     this->submit_default_cursor_candidate();
-    this->vfunc_100();
+    this->render_minimap_dot();
 }
 #pragma pop
 
@@ -407,9 +406,9 @@ void TObjEneBm3FlyNest::dispatch_action(u32 state, s32 reason) {
     }
 }
 
-void TObjEneBm3FlyNest::vfunc_28() {  }
+void TObjEneBm3FlyNest::refresh_target() {  }
 
-void TObjEneBm3FlyNest::vfunc_63() {
+void TObjEneBm3FlyNest::run_death_reaction() {
     s16 m;
 
     m = mode;
@@ -422,7 +421,7 @@ void TObjEneBm3FlyNest::vfunc_63() {
     }
 }
 
-void TObjEneBm3FlyNest::vfunc_62() {
+void TObjEneBm3FlyNest::run_hit_reaction() {
     s16 m;
 
     if ((mode == 3) && (TObjEneDD::check_v2_mode() != 0)) {
@@ -439,11 +438,11 @@ void TObjEneBm3FlyNest::vfunc_62() {
     }
 }
 
-void TObjEneBm3FlyNest::vfunc_61() {  }
+void TObjEneBm3FlyNest::run_miss_reaction() {  }
 
-void TObjEneBm3FlyNest::copy_pos() { VecCopy(&center, (Vec *)&m_2fc); }
+void TObjEneBm3FlyNest::copy_pos() { VecCopy(&center, &body_center); }
 
-void TObjEneBm3FlyNest::vfunc_88() { set_part_local_pos(&m_2fc, 0); }
+void TObjEneBm3FlyNest::update_body_colliders() { set_part_local_pos(&body_center, 0); }
 
 void TObjEneBm3FlyNest::update_replenish() {
     s32 room_left;
@@ -532,7 +531,7 @@ void TObjEneBm3FlyNest::handle_appear(s32 reason) {
     switch (reason) {
     case 4:
         requested_action = 8;
-        vfunc_95();
+        set_intangible();
         set_field_378(2);
         unk_4b0 = 100.0f;
         unk_4c8 = 0;
@@ -579,7 +578,7 @@ void TObjEneBm3FlyNest::handle_appear(s32 reason) {
             }
             break;
         }
-        vfunc_102();
+        update_ground_contact();
         break;
     case 5:
         *cnt = 6;
@@ -592,7 +591,7 @@ void TObjEneBm3FlyNest::state_initial_emit(s32 reason) {
     switch (reason) {
     case 4:
         requested_action = 0;
-        vfunc_95();
+        set_intangible();
         set_field_378(2);
         unk_4b0 = -5.0f;
         unk_4c8 = 0;
@@ -661,7 +660,7 @@ void TObjEneBm3FlyNest::state_wait(s32 reason) {
     switch (reason) {
     case 4:
         requested_action = 0;
-        vfunc_96();
+        clear_intangible();
         set_field_378(2);
         unk_4b0 = -5.0f;
         unk_4c0 = 1;
@@ -677,7 +676,7 @@ void TObjEneBm3FlyNest::state_wait(s32 reason) {
     case 0:
         advance_animation();
         update_replenish();
-        vfunc_102();
+        update_ground_contact();
         break;
     }
 }
@@ -686,7 +685,7 @@ void TObjEneBm3FlyNest::handle_event(s32 reason) {
     switch (reason) {
     case 4:
         requested_action = 1;
-        vfunc_96();
+        clear_intangible();
         set_field_378(2);
         unk_4b0 = -5.0f;
         return;
@@ -703,7 +702,7 @@ void TObjEneBm3FlyNest::handle_event(s32 reason) {
             spawn_child();
             unk_4b8 = unk_4b8 - 1;
         }
-        vfunc_102();
+        update_ground_contact();
         break;
     }
 }
@@ -716,9 +715,9 @@ void TObjEneBm3FlyNest::sub_800B318C(s32 reason) {
     s32 angle;
     switch (reason) {
     case 4:
-        vfunc_91();
+        set_invulnerable();
         requested_action = 3;
-        vfunc_96();
+        clear_intangible();
         set_field_378(5);
         unk_4b0 = -5.0f;
         break;
@@ -746,10 +745,10 @@ void TObjEneBm3FlyNest::sub_800B318C(s32 reason) {
         if (unk_4b0 > 0.0f) {
             unk_4b0 = 0.0f;
         }
-        vfunc_102();
+        update_ground_contact();
         break;
     case 5:
-        vfunc_92();
+        clear_invulnerable();
         break;
     }
 }
@@ -759,7 +758,7 @@ void TObjEneBm3FlyNest::update_state(s32 reason) {
     switch (reason) {
     case 4:
         requested_action = 4;
-        vfunc_96();
+        clear_intangible();
         set_field_378(5);
         unk_4b0 = 0.0f;
         if (unk_3a8 == 0) {
@@ -779,7 +778,7 @@ void TObjEneBm3FlyNest::update_state(s32 reason) {
     case 0:
         advance_animation();
         update_replenish();
-        vfunc_102();
+        update_ground_contact();
         break;
     }
 }
@@ -788,7 +787,7 @@ void TObjEneBm3FlyNest::state_spawn(s32 reason) {
     switch (reason) {
     case 4:
         requested_action = 5;
-        vfunc_96();
+        clear_intangible();
         set_field_378(5);
         unk_4b0 = 0.0f;
         return;
@@ -806,7 +805,7 @@ void TObjEneBm3FlyNest::state_spawn(s32 reason) {
             unk_4b8 = unk_4b8 - 1;
         }
         advance_animation();
-        vfunc_102();
+        update_ground_contact();
         break;
     }
 }
@@ -814,7 +813,7 @@ void TObjEneBm3FlyNest::state_spawn(s32 reason) {
 void TObjEneBm3FlyNest::handle_motion_event(s32 reason) {
     switch (reason) {
     case 4:
-        vfunc_96();
+        clear_intangible();
         ((TBoss8Dragon *)this)->noop();
         TBoss8Dragon__sub_800BB7D4(this, 0xF1);
         play_sound_effect(remap_sound_for_area(0x4003A829), &position, 0, 0);
@@ -836,13 +835,13 @@ void TObjEneBm3FlyNest::handle_motion_event(s32 reason) {
                 transition_enemy_state(4);
                 return;
             }
-            transition_enemy_state(unk_378);
+            transition_enemy_state(next_mode);
             return;
         }
         break;
     case 0:
         advance_animation();
-        vfunc_102();
+        update_ground_contact();
         return;
     case 5:
         clear_attack_receipts();
@@ -860,7 +859,7 @@ void TObjEneBm3FlyNest::state_dying(s32 reason) {
     switch (reason) {
     case 4:
         requested_action = 7;
-        vfunc_96();
+        clear_intangible();
         unk_4b0 = 0.0f;
         ((TObjPlayer *)this)->refresh_lobby_state();
         unk_4c8 = 4;
@@ -894,7 +893,7 @@ void TObjEneBm3FlyNest::state_dying(s32 reason) {
                 if (unk_4c8 >= 4) {
                     r = rand_range(5.0f, 10.0f);
                     a = get_random_scaled();
-                    VecCopy(&p, (Vec *)&m_2fc);
+                    VecCopy(&p, &body_center);
                     p.x = r * sin_table_lookup(a) + p.x;
                     p.y += 5.0f;
                     p.z = r * cos_table_lookup(a) + p.z;
@@ -907,7 +906,7 @@ void TObjEneBm3FlyNest::state_dying(s32 reason) {
                     unk_4cc = 0;
                 }
             }
-            vfunc_102();
+            update_ground_contact();
             break;
         case 1:
             unk_4d8 += 0.1f;
@@ -922,7 +921,7 @@ void TObjEneBm3FlyNest::state_dying(s32 reason) {
 void TObjEneBm3FlyNest::handle_state(s32 reason) {
     switch (reason) {
     case 4:
-        vfunc_95();
+        set_intangible();
         return;
     case 3:
         if (child_count == 0) {
@@ -1019,7 +1018,7 @@ void TObjEneBm3FlyNest::render() {
             saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
             cm = &fades[cam];
             cm->update();
-            if (cm->updateFromCamera(&m_2fc) != 0) {
+            if (cm->updateFromCamera(&body_center.x) != 0) {
                 cm->set_flags_and_apply_damage_color();
                 if (defer_render() != 0) {
                     visible = 0;
@@ -1063,7 +1062,7 @@ void TObjEneBm3FlyNest::render() {
                 pop_matrix();
             }
             update_primary_light();
-            if (cm->updateFromCamera(&m_2fc) != 0) {
+            if (cm->updateFromCamera(&body_center.x) != 0) {
                 cm->clear_flag_and_notify();
             }
             model_render_flags = saved_model_render_flags;
@@ -1071,7 +1070,7 @@ void TObjEneBm3FlyNest::render() {
             chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
         }
     }
-    VecCopy((Vec *)&m_2fc, &unk_3c8[0]);
+    VecCopy(&body_center, &unk_3c8[0]);
 }
 
 #pragma pool_data off
@@ -1114,7 +1113,7 @@ void TObjEneBm3FlyNest::render_with_state_debug() {
         Vec v = {5.0f, 1.0f, 5.0f};
         ((TObjEneDD *)(arg0))->draw_ground_shadow(&v, 1);
         TObjFish::set_global_param(this->texlist);
-        ((void (*)(void))push_matrix)();
+        push_matrix();
         ((void (*)(void *))post_translate_matrix)(arg0 + 0x38);
         translate_matrix(0, 0.0f, -5.0f, 0.0f);
         rotate_matrix_y(0, this->rotation_y);
@@ -1124,13 +1123,13 @@ void TObjEneBm3FlyNest::render_with_state_debug() {
         draw_model_motion(this->model, var_r30, var_f31);
         clear_motion_packed_rotation();
         TParticleCtrl::end_effect_render();
-        ((void (*)(void))pop_matrix)();
+        pop_matrix();
     }
-    ((void (*)(void))push_matrix)();
+    push_matrix();
     ((void (*)(void *))post_translate_matrix)(arg0 + 0x38);
     rotate_matrix_y(0, this->rotation_y);
     translate_matrix(0, *(f32 *)((s8 *)arg0 + 0x35C), *(f32 *)((s8 *)arg0 + 0x360), *(f32 *)((s8 *)arg0 + 0x364));
     draw_chunk_object((void *)debug_chunk_object);
-    ((void (*)(void))pop_matrix)();
+    pop_matrix();
 }
 #pragma pool_data reset

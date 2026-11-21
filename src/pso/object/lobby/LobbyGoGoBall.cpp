@@ -56,7 +56,6 @@ BmlResource *gogo_ball_bml_resource;
 extern "C" {
 s32 draw_chunk_object(s32);
 s32 rotate_matrix_z(int, int);
-s32 push_matrix();
 s32 post_translate_matrix(void *);
 extern GinjaTextureList *lobby_gvm_texture_handles[];
 s32 scale_matrix(int, f32, f32, f32);
@@ -79,7 +78,6 @@ void bswap_6x79_gogo_ball__12TWindowTimerFi(saddr);
 void TObjPlayer__sub_801994DC(saddr,void*,void*,s32,void*,f32);
 f32 xyz_distance(Vec*,void*);
 f32 vector_length(Vec*);
-void normalize_vector(Vec*);
 }
 void draw_shadow_on_ground(u8*);
 extern void* lbl_804B8D94[];
@@ -248,7 +246,6 @@ extern "C" {
 Hit_8019978C *csnVector(Vec *, Vec *, s32);
 f32 vec3_dot(Vec *, Vec *);
 f32 vector_length(Vec *);
-void normalize_vector(Vec *);
 struct Glob_80199A44 { u8 pad[0x1C]; f32 scale; u8 pad20[0x28]; u16 kind; };
 s32 matrix_mult_vec(int, void *, void *);
 void rotate_matrix_about_axis(u8 *arg0, saddr arg1, s32 arg2);
@@ -529,7 +526,6 @@ void TUnk_804B8E18::update_best_time() {
 #undef xyz_distance
 
 #define F(t, o) (*(t *)((u8 *)this + (o)))
-#define normalize_vector ((s32 (*)(void*))normalize_vector)
 #define vector_length ((f32 (*)(void*))vector_length)
 void TUnk_804B8E18::render() {
     Vec dir;
@@ -634,7 +630,6 @@ void TUnk_804B8E18::render() {
 }
 
 #undef F
-#undef normalize_vector
 #undef vector_length
 
 

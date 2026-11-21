@@ -230,9 +230,7 @@ void draw_ginja_object(void *child);
 
 void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 
-s32 push_matrix();
 
-s32 pop_matrix();
 
 void *TContainerAncient01R__create(void *arg0);
 
@@ -241,33 +239,33 @@ void TContainerAncient01R__sub_8018AF74(void);
 s32 free_collision_body_parts(void *);
 
 
-extern "C" void vfunc_29__9TObjCharaFv();
+extern "C" void has_no_target__9TObjCharaFv();
 
 extern "C" void vfunc_74__9TObjCharaFl();
 
 extern "C" void recalc_stats__9TObjCharaFv();
 
-extern "C" void vfunc_28__9TObjCharaFv();
+extern "C" void refresh_target__9TObjCharaFv();
 
 extern "C" void consume_timer_field__9TObjCharaFl();
 
-extern "C" void vfunc_67__9TObjCharaFf();
+extern "C" void deliver_attack_hits__9TObjCharaFf();
 
 extern "C" void vfunc_66__9TObjCharaFv();
 
 extern "C" void get_anim_node_position__9TObjCharaFlP3Vec();
 
-extern "C" void vfunc_63__9TObjCharaFv();
+extern "C" void run_death_reaction__9TObjCharaFv();
 
-extern "C" void vfunc_62__9TObjCharaFv();
+extern "C" void run_hit_reaction__9TObjCharaFv();
 
-extern "C" void vfunc_61__9TObjCharaFv();
+extern "C" void run_miss_reaction__9TObjCharaFv();
 
-extern "C" void vfunc_60__9TObjCharaFv();
+extern "C" void run_attack_action__9TObjCharaFv();
 
-extern "C" void vfunc_59__9TObjCharaFv();
+extern "C" void run_move_action__9TObjCharaFv();
 
-extern "C" void vfunc_58__9TObjCharaFv();
+extern "C" void run_idle_action__9TObjCharaFv();
 
 extern "C" void apply_slow_status__9TObjCharaFv();
 
@@ -321,11 +319,11 @@ extern "C" void enemy_spawn_zalure_effect__9TObjCharaFv();
 
 extern "C" void vfunc_78__9TObjCharaFl();
 
-extern "C" void vfunc_77__9TObjCharaFv();
+extern "C" void gain_photon_blast_chain_charge__9TObjCharaFv();
 
-extern "C" void vfunc_76__9TObjCharaFf();
+extern "C" void spend_photon_blast_charge__9TObjCharaFf();
 
-extern "C" void vfunc_75__9TObjCharaFf();
+extern "C" void gain_photon_blast_charge__9TObjCharaFf();
 
 extern "C" void get_center__9TObjCharaFv();
 

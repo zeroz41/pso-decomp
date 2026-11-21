@@ -56,7 +56,6 @@ s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__13TOGrassJungle[];
 s32 post_translate_matrix(void *);
 s32 rotate_matrix_y(s32, s32);
-s32 push_matrix();
 
 void TOGrassJungle::render() {
     if (this->update_object_view_visibility(400.0f, 20.0f) == 1) {

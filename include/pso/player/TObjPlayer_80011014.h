@@ -12,7 +12,6 @@ struct EnemyMoveParams;
 
 extern "C" {
 void obj_setFlags30(void *object, u32 flags);
-void TObjPlayer__sub_8000FF4C(void *p, s16 v);
 void clear_velocity(u8 *arg0);
 s16 TObjPlayer__sub_800194E8(void *p);
 void TObjPlayer__sub_8001951C(void *p);
@@ -58,7 +57,7 @@ void show_meseta_label(saddr arg0, u32 arg1, s32 arg2, s32 arg3);
 void spawn_poison_effect__10TObjPlayerFii(saddr arg0, s32 arg1);
 void spawn_slow_effect__10TObjPlayerFii(saddr arg0, s32 arg1);
 s32 try_spend_actor_meseta(u8 *arg0, s32 arg1);
-s32 vfunc_37__9TObjCharaFv(u8 *player);
+s32 update_slow_status__9TObjCharaFv(u8 *player);
 s32 update_attack_stat_status__9TObjCharaFv(u8 *player);
 void calc_velocity_toward_destination(TObjEnemy *enemy, Vec from, Vec to, f32 speed);
 f32 update_enemy_wander_move(TObjEnemy *enemy, Vec *dest, s32 mode, EnemyMoveParams *params, f32 min_distance);

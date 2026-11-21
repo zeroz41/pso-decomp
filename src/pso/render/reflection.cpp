@@ -11,7 +11,6 @@
 #include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/render/reflection.h"
-#include "pso/enemy/recon/TObjEneRecon_8029E89C.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/memory.h"
 #include "pso/system/scene/TSceneSora.h"
@@ -100,8 +99,9 @@ s32 fn_8029E7BC(saddr arg0, u8 *arg1) {
 extern "C" {
 s32 GXSetScissor(s32, s32, s32, s32);
 s32 reset_ind_tev_stages__13TParticleCtrlFPv();
+}
 
-s32 TObjEneRecon::render_player_marker(u16 arg0, s32 arg1) {
+s32 push_player_reflection_matrix(u16 client_id, s32 clip) {
     s32 sp8[8];
     s32 var_r3;
     uaddr player;
@@ -112,15 +112,15 @@ s32 TObjEneRecon::render_player_marker(u16 arg0, s32 arg1) {
     if ((u16) scene_sora_reflect_active == 0) {
         return 1;
     }
-    player = (uaddr)get_player_by_client_id(arg0);
+    player = (uaddr)get_player_by_client_id(client_id);
     if (player == 0U) {
         return 0;
     }
     if (fn_8029E7BC(player + 0x2FC, (u8 *)sp8) == 0) {
         return 0;
     }
-    if (arg1 != 0) {
-        var_r3 = TObjEneRecon__sub_8029EA4C(sp8, 1);
+    if (clip != 0) {
+        var_r3 = set_reflection_scissor(sp8, 1);
     } else {
         var_r3 = 1;
     }
@@ -129,8 +129,6 @@ s32 TObjEneRecon::render_player_marker(u16 arg0, s32 arg1) {
         reflect_matrix_in_plane(0, sp8);
     }
     return var_r3;
-}
-
 }
 
 s32 push_reflection_matrix(Vec *point) {
@@ -148,7 +146,7 @@ s32 push_reflection_matrix(Vec *point) {
     plane[1].x = 0.0f;
     plane[1].y = 1.0f;
     plane[1].z = plane[1].x;
-    visible = TObjEneRecon__sub_8029EA4C((void *)point, 1);
+    visible = set_reflection_scissor(point, 1);
     if (visible != 0) {
         push_matrix();
         reflect_matrix_in_plane(0, (s32 *)plane);
@@ -157,24 +155,22 @@ s32 push_reflection_matrix(Vec *point) {
 
 }
 
-void restore_render_scissor(s32 arg0) {
+void restore_render_scissor(s32 reset_scissor) {
     if ((u16) scene_sora_reflect_active != 0) {
         pop_matrix();
-        if (arg0 != 0) {
+        if (reset_scissor != 0) {
             GXSetScissor(0, 0, 0x280, 0x1E0);
         }
     }
 }
 
-extern "C" {
-
-s32 TObjEneRecon__sub_8029EA4C(void *arg0, s32 _w1) {
+s32 set_reflection_scissor(void *point, s32 _w1) {
     Vec v;
     if (scene_sora_reflect_active == 0) {
         return 1;
     }
     restore_render_scissor(1);
-    project_world_to_screen(NULL, (const Vec *)arg0, &v.x);
+    project_world_to_screen(NULL, (const Vec *)point, &v.x);
     if (v.y >= 0.0f && v.y <= 480.0f) {
         GXSetScissor(0, (s32)((u32)v.y), 0x280, (s32)((u32)(480.0f - v.y)));
         return 1;
@@ -182,31 +178,25 @@ s32 TObjEneRecon__sub_8029EA4C(void *arg0, s32 _w1) {
     return 0;
 }
 
-void TObjEneRecon::update_particle_if_active() {
+void reset_reflection_tev_stages() {
     if (((uaddr) scene_sora_instance != 0U) && (((TSceneSora *)scene_sora_instance)->get_state() != 0U)) {
         reset_ind_tev_stages__13TParticleCtrlFPv();
     }
 }
 
-s32 play_particle__13TParticleCtrlFls(u32, s32, s32);
+extern "C" s32 play_particle__13TParticleCtrlFls(u32, s32, s32);
 
-void TObjEneRecon::notify_scene(s32 arg0) {
+void play_reflection_particles(s32 effect_id) {
     u32 temp_r31;
     if ((uaddr) scene_sora_instance != 0U) {
         temp_r31 = ((TSceneSora *)scene_sora_instance)->get_state();
         if (temp_r31 != 0U) {
-            play_particle__13TParticleCtrlFls(temp_r31, 0, arg0);
+            play_particle__13TParticleCtrlFls(temp_r31, 0, effect_id);
         }
     }
 }
-}
 
-
-extern "C" {
-
-
-
-void TObjEneRecon::destroy_instance() {
+void destroy_reflection_target() {
     scene_sora_instance = 0;
     if (is_central_control_area() != 0) {
         if ((u32) scene_sora_recon_object != 0U) {
@@ -220,7 +210,7 @@ void TObjEneRecon::destroy_instance() {
 }
 
 
-void TObjEneRecon::alloc_if_valid_state() {
+void create_reflection_target() {
     uaddr temp_r3;
 
     if (is_central_control_area() != 0) {
@@ -232,8 +222,6 @@ void TObjEneRecon::alloc_if_valid_state() {
             lbl_805D65F0 = scene_sora_recon_object + 0x1C;
         }
     }
-}
-
 }
 
 struct Ray_8029EC3C { Vec o; Vec d; };
@@ -336,7 +324,6 @@ void GXSetTevOrder(s32 stage, s32 coord, s32 map, s32 color);
 const f64 lbl_80465E18 = 0.0054931640625;
 extern uaddr camera_ctrl_instance;
 extern "C" {
-void normalize_vector(Vec *);
 const Vec sora_reflection_up_vec = {0.0f, 1.0f, 0.0f};
 extern s32 TSceneSora__sky_active_flag;
 extern u32 TSceneSora__instance;

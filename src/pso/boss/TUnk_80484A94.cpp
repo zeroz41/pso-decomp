@@ -66,7 +66,7 @@ void TUnk_80484A94::render() {}
 void TUnk_80484A94::run_task() {
     TObjPlayer *player = get_player_by_client_id(target_id);
     if (player != NULL) {
-        Vec steer = *(Vec *)&player->m_2fc;
+        Vec steer = player->body_center;
         subtract_vector(&steer, &position);
         vec_set_length(&steer, fn_800499FC(1));
         vec3_add_to(&velocity, &steer);

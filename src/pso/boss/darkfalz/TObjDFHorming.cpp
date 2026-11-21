@@ -33,6 +33,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TBoss4Thanks_8035C8F0.h"
 #include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/unk/text_803D96A8.h"
 
 #pragma readonly_strings on
 
@@ -179,7 +180,6 @@ extern "C" {
 s32 vec3_add_to(void *, void *);
 f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
-s32 normalize_vector(void *);
 f32 xyz_distance(void *, void *);
 extern s32 lbl_805D5868;
 extern s32 registered_player_count;
@@ -610,9 +610,9 @@ void TBoss4DarkFalz::handle_defeat() {
         p = get_player_by_client_id((void *) ((u16) local_client_id));
         if (p != 0) {
             save = *(struct V3_8004B654 *)(arg0 + 0x2FC);
-            VecCopy((Vec *)&this->m_2fc, (const Vec *)(p + 0x2FC));
+            VecCopy(&this->body_center, (const Vec *)(p + 0x2FC));
             ((TObjEnemy *)arg0)->distribute_experience();
-            VecCopy((Vec *)&this->m_2fc, (const Vec *)&save);
+            VecCopy(&this->body_center, (const Vec *)&save);
         }
     }
     flags[0] = 0x800;
@@ -805,7 +805,7 @@ void TBoss4DarkFalz::run_task() {
     }
 }
 
-void TBoss4DarkFalz::vfunc_63() {  }
+void TBoss4DarkFalz::run_death_reaction() {  }
 }
 void init_music_sequencer(s32 program);
 BmlResource *darkfalz_dat_resource;

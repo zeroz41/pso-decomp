@@ -27,7 +27,7 @@ union SlimeSpawnTemplate {
 struct TObjEneSlime : public TObjEnemy {
     TObjEneSlime(TObject *parent, u8 *set_data);
     virtual ~TObjEneSlime();
-    virtual void vfunc_63();
+    virtual void run_death_reaction();
     SlimeSpawnTemplate spawn_template;
     s32 child_limit;
     SlimeChildSlot child_slots[4];

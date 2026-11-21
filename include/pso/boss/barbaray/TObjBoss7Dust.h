@@ -7,6 +7,7 @@
 
 class TObjBoss7Dust : public TObject {
 public:
+    TObjBoss7Dust(TObject *parent, const Vec *position);
     virtual ~TObjBoss7Dust();
     virtual void run_task();
     virtual void render();
@@ -16,18 +17,10 @@ public:
 };
 LAYOUT_ASSERT(TObjBoss7Dust_size, sizeof(TObjBoss7Dust) == 0x30);
 
-extern "C" {
-u8 *__ct__13TObjBoss7DustFv(u8 *arg0, saddr arg1, saddr arg2);
-void fn_802F105C(void);
-void fn_802F1084(void);
-}
 void init_scene_boss2_tunnel(void);
-
-// --- C functions defined in TObjBoss7Dust.cpp ---
-extern "C" {
-void fn_802F105C(void);
-void fn_802F1084(void);
-}
-// --- end of C functions
+// Twins of TLobby::create_boss2_tunnel and TLobby::init_boss2_stage (which frees the boss2
+// common resource): the Barba Ray tunnel scene's create and free hooks.
+void create_boss7_tunnel(void);
+void free_boss7_tunnel(void);
 
 #endif

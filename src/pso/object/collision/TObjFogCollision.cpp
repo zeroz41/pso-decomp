@@ -58,7 +58,6 @@ u8 is_current_floor_switch_set(u16);
 extern s32 game_difficulty_selection;
 
 s32 scale_matrix(int, f32, f32, f32);
-s32 push_matrix();
 s32 post_translate_matrix(void *);
 extern s32 saved_model_draw_color[];
 extern s32 model_material_color[];

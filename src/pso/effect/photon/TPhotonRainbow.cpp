@@ -11,7 +11,6 @@ extern "C" {
 
 s32 post_translate_matrix(void *);
 s32 rotate_matrix_y(s32, s32);
-s32 push_matrix();
 
 extern u8 *camera_ctrl_instance;
 

@@ -6,60 +6,75 @@
 #include <stddef.h>
 
 struct NJS_OBJECT;
+struct AnimationMotion;
 
+// One of Barba Ray's four tentacles. state is the running behaviour (0 sway, 1 raise, 2 lower, 3 strike at
+// target, 4 turn to its rest angle, 5 drop back); next_state is the one requested, entered by switch_state().
 class TBoss7Tentacle : public TObject {
 public:
-    TBoss7Tentacle(TObject *arg1, s32 arg2, s32 arg3);
+    // flags bit: the tentacle shrinks out of sight (update_extend_amount) while set.
+    enum { HIDDEN = 2 };
+
+    TBoss7Tentacle(TObject *parent, s32 joint, s32 index);
     virtual ~TBoss7Tentacle();
     void sub_802F09FC();
     void sub_802F09EC();
     virtual void render();
     virtual void run_task();
 public:
-    void restart_particle_effect();
-    s32 advance_anim_time_wrapped(f32 d);
-    s32 advance_toward_limit(f32 farg0);
     void update_extend_amount();
     void switch_state();
+    void sub_802F0608(f32 length);
     void advance_path_position();
+    void sub_802F0918();
     void reset_state();
     void setup_state();
+    void sub_802F09B4();
+    void sub_802F09C8();
+    void sub_802F0A14();
+    void sub_802F0A2C();
+    void sub_802F0A44();
     void init_segments();
-    void start_attack_at_position(u8 *arg1, s32 arg2);
+    void start_attack_at_position(u8 *target, s32 hold_time);
+    s32 sub_802F0904();
+    void sub_802F0AD0();
+    void sub_802F0AF0();
+    void sub_802F0B58();
+    void sub_802F0B70();
+    void sub_802F0B80();
+    // Load and release the shared tentacle model nodes (the boss's resource callback table, as the
+    // TBoss7Crawfish pair next to them).
+    static void load_static_resource();
+    static void destroy_instance();
 
-    NJS_OBJECT *m_1c;
-    void *m_20;
-    f32 m_24;
-    f32 m_28;
-    f32 m_2c;
-    s32 m_30;
-    s32 m_34;
-    s32 m_38;
-    s32 m_3c;
-    u8 unk_40[0x4];
-    f32 m_44;
-    u8 unk_48[0x4];
-    s32 m_4c;
-    Vec m_50[14];
-    s32 m_f8[14];
-    s32 m_130;
-    f32 m_134;
-    f32 m_138;
-    s32 m_13c;
-    s32 m_140;
-    s32 m_144;
-    s32 m_148;
-    f32 m_14c;
-    f32 m_150;
-    f32 m_154;
-    f32 m_158;
-    f32 m_15c;
-    f32 m_160;
-    s32 m_164;
-    s32 m_168;
+    NJS_OBJECT *model;
+    AnimationMotion *motion;   // get_boss7_motion(0x11)
+    Vec scale;
+    s32 state;
+    s32 next_state;
+    s32 attack_phase;          // state 3: shrink, reach out, hold, pull back
+    u32 flags;
+    Vec position;              // the joint's origin, set while striking
+    s32 index;                 // which of the four tentacles; picks its angle-table entries
+    Vec segment_pos[14];
+    s32 segment_ang[14];
+    s32 joint;                 // the boss matrix the tentacle hangs from
+    f32 frame;
+    f32 frame_speed;
+    s32 yaw;
+    s32 pitch;
+    s32 sway_speed;
+    s32 sway_phase;
+    Vec target;
+    f32 reach;
+    f32 bend;
+    f32 segment_scale;
+    s32 timer;
+    s32 hold_time;
 };
 
-LAYOUT_ASSERT(TBoss7TentacleM50, offsetof(TBoss7Tentacle, m_50) == 0x50);
-LAYOUT_ASSERT(TBoss7TentacleM158, offsetof(TBoss7Tentacle, m_158) == 0x158);
+LAYOUT_ASSERT(TBoss7TentacleSegmentPos, offsetof(TBoss7Tentacle, segment_pos) == 0x50);
+LAYOUT_ASSERT(TBoss7TentacleReach, offsetof(TBoss7Tentacle, reach) == 0x158);
+LAYOUT_ASSERT(TBoss7Tentacle_size, sizeof(TBoss7Tentacle) == 0x16C);
 
 #endif

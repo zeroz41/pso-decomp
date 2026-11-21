@@ -8,8 +8,8 @@ public:
     TUnk_804F322C(TObject *parent, saddr set_data);
     virtual ~TUnk_804F322C();
     void update_linked_state();
-    virtual void vfunc_63();
-    virtual void vfunc_62();
+    virtual void run_death_reaction();
+    virtual void run_hit_reaction();
     virtual void render();
     virtual void run_task();
     u8 unk_374[0x40];

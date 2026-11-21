@@ -41,7 +41,6 @@ struct AppearanceZero { f32 value; u32 padding; };
 __declspec(section ".sdata2") extern const AppearanceZero lbl_805DFA50;
 TBoss6Demo10_TYPE1_APPEAR *__ct__25TBoss6Demo10_TYPE1_APPEARFP14TBoss6PlotFalz(TBoss6Demo10_TYPE1_APPEAR *demo, TBoss6PlotFalz *plot);
 void post_translate_matrix(const f32 *);
-s32 push_matrix();
 
 void TBoss6Demo10_TYPE1_APPEAR::sub_8033C7C8() {
     push_matrix();

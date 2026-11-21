@@ -1,7 +1,6 @@
 #include "pso/render/reflection.h"
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/enemy/recon/TObjEneRecon_8029E89C.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/enemy/recon/TObjEneRecon.h"
 #include "pso/enemy/recon/TObjEneRecobox.h"
@@ -14,7 +13,6 @@
 extern "C" {
 
 s32 post_translate_matrix(void *);
-s32 push_matrix();
 
 s32 TObjEneRecobox::render_trap_model_if_visible() {
     if ((s32)main_task.get_task_flags() & 0x20) {

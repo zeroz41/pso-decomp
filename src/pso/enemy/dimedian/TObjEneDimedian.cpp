@@ -122,7 +122,6 @@ struct Player_800A7CA4 : VBase18_800A7CA4 {
 extern "C" {
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 TObjPlayer__sub_800A0554(void *);
-s32 push_matrix();
 s32 post_translate_matrix(void *);
 extern saddr dimedian_type3_object;
 extern saddr lbl_805D5088;
@@ -161,33 +160,33 @@ void TObjMotion::sub_800A7798(f32 farg0) {
 }
 
 void TObjMotion::set_flags_B0(u32 v) { this->motion_flags |= v; }
-void TObjEneDimedian::vfunc_101() {  }
+void TObjEneDimedian::run_demo_task() {  }
 
-void TObjEneDimedian::vfunc_99() {
+void TObjEneDimedian::play_group_chase_sound() {
     saddr arg0 = (saddr)this;
     play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003AD40), arg0 + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 
-void TObjEneDimedian::vfunc_98() {
+void TObjEneDimedian::play_death_sound() {
     saddr arg0 = (saddr)this;
     play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003AD3D), arg0 + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 
-void TObjEneDimedian::vfunc_97() {
+void TObjEneDimedian::play_hurt_sound() {
     saddr arg0 = (saddr)this;
     play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003A83E), arg0 + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 
-void TObjEneDimedian::vfunc_96() {
+void TObjEneDimedian::play_attack_sound() {
     saddr arg0 = (saddr)this;
     play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003A83F), arg0 + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 
-void TObjEneDimedian::vfunc_95() {
+void TObjEneDimedian::play_alert_sound() {
     saddr arg0 = (saddr)this;
     s32 temp_r3;
     if (random_ratio() < 0.5f) {
@@ -200,7 +199,7 @@ void TObjEneDimedian::vfunc_95() {
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 
-void TObjEneDimedian::vfunc_94() {
+void TObjEneDimedian::spawn_death_effect() {
     saddr arg0 = (saddr)this;
     s32 area;
     TObjPlayer::apply_effect_variant_a(arg0 + 0x38, 0);
@@ -213,7 +212,7 @@ void TObjEneDimedian::vfunc_94() {
     play_sound_effect((s32)(((s32)((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003AD25))), arg0 + 0x38, 0, 0);
 }
 
-void TObjEneDimedian::vfunc_93() {
+void TObjEneDimedian::update_attack_trail() {
     Obj_800A7A14 *o = (Obj_800A7A14 *)this;
     Vec b;
     Vec a;
@@ -282,7 +281,7 @@ void TObjEneDimedian::sub_800A7B54() {
         return;
     }
 }
-void TObjEneDimedian::vfunc_83() {
+void TObjEneDimedian::beast_update_appear() {
     Obj_800A7BEC *arg0 = (Obj_800A7BEC *)this;
     advance_animation();
     switch (this->phase) {
@@ -464,10 +463,10 @@ void free_collision_body_parts(void *);
 extern void *tl_04;
 
 extern "C" void vfunc_6__8TObjBaseFPsl();
-extern "C" void vfunc_29__9TObjCharaFv();
+extern "C" void has_no_target__9TObjCharaFv();
 extern "C" void recalc_stats__9TObjCharaFv();
 extern "C" void consume_timer_field__9TObjCharaFl();
-extern "C" void vfunc_67__9TObjCharaFf();
+extern "C" void deliver_attack_hits__9TObjCharaFf();
 extern "C" void vfunc_66__9TObjCharaFv();
 extern "C" void get_anim_node_position__9TObjCharaFlP3Vec();
 extern "C" void apply_slow_status__9TObjCharaFv();
@@ -475,7 +474,7 @@ extern "C" void update_shock_clock__9TObjCharaFv();
 extern "C" void vfunc_43__9TObjCharaFv();
 extern "C" void vfunc_18__9TObjCharaFPUc();
 extern "C" void interact__14TObjCollidableFl();
-extern "C" void vfunc_100__13TUnk_80493450Fv();
+extern "C" void select_post_attack_mode__13TUnk_80493450Fv();
 
 extern "C" void vfunc_89__13TUnk_80493450Fv();
 extern "C" void update_turn_toward_target__13TUnk_80493450Fv();
@@ -494,31 +493,31 @@ extern "C" void apply_poison_status__9TObjCharaFv();
 extern "C" void apply_set_data__9TObjEnemyFPv();
 extern "C" void apply_shock_status__9TObjCharaFv();
 extern "C" void apply_switch_attack__9TObjCharaFv();
-extern "C" void vfunc_59__13TUnk_80493450Fv();
+extern "C" void run_move_action__13TUnk_80493450Fv();
 extern "C" void beast_idle_update__13TUnk_80493450Fv();
-extern "C" void vfunc_28__13TUnk_80493450Fv();
-extern "C" void vfunc_60__13TUnk_80493450Fv();
+extern "C" void refresh_target__13TUnk_80493450Fv();
+extern "C" void run_attack_action__13TUnk_80493450Fv();
 extern "C" void beast_update_approach__13TUnk_80493450Fv();
 extern "C" void beast_update_attack__13TUnk_80493450Fv();
 extern "C" void beast_update_dead__13TUnk_80493450Fv();
 extern "C" void beast_update_group_chase__13TUnk_80493450Fv();
 extern "C" void beast_update_hurt__13TUnk_80493450Fv();
 extern "C" void calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf();
-extern "C" void vfunc_79__9TObjEnemyFPl();
+extern "C" void apply_enemy_state__9TObjEnemyFPl();
 extern "C" void classify_actor_view_detail__8TObjBaseFfff();
 extern "C" void clear_all_status_effects__9TObjCharaFv();
-extern "C" void vfunc_61__13TUnk_80493450Fv();
+extern "C" void run_miss_reaction__13TUnk_80493450Fv();
 extern "C" void clear_harmful_statuses__9TObjCharaFv();
 extern "C" void cure_paralysis__9TObjCharaFv();
 extern "C" void cure_poison_ailment__9TObjCharaFv();
 extern "C" void enemy_spawn_jellen_effect__9TObjCharaFv();
 extern "C" void enemy_spawn_zalure_effect__9TObjCharaFv();
-extern "C" void vfunc_62__13TUnk_80493450Fv();
-extern "C" void vfunc_63__13TUnk_80493450Fv();
+extern "C" void run_hit_reaction__13TUnk_80493450Fv();
+extern "C" void run_death_reaction__13TUnk_80493450Fv();
 extern "C" void vfunc_78__9TObjCharaFl();
-extern "C" void vfunc_77__9TObjCharaFv();
-extern "C" void vfunc_76__9TObjCharaFf();
-extern "C" void vfunc_75__9TObjCharaFf();
+extern "C" void gain_photon_blast_chain_charge__9TObjCharaFv();
+extern "C" void spend_photon_blast_charge__9TObjCharaFf();
+extern "C" void gain_photon_blast_charge__9TObjCharaFf();
 extern "C" void clear_lobby_object_state__9TObjEnemyFv();
 extern "C" void get_center__9TObjCharaFv();
 extern "C" void get_actor_level_index__9TObjCharaFv();
@@ -539,7 +538,7 @@ extern "C" void roll_physical_accuracy__9TObjCharaFPvlf();
 extern "C" void run_task__13TUnk_80493450Fv();
 extern "C" void select_melee_contact_body__9TObjCharaFPvf();
 extern "C" void update_movement_status__13TUnk_80493450Fv();
-extern "C" void vfunc_58__13TUnk_80493450Fv();
+extern "C" void run_idle_action__13TUnk_80493450Fv();
 extern "C" void trigger_switch_attack__9TObjCharaFv();
 extern "C" void try_start_action__9TObjCharaFll();
 extern "C" void update_action_hold_status__13TUnk_80493450Fv();

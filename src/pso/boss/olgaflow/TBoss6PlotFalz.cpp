@@ -18,6 +18,7 @@
 #include "pso/render/render_util.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/unk/text_803D96A8.h"
 void set_constant_material(const NJS_ARGB *color);
 #include "pso/boss/darkfalz/TBoss4Fade.h"
 #include "pso/unk/text_8035966C.h"
@@ -434,7 +435,6 @@ f64 atan2_float(f32, f32);
 s32 get_nth_view_player_id__11TCameraCtrlFl();
 s32 vec3_add_to(void *, const void *);
 f32 vec3_dot(void *, void *);
-s32 normalize_vector(void *);
 extern u8 *camera_ctrl_instance;
 s32 TBoss6PlotFalz__sub_802AB6CC(void *arg0, f32 r);
 
@@ -483,16 +483,16 @@ void TBoss6PlotFalz::award_exp_and_destroy() {
         u8 *pl = ((u8 *(*)(s32))get_player_by_client_id)(local_client_id);
         if (pl != NULL) {
             V3_802AB490 saved = *(V3_802AB490 *)(arg0 + 0x2FC);
-            VecCopy((Vec *)&this->m_2fc, (const Vec *)(pl + 0x2FC));
+            VecCopy(&this->body_center, (const Vec *)(pl + 0x2FC));
             ((TObjEnemy *)arg0)->distribute_experience();
-            VecCopy((Vec *)&this->m_2fc, (const Vec *)&saved);
+            VecCopy(&this->body_center, (const Vec *)&saved);
         }
     }
     Msg_802AB490 m;
     m.a = 0x800;
     ((TObjEnemy *)arg0)->send_6x0A_enemy_state(&m);
     ((TObjEnemy *)arg0)->exchange_object_state(&m, 0);
-    this->vfunc_79((s32 *)&m);
+    this->apply_enemy_state((s32 *)&m);
     ((TObjEnemy *)arg0)->send_entity_set_flags();
     ((TObject *)arg0)->queue_destruction();
 }
@@ -1108,7 +1108,7 @@ void TBoss6PlotFalz::run_task() {
     }
 }
 
-void TBoss6PlotFalz::vfunc_63() {  }
+void TBoss6PlotFalz::run_death_reaction() {  }
 
 void handle_6xA3_olga_flow_boss_actions(game_command_header *command) {
     OlgaFlowPlotActionMsg *message = reinterpret_cast<OlgaFlowPlotActionMsg *>(command);

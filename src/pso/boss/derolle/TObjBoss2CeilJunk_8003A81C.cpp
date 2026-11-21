@@ -1,5 +1,6 @@
 #include "pso/system/BmlResource.h"
 #include "types.h"
+#include "pso/player/TObjPlayer_8002E784.h"
 #include "pso/boss/derolle/TObjBoss2CeilJunk_8003A81C.h"
 #include "pso/boss/derolle/TObjBoss2CeilJunk.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -7,6 +8,8 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/render/GinjaTexture.h"
 
 const char *bm_obj_boss2_common_model_names[] = {
     "fe_boss02iwa1.gj",
@@ -45,41 +48,35 @@ BmlResourceDescriptor bm_obj_boss2_common_resource_descriptor = {
 };
 
 void *lbl_804FE9C8[7];
-f32 lbl_805D4BE0;
+f32 boss2_ceil_junk_water_level;
 s32 lbl_805D4BE4;
-void *boss2_tunnel_instance;
-void *lbl_805D4BEC;
+BmlResource *boss2_common_resource;
+GinjaTextureList *boss2_common_texture_list;
 __declspec(section ".sdata2") const f32 boss2_tunnel_max_scroll_speed = 9.259259f;
-extern "C" {
-void release_texture_list(void *);
-
-extern void *tl_05;
-
-void *TObjBoss2CeilJunk::create(void *arg0) {
-    return new TObjBoss2CeilJunk((TObject *)tl_05, (const Vec *)arg0);
+void *TObjBoss2CeilJunk::create(void *position) {
+    return new TObjBoss2CeilJunk(tl_05, (const Vec *)position);
 }
 
-    extern const float lbl_805D8258;
-void __sinit_TObjBoss2CeilJunk_8003A81C_cpp(void) { lbl_805D4BE0 = lbl_805D8258; }
+
+void __sinit_TObjBoss2CeilJunk_8003A81C_cpp(void) { boss2_ceil_junk_water_level = boss2_water_level; }
 void TLobby__sub_8003A874(void) {
     s32 i;
     for (i = 0; i < 7; i++) {
         lbl_804FE9C8[i] = 0;
     }
-    release_texture_list(lbl_805D4BEC);
-    delete (BmlResource *)boss2_tunnel_instance;
-    boss2_tunnel_instance = 0;
-}
+    release_texture_list(boss2_common_texture_list);
+    delete boss2_common_resource;
+    boss2_common_resource = 0;
 }
 
 void load_boss2_common_resource(void) {
-    void *p = new BmlResource(5, &bm_obj_boss2_common_resource_descriptor, 0, 0, NULL);
-    boss2_tunnel_instance = p;
-    lbl_805D4BEC = *(void **)(*(u8 **)((u8 *)p + 0x42C) + 0x6C);
+    BmlResource *resource = new BmlResource(5, &bm_obj_boss2_common_resource_descriptor, 0, 0, NULL);
+    boss2_common_resource = resource;
+    boss2_common_texture_list = resource->models[6].m_c;
     if (TObjEneDD::check_v2_mode() != 0) {
-        TLobby::load_texture_pvm_file("obj_boss2_common_a.gvm", (saddr)lbl_805D4BEC);
+        TLobby::load_texture_pvm_file("obj_boss2_common_a.gvm", (saddr)boss2_common_texture_list);
     } else {
-        TLobby::load_texture_pvm_file("obj_boss2_common.gvm", (saddr)lbl_805D4BEC);
+        TLobby::load_texture_pvm_file("obj_boss2_common.gvm", (saddr)boss2_common_texture_list);
     }
 }
 

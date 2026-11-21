@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/text_803D96A8.h"
 #include "pso/player/TObjPlayer_80362E60.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer.h"
@@ -95,8 +96,6 @@ void TUnk_804F27E0::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
 extern "C" {
 s16 get_validated_attack_stage(u8 *arg0);
 s32 rotate_matrix_x(int, int);
-s32 push_matrix();
-s32 pop_matrix();
 f32 post_translate_matrix(void *);
 
 void TUnk_804F27E0::update_weapon() {

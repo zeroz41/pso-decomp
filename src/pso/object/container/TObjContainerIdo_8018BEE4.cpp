@@ -102,7 +102,6 @@ struct VMem_8018C06C {
 
 s32 post_translate_matrix(void *);
 s32 rotate_matrix_x(s32, s32);
-s32 push_matrix();
 
 BmlResource *container_ido_model_archive;
 
@@ -270,8 +269,6 @@ void *TObjContainerIdo::create(void *arg0) {
 struct Ido_8018C7BC { u8 pad[0xCC]; s32 ids[4]; };
 
 GinjaTextureList *container_ido_textures;
-extern "C" {
-}
 u8 * load_gvm_texture_file(saddr);
 extern s32 __vt__16TObjContainerIdo[];
 extern "C" {

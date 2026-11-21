@@ -323,7 +323,6 @@ void rotate_vector_by_matrix(int, void *, void *);
 
 s32 rotate_matrix_z(int, int);
 
-s32 push_matrix();
 
 s32 post_translate_matrix(s32);
 
@@ -349,13 +348,13 @@ void get_anim_node_position__15TObjEnemyCustomFlP3Vec();
 void vfunc_6__8TObjBaseFPsl();
 
 
-void vfunc_29__9TObjCharaFv();
+void has_no_target__9TObjCharaFv();
 
 void recalc_stats__9TObjCharaFv();
 
 void consume_timer_field__9TObjCharaFl();
 
-void vfunc_67__9TObjCharaFf();
+void deliver_attack_hits__9TObjCharaFf();
 
 void vfunc_66__9TObjCharaFv();
 
@@ -405,7 +404,7 @@ void apply_switch_attack__9TObjCharaFv();
 
 void calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf();
 
-void vfunc_79__15TObjEnemyCustomFPl();
+void apply_enemy_state__15TObjEnemyCustomFPl();
 
 void classify_actor_view_detail__8TObjBaseFfff();
 
@@ -423,11 +422,11 @@ void enemy_spawn_zalure_effect__9TObjCharaFv();
 
 void vfunc_78__9TObjCharaFl();
 
-void vfunc_77__9TObjCharaFv();
+void gain_photon_blast_chain_charge__9TObjCharaFv();
 
-void vfunc_76__9TObjCharaFf();
+void spend_photon_blast_charge__9TObjCharaFf();
 
-void vfunc_75__9TObjCharaFf();
+void gain_photon_blast_charge__9TObjCharaFf();
 
 void clear_lobby_object_state__9TObjEnemyFv();
 
@@ -465,7 +464,7 @@ void trigger_switch_attack__9TObjCharaFv(s32 arg0);
 
 void try_start_action__9TObjCharaFll();
 
-s32 vfunc_37__9TObjCharaFv(u8 *arg0);
+s32 update_slow_status__9TObjCharaFv(u8 *arg0);
 
 void update_actor_ground_y__9TObjCharaFv();
 
@@ -475,7 +474,7 @@ s32 update_defense_stat_status__9TObjCharaFv(u8 *arg0);
 
 void update_flag30_timer__9TObjCharaFv();
 
-void vfunc_60__15TObjEnemyCustomFv();
+void run_attack_action__15TObjEnemyCustomFv();
 
 void update_object_view_visibility__8TObjBaseFff();
 
@@ -747,11 +746,11 @@ f32 TObjPlayer__sub_800A3200(s32 arg0) {
     return *(f32 *)((s8 *)(lbl_805D5004 + (arg0 * 4)) + 0);
 }
 
-void TObjEneDarkGunner::vfunc_59() {  }
+void TObjEneDarkGunner::run_move_action() {  }
 
-void TObjEneDarkGunner::vfunc_58() {  }
+void TObjEneDarkGunner::run_idle_action() {  }
 
-void TObjEneDarkGunner::vfunc_28() {  }
+void TObjEneDarkGunner::refresh_target() {  }
 }
 
 #define F(T, o) (*(T *)((u8 *)self + (o)))
@@ -1231,7 +1230,7 @@ s32 TObjPlayer__sub_800A1FEC(void *arg0) {
 #pragma pop
 #undef self
 extern "C" {
-void TObjEneDarkGunner::vfunc_62() {
+void TObjEneDarkGunner::run_hit_reaction() {
     s16 temp_r0;
     temp_r0 = this->mode;
     if (temp_r0 != 4) {
@@ -1451,10 +1450,10 @@ void TObjPlayer::spawn_hamon_effects(s32 arg1, s32 arg2, f32 farg0) {
 extern "C" {
 int TObjPlayer__sub_800A1808(void* p) { return (*(u32*)((char*)p + 0x30) >> 23) & 0x1; }
 
-void TObjEneDarkGunner::vfunc_61() {
+void TObjEneDarkGunner::run_miss_reaction() {
     u8 *arg0 = (u8 *)this;
     ((TObjBase *)arg0)->obj_clearFlags30((s32)(0x100U));
-    spawn_particle_effect((const Vec *)&m_2fc, 0xD7);
+    spawn_particle_effect(&body_center, 0xD7);
     play_sound_effect(0x4003B22D, (u8 *)&this->position, 0, 0);
 }
 
@@ -1640,7 +1639,7 @@ void TObjPlayer::step_along_ground() {
     u8 *q;
 
     VecCopy(&this->prev_position, (const Vec *)&this->position);
-    VecCopy((Vec *)&pos, (const Vec *)&this->m_2fc);
+    VecCopy((Vec *)&pos, &this->body_center);
     vel = *(Raw_800A10A0 *)(arg0 + 0x308);
     vec_set_length((Vec *)&vel, 10.0f + ((f32 (*)(int))TObjPlayer__sub_800A3200)(0));
     ((void (*)(void *, void *))vec3_add_to)(&pos, &vel);
@@ -1663,7 +1662,7 @@ void TObjPlayer::step_along_ground() {
             ((void (*)(void *))push_matrix_from)(identity_matrix);
             ((void (*)(int, s32))rotate_matrix_y)(0, sign * ang);
             rotate_vector_by_matrix(0, (u8 *)&this->unk_308, &dir);
-            ((void (*)(void))pop_matrix)();
+            pop_matrix();
         }
         VecCopy((Vec *)&v, (const Vec *)&this->position);
         ((void (*)(void *, void *))vec3_add_to)(&v, &dir);

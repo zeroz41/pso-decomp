@@ -200,7 +200,6 @@ f32 vector_length(void *);
 void TObjEnePanarms__sub_800E1D38(void *arg0);
 s32 TObjEnePanarms__sub_800DE528(void *arg0, Vec *arg1);
 s32 subtract_vector(void *, void *);
-s32 normalize_vector(void *);
 s32 check_ground_along_path__14TObjEnePanarmsFPvPvPvff(void *arg0, Vec *arg1, Vec *arg2, f32 step, f32 dy);
 u32 csnLookAt(void *, void *);
 f32 horizontal_distance_squared(void *, void *);
@@ -208,7 +207,6 @@ s32 try_warp_to_position__14TObjEnePanarmsFPvPv(u8 *arg0, Vec *arg1);
 int TObjEnePanarms__sub_800DFBC4(void *p);
 int post_translate_matrix(void*);
 int rotate_matrix_y(void*, void*);
-int push_matrix(void*);
 void draw_blob_shadow(s32 arg0);
 s32 rotate_matrix_z(int, int);
 void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
@@ -295,7 +293,7 @@ TObjEnePanarms::TObjEnePanarms(TObject *parent, void *setData) : TObjEnemy(paren
     set_field_dc((saddr)TObjEnePanarms__entry_params_resource->motions);
     set_animation(0);
     set_field_b8(0);
-    VecCopy((Vec *)&m_2fc, &position);
+    VecCopy(&body_center, &position);
     x_speed = y_speed = m_310 = 0.0f;
     move_velocity.x = move_velocity.y = move_velocity.z = 0.0f;
     target = NULL;
@@ -381,7 +379,7 @@ void TObjEnePanarms::run_task() {
                 advance_animation();
             }
             if ((*(s32 *)&this->m_3dc != 0 && this->state != 4) || this->state == 1) {
-                minimap_render_dot(&this->m_2fc, -0x5DB4, 1, 0);
+                minimap_render_dot(&this->body_center, -0x5DB4, 1, 0);
             }
         }
     }
@@ -405,7 +403,7 @@ void TObjEnePanarms::render() {
     saved_model_render_flags = model_render_flags;
     fade = &((Obj_800DEF5C *)this)->fades[cam];
     fade->update();
-    if (fade->updateFromCamera(&this->m_2fc) != 0) {
+    if (fade->updateFromCamera(&this->body_center.x) != 0) {
         ((VFade_800DEF5C *)fade)->begin_draw();
         draw = 1;
         if (defer_render() != 0) {
@@ -426,7 +424,7 @@ void TObjEnePanarms::render() {
     }
 }
 
-void TObjEnePanarms__sub_800DEEF8(void* p) { push_matrix(p); post_translate_matrix((char*)p + 0x38); rotate_matrix_y((void*)0, *(void**)((char*)p + 0x60)); TObjFish::set_global_param((saddr)((GinjaTextureList *)((s32)(*(void**)((char*)p + 0x24))))); ((ModelNodePositionCapture *)(((TObjEneRe7Berura *)p)->m_39c))->install(); ((TObjMotion *)p)->draw(); ((ModelNodePositionCapture *)(((TObjEneRe7Berura *)p)->m_39c))->clear(); pop_matrix(); }
+void TObjEnePanarms__sub_800DEEF8(void* p) { push_matrix(); post_translate_matrix((char*)p + 0x38); rotate_matrix_y((void*)0, *(void**)((char*)p + 0x60)); TObjFish::set_global_param((saddr)((GinjaTextureList *)((s32)(*(void**)((char*)p + 0x24))))); ((TObjEnePanarms *)p)->m_39c->install(); ((TObjMotion *)p)->draw(); ((TObjEnePanarms *)p)->m_39c->clear(); pop_matrix(); }
 
 #pragma push
 #pragma fp_contract on
@@ -440,7 +438,7 @@ void TObjEnePanarms::draw_shadow() {
     f32 t;
 
     if (!(*(f32 *)&this->unk_384 > 19.800001f + *(f32 *)((s8 *)((u8 *)this) + 0x3C))) {
-        push_matrix(this);
+        push_matrix();
         translate_matrix(0, 0.25f * *(f32 *)((s8 *)((u8 *)this) + 0x38) + 0.75f * draw_positions[0].x, 0.2f + *(f32 *)&this->unk_384, 0.25f * *(f32 *)((s8 *)((u8 *)this) + 0x40) + 0.75f * draw_positions[0].z);
         direction_to_rotation_xz(((u8 *)this) + 0x248, &spC, &sp8);
         rotate_matrix_z(0, sp8);
@@ -710,9 +708,9 @@ s32 TObjEnePanarms::sub_800DE390() {
     }
 }
 
-void TObjEnePanarms::vfunc_63() { if (this->state != 4) { set_state((saddr)((void*)((void*)4))); } }
+void TObjEnePanarms::run_death_reaction() { if (this->state != 4) { set_state((saddr)((void*)((void*)4))); } }
 
-void TObjEnePanarms::vfunc_62() {
+void TObjEnePanarms::run_hit_reaction() {
     Obj_800DE2D0 *arg0 = (Obj_800DE2D0 *)this;
     switch (arg0->f374) {
     case 1:
@@ -726,7 +724,7 @@ void TObjEnePanarms::vfunc_62() {
     }
 }
 
-void TObjEnePanarms::vfunc_61() { this->actorFlags &= 0xfffffeff; }
+void TObjEnePanarms::run_miss_reaction() { this->actorFlags &= 0xfffffeff; }
 
 void TObjEnePanarms::enter_idle() { *(s32 *)((s8 *)this + 0x3E0) = 1; *(s32 *)((s8 *)this + 0x3DC) = 1; }
 

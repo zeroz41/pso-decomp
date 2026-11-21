@@ -13,6 +13,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/text_803D96A8.h"
 
 // Stored in the object name field by the constructor.
 const char *TObjEnePanarmsAtkColli_class_name = "TObjEnePanarmsAtkColli";
@@ -110,7 +111,6 @@ void fn_800E322C(void *p, void *t);
 void vec3_add_to(void *, void *);
 f32 vector_length(void *);
 void subtract_vector(void *, void *);
-void normalize_vector(void *);
 ModelNodePositionCapture::ModelNodePositionCapture(const ModelNodePositionEntry *entries, Vec *positions) {
     this->entries = entries;
     this->positions = positions;

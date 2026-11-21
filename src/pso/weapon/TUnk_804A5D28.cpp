@@ -30,7 +30,6 @@ extern "C" {
 s32 post_translate_matrix(void *);
 s32 rotate_matrix_z(s32, s32);
 s32 rotate_matrix_x(s32, s32);
-s32 push_matrix();
 s32 vec3_add_to(void *, void *);
 }
 

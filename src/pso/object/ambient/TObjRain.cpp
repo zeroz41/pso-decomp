@@ -12,6 +12,7 @@
 #include "pso/render/render_util.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/unk/text_803D96A8.h"
 
 extern "C" { extern const char TObjRain__class_name_string[9] = "TObjRain"; }
 
@@ -29,7 +30,6 @@ void vec3_add_to(Vec *, const Vec *);
 f32 xz_distance_squared(void *, void *);
 void draw_line_list(NJS_POINT3COL *, s32, s32);
 void subtract_vector(Vec *, const Vec *);
-f32 normalize_vector(Vec *);
 extern TCameraCtrl *camera_ctrl_instance;
 }
 

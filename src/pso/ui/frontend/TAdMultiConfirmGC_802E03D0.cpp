@@ -1,4 +1,5 @@
 #include "pso/render/ChunkMaterialState.h"
+#include "pso/unk/text_803D96A8.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TUnk_804E3008.h"
 #include "pso/ui/frontend/TAdPlyStatusGC.h"
@@ -56,9 +57,6 @@ typedef struct Stack_802E0468 Stack_802E0468;
 
 s32 post_translate_matrix(void *);
 s32 rotate_matrix_y(int, int);
-s32 push_matrix_from();
-s32 push_matrix();
-s32 pop_matrix();
 
 extern TObjMotionAction lbl_804E2F78[9];
 u8 *TAdMultiPlyChrSelectGC__resource_bundle;
@@ -318,15 +316,13 @@ void TUnk_804E3008::update_chara_making() {
     rotate_matrix_y(0, rotation_y);
     TObjFish::set_global_param((saddr)m_170->get_status_sub());
     draw_model_with_arg((void *)m_170->get_field_4a4());
-    get_item_ptr(0x3A);
-    push_matrix_from();
+    push_matrix_from((void *)get_item_ptr(0x3A));
     TObjFish::set_global_param((saddr)m_170->get_status_data());
     m_170->get_field_4a0();
     ((s32 (*)())play_phase_transition_sound__10TObjPlayerFl)();
     pop_matrix();
     if (m_170->get_field_49c() != 0U) {
-        get_item_ptr(0x3B);
-        push_matrix_from();
+        push_matrix_from((void *)get_item_ptr(0x3B));
         TObjFish::set_global_param((saddr)m_170->get_chara_making_data());
         TCharaMaking::enable_making();
         m_170->get_field_49c();
@@ -335,8 +331,7 @@ void TUnk_804E3008::update_chara_making() {
         pop_matrix();
     }
     if (m_170->get_field_498() != 0U) {
-        get_item_ptr(0x3B);
-        push_matrix_from();
+        push_matrix_from((void *)get_item_ptr(0x3B));
         TObjFish::set_global_param((saddr)m_170->get_chara_making_data());
         TCharaMaking::enable_making();
         TObjPlayer__sub_802E0580(this, m_170->get_field_498(), visual_record);

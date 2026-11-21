@@ -23,7 +23,7 @@ struct TBoss6Mag : public TObjEnemy {
     void update_effect_positions();
     s32 is_phase_active();
     virtual f32 receive_physical_attack(void *, f32);
-    virtual void vfunc_63();
+    virtual void run_death_reaction();
     void render();
     void run_task();
     u32 m_390;

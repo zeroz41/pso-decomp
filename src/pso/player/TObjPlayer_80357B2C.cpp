@@ -20,6 +20,7 @@
 #include "pso/item/TItem.h"
 
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/unk/text_803D96A8.h"
 
 struct InwardOrbitDir { s32 x, y, z; };
 
@@ -40,7 +41,6 @@ int get_item_field_6__10TObjPlayerFPv(void *p);
 void dispatch_weapon_special_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase);
 void *spawn_continuous_particle_with_direction(void *pos, void *dir, s32 id);
 f32 vector_length(void *);
-s32 normalize_vector(void *);
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 s32 get_bml_motion(s32, s32);
 
@@ -199,7 +199,7 @@ void handle_exp_steal_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s32
         player->update_battle_control_if_unlocked();
     }
     if (phase == 1) {
-        spawn_particle_effect((const Vec *)&player->m_2fc, 0xA8);
+        spawn_particle_effect(&player->body_center, 0xA8);
     }
 }
 
@@ -209,7 +209,7 @@ void handle_action(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase) {
         player->update_battle_control_if_unlocked();
     }
     if (phase == 1) {
-        TParticleCtrl *particle = (TParticleCtrl *)spawn_particle_effect((const Vec *)&player->m_2fc, 0xA8);
+        TParticleCtrl *particle = (TParticleCtrl *)spawn_particle_effect(&player->body_center, 0xA8);
         if (particle != NULL) {
             particle->set_scale(0.2f, 0.3f);
         }
@@ -221,7 +221,7 @@ void dispatch_effect_by_type(TObjPlayer *player, TObjBase *target, Vec *pos, s32
         player->update_battle_control_if_unlocked();
     }
     if (phase == 1) {
-        spawn_particle_effect((const Vec *)&player->m_2fc, 0x10A);
+        spawn_particle_effect(&player->body_center, 0x10A);
     }
 }
 
@@ -239,7 +239,7 @@ void handle_symbol_chat_action(TObjPlayer *player, TObjBase *target, Vec *pos, s
         player->update_battle_control_if_unlocked();
     }
     if (phase == 1) {
-        TParticleCtrl *particle = (TParticleCtrl *)spawn_particle_effect((const Vec *)&player->m_2fc, 0x67);
+        TParticleCtrl *particle = (TParticleCtrl *)spawn_particle_effect(&player->body_center, 0x67);
         if (particle != NULL) {
             particle->set_scale(0.2f, 0.3f);
         }
@@ -251,7 +251,7 @@ void handle_action_by_type(TObjPlayer *player, TObjBase *target, Vec *pos, s32 p
         player->update_battle_control_if_unlocked();
     }
     if (phase == 1) {
-        spawn_particle_effect((const Vec *)&player->m_2fc, 0x67);
+        spawn_particle_effect(&player->body_center, 0x67);
     }
 }
 
@@ -260,7 +260,7 @@ void handle_stage_event(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phas
         player->update_battle_control_if_unlocked();
     }
     if (phase == 1) {
-        spawn_particle_effect((const Vec *)&player->m_2fc, 0x66);
+        spawn_particle_effect(&player->body_center, 0x66);
     }
 }
 
@@ -285,8 +285,8 @@ void prepare_shock_special_effect(TObjPlayer *player, TObjBase *target, Vec *pos
 
 void weapon_hell_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase) {
     if (phase == 0) {
-        spawn_particle_effect((const Vec *)&player->m_2fc, 0xC6);
-        spawn_particle_effect((const Vec *)&player->m_2fc, 0xC9);
+        spawn_particle_effect(&player->body_center, 0xC6);
+        spawn_particle_effect(&player->body_center, 0xC9);
     }
     if (phase == 1) {
         {
@@ -306,8 +306,8 @@ void weapon_hell_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phas
 
 void weapon_dark_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase) {
     if (phase == 0) {
-        spawn_particle_effect((const Vec *)&player->m_2fc, 0xC6);
-        spawn_particle_effect((const Vec *)&player->m_2fc, 0xC9);
+        spawn_particle_effect(&player->body_center, 0xC6);
+        spawn_particle_effect(&player->body_center, 0xC9);
     }
     if (phase == 1) {
         spawn_particle_effect(pos, 0x1C5);
@@ -331,7 +331,7 @@ void weapon_dim_shadow_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s3
 
 void dispatch_attack_event(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase) {
     if (phase == 0) {
-        spawn_particle_effect((const Vec *)&player->m_2fc, 0xA0);
+        spawn_particle_effect(&player->body_center, 0xA0);
     }
     if (phase == 1) {
         spawn_scattered_lightning_strikes((u8 *)pos, 4);
@@ -340,7 +340,7 @@ void dispatch_attack_event(TObjPlayer *player, TObjBase *target, Vec *pos, s32 p
 
 void dispatch_by_type(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase) {
     if (phase == 0) {
-        spawn_particle_effect((const Vec *)&player->m_2fc, 0xA0);
+        spawn_particle_effect(&player->body_center, 0xA0);
     }
     if (phase == 1) {
         spawn_scattered_lightning_strikes((u8 *)pos, 4);
@@ -375,7 +375,7 @@ void spawn_effect_by_type(TObjPlayer *player, TObjBase *target, Vec *pos, s32 ph
     saddr temp_a;
 
     if (phase == 0) {
-        spawn_particle_effect((const Vec *)&player->m_2fc, 0xBD);
+        spawn_particle_effect(&player->body_center, 0xBD);
     }
     if (phase == 1) {
         temp_a = (saddr)create_timed_particle_emitter(pos, 0xBF, 0, 0xF);
@@ -389,7 +389,7 @@ void spawn_hit_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase)
     saddr timed_particle_emitter;
 
     if (phase == 0) {
-        spawn_particle_effect((const Vec *)&player->m_2fc, 0xBD);
+        spawn_particle_effect(&player->body_center, 0xBD);
     }
     if (phase == 1) {
         timed_particle_emitter = (saddr)create_timed_particle_emitter(pos, 0x9A, 0, 0xF);
@@ -411,7 +411,7 @@ void prepare_freeze_special_effect(TObjPlayer *player, TObjBase *target, Vec *po
 void weapon_fire_explosion_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase) {
     TUnk_804CCB28 *obj;
     if (phase == 0) {
-        spawn_particle_effect((const Vec *)&player->m_2fc, 0x69);
+        spawn_particle_effect(&player->body_center, 0x69);
     }
     if (phase == 1) {
         obj = static_cast<TUnk_804CCB28 *>(TObject::operator new(sizeof(TUnk_804CCB28)));
@@ -429,7 +429,7 @@ void weapon_fire_explosion_effect(TObjPlayer *player, TObjBase *target, Vec *pos
 
 void spawn_mirror_pair(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase) {
     if (phase == 0) {
-        spawn_particle_effect((const Vec *)&player->m_2fc, 0x69);
+        spawn_particle_effect(&player->body_center, 0x69);
     }
     if (phase == 1) {
         new TUnk_804F166C(tl_05, pos, target->rotation_y);

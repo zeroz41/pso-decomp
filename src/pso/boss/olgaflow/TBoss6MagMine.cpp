@@ -21,6 +21,7 @@
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/hud/TRaderMapCore.h"
 
 struct Mine_80368C14 { u8 pad[0x38]; Vec pos; };
 
@@ -120,7 +121,6 @@ void *__vt__13TBoss6MagMine[11] = {
     (void *)0x0, (void *)0x0, (void *)0x0,
 };
 void vec3_add_to(void *, void *);
-void add_radar_scaled_marker(void *, int, int, int, f32);
 void vt2__13TBoss6MagMineFv(u8 *arg0);
 void vt1__13TBoss6MagMineFv(u8 *arg0);
 f32 vector_length(Vec *);
@@ -131,7 +131,6 @@ int TBoss6PlotFalz__sub_8036964C(void);
 void TBoss6MagMine__sub_80368AB8(u8 *arg0, u8 *arg1);
 saddr VecCopy__FP3VecPC3Vec(saddr, saddr);
 s32 init_collision_body_parts(void *, void *, int);
-s32 normalize_vector(void *);
 const char *lbl_805D44B0 = "TBoss6MagMine";
 s32 is_player_in_range__13TBoss6MagMineFPv(void *arg0_);
 void TBoss4DarkFalz__sub_8004B4F0(void *arg0p, void *arg1p);
@@ -144,15 +143,14 @@ int post_translate_matrix(void*);
 void free_collision_body_parts(void *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 int rotate_matrix_y(void*, void*);
-int push_matrix(void*);
 
-void TUnk_804F322C::vfunc_63() {
+void TUnk_804F322C::run_death_reaction() {
     if ((s32) *(s32 *)((s8 *)this + 0x390) != 4) {
         *(s32 *)((s8 *)this + 0x390) = 4;
     }
 }
 
-void TUnk_804F322C::vfunc_62() {
+void TUnk_804F322C::run_hit_reaction() {
     u8 *arg0 = (u8 *)this;
     *(s32 *)((s8 *)arg0 + 0x30) = (s32) (*(s32 *)((s8 *)arg0 + 0x30) & 0xFFFFFDFF);
     *(f32 *)((s8 *)arg0 + 0x3A8) = (f32) 1.0f;
@@ -178,7 +176,7 @@ void TUnk_804F322C::update_linked_state() {
     clear_motion_packed_rotation();
 }
 
-void TUnk_804F322C::render() { push_matrix(this); post_translate_matrix((char*)this + 0x38); rotate_matrix_y((void*)0, *(void**)((char*)this + 0x3ac)); update_linked_state(); pop_matrix(); }
+void TUnk_804F322C::render() { push_matrix(); post_translate_matrix((char*)this + 0x38); rotate_matrix_y((void*)0, *(void**)((char*)this + 0x3ac)); update_linked_state(); pop_matrix(); }
 
 void TBoss6MagMine__sub_80368AB8(u8 *arg0, u8 *arg1) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80368AB8, sp8) == 0x0);
@@ -463,7 +461,7 @@ TUnk_804F322C::TUnk_804F322C(TObject *parent, saddr arg2) : TObjEnemy(parent) {
     if (vector_length((Vec *) (self + 0x378)) <= 1e-05f) {
         *(f32 *)((s8 *)self + 0x378) = 1.0f;
     }
-    normalize_vector(self + 0x378);
+    normalize_vector((Vec *)(self + 0x378));
     *(f32 *)((s8 *)self + 0x378) *= 4.166667f;
     *(f32 *)((s8 *)self + 0x380) *= 4.166667f;
     *(u32 *)((s8 *)self + 0x3B0) = (uaddr)create_particle_emitter(self + 0x38, 0x146);

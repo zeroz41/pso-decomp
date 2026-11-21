@@ -164,7 +164,6 @@ struct NjObj_8018DD0C {
 
 extern "C" {
 s32 rotate_matrix_by_node_angles(void *, int);
-s32 push_matrix();
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
 extern u8 chunk_material_color_half_alpha_f32[];

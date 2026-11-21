@@ -24,8 +24,8 @@ public:
     void draw_hanger();
     virtual void run_task();
     virtual void render();
-    virtual void vfunc_62();
-    virtual void vfunc_63();
+    virtual void run_hit_reaction();
+    virtual void run_death_reaction();
     virtual void clear_harmful_statuses();
     virtual void apply_shock_status();
     virtual void apply_movement_ailment(s32);

@@ -108,8 +108,8 @@ void TOTrap::find_target_player() {
 }
 
 void TOTrap::play_sounds() {
-    spawn_particle_effect((const Vec *)&m_2fc, 0x45);
-    spawn_particle_effect((const Vec *)&m_2fc, 0x46);
+    spawn_particle_effect(&body_center, 0x45);
+    spawn_particle_effect(&body_center, 0x46);
 }
 
 void TOTrap::vfunc_6(s16 *arg1, s32 arg2) {
@@ -188,7 +188,6 @@ extern "C" {
 
 s32 post_translate_matrix(void *);
 s32 rotate_matrix_y(s32, s32);
-s32 push_matrix();
 
 #pragma explicit_unused_unused_members on
 void TOTrap::render() {

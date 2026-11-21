@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/unk/text_803D96A8.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/vector.h"
 #include "pso/ui/font/TFontSmallTask.h"
@@ -68,14 +69,11 @@ f32 calc_small_font_scale(void) {
 struct Quad_800FCD40 { f32 x, y, right, bottom, u, v, u2, v2; };
 extern "C" {
 
-void push_matrix_from(void *);
 void rotate_matrix_y(int, s32);
 void rotate_matrix_x(int, s32);
 void rotate_matrix_z(int, s32);
 void rotate_vector_by_matrix(int, Vec *, Vec *);
-void pop_matrix(void);
 f32 vec3_dot(Vec *, Vec *);
-void push_matrix(void);
 void project_world_to_screen(int, f32 *, f32 *);
 s32 is_split_screen(void);
 void begin_screen_draw(int);

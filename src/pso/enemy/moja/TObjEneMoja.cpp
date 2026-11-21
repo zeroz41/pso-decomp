@@ -280,7 +280,6 @@ s32 angle_difference_abs(s32, s32);
 s32 obj_is_hit_receivable();
 
 void set_matrix_identity(u8 *arg0);
-s32 push_matrix();
 
 s32 post_translate_matrix(void *);
 s32 calc_velocity_toward_destination(void *, Vec, Vec, f32);
@@ -663,7 +662,7 @@ void TObjEneMoja::render() {
             }
             TParticleCtrl::end_effect_render();
         }
-        ((s32 (*)())pop_matrix)();
+        pop_matrix();
         clear_motion_packed_rotation();
     }
     model_render_flags &= ~1;
@@ -690,7 +689,7 @@ void TObjEneMoja::render() {
 
 // TObjChara's slot 28. Picks the nearest player or enemy it can reach as the
 // target (inferred purpose; the slot has no evidenced name).
-void TObjEneMoja::vfunc_28() {
+void TObjEneMoja::refresh_target() {
     s32 best_id;
     s32 i;
     s32 id;
@@ -715,11 +714,11 @@ void TObjEneMoja::vfunc_28() {
                     f32 xx;
                     f32 zz;
                     VecCopy((Vec *)&v, (const Vec *)(p + 0x2FC));
-                    subtract_vector(&v, &m_2fc);
+                    subtract_vector(&v, &body_center);
                     xx = v.x * v.x;
                     zz = v.z * v.z;
                     d = xx + zz;
-                    if (d < best && check_path_obstructed(this, p + 0x2FC) != 1 && csnVector(&m_2fc, p + 0x2FC, -1) == 0U) {
+                    if (d < best && check_path_obstructed(this, p + 0x2FC) != 1 && csnVector(&body_center, p + 0x2FC, -1) == 0U) {
                         best_id = id;
                         best = d;
                     }
@@ -796,7 +795,7 @@ s32 TObjEneMoja::update_movement_status() {
     return 0;
 }
 
-void TObjEneMoja::vfunc_58() {
+void TObjEneMoja::run_idle_action() {
     s32 temp_r0;
 
     temp_r0 = mode;
@@ -903,7 +902,7 @@ void TObjEneMoja::update_appearance_jump() {
                 break;
             }
             if (((s32 (*)(void *))obj_is_hit_receivable)(p) != 0) {
-                dist = horizontal_distance_squared((saddr)((u8 *)p + 0x2FC), &m_2fc);
+                dist = horizontal_distance_squared((saddr)((u8 *)p + 0x2FC), &body_center);
                 if (dist <= 2500.0f) {
                     Hit_800AE7F4 hit;
                     hit.a = 0;
@@ -983,7 +982,7 @@ void TObjEneMoja::update_appearance_drop() {
                 break;
             }
             if (((s32 (*)(void *))obj_is_hit_receivable)(p) != 0) {
-                dist = horizontal_distance_squared((saddr)((u8 *)p + 0x2FC), &m_2fc);
+                dist = horizontal_distance_squared((saddr)((u8 *)p + 0x2FC), &body_center);
                 if (dist <= 2500.0f) {
                     Hit_800AE450 hit;
                     hit.a = 0;
@@ -1014,7 +1013,7 @@ void TObjEneMoja::update_appearance_drop() {
     }
 }
 
-void TObjEneMoja::vfunc_59() {
+void TObjEneMoja::run_move_action() {
     MojaCollisionState *moja_collision_state;
 
     if ((s16) mode != 3) {
@@ -1160,7 +1159,7 @@ s32 TObjEneMoja::is_target_in_attack_range() {
     return 0;
 }
 
-void TObjEneMoja::vfunc_60() {
+void TObjEneMoja::run_attack_action() {
     Moja_800ADE48 *self = (Moja_800ADE48 *)this;
     switch (self->attack_kind) {
     case 2:
@@ -1232,7 +1231,7 @@ s32 TObjEneMoja::update_punch_attack(void *self_800ADAAC) {
                 post_translate_matrix(arg0 + 0x38);
                 rotate_matrix_y(0, *(s32 *)(arg0 + 0x60));
                 matrix_mult_vec_array(NULL, (const Vec *)e, &sp8, 2);
-                ((s32 (*)())pop_matrix)();
+                pop_matrix();
                 o = *(V398_800ADAAC **)(arg0 + 0x398);
                 if (o != NULL) {
                     o->m4(&sp8, &sp14);
@@ -1374,7 +1373,7 @@ s32 TObjEneMoja::update_technique_state(void *self_800AD3D8) {
                             ((s32 (*)(void *))push_matrix_from)(identity_matrix);
                             rotate_matrix_y(0, self->rot_y);
                             ((s32 (*)(int, void *, void *))rotate_vector_by_matrix)(0, &dir, &dir);
-                            ((s32 (*)())pop_matrix)();
+                            pop_matrix();
                         }
                         if (self->target != NULL) {
                             Hit_800ACFE8 hit;
@@ -1388,7 +1387,7 @@ s32 TObjEneMoja::update_technique_state(void *self_800AD3D8) {
                         ((s32 (*)(void *))push_matrix_from)(identity_matrix);
                         rotate_matrix_y(0, self->rot_y);
                         ((s32 (*)(int, void *, void *))rotate_vector_by_matrix)(0, &dir, &dir);
-                        ((s32 (*)())pop_matrix)();
+                        pop_matrix();
                     }
                     obj = TObject::operator new(0x260);
                     if (obj != NULL) {
@@ -1466,10 +1465,10 @@ void TObjEneMoja::update_attack_jump() {
             if (target != NULL) {
                 Vec dest = *(Vec *)(target + 0x2FC);
                 if (select_enemy_destination(this, (Vec *)&dest, 1) != 0) {
-                    Vec pos = *(Vec *)&m_2fc;
+                    Vec pos = body_center;
                     copy_position_if_valid__10TObjPlayerFii(this, (Vec *)&pos);
                     VecCopy((Vec *)&delta, (const Vec *)&m_29c);
-                    subtract_vector(&delta, &m_2fc);
+                    subtract_vector(&delta, &body_center);
                     jumpSpeed = -20.0f + newton_sqrtf(delta.x * delta.x + delta.z * delta.z);
                     jumpSpeed = jumpSpeed / (12.0f / play_speed);
                     phase = 1;
@@ -1494,7 +1493,7 @@ void TObjEneMoja::update_attack_jump() {
                     break;
                 }
                 if (((s32 (*)(void *))obj_is_hit_receivable)(p) != 0) {
-                    d = horizontal_distance_squared((saddr)(p + 0x2FC), &m_2fc);
+                    d = horizontal_distance_squared((saddr)(p + 0x2FC), &body_center);
                     if (d <= ((AttackParams *)(m_318))->get_damage_radius() * ((AttackParams *)(m_318))->get_damage_radius()) {
                         Hit_800ACFE8 hit;
                         hit.a = 0;
@@ -1525,7 +1524,7 @@ void TObjEneMoja::update_attack_jump() {
     }
 }
 
-void TObjEneMoja::vfunc_61() {
+void TObjEneMoja::run_miss_reaction() {
 
     switch (mode) {
     case 4:
@@ -1563,7 +1562,7 @@ void TObjPlayer::update_invincibility() {
     }
 }
 
-void TObjEneMoja::vfunc_62() {
+void TObjEneMoja::run_hit_reaction() {
     MojaCollisionState *moja_collision_state;
 
     switch (mode) {
@@ -1605,7 +1604,7 @@ void TObjPlayer::update_ground_effect() {
     }
 }
 
-void TObjEneMoja::vfunc_63() {
+void TObjEneMoja::run_death_reaction() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r6;
     if ((s16) this->mode != 9) {

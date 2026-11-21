@@ -22,9 +22,9 @@ struct TObjEnePanarms : public TObjEnemy {
     virtual void run_task();
     virtual void render();
     s32 sub_800DE390();
-    void vfunc_63();
-    void vfunc_62();
-    void vfunc_61();
+    void run_death_reaction();
+    void run_hit_reaction();
+    void run_miss_reaction();
     s32 state; // index into the TU's {enter, update} state table
     Vec move_velocity; // added to position every frame (0x378)
     u8 unk_384[0x4];

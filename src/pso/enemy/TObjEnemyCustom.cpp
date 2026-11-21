@@ -10,6 +10,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/math/InverseTrig.h"
 #include "pso/render/render_util.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
@@ -100,7 +101,7 @@ void TObjEnemyCustom::run_task() {
         state = 0;
     }
     update_prev_position();
-    VecCopy(&center, body_center());
+    VecCopy(&center, &body_center);
 }
 
 void TObjEnemyCustom::dispatch_state() {
@@ -128,10 +129,10 @@ void TObjEnemyCustom::dispatch_state() {
     }
 }
 
-void TObjEnemyCustom::vfunc_28() {
+void TObjEnemyCustom::refresh_target() {
 }
 
-void TObjEnemyCustom::vfunc_58() { this->update_if_active(0); }
+void TObjEnemyCustom::run_idle_action() { this->update_if_active(0); }
 
 void TObjEnemyCustom::update_state() {
     switch (state) {
@@ -150,7 +151,7 @@ void TObjEnemyCustom::update_state() {
     }
 }
 
-void TObjEnemyCustom::vfunc_59() { this->update_if_active(1); }
+void TObjEnemyCustom::run_move_action() { this->update_if_active(1); }
 
 void TObjEnemyCustom::update_wander_state() {
     switch (state) {
@@ -162,7 +163,7 @@ void TObjEnemyCustom::update_wander_state() {
     case 1:
         advance_animation();
         if (target != NULL) {
-            Vec dest = *((TObjChara *)target)->body_center();
+            Vec dest = ((TObjChara *)target)->body_center;
             EnemyMoveParams *params = (EnemyMoveParams *)movementParameters;
             f32 distance = update_enemy_wander_move(this, &dest, 1, params, params->min_distance);
             params = (EnemyMoveParams *)movementParameters;
@@ -177,7 +178,7 @@ void TObjEnemyCustom::update_wander_state() {
     }
 }
 
-void TObjEnemyCustom::vfunc_60() { this->update_if_active(2); }
+void TObjEnemyCustom::run_attack_action() { this->update_if_active(2); }
 
 void TObjEnemyCustom::update() {
     switch (state) {
@@ -206,7 +207,7 @@ void TObjEnemyCustom::update() {
     }
 }
 
-void TObjEnemyCustom::vfunc_61() {
+void TObjEnemyCustom::run_miss_reaction() {
 }
 
 void TObjEnemyCustom::update_state_machine() {
@@ -237,7 +238,7 @@ void TObjEnemyCustom::update_state_machine() {
     }
 }
 
-void TObjEnemyCustom::vfunc_62() {
+void TObjEnemyCustom::run_hit_reaction() {
     this->set_state(4);
     m_388 |= 1;
 }
@@ -268,7 +269,7 @@ void TObjEnemyCustom::update_knockback_state() {
     }
 }
 
-void TObjEnemyCustom::vfunc_63() {
+void TObjEnemyCustom::run_death_reaction() {
     this->set_state(5);
     m_388 |= 1;
 }
@@ -395,7 +396,7 @@ void TObjEneBalClawBody::sub_800C73F4() {
         this->update_if_active(8);
         return;
     }
-    vfunc_58();
+    run_idle_action();
 }
 
 void TObjEnemyCustom::move_along_ground_avoiding_walls(Vec dest, f32 speed, f32 probe) {
@@ -405,7 +406,7 @@ void TObjEnemyCustom::move_along_ground_avoiding_walls(Vec dest, f32 speed, f32 
     s32 i;
     calc_velocity_toward_destination(this, *&position, dest, speed);
     VecCopy(&prev_position, &position);
-    VecCopy(&probe_end, body_center());
+    VecCopy(&probe_end, &body_center);
     Vec step = *velocity();
     Vec up;
     Vec cross;
@@ -413,10 +414,9 @@ void TObjEnemyCustom::move_along_ground_avoiding_walls(Vec dest, f32 speed, f32 
     Vec next;
     vec_set_length(&step, speed + probe);
     vec3_add_to(&probe_end, &step);
-    hit = csnVector(body_center(), &probe_end, -1);
+    hit = csnVector(&body_center, &probe_end, -1);
     if (hit != NULL) {
-        vec3_dot(velocity(), &hit->contact->normal);
-        angle = (s32)(10430.38043493439 * TObjPlayer::get_scale_factor());
+        angle = (s32)(10430.38043493439 * acosf(vec3_dot(velocity(), &hit->contact->normal)));
         up.x = up.z = 0.0f;
         up.y = 1.0f;
         vec3_cross(velocity(), &hit->contact->normal, &cross);
@@ -539,7 +539,7 @@ void TObjEneDubchik::target_nearest_player(f32 radius) {
     for (i = 0; i < count; i++) {
         entity = (TObjEnemyCustom *)TObjPlayer::get_player_data(i);
         if (entity != this && entity != NULL && target != (u8 *)entity) {
-            distance = xz_distance_squared(entity->body_center(), body_center());
+            distance = xz_distance_squared(&entity->body_center, &body_center);
             if (distance < best_distance) {
                 best_distance = distance;
                 best = i;
@@ -572,7 +572,7 @@ u16 TObjEnemyCustom::pick_random_nearby_player(f32 radius) {
         if (entity == NULL) {
             break;
         }
-        if (xz_distance_squared(entity->body_center(), body_center()) < radius_sq) {
+        if (xz_distance_squared(&entity->body_center, &body_center) < radius_sq) {
             candidates[found++] = i;
             if (found >= 32) {
                 break;
@@ -585,9 +585,9 @@ u16 TObjEnemyCustom::pick_random_nearby_player(f32 radius) {
     return candidates[(s32)((f32)found * random_ratio())];
 }
 
-void TObjEnemyCustom::vfunc_79(s32 *state) {
+void TObjEnemyCustom::apply_enemy_state(s32 *state) {
     s16 saved_mode = mode;
-    TObjEnemy::vfunc_79(state);
+    TObjEnemy::apply_enemy_state(state);
     mode = saved_mode;
 }
 

@@ -19,9 +19,9 @@
 
 #define RAD_TO_ANGLE (32768.0 / 3.141592f)
 #include "pso/render/render_util_tail.h"
+#include "pso/unk/text_803D96A8.h"
 
 extern "C" {
-void normalize_vector(Vec *v);
 int is_float_nonfinite(f32 farg0);
 }
 

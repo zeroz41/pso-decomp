@@ -21,7 +21,7 @@
 #include "pso/enemy/dellbiter/TObjEneDellBiter.h"
 #include "pso/enemy/dolmolm/TObjEneDolmOlm.h"
 #include "pso/enemy/merilllia/TObjEneMerillLia.h"
-#include "pso/enemy/recon/TObjEneRecobox_8031FCB0.h"
+#include "pso/enemy/recon/TObjEneRecobox.h"
 #include "pso/quest/TQuestListChallenge.h"
 #include "pso/npc/TObjNpcAHM01.h"
 #include "pso/npc/TObjNpcARM00.h"
@@ -274,7 +274,7 @@ EnemyFactoryEntry enemy_factories_floor_11[3] = {
 };
 
 EnemyFactoryEntry enemy_factories_floor_12[3] = {
-    { 0x00C1, create__13TBoss2DeRolLeFPv, 250000.0f, 19 },
+    { 0x00C1, TBoss2DeRolLe::create, 250000.0f, 19 },
     { 0x0033, TObjNpcEnemy__create, 250000.0f, 0 },
     { -1, 0, 250000.0f, 0 },
 };
@@ -435,7 +435,7 @@ EnemyFactoryEntry enemy_factories_floors_23_24_25_26_27[12] = {
 
 EnemyFactoryEntry enemy_factories_floor_34[9] = {
     { 0x00DD, TObjEneDolmOlm__create, 250000.0f, 0 },
-    { 0x00DF, TObjEneRecobox__create, 250000.0f, 0 },
+    { 0x00DF, TObjEneRecobox::create, 250000.0f, 0 },
     { 0x00D5, TObjEneMerillLia__create, 250000.0f, 0 },
     { 0x00D7, TObjEneBm5GibonU::create, 250000.0f, 0 },
     { 0x00D9, TObjEneMe1Gee::create, 250000.0f, 0 },
@@ -449,7 +449,7 @@ EnemyFactoryEntry enemy_factories_floor_35[11] = {
     { 0x00D6, TObjEneBm9Mericarol::create, 250000.0f, 0 },
     { 0x00D8, TObjEneGibbles::create, 250000.0f, 0 },
     { 0x00DA, TObjEneMe1GiGue::create, 250000.0f, 0 },
-    { 0x00DF, TObjEneRecobox__create, 250000.0f, 0 },
+    { 0x00DF, TObjEneRecobox::create, 250000.0f, 0 },
     { 0x00DC, TObjEneDellBiter::create, 250000.0f, 0 },
     { 0x00E0, create_TObjEneEpsilonBody, 250000.0f, 4 },
     { 0x0061, TObjEneRe2Flower::create, 250000.0f, 0 },
@@ -462,7 +462,7 @@ EnemyFactoryEntry enemy_factories_floor_35[11] = {
 EnemyFactoryEntry enemy_factories_floors_28_29[9] = {
     { 0x00DD, TObjEneDolmOlm__create, 250000.0f, 0 },
     { 0x00DE, create__13TObjEneMorfosFv, 250000.0f, 0 },
-    { 0x00DF, TObjEneRecobox__create, 250000.0f, 0 },
+    { 0x00DF, TObjEneRecobox::create, 250000.0f, 0 },
     { 0x00E0, TObjEneMe3SinowZoaReal__create, 250000.0f, 0 },
     { 0x00DB, create__15TObjEneDelDepthFPv, 250000.0f, 0 },
     { 0x00DC, TObjEneDellBiter::create, 250000.0f, 0 },

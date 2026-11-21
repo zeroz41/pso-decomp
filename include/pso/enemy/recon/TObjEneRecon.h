@@ -8,23 +8,22 @@ struct NJS_OBJECT;
 
 struct TObjEneRecon : public TObjEneDD_ST {
     virtual ~TObjEneRecon();
-    virtual s32 vfunc_104(f32);
+    virtual s32 acquire_target(f32);
     s32 render_model_if_visible();
-    virtual void vfunc_89();
-    virtual void vfunc_88();
-    virtual void vfunc_105();
-    virtual void vfunc_106();
+    virtual void check_collisions();
+    virtual void update_body_colliders();
+    virtual void run_demo_task();
+    virtual void render_demo();
     virtual void dispatch_action(u32 state, s32 reason);
     void update_flag_0x444();
     void sub_8031D4B0(s32);
-    void vfunc_63();
-    void vfunc_62();
-    void vfunc_61();
-    void vfunc_28();
+    void run_death_reaction();
+    void run_hit_reaction();
+    void run_miss_reaction();
+    void refresh_target();
     void render();
     void run_task();
-    u32 m_390;
-    u8 _pad394[0x78];
+    u8 pad_3C0[0x30];
     void* m_40c;
     u8 _pad410[0x8];
     u32 m_418;
@@ -44,10 +43,6 @@ struct TObjEneRecon : public TObjEneDD_ST {
     u32 m_494;
     f32 get_field_4d4();
     f32 get_field_4d0();
-    static void destroy_instance();
-    static void alloc_if_valid_state();
-    static void set_active();
-    static void *create_bomb(void *arg0, void *arg1, void *arg2);
     void render_shadows();
     static void advance_intro_stage(NJS_OBJECT *);
     void update_ground_probe();
@@ -61,28 +56,12 @@ struct TObjEneRecon : public TObjEneDD_ST {
     static void release_static_instance();
     static void *create(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4);
     static void load_resources();
-    void remove_tracked_id(s32 id);
-    s32 alloc_child_id();
-    s32 is_anim_6();
-    void handle_death_state(s32 arg1);
-    void handle_action_state(s32 arg1);
-    void update_state(s32 arg1);
-    void handle_state(s32 arg1);
-    void update_child_spawn();
-    u8 is_out_of_range();
-    void restore_position();
     void*get_field_38_ptr();
-    void remove_child_entity(u8 *arg1);
-    s32 has_child_in_anim_5();
-    s32 is_below_child_limit(u16 arg1);
     u8 unk_47C[0x54];
     f32 m_4d0;
     u8 unk_4D4[0x4];
     s32 m_4d8;
     u8 unk_4DC[0x8];
-    static s32 render_player_marker(u16 arg0, s32 arg1);
-    static void update_particle_if_active();
-    static void notify_scene(s32 arg0);
     s32 calc_scaled_value();
     void handle_message(s32 arg1);
     void retarget();
@@ -96,9 +75,4 @@ struct TObjEneRecon : public TObjEneDD_ST {
 
 LAYOUT_ASSERT(TObjEneRecon_size, sizeof(TObjEneRecon) == 0x4E4);
 
-// --- C functions defined in pso/unk/text_8031EF14.cpp ---
-extern "C" {
-void TObjEneRecobox__sub_8031F1A8(TObjEneRecon *recon);
-}
-// --- end of C functions
 #endif

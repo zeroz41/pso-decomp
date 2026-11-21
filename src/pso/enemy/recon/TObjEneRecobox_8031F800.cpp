@@ -12,7 +12,6 @@
 
 #include "pso/enemy/dd/TObjEneDD_800BB804.h"
 
-#include "pso/enemy/recon/TObjEneRecobox_8031E88C.h"
 
 #include "pso/unk/text_803D96A8.h"
 
@@ -25,6 +24,7 @@
 #include "pso/enemy/recon/TObjEneRecobox.h"
 
 #include "pso/enemy/recon/TObjEneRecon.h"
+#include "pso/render/reflection.h"
 
 #include "pso/effect/particle/TParticleCtrl.h"
 
@@ -60,9 +60,7 @@
 
 #include "pso/system/task/TObject_80019A50.h"
 
-#include "pso/enemy/recon/TObjEneRecon_8031F408.h"
 
-#include "pso/enemy/recon/TObjEneRecon_8031F600.h"
 
 #include "pso/render/TUnk_80494938.h"
 
@@ -84,7 +82,6 @@
 
 #include "pso/math/AngleLookup.h"
 
-#include "pso/enemy/recon/TObjEneRecon_8031FACC.h"
 
 #include "pso/ui/window/TWindowSubComCard.h"
 
@@ -102,7 +99,6 @@ struct Holder_8031EA70 { u8 pad[0x460]; Fade_8031EA70 arr[4]; };
 extern "C" {
 
 
-s32 push_matrix();
 
 s32 post_translate_matrix(void *);
 
@@ -161,7 +157,7 @@ extern "C" {
 
 u16 TObjEneRecon__sub_8031D878();
 
-void remove_tracked_target__12TObjEneReconFPvPv(Obj_8031EFAC *o, u8 *target);
+void remove_tracked_target__14TObjEneRecoboxFPvPv(Obj_8031EFAC *o, u8 *target);
 
 s32 is_anim_5__12TObjEneReconFv();
 
@@ -169,7 +165,7 @@ s32 is_anim_5__12TObjEneReconFv();
 
 
 
-s32 is_out_of_range__12TObjEneReconFv();
+s32 is_out_of_range__14TObjEneRecoboxFv();
 
 }
 
@@ -422,7 +418,7 @@ void TObjEneRecon__sub_8031F408(void *arg0, s32 arg1);
 
 void TObjEneRecon__sub_8031F600(void *arg0, s32 arg1);
 
-void dispatch_state__12TObjEneReconFiUii(saddr arg0, u32 arg1, s32 arg2);
+void dispatch_state__14TObjEneRecoboxFiUii(saddr arg0, u32 arg1, s32 arg2);
 
 void run_task__14TObjEneRecoboxFv(u8 *arg0);
 
@@ -440,47 +436,47 @@ saddr TObjEneRecobox__shared_object_handle;
 
 extern "C" void vfunc_6__8TObjBaseFPsl();
 
-extern "C" void vfunc_103__9TObjEneDDFPUc();
+extern "C" void snap_to_ground_at__9TObjEneDDFPUc();
 
-extern "C" void vfunc_79__9TObjEneDDFPl();
+extern "C" void apply_enemy_state__9TObjEneDDFPl();
 
-extern "C" void vfunc_84__9TObjEneDDFv();
+extern "C" void update_immobilizing_statuses__9TObjEneDDFv();
 
-extern "C" void vfunc_85__9TObjEneDDFv();
+extern "C" void update_action_state__9TObjEneDDFv();
 
-extern "C" void vfunc_86__9TObjEneDDFv();
+extern "C" void has_action_state_changed__9TObjEneDDFv();
 
-extern "C" void vfunc_89__9TObjEneDDFv();
+extern "C" void check_collisions__9TObjEneDDFv();
 
 extern "C" void vfunc_90__9TObjEneDDFv();
 
-extern "C" void vfunc_91__9TObjEneDDFv();
+extern "C" void set_invulnerable__9TObjEneDDFv();
 
-extern "C" void vfunc_92__9TObjEneDDFv();
+extern "C" void clear_invulnerable__9TObjEneDDFv();
 
-extern "C" void vfunc_93__9TObjEneDDFv();
+extern "C" void enable_body_collision__9TObjEneDDFv();
 
-extern "C" void vfunc_94__9TObjEneDDFv();
+extern "C" void disable_body_collision__9TObjEneDDFv();
 
-extern "C" void vfunc_95__9TObjEneDDFv();
+extern "C" void set_intangible__9TObjEneDDFv();
 
-extern "C" void vfunc_96__9TObjEneDDFv();
+extern "C" void clear_intangible__9TObjEneDDFv();
 
-extern "C" void vfunc_97__9TObjEneDDFv();
+extern "C" void set_colliders_contact_high__9TObjEneDDFv();
 
-extern "C" void vfunc_98__9TObjEneDDFv();
+extern "C" void set_colliders_contact_low__9TObjEneDDFv();
 
-extern "C" void vfunc_99__9TObjEneDDFv();
+extern "C" void is_confused__9TObjEneDDFv();
 
-extern "C" void vfunc_100__9TObjEneDDFv();
+extern "C" void render_minimap_dot__9TObjEneDDFv();
 
-extern "C" void vfunc_101__9TObjEneDDFPUc();
+extern "C" void move_xz_on_ground__9TObjEneDDFPUc();
 
-extern "C" void vfunc_102__9TObjEneDDFv();
+extern "C" void update_ground_contact__9TObjEneDDFv();
 
-extern "C" int vfunc_104__12TObjEneDD_STFf(void *p);
+extern "C" int acquire_target__12TObjEneDD_STFf(void *p);
 
-extern "C" void vfunc_83__12TObjEneDD_STFv();
+extern "C" void update_status_effects__12TObjEneDD_STFv();
 
 extern "C" void draw_with_debug_info__14TObjEneRecoboxFv();
 
@@ -488,29 +484,29 @@ extern "C" void render__14TObjEneRecoboxFv(u8 *arg0);
 
 extern "C" void TObjEneRecon__sub_8031FB6C(u8 *arg0);
 
-extern "C" void vfunc_61__14TObjEneRecoboxFv();
+extern "C" void run_miss_reaction__14TObjEneRecoboxFv();
 
-extern "C" void vfunc_62__14TObjEneRecoboxFv();
+extern "C" void run_hit_reaction__14TObjEneRecoboxFv();
 
-extern "C" void vfunc_28__14TObjEneRecoboxFv();
+extern "C" void refresh_target__14TObjEneRecoboxFv();
 
-extern "C" void vfunc_29__9TObjCharaFv();
+extern "C" void has_no_target__9TObjCharaFv();
 
 extern "C" void recalc_stats__9TObjCharaFv();
 
 extern "C" void consume_timer_field__9TObjCharaFl();
 
-extern "C" void vfunc_67__9TObjCharaFf();
+extern "C" void deliver_attack_hits__9TObjCharaFf();
 
 extern "C" void vfunc_66__9TObjCharaFv();
 
 extern "C" void get_anim_node_position__9TObjCharaFlP3Vec();
 
-extern "C" void vfunc_60__9TObjCharaFv();
+extern "C" void run_attack_action__9TObjCharaFv();
 
-extern "C" void vfunc_59__9TObjCharaFv();
+extern "C" void run_move_action__9TObjCharaFv();
 
-extern "C" void vfunc_58__9TObjCharaFv();
+extern "C" void run_idle_action__9TObjCharaFv();
 
 extern "C" void apply_slow_status__9TObjCharaFv();
 
@@ -570,11 +566,11 @@ extern "C" void enemy_spawn_zalure_effect__9TObjCharaFv();
 
 extern "C" void vfunc_78__9TObjCharaFl();
 
-extern "C" void vfunc_77__9TObjCharaFv();
+extern "C" void gain_photon_blast_chain_charge__9TObjCharaFv();
 
-extern "C" void vfunc_76__9TObjCharaFf();
+extern "C" void spend_photon_blast_charge__9TObjCharaFf();
 
-extern "C" void vfunc_75__9TObjCharaFf();
+extern "C" void gain_photon_blast_charge__9TObjCharaFf();
 
 extern "C" void clear_lobby_object_state__9TObjEnemyFv();
 
@@ -608,7 +604,7 @@ extern "C" void roll_physical_accuracy__9TObjCharaFPvlf();
 
 extern "C" void select_melee_contact_body__9TObjCharaFPvf();
 
-extern "C" void vfunc_63__14TObjEneRecoboxFv();
+extern "C" void run_death_reaction__14TObjEneRecoboxFv();
 
 extern "C" void trigger_switch_attack__9TObjCharaFv(s32 arg0);
 
@@ -616,7 +612,7 @@ extern "C" void try_start_action__9TObjCharaFll();
 
 extern "C" void update_action_hold_status__9TObjCharaFv();
 
-extern "C" s32 vfunc_37__9TObjCharaFv(u8 *arg0);
+extern "C" s32 update_slow_status__9TObjCharaFv(u8 *arg0);
 
 extern "C" void update_actor_ground_y__9TObjCharaFv();
 
@@ -692,33 +688,30 @@ void *TObjEneRecobox__vtable[107] = {
     (void *)&get_actor_level_index__9TObjCharaFv, (void *)&update_actor_ground_y__9TObjCharaFv, (void *)&vfunc_18__9TObjCharaFPUc, (void *)&is_actor_cadence_frame__9TObjCharaFl,
     (void *)&select_melee_contact_body__9TObjCharaFPvf, (void *)&calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf, (void *)&receive_physical_attack__9TObjCharaFPvf, (void *)&receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll,
     (void *)&receive_weapon_special_attack__9TObjCharaFPvPv, (void *)&apply_knockback_from_attacker__9TObjCharaFPUcf, (void *)&try_start_action__9TObjCharaFll, (void *)&roll_physical_accuracy__9TObjCharaFPvlf,
-    (void *)&vfunc_28__14TObjEneRecoboxFv, (void *)&vfunc_29__9TObjCharaFv, (void *)&is_target_in_attack_range__9TObjCharaFv, (void *)&test_flag_256__9TObjCharaFv,
+    (void *)&refresh_target__14TObjEneRecoboxFv, (void *)&has_no_target__9TObjCharaFv, (void *)&is_target_in_attack_range__9TObjCharaFv, (void *)&test_flag_256__9TObjCharaFv,
     (void *)&test_flag30_512__9TObjCharaFv, (void *)&has_flag_0x800__9TObjCharaFv, (void *)&test_flag_1000__9TObjCharaFv, (void *)&update_poison_status__9TObjCharaFv,
-    (void *)&update_action_hold_status__9TObjCharaFv, (void *)&vfunc_37__9TObjCharaFv, (void *)&update_flag30_timer__9TObjCharaFv, (void *)&update_movement_status__9TObjCharaFv,
+    (void *)&update_action_hold_status__9TObjCharaFv, (void *)&update_slow_status__9TObjCharaFv, (void *)&update_flag30_timer__9TObjCharaFv, (void *)&update_movement_status__9TObjCharaFv,
     (void *)&update_shock_clock__9TObjCharaFv, (void *)&update_attack_stat_status__9TObjCharaFv, (void *)&update_defense_stat_status__9TObjCharaFv, (void *)&vfunc_43__9TObjCharaFv,
     (void *)&apply_poison_status__9TObjCharaFv, (void *)&apply_paralysis__9TObjCharaFv, (void *)&apply_slow_status__9TObjCharaFv, (void *)&apply_confusion_status__9TObjCharaFv,
     (void *)&apply_movement_ailment__9TObjCharaFl, (void *)&apply_shock_status__9TObjCharaFv, (void *)&clear_harmful_statuses__9TObjCharaFv, (void *)&apply_attack_stat_status__9TObjCharaFPv,
     (void *)&apply_defense_stat_status__9TObjCharaFPv, (void *)&cure_poison_ailment__9TObjCharaFv, (void *)&cure_paralysis__9TObjCharaFv, (void *)&clear_all_status_effects__9TObjCharaFv,
-    (void *)&apply_action_hold_status__9TObjCharaFf, (void *)&apply_anti_technique__9TObjCharaFl, (void *)&vfunc_58__9TObjCharaFv, (void *)&vfunc_59__9TObjCharaFv,
-    (void *)&vfunc_60__9TObjCharaFv, (void *)&vfunc_61__14TObjEneRecoboxFv, (void *)&vfunc_62__14TObjEneRecoboxFv, (void *)&vfunc_63__14TObjEneRecoboxFv,
-    (void *)&reset_pose__9TObjCharaFv, (void *)&get_anim_node_position__9TObjCharaFlP3Vec, (void *)&vfunc_66__9TObjCharaFv, (void *)&vfunc_67__9TObjCharaFf,
+    (void *)&apply_action_hold_status__9TObjCharaFf, (void *)&apply_anti_technique__9TObjCharaFl, (void *)&run_idle_action__9TObjCharaFv, (void *)&run_move_action__9TObjCharaFv,
+    (void *)&run_attack_action__9TObjCharaFv, (void *)&run_miss_reaction__14TObjEneRecoboxFv, (void *)&run_hit_reaction__14TObjEneRecoboxFv, (void *)&run_death_reaction__14TObjEneRecoboxFv,
+    (void *)&reset_pose__9TObjCharaFv, (void *)&get_anim_node_position__9TObjCharaFlP3Vec, (void *)&vfunc_66__9TObjCharaFv, (void *)&deliver_attack_hits__9TObjCharaFf,
     (void *)&get_pos__9TObjCharaFl, (void *)&apply_switch_attack__9TObjCharaFv, (void *)&enemy_spawn_jellen_effect__9TObjCharaFv, (void *)&trigger_switch_attack__9TObjCharaFv,
-    (void *)&enemy_spawn_zalure_effect__9TObjCharaFv, (void *)&recalc_stats__9TObjCharaFv, (void *)&vfunc_74__9TObjEnemyFl, (void *)&vfunc_75__9TObjCharaFf,
-    (void *)&vfunc_76__9TObjCharaFf, (void *)&vfunc_77__9TObjCharaFv, (void *)&vfunc_78__9TObjCharaFl, (void *)&vfunc_79__9TObjEneDDFPl,
-    (void *)&apply_hit_message_flags__9TObjEnemyFPv, (void *)&apply_set_data__9TObjEnemyFPv, (void *)&clear_lobby_object_state__9TObjEnemyFv, (void *)&vfunc_83__12TObjEneDD_STFv,
-    (void *)&vfunc_84__9TObjEneDDFv, (void *)&vfunc_85__9TObjEneDDFv, (void *)&vfunc_86__9TObjEneDDFv, (void *)&dispatch_state__12TObjEneReconFiUii,
-    (void *)&TObjEneRecon__sub_8031FB6C, (void *)&vfunc_89__9TObjEneDDFv, (void *)&vfunc_90__9TObjEneDDFv, (void *)&vfunc_91__9TObjEneDDFv,
-    (void *)&vfunc_92__9TObjEneDDFv, (void *)&vfunc_93__9TObjEneDDFv, (void *)&vfunc_94__9TObjEneDDFv, (void *)&vfunc_95__9TObjEneDDFv,
-    (void *)&vfunc_96__9TObjEneDDFv, (void *)&vfunc_97__9TObjEneDDFv, (void *)&vfunc_98__9TObjEneDDFv, (void *)&vfunc_99__9TObjEneDDFv,
-    (void *)&vfunc_100__9TObjEneDDFv, (void *)&vfunc_101__9TObjEneDDFPUc, (void *)&vfunc_102__9TObjEneDDFv, (void *)&vfunc_103__9TObjEneDDFPUc,
-    (void *)&vfunc_104__12TObjEneDD_STFf, (void *)&update_if_800BB858__14TObjEneRecoboxFv, (void *)&draw_with_debug_info__14TObjEneRecoboxFv,
+    (void *)&enemy_spawn_zalure_effect__9TObjCharaFv, (void *)&recalc_stats__9TObjCharaFv, (void *)&vfunc_74__9TObjEnemyFl, (void *)&gain_photon_blast_charge__9TObjCharaFf,
+    (void *)&spend_photon_blast_charge__9TObjCharaFf, (void *)&gain_photon_blast_chain_charge__9TObjCharaFv, (void *)&vfunc_78__9TObjCharaFl, (void *)&apply_enemy_state__9TObjEneDDFPl,
+    (void *)&apply_hit_message_flags__9TObjEnemyFPv, (void *)&apply_set_data__9TObjEnemyFPv, (void *)&clear_lobby_object_state__9TObjEnemyFv, (void *)&update_status_effects__12TObjEneDD_STFv,
+    (void *)&update_immobilizing_statuses__9TObjEneDDFv, (void *)&update_action_state__9TObjEneDDFv, (void *)&has_action_state_changed__9TObjEneDDFv, (void *)&dispatch_state__14TObjEneRecoboxFiUii,
+    (void *)&TObjEneRecon__sub_8031FB6C, (void *)&check_collisions__9TObjEneDDFv, (void *)&vfunc_90__9TObjEneDDFv, (void *)&set_invulnerable__9TObjEneDDFv,
+    (void *)&clear_invulnerable__9TObjEneDDFv, (void *)&enable_body_collision__9TObjEneDDFv, (void *)&disable_body_collision__9TObjEneDDFv, (void *)&set_intangible__9TObjEneDDFv,
+    (void *)&clear_intangible__9TObjEneDDFv, (void *)&set_colliders_contact_high__9TObjEneDDFv, (void *)&set_colliders_contact_low__9TObjEneDDFv, (void *)&is_confused__9TObjEneDDFv,
+    (void *)&render_minimap_dot__9TObjEneDDFv, (void *)&move_xz_on_ground__9TObjEneDDFPUc, (void *)&update_ground_contact__9TObjEneDDFv, (void *)&snap_to_ground_at__9TObjEneDDFPUc,
+    (void *)&acquire_target__12TObjEneDD_STFf, (void *)&update_if_800BB858__14TObjEneRecoboxFv, (void *)&draw_with_debug_info__14TObjEneRecoboxFv,
 };
 
 #define TObjEneRecobox__attack_params ((u8 *)TObjEneRecobox__attack_params)
 #define TObjEneRecobox__vtable ((u8 *)TObjEneRecobox__vtable)
-saddr TObjEneRecobox__sub_803201D0(void);
-
-void *TObjEneRecobox__create(void *arg0);
 
 
 
@@ -777,10 +770,10 @@ void TObjEneRecobox::load_resources() {
 
 u8 *TObjEneRecobox__ct(u8 *ene_recobox, s32 arg1, u8 *arg2);
 
-void *TObjEneRecobox__create(void *arg0) {
+void *TObjEneRecobox::create(void *set_data) {
     void *o = TObject::operator new(0x4F4);
     if (o != NULL) {
-        o = TObjEneRecobox__ct((u8 *)o, (saddr)tl_04, (u8 *)arg0);
+        o = TObjEneRecobox__ct((u8 *)o, (saddr)tl_04, (u8 *)set_data);
     }
     return o;
 }
@@ -793,7 +786,7 @@ void TObjEneRecobox::release_static_instance() {
     }
 }
 
-saddr TObjEneRecobox__sub_803201D0(void) {  return (*(int *)&TObjEneRecobox__static_instance); }
+BmlResource *TObjEneRecobox::get_bml_resource() { return TObjEneRecobox__static_instance; }
 
 u32 TObjEneRecobox::remap_area_sound_id(u32 arg0) {
     u32 ret;
@@ -829,8 +822,8 @@ u8 *TObjEneRecobox__ct(u8 *ene_recobox, s32 arg1, u8 *set_data) {
     *(s32 *)((s8 *)ene_recobox + 0x34) = *(s32 *)((s8 *)(*(u8 **)((s8 *)TObjEneRecobox__static_instance + 0x42C)) + 0x18);
     ((TObjEneRecobox *)ene_recobox)->texlist = *(s32 *)((s8 *)(*(u8 **)((s8 *)TObjEneRecobox__static_instance + 0x42C)) + 0x1C);
     ((TObjEneDD *)ene_recobox)->init_model((CollisionBody *)lbl_804EC684, (s32)1);
-    ((TObjEneRecobox *)ene_recobox)->m_300 = 20.0f + *(f32 *)((s8 *)ene_recobox + 0x3C);
-    ((TObjEneRecobox *)ene_recobox)->vfunc_88();
+    ((TObjEneRecobox *)ene_recobox)->body_center.y = 20.0f + *(f32 *)((s8 *)ene_recobox + 0x3C);
+    ((TObjEneRecobox *)ene_recobox)->update_body_colliders();
     ((TObjMotion *)ene_recobox)->set_field_d8((saddr)TObjEneRecobox__animation_entries);
     ((TObjMotion *)ene_recobox)->set_field_dc(*(s32 *)((s8 *)TObjEneRecobox__static_instance + 0x430));
     ((TObjEneRecobox *)ene_recobox)->requested_action = 0;
@@ -840,16 +833,16 @@ u8 *TObjEneRecobox__ct(u8 *ene_recobox, s32 arg1, u8 *set_data) {
     ((TObjEneDD *)ene_recobox)->set_state_flag_4();
     *(u8 * *)&((TObjEneRecobox *)ene_recobox)->movementParameters = TObjEneRecobox__attack_params;
     ((TObjEneDD *)ene_recobox)->initialize_enemy_state(0x43);
-    ((TObjEneRecobox *)ene_recobox)->m_37c = 10.0f;
+    ((TObjEneRecobox *)ene_recobox)->wall_reach = 10.0f;
     ((TObjEneRecobox *)ene_recobox)->sub_8031F800();
     n = *(s16 *)((s8 *)set_data + 2);
     if (n <= 1) {
-        *(s32 *)&((TObjEneRecobox *)ene_recobox)->m_410 = 0;
-    } else if (*(s32 *)&((TObjEneRecobox *)ene_recobox)->m_410 >= n) {
-        *(s32 *)&((TObjEneRecobox *)ene_recobox)->m_410 = n - 1;
+        *(s32 *)&((TObjEneRecobox *)ene_recobox)->recon_total = 0;
+    } else if (*(s32 *)&((TObjEneRecobox *)ene_recobox)->recon_total >= n) {
+        *(s32 *)&((TObjEneRecobox *)ene_recobox)->recon_total = n - 1;
     }
-    if (*(s32 *)&((TObjEneRecobox *)ene_recobox)->m_414 > *(s32 *)&((TObjEneRecobox *)ene_recobox)->m_410) {
-        *(s32 *)&((TObjEneRecobox *)ene_recobox)->m_414 = *(s32 *)&((TObjEneRecobox *)ene_recobox)->m_410;
+    if (*(s32 *)&((TObjEneRecobox *)ene_recobox)->recon_max > *(s32 *)&((TObjEneRecobox *)ene_recobox)->recon_total) {
+        *(s32 *)&((TObjEneRecobox *)ene_recobox)->recon_max = *(s32 *)&((TObjEneRecobox *)ene_recobox)->recon_total;
     }
     for (i = 0; i < 4; i++) {
         S->f3fc[i] = 0;
@@ -868,8 +861,8 @@ u8 *TObjEneRecobox__ct(u8 *ene_recobox, s32 arg1, u8 *set_data) {
     for (i = 0; i < 4; i++) {
         ((RenderFadeState *)(&S->subs[i]))->activate_and_dispatch();
     }
-    *(s32 *)((s8 *)ene_recobox + 0x4D8) = 0;
-    *(s32 *)((s8 *)ene_recobox + 0x4DC) = 0;
+    ((TObjEneRecobox *)ene_recobox)->spawn_timer = 0;
+    ((TObjEneRecobox *)ene_recobox)->spawn_interval = 0;
     *(s32 *)((s8 *)ene_recobox + 0x3E0) = 0;
     VecCopy((Vec *)(ene_recobox + 0x3E4), (const Vec *)(ene_recobox + 0x38));
     *(s32 *)((s8 *)ene_recobox + 0x4E0) = 0;
@@ -901,40 +894,40 @@ void TObjEneRecobox::run_task() {
         this->update_if_800BB858();
         return;
     }
-    if (this->vfunc_83() != 4) {
-        this->vfunc_85();
+    if (this->update_status_effects() != 4) {
+        this->update_action_state();
     } else if ((s16) this->mode == 1) {
         transition_enemy_state(0);
     }
-    this->vfunc_88();
-    ((TObjEneRecon *)((u8 *)this))->restore_position();
+    this->update_body_colliders();
+    this->restore_position();
     this->submit_default_cursor_candidate();
-    this->vfunc_100();
+    this->render_minimap_dot();
     this->update_floor_probe();
 }
 
-void dispatch_state__12TObjEneReconFiUii(saddr ene_dd, u32 arg1, s32 reason) {
+void dispatch_state__14TObjEneRecoboxFiUii(saddr ene_dd, u32 arg1, s32 reason) {
     switch (arg1) {
     case 0:
         ((TObjEneRecobox *)ene_dd)->sub_8031F6C0(reason);
         return;
     case 1:
-        ((TObjEneRecon *)ene_dd)->handle_state(reason);
+        ((TObjEneRecobox *)ene_dd)->handle_state(reason);
         return;
     case 2:
         TObjEneRecon__sub_8031F600((void *)ene_dd, (reason));
         return;
     case 3:
-        ((TObjEneRecon *)ene_dd)->update_state(reason);
+        ((TObjEneRecobox *)ene_dd)->update_state(reason);
         return;
     case 4:
-        ((TObjEneRecon *)ene_dd)->handle_action_state(reason);
+        ((TObjEneRecobox *)ene_dd)->handle_action_state(reason);
         return;
     case 5:
         TObjEneRecon__sub_8031F408((void *)ene_dd, (reason));
         return;
     case 6:
-        ((TObjEneRecon *)ene_dd)->handle_death_state(reason);
+        ((TObjEneRecobox *)ene_dd)->handle_death_state(reason);
     default:
         return;
     }
@@ -942,29 +935,29 @@ void dispatch_state__12TObjEneReconFiUii(saddr ene_dd, u32 arg1, s32 reason) {
 
 }
 
-void TObjEneRecobox::vfunc_28() {  }
+void TObjEneRecobox::refresh_target() {  }
 
-void TObjEneRecobox::vfunc_63() { if (this->mode != 6) { transition_enemy_state(6); } }
+void TObjEneRecobox::run_death_reaction() { if (this->mode != 6) { transition_enemy_state(6); } }
 
-void TObjEneRecobox::vfunc_62() { clear_attack_receipts(); }
+void TObjEneRecobox::run_hit_reaction() { clear_attack_receipts(); }
 
-void TObjEneRecobox::vfunc_61() {  }
+void TObjEneRecobox::run_miss_reaction() {  }
 
-void TObjEneRecon::restore_position() { VecCopy((Vec *)((char*)this + 0x74), (const Vec *)((char*)this + 0x2fc)); }
+void TObjEneRecobox::restore_position() { VecCopy((Vec *)((char*)this + 0x74), (const Vec *)((char*)this + 0x2fc)); }
 
 
 void TObjEneRecon__sub_8031FB6C(u8 *ene_recobox) {
     Stack_8031FB6C stack;
     u8 *temp_r3;
     VecCopy((Vec *)(&stack.sp8), (const Vec *)(ene_recobox + 0x2FC));
-    if ((s32) ((TObjEneRecobox *)ene_recobox)->m_3f8 == 1) {
+    if ((s32) ((TObjEneRecobox *)ene_recobox)->mount_type == 1) {
         stack.spC -= 5.0f;
     } else {
         stack.spC += 5.0f;
     }
     temp_r3 = (u8 *)(csnVectorUnder((Vec *)&stack.sp8, (CsnGroup **)(ene_recobox + 0x120), 0x15));
-    if ((temp_r3 == NULL) || (((TObjEneRecobox *)ene_recobox)->m_300 >= (40.0f + *(f32 *)((s8 *)(*(u8 **)((s8 *)temp_r3 + 4)) + 4)))) {
-        ((TObjEneRecobox *)(ene_recobox))->vfunc_97();
+    if ((temp_r3 == NULL) || (((TObjEneRecobox *)ene_recobox)->body_center.y >= (40.0f + *(f32 *)((s8 *)(*(u8 **)((s8 *)temp_r3 + 4)) + 4)))) {
+        ((TObjEneRecobox *)(ene_recobox))->set_colliders_contact_high();
     }
     ((TObjEneDD *)ene_recobox)->set_part_local_pos(ene_recobox + 0x2FC, 0);
 }
@@ -972,7 +965,7 @@ void TObjEneRecon__sub_8031FB6C(u8 *ene_recobox) {
 s32 TObjEneRecon__sub_8031FACC(Obj_8031FACC *arg0) {
     u8 r;
     s32 t;
-    if (((TObjEneRecon *)arg0)->has_child_in_anim_5() == 1) {
+    if (((TObjEneRecobox *)arg0)->has_child_in_anim_5() == 1) {
         return 0;
     }
     t = (s32)TWindowSubComCard::trunc_float(arg0->f3F8 / 2.0f);
@@ -983,7 +976,7 @@ s32 TObjEneRecon__sub_8031FACC(Obj_8031FACC *arg0) {
     return r;
 }
 
-u8 TObjEneRecon::is_out_of_range() {
+u8 TObjEneRecobox::is_out_of_range() {
     int var_r4;
 
     if (has_child_in_anim_5() == 1) {
@@ -996,7 +989,7 @@ u8 TObjEneRecon::is_out_of_range() {
     return (u8) var_r4;
 }
 
-void TObjEneRecon::update_child_spawn() {
+void TObjEneRecobox::update_child_spawn() {
     Recon_8031F8C4 *o = (Recon_8031F8C4 *)this;
     Vec dir = {0.0f, 0.0f, 0.0f};
     Vec pos;
@@ -1023,7 +1016,7 @@ void TObjEneRecon::update_child_spawn() {
         dir.z = 2.0f * cos_table_lookup(o->f60);
         break;
     }
-    id = ((TObjEneRecon *)o)->alloc_child_id();
+    id = ((TObjEneRecobox *)o)->alloc_child_id();
     arg = o->f2C + (id - o->f1C);
     VecCopy((Vec *)&pos, (const Vec *)(((TObjEneRecon *)o)->get_field_38_ptr()));
     if (id == 0xFFFF) {
@@ -1042,40 +1035,40 @@ void TObjEneRecon::update_child_spawn() {
 void TObjEneRecobox::sub_8031F800() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r0;
-    *(s32 *)&this->m_3f8 = (s32) *(s32 *)&this->variant;
-    if ((s32) *(s32 *)&this->m_3f8 <= 0) {
-        *(s32 *)&this->m_3f8 = 0;
+    *(s32 *)&this->mount_type = (s32) *(s32 *)&this->variant;
+    if ((s32) *(s32 *)&this->mount_type <= 0) {
+        *(s32 *)&this->mount_type = 0;
     } else if ((s32) *(s32 *)&this->variant >= 2) {
-        *(s32 *)&this->m_3f8 = 2;
+        *(s32 *)&this->mount_type = 2;
     }
-    *(f32 *)&this->m_4ec = (f32) *(f32 *)((s8 *)arg0 + 0x354);
+    *(f32 *)&this->m_4d0 = (f32) *(f32 *)((s8 *)arg0 + 0x354);
     *(f32 *)((s8 *)arg0 + 0x4D4) = (f32) *(f32 *)((s8 *)arg0 + 0x358);
     if (*(f32 *)((s8 *)arg0 + 0x4D4) <= -30.0f) {
         *(f32 *)((s8 *)arg0 + 0x4D4) = -30.0f;
     }
-    *(s32 *)&this->m_414 = (s32) *(f32 *)((s8 *)arg0 + 0x360);
-    temp_r0 = *(s32 *)&this->m_414;
+    *(s32 *)&this->recon_max = (s32) *(f32 *)((s8 *)arg0 + 0x360);
+    temp_r0 = *(s32 *)&this->recon_max;
     if (temp_r0 < 0) {
-        *(s32 *)&this->m_414 = 0;
+        *(s32 *)&this->recon_max = 0;
     } else if (temp_r0 > 6) {
-        *(s32 *)&this->m_414 = 6;
+        *(s32 *)&this->recon_max = 6;
     }
-    if ((s32) *(s32 *)&this->m_414 == 0) {
-        *(s32 *)&this->m_410 = 0;
+    if ((s32) *(s32 *)&this->recon_max == 0) {
+        *(s32 *)&this->recon_total = 0;
         return;
     }
-    *(s32 *)&this->m_410 = 0x1E;
+    *(s32 *)&this->recon_total = 0x1E;
 }
 #pragma pop
 
-void TObjEneRecon::handle_state(s32 arg1) {
+void TObjEneRecobox::handle_state(s32 arg1) {
     u8 *arg0 = (u8 *)this;
 
     switch (arg1) {
     case 4:
         *(s32 *)((s8 *)arg0 + 0x40C) = (*(s32 *)((s8 *)arg0 + 0x40C) & 0xFFFFFFFE);
         *(s16 *)((s8 *)arg0 + 0xB8) = 0;
-        this->vfunc_95();
+        this->set_intangible();
         ((TObjEneDD *)arg0)->set_field_378(0);
         ((TUnk_80494938 *)(arg0 + 0x3C0))->start_fade_in();
         return;
@@ -1134,18 +1127,18 @@ void TObjEneRecon__sub_8031F600(void *ene_dd, s32 arg1) {
     }
 }
 
-void TObjEneRecon::update_state(s32 arg1) {
+void TObjEneRecobox::update_state(s32 arg1) {
     switch (arg1) {
     case 4:
-        *(s32 *)&this->m_428 = *(s32 *)&this->m_428 & 0xFFFFFFFE;
+        *(s32 *)&this->status_flags = *(s32 *)&this->status_flags & 0xFFFFFFFE;
         this->requested_action = 1;
-        this->vfunc_96();
+        this->clear_intangible();
         set_field_378(3);
         return;
     case 3:
         if (get_flag_b4() != 0) {
-            this->m_4d8 = 0;
-            *(s32 *)((s8 *)this + 0x4DC) = 0x1E;
+            this->spawn_timer = 0;
+            this->spawn_interval = 0x1E;
             transition_enemy_state(4);
         }
     case 5:
@@ -1156,17 +1149,17 @@ void TObjEneRecon::update_state(s32 arg1) {
     }
 }
 
-void TObjEneRecon::handle_action_state(s32 arg1) {
+void TObjEneRecobox::handle_action_state(s32 arg1) {
 
     switch (arg1) {
     case 4:
-        *(s32 *)&this->m_428 = (*(s32 *)&this->m_428 & 0xFFFFFFFE);
+        *(s32 *)&this->status_flags = (*(s32 *)&this->status_flags & 0xFFFFFFFE);
         this->requested_action = 2;
-        this->vfunc_96();
+        this->clear_intangible();
         set_field_378(2);
         return;
     case 3:
-        if (is_out_of_range__12TObjEneReconFv() != 0) {
+        if (is_out_of_range__14TObjEneRecoboxFv() != 0) {
             transition_enemy_state(5);
         }
     case 5:
@@ -1184,7 +1177,7 @@ void TObjEneRecon__sub_8031F408(void *ene_dd, s32 arg1) {
     case 4:
         *(s32 *)((s8 *)ene_dd + 0x40C) = (*(s32 *)((s8 *)ene_dd + 0x40C) & 0xFFFFFFFE);
         ((TObjEneDD *)ene_dd)->requested_action = 3;
-        ((TObjEneDD *)ene_dd)->vfunc_96();
+        ((TObjEneDD *)ene_dd)->clear_intangible();
         ((TObjEneDD *)ene_dd)->set_field_378(5);
         break;
     case 3:
@@ -1200,13 +1193,13 @@ void TObjEneRecon__sub_8031F408(void *ene_dd, s32 arg1) {
     }
 }
 
-void TObjEneRecon::handle_death_state(s32 arg1) {
+void TObjEneRecobox::handle_death_state(s32 arg1) {
     switch (arg1) {
     case 4:
         ((TObjPlayer *)this)->refresh_lobby_state();
-        *(s32 *)&this->m_428 = (s32) (*(s32 *)&this->m_428 | 1);
-        TObjEneRecobox__sub_8031F1A8(this);
-        this->vfunc_95();
+        *(s32 *)&this->status_flags = (s32) (*(s32 *)&this->status_flags | 1);
+        spawn_debris_chips();
+        this->set_intangible();
         return;
     case 3:
         if ((s32) *(s32 *)((s8 *)this + 0x410) == 0) {
@@ -1221,33 +1214,33 @@ void TObjEneRecon::handle_death_state(s32 arg1) {
 
 #pragma push
 #pragma pool_data off
-// Called from TObjEneRecon::handle_death_state: breaks the Recon into three
+// Called from handle_death_state: breaks the box into three
 // debris chips (models 3-5 of the Recobox archive, textures of model 3).
-void TObjEneRecobox__sub_8031F1A8(TObjEneRecon *recon) {
+void TObjEneRecobox::spawn_debris_chips() {
     const TObjChipParams chip0 = {
-        {0.5f, 0.07f, 0.26f}, {recon->position.x, recon->position.y, recon->position.z},
-        {5.0f, 5.0f, 5.0f}, {0x400, 0x100, 0x400}, {5, 50}, {recon->position.y, 0.6f},
+        {0.5f, 0.07f, 0.26f}, {this->position.x, this->position.y, this->position.z},
+        {5.0f, 5.0f, 5.0f}, {0x400, 0x100, 0x400}, {5, 50}, {this->position.y, 0.6f},
         (saddr)TObjEneRecobox__static_instance->models[3].model, (saddr)TObjEneRecobox__static_instance->models[3].m_c, 20,
     };
     const TObjChipParams chip1 = {
-        {0.5f, 0.07f, 0.26f}, {recon->position.x, recon->position.y, recon->position.z},
-        {4.0f, 4.5f, 4.0f}, {0x200, 0x100, 0x200}, {6, 50}, {recon->position.y, 0.5f},
+        {0.5f, 0.07f, 0.26f}, {this->position.x, this->position.y, this->position.z},
+        {4.0f, 4.5f, 4.0f}, {0x200, 0x100, 0x200}, {6, 50}, {this->position.y, 0.5f},
         (saddr)TObjEneRecobox__static_instance->models[4].model, (saddr)TObjEneRecobox__static_instance->models[3].m_c, 20,
     };
     const TObjChipParams chip2 = {
-        {0.5f, 0.07f, 0.26f}, {recon->position.x, recon->position.y, recon->position.z},
-        {4.0f, 4.5f, 4.0f}, {0x200, 0x100, 0x200}, {6, 50}, {recon->position.y, 0.5f},
+        {0.5f, 0.07f, 0.26f}, {this->position.x, this->position.y, this->position.z},
+        {4.0f, 4.5f, 4.0f}, {0x200, 0x100, 0x200}, {6, 50}, {this->position.y, 0.5f},
         (saddr)TObjEneRecobox__static_instance->models[5].model, (saddr)TObjEneRecobox__static_instance->models[3].m_c, 20,
     };
-    spawn_particle_effect_with_flags(&recon->position, 0x45, 0x40);
-    spawn_particle_effect_with_flags(&recon->position, 0x46, 0x40);
+    spawn_particle_effect_with_flags(&this->position, 0x45, 0x40);
+    spawn_particle_effect_with_flags(&this->position, 0x46, 0x40);
     new TObjChip(tl_05, (TObjChipParams *)&chip0);
     new TObjChip(tl_05, (TObjChipParams *)&chip1);
     new TObjChip(tl_05, (TObjChipParams *)&chip2);
 }
 #pragma pop
 
-s32 TObjEneRecon::is_below_child_limit(u16 arg1) {
+s32 TObjEneRecobox::is_below_child_limit(u16 arg1) {
     Obj_8031F0F0 *arg0 = (Obj_8031F0F0 *)this;
     s32 n = 0;
     s32 i;
@@ -1262,7 +1255,7 @@ s32 TObjEneRecon::is_below_child_limit(u16 arg1) {
     return n < 2;
 }
 
-s32 TObjEneRecon::has_child_in_anim_5() {
+s32 TObjEneRecobox::has_child_in_anim_5() {
     Obj_8031F070 *arg0 = (Obj_8031F070 *)this;
     s32 i;
     if (arg0->count <= 0) {
@@ -1276,11 +1269,11 @@ s32 TObjEneRecon::has_child_in_anim_5() {
     return 0;
 }
 
-void remove_tracked_target__12TObjEneReconFPvPv(Obj_8031EFAC *o, u8 *target) {
+void remove_tracked_target__14TObjEneRecoboxFPvPv(Obj_8031EFAC *o, u8 *target) {
     s32 i;
     for (i = 0; i < 6; i++) {
         if (find_entity_by_id(o->ids[i]) == reinterpret_cast<TObjCollidable *>(target)) {
-            ((TObjEneRecon *)o)->remove_tracked_id(o->ids[i]);
+            ((TObjEneRecobox *)o)->remove_tracked_id(o->ids[i]);
             o->count--;
             o->ids[i] = o->ids[o->count];
             o->ids[o->count] = 0xFFFF;
@@ -1293,7 +1286,7 @@ void remove_tracked_target__12TObjEneReconFPvPv(Obj_8031EFAC *o, u8 *target) {
     }
 }
 
-void TObjEneRecon::remove_child_entity(u8 *arg1) {
+void TObjEneRecobox::remove_child_entity(u8 *arg1) {
     Obj_8031EF14 *arg0 = (Obj_8031EF14 *)this;
     s32 i;
     for (i = 0; i < 6; i++) {
@@ -1307,7 +1300,7 @@ void TObjEneRecon::remove_child_entity(u8 *arg1) {
 }
 
 
-s32 TObjEneRecon::is_anim_6() {
+s32 TObjEneRecobox::is_anim_6() {
     return (u8)((u8) (this->mode == 6));
 }
 
@@ -1327,13 +1320,13 @@ void TObjEneRecobox::update_floor_probe() {
         }
     }
     if (*(s32 *)((s8 *)arg0 + 0x3E0) & 0x4000) {
-        TObjEneRecon::set_active();
+        request_reflection_render();
     }
 }
 
 #pragma push
 #pragma opt_propagation off
-s32 TObjEneRecon::alloc_child_id() {
+s32 TObjEneRecobox::alloc_child_id() {
     Rec_8031EDF8 *o = (Rec_8031EDF8 *)this;
   s32 new_var;
   s32 i;
@@ -1352,7 +1345,7 @@ s32 TObjEneRecon::alloc_child_id() {
 }
 #pragma pop
 
-void TObjEneRecon::remove_tracked_id(s32 id) {
+void TObjEneRecobox::remove_tracked_id(s32 id) {
     T_8031EDBC *self = (T_8031EDBC *)this;
     s32 i;
     for (i = 0; i < 30; i++) {
@@ -1432,7 +1425,7 @@ block_23:
                 push_matrix();
                 post_translate_matrix((u8 *)&this->position);
                 rotate_matrix_y(0, (int) (((TObjEneRecobox *)arg0)->rotation_y));
-                switch (((TObjEneRecobox *)arg0)->m_3f8) {
+                switch (((TObjEneRecobox *)arg0)->mount_type) {
                 case 1:
                     rotate_matrix_x(0, 0x8000);
                     break;
@@ -1474,7 +1467,7 @@ block_37:
 #pragma pool_data off
 void TObjEneRecobox::draw_with_debug_info() {
     if (get_target_info() != 0) {
-        switch (this->m_3f8) {
+        switch (this->mount_type) {
         case 0:
             debug_printf_at(pack_debug_text_position(0, 9), "TYPE : NORMAL");
             break;
@@ -1495,7 +1488,7 @@ void TObjEneRecobox::draw_with_debug_info() {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        switch (this->m_3f8) {
+        switch (this->mount_type) {
         case 1:
             rotate_matrix_x(0, 0x8000);
             break;

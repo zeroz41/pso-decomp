@@ -140,7 +140,6 @@ extern "C" {
 f32 vec_squared_length(u8 *arg0);
 s32 rotate_matrix_y(s32, s32);
 void project_world_to_screen(int, void *, void *);
-s32 push_matrix(f32);
 s32 post_translate_matrix(void *);
 void rotate_vector_by_current_matrix(void *, void *);
 s32 append_node_to_tail__13TParticleCtrlFPvPv(s32, void *);
@@ -479,7 +478,7 @@ void TUnk_8048E778::render() {
         t.z = p->pos.z + p->ofs.z;
         Ang_800890F4 r = lbl_8043950C;
         direction_to_rotation_xz((u8 *)&p->vel, &r.x, &r.z);
-        ((s32 (*)())push_matrix)();
+        push_matrix();
         post_translate_matrix(&t);
         scale_matrix(0, p->sw, p->sw, p->sw);
         rotate_matrix_z(0, r.z);

@@ -27,11 +27,11 @@ public:
     void sub_800AA10C();
     void sub_800A8B8C();
     void sub_800A8A7C();
-    void update_fall_apart();  // state 5 (TObjEnemyCustom::vfunc_63): falls apart into parts, reassembles
+    void update_fall_apart();  // state 5 (TObjEnemyCustom::run_death_reaction): falls apart into parts, reassembles
     s32 sub_800AB068();
     f32 sub_800AAF78(s32);
-    virtual void vfunc_59();
-    virtual void vfunc_58();
+    virtual void run_move_action();
+    virtual void run_idle_action();
     virtual void render();
     void render_model_and_set_attach_points();
     virtual void run_task();

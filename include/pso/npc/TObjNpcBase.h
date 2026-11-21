@@ -40,10 +40,10 @@ struct TObjNpcBase : public TObjEnemy {
     virtual void draw_debug_info();
     void sub_80149360(s32);
     void sub_80149358(s32);
-    virtual void vfunc_59();
-    virtual void vfunc_58();
+    virtual void run_move_action();
+    virtual void run_idle_action();
     virtual s32 is_target_in_attack_range();
-    virtual void vfunc_28();
+    virtual void refresh_target();
     u8 unk_374[0x10];
     s32 m_384;
     s32 m_388;

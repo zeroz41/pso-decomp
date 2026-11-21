@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/MaterialColorFade.h"
+#include "pso/unk/text_803D96A8.h"
 #include "pso/player/TObjPlayer_801AB608.h"
 #include "pso/system/vector.h"
 #include "pso/unk/TUnk_804C3248.h"
@@ -115,8 +116,6 @@ s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 
 s32 scroll_strip_uvs(void *, s16, int);
 s32 rotate_matrix_y(int, int);
-s32 push_matrix();
-s32 pop_matrix();
 s32 post_translate_matrix(void *);
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
 extern NJS_ARGB saved_model_draw_color;
@@ -133,10 +132,7 @@ u32 __cvt_fp2unsigned(f32);
 void vec3_add_to(void *, void *);
 void rotate_vector_by_matrix(int, void *, void *);
 void subtract_vector(void *, void *);
-void normalize_vector(void *);
-s32 push_matrix_from(void *src);
 }
-s32 pop_matrices(s32 arg0);
 const char *TPhotonGolla__class_name = "TPhotonGolla";
 extern const Packet_801AB6A0 photon_golla_concentrate_packet = {
     { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 500.0f, 5.0f, 30.0f }, NULL, 0

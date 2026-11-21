@@ -128,7 +128,6 @@ s32 play_persistent_sound(int, void *, void *, int, int);
 extern Pad_8001CD90 controller_input_state;
 
 s32 project_world_to_screen(int, void *, void *);
-void push_matrix(void);
 
 s32 TLoadingCur::calc_clamp_offset(s32 arg0, u8 *arg1, u8 *arg2) {
     f32 temp_f0;

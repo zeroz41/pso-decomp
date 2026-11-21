@@ -63,7 +63,7 @@ struct TObjPlayer : public TObjChara {
     virtual u8 *update_actor_ground_y();
     virtual u8 *vfunc_18(u8 *);
     virtual void recalc_stats();
-    virtual s32 vfunc_37();
+    virtual s32 update_slow_status();
     virtual s32 update_attack_stat_status();
     virtual s32 update_defense_stat_status();
     virtual s32 is_actor_cadence_frame(s32);
@@ -115,10 +115,10 @@ struct TObjPlayer : public TObjChara {
     void sub_801BD318();
     void sub_801BD240();
     s32 sub_801A1DDC();
-    void vfunc_77();
-    void vfunc_76(f32 charge);
-    void vfunc_75(f32);
-    int vfunc_67(f32 damage_scale);
+    void gain_photon_blast_chain_charge();
+    void spend_photon_blast_charge(f32 charge);
+    void gain_photon_blast_charge(f32);
+    int deliver_attack_hits(f32 damage_scale);
     void render_shadows();
     void render();
     void run_task();
@@ -364,7 +364,8 @@ struct TObjPlayer : public TObjChara {
     int copy_vec_at_18();
     void clear_flag0_bit1();
     void set_flag_2();
-    s32 get_field_2d4();
+    s32 get_attacker_id();
+    void set_attacker_id(u16 id);
     s32 is_local_player();
     void apply_velocity();
     s16 clamp_tp();
@@ -399,7 +400,6 @@ struct TObjPlayer : public TObjChara {
     static void clear_target_ref();
     static void create_breakup_model();
     static s32 calc_random_scaled();
-    static f32 get_scale_factor();
     static saddr get_battle_param(int a0);
     s32 check_player_flag1();
     s32 check_flag(s32 arg1);

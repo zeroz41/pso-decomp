@@ -162,7 +162,6 @@ int attack_collider_active_count;
 
 void fn_802E3BA8(TItemAttackCol *col, void *node);
 
-extern "C" f32 normalize_vector(Vec *v);
 
 const char *TItemAttackCol__name = "TItemAttackCol";
 

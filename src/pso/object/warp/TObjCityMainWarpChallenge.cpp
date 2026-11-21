@@ -53,7 +53,6 @@ extern s32 city_main_warp_destination_id;
 s32 post_translate_matrix(void *);
 void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 s32 rotate_matrix_y(s32, s32);
-s32 push_matrix();
 extern saddr camera_ctrl_instance;
 
 TObjCityMainWarpChallenge::TObjCityMainWarpChallenge(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {

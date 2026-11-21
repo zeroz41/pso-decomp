@@ -3,59 +3,45 @@
 
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/vector.h"
 
-struct Vec;
+struct NJS_OBJECT;
+struct AnimationMotion;
+class TParticleCtrl;
+
+// A needle Barba Ray drives up through the floor under a player: it waits, rises (motion 0), stings every
+// player standing over it (motion 1) and sinks away (motion 2).
 struct TBoss7TentacleNeedle : public TObject {
     TBoss7TentacleNeedle(TObject *parent, Vec *pos);
     virtual ~TBoss7TentacleNeedle();
-    void advance_needle_timer();
-    void* m_1c;
-    u8 _pad20[0x8];
-    u32 m_28;
-    u32 m_2c;
-    u32 m_30;
-    u8 _pad34[0x4];
-    u32 m_38;
-    u32 m_3c;
-    TObject *particle_emitter; // create_particle_emitter(pos, 0x212) in the ctor
-    u8 unk_44[0x30];
-    f32 m_74;
-    u32 m_78;
     virtual void render();
     virtual void run_task();
+    void restart_particle_effect();
+    void advance_anim_time_wrapped(f32 step);
+    s32 advance_toward_limit(f32 step);
+    void sub_802EF954();
+    void damage_nearby_players();
+    void update_retract_state();
+    void advance_needle_timer();
+    // Load and release the needle's model and motions (the boss's resource callback table, as the
+    // TBoss7Crawfish pair next to them).
+    static void load_static_resource();
+    static void destroy_instance();
+
+    Vec position;
+    s32 rotation[3];
+    f32 unk_34;
+    s32 state;
+    s32 timer;
+    TParticleCtrl *particle_emitter; // create_particle_emitter(pos, 0x212) in the ctor
+    s32 player_hit[12];        // set once a player has been stung
+    f32 frame;
+    AnimationMotion *motion;
 };
 
 LAYOUT_ASSERT(TBoss7TentacleNeedle_size, sizeof(TBoss7TentacleNeedle) == 0x7C);
 
-class TBoss7Tentacle;
-extern "C" {
-void TBoss7Tentacle__sub_802EF954(void *p);
-s32 TBoss7Tentacle__sub_802F0904(u8 *arg0);
-void TBoss7Tentacle__sub_802F0918(void *p);
-void TBoss7Tentacle__sub_802F09B4(void *p);
-void TBoss7Tentacle__sub_802F09C8(void *a0);
-void sub_802F09EC__14TBoss7TentacleFv(void *p);
-void sub_802F09FC__14TBoss7TentacleFv(u8 *arg0);
-void TBoss7Tentacle__sub_802F0A14(u8 *arg0);
-void TBoss7Tentacle__sub_802F0A2C(u8 *arg0);
-void TBoss7Tentacle__sub_802F0A44(u8 *arg0);
-void TBoss7Tentacle__sub_802F0AD0(void *a0);
-void TBoss7Tentacle__sub_802F0AF0(u8 *arg0);
-void TBoss7Tentacle__sub_802F0B58(u8 *arg0);
-void TBoss7Tentacle__sub_802F0B70(void *p);
-void TBoss7Tentacle__sub_802F0B80(void *p);
-void TObjPlayer__sub_802EFEC4(void);
-void TObjPlayer__sub_802F0D2C(void);
-void advance_needle_timer__20TBoss7TentacleNeedleFv(void *arg0);
-void damage_nearby_players__14TBoss7TentacleFPv(u8 *arg0);
-void fn_802EFEA8(void);
-void render__14TBoss7TentacleFv(u8 *arg0);
-void run_task__14TBoss7TentacleFv(u8 *arg0);
-void update_retract_state__14TBoss7TentacleFPv(TBoss7Tentacle *arg0);
-}
-
-// boss7_tentacle_needle_target_state: layout known from its uses only.
-struct Boss7TentacleNeedleTargetState { s32 value; u8 remaining[0xC]; };
-extern Boss7TentacleNeedleTargetState boss7_tentacle_needle_target_state;
+extern NJS_OBJECT *boss7_tentacle_needle_model;
+extern AnimationMotion *boss7_tentacle_needle_motions[4];
 
 #endif

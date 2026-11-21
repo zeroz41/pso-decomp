@@ -10,14 +10,14 @@ struct TObjEneRe2Flower : public TObjEneDD_ST {
     virtual ~TObjEneRe2Flower();
     virtual void run_task();
     virtual void render();
-    virtual void vfunc_28();
-    virtual void vfunc_61();
-    virtual void vfunc_62();
-    virtual void vfunc_63();
+    virtual void refresh_target();
+    virtual void run_miss_reaction();
+    virtual void run_hit_reaction();
+    virtual void run_death_reaction();
     virtual void dispatch_action(u32 state, s32 reason);
-    virtual void vfunc_88();
-    virtual void vfunc_105();
-    virtual void vfunc_106();
+    virtual void update_body_colliders();
+    virtual void run_demo_task();
+    virtual void render_demo();
     void sub_800C3DC4();
     s32 sub_800C3B8C();
     void sub_800C3BA8();
@@ -32,9 +32,6 @@ struct TObjEneRe2Flower : public TObjEneDD_ST {
     static void *create(void *arg0);
     int get_flag_11();
 
-    u8 pad_374[0x8];
-    f32 m_37c;
-    u8 pad_380[0x40];
     s32 m_3c0;
     u32 m_3c4;
     f32 m_3c8;

@@ -61,7 +61,6 @@ struct Node_8018F4AC {
 
 void PPCSync();
 s32 rotate_matrix_y(int, int);
-s32 push_matrix();
 s32 post_translate_matrix(void *);
 extern s32 actor_frame_tick;
 

@@ -1,4 +1,5 @@
 #include "pso/system/TGStream.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/system/RlcArchive.h"
 #include "pso/system/ControllerInputState.h"
@@ -74,7 +75,6 @@ WindowDescriptor window_snapshot_layout = {
 
 extern "C" {
 s32 TObjBoss2Tunnel__sub_8007CAE8(f32 *, f32);
-s32 verify_snapshot_checksum__15TObjBoss2TunnelFv(void);
 s32 play_sound_effect(s32, s32, s32, s32);
 
 void TWindowSnapShot::free_shared_instance() {
@@ -145,7 +145,7 @@ TWindowSnapShot::TWindowSnapShot(saddr arg1) : TWindowBase((u8 *)&window_snapsho
     saddr temp_r31;
     m_name = TWindowSnapShot__name;
     this->m_60 = 0U;
-    if (verify_snapshot_checksum__15TObjBoss2TunnelFv() == 0) {
+    if (!TObjBoss2Tunnel::verify_snapshot_checksum()) {
         this->m_60 = (u8) (this->m_60 | 2);
     }
     temp_r31 = reinterpret_cast<saddr>(((TWindowBase *)this)->get_array_entry(1));

@@ -945,7 +945,7 @@ void TObjEnemy::update_prev_position() {
     VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(arg0 + 0x38));
     temp_r3 = (unsigned char *) (this->m_2b0);
     if (temp_r3 != NULL) {
-        this->m_300 = (f32) ((0.5f * *(f32 *)((s8 *)temp_r3 + 0x10)) + this->m_300);
+        this->body_center.y = (f32) ((0.5f * *(f32 *)((s8 *)temp_r3 + 0x10)) + this->body_center.y);
     }
 }
 
@@ -959,7 +959,7 @@ void TObjEnemy::award_enemy_experience(s32 arg1) {
         return;
     }
     val = *(s32 *)(this->m_2b0 + 0x1C);
-    if ((u16)arg1 == this->m_2d4) {
+    if ((u16)arg1 == this->attacker_id) {
         if (((TLobby *)lobby_rule_settings)->get_rule_field_0() == 1) {
             fn_801B0480(p, this, 1);
             draw_player_status(p, p, "\tC1");
@@ -1044,7 +1044,7 @@ void TObjEnemy::apply_set_data(void *arg1_arg) {
     subtractive_rng_seed(arg0->f160, arg0->f1C + area_random_seed);
 }
 
-void TObjEnemy::vfunc_79(s32 *state) {
+void TObjEnemy::apply_enemy_state(s32 *state) {
     struct VObj_800F6960 *o = (struct VObj_800F6960 *)this;
     o->m78();
 }

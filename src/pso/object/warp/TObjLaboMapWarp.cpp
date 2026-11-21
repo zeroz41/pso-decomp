@@ -115,7 +115,6 @@ s32 get_game_play_mode();
 
 s32 rotate_matrix_y(s32, s32);
 
-s32 push_matrix();
 
 s32 post_translate_matrix(void *);
 

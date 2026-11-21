@@ -155,7 +155,6 @@ extern s32 chunk_polygon_flags_and_mask;
 
 extern s32 model_render_flags;
 
-void push_matrix(void);
 
 void post_translate_matrix(void *);
 

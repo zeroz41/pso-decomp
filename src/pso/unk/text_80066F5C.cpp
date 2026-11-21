@@ -9,7 +9,6 @@
 
 extern "C" {
 s32 rotate_matrix_by_node_angles(void *, int);
-int push_matrix(void);
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
 

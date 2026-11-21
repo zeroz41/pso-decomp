@@ -123,7 +123,7 @@ void TObjEneRe4Bit::init() {
     } else {
         initialize_enemy_state(0x21);
     }
-    m_37c = 3.0f;
+    wall_reach = 3.0f;
     m_3cc = 0;
     m_3d0 = 3;
     m_3d4 = 3;
@@ -147,23 +147,23 @@ TObjEneRe4Bit::~TObjEneRe4Bit() {
 
 void TObjEneRe4Bit::run_task() {
     if (TObjPlayer::check_demo_mode() != 0) {
-        vfunc_105();
+        run_demo_task();
         return;
     }
-    if (vfunc_83() == 1 || (m_3cc & 0x2000) == 0) {
-        vfunc_85();
+    if (update_status_effects() == 1 || (m_3cc & 0x2000) == 0) {
+        update_action_state();
         clear_state_flags_when_done();
     } else {
         m_3cc &= ~0x2000;
     }
     copy_pos();
-    vfunc_88();
+    update_body_colliders();
     submit_default_cursor_candidate();
 }
 
-void TObjEneRe4Bit::vfunc_28() {  }
+void TObjEneRe4Bit::refresh_target() {  }
 
-void TObjEneRe4Bit::vfunc_63() {
+void TObjEneRe4Bit::run_death_reaction() {
     s16 m = mode;
     if (m != 6) {
         if (m == 2) {
@@ -175,7 +175,7 @@ void TObjEneRe4Bit::vfunc_63() {
     }
 }
 
-void TObjEneRe4Bit::vfunc_62() {
+void TObjEneRe4Bit::run_hit_reaction() {
     if (mode != 5) {
         if (m_3cc & 0x1000) {
             clear_attack_receipts();
@@ -185,19 +185,19 @@ void TObjEneRe4Bit::vfunc_62() {
     }
 }
 
-void TObjEneRe4Bit::vfunc_61() {  }
+void TObjEneRe4Bit::run_miss_reaction() {  }
 
-void TObjEneRe4Bit::copy_pos() { VecCopy(&center, (Vec *)&m_2fc); }
+void TObjEneRe4Bit::copy_pos() { VecCopy(&center, &body_center); }
 
-void TObjEneRe4Bit::vfunc_88() {
-    bodies->offset.y = m_300 - position.y;
+void TObjEneRe4Bit::update_body_colliders() {
+    bodies->offset.y = body_center.y - position.y;
 }
 
 void TObjEneRe4Bit::update_position_flag() {
     Vec pos;
 
-    VecCopy(&pos, (Vec *)&m_2fc);
-    if (vfunc_101((u8 *)&pos) == 0) {
+    VecCopy(&pos, &body_center);
+    if (move_xz_on_ground((u8 *)&pos) == 0) {
         m_3cc &= ~0x800;
         return;
     }
@@ -211,14 +211,14 @@ void TObjEneRe4Bit::update_homing_velocity() {
     f32 s;
     VecCopy(&dir, m_3c0);
     dir.y = dir.y + m_3d8;
-    subtract_vector(&dir, (Vec *)&m_2fc);
+    subtract_vector(&dir, &body_center);
     s = 0.01f * normalize_vector_safe(&dir);
     m_3f8.x = 0.9f * (dir.x * s + m_3f8.x);
     m_3f8.y = 0.9f * (dir.y * s + m_3f8.y);
     m_3f8.z = 0.9f * (dir.z * s + m_3f8.z);
-    vec3_add_to((Vec *)&m_2fc, &m_3f8);
-    position.x = m_2fc;
-    position.z = m_304;
+    vec3_add_to(&body_center, &m_3f8);
+    position.x = body_center.x;
+    position.z = body_center.z;
 }
 #pragma pop
 
@@ -235,7 +235,7 @@ s32 TObjEneRe4Bit::sub_800ED498() {
 
 s32 TObjEneRe4Bit::get_state() { return m_404; }
 
-Vec *TObjEneRe4Bit::get_spell_data() { return (Vec *)&m_2fc; }
+Vec *TObjEneRe4Bit::get_spell_data() { return &body_center; }
 
 void TObjEneRe4Bit::sub_800ED47C() { m_3d0 = 3; }
 
@@ -285,19 +285,19 @@ void TObjEneRe4Bit::set_state_flags() {
 }
 
 void TObjEneRe4Bit::invoke_state_callbacks() {
-    vfunc_91();
-    vfunc_94();
+    set_invulnerable();
+    disable_body_collision();
 }
 
 void TObjEneRe4Bit::call_vt_90_91() {
-    vfunc_92();
-    vfunc_93();
+    clear_invulnerable();
+    enable_body_collision();
 }
 
 void TObjEneRe4Bit::set_flag3cc_bit2000() { m_3cc |= 0x2000; }
 
 void TObjEneRe4Bit::reset_transform() {
-    VecCopy((Vec *)&m_2fc, m_3c0);
+    VecCopy(&body_center, m_3c0);
     m_3f8.x = 0.0f;
     m_3f8.y = 0.0f;
     m_3f8.z = 0.0f;
@@ -467,11 +467,11 @@ void TObjEneRe4Bit__sub_800ECD28(TObjEneRe4Bit *bit, s32 arg1) {
         return;
     case 0:
         bit->m_408 = bit->m_408 + 1;
-        VecCopy((Vec *)&bit->m_2fc, bit->m_3c0);
-        bit->m_300 = bit->m_300 + bit->m_3d8;
-        bit->m_2fc = bit->m_2fc + ((TObjEneDD *)bit)->calc_elapsed_scaled();
-        bit->m_304 = bit->m_304 + ((TObjEneDD *)bit)->calc_elapsed_scaled();
-        bit->vfunc_102();
+        VecCopy(&bit->body_center, bit->m_3c0);
+        bit->body_center.y = bit->body_center.y + bit->m_3d8;
+        bit->body_center.x = bit->body_center.x + ((TObjEneDD *)bit)->calc_elapsed_scaled();
+        bit->body_center.z = bit->body_center.z + ((TObjEneDD *)bit)->calc_elapsed_scaled();
+        bit->update_ground_contact();
         return;
     case 5:
         bit->clear_attack_receipts();
@@ -523,7 +523,7 @@ void TObjEneRe4Bit::render() {
     s32 draw;
     NJS_TEXNAME *textures;
     if (TObjPlayer::check_demo_mode() != 0) {
-        vfunc_106();
+        render_demo();
         return;
     }
     if (TObjEneDD::is_main_phase_15() != 0) {
@@ -559,7 +559,7 @@ void TObjEneRe4Bit::render() {
     if (draw != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        translate_matrix(0, 0.0f, m_300 - position.y, 0.0f);
+        translate_matrix(0, 0.0f, body_center.y - position.y, 0.0f);
         rotate_matrix_y(0, rotation_y);
         scale_matrix(0, 2.0f, 2.0f, 2.0f);
         draw_chunk_object(model);

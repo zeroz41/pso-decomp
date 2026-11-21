@@ -107,11 +107,10 @@ struct BreakUp_80096AD8 {
 
 extern "C" {
 s32 matrix_mult_vec(int, int, int);
-s32 push_matrix();
 s32 rotate_matrix_by_node_angles(void *, int);
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
-void alloc_breakup_piece_records(Brk_80096EBC *arg0, void *arg1);
+void alloc_breakup_piece_records(Brk_80096EBC *arg0, NJS_OBJECT *model);
 extern u32 saved_model_render_flags;
 extern u32 model_render_flags;
 void __ct__7TObjectFP7TObject(void *, void *);
@@ -127,7 +126,7 @@ u8 *TBreakUpMdl__ct(u8 *arg0, void *arg1, Model_80096AD8 *arg2, void *arg3, s32 
 void TBreakUpMdl::copy(void* q) { *(u32 *)&this->m_name = *(u32*)((char*)q + 0x0); *(f32 *)&this->m_flags = *(f32*)((char*)q + 0x4); *(f32 *)&this->m_prev = *(f32*)((char*)q + 0x8); *(f32 *)&this->m_next = *(f32*)((char*)q + 0xc); *(f32 *)&this->m_up = *(f32*)((char*)q + 0x10); *(f32 *)&this->m_down = *(f32*)((char*)q + 0x14); *(f32*)((char*)this + 0x18) = *(f32*)((char*)q + 0x18); }
 
 TUnk_8048FA00::TUnk_8048FA00(long model) {
-    alloc_breakup_piece_records((Brk_80096EBC *)this, (void *)model);
+    alloc_breakup_piece_records((Brk_80096EBC *)this, (NJS_OBJECT *)model);
     push_matrix_from((void *)&identity_matrix);
     build_node_records((u8 *)model, 0);
     pop_matrix();
@@ -136,7 +135,7 @@ TUnk_8048FA00::TUnk_8048FA00(long model) {
 
 TUnk_8048FA00::TUnk_8048FA00(int model, int motion, f32 frame) {
     m_8 = 0;
-    alloc_breakup_piece_records((Brk_80096EBC *)this, (void *)model);
+    alloc_breakup_piece_records((Brk_80096EBC *)this, (NJS_OBJECT *)model);
     bind_motion_context((NJS_MOTION *)motion, frame);
     push_matrix_from((void *)&identity_matrix);
     collect_node_positions((u8 *)model, 0);
@@ -145,16 +144,16 @@ TUnk_8048FA00::TUnk_8048FA00(int model, int motion, f32 frame) {
 
 TUnk_8048FA00::TUnk_8048FA00(long model, long motion, f32 frame) {
     m_8 = 1;
-    alloc_breakup_piece_records((Brk_80096EBC *)this, (void *)model);
+    alloc_breakup_piece_records((Brk_80096EBC *)this, (NJS_OBJECT *)model);
     bind_motion_context((NJS_MOTION *)motion, frame);
     push_matrix_from(&identity_matrix);
     collect_node_positions((u8 *)model, 0);
     pop_matrix();
 }
 
-void alloc_breakup_piece_records(Brk_80096EBC *arg0, void *boss2_tunnel) {
+void alloc_breakup_piece_records(Brk_80096EBC *arg0, NJS_OBJECT *model) {
     s32 i;
-    arg0->count = count_active_segments__15TObjBoss2TunnelFPv(boss2_tunnel);
+    arg0->count = count_visible_nodes(model);
     arg0->segs = (Seg_80096EBC *)mem_alloc(arg0->count * 0x1C);
     for (i = 0; i < arg0->count; i++) {
         arg0->segs[i].a = 0;

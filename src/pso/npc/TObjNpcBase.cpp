@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #pragma readonly_strings on
 #include "pso/unk/TUnk_804C8678.h"
+#include "pso/unk/text_803D96A8.h"
 #include "pso/npc/TObjNpcBase_80149128.h"
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
@@ -93,7 +94,6 @@ f32 horizontal_distance_squared(Vec *, Vec *);
 void vec3_add_to(Vec *, Vec *);
 void rotate_vector_by_matrix(int, Vec *, Vec *);
 void rotate_matrix_y(int, int);
-s32 push_matrix_from(void *src);
 extern u8 identity_matrix[];
 u16 get_entity_id(void *);
 f32 atan2_float(f32 y, f32 x);
@@ -332,7 +332,7 @@ void TObjNpcBase::update_wandering() {
             play_voice();
         }
         {
-            f32 dist = horizontal_distance_squared((Vec *)&m_29c, (Vec *)&m_2fc);
+            f32 dist = horizontal_distance_squared((Vec *)&m_29c, &body_center);
             r = ((NpcMovementParameters *)movementParameters)->speed + bodies->radius;
             if (dist < r * r || (bodies->flags & 0x380000)) {
                 phase = 3;
@@ -378,7 +378,7 @@ void TObjNpcBase::update_standing() {
     }
 }
 
-void TObjNpcBase::vfunc_59() {
+void TObjNpcBase::run_move_action() {
     s16 temp_r0;
     temp_r0 = mode;
     if ((temp_r0 >= 4) || (temp_r0 < 1)) {
@@ -397,7 +397,7 @@ void TObjNpcBase::vfunc_59() {
 void TObjNpcBase::vfunc_83() {  }
 }
 
-void TObjNpcBase::vfunc_58() {
+void TObjNpcBase::run_idle_action() {
     if (mode != 0) {
         mode = 0;
         phase = 0;
@@ -412,7 +412,7 @@ void select_actor_lighting(s32 obj);
 u16 find_nearest_visible_player(void *, s32, f32 *, f32);
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
 
-void TObjNpcBase::vfunc_28() {
+void TObjNpcBase::refresh_target() {
     f32 *temp_r5;
 
     if (mode != 3) {

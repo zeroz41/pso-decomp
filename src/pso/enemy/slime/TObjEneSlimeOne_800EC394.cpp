@@ -249,5 +249,5 @@ SlimeAnimationState::SlimeAnimationState(TObjEneSlimeOne *owner)
     : owner(owner), state(-1) {}
 }
 
-void TObjEneRe4Bit::vfunc_106() {  }
-void TObjEneRe4Bit::vfunc_105() {  }
+void TObjEneRe4Bit::render_demo() {  }
+void TObjEneRe4Bit::run_demo_task() {  }

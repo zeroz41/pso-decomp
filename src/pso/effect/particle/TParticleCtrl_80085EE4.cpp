@@ -1,4 +1,5 @@
 #include "pso/effect/particle/ParticleDefinition.h"
+#include "pso/unk/text_803D96A8.h"
 #include "pso/unk/TUnk_804C57F0.h"
 #include "pso/render/render_util.h"
 #include "pso/effect/particle/TParticleCtrl_80085EE4.h"
@@ -75,8 +76,6 @@ s32 GXSetTevOp(int, int);
 s32 GXSetNumTevStages(int);
 s32 rotate_matrix_y(int, s32);
 s32 rotate_matrix_x(int, s32);
-s32 push_matrix();
-s32 pop_matrix();
 s32 post_translate_matrix(void *);
 s32 emit_particle_strip_vertices(void *, int);
 extern u8 *camera_ctrl_instance;

@@ -52,7 +52,7 @@ extern const f32 lbl_805D9FBC;
 extern const f32 lbl_805D9FC0;
 }
 
-void TObjEneRe2Flower::vfunc_106() {
+void TObjEneRe2Flower::render_demo() {
     s32 save8;
     s32 save14;
     if (update_object_view_visibility(400.0f, 25.0f) == 0) {
@@ -88,7 +88,7 @@ void TObjEneRe2Flower::render() {
     s32 save8;
     s32 save14;
     if (TObjPlayer::check_demo_mode() != 0) {
-        vfunc_106();
+        render_demo();
         return;
     }
     if (mode == 11) {
@@ -193,7 +193,7 @@ void TObjPlayer::update_effect_sequence(NJS_OBJECT *) {
     re2_flower_node_index += 1;
 }
 
-void TObjEneRe2Flower::vfunc_105() {  }
+void TObjEneRe2Flower::run_demo_task() {  }
 
 void TObjEneDD__sub_800C2618(void* p) { *(u32*)((char*)p + 0x3c4) |= 0x2; }
 }
@@ -206,7 +206,7 @@ void TObjEneDD__sub_800C2628(u8 *arg0, s32 arg1) {
     switch (arg1) {
     case 4:
         F(s16, 0xB8) = 1;
-        ((TObjEneDD *)(arg0))->vfunc_96();
+        ((TObjEneDD *)(arg0))->clear_intangible();
         ((TObjEneRe2Flower *)arg0)->clear_child_flags();
         F(u32, 0x3C4) &= ~8;
         ((TObjEneDD *)arg0)->set_field_378(8);
@@ -284,8 +284,8 @@ void TObjEneDD__sub_800C2628(u8 *arg0, s32 arg1) {
         } else {
             F(s32, 0x3D8) = 0xFF;
         }
-        ((TObjEneDD *)(arg0))->vfunc_102();
-        ((TObjEneDD *)(arg0))->vfunc_88();
+        ((TObjEneDD *)(arg0))->update_ground_contact();
+        ((TObjEneDD *)(arg0))->update_body_colliders();
         ((TObjEneDD *)arg0)->noop();
         break;
     }
@@ -301,7 +301,7 @@ void TObjEneRe2Flower::handle_event(s32 arg1) {
     switch (arg1) {
     case 4:
         this->requested_action = 6;
-        this->vfunc_96();
+        this->clear_intangible();
         ((TObjEneRe2Flower *)arg0)->clear_child_flags();
         *(s32 *)((s8 *)arg0 + 0x3C4) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C4) & 0xFFFFFFF7);
         ((TObjEneDD *)arg0)->set_field_378(3);
@@ -313,8 +313,8 @@ void TObjEneRe2Flower::handle_event(s32 arg1) {
         if (is_passing_frame(this->frame_count - lbl_805D9FC0) != 0) {
             ((TObjEneDD *)arg0)->transition_enemy_state(3);
         }
-        this->vfunc_102();
-        this->vfunc_88();
+        this->update_ground_contact();
+        this->update_body_colliders();
         return;
     case 0:
         advance_animation();

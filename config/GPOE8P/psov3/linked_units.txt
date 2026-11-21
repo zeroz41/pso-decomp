@@ -255,7 +255,7 @@ pso/boss/galgryphon/TBoss5GryphonLightning.cpp
 pso/boss/galgryphon/TBoss5GryphonLightningEff.cpp
 pso/boss/galgryphon/TBoss5GryphonLightningHorn.cpp
 pso/boss/galgryphon/TBoss5GryphonLightningWing.cpp
-pso/boss/galgryphon/TBoss5GryphonLightningWing_80324CEC.cpp
+pso/boss/galgryphon/TBoss5GryphonLightningWing_80324D10.cpp
 pso/boss/galgryphon/TBoss5GryphonShockWave.cpp
 pso/boss/galgryphon/TBoss5GryphonSnarl.cpp
 pso/boss/galgryphon/TBoss5GryphonTornado.cpp
@@ -322,7 +322,6 @@ pso/boss/dragon/TObjBoss1Floor.cpp
 pso/boss/derolle/TObjBoss2CeilJunk.cpp
 pso/boss/derolle/TObjBoss2CeilJunk_8003A81C.cpp
 pso/boss/derolle/TObjBoss2DustCtrl.cpp
-pso/effect/enemy/TeneFakeTecThunderEffSdata2B.cpp
 pso/boss/derolle/TObjBoss2RaftSplash.cpp
 pso/boss/derolle/TObjBoss2Tunnel.cpp
 pso/boss/derolle/TObjBoss2Tunnel_8003B1FC.cpp
@@ -1701,7 +1700,6 @@ pso/player/TObjPlayer_80011014.cpp
 pso/player/TObjPlayer_80020898.cpp
 pso/player/TObjPlayer_8002E784.cpp
 pso/player/TObjPlayer_8002EF8C.cpp
-pso/player/TObjPlayer_80036824.cpp
 pso/player/TObjPlayer_80052374.cpp
 pso/player/TObjPlayer_80055678.cpp
 pso/player/TObjPlayer_800666B0.cpp

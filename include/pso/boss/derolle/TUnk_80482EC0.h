@@ -7,9 +7,9 @@ class TUnk_80482EC0 : public TBoss2Mine {
 public:
     TUnk_80482EC0(TObject *parent, u16 entity_id, s32 set_index);
     virtual ~TUnk_80482EC0();
-    virtual void vfunc_105(s32);
-    virtual void vfunc_106(s32);
-    virtual void vfunc_88();
+    virtual void state_launch(s32 reason);
+    virtual void state_armed(s32 reason);
+    virtual void update_body_colliders();
 };
 LAYOUT_ASSERT(TUnk_80482EC0_size, sizeof(TUnk_80482EC0) == 0x3F0);
 

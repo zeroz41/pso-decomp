@@ -80,7 +80,6 @@ void set_matrix_identity(u8 *arg0);
 
 int rotate_matrix_y(void*, void*);
 
-int push_matrix(void*);
 
 
 
@@ -171,7 +170,7 @@ void TBoss1DragonColli_C::clear_segment_flags() {
     }
 }
 
-void TBoss1DragonColli::draw(void* a1, void* a2) { push_matrix(this); set_matrix_identity((u8 *)((void*)0)); post_translate_matrix(a1); rotate_matrix_y((void*)0, a2); matrix_mult_vec((void*)0, (char*)this + 0xac, (char*)this + 0x38); pop_matrix(); *(void**)((char*)this + 0x60) = a2; ((TObjCollidable *)this)->refresh_collision_body_centers(); set_elem_flags(); }
+void TBoss1DragonColli::draw(void* a1, void* a2) { push_matrix(); set_matrix_identity((u8 *)((void*)0)); post_translate_matrix(a1); rotate_matrix_y((void*)0, a2); matrix_mult_vec((void*)0, (char*)this + 0xac, (char*)this + 0x38); pop_matrix(); *(void**)((char*)this + 0x60) = a2; ((TObjCollidable *)this)->refresh_collision_body_centers(); set_elem_flags(); }
 
 void TBoss1DragonColli__sub_8002B35C(void* p) { ((TBoss1DragonColli_C *)p)->clear_segment_flags(); }
 

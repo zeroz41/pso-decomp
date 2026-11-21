@@ -307,7 +307,6 @@ TObjChipParams *forest_box_debris_secondary;
 BmlResource *container_breakup_model_archive;
 GinjaTextureList *container_breakup_textures;
 extern "C" {
-s32 push_matrix(void);
 void post_translate_matrix(const void *);
 extern const f32 lbl_805DBCF8;
 u32 init_collision_body_parts(void *, void *, s32);
@@ -592,7 +591,7 @@ TObjContainerItem::TObjContainerItem(TObject *parent, void *set_data) : TUnk_804
     init_collision_body_parts(this, &forest_box_collision_body_parts, 1);
     register_object_by_id();
     VecCopy(&center, &position);
-    VecCopy((Vec *)&m_2fc, &position);
+    VecCopy(&body_center, &position);
     center.y += forest_box_collision_body_parts.center[1];
 }
 
@@ -691,7 +690,7 @@ TObjContainerEnemy::TObjContainerEnemy(TObject *parent, void *set_data) : TUnk_8
     init_collision_body_parts(this, &forest_box_collision_body_parts, 1);
     register_object_by_id();
     VecCopy(&center, &position);
-    VecCopy((Vec *)&m_2fc, &position);
+    VecCopy(&body_center, &position);
     center.y += forest_box_collision_body_parts.center[1];
 }
 
@@ -815,7 +814,7 @@ TObjContainerNoItem::TObjContainerNoItem(TObject *parent, void *set_data) : TUnk
     init_collision_body_parts(this, &forest_box_collision_body_parts, 1);
     register_object_by_id();
     VecCopy(&center, &position);
-    VecCopy((Vec *)&m_2fc, &position);
+    VecCopy(&body_center, &position);
     center.y += forest_box_collision_body_parts.center[1];
 }
 
@@ -923,7 +922,7 @@ TObjContainerBase::TObjContainerBase(TObject *parent, void *set_data) : TUnk_804
     init_collision_body_parts(this, &forest_box_collision_body_parts, 1);
     register_object_by_id();
     VecCopy(&center, &position);
-    VecCopy((Vec *)&m_2fc, &position);
+    VecCopy(&body_center, &position);
     center.y += forest_box_collision_body_parts.center[1];
 }
 
@@ -1034,7 +1033,7 @@ TObjContainerAbeEnemy::TObjContainerAbeEnemy(TObject *parent, void *set_data) : 
     init_collision_body_parts(this, &forest_box_collision_body_parts, 1);
     register_object_by_id();
     VecCopy(&center, &position);
-    VecCopy((Vec *)&m_2fc, &position);
+    VecCopy(&body_center, &position);
     center.y += forest_box_collision_body_parts.center[1];
 }
 

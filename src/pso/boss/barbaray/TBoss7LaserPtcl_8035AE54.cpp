@@ -1,36 +1,29 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/boss/barbaray/TBoss7LaserPtcl_8035AE54.h"
+#include "pso/boss/TUnk_804F1C88.h"
+#include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/system/vector.h"
 
-extern "C" {
-void __ct__7TObjectFP7TObject(void *, void *);
-void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
-extern s32 __vt__13TUnk_804F1C88[];
+TUnk_804F1C88::TUnk_804F1C88(TObject *parent, const Vec *origin) : TObject(parent) {
+    hit_body.offset.x = 0.0f;
+    hit_body.offset.y = 0.0f;
+    hit_body.offset.z = 0.0f;
+    hit_body.radius = 0.0f;
+    hit_body.half_width = 0.0f;
+    hit_body.shape = 0;
+    hit_body.flags = 0x11F07;
+    hit_body.center.x = 0.0f;
+    hit_body.center.y = 0.0f;
+    hit_body.center.z = 0.0f;
+    hit_body.unk_28 = 0.0f;
+    hit_set.colliders = &hit_body;
+    hit_set.count = 1;
+    VecCopy(&hit_set.position, origin);
+    spawn_particle_effect(&hit_set.position, 0x211);
+    create_timed_particle_emitter(&hit_set.position, 0x213, 0, 0x1E);
 }
 
-u8 *TBoss7LaserPtcl__sub_8035AE54(u8 *object, saddr arg1, saddr arg2) {
-    __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
-    *(s32 **)((s8 *)object + 0x18) = __vt__13TUnk_804F1C88;
-    *(f32 *)((s8 *)object + 0x34) = 0.0f;
-    *(f32 *)((s8 *)object + 0x38) = 0.0f;
-    *(f32 *)((s8 *)object + 0x3C) = 0.0f;
-    *(f32 *)((s8 *)object + 0x40) = 0.0f;
-    *(f32 *)((s8 *)object + 0x44) = 0.0f;
-    *(s32 *)((s8 *)object + 0x48) = 0;
-    *(s32 *)((s8 *)object + 0x4C) = 0x11F07;
-    *(f32 *)((s8 *)object + 0x50) = 0.0f;
-    *(f32 *)((s8 *)object + 0x54) = 0.0f;
-    *(f32 *)((s8 *)object + 0x58) = 0.0f;
-    *(f32 *)((s8 *)object + 0x5C) = 0.0f;
-    *(u8 **)((s8 *)object + 0x1C) = (unsigned char *) (object + 0x34);
-    *(s32 *)((s8 *)object + 0x20) = 1;
-    VecCopy((Vec *)(object + 0x24), (const Vec *)(arg2));
-    spawn_particle_effect((const Vec *)(object + 0x24), 0x211);
-    create_timed_particle_emitter((object + 0x24), 0x213, 0, 0x1E);
-    return object;
-}
-
-void TBoss7LaserPtcl__sub_8035AF0C(void) {  }
-void TBoss7LaserPtcl__sub_8035AF10(void) {  }
+void TUnk_804F1C88::destroy_instance() {  }
+void TUnk_804F1C88::load_static_resource() {  }
 void TBoss7LaserPtcl__sub_8035AF14(void) {  }

@@ -14,12 +14,12 @@ struct TObjEneGyaranzo : public TObjEnemyCustom {
     void sub_800D37F4();
     void sub_800D2900();
     void init_params_from_table();
-    virtual void vfunc_62();
-    virtual void vfunc_63();
-    virtual void vfunc_58();
+    virtual void run_hit_reaction();
+    virtual void run_death_reaction();
+    virtual void run_idle_action();
     virtual s32 is_target_in_attack_range();
-    virtual void vfunc_59();
-    virtual void vfunc_61();
+    virtual void run_move_action();
+    virtual void run_miss_reaction();
     void spawn_missile();
     u32 m_38c;
     u8 _pad390[0x18];

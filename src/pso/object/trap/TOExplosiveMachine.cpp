@@ -21,7 +21,6 @@
 
 extern "C" {
 s32 post_translate_matrix(const Vec *);
-s32 push_matrix();
 
 
 
