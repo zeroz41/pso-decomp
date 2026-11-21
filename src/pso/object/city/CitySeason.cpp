@@ -1,6 +1,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/unk/text_80184C2C.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/darkfalz/TBoss4Type2_80086C44.h"
@@ -1274,8 +1275,8 @@ void TObjCity_Season_FireWork::run_task() {
         break;
     case 1:
         if (self->timer == 10) {
-            spawn_particle_effect_with_flags(self->pos, 0x85, 0x40);
-            spawn_particle_effect_with_flags(self->pos, 0x86, 0x40);
+            spawn_particle_effect_with_flags((const Vec *)(self->pos), 0x85, 0x40);
+            spawn_particle_effect_with_flags((const Vec *)(self->pos), 0x86, 0x40);
         }
         self->timer++;
         if (self->timer >= 15) {
@@ -1294,7 +1295,7 @@ void TObjCity_Season_FireWork::run_task() {
         break;
     case 2:
         if (self->timer == 0 || self->timer == 4 || self->timer == 8) {
-            spawn_particle_effect_with_flags(self->pos, self->burstEffectId, 0x40);
+            spawn_particle_effect_with_flags((const Vec *)(self->pos), self->burstEffectId, 0x40);
         }
         self->timer++;
         self->pos[1] -= 0.8f;

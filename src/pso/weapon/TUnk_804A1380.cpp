@@ -1,8 +1,8 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TUnk_804A1380.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/technique/TTecFoie.h"
 #include "pso/item/TItem.h"
@@ -13,7 +13,7 @@ void TUnk_804A1380::emit_marker_effects() {
     TObjPlayer *owner;
 
     get_joint_position(2, &sp8);
-    spawn_particle_effect(&sp8, 0x1BF);
+    spawn_particle_effect((const Vec *)&sp8, 0x1BF);
     if (is_mode_two_and_ready() != 0) {
         owner = this->owner;
         TTecFoie::create((void *)owner, &sp8, (void *)(*(saddr *)((s8 *)owner + 0x60)), (void *)3);

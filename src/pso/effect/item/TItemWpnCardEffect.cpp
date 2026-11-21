@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #pragma readonly_strings on
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/render/ChunkMaterialState.h"
@@ -64,7 +65,6 @@ LAYOUT_ASSERT(RecoveredGlobal_8032DC94_lbl_8058D4C0_size, (sizeof(RecoveredGloba
 
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
-void *spawn_particle_effect(const void *pos, s32 id);
 
 void *find_entity_by_id(u16 id);
 
@@ -228,7 +228,7 @@ void TUnk_804EDD44::start_card_effect_flash() {
             ((TParticleCtrl *)(*(uaddr *)((s8 *)arg0 + 0x1C)))->set_tint_color(q);
         }
     }
-    spawn_particle_effect(((u8 *)&this->unk_64), 0x30);
+    spawn_particle_effect((const Vec *)&this->unk_64, 0x30);
 }
 #pragma pop
 #pragma push

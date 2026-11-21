@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/system/NinjaTypes.h"
@@ -109,7 +110,6 @@ extern u8 __vt__13TUnk_804CC870[];
 Obj_80232B7C *construct_grants_flash(Obj_80232B7C *self, s32 id, void *parent, Vec *pos, f32 scale);
 
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
-void *spawn_particle_effect(const void *pos, s32 id);
 }
 
 // Per level tier (TObjPlayer::get_level_tier): the particle emitters TUnk_804CC888 keeps alive and
@@ -176,12 +176,12 @@ void TUnk_804CC888::run_task() {
             if (obj != 0) {
                 const SEnt_80232C50 *e = &technique_effect_entry_table[((Ctl_80232C50 *)this)->kind].ents[i];
                 if (e->flags & 0x20) {
-                    r = (saddr)spawn_particle_effect(obj + 0x38, e->a);
+                    r = (saddr)spawn_particle_effect((const Vec *)(obj + 0x38), e->a);
                     if (r != 0) {
                         attach_particle_model((u8 *)r, (s32)(get_bml_model(technique_effect_bml, technique_effect_entry_table[((Ctl_80232C50 *)this)->kind].ents[i].flags >> 16)), (s32)lbl_805D63B0, 0, 1, 1.0f);
                     }
                 } else {
-                    spawn_particle_effect(obj + 0x38, e->a);
+                    spawn_particle_effect((const Vec *)(obj + 0x38), e->a);
                 }
             }
         }

@@ -205,7 +205,7 @@ void TObjDFDemo3::run_task() {
         }
     }
     if ((s32) this->m_b0 == 0x86) {
-        temp_r3 = (uaddr)spawn_particle_effect(&this->m_a0, 0x9B);
+        temp_r3 = (uaddr)spawn_particle_effect((const Vec *)(&this->m_a0), 0x9B);
         if (temp_r3 != 0U) {
             ((TParticleCtrl *)temp_r3)->set_flags(0x40);
         }

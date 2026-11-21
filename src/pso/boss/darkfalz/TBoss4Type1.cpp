@@ -1,3 +1,4 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include <stdlib.h>
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -15,7 +16,6 @@
 #include "pso/object/ambient/TObjFish_800E2FFC.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
@@ -83,9 +83,8 @@ typedef struct Obj_80052CDC {
     Spot_80052CDC spots[1];
 } Obj_80052CDC;
 
-struct Ent_8005294C { u8 b[0xC]; };
 
-struct Obj_8005294C { u8 pad[0x484]; Ent_8005294C ents[1]; };
+struct Obj_8005294C { u8 pad[0x484]; Vec ents[1]; };
 
 typedef struct { char pad[0x444]; struct { char b[0x18]; } arr[1]; } Foo;
 
@@ -519,7 +518,7 @@ void TBoss4Type2__sub_80054DA8(TBoss4Type2 *boss) {
     power = (f32)((TBoss4Type2Params *)TLobby::dispatch_shared_handler_a(0x36))->power;
     spot = (Vec *)&TBoss4Type2__tenchu_furu_array;
     for (i = 0; i < 0x40; i++) {
-        TParticleCtrl *effect = (TParticleCtrl *)spawn_particle_effect(spot, lbl_80485B08[i & 1]);
+        TParticleCtrl *effect = spawn_particle_effect(spot, lbl_80485B08[i & 1]);
         if (effect != NULL) {
             effect->set_flags(0x40);
         }
@@ -1309,7 +1308,7 @@ void TBoss4Type2::update_spawn_uro() {
             p.c = 1;
             VecCopy__FP3VecPC3Vec(&p.pos, s);
             if (create__9TBoss4UroFi(&p) != NULL) {
-                spawn_particle_effect(s, 0x7D);
+                spawn_particle_effect((const Vec *)s, 0x7D);
                 play_sound_effect(0x4003A810, s, 0, 1);
                 self->count++;
             }
@@ -1388,8 +1387,8 @@ void TBoss4Type2::update_scale_state() {
 
 void TBoss4Type2::update_tech_charge() {
     s32 idx;
-    Ent_8005294C *ent;
-    uaddr r;
+    Vec *ent;
+    TParticleCtrl *particle;
     idx = *(s32 *)((s8 *)this + 0x374) - 8;
     ent = &((Obj_8005294C *)this)->ents[idx];
     if (*(f32 *)((s8 *)this + 0x3E8) > 17.0f) {
@@ -1406,8 +1405,8 @@ void TBoss4Type2::update_tech_charge() {
         play_persistent_sound(0x4003B512, (saddr)this, (uaddr)this + 0x38, 0, 1);
     }
     if (*(s32 *)((s8 *)this + 0x398) == 0x26) {
-        if ((r = ((u32 (*)(void *, s32))spawn_particle_effect)(ent, 0xFD)) != 0) {
-            ((TParticleCtrl *)r)->set_flags(0x40);
+        if ((particle = spawn_particle_effect(ent, 0xFD)) != 0) {
+            particle->set_flags(0x40);
         }
         play_sound_effect(0x4003A813, (u8 *)this + 0x38, 0, 1);
         if (idx == 0) {

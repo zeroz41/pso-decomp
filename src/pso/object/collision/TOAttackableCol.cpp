@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/object/collision/TOAttackableCol.h"
 #include "types.h"
@@ -11,7 +12,6 @@
 #include "pso/unk/TLobby.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/unk/text_80087278.h"
 
 
 #include "pso/player/TUnk_804B6C24.h"
@@ -266,8 +266,8 @@ f32 TOAttackableCol::apply_hit(saddr arg1) {
     goto block_26;
   }
   block_26:
-  spawn_particle_effect(((u8 *)&this->position), 0x1D0);
-  spawn_particle_effect(((u8 *)&this->position), 1);
+  spawn_particle_effect(&this->position, 0x1D0);
+  spawn_particle_effect(&this->position, 1);
   return 0.0f;
 }
 

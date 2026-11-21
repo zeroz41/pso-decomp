@@ -3,6 +3,7 @@
 
 #pragma readonly_strings on
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/system/memory.h"
 #include "pso/system/task/TObject.h"
@@ -33,10 +34,8 @@ struct Stack_8030A1E4
 };
 struct Fol_80309E9C { u16 a; u16 b; u8 pad[0x8]; Vec v[3]; };
 extern "C" {
-int spawn_particle_effect(void*, void*);
 s32 set_owner_id__13TParticleCtrlFUs(s32, s32);
 uaddr find_entity_by_id(s32);
-s32 spawn_particle_effect_with_flags(s32, s32, s32);
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 Fol_80309E9C *TObjPlayer__sub_80309E9C(Fol_80309E9C *o);
 struct VOff_80309DD0_arg0_80309dd0_80309D80 { char pad_0[0x4]; char f_4[1]; };
@@ -113,21 +112,21 @@ void *TPlyPtclObjectRightHand::get_center() {
     return ((TObjPlayer *)this)->get_position_ptr();
 }
 
-s32 emit_player_particle(void* p, void* a1, void* a2) { return spawn_particle_effect(a1, a2); }
+s32 emit_player_particle(void* p, void* a1, void* a2) { return (saddr)spawn_particle_effect((const Vec *)a1, (s32)(saddr)a2); }
 
 s32 TObjPlayer::check_hit_by_id(saddr arg0, s32 arg1, s32 arg2) {
-    s32 particle_effect_with_flags;
+    TParticleCtrl *particle;
     u32 entity;
 
     entity = find_entity_by_id(arg1);
     if (entity == 0U) {
         return 0;
     }
-    particle_effect_with_flags = spawn_particle_effect_with_flags(entity + 0x74, arg2, 0x50);
-    if (particle_effect_with_flags != 0) {
-        set_owner_id__13TParticleCtrlFUs(particle_effect_with_flags, arg1);
+    particle = spawn_particle_effect_with_flags((const Vec *)(entity + 0x74), arg2, 0x50);
+    if (particle != 0) {
+        set_owner_id__13TParticleCtrlFUs((saddr)particle, arg1);
     }
-    return particle_effect_with_flags;
+    return (saddr)particle;
 }
 
 s32 create_attached_oneshot_emitter(unsigned long long arg1, s32 arg2) {
@@ -160,7 +159,7 @@ s32 emit_player_model_particle(saddr owner, saddr position, saddr entry, s32 mod
 }
 
 void emit_player_sprite_particle(s32 arg0, s32 arg1, s32 arg2) {
-    spawn_particle_effect_with_flags(arg1, arg2, 0x2000);
+    spawn_particle_effect_with_flags((const Vec *)arg1, arg2, 0x2000);
 }
 
 void*TObjPlayer::init_follow_particle_ctrl() { TPlyFollowParticleCtrl__sub_8030A694(); *(int*)(this) = 0; *(int*)((char*)this + 0x4) = 0; return this; }

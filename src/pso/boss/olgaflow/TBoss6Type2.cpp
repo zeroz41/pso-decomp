@@ -1438,7 +1438,7 @@ void TBoss6Type2::play_phase_sound() {
 void TBoss6Type2::update_attack_switch() {
     u8 *arg0 = (u8 *)this;
     if ((*(s32 *)((s8 *)arg0 + 0x518) % 24) == 0) {
-        spawn_particle_effect_with_flags(arg0 + 0x38, 0x224, 0x2040);
+        spawn_particle_effect_with_flags((const Vec *)(arg0 + 0x38), 0x224, 0x2040);
     }
 }
 
@@ -2327,7 +2327,7 @@ void TBoss6Type2::update_possess_target() {
             if (this->is_target_valid() == 0) {
                 play_sound_effect(0x40069E13, ((u8 *)this) + 0x38, 0, 1);
             }
-            spawn_particle_effect(pl + 0x38, 0x36);
+            spawn_particle_effect((const Vec *)(pl + 0x38), 0x36);
             done = 1;
         }
         if (done != 0) {
@@ -2431,11 +2431,11 @@ void TBoss6Type2::sub_802BA078() {
             s32 r = TBoss6PlotFalz::rand_vary_count(((Boss_802BA078 *)this)->f4B8, 0.1f);
             TBoss6PlotFalz::damage_player_hp(((Boss_802BA078 *)this)->f55C, r);
             p->f30 |= 0x200;
-            spawn_particle_effect_with_flags(&p->pos, 0x212, 0x40);
+            spawn_particle_effect_with_flags((const Vec *)(&p->pos), 0x212, 0x40);
             {
                 V3_802BA078 v = p->pos;
                 v.y += 10.0f;
-                spawn_particle_effect_with_flags(&v, 0x223, 0x40);
+                spawn_particle_effect_with_flags((const Vec *)(&v), 0x223, 0x40);
             }
             if (this->is_target_valid() == 0) {
                 ((s32 (*)(s32, u32, s16, s32))play_sound_effect)(0x4000AD13, 0, 0, 0);
@@ -2522,14 +2522,14 @@ void TBoss6Type2::update_footstep_effects() {
       {
         *((s32 *) (((s8 *) (((u8 *) arg0) + temp_r4)) + 0)) = 1;
         ((s32 (*)(s32, u32, s16, s32))play_sound_effect)(0x4006A300, (uaddr) temp_r29, 0, 0);
-        spawn_particle_effect_with_flags(temp_r29, 0x220, 0x40);
+        spawn_particle_effect_with_flags((const Vec *)(temp_r29), 0x220, 0x40);
         if (((s32)this->m_418) == 0)
         {
-          spawn_particle_effect(temp_r29, 0x222);
+          spawn_particle_effect((const Vec *)(temp_r29), 0x222);
         }
         else
         {
-          spawn_particle_effect_with_flags(temp_r29, 0x229, 0x2000);
+          spawn_particle_effect_with_flags((const Vec *)(temp_r29), 0x229, 0x2000);
         }
         TBoss6PlotFalz::apply_radial_effect_to_players((void *)temp_r29, (s16)0xC0, (s16)0xF, 200.0f);
       }
@@ -2614,7 +2614,7 @@ void TBoss6Type2::spawn_hit_effects() {
         }
     }
     if (found == 0) {
-        spawn_particle_effect(&this->m_2fc, 0x223);
+        spawn_particle_effect((const Vec *)&m_2fc, 0x223);
     }
 }
 

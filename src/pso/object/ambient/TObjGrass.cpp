@@ -1,3 +1,4 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/system/BmlResourceLoad.h"
@@ -34,7 +35,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
@@ -1571,7 +1571,7 @@ void TObjGrass::vfunc_63() {
         *(s16 *)((s8 *)arg0 + 0xB8) = 6;
         temp_r6 = (u8 *)(*(u8 **)((s8 *)arg0 + 0xA4));
         *(s32 *)((s8 *)temp_r6 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r6 + 0x18) & 0xFFFF7FFE);
-        spawn_particle_effect((arg0 + 0x2FC), 0xF2);
+        spawn_particle_effect((const Vec *)(arg0 + 0x2FC), 0xF2);
         ((TObjPlayer *)arg0)->refresh_lobby_state();
         ((TObjEnemy *)arg0)->send_entity_set_flags();
     }
@@ -1636,7 +1636,7 @@ void TObjGrass::update_dying(void *arg0_) {
         ((TObjEnePanarms *)arg0)->m_310 *= (0.5f);
         if (((TObjMotion *)arg0)->is_passing_frame((f32)(23.0f)) != 0) {
             ((TObjEnePanarms *)arg0)->phase = 2;
-            spawn_particle_effect((arg0 + 0x38), 0xF0);
+            spawn_particle_effect((const Vec *)(arg0 + 0x38), 0xF0);
         }
         break;
     case 2:
@@ -1682,7 +1682,7 @@ void TObjGrass::update_dying(void *arg0_) {
         (*(s32 *)((s8 *)arg0 + 0x3A0))++;
         if (*(s32 *)((s8 *)arg0 + 0x3A0) == 4) {
             *(s32 *)((s8 *)arg0 + 0x3A0) = 0;
-            spawn_particle_effect((arg0 + 0x38C), 0xF2);
+            spawn_particle_effect((const Vec *)(arg0 + 0x38C), 0xF2);
         }
     }
 }

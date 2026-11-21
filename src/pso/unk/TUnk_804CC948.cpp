@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/object/TUnk_804CC948.h"
 #include "pso/player/TObjPlayer.h"
@@ -6,7 +7,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/vector.h"
 #include "pso/unk/TLobby_80226070.h"
-#include "pso/unk/text_80087278.h"
 
 __declspec(section ".data") u32 ice_technique_charge_particle_ids[2] = {0xBB, 0xBC};
 

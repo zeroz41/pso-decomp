@@ -1,8 +1,8 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/weapon/TUnk_804A535C.h"
 #include "pso/player/TObjPlayer_8012C3F4.h"
 #include "pso/player/TObjPlayer_8012C950.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/weapon/shoot/TUnk_804A5340.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
@@ -42,14 +42,14 @@ void rocket_punch_target_impact(void *self, u32 a, u32 b, s32 idx) {
     rocket_punch_return_timer(a);
     m = find_entity_by_id(b);
     if (m && m->ents && idx < m->count) {
-        spawn_particle_effect(m->ents[idx].f1c, 0x45);
+        spawn_particle_effect((const Vec *)m->ents[idx].f1c, 0x45);
     }
 }
 
 void rocket_punch_wall_impact(u32 arg0, u32 arg1, u32 arg2, uaddr arg3) {
     if ((arg1 != 0U) && (arg3 != 0U)) {
         rocket_punch_return_timer(arg1);
-        spawn_particle_effect((void *)arg3, 0x45);
+        spawn_particle_effect((const Vec *)arg3, 0x45);
         play_sound_effect(0x4001C112, 0, 0, 0);
     }
 }

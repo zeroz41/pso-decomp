@@ -1,3 +1,4 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/enemy/flower/TObjEneRe2Flower.h"
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -16,7 +17,6 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/enemy/dd/TObjEneDD_800BA138.h"
 #include "pso/enemy/dd/TObjEneDD_800C2614.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_800C3A60.h"
 #include "pso/system/vector.h"
 #include "pso/system/SoundEffect.h"

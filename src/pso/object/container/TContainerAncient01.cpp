@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 
 #include "pso/object/container/TContainerAncient01.h"
@@ -22,7 +23,6 @@
 
 #include "pso/player/TObjPlayer_80011014.h"
 
-#include "pso/unk/text_80087278.h"
 
 #include "pso/system/task/TObject.h"
 
@@ -844,7 +844,7 @@ void TContainerAncient01__sub_8018B180(Obj_8018B180 *self, f32 range) {
     }
 }
 
-void TContainerAncient01::spawn_effect(void* p, void* a1, void* a2) { spawn_particle_effect(a1, (saddr)a2); }
+void TContainerAncient01::spawn_effect(void* p, void* a1, void* a2) { spawn_particle_effect((const Vec *)(a1), (saddr)a2); }
 }
 
 #pragma push

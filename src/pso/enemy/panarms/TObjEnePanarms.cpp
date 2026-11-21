@@ -1,3 +1,4 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -217,7 +218,6 @@ u16 find_nearest_visible_player(void *, Vec_800E0A44 *, f32);
 s32 is_split_screen();
 f64 atan2_float(f32, f32, f32);
 u32 csnLookAt(void *, void *);
-s32 spawn_particle_effect(void *, int, f32);
 s32 update__15RenderFadeStateFv(int, int);
 s32 try_move_with_detour__14TObjEnePanarmsFPvPv(u8 *arg0, Vec_800E18B0 *arg1);
 void calc_default_part_position__14TObjEnePanarmsFPv(u8 *arg0);
@@ -963,7 +963,7 @@ void TObjEnePanBARA::spawn_periodic_particle() {
     if (!(this->m_45c & 7)) {
         VecCopy((Vec *)(&position.x), (const Vec *)(arg0 + 0x3A4));
         position.y += 5.0f;
-        ((s32 (*)(void *, int))spawn_particle_effect)(&position.x, 0xF3);
+        spawn_particle_effect(&position, 0xF3);
     }
 }
 #pragma pop
@@ -1278,7 +1278,7 @@ void TObjEnePanBARA::sub_800E0950() {
         VecCopy((Vec *)(&stack.sp8), (const Vec *)unk_3A4);
         temp_f1 = stack.spC;
         stack.spC += 5.0f;
-        spawn_particle_effect((void *)&stack.sp8, 0xF3, temp_f1);
+        spawn_particle_effect((const Vec *)&stack.sp8, 0xF3);
     }
     temp_r0 = this->action_timer;
     if (temp_r0 <= 0x78) {

@@ -1,3 +1,4 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/render/RenderFadeState.h"
 #include "pso/object/container/TObjContainerIdo_8018BEE4.h"
 #include "pso/object/container/TObjContainerIdo.h"
@@ -23,7 +24,6 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
 #include <stdlib.h>
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/task/TObject.h"

@@ -14,10 +14,10 @@ TUnk_804C57F0::~TUnk_804C57F0() {
 
 
 #define arg0 ((u8 *)this)
-TUnk_804C57F0::TUnk_804C57F0(TObject *arg_r4, void *arg2) : TObject(arg_r4) {
+TUnk_804C57F0::TUnk_804C57F0(TObject *parent, ParticleDefinition *sprite_definition) : TObject(parent) {
     s32 temp_r31;
 
-    ((TUnk_804C57F0 *)arg0)->definition = static_cast<ParticleDefinition *>(arg2);
+    ((TUnk_804C57F0 *)arg0)->definition = sprite_definition;
     temp_r31 = ((TUnk_804C57F0 *)arg0)->definition->uv_count;
     *(s32 *)((s8 *)arg0 + 0x1C) = (saddr)mem_alloc(temp_r31 * 0x2C);
     ((TUnk_804C57F0 *)arg0)->m_20 = (saddr)mem_alloc(temp_r31 * 4);

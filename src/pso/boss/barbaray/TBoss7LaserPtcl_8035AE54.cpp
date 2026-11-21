@@ -1,7 +1,7 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/boss/barbaray/TBoss7LaserPtcl_8035AE54.h"
 #include "pso/system/vector.h"
-#include "pso/unk/text_80087278.h"
 
 extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
@@ -26,7 +26,7 @@ u8 *TBoss7LaserPtcl__sub_8035AE54(u8 *object, saddr arg1, saddr arg2) {
     *(u8 **)((s8 *)object + 0x1C) = (unsigned char *) (object + 0x34);
     *(s32 *)((s8 *)object + 0x20) = 1;
     VecCopy((Vec *)(object + 0x24), (const Vec *)(arg2));
-    spawn_particle_effect((object + 0x24), 0x211);
+    spawn_particle_effect((const Vec *)(object + 0x24), 0x211);
     create_timed_particle_emitter((object + 0x24), 0x213, 0, 0x1E);
     return object;
 }

@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/vector.h"
 #include "types.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -19,7 +20,6 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
@@ -659,7 +659,7 @@ void damage_nearby_players__14TBoss7TentacleFPv(u8 *boss7_tentacle) {
                 Hit_802EF99C a = b;
                 ((VObj_18_9935f6 *)p)->m21(*(s32 *)(boss7_tentacle + 0x10), &a, 0, -1, -1);
                 if (((Obj_802EF99C *)boss7_tentacle)->flags[(u16)i] == 0) {
-                    spawn_particle_effect(p + 0x2FC, 0x214);
+                    spawn_particle_effect((const Vec *)(p + 0x2FC), 0x214);
                     ((Obj_802EF99C *)boss7_tentacle)->flags[(u16)i] = 1;
                 }
             }
@@ -707,7 +707,7 @@ void TBoss7Tentacle::restart_particle_effect() {
     ((TObject *)(*((void **) (((s8 *) arg0) + 0x40))))->queue_destruction();
     *((u32 *) (((s8 *) arg0) + 0x40)) = 0U;
   }
-  particle_effect = (saddr)spawn_particle_effect(((u8 *)&this->m_1c), 0x215);
+  particle_effect = (saddr)spawn_particle_effect((const Vec *)&this->m_1c, 0x215);
   temp_r3 = particle_effect;
   if (temp_r3 != 0)
   {

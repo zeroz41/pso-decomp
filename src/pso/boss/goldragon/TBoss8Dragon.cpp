@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/math/FloatRounding.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
@@ -579,7 +580,6 @@ struct Cam_802FDC1C { s32 f0; f32 *p4; f32 *p8; };
 s32 get_current_floor();
 void free_bin_model_request(void*, int);
 void TBoss1Dragon__sub_80027A80(u8 *arg0, u8 *arg1);
-void *spawn_particle_effect_with_flags(const void *pos, s32 id, s32 flags);
 void TObjEneEpsilon__sub_800B9384(u8 *arg0, s32 arg1, f32 farg0);
 void enemy_set_target_id(void *, u16);
 int emit_effect_at_position__9TObjEneDDFPv(void*);
@@ -2430,7 +2430,7 @@ void TBoss8Dragon__sub_802FB828(u8 *ene_dd, s32 arg1) {
     ((TBoss8Dragon *)ene_dd)->emit_effect(a, &eff, *(s32 *)(ene_dd + 0x680));
     ((TBoss8Dragon *)ene_dd)->emit_effect(b, &eff, *(s32 *)(ene_dd + 0x680));
     ((TObjEneDD *)ene_dd)->reset_hp((u8 *)0, (u8 *)(TBoss8Dragon__data_80541DC8[0]), (u8 *)0);
-    spawn_particle_effect_with_flags((const void *)b, (saddr)(*(void **)(*(u8 **)(ene_dd + 0x760) + 0x10)), (s32)(0x40));
+    spawn_particle_effect_with_flags((const Vec *)b, (saddr)(*(void **)(*(u8 **)(ene_dd + 0x760) + 0x10)), (s32)(0x40));
 }
 
 int TBoss8Dragon::check_condition_default(void* p) { return ((int (*)(void*, int))TBoss8Dragon__sub_802FB828)(p, 0); }
@@ -2582,7 +2582,7 @@ void TBoss8Dragon::spawn_ground_effect() {
         temp_f1 = *(f32 *)((s8 *)(*(void **)((s8 *)temp_r3 + 4)) + 4);
         if (!(temp_f1 > 30.0f)) {
             stack.spC = temp_f1;
-            spawn_particle_effect_with_flags(&stack.sp8, this->m_760[1], 0x40);
+            spawn_particle_effect_with_flags((const Vec *)&stack.sp8, this->m_760[1], 0x40);
         }
     }
 }
@@ -3484,7 +3484,7 @@ void TBoss8Dragon::sub_802F8F88(s32 arg1) {
                 v.y = TBoss8Dragon__data_804744A8.y;
                 v.z += rot.z * len;
                 new TBoss8DragonEffBullet(&sub_tasks, &m_410, &v, m_75c, get_entity_id(((u8 *)this)));
-                spawn_particle_effect_with_flags(&m_410, (saddr)((void *)*(saddr *)((s8 *)(F(u8 *, 0x760)) + 0x24)), 0x40);
+                spawn_particle_effect_with_flags((const Vec *)&m_410, (saddr)((void *)*(saddr *)((s8 *)(F(u8 *, 0x760)) + 0x24)), 0x40);
                 F(s32, 0x84C) = 3;
                 F(s32, 0x854) = 0;
                 F(s32, 0x3C0) &= ~0x30;
@@ -4576,7 +4576,7 @@ void TBoss8Dragon::sub_802F6838(s32 arg1) {
                 reset_hp((u8 *)0, (u8 *)(TBoss8Dragon__data_80541DC8[4]), (u8 *)0);
                 emit_effect(&v, &e, 0);
                 reset_hp((u8 *)0, (u8 *)(TBoss8Dragon__data_80541DC8[0]), (u8 *)0);
-                spawn_particle_effect_with_flags((const void *)&v, (saddr)((void *)*(saddr *)((s8 *)(*(u8 **)((s8 *)this + 0x760)) + 8)), (s32)(0x40));
+                spawn_particle_effect_with_flags(&v, (saddr)((void *)*(saddr *)((s8 *)(*(u8 **)((s8 *)this + 0x760)) + 8)), (s32)(0x40));
                 if (*(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x760)) + 0xC) != -1) {
                     spawn_particle_effect_with_flags(&position, (saddr)((void *)*(saddr *)((s8 *)(*(u8 **)((s8 *)this + 0x760)) + 0xC)), 0x40);
                 }
@@ -4590,7 +4590,7 @@ void TBoss8Dragon::sub_802F6838(s32 arg1) {
                 reset_hp((u8 *)0, (u8 *)(TBoss8Dragon__data_80541DC8[4]), (u8 *)0);
                 emit_effect(&v, &e, 0);
                 reset_hp((u8 *)0, (u8 *)(TBoss8Dragon__data_80541DC8[0]), (u8 *)0);
-                spawn_particle_effect_with_flags((const void *)&v, (saddr)((void *)*(saddr *)((s8 *)(*(u8 **)((s8 *)this + 0x760)) + 8)), (s32)(0x40));
+                spawn_particle_effect_with_flags(&v, (saddr)((void *)*(saddr *)((s8 *)(*(u8 **)((s8 *)this + 0x760)) + 8)), (s32)(0x40));
                 if (*(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x760)) + 0xC) != -1) {
                     spawn_particle_effect_with_flags(&position, (saddr)((void *)*(saddr *)((s8 *)(*(u8 **)((s8 *)this + 0x760)) + 0xC)), 0x40);
                 }

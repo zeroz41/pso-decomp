@@ -1,11 +1,11 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/object/TUnk_804CC794.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/system/task/TObject.h"
 
 // The particles the fire technique charge spawns every 10 frames.

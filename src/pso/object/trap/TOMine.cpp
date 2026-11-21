@@ -1,3 +1,4 @@
+#include "pso/effect/particle/ParticleFactory.h"
 struct game_command_header;
 
 #include "types.h"
@@ -20,7 +21,6 @@ struct game_command_header;
 #include "pso/unk/TLobby.h"
 #include "pso/map/FloorArea.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/BmlResource.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
@@ -585,7 +585,7 @@ void TOMine::vfunc_6(s16 *arg1, s32 arg2) {
     }
 }
 void TOMine::sub_8017070C() {
-    spawn_particle_effect(((void *) (((u8 *)this) + 0x2FC)), 0x47);
+    spawn_particle_effect((const Vec *)(((u8 *)this) + 0x2FC), 0x47);
     this->vfunc_82();
     this->vfunc_80();
 }
@@ -593,7 +593,7 @@ void TOMine::sub_8017070C() {
 void TOMine::vfunc_82() {
     saddr arg0 = (saddr)this;
     {
-        TParticleCtrl *particle = (TParticleCtrl *)spawn_particle_effect((void *)(arg0 + 0x2FC), 0x45);
+        TParticleCtrl *particle = spawn_particle_effect((const Vec *)(arg0 + 0x2FC), 0x45);
         if (particle != NULL) {
             particle->set_scale(1.25f, 1.25f);
         }
@@ -1000,7 +1000,7 @@ void TOMineTrap::vfunc_82() {
     uaddr r;
     switch (this->attack.kind) {
     default:
-        r = (uaddr)spawn_particle_effect(arg0->sub, 0x45);
+        r = (uaddr)spawn_particle_effect((const Vec *)arg0->sub, 0x45);
         if (r != 0U) {
             ((TParticleCtrl *)r)->set_scale(1.25f, 1.25f);
         }
@@ -1009,13 +1009,13 @@ void TOMineTrap::vfunc_82() {
     case 16:
     case 17:
     case 18:
-        spawn_particle_effect(arg0->sub, 0x8E);
-        spawn_particle_effect(arg0->sub, 0x8E);
+        spawn_particle_effect((const Vec *)arg0->sub, 0x8E);
+        spawn_particle_effect((const Vec *)arg0->sub, 0x8E);
         break;
     case 6:
     case 7:
-        spawn_particle_effect(arg0->sub, 0x8D);
-        spawn_particle_effect(arg0->sub, 0x8D);
+        spawn_particle_effect((const Vec *)arg0->sub, 0x8D);
+        spawn_particle_effect((const Vec *)arg0->sub, 0x8D);
         break;
     }
 }

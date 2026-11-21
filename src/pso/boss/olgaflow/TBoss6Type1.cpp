@@ -1513,8 +1513,8 @@ void TBoss6Type1::update_beam_attack() {
         dlt.y *= s;
         dlt.z *= s;
         for (j = 0; j < cnt; j++) {
-            spawn_particle_effect_with_flags(&e, 0x212, 0x40);
-            spawn_particle_effect_with_flags(&e, 0x213, 0x40);
+            spawn_particle_effect_with_flags((const Vec *)(&e), 0x212, 0x40);
+            spawn_particle_effect_with_flags((const Vec *)(&e), 0x213, 0x40);
             vec3_add_to(&e, &dlt);
         }
         VecCopy((Vec *)&self->f56C, (const Vec *)&c);

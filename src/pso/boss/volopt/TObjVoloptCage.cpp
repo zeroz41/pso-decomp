@@ -1,6 +1,7 @@
 #pragma readonly_strings on
 #pragma fp_contract on
 
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
@@ -15,7 +16,6 @@
 #include "pso/render/GinjaTextureMatrices.h"
 #include "pso/system/vector.h"
 #include "pso/boss/volopt/TBoss3VoloptP02.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D8F74.h"

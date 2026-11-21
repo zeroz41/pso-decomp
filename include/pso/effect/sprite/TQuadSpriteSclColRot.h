@@ -5,7 +5,7 @@
 #include "pso/unk/TUnk_804C57F0.h"
 
 struct TQuadSpriteSclColRot : public TUnk_804C57F0 {
-    TQuadSpriteSclColRot(TObject *arg_r4, void *arg2);
+    TQuadSpriteSclColRot(TObject *parent, ParticleDefinition *sprite_definition);
     virtual ~TQuadSpriteSclColRot();
     virtual void render();
 };

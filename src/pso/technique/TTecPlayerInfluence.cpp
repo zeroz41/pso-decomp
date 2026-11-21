@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
@@ -117,7 +118,6 @@ void free_collision_body_parts(void *);
 
 List_802370D8 *find_support_technique_contact_for_target__10TObjPlayerFl(void *, u32);
 List_802370D8 *gather_contacts_for_self__10TObjPlayerFl(void *, u32);
-void *spawn_particle_effect(const void *pos, s32 id);
 void *get_player_by_client_id(s32 i);
 void deliver_technique_to_party_targets(Obj_802370D8 *arg0);
 void spawn_support_tec_range_effect(Tec_80236EE8 *self);

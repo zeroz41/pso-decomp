@@ -219,12 +219,12 @@ void run_task__25TBoss6Demo20_TYPE2_APPEARFv(O_8033D6DC *self) {
     play_persistent_sound(0x4003C627, (saddr)self, 0, 0, 0);
     switch (self->frame) {
     case 0xB9:
-        spawn_particle_effect_with_flags(self->obj40, 0x220, 0x40);
-        spawn_particle_effect_with_flags(self->obj70, 0x220, 0x40);
+        spawn_particle_effect_with_flags((const Vec *)(self->obj40), 0x220, 0x40);
+        spawn_particle_effect_with_flags((const Vec *)(self->obj70), 0x220, 0x40);
         break;
     case 0xED:
-        spawn_particle_effect_with_flags((void *)&boss6_type2_appear_origin, 0x221, 0x40);
-        spawn_particle_effect_with_flags((void *)&boss6_type2_appear_origin, 0x225, 0x40);
+        spawn_particle_effect_with_flags((const Vec *)&boss6_type2_appear_origin, 0x221, 0x40);
+        spawn_particle_effect_with_flags((const Vec *)&boss6_type2_appear_origin, 0x225, 0x40);
         break;
     }
     for (i = 0; i < 9; i++) {

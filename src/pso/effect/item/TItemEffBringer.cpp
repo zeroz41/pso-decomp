@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/effect/item/TItemEffBringer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/vector.h"
@@ -34,7 +35,6 @@ void push_matrix(void);
 s32 pop_matrix(void);
 extern void *__vt__15TItemEffBringer[];
 void *__ct__15TItemEffBringerFv(Bringer_8010834C *self, u32 arg1, Vec *src, s32 arg3, f32 farg0);
-void *spawn_particle_effect(const void *pos, s32 id);
 }
 void TItemEffBringer::hook() {
     Vec work = this->m_pos;

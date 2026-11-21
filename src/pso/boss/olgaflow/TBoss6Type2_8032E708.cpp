@@ -395,7 +395,7 @@ void TBoss6Mag::sub_8032E8DC() {
         break;
     }
     if (!(((Obj_8032E8DC *)this)->f3C8 & 0x1F) && ((TBoss6Type2 *)(((Obj_8032E8DC *)this)->f378))->is_active() != 0) {
-        spawn_particle_effect_with_flags(((Obj_8032E8DC *)this)->sw, 0x224, 0x2040);
+        spawn_particle_effect_with_flags((const Vec *)(((Obj_8032E8DC *)this)->sw), 0x224, 0x2040);
     }
 }
 

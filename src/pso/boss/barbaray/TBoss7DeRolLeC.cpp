@@ -1,3 +1,4 @@
+#include "pso/effect/particle/ParticleFactory.h"
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
@@ -2313,7 +2314,7 @@ void TObjFish__sub_802EC468(saddr arg0, f32 farg0, f32 farg1) {
     stack.x = -((*(f32 *)((s8 *)&lbl_804FF5E8 + 0xC) * farg1) - stack.x);
     stack.y -= (*(f32 *)((s8 *)&lbl_804FF5E8 + 0x10) * farg1) - farg0;
     stack.z = -((*(f32 *)((s8 *)&lbl_804FF5E8 + 0x14) * farg1) - stack.z);
-    spawn_particle_effect_with_flags((&stack.x), 0x127, 0x40);
+    spawn_particle_effect_with_flags((const Vec *)&stack.x, 0x127, 0x40);
 }
 #pragma pop
 void TBoss7DeRolLeC::update_projectile_spawns() {

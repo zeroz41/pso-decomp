@@ -1,3 +1,4 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/weapon/TUnk_804A403C.h"
@@ -10,7 +11,6 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_8023E480.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/ui/frontend/TAdRicoRing.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/system/task/TObject.h"
@@ -38,7 +38,7 @@ void TObjPlayer__sub_80128A74(s32 a, uaddr b, s32 c, s32 d) {
     ((TObjPlayer *)b)->clear_rico_ring_flag();
     o = find_entity_by_id(c);
     if (o != 0 && o->elems != 0 && d < o->count) {
-        spawn_particle_effect(o->elems[d].f1c, 0x45);
+        spawn_particle_effect((const Vec *)o->elems[d].f1c, 0x45);
     }
 }
 
@@ -47,7 +47,7 @@ void TObjPlayer__sub_80128A74(s32 a, uaddr b, s32 c, s32 d) {
 void TObjPlayer::notify_hit_target(u32 arg0, uaddr arg1, u32 arg2, uaddr arg3) {
     if ((arg1 != 0U) && (arg3 != 0U)) {
         ((TObjPlayer *)arg1)->clear_rico_ring_flag();
-        spawn_particle_effect((void *)arg3, 0x45);
+        spawn_particle_effect((const Vec *)arg3, 0x45);
         play_sound_effect(0x4001C112, 0, 0, 0);
     }
 }

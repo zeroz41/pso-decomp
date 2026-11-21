@@ -1,8 +1,8 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/weapon/TUnk_804A6CC8.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/player/TObjPlayer_80109344.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/MatrixStack.h"
@@ -72,7 +72,7 @@ void TUnk_804A6CC8::emit_marker_effects() {
 
     slide_state = 2;
     get_gun_point(buf);
-    spawn_particle_effect(buf, 9);
+    spawn_particle_effect((const Vec *)(buf), 9);
 }
 
 TUnk_804A6CC8::~TUnk_804A6CC8() {}

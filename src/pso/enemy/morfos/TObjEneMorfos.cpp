@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -21,7 +22,6 @@
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/render/reflection.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
@@ -1109,8 +1109,8 @@ f32 TObjEneMorfos::receive_physical_attack(void *attacker, f32 scale) {
     }
     if (arg0->f3C0 & 0x10) {
         if (d < 0x4000) {
-            spawn_particle_effect(&m_498, 0x214);
-            spawn_particle_effect(&m_498, 0x21A);
+            spawn_particle_effect((const Vec *)&m_498, 0x214);
+            spawn_particle_effect((const Vec *)&m_498, 0x21A);
         } else {
             arg0->f3C0 &= ~0x10;
             arg0->f3C0 |= 0x20;
@@ -1590,7 +1590,7 @@ void TObjEneMorfos__sub_80333690(TObjEneMorfos *owner, s32 arg1) {
             if (owner->approach_value(owner->m_4bc, *(s32 *)((s8 *)(*(u8 * *)&TObjEneMorfos__param_table) + 0x1C)) != 0) {
                 *(s32 *)((s8 *)owner + 0x4B0) = 1;
                 owner->requested_action = 2;
-                spawn_particle_effect((u8 *)owner + 0x498, 0x212);
+                spawn_particle_effect((const Vec *)((u8 *)owner + 0x498), 0x212);
             }
             break;
         case 1:
@@ -1736,7 +1736,7 @@ void TObjEneMorfos::state_rotating_projectile_burst(s32 arg1) {
             break;
         }
         case 2:
-            spawn_particle_effect(arg0 + 0x498, 0x212);
+            spawn_particle_effect((const Vec *)(arg0 + 0x498), 0x212);
             if (((TObjMotion *)arg0)->is_passing_frame(1.0f) != 0) {
                 F(0x4B0, s32) = 3;
             }

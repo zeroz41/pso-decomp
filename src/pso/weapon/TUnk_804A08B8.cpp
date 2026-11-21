@@ -1,9 +1,9 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/weapon/TUnk_804A08B8.h"
 #include "pso/item/TItemHeapObject.h"
 #include "pso/item/TUnk_804A0648.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/system/task/TMainTask.h"
 
 void TUnk_804A08B8::emit_marker_effects() {
@@ -11,7 +11,7 @@ void TUnk_804A08B8::emit_marker_effects() {
 
     if (is_mode_two_and_ready() != 0) {
         get_joint_position(2, &pos);
-        spawn_particle_effect(&pos, 0x1BE);
+        spawn_particle_effect((const Vec *)&pos, 0x1BE);
     }
 }
 

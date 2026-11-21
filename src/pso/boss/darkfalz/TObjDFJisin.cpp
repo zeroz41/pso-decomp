@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz_8004C93C.h"
 #include "pso/system/vector.h"
@@ -17,7 +18,6 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
@@ -832,7 +832,7 @@ void fn_spawn_particle_f3_with_flags(s32 arg0, saddr arg1) {
     uaddr particle_effect;
     VecCopy((Vec *)(&position.x), (const Vec *)(arg1));
     position.y += 2.0f;
-    particle_effect = (uaddr)spawn_particle_effect((&position.x), 0xF3);
+    particle_effect = (uaddr)spawn_particle_effect(&position, 0xF3);
     if (particle_effect != 0U) {
         ((TParticleCtrl *)particle_effect)->set_flags(0x40);
     }

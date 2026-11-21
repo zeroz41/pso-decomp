@@ -1,3 +1,4 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/unk/TUnk_804DDD28.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
@@ -25,7 +26,6 @@
 extern "C" {
 
 void *__ct__20TPlayerLevelFeedbackFP7TObjectUs(void *arg0, u16 arg1, u16 arg2);
-void *spawn_particle_effect_with_flags(const void *pos, s32 id, s32 flags);
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
 
@@ -831,7 +831,7 @@ TPlayerLevelFeedback::TPlayerLevelFeedback(TObject* parent, u16 id) : TObject(pa
     timer = 10;
     player = (uaddr)get_player_by_client_id(player_id);
     if (player != 0) {
-        player = (uaddr)spawn_particle_effect_with_flags((const void *)(player + 0x2FC), 0x23, 0x10);
+        player = (uaddr)spawn_particle_effect_with_flags((const Vec *)(player + 0x2FC), 0x23, 0x10);
         if (player != 0) ((TParticleCtrl *)player)->set_owner_id(player_id);
     }
 }
@@ -847,7 +847,7 @@ void TPlayerLevelFeedback::run_task() {
     if (remaining < 0) {
         player = (uaddr)get_player_by_client_id(player_id);
         if (player != 0) {
-            emitter = (uaddr)spawn_particle_effect_with_flags((const void *)(player + 0x2FC), 0x20, 0x10);
+            emitter = (uaddr)spawn_particle_effect_with_flags((const Vec *)(player + 0x2FC), 0x20, 0x10);
             if (emitter != 0) ((TParticleCtrl *)emitter)->set_owner_id(player_id);
         }
         queue_destruction();

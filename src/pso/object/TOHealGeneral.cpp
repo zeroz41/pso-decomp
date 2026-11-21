@@ -1,3 +1,4 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
@@ -151,11 +152,11 @@ void TOHealGeneral::find_heal_target() {
             if (player->is_alive_and_ready() != 0) {
                 player->refill_traps();
             }
-            effect = (TParticleCtrl *)spawn_particle_effect_with_flags((u8 *)player + 0x2FC, 0x1F6, 0x10);
+            effect = spawn_particle_effect_with_flags((const Vec *)((u8 *)player + 0x2FC), 0x1F6, 0x10);
             if (effect != NULL) {
                 effect->set_owner_id(heal_target);
             }
-            effect = (TParticleCtrl *)spawn_particle_effect_with_flags((u8 *)player + 0x2FC, 0x1F7, 0x10);
+            effect = spawn_particle_effect_with_flags((const Vec *)((u8 *)player + 0x2FC), 0x1F7, 0x10);
             if (effect != NULL) {
                 effect->set_owner_id(heal_target);
             }

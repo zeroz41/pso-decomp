@@ -1,3 +1,4 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/map/FloorArea.h"
 #include "pso/item/TItemObject.h"
 #include "pso/object/base/TObjMotion.h"
@@ -13,7 +14,6 @@
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/render/render_util.h"
 
 #pragma readonly_strings on
@@ -181,9 +181,9 @@ void handle_6x66_use_star_atomizer(u8 *arg0) {
                     target->set_hp_clamped(((TItemProShield *)target)->get_field_2b8());
                     if (is_current_area_item_enabled() != 0) {
                         if (i == 0) {
-                            spawn_particle_effect((u8 *)target + 0x2FC, 0x19);
+                            spawn_particle_effect((const Vec *)((u8 *)target + 0x2FC), 0x19);
                         }
-                        spawn_particle_effect((u8 *)target + 0x2FC, 0xC2);
+                        spawn_particle_effect((const Vec *)((u8 *)target + 0x2FC), 0xC2);
                     }
                 }
             }

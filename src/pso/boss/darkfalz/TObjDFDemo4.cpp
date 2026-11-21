@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/boss/darkfalz/TObjDFDemo4.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -18,7 +19,6 @@
 #include "pso/system/PadRumble.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/vector.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D8F74.h"
 
 #pragma readonly_strings on
@@ -107,19 +107,19 @@ TObjDFDemo4::~TObjDFDemo4() {
 
 void TObjDFDemo4::run_task() {
     TParticleCtrl *fx;
-    if (timer <= 0x3C && (fx = (TParticleCtrl *)spawn_particle_effect(&pos, 0x14E)) != NULL) {
+    if (timer <= 0x3C && (fx = spawn_particle_effect(&pos, 0x14E)) != NULL) {
         fx->set_flags(0x40);
     }
     if (timer == 0x44) {
-        if ((fx = (TParticleCtrl *)spawn_particle_effect(&pos, 0x17B)) != NULL) {
+        if ((fx = spawn_particle_effect(&pos, 0x17B)) != NULL) {
             fx->set_flags(0x40);
         }
-        if ((fx = (TParticleCtrl *)spawn_particle_effect(&pos, 0x17C)) != NULL) {
+        if ((fx = spawn_particle_effect(&pos, 0x17C)) != NULL) {
             fx->set_flags(0x40);
         }
     }
     if (timer == 0x48) {
-        if ((fx = (TParticleCtrl *)spawn_particle_effect(&pos, 0x17A)) != NULL) {
+        if ((fx = spawn_particle_effect(&pos, 0x17A)) != NULL) {
             fx->set_flags(0x40);
         }
         play_sound_effect(0x40039E09, &pos, 0, 1);

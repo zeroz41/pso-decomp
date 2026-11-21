@@ -3,6 +3,7 @@
 // item code, 0x802D5108-0x802D6348. One TU: its vtables and jump table fill
 // .data 0x804E1BB0-0x804E24F0 in text order, which -inline off,deferred only
 // gives with the source written last to first (as below).
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/player/TObjPlayer_802D5174.h"
 #include "pso/item/TItemEquipBase.h"
@@ -24,7 +25,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_8032E4C8.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_80120908.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TUnk_804E1BB0.h"
@@ -205,7 +205,7 @@ void TObjPlayer::spawn_item() {
     s32 sp8;
     TParticleCtrl *particle;
 
-    particle = (TParticleCtrl *)spawn_particle_effect(((Vec *)this), 0x1BF);
+    particle = spawn_particle_effect(((Vec *)this), 0x1BF);
     if (particle != NULL) {
         TItemLoad::lookup_item_data(0xD, &spC);
         TItemLoad::get_data_entry(0xD, &sp8);
@@ -442,7 +442,7 @@ void TObjPlayer::do_action_447_from_packet(void *item, void *hit, void *dir) {
 }
 
 void *TObjPlayer::do_action_447() {
-    return spawn_particle_effect(this, 447);
+    return spawn_particle_effect((const Vec *)this, 447);
 }
 
 TUnk_804E1CA8::~TUnk_804E1CA8() {}

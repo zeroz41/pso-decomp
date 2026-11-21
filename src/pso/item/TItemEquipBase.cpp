@@ -1,3 +1,4 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "string.h"
 #include "pso/item/TItemEquipBase.h"
@@ -15,7 +16,6 @@
 #include "pso/system/data/FlagWord.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/vector.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/item/TItemLoad.h"
 #include "pso/item/TItemLockCountCtrl.h"
 

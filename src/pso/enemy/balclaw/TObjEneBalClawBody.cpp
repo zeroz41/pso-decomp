@@ -1,3 +1,4 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -23,7 +24,6 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D96A8.h"
@@ -981,7 +981,7 @@ void TObjPlayer__sub_8008E310(TObjEneBalClawBody *body) {
         if (body->requested_action != 0xB) {
             queue_destruction__7TObjectFv(body->effects[0]);
             body->effects[0] = NULL;
-            spawn_particle_effect(&body->m_2fc, 0x129);
+            spawn_particle_effect((const Vec *)&body->m_2fc, 0x129);
             TObjPlayer__sub_8008E934(body, 1);
             body->advance_animation();
             body->m_388 &= ~0x04000000;

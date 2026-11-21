@@ -204,7 +204,7 @@ void TBoss6Type2::sub_802BF834() {
     if ((state_timer == state_duration - 0x1E) && (m_466 != 0xFFFF)) {
         play_sound_effect(0x4006A10A, &position, 0, 1);
         play_sound_effect(0x69E27, &position, 0, 1);
-        spawn_particle_effect_with_flags((u8 *)this + 0x62C, 0x223, 0x40);
+        spawn_particle_effect_with_flags((const Vec *)((u8 *)this + 0x62C), 0x223, 0x40);
     }
     temp_r0 = state_timer - 1;
     state_timer = temp_r0;
@@ -543,7 +543,7 @@ void TBoss6Type2::sub_802BEC28() {
             }
             player = (uaddr)get_player_by_client_id(*(u16 *)((s8 *)this + 0x55C));
             if (player != 0U) {
-                spawn_particle_effect((void *)(player + 0x38), 0x36);
+                spawn_particle_effect((const Vec *)(player + 0x38), 0x36);
             }
         }
         copy_anim_state();
@@ -577,7 +577,7 @@ void TBoss6Type2::update_attack_timer() {
             }
             player = (uaddr)get_player_by_client_id(*(u16 *)((s8 *)this + 0x55C));
             if (player != 0U) {
-                spawn_particle_effect((void *)(player + 0x38), 0x36);
+                spawn_particle_effect((const Vec *)(player + 0x38), 0x36);
             }
         }
         set_action_state((void *)0x1B);
@@ -601,7 +601,7 @@ void TBoss6Type2::start_flow_soul_effect() {
             VecCopy__FP3VecPC3Vec(&v, (void *)(pl + 0x38));
             v.y += 10.0f;
             spawn_flow_soul__11TBoss6Type2Fiii((saddr)arg0, (saddr)&v, (s32)this->state_duration);
-            spawn_particle_effect((void *)(pl + 0x38), 0x36);
+            spawn_particle_effect((const Vec *)(pl + 0x38), 0x36);
         }
         ((TBoss6EffHyoui *)(arg0->client))->create((void *)1, (void *)this->state_duration);
         if (((TBoss6Type2 *)arg0)->is_target_valid() == 0) {

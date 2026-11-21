@@ -80,7 +80,7 @@ void TBoss1DragonEffBullet::run_task() {
     case 1:
         arg0->field_34 += 1;
         if ((s32) arg0->field_34 == 1) {
-            spawn_particle_effect_with_flags(&arg0->field_1C, *(s32 *)((s8 *)(*(u8 * *)&dragon_fireball_particle_ids) + 4), 0x40);
+            spawn_particle_effect_with_flags((const Vec *)(&arg0->field_1C), *(s32 *)((s8 *)(*(u8 * *)&dragon_fireball_particle_ids) + 4), 0x40);
             temp_r3_3 = arg0->field_48;
             if (temp_r3_3 != NULL) {
                 ((TObject *)temp_r3_3)->queue_destruction();
@@ -95,7 +95,7 @@ void TBoss1DragonEffBullet::run_task() {
             ((TBoss1Dragon *)(TBoss1Dragon::get_instance()))->apply_fireball_impact_damage((saddr)&arg0->field_1C);
         }
         if ((s32) arg0->field_34 <= 2) {
-            spawn_particle_effect_with_flags(&arg0->field_1C, *(s32 *)((s8 *)(*(u8 * *)&dragon_fireball_particle_ids) + 8), 0x40);
+            spawn_particle_effect_with_flags((const Vec *)(&arg0->field_1C), *(s32 *)((s8 *)(*(u8 * *)&dragon_fireball_particle_ids) + 8), 0x40);
             return;
         }
         arg0->field_38 = 2;

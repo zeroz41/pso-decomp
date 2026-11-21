@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -44,7 +45,6 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/enemy/deldepth/DelDepthData.h"
 #include "pso/boss/volopt/TBoss3VoloptP01.h"
@@ -544,8 +544,8 @@ void TObjEneRecon__sub_8031C364(u8 *arg0, s32 arg1) {
         case 2:
             F(s32, 0x444) |= 1;
             F(s32, 0x3C0) = 3;
-            spawn_particle_effect_with_flags(arg0 + 0x38, 0x45, 0x40);
-            spawn_particle_effect_with_flags(arg0 + 0x38, 0x46, 0x40);
+            spawn_particle_effect_with_flags((const Vec *)(arg0 + 0x38), 0x45, 0x40);
+            spawn_particle_effect_with_flags((const Vec *)(arg0 + 0x38), 0x46, 0x40);
             play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003A80D), arg0 + 0x38, 0, 0);
             TBoss3Volopt::create_breakup_mdl((saddr)boss3_volopt_instance, (saddr)&recon_breakup_params, (s32)(F(s32, 0x24)), (saddr)(arg0 + 0x2FC), (s32)(F(s32, 0x60)));
             break;
@@ -1129,7 +1129,7 @@ void TObjEneRecon__sub_8031CF30(u8 *arg0, s32 arg1) {
             break;
         case 2:
             if (((TObjMotion *)arg0)->is_passing_frame(3.0f) != 0 || ((TObjMotion *)arg0)->is_passing_frame((f32)(4.0f)) != 0) {
-                spawn_particle_effect(arg0 + 0x2FC, 0x218);
+                spawn_particle_effect((const Vec *)(arg0 + 0x2FC), 0x218);
             }
             if (((TObjMotion *)arg0)->is_passing_frame(7.0f) != 0) {
                 F(s32, 0x3C8) = 1;

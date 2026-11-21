@@ -184,7 +184,7 @@ void TObjDFDemo2::run_task() {
     Obj_8004EA2C *arg0 = (Obj_8004EA2C *)this;
     void *e;
     if (arg0->ftimer == 0x90) {
-        e = (void *)spawn_particle_effect(arg0->fac, 0xC3);
+        e = (void *)spawn_particle_effect((const Vec *)(arg0->fac), 0xC3);
         if (e != NULL) {
             ((TParticleCtrl *)e)->set_flags(0x40);
         }
@@ -193,7 +193,7 @@ void TObjDFDemo2::run_task() {
     }
     while (arg0->ftimer >= 0xB4) {
         if (arg0->fa8 != 0 || arg0->ftimer <= 0xDC) {
-            e = (void *)spawn_particle_effect(arg0->fac, 0x14E);
+            e = (void *)spawn_particle_effect((const Vec *)(arg0->fac), 0x14E);
             if (e != NULL) {
                 ((TParticleCtrl *)e)->set_flags(0x40);
             }

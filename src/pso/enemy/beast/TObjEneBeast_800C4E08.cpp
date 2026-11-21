@@ -1,3 +1,4 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "types.h"
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
@@ -15,7 +16,6 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
 
@@ -141,7 +141,7 @@ void TUnk_80493450::beast_update_dead() {
         this->vfunc_98();
     }
     if (((TObjMotion *)arg0)->is_passing_frame(BEAST_DEATH_EFFECT_FRAME) != 0) {
-        spawn_particle_effect(((u8 *)&this->position), 0xF3);
+        spawn_particle_effect(&this->position, 0xF3);
         this->vfunc_94();
     }
     if (this->frame < (BEAST_DEATH_SLIDE_FRAME_SCALE * (BEAST_DEATH_SLIDE_FRAME_COUNT * this->play_speed))) {

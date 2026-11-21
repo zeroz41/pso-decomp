@@ -1,9 +1,9 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/weapon/TUnk_804A5C18.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/effect/item/TItemEffOrgaFlowShot.h"
 #include "pso/player/TObjPlayer_80109344.h"
 #include "pso/unk/text_8011B620.h"
@@ -45,7 +45,7 @@ void TUnk_804A5C18::emit_marker_effects() {
         get_joint_position(muzzle_joints[i], pos);
         launch_shot((u8 *)pos, i, basic_shot_angle_table[i], 1);
         if (i == 0) {
-            spawn_particle_effect(pos, 9);
+            spawn_particle_effect((const Vec *)(pos), 9);
         }
     }
 }

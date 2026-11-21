@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/technique/TechniqueParams.h"
 #include "types.h"
@@ -7,7 +8,6 @@
 #include "pso/technique/TTecGiZonde_8023A4CC.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_800871A0.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
 #include "pso/effect/TUnk_804CCC68.h"
@@ -241,7 +241,7 @@ void TTecGiBarta::create_particles() {
         spawn_particle_effect(&v, 0x1E1);
         src = (u8 *)find_entity_by_id(shot->source);
         if (src != NULL) {
-            emitter = spawn_particle_effect(src + 0x38, 0x18B);
+            emitter = spawn_particle_effect((const Vec *)(src + 0x38), 0x18B);
             if (emitter != NULL) {
                 attach_particle_model((u8 *)emitter, (saddr)(get_bml_model(technique_effect_bml, 6)), (saddr)lbl_805D63B0, (saddr)(get_bml_motion(technique_effect_bml, 2)), 0, 1.0f);
             }

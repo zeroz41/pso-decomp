@@ -161,8 +161,8 @@ void TBoss6RockChase::run_task() {
             *(f32 *)&this->_padB8 = 0.0f;
             damage_players_in_range();
             play_sound_effect(0x4006B51E, (u8 *)&this->position, 0, 0);
-            spawn_particle_effect(((u8 *)&this->position), 0x220);
-            spawn_particle_effect(((u8 *)&this->position), 0x222);
+            spawn_particle_effect(&position, 0x220);
+            spawn_particle_effect(&position, 0x222);
             TBoss6PlotFalz::apply_radial_effect_to_players((u8 *)&this->position, 0xC0, 0xF, 100.0f);
             TBoss6Rock::spawn_crush_rocks(&position, m_b0);
             play_sound_effect(0x4006AB1F, (u8 *)&this->position, 0, 0);

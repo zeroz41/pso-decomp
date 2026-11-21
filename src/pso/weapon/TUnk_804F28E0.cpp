@@ -1,9 +1,9 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TUnk_804F28E0.h"
 #include "pso/player/TObjPlayer.h"
@@ -37,7 +37,7 @@ void TUnk_804F28E0::emit_marker_effects() {
     s32 sp8;
 
     ((TItemWeapon *)arg0)->get_gun_point(&sp8);
-    spawn_particle_effect(&sp8, 9);
+    spawn_particle_effect((const Vec *)(&sp8), 9);
     ((TItemWeapon *)arg0)->spawn_light_task();
     ((TItemWeapon *)arg0)->fire_shot_at_target(&sp8, 0, 0);
 }

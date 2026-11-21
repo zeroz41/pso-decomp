@@ -188,10 +188,10 @@ u8 *TBoss6SwordShot__ct(void *arg0, saddr arg1, saddr arg2, s32 arg3, f32 farg0)
         if (self->speed > 15.0f) {
             scale = self->speed / 15.0f;
         }
-        if ((p = spawn_particle_effect_with_flags(&self->pos, 0x212, 0x40)) != NULL) {
+        if ((p = spawn_particle_effect_with_flags((const Vec *)(&self->pos), 0x212, 0x40)) != NULL) {
             ((TParticleCtrl *)p)->set_scale(scale, 1.0f);
         }
-        if ((p = spawn_particle_effect_with_flags(&self->pos, 0x213, 0x40)) != NULL) {
+        if ((p = spawn_particle_effect_with_flags((const Vec *)(&self->pos), 0x213, 0x40)) != NULL) {
             ((TParticleCtrl *)p)->set_scale(scale, 1.0f);
         }
     }

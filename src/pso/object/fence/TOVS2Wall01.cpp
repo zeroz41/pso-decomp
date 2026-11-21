@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_80011014.h"
@@ -39,7 +40,6 @@
 #include "pso/object/TObjChip.h"
 #include "pso/system/task/TMainTask.h"
 
-#include "pso/unk/text_80087278.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/fence/WallHitPacket.h"
 
@@ -219,8 +219,8 @@ void TOVS2Wall01::break_wall() {
         spawn_debris(index);
         index += 1;
     } while (index <= 0xF);
-    spawn_particle_effect((void *)&position, 0x45);
-    spawn_particle_effect((void *)&position, 0x46);
+    spawn_particle_effect(&position, 0x45);
+    spawn_particle_effect(&position, 0x46);
     play_sound_effect(0x4004BC05, (void *)&position, 0, 0);
 }
 
@@ -239,8 +239,8 @@ f32 TOVS2Wall01::take_hit(TObjBase *attacker) {
         } else {
             save_and_send_state(0);
         }
-        spawn_particle_effect((void *)&position, 0x1D0);
-        spawn_particle_effect((void *)&position, 1);
+        spawn_particle_effect(&position, 0x1D0);
+        spawn_particle_effect(&position, 1);
     }
     return 0.0f;
 }

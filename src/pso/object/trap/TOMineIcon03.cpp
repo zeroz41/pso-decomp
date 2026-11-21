@@ -1,5 +1,5 @@
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/trap/TOMine.h"
@@ -19,8 +19,8 @@ void TOMineIcon03::vfunc_84() {  }
 
 void TOMineIcon03::vfunc_82() {
     saddr arg0 = (saddr)this;
-    spawn_particle_effect((void *)(arg0 + 0x2FC), 0x8D);
-    spawn_particle_effect((void *)(arg0 + 0x2FC), 0x8D);
+    spawn_particle_effect((const Vec *)(arg0 + 0x2FC), 0x8D);
+    spawn_particle_effect((const Vec *)(arg0 + 0x2FC), 0x8D);
 }
 
 void *TOMineIcon03::create(void *arg0) {

@@ -2,6 +2,7 @@
 #pragma readonly_strings on
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/object/cave/TORockCave.h"
 #include "pso/object/cave/TORockCaveSimple.h"
@@ -38,7 +39,6 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/system/vector.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/player/TObjPlayer_80011014.h"

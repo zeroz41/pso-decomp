@@ -180,8 +180,8 @@ void TBoss6DPB::sub_8035D8B0() {
     W_8035D8B0 *arg0 = (W_8035D8B0 *)this;
     V_8035D8B0 v = arg0->v;
     v.b = 5.0f;
-    spawn_particle_effect_with_flags(&v, 0x21C, 0x40);
-    spawn_particle_effect_with_flags(&v, 0x21D, 0x40);
+    spawn_particle_effect_with_flags((const Vec *)(&v), 0x21C, 0x40);
+    spawn_particle_effect_with_flags((const Vec *)(&v), 0x21D, 0x40);
     create_TDPBShower((void *)tl_02, &arg0->v);
 }
 }

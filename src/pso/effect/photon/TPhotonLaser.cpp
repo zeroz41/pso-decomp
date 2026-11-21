@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/effect/photon/TPhotonLaser.h"
 #include "pso/system/vector.h"
@@ -55,7 +56,6 @@ struct Laser_801AC17C {
 extern "C" {
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 extern const char *TPhotonLaser__name;
-void *spawn_particle_effect(const void *pos, s32 id);
 void *find_entity_by_id(u16);
 void vec3_add_to(void *, void *);
 void rotate_vector_by_matrix(int, void *, void *);
