@@ -52,7 +52,7 @@ s32 pop_matrix();
 s32 rotate_matrix_by_node_angles(void *, int);
 s32 post_translate_matrix(void *);
 int set_global_param__8TObjFishFl(void);
-void draw_ginja_object(void *child);
+void draw_ginja_object(saddr);
 void set_material_alpha_compare_reference(s32 reference);
 }
 void calc_projection_screen_offset(f32 *arg0, f32 *arg1);
@@ -134,7 +134,7 @@ void TUnk_804EFA88::render() {
         ((void (*)(void *))init_particle_effect__10TObjPlayerFv)(this);
         ((void (*)(void *))setup_projection_tex_matrix__10TObjPlayerFv)(this);
         ((void (*)(s32))set_global_param__8TObjFishFl)(this->entries[i].p18);
-        draw_ginja_object((void *)(this->entries[i].p1C));
+        draw_ginja_object((this->entries[i].p1C));
         pop_matrix();
         reset_indirect_tev(1);
         ((void (*)(void *))reset_effects__10TObjPlayerFv)(this);

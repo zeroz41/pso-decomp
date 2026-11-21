@@ -123,7 +123,7 @@ void TObjEneRe4Sorcerer__sub_801E3F18(void);
 extern s32 TLobby__battle_ctrl_default_value;
 s32 set_player_team_id(void *, int);
 s32 fn_801D6D8C(void *, u8, int);
-s32 fn_801D726C(void *, void *);
+s32 fn_801D726C(void *, s32);
 s32 fn_801D72B0(void *, s32);
 extern const f32 lbl_805D3538;
 extern const f32 lbl_805D353C;
@@ -936,7 +936,7 @@ void TPlayerBattleCtrl4P::apply_rule_configuration(s32 arg1) {
     ((TLobby *)((s32 *)&lobby_rule_settings))->set_validated_field_0x11((u8)(((u8) (*((s32 *) (((s8 *) o->cfg) + 0x1C))))));
     ((TLobby *)((s32 *)&lobby_rule_settings))->set_clamped_index((s16)(((s16) (*((s32 *) (((s8 *) o->cfg) + 0x20))))));
     ((TLobby *)((s32 *)&lobby_rule_settings))->set_clamped_value_1c((saddr)((*((s32 *) (((s8 *) o->cfg) + 0x24)))));
-    fn_801D726C(((s32 *)&lobby_rule_settings), (void *) ((u8) (*((s16 *) (((s8 *) o->cfg) + 0x28)))));
+    fn_801D726C(((s32 *)&lobby_rule_settings), ((u8) (*((s16 *) (((s8 *) o->cfg) + 0x28)))));
     flag = 0;
     if ((((s32) o->cfg[9]) == 1) && (TLobby::get_game_mode() == 4))
     {

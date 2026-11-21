@@ -2029,7 +2029,7 @@ void TObjPlayer__sub_801BF8F8(s32 *p);
 s32 TObjPlayer__sub_801BF914(void *);
 s32 TObjPlayer__sub_801BF918(void *);
 void *TObjPlayer__sub_801BF934(void *p);
-s32 TObjPlayer__sub_801BF93C(void *, void *);
+s32 TObjPlayer__sub_801BF93C(void *, s32);
 u32 TObjPlayer__sub_801BFFA0(void *);
 s32 forward_801C210C__10TObjPlayerFv(int, int);
 s32 is_action_id_none(s32);
@@ -2169,7 +2169,7 @@ f32 get_class_technique_boost(s32, s32);
 void update_all_units__10TObjPlayerFll(void *, u8);
 s32 poll_memcard_result(saddr);
 int is_item_area_enabled(void);
-s32 __ct__17TMedicalCenterMesFP7TObjectP10TObjPlayer(void *, void *, void *);
+s32 __ct__17TMedicalCenterMesFP7TObjectP10TObjPlayer(void *, saddr, void *);
 s32 play_sound_effect(s32, saddr, s32, s32);
 void set_area__6TLobbyFl(void *, int, int);
 void text_builder_append_int(s32 arg0);
@@ -2509,7 +2509,7 @@ void TObjPlayer::setup_fresh_player_state(u8 *arg1) {
         refill_traps();
     }
     this->set_play_time((int) (*(u8 *)((s8 *)arg1 + 3)));
-    TObjPlayer__sub_801BF93C((void *) (((u8 *)this) + 0x5B0), (void *) (get_entity_id(this)));
+    TObjPlayer__sub_801BF93C((void *) (((u8 *)this) + 0x5B0), (get_entity_id(this)));
     TObjPlayer::disable_drop_weapon_on_death(this);
     *(s8 *)&this->unk_338 = get_byte_173(arg1);
     this->m_339 = get_byte_18f(arg1);
@@ -2654,7 +2654,7 @@ void TObjPlayer::reset_motion_fields() {
             {
                 void *m = (void *)TObject::operator new(0x234);
                 if (m != 0) {
-                    __ct__17TMedicalCenterMesFP7TObjectP10TObjPlayer(m, (void *)tl_05, (void *)arg0);
+                    __ct__17TMedicalCenterMesFP7TObjectP10TObjPlayer(m, tl_05, (void *)arg0);
                 }
             }
             break;
@@ -3988,7 +3988,7 @@ void handle_6x2B_create_inventory_item(saddr arg0) {
             ((TItemData *)pkt.item)->decode_from_network();
             item = ((u8 * (*)(s32 *))create_item)((s32 *)pkt.item);
             if ((item != NULL) && (((u32 (*)(int, int))pickup_item__10TObjPlayerFP5TItem)(player, (saddr)item) != 0U) && (kind == 2) && (pkt.f19 != 0) && (TObjPlayer::get_slot_value((s32 *)(player + 0xD04), (((VObj_18_p65 *)item)->m31())) == 0U)) {
-                ((s32 (*)(void *, void *, int))set_equip_slot_entry)((void *)(player + 0xD04), (void *)(((VObj_18_p65 *)item)->m31()), (saddr)item);
+                ((s32 (*)(void *, s32, int))set_equip_slot_entry)((void *)(player + 0xD04), (((VObj_18_p65 *)item)->m31()), (saddr)item);
                 ((TObjPlayer *)player)->set_flag_20000();
                 ((VObj_18_p65 *)item)->m18();
                 ((TObjPlayer *)player)->sub_801BE9A8();

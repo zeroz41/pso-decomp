@@ -66,7 +66,7 @@ typedef struct Player_801BC948 {
 extern "C" {
 s32 get_entity_id(void *);
 s32 TObjPlayer__sub_801BF9E0(void *, int);
-s32 set_field2_s16(void *, void *);
+s32 set_field2_s16(void *, s32);
 s32 get_class_index__10TObjPlayerFv(void *);
 void TObjPlayer__sub_801BEF44(void *, void *);
 void TObjPlayer__sub_801C1F78(void *, s32);
@@ -77,7 +77,7 @@ void init_session_technique_caps__10TObjPlayerFPvPv(Player_801BC948 *self, Src_8
 void TObjPlayer__sub_801BC8F0(saddr arg0) {
     TObjPlayer__sub_801BF9E0((void *)(arg0 + 0x634), (int) (get_entity_id((void *)arg0)));
     ((TObjPlayer *)(arg0 + 0x384))->update_follow_particle(arg0);
-    set_field2_s16((void *)(arg0 + 0x34C), (void *) (get_entity_id((void *)arg0)));
+    set_field2_s16((void *)(arg0 + 0x34C), (get_entity_id((void *)arg0)));
 }
 void init_session_technique_caps__10TObjPlayerFPvPv(Player_801BC948 *self, Src_801BC948 *src) {
     s32 i;
@@ -127,25 +127,25 @@ void TObjPlayer::update_if_active() { if (is_script_controlled() != 0) { sync_cu
 
 s32 TObjPlayer__sub_801B2014(void *);
 s32 init_player_data__10TObjPlayerFv(void *, void *);
-s32 TObjPlayer__sub_801BEB68(void *, void *);
+s32 TObjPlayer__sub_801BEB68(void *, s32);
 s32 TObjPlayer__sub_801BEB8C(void *);
-s32 query_field374__10TObjPlayerFv(void *, void *);
+s32 query_field374__10TObjPlayerFv(void *, s32);
 s32 TObjPlayer__sub_801BEBB8(void *);
-s32 query_flags_374__10TObjPlayerFv(void *, void *);
+s32 query_flags_374__10TObjPlayerFv(void *, s32);
 s32 TObjPlayer__sub_801BEBE4(void *);
-s32 get_quest_status__10TObjPlayerFv(void *, void *);
+s32 get_quest_status__10TObjPlayerFv(void *, s32);
 s32 TObjPlayer__sub_801BEC10(void *);
-s32 get_field_0x374__10TObjPlayerFv(void *, void *);
+s32 get_field_0x374__10TObjPlayerFv(void *, s32);
 s32 TObjPlayer__sub_801BEC3C(void *);
 
 void TObjPlayer::load_char_data(u8 *arg1) {
     sub_801BEE2C((int) (*(s16 *)((s8 *)arg1 + 0x24)));
     sub_801BEE24((int) (*(s16 *)((s8 *)arg1 + 0x26)));
-    get_field_0x374__10TObjPlayerFv(this, (void *) (TObjPlayer__sub_801BEC3C(arg1)));
-    get_quest_status__10TObjPlayerFv(this, (void *) (TObjPlayer__sub_801BEC10(arg1)));
-    query_flags_374__10TObjPlayerFv(this, (void *) (TObjPlayer__sub_801BEBE4(arg1)));
-    query_field374__10TObjPlayerFv(this, (void *) (TObjPlayer__sub_801BEBB8(arg1)));
-    TObjPlayer__sub_801BEB68(this, (void *) (TObjPlayer__sub_801BEB8C(arg1)));
+    get_field_0x374__10TObjPlayerFv(this, (TObjPlayer__sub_801BEC3C(arg1)));
+    get_quest_status__10TObjPlayerFv(this, (TObjPlayer__sub_801BEC10(arg1)));
+    query_flags_374__10TObjPlayerFv(this, (TObjPlayer__sub_801BEBE4(arg1)));
+    query_field374__10TObjPlayerFv(this, (TObjPlayer__sub_801BEBB8(arg1)));
+    TObjPlayer__sub_801BEB68(this, (TObjPlayer__sub_801BEB8C(arg1)));
     init_player_data__10TObjPlayerFv(this, arg1 + 0x118);
     this->hp = (s16) *(s16 *)((s8 *)arg1 + 0x22);
     TObjPlayer__sub_801B2014(this);

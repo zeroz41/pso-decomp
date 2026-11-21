@@ -40,11 +40,11 @@ struct AltChunkObject {
 extern "C" {
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
 extern s32 model_render_flags;
-int init_directional_light__9TObjLightFv(void*);
-int TObjLight__sub_801337F8(void*);
+int init_directional_light__9TObjLightFv(saddr);
+int TObjLight__sub_801337F8(saddr);
 
     extern int current_scene_light;
-void TObjPlayer::update_lights() { init_directional_light__9TObjLightFv((void*)current_scene_light); TObjLight__sub_801337F8((void*)current_scene_light); }
+void TObjPlayer::update_lights() { init_directional_light__9TObjLightFv(current_scene_light); TObjLight__sub_801337F8(current_scene_light); }
 
 void TObjPlayer__sub_800F083C(void) {  }
 

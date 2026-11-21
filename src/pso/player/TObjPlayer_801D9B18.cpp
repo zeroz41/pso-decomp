@@ -52,8 +52,8 @@ void TObjPlayer__sub_801D9C34(u8 *self, s16 idx, void *arg2) {
 }
 
 // ---- pso/player/TObjPlayer_801D9C88
-int set_slot_type_state__10TObjPlayerFllss(void*, void*, void*, void*);
+int set_slot_type_state__10TObjPlayerFllss(void*, s32, void*, void*);
 
-void TObjPlayer::reset_slots() { this->m_id = 0; { int i; for (i = 0; i < 10; i++) { set_slot_type_state__10TObjPlayerFllss(this, (void*)i, (void*)65535, (void*)0); } } }
+void TObjPlayer::reset_slots() { this->m_id = 0; { int i; for (i = 0; i < 10; i++) { set_slot_type_state__10TObjPlayerFllss(this, i, (void*)65535, (void*)0); } } }
 
 }

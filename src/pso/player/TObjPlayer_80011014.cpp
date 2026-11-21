@@ -1254,7 +1254,7 @@ loop_1:
     }
 }
 
-void TObjPlayer::clear_s16_arrays(void* p) { { int i; for (i = 0; i < 4; i++) { ((int (*)(void*, void*))obj_clearArrS16_FC)(p, (void*)i); } } }
+void TObjPlayer::clear_s16_arrays(void* p) { { int i; for (i = 0; i < 4; i++) { ((int (*)(void*, s32))obj_clearArrS16_FC)(p, i); } } }
 
 s32 TObjChara::vfunc_74(s32) { return 0; }
 

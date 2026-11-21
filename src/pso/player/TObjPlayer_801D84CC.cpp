@@ -30,7 +30,7 @@ struct Stack_801D8664 {
 extern "C" {
 void copy_data__6TLobbyFPvPv(void *arg0, void *arg1);
 s32 copy_player_visual_record(void *, void *);
-s32 fn_801D40D4(void *, void *, void *);
+s32 fn_801D40D4(s32, void *, void *);
 struct VObj_84Base_801d859c_801D84CC { char pad[0x18]; };
 struct VObj_84_801d859c_801D84CC : VObj_84Base_801d859c_801D84CC {
     virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
@@ -101,7 +101,7 @@ TUnk_804C4540 *TUnk_804C4540::create(TPlyCharData *data) {
     ((TObjPlayer *)(&sp8))->init_inventory();
     copy_player_visual_record(sp8.visual, &data->m_disp_data.m_disp_part2);
     copy_data__6TLobbyFPvPv(sp8.stats, &data->m_disp_data);
-    fn_801D40D4((void *)data->m_inventory.m_num_items, (void *)((TObjPlayer *)data)->get_ptr_4(), sp8.items);
+    fn_801D40D4(data->m_inventory.m_num_items, (void *)((TObjPlayer *)data)->get_ptr_4(), sp8.items);
     return new TUnk_804C4540(tl_03, &sp8);
 }
 

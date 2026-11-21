@@ -1109,7 +1109,7 @@ s32 test_flags_any(void *, int);
 s32 check_value_equals__13TUnk_804B6C24CFl(int, void *);
 s32 fn_800660B8(void *);
 s32 TObjPlayer__sub_80082300(void *);
-s32 init_entry_fields__6TLobbyFiii(int, int, void *, void *);
+s32 init_entry_fields__6TLobbyFiii(int, int, void *, s32);
 s32 spawn_appearance_effect__10TObjPlayerFUs();
 int sub_8011E204__10TObjPlayerFl(void*, void*);
 s32 weapon_has_extra_attack();
@@ -1688,7 +1688,7 @@ void TObjPlayer__sub_801C7874(u8 *arg0) {
 int TObjPlayer::try_change_action(void* p) { return ((TObjPlayer *)p)->try_change_action(); }
 
 void TObjPlayer__sub_801C7A6C(saddr arg0, s16 arg1) {
-  unsigned int new_var2;
+  uaddr new_var2;
   unsigned int new_var;
   {
     switch (arg1)
@@ -1954,7 +1954,7 @@ void TObjPlayer__sub_801C8678(void) {  }
 int TObjPlayer::try_change_action_wrapper(void* p) { return ((TObjPlayer *)p)->try_change_action(); }
 
 void TObjPlayer__sub_801C869C(saddr arg0, s16 arg1) {
-  unsigned int new_var2;
+  uaddr new_var2;
   unsigned int new_var;
   {
     switch (arg1)
@@ -2654,7 +2654,7 @@ void TObjPlayer::set_motion(saddr arg0) {
 }
 
 void run_service_hold_state_phase__10TObjPlayerFis(saddr arg0, s16 arg1) {
-  unsigned int new_var2;
+  uaddr new_var2;
   unsigned int new_var;
   {
     switch (arg1)
@@ -2831,7 +2831,7 @@ void TObjPlayer__sub_801C9F64(void) {  }
 void TObjPlayer__sub_801C9F68(void) {  }
 
 void run_revival_state_phase__10TObjPlayerFis(saddr arg0, s16 arg1) {
-  unsigned int new_var2;
+  uaddr new_var2;
   unsigned int new_var;
   {
     switch (arg1)
@@ -2978,7 +2978,7 @@ void TObjPlayer::restart_death_pose() {
     if (TObjPlayer::is_locally_controlled((void *) (arg0)) != 0) {
         var_r31 = (saddr)TObject::operator new(0x2C);
         if (var_r31 != 0) {
-            var_r31 = init_entry_fields__6TLobbyFiii((int) (var_r31), (int) (tl_particlemodel), (void *) (&complete_deferred_player_death), (void *) (((u16 (*)(void *))get_entity_id)((void *) (arg0))));
+            var_r31 = init_entry_fields__6TLobbyFiii((int) (var_r31), (int) (tl_particlemodel), (void *) (&complete_deferred_player_death), (((u16 (*)(void *))get_entity_id)((void *) (arg0))));
         }
         *(s32 *)((s8 *)arg0 + 0x548) = var_r31;
     }
@@ -3031,10 +3031,10 @@ void TObjPlayer::enter_death_state() {
     clear_velocity((void *) (arg0));
     this->phase = 0;
     if (test_flags_any((void *) (arg0 + 0x858), 1) != 0) {
-        ((s32 (*)(void *, int, void *))set_action_state__10TObjPlayerFPvss)((void *) (arg0), 0xF, (void *) (((s16 (*)(void))ret_801D26AC)()));
+        ((s32 (*)(void *, int, s32))set_action_state__10TObjPlayerFPvss)((void *) (arg0), 0xF, (((s16 (*)(void))ret_801D26AC)()));
         ((TObjPlayer *)arg0)->restart_death_pose();
     } else {
-        ((s32 (*)(void *, int, void *))set_action_state__10TObjPlayerFPvss)((void *) (arg0), 0xF, (void *) (((TObjPlayer *)arg0)->get_model_field_m25()));
+        ((s32 (*)(void *, int, s32))set_action_state__10TObjPlayerFPvss)((void *) (arg0), 0xF, (((TObjPlayer *)arg0)->get_model_field_m25()));
     }
     ((TObjPlayer *)(arg0 + 0x4AC))->clear_photon_blast_state();
     if (TTecCtrl::is_technique_ready() != 0) {
@@ -4636,11 +4636,11 @@ int TObjPlayer__sub_801CD9F0(void* p) { return ((int (*)(void*))update_action_st
 void enter_attack_stage3__10TObjPlayerFPv(u8 *player) {
     *(s32 *)((s8 *)player + 0x33C) = 7;
     ((s32 (*)(void *, int, int))run_action_state_phase__10TObjPlayerFisi)(player, (int) (((TObjPlayer *)player)->mode), 6);
-    ((s32 (*)(void *, void *))set_action_type__10TObjPlayerFs)((void *) (player + 0x7CC), (void *) (((s32 (*)(void *))TObjPlayer__sub_801D2F0C)((void *) (player + 0x7CC))));
-    ((s32 (*)(void *, void *))query_field_340__10TObjPlayerFPv)((void *) (player), (void *) (((u8 (*)(void *))TObjPlayer__sub_801D2F4C)((void *) (player + 0x7CC))));
+    ((s32 (*)(void *, s32))set_action_type__10TObjPlayerFs)((void *) (player + 0x7CC), (((s32 (*)(void *))TObjPlayer__sub_801D2F0C)((void *) (player + 0x7CC))));
+    ((s32 (*)(void *, s32))query_field_340__10TObjPlayerFPv)((void *) (player), (((u8 (*)(void *))TObjPlayer__sub_801D2F4C)((void *) (player + 0x7CC))));
     ((s32 (*)(void *, void *, int, int))begin_player_attack)((void *) (player + 0x7CC), (void *) (player), 2, 2);
     ((TObjPlayer *)player)->setup_attack_stage();
-    ((s32 (*)(void *, int, void *))set_action_state__10TObjPlayerFPvss)((void *) (player), 7, (void *) (((TObjPlayer *)player)->get_model_state()));
+    ((s32 (*)(void *, int, s32))set_action_state__10TObjPlayerFPvss)((void *) (player), 7, (((TObjPlayer *)player)->get_model_state()));
     apply_speed_scale__10TObjPlayerFif((saddr)(player), (f32) (((f32 (*)(void *))get_action_rate_entry)((void *) (player)) * get_attack_controller_rate((void *) (player + 0x7CC))));
 }
 
@@ -4759,11 +4759,11 @@ int TObjPlayer__sub_801CDDEC(void* p) { return ((int (*)(void*))update_action_st
 void enter_attack_stage2__10TObjPlayerFPv(u8 *player) {
     *(s32 *)((s8 *)player + 0x33C) = 6;
     ((s32 (*)(void *, int, int))run_action_state_phase__10TObjPlayerFisi)(player, (int) (((TObjPlayer *)player)->mode), 6);
-    ((s32 (*)(void *, void *))set_action_type__10TObjPlayerFs)((void *) (player + 0x7CC), (void *) (((s32 (*)(void *))TObjPlayer__sub_801D2F0C)((void *) (player + 0x7CC))));
-    ((s32 (*)(void *, void *))query_field_340__10TObjPlayerFPv)((void *) (player), (void *) (((u8 (*)(void *))TObjPlayer__sub_801D2F4C)((void *) (player + 0x7CC))));
+    ((s32 (*)(void *, s32))set_action_type__10TObjPlayerFs)((void *) (player + 0x7CC), (((s32 (*)(void *))TObjPlayer__sub_801D2F0C)((void *) (player + 0x7CC))));
+    ((s32 (*)(void *, s32))query_field_340__10TObjPlayerFPv)((void *) (player), (((u8 (*)(void *))TObjPlayer__sub_801D2F4C)((void *) (player + 0x7CC))));
     ((s32 (*)(void *, void *, int, int))begin_player_attack)((void *) (player + 0x7CC), (void *) (player), 1, 1);
     ((TObjPlayer *)player)->setup_attack_stage();
-    ((s32 (*)(void *, int, void *))set_action_state__10TObjPlayerFPvss)((void *) (player), 6, (void *) (get_state__10TObjPlayerFv((void *) (player))));
+    ((s32 (*)(void *, int, s32))set_action_state__10TObjPlayerFPvss)((void *) (player), 6, (get_state__10TObjPlayerFv((void *) (player))));
     apply_speed_scale__10TObjPlayerFif((saddr)(player), (f32) (((f32 (*)(void *))get_action_rate_entry)((void *) (player)) * get_attack_controller_rate((void *) (player + 0x7CC))));
 }
 
@@ -5258,7 +5258,7 @@ void enter_attack_stage1__10TObjPlayerFPv(u8 *player) {
     clear_velocity((void *) (player));
     ((s32 (*)(void *, void *, int, int))begin_player_attack)((void *) (player + 0x7CC), (void *) (player), 0, 0);
     ((TObjPlayer *)player)->setup_attack_stage();
-    ((s32 (*)(void *, int, void *))set_action_state__10TObjPlayerFPvss)((void *) (player), 5, (void *) (((TObjPlayer *)player)->call_subobject_m15()));
+    ((s32 (*)(void *, int, s32))set_action_state__10TObjPlayerFPvss)((void *) (player), 5, (((TObjPlayer *)player)->call_subobject_m15()));
     apply_speed_scale__10TObjPlayerFif((saddr)(player), (f32) (((f32 (*)(void *))get_action_rate_entry)((void *) (player)) * get_attack_controller_rate((void *) (player + 0x7CC))));
 }
 
