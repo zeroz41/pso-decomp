@@ -107,10 +107,10 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     void pick_random_target();
     void sub_80034258();
     void sub_800341F0();
-    void sub_800333F4(u32 reason);
+    void handle_opening_state(u32 reason);
     void sub_8002FD9C(u32 reason, s32 arg2);
-    void sub_8002FCE4(u32 reason);
-    void sub_8002F73C(u32 reason);
+    void handle_deep_sink_state(u32 reason);
+    void handle_tunnel_departure_state(u32 reason);
     void reload_stats_for_phase(s32 kind);
     void set_move_target_point(s32 index);
     void update_angle();
@@ -124,20 +124,20 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     void update_projectile_spawns();
     void sub_800338BC();
     void update_pulsing_colors();
-    void sub_80030DFC(u32 reason, s32 side);
+    void handle_breach_state(u32 reason, s32 side);
     void set_move_direction(s32 side);
-    void sub_800310F8(u32 reason, s32 side);
-    void sub_80030A38(u32 reason);
+    void handle_tentacle_volley_state(u32 reason, s32 side);
+    void handle_trap_barrage_state(u32 reason);
     void handle_debug_pad_input(u32 reason);
-    void sub_800327C8(u32 reason, s32 from, s32 to);
+    void handle_movement_pattern_state(u32 reason, s32 from, s32 to);
     f32 calc_node_height();
     void get_node_world_pos(Vec *out);
-    void sub_800320B4(u32 reason, s32 from, s32 to);
-    void sub_80031AD4(u32 reason);
-    void sub_800313F8(u32 reason, s32 side);
+    void handle_charge_state(u32 reason, s32 from, s32 to);
+    void handle_descent_state(u32 reason);
+    void handle_laser_sweep_state(u32 reason, s32 side);
     void handle_death_state(u32 reason);
-    void sub_80032E38(u32 reason);
-    void sub_8002FE60(u32 reason);
+    void handle_intro_camera_state(u32 reason);
+    void handle_particle_barrage_state(u32 reason);
     static void forward_switch_phase_stats(TObjChara *victim);
     // The parameter block's attack powers and shell hp, for the parts the boss spawns.
     static f32 get_bullet_power();
@@ -204,7 +204,7 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     s32 unk_6F4;
     s32 unk_6F8;
     f32 state_floats[10];              // per-state scratch: each state handler gives them its own meaning
-    Vec state_vectors[2];              // per-state scratch: sub_80032E38's node offset; the laser's aim and hit point
+    Vec state_vectors[2];              // per-state scratch: handle_intro_camera_state's node offset; the laser's aim and hit point
     TParticleCtrl *unk_73C;
     TParticleCtrl *splash_ctrls[6];    // splash emitters kept on the joints (update_particle_ctrls)
     s32 splash_joint;                  // when set, the joint the first splash pair moves to for one update
