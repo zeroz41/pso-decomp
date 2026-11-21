@@ -606,48 +606,6 @@ struct ByteBlock_14 { u8 bytes[0x14]; };
 
 
 
-struct Fish_802EAAC8 {
-    u8 pad0[0x38];
-    f32 x;
-    f32 y;
-    f32 z;
-    u8 pad44[0xB0 - 0x44];
-    u32 fB0;
-    u8 padB4[0xB8 - 0xB4];
-    s16 fB8;
-    u8 padBA[0xC0 - 0xBA];
-    f32 frame;
-    u8 padC4[0x50C - 0xC4];
-    u8 eff[0x530 - 0x50C];
-    Vec recs[10];
-    u8 pad5A8[0x628 - 0x5A8];
-    u32 flags;
-    u8 pad62C[0x670 - 0x62C];
-    u8 mover[0x680 - 0x670];
-    f32 f680;
-    u8 pad684[0x688 - 0x684];
-    f32 f688;
-    u8 pad68C[0x6C0 - 0x68C];
-    s32 mode;
-    s32 next_mode;
-    u8 pad6C8[0x6F0 - 0x6C8];
-    f32 f6F0;
-    u8 pad6F4[0x728 - 0x6F4];
-    s32 phase;
-    s32 f72C;
-    s32 step;
-    s32 tick;
-    u8 pad738[0x744 - 0x738];
-    f32 dir;
-    f32 f748;
-    f32 f74C;
-    f32 vy;
-    f32 vx;
-    f32 ay;
-    u8 pad75C[0x7B0 - 0x75C];
-    s32 ptcl;
-    u8 ppos[0xC];
-};
 
 
 struct Body_802E8B50 { u8 pad[8]; s32 flags; };
@@ -729,18 +687,6 @@ struct Fish_802E9DBC {
     void *ptcl;
 };
 
-struct Ctl_802EB90C { u8 pad[8]; u32 buttons; };
-
-struct Fish_802EB90C {
-    u8 pad0[0x40]; f32 f40;
-    u8 pad44[0x64 - 0x44]; s32 f64;
-    u8 pad68[0xB0 - 0x68]; u32 fB0;
-    u8 padB4[0xC8 - 0xB4]; f32 fC8;
-    u8 padCC[0x624 - 0xCC]; Ctl_802EB90C *ctl; u32 flags628;
-    u8 pad62C[0x6C0 - 0x62C]; s32 state;
-    u8 pad6C4[0x6F0 - 0x6C4]; f32 f6F0;
-    u8 pad6F4[0x728 - 0x6F4]; s32 f728; s32 f72C; s32 f730;
-};
 extern "C" {
 void fill_value_array(saddr address);
 
@@ -762,7 +708,6 @@ CameraPlayback *get_scripted_camera_playback();
 
 
 
-void TObjFish__sub_802EBBC8(u8 *arg0, u32 arg1);
 
 
 
@@ -781,7 +726,6 @@ s32 advance_scalar_motion_profile(void *);
 
 
 
-void TObjFish__sub_802EAAC8(u8 *arg0, u32 arg1, s32 arg2, s32 arg3);
 }
 
 void *create_particle_controller_with_angles(void *arg0, void *arg1, s32 arg2, s32 arg3, u16 arg4);
@@ -801,9 +745,7 @@ void TObjBoss2Tunnel__sub_802F22DC(void);
 
 void TObjFish__sub_802E9DBC(u8 *arg0, u32 arg1, s32 arg2);
 
-void TObjFish__sub_802EA4D8(u8 *arg0, u32 arg1);
 
-void TObjFish__sub_802EB90C(Fish_802EB90C *arg0, u32 arg1);
 
 
 
@@ -844,7 +786,6 @@ void handle_6xAA_barba_ray_boss_actions(void *arg0);
 
 void handle_6xA9_barba_ray_boss_actions(void *arg0);
 
-#define VecCopy__FP3VecPC3Vec ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)
 
 
 void compose_motion_node_matrix(void *arg0);
@@ -852,15 +793,12 @@ void compose_motion_node_matrix(void *arg0);
 s32 TBoss7Joint_get_shell_max_hp(void);
 
 
-#undef VecCopy__FP3VecPC3Vec
 extern "C" {
 
 
 s32 update_local_colliders_from_world(void *, void *);
-#define VecCopy__FP3VecPC3Vec ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
 #pragma pop
-#undef VecCopy__FP3VecPC3Vec
 
 s32 rotate_matrix_by_node_angles(void *, int);
 
@@ -1277,7 +1215,6 @@ void TBoss7DeRolLeC::update_or_dispatch() {
 #pragma push
 #pragma inline_depth(1)
 #pragma auto_inline off
-#define VecCopy__FP3VecPC3Vec ((s32 (*)(s32, s32))VecCopy__FP3VecPC3Vec)
 void TBoss7DeRolLeC::vfunc_28() {  }
 
 void TBoss7DeRolLeC::vfunc_63() {  }
@@ -1307,17 +1244,15 @@ void TBoss7DeRolLeC::sync_position_vectors() {
     VecCopy((Vec *)&m_2fc, &position);
     VecCopy(&center, (Vec *)&m_2fc);
 }
-#undef VecCopy__FP3VecPC3Vec
-#define VecCopy__FP3VecPC3Vec ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)
 void TBoss7DeRolLeC::vfunc_88() {
-    u8 sp8[0xC];
+    Vec v;
     f32 f;
     s32 set;
     s32 clr;
     s32 i;
-    VecCopy__FP3VecPC3Vec(sp8, ((u8 *)this) + 0x434);
-    update_local_colliders_from_world(this, sp8);
-    f = *(f32 *)((s8 *)((u8 *)this) + 0x3C);
+    VecCopy(&v, &unk_3EC[6]);
+    update_local_colliders_from_world(this, &v);
+    f = position.y;
     if (f < -35.0f) {
         set = 0;
         clr = 7;
@@ -1328,21 +1263,21 @@ void TBoss7DeRolLeC::vfunc_88() {
         set = 3;
         clr = 4;
     }
-    f = *(f32 *)((s8 *)((u8 *)this) + 0x40);
+    f = position.z;
     if (f < -180.0f && 180.0f < f) {
         set = 0;
         clr = 7;
     }
-    for (i = 0; i != this->body_count; i++) {
-        (this->bodies)[i].flags |= set;
+    for (i = 0; i != body_count; i++) {
+        bodies[i].flags |= set;
         (this->bodies)[i].flags &= ~clr;
     }
 }
 
 void TBoss7DeRolLeC::flee_if_disturbed() {
-    if (*(s32 *)((s8 *)this->bodies + 0x18) & 1) {
+    if (bodies->flags & 1) {
         submit_default_cursor_candidate();
-        add_radar_scaled_marker((void *) (((u8 *)this) + 0x38), -0x5DB4, 1, 1, 2.0f);
+        add_radar_scaled_marker(&position, -0x5DB4, 1, 1, 2.0f);
     }
 }
 
@@ -1392,9 +1327,7 @@ void TBoss7DeRolLeC::emit_hit_effect(const Vec *position) {
 f32 TBoss7PhotonBullet::get_target_pos_y() {
     return *(f32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0xF)) + 4);
 }
-#undef VecCopy__FP3VecPC3Vec
 
-#define VecCopy__FP3VecPC3Vec ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)
 s32 TBoss7Joint_get_shell_max_hp(void) {
     return *(s32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0xF)) + 0x1C);
 }
@@ -1628,7 +1561,6 @@ void TBoss7DeRolLeC::turn_off_laser_light() {
     }
     unk_628 &= ~0x10;
 }
-#undef VecCopy__FP3VecPC3Vec
 void TBoss7DeRolLeC::pick_random_target() {
     s32 n;
     u8 *p;
@@ -1946,16 +1878,16 @@ void TBoss7DeRolLeC::dispatch_action(u32 state, s32 reason) {
         sub_802EBE50(reason);
         return;
     case 0x1:
-        TObjFish__sub_802EBBC8((u8 *)this, reason);
+        sub_802EBBC8(reason);
         return;
     case 0x2:
-        TObjFish__sub_802EB90C((Fish_802EB90C *)this, reason);
+        sub_802EB90C(reason);
         return;
     case 0x3:
         sub_802EB270(reason, 0, 1);
         return;
     case 0x4:
-        TObjFish__sub_802EAAC8((u8 *)this, reason, 0, 2);
+        sub_802EAAC8(reason, 0, 2);
         return;
     case 0x5:
         sub_802EB270(reason, 0, 3);
@@ -1970,7 +1902,7 @@ void TBoss7DeRolLeC::dispatch_action(u32 state, s32 reason) {
         sub_802EB270(reason, 2, 3);
         return;
     case 0xA:
-        TObjFish__sub_802EAAC8((u8 *)this, reason, 2, 0);
+        sub_802EAAC8(reason, 2, 0);
         return;
     case 0xB:
         sub_802EB270(reason, 2, 1);
@@ -1979,7 +1911,7 @@ void TBoss7DeRolLeC::dispatch_action(u32 state, s32 reason) {
         sub_802EB270(reason, 3, 0);
         return;
     case 0xD:
-        TObjFish__sub_802EA4D8((u8 *)this, reason);
+        sub_802EA4D8(reason);
         return;
     case 0xE:
         sub_802EB270(reason, 3, 2);
@@ -2144,33 +2076,33 @@ void TBoss7DeRolLeC::sub_802EBE50(u32 event) {
     }
 }
 
-void TObjFish__sub_802EBBC8(u8 *arg0, u32 arg1) {
-    switch (arg1) {
+void TBoss7DeRolLeC::sub_802EBBC8(u32 event) {
+    switch (event) {
     case 4:
-        ((TObjMotion *)arg0)->set_field_b8(0);
-        ((TBoss7DeRolLeC *)arg0)->sub_802ECC44();
-        *(s32 *)((s8 *)arg0 + 0x628) &= ~4;
-        *(s32 *)((s8 *)arg0 + 0x628) &= ~0x100;
-        *(f32 *)((s8 *)arg0 + 0x6F0) = 0.0f;
-        *(s32 *)((s8 *)arg0 + 0x728) = 0;
-        *(s32 *)((s8 *)arg0 + 0x72C) = 0;
+        set_field_b8(0);
+        sub_802ECC44();
+        unk_628 &= ~4;
+        unk_628 &= ~0x100;
+        unk_6EC.y = 0.0f;
+        unk_728 = 0;
+        unk_72C = 0;
         TWindowCtrl::init_all_slots();
-        ((TObjEneDD *)arg0)->get_target_state_b();
+        get_target_state_b();
         break;
     case 2:
-        if (*(s32 *)((s8 *)arg0 + 0x728) == 1) {
-            *(s32 *)((s8 *)arg0 + 0x6C0) = 0;
-            ((TBoss7DeRolLeC *)arg0)->set_state_and_send(2);
+        if (unk_728 == 1) {
+            unk_6C0 = 0;
+            set_state_and_send(2);
         }
         break;
     case 9:
-        if (*(s32 *)((s8 *)arg0 + 0x728) == 1) {
-            *(s32 *)((s8 *)arg0 + 0x6C0) = 0;
-            ((TBoss7DeRolLeC *)arg0)->advance_action_sequence();
+        if (unk_728 == 1) {
+            unk_6C0 = 0;
+            advance_action_sequence();
         }
         break;
     case 0:
-        if (*(s32 *)((s8 *)arg0 + 0x72C) == 0) {
+        if (unk_72C == 0) {
             if (TObjEneDD::query_teammate_state() == 0) {
                 CameraPlayback cam;
                 cam.index = 0;
@@ -2180,129 +2112,129 @@ void TObjFish__sub_802EBBC8(u8 *arg0, u32 arg1) {
                 cam.frame_step = 0.7f;
                 activate_camera_mode(5);
                 cam.cache_target_and_forward(0x1C71);
-                *(s32 *)((s8 *)arg0 + 0x72C) = 1;
+                unk_72C = 1;
             }
         } else {
-            ((TObjMotion *)arg0)->advance_animation();
-            if (((TObjMotion *)arg0)->is_passing_frame(60.0f) != 0) {
+            advance_animation();
+            if (is_passing_frame(60.0f) != 0) {
                 play_sound_effect(0x39E00, NULL, 0, 0);
             }
-            if (((TObjMotion *)arg0)->is_passing_frame(83.0f) != 0) {
-                ((TBoss7DeRolLeC *)arg0)->destroy_child();
-                *(s32 *)((s8 *)arg0 + 0x7B0) = (saddr)spawn_continuous_particle_effect_with_flags(arg0 + 0x7B4, 0x20F, 0x40);
+            if (is_passing_frame(83.0f) != 0) {
+                destroy_child();
+                unk_7B0 = spawn_continuous_particle_effect_with_flags(&unk_7B4, 0x20F, 0x40);
             }
-            if (((TObjMotion *)arg0)->is_passing_frame(105.0f) != 0) {
-                ((TBoss7DeRolLeC *)arg0)->destroy_child();
+            if (is_passing_frame(105.0f) != 0) {
+                destroy_child();
             }
-            if (((TObjMotion *)arg0)->is_passing_frame(85.0f) != 0) {
+            if (is_passing_frame(85.0f) != 0) {
                 Vec v = lbl_80473F78;
                 spawn_particle_effect_with_flags(&v, 0x20F, 0x40);
             }
-            if (((TObjMotion *)arg0)->is_passing_frame(98.0f) != 0) {
+            if (is_passing_frame(98.0f) != 0) {
                 Vec w = lbl_80473F84;
                 spawn_particle_effect_with_flags(&w, 0x20F, 0x40);
                 play_sound_effect(0x39906, NULL, 0, 0);
             }
-            ((TBoss7DeRolLeC *)arg0)->update_attached_orientation();
+            update_attached_orientation();
             if (get_scripted_camera_playback()->flags & 1) {
                 restore_player_cameras();
-                ((TBoss7DeRolLeC *)arg0)->advance_action_sequence();
-                *(s32 *)((s8 *)arg0 + 0x728) = 1;
+                advance_action_sequence();
+                unk_728 = 1;
             }
         }
         break;
     case 5:
         restore_player_cameras();
         TWindowCtrl::init_all_slots2();
-        ((TObjEneDD *)arg0)->get_target_state_a();
+        get_target_state_a();
         break;
     }
 }
 #pragma push
 #pragma opt_common_subs off
-void TObjFish__sub_802EB90C(Fish_802EB90C *arg0, u32 arg1) {
+void TBoss7DeRolLeC::sub_802EB90C(u32 event) {
     u32 b;
-    switch (arg1) {
+    switch (event) {
     case 4:
-        ((TObjMotion *)arg0)->set_field_b8(1);
-        ((TBoss7DeRolLeC *)arg0)->sub_802ECBDC();
-        arg0->flags628 &= ~4;
-        arg0->flags628 |= 0x100;
-        arg0->f6F0 = 0.0f;
-        arg0->f64 = 0;
-        arg0->f72C = 1;
-        arg0->f730 = 0;
-        arg0->f728 = 0;
+        set_field_b8(1);
+        sub_802ECBDC();
+        unk_628 &= ~4;
+        unk_628 |= 0x100;
+        unk_6EC.y = 0.0f;
+        rotation_z = 0;
+        unk_72C = 1;
+        unk_730 = 0;
+        unk_728 = 0;
         break;
     case 2:
-        switch (arg0->state) {
+        switch (unk_6C0) {
         case 0:
-            b = arg0->ctl->buttons;
+            b = unk_624->unknown_08;
             if (b & 0x10) {
-                ((TBoss7DeRolLeC *)arg0)->set_state_and_send(3);
+                set_state_and_send(3);
             } else if (b & 0x40) {
-                ((TBoss7DeRolLeC *)arg0)->set_state_and_send(4);
+                set_state_and_send(4);
             } else if (b & 0x20) {
-                ((TBoss7DeRolLeC *)arg0)->set_state_and_send(5);
+                set_state_and_send(5);
             } else if (b & 0x400) {
-                ((TBoss7DeRolLeC *)arg0)->set_state_and_send(0x11);
+                set_state_and_send(0x11);
             } else if (b & 4) {
-                ((TBoss7DeRolLeC *)arg0)->set_state_and_send(0xF);
+                set_state_and_send(0xF);
             } else if (b & 2) {
-                arg0->f40 = -210.0f;
-                ((TBoss7DeRolLeC *)arg0)->set_state_and_send(1);
+                position.z = -210.0f;
+                set_state_and_send(1);
             }
             break;
         case 1:
-            b = arg0->ctl->buttons;
+            b = unk_624->unknown_08;
             if (b & 0x40) {
-                ((TBoss7DeRolLeC *)arg0)->set_state_and_send(6);
+                set_state_and_send(6);
             } else if (!(b & 0x20)) {
                 if (b & 0x80) {
-                    ((TBoss7DeRolLeC *)arg0)->set_state_and_send(8);
+                    set_state_and_send(8);
                 } else if (b & 2) {
-                    ((TBoss7DeRolLeC *)arg0)->set_state_and_send(0x1B);
+                    set_state_and_send(0x1B);
                 }
             }
             break;
         case 2:
-            b = arg0->ctl->buttons;
+            b = unk_624->unknown_08;
             if (b & 0x20) {
-                ((TBoss7DeRolLeC *)arg0)->set_state_and_send(9);
+                set_state_and_send(9);
             } else if (b & 0x80) {
-                ((TBoss7DeRolLeC *)arg0)->set_state_and_send(0xA);
+                set_state_and_send(0xA);
             } else if (b & 0x10) {
-                ((TBoss7DeRolLeC *)arg0)->set_state_and_send(0xB);
+                set_state_and_send(0xB);
             } else if (b & 0x400) {
-                ((TBoss7DeRolLeC *)arg0)->set_state_and_send(0x12);
+                set_state_and_send(0x12);
             } else if (b & 4) {
-                ((TBoss7DeRolLeC *)arg0)->set_state_and_send(0x10);
+                set_state_and_send(0x10);
             } else if (b & 2) {
-                ((TBoss7DeRolLeC *)arg0)->set_state_and_send(0x1B);
+                set_state_and_send(0x1B);
             }
             break;
         case 3:
-            b = arg0->ctl->buttons;
+            b = unk_624->unknown_08;
             if (b & 0x80) {
-                ((TBoss7DeRolLeC *)arg0)->set_state_and_send(0xC);
+                set_state_and_send(0xC);
             } else if (b & 0x10) {
-                ((TBoss7DeRolLeC *)arg0)->set_state_and_send(0xD);
+                set_state_and_send(0xD);
             } else if (b & 0x40) {
-                ((TBoss7DeRolLeC *)arg0)->set_state_and_send(0xE);
+                set_state_and_send(0xE);
             } else if (b & 4) {
-                ((TBoss7DeRolLeC *)arg0)->set_state_and_send(0x17);
+                set_state_and_send(0x17);
             } else if (!(b & 0x200) && (b & 2)) {
-                ((TBoss7DeRolLeC *)arg0)->set_state_and_send(0x1C);
+                set_state_and_send(0x1C);
             }
             break;
         }
         break;
     case 0:
-        ((TObjMotion *)arg0)->advance_animation();
-        if (!(arg0->fB0 & 4)) {
-            arg0->fC8 -= 0.03f;
-            if (arg0->fC8 < 0.6f) {
-                arg0->fC8 = 0.6f;
+        advance_animation();
+        if (!(motion_flags & 4)) {
+            play_speed -= 0.03f;
+            if (play_speed < 0.6f) {
+                play_speed = 0.6f;
             }
         }
         break;
@@ -2530,195 +2462,194 @@ void TBoss7DeRolLeC::sub_802EB270(u32 event, s32 mode, s32 next_mode) {
         break;
     }
 }
-#define self ((Fish_802EAAC8 *) arg0)
-void TObjFish__sub_802EAAC8(u8 *arg0, u32 arg1, s32 arg2, s32 arg3) {
-    switch (arg1) {
+void TBoss7DeRolLeC::sub_802EAAC8(u32 event, s32 position_index, s32 next_index) {
+    switch (event) {
     case 4:
-        ((TBoss7DeRolLeC *)self)->sub_802ECBDC();
-        self->flags |= 4;
-        self->flags &= ~0x100;
-        self->mode = arg2;
-        self->next_mode = arg3;
-        ((TBoss7DeRolLeC *)self)->set_position_index(self->mode);
-        if (self->mode == 0) {
-            ((TObjMotion *)self)->set_field_b8(5);
-            self->dir = -1.0f;
+        sub_802ECBDC();
+        unk_628 |= 4;
+        unk_628 &= ~0x100;
+        unk_6C0 = position_index;
+        unk_6C4 = next_index;
+        set_position_index(unk_6C0);
+        if (unk_6C0 == 0) {
+            set_field_b8(5);
+            unk_744 = -1.0f;
         } else {
-            ((TObjMotion *)self)->set_field_b8(6);
-            self->dir = 1.0f;
+            set_field_b8(6);
+            unk_744 = 1.0f;
         }
-        self->phase = 0;
-        self->f72C = 0;
-        self->step = 0;
-        self->f748 = 0.0f;
-        self->f74C = 0.0f;
-        self->vx = 0.0f;
-        self->ay = 0.0f;
-        self->vy = 0.0f;
-        self->tick = 0;
+        unk_728 = 0;
+        unk_72C = 0;
+        unk_730 = 0;
+        unk_748 = 0.0f;
+        unk_74C = 0.0f;
+        unk_754 = 0.0f;
+        unk_758 = 0.0f;
+        unk_750 = 0.0f;
+        unk_734 = 0;
         break;
     case 2:
-        if (self->phase == 2) {
-            ((TBoss7DeRolLeC *)self)->set_state_and_send(2);
+        if (unk_728 == 2) {
+            set_state_and_send(2);
         }
         break;
     case 9:
-        if (self->phase == 2) {
-            if (self->flags & 0x800) {
-                self->flags &= ~0x800;
-                switch (self->next_mode) {
+        if (unk_728 == 2) {
+            if (unk_628 & 0x800) {
+                unk_628 &= ~0x800;
+                switch (unk_6C4) {
                 case 0:
-                    ((TBoss7DeRolLeC *)self)->set_state_and_send(0xF);
+                    set_state_and_send(0xF);
                     break;
                 case 2:
-                    ((TBoss7DeRolLeC *)self)->set_state_and_send(0x10);
+                    set_state_and_send(0x10);
                     break;
                 case 1:
                 default:
-                    ((TBoss7DeRolLeC *)self)->advance_action_sequence();
+                    advance_action_sequence();
                     break;
                 }
             } else {
-                ((TBoss7DeRolLeC *)self)->advance_action_sequence();
+                advance_action_sequence();
             }
         }
         break;
     case 0:
-        switch (self->phase) {
+        switch (unk_728) {
         case 0:
-            ((TObjMotion *)self)->advance_animation();
-            if (!(self->fB0 & 4)) {
-                self->phase = 1;
+            advance_animation();
+            if (!(motion_flags & 4)) {
+                unk_728 = 1;
             }
             break;
         case 1:
-            ((TObjMotion *)self)->advance_animation();
-            switch (self->step) {
+            advance_animation();
+            switch (unk_730) {
             case 0:
-                if (self->frame >= 10.0f) {
-                    self->step = 1;
-                    self->vx = 3.25f * self->dir;
+                if (frame >= 10.0f) {
+                    unk_730 = 1;
+                    unk_754 = 3.25f * unk_744;
                 }
                 break;
             case 1:
-                if (self->frame >= 20.0f) {
-                    self->step = 2;
-                    self->vx = -5.625f * self->dir;
-                    self->ay = ((270.0f - self->z) + 72.666664f * -self->vy) / 1034.6666f;
-                    self->ptcl = (saddr)spawn_continuous_particle_effect_with_flags(self->ppos, 0x20F, 0x40);
+                if (frame >= 20.0f) {
+                    unk_730 = 2;
+                    unk_754 = -5.625f * unk_744;
+                    unk_758 = ((270.0f - position.z) + 72.666664f * -unk_750) / 1034.6666f;
+                    unk_7B0 = spawn_continuous_particle_effect_with_flags(&unk_7B4, 0x20F, 0x40);
                 }
                 break;
             case 2:
-                if (self->frame >= 28.0f) {
-                    self->step = 3;
-                    self->f748 = (((TBoss7DeRolLeC *)self)->sub_802ED3E4() - self->f748) / 2.5f;
-                    self->f74C = (2.0f * self->f748) / 56.666664f;
-                    self->vx = -6.5294123f * self->dir;
-                    self->tick = 0;
+                if (frame >= 28.0f) {
+                    unk_730 = 3;
+                    unk_748 = (sub_802ED3E4() - unk_748) / 2.5f;
+                    unk_74C = (2.0f * unk_748) / 56.666664f;
+                    unk_754 = -6.5294123f * unk_744;
+                    unk_734 = 0;
                 }
                 break;
             case 3:
-                if (self->frame >= 45.0f) {
-                    self->step = 4;
-                    self->vx = -15.0f * self->dir;
-                    ((TUnk_80036250 *)self->mover)->set_move_params(7.0f, fabs_float(25.0f - self->z), 0.2f, 0.05f);
-                    self->f680 = -(0.5f * self->vy);
-                    self->vy = self->z;
-                    ((TBoss7DeRolLeC *)self)->destroy_child();
+                if (frame >= 45.0f) {
+                    unk_730 = 4;
+                    unk_754 = -15.0f * unk_744;
+                    motion_z.set_move_params(7.0f, fabs_float(25.0f - position.z), 0.2f, 0.05f);
+                    motion_z.speed = -(0.5f * unk_750);
+                    unk_750 = position.z;
+                    destroy_child();
                 }
                 break;
             case 4:
-                if (self->frame >= 46.0f) {
-                    self->step = 5;
-                    self->vx = self->dir * ((-175.0f - self->x * self->dir) / 36.0f);
+                if (frame >= 46.0f) {
+                    unk_730 = 5;
+                    unk_754 = unk_744 * ((-175.0f - position.x * unk_744) / 36.0f);
                 }
                 break;
             case 5:
-                if (self->frame >= 64.0f) {
-                    self->step = 6;
+                if (frame >= 64.0f) {
+                    unk_730 = 6;
                 }
                 break;
             }
-            if (self->fB8 != 1) {
-                if (((TObjMotion *)self)->is_passing_frame(10.0f) != 0 || ((TObjMotion *)self)->is_passing_frame((f32)(41.0f)) != 0) {
-                    ((TBoss7DeRolLeC *)self)->play_sound_at(0x39905, (Vec *)(self->eff));
-                } else if (((TObjMotion *)self)->is_passing_frame(25.0f) != 0) {
-                    ((TBoss7DeRolLeC *)self)->play_sound_at(0x39906, (Vec *)(self->eff));
+            if (requested_action != 1) {
+                if (is_passing_frame(10.0f) != 0 || is_passing_frame(41.0f) != 0) {
+                    play_sound_at(0x39905, &unk_50C[0]);
+                } else if (is_passing_frame(25.0f) != 0) {
+                    play_sound_at(0x39906, &unk_50C[0]);
                 }
             }
-            ((TBoss7DeRolLeC *)self)->update_attached_orientation();
-            self->tick++;
-            if (self->step != 6) {
-                f32 frame = self->frame;
-                if (frame >= 24.0f && frame <= 32.0f) {
-                    if (self->tick >= 3) {
+            update_attached_orientation();
+            unk_734++;
+            if (unk_730 != 6) {
+                f32 f = frame;
+                if (f >= 24.0f && f <= 32.0f) {
+                    if (unk_734 >= 3) {
                         Vec v;
                         s32 i;
-                        self->tick = 0;
-                        ((void (*)(void *, void *)) VecCopy__FP3VecPC3Vec)(&v, &self->x);
+                        unk_734 = 0;
+                        VecCopy(&v, &position);
                         for (i = 0; i < 10; i++) {
-                            if (v.y * self->recs[i].y < 0.0f) {
+                            if (v.y * unk_530[i].y < 0.0f) {
                                 break;
                             }
-                            ((void (*)(void *, void *)) VecCopy__FP3VecPC3Vec)(&v, &self->recs[i]);
+                            VecCopy(&v, &unk_530[i]);
                         }
-                        v.x = v.x - self->dir * (20.0f * ((TObjChara *)self)->random_ratio() + 40.0f);
+                        v.x = v.x - unk_744 * (20.0f * random_ratio() + 40.0f);
                         v.y = -5.0f;
-                        v.z = v.z + (20.0f * ((TObjEneDD *)self)->calc_elapsed_scaled() + 70.0f);
-                        ((TBoss7DeRolLeC *)self)->spawn_particle_201(&v);
+                        v.z = v.z + (20.0f * calc_elapsed_scaled() + 70.0f);
+                        spawn_particle_201(&v);
                     }
-                } else if (frame >= 41.0f && frame <= 46.0f && self->tick >= 3) {
+                } else if (f >= 41.0f && f <= 46.0f && unk_734 >= 3) {
                     Vec v;
-                    self->tick = 0;
-                    ((void (*)(void *, void *)) VecCopy__FP3VecPC3Vec)(&v, &self->x);
-                    v.x = v.x + self->dir * (20.0f * ((TObjChara *)self)->random_ratio() + 20.0f);
+                    unk_734 = 0;
+                    VecCopy(&v, &position);
+                    v.x = v.x + unk_744 * (20.0f * random_ratio() + 20.0f);
                     v.y = -5.0f;
-                    v.z = v.z + (60.0f * ((TObjEneDD *)self)->calc_elapsed_scaled() + 10.0f);
-                    ((TBoss7DeRolLeC *)self)->spawn_particle_201(&v);
+                    v.z = v.z + (60.0f * calc_elapsed_scaled() + 10.0f);
+                    spawn_particle_201(&v);
                 }
             }
-            switch (self->step) {
+            switch (unk_730) {
             case 0:
-                self->vy -= 0.2f;
-                self->z = self->z + self->vy;
+                unk_750 -= 0.2f;
+                position.z = position.z + unk_750;
                 break;
             case 1:
-                self->x = self->x + self->vx;
-                self->z = self->z + self->vy;
+                position.x = position.x + unk_754;
+                position.z = position.z + unk_750;
                 break;
             case 2:
-                self->x = self->x + self->vx;
-                self->vy = self->vy + self->ay;
-                self->z = self->z + self->vy;
-                self->f748 = ((TBoss7DeRolLeC *)self)->sub_802ED3E4();
+                position.x = position.x + unk_754;
+                unk_750 = unk_750 + unk_758;
+                position.z = position.z + unk_750;
+                unk_748 = sub_802ED3E4();
                 break;
             case 3:
-                self->x = self->x + self->vx;
-                self->frame -= 0.19999999f;
-                self->f6F0 = self->f6F0 + self->f748;
-                self->f748 = self->f748 - self->f74C;
-                self->z = self->z + self->vy;
+                position.x = position.x + unk_754;
+                frame -= 0.19999999f;
+                unk_6EC.y = unk_6EC.y + unk_748;
+                unk_748 = unk_748 - unk_74C;
+                position.z = position.z + unk_750;
                 break;
             case 4:
-                self->x = self->x + self->vx;
-                ((TBoss7DeRolLeC *)self)->update_wobble_angle();
-                advance_scalar_motion_profile(self->mover);
-                self->z = self->vy - self->f688;
+                position.x = position.x + unk_754;
+                update_wobble_angle();
+                advance_scalar_motion_profile(&motion_z);
+                position.z = unk_750 - motion_z.travelled;
                 break;
             case 5:
-                self->x = self->x + self->vx;
-                ((TBoss7DeRolLeC *)self)->update_wobble_angle();
-                advance_scalar_motion_profile(self->mover);
-                self->z = self->vy - self->f688;
+                position.x = position.x + unk_754;
+                update_wobble_angle();
+                advance_scalar_motion_profile(&motion_z);
+                position.z = unk_750 - motion_z.travelled;
                 break;
             case 6:
-                ((TBoss7DeRolLeC *)self)->update_wobble_angle();
-                if (advance_scalar_motion_profile(self->mover) == 3) {
-                    self->phase = 2;
+                update_wobble_angle();
+                if (advance_scalar_motion_profile(&motion_z) == 3) {
+                    unk_728 = 2;
                 }
-                self->z = self->vy - self->f688;
-                if (self->fB8 == 1) {
-                    self->flags |= 0x100;
+                position.z = unk_750 - motion_z.travelled;
+                if (requested_action == 1) {
+                    unk_628 |= 0x100;
                 }
                 break;
             }
@@ -2726,8 +2657,8 @@ void TObjFish__sub_802EAAC8(u8 *arg0, u32 arg1, s32 arg2, s32 arg3) {
         }
         break;
     case 5:
-        self->mode = self->next_mode;
-        self->flags &= ~4;
+        unk_6C0 = unk_6C4;
+        unk_628 &= ~4;
         break;
     }
 }
@@ -2736,165 +2667,165 @@ void TObjFish__sub_802EAAC8(u8 *arg0, u32 arg1, s32 arg2, s32 arg3) {
 #pragma push
 #pragma opt_common_subs off
 #undef self
-void TObjFish__sub_802EA4D8(u8 *arg0, u32 arg1) {
-    switch (arg1) {
+void TBoss7DeRolLeC::sub_802EA4D8(u32 event) {
+    switch (event) {
     case 4:
-        ((TObjMotion *)arg0)->set_field_b8(1);
-        ((TBoss7DeRolLeC *)arg0)->sub_802ECBDC();
-        *(s32 *)((s8 *)arg0 + 0x628) |= 4;
-        *(s32 *)((s8 *)arg0 + 0x628) &= ~0x100;
-        *(s32 *)((s8 *)arg0 + 0x6C0) = 3;
-        ((TBoss7DeRolLeC *)arg0)->set_position_index(*(s32 *)((s8 *)arg0 + 0x6C0));
-        *(s32 *)((s8 *)arg0 + 0x728) = 0;
-        *(s32 *)((s8 *)arg0 + 0x730) = 0;
-        *(s32 *)((s8 *)arg0 + 0x72C) = 0;
-        *(f32 *)((s8 *)arg0 + 0x744) = 0.0f;
-        *(f32 *)((s8 *)arg0 + 0x748) = 0.0f;
-        *(f32 *)((s8 *)arg0 + 0x74C) = 0.0f;
-        *(f32 *)((s8 *)arg0 + 0x750) = 0.0f;
-        *(s32 *)((s8 *)arg0 + 0x734) = 0;
+        set_field_b8(1);
+        sub_802ECBDC();
+        unk_628 |= 4;
+        unk_628 &= ~0x100;
+        unk_6C0 = 3;
+        set_position_index(unk_6C0);
+        unk_728 = 0;
+        unk_730 = 0;
+        unk_72C = 0;
+        unk_744 = 0.0f;
+        unk_748 = 0.0f;
+        unk_74C = 0.0f;
+        unk_750 = 0.0f;
+        unk_734 = 0;
         break;
     case 2:
-        if (*(s32 *)((s8 *)arg0 + 0x728) == 3) {
-            ((TBoss7DeRolLeC *)arg0)->set_state_and_send(2);
+        if (unk_728 == 3) {
+            set_state_and_send(2);
         }
         break;
     case 9:
-        if (*(s32 *)((s8 *)arg0 + 0x728) == 3) {
-            ((TBoss7DeRolLeC *)arg0)->advance_action_sequence();
+        if (unk_728 == 3) {
+            advance_action_sequence();
         }
         break;
     case 0:
-        ((TObjMotion *)arg0)->advance_animation();
-        switch (*(s32 *)((s8 *)arg0 + 0x728)) {
+        advance_animation();
+        switch (unk_728) {
         case 0:
-            (*(s32 *)((s8 *)arg0 + 0x730))++;
-            if (*(s32 *)((s8 *)arg0 + 0x730) > 0x14) {
-                ((TObjMotion *)arg0)->set_field_b8(4);
-                *(s32 *)((s8 *)arg0 + 0x728) = 1;
+            unk_730++;
+            if (unk_730 > 0x14) {
+                set_field_b8(4);
+                unk_728 = 1;
             }
-            *(f32 *)((s8 *)arg0 + 0x74C) -= 0.2f;
-            if (*(f32 *)((s8 *)arg0 + 0x74C) < -7.0f) {
-                *(f32 *)((s8 *)arg0 + 0x74C) = -7.0f;
+            unk_74C -= 0.2f;
+            if (unk_74C < -7.0f) {
+                unk_74C = -7.0f;
             }
-            *(f32 *)((s8 *)arg0 + 0x40) += *(f32 *)((s8 *)arg0 + 0x74C);
+            position.z += unk_74C;
             break;
         case 1:
-            if (!(*(s32 *)((s8 *)arg0 + 0xB0) & 4)) {
-                *(s32 *)((s8 *)arg0 + 0x728) = 2;
+            if (!(motion_flags & 4)) {
+                unk_728 = 2;
             }
             break;
         case 2:
-            switch (*(s32 *)((s8 *)arg0 + 0x72C)) {
+            switch (unk_72C) {
             case 0:
-                if (*(f32 *)((s8 *)arg0 + 0xC0) >= 10.5f) {
-                    *(s32 *)((s8 *)arg0 + 0x72C) = 1;
-                    *(f32 *)((s8 *)arg0 + 0x750) = ((300.0f - *(f32 *)((s8 *)arg0 + 0x40)) + 49.102562f * -*(f32 *)((s8 *)arg0 + 0x74C)) / 732.1581f;
-                    *(s32 *)((s8 *)arg0 + 0x734) = 0;
+                if (frame >= 10.5f) {
+                    unk_72C = 1;
+                    unk_750 = ((300.0f - position.z) + 49.102562f * -unk_74C) / 732.1581f;
+                    unk_734 = 0;
                 }
                 break;
             case 1:
-                if (*(f32 *)((s8 *)arg0 + 0xC0) >= 16.0f) {
-                    *(s32 *)((s8 *)arg0 + 0x72C) = 2;
-                    *(f32 *)((s8 *)arg0 + 0x744) = (4.0f * (40.0f - *(f32 *)((s8 *)arg0 + 0x3C))) / 30.76923f;
-                    *(f32 *)((s8 *)arg0 + 0x748) = (2.0f * *(f32 *)((s8 *)arg0 + 0x744)) / 30.76923f;
-                    *(s32 *)((s8 *)arg0 + 0x734) = 0;
+                if (frame >= 16.0f) {
+                    unk_72C = 2;
+                    unk_744 = (4.0f * (40.0f - position.y)) / 30.76923f;
+                    unk_748 = (2.0f * unk_744) / 30.76923f;
+                    unk_734 = 0;
                 }
                 break;
             case 2:
-                if (*(f32 *)((s8 *)arg0 + 0xC0) >= 22.0f) {
-                    *(s32 *)((s8 *)arg0 + 0x72C) = 3;
-                    *(f32 *)((s8 *)arg0 + 0x74C) *= 0.5f;
-                    *(f32 *)((s8 *)arg0 + 0x750) = 0.0f;
+                if (frame >= 22.0f) {
+                    unk_72C = 3;
+                    unk_74C *= 0.5f;
+                    unk_750 = 0.0f;
                 }
                 break;
             case 3:
-                if (*(f32 *)((s8 *)arg0 + 0xC0) >= 29.0f) {
-                    *(s32 *)((s8 *)arg0 + 0x72C) = 4;
+                if (frame >= 29.0f) {
+                    unk_72C = 4;
                 }
                 break;
             }
-            if (*(s16 *)((s8 *)arg0 + 0xB8) != 1) {
-                if (((TObjMotion *)arg0)->is_passing_frame(4.0f) != 0 || ((TObjMotion *)arg0)->is_passing_frame(22.0f) != 0) {
-                    ((TBoss7DeRolLeC *)arg0)->play_sound_at(0x39905, (Vec *)(arg0 + 0x50C));
-                } else if (((TObjMotion *)arg0)->is_passing_frame(14.0f) != 0) {
-                    ((TBoss7DeRolLeC *)arg0)->play_sound_at(0x39906, (Vec *)(arg0 + 0x50C));
+            if (requested_action != 1) {
+                if (is_passing_frame(4.0f) != 0 || is_passing_frame(22.0f) != 0) {
+                    play_sound_at(0x39905, &unk_50C[0]);
+                } else if (is_passing_frame(14.0f) != 0) {
+                    play_sound_at(0x39906, &unk_50C[0]);
                 }
             }
-            switch (*(s32 *)((s8 *)arg0 + 0x72C)) {
+            switch (unk_72C) {
             case 1:
-                (*(s32 *)((s8 *)arg0 + 0x734))++;
-                if (*(f32 *)((s8 *)arg0 + 0xC0) >= 13.5f && *(s32 *)((s8 *)arg0 + 0x734) >= 2) {
+                unk_734++;
+                if (frame >= 13.5f && unk_734 >= 2) {
                     Vec v;
-                    *(s32 *)((s8 *)arg0 + 0x734) = 0;
-                    VecCopy__FP3VecPC3Vec((int)&v, arg0 + 0x38);
-                    v.x = 50.0f * ((TObjEneDD *)arg0)->calc_elapsed_scaled() + v.x;
+                    unk_734 = 0;
+                    VecCopy(&v, &position);
+                    v.x = 50.0f * calc_elapsed_scaled() + v.x;
                     v.y = -5.0f;
                     v.z += 180.0f;
-                    ((TBoss7DeRolLeC *)arg0)->spawn_particle_201(&v);
+                    spawn_particle_201(&v);
                 }
                 break;
             case 2:
             case 3:
-                (*(s32 *)((s8 *)arg0 + 0x734))++;
-                if (*(s32 *)((s8 *)arg0 + 0x734) >= 2) {
-                    f32 f = *(f32 *)((s8 *)arg0 + 0xC0);
+                unk_734++;
+                if (unk_734 >= 2) {
+                    f32 f = frame;
                     if (f >= 21.0f && f <= 26.0f) {
                         Vec v;
-                        *(s32 *)((s8 *)arg0 + 0x734) = 0;
-                        VecCopy__FP3VecPC3Vec((int)&v, arg0 + 0x38);
-                        v.x = 50.0f * ((TObjEneDD *)arg0)->calc_elapsed_scaled() + v.x;
+                        unk_734 = 0;
+                        VecCopy(&v, &position);
+                        v.x = 50.0f * calc_elapsed_scaled() + v.x;
                         v.y = -5.0f;
                         v.z += -20.0f;
-                        ((TBoss7DeRolLeC *)arg0)->spawn_particle_201(&v);
+                        spawn_particle_201(&v);
                     }
                 }
                 break;
             }
-            switch (*(s32 *)((s8 *)arg0 + 0x72C)) {
+            switch (unk_72C) {
             case 0:
-                *(f32 *)((s8 *)arg0 + 0x74C) -= 0.2f;
-                if (*(f32 *)((s8 *)arg0 + 0x74C) < -7.0f) {
-                    *(f32 *)((s8 *)arg0 + 0x74C) = -7.0f;
+                unk_74C -= 0.2f;
+                if (unk_74C < -7.0f) {
+                    unk_74C = -7.0f;
                 }
-                *(f32 *)((s8 *)arg0 + 0x40) += *(f32 *)((s8 *)arg0 + 0x74C);
+                position.z += unk_74C;
                 break;
             case 1:
-                *(f32 *)((s8 *)arg0 + 0x74C) += *(f32 *)((s8 *)arg0 + 0x750);
-                *(f32 *)((s8 *)arg0 + 0x40) += *(f32 *)((s8 *)arg0 + 0x74C);
-                *(f32 *)((s8 *)arg0 + 0x744) = ((TBoss7DeRolLeC *)arg0)->sub_802ED3E4();
+                unk_74C += unk_750;
+                position.z += unk_74C;
+                unk_744 = sub_802ED3E4();
                 break;
             case 2:
-                *(f32 *)((s8 *)arg0 + 0x40) += *(f32 *)((s8 *)arg0 + 0x74C);
-                *(f32 *)((s8 *)arg0 + 0x6F0) += *(f32 *)((s8 *)arg0 + 0x744);
-                *(f32 *)((s8 *)arg0 + 0x744) -= *(f32 *)((s8 *)arg0 + 0x748);
-                *(f32 *)((s8 *)arg0 + 0xC0) -= 0.105000004f;
+                position.z += unk_74C;
+                unk_6EC.y += unk_744;
+                unk_744 -= unk_748;
+                frame -= 0.105000004f;
                 break;
             case 3:
             case 4:
-                if (*(f32 *)((s8 *)arg0 + 0x750) <= 0.0f) {
-                    *(f32 *)((s8 *)arg0 + 0x74C) -= 0.2f;
-                    if (*(f32 *)((s8 *)arg0 + 0x74C) <= 0.0f) {
-                        *(f32 *)((s8 *)arg0 + 0x750) = 1.0f;
-                        ((TUnk_80036250 *)(arg0 + 0x670))->set_move_params(7.0f, fabs_float(500.0f - *(f32 *)((s8 *)arg0 + 0x40)), 0.2f, 0.05f);
-                        *(f32 *)((s8 *)arg0 + 0x74C) = *(f32 *)((s8 *)arg0 + 0x40);
+                if (unk_750 <= 0.0f) {
+                    unk_74C -= 0.2f;
+                    if (unk_74C <= 0.0f) {
+                        unk_750 = 1.0f;
+                        motion_z.set_move_params(7.0f, fabs_float(500.0f - position.z), 0.2f, 0.05f);
+                        unk_74C = position.z;
                     } else {
-                        *(f32 *)((s8 *)arg0 + 0x40) += *(f32 *)((s8 *)arg0 + 0x74C);
+                        position.z += unk_74C;
                     }
-                } else if (advance_scalar_motion_profile(arg0 + 0x670) == 3) {
-                    *(s32 *)((s8 *)arg0 + 0x728) = 3;
+                } else if (advance_scalar_motion_profile(&motion_z) == 3) {
+                    unk_728 = 3;
                 } else {
-                    *(f32 *)((s8 *)arg0 + 0x40) = *(f32 *)((s8 *)arg0 + 0x74C) - *(f32 *)((s8 *)arg0 + 0x688);
+                    position.z = unk_74C - motion_z.travelled;
                 }
-                ((TBoss7DeRolLeC *)arg0)->update_wobble_angle();
+                update_wobble_angle();
                 break;
             }
             break;
         }
         break;
     case 5:
-        *(s32 *)((s8 *)arg0 + 0x6C0) = 1;
-        *(s32 *)((s8 *)arg0 + 0x628) &= ~4;
+        unk_6C0 = 1;
+        unk_628 &= ~4;
         break;
     }
 }
@@ -4248,7 +4179,7 @@ void TBoss7DeRolLeC::sub_802E7B40() {
 }
 
 void TBoss7DeRolLeC::render_shadows() {
-    if (*(s32 *)((s8 *)this->bodies + 0x18) & 1) {
+    if (bodies->flags & 1) {
         this->TObjEnemy::render_shadows();
     }
 }

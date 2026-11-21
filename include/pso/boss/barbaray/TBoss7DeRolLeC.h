@@ -121,6 +121,10 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     s16 find_free_crawfish_slot();
     void spawn_crawfish_child(s16 slot, const Vec *position, Boss7Angles *angle, s32 flags);
     void try_spawn_pattern_crawfish(s32 variant, s32 index);
+    void sub_802EBBC8(u32 event);
+    void sub_802EB90C(u32 event);
+    void sub_802EA4D8(u32 event);
+    void sub_802EAAC8(u32 event, s32 position_index, s32 next_index);
     void sub_802E85E0(u32 event, s32 position_index);
     u8 pad_374[0x8];
     f32 unk_37C;                  // 20.0 (the joints set 3.0)
@@ -245,9 +249,6 @@ extern "C" {
 
 
 void TObjFish__sub_802E9DBC(u8 *arg0, u32 arg1, s32 arg2);
-void TObjFish__sub_802EA4D8(u8 *arg0, u32 arg1);
-void TObjFish__sub_802EAAC8(u8 *arg0, u32 arg1, s32 arg2, s32 arg3);
-void TObjFish__sub_802EBBC8(u8 *arg0, u32 arg1);
 
 void TObjFish__sub_802EC468(saddr arg0, f32 farg0, f32 farg1);
 void TObjPlayer__sub_802E8274(NJS_OBJECT *);
