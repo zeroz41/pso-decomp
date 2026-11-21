@@ -34,28 +34,12 @@
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #pragma readonly_strings on
 
-struct Base_80335648 { char pad[0x18]; };
-struct VObj_80335648 : Base_80335648 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-};
-
 extern "C" {
 
 s32 poll_memcard_result(saddr);
 
 void TAdTrialAgreementGC::render() {
-    struct VObj_80335648 *o = (struct VObj_80335648 *)this;
-    o->m10();
+    check_main_task_state();
 }
 
 void TAdTrialAgreementGC::vfunc_8() { request_main_phase((saddr)((void*)0)); }
@@ -70,20 +54,6 @@ loop_1:
 }
 
 }
-
-struct Base_803357EC_8033573C { char pad[0x18]; };
-struct VObj_803357EC_8033573C : Base_803357EC_8033573C {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-};
 
 extern "C" {
 
@@ -113,8 +83,7 @@ s32 TAdTrialAgreementGC::check_card_file(saddr arg0) {
 }
 
 void TAdTrialAgreementGC::run_task() {
-    struct VObj_803357EC_8033573C *o = (struct VObj_803357EC_8033573C *)this;
-    o->m9();
+    update_state();
 }
 
 }
