@@ -492,7 +492,6 @@ struct Self_802D4B6C {
 typedef void (TAdSinglePlyChrSelectGC::*Act_802D4B6C)();
 
 extern "C" {
-s32 set_default_camera__21TAdMultiChgGameModeGCFv(void *);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 s32 __ct__9TAdBackGCFv(void *, void *);
 s32 __ct__12TAdBackTxtGCFv(void *, void *);
@@ -558,7 +557,7 @@ void TAdSinglePlyChrSelectGC::cleanup() {
 
 void TAdSinglePlyChrSelectGC::run_task() {
     Self_802D4B6C *self = (Self_802D4B6C *)this;
-    set_default_camera__21TAdMultiChgGameModeGCFv(self);
+    TAdMultiChgGameModeGC::set_default_camera();
     static Act_802D4B6C tbl[13] = {
         &TAdSinglePlyChrSelectGC::cleanup,
         &TAdSinglePlyChrSelectGC::sub_802D486C,

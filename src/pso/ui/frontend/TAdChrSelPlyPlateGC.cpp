@@ -89,7 +89,6 @@ struct S_802C50EC {
 
 extern s32 multi_ply_chr_select_slot_table[][5];
 extern "C" {
-void copy_vec2__28TWindowSubSymbolChatPartsSetFPv(void *);
 s32 lbl_805D67D0;
 s32 lbl_805D67D4;
 s32 play_sound_effect(int, void *, int, int);
@@ -699,9 +698,9 @@ void TAdMultiPlyChrSelectGC::reset_slot_selection_table() {
 }
 
 /* src is passed through untouched to copy_vec2 as its second argument. */
-void TAdMultiPlyChrSelectGC__sub_802C5A44(S_802C50EC *self, const void *src, s32 col) {
+void TAdMultiPlyChrSelectGC__sub_802C5A44(S_802C50EC *self, void *src, s32 col) {
     if ((u32)self->f4DC[col] < 4) {
-        copy_vec2__28TWindowSubSymbolChatPartsSetFPv(&self->home[self->f4DC[col]][col]);
+        ((TWindowSubSymbolChatPartsSet *)&self->home[self->f4DC[col]][col])->copy_vec2(src);
         self->quad[self->f4DC[col]][col].x = self->home[self->f4DC[col]][col].x;
         self->quad[self->f4DC[col]][col].y = self->home[self->f4DC[col]][col].y;
         self->quad[self->f4DC[col]][col].z = self->home[self->f4DC[col]][col].x + self->ox;

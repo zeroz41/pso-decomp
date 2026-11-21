@@ -23,7 +23,6 @@ static const NJS_POINT2 sn_ak_pass_confirm_info_window_pos = {85.0f, 131.0f};
 static const NJS_POINT2 sn_ak_pass_confirm_message_pos = {44.0f, 231.0f};
 static const NJS_POINT2 sn_ak_pass_confirm_message_size = {552.0f, 140.0f};
 Obj_8032C004 *TAdSnAkPassConfirmGC__ct(Obj_8032C004 *arg0);
-int request_transition__21TAdMultiChgGameModeGCFv(void*);
 
 void TAdSnAkPassConfirmGC::render() {
     vfunc_12();
@@ -32,7 +31,7 @@ void TAdSnAkPassConfirmGC::render() {
 void TAdSnAkPassConfirmGC::vfunc_10() { get_localized_text_entry((saddr)((void*)39), (saddr)((void*)0)); }
 void TAdSnAkPassConfirmGC::vfunc_9() { if (this->m_48 != 0) { ((TWindowBase *)this->m_48)->close(); this->m_48 = 0; } }
 void TAdSnAkPassConfirmGC::vfunc_8() { if (this->m_48 != 0) { ((TWindowBase *)this->m_48)->close(); this->m_48 = 0; } }
-void TAdSnAkPassConfirmGC::vfunc_7() { request_transition__21TAdMultiChgGameModeGCFv(this); }
+void TAdSnAkPassConfirmGC::vfunc_7() { TAdMultiChgGameModeGC::request_transition(); }
 void TAdSnAkPassConfirmGC::vfunc_6() { ((TAdMultiChgGameModeGC *)this)->set_state_0x1a(); }
 
 void TAdSnAkPassConfirmGC::run_task() {

@@ -676,9 +676,7 @@ int draw_window_bg__23TAdSinglePlyChrSelectGCFllll(void*, void*, void*, void*);
 extern int lbl_805D49B4;
 extern s32 pso_system_card_filename[];
 int TAdSinglePlyChrSelectGC__sub_801FD990(s32 a0);
-s32 get_selection__23TAdSinglePlyChrSelectGCFv(void *self);
 Ent_801FCD04 *TAdSinglePlyChrSelectGC__sub_801FCD04(Obj_801FCD04 *self);
-s32 get_selection__23TAdSinglePlyChrSelectGCFv(void *self);
 s32 *TAdSinglePlyChrSelectGC__sub_801FCD3C(Obj_801FCD3C *self);
 bool is_entry_valid__23TAdSinglePlyChrSelectGCFPvi(Obj_801FCCDC *self, s32 i);
 s32 __dt__12TPlyCharDataFv(s32 arg0, s16 arg1);
@@ -813,14 +811,14 @@ bool is_entry_valid__23TAdSinglePlyChrSelectGCFPvi(Obj_801FCCDC *self, s32 i) {
 }
 
 Ent_801FCD04 *TAdSinglePlyChrSelectGC__sub_801FCD04(Obj_801FCD04 *self) {
-    return &self->e[get_selection__23TAdSinglePlyChrSelectGCFv(self)];
+    return &self->e[TAdSinglePlyChrSelectGC::get_selection()];
 }
 
     extern unsigned char pso_guildcard_card_filename[];
     extern int lbl_805D49B4;
 
 s32 *TAdSinglePlyChrSelectGC__sub_801FCD3C(Obj_801FCD3C *self) {
-    return &self->e[get_selection__23TAdSinglePlyChrSelectGCFv(self)].x;
+    return &self->e[TAdSinglePlyChrSelectGC::get_selection()].x;
 }
 
 void render_frame__23TAdSinglePlyChrSelectGCFv(void) {

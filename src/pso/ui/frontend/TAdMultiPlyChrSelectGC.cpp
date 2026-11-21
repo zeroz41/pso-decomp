@@ -186,7 +186,6 @@ struct C_802DF114 {
 
 typedef void (C_802DF114::*Pmf_802DF114)();
 
-void set_default_camera__21TAdMultiChgGameModeGCFv(void *);
 extern "C" void update_idle_timer__22TAdMultiPlyChrSelectGCFv();
 extern "C" void reset_to_select__22TAdMultiPlyChrSelectGCFv();
 extern "C" void check_cancel_input__22TAdMultiPlyChrSelectGCFv();
@@ -675,7 +674,7 @@ void TAdMultiPlyChrSelectGC::create_widgets() {
 void TAdMultiPlyChrSelectGC::run_task() {
     C_802DF114 *self = (C_802DF114 *)this;
     static s8 init;
-    set_default_camera__21TAdMultiChgGameModeGCFv(self);
+    TAdMultiChgGameModeGC::set_default_camera();
     self->f3C = 1;
     if (self->f48 != 1 && TAdMultiPlyChrSelectGC__sub_802C6848(0) == 0) {
         self->f3C = 0;

@@ -24,6 +24,7 @@
 #include <stddef.h>
 #include "pso/system/task/TObject.h"
 #include <string.h>
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 // The character-creation motion archive: no models, 49 body motions.
 const char *charamakingmot_model_names[1] = {NULL};
@@ -506,7 +507,6 @@ extern "C" {
 void *TCMCharacter__ct(void *arg0, void *arg1);
 extern Vec TObjLight__scene_light_state;
 extern void *creation_player_character;
-s32 is_active__23TAdSinglePlyChrSelectGCFv(void *self);
 
 void TCharaMaking__sub_8028E790(void) {  }
 }
@@ -545,7 +545,7 @@ s32 TCharaMaking::update_main_menu(saddr arg0) {
 }
 
 void TCharaMaking::run_task() {
-    if (!is_active__23TAdSinglePlyChrSelectGCFv(this)) return;
+    if (!TAdSinglePlyChrSelectGC::is_active()) return;
     if (TCharaMaking::update_main_menu((saddr)this)) return;
 }
 

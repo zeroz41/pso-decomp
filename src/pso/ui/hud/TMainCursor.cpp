@@ -164,7 +164,6 @@ extern "C" {
 s32 get_mode__11TCameraCtrlFPv(void *);
 extern u8 shared_effect_texture_list[];
 s32 check_flag_100__10TObjPlayerFPv(void *);
-s32 is_invalid_slot__10TObjPlayerFUc(u8);
 s32 play_sound_effect(s32, void *, s32, s32);
 s32 can_pickup_item_by_id__10TObjPlayerFP5TItem(uaddr, saddr);
 
@@ -1479,7 +1478,7 @@ void TMainCursor::validate_target() {
         }
         return;
     case 3:
-        if (is_invalid_slot__10TObjPlayerFUc(get_cast_technique_level((u8 *)t + 0x428, TMainCursor__sub_8013E338(((u8 *)this) + 0x60))) != 0) {
+        if (TObjPlayer::is_invalid_slot(get_cast_technique_level((u8 *)t + 0x428, TMainCursor__sub_8013E338(((u8 *)this) + 0x60))) != 0) {
             this->update_target_sub();
             return;
         }

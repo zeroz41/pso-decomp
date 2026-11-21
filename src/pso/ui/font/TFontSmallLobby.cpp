@@ -106,7 +106,8 @@ void handle_6x3A_clear_photon_blast_ready_flag(saddr arg0) {
 
 void send_6x3A_clear_photon_blast_ready_flag(u16 *arg0) {
     struct Pkt_801D5FC0 pkt;
-    if (((u8 *)get_player_by_client_id((*arg0))) == NULL || obj_isState2_324__9TObjCharaFv() == 0) {
+    TObjChara *player = (TObjChara *)get_player_by_client_id(*arg0);
+    if (player == NULL || player->obj_isState2_324() == 0) {
         ((TFontSmallLobby *)(&pkt))->init_6x3A_packet();
         pkt.id = *arg0;
         ((TFontSmallLobby *)(&pkt))->draw_and_send();

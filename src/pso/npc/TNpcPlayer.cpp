@@ -437,7 +437,6 @@ Actor_8014F424 * find_entity_by_id(s32);
 s32 free_collision_body_parts(u32);
 void init_collision_body_parts(void *, void *, s32);
 void * __ct__14TObjCollidableFP7TObject(void *, void *);
-s32 is_any_teammate_in_state__10TObjPlayerFv(void *self);
 s32 try_send_6x27_use_item(s32, s32, void *);
 void *get_player_by_client_id(s32 i);
 s8 get_cast_technique_level(void *, s16);
@@ -3785,7 +3784,7 @@ void deliver_partner_chatter(Npc_8014E250 *self) {
         self->state = 0x19;
         return;
     }
-    if (is_any_teammate_in_state__10TObjPlayerFv(self) != 0) {
+    if (TObjPlayer::is_any_teammate_in_state() != 0) {
         return;
     }
     id = get_entity_id(self->owner->obj);

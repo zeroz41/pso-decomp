@@ -90,7 +90,6 @@ extern void *__vt__21TAdMultiSelGameModeGC[];
 extern saddr game_difficulty_selection;
 saddr lbl_805D69F4;
 Obj_8030095C *__ct__21TAdMultiSelGameModeGCFv(Obj_8030095C *self, s32 parent, s32 mode);
-s32 set_default_camera__21TAdMultiChgGameModeGCFv(void *);
 }
 
 typedef struct Pos3_803001B4 { NJS_POINT2 p[3]; } Pos3_803001B4;
@@ -273,7 +272,7 @@ void TAdMultiSelGameModeGC::sub_80300648() {
 void TAdMultiSelGameModeGC::sub_80300764() { *(s32*)((char*)this + 0x1c) = 1; }
 
 void run_task__21TAdMultiSelGameModeGCFv(Self_80300770 *self) {
-    set_default_camera__21TAdMultiChgGameModeGCFv(self);
+    TAdMultiChgGameModeGC::set_default_camera();
     static Action_80300770 tbl[5] = {
         &TAdMultiSelGameModeGC::sub_80300764, &TAdMultiSelGameModeGC::sub_80300648,
         &TAdMultiSelGameModeGC::sub_803003A4, &TAdMultiSelGameModeGC::update_transition_state,

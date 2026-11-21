@@ -300,7 +300,6 @@ void scale_matrix(s32, f32, f32, f32);
 void draw_ginja_object(void *child);
 int get_entity_id(void*);
 s32 get_current_floor(void);
-s32 get_floor__10TObjPlayerFv(void);
 s32 TLobby__sub_801C19D0(void *);
 s32 should_show_map__13TRaderMapCoreFv(void);
 // Marker colours (a, r, g, b) per player slot: red, green, yellow, blue.
@@ -1132,7 +1131,7 @@ void TRaderMapCore::gather_player_markers() {
         }
         if (SHOW(this) == 0) {
             p = (Player_801F9E9C *)get_player_by_client_id(i);
-            if (p != NULL && floor == get_floor__10TObjPlayerFv() &&
+            if (p != NULL && floor == ((TObjPlayer *)p)->get_floor() &&
                 ((TObjPlayer *)p)->is_body_collision_inactive() == 0) {
                 VecCopy((Vec *)e, (const Vec *)p->pos);
                 e->y = 10.0f;
@@ -1144,7 +1143,7 @@ void TRaderMapCore::gather_player_markers() {
             }
         } else if (team != 0) {
             p = (Player_801F9E9C *)get_player_by_client_id(i);
-            if (p != NULL && floor == get_floor__10TObjPlayerFv() &&
+            if (p != NULL && floor == ((TObjPlayer *)p)->get_floor() &&
                 team == TLobby__sub_801C19D0(p->sub828) &&
                 ((TObjPlayer *)p)->is_body_collision_inactive() == 0) {
                 VecCopy((Vec *)e, (const Vec *)p->pos);

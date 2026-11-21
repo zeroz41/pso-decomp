@@ -244,7 +244,6 @@ extern s32 local_client_id;
 void handle_6x69_npc_control(Pkt_8034E814 *pkt);
 void send_6x55_intra_map_warp(u16 id, void *pos, s32 c);
 
-s32 obj_isState2_324__9TObjCharaFv();
 }
 void quest_remove_npc_player(u16 arg0);
 void show_partner_chatter_for_key(s16 key);
@@ -693,19 +692,19 @@ void quest_player_face_actor(u16 src, u16 dst) {
 }
 
 void TNpcPlayer::play_effect(int arg0) {
-    s32 player;
+    saddr player;
 
     player = get_player_by_client_id((u16) arg0);
-    if ((player != 0) && (obj_isState2_324__9TObjCharaFv() == 0)) {
+    if ((player != 0) && (((TObjChara *)player)->obj_isState2_324() == 0)) {
         TObjPlayer::play_effect_default(player, -1);
     }
 }
 
 void TNpcPlayer::send_code_45_to_player(int arg0) {
-    s32 player;
+    saddr player;
 
     player = get_player_by_client_id((u16) arg0);
-    if ((player != 0) && (obj_isState2_324__9TObjCharaFv() == 0)) {
+    if ((player != 0) && (((TObjChara *)player)->obj_isState2_324() == 0)) {
         TObjPlayer::send_code_45_1(player);
     }
 }
