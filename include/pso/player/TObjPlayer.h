@@ -496,7 +496,7 @@ struct TObjPlayer : public TObjChara {
     u16 get_type_id();
     static s32 count_nearby_players_with_shield(u16 idx, u8 *item);
     static void *spawn_shoot_particle(uaddr arg0, saddr arg1, saddr arg2, f32 farg0);
-    static saddr create_shoot_model(u32 owner, s32 pos, s32 dir, f32 life);
+    static saddr create_shoot_model(uaddr owner, saddr pos, saddr dir, f32 life);
     static saddr get_item_pmt_entry(u8 arg0);
     static saddr get_shield_pmt_entry(u8 arg0);
     void register_item_drop();

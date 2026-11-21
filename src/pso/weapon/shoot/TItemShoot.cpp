@@ -168,7 +168,7 @@ s32 TItemShootModel::is_owner_alive() {
     return all_parents_unqueued_for_destruction() != 0 ? 1 : 0;
 }
 
-s32 TObjPlayer::create_shoot_model(uaddr owner, saddr pos, saddr dir, f32 life) {
+saddr TObjPlayer::create_shoot_model(uaddr owner, saddr pos, saddr dir, f32 life) {
     TItemShootModel *model = NULL;
     if (0.0f != life && owner != 0U) {
         model = new TItemShootModel((void *)owner, (const Vec *)pos, (const Vec *)dir, life);
