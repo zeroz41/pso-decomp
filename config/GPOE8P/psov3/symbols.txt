@@ -24169,7 +24169,7 @@ __ct__15TBoss7LaserPtclFP7TObjectP21TBoss7LaserPtclVectorP21TBoss7LaserPtclVecto
 render__13TUnk_804F1C88Fv = .text:0x8035AD64; // type:function size:0x4
 run_task__13TUnk_804F1C88Fv = .text:0x8035AD68; // type:function size:0x94
 __dt__13TUnk_804F1C88Fv = .text:0x8035ADFC; // type:function size:0x58
-TBoss7LaserPtcl__sub_8035AE54 = .text:0x8035AE54; // type:function size:0xB8
+TBoss7LaserPtcl__construct_laser_particle_emitter = .text:0x8035AE54; // type:function size:0xB8
 TBoss7LaserPtcl__sub_8035AF0C = .text:0x8035AF0C; // type:function size:0x4
 TBoss7LaserPtcl__sub_8035AF10 = .text:0x8035AF10; // type:function size:0x4
 TBoss7LaserPtcl__sub_8035AF14 = .text:0x8035AF14; // type:function size:0x4

@@ -951,7 +951,7 @@ void TObjBoss2Tunnel__sub_802F22C4(void);
 
 void TObjBoss2Tunnel__sub_802F22DC(void);
 
-u8 *TBoss7LaserPtcl__sub_8035AE54(u8 *arg0, saddr arg1, saddr arg2);
+u8 *TBoss7LaserPtcl__construct_laser_particle_emitter(u8 *arg0, saddr arg1, saddr arg2);
 
 void TObjFish__handle_laser_sweep_state(u8 *arg0, u32 arg1, s32 arg2);
 
@@ -3413,7 +3413,7 @@ void TObjFish__handle_laser_sweep_state(u8 *arg0, u32 arg1, s32 arg2) {
                 {
                     uaddr o = (uaddr)TObject::operator new(0x60);
                     if (o != 0) {
-                        TBoss7LaserPtcl__sub_8035AE54((u8 *)o, (saddr)self, (saddr)&self->p4DC);
+                        TBoss7LaserPtcl__construct_laser_particle_emitter((u8 *)o, (saddr)self, (saddr)&self->p4DC);
                     }
                 }
                 self->flags |= 0x200;
