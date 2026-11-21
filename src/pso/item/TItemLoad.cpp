@@ -23,7 +23,7 @@
 
 extern "C" {
 s32 load_gvm_texture_archive(s32 data, NJS_TEXLIST *texlist);
-void *TLobby__sub_801E38A0(s32 data, u32 *pos, s32 *tag, u8 *dst, s32 *size);
+void *TLobby__sub_801E38A0(saddr data, u32 *pos, s32 *tag, u8 *dst, s32 *size);
 void TLobby__sub_801E3E9C(s32 partition_id, const char *path, void *partition_info, s32);
 s32 prs_decompress_alloc(s32 src, u32 dst, s32 size);
 }
@@ -225,7 +225,7 @@ void TItemLoad::get_item_params(s32 *model, s32 *texlist, s32 *motion) {
     if ((model != NULL) && (texlist != NULL) && (motion != NULL)) {
         *model = get_bml_model(TItemLoad__bml_resource, 1);
         *texlist = get_bml_texlist(TItemLoad__bml_resource, 0);
-        *motion = (s32)get_bml_motion(TItemLoad__bml_resource, 0);
+        *motion = (saddr)get_bml_motion(TItemLoad__bml_resource, 0);
     }
 }
 
@@ -293,7 +293,7 @@ void AfsPartition::read(void *destination) {
 
 RelocatedFile::RelocatedFile(const char *path, s32 size) {
     s32 decompressed_size;
-    s32 item_buff;
+    saddr item_buff;
 
     buffer = NULL;
     root = NULL;
@@ -301,7 +301,7 @@ RelocatedFile::RelocatedFile(const char *path, s32 size) {
         buffer = mem_alloc(size);
         item_buff = create_item_buff(size);
         if ((item_buff != 0) && (buffer != NULL) && (read_disc_file(path, (void *)item_buff) > 0)) {
-            decompressed_size = prs_decompress_alloc(item_buff, (u32)buffer, size);
+            decompressed_size = prs_decompress_alloc(item_buff, (uaddr)buffer, size);
             TUnk_8049C658 file;
             file.data = (u8 *)buffer;
             file.size = decompressed_size;
@@ -327,7 +327,7 @@ void TItemLoad::free_work_buffer() {
 
 s32 TItemLoad::decompress_buffer(u32 dst) {
     if ((item_load_compressed_work_buffer != NULL) && (dst != 0)) {
-        return prs_decompress_buffer((s32)item_load_compressed_work_buffer, dst);
+        return prs_decompress_buffer((saddr)item_load_compressed_work_buffer, dst);
     }
     return 0;
 }
@@ -557,7 +557,7 @@ TItemModelLoadTask::~TItemModelLoadTask() {
         break;
     }
     if ((resource.texlist != NULL) && (resource.texlist->textures->texaddr != 0)) {
-        free_texture_if_valid((u32)resource.texlist);
+        free_texture_if_valid((uaddr)resource.texlist);
     }
 }
 

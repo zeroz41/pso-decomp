@@ -2,6 +2,7 @@
 #define MUSYX_RUNTIME_A_H
 
 #include "types.h"
+#include <string.h>
 #include "musyx/runtime/musyx_dspvoice.h"
 
 struct RecoveredGlobal_803AA0C0_lbl_80556E88 {
@@ -521,7 +522,6 @@ extern s32 synthFlags;
 void CheckOutputMode(s8 *arg0, s8 *arg1);
 u32 adsrSetup(u8 *arg0);
 s32 DCFlushRangeNoSync(void *, int);
-s32 memset(void *, int, int);
 void salInitHRTFBuffer(void);
 extern s32 (*salMessageCallback)(s32, s32);
 s32 salSynthSendMessage(u8 *arg0, s32 arg1);
@@ -530,7 +530,7 @@ void s3dInit(s32 arg0);
 struct Obj_803A8C5C { u8 pad0[0x24]; s64 p24; s64 p2C; };
 #pragma pack(pop)
 extern s64 synthRealTime;
-void synthKeyStateUpdate(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
+void synthKeyStateUpdate(saddr arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
 extern u32 synthMasterFaderActiveFlags;
 s32 synthIsFadeOutActive(u8 arg0);
 s32 seqPlaySong(u16, u16, s32, s32, u8, s32);
@@ -550,7 +550,7 @@ s32 *sndBSearch(Req_803AE60C *, void *, u16, s32, s32 (*)(u8 *, u8 *));
 extern Req_803AE60C lbl_805D73F8;
 extern u8 lbl_8055A470[];
 extern s32 *lbl_805D7400;
-s32 dataGetCurve(s16 arg0);
+saddr dataGetCurve(s16 arg0);
 s32 curvecmp(u8 *arg0, u8 *arg1);
 s32 *sndBSearch(Req_803AE60C *, void *, u16, s32, s32 (*)(u8 *, u8 *));
 extern Req_803AE60C lbl_805D7404;
@@ -700,9 +700,9 @@ u32 seqGetPrivateId(u32 seqId);
 void hwSetAUXProcessingCallbacks(u8 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 void hwEnableIrq(void);
 void hwDisableIrq(void);
-extern s32 synthAuxAUser[8];
+extern saddr synthAuxAUser[8];
 extern void *synthAuxACallback[8];
-extern s32 synthAuxBUser[8];
+extern saddr synthAuxBUser[8];
 extern void *synthAuxBCallback[8];
 extern u8 synthAuxBMIDISet[8];
 extern u8 synthAuxBMIDI[8];
@@ -937,7 +937,7 @@ u32 adsrHandleLowPrecision(void *arg0, void *arg1, void *arg2);
 
 extern u8 synthJobTableIndex;
 
-typedef char RecoveredGlobal_803AA0C0_lbl_80556E88_size[sizeof(RecoveredGlobal_803AA0C0_lbl_80556E88) == 0x100 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_803AA0C0_lbl_80556E88_size, sizeof(RecoveredGlobal_803AA0C0_lbl_80556E88) == 0x100);
 
 void hwActivateStudio(u8 i, s32 a, s32 b);
 
@@ -1271,7 +1271,7 @@ typedef struct ADSR_803AF3DC {
         struct { u16 atime; u16 dtime; u16 slevel; u16 rtime; } linear;
     } data;
 } ADSR_803AF3DC;
-s32 dataGetCurve(s16 arg0);
+saddr dataGetCurve(s16 arg0);
 void hwSetADSR(u8, void *, s32);
 extern f32 dspDLSVolTab[];
 
@@ -1398,7 +1398,7 @@ typedef struct Voice_803AF954 {
 } Voice_803AF954;
 #pragma pack(pop)
 
-s32 dataGetCurve(s16 arg0);
+saddr dataGetCurve(s16 arg0);
 
 #pragma pack(push, 4)
 typedef struct MSTEP_803AF9D4 { u32 para[2]; } MSTEP_803AF9D4;
@@ -1523,7 +1523,7 @@ typedef struct Voice_803AF9D4 {
 } Voice_803AF9D4;
 #pragma pack(pop)
 
-s32 dataGetCurve(s16 arg0);
+saddr dataGetCurve(s16 arg0);
 void sndConvertMs(void *);
 void sndConvertTicks(void *, void *);
 u32 sndConvert2Ms(u32 arg0);
@@ -2005,7 +2005,7 @@ struct Voice_803B2128 {
 extern "C" {
 void voiceFree(Obj_803B312C *o);
 
-u32 dataGetMacro(u16);
+uaddr dataGetMacro(u16);
 u32 vidMakeNew(SYNTH_VOICE_SV *svoice, u32 isMaster);
 void voiceSetPriority(Voice_803B2128 *, u8);
 u32 voiceAllocate(u8, u8, u16, u8);
@@ -2090,7 +2090,6 @@ extern void *dspHrtfHistoryBuffer;
 
 u32 aramGetZeroBuffer(void);
 void *salMalloc(u32 size);
-s32 memset(void *, int, int);
 void DCFlushRange(void *, int);
 void DCInvalidateRange(void *, int);
 void DCStoreRangeNoSync(void *, int);
@@ -2311,7 +2310,7 @@ void EventHandler(s32 arg0);
 void synthAddJob(SYNTH_VOICE_SV *svoice, s32 jobType, u32 deltaTime);
 void synthStartSynthJobHandling(Obj_803A8C5C* voice);
 void synthForceLowPrecisionUpdate(void *arg0);
-void synthKeyStateUpdate(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
+void synthKeyStateUpdate(saddr arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
 void HandleJobQueue(Node_803A8D2C **list, void (*cb)(u8));
 void HandleFaderTermination(u8 *arg0);
 s32 synthFXStart(s16 arg0, u8 arg1, u8 arg2, s32 arg3, s32 arg4);
@@ -2357,7 +2356,7 @@ s32 maccmp(u8 *arg0, u8 *arg1);
 s32 smpcmp(u16 *arg0, u16 *arg1);
 s32 dataGetSample(s16 id, Sample_803AE4D4 *s);
 s32 curvecmp(u8 *arg0, u8 *arg1);
-s32 dataGetCurve(s16 arg0);
+saddr dataGetCurve(s16 arg0);
 s32 dataGetKeymap(s16 arg0);
 s32 layercmp(u8 *arg0, u8 *arg1);
 s32 dataGetLayer(s16 arg0, u16 *arg1);

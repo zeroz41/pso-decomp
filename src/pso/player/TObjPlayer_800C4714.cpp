@@ -72,9 +72,8 @@ typedef struct Obj_800C55E0 {
 
 extern "C" {
 s32 vec3_add_to(void *, void *);
-s32 is_area_attack_target_eligible(s32, s32);
+s32 is_area_attack_target_eligible(saddr, s32);
 
-void __dl__7TObjectFPv(void *);
 u8 *__ct__13TUnk_804928CCFP7TObjectP8TObjBase(u8 *arg0, s32 arg1, u32 arg2);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
@@ -140,7 +139,7 @@ struct Obj_800C4754 : VBase_800C4754 {
 
 extern "C" {
 
-s32 *csnVecterUnder(s32 origin, s32 mask);
+s32 *csnVecterUnder(saddr origin, s32 mask);
 u32 csnVector(void *, void *, int);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 void TObjEneDD__sub_800C2618(void *p);
@@ -174,7 +173,7 @@ struct Hit_800C4A5C {
 };
 extern const Hit_800C4A5C lbl_8043BC10 = { 0xF, 2.0f, 2.0f, 0, 1 };
 extern const char lbl_8043BC24[] = "TObjEneRe2Flower_Bomb";
-s32 lbl_805D2A50 = (s32)lbl_8043BC24;
+s32 lbl_805D2A50 = (saddr)lbl_8043BC24;
 void *lbl_804933D8[24] = {
     (void *)0x0, (void *)0x0, (void *)&destroy_and_free__21TObjEneRe2Flower_BombFs, (void *)&run_task__21TObjEneRe2Flower_BombFv,
     (void *)&render__21TObjEneRe2Flower_BombFv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
@@ -186,10 +185,10 @@ void *lbl_804933D8[24] = {
 
 // The bomb's first function: its 30.0 opens this file's literal pool at
 // 0x805DA000, while the Flower file's pool already holds 30.0 at 0x805D9FEC.
-s32 TObjEneRe2Flower_Bomb::area_attack_deliver_direct(void *recoil, s32 arg2, void *object, f32 range) {
+s32 TObjEneRe2Flower_Bomb::area_attack_deliver_direct(void *recoil, saddr arg2, void *object, f32 range) {
     s32 result;
     s32 flags;
-    s32 p;
+    saddr p;
     s32 i;
     s32 ok;
     result = 0;
@@ -213,10 +212,10 @@ s32 TObjEneRe2Flower_Bomb::area_attack_deliver_direct(void *recoil, s32 arg2, vo
                 break;
             }
             if (obj_is_hit_receivable((u8 *)p) != 0 && (u32)p != this->owner &&
-                is_area_attack_target_eligible((s32)this, *(s32 *)((s8 *)p + 0x30)) != 0 &&
+                is_area_attack_target_eligible((saddr)this, *(s32 *)((s8 *)p + 0x30)) != 0 &&
                 !(fabs_float(*(f32 *)&(this->m_b8) - *(f32 *)((s8 *)p + 0x300)) > 30.0f)) {
                 ok = 1;
-                if (object != 0 && attack_target_history_add((s32)object, p) == 0) {
+                if (object != 0 && attack_target_history_add((saddr)object, p) == 0) {
                     ok = 0;
                 }
                 if (ok != 0) {
@@ -263,7 +262,7 @@ void TObjEneRe2Flower_Bomb::run_task() {
         o->start.x += o->velA.x;
         o->start.y += o->fF0;
         o->start.z += o->velA.z;
-        hit = (Hit_800C4754 *)csnVecterUnder((s32)&o->start, 0x16EF);
+        hit = (Hit_800C4754 *)csnVecterUnder((saddr)&o->start, 0x16EF);
         if (hit != NULL) {
             o->pos.y = *(f32 *)(hit->tri + 4);
             VecCopy((Vec *)&o->accel, (const Vec *)(hit->tri + 0xC));
@@ -302,7 +301,7 @@ void TObjEneRe2Flower_Bomb::run_task() {
             ((TParticleCtrl *)(o->fFC))->enable();
         }
     } else {
-        ((TParticleCtrl *)(int)o->fFC)->set_position(&o->start);
+        ((TParticleCtrl *)(saddr)o->fFC)->set_position(&o->start);
     }
 }
 
@@ -312,7 +311,7 @@ void *TObjEneRe2Flower_Bomb::destroy_and_free(s16 arg1) {
         if (this->m_fc != NULL) { ((TObject *)this->m_fc)->queue_destruction(); this->m_fc = 0; }
         __dt__13TUnk_804928CCFv(this, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(this);
+            TObject::operator delete(this);
         }
     }
     return this;
@@ -321,7 +320,7 @@ void *TObjEneRe2Flower_Bomb::destroy_and_free(s16 arg1) {
 Obj_800C4A5C *TObjPlayer__sub_800C4A5C(Obj_800C4A5C *o, void *owner, Vec *start, s32 angle) {
     f32 s;
     f32 c;
-    __ct__13TUnk_804928CCFP7TObjectP8TObjBase((u8 *)o, (s32)owner, (u32)owner);
+    __ct__13TUnk_804928CCFP7TObjectP8TObjBase((u8 *)o, (saddr)owner, (uaddr)owner);
     o->vptr = lbl_804933D8;
     o->f0 = lbl_805D2A50;
     o->coll->radius = lbl_8043BC10.radius;

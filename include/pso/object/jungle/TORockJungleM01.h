@@ -21,6 +21,6 @@ struct TORockJungleM01 : public TORockCaveBrakable {
     static void *create(void *set_data);
 };
 
-typedef char TORockJungleM01_size[sizeof(TORockJungleM01) == 0xE0 ? 1 : -1];
+LAYOUT_ASSERT(TORockJungleM01_size, sizeof(TORockJungleM01) == 0xE0);
 
 #endif

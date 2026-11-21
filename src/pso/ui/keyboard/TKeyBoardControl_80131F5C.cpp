@@ -298,7 +298,7 @@ void KeyboardKeyState::reset_state() {
 void KeyboardKeyState::reset_input() {
     TKeyBoardControl::init_pad_states();
     reset_state();
-    fn_803F1864((u32)((s32 *)KeyboardKeyState::append_next_char_global));
+    fn_803F1864((uaddr)((s32 *)KeyboardKeyState::append_next_char_global));
 }
 void KeyboardKeyState::reset_global_keys_a() {
     hardware_keyboard_state.clear_key_state();

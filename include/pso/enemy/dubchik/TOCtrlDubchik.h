@@ -39,5 +39,5 @@ struct TOCtrlDubchik : public TObjEnemy {
     static s32 create_font(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 };
 
-typedef char TOCtrlDubchik_size[sizeof(TOCtrlDubchik) == 0x3A0 ? 1 : -1];
+LAYOUT_ASSERT(TOCtrlDubchik_size, sizeof(TOCtrlDubchik) == 0x3A0);
 #endif

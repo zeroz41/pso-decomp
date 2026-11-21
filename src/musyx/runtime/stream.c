@@ -78,7 +78,7 @@ extern Voice_Stream *synthVoice;
 void hwEnableIrq(void);
 void hwDisableIrq(void);
 void hwSetVolume(u32 v, u8 table, f32 vol, u32 pan, u32 span, f32 auxa, f32 auxb);
-u32 hwGetStreamPlayBuffer(u8 i);
+uaddr hwGetStreamPlayBuffer(u8 i);
 void DCInvalidateRange(void *addr, u32 nBytes);
 void hwInitSamplePlayback(u32 v, u16 smpID, void *newsmp, u32 set_defadsr, u32 prio, u32 callbackUserValue, u32 setSRC, u8 itdMode);
 void hwSetPitch(s32 i, u16 v);
@@ -203,7 +203,7 @@ void streamHandle(void) {
                     } break;
                     case 1: {
                         u32 off = (si->last / 14) * 8;
-                        if ((len = si->updateFunction((void *)((u32)si->buffer + off), cpos - si->last, 0, 0, si->user)) != 0 &&
+                        if ((len = si->updateFunction((void *)((uaddr)si->buffer + off), cpos - si->last, 0, 0, si->user)) != 0 &&
                             si->state == 2) {
                             cpos = (si->last + len) % si->size;
                             if (!(si->flags & 0x20000)) {
@@ -235,7 +235,7 @@ void streamHandle(void) {
                         break;
                     case 1: {
                         u32 off = ((si->last / 14) * 8);
-                        if ((len = si->updateFunction((void *)((u32)si->buffer + off), si->size - si->last, 0, 0, si->user)) &&
+                        if ((len = si->updateFunction((void *)((uaddr)si->buffer + off), si->size - si->last, 0, 0, si->user)) &&
                             si->state == 2) {
                             cpos = (si->last + len) % si->size;
                             if (!(si->flags & 0x20000)) {
@@ -270,7 +270,7 @@ void streamHandle(void) {
                         break;
                     case 1: {
                         u32 off = (si->last / 14) * 8;
-                        if ((len = si->updateFunction((void *)((u32)si->buffer + off), si->size - si->last, si->buffer, cpos, si->user)) &&
+                        if ((len = si->updateFunction((void *)((uaddr)si->buffer + off), si->size - si->last, si->buffer, cpos, si->user)) &&
                             si->state == 2) {
                             cpos = (si->last + len) % si->size;
                             if (!(si->flags & 0x20000)) {

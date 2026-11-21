@@ -1,3 +1,4 @@
+#include <string.h>
 #include <dolphin/os/OSThread.h>
 #include "pso/unk/text_803D2F1C.h"
 #include "pso/unk/TLobby.h"
@@ -13,7 +14,6 @@
 struct Pair_803C8678 { u32 a, b; };
 
 extern "C" {
-s32 memset(void *, int, int);
 
 }
 
@@ -203,7 +203,7 @@ void adxt_stat_decinfo(Strm_803CAB38 *self) {
 #define arg0 ((u8 *)self)
     s32 TLobby__sub_803CBF50(s32, s32, s32);
     s32 trigger_sub_task__6TLobbyFv(int, int);
-    s32 t = self->f4;
+    saddr t = self->f4;
     s32 k;
     s32 n1;
     char buf[32];
@@ -246,7 +246,7 @@ void adxt_stat_decinfo(Strm_803CAB38 *self) {
             ((TLobby *)t)->set_field_3c(e);
             ((TLobby *)t)->set_field_44(0);
             ((TLobby *)t)->set_field_40(0);
-            TLobby__sub_803BFFFC((u8 *)t, (s32)adxt_trap_entry_update__6TLobbyFPv, (s32)arg0);
+            TLobby__sub_803BFFFC((u8 *)t, (saddr)adxt_trap_entry_update__6TLobbyFPv, (saddr)arg0);
         } else {
             if (self->f8 != NULL) {
                 set_scroll_position__6TLobbyFl(self->f8, 0x7FFFFFFF);
@@ -254,7 +254,7 @@ void adxt_stat_decinfo(Strm_803CAB38 *self) {
             ((TLobby *)t)->set_field_3c(((TLobby *)t)->send_packet_by_id());
             ((TLobby *)t)->set_field_44(0);
             ((TLobby *)t)->set_field_40(0);
-            TLobby__sub_803BFFFC((u8 *)t, (s32)TLobby__sub_803CAEB4, (s32)arg0);
+            TLobby__sub_803BFFFC((u8 *)t, (saddr)TLobby__sub_803CAEB4, (saddr)arg0);
         }
         k = ((TLobby *)t)->notify_field_4();
         n1 = ((TLobby *)t)->send_with_offset4();
@@ -336,7 +336,7 @@ struct Conn_803CAEB4
 s32 process_audio_stream_input(int);
 
 void TLobby__sub_803CAEB4(Conn_803CAEB4 *o) {
-  s32 lobby = o->lobby;
+  saddr lobby = o->lobby;
   Ring_803CAEB4 *ring = o->ring;
   Buf_803CAEB4 a;
   Buf_803CAEB4 c;

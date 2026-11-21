@@ -30,20 +30,20 @@ BlobShadowRectDesc blob_shadow_rect_desc = {
     { 0x00, 0x00, 0x00, 0x00, 0x00, 0x05, 0x00, 0x05, 0x00, 0xFD, 0x00, 0xFD,
       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 },
 };
-u32 blob_shadow_texture_list;
+uaddr blob_shadow_texture_list;
 
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_propagation off
 void draw_blob_shadow(s32 arg0) {
-    typedef char sp8_offset[(offsetof(Stack_800F09E8, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_800F09E8, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_800F09E8, sp10) == 0x8) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_800F09E8, sp14) == 0xC) ? 1 : -1];
-    typedef char sp18_offset[(offsetof(Stack_800F09E8, sp18) == 0x10) ? 1 : -1];
-    typedef char sp1C_offset[(offsetof(Stack_800F09E8, sp1C) == 0x14) ? 1 : -1];
-    typedef char sp20_offset[(offsetof(Stack_800F09E8, sp20) == 0x18) ? 1 : -1];
-    typedef char sp24_offset[(offsetof(Stack_800F09E8, sp24) == 0x1C) ? 1 : -1];
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800F09E8, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_800F09E8, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_800F09E8, sp10) == 0x8);
+    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_800F09E8, sp14) == 0xC);
+    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_800F09E8, sp18) == 0x10);
+    LAYOUT_ASSERT(sp1C_offset, offsetof(Stack_800F09E8, sp1C) == 0x14);
+    LAYOUT_ASSERT(sp20_offset, offsetof(Stack_800F09E8, sp20) == 0x18);
+    LAYOUT_ASSERT(sp24_offset, offsetof(Stack_800F09E8, sp24) == 0x1C);
     Stack_800F09E8 stack;
     if (arg0 == 0) {
         if (is_split_screen__10TObjPlayerFv() != 0) {
@@ -87,4 +87,4 @@ void release_blob_shadow_texture(void) {
     }
 }
 
-void load_ha_u032_kage(void) { blob_shadow_texture_list = (u32)load_gvm_texture_file((s32)"ha_u032_kage.gvm"); }
+void load_ha_u032_kage(void) { blob_shadow_texture_list = (uaddr)load_gvm_texture_file((saddr)"ha_u032_kage.gvm"); }

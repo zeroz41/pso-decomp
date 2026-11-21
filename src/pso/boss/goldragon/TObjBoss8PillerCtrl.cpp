@@ -22,7 +22,7 @@ const Ent_8035C03C boss8_piller_ctrl_params[41] = {
 
 extern "C" {
 void __ct__15TObjBoss8PillerFv(void *, s32, Vec *, f32, u16);
-extern s32 tl_05;
+extern saddr tl_05;
 }
 
 // Written last to first: the unit is generated deferred (see configure.py).

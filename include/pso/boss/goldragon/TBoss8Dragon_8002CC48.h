@@ -33,7 +33,7 @@ public:
     NJS_OBJECT object;
 };
 
-typedef char Unk_8002DB7C_size[sizeof(Unk_8002DB7C) == 0x68 ? 1 : -1];
+LAYOUT_ASSERT(Unk_8002DB7C_size, sizeof(Unk_8002DB7C) == 0x68);
 
 f32 apply_default_velocity_scale(Vec *vector);
 f32 apply_velocity_scale(Vec *vector, f32 farg0, f32 farg1);

@@ -11,7 +11,7 @@ struct TObjPlayer;
 // 10 frames and lives while the charge flag 0x80 is set, up to 180 frames.
 class TUnk_804CC990 : public TObject {
 public:
-    TUnk_804CC990(s32 actor, s32 parent);
+    TUnk_804CC990(saddr actor, saddr parent);
     virtual ~TUnk_804CC990();
     virtual void run_task();
     TObjPlayer *actor;
@@ -19,6 +19,6 @@ public:
     s32 age;
     s32 sound_handle;
 };
-typedef char TUnk_804CC990_size[sizeof(TUnk_804CC990) == 0x34 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804CC990_size, sizeof(TUnk_804CC990) == 0x34);
 
 #endif

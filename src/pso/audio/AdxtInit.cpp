@@ -1,4 +1,5 @@
 // CRI adx_inis.c: ADXT_Finish, ADXT_Init and the SVM server callbacks they register.
+#include <string.h>
 #include "pso/unk/text_803D31A4.h"
 #include "pso/unk/text_803CE240.h"
 #include "pso/unk/TLobby.h"
@@ -14,7 +15,6 @@
 #include "pso/unk/text_803CE568.h"
 
 extern "C" {
-s32 memset(void *, int, int);
 s32 lbl_805D4658 = 1;
 s32 TLobby_init_ref_count;
 s32 TLobby__svm_cb_svr_handle;
@@ -35,8 +35,8 @@ void TLobby::dec_ref_and_shutdown() {
         TLobby::si_get_type_async();
         lsc_shutdown();
         TLobby::init_once();
-        TLobby::SVM_DelCbSvr(2, (s32)((void *) (1)));
-        TLobby::SVM_DelCbSvr(2, (s32)((void *) (3)));
+        TLobby::SVM_DelCbSvr(2, (saddr)((void *) (1)));
+        TLobby::SVM_DelCbSvr(2, (saddr)((void *) (3)));
         TLobby::SVM_DelCbSvr(4, TLobby__svm_cb_svr_handle);
         TLobby__sub_803D3194();
         TLobby::release_ref();
@@ -78,7 +78,7 @@ void TLobby::init_and_add_ref() {
 
 
 s32 TLobby::ar_alloc(s32) {
-    ARAlloc();
+    ADXT_ExecFsSvr();
     return 0;
 }
 

@@ -62,10 +62,9 @@ struct TOMine : public TObjChara {
     static void load_static_resource();
 };
 
-typedef char TOMine_size[sizeof(TOMine) == 0x37C ? 1 : -1];
-
-typedef char TOMineLightModelOffset[offsetof(TOMine, light_model) == 0x374 ? 1 : -1];
-typedef char TOMineLightTexturesOffset[offsetof(TOMine, light_textures) == 0x378 ? 1 : -1];
+LAYOUT_ASSERT(TOMine_size, sizeof(TOMine) == 0x37C);
+LAYOUT_ASSERT(TOMineLightModelOffset, offsetof(TOMine, light_model) == 0x374);
+LAYOUT_ASSERT(TOMineLightTexturesOffset, offsetof(TOMine, light_textures) == 0x378);
 
 struct BmlResource;
 // bm_o_mine.bml, loaded by TOMine::load_static_resource; the mine models of every TOMine class.

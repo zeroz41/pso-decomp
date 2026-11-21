@@ -5,6 +5,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/vector.h"
 #include "types.h"
+#include <stdlib.h>
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
@@ -87,7 +88,7 @@ struct BreakUpParamRow {
 };
 
 struct BreakUp_80096AD8 {
-    s32 f0;
+    saddr f0;
     u8 pad4[0x18 - 0x4];
     s32 *vtable;
     s32 count;
@@ -114,8 +115,7 @@ void alloc_breakup_piece_records(Brk_80096EBC *arg0, void *arg1);
 extern u32 saved_model_render_flags;
 extern u32 model_render_flags;
 void __ct__7TObjectFP7TObject(void *, void *);
-s32 rand(void);
-void rotate_vector_by_matrix(s32, void *, void *);
+void rotate_vector_by_matrix(saddr, void *, void *);
 void rotate_matrix_y(s32, s32);
 extern s32 __vt__11TBreakUpMdl[];
 static const BreakUpParamRow breakup_default_param_row = { 12, 0.07f, 1.5f, 0.9f, 0.12f, 0.5f, 0.5f };
@@ -241,7 +241,7 @@ u8 *TBreakUpMdl__ct(u8 *break_up_mdl, void *arg1, Model_80096AD8 *arg2, void *ar
     s32 i;
     __ct__7TObjectFP7TObject(self, arg1);
     self->vtable = __vt__11TBreakUpMdl;
-    self->f0 = (s32)TBreakUpMdl__class_name;
+    self->f0 = (saddr)TBreakUpMdl__class_name;
     self->model = arg2;
     if (arg3 == NULL) {
         ((TBreakUpMdl *)(&self->f38))->copy((void *)&breakup_default_param_row);
@@ -317,7 +317,7 @@ void TBreakUpMdl::render() {
     Part_8009680C *part;
     s32 i;
     if (self->texlist != 0) {
-        TObjFish::set_global_param((s32)self->texlist);
+        TObjFish::set_global_param((saddr)self->texlist);
     }
     saved_model_render_flags = model_render_flags;
     if (self->alpha < 1.0f) {

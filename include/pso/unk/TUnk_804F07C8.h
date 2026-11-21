@@ -11,6 +11,6 @@ public:
     virtual void run_task();
     u32 partner_count; // inferred: incremented once per partner the ctor creates
 };
-typedef char TUnk_804F07C8_size[sizeof(TUnk_804F07C8) == 0x20 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804F07C8_size, sizeof(TUnk_804F07C8) == 0x20);
 
 #endif

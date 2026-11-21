@@ -62,16 +62,16 @@ struct TItemData {
     f32 get_shield_set_multiplier(u8 *arg1);
     f32 get_armor_set_multiplier(u8 *arg1);
     f32 get_weapon_set_multiplier(u8 *arg1);
-    void apply_equip_effects(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
-    void apply_custom_shield_bonus(s32 player, TItemData *a, TItemData *b, EquipStats *stats, s32);
-    s32 calc_buy_price();
+    void apply_equip_effects(s32 arg1, saddr arg2, saddr arg3, saddr arg4, s32 arg5);
+    void apply_custom_shield_bonus(saddr player, TItemData *a, TItemData *b, EquipStats *stats, s32);
+    saddr calc_buy_price();
     void format_item_name(char *buf);
     int calc_display_grade();
     s32 get_base_rarity();
     s32 check_item_flags();
-    static s32 is_item_usable(s32 arg0, u8 *arg1);
-    int test_flag3();
-    int get_item_field_2();
+    static s32 is_item_usable(saddr arg0, u8 *arg1);
+    saddr test_flag3();
+    saddr get_item_field_2();
     void add_quantity(s32 arg1);
     void adjust_count(s32 arg1);
     static void add_stat_ptr(s16 *arg0, s32 arg1);
@@ -91,7 +91,7 @@ struct TItemData {
     u16 get_packed_value();
     void decode_packed_name_chars(s8 *out);
     void add_mag_stat_bonuses(s32 player, u8 *a, u8 *b, EquipStats *st, s32 w5);
-    f32 get_set_bonus_multiplier(s32 player);
+    f32 get_set_bonus_multiplier(saddr player);
 };
 
 extern "C" {
@@ -100,7 +100,7 @@ void *lookup_item_pmt_record(u8 *item);
 }
 
 #include <stddef.h>
-typedef char ItemDataSize[(sizeof(TItemData) == 0x14) ? 1 : -1];
-typedef char ItemDataIDOffset[(offsetof(TItemData, id) == 0xC) ? 1 : -1];
-typedef char ItemDataExtensionOffset[(offsetof(TItemData, data2) == 0x10) ? 1 : -1];
+LAYOUT_ASSERT(ItemDataSize, sizeof(TItemData) == 0x14);
+LAYOUT_ASSERT(ItemDataIDOffset, offsetof(TItemData, id) == 0xC);
+LAYOUT_ASSERT(ItemDataExtensionOffset, offsetof(TItemData, data2) == 0x10);
 #endif

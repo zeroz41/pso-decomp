@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void bswap__12TPlyCharDataFv(s32 arg0);
+void bswap__12TPlyCharDataFv(saddr arg0);
 }
 
 #endif

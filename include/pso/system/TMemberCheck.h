@@ -12,7 +12,7 @@ public:
     void open_member_name_window();
     virtual void run_task();
 
-    u32 m_1C;
+    uaddr m_1C;
     u8  m_20[0x60];
 };
 

@@ -10,6 +10,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/charcreate/TChCrLoadAfs.h"
 #include "pso/unk/TLobby.h"
+#include <string.h>
 
 int TChCrLoadAfs::is_unloaded() { return *(u32*)((char*)this + 0x4a8) == 0; }
 
@@ -70,7 +71,6 @@ extern "C" { extern const char TChCrLoadAfsTextureReq__class_name_string[23] = "
 
 extern "C" {
 f32 TLobby__sub_8028C50C(f32);
-s32 strcmp(const char *, const char *);
 void set_texture_name(GinjaTextureEntry *, void *, s32, s32);
 s32 load_texture_list(GinjaTextureList *);
 }
@@ -88,7 +88,7 @@ void TChCrLoadAfs::start_download() {
             return;
         }
         count = ADXF_GetFsizeSct(load_handle);
-        buffer = (u32)TQuestVmDownLoadServer::alloc(count << 0xB);
+        buffer = (uaddr)TQuestVmDownLoadServer::alloc(count << 0xB);
         buffer_address = buffer;
         if (buffer == 0U) {
             load_state = 3;
@@ -138,8 +138,8 @@ const char *lbl_805D3B48 = TChCrLoadAfs__class_name_string;
 TChCrLoadAfs::TChCrLoadAfs(TObject *object, void *arg2, void *arg3) : TObject(object) {
     m_name = lbl_805D3B48;
     load_handle = 0;
-    source_20 = (u32)arg2;
-    source_24 = (u32)arg3;
+    source_20 = (uaddr)arg2;
+    source_24 = (uaddr)arg3;
     buffer_address = 0;
     load_state = 0;
     state_30 = 0;
@@ -249,7 +249,7 @@ void TChCrLoadAfsTextureReq::start_read() {
         m_20 = 0;
         m_24 = 0;
         n = ADXF_GetFsizeSct(load_handle);
-        buf = (u32)TQuestVmDownLoadServer::alloc(n << 11);
+        buf = (uaddr)TQuestVmDownLoadServer::alloc(n << 11);
         buffers[index] = buf;
         if (buf != 0) {
             ADXF_ReadNw(load_handle, n, (void *)buffers[index]);

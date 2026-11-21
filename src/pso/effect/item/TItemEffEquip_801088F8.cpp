@@ -6,17 +6,16 @@
 
 extern "C" {
 
-
-void TItemEffEquip__sub_801088F8(u32 arg0) {
-    if (arg0 != 0U) {
-        ((TItemEffEquip *)arg0)->release_effect();
+void TItemEffEquip__sub_801088F8(TItemEffEquip *effect) {
+    if (effect != NULL) {
+        effect->release_effect();
     }
 }
 
 }
 
 void TItemEffEquip::release_effect() {
-    if (((u32) this->m_1c != 0U) && ((s32) *(s32 *)((s8 *)this + 0x24) != -1)) {
+    if (((uaddr) this->m_1c != 0U) && ((s32) *(s32 *)((s8 *)this + 0x24) != -1)) {
         TParticleCtrl::release((void *)this->m_20);
         spawn_equip_particle_effect(*(s32 *)((s8 *)this + 0x24));
     }

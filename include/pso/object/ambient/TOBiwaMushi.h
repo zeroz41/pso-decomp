@@ -18,5 +18,5 @@ struct TOBiwaMushi : public TODragonfly {
     static BmlResource *model_resource;
 };
 
-typedef char TOBiwaMushi_size[sizeof(TOBiwaMushi) == 0x100 ? 1 : -1];
+LAYOUT_ASSERT(TOBiwaMushi_size, sizeof(TOBiwaMushi) == 0x100);
 #endif

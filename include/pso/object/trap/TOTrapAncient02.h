@@ -27,6 +27,6 @@ struct TOTrapAncient02 : public TOTrap {
     static void load_resources();
 };
 
-typedef char TOTrapAncient02_size_check[(sizeof(TOTrapAncient02) == 0x35C) ? 1 : -1];
+LAYOUT_ASSERT(TOTrapAncient02_size_check, sizeof(TOTrapAncient02) == 0x35C);
 
 #endif

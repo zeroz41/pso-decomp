@@ -7,10 +7,10 @@
 struct TWindowMenu : public TWindowAddition {
     TWindowMenu(u32 rows, s32 client, s32 parent);
     virtual ~TWindowMenu();
-    s32 get_selected_entry();
+    saddr get_selected_entry();
     int sub_80266BB8();
     s32 test_menu_flag(s32 buttons);
-    void render_selected_entry(s32);
+    void render_selected_entry(saddr);
     void draw_selected_bar(u8 *);
     void layout_entries();
     void update_scroll_value();
@@ -57,5 +57,5 @@ struct TWindowMenu : public TWindowAddition {
     s32 is_locked(s32 arg1);
 };
 
-typedef char TWindowMenu_size[sizeof(TWindowMenu) == 0x8C ? 1 : -1];
+LAYOUT_ASSERT(TWindowMenu_size, sizeof(TWindowMenu) == 0x8C);
 #endif

@@ -51,7 +51,7 @@ void TAdTrialModemChkGC::render() {
     o->m7();
 }
 
-void TAdTrialModemChkGC::vfunc_7() { get_localized_text_entry((s32)((void*)35), (s32)((void*)0)); }
+void TAdTrialModemChkGC::vfunc_7() { get_localized_text_entry((saddr)((void*)35), (saddr)((void*)0)); }
 int TAdTrialModemChkGC::vfunc_6() { return request_main_phase((void*)(0)); }
 
 void TAdTrialModemChkGC::run_task() {

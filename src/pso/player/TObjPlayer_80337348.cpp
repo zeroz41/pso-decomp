@@ -27,7 +27,7 @@ s32 TObjPlayer::try_add_item_count(s32 arg0, s32 arg1, s32 arg2, u8 arg3) {
 }
 
 s32 TObjPlayer::can_use_more_materials(s32 arg1) {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     s32 t = get_total_materials_used(arg0);
     if ((u8)t >= get_material_limit_for_class(arg1)) {
         return 1;

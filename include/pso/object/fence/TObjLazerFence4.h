@@ -25,5 +25,5 @@ struct TObjLazerFence4 : public TObjCollidable {
     u8 unk_C4[0x34];
 };
 
-typedef char TObjLazerFence4_size[sizeof(TObjLazerFence4) == 0xF8 ? 1 : -1];
+LAYOUT_ASSERT(TObjLazerFence4_size, sizeof(TObjLazerFence4) == 0xF8);
 #endif

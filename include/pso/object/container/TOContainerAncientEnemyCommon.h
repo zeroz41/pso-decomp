@@ -9,5 +9,5 @@ struct TOContainerAncientEnemyCommon : public TOContainerAncientEnemy {
     virtual ~TOContainerAncientEnemyCommon();
 };
 
-typedef char TOContainerAncientEnemyCommon_size[sizeof(TOContainerAncientEnemyCommon) == 0x368 ? 1 : -1];
+LAYOUT_ASSERT(TOContainerAncientEnemyCommon_size, sizeof(TOContainerAncientEnemyCommon) == 0x368);
 #endif

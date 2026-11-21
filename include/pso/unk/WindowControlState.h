@@ -16,9 +16,9 @@ struct WindowControlState {
     f32 field18;
 };
 
-typedef char WindowControlState_size[sizeof(WindowControlState) == 0x1C ? 1 : -1];
-typedef char WindowControlState_field0C[offsetof(WindowControlState, field0C) == 0xC ? 1 : -1];
-typedef char WindowControlState_field18[offsetof(WindowControlState, field18) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(WindowControlState_size, sizeof(WindowControlState) == 0x1C);
+LAYOUT_ASSERT(WindowControlState_field0C, offsetof(WindowControlState, field0C) == 0xC);
+LAYOUT_ASSERT(WindowControlState_field18, offsetof(WindowControlState, field18) == 0x18);
 
 WindowControlState* get_window_control_state(s32 viewport_index);
 

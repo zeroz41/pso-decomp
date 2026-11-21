@@ -42,7 +42,7 @@ s32 lbl_805D65F0;
 void *scene_sora_instance;
 u16 scene_sora_reflect_active;
 u8 scene_sora_recon_active_flag;
-u32 scene_sora_recon_object;
+uaddr scene_sora_recon_object;
 
 // The direction the reflection ray is cast along (straight up until
 // TSceneSora::copy_reflection_vec replaces it).
@@ -61,7 +61,7 @@ struct Stack_8029E7BC
 };
 
 typedef struct Stack_8029E7BC Stack_8029E7BC;
-s32 fn_8029E7BC(s32 arg0, u8 *arg1) {
+s32 fn_8029E7BC(saddr arg0, u8 *arg1) {
   Stack_8029E7BC stack;
   s32 area;
   s32 var_r31;
@@ -75,7 +75,7 @@ s32 fn_8029E7BC(s32 arg0, u8 *arg1) {
   }
   VecCopy((Vec *)(&stack.sp8), (const Vec *)arg0);
   stack.spC += 35.0f;
-  temp_r3 = (u8 *) csnVecterUnder((s32)&stack.sp8, var_r31);
+  temp_r3 = (u8 *) csnVecterUnder((saddr)&stack.sp8, var_r31);
   if (temp_r3 != 0)
   {
     temp_r4 = (u8 *) (*((u8 **) (((s8 *) temp_r3) + 4)));
@@ -104,7 +104,7 @@ s32 reset_ind_tev_stages__13TParticleCtrlFPv();
 s32 TObjEneRecon::render_player_marker(u16 arg0, s32 arg1) {
     s32 sp8[8];
     s32 var_r3;
-    u32 player;
+    uaddr player;
 
     if (is_central_control_area() == 0) {
         return 0;
@@ -112,7 +112,7 @@ s32 TObjEneRecon::render_player_marker(u16 arg0, s32 arg1) {
     if ((u16) scene_sora_reflect_active == 0) {
         return 1;
     }
-    player = (u32)get_player_by_client_id(arg0);
+    player = (uaddr)get_player_by_client_id(arg0);
     if (player == 0U) {
         return 0;
     }
@@ -183,7 +183,7 @@ s32 TObjEneRecon__sub_8029EA4C(void *arg0, s32 _w1) {
 }
 
 void TObjEneRecon::update_particle_if_active() {
-    if (((u32) scene_sora_instance != 0U) && (((TSceneSora *)scene_sora_instance)->get_state() != 0U)) {
+    if (((uaddr) scene_sora_instance != 0U) && (((TSceneSora *)scene_sora_instance)->get_state() != 0U)) {
         reset_ind_tev_stages__13TParticleCtrlFPv();
     }
 }
@@ -192,7 +192,7 @@ s32 play_particle__13TParticleCtrlFls(u32, s32, s32);
 
 void TObjEneRecon::notify_scene(s32 arg0) {
     u32 temp_r31;
-    if ((u32) scene_sora_instance != 0U) {
+    if ((uaddr) scene_sora_instance != 0U) {
         temp_r31 = ((TSceneSora *)scene_sora_instance)->get_state();
         if (temp_r31 != 0U) {
             play_particle__13TParticleCtrlFls(temp_r31, 0, arg0);
@@ -221,11 +221,11 @@ void TObjEneRecon::destroy_instance() {
 
 
 void TObjEneRecon::alloc_if_valid_state() {
-    u32 temp_r3;
+    uaddr temp_r3;
 
     if (is_central_control_area() != 0) {
         scene_sora_instance = 0;
-        temp_r3 = (int)::operator new(0x28);
+        temp_r3 = (uaddr)::operator new(0x28);
         scene_sora_recon_object = temp_r3;
         if (temp_r3 != 0U) {
             ((TObjPlayer *)temp_r3)->init_render_target();
@@ -279,7 +279,7 @@ s32 fn_8029EC3C(Vec *pos, s32 arg1) {
         return 1;
     }
     if (0.0f == sora_reflection_ray_direction.x && 0.0f == sora_reflection_ray_direction.z) {
-        r = (CsnHit *)csnVecterUnder((s32)&a, arg1);
+        r = (CsnHit *)csnVecterUnder((saddr)&a, arg1);
     } else {
         r = csnVector(&a, &b, arg1);
     }
@@ -301,7 +301,7 @@ s32 fn_8029EC3C(Vec *pos, s32 arg1) {
 
 }
 
-void TObjPlayer__sub_8029EE2C(void) { TObjFish::set_global_param(lbl_805D65F0); load_list_texture((s32)((void*)0), (s32)((void*)0), (s32)((void*)0), (s32)((void*)2)); }
+void TObjPlayer__sub_8029EE2C(void) { TObjFish::set_global_param(lbl_805D65F0); load_list_texture((saddr)((void*)0), (saddr)((void*)0), (saddr)((void*)0), (saddr)((void*)2)); }
 
 struct Cam_8029EFFC { Vec pos; Vec scale; };
 
@@ -334,9 +334,8 @@ void GXSetTevOp(s32 stage, s32 mode);
 void GXSetTevOrder(s32 stage, s32 coord, s32 map, s32 color);
 }
 const f64 lbl_80465E18 = 0.0054931640625;
-extern u32 camera_ctrl_instance;
+extern uaddr camera_ctrl_instance;
 extern "C" {
-void VecCopy__FP3VecPC3Vec(Vec *, Vec *);
 void normalize_vector(Vec *);
 const Vec sora_reflection_up_vec = {0.0f, 1.0f, 0.0f};
 extern s32 TSceneSora__sky_active_flag;
@@ -410,7 +409,7 @@ void TUnk_804DC7C4::render_shadows() {
     {
         Vec off = p->pos2FC;
         off.y += 10.0f;
-        hit = fn_8029E7BC((s32)&off, (u8 *)&o->pos24);
+        hit = fn_8029E7BC((saddr)&off, (u8 *)&o->pos24);
     }
     if (is_boss_area() != 0) {
         hit = 1;
@@ -488,7 +487,7 @@ void TUnk_804DC7C4::render_shadows() {
             TSceneSora::copy_reflection_vec((u8 *)&v);
             push_matrix();
             push_matrix();
-            VecCopy__FP3VecPC3Vec(&tmp, &p->pos2FC);
+            VecCopy((Vec *)(&tmp), (const Vec *)(&p->pos2FC));
             r = fn_8029EC3C(&tmp, 0x4000);
             if (r == 1) {
                 ((TMainTask *)((u8 *)&main_task))->render_object_layers(0);

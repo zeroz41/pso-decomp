@@ -56,7 +56,7 @@ struct TrapAncient02ResourceRecord {
     BmlResourceDescriptor descriptor;
 };
 
-typedef char TrapAncient02ResourceRecord_size[sizeof(TrapAncient02ResourceRecord) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(TrapAncient02ResourceRecord_size, sizeof(TrapAncient02ResourceRecord) == 0x18);
 TrapAncient02ResourceRecord trap_ancient02_resources[3] = {
     { {"fs_obj_o_torabasami.gj", NULL},
       {"bm_fs_obj_o_torabasami.bml", trap_ancient02_resources[0].model_filenames, bm_fs_obj_o_torabasami_motion_names, 1, 0} },
@@ -230,7 +230,7 @@ void *TOTrapAncient02::create(void *set_data) {
 void TOTrapAncient02::render() {
     if (TMainTask::get_render_pass() != 1) {
         m_340 = update_object_view_visibility(400.0f, 20.0f);
-        if (m_340 == 1 && (particle_tev == 0 || is_split_screen() != 0 || dispatch_input_to_instance__18TAdEnterPasswordGCFi((s32)this) == 0)) {
+        if (m_340 == 1 && (particle_tev == 0 || is_split_screen() != 0 || dispatch_input_to_instance__18TAdEnterPasswordGCFi((saddr)this) == 0)) {
             set_draw_list_mask(3);
             if (particle_tev != 0) {
                 render_particle_chain();
@@ -250,22 +250,22 @@ void TOTrapAncient02::draw_effect_chain() {
     rotate_matrix_y(0, rotation_y);
     n = (NJS_OBJECT *)model;
     translate_matrix(0, n->pos[0], n->pos[1] + h344, n->pos[2]);
-    draw_ginja_model((s32)n->model);
+    draw_ginja_model((saddr)n->model);
     push_matrix();
     n = n->child;
     translate_matrix(0, n->pos[0], n->pos[1] + h348, n->pos[2]);
-    draw_ginja_model((s32)n->model);
+    draw_ginja_model((saddr)n->model);
     TParticleCtrl::begin_effect_render();
     push_matrix();
     n = n->child;
     post_translate_matrix(n->pos);
-    draw_ginja_model((s32)n->model);
+    draw_ginja_model((saddr)n->model);
     pop_matrix();
     push_matrix();
     n = n->sibling;
     post_translate_matrix(n->pos);
     rotate_matrix_y(0, spin_angle);
-    draw_ginja_model((s32)n->model);
+    draw_ginja_model((saddr)n->model);
     pop_matrix();
     TParticleCtrl::end_effect_render();
     pop_matrix();
@@ -282,7 +282,7 @@ void TOTrapAncient02::render_particle_chain() {
     setup_particle_tev(0);
     TObjFish::set_global_param(texlist);
     load_projection_tex_matrix(0x38E);
-    draw_ginja_model((s32)n->model);
+    draw_ginja_model((saddr)n->model);
     reset_particle_tev();
     push_matrix();
     n = n->child;
@@ -290,7 +290,7 @@ void TOTrapAncient02::render_particle_chain() {
     setup_particle_tev(0);
     TObjFish::set_global_param(texlist);
     load_projection_tex_matrix(0x38E);
-    draw_ginja_model((s32)n->model);
+    draw_ginja_model((saddr)n->model);
     reset_particle_tev();
     TParticleCtrl::begin_effect_render();
     push_matrix();
@@ -299,7 +299,7 @@ void TOTrapAncient02::render_particle_chain() {
     setup_particle_tev(1);
     TObjFish::set_global_param(texlist);
     load_projection_tex_matrix(0x38E);
-    draw_ginja_model((s32)n->model);
+    draw_ginja_model((saddr)n->model);
     reset_particle_tev();
     pop_matrix();
     push_matrix();
@@ -309,7 +309,7 @@ void TOTrapAncient02::render_particle_chain() {
     setup_particle_tev(0);
     TObjFish::set_global_param(texlist);
     load_projection_tex_matrix(0x38E);
-    draw_ginja_model((s32)n->model);
+    draw_ginja_model((saddr)n->model);
     reset_particle_tev();
     pop_matrix();
     TParticleCtrl::end_effect_render();
@@ -404,7 +404,7 @@ void TOTrapAncient02::vfunc_82() {
                 if (target != NULL && local_client_id == get_entity_id((TObjBase *)target)) {
                     p = get_player_by_client_id(local_client_id);
                     if (p != NULL && p->check_player_flag1() != 0) {
-                        TObjPlayer::send_code_45_1((s32)p);
+                        TObjPlayer::send_code_45_1((saddr)p);
                     }
                 }
             }
@@ -449,20 +449,20 @@ void TOTrapAncient02::vfunc_84() {
         case AREA_CAVE1:
         case AREA_CAVE2:
         case AREA_CAVE3:
-            play_persistent_sound(0x4461B, (s32)this, (u32)&position, 0, 0);
+            play_persistent_sound(0x4461B, (saddr)this, (uaddr)&position, 0, 0);
             return;
         case AREA_MINE1:
         case AREA_MINE2:
-            play_persistent_sound(0x4004C612, (s32)this, (u32)&position, 0, 0);
+            play_persistent_sound(0x4004C612, (saddr)this, (uaddr)&position, 0, 0);
             return;
         case AREA_RUINS1:
         case AREA_RUINS2:
         case AREA_RUINS3:
-            play_persistent_sound(0x4004C618, (s32)this, (u32)&position, 0, 0);
+            play_persistent_sound(0x4004C618, (saddr)this, (uaddr)&position, 0, 0);
             return;
         case AREA_VR_SPACESHIP_ALPHA:
         case AREA_VR_SPACESHIP_BETA:
-            play_persistent_sound(0x4004C610, (s32)this, (u32)&position, 0, 0);
+            play_persistent_sound(0x4004C610, (saddr)this, (uaddr)&position, 0, 0);
         case AREA_PIONEER2_EP1:
             return;
         case AREA_FOREST1:
@@ -580,7 +580,7 @@ void TOTrapAncient02R::find_target_player() {
 
 void TOTrapAncient02R::vfunc_81() {
     f32 d;
-    s32 ang;
+    saddr ang;
     set_indexed_flags(0, 1);
     submit_cursor_candidate(this, -1);
     switch (phase) {
@@ -649,7 +649,7 @@ void TOTrapAncient02R::vfunc_81() {
                         ((TTecGiBarta *)this)->create_ex(&scratch_vec, (void *)ang, (void *)tech_level);
                         break;
                     case 3:
-                        TTecMegid::create((s32)this, (s32)&scratch_vec, (s32)(Vec *)&((TObjChara *)target)->m_2fc, tech_level);
+                        TTecMegid::create((saddr)this, (saddr)&scratch_vec, (saddr)(Vec *)&((TObjChara *)target)->m_2fc, tech_level);
                         break;
                     case 4:
                         TTecGiFoie::create(this, &scratch_vec, (void *)tech_level);

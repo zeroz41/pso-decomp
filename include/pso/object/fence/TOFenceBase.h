@@ -31,6 +31,6 @@ public:
     s32 texture_variant;
 };
 
-typedef char TOFenceBaseSize[sizeof(TOFenceBase) == 0xD8 ? 1 : -1];
+LAYOUT_ASSERT(TOFenceBaseSize, sizeof(TOFenceBase) == 0xD8);
 
 #endif

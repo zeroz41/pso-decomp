@@ -11,7 +11,7 @@ struct TObjNpcMaleDwarf : public TUnk_804A9F50 {
     static void load_shared_resource();
 };
 
-typedef char TObjNpcMaleDwarf_size[sizeof(TObjNpcMaleDwarf) == 0x3B8 ? 1 : -1];
+LAYOUT_ASSERT(TObjNpcMaleDwarf_size, sizeof(TObjNpcMaleDwarf) == 0x3B8);
 
 class TObjControl;
 

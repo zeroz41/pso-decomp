@@ -22,7 +22,7 @@ struct TAdEnterBaseGC : public TObject {
     u8 unk_34[0x4];
 };
 
-typedef char TAdEnterBaseGC_size[sizeof(TAdEnterBaseGC) == 0x38 ? 1 : -1];
+LAYOUT_ASSERT(TAdEnterBaseGC_size, sizeof(TAdEnterBaseGC) == 0x38);
 
 extern "C" {
 void fn_8032AC94(void);

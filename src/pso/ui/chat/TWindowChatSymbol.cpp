@@ -54,7 +54,7 @@ struct Win_80248374 { u8 pad[0x2C]; int f2c; };
 extern "C" {
 void setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(Part_802480EC *arg0, Part_802480EC *arg1, Part_802480EC *arg2, u16 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7);
 void apply_part_to_window__28TWindowSubSymbolChatPartsSetFPvPvi(Obj_80248088 *arg0, Part_80248088 *arg1, s32 arg2);
-struct Ctl_80248324 { u8 pad[4]; s32 *tbl; };
+struct Ctl_80248324 { u8 pad[4]; Part_802480EC **tbl; };
 
 struct SymbolChatSpriteLayout {
     u32 cols;
@@ -245,21 +245,21 @@ void setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(Part_802480
     }
 }
 
-void TWindowSubSymbolChatPartsSet__sub_802482B8(s32 arg0, s32 arg1) {
+void TWindowSubSymbolChatPartsSet__sub_802482B8(saddr arg0, s32 arg1) {
     ((TWindowBase *)arg0)->get_array_entry(arg1 + 0x1);
 }
 
-u16 *TWindowSubSymbolChatPartsSet::get_parts_entry(s32 arg1) {
+u16 *TWindowSubSymbolChatPartsSet::get_parts_entry(saddr arg1) {
     return (u16 *)this->get_array_entry(arg1 + 9);
 }
 
 u16 *TWindowSubSymbolChatPartsSet::get_parts_entry(int arg0, int arg1) {
-    return (u16 *)((TWindowBase *)arg0)->get_array_entry(arg1 + 5);
+    return (u16 *)((TWindowBase *)(saddr)arg0)->get_array_entry(arg1 + 5);
 }
 
 void fn_80248324(Ctl_80248324 *c, s32 arg1, s32 cur) {
-    s32 *p = c->tbl + cur;
-    setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii((Part_802480EC *)(p[5]), (Part_802480EC *)(p[9]), (Part_802480EC *)(p[1]), (u16)((u8)arg1), (s32)((arg1 >> 8) & 7), (s32)((arg1 >> 11) & 1), (s32)((arg1 >> 12) & 1), cur);
+    Part_802480EC **p = c->tbl + cur;
+    setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(p[5], p[9], p[1], (u16)((u8)arg1), (s32)((arg1 >> 8) & 7), (s32)((arg1 >> 11) & 1), (s32)((arg1 >> 12) & 1), cur);
 }
 }
 
@@ -273,12 +273,12 @@ int set_symbol_chat_face_sprite(void *arg0, u8 b) {
 #undef w
 
 void fn_802483C8(void *arg0, u8 _w1) {
-    set_symbol_chat_face_sprite((void *)((void*)(*(s32 *)((s8 *)(*(void **)((s8 *)arg0 + 0x4)) + 0x0))), _w1);
+    set_symbol_chat_face_sprite((void *)((void*)(*(saddr *)((s8 *)(*(void **)((s8 *)arg0 + 0x4)) + 0x0))), _w1);
 }
 
 void TWindowSubSymbolChat__sub_802483F0(int a0, void* a1) { *(float*)((char*)a1 + 0x0) = 136.0f; *(float*)((char*)a1 + 0x4) = 90.0f; }
 
-void set_symbol_chat_parts__20TWindowSubSymbolChatFiPv(s32 arg0, void *arg1) {
+void set_symbol_chat_parts__20TWindowSubSymbolChatFiPv(saddr arg0, void *arg1) {
     s32 i;
     s32 j;
     s32 off;
@@ -296,8 +296,8 @@ void set_symbol_chat_parts__20TWindowSubSymbolChatFiPv(s32 arg0, void *arg1) {
     } while (j < 0xC);
 }
 
-void TWindowSubSymbolChat::init_layout_entries(s32 player) {
-    s32 arg0 = (s32)this;
+void TWindowSubSymbolChat::init_layout_entries(saddr player) {
+    saddr arg0 = (saddr)this;
     init_window_layout_entries((void *)arg0, &symbol_chat_layout_sprite_records, (void *)player);
 }
 
@@ -308,7 +308,7 @@ void TWindowSubSymbolChatPartsSet::update_visibility() {
         return;
     }
     ((TObject *)arg0)->allow_rendering();
-    set_symbol_chat_parts__20TWindowSubSymbolChatFiPv((s32)(arg0 + 0x24), (void *)(((TWindowSubSymbolChat *)(this->m_60))->get_data_ptr()));
+    set_symbol_chat_parts__20TWindowSubSymbolChatFiPv((saddr)(arg0 + 0x24), (void *)(((TWindowSubSymbolChat *)(this->m_60))->get_data_ptr()));
 }
 
 void TWindowSubSymbolChatPartsSet::set_selection(u32 arg1) {
@@ -319,9 +319,9 @@ void TWindowSubSymbolChatPartsSet::set_selection(u32 arg1) {
 }
 
 void TWindowSubSymbolChat::set_from_key(s32 arg1) {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     s8 *tmp = (s8 *)get_symbol_chat_preset(arg1);
-    ((TWindowSubSymbolChatPartsSet *)arg0)->set_selection((u32)((s32)tmp));
+    ((TWindowSubSymbolChatPartsSet *)arg0)->set_selection((u32)((saddr)tmp));
 }
 
 #pragma push
@@ -331,7 +331,7 @@ void render__17TWindowChatSymbolFv(u8 *window_chat_symbol) {
     f32 temp_f2;
     u8 *c_arg;
 
-    c_arg = (u8 *)TWindowDD::draw_default_entry((s32)window_chat_symbol);
+    c_arg = (u8 *)TWindowDD::draw_default_entry((saddr)window_chat_symbol);
     if ((s32) *(s32 *)((s8 *)c_arg + 0x30) < 0) {
         *(f32 *)((s8 *)c_arg + 0x28) = (f32) ((f32) *(s32 *)&((TWindowChatSymbol *)window_chat_symbol)->m_5c / 7.5f);
         *(f32 *)((s8 *)c_arg + 0x2C) = (f32) *(f32 *)((s8 *)c_arg + 0x28);
@@ -360,7 +360,7 @@ WindowDescriptor window_chat_symbol_settings = {
     {203.0f, 78.0f}, 50100.0f, &symbol_chat_layout_sprite_records, 0xB,
 };
 
-TWindowChatSymbol::TWindowChatSymbol(s32 arg1, s32 arg2) : TWindowBase((u8 *)&window_chat_symbol_settings, (s16)4, (u8 *)arg1) {
+TWindowChatSymbol::TWindowChatSymbol(saddr arg1, saddr arg2) : TWindowBase((u8 *)&window_chat_symbol_settings, (s16)4, (u8 *)arg1) {
     this->m_name = TWindowChatSymbol__name;
     fn_8024491C((void *)this, (void *)arg2);
     this->m_60 = 0;

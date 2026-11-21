@@ -22,7 +22,7 @@ struct TObjBoss2CeilJunk : public TObjBase {
     u8 unk_B4[0x4];
 };
 
-typedef char TObjBoss2CeilJunk_size[sizeof(TObjBoss2CeilJunk) == 0xB8 ? 1 : -1];
+LAYOUT_ASSERT(TObjBoss2CeilJunk_size, sizeof(TObjBoss2CeilJunk) == 0xB8);
 
 extern "C" {
 void *__dt__17TObjBoss2CeilJunkFv(void *arg0, s16 arg1);

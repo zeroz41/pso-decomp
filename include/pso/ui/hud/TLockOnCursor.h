@@ -134,7 +134,7 @@ struct TLockOnCursor : public TObject {
     virtual void run_task();
     static void free_cursor_resources();
     int render_part();
-    void update_cursor_pos();
+    int update_cursor_pos();
     void set_flag_8_bit0();
     void update_ring();
     void is_bit1_set();
@@ -142,11 +142,11 @@ struct TLockOnCursor : public TObject {
     void update_ring_sub();
     int test_flag_1_at_8();
     s32 get_target();
-    s32 release_target();
-    s32 cleanup_field();
-    s32 cleanup_field_3c();
+    saddr release_target();
+    saddr cleanup_field();
+    saddr cleanup_field_3c();
     void reset_and_spawn_cursors();
 };
 
-typedef char TLockOnCursor_size[sizeof(TLockOnCursor) == 0x52C ? 1 : -1];
+LAYOUT_ASSERT(TLockOnCursor_size, sizeof(TLockOnCursor) == 0x52C);
 #endif

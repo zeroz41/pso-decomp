@@ -111,7 +111,7 @@ extern s32 local_client_id;
 }
 void set_constant_material_color(u32 x);
 
-u8 *TParticleCtrl::init_particle_obj(s32 arg1, s32 arg2) {
+u8 *TParticleCtrl::init_particle_obj(s32 arg1, saddr arg2) {
     __ct__8TObjBaseFP7TObject(this, (void *)arg2);
     *(s32 **)((s8 *)((u8 *)this) + 0x18) = __vt__13TUnk_8048E6DC;
     ((VObj_18_1a504b *)(this))->m5(arg1);
@@ -206,7 +206,7 @@ void TUnk_8048E6DC::render() {
     }
     set_additive_blend();
     begin_screen_draw(1);
-    TObjFish::set_global_param((s32)lbl_804C5820[31].texlist);
+    TObjFish::set_global_param((saddr)lbl_804C5820[31].texlist);
     set_draw_texture_and_color(lbl_804C5820[31].texture, -1);
     if (self->f94 < 0.0f) {
         color.a = 0;
@@ -276,7 +276,7 @@ u8 *TParticleCtrl::create_particle_obj_90(s32 arg0) {
     return var_r0;
 }
 
-u8 *TParticleCtrl::construct_particle_obj(s32 arg1, s32 arg2) {
+u8 *TParticleCtrl::construct_particle_obj(s32 arg1, saddr arg2) {
     __ct__8TObjBaseFP7TObject(this, (void *)arg2);
     *(s32 **)((s8 *)((u8 *)this) + 0x18) = __vt__13TUnk_8048E6A8;
     ((VObj_18_1a504b *)(this))->m5(arg1);
@@ -289,9 +289,9 @@ TUnk_8048E6A8::~TUnk_8048E6A8() {
 
 void TUnk_8048E6A8::run_task() {
     u8 *arg0 = (u8 *)this;
-    u32 player;
+    uaddr player;
 
-    player = (u32)get_player_by_client_id((local_client_id));
+    player = (uaddr)get_player_by_client_id((local_client_id));
     if ((player != 0U) && (horizontal_distance_squared((const Vec *)(player + 0x38), (const Vec *)(arg0 + 0x38)) < 400.0f)) {
         if (this->scale.x > 0.0f) {
             lbl_805D2930 = 1;

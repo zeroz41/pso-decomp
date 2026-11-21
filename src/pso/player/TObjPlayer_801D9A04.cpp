@@ -20,7 +20,7 @@ s32 TObjPlayer::is_valid_technique_slot(u8 arg0) {
     return (u8)((u8) (arg0 <= 0xFU));
 }
 
-s32 TObjPlayer::check_technique_level(s32 arg0, s32 arg1, u8 arg2) {
+s32 TObjPlayer::check_technique_level(saddr arg0, s32 arg1, u8 arg2) {
     if (TObjPlayer::is_invalid_slot(arg2) != 0) {
         return 1;
     }

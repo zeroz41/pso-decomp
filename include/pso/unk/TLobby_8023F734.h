@@ -6,7 +6,7 @@ struct AdxfHandle;
 #include "types.h"
 
 struct Ent_8023FCC0 {
-    u32 h[4];
+    uaddr h[4];
     s32 k[4];
     s32 pad20;
 };
@@ -73,7 +73,7 @@ void TLobby__sub_802409F0(struct SoundRequestVoice *v);
 void TLobby__sub_80240F38(void);
 void TLobby__sub_80241A0C(void);
 void TLobby__sub_802422EC(void *arg0, void *arg1);
-void TLobby__sub_8024259C(s32 arg0);
+void TLobby__sub_8024259C(saddr arg0);
 void TLobby__sub_8024285C(void *p);
 s32 advance_rng__6TLobbyFv(void *arg0);
 char *build_text_from_comma_list__6TLobbyFv(char *list);
@@ -128,11 +128,11 @@ void TLobby__sub_802409F0(struct SoundRequestVoice *v);
 void TLobby__sub_80240F38(void);
 void TLobby__sub_80241A0C(void);
 void TLobby__sub_802422EC(void *arg0, void *arg1);
-void TLobby__sub_8024259C(s32 arg0);
+void TLobby__sub_8024259C(saddr arg0);
 void TLobby__sub_8024285C(void *p);
 s32 advance_rng__6TLobbyFv(void *arg0);
 }
-s32 alloc_looping_sound_slot(u32 id, s32 actor, const void *position, s32 base, s32 flags);
+s32 alloc_looping_sound_slot(u32 id, saddr actor, const void *position, s32 base, s32 flags);
 s32 alloc_one_shot_sound_slot(u32 id, const void *position, s32 base, s32 flags);
 extern "C" {
 char *build_text_from_comma_list__6TLobbyFv(char *list);

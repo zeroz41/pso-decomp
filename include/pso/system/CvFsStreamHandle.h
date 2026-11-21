@@ -29,10 +29,10 @@ struct CvFsDeviceInterface {
     void *reserved_64;
 };
 
-typedef char CvFsDeviceInterfaceSize[sizeof(CvFsDeviceInterface) == 0x68 ? 1 : -1];
-typedef char CvFsDeviceSeekOffset[offsetof(CvFsDeviceInterface, seek) == 0x18 ? 1 : -1];
-typedef char CvFsDeviceTellOffset[offsetof(CvFsDeviceInterface, tell) == 0x1C ? 1 : -1];
-typedef char CvFsDeviceStatusOffset[offsetof(CvFsDeviceInterface, get_status) == 0x2C ? 1 : -1];
+LAYOUT_ASSERT(CvFsDeviceInterfaceSize, sizeof(CvFsDeviceInterface) == 0x68);
+LAYOUT_ASSERT(CvFsDeviceSeekOffset, offsetof(CvFsDeviceInterface, seek) == 0x18);
+LAYOUT_ASSERT(CvFsDeviceTellOffset, offsetof(CvFsDeviceInterface, tell) == 0x1C);
+LAYOUT_ASSERT(CvFsDeviceStatusOffset, offsetof(CvFsDeviceInterface, get_status) == 0x2C);
 
 typedef CvFsDeviceInterface *(*CvFsDeviceFactory)();
 struct CvFsHandle;

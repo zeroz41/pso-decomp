@@ -25,17 +25,17 @@ extern s32 lbl_805D669C;
 
 extern "C" {
 
-u32 Dolphin_ARAlloc(u32);
+u32 ARAlloc(u32);
 
     extern int snapshot_aligned_buffer_size;
-void TWindowSnapShot::init_default() { TLobby::aram_transfer_sync((s32)((void*)1), (u32)((void*)shared_snapshot_capture->get_field_8()), lbl_805D669C, snapshot_aligned_buffer_size); }
+void TWindowSnapShot::init_default() { TLobby::aram_transfer_sync((saddr)((void*)1), (uaddr)((void*)shared_snapshot_capture->get_field_8()), lbl_805D669C, snapshot_aligned_buffer_size); }
 
 void TWindowSnapShot__sub_802A7DA0(void) {  }
 
 void TWindowSnapShot::alloc_buffer() {
     s32 file_size = TGStream::get_resource_file_size(get_player_motion_filename());
     snapshot_aligned_buffer_size = (file_size + 31) & ~31;
-    lbl_805D669C = Dolphin_ARAlloc(file_size);
+    lbl_805D669C = ARAlloc(file_size);
 }
 
 }
@@ -92,12 +92,12 @@ s32 load_player_motion_data(void) {
     if (shared_snapshot_capture == NULL) {
         return 0;
     }
-    shared_snapshot_capture->start_capture((s32)player_motion_data_filename_ptr);
+    shared_snapshot_capture->start_capture((saddr)player_motion_data_filename_ptr);
     return 1;
 }
 
-s32 RlcArchive::get_size() { return (s32)header; }
-s32 RlcArchive::get_field_8() { return (s32)buffer; }
+saddr RlcArchive::get_size() { return (saddr)header; }
+saddr RlcArchive::get_field_8() { return (saddr)buffer; }
 int TWindowSnapShot::get_height() { return 600; }
 
 const char *get_player_motion_filename(void) { return player_motion_data_filename_ptr; }
@@ -110,7 +110,7 @@ void TWindowSnapShot::play_open_sound() {
 void render__15TWindowSnapShotFv(u8 *arg0) {
     Stack_802A7F00 stack;
     u8 *temp_r3;
-    temp_r3 = (u8 *)TWindowDD::draw_default_entry((s32)arg0);
+    temp_r3 = (u8 *)TWindowDD::draw_default_entry((saddr)arg0);
     ((TWindowBase *)arg0)->draw_window_frame(temp_r3);
     draw_visible_window_entries(arg0, arg0 + 0x24, temp_r3);
     if (!(((TWindowSnapShot *)arg0)->m_60 & 2)) {
@@ -138,8 +138,8 @@ void TWindowSnapShot::run_task() {
 }
 
 TWindowSnapShot::~TWindowSnapShot() {}
-TWindowSnapShot::TWindowSnapShot(s32 arg1) : TWindowBase((u8 *)&window_snapshot_layout, (s16)4, (u8 *)arg1) {
-    s32 temp_r31;
+TWindowSnapShot::TWindowSnapShot(saddr arg1) : TWindowBase((u8 *)&window_snapshot_layout, (s16)4, (u8 *)arg1) {
+    saddr temp_r31;
     m_name = TWindowSnapShot__name;
     this->m_60 = 0U;
     if (verify_snapshot_checksum__15TObjBoss2TunnelFv() == 0) {

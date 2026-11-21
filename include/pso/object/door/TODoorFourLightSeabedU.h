@@ -9,6 +9,6 @@ struct TODoorFourLightSeabedU : public TODoorFourLightBase {
     virtual s32 vfunc_21();
     virtual s32 vfunc_22();
 };
-typedef char TODoorFourLightSeabedU_size[sizeof(TODoorFourLightSeabedU) == 0xFC ? 1 : -1];
+LAYOUT_ASSERT(TODoorFourLightSeabedU_size, sizeof(TODoorFourLightSeabedU) == 0xFC);
 
 #endif

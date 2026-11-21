@@ -31,9 +31,8 @@ extern s32 __vt__13TUnk_804ED598[];
 int GXSetNumIndStages(int);
 int GXSetTevDirect(int);
 extern s32 __vt__13TUnk_804ED5B0[];
-s32 __nw__7TObjectFUl(int);
 s32 __ct__7TObjectFP7TObject(void *, void *);
-extern s32 tl_05;
+extern saddr tl_05;
 s32 GXSetNumTexGens(int);
 s32 GXSetNumTevStages(int);
 s32 rotate_matrix_y(int, int);
@@ -82,9 +81,9 @@ void reset_indirect_tev(s32 second_stage) {
     set_ginja_post_texgen_count(0);
 }
 
-u8 *create_telepipe_marker(u8 *arg0, s32 arg1, s8 arg2, s8 arg3, s32 arg4, s32 arg5, s32 arg6, f32 farg0, f32 farg1) {
-    s32 temp_r3;
-    s32 var_r0;
+u8 *create_telepipe_marker(u8 *arg0, saddr arg1, s8 arg2, s8 arg3, saddr arg4, s32 arg5, s32 arg6, f32 farg0, f32 farg1) {
+    saddr temp_r3;
+    saddr var_r0;
     __ct__7TObjectFP7TObject((void *)arg0, (void *)arg4);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_804ED598;
     *(f32 *)((s8 *)arg0 + 0x1C) = farg0;
@@ -93,10 +92,10 @@ u8 *create_telepipe_marker(u8 *arg0, s32 arg1, s8 arg2, s8 arg3, s32 arg4, s32 a
     ((TUnk_804ED598 *)arg0)->m_30 = arg2;
     *(s8 *)((s8 *)arg0 + 0x31) = arg3;
     ((TUnk_804ED598 *)arg0)->m_34 = arg5;
-    temp_r3 = __nw__7TObjectFUl(0x20);
+    temp_r3 = (saddr)TObject::operator new(0x20);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
-        var_r0 = (s32)construct_indirect_effect_task((u8 *)temp_r3, 0x1F, 0, (u8 *)tl_05);
+        var_r0 = (saddr)construct_indirect_effect_task((u8 *)temp_r3, 0x1F, 0, (u8 *)tl_05);
     }
     *(s32 *)((s8 *)arg0 + 0x40) = var_r0;
     *(s32 *)((s8 *)arg0 + 0x38) = 1;
@@ -161,7 +160,7 @@ void TUnk_804ED598::render() {
         rotate_matrix_y(0, *(s32 *)(camera_ctrl_instance + 0x194));
         rotate_matrix_x(0, *(s32 *)(camera_ctrl_instance + 0x190));
         load_projected_texture_matrix(1.1333334f);
-        TObjFish::set_global_param((s32)lbl_804C5820[9].texlist);
+        TObjFish::set_global_param((saddr)lbl_804C5820[9].texlist);
         set_texture_num(o->f31);
         TParticleCtrl::setup_particle_draw(1);
         GXSetNumTevStages(2);

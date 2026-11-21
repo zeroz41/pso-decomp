@@ -14,6 +14,6 @@ public:
     s32 delay_frames;      // name inferred
     char music_name[0x20]; // passed to play_area_music
 };
-typedef char TUnk_804C3E88_size[sizeof(TUnk_804C3E88) == 0x40 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804C3E88_size, sizeof(TUnk_804C3E88) == 0x40);
 
 #endif

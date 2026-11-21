@@ -10,7 +10,7 @@ void clear_sound_listener_position(void);
 int TLobby__sub_80226B64(void);
 void TLobby__sub_802272B4(void);
 void TLobby__sub_8022733C(void);
-void play_cue_stream_file(s32 name);
+void play_cue_stream_file(saddr name);
 }
 void set_cue_stream_gain(s32 arg0);
 void init_music_sequencer(s32 program);

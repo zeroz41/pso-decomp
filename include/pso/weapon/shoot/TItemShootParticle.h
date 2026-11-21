@@ -17,6 +17,6 @@ public:
     s32 spawn_slot_emitter(s32 effect_id, s32 slot);
     void set_particle_flags(s16 flags);
 };
-typedef char TItemShootParticle_size[sizeof(TItemShootParticle) == 0x64 ? 1 : -1];
+LAYOUT_ASSERT(TItemShootParticle_size, sizeof(TItemShootParticle) == 0x64);
 
 #endif

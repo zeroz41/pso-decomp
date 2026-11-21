@@ -24,7 +24,7 @@ struct BreakupNode_8002E818 {
     BreakupNode_8002E818 *next;
 };
 
-struct Node_8002E3D4 { u8 pad[4]; s32 f4; u8 pad8[0x30 - 8]; Node_8002E3D4 *next; };
+struct Node_8002E3D4 { u8 pad[4]; saddr f4; u8 pad8[0x30 - 8]; Node_8002E3D4 *next; };
 
 struct Mesh_8002E3D4 { u8 pad[0x2C]; Node_8002E3D4 *nodes; };
 
@@ -35,7 +35,7 @@ struct Holder_8002E3D4 { u8 pad[0x42C]; Model_8002E3D4 *model; };
 extern "C" {
 void TObjLight__sub_801337F8(s32);
 s32 rotate_matrix_z(int, int);
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
+void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 s32 rotate_matrix_x(int, int);
 void push_matrix(void);
 s32 pop_matrix();
@@ -48,7 +48,7 @@ void scale_matrix(int, f32, f32, f32);
 void rotate_matrix_by_node_angles(void *angles, s32 mode);
 void scale_current_matrix(Vec *scale);
 f32 vec3_add_to(void *, void *);
-extern s32 current_scene_light;
+extern saddr current_scene_light;
 extern u32 model_render_flags;
 extern u32 saved_model_render_flags;
 extern Holder_8002E3D4 *lbl_805D4BA4;

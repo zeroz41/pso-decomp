@@ -14,9 +14,9 @@ extern "C" void update_file_stream_range(void *context) {
     if (((s32) *(u8 *)((s8 *)arg0 + 0x1A8) == 1) && ((s32) *(s32 *)((s8 *)arg0 + 0x1B0) >= (s32) *(s32 *)((s8 *)arg0 + 0x1BC))) {
         *(s32 *)((s8 *)arg0 + 0x1B0) = (s32) *(s32 *)((s8 *)arg0 + 0x1B8);
     }
-    if (((s32) *(u8 *)((s8 *)arg0 + 0x1A9) == 1) && ((s32) *(s32 *)((s8 *)arg0 + 0x1B0) < ((TLobby *)(*(s32 *)(arg0 + 4)))->get_scroll_offset())) {
+    if (((s32) *(u8 *)((s8 *)arg0 + 0x1A9) == 1) && ((s32) *(s32 *)((s8 *)arg0 + 0x1B0) < (*reinterpret_cast<TLobby **>(arg0 + 4))->get_scroll_offset())) {
         TLobby__sub_803CE220();
-        ((TLobby *)(*(s32 *)(arg0 + 4)))->get_entry_pair((s32)((int) (*(s32 *)((s8 *)arg0 + 0x1B0))), &spC, &sp8);
+        (*reinterpret_cast<TLobby **>(arg0 + 4))->get_entry_pair((s32)((int) (*(s32 *)((s8 *)arg0 + 0x1B0))), &spC, &sp8);
         set_scroll_offset__6TLobbyFl(*(AdxStreamFile **)(arg0 + 8), spC / 2048);
         set_scroll_position__6TLobbyFl(*(AdxStreamFile **)(arg0 + 8), (spC + sp8) / 2048);
         init_stream_position__6TLobbyFv(*(AdxStreamFile **)(arg0 + 8));

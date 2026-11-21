@@ -30,6 +30,6 @@ public:
     u16 target_id;
     u16 src_id;
 };
-typedef char TUnk_804E14E8_size[sizeof(TUnk_804E14E8) == 0x10C ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804E14E8_size, sizeof(TUnk_804E14E8) == 0x10C);
 
 #endif

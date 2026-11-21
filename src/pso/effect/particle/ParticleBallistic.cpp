@@ -19,6 +19,7 @@
 #include "pso/unk/TUnk_8048E778.h"
 
 #include "types.h"
+#include <stdlib.h>
 
 #include "pso/effect/particle/TParticleCtrl_80327D30.h"
 #include "pso/player/TObjPlayer_80083594.h"
@@ -127,9 +128,9 @@ struct Part_800890F4 {
     f32 scx;
     f32 scy;
     u8 padAC[0xB0 - 0xAC];
-    u32 model;
+    uaddr model;
     u32 texlist;
-    u32 motion;
+    uaddr motion;
     f32 frame;
     u8 padC0[0xC4 - 0xC0];
     Vec vel;
@@ -137,7 +138,6 @@ struct Part_800890F4 {
 
 extern "C" {
 f32 vec_squared_length(u8 *arg0);
-s32 rand(void);
 s32 rotate_matrix_y(s32, s32);
 void project_world_to_screen(int, void *, void *);
 s32 push_matrix(f32);
@@ -545,7 +545,7 @@ void TUnk_8048E778::render() {
 TUnk_8048E778::~TUnk_8048E778() {}
 #pragma push
 #pragma fp_contract on
-TUnk_8048E778::TUnk_8048E778(void *a1, void *a2, void *a3, s32 arg4, u16 arg5, s16 arg6)
+TUnk_8048E778::TUnk_8048E778(void *a1, void *a2, void *a3, saddr arg4, u16 arg5, s16 arg6)
     : TUnk_8048E728((ParticleParam *)a1, (TObject *)arg4) {
     Fields0_800896E4 *p = (Fields0_800896E4 *)this;
     Fields1_800896E4 *d = (Fields1_800896E4 *)a1;

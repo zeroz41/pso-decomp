@@ -30,7 +30,7 @@ static NJS_TEXLIST player_tex_texture_list = { player_tex_texture_names, 1 };  /
 
 const char *TAdTitleTexGC__name = "TAdTitleTexGC";
 
-s32 lbl_805D6668;
+saddr lbl_805D6668;
 
 struct B_802A4EF4 {
     f32 x, y, x2, y2;
@@ -71,9 +71,9 @@ void TLobby__sub_802A5154(void) {
     const char *files[5] = {
         "f256_player_tex", "f256_player_tex_eng", "f256_player_tex_eng", "f256_player_tex_eng", "f256_player_tex_eng",
     };
-    s32 list = (s32)lists[current_language];
+    s32 list = (saddr)lists[current_language];
     lbl_805D6668 = list;
-    load_streamed_prs_texture((s32)files[current_language], list);
+    load_streamed_prs_texture((saddr)files[current_language], list);
 }
 
 void TLobby::free_dialing_gc() {
@@ -152,7 +152,7 @@ void TAdTitleTexGC::render() {
 }
 
 void TAdTitleTexGC::render_status_pair(s32 arg1) {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     begin_screen_draw(1);
     TObjFish::set_global_param(lbl_805D6668);
     set_draw_texture_and_color(0, arg1);

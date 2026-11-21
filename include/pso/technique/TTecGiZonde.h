@@ -6,7 +6,7 @@
 #include "pso/player/TargetCursorList.h"
 
 struct TTecGiZonde : public TUnk_804CCC68 {
-    TTecGiZonde(s32 source, Vec *pos, void *targets, s32 level);
+    TTecGiZonde(saddr source, Vec *pos, void *targets, s32 level);
     virtual ~TTecGiZonde();
     virtual void vfunc_8(void *);
     s32 find_chain_targets();
@@ -17,5 +17,5 @@ struct TTecGiZonde : public TUnk_804CCC68 {
     void deliver_chain_hits();
 };
 
-typedef char TTecGiZonde_size[sizeof(TTecGiZonde) == 0x18C ? 1 : -1];
+LAYOUT_ASSERT(TTecGiZonde_size, sizeof(TTecGiZonde) == 0x18C);
 #endif

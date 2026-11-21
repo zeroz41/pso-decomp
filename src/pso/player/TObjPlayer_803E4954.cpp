@@ -37,7 +37,7 @@ void TObjPlayer::clear_move_state_bits() {
 
 extern s32 (*player_chunk_draw_end_callback)();
 
-void TObjPlayer::set_global_state(s32 arg0) {
+void TObjPlayer::set_global_state(saddr arg0) {
     player_chunk_draw_end_callback = (s32 (*)())arg0;
 }
 
@@ -57,7 +57,7 @@ void draw_blend_motion_tree(NJS_OBJECT *model, NJS_MOTION_LINK *motion, f32 blen
 
 void draw_object_tree_recursive(void *arg) {
     struct Node_803E49FC *arg0 = (struct Node_803E49FC *)arg;
-    u32 t;
+    uaddr t;
     do {
         push_matrix();
         ((TObjPlayer *)arg0)->apply_motion_node_transform();
@@ -105,13 +105,13 @@ void draw_motion_tree(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame, ModelDra
     bind_motion_context(motion, frame);
     model_draw_context->draw = draw_model;
     if (motion_packed_rotation_mode != 0) {
-        current_motion_context->f28 = (s32)motion_angle_sampler_table[3];
+        current_motion_context->f28 = (saddr)motion_angle_sampler_table[3];
     }
     traverse_animated_node_tree(model);
 }
 void traverse_animated_node_tree(void *arg) {
     struct Node_803E49FC *arg0 = (struct Node_803E49FC *)arg;
-    u32 t;
+    uaddr t;
     do {
         push_matrix();
         compose_motion_node_matrix(arg0);

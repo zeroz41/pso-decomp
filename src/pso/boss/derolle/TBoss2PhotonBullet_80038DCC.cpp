@@ -86,7 +86,7 @@ typedef struct Pad_80039140 {
     u8 pad0[0x10];
     void *parent;
     u8 pad14[8];
-    s32 unk1C;
+    saddr unk1C;
     u8 pos[8];
     u8 unk28[4];
     s32 level;
@@ -115,7 +115,7 @@ void render_shadows__7TObjectFv(void);
 #define o ((S_80039288 *)this)
 TBoss2PhotonPad::TBoss2PhotonPad(TObject *parent, Vec *start, Vec *dir, s32 level) : TObject(parent) {
     o->f0 = TBoss2PhotonPad__name;
-    o->f1c = (s32)start;
+    o->f1c = (saddr)start;
     o->f2c = level;
     VecCopy((Vec *)o->v20, dir);
     rotate_xz_pair_by_angle((f32 *)o->v20, (f32 *)o->v28, (s32)(-(TBoss2PhotonPad__bullet_level_param_table[o->f2c].c / 2)));
@@ -192,9 +192,9 @@ void TBoss2PhotonBullet::run_task() {
     *(f32 *)((s8 *)object + 0x38) = *(f32 *)((s8 *)object + 0xC0);
     *(f32 *)((s8 *)object + 0x40) = *(f32 *)((s8 *)object + 0xC8);
     if (*(u32 *)((s8 *)object + 0xE4) == 0) {
-        *(u32 *)((s8 *)object + 0xE4) = (u32)spawn_continuous_particle_effect_with_flags(object + 0xC0, 0xDF, 0x40);
+        *(u32 *)((s8 *)object + 0xE4) = (uaddr)spawn_continuous_particle_effect_with_flags(object + 0xC0, 0xDF, 0x40);
     } else {
-        ((TParticleCtrl *)(void *)*(u32 *)((s8 *)object + 0xE4))->set_position(object + 0xC0);
+        ((TParticleCtrl *)(void *)*(uaddr *)((s8 *)object + 0xE4))->set_position(object + 0xC0);
     }
     if (*(s32 *)((s8 *)object + 0xD8) % 15 == 0) {
         if (project_actor_to_ground(object, object + 0x38, object + 0xCC) != 0) {

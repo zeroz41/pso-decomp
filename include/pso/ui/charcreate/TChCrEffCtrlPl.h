@@ -23,7 +23,7 @@ public:
     s32 m_34;
 };
 
-typedef char TChCrEffCtrlPl_size[sizeof(TChCrEffCtrlPl) == 0x38 ? 1 : -1];
+LAYOUT_ASSERT(TChCrEffCtrlPl_size, sizeof(TChCrEffCtrlPl) == 0x38);
 
 extern "C" {
 int TChCrEffCtrlPl__sub_80298F6C(void *p);

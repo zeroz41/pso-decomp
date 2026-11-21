@@ -21,7 +21,7 @@ struct TObjEneRe7BeruraPunch : public TUnk_804928CC {
     int is_patrol_active();
     virtual void render();
     void update_velocity_and_snap();
-    void launch(s32 arg1, s32 arg2);
+    void launch(s32 arg1, saddr arg2);
 
     u16 owner_id;  // get_entity_id(owner) in the ctor; find_entity_by_id gives the Berura back
     u8 unk_B2[0x2];
@@ -43,6 +43,6 @@ struct TObjEneRe7BeruraPunch : public TUnk_804928CC {
     s32 m_118;
 };
 
-typedef char TObjEneRe7BeruraPunch_size[sizeof(TObjEneRe7BeruraPunch) == 0x11C ? 1 : -1];
+LAYOUT_ASSERT(TObjEneRe7BeruraPunch_size, sizeof(TObjEneRe7BeruraPunch) == 0x11C);
 
 #endif

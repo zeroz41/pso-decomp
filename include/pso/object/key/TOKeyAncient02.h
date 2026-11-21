@@ -22,5 +22,5 @@ public:
     s32 lamp_angle;   // the lamp's y rotation
 };
 
-typedef char TOKeyAncient02_size[sizeof(TOKeyAncient02) == 0xF0 ? 1 : -1];
+LAYOUT_ASSERT(TOKeyAncient02_size, sizeof(TOKeyAncient02) == 0xF0);
 #endif

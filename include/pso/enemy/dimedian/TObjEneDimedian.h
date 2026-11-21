@@ -31,7 +31,7 @@ struct TObjEneDimedian : public TUnk_80493450 {
     static void free_boss_objects();
 };
 
-typedef char TObjEneDimedian_size[sizeof(TObjEneDimedian) == 0x43C ? 1 : -1];
+LAYOUT_ASSERT(TObjEneDimedian_size, sizeof(TObjEneDimedian) == 0x43C);
 
 
 #endif

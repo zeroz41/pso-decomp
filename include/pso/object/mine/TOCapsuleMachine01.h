@@ -14,6 +14,6 @@ struct TOCapsuleMachine01 : public TObjMapObject {
     static void alloc_and_load_resource();
 };
 
-typedef char TOCapsuleMachine01_size[sizeof(TOCapsuleMachine01) == 0xC8 ? 1 : -1];
+LAYOUT_ASSERT(TOCapsuleMachine01_size, sizeof(TOCapsuleMachine01) == 0xC8);
 
 #endif

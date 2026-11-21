@@ -9,6 +9,6 @@ public:
     virtual ~TLOC_End();
     virtual void run_task();
 };
-typedef char TLOC_End_size[sizeof(TLOC_End) == 0x24 ? 1 : -1];
+LAYOUT_ASSERT(TLOC_End_size, sizeof(TLOC_End) == 0x24);
 
 #endif

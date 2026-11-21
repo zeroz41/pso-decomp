@@ -44,7 +44,7 @@ LensFlareElement lens_flare_reflected_element_descriptors[10] = {
 extern "C" {
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__13TEF_LensFlare[];
-u8 *TEF_LensFlare__ct(u8 *arg0, s32 arg1, s32 arg2);
+u8 *TEF_LensFlare__ct(u8 *arg0, saddr arg1, saddr arg2);
 
 }
 TEF_LensFlare::~TEF_LensFlare() {
@@ -144,7 +144,7 @@ void TEF_LensFlare::render() {
                 sprite->scale_x = 20.0f * s;
                 sprite->scale_y = sprite->scale_x;
                 begin_screen_draw(1);
-                TObjFish::set_global_param((s32)lbl_804C5820[15].texlist);
+                TObjFish::set_global_param((saddr)lbl_804C5820[15].texlist);
                 set_draw_texture_and_color(lbl_804C5820[15].texture, -1);
                 f32 x = at.x;
                 f32 y = at.y;
@@ -194,7 +194,7 @@ void TEF_LensFlare::render() {
             sprite->scale_x = 1.0f;
             sprite->scale_y = sprite->scale_x;
             begin_screen_draw(1);
-            TObjFish::set_global_param((s32)lbl_804C5820[9].texlist);
+            TObjFish::set_global_param((saddr)lbl_804C5820[9].texlist);
             set_draw_texture_and_color(lbl_804C5820[9].texture, -1);
             f32 x = at.x;
             f32 y = at.y;
@@ -242,7 +242,7 @@ void TEF_LensFlare::render() {
                 sprite->scale_y = sprite->scale_x;
                 begin_screen_draw(1);
                 GinjaTextureList *texlist = lbl_804C5820[9 + e->sprite].texlist;
-                TObjFish::set_global_param((s32)texlist);
+                TObjFish::set_global_param((saddr)texlist);
                 set_draw_texture_and_color(lbl_804C5820[9 + e->sprite].texture, -1);
                 f32 sy;
                 f32 sx = 2.0f * sprite->scale_x;
@@ -274,7 +274,7 @@ void TEF_LensFlare::render() {
 #pragma pop
 
 
-u8 *TEF_LensFlare__ct(u8 *ef_lens_flare, s32 parent, s32 arg2) {
+u8 *TEF_LensFlare__ct(u8 *ef_lens_flare, saddr parent, saddr arg2) {
     __ct__8TObjBaseFP7TObject((void *)ef_lens_flare, (void *)parent);
     *(s32 **)((s8 *)ef_lens_flare + 0x18) = __vt__13TEF_LensFlare;
     ((TEF_LensFlare *)ef_lens_flare)->m_name = TEF_LensFlare__class_name;

@@ -28,6 +28,6 @@ public:
     Vec unk_E0;
     s32 m_ec;
 };
-typedef char TUnk_8049442C_size[sizeof(TUnk_8049442C) == 0xF0 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_8049442C_size, sizeof(TUnk_8049442C) == 0xF0);
 
 #endif

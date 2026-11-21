@@ -13,5 +13,5 @@ struct TObjCity_Season_SonicAdv2 : public TUnk_804B5E48 {
     virtual void run_task();
 };
 
-typedef char TObjCity_Season_SonicAdv2_size[sizeof(TObjCity_Season_SonicAdv2) == 0xB4 ? 1 : -1];
+LAYOUT_ASSERT(TObjCity_Season_SonicAdv2_size, sizeof(TObjCity_Season_SonicAdv2) == 0xB4);
 #endif

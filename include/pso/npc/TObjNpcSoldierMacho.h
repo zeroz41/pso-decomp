@@ -11,7 +11,7 @@ struct TObjNpcSoldierMacho : public TUnk_804A9F50 {
     static void load_shared_resource();
 };
 
-typedef char TObjNpcSoldierMacho_size[sizeof(TObjNpcSoldierMacho) == 0x3B8 ? 1 : -1];
+LAYOUT_ASSERT(TObjNpcSoldierMacho_size, sizeof(TObjNpcSoldierMacho) == 0x3B8);
 
 class TObjControl;
 

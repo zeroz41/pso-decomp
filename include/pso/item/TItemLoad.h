@@ -47,7 +47,7 @@ public:
     s32 get_size_sectors();
 };
 
-typedef char AfsPartitionSize[sizeof(AfsPartition) == 0x18 ? 1 : -1];
+LAYOUT_ASSERT(AfsPartitionSize, sizeof(AfsPartition) == 0x18);
 
 // Reads one file of an AFS partition into the shared compressed work buffer
 // and hands it to on_loaded (update_state drives it). Name inferred.
@@ -70,7 +70,7 @@ public:
     s32 is_loaded();
 };
 
-typedef char AfsFileLoaderSize[sizeof(AfsFileLoader) == 0x24 ? 1 : -1];
+LAYOUT_ASSERT(AfsFileLoaderSize, sizeof(AfsFileLoader) == 0x24);
 
 // Loads a GVM texture archive of ItemTexture.afs into a texture list (the
 // item_texture_archive_loader). Name from the archive it loads.
@@ -120,7 +120,7 @@ public:
     ItemModelResource *get_resource();
     BOOL is_done();
 };
-typedef char TItemModelLoadTask_size[sizeof(TItemModelLoadTask) == 0x44 ? 1 : -1];
+LAYOUT_ASSERT(TItemModelLoadTask_size, sizeof(TItemModelLoadTask) == 0x44);
 
 class TItemLoad : public TObject {
 public:

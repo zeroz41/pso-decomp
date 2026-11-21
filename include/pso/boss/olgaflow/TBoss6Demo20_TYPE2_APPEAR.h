@@ -13,22 +13,22 @@ public:
     virtual void render();
     virtual void run_task();
     u8 unk_1C[0x60];
-    u32 m_7c;
+    uaddr m_7c;
     u8 unk_80[0x3C];
-    s32 m_bc;
+    saddr m_bc;
     u8 unk_C0[0x4];
-    s32 m_c4;
+    saddr m_c4;
     u8 unk_C8[0x4];
     s32 m_cc;
     u8 unk_D0[0x4];
-    s32 m_d4;
+    saddr m_d4;
     u8 unk_D8[0x4];
-    s32 m_dc;
+    saddr m_dc;
     u8 unk_E0[0x4];
     f32 m_e4;
     u8 unk_E8[0x4];
     s32 m_ec;
 };
-typedef char TBoss6Demo20_TYPE2_APPEAR_size[sizeof(TBoss6Demo20_TYPE2_APPEAR) == 0xF0 ? 1 : -1];
+LAYOUT_ASSERT(TBoss6Demo20_TYPE2_APPEAR_size, sizeof(TBoss6Demo20_TYPE2_APPEAR) == 0xF0);
 
 #endif

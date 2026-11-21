@@ -5,6 +5,8 @@
 #include "pso/system/memory.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include <stdio.h>
+#include <string.h>
 
 #pragma readonly_strings on
 
@@ -61,9 +63,9 @@ s32 lbl_805D5E3C;
 s32 TAdPlayerLoadGC__card_result_code;
     int lbl_805D5E44;
 extern "C" {
-s32 mount_memcard(s32);
+s32 mount_memcard(saddr);
 s32 CARDProbeEx(s32, s32 *, s32 *);
-s32 poll_memcard_result(s32);
+s32 poll_memcard_result(saddr);
 s32 CARDCheck(s32);
 s32 CARDFreeBlocks(s32, s32 *, s32 *);
 s32 CARDDelete(s32 chan, const char *name);
@@ -72,18 +74,12 @@ s32 CARDGetResultCode(void *);
 s32 CARDUnmount();
 const Names_801E13C4 memory_card_banner_filenames = {{"vms_sys.tp", "vms_icon1.tp", "vms_icon2.tp", "vms_down.tp", "vms_capt.tp", "vms_net.tp"}};
 s32 calc_crc32_bitwise(void *, s32, s32);
-int sprintf(char *, const char *, ...);
-char *strncpy(char *, const char *, u32);
-void *memcpy(void *, const void *, u32);
-void *memset(void *, int, u32);
 s32 build_save_file_image__15TAdPlayerLoadGCFPvPv(u8 *arg0, Src_801E17F4 *arg1);
 s32 CARDGetStatus(s32, s32, CARDStat_801E2048 *);
-int strncmp(const char *, const char *, u32);
 }
 void fill_date_from_seconds(u32 secs, DateStamp *out);
 extern "C" {
-int strcmp(const char *s1, const char *s2);
-s32 get_card_file_info__15TAdPlayerLoadGCFiPvPv(s32 chan, const char *name, Info_801E21A8 *info);
+s32 get_card_file_info__15TAdPlayerLoadGCFiPvPv(saddr chan, const char *name, Info_801E21A8 *info);
 s32 CARDGetSerialNo();
 s32 CARDFormatAsync(s32 chan, void *callback);
 void CARDInit(void);
@@ -126,7 +122,7 @@ void TAdPlayerLoadGC::poll_card_load(s32 arg0) {
 }
 
 s32 TAdPlayerLoadGC::check_card_result_code() {
-    s32 channel = (s32)this;
+    saddr channel = (saddr)this;
     if (channel >= 2) {
         return 0;
     }
@@ -151,7 +147,7 @@ s32 TAdPlayerLoadGC::check_card_result_code() {
 
 #pragma push
 #pragma fp_contract on
-s32 TAdPlayerLoadGC::probe_and_check_card(s32 channel) {
+s32 TAdPlayerLoadGC::probe_and_check_card(saddr channel) {
     s32 spC;
     s32 sp8;
     s32 temp_r3;
@@ -246,7 +242,7 @@ s32 get_memcard_free_files(s32 chan) {
     return 0;
 }
 
-s32 mount_memcard(s32 chan) {
+s32 mount_memcard(saddr chan) {
     s32 memSize;
     s32 sectorSize;
     s32 result;
@@ -567,7 +563,7 @@ s32 start_memcard_read(s32 chan, const char *name, void *buf, u32 blocks) {
     return -0xF9;
 }
 
-s32 poll_memcard_result(s32 chan) {
+s32 poll_memcard_result(saddr chan) {
     s32 result;
     if (chan >= 2) {
         return 0;
@@ -654,7 +650,7 @@ s32 poll_memcard_result(s32 chan) {
     return 0;
 }
 
-s32 TAdPlayerLoadGC::probe_card_slot(s32 arg0) {
+s32 TAdPlayerLoadGC::probe_card_slot(saddr arg0) {
     s32 spC;
     s32 sp8;
     s32 temp_r3;
@@ -718,7 +714,7 @@ s32 TAdPlayerLoadGC::check_memcard_status(s32 arg0) {
     }
 }
 
-s32 TAdPlayerLoadGC::find_card_file(s32 chan, const char *name) {
+s32 TAdPlayerLoadGC::find_card_file(saddr chan, const char *name) {
     CARDStat_801E2048 st;
     s32 i;
     if (chan >= 2) {
@@ -758,7 +754,7 @@ check:
     return -0xFB;
 }
 
-s32 get_card_file_info__15TAdPlayerLoadGCFiPvPv(s32 chan, const char *name, Info_801E21A8 *info) {
+s32 get_card_file_info__15TAdPlayerLoadGCFiPvPv(saddr chan, const char *name, Info_801E21A8 *info) {
     s32 memSize;
     s32 sectorSize;
     Date_801E21A8 date;

@@ -30,19 +30,19 @@ void TObjPlayer::spawn_hit_particle_trio() {
 }
 #pragma pop
 
-void TObjPlayer::forward_item_effect_callback(s32 arg0, s32 arg1) {
+void TObjPlayer::forward_item_effect_callback(s32 arg0, saddr arg1) {
     ((TObjPlayer *)arg1)->spawn_hit_particle_trio();
 }
-void spawn_weapon_impact_effect(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+void spawn_weapon_impact_effect(s32 arg0, s32 arg1, s32 arg2, saddr arg3) {
     ((TObjPlayer *)arg3)->spawn_hit_particle_trio();
 }
 
 
 void invoke_menu_callback__10TObjPlayerFPv(void *arg0) {
     void *x;
-    x = find_item_by_id((s32)(*(void **)((s8 *)arg0 + 0x34)));
+    x = find_item_by_id((saddr)(*(void **)((s8 *)arg0 + 0x34)));
     if (x != NULL) {
-        ((TObjPlayer *)x)->call_callback_1ec((s32)((void *)((char *)arg0 + 28)), (s32)((void *)((char *)arg0 + 40)));
+        ((TObjPlayer *)x)->call_callback_1ec((saddr)(((char *)arg0 + 28)), (saddr)(((char *)arg0 + 40)));
     }
     *(u32 *)((s8 *)arg0 + 0x38) = 1;
 }

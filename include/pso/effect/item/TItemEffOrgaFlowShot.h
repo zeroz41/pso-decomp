@@ -55,5 +55,5 @@ struct TItemEffOrgaFlowShot : public TUnk_804E355C {
     static void create(void *arg0, void *arg1);
 };
 
-typedef char TItemEffOrgaFlowShot_size[sizeof(TItemEffOrgaFlowShot) == 0x1A0 ? 1 : -1];
+LAYOUT_ASSERT(TItemEffOrgaFlowShot_size, sizeof(TItemEffOrgaFlowShot) == 0x1A0);
 #endif

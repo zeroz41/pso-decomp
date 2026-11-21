@@ -32,11 +32,11 @@ public:
     int is_unloaded();
 };
 
-typedef char TChCrLoadAfs_size[sizeof(TChCrLoadAfs) == 0x38 ? 1 : -1];
-typedef char TChCrLoadAfs_load_handle_offset[offsetof(TChCrLoadAfs, load_handle) == 0x1c ? 1 : -1];
-typedef char TChCrLoadAfs_buffer_address_offset[offsetof(TChCrLoadAfs, buffer_address) == 0x28 ? 1 : -1];
-typedef char TChCrLoadAfs_load_state_offset[offsetof(TChCrLoadAfs, load_state) == 0x2c ? 1 : -1];
-typedef char TChCrLoadAfs_timer_offset[offsetof(TChCrLoadAfs, timer) == 0x34 ? 1 : -1];
+LAYOUT_ASSERT(TChCrLoadAfs_size, sizeof(TChCrLoadAfs) == 0x38);
+LAYOUT_ASSERT(TChCrLoadAfs_load_handle_offset, offsetof(TChCrLoadAfs, load_handle) == 0x1c);
+LAYOUT_ASSERT(TChCrLoadAfs_buffer_address_offset, offsetof(TChCrLoadAfs, buffer_address) == 0x28);
+LAYOUT_ASSERT(TChCrLoadAfs_load_state_offset, offsetof(TChCrLoadAfs, load_state) == 0x2c);
+LAYOUT_ASSERT(TChCrLoadAfs_timer_offset, offsetof(TChCrLoadAfs, timer) == 0x34);
 
 s32 find_player_texture_name_ordinal(u8 *arg0);
 

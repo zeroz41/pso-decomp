@@ -11,7 +11,7 @@ struct TMovie : public TObject {
     virtual ~TMovie();
     virtual void run_task();
     RelModuleBuffer *module;
-    u32 m_20;
+    uaddr m_20;
     void* m_24;
     u8 unk_28[0x4];
     u32 m_2c;
@@ -25,7 +25,7 @@ struct TMovie : public TObject {
     static void flush_cache();
     static void flip_frame_buffer();
     static void flush_and_reset();
-    static void calc_frame_buffer_size(s32 arg0, s32 arg1);
+    static void calc_frame_buffer_size(saddr arg0, saddr arg1);
     s32 stop_if_advanced();
     s32 check_finished();
     bool is_playback_finished();
@@ -41,7 +41,7 @@ struct TMovie : public TObject {
     static s32 close(int arg0, short arg1);
 };
 
-typedef char TMovie_size[sizeof(TMovie) == 0x4C ? 1 : -1];
+LAYOUT_ASSERT(TMovie_size, sizeof(TMovie) == 0x4C);
 
 u8 *initialize_movie_with_soundtrack(u8 *arg0, s8 *arg1, s32 arg2, s32 arg3, s32 arg4);
 

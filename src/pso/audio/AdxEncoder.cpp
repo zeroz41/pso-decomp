@@ -100,11 +100,11 @@ struct AdxEncoder {                /* 0x2D0, pool of 8 */
 #define ADXENC_MAX(a, b) (((a) > (b)) ? (a) : (b))
 #define ADXENC_MIN(a, b) (((a) < (b)) ? (a) : (b))
 
-typedef char AdxEncHistory_size[sizeof(AdxEncHistory) == 0x0C ? 1 : -1];
-typedef char AdxEncChannel_size[sizeof(AdxEncChannel) == 0x90 ? 1 : -1];
-typedef char AdxEncoder_size[sizeof(AdxEncoder) == 0x2D0 ? 1 : -1];
-typedef char AdxEncoder_channel_offset[offsetof(AdxEncoder, channel) == 0x80 ? 1 : -1];
-typedef char AdxEncoder_start_history_offset[offsetof(AdxEncoder, start_hist1) == 0x2C8 ? 1 : -1];
+LAYOUT_ASSERT(AdxEncHistory_size, sizeof(AdxEncHistory) == 0x0C);
+LAYOUT_ASSERT(AdxEncChannel_size, sizeof(AdxEncChannel) == 0x90);
+LAYOUT_ASSERT(AdxEncoder_size, sizeof(AdxEncoder) == 0x2D0);
+LAYOUT_ASSERT(AdxEncoder_channel_offset, offsetof(AdxEncoder, channel) == 0x80);
+LAYOUT_ASSERT(AdxEncoder_start_history_offset, offsetof(AdxEncoder, start_hist1) == 0x2C8);
 
 extern "C" {
 void TLobby__sub_803C5ED4(AdxEncoder *enc);

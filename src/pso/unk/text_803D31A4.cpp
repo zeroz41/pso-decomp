@@ -1,4 +1,5 @@
 #include "types.h"
+#include <string.h>
 #include "pso/unk/text_803D31A4.h"
 #include "stdarg.h"
 #include "pso/unk/TLobby.h"
@@ -14,11 +15,9 @@ struct SvmMessageSlot { AdxMessageCallback fn; s32 arg; };
 struct SvmWorkerSlot { AdxWorkerCallback fn; s32 arg; };
 
 extern "C" {
-s32 memset(void *, int, int);
 SvmMessageSlot lbl_805D765C;
 SvmTransitionSlot lbl_805D7664;
 SvmTransitionSlot lbl_805D766C;
-char *strncpy(char *, const char *, unsigned long);
 int vsprintf(char *s, const char *fmt, va_list ap);
 void TLobby__sub_803D38B4(const char *fmt, ...);
 u32 worker_callback_slots[8];
@@ -31,8 +30,8 @@ SvmCallbackCounts svm_callback_counts;
 void TLobby::init_callback_tables() {
     if ((s32) lobby_callback_tables_refcount == 0) {
         memset(worker_callback_flag_table.values, 0, 0x1C);
-        memset((void *)&lbl_805D766C, 0, 8);
-        memset((void *)&lbl_805D7664, 0, 8);
+        memset((void *)&lbl_805D766C, 0, sizeof(lbl_805D766C));
+        memset((void *)&lbl_805D7664, 0, sizeof(lbl_805D7664));
         svm_callback_counts.values[0] = 0;
         svm_callback_counts.values[1] = 0;
         svm_callback_counts.values[2] = 0;

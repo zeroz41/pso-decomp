@@ -192,9 +192,9 @@ void TQuestVmDownLoadServer__sub_803E6B70(u8 *dst, s32 start, s32 count, s32 mod
 
 #pragma push
 #pragma opt_common_subs off
-typedef char RecoveredGlobal_803E6ED0_lbl_805A0470_size[sizeof(RecoveredGlobal_803E6ED0_lbl_805A0470) == 0x28 ? 1 : -1];
-typedef char RecoveredGlobal_803E6ED0_lbl_805A0498_size[sizeof(RecoveredGlobal_803E6ED0_lbl_805A0498) == 0x138 ? 1 : -1];
-typedef char RecoveredGlobal_803E6ED0_lbl_805A05D0_size[sizeof(RecoveredGlobal_803E6ED0_lbl_805A05D0) == 0xC8 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_803E6ED0_lbl_805A0470_size, sizeof(RecoveredGlobal_803E6ED0_lbl_805A0470) == 0x28);
+LAYOUT_ASSERT(RecoveredGlobal_803E6ED0_lbl_805A0498_size, sizeof(RecoveredGlobal_803E6ED0_lbl_805A0498) == 0x138);
+LAYOUT_ASSERT(RecoveredGlobal_803E6ED0_lbl_805A05D0_size, sizeof(RecoveredGlobal_803E6ED0_lbl_805A05D0) == 0xC8);
 void TQuestVmDownLoadServer::init_buffer_pointers() {
     quest_download_buffer_ptr = &(*(RecoveredGlobal_803E6ED0_lbl_805A05D0 *)&quest_download_buffer_storage).value;
     lbl_805D78D0 = &(*(RecoveredGlobal_803E6ED0_lbl_805A05D0 *)&quest_download_buffer_storage).value;
@@ -686,7 +686,7 @@ inline s32 Open_803E7ACC(void) {
     quest_download_file_handle = h;
     return 0;
 }
-inline s32 Seek_803E7ACC(s32 h, s32 pos, s32 whence) {
+inline s32 Seek_803E7ACC(saddr h, s32 pos, s32 whence) {
     return TQuestVmDownLoadServer__sub_803F09FC((void *)h, pos, whence);
 }
 inline s32 SeekRetry_803E7ACC(s32 pos) {
@@ -754,8 +754,8 @@ u8 *TQuestVmDownLoadServer::get_cached_page(s32 page) {
 
 typedef struct RecoveredGlobal_803E8084_lbl_8058DE08 RecoveredGlobal_803E8084_lbl_8058DE08;
 typedef struct RecoveredGlobal_803E8084_lbl_80590AC4 RecoveredGlobal_803E8084_lbl_80590AC4;
-typedef char RecoveredGlobal_803E8084_lbl_8058DE08_size[((sizeof(RecoveredGlobal_803E8084_lbl_8058DE08)) == 0x44) ? (1) : (-1)];
-typedef char RecoveredGlobal_803E8084_lbl_80590AC4_size[((sizeof(RecoveredGlobal_803E8084_lbl_80590AC4)) == 0x1000) ? (1) : (-1)];
+LAYOUT_ASSERT(RecoveredGlobal_803E8084_lbl_8058DE08_size, (sizeof(RecoveredGlobal_803E8084_lbl_8058DE08)) == 0x44);
+LAYOUT_ASSERT(RecoveredGlobal_803E8084_lbl_80590AC4_size, (sizeof(RecoveredGlobal_803E8084_lbl_80590AC4)) == 0x1000);
 
 s32 TQuestVmDownLoadServer::match_prefix_length(const u8 *a, const u8 *b, s32 n) {
     s32 i;
@@ -811,7 +811,7 @@ s32 TQuestVmDownLoadServer::count_matching_name_prefix(s32 arg0, u8 *arg1) {
 #pragma pop
 
 s32 TQuestVmDownLoadServer::has_name_mismatch(u8 *arg1) {
-    s32 arg0 = (s32)this;
+    s32 arg0 = (saddr)this;
     s32 i = match_803E7E3C(((Name_803E7E3C *)&quest_name_index_table)[arg0 + 1], arg1);
     if (arg1[i] == 0) {
         return 0;
@@ -971,7 +971,7 @@ inline s32 Open_803E8624(void) {
     quest_download_file_handle = h;
     return 0;
 }
-inline s32 Seek_803E8624(s32 h, s32 pos, s32 whence) {
+inline s32 Seek_803E8624(saddr h, s32 pos, s32 whence) {
     return TQuestVmDownLoadServer__sub_803F09FC((void *)((void *)h), pos, whence);
 }
 
@@ -1110,7 +1110,7 @@ s32 TQuestVmDownLoadServer__sub_803E86C8(void) {
     return 0;
 }
 
-typedef char RecoveredGlobal_803E8710_lbl_8058DE08_size[sizeof(RecoveredGlobal_803E8710_lbl_8058DE08) == 0x44 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_803E8710_lbl_8058DE08_size, sizeof(RecoveredGlobal_803E8710_lbl_8058DE08) == 0x44);
 s32 TQuestVmDownLoadServer::find_file_info_index() {
     s32 temp_r3;
     temp_r3 = TQuestVmDownLoadServer__sub_803F0BE0((void *)((void *)&quest_vm_download_server_file_info.value), (void *)lbl_805D78F8);
@@ -1122,13 +1122,13 @@ s32 TQuestVmDownLoadServer::find_file_info_index() {
     return 0;
 }
 
-typedef char RecoveredGlobal_803E875C_lbl_8058DE08_size[sizeof(RecoveredGlobal_803E875C_lbl_8058DE08) == 0x44 ? 1 : -1];
+LAYOUT_ASSERT(RecoveredGlobal_803E875C_lbl_8058DE08_size, sizeof(RecoveredGlobal_803E875C_lbl_8058DE08) == 0x44);
 
 #pragma push
 #pragma opt_common_subs off
 void TQuestVmDownLoadServer::set_file_info_name() {
-    s32 arg0 = (s32)this;
-    strcpy((void *) (&(*(RecoveredGlobal_803E875C_lbl_8058DE08 *)&quest_vm_download_server_file_info).value), (void *)arg0);
+    saddr arg0 = (saddr)this;
+    strcpy((char *)&(*(RecoveredGlobal_803E875C_lbl_8058DE08 *)&quest_vm_download_server_file_info).value, (const char *)arg0);
 }
 #pragma pop
 
@@ -1136,8 +1136,8 @@ s32 TQuestVmDownLoadServer__sub_803E8788(int _w0, void * _w1, int _w2) {
     return -1;
 }
 
-s32 TQuestVmDownLoadServer::aram_read_thunk(u32 arg1, int _w2) {
-    s32 arg0 = (s32)this;
+s32 TQuestVmDownLoadServer::aram_read_thunk(uaddr arg1, int _w2) {
+    saddr arg0 = (saddr)this;
     return TQuestVmDownLoadServer::aram_dma_read((void *)arg0, (void *)arg1, (int)_w2);
 }
 

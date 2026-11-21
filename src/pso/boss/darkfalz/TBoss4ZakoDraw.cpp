@@ -61,7 +61,7 @@ extern u32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;
 s32 falz_zako_texture_list;
-s32 falz_zako_chunk_model;
+saddr falz_zako_chunk_model;
 s32 TBoss4ZakoDraw__draw_buffer_index;
 s32 TBoss4ZakoDraw__rotation_phase;
 extern s32 chunk_polygon_flags_or_mask;
@@ -170,7 +170,7 @@ void TObjPlayer::draw_area_chunk_objects() {
     Ent_8030AB48 *p = t->ents;
     s32 r31;
     s32 i;
-    r31 = ((s32)get_bml_model((s32)(TBoss4Uro::get_instance_count()), 8));
+    r31 = ((saddr)get_bml_model((s32)(TBoss4Uro::get_instance_count()), 8));
     TObjPlayer__sub_80052390(zako_fade_full);
     TObjFish::set_global_param(falz_zako_texture_list);
     for (i = 0; i < t->count; i++, p++) {

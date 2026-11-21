@@ -232,7 +232,7 @@ s32 TWindowKeyBoardHard::get_input_mode() {
     case LANGUAGE_JAPANESE:
         return 3;
     }
-    return (s32)c;
+    return (saddr)c;
 }
 
 s32 TWindowKeyBoardHard::poll_input() {
@@ -475,7 +475,7 @@ block_7:
         if ((sub_80260438() != 0) && ((s32) sp8 >= 0x61) && ((s32) sp8 <= 0x7A)) {
             sp8 -= 0x20;
         }
-        set_input_mode__20TWindowSubStatusDispFUc((s32)m_control, temp_r31);
+        set_input_mode__20TWindowSubStatusDispFUc((saddr)m_control, temp_r31);
         m_control->insert_character(sp8);
     }
 }
@@ -625,7 +625,7 @@ void TWindowKeyBoardHard::draw_status_text(void *ctx) {
         NJS_POINT2 pt;
         pt.x = ((Ctx_80260020 *)ctx)->pos.x;
         pt.y = ((Ctx_80260020 *)ctx)->pos.y;
-        set_text_draw_params((s32)((Ctx_80260020 *)ctx), 0, 0, (f32)inv, 100000.0f);
+        set_text_draw_params((saddr)((Ctx_80260020 *)ctx), 0, 0, (f32)inv, 100000.0f);
         flags = ((Win_80260020 *)this)->state->flags;
         if (!(flags & 1)) {
             draw_window_text((f32 *)&pt, "\x94\xBC\x89\x70\x90\x94", -1, 0, 1000000.0f); // 半英数
@@ -647,9 +647,9 @@ void TWindowKeyBoardHard::draw_status_text(void *ctx) {
 #pragma pool_data reset
 
 void TWindowKeyBoardHard::render() {
-    s32 temp;
+    saddr temp;
     if (((s32) this->m_68 > 0) && (is_key_active() == 0)) {
-        temp = TWindowDD::draw_default_entry((s32)this);
+        temp = TWindowDD::draw_default_entry((saddr)this);
         draw_status_text((Ctx_80260020 *)(temp));
     }
 }
@@ -662,7 +662,7 @@ void TWindowKeyBoardHard::render() {
 
 
 extern "C" {
-s32 get_window_layout_position(int);
+saddr get_window_layout_position(int);
 
 
 void TWindowKeyBoardHard::run_task() {
@@ -708,16 +708,16 @@ TWindowKeyBoardHard::TWindowKeyBoardHard(TWindowKeyBoardBase *control) : TWindow
 }
 
 
-void TWindowKeyBoardHard::set_bits_shift7(s32 arg0, s32 arg1) {
+void TWindowKeyBoardHard::set_bits_shift7(saddr arg0, s32 arg1) {
     TWindowKeyBoardHard::set_card_window_flags((void *)arg0, (s32)(arg1 << 7), -0x81);
 }
-void TWindowKeyBoardHard::update_card_window_page_flags(s32 arg0, s32 arg1) {
+void TWindowKeyBoardHard::update_card_window_page_flags(saddr arg0, s32 arg1) {
     TWindowKeyBoardHard::set_card_window_flags((void *)arg0, (s32)(arg1 << 6), -0x41);
 }
-void TWindowKeyBoardHard::clear_card_window_flag(s32 arg0, s32 arg1) {
+void TWindowKeyBoardHard::clear_card_window_flag(saddr arg0, s32 arg1) {
     TWindowKeyBoardHard::set_card_window_flags((void *)arg0, (s32)(arg1 << 4), -0x11);
 }
-void TWindowKeyBoardHard::set_card_window_flag(s32 arg0, s32 arg1) {
+void TWindowKeyBoardHard::set_card_window_flag(saddr arg0, s32 arg1) {
     TWindowKeyBoardHard::set_card_window_flags((void *)arg0, (s32)(arg1 << 5), -0x21);
 }
 int TWindowKeyBoardHard::sub_8026042C() { return (this->m_60 >> 6) & 0x1; }

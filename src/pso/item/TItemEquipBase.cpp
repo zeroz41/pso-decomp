@@ -60,7 +60,7 @@ void TItemEquipBase::bind_loaded_resources() {
             if (resource != NULL) {
                 item_model = resource->models[0];
                 second_model = resource->models[1];
-                texlist = (s32)resource->texlist;
+                texlist = (saddr)resource->texlist;
                 model_motion = resource->motion;
                 model_data[0] = resource->models[2];
                 model_data[1] = resource->models[3];
@@ -238,7 +238,7 @@ void TItemEquipBase::subtract_item_stat_bonus(s32 player, s32 unused, s16 *stats
     copy_to_item_data(&data);
     memset(&bonus, 0, sizeof(bonus));
     memset(&hp_tp, 0, sizeof(hp_tp));
-    data.apply_equip_effects((s32)owner, player, unused, (s32)&bonus, (s32)&hp_tp);
+    data.apply_equip_effects((saddr)owner, player, unused, (saddr)&bonus, (saddr)&hp_tp);
     if (stats != NULL) {
         stats[0] -= bonus.atp;
         stats[1] -= bonus.mst;
@@ -299,11 +299,11 @@ void TItemEquipBase::add_equip_stats(s32 apply) {
     TItemData data;
     AttackParams *attack;
     ActorParamBlock *params;
-    s32 item = (s32)this;
+    s32 item = (saddr)this;
     if (owner != NULL) {
         copy_to_item_data(&data);
-        data.apply_equip_effects((s32)owner, (s32)&attack_bonus, (s32)&param_bonus, (s32)&stat_bonus,
-                                 (s32)&hp_tp_bonus);
+        data.apply_equip_effects((saddr)owner, (saddr)&attack_bonus, (saddr)&param_bonus, (saddr)&stat_bonus,
+                                 (saddr)&hp_tp_bonus);
         attack = get_actor_attack_params(owner);
         if (attack != NULL) {
             attack->add_atp_min(get_attack_params_atp_min(&attack_bonus));

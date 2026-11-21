@@ -1,4 +1,5 @@
 #pragma readonly_strings on
+#include <string.h>
 #include "pso/audio/LscStream.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/unk/TLobby.h"
@@ -30,8 +31,6 @@ void lsc_notify_queue_empty(void) {
         lsc_queue_empty_callback(lsc_queue_empty_object, lsc_queue_empty_param);
     }
 }
-char *strncpy(char *dest, const char *src, unsigned long num);
-void *memset(void *dst, int val, unsigned long n);
 extern LscStream lsc_slot_table[];
 s32 lsc_get_min_buffer_bytes(LscStream *p) {
     if (p == 0) {
@@ -259,7 +258,7 @@ s32 lsc_enqueue_range(LscStream *lsc_stream, const char *filename, s32 open_mode
 s32 lsc_enqueue_file(LscStream *lsc_stream, const char *filename) {
     AdxStreamFile *file;
     s32 sectors;
-    file = TLobby__sub_803C8BAC(filename, (s32)lsc_stream->stream);
+    file = TLobby__sub_803C8BAC(filename, (saddr)lsc_stream->stream);
     if (file == 0) {
         TLobby::log_printf("E0004: Can not open '%s'", filename);
         return -1;

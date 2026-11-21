@@ -13,16 +13,16 @@ struct TObjNpcEnemyEntry {
     s16 id;            // 0 marks a free slot; slots are sorted by id
     u16 kind;          // 0 slime, 1 lobby, 2 motorcycle, 3 stelth, 4 empty
     f32 y_offset;      // render height above the object (translate_matrix y)
-    s32 model;
-    s32 texlist;
+    saddr model;
+    saddr texlist;
     f32 radius;        // copied to the first collision body radius
     NpcAnimationBinding animation;
 
     void reset();
 };
 
-typedef char NpcEnemyEntrySize[sizeof(TObjNpcEnemyEntry) == 0x24 ? 1 : -1];
-typedef char NpcEnemyEntryAnimationOffset[offsetof(TObjNpcEnemyEntry, animation) == 0x14 ? 1 : -1];
+LAYOUT_ASSERT(NpcEnemyEntrySize, sizeof(TObjNpcEnemyEntry) == 0x24);
+LAYOUT_ASSERT(NpcEnemyEntryAnimationOffset, offsetof(TObjNpcEnemyEntry, animation) == 0x14);
 
 struct TObjNpcEnemy : public TObjNpcBase {
     TObjNpcEnemy(TObject *parent, void *set_data);
@@ -40,7 +40,7 @@ struct TObjNpcEnemy : public TObjNpcBase {
     static void set_global_count(s32 arg0);
 };
 
-typedef char TObjNpcEnemy_size[sizeof(TObjNpcEnemy) == 0x3BC ? 1 : -1];
+LAYOUT_ASSERT(TObjNpcEnemy_size, sizeof(TObjNpcEnemy) == 0x3BC);
 
 extern TObjNpcEnemyEntry TObjNpcEnemy__entry_table[16];
 

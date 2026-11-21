@@ -5,7 +5,7 @@
 
 struct TObjEneLappy;
 extern "C" {
-u8 *TObjEneDarkGunCenter__ct(u8 *arg0, s32 arg1, s32 arg2);
+u8 *TObjEneDarkGunCenter__ct(u8 *arg0, s32 arg1, saddr arg2);
 void TObjPlayer__sub_800A100C(s32 _w0);
 void sub_800A1520__17TObjEneDarkGunnerFv(u8 *arg0_);
 void TObjPlayer__sub_800A16C4(u8 *arg0);

@@ -16,7 +16,7 @@ struct TObjRaderCol : public TObjBase {
     virtual void run_task();
 };
 
-typedef char TObjRaderCol_size[sizeof(TObjRaderCol) == 0xA0 ? 1 : -1];
+LAYOUT_ASSERT(TObjRaderCol_size, sizeof(TObjRaderCol) == 0xA0);
 
 extern "C" {
 void *__dt__12TObjRaderColFv(void *arg0, s16 arg1);

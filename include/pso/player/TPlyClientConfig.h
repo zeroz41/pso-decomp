@@ -17,9 +17,9 @@ public:
     } config;
 };
 
-typedef char TPlyClientConfigSize[(sizeof(TPlyClientConfig) == 0x20) ? 1 : -1];
-typedef char TPlyClientConfigFlagsOffset[(offsetof(TPlyClientConfig::Config, flags) == 8) ? 1 : -1];
-typedef char TPlyClientConfigAddressOffset[(offsetof(TPlyClientConfig::Config, proxy_dst_addr) == 0xC) ? 1 : -1];
-typedef char TPlyClientConfigPortOffset[(offsetof(TPlyClientConfig::Config, proxy_dst_port) == 0x10) ? 1 : -1];
+LAYOUT_ASSERT(TPlyClientConfigSize, sizeof(TPlyClientConfig) == 0x20);
+LAYOUT_ASSERT(TPlyClientConfigFlagsOffset, offsetof(TPlyClientConfig::Config, flags) == 8);
+LAYOUT_ASSERT(TPlyClientConfigAddressOffset, offsetof(TPlyClientConfig::Config, proxy_dst_addr) == 0xC);
+LAYOUT_ASSERT(TPlyClientConfigPortOffset, offsetof(TPlyClientConfig::Config, proxy_dst_port) == 0x10);
 
 #endif

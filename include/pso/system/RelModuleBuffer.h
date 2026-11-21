@@ -11,8 +11,8 @@ struct RelModuleBuffer {
     OSModuleHeader *image;
 };
 
-typedef char RelModuleBuffer_size[sizeof(RelModuleBuffer) == 8 ? 1 : -1];
-typedef char RelModuleBuffer_image_offset[offsetof(RelModuleBuffer, image) == 4 ? 1 : -1];
+LAYOUT_ASSERT(RelModuleBuffer_size, sizeof(RelModuleBuffer) == 8);
+LAYOUT_ASSERT(RelModuleBuffer_image_offset, offsetof(RelModuleBuffer, image) == 4);
 
 extern "C" {
 RelModuleBuffer *load_rel_module(RelModuleBuffer *module, const char *filename);

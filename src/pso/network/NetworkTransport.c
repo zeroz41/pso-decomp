@@ -25,7 +25,7 @@ typedef struct PppAuthBuffers {
     u8 pap_password[0x80];
     u8 pap_peer_id[0x80];
 } PppAuthBuffers;
-typedef char PppAuthBuffers_size[sizeof(PppAuthBuffers) == 0xA88 ? 1 : -1];
+LAYOUT_ASSERT(PppAuthBuffers_size, sizeof(PppAuthBuffers) == 0xA88);
 
 typedef struct NetworkPacketBufferStorage {
     u8 packet_slots[4][1500];
@@ -36,7 +36,7 @@ typedef struct NetworkPacketBufferStorage {
     u32 workspace_70_b[70];
     u32 workspace_550_pair[2][550];
 } NetworkPacketBufferStorage;
-typedef char NetworkPacketBufferStorage_size[sizeof(NetworkPacketBufferStorage) == 0x4C18 ? 1 : -1];
+LAYOUT_ASSERT(NetworkPacketBufferStorage_size, sizeof(NetworkPacketBufferStorage) == 0x4C18);
 
 
 
@@ -85,7 +85,7 @@ void TAdSinglePlyChrSelectGC__sub_8042E488(s32);
 s32 open_network_transport(A_803F8314 *arg0);
 s32 layout_net_params_buffer(u8 *data, s32 size);
 s32 modem_send_at_command(int);
-s32 configure_modem_options(s32 arg0, s32 arg1, s32 arg2, s32 n, s32 p);
+s32 configure_modem_options(s32 arg0, s32 arg1, s32 arg2, s32 n, saddr p);
 s32 TAdSinglePlyChrSelectGC__sub_8042D7E0(u8 *buf);
 s32 get_net_params_and_size(NetTransportParams *arg0);
 void TLobby__sub_803F76F0(void);
@@ -107,7 +107,7 @@ s32 lobby_send_ring_pending_bytes;
 s32 lobby_send_ring_read_pos;
 s32 lobby_ring_buffer_write_pos;
 s32 lobby_ring_buffer_size;
-s32 send_ring_buffer_base;
+saddr send_ring_buffer_base;
 u32 TLobby__send_ring_mutex;
 NetThreadHandle queue_thread_handle;
 /* inferred: PppLink.used for the 4 packet slots init_buffer_desc_b hands out */
@@ -309,7 +309,7 @@ void queue_thread_main(void) {
         TLobby__queue_timeout_remaining = p->b;
         for (;;) {
             if (TAdSinglePlyChrSelectGC__sub_8042E184() == 0) {
-                if (TAdSinglePlyChrSelectGC__sub_8042DD70((s32)p->a, (s32)p->b, (s32)subtract_network_queue_timeout) == 1) {
+                if (TAdSinglePlyChrSelectGC__sub_8042DD70((s32)p->a, (s32)p->b, (saddr)subtract_network_queue_timeout) == 1) {
                     break;
                 }
             }
@@ -441,7 +441,7 @@ s32 map_state_to_code(s32 handle, s16 kind) {
     return 0;
 }
 
-s32 configure_modem_options(s32 ms_mode, s32 error_correction, s32 compression, s32 count, s32 cmd) {
+s32 configure_modem_options(s32 ms_mode, s32 error_correction, s32 compression, s32 count, saddr cmd) {
     s32 value;
     s32 valid;
     u32 cmd_len;
@@ -671,29 +671,29 @@ u32 compute_range_end(NetTransportParams *params, s32 base, u32 limit) {
 #pragma opt_common_subs off
 s32 layout_net_params_buffer(u8 *data, s32 size) {
     NetTransportParams params;
-    u32 end;
+    uaddr end;
     u8 *cur;
     s32 header_size;
-    u32 after_tables;
-    end = (u32)(data + size);
-    header_size = get_net_params_and_size((NetTransportParams *)((int)&params));
+    uaddr after_tables;
+    end = (uaddr)(data + size);
+    header_size = get_net_params_and_size((NetTransportParams *)((saddr)&params));
     if (size < 0) {
         return -1;
     }
     if (size < header_size) {
         return -1;
     }
-    net_transport_buffer_ptr_a = (u32)data;
+    net_transport_buffer_ptr_a = (uaddr)data;
     cur = data + params.player_count * 0x44;
-    if ((u32)cur > end) {
+    if ((uaddr)cur > end) {
         return -1;
     }
-    net_transport_buffer_ptr_b = (u32)cur;
+    net_transport_buffer_ptr_b = (uaddr)cur;
     cur += params.room_count * 0x544;
-    if ((u32)cur > end) {
+    if ((uaddr)cur > end) {
         return -1;
     }
-    after_tables = (u32)layout_buffers(&params, cur, (u8 *)end);
+    after_tables = (uaddr)layout_buffers(&params, cur, (u8 *)end);
     if (after_tables == 0) {
         return -1;
     }

@@ -37,5 +37,5 @@ struct TODragonfly : public TObjMapObject {
     s32 bob_angle;      // bob phase
 };
 
-typedef char TODragonfly_size[sizeof(TODragonfly) == 0x100 ? 1 : -1];
+LAYOUT_ASSERT(TODragonfly_size, sizeof(TODragonfly) == 0x100);
 #endif

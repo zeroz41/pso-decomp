@@ -27,8 +27,8 @@ struct SoundReverb {
     f32 parameterPreDelay;
     f32 parameterCrossTalk;
 };
-typedef char SoundReverbDelaySize[sizeof(SoundReverbDelay) == 0x14 ? 1 : -1];
-typedef char SoundReverbSize[sizeof(SoundReverb) == 0x1E0 ? 1 : -1];
+LAYOUT_ASSERT(SoundReverbDelaySize, sizeof(SoundReverbDelay) == 0x14);
+LAYOUT_ASSERT(SoundReverbSize, sizeof(SoundReverb) == 0x1E0);
 extern "C" s32 ReverbHICreate(SoundReverb*, f32 coloration, f32 time,
     f32 mix, f32 damping, f32 preDelay, f32 crossTalk);
 #endif

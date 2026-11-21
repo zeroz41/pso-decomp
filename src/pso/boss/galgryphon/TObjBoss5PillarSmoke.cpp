@@ -54,7 +54,7 @@ void TObjBoss5PillarDemo__sub_8028ACE8(Pd_8028ACE8 *arg0, void* _w1) {
     idx = boss5_pillar_demo_index - 1;
     boss5_pillar_demo_index += 1;
     if (idx >= 0 && idx < arg0->count) {
-        transform_to_view__11TCameraCtrlFii((s32)&lbl_80450CDC, (s32)sp);
+        transform_to_view__11TCameraCtrlFii((saddr)&lbl_80450CDC, (saddr)sp);
         if (arg0->a != NULL && arg0->a[idx] != NULL) {
             ((TParticleCtrl *)arg0->a[idx])->set_position(sp);
         }
@@ -76,7 +76,7 @@ void fn_8028ADDC(void *p) {
     if (p) {
         boss5_pillar_demo_index = 0;
         boss5_pillar_demo_ptr = p;
-        set_model_node_callback((s32)TObjBoss5PillarDemo__sub_8028AD88);
+        set_model_node_callback((saddr)TObjBoss5PillarDemo__sub_8028AD88);
     }
 }
 void fn_8028AE1C(O_8028AE1C *arg0) {
@@ -120,7 +120,7 @@ Smoke_8028AF6C *TObjBoss5PillarSmoke__ct(Smoke_8028AF6C *arg0, void *arg1, Node_
     s32 i;
     __ct__7TObjectFP7TObject(arg0, arg1);
     arg0->vt = __vt__20TObjBoss5PillarSmoke;
-    arg0->f0 = ((s32)TObjBoss5PillarSmoke__name);
+    arg0->f0 = ((saddr)TObjBoss5PillarSmoke__name);
     arg0->count = 0;
     arg0->a = NULL;
     arg0->b = NULL;

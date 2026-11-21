@@ -12,6 +12,6 @@ public:
     virtual ~TUnk_804A05E8();
     f32 unk_2C;
 };
-typedef char TUnk_804A05E8_size[sizeof(TUnk_804A05E8) == 0x30 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804A05E8_size, sizeof(TUnk_804A05E8) == 0x30);
 
 #endif

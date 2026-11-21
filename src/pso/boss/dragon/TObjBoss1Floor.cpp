@@ -40,7 +40,7 @@ typedef struct Floor_8002C968 {
     void *objs[4];
 } Floor_8002C968;
 
-struct Obj_8002CA38 { u8 pad[0x28]; u32 slot[4]; };
+struct Obj_8002CA38 { u8 pad[0x28]; uaddr slot[4]; };
 
 extern "C" {
 const char *TObjBoss1Floor__name = "TObjBoss1Floor";
@@ -48,7 +48,7 @@ void run_task__14TObjBoss1FloorFv(Floor_8002C968 *self);
 void TBoss8Dragon__sub_8002D5F8(void);
 void TObjBoss1Floor__sub_8002CB40(void);
 void TObjBoss1Floor__sub_8002CB78(void);
-void render_projected_shadow_receiver(u8 *arg0, s32 arg1);
+void render_projected_shadow_receiver(u8 *arg0, saddr arg1);
 s32 push_matrix();
 
 void TLobby::update_boss1_objects() { TBoss8Dragon::free_resources(); TObjBoss1Rock__sub_8002E3CC(); TObjBoss1Crater__sub_8002C7B4(); TObjBoss1Floor__sub_8002CB40(); TLobby::free_char_select(); }
@@ -75,7 +75,7 @@ void render__14TObjBoss1FloorFv(void) {
         TObjPlayer::draw_if_all_ready();
         TObjFish::set_global_param(dragon_common_texture_list);
         temp_r31 = (unsigned char *) (*(void **)((s8 *)(*(void **)((s8 *)lbl_805D4B50 + 0x42C)) + 0x58));
-        render_projected_shadow_receiver((u8 *)(temp_r31 + 8), (s32)(temp_r31 + 0x14));
+        render_projected_shadow_receiver((u8 *)(temp_r31 + 8), (saddr)(temp_r31 + 0x14));
         draw_ginja_model((*(s32 *)((s8 *)temp_r31 + 4)));
         TScene::apply_single_screen_state();
         restore_draw_list_mask();
@@ -158,12 +158,12 @@ void TObjBoss1MokoHill_Solo::render() {
         saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
         model_render_flags |= 0x800;
         set_chunk_material_override_pair(0xFF00, 0x100, (void *)chunk_polygon_flags_or_mask, (void *)chunk_polygon_flags_and_mask);
-        draw_chunk_object((void *)(*(s32 *)((s8 *)(*(void **)((s8 *)lbl_805D4B50 + 0x42C)) + 0x38)));
+        draw_chunk_object((void *)(*(saddr *)((s8 *)(*(void **)((s8 *)lbl_805D4B50 + 0x42C)) + 0x38)));
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
         model_render_flags = saved_model_render_flags;
     } else {
-        draw_chunk_object((void *)(*(s32 *)((s8 *)(*(void **)((s8 *)lbl_805D4B50 + 0x42C)) + 0x38)));
+        draw_chunk_object((void *)(*(saddr *)((s8 *)(*(void **)((s8 *)lbl_805D4B50 + 0x42C)) + 0x38)));
     }
     pop_matrix();
 }

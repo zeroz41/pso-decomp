@@ -12,7 +12,7 @@ public:
     virtual void vfunc_13();
     virtual void vfunc_14();
     u8 unk_98[0x4];
-    s32 m_9c;
+    saddr m_9c;
     u8 unk_A0[0x4];
     f32 m_a4;
     f32 m_a8;
@@ -23,6 +23,6 @@ public:
     u8 unk_C4[0x4];
     s32 m_c8;
 };
-typedef char TUnk_804E0988_size[sizeof(TUnk_804E0988) == 0xCC ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804E0988_size, sizeof(TUnk_804E0988) == 0xCC);
 
 #endif

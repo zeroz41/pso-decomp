@@ -5,15 +5,15 @@
 extern "C" {
 
 int VecCopy__FP3VecPC3Vec(s32, s32, s32);
-f64 asin();
+f64 asin(f64);
 
-f32 TBoss5GryphonLightningWing__sub_80324CEC(void) {
-    return (f32) asin();
+f32 TBoss5GryphonLightningWing__sub_80324CEC(f32 x) {
+    return (f32) asin(x);
 }
 
 void TBoss5GryphonLightningWing::get_wing_position(Vec *out) {
-    s32 arg0 = (s32)this;
-    VecCopy__FP3VecPC3Vec((s32)out, arg0 + 0x2C, arg0);
+    s32 arg0 = (saddr)this;
+    VecCopy__FP3VecPC3Vec((saddr)out, arg0 + 0x2C, arg0);
 }
 
 }

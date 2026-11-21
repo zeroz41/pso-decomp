@@ -17,6 +17,6 @@ extern "C" {
 s32 TObjPlayer__sub_801290D0(u8 *arg0);
 }
 
-typedef char TUnk_804A4020_size[sizeof(TUnk_804A4020) == 0x6C ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804A4020_size, sizeof(TUnk_804A4020) == 0x6C);
 
 #endif

@@ -38,8 +38,8 @@ public:
     StarLightParameters parameters;
 };
 
-typedef char StarLightColorSize[sizeof(StarLightColor) == 4 ? 1 : -1];
-typedef char StarLightParametersSize[sizeof(StarLightParameters) == 0x14 ? 1 : -1];
-typedef char TEffStarLight2DSize[sizeof(TEffStarLight2D) == 0x4C ? 1 : -1];
+LAYOUT_ASSERT(StarLightColorSize, sizeof(StarLightColor) == 4);
+LAYOUT_ASSERT(StarLightParametersSize, sizeof(StarLightParameters) == 0x14);
+LAYOUT_ASSERT(TEffStarLight2DSize, sizeof(TEffStarLight2D) == 0x4C);
 
 #endif

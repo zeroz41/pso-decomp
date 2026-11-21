@@ -15,8 +15,8 @@
 extern "C" {
 s32 draw_visible_window_entries(void *, void *, int);
 void TWindowChallengeResult::render() {
-    s32 temp_r3;
-    s32 arg0 = (s32)this;
+    saddr temp_r3;
+    saddr arg0 = (saddr)this;
     temp_r3 = ((TWindowBase *)arg0)->setup_window_draw_context((f32 *)(arg0 + 0x60));
     ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
     draw_visible_window_entries((void *)arg0, (void *)(arg0 + 0x24), (int)temp_r3);
@@ -48,10 +48,9 @@ struct Win_80246DCC {
 };
 
 void draw_right_aligned_number(void);
-s32 get_window_layout_position(s32);
+saddr get_window_layout_position(s32);
 extern const char lbl_8044E7BC[];
 
-void __dl__7TObjectFPv(void *);
 
 extern "C" void render_shadows__7TObjectFv();
 extern void *challenge_result_window_layout[44];
@@ -91,7 +90,7 @@ void *dt__22TWindowChallengeResultFPvs(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = lbl_804CE2B8;
         __dt__11TWindowBaseFv(arg0, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            TObject::operator delete(arg0);
         }
     }
     return arg0;
@@ -104,10 +103,10 @@ Win_80246DCC *TWindowChallengeResult__ct(Win_80246DCC *self, s32 str, s32 arg2, 
 
     __ct__11TWindowBaseFPUcsPUc(self, (u8 *)lbl_804CE298, (s16)4, (u8 *)(get_window_layout_position(0x3F)));
     self->vt = lbl_804CE2B8;
-    self->f0 = (s32)lbl_805D3898;
+    self->f0 = (saddr)lbl_805D3898;
     for (i = 0; i < 3; i++) {
         e = (Entry_80246DCC *)((TWindowBase *)self)->get_array_entry(i * 2);
-        set_text_entry_string((u8 *)e, (u32)lbl_804CE2AC[i], 0);
+        set_text_entry_string((u8 *)e, (uaddr)lbl_804CE2AC[i], 0);
         measure_message_text_width_default(e);
         e->f8 = 233.0f - e->f10;
     }
@@ -127,7 +126,7 @@ Win_80246DCC *TWindowChallengeResult__ct(Win_80246DCC *self, s32 str, s32 arg2, 
         text_builder_append((u8 *)":");
         append_padded_number(arg2, 2);
     }
-    set_text_entry_string((u8 *)e, (u32)(get_shared_text_buffer()), 0x20);
+    set_text_entry_string((u8 *)e, (uaddr)(get_shared_text_buffer()), 0x20);
     e = (Entry_80246DCC *)((TWindowBase *)self)->get_array_entry(5);
     e->f20 = arg3;
     draw_right_aligned_number();

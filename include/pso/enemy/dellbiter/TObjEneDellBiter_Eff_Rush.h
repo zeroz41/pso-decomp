@@ -17,6 +17,6 @@ public:
     f32 strength;
     s32 field_30;
 };
-typedef char TObjEneDellBiter_Eff_Rush_size[sizeof(TObjEneDellBiter_Eff_Rush) == 0x34 ? 1 : -1];
+LAYOUT_ASSERT(TObjEneDellBiter_Eff_Rush_size, sizeof(TObjEneDellBiter_Eff_Rush) == 0x34);
 
 #endif

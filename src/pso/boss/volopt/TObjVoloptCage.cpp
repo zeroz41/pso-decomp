@@ -58,7 +58,7 @@ VoloptBreakUpParams volopt_cage_breakup_params = {
 void *volopt_cage_combat_stats;
 VoloptCageParams *volopt_cage_params;
 static TBreakUpMdlPieces *volopt_cage_breakup_model;
-static s32 volopt_cage_model;
+static saddr volopt_cage_model;
 static s32 volopt_cage_textures;
 
 void fn_80048C04(TObjVoloptCage *cage) {
@@ -249,7 +249,7 @@ TObjVoloptCage::~TObjVoloptCage() {
     TObjPlayer *player = get_player_by_client_id(targetId);
     if (player != NULL && TObjPlayer::is_locally_controlled(player) != 0) {
         if (player->check_player_flag1() != 0) {
-            TObjPlayer::send_code_45_1((s32)player);
+            TObjPlayer::send_code_45_1((saddr)player);
         }
         obj_clear_flag30_20000(player);
     }

@@ -1,18 +1,16 @@
 #include "pso/system/Adxf.h"
 #include "types.h"
+#include <string.h>
 #include "pso/unk/text_803CC294.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_800FA848.h"
 
 extern "C" {
 
-u8 *alloc_from_heap__6TLobbyFPv(s32);
-u8 *link_into_list__6TLobbyFv();
-s32 strncpy(void *, s32, s32);
 
 struct Ent_800fa164;
 
-s32 TLobby::create_file_load_entry(s32 arg0, s32 arg1, u32 arg2, s32 arg3, void **arg4) {
+s32 TLobby::create_file_load_entry(saddr arg0, s32 arg1, u32 arg2, saddr arg3, void **arg4) {
     struct Ent_800fa164 *var_r31;
     AdxfHandle *file;
 
@@ -31,7 +29,7 @@ s32 TLobby::create_file_load_entry(s32 arg0, s32 arg1, u32 arg2, s32 arg3, void 
     if (var_r31 != NULL) {
         var_r31 = (struct Ent_800fa164 *)link_into_list(var_r31);
     }
-    strncpy((u8 *)var_r31 + 8, arg0, 0x20);
+    strncpy((char *)var_r31 + 8, (const char *)arg0, 0x20);
     *(s32 *)((s8 *)var_r31 + 0) = 2;
     *(s32 *)((s8 *)var_r31 + 0x3C) = arg1;
     *(s32 *)((s8 *)var_r31 + 0x30) = ADXF_GetFsizeSct(file);

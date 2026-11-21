@@ -233,7 +233,7 @@ void TBoss3VoloptP02::init_params() {
     m_name = TBoss3VoloptP02_name;
     motion_list = lbl_805D4CE4->motions;
     action_table = action_entries;
-    set_field_d8((s32)action_table);
+    set_field_d8((saddr)action_table);
     init_collision_body_parts(this, collision_bodies, 5);
     variant = 0;
     movementParameters = &movement_params;
@@ -313,7 +313,7 @@ void TBoss3VoloptP02::load_resources() {
     }
     for (j = 0; j < 5; j++) {
         nodes[j]->sibling = NULL;
-        model = new TUnk_8048FA00((s32)nodes[j]);
+        model = new TUnk_8048FA00((saddr)nodes[j]);
         breakup_models[j] = model;
     }
     root = lbl_805D4CE4->models[19].model;
@@ -436,7 +436,7 @@ void TBoss3VoloptP02::render() {
             fade.set_flags_and_apply_damage_color();
         }
         TObjFish::set_global_param(texlist);
-        select_actor_lighting((s32)this);
+        select_actor_lighting((saddr)this);
         TObjPlayer::toggle_particle_effect();
         push_matrix();
         model_render_flags &= ~0x400;
@@ -994,13 +994,13 @@ void TBoss3VoloptP02::update_pillar_heal_state() {
     case 2: {
         play_sound_effect(0x4003A819, &position, 0, 0);
         if (--*(s16 *)&timer <= 0) {
-            s32 n;
+            saddr n;
             if (heal_emitter != NULL) {
                 heal_emitter->queue_destruction();
                 heal_emitter = NULL;
             }
             n = TBoss3VoloptP02::get_int_param(3) / 5;
-            TBoss3Volopt__sub_800FD344((s32)&m_2fc, (s32)(0xFF00FF00), 0x1E, (void *)"HP", (void *)n);
+            TBoss3Volopt__sub_800FD344((saddr)&m_2fc, (s32)(0xFF00FF00), 0x1E, (void *)"HP", (void *)n);
             hp = min_s32(hp + n, hpmax);
             for (s32 i = 0; i < 4; i++) {
                 if (part_hp[i] > 0) {
@@ -1125,7 +1125,7 @@ void TBoss3VoloptP02::update_death_sequence() {
         spawn_ambient_particles();
         position.y = 0.5319149f * this->frame;
         if (this->frame >= 47.0f) {
-            TBoss3Volopt::create_breakup_mdl((s32)breakup_model, (s32)&death_breakup_params, texlist, (s32)&m_2fc, rotation_y);
+            TBoss3Volopt::create_breakup_mdl((saddr)breakup_model, (saddr)&death_breakup_params, texlist, (saddr)&m_2fc, rotation_y);
             ((TObjPlayer *)&m_2fc)->trigger_dell_biter_events();
             ((TObjPlayer *)this)->refresh_lobby_state();
             volopt_death_active = 1;
@@ -1202,9 +1202,9 @@ void TBoss3VoloptP02::spawn_breakup_models() {
         m_388 = flags | 0x10000;
         render_anim_model_at_pos();
         get_anim_node_position(2, &pos);
-        TBoss3Volopt::create_breakup_mdl((s32)breakup_models[0], (s32)&part_breakup_params, texlist, (s32)&pos, rotation_y);
+        TBoss3Volopt::create_breakup_mdl((saddr)breakup_models[0], (saddr)&part_breakup_params, texlist, (saddr)&pos, rotation_y);
         get_anim_node_position(0x12, &pos);
-        TBoss3Volopt::create_breakup_mdl((s32)breakup_models[1], (s32)&part_breakup_params, texlist, (s32)&pos, rotation_y);
+        TBoss3Volopt::create_breakup_mdl((saddr)breakup_models[1], (saddr)&part_breakup_params, texlist, (saddr)&pos, rotation_y);
         hide_model_nodes((NJS_OBJECT **)breakup_flags_a);
     }
 }
@@ -1222,7 +1222,7 @@ void TBoss3VoloptP02::fn_800457A0() {
         bodies[1].flags &= ~0x10000001;
         render_anim_model_at_pos();
         get_anim_node_position(0x32, &pos);
-        TBoss3Volopt::create_breakup_mdl((s32)breakup_models[2], (s32)&part_breakup_params, texlist, (s32)&pos, rotation_y);
+        TBoss3Volopt::create_breakup_mdl((saddr)breakup_models[2], (saddr)&part_breakup_params, texlist, (saddr)&pos, rotation_y);
         hide_model_nodes((NJS_OBJECT **)breakup_flags_b);
         play_sound_effect(0x4003A80F, &position, 0, 1);
     }
@@ -1241,7 +1241,7 @@ void TBoss3VoloptP02::fn_800456E4() {
         bodies[2].flags &= ~0x10000001;
         render_anim_model_at_pos();
         get_anim_node_position(0x22, &pos);
-        TBoss3Volopt::create_breakup_mdl((s32)breakup_models[3], (s32)&part_breakup_params, texlist, (s32)&pos, rotation_y);
+        TBoss3Volopt::create_breakup_mdl((saddr)breakup_models[3], (saddr)&part_breakup_params, texlist, (saddr)&pos, rotation_y);
         hide_model_nodes((NJS_OBJECT **)breakup_flags_c);
         play_sound_effect(0x4003A80F, &position, 0, 1);
     }
@@ -1256,7 +1256,7 @@ void TBoss3VoloptP02::trigger_breakup() {
         bodies[3].flags &= ~0x10000001;
         render_anim_model_at_pos();
         get_anim_node_position(0x29, &pos);
-        TBoss3Volopt::create_breakup_mdl((s32)breakup_models[4], (s32)&part_breakup_params, texlist, (s32)&m_2fc, rotation_y);
+        TBoss3Volopt::create_breakup_mdl((saddr)breakup_models[4], (saddr)&part_breakup_params, texlist, (saddr)&m_2fc, rotation_y);
         hide_model_nodes((NJS_OBJECT **)breakup_flags_d);
         play_sound_effect(0x4003A80F, &position, 0, 1);
     }

@@ -10,6 +10,6 @@ public:
     virtual void render();
     virtual void run_task();
 };
-typedef char TUnk_804E71A0_size[sizeof(TUnk_804E71A0) == 0x1C ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804E71A0_size, sizeof(TUnk_804E71A0) == 0x1C);
 
 #endif

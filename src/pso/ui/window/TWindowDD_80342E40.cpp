@@ -25,7 +25,6 @@ void TWindowDD__sub_80341AF8(u8 *arg0);
 s32 open_numeric_parameter_input__9TWindowDDFPviii(void *, int, int, void *);
 s32 classify_id__9TWindowDDFs();
 s32 TWindowDD__sub_80347CC8(void *, void *);
-s32 get_current_child_index__9TWindowDDFv();
 s32 TWindowDD__sub_80342158(s32);
 s32 TWindowDD__sub_803435A0(void *);
 s32 TWindowDD__sub_80347C50();
@@ -81,7 +80,7 @@ u8 update_numeric_parameter_input__9TWindowDDFPv(u8 *arg0) {
     u8 *var_r3;
     var_r31 = 0;
     if ((u32) ((TWindowDD *)arg0)->m_84 == 0U) {
-        get_current_child_index__9TWindowDDFv();
+        ((TWindowDD *)arg0)->get_current_child_index();
         temp_r3 = classify_id__9TWindowDDFs();
         if (temp_r3 != 7) {
             open_numeric_parameter_input__9TWindowDDFPviii(arg0, 0, word_select_numeric_limits[temp_r3], (void *) (TWindowDD__sub_80348D88(arg0 + 0xC4)));

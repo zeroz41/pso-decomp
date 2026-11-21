@@ -12,6 +12,6 @@ struct TOMineIcon03 : public TOMine {
     static void *create(void *arg0);
 };
 
-typedef char TOMineIcon03_size[sizeof(TOMineIcon03) == 0x37C ? 1 : -1];
+LAYOUT_ASSERT(TOMineIcon03_size, sizeof(TOMineIcon03) == 0x37C);
 
 #endif

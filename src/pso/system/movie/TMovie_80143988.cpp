@@ -226,7 +226,7 @@ void TMovie__sub_80143CC8(void) { VIWaitForRetrace(); }
 
 }
 
-void TMovie::calc_frame_buffer_size(s32 arg0, s32 arg1) {
+void TMovie::calc_frame_buffer_size(saddr arg0, saddr arg1) {
     movie_frame_buffer_size = (void *)arg0;
     lbl_805D5690 = (void *)arg1;
     lbl_805D5694 = ((TMovie__framebuffer_video_mode->fbWidth + 0xF) & 0xFFF0) * TMovie__framebuffer_video_mode->xfbHeight * 2;

@@ -33,8 +33,8 @@ struct SjRingBuffer {
     SjErrorCallback error_callback;
     void* error_context;
 };
-typedef char SjRingBuffer_size[sizeof(SjRingBuffer)==0x30 ? 1 : -1];
-typedef char SjRingBufferInterface_size[sizeof(SjRingBufferInterface)==0x30 ? 1 : -1];
+LAYOUT_ASSERT(SjRingBuffer_size, sizeof(SjRingBuffer)==0x30);
+LAYOUT_ASSERT(SjRingBufferInterface_size, sizeof(SjRingBufferInterface)==0x30);
 
 extern "C" {
 SjRingBuffer* sj_ring_buffer_create(void* buffer, s32 buffer_size, s32 extra_buffer_size);

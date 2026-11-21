@@ -10,16 +10,16 @@ void bswap_cmd_88_body(void *p);
 void bswap_cmd_88_marker_record(void *p);
 void bswap_cmd_8a_header(void *p);
 void bswap_packet_header_cmd_b1(void *p);
-void bswap_save_packet(s32 arg0);
+void bswap_save_packet(saddr arg0);
 extern "C" {
 s32 *copy_entry_table(s32 *arg0, s32 *arg1);
 }
 void bswap_cmd_db_regist_connect_reply(packet_header *arg0);
-s32 construct_cmd_db_regist_connect_reply(s32 arg0);
+s32 construct_cmd_db_regist_connect_reply(saddr arg0);
 void *copy_cmd_88_marker_record(void *p, void *a1);
 void bswap_cmd_c4_body(void *p);
 void bswap_cmd_c4_entry(void *arg0);
-void bswap_cmd_c4_reconnect_command(s32 arg0);
+void bswap_cmd_c4_reconnect_command(saddr arg0);
 extern "C" {
 s32 *copy_cmd_c4_entry_table(s32 *arg0, s32 *arg1);
 }
@@ -35,11 +35,11 @@ extern "C" {
 s32 *copy_entry_table(s32 *arg0, s32 *arg1);
 }
 void bswap_cmd_db_regist_connect_reply(packet_header *arg0);
-s32 construct_cmd_db_regist_connect_reply(s32 arg0);
+s32 construct_cmd_db_regist_connect_reply(saddr arg0);
 void *copy_cmd_88_marker_record(void *p, void *a1);
 void bswap_cmd_c4_body(void *p);
 void bswap_cmd_c4_entry(void *arg0);
-void bswap_cmd_c4_reconnect_command(s32 arg0);
+void bswap_cmd_c4_reconnect_command(saddr arg0);
 extern "C" {
 s32 *copy_cmd_c4_entry_table(s32 *arg0, s32 *arg1);
 }

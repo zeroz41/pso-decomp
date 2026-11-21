@@ -33,7 +33,7 @@ s32 test_flags_any(s32 *flags, s32 mask);
 
 void TObjPlayer__sub_80128A70(void) {  }
 
-void TObjPlayer__sub_80128A74(s32 a, u32 b, s32 c, s32 d) {
+void TObjPlayer__sub_80128A74(s32 a, uaddr b, s32 c, s32 d) {
     Obj_80128A74 *o;
     ((TObjPlayer *)b)->clear_rico_ring_flag();
     o = find_entity_by_id(c);
@@ -44,7 +44,7 @@ void TObjPlayer__sub_80128A74(s32 a, u32 b, s32 c, s32 d) {
 
 }
 
-void TObjPlayer::notify_hit_target(u32 arg0, u32 arg1, u32 arg2, u32 arg3) {
+void TObjPlayer::notify_hit_target(u32 arg0, uaddr arg1, u32 arg2, uaddr arg3) {
     if ((arg1 != 0U) && (arg3 != 0U)) {
         ((TObjPlayer *)arg1)->clear_rico_ring_flag();
         spawn_particle_effect((void *)arg3, 0x45);
@@ -53,9 +53,9 @@ void TObjPlayer::notify_hit_target(u32 arg0, u32 arg1, u32 arg2, u32 arg3) {
 }
 
 void TUnk_804A4020::render() {
-    if ((is_owner_alive() != 0) && ((u32)m_58 != 0U) && ((u32)m_5C != 0U)) {
+    if ((is_owner_alive() != 0) && ((uaddr)m_58 != 0U) && ((uaddr)m_5C != 0U)) {
         push_matrix();
-        set_texlist((u32)m_5C);
+        set_texlist((uaddr)m_5C);
         post_translate_matrix(&m_pos.x);
         rotate_matrix_y(NULL, m_count);
         rotate_matrix_x(NULL, m_28 - 0x4000);
@@ -71,7 +71,7 @@ TUnk_804A4020::TUnk_804A4020(void *owner, const Vec *pos, const Vec *dir, f32 li
     sub_80129118(TObjPlayer__sub_801290D0((u8 *)owner), ((TObjBase *)owner)->get_texlist());
 }
 
-u32 TObjPlayer::spawn_shot_effect(s32 owner, s32 origin, s32 end, f32 frames) {
+u32 TObjPlayer::spawn_shot_effect(saddr owner, saddr origin, saddr end, f32 frames) {
     TUnk_804A4020 *model = NULL;
     TItemShootParticle *particle;
     if (owner != 0) {
@@ -82,14 +82,14 @@ u32 TObjPlayer::spawn_shot_effect(s32 owner, s32 origin, s32 end, f32 frames) {
             ((TObject *)particle)->set_parent(model);
         }
     }
-    return (u32)model;
+    return (uaddr)model;
 }
 
 extern "C" {
 void clear_rico_ring_flag__10TObjPlayerFv(u32);
 
 void TUnk_804A403C::emit_marker_effects() {
-    s32 temp_r31;
+    saddr temp_r31;
     s32 var_r30;
     u32 temp_r3;
     u8 *arg0 = (u8 *)this;
@@ -143,11 +143,11 @@ void TUnk_804A403C::reserved_53() {
 
     temp_r31 = *(s32 *)((s8 *)arg0 + 0xF4);
     ((FlagWord *)(arg0 + 0x1FC))->set(1);
-    draw_weapon_at_joint((s32)arg0, 0x30);
+    draw_weapon_at_joint((saddr)arg0, 0x30);
     ((TItemWeapon *)arg0)->get_joint_position(1, (arg0 + 0x200));
     *(s32 *)((s8 *)arg0 + 0xF4) = (s32) *(s32 *)((s8 *)arg0 + 0x180);
     ((FlagWord *)(arg0 + 0x1FC))->clear(1);
-    draw_weapon_at_joint((s32)arg0, 0x23);
+    draw_weapon_at_joint((saddr)arg0, 0x23);
     ((TItemWeapon *)arg0)->get_joint_position(1, (arg0 + 0x20C));
     *(s32 *)((s8 *)arg0 + 0xF4) = temp_r31;
 }
@@ -164,7 +164,7 @@ TUnk_804A403C::TUnk_804A403C(TObject *parent, u8 *item) : TUnk_804A4948(parent, 
     flags.reset();
 }
 
-u8 *TObjPlayer::create_event_callbacks_state(s32 arg0) {
+u8 *TObjPlayer::create_event_callbacks_state(saddr arg0) {
     if (arg0 != 0) {
         return (u8 *)new TUnk_804A403C(tl_05, (u8 *)arg0);
     }
@@ -176,7 +176,7 @@ TUnk_804A4020::~TUnk_804A4020() {
 }
 
 void TObjPlayer::clear_rico_ring_flag() {
-    u32 arg0 = (u32)this;
+    uaddr arg0 = (uaddr)this;
     if (arg0 != 0U) {
         ((FlagWord *)(arg0 + 0x1FC))->clear(2);
     }

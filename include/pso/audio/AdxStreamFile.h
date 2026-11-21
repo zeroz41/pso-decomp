@@ -14,7 +14,7 @@ struct AdxStreamFile {
     s8 b2;
     s8 retry;
     union {
-        s32 arg;
+        saddr arg;
         SjRingBuffer *buffer;
     };
     CvFsHandle *handle;
@@ -31,11 +31,11 @@ struct AdxStreamFile {
     AdxStreamCompletion on_completion;
     void *completion_context;
 };
-typedef char AdxStreamFileHandleOffset[offsetof(AdxStreamFile, handle) == 8 ? 1 : -1];
-typedef char AdxStreamFilePendingReadOffset[offsetof(AdxStreamFile, pending_read) == 0x24 ? 1 : -1];
-typedef char AdxStreamFileCompletionOffset[offsetof(AdxStreamFile, on_completion) == 0x38 ? 1 : -1];
-typedef char AdxStreamFile_size[sizeof(AdxStreamFile) == 0x40 ? 1 : -1];
-typedef char AdxStreamFile_field34_offset[offsetof(AdxStreamFile, field34) == 0x34 ? 1 : -1];
+LAYOUT_ASSERT(AdxStreamFileHandleOffset, offsetof(AdxStreamFile, handle) == 8);
+LAYOUT_ASSERT(AdxStreamFilePendingReadOffset, offsetof(AdxStreamFile, pending_read) == 0x24);
+LAYOUT_ASSERT(AdxStreamFileCompletionOffset, offsetof(AdxStreamFile, on_completion) == 0x38);
+LAYOUT_ASSERT(AdxStreamFile_size, sizeof(AdxStreamFile) == 0x40);
+LAYOUT_ASSERT(AdxStreamFile_field34_offset, offsetof(AdxStreamFile, field34) == 0x34);
 
 extern "C" {
 void set_adx_stream_completion(AdxStreamFile *file, AdxStreamCompletion callback, void *context);

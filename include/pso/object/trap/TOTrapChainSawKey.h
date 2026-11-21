@@ -27,5 +27,5 @@ struct TOTrapChainSawKey : public TOTrapChainSaw {
     u8 unk_104[0x8];
 };
 
-typedef char TOTrapChainSawKey_size[sizeof(TOTrapChainSawKey) == 0x10C ? 1 : -1];
+LAYOUT_ASSERT(TOTrapChainSawKey_size, sizeof(TOTrapChainSawKey) == 0x10C);
 #endif

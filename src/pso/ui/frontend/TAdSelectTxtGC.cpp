@@ -102,11 +102,11 @@ struct Src_802A1838 {
     u8 v[8];
 };
 
-u32 ad_select_text_texture_handle;
+uaddr ad_select_text_texture_handle;
 extern "C" {
 void *__ct__17TAdSelectTxtSubGCFv(void *, void *, void *);
 extern const s32 current_language;
-extern u32 ad_select_text_texture_handle;
+extern uaddr ad_select_text_texture_handle;
 void release_texture_list(void*);
 
 void TAdSelectTxtGC::reset_state() { *(short *)&this->m_prev = 0; *(short *)&this->m_id = 0; *(short *)&this->m_flags = 0; *(short*)((char*)this + 0x2) = 0; *(short *)&this->m_name = 0; *(short*)((char*)this + 0xe) = 0; *(short *)&this->m_next = 0; *(short*)((char*)this + 0xa) = 0; *(float *)&this->m_up = 0.0f; *(float *)&this->m_down = 0.0f; *(int*)((char*)this + 0x20) = 0; *(int*)((char*)this + 0x1c) = 0; *(int*)((char*)this + 0x18) = 0; }
@@ -177,6 +177,6 @@ void TLobby__sub_802A194C(void) {
                                      &select_gamen_eng_texture_list, &select_gamen_eng_texture_list,
                                      &select_gamen_eng_texture_list};
     NJS_TEXLIST *list = texture_lists[current_language];
-    ad_select_text_texture_handle = (u32)list;
-    load_streamed_prs_texture((s32)texture_files[current_language], (s32)list);
+    ad_select_text_texture_handle = (uaddr)list;
+    load_streamed_prs_texture((saddr)texture_files[current_language], (saddr)list);
 }

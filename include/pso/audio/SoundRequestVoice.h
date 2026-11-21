@@ -30,11 +30,11 @@ struct SoundRequestVoice {
     f32 reverb;
 };
 #include <stddef.h>
-typedef char SoundRequestVoice_size[sizeof(SoundRequestVoice) == 0xA0 ? 1 : -1];
-typedef char SoundRequestVoice_previousReverb_offset[offsetof(SoundRequestVoice, previousReverb) == 0x8E ? 1 : -1];
-typedef char SoundRequestVoice_studio_offset[offsetof(SoundRequestVoice, studio) == 0x94 ? 1 : -1];
-typedef char SoundRequestVoice_reverb_offset[offsetof(SoundRequestVoice, reverb) == 0x9C ? 1 : -1];
-typedef char SoundRequestOwner_reverb_offset[offsetof(SoundRequestOwner, reverb) == 0x27C ? 1 : -1];
+LAYOUT_ASSERT(SoundRequestVoice_size, sizeof(SoundRequestVoice) == 0xA0);
+LAYOUT_ASSERT(SoundRequestVoice_previousReverb_offset, offsetof(SoundRequestVoice, previousReverb) == 0x8E);
+LAYOUT_ASSERT(SoundRequestVoice_studio_offset, offsetof(SoundRequestVoice, studio) == 0x94);
+LAYOUT_ASSERT(SoundRequestVoice_reverb_offset, offsetof(SoundRequestVoice, reverb) == 0x9C);
+LAYOUT_ASSERT(SoundRequestOwner_reverb_offset, offsetof(SoundRequestOwner, reverb) == 0x27C);
 
 void send_sound_request_reverb(SoundRequestVoice* voice);
 #endif

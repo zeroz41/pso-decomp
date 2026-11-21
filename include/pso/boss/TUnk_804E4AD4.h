@@ -14,6 +14,6 @@ public:
     f32 last_frame; // motion->frameCount - 1
     f32 frame;      // run_task advances it by 1 and wraps it at last_frame
 };
-typedef char TUnk_804E4AD4_size[sizeof(TUnk_804E4AD4) == 0x2C ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804E4AD4_size, sizeof(TUnk_804E4AD4) == 0x2C);
 
 #endif

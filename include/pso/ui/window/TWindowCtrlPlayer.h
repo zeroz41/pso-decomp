@@ -23,6 +23,6 @@ struct TWindowCtrlPlayer : public TObject {
     virtual void run_task();
 };
 
-typedef char TWindowCtrlPlayer_size[sizeof(TWindowCtrlPlayer) == 0x40 ? 1 : -1];
+LAYOUT_ASSERT(TWindowCtrlPlayer_size, sizeof(TWindowCtrlPlayer) == 0x40);
 
 #endif

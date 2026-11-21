@@ -15,7 +15,7 @@ public:
     virtual ~TUnk_804848A0();
     virtual void run_task();
 };
-typedef char TUnk_804848A0_size[sizeof(TUnk_804848A0) == 0x28 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804848A0_size, sizeof(TUnk_804848A0) == 0x28);
 
 // Fades the screen out to white for Vol Opt: alpha rises from 0 to 255, then
 // on_done runs (or the task ends) and volopt_fade_out_done is set.
@@ -27,7 +27,7 @@ public:
     virtual ~TUnk_804848B8();
     virtual void run_task();
 };
-typedef char TUnk_804848B8_size[sizeof(TUnk_804848B8) == 0x28 ? 1 : -1];
+LAYOUT_ASSERT(TUnk_804848B8_size, sizeof(TUnk_804848B8) == 0x28);
 
 extern s32 volopt_fade_out_done;
 extern s32 volopt_fade_in_done;

@@ -235,7 +235,7 @@ void TBoss3VoloptMonitor::load_resources() {
     volopt_monitor_textures = &volopt_monitor_texture_table;
     volopt_monitor_resources = boss3_volopt_resources;
     clear_texlist_names((NJS_TEXLIST *)&volopt_monitor_texture_table);
-    TLobby::load_texture_pvm_file("fe_obj_vo_momitor.gvm", (s32)volopt_monitor_textures);
+    TLobby::load_texture_pvm_file("fe_obj_vo_momitor.gvm", (saddr)volopt_monitor_textures);
     for (i = 0; i < 4; i++) {
         volopt_monitor_screen_meshes[i] = ((void **)get_bml_model(volopt_monitor_resources, volopt_monitor_models[2][i]))[1];
     }
@@ -358,7 +358,7 @@ void TBoss3VoloptMonitor::render() {
             }
         }
         volopt_monitor_screen.entries = &volopt_monitor_textures->entries[frame];
-        TObjFish::set_global_param((s32)&volopt_monitor_screen);
+        TObjFish::set_global_param((saddr)&volopt_monitor_screen);
         set_draw_list_mask(3);
         push_matrix();
         model_render_flags &= ~0x400;

@@ -262,7 +262,7 @@ s32 ADXF_Stop(AdxfHandle *adxf) {
 }
 
 s32 ADXF_ReadNw(AdxfHandle *file, s32 sectors, void *destination) {
-    if ((u32)destination & 0x1F) {
+    if ((uaddr)destination & 0x1F) {
         TLobby::notify_error("E0120401:'buf' isn't 32byte alignment.(ADXF_ReadNw)");
         return -3;
     }
@@ -699,7 +699,7 @@ s32 adxf_open_file__6TLobbyFiPviPv(s32 id, const char *name, s32 arg2, Ent_803CC
     strncpy(e->name, name, 0x100);
     e->f110 = arg2;
     e->fe = 0;
-    buf = (u8 *)((s32)(adxf_open_file_buffer + 0x20) & ~0x1F);
+    buf = (u8 *)((saddr)(adxf_open_file_buffer + 0x20) & ~0x1F);
     lbl_805D75F0 = buf;
     lbl_805D75EC = buf;
     r = ADXF_ReadNw32(lobby_adxf_open_file_handle, 1, buf);

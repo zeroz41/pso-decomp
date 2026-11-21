@@ -50,7 +50,7 @@ struct AdxbDecoder {
     u8 *m_80;
     s32 m_84;
     void (*read)(s32, s32 *, s32 *, s32 *);
-    s32 readArg;
+    saddr readArg;
     void (*done)(s32, s32, s32);
     s32 doneArg;
     s32 m_98;
@@ -62,7 +62,7 @@ struct AdxbDecoder {
     u32 m_AC;
     u8 pad_B0[0x8];
 };
-typedef char AdxbDecoder_size_check[sizeof(AdxbDecoder) == 0xB8 ? 1 : -1];
+LAYOUT_ASSERT(AdxbDecoder_size_check, sizeof(AdxbDecoder) == 0xB8);
 
 // SPSD header fields read by the SPSD decoder.
 struct SpsdHeader {
@@ -78,7 +78,7 @@ struct SpsdHeader {
 
 extern "C" {
 void TLobby__sub_803C2A00(AdxbDecoder *o);
-s32 initialize_wave_stream_decoder(AdxbDecoder *decoder, u8 *buffer, s32 len);
+s32 sub_803C1668(AdxbDecoder *decoder, u8 *buffer, s32 len);
 void TLobby__sub_803C34F4(AdxbDecoder *decoder);
 s32 TLobby__sub_803C3B38(const AdxbDecoder *decoder);
 }

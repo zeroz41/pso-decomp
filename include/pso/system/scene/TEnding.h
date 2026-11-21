@@ -24,11 +24,11 @@ public:
 };
 
 #include <stddef.h>
-typedef char TEndingSize[sizeof(TEnding) == 0x710 ? 1 : -1];
-typedef char TEndingPhase[offsetof(TEnding, phase) == 0x1C ? 1 : -1];
-typedef char TEndingRate[offsetof(TEnding, timing_rate) == 0x24 ? 1 : -1];
-typedef char TEndingTicks[offsetof(TEnding, elapsed_ticks) == 0x28 ? 1 : -1];
-typedef char TEndingRing[offsetof(TEnding, ring_controller) == 0x70C ? 1 : -1];
+LAYOUT_ASSERT(TEndingSize, sizeof(TEnding) == 0x710);
+LAYOUT_ASSERT(TEndingPhase, offsetof(TEnding, phase) == 0x1C);
+LAYOUT_ASSERT(TEndingRate, offsetof(TEnding, timing_rate) == 0x24);
+LAYOUT_ASSERT(TEndingTicks, offsetof(TEnding, elapsed_ticks) == 0x28);
+LAYOUT_ASSERT(TEndingRing, offsetof(TEnding, ring_controller) == 0x70C);
 
 extern "C" {
 void TEnding__sub_8008C9F8(void);

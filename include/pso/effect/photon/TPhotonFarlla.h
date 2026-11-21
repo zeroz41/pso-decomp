@@ -25,7 +25,7 @@ public:
     s32 m_1a0;
     u8 unk_1A4[0x4];
 };
-typedef char TPhotonFarlla_size[sizeof(TPhotonFarlla) == 0x1A8 ? 1 : -1];
+LAYOUT_ASSERT(TPhotonFarlla_size, sizeof(TPhotonFarlla) == 0x1A8);
 
 extern "C" {
 void *destroy__13TPhotonFarllaFPvs(void *arg0, s16 arg1);

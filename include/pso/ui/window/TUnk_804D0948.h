@@ -14,6 +14,6 @@ public:
     virtual void run_task();
     s32 unk_88;
 };
-typedef char TWindowShop_size[sizeof(TWindowShop) == 0x8C ? 1 : -1];
+LAYOUT_ASSERT(TWindowShop_size, sizeof(TWindowShop) == 0x8C);
 
 #endif

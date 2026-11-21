@@ -5,13 +5,14 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/chat/ShortMail.h"
+#include "pso/object/warp/TObjCityMainWarp.h"
 
 
 void TWindowSubComCardList::sub_80275360() {
     TWindowSubComCard *card;
     s32 n;
     s32 index;
-    s32 msg;
+    saddr msg;
 
     this->reset_entries();
     index = ((TWindowSubStatusDisp *)this->m_8c)->get_type();
@@ -30,15 +31,15 @@ void TWindowSubComCardList::sub_80275360() {
         if (card->is_active() == 0) {
             break;
         }
-        forward_trade_action_default__16TObjCityMainWarpFPviii(this, (int)((TLobby *)card)->get_com_card_list(), 7, index);
+        TObjCityMainWarp::forward_trade_action_default(this, (saddr)((TLobby *)card)->get_com_card_list(), 7, index);
     }
     if (this->get_field_72() <= 0) {
         switch ((s8)this->m_9c) {
         case 0:
-            msg = (s32)TWindowSubStatusDisp::get_message_10(0xD4);
+            msg = (saddr)TWindowSubStatusDisp::get_message_10(0xD4);
             break;
         case 1:
-            msg = (s32)TWindowSubStatusDisp::get_message_10(0xD2);
+            msg = (saddr)TWindowSubStatusDisp::get_message_10(0xD2);
             break;
         }
         add_gray_text_entry((TWindowSubTradeMain *)this, (const char *)msg, 4, -1);

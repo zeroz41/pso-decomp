@@ -6,11 +6,11 @@
 extern "C" {
 
 
-extern s32 item_nj_chunk_buffer_table[];
+extern saddr item_nj_chunk_buffer_table[];
 
 void TItemBuff::free_all_and_init() {
     s32 var_r28;
-    s32 *var_r29;
+    saddr *var_r29;
     s32 var_r30;
     s32 var_r31;
 

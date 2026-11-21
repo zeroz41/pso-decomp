@@ -153,7 +153,7 @@ void mfci_stop_transfer(void *handle) {
 
 s32 mfci_request_read(void *handle, s32 sectors, void *buffer) {
     MfciFileEntry *mfci_file_entry = (MfciFileEntry *)handle;
-    u32 data;
+    uaddr data;
     u32 size;
     s32 copied;
     s32 bytes;

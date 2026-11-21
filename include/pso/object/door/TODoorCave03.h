@@ -29,5 +29,5 @@ struct TODoorCave03 : public TODoorBase {
     static BmlResource *bml_resource;
 };
 
-typedef char TODoorCave03_size[sizeof(TODoorCave03) == 0xE4 ? 1 : -1];
+LAYOUT_ASSERT(TODoorCave03_size, sizeof(TODoorCave03) == 0xE4);
 #endif

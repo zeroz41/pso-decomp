@@ -22,11 +22,11 @@ struct MapSetModule {
     MapSetArea *areas;
 };
 
-typedef char MapSetEntrySize[sizeof(MapSetEntry) == 0xC ? 1 : -1];
-typedef char MapSetEntryEnemyOffset[offsetof(MapSetEntry, enemy_set_name) == 4 ? 1 : -1];
-typedef char MapSetVariantSize[sizeof(MapSetVariant) == 8 ? 1 : -1];
-typedef char MapSetAreaSize[sizeof(MapSetArea) == 8 ? 1 : -1];
-typedef char MapSetModuleAreasOffset[offsetof(MapSetModule, areas) == 0 ? 1 : -1];
+LAYOUT_ASSERT(MapSetEntrySize, sizeof(MapSetEntry) == 0xC);
+LAYOUT_ASSERT(MapSetEntryEnemyOffset, offsetof(MapSetEntry, enemy_set_name) == 4);
+LAYOUT_ASSERT(MapSetVariantSize, sizeof(MapSetVariant) == 8);
+LAYOUT_ASSERT(MapSetAreaSize, sizeof(MapSetArea) == 8);
+LAYOUT_ASSERT(MapSetModuleAreasOffset, offsetof(MapSetModule, areas) == 0);
 
 extern "C" MapSetArea *TLobby__data_805D6068;
 

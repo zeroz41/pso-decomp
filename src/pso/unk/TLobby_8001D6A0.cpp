@@ -1,3 +1,4 @@
+#include <string.h>
 #include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/network/TProtocol.h"
@@ -52,7 +53,7 @@ Ent_8001D768 *find_free_pool_entry__6TLobbyFPv(Obj_8001D768 *self);
 void archive_pool_free(Pool_8001D7AC *pool, Node_8001D7AC *node);
 Node_8001D808 *archive_pool_alloc(Pool_8001D808 *pool, u32 size);
 
-extern s32 TLobby__protocol_instance;
+extern saddr TLobby__protocol_instance;
 
 s32 aram_read_sync__6TLobbyFllll(s32, s32);
 s32 aram_transfer_sync__6TLobbyFlUlll(s32, void *, s32);
@@ -130,7 +131,7 @@ Node_8001D808 *archive_pool_alloc(Pool_8001D808 *pool, u32 size) {
                 return cur;
             }
             if (cur->size > sz) {
-                n = (Node_8001D808 *)find_free_pool_entry__6TLobbyFPv((Obj_8001D768 *)pool);
+                n = (Node_8001D808 *)TLobby::find_free_pool_entry((Obj_8001D768 *)pool);
                 if (n != 0) {
                     n->next = 0;
                     n->prev = 0;
@@ -146,7 +147,7 @@ Node_8001D808 *archive_pool_alloc(Pool_8001D808 *pool, u32 size) {
     return 0;
 }
 
-u32 *free_and_delete__6TLobbyFPvs(u32 *arg0, s16 arg1) {
+uaddr *free_and_delete__6TLobbyFPvs(uaddr *arg0, s16 arg1) {
     if (arg0 != NULL) {
         if ((u32) *arg0 != 0U) {
             xfree((void *)(*arg0));
@@ -193,7 +194,7 @@ void TLobby__sub_8001D9E8(void* p) { *(s32*)((char*)p + 0x4) = 0; *(s32*)((char*
 void TLobby::sync_auto_reply_state() {
     if ((auto_reply_flags & 4) || (auto_reply_flags & 1) != ((auto_reply_flags >> 1) & 1)) {
         if (((s32 (*)(void))get_flag_bit0__6TLobbyFv)() != 0) {
-            ((TLobby *)TLobby__protocol_instance)->send_text_packet_c7((char *)(get_card_window_area__6TLobbyFv()));
+            ((TLobby *)TLobby__protocol_instance)->send_text_packet_c7((char *)(TLobby::get_card_window_area()));
         } else {
             ((TProtocol *)TLobby__protocol_instance)->send_disable_auto_reply();
         }
@@ -206,11 +207,11 @@ s32 get_card_window_area__6TLobbyFv(void) {
     return get_character_save_record(0xFFFF) + 0x2050;
 }
 void TLobby::set_short_mail_text() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     u8 *temp_r31;
     temp_r31 = (u8 *)(get_character_save_record((0xFFFFU)) + 0x2050);
     TWindowSubComCard::mask_profanity_words((char *)arg0, (char *)get_shared_text_buffer());
-    strncpy((char *)temp_r31, (char *)(((s32 (*)(void))get_shared_text_buffer)()), 0xAB);
+    strncpy((char *)temp_r31, (char *)(((saddr (*)(void))get_shared_text_buffer)()), 0xAB);
     *(s8 *)((s8 *)temp_r31 + 0xAB) = 0;
     auto_reply_flags |= 4;
     if (TLobby::is_active() != 0) {
@@ -252,10 +253,10 @@ void TLobby__sub_8001DBD8(s32 _w0) {
     auto_reply_flags = 0;
 }
 
-void TLobby::forward_8001DBD8(void* p) { TLobby__sub_8001DBD8((s32)p); }
-void TLobby__sub_8001DC04(void* p) { TLobby__sub_8001DBD8((s32)p); }
+void TLobby::forward_8001DBD8(void* p) { TLobby__sub_8001DBD8((saddr)p); }
+void TLobby__sub_8001DC04(void* p) { TLobby__sub_8001DBD8((saddr)p); }
 
-    extern int TLobby__lobby_instance;
+    extern saddr TLobby__lobby_instance;
 
 s32 *get_shared_text_buffer(void) {
     return &text_builder_buffer.value;
@@ -347,7 +348,7 @@ void load_battle_param_entry(void) {
       }
 
     }
-    move_data((void *)((new_var->pkts)), (const void *)((void *) ((((s32) file) + 0x3600) + (idx * 0x1200))), sizeof(dst->pkts));
+    move_data((void *)((new_var->pkts)), (const void *)((void *) ((((saddr) file) + 0x3600) + (idx * 0x1200))), sizeof(dst->pkts));
     {
       Pkt_8001DC30 *p = new_var->pkts;
       s32 i;
@@ -358,7 +359,7 @@ void load_battle_param_entry(void) {
       }
 
     }
-    move_data((void *)((new_var->sw)), (const void *)((void *) ((((s32) file) + 0x7E00) + (idx * 0xC00))), sizeof(dst->sw));
+    move_data((void *)((new_var->sw)), (const void *)((void *) ((((saddr) file) + 0x7E00) + (idx * 0xC00))), sizeof(dst->sw));
     {
       s32 i;
       Sw_8001DC30 *p = new_var->sw;
@@ -369,7 +370,7 @@ void load_battle_param_entry(void) {
       }
 
     }
-    move_data((void *)((new_var->pairs)), (const void *)((void *) ((((s32) file) + 0xAE00) + (1152 * (4 * idx)))), sizeof(dst->pairs));
+    move_data((void *)((new_var->pairs)), (const void *)((void *) ((((saddr) file) + 0xAE00) + (1152 * (4 * idx)))), sizeof(dst->pairs));
     {
       s32 i;
       Pair_8001DC30 *p = new_var->pairs;
@@ -413,13 +414,13 @@ void TLobby__sub_8001DEA8(s32 arg0) {
     TLobby__lobby_instance = arg0;
 }
 
-void broadcast_to_players__6TLobbyFii(s32 arg0, s32 arg1) {
+void broadcast_to_players__6TLobbyFii(s32 arg0, saddr arg1) {
     s32 var_r31;
 
     if (((s32 (*)(void))is_valid_player_index__6TLobbyFi)() != 0) {
         var_r31 = 0;
         do {
-            copy_pair__6TLobbyFPvPv((Obj_8001DF0C *)(((s32 (*)(s32, s32))get_player_entry__6TLobbyFii)(var_r31, arg0)), (Obj_8001DF0C *)(arg1));
+            TLobby::copy_pair((Obj_8001DF0C *)(((saddr (*)(s32, s32))get_player_entry__6TLobbyFii)(var_r31, arg0)), (Obj_8001DF0C *)(arg1));
             var_r31 += 1;
         } while (var_r31 < 4);
     }
@@ -430,13 +431,13 @@ Obj_8001DF0C *copy_pair__6TLobbyFPvPv(Obj_8001DF0C *d, Obj_8001DF0C *s) {
     return d;
 }
 
-void TLobby__sub_8001DF58(s32 arg0, s32 ent) {
+void TLobby__sub_8001DF58(s32 arg0, saddr ent) {
     s32 var_r31;
 
     if (((s32 (*)(void))is_valid_player_index__6TLobbyFi)() != 0) {
         var_r31 = 0;
         do {
-            ((TLobby *)(((s32 (*)(s32, s32))get_entry__6TLobbyFii)(var_r31, arg0)))->copy_entry((void *)ent);
+            ((TLobby *)(((saddr (*)(s32, s32))get_entry__6TLobbyFii)(var_r31, arg0)))->copy_entry((void *)ent);
             var_r31 += 1;
         } while (var_r31 < 4);
     }
@@ -456,13 +457,13 @@ void TLobby::copy_entry(void *arg1) {
     *(s32 *)((s8 *)this + 0x1C) = (s32) *(s32 *)((s8 *)arg1 + 0x1C);
 }
 
-void copy_all_entries__6TLobbyFii(s32 arg0, s32 arg1) {
+void copy_all_entries__6TLobbyFii(s32 arg0, saddr arg1) {
     s32 var_r31;
 
     if (((s32 (*)(void))is_valid_player_index__6TLobbyFi)() != 0) {
         var_r31 = 0;
         do {
-            ((TLobby *)(((s32 (*)(s32, s32))TLobby__sub_8001E270)(var_r31, arg0)))->copy_from((void *)arg1);
+            ((TLobby *)(((saddr (*)(s32, s32))TLobby__sub_8001E270)(var_r31, arg0)))->copy_from((void *)arg1);
             var_r31 += 1;
         } while (var_r31 < 4);
     }
@@ -487,13 +488,13 @@ void TLobby::copy_from(void *arg1) {
     *(s32 *)((s8 *)this + 0x2C) = (s32) *(s32 *)((s8 *)arg1 + 0x2C);
 }
 
-void copy_all_data__6TLobbyFii(s32 arg0, s32 arg1) {
+void copy_all_data__6TLobbyFii(s32 arg0, saddr arg1) {
     s32 var_r31;
 
     if (((s32 (*)(void))is_valid_player_index__6TLobbyFi)() != 0) {
         var_r31 = 0;
         do {
-            TLobby::copy_data((void *)(((s32 (*)(s32, s32))TLobby__sub_8001E2A8)(var_r31, arg0)), (void *)arg1);
+            TLobby::copy_data((void *)(((saddr (*)(s32, s32))TLobby__sub_8001E2A8)(var_r31, arg0)), (void *)arg1);
             var_r31 += 1;
         } while (var_r31 < 4);
     }
@@ -526,24 +527,24 @@ u8 is_valid_player_index__6TLobbyFi(s32 arg0) {
 }
 
     extern int battle_parameter_difficulty;
-void*TLobby::dispatch_shared_handler_a(s32 index) { return get_player_entry__6TLobbyFii(battle_parameter_difficulty, index); }
+void*TLobby::dispatch_shared_handler_a(s32 index) { return TLobby::get_player_entry(battle_parameter_difficulty, index); }
 
-    extern int battle_param_movement;
+    extern saddr battle_param_movement;
 void* get_player_entry__6TLobbyFii(int a0, int a1) {  return (char*)(battle_param_movement) + a1 * 48; }
 
-void*TLobby::register_object(s32 index) { return get_entry__6TLobbyFii(battle_parameter_difficulty, index); }
+void*TLobby::register_object(s32 index) { return TLobby::get_entry(battle_parameter_difficulty, index); }
 
-    extern int TLobby__battle_param_resistances;
+    extern saddr TLobby__battle_param_resistances;
 void* get_entry__6TLobbyFii(int a0, int a1) {  return (char*)(TLobby__battle_param_resistances) + a1 * 32; }
 
 void*TLobby::dispatch_shared_handler_b(s32 index) { return TLobby__sub_8001E270(battle_parameter_difficulty, index); }
 
-    extern int TLobby__battle_param_attacks;
+    extern saddr TLobby__battle_param_attacks;
 void* TLobby__sub_8001E270(int a0, int a1) {  return (char*)(TLobby__battle_param_attacks) + a1 * 48; }
 
 void*TLobby::register_boss(s32 index) { return TLobby__sub_8001E2A8(battle_parameter_difficulty, index); }
 
-    extern int battle_param_stats;
+    extern saddr battle_param_stats;
 void* TLobby__sub_8001E2A8(int a0, int a1) {  return (char*)(battle_param_stats) + a1 * 36; }
 
 void set_difficulty__6TLobbyFi(s32 arg0) {
@@ -603,11 +604,11 @@ void alloc_battle_param_tables(void) {
     for (i = 0; i < 0x3d80; i++) {
         buf[i] = 0;
     }
-    TLobby__battle_parameter_buffer = (u32)buf;
-    battle_param_stats = (s32)buf;
-    TLobby__battle_param_attacks = (s32)(buf + 0xd80);
-    TLobby__battle_param_resistances = (s32)(buf + 0x1f80);
-    battle_param_movement = (s32)(buf + 0x2b80);
+    TLobby__battle_parameter_buffer = (uaddr)buf;
+    battle_param_stats = (saddr)buf;
+    TLobby__battle_param_attacks = (saddr)(buf + 0xd80);
+    TLobby__battle_param_resistances = (saddr)(buf + 0x1f80);
+    battle_param_movement = (saddr)(buf + 0x2b80);
     TLobby::clamp_difficulty(game_difficulty_selection);
     TLobby::get_instance();
     ((s32 (*)(void))set_difficulty__6TLobbyFi)();
@@ -666,8 +667,8 @@ void set_clock_offset_from_server_time(TLobby *packet) {
 }
 
 s32 TLobby::calc_time_from_hms() {
-    s32 arg0 = (s32)this;
-  s32 *new_var;
+    saddr arg0 = (saddr)this;
+  saddr *new_var;
   int new_var2;
   s32 temp_r31_2;
   s32 temp_r31;
@@ -777,7 +778,7 @@ s32 TLobby::get_clock_frames() {
 void TLobby__sub_8001E998(f32 farg0, f32 farg1, f32 farg2, f32 farg3) {
     f32 scale;
     f32 var_f4;
-    s32 temp_r31;
+    saddr temp_r31;
     var_f4 = farg3;
     if (!(var_f4 <= 0.0f)) {
         if (var_f4 > 1.0f) {
@@ -795,8 +796,8 @@ void TLobby__sub_8001E998(f32 farg0, f32 farg1, f32 farg2, f32 farg3) {
 #pragma fp_contract on
 void TLobby__sub_8001EA5C(f32 x, f32 y, f32 size, f32 alpha) {
     s32 frames;
-    s32 text_color;
-    s32 color;
+    saddr text_color;
+    saddr color;
     s32 beat;
     f32 scale;
     u32 elapsed;

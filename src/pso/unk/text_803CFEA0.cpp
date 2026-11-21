@@ -1,5 +1,6 @@
 #define PSO_SDK_COMPACT_MATH
 #include "types.h"
+#include <string.h>
 #include "pso/system/CvFsStreamHandle.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/GcciRequests.h"
@@ -25,7 +26,6 @@ u32 strlen(const char *);
 extern char dvd_default_path_buffer[0x100];
 extern GcciStatus dvd_active_request;
 u32 OSGetTick(void);
-void *memset(void *, int, u32);
 extern GcciRequest dvd_request_table[40];
 s32 get_handle_field_20(void *context) {
     GcciRequest *handle = static_cast<GcciRequest *>(context);
@@ -148,7 +148,7 @@ void cancel_dvd_request(void *arg) {
 s32 dvd_synchronous_read_enabled = 0;
 #pragma explicit_zero_data off
 void DCInvalidateRange(void *, u32);
-s32 Dolphin_DVDReadPrio(DVDFileInfo *, void *, s32, s32, s32);
+s32 DVDReadPrio(DVDFileInfo *, void *, s32, s32, s32);
 
 inline s32 dvd_request_ready(GcciRequest *r) {
     s32 ready = 0;
@@ -259,7 +259,7 @@ s32 gcCiReqRd(void *arg, s32 count, void *buf) {
     if (dvd_synchronous_read_enabled == 0) {
         result = DVDReadAsyncPrio(&r->block, buf, len, offset, TLobby__sub_803CFE9C, 2);
     } else {
-        result = Dolphin_DVDReadPrio(&r->block, buf, len, offset, 2);
+        result = DVDReadPrio(&r->block, buf, len, offset, 2);
     }
     if (result == 0) {
         return 0;

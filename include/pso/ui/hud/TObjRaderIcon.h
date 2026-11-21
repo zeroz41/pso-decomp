@@ -17,7 +17,7 @@ struct TObjRaderIcon : public TObjBase {
     void initialize_from_placement();
 };
 
-typedef char TObjRaderIcon_size[sizeof(TObjRaderIcon) == 0xA4 ? 1 : -1];
+LAYOUT_ASSERT(TObjRaderIcon_size, sizeof(TObjRaderIcon) == 0xA4);
 
 extern "C" {
 void *TObjRaderIcon__create(void *arg0);

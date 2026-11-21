@@ -27,9 +27,9 @@ struct AdxfHandle {
     u8 pad_34[0x138 - 0x34];
 };
 
-typedef char AdxfHandleSize[sizeof(AdxfHandle) == 0x138 ? 1 : -1];
-typedef char AdxfHandleByteSizeOffset[offsetof(AdxfHandle, byte_size) == 0x10 ? 1 : -1];
-typedef char AdxfHandleReadDestinationOffset[offsetof(AdxfHandle, read_destination) == 0x24 ? 1 : -1];
+LAYOUT_ASSERT(AdxfHandleSize, sizeof(AdxfHandle) == 0x138);
+LAYOUT_ASSERT(AdxfHandleByteSizeOffset, offsetof(AdxfHandle, byte_size) == 0x10);
+LAYOUT_ASSERT(AdxfHandleReadDestinationOffset, offsetof(AdxfHandle, read_destination) == 0x24);
 
 // The command journal stores raw sector/partition numbers or the native pointer
 // for the recorded command, with one entry for each phase.
@@ -63,11 +63,11 @@ struct LogHdr_803CD16C {
     u8 remaining[0x12];
 };
 
-typedef char AdxfLogEntrySize[sizeof(LogEnt_803CD16C) == 0x10 ? 1 : -1];
-typedef char AdxfLogHandleOffset[offsetof(LogEnt_803CD16C, handle) == 0x4 ? 1 : -1];
-typedef char AdxfLogDestinationOffset[offsetof(LogEnt_803CD16C, destination) == 0xC ? 1 : -1];
-typedef char AdxfLogHeaderSize[sizeof(LogHdr_803CD16C) == 0x20 ? 1 : -1];
-typedef char AdxfLogSeekSequenceOffset[offsetof(LogHdr_803CD16C, seek_sequence) == 0xC ? 1 : -1];
+LAYOUT_ASSERT(AdxfLogEntrySize, sizeof(LogEnt_803CD16C) == 0x10);
+LAYOUT_ASSERT(AdxfLogHandleOffset, offsetof(LogEnt_803CD16C, handle) == 0x4);
+LAYOUT_ASSERT(AdxfLogDestinationOffset, offsetof(LogEnt_803CD16C, destination) == 0xC);
+LAYOUT_ASSERT(AdxfLogHeaderSize, sizeof(LogHdr_803CD16C) == 0x20);
+LAYOUT_ASSERT(AdxfLogSeekSequenceOffset, offsetof(LogHdr_803CD16C, seek_sequence) == 0xC);
 
 extern "C" {
 extern LogHdr_803CD16C lbl_8057B7B0;

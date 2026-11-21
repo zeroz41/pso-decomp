@@ -11,7 +11,7 @@ extern "C" {
 extern CvFsErrorCallback cvfs_completion_callback;
 extern s32 lbl_805D75FC;
 
-void SIGetTypeAsync(void);
+void cvFsFinish(void);
 void TLobby__sub_803CEF60(void);
 s32 cvFsAddVolume(char *dev, char *vol, void *img);
 s32 cvFsChangeDir(char *path);

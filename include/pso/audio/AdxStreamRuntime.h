@@ -13,7 +13,7 @@ typedef struct Ent_803C9608 {
     char state;
     s8 stat;
     u8 pad_2[0x4 - 0x2];
-    s32 f4;
+    saddr f4;
     AdxStreamFile *f8;
     s32 fC;
     u8 pad_10[0x18 - 0x10];
@@ -33,13 +33,14 @@ typedef struct Ent_803C9608 {
     s32 fA0;
     u8 pad_A4[0xA8 - 0xA4];
 } Ent_803C9608;
-typedef char AdxStreamPlayerSize[sizeof(Ent_803C9608) == 0xA8 ? 1 : -1];
-typedef char AdxStreamPlayerFileOffset[offsetof(Ent_803C9608, f8) == 8 ? 1 : -1];
+LAYOUT_ASSERT(AdxStreamPlayerSize, sizeof(Ent_803C9608) == 0xA8);
+LAYOUT_ASSERT(AdxStreamPlayerFileOffset, offsetof(Ent_803C9608, f8) == 8);
 
 extern "C" {
 AdxStreamFile *TLobby__sub_803C8BAC(const char *name, s32 arg);
 AdxStreamFile *TLobby__sub_803C8CDC(const char *name, s32 mode, s32 arg);
 AdxStreamFile *adxstm_open_fname_range__6TLobbyFPviiii(const char *name, s32 mode, s32 off, s32 nsect, s32 arg);
+AdxStreamFile *adxstm_open_fname_range_ex_rt__6TLobbyFPviiii(const char *name, s32 mode, s32 off, s32 nsect, saddr arg);
 void TLobby__sub_803C5D00(u8 *arg0);
 void TLobby__sub_803C5D24(u8 *arg0);
 void TLobby__sub_803C5E58(void);

@@ -29,7 +29,7 @@ void TAdPlyPltAnimGC::render() {
     if (state != 0 && TMainTask::get_render_pass() != 1) {
         set_additive_blend();
         begin_screen_draw(1);
-        TObjFish::set_global_param((s32)player_prate_texture_list_ptr);
+        TObjFish::set_global_param((saddr)player_prate_texture_list_ptr);
         set_draw_texture_and_color(0, (alpha << 0x18) | 0xFF0000 | 0xFFFF);
         draw_textured_quad_at_depth(&quad.x0, (0.001f * (f32)index) + 0.99f);
         TWindowSubStatusDisp::get_player();
@@ -125,5 +125,5 @@ void TAdPlyPltAnimGC__sub_8035615C(void) {
 
 void register_player_prate(void) {
     player_prate_texture_list_ptr = &player_prate_texture_list;
-    load_streamed_prs_texture((s32)"f256_player_prate", (s32)&player_prate_texture_list);
+    load_streamed_prs_texture((saddr)"f256_player_prate", (saddr)&player_prate_texture_list);
 }

@@ -1,4 +1,5 @@
 #include "types.h"
+#include <string.h>
 #include "pso/unk/text_803D2F1C.h"
 #include "pso/unk/TLobby.h"
 struct Strm_803D4770;

@@ -1,3 +1,4 @@
+#include <string.h>
 #include <dolphin/os/OSThread.h>
 #include "pso/unk/text_803D2F1C.h"
 #include "pso/audio/AdxStream.h"
@@ -16,7 +17,6 @@ extern "C" {
 s32 lbl_805D7550;
 s32 tlobby_stream_read_retry_limit;
 s32 lbl_805D7558;
-s32 memset(void *, int, int);
 }
 void update_active_stream_reads(void);
 
@@ -29,7 +29,6 @@ static const char lbl_8047C634[] = "E00041205 ADXSTM_OpenFnameEx: can't open ";
 static const char lbl_8047C660[] = "E0041206 ADXSTM_OpenFnameRang: can't open ";
 AdxStreamFile *TLobby__sub_803C8BAC(const char *name, s32 arg);
 AdxStreamFile *TLobby__sub_803C8CDC(const char *name, s32 mode, s32 arg);
-AdxStreamFile *adxstm_open_fname_range_ex_rt__6TLobbyFPviiii(const char *name, s32 mode, s32 off, s32 nsect, s32 arg);
 
 void set_field_10_and_notify__6TLobbyFl(AdxStreamFile *file, s32 offset) {
     file->f10 = offset;
@@ -344,7 +343,7 @@ AdxStreamFile *TLobby__sub_803C8CDC(const char *name, s32 mode, s32 arg) {
     return p;
 }
 
-inline AdxStreamFile *alloc_803C8E28(s32 arg, CvFsHandle *h, s32 f10, s32 size) {
+inline AdxStreamFile *alloc_803C8E28(saddr arg, CvFsHandle *h, s32 f10, s32 size) {
     AdxStreamFile *p = NULL;
     s32 i;
     for (i = 0; i < adx_stream_request_count_ex; i++) {
@@ -368,7 +367,7 @@ inline AdxStreamFile *alloc_803C8E28(s32 arg, CvFsHandle *h, s32 f10, s32 size) 
     p->used = 1;
     return p;
 }
-AdxStreamFile *adxstm_open_fname_range_ex_rt__6TLobbyFPviiii(const char *name, s32 mode, s32 off, s32 nsect, s32 arg) {
+AdxStreamFile *adxstm_open_fname_range_ex_rt__6TLobbyFPviiii(const char *name, s32 mode, s32 off, s32 nsect, saddr arg) {
     CvFsHandle *h;
     AdxStreamFile *p;
     h = cvFsOpen(name, mode, 0);
@@ -425,7 +424,7 @@ AdxStreamFile *adxstm_open_fname_range__6TLobbyFPviiii(const char *name, s32 mod
 }
 
 void TLobby::si_get_type_async() {
-    SIGetTypeAsync();
+    cvFsFinish();
 }
 
 s32 TLobby::clear_buffer_a00() {

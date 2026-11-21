@@ -22,6 +22,6 @@ public:
     s32 visible;                // 0x1C: render() draws only while this is set
     T_ATS_DrawCalendarPos pos;  // 0x20: centre of the first text line
 };
-typedef char T_ATS_DrawCalendar_size[sizeof(T_ATS_DrawCalendar) == 0x28 ? 1 : -1];
+LAYOUT_ASSERT(T_ATS_DrawCalendar_size, sizeof(T_ATS_DrawCalendar) == 0x28);
 
 #endif

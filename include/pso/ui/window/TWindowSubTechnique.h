@@ -14,12 +14,12 @@ struct TWindowSubTechnique : public TObject {
     void* m_24;
     s32 playerIndex;
     u32 m_2c;
-    u32 m_30;
-    u32 m_34;
+    uaddr m_30;
+    uaddr m_34;
     u32 m_38;
     u32 m_3c;
 
-    void rebuildTechniqueList(s32 list, s32 category);
+    void rebuildTechniqueList(saddr list, s32 category);
     s32 open_menu();
     void update_selected_help(s32 arg1);
     virtual void render();
@@ -34,11 +34,11 @@ struct TWindowSubTechnique : public TObject {
     static void draw_technique_row(s32 id, s32 arg1, s32 arg2);
 };
 
-typedef char TWindowSubTechnique_size[sizeof(TWindowSubTechnique) == 0x40 ? 1 : -1];
+LAYOUT_ASSERT(TWindowSubTechnique_size, sizeof(TWindowSubTechnique) == 0x40);
 
 extern "C" {
 void *TWindowSubTechnique__ct(TWindowSubTechnique *arg0, s32 arg1, s32 arg2);
-s32 get_technique_description_text(s32 arg0);
+saddr get_technique_description_text(s32 arg0);
 void *__dt__19TWindowSubTechniqueFv(TWindowSubTechnique *arg0, s16 arg1);
 }
 
