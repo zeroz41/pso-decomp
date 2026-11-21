@@ -56,7 +56,7 @@ s32 clear_all_used_records(void);
 s32 close_connection_by_index(s16 i);
 NetPacket *alloc_free_entry(void);
 void release_entry(NetPacket *pkt);
-s32 call_entry_callback(s16 i, s32 arg);
+s32 call_entry_callback(s16 i, s16 arg);
 s16 call_handler_by_index(s16 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 s32 clear_table_entry_locked(s16 arg0);
 void init_net_block_18A0(void);
@@ -68,7 +68,7 @@ void process_expired_timers(void);
 s32 run_net_init_step(void);
 s32 shutdown_network_handle(void);
 s16 is_socket_flag_set(s16 i);
-s16 TLobby__sub_8040A044(s16 idx, u32 a, s32 b, u32 *c);
+s16 TLobby__sub_8040A044(s16 idx, u32 a, s16 b, u32 *c);
 void TLobby__sub_804050DC(s16 arg0);
 s32 TLobby__sub_804062A0(s16 arg0);
 s32 TLobby__sub_80406624(s32 a, s32 b, u16 code, void *self);
@@ -120,7 +120,7 @@ s16 TLobby__sub_8040FEE4(s32, s32);                  /* NetIpv4Route.c */
 s16 get_ipv4_interface_mtu(s16);                       /* NetIpv4Route.c */
 /* ARP (src/pso/network/NetArp.c). */
 s32 TLobby__sub_80407418(s16 id);
-void forward_net_op_5args(s16, s16, s16, s16, s16, s32, s8, s32);
+s16 forward_net_op_5args(s16, s16, s16, s16, s16, s32, s16, s32);
 /* The handler table (src/pso/network/NetHandlerTable.c). */
 s16 TLobby__sub_80409CE0(s16 idx, s32 handle, s32 op, void *addr);
 s16 TLobby__sub_80409D7C(s16 idx, s32 handle, s32 op, void *addr);

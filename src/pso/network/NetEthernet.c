@@ -540,7 +540,6 @@ s16 TLobby__sub_804094B8(s16 a, u16 b, s16 c, void *k) {
     s16 ret;
     s16 err;
     EthDriver *cb;
-    s16 forward_net_op_5args(s16, s16, s16, u16, s16, s32, s16, s32);
 
     p1 = find_link(g, a);
     if (p1 == NULL) {
