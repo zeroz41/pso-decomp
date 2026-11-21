@@ -472,7 +472,7 @@ void vt0__20TWindowSubStatusDispFv(u8 *window_base) {
             set_text_entry_string((u8 *)((void *)((TWindowBase *)window_base)->get_array_entry(0)), v, 0x20);
             v = get_class_name_text(st[0x31]);
             set_text_entry_string((u8 *)((void *)((TWindowBase *)window_base)->get_array_entry(3)), v, 0);
-            v = TObjLuker::get_stat_table_entry(st[0x30]);
+            v = (saddr)TObjLuker::get_stat_table_entry(st[0x30]);
             set_text_entry_string((u8 *)((void *)((TWindowBase *)window_base)->get_array_entry(4)), v, 0);
         }
         e = (void *)((TWindowBase *)window_base)->get_array_entry(5);

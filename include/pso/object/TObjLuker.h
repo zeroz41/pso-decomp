@@ -24,7 +24,7 @@ struct TObjLuker : public TObjBase {
     void transfer_to_town();
     virtual void render();
     virtual void run_task();
-    static int get_stat_table_entry(int a0);
+    static const char *get_stat_table_entry(int a0);
 };
 
 LAYOUT_ASSERT(TObjLuker_size, sizeof(TObjLuker) == 0xBC);

@@ -749,7 +749,7 @@ void TObjCMMainMenu::sub_80297EF4() {
         icon_pos.y = 234.0f;
         draw_ui_sprite(lbl_804DBC40[character->section], &icon_pos, -3.0625f, section_alpha);
     }
-    const char *section_name = (const char *)TObjLuker::get_stat_table_entry(character->section);
+    const char *section_name = TObjLuker::get_stat_table_entry(character->section);
     if (character->flags & 1) {
         section_name = lbl_805D3CD8;
     }

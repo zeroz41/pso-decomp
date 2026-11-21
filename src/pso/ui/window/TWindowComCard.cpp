@@ -134,7 +134,7 @@ extern "C" void update_com_card_display(ComCardDisplay *arg0, void *arg1) {
     if (n > 0xA) {
         n = 0xA;
     }
-    TWindowDuelResult::set_default_status(t10, TObjLuker::get_stat_table_entry(n));
+    TWindowDuelResult::set_default_status(t10, (saddr)TObjLuker::get_stat_table_entry(n));
     if (TWindowSubComCard__sub_8007B6F4(arg1) != 0) {
         id = ((TWindowSubComCard *)arg1)->get_card_id();
         if (id == 0) {
