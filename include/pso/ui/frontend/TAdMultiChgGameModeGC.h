@@ -4,6 +4,9 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+class TAdGuideTxtGC;
+class TAdSelectCurGC;
+
 class TAdMultiChgGameModeGC : public TObject {
 public:
     virtual ~TAdMultiChgGameModeGC();
@@ -69,6 +72,12 @@ public:
     void sub_8036E834();
     void sub_8036E854();
     void sub_8036E9EC();
+
+    s32 pad_1C;
+    s32 selection;
+    s32 prev_selection;
+    TAdGuideTxtGC *guide_text;
+    TAdSelectCurGC *select_cursor;
 };
 
 extern "C" {

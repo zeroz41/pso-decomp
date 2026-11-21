@@ -17,15 +17,6 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/system/task/TObject.h"
 
-struct RecoveredFields_802FFCE4_arg0
-{
-  u8 unknown_0[0x20];
-  s32 field_20;
-  s32 field_24;
-  saddr field_28;
-  saddr field_2C;
-};
-
 struct TxtSlot_802FFE58 { s32 id; f32 x; f32 y; };
 
 struct Txt_802FFE58 { TxtSlot_802FFE58 v[3]; };
@@ -81,49 +72,35 @@ loop_1:
     }
     goto loop_1;
 }
-typedef struct RecoveredFields_802FFCE4_arg0 RecoveredFields_802FFCE4_arg0;
 void TAdMultiChgGameModeGC::run_task() {
-    RecoveredFields_802FFCE4_arg0 *arg0 = (RecoveredFields_802FFCE4_arg0 *)this;
-  saddr *new_var;
-  s32 temp_r4;
-  TAdMultiChgGameModeGC::set_default_camera();
-  arg0->field_20 = reinterpret_cast<TAdSelectCurGC *>(arg0->field_2C)->selection_index();
-  temp_r4 = arg0->field_20;
-  new_var = &arg0->field_2C;
-  if (((s32) arg0->field_24) != temp_r4)
-  {
-    ((TAdGuideTxtGC *)((int) arg0->field_28))->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x21, arg0->field_20)));
-  }
-  if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + 0x20), 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0))
-  {
-    TAdMultiChgGameModeGC::request_scene_change();
-  }
-  else
-    if (1 == ((TAdSelectCurGC *)((int) arg0->field_2C))->confirmation_result())
-  {
-    switch (reinterpret_cast<TAdSelectCurGC *>((*new_var))->selection_index())
-    {
-      case 0:
-        TAdMultiChgGameModeGC::set_mode_state_0d();
-        break;
-      case 1:
-        TAdMultiPlyChrSelectGC::reset_slot_selections();
-        lbl_805D69E8 = 1;
-        TAdMultiChgGameModeGC::set_mode_18();
-        break;
-      case 2:
-        if (TAdMultiChgGameModeGC::check_players_ready((void *)((void *) ((u8 *) arg0))) != 0)
-      {
-        TAdMultiChgGameModeGC::set_mode_state_0e();
-      }
-      else
-      {
-        TAdMultiChgGameModeGC::request_scene_change();
-      }
-        break;
+    set_default_camera();
+    selection = select_cursor->selection_index();
+    if (prev_selection != selection) {
+        guide_text->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x21, selection)));
     }
-  }
-  arg0->field_24 = (s32) arg0->field_20;
+    if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 2) != 0 ||
+        test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0) {
+        request_scene_change();
+    } else if (select_cursor->confirmation_result() == 1) {
+        switch (select_cursor->selection_index()) {
+        case 0:
+            set_mode_state_0d();
+            break;
+        case 1:
+            TAdMultiPlyChrSelectGC::reset_slot_selections();
+            lbl_805D69E8 = 1;
+            set_mode_18();
+            break;
+        case 2:
+            if (check_players_ready(this) != 0) {
+                set_mode_state_0e();
+            } else {
+                request_scene_change();
+            }
+            break;
+        }
+    }
+    prev_selection = selection;
 }
 TAdMultiChgGameModeGC::~TAdMultiChgGameModeGC() {}
 Obj_802FFE58 *__ct__21TAdMultiChgGameModeGCFv(Obj_802FFE58 *self) {

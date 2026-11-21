@@ -256,9 +256,9 @@ TBoss6Demo15_TYPE2_WAIT::~TBoss6Demo15_TYPE2_WAIT() {
 
 /* One animated part of the wait demo: model, model helper and motion loaded from the fish BML. */
 struct WaitDemoPart {
-    s32 model;
-    s32 model_aux;
-    s32 motion;
+    NJS_OBJECT *model;
+    GinjaTextureList *texlist;
+    AnimationMotion *motion;
 };
 
 struct WaitDemoLayout {
@@ -281,21 +281,21 @@ __declspec(section ".data") s32 lbl_804EFB70[2] = {0x1F, 0x21};
 void *TObjFish__sub_8034029C(TBoss6Demo15_TYPE2_WAIT *wait, TObjFish *fish) {
     WaitDemoLayout *self = (WaitDemoLayout *)wait;
     s32 v;
-    s32 bml;
+    BmlResource *bml;
     s32 i;
     __ct__7TObjectFP7TObject(wait, (TObject *)fish);
     *(s32 **)((u8 *)wait + 0x18) = __vt__23TBoss6Demo15_TYPE2_WAIT;
     wait->m_name = TBoss6Demo15_TYPE2_WAIT__class_name;
     self->fish = fish;
-    bml = (s32)TBoss6PlotFalz::get_scene_archive();
+    bml = TBoss6PlotFalz::get_scene_archive();
     for (i = 0; i < 2; i++) {
         {
             s32 t = lbl_804DF614[i];
             v = t;
-            self->parts[i].model = (saddr)get_bml_model((BmlResource *)bml, t);
+            self->parts[i].model = get_bml_model(bml, t);
         }
-        self->parts[i].model_aux = (saddr)get_bml_texlist((BmlResource *)bml, v);
-        self->parts[i].motion = (saddr)get_bml_motion((BmlResource *)bml, lbl_804EFB70[i]);
+        self->parts[i].texlist = get_bml_texlist(bml, v);
+        self->parts[i].motion = get_bml_motion(bml, lbl_804EFB70[i]);
     }
     fn_8034009C(wait);
     TObjFish__sub_8033FF64(wait);
