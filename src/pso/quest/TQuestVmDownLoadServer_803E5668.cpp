@@ -342,7 +342,7 @@ s32 quest_download_request_0x1E(s32 *arg0) {
   while ((*src) != 0)
   {
     ch = (src[0] << 8) | src[1];
-    if (TQuestVmDownLoadServer__sub_803ECC7C(ch) == 0)
+    if (TQuestVmDownLoadServer__is_sjis_double_byte(ch) == 0)
     {
       return 3;
     }
