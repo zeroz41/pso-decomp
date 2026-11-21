@@ -86,7 +86,7 @@ typedef struct Pad_80039140 {
     u8 pad0[0x10];
     void *parent;
     u8 pad14[8];
-    s32 unk1C;
+    saddr unk1C;
     u8 pos[8];
     u8 unk28[4];
     s32 level;

@@ -609,7 +609,7 @@ void TObjPlayer__sub_8002F61C(void);
 
 extern u8 controller_input_state[];
 
-extern s32 current_scene_light;
+extern saddr current_scene_light;
 
 extern s32 saved_model_render_flags;
 
@@ -2212,7 +2212,7 @@ s32 push_matrix();
 
 extern u32 lbl_805D4BA4;
 
-extern s32 current_scene_light;
+extern saddr current_scene_light;
 
 
 

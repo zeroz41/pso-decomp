@@ -633,7 +633,7 @@ s32 boss5_gryphon_render_flags;
 Obj_80065658 *boss5_gryphon_instance;
 f32 lbl_805D4DC0;
 extern u8 *camera_ctrl_instance;
-extern s32 current_scene_light;
+extern saddr current_scene_light;
 extern s32 saved_model_render_flags;
 extern const float lbl_805D8D84;
 extern const f32 lbl_805D8D8C;

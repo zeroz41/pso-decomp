@@ -70,7 +70,7 @@ s32 scale_matrix(s32, f32, f32, f32);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 void draw_model_motion(void *, void *, f32);
-extern s32 current_scene_light;
+extern saddr current_scene_light;
 extern s32 model_render_flags;
 
 }

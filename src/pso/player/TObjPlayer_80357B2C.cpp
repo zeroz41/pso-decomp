@@ -507,7 +507,7 @@ void dispatch_weapon_special_effect(TObjPlayer *player, TObjBase *target, Vec *p
     if (is_current_area_item_enabled() == 0) {
         return;
     }
-    weapon = (TItemWeapon *)get_item_field_6__10TObjPlayerFPv(player);
+    weapon = (TItemWeapon *)(saddr)get_item_field_6__10TObjPlayerFPv(player);
     if (weapon == NULL) {
         return;
     }

@@ -59,8 +59,8 @@ void NpcModelRegistry::register_animated_ginja(s16 id, NJS_OBJECT *model, GinjaT
         entry->id = id;
         entry->kind = 3;
         entry->y_offset = y_offset;
-        entry->model = reinterpret_cast<s32>(model);
-        entry->texlist = reinterpret_cast<s32>(textures);
+        entry->model = reinterpret_cast<saddr>(model);
+        entry->texlist = reinterpret_cast<saddr>(textures);
         entry->radius = radius;
         entry->animation = *animation;
     }
@@ -84,8 +84,8 @@ void TMotorcycle::add_entry(s16 id, NJS_OBJECT *model, GinjaTextureList *texture
         entry->id = id;
         entry->kind = 2;
         entry->y_offset = y_offset;
-        entry->model = reinterpret_cast<s32>(model);
-        entry->texlist = reinterpret_cast<s32>(textures);
+        entry->model = reinterpret_cast<saddr>(model);
+        entry->texlist = reinterpret_cast<saddr>(textures);
         entry->radius = radius;
         entry->animation.motions = 0;
         entry->animation.actions = 0;
@@ -102,7 +102,7 @@ void NpcModelRegistry::register_animated_chunk(s16 id, void *model, void *texlis
         entry->id = id;
         entry->kind = 1;
         entry->y_offset = y_offset;
-        entry->model = reinterpret_cast<s32>(model);
+        entry->model = reinterpret_cast<saddr>(model);
         entry->texlist = (saddr)texlist;
         entry->radius = radius;
         entry->animation = *animation;

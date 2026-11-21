@@ -3,7 +3,7 @@
 
 extern "C" {
 
-u32 get_enemy_entity();
+uaddr get_enemy_entity();
 
 extern uaddr boss8_dragon_leader_part;
 
@@ -55,7 +55,7 @@ void TBoss8Dragon::update_all_parts() {
         var_r31 = 1;
         do {
             ((TBoss8Dragon *)boss8_dragon_leader_part)->get_part_count_plus(var_r31);
-            u32 enemy;
+            uaddr enemy;
             if ((enemy = get_enemy_entity()) != 0U) {
                 ((TBoss8Dragon *)enemy)->set_state_22();
             }

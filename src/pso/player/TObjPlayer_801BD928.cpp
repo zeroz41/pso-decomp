@@ -20,7 +20,7 @@ s32 TObjPlayer__sub_801BF660(void *);
 s32 TObjPlayer__sub_801BFB4C(void *);
 s32 TObjPlayer__sub_801C1A00(void *);
 s32 init_player_telepipe_record(void *);
-s32 get_byte_157(void *);
+saddr get_byte_157(void *);
 u8 get_byte_13b(void *);
 u8 get_byte_11f(void *);
 u8 get_byte_103(void *);

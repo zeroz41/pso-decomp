@@ -405,7 +405,7 @@ extern saddr tl_04;
 
 #pragma push
 #pragma opt_common_subs off
-#define arg0 ((s32)this)
+#define arg0 ((saddr)this)
 #define self ((u8 *)this)
 TUnk_804F322C::TUnk_804F322C(TObject *parent, saddr arg2) : TObjEnemy(parent) {
     Key_80369228 key;

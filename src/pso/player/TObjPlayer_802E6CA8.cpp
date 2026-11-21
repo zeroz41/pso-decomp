@@ -116,7 +116,7 @@ void __ct__7TObjectFP7TObject(void *);
 void set_chunk_blend(u32 x);
 void draw_chunk_model(void *arg0);
 extern Col_802E6CB0 lbl_80472C9C;
-extern s32 current_scene_light;
+extern saddr current_scene_light;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 #pragma push

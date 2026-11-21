@@ -59,7 +59,7 @@ extern "C" {
 int TObjLight__sub_801337F8(void*);
 int TObjLight__sub_801337FC(void*);
 extern int lbl_805D555C;
-extern int current_scene_light;
+extern saddr current_scene_light;
 }
 
 #include "pso/enemy/dd/TObjEneDD_800B9B84.h"

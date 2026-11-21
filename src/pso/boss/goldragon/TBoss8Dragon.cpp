@@ -1313,7 +1313,7 @@ typedef struct B_802F3D6C { u8 pad0[4]; Anim_802F3D6C *anim; } B_802F3D6C;
 extern "C" {
 void TObjLight__sub_801337F8(s32);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
-extern s32 current_scene_light;
+extern saddr current_scene_light;
 extern s32 model_render_flags;
 // (from _802F3CA0)
 extern s32 saved_model_render_flags;

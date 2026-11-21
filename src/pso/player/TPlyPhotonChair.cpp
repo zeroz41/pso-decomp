@@ -258,7 +258,7 @@ TPlyPhotonChair::~TPlyPhotonChair() {
 
 #define ply_photon_chair ((u8 *)this)
 TPlyPhotonChair::TPlyPhotonChair(s32 arg1, TObject *parent) : TObjBase(parent) {
-    u32 player;
+    uaddr player;
     ((TUnk_804A7478 *)(ply_photon_chair + 0x98))->init();
     ((TUnk_804A7478 *)(ply_photon_chair + 0xB4))->init();
     __ct__13TUnk_804A7254Fv((ply_photon_chair + 0xD0));

@@ -571,7 +571,7 @@ f32 default_scene_light_config[17] = {
 
 TUnk_804A6F90 *lbl_805D5558;
 s32 lbl_805D555C;
-s32 current_scene_light;
+saddr current_scene_light;
 void *lbl_805D5564;
 s32 TObjLight__active_light_count;
 s32 TObjLight__actor_light_count;

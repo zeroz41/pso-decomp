@@ -48,7 +48,7 @@ void scale_matrix(int, f32, f32, f32);
 void rotate_matrix_by_node_angles(void *angles, s32 mode);
 void scale_current_matrix(Vec *scale);
 f32 vec3_add_to(void *, void *);
-extern s32 current_scene_light;
+extern saddr current_scene_light;
 extern u32 model_render_flags;
 extern u32 saved_model_render_flags;
 extern Holder_8002E3D4 *lbl_805D4BA4;

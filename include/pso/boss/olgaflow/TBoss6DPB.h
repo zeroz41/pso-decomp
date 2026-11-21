@@ -6,7 +6,7 @@
 
 class TBoss6DPB : public TObject {
 public:
-    TBoss6DPB(TObject *parent, s32 position, f32 arg3);
+    TBoss6DPB(TObject *parent, saddr position, f32 arg3);
     virtual ~TBoss6DPB();
     void apply_shower_damage_to_players();
     void sub_8035D8B0();

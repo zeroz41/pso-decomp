@@ -9,7 +9,7 @@ class TObjEneRecon;
 struct TObjEneReconBomb : public TObjChara {
     TObjEneReconBomb(TObject *parent, TObjEneRecon *recon, const Vec *pos);
     virtual ~TObjEneReconBomb();
-    u32 m_334;
+    uaddr m_334;
     u16 m_338;
     u8 _pad33A[0x2];
     void* m_33c;

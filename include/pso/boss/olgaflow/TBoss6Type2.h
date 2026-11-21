@@ -155,7 +155,7 @@ struct TBoss6Type2 : public TObjEnemy
 
     void update_lower_contact_delta();
     s32 turn_toward_target_position();
-    static u8 *create_dpb(s32 arg0, s32 arg1, f32 farg0);
+    static u8 *create_dpb(saddr arg0, saddr arg1, f32 farg0);
     s32 get_phase();
     void call_9A24_plus_1(s32 *arg1);
     void unpack_path_entry(s32 *arg1);

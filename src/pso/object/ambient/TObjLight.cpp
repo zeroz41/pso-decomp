@@ -62,7 +62,7 @@ typedef struct Light_80193FE8 {
 
 extern "C" {
 s32 is_split_screen(void);
-extern s32 tl_05;
+extern saddr tl_05;
 extern RecoveredGlobal_80194528_TObjLight__data_80506320 TObjLight__scene_light_state;
 u16 get_entity_id(void *);
 f32 xyz_distance_squared(void *, void *);

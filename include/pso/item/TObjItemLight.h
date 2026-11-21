@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjItemLight : public TObjBase {
-    TObjItemLight(TObject *parent, s32 arg2);
+    TObjItemLight(TObject *parent, saddr arg2);
     virtual ~TObjItemLight();
     void run_task();
     u8 unk_90[0x4];

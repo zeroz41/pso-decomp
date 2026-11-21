@@ -20,7 +20,7 @@ void translate_matrix_vec3(u8 *arg0, u8 *arg1);
 s32 subtract_vector(void *, void *);
 s32 normalize_vector(void *);
 extern G_800367C4 *lbl_805D4BA4;
-extern s32 current_scene_light;
+extern saddr current_scene_light;
 extern const f32 lbl_805D8260;
 
 }

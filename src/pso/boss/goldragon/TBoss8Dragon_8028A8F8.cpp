@@ -9,7 +9,7 @@ extern void *lbl_805D4DD8;
 GinjaTextureList *get_green_door_textures() {
     return green_door_texture_handle;
 }
-void TBoss8Dragon__sub_8028A900(void *self, saddr arg1, s32 arg2) {
+void TBoss8Dragon__sub_8028A900(void *self, saddr arg1, saddr arg2) {
     f32 temp_f31;
     void *temp_r31;
     void *temp_r4;

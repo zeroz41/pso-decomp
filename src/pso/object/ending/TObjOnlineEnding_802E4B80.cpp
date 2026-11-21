@@ -233,7 +233,7 @@ void TObjOnlineEnding::render() {
     push_matrix();
     post_translate_matrix(&lbl_804E3A38.x);
     scale_matrix(0, online_ending_scene_scale, 1.0f, 1.0f);
-    TObjFish::set_global_param(reinterpret_cast<s32>(scene_textures));
+    TObjFish::set_global_param(reinterpret_cast<saddr>(scene_textures));
     draw_model_motion(scene_model, scene_motion, scene_frame);
     pop_matrix();
     for (i = 0; i < player_count; i++) {
@@ -258,7 +258,7 @@ void TObjOnlineEnding::render() {
             post_translate_matrix(&e->position->x);
             rotate_matrix_y(0, e->yaw);
             scale_matrix(0, e->scale, e->scale, e->scale);
-            TObjPlayer::draw_player_model_by_client(e->id, reinterpret_cast<s32>(e->motion), 0.0f, 1.0f);
+            TObjPlayer::draw_player_model_by_client(e->id, reinterpret_cast<saddr>(e->motion), 0.0f, 1.0f);
             pop_matrix();
         }
     }

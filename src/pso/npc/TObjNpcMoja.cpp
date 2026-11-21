@@ -43,7 +43,7 @@ TObjNpcMoja::TObjNpcMoja(TObject *parent, void *set_data) : TObjNpcBase(parent) 
     apply_set_params(0, 1);
     *(s32 *)((u8 *)this + 0x34) = get_bml_model(lbl_805D50D8, 0);
     *(s32 *)((u8 *)this + 0x24) = get_bml_texlist(lbl_805D50D8, 0);
-    init_motion(moja_action_table, (BmlMotionEntry *)*(s32 *)(lbl_805D50D8 + 0x430), *(s16 *)((u8 *)this + 0xB8));
+    init_motion(moja_action_table, (BmlMotionEntry *)*(saddr *)(lbl_805D50D8 + 0x430), *(s16 *)((u8 *)this + 0xB8));
     movementParameters = &npc_movement_parameters;
     set_motion_params(&npc_default_battle_stats);
     init_collision_body_parts(this, lbl_804AABD8, 1);

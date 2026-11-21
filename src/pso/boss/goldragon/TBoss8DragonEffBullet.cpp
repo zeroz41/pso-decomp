@@ -21,7 +21,7 @@ static const s32 lbl_80474B74[3] = {538, 536, 553};
 static const s32 lbl_80474B80[3] = {522, 518, 521};
 const char *TBoss8DragonEffBullet__name = "TBoss8DragonEffBullet";
 u8 *get_enemy_entity(u16 arg0);
-void TBoss8Dragon__sub_802FB220(void *o, int x, u32 a);
+void TBoss8Dragon__sub_802FB220(void *o, saddr x, u32 a);
 
 void TBoss8DragonEffBullet::render() {  }
 
@@ -79,7 +79,7 @@ void TBoss8DragonEffBullet::run_task() {
                 m_4c = NULL;
             }
             play_sound_effect(0x4003AD0C, &m_1c, 0, 0);
-            TBoss8Dragon__sub_802FB220(get_enemy_entity(m_48), (int)&m_1c, m_44);
+            TBoss8Dragon__sub_802FB220(get_enemy_entity(m_48), (saddr)&m_1c, m_44);
         }
         if (m_34 <= 2) {
             spawn_particle_effect_with_flags(&m_1c, m_54[2], 0x40);

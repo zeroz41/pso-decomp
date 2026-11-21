@@ -112,7 +112,7 @@ void TObjPlayer__sub_801BCA14(u8 *player, void *arg1) {
 
 void TObjPlayer__sub_801BCAB0(void) {  }
 void TObjPlayer::update_state() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     if (this->obj_isState2_324() != 0) {
         ((TObjPlayer *)arg0)->clear_flag_400000();
     } else {
@@ -128,7 +128,7 @@ void TObjPlayer::update_if_active() { if (is_script_controlled() != 0) { sync_cu
 
 s32 TObjPlayer__sub_801B2014(void *);
 s32 TObjPlayer__sub_801BEB68(void *, void *);
-s32 TObjPlayer__sub_801BEB8C(void *);
+saddr TObjPlayer__sub_801BEB8C(void *);
 u8 TObjPlayer__sub_801BEBB8(void *);
 u8 TObjPlayer__sub_801BEBE4(void *);
 u8 TObjPlayer__sub_801BEC10(void *);

@@ -94,14 +94,14 @@ void subtract_vector(void *, void *);
 
 #pragma push
 #pragma fp_contract on
-u8 *TBoss6Type2::create_dpb(s32 arg0, s32 arg1, f32 farg0) {
+u8 *TBoss6Type2::create_dpb(saddr arg0, saddr arg1, f32 farg0) {
     return (u8 *)new TBoss6DPB((TObject *)arg0, arg1, farg0);
 }
 #pragma pop
 
 TBoss6DPB::TBoss6DPB(TObject *parent, saddr arg2, f32 farg0) : TObject(parent) {
     u8 *object = (u8 *)this;
-    s32 arg1 = (s32)parent;
+    saddr arg1 = (saddr)parent;
     f32 temp_f1;
     f32 temp_f2;
     *(const char **)((s8 *)object + 0) = TBoss6DPB__class_name;

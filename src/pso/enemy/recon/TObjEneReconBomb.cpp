@@ -262,7 +262,7 @@ TObjEneReconBomb::TObjEneReconBomb(TObject *arg1, TObjEneRecon *arg2, const Vec 
     this->m_358 = ((TObjEneRecon *)this->m_334)->calc_scaled_value();
     temp_r5 = (unsigned char *) (this->m_up);
     this->rotation_y = (s32) *(s32 *)((s8 *)temp_r5 + 0x60);
-    VecCopy__FP3VecPC3Vec((u8 *)this + 0x38, (void *)arg3, (int)temp_r5);
+    VecCopy__FP3VecPC3Vec((u8 *)this + 0x38, (void *)arg3, (saddr)temp_r5);
     temp_f31 = sin_table_lookup(this->rotation_y);
     temp_f1 = cos_table_lookup(this->rotation_y);
     *(f32 *)((s8 *)this + 0x33C) = (f32) (*(f32 *)((s8 *)this + 0x354) * temp_f31);

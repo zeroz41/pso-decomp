@@ -227,7 +227,7 @@ void TQuestListOnline::build_list_window() {
         if (description_window == 0U) {
             WindowSize size = online_description_window_size;
             description_window = (uaddr)TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x2D)), (const f32 *)(&size), 1);
-            ((TWindowMessage *)description_window)->append_line((int)(TQuestListOnline__quest_list_buffer + 0x2C), (int)0x80);
+            ((TWindowMessage *)description_window)->append_line((saddr)(TQuestListOnline__quest_list_buffer + 0x2C), (int)0x80);
         } else {
             ((TWindowMessage *)description_window)->append_line((saddr)(TQuestListOnline__quest_list_buffer + 0x2C), (int)0x80);
         }
