@@ -42,7 +42,7 @@
 
 // The class name opens .rodata (0x8044F478), then the menu window positions
 // (0x8044F48C..0x8044F4A4) in this order, ahead of the strings of the functions.
-const char *lbl_805D39A8 = "TWindowOptionCtrl";
+const char *TWindowOptionCtrl__name = "TWindowOptionCtrl";
 const vec2f lbl_8044F48C = {470.0f, 124.0f};
 const vec2f lbl_8044F494 = {470.0f, 80.0f};
 const vec2f lbl_8044F49C = {470.0f, 80.0f};
@@ -107,7 +107,7 @@ extern "C" {
 void *TWindowOptionCtrl__ct(TWindowOptionCtrl *window_option_ctrl) {
     __ct__7TObjectFP7TObject(window_option_ctrl);
     *(s32 **)((s8 *)window_option_ctrl + 0x18) = __vt__17TWindowOptionCtrl;
-    window_option_ctrl->m_name = lbl_805D39A8;
+    window_option_ctrl->m_name = TWindowOptionCtrl__name;
     window_option_ctrl->m_28 = 0;
     window_option_ctrl->m_2c = 0;
     window_option_ctrl->m_30 = 0;
