@@ -123,7 +123,6 @@ s32 test_flags_any(s32 *flags, s32 mask);
 extern s32 lbl_805D5440;
 void spawn_dropped_item_from_msg(void *, s32);
 s32 get_sync_counter__6TLobbyFi(u16);
-s32 bswap_player_packet__6TLobbyFv();
 
 void TLobby__sub_801036CC(void) {
     s32 i;
@@ -141,7 +140,7 @@ void evict_lowest_key_floor_item(s32 n);
 void handle_6x63_destroy_floor_item(void *arg0) {
     struct VObj_80103748 *o;
 
-    bswap_player_packet__6TLobbyFv();
+    ((TLobby *)arg0)->bswap_player_packet();
     remove_item_condition((s32)(*(s32 *)((s8 *)arg0 + 8)), (s32)(*(s32 *)((s8 *)arg0 + 4)));
     o = (struct VObj_80103748 *)find_item_by_id(*(s32 *)((s8 *)arg0 + 4));
     if (o != NULL) {

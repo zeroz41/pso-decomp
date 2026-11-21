@@ -379,7 +379,6 @@ typedef struct S_802D2BC0 {
 } S_802D2BC0;
 
 extern "C" {
-s32 byteswap_trade_packet__6TLobbyFv();
 
 void handle_trade_received_items(S_802D2BC0 *arg0);
 s32 get_message_10__20TWindowSubStatusDispFl(s32);
@@ -420,7 +419,7 @@ void handle_6xA6_modify_trade_proposal(u8 *arg0) {
     s32 (*temp_r12)(void *);
     u16 temp_r3;
     u8 temp_r5;
-    byteswap_trade_packet__6TLobbyFv();
+    ((TLobby *)arg0)->byteswap_trade_packet();
     temp_r3 = *(u16 *)((s8 *)arg0 + 2);
     if ((temp_r3 < 4U) && (temp_r5 = *(u8 *)((s8 *)arg0 + 4), ((temp_r5 < 8U) != 0))) {
         if ((TLobby__trade_partner_client_id != 4) && ((s32) temp_r3 != TLobby__trade_partner_client_id)) {

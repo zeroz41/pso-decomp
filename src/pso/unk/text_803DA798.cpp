@@ -3,6 +3,7 @@
 #include <stddef.h>
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/TLobby.h"
 #include "pso/render/GinjaTexture.h"
 struct RecoveredFields_803DA84C_arg0 {
     u8 unknown_0[0x14];
@@ -56,7 +57,6 @@ s32 TObjPlayer__sub_803DA8B4(u8 *arg0, s32 arg1);
 extern S_803DA7E0 lbl_8058D470;
 void TObjPlayer__sub_803DA7E0(void);
 void TObjPlayer__sub_803DAB7C(Obj_803DAB7C *self, s32 i, s32 j);
-void move_data__6TLobbyFPCvUl();
 void DCFlushRange(void *, u32);
 void TObjPlayer__sub_803DA808(void *arg0, s32 arg1, u32 arg2);
 s32 TObjPlayer__sub_803DAB9C(s32 arg0, s32 arg1);
@@ -109,7 +109,7 @@ void TObjPlayer__sub_803DA7E0(void) {
 #pragma pop
 
 void TObjPlayer__sub_803DA808(void *buf, s32 arg1, u32 arg2) {
-    move_data__6TLobbyFPCvUl();
+    ((TLobby *)buf)->move_data((const void *)arg1, arg2);
     DCFlushRange(buf, arg2);
 }
 

@@ -3831,7 +3831,6 @@ void init_6x72_resume_packet(void* p);
 void bswap_and_handle_packet__6TLobbyFii(saddr arg0, s32 arg1);
 void bswap_header_fields__6TLobbyFi(saddr arg0);
 void send_packet_60__6TLobbyFi(saddr arg0);
-s32 bswap_packet_header__6TLobbyFv();
 
 void bswap_and_send_extended_subcommand(void* p, void* a1) { bswap_extended_subcommand_header(p); ((TLobby *)p)->send_command((uaddr)a1); }
 
@@ -3842,12 +3841,12 @@ void bswap_header_fields__6TLobbyFi(saddr arg0) {
     bswap_32((u32 *)(arg0 + 4));
 }
 void bswap_and_handle_packet__6TLobbyFii(saddr arg0, s32 arg1) {
-    bswap_packet_header__6TLobbyFv();
+    ((TLobby *)arg0)->bswap_packet_header();
     ((TLobby *)arg0)->send_subcommand_to_client((u32)arg1);
 }
 void TLobby__sub_8013A578(void* p) { *(u8*)((char*)p + 0x0) = 111; *(u8*)((char*)p + 0x1) = 129; }
 void send_packet_60__6TLobbyFi(saddr cmd) {
-    bswap_packet_header__6TLobbyFv();
+    ((TLobby *)cmd)->bswap_packet_header();
     send_subcommand((void *)cmd);
 }
 void init_6x72_resume_packet(void* p) { *(u8*)((char*)p + 0x0) = 114; *(u8*)((char*)p + 0x1) = 1; }

@@ -5,14 +5,13 @@
 extern "C" {
 
 u8 *alloc_from_heap__6TLobbyFPv(s32);
-u8 *link_into_list__6TLobbyFv();
 
 void TLobby::add_named_entry(s32 arg0, saddr arg1) {
     u8 *var_r31;
 
     var_r31 = alloc_from_heap__6TLobbyFPv(0x68);
     if (var_r31 != NULL) {
-        var_r31 = link_into_list__6TLobbyFv();
+        var_r31 = (u8 *)((TLobby *)var_r31)->link_into_list();
     }
     strncpy((char *)(var_r31 + 8), (const char *)arg1, 0x20);
     *(s32 *)((s8 *)var_r31 + 0) = 4;

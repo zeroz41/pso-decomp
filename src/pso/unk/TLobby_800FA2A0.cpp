@@ -8,7 +8,6 @@ extern "C" {
 
 s32 adxf_open__6TLobbyFUii(void *, int);
 u8 *alloc_from_heap__6TLobbyFPv(s32);
-u8 *link_into_list__6TLobbyFv();
 
 s32 create_named_entry__6TLobbyFiiUiiPv(saddr name, s32 arg1, u32 arg2, void *src, void **arg4) {
     u8 *var_r31;
@@ -23,7 +22,7 @@ s32 create_named_entry__6TLobbyFiiUiiPv(saddr name, s32 arg1, u32 arg2, void *sr
     }
     var_r31 = alloc_from_heap__6TLobbyFPv(0x68);
     if (var_r31 != NULL) {
-        var_r31 = link_into_list__6TLobbyFv();
+        var_r31 = (u8 *)((TLobby *)var_r31)->link_into_list();
     }
     strncpy((char *)(var_r31 + 8), (const char *)name, 0x20);
     *(s32 *)((s8 *)var_r31 + 0) = 1;

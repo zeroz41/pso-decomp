@@ -6,8 +6,6 @@
 extern "C" {
 
 u8 *alloc_from_heap__6TLobbyFPv(s32);
-s32 adxf_get_fsize_byte__6TLobbyFv();
-u8 *link_into_list__6TLobbyFv();
 
 struct Ent_800fa164;
 
@@ -22,13 +20,13 @@ s32 TLobby::create_file_load_entry(saddr arg0, s32 arg1, u32 arg2, saddr arg3, v
     if (temp_r3 == 0) {
         return -2;
     }
-    if (adxf_get_fsize_byte__6TLobbyFv() > 0x40000) {
+    if (((TLobby *)temp_r3)->adxf_get_fsize_byte() > 0x40000) {
         ((TLobby *)temp_r3)->close_adxf_handle();
         return -3;
     }
     var_r31 = (struct Ent_800fa164 *)alloc_from_heap__6TLobbyFPv(0x68);
     if (var_r31 != NULL) {
-        var_r31 = (struct Ent_800fa164 *)link_into_list__6TLobbyFv();
+        var_r31 = (struct Ent_800fa164 *)((TLobby *)var_r31)->link_into_list();
     }
     strncpy((char *)var_r31 + 8, (const char *)arg0, 0x20);
     *(s32 *)((s8 *)var_r31 + 0) = 2;

@@ -105,7 +105,6 @@ extern "C" {
 const char *TObjChallenge4PRetry__class_name = "TObjChallenge4PRetry";
 
 u32 check_room_seq_4__16TAdChrSelASlotGCFl(s32, s32);
-s32 check_player_flag1__6TLobbyFv();
 s32 TLobby__sub_8024AC20(int);
 u32 create__14TWindowMessageFPvll(s32, s32 *, s32);
 s32 TLobby__sub_80292F5C();
@@ -158,13 +157,13 @@ void TObjChallenge4PRetry::open_giveup_window() {
 }
 
 void send_giveup_to_all_players__6TLobbyFv(void) {
-    s32 player;
+    saddr player;
     saddr var_r31;
 
     var_r31 = 0;
     do {
         player = get_player_by_client_id(var_r31);
-        if ((player != 0) && (check_player_flag1__6TLobbyFv() != 0)) {
+        if ((player != 0) && (((TLobby *)player)->check_player_flag1() != 0)) {
             TObjPlayer::send_code_45_1(player);
         }
         ((TWindowCtrl *)var_r31)->unsuppress_slot();
@@ -180,13 +179,13 @@ void play_all_players_effect__6TLobbyFPv(void* a0) { TObjPlayer__sub_8024ABDC((l
 
 void play_effect_all_players__6TLobbyFPv(void*) {
     s32 var_r31;
-    s32 player;
+    saddr player;
 
     var_r31 = 0;
     do {
         player = get_player_by_client_id(var_r31);
         if (player != 0) {
-            if (check_player_flag1__6TLobbyFv() == 0) {
+            if (((TLobby *)player)->check_player_flag1() == 0) {
                 TObjPlayer::play_effect_default(player, -1);
             }
         }

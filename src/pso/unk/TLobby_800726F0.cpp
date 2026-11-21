@@ -50,7 +50,6 @@ saddr get_window_layout_position(s32);
 u32 check_room_seq_4__16TAdChrSelASlotGCFl(s32, s32);
 void TLobby__sub_8024AC20(saddr arg0);
 s32 get_player_by_client_id(s32);
-s32 check_player_flag1__6TLobbyFv();
 extern saddr local_client_id;
 void TObjPlayer__sub_8024ABDC(saddr arg0);
 extern s32 TLobby__designated_client_id;
@@ -229,9 +228,9 @@ void TObjChallengeRetry::open_loss_menu() {
     }
 }
 void TLobby::send_45_and_close_windows(void * _w0) {
-    s32 player;
+    saddr player;
     player = get_player_by_client_id(local_client_id);
-    if ((player != 0) && (check_player_flag1__6TLobbyFv() != 0)) {
+    if ((player != 0) && (((TLobby *)player)->check_player_flag1() != 0)) {
         TObjPlayer::send_code_45_1(player);
     }
     ((TWindowCtrl *)local_client_id)->unsuppress_slot();
@@ -240,9 +239,9 @@ void TLobby::send_45_and_close_windows(void * _w0) {
 void TLobby::show_ctrl_and_play_effect(void* a0) { ((TWindowCtrl *)(*(saddr *)&local_client_id))->suppress_slot(); ((TLobby *)a0)->play_player_default_effect(); }
 void TLobby::play_default_effect(void* a0) { TObjPlayer__sub_8024ABDC(((*(int *)&local_client_id))); ((TLobby *)a0)->play_player_default_effect(); }
 void play_player_default_effect__6TLobbyFv(s32 _w0) {
-    s32 player;
+    saddr player;
     player = get_player_by_client_id(local_client_id);
-    if ((player != 0) && (check_player_flag1__6TLobbyFv() == 0)) {
+    if ((player != 0) && (((TLobby *)player)->check_player_flag1() == 0)) {
         TObjPlayer::play_effect_default(player, -1);
     }
 }

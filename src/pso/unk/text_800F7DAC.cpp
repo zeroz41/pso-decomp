@@ -61,7 +61,6 @@ void * TLobby__sub_800F8498(void *arg0, void *arg1, s32 arg2, s32 arg3, u8 arg4,
 void __ct__7TObjectFP7TObject(void *);
 s32 TWindowCtrlMain__sub_8024CD5C(s32 viewport_index);
 u32 prs_decompress(int, int, int, int);
-u32 reset_counters__6TLobbyFv();
 
 struct RecoveredGlobal_lbl_80499988 { s32 value; u8 remaining[0x14]; };
 extern RecoveredGlobal_lbl_80499988 lbl_80499988;
@@ -398,7 +397,7 @@ u32 prs_decompress_buffer(s32 arg0, s32 arg1) {
   phi_r30 = saved_reg_r30;
   if (var_r31 != 0U)
   {
-    var_r31 = reset_counters__6TLobbyFv();
+    var_r31 = (uaddr)((TLobby *)var_r31)->reset_counters();
   }
   if (var_r31 != 0U)
   {

@@ -5,7 +5,6 @@
 
 extern "C" {
 u32 prs_decompress(int, int, int, int);
-u32 reset_counters__6TLobbyFv();
 #pragma scheduling off
 u32 prs_decompress_alloc(s32 arg0, s32 arg1) {
   s32 var_r28;
@@ -26,7 +25,7 @@ u32 prs_decompress_alloc(s32 arg0, s32 arg1) {
   phi_r30 = saved_reg_r30;
   if (var_r31 != 0U)
   {
-    var_r31 = reset_counters__6TLobbyFv();
+    var_r31 = (saddr)((TLobby *)var_r31)->reset_counters();
   }
   if (var_r31 != 0U)
   {

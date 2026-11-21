@@ -161,7 +161,7 @@ struct TLobby : public TObject {
     static void pop_and_close();
     static void destroy_game_heap();
     static void init_download_state();
-    void link_into_list();
+    TLobby *link_into_list();
     static void set_ending_callback();
     // inferred: empty free half of set_ending_callback in the scene load/free tables
     static void free_ending_callback();
@@ -557,7 +557,7 @@ struct TLobby : public TObject {
     static s32 run_step_4430();
     static void trigger_sub_task();
     static void run_sequence();
-    static void query_available_size();
+    s32 query_available_size();
     static void dispatch_packet();
     static void run_step_5210();
     static void flush_update();

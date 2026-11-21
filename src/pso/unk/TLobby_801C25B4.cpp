@@ -454,7 +454,6 @@ void handle_6x7F_battle_scores(saddr arg0);
 int play_cue_stream_file(void*);
 void play_area_music(char *name);
 s32 TObjPlayer__sub_801AFFD0();
-s32 bswap_packet_header__6TLobbyFv();
 int show_duel_result_window(void*, void*);
 
 #define TBL_801C32B4 ((Ent_801C32B4 *)TLobby__duel_result_table)
@@ -1217,7 +1216,7 @@ void handle_6x7D_set_battle_mode_data(Pkt_801C374C *pkt) {
 void handle_6x7E(void) {  }
 
 void handle_6x7F_battle_scores(saddr arg0) {
-    bswap_packet_header__6TLobbyFv();
+    ((TLobby *)arg0)->bswap_packet_header();
     memcpy(TLobby__duel_result_table, (void *)(arg0 + 4), 0x20);
     lbl_805D5DAC = 1;
 }
