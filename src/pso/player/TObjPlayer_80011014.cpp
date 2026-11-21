@@ -727,7 +727,7 @@ struct Player_80018990 {
 void shutdown_and_reset_system(void);
 void init_game_systems(void);
 extern "C" {
-bool vfunc_29__9TObjCharaFv(u8 *arg0);
+bool has_no_target__9TObjCharaFv(u8 *arg0);
 void spawn_poison_effect__10TObjPlayerFii(saddr arg0, s32 arg1);
 void clear_velocity(u8 *arg0);
 void add_id_to_slots__10TObjPlayerFiUs(s32 arg0, u16 arg1);
@@ -738,12 +738,12 @@ void enemy_spawn_jellen_effect__9TObjCharaFv(s32 arg0);
 void handle_6x9A_update_entity_stat(Pkt_80010C54 *pkt);
 void sub_80010DE8__9TObjCharaFUsUcUc(Obj_80010DE8 *self, u16 a, u8 b, u8 c);
 void vfunc_78__9TObjCharaFl(void);
-void vfunc_77__9TObjCharaFv(void);
-void vfunc_76__9TObjCharaFf(void);
-void vfunc_75__9TObjCharaFf(void);
+void gain_photon_blast_chain_charge__9TObjCharaFv(void);
+void spend_photon_blast_charge__9TObjCharaFf(void);
+void gain_photon_blast_charge__9TObjCharaFf(void);
 u16 fn_80010F4C(void* p);
 void record_attack_source(Obj_80010F54 *self, s32 id);
-void vfunc_28__9TObjCharaFv(void);
+void refresh_target__9TObjCharaFv(void);
 s32 get_actor_level_index__9TObjCharaFv(void* p);
 s32 consume_timer_field__9TObjCharaFl(u8 *arg0, s32 arg1);
 s32 add_actor_exp__9TObjCharaFl(u8 *arg0, s32 arg1);
@@ -755,22 +755,22 @@ s32 is_actor_cadence_frame__9TObjCharaFl(O_80011704 *self, s32 x);
 void apply_actor_gravity(TObjEnemy *arg0, s32 *arg1, f32 farg0);
 extern "C" {
 void apply_knockback_from_attacker__9TObjCharaFPUcf(u8 *arg0, u8 *arg1);
-int vfunc_67__9TObjCharaFf(void);
+int deliver_attack_hits__9TObjCharaFf(void);
 int vfunc_66__9TObjCharaFv(void);
 void get_anim_node_position__9TObjCharaFlP3Vec(void);
 void reset_pose__9TObjCharaFv(void* p);
-void vfunc_63__9TObjCharaFv(void);
-void vfunc_62__9TObjCharaFv(void);
+void run_death_reaction__9TObjCharaFv(void);
+void run_hit_reaction__9TObjCharaFv(void);
 void vfunc_61__9TObjCharaFv(void);
-void vfunc_60__9TObjCharaFv(void);
-void vfunc_59__9TObjCharaFv(void);
-void vfunc_58__9TObjCharaFv(void);
+void run_attack_action__9TObjCharaFv(void);
+void run_move_action__9TObjCharaFv(void);
+void run_idle_action__9TObjCharaFv(void);
 void apply_action_hold_status__9TObjCharaFf(s32 arg0, f32 farg0);
 void cure_poison_ailment__9TObjCharaFv(Obj_80014C1C *self);
 s32 try_start_action__9TObjCharaFll(void *arg0, s32 arg1, s32 arg2);
 s32 select_melee_contact_body__9TObjCharaFPvf(Actor_80016454 *target, Actor_80016454 *source, f32 factor);
 s32 update_flag30_timer__9TObjCharaFv(u8 *arg0);
-s32 vfunc_37__9TObjCharaFv(u8 *arg0);
+s32 update_slow_status__9TObjCharaFv(u8 *arg0);
 s32 is_target_in_attack_range__9TObjCharaFv(Player_8001745C *p);
 f32 step_toward_destination__10TObjPlayerFPvPvf(Obj_80017804 *arg0, Vec *arg1, f32 farg0);
 f32 enemy_pursue_point(u8 *arg0, s32 arg1, Vec arg2, f32 farg0, f32 farg1);
@@ -2163,7 +2163,7 @@ s32 TObjChara::update_action_hold_status() {
     return 0;
 }
 
-s32 TObjChara::vfunc_37() {
+s32 TObjChara::update_slow_status() {
     s32 temp_ret;
 
     if ((((TObjCollidable *)(((u8 *)this)))->obj_testFlags30(8) != 0) && ((u16) ((TObjChara *)((u8 *)this))->entity_id < 0x1000U)) {
@@ -2844,17 +2844,17 @@ void TObjChara::apply_action_hold_status(f32 farg0) {
     ((void (*)(void *, u32))obj_setFlags30)((void *) arg0, 0x4000U);
 }
 
-void TObjChara::vfunc_58() {  }
+void TObjChara::run_idle_action() {  }
 
-void TObjChara::vfunc_59() {  }
+void TObjChara::run_move_action() {  }
 
-void TObjChara::vfunc_60() {  }
+void TObjChara::run_attack_action() {  }
 
 void TObjChara::vfunc_61() {  }
 
-void TObjChara::vfunc_62() {  }
+void TObjChara::run_hit_reaction() {  }
 
-void TObjChara::vfunc_63() {  }
+void TObjChara::run_death_reaction() {  }
 
 void TObjChara::reset_pose() { obj_clearFlags30((uaddr)((void*)2048)); *(short *)&this->hp = *(short *)&this->hpmax; *(short *)&this->tp = *(short *)&this->tpmax; }
 
@@ -2862,7 +2862,7 @@ void TObjChara::get_anim_node_position(s32, Vec *) {  }
 
 int TObjChara::vfunc_66() { return 0; }
 
-int TObjChara::vfunc_67(f32) { return 0; }
+int TObjChara::deliver_attack_hits(f32) { return 0; }
 
 #pragma push
 #pragma fp_contract on
@@ -4247,7 +4247,7 @@ f32 TObjChara::random_ratio() {
     return ((f32 (*)(s32))calc_random_ratio__10TObjPlayerFv)((saddr)this + 0x160);
 }
 
-void TObjChara::vfunc_28() {  }
+void TObjChara::refresh_target() {  }
 
 void attach_mine_trap__10TObjPlayerFiUi(saddr arg0, u32 arg1) {
     if (arg1 != 0U) {
@@ -4289,11 +4289,11 @@ void assign_slots_from_list(void *arg0, saddr arg1) {
 }
 }
 
-void TObjChara::vfunc_75(f32) {  }
+void TObjChara::gain_photon_blast_charge(f32) {  }
 
-void TObjChara::vfunc_76(f32) {  }
+void TObjChara::spend_photon_blast_charge(f32) {  }
 
-void TObjChara::vfunc_77() {  }
+void TObjChara::gain_photon_blast_chain_charge() {  }
 
 void TObjChara::vfunc_78(s32) {  }
 
@@ -4702,7 +4702,7 @@ s32 TObjPlayer::get_attacker_id() { return (u16)(this->attacker_id); }
 
 void TObjPlayer::set_attacker_id(u16 id) { this->attacker_id = id; }
 
-bool TObjChara::vfunc_29() {
+bool TObjChara::has_no_target() {
     return this->target == 0;
 }
 

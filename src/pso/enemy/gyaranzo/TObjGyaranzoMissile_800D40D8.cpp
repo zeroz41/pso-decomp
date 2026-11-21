@@ -91,9 +91,9 @@ s32 rotate_matrix_x(s32, s32);
 s32 push_matrix();
 
 void TObjEneGyaranzo::vfunc_61() {  }
-void TObjEneGyaranzo::vfunc_59() {  }
+void TObjEneGyaranzo::run_move_action() {  }
 s32 TObjEneGyaranzo::is_target_in_attack_range() { return 0; }
-void TObjEneGyaranzo::vfunc_58() {  }
+void TObjEneGyaranzo::run_idle_action() {  }
 }
 
 extern saddr gyaranzo_missile_param_table;

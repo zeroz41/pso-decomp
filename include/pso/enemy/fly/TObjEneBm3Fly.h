@@ -67,10 +67,10 @@ struct TObjEneBm3Fly : public TObjEneDD_ST {
     void circle_destination(s32 arg1);
     void update_height_offset();
     void update();
-    void vfunc_63();
-    void vfunc_62();
+    void run_death_reaction();
+    void run_hit_reaction();
     void vfunc_61();
-    void vfunc_28();
+    void refresh_target();
     void render();
     void run_task();
     void init_child_params();

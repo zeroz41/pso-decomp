@@ -66,9 +66,9 @@ struct TObjEneMe1Gee : public TObjEneDD_ST {
     virtual void vfunc_115();
     virtual int vfunc_116(TObjChara *target);
     virtual void vfunc_117(uaddr);
-    virtual void vfunc_28();
-    virtual void vfunc_63();
-    virtual void vfunc_62();
+    virtual void refresh_target();
+    virtual void run_death_reaction();
+    virtual void run_hit_reaction();
     virtual void vfunc_61();
     void copy_pos();
     void sub_800CC0C4();

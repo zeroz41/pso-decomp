@@ -524,7 +524,7 @@ void TObjEneBalClawBody::sub_8008F1DC() {
             body->requested_action = 6;
             body->state = 1;
         } else {
-            body->vfunc_58();
+            body->run_idle_action();
         }
         break;
     case 1:
@@ -894,7 +894,7 @@ void TObjEneBalClawBody::render() {
     }
 }
 
-void TObjEneBalClawBody::vfunc_60() {
+void TObjEneBalClawBody::run_attack_action() {
     update_if_active(get_flag_0x388_b24() ? 9 : 2);
 }
 
@@ -1164,7 +1164,7 @@ int TObjEneBalClawBody::reset_enemy_state() {
     return update_if_active__15TObjEnemyCustomFl(this, 0);
 }
 
-void TObjEneBalClawBody::vfunc_58() {
+void TObjEneBalClawBody::run_idle_action() {
     if (xz_distance_squared(&position, &home_position) > 100.0f) {
         update_if_active(8);
         return;

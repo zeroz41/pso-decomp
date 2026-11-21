@@ -12,7 +12,7 @@ struct TBoss7Joint : public TObjEneDD {
     virtual ~TBoss7Joint();
     void init_boss_stats();
     virtual void dispatch_action(u32 state, s32 reason);
-    virtual void vfunc_62();
+    virtual void run_hit_reaction();
     virtual void clear_harmful_statuses();
     virtual void apply_shock_status();
     virtual void apply_movement_ailment(s32);
@@ -21,8 +21,8 @@ struct TBoss7Joint : public TObjEneDD {
     virtual void apply_paralysis();
     virtual void apply_poison_status();
     virtual void vfunc_61();
-    virtual void vfunc_63();
-    virtual void vfunc_28();
+    virtual void run_death_reaction();
+    virtual void refresh_target();
     virtual void update_body_colliders();
     virtual void enable_body_collision();
     u8 unk_374[0x8];

@@ -805,7 +805,7 @@ void TBoss4DarkFalz::run_task() {
     }
 }
 
-void TBoss4DarkFalz::vfunc_63() {  }
+void TBoss4DarkFalz::run_death_reaction() {  }
 }
 void init_music_sequencer(s32 program);
 BmlResource *darkfalz_dat_resource;

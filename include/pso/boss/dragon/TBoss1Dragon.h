@@ -60,8 +60,8 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     virtual void render_shadows();
     virtual int vfunc_105();
     virtual void render_low_detail();
-    void vfunc_63();
-    void vfunc_62();
+    void run_death_reaction();
+    void run_hit_reaction();
     void vfunc_61();
     void clear_harmful_statuses();
     void apply_shock_status();
@@ -70,7 +70,7 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     void apply_slow_status();
     void apply_paralysis();
     void apply_poison_status();
-    void vfunc_28();
+    void refresh_target();
     static bool isV2Mode();
     static DragonModelNode* cloneModelHierarchy(DragonModelNode* source, DragonModelNode* output, void* model);
     static s32 countModelNodes(DragonModelNode* source);

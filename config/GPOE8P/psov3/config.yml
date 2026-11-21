@@ -17484,49 +17484,49 @@ force_active:
   - vfunc_27__14TOTrapChainSawFv
   - vfunc_27__17TOTrapChainSawKeyFv
   - vfunc_27__20TOTrapChainSawDamageFv
-  - vfunc_28__12TBoss1DragonFv
-  - vfunc_28__12TObjEneLappyFv
-  - vfunc_28__13TBoss5GryphonFv
-  - vfunc_28__13TObjEneBm3FlyFv
-  - vfunc_28__13TObjEneMorfosFv
-  - vfunc_28__13TObjEneRe4BitFv
+  - refresh_target__12TBoss1DragonFv
+  - refresh_target__12TObjEneLappyFv
+  - refresh_target__13TBoss5GryphonFv
+  - refresh_target__13TObjEneBm3FlyFv
+  - refresh_target__13TObjEneMorfosFv
+  - refresh_target__13TObjEneRe4BitFv
   - vfunc_28__14TOTrapChainSawFv
-  - vfunc_28__14TObjEneBm5WolfFv
-  - vfunc_28__14TObjEneIllGillFv
-  - vfunc_28__16TObjEneBm5GibonUFv
-  - vfunc_28__16TObjEneDellBiterFv
-  - vfunc_28__16TObjEneRe7BeruraFv
-  - vfunc_28__17TObjEneBm3FlyNestFv
-  - vfunc_28__17TObjEneDarkGunnerFv
-  - vfunc_28__17TObjEneDf2BringerFv
-  - vfunc_28__18TObjEneEpsilonBodyFv
-  - vfunc_28__18TObjEneRe4SorcererFv
-  - vfunc_28__19TObjEneBm9MericarolFv
-  - vfunc_28__19TObjEneEpsilonGuardFv
+  - refresh_target__14TObjEneBm5WolfFv
+  - refresh_target__14TObjEneIllGillFv
+  - refresh_target__16TObjEneBm5GibonUFv
+  - refresh_target__16TObjEneDellBiterFv
+  - refresh_target__16TObjEneRe7BeruraFv
+  - refresh_target__17TObjEneBm3FlyNestFv
+  - refresh_target__17TObjEneDarkGunnerFv
+  - refresh_target__17TObjEneDf2BringerFv
+  - refresh_target__18TObjEneEpsilonBodyFv
+  - refresh_target__18TObjEneRe4SorcererFv
+  - refresh_target__19TObjEneBm9MericarolFv
+  - refresh_target__19TObjEneEpsilonGuardFv
   - vfunc_28__20TOTrapChainSawDamageFv
   - vfunc_29__14TOTrapChainSawFv
   - vfunc_57__13TUnk_804A204CFv
   - vfunc_57__13TUnk_804A2F78Fv
   - vfunc_57__13TUnk_804A65E0Fv
-  - vfunc_58__12TObjEneLappyFv
-  - vfunc_58__12TObjEneSaverFv
-  - vfunc_58__14TObjEneDolmOlmFv
-  - vfunc_58__14TObjEneIllGillFv
-  - vfunc_58__15TObjEneMe1GiGueFv
-  - vfunc_58__16TObjEneMerillLiaFv
-  - vfunc_58__16TObjEneNanoDragoFv
-  - vfunc_58__17TObjEneDarkGunnerFv
-  - vfunc_58__18TObjEneBalClawClawFv
-  - vfunc_59__12TObjEneLappyFv
-  - vfunc_59__12TObjEneSaverFv
-  - vfunc_59__14TObjEneDolmOlmFv
-  - vfunc_59__14TObjEneIllGillFv
-  - vfunc_59__15TObjEneMe1GiGueFv
-  - vfunc_59__16TObjEneMerillLiaFv
-  - vfunc_59__16TObjEneNanoDragoFv
-  - vfunc_59__17TObjEneDarkGunnerFv
-  - vfunc_60__12TObjEneLappyFv
-  - vfunc_60__12TObjEneSaverFv
+  - run_idle_action__12TObjEneLappyFv
+  - run_idle_action__12TObjEneSaverFv
+  - run_idle_action__14TObjEneDolmOlmFv
+  - run_idle_action__14TObjEneIllGillFv
+  - run_idle_action__15TObjEneMe1GiGueFv
+  - run_idle_action__16TObjEneMerillLiaFv
+  - run_idle_action__16TObjEneNanoDragoFv
+  - run_idle_action__17TObjEneDarkGunnerFv
+  - run_idle_action__18TObjEneBalClawClawFv
+  - run_move_action__12TObjEneLappyFv
+  - run_move_action__12TObjEneSaverFv
+  - run_move_action__14TObjEneDolmOlmFv
+  - run_move_action__14TObjEneIllGillFv
+  - run_move_action__15TObjEneMe1GiGueFv
+  - run_move_action__16TObjEneMerillLiaFv
+  - run_move_action__16TObjEneNanoDragoFv
+  - run_move_action__17TObjEneDarkGunnerFv
+  - run_attack_action__12TObjEneLappyFv
+  - run_attack_action__12TObjEneSaverFv
   - vfunc_60__13TUnk_804A0DB0Fv
   - vfunc_60__13TUnk_804A1D30Fv
   - vfunc_60__13TUnk_804A204CFv
@@ -17545,11 +17545,11 @@ force_active:
   - vfunc_60__13TUnk_804A64E8Fv
   - vfunc_60__13TUnk_804A68C8Fv
   - vfunc_60__13TUnk_804A6DC0Fv
-  - vfunc_60__14TObjEneDolmOlmFv
-  - vfunc_60__14TObjEneIllGillFv
-  - vfunc_60__15TObjEneMe1GiGueFv
-  - vfunc_60__16TObjEneMerillLiaFv
-  - vfunc_60__16TObjEneNanoDragoFv
+  - run_attack_action__14TObjEneDolmOlmFv
+  - run_attack_action__14TObjEneIllGillFv
+  - run_attack_action__15TObjEneMe1GiGueFv
+  - run_attack_action__16TObjEneMerillLiaFv
+  - run_attack_action__16TObjEneNanoDragoFv
   - vfunc_61__12TBoss1DragonFv
   - vfunc_61__12TObjEneLappyFv
   - vfunc_61__12TObjEneSaverFv
@@ -17573,61 +17573,61 @@ force_active:
   - vfunc_61__18TObjEneRe4SorcererFv
   - vfunc_61__19TObjEneBm9MericarolFv
   - vfunc_61__19TObjEneEpsilonGuardFv
-  - vfunc_62__10TBoss6MineFv
-  - vfunc_62__11TBoss4Type3Fv
-  - vfunc_62__12TBoss1DragonFv
-  - vfunc_62__12TObjEneLappyFv
-  - vfunc_62__12TObjEneSaverFv
-  - vfunc_62__13TBoss5GryphonFv
-  - vfunc_62__13TObjEneBm3FlyFv
-  - vfunc_62__13TObjEneMorfosFv
-  - vfunc_62__13TObjEneRe4BitFv
-  - vfunc_62__13TUnk_804F322CFv
-  - vfunc_62__14TObjEneBm5WolfFv
-  - vfunc_62__14TObjEneIllGillFv
-  - vfunc_62__15TObjEneDelDepthFv
-  - vfunc_62__15TObjEneMe1GiGueFv
-  - vfunc_62__15TObjEneSlimeOneFv
-  - vfunc_62__16TObjEneBm5GibonUFv
-  - vfunc_62__16TObjEneDellBiterFv
-  - vfunc_62__16TObjEneNanoDragoFv
-  - vfunc_62__16TObjEneRe7BeruraFv
-  - vfunc_62__17TObjEneBm3FlyNestFv
-  - vfunc_62__17TObjEneDarkGunnerFv
-  - vfunc_62__17TObjEneDf2BringerFv
-  - vfunc_62__18TObjEneEpsilonBodyFv
-  - vfunc_62__18TObjEneRe4SorcererFv
-  - vfunc_62__19TObjEneBm9MericarolFv
-  - vfunc_62__19TObjEneEpsilonGuardFv
-  - vfunc_63__10TBoss6MineFv
-  - vfunc_63__11TBoss4Type3Fv
-  - vfunc_63__12TBoss1DragonFv
-  - vfunc_63__12TObjEneLappyFv
-  - vfunc_63__12TObjEneSaverFv
-  - vfunc_63__12TObjEneSlimeFv
-  - vfunc_63__13TBoss5GryphonFv
-  - vfunc_63__13TObjEneBm3FlyFv
-  - vfunc_63__13TObjEneMorfosFv
-  - vfunc_63__13TObjEneRe4BitFv
-  - vfunc_63__13TUnk_804F322CFv
-  - vfunc_63__14TBoss4DarkFalzFv
-  - vfunc_63__14TObjEneBm5WolfFv
-  - vfunc_63__14TObjEneIllGillFv
-  - vfunc_63__15TObjEneDelDepthFv
-  - vfunc_63__15TObjEneMe1GiGueFv
-  - vfunc_63__15TObjEneSlimeOneFv
-  - vfunc_63__16TObjEneBm5GibonUFv
-  - vfunc_63__16TObjEneDellBiterFv
-  - vfunc_63__16TObjEneNanoDragoFv
-  - vfunc_63__16TObjEneRe7BeruraFv
-  - vfunc_63__17TObjEneBm3FlyNestFv
-  - vfunc_63__17TObjEneDf2BringerFv
-  - vfunc_63__18TObjEneEpsilonBodyFv
-  - vfunc_63__18TObjEneRe4SorcererFv
-  - vfunc_63__19TObjEneBm9MericarolFv
-  - vfunc_63__19TObjEneEpsilonGuardFv
-  - vfunc_63__9TBoss6MagFv
-  - vfunc_67__14TOTrapSeabed01Ff
+  - run_hit_reaction__10TBoss6MineFv
+  - run_hit_reaction__11TBoss4Type3Fv
+  - run_hit_reaction__12TBoss1DragonFv
+  - run_hit_reaction__12TObjEneLappyFv
+  - run_hit_reaction__12TObjEneSaverFv
+  - run_hit_reaction__13TBoss5GryphonFv
+  - run_hit_reaction__13TObjEneBm3FlyFv
+  - run_hit_reaction__13TObjEneMorfosFv
+  - run_hit_reaction__13TObjEneRe4BitFv
+  - run_hit_reaction__13TUnk_804F322CFv
+  - run_hit_reaction__14TObjEneBm5WolfFv
+  - run_hit_reaction__14TObjEneIllGillFv
+  - run_hit_reaction__15TObjEneDelDepthFv
+  - run_hit_reaction__15TObjEneMe1GiGueFv
+  - run_hit_reaction__15TObjEneSlimeOneFv
+  - run_hit_reaction__16TObjEneBm5GibonUFv
+  - run_hit_reaction__16TObjEneDellBiterFv
+  - run_hit_reaction__16TObjEneNanoDragoFv
+  - run_hit_reaction__16TObjEneRe7BeruraFv
+  - run_hit_reaction__17TObjEneBm3FlyNestFv
+  - run_hit_reaction__17TObjEneDarkGunnerFv
+  - run_hit_reaction__17TObjEneDf2BringerFv
+  - run_hit_reaction__18TObjEneEpsilonBodyFv
+  - run_hit_reaction__18TObjEneRe4SorcererFv
+  - run_hit_reaction__19TObjEneBm9MericarolFv
+  - run_hit_reaction__19TObjEneEpsilonGuardFv
+  - run_death_reaction__10TBoss6MineFv
+  - run_death_reaction__11TBoss4Type3Fv
+  - run_death_reaction__12TBoss1DragonFv
+  - run_death_reaction__12TObjEneLappyFv
+  - run_death_reaction__12TObjEneSaverFv
+  - run_death_reaction__12TObjEneSlimeFv
+  - run_death_reaction__13TBoss5GryphonFv
+  - run_death_reaction__13TObjEneBm3FlyFv
+  - run_death_reaction__13TObjEneMorfosFv
+  - run_death_reaction__13TObjEneRe4BitFv
+  - run_death_reaction__13TUnk_804F322CFv
+  - run_death_reaction__14TBoss4DarkFalzFv
+  - run_death_reaction__14TObjEneBm5WolfFv
+  - run_death_reaction__14TObjEneIllGillFv
+  - run_death_reaction__15TObjEneDelDepthFv
+  - run_death_reaction__15TObjEneMe1GiGueFv
+  - run_death_reaction__15TObjEneSlimeOneFv
+  - run_death_reaction__16TObjEneBm5GibonUFv
+  - run_death_reaction__16TObjEneDellBiterFv
+  - run_death_reaction__16TObjEneNanoDragoFv
+  - run_death_reaction__16TObjEneRe7BeruraFv
+  - run_death_reaction__17TObjEneBm3FlyNestFv
+  - run_death_reaction__17TObjEneDf2BringerFv
+  - run_death_reaction__18TObjEneEpsilonBodyFv
+  - run_death_reaction__18TObjEneRe4SorcererFv
+  - run_death_reaction__19TObjEneBm9MericarolFv
+  - run_death_reaction__19TObjEneEpsilonGuardFv
+  - run_death_reaction__9TBoss6MagFv
+  - deliver_attack_hits__14TOTrapSeabed01Ff
   - vfunc_6__10TTecGrantsFPv
   - vfunc_6__10TTecRaFoieFPv
   - vfunc_6__11TAdEp3ExistFv

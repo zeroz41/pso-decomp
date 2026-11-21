@@ -1102,13 +1102,13 @@ void TBoss7DeRolLeC::run_task() {
                 this->update_or_dispatch();
             }
             if (this->test_flag30_512() != 0) {
-                this->vfunc_62();
+                this->run_hit_reaction();
             }
             dispatch_action(this->mode, 8);
             dispatch_action(this->mode, 0);
         } else {
             if (this->test_flag30_512() != 0) {
-                this->vfunc_62();
+                this->run_hit_reaction();
             }
             dispatch_action(this->mode, 0);
         }
@@ -1150,11 +1150,11 @@ void TBoss7DeRolLeC::update_or_dispatch() {
 #pragma push
 #pragma inline_depth(1)
 #pragma auto_inline off
-void TBoss7DeRolLeC::vfunc_28() {  }
+void TBoss7DeRolLeC::refresh_target() {  }
 
-void TBoss7DeRolLeC::vfunc_63() {  }
+void TBoss7DeRolLeC::run_death_reaction() {  }
 
-void TBoss7DeRolLeC::vfunc_62() {
+void TBoss7DeRolLeC::run_hit_reaction() {
     s32 damage;
     damage = hpmax - hp;
     if (state_flags & 8) {

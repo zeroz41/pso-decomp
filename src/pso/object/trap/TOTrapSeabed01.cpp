@@ -329,7 +329,7 @@ void TOTrapSeabed01::vfunc_82() {
         set_indexed_flags(0, 0x100);
         TObjPlayer::init_all_slots();
         this->check_object_collisions();
-        vfunc_67(1.0f);
+        deliver_attack_hits(1.0f);
         receive_physical_attack(target, 1.0f);
     }
     submit_cursor_candidate(this, -1);
@@ -361,7 +361,7 @@ void TOTrapSeabed01::check_hold_player() {
     }
 }
 
-int TOTrapSeabed01::vfunc_67(f32) {
+int TOTrapSeabed01::deliver_attack_hits(f32) {
     s32 i;
     TObjChara *chara;
     for (i = 0; i < 16; i++) {

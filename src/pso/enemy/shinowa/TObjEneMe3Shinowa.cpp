@@ -393,11 +393,11 @@ void TObjEneMe3Shinowa::run_task() {
     render_minimap_dot();
 }
 
-void TObjEneMe3Shinowa::vfunc_28() {  }
+void TObjEneMe3Shinowa::refresh_target() {  }
 
-void TObjEneMe3Shinowa::vfunc_63() { if (mode != 13) { transition_enemy_state(13); } }
+void TObjEneMe3Shinowa::run_death_reaction() { if (mode != 13) { transition_enemy_state(13); } }
 
-void TObjEneMe3Shinowa::vfunc_62() {
+void TObjEneMe3Shinowa::run_hit_reaction() {
     if (TObjEneDD::check_v2_mode() != 0) {
         clear_attack_receipts();
         return;
@@ -1692,14 +1692,14 @@ TObjEneMe3ShinowaReal::TObjEneMe3ShinowaReal(TObject *parent, void *set_data) : 
 
 TObjEneMe3ShinowaReal::~TObjEneMe3ShinowaReal() {}
 
-void TObjEneMe3ShinowaReal::vfunc_63() {
+void TObjEneMe3ShinowaReal::run_death_reaction() {
     try_spawn_mirages();
-    TObjEneMe3Shinowa::vfunc_63();
+    TObjEneMe3Shinowa::run_death_reaction();
 }
 
-void TObjEneMe3ShinowaReal::vfunc_62() {
+void TObjEneMe3ShinowaReal::run_hit_reaction() {
     try_spawn_mirages();
-    TObjEneMe3Shinowa::vfunc_62();
+    TObjEneMe3Shinowa::run_hit_reaction();
 }
 
 void TObjEneMe3ShinowaReal::try_spawn_mirages() {
@@ -1939,13 +1939,13 @@ void TObjEneMe3ShinowaMirage::run_task() {
     }
 }
 
-void TObjEneMe3ShinowaMirage::vfunc_63() {
+void TObjEneMe3ShinowaMirage::run_death_reaction() {
     if (mode != 15) {
         transition_enemy_state(15);
     }
 }
 
-void TObjEneMe3ShinowaMirage::vfunc_62() {
+void TObjEneMe3ShinowaMirage::run_hit_reaction() {
     if (mode != 15) {
         transition_enemy_state(15);
     }

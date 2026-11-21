@@ -10,7 +10,7 @@ struct TOTrapSeabed01 : public TOTrap {
     virtual void vfunc_6(s16 *, s32);
     virtual void render();
     virtual f32 receive_physical_attack(void *, f32);
-    virtual int vfunc_67(f32 damage_scale);
+    virtual int deliver_attack_hits(f32 damage_scale);
     virtual void vfunc_81();
     virtual void vfunc_82();
     virtual void vfunc_84();

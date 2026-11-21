@@ -17,10 +17,10 @@ struct TObjEneRecon : public TObjEneDD_ST {
     virtual void dispatch_action(u32 state, s32 reason);
     void update_flag_0x444();
     void sub_8031D4B0(s32);
-    void vfunc_63();
-    void vfunc_62();
+    void run_death_reaction();
+    void run_hit_reaction();
     void vfunc_61();
-    void vfunc_28();
+    void refresh_target();
     void render();
     void run_task();
     u32 m_390;

@@ -335,15 +335,15 @@ void TObjEneDellBiter::run_task() {
     this->render_minimap_dot();
 }
 
-void TObjEneDellBiter::vfunc_28() {  }
+void TObjEneDellBiter::refresh_target() {  }
 
-void TObjEneDellBiter::vfunc_63() {
+void TObjEneDellBiter::run_death_reaction() {
     if (mode != 11) {
         transition_enemy_state(11);
     }
 }
 
-void TObjEneDellBiter::vfunc_62() {
+void TObjEneDellBiter::run_hit_reaction() {
     if ((s16) mode != 0xA) {
         sub_803055C8();
         if (flags & 0x14) {

@@ -63,7 +63,7 @@ struct TObjPlayer : public TObjChara {
     virtual u8 *update_actor_ground_y();
     virtual u8 *vfunc_18(u8 *);
     virtual void recalc_stats();
-    virtual s32 vfunc_37();
+    virtual s32 update_slow_status();
     virtual s32 update_attack_stat_status();
     virtual s32 update_defense_stat_status();
     virtual s32 is_actor_cadence_frame(s32);
@@ -115,10 +115,10 @@ struct TObjPlayer : public TObjChara {
     void sub_801BD318();
     void sub_801BD240();
     s32 sub_801A1DDC();
-    void vfunc_77();
-    void vfunc_76(f32 charge);
-    void vfunc_75(f32);
-    int vfunc_67(f32 damage_scale);
+    void gain_photon_blast_chain_charge();
+    void spend_photon_blast_charge(f32 charge);
+    void gain_photon_blast_charge(f32);
+    int deliver_attack_hits(f32 damage_scale);
     void render_shadows();
     void render();
     void run_task();

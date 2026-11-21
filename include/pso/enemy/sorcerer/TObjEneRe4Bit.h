@@ -37,8 +37,8 @@ struct TObjEneRe4Bit : public TObjEneDD_ST {
     s32 get_state();
     s32 sub_800ED498();
     void clear_state_flags_when_done();
-    void vfunc_63();
-    void vfunc_62();
+    void run_death_reaction();
+    void run_hit_reaction();
     void vfunc_61();
     void apply_defense_stat_status(void *);
     void apply_attack_stat_status(void *);
@@ -49,7 +49,7 @@ struct TObjEneRe4Bit : public TObjEneDD_ST {
     void apply_slow_status();
     void apply_paralysis();
     void apply_poison_status();
-    void vfunc_28();
+    void refresh_target();
     void render();
     void run_task();
     s32 handle_event(s32 arg1);

@@ -266,9 +266,9 @@ void TObjEneEpsilonBody::dispatch_action(u32 state, s32 reason) {
         return;
     }
 }
-void TObjEneEpsilonBody::vfunc_28() {  }
-void TObjEneEpsilonBody::vfunc_63() { if (this->mode != 9) { transition_enemy_state(9); } }
-void TObjEneEpsilonBody::vfunc_62() {
+void TObjEneEpsilonBody::refresh_target() {  }
+void TObjEneEpsilonBody::run_death_reaction() { if (this->mode != 9) { transition_enemy_state(9); } }
+void TObjEneEpsilonBody::run_hit_reaction() {
     s32 temp_r4;
 
     if ((s16) this->mode != 8) {

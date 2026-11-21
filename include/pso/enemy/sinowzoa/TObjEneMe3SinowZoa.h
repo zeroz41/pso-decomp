@@ -60,10 +60,10 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     virtual void action(s32);
     virtual void action();
     virtual void vfunc_115();
-    void vfunc_63();
-    void vfunc_62();
+    void run_death_reaction();
+    void run_hit_reaction();
     void vfunc_61();
-    void vfunc_28();
+    void refresh_target();
     u8 unk_374[0x4];
     s32 m_378;
     f32 m_37c;

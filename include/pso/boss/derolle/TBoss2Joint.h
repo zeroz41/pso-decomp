@@ -23,7 +23,7 @@ struct TBoss2Joint : public TObjEneDD {
     void update_flash_color();
     virtual void run_task();
     virtual void render();
-    virtual void vfunc_28();
+    virtual void refresh_target();
     virtual void apply_poison_status();
     virtual void apply_paralysis();
     virtual void apply_slow_status();
@@ -32,8 +32,8 @@ struct TBoss2Joint : public TObjEneDD {
     virtual void apply_shock_status();
     virtual void clear_harmful_statuses();
     virtual void vfunc_61();
-    virtual void vfunc_62();
-    virtual void vfunc_63();
+    virtual void run_hit_reaction();
+    virtual void run_death_reaction();
     virtual void dispatch_action(u32 state, s32 reason);
     virtual void update_body_colliders();
     virtual void enable_body_collision();

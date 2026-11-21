@@ -157,7 +157,7 @@ void TUnk_80493450::beast_update_dead() {
         this->beast_retire_corpse();
     }
 }
-void TUnk_80493450::vfunc_63() { if (this->mode != 8) { this->mode = 8; this->requested_action = 8; unlink_enemy_group_relations(); clear_player_status_flag((saddr)((void*)0), (uaddr)((void*)1)); ((TObjPlayer *)this)->refresh_lobby_state(); send_entity_set_flags(); } }
+void TUnk_80493450::run_death_reaction() { if (this->mode != 8) { this->mode = 8; this->requested_action = 8; unlink_enemy_group_relations(); clear_player_status_flag((saddr)((void*)0), (uaddr)((void*)1)); ((TObjPlayer *)this)->refresh_lobby_state(); send_entity_set_flags(); } }
 void TUnk_80493450::beast_update_hurt() {
     u8 *arg0 = (u8 *)this;
     Vec v;
@@ -197,7 +197,7 @@ void TUnk_80493450::beast_update_hurt() {
     }
     minimap_render_dot(&position, -0x5DB4, 1, 0);
 }
-void TUnk_80493450::vfunc_62() {
+void TUnk_80493450::run_hit_reaction() {
     if ((s16) this->mode != 7) {
         this->mode = 7;
         this->requested_action = 6;
@@ -254,7 +254,7 @@ void TUnk_80493450::beast_update_attack() {
     minimap_render_dot(&position, -0x5DB4, 1, 0);
 }
 
-void TUnk_80493450::vfunc_60() {
+void TUnk_80493450::run_attack_action() {
     switch (this->mode) {
     case 0:
         break;
@@ -463,7 +463,7 @@ void TUnk_80493450::update_turn_toward_target() {
     minimap_render_dot(&arg0->position, -0x5DB4, 1, 0);
 }
 
-void TUnk_80493450::vfunc_59() {
+void TUnk_80493450::run_move_action() {
     u8 *arg0 = (u8 *)this;
     if (((TObjCollidable *)arg0)->obj_testFlags30(0x1000) != 0) {
         this->mode = 4;
@@ -606,7 +606,7 @@ end:
     ((TObjCollidable *)arg0)->clear_player_status_flag((saddr)((void *)0), (uaddr)((void *)0x0A000000));
 }
 
-void TUnk_80493450::vfunc_58() {
+void TUnk_80493450::run_idle_action() {
     switch (this->mode) {
     case 1:
         if ((s32) this->m_390 != 0) {
@@ -645,7 +645,7 @@ extern const Vec lbl_8043BC68;
 u16 get_enemy_target_id(void *p);
 
 
-void TUnk_80493450::vfunc_28() {
+void TUnk_80493450::refresh_target() {
     TUnk_80493450 *self = this;
     u16 best;
     TObjPlayer *player;

@@ -661,7 +661,7 @@ void TObjEnePanBARA::update_linked_effect() {
 
 #pragma push
 #pragma fp_contract on
-void TObjEnePanBARA::vfunc_63() {
+void TObjEnePanBARA::run_death_reaction() {
     u8 *arg0 = (u8 *)this;
     s32 st = this->m_378;
     switch (st) {
@@ -682,7 +682,7 @@ void TObjEnePanBARA::vfunc_63() {
 }
 #pragma pop
 
-void TObjEnePanBARA::vfunc_62() {
+void TObjEnePanBARA::run_hit_reaction() {
     Obj_800E1E74 *self = (Obj_800E1E74 *)this;
     switch (self->state) {
     case 0:

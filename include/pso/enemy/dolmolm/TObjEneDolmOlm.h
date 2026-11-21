@@ -14,9 +14,9 @@ struct TObjEneDolmOlm : public TUnk_80493450 {
     s32 render_model_if_visible();
     void check_path_ahead(s32, f32);
     void sub_80301148();
-    virtual void vfunc_60();
-    virtual void vfunc_58();
-    virtual void vfunc_59();
+    virtual void run_attack_action();
+    virtual void run_idle_action();
+    virtual void run_move_action();
     virtual void vfunc_83();
     virtual void request_stand_action();
     virtual void vfunc_101();

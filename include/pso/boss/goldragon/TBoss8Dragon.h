@@ -24,7 +24,7 @@ public:
     virtual void render_shadows();
     // Slot 23: kinds 0xB and 0xC do it no damage; the rest go to TObjChara's.
     virtual f32 receive_direct_attack(void *attacker, DirectAttackPayload payload, void *arg2, s32 arg3, s32 arg4);
-    virtual void vfunc_28();
+    virtual void refresh_target();
     // Slots 44-50: the status ailments TObjChara applies; the dragon ignores them.
     virtual void apply_poison_status();
     virtual void apply_paralysis();
@@ -34,8 +34,8 @@ public:
     virtual void apply_shock_status();
     virtual void clear_harmful_statuses();
     virtual void vfunc_61();
-    virtual void vfunc_62();
-    virtual void vfunc_63();
+    virtual void run_hit_reaction();
+    virtual void run_death_reaction();
     // Slot 87: runs the current action's handler (one per action, handlers[] in the body).
     virtual void dispatch_action(u32 action, s32 event);
     // Slot 88: moves the seven collider bodies to the model's node positions.

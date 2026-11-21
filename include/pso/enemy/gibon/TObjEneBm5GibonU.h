@@ -39,10 +39,10 @@ struct TObjEneBm5GibonU : public TObjEneDD_ST {
     virtual void vfunc_105();
     virtual void render_debug();
     void update_center_position();
-    void vfunc_63();
-    void vfunc_62();
+    void run_death_reaction();
+    void run_hit_reaction();
     void vfunc_61();
-    void vfunc_28();
+    void refresh_target();
     s32 m_374;
     s32 m_378;
     f32 m_37c;

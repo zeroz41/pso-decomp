@@ -131,7 +131,7 @@ void TBoss3VoloptHiraisin::sub_80040FDC() {
             position.y = 50.0f;
             m_388 &= ~1;
             actorFlags &= ~0x40000;
-            vfunc_59();
+            run_move_action();
         }
         break;
     }
@@ -216,7 +216,7 @@ void TBoss3VoloptHiraisin::sub_80041314() {
             referenceHp = hp;
             actorFlags &= ~0x200;
             m_388 &= ~1;
-            vfunc_59();
+            run_move_action();
         }
         break;
     }
@@ -285,9 +285,9 @@ void TBoss3VoloptHiraisin::run_task() {
     if (TObjPlayer::check_demo_mode() != 1) {
         if (mode != 5) {
             if (has_flag_0x800() != 0) {
-                vfunc_63();
+                run_death_reaction();
             } else if (test_flag30_512() != 0) {
-                vfunc_62();
+                run_hit_reaction();
             }
         }
         if (mode != (s32)next_action) {

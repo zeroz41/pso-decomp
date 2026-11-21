@@ -479,9 +479,9 @@ void TObjEneDelDepth::sub_803152A0() {
     }
 }
 
-void TObjEneDelDepth::vfunc_63() { if (this->action != 13) { set_action_state(13); } }
+void TObjEneDelDepth::run_death_reaction() { if (this->action != 13) { set_action_state(13); } }
 
-void TObjEneDelDepth::vfunc_62() {
+void TObjEneDelDepth::run_hit_reaction() {
     if ((s32) this->action != 0xC) {
         this->actorFlags = (s32) (this->actorFlags & 0xFFFFFDFF);
         this->set_action_state(0xC);

@@ -27,8 +27,8 @@ struct TBoss6Mine : public TObjEnemy {
     TBoss6Mine(TObject *parent, TBoss6MineSetData *set_data);
     virtual ~TBoss6Mine();
     virtual void run_task();
-    virtual void vfunc_63();
-    virtual void vfunc_62();
+    virtual void run_death_reaction();
+    virtual void run_hit_reaction();
     virtual void render_shadows();
     virtual void render();
     uaddr m_374;

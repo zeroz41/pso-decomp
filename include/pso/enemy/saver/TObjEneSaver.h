@@ -29,12 +29,12 @@ struct TObjEneSaver : public TObjEnemy {
     virtual s32 is_target_in_attack_range();
     virtual int test_flag_256();
     virtual void vfunc_61();
-    virtual void vfunc_63();
+    virtual void run_death_reaction();
     virtual void *get_center();
-    virtual void vfunc_58();
-    virtual void vfunc_59();
-    virtual void vfunc_60();
-    virtual void vfunc_62();
+    virtual void run_idle_action();
+    virtual void run_move_action();
+    virtual void run_attack_action();
+    virtual void run_hit_reaction();
     u32 m_374;
     u8 _pad378[0x8];
     u32 m_380;

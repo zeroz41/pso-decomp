@@ -1137,7 +1137,7 @@ s32 TObjEneDolmOlm__sub_8030177C(void *arg0_) {
 }
 #undef arg0
 #pragma pop
-void TObjEneDolmOlm::vfunc_58() {
+void TObjEneDolmOlm::run_idle_action() {
 
     switch (this->mode) {
     case 1:
@@ -1170,7 +1170,7 @@ void TObjEneDolmOlm::vfunc_58() {
         break;
     }
 }
-void TObjEneDolmOlm::vfunc_59() {
+void TObjEneDolmOlm::run_move_action() {
     u8 *arg0 = (u8 *)this;
     if (((TObjCollidable *)arg0)->obj_testFlags30(0x1000U) != 0) {
         this->mode = 4;
@@ -1204,7 +1204,7 @@ void TObjEneDolmOlm::vfunc_59() {
         return;
     }
 }
-void TObjEneDolmOlm::vfunc_60() {
+void TObjEneDolmOlm::run_attack_action() {
     f32 temp_f31;
     f32 var_f30;
     u16 id;

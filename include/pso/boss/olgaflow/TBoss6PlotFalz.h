@@ -23,7 +23,7 @@ struct TBoss6PlotFalz : public TObjEnemy {
     void set_visible_flag();
     void call_state_action();
     void sub_802AAC98();
-    void vfunc_63();
+    void run_death_reaction();
     s32 phase_state;
     s32 m_378;
     u8 m_37c;

@@ -68,7 +68,7 @@ void TBoss7Joint::store_position() {
     VecCopy(&center, &body_center);
 }
 
-void TBoss7Joint::vfunc_62() {
+void TBoss7Joint::run_hit_reaction() {
     s32 damage = hpmax - hp;
     if (is_part_active() != 0U) {
         TBoss7DeRolLeC::spawn_offset_particle(&position, 15.0f, 12.0f);
@@ -141,9 +141,9 @@ TBoss7Joint::TBoss7Joint(TObject *parent, u16 id, s16 set_index, Vec *position, 
 }
 
 void TBoss7Joint::dispatch_action(u32, s32) {  }
-void TBoss7Joint::vfunc_28() {  }
+void TBoss7Joint::refresh_target() {  }
 
-void TBoss7Joint::vfunc_63() { this->actorFlags &= 0xfffff7ff; }
+void TBoss7Joint::run_death_reaction() { this->actorFlags &= 0xfffff7ff; }
 
 void TBoss7Joint::vfunc_61() {  }
 void TBoss7Joint::apply_poison_status() {  }

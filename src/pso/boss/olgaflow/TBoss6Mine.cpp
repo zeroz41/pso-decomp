@@ -107,13 +107,13 @@ void TBoss6Mine::render_shadows() {
     }
 }
 
-void TBoss6Mine::vfunc_63() {
+void TBoss6Mine::run_death_reaction() {
     if (this->state != 7) {
         this->state = 7;
     }
 }
 
-void TBoss6Mine::vfunc_62() { this->actorFlags = (this->actorFlags & 0xfffffdff); this->fade_amount = 1.0f; }
+void TBoss6Mine::run_hit_reaction() { this->actorFlags = (this->actorFlags & 0xfffffdff); this->fade_amount = 1.0f; }
 
 void TBoss6Mine::copy_pos() {
     s32 arg0 = (saddr)this;

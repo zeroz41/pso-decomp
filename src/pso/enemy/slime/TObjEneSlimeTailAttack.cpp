@@ -166,29 +166,29 @@ extern saddr tl_04;
 
 void vfunc_6__8TObjBaseFPsl();
 
-void vfunc_29__9TObjCharaFv();
+void has_no_target__9TObjCharaFv();
 
 void recalc_stats__9TObjCharaFv();
 
-void vfunc_28__9TObjCharaFv();
+void refresh_target__9TObjCharaFv();
 
-void vfunc_67__9TObjCharaFf();
+void deliver_attack_hits__9TObjCharaFf();
 
 void vfunc_66__9TObjCharaFv();
 
 void get_anim_node_position__9TObjCharaFlP3Vec();
 
-void vfunc_63__9TObjCharaFv();
+void run_death_reaction__9TObjCharaFv();
 
-void vfunc_62__9TObjCharaFv();
+void run_hit_reaction__9TObjCharaFv();
 
 void vfunc_61__9TObjCharaFv();
 
-void vfunc_60__9TObjCharaFv();
+void run_attack_action__9TObjCharaFv();
 
-void vfunc_59__9TObjCharaFv();
+void run_move_action__9TObjCharaFv();
 
-void vfunc_58__9TObjCharaFv();
+void run_idle_action__9TObjCharaFv();
 
 void vfunc_43__9TObjCharaFv();
 
@@ -252,11 +252,11 @@ void enemy_spawn_zalure_effect__9TObjCharaFv();
 
 void vfunc_78__9TObjCharaFl();
 
-void vfunc_77__9TObjCharaFv();
+void gain_photon_blast_chain_charge__9TObjCharaFv();
 
-void vfunc_76__9TObjCharaFf();
+void spend_photon_blast_charge__9TObjCharaFf();
 
-void vfunc_75__9TObjCharaFf();
+void gain_photon_blast_charge__9TObjCharaFf();
 
 void get_center__9TObjCharaFv();
 
@@ -295,7 +295,7 @@ void try_start_action__9TObjCharaFll();
 
 void update_action_hold_status__9TObjCharaFv();
 
-s32 vfunc_37__9TObjCharaFv(u8 *arg0);
+s32 update_slow_status__9TObjCharaFv(u8 *arg0);
 
 void update_actor_ground_y__9TObjCharaFv();
 
@@ -537,7 +537,7 @@ TObjEneSlime::~TObjEneSlime() {
     this->release_split_slimes();
 }
 
-void TObjEneSlime::vfunc_63() { this->release_split_slimes(); }
+void TObjEneSlime::run_death_reaction() { this->release_split_slimes(); }
 
 void TObjEneSlime::run_task() {
     s32 sp8;
@@ -916,9 +916,9 @@ f32 TObjEneSlimeOne::receive_direct_attack(void *attacker, DirectAttackPayload p
     return 0.0f;
 }
 
-void TObjEneSlimeOne::vfunc_63() { if (*(int *)&this->state != 13) { set_state((saddr)((void*)((void*)13))); } }
+void TObjEneSlimeOne::run_death_reaction() { if (*(int *)&this->state != 13) { set_state((saddr)((void*)((void*)13))); } }
 
-void TObjEneSlimeOne::vfunc_62() {
+void TObjEneSlimeOne::run_hit_reaction() {
     u8 *arg0 = (u8 *)this;
     if ((s32) this->state != 0xC) {
         if (((s32) this->attacker_id < (s32) registered_player_count) && (((u32 (*)(void))get_player_by_client_id)() != 0U) && (check_player_field_7cc__15TObjEneSlimeOneFv() == 2) && (parent_slime != NULL) && (parent_slime->all_parents_unqueued_for_destruction() != 0)) {

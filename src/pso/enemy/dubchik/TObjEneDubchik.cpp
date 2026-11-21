@@ -421,9 +421,9 @@ f32 TObjEneDubchik::sub_800AAF78(s32 arg1) {
     return ((f32 *)lbl_805009B8[variant])[arg1];
 }
 
-void TObjEneDubchik::vfunc_59() {  }
+void TObjEneDubchik::run_move_action() {  }
 
-void TObjEneDubchik::vfunc_58() {  }
+void TObjEneDubchik::run_idle_action() {  }
 
 TObjEneDubchik::TObjEneDubchik(TObject *parent, void *set_data) : TObjEnemyCustom(parent) {
     s32 i;

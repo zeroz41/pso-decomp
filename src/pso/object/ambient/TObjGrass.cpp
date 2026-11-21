@@ -683,7 +683,7 @@ void TObjGrass::render() {
     }
 }
 
-void TObjGrass::vfunc_28() {
+void TObjGrass::refresh_target() {
     s32 best_id;
     s32 i;
     s32 id;
@@ -778,7 +778,7 @@ s32 TObjGrass::update_movement_status() {
     return 0;
 }
 
-void TObjGrass::vfunc_58() {
+void TObjGrass::run_idle_action() {
     TObjGrass *self = this;
     switch (self->mode) {
     case 0:
@@ -924,7 +924,7 @@ void TObjGrass::update_ai(void *arg0) {
 #undef o
 #pragma pop
 
-void TObjGrass::vfunc_59() {
+void TObjGrass::run_move_action() {
     s16 temp_r0;
 
     temp_r0 = this->mode;
@@ -1089,7 +1089,7 @@ s32 TObjGrass::is_target_in_attack_range() {
 #undef T318
 #undef TBL
 
-void TObjGrass::vfunc_60() {
+void TObjGrass::run_attack_action() {
 
     switch (this->m_39e) {
     default:
@@ -1516,7 +1516,7 @@ s32 TObjGrass::update() {
     minimap_render_dot((u8 *)&this->position, -0x5DB4, 1, 0);
 }
 
-void TObjGrass::vfunc_62() {
+void TObjGrass::run_hit_reaction() {
     if ((s16) this->mode != 7) {
         this->mode = 7;
         this->requested_action = 5;
@@ -1560,7 +1560,7 @@ s32 TObjGrass::sub_800BCE44() {
   minimap_render_dot((u8 *)&this->position, -0x5DB4, 1, 0);
 }
 
-void TObjGrass::vfunc_63() {
+void TObjGrass::run_death_reaction() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r6;
     if ((s16) *(s16 *)((s8 *)arg0 + 0x326) != 8) {

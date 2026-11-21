@@ -1108,7 +1108,7 @@ void TBoss6PlotFalz::run_task() {
     }
 }
 
-void TBoss6PlotFalz::vfunc_63() {  }
+void TBoss6PlotFalz::run_death_reaction() {  }
 
 void handle_6xA3_olga_flow_boss_actions(game_command_header *command) {
     OlgaFlowPlotActionMsg *message = reinterpret_cast<OlgaFlowPlotActionMsg *>(command);

@@ -35,10 +35,10 @@ struct TObjEneBm5Wolf : public TObjEneDD_ST {
     virtual void render_debug();
     void update_collision_center();
     void select_subtype();
-    void vfunc_63();
-    void vfunc_62();
+    void run_death_reaction();
+    void run_hit_reaction();
     void vfunc_61();
-    void vfunc_28();
+    void refresh_target();
     void roaming_state(int event);
     void choose_roaming_destination();
     u8 unk_374[0x4];

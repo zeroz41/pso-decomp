@@ -125,20 +125,20 @@ void receive_physical_attack__15TObjEneMe1GiGueFPvf();
 void receive_direct_attack__15TObjEneMe1GiGueFPv19DirectAttackPayloadPvll();
 void render__15TObjEneMe1GiGueFv();
 void update_action_hold_status__15TObjEneMe1GiGueFv();
-void vfunc_63__15TObjEneMe1GiGueFv();
-void vfunc_62__15TObjEneMe1GiGueFv();
+void run_death_reaction__15TObjEneMe1GiGueFv();
+void run_hit_reaction__15TObjEneMe1GiGueFv();
 void run_task__15TObjEneMe1GiGueFv();
 void get_anim_node_position__15TObjEnemyCustomFlP3Vec();
 void vfunc_6__8TObjBaseFPsl();
-void vfunc_58__15TObjEneMe1GiGueFv();
-void vfunc_60__15TObjEneMe1GiGueFv();
-void vfunc_59__15TObjEneMe1GiGueFv();
+void run_idle_action__15TObjEneMe1GiGueFv();
+void run_attack_action__15TObjEneMe1GiGueFv();
+void run_move_action__15TObjEneMe1GiGueFv();
 void vfunc_61__15TObjEneMe1GiGueFv();
-void vfunc_28__15TObjEnemyCustomFv();
-void vfunc_29__9TObjCharaFv();
+void refresh_target__15TObjEnemyCustomFv();
+void has_no_target__9TObjCharaFv();
 void recalc_stats__9TObjCharaFv();
 void consume_timer_field__9TObjCharaFl();
-void vfunc_67__9TObjCharaFf();
+void deliver_attack_hits__9TObjCharaFf();
 void vfunc_66__9TObjCharaFv();
 void apply_slow_status__9TObjCharaFv();
 void update_shock_clock__9TObjCharaFv();
@@ -171,9 +171,9 @@ void apply_defense_stat_status__9TObjCharaFPv();
 void enemy_spawn_jellen_effect__9TObjCharaFv();
 void enemy_spawn_zalure_effect__9TObjCharaFv();
 void vfunc_78__9TObjCharaFl();
-void vfunc_77__9TObjCharaFv();
-void vfunc_76__9TObjCharaFf();
-void vfunc_75__9TObjCharaFf();
+void gain_photon_blast_chain_charge__9TObjCharaFv();
+void spend_photon_blast_charge__9TObjCharaFf();
+void gain_photon_blast_charge__9TObjCharaFf();
 void clear_lobby_object_state__9TObjEnemyFv();
 void get_center__9TObjCharaFv();
 void get_actor_level_index__9TObjCharaFv();
@@ -188,7 +188,7 @@ void roll_physical_accuracy__9TObjCharaFPvlf();
 void select_melee_contact_body__9TObjCharaFPvf();
 void trigger_switch_attack__9TObjCharaFv();
 void try_start_action__9TObjCharaFll();
-void vfunc_37__9TObjCharaFv();
+void update_slow_status__9TObjCharaFv();
 void update_actor_ground_y__9TObjCharaFv();
 void update_attack_stat_status__9TObjCharaFv();
 void update_defense_stat_status__9TObjCharaFv();
@@ -269,19 +269,19 @@ void *lbl_804E135C[83] = {
     (void *)&get_actor_level_index__9TObjCharaFv, (void *)&update_actor_ground_y__9TObjCharaFv, (void *)&vfunc_18__9TObjCharaFPUc, (void *)&is_actor_cadence_frame__9TObjCharaFl,
     (void *)&select_melee_contact_body__9TObjCharaFPvf, (void *)&calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf, (void *)&receive_physical_attack__15TObjEneMe1GiGueFPvf, (void *)&receive_direct_attack__15TObjEneMe1GiGueFPv19DirectAttackPayloadPvll,
     (void *)&receive_weapon_special_attack__15TObjEneMe1GiGueFPvPv, (void *)&apply_knockback_from_attacker__9TObjCharaFPUcf, (void *)&try_start_action__9TObjCharaFll, (void *)&roll_physical_accuracy__9TObjCharaFPvlf,
-    (void *)&vfunc_28__15TObjEnemyCustomFv, (void *)&vfunc_29__9TObjCharaFv, (void *)&is_target_in_attack_range__9TObjCharaFv, (void *)&test_flag_256__9TObjCharaFv,
+    (void *)&refresh_target__15TObjEnemyCustomFv, (void *)&has_no_target__9TObjCharaFv, (void *)&is_target_in_attack_range__9TObjCharaFv, (void *)&test_flag_256__9TObjCharaFv,
     (void *)&test_flag30_512__9TObjCharaFv, (void *)&has_flag_0x800__9TObjCharaFv, (void *)&test_flag_1000__9TObjCharaFv, (void *)&update_poison_status__9TObjCharaFv,
-    (void *)&update_action_hold_status__15TObjEneMe1GiGueFv, (void *)&vfunc_37__9TObjCharaFv, (void *)&update_flag30_timer__9TObjCharaFv, (void *)&update_movement_status__9TObjCharaFv,
+    (void *)&update_action_hold_status__15TObjEneMe1GiGueFv, (void *)&update_slow_status__9TObjCharaFv, (void *)&update_flag30_timer__9TObjCharaFv, (void *)&update_movement_status__9TObjCharaFv,
     (void *)&update_shock_clock__9TObjCharaFv, (void *)&update_attack_stat_status__9TObjCharaFv, (void *)&update_defense_stat_status__9TObjCharaFv, (void *)&vfunc_43__9TObjCharaFv,
     (void *)&apply_poison_status__9TObjCharaFv, (void *)&apply_paralysis__9TObjCharaFv, (void *)&apply_slow_status__9TObjCharaFv, (void *)&apply_confusion_status__9TObjCharaFv,
     (void *)&apply_movement_ailment__9TObjCharaFl, (void *)&apply_shock_status__9TObjCharaFv, (void *)&clear_harmful_statuses__9TObjCharaFv, (void *)&apply_attack_stat_status__9TObjCharaFPv,
     (void *)&apply_defense_stat_status__9TObjCharaFPv, (void *)&cure_poison_ailment__9TObjCharaFv, (void *)&cure_paralysis__9TObjCharaFv, (void *)&clear_all_status_effects__9TObjCharaFv,
-    (void *)&apply_action_hold_status__9TObjCharaFf, (void *)&apply_anti_technique__9TObjCharaFl, (void *)&vfunc_58__15TObjEneMe1GiGueFv, (void *)&vfunc_59__15TObjEneMe1GiGueFv,
-    (void *)&vfunc_60__15TObjEneMe1GiGueFv, (void *)&vfunc_61__15TObjEneMe1GiGueFv, (void *)&vfunc_62__15TObjEneMe1GiGueFv, (void *)&vfunc_63__15TObjEneMe1GiGueFv,
-    (void *)&reset_pose__9TObjCharaFv, (void *)&get_anim_node_position__15TObjEnemyCustomFlP3Vec, (void *)&vfunc_66__9TObjCharaFv, (void *)&vfunc_67__9TObjCharaFf,
+    (void *)&apply_action_hold_status__9TObjCharaFf, (void *)&apply_anti_technique__9TObjCharaFl, (void *)&run_idle_action__15TObjEneMe1GiGueFv, (void *)&run_move_action__15TObjEneMe1GiGueFv,
+    (void *)&run_attack_action__15TObjEneMe1GiGueFv, (void *)&vfunc_61__15TObjEneMe1GiGueFv, (void *)&run_hit_reaction__15TObjEneMe1GiGueFv, (void *)&run_death_reaction__15TObjEneMe1GiGueFv,
+    (void *)&reset_pose__9TObjCharaFv, (void *)&get_anim_node_position__15TObjEnemyCustomFlP3Vec, (void *)&vfunc_66__9TObjCharaFv, (void *)&deliver_attack_hits__9TObjCharaFf,
     (void *)&get_pos__9TObjCharaFl, (void *)&apply_switch_attack__9TObjCharaFv, (void *)&enemy_spawn_jellen_effect__9TObjCharaFv, (void *)&trigger_switch_attack__9TObjCharaFv,
-    (void *)&enemy_spawn_zalure_effect__9TObjCharaFv, (void *)&recalc_stats__9TObjCharaFv, (void *)&vfunc_74__9TObjEnemyFl, (void *)&vfunc_75__9TObjCharaFf,
-    (void *)&vfunc_76__9TObjCharaFf, (void *)&vfunc_77__9TObjCharaFv, (void *)&vfunc_78__9TObjCharaFl, (void *)&vfunc_79__15TObjEnemyCustomFPl,
+    (void *)&enemy_spawn_zalure_effect__9TObjCharaFv, (void *)&recalc_stats__9TObjCharaFv, (void *)&vfunc_74__9TObjEnemyFl, (void *)&gain_photon_blast_charge__9TObjCharaFf,
+    (void *)&spend_photon_blast_charge__9TObjCharaFf, (void *)&gain_photon_blast_chain_charge__9TObjCharaFv, (void *)&vfunc_78__9TObjCharaFl, (void *)&vfunc_79__15TObjEnemyCustomFPl,
     (void *)&apply_hit_message_flags__9TObjEnemyFPv, (void *)&apply_set_data__9TObjEnemyFPv, (void *)&clear_lobby_object_state__9TObjEnemyFv,
 };
 
@@ -304,11 +304,11 @@ extern "C" {
 
 void TObjEneMe1GiGue::vfunc_61() {  }
 
-void TObjEneMe1GiGue::vfunc_59() {  }
+void TObjEneMe1GiGue::run_move_action() {  }
 
-void TObjEneMe1GiGue::vfunc_60() {  }
+void TObjEneMe1GiGue::run_attack_action() {  }
 
-void TObjEneMe1GiGue::vfunc_58() {  }
+void TObjEneMe1GiGue::run_idle_action() {  }
 
 TObjEneMe1GiGue *TObjEneMe1GiGue__ct(TObjEneMe1GiGue *self, TObject *parent, void *set_data) {
     __ct__15TObjEnemyCustomFP7TObject(self, parent);
@@ -648,7 +648,7 @@ void TObjEneMe1GiGue::sub_802CCF2C() {
     }
 }
 
-void TObjEneMe1GiGue::vfunc_62() {
+void TObjEneMe1GiGue::run_hit_reaction() {
     switch (mode) {
     case 10:
     case 11:
@@ -663,7 +663,7 @@ void TObjEneMe1GiGue::vfunc_62() {
     m_388 |= 0x10000 | 1;
 }
 
-void TObjEneMe1GiGue::vfunc_63() {
+void TObjEneMe1GiGue::run_death_reaction() {
     set_state(5);
     m_380 = m_378;
     m_378 = 5;

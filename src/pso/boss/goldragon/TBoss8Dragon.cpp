@@ -1843,11 +1843,11 @@ block_8:
     this->dispatch_action(this->mode, 0xB);
 }
 
-void TBoss8Dragon::vfunc_28() {  }
+void TBoss8Dragon::refresh_target() {  }
 
-void TBoss8Dragon::vfunc_63() {  }
+void TBoss8Dragon::run_death_reaction() {  }
 
-void TBoss8Dragon::vfunc_62() {  }
+void TBoss8Dragon::run_hit_reaction() {  }
 
 void TBoss8Dragon::vfunc_61() {  }
 

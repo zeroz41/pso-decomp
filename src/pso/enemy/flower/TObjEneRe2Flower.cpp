@@ -480,9 +480,9 @@ void TObjEneRe2Flower::dispatch_action(u32 state, s32 reason) {
     }
 }
 
-void TObjEneRe2Flower::vfunc_28() {  }
+void TObjEneRe2Flower::refresh_target() {  }
 
-void TObjEneRe2Flower::vfunc_63() {
+void TObjEneRe2Flower::run_death_reaction() {
     s16 temp_r0;
 
     temp_r0 = this->mode;
@@ -491,7 +491,7 @@ void TObjEneRe2Flower::vfunc_63() {
     }
 }
 
-void TObjEneRe2Flower::vfunc_62() {
+void TObjEneRe2Flower::run_hit_reaction() {
     s16 temp_r0;
 
     temp_r0 = this->mode;

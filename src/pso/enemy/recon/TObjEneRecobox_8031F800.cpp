@@ -490,27 +490,27 @@ extern "C" void TObjEneRecon__sub_8031FB6C(u8 *arg0);
 
 extern "C" void vfunc_61__14TObjEneRecoboxFv();
 
-extern "C" void vfunc_62__14TObjEneRecoboxFv();
+extern "C" void run_hit_reaction__14TObjEneRecoboxFv();
 
-extern "C" void vfunc_28__14TObjEneRecoboxFv();
+extern "C" void refresh_target__14TObjEneRecoboxFv();
 
-extern "C" void vfunc_29__9TObjCharaFv();
+extern "C" void has_no_target__9TObjCharaFv();
 
 extern "C" void recalc_stats__9TObjCharaFv();
 
 extern "C" void consume_timer_field__9TObjCharaFl();
 
-extern "C" void vfunc_67__9TObjCharaFf();
+extern "C" void deliver_attack_hits__9TObjCharaFf();
 
 extern "C" void vfunc_66__9TObjCharaFv();
 
 extern "C" void get_anim_node_position__9TObjCharaFlP3Vec();
 
-extern "C" void vfunc_60__9TObjCharaFv();
+extern "C" void run_attack_action__9TObjCharaFv();
 
-extern "C" void vfunc_59__9TObjCharaFv();
+extern "C" void run_move_action__9TObjCharaFv();
 
-extern "C" void vfunc_58__9TObjCharaFv();
+extern "C" void run_idle_action__9TObjCharaFv();
 
 extern "C" void apply_slow_status__9TObjCharaFv();
 
@@ -570,11 +570,11 @@ extern "C" void enemy_spawn_zalure_effect__9TObjCharaFv();
 
 extern "C" void vfunc_78__9TObjCharaFl();
 
-extern "C" void vfunc_77__9TObjCharaFv();
+extern "C" void gain_photon_blast_chain_charge__9TObjCharaFv();
 
-extern "C" void vfunc_76__9TObjCharaFf();
+extern "C" void spend_photon_blast_charge__9TObjCharaFf();
 
-extern "C" void vfunc_75__9TObjCharaFf();
+extern "C" void gain_photon_blast_charge__9TObjCharaFf();
 
 extern "C" void clear_lobby_object_state__9TObjEnemyFv();
 
@@ -608,7 +608,7 @@ extern "C" void roll_physical_accuracy__9TObjCharaFPvlf();
 
 extern "C" void select_melee_contact_body__9TObjCharaFPvf();
 
-extern "C" void vfunc_63__14TObjEneRecoboxFv();
+extern "C" void run_death_reaction__14TObjEneRecoboxFv();
 
 extern "C" void trigger_switch_attack__9TObjCharaFv(s32 arg0);
 
@@ -616,7 +616,7 @@ extern "C" void try_start_action__9TObjCharaFll();
 
 extern "C" void update_action_hold_status__9TObjCharaFv();
 
-extern "C" s32 vfunc_37__9TObjCharaFv(u8 *arg0);
+extern "C" s32 update_slow_status__9TObjCharaFv(u8 *arg0);
 
 extern "C" void update_actor_ground_y__9TObjCharaFv();
 
@@ -692,19 +692,19 @@ void *TObjEneRecobox__vtable[107] = {
     (void *)&get_actor_level_index__9TObjCharaFv, (void *)&update_actor_ground_y__9TObjCharaFv, (void *)&vfunc_18__9TObjCharaFPUc, (void *)&is_actor_cadence_frame__9TObjCharaFl,
     (void *)&select_melee_contact_body__9TObjCharaFPvf, (void *)&calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf, (void *)&receive_physical_attack__9TObjCharaFPvf, (void *)&receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll,
     (void *)&receive_weapon_special_attack__9TObjCharaFPvPv, (void *)&apply_knockback_from_attacker__9TObjCharaFPUcf, (void *)&try_start_action__9TObjCharaFll, (void *)&roll_physical_accuracy__9TObjCharaFPvlf,
-    (void *)&vfunc_28__14TObjEneRecoboxFv, (void *)&vfunc_29__9TObjCharaFv, (void *)&is_target_in_attack_range__9TObjCharaFv, (void *)&test_flag_256__9TObjCharaFv,
+    (void *)&refresh_target__14TObjEneRecoboxFv, (void *)&has_no_target__9TObjCharaFv, (void *)&is_target_in_attack_range__9TObjCharaFv, (void *)&test_flag_256__9TObjCharaFv,
     (void *)&test_flag30_512__9TObjCharaFv, (void *)&has_flag_0x800__9TObjCharaFv, (void *)&test_flag_1000__9TObjCharaFv, (void *)&update_poison_status__9TObjCharaFv,
-    (void *)&update_action_hold_status__9TObjCharaFv, (void *)&vfunc_37__9TObjCharaFv, (void *)&update_flag30_timer__9TObjCharaFv, (void *)&update_movement_status__9TObjCharaFv,
+    (void *)&update_action_hold_status__9TObjCharaFv, (void *)&update_slow_status__9TObjCharaFv, (void *)&update_flag30_timer__9TObjCharaFv, (void *)&update_movement_status__9TObjCharaFv,
     (void *)&update_shock_clock__9TObjCharaFv, (void *)&update_attack_stat_status__9TObjCharaFv, (void *)&update_defense_stat_status__9TObjCharaFv, (void *)&vfunc_43__9TObjCharaFv,
     (void *)&apply_poison_status__9TObjCharaFv, (void *)&apply_paralysis__9TObjCharaFv, (void *)&apply_slow_status__9TObjCharaFv, (void *)&apply_confusion_status__9TObjCharaFv,
     (void *)&apply_movement_ailment__9TObjCharaFl, (void *)&apply_shock_status__9TObjCharaFv, (void *)&clear_harmful_statuses__9TObjCharaFv, (void *)&apply_attack_stat_status__9TObjCharaFPv,
     (void *)&apply_defense_stat_status__9TObjCharaFPv, (void *)&cure_poison_ailment__9TObjCharaFv, (void *)&cure_paralysis__9TObjCharaFv, (void *)&clear_all_status_effects__9TObjCharaFv,
-    (void *)&apply_action_hold_status__9TObjCharaFf, (void *)&apply_anti_technique__9TObjCharaFl, (void *)&vfunc_58__9TObjCharaFv, (void *)&vfunc_59__9TObjCharaFv,
-    (void *)&vfunc_60__9TObjCharaFv, (void *)&vfunc_61__14TObjEneRecoboxFv, (void *)&vfunc_62__14TObjEneRecoboxFv, (void *)&vfunc_63__14TObjEneRecoboxFv,
-    (void *)&reset_pose__9TObjCharaFv, (void *)&get_anim_node_position__9TObjCharaFlP3Vec, (void *)&vfunc_66__9TObjCharaFv, (void *)&vfunc_67__9TObjCharaFf,
+    (void *)&apply_action_hold_status__9TObjCharaFf, (void *)&apply_anti_technique__9TObjCharaFl, (void *)&run_idle_action__9TObjCharaFv, (void *)&run_move_action__9TObjCharaFv,
+    (void *)&run_attack_action__9TObjCharaFv, (void *)&vfunc_61__14TObjEneRecoboxFv, (void *)&run_hit_reaction__14TObjEneRecoboxFv, (void *)&run_death_reaction__14TObjEneRecoboxFv,
+    (void *)&reset_pose__9TObjCharaFv, (void *)&get_anim_node_position__9TObjCharaFlP3Vec, (void *)&vfunc_66__9TObjCharaFv, (void *)&deliver_attack_hits__9TObjCharaFf,
     (void *)&get_pos__9TObjCharaFl, (void *)&apply_switch_attack__9TObjCharaFv, (void *)&enemy_spawn_jellen_effect__9TObjCharaFv, (void *)&trigger_switch_attack__9TObjCharaFv,
-    (void *)&enemy_spawn_zalure_effect__9TObjCharaFv, (void *)&recalc_stats__9TObjCharaFv, (void *)&vfunc_74__9TObjEnemyFl, (void *)&vfunc_75__9TObjCharaFf,
-    (void *)&vfunc_76__9TObjCharaFf, (void *)&vfunc_77__9TObjCharaFv, (void *)&vfunc_78__9TObjCharaFl, (void *)&vfunc_79__9TObjEneDDFPl,
+    (void *)&enemy_spawn_zalure_effect__9TObjCharaFv, (void *)&recalc_stats__9TObjCharaFv, (void *)&vfunc_74__9TObjEnemyFl, (void *)&gain_photon_blast_charge__9TObjCharaFf,
+    (void *)&spend_photon_blast_charge__9TObjCharaFf, (void *)&gain_photon_blast_chain_charge__9TObjCharaFv, (void *)&vfunc_78__9TObjCharaFl, (void *)&vfunc_79__9TObjEneDDFPl,
     (void *)&apply_hit_message_flags__9TObjEnemyFPv, (void *)&apply_set_data__9TObjEnemyFPv, (void *)&clear_lobby_object_state__9TObjEnemyFv, (void *)&update_status_effects__12TObjEneDD_STFv,
     (void *)&update_immobilizing_statuses__9TObjEneDDFv, (void *)&update_action_state__9TObjEneDDFv, (void *)&has_action_state_changed__9TObjEneDDFv, (void *)&dispatch_state__12TObjEneReconFiUii,
     (void *)&TObjEneRecon__sub_8031FB6C, (void *)&check_collisions__9TObjEneDDFv, (void *)&vfunc_90__9TObjEneDDFv, (void *)&set_invulnerable__9TObjEneDDFv,
@@ -942,11 +942,11 @@ void dispatch_state__12TObjEneReconFiUii(saddr ene_dd, u32 arg1, s32 reason) {
 
 }
 
-void TObjEneRecobox::vfunc_28() {  }
+void TObjEneRecobox::refresh_target() {  }
 
-void TObjEneRecobox::vfunc_63() { if (this->mode != 6) { transition_enemy_state(6); } }
+void TObjEneRecobox::run_death_reaction() { if (this->mode != 6) { transition_enemy_state(6); } }
 
-void TObjEneRecobox::vfunc_62() { clear_attack_receipts(); }
+void TObjEneRecobox::run_hit_reaction() { clear_attack_receipts(); }
 
 void TObjEneRecobox::vfunc_61() {  }
 

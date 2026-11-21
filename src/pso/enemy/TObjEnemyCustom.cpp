@@ -129,10 +129,10 @@ void TObjEnemyCustom::dispatch_state() {
     }
 }
 
-void TObjEnemyCustom::vfunc_28() {
+void TObjEnemyCustom::refresh_target() {
 }
 
-void TObjEnemyCustom::vfunc_58() { this->update_if_active(0); }
+void TObjEnemyCustom::run_idle_action() { this->update_if_active(0); }
 
 void TObjEnemyCustom::update_state() {
     switch (state) {
@@ -151,7 +151,7 @@ void TObjEnemyCustom::update_state() {
     }
 }
 
-void TObjEnemyCustom::vfunc_59() { this->update_if_active(1); }
+void TObjEnemyCustom::run_move_action() { this->update_if_active(1); }
 
 void TObjEnemyCustom::update_wander_state() {
     switch (state) {
@@ -178,7 +178,7 @@ void TObjEnemyCustom::update_wander_state() {
     }
 }
 
-void TObjEnemyCustom::vfunc_60() { this->update_if_active(2); }
+void TObjEnemyCustom::run_attack_action() { this->update_if_active(2); }
 
 void TObjEnemyCustom::update() {
     switch (state) {
@@ -238,7 +238,7 @@ void TObjEnemyCustom::update_state_machine() {
     }
 }
 
-void TObjEnemyCustom::vfunc_62() {
+void TObjEnemyCustom::run_hit_reaction() {
     this->set_state(4);
     m_388 |= 1;
 }
@@ -269,7 +269,7 @@ void TObjEnemyCustom::update_knockback_state() {
     }
 }
 
-void TObjEnemyCustom::vfunc_63() {
+void TObjEnemyCustom::run_death_reaction() {
     this->set_state(5);
     m_388 |= 1;
 }
@@ -396,7 +396,7 @@ void TObjEneBalClawBody::sub_800C73F4() {
         this->update_if_active(8);
         return;
     }
-    vfunc_58();
+    run_idle_action();
 }
 
 void TObjEnemyCustom::move_along_ground_avoiding_walls(Vec dest, f32 speed, f32 probe) {

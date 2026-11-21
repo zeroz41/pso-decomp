@@ -205,9 +205,9 @@ void TBoss3VoloptP01::run_task() {
         return;
     }
     if (has_flag_0x800() != 0) {
-        vfunc_63();
+        run_death_reaction();
     } else if (test_flag30_512() != 0 && !(actorFlags & 0x04000000)) {
-        vfunc_62();
+        run_hit_reaction();
     }
     if (obj_testFlags30(0x4000) != 0) {
         if (((TObjPlayer *)this)->add_status_effect_timer(4, -1) <= 0) {
@@ -319,7 +319,7 @@ void TBoss3VoloptP01::update_state() {
                 flags = m_388;
                 if (flags & 0x10000) {
                     m_388 = flags & ~1;
-                    vfunc_60();
+                    run_attack_action();
                 } else if (flags & 0x20000) {
                     m_388 = flags & ~1;
                     sub_80042F84();
@@ -333,7 +333,7 @@ void TBoss3VoloptP01::update_state() {
     case 2:
         if (update_sink() == 1) {
             m_388 &= ~1;
-            vfunc_58();
+            run_idle_action();
         }
         break;
     case -1:
@@ -454,7 +454,7 @@ void TBoss3VoloptP01::run_state_machine() {
         set_flags_30();
         if (update_sink() == 1) {
             shutter->close();
-            vfunc_58();
+            run_idle_action();
         }
         break;
     case -1:
@@ -603,7 +603,7 @@ void TBoss3VoloptP01::update_attack() {
         set_flags_30();
         if (update_sink() == 1) {
             shutter->close();
-            vfunc_58();
+            run_idle_action();
             m_388 &= ~0x80000;
         }
         break;

@@ -958,13 +958,13 @@ void handle_6xA4_olga_flow_boss_actions(game_command_header *command) {
     boss->set_action_state(action);
 }
 
-void TBoss6Type1::vfunc_62() {
+void TBoss6Type1::run_hit_reaction() {
     this->actorFlags = (s32) (this->actorFlags & 0xFFFFFDFF);
     this->m_4d4 = 1.0f;
     ((void (*)(s32, void *, s32, s32, void *))play_sound_effect)(0x39E01, ((u8 *)this) + 0x584, 0, 1, this);
 }
 
-void TBoss6Type1::vfunc_63() { if (*(int *)&this->m_374 != 40) { set_action_state((saddr)((void*)40)); } }
+void TBoss6Type1::run_death_reaction() { if (*(int *)&this->m_374 != 40) { set_action_state((saddr)((void*)40)); } }
 
 void TBoss6Type1::render_shadows() {
     if (this->position.y >= -30.0f) {

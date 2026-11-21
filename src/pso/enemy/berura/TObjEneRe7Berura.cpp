@@ -421,15 +421,15 @@ void TObjEneRe7Berura::run_task() {
     render_minimap_dot();
 }
 
-void TObjEneRe7Berura::vfunc_28() {  }
+void TObjEneRe7Berura::refresh_target() {  }
 
-void TObjEneRe7Berura::vfunc_63() {
+void TObjEneRe7Berura::run_death_reaction() {
     if (mode != 11) {
         transition_enemy_state(11);
     }
 }
 
-void TObjEneRe7Berura::vfunc_62() {
+void TObjEneRe7Berura::run_hit_reaction() {
     if ((m_3c0 & 4) || ((s32) (referenceHp - hp) < (s32) ((s16) hpmax / 5))) {
         clear_attack_receipts();
         return;

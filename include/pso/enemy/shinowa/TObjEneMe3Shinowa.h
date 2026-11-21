@@ -57,10 +57,10 @@ struct TObjEneMe3Shinowa : public TObjEneDD_ST {
     s32 sub_800E6FE0();
     void sub_800E6F64();
     void sub_800E6BB8(s32);
-    void vfunc_63();
-    void vfunc_62();
+    void run_death_reaction();
+    void run_hit_reaction();
     void vfunc_61();
-    void vfunc_28();
+    void refresh_target();
     u8 unk_374[0x4];
     s32 m_378;
     f32 m_37c;

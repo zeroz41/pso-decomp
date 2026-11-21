@@ -285,9 +285,9 @@ void TObjEneBm3Fly::dispatch_action(u32 arg1, s32 msg) {
     }
 }
 
-void TObjEneBm3Fly::vfunc_28() {  }
+void TObjEneBm3Fly::refresh_target() {  }
 
-void TObjEneBm3Fly::vfunc_63() {
+void TObjEneBm3Fly::run_death_reaction() {
     s16 temp_r0;
     temp_r0 = this->mode;
     if ((temp_r0 != 8) && (temp_r0 != 9) && (temp_r0 != 7)) {
@@ -299,7 +299,7 @@ void TObjEneBm3Fly::vfunc_63() {
     }
 }
 
-void TObjEneBm3Fly::vfunc_62() { if (this->mode != 6) { this->transition_enemy_state(6); } }
+void TObjEneBm3Fly::run_hit_reaction() { if (this->mode != 6) { this->transition_enemy_state(6); } }
 
 void TObjEneBm3Fly::vfunc_61() {  }
 

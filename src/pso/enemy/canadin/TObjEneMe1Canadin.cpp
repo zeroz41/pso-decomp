@@ -482,9 +482,9 @@ void TObjEneMe1Canadin::run_task() {
     render_minimap_dot();
 }
 
-void TObjEneMe1Canadin::vfunc_28() {  }
+void TObjEneMe1Canadin::refresh_target() {  }
 
-void TObjEneMe1Canadin::vfunc_63() {
+void TObjEneMe1Canadin::run_death_reaction() {
     s16 temp_r0;
 
     temp_r0 = mode;
@@ -493,7 +493,7 @@ void TObjEneMe1Canadin::vfunc_63() {
     }
 }
 
-void TObjEneMe1Canadin::vfunc_62() { if (mode != 12) { transition_enemy_state(12); } }
+void TObjEneMe1Canadin::run_hit_reaction() { if (mode != 12) { transition_enemy_state(12); } }
 
 void TObjEneMe1Canadin::vfunc_61() {  }
 

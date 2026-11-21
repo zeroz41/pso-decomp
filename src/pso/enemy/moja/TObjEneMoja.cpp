@@ -690,7 +690,7 @@ void TObjEneMoja::render() {
 
 // TObjChara's slot 28. Picks the nearest player or enemy it can reach as the
 // target (inferred purpose; the slot has no evidenced name).
-void TObjEneMoja::vfunc_28() {
+void TObjEneMoja::refresh_target() {
     s32 best_id;
     s32 i;
     s32 id;
@@ -796,7 +796,7 @@ s32 TObjEneMoja::update_movement_status() {
     return 0;
 }
 
-void TObjEneMoja::vfunc_58() {
+void TObjEneMoja::run_idle_action() {
     s32 temp_r0;
 
     temp_r0 = mode;
@@ -1014,7 +1014,7 @@ void TObjEneMoja::update_appearance_drop() {
     }
 }
 
-void TObjEneMoja::vfunc_59() {
+void TObjEneMoja::run_move_action() {
     MojaCollisionState *moja_collision_state;
 
     if ((s16) mode != 3) {
@@ -1160,7 +1160,7 @@ s32 TObjEneMoja::is_target_in_attack_range() {
     return 0;
 }
 
-void TObjEneMoja::vfunc_60() {
+void TObjEneMoja::run_attack_action() {
     Moja_800ADE48 *self = (Moja_800ADE48 *)this;
     switch (self->attack_kind) {
     case 2:
@@ -1563,7 +1563,7 @@ void TObjPlayer::update_invincibility() {
     }
 }
 
-void TObjEneMoja::vfunc_62() {
+void TObjEneMoja::run_hit_reaction() {
     MojaCollisionState *moja_collision_state;
 
     switch (mode) {
@@ -1605,7 +1605,7 @@ void TObjPlayer::update_ground_effect() {
     }
 }
 
-void TObjEneMoja::vfunc_63() {
+void TObjEneMoja::run_death_reaction() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r6;
     if ((s16) this->mode != 9) {

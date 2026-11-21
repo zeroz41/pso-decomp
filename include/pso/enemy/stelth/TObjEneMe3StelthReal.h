@@ -10,8 +10,8 @@ struct TObjEneMe3StelthReal : public TObjEneMe3Stelth {
     virtual void vfunc_107();
     virtual void vfunc_111();
     void init_common();
-    void vfunc_63();
-    void vfunc_62();
+    void run_death_reaction();
+    void run_hit_reaction();
     static void *create(void *arg0);
 };
 

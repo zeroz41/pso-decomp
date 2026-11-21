@@ -349,13 +349,13 @@ void get_anim_node_position__15TObjEnemyCustomFlP3Vec();
 void vfunc_6__8TObjBaseFPsl();
 
 
-void vfunc_29__9TObjCharaFv();
+void has_no_target__9TObjCharaFv();
 
 void recalc_stats__9TObjCharaFv();
 
 void consume_timer_field__9TObjCharaFl();
 
-void vfunc_67__9TObjCharaFf();
+void deliver_attack_hits__9TObjCharaFf();
 
 void vfunc_66__9TObjCharaFv();
 
@@ -423,11 +423,11 @@ void enemy_spawn_zalure_effect__9TObjCharaFv();
 
 void vfunc_78__9TObjCharaFl();
 
-void vfunc_77__9TObjCharaFv();
+void gain_photon_blast_chain_charge__9TObjCharaFv();
 
-void vfunc_76__9TObjCharaFf();
+void spend_photon_blast_charge__9TObjCharaFf();
 
-void vfunc_75__9TObjCharaFf();
+void gain_photon_blast_charge__9TObjCharaFf();
 
 void clear_lobby_object_state__9TObjEnemyFv();
 
@@ -465,7 +465,7 @@ void trigger_switch_attack__9TObjCharaFv(s32 arg0);
 
 void try_start_action__9TObjCharaFll();
 
-s32 vfunc_37__9TObjCharaFv(u8 *arg0);
+s32 update_slow_status__9TObjCharaFv(u8 *arg0);
 
 void update_actor_ground_y__9TObjCharaFv();
 
@@ -475,7 +475,7 @@ s32 update_defense_stat_status__9TObjCharaFv(u8 *arg0);
 
 void update_flag30_timer__9TObjCharaFv();
 
-void vfunc_60__15TObjEnemyCustomFv();
+void run_attack_action__15TObjEnemyCustomFv();
 
 void update_object_view_visibility__8TObjBaseFff();
 
@@ -747,11 +747,11 @@ f32 TObjPlayer__sub_800A3200(s32 arg0) {
     return *(f32 *)((s8 *)(lbl_805D5004 + (arg0 * 4)) + 0);
 }
 
-void TObjEneDarkGunner::vfunc_59() {  }
+void TObjEneDarkGunner::run_move_action() {  }
 
-void TObjEneDarkGunner::vfunc_58() {  }
+void TObjEneDarkGunner::run_idle_action() {  }
 
-void TObjEneDarkGunner::vfunc_28() {  }
+void TObjEneDarkGunner::refresh_target() {  }
 }
 
 #define F(T, o) (*(T *)((u8 *)self + (o)))
@@ -1231,7 +1231,7 @@ s32 TObjPlayer__sub_800A1FEC(void *arg0) {
 #pragma pop
 #undef self
 extern "C" {
-void TObjEneDarkGunner::vfunc_62() {
+void TObjEneDarkGunner::run_hit_reaction() {
     s16 temp_r0;
     temp_r0 = this->mode;
     if (temp_r0 != 4) {

@@ -17,9 +17,9 @@ struct TObjEneMorfos : public TObjEneDD_ST {
     virtual f32 receive_physical_attack(void *attacker, f32 scale);
     virtual void dispatch_action(u32 state, s32 reason);
     s32 render_model_if_visible();
-    virtual void vfunc_28();
-    virtual void vfunc_63();
-    virtual void vfunc_62();
+    virtual void refresh_target();
+    virtual void run_death_reaction();
+    virtual void run_hit_reaction();
     virtual void vfunc_61();
     virtual void update_body_colliders();
     virtual s32 vfunc_105();

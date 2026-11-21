@@ -44,10 +44,10 @@ struct TObjEneBm9Mericarol : public TObjEneDD_ST {
     virtual void update_body_colliders();
     virtual void vfunc_105();
     virtual void draw_color_variant();
-    virtual void vfunc_63();
-    virtual void vfunc_62();
+    virtual void run_death_reaction();
+    virtual void run_hit_reaction();
     virtual void vfunc_61();
-    virtual void vfunc_28();
+    virtual void refresh_target();
     s32 get_phase();
     void init_size_tier_and_offsets();
     TObjPlayer *find_nearby_target();

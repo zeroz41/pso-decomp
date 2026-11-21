@@ -17,8 +17,8 @@ struct TObjEneSlimeOne : public TObjEnemy {
     virtual ~TObjEneSlimeOne();
     void initialize_slime_instance_state();
     void sub_800E9090();
-    virtual void vfunc_63();
-    virtual void vfunc_62();
+    virtual void run_death_reaction();
+    virtual void run_hit_reaction();
     virtual void vfunc_61();
     virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);
     virtual void render();

@@ -565,7 +565,7 @@ void TObjEneIllGill::update_death_fall() {
   }
 }
 
-void TObjEneIllGill::vfunc_63() {
+void TObjEneIllGill::run_death_reaction() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r5;
     if ((s16) this->mode != 8) {
@@ -608,7 +608,7 @@ void TObjEneIllGill::update_damage_recovery() {
     minimap_render_dot(&position, -0x5DB4, 1, 0);
 }
 
-void TObjEneIllGill::vfunc_62() {
+void TObjEneIllGill::run_hit_reaction() {
     s16 temp_r0;
     void *temp_r3;
 
@@ -840,7 +840,7 @@ void TObjEneIllGill::update_weapon_attack() {
     minimap_render_dot(&position, -0x5DB4, 1, 0);
 }
 
-void TObjEneIllGill::vfunc_60() {
+void TObjEneIllGill::run_attack_action() {
     TObjEneIllGill *o = this;
     switch (o->attackType) {
     default:
@@ -995,7 +995,7 @@ void TObjEneIllGill::update_chase_target() {
     minimap_render_dot(&position, -0x5DB4, 1, 0);
 }
 
-void TObjEneIllGill::vfunc_59() {
+void TObjEneIllGill::run_move_action() {
     TObjEneIllGill *enemy = this;
     s16 temp_r0;
     temp_r0 = enemy->mode;
@@ -1145,7 +1145,7 @@ s32 TObjEneIllGill::project_step_to_ground(s32 angle) {
     return project_actor_to_ground(this, &lbl_8050BF00, 0);
 }
 
-void TObjEneIllGill::vfunc_58() {
+void TObjEneIllGill::run_idle_action() {
     switch (mode) {
     case 0:
         switch (phase) {
@@ -1207,7 +1207,7 @@ s32 TObjEneIllGill::update_action_hold_status() {
 
 #pragma push
 #pragma opt_loop_invariants off
-void TObjEneIllGill::vfunc_28() {
+void TObjEneIllGill::refresh_target() {
     u16 best;
     s32 i;
     u8 *pl;

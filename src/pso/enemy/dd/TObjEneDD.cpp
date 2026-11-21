@@ -557,7 +557,7 @@ void TObjEneDD::init_position_vectors() {
 
 s32 TObjEneDD::update_status_effects() {
     if (this->has_flag_0x800() != 0) {
-        this->vfunc_63();
+        this->run_death_reaction();
         return 1;
     }
     this->update_attack_stat_status();
@@ -567,7 +567,7 @@ s32 TObjEneDD::update_status_effects() {
         return 4;
     }
     if (this->test_flag30_512() != 0) {
-        this->vfunc_62();
+        this->run_hit_reaction();
         return 2;
     }
     return 0;

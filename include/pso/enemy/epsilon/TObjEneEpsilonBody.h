@@ -42,9 +42,9 @@ public:
     virtual void run_task();
     virtual void render();
     virtual f32 receive_physical_attack(void *, f32);
-    virtual void vfunc_28();
-    virtual void vfunc_63();
-    virtual void vfunc_62();
+    virtual void refresh_target();
+    virtual void run_death_reaction();
+    virtual void run_hit_reaction();
     virtual void vfunc_61();
     virtual void dispatch_action(u32 state, s32 reason);
     virtual void update_body_colliders();

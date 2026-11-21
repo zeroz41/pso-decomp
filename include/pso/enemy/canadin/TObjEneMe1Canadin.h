@@ -52,10 +52,10 @@ struct TObjEneMe1Canadin : public TObjEneDD_ST {
     virtual void render_canadin_model_with_debug_type();
     virtual int vfunc_116(TObjChara *);
     virtual void vfunc_117(uaddr);
-    void vfunc_63();
-    void vfunc_62();
+    void run_death_reaction();
+    void run_hit_reaction();
     void vfunc_61();
-    void vfunc_28();
+    void refresh_target();
     void render();
     u8 unk_374[0x4];
     s32 m_378;

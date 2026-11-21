@@ -336,9 +336,9 @@ void TObjEneMe1Gee::run_task() {
 
 BmlResource *TObjEneMe1Gee::sub_800CC2BC() { return TObjEneMe1Gee__resource_bundle; }
 
-void TObjEneMe1Gee::vfunc_28() {  }
+void TObjEneMe1Gee::refresh_target() {  }
 
-void TObjEneMe1Gee::vfunc_63() {
+void TObjEneMe1Gee::run_death_reaction() {
     s16 temp_r0;
     temp_r0 = this->mode;
     if ((temp_r0 != 0xE) && (temp_r0 != 0xC)) {
@@ -346,7 +346,7 @@ void TObjEneMe1Gee::vfunc_63() {
     }
 }
 
-void TObjEneMe1Gee::vfunc_62() { if (this->mode != 13) { this->transition_enemy_state(13); } }
+void TObjEneMe1Gee::run_hit_reaction() { if (this->mode != 13) { this->transition_enemy_state(13); } }
 
 void TObjEneMe1Gee::vfunc_61() {  }
 

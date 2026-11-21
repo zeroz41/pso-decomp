@@ -709,9 +709,9 @@ s32 TObjEnePanarms::sub_800DE390() {
     }
 }
 
-void TObjEnePanarms::vfunc_63() { if (this->state != 4) { set_state((saddr)((void*)((void*)4))); } }
+void TObjEnePanarms::run_death_reaction() { if (this->state != 4) { set_state((saddr)((void*)((void*)4))); } }
 
-void TObjEnePanarms::vfunc_62() {
+void TObjEnePanarms::run_hit_reaction() {
     Obj_800DE2D0 *arg0 = (Obj_800DE2D0 *)this;
     switch (arg0->f374) {
     case 1:

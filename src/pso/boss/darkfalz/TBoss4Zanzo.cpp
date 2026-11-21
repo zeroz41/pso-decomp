@@ -358,14 +358,14 @@ TUnk_80486924::~TUnk_80486924() {
     collision_body_parts = 0;
 }
 
-void TUnk_80486924::vfunc_62() {
+void TUnk_80486924::run_hit_reaction() {
     *(s32 *)((s8 *)((u8 *)this) + 0x3E4) = 1;
     *(f32 *)((s8 *)((u8 *)this) + 0x3F0) = 1.0f;
     *(s32 *)((s8 *)((u8 *)this) + 0x30) = (s32) (*(s32 *)((s8 *)((u8 *)this) + 0x30) & 0xFFFFFDFF);
     ((s32 (*)(int, void *, int, int, void *))play_sound_effect)(0x4003B723, ((u8 *)this) + 0x38, 0, 1, this);
 }
 
-void TUnk_80486924::vfunc_63() {
+void TUnk_80486924::run_death_reaction() {
     s32 temp_r0;
 
     temp_r0 = *(s32 *)((s8 *)this + 0x374);

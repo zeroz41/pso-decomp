@@ -14,10 +14,10 @@ struct TObjEneRecobox : public TObjEneDD_ST {
     void sub_8031F800();
     void sub_8031F6C0(s32);
     void update_floor_probe();
-    void vfunc_63();
-    void vfunc_62();
+    void run_death_reaction();
+    void run_hit_reaction();
     void vfunc_61();
-    void vfunc_28();
+    void refresh_target();
     u8 unk_374[0x8];
     f32 m_37c;
     u8 unk_380[0x24];

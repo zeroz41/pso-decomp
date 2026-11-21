@@ -181,15 +181,15 @@ void TBoss2Mine::run_task() {
     refresh_collision_body_centers();
 }
 
-void TBoss2Mine::vfunc_28() {  }
+void TBoss2Mine::refresh_target() {  }
 
-void TBoss2Mine::vfunc_63() {
+void TBoss2Mine::run_death_reaction() {
     if (mode != 4) {
         transition_enemy_state(4);
     }
 }
 
-void TBoss2Mine::vfunc_62() { clear_attack_receipts(); }
+void TBoss2Mine::run_hit_reaction() { clear_attack_receipts(); }
 
 void TBoss2Mine::vfunc_61() {  }
 

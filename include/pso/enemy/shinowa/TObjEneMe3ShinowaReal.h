@@ -14,8 +14,8 @@ struct TObjEneMe3ShinowaReal : public TObjEneMe3Shinowa {
     virtual void vfunc_107();
     virtual void vfunc_111();
     void sub_800E7250();
-    void vfunc_63();
-    void vfunc_62();
+    void run_death_reaction();
+    void run_hit_reaction();
     void spawn_mirages();
     TObjEneMe3ShinowaMirage *get_or_create_mirage(s32 index);
     void try_spawn_mirages();

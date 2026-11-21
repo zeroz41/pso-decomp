@@ -13,8 +13,8 @@ struct TObjEneBalClawBody : public TObjEneBalClaw {
     int get_flag_0x388_b24();
     virtual void run_task();
     virtual void render();
-    virtual void vfunc_60();
-    virtual void vfunc_58();
+    virtual void run_attack_action();
+    virtual void run_idle_action();
     void sub_8008DC90();
     void sub_8008DD14();
     s32 sub_8008E098();

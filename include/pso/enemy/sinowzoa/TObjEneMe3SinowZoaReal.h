@@ -10,8 +10,8 @@ struct TObjEneMe3SinowZoaReal : public TObjEneMe3SinowZoa {
     void init_enemy();
     virtual void vfunc_107();
     virtual void vfunc_111();
-    void vfunc_63();
-    void vfunc_62();
+    void run_death_reaction();
+    void run_hit_reaction();
     static void *create_instance(void *arg0);
 };
 

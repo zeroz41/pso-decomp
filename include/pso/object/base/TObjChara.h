@@ -65,8 +65,8 @@ public:
     virtual void apply_knockback_from_attacker(u8 *, f32);
     virtual s32 try_start_action(s32, s32);
     virtual s32 roll_physical_accuracy(void *, s32, f32);
-    virtual void vfunc_28();
-    virtual bool vfunc_29();
+    virtual void refresh_target();
+    virtual bool has_no_target();
     virtual s32 is_target_in_attack_range();
     virtual int test_flag_256();
     virtual int test_flag30_512();
@@ -74,7 +74,7 @@ public:
     virtual int test_flag_1000();
     virtual s32 update_poison_status();
     virtual s32 update_action_hold_status();
-    virtual s32 vfunc_37();
+    virtual s32 update_slow_status();
     virtual s32 update_flag30_timer();
     virtual s32 update_movement_status();
     virtual s32 update_shock_clock();
@@ -95,16 +95,16 @@ public:
     virtual void clear_all_status_effects();
     virtual void apply_action_hold_status(f32);
     virtual void apply_anti_technique(s32);
-    virtual void vfunc_58();
-    virtual void vfunc_59();
-    virtual void vfunc_60();
+    virtual void run_idle_action();
+    virtual void run_move_action();
+    virtual void run_attack_action();
     virtual void vfunc_61();
-    virtual void vfunc_62();
-    virtual void vfunc_63();
+    virtual void run_hit_reaction();
+    virtual void run_death_reaction();
     virtual void reset_pose();
     virtual void get_anim_node_position(s32 node, Vec *out);
     virtual int vfunc_66();
-    virtual int vfunc_67(f32 damage_scale);
+    virtual int deliver_attack_hits(f32 damage_scale);
     virtual void get_pos(s32);
     virtual void apply_switch_attack();
     virtual void enemy_spawn_jellen_effect();
@@ -114,10 +114,10 @@ public:
     // Recomputes the combat stats and clamps HP and TP to their maxima.
     virtual void recalc_stats();
     virtual s32 vfunc_74(s32);
-    virtual void vfunc_75(f32);
+    virtual void gain_photon_blast_charge(f32);
     // Spends photon blast charge; TObjPlayer forwards it to subtract_photon_blast_charge (param name inferred).
-    virtual void vfunc_76(f32 charge);
-    virtual void vfunc_77();
+    virtual void spend_photon_blast_charge(f32 charge);
+    virtual void gain_photon_blast_chain_charge();
     virtual void vfunc_78(s32);
     void request_box_item_drop(const Vec *position, s32 random_item);
     virtual void *get_center();

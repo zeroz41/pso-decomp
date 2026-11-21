@@ -378,7 +378,7 @@ void TObjNpcBase::update_standing() {
     }
 }
 
-void TObjNpcBase::vfunc_59() {
+void TObjNpcBase::run_move_action() {
     s16 temp_r0;
     temp_r0 = mode;
     if ((temp_r0 >= 4) || (temp_r0 < 1)) {
@@ -397,7 +397,7 @@ void TObjNpcBase::vfunc_59() {
 void TObjNpcBase::vfunc_83() {  }
 }
 
-void TObjNpcBase::vfunc_58() {
+void TObjNpcBase::run_idle_action() {
     if (mode != 0) {
         mode = 0;
         phase = 0;
@@ -412,7 +412,7 @@ void select_actor_lighting(s32 obj);
 u16 find_nearest_visible_player(void *, s32, f32 *, f32);
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
 
-void TObjNpcBase::vfunc_28() {
+void TObjNpcBase::refresh_target() {
     f32 *temp_r5;
 
     if (mode != 3) {

@@ -662,7 +662,7 @@ int TObjEneBalClawClaw::reset_active_state(void *claw) {
     return update_if_active__15TObjEnemyCustomFl(claw, 0);
 }
 
-void TObjEneBalClawClaw::vfunc_58() {
+void TObjEneBalClawClaw::run_idle_action() {
 }
 
 void TObjEneBalClawClaw::sub_80090824() {

@@ -62,8 +62,8 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     void set_flag_800();
     virtual void update_body_colliders();
     virtual void render_shadows();
-    void vfunc_63();
-    void vfunc_62();
+    void run_death_reaction();
+    void run_hit_reaction();
     void vfunc_61();
     void clear_harmful_statuses();
     void apply_shock_status();
@@ -72,7 +72,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     void apply_slow_status();
     void apply_paralysis();
     void apply_poison_status();
-    void vfunc_28();
+    void refresh_target();
     void sync_position_vectors();
     void update_wobble_angle();
     s32 is_all_parts_done();

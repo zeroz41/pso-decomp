@@ -25,8 +25,8 @@ struct TBoss2Mine : public TObjEneDD {
     virtual void state_destroyed(s32 reason);
     virtual void run_demo_task();
     virtual void render_demo();
-    void vfunc_63();
-    void vfunc_62();
+    void run_death_reaction();
+    void run_hit_reaction();
     void vfunc_61();
     void apply_defense_stat_status(void *);
     void apply_attack_stat_status(void *);
@@ -37,7 +37,7 @@ struct TBoss2Mine : public TObjEneDD {
     void apply_slow_status();
     void apply_paralysis();
     void apply_poison_status();
-    void vfunc_28();
+    void refresh_target();
     void set_launch_position_velocity(const Vec *start, const Vec *target);
     void render();
     void set_state_by_distance(s32 time_left);

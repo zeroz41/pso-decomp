@@ -34,7 +34,7 @@ struct TBoss6Type1 : public TObjEnemy {
     void set_action_state(s32);
     void sub_802B5CB4();
     void sub_802B4C28();
-    virtual void vfunc_62();
+    virtual void run_hit_reaction();
     virtual void clear_harmful_statuses();
     virtual void apply_shock_status();
     virtual void apply_movement_ailment(s32);
@@ -42,7 +42,7 @@ struct TBoss6Type1 : public TObjEnemy {
     virtual void apply_slow_status();
     virtual void apply_paralysis();
     virtual void apply_poison_status();
-    virtual void vfunc_63();
+    virtual void run_death_reaction();
     void run_task();
     void update_effect_points();
     void update_trail_points();

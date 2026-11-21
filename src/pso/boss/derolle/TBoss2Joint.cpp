@@ -154,7 +154,7 @@ void TBoss2Joint::update_position_history() {
 
 void TBoss2Joint::vfunc_61() {}
 
-void TBoss2Joint::vfunc_62() {
+void TBoss2Joint::run_hit_reaction() {
     s32 damage = hpmax - hp;
     if (!(joint_flags & SHELL_BROKEN)) {
         start_flash(0);
@@ -171,8 +171,8 @@ void TBoss2Joint::vfunc_62() {
     clear_attack_receipts();
 }
 
-void TBoss2Joint::vfunc_63() { actorFlags &= 0xfffff7ff; }
-void TBoss2Joint::vfunc_28() {}
+void TBoss2Joint::run_death_reaction() { actorFlags &= 0xfffff7ff; }
+void TBoss2Joint::refresh_target() {}
 
 void TBoss2Joint::run_task() {
     if (TObjPlayer::check_demo_mode() == 0) {

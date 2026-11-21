@@ -57,10 +57,10 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
     s32 sub_800F47D4();
     void sub_800F4758();
     void sub_800F42B8(s32);
-    void vfunc_63();
-    void vfunc_62();
+    void run_death_reaction();
+    void run_hit_reaction();
     void vfunc_61();
-    void vfunc_28();
+    void refresh_target();
     void render();
     void run_task();
     // TObjEneDD fields its header does not declare yet (TObjEneBm5Wolf declares the same ones).

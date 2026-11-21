@@ -3789,7 +3789,7 @@ void update_active_instance__10TObjPlayerFi(saddr arg0) {
     }
 }
 
-void TObjPlayer::vfunc_75(f32 farg0) {
+void TObjPlayer::gain_photon_blast_charge(f32 farg0) {
     saddr arg0 = (saddr)this;
     if (TObjPlayer::is_locally_controlled(this) == 0 || ((TObjCollidable *)arg0)->obj_testFlags30(0x800) != 0 ||
         (u32)((TObjPlayer *)arg0)->activate_d04_slot() == 0 || ((s32 (*)(s32, s32))is_alt_photon_blast_bank_empty__10TObjPlayerFPv)(arg0 + 0x500, 1) != 0 ||
@@ -4933,7 +4933,7 @@ struct WeaponHitSound {
     s32 collider;
 };
 
-int TObjPlayer::vfunc_67(f32 damage_scale) {
+int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
     s32 count;
     s32 i;
     int hit = 0;
@@ -4971,13 +4971,13 @@ int TObjPlayer::vfunc_67(f32 damage_scale) {
             switch (TObjPlayer__sub_801D2F4C((s16 *)&attack_state)) {
             case 0:
                 damage = target->receive_physical_attack(this, damage_scale * get_attack_damage_scale((s16 *)&attack_state));
-                vfunc_75(TObjPlayer::calc_photon_blast_charge(this, damage));
+                gain_photon_blast_charge(TObjPlayer::calc_photon_blast_charge(this, damage));
                 apply_camera_shake__10TObjPlayerFiii(this, target, damage);
                 break;
             case 1:
                 dealt = target->receive_physical_attack(this, damage_scale * get_attack_damage_scale((s16 *)&attack_state));
                 damage = dealt;
-                vfunc_75(TObjPlayer::calc_photon_blast_charge(this, damage));
+                gain_photon_blast_charge(TObjPlayer::calc_photon_blast_charge(this, damage));
                 apply_camera_shake__10TObjPlayerFiii(this, target, damage);
                 ((KnockbackReceiver *)target)->apply_knockback(this, 0.1f * dealt);
                 break;
@@ -5013,7 +5013,7 @@ int TObjPlayer::vfunc_67(f32 damage_scale) {
                     if (target->roll_physical_accuracy(this, collider,
                                                        ((TObjPlayer *)&attack_state)->calc_attack_stage_multiplier(2)) != 0) {
                         s32 damage = target->receive_physical_attack(this, damage_scale * get_attack_damage_scale((s16 *)&attack_state));
-                        vfunc_75(TObjPlayer::calc_photon_blast_charge(this, damage));
+                        gain_photon_blast_charge(TObjPlayer::calc_photon_blast_charge(this, damage));
                         apply_camera_shake__10TObjPlayerFiii(this, target, damage);
                         hit = 1;
                         WeaponHitSound sound;

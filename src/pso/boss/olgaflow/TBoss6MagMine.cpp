@@ -145,13 +145,13 @@ void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 int rotate_matrix_y(void*, void*);
 int push_matrix(void*);
 
-void TUnk_804F322C::vfunc_63() {
+void TUnk_804F322C::run_death_reaction() {
     if ((s32) *(s32 *)((s8 *)this + 0x390) != 4) {
         *(s32 *)((s8 *)this + 0x390) = 4;
     }
 }
 
-void TUnk_804F322C::vfunc_62() {
+void TUnk_804F322C::run_hit_reaction() {
     u8 *arg0 = (u8 *)this;
     *(s32 *)((s8 *)arg0 + 0x30) = (s32) (*(s32 *)((s8 *)arg0 + 0x30) & 0xFFFFFDFF);
     *(f32 *)((s8 *)arg0 + 0x3A8) = (f32) 1.0f;

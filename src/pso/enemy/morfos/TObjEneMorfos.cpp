@@ -686,15 +686,15 @@ void move_xz_on_ground__9TObjEneDDFPUc();
 void update_ground_contact__9TObjEneDDFv();
 int vfunc_104__12TObjEneDD_STFf(void *p);
 void update_status_effects__12TObjEneDD_STFv();
-void vfunc_29__9TObjCharaFv();
+void has_no_target__9TObjCharaFv();
 void recalc_stats__9TObjCharaFv();
 void consume_timer_field__9TObjCharaFl();
-void vfunc_67__9TObjCharaFf();
+void deliver_attack_hits__9TObjCharaFf();
 void vfunc_66__9TObjCharaFv();
 void get_anim_node_position__9TObjCharaFlP3Vec();
-void vfunc_60__9TObjCharaFv();
-void vfunc_59__9TObjCharaFv();
-void vfunc_58__9TObjCharaFv();
+void run_attack_action__9TObjCharaFv();
+void run_move_action__9TObjCharaFv();
+void run_idle_action__9TObjCharaFv();
 void apply_slow_status__9TObjCharaFv();
 void update_shock_clock__9TObjCharaFv();
 void vfunc_43__9TObjCharaFv();
@@ -724,9 +724,9 @@ void cure_poison_ailment__9TObjCharaFv();
 void enemy_spawn_jellen_effect__9TObjCharaFv();
 void enemy_spawn_zalure_effect__9TObjCharaFv();
 void vfunc_78__9TObjCharaFl();
-void vfunc_77__9TObjCharaFv();
-void vfunc_76__9TObjCharaFf();
-void vfunc_75__9TObjCharaFf();
+void gain_photon_blast_chain_charge__9TObjCharaFv();
+void spend_photon_blast_charge__9TObjCharaFf();
+void gain_photon_blast_charge__9TObjCharaFf();
 void clear_lobby_object_state__9TObjEnemyFv();
 void get_center__9TObjCharaFv();
 void get_actor_level_index__9TObjCharaFv();
@@ -745,7 +745,7 @@ void select_melee_contact_body__9TObjCharaFPvf();
 void trigger_switch_attack__9TObjCharaFv(s32 arg0);
 void try_start_action__9TObjCharaFll();
 void update_action_hold_status__9TObjCharaFv();
-s32 vfunc_37__9TObjCharaFv(u8 *arg0);
+s32 update_slow_status__9TObjCharaFv(u8 *arg0);
 void update_actor_ground_y__9TObjCharaFv();
 s32 update_attack_stat_status__9TObjCharaFv(u8 *arg0);
 s32 update_defense_stat_status__9TObjCharaFv(u8 *arg0);
@@ -1089,9 +1089,9 @@ void TObjEneMorfos::run_task() {
 }
 #undef ene_morfos
 
-void TObjEneMorfos::vfunc_28() {  }
+void TObjEneMorfos::refresh_target() {  }
 
-void TObjEneMorfos::vfunc_63() { if (this->mode != 11) { transition_enemy_state((saddr)((void*)11)); } }
+void TObjEneMorfos::run_death_reaction() { if (this->mode != 11) { transition_enemy_state((saddr)((void*)11)); } }
 
 #define arg0 ((Obj_80334A4C *)this)
 #define att ((Obj_80334A4C *)attacker)
@@ -1123,7 +1123,7 @@ f32 TObjEneMorfos::receive_physical_attack(void *attacker, f32 scale) {
 #undef arg0
 #undef att
 
-void TObjEneMorfos::vfunc_62() {
+void TObjEneMorfos::run_hit_reaction() {
     Obj_8033496C *arg0 = (Obj_8033496C *)this;
     Vec v;
     Pl_8033496C *pl;

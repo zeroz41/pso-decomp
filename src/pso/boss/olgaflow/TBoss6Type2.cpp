@@ -864,7 +864,7 @@ s32 TBoss6Type2::count_matching_values(s32 arg1, s32 arg2) {
     return cnt;
 }
 
-void TBoss6Type2::vfunc_62() {
+void TBoss6Type2::run_hit_reaction() {
     actorFlags = (s32) (actorFlags & 0xFFFFFDFF);
     *(f32 *)((s8 *)this + 0x4FC) = 1.0f;
     {
@@ -878,7 +878,7 @@ void TBoss6Type2::vfunc_62() {
     }
 }
 
-void TBoss6Type2::vfunc_63() { if (*(int *)&m_374 != 35) { set_action_state(35); } }
+void TBoss6Type2::run_death_reaction() { if (*(int *)&m_374 != 35) { set_action_state(35); } }
 
 f32 TBoss6Type2::receive_physical_attack(void *att, f32 scale) {
     s32 var_r31;

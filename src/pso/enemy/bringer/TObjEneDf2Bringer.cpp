@@ -1315,11 +1315,11 @@ void run_task__17TObjEneDf2BringerFv(u8 *arg0) {
     ((TObjEneDf2Bringer *)(arg0))->render_minimap_dot();
 }
 
-void TObjEneDf2Bringer::vfunc_28() {  }
+void TObjEneDf2Bringer::refresh_target() {  }
 
-void TObjEneDf2Bringer::vfunc_63() { if (*(short*)((char*)this + 0x326) != 10) { TObjEneDD::transition_enemy_state(10); } }
+void TObjEneDf2Bringer::run_death_reaction() { if (*(short*)((char*)this + 0x326) != 10) { TObjEneDD::transition_enemy_state(10); } }
 
-void TObjEneDf2Bringer::vfunc_62() {
+void TObjEneDf2Bringer::run_hit_reaction() {
     u8 *arg0 = (u8 *)this;
     s16 temp_r0;
     temp_r0 = this->mode;

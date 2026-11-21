@@ -10,7 +10,7 @@ struct TObjEneGibbles : public TObjEnemy {
     virtual ~TObjEneGibbles();
     void sub_802D8580();
     virtual void render();
-    virtual void vfunc_62();
+    virtual void run_hit_reaction();
     virtual void run_task();
     void sub_802DBC94(s32);
     void update_wander();
@@ -20,13 +20,13 @@ struct TObjEneGibbles : public TObjEnemy {
     void sub_802D8140();
     virtual s32 update_action_hold_status();
     virtual s32 update_movement_status();
-    virtual void vfunc_58();
-    virtual void vfunc_59();
+    virtual void run_idle_action();
+    virtual void run_move_action();
     virtual s32 is_target_in_attack_range();
-    virtual void vfunc_60();
+    virtual void run_attack_action();
     virtual int test_flag_256();
     virtual void vfunc_61();
-    virtual void vfunc_63();
+    virtual void run_death_reaction();
     void *get_center();
     u32 resolve_sound_id(u32 sound_id);
     s32 m_374;

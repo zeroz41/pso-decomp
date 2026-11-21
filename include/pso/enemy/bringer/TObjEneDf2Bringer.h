@@ -15,10 +15,10 @@ struct TObjEneDf2Bringer : public TObjEneDD_ST {
     void set_effect_pos_above_self();
     void sub_80098DEC();
     void sub_800994F8();
-    void vfunc_63();
-    void vfunc_62();
+    void run_death_reaction();
+    void run_hit_reaction();
     void vfunc_61();
-    void vfunc_28();
+    void refresh_target();
     void render();
     void run_task();
     u8 unk_374[0x30];

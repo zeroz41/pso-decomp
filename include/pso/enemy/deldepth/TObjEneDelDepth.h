@@ -50,8 +50,8 @@ struct TObjEneDelDepth : public TObjEnemy {
     void set_depth_offset(s32, s32);
     void sub_803152C0();
     void sub_803152A0();
-    virtual void vfunc_63();
-    virtual void vfunc_62();
+    virtual void run_death_reaction();
+    virtual void run_hit_reaction();
     virtual void vfunc_61();
     s32 action;
     s32 actionPhase;

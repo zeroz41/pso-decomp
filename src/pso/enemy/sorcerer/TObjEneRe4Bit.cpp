@@ -161,9 +161,9 @@ void TObjEneRe4Bit::run_task() {
     submit_default_cursor_candidate();
 }
 
-void TObjEneRe4Bit::vfunc_28() {  }
+void TObjEneRe4Bit::refresh_target() {  }
 
-void TObjEneRe4Bit::vfunc_63() {
+void TObjEneRe4Bit::run_death_reaction() {
     s16 m = mode;
     if (m != 6) {
         if (m == 2) {
@@ -175,7 +175,7 @@ void TObjEneRe4Bit::vfunc_63() {
     }
 }
 
-void TObjEneRe4Bit::vfunc_62() {
+void TObjEneRe4Bit::run_hit_reaction() {
     if (mode != 5) {
         if (m_3cc & 0x1000) {
             clear_attack_receipts();

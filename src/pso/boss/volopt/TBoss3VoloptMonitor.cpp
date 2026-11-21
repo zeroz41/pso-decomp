@@ -262,9 +262,9 @@ void TBoss3VoloptMonitor::run_task() {
         return;
     }
     if (has_flag_0x800() != 0) {
-        vfunc_63();
+        run_death_reaction();
     } else if (test_flag30_512() != 0) {
-        vfunc_62();
+        run_hit_reaction();
     }
     if (mode != (s32)next_action) {
         if ((s32)state != -1) {
@@ -459,7 +459,7 @@ void TBoss3VoloptMonitor::sub_80041C78() {
         state = 1;
     case 1:
         if (--*(s16 *)&timer <= 0) {
-            vfunc_59();
+            run_move_action();
         }
         break;
     case -1:
@@ -486,5 +486,5 @@ void TBoss3VoloptMonitor::spawn_effects() {
 void TBoss3VoloptMonitor::set_hit_flags_and_notify() {
     m_388 |= 0x40000;
     obj_setFlags30(this, 0x800);
-    vfunc_63();
+    run_death_reaction();
 }

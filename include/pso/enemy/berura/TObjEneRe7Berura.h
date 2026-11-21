@@ -41,10 +41,10 @@ struct TObjEneRe7Berura : public TObjEneDD_ST {
     virtual void update_body_colliders();
     virtual void vfunc_105();
     virtual void vfunc_106();
-    void vfunc_63();
-    void vfunc_62();
+    void run_death_reaction();
+    void run_hit_reaction();
     void vfunc_61();
-    void vfunc_28();
+    void refresh_target();
     void sub_80095328();
     void render();
     void run_task();

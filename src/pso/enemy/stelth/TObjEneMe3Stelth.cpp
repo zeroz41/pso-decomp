@@ -407,13 +407,13 @@ void TObjEneMe3Stelth::run_task() {
     }
     submit_default_cursor_candidate();
 }
-void TObjEneMe3Stelth::vfunc_28() {  }
-void TObjEneMe3Stelth::vfunc_63() {
+void TObjEneMe3Stelth::refresh_target() {  }
+void TObjEneMe3Stelth::run_death_reaction() {
     if (mode != 15) {
         transition_enemy_state(15);
     }
 }
-void TObjEneMe3Stelth::vfunc_62() {
+void TObjEneMe3Stelth::run_hit_reaction() {
     if (m_3cc & 1) {
         clear_attack_receipts();
         if (m_3c0 == 1 && random_ratio() <= m_3e0) {
@@ -2098,8 +2098,8 @@ TObjEneMe3StelthReal::TObjEneMe3StelthReal(TObject *parent, void *set_data) : TO
     dispatch_action(mode, 4);
 }
 TObjEneMe3StelthReal::~TObjEneMe3StelthReal() {}
-void TObjEneMe3StelthReal::vfunc_63() { TObjEneMe3Stelth::vfunc_63(); }
-void TObjEneMe3StelthReal::vfunc_62() { TObjEneMe3Stelth::vfunc_62(); }
+void TObjEneMe3StelthReal::run_death_reaction() { TObjEneMe3Stelth::run_death_reaction(); }
+void TObjEneMe3StelthReal::run_hit_reaction() { TObjEneMe3Stelth::run_hit_reaction(); }
 void TObjEneMe3StelthReal::vfunc_107() {
     m_3ec = m_3ec + 1;
     if (m_3ec >= 2 || random_ratio() < 0.5f) {

@@ -407,9 +407,9 @@ void TObjEneBm3FlyNest::dispatch_action(u32 state, s32 reason) {
     }
 }
 
-void TObjEneBm3FlyNest::vfunc_28() {  }
+void TObjEneBm3FlyNest::refresh_target() {  }
 
-void TObjEneBm3FlyNest::vfunc_63() {
+void TObjEneBm3FlyNest::run_death_reaction() {
     s16 m;
 
     m = mode;
@@ -422,7 +422,7 @@ void TObjEneBm3FlyNest::vfunc_63() {
     }
 }
 
-void TObjEneBm3FlyNest::vfunc_62() {
+void TObjEneBm3FlyNest::run_hit_reaction() {
     s16 m;
 
     if ((mode == 3) && (TObjEneDD::check_v2_mode() != 0)) {

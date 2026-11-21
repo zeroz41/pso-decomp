@@ -4440,7 +4440,7 @@ void TObjPlayer::update_status_effects() {
   (this->vfunc_43());
   (this->update_poison_status());
   (this->update_action_hold_status());
-  (this->vfunc_37());
+  (this->update_slow_status());
   (this->update_flag30_timer());
   (this->update_movement_status());
   (this->update_shock_clock());
@@ -6421,12 +6421,12 @@ s32 TObjPlayer::update_action_hold_status() {
     return TObjChara::update_action_hold_status();
 }
 
-s32 TObjPlayer::vfunc_37() {
+s32 TObjPlayer::update_slow_status() {
     saddr player = (saddr)this;
     if ((((s32 (*)(void))reset_volopt_state__10TObjPlayerFv)() == 0) || (((TObjPlayer *)player)->is_body_collision_inactive() != 0)) {
         return 0;
     }
-    return TObjChara::vfunc_37();
+    return TObjChara::update_slow_status();
 }
 
 s32 TObjPlayer::update_flag30_timer() {

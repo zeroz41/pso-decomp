@@ -1205,7 +1205,7 @@ int play_sound(void *, int);
 
 
 
-void vfunc_62__13TBoss2DeRolLeFv(TBoss2DeRolLe *arg0);
+void run_hit_reaction__13TBoss2DeRolLeFv(TBoss2DeRolLe *arg0);
 
 s32 VecCopy__FP3VecPC3Vec(s32, s32);
 
@@ -1388,9 +1388,9 @@ void load_resources__13TBoss2DeRolLeFv(void);
 
 s32 advance_scalar_motion_profile(void *arg0);
 
-void vfunc_63__13TBoss2DeRolLeFv(void);
+void run_death_reaction__13TBoss2DeRolLeFv(void);
 
-void vfunc_28__13TBoss2DeRolLeFv(void);
+void refresh_target__13TBoss2DeRolLeFv(void);
 
 void apply_poison_status__13TBoss2DeRolLeFv(void);
 
@@ -2024,7 +2024,7 @@ void TBoss2DeRolLe::run_task() {
       }
       if (test_flag30_512() != 0)
       {
-        vfunc_62();
+        run_hit_reaction();
       }
       dispatch_action(mode, 8);
       dispatch_action(mode, 0);
@@ -2033,7 +2033,7 @@ void TBoss2DeRolLe::run_task() {
     {
       if (test_flag30_512() != 0)
       {
-        vfunc_62();
+        run_hit_reaction();
       }
       dispatch_action(mode, 0);
     }
@@ -2068,9 +2068,9 @@ namespace lifecycle_view {
 
 extern "C" {
 
-void TBoss2DeRolLe::vfunc_28() {  }
+void TBoss2DeRolLe::refresh_target() {  }
 
-void TBoss2DeRolLe::vfunc_63() {  }
+void TBoss2DeRolLe::run_death_reaction() {  }
 
 }
 
@@ -2080,7 +2080,7 @@ namespace joint_state_view {
 
 extern "C" {
 
-void TBoss2DeRolLe::vfunc_62() {
+void TBoss2DeRolLe::run_hit_reaction() {
     s32 damage;
     damage = hpmax - hp;
     if (state_flags & 8) {

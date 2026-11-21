@@ -71,7 +71,7 @@ void fn_80048C04(TObjVoloptCage *cage) {
     }
     cage->status = 15;
     obj_setFlags30(cage, 0x800);
-    cage->vfunc_63();
+    cage->run_death_reaction();
 }
 
 void TObjVoloptCage::update_breakup() {
@@ -123,7 +123,7 @@ void TObjVoloptCage::update_collision_state() {
             actorFlags &= ~0x200;
             referenceHp = hp;
             m_388 &= ~1;
-            vfunc_59();
+            run_move_action();
         }
         break;
     default:
@@ -149,7 +149,7 @@ void TObjVoloptCage::update_capture() {
     case 1:
         if (--countdown <= 0) {
             obj_setFlags30(this, 0x800);
-            vfunc_63();
+            run_death_reaction();
         }
         break;
     }
@@ -168,7 +168,7 @@ void TObjVoloptCage::sub_80049000() {
             position.y = 0.0f;
             countdown = TBoss3VoloptP02::get_int_param(4) + 450;
             m_388 &= ~1;
-            vfunc_59();
+            run_move_action();
         }
         break;
     case -1:
@@ -226,9 +226,9 @@ void TObjVoloptCage::run_task() {
     }
     if (mode != 7) {
         if (has_flag_0x800() != 0) {
-            vfunc_63();
+            run_death_reaction();
         } else if (test_flag30_512() != 0) {
-            vfunc_62();
+            run_hit_reaction();
         }
     }
     if (mode != (s32)next_action) {

@@ -33,10 +33,10 @@ struct TObjEneEpsilonGuard : public TObjEneEpsilon {
     virtual void check_collisions();
     virtual f32 receive_physical_attack(void *, f32);
     virtual f32 receive_weapon_special_attack(void *, void *);
-    void vfunc_63();
-    void vfunc_62();
+    void run_death_reaction();
+    void run_hit_reaction();
     void vfunc_61();
-    void vfunc_28();
+    void refresh_target();
     void render();
     void run_task();
     s32 state_step;        // sub-step of the current state (orbit 0/1/2; 1 once the break is done)

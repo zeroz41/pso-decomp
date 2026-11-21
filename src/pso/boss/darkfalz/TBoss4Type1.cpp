@@ -620,14 +620,14 @@ TBoss4Type1::~TBoss4Type1() {
     unk_394 = 0;
 }
 
-void TBoss4Type1::vfunc_62() {
+void TBoss4Type1::run_hit_reaction() {
     actorFlags &= ~0x200;
     unk_3d4 = 1;
     unk_3dc = 1.0f;
     play_sound_effect(0x4003A822, &position, 0, 1);
 }
 
-void TBoss4Type1::vfunc_63() {
+void TBoss4Type1::run_death_reaction() {
     if (state != 3 && state != 4) {
         set_state(3);
     }

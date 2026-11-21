@@ -378,9 +378,9 @@ void TObjEneBm9Mericarol::dispatch_action(u32 state, s32 reason) {
     }
 }
 
-void TObjEneBm9Mericarol::vfunc_28() {  }
+void TObjEneBm9Mericarol::refresh_target() {  }
 
-void TObjEneBm9Mericarol::vfunc_63() {
+void TObjEneBm9Mericarol::run_death_reaction() {
     s16 temp_r0;
 
     temp_r0 = this->mode;
@@ -389,7 +389,7 @@ void TObjEneBm9Mericarol::vfunc_63() {
     }
 }
 
-void TObjEneBm9Mericarol::vfunc_62() {
+void TObjEneBm9Mericarol::run_hit_reaction() {
     if ((s16) this->mode != 0xA) {
         if (this->m_438 & 0x20) {
             clear_attack_receipts();

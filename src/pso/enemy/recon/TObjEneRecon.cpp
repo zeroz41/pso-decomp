@@ -1621,9 +1621,9 @@ void TObjEneRecon::sync_height() {
     *(f32 *)((s8 *)this + 0x398) = (f32) *(f32 *)((s8 *)this + 0x460);
 }
 void TObjEneRecon::vfunc_61() {  }
-void TObjEneRecon::vfunc_62() { if (this->mode != 6) { transition_enemy_state(6); } }
+void TObjEneRecon::run_hit_reaction() { if (this->mode != 6) { transition_enemy_state(6); } }
 
-void TObjEneRecon::vfunc_63() {
+void TObjEneRecon::run_death_reaction() {
     u8 *arg0 = (u8 *)this;
     s16 temp_r0;
     temp_r0 = this->mode;
@@ -1632,7 +1632,7 @@ void TObjEneRecon::vfunc_63() {
     }
 }
 
-void TObjEneRecon::vfunc_28() {  }
+void TObjEneRecon::refresh_target() {  }
 
 void *TObjEneRecon__ai_parameters[7] = {
     (void *)0x43610000, (void *)0x3f6d097b, (void *)0x600, (void *)0x0,

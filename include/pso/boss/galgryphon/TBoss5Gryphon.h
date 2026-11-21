@@ -61,9 +61,9 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     s32 enemy_probe_wall_ahead(f32, f32, f32);
     void calc_shot_position(u8 *, f32, f32, f32);
     u8 *try_move_actor_xz_on_ground(u8 *);
-    virtual void vfunc_28();
-    virtual void vfunc_63();
-    virtual void vfunc_62();
+    virtual void refresh_target();
+    virtual void run_death_reaction();
+    virtual void run_hit_reaction();
     virtual void vfunc_61();
     virtual void update_body_colliders();
     virtual void render_shadows();

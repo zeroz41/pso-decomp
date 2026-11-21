@@ -373,14 +373,14 @@ void TBoss3VoloptP02::run_task() {
     pulse_angle += pulse_speed;
     if (TObjPlayer::check_demo_mode() != 1) {
         if (has_flag_0x800() != 0) {
-            vfunc_63();
+            run_death_reaction();
         } else if (test_flag30_512() != 0) {
             if (TBoss3Volopt::is_v2_mode() != 0) {
                 distribute_part_damage();
                 actorFlags &= ~0x200;
                 position.y = 0.0f;
             } else {
-                vfunc_62();
+                run_hit_reaction();
             }
         }
         if (obj_testFlags30(0x4000) != 0) {
@@ -459,7 +459,7 @@ void TBoss3VoloptP02::set_action(u16 target_id) {
         check_and_notify();
         targetId = target_id;
         m_388 &= ~1;
-        vfunc_60();
+        run_attack_action();
     }
 }
 
@@ -493,7 +493,7 @@ void TBoss3VoloptP02::set_action_wait(u16 target_id) {
 void TBoss3VoloptP02::dispatch_state() {
     switch (state) {
     case 0:
-        vfunc_58();
+        run_idle_action();
         break;
     case -1:
         break;
@@ -562,7 +562,7 @@ void TBoss3VoloptP02::fn_80046CB8() {
         push_players_out_of_radius();
     case 2:
         if (target == 0) {
-            vfunc_58();
+            run_idle_action();
             break;
         }
         play_persistent_sound(0x4003C616, this, &position, 0, 0);
@@ -581,7 +581,7 @@ void TBoss3VoloptP02::fn_80046CB8() {
         break;
     case 3:
         if (target == 0) {
-            vfunc_58();
+            run_idle_action();
             break;
         }
         play_persistent_sound(0x4003C616, this, &position, 0, 0);
@@ -605,7 +605,7 @@ void TBoss3VoloptP02::fn_80046CB8() {
         break;
     case 4:
         if (target == 0) {
-            vfunc_58();
+            run_idle_action();
             break;
         }
         turn_toward_point((Vec *)(target + 0x38), 0x566, -0x4000);
@@ -637,7 +637,7 @@ void TBoss3VoloptP02::fn_80046CB8() {
         break;
     case 5:
         if (target == 0) {
-            vfunc_58();
+            run_idle_action();
             break;
         }
         timer = TBoss3VoloptP02::get_int_param(5);
@@ -680,7 +680,7 @@ void TBoss3VoloptP02::fn_80046CB8() {
             } else if (++cycle_count < 2) {
                 state = 1;
             } else {
-                vfunc_58();
+                run_idle_action();
             }
         }
         break;
@@ -764,7 +764,7 @@ void TBoss3VoloptP02::fn_800465B0() {
                 state = 4;
                 play_sound_effect(0x4003A80B, &position, 0, 0);
             } else {
-                vfunc_58();
+                run_idle_action();
             }
         }
         break;
@@ -846,7 +846,7 @@ void TBoss3VoloptP02::fn_800465B0() {
     case 8:
         advance_animation();
         if (this->action_flags != 4) {
-            vfunc_58();
+            run_idle_action();
         }
         break;
     case -1:
@@ -946,7 +946,7 @@ void TBoss3VoloptP02::fn_80046260() {
             play_sound_effect(0x4003A312, &position, 0, 0);
         }
         if (this->action_flags != 4) {
-            vfunc_58();
+            run_idle_action();
         }
         break;
     case -1:
@@ -1034,7 +1034,7 @@ void TBoss3VoloptP02::update_pillar_heal_state() {
     case 4:
         advance_animation();
         if (this->action_flags != 4U) {
-            vfunc_58();
+            run_idle_action();
         }
         break;
     case -1:
@@ -1070,7 +1070,7 @@ void TBoss3VoloptP02::update_fade_state() {
         if (this->frame >= 38.0f) {
             position.y = 0.0f;
             m_388 &= ~1;
-            vfunc_58();
+            run_idle_action();
             break;
         }
     case 1:
@@ -1690,7 +1690,7 @@ void TBoss3VoloptP02::fn_80044680() {
                 state = 3;
             } else {
                 play_sound_effect(0x4003A817, &position, 0, 0);
-                vfunc_58();
+                run_idle_action();
                 break;
             }
         }

@@ -19,10 +19,10 @@ struct TObjEneRe4Sorcerer : public TObjEneDD_ST {
     virtual u8 *update_ground_contact();
     virtual void vfunc_105();
     virtual void vfunc_106();
-    void vfunc_63();
-    void vfunc_62();
+    void run_death_reaction();
+    void run_hit_reaction();
     void vfunc_61();
-    void vfunc_28();
+    void refresh_target();
     void render();
     void run_task();
     static void step_effect_sequence(NJS_OBJECT *);

@@ -43,7 +43,7 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     virtual ~TBoss2DeRolLe();
     virtual void run_task();
     virtual void render();
-    virtual void vfunc_28();
+    virtual void refresh_target();
     virtual void apply_poison_status();
     virtual void apply_paralysis();
     virtual void apply_slow_status();
@@ -52,8 +52,8 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     virtual void apply_shock_status();
     virtual void clear_harmful_statuses();
     virtual void vfunc_61();
-    virtual void vfunc_62();
-    virtual void vfunc_63();
+    virtual void run_hit_reaction();
+    virtual void run_death_reaction();
     virtual void dispatch_action(u32 state, s32 reason);
     virtual void update_body_colliders();           // refreshes the colliders from the body's offsets
     virtual void enable_body_collision();
@@ -184,7 +184,7 @@ s32 TBoss2Joint_get_shell_max_hp(void);
 void TObjPlayer__sub_8002F61C(NJS_OBJECT *);
 void advance_phase_wrap__13TBoss2DeRolLeFv(u8 *arg0);
 s32 advance_scalar_motion_profile(void *arg0);
-void vfunc_62__13TBoss2DeRolLeFv(TBoss2DeRolLe *arg0);
+void run_hit_reaction__13TBoss2DeRolLeFv(TBoss2DeRolLe *arg0);
 void backup_pos__13TBoss2DeRolLeFi(s32 arg0);
 void emit_effect_and_step__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1);
 void fn_8002F5AC(u8 *arg0);

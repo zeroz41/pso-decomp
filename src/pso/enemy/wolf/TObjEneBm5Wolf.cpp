@@ -448,9 +448,9 @@ void TObjEneBm5Wolf::run_task() {
     this->render_minimap_dot();
 }
 
-void TObjEneBm5Wolf::vfunc_28() {  }
+void TObjEneBm5Wolf::refresh_target() {  }
 
-void TObjEneBm5Wolf::vfunc_63() {
+void TObjEneBm5Wolf::run_death_reaction() {
     s16 temp_r0;
 
     temp_r0 = this->mode;
@@ -459,7 +459,7 @@ void TObjEneBm5Wolf::vfunc_63() {
     }
 }
 
-void TObjEneBm5Wolf::vfunc_62() { if (this->mode != 15) { this->transition_enemy_state(15); } }
+void TObjEneBm5Wolf::run_hit_reaction() { if (this->mode != 15) { this->transition_enemy_state(15); } }
 
 void TObjEneBm5Wolf::vfunc_61() {  }
 

@@ -140,7 +140,7 @@ void TObjEneBalClaw::update_claw_angle() {
     }
 }
 
-void TObjEneBalClaw::vfunc_62() {
+void TObjEneBalClaw::run_hit_reaction() {
     set_state(4);
     m_388 |= 1;
 }
@@ -213,7 +213,7 @@ TObjEneBalClaw::TObjEneBalClaw(TObject *parent) : TObjEnemyCustom(parent) {
 void TObjEneBalClaw::vfunc_61() {
 }
 
-void TObjEneBalClaw::vfunc_59() {
+void TObjEneBalClaw::run_move_action() {
 }
 
 s32 TObjEneBalClaw::is_target_in_attack_range() {

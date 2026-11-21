@@ -61,10 +61,10 @@ struct TObjEneDellBiter : public TObjEneDD_ST {
     virtual void fn_80303538();
     virtual void dispatch_action(u32, s32);
     virtual void vfunc_106();
-    void vfunc_63();
-    void vfunc_62();
+    void run_death_reaction();
+    void run_hit_reaction();
     void vfunc_61();
-    void vfunc_28();
+    void refresh_target();
     void render();
     void run_task();
     s32 previous_mode;

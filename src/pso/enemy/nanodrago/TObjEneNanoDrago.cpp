@@ -190,9 +190,9 @@ const char *nano_drago_name = "TObjEneNanoDrago";
 
 // Deferred code generation emits these methods in address order.
 void TObjEneNanoDrago::vfunc_61() {  }
-void TObjEneNanoDrago::vfunc_59() {  }
-void TObjEneNanoDrago::vfunc_60() {  }
-void TObjEneNanoDrago::vfunc_58() {  }
+void TObjEneNanoDrago::run_move_action() {  }
+void TObjEneNanoDrago::run_attack_action() {  }
+void TObjEneNanoDrago::run_idle_action() {  }
 TObjEneNanoDrago::TObjEneNanoDrago(TObject *parent, void *setData) : TObjEnemyCustom(parent) {
     u8 *arg2 = (u8 *)setData;
     s32 i;
@@ -475,13 +475,13 @@ void TObjEneNanoDrago::update_idle_state() {
         break;
     }
 }
-void TObjEneNanoDrago::vfunc_62() {
+void TObjEneNanoDrago::run_hit_reaction() {
     this->set_state(4);
     m_380 = (s32) m_378;
     m_378 = 4;
     m_388 = (s32) (m_388 | 0x10000 | 1);
 }
-void TObjEneNanoDrago::vfunc_63() {
+void TObjEneNanoDrago::run_death_reaction() {
     this->set_state(5);
     m_380 = (s32) m_378;
     m_378 = 5;
