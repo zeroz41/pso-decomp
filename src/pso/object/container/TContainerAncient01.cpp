@@ -261,7 +261,7 @@ extern "C" void run_death_reaction__9TObjCharaFv();
 
 extern "C" void run_hit_reaction__9TObjCharaFv();
 
-extern "C" void vfunc_61__9TObjCharaFv();
+extern "C" void run_miss_reaction__9TObjCharaFv();
 
 extern "C" void run_attack_action__9TObjCharaFv();
 

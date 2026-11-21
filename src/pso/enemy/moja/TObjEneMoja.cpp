@@ -1525,7 +1525,7 @@ void TObjEneMoja::update_attack_jump() {
     }
 }
 
-void TObjEneMoja::vfunc_61() {
+void TObjEneMoja::run_miss_reaction() {
 
     switch (mode) {
     case 4:

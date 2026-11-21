@@ -649,7 +649,7 @@ void TObjEneIllGill::sub_803669B0() {
     minimap_render_dot(&position, -0x5DB4, 1, 0);
 }
 
-void TObjEneIllGill::vfunc_61() { obj_clearFlags30(256); }
+void TObjEneIllGill::run_miss_reaction() { obj_clearFlags30(256); }
 void TObjEneIllGill::free_resources() {
     if (this->primaryEffect != 0U) {
         TParticleCtrl::release((void *)this->primaryEffect);

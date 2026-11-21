@@ -46,7 +46,7 @@ struct TObjEneBm9Mericarol : public TObjEneDD_ST {
     virtual void draw_color_variant();
     virtual void run_death_reaction();
     virtual void run_hit_reaction();
-    virtual void vfunc_61();
+    virtual void run_miss_reaction();
     virtual void refresh_target();
     s32 get_phase();
     void init_size_tier_and_offsets();

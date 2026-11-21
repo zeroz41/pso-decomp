@@ -64,7 +64,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     virtual void render_shadows();
     void run_death_reaction();
     void run_hit_reaction();
-    void vfunc_61();
+    void run_miss_reaction();
     void clear_harmful_statuses();
     void apply_shock_status();
     void apply_movement_ailment(s32);

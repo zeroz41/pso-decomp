@@ -19,7 +19,7 @@ struct TObjEneGyaranzo : public TObjEnemyCustom {
     virtual void run_idle_action();
     virtual s32 is_target_in_attack_range();
     virtual void run_move_action();
-    virtual void vfunc_61();
+    virtual void run_miss_reaction();
     void spawn_missile();
     u32 m_38c;
     u8 _pad390[0x18];

@@ -182,7 +182,7 @@ void run_death_reaction__9TObjCharaFv();
 
 void run_hit_reaction__9TObjCharaFv();
 
-void vfunc_61__9TObjCharaFv();
+void run_miss_reaction__9TObjCharaFv();
 
 void run_attack_action__9TObjCharaFv();
 
@@ -230,7 +230,7 @@ void apply_switch_attack__9TObjCharaFv();
 
 void calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf();
 
-void vfunc_79__9TObjEnemyFPl();
+void apply_enemy_state__9TObjEnemyFPl();
 
 void classify_actor_view_detail__8TObjBaseFfff();
 
@@ -546,7 +546,7 @@ void TObjEneSlime::run_task() {
         sp8 = 0x800;
         send_6x0A_enemy_state(&sp8);
         exchange_object_state(&sp8, (s16)0);
-        this->vfunc_79(&sp8);
+        this->apply_enemy_state(&sp8);
         send_entity_set_flags();
         queue_destruction();
     }
@@ -929,7 +929,7 @@ void TObjEneSlimeOne::run_hit_reaction() {
     }
 }
 
-void TObjEneSlimeOne::vfunc_61() {
+void TObjEneSlimeOne::run_miss_reaction() {
     u8 *arg0 = (u8 *)this;
     if ((s32) this->state != 0xB) {
         this->actorFlags = (s32) (this->actorFlags & 0xFFFFFEFF);

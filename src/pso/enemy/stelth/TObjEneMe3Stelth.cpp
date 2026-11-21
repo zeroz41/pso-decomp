@@ -423,7 +423,7 @@ void TObjEneMe3Stelth::run_hit_reaction() {
         transition_enemy_state(0xE);
     }
 }
-void TObjEneMe3Stelth::vfunc_61() {  }
+void TObjEneMe3Stelth::run_miss_reaction() {  }
 void TObjEneMe3Stelth::copy_pos_with_height_offset() {
     VecCopy(&body_center, &position);
     body_center.y += 12.0f + m_3d4;

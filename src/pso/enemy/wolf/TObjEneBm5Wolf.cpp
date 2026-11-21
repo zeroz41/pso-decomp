@@ -461,7 +461,7 @@ void TObjEneBm5Wolf::run_death_reaction() {
 
 void TObjEneBm5Wolf::run_hit_reaction() { if (this->mode != 15) { this->transition_enemy_state(15); } }
 
-void TObjEneBm5Wolf::vfunc_61() {  }
+void TObjEneBm5Wolf::run_miss_reaction() {  }
 
 void TObjEneBm5Wolf::update_collision_center() {
 

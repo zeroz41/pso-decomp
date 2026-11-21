@@ -185,7 +185,7 @@ void TObjEneRe4Bit::run_hit_reaction() {
     }
 }
 
-void TObjEneRe4Bit::vfunc_61() {  }
+void TObjEneRe4Bit::run_miss_reaction() {  }
 
 void TObjEneRe4Bit::copy_pos() { VecCopy(&center, &body_center); }
 

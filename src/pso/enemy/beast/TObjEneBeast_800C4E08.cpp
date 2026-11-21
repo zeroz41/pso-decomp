@@ -205,7 +205,7 @@ void TUnk_80493450::run_hit_reaction() {
     obj_clearFlags30(0x240000);
 }
 void TUnk_80493450::vfunc_89() {  }
-void TUnk_80493450::vfunc_61() { obj_clearFlags30(256); }
+void TUnk_80493450::run_miss_reaction() { obj_clearFlags30(256); }
 
 void TUnk_80493450::beast_update_attack() {
     if (targetId < 0x1000) {

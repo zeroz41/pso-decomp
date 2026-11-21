@@ -697,7 +697,7 @@ void TObjEnePanBARA::run_hit_reaction() {
     }
 }
 
-void TObjEnePanBARA::vfunc_61() { this->actorFlags &= 0xfffffeff; }
+void TObjEnePanBARA::run_miss_reaction() { this->actorFlags &= 0xfffffeff; }
 
 void TObjEnePanarms__sub_800E1E14(u8 *arg0) {
     u8 *temp_r5;

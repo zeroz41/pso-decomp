@@ -505,7 +505,7 @@ void TObjEneRe2Flower::run_hit_reaction() {
     }
 }
 
-void TObjEneRe2Flower::vfunc_61() {  }
+void TObjEneRe2Flower::run_miss_reaction() {  }
 
 void TObjEneRe2Flower::sub_800C3DC4() {
     VecCopy(&this->body_center, &this->position);

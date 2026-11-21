@@ -27,7 +27,7 @@ struct TBoss2Mine : public TObjEneDD {
     virtual void render_demo();
     void run_death_reaction();
     void run_hit_reaction();
-    void vfunc_61();
+    void run_miss_reaction();
     void apply_defense_stat_status(void *);
     void apply_attack_stat_status(void *);
     void clear_harmful_statuses();

@@ -354,7 +354,7 @@ void TObjEneDellBiter::run_hit_reaction() {
     }
 }
 
-void TObjEneDellBiter::vfunc_61() {  }
+void TObjEneDellBiter::run_miss_reaction() {  }
 
 void TObjEneDellBiter::set_effect_pos_above_self() {
     VecCopy(&body_center, &position);

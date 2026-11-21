@@ -191,7 +191,7 @@ void TBoss2Mine::run_death_reaction() {
 
 void TBoss2Mine::run_hit_reaction() { clear_attack_receipts(); }
 
-void TBoss2Mine::vfunc_61() {  }
+void TBoss2Mine::run_miss_reaction() {  }
 
 void TBoss2Mine::save_position() { VecCopy(&center, &body_center); }
 

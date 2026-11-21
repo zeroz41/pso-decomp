@@ -54,7 +54,7 @@ struct TObjEneMe1Canadin : public TObjEneDD_ST {
     virtual void vfunc_117(uaddr);
     void run_death_reaction();
     void run_hit_reaction();
-    void vfunc_61();
+    void run_miss_reaction();
     void refresh_target();
     void render();
     u8 unk_374[0x4];

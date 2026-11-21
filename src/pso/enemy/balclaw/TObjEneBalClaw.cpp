@@ -210,7 +210,7 @@ TObjEneBalClaw::TObjEneBalClaw(TObject *parent) : TObjEnemyCustom(parent) {
     m_388 |= 0x20000;
 }
 
-void TObjEneBalClaw::vfunc_61() {
+void TObjEneBalClaw::run_miss_reaction() {
 }
 
 void TObjEneBalClaw::run_move_action() {

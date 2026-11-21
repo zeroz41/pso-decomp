@@ -380,7 +380,7 @@ extern "C" {
 s32 play_sound_effect(s32, u32, s32, s32);
 void run_death_reaction__12TObjEneLappyFv(u8 *arg0);
 void run_hit_reaction__12TObjEneLappyFv(u8 *arg0);
-void vfunc_61__12TObjEneLappyFv(void *arg0);
+void run_miss_reaction__12TObjEneLappyFv(void *arg0);
 void run_attack_action__12TObjEneLappyFv(void *arg0);
 s32 TObjEneDD__sub_800B9B24(f32);
 s32 is_item_light_interaction_blocked();
@@ -700,7 +700,7 @@ void TObjEneLappy::update_invuln_timer() {
     }
 }
 
-void TObjEneLappy::vfunc_61() {
+void TObjEneLappy::run_miss_reaction() {
     if ((s16) this->mode != 3) {
         this->mode = 3;
         this->requested_action = 1;
@@ -1267,7 +1267,7 @@ extern "C" void apply_set_data__9TObjEnemyFPv();
 extern "C" void apply_shock_status__9TObjCharaFv();
 extern "C" void apply_switch_attack__9TObjCharaFv();
 extern "C" void calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf();
-extern "C" void vfunc_79__9TObjEnemyFPl();
+extern "C" void apply_enemy_state__9TObjEnemyFPl();
 extern "C" void classify_actor_view_detail__8TObjBaseFfff();
 extern "C" void clear_all_status_effects__9TObjCharaFv();
 extern "C" void clear_harmful_statuses__9TObjCharaFv();
@@ -1336,11 +1336,11 @@ void *lbl_80492F28[84] = {
     (void *)&apply_movement_ailment__9TObjCharaFl, (void *)&apply_shock_status__9TObjCharaFv, (void *)&clear_harmful_statuses__9TObjCharaFv, (void *)&apply_attack_stat_status__9TObjCharaFPv,
     (void *)&apply_defense_stat_status__9TObjCharaFPv, (void *)&cure_poison_ailment__9TObjCharaFv, (void *)&cure_paralysis__9TObjCharaFv, (void *)&clear_all_status_effects__9TObjCharaFv,
     (void *)&apply_action_hold_status__9TObjCharaFf, (void *)&apply_anti_technique__9TObjCharaFl, (void *)&run_idle_action__12TObjEneLappyFv, (void *)&run_move_action__12TObjEneLappyFv,
-    (void *)&run_attack_action__12TObjEneLappyFv, (void *)&vfunc_61__12TObjEneLappyFv, (void *)&run_hit_reaction__12TObjEneLappyFv, (void *)&run_death_reaction__12TObjEneLappyFv,
+    (void *)&run_attack_action__12TObjEneLappyFv, (void *)&run_miss_reaction__12TObjEneLappyFv, (void *)&run_hit_reaction__12TObjEneLappyFv, (void *)&run_death_reaction__12TObjEneLappyFv,
     (void *)&reset_pose__9TObjCharaFv, (void *)&get_anim_node_position__9TObjCharaFlP3Vec, (void *)&vfunc_66__9TObjCharaFv, (void *)&deliver_attack_hits__9TObjCharaFf,
     (void *)&get_pos__9TObjCharaFl, (void *)&apply_switch_attack__9TObjCharaFv, (void *)&enemy_spawn_jellen_effect__9TObjCharaFv, (void *)&trigger_switch_attack__9TObjCharaFv,
     (void *)&enemy_spawn_zalure_effect__9TObjCharaFv, (void *)&recalc_stats__9TObjCharaFv, (void *)&vfunc_74__9TObjEnemyFl, (void *)&gain_photon_blast_charge__9TObjCharaFf,
-    (void *)&spend_photon_blast_charge__9TObjCharaFf, (void *)&gain_photon_blast_chain_charge__9TObjCharaFv, (void *)&vfunc_78__9TObjCharaFl, (void *)&vfunc_79__9TObjEnemyFPl,
+    (void *)&spend_photon_blast_charge__9TObjCharaFf, (void *)&gain_photon_blast_chain_charge__9TObjCharaFv, (void *)&vfunc_78__9TObjCharaFl, (void *)&apply_enemy_state__9TObjEnemyFPl,
     (void *)&apply_hit_message_flags__9TObjEnemyFPv, (void *)&apply_set_data__9TObjEnemyFPv, (void *)&clear_lobby_object_state__9TObjEnemyFv, (void *)0x0,
 };
 

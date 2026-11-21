@@ -301,7 +301,7 @@ void TObjEneBm3Fly::run_death_reaction() {
 
 void TObjEneBm3Fly::run_hit_reaction() { if (this->mode != 6) { this->transition_enemy_state(6); } }
 
-void TObjEneBm3Fly::vfunc_61() {  }
+void TObjEneBm3Fly::run_miss_reaction() {  }
 
 void TObjEneBm3Fly::update() {
     this->enemy_copy_target_destination();

@@ -170,7 +170,7 @@ void apply_shock_status__9TObjCharaFv();
 void apply_slow_status__9TObjCharaFv();
 void apply_switch_attack__9TObjCharaFv();
 void calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf();
-void vfunc_79__9TObjEnemyFPl();
+void apply_enemy_state__9TObjEnemyFPl();
 void classify_actor_view_detail__8TObjBaseFfff();
 void clear_all_status_effects__9TObjCharaFv();
 void clear_harmful_statuses__9TObjCharaFv();
@@ -180,7 +180,7 @@ void cure_paralysis__9TObjCharaFv();
 void cure_poison_ailment__9TObjCharaFv();
 void enemy_spawn_jellen_effect__9TObjCharaFv();
 void enemy_spawn_zalure_effect__9TObjCharaFv();
-void vfunc_61__12TObjEneSaverFv(void *arg0);
+void run_miss_reaction__12TObjEneSaverFv(void *arg0);
 s32 test_flag_256__12TObjEneSaverFv(Obj_800A4C4C *self);
 void find_nearest_target__10TObjPlayerFPv(Obj_800A677C *self);
 void vfunc_78__9TObjCharaFl();
@@ -266,11 +266,11 @@ void *TObjEneSaver__vtable[83] = {
     (void *)&apply_movement_ailment__9TObjCharaFl, (void *)&apply_shock_status__9TObjCharaFv, (void *)&clear_harmful_statuses__9TObjCharaFv, (void *)&apply_attack_stat_status__9TObjCharaFPv,
     (void *)&apply_defense_stat_status__9TObjCharaFPv, (void *)&cure_poison_ailment__9TObjCharaFv, (void *)&cure_paralysis__9TObjCharaFv, (void *)&clear_all_status_effects__9TObjCharaFv,
     (void *)&apply_action_hold_status__9TObjCharaFf, (void *)&apply_anti_technique__9TObjCharaFl, (void *)&run_idle_action__12TObjEneSaverFv, (void *)&run_move_action__12TObjEneSaverFv,
-    (void *)&run_attack_action__12TObjEneSaverFv, (void *)&vfunc_61__12TObjEneSaverFv, (void *)&run_hit_reaction__12TObjEneSaverFv, (void *)&run_death_reaction__12TObjEneSaverFv,
+    (void *)&run_attack_action__12TObjEneSaverFv, (void *)&run_miss_reaction__12TObjEneSaverFv, (void *)&run_hit_reaction__12TObjEneSaverFv, (void *)&run_death_reaction__12TObjEneSaverFv,
     (void *)&reset_pose__9TObjCharaFv, (void *)&get_anim_node_position__9TObjCharaFlP3Vec, (void *)&vfunc_66__9TObjCharaFv, (void *)&deliver_attack_hits__9TObjCharaFf,
     (void *)&get_pos__9TObjCharaFl, (void *)&apply_switch_attack__9TObjCharaFv, (void *)&enemy_spawn_jellen_effect__9TObjCharaFv, (void *)&trigger_switch_attack__9TObjCharaFv,
     (void *)&enemy_spawn_zalure_effect__9TObjCharaFv, (void *)&recalc_stats__9TObjCharaFv, (void *)&vfunc_74__9TObjEnemyFl, (void *)&gain_photon_blast_charge__9TObjCharaFf,
-    (void *)&spend_photon_blast_charge__9TObjCharaFf, (void *)&gain_photon_blast_chain_charge__9TObjCharaFv, (void *)&vfunc_78__9TObjCharaFl, (void *)&vfunc_79__9TObjEnemyFPl,
+    (void *)&spend_photon_blast_charge__9TObjCharaFf, (void *)&gain_photon_blast_chain_charge__9TObjCharaFv, (void *)&vfunc_78__9TObjCharaFl, (void *)&apply_enemy_state__9TObjEnemyFPl,
     (void *)&apply_hit_message_flags__9TObjEnemyFPv, (void *)&apply_set_data__9TObjEnemyFPv, (void *)&clear_lobby_object_state__9TObjEnemyFv,
 };
 }
@@ -706,7 +706,7 @@ void TObjPlayer__sub_800A49B4(TObjEneSaver *self) {
 }
 #pragma pop
 
-void TObjEneSaver::vfunc_61() {
+void TObjEneSaver::run_miss_reaction() {
     void *temp_r5;
 
     if ((s16) this->mode != 7) {

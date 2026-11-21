@@ -20,7 +20,7 @@ struct TObjEneMorfos : public TObjEneDD_ST {
     virtual void refresh_target();
     virtual void run_death_reaction();
     virtual void run_hit_reaction();
-    virtual void vfunc_61();
+    virtual void run_miss_reaction();
     virtual void update_body_colliders();
     virtual s32 vfunc_105();
     virtual void vfunc_106();

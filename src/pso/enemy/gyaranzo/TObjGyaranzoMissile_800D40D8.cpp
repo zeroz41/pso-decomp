@@ -90,7 +90,7 @@ s32 post_translate_matrix(void *);
 s32 rotate_matrix_x(s32, s32);
 s32 push_matrix();
 
-void TObjEneGyaranzo::vfunc_61() {  }
+void TObjEneGyaranzo::run_miss_reaction() {  }
 void TObjEneGyaranzo::run_move_action() {  }
 s32 TObjEneGyaranzo::is_target_in_attack_range() { return 0; }
 void TObjEneGyaranzo::run_idle_action() {  }

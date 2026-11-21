@@ -18,7 +18,7 @@ struct TObjEneDarkGunner : public TObjEnemyCustom {
     void sub_800A1520();
     virtual s32 update_movement_status();
     virtual void run_hit_reaction();
-    virtual void vfunc_61();
+    virtual void run_miss_reaction();
     virtual void run_move_action();
     virtual void run_idle_action();
     virtual s32 update_action_hold_status();

@@ -399,7 +399,7 @@ void TObjEneBm9Mericarol::run_hit_reaction() {
     }
 }
 
-void TObjEneBm9Mericarol::vfunc_61() {  }
+void TObjEneBm9Mericarol::run_miss_reaction() {  }
 
 void TObjEneBm9Mericarol::sync_center_position() {
     VecCopy(&body_center, &position);

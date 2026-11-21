@@ -626,11 +626,11 @@ BmlResource *load_enemy_bml_resource_named(BmlResourceDescriptor *descriptor, co
     return load_enemy_bml_resource(&copy);
 }
 
-void TObjEneDD::vfunc_79(s32 *state) {
+void TObjEneDD::apply_enemy_state(s32 *state) {
     s16 temp_r31;
 
     temp_r31 = this->mode;
-    TObjEnemy::vfunc_79(state);
+    TObjEnemy::apply_enemy_state(state);
     this->mode = temp_r31;
 }
 

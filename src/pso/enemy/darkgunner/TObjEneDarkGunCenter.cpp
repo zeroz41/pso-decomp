@@ -248,7 +248,7 @@ void vfunc_66__9TObjCharaFv();
 void get_anim_node_position__9TObjCharaFlP3Vec();
 void run_death_reaction__9TObjCharaFv();
 void run_hit_reaction__9TObjCharaFv();
-void vfunc_61__9TObjCharaFv();
+void run_miss_reaction__9TObjCharaFv();
 void run_attack_action__9TObjCharaFv();
 void run_move_action__9TObjCharaFv();
 void run_idle_action__9TObjCharaFv();
@@ -273,7 +273,7 @@ void apply_set_data__9TObjEnemyFPv();
 void apply_shock_status__9TObjCharaFv();
 void apply_switch_attack__9TObjCharaFv();
 void calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf();
-void vfunc_79__9TObjEnemyFPl();
+void apply_enemy_state__9TObjEnemyFPl();
 void classify_actor_view_detail__8TObjBaseFfff();
 void clear_all_status_effects__9TObjCharaFv();
 void clear_harmful_statuses__9TObjCharaFv();
@@ -375,7 +375,7 @@ void *__vt__20TObjEneDarkGunCenter[83] = {
     (void *)run_idle_action__9TObjCharaFv,
     (void *)run_move_action__9TObjCharaFv,
     (void *)run_attack_action__9TObjCharaFv,
-    (void *)vfunc_61__9TObjCharaFv,
+    (void *)run_miss_reaction__9TObjCharaFv,
     (void *)run_hit_reaction__9TObjCharaFv,
     (void *)run_death_reaction__9TObjCharaFv,
     (void *)reset_pose__9TObjCharaFv,
@@ -393,7 +393,7 @@ void *__vt__20TObjEneDarkGunCenter[83] = {
     (void *)spend_photon_blast_charge__9TObjCharaFf,
     (void *)gain_photon_blast_chain_charge__9TObjCharaFv,
     (void *)vfunc_78__9TObjCharaFl,
-    (void *)vfunc_79__9TObjEnemyFPl,
+    (void *)apply_enemy_state__9TObjEnemyFPl,
     (void *)apply_hit_message_flags__9TObjEnemyFPv,
     (void *)apply_set_data__9TObjEnemyFPv,
     (void *)clear_lobby_object_state__9TObjEnemyFv,

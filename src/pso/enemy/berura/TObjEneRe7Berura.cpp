@@ -439,7 +439,7 @@ void TObjEneRe7Berura::run_hit_reaction() {
     }
 }
 
-void TObjEneRe7Berura::vfunc_61() {  }
+void TObjEneRe7Berura::run_miss_reaction() {  }
 
 void TObjEneRe7Berura::update_collision_center() {
     body_center.x = position.x;

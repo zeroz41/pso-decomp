@@ -492,7 +492,7 @@ void TBoss6PlotFalz::award_exp_and_destroy() {
     m.a = 0x800;
     ((TObjEnemy *)arg0)->send_6x0A_enemy_state(&m);
     ((TObjEnemy *)arg0)->exchange_object_state(&m, 0);
-    this->vfunc_79((s32 *)&m);
+    this->apply_enemy_state((s32 *)&m);
     ((TObjEnemy *)arg0)->send_entity_set_flags();
     ((TObject *)arg0)->queue_destruction();
 }

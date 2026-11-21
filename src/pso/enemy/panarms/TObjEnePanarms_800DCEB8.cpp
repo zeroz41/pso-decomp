@@ -725,7 +725,7 @@ void TObjEnePanarms::run_hit_reaction() {
     }
 }
 
-void TObjEnePanarms::vfunc_61() { this->actorFlags &= 0xfffffeff; }
+void TObjEnePanarms::run_miss_reaction() { this->actorFlags &= 0xfffffeff; }
 
 void TObjEnePanarms::enter_idle() { *(s32 *)((s8 *)this + 0x3E0) = 1; *(s32 *)((s8 *)this + 0x3DC) = 1; }
 

@@ -59,7 +59,7 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
     void sub_800F42B8(s32);
     void run_death_reaction();
     void run_hit_reaction();
-    void vfunc_61();
+    void run_miss_reaction();
     void refresh_target();
     void render();
     void run_task();

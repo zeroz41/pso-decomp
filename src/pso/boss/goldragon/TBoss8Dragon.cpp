@@ -1849,7 +1849,7 @@ void TBoss8Dragon::run_death_reaction() {  }
 
 void TBoss8Dragon::run_hit_reaction() {  }
 
-void TBoss8Dragon::vfunc_61() {  }
+void TBoss8Dragon::run_miss_reaction() {  }
 
 void TBoss8Dragon::set_state_22() { if (this->mode != 22) { send_action_packet(22); } }
 

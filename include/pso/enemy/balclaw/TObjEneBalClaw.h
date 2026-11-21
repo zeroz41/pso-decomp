@@ -11,7 +11,7 @@ struct TObjEneBalClaw : public TObjEnemyCustom {
     void set_attack_distance_flag();
     void clear_attack_flag();
     virtual void run_hit_reaction();
-    virtual void vfunc_61();
+    virtual void run_miss_reaction();
     virtual void run_move_action();
     virtual s32 update_movement_status();
     virtual s32 update_action_hold_status();

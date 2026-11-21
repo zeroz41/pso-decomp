@@ -20,7 +20,7 @@ struct TBoss7Joint : public TObjEneDD {
     virtual void apply_slow_status();
     virtual void apply_paralysis();
     virtual void apply_poison_status();
-    virtual void vfunc_61();
+    virtual void run_miss_reaction();
     virtual void run_death_reaction();
     virtual void refresh_target();
     virtual void update_body_colliders();

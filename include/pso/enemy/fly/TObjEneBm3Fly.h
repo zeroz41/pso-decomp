@@ -69,7 +69,7 @@ struct TObjEneBm3Fly : public TObjEneDD_ST {
     void update();
     void run_death_reaction();
     void run_hit_reaction();
-    void vfunc_61();
+    void run_miss_reaction();
     void refresh_target();
     void render();
     void run_task();

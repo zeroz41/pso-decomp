@@ -16,7 +16,7 @@ struct TObjEneRecobox : public TObjEneDD_ST {
     void update_floor_probe();
     void run_death_reaction();
     void run_hit_reaction();
-    void vfunc_61();
+    void run_miss_reaction();
     void refresh_target();
     u8 unk_374[0x8];
     f32 m_37c;

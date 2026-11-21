@@ -42,7 +42,7 @@ struct TObjEneMoja : public TObjEnemy {
     virtual void run_move_action();
     virtual s32 is_target_in_attack_range();
     virtual void run_attack_action();
-    virtual void vfunc_61();
+    virtual void run_miss_reaction();
     virtual void run_hit_reaction();
     virtual void run_death_reaction();
     virtual void refresh_target();

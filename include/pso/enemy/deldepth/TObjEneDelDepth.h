@@ -52,7 +52,7 @@ struct TObjEneDelDepth : public TObjEnemy {
     void sub_803152A0();
     virtual void run_death_reaction();
     virtual void run_hit_reaction();
-    virtual void vfunc_61();
+    virtual void run_miss_reaction();
     s32 action;
     s32 actionPhase;
     DelDepthMotion *motionController;

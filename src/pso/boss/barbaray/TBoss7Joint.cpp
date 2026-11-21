@@ -145,7 +145,7 @@ void TBoss7Joint::refresh_target() {  }
 
 void TBoss7Joint::run_death_reaction() { this->actorFlags &= 0xfffff7ff; }
 
-void TBoss7Joint::vfunc_61() {  }
+void TBoss7Joint::run_miss_reaction() {  }
 void TBoss7Joint::apply_poison_status() {  }
 void TBoss7Joint::apply_paralysis() {  }
 void TBoss7Joint::apply_slow_status() {  }

@@ -1244,7 +1244,7 @@ void update_and_send__13TBoss2DeRolLeFPv(void *p);
 
 void TBoss2DeRolLe__sub_800363A0(void *p);
 
-void vfunc_61__13TBoss2DeRolLeFv(void);
+void run_miss_reaction__13TBoss2DeRolLeFv(void);
 
 s32 TBoss2Joint_get_shell_max_hp(void);
 
@@ -2098,7 +2098,7 @@ void TBoss2DeRolLe::run_hit_reaction() {
     clear_attack_receipts();
 }
 
-void TBoss2DeRolLe::vfunc_61() {  }
+void TBoss2DeRolLe::run_miss_reaction() {  }
 
 void backup_pos__13TBoss2DeRolLeFi(s32 arg0) {
     VecCopy__FP3VecPC3Vec(arg0 + 0x2FC, arg0 + 0x38);

@@ -35,7 +35,7 @@ struct TObjEneEpsilonGuard : public TObjEneEpsilon {
     virtual f32 receive_weapon_special_attack(void *, void *);
     void run_death_reaction();
     void run_hit_reaction();
-    void vfunc_61();
+    void run_miss_reaction();
     void refresh_target();
     void render();
     void run_task();

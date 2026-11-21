@@ -31,11 +31,11 @@ struct TObjEnemyCustom : public TObjEnemy {
     void release_destroyed_target();
     void sub_8004292C();
     void set_flags_30();
-    virtual void vfunc_79(s32 *);
+    virtual void apply_enemy_state(s32 *);
     virtual void get_anim_node_position(s32 node, Vec *out);
     virtual void run_death_reaction();
     virtual void run_hit_reaction();
-    virtual void vfunc_61();
+    virtual void run_miss_reaction();
     virtual void run_attack_action();
     virtual void run_move_action();
     virtual void run_idle_action();

@@ -279,7 +279,7 @@ void TObjEneEpsilonBody::run_hit_reaction() {
     }
 }
 
-void TObjEneEpsilonBody::vfunc_61() {  }
+void TObjEneEpsilonBody::run_miss_reaction() {  }
 
 void TObjEneEpsilonBody::update_position() {
     body_center.x = position.x;

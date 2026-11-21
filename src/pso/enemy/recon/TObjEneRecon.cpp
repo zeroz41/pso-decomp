@@ -1620,7 +1620,7 @@ void TObjEneRecon::sync_height() {
     ((s32 (*)())enemy_copy_target_destination__12TObjEneDD_STFv)();
     *(f32 *)((s8 *)this + 0x398) = (f32) *(f32 *)((s8 *)this + 0x460);
 }
-void TObjEneRecon::vfunc_61() {  }
+void TObjEneRecon::run_miss_reaction() {  }
 void TObjEneRecon::run_hit_reaction() { if (this->mode != 6) { transition_enemy_state(6); } }
 
 void TObjEneRecon::run_death_reaction() {

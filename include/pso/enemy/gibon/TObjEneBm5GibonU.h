@@ -41,7 +41,7 @@ struct TObjEneBm5GibonU : public TObjEneDD_ST {
     void update_center_position();
     void run_death_reaction();
     void run_hit_reaction();
-    void vfunc_61();
+    void run_miss_reaction();
     void refresh_target();
     s32 m_374;
     s32 m_378;

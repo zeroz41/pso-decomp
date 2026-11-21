@@ -761,7 +761,7 @@ void get_anim_node_position__9TObjCharaFlP3Vec(void);
 void reset_pose__9TObjCharaFv(void* p);
 void run_death_reaction__9TObjCharaFv(void);
 void run_hit_reaction__9TObjCharaFv(void);
-void vfunc_61__9TObjCharaFv(void);
+void run_miss_reaction__9TObjCharaFv(void);
 void run_attack_action__9TObjCharaFv(void);
 void run_move_action__9TObjCharaFv(void);
 void run_idle_action__9TObjCharaFv(void);
@@ -2850,7 +2850,7 @@ void TObjChara::run_move_action() {  }
 
 void TObjChara::run_attack_action() {  }
 
-void TObjChara::vfunc_61() {  }
+void TObjChara::run_miss_reaction() {  }
 
 void TObjChara::run_hit_reaction() {  }
 

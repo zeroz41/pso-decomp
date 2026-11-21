@@ -62,7 +62,7 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     virtual void render_low_detail();
     void run_death_reaction();
     void run_hit_reaction();
-    void vfunc_61();
+    void run_miss_reaction();
     void clear_harmful_statuses();
     void apply_shock_status();
     void apply_movement_ailment(s32);

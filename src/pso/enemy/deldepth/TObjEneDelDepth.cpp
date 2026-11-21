@@ -488,7 +488,7 @@ void TObjEneDelDepth::run_hit_reaction() {
     }
 }
 
-void TObjEneDelDepth::vfunc_61() {
+void TObjEneDelDepth::run_miss_reaction() {
     if ((s32) this->action != 0xB) {
         this->actorFlags = (s32) (this->actorFlags & 0xFFFFFEFF);
         this->set_action_state(0xB);
@@ -1105,7 +1105,7 @@ void TObjEneDelDepth::update_death_fade() {
         sp8 = 0x800;
         ((TObjEnemy *)enemy)->send_6x0A_enemy_state(&sp8);
         ((TObjEnemy *)enemy)->exchange_object_state(&sp8, 0);
-        vfunc_79(&sp8);
+        apply_enemy_state(&sp8);
         ((TObjEnemy *)enemy)->send_entity_set_flags();
         TObjPlayer::apply_effect_variant_a((saddr)((u8 *)&this->position), 0);
         this->queue_destruction();

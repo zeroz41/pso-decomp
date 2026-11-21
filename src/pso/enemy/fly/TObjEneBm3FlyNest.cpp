@@ -439,7 +439,7 @@ void TObjEneBm3FlyNest::run_hit_reaction() {
     }
 }
 
-void TObjEneBm3FlyNest::vfunc_61() {  }
+void TObjEneBm3FlyNest::run_miss_reaction() {  }
 
 void TObjEneBm3FlyNest::copy_pos() { VecCopy(&center, &body_center); }
 

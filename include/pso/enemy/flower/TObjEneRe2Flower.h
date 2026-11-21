@@ -11,7 +11,7 @@ struct TObjEneRe2Flower : public TObjEneDD_ST {
     virtual void run_task();
     virtual void render();
     virtual void refresh_target();
-    virtual void vfunc_61();
+    virtual void run_miss_reaction();
     virtual void run_hit_reaction();
     virtual void run_death_reaction();
     virtual void dispatch_action(u32 state, s32 reason);

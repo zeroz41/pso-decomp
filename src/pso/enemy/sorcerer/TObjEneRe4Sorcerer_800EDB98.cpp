@@ -244,7 +244,7 @@ void vfunc_6__8TObjBaseFPsl();
 
 void snap_to_ground_at__9TObjEneDDFPUc();
 
-void vfunc_79__9TObjEneDDFPl();
+void apply_enemy_state__9TObjEneDDFPl();
 
 void update_immobilizing_statuses__9TObjEneDDFv();
 
@@ -660,7 +660,7 @@ void TObjEneRe4Sorcerer::run_hit_reaction() {
     }
 }
 
-void TObjEneRe4Sorcerer::vfunc_61() {  }
+void TObjEneRe4Sorcerer::run_miss_reaction() {  }
 
 void TObjEneRe4Sorcerer::update_collision_center() {
     body_center.x = position.x;

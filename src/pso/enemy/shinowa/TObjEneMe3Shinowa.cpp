@@ -411,7 +411,7 @@ void TObjEneMe3Shinowa::run_hit_reaction() {
     }
 }
 
-void TObjEneMe3Shinowa::vfunc_61() {  }
+void TObjEneMe3Shinowa::run_miss_reaction() {  }
 
 void TObjEneMe3Shinowa::copy_position_vector() { VecCopy(&center, &body_center); }
 

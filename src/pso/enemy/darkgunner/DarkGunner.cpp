@@ -405,7 +405,7 @@ void apply_switch_attack__9TObjCharaFv();
 
 void calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf();
 
-void vfunc_79__15TObjEnemyCustomFPl();
+void apply_enemy_state__15TObjEnemyCustomFPl();
 
 void classify_actor_view_detail__8TObjBaseFfff();
 
@@ -1451,7 +1451,7 @@ void TObjPlayer::spawn_hamon_effects(s32 arg1, s32 arg2, f32 farg0) {
 extern "C" {
 int TObjPlayer__sub_800A1808(void* p) { return (*(u32*)((char*)p + 0x30) >> 23) & 0x1; }
 
-void TObjEneDarkGunner::vfunc_61() {
+void TObjEneDarkGunner::run_miss_reaction() {
     u8 *arg0 = (u8 *)this;
     ((TObjBase *)arg0)->obj_clearFlags30((s32)(0x100U));
     spawn_particle_effect(&body_center, 0xD7);

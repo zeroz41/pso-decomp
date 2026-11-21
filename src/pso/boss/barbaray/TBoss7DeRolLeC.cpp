@@ -1173,7 +1173,7 @@ void TBoss7DeRolLeC::run_hit_reaction() {
     clear_attack_receipts();
 }
 
-void TBoss7DeRolLeC::vfunc_61() {  }
+void TBoss7DeRolLeC::run_miss_reaction() {  }
 
 void TBoss7DeRolLeC::sync_position_vectors() {
     VecCopy(&body_center, &position);

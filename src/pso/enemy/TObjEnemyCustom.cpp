@@ -207,7 +207,7 @@ void TObjEnemyCustom::update() {
     }
 }
 
-void TObjEnemyCustom::vfunc_61() {
+void TObjEnemyCustom::run_miss_reaction() {
 }
 
 void TObjEnemyCustom::update_state_machine() {
@@ -585,9 +585,9 @@ u16 TObjEnemyCustom::pick_random_nearby_player(f32 radius) {
     return candidates[(s32)((f32)found * random_ratio())];
 }
 
-void TObjEnemyCustom::vfunc_79(s32 *state) {
+void TObjEnemyCustom::apply_enemy_state(s32 *state) {
     s16 saved_mode = mode;
-    TObjEnemy::vfunc_79(state);
+    TObjEnemy::apply_enemy_state(state);
     mode = saved_mode;
 }
 

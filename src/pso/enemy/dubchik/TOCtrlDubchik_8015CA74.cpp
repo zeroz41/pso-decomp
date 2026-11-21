@@ -300,7 +300,7 @@ void TOCtrlDubchik::complete_and_destroy() {
         sp8 = 1;
         ((TObjEnemy *)arg0)->send_6x0A_enemy_state(&sp8);
         ((TObjEnemy *)arg0)->exchange_object_state(&sp8, 0);
-        vfunc_79(&sp8);
+        apply_enemy_state(&sp8);
         ((TOCtrlDubchik *)arg0)->sub_8015CA74();
         ((TObjCollidable *)arg0)->set_flag8();
         ((TObject *)arg0)->queue_destruction();

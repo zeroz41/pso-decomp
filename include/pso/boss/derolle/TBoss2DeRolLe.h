@@ -51,7 +51,7 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     virtual void apply_movement_ailment(s32);
     virtual void apply_shock_status();
     virtual void clear_harmful_statuses();
-    virtual void vfunc_61();
+    virtual void run_miss_reaction();
     virtual void run_hit_reaction();
     virtual void run_death_reaction();
     virtual void dispatch_action(u32 state, s32 reason);

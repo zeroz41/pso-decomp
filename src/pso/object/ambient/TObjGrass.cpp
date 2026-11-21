@@ -1486,7 +1486,7 @@ s32 TObjGrass::update_web_attack() {
     minimap_render_dot(&arg0->pos, -0x5DB4, 1, 0);
 }
 
-void TObjGrass::vfunc_61() {
+void TObjGrass::run_miss_reaction() {
     if ((s16) this->mode != 6) {
         this->mode = 6;
         this->requested_action = 0;

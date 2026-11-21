@@ -27,7 +27,7 @@ struct TObjEneBm3FlyNest : public TObjEneDD {
     virtual void render();
     virtual void render_shadows();
     virtual void refresh_target();
-    virtual void vfunc_61();
+    virtual void run_miss_reaction();
     virtual void run_hit_reaction();
     virtual void run_death_reaction();
     virtual void dispatch_action(u32 state, s32 reason);

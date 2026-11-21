@@ -33,7 +33,7 @@ public:
     virtual void apply_movement_ailment(s32);
     virtual void apply_shock_status();
     virtual void clear_harmful_statuses();
-    virtual void vfunc_61();
+    virtual void run_miss_reaction();
     virtual void run_hit_reaction();
     virtual void run_death_reaction();
     // Slot 87: runs the current action's handler (one per action, handlers[] in the body).

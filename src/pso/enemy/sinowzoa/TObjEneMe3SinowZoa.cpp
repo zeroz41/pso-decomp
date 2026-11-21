@@ -452,7 +452,7 @@ void TObjEneMe3SinowZoa::run_hit_reaction() {
     }
 }
 
-void TObjEneMe3SinowZoa::vfunc_61() {  }
+void TObjEneMe3SinowZoa::run_miss_reaction() {  }
 
 void TObjEneMe3SinowZoa::copy_pos_with_height_offset() {
     VecCopy(&body_center, &position);

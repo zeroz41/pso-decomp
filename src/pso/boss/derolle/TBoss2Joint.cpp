@@ -152,7 +152,7 @@ void TBoss2Joint::update_position_history() {
     VecCopy(&center, &body_center);
 }
 
-void TBoss2Joint::vfunc_61() {}
+void TBoss2Joint::run_miss_reaction() {}
 
 void TBoss2Joint::run_hit_reaction() {
     s32 damage = hpmax - hp;

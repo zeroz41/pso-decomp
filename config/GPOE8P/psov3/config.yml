@@ -17550,29 +17550,29 @@ force_active:
   - run_attack_action__15TObjEneMe1GiGueFv
   - run_attack_action__16TObjEneMerillLiaFv
   - run_attack_action__16TObjEneNanoDragoFv
-  - vfunc_61__12TBoss1DragonFv
-  - vfunc_61__12TObjEneLappyFv
-  - vfunc_61__12TObjEneSaverFv
-  - vfunc_61__13TBoss5GryphonFv
-  - vfunc_61__13TObjEneBm3FlyFv
-  - vfunc_61__13TObjEneMorfosFv
-  - vfunc_61__13TObjEneRe4BitFv
-  - vfunc_61__14TObjEneBm5WolfFv
-  - vfunc_61__14TObjEneIllGillFv
-  - vfunc_61__15TObjEneDelDepthFv
-  - vfunc_61__15TObjEneMe1GiGueFv
-  - vfunc_61__15TObjEneSlimeOneFv
-  - vfunc_61__16TObjEneBm5GibonUFv
-  - vfunc_61__16TObjEneDellBiterFv
-  - vfunc_61__16TObjEneNanoDragoFv
-  - vfunc_61__16TObjEneRe7BeruraFv
-  - vfunc_61__17TObjEneBm3FlyNestFv
-  - vfunc_61__17TObjEneDarkGunnerFv
-  - vfunc_61__17TObjEneDf2BringerFv
-  - vfunc_61__18TObjEneEpsilonBodyFv
-  - vfunc_61__18TObjEneRe4SorcererFv
-  - vfunc_61__19TObjEneBm9MericarolFv
-  - vfunc_61__19TObjEneEpsilonGuardFv
+  - run_miss_reaction__12TBoss1DragonFv
+  - run_miss_reaction__12TObjEneLappyFv
+  - run_miss_reaction__12TObjEneSaverFv
+  - run_miss_reaction__13TBoss5GryphonFv
+  - run_miss_reaction__13TObjEneBm3FlyFv
+  - run_miss_reaction__13TObjEneMorfosFv
+  - run_miss_reaction__13TObjEneRe4BitFv
+  - run_miss_reaction__14TObjEneBm5WolfFv
+  - run_miss_reaction__14TObjEneIllGillFv
+  - run_miss_reaction__15TObjEneDelDepthFv
+  - run_miss_reaction__15TObjEneMe1GiGueFv
+  - run_miss_reaction__15TObjEneSlimeOneFv
+  - run_miss_reaction__16TObjEneBm5GibonUFv
+  - run_miss_reaction__16TObjEneDellBiterFv
+  - run_miss_reaction__16TObjEneNanoDragoFv
+  - run_miss_reaction__16TObjEneRe7BeruraFv
+  - run_miss_reaction__17TObjEneBm3FlyNestFv
+  - run_miss_reaction__17TObjEneDarkGunnerFv
+  - run_miss_reaction__17TObjEneDf2BringerFv
+  - run_miss_reaction__18TObjEneEpsilonBodyFv
+  - run_miss_reaction__18TObjEneRe4SorcererFv
+  - run_miss_reaction__19TObjEneBm9MericarolFv
+  - run_miss_reaction__19TObjEneEpsilonGuardFv
   - run_hit_reaction__10TBoss6MineFv
   - run_hit_reaction__11TBoss4Type3Fv
   - run_hit_reaction__12TBoss1DragonFv
@@ -17660,7 +17660,7 @@ force_active:
   - vfunc_6__22TObjEneMe1GiGueMissileFv
   - vfunc_6__9TTecJelinFPv
   - vfunc_6__9TTecZaruaFPv
-  - vfunc_79__15TBoss3VoloptP02FPl
+  - apply_enemy_state__15TBoss3VoloptP02FPl
   - vfunc_7__10TTecDebandFPv
   - vfunc_7__13TAdVIConfigGCFv
   - vfunc_7__16TAdPsoPassSaveGCFv

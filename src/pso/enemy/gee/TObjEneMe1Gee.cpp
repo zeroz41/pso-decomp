@@ -348,7 +348,7 @@ void TObjEneMe1Gee::run_death_reaction() {
 
 void TObjEneMe1Gee::run_hit_reaction() { if (this->mode != 13) { this->transition_enemy_state(13); } }
 
-void TObjEneMe1Gee::vfunc_61() {  }
+void TObjEneMe1Gee::run_miss_reaction() {  }
 
 void TObjEneMe1Gee::copy_pos() {
     this->body_center.x = this->position.x;

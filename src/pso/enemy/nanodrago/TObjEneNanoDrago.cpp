@@ -189,7 +189,7 @@ CollisionBody nano_drago_bodies[2] = {
 const char *nano_drago_name = "TObjEneNanoDrago";
 
 // Deferred code generation emits these methods in address order.
-void TObjEneNanoDrago::vfunc_61() {  }
+void TObjEneNanoDrago::run_miss_reaction() {  }
 void TObjEneNanoDrago::run_move_action() {  }
 void TObjEneNanoDrago::run_attack_action() {  }
 void TObjEneNanoDrago::run_idle_action() {  }

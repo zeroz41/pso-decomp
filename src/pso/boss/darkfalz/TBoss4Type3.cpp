@@ -440,7 +440,7 @@ extern "C" {
 void get_anim_node_position__9TObjCharaFlP3Vec();
 }
 extern "C" {
-void vfunc_61__9TObjCharaFv();
+void run_miss_reaction__9TObjCharaFv();
 }
 extern "C" {
 void run_attack_action__9TObjCharaFv();
@@ -533,7 +533,7 @@ extern "C" {
 void apply_switch_attack__9TObjCharaFv();
 }
 extern "C" {
-void vfunc_79__9TObjEnemyFPl();
+void apply_enemy_state__9TObjEnemyFPl();
 }
 extern "C" {
 void vfunc_78__9TObjCharaFl();

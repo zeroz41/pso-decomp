@@ -1335,7 +1335,7 @@ void TObjEneDf2Bringer::run_hit_reaction() {
     }
 }
 
-void TObjEneDf2Bringer::vfunc_61() {  }
+void TObjEneDf2Bringer::run_miss_reaction() {  }
 
 void TObjEneDf2Bringer::set_effect_pos_above_self() {
     u8 *arg0 = (u8 *)this;

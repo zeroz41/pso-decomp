@@ -33,7 +33,7 @@ struct TObjEneMe1GiGue : public TObjEnemyCustom {
     virtual f32 receive_physical_attack(void *, f32);
     virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);
     virtual f32 receive_weapon_special_attack(void *, void *);
-    virtual void vfunc_61();
+    virtual void run_miss_reaction();
     virtual void run_move_action();
     virtual void run_attack_action();
     virtual void run_idle_action();

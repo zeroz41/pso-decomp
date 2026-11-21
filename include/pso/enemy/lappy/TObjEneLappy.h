@@ -17,7 +17,7 @@ struct TObjEneLappy : public TObjEnemy {
     virtual void run_idle_action();
     virtual void run_move_action();
     virtual void run_attack_action();
-    virtual void vfunc_61();
+    virtual void run_miss_reaction();
     virtual void run_hit_reaction();
     virtual void run_death_reaction();
     void sub_800C20C0();

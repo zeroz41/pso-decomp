@@ -1044,7 +1044,7 @@ void TObjEnemy::apply_set_data(void *arg1_arg) {
     subtractive_rng_seed(arg0->f160, arg0->f1C + area_random_seed);
 }
 
-void TObjEnemy::vfunc_79(s32 *state) {
+void TObjEnemy::apply_enemy_state(s32 *state) {
     struct VObj_800F6960 *o = (struct VObj_800F6960 *)this;
     o->m78();
 }

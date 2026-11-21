@@ -495,7 +495,7 @@ void TObjEneMe1Canadin::run_death_reaction() {
 
 void TObjEneMe1Canadin::run_hit_reaction() { if (mode != 12) { transition_enemy_state(12); } }
 
-void TObjEneMe1Canadin::vfunc_61() {  }
+void TObjEneMe1Canadin::run_miss_reaction() {  }
 
 void TObjEneMe1Canadin::copy_pos() {
     body_center.x = (f32) position.x;

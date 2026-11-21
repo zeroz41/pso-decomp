@@ -38,7 +38,7 @@ public:
     virtual void vfunc_100();
     virtual void vfunc_101();
     virtual void request_stand_action();
-    virtual void vfunc_61();
+    virtual void run_miss_reaction();
     virtual void run_move_action();
     virtual s32 update_action_hold_status();
     virtual s32 update_movement_status();

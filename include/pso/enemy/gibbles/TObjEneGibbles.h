@@ -25,7 +25,7 @@ struct TObjEneGibbles : public TObjEnemy {
     virtual s32 is_target_in_attack_range();
     virtual void run_attack_action();
     virtual int test_flag_256();
-    virtual void vfunc_61();
+    virtual void run_miss_reaction();
     virtual void run_death_reaction();
     void *get_center();
     u32 resolve_sound_id(u32 sound_id);

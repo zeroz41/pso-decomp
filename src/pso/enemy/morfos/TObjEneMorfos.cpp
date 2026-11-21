@@ -666,7 +666,7 @@ void TObjEneMorfosArm__sub_8033542C(void);
 void subtract_vector(void *, void *);
 void vfunc_6__8TObjBaseFPsl();
 void snap_to_ground_at__9TObjEneDDFPUc();
-void vfunc_79__9TObjEneDDFPl();
+void apply_enemy_state__9TObjEneDDFPl();
 void update_immobilizing_statuses__9TObjEneDDFv();
 void update_action_state__9TObjEneDDFv();
 void has_action_state_changed__9TObjEneDDFv();
@@ -1151,7 +1151,7 @@ void TObjEneMorfos::run_hit_reaction() {
     }
 }
 
-void TObjEneMorfos::vfunc_61() {  }
+void TObjEneMorfos::run_miss_reaction() {  }
 
 s32 TObjEneMorfos::check_low_hp_trigger() {
     u8 *arg0 = (u8 *)this;
