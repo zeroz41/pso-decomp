@@ -134,7 +134,6 @@ extern "C" {
 
 
 s32 post_translate_matrix(void *);
-s32 push_matrix();
 void vec3_add_to(Vec *, Vec *);
 void rotate_vector_by_matrix(int, Vec *, Vec *);
 extern u8 identity_matrix[];

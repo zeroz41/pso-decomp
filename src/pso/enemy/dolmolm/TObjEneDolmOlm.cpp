@@ -386,7 +386,6 @@ extern uaddr TObjEneDolmOlm__resource_bundle;
 void __dt__13TUnk_80494938Fv(void *, int);
 void free_collision_body_parts(void *);
 void set_matrix_identity(u8 *arg0);
-s32 push_matrix();
 s32 post_translate_matrix(void *);
 extern uaddr TObjEneDolmOlm__data_805D6A14;
 extern uaddr TObjEneDolmOlm__data_805D6A18;

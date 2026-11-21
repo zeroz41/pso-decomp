@@ -181,7 +181,6 @@ struct RaFoie_802381F8 {
 extern "C" {
 void scale_matrix(s32, f32, f32, f32);
 void rotate_matrix_y(s32, s32);
-void push_matrix(void);
 void post_translate_matrix(void *);
 void draw_ginja_object(void);
 extern u8 *camera_ctrl_instance;

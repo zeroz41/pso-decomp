@@ -67,7 +67,6 @@ struct Obj_80165C84 {
 
 extern "C" {
 s32 rotate_matrix_y(s32, s32);
-s32 push_matrix();
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
 extern u8 chunk_material_color_half_alpha_f32[];

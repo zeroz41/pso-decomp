@@ -51,7 +51,6 @@
 extern "C" {
 void *find_entity_by_id(u16 id);
 s32 post_translate_matrix(void *);
-s32 push_matrix();
 extern s32 model_render_flags;
 void free_collision_body_parts(void *);
 void init_collision_body_parts(void *, void *, s32);

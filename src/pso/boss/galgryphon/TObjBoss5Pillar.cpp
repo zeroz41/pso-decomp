@@ -37,7 +37,6 @@ extern u8 *lbl_805D4DD8;
 void fn_8028AE1C(void *);
 s32 post_translate_matrix(void *);
 void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
-s32 push_matrix();
 
 extern s32 boss5_common_texture_list;
 

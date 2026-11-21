@@ -52,7 +52,6 @@ struct ThanksMotionHeader
 extern "C" {
 
 s32 scale_matrix(int, f32, f32, f32);
-s32 push_matrix();
 s32 post_translate_matrix(const void *);
 
 }

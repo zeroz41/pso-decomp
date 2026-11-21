@@ -102,7 +102,6 @@ struct Holder_8031EA70 { u8 pad[0x460]; Fade_8031EA70 arr[4]; };
 extern "C" {
 
 
-s32 push_matrix();
 
 s32 post_translate_matrix(void *);
 

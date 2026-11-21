@@ -188,7 +188,6 @@ void find_target_pos__11TBoss4Type2FPvPv(O_80056C30 *self, Vec *out);
 s32 create__11TBoss4BishiFi(void *);
 void request_follow_camera_offsets(void *arg0, void *arg1, u16 arg2);
 void TObjEneRe4Sorcerer__sub_801E3F1C(f32, f32);
-s32 push_matrix();
 f32 post_translate_matrix(void *);
 f32 xyz_distance(Vec *, Vec *);
 
@@ -437,7 +436,7 @@ void TBoss4Type2::advance_afterimage() {
     *(f32 *)((s8 *)arg0 + 0x300) += 75.0f;
 }
 
-void TUnk_80486924::init_hanger() { TObjPlayer::toggle_particle_effect(); ((int (*)(void))push_matrix)(); ((int (*)(void*))post_translate_matrix)((char*)this + 0x38); ((int (*)(void*, void*))rotate_matrix_y)((void*)0, *(void**)((char*)this + 0x60)); draw_hanger(); ((int (*)(void))pop_matrix)(); TParticleCtrl::end_effect_render(); }
+void TUnk_80486924::init_hanger() { TObjPlayer::toggle_particle_effect(); push_matrix(); ((int (*)(void*))post_translate_matrix)((char*)this + 0x38); ((int (*)(void*, void*))rotate_matrix_y)((void*)0, *(void**)((char*)this + 0x60)); draw_hanger(); pop_matrix(); TParticleCtrl::end_effect_render(); }
 
 #pragma push
 #pragma opt_common_subs off

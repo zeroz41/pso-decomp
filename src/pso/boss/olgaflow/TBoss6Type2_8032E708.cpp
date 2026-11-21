@@ -1138,7 +1138,6 @@ void spawn_ground_effect__10TObjPlayerFPv(u8 *arg0) {
 }
 void TBoss6PlotFalz__sub_802AC008(f32, f32);
 s32 rotate_matrix_x(int, int);
-s32 push_matrix();
 s32 post_translate_matrix(void *);
 s32 submit_cursor_candidate(void *, int);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);

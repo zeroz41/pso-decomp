@@ -152,7 +152,6 @@ s32 get_bml_motion(int, int);
 
 s32 get_rader_map__11TMainCursorFv(void *, void *);
 int rotate_matrix_y(int, int);
-int push_matrix();
 int scale_current_matrix(void *);
 int post_translate_matrix(void *);
 int TPlyPhotonChair__sub_8035B520(void* p);

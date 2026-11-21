@@ -79,7 +79,6 @@ void set_queued_main_phase(s32 arg0);
 void request_main_phase(s32 arg0);
 s32 append_node_to_tail__13TParticleCtrlFPvPv(s32, void *);
 s32 rotate_matrix_y(s32, s32);
-s32 push_matrix(f32);
 s32 post_translate_matrix(void *);
 s32 draw_ginja_object(u32);
 s32 draw_ginja_model_with_motion(u32, NJS_MOTION *, f32);
@@ -318,7 +317,7 @@ void TUnk_8048E7A8::render() {
             } else {
                 VecCopy((Vec *)&pos2, (const Vec *)&this->pos);
             }
-            ((void (*)(void))push_matrix)();
+            push_matrix();
             post_translate_matrix(&pos2);
             scale_matrix(0, this->m_88, this->m_88, this->m_88);
             if (*(u8 *)((s8 *)(*(u8 * *)&this->param) + 0x88) & 4) {

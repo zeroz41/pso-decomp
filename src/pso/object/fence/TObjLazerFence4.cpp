@@ -60,7 +60,6 @@ struct Fence_80193188 { u8 pad0[0x8C]; s32 f8C; u8 pad90[0x2C]; Node_80193188 *f
 
 extern "C" {
 void rotate_matrix_y(int, void *);
-void push_matrix(void);
 void post_translate_matrix(void *);
 void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 u8 is_current_floor_switch_set(s32 id);

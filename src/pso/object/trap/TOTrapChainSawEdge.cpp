@@ -180,7 +180,6 @@ void TOTrapChainSawDamage__sub_802C9C00(u8 *arg0, s32 arg1);
 
 void rotate_matrix_y(int, void *);
 
-void push_matrix(void);
 
 void post_translate_matrix(void *);
 

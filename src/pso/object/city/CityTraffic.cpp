@@ -40,7 +40,6 @@
 extern "C" {
 s32 scroll_strip_uvs(void *, s16, int);
 s32 rotate_matrix_z(int, int);
-s32 push_matrix();
 s32 post_translate_matrix(void *);
 }
 

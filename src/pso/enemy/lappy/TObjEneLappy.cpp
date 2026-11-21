@@ -387,7 +387,6 @@ s32 is_item_light_interaction_blocked();
 s32 restore_scene_lighting();
 s32 select_actor_lighting(void *);
 s32 scale_matrix(int, f32, f32, f32);
-s32 push_matrix();
 f32 post_translate_matrix(void *);
 s32 draw_chunk_object(int);
 s32 lappy_variant_id;

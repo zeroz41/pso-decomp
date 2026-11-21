@@ -57,7 +57,6 @@ typedef struct Stack_802E0468 Stack_802E0468;
 
 s32 post_translate_matrix(void *);
 s32 rotate_matrix_y(int, int);
-s32 push_matrix();
 
 extern TObjMotionAction lbl_804E2F78[9];
 u8 *TAdMultiPlyChrSelectGC__resource_bundle;

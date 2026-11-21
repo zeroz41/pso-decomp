@@ -38,7 +38,6 @@ s32 post_translate_matrix(void *);
 void draw_chunk_object(void *child);
 void restore_scene_lighting(void);
 void select_actor_lighting(s32 obj);
-s32 push_matrix();
 extern s32 model_render_flags;
 void TObjPlayer__sub_800A04F0(void *);
 void TObjEneBalClawClaw__sub_80091134(TObjEneBalClawClaw *claw);

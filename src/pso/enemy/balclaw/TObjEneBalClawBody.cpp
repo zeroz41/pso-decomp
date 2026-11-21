@@ -81,7 +81,6 @@ u8 *get_enemy_entity(u16);
 s32 minimap_render_dot(void *, int, int, int);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 s32 post_translate_matrix(void *);
-s32 push_matrix();
 void queue_destruction__7TObjectFv(void *arg0);
 void restore_scene_lighting(void);
 s32 rotate_matrix_x(s32, s32);

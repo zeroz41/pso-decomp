@@ -260,7 +260,6 @@ struct VObj_14_1eb8da : VBase_14_1eb8da {
     virtual s32 m7();
 };
 extern "C" {
-s32 push_matrix();
 s32 post_translate_matrix(void *);
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;

@@ -61,7 +61,6 @@ s32 pack_debug_text_position(s32, s32);
 s32 debug_draw_line(void *, void *, u32, u32);
 s32 scale_matrix(s32, f32, f32, f32);
 s32 translate_matrix(saddr, f32, f32, f32);
-s32 push_matrix();
 s32 post_translate_matrix(void *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 void render_debug__16TObjEneBm5GibonUFv(u8 *arg0);

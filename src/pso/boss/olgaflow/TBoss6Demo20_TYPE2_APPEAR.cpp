@@ -52,7 +52,6 @@ const Ent_8033D6DC boss6_type2_appear_particle_schedule[9] = {
 const Vec lbl_80478058 = {-10000.0f, 0.0f, 0.0f};
 const CameraAngles lbl_80478064 = {0, 0, 0};
 const CameraPlayback boss6_type2_appear_camera_script = {1, 3, 0, 0.0f, 0.7f};
-s32 push_matrix();
 void post_translate_matrix(const f32 *);
 
 void TBoss6Demo20_TYPE2_APPEAR::draw_model_12() {

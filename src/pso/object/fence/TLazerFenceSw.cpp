@@ -116,7 +116,6 @@ struct Sw_801936E0 {
     u32 f114;
 };
 void PPCSync(void);
-void push_matrix(void);
 void post_translate_matrix(void *);
 
 void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);

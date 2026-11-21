@@ -109,7 +109,6 @@ extern "C" {
 u32 init_collision_body_parts(void *, saddr, s32);
 s32 free_collision_body_parts(void *);
 s32 post_translate_matrix(void *);
-s32 push_matrix();
 extern s32 local_client_id;
 u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
 }

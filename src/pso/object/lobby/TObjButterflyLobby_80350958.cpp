@@ -57,7 +57,6 @@ extern u8 identity_matrix[];
 s32 post_translate_matrix(void *);
 s32 scale_matrix(int, f32, f32, f32);
 s32 rotate_matrix_x(int, int);
-s32 push_matrix();
 
 BmlResource *lobby_butterfly_bml_resource;
 

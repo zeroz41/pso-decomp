@@ -106,7 +106,6 @@ extern s32 lbl_805D5868;
 
 s32 rotate_matrix_z(int, int);
 s32 rotate_matrix_x(void *, s32);
-s32 push_matrix();
 s32 scale_current_matrix(void *);
 uaddr recon_bomb_bml_resource;
 f32 TObjEneRecon__sub_8031C2BC(int);

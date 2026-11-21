@@ -14,7 +14,6 @@
 extern "C" {
 
 s32 post_translate_matrix(void *);
-s32 push_matrix();
 
 s32 TObjEneRecobox::render_trap_model_if_visible() {
     if ((s32)main_task.get_task_flags() & 0x20) {

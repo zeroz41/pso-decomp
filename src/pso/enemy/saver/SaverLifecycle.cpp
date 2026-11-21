@@ -130,7 +130,6 @@ s32 post_translate_matrix(void *);
 void check_enemy_body_collisions(void *arg0);
 s32 submit_cursor_candidate(void *, int);
 s32 matrix_mult_vec_array(int, int, void *, int);
-s32 push_matrix();
 s32 minimap_render_dot(void *, int, int, int);
 
 struct Obj_800A48C4;

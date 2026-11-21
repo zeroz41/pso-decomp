@@ -209,7 +209,6 @@ s32 calc_velocity_toward_destination(void *, Vec_800A8C4C, Vec_800A8C4C, f32);
 void TObjPlayer__sub_800A8C4C(u8 *arg0);
 void restore_scene_lighting(void);
 void select_actor_lighting(s32 obj);
-s32 push_matrix();
 s32 post_translate_matrix(void *);
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;

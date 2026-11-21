@@ -56,7 +56,6 @@ BmlResource *gogo_ball_bml_resource;
 extern "C" {
 s32 draw_chunk_object(s32);
 s32 rotate_matrix_z(int, int);
-s32 push_matrix();
 s32 post_translate_matrix(void *);
 extern GinjaTextureList *lobby_gvm_texture_handles[];
 s32 scale_matrix(int, f32, f32, f32);

@@ -55,7 +55,6 @@ f32 vector_length(void *);
 void translate_matrix_vec3(int, void *);
 void set_matrix_identity(int);
 int rotate_matrix_y(void *, void *);
-int push_matrix(void);
 
 typedef struct Params_80052CDC {
     s32 owner;

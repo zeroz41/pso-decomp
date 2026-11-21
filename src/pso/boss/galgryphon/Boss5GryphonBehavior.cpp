@@ -482,7 +482,6 @@ s32 spawn_lightning_wing__12TBoss8DragonFiiiiii(saddr arg0, saddr arg1, saddr mi
 void __destroy_arr(void *, void *, int, int);
 f32 vec3_dot(void *, void *);
 void subtract_vector(void *, void *);
-s32 push_matrix();
 s32 post_translate_matrix(void *);
 void set_material_alpha_compare_reference(s32 reference);
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
@@ -1271,7 +1270,7 @@ void TBoss5Gryphon::draw_body() {
     boss5_gryphon_bone_capture_output = (saddr)((Obj_8005E0C0 *)this)->f3c0;
     boss5_gryphon_render_flags = ((Obj_8005E0C0 *)this)->f4c0;
     set_chunk_model_node_callback(TBoss8Dragon__sub_8005E17C);
-    ((void (*)(void))push_matrix)();
+    push_matrix();
     set_motion_packed_rotation();
     ((void (*)(void *))post_translate_matrix)((u8 *)this + 0x38);
     ((void (*)(int, int))rotate_matrix_y)(0, ((Obj_8005E0C0 *)this)->f60);
@@ -1280,7 +1279,7 @@ void TBoss5Gryphon::draw_body() {
     ((void (*)(int, f32, f32, f32))scale_matrix)(0, 2.0f, 2.0f, 2.0f);
     draw_motion((NJS_OBJECT *)((Obj_8005E0C0 *)this)->f34, (NJS_MOTION *)((Obj_8005E0C0 *)this)->ff8, this->get_motion_frame());
     clear_motion_packed_rotation();
-    ((void (*)(void))pop_matrix)();
+    pop_matrix();
     set_chunk_model_node_callback(0);
 }
 

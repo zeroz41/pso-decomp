@@ -1271,7 +1271,6 @@ void TObjEneIllGill::refresh_target() {
 
 void select_actor_lighting(s32 obj);
 
-void push_matrix(void);
 void post_translate_matrix(void *);
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;

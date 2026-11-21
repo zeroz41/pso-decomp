@@ -91,7 +91,6 @@ static const s32 morfos_handler_a_ids[1] = { 0x40 };
 
 extern "C" {
 extern s32 actor_frame_tick;
-s32 push_matrix();
 s32 post_translate_matrix(void *);
 void* TObjEneMorfosArm__sub_803326B4(void* p);
 s32 TObjEneMorfosArm__sub_803326BC(void* p);

@@ -88,7 +88,6 @@ extern u8 identity_matrix[];
 
 s32 post_translate_matrix(void *);
 s32 rotate_matrix_x(s32, s32);
-s32 push_matrix();
 
 void TObjEneGyaranzo::run_miss_reaction() {  }
 void TObjEneGyaranzo::run_move_action() {  }

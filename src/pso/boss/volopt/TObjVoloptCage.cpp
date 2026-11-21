@@ -35,7 +35,6 @@ public:
 };
 
 extern "C" {
-s32 push_matrix(void);
 void post_translate_matrix(const Vec *v);
 void create_breakup_mdl__12TBoss3VoloptFlllll(TBreakUpMdlPieces *model, VoloptBreakUpParams *params, s32 textures,
                                               Vec *pos, s32 angle);

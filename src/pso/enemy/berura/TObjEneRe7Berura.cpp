@@ -41,7 +41,6 @@
 #pragma defer_codegen on
 extern "C" {
 s32 rotate_matrix_y(int, int);
-void push_matrix(void);
 void post_translate_matrix(void *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 void TObjEneRe7Berura__sub_80093470(TObjEneRe7Berura *self, s32 mode);

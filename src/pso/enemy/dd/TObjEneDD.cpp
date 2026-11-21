@@ -29,7 +29,6 @@ extern "C" {
 u16 enemy_find_nearest_player_in_range(u8 *self, f32 range);
 u16 get_entity_id(void *);
 u32 csnLookAt(void *, void *);
-s32 push_matrix(void);
 void *get_player_by_client_id(s32 i);
 }
 

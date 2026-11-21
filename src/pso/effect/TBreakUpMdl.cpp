@@ -107,7 +107,6 @@ struct BreakUp_80096AD8 {
 
 extern "C" {
 s32 matrix_mult_vec(int, int, int);
-s32 push_matrix();
 s32 rotate_matrix_by_node_angles(void *, int);
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);

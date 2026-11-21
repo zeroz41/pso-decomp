@@ -16,7 +16,6 @@
 
 extern "C" {
 f32 rotate_matrix_by_node_angles(void *, void *);
-s32 push_matrix();
 s32 scale_current_matrix(void *);
 f32 post_translate_matrix(void *);
 s32 poll_memcard_result(saddr);

@@ -607,7 +607,6 @@ f32 vec3_dot(void *, void *);
 s32 rotate_matrix_z(s32, s32);
 void subtract_vector(void *, void *);
 s32 rotate_matrix_x(s32, s32);
-s32 push_matrix();
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
 s32 scale_matrix(int, f32, f32, f32);

@@ -169,7 +169,6 @@ struct VObj_802A07E0 : VBase_802A07E0 {
 };
 extern "C" {
 f32 rotate_matrix_by_node_angles(void *, void *);
-s32 push_matrix();
 s32 scale_current_matrix(void *);
 f32 post_translate_matrix(void *);
 void __ct__10TODoorBaseFP7TObject(void *, void *);

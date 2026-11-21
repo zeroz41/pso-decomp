@@ -143,7 +143,6 @@ int post_translate_matrix(void*);
 void free_collision_body_parts(void *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 int rotate_matrix_y(void*, void*);
-int push_matrix(void*);
 
 void TUnk_804F322C::run_death_reaction() {
     if ((s32) *(s32 *)((s8 *)this + 0x390) != 4) {
@@ -177,7 +176,7 @@ void TUnk_804F322C::update_linked_state() {
     clear_motion_packed_rotation();
 }
 
-void TUnk_804F322C::render() { push_matrix(this); post_translate_matrix((char*)this + 0x38); rotate_matrix_y((void*)0, *(void**)((char*)this + 0x3ac)); update_linked_state(); pop_matrix(); }
+void TUnk_804F322C::render() { push_matrix(); post_translate_matrix((char*)this + 0x38); rotate_matrix_y((void*)0, *(void**)((char*)this + 0x3ac)); update_linked_state(); pop_matrix(); }
 
 void TBoss6MagMine__sub_80368AB8(u8 *arg0, u8 *arg1) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80368AB8, sp8) == 0x0);

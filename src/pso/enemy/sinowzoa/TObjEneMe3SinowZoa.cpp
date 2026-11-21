@@ -92,7 +92,6 @@ extern "C" {
 void TObjEneMe3SinowZoa__sub_80316840(TObjEneMe3SinowZoa *self);
 void debug_printf_at(s32 id, const char *fmt, ...);
 s32 scale_matrix(int, f32, f32, f32);
-s32 push_matrix();
 s32 post_translate_matrix(void *);
 s32 select_enemy_destination(void *, Vec, int);
 s32 copy_position_if_valid__10TObjPlayerFii(void *, Vec);

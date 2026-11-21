@@ -76,7 +76,6 @@ s32 GXSetTevOp(int, int);
 s32 GXSetNumTevStages(int);
 s32 rotate_matrix_y(int, s32);
 s32 rotate_matrix_x(int, s32);
-s32 push_matrix();
 s32 post_translate_matrix(void *);
 s32 emit_particle_strip_vertices(void *, int);
 extern u8 *camera_ctrl_instance;

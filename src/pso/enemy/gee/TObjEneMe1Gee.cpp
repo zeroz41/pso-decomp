@@ -141,7 +141,6 @@ s32 pack_debug_text_position(s32, s32);
 
 void TBoss3Volopt__sub_800D8D88(saddr);
 
-s32 push_matrix();
 void TObjEneEpsilon__sub_800B92AC(u8 *arg0, s32 arg1, f32 farg0);
 extern void *tl_04;
 s32 is_split_screen();

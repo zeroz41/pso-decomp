@@ -285,7 +285,6 @@ extern uaddr lbl_805D515C;
 void TObjGrass__sub_800BCA2C(void *);
 s32 scale_matrix(int, f32, f32, f32);
 void set_matrix_identity(u8 *arg0);
-s32 push_matrix();
 s32 post_translate_matrix(void *);
 extern s32 enable_v2_features;
 f32 enemy_move_toward(void *, s32, void *, s32, f32);

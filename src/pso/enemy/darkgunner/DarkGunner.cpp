@@ -323,7 +323,6 @@ void rotate_vector_by_matrix(int, void *, void *);
 
 s32 rotate_matrix_z(int, int);
 
-s32 push_matrix();
 
 s32 post_translate_matrix(s32);
 
@@ -1663,7 +1662,7 @@ void TObjPlayer::step_along_ground() {
             ((void (*)(void *))push_matrix_from)(identity_matrix);
             ((void (*)(int, s32))rotate_matrix_y)(0, sign * ang);
             rotate_vector_by_matrix(0, (u8 *)&this->unk_308, &dir);
-            ((void (*)(void))pop_matrix)();
+            pop_matrix();
         }
         VecCopy((Vec *)&v, (const Vec *)&this->position);
         ((void (*)(void *, void *))vec3_add_to)(&v, &dir);

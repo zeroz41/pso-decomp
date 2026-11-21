@@ -24,7 +24,6 @@
 #include "pso/boss/darkfalz/TBoss4ZakoDraw_8030AD38.h"
 
 extern "C" {
-void push_matrix(void);
 void post_translate_matrix(void *);
 void draw_chunk_object(int);
 f32 xyz_distance(void *, void *);

@@ -3,13 +3,11 @@
 
 #include "types.h"
 #include <dolphin/mtx.h>
+#include "pso/unk/text_803D96A8.h"
 
 // The model matrix stack the Ninja-style draw code works on (the
 // text_803D96A8 unit), and the screen projection it feeds.
 extern "C" {
-// Both return TRUE (pop_matrix FALSE when the stack is already empty).
-s32 push_matrix(void);
-s32 pop_matrix(void);
 void post_translate_matrix(const f32 *v);
 void scale_current_matrix(const f32 *v);
 // ang is an NJS_OBJECT ang[3]; zxy != 0 applies the angles in Z, X, Y order.

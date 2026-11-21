@@ -86,7 +86,6 @@ void transform_chunk_object_tree(void *, void (*)(void *));
 extern saddr current_matrix;
 s32 __cvt_fp2unsigned(f32);
 void rotate_matrix_by_node_angles(void *, int);
-void push_matrix(void);
 void scale_current_matrix(void *);
 void post_translate_matrix(void *);
 extern u8 chunk_object_current_matrix[];

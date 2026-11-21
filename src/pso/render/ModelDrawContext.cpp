@@ -36,7 +36,6 @@ extern RenderContexts render_contexts;
 extern u8 *current_render_context;
 extern "C" {
 void select_render_context(s32 arg0);
-s32 push_matrix();
 s32 queue_model_draw_matrix(int, void *);
 }
 s32 model_node_callback;

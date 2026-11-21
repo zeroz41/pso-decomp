@@ -448,7 +448,6 @@ void __destroy_arr(void *, void *, int, int);
 
 s32 __construct_array(void *, void *, void *, int, int);
 
-s32 push_matrix();
 
 s32 post_translate_matrix(void *);
 

@@ -28,7 +28,6 @@ u16 get_entity_id(void *);
 extern const char *TObjEneMorfosArm__name;
 uaddr TObjEneMorfosArm__parent_morfos_instance;
 s32 post_translate_matrix(void *);
-s32 push_matrix();
 
 void TObjEneMorfosArm::render() {
     u8 *arg0 = (u8 *)this;

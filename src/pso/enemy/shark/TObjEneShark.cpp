@@ -166,7 +166,6 @@ struct Owner_800ABDD8
 extern "C" {
 s32 post_translate_matrix(void *);
 void draw_chunk_object(void *child);
-s32 push_matrix();
 extern s32 model_render_flags;
 void run_demo_task__12TObjEneSharkFv(void);
 extern s32 shark_render_node_index;

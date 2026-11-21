@@ -65,7 +65,6 @@ struct Bringer_80097100 : VObj_18_26a62c {
 };
 
 extern "C" {
-s32 push_matrix();
 s32 post_translate_matrix(void *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 

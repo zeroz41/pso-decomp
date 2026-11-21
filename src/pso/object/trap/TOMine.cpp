@@ -216,7 +216,6 @@ struct VObj_801710E4 : VBase_801710E4 {
 };
 extern "C" {
 u16 find_nearest_visible_player(void *, int, f32);
-void push_matrix();
 void post_translate_matrix(void *);
 void obj_setFlags30(void *, u32);
 int submit_target_to_player_cursor(void*);

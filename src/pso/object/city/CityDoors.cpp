@@ -147,7 +147,6 @@ u8 * load_gvm_texture_file(saddr);
 extern "C" {
 void render__18TObjCityDoor_LobbyFv(void* p);
 s32 post_translate_matrix(void *);
-s32 push_matrix();
 }
 
 void TLobby::free_map_resources() {
@@ -200,7 +199,6 @@ void TObjCityDoor_Lobby::dispatch_lobby_action() {
 #pragma fp_contract on
 
 void vec3_add_to(Vec *, Vec *);
-s32 push_matrix(void);
 extern Vec city_door_lobby_collision_vertices[];
 
 s32 TObjCityDoor_Lobby::build_door_collision_triangles() {

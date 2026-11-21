@@ -347,7 +347,6 @@ void clamp_to_arena_radius__11TBoss6Type1FPvPvf(Boss_802B54F0 *o, Vec *out, f32 
 TObjPlayer *get_player_by_client_id(u16 client);
 s32 matrix_mult_vec(int, void *, void *);
 void set_matrix_identity(u8 *arg0);
-s32 push_matrix();
 void post_translate_matrix(Vec *pos);
 void rotate_matrix_x(int matrix, int angle);
 void rotate_matrix_z(int matrix, int angle);

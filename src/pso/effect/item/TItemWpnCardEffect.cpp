@@ -42,7 +42,6 @@ const char *item_wpn_card_effect_class_name = "TItemWpnCardEffect";
 
 extern "C" {
 s32 rotate_matrix_y(int, int);
-s32 push_matrix();
 s32 scale_current_matrix(int);
 s32 post_translate_matrix(int);
 void draw_ginja_object(void *child);

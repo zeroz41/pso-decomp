@@ -90,7 +90,6 @@ int post_translate_matrix(void*);
 int rotate_matrix_z(void*, void*);
 int rotate_matrix_x(void*, void*);
 int rotate_matrix_y(void*, void*);
-int push_matrix(void*);
 
 #pragma push
 #pragma opt_propagation off
@@ -131,7 +130,7 @@ s32 TBoss6RockChase::damage_players_in_range() {
 }
 #pragma pop
 
-void TBoss6RockChase::render() { push_matrix(this); post_translate_matrix((char*)this + 0x38); rotate_matrix_y((void*)0, *(void* *)&this->rotation_y); rotate_matrix_x((void*)0, *(void* *)&this->rotation_x); rotate_matrix_z((void*)0, *(void* *)&this->rotation_z); TObjFish::set_global_param((saddr)(textures)); draw_ginja_object(model); pop_matrix(); }
+void TBoss6RockChase::render() { push_matrix(); post_translate_matrix((char*)this + 0x38); rotate_matrix_y((void*)0, *(void* *)&this->rotation_y); rotate_matrix_x((void*)0, *(void* *)&this->rotation_x); rotate_matrix_z((void*)0, *(void* *)&this->rotation_z); TObjFish::set_global_param((saddr)(textures)); draw_ginja_object(model); pop_matrix(); }
 
 #pragma push
 #pragma opt_common_subs off

@@ -307,7 +307,6 @@ TObjChipParams *forest_box_debris_secondary;
 BmlResource *container_breakup_model_archive;
 GinjaTextureList *container_breakup_textures;
 extern "C" {
-s32 push_matrix(void);
 void post_translate_matrix(const void *);
 extern const f32 lbl_805DBCF8;
 u32 init_collision_body_parts(void *, void *, s32);

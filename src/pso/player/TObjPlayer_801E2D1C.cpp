@@ -18,7 +18,6 @@ s32 PSMTXTranspose(s32 *, s32 *);
 }
 void compose_motion_node_matrix(void *arg0);
 extern "C" {
-s32 push_matrix();
 
 extern s32 current_matrix;
 

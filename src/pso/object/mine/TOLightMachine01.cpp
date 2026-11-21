@@ -36,7 +36,6 @@ const char *TOLightMachine01__name = "TOLightMachine01";
 extern s32 tl_05;
 s32 post_translate_matrix(void *);
 s32 rotate_matrix_y(s32, s32);
-s32 push_matrix();
 
 void TOLightMachine01::run_task() {
     this->m_a8 = (s32) (this->m_a8 + this->m_a4);

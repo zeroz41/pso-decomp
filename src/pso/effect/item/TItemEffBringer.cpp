@@ -32,7 +32,6 @@ extern "C" {
 void *__ct__10TItemShootFPvPC3VecPC3Vecf(void *, u32, s32, s32, f32);
 void subtract_vector(Vec*, Vec*);
 void transform_point_by_current_matrix(void *, void *);
-void push_matrix(void);
 extern void *__vt__15TItemEffBringer[];
 void *__ct__15TItemEffBringerFv(Bringer_8010834C *self, u32 arg1, Vec *src, s32 arg3, f32 farg0);
 }

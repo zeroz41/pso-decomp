@@ -74,7 +74,6 @@ void free_collision_body_parts(void *);
 
 
 s32 draw_chunk_object();
-s32 push_matrix();
 
 extern s32 model_render_flags;
 

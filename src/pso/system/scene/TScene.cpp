@@ -172,7 +172,6 @@ extern s32 model_render_flags;
 extern s32 saved_model_render_flags;
 
 
-void push_matrix(void);
 
 void post_translate_matrix(f32 *);
 

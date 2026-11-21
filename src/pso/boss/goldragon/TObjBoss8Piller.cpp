@@ -31,7 +31,6 @@ s32 TBoss8Dragon__sub_802FB1B0(int, f32, void *);
 s32 post_translate_matrix(void *);
 s32 scale_matrix(int, f32, f32, f32);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
-s32 push_matrix();
 
 
 void TObjBoss8Piller::render() {

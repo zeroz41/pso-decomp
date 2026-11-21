@@ -15,7 +15,6 @@ extern "C" {
 
 s32 post_translate_matrix(Sp8Type_80123524 *);
 s32 draw_weapon_at_joint(void *, s32, void *);
-s32 push_matrix();
 
 extern s32 model_render_flags;
 

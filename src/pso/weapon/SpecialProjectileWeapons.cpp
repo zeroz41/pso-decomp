@@ -69,7 +69,6 @@ void __ct__11TItemWeaponFP7TObjectPUc(void *);
 s32 post_translate_matrix(void *);
 s32 draw_weapon_at_joint(void *, s32, void *);
 void TObjPlayer__sub_80364198(void);
-s32 push_matrix();
 extern s32 model_render_flags;
 s32 is_item_area_enabled();
 void create_icon__10TObjPlayerFiii(saddr arg0, s32 arg1, s32 arg2);

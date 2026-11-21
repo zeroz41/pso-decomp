@@ -34,7 +34,6 @@ const ModelNodeSpec TObjDFDemo0__model_node_entries[7] = {
 extern "C" {
 
 s32 TObjPlayer__sub_80052390();
-s32 push_matrix();
 s32 post_translate_matrix(void *);
 extern void *lbl_80485550[3];
 

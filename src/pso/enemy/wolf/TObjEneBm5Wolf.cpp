@@ -112,7 +112,6 @@ void draw_blob_shadow(s32 arg0);
 s32 scale_matrix(s32, f32, f32, f32);
 s32 rotate_matrix_z(s32, s32);
 s32 rotate_matrix_x(s32, s32);
-s32 push_matrix();
 s32 post_translate_matrix(void *);
 s32 TObjEneBm5Wolf__spawn_timer;
 s32 TObjEneBm5Wolf__data_805D5128;

@@ -215,7 +215,6 @@ s32 TCameraCtrl__sub_8006B358(void *p);
 extern void *camera_controller_registry[13];
 void TCameraCtrl__sub_801E32D8(f32, f32);
 s32 matrix_mult_vec(int, void *, void *);
-s32 push_matrix();
 void transform_to_view__11TCameraCtrlFii(saddr arg0, saddr arg1);
 void set_active_camera_pose(u8 *arg0, u8 *arg1);
 void set_active_camera_pose_from_params(u8 *arg0);

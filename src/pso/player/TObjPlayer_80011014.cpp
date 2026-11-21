@@ -846,7 +846,6 @@ s32 rotate_vector_by_matrix(int, void *, void *);
 s32 rotate_matrix_z(int, int);
 s32 translate_matrix(int, f32, f32, f32);
 s32 rotate_matrix_x(int, int);
-s32 push_matrix();
 void post_translate_matrix(void *);
 extern const f64 TObjPlayer__data_804340B8;
 extern int TObjPlayer__data_8050D460[];
@@ -2351,7 +2350,7 @@ s32 TObjChara::select_melee_contact_body(void *source, f32 factor) {
     f32 r;
     if (((Actor_80016454 *)source) != NULL) {
     if (((Actor_80016454 *)this)->bodies != NULL) {
-        ((void (*)(void))push_matrix)();
+        push_matrix();
         set_matrix_identity(0);
         ((void (*)(s32, f32, f32, f32))translate_matrix)(0, -((Actor_80016454 *)source)->pos.x, -((Actor_80016454 *)source)->pos.y, -((Actor_80016454 *)source)->pos.z);
         post_translate_matrix(&((Actor_80016454 *)this)->pos);

@@ -60,7 +60,6 @@ extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
 u8 is_current_floor_switch_set(u16);
 s32 post_translate_matrix(void *);
-s32 push_matrix();
 void fn_802898E8(void);
 void fn_802898EC(void);
 void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);

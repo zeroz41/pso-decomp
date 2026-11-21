@@ -75,7 +75,6 @@ s32 recon_intro_stage;
 u8 *recon_model_matrix_ptr;
 
 
-s32 push_matrix();
 void TObjEneRecon::render_shadows() {
   saddr bml_model;
   if (TObjEneRecon__recobox_static_instance != NULL)

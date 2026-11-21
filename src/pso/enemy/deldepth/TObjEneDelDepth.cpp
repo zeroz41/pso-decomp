@@ -83,7 +83,6 @@ saddr init_collision_body_parts(void *, void *, int);
 void scale_matrix_vec3(u8 *arg0, u8 *arg1);
 s32 rotate_matrix_z(int, int);
 s32 rotate_matrix_x(void *, s32);
-s32 push_matrix();
 s32 scale_current_matrix(void *, f32, f32, f32);
 s32 post_translate_matrix(void *);
 

@@ -49,7 +49,6 @@ s32 PSMTXConcat(void *, void *, void *);
 s32 C_MTXLightPerspective(void *, f32, f32, f32, f32, f32, f32);
 s32 GXSetTevOp(int, int);
 s32 GXSetTevOrder(int, int, int, int);
-s32 push_matrix();
 s32 rotate_matrix_by_node_angles(void *, int);
 s32 post_translate_matrix(void *);
 void draw_ginja_object(saddr);

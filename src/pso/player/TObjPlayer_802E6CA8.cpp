@@ -85,7 +85,6 @@ s32 TObjLight__sub_801337F8(s32);
 s32 rotate_matrix_z(int, s32);
 void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 s32 rotate_matrix_x(int, s32);
-s32 push_matrix();
 s32 post_translate_matrix(void *);
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
 f32 lerp__9TDeadSpotFff(f32, f32);

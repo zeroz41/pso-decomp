@@ -187,7 +187,6 @@ const char *TObjOnlineEnding__name = "TObjOnlineEnding";
 static const Vec online_ending_camera_eye = {20000.0f, 0.0f, 0.0f};
 static const Vec online_ending_camera_target = {20000.0f, 0.0f, -100.0f};
 u32 calc_text_width(char *s);
-s32 push_matrix();
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 f32 online_ending_scene_scale = 0.88f;
 f32 online_ending_quad_y_offset = -24.0f;

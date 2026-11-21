@@ -244,7 +244,6 @@ s32 scale_matrix(int, f32, f32, f32);
 f32 vector_length(void *);
 s32 rotate_matrix_z(int, int);
 s32 rotate_matrix_x(int, void *);
-s32 push_matrix();
 s32 post_translate_matrix(void *, f32);
 
 extern BmlResource *TObjEnePanarms__entry_params_resource;
@@ -630,7 +629,7 @@ void TObjEnePanBARA::render() {
     this->update_linked_effect();
 }
 
-void TObjEnePanBARA::draw() { ((int (*)(void*))push_matrix)(this); ((int (*)(void*))post_translate_matrix)((char*)this + 0x38); ((int (*)(void*, void*))rotate_matrix_y)((void*)0, *(void* *)&this->rotation_y); TObjFish::set_global_param((saddr)((GinjaTextureList *)(*(void* *)&this->texlist))); m_3dc->install(); TObjMotion::draw(); m_3dc->clear(); ((int (*)(void))pop_matrix)(); }
+void TObjEnePanBARA::draw() { push_matrix(); ((int (*)(void*))post_translate_matrix)((char*)this + 0x38); ((int (*)(void*, void*))rotate_matrix_y)((void*)0, *(void* *)&this->rotation_y); TObjFish::set_global_param((saddr)((GinjaTextureList *)(*(void* *)&this->texlist))); m_3dc->install(); TObjMotion::draw(); m_3dc->clear(); pop_matrix(); }
 
 void TObjEnePanBARA::update_linked_effect() {
     u8 *arg0 = (u8 *)this;

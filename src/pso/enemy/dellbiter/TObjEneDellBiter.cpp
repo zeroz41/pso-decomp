@@ -99,7 +99,6 @@ void fn_800D8830(void *owner, void *pos);
 f32 horizontal_distance_squared(void *, void *);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 void TObjPlayer__sub_8023DEE0(s16 *p, s16 a, s16 b, u16 id);
-s32 push_matrix();
 s32 post_translate_matrix(void *);
 
 extern Vec dellbiter_demo_camera_vec;
@@ -119,8 +118,6 @@ extern const char *TObjEneDellBiter__resource_descriptor[11];
 extern const char *lbl_804E6C80[2];
 extern const char *lbl_804E6C88[11];
 
-extern "C" {
-}
 DelbiterInitialParameters TObjEneDellBiter__param_table = {
     225.0f, 0.0f, 0x600, {0, 0, 0, 0}
 };

@@ -60,7 +60,6 @@ s32 play_sound_effect(s32, void *, int, int);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
 s32 vec3_add_to(void *, void *);
-s32 push_matrix();
 s32 post_translate_matrix(void *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 
@@ -1114,7 +1113,7 @@ void TObjEneBm3FlyNest::render_with_state_debug() {
         Vec v = {5.0f, 1.0f, 5.0f};
         ((TObjEneDD *)(arg0))->draw_ground_shadow(&v, 1);
         TObjFish::set_global_param(this->texlist);
-        ((void (*)(void))push_matrix)();
+        push_matrix();
         ((void (*)(void *))post_translate_matrix)(arg0 + 0x38);
         translate_matrix(0, 0.0f, -5.0f, 0.0f);
         rotate_matrix_y(0, this->rotation_y);
@@ -1124,13 +1123,13 @@ void TObjEneBm3FlyNest::render_with_state_debug() {
         draw_model_motion(this->model, var_r30, var_f31);
         clear_motion_packed_rotation();
         TParticleCtrl::end_effect_render();
-        ((void (*)(void))pop_matrix)();
+        pop_matrix();
     }
-    ((void (*)(void))push_matrix)();
+    push_matrix();
     ((void (*)(void *))post_translate_matrix)(arg0 + 0x38);
     rotate_matrix_y(0, this->rotation_y);
     translate_matrix(0, *(f32 *)((s8 *)arg0 + 0x35C), *(f32 *)((s8 *)arg0 + 0x360), *(f32 *)((s8 *)arg0 + 0x364));
     draw_chunk_object((void *)debug_chunk_object);
-    ((void (*)(void))pop_matrix)();
+    pop_matrix();
 }
 #pragma pool_data reset

@@ -53,7 +53,6 @@ s32 TObjEneRe7Berura__sub_80094D98();
 void TObjEneRe7Berura__sub_80094C68(TObjEneRe7Berura *self);
 s32 post_translate_matrix(void *);
 s32 scale_matrix(s32, f32, f32, f32);
-s32 push_matrix();
 
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;

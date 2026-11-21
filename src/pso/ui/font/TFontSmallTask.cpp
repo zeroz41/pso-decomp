@@ -74,7 +74,6 @@ void rotate_matrix_x(int, s32);
 void rotate_matrix_z(int, s32);
 void rotate_vector_by_matrix(int, Vec *, Vec *);
 f32 vec3_dot(Vec *, Vec *);
-void push_matrix(void);
 void project_world_to_screen(int, f32 *, f32 *);
 s32 is_split_screen(void);
 void begin_screen_draw(int);

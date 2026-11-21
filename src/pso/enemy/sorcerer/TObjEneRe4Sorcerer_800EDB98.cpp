@@ -83,7 +83,6 @@ s32 scroll_strip_uvs(int, int, int);
 
 s32 translate_matrix(int, f32, f32, f32);
 
-s32 push_matrix();
 
 extern uaddr TObjEneRe4Sorcerer__uv_scroll_buffer;
 

@@ -280,7 +280,6 @@ s32 angle_difference_abs(s32, s32);
 s32 obj_is_hit_receivable();
 
 void set_matrix_identity(u8 *arg0);
-s32 push_matrix();
 
 s32 post_translate_matrix(void *);
 s32 calc_velocity_toward_destination(void *, Vec, Vec, f32);
@@ -663,7 +662,7 @@ void TObjEneMoja::render() {
             }
             TParticleCtrl::end_effect_render();
         }
-        ((s32 (*)())pop_matrix)();
+        pop_matrix();
         clear_motion_packed_rotation();
     }
     model_render_flags &= ~1;
@@ -1232,7 +1231,7 @@ s32 TObjEneMoja::update_punch_attack(void *self_800ADAAC) {
                 post_translate_matrix(arg0 + 0x38);
                 rotate_matrix_y(0, *(s32 *)(arg0 + 0x60));
                 matrix_mult_vec_array(NULL, (const Vec *)e, &sp8, 2);
-                ((s32 (*)())pop_matrix)();
+                pop_matrix();
                 o = *(V398_800ADAAC **)(arg0 + 0x398);
                 if (o != NULL) {
                     o->m4(&sp8, &sp14);
@@ -1374,7 +1373,7 @@ s32 TObjEneMoja::update_technique_state(void *self_800AD3D8) {
                             ((s32 (*)(void *))push_matrix_from)(identity_matrix);
                             rotate_matrix_y(0, self->rot_y);
                             ((s32 (*)(int, void *, void *))rotate_vector_by_matrix)(0, &dir, &dir);
-                            ((s32 (*)())pop_matrix)();
+                            pop_matrix();
                         }
                         if (self->target != NULL) {
                             Hit_800ACFE8 hit;
@@ -1388,7 +1387,7 @@ s32 TObjEneMoja::update_technique_state(void *self_800AD3D8) {
                         ((s32 (*)(void *))push_matrix_from)(identity_matrix);
                         rotate_matrix_y(0, self->rot_y);
                         ((s32 (*)(int, void *, void *))rotate_vector_by_matrix)(0, &dir, &dir);
-                        ((s32 (*)())pop_matrix)();
+                        pop_matrix();
                     }
                     obj = TObject::operator new(0x260);
                     if (obj != NULL) {

@@ -33,7 +33,6 @@ extern BmlResource *TOSparkMachine01__static_resource;
 extern const char *TOSparkMachine01__name;
 extern s32 tl_05;
 void rotate_matrix_y(int, int);
-void push_matrix();
 void post_translate_matrix(void *);
 
 void TOSparkMachine01::update_spark_toggle(s32 i) {

@@ -140,7 +140,6 @@ s32 TObjBoss1Crater__sub_8002C7E4(void *);
 void attack_target_list_remove(u8 *arg0, s32 arg1);
 extern "C" {
 s32 post_translate_matrix(void *);
-s32 push_matrix();
 
 extern s32 model_render_flags;
 

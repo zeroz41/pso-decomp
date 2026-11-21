@@ -26,7 +26,6 @@
 extern "C" {
 
 s32 post_translate_matrix(void *);
-s32 push_matrix();
 void __ct__15TItemShootModelFPvPC3VecPC3Vecf(void *);
 
 void TUnk_804A69C0::render() {

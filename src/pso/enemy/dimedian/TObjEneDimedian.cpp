@@ -122,7 +122,6 @@ struct Player_800A7CA4 : VBase18_800A7CA4 {
 extern "C" {
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 TObjPlayer__sub_800A0554(void *);
-s32 push_matrix();
 s32 post_translate_matrix(void *);
 extern saddr dimedian_type3_object;
 extern saddr lbl_805D5088;

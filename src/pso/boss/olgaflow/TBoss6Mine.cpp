@@ -98,7 +98,6 @@ int post_translate_matrix(void*);
 int rotate_matrix_x(void*, void*);
 void free_collision_body_parts(void *);
 int rotate_matrix_y(void*, void*);
-int push_matrix(void*);
 
 void TBoss6Mine::render_shadows() {
     u8 *arg0 = (u8 *)this;
@@ -136,7 +135,7 @@ void TBoss6Mine::draw() {
     clear_motion_packed_rotation();
 }
 
-void TBoss6Mine::render() { push_matrix(this); post_translate_matrix((char*)this + 0x38); rotate_matrix_y((void*)0, *(void* *)&this->m_390); rotate_matrix_x((void*)0, *(void* *)&this->m_394); rotate_matrix_y((void*)0, *(void* *)&this->m_398); draw(); pop_matrix(); }
+void TBoss6Mine::render() { push_matrix(); post_translate_matrix((char*)this + 0x38); rotate_matrix_y((void*)0, *(void* *)&this->m_390); rotate_matrix_x((void*)0, *(void* *)&this->m_394); rotate_matrix_y((void*)0, *(void* *)&this->m_398); draw(); pop_matrix(); }
 
 void TBoss6Mine::update_facing_angles() {
     u8 *arg0 = (u8 *)this;

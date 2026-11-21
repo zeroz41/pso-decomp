@@ -69,7 +69,6 @@ s32 vec3_add_to(void *, void *);
 f32 vector_length(void *);
 f32 random_ratio__9TObjCharaFv(void *);
 void scale_matrix_vec3(u8 *arg0, u8 *arg1);
-s32 push_matrix();
 s32 post_translate_matrix(void *);
 s32 init_collision_body_parts(void *, void *, int);
 extern void *lbl_80496368[2];
@@ -1527,14 +1526,14 @@ void TObjEneSlimeOne::sub_800E9090() {
         return;
     }
     TObjPlayer::push_material_color_override(s, -1.0f, 0.0f, 1.0f);
-    ((void (*)(void))push_matrix)();
+    push_matrix();
     ((void (*)(void *))post_translate_matrix)(&c);
     rotate_matrix_y(0, ang);
     scale_matrix_vec3((u8 *)(0), (u8 *)&b);
     t = slime_tail_attack_id_pair[self->variant];
     TObjFish::set_global_param((saddr)get_bml_texlist(self->model_archive, t));
     draw_chunk_object((void *)(get_bml_model(self->model_archive, t)));
-    ((int (*)(void))pop_matrix)();
+    pop_matrix();
     TObjPlayer::init_render_globals();
 }
 #pragma push

@@ -38,7 +38,6 @@ extern s32 komorebi_last_uv_update_frame;
 AnimationMotion *get_bml_motion(BmlResource *, s32);
 s32 post_translate_matrix(void *);
 s32 scale_matrix(s32, f32, f32, f32);
-s32 push_matrix();
 f32 xz_distance_squared(void *, s32);
 
 extern s32 camera_ctrl_instance;

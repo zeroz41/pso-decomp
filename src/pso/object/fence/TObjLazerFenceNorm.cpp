@@ -69,7 +69,6 @@ BmlResource *lazer_fence_norm_bml_resource;
 struct Obj_80192554 { u8 pad0[0x38]; u8 f38[0x24]; s32 f5C; s32 f60; u8 pad64[0x48]; s32 fAC; u8 padB0[8]; f32 fB8; s32 fBC; saddr fC0; s32 fC4; saddr fC8[4]; };
 extern "C" {
 
-void push_matrix();
 void post_translate_matrix(void *);
 void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 
@@ -85,7 +84,6 @@ struct TObjLazerFenceExtra_801926D0 {
 };
 
 u8 is_current_floor_switch_set(s32 id);
-void push_matrix(void);
 
 static const f32 lbl_805DBE58[1] = {0.0f};
 

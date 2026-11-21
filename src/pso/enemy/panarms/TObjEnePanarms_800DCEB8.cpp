@@ -207,7 +207,6 @@ s32 try_warp_to_position__14TObjEnePanarmsFPvPv(u8 *arg0, Vec *arg1);
 int TObjEnePanarms__sub_800DFBC4(void *p);
 int post_translate_matrix(void*);
 int rotate_matrix_y(void*, void*);
-int push_matrix(void*);
 void draw_blob_shadow(s32 arg0);
 s32 rotate_matrix_z(int, int);
 void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
@@ -425,7 +424,7 @@ void TObjEnePanarms::render() {
     }
 }
 
-void TObjEnePanarms__sub_800DEEF8(void* p) { push_matrix(p); post_translate_matrix((char*)p + 0x38); rotate_matrix_y((void*)0, *(void**)((char*)p + 0x60)); TObjFish::set_global_param((saddr)((GinjaTextureList *)((s32)(*(void**)((char*)p + 0x24))))); ((TObjEnePanarms *)p)->m_39c->install(); ((TObjMotion *)p)->draw(); ((TObjEnePanarms *)p)->m_39c->clear(); pop_matrix(); }
+void TObjEnePanarms__sub_800DEEF8(void* p) { push_matrix(); post_translate_matrix((char*)p + 0x38); rotate_matrix_y((void*)0, *(void**)((char*)p + 0x60)); TObjFish::set_global_param((saddr)((GinjaTextureList *)((s32)(*(void**)((char*)p + 0x24))))); ((TObjEnePanarms *)p)->m_39c->install(); ((TObjMotion *)p)->draw(); ((TObjEnePanarms *)p)->m_39c->clear(); pop_matrix(); }
 
 #pragma push
 #pragma fp_contract on
@@ -439,7 +438,7 @@ void TObjEnePanarms::draw_shadow() {
     f32 t;
 
     if (!(*(f32 *)&this->unk_384 > 19.800001f + *(f32 *)((s8 *)((u8 *)this) + 0x3C))) {
-        push_matrix(this);
+        push_matrix();
         translate_matrix(0, 0.25f * *(f32 *)((s8 *)((u8 *)this) + 0x38) + 0.75f * draw_positions[0].x, 0.2f + *(f32 *)&this->unk_384, 0.25f * *(f32 *)((s8 *)((u8 *)this) + 0x40) + 0.75f * draw_positions[0].z);
         direction_to_rotation_xz(((u8 *)this) + 0x248, &spC, &sp8);
         rotate_matrix_z(0, sp8);

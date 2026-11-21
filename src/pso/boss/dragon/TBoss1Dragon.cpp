@@ -74,7 +74,6 @@ extern "C" {
 
 void TObjLight__sub_801337F8(s32);
 s32 scale_matrix(s32, f32, f32, f32);
-s32 push_matrix();
 s32 post_translate_matrix(void *);
 void draw_model_motion(void *, void *, f32);
 extern saddr current_scene_light;

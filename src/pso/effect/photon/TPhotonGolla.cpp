@@ -116,7 +116,6 @@ s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 
 s32 scroll_strip_uvs(void *, s16, int);
 s32 rotate_matrix_y(int, int);
-s32 push_matrix();
 s32 post_translate_matrix(void *);
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
 extern NJS_ARGB saved_model_draw_color;

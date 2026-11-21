@@ -29,7 +29,6 @@ struct ByteBlock_3C { u8 bytes[0x3C]; };
 extern "C" {
 f32 xz_distance_squared(void *, s32);
 extern s32 camera_ctrl_instance;
-s32 push_matrix();
 s32 init_collision_body_parts(void *, int, int);
 void *TObjLaboDesignBase__create(void *arg0);
 void *TObjLaboDesignBase__sub_80364D38(void *arg0);

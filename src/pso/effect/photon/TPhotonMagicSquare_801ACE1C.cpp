@@ -46,7 +46,6 @@ struct Self_801ACE1C {
 
 extern "C" {
 s32 rotate_matrix_y(int, int);
-s32 push_matrix();
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
 extern NJS_ARGB chunk_material_color_half_alpha_f32;

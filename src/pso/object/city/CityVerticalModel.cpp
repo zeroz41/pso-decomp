@@ -39,7 +39,6 @@ struct RecoveredFields_80182E90_arg0
 
 extern "C" {
 void vfunc_13__13TUnk_804B5C08Fl(void* a0);
-s32 push_matrix();
 s32 post_translate_matrix(void *);
 void render__13TUnk_804B5C08Fv(u8 *arg0);
 void run_task__13TUnk_804B5C08Fv(u8 *arg0);

@@ -65,7 +65,6 @@ struct Door_8018F15C {
 };
 
 extern "C" {
-void push_matrix();
 void post_translate_matrix(void *);
 void draw_ginja_model_with_motion(int, int, void *, f32);
 void TObjDoor__sub_8018E8BC(void);

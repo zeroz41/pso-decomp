@@ -216,7 +216,6 @@ void rotate_vector_by_matrix(saddr, void *, void *);
 void rotate_matrix_y(s32, s32);
 void rotate_matrix_z(s32, s32);
 void rotate_matrix_x(s32, s32);
-void push_matrix();
 void begin_screen_draw(s32 arg0);
 void DVDConvertEntrynumToPath(f32 *q);
 void set_draw_texture_and_color(s32 idx, s32 arg1);

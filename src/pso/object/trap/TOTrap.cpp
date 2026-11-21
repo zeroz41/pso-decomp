@@ -188,7 +188,6 @@ extern "C" {
 
 s32 post_translate_matrix(void *);
 s32 rotate_matrix_y(s32, s32);
-s32 push_matrix();
 
 #pragma explicit_unused_unused_members on
 void TOTrap::render() {
