@@ -551,8 +551,8 @@ force_active:
   - TFontSmallLobby__sub_801D677C
   - TFontSmallLobby__sub_801D67AC
   - TFontSmallLobby__sub_801D67C8
-  - THunterGuildSeqOffline__sub_80213980
-  - THunterGuildSeqOffline__sub_80213B18
+  - sub_80213980__28THunterGuildSeqOnline_ClientFv
+  - sub_80213B18__28THunterGuildSeqOnline_ClientFv
   - THunterGuildSeqOffline__sub_80213E64
   - THunterGuildSeqOffline__sub_80213EBC
   - THunterGuildSeqOffline__sub_80213F78

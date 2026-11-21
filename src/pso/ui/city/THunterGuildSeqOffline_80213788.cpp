@@ -30,39 +30,10 @@
 #define CAT2(a,b) a##b
 #define CAT(a,b) CAT2(a,b)
 #define PADV virtual void CAT(f,__LINE__)();
-struct VBase_18_97738d { char pad[0x18]; };
-
-struct VObj_18_97738d : VBase_18_97738d {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual s32 m7(s32, s32);
-};
-
 struct Stack_80213B18 {
     f32 sp8;
     f32 spC;
 };
-
-struct Base_80213980 { char pad[0x18]; };
-
-struct V_80213980 : Base_80213980 {
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    virtual void m7(s32, s32);
-    virtual s32 m8();
-};
-
-struct Obj_80213980 : V_80213980 { char pad1c[0x14]; s32 state; s32 f34; s32 thread; };
 
 extern "C" {
 
@@ -86,7 +57,6 @@ s32 quest_download_received_bytes;
 s32 quest_download_graph_current_bytes;
 int is_quest_active(void);
 extern s32 THunterGuildSeqOffline__quest_result_callbacks[];
-void THunterGuildSeqOffline__sub_80213980(Obj_80213980 *self);
 saddr set_service_counter_camera(void *, s32);
 
     extern int evt2_random_enemies_mode;
@@ -486,8 +456,8 @@ void THunterGuildSeqOffline::clear_slots() {
 void THunterGuildSeqOnline_Client::vfunc_11() {
     switch (state) {
     case 0: restore_player_state(); break;
-    case 1: THunterGuildSeqOffline__sub_80213B18((u8 *)this); break;
-    case 2: THunterGuildSeqOffline__sub_80213980((Obj_80213980 *)this); break;
+    case 1: sub_80213B18(); break;
+    case 2: sub_80213980(); break;
     case 11: handle_close(); break;
     case 4: update_close_shop(); break;
     case 5: update_shop_close(); break;
@@ -504,44 +474,44 @@ void THunterGuildSeqOnline_Client::restore_player_state() {
     set_field_20(1);
 }
 
-void THunterGuildSeqOffline__sub_80213B18(u8 *shop_sequence) {
+void THunterGuildSeqOnline_Client::sub_80213B18() {
     Stack_80213B18 stack;
     stack.sp8 = 332.0f;
     stack.spC = 80.0f;
-    ((TShopSequence *)shop_sequence)->create_message_window((s32)(get_window_layout_position(0x2C)), (s32)((saddr) &stack.sp8));
-    ((VObj_18_97738d *)(shop_sequence))->m7(1, 1);
-    *(s32 *)((s8 *)shop_sequence + 0x30) = 0;
-    ((TShopWindowBase *)shop_sequence)->set_field_20(2);
+    create_message_window((s32)(get_window_layout_position(0x2C)), (s32)((saddr) &stack.sp8));
+    display_guild_message(1, 1);
+    pad_30 = 0;
+    set_field_20(2);
 }
 
-void THunterGuildSeqOffline__sub_80213980(Obj_80213980 *self) {
-    if (self->m8() == 0) {
+void THunterGuildSeqOnline_Client::sub_80213980() {
+    if (vfunc_10() == 0) {
         return;
     }
-    switch (self->state) {
+    switch (pad_30) {
     case 1:
         return;
     case 0:
         if (is_quest_active() != 0) {
             if (TQuestThread::get_register(quest_mission_manager, 0xFF) != 0) {
-                self->m7(0xB, 1);
+                display_guild_message(0xB, 1);
                 if (THunterGuildSeqOffline__quest_result_callbacks[1] != -1) {
-                    self->thread = (saddr)TQuestThread::create_in_root(THunterGuildSeqOffline__quest_result_callbacks[1]);
+                    quest_thread = TQuestThread::create_in_root(THunterGuildSeqOffline__quest_result_callbacks[1]);
                 }
-                ((TShopWindowBase *)self)->set_field_20(4);
+                set_field_20(4);
             } else if (TQuestThread::get_register(quest_mission_manager, 0xFD) != 0) {
-                self->m7(0x12, 1);
+                display_guild_message(0x12, 1);
                 if (THunterGuildSeqOffline__quest_result_callbacks[0] != -1) {
-                    self->thread = (saddr)TQuestThread::create_in_root(THunterGuildSeqOffline__quest_result_callbacks[0]);
+                    quest_thread = TQuestThread::create_in_root(THunterGuildSeqOffline__quest_result_callbacks[0]);
                 }
-                ((TShopWindowBase *)self)->set_field_20(5);
+                set_field_20(5);
             } else {
-                self->m7(2, 1);
-                ((TShopWindowBase *)self)->set_field_20(6);
+                display_guild_message(2, 1);
+                set_field_20(6);
             }
-        } else if (((TShopWindowBase *)self)->sub_80223A48() != 0 || ((TShopWindowBase *)self)->sub_802239EC() != 0) {
-            self->m7(0x15, 1);
-            ((TShopWindowBase *)self)->set_field_20(0xB);
+        } else if (sub_80223A48() != 0 || sub_802239EC() != 0) {
+            display_guild_message(0x15, 1);
+            set_field_20(0xB);
         }
         break;
     }

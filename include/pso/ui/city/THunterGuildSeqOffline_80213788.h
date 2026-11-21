@@ -20,6 +20,8 @@ struct THunterGuildSeqOnline_Client : public TShopSequence {
     void update_shop_close();
     void update_close_shop();
     void handle_close();
+    void sub_80213B18();
+    void sub_80213980();
     TObject *counter_camera;  // 0x2C: set_service_counter_camera
     s32 pad_30;
     s32 pad_34;
@@ -61,7 +63,6 @@ void set_random_enemies_mode(void);
 
 // --- C functions defined in THunterGuildSeqOffline_80213788.cpp ---
 extern "C" {
-void THunterGuildSeqOffline__sub_80213B18(u8 *shop_sequence);
 void THunterGuildSeqOffline__sub_80213CA4(void);
 void THunterGuildSeqOffline__sub_80213E64(void);
 void THunterGuildSeqOffline__sub_80213EBC(void);
