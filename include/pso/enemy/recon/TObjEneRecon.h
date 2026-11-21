@@ -60,20 +60,7 @@ struct TObjEneRecon : public TObjEneDD_ST {
     static void release_static_instance();
     static void *create(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4);
     static void load_resources();
-    void remove_tracked_id(s32 id);
-    s32 alloc_child_id();
-    s32 is_anim_6();
-    void handle_death_state(s32 arg1);
-    void handle_action_state(s32 arg1);
-    void update_state(s32 arg1);
-    void handle_state(s32 arg1);
-    void update_child_spawn();
-    u8 is_out_of_range();
-    void restore_position();
     void*get_field_38_ptr();
-    void remove_child_entity(u8 *arg1);
-    s32 has_child_in_anim_5();
-    s32 is_below_child_limit(u16 arg1);
     u8 unk_47C[0x54];
     f32 m_4d0;
     u8 unk_4D4[0x4];
@@ -95,9 +82,4 @@ struct TObjEneRecon : public TObjEneDD_ST {
 
 LAYOUT_ASSERT(TObjEneRecon_size, sizeof(TObjEneRecon) == 0x4E4);
 
-// --- C functions defined in pso/unk/text_8031EF14.cpp ---
-extern "C" {
-void TObjEneRecobox__sub_8031F1A8(TObjEneRecon *recon);
-}
-// --- end of C functions
 #endif

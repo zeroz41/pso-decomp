@@ -353,7 +353,7 @@ void TObjEneRecon::handle_message(s32 arg1) {
         *(s32 *)((s8 *)this + 0x444) = (s32) (*(s32 *)((s8 *)this + 0x444) | 1);
         *(s32 *)((s8 *)this + 0x444) = (s32) (*(s32 *)((s8 *)this + 0x444) & 0xFFFFFFFD);
         if ((temp = (uaddr)find_entity_by_id(*(u16 *)((s8 *)this + 0x434))) != 0U) {
-            ((TObjEneRecon *)temp)->remove_child_entity((u8 *)this);
+            ((TObjEneRecobox *)temp)->remove_child_entity((u8 *)this);
         }
         break;
     case 5:
@@ -629,7 +629,7 @@ extern "C" {
 
 void run_task__12TObjEneReconFPvi(u8 *arg0, s32 arg1);
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
-s32 remove_tracked_target__12TObjEneReconFPvPv(int, void *);
+s32 remove_tracked_target__14TObjEneRecoboxFPvPv(int, void *);
 
 void run_task__12TObjEneReconFPvi(u8 *target, s32 arg1) {
     saddr entity;
@@ -650,13 +650,13 @@ void run_task__12TObjEneReconFPvi(u8 *target, s32 arg1) {
             ((TObject *)target)->queue_destruction();
             return;
         }
-        if (((TObjEneRecon *)entity)->is_anim_6() == 1) {
+        if (((TObjEneRecobox *)entity)->is_anim_6() == 1) {
             ((TObjEneDD *)target)->transition_enemy_state(7);
             return;
         }
         if (((WObj_8031c7bc *) (target + 0x480))->w4() != 0) {
             *(s32 *)((s8 *)target + 0x444) = (s32) (*(s32 *)((s8 *)target + 0x444) | 1);
-            remove_tracked_target__12TObjEneReconFPvPv(entity, target);
+            remove_tracked_target__14TObjEneRecoboxFPvPv(entity, target);
             ((TObject *)target)->queue_destruction();
         }
     case 5:
@@ -1373,7 +1373,7 @@ void TObjEneRecon::retarget() {
         queue_destruction();
         return;
     }
-    if (((TObjEneRecon *)p)->is_below_child_limit(((Recon_8031D898 *)this)->target) != 0) {
+    if (((TObjEneRecobox *)p)->is_below_child_limit(((Recon_8031D898 *)this)->target) != 0) {
         ((Recon_8031D898 *)this)->f470 = 0;
         transition_enemy_state(3);
         return;
@@ -1381,7 +1381,7 @@ void TObjEneRecon::retarget() {
     n = collect_enemy_target_candidates(this, hits, 10000.0f);
     for (i = 0; i < n; i++) {
         id = hits[i].id;
-        if (id != ((Recon_8031D898 *)this)->target && ((TObjEneRecon *)p)->is_below_child_limit(id) != 0) {
+        if (id != ((Recon_8031D898 *)this)->target && ((TObjEneRecobox *)p)->is_below_child_limit(id) != 0) {
             ((Recon_8031D898 *)this)->f470 = 0;
             enemy_set_target_id(this, id);
             transition_enemy_state(3);
@@ -1403,7 +1403,7 @@ void TObjEneRecon::select_next_target() {
         queue_destruction();
         return;
     }
-    if (((TObjEneRecon *)p)->is_below_child_limit(((Recon_8031D994 *)this)->target) != 0) {
+    if (((TObjEneRecobox *)p)->is_below_child_limit(((Recon_8031D994 *)this)->target) != 0) {
         ((Recon_8031D994 *)this)->f46C = 0;
         transition_enemy_state(2);
         return;
@@ -1411,7 +1411,7 @@ void TObjEneRecon::select_next_target() {
     n = collect_enemy_target_candidates(this, hits, 10000.0f);
     for (i = 0; i < n; i++) {
         id = hits[i].id;
-        if (id != ((Recon_8031D994 *)this)->target && ((TObjEneRecon *)p)->is_below_child_limit(id) != 0) {
+        if (id != ((Recon_8031D994 *)this)->target && ((TObjEneRecobox *)p)->is_below_child_limit(id) != 0) {
             ((Recon_8031D994 *)this)->f46C = 0;
             enemy_set_target_id(this, id);
             transition_enemy_state(2);
@@ -1845,7 +1845,7 @@ void run_task__12TObjEneReconFv(TObjEneRecon *ene_recon) {
         return;
     }
     temp_r0 = ene_recon->mode;
-    if ((temp_r0 != 8) && (temp_r0 != 7) && (((TObjEneRecon *)entity)->is_anim_6() == 1)) {
+    if ((temp_r0 != 8) && (temp_r0 != 7) && (((TObjEneRecobox *)entity)->is_anim_6() == 1)) {
         ene_recon->m_2dc = (s32) (ene_recon->m_2dc | 4);
         ((TObjPlayer *)ene_recon)->set_hp_clamped(0);
         obj_setFlags30(ene_recon, 0xA00U);
