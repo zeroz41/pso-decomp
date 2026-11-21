@@ -141,7 +141,6 @@ struct TWindowSubComCard : public TObject {
 
 LAYOUT_ASSERT(TWindowSubComCard_size, sizeof(TWindowSubComCard) == 0x88);
 struct TWindowSubTradeMain;
-extern "C" void set_menu_selected_index(TWindowSubComCard *window, s16 index);
 extern "C" void add_gray_text_entry(TWindowSubTradeMain *list, const char *text, s32 kind, s32 id);
 
 #endif

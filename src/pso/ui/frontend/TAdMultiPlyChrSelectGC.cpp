@@ -2233,23 +2233,23 @@ s32 TAdMultiPlyChrSelectGC__sub_802DBE4C(void *, s32 *desc) {
 }
 
 void *TAdMultiPlyChrSelectGC::create_confirm_window(s32 slot) {
-    void *window = TWindowMessageYesNo::create(this, (void *)(saddr)slot, 0, 0);
+    TWindowMessageYesNo *window = TWindowMessageYesNo::create(this, slot, 0, 0);
     open_yes_no_prompt_with_text((TChCrTagPlBack *)window, get_localized_text_entry(0x1F, 8), (saddr)lbl_80472898, 196.0f);
-    set_menu_selected_index((TWindowSubComCard *)window, 1);
+    window->set_menu_selected_index(1);
     return window;
 }
 
 void *TAdMultiPlyChrSelectGC__sub_802DBD64(TAdMultiPlyChrSelectGC *self) {
-    void *window = TWindowMessageYesNo::create(self, (void *)(saddr)TAdMultiPlyChrSelectGC::get_clamped_cursor(), 0, 0);
+    TWindowMessageYesNo *window = TWindowMessageYesNo::create(self, TAdMultiPlyChrSelectGC::get_clamped_cursor(), 0, 0);
     open_yes_no_prompt_with_text((TChCrTagPlBack *)window, get_localized_text_entry(0x1F, 9), (saddr)lbl_804728A0, 196.0f);
-    set_menu_selected_index((TWindowSubComCard *)window, 1);
+    window->set_menu_selected_index(1);
     return window;
 }
 
 void *TAdMultiPlyChrSelectGC__sub_802DBCE8(TAdMultiPlyChrSelectGC *self) {
-    void *window = TWindowMessageYesNo::create(self, (void *)(saddr)TAdMultiPlyChrSelectGC::get_clamped_cursor(), 0, 0);
+    TWindowMessageYesNo *window = TWindowMessageYesNo::create(self, TAdMultiPlyChrSelectGC::get_clamped_cursor(), 0, 0);
     open_yes_no_prompt_with_text((TChCrTagPlBack *)window, get_localized_text_entry(0x1F, 0xA), (saddr)lbl_804728A8, 209.0f);
-    set_menu_selected_index((TWindowSubComCard *)window, 1);
+    window->set_menu_selected_index(1);
     return window;
 }
 

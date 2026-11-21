@@ -245,9 +245,9 @@ s32 TWindowSubTrade::open_trade_confirm_prompt(s32 arg1) {
     }
     TWindowSubStatusDisp::get_message_10(0xD6);
     text_builder_append();
-    temp_r29 = (saddr)TWindowMessageYesNo::create((void *)(arg0), (void *)(this->m_20), 0, 0);
+    temp_r29 = (saddr)TWindowMessageYesNo::create((void *)(arg0), this->m_20, 0, 0);
     open_yes_no_prompt((TChCrTagPlBack *)((u8 *)temp_r29), (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(get_shared_text_buffer()), (s32)(get_window_layout_position(0x5B)), 384.0f);
-    set_menu_selected_index((TWindowSubComCard *)temp_r29, 1);
+    ((TWindowMessageYesNo *)temp_r29)->set_menu_selected_index(1);
     ((TWindowMessageYesNo *)temp_r29)->set_choice_menu_flag70_bit10();
     return temp_r29;
 }

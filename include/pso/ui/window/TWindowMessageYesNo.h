@@ -9,18 +9,19 @@
 struct TWindowMenu;
 
 struct TWindowMessageYesNo : public TObject {
-    TWindowMessageYesNo(TObject *arg1, void *arg2, void *arg3, void *arg4);
+    TWindowMessageYesNo(TObject *parent, s32 client_id, void *arg3, void *arg4);
     virtual ~TWindowMessageYesNo();
     s32 is_child_visible();
     u32 m_1c;
     u32 m_20;
-    u32 m_24;
+    s32 client_id;
     uaddr m_28;
     TWindowMenu *choice_menu;
     void set_choice_menu_flag70_bit10();
     virtual void render();
     virtual void run_task();
-    static void *create(void *arg0, void *arg1, void *arg2, void *arg3);
+    static TWindowMessageYesNo *create(void *parent, s32 client_id, void *arg2, void *arg3);
+    void set_menu_selected_index(s16 index);
 };
 
 LAYOUT_ASSERT(TWindowMessageYesNoChoiceMenuOffset, offsetof(TWindowMessageYesNo, choice_menu) == 0x2C);

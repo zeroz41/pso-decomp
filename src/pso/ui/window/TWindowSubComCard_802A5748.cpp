@@ -19,7 +19,7 @@ saddr forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, saddr a1, 
 u8 *create_yes_no_window(s32 arg0, s32 arg1, uaddr arg2, uaddr arg3);
 
 void TWindowSubComCard::close() { queue_destruction(); }
-void set_menu_selected_index(TWindowSubComCard *window, s16 index) { void *m = *(void **)&window->m_2c; if (m) ((TWindowSubComCardList *)m)->set_selected_index(index); }
+void TWindowMessageYesNo::set_menu_selected_index(s16 index) { if (choice_menu) ((TWindowSubComCardList *)choice_menu)->set_selected_index(index); }
 s32 TWindowSubComCard::get_slot_or_neg1() {
     saddr v = this->m_2c;
     if ((u32) v == 0U) {

@@ -537,9 +537,9 @@ s32 TWindowSubShortMail::create_keyboard(void) {
 
 s32 open_confirm_prompt__19TWindowSubShortMailFPvi(void *window_message_yes_no, saddr arg1) {
     saddr temp_r29;
-    temp_r29 = (saddr)TWindowMessageYesNo::create((void *)(window_message_yes_no), (void *)(arg1), 0, 0);
+    temp_r29 = (saddr)TWindowMessageYesNo::create((void *)(window_message_yes_no), arg1, 0, 0);
     open_yes_no_prompt((TChCrTagPlBack *)((u8 *)temp_r29), (uaddr)((saddr)TWindowSubStatusDisp::get_message_10(0x20)), (saddr)((saddr)TWindowSubStatusDisp::get_message_10(0x3f)), (s32)(get_window_layout_position(0x9e)), 205.0f);
-    set_menu_selected_index((TWindowSubComCard *)temp_r29, 0);
+    ((TWindowMessageYesNo *)temp_r29)->set_menu_selected_index(0);
     ((TWindowMessageYesNo *)temp_r29)->set_choice_menu_flag70_bit10();
     return temp_r29;
 }
@@ -592,9 +592,9 @@ s32 TWindowSubShortMail::open_menu(void) {
 s32 TWindowSubShortMail::open_confirm_dialog() {
     saddr temp_r29;
 
-    temp_r29 = (saddr)TWindowMessageYesNo::create((void *)(this), (void *)(this->m_20), 0, 0);
+    temp_r29 = (saddr)TWindowMessageYesNo::create((void *)(this), this->m_20, 0, 0);
     open_yes_no_prompt((TChCrTagPlBack *)((u8 *)temp_r29), (uaddr)((saddr)TWindowSubStatusDisp::get_message_10(0x20)), (saddr)((saddr)TWindowSubStatusDisp::get_message_10(0x3e)), (s32)(get_window_layout_position(0x9f)), 206.0f);
-    set_menu_selected_index((TWindowSubComCard *)temp_r29, 0);
+    ((TWindowMessageYesNo *)temp_r29)->set_menu_selected_index(0);
     ((TWindowMessageYesNo *)temp_r29)->set_choice_menu_flag70_bit10();
     return temp_r29;
 }
@@ -602,9 +602,9 @@ s32 TWindowSubShortMail::open_confirm_dialog() {
 s32 TWindowSubShortMail::open_delete_confirm_dialog() {
     saddr temp_r29;
 
-    temp_r29 = (saddr)TWindowMessageYesNo::create((void *)(this), (void *)(this->m_20), 0, 0);
+    temp_r29 = (saddr)TWindowMessageYesNo::create((void *)(this), this->m_20, 0, 0);
     open_yes_no_prompt((TChCrTagPlBack *)((u8 *)temp_r29), (uaddr)((saddr)TWindowSubStatusDisp::get_message_10(0x20)), (saddr)((saddr)TWindowSubStatusDisp::get_message_10(0x104)), (s32)(get_window_layout_position(0xa3)), 206.0f);
-    set_menu_selected_index((TWindowSubComCard *)temp_r29, 0);
+    ((TWindowMessageYesNo *)temp_r29)->set_menu_selected_index(0);
     ((TWindowMessageYesNo *)temp_r29)->set_choice_menu_flag70_bit10();
     return temp_r29;
 }

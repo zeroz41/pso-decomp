@@ -81,8 +81,7 @@ TWindowTradeRequest::TWindowTradeRequest(TObject *parent) : TObject(parent) {
         text_builder_append((u8 *)player->get_name());
     }
     text_builder_append((u8 *)TWindowSubStatusDisp::get_message_10(0xD9));
-    dialog = static_cast<TWindowMessageYesNo *>(
-        TWindowMessageYesNo::create(this, reinterpret_cast<void *>(local_client_id), NULL, NULL));
+    dialog = TWindowMessageYesNo::create(this, local_client_id, NULL, NULL);
     u8 *position = get_window_layout_position(0xB2);
     open_yes_no_prompt_with_text(
         reinterpret_cast<TChCrTagPlBack *>(dialog), reinterpret_cast<saddr>(get_shared_text_buffer()),

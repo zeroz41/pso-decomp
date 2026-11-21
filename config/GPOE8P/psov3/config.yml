@@ -2153,7 +2153,7 @@ force_active:
   - __ct__19TObjEZBoneRotPlayerFP7TObjectPUcPv
   - __ct__19TObjEneDelDepthBombFP15TObjEneDelDepthP9TObjCharaPC3Vecl
   - __ct__19TObjStendGlassLobbyFP7TObjectPv
-  - __ct__19TWindowMessageYesNoFP7TObjectPvPvPv
+  - __ct__19TWindowMessageYesNoFP7TObjectlPvPv
   - __ct__20TAdLoadQuestPrtTxtGCFP7TObjectl
   - __ct__20TBoss3VoloptHiraisinFP7TObjectPv
   - __ct__20TEffStarLight2D_BaseFP7TObjectPv

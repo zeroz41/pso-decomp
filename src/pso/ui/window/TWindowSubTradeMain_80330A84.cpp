@@ -667,13 +667,12 @@ saddr TWindowSubTradeMain::create_trade_menu() {
 }
 
 TWindowMessageYesNo *TWindowSubTradeMain::open_confirm_yes_no() {
-    TWindowMessageYesNo *window = static_cast<TWindowMessageYesNo *>(
-        TWindowMessageYesNo::create(this, reinterpret_cast<void *>(m_28), NULL, NULL));
+    TWindowMessageYesNo *window = TWindowMessageYesNo::create(this, m_28, NULL, NULL);
     open_yes_no_prompt(reinterpret_cast<TChCrTagPlBack *>(window),
         reinterpret_cast<uaddr>(TWindowSubStatusDisp::get_message_10(0x20)),
         reinterpret_cast<saddr>(TWindowSubStatusDisp::get_message_10(0xE6)),
         get_window_layout_position(0x5F), 282.0f);
-    set_menu_selected_index(reinterpret_cast<TWindowSubComCard *>(window), 1);
+    window->set_menu_selected_index(1);
     return window;
 }
 
@@ -694,21 +693,19 @@ TWindowMessageYesNo *open_option_dialog_thunk__19TWindowSubTradeMainFPvPv(TWindo
 }
 
 TWindowMessageYesNo *open_option_dialog__19TWindowSubTradeMainFPvi(TWindowSubTradeMain *window, saddr message) {
-    TWindowMessageYesNo *dialog = static_cast<TWindowMessageYesNo *>(
-        TWindowMessageYesNo::create(window, reinterpret_cast<void *>(window->m_28), NULL, NULL));
+    TWindowMessageYesNo *dialog = TWindowMessageYesNo::create(window, window->m_28, NULL, NULL);
     initialize_option_dialog(dialog, message, get_window_layout_position(0x5F), 282.0f);
     return dialog;
 }
 }
 
 TWindowMessageYesNo *TWindowSubTradeMain::open_confirm_prompt() {
-    TWindowMessageYesNo *window = static_cast<TWindowMessageYesNo *>(
-        TWindowMessageYesNo::create(this, reinterpret_cast<void *>(m_28), NULL, NULL));
+    TWindowMessageYesNo *window = TWindowMessageYesNo::create(this, m_28, NULL, NULL);
     open_yes_no_prompt(reinterpret_cast<TChCrTagPlBack *>(window),
         reinterpret_cast<uaddr>(TWindowSubStatusDisp::get_message_10(0x20)),
         reinterpret_cast<saddr>(TWindowSubStatusDisp::get_message_10(0xE4)),
         get_window_layout_position(0x5F), 282.0f);
-    set_menu_selected_index(reinterpret_cast<TWindowSubComCard *>(window), 1);
+    window->set_menu_selected_index(1);
     return window;
 }
 
