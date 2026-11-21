@@ -57,7 +57,7 @@ TWindowMenu *TUnk_804D1AD0::create_status_category_menu() {
     forward_trade_action_default__16TObjCityMainWarpFPviii(menu, (int)TWindowSubStatusDisp::get_message_10(0x10A), 0x36, 0);
     forward_trade_action_default__16TObjCityMainWarpFPviii(menu, (int)TWindowSubStatusDisp::get_message_10(0x10B), 0x36, 1);
     forward_trade_action_default__16TObjCityMainWarpFPviii(menu, (int)TWindowSubStatusDisp::get_message_10(0x10C), 0x36, 2);
-    ((TWindowSubComCardList *)menu)->set_flag70_bit10();
+    ((TWindowMenu *)menu)->set_flag70_bit10();
     ((TWindowSubComCardList *)menu)->update_layout_height(202.0f);
     align_menu_entry_positions(menu);
     return menu;

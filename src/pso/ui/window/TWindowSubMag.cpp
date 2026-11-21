@@ -462,7 +462,7 @@ void *TWindowSubMag::create_action_menu(s32 id) {
     } else {
         add_gray_text_entry((TWindowSubTradeMain *)window, (const char *)(TWindowSubStatusDisp::get_message_10(0x64)), 6, 0);
     }
-    ((TWindowSubComCardList *)window)->set_flag70_bit10();
+    ((TWindowMenu *)window)->set_flag70_bit10();
     ((TWindowSubComCardList *)window)->update_layout_height((172.0f));
     align_menu_entry_positions(window);
     return window;

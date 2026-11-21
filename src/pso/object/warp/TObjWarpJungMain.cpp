@@ -128,7 +128,7 @@ void TObjWarpJungMain::open_confirm_window(s32 client_id) {
         }
         ((TWindowSubComCard *)menu_window)->calc_window_size();
         align_menu_entry_positions(menu_window);
-        ((TWindowSubComCardList *)menu_window)->set_flag70_bit10();
+        ((TWindowMenu *)menu_window)->set_flag70_bit10();
         ((TLobby *)menu_window)->set_loss_flag();
         request_active_window_close();
         user_client_id = client_id;

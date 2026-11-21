@@ -2,6 +2,7 @@
 #define PSO_UI_WINDOW_TWINDOWMAINMENU_H
 
 #include "types.h"
+#include <stddef.h>
 #include "pso/system/task/TObject.h"
 
 // One row of a main-menu table: item id and the table the item opens (id 0x1F ends a table).
@@ -15,6 +16,15 @@ extern TWindowMainMenuEntry main_menu_1p_entries[];
 extern TWindowMainMenuEntry main_menu_1p_android_entries[];
 extern TWindowMainMenuEntry main_menu_4p_entries[];
 extern TWindowMainMenuEntry main_menu_4p_android_entries[];
+
+struct TWindowMenuMainMenu;
+class TWindowMessage;
+
+struct MainMenuSlotState {
+    s16 first;
+    s16 second;
+    s32 value;
+};
 
 struct TWindowMainMenu : public TObject {
     TWindowMainMenu(TObject *parent, s32 client);
@@ -36,17 +46,23 @@ struct TWindowMainMenu : public TObject {
     void close_and_clear_flags();
     s32 close_active_submenu();
     void set_scale_f();
-    u8 unk_1C[0x4];
+    TWindowMenuMainMenu *m_1c;
     s32 m_20;
-    u8 unk_24[0x8];
+    TWindowMessage *help_window;
+    MainMenuSlotState slots[4];
     u32 m_48;
     u32 m_4c;
     u16 m_50;
     u16 m_52;
-    u32 m_54;
+    s32 client_index;
     u8 _pad58[0x4];
-    u32 m_5c;
+    TWindowMainMenuEntry *active_entries;
     void update_trade_submenu();
+    void show_child_window();
+    void restore_after_subwindow();
+    void hide_for_subwindow();
+    void clear_log_active();
+    void set_log_active();
     void update_submenu();
     void close_submenu(void* a1);
     void refresh_submenu(void* a1);
@@ -63,10 +79,7 @@ struct TWindowMainMenu : public TObject {
     void clear_menu_flags();
     s32 find_free_slot();
     s32 update_if_active(s32 _w1);
-    void set_target_y(f32 farg0);
-    void update_scaled_position();
     void draw_entries_reversed(u8 *arg1);
-    void update_slide_position();
     s32 is_not_split_screen();
     static void *create_menu(void *arg0, void *arg1);
     void open_menu_with_entry(s16 arg1);
@@ -74,6 +87,10 @@ struct TWindowMainMenu : public TObject {
     s32 filter_menu_entry(s16 *arg1, s32 *arg2);
     void update_description_text(s32 arg1);
 };
+
+typedef char MainMenuSlotStateSize[sizeof(MainMenuSlotState) == 8 ? 1 : -1];
+typedef char MainMenuClientIndexOffset[offsetof(TWindowMainMenu, client_index) == 0x54 ? 1 : -1];
+typedef char MainMenuSize[sizeof(TWindowMainMenu) == 0x60 ? 1 : -1];
 
 int test_keyboard_card_flag4(void *p);
 

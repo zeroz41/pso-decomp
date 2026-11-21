@@ -238,7 +238,7 @@ s32 *TObjCityMainWarp__sub_80186AF4(void) {
     return &lobby_name_string_buffer.value;
 }
 
-void TWindowSubComCardList::set_flag70_bit10() { this->m_70 |= 0x10; }
+void TWindowMenu::set_flag70_bit10() { this->m_70 |= 0x10; }
 
 void TObjCityMainWarp::reset() { clear_enabled_main_warps(); update_main_warp_visible_mask(0); }
 
@@ -526,7 +526,7 @@ void TObjCityMainWarp::open_confirm_window(s32 client_id) {
                     }
                 }
             }
-            ((TWindowSubComCardList *)menu_window)->set_flag70_bit10();
+            ((TWindowMenu *)menu_window)->set_flag70_bit10();
             ((TLobby *)menu_window)->set_loss_flag();
             ((TWindowSubComCardList *)menu_window)->update_layout_height(288.0f);
             if (((TWindowSubComCardList *)menu_window)->pad_3c > 160.0f) {
@@ -621,7 +621,7 @@ void TObjCityAreaWarp::open_confirm_window(s32 client_id) {
     if (menu_window == 0) {
         menu_window = create_window_menu(get_window_layout_position(0x33), 1, client_id);
         ((TWindowSubTradeMain *)menu_window)->add_text_entry(get_localized_text_entry(9, 0x24), 0xA, 0, -1);
-        ((TWindowSubComCardList *)menu_window)->set_flag70_bit10();
+        ((TWindowMenu *)menu_window)->set_flag70_bit10();
         ((TAdChrSelASlotGC *)menu_window)->set_flag_40();
         ((TWindowSubComCard *)menu_window)->calc_window_size();
         align_menu_entry_positions(menu_window);
@@ -682,7 +682,7 @@ void TObjCityMapWarp::open_confirm_window(s32 client_id) {
         playerPopups[client_id] = (TWindowMenu *)create_window_menu(get_window_layout_position(0x33), 1, client_id);
         clamp_destination_index();
         ((TWindowSubTradeMain *)playerPopups[client_id])->add_text_entry(get_localized_text_entry(9, map_warp_dest_text_ids[set_params[2]]), 0xA, 0, -1);
-        ((TWindowSubComCardList *)playerPopups[client_id])->set_flag70_bit10();
+        ((TWindowMenu *)playerPopups[client_id])->set_flag70_bit10();
         ((TAdChrSelASlotGC *)playerPopups[client_id])->set_flag_40();
         ((TWindowSubComCard *)playerPopups[client_id])->calc_window_size();
         align_menu_entry_positions((int)playerPopups[client_id]);
@@ -784,7 +784,7 @@ void TObjLaboMapWarp::open_confirm_window(s32 client_id) {
         playerPopups[client_id] = (TWindowMenu *)create_window_menu(get_window_layout_position(0x33), 1, client_id);
         clamp_index();
         ((TWindowSubTradeMain *)playerPopups[client_id])->add_text_entry(get_localized_text_entry(9, map_warp_dest_text_ids[set_params[2]]), 0xA, 0, -1);
-        ((TWindowSubComCardList *)playerPopups[client_id])->set_flag70_bit10();
+        ((TWindowMenu *)playerPopups[client_id])->set_flag70_bit10();
         ((TAdChrSelASlotGC *)playerPopups[client_id])->set_flag_40();
         ((TWindowSubComCard *)playerPopups[client_id])->calc_window_size();
         align_menu_entry_positions((int)playerPopups[client_id]);

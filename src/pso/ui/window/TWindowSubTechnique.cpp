@@ -109,7 +109,7 @@ s32 TWindowSubTechnique::create_title_window() {
   TWindowSubEquip__sub_80263AF8((u8 *)this->m_30, 1);
   set_depth__11TWindowBaseFf((int) titled_window_menu);
   ((TWindowSubComCardList *)titled_window_menu)->set_flag70_bit100();
-  ((TWindowSubComCardList *)titled_window_menu)->set_flag70_bit10();
+  ((TWindowMenu *)titled_window_menu)->set_flag70_bit10();
   return titled_window_menu;
 }
 }
@@ -176,7 +176,7 @@ s32 TWindowSubTechnique::open_menu() {
     forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, (int)(TWindowSubStatusDisp::get_message_10(0x9E)), 6, 2);
     forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, (int)(TWindowSubStatusDisp::get_message_10(0x9F)), 6, 3);
     forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, (int)(TWindowSubStatusDisp::get_message_10(0xA0)), 6, 4);
-    ((TWindowSubComCardList *)titled_window_menu)->set_flag70_bit10();
+    ((TWindowMenu *)titled_window_menu)->set_flag70_bit10();
     ((TWindowSubComCardList *)titled_window_menu)->update_layout_height(179.0f);
     align_menu_entry_positions(titled_window_menu);
     return titled_window_menu;

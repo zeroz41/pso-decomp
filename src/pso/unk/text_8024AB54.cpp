@@ -3,8 +3,8 @@
 #include "pso/ui/window/WindowCtrlCallback.h"
 
 
-extern WindowCtrlMethod window_ctrl_init_params;
+extern PlayerWindowCommand window_ctrl_init_params;
 
 void fn_8024AB54(s32 arg0) {
-    call_window_method__11TWindowCtrlFPvi((void *)arg0, window_ctrl_init_params);
+    call_window_method__11TWindowCtrlFPvi(arg0, window_ctrl_init_params);
 }

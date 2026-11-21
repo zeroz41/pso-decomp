@@ -95,7 +95,7 @@ void TObjWarpLobby::open_lobby_menu() {
     }
     ((TWindowSubComCard *)(this->menu_window))->calc_window_size();
     align_menu_entry_positions(this->menu_window);
-    ((TWindowSubComCardList *)(this->menu_window))->set_flag70_bit10();
+    ((TWindowMenu *)(this->menu_window))->set_flag70_bit10();
     request_active_window_close();
 }
 

@@ -32,14 +32,14 @@ void *TWindowMessageYesNo::create(void *arg0, void *arg1, void *arg2, void *arg3
 
 }
 TWindowMessageYesNo::~TWindowMessageYesNo() {
-    if (*(void **)((s8 *)this + 0x2C) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x2C)))->close(); this->m_2c = 0; }
+    if (choice_menu != NULL) { choice_menu->close(); choice_menu = NULL; }
     if (*(void **)((s8 *)this + 0x28) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x28)))->close(); this->m_28 = 0; }
 }
 TWindowMessageYesNo::TWindowMessageYesNo(TObject *object, void *arg2, void *arg3, void *arg4) : TObject(object) {
     m_name = TWindowMessageYesNo__name;
     *(void **)((s8 *)this + 0x24) = arg2;
     this->m_28 = 0;
-    this->m_2c = 0;
+    choice_menu = NULL;
     *(void **)((s8 *)this + 0x20) = arg3;
     *(void **)((s8 *)this + 0x1C) = arg4;
 }

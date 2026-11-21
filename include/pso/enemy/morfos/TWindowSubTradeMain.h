@@ -4,10 +4,13 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+struct TWindowMainMenu;
+struct TWindowMessageYesNo;
+
 struct TWindowSubTradeMain : public TObject {
-    TWindowSubTradeMain(TObject *arg1, void *arg2);
+    TWindowSubTradeMain(TWindowMainMenu *parent, s32 client);
     virtual ~TWindowSubTradeMain();
-    u8 *open_confirm_prompt();
+    TWindowMessageYesNo *open_confirm_prompt();
     s32 create_trade_window();
     s32 open_trade_equip_window();
     s32 create_list();
@@ -22,10 +25,10 @@ struct TWindowSubTradeMain : public TObject {
     u32 m_20;
     u32 m_24;
     u32 m_28;
-    u32 m_2c;
+    TWindowMainMenu *parent_menu;
     u32 m_30;
     u32 m_34;
-    u32 m_38;
+    TWindowMessageYesNo *dialog;
     u32 m_3c;
     u32 m_40;
     u32 m_44;
@@ -50,7 +53,7 @@ struct TWindowSubTradeMain : public TObject {
     static s32 get_state();
     static void draw_offer(void *arg0, void *arg1);
     static void draw_request(void *arg0, void *arg1);
-    s32 open_confirm_yes_no();
+    TWindowMessageYesNo *open_confirm_yes_no();
     s32 create_trade_menu();
     s32 build_trade_menu();
     virtual void render();

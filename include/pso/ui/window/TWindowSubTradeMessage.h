@@ -1,10 +1,12 @@
 #ifndef PSO_UI_WINDOW_TWINDOWSUBTRADEMESSAGE_H
 #define PSO_UI_WINDOW_TWINDOWSUBTRADEMESSAGE_H
 #include "pso/system/task/TObject.h"
+
+struct TWindowMainMenu;
 class TWindowMessage;
 class TWindowSubTradeMessage : public TObject {
 public:
-    TWindowSubTradeMessage(TObject* parent, s32 playerIndex);
+    TWindowSubTradeMessage(TWindowMainMenu *parent, s32 playerIndex);
     virtual ~TWindowSubTradeMessage();
     virtual void run_task();
     virtual void render();
@@ -14,7 +16,7 @@ public:
     u8 state;
     u8 padding1D[3];
     s32 playerIndex;
-    TObject* parentWindow;
+    TWindowMainMenu *parentWindow;
     TWindowMessage* messageWindow;
 };
 #include <stddef.h>

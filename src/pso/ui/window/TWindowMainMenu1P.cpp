@@ -93,29 +93,28 @@ extern "C" {
 
 #pragma fp_contract on
 void TWindowMainMenu1P::update_backdrop_transition() {
-    u8 *arg0 = (u8 *)this;
   f32 temp_f1;
   s32 temp_r3;
   s32 temp_r3_2;
-  temp_r3 = *((s32 *) (((s8 *) arg0) + 0x4C));
+  temp_r3 = m_4c;
   if (!(temp_r3 & 1))
   {
-    *((u8 *) (((s8 *) arg0) + 0x60)) = (u8) ((*((u8 *) (((s8 *) arg0) + 0x60))) - 1);
-    *((u8 *) (((s8 *) arg0) + 0x61)) = (u8) ((*((u8 *) (((s8 *) arg0) + 0x61))) + -1);
-    if (((s8) (*((u8 *) (((s8 *) arg0) + 0x60)))) < 0)
+    m_60 = (u8) ((m_60) - 1);
+    m_61 = (u8) ((m_61) + -1);
+    if (((s8) (m_60)) < 0)
     {
-      *((u8 *) (((s8 *) arg0) + 0x60)) = 0U;
+      m_60 = 0U;
     }
-    if (((s8) (*((u8 *) (((s8 *) arg0) + 0x61)))) < 0)
+    if (((s8) (m_61)) < 0)
     {
-      *((u8 *) (((s8 *) arg0) + 0x61)) = 0U;
+      m_61 = 0U;
     }
-    if ((((s8) (*((u8 *) (((s8 *) arg0) + 0x60)))) == 0) && (((s8) (*((u8 *) (((s8 *) arg0) + 0x61)))) == 0))
+    if ((((s8) (m_60)) == 0) && (((s8) (m_61)) == 0))
     {
-      temp_r3_2 = *((s32 *) (((s8 *) arg0) + 0x4C));
+      temp_r3_2 = m_4c;
       if (temp_r3_2 & 2)
       {
-        *((s32 *) (((s8 *) arg0) + 0x4C)) = (s32) (temp_r3_2 & 0xFFFFFFFD);
+        m_4c = (s32) (temp_r3_2 & 0xFFFFFFFD);
         end_view_override();
       }
     }
@@ -123,45 +122,45 @@ void TWindowMainMenu1P::update_backdrop_transition() {
   else
     if (temp_r3 & 8)
   {
-    *((u8 *) (((s8 *) arg0) + 0x60)) = (u8) ((*((u8 *) (((s8 *) arg0) + 0x60))) + 1);
-    *((u8 *) (((s8 *) arg0) + 0x61)) = (u8) ((*((u8 *) (((s8 *) arg0) + 0x61))) - 1);
-    if (((f32) ((s8) (*((u8 *) (((s8 *) arg0) + 0x60))))) > 6.0f)
+    m_60 = (u8) ((m_60) + 1);
+    m_61 = (u8) ((m_61) - 1);
+    if (((f32) ((s8) (m_60))) > 6.0f)
     {
-      *((u8 *) (((s8 *) arg0) + 0x60)) = 6U;
+      m_60 = 6U;
     }
-    if (((s8) (*((u8 *) (((s8 *) arg0) + 0x61)))) < 0)
+    if (((s8) (m_61)) < 0)
     {
-      *((u8 *) (((s8 *) arg0) + 0x61)) = 0U;
+      m_61 = 0U;
     }
   }
   else
   {
-    *((u8 *) (((s8 *) arg0) + 0x60)) = (u8) ((*((u8 *) (((s8 *) arg0) + 0x60))) + 1);
-    *((u8 *) (((s8 *) arg0) + 0x61)) = (u8) ((*((u8 *) (((s8 *) arg0) + 0x61))) + 1);
-    if (((f32) ((s8) (*((u8 *) (((s8 *) arg0) + 0x60))))) > 3.0f)
+    m_60 = (u8) ((m_60) + 1);
+    m_61 = (u8) ((m_61) + 1);
+    if (((f32) ((s8) (m_60))) > 3.0f)
     {
-      *((u8 *) (((s8 *) arg0) + 0x60)) = 3U;
+      m_60 = 3U;
     }
-    if (((f32) ((s8) (*((u8 *) (((s8 *) arg0) + 0x61))))) > 3.0f)
+    if (((f32) ((s8) (m_61))) > 3.0f)
     {
-      *((u8 *) (((s8 *) arg0) + 0x61)) = 3U;
+      m_61 = 3U;
     }
   }
-  this->m_6c = (f32) ((26.666666f * ((f32) ((s8) (*((u8 *) (((s8 *) arg0) + 0x60)))))) + 320.0f);
-  *((f32 *) (((s8 *) arg0) + 0x70)) = (f32) (240.0f - 37.333332f * ((f32) ((s8) (*((u8 *) (((s8 *) arg0) + 0x61))))));
-  TWindowCtrlMain::set_depth(53.333332f * ((f32) ((s8) (*((u8 *) (((s8 *) arg0) + 0x60))))), *((s32 *) (((s8 *) arg0) + 0x54)));
-  TWindowCtrlMain::set_field18(480.0f - 74.666664f * ((f32) ((s8) (*((u8 *) (((s8 *) arg0) + 0x61))))), *((s32 *) (((s8 *) arg0) + 0x54)));
-  this->m_a4 = (f32) ((640.0f - (this->m_6c)) / 320.0f);
-  *((f32 *) (((s8 *) arg0) + 0xA8)) = (f32) ((*((f32 *) (((s8 *) arg0) + 0x70))) / 240.0f);
-  temp_f1 = *((f32 *) (((s8 *) arg0) + 0xA8));
-  if ((this->m_a4) < (*((f32 *) (((s8 *) arg0) + 0xA8))))
+  backdrop.center_x = (f32) ((26.666666f * ((f32) ((s8) (m_60)))) + 320.0f);
+  backdrop.center_y = (f32) (240.0f - 37.333332f * ((f32) ((s8) (m_61))));
+  TWindowCtrlMain::set_depth(53.333332f * ((f32) ((s8) (m_60))), client_index);
+  TWindowCtrlMain::set_field18(480.0f - 74.666664f * ((f32) ((s8) (m_61))), client_index);
+  backdrop.pad_30[4] = (f32) ((640.0f - (backdrop.center_x)) / 320.0f);
+  backdrop.pad_30[5] = (f32) ((backdrop.center_y) / 240.0f);
+  temp_f1 = backdrop.pad_30[5];
+  if ((backdrop.pad_30[4]) < (backdrop.pad_30[5]))
   {
-    this->m_a4 = *((f32 *) (((s8 *) arg0) + 0xA8));
+    backdrop.pad_30[4] = backdrop.pad_30[5];
   }
-  *((f32 *) (((s8 *) arg0) + 0xA8)) = (f32) (0.85f * (this->m_a4));
-  if ((*((s32 *) (((s8 *) arg0) + 0x4C))) & 2)
+  backdrop.pad_30[5] = (f32) (0.85f * (backdrop.pad_30[4]));
+  if ((m_4c) & 2)
   {
-    ((CameraViewParams *)(((u8 *) arg0) + 0x64))->apply_if_overridden();
+    backdrop.apply_if_overridden();
   }
 }
 
@@ -169,25 +168,25 @@ void TWindowMainMenu1P::render() {  }
 void TWindowMainMenu1P::run_task() { handle_menu_selection(); sub_80263FE0(); update_backdrop_transition(); }
 
 TWindowMainMenu1P::~TWindowMainMenu1P() {
-    if (*(s32 *)((s8 *)this + 0x4C) & 2) {
+    if (m_4c & 2) {
         end_view_override();
     }
 }
 
 TWindowMainMenu1P::TWindowMainMenu1P(TObject *parent, s32 client) : TWindowMainMenu(parent, client) {
     this->m_name = TWindowMainMenu1P__name;
-    *(u8 *)((s8 *)this + 0x60) = 0;
-    *(u8 *)((s8 *)this + 0x61) = 0;
-    this->m_6c = 320.0f;
-    *(f32 *)((s8 *)this + 0x70) = 240.0f;
-    this->m_8c = 640.0f;
-    *(f32 *)((s8 *)this + 0x90) = 480.0f;
-    this->m_94 = 0.0f;
-    *(f32 *)((s8 *)this + 0x98) = 0.0f;
-    this->m_9c = 20.0f;
-    *(f32 *)((s8 *)this + 0xA0) = 15.0f;
-    this->m_a4 = 1.0f;
-    *(f32 *)((s8 *)this + 0xA8) = 0.85f;
+    m_60 = 0;
+    m_61 = 0;
+    backdrop.center_x = 320.0f;
+    backdrop.center_y = 240.0f;
+    backdrop.width = 640.0f;
+    backdrop.height = 480.0f;
+    backdrop.pad_30[0] = 0.0f;
+    backdrop.pad_30[1] = 0.0f;
+    backdrop.pad_30[2] = 20.0f;
+    backdrop.pad_30[3] = 15.0f;
+    backdrop.pad_30[4] = 1.0f;
+    backdrop.pad_30[5] = 0.85f;
 }
 
 }

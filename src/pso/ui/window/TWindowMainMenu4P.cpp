@@ -22,7 +22,7 @@ void TWindowMainMenu4P::vfunc_6() {
     u8 *arg0 = (u8 *)this;
     u8 *player;
     if (!(this->m_4c & 1)) {
-        player = (u8 *)(get_player_by_client_id(this->m_54));
+        player = (u8 *)(get_player_by_client_id(client_index));
         if (player != NULL) {
             if (((TObjPlayer *)player)->is_android() != 0) {
                 ((TWindowMainMenu *)arg0)->open((s32)main_menu_4p_android_entries);

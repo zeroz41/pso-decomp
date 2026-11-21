@@ -1,6 +1,9 @@
 #pragma defer_codegen on
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/window/TWindowSubTrade.h"
+#include "pso/enemy/morfos/TWindowSubTradeMain.h"
+#include "pso/ui/window/TWindowSubTradeMessage.h"
 #include "types.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowMainMenu_80263AB0.h"
@@ -43,6 +46,7 @@ const char *lbl_805D3950 = "TWindowMainMenu";
 
 extern const f32 lbl_8044F2E0[2] = {206.0f, 140.0f};
 extern "C" {
+s32 __ct__19TWindowSubShortMailFP7TObjectPv(int, void *, int);
 s32 get_player_by_client_id(s32);
 struct Obj_80263D7C; struct Obj_80263DBC;
 }
@@ -71,10 +75,6 @@ s32 __ct__13TWindowSubLogFP7TObjectPv(int, void *, int);
 void *TWindowSubMag__ct(TWindowSubMag *arg0, s32 arg1, s32 arg2);
 s32 __ct__20TWindowSubQuestBoardFP7TObjectPv(int, void *, int);
 s32 __ct__18TWindowSubShortCutFP7TObjectPv(int, void *, int);
-s32 __ct__19TWindowSubShortMailFP7TObjectPv(int, void *, int);
-s32 __ct__15TWindowSubTradeFP7TObjectPv(int, void *, int);
-s32 __ct__19TWindowSubTradeMainFP7TObjectPv(int, void *, int);
-s32 __ct__22TWindowSubTradeMessageFP7TObjectl(int, void *, int);
 s32 __ct__26TWindowSubInformationBoardFP7TObjectPv(int, void *, int);
 void *__ct__13TUnk_804E0B28FP7TObjectl(void *, void *, void *);
 }
@@ -104,24 +104,6 @@ struct Menu_802647CC {
     Ent_802647CC *ents;
 };
 
-struct Slot_802649C0 { s16 a; s16 b; s32 c; };
-
-struct Win_802649C0 {
-    s32 x0;
-    u8 pad4[0x18 - 0x4];
-    void *vt;
-    s32 x1C;
-    s32 x20;
-    s32 x24;
-    Slot_802649C0 slots[4];
-    s32 x48;
-    s32 x4C;
-    s16 x50;
-    s16 x52;
-    s32 x54;
-    u8 pad58[4];
-    s32 x5C;
-};
 extern "C" {
 s32 TWindowMainMenu__sub_802ADADC(int, int);
 s32 append_child_rows__15TWindowMainMenuFPvi(int, void *);
@@ -138,23 +120,22 @@ void TWindowMainMenu::vfunc_9() {  }
 void TWindowMainMenu::vfunc_7() {  }
 
 TWindowMainMenu::TWindowMainMenu(TObject *parent, s32 client) : TObject(parent) {
-    Win_802649C0 *arg0 = (Win_802649C0 *)this;
     s32 i;
-    arg0->x0 = (s32)lbl_805D3950;
-    arg0->x54 = client;
-    arg0->x4C = 0;
-    arg0->x50 = 0;
-    arg0->x52 = 0;
-    arg0->x48 = 0x1F;
+    m_name = lbl_805D3950;
+    client_index = client;
+    m_4c = 0;
+    m_50 = 0;
+    m_52 = 0;
+    m_48 = 0x1F;
     for (i = 0; i < 4; i++) {
-        arg0->slots[i].a = 0;
-        arg0->slots[i].b = 0;
-        arg0->slots[i].c = 0;
+        slots[i].first = 0;
+        slots[i].second = 0;
+        slots[i].value = 0;
     }
-    arg0->x1C = 0;
-    arg0->x20 = 0;
-    arg0->x24 = 0;
-    arg0->x5C = 0;
+    m_1c = NULL;
+    m_20 = 0;
+    help_window = NULL;
+    active_entries = NULL;
     set_scale_f();
 }
 }
@@ -237,7 +218,7 @@ void populate_menu__15TWindowMainMenuFPvPv(u8 *window_main_menu, TWindowMainMenu
             }
         }
     }
-    ((TWindowMainMenu *)w)->update_scaled_position();
+    reinterpret_cast<TWindowMenuMainMenu *>(w)->update_scaled_position();
     TWindowMainMenu__sub_802ADADC(w, *(s16 *)(window_main_menu + 0x52));
     d = ((TWindowMainMenu *)w)->get_selected_item_type();
     ((TWindowMainMenu *)window_main_menu)->update_description_text(d);
@@ -263,7 +244,7 @@ void TWindowMainMenu::close_submenu(void* a1) { if (*(unsigned int*)((char*)this
 void TWindowMainMenu::update_submenu() {
     if ((u32) *(u32 *)((s8 *)this + 0x1C) != 0U) {
         park_selection__15TWindowMainMenuFPv((void*)(*(void **)((s8 *)this + 0x1C)));
-        ((TWindowMainMenu *)(*(u32 *)((s8 *)this + 0x1C)))->update_scaled_position();
+        m_1c->update_scaled_position();
     }
     if (is_split_screen() != 0) {
         update_trade_submenu();
@@ -272,7 +253,12 @@ void TWindowMainMenu::update_submenu() {
 
 void TWindowMainMenu::update_trade_submenu() { void* m = *(void**)((char*)this + 0x1c); if (m) ((TWindowLockOn *)m)->request_close(); }
 
-void TWindowMainMenu4P::show_child_window() { if (*(unsigned int*)((char*)this + 0x1c) != 0) { window_request_show(*(void**)((char*)this + 0x1c)); ((TWindowMainMenu *)(*(void**)((char*)this + 0x1c)))->update_scaled_position(); } }
+void TWindowMainMenu::show_child_window() {
+    if (m_1c != NULL) {
+        window_request_show(m_1c);
+        m_1c->update_scaled_position();
+    }
+}
 
 void TWindowMainMenu::create_submenu(u32 arg1) {
     s32 temp_r3_10;
@@ -288,9 +274,6 @@ void TWindowMainMenu::create_submenu(u32 arg1) {
     s32 window_sub_equip;
     s32 window_sub_item;
     s32 window_sub_mag;
-    s32 temp_r3_6;
-    s32 temp_r3_7;
-    s32 temp_r3_8;
     s32 temp_r3_9;
     s32 var_r0_10;
     s32 var_r0_11;
@@ -305,9 +288,6 @@ void TWindowMainMenu::create_submenu(u32 arg1) {
     s32 var_r0_3;
     s32 var_r0_4;
     s32 var_r0_5;
-    s32 var_r0_6;
-    s32 var_r0_7;
-    s32 var_r0_8;
     s32 var_r0_9;
     *(s32 *)((s8 *)((u8 *)this) + 0x4C) = (s32) (*(s32 *)((s8 *)((u8 *)this) + 0x4C) | 4);
     destroy_submenu();
@@ -354,28 +334,13 @@ void TWindowMainMenu::create_submenu(u32 arg1) {
     case 26:
     case 27:
     case 28:
-        temp_r3_6 = ((s32)TObject::operator new(0x38));
-        var_r0_6 = temp_r3_6;
-        if (var_r0_6 != 0) {
-            var_r0_6 = __ct__15TWindowSubTradeFP7TObjectPv(temp_r3_6, this, (int) (*(s32 *)((s8 *)((u8 *)this) + 0x54)));
-        }
-        this->m_20 = var_r0_6;
+        m_20 = reinterpret_cast<s32>(new TWindowSubTrade(this, client_index));
         return;
     case 29:
-        temp_r3_7 = ((s32)TObject::operator new(0xA8));
-        var_r0_7 = temp_r3_7;
-        if (var_r0_7 != 0) {
-            var_r0_7 = __ct__19TWindowSubTradeMainFP7TObjectPv(temp_r3_7, this, (int) (*(s32 *)((s8 *)((u8 *)this) + 0x54)));
-        }
-        this->m_20 = var_r0_7;
+        m_20 = reinterpret_cast<s32>(new TWindowSubTradeMain(this, client_index));
         return;
     case 30:
-        temp_r3_8 = ((s32)TObject::operator new(0x2C));
-        var_r0_8 = temp_r3_8;
-        if (var_r0_8 != 0) {
-            var_r0_8 = __ct__22TWindowSubTradeMessageFP7TObjectl(temp_r3_8, this, (int) (*(s32 *)((s8 *)((u8 *)this) + 0x54)));
-        }
-        this->m_20 = var_r0_8;
+        m_20 = reinterpret_cast<s32>(new TWindowSubTradeMessage(this, client_index));
         return;
     case 12:
     case 13:
@@ -475,7 +440,7 @@ void TWindowMainMenu1P::create_char_select_slot() {
     set_scale_f();
     o = TObject::operator new(0x50);
     if (o != NULL) {
-        o = __ct__13TUnk_804E0B28FP7TObjectl(o, this, this->m_54);
+        o = __ct__13TUnk_804E0B28FP7TObjectl(o, this, reinterpret_cast<void *>(client_index));
     }
     *(void * *)&this->m_20 = o;
 }

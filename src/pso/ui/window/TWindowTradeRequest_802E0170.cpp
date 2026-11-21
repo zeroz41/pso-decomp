@@ -1,4 +1,7 @@
 #include "types.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/window/TWindowTradeRequest.h"
 #include "pso/unk/TLobby.h"
@@ -8,83 +11,44 @@
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/player/TObjPlayer.h"
 
-struct RecoveredGlobal_802E0224___vt__19TWindowTradeRequest {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct VBase_18_f23ffb
-{
-  char pad[0x18];
-};
-
-struct VObj_18_f23ffb : VBase_18_f23ffb {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual s32 m10();
-};
-
-struct RecoveredGlobal_802E02D4___vt__19TWindowTradeRequest
-{
-  s32 value;
-  u8 remaining[0x14];
-};
-
-struct Obj_802E0174 { u8 pad[0x1C]; s32 state; void *card; };
-
 extern "C" {
-void *get_player_by_client_id(s32 i);
 void fn_8024AADC(s32 arg0, s32 arg1);
 void TLobby__sub_8024AC20(s32 arg0);
 void TWindowReturnCity__sub_8024ACA8(s32 arg0);
-extern RecoveredGlobal_802E0224___vt__19TWindowTradeRequest __vt__19TWindowTradeRequest;
 extern s32 local_client_id;
 s32 *get_shared_text_buffer(void);
 u8 *get_window_layout_position(s32);
-s32 text_builder_append();
 }
 void text_builder_reset(void);
 extern "C" {
-s32 __ct__7TObjectFP7TObject();
 void TObjPlayer__sub_8024ABDC(s32 arg0);
 void fn_8024AC64(s32 arg0);
 const char *lbl_805D3F70 = "TWindowTradeRequest";
-u8 *TWindowTradeRequest__ct(TWindowTradeRequest *arg0);
 void TWindowTradeRequest::render() {  }
 
-typedef char RecoveredGlobal_802E0224___vt__19TWindowTradeRequest_size[sizeof(RecoveredGlobal_802E0224___vt__19TWindowTradeRequest) == 0x18 ? 1 : -1];
 
 void TWindowTradeRequest::run_task() {
-    Obj_802E0174 *arg0 = (Obj_802E0174 *)this;
     s32 slot;
-    switch (arg0->state) {
+    switch (state) {
     case 0:
     case 1:
-        if (((TWindowSubComCard *)(arg0->card))->get_card_data() != 0) {
+        if (((TWindowSubComCard *)(dialog))->get_card_data() != 0) {
             TWindowTradeRequest::reset_trade();
             TWindowTradeRequest::close_request_window();
-            arg0->state = 3;
+            state = 3;
             break;
         }
-        if (((TWindowMessageYesNo *)(arg0->card))->is_child_visible() != 0) {
-            slot = ((TWindowSubComCard *)(arg0->card))->get_slot_or_neg1();
+        if (dialog->is_child_visible() != 0) {
+            slot = ((TWindowSubComCard *)(dialog))->get_slot_or_neg1();
             if (slot == 0) {
                 TLobby::send_trade_proposal_modify();
                 TWindowTradeRequest::close_request_window();
-                arg0->state = 2;
+                state = 2;
             }
             if (slot == 1) {
                 TWindowTradeRequest::reset_trade();
                 TWindowTradeRequest::close_request_window();
-                arg0->state = 3;
+                state = 3;
             }
         }
         break;
@@ -95,56 +59,42 @@ void TWindowTradeRequest::run_task() {
     }
 }
 TWindowTradeRequest::~TWindowTradeRequest() {
-    void *player;
-    if ((u32) this->m_20 != 0U) {
-        ((TWindowSubComCard *)(*(void **)((s8 *)this + 0x20)))->close();
-        this->m_20 = 0U;
+    if (dialog != NULL) {
+        reinterpret_cast<TWindowSubComCard *>(dialog)->close();
+        dialog = NULL;
     }
     TWindowReturnCity__sub_8024ACA8((local_client_id));
     TLobby__sub_8024AC20((local_client_id));
-    if ((player = (void *)get_player_by_client_id((local_client_id))) != 0U) {
-        ((TObjPlayer *)player)->init_parts();
+    TObjPlayer *player = get_player_by_client_id(local_client_id);
+    if (player != NULL) {
+        player->init_parts();
     }
-    if ((u32) this->m_1c == 2U) {
+    if (state == 2U) {
         fn_8024AADC((local_client_id), 0x1D);
     }
 }
-typedef struct RecoveredGlobal_802E02D4___vt__19TWindowTradeRequest RecoveredGlobal_802E02D4___vt__19TWindowTradeRequest;
-typedef struct VBase_18_f23ffb VBase_18_f23ffb;
-typedef struct VObj_18_f23ffb VObj_18_f23ffb;
 #pragma fp_contract on
-#define PSO_VCALL_VObj_18_f23ffb_m10(_self) (((VObj_18_f23ffb *)(_self))->m10())
-u8 *TWindowTradeRequest__ct(TWindowTradeRequest *window_trade_request) {
-    void *player_obj;
-  u32 new_var;
-  s32 player;
-  s8 *new_var2;
-  u8 *window_layout_position;
-  __ct__7TObjectFP7TObject();
-  *((s32 **) (((s8 *) window_trade_request) + 0x18)) = &(*(RecoveredGlobal_802E02D4___vt__19TWindowTradeRequest *)&__vt__19TWindowTradeRequest).value;
-  *((s32 *) (((s8 *) window_trade_request) + 0)) = (s32) lbl_805D3F70;
-  player = ((s32)get_player_by_client_id(((u32) (char)TLobby::get_trade_mode())));
-  text_builder_reset();
-  new_var = (u32) player;
-  if (new_var)
-  {
-    PSO_VCALL_VObj_18_f23ffb_m10(player);
-    text_builder_append();
-  }
-  TWindowSubStatusDisp::get_message_10(0xD9);
-  text_builder_append();
-  window_trade_request->m_20 = (s32)TWindowMessageYesNo::create((void *)((s32) window_trade_request), (void *)(local_client_id), 0, 0);
-  window_layout_position = (u8 *) get_window_layout_position(0xB2);
-  open_yes_no_prompt_with_text((TChCrTagPlBack *)window_trade_request->m_20, (s32)(get_shared_text_buffer()), (s32)window_layout_position, 260.0f);
-  new_var2 = ((s8 *) window_trade_request) + 0x1C;
-  ((TWindowSubShortMail *)(window_trade_request->m_20))->notify_warp_flag70();
-  if (((s32)(player_obj = (void *)get_player_by_client_id(((u32) local_client_id)))) != 0U)
-  {
-    ((TObjPlayer *)player_obj)->reset_equip_slots();
-  }
-  TObjPlayer__sub_8024ABDC(local_client_id);
-  fn_8024AC64(local_client_id);
-  *((s32 *) new_var2) = 0;
-  return (u8 *)window_trade_request;
+TWindowTradeRequest::TWindowTradeRequest(TObject *parent) : TObject(parent) {
+    m_name = lbl_805D3F70;
+    TObjPlayer *player = get_player_by_client_id(static_cast<s8>(TLobby::get_trade_mode()));
+    text_builder_reset();
+    if (player != NULL) {
+        text_builder_append((u8 *)player->get_name());
+    }
+    text_builder_append((u8 *)TWindowSubStatusDisp::get_message_10(0xD9));
+    dialog = static_cast<TWindowMessageYesNo *>(
+        TWindowMessageYesNo::create(this, reinterpret_cast<void *>(local_client_id), NULL, NULL));
+    u8 *position = get_window_layout_position(0xB2);
+    open_yes_no_prompt_with_text(
+        reinterpret_cast<TChCrTagPlBack *>(dialog), reinterpret_cast<s32>(get_shared_text_buffer()),
+        reinterpret_cast<s32>(position), 260.0f);
+    dialog->set_choice_menu_flag70_bit10();
+    TObjPlayer *local = get_player_by_client_id(local_client_id);
+    if (local != NULL) {
+        local->reset_equip_slots();
+    }
+    TObjPlayer__sub_8024ABDC(local_client_id);
+    fn_8024AC64(local_client_id);
+    state = 0;
 }
 }

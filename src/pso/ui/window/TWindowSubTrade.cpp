@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowMainMenu.h"
 // ---- pso/ui/window/TWindowSubTrade_802B1AB4
 #include "types.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
@@ -58,19 +59,6 @@ struct VObj_802B1B80 : VBase_802B1B80 {
     virtual s32 m10();
 };
 
-struct VBase_18_204a81 { char pad[0x18]; };
-
-struct VObj_18_204a81 : VBase_18_204a81 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual s32 m7();
-};
-
 extern "C" {
 s32 *get_shared_text_buffer(void);
 s32 text_builder_append();
@@ -91,10 +79,10 @@ extern s32 controller_input_state[];
 
 // Built with deferred code generation (the vtable precedes run_task's jump
 // table in .data), so the functions are written from the last one back.
-TWindowSubTrade::TWindowSubTrade(TObject *object, void *arg2) : TObject(object) {
+TWindowSubTrade::TWindowSubTrade(TWindowMainMenu *parent, s32 client) : TObject(parent) {
     this->m_name = lbl_805D3EA8;
-    *(void **)((s8 *)this + 0x28) = object;
-    *(void **)((s8 *)this + 0x20) = arg2;
+    parent_menu = parent;
+    m_20 = client;
     this->m_24 = 4;
     this->m_player_list = 0;
     this->m_message_window = 0;
@@ -143,7 +131,7 @@ void TWindowSubTrade::run_task() {
         this->m_1c = 2U;
     case 2:
         if (((TWindowMenu *)(this->m_player_list))->is_cancelled() != 0) {
-            ((VObj_18_204a81 *)(this->m_28))->m7();
+            parent_menu->vfunc_9();
             this->m_1c = 7U;
         } else if (((TWindowMenu *)(this->m_player_list))->is_decided() != 0) {
             this->m_1c = 3U;
@@ -259,6 +247,6 @@ s32 TWindowSubTrade::open_trade_confirm_prompt(s32 arg1) {
     temp_r29 = (s32)TWindowMessageYesNo::create((void *)(arg0), (void *)(this->m_20), 0, 0);
     open_yes_no_prompt((TChCrTagPlBack *)((u8 *)temp_r29), (u32)(TWindowSubStatusDisp::get_message_10(0x20)), (s32)(get_shared_text_buffer()), (s32)(get_window_layout_position(0x5B)), 384.0f);
     set_menu_selected_index((TWindowSubComCard *)temp_r29, 1);
-    ((TWindowSubShortMail *)temp_r29)->notify_warp_flag70();
+    ((TWindowMessageYesNo *)temp_r29)->set_choice_menu_flag70_bit10();
     return temp_r29;
 }

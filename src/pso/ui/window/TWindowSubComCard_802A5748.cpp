@@ -36,10 +36,10 @@ s32 TWindowSubComCard::get_card_data() {
 }
 
 s32 TWindowMessageYesNo::is_child_visible() {
-    if ((u32) this->m_2c == 0U) {
+    if (choice_menu == NULL) {
         return 0;
     }
-    return ((TWindowMenu *)(this->m_2c))->is_decided();
+    return choice_menu->is_decided();
 }
 }
 s32 create_titled_window_menu(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
@@ -63,5 +63,6 @@ void open_yes_no_prompt(TChCrTagPlBack *ch_cr_tag_pl_back, u32 arg1, s32 arg2, s
     TQuestThread::set_status_flag_80((void *)((int) (*(s32 *)((s8 *)ch_cr_tag_pl_back + 0x28))));
     ((TWindowSubComCard *)(*(s32 *)((s8 *)ch_cr_tag_pl_back + 0x28)))->calc_layout_height(farg0);
     ch_cr_tag_pl_back->get_position_offset(&sp8);
-    *(u8 **)((s8 *)ch_cr_tag_pl_back + 0x2C) = create_yes_no_window((s32)&sp8, (s32)(*(s32 *)((s8 *)ch_cr_tag_pl_back + 0x24)), (u32)(*(u8 **)((s8 *)ch_cr_tag_pl_back + 0x20)), (u32)(*(u32 *)((s8 *)ch_cr_tag_pl_back + 0x1C)));
+    reinterpret_cast<TWindowMessageYesNo *>(ch_cr_tag_pl_back)->choice_menu =
+        reinterpret_cast<TWindowMenu *>(create_yes_no_window((s32)&sp8, (s32)(*(s32 *)((s8 *)ch_cr_tag_pl_back + 0x24)), (u32)(*(u8 **)((s8 *)ch_cr_tag_pl_back + 0x20)), (u32)(*(u32 *)((s8 *)ch_cr_tag_pl_back + 0x1C))));
 }

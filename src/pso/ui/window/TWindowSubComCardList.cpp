@@ -90,7 +90,7 @@ TWindowSubComCardList::TWindowSubComCardList(void *arg1) : TWindowMenu(7, 4, (s3
     ((TWindowSubComCardList *)window_menu)->set_flag70_bit100();
     ((TWindowSubComCardList *)window_menu)->set_selected_index(0);
     ((TWindowSubComCardList *)window_menu)->sub_80275360();
-    ((TWindowSubComCardList *)window_menu)->set_flag70_bit10();
+    ((TWindowMenu *)window_menu)->set_flag70_bit10();
     ((TWindowSubComCardList *)window_menu)->set_scroll_target(223.0f, 184.0f);
     #undef window_menu
 }
@@ -116,7 +116,7 @@ TWindowSubComCardList::TWindowSubComCardList(void *arg1, s32 arg2, s32 arg3, s32
     ((TWindowSubComCardList *)window_menu)->set_flag70_bit100();
     ((TWindowSubComCardList *)window_menu)->set_selected_index(0);
     ((TWindowSubComCardList *)window_menu)->sub_80275360();
-    ((TWindowSubComCardList *)window_menu)->set_flag70_bit10();
+    ((TWindowMenu *)window_menu)->set_flag70_bit10();
     ((TWindowSubComCardList *)window_menu)->set_scroll_target(223.0f, 184.0f);
     #undef window_menu
 }

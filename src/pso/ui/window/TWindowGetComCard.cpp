@@ -85,7 +85,7 @@ void run_task__17TWindowGetComCardFv(GetCard_80252CCC *self) {
         }
         if (self->win == 0) {
             self->win = init_shop_judgment_window(TWindowGetComCard__window_rect);
-            ((TWindowSubComCardList *)(self->win))->set_flag70_bit10();
+            ((TWindowMenu *)(self->win))->set_flag70_bit10();
         }
         ((TWindowSubComCard *)(self->win))->clear_flag_and_release();
         self->state = 3;

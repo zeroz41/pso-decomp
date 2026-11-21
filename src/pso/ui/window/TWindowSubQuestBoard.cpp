@@ -213,7 +213,7 @@ s32 TUnk_804D1818::create_option_menu_window() {
     if (is_split_screen() == 0) {
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)titled_window_menu, (s32)TWindowSubStatusDisp::get_message_10(0x6E), 6, 5);
     }
-    ((TWindowSubComCardList *)titled_window_menu)->set_flag70_bit10();
+    ((TWindowMenu *)titled_window_menu)->set_flag70_bit10();
     ((TWindowSubComCardList *)titled_window_menu)->update_layout_height(195.0f);
     align_menu_entry_positions((void *)titled_window_menu);
     ((TWindowBase *)titled_window_menu)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)parent, 0));

@@ -485,22 +485,21 @@ s32 append_child_rows__15TWindowMainMenuFPvi(Menu_802ADD38 *arg0, s32 arg1) {
     return slot;
 }
 
-void TWindowMainMenu::set_target_y(f32 farg0) {
-    if (is_not_split_screen() != 0) {
+void TWindowMenuMainMenu::set_target_y(f32 farg0) {
+    if (reinterpret_cast<TWindowMainMenu *>(this)->is_not_split_screen() != 0) {
         farg0 += 51.0f;
     } else {
         farg0 += 42.0f;
     }
     farg0 += 39.0f;
-    if (*(f32 *)&this->_pad58 != farg0) {
-        *(f32 *)&this->_pad58 = farg0;
-        *(s32 *)((s8 *)this + 0x50) = 8;
+    if (target_y != farg0) {
+        target_y = farg0;
+        tween_ticks = 8;
     }
 }
 
-void TWindowMainMenu::update_scaled_position() {
-    s32 arg0 = (s32)this;
-    set_target_y(16.0f * (f32) ((s32 (*)())count_active_items__15TWindowMainMenuFi)());
+void TWindowMenuMainMenu::update_scaled_position() {
+    set_target_y(16.0f * (f32)count_active_items__15TWindowMainMenuFi(reinterpret_cast<s32>(this)));
 }
 
 void TWindowMainMenu::draw_entries_reversed(u8 *arg1) {
@@ -616,7 +615,7 @@ Rect_802AE2B0 *setup_content_frame__15TWindowMainMenuFPv(u8 *window_menu_main_me
     return r;
 }
 
-void TWindowMainMenu::update_slide_position() {
+void TWindowMenuMainMenu::update_slide_position() {
     if (((TWindowBase *)this)->sub_80246948() != 0) {
         set_target_y(0.0f);
         *(u32 *)((s8 *)this + 0x50) = (u32) (4.5f - (f32) (*(s16 *)((s8 *)this + 0x22)));

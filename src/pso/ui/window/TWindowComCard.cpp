@@ -421,13 +421,13 @@ Win_80249ED8 *TWindowComCard__sub_80249ED8(Win_80249ED8 *o, Parent_80249ED8 *par
 #pragma pop
 
 void TWindowTradeRequest::close_request_window() {
-    u8 *object;
     lbl_805D63FC &= 0xFFFFFFF7;
-    if ((void *) (*(u8 * *)&TWindowCtrl__active_window) != NULL) {
-        object = (u8 *)(*(u8 **)((s8 *)(*(u8 * *)&TWindowCtrl__active_window) + 0x40));
-        if (object != NULL) {
-            ((TObject *)object)->queue_destruction();
-            *(u8 **)((s8 *)(*(u8 * *)&TWindowCtrl__active_window) + 0x40) = NULL;
+    TWindowCtrl *controller = reinterpret_cast<TWindowCtrl *>(TWindowCtrl__active_window);
+    if (controller != NULL) {
+        TWindowTradeRequest *request = controller->trade_request;
+        if (request != NULL) {
+            request->queue_destruction();
+            reinterpret_cast<TWindowCtrl *>(TWindowCtrl__active_window)->trade_request = NULL;
         }
     }
 }
