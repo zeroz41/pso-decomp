@@ -8,9 +8,9 @@ TUnk_804E71F8::TUnk_804E71F8(TObject *parent, u8 *item) : TItemWeapon(parent, it
     set_weapon_flags(2);
 }
 
-u8 *TObjPlayer::create_nug2000_bazooka(u8 *item) {
+TItem *TObjPlayer::create_nug2000_bazooka(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804E71F8(tl_05, item);
+        return new TUnk_804E71F8(tl_05, item);
     }
     return NULL;
 }

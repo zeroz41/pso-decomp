@@ -10,8 +10,8 @@
 #include "pso/system/task/TMainTask.h"
 
 void TUnk_804ED488::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
-    desc->pad_3c = 160.0f;
-    desc->pad_78 = 474;
+    desc->range = 160.0f;
+    desc->particle = 474;
 }
 
 void TUnk_804ED488::emit_marker_effects() {
@@ -46,9 +46,9 @@ TUnk_804ED488::TUnk_804ED488(TObject *parent, u8 *item) : TItemWeapon(parent, it
     set_weapon_flags(34);
 }
 
-u8 *create_dark_flow(u8 *item) {
+TItem *create_dark_flow(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804ED488(tl_05, item);
+        return new TUnk_804ED488(tl_05, item);
     }
     return NULL;
 }

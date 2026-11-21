@@ -13,7 +13,7 @@ struct TItemMoney : public TItem {
     virtual void write_item_data(TItemData *data);
 
     // The meseta entry of construct_item's table: NULL without data.
-    static TItem *create(TItemData *data);
+    static TItem *create(u8 *item);
 
     s32 amount;
 };

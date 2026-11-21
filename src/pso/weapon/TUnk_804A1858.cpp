@@ -25,9 +25,9 @@ TUnk_804A1858::TUnk_804A1858(TObject *parent, u8 *item) : TItemWeapon(parent, it
     uv_scroll = 35;
 }
 
-u8 *TObjPlayer::create_state_35(u8 *arg0) {
+TItem *TObjPlayer::create_state_35(u8 *arg0) {
     if (arg0 != NULL) {
-        return (u8 *)new TUnk_804A1858(tl_05, arg0);
+        return new TUnk_804A1858(tl_05, arg0);
     }
     return NULL;
 }

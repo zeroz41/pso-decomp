@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/unk/TUnk_804CCB28.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -70,7 +71,6 @@ Vec * epsilon_guard_camera_sample_end_ptr;
 void draw_with_fade__19TObjEneEpsilonGuardFPvi(TObjEneEpsilonBody *body, s32 arg1);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 s32 check_path_obstructed(void *, void *);
-void create_fire_explosion_effect(void *, f32, Vec *, saddr, s32);
 u32 TObjEneEpsilonGuard__sub_8035FD50(TObjEneEpsilonBody *body, s32 slot);
 void TObjEneEpsilonGuard__sub_803616E4(TObjEneEpsilonBody *body, s32 arg1);
 int TObjEneEpsilonGuard__sub_8035DD68(TObjEneEpsilonGuard *guard);
@@ -485,7 +485,7 @@ void TObjEneEpsilonGuard__sub_803616E4(TObjEneEpsilonBody *body, s32 arg1) {
                 s32 i;
                 void *e = TObject::operator new(0x64);
                 if (e != 0) {
-                    create_fire_explosion_effect(e, 40.0f, d, 0, (saddr)tl_07);
+                    create_fire_explosion_effect((u8 *)e, 40.0f, d, 0, (TObject *)tl_07);
                 }
                 play_sound_effect(0x4003A348, &body->position, 0, 0);
                 for (i = 0; i < 4; i++) {

@@ -44,9 +44,9 @@ TUnk_804A0FA0::TUnk_804A0FA0(TObject *parent, u8 *item) : TItemWeapon(parent, it
     }
 }
 
-u8 *create_dagger_weapon(u8 *item) {
+TItem *create_dagger_weapon(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804A0FA0(tl_05, item);
+        return new TUnk_804A0FA0(tl_05, item);
     }
     return NULL;
 }

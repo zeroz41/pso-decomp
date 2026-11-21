@@ -10,6 +10,6 @@ public:
     virtual void emit_marker_effects();
 };
 
-extern "C" u8 *TObjPlayer__sub_80127314(u8 *item);
+extern "C" TItem *TObjPlayer__sub_80127314(u8 *item);
 
 #endif

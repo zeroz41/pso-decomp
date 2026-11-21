@@ -3,6 +3,8 @@
 
 #include "types.h"
 
-u8 *create_heaven_punisher(s32 arg0);
+struct TItem;
+
+TItem *create_heaven_punisher(u8 *item);
 
 #endif

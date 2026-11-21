@@ -18,7 +18,7 @@ public:
     TUnk_804A2D88(TObject *parent, u8 *item);
 };
 
-u8 *create_suppressed_gun_weapon(u8 *item);
-u8 *create_handgun_weapon(u8 *item);
+TItem *create_suppressed_gun_weapon(u8 *item);
+TItem *create_handgun_weapon(u8 *item);
 
 #endif

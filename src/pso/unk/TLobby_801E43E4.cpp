@@ -1,4 +1,5 @@
 #include <string.h>
+#include "pso/render/GvmTextureArchive.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/network/client_id.h"
 #include "types.h"
@@ -26,7 +27,7 @@ extern "C" {
 s32 TProtocol__send_60(int, int, int);
 s32 dispatch_6x_subcommand(void *);
 extern uaddr TLobby__protocol_instance;
-s32 load_gvm_texture_archive(u32, void *);
+char *strncpy(char *, const char *, u32);
 s32 load_texture_list(s32 **);
 s32 append_command_to_batch_buffer(void *, s32);
 u8 *TQuestVmDownLoadServer__sub_8007EBDC(s32, s32);
@@ -161,7 +162,7 @@ s32 TLobby::load_texture_pvm_file(const char *name, saddr arg1) {
         buf = TLobby::tmp_buf_use_req("LoadTexturePvm");
     }
     TGStream::load_sct_file((const char *)path, (u8 *)buf);
-    ret = load_gvm_texture_archive(buf, (void *)arg1);
+    ret = load_gvm_texture_archive((void *)buf, (GinjaTextureList *)arg1);
     if (allocated != 0) {
         TAdSinglePlyChrSelectGC::safe_free(buf);
     } else {
@@ -267,7 +268,7 @@ u8 *load_gvm_texture_file(saddr name) {
             TLanguage__read_cursor += 4;
         }
     }
-    load_gvm_texture_archive(buf, res);
+    load_gvm_texture_archive((void *)buf, (GinjaTextureList *)res);
     if (big != 0) {
         TAdSinglePlyChrSelectGC::safe_free(big);
     } else {

@@ -94,9 +94,9 @@ TUnk_804A64E8::TUnk_804A64E8(TObject *parent, u8 *item) : TItemWeapon(parent, it
     scale.x = scale.y = scale.z = 1.0f;
 }
 
-u8 *TObjPlayer::create_position_state(u8 *item) {
+TItem *TObjPlayer::create_position_state(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804A64E8(tl_05, item);
+        return new TUnk_804A64E8(tl_05, item);
     }
     return NULL;
 }

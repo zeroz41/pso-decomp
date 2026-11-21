@@ -42,15 +42,15 @@ void expire_weapon_casing(void *p) { ((TObject *)p)->queue_destruction(); }
 
 TUnk_804A5D10::~TUnk_804A5D10() {}
 
-u8 *TObjPlayer::create_inferno_bazooka(u8 *arg0) {
+TItem *TObjPlayer::create_inferno_bazooka(u8 *arg0) {
     if (arg0 != NULL) {
-        return (u8 *)new TUnk_804A5D28(tl_05, arg0);
+        return new TUnk_804A5D28(tl_05, arg0);
     }
     return NULL;
 }
 
 TUnk_804A5D28::TUnk_804A5D28(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
-    pad_1f8 = 0.0f;
+    barrel_offset = 0.0f;
     impact_callback = (WeaponHitCallback)spawn_flame_wall_impact;
     m_1fc = 0;
     hit_callback = (WeaponHitCallback)play_target_impact_effect;
@@ -58,39 +58,28 @@ TUnk_804A5D28::TUnk_804A5D28(TObject *parent, u8 *item) : TItemWeapon(parent, it
     shot_speed = 15.0f;
 }
 
-struct Owner_8012E5A0 { u8 pad[0x60]; s32 f60; };
-
-struct Self_8012E5A0 {
-    u8 pad0[0xF0];
-    Owner_8012E5A0 *owner;
-    u8 padF4[0x1F8 - 0xF4];
-    f32 f1FC;
-    s32 state;
-};
-
 struct Ang_8012E5A0 { s32 x, y, z; };
 
 void TUnk_804A5D28::update_weapon() {
     s32 ang;
     Vec v;
     Ang_8012E5A0 a;
-    Self_8012E5A0 *self = (Self_8012E5A0 *)this;
     if (this->m_1fc == 1) {
-        TItemEffOrgaFlowShot::approach_value(&self->f1FC, (-0.5f), (-2.0f));
-        if ((-2.0f) == self->f1FC) {
+        TItemEffOrgaFlowShot::approach_value(&barrel_offset, (-0.5f), (-2.0f));
+        if ((-2.0f) == barrel_offset) {
             this->m_1fc = 2;
-            ang = self->owner->f60 + 0x4000;
+            ang = owner->rotation_y + 0x4000;
             v.x = sin_table_lookup(ang);
             v.y = 0.0f;
             v.z = cos_table_lookup(ang);
             a.x = 0x4000;
-            a.y = self->owner->f60;
+            a.y = owner->rotation_y;
             a.z = 0;
-            TObjPlayer::launch_weapon_casing((saddr)tl_05, (uaddr)self, 3, (uaddr)&v, (uaddr)&a);
+            TObjPlayer::launch_weapon_casing((saddr)tl_05, (uaddr)this, 3, (uaddr)&v, (uaddr)&a);
         }
     } else if (this->m_1fc == 2) {
-        TItemEffOrgaFlowShot::approach_value(&self->f1FC, 0.2f, 0.0f);
-        if (0.0f == self->f1FC) {
+        TItemEffOrgaFlowShot::approach_value(&barrel_offset, 0.2f, 0.0f);
+        if (0.0f == barrel_offset) {
             this->m_1fc = 0;
         }
     }
@@ -99,7 +88,7 @@ void TUnk_804A5D28::update_weapon() {
 
 void TUnk_804A5D28::vfunc_60() {
     if (TObjPlayer::get_player_list() == 1) {
-        translate_matrix(0, 0.0f, (-1.0f) * pad_1f8, 0.0f);
+        translate_matrix(0, 0.0f, (-1.0f) * barrel_offset, 0.0f);
     }
 }
 

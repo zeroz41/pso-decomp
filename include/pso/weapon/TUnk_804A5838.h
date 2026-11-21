@@ -20,6 +20,6 @@ public:
     s32 rotation_z;  // rotate_matrix_z angle of the model hook
 };
 
-u8 *create_soul_eater_weapon(u8 *item);
+TItem *create_soul_eater_weapon(u8 *item);
 
 #endif

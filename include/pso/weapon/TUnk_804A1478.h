@@ -10,6 +10,6 @@ public:
     TUnk_804A1478(TObject *parent, u8 *item);
 };
 
-u8 *create_wand_weapon(u8 *arg0);
+TItem *create_wand_weapon(u8 *arg0);
 
 #endif

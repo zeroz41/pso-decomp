@@ -122,9 +122,9 @@ TUnk_804A2B98::TUnk_804A2B98(TObject *parent, u8 *item) : TItemWeapon(parent, it
     set_weapon_flags(577);
 }
 
-u8 *create_knuckle_weapon(u8 *item) {
+TItem *create_knuckle_weapon(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804A2B98(tl_05, item);
+        return new TUnk_804A2B98(tl_05, item);
     }
     return NULL;
 }

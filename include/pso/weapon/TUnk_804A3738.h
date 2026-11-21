@@ -14,6 +14,6 @@ public:
     TUnk_804A3738(TObject *parent, u8 *item);
 };
 
-u8 *yamigarasu_create(u8 *item);
+TItem *yamigarasu_create(u8 *item);
 
 #endif

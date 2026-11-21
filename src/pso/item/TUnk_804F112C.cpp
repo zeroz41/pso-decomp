@@ -71,7 +71,7 @@ TUnk_804F112C::~TUnk_804F112C() {}
 
 TUnk_804F112C::TUnk_804F112C(TObject *parent, u8 *item) : TItemObject(parent, item) {}
 
-TUnk_804F112C *TUnk_804F112C::create(u8 *item) {
+TItem *TUnk_804F112C::create(u8 *item) {
     if (item != NULL) {
         return new TUnk_804F112C(tl_05, item);
     }

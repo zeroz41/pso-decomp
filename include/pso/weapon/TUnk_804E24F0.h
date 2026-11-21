@@ -7,14 +7,14 @@
 class TUnk_804E24F0 : public TItemWeapon {
 public:
     TUnk_804E24F0(TObject *parent, u8 *item);
-    static u8 *create(u8 *item); // weapon_factory_table entry
+    static TItem *create(u8 *item); // weapon_factory_table entry
     virtual ~TUnk_804E24F0();
     virtual void vfunc_60();
     virtual void update_idle();
     virtual void emit_marker_effects();
     virtual void init_weapon_effect_descriptor(Desc_8011E5C4 *desc);
     virtual void update_attack();
-    f32 pad_1f8;
+    f32 muzzle_offset;
 };
 
 #endif

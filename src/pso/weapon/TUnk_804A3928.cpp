@@ -36,9 +36,9 @@ TUnk_804A3928::TUnk_804A3928(TObject *parent, u8 *item) : TItemWeapon(parent, it
     scale.x = scale.y = scale.z = 1.0f;
 }
 
-u8 *TObjPlayer::create_shot_params_state(saddr item) {
-    if (item != 0) {
-        return (u8 *)new TUnk_804A3928(tl_05, (u8 *)item);
+TItem *TObjPlayer::create_shot_params_state(u8 *item) {
+    if (item != NULL) {
+        return new TUnk_804A3928(tl_05, item);
     }
     return NULL;
 }

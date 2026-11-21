@@ -1,6 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
-
+#include "pso/unk/TUnk_804CCB28.h"
 #include "types.h"
 #include <stdlib.h>
 #include "pso/system/vector.h"
@@ -38,7 +38,6 @@ int get_item_field_6__10TObjPlayerFPv(void *p);
 void dispatch_weapon_special_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase);
 void *spawn_continuous_particle_with_direction(void *pos, void *dir, s32 id);
 void *spawn_particle_effect(const void *pos, s32 id);
-u32 create_fire_explosion_effect(u32, s32, s32, saddr, f32);
 f32 vector_length(void *);
 s32 normalize_vector(void *);
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
@@ -410,20 +409,20 @@ void prepare_freeze_special_effect(TObjPlayer *player, TObjBase *target, Vec *po
 }
 
 void weapon_fire_explosion_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase) {
-    uaddr obj;
+    TUnk_804CCB28 *obj;
     if (phase == 0) {
         spawn_particle_effect(&player->m_2fc, 0x69);
     }
     if (phase == 1) {
-        obj = (uaddr)TObject::operator new(0x64);
-        if (obj != 0U) {
-            obj = ((u32 (*)(f32, u32, Vec *, s32, TObject *))create_fire_explosion_effect)(10.0f, obj, pos, 0, tl_particle);
+        obj = static_cast<TUnk_804CCB28 *>(TObject::operator new(sizeof(TUnk_804CCB28)));
+        if (obj != NULL) {
+            obj = create_fire_explosion_effect((u8 *)obj, 10.0f, pos, 0, tl_particle);
         }
-        if (obj != 0U) {
-            *(f32 *)((s8 *)obj + 0x34) = 0.6f;
-            *(f32 *)((s8 *)obj + 0x38) = 0.6f;
-            *(f32 *)((s8 *)obj + 0x3C) = 0.6f;
-            *(f32 *)((s8 *)obj + 0x40) = 0.8f;
+        if (obj != NULL) {
+            obj->m_34 = 0.6f;
+            obj->m_38 = 0.6f;
+            obj->m_3c = 0.6f;
+            obj->m_40 = 0.8f;
         }
     }
 }

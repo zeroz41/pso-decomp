@@ -21,13 +21,12 @@
 // Built with -inline off,deferred: functions are written last to first.
 
 extern "C" {
-void *TObjPlayer__sub_802E449C(void *a0);
 }
 void spawn_faust_explosion(uaddr a0, const Vec &pos);
 
-u8 *create_panzer_faust(saddr item) {
-    if (item != 0) {
-        return (u8 *)new TUnk_804A2564(tl_05, (u8 *)item);
+TItem *create_panzer_faust(u8 *item) {
+    if (item != NULL) {
+        return new TUnk_804A2564(tl_05, item);
     }
     return NULL;
 }
@@ -82,17 +81,17 @@ void TUnk_804A2564::vfunc_60() {
 }
 
 void TUnk_804A2564::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
-    desc->pad_74 = (void *)spawn_faust_hit_explosion;
-    desc->pad_70 = (void *)TObjPlayer::spawn_faust_wall_explosion;
-    desc->pad_50 = -0x4000;
+    desc->hit_effect = (void *)spawn_faust_hit_explosion;
+    desc->wall_effect = (void *)TObjPlayer::spawn_faust_wall_explosion;
+    desc->spin[0] = -0x4000;
     desc->flags |= descriptor_flags;
-    desc->pad_78 = 0x1bb;
-    desc->pad_7c = 0x1bc;
+    desc->particle = 0x1bb;
+    desc->trail_particle = 0x1bc;
 }
 
 void spawn_faust_explosion(uaddr a0, const Vec &pos) {
     if (((TItem *)a0)->get_item_index() == 1) {
-        S_802E449C info;
+        Desc_8011E5C4 info;
         TObjPlayer__sub_802E449C(&info);
         ((TItemWeapon *)a0)->fill_status_info(&info);
         VecCopy(&info.position, &pos);

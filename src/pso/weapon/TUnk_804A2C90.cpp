@@ -14,9 +14,9 @@ TUnk_804A2D88::TUnk_804A2D88(TObject *parent, u8 *item) : TItemWeapon(parent, it
     impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
 }
 
-u8 *create_suppressed_gun_weapon(u8 *item) {
+TItem *create_suppressed_gun_weapon(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804A2D88(tl_05, item);
+        return new TUnk_804A2D88(tl_05, item);
     }
     return NULL;
 }
@@ -28,9 +28,9 @@ TUnk_804A2C90::TUnk_804A2C90(TObject *parent, u8 *item) : TItemWeapon(parent, it
     }
 }
 
-u8 *create_handgun_weapon(u8 *item) {
+TItem *create_handgun_weapon(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804A2C90(tl_05, item);
+        return new TUnk_804A2C90(tl_05, item);
     }
     return NULL;
 }

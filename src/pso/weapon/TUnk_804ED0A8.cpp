@@ -38,9 +38,9 @@ TUnk_804ED0A8::TUnk_804ED0A8(TObject *parent, u8 *item) : TItemWeapon(parent, it
     pad_1fc = 0;
 }
 
-u8 *TObjPlayer::create_state_1536(u8 *item) {
+TItem *TObjPlayer::create_state_1536(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804ED0A8(tl_05, item);
+        return new TUnk_804ED0A8(tl_05, item);
     }
     return NULL;
 }

@@ -16,24 +16,22 @@ s32 scale_matrix(s32, f32, f32, f32);
 
 
 void TUnk_804A5248::vfunc_60() {
-    if ((this->get_item_index() == 5) && (TObjPlayer::get_player_list() == 3)) {
-        scale_matrix(0, 1.0f, *(f32 *)((s8 *)this + 0x1F8), 1.0f);
+    if ((get_item_index() == 5) && (TObjPlayer::get_player_list() == 3)) {
+        scale_matrix(0, 1.0f, barrel_scale, 1.0f);
     }
 }
 
 
 void TUnk_804A5248::update_idle() {
-    saddr arg0 = (saddr)this;
-    if (this->get_item_index() == 5) {
-        TItemEffOrgaFlowShot::approach_value((f32 *)(arg0 + 0x1F8), 0.1f, 0.6f);
+    if (get_item_index() == 5) {
+        TItemEffOrgaFlowShot::approach_value(&barrel_scale, 0.1f, 0.6f);
     }
 }
 
 
 void TUnk_804A5248::update_attack() {
-    saddr arg0 = (saddr)this;
-    if (this->get_item_index() == 5) {
-        TItemEffOrgaFlowShot::approach_value((f32 *)(arg0 + 0x1F8), 0.2f, 1.0f);
+    if (get_item_index() == 5) {
+        TItemEffOrgaFlowShot::approach_value(&barrel_scale, 0.2f, 1.0f);
     }
 }
 
@@ -53,7 +51,7 @@ TItemWeaponRifle* TItemWeaponRifle::initialize(saddr parent,u8* item) {
 }
 
 extern s32 tl_05;
-u8 *create_rifle_weapon(u8 *item) {
+TItem *create_rifle_weapon(u8 *item) {
     u8 *item_weapon_rifle;
     u8 *var_r0;
     if (item != NULL) {
@@ -62,7 +60,7 @@ u8 *create_rifle_weapon(u8 *item) {
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(((TItemWeaponRifle*)item_weapon_rifle)->initialize(tl_05, item));
         }
-        return var_r0;
+        return reinterpret_cast<TItem *>(var_r0);
     }
     return NULL;
 }

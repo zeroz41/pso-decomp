@@ -1,6 +1,9 @@
+#include "pso/render/GvmTextureArchive.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/item/TItemLoad.h"
+#include "pso/system/NinjaChunk.h"
+#include "pso/render/GinjaMaterialState.h"
 #include "pso/item/TItemData.h"
 #include "pso/item/TItemLoad_8010FDF0.h"
 #include "pso/item/TUnk_8049C658.h"
@@ -22,12 +25,7 @@
 // with deferred code generation, which emits functions in reverse order.
 
 extern "C" {
-// No shared declarations yet: adxf_get_stat and load_gvm_texture_archive are
-// declared per caller, TLobby_801E2F94.h gives the two partition helpers the
-// wrong parameters and text_800F7D30.h gives prs_decompress_alloc two.
 s32 adxf_get_stat(void *handle);
-s32 load_gvm_texture_archive(s32 data, NJS_TEXLIST *texlist);
-void *TLobby__sub_801E38A0(saddr data, u32 *pos, s32 *tag, u8 *dst, s32 *size);
 void TLobby__sub_801E3E9C(s32 partition_id, const char *path, void *partition_info, s32);
 s32 prs_decompress_alloc(s32 src, u32 dst, s32 size);
 }
@@ -62,7 +60,7 @@ ItemModelChunkLoader *item_model_chunk_loader;
 u8 *item_load_model_buffer;
 
 // The texture name every NJTL entry of a loaded model is pointed at.
-u8 item_blank_texture_name[32];
+char item_blank_texture_name[32];
 
 TItemLoad::~TItemLoad() {}
 
@@ -91,9 +89,9 @@ s32 AfsFileLoader::is_loaded() { return test_flags_any(&flags.bits, 2); }
 
 NJS_OBJECT *ItemModelChunkLoader::get_model(s32 i) { return models[i]; }
 
-NJS_TEXLIST *ItemModelChunkLoader::get_texlist() { return texlist; }
+GinjaTextureList *ItemModelChunkLoader::get_texlist() { return texlist; }
 
-void *ItemModelChunkLoader::get_motion() { return motion; }
+NJS_MOTION *ItemModelChunkLoader::get_motion() { return motion; }
 
 void TItemLoad::create() {
     new TItemLoad(tl_05);
@@ -218,30 +216,30 @@ s32 request_item_model_load(u8 *item) {
     return -1;
 }
 
-void TItemLoad::get_model_ids(u8 index, s32 *model, s32 *texlist) {
+void TItemLoad::get_drop_model(u8 index, NJS_OBJECT **model, GinjaTextureList **texlist) {
     if ((model != NULL) && (texlist != NULL)) {
-        *model = get_bml_model(TItemLoad__bml_resource, index + 2);
-        *texlist = get_bml_texlist(TItemLoad__bml_resource, 0);
+        *model = (NJS_OBJECT *)get_bml_model(TItemLoad__bml_resource, index + 2);
+        *texlist = (GinjaTextureList *)get_bml_texlist(TItemLoad__bml_resource, 0);
     }
 }
 
-void TItemLoad::get_item_params(s32 *model, s32 *texlist, s32 *motion) {
+void TItemLoad::get_armor_effect_model(NJS_OBJECT **model, GinjaTextureList **texlist, AnimationMotion **motion) {
     if ((model != NULL) && (texlist != NULL) && (motion != NULL)) {
-        *model = get_bml_model(TItemLoad__bml_resource, 1);
-        *texlist = get_bml_texlist(TItemLoad__bml_resource, 0);
-        *motion = (saddr)get_bml_motion(TItemLoad__bml_resource, 0);
+        *model = (NJS_OBJECT *)get_bml_model(TItemLoad__bml_resource, 1);
+        *texlist = (GinjaTextureList *)get_bml_texlist(TItemLoad__bml_resource, 0);
+        *motion = get_bml_motion(TItemLoad__bml_resource, 0);
     }
 }
 
-void TItemLoad::lookup_item_data(s32 index, s32 *model) {
+void TItemLoad::get_item_model(s32 index, NJS_OBJECT **model) {
     if (model != NULL) {
-        *model = get_bml_model(TItemLoad__bml_resource, index);
+        *model = (NJS_OBJECT *)get_bml_model(TItemLoad__bml_resource, index);
     }
 }
 
-void TItemLoad::get_data_entry(s32 index, s32 *texlist) {
+void TItemLoad::get_item_texture_list(s32 index, GinjaTextureList **texlist) {
     if (texlist != NULL) {
-        *texlist = get_bml_texlist(TItemLoad__bml_resource, 0);
+        *texlist = (GinjaTextureList *)get_bml_texlist(TItemLoad__bml_resource, 0);
     }
 }
 
@@ -329,9 +327,9 @@ void TItemLoad::free_work_buffer() {
     item_load_compressed_work_buffer = NULL;
 }
 
-s32 TItemLoad::decompress_buffer(u32 dst) {
+s32 TItemLoad::decompress_buffer(void *dst) {
     if ((item_load_compressed_work_buffer != NULL) && (dst != 0)) {
-        return prs_decompress_buffer((saddr)item_load_compressed_work_buffer, dst);
+        return prs_decompress_buffer((saddr)item_load_compressed_work_buffer, (saddr)dst);
     }
     return 0;
 }
@@ -435,10 +433,10 @@ ItemTextureArchiveLoader::ItemTextureArchiveLoader(const char *path, s32 id, s32
 ItemTextureArchiveLoader::~ItemTextureArchiveLoader() {}
 
 void ItemTextureArchiveLoader::on_loaded() {
-    s32 data;
+    u8 *data;
 
     if (TLobby::tmp_buf_is_free() == 1) {
-        data = TLobby::tmp_buf_use_req(item_load_tmp_buffer);
+        data = (u8 *)TLobby::tmp_buf_use_req(item_load_tmp_buffer);
         TItemLoad::decompress_buffer(data);
         load_gvm_texture_archive(data, texlist);
         TLobby::tmp_buf_release(item_load_tmp_buffer);
@@ -447,7 +445,7 @@ void ItemTextureArchiveLoader::on_loaded() {
     }
 }
 
-void ItemTextureArchiveLoader::begin_load_if_pending(NJS_TEXLIST *dst, s32 index) {
+void ItemTextureArchiveLoader::begin_load_if_pending(GinjaTextureList *dst, s32 index) {
     if ((dst != NULL) && (begin_load(index) == 1)) {
         texlist = dst;
     }
@@ -467,16 +465,16 @@ ItemModelChunkLoader::~ItemModelChunkLoader() {}
 
 void ItemModelChunkLoader::on_loaded() {
     u32 pos;
-    s32 tag;
-    s32 size;
-    s32 data;
+    u32 tag;
+    u32 size;
+    u8 *data;
     u8 *dst;
     u32 total;
     s32 n;
     void *chunk;
     u32 i;
     if (TLobby::tmp_buf_is_free() == 1) {
-        data = TLobby::tmp_buf_use_req(item_load_tmp_buffer);
+        data = (u8 *)TLobby::tmp_buf_use_req(item_load_tmp_buffer);
         dst = buffer;
         total = TItemLoad::decompress_buffer(data);
         pos = 0;
@@ -493,14 +491,14 @@ void ItemModelChunkLoader::on_loaded() {
                 break;
             case 'NJTL':
                 if (texlist == NULL) {
-                    texlist = (NJS_TEXLIST *)chunk;
-                    for (i = 0; i != texlist->nbTexture; i++) {
-                        texlist->textures[i].filename = item_blank_texture_name;
+                    texlist = (GinjaTextureList *)chunk;
+                    for (i = 0; i != texlist->count; i++) {
+                        texlist->entries[i].name = item_blank_texture_name;
                     }
                 }
                 break;
             case 'NMDM':
-                motion = chunk;
+                motion = (NJS_MOTION *)chunk;
                 break;
             }
         }
@@ -560,7 +558,7 @@ TItemModelLoadTask::~TItemModelLoadTask() {
         item_texture_archive_loader->reset_ring_state();
         break;
     }
-    if ((resource.texlist != NULL) && (resource.texlist->textures->texaddr != 0)) {
+    if ((resource.texlist != NULL) && (resource.texlist->entries->texture != NULL)) {
         free_texture_if_valid((uaddr)resource.texlist);
     }
 }

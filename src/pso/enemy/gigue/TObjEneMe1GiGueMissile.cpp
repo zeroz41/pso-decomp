@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/unk/TUnk_804CCB28.h"
 #include "types.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/enemy/gigue/TObjEneMe1GiGueMissile.h"
@@ -34,7 +35,6 @@ void TObjPlayer__sub_802A445C(TNeedleShoot *self, int arg1);
 void TObjEneMe1GiGue__sub_802CE4E8(void);
 void TObjEneMe1GiGue__sub_802CE4EC(void);
 void obj_setFlags30(void *, int);
-void create_fire_explosion_effect(void *, f32, void *, int, void *);
 extern void *tl_07;
 
 void TObjEneMe1GiGueMissile::explode(void *pos) {
@@ -43,7 +43,7 @@ void TObjEneMe1GiGueMissile::explode(void *pos) {
     s32 i;
     fx = TObject::operator new(0x64);
     if (fx != NULL) {
-        create_fire_explosion_effect(fx, 40.0f, pos, 0, tl_07);
+        create_fire_explosion_effect((u8 *)fx, 40.0f, (const Vec *)pos, 0, (TObject *)tl_07);
     }
     for (i = 0; i < 4; i++) {
         p = get_player_by_client_id(i);

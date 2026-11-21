@@ -17,7 +17,7 @@ TUnk_8049F828::~TUnk_8049F828() {}
 
 TUnk_8049F828::TUnk_8049F828(TObject *parent, u8 *item) : TItemObject(parent, item) {}
 
-TUnk_8049F828 *TUnk_8049F828::create(u8 *item) {
+TItem *TUnk_8049F828::create(u8 *item) {
     if (item != NULL) {
         return new TUnk_8049F828(tl_05, item);
     }

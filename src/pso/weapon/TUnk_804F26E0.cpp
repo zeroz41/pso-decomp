@@ -31,9 +31,9 @@ void TUnk_804F26E0::vfunc_62() {
 
 TUnk_804F26E0::TUnk_804F26E0(TObject *parent, u8 *item) : TUnk_804A4948(parent, item) {}
 
-u8 *create_s_rank_knuckle(u8 *item) {
+TItem *create_s_rank_knuckle(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804F26E0(tl_05, item);
+        return new TUnk_804F26E0(tl_05, item);
     }
     return NULL;
 }

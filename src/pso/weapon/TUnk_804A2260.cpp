@@ -159,9 +159,9 @@ TUnk_804A2260::TUnk_804A2260(TObject *parent, u8 *item) : TItemWeapon(parent, it
     rotation_z = 0;
 }
 
-u8 *TObjPlayer::create_state_80125154(u8 *item) {
+TItem *TObjPlayer::create_state_80125154(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804A2260(tl_05, item);
+        return new TUnk_804A2260(tl_05, item);
     }
     return NULL;
 }

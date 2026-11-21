@@ -14,6 +14,6 @@ public:
 };
 
 // Factory
-u8 *create_dagger_weapon(u8 *arg0);
+TItem *create_dagger_weapon(u8 *arg0);
 
 #endif

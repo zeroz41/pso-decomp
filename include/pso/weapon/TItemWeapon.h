@@ -3,34 +3,12 @@
 #include "types.h"
 #include <stddef.h>
 #include "pso/item/TItemEquipBase.h"
+#include "pso/weapon/WeaponEffectDescriptor.h"
 
 struct TItem;
 struct TItemData;
 class TItemEffectWeapon;
 struct WeaponVector { f32 x,y,z; };
-
-// What TItemWeapon::init_weapon_effect_descriptor fills in (slot 59; name from the 0x80362DE8 override); layout from the overrides at 0x80362DE8 (TUnk_804F27E0) and
-// 0x803631E8 (TUnk_804F28E0), 0x80125FB8 (TUnk_804A2868), 0x80126180 (TUnk_804A2960). The caller is not decompiled yet.
-struct Desc_8011E5C4 {
-    u8 pad_0[0x10];
-    s32 pad_10;
-    u8 pad_14[0x38 - 0x14];
-    f32 pad_38;          // 5.0 for TUnk_804E21F8
-    f32 pad_3c;          // 160.0 for TUnk_804ED488
-    u32 flags;
-    NJS_OBJECT *model;   // the weapon's second_model
-    u8 pad_48[0x4C - 0x48];
-    f32 pad_4c;
-    s32 pad_50;
-    u8 pad_54[0x58 - 0x54];
-    s32 pad_58;
-    u8 pad_5c[0x60 - 0x5C];
-    u8 color[0x10];      // get_weapon_color
-    void *pad_70;
-    void *pad_74;
-    s32 pad_78;
-    s32 pad_7c;
-};
 
 struct WeaponMotionRecord { u32 unknown; u32 frame_count; };
 
@@ -56,7 +34,7 @@ struct TItemWeapon : public TItemEquipBase {
     saddr get_tp();
     void update_active_game_effect();
     void launch_rare_weapon_special(void *, s32, f32);
-    void fill_status_info(void *);
+    void fill_status_info(S_802E451C *params);
     void drain_owner_hp_fraction(f32);
     virtual void *get_center();
     virtual void update_owned();
@@ -126,7 +104,8 @@ struct TItemWeapon : public TItemEquipBase {
     // own points), stored as a Vec at out; 0 without an owner.
     s32 get_joint_position(s32 joint, void *out);
     // get_joint_position of gun_point_joint, where shots start.
-    void get_gun_point(void *out);
+    void get_gun_point(Vec *out);
+    void sample_dual_muzzles(Vec *primary, Vec *secondary);
 
     TItemEffectWeapon *trails[4];
     s8 trail_start_joints[4];      // set_weapon_trail_joints

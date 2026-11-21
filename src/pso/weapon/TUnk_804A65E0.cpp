@@ -64,9 +64,9 @@ TUnk_804A65E0::TUnk_804A65E0(TObject *parent, u8 *item) : TItemWeapon(parent, it
     ((TObjPlayer *)this)->set_effect_state(5);
 }
 
-u8 *TObjPlayer::create_effect_object(saddr item) {
-    if (item != 0) {
-        return (u8 *)new TUnk_804A65E0(tl_05, (u8 *)item);
+TItem *TObjPlayer::create_effect_object(u8 *item) {
+    if (item != NULL) {
+        return new TUnk_804A65E0(tl_05, item);
     }
     return NULL;
 }

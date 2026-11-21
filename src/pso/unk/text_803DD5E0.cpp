@@ -1,3 +1,5 @@
+#include "pso/render/GinjaMaterialState.h"
+#include "pso/render/GvmTextureArchive.h"
 #include "types.h"
 #include <string.h>
 #include "pso/unk/text_803DA798.h"
@@ -30,17 +32,6 @@ typedef struct Rec_803DDB34 { s32 f0; } Rec_803DDB34;
 
 typedef struct Slot_803DDB34 { s32 f0; s32 f4; s32 f8; Rec_803DDB34 *rec; } Slot_803DDB34;
 
-struct GvmTextureEntry_803DDDC8 {
-    char* name;
-    u32 attributes;
-    u32 globalIndex;
-};
-
-struct GvmTextureList_803DDDC8 {
-    GvmTextureEntry_803DDDC8* textures;
-    u32 count;
-};
-
 struct GvmTextureHeader_803DDDC8 {
     u8 prefix[8];
     u16 flags;
@@ -67,8 +58,7 @@ s32 TObjPlayer__sub_803DDA68(Obj_803DDA68 *obj, s32 idx);
 s32 TObjPlayer__sub_803DAB7C(Obj_803DDA68 *, s32, s32);
 extern s32 player_ref_entry_active_count;
 s32 TObjPlayer__sub_803DDB34(Obj_803DDA68 *obj, s32 idx);
-void replace_gvm_texture_directory(GvmTextureList_803DDDC8* list, s32 stride, const GvmTextureHeader_803DDDC8* header);
-s32 load_gvm_texture_archive(u32 *arg0, GvmTextureList_803DDDC8 *list);
+void replace_gvm_texture_directory(GinjaTextureList* list, s32 stride, const GvmTextureHeader_803DDDC8* header);
 void DCFlushRange(void *, u32);
 s32 DVDOpen(const char *, FileInfo_803DD784 *);
 s32 DVDClose(FileInfo_803DD784 *);
@@ -76,7 +66,6 @@ s32 DVDReadPrio(FileInfo_803DD784 *, void *, s32, s32, s32);
 extern u8 gvrt_header_read_buffer[];
 extern Slot_803DD784 *record_array_ptr;
 s32 read_gvrt_file_header(Obj_803DDA68 *obj, s32 idx);
-void TObjPlayer__sub_803DD5E8(GvmTextureList_803DDDC8 *list, GvmTextureEntry_803DDDC8 *entries, uaddr names, s32 count);
 }
 
 // The texture loaders TObjPlayer__sub_803DD6DC picks from an entry's format bits.
@@ -90,13 +79,13 @@ void set_ginja_draw_flags(s32 arg0) {
     ginja_draw_flags = arg0;
 }
 
-void TObjPlayer__sub_803DD5E8(GvmTextureList_803DDDC8 *list, GvmTextureEntry_803DDDC8 *entries, uaddr names, s32 count) {
+void TObjPlayer__sub_803DD5E8(GinjaTextureList *list, GinjaTextureEntry *entries, uaddr names, s32 count) {
     int i;
 
     for (i = 0; i < count; ++i) {
         entries[i].name = (char *)(names + i * 0x1C);
     }
-    list->textures = entries;
+    list->entries = entries;
 }
 
 void TObjPlayer__sub_803DD6DC(struct Obj_803DD6DC *arg0, s32 arg1) {
@@ -355,7 +344,7 @@ void copy_4word_struct__6TLobbyFPvPv(S_803DDD94 *d, S_803DDD94 *s) {
 
 #pragma push
 #pragma use_lmw_stmw off
-void replace_gvm_texture_directory(GvmTextureList_803DDDC8* list, s32 stride, const GvmTextureHeader_803DDDC8* header) {
+void replace_gvm_texture_directory(GinjaTextureList* list, s32 stride, const GvmTextureHeader_803DDDC8* header) {
     u16 image;
     s32 off;
     u16 flags;
@@ -366,7 +355,7 @@ void replace_gvm_texture_directory(GvmTextureList_803DDDC8* list, s32 stride, co
     s32 globals;
     s32 count;
     u8* record;
-    GvmTextureEntry_803DDDC8* texture;
+    GinjaTextureEntry* texture;
     s32 index;
     index = 0;
     off = 0;
@@ -379,9 +368,9 @@ void replace_gvm_texture_directory(GvmTextureList_803DDDC8* list, s32 stride, co
     count = header->directoryCount;
     while (index < count) {
         record = (u8*)TLobby__sub_803DDD2C(stride);
-        texture = (GvmTextureEntry_803DDDC8*)((u8*)list->textures + off);
+        texture = (GinjaTextureEntry*)((u8*)list->entries + off);
         TLobby__sub_803DDD78((S_803DDD78*)&image, (S_803DDD78*)record);
-        texture->attributes = (texture->attributes & 0xFFFF0000) | image;
+        texture->value04 = (texture->value04 & 0xFFFF0000) | image;
         record += 2;
         if (names) {
             s32 length = strlen((char*)record);
@@ -394,12 +383,12 @@ void replace_gvm_texture_directory(GvmTextureList_803DDDC8* list, s32 stride, co
         if (dimensions) record += 2;
         if (alternateGlobal) {
             if (globals) {
-                TLobby::copy_4word_struct((S_803DDD94*)&texture->globalIndex, (S_803DDD94*)record);
-                texture->attributes |= 0x01000000;
+                TLobby::copy_4word_struct((S_803DDD94*)&texture->global_index, (S_803DDD94*)record);
+                texture->value04 |= 0x01000000;
             }
         } else if (globals) {
-            TLobby::copy_4word_struct((S_803DDD94*)&texture->globalIndex, (S_803DDD94*)record);
-            texture->attributes |= 0x00800000;
+            TLobby::copy_4word_struct((S_803DDD94*)&texture->global_index, (S_803DDD94*)record);
+            texture->value04 |= 0x00800000;
         }
         off += 0xC;
         index++;
@@ -447,7 +436,7 @@ void TLobby::seek_gvrt_chunk() {
 
 #pragma push
 #pragma use_lmw_stmw off
-s32 load_gvm_texture_archive(u32 *arg0, GvmTextureList_803DDDC8 *list) {
+s32 load_gvm_texture_archive(void *arg0, GinjaTextureList *list) {
     s32 id;
     s32 arg;
     s32 handle;
@@ -479,7 +468,7 @@ s32 load_gvm_texture_archive(u32 *arg0, GvmTextureList_803DDDC8 *list) {
     n = list->count;
     for (i = 0; i < n; i++) {
         for (k = 0; k < n; k++) {
-            if (i == (list->textures[k].attributes & 0xFFFF)) {
+            if (i == (list->entries[k].value04 & 0xFFFF)) {
                 break;
             }
         }

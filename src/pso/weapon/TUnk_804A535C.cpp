@@ -64,13 +64,13 @@ extern "C" {
 
 void TUnk_804A5340::render() {
     u8 *arg0 = (u8 *)this;
-    if ((TItemShootModel::is_owner_alive() != 0) && ((uaddr) this->m_58 != 0U) && ((uaddr) this->m_5C != 0U)) {
+    if ((TItemShootModel::is_owner_alive() != 0) && ((uaddr) this->model != 0U) && ((uaddr) this->texture_list != 0U)) {
         push_matrix();
-        set_texlist((saddr)this->m_5C);
+        set_texlist((uaddr)this->texture_list);
         post_translate_matrix(arg0 + 0x1C);
         rotate_matrix_y(0, this->m_count);
         rotate_matrix_x(0, this->m_28 - 0x4000);
-        draw_ginja_object(this->m_58);
+        draw_ginja_object(this->model);
         pop_matrix();
     }
 }
@@ -90,7 +90,7 @@ Obj_8012C4E4 *TObjPlayer__sub_8012C4E4(Obj_8012C4E4 *self, void *owner, const vo
 Obj_8012C4E4 *TObjPlayer__sub_8012C4E4(Obj_8012C4E4 *self, void *owner, const void *a, const void *b, f32 f) {
     __ct__15TItemShootModelFPvPC3VecPC3Vecf(self, owner, a, b, f);
     self->vt = __vt__13TUnk_804A5340;
-    ((TItemShootModel *)self)->sub_80129118(((TObjPlayer *)owner)->get_hp_by_flag(), ((TObjBase *)owner)->get_texlist());
+    ((TItemShootModel *)self)->set_render_model((NJS_OBJECT *)((TObjPlayer *)owner)->get_hp_by_flag(), (GinjaTextureList *)((TObjBase *)owner)->get_texlist());
     return self;
 }
 
@@ -212,16 +212,16 @@ void *TUnk_804A535C::init_trade_action() {
 
 u8 * init_trade_action__13TUnk_804A535CFv(void *, s32, s32);
 extern s32 tl_05;
-u8 *TObjPlayer::create_trade_action_state(s32 arg0) {
+TItem *TObjPlayer::create_trade_action_state(u8 *item) {
     u8 *temp_r3;
     u8 *var_r0;
-    if (arg0 != 0) {
-        temp_r3 = (u8 *)((u8 *)TItem::operator new(0x214));
+    if (item != NULL) {
+        temp_r3 = (u8 *)TItem::operator new(0x214);
         var_r0 = temp_r3;
         if (var_r0 != NULL) {
-            var_r0 = (u8 *)(init_trade_action__13TUnk_804A535CFv(temp_r3, tl_05, arg0));
+            var_r0 = (u8 *)(init_trade_action__13TUnk_804A535CFv(temp_r3, tl_05, (saddr)item));
         }
-        return var_r0;
+        return reinterpret_cast<TItem *>(var_r0);
     }
     return NULL;
 }

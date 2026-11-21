@@ -33,9 +33,9 @@ TUnk_804A62F8::TUnk_804A62F8(TObject *parent, u8 *item) : TItemWeapon(parent, it
     }
 }
 
-u8 *create_sword_weapon(u8 *item) {
+TItem *create_sword_weapon(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804A62F8(tl_05, item);
+        return new TUnk_804A62F8(tl_05, item);
     }
     return NULL;
 }

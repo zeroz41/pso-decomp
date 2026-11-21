@@ -37,7 +37,7 @@ struct TItemObject : public TItem {
     // Copies what an item of this class keeps when it is replaced by a new
     // item code (replace_item_with_new_code) into the new item's data.
     static void carry_over_stats(TItemData *data, TItem *item);
-    static TItemObject *create(u8 *item);
+    static TItem *create(u8 *item);
     // Builds the tool an item code names, through the tool factory table.
     static TItem *create_tool(u8 *item);
     void set_amount(s32 amount);

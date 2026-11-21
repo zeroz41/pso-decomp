@@ -132,6 +132,7 @@ struct ActorBodyHit {
     TObjCollidable *target;
     s32 body;  // index into target->bodies
 };
+extern "C" void copy_actor_body_hit(ActorBodyHit *destination, const ActorBodyHit *source);
 
 // One entry of TObjMotion::action_table: what an action plays and how.
 struct TObjMotionAction {

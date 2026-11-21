@@ -8,7 +8,7 @@ public:
     TUnk_8049F828(TObject *parent, u8 *item);
     virtual ~TUnk_8049F828();
     virtual void apply_use_effect();
-    static TUnk_8049F828 *create(u8 *item);
+    static TItem *create(u8 *item);
 };
 
 #endif

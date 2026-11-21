@@ -1,4 +1,6 @@
 #include <string.h>
+#include "pso/render/GvmTextureArchive.h"
+#include "pso/system/NinjaChunk.h"
 #include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/system/BmlResource.h"
@@ -163,7 +165,7 @@ s32 bml_load_entry_index;
 u8 * lobby_bml_read_buffer;
 void check_bin_model_loaded__6TLobbyFPvPv(Obj_8001F8D8 *self, void * _w1);
 s32 bind_bml_motion(struct Lobby_8001FB6C *self, s32 idx, void *bytes);
-s32 load_gvm_texture_archive(s32, s32);
+s32 change_file_extension__6TLobbyFPvPvPv(char *arg0, char *arg1, char *arg2);
 s32 create_file_load_entry__6TLobbyFllUllPPv(void *, s32, void *, void *, void *);
 s32 TLobby__sub_800F9FF4(s32);
 s32 release_texture_list(void *);
@@ -178,7 +180,6 @@ s32 adxf_get_stat(u32);
 s32 adxf_get_fsize_sct(void);
 u32 adxf_open__6TLobbyFUii(void *, s32);
 void TItemDrop__sub_800FE2D8(void);
-s32 TLobby__sub_801E38A0(saddr, s32, s32, s32, u32 *);
 s32 load_nj_chunk_model_resource(s32, s32, s32);
 
 
@@ -251,7 +252,7 @@ s32 alloc_load_data__6TLobbyFPviii(void *arg0, s32 base, s32 off, s32 out) {
     temp_r7 = *(u32 *)((s8 *)arg0 + 0x424);
     if (temp_r7 != 0U) {
         buf = temp_r7 + *(s32 *)((s8 *)arg0 + 0x428);
-        TLobby__sub_801E38A0(base, off, out, buf, &sp8);
+        TLobby__sub_801E38A0((const u8 *)base, (u32 *)off, (u32 *)out, (void *)buf, &sp8);
         temp_r4 = ((sp8 >> 5U) + 1) << 5;
         sp8 = temp_r4;
         *(s32 *)((s8 *)arg0 + 0x428) = (s32) (*(s32 *)((s8 *)arg0 + 0x428) + temp_r4);
@@ -269,7 +270,7 @@ void TLobby::load_texture_sub(void *arg1, s32 arg2) {
     if (size > 0x40000) {
         TLobby::debug_print("LoadTextureSub: %s too large.", buf);
     } else if (size > 0) {
-        load_gvm_texture_archive(lobby_download_buffer, arg0->entries[arg2].data);
+        load_gvm_texture_archive((void *)lobby_download_buffer, (GinjaTextureList *)arg0->entries[arg2].data);
         arg0->entries[arg2].flags |= 1;
     } else {
         arg0->entries[arg2].flags |= 2;
@@ -478,7 +479,7 @@ s32 TLobby::load_bml_exec(u8 *arg0, u8 *arg1) {
             self->state = 9;
         } else if (adxf_get_stat(lobby_bml_file_handle) == 3) {
             TLobby::reset_read_state();
-            load_gvm_texture_archive((saddr) lobby_bml_read_buffer, (s32) self->entries[bml_load_entry_index].texture);
+            load_gvm_texture_archive((void *)lobby_bml_read_buffer, (GinjaTextureList *)self->entries[bml_load_entry_index].texture);
             self->entries[bml_load_entry_index].flags |= 1;
             bml_load_entry_index++;
             bml_header_record_ptr++;
@@ -827,7 +828,7 @@ TBinModel *load_resource_from_descriptor(TBinModel *self, s32 kind, Desc_8002000
                             st.align_read_offset(blk);
                             prs_decompress_buffer(tbuf, (saddr)resource_decompress_buffer);
                             TAdSinglePlyChrSelectGC::safe_free(tbuf);
-                            if (load_gvm_texture_archive((saddr)resource_decompress_buffer, (saddr)self->ents16[i].b) > 0) {
+                            if (load_gvm_texture_archive((void *)resource_decompress_buffer, (GinjaTextureList *)self->ents16[i].b) > 0) {
                                 self->ents16[i].flags |= 1;
                             } else {
                                 self->ents16[i].flags |= 2;

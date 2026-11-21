@@ -24,9 +24,9 @@ TUnk_804A5458::TUnk_804A5458(TObject *parent, u8 *item) : TItemWeapon(parent, it
     }
 }
 
-u8 *create_rod_weapon(u8 *item) {
+TItem *create_rod_weapon(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804A5458(tl_05, item);
+        return new TUnk_804A5458(tl_05, item);
     }
     return NULL;
 }

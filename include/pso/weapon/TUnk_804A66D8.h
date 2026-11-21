@@ -9,11 +9,11 @@ public:
     virtual void emit_marker_effects();
     virtual void reserved_53();
     TUnk_804A66D8(TObject *parent, u8 *item);
-    WeaponVector gun_point;         // first gun's shot origin (as TUnk_804A0EA8)
-    WeaponVector second_gun_point;  // second gun's
+    Vec gun_point;         // first gun's shot origin (as TUnk_804A0EA8)
+    Vec second_gun_point;  // second gun's
 };
 
 // Factory
-u8 *create_twin_psychogun(saddr arg0);
+TItem *create_twin_psychogun(u8 *item);
 
 #endif

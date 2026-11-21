@@ -18,9 +18,9 @@ TUnk_804A5550::TUnk_804A5550(TObject *parent, u8 *item) : TItemWeapon(parent, it
     }
 }
 
-u8 *create_saber_weapon(u8 *item) {
+TItem *create_saber_weapon(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804A5550(tl_05, item);
+        return new TUnk_804A5550(tl_05, item);
     }
     return NULL;
 }

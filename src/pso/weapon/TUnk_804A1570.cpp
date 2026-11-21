@@ -56,9 +56,9 @@ TUnk_804A1570::TUnk_804A1570(TObject *parent, u8 *item) : TItemWeapon(parent, it
     scale.x = scale.y = scale.z = 0.0f;
 }
 
-u8 *TObjPlayer::create_state_513(saddr arg0) {
-    if (arg0 != 0) {
-        return (u8 *)new TUnk_804A1570(tl_05, (u8 *)arg0);
+TItem *TObjPlayer::create_state_513(u8 *item) {
+    if (item != NULL) {
+        return new TUnk_804A1570(tl_05, item);
     }
     return NULL;
 }

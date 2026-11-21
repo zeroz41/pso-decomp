@@ -5,9 +5,9 @@
 #include "pso/system/task/TMainTask.h"
 
 void TUnk_804A2868::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
-    desc->pad_78 = 0x1BB;
-    desc->pad_74 = (void *)spawn_flame_effect;
-    desc->pad_10 = unk_1f8;
+    desc->particle = 0x1BB;
+    desc->hit_effect = (void *)spawn_flame_effect;
+    desc->hits = unk_1f8;
 }
 
 TUnk_804A2868::TUnk_804A2868(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
@@ -20,9 +20,9 @@ TUnk_804A2868::TUnk_804A2868(TObject *parent, u8 *item) : TItemWeapon(parent, it
     }
 }
 
-u8 *TObjPlayer__sub_80126054(u8 *item) {
+TItem *TObjPlayer__sub_80126054(u8 *item) {
     if (item != NULL) {
-        return (u8 *)new TUnk_804A2868(tl_05, item);
+        return new TUnk_804A2868(tl_05, item);
     }
     return NULL;
 }
