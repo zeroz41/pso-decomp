@@ -158,7 +158,7 @@ s32 try_send_6x27_use_item(s32, s32);
 s32 create_sub_item_list_window(saddr, const f32 *, s32);
 }
 
-s32 has_armor_with_unit_slot(TWindowSubItem *arg0, int arg1);
+s32 has_armor_with_unit_slot(TWindowSubItem *window_sub_item, TItem *item);
 extern s32 __vt__14TWindowSubItem[];
 
 #define F(t, o) (*(t *)(arg0 + (o)))
@@ -178,7 +178,7 @@ void populate_sub_item_list(Win_8027ABFC *arg0) {
 
     pl = (Player_8027ABFC *)get_player_by_client_id(arg0->id);
     if (pl != NULL) {
-        arg0->n = ((TPlyItem *)(pl->inv))->run_and_get_result((int)ids);
+        arg0->n = ((TPlyItem *)(pl->inv))->run_and_get_result((saddr)ids);
         for (i = 0; i < arg0->n; i++) {
             it = find_item_by_id(ids[i]);
             if (it != NULL) {
@@ -570,8 +570,8 @@ s32 TWindowSubItem::open_purpose_window(s32 arg1) {
 s32 TWindowSubItem::create_menu_window() {
     saddr titled_window_menu;
     titled_window_menu = create_titled_window_menu(((int)get_window_layout_position(6)), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x27), this->m_24);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, (s32)((int) (TWindowSubStatusDisp::get_message_10(0x5D))), 6, 0);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, (s32)((int) (TWindowSubStatusDisp::get_message_10(0x5E))), 6, 1);
+    forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, (saddr)TWindowSubStatusDisp::get_message_10(0x5D), 6, 0);
+    forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, (saddr)TWindowSubStatusDisp::get_message_10(0x5E), 6, 1);
     TWindowSubEquip__sub_80263AF8(this->m_2c, 2);
     set_depth__11TWindowBaseFf(titled_window_menu);
     ((TWindowMenu *)titled_window_menu)->set_flag70_bit10();
@@ -629,10 +629,10 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, saddr arg1, saddr
       }
       else
       {
-        forward_trade_action_default__16TObjCityMainWarpFPviii((saddr)((void *) arg1), (s32)((int) TWindowSubStatusDisp::get_message_10(0x60)), 6, 0);
+        forward_trade_action_default__16TObjCityMainWarpFPviii((saddr)((void *) arg1), (saddr)TWindowSubStatusDisp::get_message_10(0x60), 6, 0);
       }
     }
-    ((TItem *)(0, (int) (item & 0xFFFFFFFFu)))->get_item_type();
+    ((TItem *)item)->get_item_type();
     if (((TItem *)item)->get_usable_action_flags(8, 0) != 0U)
     {
       if (((TItem *)item)->test_item_flags(8) != 0U)
@@ -643,7 +643,7 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, saddr arg1, saddr
         }
         else
         {
-          forward_trade_action_default__16TObjCityMainWarpFPviii((saddr)((void *) arg1), (s32)((int) TWindowSubStatusDisp::get_message_10(0x61)), 6, 2);
+          forward_trade_action_default__16TObjCityMainWarpFPviii((saddr)((void *) arg1), (saddr)TWindowSubStatusDisp::get_message_10(0x61), 6, 2);
         }
       }
       else
@@ -651,9 +651,9 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, saddr arg1, saddr
         player = get_player_by_client_id(window_sub_item->m_24);
         if (player != 0)
         {
-          if (((((TItem *)item)->check_equip_requirements((TObjPlayer *)player, (s16 *)(&sp8)) != 0) && (has_armor_with_unit_slot((TWindowSubItem *)((void *)((void *) window_sub_item)), (int)((int) item)) != 0)) && (get_current_floor_area() != AREA_LOBBY))
+          if (((((TItem *)item)->check_equip_requirements((TObjPlayer *)player, (s16 *)(&sp8)) != 0) && (has_armor_with_unit_slot(window_sub_item, (TItem *)item) != 0)) && (get_current_floor_area() != AREA_LOBBY))
           {
-            forward_trade_action_default__16TObjCityMainWarpFPviii((saddr)((void *) arg1), (s32)((int) TWindowSubStatusDisp::get_message_10(0x62)), 6, 1);
+            forward_trade_action_default__16TObjCityMainWarpFPviii((saddr)((void *) arg1), (saddr)TWindowSubStatusDisp::get_message_10(0x62), 6, 1);
           }
           else
           {
@@ -668,14 +668,14 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, saddr arg1, saddr
     }
     else
     {
-      forward_trade_action_default__16TObjCityMainWarpFPviii((saddr)((void *) arg1), (s32)((int) TWindowSubStatusDisp::get_message_10(0x5F)), 6, 3);
+      forward_trade_action_default__16TObjCityMainWarpFPviii((saddr)((void *) arg1), (saddr)TWindowSubStatusDisp::get_message_10(0x5F), 6, 3);
     }
     if (get_current_floor_area() == AREA_LOBBY)
     {
       add_gray_text_entry((TWindowSubTradeMain *)arg1, (const char *)(TWindowSubStatusDisp::get_message_10(0x63)), 6, 7);
       return;
     }
-    forward_trade_action_default__16TObjCityMainWarpFPviii((saddr)((void *) arg1), (s32)((int) TWindowSubStatusDisp::get_message_10(0x63)), 6, 7);
+    forward_trade_action_default__16TObjCityMainWarpFPviii((saddr)((void *) arg1), (saddr)TWindowSubStatusDisp::get_message_10(0x63), 6, 7);
   }
 }
 
@@ -718,7 +718,7 @@ void TWindowSubItem::exec_item_command(saddr arg1, s32 arg2) {
             try_send_6x27_use_item(player, arg1);
             this->m_1c = 0x16;
             break;
-        case 1:
+        case 1: {
             TItem *held = (TItem *)TObjPlayer::get_slot_value((void *)(player + 0xD04), (int)((s8) ((V_A_80279714 *) temp_r3_2)->m31()));
             if (held != NULL) {
                 t = held->get_item_id();
@@ -727,6 +727,7 @@ void TWindowSubItem::exec_item_command(saddr arg1, s32 arg2) {
             send_6x25_equip_item(player, arg1, 0);
             this->m_1c = 0x16;
             break;
+        }
         case 2:
             TObjPlayer::send_6x26_unequip_item((void *)player, arg1);
             this->m_1c = 0x16;
@@ -768,25 +769,25 @@ void TWindowSubItem::use_selected_item() {
 }
 
 #pragma pop
-s32 has_armor_with_unit_slot(TWindowSubItem *window_sub_item, int arg1) {
+s32 has_armor_with_unit_slot(TWindowSubItem *window_sub_item, TItem *item) {
     ItemData_80279754 d;
     saddr pl;
-    uaddr item;
+    uaddr armor;
     pl = get_player_by_client_id(window_sub_item->m_24);
     if (pl == 0) {
         return 0;
     }
-    if (((TItem *)arg1)->get_item_type() != 1) {
+    if (item->get_item_type() != 1) {
         return 1;
     }
-    if (((TItem *)arg1)->get_item_group() != 3) {
+    if (item->get_item_group() != 3) {
         return 1;
     }
-    item = TObjPlayer::get_slot_value((void *)(pl + 0xD04), (int)2);
-    if (item == 0) {
+    armor = TObjPlayer::get_slot_value((void *)(pl + 0xD04), (int)2);
+    if (armor == 0) {
         return 0;
     }
-    ((TItem *)item)->copy_to_item_data((TItemData *)&d);
+    ((TItem *)armor)->copy_to_item_data((TItemData *)&d);
     return d.b[5] != 0 ? 1 : 0;
 }
 
