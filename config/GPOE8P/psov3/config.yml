@@ -1502,7 +1502,7 @@ force_active:
   - TObjNpcSoutokufu__shared_model_resource
   - TObjOnlineEndingHexLine__direction_table
   - TObjOnlineEndingHexLine__hex_line_params
-  - TObjOnlineEndingHexLine__sub_802E55A4
+  - copy_ending_hex_point
   - TObjOnlineEndingHexLine_corner_offsets
   - TObjOnlineEndingHexMove__ct
   - TObjOnlineEndingHexMove__default_move_params
