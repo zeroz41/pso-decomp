@@ -123,7 +123,6 @@ s32 create_confirm_window__22TAdMultiPlyChrSelectGCFv(void *, s32);
 u32 __ct__9TAdFadeGCFP7TObjectPv(u32, TObject *, s32);
 s32 *TAdSinglePlyChrSelectGC__sub_801FE3E4(u32 i);
 s32 TAdSinglePlyChrSelectGC__sub_801FE800(u32 i);
-u32 check_slot_flags__23TAdSinglePlyChrSelectGCFlUl(s32, s32);
 void load_tables(int a0);
 extern s32 lbl_80472860[];
 }
@@ -1443,7 +1442,7 @@ void TAdMultiPlyChrSelectGC::update_select() {
             load_tables(temp_r30);
             ((TAdMultiPlyChrSelectGC *)(*(saddr *)&this->unk_60))->set_status_value(temp_r30);
             ((TAdMultiPlyChrSelectGC *)(*(saddr *)&this->unk_60))->set_field_100(2);
-            if ((check_slot_flags__23TAdSinglePlyChrSelectGCFlUl(temp_r30, 1) != 0U) && ((s32) *(s32 *)&this->m_3c != 0)) {
+            if ((TAdSinglePlyChrSelectGC::check_slot_flags(temp_r30, 1) != 0U) && ((s32) *(s32 *)&this->m_3c != 0)) {
                 *(s32 *)&this->m_40 = 1;
             }
         }
