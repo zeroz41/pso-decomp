@@ -1455,7 +1455,7 @@ typedef struct Player_801B9E0C {
     void *inv;
 } Player_801B9E0C;
 
-struct Cmd_801B9EDC { u16 hdr; u16 id; void *item; };
+struct Cmd_801B9EDC { u16 hdr; u16 id; u32 item_id; };
 
 struct L_801BA0F0 { u16 f0; s16 f2; s32 f4; s32 f8; };
 
@@ -3209,12 +3209,12 @@ void TObjPlayer::equip_item_to_slot(void *item, s32 slot) {
     }
 }
 
-void TObjPlayer::send_6x26_unequip_item(void *self, void *item) {
+void TObjPlayer::send_6x26_unequip_item(void *self, u32 item_id) {
     if (self == 0 || ((TObjChara *)self)->obj_isState2_324() == 0) {
         Cmd_801B9EDC cmd;
         ((TObjPlayer *)(&cmd))->init_cmd_6x26();
         cmd.id = ((u16 (*)(void *))get_entity_id)(self);
-        cmd.item = item;
+        cmd.item_id = item_id;
         ((TObjPlayer *)(&cmd))->bswap_body_dwords4_and_send();
         ((TObjPlayer *)self)->send_unequip_held_item();
     }
@@ -3829,7 +3829,7 @@ void TObjPlayer::drop_items_on_death() {
     } else {
         equipped=((void* (*)(TObjPlayer*))get_item_field_6__10TObjPlayerFPv)(this);
         if (equipped!=NULL) {
-            TObjPlayer::send_6x26_unequip_item(this, (void *)((TItem *)equipped)->get_item_id());
+            TObjPlayer::send_6x26_unequip_item(this, ((TItem *)equipped)->get_item_id());
         }
     }
     if (count>0) {

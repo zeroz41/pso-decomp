@@ -60,8 +60,8 @@ public:
     void *set_mode_and_refresh_object(void *item_data);
     void find_first_inventory_entry(int a1);
     void set_flag_and_update(int a1);
-    int apply_shop_judgment(int a1);
-    int count_matching_items(int a1);
+    int apply_shop_judgment(void *owners);
+    int count_matching_items(void *owners);
     int run_state_query(int a1);
     int run_and_get_result(int a1);
 };

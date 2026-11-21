@@ -722,13 +722,13 @@ void TWindowSubItem::exec_item_command(saddr arg1, s32 arg2) {
             TItem *held = (TItem *)TObjPlayer::get_slot_value((void *)(player + 0xD04), (int)((s8) ((V_A_80279714 *) temp_r3_2)->m31()));
             if (held != NULL) {
                 t = held->get_item_id();
-                TObjPlayer::send_6x26_unequip_item((void *)player, (void *)t);
+                TObjPlayer::send_6x26_unequip_item((void *)player, t);
             }
             send_6x25_equip_item(player, arg1, 0);
             this->m_1c = 0x16;
             break;
         case 2:
-            TObjPlayer::send_6x26_unequip_item((void *)player, (void *)arg1);
+            TObjPlayer::send_6x26_unequip_item((void *)player, arg1);
             this->m_1c = 0x16;
             break;
         }

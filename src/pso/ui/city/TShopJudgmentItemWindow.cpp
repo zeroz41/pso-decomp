@@ -284,7 +284,7 @@ void TShopJudgmentItemWindow::build_item_list(void *arg0) {
     s32 j;
     s32 k;
     memset(W->ents, 0, 0xF0);
-    n = ((TPlyItem *)(*(saddr *)(W->player + 0xD00)))->apply_shop_judgment((int)items);
+    n = ((TPlyItem *)(*(saddr *)(W->player + 0xD00)))->apply_shop_judgment(items);
     W->count = 0;
     for (i = 0; i < n; i++) {
         it = items[i];
@@ -553,7 +553,7 @@ void TShopJudgmentItemWindow::handle_equip_prompt() {
                 set_judgment_target_flag(arg0, &this->unk_28);
                 item = (VObj_802209D8 *)find_item_by_id(F(0x34, s32));
                 if (item != NULL && (eq = (uaddr)((TObjPlayer *)(F(0x24, saddr)))->get_equipped_item(item->m31())) != 0) {
-                    TObjPlayer::send_6x26_unequip_item((void *)(F(0x24, saddr)), (void *)(((TItem *)eq)->get_item_id()));
+                    TObjPlayer::send_6x26_unequip_item((void *)(F(0x24, saddr)), ((TItem *)eq)->get_item_id());
                 }
                 send_6x25_equip_item((void *)(F(0x24, saddr)), F(0x34, s32), 0);
                 ((VObj_18 *)(arg0))->m6(0xB, 1);

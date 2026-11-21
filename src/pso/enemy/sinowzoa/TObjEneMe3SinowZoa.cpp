@@ -559,7 +559,7 @@ void TObjEneMe3SinowZoa::sub_8031A6A0() {
                         pl = current_target;
                         TItem *held;
                         if (TObjPlayer::is_locally_controlled(pl) != 0 && (held = (TItem *)get_item_field_6__10TObjPlayerFPv(pl)) != 0) {
-                            TObjPlayer::send_6x26_unequip_item(pl, (void *)held->get_item_id());
+                            TObjPlayer::send_6x26_unequip_item(pl, held->get_item_id());
                             ((TObjPlayer *)pl)->get_hand_joint_position((saddr)&unk_408);
                             spawn_particle_effect(&unk_408, 0x1D0);
                         }

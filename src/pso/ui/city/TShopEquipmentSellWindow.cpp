@@ -264,7 +264,7 @@ void TShopEquipmentSellWindow::build_sell_list() {
     s32 v;
     void *p;
     void *r;
-    n = ((TPlyItem *)(self->owner->inventory))->count_matching_items((int)ids);
+    n = ((TPlyItem *)(self->owner->inventory))->count_matching_items(ids);
     self->count = 0;
     for (i = 0; i < n; i++) {
         if (ids[i] != 0) {

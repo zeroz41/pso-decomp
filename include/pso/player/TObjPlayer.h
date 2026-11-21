@@ -295,7 +295,7 @@ struct TObjPlayer : public TObjChara {
     // The photon blast gauge's charge, 0-100.
     s32 get_photon_blast_charge();
     int is_frozen();
-    static void send_6x26_unequip_item(void *player, void *item);
+    static void send_6x26_unequip_item(void *player, u32 item_id);
     player_class_type get_class_type();
     static void add_angle_clamped(s32 *arg0, s32 arg1, s32 arg2);
     static void step_angle_clamped(void *actor, int arg1);

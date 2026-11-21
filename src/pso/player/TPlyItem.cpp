@@ -453,9 +453,9 @@ s32 TPlyItem::count_items_by_id(saddr arg1) {
 
 void TPlyItem::set_flag_and_update(int a1) { item_reduce_target_player = a1; this->pad_1C4->unequip_invalid_items_recursive(); }
 
-int TPlyItem::apply_shop_judgment(int a1) { player_owner_collect_cursor = (s32 *)a1; inventory_walk_visit_count = 0; this->pad_1C4->collect_alive_owners(); return inventory_walk_visit_count; }
+int TPlyItem::apply_shop_judgment(void *owners) { player_owner_collect_cursor = (s32 *)owners; inventory_walk_visit_count = 0; this->pad_1C4->collect_alive_owners(); return inventory_walk_visit_count; }
 
-int TPlyItem::count_matching_items(int a1) { player_owner_collect_cursor = (s32 *)a1; inventory_walk_visit_count = 0; this->pad_1C4->collect_item_owners_recursive(); return inventory_walk_visit_count; }
+int TPlyItem::count_matching_items(void *owners) { player_owner_collect_cursor = (s32 *)owners; inventory_walk_visit_count = 0; this->pad_1C4->collect_item_owners_recursive(); return inventory_walk_visit_count; }
 
 int TLobby::set_globals_and_notify(int a1, int a2) { player_item_collect_cursor = (u8 *)a2; inventory_walk_visit_count = 0; TObjPlayer__sub_801D52A8((TObject *)(*(saddr *)((char*)this + 0x1c4))); return inventory_walk_visit_count; }
 

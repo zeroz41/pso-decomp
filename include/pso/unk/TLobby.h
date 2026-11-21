@@ -343,7 +343,7 @@ struct TLobby : public TObject {
     s32 pop_byte();
     void reset_counter_64();
     static int get_selected_quest_id();
-    static s32 handle_main_phase(s32 arg0);
+    static s32 handle_main_phase(saddr arg0);
     static void *create_tl05_object(void *arg0);
     static void free_global();
     static void clear_flag_if_not_split_screen();

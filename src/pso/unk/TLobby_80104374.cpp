@@ -497,7 +497,7 @@ void TLobby::handle_player_event(s32 arg0, s32 arg1) {
             break;
         }
         if (item != 0U) {
-            TObjPlayer::send_6x26_unequip_item((void *)player, (void *)((TItem *)item)->get_item_id());
+            TObjPlayer::send_6x26_unequip_item((void *)player, ((TItem *)item)->get_item_id());
         }
     }
 }

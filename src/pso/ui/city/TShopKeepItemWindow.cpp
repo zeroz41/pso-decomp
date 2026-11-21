@@ -114,7 +114,7 @@ void TShopKeepItemWindow::rebuild_item_list() {
     s32 i;
     s32 cur;
     this->deposit_count = 1;
-    count = ((TPlyItem *)this->m_24->inventory_objects)->count_matching_items((int)buf);
+    count = ((TPlyItem *)this->m_24->inventory_objects)->count_matching_items(buf);
     this->entry_count = 0;
     for (i = 0; i < count; i++) {
         if (buf[i] != 0 && ((TItem *)(buf[i]))->copy_to_item_data(&this->entries[this->entry_count].data) != 0) {
