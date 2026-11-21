@@ -126,7 +126,7 @@ force_active:
   - TAdBackTxtGC_backtext_tex_list
   - TAdChrMoveEffectGC__class_name
   - TAdChrMoveEffectGC__sub_80349194
-  - TAdChrSelASlotGC__sub_8030C45C
+  - TAdChrSelASlotGC__build_slot_entry
   - TAdChrSelBSlotGC__build_slot_entry
   - TAdChrSelBSlotGC__update_window_78
   - TAdChrSelBSlotGC__update_window_6c
@@ -16380,9 +16380,9 @@ force_active:
   - sub_8030CBD0__16TAdChrSelASlotGCFv
   - sub_8030CBD4__16TAdChrSelASlotGCFv
   - sub_8030CCE0__16TAdChrSelASlotGCFv
-  - sub_8030CCE4__16TAdChrSelASlotGCFv
-  - sub_8030CEEC__16TAdChrSelASlotGCFv
-  - sub_8030D5DC__16TAdChrSelASlotGCFv
+  - TAdChrSelASlotGC::populate_slot_entries__16TAdChrSelASlotGCFv
+  - TAdChrSelASlotGC::push_plate_positions__16TAdChrSelASlotGCFv
+  - TAdChrSelASlotGC::reset_windows__16TAdChrSelASlotGCFv
   - sub_803152A0__15TObjEneDelDepthFv
   - sub_803152C0__15TObjEneDelDepthFv
   - sub_80319E74__18TObjEneMe3SinowZoaFl
