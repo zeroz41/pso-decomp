@@ -11,7 +11,7 @@ struct TMovie : public TObject {
     virtual ~TMovie();
     virtual void run_task();
     RelModuleBuffer *module;
-    TMovie *m_20;
+    TMovie *player; // 0x20: the 0xD0-byte player initialize_movie_with_soundtrack builds (inferred)
     void* m_24;
     u8 unk_28[0x4];
     u32 m_2c;

@@ -237,7 +237,7 @@ s32 TMovie::decode_frame() {
     return 1;
 }
 
-void TMovie::copy(void* q) { *(u32 *)&this->m_name = *(u32*)((char*)q + 0x0); *(u32 *)&this->m_flags = *(u32*)((char*)q + 0x4); *(u32 *)&this->m_prev = *(u32*)((char*)q + 0x8); *(u32 *)&this->m_next = *(u32*)((char*)q + 0xc); *(u32 *)&this->m_up = *(u32*)((char*)q + 0x10); *(u32 *)&this->m_down = *(u32*)((char*)q + 0x14); *(u32*)((char*)this + 0x18) = *(u32*)((char*)q + 0x18); module = ((const TMovie *)q)->module; this->m_20 = ((const TMovie *)q)->m_20; *(u32 *)&this->m_24 = *(u32*)((char*)q + 0x24); *(u32 *)&this->unk_28 = *(u32*)((char*)q + 0x28); this->m_2c = *(u32*)((char*)q + 0x2c); *(u32 *)&this->unk_30 = *(u32*)((char*)q + 0x30); this->m_34 = *(u32*)((char*)q + 0x34); *(u32 *)&this->unk_38 = *(u32*)((char*)q + 0x38); this->m_3c = *(u32*)((char*)q + 0x3c); }
+void TMovie::copy(void* q) { *(u32 *)&this->m_name = *(u32*)((char*)q + 0x0); *(u32 *)&this->m_flags = *(u32*)((char*)q + 0x4); *(u32 *)&this->m_prev = *(u32*)((char*)q + 0x8); *(u32 *)&this->m_next = *(u32*)((char*)q + 0xc); *(u32 *)&this->m_up = *(u32*)((char*)q + 0x10); *(u32 *)&this->m_down = *(u32*)((char*)q + 0x14); *(u32*)((char*)this + 0x18) = *(u32*)((char*)q + 0x18); module = ((const TMovie *)q)->module; this->player = ((const TMovie *)q)->player; *(u32 *)&this->m_24 = *(u32*)((char*)q + 0x24); *(u32 *)&this->unk_28 = *(u32*)((char*)q + 0x28); this->m_2c = *(u32*)((char*)q + 0x2c); *(u32 *)&this->unk_30 = *(u32*)((char*)q + 0x30); this->m_34 = *(u32*)((char*)q + 0x34); *(u32 *)&this->unk_38 = *(u32*)((char*)q + 0x38); this->m_3c = *(u32*)((char*)q + 0x3c); }
 
 void TMovie::free_buffer() {
     if ((u32) *(u32 *)((s8 *)this + 0x9C) != 0U) {
@@ -289,10 +289,10 @@ TMovie::~TMovie() {
 
     this->render_until_finished();
     render_tick();
-    t = this->m_20;
+    t = this->player;
     if (t != NULL) {
         TMovie::close(t, 1);
-        this->m_20 = NULL;
+        this->player = NULL;
     }
     render_tick();
     render_tick();
@@ -322,7 +322,7 @@ s32 TMovie::check_skip_input() {
     s32 var_r30;
 
     if (TAdEndText__sub_8001B41C() != 0) {
-        if ((TLobby::run_disk_error_check() == 0) || (this->m_20->is_playback_finished() != 0) || (func_801A5E54__Fv() != 0)) {
+        if ((TLobby::run_disk_error_check() == 0) || (this->player->is_playback_finished() != 0) || (func_801A5E54__Fv() != 0)) {
             if ((TLobby::run_disk_error_check() == 0) || (func_801A5E54__Fv() != 0)) {
                 fn_801449F0();
             }
@@ -349,7 +349,7 @@ s32 TMovie::check_skip_input() {
         if (test_controller_flag_4c_color(context, 2) != 0) goto block_fn_8000F91C;
         if (TLobby::run_disk_error_check() == 0) goto block_fn_8000F91C;
         if (TKeyBoardControl::check_reset_button() != 0) goto block_fn_8000F91C;
-        if (this->m_20->is_playback_finished() == 0) goto block_return0;
+        if (this->player->is_playback_finished() == 0) goto block_return0;
 block_fn_8000F91C:
         set_queued_main_phase(9);
         return 1;
@@ -366,7 +366,7 @@ block_fn_8000F91C:
         if (test_controller_flag_4c_color(context, 2) != 0) goto block_call_func;
         if (TLobby::run_disk_error_check() == 0) goto block_call_func;
         if (var_r30 != 0) goto block_call_func;
-        if (this->m_20->is_playback_finished() == 0) goto block_return0;
+        if (this->player->is_playback_finished() == 0) goto block_return0;
 block_call_func:
         if ((func_801A5E54__Fv() != 0) || (var_r30 != 0)) {
             activate_main_menu_scene();
@@ -399,7 +399,7 @@ struct VObj_18_a28850 : VBase_18_a28850 {
 void TMovie::run_task() {
     VObj_18_a28850 *txt;
     u8 *p;
-    if (this->module == NULL || this->m_20 == NULL) {
+    if (this->module == NULL || this->player == NULL) {
         this->queue_destruction();
         return;
     }
@@ -421,9 +421,9 @@ void TMovie::run_task() {
         func_803DCDFC__Fv();
         controller_stuff();
         TKeyBoardControl::update_input_frame();
-        this->m_20->decode_frame();
+        this->player->decode_frame();
         if (*(s32 *)&this->m_48 != 0) {
-            this->m_20->update_stop();
+            this->player->update_stop();
             TMovie::run_callback();
         } else {
             Vec eye = movie_camera_eye;
@@ -431,7 +431,7 @@ void TMovie::run_task() {
             Vec up = movie_camera_up;
             set_perspective_projection_from_fov(0x4B, 1.1333334f, 1.0f, 21000.0f);
             set_camera_look_at((u8 *)&eye, (u8 *)&at, (u8 *)&up);
-            this->m_20->update_stop();
+            this->player->update_stop();
             if (txt != NULL) {
                 txt->m1();
                 txt->m2();
