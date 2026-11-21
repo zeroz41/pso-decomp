@@ -259,16 +259,12 @@ void TUnk_804E4B3C::update_spawn_timer(const s32 *table, s32 count, s32 hold_las
 #pragma fp_contract on
 void TUnk_804E4B3C::update_dust_spawn() {
     Vec v;
-    uaddr p;
     dust_timer--;
     if (dust_timer <= 0) {
         v.x = 200.0f * rand_signed_unit();
         v.y = 90.0f * (3.0517578125e-05f * (f32)rand()) + 10.0f;
         v.z = 600.0f;
-        p = (uaddr)TObject::operator new(0x30);
-        if (p != 0U) {
-            __ct__13TObjBoss7DustFv((u8 *)p, (saddr)tl_05, (saddr)&v);
-        }
+        new TObjBoss7Dust(tl_05, &v);
         dust_timer = 30;
     }
 }

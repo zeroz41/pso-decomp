@@ -12,15 +12,13 @@ public:
     virtual void run_task();
 public:
     static void create();
+    // Twins of TObjBoss2DustCtrl's sub_8003AB5C (next strip slot), sub_8003AD50 (empty) and
+    // sub_8003AD54 (builds the strip tables).
+    static s32 sub_802F125C();
+    static void sub_802F1450();
+    static void sub_802F1454();
 };
 
-extern "C" {
-s32 TObjBoss7DustCtrl__sub_802F125C(void);
-void TObjBoss7DustCtrl__sub_802F1450(void);
-}
 void boss7_dust_draw_at(const Vec *position, s32 slot);
-extern "C" {
-void fn_802F1454(void);
-}
 
 #endif

@@ -7,6 +7,7 @@
 
 class TObjBoss7Dust : public TObject {
 public:
+    TObjBoss7Dust(TObject *parent, const Vec *position);
     virtual ~TObjBoss7Dust();
     virtual void run_task();
     virtual void render();
@@ -17,7 +18,6 @@ public:
 LAYOUT_ASSERT(TObjBoss7Dust_size, sizeof(TObjBoss7Dust) == 0x30);
 
 extern "C" {
-u8 *__ct__13TObjBoss7DustFv(u8 *object, saddr parent, saddr origin);
 void fn_802F105C(void);
 void fn_802F1084(void);
 }
