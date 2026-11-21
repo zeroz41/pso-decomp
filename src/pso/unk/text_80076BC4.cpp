@@ -1,3 +1,4 @@
+#include "pso/system/CharacterSaveRecordLookup.h"
 #include "types.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowCtrl.h"
@@ -78,7 +79,6 @@ extern "C" {
 saddr TAdSinglePlyChrSelectGC__sub_80076D9C(saddr arg0, saddr arg1);
 bool is_chat_shortcut_set(s32 arg0);
 void clear_chat_shortcut(s32 i);
-saddr get_character_save_record(u32);
 
 void clear_chat_shortcut(s32 i) {
     void **p = ((void **)get_chat_shortcut(i));

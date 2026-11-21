@@ -30,7 +30,7 @@ void TAdDialingMessageWindow::run_child_tasks() { void* m = *(void* *)&this->m_2
 
 void TAdDialingMessageWindow::render() {
     if (this->m_1c & 1) {
-        TAdDialingGC__sub_80328B24(&lbl_8047A400, &lbl_8047A408);
+        draw_dialing_rectangle(&lbl_8047A400, &lbl_8047A408);
         if ((u32) this->m_20 != 0U) {
             draw_menu_font_string_white((const char *)(this->m_20), 23.0f, 356.0f);
         }

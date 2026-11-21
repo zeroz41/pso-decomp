@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/unk/text_8028EC70.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -103,7 +104,7 @@ s32 TAdSinglePlyChrSelectGC__sub_8028EE20(void *arg0, void *arg1_) {
     s32 max;
     s32 cur;
     s32 v;
-    max = class_appearance_table[((TCharaMaking *)(&c))->get_display_index()].max[arg1];
+    max = class_appearance_table[character_display_index(reinterpret_cast<uaddr>(&c))].max[arg1];
     cur = c.sel[arg1];
     v = cur;
     do {

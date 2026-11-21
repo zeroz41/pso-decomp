@@ -1,14 +1,9 @@
-#include "types.h"
-#include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdGuideTxtGC.h"
 
-void TAdMultiPlyChrSelectGC::set_entry_value(s32 arg1, u32 arg2) {
-    saddr arg0 = (saddr)this;
-    u8 *temp_r3;
-
-    temp_r3 = (unsigned char *) (arg0 + (arg1 * 4));
-    if ((u32) *(u32 *)((s8 *)temp_r3 + 0x24) != arg2) {
-        *(u32 *)((s8 *)temp_r3 + 0x1C) = arg2;
-        *(s32 *)((s8 *)temp_r3 + 0x3C) = 0;
+void TAdGuideTxtGC::set_line(s32 index, const char *line) {
+    if (previous_text[index] != line) {
+        text[index] = line;
+        alpha[index] = 0;
     }
-    *(u32 *)((s8 *)temp_r3 + 0x24) = arg2;
+    previous_text[index] = line;
 }

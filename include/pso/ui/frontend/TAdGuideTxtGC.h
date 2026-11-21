@@ -7,6 +7,8 @@
 
 class TAdGuideTxtGC : public TObject {
 public:
+    TAdGuideTxtGC(TObject *parent);
+    void set_line(s32 index, const char *line);
     const char *text[2];
     const char *previous_text[2];
     vec2f position[2];

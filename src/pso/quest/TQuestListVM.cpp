@@ -1,3 +1,4 @@
+#include "pso/system/save/CardSaveFile.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include <stdio.h>
 #include <string.h>
@@ -21,20 +22,12 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 
-// A file read from a memory card.
-struct CardFileRead {
-    u8 pad_0[0x58];
-    u8 *data;
-    s32 size;
-};
-
 // A window's width and height.
 struct WindowSize {
     f32 dimensions[2];
 };
 
 extern "C" {
-s32 TAdPlayerLoadGC__sub_801E1538(CardFileRead *file, void *buffer);
 s32 poll_memcard_result(s32 card_slot);
 extern s32 evt2_random_enemies_mode;
 }
@@ -317,7 +310,7 @@ void TQuestListVM::load_selected_player_slot() {
 }
 
 void TQuestListVM::process_download_entry() {
-    CardFileRead file;
+    CardSaveDescriptor file;
     QuestBinHeader *header;
 
     if (poll_memcard_result(entries[entry_count].card_slot) == 0) {
@@ -474,7 +467,7 @@ void TQuestListVM::load_selected_bin() {
 }
 
 void TQuestListVM::poll_quest_download() {
-    CardFileRead file;
+    CardSaveDescriptor file;
     u32 size;
     if (list_window != NULL) {
         if (poll_memcard_result(entries[list_window->get_cursor_value()].card_slot) == 0) {
@@ -604,7 +597,7 @@ void TQuestListVM::load_selected_slot() {
 }
 
 void TQuestListVM::load_downloaded_quest() {
-    CardFileRead file;
+    CardSaveDescriptor file;
     u32 size;
     if (list_window != NULL) {
         if (poll_memcard_result(entries[list_window->get_cursor_value()].card_slot) == 0) {

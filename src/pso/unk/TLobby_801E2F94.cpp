@@ -616,7 +616,7 @@ void fn_801E3F44(f32 x, f32 y) {
     *(f32 *)0xCC008000 = y;
 }
 
-void *TObjCMHairMenu__sub_801E3F54(void *p, void *q) {
-    *(u32 *)p = *(u32 *)q;
+u32 *TObjCMHairMenu__sub_801E3F54(u32 *p, const u32 *q) {
+    *p = *q;
     return p;
 }

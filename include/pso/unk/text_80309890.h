@@ -3,14 +3,8 @@
 
 #include "types.h"
 
-extern "C" {
-void fn_80309890(void *o, s32 v);
-}
+class TObject;
 
-// --- C functions defined in text_80309890.cpp ---
-extern "C" {
-void fn_80309890(void *o, s32 v);
-}
-// --- end of C functions
+extern "C" void fn_80309890(TObject *object, s32 index);
 
 #endif

@@ -389,7 +389,6 @@ struct TLobby : public TObject {
     void update_window_mode_from_progress(void *arg1);
     static void send_packet(s32 arg0, s32 arg1);
     static void free_shared_objects();
-    int start_load_default();
     static void free_single_player_chr_select();
     static void alloc_download_server();
     static void free_chr_select_singleton();
@@ -445,7 +444,6 @@ struct TLobby : public TObject {
     void prepare_trade_packet();
     static void forward_npc_enemy();
     static unsigned char get_trade_mode();
-    void set_ad_field(s32 v);
     static s32 is_online_ready();
     static s32 is_camera_ctrl_active();
     static s32 is_ready();
@@ -618,7 +616,6 @@ struct TLobby : public TObject {
     s32 get_battle_ctrl_default();
     static s32 find_free_chat_log_slot();
     static void apply_menu_cursor_selection();
-    u32 alloc_load_buffer(s32 arg1);
     static void reset_leader_selection_static();
     static u8 *get_stage_table_entry(s32 arg0, s32 arg1);
     static s32 get_online_result_value();
@@ -705,7 +702,6 @@ struct TLobby : public TObject {
     static void send_data(saddr arg0);
     static void update_alloc_size();
     static u8 get_selected_slot();
-    void update_model_load();
     void copy_player_record(u8 *arg1);
     u8 *init_memory_pool(s32 arg1, s32 arg2, s32 arg3);
     s32 load_bin_model(saddr arg1, s32 arg2);

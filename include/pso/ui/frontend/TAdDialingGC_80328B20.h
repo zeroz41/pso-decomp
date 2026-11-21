@@ -4,11 +4,11 @@
 #include "types.h"
 #include "pso/system/NinjaTypes.h"
 
-// --- C functions defined in TAdDialingGC_80328B20.cpp ---
+struct TAdDialingGC;
+
 extern "C" {
-void TAdDialingGC__sub_80328B20(void);
-void TAdDialingGC__sub_80328B24(const NJS_POINT2 *origin, const NJS_POINT2 *size);
+void TAdDialingGC__sub_80328B20(TAdDialingGC *screen);
+void draw_dialing_rectangle(const NJS_POINT2 *origin, const NJS_POINT2 *size);
 }
-// --- end of C functions
 
 #endif

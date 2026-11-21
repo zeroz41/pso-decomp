@@ -240,6 +240,8 @@ s32 CARDFormat(s32 chan);
 s32 CARDFormatAsync(s32 chan, CARDCallback callback);
 s32 CARDFreeBlocks(s32 chan, s32* byteNotUsed, s32* filesNotUsed);
 s32 CARDGetAttributes(s32 chan, s32 fileNo, u8* attr);
+const DVDDiskID* CARDGetDiskID(s32 chan);
+s32 CARDSetDiskID(s32 chan, const DVDDiskID* diskID);
 s32 CARDGetEncoding(s32 chan, u16* encode);
 s32 CARDGetMemSize(s32 chan, u16* size);
 s32 CARDGetResultCode(s32 chan);

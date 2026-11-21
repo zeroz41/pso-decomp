@@ -44,16 +44,12 @@ extern s32 TLobby__net_session_mode;
 struct Obj_80328874 { u8 pad[0x9C]; s32 state; };
 
 
-struct Obj_80328990 { u8 pad[0x9C]; u32 state; };
-
 extern "C" {
-int update_dialing_display__12TAdDialingGCFi(void*);
 BOOL fn_80145A44(char *dst);
 s32 call_146CA0_with_5708__6TLobbyFv();
 }
 
 extern "C" {
-s32 update_dial_state__12TAdDialingGCFl();
 #pragma readonly_strings on
 const char *TAdDialingGC__name = "TAdDialingGC";
 extern const char *TAdDialingGC__name;
@@ -87,7 +83,7 @@ void TAdDialingGC::run_task() {
 
     switch (this->m_1c) {
     case 0:
-        update_dial_state__12TAdDialingGCFl();
+        update_idle_dial_state();
         break;
     case 1:
         update_state();
@@ -100,7 +96,12 @@ void TAdDialingGC::run_task() {
     this->m_24 = (this->m_24 + 1);
 }
 
-void TAdDialingGC::render() { TAdDialingGC__sub_80328B20(); render_if_flag_set(); draw_if_flag_set(); update(); }
+void TAdDialingGC::render() {
+    TAdDialingGC__sub_80328B20(this);
+    render_if_flag_set();
+    draw_if_flag_set();
+    update();
+}
 
 }
 
@@ -111,19 +112,19 @@ __declspec(section ".rodata") extern const NJS_POINT2 lbl_804767C0[] = { 640.0f,
 extern const char lbl_804767C8[5] = "%s%s";
 void TAdDialingGC::render_if_flag_set() {
     if ((this->m_a4 & 1) && ((s32) this->m_1c == 0)) {
-        TAdDialingGC__sub_80328B24(lbl_804767A8, lbl_804767B0);
+        draw_dialing_rectangle(lbl_804767A8, lbl_804767B0);
     }
 }
 
 void TAdDialingGC::draw_if_flag_set() {
     TAdDialingGC *self = this;
     if (self->m_a4 & 1) {
-        TAdDialingGC__sub_80328B24(lbl_804767B8, lbl_804767C0);
+        draw_dialing_rectangle(lbl_804767B8, lbl_804767C0);
     }
 }
 
 // Draws a flat dark-blue quad of `size` (w, h) at `origin` (x, y) (one 2D polygon, four points).
-void TAdDialingGC__sub_80328B24(const NJS_POINT2 *origin, const NJS_POINT2 *size) {
+void draw_dialing_rectangle(const NJS_POINT2 *origin, const NJS_POINT2 *size) {
     NJS_POINT2 pos[4];
     NJS_POINT2COL poly;
     NJS_COLOR col[4];
@@ -146,7 +147,7 @@ void TAdDialingGC__sub_80328B24(const NJS_POINT2 *origin, const NJS_POINT2 *size
     draw_polygon_2d((NJS_POINT2COL *)&poly, 4, 7, -120.0f);
 }
 
-void TAdDialingGC__sub_80328B20(void) {  }
+void TAdDialingGC__sub_80328B20(TAdDialingGC *) {}
 
 extern "C" {
 void TAdDialingGC::draw_dialing_status() {
@@ -165,13 +166,12 @@ void TAdDialingGC::init_dialog() {
     draw_menu_font_string_white((const char *)get_connection_message_text(0), 23.0f, 331.0f);
 }
 
-int TAdDialingGC::refresh_display() { return update_dialing_display__12TAdDialingGCFi((void*)(8)); }
+void TAdDialingGC::refresh_display() { update_dialing_display(8); }
 
 void TAdDialingGC::update_status_display() {
-    Obj_80328990 *arg0 = (Obj_80328990 *)this;
     switch (this->m_9c) {
     case 1:
-        ((TAdDialingGC *)arg0)->refresh_display();
+        refresh_display();
         return;
     case 2:
         TAdDialingGC::update_dialing_display(9);
@@ -239,7 +239,6 @@ void TAdDialingGC::handle_state() {
 }
 
 void TAdDialingGC::update_status_message() {
-    Obj_80328874 *arg0 = (Obj_80328874 *)this;
     switch (this->m_9c) {
     case 11:
         TAdDialingGC::update_dialing_display(0x11);
@@ -251,7 +250,7 @@ void TAdDialingGC::update_status_message() {
         TAdDialingGC::update_dialing_display(0x13);
         return;
     case 14:
-        ((TAdDialingGC *)arg0)->refresh_display();
+        refresh_display();
         return;
     case 8:
         TAdDialingGC::update_dialing_display(0xF);
@@ -357,8 +356,8 @@ void TAdDialingGC::update_state_display() {
             TAdDialingGC::update_dialing_display(0x17);
             break;
         case 2:
-            ((TAdDialingGC *)arg0)->init_dialog();
-            ((TAdDialingGC *)arg0)->draw_dialing_status();
+            init_dialog();
+            draw_dialing_status();
             break;
         case 3:
             TAdDialingGC::update_dialing_display(2);
@@ -406,7 +405,7 @@ void TAdDialingGC::spawn_title_screen() {
     }
 }
 
-void TAdDialingGC::update_dial_state(s32 arg1) {
+void TAdDialingGC::update_idle_dial_state() {
     switch (this->m_20) {
     case 0:
         this->m_a0++;

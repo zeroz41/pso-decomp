@@ -222,7 +222,7 @@ TChCrTagName::~TChCrTagName() {}
 
 }
 
-TChCrTagName::TChCrTagName(TObject *parent, void *arg) : TChCrTag(parent, arg) {
+TChCrTagName::TChCrTagName(TObject *parent, s32 index) : TChCrTag(parent, index) {
     m_name = TChCrTagName__class_name;
     m_28 = (0.033333335f);
     m_2c = (-0.022222223f);
@@ -237,14 +237,14 @@ TChCrTagName::TChCrTagName(TObject *parent, void *arg) : TChCrTag(parent, arg) {
 extern "C" {
 #pragma pop
 
-void *TChCrTagName::create(void *arg0) {
-    return new TChCrTagName(tl_03, arg0);
+TChCrTagName *TChCrTagName::create(s32 index) {
+    return new TChCrTagName(tl_03, index);
 }
 
 void TChCrTagName::create_all() {
     saddr i;
     for (i = 0; i < 12; i++) {
-        TChCrTagName::create((void *)i);
+        TChCrTagName::create(i);
     }
 }
 

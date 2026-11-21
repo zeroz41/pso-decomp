@@ -1,6 +1,9 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/ui/frontend/TitleBackgroundStorage.h"
 #include "pso/ui/window/TWindowMessage.h"
+#include "pso/ui/window/ProgressMessageWindow.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/TUnk_804EF8C0.h"
@@ -103,9 +106,7 @@ s32 encrypt_save_data__23TAdSinglePlyChrSelectGCFPvPv(int);
 s32 save_character_file__23TAdSinglePlyChrSelectGCFi(int);
 s32 init_and_register__23TAdSinglePlyChrSelectGCFi(int);
 s32 get_field_118__22TAdEnterSerialAccessGCFv();
-saddr get_character_save_record(int);
 
-struct TAdSinglePlyChrSelectGC__sub_8033B9F8;
 void TAdSinglePlyChrSelectGC::reset_quest_id() {
     single_ply_quest_download_server = 0xFFFF;
 }
@@ -177,7 +178,7 @@ void TAdSinglePlyChrSelectGC::handle_player_load() {
     case 0:
         switch (poll_memcard_result(arg0->chr_select_state)) {
         case 0:
-            switch (TAdPlayerLoadGC::get_load_result((void *)arg0->chr_select_state)) {
+            switch (TAdPlayerLoadGC::get_load_result(arg0->chr_select_state)) {
             case 0:
                 arg0->state = 0xE;
                 close_window__23TAdSinglePlyChrSelectGCFPv(arg0);
@@ -242,7 +243,7 @@ void TAdSinglePlyChrSelectGC::sub_8033ACF4() {
     case 0:
         switch (poll_memcard_result(arg0->chr_select_state)) {
         case 0:
-            switch (TAdPlayerLoadGC::get_load_result((void *)arg0->chr_select_state)) {
+            switch (TAdPlayerLoadGC::get_load_result(arg0->chr_select_state)) {
             case 0:
                 arg0->state = 6;
                 arg0->chr_select_state = (s8)TAdSinglePlyChrSelectGC::get_chr_select_state();
@@ -355,20 +356,20 @@ void TAdSinglePlyChrSelectGC::sub_8033AFC8() {
 #undef ad_single_ply_chr_select_gc
 
 void TAdSinglePlyChrSelectGC::sub_8033B0AC() {
-    void *ad_single_ply_chr_select_gc = this;
+    TAdSinglePlyChrSelectGC *ad_single_ply_chr_select_gc = this;
     uaddr o;
-    if (*(void **)((s8 *)ad_single_ply_chr_select_gc + 0x40) != 0) {
-        if (((s32 (*)(void *))TAdSinglePlyChrSelectGC__sub_8033B9F8)(*(void **)((s8 *)ad_single_ply_chr_select_gc + 0x40)) == 1) {
-            ((TObject *)((void*)(*(void **)((s8 *)ad_single_ply_chr_select_gc + 0x40))))->queue_destruction();
-            *(void **)((s8 *)ad_single_ply_chr_select_gc + 0x40) = 0;
+    if (ad_single_ply_chr_select_gc->memory_card_check != NULL) {
+        if (ad_single_ply_chr_select_gc->memory_card_check->is_card_ready() == 1) {
+            ad_single_ply_chr_select_gc->memory_card_check->queue_destruction();
+            ad_single_ply_chr_select_gc->memory_card_check = NULL;
             *(s32 *)((s8 *)ad_single_ply_chr_select_gc + 0x2C) = 2;
             *(s32 *)((s8 *)ad_single_ply_chr_select_gc + 0x38) = (saddr)create_message_window_for_size((NJS_POINT2 *)lbl_80477D48, (NJS_POINT2 *)lbl_80477D50);
             lbl_805D6D90 |= 1;
             return;
         }
-        if (((TAdSinglePlyChrSelectGC *)(*(void **)((s8 *)ad_single_ply_chr_select_gc + 0x40)))->get_field_44() == 1) {
-            ((TObject *)((void*)(*(void **)((s8 *)ad_single_ply_chr_select_gc + 0x40))))->queue_destruction();
-            *(void **)((s8 *)ad_single_ply_chr_select_gc + 0x40) = 0;
+        if (ad_single_ply_chr_select_gc->memory_card_check->prompt_was_accepted() == 1) {
+            ad_single_ply_chr_select_gc->memory_card_check->queue_destruction();
+            ad_single_ply_chr_select_gc->memory_card_check = NULL;
             *(s32 *)((s8 *)ad_single_ply_chr_select_gc + 0x2C) = 0xE;
             ((s32 (*)(void *))TAdSinglePlyChrSelectGC__sub_8033B5F0)(ad_single_ply_chr_select_gc);
             close_window__23TAdSinglePlyChrSelectGCFPv(ad_single_ply_chr_select_gc);
@@ -383,11 +384,11 @@ void TAdSinglePlyChrSelectGC::sub_8033B0AC() {
 }
 
 void TAdSinglePlyChrSelectGC::start_check_memory_card() {
-    u8 *temp_r3;
-    *(u8 **)((s8 *)((u8 *)this) + 0x40) = (u8 *)TCheckMemoryCard::create(this, NULL, 0);
-    temp_r3 = (u8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x40));
-    if (temp_r3 != NULL) {
-        TAdSinglePlyChrSelectGC__sub_8033B9E0(temp_r3);
+    TCheckMemoryCard *check;
+    memory_card_check = TCheckMemoryCard::create(this, NULL, 0);
+    check = memory_card_check;
+    if (check != NULL) {
+        check->enable_prompt();
     }
     *(s32 *)((s8 *)((u8 *)this) + 0x2C) = 1;
 }
@@ -567,14 +568,14 @@ void seed_character_select_serial_rng(s32 arg0) {
     *(s32 *)((s8 *)&chr_select_serial_seeds.value + 0) = arg0;
 }
 
-s32 TAdSinglePlyChrSelectGC::get_field_44() { return *(s32*)((char*)this + 0x44); }
+s32 TCheckMemoryCard::prompt_was_accepted() { return prompt_accepted; }
 
-void TAdSinglePlyChrSelectGC__sub_8033B9E0(void* p) { *(s32*)((char*)p + 0x40) = 1; }
+void TCheckMemoryCard::enable_prompt() { prompt = 1; }
 
-void TAdSinglePlyChrSelectGC__sub_8033B9EC(void* p) { *(s32*)((char*)p + 0x4c) = 1; }
+void TCheckMemoryCard::select_main_window_controller() { use_main_ctrl = 1; }
 
-u8 TAdSinglePlyChrSelectGC__sub_8033B9F8(u8 *arg0) {
-    return (u8) (*(s32 *)((s8 *)arg0 + 0x3C) == 1);
+s32 TCheckMemoryCard::is_card_ready() {
+    return card_ready == 1;
 }
 
 s32 TAdSinglePlyChrSelectGC::has_no_save_files(s32 chan) {

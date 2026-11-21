@@ -33,7 +33,7 @@ struct TWindowShortListCtrl : public TObject {
     void update_variant_b();
     void update_variant_c();
     static s32 get_card_window_flags(s32 client_id);
-    static s32 get_card_status_bits();
+    static s32 get_card_status_bits(s32 client_id);
     void set_displayed_item(s32 arg1);
     s32 is_technique_usable();
     void swap_card_entries(s32 arg1, s32 arg2);

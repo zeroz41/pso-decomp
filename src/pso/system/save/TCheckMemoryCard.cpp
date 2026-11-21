@@ -8,6 +8,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMessage.h"
+#include "pso/ui/window/ProgressMessageWindow.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
@@ -32,6 +33,8 @@ struct CheckMemoryCardState {
     void (TCheckMemoryCard::*enter)();
     void (TCheckMemoryCard::*run)();
 };
+LAYOUT_ASSERT(CheckMemoryCardState_size, sizeof(CheckMemoryCardState) == 0x18);
+LAYOUT_ASSERT(CheckMemoryCardState_run_offset, offsetof(CheckMemoryCardState, run) == 0xC);
 
 const char *TCheckMemoryCard__name = "TCheckMemoryCard";
 
@@ -154,7 +157,7 @@ void TCheckMemoryCard::create_message_and_menu(u32 text, s32 sel, u32 first_entr
         return;
     }
     if (message_window != NULL && use_main_ctrl != 0) {
-        ((TWindowSubComCard *)message_window)->reparent_to_main_ctrl();
+        message_window->reparent_to_main_ctrl();
     }
     if (text != 0) {
         message_window->append_line(text, 3);
@@ -172,7 +175,7 @@ void TCheckMemoryCard::create_message_and_menu(u32 text, s32 sel, u32 first_entr
         return;
     }
     if (menu_window != NULL && use_main_ctrl != 0) {
-        ((TWindowSubComCard *)menu_window)->reparent_to_main_ctrl();
+        menu_window->reparent_to_main_ctrl();
     }
     entry_text = first_entry;
     if (first_entry == 0) {

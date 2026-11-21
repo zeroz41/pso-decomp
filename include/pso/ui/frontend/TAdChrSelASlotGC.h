@@ -5,14 +5,16 @@
 #include "pso/system/task/TObject.h"
 
 class TAdSubPlyItemGC;
+class TAdChrSelMovePlateGC;
+class TAdPlyChrSelPlateGC;
 
 struct TAdChrSelASlotGC : public TObject {
-    TAdChrSelASlotGC(TObject *arg1, void *arg2);
+    TAdChrSelASlotGC(TObject *parent, s32 mode);
     virtual ~TAdChrSelASlotGC();
     virtual void render();
     virtual void run_task();
     u32 state_frames;
-    u8 _pad20[0x4];
+    s32 mode;
     u32 state;
     u32 prev_state;
     u8 _pad2C[0x4];
@@ -48,11 +50,12 @@ struct TAdChrSelASlotGC : public TObject {
     void create_children(s32 arg1);
     void init(s32 arg1);
     s32 get_slot_index();
-    u8 unk_34[0x4];
-    saddr m_38;
+    void forward_slot_selection(void* a1, void* a2);
+    TAdPlyChrSelPlateGC *m_34;
+    TAdPlyChrSelPlateGC *m_38;
     TAdSubPlyItemGC *player_items;
     saddr m_40;
-    u8 unk_44[0x4];
+    TAdChrSelMovePlateGC *m_44;
     u32 m_48;
     u8 unk_4C[0x4];
     u32 m_50;

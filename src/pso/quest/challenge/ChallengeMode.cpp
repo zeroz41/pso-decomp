@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/object/TObjWarnChime.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/unk/text_80072230.h"
@@ -82,7 +83,6 @@ typedef void (TChallenge::*Step_80070674)(void);
 struct Q_80070078 { u8 pad[0x48]; s32 x48; };
 struct L_80070078 { u8 pad[0x2C]; s32 x2C; };
 extern "C" {
-saddr get_character_save_record(u32);
 extern s32 local_client_id;
 void TLobby__sub_800738F4(void *, s32);
 }

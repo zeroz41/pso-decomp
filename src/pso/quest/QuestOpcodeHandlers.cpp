@@ -1,3 +1,4 @@
+#include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/network/FloorEventCommand.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -7,6 +8,7 @@
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/ui/window/TWindowMessage.h"
+#include "pso/ui/window/ProgressMessageWindow.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/item/mag/TItemMag.h"
@@ -158,8 +160,6 @@ extern "C" {
 int sscanf(const char *, const char *, ...);
 s32 dispatch_chat_message_to_children__12TOChatSensorFl();
 }
-namespace pf2_p0 { extern "C" { u32 get_character_save_record(int); } }
-#define get_character_save_record pf2_p0::get_character_save_record
 void append_episode_progress_string(void);
 void append_entered_item_name_pair(void);
 void append_split_screen_hero_name(void);
@@ -967,7 +967,6 @@ int set_quest_success_callback(void*);
 int THunterGuildSeqOffline__sub_801F3748(void*);
 void TObjDoor__sub_801F3754(void);
 void TObjDoor__sub_801F3760(void);
-saddr get_character_save_record(u32);
 s32 get_floor_map_terrain(s32 arg0);
 s32 clear_floor_event_flags();
 s32 is_room_enemy_set_cleared(int, int, void *);
@@ -4626,10 +4625,10 @@ void qst_op_player_effect_nc(u8 arg0) {
 void qst_op_has_ep3_save_file() {
     u8 reg = qst_args[0];
     s32 ok = 0;
-    if (TAdPlayerLoadGC::probe_card_slot(0) != 0 && TAdPlayerLoadGC::find_card_file(0, "PSO3_CHARACTER") == 0 && TAdPlayerLoadGC::get_load_result((void *)0) == 0) {
+    if (TAdPlayerLoadGC::probe_card_slot(0) != 0 && TAdPlayerLoadGC::find_card_file(0, "PSO3_CHARACTER") == 0 && TAdPlayerLoadGC::get_load_result(0) == 0) {
         ok = 1;
     }
-    if (ok == 0 && TAdPlayerLoadGC::probe_card_slot(1) != 0 && TAdPlayerLoadGC::find_card_file(1, "PSO3_CHARACTER") == 0 && TAdPlayerLoadGC::get_load_result((void *)1) == 0) {
+    if (ok == 0 && TAdPlayerLoadGC::probe_card_slot(1) != 0 && TAdPlayerLoadGC::find_card_file(1, "PSO3_CHARACTER") == 0 && TAdPlayerLoadGC::get_load_result(1) == 0) {
         ok = 1;
     }
     qst_registers[reg] = ok;

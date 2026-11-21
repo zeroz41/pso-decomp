@@ -5,13 +5,13 @@
 
 class TChCrTagPlBack : public TChCrTag {
 public:
-    TChCrTagPlBack(TObject *parent, void *arg);
+    TChCrTagPlBack(TObject *parent, s32 index);
     virtual ~TChCrTagPlBack();
     virtual void render();
     void draw_frame();
 public:
-    static void *create(void *arg0);
-    static void *create_default();
+    static TChCrTagPlBack *create(s32 index);
+    static TChCrTagPlBack *create_default();
     void get_position_offset(void *arg1);
 };
 

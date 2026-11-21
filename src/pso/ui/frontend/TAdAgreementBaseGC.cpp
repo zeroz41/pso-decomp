@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
@@ -82,8 +83,8 @@ void TAdAgreementBaseGC::update_state() {
         *(s32 *)&this->m_1c = 1;
         break;
     case 1:
-        if (((TAdSinglePlyChrSelectGC *)(*(saddr *)&this->m_30))->get_selected_slot() == 1) {
-            switch (TAdSinglePlyChrSelectGC__sub_801334DC((void *)(*(saddr *)&this->m_30))) {
+        if (((TAdSelectCurGC *)(*(saddr *)&this->m_30))->confirmation_result() == 1) {
+            switch (reinterpret_cast<TAdSelectCurGC *>((*(saddr *)&this->m_30))->selection_index()) {
             case 0:
                 *(s32 *)&this->m_1c = 2;
                 *(s32 *)&this->m_24 = 3;
@@ -144,15 +145,15 @@ TAdAgreementBaseGC::TAdAgreementBaseGC(TObject *arg1) : TObject(arg1) {
     arg0->cur = 0;
     p = new TAdBackGC((TObject *)arg0);
     p = new TAdBackTxtGC((TObject *)arg0);
-    p = TObject::operator new(0x708);
-    if (p != 0) {
-        p = __ct__14TAdSelectCurGCFv(p, tl_clipout, (void *)agreement_item_rect_table, (void *)&lbl_804770A0);
-    }
+    p = new TAdSelectCurGC(tl_clipout,
+        reinterpret_cast<const NJS_POINT2 *>(agreement_item_rect_table),
+        reinterpret_cast<const NJS_POINT2 *>(&lbl_804770A0));
     arg0->cur = p;
-    ((TLevelSelect *)(arg0->cur))->add_item_rect((void *)&agreement_item_rect_table[0]);
-    ((TLevelSelect *)(arg0->cur))->add_item_rect((void *)&agreement_item_rect_table[1]);
+    ((TAdSelectCurGC *)(arg0->cur))->append_entry((void *)&agreement_item_rect_table[0]);
+    ((TAdSelectCurGC *)(arg0->cur))->append_entry((void *)&agreement_item_rect_table[1]);
     fn_80329BAC(arg0->cur);
-    ((TLobby *)(arg0->cur))->set_ad_field(1);
+    ((TAdSelectCurGC *)(arg0->cur))->set_selection_index(1);
+    return;
 }
 #undef arg0
 

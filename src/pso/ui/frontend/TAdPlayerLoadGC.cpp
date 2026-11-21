@@ -118,14 +118,14 @@ void TAdPlayerLoadGC::run_task() {
     case 14:
         if (probe_card_slot(1) == 0) {
             state = 0xDU;
-        } else if ((probe_and_check_card(1) != 0) || ((u32)get_load_result((void *)1) != 0xFFFFFF83U)) {
+        } else if ((probe_and_check_card(1) != 0) || ((u32)get_load_result(1) != 0xFFFFFF83U)) {
             state = 0xFU;
         }
         break;
     case 15:
         if (probe_card_slot(1) == 0) {
             state = 0xDU;
-        } else if ((probe_and_check_card(1) != 0) || ((u32)get_load_result((void *)1) != 0xFFFFFF21U)) {
+        } else if ((probe_and_check_card(1) != 0) || ((u32)get_load_result(1) != 0xFFFFFF21U)) {
             state = 0x10U;
         }
     case 16:

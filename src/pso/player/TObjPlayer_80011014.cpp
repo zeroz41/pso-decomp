@@ -2,7 +2,8 @@
 
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/player/TObjPlayer_800F0810.h"
-
+#include "pso/system/MainPhaseState.h"
+#include "pso/system/MainPhaseTable.h"
 #include "pso/render/BlobShadow.h"
 
 #include "pso/unk/text_803D8F74.h"
@@ -412,23 +413,6 @@ extern s32 game_difficulty_selection;
 void display_exp_gain(saddr arg0, u32 arg1, s32 arg2, s32 arg3);
 void show_tp_font(saddr arg0, u32 arg1, s32 arg2, s32 arg3);
 s16 obj_getS16_118(u8* p);
-typedef void (*SceneFn_8000FD54)(void);
-
-typedef struct SceneEntry_8000FD54 {
-    SceneFn_8000FD54 init;
-    SceneFn_8000FD54 update;
-    SceneFn_8000FD54 exit;
-} SceneEntry_8000FD54;
-
-typedef struct SceneState_8000FD54 {
-    s32 cur;
-    s32 next;
-    s32 unk8;
-    s32 unkC;
-    s32 result;
-    s32 prev;
-} SceneState_8000FD54;
-
 struct Stack_80010A84 {
     s32 sp8;
     s32 spC;
@@ -874,8 +858,7 @@ extern const f64 lbl_80434098;
 extern const f64 lbl_804340A0;
 extern u8 lbl_804340A8[];
 extern s32 lbl_804340B0[];
-
-SceneEntry_8000FD54 main_phase_table[] = {
+MainPhaseEntry main_phase_table[] = {
     { NULL, NULL, NULL },
     { TLogo::init_logo_scene, TLogo::run_frame, TLogo__sub_8013F5AC },
     { TAdMultiChgGameModeGC__sub_8023F62C, run_game_mode_select_frame, TLobby::release_scene_resources },
@@ -899,8 +882,6 @@ SceneEntry_8000FD54 main_phase_table[] = {
     { NULL, NULL, NULL },
     { TItemReverseTech::init_scene, TItemReverseTech::run_frame, TItemReverseTech::run_cleanup_callbacks },
 };
-
-extern SceneState_8000FD54 main_phase_state;
 extern Vec scratch_vec;
 struct LobbyRuleSettings { s32 value; u8 remaining[0x2C]; };
 extern LobbyRuleSettings lobby_rule_settings;
@@ -920,6 +901,7 @@ const s16 poison_damage_bonus_by_difficulty[4] = {0, 2, 5, 10};
 
 // inferred: the zero vector find_nearest_visible_player starts its player-distance vector from
 const Vec nearest_player_zero_vec = {0.0f, 0.0f, 0.0f};
+
 }
 
 void spawn_confusion_feedback_effect(saddr arg0, s32 arg1);
@@ -4743,8 +4725,8 @@ s32 TObjChara::check_heavy_damage_flag(f32 farg0) {
 }
 
 void main(void) {
-    SceneFn_8000FD54 fn;
-    SceneFn_8000FD54 update;
+    MainPhaseCallback fn;
+    MainPhaseCallback update;
 
     init_game_systems();
     while (main_phase_state.cur != 0) {

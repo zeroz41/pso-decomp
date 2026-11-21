@@ -74,7 +74,6 @@ struct TWindowSubComCard : public TObject {
     uaddr get_field_20();
     f32 calc_offset();
     f32 get_normalized_progress();
-    void reparent_to_main_ctrl();
     void update_open_close();
     void begin_scroll(f32 farg0);
     int get_flag();

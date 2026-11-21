@@ -1,26 +1,24 @@
+#include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802E0064.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 
 extern "C" {
-s32 TAdMultiPlyChrSelectGC__sub_802DFFE8();
 
-void TAdMultiPlyChrSelectGC::set_field_4ec(s32 v) { *(s32*)((char*)this + 0x4ec) = v; }
+void TAdChrSelPlyPlateGC::set_cursor_column(s32 column) { cursor_col = column; }
 
     extern int multi_ply_chr_select_active_player;
     extern int TAdMultiPlyChrSelectGC__selected_slot;
 
-void TAdMultiPlyChrSelectGC__sub_802E006C(u8 *arg0, s32 arg1, s32 arg2) {
-    *(s32 *)((s8 *)arg0 + 0x4F4) = arg1;
-    *(s32 *)((s8 *)arg0 + 0x4F0) = arg2;
+void TAdChrSelPlyPlateGC::set_cursor_fields(s32 field_4f4, s32 field_4f0) {
+    unk_4f4 = field_4f4;
+    unk_4f0 = field_4f0;
 }
 
-void TAdMultiPlyChrSelectGC::restore_selection() { TAdMultiPlyChrSelectGC__selected_slot = multi_ply_chr_select_active_player; }
+void TAdChrSelPlyPlateGC::restore_selection() { TAdMultiPlyChrSelectGC__selected_slot = multi_ply_chr_select_active_player; }
 
-void TAdMultiPlyChrSelectGC::update_field_4E8() {
-    *(s32 *)((s8 *)this + 0x4E8) = TAdMultiPlyChrSelectGC__sub_802DFFE8();
-}
-s32 TAdMultiPlyChrSelectGC::get_field_0x530() { return *(s32*)((char*)this + 0x530); }
+void TAdChrSelPlyPlateGC::capture_card_index() { unk_4e8 = get_active_card_slot(); }
+s32 TAdChrSelPlyPlateGC::get_field_0x530() { return unk_530; }
 void TAdMultiPlyChrSelectGC::set_field_1c(s32 v) { this->m_1c = v; }
 s32 TAdMultiPlyChrSelectGC::get_mode() { return this->m_1c; }
 

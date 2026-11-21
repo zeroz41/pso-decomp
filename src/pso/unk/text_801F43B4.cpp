@@ -1,3 +1,4 @@
+#include "pso/system/CharacterSaveRecordLookup.h"
 #include "types.h"
 #include <string.h>
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"

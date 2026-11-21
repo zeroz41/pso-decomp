@@ -83,7 +83,7 @@ void *__vt__14TChCrTagPlBack[7] = {
 
 }
 
-TChCrTagPlBack::TChCrTagPlBack(TObject *parent, void *arg) : TChCrTag(parent, arg) {
+TChCrTagPlBack::TChCrTagPlBack(TObject *parent, s32 index) : TChCrTag(parent, index) {
     m_name = TChCrTagPlBack__name;
     m_28 = 0.06666667f;
     m_2c = -0.06666667f;
@@ -92,11 +92,11 @@ TChCrTagPlBack::TChCrTagPlBack(TObject *parent, void *arg) : TChCrTag(parent, ar
 }
 
 
-void *TChCrTagPlBack::create(void *arg0) {
-    return new TChCrTagPlBack(tl_03, arg0);
+TChCrTagPlBack *TChCrTagPlBack::create(s32 index) {
+    return new TChCrTagPlBack(tl_03, index);
 }
 
-void *TChCrTagPlBack::create_default() { return TChCrTagPlBack::create(NULL); }
+TChCrTagPlBack *TChCrTagPlBack::create_default() { return TChCrTagPlBack::create(0); }
 
 
 // The frame sprites' positions (and the edge scale), defined after their use so

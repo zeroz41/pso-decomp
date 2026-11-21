@@ -1,3 +1,5 @@
+#include "pso/ui/frontend/TAdGuideTxtGC.h"
+#include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
@@ -84,8 +86,6 @@ void __ct__8TAdRayGCFv(void *, void *);
 void __ct__10TAdTitleGCFP7TObjectl(void *, void *, s32);
 void *__ct__14TAdSelectTxtGCFP7TObjectPvPv(void *, void *, const void *, s32);
 void __ct__13TAdTitleTexGCFv(void *, void *);
-void *__ct__14TAdSelectCurGCFv(void *, void *, void *, void *);
-void *__ct__13TAdGuideTxtGCFv(void *, void *);
 extern void *__vt__21TAdMultiSelGameModeGC[];
 extern saddr game_difficulty_selection;
 saddr lbl_805D69F4;
@@ -172,7 +172,7 @@ void TAdMultiSelGameModeGC::update_transition_state() {
 
 void TAdMultiSelGameModeGC::sub_803003A4() {
     Obj_8030095C *self = (Obj_8030095C *)this;
-    switch (TAdSinglePlyChrSelectGC__sub_801334DC(self->f3C)) {
+    switch (reinterpret_cast<TAdSelectCurGC *>(self->f3C)->selection_index()) {
     case 0:
         if (((TWindowMenu *)self->f2C)->is_cancelled() != 0) {
             ((TAdMultiSelGameModeGC *)self->f3C)->set_selection_state(1);
@@ -241,9 +241,9 @@ void TAdMultiSelGameModeGC::sub_803003A4() {
 
 void TAdMultiSelGameModeGC::sub_80300648() {
     Obj_8030095C *self = (Obj_8030095C *)this;
-    self->f24 = TAdSinglePlyChrSelectGC__sub_801334DC(self->f3C);
+    self->f24 = reinterpret_cast<TAdSelectCurGC *>(self->f3C)->selection_index();
     if (self->f28 != self->f24) {
-        ((TAdMultiPlyChrSelectGC *)self->f40)->set_entry_value(0, get_localized_text_entry(0x18, self->f24));
+        ((TAdGuideTxtGC *)self->f40)->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x18, self->f24)));
     }
     if (self->f2C != NULL) {
         ((TObject *)self->f2C)->queue_destruction();
@@ -252,12 +252,12 @@ void TAdMultiSelGameModeGC::sub_80300648() {
     if (TWindowShortListCtrl__check_controller_button(&controller_input_state[0x20], 2) != 0 ||
         test_controller_flag_4c_color(&controller_input_state[0x160], 2) != 0) {
         self->f1C = 3;
-    } else if (((TAdSinglePlyChrSelectGC *)self->f3C)->get_selected_slot() == 1) {
-        switch (TAdSinglePlyChrSelectGC__sub_801334DC(self->f3C)) {
+    } else if (((TAdSelectCurGC *)self->f3C)->confirmation_result() == 1) {
+        switch (reinterpret_cast<TAdSelectCurGC *>(self->f3C)->selection_index()) {
         case 0:
         case 1:
         case 2:
-            self->f2C = (void *)((TAdMultiSelGameModeGC *)self)->build_mode_menu(TAdSinglePlyChrSelectGC__sub_801334DC(self->f3C));
+            self->f2C = (void *)((TAdMultiSelGameModeGC *)self)->build_mode_menu(reinterpret_cast<TAdSelectCurGC *>(self->f3C)->selection_index());
             self->f1C = 2;
             break;
         case 3:
@@ -382,21 +382,17 @@ Obj_8030095C *__ct__21TAdMultiSelGameModeGCFv(Obj_8030095C *self, s32 parent, s3
     {
         Cur_8030095C cur = { { 442.0f, 28.0f } };
         Pos_8030095C pos = { { 144.0f, 146.0f, 114.0f, 198.0f, 84.0f, 250.0f, 54.0f, 302.0f } };
-        p = TObject::operator new(0x708);
-        if (p != NULL) {
-            p = __ct__14TAdSelectCurGCFv(p, self, &pos, &cur);
-        }
+        p = new TAdSelectCurGC(reinterpret_cast<TObject *>(self),
+            reinterpret_cast<const NJS_POINT2 *>(&pos),
+            reinterpret_cast<const NJS_POINT2 *>(&cur));
         self->f3C = p;
-        ((TLevelSelect *)(self->f3C))->add_item_rect(&pos.v[0]);
-        ((TLevelSelect *)(self->f3C))->add_item_rect(&pos.v[2]);
-        ((TLevelSelect *)(self->f3C))->add_item_rect(&pos.v[4]);
-        ((TLevelSelect *)(self->f3C))->add_item_rect(&pos.v[6]);
+        ((TAdSelectCurGC *)(self->f3C))->append_entry(&pos.v[0]);
+        ((TAdSelectCurGC *)(self->f3C))->append_entry(&pos.v[2]);
+        ((TAdSelectCurGC *)(self->f3C))->append_entry(&pos.v[4]);
+        ((TAdSelectCurGC *)(self->f3C))->append_entry(&pos.v[6]);
     }
-    ((TLobby *)(self->f3C))->set_ad_field(self->f24);
-    p = TObject::operator new(0x44);
-    if (p != NULL) {
-        p = __ct__13TAdGuideTxtGCFv(p, self);
-    }
+    ((TAdSelectCurGC *)(self->f3C))->set_selection_index(self->f24);
+    p = new TAdGuideTxtGC(reinterpret_cast<TObject *>(self));
     self->f40 = p;
     create_draw_line_ctrl((TObject *)self, 0x10, 0.0f);
     return self;

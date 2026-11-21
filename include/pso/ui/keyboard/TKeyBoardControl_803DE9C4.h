@@ -12,8 +12,8 @@ struct PadSlot {
     s32 notHeld;
     s32 pressed;
     s32 released;
-    s16 trigR;
-    s16 trigL;
+    u16 trigR;
+    u16 trigL;
     s16 stickX;
     s16 stickY;
     s16 substickX;

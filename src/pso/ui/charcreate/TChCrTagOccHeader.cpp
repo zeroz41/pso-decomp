@@ -4,7 +4,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/charcreate/TChCrTag.h"
 #include "pso/ui/charcreate/TChCrTagOccHeader.h"
-#include "pso/ui/charcreate/TChCrTagOccupation.h"
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 #include "pso/math/AngleLookup.h"
 
@@ -13,8 +12,7 @@ const char *chcr_tag_occ_header_class_name = "TChCrTagOccHeader";
 
 #pragma push
 #pragma fp_contract on
-void fn_802A2A00(TChCrTag *tag) {
-  u8 *self = (u8 *)tag;
+void fn_802A2A00(TChCrTagOccHeader *tag) {
   vec2f pos = {393.0f, 82.0f};
   vec2f scale;
   f32 f31;
@@ -22,7 +20,7 @@ void fn_802A2A00(TChCrTag *tag) {
   f32 depth;
   s32 n;
   s32 id;
-  f31 = (*((f32 *) (self + 0x24))) * (*((f32 *) (self + 0x30)));
+  f31 = (tag->m_24) * (tag->m_30);
   if (f31 <= 0.0f)
   {
     return;
@@ -50,7 +48,7 @@ void fn_802A2A00(TChCrTag *tag) {
     scale.x = 1.0f + k;
     scale.y = scale.x;
   }
-  n = *((s32 *) (self + 0x20));
+  n = tag->m_20;
   if (n < 3)
   {
     id = n + 0x63;
@@ -66,18 +64,18 @@ void fn_802A2A00(TChCrTag *tag) {
   }
   f31 = (f31 - 0.4f) / 0.6f;
 
-  if ((*((s32 *) (self + 0x20))) < 3)
+  if ((tag->m_20) < 3)
   {
-    id = (*((s32 *) (self + 0x20))) + 0xad;
+    id = (tag->m_20) + 0xad;
   }
   else
   {
-    id = (*((s32 *) (self + 0x20))) + 0xad;
+    id = (tag->m_20) + 0xad;
   }
   f31 = f31;
   if (tag->vt4())
   {
-    f32 s = sin_table_lookup((*((s32 *) (self + 0x3c))) << 9);
+    f32 s = sin_table_lookup((tag->m_3c) << 9);
     f31 = (0.25f * s) + f31;
     if (f31 < 0.0f)
     {
@@ -147,7 +145,7 @@ void *__vt__17TChCrTagOccHeader[] = {
 
 }
 
-TChCrTagOccHeader::TChCrTagOccHeader(TObject *parent, void *arg) : TChCrTag(parent, arg) {
+TChCrTagOccHeader::TChCrTagOccHeader(TObject *parent, s32 index) : TChCrTag(parent, index) {
     m_name = chcr_tag_occ_header_class_name;
     m_28 = 0.33333334f;
     m_2c = -0.11111111f;
@@ -155,13 +153,13 @@ TChCrTagOccHeader::TChCrTagOccHeader(TObject *parent, void *arg) : TChCrTag(pare
     m_38 = -0.11111111f;
 }
 
-void *create_ch_cr_tag_occ_header(void *arg0) {
-    return new TChCrTagOccHeader(tl_03, arg0);
+TChCrTagOccHeader *create_ch_cr_tag_occ_header(s32 index) {
+    return new TChCrTagOccHeader(tl_03, index);
 }
 
 void create_all_ch_cr_tag_headers(void) {
     saddr i;
     for (i = 0; i < 15; i++) {
-        create_ch_cr_tag_occ_header((void *)i);
+        create_ch_cr_tag_occ_header(i);
     }
 }

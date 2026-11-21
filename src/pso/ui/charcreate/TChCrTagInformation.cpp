@@ -7,6 +7,7 @@
 #include "pso/unk/text_803098DC.h"
 #include "pso/ui/charcreate/TChCrTagInformation.h"
 #include "pso/ui/charcreate/TChCrCharSelect.h"
+#include "pso/ui/charcreate/TChCrCharSelect_802937D4.h"
 #include "pso/ui/charcreate/TObjCMAssignMenu.h"
 
 #pragma readonly_strings on
@@ -54,8 +55,6 @@ void TChCrTagInformation::draw_char_info_sprites() {
     draw_ui_sprite_scaled(0x40, &k, &js, -1.8125f, alpha);
 }
 
-s32 get_char_select_class_id();
-
 void TChCrTagInformation::render() { draw_char_info_sprites(); }
 
 void TChCrTagInformation::update_selected_char() {
@@ -72,8 +71,7 @@ void TChCrTagInformation::update_selected_char() {
         }
         break;
     default:
-        TChCrCharSelect::get_instance();
-        fn_80309890(this, get_char_select_class_id() + 3);
+        fn_80309890(this, get_char_select_class_id(TChCrCharSelect::get_instance()) + 3);
         break;
     }
 }
@@ -87,7 +85,7 @@ TChCrTagInformation::~TChCrTagInformation() {
 
 }
 
-TChCrTagInformation::TChCrTagInformation(TObject *parent, void *arg) : TChCrTag(parent, arg) {
+TChCrTagInformation::TChCrTagInformation(TObject *parent, s32 index) : TChCrTag(parent, index) {
     m_name = TChCrTagInformation__class_name;
     m_28 = 0.06666667f;
     m_2c = -0.06666667f;
@@ -97,9 +95,9 @@ TChCrTagInformation::TChCrTagInformation(TObject *parent, void *arg) : TChCrTag(
 }
 
 
-void *TChCrTagInformation::create(void *arg0) {
-    return new TChCrTagInformation(tl_03, arg0);
+TChCrTagInformation *TChCrTagInformation::create(s32 index) {
+    return new TChCrTagInformation(tl_03, index);
 }
 
-void *TChCrTagInformation::create_default() { return TChCrTagInformation::create(NULL); }
+TChCrTagInformation *TChCrTagInformation::create_default() { return TChCrTagInformation::create(0); }
 

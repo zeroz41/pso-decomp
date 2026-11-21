@@ -9,9 +9,6 @@ void TAdSinglePlyChrSelectGC__sub_8033A9F0(TAdSinglePlyChrSelectGC *arg0);
 int TAdSinglePlyChrSelectGC__sub_8033B244(void *p);
 void TAdSinglePlyChrSelectGC__sub_8033B264(void);
 void TAdSinglePlyChrSelectGC__sub_8033B5F0(void *arg0);
-void TAdSinglePlyChrSelectGC__sub_8033B9E0(void *p);
-void TAdSinglePlyChrSelectGC__sub_8033B9EC(void *p);
-u8 TAdSinglePlyChrSelectGC__sub_8033B9F8(u8 *arg0);
 s32 TAdSinglePlyChrSelectGC__sub_8033BA84(s32 chan);
 void close_window__23TAdSinglePlyChrSelectGCFPv(void *arg0);
 }

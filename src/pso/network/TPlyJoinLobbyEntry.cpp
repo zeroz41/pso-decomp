@@ -2234,7 +2234,7 @@ void TLobby__sub_801384E4(void) {
             if ((s32) TLobby__data_805D5594 != 0xC) {
                 sprintf(lobby_join_message_buffer, (const char *)get_seq_phase__6TLobbyFPv(7), lbl_80509D3C);
                 show_dialog_value_line((saddr)lobby_join_message_buffer);
-                ((TWindowSubComCard *)TLobby__current_dialog_window)->reparent_to_main_ctrl();
+                reinterpret_cast<TWindowBase *>(TLobby__current_dialog_window)->reparent_to_main_ctrl();
                 ((s32 (*)())init_player_window_effect__6TLobbyFv)();
                 TLobby__join_lobby_idle_timer = 0;
                 TLobby__data_805D5594 = 0xC;
@@ -2255,7 +2255,7 @@ void update_state__6TLobbyFv(void) {
         if ((s32) TLobby__player_setup_pending == 0) {
             if ((s32) TLobby__data_805D5594 != 0xC) {
                 ((s32 (*)(s32))show_seq_phase_message__6TLobbyFi)(0x21);
-                ((TWindowSubComCard *)TLobby__current_dialog_window)->reparent_to_main_ctrl();
+                reinterpret_cast<TWindowBase *>(TLobby__current_dialog_window)->reparent_to_main_ctrl();
                 ((s32 (*)())init_player_window_effect__6TLobbyFv)();
                 TLobby__join_lobby_idle_timer = 0;
                 TLobby__data_805D5594 = 0xC;
@@ -3154,7 +3154,7 @@ void on_game_player_add__6TLobbyFiii(saddr arg0, s32 arg1, s32 arg2) {
     sprintf(player_joined_message, get_seq_phase__6TLobbyFPv(0x10), e.name);
     show_dialog_value_line(player_joined_message);
     ((TWindowMessage *)TLobby__current_dialog_window)->complete_reveal();
-    ((TWindowSubComCard *)TLobby__current_dialog_window)->reparent_to_main_ctrl();
+    reinterpret_cast<TWindowBase *>(TLobby__current_dialog_window)->reparent_to_main_ctrl();
     main_task.begin_frame();
     main_task.run_tl_camera_tasks();
     main_task.render();
