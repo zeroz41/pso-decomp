@@ -62,7 +62,7 @@ public:
     u8 pad_60[0x10];
     s32 spawn_index;    // update_spawn_timer's index into its spawn table
     s32 dust_timer;     // update_dust_spawn spawns a TObjBoss7Dust every 30 frames
-    Vec unk_78;         // copy_position: the position of the kind-4 segment
+    Vec kind4_position; // copy_position: the kind-4 segment's position; phase 2 starts when its z < 1
     f32 half_length;
     TObject *tunnel_col; // the TObjBoss7TunnelCol the constructor creates
     TObject *effect_nodes; // parent of the segments spawn creates

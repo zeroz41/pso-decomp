@@ -85,7 +85,7 @@ f32 TUnk_804E4B3C::sub_802F2CB4() {
 }
 
 void TUnk_804E4B3C::copy_position(const Vec *position) {
-    VecCopy(&unk_78, position);
+    VecCopy(&kind4_position, position);
 }
 
 void TUnk_804E4B3C::sub_802F2C84() { boss2_tunnel_state_flags = 0; }
@@ -117,9 +117,9 @@ TUnk_804E4B3C::TUnk_804E4B3C(TObject *parent) : TObject(parent) {
     boss2_tunnel_state_flags = 0;
     scroll_offset = 0.0f;
     spawn_index = 0;
-    unk_78.x = 0.0f;
-    unk_78.y = 0.0f;
-    unk_78.z = 0.0f;
+    kind4_position.x = 0.0f;
+    kind4_position.y = 0.0f;
+    kind4_position.z = 0.0f;
     dust_timer = 30;
     for (i = 0; i < 2; i++) {
         new TObjBoss7RaftSplash((TObject *)this, (const Vec *)&lbl_804E4A44[i], &TObjBoss2Tunnel__raft_splash_offset_table[i], &scroll_speed);
@@ -286,7 +286,7 @@ void TUnk_804E4B3C::sub_802F2400() {
     TObject *object;
     update_spawn_timer(boss2_tunnel_spawn_timer_table_b, 0xA, 1);
     if (boss2_tunnel_state_flags & 8) {
-        distance = unk_78.z;
+        distance = kind4_position.z;
         if (distance < 1.0f) {
             phase = 2;
             this->scroll_speed = 0.0f;
