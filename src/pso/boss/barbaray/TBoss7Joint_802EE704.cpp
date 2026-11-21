@@ -6,15 +6,15 @@
 
 void G_BarbaRayBossActions_6xAA::bswap() {
     header.bswap();
-    bswap_16(&what);
-    bswap_16(&unknown_a2);
+    bswap_16((u16 *)&what);
+    bswap_16((u16 *)&unknown_a2);
     bswap_32(&target_client_id);
 }
 
 void G_BarbaRayBossActions_6xA9::bswap() {
     header.bswap();
-    bswap_16(&what);
-    bswap_16(&unknown_a2);
+    bswap_16((u16 *)&what);
+    bswap_16((u16 *)&unknown_a2);
 }
 
 void G_BarbaRayBossActions_6xA9::send() {

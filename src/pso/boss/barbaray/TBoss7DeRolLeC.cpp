@@ -485,7 +485,6 @@ f32 subtract_vector(void *, void *);
 }
 
 extern "C" {
-s32 VecCopy__FP3VecPC3Vec(int, void *);
 
 
 }
@@ -643,49 +642,6 @@ struct Fish_802E8B50 {
 };
 
 
-struct Fish_802E9DBC {
-    u8 pad0[0x38];
-    f32 x;
-    f32 y;
-    f32 z;
-    u8 pad44[0xB0 - 0x44];
-    u32 fB0;
-    u8 padB4[0xB8 - 0xB4];
-    s16 fB8;
-    u8 padBA[0xC0 - 0xBA];
-    f32 frame;
-    u8 padC4[0x440 - 0xC4];
-    Vec p440;
-    Vec p44C;
-    u8 pad458[0x4DC - 0x458];
-    Vec p4DC;
-    u8 pad4E8[0x50C - 0x4E8];
-    u8 eff[0x624 - 0x50C];
-    u8 *f624;
-    u32 flags;
-    u8 pad62C[0x6C0 - 0x62C];
-    s32 mode;
-    u8 pad6C4[0x6DC - 0x6C4];
-    saddr tent[4];
-    u8 pad6EC[0x6F0 - 0x6EC];
-    f32 f6F0;
-    u8 pad6F4[0x728 - 0x6F4];
-    s32 state;
-    s32 timer;
-    s32 tick;
-    s32 count;
-    u8 pad738[0x744 - 0x738];
-    f32 f744;
-    f32 f748;
-    f32 f74C;
-    f32 f750;
-    f32 f754;
-    f32 f758;
-    f32 f75C;
-    f32 f760;
-    u8 pad764[0x784 - 0x764];
-    void *ptcl;
-};
 
 extern "C" {
 void fill_value_array(saddr address);
@@ -743,7 +699,6 @@ void TObjBoss2Tunnel__sub_802F22C4(void);
 
 void TObjBoss2Tunnel__sub_802F22DC(void);
 
-void TObjFish__sub_802E9DBC(u8 *arg0, u32 arg1, s32 arg2);
 
 
 
@@ -761,13 +716,9 @@ u8 *get_enemy_entity(u16 arg0);
 
 
 
-void TObjFish__sub_802EC468(saddr arg0, f32 farg0, f32 farg1);
 
-void TBoss7DeRolLeC__sub_802EC994(void* p);
 
-void fn_802EC9A4(void *arg0, void *arg1);
 
-void fn_802EC9F0(TObjEneDD *arg0, void *arg1);
 
 
 
@@ -782,9 +733,7 @@ extern f32 lbl_804FF5E8[];
 
 void calc_laser_ray_hit_point(u8 *arg0, u8 *arg1);
 
-void handle_6xAA_barba_ray_boss_actions(void *arg0);
 
-void handle_6xA9_barba_ray_boss_actions(void *arg0);
 
 
 
@@ -1039,7 +988,7 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
     } else {
         unk_6B8 = 0;
     }
-    TBoss7DeRolLeC__sub_802EC994(this);
+    reset_action_sequence();
     if (!(unk_628 & 0x8000)) {
         mode = 1;
         dispatch_action(mode, 4);
@@ -1224,7 +1173,7 @@ void TBoss7DeRolLeC::vfunc_62() {
     damage = hpmax - hp;
     if (unk_628 & 8) {
         unk_6FC = unk_6FC - damage;
-        TObjFish__sub_802EC468((saddr)&bodies->center, 2.0f, 8.0f);
+        spawn_offset_particle(&bodies->center, 2.0f, 8.0f);
         play_sound_at(0x3B213, &unk_50C[0]);
     } else {
         unk_700 = unk_700 - damage;
@@ -1638,36 +1587,41 @@ void TBoss7DeRolLeC::sub_802ECAA4() {
     }
 }
 
-void handle_6xA9_barba_ray_boss_actions(void *boss7_joint) {
-    void *x;
-    ((G_BarbaRayBossActions_6xA9 *)boss7_joint)->bswap();
-    x = get_enemy_entity(*(u16 *)((s8 *)boss7_joint + 0x2));
-    if (x != NULL) {
-        fn_802EC9F0((TObjEneDD *)x, boss7_joint);
+void handle_6xA9_barba_ray_boss_actions(void *data) {
+    G_BarbaRayBossActions_6xA9 *cmd = (G_BarbaRayBossActions_6xA9 *)data;
+    TBoss7DeRolLeC *boss;
+    cmd->bswap();
+    boss = (TBoss7DeRolLeC *)get_enemy_entity(cmd->header.client_id);
+    if (boss != NULL) {
+        boss->init_from_param(cmd);
     }
 }
 
-void handle_6xAA_barba_ray_boss_actions(void *boss7_joint) {
-    void *x;
-    ((G_BarbaRayBossActions_6xAA *)boss7_joint)->bswap();
-    x = get_enemy_entity(*(u16 *)((s8 *)boss7_joint + 0x2));
-    if (x != NULL) {
-        fn_802EC9A4(x, boss7_joint);
+void handle_6xAA_barba_ray_boss_actions(void *data) {
+    G_BarbaRayBossActions_6xAA *cmd = (G_BarbaRayBossActions_6xAA *)data;
+    TBoss7DeRolLeC *boss;
+    cmd->bswap();
+    boss = (TBoss7DeRolLeC *)get_enemy_entity(cmd->header.client_id);
+    if (boss != NULL) {
+        boss->set_params(cmd);
     }
 }
 
-void fn_802EC9F0(TObjEneDD *ene_dd, void *arg1) {
-    *(s32 *)((s8 *)ene_dd + 0x6B4) = (s32) *(s16 *)((s8 *)arg1 + 6);
-    ene_dd->transition_enemy_state(*(s16 *)((s8 *)arg1 + 4));
+void TBoss7DeRolLeC::init_from_param(G_BarbaRayBossActions_6xA9 *cmd) {
+    action_index = cmd->unknown_a2;
+    transition_enemy_state(cmd->what);
 }
 
-void fn_802EC9A4(void *ene_dd, void *arg1) {
-    enemy_set_target_id(ene_dd, (u16) *(s32 *)((s8 *)arg1 + 8));
-    *(s32 *)((s8 *)ene_dd + 0x6B4) = (s32) *(s16 *)((s8 *)arg1 + 6);
-    ((TObjEneDD *)ene_dd)->transition_enemy_state(*(s16 *)((s8 *)arg1 + 4));
+void TBoss7DeRolLeC::set_params(G_BarbaRayBossActions_6xAA *cmd) {
+    enemy_set_target_id(this, cmd->target_client_id);
+    action_index = cmd->unknown_a2;
+    transition_enemy_state(cmd->what);
 }
 
-void TBoss7DeRolLeC__sub_802EC994(void* p) { *(s32*)((char*)p + 0x6b0) = 0; *(s32*)((char*)p + 0x6b4) = 0; }
+void TBoss7DeRolLeC::reset_action_sequence() {
+    unk_6B0 = 0;
+    action_index = 0;
+}
 
 void TBoss7DeRolLeC::advance_action_sequence() {
     s32 var_r30;
@@ -1827,13 +1781,13 @@ void TBoss7DeRolLeC::spawn_particle_201(Vec *pos) {
 }
 #pragma push
 #pragma fp_contract on
-void TObjFish__sub_802EC468(saddr arg0, f32 farg0, f32 farg1) {
-    Vec stack;
-    VecCopy(&stack, (const Vec *)arg0);
-    stack.x -= lbl_804FF5E8[3] * farg1;
-    stack.y -= lbl_804FF5E8[4] * farg1 - farg0;
-    stack.z -= lbl_804FF5E8[5] * farg1;
-    spawn_particle_effect_with_flags(&stack, 0x127, 0x40);
+void TBoss7DeRolLeC::spawn_offset_particle(const Vec *pos, f32 lift, f32 back) {
+    Vec v;
+    VecCopy(&v, pos);
+    v.x -= lbl_804FF5E8[3] * back;
+    v.y -= lbl_804FF5E8[4] * back - lift;
+    v.z -= lbl_804FF5E8[5] * back;
+    spawn_particle_effect_with_flags(&v, 0x127, 0x40);
 }
 #pragma pop
 void TBoss7DeRolLeC::update_projectile_spawns() {
@@ -1917,10 +1871,10 @@ void TBoss7DeRolLeC::dispatch_action(u32 state, s32 reason) {
         sub_802EB270(reason, 3, 2);
         return;
     case 0x11:
-        TObjFish__sub_802E9DBC((u8 *)this, reason, 0);
+        sub_802E9DBC(reason, 0);
         return;
     case 0x12:
-        TObjFish__sub_802E9DBC((u8 *)this, reason, 2);
+        sub_802E9DBC(reason, 2);
         return;
     case 0x13:
         handle_tentacle_attack_state(reason, 0);
@@ -2829,202 +2783,201 @@ void TBoss7DeRolLeC::sub_802EA4D8(u32 event) {
         break;
     }
 }
-#define self ((Fish_802E9DBC *) arg0)
-void TObjFish__sub_802E9DBC(u8 *arg0, u32 arg1, s32 arg2) {
-    void *p_;
-    switch (arg1) {
+void TBoss7DeRolLeC::sub_802E9DBC(u32 event, s32 position_index) {
+    TParticleCtrl *p_;
+    switch (event) {
     case 4:
-        ((TObjMotion *)self)->set_field_b8(1);
-        ((TBoss7DeRolLeC *)self)->sub_802ECBDC();
-        self->flags |= 4;
-        self->flags &= ~0x100;
-        self->mode = arg2;
-        ((TBoss7DeRolLeC *)self)->set_position_index(self->mode);
-        self->f744 = 0.0f;
-        self->f750 = 0.0f;
-        self->f74C = 0.0f;
-        self->f748 = 0.0f;
-        self->f754 = -0.2f;
-        self->f758 = 0.0f;
-        self->f75C = self->z;
-        self->f760 = 0.0f;
-        self->timer = 0;
-        self->state = 0;
-        self->tick = 0;
-        self->ptcl = NULL;
-        self->count = 0;
+        set_field_b8(1);
+        sub_802ECBDC();
+        unk_628 |= 4;
+        unk_628 &= ~0x100;
+        unk_6C0 = position_index;
+        set_position_index(unk_6C0);
+        unk_744 = 0.0f;
+        unk_750 = 0.0f;
+        unk_74C = 0.0f;
+        unk_748 = 0.0f;
+        unk_754 = -0.2f;
+        unk_758 = 0.0f;
+        unk_75C = position.z;
+        unk_760 = 0.0f;
+        unk_72C = 0;
+        unk_728 = 0;
+        unk_730 = 0;
+        unk_784 = NULL;
+        unk_734 = 0;
         break;
     case 2: {
-        u32 f = *(u32 *)(self->f624 + 8);
+        u32 f = unk_624->unknown_08;
         if (f & 0x400) {
-            if (self->mode == 0) {
-                ((TBoss7DeRolLeC *)self)->set_state_and_send(0x13);
+            if (unk_6C0 == 0) {
+                set_state_and_send(0x13);
             } else {
-                ((TBoss7DeRolLeC *)self)->set_state_and_send(0x14);
+                set_state_and_send(0x14);
             }
         } else if (f & 4) {
-            if (self->mode == 0) {
-                ((TBoss7DeRolLeC *)self)->set_state_and_send(0x15);
+            if (unk_6C0 == 0) {
+                set_state_and_send(0x15);
             } else {
-                ((TBoss7DeRolLeC *)self)->set_state_and_send(0x16);
+                set_state_and_send(0x16);
             }
         }
         break;
     }
     case 9:
-        if (self->fB8 == 10 || self->fB8 == 9) {
-            ((TBoss7DeRolLeC *)self)->advance_action_sequence();
+        if (requested_action == 10 || requested_action == 9) {
+            advance_action_sequence();
         }
         break;
     case 0:
-        ((TObjMotion *)self)->advance_animation();
-        switch (self->state) {
+        advance_animation();
+        switch (unk_728) {
         case 0:
-            self->timer++;
-            if (self->timer > 10) {
-                self->timer = 0;
-                self->state = 1;
-                if (self->mode == 0) {
-                    ((TObjMotion *)self)->set_field_b8(7);
-                    self->f744 = -1.0f;
+            unk_72C++;
+            if (unk_72C > 10) {
+                unk_72C = 0;
+                unk_728 = 1;
+                if (unk_6C0 == 0) {
+                    set_field_b8(7);
+                    unk_744 = -1.0f;
                 } else {
-                    ((TObjMotion *)self)->set_field_b8(8);
-                    self->f744 = 1.0f;
+                    set_field_b8(8);
+                    unk_744 = 1.0f;
                 }
             }
             break;
         case 1:
-            if (!(self->fB0 & 4)) {
-                self->state = 2;
+            if (!(motion_flags & 4)) {
+                unk_728 = 2;
             }
             break;
         case 2:
-            if (self->frame >= 6.0f) {
-                self->state = 3;
-                self->f750 = 0.0f;
-                self->f748 = self->x;
-                self->f74C = (100.0f * self->f744 - self->f748) / 7.0f;
-                self->f754 = -(self->f758 / 7.0f);
-                self->f75C = self->z;
-                self->f758 = 0.0f;
+            if (frame >= 6.0f) {
+                unk_728 = 3;
+                unk_750 = 0.0f;
+                unk_748 = position.x;
+                unk_74C = (100.0f * unk_744 - unk_748) / 7.0f;
+                unk_754 = -(unk_758 / 7.0f);
+                unk_75C = position.z;
+                unk_758 = 0.0f;
             }
             break;
         case 3:
-            if (self->frame >= 13.0f) {
-                self->state = 4;
-                self->f750 = 0.0f;
-                self->f748 = 100.0f * self->f744;
-                self->f74C = (135.0f * self->f744 - self->f748) / 7.0f;
-                self->f75C = self->z;
-                self->f754 = (2.0f * (10.0f - self->z)) / 144.0f;
-                self->f758 = 0.0f;
+            if (frame >= 13.0f) {
+                unk_728 = 4;
+                unk_750 = 0.0f;
+                unk_748 = 100.0f * unk_744;
+                unk_74C = (135.0f * unk_744 - unk_748) / 7.0f;
+                unk_75C = position.z;
+                unk_754 = (2.0f * (10.0f - position.z)) / 144.0f;
+                unk_758 = 0.0f;
             }
             break;
         case 4:
-            if (self->frame >= 20.0f) {
-                self->state = 5;
-                self->f750 = 0.0f;
-                self->f748 = 135.0f * self->f744;
-                self->f74C = (100.0f * self->f744 - self->f748) / 5.0f;
-                self->f760 = (1280.0f * -self->f744) / 5.0f;
+            if (frame >= 20.0f) {
+                unk_728 = 5;
+                unk_750 = 0.0f;
+                unk_748 = 135.0f * unk_744;
+                unk_74C = (100.0f * unk_744 - unk_748) / 5.0f;
+                unk_760 = (1280.0f * -unk_744) / 5.0f;
             }
             break;
         case 5:
-            if (self->frame >= 25.0f) {
+            if (frame >= 25.0f) {
                 s32 i;
-                self->state = 6;
+                unk_728 = 6;
                 TCameraCtrl::set_shake_preset(1);
-                if (self->mode == 0) {
+                if (unk_6C0 == 0) {
                     TObjBoss2Tunnel__sub_802F22DC();
                 } else {
                     TObjBoss2Tunnel__sub_802F22C4();
                 }
-                ((TBoss7DeRolLeC *)self)->play_sound_at(0x3A107, (Vec *)(self->eff));
-                new TUnk_804F1C88((TBoss7DeRolLeC *)self, &self->p4DC);
-                self->flags |= 0x200;
+                play_sound_at(0x3A107, &unk_50C[0]);
+                new TUnk_804F1C88(this, &unk_4DC[0]);
+                unk_628 |= 0x200;
                 for (i = 0; i < 4; i++) {
-                    ((TBoss7Tentacle *)self->tent[i])->sub_802F0B58();
+                    unk_6DC[i]->sub_802F0B58();
                 }
             }
             break;
         case 6:
             break;
         }
-        self->tick++;
-        if (self->state != 0 && self->state != 1) {
-            if (self->frame >= 15.0f && self->frame <= 17.0f && self->tick >= 2) {
+        unk_730++;
+        if (unk_728 != 0 && unk_728 != 1) {
+            if (frame >= 15.0f && frame <= 17.0f && unk_730 >= 2) {
                 Vec v;
                 f32 s;
-                self->tick = 0;
-                ((void (*)(void *, void *)) VecCopy__FP3VecPC3Vec)(&v, &self->p4DC);
-                s = 50.0f * ((TObjChara *)self)->random_ratio();
-                v.x = v.x - self->f744 * s;
+                unk_730 = 0;
+                VecCopy(&v, &unk_4DC[0]);
+                s = 50.0f * random_ratio();
+                v.x = v.x - unk_744 * s;
                 v.y = -5.0f;
                 v.z += 40.0f;
-                ((TBoss7DeRolLeC *)self)->spawn_particle_201(&v);
+                spawn_particle_201(&v);
             }
-            if (((TObjMotion *)self)->is_passing_frame(15.0f) != 0) {
-                ((TBoss7DeRolLeC *)self)->play_sound_at(0x39905, (Vec *)(self->eff));
+            if (is_passing_frame(15.0f) != 0) {
+                play_sound_at(0x39905, &unk_50C[0]);
             }
-            p_ = self->ptcl;
+            p_ = unk_784;
             if (p_ == NULL) {
-                self->ptcl = create_particle_emitter(&self->x, 0x161);
-                if (self->ptcl != NULL) {
-                    ((TParticleCtrl *)(self->ptcl))->enable();
+                unk_784 = create_particle_emitter(&position, 0x161);
+                if (unk_784 != NULL) {
+                    unk_784->enable();
                 }
-            } else if (self->frame >= 24.0f && self->frame <= 30.0f) {
+            } else if (frame >= 24.0f && frame <= 30.0f) {
                 s32 r;
-                self->count++;
-                r = self->count % 4;
+                unk_734++;
+                r = unk_734 % 4;
                 if (r == 0) {
-                    ((TParticleCtrl *)self->ptcl)->set_position(&self->p440);
+                    unk_784->set_position(&unk_3EC[7]);
                 } else if (r == 2) {
-                    ((TParticleCtrl *)self->ptcl)->set_position(&self->p44C);
+                    unk_784->set_position(&unk_3EC[8]);
                 } else {
-                    ((TParticleCtrl *)(self->ptcl))->enable();
+                    unk_784->enable();
                 }
             } else {
-                ((TParticleCtrl *)p_)->enable();
+                p_->enable();
             }
         }
-        switch (self->state) {
+        switch (unk_728) {
         case 0:
         case 1:
         case 2:
-            self->f758 = self->f758 + self->f754;
-            if (self->f758 < -7.0f) {
-                self->f758 = -7.0f;
+            unk_758 = unk_758 + unk_754;
+            if (unk_758 < -7.0f) {
+                unk_758 = -7.0f;
             }
-            self->z = self->z + self->f758;
+            position.z = position.z + unk_758;
             break;
         case 3: {
-            f32 t = self->frame - 6.0f;
-            self->x = self->f74C * t + self->f748;
-            { f32 h_ = 0.5f * self->f754; self->z = t * (h_ * t + -7.0f) + self->f75C; }
-            if (((TObjMotion *)self)->is_passing_frame(8.5f) != 0) {
-                ((TBoss7DeRolLeC *)self)->play_sound_at(0x39906, (Vec *)(self->eff));
+            f32 t = frame - 6.0f;
+            position.x = unk_74C * t + unk_748;
+            { f32 h_ = 0.5f * unk_754; position.z = t * (h_ * t + -7.0f) + unk_75C; }
+            if (is_passing_frame(8.5f) != 0) {
+                play_sound_at(0x39906, &unk_50C[0]);
             }
             break;
         }
         case 4: {
-            f32 t = self->frame - 13.0f;
-            self->x = self->f74C * t + self->f748;
-            { f32 h_ = 0.5f * self->f754; self->z = t * (h_ * t) + self->f75C; }
-            self->f6F0 = 28.0f * t;
-            if (self->f6F0 > 4.0f) {
-                self->f6F0 = 4.0f;
+            f32 t = frame - 13.0f;
+            position.x = unk_74C * t + unk_748;
+            { f32 h_ = 0.5f * unk_754; position.z = t * (h_ * t) + unk_75C; }
+            unk_6EC.y = 28.0f * t;
+            if (unk_6EC.y > 4.0f) {
+                unk_6EC.y = 4.0f;
             }
             break;
         }
         case 5: {
-            f32 t = self->frame - 20.0f;
+            f32 t = frame - 20.0f;
             f32 t2;
             f32 d;
-            self->x = self->f74C * t + self->f748;
-            t2 = self->frame - 13.0f;
-            { f32 h_ = 0.5f * self->f754; d = t2 * (h_ * t2); }
-            self->z = self->f75C + d;
-            ((TBoss7DeRolLeC *)self)->rotation_z = self->f760 * t;
+            position.x = unk_74C * t + unk_748;
+            t2 = frame - 13.0f;
+            { f32 h_ = 0.5f * unk_754; d = t2 * (h_ * t2); }
+            position.z = unk_75C + d;
+            rotation_z = unk_760 * t;
             break;
         }
         case 6:
@@ -3032,10 +2985,10 @@ void TObjFish__sub_802E9DBC(u8 *arg0, u32 arg1, s32 arg2) {
         }
         break;
     case 5:
-        self->flags &= ~4;
-        if (self->ptcl != NULL) {
-            ((TObject *)self->ptcl)->queue_destruction();
-            self->ptcl = NULL;
+        unk_628 &= ~4;
+        if (unk_784 != NULL) {
+            unk_784->queue_destruction();
+            unk_784 = NULL;
         }
         break;
     }

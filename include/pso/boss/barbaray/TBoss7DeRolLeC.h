@@ -20,6 +20,8 @@ class AreaAttackHistory;
 class TUnk_804F1C58;
 class TParticleCtrl;
 class TUnk_804E4788;
+struct G_BarbaRayBossActions_6xA9;
+struct G_BarbaRayBossActions_6xAA;
 struct TBoss7LaserPtcl;
 
 // Boss parameter block 15 from TLobby::dispatch_shared_handler_a.
@@ -124,6 +126,13 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     void sub_802EBBC8(u32 event);
     void handle_debug_pad_input(u32 event); // name from the TBoss2DeRolLe twin; reads controller 2 (unk_624)
     void sub_802EA4D8(u32 event);
+    void sub_802E9DBC(u32 event, s32 position_index);
+    // 6xA9/6xAA receivers; names from the TBoss2DeRolLe twin (init_from_param, set_params)
+    void init_from_param(G_BarbaRayBossActions_6xA9 *cmd);
+    void set_params(G_BarbaRayBossActions_6xAA *cmd);
+    // a particle at pos, lifted and pulled back along the camera's view (name from the TBoss2DeRolLe twin)
+    static void spawn_offset_particle(const Vec *pos, f32 lift, f32 back);
+    void reset_action_sequence();  // zeroes unk_6B0 and action_index (inferred name)
     void sub_802EAAC8(u32 event, s32 position_index, s32 next_index);
     void sub_802E85E0(u32 event, s32 position_index);
     u8 pad_374[0x8];
@@ -192,7 +201,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     f32 unk_768;
     Vec unk_76C;                  // where the laser aims (the target's position, or the origin)
     Vec unk_778;                  // where the laser beam hits
-    TObject *unk_784;             // released by the destructor
+    TParticleCtrl *unk_784;       // released by the destructor
     TParticleCtrl *unk_788[6];    // splash emitters kept on the joints (update_particle_ctrls); released by the destructor
     s32 unk_7A0;
     TObject *crawfish_parent;     // the group spawned crawfish are children of
@@ -238,7 +247,6 @@ void TObjPlayer__sub_802EE574(void);
 struct TObjEneDD;
 extern "C" {
 
-void TBoss7DeRolLeC__sub_802EC994(void *p);
 }
 s32 TBoss7Joint_get_shell_max_hp(void);
 extern "C" {
@@ -248,12 +256,8 @@ extern "C" {
 
 
 
-void TObjFish__sub_802E9DBC(u8 *arg0, u32 arg1, s32 arg2);
 
-void TObjFish__sub_802EC468(saddr arg0, f32 farg0, f32 farg1);
 void TObjPlayer__sub_802E8274(NJS_OBJECT *);
-void fn_802EC9A4(void *arg0, void *arg1);
-void fn_802EC9F0(TObjEneDD *arg0, void *arg1);
 }
 void handle_6xA9_barba_ray_boss_actions(void *arg0);
 void handle_6xAA_barba_ray_boss_actions(void *arg0);

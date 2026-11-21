@@ -71,7 +71,7 @@ void TBoss7Joint::store_position() {
 void TBoss7Joint::vfunc_62() {
     s32 damage = hpmax - hp;
     if (is_part_active() != 0U) {
-        TObjFish__sub_802EC468((saddr)&position, 15.0f, 12.0f);
+        TBoss7DeRolLeC::spawn_offset_particle(&position, 15.0f, 12.0f);
         static_cast<TBoss7DeRolLeC *>(m_up)->apply_damage_and_set_effect(damage, m_2d4);
     } else {
         shell_hp -= damage;
