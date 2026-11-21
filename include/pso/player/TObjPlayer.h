@@ -1063,8 +1063,8 @@ struct TObjPlayer : public TObjChara {
     static void update_battle_control_on_unlock(void *arg0, void *arg1, void *arg2, s32 arg3);
     void draw_node_tree(void *arg1);
     void draw_node_tree_if_visible();
-    static s32 conditional_delete_ex(s32 arg0, s16 arg1);
-    static void create_cane_if_ready(s32 arg0, void *position);
+    static s32 conditional_delete_ex(saddr arg0, s16 arg1);
+    static void create_cane_if_ready(saddr arg0, void *position);
     static void create_cleanup_object(void *arg0);
     static void free_static_buffer();
     static void alloc_and_run_object();

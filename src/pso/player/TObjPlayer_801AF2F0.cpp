@@ -5010,8 +5010,8 @@ void TObjPlayer::refresh_party_cursors(saddr arg0) {
 
 #pragma push
 #pragma fp_contract on
-s32 TObjPlayer::is_effect_channel_active(s32 arg0, s32 arg1) {
-    return is_action_channel_active(((TObjPlayer *)arg0)->refresh_effect(), arg1);
+s32 TObjPlayer::is_effect_channel_active(saddr player, s32 arg1) {
+    return is_action_channel_active(((TObjPlayer *)player)->refresh_effect(), arg1);
 }
 #pragma pop
 
