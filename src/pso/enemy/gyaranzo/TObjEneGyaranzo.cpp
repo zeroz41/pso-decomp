@@ -139,18 +139,7 @@ void calc_velocity_toward_destination(void *, Vec, Vec, f32);
 void update_walk_to_target__10TObjPlayerFPv(Ene_800D1E4C *arg0);
 }
 void move_with_wall_slide(u8 *arg0);
-#define CAT(a, b) CAT2(a, b)
-#define CAT2(a, b) a##b
-#define PADV virtual void CAT(pv, __LINE__)();
-#define PADV4 virtual void CAT(pa, __LINE__)(); virtual void CAT(pb, __LINE__)(); virtual void CAT(pc, __LINE__)(); virtual void CAT(pd, __LINE__)();
 
-struct Base_Sub_800D1F84 { char pad[0x14]; };
-
-struct V_Sub_800D1F84 : Base_Sub_800D1F84 {
-    PADV4
-    PADV
-    virtual s32 m5();
-};
 
 #pragma inline_depth(1)
 
@@ -339,24 +328,6 @@ typedef struct Ene_800D2F6C {
     s32 state;
 } Ene_800D2F6C;
 
-struct VBase_14_fddec9 { char pad[0x14]; };
-
-struct VObj_14_fddec9 : VBase_14_fddec9 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual s32 m6();
-    virtual s32 m7();
-    virtual s32 m8();
-};
-
-struct Elem_800D35D8 { u8 pad[0x1C]; };
-
-struct Obj_800D35D8 { u8 pad[0x3D0]; VObj_14_fddec9 light; u8 pad2[0x3EC - 0x3D0 - sizeof(VObj_14_fddec9)]; Elem_800D35D8 arr[2]; };
-
 struct Ene_800D2E8C;
 
 struct Base_800D3BA0_800D3B38 { char pad[0xC]; };
@@ -373,9 +344,7 @@ struct Area_800D3C04 { u8 pad0[0x42C]; Res_800D3C04 *res; BmlMotionEntry *motion
 
 struct Obj_800D3E54 { u8 pad0[0x18]; void *vt; };
 
-struct E_800D3ED8 { u8 pad[0x1C]; };
 
-struct Gy_800D3ED8 { u8 pad[0x3EC]; E_800D3ED8 e3EC[4]; };
 
 s32 is_split_screen();
 
@@ -772,7 +741,7 @@ u8 *TObjEneGyaranzo__ct(TObjEneGyaranzo *arg0, s32 arg1, u8 *arg2) {
         ((TObjEnemyCustom *)arg0)->sub_800C7860();
     }
     for (i = 0; i < 4; i++) {
-        ((RenderFadeState *)(&((Gy_800D3ED8 *) arg0)->e3EC[i]))->activate_and_dispatch();
+        arg0->m_3ec[i].activate_and_dispatch();
     }
     ((TObjEneGyaranzo *)(arg0))->clear_lobby_object_state();
     return (u8 *)arg0;
@@ -995,10 +964,10 @@ void TObjEneGyaranzo::render() {
         temp_r3 = this->classify_actor_view_detail(200.0f, 400.0f, 40.0f);
         if (temp_r3 != 0) {
             saved_model_render_flags = model_render_flags;
-            var_r30 = (saddr)&((Obj_800D35D8 *)((u8 *)this))->arr[var_r30];
+            var_r30 = (saddr)&m_3ec[var_r30];
             ((RenderFadeState *)var_r30)->update_fast();
             if (((RenderFadeState *)var_r30)->updateFromCamera((const f32*)(((u8 *)this) + 0x2FC)) != 0) {
-                ((VObj_14_fddec9 *)(var_r30))->m6();
+                ((RenderFadeState *)var_r30)->set_flags_and_apply_damage_color();
                 if (defer_render() != 0) {
                     model_render_flags = saved_model_render_flags;
                     return;
@@ -1014,14 +983,14 @@ void TObjEneGyaranzo::render() {
             if (TObjPlayer::check_demo_mode() == 1) {
                 draw_chunk_object((int) (*(s32 *)((s8 *)((u8 *)this) + 0x34)));
             } else if (this->m_388 & 4) {
-                if (((Obj_800D35D8 *)((u8 *)this))->light.m8() != 0) {
-                    ((Obj_800D35D8 *)((u8 *)this))->light.m6();
+                if (m_3d0.has_visible_opacity() != 0) {
+                    m_3d0.set_flags_and_apply_damage_color();
                     if (temp_r3 == 1) {
                         this->draw();
                     } else {
                         this->draw_motion_model();
                     }
-                    ((Obj_800D35D8 *)((u8 *)this))->light.m7();
+                    m_3d0.clear_flag_and_notify();
                 } else {
                     var_r29 = 0;
                 }
@@ -1037,7 +1006,7 @@ void TObjEneGyaranzo::render() {
                 Vec sp8 = {3.0f, 3.0f, 3.0f};
                 this->TObjEnemy::draw_ground_shadow(&sp8, 0);
             }
-            ((VObj_14_fddec9 *)(var_r30))->m7();
+            ((RenderFadeState *)var_r30)->clear_flag_and_notify();
         }
     }
 }
@@ -1530,11 +1499,11 @@ void update__19TObjGyaranzoMissileFPv(u8 *arg0) {
         *(s32 *)((s8 *)arg0 + 0x30) = temp_r4;
         ((TObjMotion *)arg0)->requested_action = 0;
         TBoss3Volopt__sub_800D8D88(arg0 + 0x2FC, temp_r4);
-        ((TUnk_80494938 *)(arg0 + 0x3D0))->start_fade_in();
+        ((TObjEneGyaranzo *)arg0)->m_3d0.start_fade_in();
         *(s32 *)((s8 *)arg0 + 0x37C) = 1;
     case 1:
         ((TObjMotion *)arg0)->advance_animation();
-        if (((V_Sub_800D1F84 *) (arg0 + 0x3D0))->m5() == 1) {
+        if (((TObjEneGyaranzo *)arg0)->m_3d0.advance_toward_max() == 1) {
             *(s32 *)((s8 *)arg0 + 0x37C) = -1;
         }
         return;
