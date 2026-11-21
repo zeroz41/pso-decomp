@@ -101,7 +101,6 @@ s32 matrix_mult_vec(int, void *, void *);
 void TObjEneMe3SinowZoa__sub_80316C3C(TObjEneMe3SinowZoa *self, s32 arg1);
 u16 get_entity_id(int);
 s32 check_move_collision__18TObjEneMe3SinowZoaFPvPv(TObjEneMe3SinowZoa *self, const Vec *pos);
-u32 get_item_field_6__10TObjPlayerFPv(void *);
 f32 fabs_float(f32);
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 void TObjEneDD__sub_800BA438(void *, void *);
@@ -558,7 +557,7 @@ void TObjEneMe3SinowZoa::sub_8031A6A0() {
                     if (sub_8031A454() != 0) {
                         pl = current_target;
                         TItem *held;
-                        if (TObjPlayer::is_locally_controlled(pl) != 0 && (held = (TItem *)get_item_field_6__10TObjPlayerFPv(pl)) != 0) {
+                        if (TObjPlayer::is_locally_controlled(pl) != 0 && (held = (TItem *)TObjPlayer::get_item_field_6(pl)) != 0) {
                             TObjPlayer::send_6x26_unequip_item(pl, held->get_item_id());
                             ((TObjPlayer *)pl)->get_hand_joint_position((saddr)&unk_408);
                             spawn_particle_effect(&unk_408, 0x1D0);

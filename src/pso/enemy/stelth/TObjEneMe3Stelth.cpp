@@ -128,7 +128,6 @@ void TObjEneMe3Stelth__sub_800F348C(TObjEneMe3Stelth *stelth, s32 arg1);
 void TObjEneMe3Stelth__sub_800F3214(TObjEneMe3Stelth *stelth, s32 arg1);
 
 
-u32 get_item_field_6__10TObjPlayerFPv(void *);
 f32 fabs_float(f32);
 void TObjEneDD__sub_800BA438(void *, void *);
 
@@ -513,7 +512,7 @@ void TObjEneMe3Stelth::attack_and_unequip() {
             if (sub_800F47D4() != 0) {
                 TObjChara *t = current_target;
                 TItem *held;
-                if (TObjPlayer::is_locally_controlled(t) != 0 && (held = (TItem *)get_item_field_6__10TObjPlayerFPv(t)) != 0) {
+                if (TObjPlayer::is_locally_controlled(t) != 0 && (held = (TItem *)TObjPlayer::get_item_field_6(t)) != 0) {
                     TObjPlayer::send_6x26_unequip_item((void *)t, held->get_item_id());
                     ((TObjPlayer *)t)->get_hand_joint_position((saddr)&m_3f8);
                     spawn_particle_effect(&m_3f8, 0x1D0);
