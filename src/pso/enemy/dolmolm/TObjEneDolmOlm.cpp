@@ -425,7 +425,6 @@ void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
 s32 select_enemy_destination(void *, void *, int);
 s32 copy_position_if_valid__10TObjPlayerFii(void *, void *);
-s32 test_elt_flag__13TUnk_80493450Fll(void *, int, int);
 u8 *load_resource_from_descriptor(void *, int, void *, int, int, int);
 extern uaddr dolm_olm_combat_stat_id_pair;
 extern uaddr TObjEneDolmOlm__shared_handler_ids;
@@ -977,7 +976,7 @@ s32 TObjEneDolmOlm__sub_80301C3C(void *arg0_) {
     default:
     case 1:
         if (*(u8 **)((s8 *)arg0 + 0x2A8) != NULL) {
-            if (test_elt_flag__13TUnk_80493450Fll(arg0, 0, 0x300000) != 0) {
+            if (((TUnk_80493450 *)arg0)->test_elt_flag(0, 0x300000) != 0) {
                 if ((f32) (*(u32 *)((s8 *)arg0 + 0x38C))++ < 60.0f) {
                     VecCopy((Vec *)&v, (const Vec *)(arg0 + 0x50));
                 } else {

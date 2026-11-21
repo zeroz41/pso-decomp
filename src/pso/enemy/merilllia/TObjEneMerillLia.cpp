@@ -486,7 +486,6 @@ void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
 extern "C" {
 s32 enemy_move_toward(void *, s32, void *, int, f32);
 f32 horizontal_distance_squared(void *, void *);
-s32 test_elt_flag__13TUnk_80493450Fll(void *, int, int);
 void beast_update_approach__16TObjEneMerillLiaFv(u8 *arg0);
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 s32 *csnVectorUnder(s32 arg0, u32 *arg1, s32 arg2);
@@ -1053,7 +1052,7 @@ void TObjEneMerillLia::beast_update_approach() {
     default:
         spawn_ground_effect__16TObjEneMerillLiaFPv(arg0);
         if (*(u32 *)&this->target != 0U) {
-            if (test_elt_flag__13TUnk_80493450Fll(arg0, 0, 0x300000) != 0) {
+            if (((TUnk_80493450 *)arg0)->test_elt_flag(0, 0x300000) != 0) {
                 if (this->m_38c++ < 60.0f) {
                     VecCopy((Vec *)&sp14, &this->home_position);
                 } else {

@@ -336,7 +336,7 @@ void TObjCollidable::set_indexed_flags(s32 index, s32 flags) {
     }
 }
 
-u8 TUnk_80493450::test_elt_flag(s32 arg1, s32 arg2) {
+s32 TUnk_80493450::test_elt_flag(s32 arg1, s32 arg2) {
     struct Elt_801542CC *temp_r3;
 
     temp_r3 = *(struct Elt_801542CC * *)&this->bodies;
