@@ -3,6 +3,8 @@
 #include "types.h"
 #include "pso/object/TObjPathObj.h"
 
+struct NJS_OBJECT;
+
 class TUnk_804E094C : public TObjPathObj {
 public:
     TUnk_804E094C(TObject *parent, void *set_data);
@@ -11,7 +13,8 @@ public:
     s32 update_path_follow_rotation(void *, f32);
     virtual void vfunc_13();
     virtual void vfunc_14();
-    u8 unk_98[0x4];
+    // get_bml_model(archive, 0), drawn posed by the m_9c motion (name inferred).
+    NJS_OBJECT *motion_model;
     saddr m_9c;
     u8 unk_A0[0x4];
     f32 m_a4;

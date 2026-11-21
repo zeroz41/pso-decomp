@@ -436,7 +436,7 @@ void draw_line_strip__10TObjPlayerFPviif(u8 *path_obj, s32 arg1, s32 arg2, f32 f
 TUnk_804E0988::TUnk_804E0988(TObject *parent, void *set_data) : TObjPathObj(parent, set_data) {
   s32 var_r0;
   s32 temp_r3;
-  *((s32 *) (((s8 *) this) + 0x98)) = (saddr)get_bml_model((BmlResource *)(*(u8 * *)&seabed_dolphin_bml_archive), 0);
+  motion_model = get_bml_model((BmlResource *)(*(u8 * *)&seabed_dolphin_bml_archive), 0);
   m_9c = get_bml_motion((*(u8 * *)&seabed_dolphin_bml_archive), 5);
   temp_r3 = set_params[0];
   if (temp_r3 < 0)
@@ -479,7 +479,7 @@ void TUnk_804E0988::vfunc_13() {
 void TUnk_804E0988::vfunc_14() {
     u8 *arg0 = (u8 *)this;
     if ((TObjPlayer::check_demo_mode() == 1) && (TMainTask::get_render_pass() == 0)) {
-        ((s32 (*)(void *, s32, s32, f32))draw_line_strip__10TObjPlayerFPviif)(arg0, *(s32 *)&this->unk_98, *(s32 *)((s8 *)arg0 + 0xA0), (1.0f));
+        ((s32 (*)(void *, s32, s32, f32))draw_line_strip__10TObjPlayerFPviif)(arg0, *(s32 *)&this->motion_model, *(s32 *)((s8 *)arg0 + 0xA0), (1.0f));
     }
     TObjFish::set_global_param(seabed_dolphin_texture_handle);
     push_matrix();
@@ -489,7 +489,7 @@ void TUnk_804E0988::vfunc_14() {
     rotate_matrix_y(0, this->m_b8);
     rotate_matrix_z(0, this->m_c0);
     set_motion_packed_rotation();
-    draw_model_motion((void *)(*(s32 *)&this->unk_98), (void *)this->m_9c, this->m_a8);
+    draw_model_motion(this->motion_model, (void *)this->m_9c, this->m_a8);
     clear_motion_packed_rotation();
     pop_matrix();
 }
@@ -617,7 +617,7 @@ void *TObjPlayer__sub_802C28B4(void *set_data) {
 TUnk_804E094C::TUnk_804E094C(TObject *parent, void *set_data) : TObjPathObj(parent, set_data) {
   s32 var_r0;
   s32 temp_r3;
-  *((s32 *) (((s8 *) this) + 0x98)) = (saddr)get_bml_model((BmlResource *)(*(u8 * *)&jungle_ebi_model_resource), 0);
+  motion_model = get_bml_model((BmlResource *)(*(u8 * *)&jungle_ebi_model_resource), 0);
   m_9c = get_bml_motion((*(u8 * *)&jungle_ebi_model_resource), 0);
   temp_r3 = set_params[0];
   if (temp_r3 < 0)
@@ -659,7 +659,7 @@ void TUnk_804E094C::vfunc_13() {
 void TUnk_804E094C::vfunc_14() {
     u8 *arg0 = (u8 *)this;
     if ((TObjPlayer::check_demo_mode() == 1) && (TMainTask::get_render_pass() == 0)) {
-        ((s32 (*)(void *, s32, s32, f32))draw_line_strip__10TObjPlayerFPviif)(arg0, *(s32 *)&this->unk_98, *(s32 *)((s8 *)arg0 + 0xA0), (1.0f));
+        ((s32 (*)(void *, s32, s32, f32))draw_line_strip__10TObjPlayerFPviif)(arg0, *(s32 *)&this->motion_model, *(s32 *)((s8 *)arg0 + 0xA0), (1.0f));
     }
     TObjFish::set_global_param((*(s32 *)&jungle_ebi_texture_gvm_handle));
     push_matrix();
@@ -668,7 +668,7 @@ void TUnk_804E094C::vfunc_14() {
     post_translate_matrix((u8 *)&this->unk_AC);
     rotate_matrix_y(0, this->m_b8);
     rotate_matrix_z(0, this->m_c0);
-    draw_model_motion((void *)(*(s32 *)&this->unk_98), (void *)this->m_9c, this->m_a8);
+    draw_model_motion(this->motion_model, (void *)this->m_9c, this->m_a8);
     pop_matrix();
 }
 
@@ -806,7 +806,7 @@ void *TObjPlayer::create_path_obj(void *set_data) {
 TUnk_804E0910::TUnk_804E0910(TObject *parent, void *set_data) : TObjPathObj(parent, set_data) {
   s32 var_r0;
   s32 temp_r3;
-  *((s32 *) (((s8 *) this) + 0x98)) = (saddr)get_bml_model((BmlResource *)(*(u8 * *)&jungle_bird_bml_resource), 0);
+  motion_model = get_bml_model((BmlResource *)(*(u8 * *)&jungle_bird_bml_resource), 0);
   m_9c = get_bml_motion((*(u8 * *)&jungle_bird_bml_resource), 0);
   temp_r3 = set_params[0];
   if (temp_r3 < 0)
@@ -849,7 +849,7 @@ void TUnk_804E0910::vfunc_13() {
 void TUnk_804E0910::vfunc_14() {
     u8 *arg0 = (u8 *)this;
     if ((TObjPlayer::check_demo_mode() == 1) && (TMainTask::get_render_pass() == 0)) {
-        ((s32 (*)(void *, s32, s32, f32))draw_line_strip__10TObjPlayerFPviif)(arg0, *(s32 *)&this->unk_98, *(s32 *)((s8 *)arg0 + 0xA0), (1.0f));
+        ((s32 (*)(void *, s32, s32, f32))draw_line_strip__10TObjPlayerFPviif)(arg0, *(s32 *)&this->motion_model, *(s32 *)((s8 *)arg0 + 0xA0), (1.0f));
     }
     TObjFish::set_global_param((*(s32 *)&lobby_pigeon_texture_gvm));
     push_matrix();
@@ -858,7 +858,7 @@ void TUnk_804E0910::vfunc_14() {
     post_translate_matrix((u8 *)&this->unk_AC);
     rotate_matrix_y(0, this->m_b8);
     rotate_matrix_z(0, this->m_c0);
-    draw_model_motion((void *)(*(s32 *)&this->unk_98), (void *)this->m_9c, this->m_a8);
+    draw_model_motion(this->motion_model, (void *)this->m_9c, this->m_a8);
     pop_matrix();
 }
 
@@ -1027,7 +1027,7 @@ void TUnk_804E08D4::vfunc_13() {
 void TUnk_804E08D4::vfunc_14() {
     u8 *arg0 = (u8 *)this;
     if ((TObjPlayer::check_demo_mode() == 1) && (TMainTask::get_render_pass() == 0)) {
-        ((s32 (*)(void *, s32, s32, f32))draw_line_strip__10TObjPlayerFPviif)(arg0, *(s32 *)&this->unk_98, *(s32 *)((s8 *)arg0 + 0xA0), (1.0f));
+        ((s32 (*)(void *, s32, s32, f32))draw_line_strip__10TObjPlayerFPviif)(arg0, *(s32 *)&this->motion_model, *(s32 *)((s8 *)arg0 + 0xA0), (1.0f));
     }
     TObjFish::set_global_param((*(s32 *)&lobby_kamome_texture_gvm_handle));
     push_matrix();
@@ -1036,7 +1036,7 @@ void TUnk_804E08D4::vfunc_14() {
     post_translate_matrix((u8 *)&this->unk_AC);
     rotate_matrix_y(0, this->m_b8);
     rotate_matrix_z(0, this->m_c0);
-    draw_model_motion((void *)(*(s32 *)&this->unk_98), (void *)this->m_9c, this->m_a8);
+    draw_model_motion(this->motion_model, (void *)this->m_9c, this->m_a8);
     pop_matrix();
 }
 
@@ -1380,9 +1380,7 @@ s32 filter_lobby_pigeon_theme(void *) {
 
 void TObjPlayer::load_lobby_pigeon_resource() {
     saddr temp_r3;
-    s32 var_r0;
-    var_r0 = (saddr)new BmlResource(5, &bm_obj_lobby_pigeon_resource_descriptor, 0, 0, NULL);
-    lobby_pigeon_bml_archive = (BmlResource *)var_r0;
+    lobby_pigeon_bml_archive = new BmlResource(5, &bm_obj_lobby_pigeon_resource_descriptor, 0, 0, NULL);
     lobby_pigeon_lobby_type = TLobby::get_lobby_texlist();
 }
 

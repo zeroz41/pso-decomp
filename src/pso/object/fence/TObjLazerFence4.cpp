@@ -15,6 +15,7 @@
 #include "pso/render/render_util.h"
 #include "pso/unk/text_80193524.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/unk/text_803D8F74.h"
 #include "pso/camera/CameraDistanceFade.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/object/fence/TLazerFenceSw.h"
@@ -59,7 +60,6 @@ struct Node_80193188 { u32 flags; void *model; u8 pad8[0x24]; Node_80193188 *chi
 struct Fence_80193188 { u8 pad0[0x8C]; s32 f8C; u8 pad90[0x2C]; Node_80193188 *fBC; Node_80193188 *fC0; saddr fC4; void *fC8[12]; };
 
 extern "C" {
-void rotate_matrix_y(int, void *);
 void post_translate_matrix(void *);
 void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 u8 is_current_floor_switch_set(s32 id);
@@ -113,14 +113,14 @@ void TObjLazerFence4::draw() {
     TObjFish::set_global_param((saddr)lazer_fence_norm_texture_list);
     push_matrix();
     post_translate_matrix((void *)((char *)this + 56));
-    rotate_matrix_y(0, *(void * *)&this->rotation_y);
+    rotate_matrix_y(0, this->rotation_y);
     draw_ginja_object(this->m_c0);
     pop_matrix();
 }
 
 void TObjLazerFence4::draw_model() {
     u8 *arg0 = (u8 *)this;
-  s32 *new_var;
+  void **new_var;
   u16 *new_var2;
   s32 var_r31;
   s32 var_r30;
@@ -137,11 +137,11 @@ void TObjLazerFence4::draw_model() {
   TObjFish::set_global_param((saddr)lazer_fence_norm_texture_list);
   push_matrix();
   post_translate_matrix((u8 *)&this->position);
-  rotate_matrix_y(0, (void *)this->rotation_y);
-  draw_ginja_object((void *)(*((s32 *) (((s8 *) arg0) + 0xC0))));
+  rotate_matrix_y(0, this->rotation_y);
+  draw_ginja_object(this->m_c0);
   TParticleCtrl::begin_effect_render();
-  new_var = (s32 *) (((s8 *) arg0) + 0xC4);
-  draw_ginja_model_with_motion((void *)(*((s32 *) (((s8 *) arg0) + 0xBC))), (void *)(*new_var), *((f32 *) (((s8 *) arg0) + 0xB0)));
+  new_var = (void **) (((s8 *) arg0) + 0xC4);
+  draw_ginja_model_with_motion(this->m_bc, *new_var, *((f32 *) (((s8 *) arg0) + 0xB0)));
   TParticleCtrl::end_effect_render();
   pop_matrix();
 }
