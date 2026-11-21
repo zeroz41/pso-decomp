@@ -8,6 +8,7 @@
 #include "pso/system/main_loop.h"
 #include "pso/network/TProtocol.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "pso/macros.h"
 #include "pso/system/task/TMainTask.h"
@@ -305,7 +306,6 @@ extern "C" {
 void func_80019A68__Fv();
 s32 get_csn_group_flags(s32);
 s8 func_801A5E54__Fv();
-int atoi(const char *);
 void func_803DCDFC__Fv();
 s16 TLobby__sub_8040A698(s16, void *, void *, int, void *, int);
 s16 dns_open_addr(char *, s16, s32);

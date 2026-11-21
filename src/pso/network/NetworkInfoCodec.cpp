@@ -1,8 +1,6 @@
+#include <stdlib.h>
 #include <string.h>
 #include "pso/network/NetworkInfoCodec.h"
-extern "C" {
-int atoi(const char *);
-}
 char network_info_file_header[19] = "GAMECUBE_NETINFO\r\n";
 s32 parse_netinfo(char *, u32, NetworkInfoConfig *);
 extern char network_info_unparsed_config_lines[0x400];
