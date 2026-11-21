@@ -57,7 +57,6 @@ extern "C" {
 
 s32 post_translate_matrix(void *);
 s32 push_matrix();
-s32 TItemShootModel::is_owner_alive();
 }
 
 

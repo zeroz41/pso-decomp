@@ -1,3 +1,4 @@
+#include <string.h>
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -28,7 +29,6 @@ struct Hdr_801F3124 {
 
 extern "C" {
 int bswap_32__FPUl(void*);
-s32 memcpy(void *, void *, int);
 extern s32 lbl_805D5E94;
 extern s32 lbl_805D5E9C;
 extern u8 TLobby__data_805D5EA8;
@@ -39,7 +39,6 @@ struct EnteredItemName { s32 value; u8 remaining[0xC]; };
 extern EnteredItemName entered_item_name;
 extern struct Op_801F2E64 qst_opcode_table[];
 int bswap_16__FPUs(void*);
-void *memset(void *, int, u32);
 void init_quest_script_context(Hdr_801F3124 *h, QuestVmContext *c);
 int VecCopy__FP3VecPC3Vec(void*);
 

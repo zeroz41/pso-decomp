@@ -65,7 +65,6 @@ void __ct__11TItemWeaponFP7TObjectPUc(void *);
 s32 post_translate_matrix(void *);
 s32 push_matrix();
 s32 __nw__7TObjectFUl(s32);
-s32 TItemShootModel::is_owner_alive();
 
 void __ct__15TItemShootModelFPvPC3VecPC3Vecf(void *);
 typedef u8 *(*Fn_80124694_3)(void *, s32, void *);

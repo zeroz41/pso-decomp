@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-typedef u32 NetThreadHandle;
+typedef uaddr NetThreadHandle;
 typedef struct NetworkThreadSlot NetworkThreadSlot;
 typedef void (*NetThreadEntry)(void);
 typedef struct Blk_803FA2A8 Blk_803FA2A8;

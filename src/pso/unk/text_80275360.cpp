@@ -12,7 +12,7 @@ void TWindowSubComCardList::sub_80275360() {
     TWindowSubComCard *card;
     s32 n;
     s32 index;
-    s32 msg;
+    saddr msg;
 
     this->reset_entries();
     index = ((TWindowSubStatusDisp *)this->m_8c)->get_type();

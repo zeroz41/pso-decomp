@@ -198,7 +198,7 @@ void TTecBarta::create_particle_emitters() {
 void TTecBarta::init_parameters() {
     u8 *arg0 = (u8 *)this;
   saddr new_var;
-  new_var = (int) calc_technique_parameters(3, this->level, 0xFFFF);
+  new_var = (saddr) calc_technique_parameters(3, this->level, 0xFFFF);
   ((TechniqueParams *)(arg0 + 0xCC))->copy((TechniqueParams *)new_var);
   if (((this->level) >= 0xF) && (TTecCtrl::is_technique_ready() == 0))
   {

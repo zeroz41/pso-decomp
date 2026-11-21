@@ -14,8 +14,8 @@ void TUnk_804A3450::vfunc_57() {
 void TUnk_804A3450::emit_marker_effects() {
     saddr owner;
     saddr temp_r3_2;
-    s32 temp_r4;
-    s32 temp_r4_2;
+    saddr temp_r4;
+    saddr temp_r4_2;
 
     if (get_attack_stage() == 0) {
         ((TObjPlayer *)tl_05)->spawn_cane_effects((TItem *)this, 2, 1);

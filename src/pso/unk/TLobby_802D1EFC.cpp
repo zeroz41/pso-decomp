@@ -50,7 +50,7 @@ void snapshot_player_trade_inventory(saddr arg0, s32 arg1) {
     ((TLobby *)arg0)->update_both_halves();
     player = (u8 *)get_player_by_client_id(arg1);
     if (player != NULL) {
-        temp_r29 = ((TPlyItem *)(((TObjPlayer *)player)->inventory_objects))->run_and_get_result((int)((void *) ids));
+        temp_r29 = ((TPlyItem *)(((TObjPlayer *)player)->inventory_objects))->run_and_get_result((saddr)((void *) ids));
         var_r25 = (unsigned char *) (arg0 + 0xF8);
         var_r26 = 0;
         while (var_r26 < temp_r29) {

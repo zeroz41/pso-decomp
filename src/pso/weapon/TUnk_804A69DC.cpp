@@ -81,7 +81,7 @@ s32 create_shoot_model__10TObjPlayerFiiif(saddr arg0, saddr arg1, saddr arg2, f3
 void TUnk_804A69DC::activate_effect(s32) {
     if (owner != NULL && is_current_area_item_enabled() != 0) {
         if (get_current_floor() == owner->get_floor() && get_mode() == 2) {
-            set_sound_pitch_request(play_sound_effect(0x4001AA05, (int)&owner->position, 0, 0), 0x300, 0);
+            set_sound_pitch_request(play_sound_effect(0x4001AA05, (saddr)&owner->position, 0, 0), 0x300, 0);
             launch_shot((u8 *)&gun_point, 0, 0, 1);
         }
     }

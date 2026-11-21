@@ -223,7 +223,7 @@ void check_valid_state__6TLobbyFi(saddr unused) {
 }
 
 int TUnk_804ED7D0::vfunc_76() {
-    return (int)get_state_table(((TObjPlayer *)this)->is_handle_valid());
+    return (saddr)get_state_table(((TObjPlayer *)this)->is_handle_valid());
 }
 s32 *TUnk_804ED7D0::get_state_table(s32 _w1) {
     saddr unused = (saddr)this;

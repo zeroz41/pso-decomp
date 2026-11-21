@@ -34,12 +34,12 @@ struct LogHdr_803CD3A8 { u8 pad[0x2]; u16 seq; };
 
 struct Snd_803CC980 {
     u8 f0; s8 state; s8 f2; u8 f3; uaddr f4; SjRingBuffer *f8; int fc; u8 pad_10[0x14 - 0x10];
-    int f14; int f18; int f1c; int f20; s32 f24; s32 f28; int f2c; int f30;
+    int f14; int f18; int f1c; int f20; saddr f24; s32 f28; int f2c; int f30;
 };
 
 struct Ent_803CC884 {
     s8 used; s8 state; s8 f2; u8 f3; uaddr f4; SjRingBuffer *f8; u8 pad_c[0x14 - 0xC];
-    s32 f14; u8 pad_18[0x20 - 0x18]; s32 f20; s32 f24; s32 f28; u8 pad_2c[0x138 - 0x2C];
+    s32 f14; u8 pad_18[0x20 - 0x18]; s32 f20; saddr f24; s32 f28; u8 pad_2c[0x138 - 0x2C];
 };
 
 struct Hdr_803CCE9C { u8 used; u8 f1; };

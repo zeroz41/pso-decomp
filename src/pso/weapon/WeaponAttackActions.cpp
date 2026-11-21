@@ -326,7 +326,7 @@ void TItemWeapon::spawn_light_task() {
 void TItemWeapon::restore_action_type() {
     u8 *arg0 = (u8 *)this;
     if (((TItemWeapon *)arg0)->test_weapon_flags(0x04000000) != 0U) {
-        ((TObjPlayer *)(*(s32 *)&this->owner + 0x7CC))->set_action_type((s16)2);
+        ((TObjPlayer *)(*(saddr *)&this->owner + 0x7CC))->set_action_type((s16)2);
         ((TItemWeapon *)arg0)->clear_weapon_flags(0x04000000);
     }
 }
@@ -334,9 +334,9 @@ void TItemWeapon::restore_action_type() {
 void TItemWeapon::remap_extra_attack_type() {
     if ((this->test_weapon_flags(0x20) != 0U) && (TObjPlayer__sub_801D2F4C((s16 *)(*(saddr *)((s8 *)this + 0xF0) + 0x7CC)) == 2)) {
         if (this->test_weapon_flags(0x100000) != 0U) {
-            ((TObjPlayer *)(*(s32 *)((s8 *)this + 0xF0) + 0x7CC))->set_action_type((s16)0);
+            ((TObjPlayer *)(*(saddr *)((s8 *)this + 0xF0) + 0x7CC))->set_action_type((s16)0);
         } else {
-            ((TObjPlayer *)(*(s32 *)((s8 *)this + 0xF0) + 0x7CC))->set_action_type((s16)1);
+            ((TObjPlayer *)(*(saddr *)((s8 *)this + 0xF0) + 0x7CC))->set_action_type((s16)1);
         }
         set_weapon_flags(0x04000000);
     }
