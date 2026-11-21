@@ -129,7 +129,7 @@ void damage_players_in_radius(u8 *arg0) {
 }
 
 void run_task__15TBoss6SwordShotFv(u8 *arg0) {
-    if (((TObjEneDD *)arg0)->query_teammate_state() == 0) {
+    if (TObjEneDD::query_teammate_state() == 0) {
         damage_players_in_radius(arg0);
         *(s32 *)((s8 *)arg0 + 0x30) = (s32) (*(s32 *)((s8 *)arg0 + 0x30) + 1);
         if ((s32) *(s32 *)((s8 *)arg0 + 0x30) > 7) {
@@ -362,7 +362,7 @@ void TBoss6SwordWave::render() {  }
 void TBoss6SwordWave::run_task() {
     u8 *arg0 = (u8 *)this;
     f32 temp_f1;
-    if (((TObjEneDD *)this)->query_teammate_state() == 0) {
+    if (TObjEneDD::query_teammate_state() == 0) {
         break_rocks_in_wave();
         check_player_hits();
         if (*(f32 *)((s8 *)arg0 + 0x58) < 6.6666665f) {

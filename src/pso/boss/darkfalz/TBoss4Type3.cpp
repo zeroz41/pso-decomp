@@ -776,7 +776,7 @@ void TObjBs4CutAtk::run_task() {
 
     lo = (u16)this->angle;
     hi = lo + 0x71C;
-    if (((TObjEneDD *)this)->query_teammate_state() != 0) {
+    if (TObjEneDD::query_teammate_state() != 0) {
         return;
     }
     for (i = 0; i < TLobby::get_game_mode(); i++) {

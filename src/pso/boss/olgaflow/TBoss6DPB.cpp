@@ -144,7 +144,7 @@ TBoss6DPB::~TBoss6DPB() {}
 extern "C" {
 void TBoss6DPB::run_task() {
     u8 *arg0 = (u8 *)this;
-    if (((TObjEneDD *)arg0)->query_teammate_state() == 0) {
+    if (TObjEneDD::query_teammate_state() == 0) {
         *(s32 *)((s8 *)arg0 + 0x30) = (s32) (*(s32 *)((s8 *)arg0 + 0x30) + 1);
         if ((f32) *(s32 *)((s8 *)arg0 + 0x30) > 5.0f) {
             ((TBoss6DPB *)arg0)->apply_shower_damage_to_players();
@@ -232,7 +232,7 @@ TDPBShower::~TDPBShower() {
 }
 
 void TDPBShower::run_task() {
-    if (((TObjEneDD *)this)->query_teammate_state() == 0) {
+    if (TObjEneDD::query_teammate_state() == 0) {
         m_position[1] += -60.0f;
         if (m_2c != NULL) {
             ((TParticleCtrl *)m_2c)->set_position(m_position);

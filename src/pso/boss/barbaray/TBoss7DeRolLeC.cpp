@@ -893,7 +893,6 @@ s32 activate_camera_mode(s32 arg0);
 
 CameraPlayback *get_scripted_camera_playback();
 
-s32 query_teammate_state__9TObjEneDDFv();
 
 int play_sound_effect(void*, void*, void*, void*);
 
@@ -1616,7 +1615,7 @@ void TBoss7DeRolLeC::run_task() {
             break;
         }
     }
-    temp_r30 = query_teammate_state__9TObjEneDDFv();
+    temp_r30 = TObjEneDD::query_teammate_state();
     this->update_attack_stat_status();
     this->update_defense_stat_status();
     if (temp_r30 == 0) {
@@ -2595,7 +2594,7 @@ void TObjFish__sub_802EBBC8(u8 *arg0, u32 arg1) {
         break;
     case 0:
         if (*(s32 *)((s8 *)arg0 + 0x72C) == 0) {
-            if (query_teammate_state__9TObjEneDDFv() == 0) {
+            if (TObjEneDD::query_teammate_state() == 0) {
                 CameraPlayback cam;
                 cam.index = 0;
                 cam.bank = 1;

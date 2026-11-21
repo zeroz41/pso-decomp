@@ -1098,7 +1098,7 @@ f32 receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll(void *, void *
 
 f32 fn_80330240(O_80330240 *arg0, void *att, P_80330240 arg2, void *coll, void *tech, void *arg5) {
     while (arg0->f388 == 0) {
-        if (arg2.a != 0x14 && ((TObjEneDD *)arg0)->query_teammate_state() == 0) {
+        if (arg2.a != 0x14 && TObjEneDD::query_teammate_state() == 0) {
             return (0.0f);
         }
         break;

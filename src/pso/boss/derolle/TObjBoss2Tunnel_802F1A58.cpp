@@ -377,7 +377,7 @@ void TUnk_804E4B3C::sub_802F23FC() {  }
 void TUnk_804E4B3C::render() {
     u8 *arg0 = (u8 *)this;
     Nd_802F2348 *n;
-    if (((TObjEneDD *)this)->query_teammate_state() == 0) {
+    if (TObjEneDD::query_teammate_state() == 0) {
         for (n = (*(Li_802F2348 **)((s8 *)arg0 + 0x90))->head; n != 0; n = n->next) {
             draw_particle_effect(n);
         }

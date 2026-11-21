@@ -42,7 +42,7 @@ void TBoss6EffFlowSoul::run_task() {
     f32 remain;
     f32 k;
 
-    if (((TObjEneDD *)self)->query_teammate_state() != 0) {
+    if (TObjEneDD::query_teammate_state() != 0) {
         return;
     }
     if (self->player == 0xFFFF) {

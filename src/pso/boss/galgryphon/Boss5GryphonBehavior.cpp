@@ -200,7 +200,6 @@ s32 get_flag_bit6__13TBoss5GryphonFv();
 void TBoss8Dragon__sub_8005FB90(u8 *arg0);
 int check_demo_mode__10TObjPlayerFv(void*);
 void project_sound_origin_from_camera(saddr arg0, u8 *arg1, f32 farg0);
-s32 query_teammate_state__9TObjEneDDFv();
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
 extern const f32 lbl_805D8DAC;
 void run_task__13TBoss5GryphonFv(u8 *arg0);
@@ -4714,7 +4713,7 @@ void TBoss5Gryphon::run_task() {
             *(s32 *)((s8 *)arg0 + 0x4E0) = 1;
         }
     }
-    temp_r31_2 = query_teammate_state__9TObjEneDDFv();
+    temp_r31_2 = TObjEneDD::query_teammate_state();
     ((TBoss5Gryphon *)(arg0))->update_attack_stat_status();
     ((TBoss5Gryphon *)(arg0))->update_defense_stat_status();
     if (temp_r31_2 == 0) {

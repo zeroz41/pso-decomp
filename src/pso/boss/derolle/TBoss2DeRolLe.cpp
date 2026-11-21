@@ -2172,7 +2172,6 @@ void backup_pos__13TBoss2DeRolLeFi(s32 arg0);
 
 void TBoss2DeRolLe__sub_8003508C(void *arg0);
 
-s32 query_teammate_state__9TObjEneDDFv();
 
 s32 is_main_phase_15__9TObjEneDDFv();
 
@@ -3367,7 +3366,7 @@ void run_task__13TBoss2DeRolLeFPv(u8 *arg0) {
         break;
     }
   }
-  temp_r30 = query_teammate_state__9TObjEneDDFv();
+  temp_r30 = TObjEneDD::query_teammate_state();
   (((TBoss2DeRolLe *)(arg0))->update_attack_stat_status());
   (((TBoss2DeRolLe *)(arg0))->update_defense_stat_status());
   if (temp_r30 == 0)

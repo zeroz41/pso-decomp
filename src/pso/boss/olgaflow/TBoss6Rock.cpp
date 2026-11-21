@@ -31,6 +31,7 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 
 extern "C" {
 // Defined in text_803D96A8.cpp; its header does not declare it yet (the
@@ -40,9 +41,6 @@ f32 normalize_vector(Vec *v);
 void TBoss6PlotFalz__sub_802AC724(void *player, void *pos);
 // TBoss6Type2.cpp: the arena radius (its centre is declared in Boss6Type2Data.h).
 extern const f32 lbl_805DE3F0;
-// query_teammate_state__9TObjEneDDFv() is a static the header declares as a
-// member; every caller (28) uses this name until that is fixed.
-int query_teammate_state__9TObjEneDDFv(void);
 }
 
 const char *boss06_rock_dat_model_names[8] = {
@@ -159,7 +157,7 @@ void TBoss6Rock::run_task() {
         queue_destruction();
         return;
     }
-    if (query_teammate_state__9TObjEneDDFv() != 0) {
+    if (TObjEneDD::query_teammate_state() != 0) {
         return;
     }
     switch (m_c4) {

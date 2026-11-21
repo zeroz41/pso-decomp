@@ -1193,7 +1193,7 @@ void TBoss6PlotFalz::render() {  }
 
 void TBoss6PlotFalz::run_task() {
     u8 *arg0 = (u8 *)this;
-    if (((TObjEneDD *)this)->query_teammate_state() == 0) {
+    if (TObjEneDD::query_teammate_state() == 0) {
         ((TBoss6PlotFalz *)arg0)->set_visible_flag();
         if ((s32) *(s32 *)((s8 *)arg0 + 0x374) == 0) {
             ((TBoss6PlotFalz *)arg0)->call_state_action();

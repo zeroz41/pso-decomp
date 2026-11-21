@@ -18,6 +18,7 @@
 #include "pso/ui/frontend/TAdLdQuestPrtGC.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 
 
 const char TBoss6GravBall__class_name_string[] = "TBoss6GravBall";
@@ -325,7 +326,6 @@ typedef void (TBoss6GravBall::*ActP_80323BBC)(void *);
 typedef void (TBoss6GravBall::*Act0_80323BBC)();
 
 extern "C" {
-s32 query_teammate_state__9TObjEneDDFv(void);
 void VecCopy__FP3VecPC3Vec(void *, void *);
 
 s32 play_persistent_sound(int, void *, void *, int, int);
@@ -441,7 +441,7 @@ void run_task__14TBoss6GravBallFv(TBoss6GravBall_80323BBC *arg0) {
     if (TObjPlayer::check_demo_mode() != 0) {
         return;
     }
-    if (query_teammate_state__9TObjEneDDFv() != 0) {
+    if (TObjEneDD::query_teammate_state() != 0) {
         return;
     }
     static ActP_80323BBC tbl[3] = {

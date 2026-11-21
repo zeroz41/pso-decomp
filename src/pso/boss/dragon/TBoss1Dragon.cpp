@@ -246,7 +246,6 @@ u8 *TBoss1Dragon__ct(TBoss1Dragon *, void *, void *);
 extern saddr tl_04;
 extern saddr tl_02;
 void project_sound_origin_from_camera(saddr arg0, u8 *arg1, f32 farg0);
-s32 query_teammate_state__9TObjEneDDFv();
 s32 is_main_phase_15__9TObjEneDDFv();
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
 extern s32 TBoss1Dragon__data_805D4B38;
@@ -5170,7 +5169,7 @@ void TBoss1Dragon::run_task() {
             this->m_3e0 = 1;
         }
     }
-    temp_r30_2 = query_teammate_state__9TObjEneDDFv();
+    temp_r30_2 = TObjEneDD::query_teammate_state();
     ((TBoss1Dragon *)(arg0))->update_attack_stat_status();
     ((TBoss1Dragon *)(arg0))->update_defense_stat_status();
     if (temp_r30_2 == 0) {

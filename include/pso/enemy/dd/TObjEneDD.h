@@ -48,7 +48,7 @@ struct TObjEneDD : public TObjEnemy {
     static s32 check_v2_mode();
     int get_target_state_a();
     int get_target_state_b();
-    int query_teammate_state();
+    static int query_teammate_state();
     int update_lobby_state();
     static u8 is_phase_e();
     static s32 is_main_phase_15();

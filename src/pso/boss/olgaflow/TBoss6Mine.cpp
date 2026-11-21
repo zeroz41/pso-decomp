@@ -30,6 +30,7 @@
 #include "pso/render/render_util.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/task/TObject.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 
 #pragma readonly_strings on
 extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
@@ -333,7 +334,6 @@ void TBoss6Mine::state_0() {
 }
 #pragma pop
 
-int query_teammate_state__9TObjEneDDFv(void);
 void add_radar_scaled_marker(void *pos, u32 color, s32 a2, s32 a3, f32 scale);
 
 void TBoss6Mine::run_task() {
@@ -346,7 +346,7 @@ void TBoss6Mine::run_task() {
         queue_destruction();
         return;
     }
-    if (query_teammate_state__9TObjEneDDFv() != 0) {
+    if (TObjEneDD::query_teammate_state() != 0) {
         return;
     }
     VecCopy(&this->prev_position, &this->position);

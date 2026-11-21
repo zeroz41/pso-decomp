@@ -923,7 +923,7 @@ void run_task__13TObjDFHormingFv(u8 *arg0) {
     S_80050808 s;
     u8 *p;
     s32 i;
-    if (((TObjEneDD *)arg0)->query_teammate_state() != 0) {
+    if (TObjEneDD::query_teammate_state() != 0) {
         return;
     }
     if (((TObjDFHorming *)arg0)->m_334 == 0xFFFF || (p = (u8 *)get_player_by_client_id(((TObjDFHorming *)arg0)->m_334)) == NULL) {

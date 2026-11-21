@@ -26,6 +26,7 @@ struct Mine_80368C14 { u8 pad[0x38]; Vec pos; };
 #include "pso/object/ambient/TObjFish.h"
 
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 
 #pragma readonly_strings on
 extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
@@ -104,7 +105,6 @@ void *__vt__13TBoss6MagMine[11] = {
     (void *)0x0, (void *)0x0, (void *)0x0,
 };
 void vec3_add_to(void *, void *);
-s32 query_teammate_state__9TObjEneDDFv();
 void add_radar_scaled_marker(void *, int, int, int, f32);
 void vt2__13TBoss6MagMineFv(u8 *arg0);
 void vt1__13TBoss6MagMineFv(u8 *arg0);
@@ -351,7 +351,7 @@ void TUnk_804F322C::run_task() {
     if (TBoss6PlotFalz::is_boss_active() == 0) {
         self->state = 4;
     }
-    if (query_teammate_state__9TObjEneDDFv() != 0) {
+    if (TObjEneDD::query_teammate_state() != 0) {
         return;
     }
     ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&self->prev, &self->pos);

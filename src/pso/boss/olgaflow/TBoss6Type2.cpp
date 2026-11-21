@@ -1045,7 +1045,7 @@ f32 TBoss6Type2::receive_direct_attack(void *attacker, DirectAttackPayload msg, 
         if (msg.kind == 0x14) {
             break;
         }
-        if (((TObjEneDD *)this)->query_teammate_state() != 0) {
+        if (TObjEneDD::query_teammate_state() != 0) {
             break;
         }
         if (msg.kind == (s32)m_42c) {

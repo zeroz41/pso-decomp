@@ -146,7 +146,7 @@ void TBoss6RockChase::render() { push_matrix(this); post_translate_matrix((char*
 void TBoss6RockChase::run_task() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r3;
-    if (((TObjEneDD *)this)->query_teammate_state() == 0) {
+    if (TObjEneDD::query_teammate_state() == 0) {
         temp_r3 = this->m_b4;
         if (temp_r3 > 0) {
             this->m_b4 = (temp_r3 - 1);
