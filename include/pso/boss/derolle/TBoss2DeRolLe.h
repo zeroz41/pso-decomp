@@ -5,6 +5,18 @@
 
 struct NJS_OBJECT;
 #include "pso/enemy/dd/TObjEneDD_ST.h"
+#include "pso/system/task/TObject.h"
+#include "pso/boss/derolle/TUnk_80036250.h"
+#include "pso/system/ControllerInputState.h"
+#include <dolphin/mtx.h>
+
+struct TBoss2Joint;
+class TBoss2Tentacle;
+class TBoss2Fin;
+struct TBoss2LaserLight;
+class TUnk_80482EC0;
+class TUnk_80482D04;
+class AreaAttackHistory;
 
 struct TBoss2DeRolLe : public TObjEneDD_ST {
     static TBoss2DeRolLe *get_instance();
@@ -28,61 +40,61 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     virtual void vfunc_63();
     virtual void vfunc_61();
     void clear_play_flags();
-    u8 unk_374[0x8];
-    f32 m_37c;
-    u8 unk_380[0x24];
-    u32 m_3c0;
-    u32 m_3c4;
-    u32 m_3c8;
-    u32 m_3cc;
-    u32 m_3d0;
-    u32 m_3d4;
-    void* m_3d8;
-    u8 _pad3DC[0x18];
-    u32 m_3f4;
-    u8 _pad3F8[0xC];
-    void* m_404;
-    u8 _pad408[0x68];
-    void* m_470;
-    u8 _pad474[0xC8];
-    u32 m_53c;
-    u8 _pad540[0xD8];
-    u32 m_618;
-    u32 m_61c;
-    u8 _pad620[0x30];
-    u32 m_650;
-    u32 m_654;
-    u32 m_658;
-    u32 m_65c;
-    u32 m_660;
-    void* m_664;
-    u8 _pad668[0x1C];
-    void* m_684;
-    u8 _pad688[0x20];
-    u32 m_6a8;
-    u32 m_6ac;
-    u32 m_6b0;
-    u32 m_6b4;
-    u32 m_6b8;
-    void* m_6bc;
-    u8 _pad6C0[0x8];
-    u32 m_6c8;
-    u32 m_6cc;
-    u32 m_6d0;
-    u8 _pad6D4[0x8];
-    u32 m_6dc;
-    u32 m_6e0;
-    u32 m_6e4;
-    u32 m_6e8;
-    u32 m_6ec;
-    u32 m_6f0;
-    u32 m_6f4;
-    u32 m_6f8;
-    u8 _pad6FC[0x40];
-    u32 m_73c;
-    u8 _pad740[0x18];
-    u32 m_758;
-    u8 unk_740[0x1C];
+    u8 pad_374[0x8];
+    f32 unk_37C;                       // 20.0 (TBoss7DeRolLeC's twin field too)
+    u8 pad_380[0x40];
+    s32 state_flags;                   // 0x8 shell broken, 0x40/0x80 breakup pieces, 0x8000 already beaten
+    s32 unk_3C4;
+    s32 debug_pad_active;              // handle_debug_pad_input drives the boss from debug_pad when set
+    ControllerInputContext *debug_pad; // controller_input_state.controllers[1]
+    s32 unk_3D0;
+    s32 unk_3D4;
+    TObject part_group;                // parent of the tentacles, mines, fin and laser light
+    s32 unk_3F4;
+    Vec unk_3F8[20];
+    Vec unk_4E8[4];
+    Vec unk_518[3];
+    s32 unk_53C;
+    Vec joint_positions[10];           // one per TBoss2Joint in joints
+    s32 unk_5B8[10];
+    TBoss2Joint *joints[10];
+    f32 unk_608[4];
+    GC_Mtx *unk_618;                   // 12 matrices, mem_alloc'd by the constructor
+    GC_Mtx *tentacle_matrices;         // one per tentacle root
+    TBoss2Tentacle *tentacles[4];
+    TUnk_80482EC0 *unk_630[5];
+    TUnk_80482D04 *unk_644[3];
+    TBoss2Fin *fin;
+    s32 unk_654;
+    s32 unk_658;
+    s32 unk_65C;
+    s32 unk_660;
+    TUnk_80036250 unk_664;
+    TUnk_80036250 unk_684;
+    f32 unk_6A4;
+    s32 unk_6A8;
+    s32 unk_6AC;
+    s32 unk_6B0;
+    s32 unk_6B4;
+    TBoss2LaserLight *laser_light;
+    Vec laser_light_pos;               // the position the laser light follows
+    AreaAttackHistory *attack_history;
+    TObject *unk_6CC;
+    TObject *unk_6D0;
+    f32 unk_6D4;
+    f32 unk_6D8;
+    s32 unk_6DC;
+    s32 unk_6E0;
+    s32 unk_6E4;
+    s32 unk_6E8;
+    s32 unk_6EC;
+    s32 unk_6F0;
+    s32 unk_6F4;
+    s32 unk_6F8;
+    f32 unk_6FC[16];
+    TObject *unk_73C;
+    TObject *unk_740[6];
+    s32 unk_758;
     static void reset_fields_3d0(void *p);
 };
 

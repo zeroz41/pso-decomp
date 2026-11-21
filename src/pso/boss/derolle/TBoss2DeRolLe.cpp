@@ -612,7 +612,6 @@ void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 
 void TObjPlayer__sub_8002F61C(NJS_OBJECT *);
 
-extern u8 controller_input_state[];
 
 extern saddr current_scene_light;
 
@@ -2448,7 +2447,6 @@ s32 __ct__7TObjectFP7TObject(void *, void *);
 
 s32 set_matrix_identity(void *);
 
-extern u8 controller_input_state[];
 
 extern saddr TBoss2DeRolLe__base_params;
 
@@ -3078,7 +3076,7 @@ void *TBoss2DeRolLe__ct(void *arg0, void *arg1, void *arg2) {
     ((TObjEneDD *)self)->set_state_flag_2();
     ((TBoss2DeRolLe *)self)->movementParameters = (u8 *)lbl_8048228C;
     ((TObjEneDD *)self)->initialize_enemy_state(0x2D);
-    ((TBoss2DeRolLe *)self)->m_37c = 20.0f;
+    ((TBoss2DeRolLe *)self)->unk_37C = 20.0f;
     ((TObjEneDD_ST *)self)->enemy_init_acquire_period(0x1E);
     ((TObjEneDD_ST *)self)->enemy_init_validate_period(0x1E);
     self->f3C4 = 0;
@@ -3192,7 +3190,7 @@ void *TBoss2DeRolLe__ct(void *arg0, void *arg1, void *arg2) {
     self->f6FC[15] = 0.0f;
     self->f73C = 0;
     self->f3C8 = 0;
-    self->f3CC = controller_input_state + 0x70;
+    self->f3CC = &controller_input_state.controllers[1];
     if (TObjEneDD::is_main_phase_15() != 0) {
         if (((TObjEneDD *)self)->update_lobby_state() != 0) {
             self->f3F4 = 0;
@@ -3431,13 +3429,13 @@ void TBoss2DeRolLe::vfunc_62() {
     s32 temp_r4;
     temp_r4 = this->hpmax - this->hp;
     if (*(s32 *)((s8 *)this + 0x3C0) & 8) {
-        this->m_6c8 = (s32) (this->m_6c8 - temp_r4);
+        this->unk_6AC = (s32) (this->unk_6AC - temp_r4);
         spawn_offset_particle__13TBoss2DeRolLeFiff(*(s32 *)((s8 *)this + 0xA4) + 0x1C, 2.0f, 8.0f);
         play_sound((void *)0x4003A80F, (saddr)((u8 *)this + 0x518));
     } else {
-        this->m_6cc = (s32) (this->m_6cc - temp_r4);
-        if ((s32) this->m_6cc < 0) {
-            this->m_6cc = 0;
+        this->unk_6B0 = (s32) (this->unk_6B0 - temp_r4);
+        if ((s32) this->unk_6B0 < 0) {
+            this->unk_6B0 = 0;
             set_flags_play_sound__13TBoss2DeRolLeFPv((u8 *)this);
         }
     }
@@ -3893,7 +3891,7 @@ u8 is_ready__13TBoss2DeRolLeFPv(TBoss2DeRolLe *arg0) {
     int var_r4;
 
     var_r4 = 0;
-    if (((s32) arg0->m_6c8 <= 0) && !(*(s32 *)((s8 *)arg0 + 0x3C0) & 4)) {
+    if (((s32) arg0->unk_6AC <= 0) && !(*(s32 *)((s8 *)arg0 + 0x3C0) & 4)) {
         var_r4 = 1;
     }
     return (u8)var_r4;
@@ -5741,7 +5739,7 @@ void state_ceiling_attack__13TBoss2DeRolLeFPvUi(TBoss2DeRolLe *arg0, u32 arg1) {
         *(s32 *)((s8 *)arg0 + 0x654) = 3;
         ((s32 (*)(void *, int))set_position_index__13TBoss2DeRolLeFPvi)(arg0, *(s32 *)((s8 *)arg0 + 0x654));
         *(s32 *)((s8 *)arg0 + 0x6E0) = 0;
-        arg0->m_6f8 = 0;
+        arg0->unk_6DC = 0;
         return;
     case 2:
         if (arg0->requested_action == 0xF) {
@@ -6442,7 +6440,7 @@ void TBoss2DeRolLe::render_body() {
         idx = 0x10;
     }
     model = self->anims[self->motions[idx].anim].model;
-    if (test_previous_buttons_packed(controller_input_state + 0xC0, 4) != 0) {
+    if (test_previous_buttons_packed(&controller_input_state.controllers[2], 4) != 0) {
         max = model->frames - 1;
         this->frame = this->frame + self->speed;
         while (this->frame < 0.0f) {
