@@ -66,7 +66,6 @@ u32 __ct__15TWindowHelpItemFPvUs(int, int, u16);
 u32 create__22TWindowLoadItemTextureFPv(int, u16);
 extern s32 local_client_id;
 s32 play_sound_effect(s32, s32, s32, s32);
-s32 sub_802239EC__13TShopSequenceFv(void *);
 void __dl__7TObjectFPv(void *);
 }
 
@@ -187,7 +186,7 @@ void TShopJudgmentItemWindow::build_item_list(void *arg0) {
 extern "C" {
 void TShopJudgmentItemWindow::handle_input() {
 
-    if (sub_802239EC__13TShopSequenceFv(this) != 0) {
+    if (sub_802239EC() != 0) {
         set_field_20(0xA);
         play_sound_effect(0x52D01, 0, 0, 0);
         return;
@@ -465,7 +464,7 @@ extern "C" {
 void TShopJudgmentItemWindow::update() {
     s32 c = *(s32 *)&this->_pad14C - 1;
     *(s32 *)&this->_pad14C = c;
-    if (c <= 0 && vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
+    if (c <= 0 && vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
         vfunc_8(0xB, 1);
         set_field_20(0);
     }

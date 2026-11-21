@@ -17,7 +17,6 @@ struct VObj_802125BC_80212564 : Base_802125BC_80212564 {
 
 extern "C" {
 
-int sub_802239EC__13TShopSequenceFv(void *);
 
 
 void THunterGuildSeqOffline::set_state_4(TShopWindowBase *) {
@@ -30,7 +29,7 @@ void THunterGuildSeqOffline::set_state_4(TShopWindowBase *) {
 
 void THunterGuildSeqOffline::handle_click() {
     VObj_802125BC_80212564 *o = (VObj_802125BC_80212564 *)this;
-    if (o->m8() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
+    if (o->m8() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
         o->m7(0x19, 1);
         set_field_20(4);
     }

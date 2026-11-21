@@ -41,7 +41,6 @@ saddr get_window_layout_position(s32);
 s32 delete_item(TObjPlayer *, s32, s32);
 s32 store_item_in_bank(u8 *item, s32 arg1, s32 slot);
 void copy_bank_to_card_window(s32 slot);
-s32 sub_802239EC__13TShopSequenceFv(void *);
 s32 play_sound_effect(s32, s32, s32, s32);
 void TWindowHelpItem__set_displayed_item_by_id(TWindowHelpItem *, s32);
 TWindowMenuIconLine *create_item_list_window(s32, s32, u16);
@@ -174,7 +173,7 @@ void TShopKeepItemWindow::handle_deposit_list_select() {
             this->help_item_index = cur;
         }
     }
-    if (sub_802239EC__13TShopSequenceFv(this) != 0) {
+    if (sub_802239EC() != 0) {
         set_field_20(5);
         play_sound_effect(0x52D01, 0, 0, 0);
         return;

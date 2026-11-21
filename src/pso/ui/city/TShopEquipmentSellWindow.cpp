@@ -172,7 +172,6 @@ saddr get_window_layout_position(s32);
 void *__ct__15TWindowHelpItemFPvUs(void *, s32, u16);
 void TWindowHelpItem__set_displayed_item_by_id(void *arg0, saddr arg1);
 void *create_window_quantity(u16 arg0);
-int sub_802239EC__13TShopSequenceFv(void *);
 s32 play_sound_effect(s32, s32, s32, s32);
 void *__ct__18TWindowInputNumberFPvllls(void *, s32, s32, s32, s32, s16);
 
@@ -368,7 +367,7 @@ void TShopEquipmentSellWindow::handle_selection() {
         }
         w->sel = i;
     }
-    if (sub_802239EC__13TShopSequenceFv(w) != 0) {
+    if (((TShopWindowBase *)w)->sub_802239EC() != 0) {
         ((TShopWindowBase *)w)->set_field_20(8);
         play_sound_effect(0x52D01, 0, 0, 0);
         return;
@@ -472,7 +471,7 @@ void TShopEquipmentSellWindow::handle_sell_confirm() {
 
 void TShopEquipmentSellWindow::update() {
     VObj_8021C8E0_8021C870 *o = (VObj_8021C8E0_8021C870 *)this;
-    if (o->m8() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
+    if (o->m8() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
         o->m4(0xc, 1);
         set_field_20(5);
     }

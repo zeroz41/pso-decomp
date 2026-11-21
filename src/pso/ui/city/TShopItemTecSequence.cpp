@@ -33,7 +33,6 @@ s32 get_entity_id(TObjPlayer *);
 s32 get_shop_text(s32 arg0);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void* p, int a1, int a2, int a3);
 
-s32 sub_802239EC__13TShopSequenceFv(void *);
 
 extern int shop_tool_stock_counts[];
 }
@@ -200,7 +199,7 @@ void TShopItemTecSequence::open_sell_window() {
 }
 
 void TShopItemTecSequence::close_if_done() {
-    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
+    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
         close_if_single_screen();
         TShopSequence::close_window();
         queue_destruction();
@@ -208,7 +207,7 @@ void TShopItemTecSequence::close_if_done() {
 }
 
 void TShopItemTecSequence::handle_select() {
-    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
+    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
         vfunc_6(lbl_805D6248, 1);
         set_field_20(lbl_805D624C);
     }

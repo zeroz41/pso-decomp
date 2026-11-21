@@ -17,7 +17,6 @@ s32 TJudgmentSequence__slot_flags[4];
 TJudgmentSequence *judgment_sequence_instance;
 TShopJudgmentItemWindow *__ct__23TShopJudgmentItemWindowFPvPvPv(TShopJudgmentItemWindow *arg0, void *arg1, void *arg2, void *arg3);
 extern void *tl_05;
-s32 sub_802239EC__13TShopSequenceFv(void *);
 }
 
 #pragma readonly_strings on
@@ -51,7 +50,7 @@ void TJudgmentSequence__sub_80215BF8(TShopWindowBase *window) {
 }
 
 void TJudgmentSequence::handle_close_input() {
-    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
+    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
         TShopSequence::close_window();
         queue_destruction();
     }
@@ -69,7 +68,7 @@ void TJudgmentSequence::open_judgment_window() {
 }
 
 void TJudgmentSequence::handle_confirm() {
-    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
+    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
         set_field_20(3);
     }
 }

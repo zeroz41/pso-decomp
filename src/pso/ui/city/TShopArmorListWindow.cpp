@@ -116,7 +116,6 @@ s32 TLobby__sub_8021B274();
 s32 get_shop_text(s32);
 void *__ct__15TWindowHelpItemFPvUs(void *, s32, u16);
 u8 *create_item_list_window(s32 arg0, s32 arg1, s32 arg2);
-s32 sub_802239EC__13TShopSequenceFv(void *);
 
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 
@@ -312,7 +311,7 @@ void TShopArmorListWindow::handle_selection() {
         }
         w->sel = i;
     }
-    if (sub_802239EC__13TShopSequenceFv(w) != 0) {
+    if (((TShopWindowBase *)w)->sub_802239EC() != 0) {
         w->f20 = 3;
         play_sound_effect(0x52D01, 0, 0, 0);
         return;
@@ -344,7 +343,7 @@ void TShopArmorListWindow::handle_selection() {
 }
 
 void TShopArmorListWindow::handle_select() {
-    if ((this->vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
+    if ((this->vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC() != 0))) {
         vfunc_6(0xB, 1);
         ((TWindowMenuIconLine *)(this->item_list))->clear_decided();
         set_field_20(1);
@@ -352,7 +351,7 @@ void TShopArmorListWindow::handle_select() {
 }
 
 void TShopArmorListWindow::update() {
-    if ((this->vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
+    if ((this->vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC() != 0))) {
         vfunc_6(0xB, 1);
         ((TWindowMenuIconLine *)(this->item_list))->clear_decided();
         set_field_20(1);

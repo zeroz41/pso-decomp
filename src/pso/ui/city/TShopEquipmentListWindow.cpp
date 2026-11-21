@@ -123,7 +123,6 @@ s32 is_single_purchase_shop_item(u8 *p);
 extern "C" {
 extern const s32 local_client_id;
 uaddr create_yes_no_window(int, u16, int, int);
-s32 sub_802239EC__13TShopSequenceFv(void *);
 void play_sound_effect(int, int, int, int);
 
 void __dl__7TObjectFPv(void *);
@@ -311,7 +310,7 @@ void TShopEquipmentListWindow::handle_selection() {
         }
         w->sel = i;
     }
-    if (sub_802239EC__13TShopSequenceFv(w) != 0) {
+    if (((TShopWindowBase *)w)->sub_802239EC() != 0) {
         ((TShopWindowBase *)w)->set_field_20(3);
         play_sound_effect(0x52D01, 0, 0, 0);
         return;
@@ -343,7 +342,7 @@ void TShopEquipmentListWindow::handle_selection() {
 }
 
 void TShopEquipmentListWindow::handle_select() {
-    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
+    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
         vfunc_6(0xB, 1);
         ((TWindowMenuIconLine *)(this->m_30))->clear_decided();
         this->TShopWindowBase::set_field_20(1);
@@ -351,7 +350,7 @@ void TShopEquipmentListWindow::handle_select() {
 }
 
 void TShopEquipmentListWindow::handle_confirm() {
-    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
+    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
         vfunc_6(0xB, 1);
         ((TWindowMenuIconLine *)(this->m_30))->clear_decided();
         this->TShopWindowBase::set_field_20(1);

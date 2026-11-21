@@ -107,11 +107,9 @@ s32 quest_download_active;
 s32 quest_download_received_bytes;
 s32 quest_download_graph_current_bytes;
 int is_quest_active(void);
-s32 sub_802239EC__13TShopSequenceFv(void *);
 extern s32 THunterGuildSeqOffline__quest_result_callbacks[];
 void THunterGuildSeqOffline__sub_80213980(Obj_80213980 *self);
 saddr set_service_counter_camera(void *, s32);
-s32 sub_802239EC__13TShopSequenceFv(void *);
 
     extern int evt2_random_enemies_mode;
 
@@ -193,7 +191,6 @@ extern "C" {
 
 saddr get_entity_id(void *);
 int is_quest_active(void);
-s32 sub_802239EC__13TShopSequenceFv(void *);
 extern saddr TLobby__protocol_instance;
 
 }
@@ -222,11 +219,9 @@ int is_quest_active(void);
 
 saddr get_window_layout_position(s32);
 int is_quest_active(void);
-s32 sub_802239EC__13TShopSequenceFv(void *);
 extern s32 THunterGuildSeqOffline__quest_result_callbacks[];
 saddr set_service_counter_camera(void *, s32);
 u8 *create_yes_no_window(s32 arg0, s32 arg1, uaddr arg2, uaddr arg3);
-s32 sub_802239EC__13TShopSequenceFv(void *);
 saddr get_window_layout_position(s32);
 
 
@@ -368,7 +363,7 @@ void THunterGuildSeqOffline__sub_802145F8(u8 *shop_sequence) {
                 if (THunterGuildSeqOffline::check_party_gathered() == 1) {
                     *(s32 *)((s8 *)shop_sequence + 0x30) = 2;
                 }
-                if (sub_802239EC__13TShopSequenceFv(shop_sequence) != 0) {
+                if (((TShopWindowBase *)shop_sequence)->sub_802239EC() != 0) {
                     ((TShopSequence *)(shop_sequence))->display_guild_message(0x10, 1);
                     ((TShopWindowBase *)shop_sequence)->set_field_20(0xD);
                     return;
@@ -414,7 +409,7 @@ void TShopWindowBase::update_confirm_input() {
         }
     } else {
 block_3:
-        if ((((TShopWindowBase *)this)->vfunc_10() != 0) && ((((TShopWindowBase *)this)->sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
+        if ((((TShopWindowBase *)this)->vfunc_10() != 0) && ((((TShopWindowBase *)this)->sub_80223A48() != 0) || (sub_802239EC() != 0))) {
             ((TShopWindowBase *)this)->display_guild_message(0xC, 1);
             *(s32 *)((s8 *)this + 0x34) = 1;
             ((TShopWindowBase *)this)->set_field_20(0xC);
@@ -431,7 +426,7 @@ void update__15TShopWindowBaseFPv(void *shop_sequence) {
         }
     } else {
 block_3:
-        if ((((TShopWindowBase *)shop_sequence)->vfunc_10() != 0) && ((((TShopWindowBase *)shop_sequence)->sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(shop_sequence) != 0))) {
+        if ((((TShopWindowBase *)shop_sequence)->vfunc_10() != 0) && ((((TShopWindowBase *)shop_sequence)->sub_80223A48() != 0) || (((TShopWindowBase *)shop_sequence)->sub_802239EC() != 0))) {
             ((TShopWindowBase *)shop_sequence)->display_guild_message(0xC, 1);
             *(s32 *)((s8 *)shop_sequence + 0x34) = 1;
             ((TShopWindowBase *)shop_sequence)->set_field_20(0xC);
@@ -442,7 +437,7 @@ block_3:
 void TShopWindowBase::create_judgment_item_window() {
     VObj_802143AC *vobj = (VObj_802143AC *)this;
 
-    if ((vobj->m8r() != 0) && ((((TShopWindowBase *)this)->sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
+    if ((vobj->m8r() != 0) && ((((TShopWindowBase *)this)->sub_80223A48() != 0) || (sub_802239EC() != 0))) {
         *(s32 *)((s8 *)this + 0x38) = (saddr)create_yes_no_window(get_window_layout_position(0x2B), (u16)get_entity_id((void *)(*(saddr *)((s8 *)this + 0x24))), 0, 0);
         ((TWindowSubComCardList *)(*(saddr *)((s8 *)this + 0x38)))->set_selected_index(1);
         ((TWindowAddition *)(*(saddr *)((s8 *)this + 0x38)))->set_position_xy(((TShopWindowBase *)this)->get_scale(), ((TShopWindowBase *)this)->get_scale());
@@ -497,7 +492,7 @@ void THunterGuildSeqOnline_Server::close_window() {
     if (vfunc_10() == 0) return;
     switch (pad_34) {
     case 0:
-        if (sub_80223A48() == 0 && sub_802239EC__13TShopSequenceFv(this) == 0) return;
+        if (sub_80223A48() == 0 && sub_802239EC() == 0) return;
         if (is_quest_active() == 0) {
             ((TProtocol *)TLobby__protocol_instance)->send_quest_menu_closed();
         }
@@ -540,7 +535,7 @@ void fn_80214058(Seq_80214058 *arg0) {
 
 void TShopWindowBase::confirm_and_close_if_valid() {
     VObj_80213FD0 *o = (VObj_80213FD0 *)this;
-    if (o->m8() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
+    if (o->m8() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
         o->m7(0xc, 1);
         this->set_field_20(0xc);
     }
@@ -681,7 +676,7 @@ void THunterGuildSeqOffline__sub_80213980(Obj_80213980 *self) {
                 self->m7(2, 1);
                 ((TShopWindowBase *)self)->set_field_20(6);
             }
-        } else if (((TShopWindowBase *)self)->sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(self) != 0) {
+        } else if (((TShopWindowBase *)self)->sub_80223A48() != 0 || ((TShopWindowBase *)self)->sub_802239EC() != 0) {
             self->m7(0x15, 1);
             ((TShopWindowBase *)self)->set_field_20(0xB);
         }
@@ -690,7 +685,7 @@ void THunterGuildSeqOffline__sub_80213980(Obj_80213980 *self) {
 }
 
 void THunterGuildSeqOnline_Client::handle_close() {
-    if ((vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
+    if ((vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC() != 0))) {
         display_guild_message(0xC, 1);
         pad_34 = 0;
         set_field_20(0xC);
@@ -704,7 +699,7 @@ void THunterGuildSeqOnline_Client::update_close_shop() {
         }
         quest_thread = NULL;
     }
-    if ((vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
+    if ((vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC() != 0))) {
         display_guild_message(0xC, 1);
         pad_34 = 1;
         set_field_20(0xC);
@@ -718,7 +713,7 @@ void THunterGuildSeqOnline_Client::update_shop_close() {
         }
         quest_thread = NULL;
     }
-    if ((vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
+    if ((vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC() != 0))) {
         display_guild_message(0xC, 1);
         pad_34 = 1;
         set_field_20(0xC);

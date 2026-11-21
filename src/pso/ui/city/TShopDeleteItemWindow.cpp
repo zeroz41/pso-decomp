@@ -35,7 +35,6 @@ u16 get_entity_id(TObjPlayer *);
 TWindowMenu *create_yes_no_window(s32 arg0, s32 arg1, uaddr arg2, uaddr arg3);
 void *get_window_layout_position(int);
 s32 copy_bank_item_with_stack_limit(s32 idx, void *data, s32 *out, s32 slot);
-s32 sub_802239EC__13TShopSequenceFv(void *);
 s16 get_child_field1c__13TShopSequenceFv(void *);
 TWindowInputNumber *__ct__18TWindowInputNumberFPvllls(void *, void *, int, s32, int, int);
 }
@@ -203,7 +202,7 @@ void TShopDeleteItemWindow::update_item_select(void *arg0) {
             self->m_60 = cursor;
         }
     }
-    if (sub_802239EC__13TShopSequenceFv(self) != 0) {
+    if (((TShopWindowBase *)self)->sub_802239EC() != 0) {
         self->set_field_20(7);
     } else if (self->sub_80223A48() != 0) {
         if (copy_bank_item_with_stack_limit(self->m_30->get_cursor_value(), &item, &count, base) != 0) {

@@ -29,7 +29,6 @@ s32 lbl_805D622C;
 s32 lbl_805D6230;
 extern void *tl_05;
 u16 get_entity_id(TObjPlayer *);
-s32 sub_802239EC__13TShopSequenceFv(void *);
 }
 
 #pragma readonly_strings on
@@ -194,7 +193,7 @@ void TShopEquipmentSequence::open_sell_window() {
 }
 
 void TShopEquipmentSequence::close_if_done() {
-    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
+    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
         close_if_single_screen();
         TShopSequence::close_window();
         queue_destruction();
@@ -204,7 +203,7 @@ void TShopEquipmentSequence::close_if_done() {
 void TShopEquipmentSequence__sub_8021D65C(void) {  }
 
 void TShopEquipmentSequence::handle_confirm() {
-    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
+    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
         vfunc_6(lbl_805D622C, 1);
         set_field_20(lbl_805D6230);
     }

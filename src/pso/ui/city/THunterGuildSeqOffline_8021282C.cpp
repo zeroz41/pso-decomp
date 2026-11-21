@@ -37,7 +37,6 @@ extern s32 THunterGuildSeqOffline__quest_result_callbacks[];
 void get_entity_id(s32);
 void THunterGuildSeqOffline__sub_8021E180();
 void fn_802233F8(void *);
-s32 sub_802239EC__13TShopSequenceFv(void *);
 
     extern int evt2_random_enemies_mode;
 void THunterGuildSeqOffline::set_enemy_mode_0() { TLobby::clear_counter(); evt2_random_enemies_mode = 0; TKeyBoardControl__sub_8000F950(); }
@@ -103,7 +102,7 @@ void THunterGuildSeqOffline::close_window() {
     if (arg0->m8() == 0) {
         return;
     }
-    if (((TShopWindowBase *)arg0)->sub_80223A48() == 0 && sub_802239EC__13TShopSequenceFv(arg0) == 0) {
+    if (((TShopWindowBase *)arg0)->sub_80223A48() == 0 && ((TShopWindowBase *)arg0)->sub_802239EC() == 0) {
         return;
     }
     switch (arg0->f38) {
@@ -192,7 +191,7 @@ void THunterGuildSeqOffline::handle_window_input() {
         }
     } else {
 block_3:
-        if ((this->vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
+        if ((this->vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC() != 0))) {
             this->display_guild_message(0xC, 1);
             *(s32 *)&this->unk_38 = 1;
             set_field_20(5);

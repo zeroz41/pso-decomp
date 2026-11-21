@@ -19,7 +19,6 @@
 
 extern "C" {
 
-s32 sub_802239EC__13TShopSequenceFv(void *);
 
 s32 lbl_805D6218;
 s32 lbl_805D621C;
@@ -214,7 +213,7 @@ void TShopEquipmentGearSequence::open_sell_window() {
 }
 
 void TShopEquipmentGearSequence::try_close() {
-    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
+    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
         close_if_single_screen();
         TShopSequence::close_window();
         queue_destruction();
@@ -222,7 +221,7 @@ void TShopEquipmentGearSequence::try_close() {
 }
 
 void TShopEquipmentGearSequence::handle_confirm() {
-    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
+    if (vfunc_10() != 0 && (sub_80223A48() != 0 || sub_802239EC() != 0)) {
         vfunc_6(lbl_805D6218, 1);
         set_field_20(lbl_805D621C);
     }
