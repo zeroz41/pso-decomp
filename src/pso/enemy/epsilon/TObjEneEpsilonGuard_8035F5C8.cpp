@@ -147,7 +147,7 @@ TObjEneEpsilonBody::TObjEneEpsilonBody(TObject *parent, void *set_data) : TObjEn
     reset_hp(lbl_805D6F80, lbl_805D6F84, lbl_805D6F88);
     set_state_flag_4();
     movementParameters = &lbl_804F2250;
-    m_37c = 10.0f;
+    wall_reach = 10.0f;
     enemy_init_acquire_period(30);
     enemy_init_validate_period(30);
     color_index = (s32)(4.0f * random_ratio()) % 4;

@@ -97,9 +97,6 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     static void clearControlOverride();
     static void setControlOverride(s16 controlId);
     static void requestActionRefresh();
-    u8 unk_374[0x8];
-    f32 m_37c;
-    u8 unk_380[0xC];
     u16 m_38c;
     u8 unk_38E[0x2];
     u32 m_390;
@@ -268,7 +265,7 @@ DRAGON_OFFSET(m_870, 0x870);
 DRAGON_OFFSET(m_8ac, 0x8AC);
 DRAGON_OFFSET(m_8b4, 0x8B4);
 DRAGON_OFFSET(m_884, 0x884);
-DRAGON_OFFSET(m_37c, 0x37C);
+DRAGON_OFFSET(wall_reach, 0x37C);
 DRAGON_OFFSET(m_3e0, 0x3E0);
 DRAGON_OFFSET(m_63c, 0x63C);
 DRAGON_OFFSET(m_774, 0x774);

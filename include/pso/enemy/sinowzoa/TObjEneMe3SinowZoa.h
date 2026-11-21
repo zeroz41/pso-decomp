@@ -64,10 +64,7 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     void run_hit_reaction();
     void run_miss_reaction();
     void refresh_target();
-    u8 unk_374[0x4];
-    s32 m_378;
-    f32 m_37c;
-    u8 unk_380[0x10];
+    u8 pad_38C[0x4];
     TObjChara *m_390;
     Vec m_394;
     Vec m_3a0;

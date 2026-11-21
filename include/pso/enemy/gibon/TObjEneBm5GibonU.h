@@ -43,11 +43,6 @@ struct TObjEneBm5GibonU : public TObjEneDD_ST {
     void run_hit_reaction();
     void run_miss_reaction();
     void refresh_target();
-    s32 m_374;
-    s32 m_378;
-    f32 m_37c;
-    u8 unk_380[0x8];
-    s32 m_388;
     u8 unk_38C[0x4];
     TObjPlayer *m_390;
     Vec m_394;

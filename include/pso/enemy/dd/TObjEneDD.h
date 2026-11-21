@@ -96,6 +96,13 @@ struct TObjEneDD : public TObjEnemy {
     void set_field_378(s32 v);
     void init_position_vectors();
     static void release_resource();
+
+    s32 previous_mode;         // mode when the last state handler finished; vfunc_86 tests for a change
+    s32 next_mode;             // mode a finished action hands back to (transition_enemy_state(next_mode))
+    f32 wall_reach;            // extra distance the wall probe looks ahead of a move (5.0)
+    s32 wall_probe_failures;   // moves the wall probe blocked in a row
+    s32 ground_probe_failures; // moves that found no ground in a row
+    s32 active_flags;          // bit 0 set by TObjEneDD_ST::set_active
 };
 
 extern "C" {

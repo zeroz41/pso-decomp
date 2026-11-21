@@ -382,7 +382,7 @@ TObjEneRe2Flower::TObjEneRe2Flower(TObject *parent, void *setData) : TObjEneDD_S
     } else {
         initialize_enemy_state(13);
     }
-    m_37c = lbl_805D9FBC;
+    wall_reach = lbl_805D9FBC;
     enemy_init_acquire_period(30);
     enemy_init_validate_period(30);
     m_3c0 = rotation_y;

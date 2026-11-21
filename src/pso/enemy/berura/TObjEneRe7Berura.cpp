@@ -348,7 +348,7 @@ void TObjEneRe7Berura::init_enemy() {
     set_state_8();
     movementParameters = &berura_init_params;
     initialize_enemy_state(0x25);
-    m_37c = 10.0f;
+    wall_reach = 10.0f;
     enemy_init_acquire_period(0x3C);
     enemy_init_validate_period(0x3C);
     m_3c0 = 0;
@@ -1313,7 +1313,7 @@ void TObjEneRe7Berura__sub_80093470(TObjEneRe7Berura *self, s32 mode) {
         break;
     case 3:
         if (self->get_flag_b4() != 0) {
-            ((TObjEneDD *)self)->transition_enemy_state(self->m_378);
+            ((TObjEneDD *)self)->transition_enemy_state(self->next_mode);
         }
         break;
     case 0:

@@ -96,9 +96,6 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     void set_move_target_point(s32 index);
     void update_angle();
     void init_head_params();
-    u8 pad_374[0x8];
-    f32 unk_37C;                       // 20.0 (TBoss7DeRolLeC's twin field too)
-    u8 pad_380[0xC];
     u16 unk_38C;
     u8 pad_38E[0x6];
     Vec move_target;                   // set_move_target_point's point

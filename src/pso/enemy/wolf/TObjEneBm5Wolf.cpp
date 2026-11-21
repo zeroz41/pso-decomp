@@ -343,7 +343,7 @@ TObjEneBm5Wolf::TObjEneBm5Wolf(TObject *parent, void *set_data) : TObjEneDD_ST(p
     } else {
         initialize_enemy_state(7);
     }
-    m_37c = 15.0f;
+    wall_reach = 15.0f;
     enemy_init_acquire_period(0x14);
     enemy_init_validate_period(0x14);
     ((TObjEneBm5Wolf *)&m_3c0)->set_field8_from_obj((saddr)this);
@@ -1733,7 +1733,7 @@ void TObjEneBm5Wolf::hurt_state(s32 arg1) {
         break;
     case 3:
         if ((this->motion_flags) & 0x10) {
-            switch (this->m_378) {
+            switch (this->next_mode) {
             case 11:
                 this->transition_enemy_state(0xD);
                 break;
@@ -1741,7 +1741,7 @@ void TObjEneBm5Wolf::hurt_state(s32 arg1) {
                 this->transition_enemy_state(7);
                 break;
             default:
-                this->transition_enemy_state(this->m_378);
+                this->transition_enemy_state(this->next_mode);
                 break;
             }
         }
@@ -1799,7 +1799,7 @@ void TObjEneBm5Wolf::update_dying_state(s32 arg1) {
         TBoss8Dragon__sub_800BB7D4(this, 0xF1);
         this->roamingSubstate = 0;
         this->stoppingDistance = calc_death_slide_speed(this->action_table[9].speed);
-        this->m_37c = this->m_43c = 0.0f;
+        this->wall_reach = this->m_43c = 0.0f;
         if (this->m_3d8 != 0) {
             k = 50.0f;
             for (n = ((TObjEneBm5WolfList *)TObjEneBm5Wolf__pack_member_list)->head; n != NULL; n = n->next) {
@@ -1839,8 +1839,8 @@ void TObjEneBm5Wolf::update_dying_state(s32 arg1) {
             }
             this->rotation_y = approach_angle_limited(this->rotation_y, *tgt, 0x300);
             this->rotation_y = (s16)this->rotation_y;
-            if (this->m_37c < 28.0f) {
-                this->m_37c = this->m_37c + this->stoppingDistance;
+            if (this->wall_reach < 28.0f) {
+                this->wall_reach = this->wall_reach + this->stoppingDistance;
             }
             VecCopy(&vel, (const Vec *)&this->x_speed);
             c = normalize_vector_xz(&vel);

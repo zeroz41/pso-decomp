@@ -397,7 +397,7 @@ void TObjEneMe1Canadin::setup_enemy() {
     set_state_flag_4();
     movementParameters = &canadin_setup_param_block;
     initialize_enemy_state(0x1C);
-    m_37C = 10.0f;
+    wall_reach = 10.0f;
     enemy_init_acquire_period(0x2D);
     enemy_init_validate_period(0x2D);
     set_active();
@@ -1658,7 +1658,7 @@ void TObjEneMe1Canadin::fn_8009C510(s32 arg1) {
         break;
     case 3:
         if (self->m_474 == 3) {
-            self->transition_enemy_state(self->m_378);
+            self->transition_enemy_state(self->next_mode);
         }
         break;
     case 0:

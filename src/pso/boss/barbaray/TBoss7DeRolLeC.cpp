@@ -873,7 +873,7 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
     set_state_flag_2();
     movementParameters = &boss7_derolle_c_movement;
     initialize_enemy_state(0x49);
-    unk_37C = 20.0f;
+    wall_reach = 20.0f;
     enemy_init_acquire_period(30);
     enemy_init_validate_period(30);
     unk_7A8 = 0;

@@ -338,7 +338,7 @@ void TObjEneMe3SinowZoaReal::init_enemy() {
     reset_hp(lbl_80542FBC[kind], lbl_80542FC4[kind], lbl_80542FCC[kind]);
     this->set_state_flag_4();
     movementParameters = &TObjEneMe3SinowZoa_init_params;
-    this->m_37c = TObjEneMe3SinowZoa__data_805DF314;
+    this->wall_reach = TObjEneMe3SinowZoa__data_805DF314;
     enemy_init_acquire_period(0x1E);
     enemy_init_validate_period(0x1E);
     this->m_3cc = 0;
@@ -1567,7 +1567,7 @@ void TObjEneMe3SinowZoa::state_knockback(s32 arg1) {
             if (this->m_3c0 == 1 && this->random_ratio() <= this->stealth_off_chance) {
                 this->transition_enemy_state(0x12);
             } else {
-                this->transition_enemy_state(this->m_378);
+                this->transition_enemy_state(this->next_mode);
             }
         }
         break;

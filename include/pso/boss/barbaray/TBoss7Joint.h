@@ -25,9 +25,6 @@ struct TBoss7Joint : public TObjEneDD {
     virtual void refresh_target();
     virtual void update_body_colliders();
     virtual void enable_body_collision();
-    u8 unk_374[0x8];
-    f32 unk_37C;            // init_params sets it to 3.0
-    u8 unk_380[0xC];
     CollisionBody collision_body;
     s32 index;              // constructor argument: the joint's place along the body
     u32 part_flags;         // bit 0: the shell is broken and hits reach the boss

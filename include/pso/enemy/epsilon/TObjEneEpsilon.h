@@ -19,10 +19,6 @@ struct TObjEneEpsilon : public TObjEneDD_ST {
     virtual ~TObjEneEpsilon();
     s32 update_movement_status();
     s32 is_target_in_attack_range();
-    u8 pad_374[0x4];
-    s32 m_378;
-    f32 m_37c;
-    u8 pad_380[0xC];
     u16 m_38c;
     u8 pad_38E[0x2];
     TObjCollidable *m_390;

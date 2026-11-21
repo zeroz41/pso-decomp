@@ -256,7 +256,7 @@ void TObjEneMe1Gee::init_state() {
     this->set_state_flag_1();
     this->movementParameters = &me1_gee_init_params;
     this->initialize_enemy_state(0x36);
-    this->m_37c = 10.0f;
+    this->wall_reach = 10.0f;
     this->enemy_init_acquire_period(0x2D);
     this->enemy_init_validate_period(0x2D);
     this->set_active();
@@ -1568,7 +1568,7 @@ void TObjEneMe1Gee::sub_800C96B4(s32 mode) {
         break;
     case 3:
         if (this->m_438 == 3) {
-            this->transition_enemy_state(this->m_378);
+            this->transition_enemy_state(this->next_mode);
         }
         break;
     case 0:

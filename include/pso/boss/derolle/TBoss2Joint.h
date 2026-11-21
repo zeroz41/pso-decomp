@@ -45,9 +45,6 @@ struct TBoss2Joint : public TObjEneDD {
     void update_position_history();
     s32 init_params();
 
-    u8 pad_374[0x8];
-    f32 reach;           // TObjEneDD's wall-move reach
-    u8 pad_380[0xC];
     s32 joint_flags;     // SHELL_BROKEN
     const Vec *anchor;   // run_task copies the joint's position from it (a TBoss2DeRolLe body point)
     s32 shell_hp;        // damage taken while the shell holds; break_shell runs when it reaches 0

@@ -564,7 +564,7 @@ void TObjEneRe4Sorcerer::init_enemy() {
     set_state_8();
     movementParameters = &re4_sorcerer_init_params;
     initialize_enemy_state(0x1F);
-    m_37c = 15.0f;
+    wall_reach = 15.0f;
     enemy_init_acquire_period(0x1E);
     enemy_init_validate_period(0x1E);
     set_active();
@@ -1528,7 +1528,7 @@ void TObjEneRe4Sorcerer__sub_800EE0F8(TObjEneRe4Sorcerer *self, s32 arg1) {
         break;
     case 3:
         if (self->get_flag_b4() != 0) {
-            self->transition_enemy_state(self->m_378);
+            self->transition_enemy_state(self->next_mode);
         }
         break;
     case 0:

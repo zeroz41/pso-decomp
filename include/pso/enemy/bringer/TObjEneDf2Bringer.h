@@ -21,7 +21,7 @@ struct TObjEneDf2Bringer : public TObjEneDD_ST {
     void refresh_target();
     void render();
     void run_task();
-    u8 unk_374[0x30];
+    u8 pad_38C[0x18];
     u32 m_3c0;
     void* m_3c4;
     u8 _pad3C8[0x10];

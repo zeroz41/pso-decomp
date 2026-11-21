@@ -23,8 +23,7 @@ struct TObjEneRecon : public TObjEneDD_ST {
     void refresh_target();
     void render();
     void run_task();
-    u32 m_390;
-    u8 _pad394[0x78];
+    u8 pad_38C[0x64];
     void* m_40c;
     u8 _pad410[0x8];
     u32 m_418;

@@ -32,9 +32,7 @@ struct TObjEneRe2Flower : public TObjEneDD_ST {
     static void *create(void *arg0);
     int get_flag_11();
 
-    u8 pad_374[0x8];
-    f32 m_37c;
-    u8 pad_380[0x40];
+    u8 pad_38C[0x34];
     s32 m_3c0;
     u32 m_3c4;
     f32 m_3c8;

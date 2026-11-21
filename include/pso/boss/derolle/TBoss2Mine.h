@@ -48,9 +48,6 @@ struct TBoss2Mine : public TObjEneDD {
     static void load_resources();
     static void free_resources();
 
-    u8 unk_374[0x8];
-    f32 m_37c;
-    u8 unk_380[0xC];
     u32 mine_flags;            // 1 hidden, 2 on the ground (shadow), 4 flashing, 0x100 launch requested
     Vec target_pos;
     Vec throw_dir;

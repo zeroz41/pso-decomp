@@ -127,7 +127,7 @@ void TBoss2Mine::init(s32 variant) {
                    (u8 *)TLobby::register_object(boss2_mine_resist_params[variant]));
     this->set_state_flag_2();
     this->movementParameters = &boss2_mine_movement[variant];
-    this->m_37c = 3.0f;
+    this->wall_reach = 3.0f;
     this->set_intangible();
     this->mine_flags = 0;
     this->target_pos.x = 0.0f;

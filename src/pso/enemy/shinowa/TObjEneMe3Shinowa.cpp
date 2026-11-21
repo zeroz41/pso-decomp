@@ -345,7 +345,7 @@ void TObjEneMe3Shinowa::init_enemy() {
     }
     set_state_flag_4();
     movementParameters = &TObjEneMe3ShinowaMirage__init_params;
-    m_37c = 10.0f;
+    wall_reach = 10.0f;
     enemy_init_acquire_period(0x1E);
     enemy_init_validate_period(0x1E);
     m_3c4 = 0;
@@ -1204,7 +1204,7 @@ void TObjEneMe3ShinowaMirage__sub_800E54E8(TObjEneMe3Shinowa *shinowa, s32 arg1)
         shinowa->m_404 = 0;
         shinowa->m_408 = 0;
         shinowa->m_410 = 1.0f;
-        shinowa->m_37c = 30.0f;
+        shinowa->wall_reach = 30.0f;
         shinowa->m_40c = ((shinowa->m_3d4 - (s32)floor_to_float(2.5f)) * 0x3333) / 40;
         VecCopy(home, &shinowa->position);
         shinowa->m_424 = NULL;
@@ -1300,7 +1300,7 @@ void TObjEneMe3ShinowaMirage__sub_800E54E8(TObjEneMe3Shinowa *shinowa, s32 arg1)
         break;
     case 5:
         shinowa->enable_body_collision();
-        shinowa->m_37c = 10.0f;
+        shinowa->wall_reach = 10.0f;
         if (shinowa->m_424 != NULL) {
             shinowa->m_424->queue_destruction();
             shinowa->m_424 = NULL;
@@ -1444,7 +1444,7 @@ void TObjEneMe3ShinowaMirage__sub_800E4FE8(TObjEneMe3Shinowa *shinowa, s32 arg1)
         break;
     case 3:
         if (shinowa->get_flag_b4() != 0) {
-            shinowa->transition_enemy_state(shinowa->m_378);
+            shinowa->transition_enemy_state(shinowa->next_mode);
         }
         break;
     case 0:

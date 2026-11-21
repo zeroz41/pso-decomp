@@ -41,10 +41,7 @@ struct TObjEneBm5Wolf : public TObjEneDD_ST {
     void refresh_target();
     void roaming_state(int event);
     void choose_roaming_destination();
-    u8 unk_374[0x4];
-    s32 m_378;
-    f32 m_37c;
-    u8 unk_380[0x10];
+    u8 pad_38C[0x4];
     TObjChara *target;
     Vec destination;
     Vec destinationDirection;

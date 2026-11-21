@@ -18,9 +18,7 @@ struct TObjEneRecobox : public TObjEneDD_ST {
     void run_hit_reaction();
     void run_miss_reaction();
     void refresh_target();
-    u8 unk_374[0x8];
-    f32 m_37c;
-    u8 unk_380[0x24];
+    u8 pad_38C[0x18];
     void* m_3c0;
     u8 _pad3C4[0x1C];
     u32 m_3e0;

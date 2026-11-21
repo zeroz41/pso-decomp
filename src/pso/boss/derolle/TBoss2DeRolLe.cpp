@@ -1755,7 +1755,7 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(par
     set_state_flag_2();
     movementParameters = &boss2_derolle_movement;
     initialize_enemy_state(0x2D);
-    unk_37C = 20.0f;
+    wall_reach = 20.0f;
     enemy_init_acquire_period(30);
     enemy_init_validate_period(30);
     unk_3C4 = 0;

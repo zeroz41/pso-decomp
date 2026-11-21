@@ -1029,7 +1029,7 @@ void TObjEneBm5GibonU__sub_800CE060(TObjEneBm5GibonU *self, s32 arg1) {
         self->m_518 = 0;
         self->m_530 = ((TObjEneBm5GibonU *)self)->calc_anim_speed(self->action_table[7].speed);
         self->m_538 = 0.0f;
-        self->m_37c = 0.0f;
+        self->wall_reach = 0.0f;
         if (self->m_464 != 0) {
             k = 50.0f;
             for (n = ((TObjEneBm5GibonUList *)TObjEneBm5GibonU__node_list)->head; n != NULL; n = n->next) {
@@ -1067,8 +1067,8 @@ void TObjEneBm5GibonU__sub_800CE060(TObjEneBm5GibonU *self, s32 arg1) {
             }
             self->rotation_y = approach_angle_limited(self->rotation_y, self->m_528, 0x300);
             self->rotation_y = (s16)self->rotation_y;
-            if (self->m_37c < 28.0f) {
-                self->m_37c += self->m_530;
+            if (self->wall_reach < 28.0f) {
+                self->wall_reach += self->m_530;
             }
             VecCopy(&sp8, (const Vec *)&self->x_speed);
             {
@@ -1115,7 +1115,7 @@ void TObjEneBm5GibonU__sub_800CE370(TObjEneBm5GibonU *self, s32 arg1) {
         break;
     case 3:
         if (self->motion_flags & 0x10) {
-            switch (self->m_378) {
+            switch (self->next_mode) {
             case 12:
                 self->transition_enemy_state(0xE);
                 break;
@@ -1123,7 +1123,7 @@ void TObjEneBm5GibonU__sub_800CE370(TObjEneBm5GibonU *self, s32 arg1) {
                 self->transition_enemy_state(8);
                 break;
             default:
-                self->transition_enemy_state(self->m_378);
+                self->transition_enemy_state(self->next_mode);
                 break;
             }
         }
@@ -2685,7 +2685,7 @@ TObjEneBm5GibonU *TObjEneBm5GibonU__ct(TObjEneBm5GibonU *self, s32 arg1, saddr s
     } else {
         ((TObjEneDD *)self)->initialize_enemy_state(0x3B);
     }
-    self->m_37c = 15.0f;
+    self->wall_reach = 15.0f;
     self->enemy_init_acquire_period(0x14);
     self->enemy_init_validate_period(0x14);
     ((TObjEneBm5GibonU *)&self->m_3c0)->set_field8_from_obj((saddr)self);
@@ -2902,8 +2902,8 @@ s32 TObjEneBm5GibonU__sub_800D1D70(TObjEneBm5GibonU *self) { return self->m_46c;
 Vec *TObjEneBm5GibonU__sub_800D1D78(TObjEneBm5GibonU *self) { return &self->m_47c; }
 
 void TObjEneBm5GibonU::clear_flag_and_update() {
-    if (m_374 == 7) {
-        m_388 &= ~1;
+    if (previous_mode == 7) {
+        active_flags &= ~1;
         ((TObjEnemyCustom *)this)->update_if_active(0);
     }
 }

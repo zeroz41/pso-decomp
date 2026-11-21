@@ -47,9 +47,6 @@ public:
     void sub_802F4098(u8 *);
     s32 hasActiveRenderFade();
 
-    u8 pad_374[0x8];
-    f32 m_37c;
-    u8 unk_380[0xC];
     u16 m_38c;
     u8 unk_38E[0x2];
     u32 m_390;

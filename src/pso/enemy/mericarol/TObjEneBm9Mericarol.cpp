@@ -250,7 +250,7 @@ TObjEneBm9Mericarol::TObjEneBm9Mericarol(TObject *parent, void *set_data) : TObj
         initialize_enemy_state(0x3A);
         break;
     }
-    m_37c = 5.0f;
+    wall_reach = 5.0f;
     enemy_init_acquire_period(0x1E);
     enemy_init_validate_period(0x1E);
     m_43c = 0.0f;
@@ -950,7 +950,7 @@ void TObjEneBm9Mericarol::sub_802CF368(s32 arg1) {
                 transition_enemy_state(7);
                 return;
             }
-            transition_enemy_state(m_378);
+            transition_enemy_state(next_mode);
         }
         return;
     case 0:

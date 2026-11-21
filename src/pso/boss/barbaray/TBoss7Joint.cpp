@@ -123,7 +123,7 @@ s32 TBoss7Joint::init_params() {
     set_state_flag_2();
     movementParameters = &boss7_joint_params;
     referenceHp = hpmax;
-    unk_37C = 3.0f;
+    wall_reach = 3.0f;
     clear_intangible();
     part_flags = 0;
     return shell_hp = TBoss7Joint_get_shell_max_hp();

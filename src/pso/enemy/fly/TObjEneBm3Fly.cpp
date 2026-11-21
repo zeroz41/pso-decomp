@@ -142,7 +142,7 @@ void TObjEneBm3Fly::init_child_params() {
     set_state_flag_1();
     this->movementParameters = &bm3_fly_decision_row;
     this->initialize_enemy_state(3);
-    this->m_37c = (5.0f);
+    this->wall_reach = (5.0f);
     enemy_init_acquire_period(0xA);
     enemy_init_validate_period(0xA);
     set_active();
@@ -958,10 +958,10 @@ void TObjEneBm3Fly::update_recoil_state(s32 arg1) {
             if (this->is_confused() != 0) {
                 this->acquire_target(2e+02f);
             }
-            if (this->m_378 == 3) {
+            if (this->next_mode == 3) {
                 choose_attack();
             } else {
-                this->transition_enemy_state(this->m_378);
+                this->transition_enemy_state(this->next_mode);
             }
         }
         break;

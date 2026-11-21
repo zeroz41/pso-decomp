@@ -349,7 +349,7 @@ void TObjEneMe3StelthReal::init_common() {
     reset_hp((u8 *)TObjEneMe3Stelth__base_params_by_variant[v], (u8 *)TObjEneMe3Stelth__attack_params_by_variant[v], (u8 *)TObjEneMe3Stelth__resistance_params_by_variant[v]);
     set_state_flag_4();
     movementParameters = TObjEneMe3Stelth__shared_params;
-    m_37c = 10.0f;
+    wall_reach = 10.0f;
     enemy_init_acquire_period(0x1E);
     enemy_init_validate_period(0x1E);
     m_3cc = 0;
@@ -1418,7 +1418,7 @@ void TObjEneMe3Stelth__sub_800F290C(TObjEneMe3Stelth *stelth, s32 arg1) {
             if (stelth->m_3c0 == 1 && stelth->random_ratio() <= stelth->m_3e0) {
                 stelth->transition_enemy_state(0x12);
             } else {
-                stelth->transition_enemy_state(stelth->m_378);
+                stelth->transition_enemy_state(stelth->next_mode);
             }
         }
         break;

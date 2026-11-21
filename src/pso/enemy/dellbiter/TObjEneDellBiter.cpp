@@ -240,7 +240,7 @@ void TObjEneDellBiter::init_params() {
     set_state_8();
     movementParameters = &TObjEneDellBiter__param_table;
     initialize_enemy_state(0x48);
-    field_37c = 20.0f;
+    wall_reach = 20.0f;
     enemy_init_acquire_period(30);
     enemy_init_validate_period(30);
     flags = 0;

@@ -123,7 +123,7 @@ void TObjEneRe4Bit::init() {
     } else {
         initialize_enemy_state(0x21);
     }
-    m_37c = 3.0f;
+    wall_reach = 3.0f;
     m_3cc = 0;
     m_3d0 = 3;
     m_3d4 = 3;

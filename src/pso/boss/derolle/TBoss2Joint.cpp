@@ -209,7 +209,7 @@ s32 TBoss2Joint::init_params() {
     set_state_flag_2();
     movementParameters = &TBoss2Joint__movement;
     referenceHp = hpmax;
-    reach = 3.0f;
+    wall_reach = 3.0f;
     clear_intangible();
     mode = 0;
     dispatch_action(mode, 4);

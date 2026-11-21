@@ -140,9 +140,6 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     void reset_action_sequence();  // zeroes unk_6B0 and action_index (inferred name)
     void sub_802EAAC8(u32 event, s32 position_index, s32 next_index);
     void sub_802E85E0(u32 event, s32 position_index);
-    u8 pad_374[0x8];
-    f32 unk_37C;                  // 20.0 (the joints set 3.0)
-    u8 pad_380[0xC];
     u16 unk_38C;
     u8 pad_38E[0x2];
     TObjChara *target;            // TObjEneDD_ST's target (enemy_clear_target clears it)
