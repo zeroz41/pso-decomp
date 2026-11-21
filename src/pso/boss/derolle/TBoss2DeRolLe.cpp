@@ -349,7 +349,6 @@ NJS_OBJECT *derolle_breakup_node_child;  // the node's own first child
 
 
 void *create_particle_controller_with_angles(void *arg0, void *arg1, s32 arg2, s32 arg3, u16 arg4);
-extern "C" void enemy_set_target_id(void *self, u16 id);  // TObjEneDD.cpp
 
 Vec TBoss2DeRolLe__mine_ground_targets[5];
 
