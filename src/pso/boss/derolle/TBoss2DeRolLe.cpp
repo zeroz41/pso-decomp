@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/system/BmlResource.h"
+#include "pso/animation/ActorAnimationState.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/animation/MotionContext.h"
 
@@ -281,35 +282,6 @@ const char *boss2_de_rol_le_class_name = "TBoss2DeRolLe";
 
 #include <stddef.h>
 
-struct Motion_8002EFE8 { s32 f0; s32 anim; s32 f8; s32 fC; };
-
-struct Model_8002EFE8 { s32 f0; u32 frames; };
-
-struct Anim_8002EFE8 { s32 f0; Model_8002EFE8 *model; };
-
-struct Self_8002EFE8 {
-    u8 pad0[0x24];
-    s32 x24;
-    u8 pad28[0x34 - 0x28];
-    saddr x34;
-    u8 pos[0xC];
-    u8 pad44[0x5C - 0x44];
-    s32 rotX;
-    s32 rotY;
-    s32 rotZ;
-    u8 pad68[0xC0 - 0x68];
-    f32 frame;
-    u8 padC4[0xD8 - 0xC4];
-    Motion_8002EFE8 *motions;
-    Anim_8002EFE8 *anims;
-    u8 padE0[0x354 - 0xE0];
-    f32 motionIdx;
-    f32 fixedFrame;
-    f32 speed;
-    u8 pad360[0x5E0 - 0x360];
-    saddr joints[10];
-};
-
 extern "C" {
 
 void *__ct__9TBoss2FinFv(void *, TObject *, Vec *, Vec *);
@@ -326,7 +298,7 @@ void TObjPlayer__sub_8002E7C8(void);
 
 s32 TObjLight__sub_801337F8(s32);
 
-void draw_model_motion(void *arg0, void *arg1, f32 farg0);
+void draw_model_motion(void *model, void *motion, f32 frame);
 
 extern saddr current_scene_light;
 
@@ -338,141 +310,9 @@ void TObjPlayer__sub_8002EB88(void);
 
 }
 
-struct VBase_18_3a6650 { char pad[0x18]; };
-
-struct VObj_18_3a6650 : VBase_18_3a6650 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual void m81();
-    virtual void m82();
-    virtual void m83();
-    virtual void m84();
-    virtual void m85();
-    virtual void m86();
-    virtual void m87();
-    virtual void m88();
-    virtual void m89();
-    virtual void m90();
-    virtual void m91();
-    virtual void m92();
-    virtual void m93();
-    virtual void m94();
-    virtual void m95();
-    virtual void m96();
-    virtual void m97();
-    virtual void m98();
-    virtual void m99();
-    virtual void m100();
-    virtual void m101();
-    virtual void m102();
-    virtual void m103();
-    virtual s32 m104();
-};
-
 struct Vec4_8002F258 { f32 x, y, z, w; };
 
 struct Light_8002F258 { u8 pad0[0x24]; Vec4_8002F258 col; };
-
-struct Me_8002F258 : VObj_18_3a6650 {
-    u8 pad1C[0x24 - 0x1C];
-    s32 f24;
-    u8 pad28[0x38 - 0x28];
-    Vec pos;
-    u8 pad44[0x5C - 0x44];
-    s32 rx;
-    s32 ry;
-    s32 rz;
-    u8 pad68[0x3C0 - 0x68];
-    s32 flags;
-    u8 pad3c4[0x3D8 - 0x3C4];
-    u8 nodes[0x3F8 - 0x3D8];
-    Vec pts[20];
-    u8 pad4e8[0x540 - 0x4E8];
-    Vec mids[10];
-    u8 pad5b8[0x5E0 - 0x5B8];
-    saddr joints[10];
-    u8 pad608[0x6A4 - 0x608];
-    f32 height;
-};
 
 extern "C" {
 
@@ -3987,42 +3827,41 @@ void copy_argb(NJS_ARGB *dst, NJS_ARGB *src) {
 }
 
 void TBoss2DeRolLe::render() {
-    Me_8002F258 *e = (Me_8002F258 *)this;
     Vec4_8002F258 *col;
     s32 i;
     Vec *out;
 
     if (this->get_target_info() != 0) {
-        e->m104();
+        render_body();
         return;
     }
-    e->m8(1000.0f, 1000.0f);
+    update_object_view_visibility(1000.0f, 1000.0f);
     saved_model_render_flags = model_render_flags;
     saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
     saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
     TObjEneDD::clear_global_flag_400();
     TParticleCtrl::begin_effect_render();
     push_matrix();
-    post_translate_matrix(&e->pos.x);
-    translate_matrix(0, 0.0f, e->height, 0.0f);
-    rotate_matrix_y(0, e->ry);
-    rotate_matrix_x(0, e->rx);
-    rotate_matrix_z(0, e->rz);
+    post_translate_matrix(&position.x);
+    translate_matrix(0, 0.0f, height_offset, 0.0f);
+    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_x(0, rotation_x);
+    rotate_matrix_z(0, rotation_z);
     {
         Vec sc = {2.0f, 2.0f, 2.0f};
         scale_current_matrix(&sc.x);
     }
     update_pulsing_colors();
     for (i = 0; i < 10; i++) {
-        ((TBoss2Joint *)e->joints[i])->apply_flash_color();
+        joints[i]->apply_flash_color();
     }
-    if (e->flags & 0x40) {
+    if (state_flags & 0x40) {
         derolle_breakup_node->child = derolle_breakup_stub_nodes;
     } else {
         derolle_breakup_node->child = derolle_breakup_node_child;
     }
     derolle_begin_node_capture(this);
-    TObjFish::set_global_param(e->f24);
+    TObjFish::set_global_param(texlist);
     set_chunk_model_node_callback(derolle_capture_node_points);
     {
     Vec4_8002F258 saved;
@@ -4047,23 +3886,23 @@ void TBoss2DeRolLe::render() {
     TParticleCtrl::end_effect_render();
     {
     Vec v;
-    out = e->mids;
-    VecCopy(&v, &e->pts[0]);
-    vec3_add_to(&v, &e->pts[9]);
+    out = joint_positions;
+    VecCopy(&v, &node_positions[0]);
+    vec3_add_to(&v, &node_positions[9]);
     v.x *= 0.5f;
     v.y *= 0.5f;
     v.z *= 0.5f;
     VecCopy(out, &v);
-    VecCopy(&v, &e->pts[9]);
-    vec3_add_to(&v, &e->pts[11]);
+    VecCopy(&v, &node_positions[9]);
+    vec3_add_to(&v, &node_positions[11]);
     v.x *= 0.5f;
     v.y *= 0.5f;
     v.z *= 0.5f;
     VecCopy(out + 1, &v);
     out += 2;
     for (i = 0; i < 8; i++) {
-        VecCopy(&v, &e->pts[i + 11]);
-        vec3_add_to(&v, &e->pts[i + 12]);
+        VecCopy(&v, &node_positions[i + 11]);
+        vec3_add_to(&v, &node_positions[i + 12]);
         v.x *= 0.5f;
         v.y *= 0.5f;
         v.z *= 0.5f;
@@ -4071,7 +3910,7 @@ void TBoss2DeRolLe::render() {
         out++;
     }
     }
-    ((TObject *)(e->nodes))->render_nodes();
+    part_group.render_nodes();
 }
 
 int TBoss2DeRolLe::vfunc_105() { return this->get_target_info(); }
@@ -4080,9 +3919,8 @@ int TBoss2DeRolLe::vfunc_105() { return this->get_target_info(); }
 #pragma opt_common_subs off
 
 void TBoss2DeRolLe::render_body() {
-    Self_8002EFE8 *self = (Self_8002EFE8 *)this;
     s32 i;
-    Model_8002EFE8 *model;
+    AnimationMotion *motion;
     s32 idx;
     f32 frame;
     f32 max;
@@ -4098,18 +3936,18 @@ void TBoss2DeRolLe::render_body() {
     TObjEneDD::check_v2_mode();
     scale_current_matrix(&scale.x);
     for (i = 0; i < 10; i++) {
-        ((TBoss2Joint *)self->joints[i])->apply_flash_color();
+        joints[i]->apply_flash_color();
     }
-    idx = self->motionIdx;
+    idx = parameters[0];
     if (idx < 0) {
         idx = 0;
     } else if (idx >= 0x11) {
         idx = 0x10;
     }
-    model = self->anims[self->motions[idx].anim].model;
+    motion = motion_list[action_table[idx].motion].motion;
     if (test_previous_buttons_packed(&controller_input_state.controllers[2], 4) != 0) {
-        max = model->frames - 1;
-        this->frame = this->frame + self->speed;
+        max = motion->frameCount - 1;
+        this->frame = this->frame + parameters[2];
         while (this->frame < 0.0f) {
             this->frame = this->frame + max;
         }
@@ -4118,17 +3956,17 @@ void TBoss2DeRolLe::render_body() {
         }
         frame = this->frame;
     } else {
-        frame = self->fixedFrame;
+        frame = parameters[1];
         if (frame < 0.0f) {
             frame = 0.0f;
-        } else if (frame > (model->frames - 1)) {
-            frame = model->frames;
+        } else if (frame > (motion->frameCount - 1)) {
+            frame = motion->frameCount;
         }
     }
-    derolle_begin_node_capture((TBoss2DeRolLe *)self);
+    derolle_begin_node_capture(this);
     set_chunk_model_node_callback(derolle_capture_node_points);
     TObjFish::set_global_param(this->texlist);
-    draw_model_motion((void *)self->x34, (void *)model, (f32)frame);
+    draw_model_motion(model, motion, frame);
     set_chunk_model_node_callback(NULL);
     TObjLight__sub_801337F8(current_scene_light);
     pop_matrix();
