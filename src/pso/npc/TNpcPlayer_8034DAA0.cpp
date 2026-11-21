@@ -125,8 +125,6 @@ typedef struct VObj_18_dac7f3 VObj_18_dac7f3;
 
 
 
-s32 notify_field1c__10TObjPlayerFl();
-s32 send_item_pickup_request__10TObjPlayerFl();
 
 
 }
@@ -257,7 +255,6 @@ void quest_player_face_actor(u16 src, u16 dst);
 
 
 #define SETFLAG_8034E814 ((void (*)(void *, u16))set_npc_control_flag__10TNpcPlayerFPvs)
-#define NOTIFY_8034E814 ((void (*)(void *))notify_field1c__10TObjPlayerFl)
 
 
 // Compiled with -inline off,deferred: the functions are written in reverse of their
@@ -335,6 +332,7 @@ void TNpcPlayer::send_npc_create(s16 arg0, s16 arg1) {
 void TNpcPlayer::send_npc_control_notify_players(s16 arg0, u16 arg1, s16 arg2) {
     Stack_8034ECD0 stack;
     s32 var_r31;
+    uaddr player;
     build_6x69_npc_control(&stack.sp8);
     stack.spC = arg0;
     var_r31 = 0;
@@ -343,8 +341,8 @@ void TNpcPlayer::send_npc_control_notify_players(s16 arg0, u16 arg1, s16 arg2) {
     stack.sp12 = arg2;
     stack.spE = arg1;
 loop_1:
-    if (((u32)get_player_by_client_id(var_r31)) != 0U) {
-        notify_field1c__10TObjPlayerFl();
+    if ((player = get_player_by_client_id(var_r31)) != 0) {
+        TObjPlayer::notify_field1c(player);
     } else {
         var_r31 += 1;
         if (var_r31 < 4) {
@@ -384,14 +382,15 @@ void TNpcPlayer::send_npc_control_create(s16 arg0, u16 arg1, s16 arg2, u8 *arg3,
     Stack_8034EB08 stack;
     s32 var_r31;
     build_6x69_npc_control(&stack.sp8);
+    uaddr player;
     stack.spC = arg0;
     var_r31 = 0;
     stack.spE = 0xFFFF;
     stack.sp10 = 3;
     stack.sp12 = arg2;
 loop_1:
-    if (((u32)get_player_by_client_id(var_r31)) != 0U) {
-        notify_field1c__10TObjPlayerFl();
+    if ((player = get_player_by_client_id(var_r31)) != 0) {
+        TObjPlayer::notify_field1c(player);
     } else {
         var_r31 += 1;
         if (var_r31 < 4) {
@@ -479,7 +478,7 @@ void handle_6x69_npc_control(Pkt_8034E814 *pkt) {
             if (p == NULL) {
                 return;
             }
-            NOTIFY_8034E814(p);
+            TObjPlayer::notify_field1c((saddr)p);
             p->m6();
             SETFLAG_8034E814(p, (u16)local_client_id);
             ((TNpcPlayer *)p)->set_npc_ctrl_state(pkt->state);
@@ -491,7 +490,7 @@ void handle_6x69_npc_control(Pkt_8034E814 *pkt) {
             p = create_player_object(pkt->target, 4, load_npc_player_template(pkt->state));
             if (p != NULL) {
                 p->m6();
-                NOTIFY_8034E814(p);
+                TObjPlayer::notify_field1c((saddr)p);
             }
         }
         break;
@@ -737,11 +736,12 @@ void set_partner_common_remark(s32 kind, const char *text) {
 
 void TObjPlayer::update_4p_battle_ctrls() {
     s32 var_r31;
+    uaddr player;
 
     var_r31 = 0;
     do {
-        if (get_player_by_client_id(var_r31) != 0U) {
-            send_item_pickup_request__10TObjPlayerFl();
+        if ((player = get_player_by_client_id(var_r31)) != 0) {
+            TObjPlayer::send_item_pickup_request(player);
         }
         var_r31 += 1;
     } while (var_r31 < 4);
@@ -749,11 +749,12 @@ void TObjPlayer::update_4p_battle_ctrls() {
 
 void TObjPlayer::notify_all_battle_players() {
     s32 var_r31;
+    uaddr player;
 
     var_r31 = 0;
     do {
-        if (get_player_by_client_id(var_r31) != 0U) {
-            notify_field1c__10TObjPlayerFl();
+        if ((player = get_player_by_client_id(var_r31)) != 0) {
+            TObjPlayer::notify_field1c(player);
         }
         var_r31 += 1;
     } while (var_r31 < 4);
