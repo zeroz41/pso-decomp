@@ -106,7 +106,6 @@ void project_sound_origin_from_camera(saddr arg0, u8 *arg1, f32 farg0);
 extern s32 local_client_id;
 extern s32 TBoss8Dragon__data_805D69B8;
 void TBoss8Dragon__sub_802F48DC(TBoss8Dragon *dragon, Vec *target);
-struct Dragon_802F8578;
 s32 update_linked_position__12TBoss8DragonFv(void *);
 extern u8 *TBoss8Dragon__data_80541DDC[];
 int TBoss8Dragon__sub_802FB984(void);
@@ -954,28 +953,6 @@ struct VObj_18_2719b2x : VBase_18_2719b2x {
 struct Obj_802FC580;
 void TBoss8Dragon__sub_802FC060(void *, s32);
 struct Pair_802F8578 { f32 a; f32 b; };
-struct Ids_802F8578 { u8 pad[0x8]; saddr id8; saddr idC; };
-struct Dragon_802F8578 : VObj_18_444bc5 {
-    u8 pad1C[0x38 - 0x1C];
-    Vec pos;
-    u8 pad44[0xB8 - 0x44];
-    s16 field_B8;
-    u8 padBA[0x326 - 0xBA];
-    s16 field_326;
-    u8 pad328[0x3C0 - 0x328];
-    s32 field_3C0;
-    u8 pad3C4[0x680 - 0x3C4];
-    s32 field_680;
-    u8 pad684[0x754 - 0x684];
-    s32 field_754;
-    u8 pad758[0x760 - 0x758];
-    Ids_802F8578 *field_760;
-    u8 pad764[0x84C - 0x764];
-    s32 field_84C;
-    s32 field_850;
-    u8 pad854[0x864 - 0x854];
-    f32 field_864;
-};
 struct VBase_18_444bc5x { char pad[0x18]; };
 struct VObj_18_444bc5x : VBase_18_444bc5x {
     virtual void m0();
@@ -3649,28 +3626,28 @@ void TBoss8Dragon::sub_802F8578(s32 event) {
 
     switch (event) {
     case 4:
-        ((Dragon_802F8578 *)this)->field_B8 = 0x11;
-        ((Dragon_802F8578 *)this)->m94();
-        ((TBoss8Dragon *)this)->set_state();
-        ((TBoss8Dragon *)this)->activate_attack();
-        ((Dragon_802F8578 *)this)->field_3C0 |= 0x36;
-        ((Dragon_802F8578 *)this)->field_84C = 0;
-        ((Dragon_802F8578 *)this)->field_864 = 0.0f;
-        ((Dragon_802F8578 *)this)->field_850 = 0;
+        this->requested_action = 0x11;
+        this->clear_intangible();
+        this->set_state();
+        this->activate_attack();
+        this->m_3c0 |= 0x36;
+        this->m_84c = 0;
+        this->m_864 = 0.0f;
+        this->m_850 = 0;
         break;
     case 2:
     case 11:
-        ((Dragon_802F8578 *)this)->field_754 = 0;
-        if (((TObjEneDD *)this)->get_flag_b4() != 0) {
+        this->m_754 = 0;
+        if (this->get_flag_b4() != 0) {
             send_action_packet(0x18);
         }
         break;
     case 9:
-        if (((TObjEneDD *)this)->get_flag_b4() != 0) {
-            switch (((Dragon_802F8578 *)this)->field_326) {
+        if (this->get_flag_b4() != 0) {
+            switch (this->mode) {
             default:
             case 8:
-                ((TBoss8Dragon *)this)->pick_next_action();
+                this->pick_next_action();
                 break;
             case 10:
                 send_action_packet(9);
@@ -3691,31 +3668,31 @@ void TBoss8Dragon::sub_802F8578(s32 event) {
         copy_pos_to_field688();
         break;
     case 0:
-        ((TObjMotion *)this)->advance_animation();
-        switch (((Dragon_802F8578 *)this)->field_84C) {
+        this->advance_animation();
+        switch (this->m_84c) {
         case 0:
             eval_bezier_curve__12TBoss8DragonFPviiPvf(boss8_dragon_bezier_points_3, 3, 0, &out,
-                ((TObjEneDD_ST *)this)->get_motion_frame() / 50.0f);
-            ((Dragon_802F8578 *)this)->pos.y = out.b;
-            if (((TObjMotion *)this)->is_passing_frame(2.0f) != 0) {
+                this->get_motion_frame() / 50.0f);
+            this->position.y = out.b;
+            if (this->is_passing_frame(2.0f) != 0) {
                 this->play_effect_sound(0x4003A804);
             }
-            if (((TObjMotion *)this)->is_passing_frame(11.0f) != 0) {
-                ((TBoss8Dragon *)this)->spawn_ground_effect();
+            if (this->is_passing_frame(11.0f) != 0) {
+                this->spawn_ground_effect();
             }
-            if (((TObjMotion *)this)->is_passing_frame(50.0f) != 0) {
-                fill_value_array(((Dragon_802F8578 *)this)->field_680);
+            if (this->is_passing_frame(50.0f) != 0) {
+                fill_value_array(this->attack_history);
                 create_boss8_piller_ctrl((saddr)&position, (s32)(((s32 (*)(u8 *))get_entity_id)((u8 *)this)), 100.0f);
-                spawn_particle_effect_with_flags(&position, (saddr)((void *)((Dragon_802F8578 *)this)->field_760->id8), 0x40);
-                if (((Dragon_802F8578 *)this)->field_760->idC != -1) {
-                    spawn_particle_effect_with_flags(&position, (saddr)((void *)((Dragon_802F8578 *)this)->field_760->idC), 0x40);
+                spawn_particle_effect_with_flags(&position, this->m_760[2], 0x40);
+                if (this->m_760[3] != -1) {
+                    spawn_particle_effect_with_flags(&position, this->m_760[3], 0x40);
                 }
                 this->play_effect_sound(0x4003AD0E);
                 TCameraCtrl::set_shake_preset(1);
                 TBoss8Dragon__sub_802FB778((saddr)this);
-                ((TBoss8Dragon *)this)->reset_timer();
-                ((TBoss8Dragon *)this)->set_active_flag();
-                ((Dragon_802F8578 *)this)->field_84C = 1;
+                this->reset_timer();
+                this->set_active_flag();
+                this->m_84c = 1;
             }
             break;
         case 1:
@@ -3723,7 +3700,7 @@ void TBoss8Dragon::sub_802F8578(s32 event) {
         }
         break;
     case 5:
-        ((TBoss8Dragon *)((Dragon_802F8578 *)this))->set_active_flag();
+        this->set_active_flag();
         break;
     }
 }
