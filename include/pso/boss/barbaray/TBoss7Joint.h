@@ -23,8 +23,8 @@ struct TBoss7Joint : public TObjEneDD {
     virtual void vfunc_61();
     virtual void vfunc_63();
     virtual void vfunc_28();
-    virtual void vfunc_88();
-    virtual void vfunc_93();
+    virtual void update_body_colliders();
+    virtual void enable_body_collision();
     u8 unk_374[0x8];
     f32 unk_37C;            // init_params sets it to 3.0
     u8 unk_380[0xC];

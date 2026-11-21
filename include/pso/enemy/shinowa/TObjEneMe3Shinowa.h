@@ -34,8 +34,8 @@ struct TObjEneMe3Shinowa : public TObjEneDD_ST {
     virtual void run_task();
     virtual void render();
     virtual void dispatch_action(u32 state, s32 reason);
-    virtual void vfunc_88();
-    virtual void vfunc_89();
+    virtual void update_body_colliders();
+    virtual void check_collisions();
     virtual void vfunc_105();
     virtual s32 can_hit_same_target();
     virtual void vfunc_107();

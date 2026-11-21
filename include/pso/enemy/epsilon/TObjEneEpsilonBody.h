@@ -47,8 +47,8 @@ public:
     virtual void vfunc_62();
     virtual void vfunc_61();
     virtual void dispatch_action(u32 state, s32 reason);
-    virtual void vfunc_88();
-    virtual void vfunc_89();
+    virtual void update_body_colliders();
+    virtual void check_collisions();
     virtual void vfunc_105();
     virtual void vfunc_106();
     virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);

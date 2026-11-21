@@ -124,24 +124,24 @@ s32 TBoss2Joint::break_shell() {
     new TUnk_804820A8(this, &position);
 }
 
-void TBoss2Joint::vfunc_93() {
+void TBoss2Joint::enable_body_collision() {
     if (bodies->flags & 6) {
-        TObjEneDD::vfunc_93();
+        TObjEneDD::enable_body_collision();
         return;
     }
-    TObjEneDD::vfunc_94();
+    TObjEneDD::disable_body_collision();
 }
 
-void TBoss2Joint::vfunc_88() {
+void TBoss2Joint::update_body_colliders() {
     if (position.y < lbl_805D8258 - 50.0f) {
-        TObjEneDD::vfunc_94();
+        TObjEneDD::disable_body_collision();
         bodies->flags &= ~6;
     } else {
-        TObjEneDD::vfunc_93();
+        TObjEneDD::enable_body_collision();
         if (position.y >= 30.0f) {
-            vfunc_97();
+            set_colliders_contact_high();
         } else {
-            vfunc_98();
+            set_colliders_contact_low();
         }
     }
     transform_part_positions();
@@ -177,15 +177,15 @@ void TBoss2Joint::vfunc_28() {}
 void TBoss2Joint::run_task() {
     if (TObjPlayer::check_demo_mode() == 0) {
         VecCopy(&position, anchor);
-        vfunc_83();
-        if (vfunc_86() == 0) {
+        update_status_effects();
+        if (has_action_state_changed() == 0) {
             dispatch_action(mode, 3);
         }
         dispatch_action(mode, 0);
         sub_800BBA0C();
         update_flash_color();
         update_position_history();
-        vfunc_88();
+        update_body_colliders();
         submit_default_cursor_candidate();
         add_radar_scaled_marker(&position, -0x5DB4, 1, 1, 1.2f);
     }
@@ -210,7 +210,7 @@ s32 TBoss2Joint::init_params() {
     movementParameters = &TBoss2Joint__movement;
     referenceHp = hpmax;
     reach = 3.0f;
-    vfunc_96();
+    clear_intangible();
     mode = 0;
     dispatch_action(mode, 4);
     joint_flags = 0;

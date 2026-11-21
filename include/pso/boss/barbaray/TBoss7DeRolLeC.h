@@ -60,7 +60,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     // matrices of the ones the boss tracks.
     static void record_node_transforms(NJS_OBJECT *node);
     void set_flag_800();
-    virtual void vfunc_88();
+    virtual void update_body_colliders();
     virtual void render_shadows();
     void vfunc_63();
     void vfunc_62();

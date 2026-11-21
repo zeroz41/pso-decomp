@@ -45,10 +45,10 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     s32 sub_8031A454();
     void sub_8031A3D8();
     s32 render_model_if_visible();
-    virtual void vfunc_88();
-    virtual void vfunc_95();
-    virtual void vfunc_96();
-    virtual void vfunc_89();
+    virtual void update_body_colliders();
+    virtual void set_intangible();
+    virtual void clear_intangible();
+    virtual void check_collisions();
     virtual void sub_8031A6A0();
     virtual s32 is_target_in_range();
     virtual void vfunc_107();

@@ -325,13 +325,13 @@ void TObjEneMe1Gee::run_task() {
         queue_destruction__7TObjectFv(this);
         return;
     }
-    if (this->vfunc_83() != 4) {
-        this->vfunc_85();
+    if (this->update_status_effects() != 4) {
+        this->update_action_state();
         this->update_fade_sequence();
     }
     this->copy_pos();
     this->submit_default_cursor_candidate();
-    this->vfunc_100();
+    this->render_minimap_dot();
 }
 
 BmlResource *TObjEneMe1Gee::sub_800CC2BC() { return TObjEneMe1Gee__resource_bundle; }
@@ -357,12 +357,12 @@ void TObjEneMe1Gee::copy_pos() {
     VecCopy(&this->center, &this->body_center);
 }
 
-void TObjEneMe1Gee::vfunc_88() {
+void TObjEneMe1Gee::update_body_colliders() {
     this->m_3f4 = (this->m_3f8 - this->position.y);
     if (this->m_3f4 < 30.0f) {
-        this->vfunc_98();
+        this->set_colliders_contact_low();
     } else {
-        this->vfunc_97();
+        this->set_colliders_contact_high();
     }
     this->bodies->offset.y = this->m_3f4;
 }
@@ -404,8 +404,8 @@ void TObjEneMe1Gee::calc_position(Vec *out) {
     vec3_add_to(out, &this->position);
 }
 #pragma pop
-u8 *TObjEneMe1Gee::vfunc_101(u8 *dest) {
-    if (TObjEneDD::vfunc_101(dest) == 0) {
+u8 *TObjEneMe1Gee::move_xz_on_ground(u8 *dest) {
+    if (TObjEneDD::move_xz_on_ground(dest) == 0) {
         this->m_3c8 &= 0xFEFFFFFF;
         return;
     }
@@ -450,7 +450,7 @@ void TObjEneMe1Gee::sub_800CBE6C(f32 y) {
     this->sub_800CBF58(y);
     VecCopy(&pos, &this->position);
     pos.y = this->m_3f8;
-    this->vfunc_101((u8 *)&pos);
+    this->move_xz_on_ground((u8 *)&pos);
 }
 
 void TObjEneMe1Gee::update_hover_height() {
@@ -466,7 +466,7 @@ void TObjEneMe1Gee::sub_800CBDBC(f32 y) {
     this->approach_target_value(y);
     VecCopy(&pos, &this->position);
     pos.y = this->m_3f8;
-    this->vfunc_101((u8 *)&pos);
+    this->move_xz_on_ground((u8 *)&pos);
 }
 
 void TObjEneMe1Gee::update_from_float_sum() {
@@ -498,7 +498,7 @@ void TObjEneMe1Gee::vfunc_105() {
     this->transition_enemy_state(7);
 }
 
-void TObjEneMe1Gee::vfunc_89() { TObjEneDD::vfunc_89(); }
+void TObjEneMe1Gee::check_collisions() { TObjEneDD::check_collisions(); }
 
 void TObjEneMe1Gee::sub_800CBC1C() {
     this->bodies->flags |= 0x28;
@@ -794,7 +794,7 @@ void TObjEneMe1Gee::state_attack_loop(s32 arg1) {
     case 4:
         this->requested_action = 0;
         set_field_378(3);
-        this->vfunc_95();
+        this->set_intangible();
         this->m_3c8 |= 0x400000;
         this->m_47c = 1;
         this->m_434 = 0;
@@ -829,7 +829,7 @@ void TObjEneMe1Gee::state_move(s32 arg1) {
         this->requested_action = 0;
         set_field_378(3);
         this->m_3c8 &= 0xFFBFFFFF;
-        this->vfunc_95();
+        this->set_intangible();
         this->actorFlags = (this->actorFlags & 0xFEFFFFFF);
         this->m_47c = 1;
         fade.start_fade_in();
@@ -848,7 +848,7 @@ void TObjEneMe1Gee::state_move(s32 arg1) {
         } else {
             this->update_hover_height();
         }
-        this->vfunc_88();
+        this->update_body_colliders();
         break;
     }
 }
@@ -862,20 +862,20 @@ void TObjEneMe1Gee::sub_800CAFD8(s32 arg1) {
         this->m_3c8 &= 0xFFBFFFFF;
         this->m_3c8 &= 0xFFF7FFFF;
         this->actorFlags |= 0x01000000;
-        this->vfunc_95();
+        this->set_intangible();
         this->m_47c = 1;
         this->fade.start_fade_in();
         VecCopy(&pos, &this->position);
         pos.y += 150.0f;
         this->m_3f8 = pos.y;
         TBoss3Volopt__sub_800D8D88((saddr) &pos);
-        this->vfunc_91();
+        this->set_invulnerable();
         this->m_434 = 0;
         return;
     case 3:
         if (this->m_3c8 & 0x80000) {
             this->transition_enemy_state(3);
-            this->vfunc_92();
+            this->clear_invulnerable();
         }
         return;
     case 0:
@@ -890,11 +890,11 @@ void TObjEneMe1Gee::sub_800CAFD8(s32 arg1) {
             this->update_from_float_sum();
             break;
         }
-        this->vfunc_88();
+        this->update_body_colliders();
         this->sub_800CB968();
         return;
     case 5:
-        this->vfunc_92();
+        this->clear_invulnerable();
         this->actorFlags &= 0xFEFFFFFF;
         break;
     }
@@ -908,7 +908,7 @@ void TObjEneMe1Gee::state_hover(s32 arg1) {
         this->requested_action = 0;
         set_field_378(3);
         this->m_3c8 &= 0xFFBFFFFF;
-        this->vfunc_96();
+        this->clear_intangible();
         this->actorFlags &= 0xFEFFFFFF;
         this->m_47c = 1;
         break;
@@ -933,7 +933,7 @@ void TObjEneMe1Gee::state_hover(s32 arg1) {
         } else {
             this->update_hover_height();
         }
-        this->vfunc_89();
+        this->check_collisions();
         break;
     case 5:
         this->actorFlags &= 0xFEFFFFFF;
@@ -951,7 +951,7 @@ void TObjEneMe1Gee::vfunc_110(s32 arg1) {
         this->requested_action = 0;
         this->set_field_378(4);
         this->m_3c8 &= 0xFFBFFFFF;
-        this->vfunc_96();
+        this->clear_intangible();
         this->actorFlags &= 0xFEFFFFFF;
         this->m_468.r = TObjEneMe1Gee__data_8043BDB0.r;
         this->m_468.g = TObjEneMe1Gee__data_8043BDB0.g;
@@ -1005,10 +1005,10 @@ void TObjEneMe1Gee::vfunc_110(s32 arg1) {
             break;
         }
         this->update_hover_height();
-        this->vfunc_89();
+        this->check_collisions();
         return;
     case 5:
-        this->vfunc_92();
+        this->clear_invulnerable();
         break;
     }
 }
@@ -1019,7 +1019,7 @@ void TObjEneMe1Gee::vfunc_111(s32 arg1) {
         this->requested_action = 0;
         set_field_378(5);
         this->m_3c8 &= 0xFFBFFFFF;
-        this->vfunc_96();
+        this->clear_intangible();
         this->actorFlags |= 0x01000000;
         return;
     case 3:
@@ -1035,7 +1035,7 @@ void TObjEneMe1Gee::vfunc_111(s32 arg1) {
         update_linked_position(200.0f);
         update();
         update_animation_frame();
-        this->vfunc_89();
+        this->check_collisions();
         break;
     }
 }
@@ -1048,7 +1048,7 @@ void TObjEneMe1Gee::state_attack(s32 arg1) {
         this->requested_action = 0;
         set_field_378(6);
         this->m_3c8 &= 0xFFBFFFFF;
-        this->vfunc_96();
+        this->clear_intangible();
         this->actorFlags |= 0x01000000;
         this->m_434 = 0;
         return;
@@ -1098,7 +1098,7 @@ void TObjEneMe1Gee::state_attack(s32 arg1) {
             }
             break;
         }
-        this->vfunc_89();
+        this->check_collisions();
         break;
     }
 }
@@ -1113,7 +1113,7 @@ void TObjEneMe1Gee::sub_800CA454(s32 arg1) {
         this->set_field_378(7);
         this->m_3c8 |= 0x10000;
         this->m_3c8 &= ~0x400000;
-        this->vfunc_96();
+        this->clear_intangible();
         this->actorFlags |= 0x1000000;
         this->destroy_subobj(&TObjEneMe1Gee__data_8043BDB0);
         this->m_434 = 1;
@@ -1232,7 +1232,7 @@ void TObjEneMe1Gee::sub_800CA454(s32 arg1) {
             break;
         }
         this->set_move_speed_x();
-        this->vfunc_89();
+        this->check_collisions();
         break;
     case 5:
         this->m_3c8 &= ~0x40000;
@@ -1258,7 +1258,7 @@ void TObjEneMe1Gee::sub_800C9DF8(s32 arg1) {
         this->requested_action = 0;
         this->set_field_378(8);
         this->m_3c8 &= ~0x400000;
-        this->vfunc_96();
+        this->clear_intangible();
         this->actorFlags &= ~0x1000000;
         this->m_3c8 &= ~0x80000;
         this->m_434 = 0;
@@ -1410,7 +1410,7 @@ void TObjEneMe1Gee::sub_800C9DF8(s32 arg1) {
         case 5:
             break;
         }
-        this->vfunc_89();
+        this->check_collisions();
         break;
     case 5:
         this->m_3c8 &= ~0x40000;
@@ -1430,7 +1430,7 @@ void TObjEneMe1Gee::sub_800C9A94(s32 arg1) {
         this->requested_action = 0;
         this->set_field_378(9);
         this->m_3c8 &= 0xFFBFFFFF;
-        this->vfunc_96();
+        this->clear_intangible();
         this->m_408 = 0;
         this->m_434 = 1;
         this->sub_800CBC1C();
@@ -1506,7 +1506,7 @@ void TObjEneMe1Gee::sub_800C9A94(s32 arg1) {
                 }
                 break;
             }
-            this->vfunc_89();
+            this->check_collisions();
         }
         break;
     case 5:
@@ -1521,7 +1521,7 @@ void TObjEneMe1Gee::sub_800C9964(s32 arg1) {
         this->requested_action = 0;
         this->set_field_378(0xA);
         this->m_3c8 &= 0xFFBFFFFF;
-        this->vfunc_95();
+        this->set_intangible();
         if ((s32) this->m_3c4 == 1) {
             this->m_3c0 = (TObjEneMe1Gee *)find_entity_by_id((this->m_48c));
             ((TObjEneMe1Gee *)(this->m_3c0))->set_flag3c8_bit8();
@@ -1541,7 +1541,7 @@ void TObjEneMe1Gee::sub_800C9964(s32 arg1) {
         this->update_angle();
         this->set_move_speed_x();
         this->move_with_wall_slide_commit(this->m_3a0.x, this->m_3a0.z, 0.8f);
-        this->vfunc_88();
+        this->update_body_colliders();
         break;
     }
 }
@@ -1555,7 +1555,7 @@ void TObjEneMe1Gee::sub_800C96B4(s32 mode) {
         this->advance_animation();
         this->update_photon_target();
         this->m_3c8 &= ~0x400000;
-        this->vfunc_96();
+        this->clear_intangible();
         this->actorFlags &= ~0x1000000;
         this->m_434 = 0;
         if (this->m_3f8 > 5.0f + (this->position.y + this->m_3ec)) {
@@ -1612,7 +1612,7 @@ void TObjEneMe1Gee::sub_800C96B4(s32 mode) {
             }
             break;
         }
-        this->vfunc_89();
+        this->check_collisions();
         break;
     case 5:
         this->clear_attack_receipts();
@@ -1627,7 +1627,7 @@ void TObjEneMe1Gee::sub_800C9580(s32 arg1) {
     case 4:
         this->requested_action = 0;
         this->set_field_378(0xC);
-        this->vfunc_95();
+        this->set_intangible();
         this->m_3c8 &= 0xFFBFFFFF;
         this->actorFlags |= 0x800;
         if ((s32) this->m_3c4 == 1) {
@@ -1655,7 +1655,7 @@ void TObjEneMe1Gee::state_return_home(s32 arg1) {
     case 4:
         set_field_378(0xF);
         this->m_3c8 &= 0xFFBFFFFF;
-        this->vfunc_96();
+        this->clear_intangible();
         this->m_434 = 0;
         return;
     case 3:
@@ -1687,7 +1687,7 @@ void TObjEneMe1Gee::state_return_home(s32 arg1) {
             }
             break;
         }
-        this->vfunc_89();
+        this->check_collisions();
         break;
     }
 }
@@ -1908,14 +1908,14 @@ void TUnk_8049387C::run_task() {
         this->vfunc_114();
         return;
     }
-    if (this->vfunc_83() != 4) {
-        this->vfunc_85();
+    if (this->update_status_effects() != 4) {
+        this->update_action_state();
         this->update_fade_sequence();
         this->sub_800C84C8();
     }
     this->copy_pos();
     this->submit_default_cursor_candidate();
-    this->vfunc_100();
+    this->render_minimap_dot();
 }
 
 void TUnk_8049387C::vfunc_106() {
@@ -2116,7 +2116,7 @@ void TUnk_8049387C::vfunc_110(s32 arg1) {
     case 4:
         this->requested_action = 0;
         this->set_field_378(4);
-        this->vfunc_96();
+        this->clear_intangible();
         this->m_468.r = TObjEneMe1Gee__data_8043BDB0.r;
         this->m_468.g = TObjEneMe1Gee__data_8043BDB0.g;
         this->m_468.b = TObjEneMe1Gee__data_8043BDB0.b;
@@ -2162,10 +2162,10 @@ void TUnk_8049387C::vfunc_110(s32 arg1) {
             break;
         }
         this->sub_800CBE6C(25.0f + this->position.y);
-        this->vfunc_89();
+        this->check_collisions();
         break;
     case 5:
-        this->vfunc_92();
+        this->clear_invulnerable();
         break;
     }
 }
@@ -2175,7 +2175,7 @@ void TUnk_8049387C::vfunc_111(s32 arg1) {
     case 4:
         this->requested_action = 0;
         this->set_field_378(5);
-        this->vfunc_96();
+        this->clear_intangible();
         break;
     case 3:
         if (this->m_3c8 & 4) {
@@ -2187,7 +2187,7 @@ void TUnk_8049387C::vfunc_111(s32 arg1) {
         this->update_linked_position(200.0f);
         this->update();
         this->update_animation_frame();
-        this->vfunc_89();
+        this->check_collisions();
         break;
     case 5:
         break;

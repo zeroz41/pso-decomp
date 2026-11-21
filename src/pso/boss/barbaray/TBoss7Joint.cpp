@@ -37,15 +37,15 @@ void TBoss7Joint::init_boss_stats() {
     play_sound_effect(0x3A312, &position, 0, 0);
 }
 
-void TBoss7Joint::vfunc_93() {
+void TBoss7Joint::enable_body_collision() {
     if (bodies->flags & 6) {
-        TObjEneDD::vfunc_93();
+        TObjEneDD::enable_body_collision();
         return;
     }
-    TObjEneDD::vfunc_94();
+    TObjEneDD::disable_body_collision();
 }
 
-void TBoss7Joint::vfunc_88() {
+void TBoss7Joint::update_body_colliders() {
     f32 y = position.y;
     if (y < (lbl_805DE9F0 - 50.0f)) {
         bodies->flags &= ~7;
@@ -88,9 +88,9 @@ void TBoss7Joint::vfunc_62() {
 void TBoss7Joint::run_task() {
     if (TObjPlayer::check_demo_mode() == 0) {
         VecCopy(&position, source_position);
-        vfunc_83();
+        update_status_effects();
         store_position();
-        vfunc_88();
+        update_body_colliders();
         if (bodies->flags & 1) {
             submit_default_cursor_candidate();
             add_radar_scaled_marker(&position, -0x5DB4, 1, 1, 1.2f);
@@ -124,7 +124,7 @@ s32 TBoss7Joint::init_params() {
     movementParameters = &boss7_joint_params;
     referenceHp = hpmax;
     unk_37C = 3.0f;
-    vfunc_96();
+    clear_intangible();
     part_flags = 0;
     return shell_hp = TBoss7Joint_get_shell_max_hp();
 }

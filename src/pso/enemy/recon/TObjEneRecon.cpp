@@ -490,7 +490,7 @@ void TObjEneRecon__sub_8031C364(u8 *arg0, s32 arg1) {
     switch (arg1) {
     case 4:
         F(s16, 0xB8) = 5;
-        ((TObjEneDD *)(arg0))->vfunc_96();
+        ((TObjEneDD *)(arg0))->clear_intangible();
         F(s32, 0x444) &= ~3;
         F(s32, 0x80) = 0;
         ((TObjPlayer *)arg0)->refresh_lobby_state();
@@ -564,7 +564,7 @@ void TObjEneRecon__sub_8031C624(u8 *arg0, s32 arg1) {
     switch (arg1) {
     case 4:
         *(s16 *)((s8 *)arg0 + 0xB8) = 4;
-        ((TObjEneDD *)(arg0))->vfunc_96();
+        ((TObjEneDD *)(arg0))->clear_intangible();
         *(s32 *)((s8 *)arg0 + 0x444) &= ~1;
         *(s32 *)((s8 *)arg0 + 0x444) |= 2;
         ((TObjEneDD *)arg0)->set_field_378(*(s16 *)((s8 *)arg0 + 0x326));
@@ -596,7 +596,7 @@ void TObjEneRecon__sub_8031C624(u8 *arg0, s32 arg1) {
         ((TObjEneRecon *)arg0)->clamp_min_height();
         *(f32 *)((s8 *)arg0 + 0x308) *= 0.5f;
         *(f32 *)((s8 *)arg0 + 0x310) *= 0.5f;
-        ((TObjEneDD *)(arg0))->vfunc_89();
+        ((TObjEneDD *)(arg0))->check_collisions();
         break;
     case 5:
         ((TObjEneDD *)arg0)->clear_attack_receipts();
@@ -1001,7 +1001,7 @@ void TObjEneRecon__sub_8031CCFC(u8 *arg0, s32 arg1) {
     switch (arg1) {
     case 4:
         ((TObjEneEpsilon *)arg0)->requested_action = 1;
-        ((TObjEneDD_ST *)arg0)->vfunc_96();
+        ((TObjEneDD_ST *)arg0)->clear_intangible();
         *(u32 *)((s8 *)arg0 + 0x444) &= ~1;
         *(u32 *)((s8 *)arg0 + 0x444) |= 2;
         ((TObjEneEpsilon *)arg0)->actorFlags |= 0x01000000;
@@ -1069,7 +1069,7 @@ void TObjEneRecon__sub_8031CF30(u8 *arg0, s32 arg1) {
     switch (arg1) {
     case 4:
         F(s16, 0xB8) = 1;
-        ((TObjEneDD_ST *)arg0)->vfunc_96();
+        ((TObjEneDD_ST *)arg0)->clear_intangible();
         F(u32, 0x444) &= ~1;
         F(u32, 0x444) |= 2;
         F(u32, 0x30) &= ~0x01000000;
@@ -1162,7 +1162,7 @@ void TObjEneRecon__sub_8031CF30(u8 *arg0, s32 arg1) {
             ((TObjEneRecon *)arg0)->update_flag_0x444();
             break;
         }
-        ((TObjEneDD_ST *)arg0)->vfunc_89();
+        ((TObjEneDD_ST *)arg0)->check_collisions();
         ((TObjEneRecon *)arg0)->spawn_trap_a();
         break;
     case 5:
@@ -1222,7 +1222,7 @@ void TObjEneRecon::sub_8031D4B0(s32 arg1) {
     switch (arg1) {
     case 4:
         this->requested_action = 1;
-        this->vfunc_95();
+        this->set_intangible();
         *(s32 *)((s8 *)arg0 + 0x444) = (s32) (*(s32 *)((s8 *)arg0 + 0x444) & 0xFFFFFFFE);
         *(s32 *)((s8 *)arg0 + 0x444) = (s32) (*(s32 *)((s8 *)arg0 + 0x444) | 2);
         *(s32 *)((s8 *)arg0 + 0x30) = (*(s32 *)((s8 *)arg0 + 0x30) | 0x01000000);
@@ -1302,13 +1302,13 @@ void TObjEneRecon::sub_8031D4B0(s32 arg1) {
         *(f32 *)((s8 *)arg0 + 0x44) = (f32) *(f32 *)((s8 *)arg0 + 0x2FC);
         *(f32 *)((s8 *)arg0 + 0x4C) = (f32) *(f32 *)((s8 *)arg0 + 0x304);
         ((TObjEneRecon *)arg0)->clamp_min_height();
-        this->vfunc_88();
+        this->update_body_colliders();
         break;
     }
 }
 
 s32 TObjEneRecon::vfunc_104(f32 farg0) {
-    if (this->vfunc_99() != 0) {
+    if (this->is_confused() != 0) {
         ((TObjEneDD_ST *)this)->select_and_apply_target(farg0);
         return;
     }
@@ -1457,7 +1457,7 @@ f32 TObjEneRecon::approach_value(f32 farg0, f32 farg1) {
 }
 
 
-void TObjEneRecon::vfunc_88() {
+void TObjEneRecon::update_body_colliders() {
     u8 *arg0 = (u8 *)this;
     f32 d;
     u8 *t = *(u8 **)((s8 *)arg0 + 0x390);
@@ -1472,9 +1472,9 @@ void TObjEneRecon::vfunc_88() {
     }
     d = *(f32 *)((s8 *)arg0 + 0x448) - *(f32 *)((s8 *)arg0 + 0x3C);
     if (d >= 30.0f) {
-        this->vfunc_97();
+        this->set_colliders_contact_high();
     } else {
-        this->vfunc_98();
+        this->set_colliders_contact_low();
     }
     *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0xA4)) + 4) = d;
 }
@@ -1509,10 +1509,10 @@ struct VObj_8031DCCC : Base_8031DCCC {
 extern "C" {
 
 
-void TObjEneRecon::vfunc_89() {
+void TObjEneRecon::check_collisions() {
     struct VObj_8031DCCC *o = (struct VObj_8031DCCC *)this;
     o->m86();
-    TObjEneDD::vfunc_89();
+    TObjEneDD::check_collisions();
     this->clamp_min_height();
 }
 
@@ -1853,8 +1853,8 @@ void run_task__12TObjEneReconFv(TObjEneRecon *ene_recon) {
         obj_setFlags30(ene_recon, 0xA00U);
         ((TObjEneRecon *)(ene_recon))->vfunc_74(0);
     }
-    if (((TObjEneRecon *)(ene_recon))->vfunc_83() != 4) {
-        ((TObjEneRecon *)(ene_recon))->vfunc_85();
+    if (((TObjEneRecon *)(ene_recon))->update_status_effects() != 4) {
+        ((TObjEneRecon *)(ene_recon))->update_action_state();
         temp_r3_2 = (u8 *)(*(u8 **)((s8 *)ene_recon + 0x478));
         if (temp_r3_2 == NULL) {
             *(u8 **)((s8 *)ene_recon + 0x478) = (u8 *)create_particle_emitter((u8 *)ene_recon + 0x2FC, 0x217);
@@ -1892,7 +1892,7 @@ void run_task__12TObjEneReconFv(TObjEneRecon *ene_recon) {
     }
     ene_recon->update_position_from_offsets();
     ((TObjEnemy *)ene_recon)->submit_default_cursor_candidate();
-    ((TObjEneRecon *)(ene_recon))->vfunc_100();
+    ((TObjEneRecon *)(ene_recon))->render_minimap_dot();
     ene_recon->update_ground_probe();
 }
 

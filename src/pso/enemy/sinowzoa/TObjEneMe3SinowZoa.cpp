@@ -385,12 +385,12 @@ void TObjEneMe3SinowZoa::run_task() {
         this->action();
         return;
     }
-    if (this->vfunc_83() != 4) {
-        this->vfunc_85();
+    if (this->update_status_effects() != 4) {
+        this->update_action_state();
     }
     sub_8031AC74();
     this->copy_pos_with_height_offset();
-    this->vfunc_88();
+    this->update_body_colliders();
     temp_r3 = this->m_3cc;
     if (temp_r3 & 0x40000) {
         this->m_3cc = (s32) (temp_r3 & 0xFFFBFFFF);
@@ -398,7 +398,7 @@ void TObjEneMe3SinowZoa::run_task() {
         submit_default_cursor_candidate();
     }
     if ((this->m_3c0 == 0) || (TObjEneMe3SinowZoa__sub_800D72A4(&fade) != 0)) {
-        this->vfunc_100();
+        this->render_minimap_dot();
     }
     if (this->m_3d0 & 0x4000) {
         TObjEneRecon::set_active();
@@ -460,13 +460,13 @@ void TObjEneMe3SinowZoa::copy_pos_with_height_offset() {
     VecCopy(&center, &position);
 }
 
-void TObjEneMe3SinowZoa::vfunc_88() {
+void TObjEneMe3SinowZoa::update_body_colliders() {
     bodies->offset.y = this->body_center.y - this->position.y;
 }
 
-void TObjEneMe3SinowZoa::vfunc_95() { TObjEneDD::vfunc_95(); sub_800F5874(38); }
+void TObjEneMe3SinowZoa::set_intangible() { TObjEneDD::set_intangible(); sub_800F5874(38); }
 
-void TObjEneMe3SinowZoa::vfunc_96() { TObjEneDD::vfunc_96(); sub_800F5864(38); }
+void TObjEneMe3SinowZoa::clear_intangible() { TObjEneDD::clear_intangible(); sub_800F5864(38); }
 
 void TObjEneMe3SinowZoa::setup_move_bounds() {
     if (sub_8031A4D0() != 0) {
@@ -616,14 +616,14 @@ void TObjEneMe3SinowZoa::vfunc_112() {  }
 void TObjEneMe3SinowZoa::update_distance_state() {
     f32 thr = 30.0f;
     if ((this->m_3e0 - this->position.y) > thr) {
-        vfunc_97();
+        set_colliders_contact_high();
         return;
     }
-    vfunc_98();
+    set_colliders_contact_low();
 }
 
-void TObjEneMe3SinowZoa::vfunc_89() {
-    vfunc_88();
+void TObjEneMe3SinowZoa::check_collisions() {
+    update_body_colliders();
     check_object_collisions();
     check_enemy_body_collisions(this);
     update_enemy_collision_flags();
@@ -751,7 +751,7 @@ void TObjEneMe3SinowZoa::action(s32 arg1) {
             this->requested_action = 0;
             set_field_378(3);
         }
-        vfunc_95();
+        set_intangible();
         temp_r4 = this->m_3cc;
         this->m_3cc = (s32) (temp_r4 | 2);
         temp_r3 = this->m_3cc;
@@ -781,7 +781,7 @@ void TObjEneMe3SinowZoa::action(s32 arg1) {
         this->m_434 += 1;
         if (this->m_434 == 1) {
             this->m_3e0 = this->position.y;
-            vfunc_102();
+            update_ground_contact();
             this->m_3e4 = this->m_3e0 - this->position.y;
         }
         break;
@@ -795,7 +795,7 @@ void TObjEneMe3SinowZoa::sub_80319E74(s32 arg1) {
     case 4:
         this->requested_action = 2;
         this->set_field_378(0);
-        this->vfunc_95();
+        this->set_intangible();
         this->m_3cc &= 0xFFEFFFFD;
         this->m_3cc |= 5;
         this->fade.start_fade_in();
@@ -821,8 +821,8 @@ void TObjEneMe3SinowZoa::sub_80319E74(s32 arg1) {
         if (*TBoss3Volopt__sub_800F059C(&this->fade) >= -0.75f) {
             this->advance_animation();
         }
-        this->vfunc_102();
-        this->vfunc_89();
+        this->update_ground_contact();
+        this->check_collisions();
         break;
     case 5:
         this->m_3cc &= ~4;
@@ -841,7 +841,7 @@ void TObjEneMe3SinowZoa::state_chase(s32 arg1) {
     case 4:
         this->requested_action = 9;
         this->set_field_378(0xD);
-        this->vfunc_96();
+        this->clear_intangible();
         this->m_3cc &= 0xFFEFFFF8;
         this->m_434 = 0;
         this->m_438 = 0;
@@ -878,10 +878,10 @@ void TObjEneMe3SinowZoa::state_chase(s32 arg1) {
             this->m_444 = (this->m_3a0.x * sin_table_lookup(this->rotation_y)) + (this->m_3a0.z * cos_table_lookup(this->rotation_y));
             if (this->m_444 < cos_table_lookup(0x1000)) {
                 this->turn_toward_target_direction(0x500);
-                this->vfunc_102();
+                this->update_ground_contact();
             }
         }
-        this->vfunc_89();
+        this->check_collisions();
         break;
     }
 }
@@ -893,7 +893,7 @@ void TObjEneMe3SinowZoa__sub_80319B8C(TObjEneMe3SinowZoa *self, s32 arg1) {
     case 4:
         self->requested_action = 0;
         self->set_field_378(0);
-        self->vfunc_95();
+        self->set_intangible();
         self->m_3cc |= 7;
         self->fade.start_fade_in();
         VecCopy(&v, &self->position);
@@ -923,7 +923,7 @@ void TObjEneMe3SinowZoa::update_state_action(s32 arg1) {
     case 4:
         this->requested_action = 0;
         set_field_378(5);
-        this->vfunc_95();
+        this->set_intangible();
         this->m_3cc &= 0xFFEFFFF8;
         this->m_434 = 0;
         this->m_438 = 0;
@@ -954,9 +954,9 @@ void TObjEneMe3SinowZoa::update_state_action(s32 arg1) {
                 this->m_3f8 = 0;
             }
         }
-        this->vfunc_102();
+        this->update_ground_contact();
         update_distance_state();
-        this->vfunc_89();
+        this->check_collisions();
         this->m_3e4 = this->m_3e0 - this->position.y;
         break;
     case 5:
@@ -975,7 +975,7 @@ void TObjEneMe3SinowZoa__sub_80319748(TObjEneMe3SinowZoa *self, s32 arg1) {
     case 4:
         self->requested_action = 1;
         self->set_field_378(0xD);
-        self->vfunc_96();
+        self->clear_intangible();
         self->m_3cc &= 0xFFEFFFF9;
         self->m_3cc |= 1;
         self->m_434 = 0;
@@ -1030,9 +1030,9 @@ void TObjEneMe3SinowZoa__sub_80319748(TObjEneMe3SinowZoa *self, s32 arg1) {
             self->advance_animation();
             break;
         }
-        self->vfunc_102();
+        self->update_ground_contact();
         self->update_distance_state();
-        self->vfunc_89();
+        self->check_collisions();
         self->m_3e4 = self->m_3e0 - self->position.y;
         break;
     case 5:
@@ -1050,7 +1050,7 @@ void TObjEneMe3SinowZoa::state_chase_target(s32 arg1) {
     case 4:
         this->requested_action = 0xA;
         this->set_field_378(6);
-        this->vfunc_96();
+        this->clear_intangible();
         this->m_3cc &= 0xFFEFFFF8;
         this->m_3ac = (f32) 300.0f;
         this->m_440 = (f32) TObjEneMe3SinowZoa__kind_param_tbls[this->m_3c8]->m_0;
@@ -1080,11 +1080,11 @@ void TObjEneMe3SinowZoa::state_chase_target(s32 arg1) {
             this->m_444 = (this->m_3a0.x * sin_table_lookup(this->rotation_y)) + (this->m_3a0.z * cos_table_lookup(this->rotation_y));
             if (this->m_444 < cos_table_lookup(0x1000)) {
                 this->turn_toward_target_direction(0x500);
-                this->vfunc_102();
+                this->update_ground_contact();
             } else {
                 enemy_turn_and_move_on_ground((u8 *)this, 0x500, this->m_440);
             }
-            this->vfunc_89();
+            this->check_collisions();
         }
         break;
     }
@@ -1095,7 +1095,7 @@ void TObjEneMe3SinowZoa__sub_80318F7C(TObjEneMe3SinowZoa *self, s32 arg1) {
     case 4:
         self->requested_action = 6;
         self->set_field_378(6);
-        self->vfunc_96();
+        self->clear_intangible();
         self->m_3cc &= 0xFFEFFFF8;
         self->m_3cc |= 0x10000;
         self->m_434 = 0;
@@ -1104,7 +1104,7 @@ void TObjEneMe3SinowZoa__sub_80318F7C(TObjEneMe3SinowZoa *self, s32 arg1) {
         break;
     case 3:
         if (self->m_434 == 7 || self->get_flag_b4() != 0) {
-            if (self->vfunc_102() == 0) {
+            if (self->update_ground_contact() == 0) {
                 self->transition_enemy_state(10);
             } else {
                 self->transition_enemy_state(6);
@@ -1118,8 +1118,8 @@ void TObjEneMe3SinowZoa__sub_80318F7C(TObjEneMe3SinowZoa *self, s32 arg1) {
             if (self->motion_flags & 8) {
                 self->m_434 = 1;
             }
-            self->vfunc_102();
-            self->vfunc_89();
+            self->update_ground_contact();
+            self->check_collisions();
             break;
         case 1: {
             s32 target;
@@ -1135,8 +1135,8 @@ void TObjEneMe3SinowZoa__sub_80318F7C(TObjEneMe3SinowZoa *self, s32 arg1) {
             if (self->is_passing_frame(TObjEneMe3SinowZoa__data_805DF314) != 0) {
                 self->m_434 = 2;
             }
-            self->vfunc_102();
-            self->vfunc_89();
+            self->update_ground_contact();
+            self->check_collisions();
             break;
         }
         case 2:
@@ -1168,7 +1168,7 @@ void TObjEneMe3SinowZoa__sub_80318F7C(TObjEneMe3SinowZoa *self, s32 arg1) {
                                 self->m_434 = 4;
                             }
                             self->m_444 = (self->m_3ac - 20.0f) / 12.857143f;
-                            self->vfunc_91();
+                            self->set_invulnerable();
                             play_sound_effect(0x4003A82C, &self->position, 0, 0);
                         } else {
                             self->m_434 = 7;
@@ -1178,8 +1178,8 @@ void TObjEneMe3SinowZoa__sub_80318F7C(TObjEneMe3SinowZoa *self, s32 arg1) {
                     }
                 }
             }
-            self->vfunc_102();
-            self->vfunc_89();
+            self->update_ground_contact();
+            self->check_collisions();
             break;
         case 3:
             if (((TObjEneMe3SinowZoa *)&self->fade)->advance_timer(TObjEneMe3SinowZoa__data_805DF310) != 0) {
@@ -1193,7 +1193,7 @@ void TObjEneMe3SinowZoa__sub_80318F7C(TObjEneMe3SinowZoa *self, s32 arg1) {
                 } else {
                     self->m_434 = 6;
                 }
-                self->vfunc_92();
+                self->clear_invulnerable();
                 play_sound_effect(0x4003A82A, &self->position, 0, 0);
                 self->check_and_notify();
             }
@@ -1216,14 +1216,14 @@ void TObjEneMe3SinowZoa__sub_80318F7C(TObjEneMe3SinowZoa *self, s32 arg1) {
             }
             self->m_444 *= 0.85f;
             self->move_with_wall_slide_on_ground(self->m_3a0.x, self->m_3a0.z, self->m_444);
-            self->vfunc_89();
+            self->check_collisions();
             break;
         }
         break;
     case 5:
         self->m_3e0 = self->position.y;
         self->m_3e4 = TObjEneMe3SinowZoa__data_805DF31C;
-        self->vfunc_92();
+        self->clear_invulnerable();
         self->clear_field_388();
         break;
     }
@@ -1239,7 +1239,7 @@ void TObjEneMe3SinowZoa__sub_80318C0C(TObjEneMe3SinowZoa *self, s32 arg1) {
     case 4:
         self->requested_action = 7;
         self->set_field_378(0xC);
-        self->vfunc_96();
+        self->clear_intangible();
         self->m_3cc &= 0xFFEFFFF8;
         self->m_3cc |= 0x10000;
         self->m_3cc |= 0x40000;
@@ -1288,7 +1288,7 @@ void TObjEneMe3SinowZoa__sub_80318C0C(TObjEneMe3SinowZoa *self, s32 arg1) {
                 TObjEneMe3SinowZoaParams *rec = TObjEneMe3SinowZoa__kind_param_tbls[self->m_3c8];
                 self->move_to_shot_position(self->m_3a0.x, self->m_3a0.z, rec->m_8);
             } else {
-                self->vfunc_102();
+                self->update_ground_contact();
             }
             if (self->get_flag_b4() != 0) {
                 self->m_434 = 2;
@@ -1303,7 +1303,7 @@ void TObjEneMe3SinowZoa__sub_80318C0C(TObjEneMe3SinowZoa *self, s32 arg1) {
                     self->m_434 = 4;
                 }
             }
-            self->vfunc_102();
+            self->update_ground_contact();
             break;
         case 3:
             if (self->fade.decay_value_toward_floor() != 0) {
@@ -1313,7 +1313,7 @@ void TObjEneMe3SinowZoa__sub_80318C0C(TObjEneMe3SinowZoa *self, s32 arg1) {
             }
             break;
         }
-        self->vfunc_89();
+        self->check_collisions();
         break;
     case 5:
         break;
@@ -1329,7 +1329,7 @@ void TObjEneMe3SinowZoa__sub_8031884C(TObjEneMe3SinowZoa *self, s32 arg1) {
     case 4:
         self->requested_action = 3;
         self->set_field_378(6);
-        self->vfunc_96();
+        self->clear_intangible();
         zero = 0;
         self->m_3cc &= 0xFFEFFFF8;
         self->m_3fc = zero;
@@ -1375,16 +1375,16 @@ void TObjEneMe3SinowZoa__sub_8031884C(TObjEneMe3SinowZoa *self, s32 arg1) {
             self->rotation_y = approach_angle_limited(self->rotation_y, self->m_43c, 0x31C7);
             if ((self->frame + self->play_speed) >= TObjEneMe3SinowZoa__data_805DF2F0) {
                 self->m_434 = 1;
-                self->vfunc_91();
+                self->set_invulnerable();
                 play_sound_effect(0x4003A829, &self->position, 0, 0);
             }
-            self->vfunc_102();
-            self->vfunc_89();
+            self->update_ground_contact();
+            self->check_collisions();
             return;
         case 1:
             if ((self->frame + self->play_speed) >= 24.0f) {
                 self->m_434 = 2;
-                self->vfunc_92();
+                self->clear_invulnerable();
                 play_sound_effect(0x4003A82A, &self->position, 0, 0);
                 self->check_and_notify();
             }
@@ -1394,13 +1394,13 @@ void TObjEneMe3SinowZoa__sub_8031884C(TObjEneMe3SinowZoa *self, s32 arg1) {
             if (self->get_flag_b4() != 0) {
                 self->m_434 = 3;
             }
-            self->vfunc_102();
-            self->vfunc_89();
+            self->update_ground_contact();
+            self->check_collisions();
             return;
         }
         break;
     case 5:
-        self->vfunc_92();
+        self->clear_invulnerable();
         self->clear_field_388();
         break;
     }
@@ -1412,7 +1412,7 @@ void TObjEneMe3SinowZoa__sub_80318564(TObjEneMe3SinowZoa *self, s32 arg1) {
     case 4:
         (self->requested_action) = 8;
         self->set_field_378(0xB);
-        self->vfunc_96();
+        self->clear_intangible();
         (self->m_3cc) &= 0xFFEFFFF8;
         if ((self->m_3c0) != 0) {
             ((TObjEneMe3SinowZoa *)&self->fade)->set_field_10(TObjEneMe3SinowZoa__data_805DF30C);
@@ -1479,7 +1479,7 @@ void TObjEneMe3SinowZoa__sub_80318564(TObjEneMe3SinowZoa *self, s32 arg1) {
             }
             break;
         }
-        self->vfunc_102();
+        self->update_ground_contact();
         break;
     }
 }
@@ -1490,7 +1490,7 @@ void TObjEneMe3SinowZoa::handle_state_substate(s32 arg1) {
         this->requested_action = 9;
         set_field_378(0xD);
         this->m_3cc &= 0xFFEFFFF8;
-        this->vfunc_95();
+        this->set_intangible();
         this->m_3fc = 0;
         this->m_434 = 0;
         break;
@@ -1506,8 +1506,8 @@ void TObjEneMe3SinowZoa::handle_state_substate(s32 arg1) {
     case 0:
         (this->m_434)++;
         advance_animation();
-        this->vfunc_102();
-        this->vfunc_89();
+        this->update_ground_contact();
+        this->check_collisions();
         break;
     }
 }
@@ -1517,7 +1517,7 @@ void TObjEneMe3SinowZoa__sub_803182F8(TObjEneMe3SinowZoa *self, s32 arg1) {
     case 4:
         self->requested_action = 8;
         self->set_field_378(6);
-        self->vfunc_95();
+        self->set_intangible();
         self->m_3cc &= 0xFFEFFFFC;
         self->m_3cc |= 4;
         self->fade.set_rate_from_divisor(0x1E);
@@ -1543,7 +1543,7 @@ void TObjEneMe3SinowZoa__sub_803182F8(TObjEneMe3SinowZoa *self, s32 arg1) {
             }
             break;
         }
-        self->vfunc_102();
+        self->update_ground_contact();
         break;
     case 5:
         self->m_3cc &= 0xFFFFFFFB;
@@ -1578,7 +1578,7 @@ void TObjEneMe3SinowZoa::state_knockback(s32 arg1) {
         this->move_clamped_on_ground(v.x, v.z, len);
         this->x_speed *= 0.8f;
         this->m_310 *= 0.8f;
-        this->vfunc_89();
+        this->check_collisions();
         break;
     case 5:
         this->clear_attack_receipts();
@@ -1601,7 +1601,7 @@ void TObjEneMe3SinowZoa__sub_80317F90(TObjEneMe3SinowZoa *self, s32 arg1) {
     case 4:
         self->requested_action = 5;
         self->refresh_and_send_entity_flags();
-        self->vfunc_94();
+        self->disable_body_collision();
         self->m_3cc &= 0xFFEFFFF8;
         self->m_434 = 0;
         break;
@@ -1634,7 +1634,7 @@ void TObjEneMe3SinowZoa__sub_80317F90(TObjEneMe3SinowZoa *self, s32 arg1) {
                 ((TObjPlayer *)(&p))->trigger_dell_biter_events();
                 play_sound_effect(0x4003AD2E, &self->position, 0, 0);
             }
-            self->vfunc_102();
+            self->update_ground_contact();
             break;
         case 2:
             self->queue_destruction();
@@ -1660,7 +1660,7 @@ void TObjEneMe3SinowZoa__sub_80317B50(TObjEneMe3SinowZoa *self, s32 arg1) {
     case 4:
         self->requested_action = 0xC;
         self->set_field_378(0xC);
-        self->vfunc_95();
+        self->set_intangible();
         self->m_3cc &= 0xFFEFFFF9;
         self->m_3cc |= 1;
         self->m_434 = 0;
@@ -1697,8 +1697,8 @@ void TObjEneMe3SinowZoa__sub_80317B50(TObjEneMe3SinowZoa *self, s32 arg1) {
                 v.y = self->m_3e0 - 20.0f;
                 self->m_434 = 1;
             }
-            self->vfunc_102();
-            self->vfunc_89();
+            self->update_ground_contact();
+            self->check_collisions();
             break;
         case 1:
             if (self->fade.decay_value_toward_floor() != 0) {
@@ -1941,7 +1941,7 @@ void TObjEneMe3SinowZoa__sub_80317254(TObjEneMe3SinowZoa *self, s32 arg1) {
     case 4:
         self->requested_action = 0xC;
         self->set_field_378(6);
-        self->vfunc_96();
+        self->clear_intangible();
         self->m_3cc &= 0xFFEFFFFD;
         self->m_3cc |= 5;
         self->fade.set_rate_from_divisor(0x1E);
@@ -1964,8 +1964,8 @@ void TObjEneMe3SinowZoa__sub_80317254(TObjEneMe3SinowZoa *self, s32 arg1) {
         if (self->get_flag_b4() != 0) {
             self->m_434 = 1;
         }
-        self->vfunc_102();
-        self->vfunc_89();
+        self->update_ground_contact();
+        self->check_collisions();
         break;
     }
 }
@@ -1975,7 +1975,7 @@ void TObjEneMe3SinowZoa__sub_803170F0(TObjEneMe3SinowZoa *self, s32 arg1) {
     case 4:
         self->requested_action = 0xB;
         self->set_field_378(6);
-        self->vfunc_96();
+        self->clear_intangible();
         self->m_3cc &= 0xFFEFFFFD;
         self->m_3cc |= 5;
         self->fade.set_rate_from_divisor(0x1E);
@@ -1997,8 +1997,8 @@ void TObjEneMe3SinowZoa__sub_803170F0(TObjEneMe3SinowZoa *self, s32 arg1) {
         if (self->get_flag_b4() != 0) {
             self->m_434 = 1;
         }
-        self->vfunc_102();
-        self->vfunc_89();
+        self->update_ground_contact();
+        self->check_collisions();
         break;
     }
 }
@@ -2032,7 +2032,7 @@ void TObjEneMe3SinowZoa__sub_80316C3C(TObjEneMe3SinowZoa *self, s32 arg1) {
     case 4:
         self->requested_action = 0xA;
         self->set_field_378(6);
-        self->vfunc_96();
+        self->clear_intangible();
         self->m_3cc &= 0xFFEFFFF8;
         self->m_3cc |= 0x10000;
         self->enemy_copy_target_destination();
@@ -2145,7 +2145,7 @@ s32 check_move_collision__18TObjEneMe3SinowZoaFPvPv(TObjEneMe3SinowZoa *self, co
     VecCopy(&sp8, &self->position);
     VecCopy(&self->position, pos);
     TObjPlayer::init_all_slots();
-    self->vfunc_89();
+    self->check_collisions();
     self->update_enemy_collision_flags();
     if (body->flags & 0x80000) {
         if (((TNpcPlayer *)(get_entity_id((int)self->m_390)))->get_valid_target_player() == 0) {

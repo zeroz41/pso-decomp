@@ -35,7 +35,7 @@ struct TObjEneBm5GibonU : public TObjEneDD_ST {
     void sub_800D10A0();
     virtual void run_task();
     virtual void render();
-    virtual void vfunc_88();
+    virtual void update_body_colliders();
     virtual void vfunc_105();
     virtual void render_debug();
     void update_center_position();

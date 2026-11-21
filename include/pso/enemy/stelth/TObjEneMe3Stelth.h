@@ -33,10 +33,10 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
     virtual s32 vfunc_104(f32);
     virtual f32 receive_direct_attack(void *source, DirectAttackPayload payload, void *collider, s32 technique, s32 flags);
     virtual void dispatch_action(u32 state, s32 reason);
-    virtual void vfunc_88();
-    virtual void vfunc_95();
-    virtual void vfunc_96();
-    virtual void vfunc_89();
+    virtual void update_body_colliders();
+    virtual void set_intangible();
+    virtual void clear_intangible();
+    virtual void check_collisions();
     virtual void attack_and_unequip();
     virtual s32 check_target_in_range();
     virtual void vfunc_107();

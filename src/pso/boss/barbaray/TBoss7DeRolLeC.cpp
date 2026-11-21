@@ -1115,7 +1115,7 @@ void TBoss7DeRolLeC::run_task() {
         this->update_projectile_spawns();
     }
     this->sub_800BBA0C();
-    this->vfunc_88();
+    this->update_body_colliders();
     sync_position_vectors();
     this->flee_if_disturbed();
     update_particle_ctrls();
@@ -1179,7 +1179,7 @@ void TBoss7DeRolLeC::sync_position_vectors() {
     VecCopy(&body_center, &position);
     VecCopy(&center, &body_center);
 }
-void TBoss7DeRolLeC::vfunc_88() {
+void TBoss7DeRolLeC::update_body_colliders() {
     Vec v;
     f32 f;
     s32 set;
@@ -1528,17 +1528,17 @@ void TBoss7DeRolLeC::pick_random_target() {
 
 void TBoss7DeRolLeC::sub_802ECC44() {
     s32 i;
-    vfunc_95();
+    set_intangible();
     for (i = 0; i < 10; i++) {
-        joints[i]->vfunc_95();
+        joints[i]->set_intangible();
     }
 }
 
 void TBoss7DeRolLeC::sub_802ECBDC() {
     s32 i;
-    vfunc_96();
+    clear_intangible();
     for (i = 0; i < 10; i++) {
-        joints[i]->vfunc_96();
+        joints[i]->clear_intangible();
     }
 }
 

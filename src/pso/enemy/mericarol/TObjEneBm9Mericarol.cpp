@@ -270,7 +270,7 @@ TObjEneBm9Mericarol::TObjEneBm9Mericarol(TObject *parent, void *set_data) : TObj
     m_4a4 = 0.0f;
     m_4ac = 0;
     sync_center_position();
-    vfunc_88();
+    update_body_colliders();
     transform_part_positions();
     mode = 0;
     dispatch_action(mode, 4);
@@ -319,8 +319,8 @@ void TObjEneBm9Mericarol::run_task() {
     } else if (m_390 != 0) {
         m_438 = flags | 0x10;
     }
-    if (vfunc_83() != 4) {
-        vfunc_85();
+    if (update_status_effects() != 4) {
+        update_action_state();
     } else {
         state = mode;
         if (state == 0 || state == 1) {
@@ -330,7 +330,7 @@ void TObjEneBm9Mericarol::run_task() {
     }
     sync_center_position();
     submit_default_cursor_candidate();
-    vfunc_100();
+    render_minimap_dot();
 }
 
 void TObjEneBm9Mericarol::dispatch_action(u32 state, s32 reason) {
@@ -407,7 +407,7 @@ void TObjEneBm9Mericarol::sync_center_position() {
     VecCopy(&center, &body_center);
 }
 
-void TObjEneBm9Mericarol::vfunc_88() {
+void TObjEneBm9Mericarol::update_body_colliders() {
     bodies->offset.y = body_center.y - position.y;
 }
 
@@ -473,7 +473,7 @@ void TObjEneBm9Mericarol::sub_802D073C() {
 void TObjEneBm9Mericarol::handle_action(s32 arg1) {
     switch (arg1) {
     case 4:
-        vfunc_95();
+        set_intangible();
         return;
     case 3:
         transition_enemy_state(1);
@@ -487,7 +487,7 @@ void TObjEneBm9Mericarol::sub_802D05BC(s32 arg1) {
     switch (arg1) {
     case 4:
         requested_action = 2;
-        vfunc_95();
+        set_intangible();
         sub_802D093C();
         m_438 |= 0x28;
         m_438 &= ~0x10;
@@ -504,8 +504,8 @@ void TObjEneBm9Mericarol::sub_802D05BC(s32 arg1) {
         return;
     case 0:
         advance_animation();
-        vfunc_102();
-        vfunc_88();
+        update_ground_contact();
+        update_body_colliders();
         return;
     case 5:
         m_438 &= ~0x28;
@@ -517,7 +517,7 @@ void TObjEneBm9Mericarol::handle_event(s32 arg1) {
     switch (arg1) {
     case 4:
         requested_action = 2;
-        vfunc_96();
+        clear_intangible();
         sub_802D093C();
         m_438 &= ~0x28;
         set_field_378(2);
@@ -532,8 +532,8 @@ void TObjEneBm9Mericarol::handle_event(s32 arg1) {
         return;
     case 0:
         advance_animation();
-        vfunc_102();
-        vfunc_88();
+        update_ground_contact();
+        update_body_colliders();
         break;
     }
 }
@@ -549,7 +549,7 @@ void TObjEneBm9Mericarol::sub_802D01D8(s32 arg1) {
         } else {
             requested_action = 3;
         }
-        vfunc_96();
+        clear_intangible();
         sub_802D0940();
         m_438 &= ~0x28;
         set_field_378(3);
@@ -584,7 +584,7 @@ void TObjEneBm9Mericarol::sub_802D01D8(s32 arg1) {
         target = 0xFFFF;
         if (tick_period_counter((saddr)this, &m_450, 0x14) != 0) {
             if (m_3ac > 30.0f) {
-                if (vfunc_99() != 0) {
+                if (is_confused() != 0) {
                     target = enemy_nearest_visible_enemy(this, m_3ac - 30.0f);
                 }
                 if (target == 0xFFFF) {
@@ -603,8 +603,8 @@ void TObjEneBm9Mericarol::sub_802D01D8(s32 arg1) {
         m_4a0 = (s32)(RADIANS_TO_ANGLE * atan2_float(m_3a0.x, m_3a0.z));
         rotation_y = approach_angle_limited(rotation_y, m_4a0, ((TObjEneBm9MericarolMovementParameters *)movementParameters)->move.turn_speed);
         rotation_y = (s16)rotation_y;
-        vfunc_102();
-        vfunc_88();
+        update_ground_contact();
+        update_body_colliders();
         sub_802D073C();
         break;
     }
@@ -614,7 +614,7 @@ void TObjEneBm9Mericarol::handle_shot_state(s32 arg1) {
     switch (arg1) {
     case 4:
         requested_action = 0;
-        vfunc_96();
+        clear_intangible();
         sub_802D0940();
         m_438 &= ~8;
         m_438 |= 0x20;
@@ -642,8 +642,8 @@ void TObjEneBm9Mericarol::handle_shot_state(s32 arg1) {
         m_4a0 = (s32)(RADIANS_TO_ANGLE * atan2_float(m_3a0.x, m_3a0.z));
         rotation_y = approach_angle_limited(rotation_y, m_4a0, ((TObjEneBm9MericarolMovementParameters *)movementParameters)->move.turn_speed);
         rotation_y = (s16)rotation_y;
-        vfunc_102();
-        vfunc_88();
+        update_ground_contact();
+        update_body_colliders();
         sub_802D073C();
         break;
     case 5:
@@ -665,7 +665,7 @@ void TObjEneBm9Mericarol::sub_802CFB64(s32 arg1) {
     switch (arg1) {
     case 4:
         requested_action = 8;
-        vfunc_96();
+        clear_intangible();
         sub_802D0940();
         m_438 &= ~8;
         m_438 |= 0x20;
@@ -742,8 +742,8 @@ void TObjEneBm9Mericarol::sub_802CFB64(s32 arg1) {
         m_4a0 = (s32)(RADIANS_TO_ANGLE * atan2_float(m_3a0.x, m_3a0.z));
         rotation_y = approach_angle_limited(rotation_y, m_4a0, ((TObjEneBm9MericarolMovementParameters *)movementParameters)->move.turn_speed);
         rotation_y = (s16)rotation_y;
-        vfunc_102();
-        vfunc_88();
+        update_ground_contact();
+        update_body_colliders();
         sub_802D073C();
         break;
     case 5:
@@ -803,7 +803,7 @@ void TObjEneBm9Mericarol::sub_802CF7B4(s32 arg1) {
             }
             m_4a0 = (s32)(RADIANS_TO_ANGLE * atan2_float(m_3a0.x, m_3a0.z));
             rotation_y = approach_angle_limited(rotation_y, m_4a0, ((TObjEneBm9MericarolMovementParameters *)movementParameters)->move.turn_speed);
-            vfunc_89();
+            check_collisions();
             return;
         case 1:
             fn_802CE510(this);
@@ -840,7 +840,7 @@ void TObjEneBm9Mericarol::sub_802CF7B4(s32 arg1) {
                 requested_action = 3;
                 m_490 = 3;
             }
-            vfunc_89();
+            check_collisions();
             move_clamped_on_ground(m_3a0.x, m_3a0.z, m_4a4);
             return;
         }
@@ -887,8 +887,8 @@ void TObjEneBm9Mericarol::sub_802CF4F8(s32 arg1) {
     switch (arg1) {
     case 4:
         requested_action = 2;
-        vfunc_96();
-        vfunc_91();
+        clear_intangible();
+        set_invulnerable();
         sub_802D093C();
         m_438 &= ~8;
         m_438 |= 0x20;
@@ -915,8 +915,8 @@ void TObjEneBm9Mericarol::sub_802CF4F8(s32 arg1) {
             ((TObjPlayer *)m_390)->set_tp(0);
         }
         m_490++;
-        vfunc_102();
-        vfunc_88();
+        update_ground_contact();
+        update_body_colliders();
         sub_802D073C();
         return;
     case 5:
@@ -932,7 +932,7 @@ void TObjEneBm9Mericarol::sub_802CF368(s32 arg1) {
     switch (arg1) {
     case 4:
         requested_action = 5;
-        vfunc_96();
+        clear_intangible();
         sub_802D093C();
         m_438 &= ~0x28;
         TBoss8Dragon__sub_800BB7D4(this, 0xF2);
@@ -955,8 +955,8 @@ void TObjEneBm9Mericarol::sub_802CF368(s32 arg1) {
         return;
     case 0:
         advance_animation();
-        vfunc_102();
-        vfunc_88();
+        update_ground_contact();
+        update_body_colliders();
         sub_802D073C();
         return;
     case 5:
@@ -973,7 +973,7 @@ void TObjEneBm9Mericarol::state_burrow(s32 arg1) {
     switch (arg1) {
     case 4:
         requested_action = 6;
-        vfunc_96();
+        clear_intangible();
         sub_802D093C();
         m_438 &= ~0x28;
         refresh_and_send_entity_flags();
@@ -1002,7 +1002,7 @@ void TObjEneBm9Mericarol::state_burrow(s32 arg1) {
                 TObjPlayer::spawn_dead_spot_here((saddr)&pos, 0x32);
                 ((TObjPlayer *)&pos)->spawn_ground_effect(0x46);
             }
-            vfunc_102();
+            update_ground_contact();
             return;
         case 1:
             position.y -= 0.1f;
@@ -1030,7 +1030,7 @@ void TObjEneBm9Mericarol::handle_motion_event(s32 arg1) {
     switch (arg1) {
     case 4:
         requested_action = 7;
-        vfunc_96();
+        clear_intangible();
         sub_802D093C();
         m_438 &= ~0x28;
         set_field_378(3);
@@ -1041,8 +1041,8 @@ void TObjEneBm9Mericarol::handle_motion_event(s32 arg1) {
         if (is_passing_frame(frame_count - 1.0f) != 0) {
             transition_enemy_state(3);
         }
-        vfunc_102();
-        vfunc_88();
+        update_ground_contact();
+        update_body_colliders();
         return;
     case 0:
         advance_animation();
@@ -1095,7 +1095,7 @@ void TObjEneBm9Mericarol::sub_802CEDA0(s32 arg1) {
                 enemy_copy_target_destination();
                 update_velocity();
             }
-            vfunc_89();
+            check_collisions();
             if (m_494 % 14 == 0) {
                 play_sound_effect(remap_sound_for_area(0x3A809), &position, 0, 0);
             }

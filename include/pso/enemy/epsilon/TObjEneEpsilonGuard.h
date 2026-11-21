@@ -29,8 +29,8 @@ struct TObjEneEpsilonGuard : public TObjEneEpsilon {
     void sub_8035EA90();
     void handle_event(s32);
     void render_guard_effect();
-    virtual void vfunc_88();
-    virtual void vfunc_89();
+    virtual void update_body_colliders();
+    virtual void check_collisions();
     virtual f32 receive_physical_attack(void *, f32);
     virtual f32 receive_weapon_special_attack(void *, void *);
     void vfunc_63();

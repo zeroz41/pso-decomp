@@ -9,7 +9,7 @@ public:
     virtual ~TUnk_80482EC0();
     virtual void state_launch(s32 reason);
     virtual void state_armed(s32 reason);
-    virtual void vfunc_88();
+    virtual void update_body_colliders();
 };
 LAYOUT_ASSERT(TUnk_80482EC0_size, sizeof(TUnk_80482EC0) == 0x3F0);
 

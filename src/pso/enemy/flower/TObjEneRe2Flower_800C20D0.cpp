@@ -206,7 +206,7 @@ void TObjEneDD__sub_800C2628(u8 *arg0, s32 arg1) {
     switch (arg1) {
     case 4:
         F(s16, 0xB8) = 1;
-        ((TObjEneDD *)(arg0))->vfunc_96();
+        ((TObjEneDD *)(arg0))->clear_intangible();
         ((TObjEneRe2Flower *)arg0)->clear_child_flags();
         F(u32, 0x3C4) &= ~8;
         ((TObjEneDD *)arg0)->set_field_378(8);
@@ -284,8 +284,8 @@ void TObjEneDD__sub_800C2628(u8 *arg0, s32 arg1) {
         } else {
             F(s32, 0x3D8) = 0xFF;
         }
-        ((TObjEneDD *)(arg0))->vfunc_102();
-        ((TObjEneDD *)(arg0))->vfunc_88();
+        ((TObjEneDD *)(arg0))->update_ground_contact();
+        ((TObjEneDD *)(arg0))->update_body_colliders();
         ((TObjEneDD *)arg0)->noop();
         break;
     }
@@ -301,7 +301,7 @@ void TObjEneRe2Flower::handle_event(s32 arg1) {
     switch (arg1) {
     case 4:
         this->requested_action = 6;
-        this->vfunc_96();
+        this->clear_intangible();
         ((TObjEneRe2Flower *)arg0)->clear_child_flags();
         *(s32 *)((s8 *)arg0 + 0x3C4) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C4) & 0xFFFFFFF7);
         ((TObjEneDD *)arg0)->set_field_378(3);
@@ -313,8 +313,8 @@ void TObjEneRe2Flower::handle_event(s32 arg1) {
         if (is_passing_frame(this->frame_count - lbl_805D9FC0) != 0) {
             ((TObjEneDD *)arg0)->transition_enemy_state(3);
         }
-        this->vfunc_102();
-        this->vfunc_88();
+        this->update_ground_contact();
+        this->update_body_colliders();
         return;
     case 0:
         advance_animation();

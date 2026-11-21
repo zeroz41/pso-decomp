@@ -2041,7 +2041,7 @@ void TBoss2DeRolLe::run_task() {
     update_projectile_spawns__13TBoss2DeRolLeFPv((u8 *)this);
   }
   sub_800BBA0C();
-  vfunc_88();
+  update_body_colliders();
   backup_pos__13TBoss2DeRolLeFi((saddr)this);
   submit_default_cursor_candidate();
   add_radar_scaled_marker(&position, -0x5DB4, 1, 1, 2.0f);
@@ -2108,7 +2108,7 @@ void backup_pos__13TBoss2DeRolLeFi(s32 arg0) {
 #pragma push
 #pragma fp_contract on
 
-void TBoss2DeRolLe::vfunc_88() {
+void TBoss2DeRolLe::update_body_colliders() {
     Vec offsets[3];
     VecCopy(&offsets[0], &unk_3F8[6]);
     VecCopy(&offsets[1], &unk_4E8[2]);
@@ -2508,17 +2508,17 @@ void TBoss2DeRolLe::pick_random_target() {
 
 void TBoss2DeRolLe::sub_80034258() {
     s32 i;
-    vfunc_95();
+    set_intangible();
     for (i = 0; i < 10; i++) {
-        joints[i]->vfunc_95();
+        joints[i]->set_intangible();
     }
 }
 
 void TBoss2DeRolLe::sub_800341F0() {
     s32 i;
-    vfunc_96();
+    clear_intangible();
     for (i = 0; i < 10; i++) {
-        joints[i]->vfunc_96();
+        joints[i]->clear_intangible();
     }
 }
 
@@ -2526,8 +2526,8 @@ namespace behavior_view {
 
 extern "C" {
 
-void TBoss2DeRolLe::vfunc_93() {
-    TObjEneDD::vfunc_93();
+void TBoss2DeRolLe::enable_body_collision() {
+    TObjEneDD::enable_body_collision();
     if ((state_flags & 8) || TObjEneDD::check_v2_mode() != 0) {
         clear_play_flags();
     }

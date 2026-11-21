@@ -46,8 +46,8 @@ struct TObjEneBm3Fly : public TObjEneDD_ST {
     virtual s32 vfunc_104(f32);
     virtual void vfunc_105();
     virtual void vfunc_106();
-    virtual void vfunc_89();
-    virtual void vfunc_88();
+    virtual void check_collisions();
+    virtual void update_body_colliders();
     virtual void dispatch_action(u32 state, s32 reason);
     void handle_message(s32 arg1);
     void state_death_fall(s32 arg1);

@@ -30,7 +30,7 @@ struct TObjEneBm5Wolf : public TObjEneDD_ST {
     virtual void run_task();
     virtual void render();
     virtual void dispatch_action(u32 state, s32 event);
-    virtual void vfunc_88();
+    virtual void update_body_colliders();
     virtual void update_state();
     virtual void render_debug();
     void update_collision_center();

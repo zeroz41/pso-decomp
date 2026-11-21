@@ -150,14 +150,14 @@ void TObjEneRe4Bit::run_task() {
         vfunc_105();
         return;
     }
-    if (vfunc_83() == 1 || (m_3cc & 0x2000) == 0) {
-        vfunc_85();
+    if (update_status_effects() == 1 || (m_3cc & 0x2000) == 0) {
+        update_action_state();
         clear_state_flags_when_done();
     } else {
         m_3cc &= ~0x2000;
     }
     copy_pos();
-    vfunc_88();
+    update_body_colliders();
     submit_default_cursor_candidate();
 }
 
@@ -189,7 +189,7 @@ void TObjEneRe4Bit::vfunc_61() {  }
 
 void TObjEneRe4Bit::copy_pos() { VecCopy(&center, &body_center); }
 
-void TObjEneRe4Bit::vfunc_88() {
+void TObjEneRe4Bit::update_body_colliders() {
     bodies->offset.y = body_center.y - position.y;
 }
 
@@ -197,7 +197,7 @@ void TObjEneRe4Bit::update_position_flag() {
     Vec pos;
 
     VecCopy(&pos, &body_center);
-    if (vfunc_101((u8 *)&pos) == 0) {
+    if (move_xz_on_ground((u8 *)&pos) == 0) {
         m_3cc &= ~0x800;
         return;
     }
@@ -285,13 +285,13 @@ void TObjEneRe4Bit::set_state_flags() {
 }
 
 void TObjEneRe4Bit::invoke_state_callbacks() {
-    vfunc_91();
-    vfunc_94();
+    set_invulnerable();
+    disable_body_collision();
 }
 
 void TObjEneRe4Bit::call_vt_90_91() {
-    vfunc_92();
-    vfunc_93();
+    clear_invulnerable();
+    enable_body_collision();
 }
 
 void TObjEneRe4Bit::set_flag3cc_bit2000() { m_3cc |= 0x2000; }
@@ -471,7 +471,7 @@ void TObjEneRe4Bit__sub_800ECD28(TObjEneRe4Bit *bit, s32 arg1) {
         bit->body_center.y = bit->body_center.y + bit->m_3d8;
         bit->body_center.x = bit->body_center.x + ((TObjEneDD *)bit)->calc_elapsed_scaled();
         bit->body_center.z = bit->body_center.z + ((TObjEneDD *)bit)->calc_elapsed_scaled();
-        bit->vfunc_102();
+        bit->update_ground_contact();
         return;
     case 5:
         bit->clear_attack_receipts();

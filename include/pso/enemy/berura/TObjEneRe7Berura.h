@@ -38,7 +38,7 @@ LAYOUT_ASSERT(TObjEneRe7BeruraPart_size, sizeof(TObjEneRe7BeruraPart) == 0x64);
 struct TObjEneRe7Berura : public TObjEneDD_ST {
     TObjEneRe7Berura(TObject *parent, void *set_data);
     virtual ~TObjEneRe7Berura();
-    virtual void vfunc_88();
+    virtual void update_body_colliders();
     virtual void vfunc_105();
     virtual void vfunc_106();
     void vfunc_63();

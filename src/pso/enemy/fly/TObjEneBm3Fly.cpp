@@ -210,8 +210,8 @@ void TObjEneBm3Fly::run_task() {
         this->queue_destruction();
         return;
     }
-    if (this->vfunc_83() != 4) {
-        this->vfunc_85();
+    if (this->update_status_effects() != 4) {
+        this->update_action_state();
         effect = this->particle_effect;
         if (effect == NULL) {
             this->particle_effect = create_particle_emitter(&this->body_center, 0xC7);
@@ -246,7 +246,7 @@ void TObjEneBm3Fly::run_task() {
     }
     this->store_position();
     this->submit_default_cursor_candidate();
-    this->vfunc_100();
+    this->render_minimap_dot();
 }
 
 void TObjEneBm3Fly::dispatch_action(u32 arg1, s32 msg) {
@@ -322,7 +322,7 @@ void TObjEneBm3Fly::circle_destination(s32 arg1) {
 }
 #pragma pop
 void TObjEneBm3Fly::update_collide_flag() {
-    if (this->vfunc_102() != 0U) {
+    if (this->update_ground_contact() != 0U) {
         this->m_428 |= 2;
         return;
     }
@@ -360,15 +360,15 @@ void TObjEneBm3Fly::clamp_flight_height() {
     this->body_center.y = this->m_42c;
 }
 #pragma pop
-void TObjEneBm3Fly::vfunc_89() { TObjEneDD::vfunc_89(); this->clamp_flight_height(); }
+void TObjEneBm3Fly::check_collisions() { TObjEneDD::check_collisions(); this->clamp_flight_height(); }
 
-void TObjEneBm3Fly::vfunc_88() {
+void TObjEneBm3Fly::update_body_colliders() {
     f32 temp_f31;
     temp_f31 = this->m_42c - this->position.y;
     if (temp_f31 >= (3e+01f)) {
-        this->vfunc_97();
+        this->set_colliders_contact_high();
     } else {
-        this->vfunc_98();
+        this->set_colliders_contact_low();
     }
     this->bodies->offset.y = temp_f31;
 }
@@ -455,7 +455,7 @@ void TObjEneBm3Fly__play_orbit_flight_sound(TObjEneBm3Fly *fly) {
 }
 
 s32 TObjEneBm3Fly::vfunc_104(f32 farg0) {
-    if (this->vfunc_99() != 0) {
+    if (this->is_confused() != 0) {
         this->select_and_apply_target(farg0);
         return;
     }
@@ -469,7 +469,7 @@ void TObjEneBm3Fly::sub_800B1214(s32 arg1) {
     switch (arg1) {
     case 4:
         this->requested_action = 1;
-        this->vfunc_95();
+        this->set_intangible();
         this->m_428 &= ~1;
         this->m_428 |= 2;
         this->actorFlags |= 0x01000000;
@@ -530,7 +530,7 @@ void TObjEneBm3Fly::sub_800B1214(s32 arg1) {
         this->prev_position.x = this->body_center.x;
         this->prev_position.z = this->body_center.z;
         this->clamp_flight_height();
-        this->vfunc_88();
+        this->update_body_colliders();
         break;
     }
 }
@@ -543,7 +543,7 @@ void TObjEneBm3Fly__sub_800B0F70(TObjEneBm3Fly *arg0, s32 arg1) {
     switch (arg1) {
     case 4:
         arg0->requested_action = 1;
-        arg0->vfunc_95();
+        arg0->set_intangible();
         arg0->m_428 &= ~1;
         arg0->m_428 |= 2;
         arg0->actorFlags |= 0x01000000;
@@ -583,7 +583,7 @@ void TObjEneBm3Fly__sub_800B0F70(TObjEneBm3Fly *arg0, s32 arg1) {
         arg0->update_collide_flag();
         arg0->prev_position.x = arg0->body_center.x;
         arg0->prev_position.z = arg0->body_center.z;
-        arg0->vfunc_88();
+        arg0->update_body_colliders();
         TObjEneBm3Fly__play_orbit_flight_sound(arg0);
         break;
     case 5:
@@ -616,7 +616,7 @@ void TObjEneBm3Fly__sub_800B0B20(TObjEneBm3Fly *ene_bm3_fly, s32 arg1) {
     switch (arg1) {
     case 4:
         ene_bm3_fly->requested_action = 1;
-        ene_bm3_fly->vfunc_96();
+        ene_bm3_fly->clear_intangible();
         ene_bm3_fly->m_428 &= ~1;
         ene_bm3_fly->m_428 |= 2;
         ene_bm3_fly->actorFlags |= 0x01000000;
@@ -703,7 +703,7 @@ void TObjEneBm3Fly__sub_800B0B20(TObjEneBm3Fly *ene_bm3_fly, s32 arg1) {
         pos->y = ene_bm3_fly->m_42c;
         ene_bm3_fly->clamp_flight_height();
         ene_bm3_fly->rotation_y = (s32)(10430.38043493439 * atan2_float(ene_bm3_fly->m_430.x, ene_bm3_fly->m_430.z));
-        ene_bm3_fly->vfunc_89();
+        ene_bm3_fly->check_collisions();
         pos->x -= ene_bm3_fly->position.x;
         pos->y -= ene_bm3_fly->m_42c;
         pos->z -= ene_bm3_fly->position.z;
@@ -721,7 +721,7 @@ void TObjEneBm3Fly::execute_action(s32 arg1) {
     switch (arg1) {
     case 4:
         this->requested_action = 1;
-        this->vfunc_96();
+        this->clear_intangible();
         this->m_428 &= ~1;
         this->m_428 |= 2;
         this->actorFlags &= ~0x01000000;
@@ -803,7 +803,7 @@ void TObjEneBm3Fly::execute_action(s32 arg1) {
             this->update_collide_flag();
             break;
         }
-        this->vfunc_89();
+        this->check_collisions();
         this->play_pitched_cue();
         return;
     case 5:
@@ -818,7 +818,7 @@ void TObjEneBm3Fly::state_circle_target(s32 arg1) {
     switch (arg1) {
     case 4:
         this->requested_action = 1;
-        this->vfunc_96();
+        this->clear_intangible();
         this->m_428 &= ~1;
         this->m_428 |= 2;
         this->actorFlags |= 0x01000000;
@@ -887,7 +887,7 @@ void TObjEneBm3Fly::state_circle_target(s32 arg1) {
         this->clamp_flight_height();
         this->rotation_y = (s32)(10430.38043493439 * atan2_float(
             this->m_390->position.x - this->position.x, this->m_390->position.z - this->position.z));
-        this->vfunc_89();
+        this->check_collisions();
         this->play_pitched_cue();
         break;
     case 1:
@@ -903,7 +903,7 @@ void TObjEneBm3Fly__sub_800B02C8(TObjEneBm3Fly *ene_bm3_fly, s32 arg1) {
     switch (arg1) {
     case 4:
         ene_bm3_fly->requested_action = 1;
-        ene_bm3_fly->vfunc_96();
+        ene_bm3_fly->clear_intangible();
         ene_bm3_fly->m_428 &= ~1;
         ene_bm3_fly->m_428 |= 2;
         ene_bm3_fly->actorFlags |= 0x01000000;
@@ -929,7 +929,7 @@ void TObjEneBm3Fly__sub_800B02C8(TObjEneBm3Fly *ene_bm3_fly, s32 arg1) {
         ene_bm3_fly->update_velocity();
         ene_bm3_fly->m_42c = ene_bm3_fly->approach_value(ene_bm3_fly->m_42c, ene_bm3_fly->m_394.y);
         ene_bm3_fly->update_state_flag();
-        ene_bm3_fly->vfunc_88();
+        ene_bm3_fly->update_body_colliders();
         ene_bm3_fly->clamp_flight_height();
         ene_bm3_fly->transform_part_positions();
         ene_bm3_fly->play_pitched_cue();
@@ -945,7 +945,7 @@ void TObjEneBm3Fly::update_recoil_state(s32 arg1) {
     switch (arg1) {
     case 4:
         this->requested_action = 3;
-        this->vfunc_96();
+        this->clear_intangible();
         this->m_428 &= ~1;
         this->m_428 |= 2;
         this->set_field_378(this->mode);
@@ -955,7 +955,7 @@ void TObjEneBm3Fly::update_recoil_state(s32 arg1) {
         break;
     case 3:
         if (this->motion_flags & 0x10) {
-            if (this->vfunc_99() != 0) {
+            if (this->is_confused() != 0) {
                 this->vfunc_104(2e+02f);
             }
             if (this->m_378 == 3) {
@@ -976,7 +976,7 @@ void TObjEneBm3Fly::update_recoil_state(s32 arg1) {
         this->clamp_flight_height();
         this->x_speed *= (0.5f);
         this->m_310 *= (0.5f);
-        this->vfunc_89();
+        this->check_collisions();
         break;
     case 5:
         this->clear_attack_receipts();
@@ -989,7 +989,7 @@ void action__13TObjEneBm3FlyFPvi(TObjEneBm3Fly *child, s32 arg1) {
 
     switch (arg1) {
     case 4:
-        child->vfunc_96();
+        child->clear_intangible();
         child->m_428 |= 1;
         child->m_428 &= ~2;
         child->set_entry = NULL;
@@ -1022,7 +1022,7 @@ void TObjEneBm3Fly::state_death_fall(s32 arg1) {
     switch (arg1) {
     case 4:
         this->requested_action = 4;
-        this->vfunc_96();
+        this->clear_intangible();
         this->m_428 &= ~1;
         this->m_428 |= 2;
         this->refresh_and_send_entity_flags();

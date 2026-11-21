@@ -385,7 +385,7 @@ void TObjEneRe7Berura::init_enemy() {
     m_4d8 = 0.0f;
     m_4dc = 0.0f;
     m_4e0 = 0.0f;
-    vfunc_95();
+    set_intangible();
     mode = 0;
     dispatch_action(mode, 4);
 }
@@ -411,14 +411,14 @@ void TObjEneRe7Berura::run_task() {
         vfunc_105();
         return;
     }
-    if (vfunc_83() != 4) {
-        vfunc_85();
+    if (update_status_effects() != 4) {
+        update_action_state();
         m_3d0 = m_3d0 + m_3cc;
         m_3d0 = (u8) m_3d0;
     }
     update_collision_center();
     submit_default_cursor_candidate();
-    vfunc_100();
+    render_minimap_dot();
 }
 
 void TObjEneRe7Berura::vfunc_28() {  }
@@ -448,7 +448,7 @@ void TObjEneRe7Berura::update_collision_center() {
     VecCopy__FP3VecPC3Vec(&center, &body_center);
 }
 
-void TObjEneRe7Berura::vfunc_88() {
+void TObjEneRe7Berura::update_body_colliders() {
     bodies->offset.y = body_center.y - position.y;
 }
 
@@ -667,7 +667,7 @@ void TObjEneRe7Berura::play_band_sound() {
 }
 
 s32 TObjEneRe7Berura::check_death_trigger() {
-    if (vfunc_99() != 0) {
+    if (is_confused() != 0) {
         transition_enemy_state((s16)9);
         return 1;
     }
@@ -732,7 +732,7 @@ void TObjEneRe7Berura::state_attack(s32 arg1) {
     switch (arg1) {
     case 4:
         requested_action = 0;
-        vfunc_95();
+        set_intangible();
         temp_r5 = m_3c0;
         m_3c0 = temp_r5 & ~5;
         m_3c0 = m_3c0 | 2;
@@ -747,8 +747,8 @@ void TObjEneRe7Berura::state_attack(s32 arg1) {
         }
         return;
     case 0:
-        vfunc_102();
-        vfunc_88();
+        update_ground_contact();
+        update_body_colliders();
         return;
     case 5:
         m_3c0 &= ~2;
@@ -764,7 +764,7 @@ void TObjEneRe7Berura__sub_8009472C(TObjEneRe7Berura *self, s32 arg1) {
     switch (arg1) {
     case 4:
         self->requested_action = 0;
-        self->vfunc_95();
+        self->set_intangible();
         self->m_3c0 &= ~7;
         self->set_field_378(4);
         self->m_3c4 = 0xFFFFFFU;
@@ -821,13 +821,13 @@ void TObjEneRe7Berura__sub_8009472C(TObjEneRe7Berura *self, s32 arg1) {
             TObjPlayer::play_effect_if_v2(-0x100);
             break;
         }
-        self->vfunc_102();
-        self->vfunc_89();
+        self->update_ground_contact();
+        self->check_collisions();
         break;
     case 5:
         self->m_3c4 = -1;
         self->m_3cc = 0xC;
-        self->vfunc_96();
+        self->clear_intangible();
         break;
     }
 }
@@ -836,7 +836,7 @@ void TObjEneRe7Berura__sub_80094624(TObjEneRe7Berura *self, s32 arg1) {
     switch (arg1) {
     case 4:
         self->requested_action = 0;
-        self->vfunc_95();
+        self->set_intangible();
         self->m_3c0 &= ~6;
         self->m_3c0 |= 1;
         self->set_field_378(2);
@@ -864,7 +864,7 @@ void TObjEneRe7Berura::handle_state(s32 arg1) {
     switch (arg1) {
     case 4:
         requested_action = 0;
-        vfunc_95();
+        set_intangible();
         m_3c0 &= ~7;
         set_field_378(8);
         m_4c0 = 0;
@@ -905,8 +905,8 @@ void TObjEneRe7Berura::handle_state(s32 arg1) {
             }
             break;
         }
-        vfunc_102();
-        vfunc_89();
+        update_ground_contact();
+        check_collisions();
         break;
     }
 }
@@ -915,7 +915,7 @@ void TObjEneRe7Berura__sub_800940E8(TObjEneRe7Berura *self, s32 arg1) {
     switch (arg1) {
     case 4:
         self->requested_action = 1;
-        self->vfunc_96();
+        self->clear_intangible();
         self->m_3c0 &= ~7;
         self->set_field_378(4);
         self->m_4c0 = 0;
@@ -963,7 +963,7 @@ void TObjEneRe7Berura__sub_800940E8(TObjEneRe7Berura *self, s32 arg1) {
                 self->m_4e0 = cos_table_lookup(self->rotation_y);
                 self->init_fields4B8();
             }
-            self->vfunc_102();
+            self->update_ground_contact();
             break;
         case 2:
             if (TObjEneDD::check_v2_mode() != 0) {
@@ -997,7 +997,7 @@ void TObjEneRe7Berura__sub_800940E8(TObjEneRe7Berura *self, s32 arg1) {
             }
             break;
         }
-        self->vfunc_89();
+        self->check_collisions();
         break;
     }
 }
@@ -1008,7 +1008,7 @@ void TObjEneRe7Berura__sub_80093C80(TObjEneRe7Berura *self, s32 arg1) {
     s32 ok;
     switch (arg1) {
     case 4:
-        self->vfunc_96();
+        self->clear_intangible();
         self->m_3c0 &= ~3;
         self->m_3c0 |= 4;
         self->set_field_378(5);
@@ -1097,8 +1097,8 @@ void TObjEneRe7Berura__sub_80093C80(TObjEneRe7Berura *self, s32 arg1) {
             }
             break;
         }
-        self->vfunc_102();
-        self->vfunc_89();
+        self->update_ground_contact();
+        self->check_collisions();
         break;
     case 5:
         self->m_3fc.reset_color();
@@ -1119,7 +1119,7 @@ void TObjEneRe7Berura__sub_80093888(TObjEneRe7Berura *actor, s32 arg1) {
     switch (arg1) {
     case 4:
         actor->requested_action = 1;
-        actor->vfunc_96();
+        actor->clear_intangible();
         actor->m_3c0 &= ~7;
         actor->set_field_378(6);
         actor->m_4c0 = 0;
@@ -1203,8 +1203,8 @@ void TObjEneRe7Berura__sub_80093888(TObjEneRe7Berura *actor, s32 arg1) {
             }
             break;
         }
-        actor->vfunc_102();
-        actor->vfunc_89();
+        actor->update_ground_contact();
+        actor->check_collisions();
         break;
     }
 }
@@ -1216,7 +1216,7 @@ void TObjEneRe7Berura::run_flash_warning_state(s32 arg1) {
     switch (arg1) {
     case 4:
         requested_action = 5;
-        vfunc_96();
+        clear_intangible();
         m_3c0 &= ~3;
         m_3c0 |= 4;
         set_field_378(4);
@@ -1248,8 +1248,8 @@ void TObjEneRe7Berura::run_flash_warning_state(s32 arg1) {
         } else {
             m_3c8 = -1;
         }
-        vfunc_102();
-        vfunc_89();
+        update_ground_contact();
+        check_collisions();
         set_sound_pitch_request(
             play_persistent_sound(remap_sound_for_area(0x4003C61E), (saddr)this, (uaddr)&position, 0, 0),
             0x400, 0);
@@ -1271,7 +1271,7 @@ void TObjEneRe7Berura::state_patrol(void *arg0, int arg1) {
     switch (arg1) {
     case 4:
         self->requested_action = 1;
-        self->vfunc_96();
+        self->clear_intangible();
         self->m_3c0 = self->m_3c0 & ~3;
         self->m_3c0 = self->m_3c0 | 4;
         self->set_field_378(9);
@@ -1289,8 +1289,8 @@ void TObjEneRe7Berura::state_patrol(void *arg0, int arg1) {
             self->play_speed = 1.6f;
         }
         self->rotation_y = self->rotation_y + 0x280;
-        self->vfunc_102();
-        self->vfunc_89();
+        self->update_ground_contact();
+        self->check_collisions();
         break;
     case 5:
         self->m_3c0 = self->m_3c0 & ~4;
@@ -1305,7 +1305,7 @@ void TObjEneRe7Berura__sub_80093470(TObjEneRe7Berura *self, s32 mode) {
     switch (mode) {
     case 4:
         self->requested_action = 6;
-        self->vfunc_96();
+        self->clear_intangible();
         self->m_3c0 &= ~7;
         self->advance_animation();
         play_sound_effect(self->remap_sound_for_area(0x4003A826), &self->position, 0, 0);
@@ -1335,7 +1335,7 @@ void TObjEneRe7Berura::update_death_state(s32 mode) {
     switch (mode) {
     case 4:
         requested_action = 7;
-        vfunc_96();
+        clear_intangible();
         m_3c0 &= ~7;
         advance_animation();
         refresh_and_send_entity_flags();

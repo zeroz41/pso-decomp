@@ -35,8 +35,8 @@ struct TBoss2Joint : public TObjEneDD {
     virtual void vfunc_62();
     virtual void vfunc_63();
     virtual void dispatch_action(u32 state, s32 reason);
-    virtual void vfunc_88();
-    virtual void vfunc_93();
+    virtual void update_body_colliders();
+    virtual void enable_body_collision();
     virtual s32 break_shell();
     virtual void handle_state_0(s32 reason);
     void apply_flash_color();

@@ -85,7 +85,7 @@ void TUnk_804F1A78::run_task() {
         }
     }
     ((TObjEneDD *)boss8_dragon)->sub_800BBA0C();
-    this->vfunc_88();
+    this->update_body_colliders();
     ((TBoss8Dragon *)boss8_dragon)->store_position();
     ((TObjEnemy *)boss8_dragon)->submit_default_cursor_candidate();
     add_radar_scaled_marker(&this->position, -0x5DB4, 1, 1, 2.0f);

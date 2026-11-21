@@ -1298,7 +1298,7 @@ void run_task__17TObjEneDf2BringerFv(u8 *arg0) {
         return;
     }
     if (((VObj_18_p5 *)(arg0))->m81() != 4) {
-        ((TObjEneDf2Bringer *)(arg0))->vfunc_85();
+        ((TObjEneDf2Bringer *)(arg0))->update_action_state();
         *(s32 *)((s8 *)arg0 + 0x4A8) = (s32) (*(s32 *)((s8 *)arg0 + 0x4A8) + 0xC);
         *(s32 *)((s8 *)arg0 + 0x4A8) = (s32) (u8) *(s32 *)((s8 *)arg0 + 0x4A8);
         temp_r0 = *(s32 *)((s8 *)arg0 + 0x494);
@@ -1312,7 +1312,7 @@ void run_task__17TObjEneDf2BringerFv(u8 *arg0) {
     }
     ((TObjEneDf2Bringer *)arg0)->set_effect_pos_above_self();
     ((TObjEnemy *)arg0)->submit_default_cursor_candidate();
-    ((TObjEneDf2Bringer *)(arg0))->vfunc_100();
+    ((TObjEneDf2Bringer *)(arg0))->render_minimap_dot();
 }
 
 void TObjEneDf2Bringer::vfunc_28() {  }
@@ -1344,7 +1344,7 @@ void TObjEneDf2Bringer::set_effect_pos_above_self() {
     VecCopy((Vec *)(arg0 + 0x74), (const Vec *)(arg0 + 0x2FC));
 }
 
-void TObjEneDf2Bringer::vfunc_88() {  }
+void TObjEneDf2Bringer::update_body_colliders() {  }
 
 void TObjEneDf2Bringer::sub_800994F8() {  }
 
@@ -1507,7 +1507,7 @@ void TObjEneDf2Bringer__sub_80098EB4(saddr arg0) {
 }
 
 s32 TObjEneDf2Bringer::vfunc_104(f32 farg0) {
-    if (this->vfunc_99() != 0) {
+    if (this->is_confused() != 0) {
         ((TObjEneDD_ST *)this)->select_and_apply_target(farg0);
         return;
     }
@@ -1600,7 +1600,7 @@ void TObjEneDf2Bringer__sub_80098BAC(u8 *ene_dd_st, s32 arg1) {
     case 4:
         ((TObjEneDD *)ene_dd_st)->set_field_378(1);
         *(s32 *)((s8 *)ene_dd_st + 0x3C0) = (s32) (*(s32 *)((s8 *)ene_dd_st + 0x3C0) | 1);
-        ((TObjEneDD_ST *)(ene_dd_st))->vfunc_95();
+        ((TObjEneDD_ST *)(ene_dd_st))->set_intangible();
         return;
     case 3:
         if (((s32)((TObjEneDD_ST *)ene_dd_st)->update_linked_position(300.0f)) != 0) {
@@ -1624,7 +1624,7 @@ void TObjEneDf2Bringer::exec(s32 arg1) {
         ((TObjEneDD *)arg0)->set_field_378(4);
         *(s32 *)((s8 *)arg0 + 0x3C0) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C0) & 0xFFFFFFFE);
         *(s32 *)((s8 *)arg0 + 0x3C0) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C0) | 2);
-        this->vfunc_95();
+        this->set_intangible();
         ((SubObj_80098970 *)(arg0 + 0x3C4))->v3();
         *(s32 *)((s8 *)arg0 + 0x4AC) = 0;
         *(s32 *)((s8 *)arg0 + 0x4B0) = 0;
@@ -1665,13 +1665,13 @@ void TObjEneDf2Bringer::exec(s32 arg1) {
         }
         if (((SubObj_80098970 *)(arg0 + 0x3C4))->v5() != 0) {
             *(s32 *)((s8 *)arg0 + 0x3C0) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C0) & 0xFFFFFFFD);
-            this->vfunc_96();
-            this->vfunc_89();
+            this->clear_intangible();
+            this->check_collisions();
             return;
         }
         break;
     case 5:
-        this->vfunc_96();
+        this->clear_intangible();
         break;
     }
 }
@@ -1694,7 +1694,7 @@ void TObjEneDf2Bringer__sub_800987E8(u8 *ene_dd_st, s32 arg1) {
         ((TObjEneDD_ST *)ene_dd_st)->requested_action = 0;
         ((TObjEneDD *)ene_dd_st)->set_field_378(3);
         *(s32 *)((s8 *)ene_dd_st + 0x3C0) = (s32) (*(s32 *)((s8 *)ene_dd_st + 0x3C0) & 0xFFFFFFF8);
-        ((TObjEneDD *)(ene_dd_st))->vfunc_95();
+        ((TObjEneDD *)(ene_dd_st))->set_intangible();
         *(s32 *)((s8 *)ene_dd_st + 0x4AC) = 0;
         *(s32 *)((s8 *)ene_dd_st + 0x4B0) = 0;
         return;
@@ -1728,8 +1728,8 @@ void TObjEneDf2Bringer__sub_800987E8(u8 *ene_dd_st, s32 arg1) {
             }
             break;
         }
-        ((TObjEneDD *)(ene_dd_st))->vfunc_102();
-        ((TObjEneDD *)(ene_dd_st))->vfunc_89();
+        ((TObjEneDD *)(ene_dd_st))->update_ground_contact();
+        ((TObjEneDD *)(ene_dd_st))->check_collisions();
         break;
     }
 }
@@ -1744,7 +1744,7 @@ void TObjEneDf2Bringer__sub_8009859C(u8 *ene_df2_bringer, s32 arg1) {
     case 4:
         ((TObjEneDf2Bringer *)ene_df2_bringer)->requested_action = 1;
         ((TObjEneDD *)ene_df2_bringer)->set_field_378(4);
-        ((TObjEneDD *)(ene_df2_bringer))->vfunc_96();
+        ((TObjEneDD *)(ene_df2_bringer))->clear_intangible();
         *(s32 *)((s8 *)ene_df2_bringer + 0x3C0) = (s32) (*(s32 *)((s8 *)ene_df2_bringer + 0x3C0) & 0xFFFFFFF8);
         *(s32 *)((s8 *)ene_df2_bringer + 0x4AC) = 0;
         break;
@@ -1781,7 +1781,7 @@ void TObjEneDf2Bringer__sub_8009859C(u8 *ene_df2_bringer, s32 arg1) {
             t = cos_table_lookup((s32)(((TObjEneDf2Bringer *)ene_df2_bringer)->rotation_y));
             ((TObjEneDD *)ene_df2_bringer)->move_clamped_on_ground(sin_table_lookup((s32)(((TObjEneDf2Bringer *)ene_df2_bringer)->rotation_y)), t, *(f32 *)((s8 *)temp_r30_2 + 4));
         }
-        ((TObjEneDD *)(ene_df2_bringer))->vfunc_89();
+        ((TObjEneDD *)(ene_df2_bringer))->check_collisions();
         TObjEneDf2Bringer__sub_80098EB4((saddr)ene_df2_bringer);
         break;
     }
@@ -1968,8 +1968,8 @@ void TObjEneDf2Bringer__sub_80097E9C(u8 *arg0, s32 arg1) {
             }
             break;
         }
-        ((TObjEneDD *)(arg0))->vfunc_102();
-        ((TObjEneDD *)(arg0))->vfunc_89();
+        ((TObjEneDD *)(arg0))->update_ground_contact();
+        ((TObjEneDD *)(arg0))->check_collisions();
         break;
     case 5:
         break;
@@ -2001,8 +2001,8 @@ void action__17TObjEneDf2BringerFPvi(u8 *arg0, s32 arg1) {
         } else {
             ((TParticleCtrl *)*(void **)((s8 *)arg0 + 0x4C4))->set_position(arg0 + 0x45C);
         }
-        ((TObjEneDD *)arg0)->vfunc_102();
-        ((TObjEneDD *)arg0)->vfunc_89();
+        ((TObjEneDD *)arg0)->update_ground_contact();
+        ((TObjEneDD *)arg0)->check_collisions();
         play_persistent_sound((s32)(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003AD0F)), (saddr)arg0, (uaddr)(arg0 + 0x38), (s32)(0), (s32)(0));
         return;
     case 5:
@@ -2143,8 +2143,8 @@ void TObjEneDf2Bringer__sub_80097820(u8 *arg0, s32 arg1) {
             }
             break;
         }
-        ((TObjEneDD *)arg0)->vfunc_102();
-        ((TObjEneDD *)arg0)->vfunc_89();
+        ((TObjEneDD *)arg0)->update_ground_contact();
+        ((TObjEneDD *)arg0)->check_collisions();
         break;
     case 5:
         F_8009(0x3C0, s32) &= ~8;

@@ -184,7 +184,7 @@ void fn_800C2AC4(u8 *arg0, int arg1) {
     return;
     case 4:
       ((RecoveredFields_800C2AC4_arg0 *) arg0)->field_B8 = 5;
-      (((TObjEneDD *)(arg0))->vfunc_96());
+      (((TObjEneDD *)(arg0))->clear_intangible());
       ((TObjEneRe2Flower *)arg0)->clear_child_flags();
       ((RecoveredFields_800C2AC4_arg0 *) arg0)->field_3C4 = (int) (((RecoveredFields_800C2AC4_arg0 *) arg0)->field_3C4 & 0xFFFFFFF7);
       ((TObjEnemy *)arg0)->refresh_and_send_entity_flags();
@@ -226,7 +226,7 @@ void fn_800C2AC4(u8 *arg0, int arg1) {
           ((TObjPlayer *)(&stack.x))->spawn_ground_effect(0x46);
         }
       }
-        (((TObjEneDD *)(arg0))->vfunc_102());
+        (((TObjEneDD *)(arg0))->update_ground_contact());
         return;
       case 1:
         if (((TObjEneRe2Flower *)arg0)->get_flag_11() != 0)

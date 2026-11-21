@@ -36,9 +36,9 @@ struct TObjEneMe1Canadin : public TObjEneDD_ST {
     virtual ~TObjEneMe1Canadin();
     virtual void dispatch_action(u32 state, s32 reason);
     virtual s32 vfunc_104(f32);
-    virtual void vfunc_88();
-    virtual u8 *vfunc_101(u8 *);
-    virtual void vfunc_89();
+    virtual void update_body_colliders();
+    virtual u8 *move_xz_on_ground(u8 *);
+    virtual void check_collisions();
     virtual void vfunc_105();
     virtual void vfunc_106();
     virtual void vfunc_107();

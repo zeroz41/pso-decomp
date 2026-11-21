@@ -440,47 +440,47 @@ saddr TObjEneRecobox__shared_object_handle;
 
 extern "C" void vfunc_6__8TObjBaseFPsl();
 
-extern "C" void vfunc_103__9TObjEneDDFPUc();
+extern "C" void snap_to_ground_at__9TObjEneDDFPUc();
 
 extern "C" void vfunc_79__9TObjEneDDFPl();
 
-extern "C" void vfunc_84__9TObjEneDDFv();
+extern "C" void update_immobilizing_statuses__9TObjEneDDFv();
 
-extern "C" void vfunc_85__9TObjEneDDFv();
+extern "C" void update_action_state__9TObjEneDDFv();
 
-extern "C" void vfunc_86__9TObjEneDDFv();
+extern "C" void has_action_state_changed__9TObjEneDDFv();
 
-extern "C" void vfunc_89__9TObjEneDDFv();
+extern "C" void check_collisions__9TObjEneDDFv();
 
 extern "C" void vfunc_90__9TObjEneDDFv();
 
-extern "C" void vfunc_91__9TObjEneDDFv();
+extern "C" void set_invulnerable__9TObjEneDDFv();
 
-extern "C" void vfunc_92__9TObjEneDDFv();
+extern "C" void clear_invulnerable__9TObjEneDDFv();
 
-extern "C" void vfunc_93__9TObjEneDDFv();
+extern "C" void enable_body_collision__9TObjEneDDFv();
 
-extern "C" void vfunc_94__9TObjEneDDFv();
+extern "C" void disable_body_collision__9TObjEneDDFv();
 
-extern "C" void vfunc_95__9TObjEneDDFv();
+extern "C" void set_intangible__9TObjEneDDFv();
 
-extern "C" void vfunc_96__9TObjEneDDFv();
+extern "C" void clear_intangible__9TObjEneDDFv();
 
-extern "C" void vfunc_97__9TObjEneDDFv();
+extern "C" void set_colliders_contact_high__9TObjEneDDFv();
 
-extern "C" void vfunc_98__9TObjEneDDFv();
+extern "C" void set_colliders_contact_low__9TObjEneDDFv();
 
-extern "C" void vfunc_99__9TObjEneDDFv();
+extern "C" void is_confused__9TObjEneDDFv();
 
-extern "C" void vfunc_100__9TObjEneDDFv();
+extern "C" void render_minimap_dot__9TObjEneDDFv();
 
-extern "C" void vfunc_101__9TObjEneDDFPUc();
+extern "C" void move_xz_on_ground__9TObjEneDDFPUc();
 
-extern "C" void vfunc_102__9TObjEneDDFv();
+extern "C" void update_ground_contact__9TObjEneDDFv();
 
 extern "C" int vfunc_104__12TObjEneDD_STFf(void *p);
 
-extern "C" void vfunc_83__12TObjEneDD_STFv();
+extern "C" void update_status_effects__12TObjEneDD_STFv();
 
 extern "C" void draw_with_debug_info__14TObjEneRecoboxFv();
 
@@ -705,12 +705,12 @@ void *TObjEneRecobox__vtable[107] = {
     (void *)&get_pos__9TObjCharaFl, (void *)&apply_switch_attack__9TObjCharaFv, (void *)&enemy_spawn_jellen_effect__9TObjCharaFv, (void *)&trigger_switch_attack__9TObjCharaFv,
     (void *)&enemy_spawn_zalure_effect__9TObjCharaFv, (void *)&recalc_stats__9TObjCharaFv, (void *)&vfunc_74__9TObjEnemyFl, (void *)&vfunc_75__9TObjCharaFf,
     (void *)&vfunc_76__9TObjCharaFf, (void *)&vfunc_77__9TObjCharaFv, (void *)&vfunc_78__9TObjCharaFl, (void *)&vfunc_79__9TObjEneDDFPl,
-    (void *)&apply_hit_message_flags__9TObjEnemyFPv, (void *)&apply_set_data__9TObjEnemyFPv, (void *)&clear_lobby_object_state__9TObjEnemyFv, (void *)&vfunc_83__12TObjEneDD_STFv,
-    (void *)&vfunc_84__9TObjEneDDFv, (void *)&vfunc_85__9TObjEneDDFv, (void *)&vfunc_86__9TObjEneDDFv, (void *)&dispatch_state__12TObjEneReconFiUii,
-    (void *)&TObjEneRecon__sub_8031FB6C, (void *)&vfunc_89__9TObjEneDDFv, (void *)&vfunc_90__9TObjEneDDFv, (void *)&vfunc_91__9TObjEneDDFv,
-    (void *)&vfunc_92__9TObjEneDDFv, (void *)&vfunc_93__9TObjEneDDFv, (void *)&vfunc_94__9TObjEneDDFv, (void *)&vfunc_95__9TObjEneDDFv,
-    (void *)&vfunc_96__9TObjEneDDFv, (void *)&vfunc_97__9TObjEneDDFv, (void *)&vfunc_98__9TObjEneDDFv, (void *)&vfunc_99__9TObjEneDDFv,
-    (void *)&vfunc_100__9TObjEneDDFv, (void *)&vfunc_101__9TObjEneDDFPUc, (void *)&vfunc_102__9TObjEneDDFv, (void *)&vfunc_103__9TObjEneDDFPUc,
+    (void *)&apply_hit_message_flags__9TObjEnemyFPv, (void *)&apply_set_data__9TObjEnemyFPv, (void *)&clear_lobby_object_state__9TObjEnemyFv, (void *)&update_status_effects__12TObjEneDD_STFv,
+    (void *)&update_immobilizing_statuses__9TObjEneDDFv, (void *)&update_action_state__9TObjEneDDFv, (void *)&has_action_state_changed__9TObjEneDDFv, (void *)&dispatch_state__12TObjEneReconFiUii,
+    (void *)&TObjEneRecon__sub_8031FB6C, (void *)&check_collisions__9TObjEneDDFv, (void *)&vfunc_90__9TObjEneDDFv, (void *)&set_invulnerable__9TObjEneDDFv,
+    (void *)&clear_invulnerable__9TObjEneDDFv, (void *)&enable_body_collision__9TObjEneDDFv, (void *)&disable_body_collision__9TObjEneDDFv, (void *)&set_intangible__9TObjEneDDFv,
+    (void *)&clear_intangible__9TObjEneDDFv, (void *)&set_colliders_contact_high__9TObjEneDDFv, (void *)&set_colliders_contact_low__9TObjEneDDFv, (void *)&is_confused__9TObjEneDDFv,
+    (void *)&render_minimap_dot__9TObjEneDDFv, (void *)&move_xz_on_ground__9TObjEneDDFPUc, (void *)&update_ground_contact__9TObjEneDDFv, (void *)&snap_to_ground_at__9TObjEneDDFPUc,
     (void *)&vfunc_104__12TObjEneDD_STFf, (void *)&update_if_800BB858__14TObjEneRecoboxFv, (void *)&draw_with_debug_info__14TObjEneRecoboxFv,
 };
 
@@ -830,7 +830,7 @@ u8 *TObjEneRecobox__ct(u8 *ene_recobox, s32 arg1, u8 *set_data) {
     ((TObjEneRecobox *)ene_recobox)->texlist = *(s32 *)((s8 *)(*(u8 **)((s8 *)TObjEneRecobox__static_instance + 0x42C)) + 0x1C);
     ((TObjEneDD *)ene_recobox)->init_model((CollisionBody *)lbl_804EC684, (s32)1);
     ((TObjEneRecobox *)ene_recobox)->body_center.y = 20.0f + *(f32 *)((s8 *)ene_recobox + 0x3C);
-    ((TObjEneRecobox *)ene_recobox)->vfunc_88();
+    ((TObjEneRecobox *)ene_recobox)->update_body_colliders();
     ((TObjMotion *)ene_recobox)->set_field_d8((saddr)TObjEneRecobox__animation_entries);
     ((TObjMotion *)ene_recobox)->set_field_dc(*(s32 *)((s8 *)TObjEneRecobox__static_instance + 0x430));
     ((TObjEneRecobox *)ene_recobox)->requested_action = 0;
@@ -901,15 +901,15 @@ void TObjEneRecobox::run_task() {
         this->update_if_800BB858();
         return;
     }
-    if (this->vfunc_83() != 4) {
-        this->vfunc_85();
+    if (this->update_status_effects() != 4) {
+        this->update_action_state();
     } else if ((s16) this->mode == 1) {
         transition_enemy_state(0);
     }
-    this->vfunc_88();
+    this->update_body_colliders();
     ((TObjEneRecon *)((u8 *)this))->restore_position();
     this->submit_default_cursor_candidate();
-    this->vfunc_100();
+    this->render_minimap_dot();
     this->update_floor_probe();
 }
 
@@ -964,7 +964,7 @@ void TObjEneRecon__sub_8031FB6C(u8 *ene_recobox) {
     }
     temp_r3 = (u8 *)(csnVectorUnder((Vec *)&stack.sp8, (CsnGroup **)(ene_recobox + 0x120), 0x15));
     if ((temp_r3 == NULL) || (((TObjEneRecobox *)ene_recobox)->body_center.y >= (40.0f + *(f32 *)((s8 *)(*(u8 **)((s8 *)temp_r3 + 4)) + 4)))) {
-        ((TObjEneRecobox *)(ene_recobox))->vfunc_97();
+        ((TObjEneRecobox *)(ene_recobox))->set_colliders_contact_high();
     }
     ((TObjEneDD *)ene_recobox)->set_part_local_pos(ene_recobox + 0x2FC, 0);
 }
@@ -1075,7 +1075,7 @@ void TObjEneRecon::handle_state(s32 arg1) {
     case 4:
         *(s32 *)((s8 *)arg0 + 0x40C) = (*(s32 *)((s8 *)arg0 + 0x40C) & 0xFFFFFFFE);
         *(s16 *)((s8 *)arg0 + 0xB8) = 0;
-        this->vfunc_95();
+        this->set_intangible();
         ((TObjEneDD *)arg0)->set_field_378(0);
         ((TUnk_80494938 *)(arg0 + 0x3C0))->start_fade_in();
         return;
@@ -1139,7 +1139,7 @@ void TObjEneRecon::update_state(s32 arg1) {
     case 4:
         *(s32 *)&this->m_428 = *(s32 *)&this->m_428 & 0xFFFFFFFE;
         this->requested_action = 1;
-        this->vfunc_96();
+        this->clear_intangible();
         set_field_378(3);
         return;
     case 3:
@@ -1162,7 +1162,7 @@ void TObjEneRecon::handle_action_state(s32 arg1) {
     case 4:
         *(s32 *)&this->m_428 = (*(s32 *)&this->m_428 & 0xFFFFFFFE);
         this->requested_action = 2;
-        this->vfunc_96();
+        this->clear_intangible();
         set_field_378(2);
         return;
     case 3:
@@ -1184,7 +1184,7 @@ void TObjEneRecon__sub_8031F408(void *ene_dd, s32 arg1) {
     case 4:
         *(s32 *)((s8 *)ene_dd + 0x40C) = (*(s32 *)((s8 *)ene_dd + 0x40C) & 0xFFFFFFFE);
         ((TObjEneDD *)ene_dd)->requested_action = 3;
-        ((TObjEneDD *)ene_dd)->vfunc_96();
+        ((TObjEneDD *)ene_dd)->clear_intangible();
         ((TObjEneDD *)ene_dd)->set_field_378(5);
         break;
     case 3:
@@ -1206,7 +1206,7 @@ void TObjEneRecon::handle_death_state(s32 arg1) {
         ((TObjPlayer *)this)->refresh_lobby_state();
         *(s32 *)&this->m_428 = (s32) (*(s32 *)&this->m_428 | 1);
         TObjEneRecobox__sub_8031F1A8(this);
-        this->vfunc_95();
+        this->set_intangible();
         return;
     case 3:
         if ((s32) *(s32 *)((s8 *)this + 0x410) == 0) {

@@ -128,7 +128,7 @@ void TBoss2Mine::init(s32 variant) {
     this->set_state_flag_2();
     this->movementParameters = &boss2_mine_movement[variant];
     this->m_37c = 3.0f;
-    this->vfunc_95();
+    this->set_intangible();
     this->mine_flags = 0;
     this->target_pos.x = 0.0f;
     this->target_pos.y = 0.0f;
@@ -166,17 +166,17 @@ void TBoss2Mine::run_task() {
         run_demo_task();
         return;
     }
-    vfunc_83();
-    if (vfunc_86() == 0) {
+    update_status_effects();
+    if (has_action_state_changed() == 0) {
         dispatch_action(mode, 3);
     }
     dispatch_action(mode, 0);
     sub_800BBA0C();
     if (!(mine_flags & 1)) {
         save_position();
-        vfunc_88();
+        update_body_colliders();
         submit_default_cursor_candidate();
-        vfunc_100();
+        render_minimap_dot();
     }
     refresh_collision_body_centers();
 }
@@ -198,7 +198,7 @@ void TBoss2Mine::save_position() { VecCopy(&center, &body_center); }
 void TBoss2Mine::update_move_flag() {
     position.x = body_center.x;
     position.z = body_center.z;
-    if (vfunc_102() == 0) {
+    if (update_ground_contact() == 0) {
         mine_flags &= ~2;
         return;
     }
@@ -307,7 +307,7 @@ void TBoss2Mine::state_hidden(s32 reason) {
 
     switch (reason) {
     case 4:
-        vfunc_95();
+        set_intangible();
         mine_flags |= 1;
         mine_flags &= ~6;
         return;
@@ -331,7 +331,7 @@ void TBoss2Mine::state_explode(s32 reason) {
     TBoss2MineCollisionDesc hit;
     switch (reason) {
     case 4:
-        vfunc_96();
+        clear_intangible();
         mine_flags &= ~7;
         flash_level = 0;
         step = 0;
@@ -361,7 +361,7 @@ void TBoss2Mine::state_explode(s32 reason) {
 void TBoss2Mine::state_destroyed(s32 reason) {
     switch (reason) {
     case 4:
-        vfunc_96();
+        clear_intangible();
         mine_flags &= ~7;
         return;
     case 3:
@@ -436,7 +436,7 @@ TUnk_80482EC0::TUnk_80482EC0(TObject *parent, u16 entity_id, s32 set_index)
 
 TUnk_80482EC0::~TUnk_80482EC0() {}
 
-void TUnk_80482EC0::vfunc_88() {
+void TUnk_80482EC0::update_body_colliders() {
     bodies->offset.y = 5.0f + (body_center.y - position.y);
 }
 
@@ -459,7 +459,7 @@ void TUnk_80482EC0::state_launch(s32 reason) {
     s32 angle;
     switch (reason) {
     case 4:
-        vfunc_95();
+        set_intangible();
         mine_flags &= ~7;
         VecCopy(&throw_dir, &target_pos);
         subtract_vector(&throw_dir, &body_center);
@@ -512,7 +512,7 @@ void TUnk_80482EC0::state_armed(s32 reason) {
     s32 extra;
     switch (reason) {
     case 4:
-        vfunc_96();
+        clear_intangible();
         mine_flags &= ~5;
         mine_flags |= 2;
         rotation_x = 0x8000;
@@ -573,7 +573,7 @@ TUnk_80482D04::TUnk_80482D04(TObject *parent, u16 entity_id, s32 set_index)
 
 TUnk_80482D04::~TUnk_80482D04() {}
 
-void TUnk_80482D04::vfunc_88() {
+void TUnk_80482D04::update_body_colliders() {
     bodies->offset.y = 1.0f + (body_center.y - position.y);
 }
 
@@ -625,7 +625,7 @@ void TUnk_80482D04::state_launch(s32 reason) {
     f32 t;
     switch (reason) {
     case 4:
-        vfunc_95();
+        set_intangible();
         mine_flags &= ~7;
         spike_angle = 0;
         rotation_x = 0x4000;
@@ -705,7 +705,7 @@ void TUnk_80482D04::state_armed(s32 reason) {
     f32 s;
     switch (reason) {
     case 4:
-        vfunc_96();
+        clear_intangible();
         mine_flags &= ~5;
         mine_flags |= 2;
         rotation_x = 0;
@@ -748,7 +748,7 @@ void TUnk_80482D04::state_armed(s32 reason) {
         update_pulse_state();
         position.x = body_center.x;
         position.z = body_center.z;
-        vfunc_89();
+        check_collisions();
         body_center.x = position.x;
         body_center.z = position.z;
         update_move_flag();

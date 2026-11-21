@@ -55,8 +55,8 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     virtual void vfunc_62();
     virtual void vfunc_63();
     virtual void dispatch_action(u32 state, s32 reason);
-    virtual void vfunc_88();           // refreshes the colliders from the body's offsets
-    virtual void vfunc_93();
+    virtual void update_body_colliders();           // refreshes the colliders from the body's offsets
+    virtual void enable_body_collision();
     virtual int vfunc_105();
     virtual void render_body();
     static TBoss2DeRolLe *get_instance();

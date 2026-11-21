@@ -385,12 +385,12 @@ void TObjEneMe3Shinowa::run_task() {
         update_mirage();
         return;
     }
-    if (vfunc_83() != 4) {
-        vfunc_85();
+    if (update_status_effects() != 4) {
+        update_action_state();
     }
     copy_position_vector();
     submit_default_cursor_candidate();
-    vfunc_100();
+    render_minimap_dot();
 }
 
 void TObjEneMe3Shinowa::vfunc_28() {  }
@@ -415,7 +415,7 @@ void TObjEneMe3Shinowa::vfunc_61() {  }
 
 void TObjEneMe3Shinowa::copy_position_vector() { VecCopy(&center, &body_center); }
 
-void TObjEneMe3Shinowa::vfunc_88() {
+void TObjEneMe3Shinowa::update_body_colliders() {
     bodies->offset.y = m_3cc + (body_center.y - position.y);
 }
 
@@ -570,14 +570,14 @@ void TObjEneMe3Shinowa::apply_effect_pair() {
 void TObjEneMe3ShinowaMirage::update_by_distance() {
     f32 lim = 30.0f;
     if ((m_3c8 - position.y) > lim) {
-        vfunc_97();
+        set_colliders_contact_high();
         return;
     }
-    vfunc_98();
+    set_colliders_contact_low();
 }
 
-void TObjEneMe3Shinowa::vfunc_89() {
-    vfunc_88();
+void TObjEneMe3Shinowa::check_collisions() {
+    update_body_colliders();
     check_object_collisions();
     check_enemy_body_collisions(this);
 }
@@ -671,7 +671,7 @@ void TObjEneMe3Shinowa::action(s32 arg1) {
     case 4:
         requested_action = 1;
         set_field_378(1);
-        vfunc_95();
+        set_intangible();
         m_3c4 |= 2;
         m_3c4 &= 0xFFFFFFFE;
         if (TObjEneDD::check_v2_mode() != 0) {
@@ -697,7 +697,7 @@ void TObjEneMe3Shinowa::action(s32 arg1) {
         m_404 += 1;
         if (m_404 == 1) {
             m_3c8 = position.y;
-            vfunc_102();
+            update_ground_contact();
             m_3cc = m_3c8 - position.y;
         }
         break;
@@ -711,7 +711,7 @@ void TObjEneMe3Shinowa::sub_800E6BB8(s32 arg1) {
     case 4:
         requested_action = 1;
         set_field_378(0);
-        vfunc_95();
+        set_intangible();
         m_3c4 &= 0xFFFFFFFC;
         m_3e8.start_fade_in();
         VecCopy(&pos, &position);
@@ -736,7 +736,7 @@ void TObjEneMe3ShinowaMirage__sub_800E69F0(TObjEneMe3Shinowa *shinowa, s32 arg1)
     case 4:
         shinowa->requested_action = 0;
         shinowa->set_field_378(3);
-        shinowa->vfunc_95();
+        shinowa->set_intangible();
         shinowa->m_3c4 &= 0xFFFFFFFC;
         shinowa->m_404 = 0;
         shinowa->m_408 = 0;
@@ -774,9 +774,9 @@ void TObjEneMe3ShinowaMirage__sub_800E69F0(TObjEneMe3Shinowa *shinowa, s32 arg1)
                 }
             }
         }
-        shinowa->vfunc_102();
+        shinowa->update_ground_contact();
         ((TObjEneMe3ShinowaMirage *)shinowa)->update_by_distance();
-        shinowa->vfunc_89();
+        shinowa->check_collisions();
         shinowa->m_3cc = shinowa->m_3c8 - shinowa->position.y;
         return;
     case 5:
@@ -797,7 +797,7 @@ void TObjEneMe3ShinowaMirage__sub_800E66FC(TObjEneMe3Shinowa *shinowa, s32 arg1)
     case 4:
         shinowa->requested_action = 1;
         shinowa->set_field_378(0xB);
-        shinowa->vfunc_96();
+        shinowa->clear_intangible();
         shinowa->m_3c4 &= 0xFFFFFFFD;
         shinowa->m_3c4 |= 1;
         shinowa->m_404 = 0;
@@ -857,9 +857,9 @@ void TObjEneMe3ShinowaMirage__sub_800E66FC(TObjEneMe3Shinowa *shinowa, s32 arg1)
             shinowa->advance_animation();
             break;
         }
-        shinowa->vfunc_102();
+        shinowa->update_ground_contact();
         ((TObjEneMe3ShinowaMirage *)shinowa)->update_by_distance();
-        shinowa->vfunc_89();
+        shinowa->check_collisions();
         shinowa->m_3cc = shinowa->m_3c8 - shinowa->position.y;
         return;
     case 5:
@@ -875,7 +875,7 @@ void TObjEneMe3ShinowaMirage::state_chase_target(s32 arg1) {
     case 4:
         requested_action = 9;
         set_field_378(4);
-        vfunc_96();
+        clear_intangible();
         m_3c4 &= 0xFFFFFFFC;
         m_3ac = 300.0f;
         if (m_3c4 & 0x10) {
@@ -905,11 +905,11 @@ void TObjEneMe3ShinowaMirage::state_chase_target(s32 arg1) {
             m_414 = (f32) ((m_3a0.x * sin_table_lookup(rotation_y)) + (m_3a0.z * cos_table_lookup(rotation_y)));
             if (m_414 < cos_table_lookup(0x1000)) {
                 turn_toward_target_direction(0x500);
-                vfunc_102();
+                update_ground_contact();
             } else {
                 enemy_turn_and_move_on_ground((u8 *)this, 0x500, m_410);
             }
-            vfunc_89();
+            check_collisions();
         }
         break;
     }
@@ -926,7 +926,7 @@ void TObjEneMe3ShinowaMirage__sub_800E5F64(TObjEneMe3Shinowa *shinowa, s32 arg1)
     case 4:
         shinowa->requested_action = 5;
         shinowa->set_field_378(4);
-        shinowa->vfunc_96();
+        shinowa->clear_intangible();
         shinowa->m_3c4 &= ~3;
         shinowa->m_3c4 |= 0x10000;
         shinowa->m_404 = 0;
@@ -936,7 +936,7 @@ void TObjEneMe3ShinowaMirage__sub_800E5F64(TObjEneMe3Shinowa *shinowa, s32 arg1)
         break;
     case 3:
         if (shinowa->m_404 == 5 || ((int)shinowa->get_flag_b4()) != 0) {
-            if (shinowa->vfunc_102() == 0U) {
+            if (shinowa->update_ground_contact() == 0U) {
                 shinowa->transition_enemy_state(9);
             } else {
                 shinowa->transition_enemy_state(4);
@@ -950,8 +950,8 @@ void TObjEneMe3ShinowaMirage__sub_800E5F64(TObjEneMe3Shinowa *shinowa, s32 arg1)
             if (shinowa->motion_flags & 8) {
                 shinowa->m_404 = 1;
             }
-            shinowa->vfunc_102();
-            shinowa->vfunc_89();
+            shinowa->update_ground_contact();
+            shinowa->check_collisions();
             break;
         case 1:
             shinowa->advance_animation();
@@ -966,8 +966,8 @@ void TObjEneMe3ShinowaMirage__sub_800E5F64(TObjEneMe3Shinowa *shinowa, s32 arg1)
             if (shinowa->is_passing_frame(10.0f) != 0) {
                 shinowa->m_404 = 2;
             }
-            shinowa->vfunc_102();
-            shinowa->vfunc_89();
+            shinowa->update_ground_contact();
+            shinowa->check_collisions();
             break;
         case 2:
             shinowa->advance_animation();
@@ -987,26 +987,26 @@ void TObjEneMe3ShinowaMirage__sub_800E5F64(TObjEneMe3Shinowa *shinowa, s32 arg1)
                     if (csnVecterUnder((saddr)&v, 0x15) != 0U) {
                         shinowa->m_404 = 3;
                         shinowa->m_414 = (shinowa->m_3ac - 20.0f) / 12.857143f;
-                        shinowa->vfunc_91();
+                        shinowa->set_invulnerable();
                         play_sound_effect(shinowa->remap_sound_for_area(0x4003AD11), &shinowa->position, 0, 0);
                     } else {
                         shinowa->m_404 = 5;
                     }
                 }
             }
-            shinowa->vfunc_102();
-            shinowa->vfunc_89();
+            shinowa->update_ground_contact();
+            shinowa->check_collisions();
             break;
         case 3:
             shinowa->advance_animation();
             if (shinowa->frame + shinowa->play_speed >= 23.0f) {
                 shinowa->m_404 = 4;
-                shinowa->vfunc_92();
+                shinowa->clear_invulnerable();
                 play_sound_effect(shinowa->remap_sound_for_area(0x4003AD12), &shinowa->position, 0, 0);
                 spawn_particle_effect(&shinowa->position, 0xF3);
             }
             shinowa->move_with_wall_slide_commit(shinowa->m_3a0.x, shinowa->m_3a0.z, shinowa->m_414);
-            shinowa->vfunc_88();
+            shinowa->update_body_colliders();
             break;
         case 4:
             shinowa->advance_animation();
@@ -1021,7 +1021,7 @@ void TObjEneMe3ShinowaMirage__sub_800E5F64(TObjEneMe3Shinowa *shinowa, s32 arg1)
             }
             shinowa->m_414 *= 0.85f;
             shinowa->move_with_wall_slide_on_ground(shinowa->m_3a0.x, shinowa->m_3a0.z, shinowa->m_414);
-            shinowa->vfunc_89();
+            shinowa->check_collisions();
             break;
         }
         if (shinowa->m_404 != 0) {
@@ -1040,7 +1040,7 @@ void TObjEneMe3ShinowaMirage__sub_800E5F64(TObjEneMe3Shinowa *shinowa, s32 arg1)
     case 5:
         shinowa->m_3c8 = shinowa->position.y;
         shinowa->m_3cc = 0.0f;
-        shinowa->vfunc_92();
+        shinowa->clear_invulnerable();
         shinowa->clear_field_388();
         break;
     }
@@ -1053,7 +1053,7 @@ void TObjEneMe3ShinowaMirage__sub_800E5CE4(TObjEneMe3Shinowa *shinowa, s32 arg1)
     case 4:
         shinowa->requested_action = 6;
         shinowa->set_field_378(6);
-        shinowa->vfunc_96();
+        shinowa->clear_intangible();
         shinowa->m_3c4 &= ~3;
         shinowa->m_3c4 |= 0x10000;
         shinowa->m_404 = 0;
@@ -1090,7 +1090,7 @@ void TObjEneMe3ShinowaMirage__sub_800E5CE4(TObjEneMe3Shinowa *shinowa, s32 arg1)
                 info = TObjEneMe3ShinowaMirage__mirage_info_table[shinowa->m_3c0];
                 ((TObjEneDD *)shinowa)->move_to_shot_position(shinowa->m_3a0.x, shinowa->m_3a0.z, info->m_8);
             } else {
-                shinowa->vfunc_102();
+                shinowa->update_ground_contact();
             }
             if (shinowa->frame >= 25.0f) {
                 shinowa->frame = 25.0f;
@@ -1102,10 +1102,10 @@ void TObjEneMe3ShinowaMirage__sub_800E5CE4(TObjEneMe3Shinowa *shinowa, s32 arg1)
             if (shinowa->m_408 <= TObjEneMe3ShinowaMirage__mirage_info_table[shinowa->m_3c0]->m_20) {
                 shinowa->frame = 25.0f;
             }
-            shinowa->vfunc_102();
+            shinowa->update_ground_contact();
             break;
         }
-        shinowa->vfunc_89();
+        shinowa->check_collisions();
         break;
     }
 }
@@ -1115,7 +1115,7 @@ void TObjEneMe3ShinowaReal__sub_800E5950(TObjEneMe3Shinowa *shinowa, s32 arg1) {
     case 4:
         shinowa->requested_action = 2;
         shinowa->set_field_378(7);
-        shinowa->vfunc_96();
+        shinowa->clear_intangible();
         shinowa->m_3c4 &= ~3;
         shinowa->m_3d8 = 0;
         shinowa->m_404 = 3;
@@ -1156,33 +1156,33 @@ void TObjEneMe3ShinowaReal__sub_800E5950(TObjEneMe3Shinowa *shinowa, s32 arg1) {
             shinowa->rotation_y = approach_angle_limited(shinowa->rotation_y, shinowa->m_40c, 0x31C7);
             if (shinowa->frame + shinowa->play_speed >= 15.0f) {
                 shinowa->m_404 = 1;
-                shinowa->vfunc_91();
+                shinowa->set_invulnerable();
                 play_sound_effect(shinowa->remap_sound_for_area(0x4003AD11), &shinowa->position, 0, 0);
             }
-            shinowa->vfunc_102();
-            shinowa->vfunc_89();
+            shinowa->update_ground_contact();
+            shinowa->check_collisions();
             return;
         case 1:
             if (shinowa->frame + shinowa->play_speed >= 24.0f) {
                 shinowa->m_404 = 2;
-                shinowa->vfunc_92();
+                shinowa->clear_invulnerable();
                 play_sound_effect(shinowa->remap_sound_for_area(0x4003AD12), &shinowa->position, 0, 0);
                 spawn_particle_effect(&shinowa->position, 0xF3);
             }
             shinowa->move_clamped_on_ground(shinowa->m_3a0.x, shinowa->m_3a0.z, shinowa->m_410);
-            shinowa->vfunc_88();
+            shinowa->update_body_colliders();
             return;
         case 2:
             if (shinowa->get_flag_b4() != 0) {
                 shinowa->m_404 = 3;
             }
-            shinowa->vfunc_102();
-            shinowa->vfunc_89();
+            shinowa->update_ground_contact();
+            shinowa->check_collisions();
             return;
         }
         break;
     case 5:
-        shinowa->vfunc_92();
+        shinowa->clear_invulnerable();
         shinowa->clear_field_388();
         break;
     }
@@ -1199,8 +1199,8 @@ void TObjEneMe3ShinowaMirage__sub_800E54E8(TObjEneMe3Shinowa *shinowa, s32 arg1)
     switch (arg1) {
     case 4: {
         shinowa->m_3c4 &= ~3;
-        shinowa->vfunc_96();
-        shinowa->vfunc_94();
+        shinowa->clear_intangible();
+        shinowa->disable_body_collision();
         shinowa->m_404 = 0;
         shinowa->m_408 = 0;
         shinowa->m_410 = 1.0f;
@@ -1296,10 +1296,10 @@ void TObjEneMe3ShinowaMirage__sub_800E54E8(TObjEneMe3Shinowa *shinowa, s32 arg1)
                 shinowa->m_428->set_position(&shinowa->position);
             }
         }
-        shinowa->vfunc_88();
+        shinowa->update_body_colliders();
         break;
     case 5:
-        shinowa->vfunc_93();
+        shinowa->enable_body_collision();
         shinowa->m_37c = 10.0f;
         if (shinowa->m_424 != NULL) {
             shinowa->m_424->queue_destruction();
@@ -1319,7 +1319,7 @@ void TObjEneMe3ShinowaMirage::state_cast_support(s32 arg1) {
     case 4:
         requested_action = 7;
         set_field_378(0xA);
-        vfunc_96();
+        clear_intangible();
         m_3c4 &= ~3;
         m_404 = 0;
         m_408 = 0;
@@ -1359,7 +1359,7 @@ void TObjEneMe3ShinowaMirage::state_cast_support(s32 arg1) {
             }
             break;
         }
-        vfunc_102();
+        update_ground_contact();
         break;
     }
 }
@@ -1370,7 +1370,7 @@ void TObjEneMe3ShinowaMirage__sub_800E5220(TObjEneMe3Shinowa *shinowa, s32 arg1)
         shinowa->requested_action = 8;
         shinowa->set_field_378(0xB);
         shinowa->m_3c4 &= ~3;
-        shinowa->vfunc_95();
+        shinowa->set_intangible();
         shinowa->m_3d8 = 0;
         shinowa->m_404 = 0;
         return;
@@ -1384,7 +1384,7 @@ void TObjEneMe3ShinowaMirage__sub_800E5220(TObjEneMe3Shinowa *shinowa, s32 arg1)
     case 0:
         shinowa->m_404++;
         shinowa->advance_animation();
-        shinowa->vfunc_102();
+        shinowa->update_ground_contact();
         break;
     case 5:
         break;
@@ -1397,7 +1397,7 @@ void TObjEneMe3ShinowaMirage__sub_800E50D8(TObjEneMe3Shinowa *shinowa, s32 arg1)
     case 4:
         shinowa->requested_action = 7;
         shinowa->set_field_378(4);
-        shinowa->vfunc_95();
+        shinowa->set_intangible();
         shinowa->m_3c4 &= ~3;
         flags = shinowa->m_3c4;
         if (flags & 0x80000) {
@@ -1428,7 +1428,7 @@ void TObjEneMe3ShinowaMirage__sub_800E50D8(TObjEneMe3Shinowa *shinowa, s32 arg1)
             }
             break;
         }
-        shinowa->vfunc_102();
+        shinowa->update_ground_contact();
         break;
     }
 }
@@ -1454,7 +1454,7 @@ void TObjEneMe3ShinowaMirage__sub_800E4FE8(TObjEneMe3Shinowa *shinowa, s32 arg1)
         shinowa->move_clamped_on_ground(dir.x, dir.z, len);
         shinowa->x_speed *= 0.8f;
         shinowa->m_310 *= 0.8f;
-        shinowa->vfunc_89();
+        shinowa->check_collisions();
         break;
     case 5:
         shinowa->clear_attack_receipts();
@@ -1471,7 +1471,7 @@ void TObjEneMe3ShinowaMirage::state_break_apart(s32 arg1) {
     case 4:
         requested_action = 4;
         refresh_and_send_entity_flags();
-        vfunc_94();
+        disable_body_collision();
         m_3c4 &= ~3;
         m_404 = 0;
         break;
@@ -1507,7 +1507,7 @@ void TObjEneMe3ShinowaMirage::state_break_apart(s32 arg1) {
                 ((TObjPlayer *)&pos)->trigger_dell_biter_events();
                 play_sound_effect(remap_sound_for_area(0x4003AD16), &position, 0, 0);
             }
-            vfunc_102();
+            update_ground_contact();
             break;
         case 2:
             queue_destruction();
@@ -1754,7 +1754,7 @@ void TObjEneMe3ShinowaReal::vfunc_114(s32 arg1) {
     case 4:
         requested_action = 7;
         set_field_378(0xE);
-        vfunc_96();
+        clear_intangible();
         m_3c4 &= ~3;
         m_424 = NULL;
         break;
@@ -1762,7 +1762,7 @@ void TObjEneMe3ShinowaReal::vfunc_114(s32 arg1) {
         if (get_flag_b4() != 0) {
             m_3b8 = m_3bc;
             i = 0;
-            if (vfunc_99() != 0 || is_player_entity_id(m_38c) != 0) {
+            if (is_confused() != 0 || is_player_entity_id(m_38c) != 0) {
                 if (is_target_unobstructed_from(this, m_390) != 0) {
                     i = 1;
                 }
@@ -1803,8 +1803,8 @@ void TObjEneMe3ShinowaReal::vfunc_114(s32 arg1) {
                 m_424->set_position(&pos);
             }
         }
-        vfunc_102();
-        vfunc_89();
+        update_ground_contact();
+        check_collisions();
         break;
     case 5:
         if (m_424 != NULL) {
@@ -1823,7 +1823,7 @@ void TObjEneMe3ShinowaReal::vfunc_116(s32 arg1) {
     case 4:
         requested_action = 7;
         set_field_378(0x10);
-        vfunc_96();
+        clear_intangible();
         m_3c4 &= ~2;
         m_3c4 |= 1;
         m_404 = 0;
@@ -1878,8 +1878,8 @@ void TObjEneMe3ShinowaReal::vfunc_116(s32 arg1) {
             }
             break;
         }
-        vfunc_102();
-        vfunc_89();
+        update_ground_contact();
+        check_collisions();
         return;
     case 5:
         emitter = m_424;
@@ -1988,12 +1988,12 @@ void TObjEneMe3ShinowaMirage::init_mirage() { transition_enemy_state(15); }
 
 void TObjEneMe3ShinowaMirage::set_flag_0x100() {
     m_3c4 |= 0x100;
-    vfunc_94();
+    disable_body_collision();
 }
 
 void TObjEneMe3ShinowaMirage::clear_mirage() {
     m_3c4 &= ~0x100;
-    vfunc_93();
+    enable_body_collision();
 }
 
 s32 TObjEneMe3ShinowaMirage::update_effect() {
@@ -2021,7 +2021,7 @@ void TObjEneMe3ShinowaMirage::vfunc_115(s32 arg1) {
     case 4:
         m_3c4 &= ~3;
         m_3c4 |= 0x200;
-        vfunc_94();
+        disable_body_collision();
         m_430.a = 0.0f;
         return;
     case 3:
@@ -2037,7 +2037,7 @@ void TObjEneMe3ShinowaMirage::vfunc_115(s32 arg1) {
         return;
     case 0:
         m_430.a -= 0.1f;
-        vfunc_102();
+        update_ground_contact();
         break;
     }
 }

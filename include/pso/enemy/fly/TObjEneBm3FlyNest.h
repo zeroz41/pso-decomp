@@ -31,7 +31,7 @@ struct TObjEneBm3FlyNest : public TObjEneDD {
     virtual void vfunc_62();
     virtual void vfunc_63();
     virtual void dispatch_action(u32 state, s32 reason);
-    virtual void vfunc_88();
+    virtual void update_body_colliders();
     // Slot 104, the first one TObjEneDD leaves to its subclasses; run_task calls it in demo mode.
     virtual void init();
     virtual void render_with_state_debug();

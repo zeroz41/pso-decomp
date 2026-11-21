@@ -11,7 +11,7 @@ public:
     virtual void state_armed(s32 reason);
     void move_mine();
     void init_launch(Vec *pos, TObjBase *owner, s32 slot);
-    virtual void vfunc_88();
+    virtual void update_body_colliders();
     // Set by init_launch and followed by move_mine (names inferred):
     TObjBase *owner;     // the object the mine rides on
     s32 slot;           // its launch slot, 0-2

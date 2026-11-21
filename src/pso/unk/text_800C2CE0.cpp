@@ -130,7 +130,7 @@ void TObjEneDD::state_damaged(s32 arg1) {
     switch (arg1) {
     case 4:
         F(s16, 0xB8) = 4;
-        this->vfunc_96();
+        this->clear_intangible();
         ((TObjEneRe2Flower *)arg0)->clear_child_flags();
         F(s32, 0x3C4) &= ~8;
         TBoss8Dragon__sub_800BB7D4(arg0, 0xF2);
@@ -152,8 +152,8 @@ void TObjEneDD::state_damaged(s32 arg1) {
         break;
     case 0:
         advance_animation();
-        this->vfunc_102();
-        this->vfunc_88();
+        this->update_ground_contact();
+        this->update_body_colliders();
         ((TObjEneDD *)arg0)->noop();
         break;
     case 5:

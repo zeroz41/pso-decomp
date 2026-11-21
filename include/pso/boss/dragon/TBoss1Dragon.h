@@ -55,7 +55,7 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     void request_state_change(u32 state);
     virtual void dispatch_action(u32 state, s32 reason);
     virtual void run_task();
-    virtual void vfunc_88();
+    virtual void update_body_colliders();
     virtual void render();
     virtual void render_shadows();
     virtual int vfunc_105();

@@ -1764,7 +1764,7 @@ void TBoss8Dragon::run_task() {
         }
     }
     ((TObjEneDD *)arg0)->sub_800BBA0C();
-    this->vfunc_88();
+    this->update_body_colliders();
     ((TBoss8Dragon *)arg0)->store_position();
     ((TObjEnemy *)arg0)->submit_default_cursor_candidate();
     add_radar_scaled_marker(&this->position, -0x5DB4, 1, 1, 2.0f);
@@ -1866,7 +1866,7 @@ void TBoss8Dragon::store_position() {
     ((s32 (*)(s32, s32))VecCopy__FP3VecPC3Vec)(arg0 + 0x74, arg0 + 0x2FC);
 }
 
-void TBoss8Dragon::vfunc_88() {
+void TBoss8Dragon::update_body_colliders() {
     Vec pts[7];
     Vec *p;
     s32 i;
@@ -2917,7 +2917,7 @@ void TBoss8Dragon::sub_802FA16C(s32 arg1) {
     switch (arg1) {
     case 4:
         this->requested_action = 1;
-        this->vfunc_96();
+        this->clear_intangible();
         this->reset_timer();
         this->set_active_flag();
         this->m_3c0 = (s32) (this->m_3c0 & ~0x36);
@@ -2987,7 +2987,7 @@ void TBoss8Dragon::state_breath_attack(s32 arg1) {
     switch (arg1) {
     case 4:
         F(s16, 0xB8) = 4;
-        this->vfunc_96();
+        this->clear_intangible();
         this->reset_timer();
         this->set_active_flag();
         F(s32, 0x3C0) &= ~0x36;
@@ -3127,7 +3127,7 @@ void TBoss8Dragon::handle_tail_attack_state(s32 arg1) {
     switch (arg1) {
     case 4:
         this->requested_action = 7;
-        this->vfunc_96();
+        this->clear_intangible();
         this->reset_timer();
         this->set_active_flag();
         *(s32 *)((s8 *)this + 0x3C0) &= ~0x34;
@@ -3215,7 +3215,7 @@ void TBoss8Dragon::sub_802F9850(s32 arg1) {
     case 4:
         this->requested_action = 0xF;
         this->advance_animation();
-        this->vfunc_96();
+        this->clear_intangible();
         this->reset_timer();
         this->set_active_flag();
         *(s32 *)((s8 *)((u8 *)this) + 0x3C0) = (s32) (*(s32 *)((s8 *)((u8 *)this) + 0x3C0) & ~0x36);
@@ -3506,7 +3506,7 @@ void TBoss8Dragon::sub_802F89F8(s32 event) {
     switch (event) {
     case 4:
         this->requested_action = 0x19;
-        this->vfunc_96();
+        this->clear_intangible();
         this->set_state();
         this->activate_attack();
         this->m_3c0 |= 0x30;
@@ -3799,7 +3799,7 @@ void TBoss8Dragon::sub_802F8270(s32 arg1) {
     switch (arg1) {
     case 4:
         this->requested_action = 8;
-        this->vfunc_96();
+        this->clear_intangible();
         this->reset_timer();
         this->set_active_flag();
         *(s32 *)((s8 *)this + 0x3C0) = (s32) (*(s32 *)((s8 *)this + 0x3C0) | 0x16);
@@ -3888,12 +3888,12 @@ void TBoss8Dragon::sub_802F8150(s32 arg1) {
     switch (arg1) {
     case 4:
         this->requested_action = 2;
-        this->vfunc_95();
+        this->set_intangible();
         this->reset_timer();
         this->set_active_flag();
         *(s32 *)((s8 *)this + 0x3C0) = (s32) (*(s32 *)((s8 *)this + 0x3C0) | 0x30);
         *(s32 *)((s8 *)this + 0x3C0) = (s32) (*(s32 *)((s8 *)this + 0x3C0) & 0xFFFFFFF9);
-        this->vfunc_91();
+        this->set_invulnerable();
         break;
     case 2:
     case 11:
@@ -3919,7 +3919,7 @@ void TBoss8Dragon::sub_802F8150(s32 arg1) {
         }
         break;
     case 5:
-        this->vfunc_92();
+        this->clear_invulnerable();
         break;
     }
 }
@@ -3929,13 +3929,13 @@ void TBoss8Dragon::state_roar(s32 arg1) {
     switch (arg1) {
     case 4:
         this->requested_action = 0x10;
-        this->vfunc_96();
+        this->clear_intangible();
         this->set_state();
         this->activate_attack();
         this->m_3c0 = (s32) (this->m_3c0 | 0x30);
         this->m_3c0 = (s32) (this->m_3c0 & 0xFFFFFFF9);
         play_cue_stream_file((saddr)"draroar.adx");
-        this->vfunc_91();
+        this->set_invulnerable();
         this->m_84c = 0;
         break;
     case 9:
@@ -3957,7 +3957,7 @@ void TBoss8Dragon::state_roar(s32 arg1) {
         TBoss8Dragon__sub_802FB09C((saddr)this);
         break;
     case 5:
-        this->vfunc_92();
+        this->clear_invulnerable();
         break;
     case 11:
         break;
@@ -4196,13 +4196,13 @@ void TBoss8Dragon::sub_802F75C8(s32 arg1) {
     struct { f32 x, y, z; } sp8;
     switch (arg1) {
     case 4:
-        this->vfunc_96();
+        this->clear_intangible();
         this->set_action_state();
         this->reset_action();
         *(s32 *)((s8 *)this + 0x3C0) = (s32) (*(s32 *)((s8 *)this + 0x3C0) | 0x30);
         *(s32 *)((s8 *)this + 0x3C0) = (s32) (*(s32 *)((s8 *)this + 0x3C0) & 0xFFFFFFF8);
-        this->vfunc_91();
-        this->vfunc_94();
+        this->set_invulnerable();
+        this->disable_body_collision();
         *(s32 *)((s8 *)this + 0x84C) = 0;
         *(s32 *)((s8 *)this + 0x850) = 0;
         *(f32 *)((s8 *)this + 0x868) = this->calc_step_value();
@@ -4247,8 +4247,8 @@ void TBoss8Dragon::sub_802F75C8(s32 arg1) {
         ((s32 (*)(void *, int))spawn_trap__12TBoss8DragonFii)(this, 0x4003AD11);
         return;
     case 5:
-        this->vfunc_92();
-        this->vfunc_93();
+        this->clear_invulnerable();
+        this->enable_body_collision();
         break;
     }
 }
@@ -4493,7 +4493,7 @@ void TBoss8Dragon::sub_802F6838(s32 arg1) {
     switch (arg1) {
     case 4: {
         this->requested_action = 0x13;
-        this->vfunc_95();
+        this->set_intangible();
         this->reset_timer();
         this->set_active_flag();
         *(s32 *)((s8 *)this + 0x3C0) |= 0x36;
@@ -4620,7 +4620,7 @@ void TBoss8Dragon::sub_802F6708(s32 arg1) {
 
     switch (arg1) {
     case 4:
-        this->vfunc_95();
+        this->set_intangible();
         this->reset_timer();
         this->set_active_flag();
         *(s32 *)((s8 *)this + 0x3C0) = (s32) (*(s32 *)((s8 *)this + 0x3C0) | 0xB6);
@@ -4660,7 +4660,7 @@ void TBoss8Dragon::sub_802F6618(s32 event) {
     switch (event) {
     case 4:
         this->requested_action = 0x13;
-        this->vfunc_95();
+        this->set_intangible();
         this->reset_timer();
         this->set_active_flag();
         this->m_3c0 |= 0x136;
@@ -4690,7 +4690,7 @@ void TBoss8Dragon::sub_802F645C(s32 arg1) {
     switch (arg1) {
     case 4:
         this->requested_action = 0;
-        this->vfunc_96();
+        this->clear_intangible();
         this->reset_timer();
         this->set_active_flag();
         this->m_3c0 = (s32) (this->m_3c0 & ~0x36);
@@ -4758,7 +4758,7 @@ void TBoss8Dragon::sub_802F610C(s32 arg1) {
     switch (arg1) {
     case 4:
         this->requested_action = 1;
-        this->vfunc_96();
+        this->clear_intangible();
         this->reset_timer();
         this->set_active_flag();
         *(s32 *)((s8 *)this + 0x3C0) &= ~0x36;
@@ -4863,7 +4863,7 @@ void TBoss8Dragon::sub_802F5F64(s32 arg1) {
     switch (arg1) {
     case 4:
         this->requested_action = 0x10;
-        this->vfunc_96();
+        this->clear_intangible();
         this->set_state();
         this->activate_attack();
         this->m_3c0 = (s32) (this->m_3c0 & ~0x36);
@@ -4930,7 +4930,7 @@ void TBoss8Dragon::sub_802F5CC8(s32 arg1) {
     switch (arg1) {
     case 4:
         this->requested_action = 0x10;
-        this->vfunc_96();
+        this->clear_intangible();
         this->set_state();
         this->activate_attack();
         *(s32 *)((s8 *)this + 0x3C0) &= ~0x36;
@@ -5014,13 +5014,13 @@ void TBoss8Dragon::sub_802F5BA0(s32 arg1) {
     u8 *temp_r3;
     switch (arg1) {
     case 4:
-        this->vfunc_96();
+        this->clear_intangible();
         this->set_action_state();
         this->reset_action();
         this->m_3c0 = (s32) (this->m_3c0 | 0x30);
         this->m_3c0 = (s32) (this->m_3c0 & 0xFFFFFFF8);
-        this->vfunc_91();
-        this->vfunc_94();
+        this->set_invulnerable();
+        this->disable_body_collision();
         this->m_84c = 0;
         break;
     case 2:
@@ -5066,13 +5066,13 @@ void TBoss8Dragon::handle_walk_state(s32 arg1) {
     switch (arg1) {
     case 4:
         this->requested_action = 0x11;
-        this->vfunc_96();
+        this->clear_intangible();
         this->set_action_state();
         this->reset_action();
         this->m_3c0 = (s32) (this->m_3c0 | 0x30);
         this->m_3c0 = (s32) (this->m_3c0 & 0xFFFFFFF8);
-        this->vfunc_91();
-        this->vfunc_94();
+        this->set_invulnerable();
+        this->disable_body_collision();
         VecCopy__FP3VecPC3Vec(temp_r30, ((u8 *)this) + 0x38);
         this->m_84c = 0x64;
         this->m_850 = 0;
@@ -5130,13 +5130,13 @@ void TBoss8Dragon::sub_802F57E4(s32 arg1) {
     switch (arg1) {
     case 4:
         this->requested_action = 0x11;
-        this->vfunc_96();
+        this->clear_intangible();
         this->set_action_state();
         this->reset_action();
         *(s32 *)((s8 *)this + 0x3C0) = (s32) (*(s32 *)((s8 *)this + 0x3C0) | 0x30);
         *(s32 *)((s8 *)this + 0x3C0) = (s32) (*(s32 *)((s8 *)this + 0x3C0) & 0xFFFFFFF8);
-        this->vfunc_91();
-        this->vfunc_94();
+        this->set_invulnerable();
+        this->disable_body_collision();
         this->calc_velocity_from_angle();
         return;
     case 2:
@@ -5181,13 +5181,13 @@ void TBoss8Dragon::sub_802F5644(s32 arg1) {
     switch (arg1) {
     case 4:
         this->requested_action = 0x11;
-        this->vfunc_96();
+        this->clear_intangible();
         this->set_action_state();
         this->reset_action();
         this->m_3c0 = (s32) (this->m_3c0 | 0x30);
         this->m_3c0 = (s32) (this->m_3c0 & 0xFFFFFFF8);
-        this->vfunc_91();
-        this->vfunc_94();
+        this->set_invulnerable();
+        this->disable_body_collision();
         *(f32 *)((s8 *)this + 0x864) = 0.0f;
         *(f32 *)((s8 *)this + 0x3A0) = (f32) -*(f32 *)((s8 *)this + 0x38);
         this->m_3a4 = 0.0f;
@@ -5230,7 +5230,7 @@ void TBoss8Dragon::sub_802F5434(s32 arg1) {
     switch (arg1) {
     case 4:
         this->requested_action = 1;
-        this->vfunc_96();
+        this->clear_intangible();
         this->reset_timer();
         this->set_active_flag();
         this->m_3c0 = (s32) (this->m_3c0 & ~0x36);
@@ -5300,7 +5300,7 @@ void TBoss8Dragon::sub_802F51DC(s32 arg1) {
     switch (arg1) {
     case 4:
         this->requested_action = 1;
-        this->vfunc_96();
+        this->clear_intangible();
         this->reset_timer();
         this->set_active_flag();
         *(s32 *)((s8 *)this + 0x3C0) = (s32) (*(s32 *)((s8 *)this + 0x3C0) & ~0x36);
@@ -5528,13 +5528,13 @@ void TBoss8Dragon::sub_802F4B90(s32 arg1) {
 
     switch (arg1) {
     case 4:
-        this->vfunc_96();
+        this->clear_intangible();
         this->set_action_state();
         this->reset_action();
         *(s32 *)((u8 *)this + 0x3C0) |= 0x30;
         *(s32 *)((u8 *)this + 0x3C0) &= ~7;
-        this->vfunc_91();
-        this->vfunc_94();
+        this->set_invulnerable();
+        this->disable_body_collision();
         break;
     case 2:
     case 11:
@@ -5555,8 +5555,8 @@ void TBoss8Dragon::sub_802F4B90(s32 arg1) {
     }
     case 5:
         ((TBoss8Dragon *)(*(saddr *)(TBoss8Dragon__data_80541DDC[0] + 0x28)))->place_parts_in_ring(*(s32 *)(TBoss8Dragon__data_80541DDC[0] + 0x24), *p);
-        this->vfunc_92();
-        this->vfunc_93();
+        this->clear_invulnerable();
+        this->enable_body_collision();
         break;
     }
 }

@@ -10,8 +10,8 @@ struct TObjEneRecon : public TObjEneDD_ST {
     virtual ~TObjEneRecon();
     virtual s32 vfunc_104(f32);
     s32 render_model_if_visible();
-    virtual void vfunc_89();
-    virtual void vfunc_88();
+    virtual void check_collisions();
+    virtual void update_body_colliders();
     virtual void vfunc_105();
     virtual void vfunc_106();
     virtual void dispatch_action(u32 state, s32 reason);

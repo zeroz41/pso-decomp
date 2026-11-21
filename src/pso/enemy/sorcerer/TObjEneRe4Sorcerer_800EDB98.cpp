@@ -161,7 +161,7 @@ void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);
 
 int TObjEneDD__sub_800BA804(u16 arg0);
 
-u32 vfunc_101__9TObjEneDDFPUc();
+u32 move_xz_on_ground__9TObjEneDDFPUc();
 
 
 
@@ -242,43 +242,43 @@ extern void *tl_04;
 
 void vfunc_6__8TObjBaseFPsl();
 
-void vfunc_103__9TObjEneDDFPUc();
+void snap_to_ground_at__9TObjEneDDFPUc();
 
 void vfunc_79__9TObjEneDDFPl();
 
-void vfunc_84__9TObjEneDDFv();
+void update_immobilizing_statuses__9TObjEneDDFv();
 
-void vfunc_85__9TObjEneDDFv();
+void update_action_state__9TObjEneDDFv();
 
-void vfunc_86__9TObjEneDDFv();
+void has_action_state_changed__9TObjEneDDFv();
 
-void vfunc_89__9TObjEneDDFv();
+void check_collisions__9TObjEneDDFv();
 
 void vfunc_90__9TObjEneDDFv();
 
-void vfunc_91__9TObjEneDDFv();
+void set_invulnerable__9TObjEneDDFv();
 
-void vfunc_92__9TObjEneDDFv();
+void clear_invulnerable__9TObjEneDDFv();
 
-void vfunc_93__9TObjEneDDFv();
+void enable_body_collision__9TObjEneDDFv();
 
-void vfunc_94__9TObjEneDDFv();
+void disable_body_collision__9TObjEneDDFv();
 
-void vfunc_95__9TObjEneDDFv();
+void set_intangible__9TObjEneDDFv();
 
-void vfunc_96__9TObjEneDDFv();
+void clear_intangible__9TObjEneDDFv();
 
-void vfunc_97__9TObjEneDDFv();
+void set_colliders_contact_high__9TObjEneDDFv();
 
-void vfunc_98__9TObjEneDDFv();
+void set_colliders_contact_low__9TObjEneDDFv();
 
-void vfunc_99__9TObjEneDDFv();
+void is_confused__9TObjEneDDFv();
 
-void vfunc_100__9TObjEneDDFv();
+void render_minimap_dot__9TObjEneDDFv();
 
 int vfunc_104__12TObjEneDD_STFf(void *p);
 
-void vfunc_83__12TObjEneDD_STFv();
+void update_status_effects__12TObjEneDD_STFv();
 
 void vfunc_29__9TObjCharaFv();
 
@@ -618,11 +618,11 @@ void TObjEneRe4Sorcerer::run_task() {
         vfunc_105();
         return;
     }
-    if (vfunc_83() != 4) {
+    if (update_status_effects() != 4) {
         if (TObjEneDD__sub_800BA804(m_38c) != 0 && find_entity_by_id(m_38c) == NULL) {
             ((TObjEneDD_ST *)(this))->enemy_clear_target();
         }
-        vfunc_85();
+        update_action_state();
         calc_orb_positions();
         m_3c0 += 5;
         m_3c0 = (u8)m_3c0;
@@ -639,7 +639,7 @@ void TObjEneRe4Sorcerer::run_task() {
     }
     update_collision_center();
     submit_default_cursor_candidate();
-    vfunc_100();
+    render_minimap_dot();
 }
 
 void TObjEneRe4Sorcerer::vfunc_28() {  }
@@ -669,22 +669,22 @@ void TObjEneRe4Sorcerer::update_collision_center() {
     VecCopy(&center, &body_center);
 }
 
-void TObjEneRe4Sorcerer::vfunc_88() {
+void TObjEneRe4Sorcerer::update_body_colliders() {
     bodies->offset.y = 22.0f;
 }
 
 void TObjEneRe4Sorcerer__sub_800EFE30(void) {  }
 
-u8 *TObjEneRe4Sorcerer::vfunc_101(u8 *) {
-    if (vfunc_101__9TObjEneDDFPUc() == 0U) {
+u8 *TObjEneRe4Sorcerer::move_xz_on_ground(u8 *) {
+    if (move_xz_on_ground__9TObjEneDDFPUc() == 0U) {
         this->m_3c8 = (s32) (this->m_3c8 & 0xFFFFFFEF);
         return;
     }
     this->m_3c8 = (s32) (this->m_3c8 | 0x10);
 }
 
-u8 *TObjEneRe4Sorcerer::vfunc_102() {
-    if (TObjEneDD::vfunc_102() == 0U) {
+u8 *TObjEneRe4Sorcerer::update_ground_contact() {
+    if (TObjEneDD::update_ground_contact() == 0U) {
         this->m_3c8 = (s32) (this->m_3c8 & 0xFFFFFFEF);
         return;
     }
@@ -704,7 +704,7 @@ s32 TObjEneRe4Sorcerer::select_attack_target(f32 farg0, f32 farg1) {
     int i;
     void *o1;
     void *o2;
-    if (this->vfunc_99() != 0) {
+    if (this->is_confused() != 0) {
         best = farg1;
         id = 0xFFFF;
         o1 = find_entity_by_id(this->bit_ids[0]);
@@ -793,7 +793,7 @@ void TObjEneRe4Sorcerer__sub_800EF95C(TObjEneRe4Sorcerer *self, f32 speed) {
     if (csnVectorUnder(&t, (CsnGroup **)&self->m_120, 0xE0) == 0) {
         VecCopy(&self->position, &out);
     }
-    self->vfunc_102();
+    self->update_ground_contact();
     VecCopy(&self->prev_position, &self->position);
     self->update_collision_center();
     self->rotation_y = self->m_3f0 + 0x8000;
@@ -833,8 +833,8 @@ void TObjEneRe4Sorcerer::advance_anim_frame() {
 
 void TObjEneRe4Sorcerer__sub_800EF844(TObjEneRe4Sorcerer *self) {
     s32 i;
-    self->vfunc_91();
-    self->vfunc_94();
+    self->set_invulnerable();
+    self->disable_body_collision();
     for (i = 0; i < 2; i++) {
         TObjEneRe4Bit *bit = (TObjEneRe4Bit *)find_entity_by_id(self->bit_ids[i]);
         if (bit != NULL) {
@@ -845,8 +845,8 @@ void TObjEneRe4Sorcerer__sub_800EF844(TObjEneRe4Sorcerer *self) {
 
 void TObjEneRe4Sorcerer__sub_800EF7C8(TObjEneRe4Sorcerer *self) {
     s32 i;
-    self->vfunc_92();
-    self->vfunc_93();
+    self->clear_invulnerable();
+    self->enable_body_collision();
     for (i = 0; i < 2; i++) {
         TObjEneRe4Bit *bit = (TObjEneRe4Bit *)find_entity_by_id(self->bit_ids[i]);
         if (bit != NULL) {
@@ -1044,7 +1044,7 @@ void TObjEneRe4Sorcerer__sub_800EEFE4(TObjEneRe4Sorcerer *self, s32 arg1) {
         VecCopy(&self->position, &self->home_position);
         VecCopy(&self->prev_position, &self->home_position);
         VecCopy(&self->body_center, &self->home_position);
-        self->vfunc_95();
+        self->set_intangible();
         return;
     case 3:
         if (self->try_attack(160000.0f, 62500.0f) != 0) {
@@ -1057,7 +1057,7 @@ void TObjEneRe4Sorcerer__sub_800EEFE4(TObjEneRe4Sorcerer *self, s32 arg1) {
     case 5:
         return;
     case 0:
-        self->vfunc_88();
+        self->update_body_colliders();
         break;
     }
 }
@@ -1075,7 +1075,7 @@ s32 TObjEneRe4Sorcerer__sub_800EEDE4(TObjEneRe4Sorcerer *self, s32 arg1) {
         self->requested_action = 7;
         ((TObjEneDD *)self)->set_field_378(3);
         self->m_3c8 |= 0xE;
-        self->vfunc_96();
+        self->clear_intangible();
         TObjEneRe4Sorcerer__sub_800EF844(self);
         self->fade.reset_obstruction_fade();
         for (i = 0; i < 2; i++) {
@@ -1113,10 +1113,10 @@ s32 TObjEneRe4Sorcerer__sub_800EEDE4(TObjEneRe4Sorcerer *self, s32 arg1) {
             if (self->m_3f8 < 1.0f) {
                 self->m_3f8 += 0.2f;
             }
-            self->vfunc_89();
+            self->check_collisions();
             break;
         }
-        self->vfunc_102();
+        self->update_ground_contact();
         TObjEneRe4Sorcerer__sub_800EF214(self);
         break;
     case 5:
@@ -1135,7 +1135,7 @@ s32 TObjEneRe4Sorcerer__sub_800EEC00(TObjEneRe4Sorcerer *self, s32 arg1) {
     switch (arg1) {
     case 4:
         ((TObjEneDD *)self)->set_field_378(3);
-        self->vfunc_96();
+        self->clear_intangible();
         TObjEneRe4Sorcerer__sub_800EF844(self);
         self->m_3c8 |= 2;
         self->m_3c8 &= 0xFFFFFFF7;
@@ -1178,7 +1178,7 @@ s32 TObjEneRe4Sorcerer__sub_800EEC00(TObjEneRe4Sorcerer *self, s32 arg1) {
             self->m_4e4 = self->m_4e4 + 1;
             break;
         }
-        self->vfunc_102();
+        self->update_ground_contact();
         break;
     case 5:
         self->m_3c8 &= 0xFFFFFFFB;
@@ -1193,7 +1193,7 @@ void TObjEneRe4Sorcerer::state_wait(s32 arg1) {
         m_4e4 = 0;
         set_field_378(4);
         m_3c8 &= 0xFFFFFFFD;
-        vfunc_95();
+        set_intangible();
         ((TObjEneDD_ST *)(this))->enemy_clear_target();
         return;
     case 3:
@@ -1309,8 +1309,8 @@ void TObjEneRe4Sorcerer__sub_800EE7DC(TObjEneRe4Sorcerer *self, s32 arg1) {
         case 5:
             break;
         }
-        self->vfunc_89();
-        self->vfunc_88();
+        self->check_collisions();
+        self->update_body_colliders();
         TObjEneRe4Sorcerer__sub_800EF214(self);
         return;
     case 5:
@@ -1332,11 +1332,11 @@ void TObjEneRe4Sorcerer::update_state_machine(s32 reason) {
     switch (reason) {
     case 4:
         set_field_378(6);
-        vfunc_95();
+        set_intangible();
         m_3c8 &= ~2;
         ((TObjEneDD_ST *)(this))->enemy_clear_target();
         init_float_params();
-        if (vfunc_99() != 0) {
+        if (is_confused() != 0) {
             m_4e4 = 3;
         } else {
             m_4e4 = 0;
@@ -1504,8 +1504,8 @@ void TObjEneRe4Sorcerer__sub_800EE1CC(TObjEneRe4Sorcerer *self, s32 arg1) {
         case 5:
             break;
         }
-        self->vfunc_89();
-        self->vfunc_88();
+        self->check_collisions();
+        self->update_body_colliders();
         TObjEneRe4Sorcerer__sub_800EF214(self);
         return;
     case 5:

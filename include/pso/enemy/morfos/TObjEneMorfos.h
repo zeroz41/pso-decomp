@@ -21,7 +21,7 @@ struct TObjEneMorfos : public TObjEneDD_ST {
     virtual void vfunc_63();
     virtual void vfunc_62();
     virtual void vfunc_61();
-    virtual void vfunc_88();
+    virtual void update_body_colliders();
     virtual s32 vfunc_105();
     virtual void vfunc_106();
     virtual void render();

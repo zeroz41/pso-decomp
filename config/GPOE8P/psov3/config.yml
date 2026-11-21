@@ -17416,8 +17416,8 @@ force_active:
   - vfunc_101__14TObjEneDolmOlmFv
   - vfunc_101__15TObjEneDimedianFv
   - vfunc_101__16TObjEneMerillLiaFv
-  - vfunc_101__18TObjEneRe4SorcererFPUc
-  - vfunc_102__18TObjEneRe4SorcererFv
+  - move_xz_on_ground__18TObjEneRe4SorcererFPUc
+  - update_ground_contact__18TObjEneRe4SorcererFv
   - vfunc_104__13TObjEneBm3FlyFf
   - vfunc_104__16TObjEneDellBiterFf
   - vfunc_104__17TObjEneDf2BringerFf
@@ -17689,24 +17689,24 @@ force_active:
   - vfunc_83__18TObjEneRe4SorcererFv
   - vfunc_84__12TOMineIcon04Fv
   - vfunc_84__14TOTrapSeabed01Fv
-  - vfunc_88__12TBoss1DragonFv
-  - vfunc_88__13TBoss5GryphonFv
-  - vfunc_88__13TObjEneBm3FlyFv
-  - vfunc_88__13TObjEneMorfosFv
-  - vfunc_88__13TObjEneRe4BitFv
-  - vfunc_88__14TObjEneBm5WolfFv
-  - vfunc_88__16TObjEneBm5GibonUFv
-  - vfunc_88__16TObjEneDellBiterFv
-  - vfunc_88__16TObjEneRe7BeruraFv
-  - vfunc_88__17TObjEneBm3FlyNestFv
-  - vfunc_88__17TObjEneDf2BringerFv
-  - vfunc_88__18TObjEneEpsilonBodyFv
-  - vfunc_88__18TObjEneRe4SorcererFv
-  - vfunc_88__19TObjEneBm9MericarolFv
-  - vfunc_88__19TObjEneEpsilonGuardFv
-  - vfunc_89__13TObjEneBm3FlyFv
-  - vfunc_89__18TObjEneEpsilonBodyFv
-  - vfunc_89__19TObjEneEpsilonGuardFv
+  - update_body_colliders__12TBoss1DragonFv
+  - update_body_colliders__13TBoss5GryphonFv
+  - update_body_colliders__13TObjEneBm3FlyFv
+  - update_body_colliders__13TObjEneMorfosFv
+  - update_body_colliders__13TObjEneRe4BitFv
+  - update_body_colliders__14TObjEneBm5WolfFv
+  - update_body_colliders__16TObjEneBm5GibonUFv
+  - update_body_colliders__16TObjEneDellBiterFv
+  - update_body_colliders__16TObjEneRe7BeruraFv
+  - update_body_colliders__17TObjEneBm3FlyNestFv
+  - update_body_colliders__17TObjEneDf2BringerFv
+  - update_body_colliders__18TObjEneEpsilonBodyFv
+  - update_body_colliders__18TObjEneRe4SorcererFv
+  - update_body_colliders__19TObjEneBm9MericarolFv
+  - update_body_colliders__19TObjEneEpsilonGuardFv
+  - check_collisions__13TObjEneBm3FlyFv
+  - check_collisions__18TObjEneEpsilonBodyFv
+  - check_collisions__19TObjEneEpsilonGuardFv
   - vfunc_8__10TTecRaFoieFPv
   - vfunc_8__11TTecRaBartaFPv
   - vfunc_8__11TTecRaZondeFPv

@@ -18,7 +18,7 @@ struct TObjEneRe4InitParams {
 struct TObjEneRe4Bit : public TObjEneDD_ST {
     TObjEneRe4Bit(TObject *parent, TObjEneRe4Sorcerer *owner, Vec *anchor, s32 enabled, u16 id, s32 set_index);
     virtual ~TObjEneRe4Bit();
-    virtual void vfunc_88();
+    virtual void update_body_colliders();
     virtual void vfunc_105();
     virtual void vfunc_106();
     virtual void dispatch_action(u32 state, s32 reason);

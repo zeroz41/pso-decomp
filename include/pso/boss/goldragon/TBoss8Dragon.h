@@ -39,7 +39,7 @@ public:
     // Slot 87: runs the current action's handler (one per action, handlers[] in the body).
     virtual void dispatch_action(u32 action, s32 event);
     // Slot 88: moves the seven collider bodies to the model's node positions.
-    virtual void vfunc_88();
+    virtual void update_body_colliders();
     // Slots 105 and 106, the two the dragon adds to TObjEneDD_ST's table.
     virtual int vfunc_105();
     virtual void draw_motion_model();

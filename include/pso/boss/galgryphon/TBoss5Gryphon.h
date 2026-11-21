@@ -65,7 +65,7 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     virtual void vfunc_63();
     virtual void vfunc_62();
     virtual void vfunc_61();
-    virtual void vfunc_88();
+    virtual void update_body_colliders();
     virtual void render_shadows();
     virtual void vfunc_83();
     virtual int vfunc_105();
