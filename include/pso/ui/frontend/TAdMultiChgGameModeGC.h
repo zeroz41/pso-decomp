@@ -47,7 +47,7 @@ public:
     void update_card_confirm_selection();
     void close_windows_and_reopen();
     void close_window_30();
-    static s32 setup_mode_menu(void *arg0, s32 arg1);
+    static void setup_mode_menu(void *arg0, s32 arg1);
     void handle_menu_input();
     void create_back_objects();
     void update_mode_selection();

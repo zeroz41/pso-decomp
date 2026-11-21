@@ -326,7 +326,7 @@ void TAdMultiChgGameModeGC::close_window_30() {
 void close_window__21TAdMultiChgGameModeGCFPv(void* p) { if (*(unsigned int*)((char*)p + 0x34) != 0) { ((TWindowBase *)((void*)(*(void**)((char*)p + 0x34))))->close(); *(int*)((char*)p + 0x34) = 0; } }
 
 #define self ((Self_8036E2AC *)arg0)
-s32 TAdMultiChgGameModeGC::setup_mode_menu(void *arg0, s32 arg1) {
+void TAdMultiChgGameModeGC::setup_mode_menu(void *arg0, s32 arg1) {
     s32 a;
     s32 b;
     s32 c;

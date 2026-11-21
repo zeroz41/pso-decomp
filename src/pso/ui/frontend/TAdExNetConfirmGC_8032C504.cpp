@@ -52,7 +52,7 @@ void TAdExNetConfirmGC::vfunc_7() {
     get_localized_text_entry(0x22, 0);
 }
 
-int TAdExNetConfirmGC::vfunc_6() { TAdMultiChgGameModeGC::request_scene_change(); }
+void TAdExNetConfirmGC::vfunc_6() { TAdMultiChgGameModeGC::request_scene_change(); }
 
 void TAdExNetConfirmGC::run_task() {
     struct VObj_8032C594_8032C504 *o = (struct VObj_8032C594_8032C504 *)this;

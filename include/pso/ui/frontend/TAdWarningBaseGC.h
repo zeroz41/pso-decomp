@@ -7,7 +7,7 @@
 struct TAdWarningBaseGC : public TObject {
     TAdWarningBaseGC(TObject *parent);
     virtual ~TAdWarningBaseGC();
-    virtual int vfunc_6() = 0;
+    virtual void vfunc_6() = 0;
     virtual void vfunc_7() = 0;
     virtual void vfunc_8();
     virtual void vfunc_9();
