@@ -3,6 +3,7 @@
 #include <string.h>
 #include "pso/system/TMCFormatSequence.h"
 #include "pso/system/ControllerInputState.h"
+#include "pso/ui/window/TWindowMessagePage.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -1307,7 +1308,7 @@ struct MCFmt_801F68FC {
 struct Pair_801F68FC { f32 a; f32 b; };
 
 extern "C" {
-s32 is_message_window_ready__18TWindowMessagePageFv();
+
 s32 start_memcard_format(s32, s32, s32, s32, s32);
 }
 
@@ -1381,7 +1382,7 @@ void TMCFormatSequence::update_wait_confirm(void *arg0) {
     s32 (*temp_r12)(void *);
     void *self = arg0;
     arg0 = *(void **)((s8 *)arg0 + 0x34);
-    if (arg0 == NULL || ((is_message_window_ready__18TWindowMessagePageFv() != 0) && (TWindowShortListCtrl__check_controller_button((u8 *)&controller_input_state + 0x20, 4) != 0))) {
+    if (arg0 == NULL || ((((TWindowMessagePage *)arg0)->is_message_window_ready() != 0) && (TWindowShortListCtrl__check_controller_button((u8 *)&controller_input_state + 0x20, 4) != 0))) {
         temp_r12 = *(s32 (**)(void *))((s8 *)self + 0x1C);
         if (temp_r12 != NULL) {
             temp_r12(self);
@@ -1393,7 +1394,7 @@ void TMCFormatSequence::wait_confirm_and_finish(void *arg0) {
     s32 (*temp_r12)(void *);
     void *self = arg0;
     arg0 = *(void **)((s8 *)arg0 + 0x34);
-    if (arg0 == NULL || ((is_message_window_ready__18TWindowMessagePageFv() != 0) && (TWindowShortListCtrl__check_controller_button((u8 *)&controller_input_state + 0x20, 4) != 0))) {
+    if (arg0 == NULL || ((((TWindowMessagePage *)arg0)->is_message_window_ready() != 0) && (TWindowShortListCtrl__check_controller_button((u8 *)&controller_input_state + 0x20, 4) != 0))) {
         temp_r12 = *(s32 (**)(void *))((s8 *)self + 0x20);
         if (temp_r12 != NULL) {
             temp_r12(self);

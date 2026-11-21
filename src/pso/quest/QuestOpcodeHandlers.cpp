@@ -30,6 +30,7 @@ int qst_label_address(int label);
 #include "types.h"
 #include "pso/camera/CreationCamera.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/ui/city/TShopArmorListWindow.h"
 #include "pso/system/date.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
@@ -1094,13 +1095,10 @@ void TLobby__sub_8001DEA8(s32 arg0);
 void bswap__12player_statsFv(void *arg0);
 Ctx_801EA5FC * get_global_state__23TAdSinglePlyChrSelectGCFv();
 s32 setControlOverride__12TBoss1DragonFs(int, void *);
-f32 * get_position_ptr__10TObjPlayerFv();
 int set_camera_capture_overlay_alpha(void*);
 int set_shake_preset__11TCameraCtrlFl(void*);
 int is_quest_active(void);
-s32 reset_battle_camera__11TCameraCtrlFv();
 void TCameraCtrl__sub_8006B3B8(Vec *, Vec *);
-int reset_to_local_player__11TCameraCtrlFv(void*);
 void set_override_position_and_angle__11TCameraCtrlFPUcs(Vec *, int, Vec *, s32 *);
 void set_fixed_position_and_target__11TCameraCtrlFPUcPUc(Vec *, Vec *, Vec *);
 void request_follow_camera_offsets(void *arg0, void *arg1, u16 arg2);
@@ -1132,8 +1130,6 @@ void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 u32 prs_decompress_buffer(s32, s32);
 void *TLobby__sub_800F8498(void *arg0, void *arg1, s32 arg2, s32 arg3, u8 arg4, u8 arg5, u8 arg6, u8 arg7);
 s32 TLobby__sub_801036CC();
-s32 is_script_controlled__10TObjPlayerFv();
-s32 activate_d04_slot__10TObjPlayerFv();
 s32 create_instance__12TItemDropSubFl(int, void *);
 s32 advance_item_id_counter(u16);
 f32 xz_distance_squared(Vec *, Vec *);
@@ -1162,9 +1158,6 @@ s32 sub_801A1DDC__10TObjPlayerFv();
 int clear_quest_state__6TLobbyFv(void*);
 int reset_quest_counter__6TLobbyFv(void*);
 int set_cleanup_flag__6TLobbyFv(void*);
-s32 get_card_window_field_244__10TObjPlayerFv();
-s32 init_local_pad_binding__10TObjPlayerFv();
-s32 stop_force_if_alive__10TObjPlayerFv();
 s32 TObjPlayer__sub_801AF904();
 s32 send_field1c_packet__6TLobbyFl();
 s32 send_font_state__6TLobbyFl();
@@ -1173,9 +1166,7 @@ void TLobby__sub_801B1254(saddr arg0);
 void send_6x24_teleport_player(u16 slot, void *pos, s32 heading);
 s32 prepare_guild_return__10TObjPlayerFPv(u32, s32);
 s32 player_flag_1__6TLobbyFv();
-s32 stop_battle__10TObjPlayerFv();
 s32 enable_action_input__10TObjPlayerFPv();
-s32 disable_action_input__10TObjPlayerFv();
 s32 TObjPlayer__sub_801B3FD8();
 s32 TObjPlayer__sub_801B4044();
 s32 send_code_49_1__10TObjPlayerFi();
@@ -1280,7 +1271,6 @@ extern "C" {
 u32 create_quest_message_window();
 saddr get_window_layout_position(s32);
 void fn_80278518(void *arg0, s32 arg1);
-s32 save_and_close__20TShopArmorListWindowFv();
 saddr create_equip_kind_window(saddr, const f32 *, s32);
 s32 update_screen__6TLobbyFv();
 s32 set_challenge_split_flag__6TLobbyFv();
@@ -1507,7 +1497,7 @@ void qst_op_open_pack_select() {
     saddr var_r31;
 
     qst_pack_select_window = (void *)create_equip_kind_window(get_window_layout_position(3), pack_select_window_pos, local_client_id);
-    save_and_close__20TShopArmorListWindowFv();
+    ((TShopArmorListWindow *)qst_pack_select_window)->save_and_close();
     var_r31 = ((s32 (*)(s32))__nw__7TObjectFUl)(0xBC);
     if (var_r31 != 0) {
         var_r31 = __ct__15TWindowHelpItemFPvUs(var_r31, get_window_layout_position(2), local_client_id);
@@ -2196,7 +2186,7 @@ void qst_op_get_held_buttons(u8 src, u8 dst) {
     qst_registers[dst] = controller_input_state[qst_registers[src]].f20;
 }
 
-int qst_op_default_camera_pos2(void* p) { return reset_to_local_player__11TCameraCtrlFv(p); }
+void qst_op_default_camera_pos2(void *p) { TCameraCtrl::reset_to_local_player(); }
 
 void qst_op_fleti_locked_camera(void) {
     Vec *p = (Vec *)(qst_registers + qst_args[1]);
@@ -4123,7 +4113,7 @@ void qst_op_set_returnhunter() {
 
 void qst_op_default_camera_pos1() {
     uaddr temp_r3;
-    reset_battle_camera__11TCameraCtrlFv();
+    TCameraCtrl::reset_battle_camera();
     temp_r3 = ((s32 (*)(s32))get_player_by_client_id)(local_client_id);
     if (temp_r3 != 0U) {
         reset_cameras_to_actor((void *)temp_r3, 0);
@@ -4762,7 +4752,7 @@ void qst_op_p_action_disable(void) {
 
     temp_r3 = ((s32 (*)(s32))get_player_by_client_id)(local_client_id);
     if (temp_r3 != 0) {
-        disable_action_input__10TObjPlayerFv();
+        ((TObjPlayer *)temp_r3)->disable_action_input();
         ((TObjPlayer *)temp_r3)->release_attached_resource();
     }
 }
@@ -4814,7 +4804,7 @@ void qst_op_p_dead(void) {
     u8 *lobby;
     temp_r31 = qst_args[0];
     lobby = (u8 *)(((u8 *)((saddr (*)(s32))get_player_by_client_id)(qst_args[1])));
-    if ((lobby != NULL) && (is_script_controlled__10TObjPlayerFv() == 0)) {
+    if ((lobby != NULL) && (((TObjPlayer *)lobby)->is_script_controlled() == 0)) {
         if (((TObjChara *)lobby)->obj_isState3_324() != 0) {
             if (*(s32 *)((s8 *)lobby + 0x30) & 0x800) {
                 qst_registers[temp_r31] = 1;

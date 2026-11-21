@@ -464,7 +464,6 @@ int is_float_nonfinite(f32);
 int is_quest_active(void);
 int TCameraCtrl__sub_8006B3B8(void* p);
 void render__11TCameraCtrlFv(void *arg0);
-int reset_to_local_player__11TCameraCtrlFv(void*);
 int set_fixed_position_and_target__11TCameraCtrlFPUcPUc(void*);
 
 
@@ -511,7 +510,7 @@ LAYOUT_ASSERT(RecoveredGlobal_8006AC70_lbl_8058D490_size, sizeof(RecoveredGlobal
 
 int TCameraCtrl__sub_8006B3B8(void* p) { return set_fixed_position_and_target__11TCameraCtrlFPUcPUc(p); }
 
-int TCameraCtrl::reset_battle_camera() { return reset_to_local_player__11TCameraCtrlFv(this); }
+void TCameraCtrl::reset_battle_camera() { TCameraCtrl::reset_to_local_player(); }
 
 int is_float_nonfinite(f32 farg0) {
     u32 v = *(u32 *)&farg0 & 0x7F800000;

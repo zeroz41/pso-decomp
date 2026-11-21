@@ -155,7 +155,7 @@ struct TCameraCtrl : public TObject {
     static int get_instance();
     static int get_camera_id();
     static void set_target_coords(int a0, int a1);
-    int reset_battle_camera();
+    static void reset_battle_camera();
     u8 *init_conversation_camera(s32 arg1, s32 arg2, saddr arg3);
     static s32 clamp_distance(s32 arg0, s32 arg1, s32 arg2);
     static void free_entries();

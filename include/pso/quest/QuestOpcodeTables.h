@@ -168,7 +168,7 @@ void qst_op_toggle_freeze_everything();
 void qst_op_npc_text_id(u8 a0, u8 a1, void *a2);
 void qst_op_get_pressed_buttons(u8 a0, u8 a1);
 void qst_op_get_held_buttons(u8 src, u8 dst);
-int qst_op_default_camera_pos2(void *p);
+void qst_op_default_camera_pos2(void *p);
 void qst_op_fleti_locked_camera();
 void qst_op_move_coords_object(s32 i, s32 k);
 void qst_op_close_chat_bubble(s32 arg0);
