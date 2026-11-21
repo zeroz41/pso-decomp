@@ -3281,7 +3281,7 @@ void TBoss8Dragon::state_turn_and_charge(s32 arg1) {
         ((TBoss8Dragon *)d)->set_state();
         ((TBoss8Dragon *)d)->activate_attack();
         d->field_3C0 &= ~0x36;
-        ((TObjEneDD *)d)->update_velocity();
+        ((TObjEneDD_ST *)d)->update_velocity();
         init_acceleration_curve((AccelerationCurve *)d->curve0, (f32)(0.1f), (f32)(-0.1f), (f32)d->f3AC, (f32)(2.0f + *(f32 *)(TBoss8Dragon__data_80541DDC[0] + 0x14)));
         diff = angle_diff_s16(d->angle, (s32)(RADIANS_TO_ANGLE * atan2_float(d->dir.x, d->dir.z)));
         if (diff >= 0) {
@@ -4004,7 +4004,7 @@ void TBoss8Dragon::sub_802F7B70(s32 arg1) {
         break;
     case 7:
         sync_target_pos();
-        ((TObjEneDD *)((Obj_802F7B70 *)this))->update_velocity();
+        this->update_velocity();
         break;
     case 6:
         if (TBoss8Dragon__sub_802FC580((Obj_802FC580 *)((Obj_802F7B70 *)this), &destination.x) == 0) {
@@ -4012,7 +4012,7 @@ void TBoss8Dragon::sub_802F7B70(s32 arg1) {
             ((Obj_802F7B70 *)this)->f394.y = 0.0f;
             ((Obj_802F7B70 *)this)->f394.z = 0.0f;
         }
-        ((TObjEneDD *)((Obj_802F7B70 *)this))->update_velocity();
+        this->update_velocity();
         ((TBoss8Dragon *)((Obj_802F7B70 *)this))->save_position();
         break;
     case 0:
@@ -5573,7 +5573,7 @@ void update_movement__12TBoss8DragonFPv(u8 *arg0) {
     }
     ((TObjMotion *)arg0)->advance_animation();
     ((TBoss8Dragon *)arg0)->play_sound_if_in_band();
-    ((TObjEneDD *)arg0)->update_velocity();
+    ((TObjEneDD_ST *)arg0)->update_velocity();
     ((s32 (*)(void *))TBoss8Dragon__sub_802FC9D8)(arg0);
     if (((TObjMotion *)arg0)->is_passing_frame(24.0f) != 0) {
         TBoss8Dragon::check_condition_default(arg0);

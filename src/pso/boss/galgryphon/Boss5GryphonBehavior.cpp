@@ -1926,7 +1926,7 @@ void TBoss8Dragon::fire_at_angle(s32 arg1) {
 }
 
 void TBoss5Gryphon::update_heading(s32 arg1) {
-    ((TObjEneDD *)this)->update_velocity();
+    this->update_velocity();
     turn_toward_angle_limited__13TBoss5GryphonFPvii(this, arg1, (s32) (10430.38043493439 * atan2_float(this->destination_direction.x, this->destination_direction.z)));
 }
 
@@ -1941,7 +1941,7 @@ void turn_toward_angle_limited__13TBoss5GryphonFPvii(void *selfv, s32 arg1, s32 
 }
 
 void TBoss8Dragon::update_facing(f32 farg0) {
-    ((TObjEneDD *)this)->update_velocity();
+    this->update_velocity();
     ((s32 (*)(void *, s32, f32))move_along_angle__13TBoss5GryphonFPvif)(this, (s32) (10430.38043493439 * atan2_float(this->destination_direction.x, this->destination_direction.z)), farg0);
 }
 
@@ -2622,7 +2622,7 @@ void TBoss5Gryphon::state_move(s32 arg1) {
     case ENEMY_STATE_UPDATE:
         advance_animation();
         ((void (*)(void *))TBoss8Dragon__sub_80064DB8)(this);
-        ((TObjEneDD *)this)->update_velocity();
+        this->update_velocity();
         TBoss8Dragon__sub_8006426C((Obj_8006426C *)this);
         ((void (*)(void *))TBoss8Dragon__sub_80064828)(this);
         v = this->get_motion_frame();
@@ -3888,7 +3888,7 @@ void TBoss5Gryphon::update_ground_pursuit(s32 arg1) {
     case ENEMY_STATE_UPDATE:
         ((TObjMotion *)arg0)->advance_animation();
         TBoss8Dragon__sub_80064E3C((u8 *)arg0);
-        ((TObjEneDD *)arg0)->update_velocity();
+        ((TObjEneDD_ST *)arg0)->update_velocity();
         TBoss8Dragon__sub_800648C8((u8 *)arg0);
         spd = ((TObjEneDD_ST *)arg0)->get_motion_frame();
         if (spd < lbl_805D8DCC) {
@@ -4807,7 +4807,7 @@ TBoss5Gryphon *TBoss5Gryphon__ct(TBoss5Gryphon *self, void *parent, void *data) 
     *(void **)((u8 *)self + 0x350) = lbl_804878B4;
     ((TObjEneDD *)self)->initialize_enemy_state(77);
     self->wall_reach = 20.0f;
-    ((TObjEneDD *)self)->set_target_destination(&lbl_80437938);
+    ((TObjEneDD_ST *)self)->set_target_destination(&lbl_80437938);
     self->enemy_init_acquire_period(10);
     self->enemy_init_validate_period(10);
     ((Obj_80065658 *)self)->f474[0] = 0.0f;

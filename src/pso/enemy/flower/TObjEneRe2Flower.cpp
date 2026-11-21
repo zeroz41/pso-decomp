@@ -683,7 +683,7 @@ void handle_flower_state_change(TObjEneDD *ene_dd, s32 arg1) {
     }
 }
 
-void TObjEneDD::state_chase_target(s32 arg1) {
+void TObjEneDD_ST::state_chase_target(s32 arg1) {
     u8 *arg0 = (u8 *)this;
     f32 d;
     s32 t;
@@ -742,7 +742,7 @@ void TObjEneDD::state_chase_target(s32 arg1) {
             break;
         }
         ((TObjEneDD_ST *)arg0)->enemy_copy_target_destination();
-        ((TObjEneDD *)arg0)->update_velocity();
+        ((TObjEneDD_ST *)arg0)->update_velocity();
         (*(s32 *)((s8 *)arg0 + 0x414))++;
         *(s32 *)((s8 *)arg0 + 0x420) = (s32)(10430.38043493439 * atan2_float(*(f32 *)((s8 *)arg0 + 0x3A0), *(f32 *)((s8 *)arg0 + 0x3A8)));
         this->rotation_y = approach_angle_limited(this->rotation_y, *(s32 *)((s8 *)arg0 + 0x420), (saddr)(*(void **)((s8 *)this->movementParameters + 8)));

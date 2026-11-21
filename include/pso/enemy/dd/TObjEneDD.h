@@ -40,9 +40,6 @@ struct TObjEneDD : public TObjEnemy {
     // start at slot 104 and each subclass declares its own (TObjEneDD_ST f32, TBoss2Mine s32, FlyNest init).
     int get_flag_b4();
     f32 calc_elapsed_scaled();
-    void update_velocity();
-    void turn_toward_target_direction(s32 max_step);
-    void set_target_destination(const Vec *position);
     static void init_lights();
     static s32 clamp_frame_index(s32 arg0);
     static s32 check_v2_mode();
@@ -94,7 +91,6 @@ struct TObjEneDD : public TObjEnemy {
     void handle_state(s32 arg1);
     void noop();
     void state_damaged(s32 arg1);
-    void state_chase_target(s32 arg1);
     int get_target_info();
     void set_field_378(s32 v);
     void init_position_vectors();

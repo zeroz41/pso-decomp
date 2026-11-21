@@ -663,7 +663,7 @@ void run_task__12TObjEneReconFPvi(u8 *target, s32 arg1) {
         return;
     case 0:
         ((TObjMotion *)target)->advance_animation();
-        ((TObjEneDD *)target)->update_velocity();
+        ((TObjEneDD_ST *)target)->update_velocity();
         ((VObj_8031c7bc *) target)->m86();
         ((TObjEneRecon *)target)->clamp_min_height();
         ((TObjEneDD *)target)->transform_part_positions();
@@ -947,7 +947,7 @@ void TObjEneRecon__sub_8031C920(u8 *arg0, s32 arg1) {
             switch (F(s32, 0x3C0)) {
             case 0:
                 ((TObjEneRecon *)arg0)->set_orbit_destination(F(s32, 0x3D0));
-                ((TObjEneDD *)arg0)->update_velocity();
+                ((TObjEneDD_ST *)arg0)->update_velocity();
                 k = 0.2f * F(f32, 0x468);
                 r = F(Prm_8031C920 *, 0x350)->f4;
                 h = 0.0f;
@@ -965,7 +965,7 @@ void TObjEneRecon__sub_8031C920(u8 *arg0, s32 arg1) {
                 F(s32, 0x46C) += F(s32, 0x3D4) / 2;
                 F(s32, 0x470) += F(s32, 0x3D4) / 2;
                 ((TObjEneRecon *)arg0)->set_orbit_destination(F(s32, 0x3D0));
-                ((TObjEneDD *)arg0)->update_velocity();
+                ((TObjEneDD_ST *)arg0)->update_velocity();
                 r = F(Prm_8031C920 *, 0x350)->f4;
                 h = 0.0f;
                 if (F(f32, 0x3AC) < r) {
@@ -977,7 +977,7 @@ void TObjEneRecon__sub_8031C920(u8 *arg0, s32 arg1) {
                 F(s32, 0x46C) += F(s32, 0x3D4);
                 F(s32, 0x470) += F(s32, 0x3D4);
                 ((TObjEneRecon *)arg0)->set_orbit_destination(F(s32, 0x3D0));
-                ((TObjEneDD *)arg0)->update_velocity();
+                ((TObjEneDD_ST *)arg0)->update_velocity();
                 r = F(Prm_8031C920 *, 0x350)->f4;
                 h = 10.0f * sin_table_lookup(F(s32, 0x3D8));
                 F(s32, 0x3D8) += 0x380;
@@ -1034,7 +1034,7 @@ void TObjEneRecon__sub_8031CCFC(u8 *arg0, s32 arg1) {
         switch (*(s32 *)((s8 *)arg0 + 0x3C0)) {
         case 0:
             ((TObjEneDD_ST *)arg0)->enemy_copy_target_destination();
-            ((TObjEneDD *)arg0)->update_velocity();
+            ((TObjEneDD_ST *)arg0)->update_velocity();
             ((TObjEneEpsilon *)arg0)->rotation_y = approach_angle_limited(((TObjEneEpsilon *)arg0)->rotation_y,
                 (s32)(10430.38043493439 * atan2_float(((TObjEneEpsilon *)arg0)->destination_direction.x, ((TObjEneEpsilon *)arg0)->destination_direction.z)),
                 0x400);
@@ -1106,7 +1106,7 @@ void TObjEneRecon__sub_8031CF30(u8 *arg0, s32 arg1) {
             if (F(u32, 0x390) != 0) {
                 ((TObjEneRecon *)arg0)->advance_field398();
             }
-            ((TObjEneDD *)arg0)->update_velocity();
+            ((TObjEneDD_ST *)arg0)->update_velocity();
             F(f32, 0x44C) = sin_table_lookup(F(s32, 0x60));
             F(f32, 0x454) = cos_table_lookup(F(s32, 0x60));
             ((TObjEneRecon *)arg0)->update_collide_flag();
@@ -1199,7 +1199,7 @@ void TObjEneRecon__sub_8031D380(u8 *arg0, s32 arg1) {
       *((s32 *) (((s8 *) arg0) + 0x3B0)) = (s32) ((*((s32 *) (((s8 *) arg0) + 0x3B0))) + 1);
     }
       ((TObjEneRecon *)arg0)->sync_height();
-      ((TObjEneDD *)arg0)->update_velocity();
+      ((TObjEneDD_ST *)arg0)->update_velocity();
       temp_r4 = *((s32 *) (((s8 *) arg0) + 0x60));
       *((s32 *) (((s8 *) arg0) + 0x60)) = (s32) ((u16)(temp_r4 + 0x400));
       (((VObj_18_83f71d *)(arg0))->m87((temp_r4)));

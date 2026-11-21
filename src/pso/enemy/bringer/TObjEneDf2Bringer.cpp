@@ -1601,7 +1601,7 @@ void TObjEneDf2Bringer__sub_80098BAC(u8 *ene_dd_st, s32 arg1) {
     case 3:
         if (((s32)((TObjEneDD_ST *)ene_dd_st)->update_linked_position(300.0f)) != 0) {
             ((TObjEneDD_ST *)ene_dd_st)->enemy_copy_target_destination();
-            ((TObjEneDD *)ene_dd_st)->update_velocity();
+            ((TObjEneDD_ST *)ene_dd_st)->update_velocity();
             ((TObjEneDD_ST *)ene_dd_st)->rotation_y = (s32) (10430.38043493439 * atan2_float((f64) *(f32 *)((s8 *)ene_dd_st + 0x3A0), (f64) *(f32 *)((s8 *)ene_dd_st + 0x3A8)));
             ((TObjEneDD *)ene_dd_st)->transition_enemy_state(2);
         }
@@ -1759,7 +1759,7 @@ void TObjEneDf2Bringer__sub_8009859C(u8 *ene_df2_bringer, s32 arg1) {
         ((TObjMotion *)ene_df2_bringer)->advance_animation();
         if (update_flag_0x3C0__17TObjEneDf2BringerFPv(ene_df2_bringer) != 0) {
             ((TObjEneDD_ST *)ene_df2_bringer)->enemy_copy_target_destination();
-            ((TObjEneDD *)ene_df2_bringer)->update_velocity();
+            ((TObjEneDD_ST *)ene_df2_bringer)->update_velocity();
         }
         {
         s32 ang;
@@ -1822,7 +1822,7 @@ void TObjEneDf2Bringer__sub_8009813C(u8 *arg0, s32 arg1) {
             }
             if (enemy_validate_retained_target(arg0) != 0) {
                 ((TObjEneDD_ST *)arg0)->enemy_copy_target_destination();
-                ((TObjEneDD *)arg0)->update_velocity();
+                ((TObjEneDD_ST *)arg0)->update_velocity();
             }
             F(s32, 0x60) = approach_angle_limited(F(s32, 0x60), (s32)(10430.38043493439 * atan2_float(F(f32, 0x3A0), F(f32, 0x3A8))), 0x280);
             F(s32, 0x480) = TObjBoss2Tunnel::turn_toward_angle_limited(F(s32, 0x60), F(s32, 0x480), F(s32, 0x60), 0x200, 0x2000);
@@ -2036,7 +2036,7 @@ void TObjEneDf2Bringer__sub_80097820(u8 *arg0, s32 arg1) {
             if (((TObjEneDD *)arg0)->get_flag_b4() != 0) {
                 if (TObjEneDf2Bringer__sub_80098FF4(arg0) != 0) {
                     ((TObjEneDD_ST *)arg0)->enemy_copy_target_destination();
-                    ((TObjEneDD *)arg0)->update_velocity();
+                    ((TObjEneDD_ST *)arg0)->update_velocity();
                     F_8009(0x4B8, s32) = (u16)(s32)(10430.38043493439 * ((f32)atan2_float(F_8009(0x3A0, f32), F_8009(0x3A8, f32))));
                     F_8009(0x4AC, s32) = 1;
                     F_8009(0xB8, s16) = 1;
@@ -2085,7 +2085,7 @@ void TObjEneDf2Bringer__sub_80097820(u8 *arg0, s32 arg1) {
                     if (F_8009(0x4B0, s32) < 3) {
                         if (TObjEneDf2Bringer__sub_80098FF4(arg0) != 0) {
                             ((TObjEneDD_ST *)arg0)->enemy_copy_target_destination();
-                            ((TObjEneDD *)arg0)->update_velocity();
+                            ((TObjEneDD_ST *)arg0)->update_velocity();
                             F_8009(0x4B8, s32) = (u16)(s32)(10430.38043493439 * ((f32)atan2_float(F_8009(0x3A0, f32), F_8009(0x3A8, f32))));
                             F_8009(0x4AC, s32) = 1;
                             F_8009(0xB8, s16) = 1;

@@ -2040,7 +2040,7 @@ void TBoss1Dragon::update_emergence_state(u32 arg1) {
             this->destination.x = (0.0f);
             this->destination.y = this->position.y;
             this->destination.z = (0.0f);
-            ((TObjEneDD *)this)->update_velocity();
+            this->update_velocity();
         }
         this->saveTargetDestination();
         return;
@@ -2290,7 +2290,7 @@ void TBoss1Dragon::update_burrow_outward_run(u32 arg1) {
     case 6:
         if (select_forward_target__12TBoss1DragonFPv(arg0) != 0) {
             ((TObjEneDD_ST *)arg0)->enemy_copy_target_destination();
-            ((TObjEneDD *)arg0)->update_velocity();
+            ((TObjEneDD_ST *)arg0)->update_velocity();
         } else {
             this->destination_direction.x = sin_table_lookup(this->rotation_y);
             this->destination_direction.z = cos_table_lookup(this->rotation_y);
@@ -2301,7 +2301,7 @@ void TBoss1Dragon::update_burrow_outward_run(u32 arg1) {
         ((TBoss1Dragon *)arg0)->saveTargetDestination();
         break;
     case ENEMY_STATE_UPDATE:
-        ((TObjEneDD *)arg0)->update_velocity();
+        ((TObjEneDD_ST *)arg0)->update_velocity();
         this->rotation_y = approach_angle_limited(this->rotation_y, (boss1_dragon_angle_units_per_radian * atan2_float(this->destination_direction.x, this->destination_direction.z)), 0x600);
         this->position.x += this->rootHeight * sin_table_lookup(this->rotation_y);
         this->position.z += this->rootHeight * cos_table_lookup(this->rotation_y);
@@ -3226,7 +3226,7 @@ void TBoss1Dragon::update_flight_state(u32 arg1) {
         TBoss1Dragon__sub_80028B28((TBoss1Dragon *)arg0);
         old = this->flags;
         this->flags = old & ~0xE80;
-        ((TObjEneDD *)arg0)->update_velocity();
+        ((TObjEneDD_ST *)arg0)->update_velocity();
         switch (isV2Mode__12TBoss1DragonFv()) {
         case 0:
             init_acceleration_curve(&this->m_5f4, (0.1f), (-0.1f), this->destination_distance, (2.0f));
@@ -3482,7 +3482,7 @@ void TBoss1Dragon::update_breath_attack_state(u32 arg1) {
         advance_animation();
         switch (this->stateStep) {
         case 0:
-            ((TObjEneDD *)arg0)->update_velocity();
+            ((TObjEneDD_ST *)arg0)->update_velocity();
             ((TBoss1Dragon *)arg0)->calc_target_vector();
             this->rotation_y = approach_angle_limited(this->rotation_y, ((s32) (boss1_dragon_angle_units_per_radian * atan2_float(this->destination_direction.x, this->destination_direction.z))), 0xA0);
             this->rotation_y = (s32) (s16) this->rotation_y;
@@ -3638,7 +3638,7 @@ void TBoss1Dragon::update_walking_state(u32 arg1) {
             if (VALID_800267B8(arg0) != 0) {
                 ((TObjEneDD_ST *)arg0)->enemy_copy_target_destination();
             } else {
-                ((TObjEneDD *)arg0)->set_target_destination(&TBoss1Dragon__data_80434E80);
+                ((TObjEneDD_ST *)arg0)->set_target_destination(&TBoss1Dragon__data_80434E80);
             }
             ((TBoss1Dragon *)arg0)->saveTargetDestination();
             send_state_sync__12TBoss1DragonFPv((TBoss1Dragon *)(arg0));
@@ -3652,7 +3652,7 @@ void TBoss1Dragon::update_walking_state(u32 arg1) {
         if (LINKED_800267B8() != 0) {
             ((TObjEneDD_ST *)arg0)->enemy_copy_target_destination();
         } else {
-            ((TObjEneDD *)arg0)->set_target_destination(&TBoss1Dragon__data_80434E80);
+            ((TObjEneDD_ST *)arg0)->set_target_destination(&TBoss1Dragon__data_80434E80);
         }
         ((TBoss1Dragon *)arg0)->saveTargetDestination();
         break;
@@ -3673,7 +3673,7 @@ void TBoss1Dragon::update_walking_state(u32 arg1) {
         }
         ((TObjMotion *)arg0)->advance_animation();
         TBoss1Dragon__sub_80028BE0(arg0);
-        ((TObjEneDD *)arg0)->update_velocity();
+        ((TObjEneDD_ST *)arg0)->update_velocity();
         ((TBoss1Dragon *)arg0)->calc_target_vector();
         if (((TObjMotion *)arg0)->is_passing_frame((f32)(3.0f)) != 0) {
             ((TBoss1Dragon *)arg0)->apply_foot_attack_pair_0();

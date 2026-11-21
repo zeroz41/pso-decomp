@@ -1423,7 +1423,7 @@ TObjEneDD_ST::TObjEneDD_ST(TObject *parent) : TObjEneDD(parent) {
 TObjEneDD_ST::~TObjEneDD_ST() {}
 
 
-void TObjEneDD::update_velocity() {
+void TObjEneDD_ST::update_velocity() {
     u8 *arg0 = (u8 *)this;
     f32 temp_f1;
     f32 temp_f2;
@@ -1540,7 +1540,7 @@ void TObjEneDD_ST::enemy_copy_target_destination() {
     }
 }
 
-void TObjEneDD::set_target_destination(const Vec *position) { VecCopy((Vec *)((char *)this + 0x394), position); }
+void TObjEneDD_ST::set_target_destination(const Vec *position) { VecCopy((Vec *)((char *)this + 0x394), position); }
 
 void TObjEneDD_ST::enemy_init_validate_period(s32 arg1) {
     validate_period = arg1;
@@ -1571,7 +1571,7 @@ s32 TObjEneEpsilon::update_death_check() {
     return enemy_validate_retained_target((u8 *)this);
 }
 
-void TObjEneDD::turn_toward_target_direction(s32 arg1) {
+void TObjEneDD_ST::turn_toward_target_direction(s32 arg1) {
     this->rotation_y = (s16) approach_angle_limited(this->rotation_y, (s32) (10430.38043493439 * atan2_float(*(f32 *)((s8 *)this + 0x3A0), *(f32 *)((s8 *)this + 0x3A8))), arg1);
 }
 

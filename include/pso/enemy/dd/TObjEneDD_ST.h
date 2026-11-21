@@ -26,6 +26,10 @@ public:
     void sub_800F5864(s32);
     s32 enemy_check_target_valid();
     s32 enemy_has_live_target();
+    void update_velocity();
+    void turn_toward_target_direction(s32 max_step);
+    void set_target_destination(const Vec *position);
+    void state_chase_target(s32 arg1);
 
     u16 target_id;                // 0xFFFF: no target
     u8 pad_38E[0x2];
