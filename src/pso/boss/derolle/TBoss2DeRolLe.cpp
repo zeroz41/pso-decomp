@@ -593,7 +593,7 @@ void push_matrix(void);
 
 void VecCopy__FP3VecPC3Vec(void *, void *);
 
-void fn_8002F5AC(u8 *arg0);
+void TBoss2DeRolLe__init_attack_sequence(u8 *arg0);
 
 void TBoss2Joint__sub_8003688C(u8 *arg0);
 
@@ -610,7 +610,7 @@ s32 post_translate_matrix(void *);
 
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 
-void TObjPlayer__sub_8002F61C(NJS_OBJECT *);
+void TBoss2DeRolLe__chunk_model_node_callback(NJS_OBJECT *);
 
 extern u8 controller_input_state[];
 
@@ -848,7 +848,7 @@ extern saddr lbl_805D4BBC;
 
 extern saddr lbl_805D4BC0;
 
-void TObjPlayer__sub_8002F61C(NJS_OBJECT *);
+void TBoss2DeRolLe__chunk_model_node_callback(NJS_OBJECT *);
 
 }
 
@@ -1160,7 +1160,7 @@ void init_movement__13TBoss2DeRolLeFPv(u8 *arg0);
 
 u8 update_phase_is_done__13TBoss2DeRolLeFPv(u8 *arg0);
 
-void TBoss2DeRolLe__sub_800344A4(DeRolLe_800344A4 *self, s32 idx, s32 arg2);
+void TBoss2DeRolLe__spawn_photon_pad(DeRolLe_800344A4 *self, s32 idx, s32 arg2);
 
 s32 VecCopy__FP3VecPC3Vec(int, void *);
 
@@ -1187,7 +1187,7 @@ void TObjBoss2Tunnel__sub_8003C5F8(void);
 
 void TObjBoss2Tunnel__sub_8003C610(void);
 
-void TBoss2DeRolLe__sub_800313F8(DR_800313F8 *o, u32 arg1, s32 arg2);
+void TBoss2DeRolLe__handle_laser_sweep_state(DR_800313F8 *o, u32 arg1, s32 arg2);
 
 s32 VecCopy__FP3VecPC3Vec(int, void *);
 
@@ -1222,7 +1222,7 @@ void subtract_vector(void *, void *);
 
 extern u8 *TBoss2DeRolLe__data_805D4BA0;
 
-void TBoss2DeRolLe__sub_8002FE60(void *arg0, u32 arg1);
+void TBoss2DeRolLe__handle_particle_barrage_state(void *arg0, u32 arg1);
 
 u32 __cvt_fp2unsigned(f32);
 
@@ -1246,7 +1246,7 @@ void TBoss2Tentacle__sub_80039E68(void *);
 
 extern u8 *TBoss2DeRolLe__data_805D4BA0;
 
-void TBoss2DeRolLe__sub_800310F8(void *arg0, void *arg1, int arg2);
+void TBoss2DeRolLe__handle_tentacle_volley_state(void *arg0, void *arg1, int arg2);
 
 void TBoss2DeRolLe__sub_800338BC(void);
 
@@ -1254,7 +1254,7 @@ s32 init_head_params__13TBoss2DeRolLeFPv(void *);
 
 void set_position_index__13TBoss2DeRolLeFPvi(void *, s32);
 
-void TBoss2DeRolLe__sub_800327C8(void *arg0, void *arg1, int arg2, int arg3);
+void TBoss2DeRolLe__handle_movement_pattern_state(void *arg0, void *arg1, int arg2, int arg3);
 
 void assign_slots_from_list(void *, saddr);
 
@@ -1300,7 +1300,7 @@ CameraPlayback *get_scripted_camera_playback(void);
 
 s32 restore_player_cameras();
 
-void TBoss2DeRolLe__sub_80032E38(void *arg0, void *arg1);
+void TBoss2DeRolLe__handle_intro_camera_state(void *arg0, void *arg1);
 
 
 s32 VecCopy__FP3VecPC3Vec(int, void *);
@@ -1319,7 +1319,7 @@ void set_position_index__13TBoss2DeRolLeFPvi(void *, s32);
 s32 advance_scalar_motion_profile(void *);
 
 
-void TBoss2DeRolLe__sub_800320B4(void *arg0, void *arg1, int arg2, int arg3);
+void TBoss2DeRolLe__handle_charge_state(void *arg0, void *arg1, int arg2, int arg3);
 
 struct Obj_80034034 { u8 pad[0x326]; s16 f326; };
 
@@ -1431,27 +1431,27 @@ s32 VecCopy__FP3VecPC3Vec(int, void *);
 
 
 
-void TBoss2DeRolLe__sub_8002F73C(Obj_8002F73C *self, u32 kind);
+void TBoss2DeRolLe__handle_tunnel_departure_state(Obj_8002F73C *self, u32 kind);
 
-void TBoss2DeRolLe__sub_8002FCE4(Obj_8002FCE4 *self, u32 kind);
+void TBoss2DeRolLe__handle_deep_sink_state(Obj_8002FCE4 *self, u32 kind);
 
 void TBoss2DeRolLe__sub_8002FD9C(DeRolLe_8002FD9C *self, u32 arg1, s32 arg2);
 
 void state_ceiling_attack__13TBoss2DeRolLeFPvUi(TBoss2DeRolLe *arg0, u32 arg1);
 
-void TBoss2DeRolLe__sub_80030720(Obj_80030720 *self, u32 arg1, s32 arg2);
+void TBoss2DeRolLe__handle_mine_launch_state(Obj_80030720 *self, u32 arg1, s32 arg2);
 
-void TBoss2DeRolLe__sub_80030898(u8 *arg0, u32 arg1, s32 arg2);
+void TBoss2DeRolLe__handle_photon_pad_spawn_state(u8 *arg0, u32 arg1, s32 arg2);
 
-void TBoss2DeRolLe__sub_80030A38(u8 *arg0, u32 arg1);
+void TBoss2DeRolLe__handle_trap_barrage_state(u8 *arg0, u32 arg1);
 
-void TBoss2DeRolLe__sub_80030DFC(void *, void *, int);
+void TBoss2DeRolLe__handle_breach_state(void *, void *, int);
 
-void TBoss2DeRolLe__sub_80031AD4(void *, void *);
+void TBoss2DeRolLe__handle_descent_state(void *, void *);
 
 void handle_debug_pad_input__13TBoss2DeRolLeFPvPv(void *, void *);
 
-void TBoss2DeRolLe__sub_800333F4(Obj_800333F4 *self, u32 arg1);
+void TBoss2DeRolLe__handle_opening_state(Obj_800333F4 *self, u32 arg1);
 
 void dispatch_action__13TBoss2DeRolLeFiUii(saddr arg0, u32 arg1, saddr arg2);
 
@@ -1656,7 +1656,7 @@ u8 update_phase_is_done__13TBoss2DeRolLeFPv(u8 *arg0);
 
 
 
-void TBoss2DeRolLe__sub_800344A4(DeRolLe_800344A4 *self, s32 idx, s32 arg2);
+void TBoss2DeRolLe__spawn_photon_pad(DeRolLe_800344A4 *self, s32 idx, s32 arg2);
 
 s32 advance_scalar_motion_profile(void *);
 
@@ -1866,11 +1866,11 @@ void reload_stats_for_phase__13TBoss2DeRolLeFPvi(void *self, s32 kind);
 
 void send_6x13__13TBoss2DeRolLeFPv(void *p);
 
-void TBoss2DeRolLe__sub_80036358(void *p);
+void TBoss2DeRolLe__init_action_message_6x13(void *p);
 
 void update_and_send__13TBoss2DeRolLeFPv(void *p);
 
-void TBoss2DeRolLe__sub_800363A0(void *p);
+void TBoss2DeRolLe__init_action_message_6x14(void *p);
 
 void set_state_and_send__13TBoss2DeRolLeFPvi(Obj_80034E90 *self, s32 kind);
 
@@ -2287,9 +2287,9 @@ void apply_shock_status__13TBoss2DeRolLeFv(void);
 
 void clear_harmful_statuses__13TBoss2DeRolLeFv(void);
 
-void TBoss2DeRolLe__sub_80036358(void* p);
+void TBoss2DeRolLe__init_action_message_6x13(void* p);
 
-void TBoss2DeRolLe__sub_800363A0(void* p);
+void TBoss2DeRolLe__init_action_message_6x14(void* p);
 
 void *create__13TBoss2DeRolLeFPv(void *arg0);
 
@@ -2779,11 +2779,11 @@ Slot_80035D24 derolle_segment_texture_slots[11];
 
 extern s32 TBoss2DeRolLe__instance;
 
-void TBoss2DeRolLe__sub_800363A0(void* p) { *(u8*)((char*)p + 0x0) = 20; *(u8*)((char*)p + 0x1) = 3; }
+void TBoss2DeRolLe__init_action_message_6x14(void* p) { *(u8*)((char*)p + 0x0) = 20; *(u8*)((char*)p + 0x1) = 3; }
 
 void update_and_send__13TBoss2DeRolLeFPv(void* p) { swap_endian__13TBoss2DeRolLeFPv(p); send_subcommand(p); }
 
-void TBoss2DeRolLe__sub_80036358(void* p) { *(u8*)((char*)p + 0x0) = 19; *(u8*)((char*)p + 0x1) = 2; }
+void TBoss2DeRolLe__init_action_message_6x13(void* p) { *(u8*)((char*)p + 0x0) = 19; *(u8*)((char*)p + 0x1) = 2; }
 
 void send_6x13__13TBoss2DeRolLeFPv(void* p) { swap_6x13_fields__13TBoss2DeRolLeFPv(p); send_subcommand(p); }
 
@@ -3479,7 +3479,7 @@ void set_state_and_send__13TBoss2DeRolLeFPvi(Obj_80034E90 *self, s32 kind) {
     Fld_80034E90 *f = (Fld_80034E90 *)self;
     self->m85(kind, 6);
     if (kind == 0x19 || (kind - 0x14) <= 1U || kind == 0x1B) {
-        TBoss2DeRolLe__sub_800363A0(&p16);
+        TBoss2DeRolLe__init_action_message_6x14(&p16);
         p16.a = f->f1C;
         p16.b = kind;
         p16.c = f->f3D4;
@@ -3487,7 +3487,7 @@ void set_state_and_send__13TBoss2DeRolLeFPvi(Obj_80034E90 *self, s32 kind) {
         update_and_send__13TBoss2DeRolLeFPv(&p16);
         return;
     }
-    TBoss2DeRolLe__sub_80036358(&p8);
+    TBoss2DeRolLe__init_action_message_6x13(&p8);
     p8.a = f->f1C;
     p8.b = kind;
     p8.c = f->f3D4;
@@ -3769,7 +3769,7 @@ u8 TBoss2DeRolLe__sub_80034574(u8 *arg0) {
     return (u8) (*(s32 *)((s8 *)arg0 + 0x660) == 4);
 }
 
-void TBoss2DeRolLe__sub_800344A4(DeRolLe_800344A4 *self, s32 idx, s32 arg2) {
+void TBoss2DeRolLe__spawn_photon_pad(DeRolLe_800344A4 *self, s32 idx, s32 arg2) {
     Vec v;
     s32 ang;
     ang = 0x3800 - idx * 0x33;
@@ -3812,7 +3812,7 @@ void free_laser__13TBoss2DeRolLeFPv(void *arg0) {
 
 #undef VecCopy__FP3VecPC3Vec
 #undef play_sound_effect
-#define TBoss2DeRolLe__sub_800344A4 ((s32 (*)(void *, int, int))TBoss2DeRolLe__sub_800344A4)
+#define TBoss2DeRolLe__spawn_photon_pad ((s32 (*)(void *, int, int))TBoss2DeRolLe__spawn_photon_pad)
 #define TBoss2DeRolLe__sub_80034574 ((s32 (*)(void *))TBoss2DeRolLe__sub_80034574)
 #define TBoss2DeRolLe__sub_80034800 ((s32 (*)(void *))TBoss2DeRolLe__sub_80034800)
 #define init_move_params__13TBoss2DeRolLeFPv ((s32 (*)(void *))init_move_params__13TBoss2DeRolLeFPv)
@@ -4224,85 +4224,85 @@ void update_pulsing_colors__13TBoss2DeRolLeFPv(u8 *arg0) {
 void dispatch_action__13TBoss2DeRolLeFiUii(saddr arg0, u32 arg1, saddr arg2) {
     switch (arg1) {
     case 0:
-        TBoss2DeRolLe__sub_800333F4((Obj_800333F4 *)(arg0), arg2);
+        TBoss2DeRolLe__handle_opening_state((Obj_800333F4 *)(arg0), arg2);
         return;
     case 1:
-        TBoss2DeRolLe__sub_80032E38((void *)arg0, (void *)arg2);
+        TBoss2DeRolLe__handle_intro_camera_state((void *)arg0, (void *)arg2);
         return;
     case 2:
         handle_debug_pad_input__13TBoss2DeRolLeFPvPv((void *)arg0, (void *)arg2);
         return;
     case 3:
-        TBoss2DeRolLe__sub_800327C8((void *)arg0, (void *)arg2, 0, 1);
+        TBoss2DeRolLe__handle_movement_pattern_state((void *)arg0, (void *)arg2, 0, 1);
         return;
     case 4:
-        TBoss2DeRolLe__sub_800320B4((void *)arg0, (void *)arg2, 0, 2);
+        TBoss2DeRolLe__handle_charge_state((void *)arg0, (void *)arg2, 0, 2);
         return;
     case 5:
-        TBoss2DeRolLe__sub_800327C8((void *)arg0, (void *)arg2, 0, 3);
+        TBoss2DeRolLe__handle_movement_pattern_state((void *)arg0, (void *)arg2, 0, 3);
         return;
     case 6:
-        TBoss2DeRolLe__sub_800327C8((void *)arg0, (void *)arg2, 1, 2);
+        TBoss2DeRolLe__handle_movement_pattern_state((void *)arg0, (void *)arg2, 1, 2);
         return;
     case 8:
-        TBoss2DeRolLe__sub_800327C8((void *)arg0, (void *)arg2, 1, 0);
+        TBoss2DeRolLe__handle_movement_pattern_state((void *)arg0, (void *)arg2, 1, 0);
         return;
     case 9:
-        TBoss2DeRolLe__sub_800327C8((void *)arg0, (void *)arg2, 2, 3);
+        TBoss2DeRolLe__handle_movement_pattern_state((void *)arg0, (void *)arg2, 2, 3);
         return;
     case 10:
-        TBoss2DeRolLe__sub_800320B4((void *)arg0, (void *)arg2, 2, 0);
+        TBoss2DeRolLe__handle_charge_state((void *)arg0, (void *)arg2, 2, 0);
         return;
     case 11:
-        TBoss2DeRolLe__sub_800327C8((void *)arg0, (void *)arg2, 2, 1);
+        TBoss2DeRolLe__handle_movement_pattern_state((void *)arg0, (void *)arg2, 2, 1);
         return;
     case 12:
-        TBoss2DeRolLe__sub_800327C8((void *)arg0, (void *)arg2, 3, 0);
+        TBoss2DeRolLe__handle_movement_pattern_state((void *)arg0, (void *)arg2, 3, 0);
         return;
     case 13:
-        TBoss2DeRolLe__sub_80031AD4((void *)arg0, (void *)arg2);
+        TBoss2DeRolLe__handle_descent_state((void *)arg0, (void *)arg2);
         return;
     case 14:
-        TBoss2DeRolLe__sub_800327C8((void *)arg0, (void *)arg2, 3, 2);
+        TBoss2DeRolLe__handle_movement_pattern_state((void *)arg0, (void *)arg2, 3, 2);
         return;
     case 18:
-        TBoss2DeRolLe__sub_800313F8((DR_800313F8 *)(arg0), arg2, 0);
+        TBoss2DeRolLe__handle_laser_sweep_state((DR_800313F8 *)(arg0), arg2, 0);
         return;
     case 19:
-        TBoss2DeRolLe__sub_800313F8((DR_800313F8 *)(arg0), arg2, 2);
+        TBoss2DeRolLe__handle_laser_sweep_state((DR_800313F8 *)(arg0), arg2, 2);
         return;
     case 20:
-        TBoss2DeRolLe__sub_800310F8((void *)arg0, (void *)arg2, 0);
+        TBoss2DeRolLe__handle_tentacle_volley_state((void *)arg0, (void *)arg2, 0);
         return;
     case 21:
-        TBoss2DeRolLe__sub_800310F8((void *)arg0, (void *)arg2, 2);
+        TBoss2DeRolLe__handle_tentacle_volley_state((void *)arg0, (void *)arg2, 2);
         return;
     case 22:
-        TBoss2DeRolLe__sub_80030DFC((void *)arg0, (void *)arg2, 0);
+        TBoss2DeRolLe__handle_breach_state((void *)arg0, (void *)arg2, 0);
         return;
     case 23:
-        TBoss2DeRolLe__sub_80030DFC((void *)arg0, (void *)arg2, 2);
+        TBoss2DeRolLe__handle_breach_state((void *)arg0, (void *)arg2, 2);
         return;
     case 16:
-        ((s32 (*)(void *, void *, int))TBoss2DeRolLe__sub_80030898)((void *)arg0, (void *)arg2, 0);
+        ((s32 (*)(void *, void *, int))TBoss2DeRolLe__handle_photon_pad_spawn_state)((void *)arg0, (void *)arg2, 0);
         return;
     case 17:
-        ((s32 (*)(void *, void *, int))TBoss2DeRolLe__sub_80030898)((void *)arg0, (void *)arg2, 2);
+        ((s32 (*)(void *, void *, int))TBoss2DeRolLe__handle_photon_pad_spawn_state)((void *)arg0, (void *)arg2, 2);
         return;
     case 15:
-        ((s32 (*)(void *, void *))TBoss2DeRolLe__sub_80030A38)((void *)arg0, (void *)arg2);
+        ((s32 (*)(void *, void *))TBoss2DeRolLe__handle_trap_barrage_state)((void *)arg0, (void *)arg2);
         return;
     case 24:
-        TBoss2DeRolLe__sub_80030720((Obj_80030720 *)(arg0), arg2, 0x18);
+        TBoss2DeRolLe__handle_mine_launch_state((Obj_80030720 *)(arg0), arg2, 0x18);
         return;
     case 25:
-        TBoss2DeRolLe__sub_80030720((Obj_80030720 *)(arg0), arg2, 0x19);
+        TBoss2DeRolLe__handle_mine_launch_state((Obj_80030720 *)(arg0), arg2, 0x19);
         return;
     case 26:
         ((s32 (*)(void *, void *))state_ceiling_attack__13TBoss2DeRolLeFPvUi)((void *)arg0, (void *)arg2);
         return;
     case 27:
-        TBoss2DeRolLe__sub_8002FE60((void *)arg0, (u32)arg2);
+        TBoss2DeRolLe__handle_particle_barrage_state((void *)arg0, (u32)arg2);
         return;
     case 28:
         TBoss2DeRolLe__sub_8002FD9C((DeRolLe_8002FD9C *)(arg0), arg2, 0);
@@ -4311,19 +4311,19 @@ void dispatch_action__13TBoss2DeRolLeFiUii(saddr arg0, u32 arg1, saddr arg2) {
         TBoss2DeRolLe__sub_8002FD9C((DeRolLe_8002FD9C *)(arg0), arg2, 1);
         return;
     case 30:
-        TBoss2DeRolLe__sub_8002FCE4((Obj_8002FCE4 *)(arg0), arg2);
+        TBoss2DeRolLe__handle_deep_sink_state((Obj_8002FCE4 *)(arg0), arg2);
         return;
     case 31:
         handle_death_state__13TBoss2DeRolLeFPvPv((void *)arg0, (void *)arg2);
         return;
     case 32:
-        TBoss2DeRolLe__sub_8002F73C((Obj_8002F73C *)(arg0), arg2);
+        TBoss2DeRolLe__handle_tunnel_departure_state((Obj_8002F73C *)(arg0), arg2);
     default:
         return;
     }
 }
 
-void TBoss2DeRolLe__sub_800333F4(Obj_800333F4 *self, u32 arg1) {
+void TBoss2DeRolLe__handle_opening_state(Obj_800333F4 *self, u32 arg1) {
     switch (arg1) {
     case 4: self->f_B8 = 1; return;
     case 2: set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)(self), 1); return;
@@ -4343,7 +4343,7 @@ void TBoss2DeRolLe__sub_800333F4(Obj_800333F4 *self, u32 arg1) {
 
 #define o ((Rol_80032E38 *)arg0)
 
-void TBoss2DeRolLe__sub_80032E38(void *arg0, void *arg1) {
+void TBoss2DeRolLe__handle_intro_camera_state(void *arg0, void *arg1) {
     Vec *p = &o->f724;
     CameraPlayback cam;
     CameraPlayback cam2;
@@ -4614,7 +4614,7 @@ void handle_debug_pad_input__13TBoss2DeRolLeFPvPv(void *arg0_, void *arg1_) {
 #undef arg0
 #define o ((DR_800327C8 *)arg0)
 
-void TBoss2DeRolLe__sub_800327C8(void *arg0, void *arg1, int arg2, int arg3) {
+void TBoss2DeRolLe__handle_movement_pattern_state(void *arg0, void *arg1, int arg2, int arg3) {
     s32 r;
     switch ((uaddr)arg1) {
     case 4:
@@ -4746,7 +4746,7 @@ void TBoss2DeRolLe__sub_800327C8(void *arg0, void *arg1, int arg2, int arg3) {
 
 #define self ((D_800320B4 *) arg0)
 
-void TBoss2DeRolLe__sub_800320B4(void *arg0, void *arg1, int arg2, int arg3) {
+void TBoss2DeRolLe__handle_charge_state(void *arg0, void *arg1, int arg2, int arg3) {
     switch ((uaddr) arg1) {
     case 4:
         TBoss2DeRolLe__sub_800341F0((Obj_800341F0 *) self);
@@ -4934,7 +4934,7 @@ void TBoss2DeRolLe__sub_800320B4(void *arg0, void *arg1, int arg2, int arg3) {
 
 extern "C" {
 
-void TBoss2DeRolLe__sub_80031AD4(void *arg0, void *arg1) {
+void TBoss2DeRolLe__handle_descent_state(void *arg0, void *arg1) {
     Vec va;
     Vec vb;
 
@@ -5097,7 +5097,7 @@ void TBoss2DeRolLe__sub_80031AD4(void *arg0, void *arg1) {
 
 #undef o
 
-void TBoss2DeRolLe__sub_800313F8(DR_800313F8 *o, u32 arg1, s32 arg2) {
+void TBoss2DeRolLe__handle_laser_sweep_state(DR_800313F8 *o, u32 arg1, s32 arg2) {
     switch (arg1) {
     case 4:
         o->fB8 = 1;
@@ -5312,7 +5312,7 @@ void TBoss2DeRolLe__sub_800313F8(DR_800313F8 *o, u32 arg1, s32 arg2) {
 
 #define self ((Self_800310F8 *)arg0)
 
-void TBoss2DeRolLe__sub_800310F8(void *arg0, void *arg1, int arg2) {
+void TBoss2DeRolLe__handle_tentacle_volley_state(void *arg0, void *arg1, int arg2) {
     Vec v;
     s32 a;
     s32 ok;
@@ -5426,7 +5426,7 @@ void TBoss2DeRolLe__sub_800310F8(void *arg0, void *arg1, int arg2) {
 #define F(t, o) (*(t *)(arg0 + (o)))
 #define arg0 ((u8 *)arg0_)
 
-void TBoss2DeRolLe__sub_80030DFC(void *arg0_, void *arg1_, int arg2) {
+void TBoss2DeRolLe__handle_breach_state(void *arg0_, void *arg1_, int arg2) {
     switch ((uaddr)arg1_) {
     case 4:
         TBoss2DeRolLe__sub_800341F0((Obj_800341F0 *)arg0);
@@ -5512,7 +5512,7 @@ void TBoss2DeRolLe__sub_80030DFC(void *arg0_, void *arg1_, int arg2) {
 #undef F
 #undef arg0
 
-void TBoss2DeRolLe__sub_80030A38(u8 *arg0, u32 arg1) {
+void TBoss2DeRolLe__handle_trap_barrage_state(u8 *arg0, u32 arg1) {
     Vec v;
 
     switch (arg1) {
@@ -5627,7 +5627,7 @@ void TBoss2DeRolLe__sub_80030A38(u8 *arg0, u32 arg1) {
 
 #pragma pop
 
-void TBoss2DeRolLe__sub_80030898(u8 *arg0, u32 arg1, s32 arg2) {
+void TBoss2DeRolLe__handle_photon_pad_spawn_state(u8 *arg0, u32 arg1, s32 arg2) {
     s32 i;
 
     switch (arg1) {
@@ -5663,7 +5663,7 @@ void TBoss2DeRolLe__sub_80030898(u8 *arg0, u32 arg1, s32 arg2) {
         switch (*(s32 *)((s8 *)arg0 + 0x6E4)) {
         case 0:
             if (!(*(s32 *)((s8 *)arg0 + 0xB0) & 4)) {
-                TBoss2DeRolLe__sub_800344A4(arg0, *(s32 *)((s8 *)arg0 + 0x6E0), *(s32 *)((s8 *)arg0 + 0x6B4));
+                TBoss2DeRolLe__spawn_photon_pad(arg0, *(s32 *)((s8 *)arg0 + 0x6E0), *(s32 *)((s8 *)arg0 + 0x6B4));
                 *(s32 *)((s8 *)arg0 + 0x6E4) = 1;
                 return;
             }
@@ -5675,7 +5675,7 @@ void TBoss2DeRolLe__sub_80030898(u8 *arg0, u32 arg1, s32 arg2) {
                 if ((f32)*(s32 *)((s8 *)arg0 + 0x6E0) >= 4.0f) {
                     *(s32 *)((s8 *)arg0 + 0x6E4) = 2;
                 }
-                TBoss2DeRolLe__sub_800344A4(arg0, *(s32 *)((s8 *)arg0 + 0x6E0), *(s32 *)((s8 *)arg0 + 0x6B4));
+                TBoss2DeRolLe__spawn_photon_pad(arg0, *(s32 *)((s8 *)arg0 + 0x6E0), *(s32 *)((s8 *)arg0 + 0x6B4));
             }
             break;
         }
@@ -5685,7 +5685,7 @@ void TBoss2DeRolLe__sub_80030898(u8 *arg0, u32 arg1, s32 arg2) {
     }
 }
 
-void TBoss2DeRolLe__sub_80030720(Obj_80030720 *self, u32 arg1, s32 arg2) {
+void TBoss2DeRolLe__handle_mine_launch_state(Obj_80030720 *self, u32 arg1, s32 arg2) {
     u8 *pos;
     s32 i;
     s32 j;
@@ -5784,7 +5784,7 @@ void state_ceiling_attack__13TBoss2DeRolLeFPvUi(TBoss2DeRolLe *arg0, u32 arg1) {
 #define VADD(d, s) ((void (*)(void *, void *)) vec3_add_to)((d), (s))
 #define VCOPY(d, s) ((void (*)(void *, void *)) VecCopy__FP3VecPC3Vec)((d), (s))
 
-void TBoss2DeRolLe__sub_8002FE60(void *arg0, u32 arg1) {
+void TBoss2DeRolLe__handle_particle_barrage_state(void *arg0, u32 arg1) {
     Vec *vel;
     Vec *hit;
     D_8002FE60 *self = (D_8002FE60 *) arg0;
@@ -6046,7 +6046,7 @@ void TBoss2DeRolLe__sub_8002FD9C(DeRolLe_8002FD9C *self, u32 arg1, s32 arg2) {
     }
 }
 
-void TBoss2DeRolLe__sub_8002FCE4(Obj_8002FCE4 *self, u32 kind) {
+void TBoss2DeRolLe__handle_deep_sink_state(Obj_8002FCE4 *self, u32 kind) {
     switch (kind) {
     case 4:
         self->f3C0 = self->f3C0 | 4;
@@ -6230,7 +6230,7 @@ void handle_death_state__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1) {
 
 #undef o
 
-void TBoss2DeRolLe__sub_8002F73C(Obj_8002F73C *self, u32 kind) {
+void TBoss2DeRolLe__handle_tunnel_departure_state(Obj_8002F73C *self, u32 kind) {
     switch (kind) {
     case 4:
         self->fB8 = 0x10;
@@ -6268,7 +6268,7 @@ void TBoss2DeRolLe__sub_8002F73C(Obj_8002F73C *self, u32 kind) {
 
 }
 
-#undef TBoss2DeRolLe__sub_800344A4
+#undef TBoss2DeRolLe__spawn_photon_pad
 #undef TBoss2DeRolLe__sub_80034574
 #undef TBoss2DeRolLe__sub_80034800
 #undef init_move_params__13TBoss2DeRolLeFPv
@@ -6281,7 +6281,7 @@ namespace joint_transform_view {
 
 extern "C" {
 
-void TObjPlayer__sub_8002F61C(NJS_OBJECT *) {
+void TBoss2DeRolLe__chunk_model_node_callback(NJS_OBJECT *) {
     if ((s32) TBoss2DeRolLe__current_attack_id == derolle_attack_sequence_id_table[TBoss2DeRolLe__sequence_match_index]) {
         forward_transform_to_view((const Vec *)&lbl_804FE31C.value, (Vec *)lbl_805D4BB4);
         TBoss2DeRolLe__sequence_match_index += 1;
@@ -6315,7 +6315,7 @@ void TObjPlayer__sub_8002F61C(NJS_OBJECT *) {
 
 }
 
-void fn_8002F5AC(u8 *arg0) {
+void TBoss2DeRolLe__init_attack_sequence(u8 *arg0) {
     TBoss2DeRolLe__current_attack_id = 0;
     copy_argb((NJS_ARGB *)&lbl_804FE30C.value, (NJS_ARGB *)(arg0 + 0x608));
     lbl_805D4BB0 = *(s32 *)((s8 *)arg0 + 0x3C0);
@@ -6370,9 +6370,9 @@ void TBoss2DeRolLe::render() {
     } else {
         derolle_texture_list_handle->tex = lbl_805D4BCC;
     }
-    fn_8002F5AC(((u8 *)this));
+    TBoss2DeRolLe__init_attack_sequence(((u8 *)this));
     TObjFish::set_global_param(e->f24);
-    set_chunk_model_node_callback(TObjPlayer__sub_8002F61C);
+    set_chunk_model_node_callback(TBoss2DeRolLe__chunk_model_node_callback);
     {
     Vec4_8002F258 saved;
     col = &TObjLight__scene_light_state.col;
@@ -6474,8 +6474,8 @@ void TBoss2DeRolLe::render_body() {
             frame = model->frames;
         }
     }
-    fn_8002F5AC((u8 *)self);
-    set_chunk_model_node_callback(TObjPlayer__sub_8002F61C);
+    TBoss2DeRolLe__init_attack_sequence((u8 *)self);
+    set_chunk_model_node_callback(TBoss2DeRolLe__chunk_model_node_callback);
     TObjFish::set_global_param(this->texlist);
     draw_model_motion((void *)self->x34, (void *)model, (f32)frame);
     set_chunk_model_node_callback(NULL);
