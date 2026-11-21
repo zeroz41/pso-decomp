@@ -29,7 +29,6 @@
 #pragma dont_inline off
 #pragma inline_depth(4)
 
-u16 ones_complement_sum();
 
 s32 NetIPv6Shutdown(void) {
     release_slot_by_id(0x86DD);

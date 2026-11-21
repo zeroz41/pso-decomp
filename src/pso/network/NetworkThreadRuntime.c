@@ -273,7 +273,8 @@ s32 TLobby__sub_803FA4A4(Conn_804004DC *self, PppHeader *src, s32 h);
 s32 TLobby__sub_803FA7B0(Conn_804004DC *self, PppHeader *src, void *h);
 s32 TLobby__sub_803FA318(Conn_804004DC *self, PppHeader *src, s32 n);
 void TLobby__sub_803FD694(u8 *arg0);
-s32 verify_message_sequence();
+typedef struct Obj_803FA664 Obj_803FA664;
+s32 verify_message_sequence(Obj_803FA664 *obj, PppHeader *msg, uaddr expected);
 void TLobby__sub_803F9FAC(u8 *ctx) {
     Blk_803FA2A8 *src = &lbl_804FD380;
     u8 *base = (u8 *)ppp_ipv6cp_protocol_state;
@@ -429,7 +430,7 @@ s32 TLobby__sub_803FA4A4(Conn_804004DC *self, PppHeader *src, s32 h) {
     u32 bit;
     s32 f;
     u8 pair[2];
-    m = (u32)self->opts;
+    m = (uaddr)self->opts;
     cnt = src->len;
     bits = (u8 *)m;
     p = (u8 *)m;
@@ -459,7 +460,7 @@ s32 TLobby__sub_803FA4A4(Conn_804004DC *self, PppHeader *src, s32 h) {
 }
 #pragma pop
 typedef struct Sub_803FA664 { u8 pad0[0x1C]; s16 h1C; } Sub_803FA664;
-typedef struct Obj_803FA664 { u8 pad0; u8 b1; u8 pad2[9]; u8 bB; u8 padC[0x24]; Sub_803FA664 *p30; } Obj_803FA664;
+struct Obj_803FA664 { u8 pad0; u8 b1; u8 pad2[9]; u8 bB; u8 padC[0x24]; Sub_803FA664 *p30; };
 
 void TLobby__sub_803FACD8(uaddr *self, void *src, s32 mask);
 #pragma push

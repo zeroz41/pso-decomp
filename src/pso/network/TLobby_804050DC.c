@@ -1045,7 +1045,6 @@ s32 TLobby__sub_80406B6C(NetBufferRef *o) {
     return -1;
 }
 
-u16 ones_complement_sum();
 #pragma push
 #pragma opt_lifetimes off
 u16 packet_ones_complement_sum(NetPacket *pkt, s16 flag)

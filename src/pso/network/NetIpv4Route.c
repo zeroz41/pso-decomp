@@ -370,10 +370,7 @@ s16 AT_IP4_IsReachable(u32 arg0, u32 arg1) {
     return 0;
 }
 
-Ipv4Route *AT_IP4_RouteSearch(a0, a1)
-u32 a0;
-u32 a1;
-{
+Ipv4Route *AT_IP4_RouteSearch(u32 a0, u32 a1) {
     u32 t;
     u16 flags;
     s16 i;

@@ -8,7 +8,6 @@
 #include "pso/network/TLobby_8041112C.h"
 
 s32 init_packet_fragment_pools(void);
-u16 ones_complement_sum(); /* declared without a parameter list; the definition is u16 (p, n) */
 
 
 NetFragPacket *TLobby__sub_8041955C(NetworkAddress *src, s32 ident, u8 ttl);
@@ -600,10 +599,8 @@ s32 TLobby__sub_8041979C(void) {
     return 0;
 }
 
-u16 ones_complement_sum(p, n)
-    u8 *p;
-    s16 n;
-{
+u16 ones_complement_sum(void *data, s16 n) {
+    u8 *p = data;
     u16 tmp[2];
     u32 sum;
     u32 odd;

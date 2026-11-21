@@ -20,7 +20,7 @@
 #include "pso/network/NetStackTypes.h"
 #include "pso/network/NetIPv6NeighborDiscovery.h"
 
-s16 TLobby__sub_80413D78(); /* declared without a parameter list; the definition is s16 (self, idx) */
+s16 TLobby__sub_80413D78(void *self, s16 idx);
 s16 TLobby__sub_80413F0C(); /* declared without a parameter list; the definition is s16 (self, id) */
 
 
@@ -239,7 +239,7 @@ s32 NetIPv6SendUnspecifiedSourceNeighborSolicitation(u8 *addr, s16 arg1) {
     s32 temp_r31;
     NetPacket *free_entry;
     s32 NetIPv6EmitNeighborSolicitation(void *, void *, void *, s16, int);
-    if (TLobby__sub_80413D78() != 0) {
+    if (TLobby__sub_80413D78(addr, arg1) != 0) {
         return -0x10E;
     }
     free_entry = alloc_free_entry();

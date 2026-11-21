@@ -20,7 +20,7 @@
 #include "pso/network/IPv6Send.h"
 #include "pso/network/NetStackTypes.h"
 
-s16 TLobby__sub_80413D78(); /* declared without a parameter list; the definition is s16 (self, idx) */
+s16 TLobby__sub_80413D78(void *self, s16 idx);
 s16 TLobby__sub_80413F0C(); /* declared without a parameter list; the definition is s16 (self, id) */
 
 
@@ -1424,10 +1424,7 @@ s16 TLobby__sub_80413C0C(self, id) void *self; s16 id; {
     return 0;
 }
 
-s16 TLobby__sub_80413D78(self, idx)
-void *self;
-s16 idx;
-{
+s16 TLobby__sub_80413D78(void *self, s16 idx) {
     u8 *tbl = (u8 *)&ipv6_address_routing_state;
     u8 *e = NULL;
     s32 i;

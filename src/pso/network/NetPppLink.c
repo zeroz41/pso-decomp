@@ -27,7 +27,7 @@ void TLobby__sub_803FD0C0(void) {
 
 typedef void (*PppLinkHandler)(void);
 s32 TLobby__sub_803FD404(s16 ch, u8 *addr);
-s32 TLobby__sub_803FD60C();
+s32 TLobby__sub_803FD60C(s16 ch, u8 *dst);
 
 s16 TLobby__sub_803FD10C(void) {
     PppLinkHandler fns[11];
@@ -214,10 +214,7 @@ typedef struct NetConfigEntry_805BC238 {
     u32 unk8;
     u32 unkC;
 } NetConfigEntry_805BC238;
-s32 TLobby__sub_803FD60C(ch, dst)
-    s16 ch;
-    u8 *dst;
-{
+s32 TLobby__sub_803FD60C(s16 ch, u8 *dst) {
     PppFsm *fsm;
     NetConfigEntry_805BC238 *e;
     u16 low;

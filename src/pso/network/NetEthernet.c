@@ -17,7 +17,7 @@ s32 TLobby__sub_80408FD8(s16 idx, s16 mode, u8 *data);
 s32 TLobby__sub_80409130(s16 arg0, s16 arg1, s32 arg2);
 s32 TLobby__sub_8040920C(s16 id, u8 *dst);
 s32 TLobby__sub_804092FC(s16 idx);
-s32 TLobby__sub_8040939C();
+s32 TLobby__sub_8040939C(s16 idx);
 s32 TLobby__sub_804093EC(s16 idx);
 s16 TLobby__sub_804094B8(s16 a, u16 b, s16 c, void *k);
 s32 TLobby__sub_8040970C(s16 idx, u8 *dst);
@@ -479,9 +479,7 @@ found:
     return 6;
 }
 
-s32 TLobby__sub_8040939C(idx)
-    s16 idx;
-{
+s32 TLobby__sub_8040939C(s16 idx) {
     EthSocket *e;
     if (idx < 0 || idx >= lbl_805C1AD8.nsockets) {
         return -0x111;

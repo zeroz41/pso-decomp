@@ -34,7 +34,6 @@ extern Ipv4ProtocolState ipv4_protocol_state;
 #pragma dont_inline off
 #pragma inline_depth(4)
 
-u16 ones_complement_sum();
 
 s32 TLobby__sub_8040DD68(void) {
     release_slot_by_id(0x800);
@@ -66,7 +65,6 @@ s32 init_ipv4_interfaces(void) {
 
 inline u16 ip_header_checksum(void *p, s16 n)
 {
-  u16 ones_complement_sum(void *, s16);
   u32 s = ones_complement_sum(p, n);
   s = (s >> 16) + (s & 0xFFFF);
   s += s >> 16;
