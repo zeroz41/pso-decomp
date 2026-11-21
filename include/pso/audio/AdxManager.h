@@ -7,14 +7,14 @@
 // --- C functions defined in AdxManager.cpp ---
 extern "C" {
 void setup_adx_file_systems(s32 *arg0);
-void TLobby__sub_803CB7F8(s32 context, const char *message, void *detail);
-void TLobby__sub_803CB81C(void);
-s32 TLobby__sub_803CB844(void);
-void TLobby__sub_803CBA18(AdxMessageCallback callback, s32 context);
-void TLobby__sub_803CBA38(void);
-void TLobby__sub_803CBB14(void);
+void TLobby__fs_error_notify(s32 context, const char *message, void *detail);
+void TLobby__exec_fs_server(void);
+s32 TLobby__is_adxm_initialized(void);
+void TLobby__set_message_callback(AdxMessageCallback callback, s32 context);
+void TLobby__call_callbacks_group2(void);
+void TLobby__vblank_thread_loop(void);
 void __OSCallResetFunctions(s32 context);
-void fn_803CBCA0(s32 context);
+void adxm_svm_unlock_callback(s32 context);
 }
 // --- end of C functions
 

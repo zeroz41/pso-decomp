@@ -17860,7 +17860,7 @@ force_active:
   - "apply_if_v2__6TLobbyFv"
   - "check_packet_header_8001__6TLobbyFPUslPl"
   - "set_rate_mode__6TLobbyFl"
-  - "TLobby__sub_803CBA18"
+  - "TLobby__set_message_callback"
   - __ct__10TOMineTrapFP8TObjBasess
   - find_target_in_range__10TOMineTrapFv
   - is_target_in_list__6TOMineFPv

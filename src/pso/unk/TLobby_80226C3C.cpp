@@ -307,7 +307,7 @@ struct SndHooks {
 };
 void TLobby__sub_803CBE20(void *work, s32 size, s32 count);
 void setup_adx_file_systems(s32 *arg0);
-void TLobby__sub_803CB858(s32 *arg0);
+void TLobby__init_runtime_threads(s32 *arg0);
 void TLobby__sub_803C94B8(AdxMessageCallback callback, s32 context);
 s32 adx_create_stream_player(s32 n, void *buffer, s32 size);
 u32 ARInit(u32 *stack_index_addr, u32 num_entries);
@@ -612,7 +612,7 @@ void init_adx_audio_system(void) {
     TLobby__sub_803CBE20(lbl_805D62DC, 0xA000, 5);
     TLobby::init_and_add_ref();
     setup_adx_file_systems(NULL);
-    TLobby__sub_803CB858(NULL);
+    TLobby__init_runtime_threads(NULL);
     SndHooks hooks = snd_hooks;
     ARInit(lbl_804CB838, 6);
     ARQInit();
