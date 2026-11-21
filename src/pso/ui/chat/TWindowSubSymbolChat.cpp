@@ -36,6 +36,7 @@
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/system/vector.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 #pragma push
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -120,14 +121,12 @@ extern Obj_80283850 symbol_chat_receive_buffer;
 s32 has_window_task_root();
 extern void *TWindowSubSymbolChat__instance;
 
-void mem_free(void *p);
 s32 TWindowSubSymbolChat__sub_80283944(int);
 s32 fn_80285A28(int, void *);
 extern s8 TWindowSubSymbolChat__data_805D6494;
 extern s32 TWindowSubSymbolChat__data_805D6498;
 extern s32 TWindowSubSymbolChat__data_805D649C;
 extern s32 TWindowSubSymbolChat__help_window;
-void TWindowSubComCard__sub_80265680(u8 *arg0, s16 arg1);
 
 extern s32 close_child__20TWindowSubSymbolChatFv[];
 }

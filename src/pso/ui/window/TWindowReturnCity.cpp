@@ -15,6 +15,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
+#include "pso/unk/TLobby_80207644.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
 struct Base_8026D208 { char pad[0x18]; };
 struct VObj_8026D208 : Base_8026D208 {
@@ -32,8 +34,6 @@ struct VObj_8026D208 : Base_8026D208 {
 
 extern "C" {
 void *get_player_by_client_id(s32);
-s32 get_floor_map_terrain(s32);
-void mark_area_change_pending(void);
 s32 prepare_hospital_return__10TObjPlayerFv();
 s32 __ct__7TObjectFP7TObject(void *, void *);
 saddr get_window_layout_position(int);

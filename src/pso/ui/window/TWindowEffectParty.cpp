@@ -10,6 +10,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/vector.h"
+#include "pso/unk/text_80087278.h"
 
 
 struct Obj_8024FB80 { u8 pad[0x78]; void *arr[1]; };
@@ -22,7 +23,6 @@ extern s32 local_client_id;
 saddr get_window_layout_position(s32);
 f32 get_scale__15TWindowCtrlMainFv(s32);
 extern Obj_8024FB80 *TWindowCtrl__active_window;
-TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 extern const char *TWindowEffectParty__name;
 }
 

@@ -1,8 +1,8 @@
 #include "types.h"
 #include "pso/ui/window/TWindowDD.h"
+#include "pso/ui/window/TWindowDD_80341A08.h"
 
 extern "C" {
-int TWindowDD__sub_80342158(u8 *arg0);
 void TWindowDD__sub_80342B5C(u8 *arg0);
 s32 update_numeric_parameter_input__9TWindowDDFPv();
 s32 update_close_flag__9TWindowDDFPv(void *);

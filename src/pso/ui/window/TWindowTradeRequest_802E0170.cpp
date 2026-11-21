@@ -10,19 +10,18 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/text_8024AADC.h"
+#include "pso/unk/text_8024AB98.h"
+#include "pso/unk/text_8024ACA8.h"
+#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/unk/text_8024AC64.h"
 
 extern "C" {
-void fn_8024AADC(s32 arg0, s32 arg1);
-void TLobby__sub_8024AC20(saddr arg0);
-void TWindowReturnCity__sub_8024ACA8(saddr arg0);
 extern s32 local_client_id;
-s32 *get_shared_text_buffer(void);
 u8 *get_window_layout_position(s32);
 }
 void text_builder_reset(void);
 extern "C" {
-void TObjPlayer__sub_8024ABDC(saddr arg0);
-void fn_8024AC64(saddr arg0);
 const char *TWindowTradeRequest__name = "TWindowTradeRequest";
 void TWindowTradeRequest::render() {  }
 

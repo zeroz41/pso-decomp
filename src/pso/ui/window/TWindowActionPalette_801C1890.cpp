@@ -14,6 +14,7 @@
 #include "pso/item/TItem.h"
 
 #include "pso/unk/TLobby.h"
+#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 
 struct O_801C1C68 { u8 pad[4]; u8 a[0x10]; u8 b[0x10]; };
 
@@ -26,7 +27,6 @@ struct S_801C1BA8 { u8 a; u8 b; u8 c; u8 d; s32 e; C_801C1BA8 f; };
 
 extern "C" {
 int TWindowActionPalette__sub_801C1C20(void* p);
-s32 test_flags_any(s32 *flags, s32 mask);
 void *TWindowActionPalette__sub_801C1C68(O_801C1C68 *self, s32 i);
 S_801C1BA8 *fn_801C1BA8(S_801C1BA8 *arg0, S_801C1BA8 *arg1);
 }

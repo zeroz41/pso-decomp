@@ -32,6 +32,7 @@
 #include "pso/render/render_util.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/math/AngleLookup.h"
 
 void TUnk_804EE458::draw_record_with_camera(s32 record, s32 camera) {
     TLobby::draw_with_camera((saddr)((void *) (TLobby::get_record(record))), camera, 0x20, (-1e+01f));
@@ -41,8 +42,6 @@ extern "C" {
 void TCameraCtrl__sub_80068EF0(void);
 
 s32 play_sound_effect(int, int, int, int);
-
-f32 sin_table_lookup(s32);
 
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);

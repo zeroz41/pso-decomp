@@ -27,6 +27,8 @@
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
+#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 
 
 struct UV_8024503C { f32 u, v; };
@@ -131,9 +133,6 @@ struct Lines_80245A10 { NJS_POINT2 *verts; u32 *colors; s32 f8; s32 count; };
 extern "C" {
 void TWindowSubComCard__sub_80245A10(u8 *arg0, s32 arg1, WindowDrawContext *r, f32 len);
 void draw_color_lines(Lines_80245A10 *l, s32 n, s32 flags, f32 scale);
-void begin_screen_draw(s32);
-void draw_textured_quad_at_depth(f32 *q, f32 depth);
-void set_draw_texture_and_color(s32, s32);
 struct VOff_8024491C_arg0_card_1 { char pad_0[0x38]; char f_38[1]; };
 
 struct VOff_80244958_arg0_card_1 { char pad_0[0x30]; char f_30[1]; };
@@ -153,7 +152,6 @@ void fn_80244958(void *arg0);
 void fn_802449E0(u8 *arg0);
 Win_80244DFC * find_overlapping_balloon__15TWindowFukidasiFPvPvPvPv(Win_80244DFC *self, void *a, void *b, Win_80244DFC *p);
 int TWindowFukidasi__sub_8024695C(void *p);
-TObject *TWindowCtrlMain__sub_8024CE24(void);
 
 extern int lbl_805D3614;
 

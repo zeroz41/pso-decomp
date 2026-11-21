@@ -36,6 +36,9 @@
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
+#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
+#include "pso/ui/window/TWindowCtrl_8024A054.h"
 
 // inferred: name from the string the .sdata pointer holds
 const char *TWindowMenuIconLine__name = "TWindowMenuIconLine";
@@ -146,12 +149,9 @@ struct Win_80267714
 };
 
 extern "C" {
-s32 *get_shared_text_buffer(void);
 u32 calc_text_width();
 u8 get_font_char_advance();
 u16 map_char_to_font_code(u16 c);
-void text_builder_append_int(s32);
-void text_builder_append(u8 *str);
 void draw_window_tab(void *, void *, s32, f32);
 void draw_item_list_capacity(void *arg0, Win_80267714 *arg1, s32 arg2, s32 arg3);
 s32 lbl_804D05F8[3] = {1, 0, 8};
@@ -163,7 +163,6 @@ s32 clamp_list_scroll_offset(int, void *, void *);
 s32 get_cursor_pos__14TWindowSubItemFv();
 s32 init_entry__20TWindowSubStatusDispFScScUcUll(s32, u8, u8, int, s32, s32);
 void fn_80266BD0(s32 index, u8 *first, u8 *second, s32 player);
-void TWindowSubStatusDisp__sub_80258A28(u8 *arg0, s32 arg1, s32 arg2);
 void *get_player_by_client_id(s32 i);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 finalize_state__20TWindowSubStatusDispFv(s32);
@@ -172,7 +171,6 @@ s32 is_flag80_set__20TWindowSubStatusDispFv(s32);
 void text_builder_reset();
 s32 draw_window_text(f32 *pos, const char *s, s32 color, s32 mode, f32 width);
 extern "C" {
-s32 is_player_input_active(s32 param_1);
 s32 draw_window_scrollbar(s32, s32, void *);
 
 void TShopJudgmentItemWindow__sub_80267F9C(NJS_POINT2 v, s32 x);

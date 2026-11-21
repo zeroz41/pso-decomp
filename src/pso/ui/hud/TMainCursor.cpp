@@ -67,6 +67,8 @@
 #include "pso/ui/hud/TLockOnCursor_8013EEC8.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/ui/hud/TMainCursor_80154090.h"
+#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 extern "C" void *__ct__16TargetCursorListFv(void *list);
 extern "C" void *__ct__18TargetCursorRecordFv(void *p);
 
@@ -272,13 +274,10 @@ struct Weapon_8013CDE4 { f32 f0; f32 f4; s32 f8; s32 fc; s32 f10; };
 
 extern "C" {
 int TLockOnCursor__sub_8013EB34(void);
-void translate_matrix_vec3(u8 *arg0, u8 *arg1);
-void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 void *TObjPlayer__sub_80116620(void *, s32);
 void set_cursor_count(void *, s32);
 s32 TLockOnCursor__sub_8013EB2C(void *);
 s32 TMainCursor__sub_8013F168(void *p);
-void TMainCursor__sub_80154230(void *arg0, s32 arg1, u16 arg2);
 s32 get_type__10TObjPlayerFPv(void *p);
 Weapon_8013CDE4 *get_weapon_range_record(void *, s32);
 void TMainCursor__sub_8013E9A0(void *p);
@@ -345,11 +344,6 @@ int TObjPlayer__sub_8013A820(void* a0 = 0);
 }
 extern const f32 lbl_805DB0C4;
 
-extern "C" {
-
-s32 test_flags_any(s32 *flags, s32 mask);
-
-}
 
 struct Rec_8013E870 { u8 pad[0x124]; };
 

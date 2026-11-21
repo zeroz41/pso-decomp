@@ -19,6 +19,8 @@
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/system/vector.h"
 #include "pso/ui/window/TWindowActionPalette_801C1890.h"
+#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
 
 struct Obj_80275DB4 { u8 pad[0x60]; char f60; u8 pad2[0x6c - 0x61]; void *f6c; };
 
@@ -103,9 +105,6 @@ void *get_player_by_client_id(s32);
 s32 can_use_palette_action__10TObjPlayerFPvUcUc(void *, u8, u8);
 void update_palette_item_count_label(u8 *, u8 *, s32, s32, s32);
 void draw_action_palette_icon(u8 *, s32, s32);
-void begin_screen_draw(s32 arg0);
-void draw_textured_quad_at_depth(f32 *q, f32 depth);
-void set_draw_texture_and_color(s32 idx, s32 arg1);
 void draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif(u8 *arg0, NJS_POINT2 *arg1, s32 arg2, f32 farg0);
 int TWindowSubCustomEquip__sub_80275DA8(void* p);
 
@@ -277,7 +276,6 @@ f32 TWindowSubCustomEquip__ring_scale;
 u8 TWindowSubCustomEquip__bank_ring_init_done;
 f32 lbl_805D6478;
 u8 lbl_805D647C;
-s32 fn_8002AE08(int);
 s32 test_buttons_press_or_repeat(void *, int, int, int);
 s32 play_sound_effect(s32, s32, s32, s32);
 

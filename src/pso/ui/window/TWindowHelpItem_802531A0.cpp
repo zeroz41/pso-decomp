@@ -13,6 +13,8 @@
 #include "pso/ui/Language.h"
 
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/unk/text_80104FCC.h"
 struct Stack_80253268 {
     s32 sp8;
     s16 spC;
@@ -45,8 +47,6 @@ extern "C" {
 s32 build_player_equipment_requirement_stats(int, void *);
 void *get_player_by_client_id(s32 i);
 void draw_action_palette_icon(void *, int, u16);
-s32 *get_shared_text_buffer(void);
-s32 check_equip_requirements(void *self, TItemData *p, s32 *out);
 void text_builder_append();
 }
 extern u8 lbl_804CF4E4[];

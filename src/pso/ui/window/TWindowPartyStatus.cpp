@@ -13,6 +13,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/unk/text_8030C340.h"
+#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 
 
 #pragma readonly_strings on
@@ -37,9 +38,6 @@ s32 TWindowSubComCard__sub_802452DC(int);
 s32 TWindowSubComCard__sub_80245320(void *, void *);
 s32 TWindowSubComCard__sub_802454E4(int);
 s32 TWindowSubComCard__sub_80245558(void *, void *, void *);
-void begin_screen_draw(s32 arg0);
-void draw_textured_quad_at_depth(f32 *q, f32 depth);
-void set_draw_texture_and_color(s32 idx, s32 arg1);
 extern s32 lbl_805D63F0;
 saddr get_window_layout_position(int);
 s32 TWindowSimpleStatus__ct(void *, int, void *, void *);

@@ -22,6 +22,8 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/unk/TLobby.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
 
 const char *TWindowCtrl__name = "TWindowCtrl";
 /* frame of the open sequence at which each window appears: split screen / single player */
@@ -42,7 +44,6 @@ typedef struct Ctrl_8024B7D4 {
 } Ctrl_8024B7D4;
 
 extern "C" {
-f32 cos_table_lookup(s32);
 void *get_player_by_client_id(s32 i);
 extern TWindowCtrl *TWindowCtrl__active_window;
 
@@ -93,7 +94,6 @@ void TWindowCtrl::update_pulse_color() {
 
 s32 TWindowCtrl__sub_8024B000(void *, saddr);
 s32 is_split_screen();
-s32 fn_8002AE08(s32);
 
 extern s32 local_client_id;
 

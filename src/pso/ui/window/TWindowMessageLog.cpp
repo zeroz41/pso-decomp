@@ -21,6 +21,8 @@
 #include "pso/ui/window/TWindowCtrl_8026AD44.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/system/task/TObject.h"
+#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 
 #pragma readonly_strings on
 
@@ -239,8 +241,6 @@ void chat_log_add_line(const char *text) {
 }
 
 extern "C" {
-s32 *get_shared_text_buffer(void);
-void text_builder_append(u8 *str);
 s32 *get_active_photon_object__17TWindowMessageLogFv(u16);
 }
 void append_text_space(void);

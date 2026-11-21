@@ -28,6 +28,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
+#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 
 
 #pragma readonly_strings on
@@ -93,8 +94,6 @@ struct Card_80265AA4 {
 struct Ent_80265C30;
 
 s32 play_sound_effect(s32, s32, s32, s32);
-void measure_message_text_width_default(void *);
-s32 is_window_display_enabled();
 void measure_message_text_width(Ent_80265C30 *e, f32 x);
 void TWindowSubComCard__sub_80265500(u8 *arg0);
 s32 TWindowSubComCard__sub_80265660(Obj_80265660 *o, s16 i);

@@ -18,11 +18,14 @@
 #include "pso/map/FloorArea.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/player/TObjPlayer_801D84A8.h"
+#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
+#include "pso/ui/window/TWindowCtrl_8024A054.h"
 
 
 extern "C" {
 void *get_player_by_client_id(s32 i);
-s32 is_palette_entry_displayable__10TObjPlayerFv(u8 *arg0, u8 kind, u8 sub);
 s32 set_depth__11TWindowBaseFf(int);
 }
 saddr create_titled_window_menu(saddr arg0, s32 arg1, saddr arg2, s32 arg3);
@@ -142,18 +145,14 @@ extern u8 *text_language_group_table;
 extern "C" {
 saddr get_technique_description_text(s32 arg0);
 u8 *calc_technique_parameters(s16, u8, s32);
-s32 *get_shared_text_buffer();
 s32 get_cast_technique_level(void *, int);
 s32 validate_and_clear_slot__10TObjPlayerFPvs(void *, int);
-void text_builder_append_int(s32 arg0);
-void text_builder_append(u8 *str);
 }
 saddr get_help_text_string(s32 arg0);
 extern "C" {
 s32 try_equip_item__10TObjPlayerFii(saddr, s32);
 void play_sound_effect(s32, s32, s32, s32);
 // set_depth__11TWindowBaseFf declared above
-s32 is_player_input_active(s32);
 void *create_title_window__19TWindowSubTechniqueFv(void *, s32);
 extern Pad_802870C4 controller_input_state[];
 void *TWindowSubTechnique__ct(TWindowSubTechnique *arg0, s32 arg1, s32 arg2);

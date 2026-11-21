@@ -15,8 +15,6 @@
 #pragma push
 #pragma readonly_strings on
 
-extern "C" void measure_message_text_width_default(void *);
-
 const char *TWindowChallengeResult__name = "TWindowChallengeResult";
 #pragma pop
 

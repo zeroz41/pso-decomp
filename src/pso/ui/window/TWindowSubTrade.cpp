@@ -6,6 +6,8 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/ui/window/TWindowSubComCard_802A5748.h"
 class TChCrTagPlBack;
 #include "pso/ui/window/TWindowSubTrade.h"
 #include "pso/unk/TLobby.h"
@@ -61,13 +63,11 @@ struct VObj_802B1B80 : VBase_802B1B80 {
 };
 
 extern "C" {
-s32 *get_shared_text_buffer(void);
 s32 text_builder_append();
 }
 void text_builder_reset(void);
 extern "C" {
 saddr get_window_layout_position(int);
-void open_yes_no_prompt(TChCrTagPlBack *arg0, u32 arg1, s32 arg2, s32 arg3, f32 farg0);
 const char *TWindowSubTrade__name = "TWindowSubTrade"; // TWindowSubTrade__name
 // Player message window position (x, y).
 extern const f32 lbl_80470AA8[2] = {384.0f, 120.0f};

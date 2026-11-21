@@ -18,6 +18,7 @@
 #include "pso/ui/window/TWindowCtrl.h"
 
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/text_80211C3C.h"
 
 const char *TObjBagWarnWin__name = "TObjBagWarnWin";
 
@@ -84,8 +85,6 @@ extern "C" {
 s32 has_window_task_root();
 
 void *get_player_by_client_id(s32 i);
-
-s32 TLobby__sub_80211C3C();
 
 extern s32 local_client_id;
 

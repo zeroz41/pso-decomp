@@ -5,6 +5,8 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 
 
 struct ByteBlock_16 { u8 bytes[0x16]; };
@@ -47,10 +49,7 @@ typedef struct LvUp_8026DA44 {
 } LvUp_8026DA44;
 extern "C" {
 
-s32 *get_shared_text_buffer(void);
 void *get_player_by_client_id(s32 i);
-void text_builder_append_int(s32);
-void text_builder_append(u8 *str);
 void __ct__7TObjectFP7TObject(void *);
 void update_stat_messages__17TWindowSetLevelUpFv(LvUp_8026DA44 *self);
 void render__17TWindowSetLevelUpFv(void);

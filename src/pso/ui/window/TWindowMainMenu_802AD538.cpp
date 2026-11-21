@@ -6,6 +6,8 @@
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/ui/window/TWindowSubComCard_80244774.h"
+#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 struct TWindowSubComCard;
 #include "pso/ui/window/TWindowMenuMainMenu.h"
 #include "pso/ui/window/TWindowMainMenu.h"
@@ -109,7 +111,6 @@ struct Item_802AD7F0 {
 };
 
 s32 test_buttons_press_or_repeat(void *, int, int, int);
-f32 TWindowSubComCard__sub_80244784(TWindowSubComCard *);
 saddr fn_8026CB68();
 void draw_item_labels__15TWindowMainMenuFv(Item_802AD538 *p, Win_802AD538 *w);
 void park_selection__15TWindowMainMenuFPv(Menu_802AD980 *arg0);
@@ -118,9 +119,6 @@ void TWindowMainMenu__sub_802ADADC(Obj_802ADADC *self, s8 i);
 int find_free_item_slot__15TWindowMainMenuFPv(Obj_802ADC04 *self);
 s32 append_child_rows__15TWindowMainMenuFPvi(Menu_802ADD38 *arg0, s32 arg1);
 Rect_802AE2B0 * setup_content_frame__15TWindowMainMenuFPv(u8 *arg0);
-void begin_screen_draw(s32 arg0);
-void draw_textured_quad_at_depth(f32 *q, f32 depth);
-void set_draw_texture_and_color(s32 idx, s32 arg1);
 
 const char *TWindowMenuMainMenu__class_name = "TWindowMenuMainMenu";
 

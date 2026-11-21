@@ -3,12 +3,11 @@
 #include "pso/ui/window/TWindowSubEquip.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
+#include "pso/ui/window/TWindowHelpItem_802540AC.h"
 
 extern "C" {
 
 void *get_player_by_client_id(s32 i);
-void TWindowHelpItem__set_displayed_item_by_id(u8 *arg0, saddr arg1);
-void show_item_by_id__15TWindowHelpItemFPvi(u8 *arg0, saddr arg1);
 
 void TWindowSubEquip::update_displayed_item() {
     s32 temp_r3;

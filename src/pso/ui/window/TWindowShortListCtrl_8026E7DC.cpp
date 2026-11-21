@@ -29,15 +29,15 @@
 #include "pso/technique/TTecCtrl.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/hud/TMainCursor_8013DF5C.h"
+#include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
+#include "pso/ui/window/TWindowCtrl_8024A054.h"
+#include "pso/unk/text_801C53D4.h"
 
 
 extern "C" {
 s32 canSetMenuCursorAction(s32, s32, u8, u8);
-void TMainCursor__sub_8013DFC4(u8 *arg0);
-s32 fn_8002AE08(int);
-s32 is_player_input_active(s32 param_1);
 s32 try_send_6x27_use_item(void *arg0, s32 arg1);
-s32 decrement_clamped(s32 *arg0, s32 arg1);
 s32 try_equip_item__10TObjPlayerFii(u8 *, s32);
 void play_sound_effect(int, int, int, int);
 s32 TWindowCtrl__sub_8024A228(saddr);

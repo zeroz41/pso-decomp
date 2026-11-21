@@ -5,10 +5,10 @@
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
 
 extern "C" {
 f32 fabs_float(f32, f32);
-s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 }
 
 #pragma fp_contract on

@@ -46,6 +46,8 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/camera/TCameraCtrl_801A6E60.h"
+#include "pso/ui/window/TWindowCtrl_8024A1A8.h"
+#include "pso/ui/window/TWindowCtrl_8024A054.h"
 const char *TWindowCtrlMain__name = "TWindowCtrlMain";
 const char *TWindowCtrlScreen__name = "TWindowCtrlScreen";
 const char *TWindowCtrlSub__name = "TWindowCtrlSub";
@@ -109,13 +111,11 @@ struct W_8024DCE8 : WBase_8024DCE8 {
 };
 extern "C" {
 u32 get_player_by_client_id(int);
-s32 TWindowCtrl__sub_8024A314();
 s32 bind_target__13TWindowLockOnFUs(void *, s32);
 u32 create_for_target__13TWindowLockOnFlUs(int, s32);
 s32 get_function_key_menu__16TKeyBoardControlFPv(void *arg0);
 s32 fn_8002AE08(void *p);
 u16 get_current_target_id__10TObjPlayerFv();
-s32 is_player_input_active(s32);
 extern Pad_8024DCE8 controller_input_state[];
 int TWindowMainMenu__sub_8024E3F4(void *p);
 void TWindowCtrl__sub_8024DAAC(void *arg0);

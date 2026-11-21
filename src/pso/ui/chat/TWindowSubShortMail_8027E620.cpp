@@ -29,6 +29,8 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/ui/chat/ShortMail.h"
+#include "pso/ui/window/TWindowSubComCard_802A5748.h"
 
 class TChCrTagPlBack;
 const char *TWindowSubShortMail__class_name = "TWindowSubShortMail";
@@ -56,9 +58,7 @@ void TWindowSubShortMail__sub_8027FAD0(u8 *);
 saddr get_card_window_area__6TLobbyFv();
 void * get_mail_ptr__19TWindowSubShortMailFPv(void *);
 s32 fn_8007B83C(s32);
-void *TLobby__sub_8022598C(int a0);
 s32 add_status_entry__20TWindowSubStatusDispFScll(void *, s32, s32, u32);
-void open_yes_no_prompt(TChCrTagPlBack *arg0, u32 arg1, s32 arg2, s32 arg3, f32 farg0);
 void TWindowSubShortMail__sub_8027E620(void* p);
 s32 *get_shared_text_buffer(void);
 s32 __nw__7TObjectFUl(s32);
@@ -108,7 +108,6 @@ void TWindowSubShortMail__sub_8027E620(void *p);
 void remove_short_mail_by_id(u32 id);
 
 extern "C" {
-void TLobby__sub_802258C8(void);
 extern s32 __vt__19TWindowSubShortMail[];
 }
 

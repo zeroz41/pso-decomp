@@ -31,6 +31,10 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/ui/window/TWindowCtrl_8024ADAC.h"
+#include "pso/unk/text_8024AB98.h"
+#include "pso/unk/text_8024AB54.h"
 
 const char *TWindowSubTradeMain__name = "TWindowSubTradeMain";
 
@@ -139,15 +143,9 @@ void play_sound_effect(int, int, int, int);
 saddr create_titled_window_menu(saddr arg0, s32 arg1, saddr arg2, s32 arg3);
 void window_request_show(void *);
 extern "C" {
-void TWindowSubComCard__sub_80265680(u8 *arg0, s16 arg1);
 s32 get_state__19TWindowSubTradeMainFv(void *, void *);
 void TWindowSubTradeMain__sub_803323C8(void *);
 extern Ctrl_8033162C controller_input_state[];
-void TWindowCtrl__sub_8024ADF0(saddr arg0);
-void TWindowSubComCard__sub_8024AB98(saddr arg0);
-void TWindowCtrl__sub_8024ADAC(saddr arg0);
-void snapshot_trade_inventories(void);
-void fn_8024AB54(saddr arg0);
 void fn_8027B2A8(void *);
 }
 

@@ -11,6 +11,8 @@
 #include "pso/ui/city/TShopArmorListWindow.h"
 #include "pso/system/task/TObject.h"
 #include "pso/network/client_id.h"
+#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/unk/text_80076BC4.h"
 
 const char *TWindowSubShortCutList__class_name = "TWindowSubShortCutList";
 // Size argument of the shortcut list window.
@@ -18,9 +20,7 @@ static const f32 lbl_8044FAA8[2] = {405.0f, 188.0f};
 
 extern "C" {
 void TShopJudgmentItemWindow__sub_80267F9C(void *, int);
-s32 *get_shared_text_buffer(void);
 char *fn_80076BC4(s32 *);
-saddr get_chat_shortcut(s32 arg0);
 s32 get_symbol_chat_data__20TWindowSubSymbolChatFv();
 s32 save_cursor_selection__20TShopArmorListWindowFv();
 

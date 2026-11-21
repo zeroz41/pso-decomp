@@ -9,6 +9,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/unk/TLobby_8001D6A0.h"
 
 
 #pragma readonly_strings on
@@ -20,7 +21,6 @@ const char *TWindowMessagePage__name = "TWindowMessagePage";
 struct Page_8026AE20 { u8 pad[0x90]; s32 flags; void *msg; };
 
 extern "C" {
-s32 *get_shared_text_buffer(void);
 
 s32 TWindowMessagePage::is_ready() {
     if ((u32) this->m_94 != 0U) {

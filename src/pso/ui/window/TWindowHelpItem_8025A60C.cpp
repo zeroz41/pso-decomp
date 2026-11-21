@@ -10,6 +10,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 #include "pso/system/vector.h"
+#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #pragma readonly_strings on
 
 struct UV_8025A650 { f32 u; f32 v; };
@@ -21,9 +22,6 @@ struct Ctx_8025A650 { u8 p0[0x10]; f32 x; f32 y; u8 p18[0x18]; s32 f30; u8 p34[4
 
 f32 get_item_star_row_width(u8 *arg0);
 extern "C" {
-void begin_screen_draw(s32 arg0);
-void draw_textured_quad_at_depth(f32 *q, f32 depth);
-void set_draw_texture_and_color(s32 idx, s32 arg1);
 extern s32 lbl_805D63F0;
 void render_item_rarity_stars(Item_8025A650 *item, Ctx_8025A650 *ctx);
 }

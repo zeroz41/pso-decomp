@@ -18,6 +18,7 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/unk/text_8026C7AC.h"
 
 const char *TWindowSubStatusDisp__class_name = "TWindowSubStatusDisp";
 extern "C" {
@@ -334,7 +335,6 @@ const s32 status_disp_vt5_message_ids[4] = {0x91, 0x92, 0x91, 0x92};
 #include "types.h"
 
 extern "C" {
-s32 fn_8026C7AC(void *arg0, s8 arg1);
 void *get_player_by_client_id(s32 i);
 }
 

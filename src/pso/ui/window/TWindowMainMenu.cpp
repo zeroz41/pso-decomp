@@ -13,6 +13,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/ui/window/TWindowMainMenu_802AD538.h"
 
 struct TWindowSubItem;
 
@@ -109,7 +110,6 @@ extern "C" {
 s32 TWindowMainMenu__sub_802ADADC(void *, int);
 s32 append_child_rows__15TWindowMainMenuFPvi(void *, s32);
 u32 create_menu__15TWindowMainMenuFPvPv(void *, int);
-int TWindowMainMenu__sub_802ADB00(u8 *arg0);
 void populate_menu__15TWindowMainMenuFPvPv(u8 *arg0, TWindowMainMenuEntry *arg1);
 int park_selection__15TWindowMainMenuFPv(void*);
 }

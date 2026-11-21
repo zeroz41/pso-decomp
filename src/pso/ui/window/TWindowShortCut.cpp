@@ -64,7 +64,6 @@ WindowDescriptor window_short_cut_layout = {
 
 extern "C" {
 void measure_message_text_width(void *entry, f32 max_width);
-void measure_message_text_width_default(void *entry);
 }
 
 // A shortcut's preview text entry: its flags word and the measured size of its text.

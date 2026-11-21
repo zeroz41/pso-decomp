@@ -12,6 +12,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/window/TWindowCtrl_8024A054.h"
 
 #pragma readonly_strings on
 
@@ -39,7 +40,6 @@ s32 mark_unequippable_items(int);
 s32 create_equip_kind_window(void *, const NJS_POINT2 *, int);
 void *get_player_by_client_id(s32 i);
 s32 play_sound_effect(s32, s32, s32, s32);
-s32 is_player_input_active(s32);
 s32 fn_80255A38(s32);
 s32 TWindowSubEquip__sub_80263AF4(void *, s32);
 extern u8 controller_input_state[];

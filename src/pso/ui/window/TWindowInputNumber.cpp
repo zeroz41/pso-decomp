@@ -16,6 +16,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
+#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 
 const char *TWindowInputNumber__name = "TWindowInputNumber";
 // Value of one step at each digit position (1 .. 1000000).
@@ -154,9 +155,6 @@ struct Win_80256354 { u8 p0[0x62]; s8 f62; u8 p63[5]; s32 f68; };
 extern "C" {
 extern s8 controller_input_state[];
 void draw_arrows__18TWindowInputNumberFv(TWindowInputNumber *, Ctx_802563A0 *, Digit_802561E8 *, int);
-void begin_screen_draw(s32);
-void set_draw_texture_and_color(s32, s32);
-void draw_textured_quad_at_depth(f32 *q, f32 depth);
 extern s32 lbl_805D63F0;
 void __dl__7TObjectFPv(void *);
 

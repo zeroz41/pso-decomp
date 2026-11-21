@@ -28,6 +28,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerSlots.h"
 #include <string.h>
+#include "pso/ui/chat/TWindowSubSymbolChatPartsSet_80247EFC.h"
 
 struct Fuki_80250A24 {
     u8 pad0[0x38];
@@ -185,7 +186,6 @@ Ent_802511E4 * find_entity_by_id(u16);
 s32 play_sound_effect(int, int, int, int);
 s32 sub_80246948__11TWindowBaseFv(void *);
 void TWindowSubSymbolChat__sub_802483F0(int a0, void *a1);
-void set_symbol_chat_parts__20TWindowSubSymbolChatFiPv(saddr arg0, void *arg1);
 s32 draw_resolved_window__15TWindowFukidasiFllll(Fuki_80250F70 *, f32 *, f32 *, s32);
 }
 
@@ -215,9 +215,6 @@ void rotate_vector_by_matrix(saddr, void *, void *);
 void rotate_matrix_y(s32, s32);
 void rotate_matrix_z(s32, s32);
 void rotate_matrix_x(s32, s32);
-void begin_screen_draw(s32 arg0);
-void DVDConvertEntrynumToPath(f32 *q);
-void set_draw_texture_and_color(s32 idx, s32 arg1);
 extern Cam_802511E4 TCameraCtrl__data_804FF634;
 __declspec(section ".rodata") extern const char TWindowFukidasi__class_name_string[] = "TWindowFukidasi";
 }

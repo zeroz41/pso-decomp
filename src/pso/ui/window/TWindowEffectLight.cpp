@@ -13,6 +13,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/vector.h"
+#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
+#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 
 #pragma readonly_strings on
 
@@ -23,13 +25,9 @@ struct Light_802AD1CC { u8 pad0[0x1C]; f32 x; f32 y; };
 extern "C" {
 s32 __cvt_fp2unsigned(f32);
 void TCameraCtrl__sub_80068EF0(void);
-s32 is_window_display_enabled(void);
-void begin_screen_draw(s32);
 extern s32 lbl_805D63F0;
 const char *TWindowEffectLight__name = "TWindowEffectLight";
 extern saddr tl_window;
-void draw_textured_quad_at_depth(f32 *q, f32 depth);
-void set_draw_texture_and_color(s32 idx, s32 arg1);
 
 
 #pragma fp_contract on

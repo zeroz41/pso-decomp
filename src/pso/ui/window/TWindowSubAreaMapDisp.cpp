@@ -18,6 +18,9 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include <string.h>
+#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
+#include "pso/unk/TLobby_8030A6A8.h"
 
 #pragma readonly_strings on
 
@@ -61,14 +64,11 @@ WindowDescriptor TWindowSubAreaMapDisp__window_parameters = {
 
 extern "C" {
 extern RecoveredGlobal_80271C6C___vt__21TWindowSubAreaMapDisp __vt__21TWindowSubAreaMapDisp;
-saddr get_message_text(s32 arg0);
 u8 *get_floor_destination_name(s32);
-void text_builder_append(u8 *str);
 }
 void text_builder_reset(void);
 extern "C" {
 saddr get_window_layout_position(int);
-s32 get_game_play_mode();
 const char *TWindowSubAreaMapDisp__name = "TWindowSubAreaMapDisp";
 extern s32 local_client_id;
 extern s32 lbl_805D63F0;

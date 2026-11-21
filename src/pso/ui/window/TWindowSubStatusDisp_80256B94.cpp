@@ -39,7 +39,6 @@ struct Gauge_802571B4 {
 
 
 extern "C" {
-void draw_textured_quad_at_depth(f32 *q, f32 depth);
 void TWindowSubStatusDisp__sub_80256C40(TUnk_804CF930 *self, WindowDrawContext *ctx, NJS_POINT2 *pos, f32 depth);
 extern s32 __vt__13TUnk_804CF930[];
 typedef void *(*Ctor_80257D44)(void *, void *, s32);

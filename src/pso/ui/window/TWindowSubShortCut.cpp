@@ -8,6 +8,7 @@
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/ui/window/TWindowSubComCard_802A5748.h"
 class TChCrTagPlBack;
 struct TWindowShortCut;
 #include "pso/ui/chat/TWindowChat.h"
@@ -43,7 +44,6 @@ struct VObj_18_204a81 : VBase_18_204a81 {
 
 extern "C" {
 saddr get_window_layout_position(s32 a0);
-void open_yes_no_prompt(TChCrTagPlBack *arg0, u32 arg1, s32 arg2, s32 arg3, f32 farg0);
 s32 clear_chat_shortcut();
 }
 s32 store_chat_shortcut(s32 arg0, s32 arg1);

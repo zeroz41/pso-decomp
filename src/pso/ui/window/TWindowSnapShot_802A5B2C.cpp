@@ -6,9 +6,9 @@
 #include "pso/system/TGStream.h"
 #include "pso/unk/TLobby.h"
 #include <string.h>
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 extern "C" {
-void mem_free(void *);
 void *mem_alloc(u32 size);
 
 }
