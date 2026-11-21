@@ -33,7 +33,7 @@
 
 extern "C" {
 s32 canSetMenuCursorAction(s32, s32, u8, u8);
-void TMainCursor__sub_8013DFC4(u8 *arg0);
+void TMainCursor__clear_field_2_bit_0(u8 *arg0);
 s32 fn_8002AE08(int);
 s32 is_player_input_active(s32 param_1);
 saddr get_character_save_record(u32 arg0);
@@ -411,7 +411,7 @@ void TWindowShortListCtrl::assign_item_to_palette(u32 item_id, u32 client_id) {
                     if (canSetMenuCursorAction((saddr)(menu + 0x520), (saddr)player, 4, slot) != 0) {
                         set_action_palette_tag_mode(reinterpret_cast<ActionPaletteTag *>(menu + 0x520), 4);
                         set_action_palette_tag_slot(reinterpret_cast<ActionPaletteTag *>(menu + 0x520), slot);
-                        TMainCursor__sub_8013DFC4(menu + 0x520);
+                        TMainCursor__clear_field_2_bit_0(menu + 0x520);
                     }
                 }
             }

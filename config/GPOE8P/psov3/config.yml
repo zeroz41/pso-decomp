@@ -735,23 +735,23 @@ force_active:
   - TLockOnCursor__sub_8013EBBC
   - TLockOnCursor__sub_8013EBE8
   - TLockOnCursor__sub_8013EC14
-  - TLockOnCursor__sub_8013ED68
+  - TLockOnCursor__resize_records
   - TLockOnCursor__sub_8013F000
   - TLogo__sub_8013F7E8
   - TLogo__sub_8013F800
   - TLogo__sub_8013F808
   - TMainCursor__ct
-  - TMainCursor__sub_8013B398
+  - TMainCursor__copy_id_and_flags
   - TMainCursor__sub_8013E17C
   - TMainCursor__sub_8013E184
   - TMainCursor__sub_8013E18C
   - TMainCursor__sub_8013E194
   - TMainCursor__sub_8013E1C0
   - TMainCursor__sub_8013E290
-  - TMainCursor__sub_8013E40C
+  - TMainCursor__matches_id
   - TMainCursor__sub_8013E4A0
   - TMainCursor__sub_8013E570
-  - TMainCursor__sub_8013E694
+  - TMainCursor__set_field_0_s16
   - TMainCursor__sub_8013E8A0
   - TMainCursor__sub_8013F22C
   - TMainCursor__sub_801540D8

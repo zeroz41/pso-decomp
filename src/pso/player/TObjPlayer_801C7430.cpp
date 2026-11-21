@@ -1112,7 +1112,7 @@ s32 copy_attack_targets(void *, void *);
 int TObjPlayer__sub_8012AF00(void*);
 s32 publish_actor_light_scalars(u16, f32, f32);
 s32 canSetMenuCursorAction(s32, void *, s32, u8);
-void TMainCursor__sub_8013DFC4(u8 *arg0);
+void TMainCursor__clear_field_2_bit_0(u8 *arg0);
 u8 TMainCursor__sub_8013E900(void *);
 s32 approach_angle_adaptive(s32, s32);
 s32 lerp_angle_half__Fll(s32, s32);
@@ -4190,7 +4190,7 @@ void TObjPlayer::update_cursor(s32 parameter) {
     if ((temp_r3 != 0U) && (canSetMenuCursorAction(temp_r3 + 0x520, this, 3, (u8) parameter) != 0)) {
         set_action_palette_tag_mode(reinterpret_cast<ActionPaletteTag *>(m_424 + 0x520), 3);
         set_action_palette_tag_slot(reinterpret_cast<ActionPaletteTag *>(m_424 + 0x520), static_cast<u8>(parameter));
-        TMainCursor__sub_8013DFC4((u8 *)(this->m_424 + 0x520));
+        TMainCursor__clear_field_2_bit_0((u8 *)(this->m_424 + 0x520));
     }
 }
 

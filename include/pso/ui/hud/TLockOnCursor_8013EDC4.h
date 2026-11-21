@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-s32 TLockOnCursor__sub_8013EDC4(saddr arg0, s16 arg1);
+s32 TLockOnCursor__delete_record(saddr arg0, s16 arg1);
 }
 
 // --- C functions defined in TLockOnCursor_8013EDC4.cpp ---
 extern "C" {
-s32 TLockOnCursor__sub_8013EDC4(saddr arg0, s16 arg1);
+s32 TLockOnCursor__delete_record(saddr arg0, s16 arg1);
 }
 // --- end of C functions
 
