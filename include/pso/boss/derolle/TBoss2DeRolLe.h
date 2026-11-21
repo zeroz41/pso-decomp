@@ -16,6 +16,7 @@ struct TBoss2Joint;
 class TBoss2Tentacle;
 class TBoss2Fin;
 class TObjChara;
+class TParticleCtrl;
 struct TBoss2LaserLight;
 class TUnk_80482EC0;
 class TUnk_80482D04;
@@ -101,6 +102,11 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     void state_launch_mines(u32 reason, s32 state);
     void state_ceiling_attack(u32 reason);
     void spawn_ceil_junk(Vec *pos);
+    void update_particle_ctrls();
+    void sub_80033A80(TParticleCtrl *ctrl);
+    void update_projectile_spawns();
+    void sub_800338BC();
+    void update_pulsing_colors();
     s32 state_flags;                   // 0x8 shell broken, 0x40/0x80 breakup pieces, 0x8000 already beaten
     s32 unk_3C4;
     s32 debug_pad_active;              // handle_debug_pad_input drives the boss from debug_pad when set
@@ -139,8 +145,8 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     AreaAttackHistory *attack_history;
     TObject *unk_6CC;
     TObject *unk_6D0;
-    f32 unk_6D4;
-    f32 unk_6D8;
+    f32 pulse_phase;                   // 0..2, advanced by pulse_speed (advance_phase_wrap)
+    f32 pulse_speed;
     s32 unk_6DC;
     s32 unk_6E0;
     s32 unk_6E4;
@@ -150,9 +156,9 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     s32 unk_6F4;
     s32 unk_6F8;
     f32 unk_6FC[16];
-    TObject *unk_73C;
-    TObject *unk_740[6];
-    s32 unk_758;
+    TParticleCtrl *unk_73C;
+    TParticleCtrl *splash_ctrls[6];    // splash emitters kept on the joints (update_particle_ctrls)
+    s32 splash_joint;                  // when set, the joint the first splash pair moves to for one update
     static void reset_fields_3d0(void *p);
 };
 
@@ -167,8 +173,6 @@ void TBoss2DeRolLe__sub_80031AD4(TBoss2DeRolLe *self, u32 reason);
 void TBoss2DeRolLe__sub_800320B4(TBoss2DeRolLe *self, u32 reason, s32 arg2, s32 arg3);
 void TBoss2DeRolLe__sub_800327C8(TBoss2DeRolLe *self, u32 reason, s32 arg2, s32 arg3);
 void TBoss2DeRolLe__sub_80032E38(TBoss2DeRolLe *self, u32 reason);
-void TBoss2DeRolLe__sub_800338BC(void);
-void TBoss2DeRolLe__sub_80033A80(s32 arg0, saddr arg1);
 f32 TBoss2DeRolLe__sub_80034CEC(void);
 f32 TBoss2DeRolLe__sub_80034CF8(void);
 void TBoss2DeRolLe__sub_800360A8(void *arg0);
@@ -200,9 +204,6 @@ void swap_6x13_fields__13TBoss2DeRolLeFPv(void *p);
 void swap_endian__13TBoss2DeRolLeFPv(void *p);
 void switch_phase_stats__13TBoss2DeRolLeFPvPv(u8 *arg0, u8 *arg1);
 void update_and_send__13TBoss2DeRolLeFPv(void *p);
-void update_projectile_spawns__13TBoss2DeRolLeFPv(u8 *arg0);
-void update_particle_ctrls__13TBoss2DeRolLeFPv(TBoss2DeRolLe *self);
-void update_pulsing_colors__13TBoss2DeRolLeFPv(u8 *arg0);
 }
 
 // lbl_804FE30C: layout known from its uses only.

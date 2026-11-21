@@ -58,6 +58,8 @@ struct NJS_OBJECT;
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/enemy/dd/TObjEneDD_800B9B84.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
 
 extern "C" void has_flag_0x800__9TObjCharaFv();
 
@@ -497,7 +499,6 @@ struct Me_8002F258 : VObj_18_3a6650 {
 
 extern "C" {
 
-void update_pulsing_colors__13TBoss2DeRolLeFPv(u8 *arg0);
 
 s32 TObjLight__sub_801336DC(s32);
 
@@ -750,16 +751,6 @@ struct D_800320B4 {
     f32 ay;
 };
 
-struct Vec3i_80033AA4 { s32 x, y, z; };
-
-struct Obj_80033AA4 {
-    u8 pad0[0x540];
-    Vec pos[42];
-    u8 pad738[8];
-    void *ctl[6];
-    s32 f758;
-};
-
 struct Sub_800313F8 { u8 pad0[8]; u32 f8; };
 
 struct DR_800313F8 {
@@ -857,11 +848,9 @@ extern "C" {
 s32 VecCopy__FP3VecPC3Vec(int, void *);
 
 
-void TBoss2DeRolLe__sub_80033A80(s32 arg0, saddr arg1);
 
 
 
-void update_particle_ctrls__13TBoss2DeRolLeFPv(Obj_80033AA4 *o);
 
 
 s32 VecCopy__FP3VecPC3Vec(int, void *);
@@ -898,13 +887,9 @@ extern u8 *TBoss2DeRolLe__data_805D4BA0;
 
 void TBoss2DeRolLe__sub_8002FE60(void *arg0, u32 arg1);
 
-u32 __cvt_fp2unsigned(f32);
 
-extern u32 *boss2_derolle_primary_color_targets[];
 
-extern u32 *boss2_derolle_segment_color_targets[];
 
-void update_pulsing_colors__13TBoss2DeRolLeFPv(u8 *arg0);
 
 
 s32 VecCopy__FP3VecPC3Vec(int, void *);
@@ -919,7 +904,6 @@ extern u8 *TBoss2DeRolLe__data_805D4BA0;
 
 void TBoss2DeRolLe__sub_800310F8(void *arg0, void *arg1, int arg2);
 
-void TBoss2DeRolLe__sub_800338BC(void);
 
 void TBoss2DeRolLe__sub_800327C8(void *arg0, void *arg1, int arg2, int arg3);
 
@@ -1001,13 +985,10 @@ int spawn_trap__13TBoss2DeRolLeFPvii(void* p, int a1, int a2);
 
 int play_sound(void* p, int a1);
 
-void TBoss2DeRolLe__sub_800338BC(void);
-
-void update_projectile_spawns__13TBoss2DeRolLeFPv(u8 *arg0);
 
 
 
-void TBoss2DeRolLe__sub_80033A80(s32 arg0, saddr arg1);
+
 
 void reset_fields_3d0__13TBoss2DeRolLeFPv(void* p);
 
@@ -1268,9 +1249,7 @@ void VecCopy__FP3VecPC3Vec(void *, void *);
 void TBoss2DeRolLe__sub_800360A8(void *arg0);
 
 
-void update_projectile_spawns__13TBoss2DeRolLeFPv(u8 *arg0);
 
-s32 update_particle_ctrls__13TBoss2DeRolLeFPv(void *);
 
 void backup_pos__13TBoss2DeRolLeFi(s32 arg0);
 
@@ -1416,11 +1395,11 @@ int bswap_32__FPUl(void*);
 
 Vec TBoss2DeRolLe__mine_ground_targets[5];
 
-u32 boss2_derolle_primary_color_targets[3];
+u32 *boss2_derolle_primary_color_targets[3];
 
 u32 derolle_segment_joint_node_offsets[10];
 
-u32 boss2_derolle_segment_color_targets[10];
+u32 *boss2_derolle_segment_color_targets[10];
 
 u32 TBoss2DeRolLe__attack_params_table[3];
 
@@ -1629,13 +1608,13 @@ void load_resources__13TBoss2DeRolLeFv(void) {
     n = *(Node_80035D24 **)(*(u8 **)(*(u8 **)(res + 0x42C) + 0x28) + 0x2C);
     for (i = 0; i < 10; i++) {
         ((s32 *)derolle_segment_joint_node_offsets)[i] = n->h->v + 8;
-        ((s32 *)boss2_derolle_segment_color_targets)[i] = n->sub->h->v + 8;
+        boss2_derolle_segment_color_targets[i] = (u32 *)(n->sub->h->v + 8);
         n = n->next;
     }
-    ((s32 *)boss2_derolle_primary_color_targets)[0] = n->h->v + 8;
+    boss2_derolle_primary_color_targets[0] = (u32 *)(n->h->v + 8);
     m = n->next;
-    ((s32 *)boss2_derolle_primary_color_targets)[1] = m->h->v + 8;
-    ((s32 *)boss2_derolle_primary_color_targets)[2] = m->next->h->v + 8;
+    boss2_derolle_primary_color_targets[1] = (u32 *)(m->h->v + 8);
+    boss2_derolle_primary_color_targets[2] = (u32 *)(m->next->h->v + 8);
     derolle_texture_list_handle = (u8 *)find_model_node(*(s32 *)(*(u8 **)(res + 0x42C) + 0x28), 0x4D);
     lbl_805D4BCC = *(s32 *)(derolle_texture_list_handle + 0x2C);
     for (m2 = 0; m2 < 11; m2++) {
@@ -1758,7 +1737,7 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(par
     for (j = 0; j < 10; j++) {
         VecCopy(&joint_positions[j], &v);
         unk_5B8[j] = -1;
-        joints[j] = new TBoss2Joint(this, id++, set++, &joint_positions[j], derolle_segment_joint_node_offsets[j], boss2_derolle_segment_color_targets[j]);
+        joints[j] = new TBoss2Joint(this, id++, set++, &joint_positions[j], derolle_segment_joint_node_offsets[j], (s32)boss2_derolle_segment_color_targets[j]);
     }
     for (i = 0; i < 5; i++) {
         mines[i] = new TUnk_80482EC0(&part_group, id++, set++);
@@ -1792,8 +1771,8 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(par
     fill_value_array(attack_history);
     unk_6CC = NULL;
     unk_6D0 = NULL;
-    unk_6D4 = 1.0f;
-    unk_6D8 = 0.1f;
+    pulse_phase = 1.0f;
+    pulse_speed = 0.1f;
     for (k = 0; k < 3; k++) {
         VecCopy(&unk_518[k], &position);
     }
@@ -1807,9 +1786,9 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(par
         set_matrix_identity((u8 *)unk_618[i]);
     }
     for (m = 0; m < 6; m++) {
-        unk_740[m] = NULL;
+        splash_ctrls[m] = NULL;
     }
-    unk_758 = 0;
+    splash_joint = 0;
     unk_6DC = 0;
     unk_6E0 = 0;
     unk_6E4 = 0;
@@ -1862,9 +1841,9 @@ TBoss2DeRolLe::~TBoss2DeRolLe() {
         unk_73C = NULL;
     }
     for (i = 0; i < 6; i++) {
-        if (unk_740[i] != NULL) {
-            unk_740[i]->queue_destruction();
-            unk_740[i] = NULL;
+        if (splash_ctrls[i] != NULL) {
+            splash_ctrls[i]->queue_destruction();
+            splash_ctrls[i] = NULL;
         }
     }
     mem_free(unk_618);
@@ -2010,14 +1989,14 @@ void TBoss2DeRolLe::run_task() {
       dispatch_action(mode, 0);
     }
     advance_phase_wrap();
-    update_projectile_spawns__13TBoss2DeRolLeFPv((u8 *)this);
+    update_projectile_spawns();
   }
   sub_800BBA0C();
   update_body_colliders();
   backup_pos__13TBoss2DeRolLeFi((saddr)this);
   submit_default_cursor_candidate();
   add_radar_scaled_marker(&position, -0x5DB4, 1, 1, 2.0f);
-  update_particle_ctrls__13TBoss2DeRolLeFPv(this);
+  update_particle_ctrls();
   if (teammate_state == 0)
   {
     part_group.run_tasks();
@@ -2687,12 +2666,16 @@ namespace behavior_view {
 
 extern "C" {
 
+}
+
+}
+
 #pragma push
 #pragma fp_contract on
 
-void update_particle_ctrls__13TBoss2DeRolLeFPv(Obj_80033AA4 *o) {
+void TBoss2DeRolLe::update_particle_ctrls() {
     Vec t;
-    Vec3i_80033AA4 ang;
+    s32 ang[3];
     s32 ok;
     s32 j;
     s32 i;
@@ -2702,18 +2685,18 @@ void update_particle_ctrls__13TBoss2DeRolLeFPv(Obj_80033AA4 *o) {
     s32 n;
     ok = 1;
     for (i = 0; i < 6; i++) {
-        if (o->ctl[i] == NULL) {
-            ang.z = 0;
-            ang.y = 0;
-            ang.x = 0;
-            p = create_particle_controller_with_angles(o->pos, &ang, 0x120, 1, 0x40);
+        if (splash_ctrls[i] == NULL) {
+            ang[2] = 0;
+            ang[1] = 0;
+            ang[0] = 0;
+            p = create_particle_controller_with_angles(joint_positions, ang, 0x120, 1, 0x40);
             if (p != NULL) {
-                o->ctl[i] = p;
-                ((TParticleCtrl *)(o->ctl[i]))->set_flags(2);
-                ((TParticleCtrl *)(o->ctl[i]))->enable();
+                splash_ctrls[i] = (TParticleCtrl *)p;
+                splash_ctrls[i]->set_flags(2);
+                splash_ctrls[i]->enable();
             } else {
                 for (j = 0; j < i; j++) {
-                    ((TParticleCtrl *)(o->ctl[j]))->enable();
+                    splash_ctrls[j]->enable();
                 }
                 ok = 0;
                 break;
@@ -2721,66 +2704,54 @@ void update_particle_ctrls__13TBoss2DeRolLeFPv(Obj_80033AA4 *o) {
         }
     }
     if (ok != 0) {
-        if (o->f758 == 0) {
+        if (splash_joint == 0) {
             for (k = 0; k < 3; k++) {
-                Vec *v = &o->pos[boss2_derolle_particle_node_indices[k]];
+                Vec *v = &joint_positions[boss2_derolle_particle_node_indices[k]];
                 f32 r = fabs_float(v->y - -10.0f);
                 f32 lim = boss2_derolle_particle_limits[k];
                 if (r < 0.9f * lim) {
-                    ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&t, v);
+                    VecCopy(&t, v);
                     lim -= r;
                     t.y = -5.0f;
                     t.x += lim;
-                    ((TParticleCtrl *)o->ctl[k * 2])->set_position(&t);
+                    splash_ctrls[k * 2]->set_position(&t);
                     t.x -= 2.0f * lim;
-                    ((TParticleCtrl *)o->ctl[k * 2 + 1])->set_position(&t);
+                    splash_ctrls[k * 2 + 1]->set_position(&t);
                 } else {
-                    ((TParticleCtrl *)(o->ctl[k * 2]))->enable();
-                    ((TParticleCtrl *)(o->ctl[k * 2 + 1]))->enable();
+                    splash_ctrls[k * 2]->enable();
+                    splash_ctrls[k * 2 + 1]->enable();
                 }
             }
         } else {
-            ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&t, &o->pos[o->f758]);
+            VecCopy(&t, &joint_positions[splash_joint]);
             t.y = -5.0f;
             t.x += 20.0f;
-            ((TParticleCtrl *)o->ctl[0])->set_position(&t);
+            splash_ctrls[0]->set_position(&t);
             t.x -= 40.0f;
-            ((TParticleCtrl *)o->ctl[1])->set_position(&t);
+            splash_ctrls[1]->set_position(&t);
             for (m = 2; m < 6; m++) {
-                ((TParticleCtrl *)(o->ctl[m]))->enable();
+                splash_ctrls[m]->enable();
             }
-            o->f758 = 0;
+            splash_joint = 0;
         }
         for (n = 0; n < 6; n++) {
-            ((void (*)(void *, void *))TBoss2DeRolLe__sub_80033A80)(o, o->ctl[n]);
+            sub_80033A80(splash_ctrls[n]);
         }
     }
 }
 
 #pragma pop
 
-void TBoss2DeRolLe__sub_80033A80(s32 arg0, saddr arg1) {
-    TObjBoss2Tunnel::sub_8003B1D8((TParticleCtrl *)arg1);
-}
-
-}
-
+void TBoss2DeRolLe::sub_80033A80(TParticleCtrl *ctrl) {
+    TObjBoss2Tunnel::sub_8003B1D8(ctrl);
 }
 
 void TBoss2DeRolLe::spawn_ceil_junk(Vec *pos) {
     TObjBoss2CeilJunk::create_particle(pos, 0x121);
 }
 
-namespace behavior_view {
-
-extern "C" {
-
 #pragma push
 #pragma fp_contract on
-
-}
-
-}
 
 void TBoss2DeRolLe::spawn_offset_particle(Vec *position, f32 height, f32 distance) {
     Vec pos;
@@ -2791,47 +2762,52 @@ void TBoss2DeRolLe::spawn_offset_particle(Vec *position, f32 height, f32 distanc
     spawn_particle_effect_with_flags(&pos, 0x127, 0x40);
 }
 
-namespace behavior_view {
-
-extern "C" {
-
 #pragma pop
 
-void update_projectile_spawns__13TBoss2DeRolLeFPv(u8 *arg0) {
-    u8 *temp_r31;
+void TBoss2DeRolLe::update_projectile_spawns() {
+    Vec *mid;
 
-    project_sound_origin_from_camera((saddr)(arg0 + 0x38), (u8 *)(arg0 + 0x518), 0.3f);
-    project_sound_origin_from_camera((saddr)(arg0 + 0x4D0), (u8 *)(arg0 + 0x524), 0.3f);
-    temp_r31 = arg0 + 0x530;
-    VecCopy__FP3VecPC3Vec((saddr)temp_r31, arg0 + 0x524);
-    vec3_add_to((saddr)temp_r31, arg0 + 0x524);
-    *(f32 *)((s8 *)temp_r31 + 0) *= 0.5f;
-    *(f32 *)((s8 *)temp_r31 + 4) *= 0.5f;
-    *(f32 *)((s8 *)temp_r31 + 8) *= 0.5f;
-    if ((*(s32 *)((s8 *)arg0 + 0x3C0) & 0x100) && ((((TObjMotion *)arg0)->is_passing_frame(3.0f) != 0) || (((TObjMotion *)arg0)->is_passing_frame(20.0f) != 0))) {
-        *(s32 *)((s8 *)arg0 + 0x53C) = 0;
+    project_sound_origin_from_camera((saddr)&position, (u8 *)&unk_518[0], 0.3f);
+    project_sound_origin_from_camera((saddr)&unk_3F8[18], (u8 *)&unk_518[1], 0.3f);
+    mid = &unk_518[2];
+    VecCopy(mid, &unk_518[1]);
+    vec3_add_to(mid, &unk_518[1]);
+    mid->x *= 0.5f;
+    mid->y *= 0.5f;
+    mid->z *= 0.5f;
+    if ((state_flags & 0x100) && ((is_passing_frame(3.0f) != 0) || (is_passing_frame(20.0f) != 0))) {
+        unk_53C = 0;
     }
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x53C) <= 0x10) {
-        play_persistent_sound(0x4003AD00, (saddr)arg0, (uaddr)(arg0 + 0x530), 0, 0);
-        *(s32 *)((s8 *)arg0 + 0x53C) = (s32) (*(s32 *)((s8 *)arg0 + 0x53C) + 1);
+    if (unk_53C <= 0x10) {
+        play_persistent_sound(0x4003AD00, (saddr)this, (uaddr)&unk_518[2], 0, 0);
+        unk_53C = unk_53C + 1;
     }
 }
 
-void TBoss2DeRolLe__sub_800338BC(void) {  }
+void TBoss2DeRolLe::sub_800338BC() {  }
+
+namespace behavior_view {
+
+extern "C" {
 
 int play_sound(void* p, int a1) { return play_sound_effect(p, a1, 0, 0); }
 
 int spawn_trap__13TBoss2DeRolLeFPvii(void* p, int a1, int a2) { return play_persistent_sound((saddr)p, (a1), (a2), 0, 0); }
 
+}
+
+}
+
+
 #pragma push
 #pragma opt_common_subs off
 
 void TBoss2DeRolLe::advance_phase_wrap() {
-    f32 temp_f1;
-    *(f32 *)((s8 *)((u8 *)this) + 0x6D4) = (f32) (*(f32 *)((s8 *)((u8 *)this) + 0x6D4) + *(f32 *)((s8 *)((u8 *)this) + 0x6D8));
-    temp_f1 = *(f32 *)((s8 *)((u8 *)this) + 0x6D4);
-    if (temp_f1 >= 2.0f) {
-        *(f32 *)((s8 *)((u8 *)this) + 0x6D4) = (f32) (temp_f1 - 2.0f);
+    f32 phase;
+    pulse_phase = pulse_phase + pulse_speed;
+    phase = pulse_phase;
+    if (phase >= 2.0f) {
+        pulse_phase = phase - 2.0f;
     }
 }
 
@@ -2843,13 +2819,16 @@ void TBoss2DeRolLe::advance_phase_wrap() {
 #define SWAP_COLOR_HALVES(x) ((((x) & 0xFF00) << 16) | ((x) >> 16) | (((x) & 0xFF) << 16))
 
 // SWAP_COLOR_HALVES swaps the two halfwords of a packed colour (0xAARRGGBB -> 0xGGBBAARR)
-void update_pulsing_colors__13TBoss2DeRolLeFPv(u8 *arg0) {
+// The runtime's float to unsigned conversion, called directly here.
+extern "C" u32 __cvt_fp2unsigned(f32);
+
+void TBoss2DeRolLe::update_pulsing_colors() {
     s32 i;
     f32 t;
     u8 v;
     u32 c;
     f32 ph;
-    t = *(f32 *)((s8 *)arg0 + 0x6D4);
+    t = pulse_phase;
     if (t > 1.0f) {
         t = 2.0f - t;
     }
@@ -2862,7 +2841,7 @@ void update_pulsing_colors__13TBoss2DeRolLeFPv(u8 *arg0) {
     c |= v << 16;
     c |= v << 8;
     *boss2_derolle_primary_color_targets[1] = SWAP_COLOR_HALVES(c);
-    ph = *(f32 *)((s8 *)arg0 + 0x6D4);
+    ph = pulse_phase;
     for (i = 0; i < 10; i++) {
         ph += 0.2f;
         if (ph > 2.0f) {
@@ -2883,6 +2862,10 @@ void update_pulsing_colors__13TBoss2DeRolLeFPv(u8 *arg0) {
 #pragma pop
 
 #undef SWAP_COLOR_HALVES
+
+namespace behavior_view {
+
+extern "C" {
 
 void TBoss2DeRolLe::dispatch_action(u32 state, s32 reason) {
     switch (state) {
@@ -3384,7 +3367,7 @@ void TBoss2DeRolLe__sub_800327C8(void *arg0, void *arg1, int arg2, int arg3) {
         break;
     case 0:
         ((TObjMotion *)arg0)->advance_animation();
-        ((void (*)(void *))TBoss2DeRolLe__sub_800338BC)(o);
+        ((TBoss2DeRolLe *)o)->sub_800338BC();
         r = 0;
         switch (o->kind) {
         case 0:
@@ -5037,7 +5020,7 @@ void TBoss2DeRolLe::render() {
         Vec sc = {2.0f, 2.0f, 2.0f};
         scale_current_matrix(&sc);
     }
-    update_pulsing_colors__13TBoss2DeRolLeFPv(((u8 *)this));
+    update_pulsing_colors();
     for (i = 0; i < 10; i++) {
         ((TBoss2Joint *)e->joints[i])->apply_flash_color();
     }
