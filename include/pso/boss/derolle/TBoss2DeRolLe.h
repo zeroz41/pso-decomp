@@ -9,6 +9,7 @@ struct BmlResource;
 #include "pso/system/task/TObject.h"
 #include "pso/boss/derolle/TUnk_80036250.h"
 #include "pso/system/ControllerInputState.h"
+#include "pso/system/NinjaTypes.h"
 #include <dolphin/mtx.h>
 #include "pso/network/protocol/protocol_types.h"
 
@@ -143,15 +144,15 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     s32 action_index;                  // the action sequence step, sent in the 6x13/6x14 packets
     TObject part_group;                // parent of the tentacles, mines, fin and laser light
     s32 unk_3F4;
-    Vec unk_3F8[20];
-    Vec unk_4E8[4];
+    Vec node_positions[20];            // the derolle_position_node_ids nodes, recorded while the body draws
+    Vec part_points[4];                // derolle_part_transform_template placed on node 0x33; [1] made relative to [0]
     Vec unk_518[3];
     s32 unk_53C;
     Vec joint_positions[10];           // one per TBoss2Joint in joints
     s32 unk_5B8[10];
     TBoss2Joint *joints[10];
-    f32 unk_608[4];
-    GC_Mtx *unk_618;                   // 12 matrices, mem_alloc'd by the constructor
+    NJS_ARGB body_color;               // white; copied to derolle_capture_color while the body draws
+    GC_Mtx *node_matrices;             // 12 matrices of nodes 0x4D-0x58, recorded while the body draws
     GC_Mtx *tentacle_matrices;         // one per tentacle root
     TBoss2Tentacle *tentacles[4];
     TUnk_80482EC0 *mines[5];
@@ -196,11 +197,11 @@ f32 TBoss2DeRolLe__sub_80034CEC(void);
 f32 TBoss2DeRolLe__sub_80034CF8(void);
 void TBoss2DeRolLe__sub_800360A8(void *arg0);
 s32 TBoss2Joint_get_shell_max_hp(void);
-void TObjPlayer__sub_8002F61C(NJS_OBJECT *);
+void derolle_capture_node_points(NJS_OBJECT *);
 void advance_phase_wrap__13TBoss2DeRolLeFv(u8 *arg0);
 s32 advance_scalar_motion_profile(void *arg0);
 void backup_pos__13TBoss2DeRolLeFi(s32 arg0);
-void fn_8002F5AC(u8 *arg0);
+void derolle_begin_node_capture(TBoss2DeRolLe *boss);
 void handle_6x13_de_rol_le_boss_actions(void *arg0);
 void handle_6x14_de_rol_le_boss_actions_with_target(void *arg0);
 s32 play_sound(s32 id, Vec *position);
@@ -209,11 +210,5 @@ void render_body__13TBoss2DeRolLeFv(u8 *arg0);
 int spawn_trap__13TBoss2DeRolLeFPvii(s32 id, void *owner, Vec *pos);
 }
 
-// lbl_804FE30C: layout known from its uses only.
-struct RecoveredGlobal_lbl_804FE30C { s32 value; u8 remaining[0xC]; };
-extern RecoveredGlobal_lbl_804FE30C lbl_804FE30C;
-// lbl_804FE31C: layout known from its uses only.
-struct RecoveredGlobal_lbl_804FE31C { s32 value; u8 remaining[0x8]; };
-extern RecoveredGlobal_lbl_804FE31C lbl_804FE31C;
 
 #endif

@@ -142,7 +142,8 @@ struct DeRolLeEffectParams {
     s32 pad_10;
 };
 
-const s32 derolle_attack_sequence_id_table[21] = {
+// The model nodes whose positions derolle_capture_node_points records into node_positions, -1 ended.
+const s32 derolle_position_node_ids[21] = {
     0x18, 0x1A, 0x1C, 0x1D, 0x1E, 0x1F, 0x22, 0x45, 0x4A, 0x5F, 0x60,
     0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, -1,
 };
@@ -182,7 +183,7 @@ struct TBoss2DeRolLeMovement {
     s32 unk_0C[4];
 };
 
-// The four points matrix_mult_vec_array places along a breakup piece (TObjPlayer__sub_8002F61C).
+// The four points matrix_mult_vec_array places along a breakup piece (derolle_capture_node_points).
 Vec derolle_part_transform_template[4] = {
     {0.0f, 0.0f, 0.0f},
     {0.0f, 0.0f, 1.0f},
@@ -501,40 +502,21 @@ saddr TBoss2DeRolLe__base_params[1];
 saddr TBoss2DeRolLe__resistance_params[1];
 u8 *TBoss2DeRolLe__data_805D4BA0;
 BmlResource *boss2_derolle_resource;
-s32 TBoss2DeRolLe__current_attack_id;
-s32 TBoss2DeRolLe__sequence_match_index;
-s32 lbl_805D4BB0;
-u8 *lbl_805D4BB4;
-u8 *lbl_805D4BB8;
-saddr lbl_805D4BBC;
-saddr lbl_805D4BC0;
+// derolle_capture_node_points's state while the body draws (derolle_begin_node_capture sets it up).
+s32 derolle_capture_node_index;
+s32 derolle_capture_position_index;
+s32 derolle_capture_flags;
+Vec *derolle_capture_positions;
+Vec *derolle_capture_part_points;
+GC_Mtx *derolle_capture_tentacle_matrices;
+GC_Mtx *derolle_capture_node_matrices;
 TBoss2DeRolLe *TBoss2DeRolLe__instance;
 Ctx_8002F258 *derolle_texture_list_handle;
 void *lbl_805D4BCC;
 
-namespace joint_transform_view {
-
-extern "C" {
-
-s32 matrix_mult_vec_array(int, void *, void *, int);
-
-s32 subtract_vector(void *, void *);
-
-}
-
-}
 
 void *create_particle_controller_with_angles(void *arg0, void *arg1, s32 arg2, s32 arg3, u16 arg4);
 extern "C" void enemy_set_target_id(void *self, u16 id);  // TObjEneDD.cpp
-namespace behavior_view {
-
-extern "C" {
-
-int play_sound_effect(void*, int, int, int);
-
-}
-
-}
 
 extern "C" {
 
@@ -586,14 +568,12 @@ u32 derolle_segment_joint_node_offsets[10];
 u32 *boss2_derolle_segment_color_targets[10];
 
 u32 TBoss2DeRolLe__attack_params_table[3];
+NJS_ARGB derolle_capture_color;  // the body colour while it draws (derolle_begin_node_capture)
+Vec derolle_capture_origin;      // the node-local point derolle_capture_node_points places
 
 namespace lifecycle_view {
 
 extern "C" {
-
-u32 lbl_804FE30C[4];
-
-u32 lbl_804FE31C[3];
 
 Slot_80035D24 derolle_segment_texture_slots[11];
 
@@ -766,21 +746,21 @@ void load_resources__13TBoss2DeRolLeFv(void) {
     } else {
         res = (u8 *)load_enemy_bml_resource(&boss2_derolle_bml_descriptor);
     }
-    boss2_derolle_resource = (BmlResource *)res;
-    TBoss2DeRolLe__current_attack_id = 0;
-    TBoss2DeRolLe__sequence_match_index = 0;
-    lbl_805D4BB0 = 0;
-    ((f32 *)lbl_804FE30C)[0] = 0.0f;
-    ((f32 *)lbl_804FE30C)[1] = 0.0f;
-    ((f32 *)lbl_804FE30C)[2] = 0.0f;
-    ((f32 *)lbl_804FE30C)[3] = 0.0f;
-    ((f32 *)lbl_804FE31C)[0] = 0.0f;
-    ((f32 *)lbl_804FE31C)[1] = 0.0f;
-    ((f32 *)lbl_804FE31C)[2] = 0.0f;
-    lbl_805D4BB4 = 0;
-    lbl_805D4BB8 = 0;
-    lbl_805D4BBC = 0;
-    lbl_805D4BC0 = 0;
+    (*(u8 * *)&boss2_derolle_resource) = res;
+    derolle_capture_node_index = 0;
+    derolle_capture_position_index = 0;
+    derolle_capture_flags = 0;
+    derolle_capture_color.a = 0.0f;
+    derolle_capture_color.r = 0.0f;
+    derolle_capture_color.g = 0.0f;
+    derolle_capture_color.b = 0.0f;
+    derolle_capture_origin.x = 0.0f;
+    derolle_capture_origin.y = 0.0f;
+    derolle_capture_origin.z = 0.0f;
+    derolle_capture_positions = NULL;
+    derolle_capture_part_points = NULL;
+    derolle_capture_tentacle_matrices = NULL;
+    derolle_capture_node_matrices = NULL;
     for (i = 0; i < 1; i++) {
         TBoss2DeRolLe__base_params[i] = (saddr)TLobby::register_boss(de_rol_le_base_param_ids[i]);
     }
@@ -909,14 +889,14 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(par
     unk_3D0 = 0;
     action_index = 0;
     for (i = 0; i < 20; i++) {
-        unk_3F8[i].x = 0.0f;
-        unk_3F8[i].y = 0.0f;
-        unk_3F8[i].z = 0.0f;
+        node_positions[i].x = 0.0f;
+        node_positions[i].y = 0.0f;
+        node_positions[i].z = 0.0f;
     }
     for (i = 0; i < 4; i++) {
-        unk_4E8[i].x = 0.0f;
-        unk_4E8[i].y = 0.0f;
-        unk_4E8[i].z = 0.0f;
+        part_points[i].x = 0.0f;
+        part_points[i].y = 0.0f;
+        part_points[i].z = 0.0f;
     }
     tentacle_matrices = (GC_Mtx *)mem_alloc(4 * sizeof(GC_Mtx));
     for (i = 0; i < 4; i++) {
@@ -944,7 +924,7 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(par
     {
         void *p = TObject::operator new(0x88);
         if (p != NULL) {
-            p = __ct__9TBoss2FinFv(p, &part_group, &unk_3F8[1], &unk_3F8[10]);
+            p = __ct__9TBoss2FinFv(p, &part_group, &node_positions[1], &node_positions[10]);
         }
         fin = (TBoss2Fin *)p;
     }
@@ -973,13 +953,13 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(par
         VecCopy(&unk_518[k], &position);
     }
     unk_53C = 0;
-    unk_608[0] = 1.0f;
-    unk_608[1] = 1.0f;
-    unk_608[2] = 1.0f;
-    unk_608[3] = 1.0f;
-    unk_618 = (GC_Mtx *)mem_alloc(12 * sizeof(GC_Mtx));
+    body_color.a = 1.0f;
+    body_color.r = 1.0f;
+    body_color.g = 1.0f;
+    body_color.b = 1.0f;
+    node_matrices = (GC_Mtx *)mem_alloc(12 * sizeof(GC_Mtx));
     for (i = 0; i < 12; i++) {
-        set_matrix_identity((u8 *)unk_618[i]);
+        set_matrix_identity((u8 *)node_matrices[i]);
     }
     for (m = 0; m < 6; m++) {
         splash_ctrls[m] = NULL;
@@ -1042,8 +1022,8 @@ TBoss2DeRolLe::~TBoss2DeRolLe() {
             splash_ctrls[i] = NULL;
         }
     }
-    mem_free(unk_618);
-    unk_618 = NULL;
+    mem_free(node_matrices);
+    node_matrices = NULL;
     if (hit_trail != NULL) {
         hit_trail->queue_destruction();
         hit_trail = NULL;
@@ -1108,7 +1088,7 @@ void TBoss2DeRolLe::run_task() {
   {
     state_flags = flags & ~0x80;
     state_flags |= 0x40;
-    new TUnk_80482090(this, (u32)unk_618);
+    new TUnk_80482090(this, (u32)node_matrices);
   }
   if ((TObjEneDD::is_main_phase_15() != 0) && (debug_pad_active == 0))
   {
@@ -1247,9 +1227,9 @@ void backup_pos__13TBoss2DeRolLeFi(s32 arg0) {
 
 void TBoss2DeRolLe::update_body_colliders() {
     Vec offsets[3];
-    VecCopy(&offsets[0], &unk_3F8[6]);
-    VecCopy(&offsets[1], &unk_4E8[2]);
-    VecCopy(&offsets[2], &unk_4E8[3]);
+    VecCopy(&offsets[0], &node_positions[6]);
+    VecCopy(&offsets[1], &part_points[2]);
+    VecCopy(&offsets[2], &part_points[3]);
     update_local_colliders_from_world(this, offsets);
 }
 
@@ -1564,10 +1544,10 @@ void TBoss2DeRolLe::spawn_photon_pad(s32 joint, s32 level) {
 #pragma fp_contract on
 
 void TBoss2DeRolLe::calc_offset_position() {
-    VecCopy(&laser_light_pos, &unk_4E8[0]);
-    laser_light_pos.x = 30.0f * unk_4E8[1].x + laser_light_pos.x;
-    laser_light_pos.y = 30.0f * unk_4E8[1].y + laser_light_pos.y;
-    laser_light_pos.z = 30.0f * unk_4E8[1].z + laser_light_pos.z;
+    VecCopy(&laser_light_pos, &part_points[0]);
+    laser_light_pos.x = 30.0f * part_points[1].x + laser_light_pos.x;
+    laser_light_pos.y = 30.0f * part_points[1].y + laser_light_pos.y;
+    laser_light_pos.z = 30.0f * part_points[1].z + laser_light_pos.z;
 }
 
 #pragma pop
@@ -1682,7 +1662,6 @@ void TBoss2DeRolLe::sub_80034034() {
     }
 }
 
-namespace behavior_view {
 
 extern "C" {
 
@@ -1724,7 +1703,7 @@ void TBoss2DeRolLe::reset_action_sequence() {
 
 }
 
-}
+
 
 void TBoss2DeRolLe::advance_action_sequence() {
     s32 retry;
@@ -1915,7 +1894,7 @@ void TBoss2DeRolLe::update_projectile_spawns() {
     Vec *mid;
 
     project_sound_origin_from_camera((saddr)&position, (u8 *)&unk_518[0], 0.3f);
-    project_sound_origin_from_camera((saddr)&unk_3F8[18], (u8 *)&unk_518[1], 0.3f);
+    project_sound_origin_from_camera((saddr)&node_positions[18], (u8 *)&unk_518[1], 0.3f);
     mid = &unk_518[2];
     VecCopy(mid, &unk_518[1]);
     vec3_add_to(mid, &unk_518[1]);
@@ -1933,14 +1912,8 @@ void TBoss2DeRolLe::update_projectile_spawns() {
 
 void TBoss2DeRolLe::sub_800338BC() {  }
 
-namespace behavior_view {
-
-extern "C" {
-
-int play_sound(void* p, int a1) { return play_sound_effect(p, a1, 0, 0); }
-
-}
-
+extern "C" s32 play_sound(s32 id, Vec *position) {
+    return play_sound_effect(id, position, 0, 0);
 }
 
 extern "C" int spawn_trap__13TBoss2DeRolLeFPvii(s32 id, void *owner, Vec *pos) {
@@ -3008,7 +2981,7 @@ void TBoss2DeRolLe::sub_800313F8(u32 reason, s32 side) {
                 Vec v;
                 f32 s;
                 unk_6E8 = 0;
-                VecCopy(&v, &unk_4E8[0]);
+                VecCopy(&v, &part_points[0]);
                 s = 50.0f * random_ratio();
                 v.x = v.x - state_floats[0] * s;
                 v.y = -5.0f;
@@ -3026,9 +2999,9 @@ void TBoss2DeRolLe::sub_800313F8(u32 reason, s32 side) {
             } else if (frame >= 24.0f && frame <= 30.0f) {
                 unk_6EC++;
                 if (unk_6EC % 4 == 0) {
-                    unk_73C->set_position(&unk_3F8[7]);
+                    unk_73C->set_position(&node_positions[7]);
                 } else if (unk_6EC % 4 == 2) {
-                    unk_73C->set_position(&unk_3F8[8]);
+                    unk_73C->set_position(&node_positions[8]);
                 } else {
                     unk_73C->enable();
                 }
@@ -3487,7 +3460,7 @@ void TBoss2DeRolLe::state_launch_mines(u32 reason, s32 state) {
     case 0:
         advance_animation();
         if (is_passing_frame(18.0f) != 0) {
-            pos = &unk_3F8[18];
+            pos = &node_positions[18];
             if (state == 0x18) {
                 for (i = 0; i < 5; i++) {
                     mines[i]->set_launch_position_velocity(pos, &TBoss2DeRolLe__mine_ground_targets[i]);
@@ -3625,16 +3598,16 @@ void TBoss2DeRolLe::sub_8002FE60(u32 reason) {
             }
             if (frame <= 12.0f) {
                 if (unk_73C == NULL) {
-                    unk_73C = spawn_continuous_particle_effect_with_flags(&unk_4E8[0], 0x122, 0x40);
+                    unk_73C = spawn_continuous_particle_effect_with_flags(&part_points[0], 0x122, 0x40);
                     if (unk_73C != NULL) {
                         unk_73C->enable();
                     }
                 } else {
                     Vec a;
-                    VecCopy(&a, &unk_4E8[0]);
-                    a.x += 2.0f * (5.0f * unk_4E8[1].x);
-                    a.y += 5.0f * unk_4E8[1].y;
-                    a.z += 5.0f * unk_4E8[1].z;
+                    VecCopy(&a, &part_points[0]);
+                    a.x += 2.0f * (5.0f * part_points[1].x);
+                    a.y += 5.0f * part_points[1].y;
+                    a.z += 5.0f * part_points[1].z;
                     unk_73C->set_position(&a);
                 }
             } else if (unk_73C != NULL) {
@@ -3645,12 +3618,12 @@ void TBoss2DeRolLe::sub_8002FE60(u32 reason) {
             if (frame >= 13.0f) {
                 frame = 13.0f;
                 state_step = 2;
-                subtract_vector(vel, &unk_4E8[0]);
+                subtract_vector(vel, &part_points[0]);
                 normalize_vector_xz(vel);
                 vel->y = 0.0f;
                 unk_6F4 = RADIANS_TO_ANGLE * atan2_float(vel->x, vel->z);
                 state_floats[0] = 80.0f;
-                spawn_particle_effect_with_flags(&unk_4E8[0], 0x126, 0x40);
+                spawn_particle_effect_with_flags(&part_points[0], 0x126, 0x40);
             }
             break;
         case 2: {
@@ -3661,16 +3634,16 @@ void TBoss2DeRolLe::sub_8002FE60(u32 reason) {
             frame = 13.0f;
             state_floats[0] += 30.0f;
             if (unk_73C == NULL) {
-                unk_73C = spawn_continuous_particle_effect_with_flags(&unk_4E8[0], 0x177, 0x40);
+                unk_73C = spawn_continuous_particle_effect_with_flags(&part_points[0], 0x177, 0x40);
                 if (unk_73C != NULL) {
                     unk_73C->enable();
                 }
             } else {
                 Vec b;
-                VecCopy(&b, &unk_4E8[0]);
-                b.x += 2.0f * (5.0f * unk_4E8[1].x);
-                b.y += 5.0f * unk_4E8[1].y;
-                b.z += 5.0f * unk_4E8[1].z;
+                VecCopy(&b, &part_points[0]);
+                b.x += 2.0f * (5.0f * part_points[1].x);
+                b.y += 5.0f * part_points[1].y;
+                b.z += 5.0f * part_points[1].z;
                 unk_73C->set_position(&b);
             }
             {
@@ -3682,7 +3655,7 @@ void TBoss2DeRolLe::sub_8002FE60(u32 reason) {
                 f32 dy;
                 f32 t;
                 hit = &state_vectors[1];
-                h = unk_4E8[0].y;
+                h = part_points[0].y;
                 dy = -10.0f - h;
                 e.x = vel->x * state_floats[0];
                 e.y = dy;
@@ -3691,15 +3664,15 @@ void TBoss2DeRolLe::sub_8002FE60(u32 reason) {
                 c.x = e.x * t;
                 c.y = dy * t;
                 c.z = e.z * t;
-                vec3_add_to(&c, &unk_4E8[0]);
+                vec3_add_to(&c, &part_points[0]);
                 VecCopy(hit, &e);
-                vec3_add_to(hit, &unk_4E8[0]);
+                vec3_add_to(hit, &part_points[0]);
                 state_floats[1] += 5.0f;
                 if (state_floats[1] >= 20.0f) {
                     state_floats[1] -= 20.0f;
                 }
                 s = state_floats[1];
-                VecCopy(&p, &unk_4E8[0]);
+                VecCopy(&p, &part_points[0]);
                 VecCopy(&d, hit);
                 subtract_vector(&d, &p);
                 dist = normalize_vector_safe(&d);
@@ -4024,49 +3997,51 @@ namespace joint_transform_view {
 
 extern "C" {
 
-void TObjPlayer__sub_8002F61C(NJS_OBJECT *) {
-    if ((s32) TBoss2DeRolLe__current_attack_id == derolle_attack_sequence_id_table[TBoss2DeRolLe__sequence_match_index]) {
-        forward_transform_to_view((const Vec *)&lbl_804FE31C.value, (Vec *)lbl_805D4BB4);
-        TBoss2DeRolLe__sequence_match_index += 1;
-        lbl_805D4BB4 += 0xC;
+// The model-node callback the body draws with: records the listed nodes' positions, the breakup
+// piece points and the matrices the tentacles and joints follow.
+void derolle_capture_node_points(NJS_OBJECT *) {
+    if (derolle_capture_node_index == derolle_position_node_ids[derolle_capture_position_index]) {
+        forward_transform_to_view(&derolle_capture_origin, derolle_capture_positions);
+        derolle_capture_position_index += 1;
+        derolle_capture_positions++;
     }
-    if ((s32) TBoss2DeRolLe__current_attack_id == 0x33) {
+    if (derolle_capture_node_index == 0x33) {
         push_matrix();
         forward_split_screen_view_matrix();
-        matrix_mult_vec_array(0, derolle_part_transform_template, (void *)lbl_805D4BB8, 4);
+        matrix_mult_vec_array(0, derolle_part_transform_template, derolle_capture_part_points, 4);
         pop_matrix();
-        subtract_vector((void *)(lbl_805D4BB8 + 0xC), (void *)lbl_805D4BB8);
+        subtract_vector(&derolle_capture_part_points[1], &derolle_capture_part_points[0]);
     }
-    if ((lbl_805D4BB0 & 0x80) && ((s32) TBoss2DeRolLe__current_attack_id >= 0x4D) && ((s32) TBoss2DeRolLe__current_attack_id <= 0x58)) {
+    if ((derolle_capture_flags & 0x80) && derolle_capture_node_index >= 0x4D && derolle_capture_node_index <= 0x58) {
         push_matrix();
         forward_split_screen_view_matrix();
-        get_current_matrix((void *)lbl_805D4BC0);
+        get_current_matrix(derolle_capture_node_matrices);
         pop_matrix();
-        lbl_805D4BC0 += 0x30;
+        derolle_capture_node_matrices++;
     }
-    if (((s32) TBoss2DeRolLe__current_attack_id >= 0x1D) && ((s32) TBoss2DeRolLe__current_attack_id <= 0x20)) {
+    if (derolle_capture_node_index >= 0x1D && derolle_capture_node_index <= 0x20) {
         push_matrix();
         forward_split_screen_view_matrix();
-        get_current_matrix((void *)lbl_805D4BBC);
+        get_current_matrix(derolle_capture_tentacle_matrices);
         pop_matrix();
-        lbl_805D4BBC += 0x30;
+        derolle_capture_tentacle_matrices++;
     }
-    TBoss2DeRolLe__current_attack_id += 1;
+    derolle_capture_node_index += 1;
 }
 
 }
 
 }
 
-void fn_8002F5AC(u8 *arg0) {
-    TBoss2DeRolLe__current_attack_id = 0;
-    copy_argb((NJS_ARGB *)&lbl_804FE30C.value, (NJS_ARGB *)(arg0 + 0x608));
-    lbl_805D4BB0 = *(s32 *)((s8 *)arg0 + 0x3C0);
-    TBoss2DeRolLe__sequence_match_index = 0;
-    lbl_805D4BB4 = arg0 + 0x3F8;
-    lbl_805D4BBC = *(s32 *)((s8 *)arg0 + 0x61C);
-    lbl_805D4BC0 = *(s32 *)((s8 *)arg0 + 0x618);
-    lbl_805D4BB8 = arg0 + 0x4E8;
+void derolle_begin_node_capture(TBoss2DeRolLe *boss) {
+    derolle_capture_node_index = 0;
+    copy_argb(&derolle_capture_color, &boss->body_color);
+    derolle_capture_flags = boss->state_flags;
+    derolle_capture_position_index = 0;
+    derolle_capture_positions = boss->node_positions;
+    derolle_capture_tentacle_matrices = boss->tentacle_matrices;
+    derolle_capture_node_matrices = boss->node_matrices;
+    derolle_capture_part_points = boss->part_points;
 }
 
 extern "C" {
@@ -4113,9 +4088,9 @@ void TBoss2DeRolLe::render() {
     } else {
         derolle_texture_list_handle->tex = lbl_805D4BCC;
     }
-    fn_8002F5AC(((u8 *)this));
+    derolle_begin_node_capture(this);
     TObjFish::set_global_param(e->f24);
-    set_chunk_model_node_callback(TObjPlayer__sub_8002F61C);
+    set_chunk_model_node_callback(derolle_capture_node_points);
     {
     Vec4_8002F258 saved;
     col = &TObjLight__scene_light_state.col;
@@ -4217,8 +4192,8 @@ void TBoss2DeRolLe::render_body() {
             frame = model->frames;
         }
     }
-    fn_8002F5AC((u8 *)self);
-    set_chunk_model_node_callback(TObjPlayer__sub_8002F61C);
+    derolle_begin_node_capture((TBoss2DeRolLe *)self);
+    set_chunk_model_node_callback(derolle_capture_node_points);
     TObjFish::set_global_param(this->texlist);
     draw_model_motion((void *)self->x34, (void *)model, (f32)frame);
     set_chunk_model_node_callback(NULL);
