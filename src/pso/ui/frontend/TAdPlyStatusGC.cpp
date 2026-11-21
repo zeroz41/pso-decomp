@@ -84,8 +84,6 @@ saddr get_char_index__23TAdSinglePlyChrSelectGCFUi(u32 arg0);
 }
 s32 get_class_name_text(s32 arg0);
 extern "C" {
-int sprintf(char *, const char *, ...);
-void *memset(void *, int, u32);
 extern u32 ply_status_index;
 u32 ply_status_gc_instance;
 saddr ply_status_chcr_load_afs;
