@@ -1263,11 +1263,11 @@ void TBoss4Type2::md_recover_update() {
   int temp_r0;
   u16 temp_r3_4;
   uaddr temp_r3;
-  unsigned int particle_emitter;
+  uaddr particle_emitter;
   uaddr particle_effect;
   uaddr temp_r3_5;
   uaddr temp_r3_6;
-  unsigned int *new_var;
+  uaddr *new_var;
   if (((*((int *) (((s8 *) boss4_type2) + 0x3C8))) == 5) && ((*((f32 *) (((s8 *) boss4_type2) + 0x3D0))) > 28.0f))
   {
     temp_r3 = *((unsigned int *) (((s8 *) boss4_type2) + 0x448));
@@ -1281,7 +1281,7 @@ void TBoss4Type2::md_recover_update() {
     if ((*((unsigned int *) (((s8 *) boss4_type2) + 0x448))) == 0)
   {
     particle_emitter = (uaddr)create_particle_emitter(boss4_type2 + 0x468, 0x143);
-    new_var = (unsigned int *) (((s8 *) boss4_type2) + 0x448);
+    new_var = (uaddr *) (((s8 *) boss4_type2) + 0x448);
     *new_var = particle_emitter;
     if (particle_emitter != 0)
     {

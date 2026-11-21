@@ -1,5 +1,6 @@
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/system/BmlAccessors.h"
+#include "pso/boss/galgryphon/Boss5GryphonBehavior.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/DragonAttackParams.h"
@@ -83,7 +84,7 @@ struct Obj_8006426C {
     u8 pad3cc[0x444 - 0x3cc];
     Vec b;
     u8 pad450[0x578 - 0x450];
-    s32 attack_history;
+    saddr attack_history;
 };
 
 struct Dragon_8006442C {
@@ -91,7 +92,7 @@ struct Dragon_8006442C {
     Vec a, b, c, d;
     Vec e, f, g, h;
     u8 pad444[0x578 - 0x444];
-    s32 attack_history;
+    saddr attack_history;
 };
 
 typedef struct Res_80063088 {
@@ -251,7 +252,6 @@ f32 random_in_range__12TBoss8DragonFff(f32 farg0, f32 farg1);
 s32 random_in_table_range__12TBoss8DragonFiii(s32 self, saddr arg1, s32 arg2);
 void apply_lightning_hit(s32 arg0, s32 arg1, f32 farg0);
 void apply_snarl_hit(s32 arg0, s32 arg1, f32 farg0, f32 farg1);
-void apply_tornado_hit(s32 arg0, s32 arg1);
 
 struct Obj_8005DC0C {
     u8 pad0[0x326];
@@ -374,7 +374,7 @@ struct Obj_80064968 {
     u8 pad0[0x3c0];
     Vec parts[16];
     u8 pad480[0x578 - 0x480];
-    s32 attack_history;
+    saddr attack_history;
     u8 pad57c[0x5f0 - 0x57c];
     Atk_80064968 *f5f0;
 };
@@ -483,6 +483,7 @@ void subtract_vector(void *, void *);
 s32 post_translate_matrix(void *);
 void set_material_alpha_compare_reference(s32 reference);
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
+}
 
 void *lbl_80487848[4] = {
     (void *)"boss_rock.gj", (void *)"fe_obj001_iwaware_01.gj", (void *)"fe_obj001_iwaware_02.gj", (void *)0x0,
@@ -599,14 +600,15 @@ f32 lbl_805D4D94 = 2.0f * lbl_805D9E80;
 saddr boss5_gryphon_base_params[1];
 saddr boss5_gryphon_resistance_params[1];
 u8 *boss5_gryphon_body_bml_resource;
-saddr boss5_gryphon_bml_resource;
+BmlResource *boss5_gryphon_bml_resource;
 saddr boss5_gryphon_texture_list;
 s32 boss5_gryphon_render_node_index;
 s32 boss5_gryphon_bone_capture_index;
-s32 boss5_gryphon_bone_capture_output;
+saddr boss5_gryphon_bone_capture_output;
 s32 boss5_gryphon_render_flags;
 Obj_80065658 *boss5_gryphon_instance;
 f32 lbl_805D4DC0;
+extern "C" {
 extern u8 *camera_ctrl_instance;
 extern saddr current_scene_light;
 extern s32 saved_model_render_flags;
@@ -1124,7 +1126,7 @@ void TBoss8Dragon__sub_8005D9BC(u8 *arg0, s32 arg1, s32 arg2) {
 #pragma pop
 
 void TBoss5Gryphon::render_nodes_with_flag() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     s32 temp_r4;
 
     temp_r4 = model_render_flags;
@@ -1282,7 +1284,7 @@ void TBoss5Gryphon::draw_body() {
 }
 
 void TBoss8Dragon__sub_8005E17C(NJS_OBJECT *) {
-    s32 pos;
+    saddr pos;
     if ((s32) boss5_gryphon_render_node_index == boss5_gryphon_bone_capture_node_indices[boss5_gryphon_bone_capture_index]) {
         pos = boss5_gryphon_bone_capture_output;
         boss5_gryphon_bone_capture_output = pos + 0xC;
@@ -3961,7 +3963,7 @@ void TBoss8Dragon::spawn_switch_attack() {
 
     particle = spawn_particle_effect_with_flags((const Vec *)this, 0x211, 0x40);
     if (particle != 0) {
-        attach_particle_model((u8 *)particle, (saddr)(get_bml_model((BmlResource *)boss5_gryphon_bml_resource, 2)), (saddr)boss5_gryphon_texture_list, 0, 0, (f32)lbl_805D8D88);
+        attach_particle_model((u8 *)particle, (saddr)(get_bml_model(boss5_gryphon_bml_resource, 2)), (saddr)boss5_gryphon_texture_list, 0, 0, (f32)lbl_805D8D88);
     }
 }
 #pragma pop
@@ -3975,7 +3977,7 @@ void TBoss8Dragon::spawn_attack_effect() {
 
     particle = spawn_particle_effect_with_flags((const Vec *)this, 0x210, 0x40);
     if (particle != 0) {
-        attach_particle_model((u8 *)particle, (saddr)(get_bml_model((BmlResource *)boss5_gryphon_bml_resource, 1)), (saddr)boss5_gryphon_texture_list, 0, 0, (f32)lbl_805D8D88);
+        attach_particle_model((u8 *)particle, (saddr)(get_bml_model(boss5_gryphon_bml_resource, 1)), (saddr)boss5_gryphon_texture_list, 0, 0, (f32)lbl_805D8D88);
     }
 }
 #pragma pop
@@ -4039,7 +4041,7 @@ void TBoss5Gryphon::spawn_ground_splash() {
         temp_f1 = *(f32 *)((s8 *)(*(void **)((s8 *)temp_r3 + 4)) + 4);
         if (!(temp_f1 > 6.0f)) {
             stack.spC = temp_f1;
-            spawn_particle_effect_with_flags((const Vec *)&stack.sp8, (saddr)((void *) (**(s32 **)((s8 *)((u8 *)this) + 0x5F0))), 0x40);
+            spawn_particle_effect_with_flags((const Vec *)&stack.sp8, **(saddr **)((u8 *)this + 0x5F0), 0x40);
             play_se(0x40032D01);
         }
     }
@@ -4065,7 +4067,7 @@ void apply_snarl_hit(s32 arg0, s32 arg1, f32 farg0, f32 farg1) {
     desc.field_8 = farg0;
     TObjEneDD::setup_instance(arg0, arg1, (u8 *)&desc, 0);
 }
-void apply_tornado_hit(s32 arg0, s32 arg1) {
+void apply_tornado_hit(s32 arg0, saddr arg1) {
     DragonAttackParams desc = lbl_80437D7C;
     desc.field_4 = *(f32 *)((s8 *)boss5_gryphon_behavior_params[2] + 8);
     TObjEneDD::setup_instance(arg0, arg1, (u8 *)&desc, 0);
@@ -4090,7 +4092,7 @@ void TBoss8Dragon__sub_800641A8(u8 *ene_dd) {
     if (!(*(f32 *)((s8 *)ene_dd + 0x46C) > lbl_805D8E00)) {
         fill_value_array((int) (*(s32 *)((s8 *)ene_dd + 0x578)));
         ((TObjEneDD *)ene_dd)->reset_hp((u8 *)0, (u8 *)(boss5_gryphon_attack_params[1]), (u8 *)0);
-        TObjEneDD::emit_enemy_effect(ene_dd, (void *)pos, (u8 *)&desc, (void *)(*(s32 *)((s8 *)ene_dd + 0x578)));
+        TObjEneDD::emit_enemy_effect(ene_dd, (void *)pos, (u8 *)&desc, (void *)(*(saddr *)((s8 *)ene_dd + 0x578)));
         ((TObjEneDD *)ene_dd)->reset_hp((u8 *)0, (u8 *)(boss5_gryphon_attack_params[0]), (u8 *)0);
     }
 }
@@ -4129,11 +4131,11 @@ void TBoss8Dragon__sub_8006435C(u8 *ene_dd) {
     temp_r31 = (ene_dd + 0x444);
     stack.field_8 = lbl_805D8EAC;
     TBoss8Dragon__sub_800670E0((saddr)temp_r31, &stack);
-    TObjEneDD::emit_enemy_effect(ene_dd, (void *)temp_r31, (u8 *)&stack, (void *)(*(s32 *)((s8 *)ene_dd + 0x578)));
+    TObjEneDD::emit_enemy_effect(ene_dd, (void *)temp_r31, (u8 *)&stack, (void *)(*(saddr *)((s8 *)ene_dd + 0x578)));
     temp_r31_2 = (ene_dd + 0x3C0);
     stack.field_8 = lbl_805D8DD0;
     TBoss8Dragon__sub_800670E0((saddr)temp_r31_2, &stack);
-    TObjEneDD::emit_enemy_effect(ene_dd, (void *)temp_r31_2, (u8 *)&stack, (void *)(*(s32 *)((s8 *)ene_dd + 0x578)));
+    TObjEneDD::emit_enemy_effect(ene_dd, (void *)temp_r31_2, (u8 *)&stack, (void *)(*(saddr *)((s8 *)ene_dd + 0x578)));
     ((TObjEneDD *)ene_dd)->reset_hp((u8 *)0, (u8 *)(boss5_gryphon_attack_params[0]), (u8 *)0);
 }
 #pragma pop
@@ -4906,9 +4908,9 @@ void TBoss5Gryphon::cleanup() {
         TAdSinglePlyChrSelectGC::safe_free(boss5_gryphon_texture_list);
         boss5_gryphon_texture_list = 0U;
     }
-    if ((u32) boss5_gryphon_bml_resource != 0U) {
-        delete (BmlResource *)boss5_gryphon_bml_resource;
-        boss5_gryphon_bml_resource = 0U;
+    if (boss5_gryphon_bml_resource != NULL) {
+        delete boss5_gryphon_bml_resource;
+        boss5_gryphon_bml_resource = NULL;
     }
     if ((uaddr) boss5_gryphon_body_bml_resource != 0U) {
         delete (BmlResource *)boss5_gryphon_body_bml_resource;
@@ -4931,7 +4933,7 @@ void load_boss5_gryphon_resources(void) {
     switch (TBoss8Dragon__sub_8005D700()) {
     case 0:
         boss5_gryphon_body_bml_resource = (u8 *)load_enemy_bml_resource((BmlResourceDescriptor *)boss5_gryphon_body_bml_desc);
-        boss5_gryphon_bml_resource = (saddr)load_enemy_bml_resource((BmlResourceDescriptor *)boss5_gryphon_bml_desc);
+        boss5_gryphon_bml_resource = load_enemy_bml_resource((BmlResourceDescriptor *)boss5_gryphon_bml_desc);
         boss5_gryphon_texture_list = (saddr)load_gvm_texture_file((saddr)"modelparticle_gryphon.gvm");
         break;
     }

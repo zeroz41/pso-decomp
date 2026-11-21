@@ -17,7 +17,7 @@ s32 TBoss8Dragon__sub_8005FAE0(u8 *arg0);
 void TBoss8Dragon__sub_8005FB90(u8 *arg0);
 void TBoss8Dragon__sub_80063EF4(saddr arg0);
 void apply_lightning_hit(s32 arg0, s32 arg1, f32 farg0);
-void apply_tornado_hit(s32 arg0, s32 arg1);
+void apply_tornado_hit(s32 arg0, saddr arg1);
 void apply_shockwave_hit(s32 arg0, s32 arg1);
 void TBoss8Dragon__sub_800641A8(u8 *arg0);
 void TBoss8Dragon__sub_8006435C(u8 *arg0);
@@ -58,7 +58,6 @@ s32 TBoss8Dragon__sub_8005FAE0(u8 *arg0);
 void TBoss8Dragon__sub_8005FB90(u8 *arg0);
 void TBoss8Dragon__sub_80063EF4(saddr arg0);
 void apply_lightning_hit(s32 arg0, s32 arg1, f32 farg0);
-void apply_tornado_hit(s32 arg0, s32 arg1);
 void apply_shockwave_hit(s32 arg0, s32 arg1);
 void TBoss8Dragon__sub_800641A8(u8 *ene_dd);
 void TBoss8Dragon__sub_8006435C(u8 *ene_dd);
@@ -83,5 +82,11 @@ void trigger_effect__12TBoss8DragonFPvi(void *arg0, s32 arg1);
 void turn_toward_angle_limited__13TBoss5GryphonFPvii(void *selfv, s32 arg1, s32 arg2);
 }
 // --- end of C functions
+
+struct BmlResource;
+
+// Gal Gryphon's particle model archive and texture list, loaded with the boss.
+extern BmlResource *boss5_gryphon_bml_resource;
+extern saddr boss5_gryphon_texture_list;
 
 #endif

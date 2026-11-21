@@ -56,7 +56,7 @@ u8 *TObjBoss5PillarDemo__ct(TObjBoss5PillarDemo *boss5_pillar_demo, saddr arg1, 
 TObjBoss5PillarDemo *TObjBoss5PillarDemo::create() {
     s32 temp_r31;
     saddr boss5_pillar_demo;
-    s32 var_r0;
+    saddr var_r0;
     temp_r31 = *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&lbl_805D4DD8) + 0x42C)) + 0x38);
     boss5_pillar_demo = (saddr)TObject::operator new(0x4C);
     var_r0 = boss5_pillar_demo;

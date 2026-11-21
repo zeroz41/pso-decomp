@@ -194,7 +194,7 @@ public:
     void spawn_ground_effect();
     int setup_instance(int _w1, void * _w2, int _w3);
     void setup_breath_instance(Vec *pos, u32 kind, AreaAttackHistory *history);
-    void emit_effect(void *pos, void *params, s32 history);
+    void emit_effect(void *pos, void *params, saddr history);
     static void init_state(saddr arg0);
     static int set_state_1(void* p);
     static int check_condition_default(void* p);

@@ -105,7 +105,7 @@ const char *TBoss8DragonEffTail__name = "TBoss8DragonEffTail";
 extern const P8_802FE494 lbl_80474BBC = { 3.0f, 1 };
 // The 17 collision bodies the constructor sets up: the first a radius-10 sphere, the rest copies of it.
 CollisionBody boss8_dragon_eff_tail_init_data[17] = { { { 0.0f, 0.0f, 0.0f }, 10.0f, 0.0f, 0, 0x8003 } };
-s32 boss8_eff_tail_bml_resource;
+BmlResource *boss8_eff_tail_bml_resource;
 uaddr dragon_tail_gvm_texture_handle;
 
 extern s32 __vt__19TBoss8DragonEffTail[];
@@ -209,13 +209,13 @@ void TBoss8DragonEffTail::free_statics() {
         TAdSinglePlyChrSelectGC::safe_free(dragon_tail_gvm_texture_handle);
         dragon_tail_gvm_texture_handle = 0U;
     }
-    delete (BmlResource *)boss8_eff_tail_bml_resource;
+    delete boss8_eff_tail_bml_resource;
     boss8_eff_tail_bml_resource = 0;
 }
 
 u8 *load_gvm_texture_file(saddr arg0);
 
 void TBoss8DragonEffTail::load_statics() {
-    boss8_eff_tail_bml_resource = (saddr)load_enemy_bml_resource((BmlResourceDescriptor *)&bm_obj_boss1_common_j_resource_descriptor);
+    boss8_eff_tail_bml_resource = load_enemy_bml_resource((BmlResourceDescriptor *)&bm_obj_boss1_common_j_resource_descriptor);
     dragon_tail_gvm_texture_handle = (saddr)load_gvm_texture_file((saddr)obj_boss1_common_j_texture_filename);
 }

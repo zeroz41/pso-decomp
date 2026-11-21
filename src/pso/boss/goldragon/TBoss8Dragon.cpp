@@ -44,6 +44,7 @@
 #include "pso/boss/goldragon/TBoss8DragonEffTail.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal.h"
+#include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -620,7 +621,7 @@ extern s32 lbl_805D69A4;
 extern s32 TBoss8Dragon__data_805D698C;
 extern s32 TBoss8Dragon__data_805D6994;
 extern s32 TBoss8Dragon__data_805D6998;
-extern s32 TBoss8Dragon__data_805D699C;
+extern saddr TBoss8Dragon__data_805D699C;
 extern s32 TBoss8Dragon__data_805D69A0;
 extern saddr TBoss8Dragon__data_805D69A8;
 extern u8 *TBoss8Dragon__data_805D69AC;
@@ -1280,7 +1281,7 @@ s32 TBoss8Dragon__data_805D698C;
 s32 lbl_805D6990;
 s32 TBoss8Dragon__data_805D6994;
 s32 TBoss8Dragon__data_805D6998;
-s32 TBoss8Dragon__data_805D699C;
+saddr TBoss8Dragon__data_805D699C;
 s32 TBoss8Dragon__data_805D69A0;
 s32 lbl_805D69A4;
 saddr TBoss8Dragon__data_805D69A8;
@@ -2201,7 +2202,7 @@ s32 TBoss8Dragon__sub_802FBFA4(u8 *arg0) {
 
 #pragma pop
 void TBoss8Dragon::reload_boss_stats() {
-    this->reload_stats_keep_hp_tp((u8 *)(TLobby::register_boss(0x12)), (u8 *)(((s32 *)&TBoss8Dragon__data_80541DC8)[TBoss8Dragon__data_804E4C28[0]]), (u8 *)(TLobby::register_object(0x12)));
+    this->reload_stats_keep_hp_tp((u8 *)(TLobby::register_boss(0x12)), (u8 *)(TBoss8Dragon__data_80541DC8[TBoss8Dragon__data_804E4C28[0]]), (u8 *)(TLobby::register_object(0x12)));
 }
 
 void TBoss8Dragon::reset_tail_hp() {
@@ -2530,7 +2531,7 @@ void TBoss8Dragon::setup_breath_instance(Vec *pos, u32 kind, AreaAttackHistory *
     DragonAttackParams s = TBoss8Dragon__breath_params;
     s.field_4 = (*(G_802FB290 *)&TBoss8Dragon__data_80541DDC).value->f[0];
     s.field_0 = kind;
-    setup_instance((int)pos, &s, (int)history);
+    setup_instance((saddr)pos, &s, (saddr)history);
 }
 
 void TBoss8Dragon__sub_802FB220(void *o, int x, u32 a) {
@@ -2547,7 +2548,7 @@ void TBoss8Dragon__sub_802FB1B0(TBoss8Dragon *dragon, int x, f32 c) {
     dragon->setup_instance(x, &s, dragon->attack_history);
 }
 
-void TBoss8Dragon::emit_effect(void *pos, void *params, s32 history) {
+void TBoss8Dragon::emit_effect(void *pos, void *params, saddr history) {
     TObjEneDD::emit_enemy_effect(this, pos, (u8 *)params, (void *)history);
 }
 
@@ -2934,7 +2935,7 @@ void TBoss8Dragon::sub_802FA16C(s32 event) {
     case 9:
         temp_r4_2 = this->m_84c;
         var_r30 = 0;
-        if ((temp_r4_2 >= 0x96) && ((u32) this->current_target != 0U)) {
+        if ((temp_r4_2 >= 0x96) && (this->current_target != NULL)) {
             if (*(f32 *)((s8 *)this + 0x3AC) < *(f32 *)((s8 *)this + 0x864)) {
                 var_r30 = 1;
             } else if (this->is_near_target() != 0) {
@@ -4715,7 +4716,7 @@ void TBoss8Dragon::sub_802F645C(s32 event) {
             send_action_packet(5);
             return;
         }
-        if (((s32 (*)(void *, void *, int))mask_flags__12TBoss8DragonFiii)(this, (void *) (*(void **)((s8 *)(*(u8 **)((s8 *)this + 0x6D8)) + 8)), (int) (fn_8002AE08(TBoss8Dragon__data_805D69BC))) != 0) {
+        if (mask_flags__12TBoss8DragonFiii((saddr)this, *(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x6D8)) + 8), fn_8002AE08(TBoss8Dragon__data_805D69BC)) != 0) {
             send_action_packet(9);
         }
         return;
@@ -4803,7 +4804,7 @@ void TBoss8Dragon::sub_802F610C(s32 event) {
             send_action_packet(5);
             return;
         }
-        if (((s32 (*)(void *, void *, int))mask_flags__12TBoss8DragonFiii)(this, *(void **)((s8 *)(*(u8 **)((s8 *)this + 0x6D8)) + 8), fn_8002AE08(TBoss8Dragon__data_805D69BC)) != 0) {
+        if (mask_flags__12TBoss8DragonFiii((saddr)this, *(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x6D8)) + 8), fn_8002AE08(TBoss8Dragon__data_805D69BC)) != 0) {
             send_action_packet(9);
             return;
         }
@@ -5686,7 +5687,7 @@ s32 TBoss8Dragon::hasActiveRenderFade() {
 
 void TBoss8Dragon::update_camera_script(NJS_OBJECT *) {
     s32 temp_r0;
-    s32 pos;
+    saddr pos;
     if ((s32) TBoss8Dragon__data_805D698C == (s32) lbl_805D6990) {
         push_matrix();
         forward_split_screen_view_matrix();
@@ -5887,7 +5888,7 @@ s32 TBoss8Dragon__sub_802F3F20(u8 *owner) {
 }
 
 void TBoss8Dragon::render_nodes_flagged() {
-    s32 arg0 = (saddr)this;
+    saddr arg0 = (saddr)this;
     s32 temp_r4;
 
     temp_r4 = model_render_flags;
