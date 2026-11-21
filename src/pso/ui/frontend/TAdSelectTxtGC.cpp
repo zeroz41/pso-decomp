@@ -69,38 +69,6 @@ void clear_player_data_block(O_802A15BC *arg0) {
 
 }
 
-struct Sel_802A16CC {
-    u8 pad0[0xC0];
-    void *slots[7];
-};
-
-struct Ent_802A1740 { u8 b[0x14]; };
-
-struct Sel_802A1740 {
-    u8 pad0[0x1C];
-    Ent_802A1740 ent[8];
-    s32 cnt;
-    void *tasks[8];
-};
-
-struct Ent_802A1838 {
-    u8 pad[0x1C];
-    void *f0;
-    s32 f4;
-    u8 v[8];
-    s32 f10;
-};
-
-struct Sel_802A1838 {
-    u8 pad0[0xBC];
-    s32 cnt;
-    void *tasks[8];
-};
-
-struct Src_802A1838 {
-    s32 f0;
-    u8 v[8];
-};
 
 uaddr ad_select_text_texture_handle;
 extern "C" {
@@ -115,51 +83,46 @@ s32 TAdSelectTxtGC__sub_802A16C0(void* p) { return *(s32*)((char*)p + 0x3e8); }
 
 void TAdSelectTxtGC::render() {  }
 
-void TAdSelectTxtGC::reset_slots(void *arg1, void *arg2) {
+void TAdSelectTxtGC::reset_slots(TAdSelectTxtLayout *layout, s32 value) {
     s32 i;
     for (i = 0; i < 7; i++) {
-        if (((Sel_802A16CC *)this)->slots[i] != 0) {
-            ((TObject *)(((Sel_802A16CC *)this)->slots[i]))->queue_destruction();
-            ((Sel_802A16CC *)this)->slots[i] = 0;
+        if (lines[i] != NULL) {
+            lines[i]->queue_destruction();
+            lines[i] = NULL;
         }
     }
-    ((TAdSelectTxtGC *)((Sel_802A16CC *)this))->init_slot_entries((Src_802A1838 *)(arg1), arg2);
+    init_slot_entries(layout, value);
 }
 
 void TAdSelectTxtGC::run_task() {
-    Sel_802A1740 *arg0 = (Sel_802A1740 *)this;
-    void *o;
-    arg0->cnt = arg0->cnt + 1;
-    if (arg0->cnt % 3 == 0 && arg0->cnt / 3 < 8) {
-        o = TObject::operator new(0x88);
-        if (o != NULL) {
-            o = __ct__17TAdSelectTxtSubGCFv(o, arg0, &arg0->ent[arg0->cnt / 3]);
+    void *line;
+    spawn_count = spawn_count + 1;
+    if (spawn_count % 3 == 0 && spawn_count / 3 < 8) {
+        line = TObject::operator new(0x88);
+        if (line != NULL) {
+            line = __ct__17TAdSelectTxtSubGCFv(line, this, &entries[spawn_count / 3]);
         }
-        arg0->tasks[arg0->cnt / 3] = o;
+        lines[spawn_count / 3] = (TObject *)line;
     }
 }
 
 TAdSelectTxtGC::~TAdSelectTxtGC() {}
-void TAdSelectTxtGC::init_slot_entries(void *arg1_arg, void *arg2) {
-    Sel_802A1838 *arg0 = (Sel_802A1838 *)this;
-    Src_802A1838 *arg1 = (Src_802A1838 *)arg1_arg;
-    Ent_802A1838 *e;
+void TAdSelectTxtGC::init_slot_entries(TAdSelectTxtLayout *layout, s32 value) {
     s32 i;
-    arg0->cnt = -1;
+    spawn_count = -1;
     for (i = 0; i < 8; i++) {
-        e = (Ent_802A1838 *)((u8 *)arg0 + i * 0x14);
-        e->f0 = arg2;
-        e->f4 = i;
-        copy_vec2((e->v), arg1->v);
-        e->f10 = arg1->f0;
-        arg0->tasks[i] = NULL;
+        entries[i].value = value;
+        entries[i].index = i;
+        copy_vec2(entries[i].position, layout->position);
+        entries[i].text_id = layout->text_id;
+        lines[i] = NULL;
     }
 }
 
 }
-TAdSelectTxtGC::TAdSelectTxtGC(TObject *object, void *arg1_arg, void *arg3) : TObject(object) {
+TAdSelectTxtGC::TAdSelectTxtGC(TObject *parent, TAdSelectTxtLayout *layout, s32 value) : TObject(parent) {
     this->m_name = TAdSelectTxtGC__class_name;
-    this->init_slot_entries((Src_802A1838 *)(arg1_arg), arg3);
+    this->init_slot_entries(layout, value);
 }
 
 void TLobby__sub_802A1918(void) {

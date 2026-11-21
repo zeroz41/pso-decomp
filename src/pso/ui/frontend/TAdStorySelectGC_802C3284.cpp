@@ -11,6 +11,7 @@
 #include "pso/object/TObjPathObj.h"
 
 #include "types.h"
+#include "pso/ui/frontend/TAdSelectTxtGC.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
@@ -25,9 +26,7 @@ struct Obj_802C3288 { u8 pad[0x1C]; saddr f1C; saddr f20; };
 
 struct B_802C3400 { NJS_POINT2 e[2]; };
 
-struct CE_802C3400 { s32 a; f32 x, y; };
-
-struct C_802C3400 { CE_802C3400 e[2]; };
+struct C_802C3400 { TAdSelectTxtLayout e[2]; };
 
 struct Self_802C3400 { const char *name; u8 pad4[0x14]; void *vt; void *f1C; void *f20; };
 
@@ -41,7 +40,6 @@ extern u8 controller_input_state[];
 void __ct__7TObjectFP7TObject(void *, void *);
 void __ct__8TAdRayGCFv(void *, void *);
 void __ct__10TAdTitleGCFP7TObjectl(void *, void *, s32);
-void __ct__14TAdSelectTxtGCFP7TObjectPvPv(void *, void *, void *, s32);
 void __ct__13TAdTitleTexGCFv(void *, void *);
 extern void *__vt__16TAdStorySelectGC[];
 Self_802C3400 *__ct__16TAdStorySelectGCFv(Self_802C3400 *self, void *parent);
@@ -116,14 +114,8 @@ Self_802C3400 *__ct__16TAdStorySelectGCFv(Self_802C3400 *self, void *parent) {
     }
     {
         C_802C3400 c = {{{-1, 208.0f, 197.0f}, {-1, 178.0f, 249.0f}}};
-        p = TObject::operator new(0xE0);
-        if (p != NULL) {
-            __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &c.e[0], 4);
-        }
-        p = TObject::operator new(0xE0);
-        if (p != NULL) {
-            __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &c.e[1], 5);
-        }
+        new TAdSelectTxtGC((TObject *)self, &c.e[0], 4);
+        new TAdSelectTxtGC((TObject *)self, &c.e[1], 5);
         {
         NJS_POINT2 a = {302.0f, 28.0f};
         B_802C3400 b = {{{185.0f, 198.0f}, {155.0f, 250.0f}}};

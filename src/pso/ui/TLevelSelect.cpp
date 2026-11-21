@@ -49,7 +49,7 @@ void __ct__7TObjectFP7TObject(void *, void *);
 void __ct__8TAdRayGCFv(void *, void *);
 void __ct__10TAdTitleGCFP7TObjectl(void *, void *, int);
 void __ct__13TAdTitleTexGCFv(void *, void *);
-void __ct__14TAdSelectTxtGCFP7TObjectPvPv(void *, void *, void *, int);
+void __ct__14TAdSelectTxtGCFP7TObjectP18TAdSelectTxtLayoutl(void *, void *, void *, int);
 extern u8 __vt__12TLevelSelect[];
 extern void *tl_01;
 Self_8013319C *__ct__12TLevelSelectFv(Self_8013319C *self);
@@ -130,16 +130,16 @@ Self_8013319C *__ct__12TLevelSelectFv(Self_8013319C *self) {
             ents.e[i].id = -1;
         }
         if ((p = TObject::operator new(0xE0)) != NULL) {
-            __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &ents.e[0], 0);
+            __ct__14TAdSelectTxtGCFP7TObjectP18TAdSelectTxtLayoutl(p, self, &ents.e[0], 0);
         }
         if ((p = TObject::operator new(0xE0)) != NULL) {
-            __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &ents.e[1], 1);
+            __ct__14TAdSelectTxtGCFP7TObjectP18TAdSelectTxtLayoutl(p, self, &ents.e[1], 1);
         }
         if ((p = TObject::operator new(0xE0)) != NULL) {
-            __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &ents.e[2], 2);
+            __ct__14TAdSelectTxtGCFP7TObjectP18TAdSelectTxtLayoutl(p, self, &ents.e[2], 2);
         }
         if ((p = TObject::operator new(0xE0)) != NULL) {
-            __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &ents.e[3], 3);
+            __ct__14TAdSelectTxtGCFP7TObjectP18TAdSelectTxtLayoutl(p, self, &ents.e[3], 3);
         }
         {
             NJS_POINT2 pos = { 302.0f, 28.0f };

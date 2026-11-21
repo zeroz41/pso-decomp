@@ -61,7 +61,6 @@ struct Pos_8030095C { f32 v[8]; };
 
 struct Cur_8030095C { f32 v[2]; };
 
-struct TxtSlot_8030095C { s32 id; f32 x; f32 y; };
 
 struct Obj_8030095C {
     const char *f0;
@@ -85,10 +84,8 @@ Ent_80300850 *get_char_table_entry__23TAdSinglePlyChrSelectGCFi(int);
 void __ct__7TObjectFP7TObject(void *);
 void __ct__8TAdRayGCFv(void *, void *);
 void __ct__10TAdTitleGCFP7TObjectl(void *, void *, s32);
-void *__ct__14TAdSelectTxtGCFP7TObjectPvPv(void *, void *, const void *, s32);
 void __ct__13TAdTitleTexGCFv(void *, void *);
 extern void *__vt__21TAdMultiSelGameModeGC[];
-extern saddr game_difficulty_selection;
 saddr lbl_805D69F4;
 Obj_8030095C *__ct__21TAdMultiSelGameModeGCFv(Obj_8030095C *self, s32 parent, s32 mode);
 }
@@ -102,7 +99,7 @@ int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int 
 s32 create_window_menu_default(void *, u32);
 extern u8 controller_input_state[];
 
-static const TxtSlot_8030095C lbl_80474E40[7] = {
+static const TAdSelectTxtLayout lbl_80474E40[7] = {
     { -1, 133.0f, 145.0f }, { -1, 111.0f, 197.0f }, { -1, 89.0f, 250.0f }, { -1, 148.0f, 301.0f },
     { -1, 340.0f, 145.0f }, { -1, 310.0f, 197.0f }, { -1, 280.0f, 250.0f },
 };
@@ -179,7 +176,7 @@ void TAdMultiSelGameModeGC::sub_803003A4() {
             self->f1C = 1;
         } else if (((TWindowMenu *)self->f2C)->is_decided() != 0) {
             game_difficulty_selection = ((TWindowMenu *)self->f2C)->get_selected_value();
-            ((TAdSelectTxtGC *)self->f30)->reset_slots((void *)&lbl_80474E40[4], (void *)game_difficulty_selection);
+            ((TAdSelectTxtGC *)self->f30)->reset_slots((TAdSelectTxtLayout *)&lbl_80474E40[4], game_difficulty_selection);
             ((TAdMultiSelGameModeGC *)self->f3C)->set_selection_state(1);
             self->f1C = 1;
         }
@@ -200,15 +197,15 @@ void TAdMultiSelGameModeGC::sub_803003A4() {
                 TAdMultiSelGameModeGC__data_805D69F0 = 2;
                 break;
             }
-            ((TAdSelectTxtGC *)self->f34)->reset_slots((void *)&lbl_80474E40[5], (void *)(TAdMultiSelGameModeGC__data_805D69F0 + 9));
+            ((TAdSelectTxtGC *)self->f34)->reset_slots((TAdSelectTxtLayout *)&lbl_80474E40[5], TAdMultiSelGameModeGC__data_805D69F0 + 9);
             if (TAdMultiSelGameModeGC__data_805D69F0 == 1 && lbl_805D69F4 == 1) {
                 lbl_805D69F4 = 0;
                 TAdStorySelectGC::set_state(0);
-                ((TAdSelectTxtGC *)self->f38)->reset_slots((void *)&lbl_80474E40[6], (void *)(lbl_805D69F4 + 4));
+                ((TAdSelectTxtGC *)self->f38)->reset_slots((TAdSelectTxtLayout *)&lbl_80474E40[6], lbl_805D69F4 + 4);
             }
             if (TAdMultiSelGameModeGC__data_805D69F0 == 2 && game_difficulty_selection != 0) {
                 game_difficulty_selection = 0;
-                ((TAdSelectTxtGC *)self->f30)->reset_slots((void *)&lbl_80474E40[4], (void *)0);
+                ((TAdSelectTxtGC *)self->f30)->reset_slots((TAdSelectTxtLayout *)&lbl_80474E40[4], 0);
             }
             ((TAdMultiSelGameModeGC *)self->f3C)->set_selection_state(1);
             self->f1C = 1;
@@ -229,7 +226,7 @@ void TAdMultiSelGameModeGC::sub_803003A4() {
                 TAdStorySelectGC::set_state(1);
                 break;
             }
-            ((TAdSelectTxtGC *)self->f38)->reset_slots((void *)&lbl_80474E40[6], (void *)(lbl_805D69F4 + 4));
+            ((TAdSelectTxtGC *)self->f38)->reset_slots((TAdSelectTxtLayout *)&lbl_80474E40[6], lbl_805D69F4 + 4);
             ((TAdMultiSelGameModeGC *)self->f3C)->set_selection_state(1);
             self->f1C = 1;
         }
@@ -345,18 +342,10 @@ Obj_8030095C *__ct__21TAdMultiSelGameModeGCFv(Obj_8030095C *self, s32 parent, s3
     if ((p = TObject::operator new(0x9C)) != NULL) {
         __ct__13TAdTitleTexGCFv(p, self);
     }
-    if ((p = TObject::operator new(0xE0)) != NULL) {
-        __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[0], 0x10);
-    }
-    if ((p = TObject::operator new(0xE0)) != NULL) {
-        __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[1], 0x11);
-    }
-    if ((p = TObject::operator new(0xE0)) != NULL) {
-        __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[2], 0x8);
-    }
-    if ((p = TObject::operator new(0xE0)) != NULL) {
-        __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[3], 0xF);
-    }
+    new TAdSelectTxtGC((TObject *)self, (TAdSelectTxtLayout *)&lbl_80474E40[0], 0x10);
+    new TAdSelectTxtGC((TObject *)self, (TAdSelectTxtLayout *)&lbl_80474E40[1], 0x11);
+    new TAdSelectTxtGC((TObject *)self, (TAdSelectTxtLayout *)&lbl_80474E40[2], 0x8);
+    new TAdSelectTxtGC((TObject *)self, (TAdSelectTxtLayout *)&lbl_80474E40[3], 0xF);
     {
         s32 max = ((s32 (*)(void *))get_max_difficulty_for_party_level)(self);
         game_difficulty_selection = (game_difficulty_selection <= max) ? game_difficulty_selection : 0;
@@ -364,21 +353,9 @@ Obj_8030095C *__ct__21TAdMultiSelGameModeGCFv(Obj_8030095C *self, s32 parent, s3
     if (TAdMultiSelGameModeGC__data_805D69F0 == 2) {
         game_difficulty_selection = 0;
     }
-    p = TObject::operator new(0xE0);
-    if (p != NULL) {
-        p = __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[4], game_difficulty_selection);
-    }
-    self->f30 = p;
-    p = TObject::operator new(0xE0);
-    if (p != NULL) {
-        p = __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[5], TAdMultiSelGameModeGC__data_805D69F0 + 9);
-    }
-    self->f34 = p;
-    p = TObject::operator new(0xE0);
-    if (p != NULL) {
-        p = __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[6], lbl_805D69F4 + 4);
-    }
-    self->f38 = p;
+    self->f30 = new TAdSelectTxtGC((TObject *)self, (TAdSelectTxtLayout *)&lbl_80474E40[4], game_difficulty_selection);
+    self->f34 = new TAdSelectTxtGC((TObject *)self, (TAdSelectTxtLayout *)&lbl_80474E40[5], TAdMultiSelGameModeGC__data_805D69F0 + 9);
+    self->f38 = new TAdSelectTxtGC((TObject *)self, (TAdSelectTxtLayout *)&lbl_80474E40[6], lbl_805D69F4 + 4);
     {
         Cur_8030095C cur = { { 442.0f, 28.0f } };
         Pos_8030095C pos = { { 144.0f, 146.0f, 114.0f, 198.0f, 84.0f, 250.0f, 54.0f, 302.0f } };

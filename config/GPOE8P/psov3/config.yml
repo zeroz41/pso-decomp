@@ -7187,7 +7187,7 @@ force_active:
   - init_size_tier_and_offsets__19TObjEneBm9MericarolFv
   - init_slime_display__15TObjEneSlimeOneFv
   - init_slime_state__15TObjEneSlimeOneFv
-  - init_slot_entries__14TAdSelectTxtGCFPvPv
+  - init_slot_entries__14TAdSelectTxtGCFP18TAdSelectTxtLayoutl
   - init_slots__12TObjEneSlimeFv
   - init_sound_events__10TObjCameraFv
   - init_sound_params__14TObjEnvSoundExFv

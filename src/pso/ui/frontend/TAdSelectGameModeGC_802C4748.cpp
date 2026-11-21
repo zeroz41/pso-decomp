@@ -14,6 +14,7 @@
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 
 #include "types.h"
+#include "pso/ui/frontend/TAdSelectTxtGC.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
@@ -30,9 +31,7 @@ struct S8_802C4944 { f32 a, b; };
 
 struct S16_802C4944 { S8_802C4944 x[2]; };
 
-struct T12_802C4944 { s32 a; f32 b, c; };
-
-struct S24_802C4944 { T12_802C4944 t[2]; };
+struct S24_802C4944 { TAdSelectTxtLayout t[2]; };
 
 const char *TAdSelectGameModeGC__name = "TAdSelectGameModeGC";
 const S24_802C4944 select_game_mode_text_layout = {{{-1, 208.0f, 197.0f}, {-1, 178.0f, 249.0f}}};
@@ -47,7 +46,6 @@ s32 play_sound_effect(int, int, int, int);
 void __ct__7TObjectFP7TObject(void *, void *);
 void __ct__8TAdRayGCFv(void *, void *);
 void *__ct__10TAdTitleGCFP7TObjectl(void *, void *, int);
-void *__ct__14TAdSelectTxtGCFP7TObjectPvPv(void *, void *, void *, int);
 void __ct__13TAdTitleTexGCFv(void *, void *);
 extern s32 __vt__19TAdSelectGameModeGC[];
 int sync_char_select_state__10TObjPlayerFv(void*);
@@ -121,12 +119,8 @@ u8 *__ct__19TAdSelectGameModeGCFv(u8 *arg0, void *parent) {
     }
     {
         S24_802C4944 txt = select_game_mode_text_layout;
-        if ((p = TObject::operator new(0xE0)) != 0) {
-            __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, arg0, &txt.t[0], 6);
-        }
-        if ((p = TObject::operator new(0xE0)) != 0) {
-            __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, arg0, &txt.t[1], 7);
-        }
+        new TAdSelectTxtGC((TObject *)arg0, &txt.t[0], 6);
+        new TAdSelectTxtGC((TObject *)arg0, &txt.t[1], 7);
     }
     {
         S8_802C4944 a = lbl_80471A44;

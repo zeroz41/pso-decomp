@@ -1,5 +1,6 @@
 #include "pso/ui/frontend/TAdGuideTxtGC.h"
 #include "pso/ui/frontend/TAdSelectCurGC.h"
+#include "pso/ui/frontend/TAdSelectTxtGC.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/frontend/TitleBackgroundStorage.h"
 #include "pso/system/ControllerInputState.h"
@@ -17,9 +18,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 #include "pso/system/task/TObject.h"
 
-struct TxtSlot_802FFE58 { s32 id; f32 x; f32 y; };
-
-struct Txt_802FFE58 { TxtSlot_802FFE58 v[3]; };
+struct Txt_802FFE58 { TAdSelectTxtLayout v[3]; };
 
 struct Pos_802FFE58 { f32 v[6]; };
 
@@ -41,7 +40,7 @@ s32 lbl_805D69E8;
 void __ct__7TObjectFP7TObject(void *);
 void __ct__8TAdRayGCFv(void *, void *);
 void __ct__10TAdTitleGCFP7TObjectl(void *, void *, s32);
-void __ct__14TAdSelectTxtGCFP7TObjectPvPv(void *, void *, void *, s32);
+
 void __ct__13TAdTitleTexGCFv(void *, void *);
 extern void *__vt__21TAdMultiChgGameModeGC[];
 Obj_802FFE58 *__ct__21TAdMultiChgGameModeGCFv(Obj_802FFE58 *self);
@@ -123,15 +122,9 @@ Obj_802FFE58 *__ct__21TAdMultiChgGameModeGCFv(Obj_802FFE58 *self) {
     }
     {
         Txt_802FFE58 txt = multi_chg_game_mode_text_layout;
-        if ((p = TObject::operator new(0xE0)) != NULL) {
-            __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &txt.v[0], 0xC);
-        }
-        if ((p = TObject::operator new(0xE0)) != NULL) {
-            __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &txt.v[1], 0xD);
-        }
-        if ((p = TObject::operator new(0xE0)) != NULL) {
-            __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &txt.v[2], 0xE);
-        }
+        new TAdSelectTxtGC((TObject *)self, &txt.v[0], 0xC);
+        new TAdSelectTxtGC((TObject *)self, &txt.v[1], 0xD);
+        new TAdSelectTxtGC((TObject *)self, &txt.v[2], 0xE);
         if ((p = TObject::operator new(0x9C)) != NULL) {
             __ct__13TAdTitleTexGCFv(p, self);
         }
