@@ -431,7 +431,7 @@ TObjEneDubchik::TObjEneDubchik(TObject *parent, void *set_data) : TObjEnemyCusto
     m_name = TObjEneDubchik__class_name;
     apply_set_data(set_data);
     VecCopy((Vec *)&m_290, VecCopy((Vec *)&m_29c, VecCopy(&prev_position, &position)));
-    motion_list = (BmlMotionEntry *)dubchik_resource->f430;
+    motion_list = dubchik_resource->motions;
     variant = *(s16 *)((u8 *)set_data + 0x3C) ? 1 : 0;
     state36C = *(s16 *)((u8 *)set_data + 0x3E);
     init_level_stats(variant);
@@ -552,7 +552,7 @@ extern "C" void TObjPlayer__sub_800AA82C(void) {
         Ids_800AA82C ids = {{0x1E, 0x1F}};
         NpcAnimationBinding d = { NULL, reinterpret_cast<TObjMotionAction *>(&lbl_804910F4), 0, 1, 20 };
         s32 j;
-        d.motions = reinterpret_cast<BmlMotionEntry *>(dubchik_resource->f430);
+        d.motions = dubchik_resource->motions;
         for (j = 0; j < 2; j++) {
             Mdl_800AA82C *e = &dubchik_resource->mdl[j];
             NpcModelRegistry::register_animated_chunk(ids.v[j], reinterpret_cast<void *>(e->f8), reinterpret_cast<void *>(e->fC), &d, 5.0f, 0.0f);
@@ -1030,8 +1030,8 @@ extern "C" void TObjPlayer__sub_800A93E4(void *arg0_) {
     u8 *arg0 = (u8 *)arg0_;
     Ene_800A93E4 *e = (Ene_800A93E4 *)arg0;
     s32 act;
-    u32 h0;
-    u32 h1;
+    Vec *h0;
+    Vec *h1;
     Vec b2;
     Vec a2;
     Vec b1;
@@ -1075,19 +1075,19 @@ extern "C" void TObjPlayer__sub_800A93E4(void *arg0_) {
         }
         ((TObjPlayer *)arg0)->check_object_collisions();
         check_enemy_body_collisions((TObjCollidable *)arg0);
-        h0 = (saddr)((SampledMotionPoints *)((void *)lbl_80500AF0[e->kind]))->lookup((f32)e->fc0);
-        h1 = (saddr)((SampledMotionPoints *)((void *)lbl_80500AF8[e->kind]))->lookup((f32)e->fc0);
+        h0 = ((SampledMotionPoints *)((void *)lbl_80500AF0[e->kind]))->lookup((f32)e->fc0);
+        h1 = ((SampledMotionPoints *)((void *)lbl_80500AF8[e->kind]))->lookup((f32)e->fc0);
         push_matrix();
         set_matrix_identity(0);
         post_translate_matrix(&e->pos);
         rotate_matrix_y(0, e->angle);
         if (h0 != 0) {
-            matrix_mult_vec_array(NULL, (const Vec *)h0, &a1, 2);
+            matrix_mult_vec_array(NULL, h0, &a1, 2);
             e->model->m4(&a1, &b1);
         }
         if (h1 != 0) {
             saddr pa = (saddr)&a2;
-            matrix_mult_vec_array(NULL, (const Vec *)h1, (Vec *)pa, 2);
+            matrix_mult_vec_array(NULL, h1, (Vec *)pa, 2);
             e->model->m4((Vec *)pa, &b2);
         }
         pop_matrix();

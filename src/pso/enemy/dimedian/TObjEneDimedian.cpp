@@ -216,7 +216,7 @@ void TObjEneDimedian::update_attack_trail() {
     Obj_800A7A14 *o = (Obj_800A7A14 *)this;
     Vec b;
     Vec a;
-    u32 e;
+    Vec *e;
     s32 idx;
     VObj_800A7A14 *eff;
     if (!(this->frame < 12.0f)) {
@@ -224,11 +224,11 @@ void TObjEneDimedian::update_attack_trail() {
     }
     switch (this->requested_action) {
     case 3:
-        e = (saddr)((SampledMotionPoints *)((void *)dimedian_type3_object))->lookup(this->frame);
+        e = ((SampledMotionPoints *)((void *)dimedian_type3_object))->lookup(this->frame);
         idx = 0;
         break;
     case 4:
-        e = (saddr)((SampledMotionPoints *)((void *)lbl_805D5088))->lookup(this->frame);
+        e = ((SampledMotionPoints *)((void *)lbl_805D5088))->lookup(this->frame);
         idx = 1;
         break;
     default:
@@ -242,7 +242,7 @@ void TObjEneDimedian::update_attack_trail() {
     set_matrix_identity(0);
     post_translate_matrix(&o->pos);
     rotate_matrix_y(0, this->rotation_y);
-    matrix_mult_vec_array(NULL, (const Vec *)e, &a, 2);
+    matrix_mult_vec_array(NULL, e, &a, 2);
     pop_matrix();
     eff = o->effs[idx];
     if (eff != NULL) {
@@ -442,16 +442,14 @@ extern "C" const char dimedian_class_name[16] = "TObjEneDimedian";
 
 
 
-struct Pair_800A8118 { s32 a; s32 b; };
-struct Bodies_800A8118 { s32 a; s32 b; s32 model; s32 textures; };
+struct Pair_800A8118 { s32 a; NJS_MOTION *b; };
+struct Bodies_800A8118 { s32 a; s32 b; NJS_OBJECT *model; s32 textures; };
 struct Res_800A8118 { u8 pad[0x42C]; Bodies_800A8118 *bodies; Pair_800A8118 *motions; };
 struct Act_800A8118 { s32 a; s32 idx; f32 c; s32 d; };
 struct Part_800A8118 { u8 pad[0xC]; f32 radius; u8 pad10[0x1C]; };
 
 extern "C" {
 extern const u8 lbl_8043AAA4[26];
-
-s32 create__13TUnk_80494968FUlUl(s32, s32);
 }
 int initialize_enemy_photon_effect(void *p);
 extern "C" {
@@ -666,8 +664,8 @@ void TLobby::load_dimedian_resources() {
     (*(void **)&dimedian_type3_object) = p;
     p = new SampledMotionPoints(2, 7.0f, 12.0f, 1.0f);
     (*(void **)&lbl_805D5088) = p;
-    ((SampledMotionPoints *)(*(void **)&dimedian_type3_object))->sample_two_nodes((NJS_OBJECT *)RES_800A8118->bodies->model, (NJS_MOTION *)RES_800A8118->motions[dimedian_action_table[3].idx].b, 5, 8);
-    ((SampledMotionPoints *)(*(void **)&lbl_805D5088))->sample_two_nodes((NJS_OBJECT *)RES_800A8118->bodies->model, (NJS_MOTION *)RES_800A8118->motions[dimedian_action_table[4].idx].b, 0xA, 0xD);
+    ((SampledMotionPoints *)(*(void **)&dimedian_type3_object))->sample_two_nodes(RES_800A8118->bodies->model, RES_800A8118->motions[dimedian_action_table[3].idx].b, 5, 8);
+    ((SampledMotionPoints *)(*(void **)&lbl_805D5088))->sample_two_nodes(RES_800A8118->bodies->model, RES_800A8118->motions[dimedian_action_table[4].idx].b, 0xA, 0xD);
     (*(s32 **)&dimedian_boss_object_buf) = (s32 *)mem_alloc(0xC);
     (*(s32 **)&lbl_805D5074) = (s32 *)mem_alloc(0xC);
     (*(s32 **)&TObjEneDimedian__boss_objects) = (s32 *)mem_alloc(0xC);
@@ -784,8 +782,8 @@ TObjEneDimedian::TObjEneDimedian(TObject *parent, void *set_data) : TUnk_8049345
             break;
         }
     }
-    m_3c4[0] = (TObject *)create__13TUnk_80494968FUlUl(0xA0303030, color);
-    m_3c4[1] = (TObject *)create__13TUnk_80494968FUlUl(0xA0303030, color);
+    m_3c4[0] = TUnk_80494968::create(0xA0303030, color);
+    m_3c4[1] = TUnk_80494968::create(0xA0303030, color);
     *(s32 *)((s8 *)arg0 + 0x390) = 1;
     *(f32 *)((s8 *)arg0 + 0x398) = ((f32 **)(*(s32 **)&dimedian_buffer_ptr))[*(s32 *)((s8 *)arg0 + 0x334)][0];
     *(f32 *)((s8 *)arg0 + 0x3A0) = ((f32 **)(*(s32 **)&dimedian_buffer_ptr))[*(s32 *)((s8 *)arg0 + 0x334)][1];

@@ -239,9 +239,9 @@ typedef struct Obj_800A7A14 {
 
 
 struct O_80302D80;
-struct E16_80301148 { u8 pad[8]; s32 v; u8 pad2[4]; };
+struct E16_80301148 { u8 pad[8]; NJS_OBJECT *v; u8 pad2[4]; };
 
-struct E8_80301148 { u8 pad[4]; s32 v; };
+struct E8_80301148 { u8 pad[4]; NJS_MOTION *v; };
 
 struct T_80301148 { u8 pad[0x42C]; E16_80301148 *a; E8_80301148 *b; };
 
@@ -365,9 +365,9 @@ struct VObj_18_cc39a7 : VBase_18_cc39a7 {
 
 struct Row_80302784 { u8 pad[0xC]; f32 fC; u8 pad2[0x1C]; };
 
-struct Ent_80302784 { s32 f0; s32 f4; s32 f8; NJS_TEXLIST *texlist; };
+struct Ent_80302784 { s32 f0; s32 f4; NJS_OBJECT *f8; NJS_TEXLIST *texlist; };
 
-struct Pair_80302784 { s32 a; s32 b; };
+struct Pair_80302784 { s32 a; NJS_MOTION *b; };
 
 struct Res_80302784 { u8 pad[0x42C]; Ent_80302784 *x42C; Pair_80302784 *x430; };
 
@@ -599,7 +599,7 @@ TObjEneDolmOlm::TObjEneDolmOlm(saddr arg1, saddr arg2) : TUnk_80493450((TObject 
     this->set_animation(this->requested_action);
     this->set_field_b8(this->requested_action);
     init_collision_body_parts(this, (u8 *) lbl_804E68D0 + *(s32 *)&this->variant * 0x2C, 1);
-    this->bind_enemy_combat_stats((u8 *)(((s32 *) dolm_olm_combat_stat_id_pair)[*(s32 *)&this->variant]), (u8 *)(((s32 *) TObjEneDolmOlm__shared_handler_ids)[*(s32 *)&this->variant]), (u8 *)(((s32 *) TObjEneDolmOlm__registered_object_ids)[*(s32 *)&this->variant]));
+    this->bind_enemy_combat_stats((u8 *)(((saddr *) dolm_olm_combat_stat_id_pair)[*(s32 *)&this->variant]), (u8 *)(((saddr *) TObjEneDolmOlm__shared_handler_ids)[*(s32 *)&this->variant]), (u8 *)(((saddr *) TObjEneDolmOlm__registered_object_ids)[*(s32 *)&this->variant]));
     *(u8 * *)&this->movementParameters = (u8 *) lbl_804E6898 + *(s32 *)&this->variant * 0x1C;
     this->referenceHp = this->hp;
     this->advance_position();
@@ -666,8 +666,8 @@ void TObjEneDolmOlm::load_shared_resources() {
     p = (u8 *)new SampledMotionPoints(2, 0.0f, 20.0f, 0.8f);
     TObjEneDolmOlm__data_805D6A18 = (uaddr) p;
     set_motion_packed_rotation();
-    ((SampledMotionPoints *)TObjEneDolmOlm__data_805D6A14)->sample_two_nodes((NJS_OBJECT *)((Res_80302784 *)TObjEneDolmOlm__resource_bundle)->x42C->f8, (NJS_MOTION *)((Res_80302784 *)TObjEneDolmOlm__resource_bundle)->x430[((s32 *) TObjEneDolmOlm__param_table)[13]].b, 0x1C, 0x1D);
-    ((SampledMotionPoints *)TObjEneDolmOlm__data_805D6A18)->sample_two_nodes((NJS_OBJECT *)((Res_80302784 *)TObjEneDolmOlm__resource_bundle)->x42C->f8, (NJS_MOTION *)((Res_80302784 *)TObjEneDolmOlm__resource_bundle)->x430[((s32 *) TObjEneDolmOlm__param_table)[17]].b, 0x14, 0x15);
+    ((SampledMotionPoints *)TObjEneDolmOlm__data_805D6A14)->sample_two_nodes(((Res_80302784 *)TObjEneDolmOlm__resource_bundle)->x42C->f8, ((Res_80302784 *)TObjEneDolmOlm__resource_bundle)->x430[((s32 *) TObjEneDolmOlm__param_table)[13]].b, 0x1C, 0x1D);
+    ((SampledMotionPoints *)TObjEneDolmOlm__data_805D6A18)->sample_two_nodes(((Res_80302784 *)TObjEneDolmOlm__resource_bundle)->x42C->f8, ((Res_80302784 *)TObjEneDolmOlm__resource_bundle)->x430[((s32 *) TObjEneDolmOlm__param_table)[17]].b, 0x14, 0x15);
     clear_motion_packed_rotation();
     dolm_olm_combat_stat_id_pair = (uaddr) mem_alloc(8);
     TObjEneDolmOlm__shared_handler_ids = (uaddr) mem_alloc(8);
@@ -1300,8 +1300,8 @@ void TObjEneDolmOlm::sub_80301148() {
     }
     this->load_params_from_table(*(s32 *)&this->variant);
     set_motion_packed_rotation();
-    ((SampledMotionPoints *)TObjEneDolmOlm__data_805D6A14)->sample_two_nodes((NJS_OBJECT *)((T_80301148 *)TObjEneDolmOlm__resource_bundle)->a[*(s32 *)&this->variant].v, (NJS_MOTION *)((T_80301148 *)TObjEneDolmOlm__resource_bundle)->b[TObjEneDolmOlm__param_table[13]].v, 0x1C, 0x1D);
-    ((SampledMotionPoints *)TObjEneDolmOlm__data_805D6A18)->sample_two_nodes((NJS_OBJECT *)((T_80301148 *)TObjEneDolmOlm__resource_bundle)->a[*(s32 *)&this->variant].v, (NJS_MOTION *)((T_80301148 *)TObjEneDolmOlm__resource_bundle)->b[TObjEneDolmOlm__param_table[17]].v, 0x14, 0x15);
+    ((SampledMotionPoints *)TObjEneDolmOlm__data_805D6A14)->sample_two_nodes(((T_80301148 *)TObjEneDolmOlm__resource_bundle)->a[*(s32 *)&this->variant].v, ((T_80301148 *)TObjEneDolmOlm__resource_bundle)->b[TObjEneDolmOlm__param_table[13]].v, 0x1C, 0x1D);
+    ((SampledMotionPoints *)TObjEneDolmOlm__data_805D6A18)->sample_two_nodes(((T_80301148 *)TObjEneDolmOlm__resource_bundle)->a[*(s32 *)&this->variant].v, ((T_80301148 *)TObjEneDolmOlm__resource_bundle)->b[TObjEneDolmOlm__param_table[17]].v, 0x14, 0x15);
     clear_motion_packed_rotation();
     *(f32 *)((s8 *)((u8 *)this) + 0x3CC) = 0.3f + *(f32 *)((s8 *)((u8 *)this) + 0x35C);
     this->m_3d0 = 0.3f + *(f32 *)((s8 *)((u8 *)this) + 0x360);
@@ -1310,7 +1310,7 @@ void TObjEneDolmOlm::update_attack_trail() {
     Obj_800A7A14 *o = (Obj_800A7A14 *)this;
     Vec b;
     Vec a;
-    u32 e;
+    Vec *e;
     s32 idx;
     VObj_800A7A14 *eff;
     if (!(this->frame < 12.0f)) {
@@ -1318,11 +1318,11 @@ void TObjEneDolmOlm::update_attack_trail() {
     }
     switch (this->requested_action) {
     case 3:
-        e = (saddr)((SampledMotionPoints *)((void *)(*(saddr *)&TObjEneDolmOlm__data_805D6A14)))->lookup(this->frame);
+        e = ((SampledMotionPoints *)((void *)(*(saddr *)&TObjEneDolmOlm__data_805D6A14)))->lookup(this->frame);
         idx = 0;
         break;
     case 4:
-        e = (saddr)((SampledMotionPoints *)((void *)(*(saddr *)&TObjEneDolmOlm__data_805D6A18)))->lookup(this->frame);
+        e = ((SampledMotionPoints *)((void *)(*(saddr *)&TObjEneDolmOlm__data_805D6A18)))->lookup(this->frame);
         idx = 1;
         break;
     default:
@@ -1336,7 +1336,7 @@ void TObjEneDolmOlm::update_attack_trail() {
     set_matrix_identity(0);
     post_translate_matrix(&o->pos);
     rotate_matrix_y(0, this->rotation_y);
-    matrix_mult_vec_array(NULL, (const Vec *)e, &a, 2);
+    matrix_mult_vec_array(NULL, e, &a, 2);
     pop_matrix();
     eff = o->effs[idx];
     if (eff != NULL) {

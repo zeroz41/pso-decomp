@@ -696,7 +696,7 @@ Prm_8009813C *TObjEneDf2Bringer__data_805D4FB4;
 uaddr TObjEneDf2Bringer__resource_bundle;
 s32 TObjEneDf2Bringer__render_node_index;
 s32 TObjEneDf2Bringer__render_rotation_x;
-s32 TObjEneDf2Bringer__render_point_cursor;
+Vec *TObjEneDf2Bringer__render_point_cursor;
 saddr TObjEneDf2Bringer__trail_buffer;
 saddr TObjEneDf2Bringer__uv_scroll_buffer;
 
@@ -1050,7 +1050,7 @@ typedef struct Seg_80099BD4 Seg_80099BD4;
 struct Ent_80099BD4
 {
   s32 k;
-  s32 v;
+  NJS_MOTION *v;
 };
 struct Seg_80099BD4
 {
@@ -1117,7 +1117,7 @@ void TObjEneDf2Bringer::load_resources() {
       offs[i].z = 0.0f;
     }
 
-    sampled->sample((NJS_OBJECT *)(*((s32 *) ((*((u8 **) (((u8 *) TObjEneDf2Bringer__resource_bundle) + 0x42C))) + 8))), (NJS_MOTION *)((*((Ent_80099BD4 **) (((u8 *) TObjEneDf2Bringer__resource_bundle) + 0x430)))[*((s32 *) (((u8 *)&lbl_8048FAF8) + 0x44))].v), (const s32 *)ids, (const Vec *)offs);
+    sampled->sample(*(NJS_OBJECT **)((*((u8 **) (((u8 *) TObjEneDf2Bringer__resource_bundle) + 0x42C))) + 8), (*((Ent_80099BD4 **) (((u8 *) TObjEneDf2Bringer__resource_bundle) + 0x430)))[*((s32 *) (((u8 *)&lbl_8048FAF8) + 0x44))].v, (const s32 *)ids, (const Vec *)offs);
   }
   n = ((Path_80099BD4 *) TObjEneDf2Bringer__trail_buffer)->n;
   seg = ((Path_80099BD4 *) TObjEneDf2Bringer__trail_buffer)->segs;
@@ -1533,7 +1533,6 @@ s32 TObjEneDf2Bringer::check_stage_advance() {
 }
 
 #undef enemy_validate_retained_target
-#define TObjEneDf2Bringer__sub_80097714 ((s32 (*)(void *, void *))TObjEneDf2Bringer__sub_80097714)
 #define play_sound_effect ((s32 (*)(s32, void *, s32, s32))play_sound_effect)
 void TObjEneDf2Bringer::dispatch_action(u32 state, s32 reason) {
     switch (state) {
@@ -1565,7 +1564,7 @@ void TObjEneDf2Bringer::dispatch_action(u32 state, s32 reason) {
         TObjEneDf2Bringer__sub_80097820((u8 *)this, reason);
         return;
     case 9:
-        TObjEneDf2Bringer__sub_80097714((void *)this, (void *)reason);
+        TObjEneDf2Bringer__sub_80097714((Bringer_80097714 *)this, reason);
         return;
     case 10:
         TObjEneDf2Bringer__sub_80097620((u8 *)this, reason);
@@ -1671,7 +1670,6 @@ void TObjEneDf2Bringer::exec(s32 arg1) {
     }
 }
 
-#undef TObjEneDf2Bringer__sub_80097714
 #undef play_sound_effect
 #define attack_visible_players__17TObjEneDf2BringerFPv ((s32 (*)(void *))attack_visible_players__17TObjEneDf2BringerFPv)
 #define TObjEneDf2Bringer__sub_80098FF4 ((s32 (*)(void *))TObjEneDf2Bringer__sub_80098FF4)
@@ -2212,7 +2210,7 @@ void TObjEneDf2Bringer__sub_80097620(u8 *arg0, s32 arg1) {
 }
 
 void bringer_render_node_callback(NJS_OBJECT *) {
-    s32 pos;
+    Vec *pos;
     switch (TObjEneDf2Bringer__render_node_index) {
     case 8:
         rotate_matrix_x(0, TObjEneDf2Bringer__render_rotation_x);
@@ -2222,8 +2220,8 @@ void bringer_render_node_callback(NJS_OBJECT *) {
     case 26:
     case 41:
         pos = TObjEneDf2Bringer__render_point_cursor;
-        TObjEneDf2Bringer__render_point_cursor = pos + 0xC;
-        forward_transform_to_view((const Vec *)&bringer_camera_ctrl_target_vec, (Vec *)pos);
+        TObjEneDf2Bringer__render_point_cursor = pos + 1;
+        forward_transform_to_view((const Vec *)&bringer_camera_ctrl_target_vec, pos);
         break;
     }
     TObjEneDf2Bringer__render_node_index += 1;
@@ -2265,7 +2263,7 @@ void render__17TObjEneDf2BringerFv(u8 *arg0) {
         ((TObjEneDD *)arg0)->update_secondary_light();
         TObjEneDf2Bringer__render_node_index = 0;
         TObjEneDf2Bringer__render_rotation_x = S->f480;
-        TObjEneDf2Bringer__render_point_cursor = (saddr) S->pts;
+        TObjEneDf2Bringer__render_point_cursor = S->pts;
         saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
         TObjPlayer::toggle_particle_effect();

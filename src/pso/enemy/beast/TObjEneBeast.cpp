@@ -176,17 +176,17 @@ void TObjEneBeast::update_attack_trail() {
     Obj_80091EA4 *self = (Obj_80091EA4 *)this;
     Vec dir;
     Vec pos;
-    u32 entry;
+    Vec *entry;
     s32 idx;
     VObj_80091EA4 *eff;
     if (this->frame < 12.0f) {
         switch (this->requested_action) {
         case 3:
-            entry = (saddr)((SampledMotionPoints *)(beast_claw_trail_instance))->lookup(this->frame);
+            entry = ((SampledMotionPoints *)(beast_claw_trail_instance))->lookup(this->frame);
             idx = 0;
             break;
         case 4:
-            entry = (saddr)((SampledMotionPoints *)(boss4_type3_instance))->lookup(this->frame);
+            entry = ((SampledMotionPoints *)(boss4_type3_instance))->lookup(this->frame);
             idx = 1;
             break;
         default:
@@ -198,7 +198,7 @@ void TObjEneBeast::update_attack_trail() {
             set_matrix_identity(0);
             post_translate_matrix(&self->pos);
             rotate_matrix_y(0, this->rotation_y);
-            matrix_mult_vec_array(NULL, (const Vec *)entry, &pos, 2);
+            matrix_mult_vec_array(NULL, entry, &pos, 2);
             pop_matrix();
             eff = self->effects[idx];
             if (eff != NULL) {
@@ -290,7 +290,7 @@ void TObjEneBeast::render() {
     post_translate_matrix(((Obj_8009211C *)this)->f38);
     rotate_matrix_y(0, ((Obj_8009211C *)this)->f60);
     if (TObjPlayer::check_demo_mode() == 1) {
-        draw_chunk_object((void *)(((Obj_8009211C *)this)->f34));
+        draw_chunk_object(model);
     } else {
         TObjPlayer::toggle_particle_effect();
         doDraw = 1;
@@ -360,9 +360,6 @@ extern "C" void test_flag_256__13TUnk_80493450Fv();
 
 
 struct Ent_8009241C { u8 pad0[0xC]; f32 radius; u8 pad10[0x2C - 0x10]; };
-struct Mdl_8009241C { u8 pad0[8]; s32 f8; NJS_TEXLIST *texlist; };
-struct Mot_8009241C { u8 pad0[4]; s32 f4; };
-struct Data_8009241C { u8 pad0[0x42C]; Mdl_8009241C *f42c; Mot_8009241C *f430; };
 struct Ids_8009241C { s16 id[3]; };
 
 
@@ -514,7 +511,7 @@ uaddr ene_beast_boss_id_buffer;
 uaddr TObjEneBeast__boss4_rock_handler_ids;
 uaddr boss4_rock_pool;
 uaddr boss4_rock_shared_handler_ids;
-uaddr ene_beast_bml_resource;
+BmlResource *ene_beast_bml_resource;
 void *beast_claw_trail_instance;
 void *boss4_type3_instance;
 
@@ -543,9 +540,9 @@ void free_boss4_rock_pool(void) {
         delete (SampledMotionPoints *)beast_claw_trail_instance;
         beast_claw_trail_instance = 0U;
     }
-    if ((u32) ene_beast_bml_resource != 0U) {
-        delete (BmlResource *)ene_beast_bml_resource;
-        ene_beast_bml_resource = 0U;
+    if (ene_beast_bml_resource != NULL) {
+        delete ene_beast_bml_resource;
+        ene_beast_bml_resource = NULL;
     }
 }
 
@@ -556,13 +553,13 @@ void TObjEneBeast::load_resources() {
     s32 i;
 
     if (TObjEneDD::check_v2_mode() != 0) {
-        ene_beast_bml_resource = (uaddr)load_enemy_bml_resource_named(&beast_resource_descriptor, (const char *)beast_a_bml_filename);
+        ene_beast_bml_resource = load_enemy_bml_resource_named(&beast_resource_descriptor, (const char *)beast_a_bml_filename);
         ((Ent_8009241C *)beast_collision_body_table)[0].radius = 1e+01f;
         ((Ent_8009241C *)beast_collision_body_table)[1].radius = 1e+01f;
         ((Ent_8009241C *)beast_collision_body_table)[2].radius = 9.0f;
     } else {
         p = (u8 *)new BmlResource(1, &beast_resource_descriptor, 0, 0, NULL);
-        ene_beast_bml_resource = (uaddr)p;
+        ene_beast_bml_resource = (BmlResource *)p;
         ((Ent_8009241C *)beast_collision_body_table)[0].radius = 7.0f;
         ((Ent_8009241C *)beast_collision_body_table)[1].radius = 7.0f;
         ((Ent_8009241C *)beast_collision_body_table)[2].radius = 8.0f;
@@ -571,8 +568,8 @@ void TObjEneBeast::load_resources() {
     beast_claw_trail_instance = (void *)p;
     p = (u8 *)new SampledMotionPoints(2, 7.0f, 12.0f, 1.0f);
     boss4_type3_instance = (void *)p;
-    ((SampledMotionPoints *)beast_claw_trail_instance)->sample_two_nodes((NJS_OBJECT *)(((Data_8009241C *)ene_beast_bml_resource)->f42c->f8), (NJS_MOTION *)(((Data_8009241C *)ene_beast_bml_resource)->f430[((s32 *)beast_action_table)[13]].f4), 5, 8);
-    ((SampledMotionPoints *)boss4_type3_instance)->sample_two_nodes((NJS_OBJECT *)(((Data_8009241C *)ene_beast_bml_resource)->f42c->f8), (NJS_MOTION *)(((Data_8009241C *)ene_beast_bml_resource)->f430[((s32 *)beast_action_table)[17]].f4), 10, 13);
+    ((SampledMotionPoints *)beast_claw_trail_instance)->sample_two_nodes(ene_beast_bml_resource->models->model, (NJS_MOTION *)ene_beast_bml_resource->motions[((s32 *)beast_action_table)[13]].motion, 5, 8);
+    ((SampledMotionPoints *)boss4_type3_instance)->sample_two_nodes(ene_beast_bml_resource->models->model, (NJS_MOTION *)ene_beast_bml_resource->motions[((s32 *)beast_action_table)[17]].motion, 10, 13);
     ene_beast_boss_id_buffer = (uaddr)mem_alloc(0xC);
     TObjEneBeast__boss4_rock_handler_ids = (uaddr)mem_alloc(0xC);
     boss4_rock_pool = (uaddr)mem_alloc(0xC);
@@ -592,10 +589,10 @@ void TObjEneBeast::load_resources() {
     {
         Ids_8009241C ids = {{2, 3, 4}};
         NpcAnimationBinding q = { NULL, reinterpret_cast<TObjMotionAction *>(beast_action_table), 0, 2, 12 };
-        q.motions = reinterpret_cast<BmlMotionEntry *>(((Data_8009241C *)ene_beast_bml_resource)->f430);
+        q.motions = ene_beast_bml_resource->motions;
         for (i = 0; i < 3; i++) {
-            NpcModelRegistry::register_animated_chunk(ids.id[i], reinterpret_cast<void *>(((Data_8009241C *)ene_beast_bml_resource)->f42c[i].f8),
-                                            reinterpret_cast<void *>(((Data_8009241C *)ene_beast_bml_resource)->f42c[i].texlist), &q,
+            NpcModelRegistry::register_animated_chunk(ids.id[i], reinterpret_cast<void *>(ene_beast_bml_resource->models[i].model),
+                                            reinterpret_cast<void *>(ene_beast_bml_resource->models[i].m_c), &q,
                                             ((Ent_8009241C *)beast_collision_body_table)[i].radius, 0.0f);
         }
     }
@@ -627,7 +624,7 @@ TObjEneBeast::TObjEneBeast(TObject *parent, void *set_data) : TUnk_80493450(pare
     ((TObjEneBeast *)arg0)->select_model_record(F(arg0, s32, 0x368));
     F(arg0, u8 *, 0xD8) = (u8 *)beast_action_table;
     ((TObjMotion *)arg0)->set_field_d8((saddr)(F(arg0, u8 *, 0xD8)));
-    F(arg0, u32, 0xDC) = F(ene_beast_bml_resource, u32, 0x430);
+    F(arg0, BmlMotionEntry *, 0xDC) = ene_beast_bml_resource->motions;
     F(arg0, s16, 0xB8) = 0;
     ((TObjMotion *)arg0)->set_animation(F(arg0, s16, 0xB8));
     ((TObjMotion *)arg0)->set_field_b8(F(arg0, s16, 0xB8));

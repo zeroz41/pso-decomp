@@ -44,6 +44,7 @@ extern "C" void test_flag_1000__9TObjCharaFv();
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
+#include "pso/player/PlayerSlots.h"
 extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
 
 struct V_802DA7A4Base { u8 pad[0x14]; };
@@ -135,7 +136,6 @@ s32 get_current_floor();
 saddr get_enemy_entity();
 void check_enemy_body_collisions(void *arg0);
 s32 submit_cursor_candidate(void *, int);
-u32 get_player_by_client_id(void *);
 s32 minimap_render_dot(void *, int, int, int);
 s32 TObjEneGibbles__sub_802D9644(void *, s32, f32);
 void TObjEneGibbles__sub_802D8E8C(u8 *arg0);
@@ -654,8 +654,8 @@ void TObjEneGibbles::set_min_clamped_entry_value(s32 arg0, s32 arg1, f32 farg0) 
 void TObjEneGibbles__sub_802D7A54(void *arg0) {
     s16 t;
     s16 u;
-    uaddr r;
-    if ((get_main_phase() == 0xF || is_split_screen() == 0) && (r = get_player_by_client_id((void *)local_client_id)) != 0) {
+    TObjPlayer *r;
+    if ((get_main_phase() == 0xF || is_split_screen() == 0) && (r = get_player_by_client_id(local_client_id)) != 0) {
         t = (s32)((TObjBase *)r)->get_room();
         u = (s32)((TObjBase *)arg0)->get_room();
         if (u == t) {
@@ -877,7 +877,7 @@ void TObjEneGibbles::sub_802D8140() {
       this->phase = 1;
       *((f32 *) (((s8 *) ((u8 *)this)) + 0x3A0)) = 0.0f;
       apply_actor_gravity((TObjEnemy *)this, (s32 *)(0), 0.0f);
-      play_sound_effect((int)((void *) ((s32)this->resolve_sound_id((u32)(0x3A333)))), (void *)(((u8 *)this) + 0x38), 0, 0);
+      play_sound_effect(this->resolve_sound_id(0x3A333), &position, 0, 0);
       return;
     case 1:
       advance_animation();
@@ -982,9 +982,9 @@ void TObjEneGibbles::run_hit_reaction() {
             }
         } else {
             Vec v;
-            u32 pl = get_player_by_client_id((void *)this->attacker_id);
-            if (pl != 0) {
-                VecCopy(&v, (const Vec *)(pl + 0x2FC));
+            TObjPlayer *pl = get_player_by_client_id(this->attacker_id);
+            if (pl != NULL) {
+                VecCopy(&v, &pl->body_center);
                 subtract_vector(&v, (u8 *)this + 0x2FC);
                 angle_difference_abs(this->rotation_y, (s32) (10430.38043493439 * atan2_float(v.x, v.z)));
             }
@@ -1117,7 +1117,7 @@ inline void to_idle_802D8984(Gib_802D8984 *o) {
 void TObjEneGibbles::sub_802D8984() {
     Gib_802D8984 *o = (Gib_802D8984 *)this;
     if (o->idx < 0x1000) {
-        Gib_802D8984 *p = (Gib_802D8984 *)get_player_by_client_id((void *)o->idx);
+        Gib_802D8984 *p = (Gib_802D8984 *)get_player_by_client_id(o->idx);
         if (p != NULL && ((TObjPlayer *)p)->get_floor() == get_current_floor()) {
             o->target = p;
         } else {
@@ -1234,13 +1234,13 @@ void TObjEneGibbles::sub_802D8984() {
 #pragma pop
 
 void TObjEneGibbles__sub_802D8E8C(u8 *arg0) {
-    uaddr p;
+    TObjPlayer *p;
     u16 id;
     id = F_802D(0x338, u16);
     if (id < 0x1000) {
-        p = get_player_by_client_id((void *)id);
-        if (p != 0 && ((TObjPlayer *)p)->get_floor() == get_current_floor()) {
-            F_802D(0x2A8, u32) = p;
+        p = get_player_by_client_id(id);
+        if (p != NULL && p->get_floor() == get_current_floor()) {
+            F_802D(0x2A8, TObjPlayer *) = p;
         } else {
             F_802D(0x2A8, u32) = 0;
         }
@@ -1335,8 +1335,8 @@ void TObjEneGibbles__sub_802D9110(Gib_802D9110 *self) {
     self->flags30 &= 0xF9FBFFFF;
     u16 id = self->targetId;
     if (id < 0x1000) {
-        u32 p = get_player_by_client_id((void *)id);
-        if (p != 0 && ((TObjPlayer *)p)->get_floor() == get_current_floor()) {
+        TObjPlayer *p = get_player_by_client_id(id);
+        if (p != NULL && p->get_floor() == get_current_floor()) {
             self->target = (Gib_802D9110 *)p;
         } else {
             self->target = NULL;
@@ -1649,7 +1649,7 @@ void TObjEneGibbles::run_attack_action() {
         this->m_374 = (s32) (this->m_374 & 0xFFFFFF7F);
         break;
     }
-    ((TObjEnemy *)arg0)->bind_enemy_combat_stats((u8 *)(0), (u8 *)(((s32 *) gibbles_combat_stat_entries)[this->m_37c]), (u8 *)(0));
+    ((TObjEnemy *)arg0)->bind_enemy_combat_stats((u8 *)(0), ((u8 **) gibbles_combat_stat_entries)[this->m_37c], (u8 *)(0));
     *(s32 *)((s8 *)(this->bodies) + 0x18) |= 1;
     this->actorFlags = (s32) (this->actorFlags & 0xF9FBFFFF);
     this->actorFlags = (s32) (this->actorFlags | 0x200000);
@@ -1807,7 +1807,7 @@ void TObjEneGibbles::update_death_sequence() {
                 break;
             default:
             case 1:
-                ((s32 (*)(void *, void *, int, int))play_sound_effect)((void *) ((TObjEneGibbles*)arg0)->resolve_sound_id(0x3AD32), (void *) (arg0 + 0x38), 0, 0);
+                play_sound_effect(((TObjEneGibbles *)arg0)->resolve_sound_id(0x3AD32), arg0 + 0x38, 0, 0);
                 break;
             }
             ((s32 (*)(void *))TObjEneGibbles__sub_802D7A54)(arg0);
@@ -2148,7 +2148,7 @@ void update_target__14TObjEneGibblesFPv(Obj_802DAD50 *self) {
         self->f338 = best_id;
         tid = self->f338;
         if (tid < 0x1000U) {
-            u8 *q = ((u8 *(*)(u16))get_player_by_client_id)(tid);
+            u8 *q = (u8 *)get_player_by_client_id(tid);
             if (q != NULL) {
                 if (((TObjPlayer *)q)->get_floor() == get_current_floor()) {
                     self->target = q;

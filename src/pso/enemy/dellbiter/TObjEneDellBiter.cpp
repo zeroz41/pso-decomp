@@ -78,7 +78,7 @@ DelbiterMovementParameters * TObjEneDellBiter__movement_params;
 uaddr TObjEneDellBiter__shared_model_resource;
 s32 TObjEneDellBiter__demo_script_step;
 s32 TObjEneDellBiter__demo_rotate_x_angle;
-s32 TObjEneDellBiter__demo_script_cursor;
+Vec *TObjEneDellBiter__demo_script_cursor;
 saddr TObjEneDellBiter__scrolling_uv_polygon_list;
 s32 TObjEneDellBiter__last_uv_scroll_tick;
 void fill_value_array(saddr address);
@@ -1417,7 +1417,7 @@ void TObjEneDellBiter::state_death(s32 reason) {
 }
 
 void TObjEneDellBiter::step_demo_script(NJS_OBJECT *) {
-    s32 pos;
+    Vec *pos;
     switch (TObjEneDellBiter__demo_script_step) {
     case 9:
     case 10:
@@ -1448,8 +1448,8 @@ void TObjEneDellBiter::step_demo_script(NJS_OBJECT *) {
     case 22:
     case 32:
         pos = TObjEneDellBiter__demo_script_cursor;
-        TObjEneDellBiter__demo_script_cursor = pos + 0xC;
-        forward_transform_to_view((const Vec *)&dellbiter_demo_camera_vec, (Vec *)pos);
+        TObjEneDellBiter__demo_script_cursor = pos + 1;
+        forward_transform_to_view((const Vec *)&dellbiter_demo_camera_vec, pos);
         break;
     }
     TObjEneDellBiter__demo_script_step += 1;
@@ -1494,7 +1494,7 @@ void TObjEneDellBiter::render() {
         update_secondary_light();
         TObjEneDellBiter__demo_script_step = 0;
         TObjEneDellBiter__demo_rotate_x_angle = part_rotation_x;
-        TObjEneDellBiter__demo_script_cursor = (saddr)part_positions;
+        TObjEneDellBiter__demo_script_cursor = part_positions;
         saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
         TObjPlayer::toggle_particle_effect();
