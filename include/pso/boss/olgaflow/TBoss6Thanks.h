@@ -21,7 +21,7 @@ struct TBoss6Thanks : public TObject {
     virtual void render();
     // int: the body widens a bool (clrlwi) and its callers test r3 with a plain cmpwi.
     static s32 check_ship_door();
-    static int dispatch_darkfalz_phase();
+    static void dispatch_darkfalz_phase();
     void update_particle_emitters();
     void destroy_effects();
     static int is_player_near(void *arg0);

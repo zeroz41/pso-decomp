@@ -23,6 +23,7 @@
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/object/switch/TOSwitchItem.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 
 
 struct O_8035C480 { u8 pad[0x44]; s32 arr[4]; };
@@ -68,7 +69,6 @@ extern const Ent_8035C35C boss4_thanks_emitter_table[4] = {
 f32 xyz_distance(void *, const void *);
 void TObjPlayer__sub_80052390(void);
 void post_translate_matrix(const f32 *);
-int dispatch_by_main_phase__14TBoss4DarkFalzFUs(void*);
 
 s32 fn_8035C2B4(void) {
     return get_story_flag(0x99) != 0;
@@ -76,8 +76,8 @@ s32 fn_8035C2B4(void) {
 s32 TBoss4Thanks::is_door_0x97_open() {
     return get_story_flag(0x97) != 0;
 }
-int TBoss4Thanks::dispatch_main_phase_153() { return dispatch_by_main_phase__14TBoss4DarkFalzFUs((void*)(153)); }
-int TBoss4Thanks::dispatch_main_phase() { return dispatch_by_main_phase__14TBoss4DarkFalzFUs((void*)(151)); }
+void TBoss4Thanks::dispatch_main_phase_153() { TBoss4DarkFalz::dispatch_by_main_phase(153); }
+void TBoss4Thanks::dispatch_main_phase() { TBoss4DarkFalz::dispatch_by_main_phase(151); }
 
 
 void TBoss4Thanks::update_particle_emitters() {

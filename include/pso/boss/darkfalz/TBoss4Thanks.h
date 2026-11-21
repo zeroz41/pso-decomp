@@ -20,8 +20,8 @@ struct TBoss4Thanks : public TObject {
     void *particle_emitters[4];
     // int: the body widens a bool (clrlwi) and its callers test r3 with a plain cmpwi.
     static s32 is_door_0x97_open();
-    static int dispatch_main_phase_153();
-    static int dispatch_main_phase();
+    static void dispatch_main_phase_153();
+    static void dispatch_main_phase();
     void update_particle_emitters();
     void destroy_effects();
     static int is_player_nearby(void *arg0);

@@ -4121,7 +4121,7 @@ void TBoss8Dragon__sub_800641A8(u8 *ene_dd) {
     if (!(*(f32 *)((s8 *)ene_dd + 0x46C) > lbl_805D8E00)) {
         fill_value_array((int) (*(s32 *)((s8 *)ene_dd + 0x578)));
         ((TObjEneDD *)ene_dd)->reset_hp((u8 *)0, (u8 *)(boss5_gryphon_attack_params[1]), (u8 *)0);
-        emit_enemy_effect__9TObjEneDDFllPUcl((void *)ene_dd, (saddr)pos, &desc, (int) (*(s32 *)((s8 *)ene_dd + 0x578)));
+        TObjEneDD::emit_enemy_effect((saddr)ene_dd, (saddr)pos, (u8 *)&desc, (saddr)(*(s32 *)((s8 *)ene_dd + 0x578)));
         ((TObjEneDD *)ene_dd)->reset_hp((u8 *)0, (u8 *)(boss5_gryphon_attack_params[0]), (u8 *)0);
     }
 }
@@ -4145,7 +4145,7 @@ void TBoss8Dragon__sub_8006426C(Obj_8006426C *arg0) {
     mid.z = 0.5f * (arg0->a.z - bz) + bz;
     fill_value_array(arg0->attack_history);
     ((TObjEneDD *)arg0)->reset_hp((u8 *)0, (u8 *)(boss5_gryphon_attack_params[4]), (u8 *)0);
-    emit_enemy_effect__9TObjEneDDFllPUcl(arg0, (saddr)&mid, &prm, arg0->attack_history);
+    TObjEneDD::emit_enemy_effect((saddr)arg0, (saddr)&mid, (u8 *)&prm, (saddr)arg0->attack_history);
     ((TObjEneDD *)arg0)->reset_hp((u8 *)0, (u8 *)(boss5_gryphon_attack_params[0]), (u8 *)0);
 }
 #pragma pop
@@ -4335,7 +4335,7 @@ int emit_part_attack_effect__13TBoss5GryphonFPvi(void *ene_dd, int arg1) {
     p = &((Obj_80064968 *)ene_dd)->parts[gryphon_part_attack_index_table[arg1]];
     ((TObjEneDD *)ene_dd)->reset_hp((u8 *)0, (u8 *)(boss5_gryphon_attack_params[0]), (u8 *)0);
     TBoss8Dragon__sub_80067074((saddr)p, (saddr)&prm);
-    emit_enemy_effect__9TObjEneDDFllPUcl(ene_dd, (saddr)p, &prm, ((Obj_80064968 *)ene_dd)->attack_history);
+    TObjEneDD::emit_enemy_effect((saddr)ene_dd, (saddr)(void *)p, (u8 *)&prm, (saddr)(((Obj_80064968 *)ene_dd)->attack_history));
     ((TObjEneDD *)ene_dd)->reset_hp((u8 *)0, (u8 *)(boss5_gryphon_attack_params[0]), (u8 *)0);
     spawn_particle_effect_with_flags(p, ((Obj_80064968 *)ene_dd)->f5f0->f8, 0x40);
     ((TBoss8Dragon *)p)->spawn_attack_effect();

@@ -23,6 +23,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
+#include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/unk/text_8035D444.h"
 #include "pso/item/TItem.h"
 #include "pso/item/armor/TItemProShield.h"
@@ -90,10 +91,9 @@ saddr get_bml_model(void *, s32);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_8035D10C___vt__12TBoss6Thanks __vt__12TBoss6Thanks;
 u8 *TBoss6Thanks__ct(TBoss6Thanks *arg0, u8 *arg1);
-int TBoss6Thanks__sub_8035CB40(void);
+void TBoss6Thanks__sub_8035CB40(void);
 void TBoss6Thanks__sub_8035CCAC(saddr arg0);
 f32 xyz_distance(const void *, const void *);
-int dispatch_by_main_phase__14TBoss4DarkFalzFUs(void*);
 
 s32 fn_8035CAE0(void) {
     return get_story_flag(0x9A) != 0;
@@ -101,8 +101,8 @@ s32 fn_8035CAE0(void) {
 s32 TBoss6Thanks::check_ship_door() {
     return get_story_flag(0x98) != 0;
 }
-int TBoss6Thanks__sub_8035CB40(void) { return dispatch_by_main_phase__14TBoss4DarkFalzFUs((void*)(154)); }
-int TBoss6Thanks::dispatch_darkfalz_phase() { return dispatch_by_main_phase__14TBoss4DarkFalzFUs((void*)(152)); }
+void TBoss6Thanks__sub_8035CB40(void) { TBoss4DarkFalz::dispatch_by_main_phase(154); }
+void TBoss6Thanks::dispatch_darkfalz_phase() { TBoss4DarkFalz::dispatch_by_main_phase(152); }
 
 void TBoss6Thanks::update_particle_emitters() {
     Obj_8035CB88 *o = (Obj_8035CB88 *)this;
