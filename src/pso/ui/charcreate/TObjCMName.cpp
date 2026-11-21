@@ -268,8 +268,8 @@ int TObjCMName__sub_802948F4(TObjCMName *, char *);
 Hair_802964B0 * __ct__14TObjCMHairMenuFv(Hair_802964B0 *arg0, void *arg1);
 void render__16TObjCMAssignMenuFv(Menu_80296928 *self);
 void * __ct__16TObjCMAssignMenuFv(void *arg0, void *parent, void *kind);
-void fn_802972BC(void);
-void fn_802972C0(void);
+void finish_render(void);
+void finish_run_task(void);
 void TObjCMMainMenu__sub_80298310(void);
 u8 is_not_dressing_room_mode__14TObjCMMainMenuFv(void);
 s32 * TObjCMMainMenu__sub_80298DD4(void);
@@ -421,7 +421,7 @@ TObjCMMainMenu::TObjCMMainMenu(TObject *parent) : TObject(parent) {
     nodes = new TObject(NULL);
     fn_802947A8();
     fn_8029945C(&lbl_80464F50);
-    sub_802972C4();
+    finish_menu_init();
 }
 
 TObjCMMainMenu::~TObjCMMainMenu() {
@@ -448,9 +448,9 @@ void TObjCMMainMenu::run_task() {
     update_submenu_fade();
     update_slide_offset();
     static MenuFn_802987AC table[7] = {
-        &TObjCMMainMenu::handle_creation_input, &TObjCMMainMenu::sub_8029862C, &TObjCMMainMenu::sub_80298534,
-        &TObjCMMainMenu::sub_8029862C, &TObjCMMainMenu::sub_8029862C, &TObjCMMainMenu::sub_80298518,
-        &TObjCMMainMenu::sub_802984FC,
+        &TObjCMMainMenu::handle_creation_input, &TObjCMMainMenu::run_state_1_3_4_noop, &TObjCMMainMenu::run_state_2_progress,
+        &TObjCMMainMenu::run_state_1_3_4_noop, &TObjCMMainMenu::run_state_1_3_4_noop, &TObjCMMainMenu::run_state_5_countdown,
+        &TObjCMMainMenu::run_state_6_countdown,
     };
     (this->*table[TObjCMMainMenu__data_805D659C])();
     creation_menu_selected_entry = this->entries[this->selected_entry];
@@ -500,7 +500,7 @@ void TObjCMMainMenu::run_task() {
         }
     }
     ((TObject *)(this->nodes))->run_tasks();
-    ((void (*)(void *))fn_802972C0)(this);
+    ((void (*)(void *))finish_run_task)(this);
 }
 
 #pragma pop
@@ -542,11 +542,11 @@ void TObjCMMainMenu::handle_creation_input() {
     }
 }
 
-void TObjCMMainMenu::sub_8029862C() {  }
+void TObjCMMainMenu::run_state_1_3_4_noop() {  }
 
 #pragma push
 #pragma fp_contract on
-void TObjCMMainMenu::sub_80298534() {
+void TObjCMMainMenu::run_state_2_progress() {
     f32 temp_f2;
     f32 fv;
     s32 temp_r0;
@@ -580,7 +580,7 @@ void TObjCMMainMenu::sub_80298534() {
 }
 
 #pragma pop
-void TObjCMMainMenu::sub_80298518() {
+void TObjCMMainMenu::run_state_5_countdown() {
     s32 temp_r0;
 
     temp_r0 = this->delay - 1;
@@ -590,7 +590,7 @@ void TObjCMMainMenu::sub_80298518() {
     }
 }
 
-void TObjCMMainMenu::sub_802984FC() {
+void TObjCMMainMenu::run_state_6_countdown() {
     s32 temp_r0;
 
     temp_r0 = this->delay - 1;
@@ -677,21 +677,21 @@ void TObjCMMainMenu__sub_80298310(void) {  }
 void TObjCMMainMenu::render() {
     set_depth_buffer_settings_1();
     draw_footer_divider();
-    sub_80297B18();
-    sub_802979BC();
+    draw_menu_entries();
+    update_name_fade();
     ((TObject *)nodes)->render_nodes();
     draw_root_menu();
     static void (TObjCMMainMenu::*table[7])() = {
-        &TObjCMMainMenu::sub_802981BC, 0, &TObjCMMainMenu::sub_80297EF4,
+        &TObjCMMainMenu::render_state_0_noop, 0, &TObjCMMainMenu::render_state_2_class_card,
         0, 0, 0, 0,
     };
     void (TObjCMMainMenu::*action)() = table[TObjCMMainMenu__data_805D659C];
     if (action) (this->*action)();
     restore_saved_depth_alpha_state();
-    ((void (*)(void*))fn_802972BC)(this);
+    ((void (*)(void*))finish_render)(this);
 }
 
-void TObjCMMainMenu::sub_802981BC() {  }
+void TObjCMMainMenu::render_state_0_noop() {  }
 
 const char *lbl_804DBC0C[13] = {
     "HUmar", "HUnewearl", "HUcast", "RAmar", "RAcast", "RAcaseal", "FOmarl",
@@ -700,7 +700,7 @@ const char *lbl_804DBC0C[13] = {
 s32 lbl_804DBC40[10] = {42, 43, 44, 45, 46, 47, 48, 49, 50, 51};
 char lbl_805D3CD8[4] = "???";
 
-void TObjCMMainMenu::sub_80297EF4() {
+void TObjCMMainMenu::render_state_2_class_card() {
     f32 scale = get_scale();
     f32 alpha;
     if (progress >= 0.8f) {
@@ -798,7 +798,7 @@ void TObjCMMainMenu::draw_footer_divider() {
 }
 #pragma push
 #pragma fp_contract on
-void TObjCMMainMenu::sub_80297B18() {
+void TObjCMMainMenu::draw_menu_entries() {
     Menu_80297B18 *m = (Menu_80297B18 *)this;
     u32 color;
     s32 i;
@@ -863,7 +863,7 @@ void TObjCMMainMenu::sub_80297B18() {
     }
 }
 #pragma pop
-void TObjCMMainMenu::sub_802979BC() {
+void TObjCMMainMenu::update_name_fade() {
     char *name = character->name;
     if ((TObjCMMainMenu__data_805D659C == 0 ||
          (TObjCMMainMenu__data_805D659C == 1 && entries[selected_entry] != 7)) &&
@@ -1076,11 +1076,11 @@ s32 TObjCMMainMenu::try_pay_fee() {
     return 1;
 }
 
-void TObjCMMainMenu::sub_802972C4() {  }
+void TObjCMMainMenu::finish_menu_init() {  }
 
-void fn_802972C0(void) {  }
+void finish_run_task(void) {  }
 
-void fn_802972BC(void) {  }
+void finish_render(void) {  }
 
 const char *TObjCMAssignMenu__name = "TObjCMAssignMenu";
 
@@ -1411,11 +1411,11 @@ void render__16TObjCMAssignMenuFv(Menu_80296928 *self) {
     }
     switch (self->state) {
     case 0:
-        ((TObjCMAssignMenu *)self)->sub_80296648();
+        ((TObjCMAssignMenu *)self)->draw_assign_sprites();
         break;
     case 1:
         if (self->owner->flags & 0x10) {
-            ((TObjCMAssignMenu *)self)->sub_80296648();
+            ((TObjCMAssignMenu *)self)->draw_assign_sprites();
         } else {
             ((TObjCMAssignMenu *)self)->draw_assign_icons();
         }
@@ -1469,7 +1469,7 @@ void TObjCMAssignMenu::render_assign_slots() {
     }
 }
 
-void TObjCMAssignMenu::sub_80296648() {
+void TObjCMAssignMenu::draw_assign_sprites() {
     Menu_80296648 *self = (Menu_80296648 *)this;
     s32 off;
     s32 idx;

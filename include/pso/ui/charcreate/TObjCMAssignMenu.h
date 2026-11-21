@@ -6,7 +6,7 @@
 class TObjCMAssignMenu : public TObject {
 public:
     virtual ~TObjCMAssignMenu();
-    void sub_80296648();
+    void draw_assign_sprites();
     virtual void render();
     virtual void run_task();
 public:
