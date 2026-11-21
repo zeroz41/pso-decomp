@@ -148,14 +148,13 @@ void request_main_phase(s32 arg0);
 u16 get_entity_id(void *);
 s32 is_split_screen();
 s32 get_current_floor();
-s32 get_split_screen_view_index__11TCameraCtrlFUs(void *);
 s32 get_floor_destination_name();
 saddr get_localized_text_entry(s32, s32);
 s32 debug_draw_line(void *, void *, u32, u32);
 s32 fn_80141CB4(void *, f32);
 s32 *TObjCityMainWarp__sub_80186AF4(void);
 void * TObjAreaWarpEndingJung__create(void *arg0);
-s64 fn_8019B480(void *arg0, void *arg1);
+s64 fn_8019B480(void *arg0, u16 client_id);
 void fade_and_destroy__14TObjWarpStringFPv(u8 *arg0);
 void TObjWarpString__sub_8019B728(void *arg0);
 void update_fade_in__14TObjWarpStringFPv(u8 *arg0);
@@ -430,7 +429,7 @@ void TObjMapWarp::closePlayerWindow(u16 arg1) {
     if (temp_r3 != 0U) {
         ((TWindowBase *)temp_r3)->close();
         *(u32 *)((s8 *)temp_r31 + 0xEC) = 0U;
-        player = ((uaddr)get_player_by_client_id((uaddr)((void *) ((s32) arg1))));
+        player = (uaddr)get_player_by_client_id(arg1);
         if (player != 0U) {
             fn_8019DD24((void *)(player + 0x550), 4);
         }
@@ -1263,7 +1262,7 @@ void TObjWarpString::render() {
     u32 color;
     u32 width;
 
-    pos.packed = fn_8019B480(this, (void *)*(u16 *)((s8 *)this + 0x48));
+    pos.packed = fn_8019B480(this, *(u16 *)((s8 *)this + 0x48));
     width = calc_text_width((char *)this + 0x1C) >> 1;
     pos.xy.x -= (f32)width;
     y = pos.xy.y;
@@ -1283,7 +1282,7 @@ void TObjWarpString::render() {
 }
 #pragma pop
 
-s64 fn_8019B480(void *arg0, void *camera_ctrl) {
+s64 fn_8019B480(void *arg0, u16 client_id) {
     const WarpStringScreenPosition *p = warp_string_screen_position_table;
     if (TRaderMapCore::is_not_split_screen() == 1) {
         switch (TCameraCtrl::get_camera_id()) {
@@ -1297,7 +1296,7 @@ s64 fn_8019B480(void *arg0, void *camera_ctrl) {
             p = warp_string_screen_position_table + 6;
             break;
         }
-        p += get_split_screen_view_index__11TCameraCtrlFUs(camera_ctrl);
+        p += TCameraCtrl::get_split_screen_view_index(client_id);
     }
     return *(const s64 *)p;
 }

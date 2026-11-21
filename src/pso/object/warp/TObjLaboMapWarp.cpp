@@ -123,7 +123,6 @@ s32 post_translate_matrix(void *);
 
 extern void request_active_window_close();
 
-int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 
 extern s16 TLobby__data_805D5CE8;
 
@@ -507,9 +506,9 @@ void TObjCityMainWarp::open_confirm_window(s32 client_id) {
                 for (j = 0, k = 0; j < 17; j++) {
                     if (TObjCityMainWarp__visible_destination_mask & (1 << j)) {
                         if (get_game_play_mode() == 1) {
-                            forward_trade_action_default__16TObjCityMainWarpFPviii((void *)menu_window, (int)(TObjCityMainWarp__sub_80186AF4()), 0xE, (int)k);
+                            TObjCityMainWarp::forward_trade_action_default((void *)menu_window, (saddr)TObjCityMainWarp__sub_80186AF4(), 0xE, (int)k);
                         } else {
-                            forward_trade_action_default__16TObjCityMainWarpFPviii((void *)menu_window, get_localized_text_entry(9, city_warp_group9_text_table[j]), 0xE, k);
+                            TObjCityMainWarp::forward_trade_action_default((void *)menu_window, get_localized_text_entry(9, city_warp_group9_text_table[j]), 0xE, k);
                         }
                         k++;
                     }
@@ -518,9 +517,9 @@ void TObjCityMainWarp::open_confirm_window(s32 client_id) {
                 for (j2 = 0, k2 = 0; j2 < 17; j2++) {
                     if (TObjCityMainWarp__visible_destination_mask & (1 << j2)) {
                         if (get_game_play_mode() == 1) {
-                            forward_trade_action_default__16TObjCityMainWarpFPviii((void *)menu_window, (int)(TObjCityMainWarp__sub_80186AF4()), 0xE, (int)k2);
+                            TObjCityMainWarp::forward_trade_action_default((void *)menu_window, (saddr)TObjCityMainWarp__sub_80186AF4(), 0xE, (int)k2);
                         } else {
-                            forward_trade_action_default__16TObjCityMainWarpFPviii((void *)menu_window, get_localized_text_entry(9, city_warp_group9_text_table_b[j2]), 0xE, k2);
+                            TObjCityMainWarp::forward_trade_action_default((void *)menu_window, get_localized_text_entry(9, city_warp_group9_text_table_b[j2]), 0xE, k2);
                         }
                         k2++;
                     }

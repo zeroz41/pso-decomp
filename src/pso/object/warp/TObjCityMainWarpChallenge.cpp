@@ -35,6 +35,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
+#include "pso/ui/window/WindowLayout.h"
 const char *lbl_805D32B8 = "TObjCityMainWarpChallenge";
 static const char lbl_80444A44[] = "<- NEXT STAGE No.%d";
 static const char lbl_80444A58[] = "<- KEY ID : %d";
@@ -48,7 +49,6 @@ s32 is_local_client_floor_leader(s32);
 void fn_80248994(TWindowBase *list, u32 color, s32 pos);
 void request_active_window_close(void);
 void begin_player_keyboard_hold(saddr arg0);
-s32 get_window_layout_position(s32);
 extern s32 city_main_warp_destination_id;
 s32 post_translate_matrix(void *);
 void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
@@ -186,7 +186,7 @@ void TObjCityMainWarpChallenge::sub_801875F8() {
         if (this->yes_no_window == 0) {
             this->yes_no_window = TWindowMessageYesNo::create(this, local_client_id, (void *)0, (void *)0);
             if (this->yes_no_window != 0) {
-                open_yes_no_prompt_with_text((TChCrTagPlBack *)this->yes_no_window, (saddr)(TWindowSubStatusDisp::get_message_10(0x41)), (s32)(get_window_layout_position(0x36)), 368.0f);
+                open_yes_no_prompt_with_text((TChCrTagPlBack *)this->yes_no_window, (saddr)(TWindowSubStatusDisp::get_message_10(0x41)), (saddr)get_window_layout_position(0x36), 368.0f);
                 ((TWindowMessageYesNo *)this->yes_no_window)->set_menu_selected_index(1);
                 ((TWindowMessageYesNo *)this->yes_no_window)->set_choice_menu_flag70_bit10();
                 begin_player_keyboard_hold(local_client_id);
@@ -199,7 +199,7 @@ void TObjCityMainWarpChallenge::sub_801875F8() {
         if (this->yes_no_window == 0) {
             this->yes_no_window = TWindowMessageYesNo::create(this, local_client_id, (void *)0, (void *)0);
             if (this->yes_no_window != 0) {
-                initialize_option_dialog(this->yes_no_window, (saddr)TWindowSubStatusDisp::get_message_10(0x42), get_window_layout_position(0x36), 368.0f);
+                initialize_option_dialog(this->yes_no_window, (saddr)TWindowSubStatusDisp::get_message_10(0x42), (saddr)get_window_layout_position(0x36), 368.0f);
             }
         }
         break;
@@ -207,7 +207,7 @@ void TObjCityMainWarpChallenge::sub_801875F8() {
     if (this->player_list_window == 0) {
         pos[0] = 229.0f;
         pos[1] = 104.0f;
-        this->player_list_window = create_check_box_window_for_local_client((const NJS_POINT2 *)get_window_layout_position(0x34), (const void *)pos);
+        this->player_list_window = create_check_box_window_for_local_client(get_window_layout_position(0x34), (const void *)pos);
         if (this->player_list_window != 0) {
             ((TWindowSubTradeMain *)this->player_list_window)->set_visible();
             ((TWindowSubTradeMain *)this->player_list_window)->set_close_flag();
