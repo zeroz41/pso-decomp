@@ -10,28 +10,6 @@
 
 #pragma readonly_strings on
 
-struct Base_80335508_803354A4 { char pad[0x18]; };
-struct VObj_80335508_803354A4 : Base_80335508_803354A4 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-};
-struct Base_80335580_803354A4 { char pad[0x18]; };
-struct VObj_80335580_803354A4 : Base_80335580_803354A4 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-};
-
 extern "C" {
 
 
@@ -47,16 +25,14 @@ void TAdTrialModemChkGC::check_modem_result() {
 void TAdTrialModemChkGC__sub_803354E8(void) { TLobby::stop_audio_streams(); }
 
 void TAdTrialModemChkGC::render() {
-    struct VObj_80335508_803354A4 *o = (struct VObj_80335508_803354A4 *)this;
-    o->m7();
+    vfunc_9();
 }
 
 void TAdTrialModemChkGC::vfunc_7() { get_localized_text_entry(35, 0); }
 void TAdTrialModemChkGC::vfunc_6() { request_main_phase(0); }
 
 void TAdTrialModemChkGC::run_task() {
-    struct VObj_80335580_803354A4 *o = (struct VObj_80335580_803354A4 *)this;
-    o->m6();
+    vfunc_8();
 }
 
 
