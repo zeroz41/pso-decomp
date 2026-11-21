@@ -69,7 +69,7 @@ void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__20TBoss5GryphonTornado[];
 s32 get_bml_motion(s32, s32);
 
-void TBoss8Dragon__sub_800640A4(s32, Vec *);
+void spawn_tornado_pulse(s32, Vec *);
 void attach_particle_model(void *, s32, s32, s32, s32, f32);
 Res_80355570 *csnVecterUnder(Vec *, s32);
 void add_radar_scaled_marker(Vec *, s32, s32, s32, f32);
@@ -134,7 +134,7 @@ void TBoss5GryphonTornado::run_task() {
             o->state = 2;
             o->timer = 0;
         }
-        TBoss8Dragon__sub_800640A4(TBoss8Dragon::get_instance_count(), &o->pos);
+        spawn_tornado_pulse(TBoss8Dragon::get_instance_count(), &o->pos);
         ((TBoss5GryphonTornado *)o)->sub_803554F0((u8 *)&v);
         o->f34 = 0.01f * v.x + o->f34;
         o->f3C = 0.01f * v.z + o->f3C;
