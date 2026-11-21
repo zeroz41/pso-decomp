@@ -22,7 +22,7 @@
 extern "C" {
 // TCheckRoomSequence.cpp; no header declares them yet.
 void alloc_item_buffers__18TCheckRoomSequenceFv(void);
-void TCheckRoomSequence__sub_80211284(void);
+void TCheckRoomSequence__free_bank_item_records(void);
 // text_80184C2C.cpp; its header does not declare it yet.
 void TLobby__sub_80184DF4(void);
 // CityTraffic.cpp: builds the 0x78-byte traffic manager object under its parent.
@@ -41,7 +41,7 @@ void (*TLobby_scene_load_callback_table[24])(void) = {
     TLobby::clear_flag_if_not_split_screen, TLobby::free_global,
     reset_globals2__19TQuestListChallengeFv, reset_globals__19TQuestListChallengeFv,
     TLobby__sub_80184DF4, TLobby::free_buffers,
-    alloc_item_buffers__18TCheckRoomSequenceFv, TCheckRoomSequence__sub_80211284,
+    alloc_item_buffers__18TCheckRoomSequenceFv, TCheckRoomSequence__free_bank_item_records,
     measure_traffic_path_lengths, free_buffer_pair_table,
     TQuestVmDownLoadServer::reset_download_state, TQuestVmDownLoadServer::free_download_buffers,
     TLobby::alloc_buffer, TLobby::free_buffer,

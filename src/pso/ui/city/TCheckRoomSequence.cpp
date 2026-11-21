@@ -934,7 +934,7 @@ s32 bank_credit_meseta(s32 v, s32 i) {
 #pragma push
 #pragma optimization_level 1
 extern "C" {
-s32 TCheckRoomSequence__sub_80210D44(u8 *item, s32 slot) {
+s32 TCheckRoomSequence__search_bank_records_for_item(u8 *item, s32 slot) {
     Rec_80211034 *rec = bank_item_records_by_slot[slot];
     s32 i;
     for (i = 0; i < 200; i++, rec++) {
@@ -1083,7 +1083,7 @@ void mem_free(void *p);
 
 #pragma push
 #pragma optimization_level 1
-void TCheckRoomSequence__sub_80211284(void) {
+void TCheckRoomSequence__free_bank_item_records(void) {
     Rec_80211034 *recs;
     s32 i;
     for (i = 3; i >= 0; i--) {
