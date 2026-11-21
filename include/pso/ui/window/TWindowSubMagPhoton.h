@@ -17,7 +17,7 @@ struct TWindowSubMagPhoton : public TWindowBase {
     void handle_cancel();
     void play_open_sound();
     void update_selection_input();
-    s32 draw_cursor(int arg1);
+    void draw_cursor(int arg1);
     virtual void run_task();
     void get_cursor_origin(void *xy);
 };

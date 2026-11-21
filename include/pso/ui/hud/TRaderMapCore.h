@@ -70,7 +70,7 @@ struct TRaderMapCore : public TObjBase {
     void reset_counter();
     static void hide_radar();
     static void show_radar();
-    static s32 set_view_scissor(void *self, int mode, void *arg2);
+    static void set_view_scissor(void *self, int mode, void *arg2);
     static s32 save_floor_discovery(int floor, void *map_data);
     static void free_map_data();
     static void free_heap();

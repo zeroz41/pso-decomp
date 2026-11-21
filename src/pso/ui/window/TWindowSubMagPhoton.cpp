@@ -146,7 +146,7 @@ void TWindowSubMagPhoton::update_selection_input() {
     }
 }
 
-s32 TWindowSubMagPhoton::draw_cursor(int arg1) {
+void TWindowSubMagPhoton::draw_cursor(int arg1) {
     u8 sp8[16];
     get_cursor_origin(sp8);
     ((void (*)(f32, void *, void *, int))draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif)(0.8f, (void *)arg1, sp8, ((Win_8027C4C8 *)this)->f62);

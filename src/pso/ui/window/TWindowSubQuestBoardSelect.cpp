@@ -220,7 +220,7 @@ void TWindowSubQuestBoardSelect::handle_decide() {
 
 
 #define TBL_8027D6A0 ((Ent_8027D6A0 *)&controller_input_state)
-s32 TWindowSubQuestBoardSelect::handle_page_input() {
+void TWindowSubQuestBoardSelect::handle_page_input() {
     Win_8027D6A0 *self = (Win_8027D6A0 *)this;
     void *p;
     s8 d;

@@ -309,7 +309,7 @@ s32 TWindowMakeTeam::is_enabled() {
 }
 
 saddr TWindowMakeTeam::draw_entry_0x110(s8 arg0) {
-    TWindowSubStatusDisp::get_message_10(arg0 + 0x110);
+    return (saddr)TWindowSubStatusDisp::get_message_10(arg0 + 0x110);
 }
 
 void *init_status_disp__15TWindowMakeTeamFc(s8 arg0) {

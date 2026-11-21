@@ -82,7 +82,7 @@ void TWindowSubCustomSelect::handle_decide() {
 
 typedef struct Stack_80277368 Stack_80277368;
 #pragma fp_contract on
-s32 TWindowSubCustomSelect::update_list_scroll() {
+void TWindowSubCustomSelect::update_list_scroll() {
   u8 *arg0 = (u8 *) this;
   Stack_80277368 stack;
   u8 *new_var;

@@ -287,7 +287,7 @@ void TWindowSubCustomEquip::set_relative_pos(void *arg1) {
     *(f32 *)&this->m_flags = (f32) (*(f32 *)((s8 *)arg1 + 0xC) - 15.0f);
 }
 
-int TWindowSubCustomEquip::layout_selection_parts(void *arg1) {
+void TWindowSubCustomEquip::layout_selection_parts(void *arg1) {
     NJS_POINT2 pos;
     u8 *p;
     u8 *a;
@@ -346,7 +346,7 @@ void TWindowSubCustomEquip::layout_entry_group(void *arg1) {
 
 void TWindowSubCustomEquip::reset_selection() { layout_entry_group((void *)((void*)9)); layout_entry_group((void *)((void*)0)); layout_selection_parts((void *)((void*)9)); }
 
-s32 TWindowSubCustomEquip::refresh_palette_slots() {
+void TWindowSubCustomEquip::refresh_palette_slots() {
     u8 *player;
     s32 pal;
     player = (u8 *)get_player_by_client_id(this->client_index);

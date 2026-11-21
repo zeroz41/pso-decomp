@@ -7,7 +7,7 @@
 struct TLoadingCur : public TObject {
     TLoadingCur(TObject *parent, Vec *pos);
     virtual ~TLoadingCur();
-    int sub_8001CCD4();
+    void sub_8001CCD4();
     void update_camera_facing_offset();
     u8 unk_1C[0x4];
     f32 m_20;

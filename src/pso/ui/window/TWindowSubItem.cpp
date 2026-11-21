@@ -235,7 +235,7 @@ s32 TWindowSubItem__sub_8027AA78(s32 arg0) {
 }
 
 s32 TWindowSubItem::get_selected_entry() {
-    ((TWindowSubItem *)((TWindowBase *)this)->get_array_entry(*(s16 *)((s8 *)this + 0x88)))->get_cursor_pos();
+    return ((TWindowSubItem *)((TWindowBase *)this)->get_array_entry(*(s16 *)((s8 *)this + 0x88)))->get_cursor_pos();
 }
 
 void TWindowSubItem::set_field_74(s16 v) { *(s16*)((char*)this + 0x74) = v; }

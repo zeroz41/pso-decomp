@@ -1539,7 +1539,7 @@ void setup_overhead_projection__13TRaderMapCoreFv(s32 arg0, Cam_801F9314 *arg1) 
 }
 #pragma fp_contract on
 
-s32 TRaderMapCore::set_view_scissor(void *self, int mode, void *arg2) {
+void TRaderMapCore::set_view_scissor(void *self, int mode, void *arg2) {
     Rect_801F9228 *rect = (Rect_801F9228 *)arg2;
     u32 w;
     u32 h;
