@@ -15,8 +15,8 @@ void TAdPsoPassSaveGC::render() {
     vfunc_12();
 }
 
-void TAdPsoPassSaveGC::vfunc_10() {
-    get_localized_text_entry(0x2A, 0);
+saddr TAdPsoPassSaveGC::vfunc_10() {
+    return get_localized_text_entry(0x2A, 0);
 }
 
 

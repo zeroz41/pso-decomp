@@ -24,7 +24,7 @@ void TAdSnAkPassConfirmGC::render() {
     vfunc_12();
 }
 
-void TAdSnAkPassConfirmGC::vfunc_10() { get_localized_text_entry((saddr)((void*)39), (saddr)((void*)0)); }
+saddr TAdSnAkPassConfirmGC::vfunc_10() { return get_localized_text_entry(39, 0); }
 void TAdSnAkPassConfirmGC::vfunc_9() { if (this->m_48 != 0) { ((TWindowBase *)this->m_48)->close(); this->m_48 = 0; } }
 void TAdSnAkPassConfirmGC::vfunc_8() { if (this->m_48 != 0) { ((TWindowBase *)this->m_48)->close(); this->m_48 = 0; } }
 void TAdSnAkPassConfirmGC::vfunc_7() { TAdMultiChgGameModeGC::request_transition(); }

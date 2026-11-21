@@ -23,7 +23,7 @@ struct TAdVIConfigGC : public TAdYesNoBaseGC {
     void update_visibility();
     virtual void vfunc_6();
     virtual void vfunc_7();
-    virtual void vfunc_10();
+    virtual saddr vfunc_10();
     static void *destroy(void *, s16);
 };
 
