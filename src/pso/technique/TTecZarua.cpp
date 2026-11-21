@@ -56,12 +56,8 @@ void copy_technique_target_list(void *, void *);
 
 void TTecZarua::calc_range() {
     u8 *arg0 = (u8 *)this;
-    s32 ret;
-    struct { s32 v; } tmp;
-
-    ret = (saddr)calc_technique_parameters(0xC, this->m_78, 0xFFFF);
-    tmp.v = ret;
-    ((TechniqueParams *)(arg0 + 0x88))->copy((TechniqueParams *)tmp.v);
+    TechniqueParams *params = calc_technique_parameters(0xC, this->m_78, 0xFFFF);
+    ((TechniqueParams *)(arg0 + 0x88))->copy(params);
     this->m_88 = (f32) (*(s16 *)&this->m_ac * this->m_78);
 }
 
