@@ -1715,7 +1715,7 @@ void TScene::render_animated_map_section(SceneMaterialSection *scene_material_se
         if (tex != 0)
         {
           enable_indirect_tev(texture = tex, m->f8, m->fE, 0);
-          TObjFish::set_global_param((saddr)((void *) (*((s32 *) (((s8 *) TScene__data_805D5FCC) + 0x14)))));
+          TObjFish::set_global_param(TScene__data_805D5FCC->texlist);
           set_material_alpha_compare_reference(TScene__data_805D5FCC->flags);
           draw_ginja_model_with_motion(node, e->motion, e->frame);
           disable_indirect_tev(texture, 0);
