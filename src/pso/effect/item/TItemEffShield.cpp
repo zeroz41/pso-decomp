@@ -247,4 +247,4 @@ void TUnk_8049F130::run_task() {
 }
 
 NJS_OBJECT *TItem::get_item_model() { return item_model; }
-s32 TObjBase::get_texlist() { return texlist; }
+saddr TObjBase::get_texlist() { return texlist; }

@@ -43,7 +43,7 @@ public:
     s32 set_event_source_flag(s32);
     void set_entity_id(u16 id);
     int set_position_from(void *pos);
-    s32 get_texlist();
+    saddr get_texlist();
     s32 is_alive();
     u16 entity_id;  // the object table id, 0xFFFF while unregistered
     s16 visibility; // update_object_view_visibility: 0 culled, 1 visible, 2 near
@@ -208,7 +208,7 @@ public:
     f32 get_action_frame_count(s16 action);
     // Makes the action's motion current.
     void set_action_motion(s32 action);
-    s32 get_item_ptr(s32);
+    saddr get_item_ptr(s32);
     void set_motion_interpolation_flag();
     // Sets both tables and starts the action.
     void init_motion(TObjMotionAction *actions, BmlMotionEntry *motions, s16 action);
