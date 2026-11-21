@@ -155,12 +155,12 @@ void lsc_stop(LscStream *lsc_stream) {
     if ((s8) lsc_stream->state != 0) {
         lsc_interrupt_lock_enter(&sp8);
         lsc_stream->state = 0U;
-        if ((u32) (uaddr)lsc_stream->file_handle != 0U) {
+        if (lsc_stream->file_handle != NULL) {
             if ((s32) lsc_stream->read_started == 1) {
-                TLobby__sub_803C89C4((u8 *)lsc_stream->file_handle);
+                TLobby__sub_803C89C4(lsc_stream->file_handle);
                 lsc_stream->read_started = 0U;
             }
-            TLobby__sub_803C8B38((u8 *)((uaddr)lsc_stream->file_handle));
+            TLobby__sub_803C8B38(lsc_stream->file_handle);
             lsc_stream->file_handle = 0;
         }
         lsc_stream->file_sector_count = 0;
@@ -192,10 +192,10 @@ void lsc_start(LscStream *o) {
             o->state = 0;
             if (o->file_handle != 0) {
                 if ((s32)o->read_started == 1) {
-                    TLobby__sub_803C89C4((u8 *)o->file_handle);
+                    TLobby__sub_803C89C4(o->file_handle);
                     o->read_started = 0;
                 }
-                TLobby__sub_803C8B38((u8 *)o->file_handle);
+                TLobby__sub_803C8B38(o->file_handle);
                 o->file_handle = 0;
             }
             o->file_sector_count = 0;
@@ -263,8 +263,8 @@ s32 lsc_enqueue_file(LscStream *lsc_stream, const char *filename) {
         TLobby::log_printf("E0004: Can not open '%s'", filename);
         return -1;
     }
-    sectors = (((TLobby *)file)->get_field_14() + 0x7FF) / 0x800;
-    TLobby__sub_803C8B38((u8 *)file);
+    sectors = (get_field_14__6TLobbyFv(file) + 0x7FF) / 0x800;
+    TLobby__sub_803C8B38(file);
     return lsc_enqueue_range(lsc_stream, filename, 0, 0, sectors);
 }
 
@@ -290,12 +290,12 @@ void lsc_destroy(LscStream *lsc_stream) {
         } else if ((s8) lsc_stream->state != 0) {
             lsc_interrupt_lock_enter(&sp8);
             lsc_stream->state = 0U;
-            if ((u32) (uaddr)lsc_stream->file_handle != 0U) {
+            if (lsc_stream->file_handle != NULL) {
                 if ((s32) lsc_stream->read_started == 1) {
-                    TLobby__sub_803C89C4((u8 *)lsc_stream->file_handle);
+                    TLobby__sub_803C89C4(lsc_stream->file_handle);
                     lsc_stream->read_started = 0U;
                 }
-                TLobby__sub_803C8B38((u8 *)((uaddr)lsc_stream->file_handle));
+                TLobby__sub_803C8B38(lsc_stream->file_handle);
                 lsc_stream->file_handle = 0;
             }
             lsc_stream->file_sector_count = 0;

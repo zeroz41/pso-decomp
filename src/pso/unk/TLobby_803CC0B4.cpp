@@ -1,20 +1,16 @@
 #include "types.h"
 #include "pso/unk/TLobby_803CC0B4.h"
-#include "pso/unk/TLobby_803D60A8.h"
+#include "pso/audio/GcrnaStream.h"
 #include "pso/unk/TLobby.h"
 
 extern "C" {
 
-s32 GCRNA_Create();
-void gcrna_shutdown(void);
-void gcrna_initialize(void);
-
-void TLobby::run_step_5210() {
-    GCRNA_Create();
+GcrnaStream *TLobby::run_step_5210(SjRingBuffer **inputs, s32 channels) {
+    return GCRNA_Create(inputs, channels);
 }
 
-void TLobby::flush_update() {
-    gcrna_set_error_callback();
+void TLobby::flush_update(GcrnaErrorCallback callback, void *context) {
+    gcrna_set_error_callback(callback, context);
 }
 
 void TLobby::shutdown_cleanup() {

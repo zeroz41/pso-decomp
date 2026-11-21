@@ -1,4 +1,5 @@
 #include "pso/render/GvmTextureArchive.h"
+#include "pso/system/Adxf.h"
 #include "pso/system/ResourceFile.h"
 #include "types.h"
 #include <string.h>
@@ -21,8 +22,6 @@ char texture_prs_stream_filename_buffer[128];
 saddr lbl_805D63C0;
 s32 lbl_805D63C4;
 extern char texture_prs_stream_filename_buffer[];
-s32 adxf_get_fsize_sct();
-s32 adxf_open__6TLobbyFUii(void *, s32);
 extern char texture_prs_disc_filename_buffer[];
 extern saddr lbl_805D63C0;
 extern s32 lbl_805D63C4;
@@ -58,14 +57,14 @@ s32 load_streamed_prs_texture(s32 arg0, s32 arg1) {
 }
 
 s32 load_disc_prs_texture(s32 arg0, s32 arg1) {
-    saddr a;
+    AdxfHandle *file;
     saddr b;
     saddr c;
     sprintf(texture_prs_disc_filename_buffer, "%s.prs", arg0);
     if (get_resource_file_size(texture_prs_disc_filename_buffer) != -1) {
-        a = adxf_open__6TLobbyFUii(texture_prs_disc_filename_buffer, 0);
-        b = adxf_get_fsize_sct();
-        ((TLobby *)a)->close_adxf_handle();
+        file = ADXF_Open(texture_prs_disc_filename_buffer, 0);
+        b = ADXF_GetFsizeSct(file);
+        ADXF_Close(file);
         b = (saddr)xmalloc((s32)(b << 11));
         if (read_disc_file(texture_prs_disc_filename_buffer, (void *)b) != -1) {
             c = (saddr)xmalloc(0x200000);

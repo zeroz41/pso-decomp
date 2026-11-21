@@ -9428,11 +9428,11 @@ pso/enemy/recon/TObjEneRecon_80320350.cpp:
 	.text       start:0x80320350 end:0x80320358
 
 pso/unk/text_80320358.cpp:
-	.text       start:0x80320358 end:0x803204B0
+	.text       start:0x80320358 end:0x803204B8
 	.sbss       start:0x805D6B28 end:0x805D6C10
 
 pso/boss/olgaflow/TBoss6Zanzo.cpp:
-	.text       start:0x803204B0 end:0x80320AE0
+	.text       start:0x803204B8 end:0x80320AE0
 	.rodata     start:0x80476460 end:0x80476480
 	.data       start:0x804EC968 end:0x804EC980
 	.sdata      start:0x805D4140 end:0x805D4148

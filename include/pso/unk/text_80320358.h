@@ -2,16 +2,7 @@
 #define PSO_UNK_TEXT_80320358_H
 
 #include "types.h"
-
-extern "C" {
-u8 *load_rel_module(u8 *arg0, saddr arg1);
-}
-
-// --- C functions defined in text_80320358.cpp ---
-extern "C" {
-u8 *load_rel_module(u8 *arg0, saddr arg1);
-}
-// --- end of C functions
+#include "pso/system/RelModuleBuffer.h"
 
 struct MwsfdPly;
 struct MwsfdCrePrm;

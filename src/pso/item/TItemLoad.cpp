@@ -18,14 +18,13 @@
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/unk/text_800F7DAC.h"
-#include "pso/unk/text_803CC294.h"
+#include "pso/system/Adxf.h"
 #include "pso/weapon/TItemAttacker.h"
 
 // The loaders are written from their last function back: the unit is built
 // with deferred code generation, which emits functions in reverse order.
 
 extern "C" {
-s32 adxf_get_stat(void *handle);
 void TLobby__sub_801E3E9C(s32 partition_id, const char *path, void *partition_info, s32);
 s32 prs_decompress_alloc(s32 src, u32 dst, s32 size);
 }
@@ -72,7 +71,7 @@ s32 TItemModelLoadTask::get_slot() { return slot; }
 
 s32 AfsPartition::get_size_sectors() { return size_sectors; }
 
-s32 AfsPartition::get_stat() { return adxf_get_stat(handle); }
+s32 AfsPartition::get_stat() { return ADXF_GetStat(handle); }
 
 void AfsFileLoader::on_loaded() {}
 
@@ -270,12 +269,12 @@ AfsPartition::~AfsPartition() {
     mem_free(partition_info);
 }
 
-void *AfsPartition::open(s32 index) {
+AdxfHandle *AfsPartition::open(s32 index) {
     if (ready == 1) {
         close();
-        handle = TLobby::adxf_open_afs(partition_id, index);
+        handle = ADXF_OpenAfs(partition_id, index);
         if (handle != NULL) {
-            size_sectors = adxf_get_fsize_sct((u8 *)handle);
+            size_sectors = ADXF_GetFsizeSct(handle);
         }
     }
     return handle;
@@ -283,14 +282,14 @@ void *AfsPartition::open(s32 index) {
 
 void AfsPartition::close() {
     if (handle != NULL) {
-        ((TLobby *)handle)->close_adxf_handle();
+        ADXF_Close(handle);
         handle = NULL;
         size_sectors = 0;
     }
 }
 
-void AfsPartition::read(s32 buffer) {
-    TLobby::read_checked_align((saddr)handle, size_sectors, buffer);
+void AfsPartition::read(void *destination) {
+    ADXF_ReadNw(handle, size_sectors, destination);
 }
 
 RelocatedFile::RelocatedFile(const char *path, s32 size) {
@@ -355,7 +354,7 @@ void AfsFileLoader::advance_load_state() {
     }
     if (open(file_index) != NULL) {
         get_size_sectors();
-        read((saddr)item_load_compressed_work_buffer);
+        read(item_load_compressed_work_buffer);
         state = 2;
     }
 }

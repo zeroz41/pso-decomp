@@ -1,3 +1,4 @@
+#include "pso/system/Adxf.h"
 #include "types.h"
 #include <string.h>
 #include "pso/unk/TLobby_800FA2A0.h"
@@ -7,17 +8,16 @@
 
 extern "C" {
 
-s32 adxf_open__6TLobbyFUii(void *, int);
 
 s32 create_named_entry__6TLobbyFiiUiiPv(saddr name, s32 arg1, u32 arg2, void *src, void **arg4) {
     u8 *var_r31;
-    saddr temp_r3;
+    AdxfHandle *file;
 
     if (arg4 != NULL) {
         *arg4 = NULL;
     }
-    temp_r3 = adxf_open__6TLobbyFUii((void *)name, 0);
-    if (temp_r3 == 0) {
+    file = ADXF_Open((void *)name, 0);
+    if (file == 0) {
         return -2;
     }
     var_r31 = (u8 *)TLobby::alloc_from_heap(0x68);
@@ -27,9 +27,9 @@ s32 create_named_entry__6TLobbyFiiUiiPv(saddr name, s32 arg1, u32 arg2, void *sr
     strncpy((char *)(var_r31 + 8), (const char *)name, 0x20);
     *(s32 *)((s8 *)var_r31 + 0) = 1;
     *(s32 *)((s8 *)var_r31 + 0x28) = arg1;
-    *(s32 *)((s8 *)var_r31 + 0x2C) = ((TLobby *)temp_r3)->adxf_get_fsize_byte();
-    *(s32 *)((s8 *)var_r31 + 0x30) = adxf_get_fsize_sct((u8 *)temp_r3);
-    ((TLobby *)temp_r3)->close_adxf_handle();
+    *(s32 *)((s8 *)var_r31 + 0x2C) = ADXF_GetFsizeByte(file);
+    *(s32 *)((s8 *)var_r31 + 0x30) = ADXF_GetFsizeSct(file);
+    ADXF_Close(file);
     *(s32 *)((s8 *)var_r31 + 0x34) = 0;
     *(u32 *)((s8 *)var_r31 + 0x40) = arg2;
     if (arg2 != 0U) {

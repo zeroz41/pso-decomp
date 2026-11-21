@@ -1,3 +1,4 @@
+#include "pso/system/RelModuleBuffer.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/camera/TCameraCtrl_803D676C.h"
@@ -31,12 +32,11 @@ extern "C" {
 void fn_801449F0(void);
 
 s32 is_playback_finished__6TMovieFv(s32);
-s32 fn_80320358(u32, s32);
+u8 *__nw__7TObjectFUl(s32);
 s32 DVDCheckDisk();
 s32 set_queued_main_phase(s32);
 s8 get_opening_movie_purpose();
 s8 func_801A5E54__Fv();
-u8 *load_rel_module(u8 *arg0, saddr arg1);
 void func_803DCDFC__Fv(void);
 }
 
@@ -237,7 +237,7 @@ s32 TMovie::decode_frame() {
     return 1;
 }
 
-void TMovie::copy(void* q) { *(u32 *)&this->m_name = *(u32*)((char*)q + 0x0); *(u32 *)&this->m_flags = *(u32*)((char*)q + 0x4); *(u32 *)&this->m_prev = *(u32*)((char*)q + 0x8); *(u32 *)&this->m_next = *(u32*)((char*)q + 0xc); *(u32 *)&this->m_up = *(u32*)((char*)q + 0x10); *(u32 *)&this->m_down = *(u32*)((char*)q + 0x14); *(u32*)((char*)this + 0x18) = *(u32*)((char*)q + 0x18); this->m_1c = *(u32*)((char*)q + 0x1c); this->m_20 = *(u32*)((char*)q + 0x20); *(u32 *)&this->m_24 = *(u32*)((char*)q + 0x24); *(u32 *)&this->unk_28 = *(u32*)((char*)q + 0x28); this->m_2c = *(u32*)((char*)q + 0x2c); *(u32 *)&this->unk_30 = *(u32*)((char*)q + 0x30); this->m_34 = *(u32*)((char*)q + 0x34); *(u32 *)&this->unk_38 = *(u32*)((char*)q + 0x38); this->m_3c = *(u32*)((char*)q + 0x3c); }
+void TMovie::copy(void* q) { *(u32 *)&this->m_name = *(u32*)((char*)q + 0x0); *(u32 *)&this->m_flags = *(u32*)((char*)q + 0x4); *(u32 *)&this->m_prev = *(u32*)((char*)q + 0x8); *(u32 *)&this->m_next = *(u32*)((char*)q + 0xc); *(u32 *)&this->m_up = *(u32*)((char*)q + 0x10); *(u32 *)&this->m_down = *(u32*)((char*)q + 0x14); *(u32*)((char*)this + 0x18) = *(u32*)((char*)q + 0x18); module = ((const TMovie *)q)->module; this->m_20 = *(u32*)((char*)q + 0x20); *(u32 *)&this->m_24 = *(u32*)((char*)q + 0x24); *(u32 *)&this->unk_28 = *(u32*)((char*)q + 0x28); this->m_2c = *(u32*)((char*)q + 0x2c); *(u32 *)&this->unk_30 = *(u32*)((char*)q + 0x30); this->m_34 = *(u32*)((char*)q + 0x34); *(u32 *)&this->unk_38 = *(u32*)((char*)q + 0x38); this->m_3c = *(u32*)((char*)q + 0x3c); }
 
 void TMovie::free_buffer() {
     if ((u32) *(u32 *)((s8 *)this + 0x9C) != 0U) {
@@ -296,10 +296,10 @@ TMovie::~TMovie() {
     }
     render_tick();
     render_tick();
-    t = this->m_1c;
-    if (t != 0U) {
-        fn_80320358(t, 1);
-        this->m_1c = 0U;
+    RelModuleBuffer *loaded = module;
+    if (loaded != NULL) {
+        destroy_rel_module(loaded, 1);
+        module = NULL;
     }
     render_tick();
     temp_r12 = *(s32 (**)(void *))((s8 *)this + 0x44);
@@ -381,7 +381,7 @@ struct TMovie_80144910 {
     const char *name;
     u8 pad4[0x14];
     void *vt;
-    u8 *obj1C;
+    RelModuleBuffer *obj1C;
     u8 *obj20;
     char path[0x20];
     s32 f44;
@@ -399,7 +399,7 @@ struct VObj_18_a28850 : VBase_18_a28850 {
 void run_task__6TMovieFv(TMovie *movie) {
     VObj_18_a28850 *txt;
     u8 *p;
-    if (movie->m_1c == 0 || movie->m_20 == 0) {
+    if (movie->module == NULL || movie->m_20 == 0) {
         movie->queue_destruction();
         return;
     }
@@ -446,15 +446,15 @@ TMovie::TMovie(TObject *parent, s8 *name, s32 a3, s32 a4, s32 a5) : TObject(pare
     u8 *p;
     ((TMovie_80144910 *)this)->name = TMovie__name;
     ((TMovie_80144910 *)this)->f44 = a3;
-    ((TMovie_80144910 *)this)->obj1C = 0;
+    module = NULL;
     ((TMovie_80144910 *)this)->f48 = a4;
     ((TMovie_80144910 *)this)->obj20 = 0;
     strncpy(((TMovie_80144910 *)this)->path, (const char *)name, 0x20);
-    p = (u8 *)::operator new(8);
-    if (p != 0) {
-        p = load_rel_module(p, (saddr)"movie.rel");
+    RelModuleBuffer *loaded = new RelModuleBuffer;
+    if (loaded != NULL) {
+        loaded = load_rel_module(loaded, "movie.rel");
     }
-    ((TMovie_80144910 *)this)->obj1C = p;
+    module = loaded;
     p = (u8 *)::operator new(0xD0);
     if (p != 0) {
         p = initialize_movie_with_soundtrack(p, name, ((TMovie_80144910 *)this)->f48, (u8)!((TMovie_80144910 *)this)->f48, a5);

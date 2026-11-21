@@ -1,5 +1,6 @@
 #include <string.h>
 #include <dolphin/os/OSThread.h>
+#include "pso/unk/text_803D2F1C.h"
 #include "pso/audio/AdxHeader.h"
 #include "pso/audio/AdxStream.h"
 #include "pso/audio/AdxTalk.h"
@@ -39,7 +40,6 @@ struct Obj_803C9104 {
 };
 
 extern "C" {
-s32 TLobby__sub_803D3130(void *, s32, Pair_803C8678 *, Pair_803C8678 *);
 s32 TLobby__sub_803C9104(Obj_803C9104 *arg0, s32 arg1, s32 arg2);
 
 void TLobby::on_set_mode(s32 mode) {
@@ -64,14 +64,14 @@ s32 TLobby__sub_803C9104(Obj_803C9104 *arg0, s32 arg1, s32 arg2) {
     s->vt->lock(s, 0, total, &a);
     n1 = blk * (a.size / blk);
     memset(a.ptr, 0, n1);
-    TLobby__sub_803D3130(&a, n1, (Pair_803C8678 *)&a, (Pair_803C8678 *)&b);
+    TLobby__sub_803D3130(&a, n1, &a, &b);
     s->vt->write(s, 1, &a);
     s->vt->unlock(s, 0, &b);
     total = total - n1;
     s->vt->lock(s, 0, total, &a);
     n2 = blk * (a.size / blk);
     memset(a.ptr, 0, n2);
-    TLobby__sub_803D3130(&a, n2, (Pair_803C8678 *)&a, (Pair_803C8678 *)&b);
+    TLobby__sub_803D3130(&a, n2, &a, &b);
     s->vt->write(s, 1, &a);
     s->vt->unlock(s, 0, &b);
     return ((n1 + n2) / blk) * 32;
@@ -120,7 +120,7 @@ struct Stream_803C9FCC {
     u8 f2;
     s8 count;
     void *f4;
-    void *f8;
+    AdxStreamFile *f8;
     u8 padc[0x10 - 0xC];
     s32 f10;
     s32 f14;
@@ -185,7 +185,7 @@ struct VT_803C9E38 {
 struct VObj_803C9E38 { VT_803C9E38 *vt; };
 
 struct Obj_803C9E38 {
-    u8 f0; s8 f1; u8 f2; s8 f3; void *f4; void *f8; s32 fc; u8 pad_10[4];
+    u8 f0; s8 f1; u8 f2; s8 f3; void *f4; AdxStreamFile *f8; s32 fc; u8 pad_10[4];
     VObj_803C9E38 *f14; VObj_803C9E38 *objs[13]; s32 f4c; u8 pad_50[0x94 - 0x50];
     saddr f94; s8 f98; u8 pad_99[3]; s32 f9c; s32 fa0;
 };
@@ -202,7 +202,7 @@ struct VT_803CA194 {
 struct VObj_803CA194 { VT_803CA194 *vt; };
 
 struct Obj_803CA194 {
-    u8 f0; s8 f1; u8 f2; s8 f3; void *f4; void *f8; void *fc; VObj_803CA194 *f10;
+    u8 f0; s8 f1; u8 f2; s8 f3; void *f4; AdxStreamFile *f8; void *fc; VObj_803CA194 *f10;
     VObj_803CA194 *f14; VObj_803CA194 *objs[23]; void *f74; VObj_803CA194 *objs2[2]; VObj_803CA194 *objs3[4]; u8 pad_90[4];
     void *f94; s8 f98; u8 pad_99[3]; s32 f9c; s32 fa0;
 };
@@ -217,7 +217,7 @@ struct Ch_803CA3C4 {
     void *fc;
     void *f10;
     s32 f14;
-    void *f18[2];
+    SjRingBuffer *f18[2];
     saddr f20;
     s32 f24;
     s32 f28;
@@ -270,9 +270,11 @@ s32 lbl_805D7570;
 RecoveredCallback_2be3cacebb2e lbl_805D7574;
 void TLobby__sub_803CA194(Obj_803CA194 *arg0);
 void *TLobby__sub_803C0848(void *, s32, void *);
-void *run_step_5210__6TLobbyFv(void *, s32);
 Ch_803CA3C4 *adx_create_stream_player(s32 n, s32 base, s32 size);
-s32 set_params__6TLobbyFll();
+s32 notify_field_4__6TLobbyFv(int);
+s32 send_packet_by_id__6TLobbyFv(int);
+s32 send_with_offset4__6TLobbyFv(int);
+s32 trigger_sub_task__6TLobbyFv(int);
 
 void TLobby::set_field98(s8 arg1) {
     *(s8 *)((s8 *)((u8 *)this) + 0x98) = arg1;
@@ -319,8 +321,8 @@ s32 TLobby__sub_803C9358(u8 *arg0) {
     return ret;
 }
 
-void TLobby__sub_803C94B8(void) {
-    set_params__6TLobbyFll();
+void TLobby__sub_803C94B8(AdxMessageCallback callback, s32 context) {
+    TLobby::set_params(callback, context);
 }
 
 void TLobby__sub_803C94D8(void) {
@@ -544,21 +546,22 @@ void stop_audio_stream(u8 *arg0);
 #pragma push
 #pragma fp_contract on
 void stop_audio_stream(u8 *arg0) {
+    Ent_803C9608 *player = reinterpret_cast<Ent_803C9608 *>(arg0);
     void **temp_r3;
     void **temp_r3_2;
     void **temp_r3_3;
     u8 *temp_r4;
     u8 *temp_r4_2;
     u8 *temp_r4_3;
-    if (*(void **)((s8 *)arg0 + 8) != NULL) {
-        TLobby__sub_803C89C4((u8 *)(*(void **)((s8 *)arg0 + 8)));
-        TLobby__sub_803C8B38((u8 *)((int) (*(u32 *)((s8 *)arg0 + 8))));
+    if (player->f8 != NULL) {
+        TLobby__sub_803C89C4(player->f8);
+        TLobby__sub_803C8B38(player->f8);
         temp_r3 = *(void ***)((s8 *)arg0 + 0x14);
         if (temp_r3 != NULL) {
             temp_r4 = (u8 *)(*temp_r3);
             (*(s32 (**)(void *, void *))((s8 *)temp_r4 + 0x14))(temp_r3, temp_r4);
         }
-        *(u32 *)((s8 *)arg0 + 8) = 0U;
+        player->f8 = NULL;
     }
     TLobby::init_once();
     if ((s32) *(u8 *)((s8 *)arg0 + 2) == 4) {
@@ -608,8 +611,8 @@ void TLobby__sub_803C9DB4(u8 *arg0) {
 void TLobby__sub_803C9E38(Obj_803C9E38 *arg0, VObj_803C9E38 *arg1) {
     s32 i;
     if (arg0->f8 != NULL) {
-        TLobby__sub_803C89C4((u8 *)arg0->f8);
-        TLobby__sub_803C8B38((u8 *)((saddr)arg0->f8));
+        TLobby__sub_803C89C4(arg0->f8);
+        TLobby__sub_803C8B38(arg0->f8);
         if (arg0->f14 != NULL) {
             arg0->f14->vt->f14(arg0->f14);
         }
@@ -655,9 +658,9 @@ void configure_audio_stream_output(Stream_803C9FCC *self) {
     s32 i;
     s32 v;
     Stream_803C9FCC *pp;
-    TLobby::set_range((void *)self->f8, self->f3e << 11, self->f3c << 11);
-    ((TLobby *)(self->f8))->set_scroll_position(0x19);
-    ((TLobby *)(self->f8))->init_stream_position();
+    TLobby::set_range(self->f8, self->f3e << 11, self->f3c << 11);
+    set_scroll_position__6TLobbyFl(self->f8, 0x19);
+    init_stream_position__6TLobbyFv(self->f8);
     v = self->f10;
     pp = self;
     for (i = 0; i < self->count; i++) {
@@ -708,8 +711,8 @@ void TLobby__sub_803CA194(Obj_803CA194 *arg0) {
     }
     if ((s32)arg0->f0 == 1) {
         if (arg0->f8 != NULL) {
-            TLobby__sub_803C89C4((u8 *)arg0->f8);
-            TLobby__sub_803C8B38((u8 *)((saddr)arg0->f8));
+            TLobby__sub_803C89C4(arg0->f8);
+            TLobby__sub_803C8B38(arg0->f8);
             if (arg0->f14 != NULL) {
                 arg0->f14->vt->f14(arg0->f14);
             }
@@ -743,7 +746,7 @@ void TLobby__sub_803CA194(Obj_803CA194 *arg0) {
         ((TLobby *)(arg0->f4))->reset_entry();
     }
     if (arg0->f8 != NULL) {
-        TLobby__sub_803C8B38((u8 *)((saddr)arg0->f8));
+        TLobby__sub_803C8B38(arg0->f8);
     }
     if (arg0->f94 != NULL) {
         lsc_destroy((LscStream*)arg0->f94);
@@ -812,7 +815,7 @@ Ch_803CA3C4 *adx_create_stream_player(s32 n, s32 base, s32 size) {
         TLobby__sub_803CA194((Obj_803CA194 *)c);
         return NULL;
     }
-    if ((c->fc = run_step_5210__6TLobbyFv(c->f18, n)) == NULL) {
+    if ((c->fc = TLobby::run_step_5210(c->f18, n)) == NULL) {
         TLobby__sub_803CA194((Obj_803CA194 *)c);
         return NULL;
     }

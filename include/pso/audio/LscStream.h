@@ -3,6 +3,8 @@
 #include "types.h"
 #include <stddef.h>
 
+struct AdxStreamFile;
+
 struct LscQueueEntry {
     s32 stream_id;
     char filename[0x28];
@@ -26,7 +28,7 @@ struct LscStream {
     s32 write_index;
     s32 read_index;
     s32 queued_count;
-    void* file_handle;
+    AdxStreamFile *file_handle;
     s32 file_sector_count;
     u8 unknown_30[4];
     s32 field_34;

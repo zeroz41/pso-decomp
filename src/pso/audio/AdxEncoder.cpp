@@ -57,8 +57,8 @@ struct AdxEncoder {                /* 0x2D0, pool of 8 */
     s8 state;
     s8 num_inputs;
     u8 end_of_input;
-    Strm_803C5B50 *input[2];
-    Strm_803C5B50 *output;
+    SjRingBuffer *input[2];
+    SjRingBuffer *output;
     u8 pad_10[0x18];
     s32 pad_28;
     s32 bytes_written;
@@ -100,10 +100,17 @@ struct AdxEncoder {                /* 0x2D0, pool of 8 */
 #define ADXENC_MAX(a, b) (((a) > (b)) ? (a) : (b))
 #define ADXENC_MIN(a, b) (((a) < (b)) ? (a) : (b))
 
+LAYOUT_ASSERT(AdxEncHistory_size, sizeof(AdxEncHistory) == 0x0C);
+LAYOUT_ASSERT(AdxEncChannel_size, sizeof(AdxEncChannel) == 0x90);
+LAYOUT_ASSERT(AdxEncoder_size, sizeof(AdxEncoder) == 0x2D0);
+LAYOUT_ASSERT(AdxEncoder_channel_offset, offsetof(AdxEncoder, channel) == 0x80);
+LAYOUT_ASSERT(AdxEncoder_start_history_offset, offsetof(AdxEncoder, start_hist1) == 0x2C8);
+
 extern "C" {
 void TLobby__sub_803C5ED4(AdxEncoder *enc);
 s32 adx_encode_available_blocks(AdxEncoder *enc);
 s32 adx_write_encoded_blocks(AdxEncoder *enc);
+s32 write_adx_header(AdxEncoder *encoder, SjRingBuffer *stream);
 void TLobby__sub_803C7DF0(AdxEncoder *enc, s32 ch);
 s32 fn_803C8020(AdxEncoder *enc, s32 ch);
 s32 lbl_805D4660 = 0x1000;
@@ -136,21 +143,21 @@ inline void set_coef_5ED4(AdxEncCoef *d, s16 coef1, s16 coef2) {
 
 /* Reads each input's first sample as the start history; returns the channels read (inferred). */
 inline s32 read_start_history_5ED4(AdxEncoder *enc) {
-    Buf_803C5B50 b;
+    SjChunk b;
     s32 i;
 
     for (i = 0; i < enc->channels; i++) {
-        enc->input[i]->vt->lock(enc->input[i], 1, 2, &b);
+        enc->input[i]->interface->get_chunk(enc->input[i], 1, 2, &b);
         if (b.size == 0) {
             break;
         }
         enc->start_hist1[i] = enc->start_hist2[i] = *(s16 *)b.data;
-        enc->input[i]->vt->unlock(enc->input[i], 1, &b);
+        enc->input[i]->interface->unget_chunk(enc->input[i], 1, &b);
     }
     return i;
 }
 
-inline Strm_803C5B50 *adxenc_get_output(AdxEncoder *enc) {
+inline SjRingBuffer *adxenc_get_output(AdxEncoder *enc) {
     return enc->output;
 }
 
@@ -158,7 +165,7 @@ inline Strm_803C5B50 *adxenc_get_output(AdxEncoder *enc) {
 void TLobby__sub_803C5ED4(AdxEncoder *enc) {
     s16 coef2;
     s16 coef1;
-    Strm_803C5B50 *out;
+    SjRingBuffer *out;
     s32 i;
     s32 n;
 
@@ -171,7 +178,7 @@ void TLobby__sub_803C5ED4(AdxEncoder *enc) {
             enc->hist1[i] = enc->start_hist1[i];
             enc->hist2[i] = enc->start_hist2[i];
         }
-        n = ((TLobby *)enc)->write_adx_header(out);
+        n = write_adx_header(enc, out);
         if (n == 0) {
             return;
         }
@@ -283,7 +290,7 @@ inline AdxEncChannel *alloc_channel_61C4(s32 block_samples) {
 }
 
 /* Creates an encoder reading nch PCM inputs and writing ADX to dst (inferred: CRI ADX encoder create). */
-u8 *TLobby__sub_803C61C4(s32 nch, Strm_803C5B50 **src, Strm_803C5B50 *dst) {
+u8 *TLobby__sub_803C61C4(s32 nch, SjRingBuffer **src, SjRingBuffer *dst) {
     AdxEncoder *enc;
     s32 len;
     s32 i;
@@ -349,57 +356,57 @@ void TLobby::clear_buffer_1680() {
 #pragma push
 #pragma opt_propagation off
 
-inline s32 put8_803C6860(Strm_803C5B50 *s, const void *v) {
-    Buf_803C5B50 b;
-    s->vt->lock(s, 0, 1, &b);
+inline s32 put8_803C6860(SjRingBuffer *s, const void *v) {
+    SjChunk b;
+    s->interface->get_chunk(s, 0, 1, &b);
     if (b.size < 1) {
-        s->vt->unlock(s, 0, &b);
+        s->interface->unget_chunk(s, 0, &b);
         return 0;
     }
     memcpy(b.data, v, 1);
-    s->vt->commit(s, 1, &b);
+    s->interface->put_chunk(s, 1, &b);
     return 1;
 }
 
-inline s32 put16_803C6860(Strm_803C5B50 *s, const void *v) {
-    Buf_803C5B50 b;
-    s->vt->lock(s, 0, 2, &b);
+inline s32 put16_803C6860(SjRingBuffer *s, const void *v) {
+    SjChunk b;
+    s->interface->get_chunk(s, 0, 2, &b);
     if (b.size < 2) {
-        s->vt->unlock(s, 0, &b);
+        s->interface->unget_chunk(s, 0, &b);
         return 0;
     }
     s16 *d = (s16 *)b.data;
     *d = *(const s16 *)v;
-    s->vt->commit(s, 1, &b);
+    s->interface->put_chunk(s, 1, &b);
     return 1;
 }
 
-inline s32 put32_803C6860(Strm_803C5B50 *s, const void *v) {
-    Buf_803C5B50 b;
-    s->vt->lock(s, 0, 4, &b);
+inline s32 put32_803C6860(SjRingBuffer *s, const void *v) {
+    SjChunk b;
+    s->interface->get_chunk(s, 0, 4, &b);
     if (b.size < 4) {
-        s->vt->unlock(s, 0, &b);
+        s->interface->unget_chunk(s, 0, &b);
         return 0;
     }
     s32 *d = (s32 *)b.data;
     *d = *(const s32 *)v;
-    s->vt->commit(s, 1, &b);
+    s->interface->put_chunk(s, 1, &b);
     return 1;
 }
 
-inline s32 putn_803C6860(Strm_803C5B50 *s, void *src, s32 n) {
-    Buf_803C5B50 b;
-    s->vt->lock(s, 0, n, &b);
+inline s32 putn_803C6860(SjRingBuffer *s, void *src, s32 n) {
+    SjChunk b;
+    s->interface->get_chunk(s, 0, n, &b);
     if (b.size < n) {
-        s->vt->unlock(s, 0, &b);
+        s->interface->unget_chunk(s, 0, &b);
         return 0;
     }
     memcpy(b.data, src, (u16)n);
-    s->vt->commit(s, 1, &b);
+    s->interface->put_chunk(s, 1, &b);
     return n;
 }
 
-s32 TLobby::write_adx_header(Strm_803C5B50 *s) {
+s32 write_adx_header(AdxEncoder *encoder, SjRingBuffer *s) {
     u8 c;
     u16 h;
     u16 h2;
@@ -414,35 +421,35 @@ s32 TLobby::write_adx_header(Strm_803C5B50 *s) {
     if (put16_803C6860(s, &h) != 1) {
         goto fail;
     }
-    h2 = ((AdxEncoder *)this)->data_offset;
+    h2 = encoder->data_offset;
     if (put16_803C6860(s, &h2) != 1) {
         goto fail;
     }
-    c = ((AdxEncoder *)this)->encoding_type;
+    c = encoder->encoding_type;
     if (put8_803C6860(s, &c) != 1) {
         goto fail;
     }
-    c = ((AdxEncoder *)this)->block_size;
+    c = encoder->block_size;
     if (put8_803C6860(s, &c) != 1) {
         goto fail;
     }
-    c = ((AdxEncoder *)this)->sample_bits;
+    c = encoder->sample_bits;
     if (put8_803C6860(s, &c) != 1) {
         goto fail;
     }
-    c = ((AdxEncoder *)this)->channels;
+    c = encoder->channels;
     if (put8_803C6860(s, &c) != 1) {
         goto fail;
     }
-    w = ((AdxEncoder *)this)->sample_rate;
+    w = encoder->sample_rate;
     if (put32_803C6860(s, &w) != 1) {
         goto fail;
     }
-    w = ((AdxEncoder *)this)->header_samples;
+    w = encoder->header_samples;
     if (put32_803C6860(s, &w) != 1) {
         goto fail;
     }
-    h = ((AdxEncoder *)this)->highpass_freq;
+    h = encoder->highpass_freq;
     if (put16_803C6860(s, &h) != 1) {
         goto fail;
     }
@@ -458,34 +465,34 @@ s32 TLobby::write_adx_header(Strm_803C5B50 *s) {
     if (put32_803C6860(s, &w) != 1) {
         goto fail;
     }
-    h = ((AdxEncoder *)this)->start_hist1[0];
+    h = encoder->start_hist1[0];
     if (put16_803C6860(s, &h) != 1) {
         goto fail;
     }
-    h = ((AdxEncoder *)this)->start_hist2[0];
+    h = encoder->start_hist2[0];
     if (put16_803C6860(s, &h) != 1) {
         goto fail;
     }
-    h = ((AdxEncoder *)this)->start_hist1[1];
+    h = encoder->start_hist1[1];
     if (put16_803C6860(s, &h) != 1) {
         goto fail;
     }
-    h = ((AdxEncoder *)this)->start_hist2[1];
+    h = encoder->start_hist2[1];
     if (put16_803C6860(s, &h) != 1) {
         goto fail;
     }
     total = 0x1C;
-    if (((AdxEncoder *)this)->loop_count > 0) {
-        h = ((AdxEncoder *)this)->loop_type;
+    if (encoder->loop_count > 0) {
+        h = encoder->loop_type;
         if (put16_803C6860(s, &h) != 1) {
             goto fail;
         }
-        h = ((AdxEncoder *)this)->loop_count;
+        h = encoder->loop_count;
         if (put16_803C6860(s, &h) != 1) {
             goto fail;
         }
         total += 4;
-        for (i = 0; i < ((AdxEncoder *)this)->loop_count; i++) {
+        for (i = 0; i < encoder->loop_count; i++) {
             h = i;
             if (put16_803C6860(s, &h) != 1) {
                 goto fail;
@@ -494,19 +501,19 @@ s32 TLobby::write_adx_header(Strm_803C5B50 *s) {
             if (put16_803C6860(s, &h) != 1) {
                 goto fail;
             }
-            w = ((AdxEncoder *)this)->loop_start_sample;
+            w = encoder->loop_start_sample;
             if (put32_803C6860(s, &w) != 1) {
                 goto fail;
             }
-            w = ((AdxEncoder *)this)->loop_start_byte;
+            w = encoder->loop_start_byte;
             if (put32_803C6860(s, &w) != 1) {
                 goto fail;
             }
-            w = ((AdxEncoder *)this)->loop_end_sample;
+            w = encoder->loop_end_sample;
             if (put32_803C6860(s, &w) != 1) {
                 goto fail;
             }
-            w = ((AdxEncoder *)this)->loop_end_byte;
+            w = encoder->loop_end_byte;
             if (put32_803C6860(s, &w) != 1) {
                 goto fail;
             }
@@ -514,7 +521,7 @@ s32 TLobby::write_adx_header(Strm_803C5B50 *s) {
         }
     }
     c = 0;
-    lim = ((AdxEncoder *)this)->data_offset - len;
+    lim = encoder->data_offset - len;
     for (; total < lim; total++) {
         if (put8_803C6860(s, &c) != 1) {
             goto fail;
@@ -590,25 +597,25 @@ s32 TLobby::write_zero_padded_block(void *arg0p) {
 
 /* Pulls n samples per channel from the input streams into pcm (inferred). */
 inline s32 read_input_samples_7978(AdxEncoder *enc, s16 **pcm, s32 n) {
-    Strm_803C5B50 **in;
-    Buf_803C5B50 b;
+    SjRingBuffer **in;
+    SjChunk b;
     s32 got;
     s32 i;
 
     in = enc->input;
     got = 0;
     for (i = 0; i < enc->channels; i++) {
-        got = in[i]->vt->avail(in[i], 1) / sizeof(s16);
+        got = in[i]->interface->get_available(in[i], 1) / sizeof(s16);
         if (got < n) {
             return 0;
         }
     }
     for (i = 0; i < enc->channels; i++) {
         for (got = 0; got < n;) {
-            in[i]->vt->lock(in[i], 1, n * sizeof(s16), &b);
+            in[i]->interface->get_chunk(in[i], 1, n * sizeof(s16), &b);
             memcpy(pcm[i] + got, b.data, b.size);
             got += b.size / sizeof(s16);
-            in[i]->vt->commit(in[i], 0, &b);
+            in[i]->interface->put_chunk(in[i], 0, &b);
         }
     }
     return got;
@@ -664,12 +671,12 @@ inline s32 encode_block_7978(AdxEncoder *enc) {
 // Encodes every complete block of the input (inferred: CRI adxsje_encode_data).
 s32 adx_encode_available_blocks(AdxEncoder *enc) {
     s32 total;
-    Strm_803C5B50 *out;
+    SjRingBuffer *out;
 
     total = 0;
     out = enc->output;
     do {
-        if (out->vt->avail(out, 0) / 18 / enc->channels <= 0) {
+        if (out->interface->get_available(out, 0) / 18 / enc->channels <= 0) {
             break;
         }
         if (encode_block_7978(enc) == 0) {
@@ -680,21 +687,21 @@ s32 adx_encode_available_blocks(AdxEncoder *enc) {
     return total;
 }
 
-inline void put_803C7C10(Strm_803C5B50 *s, void *src, s32 n) {
-    Buf_803C5B50 b;
-    s->vt->lock(s, 0, n, &b);
+inline void put_803C7C10(SjRingBuffer *s, void *src, s32 n) {
+    SjChunk b;
+    s->interface->get_chunk(s, 0, n, &b);
     if (b.size < n) {
-        s->vt->unlock(s, 0, &b);
+        s->interface->unget_chunk(s, 0, &b);
     } else {
         memcpy(b.data, src, n);
-        s->vt->commit(s, 1, &b);
+        s->interface->put_chunk(s, 1, &b);
     }
 }
 s32 adx_write_encoded_blocks(AdxEncoder *enc) {
     s32 i;
     s32 total;
     u8 c;
-    Strm_803C5B50 *s = enc->output;
+    SjRingBuffer *s = enc->output;
     i = 0;
     total = 0;
     for (; i < enc->channels; i++) {
@@ -751,7 +758,7 @@ void TLobby__sub_803C7DF0(AdxEncoder *enc, s32 ch) {
             b++;
             out[b] = 0;
         }
-        out[b] |= (s8)(((u8)(q << (8 - enc->sample_bits)) >> (8 - enc->sample_bits)) << (enc->sample_bits * (per_byte - k)));
+        out[b] |= (s8)(((u8)((u32)q << (8 - enc->sample_bits)) >> (8 - enc->sample_bits)) << (enc->sample_bits * (per_byte - k)));
         k++;
     }
 }

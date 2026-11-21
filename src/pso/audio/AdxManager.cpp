@@ -5,6 +5,7 @@
 #include "pso/system/movie/Mfci.h"
 #include <dolphin/os/OSInterrupt.h>
 #include "pso/unk/TLobby.h"
+#include "pso/system/CvFsStreamHandle.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/audio/AdxmThreadStorage.h"
 #include "pso/audio/LscStream.h"
@@ -12,6 +13,7 @@
 
 #include "types.h"
 #include "pso/unk/text_803D31A4.h"
+#include "pso/unk/TLobby_803CE478.h"
 
 
 typedef struct Cb_803CBA58 {
@@ -29,9 +31,7 @@ typedef struct Cfg_803CBA58 {
 
 extern "C" {
 s32 VIWaitForRetrace();
-void TLobby__sub_803CE544(void *, int);
-void cvFsAddDev(const char *, void *, int);
-s32 set_callback_params__6TLobbyFll();
+s32 run_worker_callbacks_slot5__6TLobbyFv(int);
 extern s32 lbl_805D7540;
 
 Cfg_803CBA58 lbl_804F9D80 = {0};
@@ -53,16 +53,15 @@ volatile s32 lobby_worker_thread_run_flag;
 volatile s32 lbl_805D75C4;
 volatile s32 lbl_805D75C8;
 }
-void * *initialize_dvd_file_driver(void);
 void set_dvd_synchronous_read_mode(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern "C" {
 
 void setup_adx_file_systems(s32 *arg0) {
-    TLobby__sub_803CE544((void *)TLobby__sub_803CB7F8, 0);
-    cvFsAddDev("MFS", (void *)mfci_get_interface, 0);
-    TLobby__sub_803CE544((void *)TLobby__sub_803CB7F8, 0);
-    cvFsAddDev("GCD", (void *)initialize_dvd_file_driver, 0);
-    ((TLobby *)"GCD")->cvFsSetDefDev();
+    cvFsEntryErrFunc(TLobby__sub_803CB7F8, 0);
+    cvFsAddDev(const_cast<char *>("MFS"), mfci_get_interface, 0);
+    cvFsEntryErrFunc(TLobby__sub_803CB7F8, 0);
+    cvFsAddDev(const_cast<char *>("GCD"), initialize_dvd_file_driver, 0);
+    cvFsSetDefDev(const_cast<char *>("GCD"));
     if (arg0 != NULL) {
         set_dvd_synchronous_read_mode(0, 0, 0, *arg0);
     } else {
@@ -70,8 +69,8 @@ void setup_adx_file_systems(s32 *arg0) {
     }
 }
 
-void TLobby__sub_803CB7F8(s32 arg0, saddr arg1) {
-    TLobby::notify_error((const char *)arg1);
+void TLobby__sub_803CB7F8(s32, const char *message, void *) {
+    TLobby::notify_error(message);
 }
 
 static const char *const volatile lbl_805E0D78 = "\nADXGC Ver.1.10 Build:Jun 13 2002 19:01:41\n";
@@ -97,8 +96,8 @@ void TLobby__sub_803CB858(Cfg_803CBA58 *cfg) {
     lbl_805E0D78;
     if (lbl_805D7590 == 0) {
         TLobby::init_callback_tables();
-        TLobby__sub_803D33E4((saddr)__OSCallResetFunctions, 0);
-        TLobby__sub_803D33D4((saddr)fn_803CBCA0, 0);
+        TLobby__sub_803D33E4(__OSCallResetFunctions, 0);
+        TLobby__sub_803D33D4(fn_803CBCA0, 0);
         if (cfg == NULL) {
             lbl_804F9D80.pad_0c = 16;
             lbl_804F9D80.prio0 = 1;
@@ -127,13 +126,13 @@ void TLobby__sub_803CB858(Cfg_803CBA58 *cfg) {
         lbl_805D75B0 = 0;
         OSResumeThread(&adxm_vblank_thread);
         OSResumeThread(&adxm_worker_thread);
-        TLobby__sub_803D34B0(5, (void (*)(s32))TLobby::adxm_goto_mwidle_border, 0);
+        TLobby__sub_803D34B0(5, TLobby::adxm_goto_mwidle_border, 0);
     }
     lbl_805D7590++;
 }
 
-void TLobby__sub_803CBA18(void) {
-    set_callback_params__6TLobbyFll();
+void TLobby__sub_803CBA18(AdxMessageCallback callback, s32 context) {
+    TLobby::set_callback_params(callback, context);
 }
 
 void TLobby__sub_803CBA38(void) {
@@ -178,7 +177,7 @@ void TLobby::wait_for_lock_release() {
     }
     lbl_805D75C4 = 1;
 }
-void TLobby::adxm_goto_mwidle_border() {
+void TLobby::adxm_goto_mwidle_border(s32) {
     s32 i;
     if (lbl_805D75BC == 1) {
         return;
@@ -196,7 +195,7 @@ void TLobby::adxm_goto_mwidle_border() {
     }
     OSSetThreadPriority(&adxm_worker_thread, lbl_804F9D80.prio);
 }
-void fn_803CBCA0(void) {
+void fn_803CBCA0(s32) {
     OSThread *t;
     if (--lbl_805D7594 == 0) {
         t = OSGetCurrentThread();
@@ -205,7 +204,7 @@ void fn_803CBCA0(void) {
     }
 }
 
-void __OSCallResetFunctions(void) {
+void __OSCallResetFunctions(s32) {
     s32 enabled;
     OSThread *thread;
     s32 prio;

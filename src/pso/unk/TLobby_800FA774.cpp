@@ -1,3 +1,4 @@
+#include "pso/system/Adxf.h"
 #include "types.h"
 #include "pso/unk/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
@@ -12,7 +13,7 @@ extern s32 lobby_stack_entry_list_tail;
 extern s32 lobby_list_entry_count;
 extern s32 async_file_read_state;
 extern s32 async_file_read_sector_buffer;
-extern s32 lobby_download_state_ptr;
+extern AdxfHandle *lobby_download_state_ptr;
 extern s32 lobby_list_next_id;
 extern s32 game_heap;
 
