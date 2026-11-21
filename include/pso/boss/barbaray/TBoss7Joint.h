@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/object/base/TObjMotion.h"
 
 struct TBoss7DeRolLeC;
 
@@ -24,9 +25,12 @@ struct TBoss7Joint : public TObjEneDD {
     virtual void vfunc_28();
     virtual void vfunc_88();
     virtual void vfunc_93();
-    u8 unk_374[0x44];
+    u8 unk_374[0x8];
+    f32 unk_37C;            // init_params sets it to 3.0
+    u8 unk_380[0xC];
+    CollisionBody collision_body;
     s32 index;              // constructor argument: the joint's place along the body
-    u8 _pad3BC[0x4];
+    u32 part_flags;         // bit 0: the shell is broken and hits reach the boss
     Vec *source_position;   // constructor argument: run_task copies it into position
     s32 shell_hp;           // init_params sets it from TBoss7Joint_get_shell_max_hp()
     void store_position();
@@ -40,6 +44,7 @@ struct TBoss7Joint : public TObjEneDD {
     int is_part_active();
 };
 
+LAYOUT_ASSERT(TBoss7Joint_collision_body, offsetof(TBoss7Joint, collision_body) == 0x38C);
 LAYOUT_ASSERT(TBoss7Joint_size, sizeof(TBoss7Joint) == 0x3C8);
 
 extern "C" {
