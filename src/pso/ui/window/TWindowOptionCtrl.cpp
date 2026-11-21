@@ -477,7 +477,7 @@ saddr TWindowOptionCtrl::create_list_window() {
 saddr TWindowOptionCtrl::create_sound_mode_menu() {
     saddr temp_r31;
 
-    s32 temp_r3_after_cba4 = (saddr)TWindowOptionCtrl::get_option_entry(0xCF);
+    saddr temp_r3_after_cba4 = (saddr)TWindowOptionCtrl::get_option_entry(0xCF);
     temp_r31 = (saddr)create_check_box_window_for_local_client((const NJS_POINT2 *)temp_r3_after_cba4, &lbl_8044F494);
     TWindowOptionCtrl::add_menu_item(temp_r31, get_localized_text_entry(0xF, 0xE), 0);
     TWindowOptionCtrl::add_menu_item(temp_r31, get_localized_text_entry(0xF, 0xD), 1);

@@ -11,7 +11,7 @@ struct TWindowSubTrade : public TObject {
     s32 open_trade_confirm_prompt(s32);
     u8 m_1c;
     u8 _pad1D[0x3];
-    u32 m_20;
+    uaddr m_20;
     u32 m_24;
     uaddr m_28;
     uaddr m_player_list; // inferred names: the windows run_task opens (trade partner list,

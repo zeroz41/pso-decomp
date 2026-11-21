@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void TWindowSubComCard__sub_8007AF10(s32 arg0);
+void TWindowSubComCard__sub_8007AF10(saddr arg0);
 u32 TWindowSubComCard__sub_8007B070(u8 *arg0);
 void TWindowSubComCard__sub_8007B1AC(void *arg0, u8 *arg1, s32 arg2);
 int clear(void *p);
@@ -19,7 +19,7 @@ s32 reinit__17TWindowSubComCardFi(s32 arg0);
 
 // --- C functions defined in TWindowSubComCard_8007A810.cpp ---
 extern "C" {
-void TWindowSubComCard__sub_8007AF10(s32 arg0);
+void TWindowSubComCard__sub_8007AF10(saddr arg0);
 u32 TWindowSubComCard__sub_8007B070(u8 *arg0);
 void TWindowSubComCard__sub_8007B1AC(void *arg0, u8 *arg1, s32 arg2);
 int clear(void *p);

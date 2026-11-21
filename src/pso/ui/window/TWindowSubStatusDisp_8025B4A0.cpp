@@ -6,6 +6,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include <string.h>
 #pragma readonly_strings on
 #pragma fp_contract on
 
@@ -16,7 +17,6 @@ struct Stack_8025B660 {
 
 extern "C" {
 u32 calc_text_width(u32);
-s32 strncpy(s32, u32, s32);
 
 void *window_label_value_part_vtable[6] = {
     0, 0,
@@ -35,7 +35,7 @@ void TWindowSubStatusDisp::set_string(uaddr arg1) {
         *(f32 *)((s8 *)this + 8) = (f32) (0.0f);
         temp_r3 = (s32)measure_string_len((const char *)(arg1));
         *(s32 *)((s8 *)this + 0x20) = (saddr)mem_alloc(temp_r3 + 1);
-        strncpy(*(s32 *)((s8 *)this + 0x20), arg1, temp_r3 + 1);
+        strncpy((char *)(*(saddr *)((s8 *)this + 0x20)), (const char *)arg1, (u32)temp_r3 + 1);
     }
 }
 
@@ -47,7 +47,7 @@ void TWindowSubStatusDisp::set_text(uaddr arg1, s32 arg2, s32 arg3) {
     if (arg1 != 0U) {
         temp_r3 = (s32)measure_string_len((const char *)(arg1));
         *(s32 *)((s8 *)this + 0x1C) = (saddr)mem_alloc(temp_r3 + 1);
-        strncpy(*(s32 *)((s8 *)this + 0x1C), arg1, temp_r3 + 1);
+        strncpy((char *)(*(saddr *)((s8 *)this + 0x1C)), (const char *)arg1, (u32)temp_r3 + 1);
     }
     *(s32 *)((s8 *)this + 0x18) = arg3;
     *(f32 *)((s8 *)this + 8) = (f32) (0.0f);
@@ -64,7 +64,7 @@ void TWindowSubStatusDisp::set_text(uaddr arg1, s32 arg2) {
     if (arg1 != 0U) {
         temp_r3 = (s32)measure_string_len((const char *)(arg1));
         *(s32 *)((s8 *)this + 0x1C) = (saddr)mem_alloc(temp_r3 + 1);
-        strncpy(*(s32 *)((s8 *)this + 0x1C), arg1, temp_r3 + 1);
+        strncpy((char *)(*(saddr *)((s8 *)this + 0x1C)), (const char *)arg1, (u32)temp_r3 + 1);
     }
     *(s32 *)((s8 *)this + 0x18) = arg2;
     *(u16 *)((s8 *)this + 0) = (u16) (*(u16 *)((s8 *)this + 0) | 0x15);

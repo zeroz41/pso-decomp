@@ -21,7 +21,7 @@ struct TAdPlyPltAnimCtrlGC : public TObject {
     static void render(void *self);
     void init(void* a1);
     virtual void run_task();
-    static u32 get_instance(s32 arg0);
+    static u32 get_instance(saddr arg0);
     static TAdPlyPltAnimGC *get_table_value(int a0);
 };
 

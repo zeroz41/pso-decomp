@@ -84,7 +84,7 @@ struct TWindowSubComCard : public TObject {
     s32 update_selected_entry();
     void update_next_entry(s32 arg1, s32 arg2, s32 arg3);
     s32 get_entry_id();
-    static s32 create_card_list(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+    static s32 create_card_list(saddr arg0, s32 arg1, s32 arg2, s32 arg3);
     void free_windows();
     void update_card_slot();
     void notify_trade_main();

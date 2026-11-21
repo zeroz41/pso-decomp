@@ -32,7 +32,7 @@ struct TWindowSubSymbolChatParts : public TWindowAddition {
     u32 m_7c;
     u32 m_80;
     u8 _pad84[0x4];
-    u32 m_88;
+    uaddr m_88;
     u32 m_8c;
     void handle_cancel();
     void add_part();

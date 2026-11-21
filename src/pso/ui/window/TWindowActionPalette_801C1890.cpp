@@ -132,7 +132,7 @@ int TWindowActionPalette::handle_input_forward() { return TWindowActionPalette__
 
 int TWindowActionPalette__sub_801C1C20(void* p) { return *(u32*)((char*)p + 0x0) == 0; }
 
-s32 TWindowActionPalette::is_channel_active_at(s32 arg0, s32 i, s32 arg2) {
+s32 TWindowActionPalette::is_channel_active_at(saddr arg0, s32 i, s32 arg2) {
     s32 *p = (s32 *)((saddr)TWindowActionPalette__sub_801C1C68((O_801C1C68 *)(arg0), i));
     return ((TMainCursor *)(p + arg2))->is_channel_active();
 }
@@ -172,7 +172,7 @@ u8 *TWindowActionPalette__sub_801C1D7C(saddr arg0, s32 i, s32 arg2) {
   var_r31 = arg2;
   new_var = ((saddr)TWindowActionPalette__sub_801C1C68((O_801C1C68 *)(arg0), i));
   var_r3 = (u8 *) (new_var + (var_r31 * 4));
-  var_r3 = (u8 *) ((void *) ((TMainCursor *)var_r3)->get_enabled());
+  var_r3 = (u8 *) ((void *) (saddr)((TMainCursor *)var_r3)->get_enabled());
   return var_r3;
 }
 

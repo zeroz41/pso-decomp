@@ -244,7 +244,7 @@ void TAdPlyStatusGC::format_status_strings() {
 }
 
 s32 TAdPlyStatusGC__sub_8033F8B0(void *arg0, const void *ad_enter_serial_access_gc) {
-    s32 r = create_callback__22TAdEnterSerialAccessGCFPvPvPv(ad_enter_serial_access_gc, &ply_status_window_position, (void *)draw_status_window__14TAdPlyStatusGCFPvPv);
+    saddr r = create_callback__22TAdEnterSerialAccessGCFPvPvPv(ad_enter_serial_access_gc, &ply_status_window_position, (void *)draw_status_window__14TAdPlyStatusGCFPvPv);
     ((TWindowBase *)r)->set_depth(60000.0f);
     return r;
 }
@@ -312,8 +312,8 @@ void close_window__14TAdPlyStatusGCFv(void *arg0) {
         *(u32 *)((s8 *)arg0 + 0x6C) = 0U;
     }
     {
-        s32 player_index = TAdPlyStatusGC::get_player_index();
-        if ((u32)player_index != 0U) {
+        saddr player_index = TAdPlyStatusGC::get_player_index();
+        if ((uaddr)player_index != 0U) {
             ((TObject *)player_index)->disallow_rendering();
         }
     }
@@ -367,8 +367,8 @@ TAdPlyStatusGC_8033FC14 *TAdPlyStatusGC__ct(TAdPlyStatusGC_8033FC14 *self, void 
     self->elems[1].f1C = 0x1E;
     create_guide_button((TObject *)self, (GuideButtonSpec *)self->elems);
     {
-        s32 player_index = TAdPlyStatusGC::get_player_index();
-        if ((u32)player_index != 0U) {
+        saddr player_index = TAdPlyStatusGC::get_player_index();
+        if ((uaddr)player_index != 0U) {
             ((TObject *)player_index)->disallow_rendering();
         }
     }

@@ -189,7 +189,7 @@ void render__15TWindowShortCutFv(u8 *arg0) {
     temp_r3 = TWindowDD::draw_default_entry((saddr)arg0);
     ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
     draw_visible_window_entries(arg0, arg0 + 0x24, temp_r3);
-    ((TWindowSubStatusDisp *)((void *)((int) (((TWindowShortCut *)arg0)->heading))))->forward_render((void *)(temp_r3));
+    ((TWindowSubStatusDisp *)((void *)((saddr) (((TWindowShortCut *)arg0)->heading))))->forward_render((void *)(temp_r3));
 }
 
 void TWindowShortCut::run_task() { ((TWindowSubStatusDisp *)(this->heading))->update_subwindow(); ((TWindowDD *)this)->initialize_subwindow(); update_fade(); update_window_entry_list((char*)this + 0x24); }

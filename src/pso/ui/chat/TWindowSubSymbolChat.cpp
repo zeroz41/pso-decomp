@@ -44,7 +44,7 @@ const char *TWindowSubSymbolChat__class_name = "TWindowSubSymbolChat";
 static const f32 lbl_8044FB20[2] = {203.0f, 78.0f};
 __declspec(section ".data") f32 lbl_804D2B48[2] = {193.0f, 128.0f};
 
-struct Win_80281EA8 { u8 pad[0x24]; s32 f24; };
+struct Win_80281EA8 { u8 pad[0x24]; saddr f24; };
 
 struct Ent_80281B18 { s8 c; u8 pad[3]; };
 
@@ -358,7 +358,7 @@ void TWindowSubSymbolChat::run_task() {
             ((TWindowSubSymbolChatPartsSet *)(this->m_30))->set_selection(this->m_28);
         }
         temp_r5 = (u8 *)this->m_30;
-        copy_vec2((void *)((this->m_30 + 0x30)), (void *)((void*)((s32)get_window_layout_position(0x7B))));
+        copy_vec2((void *)((this->m_30 + 0x30)), (void *)((void*)((saddr)get_window_layout_position(0x7B))));
         *(s32 *)(this->m_30 + 0x50) = 6;
         if ((u32) this->m_3c == 0U) {
             this->m_3c = ((u32)TWindowSubSymbolChat::open_main_menu(arg0));
@@ -937,7 +937,7 @@ s32 TWindowSubSymbolChat::create_menu() {
 
 s32 TWindowSubSymbolChat::open_confirm_prompt() {
     Win_80281EA8 *arg0 = (Win_80281EA8 *)this;
-    s32 r = (saddr)TWindowMessageYesNo::create((void *)(arg0), (void *)(arg0->f24), 0, 0);
+    saddr r = (saddr)TWindowMessageYesNo::create((void *)(arg0), (void *)(arg0->f24), 0, 0);
     open_yes_no_prompt((TChCrTagPlBack *)((u8 *)r), (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(TWindowSubStatusDisp::get_message_10(0x44)), (s32)(get_window_layout_position(0x7A)), 178.0f);
     ((TWindowSubShortMail *)r)->notify_warp_flag70();
     return r;

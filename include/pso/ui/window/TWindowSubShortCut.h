@@ -11,7 +11,7 @@ struct TWindowSubShortCut : public TObject {
     u8 m_1c;
     u8 unk_1D[0x1];
     u16 m_1e;
-    u32 m_20;
+    uaddr m_20;
     uaddr m_24;
     uaddr m_28;
     uaddr m_2c;

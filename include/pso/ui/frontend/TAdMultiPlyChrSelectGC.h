@@ -97,7 +97,7 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     static int get_select_flag();
     static int get_chr_select_state();
     s32 get_ready_state();
-    static u32 get_move_effect(s32 arg0);
+    static u32 get_move_effect(saddr arg0);
     static u8 *get_or_create_slot_window(int parent, int arg);
     u8 unk_68[0x4];
     saddr m_6c;

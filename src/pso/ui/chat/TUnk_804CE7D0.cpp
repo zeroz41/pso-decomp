@@ -40,7 +40,7 @@ TUnk_804CE7D0::TUnk_804CE7D0(TObject *parent) : TObject(parent) {
     s32 i;
     u8 *temp_r30;
     u8 *symbol_chat_preset;
-    preset_list = (TWindowSubComCardList *)(u8 *)create_window_menu_default((saddr)(&preset_list_pos), 0xC);
+    preset_list = (TWindowSubComCardList *)(u8 *)(saddr)create_window_menu_default((saddr)(&preset_list_pos), 0xC);
     i = 0;
     do {
         symbol_chat_preset = (u8 *)(get_symbol_chat_preset(i));

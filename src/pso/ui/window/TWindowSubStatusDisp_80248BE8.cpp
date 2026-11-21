@@ -39,7 +39,7 @@ void TWindowCheckBox::render() {
     draw_visible_window_entries(this, ((u8 *)this) + 0x24, temp_r3);
     ((TWindowMenuIconLine *)((u8 *)this))->draw_selected_list_entry(temp_r3);
     if ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x80) != 0U) {
-        ((TWindowSubStatusDisp *)((void *)(*(u32 *)((s8 *)((u8 *)this) + 0x80))))->forward_render((void *)(temp_r3));
+        ((TWindowSubStatusDisp *)((void *)(*(uaddr *)((s8 *)((u8 *)this) + 0x80))))->forward_render((void *)(temp_r3));
     }
     if ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x84) != 0U) {
         draw_window_scrollbar(*(u32 *)((s8 *)((u8 *)this) + 0x84), temp_r3, ((u8 *)this) + 0x68);
@@ -66,10 +66,10 @@ void TWindowCheckBox::run_task() {
             }
         } else {
             temp_r29_2 = (u8 *)&controller_input_state + (temp_r31 * 0x50) + 0x20;
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)temp_r29_2, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat((saddr)((void *) ((u8 *)&controller_input_state + 0x160)), 0x10, 6, 1) != 0)) {
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)temp_r29_2, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat((saddr)((void *) ((u8 *)&controller_input_state + 0x160)), 0x10, 6, 1) != 0)) {
                 ((TWindowMenuIconLine *)arg0)->move_cursor();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)temp_r29_2, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat((saddr)((void *) ((u8 *)&controller_input_state + 0x160)), 0x20, 6, 1) != 0)) {
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)temp_r29_2, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat((saddr)((void *) ((u8 *)&controller_input_state + 0x160)), 0x20, 6, 1) != 0)) {
                 ((TWindowMenuIconLine *)arg0)->move_cursor_next();
             }
         }

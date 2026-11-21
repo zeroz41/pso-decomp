@@ -182,7 +182,7 @@ void handle_6x38_donate_to_photon_blast(saddr arg0) {
 }
 extern "C" {
 
-void draw_party_label__15TFontSmallLobbyFiUis(saddr arg0, u32 arg1, s16 arg2);
+void draw_party_label__15TFontSmallLobbyFiUis(saddr arg0, uaddr arg1, s16 arg2);
 s32 subtract_photon_blast_charge(PhotonBlastGauge *gauge, f32 amount);
 void TFontSmallLobby__sub_801D671C(void *a0, int a1);
 s32 create_party_effect__11TWindowCtrlFPvPv(s16, s16);
@@ -190,7 +190,7 @@ s16 get_entity_id(u32);
 
 struct Sp801D6230_801d6230 { s16 f0; s16 fA; s16 fC; };
 
-void draw_party_label__15TFontSmallLobbyFiUis(saddr font_small_lobby, u32 arg1, s16 arg2) {
+void draw_party_label__15TFontSmallLobbyFiUis(saddr font_small_lobby, uaddr arg1, s16 arg2) {
     Sp801D6230_801d6230 sp8;
 
     ((TFontSmallLobby *)font_small_lobby)->set_flag_40_bit5();

@@ -8,7 +8,7 @@ struct TWindowReturnCity : public TObject {
     virtual ~TWindowReturnCity();
     uaddr m_1c;
     u32 m_20;
-    u32 m_24;
+    uaddr m_24;
     s32 query_battle_state();
     virtual void render();
     virtual void run_task();

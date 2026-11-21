@@ -191,7 +191,7 @@ void render__28TWindowSubSymbolChatFaceTypeFv(u8 *arg0) {
     ((TWindowSubSymbolChatFaceType *)arg0)->update_parts_entries();
     ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r31);
     TWindowSubSymbolChatFaceType__sub_80283F38((u8 *)arg0, (u8 *)temp_r31);
-    ((TWindowSubStatusDisp *)((void *)((int) (((TWindowSubSymbolChatFaceType *)arg0)->m_68))))->forward_render((void *)(temp_r31));
+    ((TWindowSubStatusDisp *)((void *)((saddr) (((TWindowSubSymbolChatFaceType *)arg0)->m_68))))->forward_render((void *)(temp_r31));
     draw_visible_window_entries(arg0, arg0 + 0x24, temp_r31);
 }
 void run_task__28TWindowSubSymbolChatFaceTypeFv(TWindowSubSymbolChatFaceType *window_sub_symbol_chat_face_type) {
@@ -250,7 +250,7 @@ WindowDescriptor symbol_chat_face_type_window_layout = {
 extern "C" {
 const char *TWindowSubSymbolChatFaceType__name = TWindowSubSymbolChatFaceType__class_name_string;
 TWindowSubSymbolChatFaceType::TWindowSubSymbolChatFaceType(saddr arg1, s32 arg2) : TWindowBase((u8 *)&symbol_chat_face_type_window_layout, (s16)4, (u8 *)arg1) {
-    s32 var_r31;
+    saddr var_r31;
     m_name = TWindowSubSymbolChatFaceType__name;
     this->m_60 = 0;
     this->m_61 = 0;

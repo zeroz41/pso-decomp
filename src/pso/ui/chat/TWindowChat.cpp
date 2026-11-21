@@ -324,7 +324,7 @@ void TWindowChat::handle_chat_input() {
     if (((RecoveredFields_8024775C_arg0 *) arg0)->field_1E & 2)
     {
       context = (u8 *)&controller_input_state + 0x20;
-      if ((TWindowShortListCtrl__check_controller_button((void *)((void *) context), 0x200) != 0) && (test_previous_buttons_packed((void *)((int) context), (saddr)((void *) fn_8002AE08((saddr)((void *) local_client_id)))) == 0))
+      if ((TWindowShortListCtrl__check_controller_button((void *)((void *) context), 0x200) != 0) && (test_previous_buttons_packed((void *)((saddr) context), (saddr)((void *) fn_8002AE08((saddr)(local_client_id)))) == 0))
       {
         ((RecoveredFields_8024775C_arg0 *) arg0)->field_1E = (u16) (((RecoveredFields_8024775C_arg0 *) arg0)->field_1E & 0xFFFFFFFD);
         ((TWindowChat*)((void *) arg0))->close_all_children();

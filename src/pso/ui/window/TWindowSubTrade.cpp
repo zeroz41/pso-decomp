@@ -201,7 +201,7 @@ TWindowSubComCardList *TWindowSubComCard__sub_802B1C1C(TWindowSubTrade *) {
     TObjPlayer *player;
     TWindowSubComCardList *list;
 
-    list = (TWindowSubComCardList *)create_titled_window_menu_default((s32)(get_window_layout_position(0x5A)), 4, (saddr)(TWindowSubStatusDisp::get_message_10(0x1F)));
+    list = (TWindowSubComCardList *)(saddr)create_titled_window_menu_default((s32)(get_window_layout_position(0x5A)), 4, (saddr)(TWindowSubStatusDisp::get_message_10(0x1F)));
     for (i = 0; i < 4; i++) {
         if (i == local_client_id) {
             continue;

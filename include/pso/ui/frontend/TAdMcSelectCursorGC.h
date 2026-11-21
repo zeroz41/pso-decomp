@@ -20,7 +20,7 @@ struct TAdMcSelectCursorGC : public TObject {
     void render_cursor();
     virtual void render();
     virtual void run_task();
-    static uaddr get_instance(s32 arg0);
+    static uaddr get_instance(saddr arg0);
     static void release_cursor_entry();
     static void init_resource();
     static saddr get_cursor_type(int a0);

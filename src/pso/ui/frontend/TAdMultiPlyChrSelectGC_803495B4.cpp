@@ -8,7 +8,7 @@ extern "C" {
 
 extern u32 lbl_805D6E78;
 
-u32 TAdMultiPlyChrSelectGC::get_move_effect(s32 ad_chr_move_effect_gc) {
+u32 TAdMultiPlyChrSelectGC::get_move_effect(saddr ad_chr_move_effect_gc) {
     u32 var_r0;
 
     if ((u32) lbl_805D6E78 == 0U) {

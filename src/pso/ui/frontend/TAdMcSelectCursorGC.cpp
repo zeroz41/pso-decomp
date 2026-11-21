@@ -160,7 +160,7 @@ extern "C" {
 s32 release_texture_list(void *, s32);
 
 
-uaddr TAdMcSelectCursorGC::get_instance(s32 arg0) {
+uaddr TAdMcSelectCursorGC::get_instance(saddr arg0) {
     uaddr var_r0;
 
     if ((u32) TAdMcSelectCursorGC__instance == 0U) {

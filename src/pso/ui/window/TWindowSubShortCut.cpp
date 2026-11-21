@@ -25,7 +25,7 @@ struct TWindowShortCut;
 
 #pragma readonly_strings on
 
-struct Win_8027DBB8 { u8 pad[0x20]; s32 f20; };
+struct Win_8027DBB8 { u8 pad[0x20]; saddr f20; };
 
 struct VBase_18_204a81 { char pad[0x18]; };
 
@@ -236,7 +236,7 @@ s32 TWindowSubShortCut::open_menu() {
     ((TWindowMenuIconLine *)this->m_2c)->get_cursor_value();
     chat_shortcut = get_chat_shortcut();
     temp_r31 = create_titled_window_menu_default(get_window_layout_position(0x74), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x2C));
-    forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)(TWindowSubStatusDisp::get_message_10(0x7E)), 6, 5);
+    forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((saddr)TWindowSubStatusDisp::get_message_10(0x7E)), 6, 5);
     if ((u32) *chat_shortcut != 0U) {
         TObjCityMainWarp::forward_trade_action_default((void *)temp_r31, (saddr)(TWindowSubStatusDisp::get_message_10(0x5A)), 6, 9);
     } else {

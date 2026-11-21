@@ -43,7 +43,7 @@ s32 create_confirm_menu_window__19TWindowSubShortMailFv();
 s32 align_menu_entry_positions(s32);
 s32 build_menu__19TWindowSubShortMailFv();
 u8 get_field_cc__19TWindowSubShortMailFPv(void *);
-s32 open_confirm_prompt__19TWindowSubShortMailFPvi(void *, s32);
+s32 open_confirm_prompt__19TWindowSubShortMailFPvi(void *, saddr);
 s32 create_keyboard__19TWindowSubShortMailFv();
 s32 create_list_item__19TWindowSubShortMailFv(void *);
 s32 create_menu__19TWindowSubShortMailFv();
@@ -53,7 +53,7 @@ s32 open_delete_confirm_dialog__19TWindowSubShortMailFv(void *);
 s32 open_menu__19TWindowSubShortMailFv();
 int get_card_entry__17TWindowSubComCardFi();
 void TWindowSubShortMail__sub_8027FAD0(u8 *);
-s32 get_card_window_area__6TLobbyFv();
+saddr get_card_window_area__6TLobbyFv();
 void * get_mail_ptr__19TWindowSubShortMailFPv(void *);
 s32 fn_8007B83C(s32);
 void *TLobby__sub_8022598C(int a0);
@@ -546,7 +546,7 @@ s32 create_keyboard__19TWindowSubShortMailFv(void) {
     return var_r31;
 }
 
-s32 open_confirm_prompt__19TWindowSubShortMailFPvi(void *window_message_yes_no, s32 arg1) {
+s32 open_confirm_prompt__19TWindowSubShortMailFPvi(void *window_message_yes_no, saddr arg1) {
     saddr temp_r29;
     temp_r29 = (saddr)TWindowMessageYesNo::create((void *)(window_message_yes_no), (void *)(arg1), 0, 0);
     open_yes_no_prompt((TChCrTagPlBack *)((u8 *)temp_r29), (uaddr)((saddr)TWindowSubStatusDisp::get_message_10(0x20)), (saddr)((saddr)TWindowSubStatusDisp::get_message_10(0x3f)), (s32)(get_window_layout_position(0x9e)), 205.0f);

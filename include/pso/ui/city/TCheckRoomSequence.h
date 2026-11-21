@@ -19,7 +19,7 @@ struct TCheckRoomSequence : public TShopSequence {
     static void *create(void *arg0);
     static void reset_slot_state();
     static void reset_slots();
-    static s32 get_item_def(u32 arg0);
+    static s32 get_item_def(uaddr arg0);
     // States of the vfunc_11 table, in table order.
     void open_bank();
     void handle_root_choice();

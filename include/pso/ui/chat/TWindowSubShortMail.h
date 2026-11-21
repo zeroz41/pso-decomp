@@ -12,7 +12,7 @@ struct TWindowSubShortMail : public TObject {
     s32 open_delete_confirm_dialog();
     u8 m_1c;
     u8 _pad1D[0x3];
-    u32 m_20;
+    uaddr m_20;
     u32 m_24;
     u32 m_28;
     u32 m_2c;
