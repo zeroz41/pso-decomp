@@ -21,7 +21,7 @@ struct Bringer_8010834C {
     u8 pad30[0x38 - 0x30];
     Vec f38;
     u8 pad44[0x58 - 0x44];
-    s32 m_particles[10];
+    void *m_particles[10];
     s32 m_particle_count;
     Vec m_84;
 };
@@ -46,7 +46,7 @@ void TItemEffBringer::hook() {
 
 TItemEffBringer::~TItemEffBringer() {
     for (int i = 0; i != this->m_particle_count; i++) {
-        TParticleCtrl::release((void *)this->m_particles[i]);
+        TParticleCtrl::release(this->m_particles[i]);
     }
 }
 

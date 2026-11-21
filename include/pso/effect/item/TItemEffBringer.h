@@ -7,7 +7,7 @@
 
 class TItemEffBringer : public TItemShoot {
 public:
- s32 m_particles[10];
+ void *m_particles[10];
  s32 m_particle_count;
  Vec m_84;
 

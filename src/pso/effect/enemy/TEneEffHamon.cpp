@@ -14,6 +14,8 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/BmlResource.h"
+#include "pso/object/ambient/TObjFish_8001ED90.h"
 
 
 #pragma readonly_strings on
@@ -47,8 +49,8 @@ s32 post_translate_matrix(void *);
 extern u8 chunk_material_color_half_alpha_f32[];
 extern u8 saved_model_draw_color[];
 extern u8 model_material_color[];
-int TEneEffHamon__fish_model;
-int TEneEffHamon__fish_effect_param;
+saddr TEneEffHamon__fish_model;
+saddr TEneEffHamon__fish_effect_param;
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;
@@ -56,8 +58,6 @@ extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
 void render__12TEneEffHamonFv(Hamon_800A36A8 *o);
-int get_bml_texlist(void*, void*);
-int get_bml_model(void*, void*);
 
 void render__12TEneEffHamonFv(Hamon_800A36A8 *o) {
     f32 s;
@@ -101,8 +101,8 @@ void run_task__12TEneEffHamonFv(u8 *arg0) {
 
 void TEneEffHamon__sub_800A380C(void) {  }
 
-    extern int player_effect_bml_resource;
-void TEneEffHamon::init_fish_effects() { TEneEffHamon__fish_model = get_bml_model((void*)player_effect_bml_resource, (void*)3); TEneEffHamon__fish_effect_param = get_bml_texlist((void*)player_effect_bml_resource, (void*)3); }
+    extern BmlResource *player_effect_bml_resource;
+void TEneEffHamon::init_fish_effects() { TEneEffHamon__fish_model = get_bml_model(player_effect_bml_resource, 3); TEneEffHamon__fish_effect_param = get_bml_texlist(player_effect_bml_resource, 3); }
 
 }
 

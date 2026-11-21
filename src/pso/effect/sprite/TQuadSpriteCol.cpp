@@ -29,7 +29,7 @@ typedef struct List_801E4FF0 { Node_801E4FF0 *head; u8 pad[0x28]; } List_801E4FF
 
 typedef struct Desc_801E4FF0 {
     u32 flags;
-    s32 param4;
+    saddr param4;
     s32 param8;
     s32 count;
     Col_801E4FF0 *cols;
@@ -100,7 +100,7 @@ void TQuadSpriteCol::render() {
     sh = sw * (480.0f / (480.0f * lbl_8058D4F8.aspect));
     TParticleCtrl::begin_effect_render();
     begin_screen_draw(1);
-    TObjFish::set_global_param((saddr)((void *)self->desc->param4));
+    TObjFish::set_global_param(self->desc->param4);
     set_draw_texture_and_color(self->desc->param8, self->desc->param1C);
     one = 1.0f;
     for (i = 0, ci = 0, li = 0; i < self->desc->count; i++, ci += 0x10, li += 0x2C) {
