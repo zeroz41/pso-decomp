@@ -736,7 +736,7 @@ void TOTrapAncient02R::vfunc_88() {}
 
 void TOTrapAncient02R::vfunc_86() {
     if (is_current_room(this) == 1) {
-        fn_80141CF0(&home_position, &scratch_vec, &trap_ancient_light_color);
+        debug_draw_scaled(&home_position, &scratch_vec, &trap_ancient_light_color);
         TOTrapAncient02R__sub_80154D78(this);
     }
 }

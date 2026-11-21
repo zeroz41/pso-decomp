@@ -44,7 +44,7 @@ void TObjRoomId::render() {
         NJS_ARGB c2 = { 0.5f, 0.0f, 1.0f, 1.0f };
         Vec end;
         debug_draw_sphere(&position, &c2, 2.0f * (10.0f * scale.x));
-        fn_80141CBC(&position, &c1, 10.0f * scale.x);
+        debug_draw_uniform_scaled(&position, &c1, 10.0f * scale.x);
         end.x = 10.0f * normal.x + position.x;
         end.y = 10.0f * normal.y + position.y;
         end.z = 10.0f * normal.z + position.z;
