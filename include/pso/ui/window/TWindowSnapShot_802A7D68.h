@@ -15,12 +15,12 @@ void TWindowSnapShot__sub_802A7DA0(void);
 
 s32 copy_if_space(void);
 extern "C" {
-void TLobby__sub_802A7848(void *p, s32 _w1);
-int TLobby__sub_802A7868(void *p);
+void set_object_flags(void *p, s32 _w1);
+int test_coordinate_pair_match(void *p);
 u8 *TLobby__sub_802A7B50(u8 *arg0);
 int TLobby__sub_802A7B8C(void);
-void TLobby__sub_802A7BC8(void *p);
-void TLobby__sub_802A7BD8(void);
+void zero_pair_fields(void *p);
+void free_snapshot_image_buffer(void);
 void set_slot_position__6TLobbyFii(s32 arg0, saddr arg1);
 }
 
