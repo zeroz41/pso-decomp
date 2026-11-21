@@ -708,10 +708,10 @@ force_active:
   - TLobby__sub_8029A16C
   - TLobby__sub_802A7640
   - zero_pair_fields
-  - TLobby__sub_8032C9A8
-  - TLobby__sub_8032CB6C
+  - stamp_joyboot_save
+  - probe_gba_device
   - TLobby__sub_8032CDC0
-  - TLobby__sub_8032CDD0
+  - reset_joyboot_state
   - TLobby__sub_803361FC
   - TLobby__sub_803362A4
   - TLobby__sub_8034C1D0
