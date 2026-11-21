@@ -1,3 +1,5 @@
+#include "pso/system/scene/EndingWallTextures.h"
+#include "pso/object/ambient/TObjFish.h"
 #include "pso/system/scene/TEndingPic.h"
 #include "pso/system/scene/TEndingAB.h"
 #include "pso/system/scene/TEndingPicStage.h"
@@ -5,93 +7,75 @@
 
 #include "types.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-
-#pragma readonly_strings on
 
 extern "C" {
 int TKeyBoardControl__sub_8000F828(void);
-const char *lbl_805D4378 = "TEndingPic";
+extern const char TEndingPic__class_name_string[] = "TEndingPic";
+const char *lbl_805D4378 = TEndingPic__class_name_string;
 s32 TEndingPic__animation_state;
-s32 ending_pic_wall_texture_list;
+GinjaTextureList *ending_pic_wall_texture_list;
 
 void TEndingPic::advance_animation_state() {
-    s32 temp_r0;
-    s32 temp_r3;
-    s32 temp_r3_2;
-    s32 temp_r3_3;
-    s32 temp_r3_4;
-    s32 temp_r4;
-    s32 temp_r4_2;
-
-    switch ((s32) TEndingPic__animation_state) {
-    case 1:
-        temp_r3 = *(s32 *)((s8 *)this + 0x1C) + 1;
-        *(s32 *)((s8 *)this + 0x1C) = temp_r3;
-        temp_r4 = *(s32 *)((s8 *)this + 0xEC);
-        if (temp_r3 > (s32) ((temp_r4 * 3) - temp_r4)) {
+    switch (TEndingPic__animation_state) {
+    case 1: {
+        s32 ticks = ++elapsed_ticks;
+        s32 rate = timing_rate;
+        if (ticks > rate * 3 - rate) {
             TEndingPic__animation_state = 2;
-            TEndingPicStage::set_picture(*(s32 *)((s8 *)this + 0x24));
-            *(s32 *)((s8 *)this + 0x24) = (s32) (*(s32 *)((s8 *)this + 0x24) + 1);
+            TEndingPicStage::set_picture(next_picture);
+            ++next_picture;
         }
         break;
+    }
     case 2:
-        temp_r3_2 = *(s32 *)((s8 *)this + 0x1C) + 1;
-        *(s32 *)((s8 *)this + 0x1C) = temp_r3_2;
-        if (temp_r3_2 > (s32) (*(s32 *)((s8 *)this + 0xEC) * 0xD)) {
+        if (++elapsed_ticks > timing_rate * 13) {
             TEndingPic__animation_state = 3;
             return;
         }
         break;
-    case 3:
-        temp_r3_3 = *(s32 *)((s8 *)this + 0x1C) + 1;
-        *(s32 *)((s8 *)this + 0x1C) = temp_r3_3;
-        temp_r4_2 = *(s32 *)((s8 *)this + 0xEC);
-        if (temp_r3_3 > (s32) ((temp_r4_2 * 0xE) - temp_r4_2)) {
+    case 3: {
+        s32 ticks = ++elapsed_ticks;
+        s32 rate = timing_rate;
+        if (ticks > rate * 14 - rate) {
             TEndingPic__animation_state = 4;
-            TEndingPicStage::set_picture(*(s32 *)((s8 *)this + 0x24));
-            *(s32 *)((s8 *)this + 0x24) = (s32) (*(s32 *)((s8 *)this + 0x24) + 1);
+            TEndingPicStage::set_picture(next_picture);
+            ++next_picture;
             return;
         }
         break;
+    }
     case 4:
-        temp_r3_4 = *(s32 *)((s8 *)this + 0x1C) + 1;
-        *(s32 *)((s8 *)this + 0x1C) = temp_r3_4;
-        if (temp_r3_4 > (s32) (*(s32 *)((s8 *)this + 0xEC) * 0x18)) {
-            *(s32 *)((s8 *)this + 0x1C) = 0;
+        if (++elapsed_ticks > timing_rate * 24) {
+            elapsed_ticks = 0;
             TEndingPic__animation_state = 1;
-            temp_r0 = *(s32 *)((s8 *)this + 0x28) + 1;
-            *(s32 *)((s8 *)this + 0x28) = temp_r0;
-            if (temp_r0 > 5) {
-                *(s32 *)((s8 *)this + 0x28) = 5;
+            if (++picture_pair > 5) {
+                picture_pair = 5;
                 TEndingPic__animation_state = 5;
                 return;
             }
         }
         break;
     case 5:
-        *(s32 *)((s8 *)this + 0x28) = 5;
+        picture_pair = 5;
         break;
     }
 }
 
-
 void TEndingPic::draw_current_pic() {
-    u8 *arg0 = (u8 *)this;
     begin_screen_draw(1);
-    switch ((s32) TEndingPic__animation_state) {
+    switch (TEndingPic__animation_state) {
     case 1:
     case 3:
         break;
     case 2:
-        set_draw_texture_and_color(((*(s32 *)((s8 *)arg0 + 0x28) * 2) + 2), -1);
-        draw_textured_quad_at_depth((f32 *)(arg0 + 0xAC), 0.0001f);
+        set_draw_texture_and_color(picture_pair * 2 + 2, -1);
+        draw_textured_quad_at_depth((f32 *)&quads[4], 0.0001f);
         break;
     case 4:
     case 5:
-        set_draw_texture_and_color(((*(s32 *)((s8 *)arg0 + 0x28) * 2) + 3), -1);
-        draw_textured_quad_at_depth((f32 *)(arg0 + 0xCC), 0.0001f);
+        set_draw_texture_and_color(picture_pair * 2 + 3, -1);
+        draw_textured_quad_at_depth((f32 *)&quads[5], 0.0001f);
         break;
     default:
         break;
@@ -99,12 +83,60 @@ void TEndingPic::draw_current_pic() {
     TWindowSubStatusDisp::get_player();
 }
 
-void TEndingPic::init_positions() { *(float*)((char*)this + 0x2c) = 228.0f; *(float*)((char*)this + 0x30) = 0.0f; *(float*)((char*)this + 0x34) = 640.0f; *(float*)((char*)this + 0x38) = 480.0f; *(float*)((char*)this + 0x3c) = 0.1953125f; *(float*)((char*)this + 0x40) = 0.0f; *(float*)((char*)this + 0x44) = 1.0f; *(float*)((char*)this + 0x48) = 0.9375f; *(float*)((char*)this + 0x4c) = 0.0f; *(float*)((char*)this + 0x50) = 0.0f; *(float*)((char*)this + 0x54) = 100.0f; *(float*)((char*)this + 0x58) = 480.0f; *(float*)((char*)this + 0x5c) = 0.0f; *(float*)((char*)this + 0x60) = 0.0f; *(float*)((char*)this + 0x64) = 0.1953125f; *(float*)((char*)this + 0x68) = 0.9375f; *(float*)((char*)this + 0x6c) = 228.0f; *(float*)((char*)this + 0x70) = 0.0f; *(float*)((char*)this + 0x74) = 640.0f; *(float*)((char*)this + 0x78) = 480.0f; *(float*)((char*)this + 0x7c) = 0.1953125f; *(float*)((char*)this + 0x80) = 0.0f; *(float*)((char*)this + 0x84) = 1.0f; *(float*)((char*)this + 0x88) = 0.9375f; *(float*)((char*)this + 0x8c) = 0.0f; *(float*)((char*)this + 0x90) = 0.0f; *(float*)((char*)this + 0x94) = 100.0f; *(float*)((char*)this + 0x98) = 480.0f; *(float*)((char*)this + 0x9c) = 0.0f; *(float*)((char*)this + 0xa0) = 0.0f; *(float*)((char*)this + 0xa4) = 0.1953125f; *(float*)((char*)this + 0xa8) = 0.9375f; *(float*)((char*)this + 0xac) = 316.0f; *(float*)((char*)this + 0xb0) = 32.0f; *(float*)((char*)this + 0xb4) = 616.0f; *(float*)((char*)this + 0xb8) = 332.0f; *(float*)((char*)this + 0xbc) = 0.0f; *(float*)((char*)this + 0xc0) = 0.0f; *(float*)((char*)this + 0xc4) = 1.0f; *(float*)((char*)this + 0xc8) = 1.0f; *(float*)((char*)this + 0xcc) = 316.0f; *(float*)((char*)this + 0xd0) = 148.0f; *(float*)((char*)this + 0xd4) = 616.0f; *(float*)((char*)this + 0xd8) = 448.0f; *(float*)((char*)this + 0xdc) = 0.0f; *(float*)((char*)this + 0xe0) = 0.0f; *(float*)((char*)this + 0xe4) = 1.0f; *(float*)((char*)this + 0xe8) = 1.0f; }
+void TEndingPic::init_positions() {
+    quads[0].left = 228.0f;
+    quads[0].top = 0.0f;
+    quads[0].right = 640.0f;
+    quads[0].bottom = 480.0f;
+    quads[0].u0 = 0.1953125f;
+    quads[0].v0 = 0.0f;
+    quads[0].u1 = 1.0f;
+    quads[0].v1 = 0.9375f;
+    quads[1].left = 0.0f;
+    quads[1].top = 0.0f;
+    quads[1].right = 100.0f;
+    quads[1].bottom = 480.0f;
+    quads[1].u0 = 0.0f;
+    quads[1].v0 = 0.0f;
+    quads[1].u1 = 0.1953125f;
+    quads[1].v1 = 0.9375f;
+    quads[2].left = 228.0f;
+    quads[2].top = 0.0f;
+    quads[2].right = 640.0f;
+    quads[2].bottom = 480.0f;
+    quads[2].u0 = 0.1953125f;
+    quads[2].v0 = 0.0f;
+    quads[2].u1 = 1.0f;
+    quads[2].v1 = 0.9375f;
+    quads[3].left = 0.0f;
+    quads[3].top = 0.0f;
+    quads[3].right = 100.0f;
+    quads[3].bottom = 480.0f;
+    quads[3].u0 = 0.0f;
+    quads[3].v0 = 0.0f;
+    quads[3].u1 = 0.1953125f;
+    quads[3].v1 = 0.9375f;
+    quads[4].left = 316.0f;
+    quads[4].top = 32.0f;
+    quads[4].right = 616.0f;
+    quads[4].bottom = 332.0f;
+    quads[4].u0 = 0.0f;
+    quads[4].v0 = 0.0f;
+    quads[4].u1 = 1.0f;
+    quads[4].v1 = 1.0f;
+    quads[5].left = 316.0f;
+    quads[5].top = 148.0f;
+    quads[5].right = 616.0f;
+    quads[5].bottom = 448.0f;
+    quads[5].u0 = 0.0f;
+    quads[5].v0 = 0.0f;
+    quads[5].u1 = 1.0f;
+    quads[5].v1 = 1.0f;
+}
 
 void TEndingPic::render() {
-    s32 arg0 = (s32)this;
     if ((s32) TEndingPic__animation_state != 0) {
-        TObjFish::set_global_param(ending_pic_wall_texture_list);
+        TObjFish::set_global_param((s32)ending_pic_wall_texture_list);
         draw_current_pic();
     }
 }
@@ -112,24 +144,20 @@ void TEndingPic::render() {
 void TEndingPic::run_task() { advance_animation_state(); }
 
 TEndingPic::~TEndingPic() {}
-}
-TEndingPic::TEndingPic(TObject *arg1) : TObject(arg1) {
-    this->m_name = lbl_805D4378;
-    *(s32 *)((s8 *)this + 0x1C) = -1;
+TEndingPic::TEndingPic(TObject *parent) : TObject(parent) {
+    m_name = lbl_805D4378;
+    elapsed_ticks = -1;
     TEndingPic__animation_state = 0;
-    *(s32 *)((s8 *)this + 0x20) = 0xFF;
-    *(s32 *)((s8 *)this + 0x28) = 0;
-    *(s32 *)((s8 *)this + 0x24) = 0;
-    ending_pic_wall_texture_list = ((s32)get_ending_ab_wall_texture_list());
-    this->init_positions();
+    field_20 = 0xFF;
+    picture_pair = 0;
+    next_picture = 0;
+    ending_pic_wall_texture_list = get_ending_ab_wall_texture_list();
+    init_positions();
     switch (TKeyBoardControl__sub_8000F828()) {
-    case 0:
-        *(s32 *)((s8 *)this + 0xEC) = 0x1E;
-        break;
-    case 1:
-        *(s32 *)((s8 *)this + 0xEC) = 0x19;
-        break;
+    case 0: timing_rate = 30; break;
+    case 1: timing_rate = 25; break;
     }
 }
+}
 
-EndingTextureList *get_ending_ab_wall_texture_list(void) { return ending_ab_wall_texture_list; }
+GinjaTextureList *get_ending_ab_wall_texture_list(void) { return ending_ab_wall_texture_list; }

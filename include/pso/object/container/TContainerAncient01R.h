@@ -2,6 +2,7 @@
 #define PSO_OBJECT_CONTAINER_TCONTAINERANCIENT01R_H
 
 #include "types.h"
+#include <stddef.h>
 #include "pso/object/base/TObjChara.h"
 
 struct TContainerAncient01R : public TObjChara {
@@ -28,15 +29,19 @@ struct TContainerAncient01R : public TObjChara {
     s16 m_338;
     u8 unk_33A[0x2];
     f32 m_33c;
-    u8 unk_340[0x4];
+    f32 m_340;
     f32 m_344;
-    u8 unk_348[0x18];
+    Vec lower_effect_position;
+    Vec upper_effect_position;
+    void init_positions();
+    void trigger_spawn(const Vec *position, s32 effect_id);
     s32 m_360;
-    u8 unk_364[0x4];
-    f32 m_368;
-    u8 unk_36C[0x4];
+    Vec open_scale;
     u32 m_370;
 };
 
 typedef char TContainerAncient01R_size[sizeof(TContainerAncient01R) == 0x374 ? 1 : -1];
+typedef char TContainerAncient01RLowerEffectOffset[offsetof(TContainerAncient01R, lower_effect_position) == 0x348 ? 1 : -1];
+typedef char TContainerAncient01RUpperEffectOffset[offsetof(TContainerAncient01R, upper_effect_position) == 0x354 ? 1 : -1];
+typedef char TContainerAncient01ROpenScaleOffset[offsetof(TContainerAncient01R, open_scale) == 0x364 ? 1 : -1];
 #endif

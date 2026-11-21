@@ -2,29 +2,38 @@
 #define PSO_SYSTEM_SCENE_TENDINGAB_H
 
 #include "pso/system/task/TObject.h"
-#include "types.h"
+#include <stddef.h>
+
+// Same eight-float rectangle consumed by draw_textured_quad_at_depth.
+struct EndingWallQuad {
+    f32 x0, y0, x1, y1;
+    f32 u0, v0, u1, v1;
+};
 
 class TEndingAB : public TObject {
 public:
-    TEndingAB(TObject *);
+    TEndingAB(TObject *parent);
     virtual ~TEndingAB();
     virtual void run_task();
     virtual void render();
-public:
+
     void advance_fade_sequence();
     void draw_overlay();
     static void set_fish_global_param();
     void init_float_table();
     static void destroy_instance();
+
+    s32 elapsed_ticks;
+    s32 field_20;
+    s32 picture_index;
+    s32 wall_index;
+    EndingWallQuad quads[6];
+    s32 timing_rate;
 };
 
-struct EndingTextureList;
-extern s32 TEndingAB__fade_sequence_state;
-extern EndingTextureList *ending_ab_wall_texture_list;
-
-extern "C" {
-void TEndingAB__sub_8008CCC0(TEndingAB *self);
-u8 *__ct__9TEndingABFP7TObject(u8 *ending_ab, u8 *arg1);
-}
+typedef char EndingWallQuadSize[sizeof(EndingWallQuad) == 0x20 ? 1 : -1];
+typedef char EndingABSize[sizeof(TEndingAB) == 0xF0 ? 1 : -1];
+typedef char EndingABQuadsOffset[offsetof(TEndingAB, quads) == 0x2C ? 1 : -1];
+typedef char EndingABRateOffset[offsetof(TEndingAB, timing_rate) == 0xEC ? 1 : -1];
 
 #endif

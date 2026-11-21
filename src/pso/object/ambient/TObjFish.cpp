@@ -34,16 +34,8 @@
 #include <stdlib.h>
 
 
-struct VBase_18_26a62c;
-struct SVec_8029D5C8;
-struct Fish_8029D5C8;
-struct Ent_8029E170;
 extern "C" {
-void render__8TObjFishFv(TObjFish *fish);
-s32 init_fish_school__8TObjFishFPvll(u8 *arg0, Vec *arg1, s32 arg2, s32 arg3);
 BmlResource *TObjFish__area_bml_resource;
-extern void* __vt__8TObjFish[];
-void __dl__7TObjectFPv(void *);
 s32 TObjFish__area_event_stage;
 
 s32 TObjFish::update_state() {
@@ -117,7 +109,6 @@ extern const char TObjFish__class_name_string[] = "TObjFish";
 #pragma pop
 }
 
-struct VBase_18_26a62c { char pad[0x18]; };
 extern "C" {
 
 extern TCameraCtrl *camera_ctrl_instance;
@@ -126,23 +117,23 @@ extern TCameraCtrl *camera_ctrl_instance;
 #pragma fp_contract on
 #pragma dont_inline off
 #pragma inline_depth(4)
-void render__8TObjFishFv(TObjFish *fish) {
+void TObjFish::render() {
     TObjFishEntry *f;
     s32 n;
     struct { f32 x, y, z; } d;
 
     if (TMainTask::get_render_pass() != 1 &&
-        fish->update_object_view_visibility(400.0f, 200.0f) != 0 &&
-        fish->m_a0 != NULL && fish->update_state() != 0) {
-        f = fish->m_a0;
-        n = (s32)fish->m_94;
+        update_object_view_visibility(400.0f, 200.0f) != 0 &&
+        m_a0 != NULL && update_state() != 0) {
+        f = m_a0;
+        n = (s32)m_94;
         push_matrix();
-        translate_matrix_vec3(0, (u8 *)&fish->position);
-        rotate_matrix_y(0, fish->rotation_y);
+        translate_matrix_vec3(0, (u8 *)&position);
+        rotate_matrix_y(0, rotation_y);
         if (camera_ctrl_instance != NULL) {
-            d.x = camera_ctrl_instance->pos_x - fish->position.x;
-            d.y = camera_ctrl_instance->pos_y - fish->position.y;
-            d.z = camera_ctrl_instance->pos_z - fish->position.z;
+            d.x = camera_ctrl_instance->pos_x - position.x;
+            d.y = camera_ctrl_instance->pos_y - position.y;
+            d.z = camera_ctrl_instance->pos_z - position.z;
         }
         while (n-- != 0) {
             s16 a;
@@ -351,67 +342,53 @@ void TObjFish::run_task() {
 
 }
 
-struct Ent_8029E170 {
-    Vec pos;
-    Vec v0c;
-    Vec v18;
-    s32 f24;
-    f32 f28;
-    s16 f2c;
-    s16 f2e;
-    s16 f30;
-    s16 f32;
-    s32 f34;
-    s32 f38;
-    u8 pad3c[8];
-};
-
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 #pragma push
 #pragma fp_contract on
 s32 TObjFish::init_fish_school(void *arg1_arg, s32 arg2, s32 arg3) {
     Vec *arg1 = (Vec *)arg1_arg;
-    Ent_8029E170 *p;
+    TObjFishEntry *p;
     s32 i;
 
     if (TObjFish__area_event_stage == 0 && is_lobby_event_active() != 0) {
-        *(s16 *)((s8 *)((u8 *)this) + 0x90) = 0;
+        m_90 = 0;
     } else {
-        *(s16 *)((s8 *)((u8 *)this) + 0x90) = 3;
+        m_90 = 3;
     }
     this->m_92 = 0;
-    if (*(s32 *)&this->m_94 < 1) {
+    if ((s32)m_94 < 1) {
         return 0;
     }
-    *(Ent_8029E170 * *)&this->m_a0 = (Ent_8029E170 *) TQuestVmDownLoadServer::alloc(*(s32 *)&this->m_94 * 0x44);
-    if (*(Ent_8029E170 * *)&this->m_a0 == NULL) {
+    m_a0 = (TObjFishEntry *)TQuestVmDownLoadServer::alloc((s32)m_94 * sizeof(TObjFishEntry));
+    if (m_a0 == NULL) {
         return 0;
     }
-    p = *(Ent_8029E170 * *)&this->m_a0;
-    for (i = 0; i < *(s32 *)&this->m_94; i++) {
+    p = m_a0;
+    for (i = 0; i < (s32)m_94; i++) {
         p->pos.x = 2.0f * (arg1->x * ((1.0f / 32768.0f) * (f32) rand() - 0.5f));
         p->pos.y = 2.0f * (arg1->y * ((1.0f / 32768.0f) * (f32) rand() - 0.5f));
         p->pos.z = 2.0f * (arg1->z * ((1.0f / 32768.0f) * (f32) rand() - 0.5f));
-        p->v18.x = 0.0f;
-        p->v18.y = 0.0f;
-        p->v18.z = 0.0f;
+        p->velocity.x = 0.0f;
+        p->velocity.y = 0.0f;
+        p->velocity.z = 0.0f;
         if (i < arg2) {
-            p->f30 = 0;
+            p->anim = 0;
         } else if (i < arg2 + arg3) {
-            p->f30 = 1;
+            p->anim = 1;
         } else {
-            p->f30 = 2;
+            p->anim = 2;
         }
-        p->f32 = 200.0f * ((1.0f / 32768.0f) * (f32) rand());
-        p->f24 = 0;
-        p->f28 = (1.0f / 32768.0f) * (f32) rand();
-        p->f2c = 0;
-        p->f2e = 0;
-        p->f38 = 0;
-        p->f34 = 0;
-        p->v0c.x = 0.0f;
-        p->v0c.y = 0.0f;
-        p->v0c.z = 0.0f;
+        p->timer = 200.0f * ((1.0f / 32768.0f) * (f32) rand());
+        p->yaw = 0;
+        p->frame = (1.0f / 32768.0f) * (f32) rand();
+        p->angle = 0;
+        p->target_angle = 0;
+        p->mode = 0;
+        p->seen = 0;
+        p->target.x = 0.0f;
+        p->target.y = 0.0f;
+        p->target.z = 0.0f;
         p++;
     }
     return 1;
@@ -419,71 +396,62 @@ s32 TObjFish::init_fish_school(void *arg1_arg, s32 arg2, s32 arg3) {
 #pragma pop
 
 
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-
 
 const char *lbl_805D3D58 = TObjFish__class_name_string;
-extern "C" {
-u8 *TObjFish__create(u8 *arg0);
-s32 __ct__8TObjBaseFP7TObject();
-extern const char *lbl_805D3D58;
-u8 *TObjFish__ct(u8 *arg0, s32 arg1, u8 *arg2);
-void *__dt__8TObjFishFv(void *arg0, s16 arg1);
 
-void *__dt__8TObjFishFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)__vt__8TObjFish;
-        if (*(void **)((s8 *)arg0 + 0xA0) != NULL) { TAdSinglePlyChrSelectGC::safe_free((u32)(*(void **)((s8 *)arg0 + 0xA0))); ((TObjFish *)arg0)->m_a0 = 0; }
-        __dt__8TObjBaseFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
+extern "C" {
+TObjFish::~TObjFish() {
+    if (m_a0 != NULL) {
+        TAdSinglePlyChrSelectGC::safe_free((u32)m_a0);
+        m_a0 = NULL;
     }
-    return arg0;
 }
 
-u8 *TObjFish__ct(u8 *fish, s32 arg1, u8 *arg2) {
+// The placement record passed by object factory 0x220. Only these fields
+// are read by the fish constructor; the leading set metadata stays opaque.
+struct TObjFishSetData {
+    u8 metadata[0xC];
+    Vec position;
+    s32 rotation[3];
+    Vec scale;
+    s32 counts[3];
+};
+typedef char TObjFishSetData_counts_offset[offsetof(TObjFishSetData, counts) == 0x30 ? 1 : -1];
+
+TObjFish::TObjFish(TObject *parent, void *set_data) : TObjBase(parent) {
+    TObjFishSetData *data = (TObjFishSetData *)set_data;
     f32 temp_f0;
     f32 var_f1;
-    __ct__8TObjBaseFP7TObject();
-    *(s32 **)((s8 *)fish + 0x18) = (s32 *)__vt__8TObjFish;
-    *(s32 *)((s8 *)fish + 0) = (s32) lbl_805D3D58;
-    ((TObjFish *)fish)->m_a0 = 0;
-    VecCopy((Vec *)(fish + 0x38), (const Vec *)(arg2 + 0xC));
-    copy_xyz(fish + 0x5C, arg2 + 0x18);
-    VecCopy((Vec *)(fish + 0x68), (const Vec *)(arg2 + 0x24));
-    var_f1 = ((TObjFish *)fish)->scale.x;
-    temp_f0 = ((TObjFish *)fish)->scale.y;
+    m_name = lbl_805D3D58;
+    m_a0 = NULL;
+    VecCopy(&position, &data->position);
+    copy_xyz(&rotation_x, data->rotation);
+    VecCopy(&scale, &data->scale);
+    var_f1 = scale.x;
+    temp_f0 = scale.y;
     if (var_f1 < temp_f0) {
         var_f1 = temp_f0;
     }
+    // The original compares scale.y twice here, rather than reading scale.z.
     if (var_f1 < temp_f0) {
         var_f1 = temp_f0;
     }
-    *(f32 *)((s8 *)fish + 0x9C) = var_f1;
-    ((TObjFish *)fish)->m_94 = *(s32 *)((s8 *)arg2 + 0x30) + *(s32 *)((s8 *)arg2 + 0x34) + *(s32 *)((s8 *)arg2 + 0x38);
-    ((TObjFish *)fish)->m_98 = 0;
-    if ((s32) ((TObjFish *)fish)->m_94 < 1) {
-        ((TObjFish *)fish)->m_94 = 1;
+    m_9c = var_f1;
+    m_94 = data->counts[0] + data->counts[1] + data->counts[2];
+    m_98 = 0;
+    if ((s32)m_94 < 1) {
+        m_94 = 1;
     }
-    if (((TObjFish *)fish)->init_fish_school(fish + 0x68, (int) (*(s32 *)((s8 *)arg2 + 0x30)), (int) (*(s32 *)((s8 *)arg2 + 0x34))) == 0) {
-        ((TObject *)fish)->queue_destruction();
+    if (init_fish_school(&scale, data->counts[0], data->counts[1]) == 0) {
+        queue_destruction();
     }
-    return fish;
 }
 
-u8 *TObjFish__create(u8 *arg0) {
-    u8 *fish;
-    u8 *var_r0;
+void *TObjFish__create(void *set_data) {
     if (is_split_screen() != 0) {
         return NULL;
     }
-    fish = (u8 *)(TObject::operator new(0xA4));
-    var_r0 = fish;
-    if (var_r0 != NULL) {
-        var_r0 = (u8 *)(TObjFish__ct(fish, (s32)((*(s32 *)&tl_05)), arg0));
-    }
-    return var_r0;
+    return new TObjFish(tl_05, set_data);
 }
 
 void TObjFish::free_resource() {
@@ -527,22 +495,8 @@ TObjFishAreaResource fish_resource_name_table[5] = {
       { bm_sakana_obj_seabed2_bml_filename, fish_resource_name_table[4].models, fish_resource_name_table[4].motions, 3, 3 } },
 };
 
-void *__vt__8TObjFish[13] = {
-    0,
-    0,
-    (void *)__dt__8TObjFishFv,
-    (void *)run_task__8TObjFishFv,
-    (void *)render__8TObjFishFv,
-    (void *)render_shadows__7TObjectFv,
-    (void *)vfunc_6__8TObjBaseFPsl,
-    (void *)apply_object_set_data__8TObjBaseFPv,
-    (void *)reset_motion_fields__8TObjBaseFv,
-    (void *)get_center__8TObjBaseFv,
-    (void *)update_object_view_visibility__8TObjBaseFff,
-    (void *)classify_actor_view_detail__8TObjBaseFfff,
-    (void *)get_name__8TObjBaseFv,
-};
-
+#pragma push
+#pragma defer_codegen on
 void TObjFish::load_area_resource() {
     // Use one base for every descriptor, as in the original loader.
     u8 *base = reinterpret_cast<u8 *>(fish_resource_name_table);
@@ -599,3 +553,5 @@ void TObjFish::load_area_resource() {
 }
 
 }
+#undef init_fish_school__8TObjFishFPvll
+#pragma pop

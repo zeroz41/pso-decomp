@@ -23,7 +23,7 @@ struct MapCsnSetData {
 };
 
 struct TObjMapCsn : public TObjCollidable {
-    TObjMapCsn(s32, s32);
+    TObjMapCsn(TObject *parent, void *set_data);
     virtual ~TObjMapCsn();
     CsnGroup collision_group;
     CsnModel collision_model;
@@ -32,7 +32,7 @@ struct TObjMapCsn : public TObjCollidable {
     virtual void render();
     void update_state();
     s32 build_box_triangles();
-    static s32 create(s32 arg0);
+    static TObjMapCsn *create(void *set_data);
     static TMapCsnCtrl *get_collision_controller();
     void*init();
     static s32 init_and_return(s32 arg0);

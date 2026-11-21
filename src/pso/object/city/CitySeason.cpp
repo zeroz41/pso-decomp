@@ -2,6 +2,7 @@
 #include "pso/unk/text_80184C2C.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/darkfalz/TBoss4Type2_80086C44.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
@@ -145,7 +146,7 @@ u32 __nw__7TObjectFUl(int);
 f32 vec3_dot(void *, void *);
 f32 subtract_vector(void *, void *);
 extern f32 lbl_804FF5E8[];
-extern s32 camera_ctrl_instance;
+extern TCameraCtrl *camera_ctrl_instance;
 
 void fn_80141CB8(void *, void *, void *, void *);
 extern const u32 lbl_804441FC[5];
@@ -1178,7 +1179,7 @@ void TObjCity_Season_FireWorkCtrl::run_task() {
     if (((s32) (*((s32 *) (((s8 *) arg0) + 0x90)))) < 0)
     {
       VecCopy((Vec *)(&stack.sp14), (const Vec *)(arg0 + 0x38));
-      subtract_vector((void *)&stack.sp14, (void *)(camera_ctrl_instance + 0x178));
+      subtract_vector((void *)&stack.sp14, &camera_ctrl_instance->pos_x);
       if ((normalize_vector_safe((Vec *)&stack.sp14) < 450.0f) && (vec3_dot((void *)&stack.sp14, (void *) ((u8 *)&lbl_804FF5E8 + 0xC)) > 0.0f))
       {
         temp_f30 = rand_signed_unit();
@@ -1239,7 +1240,7 @@ void TObjCity_Season_FireWorkCtrl::vfunc_13(s32) {
 
 TObjCity_Season_FireWork::TObjCity_Season_FireWork(TObject* parent, void* position, f32 riseHeight) : TObject(parent) {
     m_name = (const char*)TObjCity_Season_FireWork__name;
-    VecCopy((Vec *)pos, (const Vec *)position);
+    VecCopy(&pos, (const Vec *)position);
     state = 0;
     handle = NULL;
     limit = riseHeight;
@@ -1249,7 +1250,7 @@ TObjCity_Season_FireWork::TObjCity_Season_FireWork(TObject* parent, void* positi
 }
 
 TObjCity_Season_FireWork::~TObjCity_Season_FireWork() {
-    if (handle != NULL) { ((TObject *)handle)->queue_destruction(); handle = NULL; }
+    if (handle != NULL) { handle->queue_destruction(); handle = NULL; }
 }
 
 void TObjCity_Season_FireWork::run_task() {
@@ -1257,26 +1258,26 @@ void TObjCity_Season_FireWork::run_task() {
     switch (self->state) {
     case 0:
         if (self->handle == NULL) {
-            self->handle = spawn_continuous_particle_effect_with_flags(self->pos, 0x84, 0x40);
+            self->handle = spawn_continuous_particle_effect_with_flags(&self->pos, 0x84, 0x40);
         }
         if (self->handle != NULL) {
             self->riseDistance += 4.0f;
-            self->pos[1] += 4.0f;
+            self->pos.y += 4.0f;
             if (self->riseDistance >= self->limit) {
                 self->riseDistance = 0.0f;
                 self->timer = 0;
                 self->state = 1;
-                ((TObject *)self->handle)->queue_destruction();
+                self->handle->queue_destruction();
                 self->handle = NULL;
             } else {
-                ((TParticleCtrl *)self->handle)->set_position(self->pos);
+                self->handle->set_position(&self->pos);
             }
         }
         break;
     case 1:
         if (self->timer == 10) {
-            spawn_particle_effect_with_flags(self->pos, 0x85, 0x40);
-            spawn_particle_effect_with_flags(self->pos, 0x86, 0x40);
+            spawn_particle_effect_with_flags(&self->pos, 0x85, 0x40);
+            spawn_particle_effect_with_flags(&self->pos, 0x86, 0x40);
         }
         self->timer++;
         if (self->timer >= 15) {
@@ -1295,10 +1296,10 @@ void TObjCity_Season_FireWork::run_task() {
         break;
     case 2:
         if (self->timer == 0 || self->timer == 4 || self->timer == 8) {
-            spawn_particle_effect_with_flags(self->pos, self->burstEffectId, 0x40);
+            spawn_particle_effect_with_flags(&self->pos, self->burstEffectId, 0x40);
         }
         self->timer++;
-        self->pos[1] -= 0.8f;
+        self->pos.y -= 0.8f;
         if (self->timer > 8) {
             self->state = 4;
         }
@@ -1309,10 +1310,10 @@ void TObjCity_Season_FireWork::run_task() {
             v.x = 0;
             v.y = TObjPlayer::calc_random_scaled();
             v.z = TObjPlayer::calc_random_scaled();
-            create_oneshot_particle_emitter(self->pos, &v, 0x89, 0x40);
+            create_oneshot_particle_emitter(&self->pos, &v, 0x89, 0x40);
         }
         self->timer++;
-        self->pos[1] -= 0.8f;
+        self->pos.y -= 0.8f;
         if (self->timer > 8) {
             self->state = 4;
         }

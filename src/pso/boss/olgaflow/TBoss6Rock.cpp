@@ -363,13 +363,13 @@ void TBoss6Rock::sub_80353F5C() {
         set.scale.z = e->width;
         set.scale.x = e->width;
         set.scale.y = e->height;
-        m_b0 = TObjMapCsn::create((s32)&set);
+        m_b0 = TObjMapCsn::create(&set);
     }
 }
 
 void TBoss6Rock::release_object() {
     if (m_b0 != 0) {
-        ((TObject *)m_b0)->queue_destruction();
+        m_b0->queue_destruction();
         m_b0 = 0;
     }
 }

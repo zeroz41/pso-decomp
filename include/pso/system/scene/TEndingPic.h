@@ -1,25 +1,35 @@
 #ifndef PSO_SYSTEM_SCENE_TENDINGPIC_H
 #define PSO_SYSTEM_SCENE_TENDINGPIC_H
-
 #include "pso/system/task/TObject.h"
 #include "types.h"
+#include <stddef.h>
+
+struct EndingPictureQuad {
+    f32 left, top, right, bottom;
+    f32 u0, v0, u1, v1;
+};
 
 class TEndingPic : public TObject {
 public:
-    TEndingPic(TObject *);
+    TEndingPic(TObject *parent);
     virtual ~TEndingPic();
     virtual void run_task();
     virtual void render();
-public:
+
     void advance_animation_state();
     void draw_current_pic();
     void init_positions();
+
+    s32 elapsed_ticks;
+    s32 field_20;
+    s32 next_picture;
+    s32 picture_pair;
+    EndingPictureQuad quads[6];
+    s32 timing_rate;
 };
 
-extern "C" {
-u8 *__ct__10TEndingPicFP7TObject(u8 *arg0, u8 *arg1);
-}
-struct EndingTextureList;
-EndingTextureList *get_ending_ab_wall_texture_list(void);
+typedef char TEndingPicQuads[offsetof(TEndingPic, quads) == 0x2C ? 1 : -1];
+typedef char TEndingPicRate[offsetof(TEndingPic, timing_rate) == 0xEC ? 1 : -1];
+typedef char TEndingPic_size[sizeof(TEndingPic) == 0xF0 ? 1 : -1];
 
 #endif
