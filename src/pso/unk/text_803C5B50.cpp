@@ -12,47 +12,46 @@
 
 #pragma readonly_strings on
 
-struct Obj_803C5B50 { u8 pad_0[0x14]; Strm_803C5B50 *f14; };
+struct Obj_803C5B50 { u8 pad_0[0x14]; SjRingBuffer *f14; };
 
 extern "C" {
-SjRingBuffer *sj_ring_buffer_create(void *data, s32 bsize, s32 x24);
 extern u8 adx_stream_ring_buffer_storage[];
 extern u8 adx_stream_ring_buffer[];
 
 void TLobby__sub_803C5B50(Obj_803C5B50 *arg0, s32 arg1, s32 arg2, s32 arg3) {
-    Strm_803C5B50 *arr[2];
-    Buf_803C5B50 b1;
-    Buf_803C5B50 b2;
-    Strm_803C5B50 *src;
-    Strm_803C5B50 *dst;
+    SjRingBuffer *arr[2];
+    SjChunk b1;
+    SjChunk b2;
+    SjRingBuffer *src;
+    SjRingBuffer *dst;
     u8 *ctx;
     TLobby::clear_buffer_1680();
-    src = (Strm_803C5B50 *)sj_ring_buffer_create(adx_stream_ring_buffer, 0x400, 0);
-    arr[0] = (Strm_803C5B50 *)sj_ring_buffer_create(adx_stream_ring_buffer_storage, 0x400, 0);
-    arr[1] = (Strm_803C5B50 *)sj_ring_buffer_create(adx_stream_ring_buffer_storage + 0x20, 0x400, 0);
+    src = sj_ring_buffer_create(adx_stream_ring_buffer, 0x400, 0);
+    arr[0] = sj_ring_buffer_create(adx_stream_ring_buffer_storage, 0x400, 0);
+    arr[1] = sj_ring_buffer_create(adx_stream_ring_buffer_storage + 0x20, 0x400, 0);
     dst = arg0->f14;
     ctx = TLobby__sub_803C61C4(2, arr, src);
     TLobby__sub_803C60F0(ctx, arg1, arg2, arg3);
     TLobby__sub_803C6118(ctx);
     TLobby__sub_803C5E78();
-    src->vt->lock(src, 1, 0x400, &b1);
+    src->interface->get_chunk(src, 1, 0x400, &b1);
     if (b1.size == 0) {
         for (;;) {
         }
     }
-    dst->vt->lock(dst, 0, b1.size, &b2);
+    dst->interface->get_chunk(dst, 0, b1.size, &b2);
     if (b2.size < b1.size) {
         for (;;) {
         }
     }
     memcpy(b2.data, b1.data, b1.size);
-    src->vt->commit(src, 0, &b1);
-    dst->vt->commit(dst, 1, &b2);
+    src->interface->put_chunk(src, 0, &b1);
+    dst->interface->put_chunk(dst, 1, &b2);
     TLobby__sub_803C610C(ctx);
     TLobby__sub_803C6138((S_803C6138 *)ctx);
-    src->vt->dtor(src);
-    arr[1]->vt->dtor(arr[1]);
-    arr[0]->vt->dtor(arr[0]);
+    src->interface->destroy(src);
+    arr[1]->interface->destroy(arr[1]);
+    arr[0]->interface->destroy(arr[0]);
     TLobby::clear_net_buffer_1680();
 }
 
@@ -81,6 +80,7 @@ void TLobby__sub_803C5D24(u8 *lobby) {
     TLobby::release_ref();
 }
 }
+static const char lbl_8047C5D8[] = "E0071301 ADXT_EntryAfs: can't entry ";
 extern char music_stream_afs_filename_buffer[];
 void append_music_stream_segment(u8 *arg0, s32 arg1, s32 arg2);
 void append_music_stream_segment(u8 *arg0, s32 arg1, s32 arg2) {
@@ -95,7 +95,7 @@ void append_music_stream_segment(u8 *arg0, s32 arg1, s32 arg2) {
         return;
     }
     TLobby::format_number_pair(arg1, arg2, buf, 0x10);
-    TLobby::report_adx_error("E0071301 ADXT_EntryAfs: can't entry ", buf);
+    TLobby::report_adx_error(lbl_8047C5D8, buf);
 }
 
 

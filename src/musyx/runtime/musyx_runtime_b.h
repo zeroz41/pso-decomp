@@ -3,9 +3,12 @@
 
 #pragma dont_inline on
 #include "types.h"
+
 #include "musyx/runtime/musyx_dspvoice.h"
 #include "pso/audio/SoundMixVoice.h"
 #include "pso/audio/SoundReverb.h"
+
+struct AdxbDecoder;
 
 struct RecoveredGlobal_803C0B08_lbl_80570AC0 {
     s32 value;
@@ -449,7 +452,7 @@ s32 TLobby__sub_803C3AC4(int);
 void notify_field_4_alt__6TLobbyFPv(u8 *arg0);
 s32 TLobby__sub_803C3ACC(int);
 void send_packet_by_id_2__6TLobbyFPv(u8 *arg0);
-s32 TLobby__sub_803C3B38(int);
+s32 TLobby__sub_803C3B38(const AdxbDecoder *decoder);
 void send_with_offset4__6TLobbyFPv(u8 *arg0);
 s32 TLobby__sub_803C3B44(int);
 void notify_field_4__6TLobbyFPv(u8 *arg0);

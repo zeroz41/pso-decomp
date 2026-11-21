@@ -11,14 +11,13 @@
 
 extern "C" unsigned long strtoul(const char *, char **, int);
 
-typedef void (*MfciErrorCallback)(s32 context, const char *message, void *handle);
 
 // inferred: named after gcrna_version_pointer, the same banner pointer in GCRNA.
 extern const char *const volatile mfci_version_pointer = "\nMFCI/GC Ver.1.03 Build:Jun 13 2002 19:01:04\n";
 
 char mfci_error_message_buffer[0x12C];
 MfciFilePool mfci_file_pool;
-MfciErrorCallback mfci_error_callback;
+CvFsErrorCallback mfci_error_callback;
 s32 mfci_error_callback_context;
 
 inline MfciFileEntry *find_free_803D4058(void) {
@@ -40,20 +39,20 @@ MfciFileEntry *mfci_open_entry(s32 entry, s32 mode) { // inferred: mfCiOpenEntry
     MfciFileEntry *f;
     if (entry < 0) {
         if (mfci_error_callback != NULL) {
-            mfci_error_callback(mfci_error_callback_context, "E1041001:invalid entry number.(mfCiOpenEntry)", NULL);
+            mfci_error_callback(mfci_error_callback_context, "E1041001:invalid entry number.(mfCiOpenEntry)", 0);
         }
         return NULL;
     }
     if (mode != 0) {
         if (mfci_error_callback != NULL) {
-            mfci_error_callback(mfci_error_callback_context, "E1041002:rw is illigal.(mfCiOpenEntry)", NULL);
+            mfci_error_callback(mfci_error_callback_context, "E1041002:rw is illigal.(mfCiOpenEntry)", 0);
         }
         return NULL;
     }
     f = find_free_803D4058();
     if (f == NULL) {
         if (mfci_error_callback != NULL) {
-            mfci_error_callback(mfci_error_callback_context, "E1041002:not enough handle resource.(mfCiOpenEntry)", NULL);
+            mfci_error_callback(mfci_error_callback_context, "E1041002:not enough handle resource.(mfCiOpenEntry)", 0);
         }
         return NULL;
     }
@@ -67,13 +66,13 @@ static u32 mfci_get_adr_size(char *fname, u32 *size) {
     if (strlen(fname) != 17) {
         sprintf(mfci_error_message_buffer, "E01100308:length of '%s' is not 17 bytes.(mfci_get_adr_size)", fname);
         if (mfci_error_callback != NULL) {
-            mfci_error_callback(mfci_error_callback_context, mfci_error_message_buffer, NULL);
+            mfci_error_callback(mfci_error_callback_context, mfci_error_message_buffer, 0);
         }
     }
     if (fname[8] != '.') {
         sprintf(mfci_error_message_buffer, "E01100309:illegal file name format '%s'(mfci_get_adr_size)", fname);
         if (mfci_error_callback != NULL) {
-            mfci_error_callback(mfci_error_callback_context, mfci_error_message_buffer, NULL);
+            mfci_error_callback(mfci_error_callback_context, mfci_error_message_buffer, 0);
         }
     }
     end = fname;
@@ -91,20 +90,22 @@ static u32 mfci_get_adr_size(char *fname, u32 *size) {
 // mfci_open, mfci_close and mfci_request_read, and nothing else calls them (they were misowned as
 // non-static TLobby members). inferred: CRI's mfCiGetNumTr, mfCiSetSctLen, mfCiGetSctLen,
 // mfCiGetStat and mfCiStopTr, by their slots in that table.
-s32 mfci_get_num_transferred(MfciFileEntry *file) {
+s32 mfci_get_num_transferred(void *handle) {
+    MfciFileEntry *file = static_cast<MfciFileEntry *>(handle);
     if (file == NULL) {
         if (mfci_error_callback != NULL) {
-            mfci_error_callback(mfci_error_callback_context, "E0092912:handl is null.", NULL);
+            mfci_error_callback(mfci_error_callback_context, "E0092912:handl is null.", 0);
         }
         return 0;
     }
     return file->read_bytes;
 }
 
-void mfci_set_sector_length(MfciFileEntry *file, s32 length) {
+void mfci_set_sector_length(void *handle, s32 length) {
+    MfciFileEntry *file = static_cast<MfciFileEntry *>(handle);
     if (file == NULL) {
         if (mfci_error_callback != NULL) {
-            mfci_error_callback(mfci_error_callback_context, "E0040302:handl is null.", NULL);
+            mfci_error_callback(mfci_error_callback_context, "E0040302:handl is null.", 0);
         }
     } else {
         s32 old = file->position_sector * file->block_size;
@@ -115,30 +116,33 @@ void mfci_set_sector_length(MfciFileEntry *file, s32 length) {
     }
 }
 
-s32 mfci_get_sector_length(MfciFileEntry *file) {
+s32 mfci_get_sector_length(void *handle) {
+    MfciFileEntry *file = static_cast<MfciFileEntry *>(handle);
     if (file == NULL) {
         if (mfci_error_callback != NULL) {
-            mfci_error_callback(mfci_error_callback_context, "E0040301:handl is null.", NULL);
+            mfci_error_callback(mfci_error_callback_context, "E0040301:handl is null.", 0);
         }
         return 0;
     }
     return file->block_size;
 }
 
-s32 mfci_get_status(MfciFileEntry *file) {
+s32 mfci_get_status(void *handle) {
+    MfciFileEntry *file = static_cast<MfciFileEntry *>(handle);
     if (file == NULL) {
         if (mfci_error_callback != NULL) {
-            mfci_error_callback(mfci_error_callback_context, "E0092912:handl is null.", NULL);
+            mfci_error_callback(mfci_error_callback_context, "E0092912:handl is null.", 0);
         }
         return 0;
     }
     return file->state;
 }
 
-void mfci_stop_transfer(MfciFileEntry *file) {
+void mfci_stop_transfer(void *handle) {
+    MfciFileEntry *file = static_cast<MfciFileEntry *>(handle);
     if (file == NULL) {
         if (mfci_error_callback != NULL) {
-            mfci_error_callback(mfci_error_callback_context, "E0092912:handl is null.", NULL);
+            mfci_error_callback(mfci_error_callback_context, "E0092912:handl is null.", 0);
         }
     } else {
         TLobby__sub_803D39C0();
@@ -156,7 +160,7 @@ s32 mfci_request_read(void *handle, s32 sectors, void *buffer) {
     s32 offset;
     if (mfci_file_entry == NULL) {
         if (mfci_error_callback != NULL) {
-            mfci_error_callback(mfci_error_callback_context, "E01100307:handl is null.", NULL);
+            mfci_error_callback(mfci_error_callback_context, "E01100307:handl is null.", 0);
         }
         return 0;
     }
@@ -202,20 +206,22 @@ s32 mfci_request_read(void *handle, s32 sectors, void *buffer) {
     return mfci_file_entry->read_sectors;
 }
 
-s32 mfci_get_position(MfciFileEntry *mfci_file_entry) {
+s32 mfci_get_position(void *handle) {
+    MfciFileEntry *mfci_file_entry = static_cast<MfciFileEntry *>(handle);
     if (mfci_file_entry == NULL) {
         if (mfci_error_callback != NULL) {
-            mfci_error_callback(mfci_error_callback_context, "E01100306:handl is null.", NULL);
+            mfci_error_callback(mfci_error_callback_context, "E01100306:handl is null.", 0);
         }
         return 0;
     }
     return mfci_file_entry->position_sector;
 }
 
-s32 mfci_seek(MfciFileEntry *mfci_file_entry, s32 arg1, s32 arg2) {
+s32 mfci_seek(void *handle, s32 arg1, s32 arg2) {
+    MfciFileEntry *mfci_file_entry = static_cast<MfciFileEntry *>(handle);
     if (mfci_file_entry == 0) {
         if (mfci_error_callback != 0) {
-            mfci_error_callback(mfci_error_callback_context, "E01100305:handl is null.", NULL);
+            mfci_error_callback(mfci_error_callback_context, "E01100305:handl is null.", 0);
         }
         return 0;
     }
@@ -233,11 +239,12 @@ s32 mfci_seek(MfciFileEntry *mfci_file_entry, s32 arg1, s32 arg2) {
     return mfci_file_entry->position_sector;
 }
 
-void mfci_close(MfciFileEntry *mfci_file_entry) {
+void mfci_close(void *handle) {
+    MfciFileEntry *mfci_file_entry = static_cast<MfciFileEntry *>(handle);
     if (mfci_file_entry != 0) {
         if (mfci_file_entry == 0) {
             if (mfci_error_callback != 0) {
-                mfci_error_callback(mfci_error_callback_context, "E0092912:handl is null.", NULL);
+                mfci_error_callback(mfci_error_callback_context, "E0092912:handl is null.", 0);
             }
         } else {
             TLobby__sub_803D39C0();
@@ -251,24 +258,24 @@ void mfci_close(MfciFileEntry *mfci_file_entry) {
     }
 }
 
-MfciFileEntry *mfci_open(const char *name, s32 arg1, s32 mode) {
+void *mfci_open(const char *name, s32 arg1, s32 mode) {
     MfciFileEntry *f;
     if (name == 0) {
         if (mfci_error_callback != 0) {
-            mfci_error_callback(mfci_error_callback_context, "E01100301:fname is null.(mfCiOpen)", NULL);
+            mfci_error_callback(mfci_error_callback_context, "E01100301:fname is null.(mfCiOpen)", 0);
         }
         return 0;
     }
     if (mode != 0) {
         if (mfci_error_callback != 0) {
-            mfci_error_callback(mfci_error_callback_context, "E01100302:rw is illigal.(mfCiOpen)", NULL);
+            mfci_error_callback(mfci_error_callback_context, "E01100302:rw is illigal.(mfCiOpen)", 0);
         }
         return 0;
     }
     f = find_free_803D4058();
     if (f == 0) {
         if (mfci_error_callback != 0) {
-            mfci_error_callback(mfci_error_callback_context, "E01100303:not enough handle resource.(mfCiOpen)", NULL);
+            mfci_error_callback(mfci_error_callback_context, "E01100303:not enough handle resource.(mfCiOpen)", 0);
         }
         return 0;
     }
@@ -288,14 +295,14 @@ MfciFileEntry *mfci_open(const char *name, s32 arg1, s32 mode) {
     return f;
 }
 
-u32 mfci_parse_file_size(char *s) {
+s32 mfci_parse_file_size(char *s) {
     u32 lo;
     mfci_get_adr_size(s, &lo);
     return lo;
 }
 
-void mfci_set_error_callback(s32 callback, s32 context) {
-    mfci_error_callback = (MfciErrorCallback)callback;
+void mfci_set_error_callback(CvFsErrorCallback callback, s32 context) {
+    mfci_error_callback = callback;
     mfci_error_callback_context = context;
 }
 
@@ -305,7 +312,7 @@ void mfci_exec_server(void) {
     }
 }
 
-MfciDeviceInterface mfci_callback_table = {
+CvFsDeviceInterface mfci_callback_table = {
     mfci_exec_server,
     mfci_set_error_callback,
     mfci_parse_file_size,
@@ -323,7 +330,7 @@ MfciDeviceInterface mfci_callback_table = {
     mfci_get_num_transferred,
 };
 
-MfciDeviceInterface *mfci_get_interface(void) {
+CvFsDeviceInterface *mfci_get_interface(void) {
     mfci_version_pointer;
     return &mfci_callback_table;
 }

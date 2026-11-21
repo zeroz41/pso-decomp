@@ -1,3 +1,4 @@
+#include "pso/system/Adxf.h"
 #include "pso/system/ResourceFile.h"
 #include "pso/ui/MenuText.h"
 #include "types.h"
@@ -875,7 +876,7 @@ void TLobby::flush_pending() {
         if ((temp_r5 != 0U)) {
             count = pending_file_read_sector_count;
             if (count != 0) {
-                TLobby::read_checked_align(*pending_file_read_handle_ref, count, temp_r5);
+                ADXF_ReadNw((AdxfHandle *)*pending_file_read_handle_ref, count, (void *)temp_r5);
             }
         }
         TLobby::flush_checked_reads();
@@ -887,7 +888,7 @@ void TLobby::flush_checked_reads() {
 
     for (i = 0; i < 4; i++) {
         if (lobby_checked_read_ptr_table[i] != NULL && lbl_80499A10[i] != 0 && lbl_80499A20[i] != 0) {
-            TLobby::read_checked_align(*lobby_checked_read_ptr_table[i], lbl_80499A10[i], lbl_80499A20[i]);
+            ADXF_ReadNw((AdxfHandle *)*lobby_checked_read_ptr_table[i], lbl_80499A10[i], (void *)lbl_80499A20[i]);
         }
     }
 }
@@ -1421,15 +1422,13 @@ s32 get_resource_file_size(const char *filename) {
 }
 
 extern "C" {
-TLobby *adxf_open__6TLobbyFUii(const char *, s32);
-
 s32 get_disc_file_size(const char *filename) {
-    TLobby *handle = adxf_open__6TLobbyFUii(filename, 0);
+    AdxfHandle *handle = ADXF_Open(filename, 0);
     if (handle == NULL) {
         return -1;
     }
-    s32 size = handle->adxf_get_fsize_byte();
-    handle->close_adxf_handle();
+    s32 size = ADXF_GetFsizeByte(handle);
+    ADXF_Close(handle);
     return size;
 }
 

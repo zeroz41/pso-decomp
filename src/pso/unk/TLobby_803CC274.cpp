@@ -1,4 +1,4 @@
-#include "types.h"
+#include <dolphin/os/OSCache.h>
 #include "pso/unk/TLobby.h"
 
 extern "C" {

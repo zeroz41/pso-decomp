@@ -38,8 +38,6 @@ void VecCopy__FP3VecPC3Vec(void *, void *);
 void run_task__11TBoss6ZanzoFv(Obj_803208CC *arg0);
 int set_depth_buffer_settings_1__Fv(void*);
 
-s32 fn_803204B0(void* p) { return *(s32*)((char*)p + 0x4); }
-
 void TBoss6Type1::set_effect_points(f32 *a, u32 *b) {
     Ef_803204B8 *o = (Ef_803204B8 *)this;
     Ent_803204B8 *p;

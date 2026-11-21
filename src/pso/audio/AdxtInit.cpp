@@ -15,7 +15,6 @@
 
 extern "C" {
 s32 memset(void *, int, int);
-void flush_update__6TLobbyFv(void *, int);
 s32 lbl_805D4658 = 1;
 s32 TLobby_init_ref_count;
 s32 TLobby__svm_cb_svr_handle;
@@ -63,13 +62,13 @@ void TLobby::init_and_add_ref() {
         TLobby::reset_sound_buffers();
         TLobby::init_afs_adxf_state();
         TLobby__sub_803CC114();
-        flush_update__6TLobbyFv((void *)TLobby::forward_notify_error, 0);
+        TLobby::flush_update(TLobby::forward_notify_error, NULL);
         memset(adx_stream_player_pool, 0, 0xA80);
         lsc_init();
         if (lbl_805D4658 == 1) {
-            TLobby::SVM_SetCbSvrId(2, 1, (s32)((void *)TLobby::get_state_zero), 0);
-            TLobby::SVM_SetCbSvrId(2, 3, (s32)((void *)TLobby::ar_alloc), 0);
-            TLobby__svm_cb_svr_handle = TLobby::svm_set_cb_svr(4, (s32)((void *)TLobby::process_connection_state), 0);
+            TLobby::SVM_SetCbSvrId(2, 1, TLobby::get_state_zero, 0);
+            TLobby::SVM_SetCbSvrId(2, 3, TLobby::ar_alloc, 0);
+            TLobby__svm_cb_svr_handle = TLobby::svm_set_cb_svr(4, TLobby::process_connection_state, 0);
         }
         lbl_805D7540 = 0;
         TLobby::release_ref();
@@ -78,17 +77,17 @@ void TLobby::init_and_add_ref() {
 }
 
 
-s32 TLobby::ar_alloc() {
+s32 TLobby::ar_alloc(s32) {
     ARAlloc();
     return 0;
 }
 
-s32 TLobby::get_state_zero() {
+s32 TLobby::get_state_zero(s32) {
     TLobby__sub_803C9608();
     return 0;
 }
 
-s32 TLobby::process_connection_state() {
+s32 TLobby::process_connection_state(s32) {
     if (TLobby__sub_803CB844() == 1) {
         lsc_poll_all();
         TLobby__sub_803CE240();
@@ -100,6 +99,6 @@ s32 TLobby::process_connection_state() {
     return 0;
 }
 
-void TLobby::forward_notify_error(s32 arg0, s32 arg1) {
-    TLobby::notify_error((const char *)arg1);
+void TLobby::forward_notify_error(void *, const char *message) {
+    TLobby::notify_error(message);
 }

@@ -4,7 +4,6 @@
 #include "types.h"
 
 extern "C" {
-s32 adxf_get_fsize_sct(u8 *arg0);
 void TLobby__sub_803CC884(void);
 void TLobby__sub_803CD804(void);
 s32 check_803CC294(s32 arg0, s32 arg1);

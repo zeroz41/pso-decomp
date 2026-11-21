@@ -1,6 +1,8 @@
 #ifndef PSO_UI_CHARCREATE_TCHCRLOADAFS_H
 #define PSO_UI_CHARCREATE_TCHCRLOADAFS_H
 
+struct AdxfHandle;
+
 #include "pso/system/task/TObject.h"
 #include "types.h"
 #include <stddef.h>
@@ -16,7 +18,7 @@ public:
     void poll_load();
     void sub_8028B944();
     void sub_8028B940();
-    u32 load_handle;
+    AdxfHandle *load_handle;
     u32 source_20;
     u32 source_24;
     u32 buffer_address;

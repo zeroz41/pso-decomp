@@ -20,11 +20,11 @@ inline void read_803D1D28(LscStream *lsc_stream) {
         TLobby::log_printf("E0007: lsc->fp=NULL");
     } else {
         entry = &lsc_stream->entries[lsc_stream->read_index];
-        status = TLobby__sub_803C8B2C((u8 *)lsc_stream->file_handle);
+        status = TLobby__sub_803C8B2C(lsc_stream->file_handle);
         if (status == 4) {
             lsc_stream->state = 3;
         } else if (status == 2) {
-            entry->progress = ((TLobby *)lsc_stream->file_handle)->get_file_offset_relative();
+            entry->progress = get_file_offset_relative__6TLobbyFv(lsc_stream->file_handle);
         } else if (status == 3) {
             entry->progress = lsc_stream->file_sector_count;
             entry->status = 2;
@@ -38,7 +38,7 @@ inline void end_803D1D28(LscStream *lsc_stream) {
     s32 range_offset = 0;
     s32 range_length = 0;
     if (lsc_stream->file_handle != 0) {
-        TLobby__sub_803C8B38((u8 *)lsc_stream->file_handle);
+        TLobby__sub_803C8B38(lsc_stream->file_handle);
         lsc_stream->file_handle = 0;
         if ((s32)lsc_stream->repeat == 1) {
             entry = &lsc_stream->entries[lsc_stream->read_index];
@@ -63,19 +63,19 @@ inline void wait_803D1D28(LscStream *lsc_stream) {
     LscQueueEntry *entry = &lsc_stream->entries[lsc_stream->read_index];
     if (lsc_stream->queued_count > 0) {
         if (lsc_stream->file_handle == 0) {
-            lsc_stream->file_handle = (void *)adxstm_open_fname_range_ex_rt__6TLobbyFPviiii(entry->filename, entry->open_mode, entry->range_offset, entry->range_length, (s32)lsc_stream->stream);
+            lsc_stream->file_handle = adxstm_open_fname_range_ex_rt__6TLobbyFPviiii(entry->filename, entry->open_mode, entry->range_offset, entry->range_length, (s32)lsc_stream->stream);
             if (lsc_stream->file_handle == 0) {
                 TLobby::log_printf("E0004: Can not open '%s'", entry->filename);
             }
-            s32 sector_count = (((TLobby *)lsc_stream->file_handle)->get_field_14() + 0x7FF) / 0x800;
+            s32 sector_count = (get_field_14__6TLobbyFv(lsc_stream->file_handle) + 0x7FF) / 0x800;
             lsc_stream->read_started = 0;
             lsc_stream->file_sector_count = sector_count;
             entry->progress = 0;
         }
         if (lsc_stream->read_started == 0) {
-            TLobby::set_range((void *)lsc_stream->file_handle, lsc_stream->min_buffer_bytes, lsc_stream->buffer_capacity);
-            ((TLobby *)lsc_stream->file_handle)->set_scroll_offset(0);
-            ((TLobby *)lsc_stream->file_handle)->init_stream_position();
+            TLobby::set_range(lsc_stream->file_handle, lsc_stream->min_buffer_bytes, lsc_stream->buffer_capacity);
+            set_scroll_offset__6TLobbyFl(lsc_stream->file_handle, 0);
+            init_stream_position__6TLobbyFv(lsc_stream->file_handle);
             lsc_stream->read_started = 1;
         }
         entry->status = 1;

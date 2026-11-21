@@ -3,10 +3,8 @@
 #include <string.h>
 #include "pso/unk/TLobby.h"
 
-typedef void (*AdxErrorCallback)(s32 ctx, char *msg);
-
 extern "C" {
-AdxErrorCallback lobby_error_callback;
+AdxMessageCallback lobby_error_callback;
 s32 tlobby_error_callback_arg;
 void TLobby__sub_803D38B4(const char *fmt, ...);
 char number_format_digit_buffer[0x20];
@@ -59,10 +57,10 @@ void TLobby::notify_error(const char *arg0) {
     TLobby__sub_803D38B4(adx_error_message_buffer);
 }
 
-void TLobby::set_params(s32 arg0, s32 arg1) {
-    lobby_error_callback = (AdxErrorCallback)arg0;
-    tlobby_error_callback_arg = arg1;
-    TLobby::set_callback_params(arg0, arg1);
+void TLobby::set_params(AdxMessageCallback callback, s32 context) {
+    lobby_error_callback = callback;
+    tlobby_error_callback_arg = context;
+    TLobby::set_callback_params(callback, context);
 }
 
 void TLobby::clear_error_callback() {

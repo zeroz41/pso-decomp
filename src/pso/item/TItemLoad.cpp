@@ -15,17 +15,13 @@
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/unk/text_800F7DAC.h"
-#include "pso/unk/text_803CC294.h"
+#include "pso/system/Adxf.h"
 #include "pso/weapon/TItemAttacker.h"
 
 // The loaders are written from their last function back: the unit is built
 // with deferred code generation, which emits functions in reverse order.
 
 extern "C" {
-// No shared declarations yet: adxf_get_stat and load_gvm_texture_archive are
-// declared per caller, TLobby_801E2F94.h gives the two partition helpers the
-// wrong parameters and text_800F7D30.h gives prs_decompress_alloc two.
-s32 adxf_get_stat(void *handle);
 s32 load_gvm_texture_archive(s32 data, NJS_TEXLIST *texlist);
 void *TLobby__sub_801E38A0(s32 data, u32 *pos, s32 *tag, u8 *dst, s32 *size);
 void TLobby__sub_801E3E9C(s32 partition_id, const char *path, void *partition_info, s32);
@@ -74,7 +70,7 @@ s32 TItemModelLoadTask::get_slot() { return slot; }
 
 s32 AfsPartition::get_size_sectors() { return size_sectors; }
 
-s32 AfsPartition::get_stat() { return adxf_get_stat(handle); }
+s32 AfsPartition::get_stat() { return ADXF_GetStat(handle); }
 
 void AfsFileLoader::on_loaded() {}
 
@@ -272,12 +268,12 @@ AfsPartition::~AfsPartition() {
     mem_free(partition_info);
 }
 
-void *AfsPartition::open(s32 index) {
+AdxfHandle *AfsPartition::open(s32 index) {
     if (ready == 1) {
         close();
-        handle = TLobby::adxf_open_afs(partition_id, index);
+        handle = ADXF_OpenAfs(partition_id, index);
         if (handle != NULL) {
-            size_sectors = adxf_get_fsize_sct((u8 *)handle);
+            size_sectors = ADXF_GetFsizeSct(handle);
         }
     }
     return handle;
@@ -285,14 +281,14 @@ void *AfsPartition::open(s32 index) {
 
 void AfsPartition::close() {
     if (handle != NULL) {
-        ((TLobby *)handle)->close_adxf_handle();
+        ADXF_Close(handle);
         handle = NULL;
         size_sectors = 0;
     }
 }
 
-void AfsPartition::read(s32 buffer) {
-    TLobby::read_checked_align((s32)handle, size_sectors, buffer);
+void AfsPartition::read(void *destination) {
+    ADXF_ReadNw(handle, size_sectors, destination);
 }
 
 RelocatedFile::RelocatedFile(const char *path, s32 size) {
@@ -357,7 +353,7 @@ void AfsFileLoader::advance_load_state() {
     }
     if (open(file_index) != NULL) {
         get_size_sectors();
-        read((s32)item_load_compressed_work_buffer);
+        read(item_load_compressed_work_buffer);
         state = 2;
     }
 }

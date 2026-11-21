@@ -1,8 +1,11 @@
 #include "types.h"
+#include "pso/audio/AdxbDecoder.h"
+#include <stddef.h>
 #include "pso/unk/TLobby_803BFE50.h"
 #include "pso/audio/SjRingBuffer.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/text_803C1780.h"
+#include "pso/unk/text_803D2F1C.h"
 #include <string.h>
 
 
@@ -28,7 +31,7 @@ typedef struct Rec_803C0628 {
 
 typedef struct S_803C0628 {
     s32 f0;
-    s32 f4;
+    TLobby *decoder;
     s32 f8;
     Obj_803C0628 *objs[4];
     Rec_803C0628 recs[3];
@@ -93,8 +96,6 @@ struct Snd_803C0BE8 {
 struct Rec_803C0018 { u8 state; u8 pad[0x9B]; };
 
 // Decoder handle fields read directly (TLobby::get_field_a8 returns the same field).
-struct AudioStreamDecoder { u8 pad_0[0xA8]; s16 format; };
-
 struct AudioStreamSource;
 
 // Same slot layout as SjRingBufferInterface (CRI SJ stream interface).
@@ -141,8 +142,6 @@ s32 TLobby__sub_803C3ABC(u8 *arg0);
 s32 TLobby__sub_803C3AC4(u8 *arg0);
 void TLobby__sub_803C3A04(u8 *arg0);
 void TLobby__sub_803C3984(u8 *arg0);
-void TLobby__sub_803C34F4(TLobby *decoder);
-s32 TLobby__sub_803C3B38(int);
 s32 TLobby__sub_803C3B44(u8 *arg0);
 void TLobby__sub_803BFFC0(u8 *arg0);
 void TLobby__sub_803BFFFC(u8 *arg0, s32 arg1, s32 arg2);
@@ -160,7 +159,6 @@ void EXIGetID(Snd_803C0BE8 *arg0);
 void GXFlush(void);
 void TLobby__sub_803C0238(AudioStreamInputState *st);
 s32 TLobby__sub_803C3B68(s32 arg0, u16 *hdr, s32 size);
-void TLobby__sub_803D3130(SjChunk *chunk, s32 size, SjChunk *head, SjChunk *tail);
 void *memcpy(void *, const void *, u32);
 void process_audio_stream_input(AudioStreamInputState *arg0);
 
@@ -201,8 +199,8 @@ s32 TLobby::send_packet_by_id_2() {
     return ((TLobby *)(*(s32 *)((s8 *)arg0 + 4)))->get_packet_flag_for_state();
 }
 s32 TLobby::send_with_offset4() {
-    u8 *arg0 = (u8 *)this;
-    return TLobby__sub_803C3B38((int) (*(s32 *)((s8 *)arg0 + 4)));
+    AudioStreamInputState *stream = (AudioStreamInputState *)this;
+    return TLobby__sub_803C3B38((const AdxbDecoder *)stream->decoder);
 }
 s32 TLobby::notify_field_4() {
     u8 *arg0 = (u8 *)this;
@@ -337,7 +335,7 @@ inline void drain_audio_stream_decoder(AudioStreamInputState *st) {
     TLobby__sub_803D3130(&st->src_chunk, bytes, &head, &tail);
     s->vt->put_chunk(s, 0, &head);
     s->vt->unget_chunk(s, 1, &tail);
-    for (i = 0; i < TLobby__sub_803C3B38((int)st->decoder); i++) {
+    for (i = 0; i < TLobby__sub_803C3B38((const AdxbDecoder *)st->decoder); i++) {
         TLobby__sub_803D3130(&st->out_chunks[i], n * 2, &head, &tail);
         if (st->output_callback != NULL) {
             st->output_callback(st->output_context, i, head.data, head.size);
@@ -375,12 +373,13 @@ void TLobby__sub_803C0238(AudioStreamInputState *st) {
     if (h->get_entry_id() == 0) {
         feed_audio_stream_decoder(st);
     }
-    TLobby__sub_803C34F4(h);
+    AdxbDecoder *decoder = reinterpret_cast<AdxbDecoder *>(h);
+    TLobby__sub_803C34F4(decoder);
     if (h->get_entry_id() == 3) {
         drain_audio_stream_decoder(st);
     }
     // Format 10 also updates the counters outside the output-ring path.
-    if (((AudioStreamDecoder *)h)->format == 10) {
+    if (decoder->m_A8 == 10) {
         skip_audio_stream_decoder(st);
     }
 }
@@ -392,7 +391,7 @@ void TLobby__sub_803C0628(void *arg0_, s32 *arg1, s32 *arg2, s32 *arg3) {
     s32 t;
     s32 v;
     h = (s32)arg0->objs[0];
-    for (i = 0; i < ((s32)TLobby__sub_803C3B38(arg0->f4)); i++) {
+    for (i = 0; i < TLobby__sub_803C3B38((const AdxbDecoder *)arg0->decoder); i++) {
         arg0->objs[i]->vt->fn18(arg0->objs[i], 0, 0x4000, &arg0->recs[i]);
     }
     *arg1 = (arg0->recs[0].a - (s32)sj_ring_buffer_get_buffer((SjRingBuffer*)h)) / 2;
@@ -407,7 +406,7 @@ void TLobby__sub_803C0628(void *arg0_, s32 *arg1, s32 *arg2, s32 *arg3) {
     } else {
         *arg3 = 0x1FFFFFFF;
     }
-    ((TLobby *)(arg0->f4))->get_field_0x3c();
+    arg0->decoder->get_field_0x3c();
 }
 
 void TLobby::reset_flag() {
@@ -644,82 +643,37 @@ void TLobby__sub_803C133C(Snd_803C0BE8 *arg0) {
 
 }
 
-struct Hdl_803C1668 {
-    u8 pad0[2];
-    s16 f2;
-    u8 pad4[8];
-    u8 fc;
-    u8 fd;
-    s8 fe;
-    s8 ff;
-    s32 f10;
-    s32 f14;
-    s32 f18;
-    s16 f1c;
-    u8 pad1e[2];
-    s32 f20;
-    s16 f24;
-    s16 f26;
-    s32 f28;
-    s32 f2c;
-    s32 f30;
-    s32 f34;
-    u8 pad38[4];
-    s32 f3c;
-    s32 f40;
-    s32 f44;
-    s16 f48;
-    s16 f4a;
-    u8 f4c[0xC];
-    s32 f58;
-    s32 f5c;
-    s32 f60;
-    s32 f64;
-    s32 f68;
-    s32 f6c;
-    u8 pad70[0xC];
-    s16 f7c;
-    s16 f7e;
-    u8 *f80;
-    u8 pad84[0x14];
-    s32 f98;
-    s32 f9c;
-    u8 padA0[8];
-    s16 fa8;
-    u8 faa[2];
-};
-
 extern "C" {
-s16 DVDReadPrio(Hdl_803C1668 *h, s32 arg1, s32 arg2);
-s16 DVDReadPrio(Hdl_803C1668 *h, s32 buf, s32 len) {
+s32 initialize_wave_stream_decoder(AdxbDecoder *h, u8 *buf, s32 len) {
     s16 n;
-    h->f2 = 1;
-    if (TLobby__sub_803C1780((s32)buf, (s32)len, (s16 *)&n, (s8 *)&h->fc, (s8 *)&h->fd, (s8 *)&h->ff, (s8 *)&h->fe, (s32 *)&h->f14, (s32 *)&h->f18, (s32 *)&h->f10, (s16 *)h->faa) < 0) {
+    h->m_02 = 1;
+    if (TLobby__sub_803C1780(buf, len, &n, &h->m_0C, &h->bits, &h->block_bytes,
+                             &h->channels, &h->rate, &h->samples, &h->block_samples, &h->m_AA) < 0) {
         return 0;
     }
-    h->f1c = 0;
-    h->f4a = 0;
-    h->f48 = 0;
-    h->f26 = 0;
-    h->f24 = 0;
-    h->f34 = 0;
-    h->f30 = 0;
-    h->f2c = 0;
-    h->f28 = 0;
-    h->f20 = 0;
-    h->f58 = h->fe;
-    h->f5c = h->ff;
-    h->f60 = h->f10;
-    h->f64 = h->f3c;
-    h->f68 = h->f40;
-    h->f6c = h->f44;
-    h->f7c = h->f48;
-    h->f7e = h->f4a;
-    h->f80 = h->f4c;
-    h->f9c = 0;
-    h->f98 = 0;
-    h->fa8 = 1;
-    memset(h->f4c, 0, 4);
+    h->m_1C = 0;
+    h->m_4A = 0;
+    h->m_48 = 0;
+    h->m_26 = 0;
+    h->m_24 = 0;
+    h->m_34 = 0;
+    h->m_30 = 0;
+    h->m_2C = 0;
+    h->m_28 = 0;
+    h->m_20 = 0;
+    h->stream_channels = h->channels;
+    h->stream_block_bytes = h->block_bytes;
+    h->stream_block_samples = h->block_samples;
+    h->buf = h->m_3C;
+    h->bufLen = h->wrap_len;
+    h->rOff = h->wrap_offset;
+    h->m_7C = h->m_48;
+    h->m_7E = h->m_4A;
+    h->m_80 = h->m_4C;
+    h->m_9C = 0;
+    h->m_98 = 0;
+    h->m_A8 = 1;
+    memset(h->m_4C, 0, 4);
     return n;
 }
 
@@ -733,10 +687,6 @@ RecoveredCallback_1268626c296b lbl_805D7514;
 extern s32 (*lbl_805D7510)();
 
 
-// Little-endian RIFF/WAVE fields read on the big-endian GameCube.
-#define LE16(x) ((((x) >> 8) & 0xFF) | (((x) << 8) & 0xFF00))
-#define LE32(x) (((x) >> 24) | (((x) >> 8) & 0xFF00) | (((x) << 8) & 0xFF0000) | ((x) << 24))
-
 // "fmt " chunk of a WAVE file.
 struct WavFmtChunk {
     char id[4];
@@ -749,57 +699,76 @@ struct WavFmtChunk {
     u16 bits;
 };
 
-
-s32 TLobby__sub_803C1780(s32 buf, s32 len, s16 *data_offset, s8 *marker, s8 *bits, s8 *block_align, s8 *channels,
-                         s32 *sample_rate, s32 *sample_count, s32 *samples_per_block, s16 *encoding) {
-    WavFmtChunk *fmt;
+struct WavDataChunk {
+    char id[4];
     u32 size;
-    s32 i;
+};
 
-    for (i = 0; i < len; i++) {
-        if (memcmp((void *)(buf + i), wav_fmt_chunk_id, 4) == 0) {
+typedef char WavFmtChunkSize[sizeof(WavFmtChunk) == 0x18 ? 1 : -1];
+typedef char WavFmtChannelOffset[offsetof(WavFmtChunk, channels) == 0xA ? 1 : -1];
+typedef char WavFmtBlockAlignOffset[offsetof(WavFmtChunk, block_align) == 0x14 ? 1 : -1];
+typedef char WavDataChunkSize[sizeof(WavDataChunk) == 8 ? 1 : -1];
+
+#define WAVE_SWAP16(value) ((((value) >> 8) & 0xFF) | (((value) << 8) & 0xFF00))
+#define WAVE_SWAP32(value) ((((value) >> 24) & 0xFF) | (((value) >> 8) & 0xFF00) | \
+                            (((value) << 8) & 0xFF0000) | (((value) << 24) & 0xFF000000))
+#pragma push
+#pragma opt_propagation off
+s32 TLobby__sub_803C1780(u8 *buffer, s32 size, s16 *data_offset,
+                        s8 *flags, s8 *bits_per_sample, s8 *block_align,
+                        s8 *channels, s32 *sample_rate, s32 *sample_count,
+                        s32 *codec, s16 *encoding) {
+    s32 offset;
+    WavFmtChunk *format;
+    WavDataChunk *data;
+    s32 data_size;
+    s16 payload_offset;
+    for (offset = 0; offset < size; ++offset) {
+        if (memcmp((void *)(buffer + offset), wav_fmt_chunk_id, 4) == 0) {
             break;
         }
     }
-    if (i == len) {
+    if (offset == size) {
         return -1;
     }
-    if (i % 4 != 0) {
+    if (offset % 4 != 0) {
         return -1;
     }
-    fmt = (WavFmtChunk *)(i + buf);
-    if ((s16)LE16(fmt->format) > 1) {
+    format = reinterpret_cast<WavFmtChunk *>(offset + reinterpret_cast<u32>(buffer));
+    if (static_cast<s16>(WAVE_SWAP16(format->format)) > 1) {
         return -1;
     }
-    for (i = 0; i < len; i++) {
-        if (memcmp((void *)(buf + i), wav_data_chunk_id, 4) == 0) {
+    for (offset = 0; offset < size; ++offset) {
+        if (memcmp((void *)(buffer + offset), wav_data_chunk_id, 4) == 0) {
             break;
         }
     }
-    if (i == len) {
+    if (offset == size) {
         return -1;
     }
-    size = LE32(*(u32 *)(i + 4 + buf)); // "data" chunk size
-    *data_offset = i + 8;
-    *marker = -1;
-    *sample_rate = LE32(fmt->sample_rate);
-    *channels = LE16(fmt->channels);
-    *bits = LE16(fmt->bits);
-    *block_align = LE16(fmt->block_align);
-    *sample_count = (s32)size / *block_align;
-    *samples_per_block = 1;
-    if (*bits == 16) {
+    data = reinterpret_cast<WavDataChunk *>(offset + reinterpret_cast<u32>(buffer));
+    data_size = WAVE_SWAP32(static_cast<u32>(data->size));
+    payload_offset = offset + 8;
+    *data_offset = payload_offset;
+    *flags = -1;
+    *sample_rate = WAVE_SWAP32(format->sample_rate);
+    *channels = WAVE_SWAP16(format->channels);
+    *bits_per_sample = WAVE_SWAP16(format->bits);
+    *block_align = WAVE_SWAP16(format->block_align);
+    *sample_count = data_size / *block_align;
+    *codec = 1;
+    if (*bits_per_sample == 16) {
         *encoding = 0;
-    } else if (*bits == 8) {
+    } else if (*bits_per_sample == 8) {
         *encoding = 1;
-    } else if (*bits == 4) {
+    } else if (*bits_per_sample == 4) {
         *block_align = *channels * 2;
-        *samples_per_block = 4;
-        *sample_count = (s32)size / 2 / *channels;
-        *bits = 16;
+        *codec = 4;
+        *sample_count = (data_size / 2) / *channels;
+        *bits_per_sample = 16;
         *encoding = 2;
     }
-    if (*bits == 0) {
+    if (*bits_per_sample == 0) {
         return -1;
     }
     if (*block_align == 0) {
@@ -810,6 +779,9 @@ s32 TLobby__sub_803C1780(s32 buf, s32 len, s16 *data_offset, s8 *marker, s8 *bit
     }
     return *sample_rate == 0 ? -1 : 0;
 }
+#pragma pop
+#undef WAVE_SWAP16
+#undef WAVE_SWAP32
 
 void TLobby__sub_803C19D8(void) {
     lbl_805D7510();

@@ -3,13 +3,11 @@
 
 #include "types.h"
 
-extern "C" {
-void TLobby__sub_803CFE9C(void);
-}
+struct DVDFileInfo;
 
 // --- C functions defined in TLobby_803CFE68.cpp ---
 extern "C" {
-void TLobby__sub_803CFE9C(void);
+void TLobby__sub_803CFE9C(s32 result, DVDFileInfo *file);
 }
 // --- end of C functions
 

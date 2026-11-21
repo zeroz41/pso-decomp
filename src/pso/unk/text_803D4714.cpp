@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/text_803D2F1C.h"
 #include "pso/unk/TLobby.h"
 struct Strm_803D4770;
 struct StrmVt_803D4770 {
@@ -42,7 +43,6 @@ struct S_803D4714 { u8 f; u8 pad[0x7f]; };
 
 extern "C" {
 void sndStreamARAMUpdate(u32 stid, u32 off1, u32 len1, u32 off2, u32 len2);
-void TLobby__sub_803D3130(void *, s32, void *, void *);
 void *memcpy(void *, const void *, u32);
 void *memset(void *, int, u32);
 extern S_803D4714 gcrna_stream_pool[];

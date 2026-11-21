@@ -1,3 +1,4 @@
+#include "pso/system/Adxf.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/math/FloatRounding.h"
 #include "types.h"
@@ -39,17 +40,16 @@ s32 TChCrLoadAfs::try_begin_load() {
 }
 
 extern "C" {
-s32 adxf_get_stat(int);
 }
 
 void TChCrLoadAfs::sub_8028B940() {  }
 void TChCrLoadAfs::sub_8028B944() {  }
 void TChCrLoadAfs::poll_load() {
-    switch (adxf_get_stat(load_handle)) {
+    switch (ADXF_GetStat(load_handle)) {
     case 2:
         return;
     case 3:
-        ((TLobby *)load_handle)->close_adxf_handle();
+        ADXF_Close(load_handle);
         load_handle = 0;
         break;
     case 1:
@@ -77,24 +77,24 @@ s32 load_texture_list(GinjaTextureList *);
 
 void TChCrLoadAfs::start_download() {
     s32 count;
-    u32 handle;
+    AdxfHandle *handle;
     u32 buffer;
 
     if (try_begin_load() != 0) {
-        handle = (u32)TLobby::adxf_open_afs(source_20, source_24);
+        handle = ADXF_OpenAfs(source_20, source_24);
         load_handle = handle;
-        if (handle == 0U) {
+        if (handle == NULL) {
             load_state = 3;
             return;
         }
-        count = adxf_get_fsize_sct((u8 *)load_handle);
+        count = ADXF_GetFsizeSct(load_handle);
         buffer = (u32)TQuestVmDownLoadServer::alloc(count << 0xB);
         buffer_address = buffer;
         if (buffer == 0U) {
             load_state = 3;
             return;
         }
-        TLobby::read_checked_align(load_handle, count, buffer_address);
+        ADXF_ReadNw(load_handle, count, (void *)buffer_address);
         load_state = 1;
     }
 }
@@ -120,10 +120,10 @@ void TChCrLoadAfs::run_task() {
 }
 
 TChCrLoadAfs::~TChCrLoadAfs() {
-    u32 handle = load_handle;
+    AdxfHandle *handle = load_handle;
     if (handle != 0) {
-        if (adxf_get_stat((int)handle) == 2) ((TLobby *)load_handle)->adxf_stop();
-        ((TLobby *)load_handle)->close_adxf_handle();
+        if (ADXF_GetStat(handle) == 2) ADXF_Stop(load_handle);
+        ADXF_Close(load_handle);
         load_handle = 0;
     }
     u32 buffer = buffer_address;
@@ -197,7 +197,7 @@ void TChCrLoadAfsTextureReq::update_loading() {
     s32 retry;
     s32 i;
     retry = 0;
-    switch (adxf_get_stat(load_handle)) {
+    switch (ADXF_GetStat(load_handle)) {
     case 1:
         if (++m_20 >= 3) {
             return;
@@ -216,14 +216,14 @@ void TChCrLoadAfsTextureReq::update_loading() {
         return;
     }
     if (retry != 0) {
-        ((TLobby *)load_handle)->close_adxf_handle();
+        ADXF_Close(load_handle);
         load_handle = 0;
         TAdSinglePlyChrSelectGC::safe_free(buffers[index]);
         buffers[index] = 0;
         state = 1;
         return;
     }
-    ((TLobby *)load_handle)->close_adxf_handle();
+    ADXF_Close(load_handle);
     load_handle = 0;
     if (++index != count) {
         state = 1;
@@ -241,18 +241,18 @@ void TChCrLoadAfsTextureReq::update_loading() {
 
 void TChCrLoadAfsTextureReq::start_read() {
     s32 n;
-    u32 handle;
+    AdxfHandle *handle;
     u32 buf;
-    handle = (u32)TLobby::adxf_open_afs(player_class_texture_archive_table[m_70].archiveId, find_player_texture_name_ordinal((u8 *)this));
+    handle = ADXF_OpenAfs(player_class_texture_archive_table[m_70].archiveId, find_player_texture_name_ordinal((u8 *)this));
     load_handle = handle;
     if (handle != 0) {
         m_20 = 0;
         m_24 = 0;
-        n = adxf_get_fsize_sct((u8 *)load_handle);
+        n = ADXF_GetFsizeSct(load_handle);
         buf = (u32)TQuestVmDownLoadServer::alloc(n << 11);
         buffers[index] = buf;
         if (buf != 0) {
-            TLobby::read_checked_align(load_handle, n, buffers[index]);
+            ADXF_ReadNw(load_handle, n, (void *)buffers[index]);
             state = 2;
         }
     }

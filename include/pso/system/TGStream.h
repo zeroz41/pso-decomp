@@ -1,6 +1,8 @@
 #ifndef PSO_SYSTEM_TGSTREAM_H
 #define PSO_SYSTEM_TGSTREAM_H
 
+struct AdxfHandle;
+
 #include "pso/system/GslArchive.h"
 #include <stddef.h>
 
@@ -23,7 +25,7 @@ public:
     s32 read_data(s32 destination, s32 byte_count);
 
     char name[0x20];
-    s32 adxf_handle;
+    AdxfHandle *adxf_handle;
     s32 direct_read_mode;
     GslArchiveEntry *archive_entry;
 };

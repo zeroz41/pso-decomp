@@ -21,13 +21,11 @@ typedef char TBoss6Zanzo_size[sizeof(TBoss6Zanzo) == 0x2C ? 1 : -1];
 
 extern "C" {
 void TBoss6Zanzo__sub_803205A0(s32 *arg0, s32 *arg1);
-s32 fn_803204B0(void *p);
 }
 
 // --- C functions defined in TBoss6Zanzo.cpp ---
 extern "C" {
 void TBoss6Zanzo__sub_803205A0(s32 *arg0, s32 *arg1);
-s32 fn_803204B0(void *p);
 }
 // --- end of C functions
 

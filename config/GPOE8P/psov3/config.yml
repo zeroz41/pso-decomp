@@ -6717,6 +6717,7 @@ force_active:
   - get_random_scaled__11TBoss4Type3FPv
   - get_random_sign__12TBoss8DragonFiPvi
   - get_registered_object_count__Fv
+  - get_rel_module_image
   - get_render_mode_for_tv_format
   - get_result__16TObjItemOKWindowFv
   - get_result__18TObjItemNameSelectFv

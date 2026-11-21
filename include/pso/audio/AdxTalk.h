@@ -1,13 +1,14 @@
 #ifndef PSO_AUDIO_ADXTALK_H
 #define PSO_AUDIO_ADXTALK_H
 
+#include "pso/audio/AdxCallbacks.h"
 #include "types.h"
 
 // --- C functions defined in AdxTalk.cpp ---
 extern "C" {
 void TLobby__sub_803C9350(u8 *arg0, s32 arg1);
 s32 TLobby__sub_803C9358(u8 *arg0);
-void TLobby__sub_803C94B8(void);
+void TLobby__sub_803C94B8(AdxMessageCallback callback, s32 context);
 void TLobby__sub_803C94D8(void);
 void TLobby__sub_803C94DC(u8 *arg0, s32 arg1);
 void TLobby__sub_803C9608(void);

@@ -11,9 +11,6 @@ extern "C" {
 s32 memset(void *, int, int);
 AdxbDecoder adx_channel_record_pool[16];
 void TLobby__sub_803C19D8(void *);
-void TLobby__sub_803C3570(AdxbDecoder *o);
-void TLobby__sub_803C34F4(AdxbDecoder *arg0);
-s32 DVDReadPrio(void *, void *, void *);
 u32 adx_allocate_decoder_channel();
 
 void TLobby__sub_803C34F4(AdxbDecoder *h) {
@@ -272,16 +269,8 @@ s32 TLobby::get_packet_flag_for_state() {
     return 0x10;
 }
 
-s8 TLobby__sub_803C3B38(u8 *arg0) {
-  s8 *new_var3;
-  unsigned int new_var2;
-  s8 *new_var4;
-  u8 new_var;
-  new_var4 = (s8 *) arg0;
-  new_var3 = 0xE + new_var4;
-  new_var = (*((u8 *) new_var3)) & 0xFFFFFFFFFFFFFFFFu;
-  ;
-  return (s8) (new_var & 0xFF);
+s32 TLobby__sub_803C3B38(const AdxbDecoder *decoder) {
+    return decoder->channels;
 }
 
 s32 TLobby__sub_803C3B44(u8 *adxb_decoder) {
@@ -312,7 +301,7 @@ s32 TLobby__sub_803C3B68(s32 decoder, u16 *hdr, s32 size) {
         return TLobby__sub_803C43A8((void *)decoder, (void *)hdr, (void *)size);
     }
     if (((TLobby *)hdr)->is_riff_wave() != 0) {
-        return DVDReadPrio((void *)decoder, (void *)hdr, (void *)size);
+        return initialize_wave_stream_decoder((AdxbDecoder *)decoder, (u8 *)hdr, size);
     }
     if (((TLobby *)hdr)->is_aiff_header() != 0) {
         return ((TLobby *)decoder)->parse_stream_header((void *)hdr, (void *)size);

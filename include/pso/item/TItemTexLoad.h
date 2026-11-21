@@ -1,5 +1,7 @@
 #ifndef PSO_ITEM_TITEMTEXLOAD_H
 #define PSO_ITEM_TITEMTEXLOAD_H
+
+struct AdxfHandle;
 #include "pso/system/task/TObject.h"
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/item/TItemData.h"
@@ -9,7 +11,7 @@ public:
     void* m_archive_buffer;
     s32 m_state;
     s32 m_texture_index;
-    u32 m_archive_handle;
+    AdxfHandle *m_archive_handle;
     GinjaTextureList m_texture_list;
     GinjaTextureEntry m_texture_entry;
 

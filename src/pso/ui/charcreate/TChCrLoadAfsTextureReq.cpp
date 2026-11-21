@@ -1,3 +1,4 @@
+#include "pso/system/Adxf.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
@@ -24,7 +25,6 @@ s32 free_bin_model_request(void *, int);
 void *init_bin_model_request(void *, int, char **, u32 *, int, int, int);
 extern "C" { extern char TChCrLoadAfsTextureReq__class_name_string[]; }
 const char *lbl_805D3B50 = TChCrLoadAfsTextureReq__class_name_string;
-s32 adxf_get_stat(s32);
 f64 log();
 
 void TChCrLoadAfsTextureReq::try_begin_load() {
@@ -83,10 +83,10 @@ s32 TChCrLoadAfsTextureReq::try_acquire_load_slot() {
 TChCrLoadAfsTextureReq::~TChCrLoadAfsTextureReq() {
     s32 i;
     if (this->m_1c == 0 && this->buffers[0] != 0) {
-        if (adxf_get_stat(this->load_handle) == 2) {
-            ((TLobby *)this->load_handle)->adxf_stop();
+        if (ADXF_GetStat(this->load_handle) == 2) {
+            ADXF_Stop(this->load_handle);
         }
-        ((TLobby *)this->load_handle)->close_adxf_handle();
+        ADXF_Close(this->load_handle);
         this->load_handle = 0;
     }
     this->finish_request();

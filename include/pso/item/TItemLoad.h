@@ -6,6 +6,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 
+struct AdxfHandle;
 struct NJS_OBJECT;
 
 // The start every ItemPMT record shares (lookup_item_pmt_record): its id and
@@ -32,7 +33,7 @@ struct ItemModelResource {
 class AfsPartition {
 public:
     void *partition_info;
-    void *handle;
+    AdxfHandle *handle;
     s32 partition_id;
     s32 size_sectors;
     s32 ready;
@@ -40,11 +41,13 @@ public:
     AfsPartition(const char *path, s32 partition_id, s32 nfiles);
     virtual ~AfsPartition();
     void close();
-    void *open(s32 index);
-    void read(s32 buffer);
+    AdxfHandle *open(s32 index);
+    void read(void *destination);
     s32 get_stat();
     s32 get_size_sectors();
 };
+
+typedef char AfsPartitionSize[sizeof(AfsPartition) == 0x18 ? 1 : -1];
 
 // Reads one file of an AFS partition into the shared compressed work buffer
 // and hands it to on_loaded (update_state drives it). Name inferred.
@@ -66,6 +69,8 @@ public:
     void advance_load_state();
     s32 is_loaded();
 };
+
+typedef char AfsFileLoaderSize[sizeof(AfsFileLoader) == 0x24 ? 1 : -1];
 
 // Loads a GVM texture archive of ItemTexture.afs into a texture list (the
 // item_texture_archive_loader). Name from the archive it loads.
