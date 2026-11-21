@@ -668,7 +668,7 @@ saddr create_window_menu(saddr arg0, saddr arg1, saddr arg2) {
     return (saddr)new TWindowMenu(arg1, arg2, arg0);
 }
 
-s32 create_window_menu_default(saddr pos, s32 entries) {
+saddr create_window_menu_default(saddr pos, s32 entries) {
     return create_window_menu(pos, entries, 4);
 }
 

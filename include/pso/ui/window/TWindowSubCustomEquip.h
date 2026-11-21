@@ -35,7 +35,7 @@ struct TWindowSubCustomEquip : public TWindowBase {
     void handle_cancel();
     void handle_decide();
     virtual void run_task();
-    s32 calc_equip_index();
+    saddr calc_equip_index();
     int is_selected();
     void clear_flag_and_set_entry_state();
     void draw_cursor(u8 *arg1);

@@ -547,7 +547,7 @@ TWindowSubCustomEquip::TWindowSubCustomEquip(s32 slot) : TWindowBase((u8 *)&lbl_
     this->refresh_palette_slots();
 }
 
-s32 TWindowSubCustomEquip::calc_equip_index() {
+saddr TWindowSubCustomEquip::calc_equip_index() {
     return *(s32 *)((s8 *)this + 0x78) + (((s8) *(u8 *)((s8 *)this + 0x70) + ((s8) *(u8 *)((s8 *)this + 0x71) * 3)) * 4);
 }
 
