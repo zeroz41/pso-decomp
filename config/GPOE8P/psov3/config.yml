@@ -8332,7 +8332,7 @@ force_active:
   - TTecSifta__name
   - TTecZarua__name
   - TWindowBreakIn__name
-  - lbl_805D3898
+  - TWindowChallengeResult__name
   - lbl_805D38B0
   - TWindowMessageInfomation__name
   - TWindowMessageLog__name
