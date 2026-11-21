@@ -113,9 +113,9 @@ u8 *TCameraCtrl__ct(u8 *arg0, void *parent);
 void reset_controller_input_state();
 void set_copy_clear_color_argb(s32, s32, s32);
 void TItemReverseTech__sub_8011A54C(void* a0);
-void TItemReverseTech__sub_8011A55C(void);
-void TItemReverseTech__sub_8011A580(void);
-void TItemReverseTech__sub_8011A5A4(void);
+void activate_fast_rotation_code(void);
+void activate_reverse_rotation_code(void);
+void activate_uraending_code(void);
 void reset__11TCameraCtrlFv(void);
 s32 free_texture_if_valid(u32 arg0);
 }
@@ -138,9 +138,9 @@ TItemReverseTechSceneHook TItemReverseTech__cleanup_callback_table[7] = {
 #pragma defer_codegen on
 
 
-void TItemReverseTech__sub_8011A5A4(void) {  }
-void TItemReverseTech__sub_8011A580(void) { TLobby::set_global_flags(1); }
-void TItemReverseTech__sub_8011A55C(void) { TLobby::set_global_flags(2); }
+void activate_uraending_code(void) {  }
+void activate_reverse_rotation_code(void) { TLobby::set_global_flags(1); }
+void activate_fast_rotation_code(void) { TLobby::set_global_flags(2); }
 
 void TItemReverseTech__sub_8011A54C(void* a0) { *(float*)((char*)a0 + 0x20) = 1.0f; *(float*)((char*)a0 + 0x24) = 1.0f; }
 

@@ -67,9 +67,9 @@ s8 lbl_804A0458[16] = {
     'u' - 'a', 'k' - 'a', 'a' - 'a', 'i' - 'a', 't' - 'a', 'e' - 'a', 'n' - 'a',
 };
 ReverseTechCode lbl_804A0468[3] = {
-    { lbl_804A0440, 9, TItemReverseTech__sub_8011A5A4 },
-    { lbl_804A044C, 11, (void (*)(void))TItemReverseTech__sub_8011A580 },
-    { lbl_804A0458, 13, (void (*)(void))TItemReverseTech__sub_8011A55C },
+    { lbl_804A0440, 9, activate_uraending_code },
+    { lbl_804A044C, 11, (void (*)(void))activate_reverse_rotation_code },
+    { lbl_804A0458, 13, (void (*)(void))activate_fast_rotation_code },
 };
 
 TItemReverseTechCtrl *TItemReverseTechCtrl::create(TObject *parent) {
