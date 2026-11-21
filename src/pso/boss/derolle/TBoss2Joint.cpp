@@ -1,5 +1,6 @@
 #include "types.h"
 #include "pso/boss/derolle/TBoss2Joint.h"
+#include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/boss/TUnk_80482C58.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -16,8 +17,6 @@ extern "C" {
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
 extern const f32 lbl_805D8258;
 s32 TBoss2Joint_get_shell_max_hp(void);
-void spawn_offset_particle__13TBoss2DeRolLeFiff(saddr arg0, f32 farg0, f32 farg1);
-s32 apply_hp_damage_with_sound__13TBoss2DeRolLeFPvi(s32, s32, u16);
 }
 
 // The movement parameters init_params installs.
@@ -165,8 +164,8 @@ void TBoss2Joint::vfunc_62() {
             break_shell();
         }
     } else {
-        spawn_offset_particle__13TBoss2DeRolLeFiff((saddr)&position, 15.0f, 12.0f);
-        apply_hp_damage_with_sound__13TBoss2DeRolLeFPvi((s32)m_up, damage, m_2d4);
+        TBoss2DeRolLe::spawn_offset_particle(&position, 15.0f, 12.0f);
+        ((TBoss2DeRolLe *)m_up)->apply_hp_damage_with_sound(damage, m_2d4);
     }
     hp = hpmax;
     clear_attack_receipts();
