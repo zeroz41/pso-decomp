@@ -203,7 +203,7 @@ void TObjEneMe3Stelth::load_shared_resources() {
     s32 n;
     StelthBehaviorParams *d;
     u32 m;
-    s32 *q;
+    NJS_CNK_MODEL *q;
     AnimationMotion *motion;
     void *p;
 
@@ -245,21 +245,21 @@ void TObjEneMe3Stelth::load_shared_resources() {
     lbl_80501114[1] = 0.0f;
     lbl_80501114[2] = 0.0f;
     m = (saddr)TObjEneMe3Stelth__bml_resource->models->model;
-    q = (s32 *)((NJS_OBJECT *)find_model_node(m, 9))->model;
+    q = (NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(m, 9))->model;
     if (q != NULL) {
-        TObjEneMe3Stelth__material_color_pointers[0] = (u32 *)(q[1] + 4);
+        TObjEneMe3Stelth__material_color_pointers[0] = (u32 *)(q->polygon_list + 2);
     } else {
         TObjEneMe3Stelth__material_color_pointers[0] = 0;
     }
-    q = (s32 *)((NJS_OBJECT *)find_model_node(m, 0xD))->model;
+    q = (NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(m, 0xD))->model;
     if (q != NULL) {
-        TObjEneMe3Stelth__material_color_pointers[1] = (u32 *)(q[1] + 4);
+        TObjEneMe3Stelth__material_color_pointers[1] = (u32 *)(q->polygon_list + 2);
     } else {
         TObjEneMe3Stelth__material_color_pointers[1] = 0;
     }
-    q = (s32 *)((NJS_OBJECT *)find_model_node(m, 0x26))->model;
+    q = (NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(m, 0x26))->model;
     if (q != NULL) {
-        TObjEneMe3Stelth__material_color_pointers[2] = (u32 *)(q[1] + 4);
+        TObjEneMe3Stelth__material_color_pointers[2] = (u32 *)(q->polygon_list + 2);
     } else {
         TObjEneMe3Stelth__material_color_pointers[2] = 0;
     }
@@ -300,7 +300,7 @@ void TObjEneMe3Stelth::load_shared_resources() {
                                                   reinterpret_cast<GinjaTextureList *>(TObjEneMe3Stelth__bml_resource->models->m_c), &b, 8.0f, 0.0f);
     }
 }
-int TObjEneMe3Stelth::create_real() { return (int)TObjEneMe3StelthReal::create(this); }
+void *TObjEneMe3Stelth::create_real() { return TObjEneMe3StelthReal::create(this); }
 void TObjEneMe3Stelth::free_shared_resources() {
     if (TObjEneMe3Stelth__trail_buffer != NULL) {
         delete TObjEneMe3Stelth__trail_buffer;
@@ -828,7 +828,6 @@ void TObjEneMe3Stelth__sub_800F3FE4(TObjEneMe3Stelth *stelth, s32 arg1) {
     }
 }
 void TObjEneMe3Stelth::update_state_fade_in(s32 arg1) {
-    s32 enemy_validate_retained_target(void *, s32);
     s32 t;
     switch (arg1) {
     case 4:
@@ -862,7 +861,7 @@ void TObjEneMe3Stelth::update_state_fade_in(s32 arg1) {
             }
             t = m_428;
             m_3e8 = (t << 24) | (m_3e8 & 0x00FFFFFF);
-            if (enemy_validate_retained_target(this, t) == 0) {
+            if (enemy_validate_retained_target((u8 *)this) == 0) {
                 m_424 = 0;
                 m_3e8 = 0;
             }
@@ -1005,7 +1004,7 @@ void TObjEneMe3Stelth__sub_800F348C(TObjEneMe3Stelth *stelth, s32 arg1) {
     Vec points[2];
     f32 t;
     s32 ang;
-    s32 entry;
+    Vec *entry;
     switch (arg1) {
     case 4:
         stelth->requested_action = 6;
@@ -1111,13 +1110,13 @@ void TObjEneMe3Stelth__sub_800F348C(TObjEneMe3Stelth *stelth, s32 arg1) {
             break;
         }
         if (stelth->m_424 != 0) {
-            entry = (saddr)TObjEneMe3Stelth__trail_buffer->lookup(stelth->frame);
-            if (entry != 0) {
+            entry = TObjEneMe3Stelth__trail_buffer->lookup(stelth->frame);
+            if (entry != NULL) {
                 push_matrix();
                 set_matrix_identity(0);
                 post_translate_matrix((f32 *)&stelth->position);
                 rotate_matrix_y(0, stelth->rotation_y);
-                matrix_mult_vec_array(NULL, (const Vec *)entry, (Vec *)points, 2);
+                matrix_mult_vec_array(NULL, entry, (Vec *)points, 2);
                 pop_matrix();
             }
         }

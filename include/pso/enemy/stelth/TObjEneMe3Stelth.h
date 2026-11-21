@@ -99,7 +99,7 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
     void update_distance_state();
     static void set_slot_min_clamped_value(s32 arg0, f32 farg0);
     static void free_shared_resources();
-    int create_real();
+    void *create_real();
     static void load_shared_resources();
     void handle_breakup_state(s32 arg1);
     void update_state_resta_cast(s32 arg1);
