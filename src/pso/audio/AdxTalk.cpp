@@ -102,7 +102,7 @@ s32 adx_get_data_start_offset(u16 *hdr, s32 size, s32 *arg2) {
     if (*hdr != 0x8000) {
         return 0;
     }
-    if (ARStartDMA((u8 *)hdr, size, &len, &b3, &b4, &b5, &b6, &a7, &a8, &a9) < 0) {
+    if (sub_803C4910((u8 *)hdr, size, &len, &b3, &b4, &b5, &b6, &a7, &a8, &a9) < 0) {
         return 0;
     }
     *arg2 = len;
@@ -287,7 +287,7 @@ inline void inl_803C9608(void) {
     if (lbl_805D7564 == 0) {
         TLobby::init_once();
         lbl_805D7564 = 1;
-        GXFlush();
+        sub_803C0018();
         lbl_805D7564 = 2;
         for (i = 0; i < 16; i++) {
             if (adx_stream_player_pool[i].state == 1) {
@@ -362,7 +362,7 @@ void TLobby__sub_803C9608(void) {
     if (lbl_805D7564 == 0) {
         TLobby::init_once();
         lbl_805D7564 = 1;
-        GXFlush();
+        sub_803C0018();
         lbl_805D7564 = 2;
         for (i = 0; i < 16; i++) {
             if (adx_stream_player_pool[i].state == 1) {

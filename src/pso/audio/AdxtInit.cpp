@@ -79,7 +79,7 @@ void TLobby::init_and_add_ref() {
 
 
 s32 TLobby::ar_alloc() {
-    ARAlloc();
+    ADXT_ExecFsSvr();
     return 0;
 }
 

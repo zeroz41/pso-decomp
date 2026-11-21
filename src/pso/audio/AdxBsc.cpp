@@ -13,7 +13,7 @@ AdxbDecoder adx_channel_record_pool[16];
 void TLobby__sub_803C19D8(void *);
 void TLobby__sub_803C3570(AdxbDecoder *o);
 void TLobby__sub_803C34F4(AdxbDecoder *arg0);
-s32 DVDReadPrio(void *, void *, void *);
+s32 sub_803C1668(void *, void *, void *);
 uaddr adx_allocate_decoder_channel();
 
 void TLobby__sub_803C34F4(AdxbDecoder *h) {
@@ -312,7 +312,7 @@ s32 TLobby__sub_803C3B68(saddr decoder, u16 *hdr, saddr size) {
         return TLobby__sub_803C43A8((void *)decoder, (void *)hdr, (void *)size);
     }
     if (((TLobby *)hdr)->is_riff_wave() != 0) {
-        return DVDReadPrio((void *)decoder, (void *)hdr, (void *)size);
+        return sub_803C1668((void *)decoder, (void *)hdr, (void *)size);
     }
     if (((TLobby *)hdr)->is_aiff_header() != 0) {
         return ((TLobby *)decoder)->parse_stream_header((void *)hdr, (void *)size);
@@ -330,7 +330,7 @@ s32 TRK__write_aram(void *arg0p, void *hdr, void *size) {
     s16 sp10;
     u8 *temp_r3;
     h->m_02 = 1;
-    if (ARStartDMA((u8 *)hdr, (saddr)size, &sp10, (u8 *)&h->m_0C, &h->bits, &h->block_bytes, (u8 *)&h->channels, &h->rate, &h->samples, &h->block_samples) < 0) {
+    if (sub_803C4910((u8 *)hdr, (saddr)size, &sp10, (u8 *)&h->m_0C, &h->bits, &h->block_bytes, (u8 *)&h->channels, &h->rate, &h->samples, &h->block_samples) < 0) {
         return 0;
     }
     if (h->m_0C > 4) {
@@ -352,7 +352,7 @@ s32 TRK__write_aram(void *arg0p, void *hdr, void *size) {
     }
     h->id->calc_adx_coeffs_at_offset((void *)h->rate, (s32)h->m_1C);
     TLobby__sub_803CB570((u8 *)h->id, (u8 *)&sp18, (s16 *)&sp14);
-    __DVDPrepareResetAsync((u8 *)hdr, (saddr)size, &h->m_20, &h->m_24, &h->m_26, &h->m_28, &h->m_2C, &h->m_30, &h->m_34);
+    sub_803C46DC((u8 *)hdr, (saddr)size, &h->m_20, &h->m_24, &h->m_26, &h->m_28, &h->m_2C, &h->m_30, &h->m_34);
     h->m_A8 = 0;
 block_11:
     temp_r3 = h->m_4C;

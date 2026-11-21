@@ -79,7 +79,7 @@ static const char *const volatile lbl_805E0D78 = "\nADXGC Ver.1.10 Build:Jun 13 
 void TLobby__sub_803CB81C(void) {
     lbl_805E0D78;
     TLobby__sub_803C9608();
-    ARAlloc();
+    ADXT_ExecFsSvr();
 }
 
 s32 TLobby__sub_803CB844(void) {

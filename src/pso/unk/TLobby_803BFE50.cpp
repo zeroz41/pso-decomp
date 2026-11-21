@@ -156,8 +156,8 @@ void TLobby__sub_803C0B3C(u8 *arg0);
 s32 TLobby__sub_803C07E8(Obj_803C07E8 *self);
 
 void TLobby__sub_803C0628(void *arg0_, s32 *arg1, s32 *arg2, s32 *arg3);
-void EXIGetID(Snd_803C0BE8 *arg0);
-void GXFlush(void);
+void sub_803C0BE8(Snd_803C0BE8 *arg0);
+void sub_803C0018(void);
 void TLobby__sub_803C0238(AudioStreamInputState *st);
 s32 TLobby__sub_803C3B68(saddr arg0, u16 *hdr, saddr size);
 void TLobby__sub_803D3130(SjChunk *chunk, s32 size, SjChunk *head, SjChunk *tail);
@@ -236,7 +236,7 @@ s32 TLobby__sub_803C0010(u8 *arg0) {
 
 struct Obj_803C0628;
 
-void GXFlush(void) {
+void sub_803C0018(void) {
     s32 i;
     for (i = 0; i < 0x10; i++) {
         if ((s32)((Rec_803C0018 *)&lbl_80570AC0)[i].state == 1) {
@@ -510,7 +510,7 @@ void TLobby__sub_803C0B3C(u8 *lobby) {
     s16 temp_r0;
     temp_r0 = *(s16 *)((s8 *)lobby + 0xAA);
     if (temp_r0 == 2) {
-        EXIGetID((Snd_803C0BE8 *)(lobby));
+        sub_803C0BE8((Snd_803C0BE8 *)(lobby));
         return;
     }
     if (temp_r0 == 1) {
@@ -529,7 +529,7 @@ s32 TLobby::is_riff_wave() {
     return 0;
 }
 
-void EXIGetID(Snd_803C0BE8 *arg0) {
+void sub_803C0BE8(Snd_803C0BE8 *arg0) {
     u8 *src = arg0->src;
     s16 *l;
     s16 *r;
@@ -689,8 +689,8 @@ struct Hdl_803C1668 {
 };
 
 extern "C" {
-s16 DVDReadPrio(Hdl_803C1668 *h, s32 arg1, s32 arg2);
-s16 DVDReadPrio(Hdl_803C1668 *h, s32 buf, s32 len) {
+s16 sub_803C1668(Hdl_803C1668 *h, s32 arg1, s32 arg2);
+s16 sub_803C1668(Hdl_803C1668 *h, s32 buf, s32 len) {
     s16 n;
     h->f2 = 1;
     if (TLobby__sub_803C1780((s32)buf, (s32)len, (s16 *)&n, (s8 *)&h->fc, (s8 *)&h->fd, (s8 *)&h->ff, (s8 *)&h->fe, (s32 *)&h->f14, (s32 *)&h->f18, (s32 *)&h->f10, (s16 *)h->faa) < 0) {

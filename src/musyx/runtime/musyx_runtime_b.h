@@ -478,7 +478,7 @@ void TLobby__sub_803C0AD8(void);
 void TLobby__sub_803C406C(void);
 extern RecoveredGlobal_803C0B08_lbl_80570AC0 lbl_80570AC0;
 void TLobby__sub_803C0B08(void);
-s32 EXIGetID(void *);
+s32 sub_803C0BE8(void *);
 s32 TLobby__sub_803C0F98(void *);
 s32 TLobby__sub_803C133C(void *);
 void TLobby__sub_803C0B3C(u8 *arg0);

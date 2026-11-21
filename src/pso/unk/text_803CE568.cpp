@@ -164,7 +164,7 @@ inline void cvfs_free_handle(CvFsHandle *h) {
     h->vtbl = NULL;
 }
 
-// cvFsInit: dead-stripped. SIGetTypeAsync below undoes it (it decrements the init count, which no
+// cvFsInit: dead-stripped. cvFsFinish below undoes it (it decrements the init count, which no
 // surviving code increments); this mirror of it is a reconstruction.
 void cvFsInit(void) {
     CvFsHandle *h;
@@ -743,7 +743,7 @@ void cvFsAddDev(char *name, CvFsDevIf *(*getif)(void), s32 arg) {
 }
 
 
-void SIGetTypeAsync(void) {
+void cvFsFinish(void) {
     CvFsHandle *h;
     s32 i;
 

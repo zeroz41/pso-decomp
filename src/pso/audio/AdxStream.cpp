@@ -103,7 +103,7 @@ AdxStreamFile *adxstm_open_fname_range__6TLobbyFPviiii(const char *name, s32 mod
 void TLobby__sub_803C8514(u8 *arg0, s32 arg1);
 s32 TLobby__sub_803C8578(u8 *arg0, s32 arg1);
 s32 TLobby__sub_803C8594(u8 *arg0, s32 *arg1, s32 *arg2);
-void SIGetTypeAsync(void);
+void cvFsFinish(void);
 
 void TLobby::set_field_10_and_notify(s32 up) {
     *(s32 *)&this->m_up = up;
@@ -513,7 +513,7 @@ AdxStreamFile *adxstm_open_fname_range__6TLobbyFPviiii(const char *name, s32 mod
 }
 
 void TLobby::si_get_type_async() {
-    SIGetTypeAsync();
+    cvFsFinish();
 }
 
 s32 TLobby::clear_buffer_a00() {
