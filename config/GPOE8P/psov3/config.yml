@@ -1213,15 +1213,15 @@ force_active:
   - fn_8009E350__17TObjEneMe1CanadinFv
   - fn_8009E36C__17TObjEneMe1CanadinFv
   - fn_8009E4AC__17TObjEneMe1CanadinFl
-  - vfunc_105__23TObjEneMe1CanadinLeaderFv
-  - vfunc_106__23TObjEneMe1CanadinLeaderFv
+  - select_next_attack_state__23TObjEneMe1CanadinLeaderFv
+  - select_model__23TObjEneMe1CanadinLeaderFv
   - spawn_members__23TObjEneMe1CanadinLeaderFv
-  - vfunc_108__23TObjEneMe1CanadinLeaderFv
+  - check_retreat_trigger__23TObjEneMe1CanadinLeaderFv
   - has_no_members__23TObjEneMe1CanadinLeaderFv
   - vfunc_110__23TObjEneMe1CanadinLeaderFl
   - vfunc_111__23TObjEneMe1CanadinLeaderFl
-  - vfunc_112__23TObjEneMe1CanadinLeaderFl
-  - vfunc_113__23TObjEneMe1CanadinLeaderFv
+  - state_dead__23TObjEneMe1CanadinLeaderFl
+  - apply_model_color__23TObjEneMe1CanadinLeaderFv
   - can_member_attack_target__23TObjEneMe1CanadinLeaderFP9TObjChara
   - remove_member__23TObjEneMe1CanadinLeaderFUl
   - TObjEneMe1Canadin__render_point_cursor
@@ -17422,14 +17422,14 @@ force_active:
   - acquire_target__16TObjEneDellBiterFf
   - acquire_target__17TObjEneDf2BringerFf
   - run_demo_task__12TBoss1DragonFv
-  - vfunc_105__13TUnk_8049387CFv
+  - select_next_attack_state__13TUnk_8049387CFv
   - run_demo_task__18TObjEneEpsilonBodyFv
-  - vfunc_106__13TUnk_8049387CFv
+  - select_model__13TUnk_8049387CFv
   - render_demo__16TObjEneDellBiterFv
   - render_demo__18TObjEneEpsilonBodyFv
   - render_demo__18TObjEneRe4SorcererFv
   - spawn_members__13TUnk_8049387CFv
-  - vfunc_108__13TUnk_8049387CFv
+  - check_retreat_trigger__13TUnk_8049387CFv
   - has_no_members__13TUnk_8049387CFv
   - vfunc_10__12TQuestListVMFv
   - vfunc_10__13TAdVIConfigGCFv
@@ -17437,8 +17437,8 @@ force_active:
   - vfunc_10__20TAdSnAkPassConfirmGCFv
   - vfunc_110__13TUnk_8049387CFl
   - vfunc_111__13TUnk_8049387CFl
-  - vfunc_112__13TUnk_8049387CFl
-  - vfunc_113__13TUnk_8049387CFv
+  - state_dead__13TUnk_8049387CFl
+  - apply_model_color__13TUnk_8049387CFv
   - can_member_attack_target__13TUnk_8049387CFP9TObjChara
   - remove_member__13TUnk_8049387CFUl
   - vfunc_11__12TQuestListVMFv
