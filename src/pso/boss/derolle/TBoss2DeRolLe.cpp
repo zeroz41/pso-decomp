@@ -77,6 +77,7 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/system/task/TObject.h"
 #include "pso/boss/derolle/TBoss2PhotonPad.h"
 #include "pso/boss/derolle/TBoss2LaserLight.h"
+#include "pso/boss/TUnk_80482C58.h"
 
 #include "pso/effect/particle/TParticleCtrl.h"
 
@@ -1209,9 +1210,6 @@ void calc_offset_position__13TBoss2DeRolLeFPv(u8 *arg0);
 
 void set_position_index__13TBoss2DeRolLeFPvi(void *, s32);
 
-void push_trail_position__13TBoss2DeRolLeFPvPv(void *, void *);
-
-void *__ct__13TUnk_80482C58FP7TObjectll(void *, void *, int, int);
 
 u8 *csnVector(void *, void *, int);
 
@@ -1674,9 +1672,6 @@ u8 update_state__13TBoss2DeRolLeFPv(u8 *arg0);
 
 s32 advance_scalar_motion_profile(void *);
 
-void TBoss2LaserLight__sub_80037474(void *p);
-
-void TBoss2LaserLight__sub_80037480(void *p);
 
 
 }
@@ -3142,7 +3137,7 @@ void *TBoss2DeRolLe__ct(void *arg0, void *arg1, void *arg2) {
     self->f6B0 = *(s32 *)((s8 *)TBoss2DeRolLe__data_805D4BA0 + 0x20);
     ((TBoss2DeRolLe *)self)->hpmax = ((TBoss2DeRolLe *)self)->hp = 0x4E20;
     self->f6B4 = 0;
-    self->f6B8 = new TBoss2LaserLight((TObject *)self->obj3D8, (u32)(uaddr)&self->f6BC);
+    self->f6B8 = new TBoss2LaserLight((TObject *)self->obj3D8, (Vec *)&self->f6BC);
     self->f6BC = 0.0f;
     self->f6C0 = 0.0f;
     self->f6C4 = 0.0f;
@@ -3798,14 +3793,14 @@ void calc_offset_position__13TBoss2DeRolLeFPv(u8 *arg0) {
 
 void activate_laser_light__13TBoss2DeRolLeFPv(void *arg0) {
     if ((u32) *(u32 *)((s8 *)arg0 + 0x6B8) != 0U) {
-        TBoss2LaserLight__sub_80037480(*(void **)((s8 *)arg0 + 0x6B8));
+        ((TBoss2LaserLight *)*(void **)((s8 *)arg0 + 0x6B8))->turn_on();
     }
     *(s32 *)((s8 *)arg0 + 0x3C0) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C0) | 0x10);
 }
 
 void free_laser__13TBoss2DeRolLeFPv(void *arg0) {
     if ((u32) *(u32 *)((s8 *)arg0 + 0x6B8) != 0U) {
-        TBoss2LaserLight__sub_80037474(*(void **)((s8 *)arg0 + 0x6B8));
+        ((TBoss2LaserLight *)*(void **)((s8 *)arg0 + 0x6B8))->turn_off();
     }
     *(s32 *)((s8 *)arg0 + 0x3C0) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C0) & 0xFFFFFFEF);
 }
@@ -5945,22 +5940,14 @@ void TBoss2DeRolLe__sub_8002FE60(void *arg0, u32 arg1) {
                 if (col != NULL) {
                     VCOPY(hit, *(void **) (col + 4));
                     if (self->laser1 == NULL) {
-                        void *o = TObject::operator new(0x124);
-                        if (o != NULL) {
-                            o = __ct__13TUnk_80482C58FP7TObjectll(o, self, 6, 0x124);
-                        }
-                        self->laser1 = o;
+                        self->laser1 = new TUnk_80482C58((TObject *)self, 6, 0x124);
                     } else {
-                        push_trail_position__13TBoss2DeRolLeFPvPv(self->laser1, hit);
+                        ((TUnk_80482C58 *)self->laser1)->push_ring_point(hit);
                     }
                     if (self->laser2 == NULL) {
-                        void *o = TObject::operator new(0x124);
-                        if (o != NULL) {
-                            o = __ct__13TUnk_80482C58FP7TObjectll(o, self, 0xF, 0x125);
-                        }
-                        self->laser2 = o;
+                        self->laser2 = new TUnk_80482C58((TObject *)self, 0xF, 0x125);
                     } else {
-                        push_trail_position__13TBoss2DeRolLeFPvPv(self->laser2, hit);
+                        ((TUnk_80482C58 *)self->laser2)->push_ring_point(hit);
                     }
                 }
                 {
