@@ -66,17 +66,17 @@ typedef void (*SITypeCallback)(s32, u32);
 BOOL SIBusy();
 BOOL SIIsChanBusy(s32 chan);
 void SIInit();
-unsigned long SISync();
+u32 SISync();
 u32 SIGetStatus(s32 chan);
-void SISetCommand(long chan, unsigned long command);
-unsigned long SIGetCommand(long chan);
+void SISetCommand(s32 chan, u32 command);
+u32 SIGetCommand(s32 chan);
 void SITransferCommands();
-unsigned long SISetXY(unsigned long x, unsigned long y);
-unsigned long SIEnablePolling(unsigned long poll);
-unsigned long SIDisablePolling(unsigned long poll);
+u32 SISetXY(u32 x, u32 y);
+u32 SIEnablePolling(u32 poll);
+u32 SIDisablePolling(u32 poll);
 BOOL SIGetResponse(s32 chan, void * data);
-int SITransfer(long chan, void * output, unsigned long outputBytes, void * input, unsigned long inputBytes,
-                void (* callback)(long, unsigned long, struct OSContext *), long long time);
+BOOL SITransfer(s32 chan, void * output, u32 outputBytes, void * input, u32 inputBytes,
+                void (* callback)(s32, u32, struct OSContext *), OSTime time);
 BOOL SIRegisterPollingHandler(__OSInterruptHandler handler);
 BOOL SIUnregisterPollingHandler(__OSInterruptHandler handler);
 u32 SIGetType(s32 chan);
