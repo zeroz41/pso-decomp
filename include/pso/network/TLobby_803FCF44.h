@@ -94,7 +94,7 @@ void TLobby__sub_803FD0C0(void);
 void TLobby__sub_803FD694(u8 *arg0); /* PppFsm.c */
 void TLobby__sub_803FE600(O_803FE600 *o); /* PppFsm.c */
 s16 TLobby__sub_803FED78(u8 *self); /* PppIpcp.c */
-s16 TLobby__sub_80400744(void *a0, void *a1); /* PppLcp.c */
+s16 apply_lcp_config_to_sides(void *a0, void *a1); /* PppLcp.c */
 s32 TLobby__sub_80401ABC(u8 *self_m, void *dst, s32 n); /* PppBuffer.c */
 
 /* The protocol header that opens the IPCP and LCP state objects (.bss 805C0328 and 805C0400). */
@@ -127,7 +127,7 @@ s32 TLobby__sub_80403168(u8 *arg0, u8 *arg1, u8 *arg2);
 s32 chap_connect(u8 *chap_name, u8 *chap_secret, s32 timeout);
 s16 TLobby__sub_80402BB4(void *arg0, u32 timeout);
 s32 pap_connect(u8 *peer_id, u8 *pap_password, s32 timeout);
-void TLobby__sub_8040098C(Conn_804004DC *c);
+void setup_auth_after_lcp_negotiation(Conn_804004DC *c);
 s16 TLobby__sub_80403F4C(void *ov, PppFrame **spp);
 PppFrame *init_net_buffer_entry(u16 idx);
 void TLobby__sub_80400270(uaddr *self, void *opt, s32 mask);
@@ -142,12 +142,12 @@ s32 TLobby__sub_803FD4FC(s16 arg0);
 s32 TLobby__sub_803FE844(void);
 void TLobby__sub_803FE84C(void);
 void TLobby__sub_803FF374(u8 *arg0);
-void TLobby__sub_80400988(void);
-void TLobby__sub_80400B98(u8 *arg0);
+void lcp_noop_callback(void);
+void mark_lcp_starting(u8 *arg0);
 void *build_avetcp_net_buffer(Conn_804004DC *c);
 s16 TLobby__sub_803FE8BC(u8 *dst, void *src);
 s16 pap_recv_auth_request(u8 *self, u8 *src, PppFrame *val);
-void TLobby__sub_80400ACC(O_80400ACC *o);
+void restart_lcp_negotiation_if_idle(O_80400ACC *o);
 PppFrame *TLobby__sub_80401B20(void *src, u16 n);
 void MD5Update(MD5Context *context, u8 *input, u32 inputLen);
 void MD5Final(u8 *dst, MD5Context *ctx);

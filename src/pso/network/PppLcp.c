@@ -52,12 +52,12 @@ s32 wait_for_connection(Conn_804004DC *c) {
 }
 
 extern saddr TLobby__sub_8040172C(Conn_804004DC *c);
-extern s32 TLobby__sub_80400C4C(Conn_804004DC *fsm, PppHeader *msg, s32 src);
-extern s32 TLobby__sub_80400DA8(Conn_804004DC *fsm, PppHeader *msg, s32 src);
-s16 TLobby__sub_804010A0(Obj_803FF858 *fsm, PppHeader *msg, u32 src);
-s32 TLobby__sub_80400F1C(Obj_803FF858 *arg0, PppHeader *arg1, uaddr arg2);
+extern s32 recv_lcp_config_reject(Conn_804004DC *fsm, PppHeader *msg, s32 src);
+extern s32 recv_lcp_config_nak(Conn_804004DC *fsm, PppHeader *msg, s32 src);
+s16 recv_lcp_config_request(Obj_803FF858 *fsm, PppHeader *msg, u32 src);
+s32 verify_lcp_config_ack(Obj_803FF858 *arg0, PppHeader *arg1, uaddr arg2);
 
-void TLobby__sub_8040059C(u8 *conn)
+void init_lcp_protocol(u8 *conn)
 {
   LcpProto_8040059C *proto = &lbl_805C0400.proto;
   Conn_804004DC *e = (Conn_804004DC *)(conn + 4);
@@ -71,17 +71,17 @@ void TLobby__sub_8040059C(u8 *conn)
   proto->bA = 10;
   proto->bB = 3;
   proto->timeout = 1000;
-  proto->f10 = (void *)TLobby__sub_80400988;
+  proto->f10 = (void *)lcp_noop_callback;
   proto->f14 = (void *)reset_lcp_options;
-  proto->f18 = (void *)TLobby__sub_80400B98;
-  proto->f1C = (void *)TLobby__sub_8040098C;
+  proto->f18 = (void *)mark_lcp_starting;
+  proto->f1C = (void *)setup_auth_after_lcp_negotiation;
   proto->f20 = (void *)reset_connection_slot;
   proto->f24 = (void *)queue_command_81;
   proto->f28 = (void *)TLobby__sub_8040172C;
-  proto->f2C = (void *)TLobby__sub_804010A0;
-  proto->f30 = (void *)TLobby__sub_80400F1C;
-  proto->f34 = (void *)TLobby__sub_80400DA8;
-  proto->f38 = (void *)TLobby__sub_80400C4C;
+  proto->f2C = (void *)recv_lcp_config_request;
+  proto->f30 = (void *)verify_lcp_config_ack;
+  proto->f34 = (void *)recv_lcp_config_nak;
+  proto->f38 = (void *)recv_lcp_config_reject;
   e->sub = conn;
   e->proto = proto;
   e->opts = area;
@@ -93,7 +93,7 @@ void TLobby__sub_8040059C(u8 *conn)
   TLobby__sub_803FD694((u8 *)e);
 }
 
-extern s16 TLobby__sub_80400744(void *a0, void *a1) {
+extern s16 apply_lcp_config_to_sides(void *a0, void *a1) {
     s32 pad[2];
     s32 *pp;
     Conn_804004DC *s = (Conn_804004DC *)a0;
@@ -179,11 +179,11 @@ extern s16 TLobby__sub_80400744(void *a0, void *a1) {
     return 0;
 }
 
-void TLobby__sub_80400988(void) {
+void lcp_noop_callback(void) {
 
 }
 
-void TLobby__sub_8040098C(Conn_804004DC *c) {
+void setup_auth_after_lcp_negotiation(Conn_804004DC *c) {
     LcpOpts *info = c->opts;
     St_8040098C *st;
     u32 now;
@@ -222,7 +222,7 @@ void TLobby__sub_8040098C(Conn_804004DC *c) {
     }
 }
 
-void TLobby__sub_80400ACC(O_80400ACC *o) {
+void restart_lcp_negotiation_if_idle(O_80400ACC *o) {
     u32 t;
     if ((o->b2 & 0x30) == 0) {
         o->b0 = 3;
@@ -244,7 +244,7 @@ void queue_command_81(void) {
     TLobby__sub_804062A0(0x81);
 }
 
-void TLobby__sub_80400B98(u8 *arg0) {
+void mark_lcp_starting(u8 *arg0) {
     *((Conn_804004DC *)arg0)->sub = 1;
 }
 
@@ -262,7 +262,7 @@ void reset_lcp_options(void *self) {
     s->remote.mask |= s->remote.want.mask;
 }
 
-extern s32 TLobby__sub_80400C4C(Conn_804004DC *fsm, PppHeader *msg, s32 src) {
+extern s32 recv_lcp_config_reject(Conn_804004DC *fsm, PppHeader *msg, s32 src) {
     s16 last = 0;
     LcpOpts *o = fsm->opts;
     s32 left = msg->len;
@@ -298,7 +298,7 @@ extern s32 TLobby__sub_80400C4C(Conn_804004DC *fsm, PppHeader *msg, s32 src) {
 
 #pragma push
 #pragma opt_common_subs on
-extern s32 TLobby__sub_80400DA8(Conn_804004DC *fsm, PppHeader *msg, s32 src) {
+extern s32 recv_lcp_config_nak(Conn_804004DC *fsm, PppHeader *msg, s32 src) {
     LcpOpts *opts = fsm->opts;
     LcpSide *local = &opts->local;
     s32 remaining = msg->len;
@@ -365,7 +365,7 @@ inline uaddr first2_80400F1C(Obj_803FF858 *fsm) {
     loop_8040172C(&t, &o->local.got, o->local.got.mask);
     return t;
 }
-s32 TLobby__sub_80400F1C(Obj_803FF858 *fsm, PppHeader *msg_803_fa664, uaddr arg2) {
+s32 verify_lcp_config_ack(Obj_803FF858 *fsm, PppHeader *msg_803_fa664, uaddr arg2) {
     s16 err;
     s16 a;
     s16 b;
@@ -407,7 +407,7 @@ inline void add_lcp_options(PppFrame **pbuf, s16 *vals, s16 mask) {
     }
 }
 
-s16 TLobby__sub_804010A0(Obj_803FF858 *fsm, PppHeader *msg, u32 src) {
+s16 recv_lcp_config_request(Obj_803FF858 *fsm, PppHeader *msg, u32 src) {
     LcpOpts *opts;
     s32 remaining;
     s16 status;
