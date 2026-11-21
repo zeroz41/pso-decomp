@@ -867,7 +867,7 @@ struct VObj_8018B820_8018B79C : Base_8018B820_8018B79C {
     virtual void m20(s32, f32);
 };
 extern "C" {
-extern s32 TContainerAncient01__bml_resource;
+extern saddr TContainerAncient01__bml_resource;
 
 
 
@@ -1006,7 +1006,7 @@ void TContainerAncient01::load_resources() {
             p = load_resource_from_descriptor(p, 5, &TContainerAncient01__resource_descriptor_2, 0, 0, 0);
         }
         TContainerAncient01__effect_id_table[0] = 0x230;
-        TContainerAncient01__bml_resource = (u32)p;
+        TContainerAncient01__bml_resource = (uaddr)p;
         TContainerAncient01__effect_id_table[1] = 0x231;
     } else {
         p = ::operator new(0x440);
@@ -1014,7 +1014,7 @@ void TContainerAncient01::load_resources() {
             p = load_resource_from_descriptor(p, 5, &TContainerAncient01__resource_descriptor, 0, 0, 0);
         }
         TContainerAncient01__effect_id_table[0] = 0x45;
-        TContainerAncient01__bml_resource = (u32)p;
+        TContainerAncient01__bml_resource = (uaddr)p;
         TContainerAncient01__effect_id_table[1] = 0x46;
     }
     ContainerAncientAnimBinding prm = container_ancient_anim_binding;

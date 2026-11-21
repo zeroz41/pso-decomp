@@ -44,7 +44,7 @@ s32 jungle_warp_destination_ids[3] = { 6, 8, 9 };
 // The beam archive and what load_warp_beam_resources picks out of it.
 BmlResource *TObjWarpJung__beam_bml_resource;
 AnimationMotion *warp_jung_beam_motion;
-s32 warp_jung_model_handle;
+saddr warp_jung_model_handle;
 s32 warp_jung_last_scroll_tick; // actor_frame_tick of the last UV scroll (inferred)
 void *warp_jung_beam_mesh_node;
 s32 warp_jung_beam_entry_index; // texture entry "ts064_beam_aka"

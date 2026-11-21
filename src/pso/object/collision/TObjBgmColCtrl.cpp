@@ -30,7 +30,7 @@ struct Names_8017E1E4 { const char *name[2]; };
 extern u32 TLobby__event_theme_id;
 s32 bgm_zone_category;
 s32 lbl_805D5B04;
-u32 TObjBgmColCtrl__instance;
+uaddr TObjBgmColCtrl__instance;
 u32 TObjBgmColCtrl__current_theme_id;
 
 void create_bgm_col_zones(void);
@@ -235,10 +235,10 @@ TObjBgmColCtrl::~TObjBgmColCtrl() {
 }
 
 void TObjBgmColCtrl::create_controller() {
-    u32 temp_r3;
+    uaddr temp_r3;
     void *ctrl;
     u32 var_r0;
-    temp_r3 = (u32)TObject::operator new(0x1C);
+    temp_r3 = (uaddr)TObject::operator new(0x1C);
     var_r0 = temp_r3;
     if (var_r0 != 0U) {
         var_r0 = __ct__7TObjectFP7TObject(temp_r3, 0);

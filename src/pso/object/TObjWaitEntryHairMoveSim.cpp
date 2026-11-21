@@ -115,7 +115,7 @@ struct Obj_800FE698 {
     s16 v9C;
 };
 
-struct EntX_800FE5A0 { s8 a; s8 b; s8 c; s8 d; void *p4; void *p8; s32 pc; };
+struct EntX_800FE5A0 { s8 a; s8 b; s8 c; s8 d; void *p4; void *p8; saddr pc; };
 
 struct Pl_800FE5A0 {
     u8 pad0[0x88D];
@@ -753,7 +753,7 @@ s32 is_level_in_table__24TObjWaitEntryHairMoveSimFPv(Obj_800FE698 *o) {
 
 s32 fn_800FE73C(TObjPlayer *player) {
     saddr temp_r3;
-    s32 var_r0;
+    saddr var_r0;
     if (((TCharaMaking *)((char *)player + 0x85C))->get_display_index() == 0xE) {
         TObjTailsTailsMove::create(player);
         return 0;
@@ -766,7 +766,7 @@ s32 fn_800FE73C(TObjPlayer *player) {
         temp_r3 = (saddr)TObject::operator new(0x20);
         var_r0 = temp_r3;
         if (var_r0 != 0) {
-            var_r0 = ((s32)__ct__24TObjWaitEntryHairMoveSimFv((void *)temp_r3, (void *)player));
+            var_r0 = ((saddr)__ct__24TObjWaitEntryHairMoveSimFv((void *)temp_r3, (void *)player));
         }
         return var_r0;
     }

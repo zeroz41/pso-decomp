@@ -53,7 +53,7 @@ s32 post_translate_matrix(void *);
 s32 scale_matrix(int, f32, f32, f32);
 s32 rotate_matrix_x(int, int);
 s32 draw_ginja_model_with_motion(int, void *, f32);
-s32 get_bml_motion(void *, int);
+saddr get_bml_motion(void *, int);
 s32 push_matrix();
 
 saddr lobby_butterfly_bml_resource;

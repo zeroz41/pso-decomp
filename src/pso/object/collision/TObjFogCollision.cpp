@@ -65,7 +65,7 @@ s32 push_matrix();
 s32 post_translate_matrix(void *);
 extern s32 saved_model_draw_color[];
 extern s32 model_material_color[];
-extern s32 lbl_805D28BC;
+extern saddr lbl_805D28BC;
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;

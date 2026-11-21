@@ -54,7 +54,7 @@ struct Car_80180E70 {
     s32 model;
     s32 fa0;
     s32 fa4;
-    u32 light;
+    uaddr light;
 };
 
 struct Car_80181074 {
@@ -221,7 +221,7 @@ void measure_traffic_path_lengths(void) {
     city_air_car_model_handle = (void **)TLobby__sub_80184C2C(2);
     for (j = 0; j < 5; j++)
     {
-      p = (int)::operator new(0x14);
+      p = (saddr)::operator new(0x14);
       new_var = city_traffic_car_chunk_index_table;
       if (p != 0)
       {
@@ -475,7 +475,7 @@ void TObjCityAirCar_Car::run_task() {
             ((Car_80180E70 *)this)->fa4 = 0;
         }
         if (((Car_80180E70 *)this)->light == 0) {
-            ((Car_80180E70 *)this)->light = (u32)spawn_continuous_particle_effect_with_flags(&((Car_80180E70 *)this)->pos, 0x8A, 0x40);
+            ((Car_80180E70 *)this)->light = (uaddr)spawn_continuous_particle_effect_with_flags(&((Car_80180E70 *)this)->pos, 0x8A, 0x40);
         }
         if (((Car_80180E70 *)this)->light != 0) {
             if (((Car_80180E70 *)this)->model == 0) {

@@ -38,12 +38,12 @@ extern NJS_ARGB debug_color_green_half_alpha;
 extern NJS_ARGB debug_color_purple_half_alpha;
 
 extern "C" {
-extern s32 tl_00;
+extern saddr tl_00;
 void debug_draw_sphere(const Vec *pos, const NJS_ARGB *color, f32 radius);
 // render_util.h declares (pos, color, size); the lock code still loads its collision body into r5 first, which
 // only a third argument explains, though fn_80141CBC never reads r5 (TObjRoomId passes nothing there).
 void fn_80141CBC(const Vec *pos, const NJS_ARGB *color, CollisionBody *body, f32 size);
-extern s32 tl_05;
+extern saddr tl_05;
 extern TObject *quest_mission_manager;
 extern TObject *quest_area_manager;
 extern s8 controller_input_state[];

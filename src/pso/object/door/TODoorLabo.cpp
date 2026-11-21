@@ -87,7 +87,7 @@ struct Door_8029FAE4 {
     u8 padC0[0xC4 - 0xC0];
     f32 fC4;
     u8 padC8[0xD4 - 0xC8];
-    s32 fD4;
+    saddr fD4;
     saddr sw[8];
     s32 fF8;
 };
@@ -200,8 +200,8 @@ struct Door_8029FD70 {
     f32 fB8;
     Info_8029FD70 *infoBC;
     u8 padC0[0xD4 - 0xC0];
-    s32 fD4;
-    s32 fD8[8];
+    saddr fD4;
+    saddr fD8[8];
 };
 extern s32 __vt__21TODoorFourLightSeabed[];
 struct Tbl_802A0068 { s32 w[8]; };
@@ -215,8 +215,8 @@ struct Door_802A0068 {
     f32 fB8;
     Info_802A0068 *infoBC;
     u8 padC0[0xD4 - 0xC0];
-    s32 fD4;
-    s32 fD8[8];
+    saddr fD4;
+    saddr fD8[8];
 };
 
 struct Door_802A0670;
@@ -517,7 +517,7 @@ u8 *TODoorFourLightSeabed__ct(u8 *arg0, void *parent, s32 arg) {
     {
         Tbl_802A0068 tbl = door_four_light_seabed_index_table;
         for (i = 0; i < 8; i++) {
-            ((Door_802A0068 *)arg0)->fD8[i] = (s32)find_object_node((NJS_OBJECT *)(((Door_802A0068 *)arg0)->fD4), tbl.w[i]);
+            ((Door_802A0068 *)arg0)->fD8[i] = (saddr)find_object_node((NJS_OBJECT *)(((Door_802A0068 *)arg0)->fD4), tbl.w[i]);
         }
     }
     ((TODoorFourLightBase *)arg0)->clamp_light_index();
@@ -600,7 +600,7 @@ u8 *TODoorFourLightSeabedU__ct(u8 *arg0, void *parent, s32 arg) {
     {
         Tbl_8029FD70 tbl = door_four_light_seabed_u_table;
         for (i = 0; i < 8; i++) {
-            ((Door_8029FD70 *)arg0)->fD8[i] = (s32)find_object_node((NJS_OBJECT *)(((Door_8029FD70 *)arg0)->fD4), tbl.w[i]);
+            ((Door_8029FD70 *)arg0)->fD8[i] = (saddr)find_object_node((NJS_OBJECT *)(((Door_8029FD70 *)arg0)->fD4), tbl.w[i]);
         }
     }
     ((TODoorFourLightBase *)arg0)->clamp_light_index();

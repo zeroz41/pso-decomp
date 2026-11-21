@@ -48,7 +48,7 @@ struct Obj_801A0C38 { u8 pad[0x90]; void *parts[1]; };
 struct Luker_801A16D8 { u8 pad0[0x18]; void *f18; u8 pad1C[0x74]; void *wins[4]; };
 
 struct Luker_801A1768 {
-    s32 f0;
+    saddr f0;
     u8 pad4[0x18 - 4];
     void *f18;
     u8 pad1C[0x84 - 0x1C];
@@ -483,7 +483,7 @@ void *TObjLuker__ct(void *arg0, void *parent, void *arg2) {
     s32 i;
     __ct__8TObjBaseFP7TObject(self, parent);
     self->f18 = __vt__9TObjLuker;
-    self->f0 = ((s32)TObjLuker__name);
+    self->f0 = ((saddr)TObjLuker__name);
     ((TObjBase *)self)->apply_object_set_data(arg2);
     self->fB0 = 0;
     self->fAA = 0xFFFF;

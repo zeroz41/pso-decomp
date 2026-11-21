@@ -72,9 +72,9 @@ extern "C" {
 s32 free_bin_model_request(void *, s32);
 void *__ct__18CameraDistanceFadeFv(void *self);
 
-__declspec(section ".data") u32 lazer_fence_sw_ginja_model_table[2];
-__declspec(section ".data") u32 lazer_fence_beam_motions[2];
-__declspec(section ".data") u32 lazer_fence_beam_node_table[3];
+__declspec(section ".data") uaddr lazer_fence_sw_ginja_model_table[2];
+__declspec(section ".data") uaddr lazer_fence_beam_motions[2];
+__declspec(section ".data") uaddr lazer_fence_beam_node_table[3];
 
 __declspec(section ".data") const char *fe_obj_switch_laz_model_names[4] = { "fe_obj_switch_laz.gj", "fs_obj_switch_laz_moto.gj", "fs_obj_switch_laz_moto_taiki.gj", NULL };
 __declspec(section ".data") const char *fe_obj_switch_laz_motion_names[3] = { "fe_obj_switch_laz.njm", "fs_obj_switch_laz_moto.njm", NULL };
@@ -284,8 +284,8 @@ void TLazerFenceSw::load_resources() {
     }
     lazer_fence_sw_ginja_model_table[0] = (s32)get_bml_model((BmlResource *)lazer_fence_switch_bml_resource, 0);
     lazer_fence_sw_ginja_model_table[1] = (s32)get_bml_model((BmlResource *)lazer_fence_switch_bml_resource, 1);
-    lazer_fence_beam_motions[0] = (u32)get_bml_motion((BmlResource *)lazer_fence_switch_bml_resource, 0);
-    lazer_fence_beam_motions[1] = (u32)get_bml_motion((BmlResource *)lazer_fence_switch_bml_resource, 1);
+    lazer_fence_beam_motions[0] = (uaddr)get_bml_motion((BmlResource *)lazer_fence_switch_bml_resource, 0);
+    lazer_fence_beam_motions[1] = (uaddr)get_bml_motion((BmlResource *)lazer_fence_switch_bml_resource, 1);
     for (j = 0; j < 3; j++) {
         lazer_fence_beam_node_table[j] = 0;
     }

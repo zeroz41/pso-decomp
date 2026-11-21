@@ -8,7 +8,7 @@ extern "C" {
 
 s32 TOBind__sub_80158608(void *);
 
-extern s32 quest_mission_manager;
+extern saddr quest_mission_manager;
 
 void TOBind::sub_8015860C() {
     u8 *arg0 = (u8 *)this;

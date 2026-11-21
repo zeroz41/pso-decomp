@@ -68,7 +68,7 @@ struct Obj_8018990C { u8 pad[0x38]; f32 x, y, z; u8 pad44[0x326 - 0x44]; s16 f32
 struct Obj_801895A4 { u8 pad0[0x38]; u8 pos[0x4c]; s32 id; };
 struct Obj_801894F8 { u8 pad0[0x1C]; u16 f1C; u8 pad1[0x62]; u32 f80; s32 f84; };
 struct Pkt_801894F8 { u16 a; u16 b; s32 c; s32 d; s32 e; };
-struct CE_80189614 { u8 pad[0x34]; s32 f34; u8 f38[0x28]; s32 f60; u8 pad2[0x326 - 0x64]; s16 mode; };
+struct CE_80189614 { u8 pad[0x34]; saddr f34; u8 f38[0x28]; s32 f60; u8 pad2[0x326 - 0x64]; s16 mode; };
 struct Box_80189A50 {
     u8 pad00[0x34];
     saddr model;

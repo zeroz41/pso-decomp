@@ -20,7 +20,7 @@
 
 struct Rec_800B8B08 { u8 vec[0x18]; s32 f18; u32 flags; };
 
-struct Obj_800B8B08 { u8 pad0[0x24]; s32 f24; u8 pad28[0x34 - 0x28]; s32 f34; u8 pad38[0xC0 - 0x38]; f32 fc0; u8 padc4[0xF8 - 0xC4]; s32 ff8; Rec_800B8B08 *recs; u8 pad100[4]; s32 count; };
+struct Obj_800B8B08 { u8 pad0[0x24]; s32 f24; u8 pad28[0x34 - 0x28]; saddr f34; u8 pad38[0xC0 - 0x38]; f32 fc0; u8 padc4[0xF8 - 0xC4]; s32 ff8; Rec_800B8B08 *recs; u8 pad100[4]; s32 count; };
 
 struct Rec_800B8BB4 { Vec pos; Vec v2; s32 f18; u32 flags; };
 

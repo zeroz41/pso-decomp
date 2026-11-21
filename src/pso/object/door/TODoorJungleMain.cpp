@@ -133,7 +133,7 @@ u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 u8 * load_gvm_texture_file(saddr);
 extern "C" {
 
-s32 get_bml_motion(void *, s32);
+saddr get_bml_motion(void *, s32);
 
 u32 init_collision_body_parts(void *, saddr, s32);
 

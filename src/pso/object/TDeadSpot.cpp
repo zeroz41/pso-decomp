@@ -81,7 +81,7 @@ s32 TDeadSpot__class_name = (s32)"TDeadSpot";
 #pragma pop
 extern "C" {
 
-extern s32 camera_ctrl_instance;
+extern saddr camera_ctrl_instance;
 
 extern s32 saved_model_render_flags;
 

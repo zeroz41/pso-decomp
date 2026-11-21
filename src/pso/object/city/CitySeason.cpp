@@ -143,7 +143,7 @@ s32 TLobby__sub_80184C54();
 f32 vec3_dot(void *, void *);
 f32 subtract_vector(void *, void *);
 extern f32 lbl_804FF5E8[];
-extern s32 camera_ctrl_instance;
+extern saddr camera_ctrl_instance;
 
 void fn_80141CB8(void *, void *, void *, void *);
 extern const u32 lbl_804441FC[5];
@@ -218,8 +218,8 @@ s32 scroll_strip_uvs(s32, s16, s32);
 s32 push_matrix();
 
 extern u32 lbl_805D5B38;
-extern s32 lbl_805D5B3C;
-extern s32 lbl_805D5B40;
+extern saddr lbl_805D5B3C;
+extern saddr lbl_805D5B40;
 extern s32 lbl_805D5B44;
 extern s32 lbl_805D5B48;
 
@@ -256,9 +256,9 @@ struct VObj_18_1a504b : VBase_18_1a504b {
     virtual s32 m5(s32);
 };
 
-struct EntA_80183AF0 { u8 pad[8]; s32 v; u8 padc[4]; };
+struct EntA_80183AF0 { u8 pad[8]; saddr v; u8 padc[4]; };
 
-struct EntB_80183AF0 { u8 pad[4]; s32 v; };
+struct EntB_80183AF0 { u8 pad[4]; saddr v; };
 
 struct Res_80183AF0 { u8 pad[0x42C]; EntA_80183AF0 *a; EntB_80183AF0 *b; };
 
@@ -351,7 +351,7 @@ int get_anim_frame__13TUnk_804B5E48Fv(void* a0);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 
-extern s32 lbl_805D5B34;
+extern saddr lbl_805D5B34;
 }
 
 extern "C" {

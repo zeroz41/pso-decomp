@@ -183,10 +183,10 @@ void *TOSymbolchatColli::create(void *arg0) {
 void TOSymbolchatColli::free_rock() { mem_free((void *)symbol_chat_colli_entries); symbol_chat_colli_entries = 0; }
 
 void TOSymbolchatColli::load_symbol_chat_data() {
-    s32 h;
+    saddr h;
     s32 i;
     symbol_chat_colli_entries = (int)mem_alloc(0x840);
-    h = (s32)load_disc_file(lbl_805D3190);
+    h = (saddr)load_disc_file(lbl_805D3190);
     if (h != 0) {
         prs_decompress_buffer(h, symbol_chat_colli_entries);
     }

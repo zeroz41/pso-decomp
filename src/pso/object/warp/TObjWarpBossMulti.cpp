@@ -108,7 +108,7 @@ saddr TObjWarpBossMulti__create(saddr arg0);
 const char lbl_8044663C[] = "<- NEXT STAGE No.";
 const char lbl_80446650[] = "<- KEY ID : %d";
 extern u32 player_slot_table[];
-extern s32 camera_ctrl_instance;
+extern saddr camera_ctrl_instance;
 extern s32 lbl_805D55C0;
 
 

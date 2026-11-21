@@ -23,21 +23,21 @@ void *get_player_by_client_id(s32 i);
 f32 xyz_distance_squared(s32, s32);
 
 s32 TObjEvtCollision::is_any_player_in_range(f32 farg0) {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     s32 i;
-    u32 player;
-    u32 temp_r3_2;
+    uaddr player;
+    uaddr temp_r3_2;
 
     if (is_split_screen() != 0) {
         for (i = 0; i < 4; i += 1) {
-            player = (u32)get_player_by_client_id(i);
+            player = (uaddr)get_player_by_client_id(i);
             if ((player != 0U) && (xyz_distance_squared(player + 0x38, arg0 + 0x38) < farg0)) {
                 return 1;
             }
         }
         goto block_10;
     }
-    temp_r3_2 = (u32)get_player_by_client_id(local_client_id);
+    temp_r3_2 = (uaddr)get_player_by_client_id(local_client_id);
     if ((temp_r3_2 != 0U) && (xyz_distance_squared(temp_r3_2 + 0x38, arg0 + 0x38) < farg0)) {
         return 1;
     }

@@ -158,7 +158,7 @@ void TLobby::free_map_resources() {
 struct BmObjCityCommonResourceDescriptor { const char * value; const char * * models; const char * * motions; u32 counts; u32 padding; };
 extern BmObjCityCommonResourceDescriptor bm_obj_city_common_resource_descriptor;
 void load_city_common_resources(void);
-s32 get_city_common_model(s32);
+saddr get_city_common_model(s32);
 void load_city_common_resources(void) {
     saddr temp_r3;
     saddr var_r0;
@@ -440,7 +440,7 @@ extern "C" {
 void run_task__16TObjCityDoor_MedFv(void *arg0);
 void render__16TObjCityDoor_MedFv(u8 *arg0);
 }
-s32 get_city_common_motion(s32);
+saddr get_city_common_motion(s32);
 extern "C" {
 void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 

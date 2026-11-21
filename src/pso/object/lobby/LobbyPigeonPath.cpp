@@ -162,7 +162,7 @@ s32 *csnVecterUnder(saddr origin, s32 mask);
 void vec3_add_to(void *, void *);
 
 saddr get_bml_model(void *, s32);
-s32 get_bml_motion(void *, s32);
+saddr get_bml_motion(void *, s32);
 
 s32 push_matrix();
 s32 post_translate_matrix(void *);
@@ -1139,7 +1139,7 @@ s32 TUnk_804E08D4::update_path_steering() {
 void TObjPlayer::load_kamome_resources() {
     saddr temp_r3;
     s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
+    temp_r3 = (saddr)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &bm_obj_jungle_kamome_resource_descriptor, 0, 0, 0));
@@ -1395,7 +1395,7 @@ s32 filter_lobby_pigeon_theme(void *) {
 void TObjPlayer::load_lobby_pigeon_resource() {
     saddr temp_r3;
     s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
+    temp_r3 = (saddr)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &bm_obj_lobby_pigeon_resource_descriptor, 0, 0, 0));

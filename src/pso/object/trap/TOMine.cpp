@@ -225,7 +225,7 @@ typedef struct VObj_18_33b813 VObj_18_33b813;
 struct RecoveredFields_80170F0C_arg0
 {
   u8 unknown_0[0x2A8];
-  s32 field_2A8;
+  saddr field_2A8;
   u8 unknown_2AC[0xA0];
   f32 field_34C;
   u8 unknown_350[0xC];
@@ -399,7 +399,7 @@ int TOMine::find_target_player() {
   new_var = -1;
   if (temp_r3 != new_var)
   {
-    ((RecoveredFields_80170F0C_arg0 *) arg0)->field_2A8 = (s32)get_player_by_client_id(temp_r3);
+    ((RecoveredFields_80170F0C_arg0 *) arg0)->field_2A8 = (saddr)get_player_by_client_id(temp_r3);
     ((TOMine *)arg0)->update_trigger();
   }
   return ((RecoveredFields_80170F0C_arg0 *) arg0)->field_35C;
@@ -616,7 +616,7 @@ void TOMine::vfunc_82() {
 }
 // Slot 80: plays the floor area's mine_trap_keymachine_table sound (was named attach_to_keymachine on TOMineTrap).
 void TOMine::vfunc_80() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     s32 area = get_current_floor_area();
     s32 elem = mine_trap_keymachine_table[area];
     if (elem != -1) {
@@ -625,7 +625,7 @@ void TOMine::vfunc_80() {
 }
 // Slot 81: plays the floor area's mine_trap_effect_table sound (was named spawn_effect on TOMineTrap).
 void TOMine::vfunc_81() {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     s32 area = get_current_floor_area();
     s32 elem = mine_trap_effect_table[area];
     if (elem != -1) {

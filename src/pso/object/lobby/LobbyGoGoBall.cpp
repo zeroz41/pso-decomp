@@ -42,7 +42,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
-s32 gogo_ball_bml_resource;
+saddr gogo_ball_bml_resource;
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off

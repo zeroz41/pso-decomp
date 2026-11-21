@@ -53,7 +53,7 @@ struct Obj_801933C8 { u8 padA0[0xAC]; s32 fAC; f32 fB0; u8 padB4[6]; u16 fBA; u8
 
 struct Node_80193188 { u32 flags; void *model; u8 pad8[0x24]; Node_80193188 *child; Node_80193188 *sibling; };
 
-struct Fence_80193188 { u8 pad0[0x8C]; s32 f8C; u8 pad90[0x2C]; Node_80193188 *fBC; Node_80193188 *fC0; s32 fC4; void *fC8[12]; };
+struct Fence_80193188 { u8 pad0[0x8C]; s32 f8C; u8 pad90[0x2C]; Node_80193188 *fBC; Node_80193188 *fC0; saddr fC4; void *fC8[12]; };
 
 extern "C" {
 void rotate_matrix_y(int, void *);
@@ -90,11 +90,11 @@ void TObjLazerFence4::init_models() {
     if (arg0->f8C % 2 == 0) {
         arg0->fBC = (Node_80193188 *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 4);
         arg0->fC0 = (Node_80193188 *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 5);
-        arg0->fC4 = (s32)get_bml_motion((BmlResource *)lazer_fence_norm_bml_resource, 2);
+        arg0->fC4 = (saddr)get_bml_motion((BmlResource *)lazer_fence_norm_bml_resource, 2);
     } else {
         arg0->fBC = (Node_80193188 *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 6);
         arg0->fC0 = (Node_80193188 *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 7);
-        arg0->fC4 = (s32)get_bml_motion((BmlResource *)lazer_fence_norm_bml_resource, 3);
+        arg0->fC4 = (saddr)get_bml_motion((BmlResource *)lazer_fence_norm_bml_resource, 3);
     }
     for (j = 0; j < 12; j++) {
         arg0->fC8[j] = 0;

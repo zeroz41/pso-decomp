@@ -35,7 +35,7 @@ CollisionBody TODoorFourLight__collision_body_params = {{0.0f, 20.0f, 0.0f}, 10.
 
 struct Tbl_80289EE0 { s32 v[8]; };
 
-struct Door_80289EE0 { u8 pad[0xD8]; s32 sw[8]; };
+struct Door_80289EE0 { u8 pad[0xD8]; saddr sw[8]; };
 
 struct Door_8028A28C {
     u8 pad0[0x24];
@@ -69,7 +69,7 @@ void free_collision_body_parts(void *);
 
 
 struct Tbl_8028A5C4 { s32 v[8]; };
-struct Door_8028A5C4 { u8 pad[0xD8]; s32 sw[8]; };
+struct Door_8028A5C4 { u8 pad[0xD8]; saddr sw[8]; };
 
 const char *TODoorFourLightRuins__class_name = "TODoorFourLightRuins";
 const Tbl_8028A5C4 door_four_light_ruins_index_table = {3, 4, 6, 8, 2, 5, 7, 9};
@@ -97,7 +97,7 @@ TODoorFourLightRuins::TODoorFourLightRuins(saddr arg1, saddr arg2) : TODoorBase(
     {
         Tbl_8028A5C4 t = door_four_light_ruins_index_table;
         for (i = 0; i < 8; i++) {
-            ((Door_8028A5C4 *)this)->sw[i] = (s32)find_object_node((NJS_OBJECT *)(this->m_d4), t.v[i]);
+            ((Door_8028A5C4 *)this)->sw[i] = (saddr)find_object_node((NJS_OBJECT *)(this->m_d4), t.v[i]);
         }
     }
 }
@@ -307,7 +307,7 @@ TODoorFourLightSpace::TODoorFourLightSpace(saddr arg1, saddr arg2) : TODoorBase(
     {
         Tbl_80289EE0 t = door_four_light_space_index_table;
         for (i = 0; i < 8; i++) {
-            ((Door_80289EE0 *)this)->sw[i] = (s32)find_object_node((NJS_OBJECT *)(this->m_d4), t.v[i]);
+            ((Door_80289EE0 *)this)->sw[i] = (saddr)find_object_node((NJS_OBJECT *)(this->m_d4), t.v[i]);
         }
     }
 }

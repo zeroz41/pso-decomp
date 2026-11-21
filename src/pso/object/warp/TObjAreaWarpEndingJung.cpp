@@ -104,7 +104,7 @@ struct Node_8019BD84 { u32 flags; void *model; f32 pos[3]; s32 ang[3]; f32 scl[3
 
 struct Ids_8019BD84 { u16 id[2]; };
 
-struct Warp_8019BD84 { u8 pad0[0x38]; f32 pos[3]; u8 pad44[0x1C]; s32 f60; u8 pad64[0x28]; s32 f8C; u8 pad90[0x34]; f32 fC4; s32 fC8; Node_8019BD84 *fCC; Node_8019BD84 *fD0; s32 fD4; s32 fD8; };
+struct Warp_8019BD84 { u8 pad0[0x38]; f32 pos[3]; u8 pad44[0x1C]; s32 f60; u8 pad64[0x28]; s32 f8C; u8 pad90[0x34]; f32 fC4; s32 fC8; Node_8019BD84 *fCC; Node_8019BD84 *fD0; saddr fD4; s32 fD8; };
 
 
 struct Node_8019C250 {
@@ -130,7 +130,7 @@ struct Obj_8019C250 {
     s32 fCC;
     Node_8019C250 *fD0;
     Node_8019C250 *fD4;
-    s32 fD8;
+    saddr fD8;
     s32 fDC;
 };
 
@@ -159,7 +159,7 @@ struct Obj_8019C604 {
     s32 fCC;
     Node_8019C604 *fD0;
     Node_8019C604 *fD4;
-    s32 fD8;
+    saddr fD8;
     s32 fDC;
 };
 

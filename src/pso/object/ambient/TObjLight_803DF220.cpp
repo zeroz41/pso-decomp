@@ -134,11 +134,11 @@ static inline void GXColor1u32_803DF5E4(u32 c) {
 }
 }
 void draw_untextured_trail_strip(void *arg0, void *arg1) {
-    s32 n;
+    saddr n;
     Vtx_803DF5E4 *v;
     u32 c;
     v = (Vtx_803DF5E4 *)arg0;
-    n = (s32)arg1;
+    n = (saddr)arg1;
     GXBegin(0x98, 4, n);
     for (; n != 0; n--) {
         GXPosition3f32_803DF5E4(v->x, v->y, v->z);

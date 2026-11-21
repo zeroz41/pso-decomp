@@ -56,7 +56,7 @@ const s32 lbl_80445DF4[2] = { 1, 0 };
 __declspec(section ".sdata") const char *fe_obj_baiku_motion_names[1] = { NULL };
 const char *motorcycle_class_name = "TMotorcycle";
 
-extern s32 camera_ctrl_instance;
+extern saddr camera_ctrl_instance;
 
 // The override of TObjBase::update_object_view_visibility (vtable slot +0x28): visible inside `radius` of the camera.
 s32 TMotorcycle::update_object_view_visibility(f32 depth, f32 radius) {

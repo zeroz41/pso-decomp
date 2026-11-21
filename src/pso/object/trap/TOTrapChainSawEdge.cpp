@@ -210,8 +210,8 @@ void draw_ginja_model_with_motion(void *, void *, f32);
 extern s32 __vt__17TOTrapChainSawKey[];
 extern s32 __vt__18TOTrapChainSawEdge[];
 extern s32 __vt__20TOTrapChainSawDamage[];
-u32 seabed_suiso_linked_switch_counts[5];
-u32 seabed_suiso_switch_counts[5];
+uaddr seabed_suiso_linked_switch_counts[5];
+uaddr seabed_suiso_switch_counts[5];
 extern s32 local_client_id;
 extern s32 game_difficulty_selection;
 extern void *tl_05;
@@ -1090,17 +1090,17 @@ void TOTrapChainSaw::load_shared_resource() {
     if (p != NULL) {
         h = (saddr)get_bml_model(p, 3);
         if (h != 0) {
-            seabed_suiso_linked_switch_counts[1] = (s32)find_object_node((NJS_OBJECT *)h, 3);
-            seabed_suiso_linked_switch_counts[2] = (s32)find_object_node((NJS_OBJECT *)h, 4);
-            seabed_suiso_linked_switch_counts[3] = (s32)find_object_node((NJS_OBJECT *)h, 5);
-            seabed_suiso_linked_switch_counts[4] = (s32)find_object_node((NJS_OBJECT *)h, 6);
+            seabed_suiso_linked_switch_counts[1] = (saddr)find_object_node((NJS_OBJECT *)h, 3);
+            seabed_suiso_linked_switch_counts[2] = (saddr)find_object_node((NJS_OBJECT *)h, 4);
+            seabed_suiso_linked_switch_counts[3] = (saddr)find_object_node((NJS_OBJECT *)h, 5);
+            seabed_suiso_linked_switch_counts[4] = (saddr)find_object_node((NJS_OBJECT *)h, 6);
         }
         h = (saddr)get_bml_model(lbl_805D6808, 4);
         if (h != 0) {
-            seabed_suiso_switch_counts[1] = (s32)find_object_node((NJS_OBJECT *)h, 3);
-            seabed_suiso_switch_counts[2] = (s32)find_object_node((NJS_OBJECT *)h, 4);
-            seabed_suiso_switch_counts[3] = (s32)find_object_node((NJS_OBJECT *)h, 5);
-            seabed_suiso_switch_counts[4] = (s32)find_object_node((NJS_OBJECT *)h, 6);
+            seabed_suiso_switch_counts[1] = (saddr)find_object_node((NJS_OBJECT *)h, 3);
+            seabed_suiso_switch_counts[2] = (saddr)find_object_node((NJS_OBJECT *)h, 4);
+            seabed_suiso_switch_counts[3] = (saddr)find_object_node((NJS_OBJECT *)h, 5);
+            seabed_suiso_switch_counts[4] = (saddr)find_object_node((NJS_OBJECT *)h, 6);
         }
     }
 }

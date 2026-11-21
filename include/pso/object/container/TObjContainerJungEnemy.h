@@ -13,7 +13,7 @@ struct TObjContainerJungEnemy : public TUnk_804B6C24 {
     virtual void vfunc_6(s16 *, s32);
     virtual void vfunc_80();
     virtual f32 receive_physical_attack(void *, f32);
-    u32 m_368;
+    uaddr m_368;
     uaddr m_36c;
     uaddr m_370;
     uaddr m_374;

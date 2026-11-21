@@ -50,7 +50,7 @@ NJS_ARGB door_key_beam_color_table[10] = {
 };
 const char *TObjDoorKey__class_name = "TObjDoorKey";
 
-s32 TObjDoorKey__ginja_model_table[4];
+saddr TObjDoorKey__ginja_model_table[4];
 uaddr door_key_resource_handle;
 saddr TObjDoorKey__texture_handle;
 s16 door_key_id_counter;
@@ -180,7 +180,7 @@ s32 TObjDoorKey::draw_active_beam() {
     set_constant_material(&door_key_beam_color_table[arg0->f8C]);
     draw_ginja_object((void *)TObjDoorKey__ginja_model_table[1]);
     rotate_matrix_y(0, arg0->fF0);
-    s32 *g = TObjDoorKey__ginja_model_table;
+    saddr *g = TObjDoorKey__ginja_model_table;
     ((TObjDoorJung *)(((Node_8018FBB8 *)g[2])->f4))->free_children((void *)((u16)arg0->f8C));
     draw_ginja_object((void *)g[2]);
     set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
@@ -200,7 +200,7 @@ s32 TObjDoorKey::draw_inactive_badge() {
     saved_model_render_flags = model_render_flags;
     model_render_flags |= 0x10;
     set_constant_material(&door_key_beam_color_table[arg0->f8C]);
-    s32 *g = TObjDoorKey__ginja_model_table;
+    saddr *g = TObjDoorKey__ginja_model_table;
     ((TObjDoorJung *)(((Node_8018FCD8 *)g[2])->f4))->free_children((void *)((u16)arg0->f8C));
     draw_ginja_object((void *)g[2]);
     set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);

@@ -34,7 +34,7 @@ BmlResourceDescriptor warp_lobby_resource_descriptor = {
     "bm_obj_lobby_warp.bml", bm_obj_lobby_warp_model_names, bm_obj_lobby_warp_motion_names, 1, 1,
 };
 const char *TObjWarpLobby__name = "TObjWarpLobby";
-s32 TObjWarpLobby__instance;
+saddr TObjWarpLobby__instance;
 
 
 void TObjWarpLobby::debug_print_area_num() {
@@ -203,7 +203,7 @@ void TObjWarpLobby__sub_801A0B38(void) {
     if (p != 0) {
         p = load_resource_from_descriptor(p, 1, &warp_lobby_resource_descriptor, 0, 0, 0);
     }
-    TObjWarpLobby__instance = (s32)p;
+    TObjWarpLobby__instance = (saddr)p;
     lbl_805D5CCC = ((Obj_801A0B38 *)TObjWarpLobby__instance)->sub->value;
 }
 

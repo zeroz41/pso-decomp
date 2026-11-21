@@ -83,7 +83,7 @@ void load_door_jung_resources(void) {
     Node_8018F4AC *node;
     void *scene;
 
-    handle = (int)::operator new(0x440);
+    handle = (saddr)::operator new(0x440);
     if (handle != 0) {
         handle = load_resource_from_descriptor(handle, 5, &bm_obj_beamdoa_resource_descriptor, 0, 0, 0);
     }

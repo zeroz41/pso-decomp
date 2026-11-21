@@ -115,17 +115,17 @@ void TOChatSensor::destroy_global() {
 }
 
 u32 TOChatSensor__create(saddr arg0) {
-    u32 temp_r3;
-    u32 temp_r3_2;
+    uaddr temp_r3;
+    uaddr temp_r3_2;
     u32 var_r0;
     if ((uaddr) TOChatSensorFolder__instance == 0U) {
-        temp_r3 = (u32)TObject::operator new(0x1C);
+        temp_r3 = (uaddr)TObject::operator new(0x1C);
         if (temp_r3 != 0U) {
             ((s32 (*)(u32, s32))TOChatSensorFolder__ct)(temp_r3, tl_05);
         }
     }
     if ((uaddr) TOChatSensorFolder__instance != 0U) {
-        temp_r3_2 = (u32)TObject::operator new(0xD0);
+        temp_r3_2 = (uaddr)TObject::operator new(0xD0);
         var_r0 = temp_r3_2;
         if (var_r0 != 0U) {
             var_r0 = TOChatSensor__ct((int)temp_r3_2, (void *)TOChatSensorFolder__instance, (void *)arg0);

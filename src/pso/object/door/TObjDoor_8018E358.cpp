@@ -19,7 +19,7 @@
 
 struct Node_8018E358 { s32 pad0; void *f4; };
 // The five door models load_resources takes from the door BML (models 4, 3, 0, 1, 2).
-struct DoorModelSet { s32 f0; s32 f4; Node_8018E358 *c; Node_8018E358 *a; Node_8018E358 *b; };
+struct DoorModelSet { saddr f0; s32 f4; Node_8018E358 *c; Node_8018E358 *a; Node_8018E358 *b; };
 struct Door_8018E358 { u8 pad0[0x38]; u8 f38[0x28]; s32 f60; u8 pad64[0x50]; f32 fB4; };
 
 struct DoorMotionHeader;
@@ -65,7 +65,7 @@ void TObjDoor__sub_8018E8BC(void);
 void update_anim__8TObjDoorFPv(void *arg0);
 f32 xyz_distance_squared(u8 *arg0, u8 *arg1);
 s32 project_world_to_screen(int, void *, void *);
-extern s32 camera_ctrl_instance;
+extern saddr camera_ctrl_instance;
 s32 free_collision_body_parts(void *);
 extern s32 __vt__8TObjDoor[];
 extern void *tl_05;
@@ -85,7 +85,7 @@ u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 u8 *load_gvm_texture_file(saddr arg0);
 extern "C" {
 saddr get_bml_model(saddr, s32);
-s32 get_bml_motion(saddr, s32);
+saddr get_bml_motion(saddr, s32);
 s32 draw_locked__8TObjDoorFPv(Door_8018E74C *arg0);
 void set_active_camera_pose(u8 *arg0, u8 *arg1);
 s32 restore_player_cameras(void);

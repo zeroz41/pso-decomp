@@ -14,7 +14,7 @@ struct TODoorFourLightBase : public TODoorBase {
     virtual void update_door_switch_state();
     virtual void vfunc_6(s16 *, s32);
     virtual void render();
-    u32 m_d4;
+    uaddr m_d4;
     u8 unk_D8[0x4];
     u32 m_dc;
     u8 unk_E0[0x18];

@@ -55,7 +55,7 @@ void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
 s32 update_challenge_warp_window();
-extern s32 camera_ctrl_instance;
+extern saddr camera_ctrl_instance;
 extern saddr city_common_texture_list;
 
 TObjCityMainWarpChallenge::TObjCityMainWarpChallenge(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {

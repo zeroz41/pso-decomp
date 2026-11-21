@@ -84,7 +84,7 @@ struct Obj_80185BE8 { u8 pad[0xC4]; f32 t; };
 
 extern "C" {
 
-s32 get_bml_motion(saddr, s32);
+saddr get_bml_motion(saddr, s32);
 
 saddr get_bml_texlist(saddr, s32);
 
@@ -213,7 +213,7 @@ void TObjCityMainWarp__sub_80186AB8(void);
 #pragma push
 #pragma fp_contract on
 s32 TObjCityMainWarp::find_local_player_in_range(f32 farg0) {
-    s32 arg0 = (s32)this;
+    saddr arg0 = (saddr)this;
     saddr player;
     s32 current_floor;
     s32 temp_r3b;

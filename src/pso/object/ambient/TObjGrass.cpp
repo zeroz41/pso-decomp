@@ -75,9 +75,9 @@ typedef struct Grass_800BE75C {
 } Grass_800BE75C;
 
 
-struct Quad_800BF66C { s32 a; void *b; s32 c; s32 d; };
+struct Quad_800BF66C { saddr a; void *b; s32 c; s32 d; };
 
-struct Ent8_800BF66C { s32 f0; s32 f4; };
+struct Ent8_800BF66C { s32 f0; saddr f4; };
 
 struct Model_800BF66C { s32 f0; s32 f4; s32 f8; NJS_TEXLIST *texlist; };
 
@@ -309,7 +309,7 @@ f32 newton_sqrtf(f32);
 s32 spawn_directional_particle(void *, void *, s32);
 }
 extern s32 game_difficulty_selection;
-extern s32 tl_05;
+extern saddr tl_05;
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
 f32 fabs_float(f32);
@@ -519,7 +519,7 @@ void TObjGrass::load_resources() {
     lbl_805D514C = (saddr)TLobby::dispatch_shared_handler_a(0x4D);
     {
     Quad_800BF66C q = grass_spawn_descriptor;
-    q.a = (s32) ((Data_800BF66C *)TObjGrass__resource_bundle)->f430;
+    q.a = (saddr) ((Data_800BF66C *)TObjGrass__resource_bundle)->f430;
     TLobby::spawn_npc_enemy((s16)0x35, (s32)(((Data_800BF66C *)TObjGrass__resource_bundle)->f42c->f8), ((Data_800BF66C *)TObjGrass__resource_bundle)->f42c->texlist, &q, (f32)((1e+01f)), (f32)((0.0f)));
     }
 }
@@ -1129,7 +1129,7 @@ void TObjGrass::sub_800BDD70() {
     Vec sp14;
     Vec sp8;
     s32 ang;
-    u32 ent;
+    uaddr ent;
     s32 idx;
     ((TObjBase *)arg0)->obj_clearFlags30(0x04040000);
     ((TObjMotion *)arg0)->advance_animation();
@@ -1185,11 +1185,11 @@ void TObjGrass::sub_800BDD70() {
         if (this->frame < (2e+01f)) {
             switch (this->requested_action) {
             case 2:
-                ent = (u32)((SampledMotionPoints *)(*(s32 *)&lbl_805D5158))->lookup(this->frame);
+                ent = (uaddr)((SampledMotionPoints *)(*(s32 *)&lbl_805D5158))->lookup(this->frame);
                 idx = 0;
                 break;
             case 3:
-                ent = (u32)((SampledMotionPoints *)(*(s32 *)&lbl_805D515C))->lookup(this->frame);
+                ent = (uaddr)((SampledMotionPoints *)(*(s32 *)&lbl_805D515C))->lookup(this->frame);
                 idx = 1;
                 break;
             default:

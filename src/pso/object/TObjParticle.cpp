@@ -50,7 +50,7 @@ extern s32 __vt__12TObjParticle[];
 const char *obj_particle_class_name = "TObjParticle";
 Part_80195400 *TObjParticle__ct(Part_80195400 *arg0, saddr arg1, Src_80195400 *arg2);
 
-extern s32 camera_ctrl_instance;
+extern saddr camera_ctrl_instance;
 
 void TObjParticle::render() {
     P_8019527C *arg0 = (P_8019527C *)this;

@@ -13,7 +13,7 @@ struct TObjChipParams {
     s32 pad_24[3];
     s32 pad_30[2];
     f32 pad_38[2];
-    s32 model;
+    saddr model;
     s32 textures;
     s32 pad_48;
 };
