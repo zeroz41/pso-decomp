@@ -286,8 +286,6 @@ extern "C" {
 
 void *__ct__9TBoss2FinFv(void *, TObject *, Vec *, Vec *);
 
-void *__ct__14TBoss2TentacleFP7TObjectll(void *, TObject *, GC_Mtx *, s32);
-
 void fill_value_array(AreaAttackHistory *history);
 
 
@@ -310,9 +308,8 @@ void TObjPlayer__sub_8002EB88(void);
 
 }
 
-struct Vec4_8002F258 { f32 x, y, z, w; };
-
-struct Light_8002F258 { u8 pad0[0x24]; Vec4_8002F258 col; };
+// TObjLight__scene_light_state as render uses it: the scene light's colour.
+struct SceneLightColor { u8 pad_00[0x24]; NJS_ARGB color; };
 
 extern "C" {
 
@@ -320,7 +317,7 @@ s32 TObjLight__sub_801336DC(s32);
 
 s32 TObjLight__sub_8013379C(s32, void *);
 
-extern Light_8002F258 TObjLight__scene_light_state;
+extern SceneLightColor TObjLight__scene_light_state;
 
 extern s32 lbl_805D5564;
 
@@ -679,11 +676,7 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(par
     tentacle_matrices = (GC_Mtx *)mem_alloc(4 * sizeof(GC_Mtx));
     for (i = 0; i < 4; i++) {
         set_matrix_identity((u8 *)tentacle_matrices[i]);
-        void *p = TObject::operator new(0x158);
-        if (p != NULL) {
-            p = __ct__14TBoss2TentacleFP7TObjectll(p, &part_group, &tentacle_matrices[i], i);
-        }
-        tentacles[i] = (TBoss2Tentacle *)p;
+        tentacles[i] = new TBoss2Tentacle(&part_group, (s32)&tentacle_matrices[i], i);
     }
     Vec v = {10000.0f, 10000.0f, 10000.0f};
     id = entity_id + 1;
@@ -3827,7 +3820,7 @@ void copy_argb(NJS_ARGB *dst, NJS_ARGB *src) {
 }
 
 void TBoss2DeRolLe::render() {
-    Vec4_8002F258 *col;
+    NJS_ARGB *col;
     s32 i;
     Vec *out;
 
@@ -3864,18 +3857,18 @@ void TBoss2DeRolLe::render() {
     TObjFish::set_global_param(texlist);
     set_chunk_model_node_callback(derolle_capture_node_points);
     {
-    Vec4_8002F258 saved;
-    col = &TObjLight__scene_light_state.col;
-    copy_argb((NJS_ARGB *)&saved, (NJS_ARGB *)col);
+    NJS_ARGB saved;
+    col = &TObjLight__scene_light_state.color;
+    copy_argb(&saved, col);
     if (TObjBoss2Tunnel::is_active() != 0) {
-        TObjLight__scene_light_state.col.y = 0.3f;
-        TObjLight__scene_light_state.col.z = 0.4f;
-        TObjLight__scene_light_state.col.w = 0.5f;
+        TObjLight__scene_light_state.color.r = 0.3f;
+        TObjLight__scene_light_state.color.g = 0.4f;
+        TObjLight__scene_light_state.color.b = 0.5f;
         TObjLight__sub_8013379C(current_scene_light, &TObjLight__scene_light_state);
         TObjLight__sub_801336DC(lbl_805D5564);
     }
     this->draw();
-    copy_argb((NJS_ARGB *)col, (NJS_ARGB *)&saved);
+    copy_argb(col, &saved);
     }
     set_chunk_model_node_callback(NULL);
     TObjLight__sub_801337F8(current_scene_light);
