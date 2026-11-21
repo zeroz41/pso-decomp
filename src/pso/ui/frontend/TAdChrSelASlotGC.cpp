@@ -291,7 +291,7 @@ void TAdChrSelASlotGC::init_selection() {
 void TAdChrSelASlotGC::sub_8030CCE0() {}
 
 #pragma pool_data off
-void TAdChrSelASlotGC::TAdChrSelASlotGC::populate_slot_entries() {
+void TAdChrSelASlotGC::populate_slot_entries() {
     u32 i;
     u32 j;
 
@@ -330,7 +330,7 @@ void TAdChrSelASlotGC::TAdChrSelASlotGC::populate_slot_entries() {
     }
 }
 
-void TAdChrSelASlotGC::TAdChrSelASlotGC::push_plate_positions() {
+void TAdChrSelASlotGC::push_plate_positions() {
     if (((TAdChrSelASlotGC *)(*(saddr *)((s8 *)this + 0x30)))->get_slot_index() >= 0xC) {
         switch (this->mode) {
         case 0:
@@ -501,7 +501,7 @@ void TAdChrSelASlotGC::update_slot1() {
     }
 }
 
-void TAdChrSelASlotGC::TAdChrSelASlotGC::reset_windows() {
+void TAdChrSelASlotGC::reset_windows() {
 
     if ((u32) *(u32 *)((s8 *)this + 0x58) != 0U) {
         ((TWindowBase *)(*(void **)((s8 *)this + 0x58)))->close();
@@ -690,7 +690,7 @@ void TAdChrSelASlotGC::run_task() {
     }
     static void (TAdChrSelASlotGC::*handlers[21])() = {
         &TAdChrSelASlotGC::close_windows,
-        &TAdChrSelASlotGC::TAdChrSelASlotGC::reset_windows,
+        &TAdChrSelASlotGC::reset_windows,
         &TAdChrSelASlotGC::update_slot1,
         &TAdChrSelASlotGC::update_slot2,
         &TAdChrSelASlotGC::update_slot3,
@@ -701,8 +701,8 @@ void TAdChrSelASlotGC::run_task() {
         &TAdChrSelASlotGC::update_window_74,
         &TAdChrSelASlotGC::update_window_7c,
         &TAdChrSelASlotGC::update_window_78,
-        &TAdChrSelASlotGC::TAdChrSelASlotGC::push_plate_positions,
-        &TAdChrSelASlotGC::TAdChrSelASlotGC::populate_slot_entries,
+        &TAdChrSelASlotGC::push_plate_positions,
+        &TAdChrSelASlotGC::populate_slot_entries,
         &TAdChrSelASlotGC::sub_8030CCE0,
         &TAdChrSelASlotGC::init_selection,
         &TAdChrSelASlotGC::check_load_state,

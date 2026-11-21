@@ -900,7 +900,7 @@ void TAdChrSelBSlotGC::create_children() {
     this->m_34 = new TAdChrSelMovePlateGC(this);
 }
 
-void TAdChrSelBSlotGC::TAdChrSelBSlotGC::clear_all_fields() {
+void TAdChrSelBSlotGC::clear_all_fields() {
     this->m_1c = 0;
     this->m_20 = 0;
     this->m_24 = -1;
