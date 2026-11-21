@@ -575,16 +575,16 @@ force_active:
   - TItemEffNeedle__class_name
   - __ct__20TItemEffOrgaFlowShotFP7TObjectP10S_80357734
   - TItemEffectWeapon__class_name
-  - TItemEquipBase__sub_80119100
-  - TItemEquipBase__sub_80119168
-  - TItemEquipBase__sub_8011919C
-  - TItemEquipBase__sub_801191D0
+  - clear_stealth_enemies_flag_20
+  - clear_stealth_enemies_flag_08
+  - remove_battle_ctrl_effect
+  - clear_stealth_enemies_flag_02
   - __ct__13TUnk_804C4468FP7TObjectlP8TObjBasePC3VecSc
   - TItemList__sub_801D58C8
-  - TItemLockCountCtrl__sub_80119238
-  - TItemLockCountCtrl__sub_8011926C
-  - TItemLockCountCtrl__sub_801192A0
-  - TItemLockCountCtrl__sub_8011933C
+  - clear_battle_ctrl_flag30
+  - set_stealth_enemies_flag_20
+  - set_stealth_enemies_flag_10
+  - set_stealth_enemies_flag_02
   - TItemMagGrowEff_name
   - TItemMagSub_name
   - TItemMoney__name
@@ -6380,7 +6380,7 @@ force_active:
   - release_child_slot__12TObjEneSlimeFl
   - load_unload_set_shuffle_order
   - load_unload_set_init_order
-  - fn_80119204
+  - remove_unit_immunity
   - fn_80157CA8
   - fn_801811FC
   - fn_80181204

@@ -42,7 +42,7 @@ void TItemLockCountCtrl::lock_effect(u16 client, u32 effect) {
 }
 
 
-void TItemEquipBase__sub_80119100(int arg0) {
+void clear_stealth_enemies_flag_20(int arg0) {
     uaddr temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
         ((TObjEneDD_ST *)temp)->sub_800F5864(0x20);
@@ -57,49 +57,49 @@ void notify_stealth_enemies_10(int arg0) {
 }
 
 
-void TItemEquipBase__sub_80119168(int arg0) {
+void clear_stealth_enemies_flag_08(int arg0) {
     uaddr temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
         ((TObjEneDD_ST *)temp)->sub_800F5864(8);
     }
 }
 
-void TItemEquipBase__sub_8011919C(int arg0) {
+void remove_battle_ctrl_effect(int arg0) {
     uaddr temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
         ((TObjEneDD_ST *)temp)->sub_800F5864(4);
     }
 }
 
-void TItemEquipBase__sub_801191D0(int arg0) {
+void clear_stealth_enemies_flag_02(int arg0) {
     uaddr temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
         ((TObjEneDD_ST *)temp)->sub_800F5864(2);
     }
 }
 
-void fn_80119204(int arg0) {
+void remove_unit_immunity(int arg0) {
     uaddr temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
         ((TObjEneDD_ST *)temp)->sub_800F5864(1);
     }
 }
 
-void TItemLockCountCtrl__sub_80119238(int arg0) {
+void clear_battle_ctrl_flag30(int arg0) {
     uaddr temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
         ((TObjBase *)temp)->obj_clearFlags30(0x40);
     }
 }
 
-void TItemLockCountCtrl__sub_8011926C(int arg0) {
+void set_stealth_enemies_flag_20(int arg0) {
     uaddr temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
         ((TObjEneDD_ST *)temp)->sub_800F5874(0x20);
     }
 }
 
-void TItemLockCountCtrl__sub_801192A0(int arg0) {
+void set_stealth_enemies_flag_10(int arg0) {
     uaddr temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
         ((TObjEneDD_ST *)temp)->sub_800F5874(0x10);
@@ -120,7 +120,7 @@ void apply_battle_ctrl_effect(int arg0) {
     }
 }
 
-void TItemLockCountCtrl__sub_8011933C(int arg0) {
+void set_stealth_enemies_flag_02(int arg0) {
     uaddr temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
         ((TObjEneDD_ST *)temp)->sub_800F5874(2);
@@ -152,11 +152,11 @@ void TItemLockCountCtrl::free_all() {
 #define MK_80119444(idx, a, b)                                   \
     item_effect_object_table[idx] = (VObj_801193D8 *)new TItemLockCountCtrl(0, 0xC, a, b);
 void TItemLockCountCtrl::init_effect_table() {
-    MK_80119444(0, TItemLockCountCtrl::set_battle_ctrl_flag30, TItemLockCountCtrl__sub_80119238)
-    MK_80119444(1, TItemLockCountCtrl::apply_unit_immunity, fn_80119204)
-    MK_80119444(2, TItemLockCountCtrl__sub_8011933C, TItemEquipBase__sub_801191D0)
-    MK_80119444(3, apply_battle_ctrl_effect, TItemEquipBase__sub_8011919C)
-    MK_80119444(4, notify_stealth_enemies_08, TItemEquipBase__sub_80119168)
-    MK_80119444(5, TItemLockCountCtrl__sub_801192A0, notify_stealth_enemies_10)
-    MK_80119444(6, TItemLockCountCtrl__sub_8011926C, TItemEquipBase__sub_80119100)
+    MK_80119444(0, TItemLockCountCtrl::set_battle_ctrl_flag30, clear_battle_ctrl_flag30)
+    MK_80119444(1, TItemLockCountCtrl::apply_unit_immunity, remove_unit_immunity)
+    MK_80119444(2, set_stealth_enemies_flag_02, clear_stealth_enemies_flag_02)
+    MK_80119444(3, apply_battle_ctrl_effect, remove_battle_ctrl_effect)
+    MK_80119444(4, notify_stealth_enemies_08, clear_stealth_enemies_flag_08)
+    MK_80119444(5, set_stealth_enemies_flag_10, notify_stealth_enemies_10)
+    MK_80119444(6, set_stealth_enemies_flag_20, clear_stealth_enemies_flag_20)
 }
