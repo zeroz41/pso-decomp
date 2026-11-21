@@ -556,9 +556,9 @@ struct TLobby : public TObject {
     void move_words(u32 *src, s32 n);
     static s32 calc_delta(s32 arg0, s32 arg1);
     static void reset_player_state();
-    static s32 aram_dma_blocking(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-    static s32 aram_read_sync(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-    static s32 aram_transfer_sync(s32 arg0, u32 arg1, s32 arg2, s32 arg3);
+    static s32 aram_dma_blocking(s32 owner, s32 aram, saddr dest, s32 length);
+    static s32 aram_read_sync(s32 owner, s32 aram, saddr dest, s32 length);
+    static s32 aram_transfer_sync(s32 owner, uaddr source, s32 aram, s32 length);
     static void send_game_character();
     void open_udp_socket_for_player();
     void send_6x71_to_player();
