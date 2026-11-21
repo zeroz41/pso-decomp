@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/camera/CameraViewParams.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowDD.h"
@@ -44,17 +45,19 @@ WindowDescriptor window_user_sort_settings = {
 };
 
 extern "C" {
-s32 draw_visible_window_entries(void *, void *, int);
 void *get_player_by_client_id(s32 i);
 
 void TWindowUserSort::render() {
     saddr temp_r3;
-    temp_r3 = TWindowDD::draw_default_entry((saddr)this);
+    temp_r3 = reinterpret_cast<saddr>(draw_default_entry());
     draw_window_frame((void *)temp_r3);
-    draw_visible_window_entries(this, &entries, (int)temp_r3);
+    draw_visible_window_entries(
+        this,
+        reinterpret_cast<const WindowLayoutEntries *>(&entry_list),
+        reinterpret_cast<WindowDrawContext *>(temp_r3));
 }
 
-void TWindowUserSort::run_task() { ((TWindowDD *)this)->initialize_subwindow(); update_fade(); update_window_entry_list(&entries); }
+void TWindowUserSort::run_task() { ((TWindowDD *)this)->initialize_subwindow(); update_fade(); update_window_entry_list(&entry_list); }
 
 TWindowUserSort::~TWindowUserSort() {}
 

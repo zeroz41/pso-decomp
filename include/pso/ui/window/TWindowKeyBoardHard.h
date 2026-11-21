@@ -20,7 +20,6 @@ struct TWindowKeyBoardHard : public TWindowBase {
     u16 lookup_key_char(u8);
     int sub_80260438();
     int sub_8026042C();
-    u8 _pad1C[0x44];
     u32 m_60;
     u32 m_64;
     u32 m_68;

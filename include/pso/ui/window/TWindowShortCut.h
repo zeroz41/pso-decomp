@@ -11,11 +11,6 @@ struct TWindowShortCut : public TWindowBase {
     TWindowShortCut(saddr arg1, s32 index, s32 *chat_shortcut);
     virtual ~TWindowShortCut();
     virtual void render();
-    u8 _pad1C[0x4];
-    s16 m_20;
-    u8 _pad22[0x2];
-    void* m_24;
-    u8 _pad28[0x38];
     uaddr heading;                       // type-1 status heading titled with message 0x35
     TWindowMessageQuest *preview_window;       // text preview of a text or word-select shortcut
     TWindowChatSymbol *symbol_preview; // preview of a symbol-chat shortcut

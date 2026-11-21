@@ -1,10 +1,12 @@
 #include "pso/system/CharacterSaveRecordLookup.h"
+#include <stdlib.h>
+#include <string.h>
 #include "pso/network/FloorEventCommand.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include <string.h>
 #include "pso/unk/TUnk_804C8678.h"
 #include "pso/ui/window/TWindowMenu.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/ui/window/TWindowMessage.h"
@@ -989,7 +991,6 @@ void TLobby__sub_8024AC20(saddr arg0);
 s32 close_windows_by_flags__11TWindowCtrlFUs(int, void *);
 void open_default__11TWindowCtrlFll(u16, s32);
 s32 __ct__15TWindowHelpItemFPvUs(s32, s32, s32);
-void align_menu_entry_positions(s32 win);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 }
 void reset_cameras_to_actor(void *actor, s32 arg1);
@@ -1038,7 +1039,6 @@ void TObjPlayer__sub_80354CCC(s32 arg0);
 void TObjPlayer__sub_80354D14(s32 arg0);
 void TObjPlayer__sub_80354DAC(s32 arg0);
 void TObjPlayer__sub_80354DF4(s32 arg0);
-s32 rand(void);
 u32 TLobby__sub_803DF1CC(void);
 }
 
@@ -5132,9 +5132,9 @@ void qst_op_list(void) {
     for (i = 0; i < list->count; i++) {
         TObjCityMainWarp::forward_trade_action_default(qst_list_window, (saddr)list->names[i], 7, (int)i);
     }
-    ((TWindowSubComCard *)qst_list_window)->calc_window_size();
-    align_menu_entry_positions((saddr)qst_list_window);
-    ((TCheckRoomSequence *)qst_list_window)->set_ready_flag();
+    ((TWindowMenu *)qst_list_window)->calc_window_size();
+    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(qst_list_window));
+    ((TWindowMenu *)qst_list_window)->set_ready_flag();
     ((TWindowBase *)qst_list_window)->set_depth(39000.0f);
     qst_registers[idx] = 0;
     qst_result_register = idx;

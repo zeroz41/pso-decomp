@@ -2,9 +2,12 @@
 #define PSO_UI_CITY_TSHOPARMORLISTWINDOW_H
 
 #include "types.h"
+#include <stddef.h>
 #include "pso/ui/city/TShopWindowBase.h"
 
 class TWindowBase;
+
+struct TWindowMenu;
 
 struct TShopArmorListWindow : public TShopWindowBase {
     TShopArmorListWindow(saddr parent, s32, s32);
@@ -17,7 +20,7 @@ struct TShopArmorListWindow : public TShopWindowBase {
     uaddr m_24;
     u32 m_28;
     TWindowBase *item_list;   // 0x2C: create_item_list_window
-    uaddr choice_menu;          // 0x30: create_window_menu / create_yes_no_window
+    TWindowMenu *choice_menu;          // 0x30: create_window_menu / create_yes_no_window
     TWindowBase *help_window; // 0x34: a TWindowHelpItem
     uaddr m_38;
     TWindowBase *cost_window; // 0x3C: create_cost_window
@@ -51,4 +54,6 @@ struct TShopArmorListWindow : public TShopWindowBase {
 };
 
 LAYOUT_ASSERT(TShopArmorListWindow_size, sizeof(TShopArmorListWindow) == 0x1F8);
+LAYOUT_ASSERT(TShopArmorListWindow_choice_menu_offset, offsetof(TShopArmorListWindow, choice_menu) == 0x30);
+
 #endif

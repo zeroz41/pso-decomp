@@ -11,6 +11,7 @@
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -56,8 +57,6 @@ int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int 
 s32 create_window_menu_default(void *, int);
 extern s32 lbl_804728A8[];
 extern s32 lbl_804728A0[];
-s32 align_menu_entry_positions(int);
-saddr create_window_menu(saddr arg0, saddr arg1, saddr arg2);
 extern s32 lbl_80472890[];
 extern u8 lbl_80472898[];
 extern u8 player_number_text_buffer[];
@@ -1103,7 +1102,7 @@ void TAdMultiPlyChrSelectGC::update_card_select() {
         return;
     }
     if (((TWindowSubComCard *)(*(uaddr *)((s8 *)this + 0x98)))->get_card_data() != 0) {
-        ((TWindowSubComCard *)(*(uaddr *)((s8 *)this + 0x7C)))->clear_transition_flag();
+        ((TWindowMenu *)(*(uaddr *)((s8 *)this + 0x7C)))->clear_transition_flag();
         ((TWindowSubComCard *)(*(uaddr *)((s8 *)this + 0x7C)))->clear_flag_and_release();
         if ((u32) *(u32 *)((s8 *)this + 0x98) != 0U) {
             ((TWindowSubComCard *)(*(void **)((s8 *)this + 0x98)))->close();
@@ -1115,7 +1114,7 @@ void TAdMultiPlyChrSelectGC::update_card_select() {
     if (((TWindowMessageYesNo *)(*(uaddr *)((s8 *)this + 0x98)))->is_child_visible() != 0) {
         switch (((TWindowSubComCard *)(*(uaddr *)((s8 *)this + 0x98)))->get_slot_or_neg1()) {
         case 1:
-            ((TWindowSubComCard *)(*(uaddr *)((s8 *)this + 0x7C)))->clear_transition_flag();
+            ((TWindowMenu *)(*(uaddr *)((s8 *)this + 0x7C)))->clear_transition_flag();
             ((TWindowSubComCard *)(*(uaddr *)((s8 *)this + 0x7C)))->clear_flag_and_release();
             if ((u32) *(u32 *)((s8 *)this + 0x98) != 0U) {
                 ((TWindowSubComCard *)(*(void **)((s8 *)this + 0x98)))->close();
@@ -2210,14 +2209,14 @@ void TAdMultiPlyChrSelectGC::collect_player_slots() {
 
 s32 TAdMultiPlyChrSelectGC::create_choice_menu() {
     saddr window_menu;
-    window_menu = create_window_menu((saddr)lbl_80472890, 4, (TAdMultiPlyChrSelectGC::get_clamped_cursor()));
+    window_menu = (saddr)create_window_menu((saddr)lbl_80472890, 4, (TAdMultiPlyChrSelectGC::get_clamped_cursor()));
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)window_menu, (int)(get_localized_text_entry(0x1F, 2)), 6, 0);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)window_menu, (int)(get_localized_text_entry(0x1F, 3)), 6, 1);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)window_menu, (int)(get_localized_text_entry(0x1F, 4)), 6, 2);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)window_menu, (int)(get_localized_text_entry(0x1F, 5)), 6, 3);
-    ((TWindowSubComCardList *)window_menu)->update_layout_height(224.0f);
+    ((TWindowMenu *)window_menu)->update_layout_height(224.0f);
     ((TWindowSubComCardList *)window_menu)->set_selected_index(0);
-    align_menu_entry_positions(window_menu);
+    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(window_menu));
     return window_menu;
 }
 

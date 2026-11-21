@@ -478,7 +478,7 @@ void TAdEnterSerialAccessGC__sub_80321B28(u8 *ad_enter_serial_access_gc, int arg
     }
     if ((((TKeyBoardControl *)TAdEnterSerialAccessGC__keyboard_control)->is_confirmed() != 0) && (TAdEnterSerialAccessGC::forward_input(ad_enter_serial_access_gc, arg1, (const char *)temp_r30) == 0))
     {
-      free_menu_object((void *)TAdEnterSerialAccessGC__keyboard_control);
+      reinterpret_cast<TKeyBoardControl *>(TAdEnterSerialAccessGC__keyboard_control)->clear_keyboard_flag60_bit1();
       play_sound_effect(0x53F06, 0, 0, 0);
     }
   }

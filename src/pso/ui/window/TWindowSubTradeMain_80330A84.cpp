@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
@@ -144,16 +145,12 @@ struct TWindowSubTradeMain_8033162C {
     u8 submission[4];
 };
 extern "C" {
-s32 align_menu_entry_positions(int);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 void play_sound_effect(int, int, int, int);
 }
 saddr create_titled_window_menu(saddr arg0, s32 arg1, saddr arg2, s32 arg3);
 void window_request_show(void *);
 extern "C" {
-s32 TWindowCtrl__sub_8024701C(void *);
-void TWindowChat__sub_80247DFC(u8 *arg0);
-void TWindowChat__sub_80247E50(u8 *arg0);
 void TWindowSubComCard__sub_80265680(u8 *arg0, s16 arg1);
 s32 get_state__19TWindowSubTradeMainFv(void *, void *);
 void TWindowSubTradeMain__sub_803323C8(void *);
@@ -274,12 +271,12 @@ void TWindowSubTradeMain::run_task() {
     saddr n;
     player = is_player_input_active(o->player);
     if (((TWindowChat *)(o->chat))->is_mode_bit4() != 0 && chat_accept_submission((saddr)o->submission) != 0) {
-        TWindowChat__sub_80247E50((u8 *)o->chat);
+        TWindowChat__sub_80247E50(reinterpret_cast<TWindowChat *>(o->chat));
     }
     if (((TWindowChat *)(o->chat))->is_visible() != 0) {
-        TWindowChat__sub_80247DFC((u8 *)o->chat);
+        TWindowChat__sub_80247DFC(reinterpret_cast<TWindowChat *>(o->chat));
     }
-    if (TWindowCtrl__sub_8024701C(o->chat) != 0) {
+    if (TWindowCtrl__sub_8024701C(reinterpret_cast<TWindowChat *>(o->chat)) != 0) {
         ((TWindowSubTradeMain *)o)->set_labels(0xA);
         ((TWindowSubTradeMain *)o)->set_child_windows_enabled(0);
         o->flags |= 1;
@@ -527,7 +524,7 @@ void TWindowSubTradeMain::run_task() {
                 ((TWindowLockOn *)(o->confirm))->request_close();
             }
             if (o->menu != 0) {
-                ((TWindowSubComCard *)(o->menu))->clear_transition_flag();
+                ((TWindowMenu *)(o->menu))->clear_transition_flag();
             }
         }
         break;
@@ -537,7 +534,7 @@ void TWindowSubTradeMain::run_task() {
             o->confirm = 0;
         }
         if (o->menu != 0) {
-            ((TWindowSubComCard *)(o->menu))->clear_transition_flag();
+            ((TWindowMenu *)(o->menu))->clear_transition_flag();
         }
         clear_local_trade_offer_confirmation();
         o->state = 1;
@@ -667,8 +664,8 @@ saddr TWindowSubTradeMain::build_trade_menu() {
   forward_trade_action_default__16TObjCityMainWarpFPviii((void *)titled_window_menu, (int)((int) TWindowSubStatusDisp::get_message_10(0xDC)), 6, 0x11);
   ((TWindowSubTradeMain *)titled_window_menu)->add_text_entry((saddr) TWindowSubStatusDisp::get_message_10(0xDD), 6, 0x14, (int) 0xFFEE946E);
   ((TWindowSubTradeMain *)titled_window_menu)->add_text_entry((saddr) TWindowSubStatusDisp::get_message_10(0xDF), 6, 0x17, (int) 0xFFEE6ED8);
-  ((TWindowSubComCardList *)titled_window_menu)->update_layout_height(282.0f);
-  align_menu_entry_positions((int) titled_window_menu);
+  ((TWindowMenu *)titled_window_menu)->update_layout_height(282.0f);
+  align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(titled_window_menu));
   return titled_window_menu;
 }
 
@@ -680,8 +677,8 @@ saddr TWindowSubTradeMain::create_trade_menu() {
   forward_trade_action_default__16TObjCityMainWarpFPviii((void *)titled_window_menu, (int)((int) TWindowSubStatusDisp::get_message_10(0xE3)), 6, 0x16);
   ((TWindowSubTradeMain *)titled_window_menu)->add_text_entry((saddr) TWindowSubStatusDisp::get_message_10(0xDE), 6, 0x1A, (int) 0xFFEE946E);
   ((TWindowSubTradeMain *)titled_window_menu)->add_text_entry((saddr) TWindowSubStatusDisp::get_message_10(0xDF), 6, 0x17, (int) 0xFFEE6ED8);
-  ((TWindowSubComCardList *)titled_window_menu)->update_layout_height(282.0f);
-  align_menu_entry_positions((int) titled_window_menu);
+  ((TWindowMenu *)titled_window_menu)->update_layout_height(282.0f);
+  align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(titled_window_menu));
   return titled_window_menu;
 }
 

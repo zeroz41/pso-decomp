@@ -5,32 +5,23 @@
 #include "pso/unk/text_801C23A8.h"
 #include "pso/unk/TUnk_804C3E60.h"
 #include "pso/unk/TLobby.h"
-#include "pso/ui/window/TWindowDuelResult.h"
 #include "pso/player/TPlayerBattleCtrl4P_8031012C.h"
 #include "pso/ui/window/TWindowDuelResult_801C2528.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/system/task/TObject.h"
 
 extern "C" {
-u8 *duel_result_window;
-extern saddr tl_00;
-extern s32 __vt__13TUnk_804C3E60[];
+TUnk_804C3E60 *duel_result_window;
+extern TObject *tl_00;
 
-void show_duel_result_window(saddr arg0, saddr arg1) {
-    u8 *window_duel_result;
-    u8 *var_r0;
-    if ((void *) duel_result_window != NULL) {
-        *(s32 *)((s8 *)duel_result_window + 0x1C) = arg1;
-        *(s32 *)((s8 *)duel_result_window + 0x20) = arg0;
-        TLobby::set_and_notify(arg0);
+void show_duel_result_window(saddr gain, saddr duration) {
+    if (duel_result_window != NULL) {
+        duel_result_window->countdown = duration;
+        duel_result_window->gain_offset = gain;
+        TLobby::set_and_notify(gain);
         return;
     }
-    window_duel_result = (u8 *)(TObject::operator new(0x24));
-    var_r0 = window_duel_result;
-    if (var_r0 != NULL) {
-        var_r0 = (u8 *)(((TWindowDuelResult *)window_duel_result)->init((void *)tl_00, (void *)arg0, (void *)arg1));
-    }
-    duel_result_window = var_r0;
+    duel_result_window = new TUnk_804C3E60(tl_00, gain, duration);
 }
 
 TUnk_804C3E60::~TUnk_804C3E60() {
@@ -38,39 +29,22 @@ TUnk_804C3E60::~TUnk_804C3E60() {
 }
 
 void TUnk_804C3E60::run_task() {
-    u8 *arg0 = (u8 *)this;
-  s32 temp_r0;
-  s32 temp_r0_2;
-  int new_var;
-  temp_r0 = (*((s32 *) (((s8 *) arg0) + 0x1C))) - 1;
-  *((s32 *) (((s8 *) arg0) + 0x1C)) = temp_r0;
-  if (temp_r0 <= 0)
-  {
-    TLobby::set_and_notify(0);
-    ((TObject *)arg0)->queue_destruction();
-    return;
-  }
-  temp_r0_2 = *((s32 *) (((s8 *) arg0) + 0x1C));
-  new_var = 0x20;
-  if (temp_r0_2 <= 0xF)
-  {
-    TLobby::set_and_notify((s32) ((0.06666667f * ((f32) temp_r0_2)) * ((f32) (*((s32 *) (((s8 *) arg0) + new_var))))));
-  }
+    if (--countdown <= 0) {
+        TLobby::set_and_notify(0);
+        queue_destruction();
+        return;
+    }
+    if (countdown <= 15) {
+        TLobby::set_and_notify((s32)((0.06666667f * (f32)countdown) * (f32)gain_offset));
+    }
 }
 
+TUnk_804C3E60::TUnk_804C3E60(TObject *parent, s32 gain, s32 duration) : TObject(parent) {
+    countdown = duration;
+    gain_offset = gain;
+    TLobby::set_and_notify(gain);
 }
 
-extern "C" {
-void __ct__7TObjectFP7TObject(void *);
-
-void *TWindowDuelResult::init(void *arg1, void *arg2, void *arg3) {
-    __ct__7TObjectFP7TObject(this);
-    *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_804C3E60;
-    *(void * *)&this->_pad1C = arg3;
-    *(void **)((s8 *)this + 0x20) = arg2;
-    TLobby::set_and_notify((saddr)arg2);
-    return this;
-}
 s32 *TWindowDuelResult__sub_801C257C(void) {
     if (TRaderMapCore::is_not_split_screen() == 1) {
         return (long *) (get_split_screen_battle_rankings());

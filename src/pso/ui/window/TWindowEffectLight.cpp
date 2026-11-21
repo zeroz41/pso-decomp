@@ -35,13 +35,8 @@ void set_draw_texture_and_color(s32 idx, s32 arg1);
 #pragma fp_contract on
 /* Built with deferred code generation: functions are emitted in reverse source order, and the vtable precedes render's switch table in .data. */
 #pragma defer_codegen on
-void *TWindowEffectLight::create(void *arg0, void *arg1, void *arg2) {
-    void *o;
-    o = TObject::operator new(0x2C);
-    if (o != NULL) {
-        o = ((void *(*)(void *, void *, void *, void *))__ct__18TWindowEffectLightFPvsUl)(o, arg0, arg1, arg2);
-    }
-    return o;
+void *TWindowEffectLight::create(void *position, s16 effect_kind, u32 player_id) {
+    return new TWindowEffectLight(position, effect_kind, player_id);
 }
 
 }
@@ -50,9 +45,9 @@ TWindowEffectLight::TWindowEffectLight(void *arg1, s16 arg2, u32 id) : TObject((
     this->m_name = lbl_805D3E60;
     copy_vec2((((u8 *)this) + 0x1C), arg1);
     WindowDrawContext::adjust_pos_for_split_screen((NJS_POINT2 *)(((u8 *)this) + 0x1C), TCameraCtrl::get_split_screen_view_index(id));
-    *(s16 *)((s8 *)this + 0x24) = arg2;
-    *(s16 *)((s8 *)this + 0x26) = -1;
-    *(u32 *)((s8 *)this + 0x28) = id;
+    effect_kind = arg2;
+    age = -1;
+    player_id = id;
 }
 
 TWindowEffectLight::~TWindowEffectLight() {}

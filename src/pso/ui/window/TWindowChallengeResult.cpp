@@ -1,6 +1,9 @@
+#pragma defer_codegen on
+
 #include "types.h"
 #include "pso/ui/window/TWindowChallengeResult.h"
-#include "pso/ui/window/TWindowChallengeResult_80246CE8.h"
+#include "pso/ui/window/TWindowSubStatusDisp_802598E4.h"
+#include "pso/unk/WindowLayoutRecord.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby_8001D6A0.h"
@@ -12,64 +15,46 @@
 #pragma push
 #pragma readonly_strings on
 
-extern "C" {
-s32 draw_visible_window_entries(void *, void *, int);
-void TWindowChallengeResult::render() {
-    saddr temp_r3;
-    saddr arg0 = (saddr)this;
-    temp_r3 = ((TWindowBase *)arg0)->setup_window_draw_context((f32 *)(arg0 + 0x60));
-    ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
-    draw_visible_window_entries((void *)arg0, (void *)(arg0 + 0x24), (int)temp_r3);
-}
-
-}
+extern "C" void measure_message_text_width_default(void *);
 
 const char *lbl_805D3898 = "TWindowChallengeResult";
 #pragma pop
 
 extern "C" {
 
-struct Entry_80246DCC {
-    u8 pad0[0x8];
-    f32 f8;
-    u8 padc[0x10 - 0xc];
-    f32 f10;
-    u8 pad14[0x20 - 0x14];
-    s32 f20;
+struct ResultEntry {
+    u8 unknown_00[8];
+    f32 x;
+    u8 unknown_0c[4];
+    f32 width;
+    u8 unknown_14[0xC];
+    s32 value;
 };
 
-struct Win_80246DCC {
-    s32 f0;
-    u8 pad4[0x18 - 0x4];
-    void *vt;
-    u8 pad1c[0x60 - 0x1c];
-    f32 f60;
-    f32 f64;
-};
-
-void draw_right_aligned_number(void);
 saddr get_window_layout_position(s32);
 extern const char lbl_8044E7BC[];
 
-
-extern "C" void render_shadows__7TObjectFv();
-extern void *challenge_result_window_layout[44];
-void *challenge_result_window_layout[44] = {
-    (void *)0x6, (void *)0x1, (void *)0x3, (void *)0x0,
-    (void *)0x0, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
-    (void *)0x0, (void *)0x3, (void *)0x43690000, (void *)0x0,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)0x0,
-    (void *)0x3, (void *)0x0, (void *)0x41a00000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x0, (void *)0x0, (void *)0x3,
-    (void *)0x43690000, (void *)0x41a00000, (void *)0x3f000000, (void *)0xffffffff,
-    (void *)0x0, (void *)0x0, (void *)0x3, (void *)0x0,
-    (void *)0x42200000, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
-    (void *)0x0, (void *)0x4, (void *)0x43690000, (void *)0x42200000,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)0x0,
+struct ChallengeResultLayout {
+    u32 columns;
+    u32 rows;
+    TextLayoutRecord text[5];
+    ValueLayoutRecord deaths;
 };
-void *lbl_804CE298[5] = {
-    (void *)0x43e90000, (void *)0x42b00000, (void *)0x4743b400, (void *)&challenge_result_window_layout,
-    (void *)0x23,
+
+ChallengeResultLayout challenge_result_window_layout = {
+    6, 1,
+    {
+        {3, {0.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
+        {3, {233.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
+        {3, {0.0f, 20.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
+        {3, {233.0f, 20.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
+        {3, {0.0f, 40.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
+    },
+    {4, {233.0f, 40.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
+};
+
+WindowDescriptor lbl_804CE298 = {
+    {466.0f, 88.0f}, 50100.0f, &challenge_result_window_layout, 0x23,
 };
 #pragma push
 #pragma readonly_strings on
@@ -77,70 +62,62 @@ const char *lbl_804CE2AC[3] = {
     "Team Name : ", "Clear Time : ", "Death : ",
 };
 #pragma pop
-void *lbl_804CE2B8[6] = {
-    (void *)0x0, (void *)0x0, (void *)&dt__22TWindowChallengeResultFPvs, (void *)&init_subwindow__22TWindowChallengeResultFPv,
-    (void *)&render__22TWindowChallengeResultFv, (void *)&render_shadows__7TObjectFv,
-};
-#define lbl_804CE2B8 ((s32 *)lbl_804CE2B8)
-
-void init_subwindow__22TWindowChallengeResultFPv(void* p) { ((TWindowDD *)p)->initialize_subwindow(); ((TWindowBase *)p)->update_window_entry_list((char*)p + 0x24); }
-
-void *dt__22TWindowChallengeResultFPvs(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804CE2B8;
-        __dt__11TWindowBaseFv(arg0, 0);
-        if (arg1 > 0) {
-            TObject::operator delete(arg0);
-        }
-    }
-    return arg0;
 }
 
-Win_80246DCC *TWindowChallengeResult__ct(Win_80246DCC *self, s32 str, s32 arg2, s32 arg3) {
+TWindowChallengeResult::TWindowChallengeResult(const char *team_name, s32 clear_seconds, s32 death_count)
+    : TWindowBase((u8 *)&lbl_804CE298, 4, (u8 *)get_window_layout_position(0x3F)) {
     s32 i;
-    Entry_80246DCC *e;
-    s32 m;
+    ResultEntry *e;
+    s32 hours;
 
-    __ct__11TWindowBaseFPUcsPUc(self, (u8 *)lbl_804CE298, (s16)4, (u8 *)(get_window_layout_position(0x3F)));
-    self->vt = lbl_804CE2B8;
-    self->f0 = (saddr)lbl_805D3898;
+    m_name = lbl_805D3898;
     for (i = 0; i < 3; i++) {
-        e = (Entry_80246DCC *)((TWindowBase *)self)->get_array_entry(i * 2);
+        e = (ResultEntry *)get_array_entry(i * 2);
         set_text_entry_string((u8 *)e, (uaddr)lbl_804CE2AC[i], 0);
         measure_message_text_width_default(e);
-        e->f8 = 233.0f - e->f10;
+        e->x = 233.0f - e->width;
     }
-    set_text_entry_string((u8 *)(((TWindowBase *)self)->get_array_entry(1)), str, 0x20);
-    e = (Entry_80246DCC *)((TWindowBase *)self)->get_array_entry(3);
+    set_text_entry_string((u8 *)(get_array_entry(1)), (u32)team_name, 0x20);
+    e = (ResultEntry *)get_array_entry(3);
     text_builder_reset();
-    m = arg2 / 3600;
-    arg2 = arg2 % 3600;
-    if (m > 99) {
+    hours = clear_seconds / 3600;
+    clear_seconds = clear_seconds % 3600;
+    if (hours > 99) {
         text_builder_append((u8 *)lbl_8044E7BC);
     } else {
-        append_padded_number(m, 2);
+        append_padded_number(hours, 2);
         text_builder_append((u8 *)":");
-        m = arg2 / 60;
-        arg2 = arg2 % 60;
-        append_padded_number(m, 2);
+        s32 minutes = clear_seconds / 60;
+        clear_seconds = clear_seconds % 60;
+        append_padded_number(minutes, 2);
         text_builder_append((u8 *)":");
-        append_padded_number(arg2, 2);
+        append_padded_number(clear_seconds, 2);
     }
     set_text_entry_string((u8 *)e, (uaddr)(get_shared_text_buffer()), 0x20);
-    e = (Entry_80246DCC *)((TWindowBase *)self)->get_array_entry(5);
-    e->f20 = arg3;
-    draw_right_aligned_number();
-    e->f8 = 233.0f + e->f10;
+    e = (ResultEntry *)get_array_entry(5);
+    e->value = death_count;
+    draw_right_aligned_number(e);
+    e->x = 233.0f + e->width;
     if (TCameraCtrl::get_camera_id() == 4) {
-        self->f60 = 0.68f;
-        self->f64 = 0.68f;
+        scale_x = 0.68f;
+        scale_y = 0.68f;
     } else {
-        self->f60 = 1.0f;
-        self->f64 = 1.0f;
+        scale_x = 1.0f;
+        scale_y = 1.0f;
     }
-    return self;
 }
 
+TWindowChallengeResult::~TWindowChallengeResult() {}
+
+void TWindowChallengeResult::run_task() {
+    ((TWindowDD *)this)->initialize_subwindow();
+    update_window_entry_list(&entry_list);
+}
+
+void TWindowChallengeResult::render() {
+    WindowDrawContext *context = setup_window_draw_context(&scale_x);
+    draw_window_frame(context);
+    draw_visible_window_entries(this, &entry_list, context);
 }
 
 // The capped clear time, defined after its use so the constructor addresses it on its own.

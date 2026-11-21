@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include <stddef.h>
 #include "pso/unk/TUnk_804D1AD0.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -58,7 +59,7 @@ TWindowMenu *TUnk_804D1AD0::create_status_category_menu() {
     forward_trade_action_default__16TObjCityMainWarpFPviii(menu, (saddr)TWindowSubStatusDisp::get_message_10(0x10B), 0x36, 1);
     forward_trade_action_default__16TObjCityMainWarpFPviii(menu, (saddr)TWindowSubStatusDisp::get_message_10(0x10C), 0x36, 2);
     ((TWindowSubComCardList *)menu)->set_flag70_bit10();
-    ((TWindowSubComCardList *)menu)->update_layout_height(202.0f);
-    align_menu_entry_positions(menu);
+    ((TWindowMenu *)menu)->update_layout_height(202.0f);
+    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(menu));
     return menu;
 }

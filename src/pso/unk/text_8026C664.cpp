@@ -9,8 +9,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
-#include "pso/ui/window/TWindowSubComCardList_8026CB08.h"
-#include "pso/ui/window/TWindowSubComCardList.h"
+#include "pso/ui/window/PageIndicator.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801A6D60.h"
 
 struct Stack_8026C708
@@ -66,10 +65,6 @@ void fn_8026C708(u8 *arg0, f32 farg0, f32 farg1, f32 farg2, f32 farg3) {
 
 }
 
-typedef struct Rect_8026C800 { f32 x, y, w, h; u8 pad10[0x20]; s32 f30; u8 pad34[4]; f32 f38; } Rect_8026C800;
-
-typedef struct Self_8026C800 { s8 page; s8 count; u8 pad2[6]; f32 phase; } Self_8026C800;
-
 extern "C" {
 u32 calc_text_width(void);
 u8 get_font_char_advance(void);
@@ -81,7 +76,6 @@ void text_builder_reset(void);
 extern s32 lbl_805D63F0;
 
 extern "C" {
-void draw_list_page_indicator(Self_8026C800 *self, Rect_8026C800 *r);
 s32 fn_8026C7AC(void *arg0, s8 arg1) {
     *(s8 *)((s8 *)arg0 + 0) = 0;
     *(s8 *)((s8 *)arg0 + 1) = arg1;
@@ -106,22 +100,22 @@ s32 fn_8026C7C0(void *arg0, s8 arg1) {
 #pragma push
 #pragma fp_contract on
 #pragma readonly_strings on
-void draw_list_page_indicator(Self_8026C800 *self, Rect_8026C800 *r) {
+void draw_list_page_indicator(PageIndicator *self, WindowDrawContext *r) {
     NJS_POINT2 pos;
     f32 scale;
-    if (r->f30 < 0) {
+    if (r->open_tick < 0) {
         return;
     }
     pos.x = (r->x + r->w) - 79.0f;
     pos.y = (r->y + r->h) - 22.0f;
-    scale = (-1.0f) / (0.1495f + r->f38);
+    scale = (-1.0f) / (0.1495f + r->depth);
     begin_screen_draw(1);
     TObjFish::set_global_param(lbl_805D63F0);
     set_draw_texture_and_color(0, -1);
-    fn_8026C708((u8 *)r, (f32)(4e+01f + pos.x), (f32)(2.0f + pos.y), (f32)scale, (f32)self->phase);
-    fn_8026C664((u8 *)r, (f32)(pos.x - 69.0f), (f32)(2.0f + pos.y), (f32)scale, (f32)self->phase);
+    fn_8026C708((u8 *)r, (f32)(4e+01f + pos.x), (f32)(2.0f + pos.y), (f32)scale, (f32)self->arrow_offset);
+    fn_8026C664((u8 *)r, (f32)(pos.x - 69.0f), (f32)(2.0f + pos.y), (f32)scale, (f32)self->arrow_offset);
     TWindowSubStatusDisp::get_player();
-    set_text_draw_params((saddr)r, 0, 1, (f32)scale, (f32)1e+05f);
+    set_text_draw_params(reinterpret_cast<WindowDrawContext *>(r), 0, 1, (f32)scale, (f32)1e+05f);
     text_builder_reset();
     text_builder_append_int(self->page + 1);
     get_shared_text_buffer();
@@ -135,20 +129,12 @@ void draw_list_page_indicator(Self_8026C800 *self, Rect_8026C800 *r) {
 }
 #pragma pop
 
-struct Ctl_8026C9DC {
-    s8 cur;
-    s8 count;
-    u8 pad2[2];
-    s32 port;
-    f32 speed;
-};
-
 extern "C" {
 
 #pragma push
 #pragma fp_contract on
-void decay_page_arrow_offset(Ctl_8026C9DC *o) {
-    o->speed -= 0.15f * o->speed;
+void decay_page_arrow_offset(PageIndicator *o) {
+    o->arrow_offset -= 0.15f * o->arrow_offset;
 }
 #pragma pop
 
@@ -163,12 +149,12 @@ extern "C" {
 void play_sound_effect(s32, s32, s32, s32);
 extern Pad_8026C9DC controller_input_state[];
 
-s32 handle_list_page_flip_input(Ctl_8026C9DC *arg0) {
+s32 handle_list_page_flip_input(PageIndicator *arg0) {
     void *pad;
     s8 cur;
     decay_page_arrow_offset(arg0);
-    cur = arg0->cur;
-    pad = controller_input_state[is_player_input_active(arg0->port)].buttons;
+    cur = arg0->page;
+    pad = controller_input_state[is_player_input_active(arg0->input_port)].buttons;
     if (TWindowShortListCtrl__check_controller_button(pad, 0x30000) == 0) {
         return 0;
     }
@@ -185,25 +171,26 @@ s32 handle_list_page_flip_input(Ctl_8026C9DC *arg0) {
     if (cur >= arg0->count) {
         cur = 0;
     }
-    if (cur == arg0->cur) {
+    if (cur == arg0->page) {
         return 0;
     }
-    arg0->cur = cur;
+    arg0->page = cur;
     if (TWindowShortListCtrl__check_controller_button(pad, 0x10000) != 0) {
-        arg0->speed = 1e+01f;
+        arg0->arrow_offset = 1e+01f;
     } else {
-        arg0->speed = (-1e+01f);
+        arg0->arrow_offset = (-1e+01f);
     }
     return 1;
 }
 
 }
 
-s32 delete_if_allocated(s32 arg0, s16 arg1) {
-    if ((arg0 != 0) && (arg1 > 0)) {
-        __dl__FPv();
+void *delete_if_allocated(void *storage, s16 release) {
+    if (storage != NULL && release > 0) {
+        ::operator delete(storage);
     }
-    return arg0;
+    return storage;
 }
 
-void TWindowSubComCardList::init(int a1, int a2, int a3) { *(unsigned char *)&this->m_name = a1; *(unsigned char*)((char*)this + 0x1) = a2; *(int *)&this->m_flags = a3; *(float *)&this->m_prev = 0.0f; }
+PageIndicator::PageIndicator(s8 current, s8 pages, s32 client)
+    : page(current), count(pages), input_port(client), arrow_offset(0.0f) {}

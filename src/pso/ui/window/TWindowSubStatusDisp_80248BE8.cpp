@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
@@ -16,8 +17,6 @@
 
 extern "C" {
 s32 TShopJudgmentItemWindow__sub_80267F9C(void *, int);
-s32 get_draw_context__11TWindowBaseFPv();
-s32 draw_visible_window_entries(void *, void *, s32);
 s32 draw_window_scrollbar(s32, s32, void *);
 
 extern s32 local_client_id;
@@ -34,9 +33,12 @@ void *create_check_box_window_for_local_client(const NJS_POINT2 *layout_position
 void TWindowCheckBox::render() {
     saddr temp_r3;
 
-    temp_r3 = get_draw_context__11TWindowBaseFPv();
+    temp_r3 = reinterpret_cast<saddr>(get_draw_context());
     draw_window_frame((void *)temp_r3);
-    draw_visible_window_entries(this, ((u8 *)this) + 0x24, temp_r3);
+    draw_visible_window_entries(
+        this,
+        reinterpret_cast<const WindowLayoutEntries *>(((u8 *)this) + 0x24),
+        reinterpret_cast<WindowDrawContext *>(temp_r3));
     ((TWindowMenuIconLine *)((u8 *)this))->draw_selected_list_entry(temp_r3);
     if ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x80) != 0U) {
         ((TWindowSubStatusDisp *)((void *)(*(uaddr *)((s8 *)((u8 *)this) + 0x80))))->forward_render((void *)(temp_r3));
@@ -54,7 +56,7 @@ void TWindowCheckBox::run_task() {
     u8 *input;
     u8 *temp_r29_2;
     u8 *context;
-    temp_r31 = is_player_input_active(((s32) this->m_20));
+    temp_r31 = is_player_input_active(((s32) this->client_index));
     if ((((TWindowMenuIconLine *)arg0)->get_flag() == 0) && (((TWindowMenuIconLine *)arg0)->is_decided() == 0) && (((TWindowBase *)arg0)->sub_80244994() != 0)) {
         if (*(u16 *)((s8 *)arg0 + 0x70) & 0x10) {
             input = (u8 *)&controller_input_state + (temp_r31 * 0x50) + 0x20;
@@ -82,7 +84,7 @@ void TWindowCheckBox::run_task() {
         }
     }
     ((TWindowMenuIconLine *)arg0)->center_list_selection();
-    if ((f32) *(s32 *)&this->m_5c >= 7.5f) {
+    if ((f32) *(s32 *)&this->open_tick >= 7.5f) {
         temp_r3 = *(u32 *)((s8 *)arg0 + 0x80);
         if (temp_r3 != 0U) {
             ((TWindowSubStatusDisp *)temp_r3)->update_subwindow();
@@ -94,7 +96,7 @@ void TWindowCheckBox::run_task() {
     }
     ((TWindowDD *)arg0)->initialize_subwindow();
     ((TWindowBase *)arg0)->update_fade();
-    ((TWindowBase *)arg0)->update_window_entry_list((u8 *)&(*(void * *)((u8 *)this + 0x24)));
+    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&(*(void * *)((u8 *)this + 0x24))));
 }
 
 }

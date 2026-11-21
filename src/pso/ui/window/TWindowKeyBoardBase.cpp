@@ -155,13 +155,13 @@ s32 dispatch_request_0x13__19TWindowKeyBoardSoftFlll(u8 *, s32 *, s8 *);
 void TWindowKeyBoardBase::init_keyboard_text_field(u32 arg1, u32 arg2) {
     u8 *arg0 = (u8 *)this;
     if (arg2 == 0) {
-        this->m_38 = 100000.0f;
+        this->target_size[0] = 100000.0f;
         *(f32 *)((s8 *)arg0 + 0x3C) = 38.0f;
     } else {
-        this->m_38 = (f32) (0.1f + (8.0f + (f32) arg1));
+        this->target_size[0] = (f32) (0.1f + (8.0f + (f32) arg1));
         *(f32 *)((s8 *)arg0 + 0x3C) = (f32) (20.0f + (f32) (arg2 * 0x14));
     }
-    this->m_48 = (f32) this->m_38;
+    this->frame_size[0] = (f32) this->target_size[0];
     *(f32 *)((s8 *)arg0 + 0x4C) = (f32) *(f32 *)((s8 *)arg0 + 0x3C);
     m_text.init(arg1, arg2);
     *(u8 **)((s8 *)arg0 + 0x68) = (unsigned char *) (arg0 + 0x6C);
@@ -1007,7 +1007,7 @@ void TWindowKeyBoardBase::sub_8025E6DC(u8 *arg1) {
             sub_8025E530(ctx, &stack.sp10, this->m_text.buffer + temp_r3_4, temp_r7_2, 1);
         }
         TWindowSubStatusDisp::end_render_forward();
-        if ((var_r31 != 0) && !(this->m_2c & 2)) {
+        if ((var_r31 != 0) && !(this->window_flags & 2)) {
             fn_8025DE10(ctx, &stack.sp8);
         }
     }
@@ -1024,7 +1024,7 @@ void TWindowKeyBoardBase::render() {
     saddr temp_r31;
 
     if ((sub_8025EB68() == 0) && ((sub_8025CB10() != 0) || (this->m_62 & 2))) {
-        temp_r31 = TWindowDD::draw_default_entry((saddr)this);
+        temp_r31 = reinterpret_cast<saddr>(draw_default_entry());
         if (this->m_62 & 2) {
             draw_window_frame((void *)temp_r31);
         }

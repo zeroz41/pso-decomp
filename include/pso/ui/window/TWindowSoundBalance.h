@@ -15,9 +15,6 @@ struct TWindowSoundBalance : public TWindowBase {
     virtual ~TWindowSoundBalance();
     int is_active();
     virtual void render();
-    u8 _pad1C[0x8];
-    void* m_24;
-    u8 _pad28[0x38];
     u8 m_60;
     s8 selection;
     s16 music_gain;

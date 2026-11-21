@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 
@@ -12,7 +13,7 @@ void fn_80255A38(TWindowHelpItem *item);
 }
 
 void fn_80255A38(TWindowHelpItem *item) {
-    ((TWindowSubStatusDisp *)((u8 *)item + 0x24))->destroy_all_items();
+    reinterpret_cast<WindowLayoutEntries *>(((u8 *)item + 0x24))->destroy_all_items();
     item->m_60 &= ~1;
     item->m_68 = 0;
     item->m_6c = 0;

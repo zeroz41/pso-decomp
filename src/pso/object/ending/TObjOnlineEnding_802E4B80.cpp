@@ -195,29 +195,14 @@ s8 online_ending_scene_translation_initialized;
 s8 online_ending_quad_vertices_initialized;
 s32 restore_player_cameras();
 s32 *TLobby__sub_80070ACC();
-TWindowChallengeResult *TWindowChallengeResult__ct(TWindowChallengeResult *, const void *, s32, s32);
 s32 TWindowSubStatusDisp__sub_800718D0();
 
 void TObjOnlineEnding::create_result_window() {
-    s32 temp_r31;
-    s32 temp_r30_2;
-    s32 temp_r30;
-    TWindowChallengeResult *window;
-
     result_window = NULL;
     if (TLobby::is_flag_set() != 0) {
-        temp_r30 = TWindowSubStatusDisp::get_layout_id(-1) - 1;
-        {
-        s32 t = TLobby::get_online_result_value();
-        if (t == temp_r30) {
-            window = static_cast<TWindowChallengeResult *>(TObject::operator new(sizeof(TWindowChallengeResult)));
-            if (window != NULL) {
-                temp_r30_2 = TObjOnlineEnding::get_card_window_value();
-                temp_r31 = TWindowSubStatusDisp__sub_800718D0();
-                window = TWindowChallengeResult__ct(window, TLobby__sub_80070ACC(), temp_r31, temp_r30_2);
-            }
-            result_window = window;
-        }
+        if (TLobby::get_online_result_value() == TWindowSubStatusDisp::get_layout_id(-1) - 1) {
+            result_window = new TWindowChallengeResult((const char *)TLobby__sub_80070ACC(),
+                TWindowSubStatusDisp__sub_800718D0(), get_card_window_value());
         }
     }
 }

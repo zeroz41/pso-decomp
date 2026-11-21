@@ -35,7 +35,7 @@ void TKeyBoardControl::run_task() {
     } else if (m_hard->is_key_held() == 0) {
         m_1c = (u16) (m_1c | 1);
         if (m_soft != NULL) {
-            ((TWindowLockOn *)m_soft)->request_close();
+            m_soft->request_close();
         }
     }
 }

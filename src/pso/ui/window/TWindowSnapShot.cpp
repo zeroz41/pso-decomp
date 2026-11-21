@@ -1,4 +1,5 @@
 #include "pso/system/TGStream.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/system/RlcArchive.h"
 #include "pso/system/ControllerInputState.h"
 #include "types.h"
@@ -73,7 +74,6 @@ WindowDescriptor window_snapshot_layout = {
 
 extern "C" {
 s32 TObjBoss2Tunnel__sub_8007CAE8(f32 *, f32);
-s32 draw_visible_window_entries(void *, void *, void *);
 s32 verify_snapshot_checksum__15TObjBoss2TunnelFv(void);
 s32 play_sound_effect(s32, s32, s32, s32);
 
@@ -110,9 +110,12 @@ void TWindowSnapShot::play_open_sound() {
 void render__15TWindowSnapShotFv(u8 *arg0) {
     Stack_802A7F00 stack;
     u8 *temp_r3;
-    temp_r3 = (u8 *)TWindowDD::draw_default_entry((saddr)arg0);
+    temp_r3 = reinterpret_cast<u8 *>(reinterpret_cast<TWindowBase *>(arg0)->draw_default_entry());
     ((TWindowBase *)arg0)->draw_window_frame(temp_r3);
-    draw_visible_window_entries(arg0, arg0 + 0x24, temp_r3);
+    draw_visible_window_entries(
+        reinterpret_cast<const void *>(arg0),
+        reinterpret_cast<const WindowLayoutEntries *>(arg0 + 0x24),
+        reinterpret_cast<WindowDrawContext *>(temp_r3));
     if (!(((TWindowSnapShot *)arg0)->m_60 & 2)) {
         if ((s32) *(s32 *)((s8 *)temp_r3 + 0x30) > 0) {
             stack.sp8 = 18.0f + *(f32 *)((s8 *)temp_r3 + 0x10);
@@ -126,15 +129,15 @@ void render__15TWindowSnapShotFv(u8 *arg0) {
 
 void TWindowSnapShot::run_task() {
     u8 *arg0 = (u8 *)this;
-    if (!(this->m_2c & 2)) {
-        this->m_5c = 0x01000000;
+    if (!(this->window_flags & 2)) {
+        this->open_tick = 0x01000000;
     }
     if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + 0x20), 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
         play_open_sound();
     }
     ((TWindowDD *)arg0)->initialize_subwindow();
     ((TWindowBase *)arg0)->update_fade();
-    ((TWindowBase *)arg0)->update_window_entry_list((u8 *)&this->m_24);
+    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
 }
 
 TWindowSnapShot::~TWindowSnapShot() {}
@@ -145,7 +148,7 @@ TWindowSnapShot::TWindowSnapShot(saddr arg1) : TWindowBase((u8 *)&window_snapsho
     if (verify_snapshot_checksum__15TObjBoss2TunnelFv() == 0) {
         this->m_60 = (u8) (this->m_60 | 2);
     }
-    temp_r31 = ((TWindowBase *)this)->get_array_entry(1);
+    temp_r31 = reinterpret_cast<saddr>(((TWindowBase *)this)->get_array_entry(1));
     TWindowDuelResult::set_default_status((void *) temp_r31, get_localized_text_entry(0xF, 0x13));
 }
 

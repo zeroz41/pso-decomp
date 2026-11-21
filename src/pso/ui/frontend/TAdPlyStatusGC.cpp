@@ -155,7 +155,7 @@ void draw_status_window__14TAdPlyStatusGCFPvPv(void *window_base, void *arg1) {
         TWindowSubStatusDisp::get_player();
     }
     ((TAdPlyStatusGC *)items)->format_status_strings();
-    set_text_draw_params((saddr)arg1, 1, 1, 0.8f, 100000.0f);
+    set_text_draw_params(reinterpret_cast<WindowDrawContext *>(arg1), 1, 1, 0.8f, 100000.0f);
     for (i = 0; i < 3; i++) {
         pts[i].x = ply_status_window_points_first[i].x + OFF_8033F3D8.x;
         pts[i].y = ply_status_window_points_first[i].y + OFF_8033F3D8.y;

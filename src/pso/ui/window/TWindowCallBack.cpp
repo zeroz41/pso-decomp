@@ -41,7 +41,7 @@ void OlgaFlowPlotActionMsg::initialize() {
 void set_field_60__15TWindowCallBackFPvi(void* p, s32 v) { *(s32*)((char*)p + 0x60) = v; }
 
 void TWindowCallBack::render() {
-    s32 r = TWindowDD::draw_default_entry((saddr)this);
+    saddr r = reinterpret_cast<saddr>(draw_default_entry());
     if (callback != NULL) {
         callback(this, r);
     }

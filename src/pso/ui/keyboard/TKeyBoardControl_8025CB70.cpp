@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "types.h"
 #include "pso/ui/chat/TWindowChat.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
@@ -30,28 +31,27 @@ void TWindowKeyBoardBase::set_mode1() {
 
 void TWindowKeyBoardBase::set_mode0() { m_b4 = 18; }
 void TWindowKeyBoardBase::sub_8025CC48() {
-    void * arg0 = (void *)this;
     switch (current_language) {
     case LANGUAGE_JAPANESE:
-        *(s32 *)((s8 *)arg0 + 0xB4) = 0;
-        if (test_keyboard_card_flag_16(*(s16 *)((s8 *)arg0 + 0x20)) != 0) {
-            *(s32 *)((s8 *)arg0 + 0xB4) = (s32) (*(s32 *)((s8 *)arg0 + 0xB4) | 1);
+        m_b4 = 0;
+        if (test_keyboard_card_flag_16(client_index) != 0) {
+            m_b4 = (s32) (m_b4 | 1);
         }
-        if (test_keyboard_card_flag_32(*(s16 *)((s8 *)arg0 + 0x20)) != 0) {
-            *(s32 *)((s8 *)arg0 + 0xB4) = (s32) (*(s32 *)((s8 *)arg0 + 0xB4) | 2);
+        if (test_keyboard_card_flag_32(client_index) != 0) {
+            m_b4 = (s32) (m_b4 | 2);
         }
-        if (test_keyboard_card_flag_64(*(s16 *)((s8 *)arg0 + 0x20)) != 0) {
-            *(s32 *)((s8 *)arg0 + 0xB4) = (s32) (*(s32 *)((s8 *)arg0 + 0xB4) | 4);
+        if (test_keyboard_card_flag_64(client_index) != 0) {
+            m_b4 = (s32) (m_b4 | 4);
         }
-        if (test_keyboard_card_flag_128(*(s16 *)((s8 *)arg0 + 0x20)) != 0) {
-            *(s32 *)((s8 *)arg0 + 0xB4) = (s32) (*(s32 *)((s8 *)arg0 + 0xB4) | 8);
+        if (test_keyboard_card_flag_128(client_index) != 0) {
+            m_b4 = (s32) (m_b4 | 8);
         }
         break;
     case LANGUAGE_ENGLISH:
     case LANGUAGE_GERMAN:
     case LANGUAGE_FRENCH:
     case LANGUAGE_SPANISH:
-        *(s32 *)((s8 *)arg0 + 0xB4) = 6;
+        m_b4 = 6;
         break;
     }
 }

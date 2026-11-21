@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
 #include "pso/ui/window/TWindowRoom.h"
@@ -36,7 +37,6 @@ extern "C" {
 void measure_message_text_width_default(void *);
 saddr get_window_layout_position(int);
 const char *TWindowRoom__class_name = "TWindowRoom";
-s32 draw_visible_window_entries(s32, s32, s32);
 s32 draw_window_tab(s32, s32, s32, f32);
 
 }
@@ -57,11 +57,14 @@ void TWindowRoom::render() {
     saddr temp_r3;
     saddr arg0 = (saddr)this;
 
-    temp_r3 = TWindowDD::draw_default_entry((s32)arg0);
+    temp_r3 = reinterpret_cast<saddr>(reinterpret_cast<TWindowBase *>(arg0)->draw_default_entry());
     ((TWindowRoom *)arg0)->draw_tab((void *)temp_r3);
-    draw_visible_window_entries(arg0, arg0 + 0x24, temp_r3);
+    draw_visible_window_entries(
+        reinterpret_cast<const void *>(arg0),
+        reinterpret_cast<const WindowLayoutEntries *>(arg0 + 0x24),
+        reinterpret_cast<WindowDrawContext *>(temp_r3));
 }
-void TWindowRoom::run_task() { ((TWindowDD *)this)->initialize_subwindow(); ((TWindowBase *)this)->update_window_entry_list((char*)this + 0x24); }
+void TWindowRoom::run_task() { ((TWindowDD *)this)->initialize_subwindow(); ((TWindowBase *)this)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((char*)this + 0x24)); }
 
 TWindowRoom::~TWindowRoom() {}
 
@@ -72,8 +75,8 @@ TWindowRoom::TWindowRoom(char *title)
     entry = (RoomTitleEntry *)((TWindowBase *)this)->get_array_entry(0);
     set_text_entry_string((u8 *)entry, (uaddr)title, 0x60);
     measure_message_text_width_default(entry);
-    width = 10.0f + (entry->positionX + entry->width);
-    positionX -= width;
+    target_size[0] = 10.0f + (entry->positionX + entry->width);
+    target_position[0] -= target_size[0];
     ((TWindowBase *)this)->save_position();
-    tabParameter = TWindowSubStatusDisp__sub_802877A4(unknown48 - 16.0f);
+    tabParameter = TWindowSubStatusDisp__sub_802877A4(frame_size[0] - 16.0f);
 }

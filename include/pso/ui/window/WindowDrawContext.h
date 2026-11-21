@@ -8,7 +8,7 @@
 // A screen rectangle with its texture coordinates, as the window draw code builds them before clipping.
 struct TexturedQuad { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
 
-// The rectangle, scale and depth a window is drawn with (TWindowDD::draw_default_entry returns one).
+// The rectangle, scale and depth a window is drawn with (TWindowBase::draw_default_entry returns one).
 struct WindowDrawContext
 {
     WindowDrawContext();
@@ -50,6 +50,11 @@ struct WindowDrawContext
 // The one context every window draws through (name inferred; TWindowCtrlMain creates and frees it).
 extern WindowDrawContext *shared_window_draw_context;
 
+LAYOUT_ASSERT(TexturedQuad_size, sizeof(TexturedQuad) == 0x20);
+LAYOUT_ASSERT(TexturedQuad_uv_offset, offsetof(TexturedQuad, u0) == 0x10);
+LAYOUT_ASSERT(WindowDrawContext_size, sizeof(WindowDrawContext) == 0x4C);
+LAYOUT_ASSERT(WindowDrawContext_inner_height_offset, offsetof(WindowDrawContext, inner_h) == 0x1C);
+LAYOUT_ASSERT(WindowDrawContext_color_offset, offsetof(WindowDrawContext, color) == 0x34);
 LAYOUT_ASSERT(WindowDrawContext_depth_offset, offsetof(WindowDrawContext, depth) == 0x38);
 LAYOUT_ASSERT(WindowDrawContext_clip_y1_offset, offsetof(WindowDrawContext, clip_y1) == 0x48);
 

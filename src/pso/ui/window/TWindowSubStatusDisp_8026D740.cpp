@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/Scroll_8026D790.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
@@ -10,7 +11,6 @@
 // Its .sdata2 pool (0.0f of clamp_list_scroll_offset, then draw_window_scrollbar's floats) starts at the
 // 8-aligned 0x805DD2F8 and is padded to 0x805DD338, where TWindowSetLevelUp's " +" starts the next TU's pool.
 
-struct Scroll_8026D790 { u8 pad0[4]; f32 height; s32 frame; };
 
 struct Ctx_8026D790 {
     f32 x, y, width, height;
@@ -26,7 +26,6 @@ struct Quad_8026D790 { f32 x, y, r, b, u, v, ur, vb; };
 
 extern "C" {
 void __dl__FPv(void);
-s32 copy_position__11TWindowMenuFPv();
 s32 clamp_list_scroll_offset(NJS_POINT2 *a, NJS_POINT2 *b, NJS_POINT2 *c);
 void draw_window_scrollbar(Scroll_8026D790 *scroll, Ctx_8026D790 *c, f32 *offset);
 extern void *lbl_805D63F0;
@@ -112,8 +111,7 @@ s32 TWindowSubStatusDisp::destroy_allocation(s32 arg0, s16 arg1) {
     return arg0;
 }
 
-void *TWindowSubStatusDisp::reset_selection() {
-    copy_position__11TWindowMenuFPv();
-    this->m_prev = 0;
-    return this;
+Scroll_8026D790::Scroll_8026D790(void *pair) {
+    copy_position(pair);
+    frame = 0;
 }

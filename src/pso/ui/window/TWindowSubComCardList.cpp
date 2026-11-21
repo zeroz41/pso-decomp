@@ -1,9 +1,10 @@
 #include "types.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowMainMenu_80263AB0.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowHelpItem_80255AB4.h"
-#include "pso/ui/window/TWindowSubComCardList_8026CB08.h"
+#include "pso/ui/window/PageIndicator.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/ui/window/TWindowSubCustomEquip_80275D9C.h"
 #include "pso/ui/window/TWindowSubCustomSelect_80275D84.h"
@@ -29,31 +30,29 @@ const char *TWindowSubComCardList__class_name = "TWindowSubComCardList";
 
 
 extern "C" {
-void *init__21TWindowSubComCardListFiii(void *, s32, s8, s32);
 extern const char *TWindowSubComCardList__class_name;
 extern s32 local_client_id;
 s32 count_leading_active__17TWindowSubComCardFPvi(s32, s32);
 void render__21TWindowSubComCardListFv(TWindowSubComCardList *arg0);
-s32 handle_list_page_flip_input(s32);
-s32 get_draw_context__11TWindowBaseFPv();
-s32 draw_visible_window_entries(void *, void *, s32);
-s32 draw_list_page_indicator(s32, s32);
 void __dl__7TObjectFPv(void *);
 void *__dt__11TWindowMenuFv(void *arg0, s16 arg1);
 
 void render__21TWindowSubComCardListFv(TWindowSubComCardList *arg0) {
     saddr temp_r3;
 
-    temp_r3 = get_draw_context__11TWindowBaseFPv();
+    temp_r3 = reinterpret_cast<saddr>(arg0->get_draw_context());
     ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
-    draw_visible_window_entries(arg0, (u8 *)arg0 + 0x24, temp_r3);
+    draw_visible_window_entries(
+        reinterpret_cast<const void *>(arg0),
+        reinterpret_cast<const WindowLayoutEntries *>((u8 *)arg0 + 0x24),
+        reinterpret_cast<WindowDrawContext *>(temp_r3));
     ((TWindowMenu *)arg0)->render_selected_entry(temp_r3);
     arg0->draw_card_list_selection((u8 *)temp_r3);
     if ((u32) arg0->m_88 != 0U) {
         ((TWindowSubStatusDisp *)((void *)(arg0->m_88)))->forward_render((void *)(temp_r3));
     }
     if ((u32) arg0->m_8c != 0U) {
-        draw_list_page_indicator(arg0->m_8c, temp_r3);
+        draw_list_page_indicator(arg0->m_8c, reinterpret_cast<WindowDrawContext *>(temp_r3));
     }
 }
 
@@ -66,11 +65,10 @@ void TWindowSubComCardList::run_task() {
 }
 
 TWindowSubComCardList::~TWindowSubComCardList() {
-    delete_if_allocated((s32)m_8c, 1);
+    delete_if_allocated(m_8c, 1);
 }
 
 TWindowSubComCardList::TWindowSubComCardList(void *arg1) : TWindowMenu(7, 4, (saddr)arg1) {
-    void *list;
     s32 n;
     #define window_menu ((u8 *)this)
     *(s32 *)(window_menu + 0) = ((saddr)TWindowSubComCardList__class_name);
@@ -78,11 +76,7 @@ TWindowSubComCardList::TWindowSubComCardList(void *arg1) : TWindowMenu(7, 4, (sa
     if (n <= 0) {
         n = 1;
     }
-    list = ::operator new(0xC);
-    if (list != NULL) {
-        list = init__21TWindowSubComCardListFiii(list, 0, n, local_client_id);
-    }
-    *(void **)(window_menu + 0x8C) = list;
+    m_8c = new PageIndicator(0, (s8)n, local_client_id);
     *(s32 *)(window_menu + 0x90) = 0;
     *(s32 *)(window_menu + 0x94) = get_card_entry__17TWindowSubComCardFi(0);
     *(s32 *)(window_menu + 0x98) = 0xD2;
@@ -96,7 +90,6 @@ TWindowSubComCardList::TWindowSubComCardList(void *arg1) : TWindowMenu(7, 4, (sa
 }
 
 TWindowSubComCardList::TWindowSubComCardList(void *arg1, s32 arg2, s32 arg3, s32 arg4) : TWindowMenu(7, 4, (saddr)arg1) {
-    void *list;
     s32 n;
     #define window_menu ((u8 *)this)
     *(s32 *)(window_menu + 0) = ((saddr)TWindowSubComCardList__class_name);
@@ -104,11 +97,7 @@ TWindowSubComCardList::TWindowSubComCardList(void *arg1, s32 arg2, s32 arg3, s32
     if (n <= 0) {
         n = 1;
     }
-    list = ::operator new(0xC);
-    if (list != NULL) {
-        list = init__21TWindowSubComCardListFiii(list, 0, n, local_client_id);
-    }
-    *(void **)(window_menu + 0x8C) = list;
+    m_8c = new PageIndicator(0, (s8)n, local_client_id);
     *(s32 *)(window_menu + 0x90) = arg2;
     *(s32 *)(window_menu + 0x94) = 0;
     *(s32 *)(window_menu + 0x98) = arg3;

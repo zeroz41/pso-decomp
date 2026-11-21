@@ -832,9 +832,9 @@ void TWindowTimer::copy_state(u8 *arg1) {
     *(ByteBlock_C *)((saddr) ((u8 *)this) + 0x20) = *(const ByteBlock_C *)((saddr) arg1 + 0x20);
     *(ByteBlock_C *)((saddr) ((u8 *)this) + 0x2C) = *(const ByteBlock_C *)((saddr) arg1 + 0x2C);
     *(ByteBlock_C *)((saddr) ((u8 *)this) + 0x38) = *(const ByteBlock_C *)((saddr) arg1 + 0x38);
-    this->m_44 = (f32) *(f32 *)((s8 *)arg1 + 0x44);
+    this->frame_position[1] = (f32) *(f32 *)((s8 *)arg1 + 0x44);
     *(u16 *)((s8 *)((u8 *)this) + 0x48) = (u16) *(u16 *)((s8 *)arg1 + 0x48);
-    this->m_4c = (f32) *(f32 *)((s8 *)arg1 + 0x4C);
+    this->frame_size[1] = (f32) *(f32 *)((s8 *)arg1 + 0x4C);
     *(f32 *)((s8 *)((u8 *)this) + 0x50) = (f32) *(f32 *)((s8 *)arg1 + 0x50);
 }
 

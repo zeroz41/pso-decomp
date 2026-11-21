@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/render/Draw2D.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowComCard.h"
@@ -333,7 +334,7 @@ void draw_photon_blast_fan(saddr arg0, NJS_POINT2 *arg1, Params_80270244 *arg2, 
     f32 amp_y;
     f32 depth;
 
-    depth = ((TWindowSimpleStatus *)arg0)->m_54 + 0.299f * arg6;
+    depth = ((TWindowSimpleStatus *)arg0)->draw_depth + 0.299f * arg6;
     amp_x = arg7 * arg2->f28;
     amp_y = arg7 * arg2->f2c;
     prim.verts = verts;
@@ -369,7 +370,7 @@ void TWindowSimpleStatus::apply_random_shake() {
         (this->m_60)--;
         ang = (s32)(65536.0f * (3.0517578e-05f * (f32)rand()));
         dist = 5.0f * (3.0517578e-05f * (f32)rand());
-        this->m_40 += dist * cos_table_lookup(ang);
+        this->frame_position[0] += dist * cos_table_lookup(ang);
         *(f32 *)(((u8 *)this) + 0x44) += dist * sin_table_lookup(ang);
     }
 }
@@ -379,9 +380,9 @@ void TWindowSubStatusDisp::update_hp_tp_level() {
     u8 *arg0 = (u8 *)this;
     saddr temp_r31;
     saddr temp_r31_2;
-    temp_r31 = ((TWindowBase *)arg0)->get_array_entry(6);
+    temp_r31 = reinterpret_cast<saddr>(((TWindowBase *)arg0)->get_array_entry(6));
     *(s32 *)((s8 *)temp_r31 + 0x2C) = ((TWindowSubStatusDisp *)arg0)->update_hp_entry();
-    temp_r31_2 = ((TWindowBase *)arg0)->get_array_entry(7);
+    temp_r31_2 = reinterpret_cast<saddr>(((TWindowBase *)arg0)->get_array_entry(7));
     *(s32 *)((s8 *)temp_r31_2 + 0x2C) = ((TWindowSubStatusDisp *)arg0)->update_hp_gauge();
     update_status_entry();
 }
@@ -415,15 +416,15 @@ void TWindowLockOn::update_for_player_index(s32 arg1) {
         set_text_entry_string(((u8 *)this), temp_r31, 0x20);
     }
     if (temp_r30->m31() != 0) {
-        *(s32 *)&this->m_24 = 0xFFFF0000;
+        *(s32 *)&this->entry_list = 0xFFFF0000;
         return;
     }
-    *(s32 *)&this->m_24 = (s32) *(s32 *)((s8 *)temp_r29 + 0x18);
+    *(s32 *)&this->entry_list = (s32) *(s32 *)((s8 *)temp_r29 + 0x18);
 }
 
 void update_lockon_window(u8 *arg0) {
     saddr temp_r31;
-    temp_r31 = ((TWindowBase *)arg0)->get_array_entry(1);
+    temp_r31 = reinterpret_cast<saddr>(((TWindowBase *)arg0)->get_array_entry(1));
     ((TWindowLockOn *)temp_r31)->update_for_player_index(((TWindowSimpleStatus *)arg0)->get_width());
 }
 
@@ -528,7 +529,7 @@ void TWindowSimpleStatus::draw_background(u8 *arg1) {
     pos.y = 2.0f + *(f32 *)((s8 *)arg1 + 0x14);
     size.x = 36.0f;
     size.y = 35.0f;
-    scale = -1.0f / this->m_54;
+    scale = -1.0f / this->draw_depth;
     begin_screen_draw(1);
     TObjFish::set_global_param(lbl_805D63F0);
     set_draw_texture_and_color(0xB, *(s32 *)((s8 *)arg1 + 0x34));
@@ -553,7 +554,6 @@ void TWindowSimpleStatus::draw_background(u8 *arg1) {
 struct SS_80270668 { const char *m_name; u8 pad4[0x14]; void *vt; s16 f1c; s16 f1e; s16 f20; u8 pad22[0x36]; f32 f58; u8 pad5c[4]; s32 f60; s32 w[5]; };
 
 extern "C" {
-s32 draw_visible_window_entries(void *, void *, int);
 extern u8 __vt__19TWindowSimpleStatus[];
 SS_80270668 *TWindowSimpleStatus__ct(SS_80270668 *arg0, void *arg1, s32 arg2, void *arg3);
 saddr get_window_layout_position(s32);
@@ -561,9 +561,12 @@ s32 update_hp_tp_level__20TWindowSubStatusDispFv();
 
 void render__19TWindowSimpleStatusFv(saddr arg0) {
     saddr ctx;
-    ctx = TWindowDD::draw_default_entry((s32)arg0);
+    ctx = reinterpret_cast<saddr>(reinterpret_cast<TWindowBase *>(arg0)->draw_default_entry());
     ((TWindowSimpleStatus *)arg0)->draw_background((u8 *)ctx);
-    draw_visible_window_entries((void *)arg0, (void *)(arg0 + 0x24), (int)ctx);
+    draw_visible_window_entries(
+        reinterpret_cast<const void *>(arg0),
+        reinterpret_cast<const WindowLayoutEntries *>((void *)(arg0 + 0x24)),
+        reinterpret_cast<WindowDrawContext *>(ctx));
 }
 
 void TWindowSimpleStatus::run_task() {
@@ -574,7 +577,7 @@ void TWindowSimpleStatus::run_task() {
     ((TWindowSimpleStatus *)arg0)->update_status_icons((void *)(get_window_layout_position(0x1D)));
     ((TWindowDD *)arg0)->initialize_subwindow();
     ((TWindowBase *)arg0)->update_fade();
-    ((TWindowBase *)arg0)->update_window_entry_list((void *)(arg0 + 0x24));
+    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((void *)(arg0 + 0x24)));
     ((TWindowSimpleStatus *)arg0)->apply_random_shake();
 }
 

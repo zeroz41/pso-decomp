@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/player/PlayerSlots.h"
+#include "pso/ui/keyboard/KeyboardInputQueries.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/technique/TTecCtrl.h"
@@ -1122,8 +1123,6 @@ s32 get_type__10TObjPlayerFPv(void *);
 s32 play_weapon_hit_sound(void *);
 void apply_camera_shake__10TObjPlayerFiii(TObjPlayer *player, TObjChara *target, s32 damage);
 u8 * find_entity_by_id(s32);
-s32 TKeyBoardControl__sub_801A58B0();
-s32 TKeyBoardControl__sub_801A58D8();
 s32 TObjPlayer__sub_801AF290(void *p);
 s16 get_handle_value__10TObjPlayerFv();
 s32 is_lobby_floor_15__15TFontSmallLobbyFv();

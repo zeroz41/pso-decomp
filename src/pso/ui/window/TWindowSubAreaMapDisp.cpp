@@ -31,7 +31,7 @@ void TWindowSubAreaMapDisp::update_visibility() {
             TWindowCtrl::clear_active_flag();
             TRaderMapCore::clear();
         }
-    } else if (!(this->m_2c & 2) && (this->sub_80246948() == 0)) {
+    } else if (!(this->window_flags & 2) && (this->sub_80246948() == 0)) {
         this->m_6c = 1;
         TRaderMapCore::open_free_map_view();
         TRaderMapCore::show_radar();
@@ -140,7 +140,7 @@ void TWindowSubStatusDisp__sub_80271A6C(s32 arg0, u8 *arg1) {
     } else {
         color = -1;
     }
-    set_text_draw_params((saddr)arg1, 0, 0, (f32)scale, (f32)1e+05f);
+    set_text_draw_params(reinterpret_cast<WindowDrawContext *>(arg1), 0, 0, (f32)scale, (f32)1e+05f);
     pos.x = 487.0f + *(f32 *)(arg1 + 0x3C);
     pos.y = 41.0f + *(f32 *)(arg1 + 0x40);
     draw_window_text((f32 *)&pos, (const char *)(TWindowSubStatusDisp::get_message_10(0x11B)), color, 0, (f32)1e+06f);
@@ -151,7 +151,7 @@ void TWindowSubStatusDisp__sub_80271A6C(s32 arg0, u8 *arg1) {
 void TWindowSubAreaMapDisp::render() {
     saddr temp_r3;
 
-    temp_r3 = TWindowDD::draw_default_entry((saddr)this);
+    temp_r3 = reinterpret_cast<saddr>(draw_default_entry());
     draw_window_frame((void *)temp_r3);
     ((TWindowSubStatusDisp *)((void *)(this->m_70)))->forward_render((void *)(temp_r3));
     if ((s32) this->m_6c != 0) {
@@ -165,7 +165,7 @@ void TWindowSubAreaMapDisp::run_task() {
     ((TWindowDD *)arg0)->initialize_subwindow();
     ((TWindowSubAreaMapDisp *)arg0)->update_visibility();
     ((TWindowSubAreaMapDisp *)arg0)->update_manual_scroll();
-    if ((f32) *(s32 *)&this->m_5c >= 7.5f) {
+    if ((f32) *(s32 *)&this->open_tick >= 7.5f) {
         ((TWindowSubStatusDisp *)(*(u8 * *)&this->m_70))->update_subwindow();
     }
 }
@@ -203,7 +203,7 @@ TWindowSubAreaMapDisp::TWindowSubAreaMapDisp() : TWindowBase((u8 *)&TWindowSubAr
     temp_r3_2 = (saddr)::operator new(0x24);
     var_r0 = temp_r3_2;
     if (var_r0 != 0) {
-        var_r0 = (saddr)((TWindowSubStatusDisp *)temp_r3_2)->construct_type1_heading(this->m_74, (int) ((s32) this->m_20));
+        var_r0 = (saddr)((TWindowSubStatusDisp *)temp_r3_2)->construct_type1_heading(this->m_74, (int) ((s32) this->client_index));
     }
     this->m_70 = var_r0;
     this->m_6c = 0;

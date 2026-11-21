@@ -5,9 +5,14 @@
 #include "pso/ui/window/TWindowAddition.h"
 
 struct TWindowMenu : public TWindowAddition {
-    TWindowMenu(u32 rows, s32 client, s32 parent);
+    TWindowMenu(u32 rows, s32 client, saddr parent);
     virtual ~TWindowMenu();
-    saddr get_selected_entry();
+    void *get_selected_entry();
+    void calc_window_size();
+    void update_layout_height(f32 width);
+    void set_ready_flag();
+    void clear_transition_flag();
+    void set_loss_flag();
     int sub_80266BB8();
     s32 test_menu_flag(s32 buttons);
     void render_selected_entry(saddr);
@@ -22,29 +27,13 @@ struct TWindowMenu : public TWindowAddition {
     int is_cancelled();
     s32 get_selected_value();
     virtual void render();
-    u8 _pad1C[0x4];
-    s16 m_20;
-    u8 _pad22[0x2];
-    void* m_24;
-    u8 _pad28[0x4];
-    u32 m_2c;
-    u8 unk_30[0x8];
-    f32 m_38;
-    f32 pad_3c;  // compared and clamped by TWindowSubComCardList::set_scroll_target
-    u8 unk_40[0x8];
-    f32 m_48;
-    u8 unk_4C[0x10];
-    u32 m_5c;
-    u8 _pad60[0x8];
-    void* m_68;
-    u8 _pad6C[0x4];
     u16 m_70;
     u16 m_72;
     u16 m_74;
     u16 m_76;
     u16 m_78;
     u8 unk_7A[0x2];
-    u32 m_7c;
+    f32 layout_height;
     u32 m_80;
     u32 m_84;
     u32 m_88;
@@ -53,9 +42,10 @@ struct TWindowMenu : public TWindowAddition {
     void select_next_item();
     void move_cursor_prev();
     virtual void run_task();
-    void copy_position(void* q);
+
     s32 is_locked(s32 arg1);
 };
 
 LAYOUT_ASSERT(TWindowMenu_size, sizeof(TWindowMenu) == 0x8C);
+LAYOUT_ASSERT(TWindowMenu_layout_height_offset, offsetof(TWindowMenu, layout_height) == 0x7C);
 #endif

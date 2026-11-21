@@ -525,7 +525,7 @@ void TWindowMenuMainMenu::draw_frame(WindowDrawContext *frame) {
     f32 h;
     f32 step;
 
-    quad_depth = -1.0f / (0.299f + this->depth);
+    quad_depth = -1.0f / (0.299f + this->draw_depth);
     y = 0.0f;
     h = frame->inner_h;
     begin_screen_draw(1);
@@ -605,7 +605,7 @@ void TWindowMenuMainMenu::draw_frame(WindowDrawContext *frame) {
 Rect_802AE2B0 *setup_content_frame__15TWindowMainMenuFPv(u8 *window_menu_main_menu) {
     f32 v;
     Rect_802AE2B0 *r;
-    r = (Rect_802AE2B0 *)WindowDrawContext::open_singleton((f32 *)(window_menu_main_menu + 0x40), (f32 *)(window_menu_main_menu + 0x48), (f32 *)fn_8026CB68(), ((TWindowMenuMainMenu *)window_menu_main_menu)->depth, ((TWindowMenuMainMenu *)window_menu_main_menu)->m_2c);
+    r = (Rect_802AE2B0 *)WindowDrawContext::open_singleton((f32 *)(window_menu_main_menu + 0x40), (f32 *)(window_menu_main_menu + 0x48), (f32 *)fn_8026CB68(), ((TWindowMenuMainMenu *)window_menu_main_menu)->draw_depth, ((TWindowMenuMainMenu *)window_menu_main_menu)->window_flags);
     if (((TWindowMainMenu *)window_menu_main_menu)->is_not_split_screen() != 0) {
         v = 51.0f;
     } else {
@@ -672,7 +672,7 @@ void play_cursor_sound__15TWindowMainMenuFv(Menu_802AE4DC *m, int d) {
 void TWindowMenuMainMenu::handle_navigation_input() {
     u8 *window_choice_setting;
     if ((TWindowBase::is_window_reveal_complete() != 0) && (this->get_menu_flag() == 0) && (this->is_flag_set() == 0) && !(this->m_60 & 4)) {
-        window_choice_setting = (u8 *)&controller_input_state + (is_player_input_active((*(s16 *)&this->m_20)) * 0x50) + 0x20;
+        window_choice_setting = (u8 *)&controller_input_state + (is_player_input_active((*(s16 *)&this->client_index)) * 0x50) + 0x20;
         if ((test_buttons_press_or_repeat(window_choice_setting, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat((void *) ((u8 *)&controller_input_state + 0x160), 0x10, 6, 1) != 0)) {
             play_cursor_sound__15TWindowMainMenuFv((Menu_802AE4DC *)(this), -1);
         }

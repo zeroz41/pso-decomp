@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowSpritePart.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/unk/TUnk_804CF918.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
@@ -146,9 +147,9 @@ u8 *TWindowSubStatusDisp::init_part_direct(u8 *arg1, s32 arg2) {
     *(f32 *)((s8 *)((u8 *)this) + 0x24) = (f32) *(f32 *)((s8 *)arg1 + 0x1C);
     *(f32 *)((s8 *)((u8 *)this) + 0x28) = (f32) *(f32 *)((s8 *)arg1 + 0x20);
     *(f32 *)((s8 *)((u8 *)this) + 0x18) = (f32) *(f32 *)((s8 *)arg1 + 0x24);
-    this->m_2c = (s32) *(s32 *)((s8 *)arg1 + 0x28);
+    this->window_flags = (s32) *(s32 *)((s8 *)arg1 + 0x28);
     *(s32 *)((s8 *)((u8 *)this) + 0x30) = (s32) *(s32 *)((s8 *)arg1 + 0x2C);
-    this->m_34 = (s32) *(s32 *)((s8 *)arg1 + 0x30);
+    reinterpret_cast<WindowSpritePart *>(this)->kind = *reinterpret_cast<s32 *>(arg1 + 0x30);
     *(s16 *)((s8 *)((u8 *)this) + 0) = (s16) *(s32 *)((s8 *)arg1 + 0x34);
     return ((u8 *)this);
 }

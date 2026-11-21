@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowArea.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
@@ -25,7 +26,6 @@ extern "C" {
 const char *TWindowArea__name = "TWindowArea";
 
 extern s32 TWindowSubStatusDisp__count_ratio_value;
-void sub_802443B4__15TWindowAdditionFv(void *, void *);
 }
 
 extern "C" {
@@ -35,25 +35,25 @@ u8 *get_window_layout_position(s32);
 TWindowArea::TWindowArea() : TWindowRoom(NULL) {
     this->m_name = TWindowArea__name;
     u8 *position = get_window_layout_position(0x25);
-    copy_vec2(((u8 *)this + 0x40), position);
+    copy_vec2(frame_position, position);
     this->tabParameter = 0.0f;
 }
 
 TWindowArea::~TWindowArea() {}
 
-void TWindowArea::run_task() { ((TWindowDD *)this)->initialize_subwindow(); this->update_window_entry_list((char *)this + 0x24); }
+void TWindowArea::run_task() { ((TWindowDD *)this)->initialize_subwindow(); this->update_window_entry_list(&entry_list); }
 
 #pragma push
 #pragma fp_contract on
 s32 create_window_area(void) {
-    saddr object;
+    TWindowArea *object;
     u8 *temp_r31;
-    object = (saddr)new TWindowArea();
+    object = new TWindowArea();
     fn_802449E0((u8 *)object);
-    fn_8024450C(object);
+    fn_8024450C(reinterpret_cast<saddr>(object));
     temp_r31 = (u8 *)((TWindowRoom *)object)->get_title_entry();
     *(f32 *)((s8 *)temp_r31 + 8) = 80.0f - 0.5f * (f32) calc_text_width((char *)(((TWindowSubComCard *)temp_r31)->get_field_20()));
-    return object;
+    return reinterpret_cast<saddr>(object);
 }
 #pragma pop
 
@@ -61,14 +61,14 @@ extern "C" {
 #pragma push
 #pragma fp_contract on
 s32 create_area_window(saddr arg0) {
-    saddr object;
+    TWindowArea *object;
     u8 *temp_r31;
-    object = (saddr)new TWindowArea();
+    object = new TWindowArea();
     ((TWindowSubStatusDisp *)object)->set_entry_display_value(arg0);
     fn_802449E0((u8 *)object);
-    temp_r31 = (u8 *)(((TWindowRoom *)object)->get_title_entry());
+    temp_r31 = reinterpret_cast<u8 *>(object->get_title_entry());
     *(f32 *)((s8 *)temp_r31 + 8) = 80.0f - 0.5f * (f32) calc_text_width((char *)(arg0));
-    return object;
+    return reinterpret_cast<saddr>(object);
 }
 #pragma pop
 }
@@ -101,7 +101,7 @@ void TWindowSubStatusDisp::set_count_ratio_text(s32 arg1, s32 arg2) {
 
 TWindowAddition::TWindowAddition(u8 *descriptor, s16 client, u8 *parent)
     : TWindowBase(descriptor, client, parent) {
-    sub_802443B4__15TWindowAdditionFv(this, descriptor);
+    sub_802443B4(descriptor);
 }
 
 TWindowAddition::~TWindowAddition() {}

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowShortCut.h"
@@ -62,7 +63,6 @@ WindowDescriptor window_short_cut_layout = {
 };
 
 extern "C" {
-s32 draw_visible_window_entries(void *, void *, int);
 void measure_message_text_width(void *entry, f32 max_width);
 void measure_message_text_width_default(void *entry);
 }
@@ -106,7 +106,7 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
 
     kind = shortcut[0];
     set_text_entry_string(shortcut_label, (uaddr)TWindowSubStatusDisp::get_message_10(0xC4), 0);
-    fn_80266BD0(index, &icon, &icon_detail, m_20);
+    fn_80266BD0(index, &icon, &icon_detail, client_index);
     if (icon != 0x33) {
         SpriteOrigin *origin = (SpriteOrigin *)TWindowSubStatusDisp::get_entry_ptr(icon);
         shortcut_icon->flags &= ~2;
@@ -184,13 +184,16 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
 
 void render__15TWindowShortCutFv(u8 *arg0) {
     saddr temp_r3;
-    temp_r3 = TWindowDD::draw_default_entry((saddr)arg0);
+    temp_r3 = reinterpret_cast<saddr>(reinterpret_cast<TWindowBase *>(arg0)->draw_default_entry());
     ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
-    draw_visible_window_entries(arg0, arg0 + 0x24, temp_r3);
+    draw_visible_window_entries(
+        reinterpret_cast<const void *>(arg0),
+        reinterpret_cast<const WindowLayoutEntries *>(arg0 + 0x24),
+        reinterpret_cast<WindowDrawContext *>(temp_r3));
     ((TWindowSubStatusDisp *)((void *)((saddr) (((TWindowShortCut *)arg0)->heading))))->forward_render((void *)(temp_r3));
 }
 
-void TWindowShortCut::run_task() { ((TWindowSubStatusDisp *)(this->heading))->update_subwindow(); ((TWindowDD *)this)->initialize_subwindow(); update_fade(); update_window_entry_list((char*)this + 0x24); }
+void TWindowShortCut::run_task() { ((TWindowSubStatusDisp *)(this->heading))->update_subwindow(); ((TWindowDD *)this)->initialize_subwindow(); update_fade(); update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((char*)this + 0x24)); }
 
 TWindowShortCut::~TWindowShortCut() {
     if (this->symbol_preview != NULL) {
@@ -208,7 +211,7 @@ TWindowShortCut::TWindowShortCut(saddr arg1, s32 index, s32 *chat_shortcut) : TW
     m_name = TWindowShortCut__name;
     var_r31 = (saddr)::operator new(0x24);
     if (var_r31 != 0) {
-        var_r31 = (saddr)((TWindowSubStatusDisp *)var_r31)->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x35), this->m_20);
+        var_r31 = (saddr)((TWindowSubStatusDisp *)var_r31)->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x35), this->client_index);
     }
     this->heading = var_r31;
     this->preview_window = NULL;

@@ -10,13 +10,6 @@ struct TWindowTimer : public TWindowBase {
     void ease_window_timer_position();
     virtual void render();
     virtual void run_task();
-    u8 _pad1C[0x8];
-    void* m_24;
-    u8 unk_28[0x1C];
-    f32 m_44;
-    u8 unk_48[0x4];
-    f32 m_4c;
-    u8 unk_50[0x10];
     u32 flags;  // bit 0: counter display (init_timer_window_layout) vs play time (_alt)
     void update_chat_parts();
     void draw(s32 arg1, s32 arg2);

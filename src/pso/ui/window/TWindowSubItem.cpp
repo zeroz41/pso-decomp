@@ -1,6 +1,7 @@
 #pragma defer_codegen on
 
 #include "types.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
@@ -120,7 +121,6 @@ void TWindowSubItem__sub_8027AA30(u8 *arg0);
 s32 TWindowSubItem__sub_8027AA78(s32 arg0);
 s32 set_depth__11TWindowBaseFf(s32);
 s32 TWindowSubEquip__sub_80263AF8(s32, s32);
-s32 align_menu_entry_positions(int);
 s32 forward_trade_action_default__16TObjCityMainWarpFPviii(s32, s32, s32, s32);
 saddr get_window_layout_position(s32);
 saddr get_player_by_client_id(s32);
@@ -348,7 +348,7 @@ void TWindowSubItem::run_task() {
                 F(u32, 0x34) = ((TWindowSubItem *)arg0)->open_purpose_window(((TWindowMenuIconLine *)LIST)->get_cursor_value());
             }
             ((TWindowSubComCard *)(F(uaddr, 0x34)))->clear_flag_and_release();
-            ((TWindowSubComCard *)(F(uaddr, 0x34)))->clear_transition_flag();
+            ((TWindowMenu *)(F(uaddr, 0x34)))->clear_transition_flag();
             F(u8, 0x1C) = 4;
         case 4:
             if (((TWindowMenu *)(F(uaddr, 0x34)))->get_selected_value() == 0) {
@@ -436,7 +436,7 @@ void TWindowSubItem::run_task() {
             if (F(u32, 0x3C) == 0) {
                 F(u32, 0x3C) = create_count_input(n);
             }
-            ((TWindowSubItem *)((void *) F(uaddr, 0x3C)))->clear_flag_and_release();
+            reinterpret_cast<TWindowSubItem *>(F(uaddr, 0x3C))->clear_flag_and_release();
             F(u8, 0x1C) = 0xD;
         }
         case 13:
@@ -509,7 +509,7 @@ void TWindowSubItem::run_task() {
             if (F(u32, 0x3C) == 0) {
                 F(u32, 0x3C) = create_count_input(n);
             }
-            ((TWindowSubItem *)((void *) F(uaddr, 0x3C)))->clear_flag_and_release();
+            reinterpret_cast<TWindowSubItem *>(F(uaddr, 0x3C))->clear_flag_and_release();
             F(u8, 0x1C) = 0x14;
         }
         case 20:
@@ -562,8 +562,8 @@ s32 TWindowSubItem::open_purpose_window(s32 arg1) {
     TWindowSubEquip__sub_80263AF8(this->m_2c, 1);
     set_depth__11TWindowBaseFf(titled_window_menu);
     ((TWindowSubComCardList *)titled_window_menu)->set_flag70_bit10();
-    ((TWindowSubComCardList *)titled_window_menu)->update_layout_height(224.0f);
-    align_menu_entry_positions(titled_window_menu);
+    ((TWindowMenu *)titled_window_menu)->update_layout_height(224.0f);
+    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(titled_window_menu));
     return titled_window_menu;
 }
 
@@ -575,8 +575,8 @@ s32 TWindowSubItem::create_menu_window() {
     TWindowSubEquip__sub_80263AF8(this->m_2c, 2);
     set_depth__11TWindowBaseFf(titled_window_menu);
     ((TWindowSubComCardList *)titled_window_menu)->set_flag70_bit10();
-    ((TWindowSubComCardList *)titled_window_menu)->update_layout_height(224.0f);
-    align_menu_entry_positions(titled_window_menu);
+    ((TWindowMenu *)titled_window_menu)->update_layout_height(224.0f);
+    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(titled_window_menu));
     return titled_window_menu;
 }
 

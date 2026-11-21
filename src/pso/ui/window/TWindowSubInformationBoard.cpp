@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
@@ -43,7 +44,6 @@ s32 set_info_board_text__6TLobbyFv();
 extern s32 controller_input_state[];
 saddr get_window_layout_position(s32);
 s32 __nw__7TObjectFUl(s32);
-s32 align_menu_entry_positions(int);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 void *create_titled_window_menu_default(s32, s32, void *);
 
@@ -209,8 +209,8 @@ u32 TWindowSubInformationBoard::create_info_board_menu() {
   }
   TObjCityMainWarp::forward_trade_action_default(temp_r31, (saddr) TWindowSubStatusDisp::get_message_10(0x118), 6, 9);
   ((TWindowSubComCardList *)temp_r31)->set_flag70_bit10();
-  ((TWindowSubComCardList *)temp_r31)->update_layout_height(179.0f);
-  align_menu_entry_positions((saddr) temp_r31);
+  ((TWindowMenu *)temp_r31)->update_layout_height(179.0f);
+  align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(temp_r31));
   return (uaddr)temp_r31;
 }
 

@@ -1,6 +1,7 @@
 #ifndef PSO_UI_CITY_TSHOPEQUIPMENTGEARSEQUENCE_H
 #define PSO_UI_CITY_TSHOPEQUIPMENTGEARSEQUENCE_H
 
+#include <stddef.h>
 #include "types.h"
 #include "pso/ui/city/TShopSequence.h"
 
@@ -29,4 +30,5 @@ struct TShopEquipmentGearSequence : public TShopSequence {
 };
 
 LAYOUT_ASSERT(TShopEquipmentGearSequence_size, sizeof(TShopEquipmentGearSequence) == 0x38);
+LAYOUT_ASSERT(TShopEquipmentGearSequence_choice_menu_offset, offsetof(TShopEquipmentGearSequence, choice_menu) == 0x2C);
 #endif

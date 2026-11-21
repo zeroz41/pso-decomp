@@ -4,7 +4,6 @@
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
-#include "pso/ui/window/TWindowLockOn.h"
 #include "pso/unk/TLobby.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 
@@ -18,7 +17,7 @@ void TKeyBoardControl::hide() {
             m_hard->set_flag60_bit200();
         }
         if (m_soft != NULL) {
-            ((TWindowLockOn *)m_soft)->request_close();
+            m_soft->request_close();
         }
     }
 }

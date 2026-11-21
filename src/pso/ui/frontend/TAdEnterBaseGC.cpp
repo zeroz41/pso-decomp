@@ -354,7 +354,7 @@ u32 TAdEnterSerialAccessGC::create_keyboard_control(saddr arg0, s32 arg1) {
         ((TKeyBoardControl *)kb)->set_text((char *)get_serial_text__22TAdEnterSerialAccessGCFii(arg0, arg1));
     }
     if (arg1 != 3) {
-        update_chat_window(kb);
+        reinterpret_cast<TKeyBoardControl *>(kb)->set_composer_flag62_bit4();
     }
     return (uaddr)kb;
 }

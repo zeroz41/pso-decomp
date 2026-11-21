@@ -5,6 +5,8 @@
 #include <stddef.h>
 #include "pso/ui/window/TWindowBase.h"
 
+struct PageIndicator;
+
 struct TWindowSubStatusDisp : public TWindowBase {
     // Challenge-mode record set (inferred names): resolve_player_slot maps RECORD_SET_CURRENT to the running
     // game's set by selected_episode and is_split_screen; get_layout_id gives the sets 9/5/9/5 stages.
@@ -21,28 +23,10 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void calc_row_width();
     virtual void run_task();
     virtual void render();
-    u8 unk_1C[0x1];
-    s8 m_1d;
-    u8 unk_1E[0x1];
-    signed char m_1f;
-    s16 m_20;
-    u8 _pad22[0x2];
-    void* m_24;
-    u8 unk_28[0x2];
-    s16 m_2a;
-    s32 m_2c;
-    u8 unk_30[0x4];
-    s32 m_34;
-    u8 unk_38[0x4];
-    f32 m_3c;
-    u8 unk_40[0xC];
-    f32 m_4c;
-    u8 unk_50[0xC];
-    u32 m_5c;
     s16 page; // inferred: index into the dispatch_page_init/update page tables
     u16 m_62;
     u32 m_64;
-    uaddr m_68;
+    PageIndicator *m_68;
     f32 scale_x;
     f32 scale_y;
 
@@ -67,7 +51,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void clear_visible_flag();
     void increment_counter();
     static s32 destroy_allocation(s32 arg0, s16 arg1);
-    void *reset_selection();
+
     static s32 get_status_index(u16 arg0);
     static s32 get_status_index_or_default(u16 *arg0);
     static s32 *get_status_window(u16 arg0);
@@ -94,13 +78,11 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static void draw_status(saddr arg1, s32 arg2, s32 arg3);
     static void dispatch_without_flags(saddr arg1, s32 arg2, s32 arg3);
     int is_flag_4_set();
-    s8 get_type();
     void set_input_mode(u8 v);
     s16 get_item_type();
     s16 get_field_2F8();
     s16 get_stat();
     s16 get_value();
-    void destroy_all_items();
     void set_all_values(s32 arg1);
     void set_animated_target(s32 arg1, f32 farg0);
     static void update_palette_sprite();

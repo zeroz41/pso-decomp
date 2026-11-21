@@ -6959,7 +6959,7 @@ pso/ui/window/TWindowDuelResult.cpp:
 	.sbss       start:0x805D6428 end:0x805D6430
 	.sdata2     start:0x805DCCA8 end:0x805DCCB8
 
-pso/ui/window/TWindowSubStatusDisp_8024F688.cpp:
+pso/ui/window/PageIndicator.cpp:
 	.text       start:0x8024F688 end:0x8024F690
 
 pso/ui/window/TWindowEffectParty.cpp:

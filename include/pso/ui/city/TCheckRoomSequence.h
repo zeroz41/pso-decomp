@@ -1,10 +1,12 @@
 #ifndef PSO_UI_CITY_TCHECKROOMSEQUENCE_H
 #define PSO_UI_CITY_TCHECKROOMSEQUENCE_H
 
+#include <stddef.h>
 #include "types.h"
 #include "pso/ui/city/TShopSequence.h"
 
 class TWindowBase;
+struct TWindowMenu;
 
 struct TCheckRoomSequence : public TShopSequence {
     TCheckRoomSequence(TObject *parent, TObjPlayer *player);
@@ -12,7 +14,7 @@ struct TCheckRoomSequence : public TShopSequence {
     virtual void vfunc_11();
     virtual void restore_player_state();
     virtual void close_window();
-    void set_ready_flag();
+
     void set_position(f32 a, f32 b);
     static int get_room_data(int a0);
     static int get_room_table_entry(int a0);
@@ -40,14 +42,15 @@ struct TCheckRoomSequence : public TShopSequence {
     static void alloc_item_buffers();
 
     s32 pad_2c;
-    u32 pad_30;                     // 0x30: freed with TAdSinglePlyChrSelectGC::safe_free
+    u32 pad_30;                     // 0x30: freed with safe_free
     TWindowBase *pad_34;            // 0x34: the deposit / item windows
     TWindowBase *meseta_window;     // 0x38: create_meseta_window
-    TWindowBase *pad_3c;            // 0x3C: a TWindowMenu
+    TWindowMenu *choice_menu;       // 0x3C: the room menu
     TWindowBase *deposit_window;    // 0x40: the TWindowDeposit of open_bank
     s32 pad_44;
     TObject *counter_camera;        // 0x48: set_service_counter_camera
 };
 
 LAYOUT_ASSERT(TCheckRoomSequence_size, sizeof(TCheckRoomSequence) == 0x4C);
+LAYOUT_ASSERT(TCheckRoomSequence_choice_menu_offset, offsetof(TCheckRoomSequence, choice_menu) == 0x3C);
 #endif

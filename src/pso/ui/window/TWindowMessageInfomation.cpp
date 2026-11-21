@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowMessageInfomation.h"
 
 #pragma readonly_strings on
@@ -9,13 +10,14 @@ const char *TWindowMessageInfomation__name = "TWindowMessageInfomation";
 
 extern "C" {
 extern const char *TWindowMessageInfomation__name;
-saddr get_draw_context__11TWindowBaseFPv();
-s32 draw_visible_window_entries(s32, s32, s32);
 
 void TWindowMessageInfomation::render() {
     s32 arg0 = (saddr)this;
-    s8 *tmp = (s8 *)get_draw_context__11TWindowBaseFPv();
-    draw_visible_window_entries(arg0, arg0 + 0x24, (saddr)tmp);
+    s8 *tmp = reinterpret_cast<s8 *>(get_draw_context());
+    draw_visible_window_entries(
+        reinterpret_cast<const void *>(arg0),
+        reinterpret_cast<const WindowLayoutEntries *>(arg0 + 0x24),
+        reinterpret_cast<WindowDrawContext *>(tmp));
 }
 
 }

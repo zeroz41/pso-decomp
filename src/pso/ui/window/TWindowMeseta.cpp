@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowMeseta.h"
 #include "pso/ui/window/TWindowSubComCard.h"
@@ -13,7 +14,6 @@
 
 extern "C" {
 
-s32 draw_visible_window_entries(s32, s32, s32);
 void *get_player_by_client_id(s32 i);
 s32 draw_window_tab(s32, s32, s32, f32);
 
@@ -34,12 +34,15 @@ void TWindowMeseta::draw_value(s32 arg1) {
     draw_window_tab(arg1, arg1 + 0x10, 3, this->m_60);
 }
 void TWindowMeseta::render() {
-    s32 ctx;
+    saddr ctx;
     saddr arg0 = (saddr)this;
 
-    ctx = ((TWindowBase *)arg0)->setup_window_draw_context((f32 *)(arg0 + 0x6C));
+    ctx = reinterpret_cast<saddr>(((TWindowBase *)arg0)->setup_window_draw_context((f32 *)(arg0 + 0x6C)));
     ((TWindowMeseta *)arg0)->draw_value(ctx);
-    draw_visible_window_entries(arg0, arg0 + 0x24, ctx);
+    draw_visible_window_entries(
+        reinterpret_cast<const void *>(arg0),
+        reinterpret_cast<const WindowLayoutEntries *>(arg0 + 0x24),
+        reinterpret_cast<WindowDrawContext *>(ctx));
 }
 
 }
@@ -97,7 +100,7 @@ void TWindowMeseta::run_task() {
         ((TWindowSubStatusDisp *)(((TWindowBase *)arg0)->get_array_entry(1)))->set_animated_target(this->m_68, 9.0f);
     }
     ((TWindowDD *)arg0)->initialize_subwindow();
-    ((TWindowBase *)arg0)->update_window_entry_list((u8 *)&this->m_24);
+    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
 }
 
 TWindowMeseta::~TWindowMeseta() {}

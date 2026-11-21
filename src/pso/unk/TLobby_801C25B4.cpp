@@ -1,8 +1,10 @@
+#include "pso/ui/window/TWindowDuelResult.h"
 #include <stdio.h>
 #include <stdlib.h>
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/TUnk_804C8678.h"
 #include "pso/map/TSetEvtDestroy.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/item/TItem.h"
@@ -411,8 +413,7 @@ s32 check_flag_100__10TObjPlayerFPv(void *);
 
 s32 record_local_battle_placement(void *);
 
-uaddr TWindowDuelResult__ct(void *, s32);
-s32 align_menu_entry_positions(void *);
+s32 forward_trade_action_default__16TObjCityMainWarpFPviii(void *, s32, int, int);
 void *create_window_menu_default(void *, int);
 extern Flags_801C3AF4 *controller_input_state[];
 
@@ -767,11 +768,7 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
         if (*(void **)((s8 *)arg0 + 0x54) != NULL) {
             ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x54)))->close();
         }
-        p = (void *)TObject::operator new(0x6C);
-        if (p != NULL) {
-            p = (void *)TWindowDuelResult__ct(p, local_client_id);
-        }
-        *(void **)((s8 *)arg0 + 0x54) = p;
+        *reinterpret_cast<TWindowDuelResult **>(arg0 + 0x54) = new TWindowDuelResult(local_client_id);
         q = (void *)(saddr)get_local_player();
         if (q != NULL) {
             if (((TObjPlayer *)q)->check_player_flag1() == 0) {
@@ -810,9 +807,9 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
                     TObjCityMainWarp::forward_trade_action_default(*(void **)((s8 *)arg0 + 0x50), *(s32 *)((s8 *)(*(s32 **)((s8 *)arg0 + 0x40)) + 4), 6, 1);
                     TObjCityMainWarp::forward_trade_action_default(*(void **)((s8 *)arg0 + 0x50), *(s32 *)((s8 *)(*(s32 **)((s8 *)arg0 + 0x40)) + 8), 6, 2);
                     TObjCityMainWarp::forward_trade_action_default(*(void **)((s8 *)arg0 + 0x50), *(s32 *)((s8 *)(*(s32 **)((s8 *)arg0 + 0x40)) + 0xC), 6, 3);
-                    ((TWindowSubComCard *)(*(void **)((s8 *)arg0 + 0x50)))->calc_window_size();
-                    align_menu_entry_positions(*(void **)((s8 *)arg0 + 0x50));
-                    ((TCheckRoomSequence *)(*(void **)((s8 *)arg0 + 0x50)))->set_ready_flag();
+                    ((TWindowMenu *)(*(void **)((s8 *)arg0 + 0x50)))->calc_window_size();
+                    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(*(void **)((s8 *)arg0 + 0x50)));
+                    ((TWindowMenu *)(*(void **)((s8 *)arg0 + 0x50)))->set_ready_flag();
                 }
                 if (*(void **)((s8 *)arg0 + 0x50) != NULL) {
                     if (((TWindowMenu *)(*(void **)((s8 *)arg0 + 0x50)))->is_decided() != 0) {

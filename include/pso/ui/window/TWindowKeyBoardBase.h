@@ -15,17 +15,13 @@ struct TWindowKeyBoardBase : public TWindowBase {
     void draw_text_glyphs(void *, void *);
     int sub_8025EB68();
     s32 sub_8025CB10();
-    u8 unk_1C[0x10];
-    s32 m_2c;
-    u8 unk_30[0x8];
-    f32 m_38;
-    u8 unk_3C[0xC];
-    f32 m_48;
-    u8 unk_4C[0x14];
+    void clear_flag60_bit1();
+    void set_flag62_bit4();
+    u8 get_input_mode();
     u16 m_60;
     u16 m_62;
-    u8 _pad64[0x1];
-    u8 m_65;
+    u8 m_input_mode;
+    s8 m_65;
     u8 _pad66[0x2];
     u32 m_68;
     KeyboardTextBuffer m_text;
@@ -118,4 +114,6 @@ struct TWindowKeyBoardBase : public TWindowBase {
 };
 
 LAYOUT_ASSERT(TWindowKeyBoardBase_size, sizeof(TWindowKeyBoardBase) == 0xB8);
+LAYOUT_ASSERT(TWindowKeyBoardBase_input_mode_offset, offsetof(TWindowKeyBoardBase, m_input_mode) == 0x64);
+
 #endif

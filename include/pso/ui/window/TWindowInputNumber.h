@@ -11,13 +11,6 @@ struct TWindowInputNumber : public TWindowBase {
     void refresh_digit_entries();
     void align_digits();
     virtual void render();
-    u8 unknown1C[4];
-    s16 clientIndex;
-    u8 unk_22[0xA];
-    s32 m_2c;
-    u8 unk_30[0x8];
-    f32 m_38;
-    u8 unk_3C[0x24];
     u16 inputFlags;
     s8 digitCount;
     s8 selectedDigit;
@@ -47,7 +40,6 @@ struct TWindowInputNumber : public TWindowBase {
 };
 
 LAYOUT_ASSERT(TWindowInputNumberSize, sizeof(TWindowInputNumber) == 0x7C);
-LAYOUT_ASSERT(NumberClientOffset, offsetof(TWindowInputNumber, clientIndex) == 0x20);
 LAYOUT_ASSERT(NumberFlagsOffset, offsetof(TWindowInputNumber, inputFlags) == 0x60);
 LAYOUT_ASSERT(NumberMinimumOffset, offsetof(TWindowInputNumber, minimum) == 0x64);
 LAYOUT_ASSERT(NumberMaximumOffset, offsetof(TWindowInputNumber, maximum) == 0x68);

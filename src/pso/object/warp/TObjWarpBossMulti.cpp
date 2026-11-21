@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/object/warp/TObjWarpBase.h"
@@ -43,6 +44,7 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
@@ -115,7 +117,6 @@ extern s32 lbl_805D55C0;
 
 
 int check_flag_100__10TObjPlayerFPv(void *p);
-s32 align_menu_entry_positions(u32);
 
 
 }
@@ -611,8 +612,8 @@ void TObjWarpBoss::warp_boss_handle_window() {
                 if (menu_window != 0) {
                     ((TWindowSubTradeMain *)menu_window)->add_text_entry((saddr)TWindowSubStatusDisp::get_message_10(0x40), 0, 0, -1);
                     ((TAdChrSelASlotGC *)menu_window)->set_flag_40();
-                    ((TWindowSubComCard *)menu_window)->calc_window_size();
-                    align_menu_entry_positions(menu_window);
+                    ((TWindowMenu *)menu_window)->calc_window_size();
+                    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(menu_window));
                 }
                 begin_player_keyboard_hold(local_client_id);
                 request_active_window_close();

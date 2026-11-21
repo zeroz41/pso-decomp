@@ -24,7 +24,7 @@ struct TWindowKeyBoardSoft : public TWindowBase
     int get_flag_bit6();
     int is_cursor_locked();
     virtual void render();
-    u8 _pad1C[0x44];
+    void set_flag60_bit1();
     u32 m_60;
     s8 m_64;
     s8 m_65;
@@ -40,7 +40,7 @@ struct TWindowKeyBoardSoft : public TWindowBase
     void sub_80261134();
     void update_close_mode();
     s32 hit_test_relative(u8 *arg1, u8 *arg2);
-    void draw_key_frame(f32 *rect, f32 x0, f32 y, f32 w, f32 scale, u32 color, s32 idx);
+    void draw_key_frame(WindowDrawContext *context, f32 x0, f32 y, f32 w, f32 scale, u32 color, s32 idx);
     static s32 strnlen(s8 *str, u32 max);
     virtual void run_task();
     s32 dispatch_by_index();
@@ -63,12 +63,14 @@ struct TWindowKeyBoardSoft : public TWindowBase
     f32 sub_802606E0();
     void sub_80260760(s32 key, s32 *count, u32 *color);
     void sub_80260904(s32 port);
-    f32 sub_802614DC(u8 *arg1, f32 farg0, f32 farg1, f32 farg2, f32 farg3);
+    f32 sub_802614DC(WindowDrawContext *context, f32 farg0, f32 farg1, f32 farg2, f32 farg3);
     void sub_80261DD8(WindowDrawContext *ctx);
     int get_flag_bit0();
 };
 
 LAYOUT_ASSERT(TWindowKeyBoardSoft_size, sizeof(TWindowKeyBoardSoft) == 0x70);
+LAYOUT_ASSERT(TWindowKeyBoardSoft_state_offset, offsetof(TWindowKeyBoardSoft, m_60) == 0x60);
+LAYOUT_ASSERT(TWindowKeyBoardSoft_control_offset, offsetof(TWindowKeyBoardSoft, m_control) == 0x6C);
 
 // Key class of each cell of the 16 x 7 key grid, indexed by x + y * 16: 0/1 one-cell keys, 2..17 the cells
 // of the wide keys (it picks the key width and colour). Defined after profanity_word_table (name inferred).

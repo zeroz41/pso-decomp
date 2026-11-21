@@ -1,3 +1,4 @@
+#include "pso/ui/window/WindowDrawContext.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowDD_803488A8.h"
@@ -874,7 +875,7 @@ void TWindowDD_WS_String::draw(saddr ctx, s32 idx, f32 farg0) {
     s32 temp_r31;
 
     temp_r31 = TWindowDD::get_draw_count((void **)(lbl_805D63F0));
-    ((TWindowDD *)(&sp8))->reset_entries(TWindowDD__sub_80348AD4(*(f32 *)&(this->m_54), farg0), -1);
+    ((TWindowDD *)(&sp8))->reset_entries(TWindowDD__sub_80348AD4(draw_depth, farg0), -1);
     ((TWindowDD *)(&sp8))->copy_point_table(idx);
     TWindowDD__sub_80348A2C((void *)ctx, &sp8);
     TWindowDD__sub_803489B8((A_803489B8 *)(ctx), (B_803489B8 *)(&sp8), 0);
@@ -972,8 +973,7 @@ extern s32 twindowdd_entry_count;
 
 #pragma push
 #pragma fp_contract on
-void TWindowBase::calc_inner_rect(u8 *arg1) {
-    u8 *arg0 = (u8 *)this;
+void TWindowBase::calc_inner_rect(WindowDrawContext *context) {
     f32 y0;
     f32 ky;
     f32 x0;
@@ -981,23 +981,23 @@ void TWindowBase::calc_inner_rect(u8 *arg1) {
     f32 y;
     f32 w;
     f32 h;
-    x = *(f32 *)((s8 *)arg0 + 0x40);
-    y = *(f32 *)((s8 *)arg0 + 0x44);
+    x = frame_position[0];
+    y = frame_position[1];
     ky = lbl_805DFB5C;
     x0 = x + TWindowDD__data_805DFB58;
-    w = *(f32 *)((s8 *)arg0 + 0x48);
-    h = *(f32 *)((s8 *)arg0 + 0x4C);
+    w = frame_size[0];
+    h = frame_size[1];
     y0 = y + ky;
-    *(f32 *)((s8 *)arg1 + 0x10) = x0;
-    *(f32 *)((s8 *)arg1 + 0x14) = y0;
-    *(f32 *)((s8 *)arg1 + 0x18) = w - 2.0f * TWindowDD__data_805DFB58;
-    *(f32 *)((s8 *)arg1 + 0x1C) = h - 2.0f * ky;
-    *(f32 *)((s8 *)arg1 + 0x3C) = x0;
-    *(f32 *)((s8 *)arg1 + 0x40) = y0;
-    *(f32 *)((s8 *)arg1 + 0x44) = (x + w) - TWindowDD__data_805DFB58;
-    *(f32 *)((s8 *)arg1 + 0x48) = (y + h) - ky;
-    *(f32 *)((s8 *)arg1 + 0x20) = 0.5f * w + x;
-    *(f32 *)((s8 *)arg1 + 0x24) = 0.5f * h + y;
+    context->inner_x = x0;
+    context->inner_y = y0;
+    context->inner_w = w - 2.0f * TWindowDD__data_805DFB58;
+    context->inner_h = h - 2.0f * ky;
+    context->clip_x0 = x0;
+    context->clip_y0 = y0;
+    context->clip_x1 = (x + w) - TWindowDD__data_805DFB58;
+    context->clip_y1 = (y + h) - ky;
+    context->pivot[0] = 0.5f * w + x;
+    context->pivot[1] = 0.5f * h + y;
 }
 #pragma pop
 

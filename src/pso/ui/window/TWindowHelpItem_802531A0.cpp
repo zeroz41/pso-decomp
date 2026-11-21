@@ -1,4 +1,5 @@
 #include "pso/item/MagStats.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "types.h"
 #include "pso/ui/window/TWindowHelpItem_802531A0.h"
 #include "pso/ui/window/TWindowHelpItem_80255AB4.h"
@@ -44,7 +45,6 @@ extern "C" {
 s32 build_player_equipment_requirement_stats(int, void *);
 void *get_player_by_client_id(s32 i);
 void draw_action_palette_icon(void *, int, u16);
-void init_window_layout_entries(void *, const void *, s16);
 s32 *get_shared_text_buffer(void);
 s32 check_equip_requirements(void *self, TItemData *p, s32 *out);
 void text_builder_append();
@@ -67,7 +67,10 @@ void TWindowHelpItem__sub_802531A0(void) {  }
 
 void TWindowHelpItem::init_text(void *str) {
     u8 *e;
-    init_window_layout_entries(((u8 *)this) + 0x24, TWindowHelpItem__description_text_layout, this->m_20);
+    init_window_layout_entries(
+        reinterpret_cast<WindowLayoutEntries *>(((u8 *)this) + 0x24),
+        reinterpret_cast<const void *>(TWindowHelpItem__description_text_layout),
+        this->client_index);
     *(V3_802531A4 *)(((u8 *)this) + 0xB0) = TWindowHelpItem__description_update_callback;
     e = (u8 *)((TWindowBase *)this)->get_array_entry(0);
     set_text_entry_string(e, (uaddr)str, 0x20);
@@ -109,9 +112,12 @@ void TWindowHelpItem::update_tech_disk_details() {
     u8 *e4;
     u8 *e5;
     u8 *e6;
-    player = (saddr)get_player_by_client_id(this->m_20);
+    player = (saddr)get_player_by_client_id(this->client_index);
     if (player != 0) {
-        init_window_layout_entries(((u8 *)this) + 0x24, help_item_tech_disk_window_layout_table, this->m_20);
+        init_window_layout_entries(
+            reinterpret_cast<WindowLayoutEntries *>(((u8 *)this) + 0x24),
+            reinterpret_cast<const void *>(help_item_tech_disk_window_layout_table),
+            this->client_index);
         *(V3_802532E8 *)(((u8 *)this) + 0xB0) = item_help_tech_disk_stats_callback;
         e0 = (u8 *)((TWindowBase *)this)->get_array_entry(0);
         text_builder_reset();
@@ -150,7 +156,10 @@ void TWindowHelpItem::update_tech_disk_details() {
 void TWindowHelpItem::sub_802534B0() {
     u8 *e;
     u8 *e2;
-    init_window_layout_entries(((u8 *)this) + 0x24, window_help_item_layout_entries, this->m_20);
+    init_window_layout_entries(
+        reinterpret_cast<WindowLayoutEntries *>(((u8 *)this) + 0x24),
+        reinterpret_cast<const void *>(window_help_item_layout_entries),
+        this->client_index);
     *(V3_802534B0 *)(((u8 *)this) + 0xB0) = item_help_description_idle_callback;
     e = (u8 *)((TWindowBase *)this)->get_array_entry(0);
     this->format_description_with_price();
@@ -165,7 +174,10 @@ void TWindowHelpItem__vt11(u8 *window) {
     s32 slot;
     s32 blast;
     ((MagStats *)(&mag))->init();
-    init_window_layout_entries(window + 0x24, lbl_804CF4E4, *(s16 *)((s8 *)window + 0x20));
+    init_window_layout_entries(
+        reinterpret_cast<WindowLayoutEntries *>(window + 0x24),
+        reinterpret_cast<const void *>(lbl_804CF4E4),
+        *(s16 *)((s8 *)window + 0x20));
     *(Callback_80253564 *) (window + 0xB0) = TWindowHelpItem__photon_blast_update_callback;
     TItemData::deserialize_mag(*(void **)((s8 *)window + 0x68), &mag);
     for (slot = 0; slot < 3; slot++) {

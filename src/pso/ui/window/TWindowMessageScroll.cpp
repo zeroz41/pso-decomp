@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowMessageScroll.h"
 #include "pso/ui/window/TWindowMessageQuest.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -15,13 +16,13 @@ const char *TWindowMessageScroll__class_name = "TWindowMessageScroll";
 void TWindowMessageScroll::run_task() {
     u8 *arg0 = (u8 *)this;
     f32 temp_f1;
-    temp_f1 = this->m_6c;
-    this->m_6c = (f32) (temp_f1 + scroll_speed);
+    temp_f1 = this->scroll_offset[1];
+    this->scroll_offset[1] = (f32) (temp_f1 + scroll_speed);
     TWindowMessage::retire_scrolled_lines();
     ((TWindowDD *)arg0)->initialize_subwindow();
     ((TWindowBase *)arg0)->update_fade();
-    ((TWindowBase *)arg0)->update_window_entry_list((u8 *)&this->m_24);
-    if ((((TWindowBase *)arg0)->sub_80244994() != 0) && (this->unk_80 <= this->m_6c)) {
+    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
+    if ((((TWindowBase *)arg0)->sub_80244994() != 0) && (this->unk_80 <= this->scroll_offset[1])) {
         *completion_register = 1;
     }
 }

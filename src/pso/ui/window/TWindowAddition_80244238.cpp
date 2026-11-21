@@ -1,67 +1,45 @@
+#include "pso/ui/window/WindowDrawContext.h"
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowAddition.h"
 
 #pragma readonly_strings on
 
-struct Ctx_80244364 { u8 pad[0x10]; f32 x; f32 y; };
-
-struct Obj_80244364 { u8 pad[0x60]; f32 a[2]; f32 x; f32 y; };
-
-typedef struct Disp_80244238 {
-    u8 pad0[0x30];
-    f32 tx;
-    f32 ty;
-    f32 tz;
-    f32 tw;
-    f32 x;
-    f32 y;
-    f32 z;
-    f32 w;
-    u32 n;
-    u8 pad54[0x6C - 0x54];
-    f32 f6C;
-} Disp_80244238;
-
 extern "C" {
+s32 set_position_xy__15TWindowAdditionFff(f32, f32);
 const char *lbl_805D3878 = "TWindowAddition";
-
-Ctx_80244364 *get_draw_context__11TWindowBaseFPv(Obj_80244364 *self);
-
 #pragma push
 #pragma fp_contract on
 void TWindowAddition::step_window_tween() {
-    Disp_80244238 *o = (Disp_80244238 *)this;
     f32 d;
-    u32 n = o->n;
+    u32 n = tween_ticks;
     if (n == 0) {
-        d = o->tz - o->z;
-        ((TWindowBase *)o)->save_position();
+        d = target_size[0] - frame_size[0];
+        save_position();
     } else {
-        d = (o->tw - o->w) / n;
-        o->x += (o->tx - o->x) / n;
-        o->y += (o->ty - o->y) / o->n;
-        o->z += (o->tz - o->z) / o->n;
-        o->w += d;
-        o->n--;
+        d = (target_size[1] - frame_size[1]) / n;
+        frame_position[0] += (target_position[0] - frame_position[0]) / n;
+        frame_position[1] += (target_position[1] - frame_position[1]) / tween_ticks;
+        frame_size[0] += (target_size[0] - frame_size[0]) / tween_ticks;
+        frame_size[1] += d;
+        tween_ticks--;
     }
-    o->f6C -= 0.5f * d;
+    scroll_offset[1] -= 0.5f * d;
 }
 #pragma pop
 
-Ctx_80244364 *get_draw_context__11TWindowBaseFPv(Obj_80244364 *self) {
-    Ctx_80244364 *c = (Ctx_80244364 *)((TWindowBase *)self)->setup_window_draw_context(self->a);
-    c->x -= self->x;
-    c->y -= self->y;
-    return c;
+WindowDrawContext *TWindowAddition::get_draw_context() {
+    WindowDrawContext *context = setup_window_draw_context(content_scale);
+    context->inner_x -= scroll_offset[0];
+    context->inner_y -= scroll_offset[1];
+    return context;
 }
 
-void TWindowAddition::sub_802443B4() {
-    u8 *arg0 = (u8 *)this;
-    this->m_name = lbl_805D3878;
-    *(f32 *)((s8 *)arg0 + 0x68) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x6C) = 0.0f;
-    set_position_xy(1.0f, 1.0f);
+void TWindowAddition::sub_802443B4(u8 *) {
+    m_name = lbl_805D3878;
+    scroll_offset[0] = 0.0f;
+    scroll_offset[1] = 0.0f;
+    set_position_xy__15TWindowAdditionFff(1.0f, 1.0f);
 }
 
 }

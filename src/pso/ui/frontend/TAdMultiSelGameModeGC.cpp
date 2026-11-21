@@ -46,6 +46,7 @@ void fn_803000C8(void) {
 }
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/window/WindowMenuFactory.h"
 
 
 struct Self_80300770 {
@@ -97,7 +98,6 @@ typedef struct Pos3_803001B4 { NJS_POINT2 p[3]; } Pos3_803001B4;
 typedef struct Arr3_803001B4 { s32 v[3]; } Arr3_803001B4;
 
 extern "C" {
-void align_menu_entry_positions(s32);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 s32 create_window_menu_default(void *, u32);
 extern u8 controller_input_state[];
@@ -149,9 +149,9 @@ saddr TAdMultiSelGameModeGC::build_mode_menu(s32 arg1) {
         } else {
             add_gray_text_entry((TWindowSubTradeMain *)r, (const char *)(get_localized_text_entry(0x18, i + b.v[arg1])), 6, i + a.v[arg1]);
         }
-        ((TWindowSubComCardList *)r)->update_layout_height(206.0f);
+        ((TWindowMenu *)r)->update_layout_height(206.0f);
         ((TWindowSubComCardList *)r)->set_selected_index(a.v[arg1]);
-        align_menu_entry_positions(r);
+        align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(r));
     }
     return r;
     }

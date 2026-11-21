@@ -1,6 +1,8 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
+#include "pso/ui/window/WindowMenuFactory.h"
+#include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/ui/window/TWindowUserSort.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
@@ -132,7 +134,6 @@ struct VObj_18_80272714 : VBase_18_80272714 {
 extern "C" {
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 s32 create_titled_window_menu_default(int, int, void *);
-s32 align_menu_entry_positions(s32);
 s32 create_menu_window__17TWindowSubComCardFv(void);
 void open_mode4_window__17TWindowSubComCardFv(void);
 void open_layout_window__17TWindowSubComCardFv(void);
@@ -211,7 +212,6 @@ void TWindowSubComCard__sub_80077980(void *);
 struct SelectedGuildCardRecord { s32 value; u8 remaining[0xB8]; };
 extern SelectedGuildCardRecord selected_guild_card_record;
 extern "C" {
-void fn_80247ED8(void *p);
 }
 
 void TWindowSubComCard::set_display_page() {
@@ -221,7 +221,7 @@ void TWindowSubComCard::set_display_page() {
 void TWindowSubComCard::set_flag_10() { *(u16*)((char*)this + 0x70) |= 0x10; }
 void TWindowSubComCard::set_page(s16 v) { *(s16*)((char*)this + 0x7a) = v; }
 s16 TWindowSubComCardList::get_field_72() { return *(s16 *)&this->m_72; }
-void TWindowSubComCard::destroy_keyboard() { void* m = *(void* *)&this->m_28; if (m) fn_80247ED8(m); }
+void TWindowSubComCard::destroy_keyboard() { void* m = *(void* *)&this->m_28; if (m) static_cast<TWindowKeyBoardSoft *>(m)->set_flag60_bit1(); }
 void*TWindowSubComCard::get_sub_obj() { return (char*)this + 0x8; }
 void*TWindowSubComCard::get_name() { return (char*)this + 0x19; }
 void* TWindowSubComCard__sub_8027523C(void* p) { return (char*)p + 0x2a; }
@@ -401,7 +401,7 @@ void TWindowSubComCard::run_task() {
             this->m_64 = ((s32 (*)(void *)) TWindowSubComCard__sub_8027353C)((void *)this);
         }
         ((TWindowSubComCard *)(this->m_64))->clear_flag_and_release();
-        ((TWindowSubComCard *)(this->m_64))->clear_transition_flag();
+        ((TWindowMenu *)(this->m_64))->clear_transition_flag();
         this->m_1c = 4U;
     case 0x4:
         if (((TWindowMenu *)(this->m_64))->is_cancelled() != 0) {
@@ -535,7 +535,7 @@ void TWindowSubComCard::run_task() {
         if ((u32) this->m_64 == 0U) {
             this->m_64 = ((s32 (*)(void *)) open_menu__17TWindowSubComCardFv)((void *)this);
         }
-        ((TWindowSubComCard *)(this->m_64))->clear_transition_flag();
+        ((TWindowMenu *)(this->m_64))->clear_transition_flag();
         ((TWindowSubComCard *)(this->m_64))->clear_flag_and_release();
         this->m_1c = 0xEU;
     case 0xE:
@@ -740,7 +740,7 @@ void TWindowSubComCard::run_task() {
             this->m_80 = create_keyboard__19TWindowSubShortMailFv();
         }
         ((TKeyBoardControl *)(this->m_80))->set_position((void *)(get_window_layout_position(0xBB)));
-        free_menu_object((void *)this->m_80);
+        reinterpret_cast<TKeyBoardControl *>(m_80)->clear_keyboard_flag60_bit1();
         ((TKeyBoardControl *)(this->m_80))->show();
         this->m_1c = 0x22U;
     case 0x22:
@@ -1244,8 +1244,8 @@ s32 create_menu__17TWindowSubComCardFv(void) {
         add_gray_text_entry((TWindowSubTradeMain *)temp_r31, (const char *)(TWindowSubStatusDisp::get_message_10(0xF8)), 6, 0x39);
     }
     ((TWindowSubComCardList *)temp_r31)->set_flag70_bit10();
-    ((TWindowSubComCardList *)temp_r31)->update_layout_height(179.0f);
-    align_menu_entry_positions(temp_r31);
+    ((TWindowMenu *)temp_r31)->update_layout_height(179.0f);
+    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(temp_r31));
     return temp_r31;
 }
 
@@ -1256,8 +1256,8 @@ s32 TWindowSubComCard__sub_8027353C(void) {
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((int) ((saddr)TWindowSubStatusDisp::get_message_10(0x55))), 6, 5);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((int) ((saddr)TWindowSubStatusDisp::get_message_10(0x56))), 6, 9);
     ((TWindowSubComCardList *)temp_r31)->set_flag70_bit10();
-    ((TWindowSubComCardList *)temp_r31)->update_layout_height(213.0f);
-    align_menu_entry_positions(temp_r31);
+    ((TWindowMenu *)temp_r31)->update_layout_height(213.0f);
+    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(temp_r31));
     return temp_r31;
 }
 
@@ -1277,8 +1277,8 @@ s32 TWindowSubComCard__sub_8027346C(void) {
   }
   ((TWindowSubComCardList *)temp_r31)->set_flag70_bit10();
   temp_r31_2 = temp_r31;
-  ((TWindowSubComCardList *)temp_r31_2)->update_layout_height(186.0f);
-  align_menu_entry_positions((s32)((int) temp_r31_2));
+  ((TWindowMenu *)temp_r31_2)->update_layout_height(186.0f);
+  align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(((int) temp_r31_2)));
   return temp_r31_2;
 }
 
@@ -1328,8 +1328,8 @@ s32 open_menu__17TWindowSubComCardFv(void) {
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((saddr)TWindowSubStatusDisp::get_message_10(0x63)), 6, 0x1B);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((saddr)TWindowSubStatusDisp::get_message_10(0x5A)), 6, 0x15);
     ((TWindowSubComCardList *)temp_r31)->set_flag70_bit10();
-    ((TWindowSubComCardList *)temp_r31)->update_layout_height(206.0f);
-    align_menu_entry_positions(temp_r31);
+    ((TWindowMenu *)temp_r31)->update_layout_height(206.0f);
+    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(temp_r31));
     return temp_r31;
 }
 
@@ -1394,7 +1394,7 @@ void rebuild_com_card_list__17TWindowSubComCardFii(s32 arg0, saddr arg1) {
     if (n <= 0) {
         add_gray_text_entry((TWindowSubTradeMain *)arg1, (const char *)(TWindowSubStatusDisp::get_message_10(0xD3)), 6, -1);
     }
-    ((TWindowSubComCardList *)arg1)->update_layout_height(243.0f);
+    ((TWindowMenu *)arg1)->update_layout_height(243.0f);
     if (sel == -1) {
         ((TWindowSubComCardList *)arg1)->set_selected_index(pos);
     } else {
@@ -1512,7 +1512,7 @@ s32 TWindowSubComCard::create_option_list_window(saddr arg1, s32 key) {
     }
     ((TWindowSubComCardList *)win)->set_flag70_bit10();
     ((TWindowSubComCardList *)win)->set_scroll_target(405.0f, 124.0f);
-    align_menu_entry_positions(win);
+    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(win));
     return win;
 }
 }
@@ -1559,8 +1559,8 @@ s32 create_menu_window__17TWindowSubComCardFv(void) {
   }
   ((TWindowSubComCardList *)temp_r31)->set_flag70_bit10();
   title = temp_r31;
-  ((TWindowSubComCardList *)title)->update_layout_height(206.0f);
-  align_menu_entry_positions((s32)((int) title));
+  ((TWindowMenu *)title)->update_layout_height(206.0f);
+  align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(((int) title)));
   return title;
 }
 
@@ -1575,7 +1575,7 @@ s32 TWindowSubComCard__sub_802728CC(void) {
         add_gray_text_entry((TWindowSubTradeMain *)w, (const char *)(TWindowSubStatusDisp::get_message_10(0xFB)), 6, 0x3F);
     }
     ((TWindowSubComCardList *)w)->set_flag70_bit10();
-    ((TWindowSubComCardList *)w)->update_layout_height(233.0f);
+    ((TWindowMenu *)w)->update_layout_height(233.0f);
     return w;
 }
 
@@ -1587,7 +1587,7 @@ s32 TWindowSubComCard::create_card_action_window() {
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((saddr)(void*)TWindowSubStatusDisp::get_message_10(0xFE)), 6, 0x45);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((saddr)(void*)TWindowSubStatusDisp::get_message_10(0xFF)), 6, 0x4A);
     ((TWindowSubComCardList *)temp_r31)->set_flag70_bit10();
-    ((TWindowSubComCardList *)temp_r31)->update_layout_height(193.0f);
+    ((TWindowMenu *)temp_r31)->update_layout_height(193.0f);
     return temp_r31;
 }
 }

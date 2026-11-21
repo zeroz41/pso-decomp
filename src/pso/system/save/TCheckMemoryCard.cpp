@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/system/save/TCheckMemoryCard.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -18,7 +19,6 @@
 
 extern "C" {
 s32 poll_memcard_result(saddr chan);
-s32 align_menu_entry_positions(TWindowMenu *menu);
 }
 
 // Text of one card message: the entry is replaced by keyboard_entry while the keyboard controller is in use.
@@ -189,8 +189,8 @@ void TCheckMemoryCard::create_message_and_menu(u32 text, s32 sel, u32 first_entr
         }
         forward_trade_action_default__16TObjCityMainWarpFPviii(menu_window, entry_text, 5, 1);
     }
-    ((TWindowSubComCardList *)menu_window)->update_layout_height(check_memory_card_menu_width);
-    align_menu_entry_positions(menu_window);
+    ((TWindowMenu *)menu_window)->update_layout_height(check_memory_card_menu_width);
+    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(menu_window));
     if (sel != -2) {
         ((TWindowSubComCardList *)menu_window)->set_selected_index(sel);
     } else {
