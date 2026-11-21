@@ -53,15 +53,15 @@ void TWindowRoom::draw_tab(void *context) {
 }
 
 void TWindowRoom::render() {
-    saddr temp_r3;
+    saddr context;
     saddr arg0 = (saddr)this;
 
-    temp_r3 = reinterpret_cast<saddr>(reinterpret_cast<TWindowBase *>(arg0)->draw_default_entry());
-    ((TWindowRoom *)arg0)->draw_tab((void *)temp_r3);
+    context = reinterpret_cast<saddr>(reinterpret_cast<TWindowBase *>(arg0)->draw_default_entry());
+    ((TWindowRoom *)arg0)->draw_tab((void *)context);
     draw_visible_window_entries(
         reinterpret_cast<const void *>(arg0),
         reinterpret_cast<const WindowLayoutEntries *>(arg0 + 0x24),
-        reinterpret_cast<WindowDrawContext *>(temp_r3));
+        reinterpret_cast<WindowDrawContext *>(context));
 }
 void TWindowRoom::run_task() { ((TWindowDD *)this)->initialize_subwindow(); ((TWindowBase *)this)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((char*)this + 0x24)); }
 

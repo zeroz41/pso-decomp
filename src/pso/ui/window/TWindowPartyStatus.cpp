@@ -84,9 +84,9 @@ void TWindowPartyStatus::draw_background(u8 *ctx) {
     LAYOUT_ASSERT(sp24_offset, offsetof(Stack_8030C0C4, sp24) == 0x1C);
     Stack_8030C0C4 stack;
     f32 temp_f2;
-    f32 temp_f31;
+    f32 depth;
     f32 temp_f6;
-    temp_f31 = -1.0f / this->draw_depth;
+    depth = -1.0f / this->draw_depth;
     begin_screen_draw(1);
     TObjFish::set_global_param(lbl_805D63F0);
     set_draw_texture_and_color(0xB, (*(s32 *)((s8 *)ctx + 0x34)));
@@ -101,7 +101,7 @@ void TWindowPartyStatus::draw_background(u8 *ctx) {
     stack.sp20 = 0.4453125f;
     stack.sp24 = 0.8828125f;
     ((WindowDrawContext *)ctx)->transform_quad((TexturedQuad *)&stack.sp8);
-    draw_textured_quad_at_depth((&stack.sp8), temp_f31);
+    draw_textured_quad_at_depth((&stack.sp8), depth);
     TWindowSubStatusDisp::get_player();
     if (TWindowSubComCard__sub_80245558(ctx, ctx + 0x10, ctx + 0x18) != 0) {
         TWindowSubComCard__sub_802454E4(0xB);

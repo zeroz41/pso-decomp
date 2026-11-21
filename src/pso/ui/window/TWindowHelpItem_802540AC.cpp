@@ -587,10 +587,10 @@ void TWindowHelpItem::update_stat_disp2(void *window_base) {
     saddr temp_r28;
     saddr temp_r27;
     saddr player;
-    uaddr temp_r4;
+    uaddr item;
     player = (saddr)get_player_by_client_id(*(s16 *)((s8 *)window_base + 0x20));
-    if ((player != 0) && (temp_r31 = reinterpret_cast<saddr>(((TWindowBase *)window_base)->get_array_entry(0)), temp_r30 = reinterpret_cast<saddr>(((TWindowBase *)window_base)->get_array_entry(1)), temp_r29 = reinterpret_cast<saddr>(((TWindowBase *)window_base)->get_array_entry(2)), temp_r28 = reinterpret_cast<saddr>(((TWindowBase *)window_base)->get_array_entry(3)), temp_r27 = reinterpret_cast<saddr>(((TWindowBase *)window_base)->get_array_entry(4)), (temp_r4 = *(u32 *)((s8 *)window_base + 0x70), (temp_r4 == 0U) == 0))) {
-        if (check_equip_requirements((void *)player, (TItemData *)temp_r4, &sp8) != 0) {
+    if ((player != 0) && (temp_r31 = reinterpret_cast<saddr>(((TWindowBase *)window_base)->get_array_entry(0)), temp_r30 = reinterpret_cast<saddr>(((TWindowBase *)window_base)->get_array_entry(1)), temp_r29 = reinterpret_cast<saddr>(((TWindowBase *)window_base)->get_array_entry(2)), temp_r28 = reinterpret_cast<saddr>(((TWindowBase *)window_base)->get_array_entry(3)), temp_r27 = reinterpret_cast<saddr>(((TWindowBase *)window_base)->get_array_entry(4)), (item = *(u32 *)((s8 *)window_base + 0x70), (item == 0U) == 0))) {
+        if (check_equip_requirements((void *)player, (TItemData *)item, &sp8) != 0) {
             TWindowHelpItem::set_flag_0x10((u16 *)temp_r31, 1);
             TWindowHelpItem::set_flag_0x10((u16 *)temp_r30, 1);
             TWindowHelpItem::set_flag_0x10((u16 *)temp_r29, 1);

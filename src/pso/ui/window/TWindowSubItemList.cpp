@@ -12,12 +12,12 @@ extern s32 actor_frame_tick;
 
 void TWindowSubItemList::sub_8027ACF8(u8 *window_key_board_soft) {
     s16 temp_r5;
-    u16 *temp_r3;
+    u16 *entry;
     temp_r5 = this->m_88;
     if ((temp_r5 >= 0) && !(actor_frame_tick & 0x10)) {
-        temp_r3 = (u16 *)(get_array_entry((s32) temp_r5));
-        if (*temp_r3 & 1) {
-            draw_selection_bar(reinterpret_cast<WindowDrawContext *>(window_key_board_soft), (u8 *)temp_r3, 1);
+        entry = (u16 *)(get_array_entry((s32) temp_r5));
+        if (*entry & 1) {
+            draw_selection_bar(reinterpret_cast<WindowDrawContext *>(window_key_board_soft), (u8 *)entry, 1);
         }
     }
 }

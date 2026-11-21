@@ -534,11 +534,11 @@ saddr TWindowOptionCtrl::create_option_menu() {
 }
 
 saddr TWindowOptionCtrl::open_yes_no_window(saddr arg0, s32 arg1, s32 arg2) {
-  saddr temp_r30;
-  temp_r30 = (saddr)TWindowMessageYesNo::create((void *)(arg0), 6, (void *)(arg0 * 0), 0);
-  open_yes_no_prompt_with_text((TChCrTagPlBack *)temp_r30, (s32)(get_localized_text_entry(0xF, arg1)), (saddr)(get_window_layout_position(arg2)), 470.0f);
-  ((TWindowMessageYesNo *)temp_r30)->set_menu_selected_index(1);
-  return temp_r30;
+  saddr window;
+  window = (saddr)TWindowMessageYesNo::create((void *)(arg0), 6, (void *)(arg0 * 0), 0);
+  open_yes_no_prompt_with_text((TChCrTagPlBack *)window, (s32)(get_localized_text_entry(0xF, arg1)), (saddr)(get_window_layout_position(arg2)), 470.0f);
+  ((TWindowMessageYesNo *)window)->set_menu_selected_index(1);
+  return window;
 }
 
 saddr TWindowOptionCtrl::create_serial_info_window(const NJS_POINT2 *pos, s32 kind) {

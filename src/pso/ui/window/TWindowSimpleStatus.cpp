@@ -160,11 +160,11 @@ extern s32 lobby_rule_settings[];
 
 void TWindowSubStatusDisp::start_hp_text_color_transition() {
     u8 *arg0 = (u8 *)this;
-    u8 *temp_r3;
-    temp_r3 = (u8 *)(((saddr)((TWindowBase *)arg0)->get_array_entry(4)));
-    *(f32 *)((s8 *)temp_r3 + 0x20) = 0.0f;
-    *(f32 *)((s8 *)temp_r3 + 0x24) = 0.0f;
-    start_text_color_transition(temp_r3, (s32)(0xFF008CFCU), 1.0f);
+    u8 *array_entry;
+    array_entry = (u8 *)(((saddr)((TWindowBase *)arg0)->get_array_entry(4)));
+    *(f32 *)((s8 *)array_entry + 0x20) = 0.0f;
+    *(f32 *)((s8 *)array_entry + 0x24) = 0.0f;
+    start_text_color_transition(array_entry, (s32)(0xFF008CFCU), 1.0f);
 }
 
 void TWindowSubStatusDisp::init_gauge_entry() {
@@ -192,9 +192,9 @@ void TWindowSubStatusDisp::update_status_entry() {
 }
 
 s32 TWindowSubStatusDisp::update_hp_gauge() {
-    s32 var_r4;
+    s32 rgb;
     s32 var_r31;
-    void *temp_r30;
+    void *array_entry;
     void *player;
     saddr arg0 = (saddr)this;
 
@@ -203,23 +203,23 @@ s32 TWindowSubStatusDisp::update_hp_gauge() {
         ((TWindowSubStatusDisp *)arg0)->start_hp_text_color_transition();
         return 0xFF008CFC;
     }
-    temp_r30 = (void *)((TWindowBase *)arg0)->get_array_entry(4);
-    *(f32 *)((s8 *)temp_r30 + 0x20) = (f32) obj_getS16_2BA((u8 *)player);
-    *(f32 *)((s8 *)temp_r30 + 0x24) = (f32) *(s16 *)((s8 *)player + 0x32E);
-    if (*(f32 *)((s8 *)temp_r30 + 0x24) > (0.2f * *(f32 *)((s8 *)temp_r30 + 0x20))) {
+    array_entry = (void *)((TWindowBase *)arg0)->get_array_entry(4);
+    *(f32 *)((s8 *)array_entry + 0x20) = (f32) obj_getS16_2BA((u8 *)player);
+    *(f32 *)((s8 *)array_entry + 0x24) = (f32) *(s16 *)((s8 *)player + 0x32E);
+    if (*(f32 *)((s8 *)array_entry + 0x24) > (0.2f * *(f32 *)((s8 *)array_entry + 0x20))) {
         var_r31 = -1;
-        var_r4 = 0xFF008CFC;
+        rgb = 0xFF008CFC;
     } else {
-        var_r4 = -0x3EEC;
+        rgb = -0x3EEC;
         var_r31 = -0x3EEC;
     }
-    start_text_color_transition(temp_r30, var_r4, 11.1f);
+    start_text_color_transition(array_entry, rgb, 11.1f);
     return var_r31;
 }
 
 s32 TWindowSubStatusDisp::update_hp_entry() {
     s32 var_r30;
-    s32 var_r4;
+    s32 rgb;
     u8 *array_entry;
     u8 *player;
     player = (u8 *)get_player_by_client_id(((TWindowSimpleStatus *)this)->get_width());
@@ -235,12 +235,12 @@ s32 TWindowSubStatusDisp::update_hp_entry() {
     *(f32 *)((s8 *)array_entry + 0x24) = (f32) *(s16 *)((s8 *)player + 0x32C);
     if (*(f32 *)((s8 *)array_entry + 0x24) > (0.2f * *(f32 *)((s8 *)array_entry + 0x20))) {
         var_r30 = -1;
-        var_r4 = 0xFF00FF15;
+        rgb = 0xFF00FF15;
     } else {
-        var_r4 = 0xFFF2FF19;
+        rgb = 0xFFF2FF19;
         var_r30 = 0xFFF2FF19;
     }
-    start_text_color_transition(array_entry, var_r4, 11.1f);
+    start_text_color_transition(array_entry, rgb, 11.1f);
     return var_r30;
 }
 
@@ -383,7 +383,7 @@ void TWindowSubStatusDisp::update_hp_tp_level() {
 }
 
 void TWindowLockOn::update_for_player_index(s32 id) {
-    saddr temp_r31;
+    saddr str;
     struct VObj_8026ff0c *temp_r30;
     u8 *temp_r29;
 
@@ -397,8 +397,8 @@ void TWindowLockOn::update_for_player_index(s32 id) {
         ((TWindowHelpItem *)((u8 *)this))->set_flag0_bit2();
         return;
     }
-    temp_r31 = temp_r30->m10();
-    if (temp_r31 == 0) {
+    str = temp_r30->m10();
+    if (str == 0) {
         ((TWindowHelpItem *)((u8 *)this))->set_flag0_bit2();
         return;
     }
@@ -407,8 +407,8 @@ void TWindowLockOn::update_for_player_index(s32 id) {
         return;
     }
     ((TWindowSubStatusDisp *)((u8 *)this))->clear_visible_flag();
-    if ((((TWindowSubComCard *)((u8 *)this))->get_field_20() == 0U) || (strcmp((const char *)((TWindowSubComCard *)((u8 *)this))->get_field_20(), (const char *)temp_r31) != 0)) {
-        set_text_entry_string(((u8 *)this), temp_r31, 0x20);
+    if ((((TWindowSubComCard *)((u8 *)this))->get_field_20() == 0U) || (strcmp((const char *)((TWindowSubComCard *)((u8 *)this))->get_field_20(), (const char *)str) != 0)) {
+        set_text_entry_string(((u8 *)this), str, 0x20);
     }
     if (temp_r30->m31() != 0) {
         *(s32 *)&this->entry_list = 0xFFFF0000;

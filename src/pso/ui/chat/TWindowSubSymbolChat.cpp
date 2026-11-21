@@ -828,24 +828,24 @@ s32 TWindowSubSymbolChat::open_main_menu(void * _w0) {
 }
 
 s32 TWindowSubSymbolChat::open_edit_menu() {
-    saddr temp_r31;
+    saddr list;
 
-    temp_r31 = create_titled_window_menu_default(get_window_layout_position(0x79), 3, (saddr)TWindowSubStatusDisp::get_message_10(0xA8));
-    forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((saddr)TWindowSubStatusDisp::get_message_10(0xB3)), 6, 8);
+    list = create_titled_window_menu_default(get_window_layout_position(0x79), 3, (saddr)TWindowSubStatusDisp::get_message_10(0xA8));
+    forward_trade_action_default__16TObjCityMainWarpFPviii((void *)list, (int)((saddr)TWindowSubStatusDisp::get_message_10(0xB3)), 6, 8);
     if (((TWindowSubSymbolChat *)(this->m_28))->is_initialized() != 0) {
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((saddr)TWindowSubStatusDisp::get_message_10(0xB4)), 6, 0x1E);
+        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)list, (int)((saddr)TWindowSubStatusDisp::get_message_10(0xB4)), 6, 0x1E);
     } else {
-        add_gray_text_entry((TWindowSubTradeMain *)temp_r31, (const char *)(TWindowSubStatusDisp::get_message_10(0xB4)), 6, 0x1E);
+        add_gray_text_entry((TWindowSubTradeMain *)list, (const char *)(TWindowSubStatusDisp::get_message_10(0xB4)), 6, 0x1E);
     }
     if ((s8)TWindowSubSymbolChat::get_global_4e54() > 0) {
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((saddr)TWindowSubStatusDisp::get_message_10(0xB5)), 6, 0x20);
+        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)list, (int)((saddr)TWindowSubStatusDisp::get_message_10(0xB5)), 6, 0x20);
     } else {
-        add_gray_text_entry((TWindowSubTradeMain *)temp_r31, (const char *)(TWindowSubStatusDisp::get_message_10(0xB5)), 6, 0x20);
+        add_gray_text_entry((TWindowSubTradeMain *)list, (const char *)(TWindowSubStatusDisp::get_message_10(0xB5)), 6, 0x20);
     }
-    ((TWindowMenu *)temp_r31)->set_flag70_bit10();
-    ((TWindowSubComCardList *)temp_r31)->set_scroll_target(193.0f, 128.0f);
-    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(temp_r31));
-    return temp_r31;
+    ((TWindowMenu *)list)->set_flag70_bit10();
+    ((TWindowSubComCardList *)list)->set_scroll_target(193.0f, 128.0f);
+    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(list));
+    return list;
 }
 }
 #pragma pop
@@ -893,25 +893,25 @@ s32 TWindowSubSymbolChat::create_parts_set() {
 }
 
 s32 create_menu__20TWindowSubSymbolChatFPv(void *window_sub_symbol_chat) {
-    saddr temp_r31;
+    saddr list;
 
-    temp_r31 = create_titled_window_menu_default(get_window_layout_position(0x79), 3, (saddr)TWindowSubStatusDisp::get_message_10(0xAA));
+    list = create_titled_window_menu_default(get_window_layout_position(0x79), 3, (saddr)TWindowSubStatusDisp::get_message_10(0xAA));
     if (TWindowSubSymbolChat::compute_total_height() <= 0) {
-        add_gray_text_entry((TWindowSubTradeMain *)temp_r31, (const char *)(TWindowSubStatusDisp::get_message_10(0xB0)), 6, 0x16);
-        add_gray_text_entry((TWindowSubTradeMain *)temp_r31, (const char *)(TWindowSubStatusDisp::get_message_10(0xB1)), 6, 0x1A);
+        add_gray_text_entry((TWindowSubTradeMain *)list, (const char *)(TWindowSubStatusDisp::get_message_10(0xB0)), 6, 0x16);
+        add_gray_text_entry((TWindowSubTradeMain *)list, (const char *)(TWindowSubStatusDisp::get_message_10(0xB1)), 6, 0x1A);
     } else {
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (saddr)(TWindowSubStatusDisp::get_message_10(0xB0)), 6, 0x16);
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (saddr)(TWindowSubStatusDisp::get_message_10(0xB1)), 6, 0x1A);
+        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)list, (saddr)(TWindowSubStatusDisp::get_message_10(0xB0)), 6, 0x16);
+        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)list, (saddr)(TWindowSubStatusDisp::get_message_10(0xB1)), 6, 0x1A);
     }
     if (((TWindowSubSymbolChat *)(((TWindowSubSymbolChat *)window_sub_symbol_chat)->m_28))->is_initialized() != 0) {
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (saddr)(TWindowSubStatusDisp::get_message_10(0xB2)), 6, 0x1C);
+        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)list, (saddr)(TWindowSubStatusDisp::get_message_10(0xB2)), 6, 0x1C);
     } else {
-        add_gray_text_entry((TWindowSubTradeMain *)temp_r31, (const char *)(TWindowSubStatusDisp::get_message_10(0xB2)), 6, 0x1C);
+        add_gray_text_entry((TWindowSubTradeMain *)list, (const char *)(TWindowSubStatusDisp::get_message_10(0xB2)), 6, 0x1C);
     }
-    ((TWindowMenu *)temp_r31)->set_flag70_bit10();
-    ((TWindowSubComCardList *)temp_r31)->set_scroll_target(193.0f, 128.0f);
-    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(temp_r31));
-    return temp_r31;
+    ((TWindowMenu *)list)->set_flag70_bit10();
+    ((TWindowSubComCardList *)list)->set_scroll_target(193.0f, 128.0f);
+    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(list));
+    return list;
 }
 
 s32 TWindowSubSymbolChat::create_menu() {

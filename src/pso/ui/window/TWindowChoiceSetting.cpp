@@ -151,11 +151,11 @@ void TUnk_804D0658::clamp_scroll() {
 
 
 void TUnk_804D0658::draw_setting(saddr window_key_board_soft) {
-    u16 *temp_r3;
+    u16 *entry;
 
-    temp_r3 = (u16 *)this->get_array_entry(this->m_74);
-    if (*temp_r3 & 1) {
-        draw_selection_bar(reinterpret_cast<WindowDrawContext *>(window_key_board_soft), (u8 *)temp_r3, this->is_open());
+    entry = (u16 *)this->get_array_entry(this->m_74);
+    if (*entry & 1) {
+        draw_selection_bar(reinterpret_cast<WindowDrawContext *>(window_key_board_soft), (u8 *)entry, this->is_open());
     }
 }
 

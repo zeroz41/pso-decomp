@@ -149,11 +149,11 @@ s8 *TWindowSubStatusDisp::copy_message_page_text() {
 }
 
 void text_builder_append(u8 *str) {
-  s32 temp_r3;
-  temp_r3 = TWindowKeyBoardSoft::strnlen((s8 *)str, (u32)0xFFU);
-  strncpy(text_builder_write_cursor, (char *)str, temp_r3);
-  text_builder_write_cursor[temp_r3] = 0;
-  text_builder_write_cursor += temp_r3;
+  s32 num;
+  num = TWindowKeyBoardSoft::strnlen((s8 *)str, (u32)0xFFU);
+  strncpy(text_builder_write_cursor, (char *)str, num);
+  text_builder_write_cursor[num] = 0;
+  text_builder_write_cursor += num;
 }
 }
 void text_builder_reset(void) {

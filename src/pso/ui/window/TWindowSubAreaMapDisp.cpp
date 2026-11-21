@@ -149,14 +149,14 @@ void TWindowSubStatusDisp__sub_80271A6C(s32 arg0, u8 *arg1) {
 }
 
 void TWindowSubAreaMapDisp::render() {
-    saddr temp_r3;
+    saddr ctx;
 
-    temp_r3 = reinterpret_cast<saddr>(draw_default_entry());
-    draw_window_frame((void *)temp_r3);
-    ((TWindowSubStatusDisp *)((void *)(this->m_70)))->forward_render((void *)(temp_r3));
+    ctx = reinterpret_cast<saddr>(draw_default_entry());
+    draw_window_frame((void *)ctx);
+    ((TWindowSubStatusDisp *)((void *)(this->m_70)))->forward_render((void *)(ctx));
     if ((s32) this->m_6c != 0) {
-        ((s32 (*)(void *, s32))TWindowSubStatusDisp__sub_80271A6C)(this, temp_r3);
-        ((s32 (*)(void *, s32))fn_80271848)(this, temp_r3);
+        ((s32 (*)(void *, s32))TWindowSubStatusDisp__sub_80271A6C)(this, ctx);
+        ((s32 (*)(void *, s32))fn_80271848)(this, ctx);
     }
 }
 
@@ -185,7 +185,7 @@ TWindowSubAreaMapDisp::TWindowSubAreaMapDisp() : TWindowBase((u8 *)&TWindowSubAr
     s32 temp_r3;
     saddr temp_r3_2;
     saddr var_r0;
-    u8 *var_r30;
+    u8 *str;
 
     ((TWindowSubAreaMapDisp *)this)->m_name = TWindowSubAreaMapDisp__name;
     if (get_game_play_mode() == 1) {
@@ -193,13 +193,13 @@ TWindowSubAreaMapDisp::TWindowSubAreaMapDisp() : TWindowBase((u8 *)&TWindowSubAr
         text_builder_append((u8 *)(get_message_text(0x67)));
         append_text_space();
         append_padded_number((get_window_count_ratio_value()), (2U));
-        var_r30 = (u8 *)(get_shared_text_buffer());
+        str = (u8 *)(get_shared_text_buffer());
     } else {
-        var_r30 = (u8 *)(get_floor_destination_name(get_current_floor_area()));
+        str = (u8 *)(get_floor_destination_name(get_current_floor_area()));
     }
-    temp_r3 = (s32)measure_string_len((const char *)var_r30);
+    temp_r3 = (s32)measure_string_len((const char *)str);
     this->m_74 = (saddr)mem_alloc((temp_r3 + 1));
-    strncpy((char *)this->m_74, (const char *)var_r30, (u32)temp_r3 + 1);
+    strncpy((char *)this->m_74, (const char *)str, (u32)temp_r3 + 1);
     temp_r3_2 = (saddr)::operator new(0x24);
     var_r0 = temp_r3_2;
     if (var_r0 != 0) {

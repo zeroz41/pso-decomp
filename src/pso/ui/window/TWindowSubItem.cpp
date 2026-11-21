@@ -604,14 +604,14 @@ void TWindowSubItem::add_meseta_purpose_actions(saddr arg0, saddr arg1) {
 }
 
 void TWindowSubItem::draw_slot(saddr arg1, saddr arg2, s32 arg3) {
-    s32 temp_r31;
+    s32 id;
 
-    temp_r31 = ((u32)__cntlzw(4 - (arg3 & 0xF)) >> 5) + 4;
+    id = ((u32)__cntlzw(4 - (arg3 & 0xF)) >> 5) + 4;
     if ((is_current_area_item_enabled() == 0) || (is_boss_area() != 0)) {
-        add_gray_text_entry((TWindowSubTradeMain *)arg2, (const char *)(get_localized_text_entry(0x10, 0xF)), 6, temp_r31);
+        add_gray_text_entry((TWindowSubTradeMain *)arg2, (const char *)(get_localized_text_entry(0x10, 0xF)), 6, id);
         return;
     }
-    forward_trade_action_default__16TObjCityMainWarpFPviii(arg2, (s32)(get_localized_text_entry(0x10, 0xF)), 0x26, temp_r31);
+    forward_trade_action_default__16TObjCityMainWarpFPviii(arg2, (s32)(get_localized_text_entry(0x10, 0xF)), 0x26, id);
 }
 
 void add_item_purpose_actions(TWindowSubItem *window_sub_item, saddr list, saddr arg2) {

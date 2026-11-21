@@ -173,8 +173,8 @@ void TWindowComCard::set_display_value(s32 arg1, s32 arg2) {
 u8 *TWindowComCard::create_for_card(s32 arg0, s32 arg1, s32 card_slot) {
     s32 var_r30;
     s32 var_r31;
-    s32 var_r4;
-    s32 var_r5;
+    s32 parent;
+    s32 keyboard_mode;
     u8 *window_dd;
     u8 *var_r0;
     u8 *var_r3;
@@ -188,9 +188,9 @@ u8 *TWindowComCard::create_for_card(s32 arg0, s32 arg1, s32 card_slot) {
     window_dd = (u8 *)(((u8 *)TObject::operator new(0x60)));
     var_r0 = window_dd;
     if (var_r0 != NULL) {
-        var_r4 = var_r30;
-        var_r5 = var_r31;
-        var_r0 = (u8 *)(((u8 *)TWindowComCard__ct(window_dd, var_r4, var_r5)));
+        parent = var_r30;
+        keyboard_mode = var_r31;
+        var_r0 = (u8 *)(((u8 *)TWindowComCard__ct(window_dd, parent, keyboard_mode)));
     }
     var_r3 = var_r0;
     return var_r3;

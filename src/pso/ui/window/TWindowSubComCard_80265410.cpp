@@ -684,24 +684,24 @@ saddr create_titled_window_menu_default(saddr pos, s32 entries, saddr title) {
 
 void TWindowMenu::draw_selected_bar(u8 *window_key_board_soft) {
     s16 temp_r4;
-    u16 *temp_r3;
+    u16 *entry;
     if (!(actor_frame_tick & 0x10)) {
         temp_r4 = *(s16 *)&this->unk_7A;
         if (temp_r4 >= 0) {
-            temp_r3 = (u16 *)(((saddr)get_array_entry((s32) temp_r4)));
-            if (*temp_r3 & 1) {
-                draw_selection_bar(reinterpret_cast<WindowDrawContext *>(window_key_board_soft), (u8 *)temp_r3, 1);
+            entry = (u16 *)(((saddr)get_array_entry((s32) temp_r4)));
+            if (*entry & 1) {
+                draw_selection_bar(reinterpret_cast<WindowDrawContext *>(window_key_board_soft), (u8 *)entry, 1);
             }
         }
     }
 }
 
 void TWindowMenu::render_selected_entry(saddr window_key_board_soft) {
-    u16 *temp_r3;
+    u16 *entry;
 
-    temp_r3 = (u16 *)this->get_array_entry(*(s16 *)&this->m_78);
-    if (*temp_r3 & 1) {
-        draw_selection_bar(reinterpret_cast<WindowDrawContext *>(window_key_board_soft), (u8 *)temp_r3, is_decided());
+    entry = (u16 *)this->get_array_entry(*(s16 *)&this->m_78);
+    if (*entry & 1) {
+        draw_selection_bar(reinterpret_cast<WindowDrawContext *>(window_key_board_soft), (u8 *)entry, is_decided());
     }
 }
 

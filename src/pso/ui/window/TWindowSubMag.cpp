@@ -469,16 +469,16 @@ void *TWindowSubMag::create_action_menu(s32 id) {
 }
 
 void *TWindowSubMag::create() {
-    void *temp_r31;
+    void *object;
     s32 window_layout_position;
 
     window_layout_position = get_window_layout_position(0xB);
-    temp_r31 = TWindowMessage::create(window_layout_position, lbl_8044FA00, 1, this->client_id);
+    object = TWindowMessage::create(window_layout_position, lbl_8044FA00, 1, this->client_id);
     TWindowSubEquip__sub_80263AF8(this->parent, 4);
-    set_depth__11TWindowBaseFf(temp_r31);
-    *(s32 *)((s8 *)temp_r31 + 0x5C) = 0x186A0;
-    call_if_split_screen(temp_r31, this->client_id);
-    return temp_r31;
+    set_depth__11TWindowBaseFf(object);
+    *(s32 *)((s8 *)object + 0x5C) = 0x186A0;
+    call_if_split_screen(object, this->client_id);
+    return object;
 }
 
 #pragma push

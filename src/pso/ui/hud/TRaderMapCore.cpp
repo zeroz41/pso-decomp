@@ -495,10 +495,10 @@ void TRaderMapCore::load_map_resources() {
 
 void TRaderMapCore::unload_floor_map() {
     GinjaTextureList *texlist;
-    u8 *temp_r31;
-    temp_r31 = (u8 *)TRaderMapCore__floor_map_resource;
-    if (temp_r31 != NULL) {
-        save_floor_discovery(get_current_floor(), temp_r31);
+    u8 *map_data;
+    map_data = (u8 *)TRaderMapCore__floor_map_resource;
+    if (map_data != NULL) {
+        save_floor_discovery(get_current_floor(), map_data);
     }
     TRaderMapCore::free_statics();
     if ((void *) TRaderMapCore__floor_map_resource != NULL) {

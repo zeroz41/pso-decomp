@@ -153,14 +153,14 @@ void TWindowSubMagPhoton::draw_cursor(void *arg1) {
 }
 
 void render__19TWindowSubMagPhotonFv(saddr arg0) {
-    saddr temp_r3;
-    temp_r3 = reinterpret_cast<saddr>(reinterpret_cast<TWindowBase *>(arg0)->draw_default_entry());
-    ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
+    saddr window_sub_custom_equip;
+    window_sub_custom_equip = reinterpret_cast<saddr>(reinterpret_cast<TWindowBase *>(arg0)->draw_default_entry());
+    ((TWindowBase *)arg0)->draw_window_frame((void *)window_sub_custom_equip);
     draw_visible_window_entries(
         reinterpret_cast<const void *>(arg0),
         reinterpret_cast<const WindowLayoutEntries *>((void *)(arg0 + 0x24)),
-        reinterpret_cast<WindowDrawContext *>(temp_r3));
-    ((TWindowSubMagPhoton *)arg0)->draw_cursor((void *)temp_r3);
+        reinterpret_cast<WindowDrawContext *>(window_sub_custom_equip));
+    ((TWindowSubMagPhoton *)arg0)->draw_cursor((void *)window_sub_custom_equip);
 }
 
 void TWindowSubMagPhoton::run_task() {

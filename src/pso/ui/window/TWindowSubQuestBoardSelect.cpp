@@ -87,11 +87,11 @@ extern u8 quest_board_handlers[];
 
 void TWindowSubQuestBoardSelect::sub_8027D230() {
     u8 *arg0 = (u8 *)this;
-    u8 *temp_r31;
+    u8 *str;
     u8 *temp_r3;
-    temp_r31 = (u8 *)&quest_board_handlers + ((s8) this->m_61 * 0x24);
+    str = (u8 *)&quest_board_handlers + ((s8) this->m_61 * 0x24);
     temp_r3 = (u8 *)(((TWindowBase *)arg0)->get_array_entry(1));
-    set_text_entry_string((u8 *)temp_r3, (uaddr)temp_r31, 0);
+    set_text_entry_string((u8 *)temp_r3, (uaddr)str, 0);
     measure_message_text_width(temp_r3, 100000.0f);
     *(f32 *)((s8 *)temp_r3 + 8) = (f32) (385.0f - *(f32 *)((s8 *)temp_r3 + 0x10));
 }

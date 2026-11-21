@@ -58,36 +58,36 @@ void TWindowDD::update_state(void *window_dd) {
 
 void TWindowDD__sub_80342800(u8 *arg0) {
     u8 *var_r31;
-    u8 *var_r3;
+    u8 *window_dd;
     var_r31 = arg0;
     TWindowDD__sub_80347C50();
-    var_r3 = var_r31;
-    ((TWindowDD *)var_r3)->update_selection_state();
-    var_r3 = var_r31;
-    if (((TWindowDD *)var_r3)->test_input_flag_4() != 0) {
+    window_dd = var_r31;
+    ((TWindowDD *)window_dd)->update_selection_state();
+    window_dd = var_r31;
+    if (((TWindowDD *)window_dd)->test_input_flag_4() != 0) {
         TWindowDD::play_sound();
-        var_r3 = (u8 *)(var_r31 + (*(s32 *)((s8 *)var_r31 + 0x20) * 4));
-        var_r3 = (u8 *)(*(u8 **)((s8 *)var_r3 + 0x24));
-        if (TWindowDD__sub_80342158((saddr)var_r3) == 0x2C8) {
-            var_r3 = (u8 *)((void *)5);
+        window_dd = (u8 *)(var_r31 + (*(s32 *)((s8 *)var_r31 + 0x20) * 4));
+        window_dd = (u8 *)(*(u8 **)((s8 *)window_dd + 0x24));
+        if (TWindowDD__sub_80342158((saddr)window_dd) == 0x2C8) {
+            window_dd = (u8 *)((void *)5);
             *(s32 *)((s8 *)var_r31 + 0xB4) = 0x11;
             *(s16 *)((s8 *)var_r31 + 0xC6) = 5;
             *(s16 *)((s8 *)var_r31 + 0xC4) = 0;
         } else {
-            var_r3 = (u8 *)((void *)4);
+            window_dd = (u8 *)((void *)4);
             *(s32 *)((s8 *)var_r31 + 0xB4) = 0xE;
             *(s16 *)((s8 *)var_r31 + 0xC6) = 4;
             *(s16 *)((s8 *)var_r31 + 0xC4) = 1;
         }
-        var_r3 = var_r31;
-        TWindowDD__sub_803435A0(var_r3);
+        window_dd = var_r31;
+        TWindowDD__sub_803435A0(window_dd);
         return;
     }
-    var_r3 = var_r31;
-    if (TWindowDD__sub_803482B0(var_r3) != 0) {
+    window_dd = var_r31;
+    if (TWindowDD__sub_803482B0(window_dd) != 0) {
         TWindowDD::play_se();
-        var_r3 = var_r31;
-        apply_entry_layout__9TWindowDDFPv(var_r3);
+        window_dd = var_r31;
+        apply_entry_layout__9TWindowDDFPv(window_dd);
     }
 }
 

@@ -12,7 +12,7 @@ void send_6x25_equip_item(void *arg0, s32 arg1, s32 arg2);
 void TWindowShortListCtrl::assign_shortcut(s32 slot, saddr item, s32 arg2) {
     uaddr slot_value;
     saddr player;
-    saddr temp_r0;
+    saddr item_id;
     uaddr temp_r3b;
 
     player = (saddr)get_player_by_client_id(arg2);
@@ -27,8 +27,8 @@ void TWindowShortListCtrl::assign_shortcut(s32 slot, saddr item, s32 arg2) {
             TObjPlayer::send_6x26_unequip_item((void *)player, item);
         }
         if (slot_value != 0U) {
-            temp_r0 = ((TItem *)slot_value)->get_item_id();
-            TObjPlayer::send_6x26_unequip_item((void *)player, temp_r0);
+            item_id = ((TItem *)slot_value)->get_item_id();
+            TObjPlayer::send_6x26_unequip_item((void *)player, item_id);
         }
         send_6x25_equip_item((void *)player, item, slot);
     }

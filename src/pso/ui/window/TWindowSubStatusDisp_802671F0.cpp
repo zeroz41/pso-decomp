@@ -650,12 +650,12 @@ void TWindowMenuIconLine::update_scroll_offset() {
 }
 
 void TWindowMenuIconLine::draw_selected_list_entry(saddr window_key_board_soft) {
-    u16 *temp_r3;
+    u16 *entry;
 
     if (!(this->state_flags & 0x80)) {
-        temp_r3 = (u16 *)this->get_array_entry((s16)(this->cursor));
-        if (*temp_r3 & 1) {
-            draw_selection_bar(reinterpret_cast<WindowDrawContext *>(window_key_board_soft), (u8 *)temp_r3, ((TWindowMenuIconLine *)this)->is_decided());
+        entry = (u16 *)this->get_array_entry((s16)(this->cursor));
+        if (*entry & 1) {
+            draw_selection_bar(reinterpret_cast<WindowDrawContext *>(window_key_board_soft), (u8 *)entry, ((TWindowMenuIconLine *)this)->is_decided());
         }
     }
 }
