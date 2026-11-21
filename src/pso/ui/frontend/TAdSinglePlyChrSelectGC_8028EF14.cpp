@@ -46,8 +46,8 @@ int char_creation_figure_draw_flag;
 u32 creation_figure_rotation_y;
 uaddr creation_figure_object;
 CreationTextureCacheEntry *char_select_current_entry;
-u32 chara_select_hair_node_a;
-u32 chara_select_hair_node_b;
+uaddr chara_select_hair_node_a;
+uaddr chara_select_hair_node_b;
 uaddr chara_select_head_node;
 void ***char_creation_data_block;
 saddr chara_select_preview_resource;
@@ -72,7 +72,7 @@ void load_creation_shape_rel(W_80290250 *arg0);
 void TCharaMaking__sub_8028E3A0();
 void TAdSinglePlyChrSelectGC__sub_80290884(void* p, void* q);
 s32 count_char_diffs__23TAdSinglePlyChrSelectGCFPvPv(void *, void *);
-extern CreationTextureCacheEntry *char_select_current_entry;
+
 void TAdSinglePlyChrSelectGC__sub_8028ED54(void);
 void blend_creation_proportion_shapes(f32 *);
 void *__dt__10TObjMotionFv(void *arg0, s16 arg1);
@@ -80,7 +80,7 @@ void TAdSinglePlyChrSelectGC__sub_8028F084(CreationTextureCacheEntry *entry, TCh
 void TCharaMaking__bind_appearance_texture_lists(s32 *hair, s32 *head, s32 *body, TCharaMaking *appearance);
 void copy_slot_data__23TAdSinglePlyChrSelectGCFPvPv(void *dst, void *src);
 extern s32 lbl_805D49B4;
-extern int char_creation_figure_draw_flag;
+
 s32 creation_resource_ready_state;
 u8 *TAdSinglePlyChrSelectGC__sub_802908CC(u8 *arg0, s16 arg1);
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
@@ -367,9 +367,9 @@ u8 *TAdSinglePlyChrSelectGC__sub_802908CC(u8 *arg0, s16 arg1) {
         delete (BmlResource *)chara_select_preview_resource;
         chara_select_preview_resource = 0;
         ((TCMCharacter *)arg0)->reset_model_parts();
-        (*(s32 *)&chara_select_head_node) = 0;
-        (*(s32 *)&chara_select_hair_node_b) = 0;
-        (*(s32 *)&chara_select_hair_node_a) = 0;
+        chara_select_head_node = 0;
+        chara_select_hair_node_b = 0;
+        chara_select_hair_node_a = 0;
         ((TAdSinglePlyChrSelectGC *)arg0)->m_34 = 0;
         mem_free((void *)(*(saddr *)((s8 *)arg0 + 0xE0)));
         creation_resource_ready_state = 0;
@@ -405,7 +405,7 @@ void TCMCharacter::load_model_parts() {
     character_display_index(reinterpret_cast<uaddr>(appearance));
 }
 
-s32 TCMCharacter::bind_model_parts(u32 *selected, const char **names, CreationModelPart *parts,
+s32 TCMCharacter::bind_model_parts(uaddr *selected, const char **names, CreationModelPart *parts,
                                  s32 part, s32 model_index) {
     *selected = 0;
     if (names == NULL) {
@@ -634,8 +634,8 @@ void TCMCharacter::update_chara_preview() {
         break;
     case 4: {
         s32 hair = ((CharacterAppearanceFields *)creation_player_character)->hair;
-        u32 a = creation_hair_model_parts[hair].model;
-        u32 b = creation_cap_model_parts[hair].model;
+        uaddr a = creation_hair_model_parts[hair].model;
+        uaddr b = creation_cap_model_parts[hair].model;
         chara_select_hair_node_a = a;
         chara_select_hair_node_b = b;
         break;
@@ -780,7 +780,7 @@ void get_sorted_character_proportion_samples(const f32 *point, s32 *samples) {
     s32 x;
     s32 i;
     TCharaMaking__sub_8028E3A0();
-    map_shape_region_samples((s32)(((void *)find_shape_triangle_region((u8 *)point))), (s32 *)samples);
+    map_shape_region_samples(find_shape_triangle_region((u8 *)point), samples);
     for (i = 0; i < 2; i++) {
         for (j = 2; j > i; j--) {
             x = samples[j];
