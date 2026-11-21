@@ -110,7 +110,7 @@ void run_task__16TObjCMAssignMenuFv(void *arg0);
 void TCameraCtrl__sub_80068EF0(void);
 saddr get_message_text(s32 arg0);
 u32 calc_text_width(char *s);
-int TAdSinglePlyChrSelectGC__sub_802905B8(void);
+int TAdSinglePlyChrSelectGC__get_char_creation_figure_draw_flag(void);
 void TObjCMMainMenu__sub_80298DA0(int a0);
 }
 
@@ -466,7 +466,7 @@ void TObjCMMainMenu::run_task() {
         }
         break;
     default:
-        if (TAdSinglePlyChrSelectGC::is_active() != 0 && TAdSinglePlyChrSelectGC__sub_802905B8() != 0) {
+        if (TAdSinglePlyChrSelectGC::is_active() != 0 && TAdSinglePlyChrSelectGC__get_char_creation_figure_draw_flag() != 0) {
             if (this->preview < 1.0f) {
                 f32 step = 0.083333336f;
                 if (this->preview > 0.5833333f) {
