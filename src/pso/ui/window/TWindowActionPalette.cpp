@@ -8,7 +8,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/boss/goldragon/TBoss8Dragon.h"
+#include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowHelpItem.h"
@@ -507,7 +507,7 @@ s32 TWindowHelpItem::get_help_value(u16 slot, s32 client_id) {
 }
 
 void TWindowHelpItem::set_help_text(saddr arg0, saddr arg1) {
-    if (TBoss8Dragon::test_card_flag_2(arg1) != 0) {
+    if (TWindowKeyBoardHard::test_card_flag_2(arg1) != 0) {
         set_sprite_uv_from_pixels((u8 *)arg0, 92.0f, 56.0f);
         return;
     }

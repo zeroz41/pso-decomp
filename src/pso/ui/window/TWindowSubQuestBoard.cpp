@@ -27,7 +27,6 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/PadRumble.h"
-#include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/ui/window/TWindowShortListCtrl_801A4FC0.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 
@@ -238,7 +237,7 @@ saddr TUnk_804D1818::sub_8027C884(s32 option) {
         ((TWindowMenuIconLine *)window)->ensure_status_display((saddr) (TWindowSubStatusDisp::get_message_10(0x67)));
         TWindowSubStatusDisp::draw_status(window, (saddr) (TWindowSubStatusDisp::get_message_10(0x71)), 0);
         TWindowSubStatusDisp::draw_status(window, (saddr) (TWindowSubStatusDisp::get_message_10(0x72)), 1);
-        value = TBoss8Dragon::test_card_flag_2(client_id);
+        value = TWindowKeyBoardHard::test_card_flag_2(client_id);
         break;
     case 2:
         ((TWindowMenuIconLine *)window)->ensure_status_display((saddr) (TWindowSubStatusDisp::get_message_10(0x68)));

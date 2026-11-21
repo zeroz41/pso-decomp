@@ -26,7 +26,7 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/text_80266BD0.h"
-#include "pso/boss/goldragon/TBoss8Dragon.h"
+#include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80257BC0.h"
 #include "pso/ui/city/TShopArmorListWindow.h"
@@ -50,7 +50,7 @@ void fn_80266BD0(s32 index, u8 *first, u8 *second, s32 player) {
     };
     const u8 *entry = entry_code_pairs[index];
     *first = *entry++;
-    if (*first == 0x1A && TBoss8Dragon::test_card_flag_2(player) != 0) {
+    if (*first == 0x1A && TWindowKeyBoardHard::test_card_flag_2(player) != 0) {
         *first = 0x1B;
     }
     *second = *entry;

@@ -28,6 +28,7 @@ struct TWindowKeyBoardHard : public TWindowBase {
     void release_keyboard();
     virtual void render();
     static s32 test_card_flag(s32 arg1, s32 arg2);
+    static s32 test_card_flag_2(s32 client_id);
     static void set_card_window_flags(void *arg0, s32 arg1, s32 arg2);
     int is_card_flag_set();
     static s32 test_card_flag_8(s32 client_id);
