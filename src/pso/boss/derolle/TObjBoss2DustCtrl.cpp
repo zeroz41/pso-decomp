@@ -35,7 +35,7 @@ const char *TObjBoss2DustCtrl__name = "TObjBoss2DustCtrl";
 const char *TObjBoss2Dust__name = "TObjBoss2Dust";
 #pragma pop
 
-void fn_8003AD54(void) {
+void TObjBoss2DustCtrl::sub_8003AD54() {
     s32 i;
     s32 j;
 
@@ -67,7 +67,7 @@ void fn_8003AD54(void) {
     TObjBoss2DustCtrl_dust_counter = 0;
 }
 
-void TObjBoss2DustCtrl__sub_8003AD50(void) {  }
+void TObjBoss2DustCtrl::sub_8003AD50() {}
 
 void TObjBoss2DustCtrl::create() {
     new TObjBoss2DustCtrl(tl_05);

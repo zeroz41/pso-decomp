@@ -109,7 +109,6 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/boss/derolle/TObjBoss2CeilJunk.h"
 
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8003B138.h"
 
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 
@@ -873,9 +872,6 @@ int play_sound(void* p, int a1);
 
 void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, saddr arg2);
 
-void TObjBoss2Tunnel__sub_8003C5F8(void);
-
-void TObjBoss2Tunnel__sub_8003C610(void);
 
 void TBoss2DeRolLe__sub_800313F8(DR_800313F8 *o, u32 arg1, s32 arg2);
 
@@ -2810,7 +2806,7 @@ void update_particle_ctrls__13TBoss2DeRolLeFPv(Obj_80033AA4 *o) {
 #pragma pop
 
 void TBoss2DeRolLe__sub_80033A80(s32 arg0, saddr arg1) {
-    TObjBoss2Tunnel__sub_8003B1D8((void *)arg1);
+    TObjBoss2Tunnel::sub_8003B1D8((TParticleCtrl *)arg1);
 }
 
 void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, saddr arg2) {
@@ -3914,9 +3910,9 @@ void TBoss2DeRolLe__sub_800313F8(DR_800313F8 *o, u32 arg1, s32 arg2) {
                 o->f6E0 = 6;
                 TCameraCtrl::set_shake_preset(1);
                 if (o->f654 == 0) {
-                    TObjBoss2Tunnel__sub_8003C610();
+                    TObjBoss2Tunnel::sub_8003C610();
                 } else {
-                    TObjBoss2Tunnel__sub_8003C5F8();
+                    TObjBoss2Tunnel::sub_8003C5F8();
                 }
                 ((int (*)(s32, void *))play_sound)(0x4003A507, o->snd);
                 for (i = 0; i < 4; i++) {

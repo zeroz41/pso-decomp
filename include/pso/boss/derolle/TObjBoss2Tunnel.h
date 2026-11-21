@@ -119,6 +119,15 @@ struct TObjBoss2Tunnel : public TObject {
     // moved speed along z, so they stay behind when the emitter goes (TObjBoss2Tunnel_8003B1FC.cpp).
     static void detach_children(TParticleCtrl *particle, const Vec *offset);
     static void release_children(TParticleCtrl *particle, f32 speed);
+    // release_children with the full -5.0f drift (TObjBoss2RaftSplash.cpp).
+    static void sub_8003B1D8(TParticleCtrl *particle);
+    // Creates TObjBoss2Tunnel_parent_object under tl_07 (TObjBoss2Tunnel_8003B1FC.cpp).
+    static void sub_8003B2B0();
+    // Empty; called by TLobby::init_boss2_stage.
+    static void sub_8003C648();
+    // Set global flag 0x1000 and clear 0x2000, and the reverse.
+    static void sub_8003C610();
+    static void sub_8003C5F8();
     static void set_global_flag_100();
     static void draw_projected_quads(void *, int);
 };

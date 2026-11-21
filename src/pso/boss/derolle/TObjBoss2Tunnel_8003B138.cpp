@@ -1,7 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8003B138.h"
 #include "pso/boss/derolle/TObjBoss2RaftSplash.h"
 #include "pso/boss/derolle/TObjBoss2Dust.h"
 #include "pso/boss/derolle/TObjBoss2CeilJunk_8003A81C.h"
@@ -134,7 +133,7 @@ void *TObjBoss2Tunnel::create() {
     return new TObjBoss2Tunnel(tl_02);
 }
 
-void TObjBoss2Tunnel__sub_8003C648(void) {  }
+void TObjBoss2Tunnel::sub_8003C648() {}
 
 void TObjBoss2Tunnel::set_global_flag_400() {
     TObjBoss2Tunnel__global_flags |= 0x400;
@@ -144,12 +143,12 @@ void TObjBoss2Tunnel::set_global_flag_800() {
     TObjBoss2Tunnel__global_flags |= 0x800;
 }
 
-void TObjBoss2Tunnel__sub_8003C610(void) {
+void TObjBoss2Tunnel::sub_8003C610() {
     TObjBoss2Tunnel__global_flags |= 0x1000;
     TObjBoss2Tunnel__global_flags &= ~0x2000;
 }
 
-void TObjBoss2Tunnel__sub_8003C5F8(void) {
+void TObjBoss2Tunnel::sub_8003C5F8() {
     TObjBoss2Tunnel__global_flags |= 0x2000;
     TObjBoss2Tunnel__global_flags &= ~0x1000;
 }

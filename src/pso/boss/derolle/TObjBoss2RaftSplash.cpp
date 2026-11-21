@@ -2,7 +2,6 @@
 #include "pso/boss/derolle/TObjBoss2CeilJunk_8003A81C.h"
 #include "pso/boss/derolle/TObjBoss2CeilJunk.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8003B138.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/vector.h"
 #include "types.h"
@@ -39,7 +38,7 @@ TObjBoss2RaftSplash::TObjBoss2RaftSplash(TObject *parent, const Vec *position, c
 }
 
 // The particle helpers below share this TU's .sdata2 pool: -5.0f (0x805D85D8, before the pad that
-// ends the pool) is used by TObjBoss2CeilJunk::create_particle and TObjBoss2Tunnel__sub_8003B1D8,
+// ends the pool) is used by TObjBoss2CeilJunk::create_particle and TObjBoss2Tunnel::sub_8003B1D8,
 // and the .text runs on without a pool of its own (twin: TObjBoss7RaftSplash.cpp).
 void TObjBoss2CeilJunk::create_particle(const void *position, s32 particle_index) {
     TObjBoss2Tunnel::create_particle_effect(position, particle_index, -5.0f);
@@ -71,6 +70,6 @@ void TObjBoss2Tunnel::create_particle_effect(const void *position, s32 particle_
     }
 }
 
-void TObjBoss2Tunnel__sub_8003B1D8(void *particle) {
-    TObjBoss2Tunnel::release_children((TParticleCtrl *)particle, -5.0f);
+void TObjBoss2Tunnel::sub_8003B1D8(TParticleCtrl *particle) {
+    release_children(particle, -5.0f);
 }
