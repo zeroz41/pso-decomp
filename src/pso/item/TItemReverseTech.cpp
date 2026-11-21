@@ -105,7 +105,6 @@ s32 TKeyBoardControl__sub_8000F92C();
 void request_main_phase(s32 arg0);
 s8 func_801A5E54__Fv();
 s32 prs_decompress_alloc(int, int, int);
-char *strncpy(char *, const char *, u32);
 void TKeyBoardControl__sub_8000F90C(s32);
 void set_queued_main_phase(s32);
 void set_active_camera_pose(u8 *arg0, u8 *arg1);

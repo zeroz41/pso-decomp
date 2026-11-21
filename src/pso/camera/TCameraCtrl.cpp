@@ -1629,9 +1629,9 @@ void TCameraCtrl::create() {
 s32 *TCameraCtrl::get_view_matrix() {
     if (is_split_screen() != 0) {
         if (main_task.get_task_flags() & 1) {
-            return (long *) ((u8 *)&TCameraCtrl__view_matrices + ((TCameraCtrl::get_instance() - 1) * 0x30));
+            return (s32 *) ((u8 *)&TCameraCtrl__view_matrices + ((TCameraCtrl::get_instance() - 1) * 0x30));
         }
-        return (long *) ((u8 *)&TCameraCtrl__view_matrices + (TCameraCtrl::get_camera_no() * 0x30));
+        return (s32 *) ((u8 *)&TCameraCtrl__view_matrices + (TCameraCtrl::get_camera_no() * 0x30));
     }
     return ((s32 *)&TCameraCtrl__view_matrix);
 }

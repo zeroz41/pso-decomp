@@ -204,7 +204,7 @@ int get_registered_object_count(void);
 const char *get_partner_custom_text(s32 kind, u16 player);
 extern "C" {
 void __register_global_object(void *obj, void *dtor, void *link);
-void __construct_array(void *, void *, int, int, int);
+void __construct_array(void *array, void *(*ctor)(void *), void *dtor, u32 size, u32 count);
 void matrix_mult_vec(s32, Vec *, Vec *);
 f32 vec3_dot(Vec *, Vec *);
 f32 vector_length(Vec *);
