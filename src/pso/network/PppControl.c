@@ -144,7 +144,7 @@ s32 ipcp_configure_all_options(s16 vj_disabled, s32 addr_local, s32 addr_peer, s
     return 0;
 }
 
-s32 chap_connect(u8 *chap_name, u8 *chap_secret, s32 timeout) {
+s16 chap_connect(u8 *chap_name, u8 *chap_secret, s32 timeout) {
     u8 *g = (u8 *)&ppp_proto_blocks;
     u8 *c = g + 0xA0;
     s16 r;
@@ -165,7 +165,7 @@ s32 chap_connect(u8 *chap_name, u8 *chap_secret, s32 timeout) {
     return 0;
 }
 
-s32 pap_connect(u8 *peer_id, u8 *pap_password, s32 timeout) {
+s16 pap_connect(u8 *peer_id, u8 *pap_password, s32 timeout) {
     u8 *g = (u8 *)&ppp_proto_blocks;
     u8 *c = g + 0x38;
     s16 r;
