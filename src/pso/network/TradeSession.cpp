@@ -272,7 +272,6 @@ void remove_list_entry_by_id(s32 arg0);
 extern "C" {
 s32 fn_801D4270(s32);
 s32 load_character_from_card__23TAdSinglePlyChrSelectGCFv();
-extern s32 local_client_id;
 
 u8 *TLobby__sub_802D298C(void) {
     return (u8 *)TLobby__trade_window_state[0].lists[1];

@@ -82,7 +82,7 @@ s32 TLobby__sub_8040DD68(void);
 s32 shutdown_ipv4_routing(void);
 s32 NetIPv6Shutdown(void);
 s16 TLobby__sub_80409A3C(u8 *arg0, s16 arg1);
-s32 lobby_timer_stop(void *arg0);
+void lobby_timer_stop(void *arg0);
 s16 AT_IP_GetMssFromDstSrc(u8 *arg0, u8 *arg1);
 void netbuf_copy_by_ref(void *a, void *b, s32 v);
 s16 TLobby__sub_80410BA8(void *self, void *a, s16 c, void *d);

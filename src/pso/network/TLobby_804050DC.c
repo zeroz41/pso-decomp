@@ -164,7 +164,7 @@ void lobby_timer_add(N_80405298 *o, s32 v) {
     o->b18 = 0;
 }
 
-s32 lobby_timer_stop(void *arg0) {
+void lobby_timer_stop(void *arg0) {
     Obj_80405304 *o = (Obj_80405304 *)arg0;
     if (o == NULL || o->f18 != 1) {
         return;
