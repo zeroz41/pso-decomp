@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-void fn_8007A7A0(u8 *arg0);
+void init_map_csn_record_fields(u8 *arg0);
 }
 
 // --- C functions defined in text_8007A7A0.cpp ---
 extern "C" {
-void fn_8007A7A0(u8 *arg0);
+void init_map_csn_record_fields(u8 *arg0);
 }
 // --- end of C functions
 

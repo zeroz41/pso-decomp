@@ -17812,11 +17812,11 @@ force_active:
   - TLobby__sub_803C5E58
   - TLobby__sub_803C5E68
   - TObjPlayer__sub_80079108
-  - TObjPlayer__sub_8007910C
-  - TObjPlayer__sub_80079110
-  - TObjPlayer__sub_80079114
-  - TObjPlayer__sub_80079120
-  - TObjPlayer__sub_80079124
+  - csn_debug_hook_contact_color
+  - csn_debug_hook_hit_record
+  - csn_debug_hook_group_list
+  - csn_debug_hook_origin_vector
+  - csn_debug_hook_segment
   - TObjPlayer__sub_80079DE0
   - adx_stream_ring_buffer
   - adx_stream_ring_buffer_storage
