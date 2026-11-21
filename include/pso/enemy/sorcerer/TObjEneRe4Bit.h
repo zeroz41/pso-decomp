@@ -61,7 +61,6 @@ struct TObjEneRe4Bit : public TObjEneDD_ST {
     void init();
     static TObjEneRe4Bit *create(TObjEneRe4Sorcerer *owner, Vec *anchor, s32 enabled, u16 id, s32 set_index);
 
-    u8 pad_38C[0x34];
     Vec *m_3c0;
     s16 m_3c4;
     u8 unk_3C6[0x2];

@@ -96,12 +96,6 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     void set_move_target_point(s32 index);
     void update_angle();
     void init_head_params();
-    u16 unk_38C;
-    u8 pad_38E[0x6];
-    Vec move_target;                   // set_move_target_point's point
-    Vec move_dir;                      // towards move_target, normalized in xz
-    f32 move_distance;                 // xz distance to move_target
-    u8 pad_3B0[0x10];
     s32 state_flags;                   // 0x8 shell broken, 0x40/0x80 breakup pieces, 0x8000 already beaten
     s32 unk_3C4;
     s32 debug_pad_active;              // handle_debug_pad_input drives the boss from debug_pad when set

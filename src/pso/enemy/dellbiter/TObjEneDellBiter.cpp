@@ -741,7 +741,7 @@ void TObjEneDellBiter::fn_80305268(s32 reason) {
         if (update_linked_position(300.0f) != 0) {
             this->enemy_copy_target_destination();
             this->update_velocity();
-            rotation_y = (s32) (10430.38043493439 * atan2_float(target_direction.x, target_direction.z));
+            rotation_y = (s32) (10430.38043493439 * atan2_float(destination_direction.x, destination_direction.z));
             if ((s32) field_4bc == 1) {
                 transition_enemy_state(3);
                 return;
@@ -792,7 +792,7 @@ void TObjEneDellBiter::fn_80305034(s32 reason) {
                 play_sound_effect(this->remap_sound_for_area((saddr)((void *)0x40039B14)), &position, 0, 0);
             }
             fn_8030591C();
-            this->move_with_wall_slide_on_ground(target_direction.x, target_direction.z, 1.2f);
+            this->move_with_wall_slide_on_ground(destination_direction.x, destination_direction.z, 1.2f);
             fn_80305684();
             break;
         case 1:
@@ -872,7 +872,7 @@ void TObjEneDellBiter::fn_80304D10(s32 reason) {
                 field_4dc *= 0.9f;
             }
             check_rush_collisions();
-            this->move_clamped_on_ground(target_direction.x, target_direction.z, field_4dc);
+            this->move_clamped_on_ground(destination_direction.x, destination_direction.z, field_4dc);
             break;
         }
         if (fade.advance_toward_max() != 0) {
@@ -949,7 +949,7 @@ void TObjEneDellBiter::fn_8030492C(s32 reason) {
     case 3:
         if ((uaddr) current_target == 0U) {
             transition_enemy_state(4);
-        } else if ((target_distance >= TObjEneDellBiter__movement_params->rush_start_distance) && ((s32) field_48c < 2)) {
+        } else if ((destination_distance >= TObjEneDellBiter__movement_params->rush_start_distance) && ((s32) field_48c < 2)) {
             transition_enemy_state(6);
         } else if ((s32) state_timer == 1) {
             transition_enemy_state(7);
@@ -963,11 +963,11 @@ void TObjEneDellBiter::fn_8030492C(s32 reason) {
             this->enemy_copy_target_destination();
             this->update_velocity();
         }
-        rotation_y = approach_angle_limited(rotation_y, temp_r30 = (s32) (10430.38043493439 * atan2_float(target_direction.x, target_direction.z)), 0x300);
+        rotation_y = approach_angle_limited(rotation_y, temp_r30 = (s32) (10430.38043493439 * atan2_float(destination_direction.x, destination_direction.z)), 0x300);
         part_rotation_x = TObjBoss2Tunnel::turn_toward_angle_limited((s32)rotation_y, (s32)part_rotation_x, (s32)temp_r30, 0x200, 0x2000);
         delbiter_movement_parameters = TObjEneDellBiter__movement_params;
-        if (target_distance <= (f32) delbiter_movement_parameters->attack_distance) {
-            temp_f31_2 = (target_direction.x * sin_table_lookup(rotation_y)) + (target_direction.z * cos_table_lookup(rotation_y));
+        if (destination_distance <= (f32) delbiter_movement_parameters->attack_distance) {
+            temp_f31_2 = (destination_direction.x * sin_table_lookup(rotation_y)) + (destination_direction.z * cos_table_lookup(rotation_y));
             if (temp_f31_2 >= cos_table_lookup(0x1800)) {
                 state_timer = 1;
             }
@@ -1026,7 +1026,7 @@ void TObjEneDellBiter::fn_803044AC(s32 reason) {
                 this->enemy_copy_target_destination();
                 this->update_velocity();
             }
-            rotation_y = approach_angle_limited(rotation_y, (10430.38043493439 * atan2_float(target_direction.x, target_direction.z)), 0x280);
+            rotation_y = approach_angle_limited(rotation_y, (10430.38043493439 * atan2_float(destination_direction.x, destination_direction.z)), 0x280);
             part_rotation_x = TObjBoss2Tunnel::turn_toward_angle_limited((s32)rotation_y, (s32)part_rotation_x, (s32)rotation_y, 0x200, 0x2000);
             this->check_collisions();
             break;
@@ -1037,10 +1037,10 @@ void TObjEneDellBiter::fn_803044AC(s32 reason) {
                 this->update_velocity();
             }
             hit = 0;
-            if ((u32)((TBoss5Gryphon *)this)->enemy_probe_wall_ahead(target_direction.x, target_direction.z, 30.0f * TObjEneDellBiter__movement_params->rush_speed) != 0) {
+            if ((u32)((TBoss5Gryphon *)this)->enemy_probe_wall_ahead(destination_direction.x, destination_direction.z, 30.0f * TObjEneDellBiter__movement_params->rush_speed) != 0) {
                 hit = 1;
             }
-            this->move_clamped_on_ground(target_direction.x, target_direction.z, TObjEneDellBiter__movement_params->rush_speed);
+            this->move_clamped_on_ground(destination_direction.x, destination_direction.z, TObjEneDellBiter__movement_params->rush_speed);
             field_4e0 += TObjEneDellBiter__movement_params->rush_speed;
             if (this->has_move_failures(1) != 0) {
                 hit = 1;
@@ -1081,7 +1081,7 @@ void TObjEneDellBiter::fn_803044AC(s32 reason) {
                 field_4dc *= 0.9f;
             }
             check_rush_collisions();
-            this->move_clamped_on_ground(target_direction.x, target_direction.z, field_4dc);
+            this->move_clamped_on_ground(destination_direction.x, destination_direction.z, field_4dc);
             break;
         }
         break;
@@ -1282,7 +1282,7 @@ void TObjEneDellBiter::fn_80303BC0(s32 reason) {
             if (select_farthest_visible_player() != 0) {
                 this->enemy_copy_target_destination();
                 this->update_velocity();
-                field_4d8 = (s32) (u16) (s32) (10430.38043493439 * atan2_float(target_direction.x, target_direction.z));
+                field_4d8 = (s32) (u16) (s32) (10430.38043493439 * atan2_float(destination_direction.x, destination_direction.z));
                 state_timer = 1;
             } else {
                 state_timer = 4;
@@ -1304,7 +1304,7 @@ void TObjEneDellBiter::fn_80303BC0(s32 reason) {
                         if (select_farthest_visible_player() != 0) {
                             this->enemy_copy_target_destination();
                             this->update_velocity();
-                            field_4d8 = (s32) (u16) (s32) (10430.38043493439 * atan2_float(target_direction.x, target_direction.z));
+                            field_4d8 = (s32) (u16) (s32) (10430.38043493439 * atan2_float(destination_direction.x, destination_direction.z));
                             state_timer = 0;
                             this->requested_action = 1;
                         } else {

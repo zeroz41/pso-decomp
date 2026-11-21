@@ -463,11 +463,11 @@ s32 TObjEneMe3Shinowa::check_body_collision_at(s32 arg1, f32 farg0) {
 s32 check_in_range__23TObjEneMe3ShinowaMirageFPv(TObjEneMe3Shinowa *shinowa) {
     f32 f31;
 
-    if (shinowa->m_3ac > 25.0f) {
+    if (shinowa->destination_distance > 25.0f) {
         return 0;
     }
-    f31 = shinowa->m_3a0.z * cos_table_lookup(shinowa->rotation_y);
-    f31 += shinowa->m_3a0.x * sin_table_lookup(shinowa->rotation_y);
+    f31 = shinowa->destination_direction.z * cos_table_lookup(shinowa->rotation_y);
+    f31 += shinowa->destination_direction.x * sin_table_lookup(shinowa->rotation_y);
     return (s32)((u32)__cntlzw(f31 < cos_table_lookup(0x1E00)) >> 5);
 }
 #pragma pop
@@ -476,11 +476,11 @@ void TObjEneMe3Shinowa::vfunc_105() {
     temp_r31 = is_passing_frame(19.0f);
     if ((is_passing_frame(9.0f) != 0) || (temp_r31 != 0)) {
         if (enemy_check_target_valid() != 0) {
-            if (m_390->select_melee_contact_body(this, 1.0f) != 0) {
-                m_390->receive_physical_attack(this, 1.0f);
-                m_390->apply_knockback_from_attacker((u8 *)this, 3.0f);
+            if (current_target->select_melee_contact_body(this, 1.0f) != 0) {
+                current_target->receive_physical_attack(this, 1.0f);
+                current_target->apply_knockback_from_attacker((u8 *)this, 3.0f);
                 if ((temp_r31 != 0) && (random_ratio() <= 0.1666f)) {
-                    TObjEneDD__sub_800BA438((saddr)this, (u8 *)m_390);
+                    TObjEneDD__sub_800BA438((saddr)this, (u8 *)current_target);
                 }
             }
         }
@@ -501,10 +501,10 @@ s32 TObjEneMe3Shinowa::can_hit_same_target() {
     s16 theirs;
     ret = 0;
     if (!(m_3c4 & 0x10000)) {
-        if (m_3ac > 100.0f && m_3ac < 150.0f) {
+        if (destination_distance > 100.0f && destination_distance < 150.0f) {
             mine = (s32)((TObjBase *)this)->get_room();
-            theirs = m_390->get_room();
-            if (theirs == mine && check_body_collision_at(rotation_y, m_3ac - 20.0f) == 0) {
+            theirs = current_target->get_room();
+            if (theirs == mine && check_body_collision_at(rotation_y, destination_distance - 20.0f) == 0) {
                 ret = 1;
             }
         }
@@ -805,7 +805,7 @@ void TObjEneMe3ShinowaMirage__sub_800E66FC(TObjEneMe3Shinowa *shinowa, s32 arg1)
         if (shinowa->enemy_has_live_target() != 0) {
             shinowa->enemy_copy_target_destination();
             shinowa->update_velocity();
-            shinowa->m_40c = (s32) (RADIANS_TO_ANGLE * atan2_float(shinowa->m_3a0.x, shinowa->m_3a0.z));
+            shinowa->m_40c = (s32) (RADIANS_TO_ANGLE * atan2_float(shinowa->destination_direction.x, shinowa->destination_direction.z));
             return;
         }
         shinowa->m_40c = (s32) shinowa->rotation_y;
@@ -877,7 +877,7 @@ void TObjEneMe3ShinowaMirage::state_chase_target(s32 arg1) {
         set_field_378(4);
         clear_intangible();
         m_3c4 &= 0xFFFFFFFC;
-        m_3ac = 300.0f;
+        destination_distance = 300.0f;
         if (m_3c4 & 0x10) {
             m_410 = (f32) TObjEneMe3ShinowaMirage__mirage_info_table[m_3c0]->m_4;
         } else {
@@ -886,7 +886,7 @@ void TObjEneMe3ShinowaMirage::state_chase_target(s32 arg1) {
         m_414 = 0.0f;
         return;
     case 3:
-        if ((uaddr) m_390 == 0U) {
+        if ((uaddr) current_target == 0U) {
             on_target_lost();
             transition_enemy_state(0xB);
         } else if (((s32 (*)(f32))check_in_range__23TObjEneMe3ShinowaMirageFPv)(m_414) != 0) {
@@ -902,7 +902,7 @@ void TObjEneMe3ShinowaMirage::state_chase_target(s32 arg1) {
         if (update_linked_position(200.0f) != 0) {
             enemy_copy_target_destination();
             update_velocity();
-            m_414 = (f32) ((m_3a0.x * sin_table_lookup(rotation_y)) + (m_3a0.z * cos_table_lookup(rotation_y)));
+            m_414 = (f32) ((destination_direction.x * sin_table_lookup(rotation_y)) + (destination_direction.z * cos_table_lookup(rotation_y)));
             if (m_414 < cos_table_lookup(0x1000)) {
                 turn_toward_target_direction(0x500);
                 update_ground_contact();
@@ -958,7 +958,7 @@ void TObjEneMe3ShinowaMirage__sub_800E5F64(TObjEneMe3Shinowa *shinowa, s32 arg1)
             if (((TObjEneEpsilon *)shinowa)->update_death_check() != 0) {
                 shinowa->enemy_copy_target_destination();
                 shinowa->update_velocity();
-                angle = (s32)(10430.38043493439 * atan2_float(shinowa->m_3a0.x, shinowa->m_3a0.z));
+                angle = (s32)(10430.38043493439 * atan2_float(shinowa->destination_direction.x, shinowa->destination_direction.z));
             } else {
                 angle = shinowa->rotation_y;
             }
@@ -976,17 +976,17 @@ void TObjEneMe3ShinowaMirage__sub_800E5F64(TObjEneMe3Shinowa *shinowa, s32 arg1)
                 shinowa->update_velocity();
             }
             if (shinowa->frame + shinowa->play_speed >= 14.0f) {
-                if (shinowa->check_body_collision_at(shinowa->rotation_y, shinowa->m_3ac - 20.0f) != 0) {
+                if (shinowa->check_body_collision_at(shinowa->rotation_y, shinowa->destination_distance - 20.0f) != 0) {
                     shinowa->m_404 = 5;
                 } else {
-                    d = shinowa->m_3ac - 20.0f;
+                    d = shinowa->destination_distance - 20.0f;
                     VecCopy(&v, &shinowa->position);
-                    v.x += shinowa->m_3a0.x * d;
+                    v.x += shinowa->destination_direction.x * d;
                     v.y += 20.0f;
-                    v.z += shinowa->m_3a0.z * d;
+                    v.z += shinowa->destination_direction.z * d;
                     if (csnVecterUnder((saddr)&v, 0x15) != 0U) {
                         shinowa->m_404 = 3;
-                        shinowa->m_414 = (shinowa->m_3ac - 20.0f) / 12.857143f;
+                        shinowa->m_414 = (shinowa->destination_distance - 20.0f) / 12.857143f;
                         shinowa->set_invulnerable();
                         play_sound_effect(shinowa->remap_sound_for_area(0x4003AD11), &shinowa->position, 0, 0);
                     } else {
@@ -1005,22 +1005,22 @@ void TObjEneMe3ShinowaMirage__sub_800E5F64(TObjEneMe3Shinowa *shinowa, s32 arg1)
                 play_sound_effect(shinowa->remap_sound_for_area(0x4003AD12), &shinowa->position, 0, 0);
                 spawn_particle_effect(&shinowa->position, 0xF3);
             }
-            shinowa->move_with_wall_slide_commit(shinowa->m_3a0.x, shinowa->m_3a0.z, shinowa->m_414);
+            shinowa->move_with_wall_slide_commit(shinowa->destination_direction.x, shinowa->destination_direction.z, shinowa->m_414);
             shinowa->update_body_colliders();
             break;
         case 4:
             shinowa->advance_animation();
             if (shinowa->is_passing_frame(25.0f) != 0) {
                 if (shinowa->enemy_check_target_valid() != 0) {
-                    if (shinowa->m_390->select_melee_contact_body(shinowa, 1.0f) != 0) {
-                        shinowa->m_390->receive_physical_attack(shinowa, 1.0f);
-                        shinowa->m_390->apply_knockback_from_attacker((u8 *)shinowa, 3.0f);
+                    if (shinowa->current_target->select_melee_contact_body(shinowa, 1.0f) != 0) {
+                        shinowa->current_target->receive_physical_attack(shinowa, 1.0f);
+                        shinowa->current_target->apply_knockback_from_attacker((u8 *)shinowa, 3.0f);
                     }
                 }
                 play_sound_effect(shinowa->remap_sound_for_area(0x4003AD13), &shinowa->position, 0, 0);
             }
             shinowa->m_414 *= 0.85f;
-            shinowa->move_with_wall_slide_on_ground(shinowa->m_3a0.x, shinowa->m_3a0.z, shinowa->m_414);
+            shinowa->move_with_wall_slide_on_ground(shinowa->destination_direction.x, shinowa->destination_direction.z, shinowa->m_414);
             shinowa->check_collisions();
             break;
         }
@@ -1077,18 +1077,18 @@ void TObjEneMe3ShinowaMirage__sub_800E5CE4(TObjEneMe3Shinowa *shinowa, s32 arg1)
                 if (((TObjEneEpsilon *)shinowa)->update_death_check() != 0) {
                     shinowa->enemy_copy_target_destination();
                     shinowa->update_velocity();
-                    angle = (s32)(10430.38043493439 * atan2_float(shinowa->m_3a0.x, shinowa->m_3a0.z));
+                    angle = (s32)(10430.38043493439 * atan2_float(shinowa->destination_direction.x, shinowa->destination_direction.z));
                 } else {
                     angle = shinowa->rotation_y;
                 }
                 shinowa->rotation_y = approach_angle_limited(shinowa->rotation_y, angle, 0x300);
-                shinowa->m_3a0.x = sin_table_lookup(shinowa->rotation_y);
-                shinowa->m_3a0.z = cos_table_lookup(shinowa->rotation_y);
+                shinowa->destination_direction.x = sin_table_lookup(shinowa->rotation_y);
+                shinowa->destination_direction.z = cos_table_lookup(shinowa->rotation_y);
             }
             shinowa->apply_effect_pair();
             if (shinowa->frame >= 0.0f && shinowa->frame <= 5.0f) {
                 info = TObjEneMe3ShinowaMirage__mirage_info_table[shinowa->m_3c0];
-                ((TObjEneDD *)shinowa)->move_to_shot_position(shinowa->m_3a0.x, shinowa->m_3a0.z, info->m_8);
+                ((TObjEneDD *)shinowa)->move_to_shot_position(shinowa->destination_direction.x, shinowa->destination_direction.z, info->m_8);
             } else {
                 shinowa->update_ground_contact();
             }
@@ -1122,10 +1122,10 @@ void TObjEneMe3ShinowaReal__sub_800E5950(TObjEneMe3Shinowa *shinowa, s32 arg1) {
         if (shinowa->acquire_target(200.0f) != 0) {
             shinowa->enemy_copy_target_destination();
             shinowa->update_velocity();
-            shinowa->m_40c = (s32)(10430.38043493439 * atan2_float(shinowa->m_3a0.x, shinowa->m_3a0.z));
+            shinowa->m_40c = (s32)(10430.38043493439 * atan2_float(shinowa->destination_direction.x, shinowa->destination_direction.z));
             if (shinowa->check_body_collision_at(shinowa->m_40c + 0x8000, 80.0f) == 0) {
-                shinowa->m_3a0.x *= -1.0f;
-                shinowa->m_3a0.z *= -1.0f;
+                shinowa->destination_direction.x *= -1.0f;
+                shinowa->destination_direction.z *= -1.0f;
                 shinowa->m_404 = 0;
                 shinowa->m_410 = 7.111111f;
             }
@@ -1169,7 +1169,7 @@ void TObjEneMe3ShinowaReal__sub_800E5950(TObjEneMe3Shinowa *shinowa, s32 arg1) {
                 play_sound_effect(shinowa->remap_sound_for_area(0x4003AD12), &shinowa->position, 0, 0);
                 spawn_particle_effect(&shinowa->position, 0xF3);
             }
-            shinowa->move_clamped_on_ground(shinowa->m_3a0.x, shinowa->m_3a0.z, shinowa->m_410);
+            shinowa->move_clamped_on_ground(shinowa->destination_direction.x, shinowa->destination_direction.z, shinowa->m_410);
             shinowa->update_body_colliders();
             return;
         case 2:
@@ -1228,14 +1228,14 @@ void TObjEneMe3ShinowaMirage__sub_800E54E8(TObjEneMe3Shinowa *shinowa, s32 arg1)
     case 0:
         shinowa->advance_animation();
         shinowa->m_404++;
-        if (is_target_unobstructed_from((TObjEneDD *)shinowa, shinowa->m_390) != 0) {
-            if ((s16)shinowa->get_room() == (s16)shinowa->m_390->get_room()) {
+        if (is_target_unobstructed_from((TObjEneDD *)shinowa, shinowa->current_target) != 0) {
+            if ((s16)shinowa->get_room() == (s16)shinowa->current_target->get_room()) {
                 shinowa->enemy_copy_target_destination();
             }
         }
         shinowa->update_velocity();
-        rotate_xz_pair_by_angle(&shinowa->m_3a0.x, &shinowa->m_3a0.z, shinowa->m_40c);
-        v = shinowa->m_3ac;
+        rotate_xz_pair_by_angle(&shinowa->destination_direction.x, &shinowa->destination_direction.z, shinowa->m_40c);
+        v = shinowa->destination_distance;
         if (v > 80.0f) {
             v -= 3.0f;
             if (v < 80.0f) {
@@ -1249,11 +1249,11 @@ void TObjEneMe3ShinowaMirage__sub_800E54E8(TObjEneMe3Shinowa *shinowa, s32 arg1)
         }
         VecCopy(&save_pos, &shinowa->position);
         VecCopy(&save_center, &shinowa->body_center);
-        VecCopy(&shinowa->position, &shinowa->m_394);
+        VecCopy(&shinowa->position, &shinowa->destination);
         VecCopy(&shinowa->body_center, &shinowa->position);
         shinowa->body_center.y += 20.0f;
         v *= shinowa->m_410;
-        calc_wall_clamped_destination(shinowa, &dest, -shinowa->m_3a0.x, -shinowa->m_3a0.z, v);
+        calc_wall_clamped_destination(shinowa, &dest, -shinowa->destination_direction.x, -shinowa->destination_direction.z, v);
         if (shinowa->vfunc_18((u8 *)&dest) == 0) {
             shinowa->m_410 *= 0.8f;
             VecCopy(&shinowa->position, &save_pos);
@@ -1266,7 +1266,7 @@ void TObjEneMe3ShinowaMirage__sub_800E54E8(TObjEneMe3Shinowa *shinowa, s32 arg1)
             f32 len = normalize_vector_xz(&dest);
             shinowa->move_clamped_on_ground(dest.x, dest.z, len);
         }
-        shinowa->rotation_y = (s32)(10430.38043493439 * atan2_float(shinowa->m_3a0.x, shinowa->m_3a0.z));
+        shinowa->rotation_y = (s32)(10430.38043493439 * atan2_float(shinowa->destination_direction.x, shinowa->destination_direction.z));
         if (shinowa->m_40c != 0) {
             rot[0] = 0;
             if (shinowa->m_40c > 0) {
@@ -1709,7 +1709,7 @@ void TObjEneMe3ShinowaReal::try_spawn_mirages() {
     }
 }
 
-u16 TObjEneMe3ShinowaReal__sub_800E45CC(TObjEneMe3Shinowa *shinowa) { return shinowa->m_38c; }
+u16 TObjEneMe3ShinowaReal__sub_800E45CC(TObjEneMe3Shinowa *shinowa) { return shinowa->target_id; }
 
 TObjEneMe3ShinowaMirage *TObjEneMe3ShinowaReal::get_or_create_mirage(s32 index) {
     TObjEneMe3ShinowaMirage *mirage;
@@ -1760,10 +1760,10 @@ void TObjEneMe3ShinowaReal::vfunc_114(s32 arg1) {
         break;
     case 3:
         if (get_flag_b4() != 0) {
-            m_3b8 = m_3bc;
+            validate_counter = validate_period;
             i = 0;
-            if (is_confused() != 0 || is_player_entity_id(m_38c) != 0) {
-                if (is_target_unobstructed_from(this, m_390) != 0) {
+            if (is_confused() != 0 || is_player_entity_id(target_id) != 0) {
+                if (is_target_unobstructed_from(this, current_target) != 0) {
                     i = 1;
                 }
             } else {

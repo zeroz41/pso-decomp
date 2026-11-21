@@ -313,10 +313,10 @@ void TObjEneBm9Mericarol::run_task() {
     }
     flags = m_438;
     if (flags & 0x10) {
-        if (m_390 == 0) {
+        if (current_target == 0) {
             m_438 = flags & ~0x10;
         }
-    } else if (m_390 != 0) {
+    } else if (current_target != 0) {
         m_438 = flags | 0x10;
     }
     if (update_status_effects() != 4) {
@@ -560,8 +560,8 @@ void TObjEneBm9Mericarol::sub_802D01D8(s32 arg1) {
         if (try_set_mode8_if_flag2() != 0) {
             break;
         }
-        distance = m_3ac;
-        if (distance > 300.0f || m_390 == 0) {
+        distance = destination_distance;
+        if (distance > 300.0f || current_target == 0) {
             transition_enemy_state(2);
             break;
         }
@@ -583,12 +583,12 @@ void TObjEneBm9Mericarol::sub_802D01D8(s32 arg1) {
         advance_animation();
         target = 0xFFFF;
         if (tick_period_counter((saddr)this, &m_450, 0x14) != 0) {
-            if (m_3ac > 30.0f) {
+            if (destination_distance > 30.0f) {
                 if (is_confused() != 0) {
-                    target = enemy_nearest_visible_enemy(this, m_3ac - 30.0f);
+                    target = enemy_nearest_visible_enemy(this, destination_distance - 30.0f);
                 }
                 if (target == 0xFFFF) {
-                    target = enemy_find_nearest_player_in_range((u8 *)this, (f32)(m_3ac - 30.0f));
+                    target = enemy_find_nearest_player_in_range((u8 *)this, (f32)(destination_distance - 30.0f));
                 }
                 if (target != 0xFFFF) {
                     enemy_set_target_id(this, target);
@@ -600,7 +600,7 @@ void TObjEneBm9Mericarol::sub_802D01D8(s32 arg1) {
         enemy_copy_target_destination();
         update_velocity();
         m_494++;
-        m_4a0 = (s32)(RADIANS_TO_ANGLE * atan2_float(m_3a0.x, m_3a0.z));
+        m_4a0 = (s32)(RADIANS_TO_ANGLE * atan2_float(destination_direction.x, destination_direction.z));
         rotation_y = approach_angle_limited(rotation_y, m_4a0, ((TObjEneBm9MericarolMovementParameters *)movementParameters)->move.turn_speed);
         rotation_y = (s16)rotation_y;
         update_ground_contact();
@@ -632,14 +632,14 @@ void TObjEneBm9Mericarol::handle_shot_state(s32 arg1) {
         advance_animation();
         if (is_passing_frame(10.0f) != 0) {
             sub_802CE68C(&m_460, 0x43);
-            new TObjEneBm9Mericarol_Bomb(this, &m_460, &m_390->position,
+            new TObjEneBm9Mericarol_Bomb(this, &m_460, &current_target->position,
                 mericarol_phase_param_table[get_phase()]->m_8, mericarol_phase_param_table[get_phase()]->m_c,
                 random_ratio() <= (f32)mericarol_phase_param_table[get_phase()]->m_2c / 100.0f);
             play_sound_effect(remap_sound_for_area(0x3A307), &m_460, 0, 0);
         }
         enemy_copy_target_destination();
         update_velocity();
-        m_4a0 = (s32)(RADIANS_TO_ANGLE * atan2_float(m_3a0.x, m_3a0.z));
+        m_4a0 = (s32)(RADIANS_TO_ANGLE * atan2_float(destination_direction.x, destination_direction.z));
         rotation_y = approach_angle_limited(rotation_y, m_4a0, ((TObjEneBm9MericarolMovementParameters *)movementParameters)->move.turn_speed);
         rotation_y = (s16)rotation_y;
         update_ground_contact();
@@ -739,7 +739,7 @@ void TObjEneBm9Mericarol::sub_802CFB64(s32 arg1) {
         }
         enemy_copy_target_destination();
         update_velocity();
-        m_4a0 = (s32)(RADIANS_TO_ANGLE * atan2_float(m_3a0.x, m_3a0.z));
+        m_4a0 = (s32)(RADIANS_TO_ANGLE * atan2_float(destination_direction.x, destination_direction.z));
         rotation_y = approach_angle_limited(rotation_y, m_4a0, ((TObjEneBm9MericarolMovementParameters *)movementParameters)->move.turn_speed);
         rotation_y = (s16)rotation_y;
         update_ground_contact();
@@ -757,7 +757,7 @@ void TObjEneBm9Mericarol::sub_802CF7B4(s32 arg1) {
     switch (arg1) {
     case 4:
         sync_center_position();
-        if (((TBoss5Gryphon *)this)->enemy_probe_wall_ahead(m_3a0.x, m_3a0.z, 100.0f) != 0U) {
+        if (((TBoss5Gryphon *)this)->enemy_probe_wall_ahead(destination_direction.x, destination_direction.z, 100.0f) != 0U) {
             requested_action = 3;
             m_490 = 3;
             return;
@@ -783,7 +783,7 @@ void TObjEneBm9Mericarol::sub_802CF7B4(s32 arg1) {
         switch (m_490) {
         case 0:
             sync_center_position();
-            if (((TBoss5Gryphon *)this)->enemy_probe_wall_ahead(m_3a0.x, m_3a0.z, 100.0f) != 0U) {
+            if (((TBoss5Gryphon *)this)->enemy_probe_wall_ahead(destination_direction.x, destination_direction.z, 100.0f) != 0U) {
                 requested_action = 3;
                 m_490 = 3;
                 play_sound_effect(remap_sound_for_area(0x3AD0E), &position, 0, 0);
@@ -801,7 +801,7 @@ void TObjEneBm9Mericarol::sub_802CF7B4(s32 arg1) {
                 enemy_copy_target_destination();
                 update_velocity();
             }
-            m_4a0 = (s32)(RADIANS_TO_ANGLE * atan2_float(m_3a0.x, m_3a0.z));
+            m_4a0 = (s32)(RADIANS_TO_ANGLE * atan2_float(destination_direction.x, destination_direction.z));
             rotation_y = approach_angle_limited(rotation_y, m_4a0, ((TObjEneBm9MericarolMovementParameters *)movementParameters)->move.turn_speed);
             check_collisions();
             return;
@@ -809,10 +809,10 @@ void TObjEneBm9Mericarol::sub_802CF7B4(s32 arg1) {
             fn_802CE510(this);
             hit_wall = 0;
             sync_center_position();
-            if (((TBoss5Gryphon *)this)->enemy_probe_wall_ahead(m_3a0.x, m_3a0.z, 30.0f * m_444) != 0U) {
+            if (((TBoss5Gryphon *)this)->enemy_probe_wall_ahead(destination_direction.x, destination_direction.z, 30.0f * m_444) != 0U) {
                 hit_wall = 1;
             }
-            move_clamped_on_ground(m_3a0.x, m_3a0.z, m_444);
+            move_clamped_on_ground(destination_direction.x, destination_direction.z, m_444);
             if (has_move_failures(1) != 0) {
                 hit_wall = 1;
             }
@@ -841,7 +841,7 @@ void TObjEneBm9Mericarol::sub_802CF7B4(s32 arg1) {
                 m_490 = 3;
             }
             check_collisions();
-            move_clamped_on_ground(m_3a0.x, m_3a0.z, m_4a4);
+            move_clamped_on_ground(destination_direction.x, destination_direction.z, m_4a4);
             return;
         }
         break;
@@ -907,12 +907,12 @@ void TObjEneBm9Mericarol::sub_802CF4F8(s32 arg1) {
             target = find_nearby_target();
             if (target != NULL) {
                 new TObjEneBm9Mericarol_EffCurse3(this, target);
-                m_390 = target;
+                current_target = target;
                 m_494 = 1;
                 play_sound_effect(remap_sound_for_area(0x3A808), &position, 0, 0);
             }
-        } else if (count == 0x19 && m_494 != 0 && m_390->is_alive() != 0) {
-            ((TObjPlayer *)m_390)->set_tp(0);
+        } else if (count == 0x19 && m_494 != 0 && current_target->is_alive() != 0) {
+            ((TObjPlayer *)current_target)->set_tp(0);
         }
         m_490++;
         update_ground_contact();

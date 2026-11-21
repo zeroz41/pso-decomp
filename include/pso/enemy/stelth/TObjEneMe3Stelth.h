@@ -64,14 +64,6 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
     void render();
     void run_task();
     // TObjEneDD fields its header does not declare yet (TObjEneBm5Wolf declares the same ones).
-    u8 pad_38C[0x4];
-    TObjChara *target;
-    Vec m_394;
-    f32 m_3a0;
-    u8 unk_3A4[0x4];
-    f32 m_3a8;
-    f32 m_3ac;
-    u8 unk_3B0[0x10];
     s32 m_3c0;
     s32 m_3c4;
     s32 m_3c8;

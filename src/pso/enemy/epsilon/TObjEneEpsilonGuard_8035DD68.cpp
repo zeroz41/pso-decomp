@@ -387,7 +387,7 @@ orbit:
                 orbit_angle += orbit_angle_step;
                 set_orbit_destination(orbit_angle);
                 update_velocity();
-                this->move_with_wall_slide_commit(m_3a0, m_3a8, TObjEneEpsilonGuard__movement_params->m_8);
+                this->move_with_wall_slide_commit(destination_direction.x, destination_direction.z, TObjEneEpsilonGuard__movement_params->m_8);
             }
             break;
         case 2:
@@ -423,10 +423,10 @@ void TObjEneEpsilonGuard__sub_8035E8C0(TObjEneEpsilonGuard *guard, s32 msg) {
         guard->update_velocity();
         if (!(guard->flags & 0x200)) {
             TObjEneEpsilonGuardParams *d = TObjEneEpsilonGuard__movement_params;
-            if (guard->m_3ac > d->orbit_radius + d->m_4) {
+            if (guard->destination_distance > d->orbit_radius + d->m_4) {
                 guard->flags |= 0x200;
             } else {
-                ((TObjEneDD *)guard)->move_with_wall_slide_commit(-guard->m_3a0, -guard->m_3a8, d->m_4);
+                ((TObjEneDD *)guard)->move_with_wall_slide_commit(-guard->destination_direction.x, -guard->destination_direction.z, d->m_4);
             }
         }
         guard->rotation_y = guard->calc_angle_to_target();
@@ -563,8 +563,8 @@ void TObjEneEpsilonGuard::update_guard_state() {
                 transition_enemy_state(4);
             }
         } else {
-            m_390 = body;
-            m_38c = get_entity_id(m_390);
+            current_target = (TObjChara *)body;
+            target_id = get_entity_id(current_target);
             enemy_copy_target_destination();
             sub_8035EA90();
         }
@@ -744,15 +744,15 @@ s32 TObjEneEpsilonGuard::calc_angle_to_target() {
 
     enemy_copy_target_destination();
     x = position.x;
-    return (s32) (10430.38043493439 * atan2_float(x - m_394.x, position.z - m_394.z));
+    return (s32) (10430.38043493439 * atan2_float(x - destination.x, position.z - destination.z));
 }
 
 #pragma push
 #pragma fp_contract on
 void TObjEneEpsilonGuard::set_orbit_destination(s32 angle) {
     enemy_copy_target_destination();
-    m_394.x = (TObjEneEpsilonGuard__movement_params->orbit_radius * sin_table_lookup(angle)) + m_394.x;
-    m_394.z = (TObjEneEpsilonGuard__movement_params->orbit_radius * cos_table_lookup(angle)) + m_394.z;
+    destination.x = (TObjEneEpsilonGuard__movement_params->orbit_radius * sin_table_lookup(angle)) + destination.x;
+    destination.z = (TObjEneEpsilonGuard__movement_params->orbit_radius * cos_table_lookup(angle)) + destination.z;
 }
 #pragma pop
 

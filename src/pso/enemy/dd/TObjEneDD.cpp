@@ -1458,7 +1458,15 @@ void TObjEneDD::update_velocity() {
 }
 
 
-void TObjEneDD_ST::init_float_params() { *(float*)((char*)this + 0x394) = 0.0f; *(float*)((char*)this + 0x398) = 0.0f; *(float*)((char*)this + 0x39c) = 0.0f; *(float*)((char*)this + 0x3a0) = 0.0f; *(float*)((char*)this + 0x3a4) = 0.0f; *(float*)((char*)this + 0x3a8) = 0.0f; *(float*)((char*)this + 0x3ac) = 0.0f; }
+void TObjEneDD_ST::init_float_params() {
+    destination.x = 0.0f;
+    destination.y = 0.0f;
+    destination.z = 0.0f;
+    destination_direction.x = 0.0f;
+    destination_direction.y = 0.0f;
+    destination_direction.z = 0.0f;
+    destination_distance = 0.0f;
+}
 
 
 void enemy_set_target_id(Obj_800B9958 *self, u16 id) {
@@ -1472,29 +1480,28 @@ void enemy_set_target_id(Obj_800B9958 *self, u16 id) {
 }
 
 void TObjEneDD_ST::set_target_player(void *player) {
-    Obj_800B98D8 *self = (Obj_800B98D8 *)this;
     s32 n;
     s32 i;
-    self->target_id = 0xFFFF;
-    self->target = 0;
+    target_id = 0xFFFF;
+    current_target = 0;
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
         if (player == TObjPlayer::get_player_data(i)) {
-            self->target_id = get_entity_id(player);
-            self->target = player;
+            target_id = get_entity_id(player);
+            current_target = (TObjChara *)player;
             return;
         }
     }
 }
 
 void TObjEneDD_ST::enemy_clear_target() {
-    ((O_800B98C0 *)this)->f390 = 0;
-    ((O_800B98C0 *)this)->f38c = 0xFFFF;
+    current_target = 0;
+    target_id = 0xFFFF;
 }
 
 void TObjEneDD_ST::enemy_init_acquire_period(s32 arg1) {
-    *(s32 *)((s8 *)((u8 *)this) + 0x3B0) = (s32) (this->entity_id % arg1);
-    *(s32 *)((s8 *)((u8 *)this) + 0x3B4) = arg1;
+    acquire_counter = this->entity_id % arg1;
+    acquire_period = arg1;
 }
 
 s32 TObjEneDD_ST::acquire_target(f32 distance) { return select_nearest_target(distance); }
@@ -1544,41 +1551,41 @@ s32 TObjEneDD_ST::enemy_tick_target_acquisition(s32 *counter, s32 limit, f32 sca
 }
 
 s32 TObjEneDD_ST::update_linked_position(f32 scale) {
-    return this->enemy_tick_target_acquisition((s32 *)((u8 *)this + 0x3B0), *(s32 *)((s8 *)this + 0x3B4), scale);
+    return this->enemy_tick_target_acquisition(&acquire_counter, acquire_period, scale);
 }
 
 void TObjEneDD_ST::enemy_copy_target_destination() {
-    uaddr temp_r4;
-    temp_r4 = *(u32 *)((s8 *)((u8 *)this) + 0x390);
-    if (temp_r4 != 0U) {
-        set_target_destination((const Vec *)(temp_r4 + 0x38));
+    TObjChara *target = current_target;
+    if (target != NULL) {
+        set_target_destination(&target->position);
     }
 }
 
 void TObjEneDD::set_target_destination(const Vec *position) { VecCopy((Vec *)((char *)this + 0x394), position); }
 
 void TObjEneDD_ST::enemy_init_validate_period(s32 arg1) {
-    *(s32 *)((s8 *)((u8 *)this) + 0x3BC) = arg1;
-    *(s32 *)((s8 *)((u8 *)this) + 0x3B8) = (s32) ((this->entity_id + 3) % *(s32 *)((s8 *)((u8 *)this) + 0x3BC));
+    validate_period = arg1;
+    validate_counter = (this->entity_id + 3) % validate_period;
 }
 
 s32 enemy_validate_retained_target(u8 *ene_dd_st) {
-    if (tick_period_counter((saddr)ene_dd_st, (s32 *)(ene_dd_st + 0x3B8), (*(s32 *)((s8 *)ene_dd_st + 0x3BC))) != 0) {
-        if (is_target_unobstructed_from((TObjEneDD *)ene_dd_st, (TObjChara *)(*(s32 *)((s8 *)ene_dd_st + 0x390))) != 0) {
+    TObjEneDD_ST *self = (TObjEneDD_ST *)ene_dd_st;
+    if (tick_period_counter((saddr)self, &self->validate_counter, self->validate_period) != 0) {
+        if (is_target_unobstructed_from(self, self->current_target) != 0) {
             return 1;
         }
         goto block_5;
     }
-    if (((TObjEneDD_ST *)ene_dd_st)->enemy_has_live_target() != 0) {
+    if (self->enemy_has_live_target() != 0) {
         return 1;
     }
 block_5:
-    ((TObjEneDD_ST *)(ene_dd_st))->enemy_clear_target();
+    self->enemy_clear_target();
     return 0;
 }
 
 s32 TObjEneEpsilon::update_death_check() {
-    if ((this->is_confused() == 0) && (is_player_entity_id(this->m_38c) == 0)) {
+    if ((this->is_confused() == 0) && (is_player_entity_id(this->target_id) == 0)) {
         this->enemy_clear_target();
         return 0;
     }
@@ -1641,14 +1648,14 @@ void TObjEneEpsilon__sub_800B92AC(u8 *ene_epsilon, s32 arg1, f32 farg0) {
 }
 
 s32 TObjEneDD_ST::update_status_effects() {
-    if ((is_player_entity_id(*(u16 *)((s8 *)this + 0x38C)) != 0) && (get_player_by_client_id(*(u16 *)((s8 *)this + 0x38C)) == 0U)) {
+    if ((is_player_entity_id(target_id) != 0) && (get_player_by_client_id(target_id) == 0U)) {
         this->enemy_clear_target();
     }
     TObjEneDD::update_status_effects();
 }
 
 s32 TObjEneDD_ST::enemy_check_target_valid() {
-    u16 id = *(u16 *)((s8 *)this + 0x38C);
+    u16 id = target_id;
     if (id == 0xFFFF) {
         return 0;
     }
@@ -1656,13 +1663,13 @@ s32 TObjEneDD_ST::enemy_check_target_valid() {
         this->enemy_clear_target();
         return 0;
     }
-    return ((TObjEneDD *)*(s32 *)((s8 *)this + 0x390))->is_valid_target();
+    return ((TObjEneDD *)current_target)->is_valid_target();
 }
 
 #pragma push
 #pragma fp_contract on
 s32 TObjEneDD_ST::enemy_has_live_target() {
-    u32 id = *(u16 *)((s8 *)this + 0x38C);
+    u32 id = target_id;
     if (id == 0xFFFF) {
         return 0;
     }
@@ -1670,7 +1677,7 @@ s32 TObjEneDD_ST::enemy_has_live_target() {
         this->enemy_clear_target();
         return 0;
     }
-    return ((TObjBase *)(*(void **)((s8 *)this + 0x390)))->is_alive();
+    return current_target->is_alive();
 }
 #pragma pop
 

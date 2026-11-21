@@ -78,13 +78,6 @@ struct TObjEneBm3Fly : public TObjEneDD_ST {
     void *create(void *arg1, void *arg2, void *arg3, void *arg4);
     static void load_resources();
 
-    u16 m_38c;
-    u8 unk_38E[0x2];
-    TObjChara *m_390;
-    Vec m_394;
-    Vec m_3a0;
-    f32 m_3ac;
-    u8 unk_3B0[0x10];
     s32 m_3c0;
     s32 m_3c4;
     s32 m_3c8;

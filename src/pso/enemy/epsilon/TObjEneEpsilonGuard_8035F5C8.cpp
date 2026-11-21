@@ -410,7 +410,7 @@ void TObjEneEpsilonGuard__sub_803616E4(TObjEneEpsilonBody *body, s32 arg1) {
         if (!(body->flags & 0x80)) {
             body->enemy_copy_target_destination();
             body->update_velocity();
-            body->m_4f8 = body->m_3a0 * sin_table_lookup(body->rotation_y) + body->m_3a8 * cos_table_lookup(body->rotation_y);
+            body->m_4f8 = body->destination_direction.x * sin_table_lookup(body->rotation_y) + body->destination_direction.z * cos_table_lookup(body->rotation_y);
             if (body->m_4f8 < cos_table_lookup(0x1000)) {
                 body->turn_toward_target_direction(body->turn_step);
                 body->update_ground_contact();

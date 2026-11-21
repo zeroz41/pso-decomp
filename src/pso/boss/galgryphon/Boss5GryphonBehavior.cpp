@@ -1929,7 +1929,7 @@ void TBoss8Dragon::fire_at_angle(s32 arg1) {
 
 void TBoss5Gryphon::update_heading(s32 arg1) {
     ((TObjEneDD *)this)->update_velocity();
-    turn_toward_angle_limited__13TBoss5GryphonFPvii(this, arg1, (s32) (10430.38043493439 * atan2_float(*(f32 *)((s8 *)this + 0x3A0), this->m_3a8)));
+    turn_toward_angle_limited__13TBoss5GryphonFPvii(this, arg1, (s32) (10430.38043493439 * atan2_float(this->destination_direction.x, this->destination_direction.z)));
 }
 
 void turn_toward_angle_limited__13TBoss5GryphonFPvii(void *selfv, s32 arg1, s32 arg2) {
@@ -1944,7 +1944,7 @@ void turn_toward_angle_limited__13TBoss5GryphonFPvii(void *selfv, s32 arg1, s32 
 
 void TBoss8Dragon::update_facing(f32 farg0) {
     ((TObjEneDD *)this)->update_velocity();
-    ((s32 (*)(void *, s32, f32))move_along_angle__13TBoss5GryphonFPvif)(this, (s32) (10430.38043493439 * atan2_float(*(f32 *)((s8 *)this + 0x3A0), this->m_3a8)), farg0);
+    ((s32 (*)(void *, s32, f32))move_along_angle__13TBoss5GryphonFPvif)(this, (s32) (10430.38043493439 * atan2_float(this->destination_direction.x, this->destination_direction.z)), farg0);
 }
 
 #pragma push
@@ -4389,8 +4389,8 @@ void handle_6xA0_gal_gryphon_boss_actions(TBoss8Dragon *boss8_dragon) {
 
 void TBoss5Gryphon::set_target_from_action(void *arg1) {
     enemy_set_target_id(this, (u16) *(s32 *)((s8 *)arg1 + 4));
-    this->m_394 = (f32) *(f32 *)((s8 *)arg1 + 8);
-    this->m_39c = (f32) *(f32 *)((s8 *)arg1 + 0xC);
+    this->destination.x = (f32) *(f32 *)((s8 *)arg1 + 8);
+    this->destination.z = (f32) *(f32 *)((s8 *)arg1 + 0xC);
 }
 #pragma pop
 

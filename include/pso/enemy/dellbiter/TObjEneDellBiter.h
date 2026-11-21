@@ -67,12 +67,6 @@ struct TObjEneDellBiter : public TObjEneDD_ST {
     void refresh_target();
     void render();
     void run_task();
-    u8 pad_38C[0x4];
-    TObjChara *current_target;
-    u8 unknown_394[0xC];
-    Vec target_direction;
-    f32 target_distance;
-    u8 unknown_3b0[0x10];
     u32 flags;
     u32 flags_3c4;
     Vec reflection_position;

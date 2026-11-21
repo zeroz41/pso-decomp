@@ -41,12 +41,6 @@ struct TObjEneBm5Wolf : public TObjEneDD_ST {
     void refresh_target();
     void roaming_state(int event);
     void choose_roaming_destination();
-    u8 pad_38C[0x4];
-    TObjChara *target;
-    Vec destination;
-    Vec destinationDirection;
-    f32 destinationDistance;
-    u8 unk_3B0[0x10];
     TObjEneBm5WolfListNode m_3c0;
     TObjEneBm5WolfListNode m_3cc;
     s32 m_3d8;
@@ -134,10 +128,10 @@ struct TObjEneBm5Wolf : public TObjEneDD_ST {
     void returning_state(s32 arg1);
 };
 
-LAYOUT_ASSERT(WolfOffset_target, offsetof(TObjEneBm5Wolf, target) == 0x390);
+LAYOUT_ASSERT(WolfOffset_current_target, offsetof(TObjEneBm5Wolf, current_target) == 0x390);
 LAYOUT_ASSERT(WolfOffset_destination, offsetof(TObjEneBm5Wolf, destination) == 0x394);
-LAYOUT_ASSERT(WolfOffset_destinationDirection, offsetof(TObjEneBm5Wolf, destinationDirection) == 0x3A0);
-LAYOUT_ASSERT(WolfOffset_destinationDistance, offsetof(TObjEneBm5Wolf, destinationDistance) == 0x3AC);
+LAYOUT_ASSERT(WolfOffset_destination_direction, offsetof(TObjEneBm5Wolf, destination_direction) == 0x3A0);
+LAYOUT_ASSERT(WolfOffset_destination_distance, offsetof(TObjEneBm5Wolf, destination_distance) == 0x3AC);
 LAYOUT_ASSERT(WolfOffset_m_3c0, offsetof(TObjEneBm5Wolf, m_3c0) == 0x3C0);
 LAYOUT_ASSERT(WolfOffset_m_3d8, offsetof(TObjEneBm5Wolf, m_3d8) == 0x3D8);
 LAYOUT_ASSERT(WolfOffset_turnOffset, offsetof(TObjEneBm5Wolf, turnOffset) == 0x3E4);

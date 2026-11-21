@@ -928,9 +928,9 @@ void TObjEneRe7Berura__sub_800940E8(TObjEneRe7Berura *self, s32 arg1) {
         return;
     case 3:
         if (self->check_death_trigger() == 0) {
-            if (self->m_390 == NULL) {
+            if (self->current_target == NULL) {
                 self->transition_enemy_state(8);
-            } else if (self->m_3ac <= 30.0f) {
+            } else if (self->destination_distance <= 30.0f) {
                 self->transition_enemy_state(6);
             } else if (self->m_4c4 == 3) {
                 self->transition_enemy_state(5);
@@ -951,7 +951,7 @@ void TObjEneRe7Berura__sub_800940E8(TObjEneRe7Berura *self, s32 arg1) {
         switch (self->m_4c4) {
         case 0:
             if (self->enemy_has_live_target() != 0) {
-                self->m_4c8 = (s32) (u16) (s32) (RADIANS_TO_ANGLE * atan2_float(self->m_3a0.x, self->m_3a0.z));
+                self->m_4c8 = (s32) (u16) (s32) (RADIANS_TO_ANGLE * atan2_float(self->destination_direction.x, self->destination_direction.z));
             } else {
                 self->m_4c8 = self->rotation_y;
             }
@@ -973,7 +973,7 @@ void TObjEneRe7Berura__sub_800940E8(TObjEneRe7Berura *self, s32 arg1) {
                     self->m_4c4 = 3;
                 } else {
                     if (self->enemy_has_live_target() != 0) {
-                        self->m_4c8 = (s32) (u16) (s32) (RADIANS_TO_ANGLE * atan2_float(self->m_3a0.x, self->m_3a0.z));
+                        self->m_4c8 = (s32) (u16) (s32) (RADIANS_TO_ANGLE * atan2_float(self->destination_direction.x, self->destination_direction.z));
                     } else {
                         self->m_4c8 = self->rotation_y;
                     }
@@ -984,7 +984,7 @@ void TObjEneRe7Berura__sub_800940E8(TObjEneRe7Berura *self, s32 arg1) {
                 if (self->m_4d0 >= 20.0f) {
                     self->m_4d0 = 0.0f;
                     self->m_4c0 = self->m_4c0 + 1;
-                    if ((self->m_4c0 >= 2) && (self->m_3ac > 80.0f) && (TObjEneRe7Berura__sub_8009518C(self) != 0) && (self->acquire_target_in_view() != 0)) {
+                    if ((self->m_4c0 >= 2) && (self->destination_distance > 80.0f) && (TObjEneRe7Berura__sub_8009518C(self) != 0) && (self->acquire_target_in_view() != 0)) {
                         self->m_4c0 = 0;
                         self->enemy_copy_target_destination();
                         self->update_velocity();
@@ -1071,7 +1071,7 @@ void TObjEneRe7Berura__sub_80093C80(TObjEneRe7Berura *self, s32 arg1) {
                 VecCopy(&v, &TObjEneRe7Berura__detached_part_states[self->m_3f4].m_58);
                 rotate_xz_pair_by_angle(&v.x, &v.z, self->rotation_y);
                 vec3_add_to(&v, &self->position);
-                launch__21TObjEneRe7BeruraPunchFll(self->m_3f8, self->m_3f4, &v, &self->m_394);
+                launch__21TObjEneRe7BeruraPunchFll(self->m_3f8, self->m_3f4, &v, &self->destination.x);
                 self->m_4c0 = 1;
                 self->destroy_parts();
                 play_sound_effect(self->remap_sound_for_area(0x4003A321), &self->position, 0, 0);
@@ -1133,9 +1133,9 @@ void TObjEneRe7Berura__sub_80093888(TObjEneRe7Berura *actor, s32 arg1) {
             return;
         }
         if (actor->check_death_trigger() == 0) {
-            if (actor->m_390 == NULL) {
+            if (actor->current_target == NULL) {
                 actor->transition_enemy_state(8);
-            } else if (actor->m_3ac >= 30.0f) {
+            } else if (actor->destination_distance >= 30.0f) {
                 actor->transition_enemy_state(4);
             } else if (((TObjEneRe7Berura *)actor)->is_over_limit() != 0) {
                 actor->transition_enemy_state(7);
@@ -1149,7 +1149,7 @@ void TObjEneRe7Berura__sub_80093888(TObjEneRe7Berura *actor, s32 arg1) {
             if (enemy_validate_retained_target((u8 *)actor) != 0) {
                 actor->enemy_copy_target_destination();
                 actor->update_velocity();
-                if (actor->step_toward_target((s32) (RADIANS_TO_ANGLE * atan2_float(actor->m_3a0.x, actor->m_3a0.z)), 0x100) != 0) {
+                if (actor->step_toward_target((s32) (RADIANS_TO_ANGLE * atan2_float(actor->destination_direction.x, actor->destination_direction.z)), 0x100) != 0) {
                     actor->m_4c0 = 1;
                     actor->requested_action = 2;
                     actor->init_fields4B8();
@@ -1165,17 +1165,17 @@ void TObjEneRe7Berura__sub_80093888(TObjEneRe7Berura *actor, s32 arg1) {
                 play_sound_effect(actor->remap_sound_for_area(0x4003AD22), &actor->position, 0, 0);
             }
             if ((actor->is_passing_frame(16.0f) != 0) && (actor->enemy_check_target_valid() != 0)) {
-                if (actor->m_390->select_melee_contact_body(actor, 1.0f) != 0) {
-                    if (actor->m_390->receive_physical_attack(actor, 1.0f) > 0.0f) {
+                if (actor->current_target->select_melee_contact_body(actor, 1.0f) != 0) {
+                    if (actor->current_target->receive_physical_attack(actor, 1.0f) > 0.0f) {
                         if (TObjEneDD::check_v2_mode() != 0) {
                             if (actor->random_ratio() <= 0.1f) {
-                                TObjEneDD__sub_800BA378((saddr)actor, (u8 *)actor->m_390);
+                                TObjEneDD__sub_800BA378((saddr)actor, (u8 *)actor->current_target);
                             }
                         } else if (actor->random_ratio() <= 0.3333f) {
-                            TObjEneDD__sub_800BA378((saddr)actor, (u8 *)actor->m_390);
+                            TObjEneDD__sub_800BA378((saddr)actor, (u8 *)actor->current_target);
                         }
                     }
-                    actor->m_390->apply_knockback_from_attacker((u8 *)actor, 5.0f);
+                    actor->current_target->apply_knockback_from_attacker((u8 *)actor, 5.0f);
                 }
             }
             entry = (saddr)belra_trail_buffer->lookup(actor->frame);

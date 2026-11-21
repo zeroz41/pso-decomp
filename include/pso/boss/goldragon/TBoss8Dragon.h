@@ -47,19 +47,6 @@ public:
     void sub_802F4098(u8 *);
     s32 hasActiveRenderFade();
 
-    u16 m_38c;
-    u8 unk_38E[0x2];
-    u32 m_390;
-    f32 m_394;
-    f32 m_398;
-    f32 m_39c;
-    f32 m_3a0;
-    f32 m_3a4;
-    f32 m_3a8;
-    f32 m_3ac;
-    s32 m_3b0;
-    s32 m_3b4;
-    u8 unk_3B8[0x8];
     u32 m_3c0;
     TObject sub_tasks;  // the dragon's collider task hangs under it; run_task runs its tasks
     u32 m_3e0;

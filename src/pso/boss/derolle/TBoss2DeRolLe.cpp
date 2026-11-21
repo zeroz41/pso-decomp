@@ -2131,7 +2131,7 @@ void TBoss2DeRolLe::set_state_and_send(s32 state) {
         target_packet.header.client_id = entity_id;
         target_packet.state = state;
         target_packet.sequence_index = unk_3D4;
-        target_packet.target_id = unk_38C;
+        target_packet.target_id = target_id;
         update_and_send__13TBoss2DeRolLeFPv(&target_packet);
         return;
     }
@@ -2233,10 +2233,10 @@ extern "C" {
 }
 
 void TBoss2DeRolLe::set_move_target_point(s32 index) {
-    VecCopy(&move_target, &TBoss2DeRolLe__position_point_table[index]);
-    VecCopy(&move_dir, &move_target);
-    subtract_vector(&move_dir, &position);
-    move_distance = normalize_vector_xz(&move_dir);
+    VecCopy(&destination, &TBoss2DeRolLe__position_point_table[index]);
+    VecCopy(&destination_direction, &destination);
+    subtract_vector(&destination_direction, &position);
+    destination_distance = normalize_vector_xz(&destination_direction);
 }
 
 namespace joint_state_view {

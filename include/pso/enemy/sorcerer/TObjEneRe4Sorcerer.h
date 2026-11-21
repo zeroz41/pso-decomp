@@ -50,14 +50,6 @@ struct TObjEneRe4Sorcerer : public TObjEneDD_ST {
     static void load_resources();
     s32 update_farthest_target(saddr arg1, f32 *arg2);
 
-    u16 m_38c;
-    u8 unk_38E[0x2];
-    TObjChara *m_390;
-    Vec m_394;
-    Vec m_3a0;
-    f32 m_3ac;
-    s32 m_3b0;
-    u8 unk_3B4[0xC];
     s16 m_3c0;
     u8 unk_3C2[0x2];
     f32 m_3c4;

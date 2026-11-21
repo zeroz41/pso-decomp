@@ -1225,7 +1225,7 @@ void TBoss7DeRolLeC::set_state_and_send(s32 arg1) {
         pa.header.client_id = this->entity_id;
         pa.what = arg1;
         pa.unknown_a2 = this->action_index;
-        pa.target_client_id = this->unk_38C;
+        pa.target_client_id = this->target_id;
         pa.send();
         return;
     }
@@ -3036,7 +3036,7 @@ void TBoss7DeRolLeC::handle_tentacle_attack_state(u32 event, s32 position_index)
             if (unk_72C >= unk_734) {
                 unk_72C = 0;
                 if (enemy_has_live_target() != 0) {
-                    VecCopy(&v, &target->position);
+                    VecCopy(&v, &current_target->position);
                 } else {
                     f32 r = 120.0f * random_ratio();
                     ang = get_random_scaled();
@@ -3319,7 +3319,7 @@ void TBoss7DeRolLeC::sub_802E8FCC(u32 event) {
                 fill_value_array((saddr)attack_history);
                 set_field_b8(0xD);
                 if (enemy_check_target_valid() != 0) {
-                    VecCopy(aim, &target->position);
+                    VecCopy(aim, &current_target->position);
                 } else {
                     aim->x = 0.0f;
                     aim->y = 0.0f;
@@ -3739,7 +3739,7 @@ void TBoss7DeRolLeC::sub_802E85E0(u32 event, s32 position_index) {
                 if (unk_730 == 0) {
                     unk_72C = 0;
                     if (enemy_has_live_target() != 0) {
-                        VecCopy(&v, &target->position);
+                        VecCopy(&v, &current_target->position);
                     } else {
                         scale = 120.0f * random_ratio();
                         r = get_random_scaled();

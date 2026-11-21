@@ -26,11 +26,6 @@ struct TObjEneMorfos : public TObjEneDD_ST {
     virtual void render_demo();
     virtual void render();
     virtual void run_task();
-    u8 pad_38C[0x4];
-    u8 * m_390;
-    u8 unk_394[0xC];
-    f32 m_3a0;
-    u8 unk_3A4[0x1C];
     u32 m_3c0;
     u32 m_3c4;
     u8 _pad3C8[0xC];

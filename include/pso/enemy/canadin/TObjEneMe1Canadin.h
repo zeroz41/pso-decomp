@@ -57,12 +57,6 @@ struct TObjEneMe1Canadin : public TObjEneDD_ST {
     void run_miss_reaction();
     void refresh_target();
     void render();
-    u8 pad_38C[0x4];
-    TObjChara *m_390;
-    Vec m_394;
-    Vec m_3A0;
-    f32 m_3AC;
-    u8 unk_3B0[0x10];
     TObjEneMe1Canadin *m_3C0;
     s32 m_3C4;
     u32 m_3C8;

@@ -61,15 +61,6 @@ struct TObjEneMe3Shinowa : public TObjEneDD_ST {
     void run_hit_reaction();
     void run_miss_reaction();
     void refresh_target();
-    u16 m_38c;
-    u8 unk_38E[0x2];
-    TObjChara *m_390;
-    Vec m_394;
-    Vec m_3a0;
-    f32 m_3ac;
-    u8 unk_3B0[0x8];
-    s32 m_3b8;
-    s32 m_3bc;
     s32 m_3c0;
     u32 m_3c4;
     f32 m_3c8;
