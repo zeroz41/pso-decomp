@@ -103,7 +103,6 @@ u32 TLobby__data_80513D10[9];
 u8 lbl_80513D34[0x24];
 #pragma pop
 void archive_pool_free(void *pool, void *node);
-void *memset(void *, int, unsigned long);
 s32 replace_file_extension__6TLobbyFPvPvPv(char *arg0, char *arg1, char *arg2);
 void *mem_alloc(u32);
 }
