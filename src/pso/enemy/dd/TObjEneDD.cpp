@@ -38,12 +38,12 @@ void *get_player_by_client_id(s32 i);
 
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
+#include "pso/npc/TNpcPlayer_800D87A8.h"
 #include "pso/unk/TLobby.h"
 extern "C" {
 f32 atan2_float(f32 y, f32 x);
 }
 extern "C" {
-s32 find_active_entity_by_id(u16);
 f32 normalize_vector_xz__FP3Vec(void *, f32, f32);
 }
 extern const f32 lbl_805D9E80 = -0.1f;
@@ -54,7 +54,7 @@ extern const f32 lbl_805D9E88 = 155.0f;
 extern "C" {
 int TObjLight__sub_801337F8(void*);
 int TObjLight__sub_801337FC(void*);
-extern int lbl_805D555C;
+extern saddr lbl_805D555C;
 extern saddr current_scene_light;
 }
 
@@ -807,7 +807,7 @@ u8 *TObjEneDD::snap_to_ground_at(u8 *arg1) {
     return (u8 *)hit;
 }
 
-s32 TObjEneDD::enemy_probe_wall_ahead(f32 farg0, f32 farg1, f32 farg2) {
+saddr TObjEneDD::enemy_probe_wall_ahead(f32 farg0, f32 farg1, f32 farg2) {
   f32 temp_f31;
   Vec stack;
   f32 temp_f30;
@@ -1152,7 +1152,7 @@ int is_target_ranger(void* p) { return (((TObjPlayer *)p)->class_flags & CLASS_F
 
 int is_target_android(void* p) { return (((TObjPlayer *)p)->class_flags & CLASS_FLAG_ANDROID) != 0; }
 
-void TObjEneDD::setup_instance(saddr arg0, s32 arg1, u8 *arg2, saddr arg3) {
+void TObjEneDD::setup_instance(saddr arg0, saddr arg1, u8 *arg2, saddr arg3) {
     ((TUnk_804928CC *)obj_ene_dd_instance)->sub_800BC3E8((u8 *)arg0);
     ((TUnk_804928CC *)obj_ene_dd_instance)->set_position_from((void *)arg1);
     *(f32 *)((s8 *)(*(void **)((s8 *)obj_ene_dd_instance + 0xA4)) + 0xC) = (f32) *(f32 *)((s8 *)arg2 + 8);
@@ -1164,7 +1164,7 @@ void TObjEneDD::setup_instance(saddr arg0, s32 arg1, u8 *arg2, saddr arg3) {
     ((EneDDObj_800BA138*)obj_ene_dd_instance)->m12(arg2 + 0xC, (void*)arg2, (void*)arg3);
 }
 
-void TObjEneDD::setup(void* p, int a1, int a2) { TObjEneDD::setup_instance((saddr)p, (s32)a1, (u8 *)a2, 0); }
+void TObjEneDD::setup(void *p, saddr pos, saddr params) { TObjEneDD::setup_instance((saddr)p, pos, (u8 *)params, 0); }
 
 void TObjEneDD__sub_800BA5A4(void* p, void* a1) { TObjEneDD::setup_instance((saddr)p, (saddr)((char*)p + 0x38), (u8 *)a1, (saddr)((void*)0)); }
 
@@ -1180,7 +1180,7 @@ void TObjEneDD::emit_enemy_effect(void *arg0, void *arg1, u8 *arg2, void *arg3) 
     ((EneDDObj2_800BA138*)obj_ene_dd_instance)->m15(arg2 + 0xC, arg3);
 }
 
-void TObjEneDD::emit_effect(void* p, int a1, int a2) { TObjEneDD::emit_enemy_effect(p, (void *)a1, (u8 *)a2, 0); }
+void TObjEneDD::emit_effect(void *p, saddr pos, saddr params) { TObjEneDD::emit_enemy_effect(p, (void *)pos, (u8 *)params, 0); }
 
 void TObjEneDD::emit_effect_at_position(void* a1) { TObjEneDD::emit_enemy_effect(this, (char*)this + 0x38, (u8 *)a1, (void*)0); }
 
@@ -1575,12 +1575,12 @@ void TObjEneDD_ST::turn_toward_target_direction(s32 max_step) {
     this->rotation_y = (s16) approach_angle_limited(this->rotation_y, (s32) (10430.38043493439 * atan2_float(*(f32 *)((s8 *)this + 0x3A0), *(f32 *)((s8 *)this + 0x3A8))), max_step);
 }
 
-void TObjEneEpsilon::fire_attack_c(s32 arg1, s32 arg2, f32 farg0) {
+void TObjEneEpsilon::fire_attack_c(saddr shot_pos, s32 arg2, f32 farg0) {
     f32 temp_f30;
 
     temp_f30 = farg0;
     turn_toward_target_direction(arg2);
-    this->calc_shot_position((u8 *)arg1, (f32)(sin_table_lookup(this->rotation_y)), (f32)(cos_table_lookup(this->rotation_y)), (f32)temp_f30);
+    this->calc_shot_position((u8 *)shot_pos, (f32)(sin_table_lookup(this->rotation_y)), (f32)(cos_table_lookup(this->rotation_y)), (f32)temp_f30);
 }
 
 void TObjEneEpsilon::fire_attack_b(saddr arg1, s32 arg2, f32 farg0) {
