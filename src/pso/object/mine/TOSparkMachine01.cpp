@@ -92,7 +92,6 @@ void __ct__8TObjBaseFP7TObject(void *, s32);
 extern s32 __vt__16TOSparkMachine01[];
 extern const char *TOSparkMachine01__name;
 extern s32 tl_05;
-void begin_effect_render__13TParticleCtrlFv(void *);
 void rotate_matrix_y(int, int);
 void push_matrix();
 void post_translate_matrix(void *);
@@ -146,7 +145,7 @@ void TOSparkMachine01::render() {
         TObjFish::set_global_param(self->unk24);
         r = self->res;
         n = r->head;
-        begin_effect_render__13TParticleCtrlFv(r);
+        TParticleCtrl::begin_effect_render();
         for (i = 0; i < 4; i++) {
             switch (self->on[i]) {
             case 1:

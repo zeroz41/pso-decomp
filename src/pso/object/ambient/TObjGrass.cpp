@@ -322,7 +322,6 @@ s32 copy_position_if_valid__10TObjPlayerFii(void *, Vec);
 s32 obj_is_hit_receivable(void *);
 s32 is_split_screen();
 extern s32 local_client_id;
-s32 set_param__9TObjEnemyFl(void *, int, int);
 s32 init_collision_body_parts(void *, void *, int);
 void free_bin_model_request(void*, int);
 
@@ -442,7 +441,7 @@ TObjGrass::TObjGrass(TObject *parent, void *set_data) : TObjEnemy(parent) {
     *(saddr *)&motion_list = t;
     scale.y = (1.3f);
     variant = 0;
-    set_param__9TObjEnemyFl(this, 0xC, t);
+    this->set_param(0xC);
     resetTimer = 0x1E;
     timer = resetTimer;
     subtype = 0;

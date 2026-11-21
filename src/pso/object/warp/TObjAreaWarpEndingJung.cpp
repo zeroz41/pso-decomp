@@ -296,7 +296,6 @@ void handle_6x94_inter_level_warp(Pkt_8019C988 *arg0);
 s32 can_warp__11TObjMapWarpFlUs(void *, u16);
 void *find_warp_player_in_range(void *self, u16 client_id, f32 range);
 void TObjAreaWarpQuest__sub_8019DCD8(void *, s32);
-f32 get_static_field4_as_float__12TObjWarpJungFv(f32);
 s32 TObjWarpJung__sub_801A0404(s32);
 int check_flag_100__10TObjPlayerFPv(void *p);
 void send_6x21_inter_level_warp(void *obj, s32 value);
@@ -1489,7 +1488,7 @@ void TObjAreaWarpEndingJung::run_task() {
 
     temp_f1 = this->m_c4;
     this->m_c4 += 4.0f;
-    if (this->m_c4 > (get_static_field4_as_float__12TObjWarpJungFv(temp_f1) - 1.0f)) {
+    if (this->m_c4 > (TObjWarpJung::get_static_field4_as_float() - 1.0f)) {
         this->m_c4 = 0.0f;
     }
     handle_area_selection();

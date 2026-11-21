@@ -70,7 +70,6 @@ struct Obj_80165C84 {
 
 extern "C" {
 u8 * __ct__8TObjBaseFP7TObject(void *);
-s32 sub_80165940__16TODummyKeyCave01Fv(void *, f32);
 extern s32 __vt__16TODummyKeyCave01[];
 s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
@@ -96,7 +95,7 @@ u8 *TODummyKeyCave01__ct(u8 *dummy_key_cave01, saddr arg1, saddr arg2) {
     *(f32 *)((s8 *)dummy_key_cave01 + 0xB0) = 0.0f;
     *(f32 *)((s8 *)dummy_key_cave01 + 0xAC) = 0.0f;
     ((TODummyKeyCave01 *)dummy_key_cave01)->m_b8 = 1;
-    sub_80165940__16TODummyKeyCave01Fv(dummy_key_cave01, 1.0f);
+    ((TODummyKeyCave01 *)dummy_key_cave01)->sub_80165940();
     ((TODummyKeyCave01 *)dummy_key_cave01)->m_cc = 0;
     return dummy_key_cave01;
 }

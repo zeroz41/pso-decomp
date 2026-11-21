@@ -94,7 +94,6 @@ f32 xz_distance_squared(void *, void *);
 extern u8 *camera_ctrl_instance;
 void run_task__14TObjEnvSoundExFv(Env_80190624 *o);
 void * TObjEnvSoundEx__create(void *arg0);
-int is_not_split_screen__13TRaderMapCoreFv(void *);
 
 
 extern void *tl_05;
@@ -222,7 +221,7 @@ void TObjEnvSound::render() {  }
 
 void * TObjEnvSound__create(void *rader_map_core) {
     void *o;
-    if (is_not_split_screen__13TRaderMapCoreFv(rader_map_core) == 1) {
+    if (TRaderMapCore::is_not_split_screen() == 1) {
         return NULL;
     }
     o = TObject::operator new(0xA0);
@@ -330,7 +329,7 @@ s32 TObjEnvSoundEx::init_sound_params() {
 
 void * TObjEnvSoundEx__create(void *rader_map_core) {
     void *o;
-    if (is_not_split_screen__13TRaderMapCoreFv(rader_map_core) == 1) {
+    if (TRaderMapCore::is_not_split_screen() == 1) {
         return NULL;
     }
     o = TObject::operator new(0xA8);
