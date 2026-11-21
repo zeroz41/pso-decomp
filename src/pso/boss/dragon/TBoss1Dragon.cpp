@@ -5199,7 +5199,7 @@ void TBoss1Dragon::run_task() {
     ((TBoss1Dragon *)arg0)->update_position_history();
     ((TObjEnemy *)arg0)->submit_default_cursor_candidate();
     add_radar_scaled_marker((u8 *)&this->position, -0x5DB4, 1, 1, (f32) (((2.0f))));
-    VecCopy__FP3VecPC3Vec((saddr)&this->m_648, (saddr)&this->m_2fc);
+    VecCopy__FP3VecPC3Vec((saddr)&this->m_648, (saddr)&this->body_center);
     if (temp_r30_2 == 0) {
         ((TObject *)&this->unknown3C4)->run_tasks();
     }

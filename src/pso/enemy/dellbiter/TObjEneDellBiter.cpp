@@ -357,9 +357,9 @@ void TObjEneDellBiter::vfunc_62() {
 void TObjEneDellBiter::vfunc_61() {  }
 
 void TObjEneDellBiter::set_effect_pos_above_self() {
-    VecCopy((Vec *)&m_2fc, &position);
-    m_300 += 12.0f;
-    VecCopy(&center, (Vec *)&m_2fc);
+    VecCopy(&body_center, &position);
+    body_center.y += 12.0f;
+    VecCopy(&center, &body_center);
 }
 
 void TObjEneDellBiter::vfunc_88() {  }
@@ -587,9 +587,9 @@ s32 TObjEneDellBiter::select_farthest_visible_player() {
     for (i = 0; i < count; i++) {
         player = TObjPlayer::get_player_data(i);
         if (player->is_alive() != 0) {
-            distance = horizontal_distance_squared(&m_2fc, &player->position);
+            distance = horizontal_distance_squared(&body_center, &player->position);
             if (distance < 90000.0f && distance > best &&
-                csnLookAt(&m_2fc, &player->m_2fc) == 0) {
+                csnLookAt(&body_center, &player->body_center) == 0) {
                 id = get_entity_id(player);
                 best = distance;
             }
@@ -611,8 +611,8 @@ void TObjEneDellBiter::fn_80305688() {
     for (i = 0; i < count; i++) {
         player = TObjPlayer::get_player_data(i);
         if (player->is_alive() != 0) {
-            f32 distance = horizontal_distance_squared(&m_2fc, &player->position);
-            if (csnLookAt(&m_2fc, &player->m_2fc) == 0 &&
+            f32 distance = horizontal_distance_squared(&body_center, &player->position);
+            if (csnLookAt(&body_center, &player->body_center) == 0 &&
                 distance <= field_4b0 * field_4b0 && random_ratio() <= field_4ac) {
                 DirectAttackPayload attack;
                 attack.kind = 18;
@@ -770,7 +770,7 @@ void TObjEneDellBiter::fn_80305034(s32 reason) {
         field_4d0 = 0;
         VecCopy(&position, &home_position);
         VecCopy(&prev_position, &position);
-        VecCopy((Vec *)(&m_2fc), &position);
+        VecCopy((Vec *)(&body_center), &position);
         field_488 = 0;
         field_48c = 0;
         play_sound_effect(this->remap_sound_for_area((saddr)((void *)0x40039E12)), &position, 0, 0);
@@ -830,7 +830,7 @@ void TObjEneDellBiter::fn_80304D10(s32 reason) {
         play_sound_effect(this->remap_sound_for_area((saddr)((void *)0x40039E12)), &position, 0, 0);
         VecCopy(&position, &home_position);
         VecCopy(&prev_position, &position);
-        VecCopy((Vec *)(&m_2fc), &position);
+        VecCopy((Vec *)(&body_center), &position);
         position.x -= 100.0f * sin_table_lookup(rotation_y);
         position.z -= 100.0f * cos_table_lookup(rotation_y);
         state_timer = (s32)(100.0f / TObjEneDellBiter__movement_params->rush_speed);
@@ -1399,8 +1399,8 @@ void TObjEneDellBiter::state_death(s32 reason) {
         switch (state_timer) {
         case 0:
             if (this->get_flag_b4() != 0) {
-                fn_800D911C((Vec *)(&m_2fc));
-                play_sound_effect(0x4003A830, &m_2fc, 0, 0);
+                fn_800D911C((Vec *)(&body_center));
+                play_sound_effect(0x4003A830, &body_center, 0, 0);
                 state_timer = 1;
                 return;
             }
@@ -1508,7 +1508,7 @@ void TObjEneDellBiter::render() {
         draw = 1;
         camera_fade = &camera_fades[cam];
         camera_fade->update();
-        cam = camera_fade->updateFromCamera((const f32*)(&m_2fc));
+        cam = camera_fade->updateFromCamera((const f32*)(&body_center));
         if (flags & 2) {
             fade.set_flags_and_apply_damage_color();
             if (defer_render() != 0) {
@@ -1545,7 +1545,7 @@ void TObjEneDellBiter::render() {
         update_primary_light();
     } else if (is_split_screen() == 0) {
         for (i = 0; i < 3; i++) {
-            VecCopy(&part_positions[i], (const Vec *)(&m_2fc));
+            VecCopy(&part_positions[i], (const Vec *)(&body_center));
         }
     }
 }

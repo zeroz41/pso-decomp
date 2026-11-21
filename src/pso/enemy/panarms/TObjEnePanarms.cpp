@@ -461,7 +461,7 @@ TObjEnePanBARA::TObjEnePanBARA(TObject *parent, void *setData, s32 index) : TObj
     set_field_dc((saddr)TObjEnePanarms__entry_params_resource->motions);
     set_animation(0);
     set_field_b8(0);
-    VecCopy((Vec *)&m_2fc, &position);
+    VecCopy(&body_center, &position);
     x_speed = y_speed = m_310 = 0.0f;
     target = NULL;
     switch (m_380) {
@@ -565,16 +565,16 @@ void TObjEnePanBARA::run_task() {
         case 1:
             s = ((Panarms_800E2200 *)this)->fC0 / 35.0f;
             ((void (*)(void *, void *, s32, f32))calc_part_position__14TObjEnePanBARAFPUcPl)(this, &a, 0, ((Panarms_800E2200 *)this)->fC0);
-            ((void (*)(void *, void *))subtract_vector)(&a, &m_2fc);
+            ((void (*)(void *, void *))subtract_vector)(&a, &body_center);
             a.x *= s;
             a.z *= s;
-            ((void (*)(void *, void *))vec3_add_to)(&a, &m_2fc);
+            ((void (*)(void *, void *))vec3_add_to)(&a, &body_center);
             minimap_render_dot(&a, -0x5DB4, 1, 0);
             break;
         case 5:
             {
             s = ((Panarms_800E2200 *)this)->fC0 / 45.0f;
-            Vec b = *(Vec *)&m_2fc;
+            Vec b = body_center;
             ((void (*)(void *, void *))subtract_vector)(&b, &m_38c);
             b.x *= s;
             b.z *= s;
@@ -583,7 +583,7 @@ void TObjEnePanBARA::run_task() {
             }
             break;
         default:
-            minimap_render_dot(&m_2fc, -0x5DB4, 1, 0);
+            minimap_render_dot(&body_center, -0x5DB4, 1, 0);
             break;
         }
     }
@@ -675,7 +675,7 @@ void TObjEnePanBARA::vfunc_63() {
             VecCopy(&this->position, (const Vec *)(this->m_39c + 0x38));
             *(f32 *)((s8 *)arg0 + 0x38) += 10.0f * sin_table_lookup(this->rotation_y);
             *(f32 *)((s8 *)arg0 + 0x40) += 10.0f * cos_table_lookup(this->rotation_y);
-            VecCopy((Vec *)&this->m_2fc, &this->position);
+            VecCopy(&this->body_center, &this->position);
         }
         ((TObjEnePanBARA *)(arg0))->sub_800E1C98(7);
         break;
@@ -978,7 +978,7 @@ void TObjEnePanBARA::snap_to_parent_position() {
     VecCopy(&position, (const Vec *)(m_39c + 0x38));
     position.x += 1000.0f;
     position.y += 1000.0f;
-    VecCopy((Vec *)&m_2fc, &position);
+    VecCopy(&body_center, &position);
 }
 
 void TObjEnePanBARA::init_split() {

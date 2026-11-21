@@ -194,11 +194,11 @@ void TBoss2Mine::vfunc_62() { clear_attack_receipts(); }
 
 void TBoss2Mine::vfunc_61() {  }
 
-void TBoss2Mine::save_position() { VecCopy(&center, body_center()); }
+void TBoss2Mine::save_position() { VecCopy(&center, &body_center); }
 
 void TBoss2Mine::update_move_flag() {
-    position.x = m_2fc;
-    position.z = m_304;
+    position.x = body_center.x;
+    position.z = body_center.z;
     if (vfunc_102() == 0) {
         mine_flags &= ~2;
         return;
@@ -353,7 +353,7 @@ void TBoss2Mine::state_explode(s32 reason) {
             TObjEneDD__sub_800BA5A4(this, &hit);
             spawn_particle_effect_with_flags(&bodies->center, 0x16B, 0x40);
             timer = 2;
-            play_sound_effect(0x4003AD05, body_center(), 0, 0);
+            play_sound_effect(0x4003AD05, &body_center, 0, 0);
         }
         break;
     }
@@ -398,7 +398,7 @@ void TBoss2Mine::render() {
     set_node_offsets();
     push_matrix();
     post_translate_matrix(&position.x);
-    translate_matrix(0, 0.0f, m_300 - position.y, 0.0f);
+    translate_matrix(0, 0.0f, body_center.y - position.y, 0.0f);
     rotate_matrix_y(NULL, rotation_y);
     rotate_matrix_x(NULL, rotation_x);
     rotate_matrix_y(NULL, rotation_z);
@@ -438,15 +438,15 @@ TUnk_80482EC0::TUnk_80482EC0(TObject *parent, u16 entity_id, s32 set_index)
 TUnk_80482EC0::~TUnk_80482EC0() {}
 
 void TUnk_80482EC0::vfunc_88() {
-    bodies->offset.y = 5.0f + (m_300 - position.y);
+    bodies->offset.y = 5.0f + (body_center.y - position.y);
 }
 
 void TBoss2Mine::set_launch_position_velocity(const Vec *start, const Vec *target) {
     mine_flags |= 0x100;
-    VecCopy(body_center(), start);
+    VecCopy(&body_center, start);
     VecCopy(&target_pos, target);
     target_pos.y += 1.0f;
-    VecCopy(&position, body_center());
+    VecCopy(&position, &body_center);
     spike_angle = 0;
     hp = hpmax;
     actorFlags &= ~0xA00;
@@ -463,12 +463,12 @@ void TUnk_80482EC0::state_launch(s32 reason) {
         vfunc_95();
         mine_flags &= ~7;
         VecCopy(&throw_dir, &target_pos);
-        subtract_vector(&throw_dir, body_center());
+        subtract_vector(&throw_dir, &body_center);
         m_3dc = normalize_vector_xz(&throw_dir);
         angle = (s32)(10430.38043493439 * atan2_float(throw_dir.x, throw_dir.z));
         rotation_y = angle;
         rotation_x = 0x4000;
-        y = m_300;
+        y = body_center.y;
         temp_f1 = newton_sqrtf(angle, (2.0f * (y - target_pos.y)) / 0.2f, y, 2.0f);
         drop_distance = 10.0f * temp_f1;
         throw_speed = 10.0f;
@@ -477,20 +477,20 @@ void TUnk_80482EC0::state_launch(s32 reason) {
         m_3e0 = m_3dc;
         break;
     case 3:
-        if (m_300 < target_pos.y) {
-            m_300 = target_pos.y;
+        if (body_center.y < target_pos.y) {
+            body_center.y = target_pos.y;
             transition_enemy_state(2);
         }
         break;
     case 5:
         break;
     case 0:
-        m_2fc = throw_dir.x * throw_speed + m_2fc;
-        m_304 = throw_dir.z * throw_speed + m_304;
+        body_center.x = throw_dir.x * throw_speed + body_center.x;
+        body_center.z = throw_dir.z * throw_speed + body_center.z;
         m_3e0 = m_3e0 - throw_speed;
         if (m_3e0 < drop_distance) {
             fall_speed = fall_speed - 0.2f;
-            m_300 = m_300 + fall_speed;
+            body_center.y = body_center.y + fall_speed;
             if (rotation_x >= 0x8000) {
                 rotation_x = 0x8000;
             } else {
@@ -521,7 +521,7 @@ void TUnk_80482EC0::state_armed(s32 reason) {
         step = 0;
         extra = (s32)(30.0f * calc_elapsed_scaled());
         timer = extra + 180;
-        play_sound_effect(0x4003A804, body_center(), 0, 0);
+        play_sound_effect(0x4003A804, &body_center, 0, 0);
         init_params(30, 0.25f);
         return;
     case 3:
@@ -575,7 +575,7 @@ TUnk_80482D04::TUnk_80482D04(TObject *parent, u16 entity_id, s32 set_index)
 TUnk_80482D04::~TUnk_80482D04() {}
 
 void TUnk_80482D04::vfunc_88() {
-    bodies->offset.y = 1.0f + (m_300 - position.y);
+    bodies->offset.y = 1.0f + (body_center.y - position.y);
 }
 
 void TUnk_80482D04::move_mine() {
@@ -590,7 +590,7 @@ void TUnk_80482D04::init_launch(Vec *pos, TObjBase *owner, s32 slot) {
     s32 angle;
     s32 heading;
     this->mine_flags |= 0x100;
-    VecCopy(this->body_center(), pos);
+    VecCopy(&this->body_center, pos);
     this->owner = owner;
     angle = slot * 0x5555;
     this->slot = slot;
@@ -613,7 +613,7 @@ void TUnk_80482D04::init_launch(Vec *pos, TObjBase *owner, s32 slot) {
     this->target_pos.z = 0.0f;
     this->move_mine();
     this->rotation_x = 0x4000;
-    VecCopy(&this->position, this->body_center());
+    VecCopy(&this->position, &this->body_center);
     this->spike_angle = 0;
     this->hp = this->hpmax;
     this->actorFlags &= ~0xA00;
@@ -647,10 +647,10 @@ void TUnk_80482D04::state_launch(s32 reason) {
             timer++;
             if (timer >= 15) {
                 step = 1;
-                play_sound_effect(0x4003A804, body_center(), 0, 0);
+                play_sound_effect(0x4003A804, &body_center, 0, 0);
             }
-            m_2fc = direction.x * m_3dc + m_2fc;
-            m_304 = direction.z * m_3dc + m_304;
+            body_center.x = direction.x * m_3dc + body_center.x;
+            body_center.z = direction.z * m_3dc + body_center.z;
             break;
         case 1:
             spike_angle += 0x400;
@@ -658,8 +658,8 @@ void TUnk_80482D04::state_launch(s32 reason) {
                 spike_angle = 0x38E3;
                 step = 2;
             }
-            m_2fc = direction.x * m_3dc + m_2fc;
-            m_304 = direction.z * m_3dc + m_304;
+            body_center.x = direction.x * m_3dc + body_center.x;
+            body_center.z = direction.z * m_3dc + body_center.z;
             break;
         case 2:
             rotation_x -= 0x600;
@@ -673,7 +673,7 @@ void TUnk_80482D04::state_launch(s32 reason) {
             }
             move_mine();
             VecCopy(&to_target, &target_pos);
-            subtract_vector(&to_target, body_center());
+            subtract_vector(&to_target, &body_center);
             if (normalize_vector_safe(&to_target) <= 4.5f) {
                 step = 3;
             }
@@ -686,9 +686,9 @@ void TUnk_80482D04::state_launch(s32 reason) {
             direction.y = to_target.y * t + direction.y;
             direction.z = to_target.z * t + direction.z;
             normalize_vector_safe(&direction);
-            m_2fc = direction.x * m_3dc + m_2fc;
-            m_300 = direction.y * m_3dc + m_300;
-            m_304 = direction.z * m_3dc + m_304;
+            body_center.x = direction.x * m_3dc + body_center.x;
+            body_center.y = direction.y * m_3dc + body_center.y;
+            body_center.z = direction.z * m_3dc + body_center.z;
             break;
         }
         update_move_flag();
@@ -732,26 +732,26 @@ void TUnk_80482D04::state_armed(s32 reason) {
         rotation_z += 2560.0f;
         move_mine();
         VecCopy(&to_target, &target_pos);
-        subtract_vector(&to_target, body_center());
+        subtract_vector(&to_target, &body_center);
         s = normalize_vector_xz(&to_target);
         s *= 0.75f;
         if (s < 0.2f) {
-            VecCopy(body_center(), &target_pos);
+            VecCopy(&body_center, &target_pos);
         } else {
             if (s > 4.0f) {
                 s = 4.0f;
             }
-            m_2fc = to_target.x * s + m_2fc;
-            m_300 = target_pos.y;
-            m_304 = to_target.z * s + m_304;
+            body_center.x = to_target.x * s + body_center.x;
+            body_center.y = target_pos.y;
+            body_center.z = to_target.z * s + body_center.z;
         }
         set_state_by_distance(timer);
         update_pulse_state();
-        position.x = m_2fc;
-        position.z = m_304;
+        position.x = body_center.x;
+        position.z = body_center.z;
         vfunc_89();
-        m_2fc = position.x;
-        m_304 = position.z;
+        body_center.x = position.x;
+        body_center.z = position.z;
         update_move_flag();
         break;
     case 5:

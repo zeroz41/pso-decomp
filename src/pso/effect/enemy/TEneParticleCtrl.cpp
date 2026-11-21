@@ -37,7 +37,7 @@ TEneParticleCtrl::TEneParticleCtrl(TObjChara *owner, s32 effect_index) : TObjCol
     bodies->flags &= ~1;
     owner_id = get_entity_id(owner);
     set_position_from(&owner->center);
-    VecCopy(&effect_pos, (Vec *)&owner->m_2fc);
+    VecCopy(&effect_pos, &owner->body_center);
     effect = effect_index;
     particle = spawn_continuous_particle_effect_with_flags(&effect_pos, effect, 0x10);
     if (particle != NULL) {

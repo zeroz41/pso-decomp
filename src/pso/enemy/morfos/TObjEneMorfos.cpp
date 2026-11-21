@@ -1190,13 +1190,13 @@ s32 TObjEneMorfos::approach_value(s32 arg1, s32 arg2) {
 
 void TObjEneMorfos::set_hover_target_position() {
     u8 *arg0 = (u8 *)this;
-    this->m_2fc = (f32) *(f32 *)((s8 *)arg0 + 0x38);
-    this->m_300 = (f32) (20.0f + *(f32 *)((s8 *)arg0 + 0x3C));
-    this->m_304 = (f32) *(f32 *)((s8 *)arg0 + 0x40);
+    this->body_center.x = (f32) *(f32 *)((s8 *)arg0 + 0x38);
+    this->body_center.y = (f32) (20.0f + *(f32 *)((s8 *)arg0 + 0x3C));
+    this->body_center.z = (f32) *(f32 *)((s8 *)arg0 + 0x40);
     VecCopy((Vec *)(arg0 + 0x74), (const Vec *)(arg0 + 0x2FC));
 }
 void TObjEneMorfos::vfunc_88() {
-    *(f32 *)((s8 *)this->bodies + 4) = (f32) (this->m_300 - *(f32 *)((s8 *)this + 0x3C));
+    *(f32 *)((s8 *)this->bodies + 4) = (f32) (this->body_center.y - *(f32 *)((s8 *)this + 0x3C));
 }
 
 #pragma push

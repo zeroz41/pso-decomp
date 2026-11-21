@@ -148,8 +148,8 @@ void TBoss2Joint::vfunc_88() {
 }
 
 void TBoss2Joint::update_position_history() {
-    VecCopy((Vec *)&m_2fc, &position);
-    VecCopy(&center, (Vec *)&m_2fc);
+    VecCopy(&body_center, &position);
+    VecCopy(&center, &body_center);
 }
 
 void TBoss2Joint::vfunc_61() {}

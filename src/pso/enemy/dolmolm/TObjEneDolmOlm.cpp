@@ -1274,8 +1274,8 @@ void TObjEneDolmOlm::vfunc_60() {
     }
 }
 void TObjEneDolmOlm::advance_position() {
-    VecCopy((Vec *)&this->m_2fc, (const Vec *)&this->position);
-    this->m_300 += 20.0f;
+    VecCopy(&this->body_center, (const Vec *)&this->position);
+    this->body_center.y += 20.0f;
 }
 void TObjEneDolmOlm::request_stand_action() { this->requested_action = 1; }
 #pragma push

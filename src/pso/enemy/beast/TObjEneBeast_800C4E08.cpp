@@ -163,7 +163,7 @@ void TUnk_80493450::beast_update_hurt() {
     Vec v;
 
     advance_animation();
-    VecCopy(&v, (const Vec *)&m_2fc);
+    VecCopy(&v, &body_center);
     scratch_vec.x = scratch_vec.y = BEAST_ZERO_VECTOR_COMPONENT;
     scratch_vec.z = get_collision_body_radius(0);
     ((void (*)(void *, void *))push_matrix_from)(identity_matrix, &scratch_vec);
@@ -346,7 +346,7 @@ void TUnk_80493450::beast_update_group_chase() {
         break;
     }
     if (target != NULL) {
-        Vec v = *(Vec *)&((TObjChara *)target)->m_2fc;
+        Vec v = ((TObjChara *)target)->body_center;
         d = enemy_backstep_from_point(this, &v, m_398);
         turn_toward_direction((saddr)((Sub350_800C57F0 *)movementParameters)->p8, (Vec *)&x_speed);
         r = m_398 + bodies->radius;
@@ -383,11 +383,11 @@ void TUnk_80493450::beast_update_approach() {
                 if (this->m_38c++ < BEAST_HOME_CHASE_FRAME_COUNT) {
                     VecCopy(&sp14, &this->home_position);
                 } else {
-                    VecCopy(&sp14, (const Vec *)&((TObjChara *)this->target)->m_2fc);
+                    VecCopy(&sp14, &((TObjChara *)this->target)->body_center);
                 }
             } else {
                 this->m_38c = 0U;
-                VecCopy(&sp14, (const Vec *)&((TObjChara *)this->target)->m_2fc);
+                VecCopy(&sp14, &((TObjChara *)this->target)->body_center);
             }
             update_target_near_flag();
             sub_800C4E08();
@@ -428,8 +428,8 @@ void TUnk_80493450::update_turn_toward_target() {
     case 1:
         if (arg0->target != NULL && arg0->is_actor_cadence_frame(0x1E) != 0) {
             Vec d;
-            VecCopy(&d, (const Vec *)&((TObjChara *)arg0->target)->m_2fc);
-            subtract_vector(&d, &arg0->m_2fc);
+            VecCopy(&d, &((TObjChara *)arg0->target)->body_center);
+            subtract_vector(&d, &arg0->body_center);
             ang = arg0->turn_toward_direction((saddr)((Ctl_800C5B10 *)arg0->movementParameters)->field_8, &d);
             if (d.x * d.x + d.z * d.z < BEAST_GROUP_APPROACH_DISTANCE_SQ || arg0->children == 0) {
                 arg0->mode = 3;
@@ -444,8 +444,8 @@ void TUnk_80493450::update_turn_toward_target() {
     case 2:
         if (arg0->target != NULL && arg0->is_actor_cadence_frame(0x1E) != 0) {
             Vec d;
-            VecCopy(&d, (const Vec *)&((TObjChara *)arg0->target)->m_2fc);
-            subtract_vector(&d, &arg0->m_2fc);
+            VecCopy(&d, &((TObjChara *)arg0->target)->body_center);
+            subtract_vector(&d, &arg0->body_center);
             ang = angle_difference_abs(arg0->rotation_y, (s32)(BEAST_ANGLE_UNITS_PER_RADIAN * atan2_float(d.x, d.z)));
             if (d.x * d.x + d.z * d.z < BEAST_GROUP_APPROACH_DISTANCE_SQ || arg0->children == 0) {
                 arg0->mode = 3;
@@ -533,7 +533,7 @@ void TUnk_80493450::beast_idle_update() {
     range = *(f32 *)((s8 *)arg0 + 0x358) + (*(f32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 4) + *(f32 *)((s8 *)(*(u8 * *)&this->bodies) + 0xC));
     if (range * range < dist) {
         VecCopy((Vec *)&this->m_29c, &this->home_position);
-        VecCopy((Vec *)&this->m_290, (const Vec *)&this->m_2fc);
+        VecCopy((Vec *)&this->m_290, &this->body_center);
         VecCopy(&this->prev_position, &this->position);
         VecCopy(&scratch_vec, &this->home_position);
         subtract_vector(&scratch_vec, (u8 *)&this->position);
@@ -677,11 +677,11 @@ void TUnk_80493450::vfunc_28() {
                 }
                 id = get_entity_id(player);
                 if (id < 0x4000 && id != self->entity_id && player->obj_testFlags30(0x03000800) == 0) {
-                    VecCopy(&d, (Vec *)&player->m_2fc);
-                    subtract_vector(&d, &self->m_2fc);
+                    VecCopy(&d, &player->body_center);
+                    subtract_vector(&d, &self->body_center);
                     dist = d.x * d.x + d.z * d.z;
-                    if (dist < best_dist && check_path_obstructed(self, &player->m_2fc) != 1 &&
-                        csnVector(&self->m_2fc, &player->m_2fc, -1) == 0) {
+                    if (dist < best_dist && check_path_obstructed(self, &player->body_center) != 1 &&
+                        csnVector(&self->body_center, &player->body_center, -1) == 0) {
                         best = id;
                         best_dist = dist;
                     }

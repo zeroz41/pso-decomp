@@ -197,9 +197,9 @@ void TOVS2Wall01::vfunc_6(s16 *arg1, s32 arg2) {
 void TOVS2Wall01::spawn_debris(s32 index) {
     TObjChipParams params = vs2_wall_debris_desc;
 
-    params.pos[0] = m_2fc;
-    params.pos[1] = m_300;
-    params.pos[2] = m_304;
+    params.pos[0] = body_center.x;
+    params.pos[1] = body_center.y;
+    params.pos[2] = body_center.z;
     params.pad_38[0] = position.y;
     params.model = (saddr)get_bml_model((BmlResource *)TOVS2Wall01__bml_resource, index);
     params.textures = (saddr)get_bml_texlist((BmlResource *)TOVS2Wall01__bml_resource, index);

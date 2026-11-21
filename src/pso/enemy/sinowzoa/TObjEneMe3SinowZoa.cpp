@@ -455,13 +455,13 @@ void TObjEneMe3SinowZoa::vfunc_62() {
 void TObjEneMe3SinowZoa::vfunc_61() {  }
 
 void TObjEneMe3SinowZoa::copy_pos_with_height_offset() {
-    VecCopy(body_center(), &position);
-    this->m_300 = this->m_300 + (TObjEneMe3SinowZoa__data_805DF2FC + this->m_3e4);
+    VecCopy(&body_center, &position);
+    this->body_center.y = this->body_center.y + (TObjEneMe3SinowZoa__data_805DF2FC + this->m_3e4);
     VecCopy(&center, &position);
 }
 
 void TObjEneMe3SinowZoa::vfunc_88() {
-    bodies->offset.y = this->m_300 - this->position.y;
+    bodies->offset.y = this->body_center.y - this->position.y;
 }
 
 void TObjEneMe3SinowZoa::vfunc_95() { TObjEneDD::vfunc_95(); sub_800F5874(38); }
@@ -762,7 +762,7 @@ void TObjEneMe3SinowZoa::action(s32 arg1) {
         this->m_434 = 0;
         VecCopy(&position, &home_position);
         VecCopy(&prev_position, &home_position);
-        VecCopy(body_center(), &home_position);
+        VecCopy(&body_center, &home_position);
         this->m_3e0 = this->position.y;
         this->m_3f8 = 0;
         this->m_3fc = 0;
@@ -2004,8 +2004,8 @@ void TObjEneMe3SinowZoa__sub_803170F0(TObjEneMe3SinowZoa *self, s32 arg1) {
 }
 
 inline s32 approach_80316C3C(TObjEneMe3SinowZoa *self) {
-    copy_position_if_valid__10TObjPlayerFii(self, *self->body_center());
-    self->m_300 += TObjEneMe3SinowZoa__data_805DF308;
+    copy_position_if_valid__10TObjPlayerFii(self, self->body_center);
+    self->body_center.y += TObjEneMe3SinowZoa__data_805DF308;
     return ((TObjEnemy *)self)->enemy_turn_toward_dest(((TObjEneMe3SinowZoaMoveParams *)self->movementParameters)->turn);
 }
 inline s32 seek_80316C3C(TObjEneMe3SinowZoa *self, Vec *diff) {
@@ -2016,7 +2016,7 @@ inline s32 seek_80316C3C(TObjEneMe3SinowZoa *self, Vec *diff) {
         move_with_wall_slide((u8 *)self);
     } else {
         VecCopy(diff, &self->m_394);
-        subtract_vector(diff, self->body_center());
+        subtract_vector(diff, &self->body_center);
         angle = self->turn_toward_direction(((TObjEneMe3SinowZoaMoveParams *)self->movementParameters)->turn, diff);
     }
     return angle;
@@ -2094,7 +2094,7 @@ void TObjEneMe3SinowZoa__sub_80316C3C(TObjEneMe3SinowZoa *self, s32 arg1) {
                 pop_matrix();
                 if (self->m_390 != NULL) {
                     VecCopy(&diff, &self->m_394);
-                    subtract_vector(&diff, self->body_center());
+                    subtract_vector(&diff, &self->body_center);
                     angle = self->turn_toward_direction(((TObjEneMe3SinowZoaMoveParams *)self->movementParameters)->turn, &diff);
                 } else {
                     angle = ((AttackParams *)self->m_318)->attack_angle;

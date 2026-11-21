@@ -1402,7 +1402,7 @@ void TItem::snap_to_owner() {}
 
 void TItem::apply_switch_attack(s32 effect) {
     if (owner != NULL && owner->is_body_collision_inactive() == 0) {
-        TParticleCtrl *particle = (TParticleCtrl *)spawn_particle_effect_with_flags((const Vec *)&owner->m_2fc, effect, 0x10);
+        TParticleCtrl *particle = (TParticleCtrl *)spawn_particle_effect_with_flags(&owner->body_center, effect, 0x10);
         if (particle != NULL) {
             particle->set_owner_id(get_owner_client());
         }

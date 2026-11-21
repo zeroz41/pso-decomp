@@ -332,7 +332,7 @@ void TObjNpcBase::update_wandering() {
             play_voice();
         }
         {
-            f32 dist = horizontal_distance_squared((Vec *)&m_29c, (Vec *)&m_2fc);
+            f32 dist = horizontal_distance_squared((Vec *)&m_29c, &body_center);
             r = ((NpcMovementParameters *)movementParameters)->speed + bodies->radius;
             if (dist < r * r || (bodies->flags & 0x380000)) {
                 phase = 3;

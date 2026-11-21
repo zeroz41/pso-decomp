@@ -591,7 +591,7 @@ void TBoss7TentacleNeedle::damage_nearby_players() {
                 hit.power = 100.0f;
                 player->receive_direct_attack(m_up, hit, NULL, -1, -1);
                 if (player_hit[(u16)i] == 0) {
-                    spawn_particle_effect((Vec *)&player->m_2fc, 0x214);
+                    spawn_particle_effect(&player->body_center, 0x214);
                     player_hit[(u16)i] = 1;
                 }
             }

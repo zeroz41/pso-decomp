@@ -223,7 +223,7 @@ void TOCtrlDubchik::run_task() {
         complete_and_destroy();
         break;
     }
-    VecCopy((Vec *)&this->m_2fc, (const Vec *)&this->position);
+    VecCopy(&this->body_center, (const Vec *)&this->position);
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     submit_cursor_candidate(arg0, -1);
 }
@@ -336,7 +336,7 @@ f32 TOCtrlDubchik::receive_weapon_special_attack(void *attacker, void *hit) {
         if (hit != NULL) {
             VecCopy(&pos, &((A_8015C9D4 *)hit)->pos);
         } else {
-            VecCopy(&pos, (Vec *)&m_2fc);
+            VecCopy(&pos, &body_center);
         }
         TOCtrlDubchik::create_font((saddr)&pos, (s32)0xFFFF0000, 0x14, (saddr)"MISS");
     }

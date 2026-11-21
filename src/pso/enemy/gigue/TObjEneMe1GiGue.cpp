@@ -465,8 +465,8 @@ void TObjEneMe1GiGue::run_task() {
         mode = next_action;
         state = 0;
     }
-    VecCopy((Vec *)&m_2fc, &position);
-    m_300 += 15.0f + m_3ec;
+    VecCopy(&body_center, &position);
+    body_center.y += 15.0f + m_3ec;
     bodies[0].offset.y = 25.0f + m_3ec;
     if (!(m_388 & 0x40000)) {
         submit_cursor_candidate(this, -1);
@@ -551,7 +551,7 @@ void TObjEneMe1GiGue::render() {
         return;
     }
     saved_model_render_flags = model_render_flags;
-    if (m_418.updateFromCamera(&m_2fc) != 0) {
+    if (m_418.updateFromCamera(&body_center.x) != 0) {
         ((MaterialColorFade *)&m_418)->set_flags_and_apply_damage_color();
         if (defer_render() != 0) {
             model_render_flags = saved_model_render_flags;
@@ -679,7 +679,7 @@ void TObjEneMe1GiGue__sub_802CCBAC(TObjEneMe1GiGue *gigue) {
         gigue->requested_action = 1;
         gigue->m_3dc = 0;
         if (gigue->target != NULL) {
-            VecCopy((Vec *)&gigue->m_29c, (Vec *)&((TObjChara *)gigue->target)->m_2fc);
+            VecCopy((Vec *)&gigue->m_29c, &((TObjChara *)gigue->target)->body_center);
         }
         gigue->state = 1;
     case 1:
@@ -778,13 +778,13 @@ void TObjEneMe1GiGue__sub_802CC900(TObjEneMe1GiGue *gigue) {
                     GiGueShotAngles dir = {0x4000, 0, 0};
                     particle->set_direction(&dir);
                 }
-                TObjEneMe1GiGueMissile::create((saddr)gigue, (saddr)&gigue->m_39c, (saddr)&((TObjChara *)gigue->target)->m_2fc, lbl_805D6840, (f32)lbl_805D6850);
+                TObjEneMe1GiGueMissile::create((saddr)gigue, (saddr)&gigue->m_39c, (saddr)&((TObjChara *)gigue->target)->body_center, lbl_805D6840, (f32)lbl_805D6850);
                 play_sound_effect(TObjEneMe1GiGue::remap_sound_id(gigue, 0x3A31E), &gigue->position, 0, 0);
                 gigue->state = 3;
             }
             break;
         }
-        VecCopy((Vec *)&gigue->m_29c, (Vec *)&((TObjChara *)gigue->target)->m_2fc);
+        VecCopy((Vec *)&gigue->m_29c, &((TObjChara *)gigue->target)->body_center);
         enemy_turn_half_toward_dest(gigue);
         gigue->advance_animation();
         if (!(gigue->actorFlags & 0x01000000)) {
@@ -929,8 +929,8 @@ void TObjEneMe1GiGue__sub_802CC45C(TObjEneMe1GiGue *gigue) {
             if (gigue->frame >= 10.0f) {
                 TObjEneMe1GiGue__sub_802CB03C(gigue);
                 gigue->state = 3;
-                TTecZarua::create_instance((saddr)gigue, (Vec *)&gigue->m_2fc, (Vec *)&gigue->m_2fc, get_gigue_int_parameter(gigue, 2));
-                create__9TTecJelinFllll(gigue, &gigue->m_2fc, &gigue->m_2fc, get_gigue_int_parameter(gigue, 2));
+                TTecZarua::create_instance((saddr)gigue, &gigue->body_center, &gigue->body_center, get_gigue_int_parameter(gigue, 2));
+                create__9TTecJelinFllll(gigue, &gigue->body_center, &gigue->body_center, get_gigue_int_parameter(gigue, 2));
             }
             break;
         }
@@ -1116,12 +1116,12 @@ void TObjEneMe1GiGue::update_hit_reaction() {
             action = 5;
         }
         requested_action = action;
-        spawn_particle_effect((const Vec *)&m_2fc, 0xF2);
+        spawn_particle_effect(&body_center, 0xF2);
         state = 1;
     case 1:
         advance_animation();
         if (!(actorFlags & 0x01000000)) {
-            Vec v = *(Vec *)&m_2fc;
+            Vec v = body_center;
             v.x += x_speed;
             v.z += m_310;
             if (check_path_obstructed(this, &v) == 0) {
@@ -1315,7 +1315,7 @@ void init__15TObjEneMe1GiGueFPv(TObjEneMe1GiGue *gigue) {
         flags = gigue->actorFlags | 0x04000000;
         gigue->actorFlags = flags;
         gigue->requested_action = 0;
-        play_area_sound_effect((Vec *)&gigue->m_2fc);
+        play_area_sound_effect(&gigue->body_center);
         gigue->m_3fc.start_fade_in();
         gigue->state = 1;
     case 1:
@@ -1406,8 +1406,8 @@ void find_open_direction__15TObjEneMe1GiGueFPvPv(TObjEneMe1GiGue *gigue, Vec *di
     rotate_matrix_y(0, ang);
     for (i = 0; i < 3; i++) {
         matrix_mult_vec(0, &v, &gigue->m_390);
-        vec3_add_to(&gigue->m_390, (Vec *)&gigue->m_2fc);
-        hit = csnVector((Vec *)&gigue->m_2fc, &gigue->m_390, -1);
+        vec3_add_to(&gigue->m_390, &gigue->body_center);
+        hit = csnVector(&gigue->body_center, &gigue->m_390, -1);
         if (hit == NULL) {
             pop_matrix();
             return;
@@ -1426,7 +1426,7 @@ void find_open_direction__15TObjEneMe1GiGueFPvPv(TObjEneMe1GiGue *gigue, Vec *di
     w.x = best;
     rotate_matrix_y(0, best_ang);
     matrix_mult_vec(0, &w, &gigue->m_390);
-    vec3_add_to(&gigue->m_390, (Vec *)&gigue->m_2fc);
+    vec3_add_to(&gigue->m_390, &gigue->body_center);
     pop_matrix();
 }
 #pragma pool_data reset
@@ -1497,7 +1497,7 @@ extern "C" {
 f32 TObjEneMe1GiGue::receive_physical_attack(void *attacker, f32 power) {
     f32 damage = 0.0f;
     if (m_388 & 0x80000) {
-        show_miss_popup(&m_2fc);
+        show_miss_popup(&body_center.x);
         set_state(10);
     } else {
         damage = TObjChara::receive_physical_attack(attacker, power);
@@ -1508,7 +1508,7 @@ f32 TObjEneMe1GiGue::receive_physical_attack(void *attacker, f32 power) {
 f32 TObjEneMe1GiGue::receive_direct_attack(void *attacker, DirectAttackPayload hit, void *source, s32, s32) {
     f32 damage = 0.0f;
     if (m_388 & 0x80000) {
-        show_miss_popup(&m_2fc);
+        show_miss_popup(&body_center.x);
         set_state(10);
     } else {
         damage = TObjChara::receive_direct_attack(attacker, hit, source, -1, -1);
@@ -1519,7 +1519,7 @@ f32 TObjEneMe1GiGue::receive_direct_attack(void *attacker, DirectAttackPayload h
 f32 TObjEneMe1GiGue::receive_weapon_special_attack(void *attacker, void *weapon) {
     f32 damage = 0.0f;
     if (m_388 & 0x80000) {
-        show_miss_popup(&m_2fc);
+        show_miss_popup(&body_center.x);
         set_state(10);
     } else {
         damage = TObjChara::receive_weapon_special_attack(attacker, weapon);

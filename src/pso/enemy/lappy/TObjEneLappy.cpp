@@ -486,10 +486,10 @@ s32 TObjEneLappy::advance_flee_step() {
     s32 var_r30;
     s32 var_r29;
     VecCopy((Vec *)((LappyVec *)&arg0->prev_position), (const Vec *)&arg0->position);
-    VecCopy((Vec *)&sp20, (const Vec *)((LappyVec *)&arg0->m_2fc));
+    VecCopy((Vec *)&sp20, (const Vec *)((LappyVec *)&arg0->body_center));
     vec3_add_to(&sp20, (LappyVec *)&arg0->unk_308);
     if (arg0->is_actor_cadence_frame(0x1E) != 0) {
-        if (csnVector((LappyVec *)&arg0->m_2fc, &sp20, -1) != 0U) {
+        if (csnVector((LappyVec *)&arg0->body_center, &sp20, -1) != 0U) {
             return 0;
         }
         if (((TObjChara *)arg0)->random_ratio() < 0.5f) {

@@ -764,7 +764,7 @@ void TObjEneSlimeOne::initialize_slime_instance_state() {
     actor->set_field_dc((saddr)actor->model_archive->motions);
     actor->set_animation(0);
     actor->set_field_b8(0);
-    VecCopy(actor->body_center(), &actor->position);
+    VecCopy(&actor->body_center, &actor->position);
     actor->m_310 = 0.0f;
     actor->y_speed = 0.0f;
     actor->x_speed = 0.0f;
@@ -1108,7 +1108,7 @@ void TObjEneSlimeOne::update_slime_timer() {
     temp_r0 = effect_timer - 1;
     effect_timer = temp_r0;
     if (temp_r0 == 0) {
-        spawn_particle_effect(reinterpret_cast<const Vec *>(&m_2fc), 0xCD);
+        spawn_particle_effect(&body_center, 0xCD);
     }
     if (animation->is_finished() == 1) {
         if (this->is_timer_active() != 0) {
@@ -1132,7 +1132,7 @@ void TObjEneSlimeOne::update_dive_timer() {
     temp_r0 = effect_timer - 1;
     effect_timer = temp_r0;
     if (temp_r0 == 0) {
-        spawn_particle_effect(reinterpret_cast<const Vec *>(&m_2fc), 0xCD);
+        spawn_particle_effect(&body_center, 0xCD);
     }
     if (animation->is_finished() == 1) {
         this->set_state(3);
@@ -1275,10 +1275,10 @@ void TObjEneSlimeOne::update_water_bomb_timer() {
     effect_timer = (s32) (effect_timer - 1);
     temp_r0 = effect_timer;
     if (temp_r0 > 0) {
-        spawn_particle_effect(reinterpret_cast<const Vec *>(&m_2fc), 0xFF);
+        spawn_particle_effect(&body_center, 0xFF);
     } else if (temp_r0 == 0) {
         ((s32 (*)(s32, void *, s32, s32))play_sound_effect)(0x4003A017, ((u8 *)this) + 0x38, 0, 0);
-        spawn_particle_effect(reinterpret_cast<const Vec *>(&m_2fc), 0xE2);
+        spawn_particle_effect(&body_center, 0xE2);
         TObjEneSlimeWaterBomb::create(this, this);
     }
     temp_r0_2 = this->state_timer - 1;
@@ -1360,7 +1360,7 @@ void TObjEneSlimeOne::update_tick() {
     temp_r3 = effect_timer + 1;
     effect_timer = temp_r3;
     if (!(temp_r3 & 3)) {
-        spawn_particle_effect(reinterpret_cast<const Vec *>(&m_2fc), 0xE0);
+        spawn_particle_effect(&body_center, 0xE0);
     }
     if (this->motion_flags & 0x10) {
         if (this->is_timer_active() != 0) {
@@ -1375,7 +1375,7 @@ void TObjEneSlimeOne::init_split_effect() {
     *(f32 *)((s8 *)((u8 *)this) + 0x3B0) = 1.0f;
     this->draw_scale.y = 1.0f;
     this->draw_scale.x = 1.0f;
-    spawn_particle_effect(reinterpret_cast<const Vec *>(&m_2fc), 0xCE);
+    spawn_particle_effect(&body_center, 0xCE);
     play_sound_effect(0x4003A61A, ((u8 *)this) + 0x38, 0, 0);
     animation->set_state(5);
     set_display_mode(0);
@@ -1397,7 +1397,7 @@ void TObjEneSlimeOne::sub_800E95F4() {
     this->state_timer = 5;
     ((TObjPlayer *)this)->refresh_lobby_state();
     ((s32 (*)(s32, u32, s16, s32))play_sound_effect)(0x4003A81B, (uaddr)&position, 0, 0);
-    spawn_particle_effect(reinterpret_cast<const Vec *>(&m_2fc), 0xFE);
+    spawn_particle_effect(&body_center, 0xFE);
     animation->set_state(5);
     set_display_mode(0);
 }
@@ -1661,11 +1661,11 @@ s32 TObjEneSlimeWaterBomb::check_hits() {
     s32 enemy_id;
     hit = 0;
     attack.power = attack_power;
-    VecCopy((Vec *)&m_2fc, &position);
+    VecCopy(&body_center, &position);
     player_id = find_nearest_visible_player(this, 0, 25.0f);
     if (player_id != 0xFFFF) {
         player = get_player_by_client_id(player_id);
-        if (player != NULL && !(horizontal_distance_squared((const Vec *)&m_2fc, (const Vec *)&player->m_2fc) > 25.0f)) {
+        if (player != NULL && !(horizontal_distance_squared(&body_center, &player->body_center) > 25.0f)) {
             f32 damage = player->receive_direct_attack(owner, attack, 0, -1, -1);
             if (0.0f != damage) {
                 player->apply_knockback_from_attacker((u8 *)this, damage);
@@ -1676,7 +1676,7 @@ s32 TObjEneSlimeWaterBomb::check_hits() {
     enemy_id = find_nearest_enemy_masked(25.0f);
     if (enemy_id != 0xFFFF) {
         enemy = (TObjChara *)get_enemy_entity(enemy_id);
-        if (enemy != NULL && !(horizontal_distance_squared((const Vec *)&m_2fc, (const Vec *)&enemy->m_2fc) > 25.0f)) {
+        if (enemy != NULL && !(horizontal_distance_squared(&body_center, &enemy->body_center) > 25.0f)) {
             f32 damage = enemy->receive_direct_attack(owner, attack, 0, -1, -1);
             if (0.0f != damage) {
                 enemy->apply_knockback_from_attacker((u8 *)this, damage);
@@ -1777,8 +1777,8 @@ s32 TObjEneSlimeTailAttack::sub_800E85BC() {
             TObjPlayer *pl = (TObjPlayer *)e;
             f32 lo = pl->position.y - 5.0f;
             f32 hi = 5.0f + (pl->position.y + pl->m_d48);
-            if (!(self->m_300 < lo) && !(self->m_300 > hi) &&
-                !(horizontal_distance_squared((const Vec *)&self->m_2fc, &pl->position) > 56.25f)) {
+            if (!(self->body_center.y < lo) && !(self->body_center.y > hi) &&
+                !(horizontal_distance_squared(&self->body_center, &pl->position) > 56.25f)) {
                 f32 damage = e->receive_direct_attack(self->owner, hit, 0, -1, -1);
                 if (0.0f != damage) {
                     e->apply_knockback_from_attacker((u8 *)self, damage);
@@ -1793,7 +1793,7 @@ s32 TObjEneSlimeTailAttack::sub_800E85BC() {
         TObjEneSlimeOne *owner = self->owner;
         if (owner == NULL || id2 != (u16)get_entity_id(owner)) {
             e2 = (TObjChara *)get_enemy_entity(id2);
-            if (e2 != NULL && !(horizontal_distance_squared((const Vec *)&self->m_2fc, (const Vec *)&e2->m_2fc) > 56.25f)) {
+            if (e2 != NULL && !(horizontal_distance_squared(&self->body_center, &e2->body_center) > 56.25f)) {
                 f32 damage = e2->receive_direct_attack(self->owner, hit, 0, -1, -1);
                 if (0.0f != damage) {
                     e2->apply_knockback_from_attacker((u8 *)self, damage);
@@ -1848,7 +1848,7 @@ void TObjEneSlimeTailAttack::sub_800E841C() {
         ((TObjMotion *)arg0)->draw();
         set_chunk_model_node_callback(NULL);
         TObjPlayer__sub_800E80C0((u8 *)&pose);
-        VecCopy((Vec *)&m_2fc, &pose.attachment);
+        VecCopy(&body_center, &pose.attachment);
     } else {
         TObjPlayer__sub_800EBE48((f32) fade);
         scale_matrix_vec3(0, (u8 *)&stretch_scale);
@@ -1857,7 +1857,7 @@ void TObjEneSlimeTailAttack::sub_800E841C() {
         ((TObjMotion *)arg0)->draw();
         set_chunk_model_node_callback(NULL);
         TObjPlayer__sub_800E80C0((u8 *)&pose);
-        VecCopy((Vec *)&m_2fc, &pose.attachment);
+        VecCopy(&body_center, &pose.attachment);
         TObjPlayer::init_render_globals();
     }
     pop_matrix();

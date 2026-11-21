@@ -622,7 +622,7 @@ void TObjEneDubchik::run_task() {
     ((TObjPlayer *)arg0)->run_synced_state_handler();
     ((TObjEneDubchik *)arg0)->sub_800AB068();
     ((TObjEnemy *)arg0)->update_prev_position();
-    VecCopy(&this->center, (const Vec *)&this->m_2fc);
+    VecCopy(&this->center, &this->body_center);
     if (((TObjCollidable *)arg0)->obj_testFlags30(0x04000000) == 0) {
         submit_cursor_candidate(arg0, -1);
     }
@@ -927,7 +927,7 @@ void TObjEneDubchik::update_fall_apart() {
         state = 1;
     case 1: {
         advance_animation();
-        Vec pos = *body_center();
+        Vec pos = body_center;
         pos.x += velocity()->x;
         pos.z += velocity()->z;
         if (check_path_obstructed(this, &pos) == 0) {
@@ -965,8 +965,8 @@ void TObjEneDubchik::update_fall_apart() {
             }
             if (parts[1] != NULL && parts[2] != NULL && part_hit[1] + part_hit[2] == 0) {
                 s32 k;
-                f32 dist = xz_distance_squared(body_center(), &parts[1]->pos);
-                if (dist < xz_distance_squared(body_center(), &parts[2]->pos)) {
+                f32 dist = xz_distance_squared(&body_center, &parts[1]->pos);
+                if (dist < xz_distance_squared(&body_center, &parts[2]->pos)) {
                     k = 1;
                 } else {
                     k = 2;

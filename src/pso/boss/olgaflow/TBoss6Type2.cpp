@@ -1553,8 +1553,8 @@ void TBoss6Type2::copy_vec_array() {
 }
 
 void TBoss6Type2::advance_position() {
-    VecCopy((Vec *)&m_2fc, &position);
-    m_300 += 30.0f;
+    VecCopy(&body_center, &position);
+    body_center.y += 30.0f;
 }
 
 void TBoss6Type2::sub_802BBE20() {
@@ -2586,7 +2586,7 @@ void TBoss6Type2::spawn_hit_effects() {
         }
     }
     if (found == 0) {
-        spawn_particle_effect((Vec *)&m_2fc, 0x223);
+        spawn_particle_effect(&body_center, 0x223);
     }
 }
 

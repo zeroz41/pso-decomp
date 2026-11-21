@@ -402,13 +402,13 @@ void TObjEneBm9Mericarol::vfunc_62() {
 void TObjEneBm9Mericarol::vfunc_61() {  }
 
 void TObjEneBm9Mericarol::sync_center_position() {
-    VecCopy((Vec *)&m_2fc, &position);
-    m_300 += 20.0f;
-    VecCopy(&center, (Vec *)&m_2fc);
+    VecCopy(&body_center, &position);
+    body_center.y += 20.0f;
+    VecCopy(&center, &body_center);
 }
 
 void TObjEneBm9Mericarol::vfunc_88() {
-    bodies->offset.y = m_300 - position.y;
+    bodies->offset.y = body_center.y - position.y;
 }
 
 void TObjEneBm9Mericarol::sub_802D0940() {  }
@@ -1181,7 +1181,7 @@ void TObjEneBm9Mericarol::render() {
     }
     fade = &m_3c8[cam];
     fade->update();
-    vis = fade->updateFromCamera(&m_2fc);
+    vis = fade->updateFromCamera(&body_center.x);
     if (this->mode == 0xC) {
         return;
     }

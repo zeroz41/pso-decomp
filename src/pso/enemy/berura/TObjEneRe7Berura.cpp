@@ -442,14 +442,14 @@ void TObjEneRe7Berura::vfunc_62() {
 void TObjEneRe7Berura::vfunc_61() {  }
 
 void TObjEneRe7Berura::update_collision_center() {
-    m_2fc = position.x;
-    m_300 = 20.0f + position.y;
-    m_304 = position.z;
-    VecCopy__FP3VecPC3Vec(&center, (Vec *)&m_2fc);
+    body_center.x = position.x;
+    body_center.y = 20.0f + position.y;
+    body_center.z = position.z;
+    VecCopy__FP3VecPC3Vec(&center, &body_center);
 }
 
 void TObjEneRe7Berura::vfunc_88() {
-    bodies->offset.y = m_300 - position.y;
+    bodies->offset.y = body_center.y - position.y;
 }
 
 void TObjEneRe7Berura::sub_80095328() {  }
@@ -476,12 +476,12 @@ s32 TObjEneRe7Berura::acquire_target_in_view() {
         p = TObjPlayer::get_player_data(i);
         if (p->is_alive() != 0) {
             VecCopy__FP3VecPC3Vec(&v, &p->position);
-            subtract_vector(&v, (Vec *)&m_2fc);
+            subtract_vector(&v, &body_center);
             v.y = 0.0f;
             d = normalize_vector_xz((Vec *)(&v));
             if (d < 400.0f && d > best &&
                 s * v.x + c * v.z > limit &&
-                csnLookAt((Vec *)&m_2fc, (Vec *)&p->m_2fc) == 0) {
+                csnLookAt(&body_center, &p->body_center) == 0) {
                 id = get_entity_id(p);
                 best = d;
             }
@@ -842,7 +842,7 @@ void TObjEneRe7Berura__sub_80094624(TObjEneRe7Berura *self, s32 arg1) {
         self->set_field_378(2);
         VecCopy(&self->position, &self->home_position);
         VecCopy(&self->prev_position, &self->position);
-        VecCopy((Vec *)&self->m_2fc, &self->position);
+        VecCopy(&self->body_center, &self->position);
         self->m_3c4 = -1;
         self->m_3c8 = 0xFF000000;
         self->m_3d4 = 1;
@@ -1042,7 +1042,7 @@ void TObjEneRe7Berura__sub_80093C80(TObjEneRe7Berura *self, s32 arg1) {
             ok = 1;
             for (s32 i = 0; i < 2; i++) {
                 if (self->m_438[i] == 0) {
-                    self->m_438[i] = create_particle_emitter(&self->m_2fc, 0xDC);
+                    self->m_438[i] = create_particle_emitter(&self->body_center, 0xDC);
                     if (self->m_438[i] != 0) {
                         self->m_438[i]->enable();
                     } else {
@@ -1343,7 +1343,7 @@ void TObjEneRe7Berura::update_death_state(s32 mode) {
         m_4d0 = m_3cc;
         m_4c4 = 0;
         m_4c0 = 0;
-        fn_800D911C((Vec *)&m_2fc);
+        fn_800D911C(&body_center);
         TObjPlayer__sub_800A04F0(&m_3d8);
         m_3c0 |= 2;
         play_sound_effect(remap_sound_for_area(0x4003AD25), &position, 0, 0);
@@ -1467,7 +1467,7 @@ void TObjEneRe7Berura::render() {
         scroll_strip_uvs(belra_uv_animation_buffer, (s16)m_3d0, 0);
         fade = &m_448[cam];
         fade->update();
-        cam = fade->updateFromCamera(&m_2fc);
+        cam = fade->updateFromCamera(&body_center.x);
         TObjFish::set_global_param(texlist);
         push_matrix();
         post_translate_matrix(&position);

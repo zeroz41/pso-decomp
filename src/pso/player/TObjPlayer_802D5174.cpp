@@ -293,7 +293,7 @@ void TUnk_804E21F8::sub_802D577C() {
         angle = pad_250;
         count = n;
         origin = pad_20c;
-        center = &owner->m_2fc;
+        center = &owner->body_center.x;
         point_base = &lbl_8047259C;
         axis_base = &player_pb_zero_vec_block;
         tilt = 0x31C7;
@@ -360,7 +360,7 @@ void TUnk_804E21F8::emit_marker_effects() {
         angle += step;
         n--;
     }
-    vfunc_62((Vec *)&owner->m_2fc);
+    vfunc_62(&owner->body_center);
     pad_24a = 0;
     pad_248 = 0x87;
 }

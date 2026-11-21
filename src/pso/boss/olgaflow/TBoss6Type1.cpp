@@ -1321,12 +1321,12 @@ void TBoss6Type1::update_sway() {
 }
 
 void TBoss6Type1::update_position() {
-    VecCopy((Vec *)&m_2fc, &this->position);
+    VecCopy(&body_center, &this->position);
     if ((s32) this->m_438 != 0) {
-        m_300 = (f32) (m_300 - 75.0f);
+        body_center.y = (f32) (body_center.y - 75.0f);
         return;
     }
-    m_300 = (f32) (m_300 - 50.0f);
+    body_center.y = (f32) (body_center.y - 50.0f);
 }
 
 void TBoss6Type1::update_part_positions() {

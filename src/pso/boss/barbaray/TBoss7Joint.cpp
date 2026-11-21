@@ -64,8 +64,8 @@ extern const CollisionBody boss7_joint_collision_body_desc = { { 0.0f, 0.0f, 0.0
 const char *TBoss7Joint__name = "TBoss7Joint";
 
 void TBoss7Joint::store_position() {
-    VecCopy((Vec *)&m_2fc, &position);
-    VecCopy(&center, (const Vec *)&m_2fc);
+    VecCopy(&body_center, &position);
+    VecCopy(&center, &body_center);
 }
 
 void TBoss7Joint::vfunc_62() {

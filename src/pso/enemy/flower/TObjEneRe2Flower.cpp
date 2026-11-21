@@ -508,13 +508,13 @@ void TObjEneRe2Flower::vfunc_62() {
 void TObjEneRe2Flower::vfunc_61() {  }
 
 void TObjEneRe2Flower::sub_800C3DC4() {
-    VecCopy((Vec *)&this->m_2fc, &this->position);
-    this->m_300 = this->m_300 + lbl_805D9FF8;
-    VecCopy(&this->center, (const Vec *)&this->m_2fc);
+    VecCopy(&this->body_center, &this->position);
+    this->body_center.y = this->body_center.y + lbl_805D9FF8;
+    VecCopy(&this->center, &this->body_center);
 }
 
 void TObjEneRe2Flower::vfunc_88() {
-    bodies[1].offset.y = m_300 - position.y;
+    bodies[1].offset.y = body_center.y - position.y;
     set_part_local_pos(m_3dc, 0);
 }
 

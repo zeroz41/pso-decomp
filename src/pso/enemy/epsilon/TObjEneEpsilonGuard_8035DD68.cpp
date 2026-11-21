@@ -60,18 +60,18 @@ int TObjEneEpsilonGuard__sub_8035F95C(TObjEneEpsilonBody *body);
 int TObjEneEpsilonGuard__sub_8035F968(void);
 
 f32 TObjEneEpsilonGuard::receive_weapon_special_attack(void *, void *) {
-    try_apply_damage((const Vec *)&m_2fc, 0);
+    try_apply_damage(&body_center, 0);
     return 0.0f;
 }
 f32 TObjEneEpsilonGuard::receive_physical_attack(void *, f32) {
-    try_apply_damage((const Vec *)&m_2fc, 0);
+    try_apply_damage(&body_center, 0);
     return 0.0f;
 }
 f32 TObjEneEpsilonGuard__vt21(TObjEneEpsilonGuard *guard, void *attacker, DirectAttackPayload *msg, void *body, s32 tech, s32 flags) {
     if (msg->kind == 0x14) {
         return guard->TObjChara::receive_direct_attack(attacker, *msg, body, tech, flags);
     }
-    guard->try_apply_damage((const Vec *)&guard->m_2fc, 0);
+    guard->try_apply_damage(&guard->body_center, 0);
     return 0.0f;
 }
 
@@ -177,7 +177,7 @@ void TObjEneEpsilonGuard::render_with_fade(s32 detail) {
     saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
     fade = &this->fades[i];
     fade->update();
-    if (fade->updateFromCamera(&this->m_2fc) != 0) {
+    if (fade->updateFromCamera(&this->body_center.x) != 0) {
         fade->set_flags_and_apply_damage_color();
         if (!((s32)main_task.get_task_flags() & 0x200)) {
             model_render_flags = saved_model_render_flags;
@@ -222,7 +222,7 @@ void TObjEneEpsilonGuard::render_with_fade(s32 detail) {
     set_chunk_model_node_callback(NULL);
     pop_matrix();
     this->update_primary_light();
-    if (fade->updateFromCamera(&this->m_2fc) != 0) {
+    if (fade->updateFromCamera(&this->body_center.x) != 0) {
         fade->clear_flag_and_notify();
     } else if (this->mode == 3) {
         this->fade.clear_flag_and_notify();
@@ -307,8 +307,8 @@ void TObjEneEpsilonGuard::handle_break_state(s32 arg1) {
         if (break_timer >= 0x14) {
             vfunc_96();
             TBoss3Volopt::create_breakup_mdl((s32)lbl_805D6FA8, (saddr)&epsilon_guard_breakup_params, texlist, (saddr)&position, rotation_y);
-            play_sound_effect(0x4003AD4C, &m_2fc, 0, 0);
-            ((TObjPlayer *)&m_2fc)->trigger_dell_biter_events();
+            play_sound_effect(0x4003AD4C, &body_center, 0, 0);
+            ((TObjPlayer *)&body_center)->trigger_dell_biter_events();
             state_step = 1;
         }
         vfunc_89();
@@ -467,12 +467,12 @@ void TObjEneEpsilonGuard::sub_8035EA90() {
             effect_timer = 0;
             effect_frame = 0.0f;
             effect_step = 1;
-            emitter = create_particle_emitter(&m_2fc, 0x221);
+            emitter = create_particle_emitter(&body_center, 0x221);
             break;
         case 1:
             effect_scale += 0.1f;
             if (emitter != NULL) {
-                emitter->set_position(&m_2fc);
+                emitter->set_position(&body_center);
             }
             if (effect_scale >= 1.0f) {
                 effect_scale = 1.0f;
@@ -482,7 +482,7 @@ void TObjEneEpsilonGuard::sub_8035EA90() {
         case 2:
             effect_timer++;
             if (emitter != NULL) {
-                emitter->set_position(&m_2fc);
+                emitter->set_position(&body_center);
             }
             if (effect_timer >= TObjEneEpsilonGuard__movement_params->m_18) {
                 effect_scale = 1.0f;
@@ -492,7 +492,7 @@ void TObjEneEpsilonGuard::sub_8035EA90() {
         case 3:
             effect_scale -= 0.1f;
             if (emitter != NULL) {
-                emitter->set_position(&m_2fc);
+                emitter->set_position(&body_center);
             }
             if (effect_scale <= 0.0f) {
                 effect_scale = 0.0f;
@@ -590,12 +590,12 @@ void TObjEneEpsilonGuard::vfunc_89() {
 }
 
 void TObjEneEpsilonGuard::update_center_position() {
-    m_2fc = position.x;
-    m_300 = 24.0f + position.y;
-    m_304 = position.z;
-    VecCopy(&center, (Vec *)&m_2fc);
+    body_center.x = position.x;
+    body_center.y = 24.0f + position.y;
+    body_center.z = position.z;
+    VecCopy(&center, &body_center);
 }
-void TObjEneEpsilonGuard::vfunc_88() { set_part_local_pos(&m_2fc, 0); }
+void TObjEneEpsilonGuard::vfunc_88() { set_part_local_pos(&body_center, 0); }
 
 void TObjEneEpsilonGuard__vt85(TObjEneEpsilonGuard *arg0, s32 arg1, s32 arg2);
 void run_task__19TObjEneEpsilonGuardFv(u8 *arg0);

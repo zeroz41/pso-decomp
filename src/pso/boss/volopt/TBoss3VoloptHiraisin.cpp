@@ -142,8 +142,8 @@ void TBoss3VoloptHiraisin::start_attack() {
     s16 max_hp;
     u32 flags;
     TBoss3Volopt::create_breakup_mdl((saddr)volopt_hiraisin_breakup_model, (saddr)&volopt_hiraisin_breakup_params,
-                                     (saddr)get_bml_texlist((BmlResource *)volopt_hiraisin_resources, 0x10), (saddr)&m_2fc, rotation_y);
-    ((TObjPlayer *)((Vec *)&m_2fc))->trigger_dell_biter_events();
+                                     (saddr)get_bml_texlist((BmlResource *)volopt_hiraisin_resources, 0x10), (saddr)&body_center, rotation_y);
+    ((TObjPlayer *)(&body_center))->trigger_dell_biter_events();
     play_sound_effect(0x4001C112, &position, 0, 0);
     m_388 &= ~1;
     max_hp = hpmax;
@@ -299,9 +299,9 @@ void TBoss3VoloptHiraisin::run_task() {
             state = 0;
         }
         dispatch_state();
-        VecCopy((Vec *)&m_2fc, &position);
+        VecCopy(&body_center, &position);
         if (mode != 5) {
-            m_300 -= 30.0f;
+            body_center.y -= 30.0f;
         }
         copy_position();
         submit_cursor_candidate(this, -1);
@@ -338,8 +338,8 @@ TBoss3VoloptHiraisin::~TBoss3VoloptHiraisin() {
 }
 
 void TBoss3VoloptHiraisin::init_params() {
-    VecCopy((Vec *)&m_2fc, &position);
-    m_300 -= 30.0f;
+    VecCopy(&body_center, &position);
+    body_center.y -= 30.0f;
     copy_position();
     motion_list = volopt_hiraisin_resources->motions;
     action_table = volopt_hiraisin_motions;
@@ -383,7 +383,7 @@ TBoss3VoloptHiraisin::TBoss3VoloptHiraisin(TObject *parent, void *set_data) : TO
 }
 
 void TBoss3VoloptHiraisin::copy_position() {
-    VecCopy(&center, (Vec *)&m_2fc);
+    VecCopy(&center, &body_center);
 }
 
 void TBoss3VoloptHiraisin::load_params_from_table(s32 index) {

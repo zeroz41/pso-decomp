@@ -1768,7 +1768,7 @@ void TBoss8Dragon::run_task() {
     ((TBoss8Dragon *)arg0)->store_position();
     ((TObjEnemy *)arg0)->submit_default_cursor_candidate();
     add_radar_scaled_marker((u8 *)&this->position, -0x5DB4, 1, 1, 2.0f);
-    VecCopy__FP3VecPC3Vec((u8 *)&this->m_640, (u8 *)&this->m_2fc);
+    VecCopy__FP3VecPC3Vec((u8 *)&this->m_640, (u8 *)&this->body_center);
     if (temp_r30_2 == 0) {
         ((TObject *)(arg0 + 0x3C4))->run_tasks();
     }

@@ -1393,9 +1393,9 @@ void TBoss4Type3::update_radar_markers() {
     }
     *(u32 *)((s8 *)arg0 + 0x3C4) = c[0] | ((c[2] << 16) | 0xFF000000 | (c[1] << 8));
     if (0.0f == *(f32 *)((s8 *)arg0 + 0x3B0) && (*(s32 *)((s8 *)arg0 + 0x3C0) & 4)) {
-        add_radar_scaled_marker((u8 *)&this->m_2fc, -1, 1, 1, 5.0f);
+        add_radar_scaled_marker((u8 *)&this->body_center, -1, 1, 1, 5.0f);
     } else {
-        add_radar_scaled_marker((u8 *)&this->m_2fc, *(u32 *)((s8 *)arg0 + 0x3C4), 1, 1, 5.0f);
+        add_radar_scaled_marker((u8 *)&this->body_center, *(u32 *)((s8 *)arg0 + 0x3C4), 1, 1, 5.0f);
     }
     if (!(*(s32 *)((s8 *)arg0 + 0x3C0) & 1) && *(u16 *)((s8 *)arg0 + 0x3BA) != 0xFFFF) {
         p = (Ply_80059ABC *)get_player_by_client_id((u16)(*(u16 *)((s8 *)arg0 + 0x3BA)));

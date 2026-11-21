@@ -663,10 +663,10 @@ void TObjEneRe4Sorcerer::vfunc_62() {
 void TObjEneRe4Sorcerer::vfunc_61() {  }
 
 void TObjEneRe4Sorcerer::update_collision_center() {
-    m_2fc = position.x;
-    m_300 = 22.0f + position.y;
-    m_304 = position.z;
-    VecCopy(&center, (Vec *)&m_2fc);
+    body_center.x = position.x;
+    body_center.y = 22.0f + position.y;
+    body_center.z = position.z;
+    VecCopy(&center, &body_center);
 }
 
 void TObjEneRe4Sorcerer::vfunc_88() {
@@ -714,8 +714,8 @@ s32 TObjEneRe4Sorcerer::select_attack_target(f32 farg0, f32 farg1) {
         for (i = (saddr)p; i < n; i++) {
             p = (TObjChara *)TObjPlayer::get_player_data(i);
             if (p != this && p != o1 && p != o2 && ((TObjBase *)p)->is_alive() != 0) {
-                d = horizontal_distance_squared(&this->m_2fc, &p->position);
-                if (d < best && csnLookAt((saddr)&this->m_2fc, (saddr)&p->m_2fc) == 0) {
+                d = horizontal_distance_squared(&this->body_center, &p->position);
+                if (d < best && csnLookAt((saddr)&this->body_center, (saddr)&p->body_center) == 0) {
                     id = ((s32 (*)(void *))get_entity_id)(p);
                     best = d;
                 }
@@ -733,7 +733,7 @@ s32 TObjEneRe4Sorcerer::select_attack_target(f32 farg0, f32 farg1) {
     for (j = 0; j < m; j++) {
         q = (TObjChara *)TObjPlayer::get_player_data(j);
         if (((TObjBase *)q)->is_alive() != 0) {
-            e = horizontal_distance_squared(&this->m_2fc, &q->m_2fc);
+            e = horizontal_distance_squared(&this->body_center, &q->body_center);
             if (is_target_ranger(q) != 0) {
                 if (e < farg0 && is_target_unobstructed_from((TObjEneDD *)this, (TObjChara *)q) != 0) {
                     farg0 = e;
@@ -1043,7 +1043,7 @@ void TObjEneRe4Sorcerer__sub_800EEFE4(TObjEneRe4Sorcerer *self, s32 arg1) {
         ((TObjEneDD *)self)->set_field_378(1);
         VecCopy(&self->position, &self->home_position);
         VecCopy(&self->prev_position, &self->home_position);
-        VecCopy((Vec *)&self->m_2fc, &self->home_position);
+        VecCopy(&self->body_center, &self->home_position);
         self->vfunc_95();
         return;
     case 3:
@@ -1553,7 +1553,7 @@ void TObjEneRe4Sorcerer::handle_death_state(s32 arg1) {
         m_3c8 |= 6;
         refresh_and_send_entity_flags();
         m_4e4 = 0;
-        fn_800D911C((Vec *)&m_2fc);
+        fn_800D911C(&body_center);
         TObjPlayer__sub_800A04F0(&fade);
         m_3f8 = 0.0f;
         play_sound_effect((void *)remap_sound_for_area(0x4003AD19), &position, 0, 0);
@@ -1616,7 +1616,7 @@ void TObjEneRe4Sorcerer::render() {
     }
     camera_mode = (saddr)&fades[camera_mode];
     ((RenderFadeState *)camera_mode)->update();
-    temp_r31 = ((RenderFadeState *)camera_mode)->updateFromCamera(&m_2fc);
+    temp_r31 = ((RenderFadeState *)camera_mode)->updateFromCamera(&body_center.x);
     if (!(m_3c8 & 2)) {
         var_r28 = 0;
     } else if (TObjEneDD::is_main_phase_15() != 0) {

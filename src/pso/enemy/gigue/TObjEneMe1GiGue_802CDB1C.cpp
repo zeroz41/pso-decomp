@@ -53,7 +53,7 @@ TUnk_804E14E8::TUnk_804E14E8(Vec *start, u16 target_id, GiGueShotAngles *angles,
     }
     pop_matrix();
     timer = delay;
-    target = (Vec *)&((TObjChara *)find_entity_by_id(target_id))->m_2fc;
+    target = (Vec *)&((TObjChara *)find_entity_by_id(target_id))->body_center.x;
     {
     ParticleAngles ang;
     ang.x = 0;
@@ -118,7 +118,7 @@ void TUnk_804E14E8::run_task() {
             return;
         }
         if (tgt != NULL) {
-            VecCopy(&v, (Vec *)&tgt->m_2fc);
+            VecCopy(&v, &tgt->body_center);
             subtract_vector(&v, &pos);
             vec_set_length(&v, speed);
             speed += lbl_805D684C;
@@ -138,14 +138,14 @@ void TUnk_804E14E8::run_task() {
             return;
         }
         if (tgt != NULL && !(tgt->actorFlags & 0x04000A00) &&
-            xyz_distance_squared(&pos, (Vec *)&tgt->m_2fc) <= lbl_805D6844 * lbl_805D6844) {
+            xyz_distance_squared(&pos, &tgt->body_center) <= lbl_805D6844 * lbl_805D6844) {
             DirectAttackPayload hit = {1, (f32)lbl_805D6854};
             tgt->receive_direct_attack(src, hit, 0, -1, -1);
             if (double_hit == 1) {
                 hit.kind = 0x12;
                 tgt->receive_direct_attack(src, hit, 0, -1, -1);
             }
-            spawn_particle_effect((const Vec *)&tgt->m_2fc, 0x8E);
+            spawn_particle_effect(&tgt->body_center, 0x8E);
             if (local_client_id == target_id) {
                 src->apply_hit_shake(tgt);
             }

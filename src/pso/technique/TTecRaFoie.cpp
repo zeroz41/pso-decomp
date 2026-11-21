@@ -139,7 +139,7 @@ void TTecRaFoie::vfunc_8(void *) {
     if (m_targets.count != 0) {
         chara = (TObjChara *)find_entity_by_id(m_targets.records[0].id);
         if (TTecLuker::is_parents_unqueued((uaddr)chara) != 0 && TObjPlayer::is_valid_and_active((uaddr)chara) != 0) {
-            Vec point = *(Vec *)&chara->m_2fc;
+            Vec point = chara->body_center;
             spawn_particle_effect(&point, 0x39);
             emitter = spawn_particle_effect(&point, 0x1A);
             if (emitter != NULL) {
@@ -412,7 +412,7 @@ void run_task__10TTecRaFoieFv(TTecRaFoie *self) {
     }
     chara = (TObjChara *)find_entity_by_id(self->m_targets.records[0].id);
     if (TTecLuker::is_parents_unqueued((uaddr)chara) != 0 && TObjPlayer::is_valid_and_active((uaddr)chara) != 0) {
-        self->update_detonation(&chara->m_2fc);
+        self->update_detonation(&chara->body_center);
     }
 }
 

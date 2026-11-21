@@ -1175,8 +1175,8 @@ void TBoss7DeRolLeC::vfunc_62() {
 void TBoss7DeRolLeC::vfunc_61() {  }
 
 void TBoss7DeRolLeC::sync_position_vectors() {
-    VecCopy((Vec *)&m_2fc, &position);
-    VecCopy(&center, (Vec *)&m_2fc);
+    VecCopy(&body_center, &position);
+    VecCopy(&center, &body_center);
 }
 void TBoss7DeRolLeC::vfunc_88() {
     Vec v;

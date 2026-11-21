@@ -301,7 +301,7 @@ void TObjEneDelDepth::init() {
     ((TObjMotion *)arg0)->set_field_dc((saddr)TObjEneDelDepth__shared_resource->motions);
     ((TObjMotion *)arg0)->set_animation(0);
     ((TObjMotion *)arg0)->set_field_b8(0);
-    VecCopy((Vec *)((u8 *)&this->m_2fc), &this->position);
+    VecCopy((Vec *)((u8 *)&this->body_center), &this->position);
     this->m_310 = (f32) TObjEneDelDepth__data_805DF258;
     this->y_speed = (f32) TObjEneDelDepth__data_805DF258;
     x_speed = (f32) TObjEneDelDepth__data_805DF258;
@@ -354,7 +354,7 @@ void TObjEneDelDepth::run_task() {
     motionController->update_animation_frame();
     this->sub_803152A0();
     if (this->action != 0xD) {
-        minimap_render_dot(&o->m_2fc, -0x5DB4, 1, 0);
+        minimap_render_dot(&o->body_center, -0x5DB4, 1, 0);
     }
     update_ground_check();
 }

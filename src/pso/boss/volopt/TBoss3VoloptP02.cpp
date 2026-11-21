@@ -432,7 +432,7 @@ void TBoss3VoloptP02::run_state() {
 
 void TBoss3VoloptP02::render() {
     if (!(actorFlags & 0x02000000) && (this->update_object_view_visibility(400.0f, 40.0f) != 0)) {
-        if (fade.updateFromCamera((const f32 *)&m_2fc) != 0) {
+        if (fade.updateFromCamera((const f32 *)&body_center) != 0) {
             fade.set_flags_and_apply_damage_color();
         }
         TObjFish::set_global_param(texlist);
@@ -826,7 +826,7 @@ void TBoss3VoloptP02::fn_800465B0() {
                 for (i = 0; i < 10; i++) {
                     s32 dir = i < 5 ? 1 : -1;
                     get_anim_node_position(chain_node_ids[i], &chain_positions[i]);
-                    new TUnk_80484840(&chain_positions[i], (Vec *)&cage->m_2fc, dir, timer);
+                    new TUnk_80484840(&chain_positions[i], &cage->body_center, dir, timer);
                 }
                 play_sound_effect(0x4003B20D, &position, -10, 0);
             } else {
@@ -1000,7 +1000,7 @@ void TBoss3VoloptP02::update_pillar_heal_state() {
                 heal_emitter = NULL;
             }
             n = TBoss3VoloptP02::get_int_param(3) / 5;
-            TBoss3Volopt__sub_800FD344((saddr)&m_2fc, (s32)(0xFF00FF00), 0x1E, (void *)"HP", (void *)n);
+            TBoss3Volopt__sub_800FD344((saddr)&body_center, (s32)(0xFF00FF00), 0x1E, (void *)"HP", (void *)n);
             hp = min_s32(hp + n, hpmax);
             for (s32 i = 0; i < 4; i++) {
                 if (part_hp[i] > 0) {
@@ -1125,8 +1125,8 @@ void TBoss3VoloptP02::update_death_sequence() {
         spawn_ambient_particles();
         position.y = 0.5319149f * this->frame;
         if (this->frame >= 47.0f) {
-            TBoss3Volopt::create_breakup_mdl((saddr)breakup_model, (saddr)&death_breakup_params, texlist, (saddr)&m_2fc, rotation_y);
-            ((TObjPlayer *)&m_2fc)->trigger_dell_biter_events();
+            TBoss3Volopt::create_breakup_mdl((saddr)breakup_model, (saddr)&death_breakup_params, texlist, (saddr)&body_center, rotation_y);
+            ((TObjPlayer *)&body_center)->trigger_dell_biter_events();
             ((TObjPlayer *)this)->refresh_lobby_state();
             volopt_death_active = 1;
             if (TBoss3Volopt::is_death_active() != 0) {
@@ -1256,7 +1256,7 @@ void TBoss3VoloptP02::trigger_breakup() {
         bodies[3].flags &= ~0x10000001;
         render_anim_model_at_pos();
         get_anim_node_position(0x29, &pos);
-        TBoss3Volopt::create_breakup_mdl((saddr)breakup_models[4], (saddr)&part_breakup_params, texlist, (saddr)&m_2fc, rotation_y);
+        TBoss3Volopt::create_breakup_mdl((saddr)breakup_models[4], (saddr)&part_breakup_params, texlist, (saddr)&body_center, rotation_y);
         hide_model_nodes((NJS_OBJECT **)breakup_flags_d);
         play_sound_effect(0x4003A80F, &position, 0, 1);
     }
@@ -1305,8 +1305,8 @@ s16 TBoss3VoloptP02::collect_targets_in_front() {
             continue;
         }
         {
-            Vec v = *(Vec *)&player->m_2fc;
-            subtract_vector(&v, &m_2fc);
+            Vec v = player->body_center;
+            subtract_vector(&v, &body_center);
             if (angle_difference_abs(rotation_y + 0x8000, (s32)((65536.0 / (2.0 * 3.141592f)) * atan2_float(v.x, v.z))) > 0x1C71) {
                 continue;
             }
@@ -1337,8 +1337,8 @@ u16 TBoss3VoloptP02::find_facing_player() {
             continue;
         }
         {
-            Vec v = *(Vec *)&player->m_2fc;
-            subtract_vector(&v, &m_2fc);
+            Vec v = player->body_center;
+            subtract_vector(&v, &body_center);
             d = ABS(angle_difference_abs(rotation_y + 0x8000, (s32)((65536.0 / (2.0 * 3.141592f)) * atan2_float(v.x, v.z))));
             if (d <= best) {
                 best = d;
@@ -1471,8 +1471,8 @@ void TBoss3VoloptP02::collect_targets_in_arc() {
             continue;
         }
         {
-            Vec v = *(Vec *)&player->m_2fc;
-            subtract_vector(&v, &m_2fc);
+            Vec v = player->body_center;
+            subtract_vector(&v, &body_center);
             if (angle_difference_abs(rotation_y + 0x4000, (s32)((65536.0 / (2.0 * 3.141592f)) * atan2_float(v.x, v.z))) > limit) {
                 continue;
             }

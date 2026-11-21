@@ -842,7 +842,7 @@ TObjDFHorming::TObjDFHorming(TObject *parent, const Vec *position, u16 target_id
     if (game_difficulty_selection == 3) {
         m_338 = 300;
     }
-    VecCopy((Vec *)&m_2fc, VecCopy(&prev_position, VecCopy(&spawn_position, position)));
+    VecCopy(&body_center, VecCopy(&prev_position, VecCopy(&spawn_position, position)));
     scale = newton_sqrtf(1.08f);
     ang = (s32)(16384.0f * (0.000030517578f * (f32)rand() - 0.5f));
     p = get_player_by_client_id(m_334);
@@ -862,7 +862,7 @@ TObjDFHorming::TObjDFHorming(TObject *parent, const Vec *position, u16 target_id
     }
     m_378 = -50.0f * homing_rate + 60.0f;
     for (i = 0; i < 2; i++) {
-        if ((effects[i] = create_particle_emitter(&m_2fc, TObjDFJisin__particle_emitter_id_table[i])) != NULL) {
+        if ((effects[i] = create_particle_emitter(&body_center, TObjDFJisin__particle_emitter_id_table[i])) != NULL) {
             effects[i]->set_flags(0x40);
         }
     }
@@ -954,7 +954,7 @@ int queue_destruction__13TObjDFHormingFPv(void* p) { return ((int (*)(void*))que
 extern "C" {
 void TObjDFHorming::sub_8005076C() {
     f32 temp_f1;
-    temp_f1 = *(f32 *)((s8 *)((u8 *)this) + 0x370) - this->m_300;
+    temp_f1 = *(f32 *)((s8 *)((u8 *)this) + 0x370) - this->body_center.y;
     if (temp_f1 > 0.0f) {
         *(f32 *)((s8 *)((u8 *)this) + 0x34C) += 0.05f;
     } else {

@@ -715,11 +715,11 @@ void TObjEneMoja::vfunc_28() {
                     f32 xx;
                     f32 zz;
                     VecCopy((Vec *)&v, (const Vec *)(p + 0x2FC));
-                    subtract_vector(&v, &m_2fc);
+                    subtract_vector(&v, &body_center);
                     xx = v.x * v.x;
                     zz = v.z * v.z;
                     d = xx + zz;
-                    if (d < best && check_path_obstructed(this, p + 0x2FC) != 1 && csnVector(&m_2fc, p + 0x2FC, -1) == 0U) {
+                    if (d < best && check_path_obstructed(this, p + 0x2FC) != 1 && csnVector(&body_center, p + 0x2FC, -1) == 0U) {
                         best_id = id;
                         best = d;
                     }
@@ -903,7 +903,7 @@ void TObjEneMoja::update_appearance_jump() {
                 break;
             }
             if (((s32 (*)(void *))obj_is_hit_receivable)(p) != 0) {
-                dist = horizontal_distance_squared((saddr)((u8 *)p + 0x2FC), &m_2fc);
+                dist = horizontal_distance_squared((saddr)((u8 *)p + 0x2FC), &body_center);
                 if (dist <= 2500.0f) {
                     Hit_800AE7F4 hit;
                     hit.a = 0;
@@ -983,7 +983,7 @@ void TObjEneMoja::update_appearance_drop() {
                 break;
             }
             if (((s32 (*)(void *))obj_is_hit_receivable)(p) != 0) {
-                dist = horizontal_distance_squared((saddr)((u8 *)p + 0x2FC), &m_2fc);
+                dist = horizontal_distance_squared((saddr)((u8 *)p + 0x2FC), &body_center);
                 if (dist <= 2500.0f) {
                     Hit_800AE450 hit;
                     hit.a = 0;
@@ -1466,10 +1466,10 @@ void TObjEneMoja::update_attack_jump() {
             if (target != NULL) {
                 Vec dest = *(Vec *)(target + 0x2FC);
                 if (select_enemy_destination(this, (Vec *)&dest, 1) != 0) {
-                    Vec pos = *(Vec *)&m_2fc;
+                    Vec pos = body_center;
                     copy_position_if_valid__10TObjPlayerFii(this, (Vec *)&pos);
                     VecCopy((Vec *)&delta, (const Vec *)&m_29c);
-                    subtract_vector(&delta, &m_2fc);
+                    subtract_vector(&delta, &body_center);
                     jumpSpeed = -20.0f + newton_sqrtf(delta.x * delta.x + delta.z * delta.z);
                     jumpSpeed = jumpSpeed / (12.0f / play_speed);
                     phase = 1;
@@ -1494,7 +1494,7 @@ void TObjEneMoja::update_attack_jump() {
                     break;
                 }
                 if (((s32 (*)(void *))obj_is_hit_receivable)(p) != 0) {
-                    d = horizontal_distance_squared((saddr)(p + 0x2FC), &m_2fc);
+                    d = horizontal_distance_squared((saddr)(p + 0x2FC), &body_center);
                     if (d <= ((AttackParams *)(m_318))->get_damage_radius() * ((AttackParams *)(m_318))->get_damage_radius()) {
                         Hit_800ACFE8 hit;
                         hit.a = 0;
