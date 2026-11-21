@@ -101,14 +101,12 @@ struct Src_801F718C {
     u8 *f38;
 };
 
-struct QVm_801F7890;
-struct QVm_801F6D24;extern "C" {
+extern "C" {
 void subtractive_rng_seed(SubtractiveRng *, u32);
 }
 s32 *get_quest_download_file_header(void);
 extern char TQuestVmDownLoadServer__data_804C8690[];
 extern u8 TQuestVmDownLoadServer__memcard_key[];
-extern Src_801F718C quest_download_file_info;
 struct Slot_801F7FEC { u8 pad[0x34]; s32 f34; void *f38; };
 struct Slot_801F8D30 { u8 pad[0x34]; s32 f34; void *f38; };
 extern "C" {
