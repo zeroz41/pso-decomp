@@ -18,7 +18,7 @@ public:
     u8 get_item_count();
     void *run_item_count_update();
     void set_field_1c(s32 v);
-    s32 get_owner_if_alive();
+    saddr get_owner_if_alive();
     void *find_inventory_item_by_field_d8();
     void *find_inventory_item_matching_data();
     void count_items_recursive();

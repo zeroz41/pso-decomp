@@ -13,7 +13,6 @@ public:
     virtual void run_task();
     virtual void render();
 public:
-    static void render();
     void get_wing_position(Vec *out);
     void copy_position(void *out);
 public:
