@@ -290,17 +290,12 @@ void hwOff(s32 arg0) {
     salDeactivateVoice(&dspVoice[arg0]);
 }
 
-#pragma push
-#pragma scheduling off
-void hwSetAUXProcessingCallbacks(u8 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
-    u8 *temp_r3;
-    temp_r3 = (u8 *)&lbl_805663D8 + (arg0 * 0xBC);
-    *(s32 *)((s8 *)temp_r3 + 0xAC) = arg1;
-    *(s32 *)((s8 *)temp_r3 + 0xB4) = arg2;
-    *(s32 *)((s8 *)temp_r3 + 0xB0) = arg3;
-    *(s32 *)((s8 *)temp_r3 + 0xB8) = arg4;
+void hwSetAUXProcessingCallbacks(u8 studio, SND_AUX_CALLBACK auxA, void *userA, SND_AUX_CALLBACK auxB, void *userB) {
+    lbl_805663D8[studio].auxAHandler = auxA;
+    lbl_805663D8[studio].auxAUser = userA;
+    lbl_805663D8[studio].auxBHandler = auxB;
+    lbl_805663D8[studio].auxBUser = userB;
 }
-#pragma pop
 
 void hwActivateStudio(u8 i, s32 a, s32 b) {
     salActivateStudio(i, a, b);
@@ -310,12 +305,12 @@ void hwDeactivateStudio(u8 i) {
     salDeactivateStudio(i);
 }
 
-void hwAddInput(u8 i, void *p) {
-    salAddStudioInput(&((Rec_803BD62C *)&lbl_805663D8)[i], p);
+void hwAddInput(u8 studio, SND_STUDIO_INPUT *in_desc) {
+    salAddStudioInput(&lbl_805663D8[studio], in_desc);
 }
 
-void hwRemoveInput(u8 i, void *p) {
-    salRemoveStudioInput(&((Rec_803BD660 *)&lbl_805663D8)[i], p);
+void hwRemoveInput(u8 studio, SND_STUDIO_INPUT *in_desc) {
+    salRemoveStudioInput(&lbl_805663D8[studio], in_desc);
 }
 
 #define SLOTS_803BD694 (*(Slot_803BD694 **)&dspVoice)

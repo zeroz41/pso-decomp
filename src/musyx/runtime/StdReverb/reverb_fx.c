@@ -2,11 +2,12 @@
 
 extern "C" {
 
-void sndAuxCallbackReverbHI(u8 reason, Info_803BF884 *info, S_803BF408 *rev) {
+void sndAuxCallbackReverbHI(u8 reason, SND_AUX_INFO *info, void *user) {
     switch (reason) {
     case 0:
-        if (rev->disabled == 0) {
-            ReverbHICallback(info->left, info->right, info->surround, rev);
+        if (((S_803BF408 *)user)->disabled == 0) {
+            ReverbHICallback(info->data.bufferUpdate.left, info->data.bufferUpdate.right,
+                             info->data.bufferUpdate.surround, (S_803BF408 *)user);
         }
     case 1:
         return;

@@ -95,7 +95,8 @@ void sndOutputMode(s32 mode) {
     }
 }
 
-void sndSetAuxProcessingCallbacks(u8 studio, void *auxA, s32 userA, u8 midiA, u32 seqIDA, void *auxB, s32 userB, u8 midiB, u32 seqIDB) {
+void sndSetAuxProcessingCallbacks(u8 studio, SND_AUX_CALLBACK auxA, void *userA, u8 midiA, SND_SEQID seqIDA,
+                                  SND_AUX_CALLBACK auxB, void *userB, u8 midiB, SND_SEQID seqIDB) {
     hwDisableIrq();
     if (auxA != 0) {
         if ((synthAuxAMIDI[studio] = midiA) != 0xFF) {
@@ -117,7 +118,7 @@ void sndSetAuxProcessingCallbacks(u8 studio, void *auxA, s32 userA, u8 midiA, u3
         synthAuxBCallback[studio] = 0;
         synthAuxBMIDI[studio] = 0xFF;
     }
-    hwSetAUXProcessingCallbacks(studio, (saddr)auxA, userA, (saddr)auxB, userB);
+    hwSetAUXProcessingCallbacks(studio, auxA, userA, auxB, userB);
     hwEnableIrq();
 }
 #pragma push
@@ -156,12 +157,12 @@ void synthDeactivateStudio(u8 studio) {
     hwDeactivateStudio(studio);
 }
 
-void synthAddStudioInput(u8 arg0, void *in_desc) {
-    hwAddInput(arg0, in_desc);
+void synthAddStudioInput(u8 studio, SND_STUDIO_INPUT *in_desc) {
+    hwAddInput(studio, in_desc);
 }
 
-void synthRemoveStudioInput(u8 arg0, void *in_desc) {
-    hwRemoveInput(arg0, in_desc);
+void synthRemoveStudioInput(u8 studio, SND_STUDIO_INPUT *in_desc) {
+    hwRemoveInput(studio, in_desc);
 }
 
 }

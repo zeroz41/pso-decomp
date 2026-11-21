@@ -7,10 +7,10 @@ static SYNTH_JOBTAB_SV synthJobTable[32];
 SynthInfo_SV synthInfo;
 SYNTHMasterFader_SV synthMasterFader[32];
 u8 synthTrackVolume[64];
-saddr synthAuxAUser[8];
-void *synthAuxACallback[8];
-saddr synthAuxBUser[8];
-void *synthAuxBCallback[8];
+void *synthAuxAUser[8];
+SND_AUX_CALLBACK synthAuxACallback[8];
+void *synthAuxBUser[8];
+SND_AUX_CALLBACK synthAuxBCallback[8];
 Tbl_803AA1E0 synthITDDefault[8];
 s32 synthGlobalVariable[16];
 CTRL_DEST_SV inpAuxB[8][4];
@@ -837,7 +837,6 @@ void HandleFaderTermination(u8 *arg0) {
     }
 }
 
-typedef struct SND_AUX_INFO_SV { union { struct { s32 *left; s32 *right; s32 *surround; } bufferUpdate; struct { u16 para[4]; } parameterUpdate; } data; } SND_AUX_INFO_SV;
 u16 inpGetAuxA(u8 studio, u8 index, u8 midi, u8 midiSet);
 u16 inpGetAuxB(u8 studio, u8 index, u8 midi, u8 midiSet);
 void hwFrameDone(void);
@@ -910,19 +909,19 @@ void synthHandle(u32 deltaTime) {
 
         for (s = 0; s < 8; ++s) {
             if (synthAuxAMIDI[s] != 0xff) {
-                SND_AUX_INFO_SV info;
+                SND_AUX_INFO info;
                 for (i = 0; i < 4; ++i) {
                     info.data.parameterUpdate.para[i] = inpGetAuxA(s, i, synthAuxAMIDI[s], synthAuxAMIDISet[s]);
                 }
-                ((SND_AUX_CALLBACK_SV)synthAuxACallback[s])(1, &info, (void *)synthAuxAUser[s]);
+                synthAuxACallback[s](1, &info, synthAuxAUser[s]);
             }
 
             if (synthAuxBMIDI[s] != 0xff) {
-                SND_AUX_INFO_SV info;
+                SND_AUX_INFO info;
                 for (i = 0; i < 4; ++i) {
                     info.data.parameterUpdate.para[i] = inpGetAuxB(s, i, synthAuxBMIDI[s], synthAuxBMIDISet[s]);
                 }
-                ((SND_AUX_CALLBACK_SV)synthAuxBCallback[s])(1, &info, (void *)synthAuxBUser[s]);
+                synthAuxBCallback[s](1, &info, synthAuxBUser[s]);
             }
         }
     }

@@ -120,7 +120,8 @@ asm void do_src2(register void *src) {
 
 #pragma push
 #pragma peephole off
-void sndAuxCallbackChorus(u8 reason, Info_803BF884 *info, Work_803BF884 *c) {
+void sndAuxCallbackChorus(u8 reason, SND_AUX_INFO *info, void *user) {
+    Work_803BF884 *c = (Work_803BF884 *)user;
     s32 *leftD;
     s32 *rightD;
     s32 *surD;
@@ -135,9 +136,9 @@ void sndAuxCallbackChorus(u8 reason, Info_803BF884 *info, Work_803BF884 *c) {
         leftD = c->lastLeft[nextCurrentLast];
         rightD = c->lastRight[nextCurrentLast];
         surD = c->lastSur[nextCurrentLast];
-        leftS = info->left;
-        rightS = info->right;
-        surS = info->surround;
+        leftS = info->data.bufferUpdate.left;
+        rightS = info->data.bufferUpdate.right;
+        surS = info->data.bufferUpdate.surround;
         for (i = 0; i < 160; i++) {
             *leftD++ = *leftS++;
             *rightD++ = *rightS++;
@@ -155,17 +156,17 @@ void sndAuxCallbackChorus(u8 reason, Info_803BF884 *info, Work_803BF884 *c) {
             switch (i) {
             case 0:
                 c->src.smpBase = c->lastLeft[0];
-                c->src.dest = info->left;
+                c->src.dest = info->data.bufferUpdate.left;
                 c->src.old = c->oldLeft;
                 break;
             case 1:
                 c->src.smpBase = c->lastRight[0];
-                c->src.dest = info->right;
+                c->src.dest = info->data.bufferUpdate.right;
                 c->src.old = c->oldRight;
                 break;
             case 2:
                 c->src.smpBase = c->lastSur[0];
-                c->src.dest = info->surround;
+                c->src.dest = info->data.bufferUpdate.surround;
                 c->src.old = c->oldSur;
                 break;
             }

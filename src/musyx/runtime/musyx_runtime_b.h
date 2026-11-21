@@ -3,6 +3,7 @@
 
 #pragma dont_inline on
 #include "types.h"
+#include "musyx/musyx.h"
 #include <string.h>
 #include "musyx/runtime/musyx_dspvoice.h"
 #include "pso/audio/SoundMixVoice.h"
@@ -114,9 +115,7 @@ struct Slot_803BD138 {
     u8 fec; u8 pad_ed[0xf4 - 0xed];
 };
 
-struct Rec_803BD62C { u8 pad[0xBC]; };
 
-struct Rec_803BD660 { u8 pad[0xBC]; };
 
 typedef struct Lob_803BBFB8 {
     u8 pad0[0x121];
@@ -369,11 +368,6 @@ struct Work_803BF884 {
     Src_803BF884 src;
 };
 
-struct Info_803BF884 {
-    s32 *left;
-    s32 *right;
-    s32 *surround;
-};
 
 typedef struct Src_803BBB30 {
     u8 midiCtrl;
@@ -487,7 +481,7 @@ s32 TLobby__sub_803C0F98(void *);
 s32 TLobby__sub_803C133C(void *);
 void decode_adxb_pcm_stream(u8 *arg0);
 extern SoundStudioMixView lbl_805663D8[];
-void hwSetAUXProcessingCallbacks(u8 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+void hwSetAUXProcessingCallbacks(u8 studio, SND_AUX_CALLBACK auxA, void *userA, SND_AUX_CALLBACK auxB, void *userB);
 u8 inpTranslateExCtrl(u8 arg0);
 s32 OSDisableInterrupts(void);
 void hwIRQEnterCritical(void);
@@ -567,11 +561,11 @@ void salStartAi(void);
 extern s8 salTimeOffset; void salActivateVoice(Slot_803BD138 *s, s32 x);
 void hwStart(s32 i, s32 x);
 extern SoundStudioMixView lbl_805663D8[];
-void salAddStudioInput(Rec_803BD62C *r, void *p);
-void hwAddInput(u8 i, void *p);
+s32 salAddStudioInput(SoundStudioMixView *stp, SND_STUDIO_INPUT *desc);
+void hwAddInput(u8 studio, SND_STUDIO_INPUT *in_desc);
 extern SoundStudioMixView lbl_805663D8[];
-void salRemoveStudioInput(Rec_803BD660 *r, void *p);
-void hwRemoveInput(u8 i, void *p);
+s32 salRemoveStudioInput(SoundStudioMixView *stp, SND_STUDIO_INPUT *desc);
+void hwRemoveInput(u8 studio, SND_STUDIO_INPUT *in_desc);
 void inpResetChannelDefaults(u8 arg0, u8 arg1);
 void inpSetMidiLastNote(u8 arg0, u8 arg1, u8 arg2);
 u8 inpGetMidiLastNote(u8 arg0, u8 arg1);
@@ -609,7 +603,6 @@ typedef struct SND_HOOKS {
 extern SND_HOOKS salHooks;
 f32* salMalloc(s32 bytes);
 void salFree(saddr arg0);
-void sndAuxCallbackReverbHI(u8 reason, Info_803BF884 *info, S_803BF408 *rev);
 u8 inpTranslateExCtrl(u8 arg0);
 void inpAddCtrl(Obj_803BB8F0 *arg0, u8 arg1, s32 arg2, u8 arg3, u32 arg4);
 u8 inpTranslateExCtrl(u8 arg0);
@@ -671,7 +664,6 @@ void salCalcVolume(u32 p, SoundMixCurveOutput *out, s32 x, s32 a3, bool f7, bool
 void hwSetVolume(s32 idx, u32 p, u32 x, s32 a3, f32 a, f32 b, f32 c);
 void do_src1(void *);
 void do_src2(void *);
-void sndAuxCallbackChorus(u8 reason, Info_803BF884 *info, Work_803BF884 *c);
 extern u32 synthInfo[];
 extern const f32 lbl_805E0C48;
 u32 hwFrq2Pitch(u32 arg0);
@@ -795,11 +787,11 @@ void hwSetPolyPhaseFilter(s32 index, u8 entry);
 void hwSetITDMode(s32 i, u8 mode);
 void hwSetVolume(s32 voice, u32 volumeCurve, u32 pan, s32 surroundPan, f32 direct, f32 auxiliaryA, f32 auxiliaryB);
 void hwOff(s32 arg0);
-void hwSetAUXProcessingCallbacks(u8 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+void hwSetAUXProcessingCallbacks(u8 studio, SND_AUX_CALLBACK auxA, void *userA, SND_AUX_CALLBACK auxB, void *userB);
 void hwActivateStudio(u8 i, s32 a, s32 b);
 void hwDeactivateStudio(u8 i);
-void hwAddInput(u8 i, void *p);
-void hwRemoveInput(u8 i, void *p);
+void hwAddInput(u8 studio, SND_STUDIO_INPUT *in_desc);
+void hwRemoveInput(u8 studio, SND_STUDIO_INPUT *in_desc);
 u32 hwGetPos(s32 arg0);
 void hwFlushStream(u8 *base, u32 offset, u32 len, u8 i, void *cb, void *arg);
 u8 hwInitStream(u32 size);
@@ -838,11 +830,9 @@ void hwIRQEnterCritical(void);
 void hwIRQLeaveCritical(void);
 f32* salMalloc(s32 bytes);
 void salFree(saddr arg0);
-void sndAuxCallbackReverbHI(u8 reason, Info_803BF884 *info, S_803BF408 *rev);
 void sndAuxCallbackPrepareReverbHI(Obj_803BE860 *self);
 s32 ReverbHICreate(SoundReverb * rv, float coloration, float time, float mix, float damping, float preDelay, float crossTalk);
 void ReverbHICallback(void *arg0, void *arg1, void *arg2, S_803BF408 *arg3);
-void sndAuxCallbackChorus(u8 reason, Info_803BF884 *info, Work_803BF884 *c);
 u32 sndAuxCallbackPrepareChorus(AuxChorus_803BFBF0 *chorus);
 }
 

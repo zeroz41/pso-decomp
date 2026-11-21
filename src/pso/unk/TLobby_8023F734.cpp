@@ -1,4 +1,5 @@
 #include "pso/system/Adxf.h"
+#include "musyx/musyx.h"
 #include "pso/audio/SoundBankTables.h"
 #include "pso/unk/TLobby.h"
 
@@ -924,12 +925,8 @@ s32 TLobby::reset_sound_state() {
     return 0;
 }
 extern "C" {
-void sndAuxCallbackReverbHI(u8 reason, void *info, void *user);
 void sndAuxCallbackPrepareReverbHI(void *rev);
-void sndAuxCallbackChorus(u8 reason, void *info, void *user);
 u32 sndAuxCallbackPrepareChorus(void *ch);
-void sndSetAuxProcessingCallbacks(u8 studio, void *auxA, void *userA, u8 midiA, u32 seqIDA, void *auxB, void *userB,
-                                  u8 midiB, u32 seqIDB);
 s32 TLobby__sub_801E3E9C(s32 id, const char *name, void *buf, s32 size);
 }
 

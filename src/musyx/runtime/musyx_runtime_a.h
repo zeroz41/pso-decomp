@@ -2,6 +2,7 @@
 #define MUSYX_RUNTIME_A_H
 
 #include "types.h"
+#include "musyx/musyx.h"
 #include <string.h>
 #include "musyx/runtime/musyx_dspvoice.h"
 
@@ -190,11 +191,6 @@ struct Env_803B4360 {
     u8 pad14[0x12]; u8 f26;
 };
 
-struct Src_803B8A14 { u8 vol; u8 volA; u8 volB; u8 srcStudio; };
-
-struct Slot_803B8A14 { u8 studio; u8 pad; u16 vol; u16 volA; u16 volB; Src_803B8A14 *desc; };
-
-struct Obj_803B8A14 { u8 pad[0x52]; u8 numInputs; u8 pad53[5]; Slot_803B8A14 in[7]; };
 
 struct SynthInfo_803BAB54 {
     u8 pad[0x210];
@@ -462,7 +458,6 @@ typedef struct LAYER_SV { u16 id; u8 keyLow; u8 keyHigh; s8 transpose; u8 volume
 typedef struct KEYMAP_SV { u16 id; s8 transpose; u8 panning; s16 prioOffset; u8 reserved[2]; } KEYMAP_SV;
 typedef struct FX_TAB_SV { u16 id; u16 macro; u8 maxVoices; u8 priority; u8 volume; u8 panning; u8 key; u8 vGroup; } FX_TAB_SV;
 typedef struct SynthInfo_SV { u32 mixFrq; u32 numSamples; struct { u32 frq; u8 stereo; u8 bits; s8 deviceName[256]; s8 versionText[256]; } pbInfo; u8 voiceNum; u8 maxMusic; u8 maxSFX; u8 studioNum; } SynthInfo_SV;
-typedef void (*SND_AUX_CALLBACK_SV)(u8 reason, void *info, void *user);
 typedef struct SynthBss_SV {
     u32 synthTicksPerSecond[9][16];
     SYNTH_JOBTAB_SV synthJobTable[32];
@@ -470,9 +465,9 @@ typedef struct SynthBss_SV {
     SYNTHMasterFader_SV synthMasterFader[32];
     u8 synthTrackVolume[64];
     void *synthAuxAUser[8];
-    SND_AUX_CALLBACK_SV synthAuxACallback[8];
+    SND_AUX_CALLBACK synthAuxACallback[8];
     void *synthAuxBUser[8];
-    SND_AUX_CALLBACK_SV synthAuxBCallback[8];
+    SND_AUX_CALLBACK synthAuxBCallback[8];
     synthITDInfo_SV synthITDDefault[8];
     s32 synthGlobalVariable[16];
     CTRL_DEST_SV inpAuxB[8][4];
@@ -513,10 +508,10 @@ void synthVolume(u8, u16, u8, s8, s32);
 void hwEnableIrq(void);
 void hwDisableIrq(void);
 void sndVolume(u8 arg0, u16 arg1, u8 arg2);
-void hwAddInput(u8 i, void *p);
-void synthAddStudioInput(u8 arg0, void *in_desc);
-void hwRemoveInput(u8 i, void *p);
-void synthRemoveStudioInput(u8 arg0, void *in_desc);
+void hwAddInput(u8 studio, SND_STUDIO_INPUT *in_desc);
+void synthAddStudioInput(u8 studio, SND_STUDIO_INPUT *in_desc);
+void hwRemoveInput(u8 studio, SND_STUDIO_INPUT *in_desc);
+void synthRemoveStudioInput(u8 studio, SND_STUDIO_INPUT *in_desc);
 extern s32 synthFlags;
 void CheckOutputMode(s8 *arg0, s8 *arg1);
 u32 adsrSetup(u8 *arg0);
@@ -642,7 +637,6 @@ s32 salChangeADSRState(void *a0);
 s32 salChangeADSRState(void *a0);
 extern u16 lbl_804F6758[];
 u32 adsrHandle(void *arg0, void *arg1, void *arg2);
-s32 salAddStudioInput(Obj_803B8A14 *stp, Src_803B8A14 *desc);
 void seqInit(void);
 void synthInit(u32 mixFrq, u32 numVoices);
 void streamInit(void);
@@ -692,21 +686,20 @@ void hwEnableIrq(void);
 void hwDisableIrq(void);
 s32 sndFXCtrl14(u32 vid, u8 ctrl, u16 value);
 u32 seqGetPrivateId(u32 seqId);
-void hwSetAUXProcessingCallbacks(u8 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+void hwSetAUXProcessingCallbacks(u8 studio, SND_AUX_CALLBACK auxA, void *userA, SND_AUX_CALLBACK auxB, void *userB);
 void hwEnableIrq(void);
 void hwDisableIrq(void);
-extern saddr synthAuxAUser[8];
-extern void *synthAuxACallback[8];
-extern saddr synthAuxBUser[8];
-extern void *synthAuxBCallback[8];
+extern void *synthAuxAUser[8];
+extern SND_AUX_CALLBACK synthAuxACallback[8];
+extern void *synthAuxBUser[8];
+extern SND_AUX_CALLBACK synthAuxBCallback[8];
 extern u8 synthAuxBMIDISet[8];
 extern u8 synthAuxBMIDI[8];
 extern u8 synthAuxAMIDISet[8];
 extern u8 synthAuxAMIDI[8];
-void sndSetAuxProcessingCallbacks(u8 studio, void *auxA, s32 userA, u8 midiA, u32 seqIDA, void *auxB, s32 userB, u8 midiB, u32 seqIDB);
 extern Rec_803A8D2C *synthVoice;
-extern void *synthAuxACallback[8];
-extern void *synthAuxBCallback[8];
+extern SND_AUX_CALLBACK synthAuxACallback[8];
+extern SND_AUX_CALLBACK synthAuxBCallback[8];
 extern u8 synthAuxBMIDI[8];
 extern u8 synthAuxAMIDI[8];
 s32 voiceKillSound(u32 id);
@@ -797,8 +790,6 @@ struct Ent_803B5DB0 {
     u8 pad[0x1C];
     u32 key;
 };
-struct Slot_803B8ABC { u32 a; u32 b; Src_803B8A14 *src; };
-struct Obj_803B8ABC { u8 pad[0x52]; u8 count; u8 pad53[5]; Slot_803B8ABC slots[7]; };
 struct Ent_803BA228 { u16 id; u8 pad[8]; };
 }
 
@@ -2135,8 +2126,6 @@ struct Ent_803B8910 { u8 pad0[0xC]; Ent_803B8910 *next; Ent_803B8910 *prev; u8 p
 
 struct FVec_S3D { f32 x; f32 y; f32 z; };
 struct FMat_S3D { f32 m[3][3]; f32 t[3]; };
-struct StudioInput_S3D { u8 vol; u8 volA; u8 volB; u8 srcStudio; };
-
 struct Room_S3D {
     Room_S3D *next;
     Room_S3D *prev;
@@ -2162,7 +2151,7 @@ struct Door_S3D {
     Room_S3D *b;
     u32 flags;
     s16 filterCoef[4];
-    StudioInput_S3D input;
+    SND_STUDIO_INPUT input;
 };
 
 struct Listener_S3D {
@@ -2326,11 +2315,10 @@ u32 sndFXStartParaInfo(u16 fid, u8 vol, u8 pan, u8 studio, Req_803AA1E0 *req);
 u32 sndFXCheck(u32 id);
 void sndVolume(u8 arg0, u16 arg1, u8 arg2);
 void sndOutputMode(s32 mode);
-void sndSetAuxProcessingCallbacks(u8 studio, void *auxA, s32 userA, u8 midiA, u32 seqIDA, void *auxB, s32 userB, u8 midiB, u32 seqIDB);
 void synthActivateStudio(u8 studio, u32 isMaster, u32 type);
 void synthDeactivateStudio(u8 studio);
-void synthAddStudioInput(u8 arg0, void *in_desc);
-void synthRemoveStudioInput(u8 arg0, void *in_desc);
+void synthAddStudioInput(u8 studio, SND_STUDIO_INPUT *in_desc);
+void synthRemoveStudioInput(u8 studio, SND_STUDIO_INPUT *in_desc);
 void streamCorrectLoops(void);
 void streamKill(s32 arg0);
 s32 GetPrivateIndex(u32 arg0);
@@ -2426,8 +2414,6 @@ void SortVoices(Ent_803B5DB0 **v, s32 left, s32 right);
 s32 salSynthSendMessage(u8 *arg0, s32 arg1);
 void salActivateVoice(Ent_803B8910 *dsp_vptr, u8 studio);
 void salDeactivateVoice(Ent_803B89B4 *arg0);
-s32 salAddStudioInput(Obj_803B8A14 *stp, Src_803B8A14 *desc);
-s32 salRemoveStudioInput(Obj_803B8ABC *stp, Src_803B8A14 *desc);
 void salHandleAuxProcessing(void);
 void UpdateRoomDistances(void);
 void CheckRoomStatus(void);

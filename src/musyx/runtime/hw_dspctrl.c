@@ -291,31 +291,12 @@ u16 dspSRCCycles[3][3] = {
     {3700, 3700, 1115},
 };
 
-typedef struct SND_AUX_INFO {
-  union SND_AUX_DATA {
-    struct SND_AUX_BUFFERUPDATE {
-      s32* left;
-      s32* right;
-      s32* surround;
-    } bufferUpdate;
-    struct SND_AUX_PARAMETERUPDATE {
-      u16 para[4];
-    } parameterUpdate;
-  } data;
-} SND_AUX_INFO;
 typedef enum {
   SND_STUDIO_TYPE_STD = 0,
   SND_STUDIO_TYPE_DPL2,
   SND_STUDIO_TYPE_RESERVED1,
   SND_STUDIO_TYPE_RESERVED2
 } SND_STUDIO_TYPE;
-typedef void (*SND_AUX_CALLBACK)(u8 reason, SND_AUX_INFO* info, void* user);
-typedef struct SND_STUDIO_INPUT {
-  u8 vol;
-  u8 volA;
-  u8 volB;
-  u8 srcStudio;
-} SND_STUDIO_INPUT;
 typedef struct DSPADPCMblock {
   signed short Y0;
   signed short Y1;
@@ -1606,7 +1587,7 @@ void salDeactivateVoice(Ent_803B89B4 *arg0) {
 
 #pragma push
 #pragma opt_common_subs on
-s32 salAddStudioInput(Obj_803B8A14 *stp, Src_803B8A14 *desc) {
+s32 salAddStudioInput(DSPstudioinfo *stp, SND_STUDIO_INPUT *desc) {
     if (stp->numInputs < 7) {
         stp->in[stp->numInputs].studio = desc->srcStudio;
         stp->in[stp->numInputs].vol = ((u16)desc->vol << 8) | ((u16)desc->vol << 1);
@@ -1620,15 +1601,15 @@ s32 salAddStudioInput(Obj_803B8A14 *stp, Src_803B8A14 *desc) {
 }
 #pragma pop
 
-s32 salRemoveStudioInput(Obj_803B8ABC *stp, Src_803B8A14 *desc) {
+s32 salRemoveStudioInput(DSPstudioinfo *stp, SND_STUDIO_INPUT *desc) {
     s32 i;
 
-    for (i = 0; i < stp->count; i++) {
-        if (stp->slots[i].src == desc) {
-            for (; i <= stp->count - 2; i++) {
-                stp->slots[i] = stp->slots[i + 1];
+    for (i = 0; i < stp->numInputs; i++) {
+        if (stp->in[i].desc == desc) {
+            for (; i <= stp->numInputs - 2; i++) {
+                stp->in[i] = stp->in[i + 1];
             }
-            stp->count--;
+            stp->numInputs--;
             return 1;
         }
     }
