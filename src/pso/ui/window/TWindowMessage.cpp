@@ -19,7 +19,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-const char *lbl_805D3980 = "TWindowMessage";
+const char *TWindowMessage__name = "TWindowMessage";
 
 struct RecoveredFields_802698C4_arg0 {
     u8 unknown_0[0x6C];
@@ -405,7 +405,7 @@ TWindowMessage::TWindowMessage(saddr arg1, u32 arg2, s32 arg3) : TWindowAddition
     u32 i;
     u8 *p;
     #define window_addition ((u8 *)this)
-    ((TObject *)window_addition)->m_name = lbl_805D3980;
+    ((TObject *)window_addition)->m_name = TWindowMessage__name;
     *(s32 *)(window_addition + 0x70) = 0;
     *(s32 *)(window_addition + 0x74) = 0;
     *(s32 *)(window_addition + 0x88) = 0;
