@@ -118,7 +118,6 @@ void print_float_padded(s32 arg0, s32 prec, f32 val) {
 }
 
 extern "C" {
-void PSMTXMultVecArray(f32 (*m)[4], const Vec *src, Vec *dst, u32 count);
 extern saddr current_matrix;
 void rotate_matrix_z(void *, s32);
 void rotate_matrix_x(void *, s32);

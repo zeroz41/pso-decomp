@@ -179,8 +179,6 @@ struct View_80083D54 {
     Vec target;
 };
 
-struct Mtx44_80083D54 { f32 m[4][4]; };
-
 extern "C" {
 void translate_current_matrix_ps(f32, f32, f32);
 void rotate_current_matrix_x_ps(s32);
@@ -214,6 +212,7 @@ struct Stack_80083914 {
 };
 
 extern "C" {
+// The game passes 8 floats; the SDK's C_MTXLightFrustum takes 9, so transT is whatever f9 holds.
 s32 C_MTXLightFrustum(void *, f32, f32, f32, f32, f32, f32, f32, f32);
 f32 rotate_matrix_by_node_angles(void *, int);
 f64 get_end_text_value__10TObjPlayerFv(f32);
@@ -247,7 +246,6 @@ s32 GXSetCopyFilter(int, void *, int, void *);
 s32 GXSetProjection(void *, int);
 s32 pop_matrix();
 void TObjPlayer__sub_80083FA4(void);
-void C_MTXFrustum(void *, f32, f32, f32, f32, f32, f32);
 f32 vec_squared_length(void *);
 void normalize_vector(void *);
 void TObjPlayer__sub_800847FC(void);
@@ -551,7 +549,7 @@ void **TObjPlayer__sub_80083F04(void) {
 #pragma push
 #pragma fp_contract on
 void begin_shadow_map_pass(void) {
-    Mtx44_80083D54 proj;
+    Mtx44 proj;
     Vec d;
     f32 t;
     f32 r;
@@ -584,8 +582,8 @@ void begin_shadow_map_pass(void) {
     GXSetScissor(1, 1, 0xFE, 0xFE);
     t = 2.1f;
     r = -2.1f;
-    C_MTXFrustum(&proj, t, -t, r, -r, 500.0f, 20000.0f);
-    GXSetProjection(&proj, 0);
+    C_MTXFrustum(proj, t, -t, r, -r, 500.0f, 20000.0f);
+    GXSetProjection(proj, 0);
     set_light_ambient_color(1.0f, 1.0f, 1.0f);
     submit_light0(0, 0);
     load_gx_light_slot(0);

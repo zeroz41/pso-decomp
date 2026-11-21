@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include <dolphin/gba.h>
 #include "pso/system/ResourceFile.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/GbaJoybootState.h"
@@ -26,8 +27,6 @@ short lbl_805D6CDA;
 // The game code the GBA program header carries at 0xAC (calc_joyboot_checksum copies it in).
 const u8 joyboot_game_code[4] = {'G', 'P', 'O', 'E'};
 
-int GBAInit(void*);
-s32 GBAGetProcessStatus(s32, u8 *);
 u32 SIProbe(s32);
 
 
@@ -122,7 +121,7 @@ void TLobby::update_alloc_size() {
     gba_download_data_size = 0U;
 }
 
-int TLobby__sub_8032C91C(void* p) { return GBAInit(p); }
+void TLobby__sub_8032C91C(void) { GBAInit(); }
 
 u8 TLobby::get_selected_slot() {
     u8 sp8;
@@ -148,7 +147,6 @@ struct DateStamp_8032C9A8 { s32 days; s32 mins; s32 ticks; };
 struct Rec_8032C9A8 { u32 a; u32 b; u32 c; };
 
 extern "C" {
-s32 GBAJoyBootAsync(s32, s32, s32, u8 *, s32, u8 *, void (*)(s32, s32));
 
 
 #pragma push

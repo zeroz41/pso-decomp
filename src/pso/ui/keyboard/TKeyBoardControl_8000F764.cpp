@@ -98,7 +98,7 @@ void TCharaMaking__sub_8028E790(void);
 }
 s32 verify_game_file_integrity();
 extern "C" {
-s32 TLobby__sub_8032C91C();
+void TLobby__sub_8032C91C(void);
 u32 OSInitAlloc(u32, u32, int);
 s32 VIInit();
 s32 PADInit();
