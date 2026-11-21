@@ -25,7 +25,7 @@ u8 get_byte_13b(void *);
 u8 get_byte_11f(void *);
 u8 get_byte_103(void *);
 u8 get_byte_e7(void *);
-s32 TObjPlayer__sub_80309E9C(void *);
+s32 init_follow_particle_state(void *);
 s32 TObjPlayer__sub_803374C4(void *);
 s32 TObjPlayer__sub_80351974(void *);
 s32 __ct__14TPlyDispConfigFv(void *);
@@ -42,7 +42,7 @@ u8 *TObjPlayer::construct_player_instance(saddr arg1, s16 arg2, s32 role, u8 *ar
     ((TObjPlayer *)(((u8 *)this) + 0x34C))->setup_ctrl();
     ((TObjPlayer *)(((u8 *)this) + 0x360))->init_state();
     TObjPlayer__sub_803374C4((void *) (((u8 *)this) + 0x374));
-    TObjPlayer__sub_80309E9C((void *) (((u8 *)this) + 0x384));
+    init_follow_particle_state((void *) (((u8 *)this) + 0x384));
     __ct__8FlagWordFv((((u8 *)this) + 0x41C));
     TFontSmallLobby__sub_801C0164((void *) (((u8 *)this) + 0x428));
     ((TFontSmallLobby *)(((u8 *)this) + 0x4AC))->construct_pb_controller();

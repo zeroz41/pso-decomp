@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-s32 TObjPlayer__sub_80309E4C(saddr arg0, s16 arg1);
+s32 destroy_follow_particle_state(saddr arg0, s16 arg1);
 s32 create_attached_oneshot_emitter(unsigned long long arg1, s32 arg2);
 }
 void emit_idle_water_splash(s32 owner, s32 position);
