@@ -21,7 +21,6 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
-#include "pso/enemy/recon/TObjEneRecon_8031BE8C.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/system/vector.h"
@@ -31,17 +30,14 @@
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/enemy/recon/TObjEneRecobox.h"
+#include "pso/enemy/recon/TObjEneReconBomb.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal.h"
-#include "pso/enemy/recon/TObjEneRecon_8031D780.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
-#include "pso/enemy/recon/TObjEneRecon_8031E574.h"
 #include "pso/render/TUnk_80494938.h"
 #include "pso/enemy/sinowzoa/TObjEneMe3SinowZoa.h"
-#include "pso/enemy/recon/TObjEneRecon_8031BC38.h"
-#include "pso/enemy/recon/TObjEneRecobox_8031FCB0.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/SoundEffect.h"
@@ -1047,7 +1043,7 @@ void TObjEneRecon__sub_8031CCFC(u8 *arg0, s32 arg1) {
         case 1:
             if (((TObjMotion *)arg0)->is_passing_frame(10.0f) != 0) {
                 play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003A80A), arg0 + 0x38, 0, 0);
-                TObjEneRecon::create_bomb(arg0, arg0, arg0 + 0x40C);
+                TObjEneReconBomb::create(arg0, arg0, arg0 + 0x40C);
             } else if (((TObjEneDD *)arg0)->get_flag_b4() != 0) {
                 *(s32 *)((s8 *)arg0 + 0x3C0) = 2;
             }
@@ -1665,7 +1661,7 @@ extern "C" {
 typedef struct RecoveredFields_8031E708_temp_r5 RecoveredFields_8031E708_temp_r5;
 void TObjEneRecon::load_resources() {
   u8 *temp_r5;
-  TObjEneRecon__recobox_static_instance = (BmlResource *)TObjEneRecobox__sub_803201D0();
+  TObjEneRecon__recobox_static_instance = TObjEneRecobox::get_bml_resource();
   boss3_volopt_instance = (VObj_8031E650 *)new TUnk_8048FA00((long)(saddr)TObjEneRecon__recobox_static_instance->models->model);
   recon_intro_stage = 0;
   recon_model_matrix_ptr = 0;
@@ -1673,7 +1669,7 @@ void TObjEneRecon::load_resources() {
   TObjEneRecon__attack_params = (saddr)TLobby::dispatch_shared_handler_b(0x42);
   TObjEneRecon__resistance_params = (saddr)TLobby::register_object(0x42);
   TObjEneRecon__data_805D6AFC = (f32 *)TLobby::dispatch_shared_handler_a(0x42);
-  TObjEneRecon__sub_8031BC94();
+  TObjEneReconBomb::load_resources();
   NpcAnimationBinding binding = recon_anim_binding;
   binding.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneRecon__recobox_static_instance->motions);
   temp_r5 = (u8 *)TObjEneRecon__recobox_static_instance->models;
@@ -1681,6 +1677,7 @@ void TObjEneRecon::load_resources() {
 }
 
 
+u8 *TObjEneRecon__ct(u8 *ene_recon, s32 arg1, saddr arg2, s32 arg3, s32 arg4, saddr arg5, saddr arg6);
 
 void *TObjEneRecon::create(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4) {
     void *o;
@@ -1700,7 +1697,7 @@ struct VObj_8031E650 : Base_8031E650 {
 
 
 void TObjEneRecon::release_static_instance() {
-    TObjEneRecon__sub_8031BC38();
+    TObjEneReconBomb::release_resources();
     if (boss3_volopt_instance != 0) {
         if (boss3_volopt_instance != 0) {
             boss3_volopt_instance->m0(1);

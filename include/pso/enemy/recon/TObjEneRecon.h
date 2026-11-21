@@ -43,7 +43,6 @@ struct TObjEneRecon : public TObjEneDD_ST {
     u32 m_494;
     f32 get_field_4d4();
     f32 get_field_4d0();
-    static void *create_bomb(void *arg0, void *arg1, void *arg2);
     void render_shadows();
     static void advance_intro_stage(NJS_OBJECT *);
     void update_ground_probe();

@@ -12,7 +12,6 @@
 
 #include "pso/enemy/dd/TObjEneDD_800BB804.h"
 
-#include "pso/enemy/recon/TObjEneRecobox_8031E88C.h"
 
 #include "pso/unk/text_803D96A8.h"
 
@@ -61,9 +60,7 @@
 
 #include "pso/system/task/TObject_80019A50.h"
 
-#include "pso/enemy/recon/TObjEneRecon_8031F408.h"
 
-#include "pso/enemy/recon/TObjEneRecon_8031F600.h"
 
 #include "pso/render/TUnk_80494938.h"
 
@@ -85,7 +82,6 @@
 
 #include "pso/math/AngleLookup.h"
 
-#include "pso/enemy/recon/TObjEneRecon_8031FACC.h"
 
 #include "pso/ui/window/TWindowSubComCard.h"
 
@@ -716,9 +712,6 @@ void *TObjEneRecobox__vtable[107] = {
 
 #define TObjEneRecobox__attack_params ((u8 *)TObjEneRecobox__attack_params)
 #define TObjEneRecobox__vtable ((u8 *)TObjEneRecobox__vtable)
-saddr TObjEneRecobox__sub_803201D0(void);
-
-void *TObjEneRecobox__create(void *arg0);
 
 
 
@@ -777,10 +770,10 @@ void TObjEneRecobox::load_resources() {
 
 u8 *TObjEneRecobox__ct(u8 *ene_recobox, s32 arg1, u8 *arg2);
 
-void *TObjEneRecobox__create(void *arg0) {
+void *TObjEneRecobox::create(void *set_data) {
     void *o = TObject::operator new(0x4F4);
     if (o != NULL) {
-        o = TObjEneRecobox__ct((u8 *)o, (saddr)tl_04, (u8 *)arg0);
+        o = TObjEneRecobox__ct((u8 *)o, (saddr)tl_04, (u8 *)set_data);
     }
     return o;
 }
@@ -793,7 +786,7 @@ void TObjEneRecobox::release_static_instance() {
     }
 }
 
-saddr TObjEneRecobox__sub_803201D0(void) {  return (*(int *)&TObjEneRecobox__static_instance); }
+BmlResource *TObjEneRecobox::get_bml_resource() { return TObjEneRecobox__static_instance; }
 
 u32 TObjEneRecobox::remap_area_sound_id(u32 arg0) {
     u32 ret;

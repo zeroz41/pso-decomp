@@ -19,8 +19,6 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/enemy/recon/TObjEneRecon_8031BC38.h"
-#include "pso/enemy/recon/TObjEneRecobox_8031FCB0.h"
 #include "pso/enemy/recon/TObjEneRecon.h"
 #include "pso/system/task/TObject.h"
 
@@ -107,7 +105,7 @@ extern s32 lbl_805D5868;
 s32 rotate_matrix_z(int, int);
 s32 rotate_matrix_x(void *, s32);
 s32 scale_current_matrix(void *);
-uaddr recon_bomb_bml_resource;
+BmlResource *recon_bomb_bml_resource;
 f32 TObjEneRecon__sub_8031C2BC(int);
 f32 TObjEneRecon__sub_8031C2C8(int);
 f32 TObjEneRecon__sub_8031C2D4(int);
@@ -141,12 +139,12 @@ void TObjEneReconBomb::render() {
     f32 var_f1;
     saddr bml_model;
     s32 temp_r30;
-    if ((u32) recon_bomb_bml_resource == 0U) {
+    if (recon_bomb_bml_resource == NULL) {
         ((TObject *)arg0)->queue_destruction();
         return;
     }
-    bml_model = (saddr)get_bml_model((BmlResource *)(void *)recon_bomb_bml_resource, 2);
-    temp_r30 = (saddr)get_bml_texlist((BmlResource *)(void *)recon_bomb_bml_resource, 2);
+    bml_model = (saddr)get_bml_model(recon_bomb_bml_resource, 2);
+    temp_r30 = (saddr)get_bml_texlist(recon_bomb_bml_resource, 2);
     push_matrix();
     translate_matrix(0, (f32) (*(f32 *)((s8 *)arg0 + 0x38)), (f32) ((2.0f) + *(f32 *)((s8 *)arg0 + 0x3C)), (f32) (*(f32 *)((s8 *)arg0 + 0x40)));
     rotate_matrix_zyx(0, (this->rotation_x), (this->rotation_y), (this->rotation_z));
@@ -275,12 +273,12 @@ TObjEneReconBomb::TObjEneReconBomb(TObject *arg1, TObjEneRecon *arg2, const Vec 
 const char *TObjEneReconBomb__name = "TObjEneReconBomb";
 
 
-void TObjEneRecon__sub_8031BC38(void) {  }
+void TObjEneReconBomb::release_resources() {  }
 
-void *TObjEneRecon::create_bomb(void *arg0, void *arg1, void *arg2) {
-    return new TObjEneReconBomb((TObject *)arg0, (TObjEneRecon *)arg1, (const Vec *)arg2);
+void *TObjEneReconBomb::create(void *parent, void *recon, void *pos) {
+    return new TObjEneReconBomb((TObject *)parent, (TObjEneRecon *)recon, (const Vec *)pos);
 }
 
-void TObjEneRecon__sub_8031BC94(void) { recon_bomb_bml_resource = TObjEneRecobox__sub_803201D0(); }
+void TObjEneReconBomb::load_resources() { recon_bomb_bml_resource = TObjEneRecobox::get_bml_resource(); }
 
 }

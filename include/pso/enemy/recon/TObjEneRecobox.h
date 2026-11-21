@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 
+struct BmlResource;
+
 struct TObjEneRecobox : public TObjEneDD_ST {
     virtual ~TObjEneRecobox();
     virtual void run_task();
@@ -57,6 +59,8 @@ struct TObjEneRecobox : public TObjEneDD_ST {
     static u32 remap_area_sound_id(u32 arg0);
     static void release_static_instance();
     static void load_resources();
+    static void *create(void *set_data);
+    static BmlResource *get_bml_resource();
     f32 m_4d4;
     s32 spawn_timer;              // frames since the last spawn (update_child_spawn)
     s32 spawn_interval;           // frames between spawns (30)
