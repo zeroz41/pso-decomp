@@ -8,7 +8,6 @@ s32 apply_entry_layout__9TWindowDDFPv(void *);
 s32 TWindowDD__sub_803435A0(void *);
 s32 TWindowDD__sub_80347C50();
 s32 TWindowDD__sub_803482B0(void *);
-s32 update_close_flag__9TWindowDDFPv(void *);
 
 void TWindowDD::enter_state_19() {
     s32 temp_r0;
@@ -22,7 +21,7 @@ void TWindowDD::enter_state_19() {
         update_selection_state();
         if (test_input_flag_4() != 0) {
             TWindowDD::play_sound();
-            var_r31 = update_close_flag__9TWindowDDFPv(this) == 0;
+            var_r31 = TWindowDD::update_close_flag(this) == 0;
         } else if (TWindowDD__sub_803482B0(this) != 0) {
             TWindowDD::play_se();
             apply_entry_layout__9TWindowDDFPv(this);
@@ -50,7 +49,7 @@ void TWindowDD::enter_state_18() {
         update_selection_state();
         if (test_input_flag_4() != 0) {
             TWindowDD::play_sound();
-            var_r31 = update_close_flag__9TWindowDDFPv(this) == 0;
+            var_r31 = TWindowDD::update_close_flag(this) == 0;
         } else if (TWindowDD__sub_803482B0(this) != 0) {
             TWindowDD::play_se();
             apply_entry_layout__9TWindowDDFPv(this);

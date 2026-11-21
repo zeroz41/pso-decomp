@@ -113,7 +113,6 @@ extern "C" {
 u32 get_player_by_client_id(int);
 s32 bind_target__13TWindowLockOnFUs(void *, s32);
 u32 create_for_target__13TWindowLockOnFlUs(int, s32);
-s32 get_function_key_menu__16TKeyBoardControlFPv(void *arg0);
 s32 fn_8002AE08(void *p);
 u16 get_current_target_id__10TObjPlayerFv();
 extern Pad_8024DCE8 controller_input_state[];
@@ -275,7 +274,7 @@ void TWindowCtrl::update_main_menu_request() {
     }
     {
         s32 idx = is_player_input_active(this->m_24);
-        key = ((s16 (*)(void *))get_function_key_menu__16TKeyBoardControlFPv)(this);
+        key = ((s16 (*)(void *))TKeyBoardControl::get_function_key_menu)(this);
         if (TWindowShortListCtrl__check_controller_button(controller_input_state[idx].btn, 0x108) == 0 && key == 0x1F) {
             return;
         }
@@ -362,7 +361,7 @@ void TWindowCtrl__sub_8024DAAC(void *arg0) {
     }
 }
 
-s32 get_function_key_menu__16TKeyBoardControlFPv(void *arg0) {
+s32 TKeyBoardControl::get_function_key_menu(void *arg0) {
     if (is_split_screen() != 0) {
         return 0x1F;
     }

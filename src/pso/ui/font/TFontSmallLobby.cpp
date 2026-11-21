@@ -237,7 +237,6 @@ void TFontSmallLobby__sub_801D67C8(void* p);
 void reset_photon_blast_gauge(struct Lobby_801D6498 *s);
 s32 TFontSmallLobby__sub_801D67AC(u8 *arg0);
 void *get_player_by_client_id(s32 i);
-u16 get_type__15TFontSmallLobbyFPv(void* p);
 
 s32 subtract_photon_blast_charge(PhotonBlastGauge *gauge, f32 amount) {
     f32 charge = gauge->charge;
@@ -291,7 +290,7 @@ void add_photon_blast_charge(u8 *gauge, f32 amount) {
 
 void TFontSmallLobby::send_photon_blast_ready() {
     void *tmp_player;
-    if ((tmp_player = (void *)get_player_by_client_id(((u16 (*)())get_type__15TFontSmallLobbyFPv)())) != 0U) {
+    if ((tmp_player = (void *)get_player_by_client_id(((u16 (*)())TFontSmallLobby::get_type)())) != 0U) {
         ((TObjPlayer *)tmp_player)->play_photon_blast_feedback();
     }
 }
@@ -382,7 +381,7 @@ void TFontSmallLobby__sub_801D671C(void* a0, int a1) { *(int*)((char*)a0 + 0x4) 
 void TFontSmallLobby::set_flag_40_bit5() { ((FlagWord *)((char*)this + 0x40))->set(32); }
 void TFontSmallLobby::update_field_40() { ((FlagWord *)((char*)this + 0x40))->clear(16); }
 void TFontSmallLobby__sub_801D677C(void* p) { ((FlagWord *)((char*)p + 0x40))->set(16); }
-u16 get_type__15TFontSmallLobbyFPv(void* p) { return *(u16*)((char*)p + 0x0); }
+u16 TFontSmallLobby::get_type(void* p) { return *(u16*)((char*)p + 0x0); }
 
 s32 TFontSmallLobby__sub_801D67AC(u8 *arg0) {
     return *(f32 *)((s8 *)arg0 + 0x3C) >= 100.0f;

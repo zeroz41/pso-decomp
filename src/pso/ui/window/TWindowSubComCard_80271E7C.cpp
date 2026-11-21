@@ -48,6 +48,7 @@ class TChCrTagPlBack;
 #include "pso/player/TPlyGuildCardTag_8007B7EC.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
+#include "pso/unk/text_802754EC.h"
 
 const char *TWindowSubComCard__class_name = "TWindowSubComCard";
 
@@ -78,17 +79,11 @@ s32 *get_selected_guild_card_record(void);
 extern "C" {
 void set_value_by_key(void *, u16, s32);
 s32 open_hard_keyboard__6TLobbyFPv(void *);
-void get_message_10__17TWindowSubComCardFPvPv(void* p, void* a1);
 void apply_selection__17TWindowSubComCardFi(s32 arg0);
-void cleanup__17TWindowSubComCardFPv(void* p);
-void init_layout__17TWindowSubComCardFv(void);
-void send_cmd_133__17TWindowSubComCardFv(void);
 void send_command__17TWindowSubComCardFi(saddr arg0);
 int get_card_entry__17TWindowSubComCardFi(void);
 saddr get_window_layout_position(s32 a0 = 0);
-int fn_802754EC(void);
 
-typedef void *(*GetMsg_80271F04)(void *, void *);
 }
 
 struct Rec_80272290 { s32 f0; u8 f4[0xD0]; };
@@ -136,17 +131,12 @@ struct VObj_18_80272714 : VBase_18_80272714 {
 extern "C" {
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 s32 create_titled_window_menu_default(int, int, void *);
-s32 create_menu_window__17TWindowSubComCardFv(void);
-void open_mode4_window__17TWindowSubComCardFv(void);
-void open_layout_window__17TWindowSubComCardFv(void);
 s32 TWindowSubComCard__sub_80273004(void);
 s32 create_choice_setting_window__17TWindowSubComCardFiii(saddr arg0, saddr arg1, saddr arg2);
 s32 TWindowSubComCard__sub_802728CC(void);
 void *get_player_by_client_id(s32 i);
 extern s32 local_client_id;
-s32 create_player_select_window__17TWindowSubComCardFv(void);
 void rebuild_com_card_list__17TWindowSubComCardFii(s32 arg0, saddr arg1);
-saddr create__17TWindowSubComCardFv(void);
 s32 create_keyboard__17TWindowSubComCardFi(saddr arg0);
 s32 create_keyboard__17TWindowSubComCardFii(saddr arg0, saddr arg1);
 void update_display_value__17TWindowSubComCardFUiUiPv(uaddr arg0, uaddr arg1, s32 *arg2);
@@ -157,7 +147,6 @@ struct ComCardRec_80272A98 { u32 id; char name[0xD0]; };
 
 struct ComCardList_80272A98 { u8 pad0; u8 count; u8 pad2[2]; ComCardRec_80272A98 entries[1]; };
 
-typedef void *(*GetMsg_80272CB0)(void *, void *);
 
 }
 
@@ -179,7 +168,6 @@ struct ComEntry_8027375C { u8 data[0xD4]; };
 struct ComList_8027375C { u8 pad[4]; ComEntry_8027375C entries[1]; };
 extern "C" {
 s32 create_window_menu_default(void *, int);
-s32 create_single_entry_window__17TWindowSubComCardFv(void);
 s32 TWindowSubComCard__sub_8027353C(void);
 s32 TWindowSubComCard__sub_8027346C(void);
 s32 TWindowSubComCard__sub_800778B4(void *, int);
@@ -195,11 +183,8 @@ extern "C" {
 void TWindowSubComCard__sub_80249144(void *arg0);
 u32 TWindowSubComCard__sub_80272640(void *);
 u32 TWindowSubComCard__sub_80272A98(void *);
-s32 open_menu__17TWindowSubComCardFv(void);
 u32 TWindowSubComCard__sub_8027337C();
-s32 create_menu__17TWindowSubComCardFv(void);
 s32 open_confirm_prompt__19TWindowSubShortMailFPvi(void *arg0, s32 arg1);
-s32 create_keyboard__19TWindowSubShortMailFv(void);
 extern s32 controller_input_state[];
 extern saddr TLobby__protocol_instance;
 
@@ -359,10 +344,10 @@ void TWindowSubComCard::run_task() {
             this->m_6c = 0U;
         }
         if ((u32) this->m_60 == 0U) {
-            this->m_60 = ((s32 (*)(void *)) create_menu__17TWindowSubComCardFv)((void *)this);
+            this->m_60 = ((s32 (*)(void *)) TWindowSubComCard::create_menu)((void *)this);
         }
         if ((u32) this->m_6c == 0U) {
-            this->m_6c = ((u32 (*)(void*))open_layout_window__17TWindowSubComCardFv)((void *)this);
+            this->m_6c = ((u32 (*)(void*))TWindowSubComCard::open_layout_window)((void *)this);
             this->m_28 = -1;
         }
         ((TWindowSubComCard *)(this->m_60))->clear_flag_and_release();
@@ -431,7 +416,7 @@ void TWindowSubComCard::run_task() {
             this->m_68 = 0U;
         }
         if ((u32) this->m_68 == 0U) {
-            this->m_68 = ((s32 (*)(void *)) create_single_entry_window__17TWindowSubComCardFv)((void *)this);
+            this->m_68 = ((s32 (*)(void *)) TWindowSubComCard::create_single_entry_window)((void *)this);
         }
         this->m_1c = 8U;
     case 0x8:
@@ -476,12 +461,12 @@ void TWindowSubComCard::run_task() {
             this->m_64 = 0U;
         }
         if ((u32) this->m_6c == 0U) {
-            this->m_6c = ((u32 (*)(void*))create__17TWindowSubComCardFv)((void *)this);
+            this->m_6c = ((u32 (*)(void*))TWindowSubComCard::create)((void *)this);
             fn_802449E0((u8 *)this->m_6c);
             this->m_28 = -1;
         }
         if ((u32) this->m_84 == 0U) {
-            this->m_84 = ((u32 (*)(void))send_cmd_133__17TWindowSubComCardFv)();
+            this->m_84 = (uaddr)TWindowSubComCard::send_cmd_133();
         }
         if ((u32) this->m_74 == 0U) {
             this->m_24 = ((TWindowMenu *)this->m_84)->get_selected_value();
@@ -528,7 +513,7 @@ void TWindowSubComCard::run_task() {
             this->m_74 = 0U;
         }
         if ((u32) this->m_64 == 0U) {
-            this->m_64 = ((s32 (*)(void *)) open_menu__17TWindowSubComCardFv)((void *)this);
+            this->m_64 = ((s32 (*)(void *)) TWindowSubComCard::open_menu)((void *)this);
         }
         ((TWindowMenu *)(this->m_64))->clear_transition_flag();
         ((TWindowSubComCard *)(this->m_64))->clear_flag_and_release();
@@ -544,7 +529,7 @@ void TWindowSubComCard::run_task() {
         }
         break;
     case 0xF:
-        ((s32 (*)(void))cleanup__17TWindowSubComCardFPv)();
+        ((s32 (*)(void))TWindowSubComCard::cleanup)();
         this->m_1c = 0x10U;
     case 0x10:
         this->m_1c = 0xBU;
@@ -555,7 +540,7 @@ void TWindowSubComCard::run_task() {
             this->m_64 = 0U;
         }
         if ((u32) this->m_6c == 0U) {
-            this->m_6c = ((u32 (*)(void*))create__17TWindowSubComCardFv)((void *)this);
+            this->m_6c = ((u32 (*)(void*))TWindowSubComCard::create)((void *)this);
             this->m_28 = -1;
         }
         this->set_card_index((int) (((TWindowMenu *)this->m_84)->get_selected_value()));
@@ -635,7 +620,7 @@ void TWindowSubComCard::run_task() {
             this->m_64 = 0U;
         }
         if ((u32) this->m_84 == 0U) {
-            this->m_84 = ((u32 (*)(void))send_cmd_133__17TWindowSubComCardFv)();
+            this->m_84 = (uaddr)TWindowSubComCard::send_cmd_133();
         }
         if ((u32) this->m_74 == 0U) {
             this->m_24 = ((TWindowMenu *)this->m_84)->get_selected_value();
@@ -732,7 +717,7 @@ void TWindowSubComCard::run_task() {
             this->m_60 = 0U;
         }
         if ((u32) this->m_80 == 0U) {
-            this->m_80 = create_keyboard__19TWindowSubShortMailFv();
+            this->m_80 = TWindowSubShortMail::create_keyboard();
         }
         ((TKeyBoardControl *)(this->m_80))->set_position((void *)(get_window_layout_position(0xBB)));
         reinterpret_cast<TKeyBoardControl *>(m_80)->clear_keyboard_flag60_bit1();
@@ -883,7 +868,7 @@ void TWindowSubComCard::run_task() {
             this->m_68 = TWindowSubComCard__sub_80272A98((void *)this);
         }
         if ((u32) this->m_6c == 0U) {
-            this->m_6c = ((u32 (*)(void*))open_mode4_window__17TWindowSubComCardFv)((void *)this);
+            this->m_6c = ((u32 (*)(void*))TWindowSubComCard::open_mode4_window)((void *)this);
             this->m_28 = -1;
         }
         ((TWindowSubComCard *)(this->m_68))->clear_flag_and_release();
@@ -908,7 +893,7 @@ void TWindowSubComCard::run_task() {
             temp_r29_6 = ((TWindowMenu *)this->m_68)->get_selected_value();
             ComList_8027375C *cl = (ComList_8027375C *) TWindowSubComCard::get_com_count();
             ((s32 (*)(void*))load_selected_guild_card_record)(&cl->entries[temp_r29_6]);
-            this->m_64 = ((u32 (*)(void*))create_menu_window__17TWindowSubComCardFv)((void *)this);
+            this->m_64 = ((u32 (*)(void*))TWindowSubComCard::create_menu_window)((void *)this);
         }
         this->m_1c = 0x32U;
     case 0x32:
@@ -1001,7 +986,7 @@ void TWindowSubComCard::run_task() {
             this->m_6c = 0U;
         }
         if ((u32) this->m_84 == 0U) {
-            this->m_84 = ((u32 (*)(void))init_layout__17TWindowSubComCardFv)();
+            this->m_84 = ((u32 (*)(void))TWindowSubComCard::init_layout)();
         }
         if ((u32) this->m_74 == 0U) {
             this->m_24 = ((TWindowMenu *)this->m_84)->get_selected_value();
@@ -1072,7 +1057,7 @@ void TWindowSubComCard::run_task() {
             this->m_64 = 0U;
         }
         if ((u32) this->m_84 == 0U) {
-            this->m_84 = ((u32 (*)(void))send_cmd_133__17TWindowSubComCardFv)();
+            this->m_84 = (uaddr)TWindowSubComCard::send_cmd_133();
         }
         if ((u32) this->m_74 == 0U) {
             this->m_24 = ((TWindowMenu *)this->m_84)->get_selected_value();
@@ -1131,7 +1116,7 @@ void TWindowSubComCard::run_task() {
             this->m_68 = 0U;
         }
         if ((u32) this->m_64 == 0U) {
-            this->m_64 = ((u32 (*)(void*))create_player_select_window__17TWindowSubComCardFv)((void *)this);
+            this->m_64 = ((u32 (*)(void*))TWindowSubComCard::create_player_select_window)((void *)this);
         }
         ((TWindowSubComCard *)(this->m_64))->clear_flag_and_release();
         this->m_1c = 0x47U;
@@ -1222,7 +1207,7 @@ void TWindowSubComCard::run_task() {
 
 void TWindowSubComCard::render() {  }
 
-s32 create_menu__17TWindowSubComCardFv(void) {
+s32 TWindowSubComCard::create_menu(void) {
     saddr temp_r31;
 
     temp_r31 = ((s32 (*)(s32, s32, s32))create_titled_window_menu_default)(get_window_layout_position(0x7F), 6, (saddr)TWindowSubStatusDisp::get_message_10(0x1D));
@@ -1300,7 +1285,7 @@ u32 TWindowSubComCard__sub_8027337C() {
     return w;
 }
 
-s32 create_single_entry_window__17TWindowSubComCardFv(void) {
+s32 TWindowSubComCard::create_single_entry_window(void) {
   saddr temp_r31;
     temp_r31 = create_window_menu_default((void *)(((saddr)get_window_layout_position(0x84))), 1);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((int) ((saddr)TWindowSubStatusDisp::get_message_10(0x38))), 3, 0);
@@ -1309,7 +1294,7 @@ s32 create_single_entry_window__17TWindowSubComCardFv(void) {
     return temp_r31;
 }
 
-s32 open_menu__17TWindowSubComCardFv(void) {
+s32 TWindowSubComCard::open_menu(void) {
     saddr temp_r31;
 
     temp_r31 = ((s32 (*)(s32, s32, s32))create_titled_window_menu_default)(get_window_layout_position(0x87), 5, (saddr)TWindowSubStatusDisp::get_message_10(0x1D));
@@ -1400,7 +1385,7 @@ void rebuild_com_card_list__17TWindowSubComCardFii(s32 arg0, saddr arg1) {
 #pragma pop
 extern "C" {
 
-void open_layout_window__17TWindowSubComCardFv(void) {
+void TWindowSubComCard::open_layout_window(void) {
     (saddr)TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x80)), (const f32 *)com_card_layout_message_size, 1);
 }
 }
@@ -1448,7 +1433,7 @@ s32 TWindowSubComCard::create_entry_list_window() {
     hard = open_hard_keyboard__6TLobbyFPv(*(void **)(((u8 *)this) + 0x20));
     w = create_choice_setting_window__17TWindowSubComCardFiii((s32)(get_window_layout_position(0x8C)), (saddr)com_card_entry_list_size, 6);
     create_sub_window__20TWindowChoiceSettingFPvi((void *)w, (saddr)((void*)TWindowSubStatusDisp::get_message_10(0x6D)));
-    ((TWindowSubComCard *)w)->update_next_entry((saddr)((void*)TWindowSubStatusDisp::get_message_10(0x6D)), (saddr)(((GetMsg_80272CB0)get_message_10__17TWindowSubComCardFPvPv)(this, (void *)hard)), 0);
+    ((TWindowSubComCard *)w)->update_next_entry((saddr)((void*)TWindowSubStatusDisp::get_message_10(0x6D)), (saddr)this->get_message_10(hard), 0);
     l = *(List_80272CB0 **)(((u8 *)this) + 0x58);
     idx = -1;
     n = l->count;
@@ -1482,8 +1467,8 @@ s32 TWindowSubComCard::create_option_list_window(saddr arg1, s32 key) {
     ChrSel_80272B60 *cs;
     win = create_titled_window_menu_default(get_window_layout_position(0x8D), 0x20, (void *)(saddr)((TWindowSubComCard *)this->m_7c)->find_entry_value_by_id(key));
     if (key == 0) {
-        TObjCityMainWarp::forward_trade_action_default((void *)win, (saddr)(((u8* (*)(void*, void*))get_message_10__17TWindowSubComCardFPvPv)(this, (void *)(0))), 6, 0);
-        TObjCityMainWarp::forward_trade_action_default((void *)win, (saddr)(((u8* (*)(void*, void*))get_message_10__17TWindowSubComCardFPvPv)(this, (void *)(1))), 6, 1);
+        TObjCityMainWarp::forward_trade_action_default((void *)win, (saddr)this->get_message_10(0), 6, 0);
+        TObjCityMainWarp::forward_trade_action_default((void *)win, (saddr)this->get_message_10(1), 6, 1);
         ((TWindowSubComCardList *)win)->set_selected_index(open_hard_keyboard__6TLobbyFPv((void *)this->m_20));
     } else {
         sel = ((TWindowSubComCard *)arg1)->find_value_by_key(key);
@@ -1534,11 +1519,11 @@ u32 TWindowSubComCard__sub_80272A98(void *) {
     ((TWindowSubComCardList *)w)->set_scroll_target(223.0f, 124.0f);
     return w;
 }
-void open_mode4_window__17TWindowSubComCardFv(void) {
+void TWindowSubComCard::open_mode4_window(void) {
     (saddr)TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x8f)), (const f32 *)com_card_mode4_message_size, 1);
 }
 
-s32 create_menu_window__17TWindowSubComCardFv(void) {
+s32 TWindowSubComCard::create_menu_window(void) {
   saddr temp_r31;
   saddr title;
   title = (0, ((saddr)(void*)TWindowSubStatusDisp::get_message_10(0x1D)));
@@ -1590,7 +1575,7 @@ s32 TWindowSubComCard::create_card_action_window() {
 #pragma opt_common_subs off
 #pragma opt_loop_invariants off
 extern "C" {
-s32 create_player_select_window__17TWindowSubComCardFv(void) {
+s32 TWindowSubComCard::create_player_select_window(void) {
     s32 i;
     VObj_18_80272714 *p;
     saddr w;
@@ -1633,7 +1618,7 @@ u32 TWindowSubComCard__sub_80272640(void *) {
     return w;
 }
 
-saddr create__17TWindowSubComCardFv(void) {
+saddr TWindowSubComCard::create(void) {
     saddr temp_r31;
     saddr window_layout_position;
 
@@ -1752,9 +1737,9 @@ void TWindowSubComCard::sub_802721D8() {
 }
 #pragma pop
 extern "C" {
-void cleanup__17TWindowSubComCardFPv(void* p) { ((TWindowMenu *)(*(void**)((char*)p + 0x84)))->get_selected_value(); TLobby::send_find_user_self_tag((s32)((TWindowSubComCard *)(saddr)get_card_entry__17TWindowSubComCardFi())->get_card_id()); }
-void send_cmd_133__17TWindowSubComCardFv(void) { get_window_layout_position(133); fn_802754EC(); }
-void init_layout__17TWindowSubComCardFv(void) {
+void TWindowSubComCard::cleanup(void* p) { ((TWindowMenu *)(*(void**)((char*)p + 0x84)))->get_selected_value(); TLobby::send_find_user_self_tag((s32)((TWindowSubComCard *)(saddr)get_card_entry__17TWindowSubComCardFi())->get_card_id()); }
+u8 *TWindowSubComCard::send_cmd_133() { return fn_802754EC(get_window_layout_position(133)); }
+void TWindowSubComCard::init_layout(void) {
     s32 card_slot;
 
     card_slot = TWindowSubComCard::get_card_slot(0);
@@ -1770,7 +1755,7 @@ void apply_selection__17TWindowSubComCardFi(s32 arg0) {
     TWindowComCard::create_for_card(get_window_layout_position(0x92), arg0, card_slot);
 }
 
-void get_message_10__17TWindowSubComCardFPvPv(void* p, void* a1) { (saddr)TWindowSubStatusDisp::get_message_10((saddr)((char*)a1 + 0xa6)); }
+void *TWindowSubComCard::get_message_10(s32 index) { return TWindowSubStatusDisp::get_message_10(index + 0xa6); }
 
 u8 *TWindowSubComCard::find_entry_rest(void *arg1_arg, s32 arg2) {
     Key_80272034 *arg1 = (Key_80272034 *)arg1_arg;
@@ -1791,7 +1776,7 @@ void TWindowSubComCard::sub_80271F04(void *arr, s32 key, saddr arg3) {
         if (arg3 != open_hard_keyboard__6TLobbyFPv(*(void **)(((u8 *)this) + 0x20))) {
             ((u8 *)this)[0x1D] |= 1;
             ((TWindowSubComCard *)(*(void **)(((u8 *)this) + 0x20)))->set_com_param(arg3);
-            ((TWindowMakeTeam *)(*(void **)(((u8 *)this) + 0x7C)))->set_entry_string_by_id(((GetMsg_80271F04)get_message_10__17TWindowSubComCardFPvPv)(this, (void *)arg3), 0);
+            ((TWindowMakeTeam *)(*(void **)(((u8 *)this) + 0x7C)))->set_entry_string_by_id(this->get_message_10(arg3), 0);
             if (arg3 != 0) {
                 for (i = 0; i < 5; i++) {
                     if (((Ent_80271F04 *)arr)[i].id != 0) {

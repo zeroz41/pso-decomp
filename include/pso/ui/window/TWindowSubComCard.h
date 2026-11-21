@@ -125,6 +125,18 @@ struct TWindowSubComCard : public TObject {
     void set_flag_10();
     void set_display_page();
     static s32 create_com_card_window(s32 arg0);
+    static s32 create_menu();
+    static s32 create_single_entry_window();
+    static s32 open_menu();
+    static void open_layout_window();
+    static void open_mode4_window();
+    static s32 create_menu_window();
+    static s32 create_player_select_window();
+    static saddr create();
+    static void cleanup(void* p);
+    static u8 *send_cmd_133();
+    static void init_layout();
+    void *get_message_10(s32 index);
 };
 
 LAYOUT_ASSERT(TWindowSubComCard_size, sizeof(TWindowSubComCard) == 0x88);

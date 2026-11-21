@@ -42,21 +42,13 @@ static const f32 lbl_8044FACC[2] = {206.0f, 120.0f};
 extern "C" {
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 saddr get_window_layout_position(s32);
-s32 create_confirm_menu_window__19TWindowSubShortMailFv();
-s32 build_menu__19TWindowSubShortMailFv();
-u8 get_field_cc__19TWindowSubShortMailFPv(void *);
 s32 open_confirm_prompt__19TWindowSubShortMailFPvi(void *, saddr);
-s32 create_keyboard__19TWindowSubShortMailFv();
 s32 create_list_item__19TWindowSubShortMailFv(void *);
-s32 create_menu__19TWindowSubShortMailFv();
-s32 create_window__19TWindowSubShortMailFv();
 s32 open_confirm_dialog__19TWindowSubShortMailFv(void *);
 s32 open_delete_confirm_dialog__19TWindowSubShortMailFv(void *);
-s32 open_menu__19TWindowSubShortMailFv();
 int get_card_entry__17TWindowSubComCardFi();
 void TWindowSubShortMail__sub_8027FAD0(u8 *);
 saddr get_card_window_area__6TLobbyFv();
-void * get_mail_ptr__19TWindowSubShortMailFPv(void *);
 s32 fn_8007B83C(s32);
 s32 add_status_entry__20TWindowSubStatusDispFScll(void *, s32, s32, u32);
 void TWindowSubShortMail__sub_8027E620(void* p);
@@ -98,7 +90,6 @@ struct ShortMail_8027EF98 {
 };
 
 extern "C" {
-void *send_cmd_133__17TWindowSubComCardFv(void);
 void *send_command__17TWindowSubComCardFi(saddr);
 void update_display_value__17TWindowSubComCardFUiUiPv(uaddr arg0, uaddr arg1, s32 *arg2);
 s32 TWindowSubShortMail__sub_8007B834(void *);
@@ -111,9 +102,9 @@ extern "C" {
 extern s32 __vt__19TWindowSubShortMail[];
 }
 
-u8 get_field_cc__19TWindowSubShortMailFPv(void* p) { return *(u8*)((char*)p + 0xcc); }
+u8 TWindowSubShortMail::get_field_cc(void* p) { return *(u8*)((char*)p + 0xcc); }
 
-void* get_mail_ptr__19TWindowSubShortMailFPv(void* p) { return (char*)p + 0x20; }
+void* TWindowSubShortMail::get_mail_ptr(void* p) { return (char*)p + 0x20; }
 
 void TWindowSubShortMail__sub_8027FAD0(u8 *arg0) {
     *(u8 *)((s8 *)arg0 + 0xCC) = (u8) (*(u8 *)((s8 *)arg0 + 0xCC) & ~0xA);
@@ -200,7 +191,7 @@ void TWindowSubShortMail::run_task() {
         if (o->w58 != NULL) { ((TWindowBase *)o->w58)->close(); o->w58 = NULL; }
         if (o->w54 != NULL) { ((TWindowBase *)o->w54)->close(); o->w54 = NULL; }
         if (o->w40 == NULL) {
-            o->w40 = ((void * (*)(void *)) create_menu__19TWindowSubShortMailFv)(o);
+            o->w40 = ((void * (*)(void *)) TWindowSubShortMail::create_menu)(o);
         }
         ((TWindowSubComCard *)(o->w40))->clear_flag_and_release();
         o->state = 2;
@@ -215,7 +206,7 @@ void TWindowSubShortMail::run_task() {
     case 3:
         if (o->w44 != NULL) { ((TWindowBase *)o->w44)->close(); o->w44 = NULL; }
         if (o->w54 == NULL) {
-            o->w54 = send_cmd_133__17TWindowSubComCardFv();
+            o->w54 = TWindowSubComCard::send_cmd_133();
         }
         if (o->w58 == NULL) {
             o->f28 = ((TWindowMenu *)o->w54)->get_selected_value();
@@ -264,7 +255,7 @@ void TWindowSubShortMail::run_task() {
         if (o->w50 != NULL) { ((TWindowSubComCard *)(o->w50))->close(); o->w50 = NULL; }
         if (o->w3c != NULL) { ((TWindowBase *)o->w3c)->close(); o->w3c = NULL; }
         if (o->w44 == NULL) {
-            o->w44 = ((void * (*)(void *)) build_menu__19TWindowSubShortMailFv)(o);
+            o->w44 = ((void * (*)(void *)) TWindowSubShortMail::build_menu)(o);
         }
         ((TWindowSubComCard *)(o->w44))->clear_flag_and_release();
         ((TWindowMenu *)(o->w44))->clear_transition_flag();
@@ -293,7 +284,7 @@ void TWindowSubShortMail::run_task() {
         if (o->w54 != NULL) { ((TWindowBase *)o->w54)->close(); o->w54 = NULL; }
         if (o->w40 != NULL) { ((TWindowBase *)o->w40)->close(); o->w40 = NULL; }
         if (o->w5c == NULL) {
-            o->w5c = ((void * (*)()) create_keyboard__19TWindowSubShortMailFv)();
+            o->w5c = ((void * (*)()) TWindowSubShortMail::create_keyboard)();
         }
         ((TKeyBoardControl *)(o->w5c))->set_position(((void *)((saddr (*)(int)) get_window_layout_position)(0xBB)));
         reinterpret_cast<TKeyBoardControl *>(o->w5c)->clear_keyboard_flag60_bit1();
@@ -357,10 +348,10 @@ void TWindowSubShortMail::run_task() {
     case 20:
         if (o->w4c != NULL) { ((TWindowBase *)o->w4c)->close(); o->w4c = NULL; }
         if (o->w44 == NULL) {
-            o->w44 = ((void * (*)(void *)) create_confirm_menu_window__19TWindowSubShortMailFv)(o);
+            o->w44 = ((void * (*)(void *)) TWindowSubShortMail::create_confirm_menu_window)(o);
         }
         if (o->w48 == NULL) {
-            o->w48 = ((void * (*)(void *)) create_window__19TWindowSubShortMailFv)(o);
+            o->w48 = ((void * (*)(void *)) TWindowSubShortMail::create_window)(o);
         }
         ((TWindowSubComCard *)(o->w44))->clear_flag_and_release();
         o->state = 0x15;
@@ -373,7 +364,7 @@ void TWindowSubShortMail::run_task() {
         break;
     case 22:
         if (o->w4c == NULL) {
-            o->w4c = ((void * (*)()) open_menu__19TWindowSubShortMailFv)();
+            o->w4c = ((void * (*)()) TWindowSubShortMail::open_menu)();
         }
         o->state = 0x17;
     case 23:
@@ -392,7 +383,7 @@ void TWindowSubShortMail::run_task() {
         if (o->w44 != NULL) { ((TWindowBase *)o->w44)->close(); o->w44 = NULL; }
         if (o->w40 != NULL) { ((TWindowBase *)o->w40)->close(); o->w40 = NULL; }
         if (o->w5c == NULL) {
-            o->w5c = ((void * (*)()) create_keyboard__19TWindowSubShortMailFv)();
+            o->w5c = ((void * (*)()) TWindowSubShortMail::create_keyboard)();
             ((TKeyBoardControl *)o->w5c)->set_text((char *)((void * (*)()) get_card_window_area__6TLobbyFv)());
         }
         ((TKeyBoardControl *)(o->w5c))->set_position(((void *)((saddr (*)(int)) get_window_layout_position)(0xBB)));
@@ -463,7 +454,7 @@ s32 TWindowSubShortMail::refresh_mail_list(void *arg1) {
     i = n - 1;
     while (i >= 0) {
         e = (saddr)TLobby__sub_8022598C(i);
-        add_status_entry__20TWindowSubStatusDispFScll(arg1, ((s32 (*)(s32)) get_field_cc__19TWindowSubShortMailFPv)(e), fn_8007B83C(e), (u32)((TLobby *)e)->get_lobby_id());
+        add_status_entry__20TWindowSubStatusDispFScll(arg1, ((s32 (*)(s32)) TWindowSubShortMail::get_field_cc)(e), fn_8007B83C(e), (u32)((TLobby *)e)->get_lobby_id());
         if (id == (u32)((TLobby *)e)->get_lobby_id()) {
             sel = (n - 1) - i;
         }
@@ -487,7 +478,7 @@ s32 TWindowSubShortMail::refresh_mail_list(void *arg1) {
     return 1;
 }
 
-s32 create_menu__19TWindowSubShortMailFv(void) {
+s32 TWindowSubShortMail::create_menu(void) {
     saddr temp_r31;
 
     temp_r31 = create_titled_window_menu_default(get_window_layout_position(0x9A), 3, (saddr)TWindowSubStatusDisp::get_message_10(0x1D));
@@ -514,7 +505,7 @@ s32 create_menu__19TWindowSubShortMailFv(void) {
 
 #pragma push
 #pragma fp_contract on
-s32 build_menu__19TWindowSubShortMailFv(void) {
+s32 TWindowSubShortMail::build_menu(void) {
     saddr temp_r31;
     s32 msg;
     temp_r31 = create_titled_window_menu_default((s32)(get_window_layout_position(0x9D)), 3, (s32)((saddr)TWindowSubStatusDisp::get_message_10(0x1E)));
@@ -533,7 +524,7 @@ s32 build_menu__19TWindowSubShortMailFv(void) {
 }
 
 #pragma pop
-s32 create_keyboard__19TWindowSubShortMailFv(void) {
+s32 TWindowSubShortMail::create_keyboard(void) {
     saddr var_r31;
 
     var_r31 = (saddr)new TKeyBoardControl((TObject *)tl_00, 0xC6, 5, 4, local_client_id);
@@ -553,7 +544,7 @@ s32 open_confirm_prompt__19TWindowSubShortMailFPvi(void *window_message_yes_no, 
     return temp_r29;
 }
 
-s32 create_confirm_menu_window__19TWindowSubShortMailFv(void) {
+s32 TWindowSubShortMail::create_confirm_menu_window(void) {
     saddr temp_r31;
     temp_r31 = create_window_menu_default((saddr)((void *)(((saddr)get_window_layout_position(0xA0)))), 2);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((int) ((saddr)TWindowSubStatusDisp::get_message_10(0x107))), 6, 0x16);
@@ -563,7 +554,7 @@ s32 create_confirm_menu_window__19TWindowSubShortMailFv(void) {
     return temp_r31;
 }
 
-s32 create_window__19TWindowSubShortMailFv(void) {
+s32 TWindowSubShortMail::create_window(void) {
     s32 window_layout_position;
     saddr temp_r31;
 
@@ -582,7 +573,7 @@ s32 create_window__19TWindowSubShortMailFv(void) {
     return temp_r31;
 }
 
-s32 open_menu__19TWindowSubShortMailFv(void) {
+s32 TWindowSubShortMail::open_menu(void) {
     s32 window_layout_position;
     saddr temp_r31;
 
@@ -626,7 +617,7 @@ void TWindowSubShortMail::update_mail_count() {
         if ((s32) this->m_24 != temp_r3) {
             this->m_24 = temp_r3;
             if (TLobby::find_short_mail_by_id(this->m_24) != 0U) {
-                ((TWindowMessage *)(this->m_3c))->append_line(((s32 (*)()) get_mail_ptr__19TWindowSubShortMailFPv)(), 0x482);
+                ((TWindowMessage *)(this->m_3c))->append_line(((s32 (*)()) TWindowSubShortMail::get_mail_ptr)(), 0x482);
             }
         }
     }

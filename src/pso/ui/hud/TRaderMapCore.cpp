@@ -305,7 +305,6 @@ void scale_matrix(s32, f32, f32, f32);
 int get_entity_id(void*);
 s32 get_current_floor(void);
 s32 TLobby__sub_801C19D0(void *);
-s32 should_show_map__13TRaderMapCoreFv(void);
 // Marker colours (a, r, g, b) per player slot: red, green, yellow, blue.
 static const Vec4_801F9E9C radar_player_slot_color_table[4] = {
     { 1.0f, 1.0f, 0.0f, 0.0f },
@@ -330,7 +329,7 @@ void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
 #define MAP_801F9D84 ((Map_801F9D84 *) TRaderMapCore__floor_map_resource)
 
 
-#define SHOW(t) ((s32 (*)(void *))should_show_map__13TRaderMapCoreFv)(t)
+#define SHOW(t) ((s32 (*)(void *))TRaderMapCore::should_show_map)(t)
 
 struct RadarView_801FA46C {
     f32 x;
@@ -1581,7 +1580,7 @@ void TRaderMapCore::hide_radar() {
 void TRaderMapCore::reset_counter() { this->m_184 = 0; }
 extern "C" {
 
-s32 should_show_map__13TRaderMapCoreFv(void) {
+s32 TRaderMapCore::should_show_map(void) {
     if ((TRaderMapCore::is_not_split_screen() == 1) && (TLobby::is_ready() == 0)) {
         return 0;
     }

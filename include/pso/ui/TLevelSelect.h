@@ -11,10 +11,10 @@ public:
     virtual void render();
 public:
     static s32 get_difficulty_flag_bit(s32 n, s32 flag);
+    static int count_unlocked_difficulties();
 };
 
 extern "C" {
-int count_unlocked_difficulties__12TLevelSelectFv(void);
 extern s32 game_difficulty_selection;
 }
 

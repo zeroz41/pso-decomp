@@ -99,10 +99,9 @@ void TWindowSubStatusDisp::finalize_state() {
     }
 }
 
-void reset__20TWindowSubStatusDispFPv(void *arg0);
 void mem_free(void *p);
 
-void reset__20TWindowSubStatusDispFPv(void *arg0) {
+void TWindowSubStatusDisp::reset(void *arg0) {
     *(s8 *)((s8 *)arg0 + 0x1C) = 0x33;
     *(s8 *)((s8 *)arg0 + 0x1D) = 0x33;
     *(s32 *)((s8 *)arg0 + 0x28) = -1;

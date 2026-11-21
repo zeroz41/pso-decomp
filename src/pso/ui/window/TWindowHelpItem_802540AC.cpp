@@ -424,7 +424,7 @@ void *TWindowHelpItem__stat_comparison_callback[3] = {
     (void *)0x0, (void *)0xffffffff, (void *)&update_stat_comparison__15TWindowHelpItemFv,
 };
 void *lbl_804CF838[3] = {
-    (void *)0x0, (void *)0xffffffff, (void *)&update_stat_disp2__15TWindowHelpItemFPv,
+    (void *)0x0, (void *)0xffffffff, (void *)&TWindowHelpItem::update_stat_disp2,
 };
 void *lbl_804CF844[3] = {
     (void *)0x0, (void *)0xffffffff, (void *)&set_flag4_and_field1c__15TWindowHelpItemFl,
@@ -579,7 +579,7 @@ void set_percentage_rows__15TWindowHelpItemFPvPvi(void *self, Op_802544D8 *ops, 
         }
     }
 }
-void update_stat_disp2__15TWindowHelpItemFPv(void *window_base) {
+void TWindowHelpItem::update_stat_disp2(void *window_base) {
     s32 sp8;
     saddr temp_r31;
     saddr temp_r30;

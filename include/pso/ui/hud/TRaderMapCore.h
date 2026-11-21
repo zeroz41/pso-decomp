@@ -113,6 +113,7 @@ struct TRaderMapCore : public TObjBase {
     s32 get_map_id();
     static void draw_backdrop(TRaderMapCore *self, s32 mode);
     static void pick_target_position(void *, void *);
+    static s32 should_show_map();
 };
 
 // A TObject subclass of this unit: its destructor (0x801FB9C8) is the unit's last function and its

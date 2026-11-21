@@ -58,6 +58,9 @@ struct TWindowHelpItem : public TWindowBase
     s32 is_item_already_equipped();
     void format_description_with_price();
     void refresh_copied_items();
+    static void update_stat_disp2(void *window_base);
+    static void tick_display_timer(void *arg0);
+    static void *destroy(void *arg0, s16 arg1);
 };
 
 LAYOUT_ASSERT(TWindowHelpItem_size_check, sizeof(TWindowHelpItem) == 0xBC);

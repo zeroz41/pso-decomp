@@ -176,8 +176,6 @@ extern "C" {
 s32 apply_input__9TWindowDDFPvPv(int, int);
 s32 update__9TWindowDDFl(int, int, int);
 void TWindowDD__sub_803434F4(u8 *arg0);
-void enter_state_16__9TWindowDDFPv(void *arg0);
-void update_state__9TWindowDDFPv(void *arg0);
 void TWindowDD__sub_80342800(u8 *arg0);
 void update__9TWindowDDFi(saddr arg0);
 void TWindowDD__sub_803429B0(u8 *arg0);
@@ -270,7 +268,6 @@ extern const f32 lbl_805DFBF8;
 extern const f32 lbl_805DFB70, lbl_805DFC28;
 void open_numeric_parameter_input__9TWindowDDFPviii(WordSelectWindowState* self, s32 minimum, s32 maximum, s32 initial);
 void free_buffers__9TWindowDDFv(void);
-s32 update_close_flag__9TWindowDDFPv(void *arg0);
 
 
 
@@ -746,10 +743,10 @@ void run_state__9TWindowDDFPv(u8 *window_dd) {
         TWindowDD__sub_80342800((window_dd));
         return;
     case 14:
-        update_state__9TWindowDDFPv((window_dd));
+        TWindowDD::update_state((window_dd));
         return;
     case 15:
-        enter_state_16__9TWindowDDFPv((window_dd));
+        TWindowDD::enter_state_16((window_dd));
         return;
     case 17:
         ((TWindowDD *)window_dd)->enter_state_18();
@@ -991,7 +988,7 @@ void open_numeric_parameter_input__9TWindowDDFPviii(WordSelectWindowState* self,
     }
 }
 
-s32 update_close_flag__9TWindowDDFPv(void *arg0) {
+s32 TWindowDD::update_close_flag(void *arg0) {
     ((TWindowDD *)arg0)->get_current_child_index();
     if (classify_id__9TWindowDDFs() != 7) {
         *(s32 *)((s8 *)arg0 + 0xB8) = 1;

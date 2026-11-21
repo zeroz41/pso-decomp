@@ -55,7 +55,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static s32 get_status_index(u16 arg0);
     static s32 get_status_index_or_default(u16 *arg0);
     static s32 *get_status_window(u16 arg0);
-    static void*get_message_10(s32 index);
+    static void *get_message_10(s32 index);
     static void draw_number_digits(void *color, s16 value, u16 digits, f32 x, f32 y, f32 scale);
     static void render_forward();
     static void end_render_forward();
@@ -144,7 +144,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void set_item_info(void* a1, int a2, void* a3);
     void set_ground_item(void *arg1, s32 arg2);
     void init_display(s32 arg1, s32 arg2);
-    static void*get_entry_ptr(int a0);
+    static void *get_entry_ptr(int a0);
     u8 *init_part_direct(u8 *arg1, s32 arg2);
     void append_entry(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
     s32 update_hp_entry();
@@ -157,6 +157,8 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static u8 calc_gauge_scale(u16 glyph, void *arg1, s32 arg2);
     void update_item_icon_colors(void *item);
     static s32 init_status_entry(void *, char, unsigned int, int);
+    static void reset(void *arg0);
+    static void *destroy_free_buffers(void *window_sub_status_disp, s16 arg1);
 };
 
 LAYOUT_ASSERT(TWindowSubStatusDisp_offset_page, offsetof(TWindowSubStatusDisp, page) == 0x60);

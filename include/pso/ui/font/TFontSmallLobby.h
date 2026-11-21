@@ -57,6 +57,7 @@ struct TFontSmallLobby
     static s32 is_lobby_floor_15();
     static void draw_small_label(int);
     static s32 draw_party_label(int, unsigned int, s16);
+    static u16 get_type(void* p);
 };
 
 extern "C" {

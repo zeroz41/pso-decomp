@@ -360,7 +360,6 @@ struct Obj_8013F154 { u8 pad[0x4]; Rec_8013F154 recs[1]; };
 struct Obj_8013F24C { u8 pad[0x44]; u8 arr[1]; };
 
 extern "C" {
-void *get_record_at__11TMainCursorFPvi(void *self, int i);
 u8 fn_8013F24C(Obj_8013F24C *self, s16 i);
 
 }
@@ -601,7 +600,7 @@ void publish_target_list__11TMainCursorFPvi(Self_8013D4A0 *arg0, s32 arg1) {
     void *list;
     sub = &arg0->subs[arg1];
     count = 0;
-    item = (Item_8013D4A0 *)get_record_at__11TMainCursorFPvi(sub->x40, 0);
+    item = (Item_8013D4A0 *)TMainCursor::get_record_at(sub->x40, 0);
     n = TMainCursor__sub_8013F168(sub->x40);
     for (i = 0; i < n; i++, item++) {
         if (item->id == 0xFFFF) {
@@ -688,7 +687,7 @@ void TMainCursor::sort_list(s32 arg0, s32 arg1) {
     temp_r30 = arg0 + temp_r4 + 0x5C;
     if (((TMainCursor *)temp_r30)->get_selected_entry() != 0) {
         temp_r31 = TMainCursor__sub_8013F168((void *)(temp_r30 + 0x40));
-        TMainCursor::quick_sort(temp_r30, (saddr)get_record_at__11TMainCursorFPvi((void *)(temp_r30 + 0x40), 0), 0, temp_r31 - 1);
+        TMainCursor::quick_sort(temp_r30, (saddr)TMainCursor::get_record_at((void *)(temp_r30 + 0x40), 0), 0, temp_r31 - 1);
     }
 }
 
@@ -1070,8 +1069,8 @@ void TMainCursor::reset_cursor_parts() {
     var_r30 = 0;
     *(f32 *)((s8 *)arg0 + 0x18) = (f32) TMainCursor__data_805DB0C0;
     do {
-        ((TMainCursor *)get_record_at__11TMainCursorFPvi((u8 *)&this->m_40, var_r30))->set_size(TMainCursor__data_805DB0C0);
-        set_cursor_id__11TMainCursorFs((void *)get_record_at__11TMainCursorFPvi((u8 *)&this->m_40, var_r30), 0xFFFF);
+        ((TMainCursor *)TMainCursor::get_record_at((u8 *)&this->m_40, var_r30))->set_size(TMainCursor__data_805DB0C0);
+        set_cursor_id__11TMainCursorFs((void *)TMainCursor::get_record_at((u8 *)&this->m_40, var_r30), 0xFFFF);
         var_r30 += 1;
     } while (var_r30 < 0xA);
 }
@@ -1156,7 +1155,7 @@ s32 try_add_target_candidate__11TMainCursorFPvPvPvPv(u8 *cursor, u8 *player, u8 
         }
         if (TMainCursor__sub_8013F168(cursor + 0x40) >= 10) {
             for (j = 0; j <= TMainCursor__sub_8013F168(cursor + 0x40); j++) {
-                if (*(f32 *)(cursor + 0x18) == TMainCursor__sub_8013F14C((void *)get_record_at__11TMainCursorFPvi(cursor + 0x40, j))) {
+                if (*(f32 *)(cursor + 0x18) == TMainCursor__sub_8013F14C((void *)TMainCursor::get_record_at(cursor + 0x40, j))) {
                     *(f32 *)(cursor + 0x18) = dist;
                     slot = j;
                     break;
@@ -1166,9 +1165,9 @@ s32 try_add_target_candidate__11TMainCursorFPvPvPvPv(u8 *cursor, u8 *player, u8 
             slot = TMainCursor__sub_8013F168(cursor + 0x40);
             TMainCursor__sub_8013F13C((s32 *)(cursor + 0x40));
         }
-        ((TMainCursor *)get_record_at__11TMainCursorFPvi(cursor + 0x40, slot))->set_size(dist);
-        ((TMainCursor *)(get_record_at__11TMainCursorFPvi(cursor + 0x40, slot)))->set_field2(i);
-        set_cursor_id__11TMainCursorFs((void *)get_record_at__11TMainCursorFPvi(cursor + 0x40, slot), get_entity_id((TObjBase *)player));
+        ((TMainCursor *)TMainCursor::get_record_at(cursor + 0x40, slot))->set_size(dist);
+        ((TMainCursor *)(TMainCursor::get_record_at(cursor + 0x40, slot)))->set_field2(i);
+        set_cursor_id__11TMainCursorFs((void *)TMainCursor::get_record_at(cursor + 0x40, slot), get_entity_id((TObjBase *)player));
         found = 1;
     }
     return found;
@@ -2107,7 +2106,7 @@ void TMainCursor__sub_8013F170(void* p, s32 v) { *(s32*)((char*)p + 0x0) = v; }
 
 s32 TMainCursor__sub_8013F168(void* p) { return *(s32*)((char*)p + 0x0); }
 
-void *get_record_at__11TMainCursorFPvi(void *self, int i) {
+void *TMainCursor::get_record_at(void *self, int i) {
     return &((Obj_8013F154 *)self)->recs[i];
 }
 
@@ -2144,10 +2143,10 @@ TUnk_8013F08C::TUnk_8013F08C() { unk_0 = NULL; unk_4 = NULL; unk_8 = NULL; }
 
 extern "C" {
 
-void* init_sub__13TLockOnCursorFPv(void* p) { __ct__18TargetCursorRecordFv(p); __ct__8FlagWordFv(((char*)p + 0x8)); return p; }
+void* TLockOnCursor::init_sub(void* p) { __ct__18TargetCursorRecordFv(p); __ct__8FlagWordFv(((char*)p + 0x8)); return p; }
 
 int TLockOnCursor__sub_8013F000(void *self) {
-    __construct_array((char *)self + 4, (void *)init_sub__13TLockOnCursorFPv, (void *)destroy_target_record, 0xc, 0xb);
+    __construct_array((char *)self + 4, (void *)TLockOnCursor::init_sub, (void *)destroy_target_record, 0xc, 0xb);
     ((TMainCursor *)self)->reset_slot();
     return (saddr)self;
 }

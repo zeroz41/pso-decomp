@@ -54,7 +54,7 @@ extern u8 __vt__12TLevelSelect[];
 extern void *tl_01;
 Self_8013319C *__ct__12TLevelSelectFv(Self_8013319C *self);
 void TLevelSelect::render() {  }
-int count_unlocked_difficulties__12TLevelSelectFv(void) {
+int TLevelSelect::count_unlocked_difficulties(void) {
     u8 f;
     int n;
     f = 0;
@@ -104,7 +104,7 @@ Self_8013319C *__ct__12TLevelSelectFv(Self_8013319C *self) {
     self->f0 = level_select_class_name;
     TKeyBoardControl__sub_8000F90C(2);
     game_difficulty_selection = 0;
-    self->count = ((int (*)(void *))count_unlocked_difficulties__12TLevelSelectFv)(self);
+    self->count = ((int (*)(void *))TLevelSelect::count_unlocked_difficulties)(self);
     if (self->count == 0) {
         request_main_phase(0xE);
         ((TObject *)self)->queue_destruction();

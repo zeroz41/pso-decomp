@@ -8,6 +8,7 @@ class TObjCHTimeWin : public TObject {
 public:
     virtual ~TObjCHTimeWin();
     virtual void run_task();
+    static void init_timer();
 };
 
 void set_challenge_time_window_timer(int a0);

@@ -35,6 +35,14 @@ struct TWindowSubShortMail : public TObject {
     virtual void render();
     virtual void run_task();
     void advance_line(s32 arg1);
+    static u8 get_field_cc(void* p);
+    static void *get_mail_ptr(void* p);
+    static s32 create_menu();
+    static s32 build_menu();
+    static s32 create_keyboard();
+    static s32 create_confirm_menu_window();
+    static s32 create_window();
+    static s32 open_menu();
 };
 
 LAYOUT_ASSERT(TWindowSubShortMail_size, sizeof(TWindowSubShortMail) == 0x60);

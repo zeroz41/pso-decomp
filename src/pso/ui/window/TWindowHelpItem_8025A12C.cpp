@@ -43,8 +43,8 @@ void render_summary_row__15TWindowHelpItemFv(Item_8025A354 *self, Win_8025A354 *
 
 void *lbl_804CF9F8[6] = {
     0, 0,
-    (void *)destroy__15TWindowHelpItemFPvs,
-    (void *)tick_display_timer__15TWindowHelpItemFPv,
+    (void *)TWindowHelpItem::destroy,
+    (void *)TWindowHelpItem::tick_display_timer,
     (void *)render_summary_row__15TWindowHelpItemFv,
     0,
 };
@@ -160,7 +160,7 @@ void render_summary_row__15TWindowHelpItemFv(Item_8025A354 *self, Win_8025A354 *
     }
 }
 
-void tick_display_timer__15TWindowHelpItemFPv(void *arg0) {
+void TWindowHelpItem::tick_display_timer(void *arg0) {
     s32 temp_r4;
 
     temp_r4 = *(s32 *)((s8 *)arg0 + 0x14);
@@ -172,7 +172,7 @@ void tick_display_timer__15TWindowHelpItemFPv(void *arg0) {
     }
 }
 
-void *destroy__15TWindowHelpItemFPvs(void *arg0, s16 arg1) {
+void *TWindowHelpItem::destroy(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(void ***)((s8 *)arg0 + 4) = lbl_804CF9F8;
         mem_free((void *)(*(saddr *)((s8 *)arg0 + 0x18)));

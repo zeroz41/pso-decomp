@@ -72,6 +72,7 @@ struct TKeyBoardControl : public TObject {
     static void enable_keyboard_polling(s32 arg0);
     static void update_camera();
     static void set_key_state(s32 arg0);
+    static s32 get_function_key_menu(void *arg0);
 };
 
 LAYOUT_ASSERT(TKeyBoardControl_size, sizeof(TKeyBoardControl) == 0x2C);

@@ -21,12 +21,12 @@ void TObjCHTimeWin::run_task() {
         return;
     }
     if (has_window_task_root() == 1) {
-        ((s32 (*)(void *))init_timer__13TObjCHTimeWinFv)(this);
+        ((s32 (*)(void *))TObjCHTimeWin::init_timer)(this);
         *(s32 *)((s8 *)this + 0x1C) = 1;
     }
 }
 
-void init_timer__13TObjCHTimeWinFv(void) { TWindowCtrl::create_alt_timer(); ((TWindowCtrl *)TObjCHTimeWin__timer_value)->set_timer_window_time(); }
+void TObjCHTimeWin::init_timer(void) { TWindowCtrl::create_alt_timer(); ((TWindowCtrl *)TObjCHTimeWin__timer_value)->set_timer_window_time(); }
 
 }
 

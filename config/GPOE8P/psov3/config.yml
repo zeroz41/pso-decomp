@@ -6685,7 +6685,7 @@ force_active:
   - get_material_limit_for_class__Fl
   - get_max_difficulty_for_party_level__Fv
   - get_max_tp__13TUnk_8049FE00Fv
-  - get_message_10__17TWindowSubComCardFPvPv
+  - get_message_10__17TWindowSubComCardFl
   - get_model__13TUnk_804A7488Fv
   - get_model__15TORockJungleS01Fl
   - get_model__17TOTrapChainSawKeyFl

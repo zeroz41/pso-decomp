@@ -115,7 +115,7 @@ void TWindowMenuIconLine::reset_list() {
     this->entry_count = 0;
     this->cursor = 0;
     for (i = 0; i < (u32)this->entry_capacity; i++) {
-        reset__20TWindowSubStatusDispFPv((void *)get_array_entry(i));
+        TWindowSubStatusDisp::reset((void *)get_array_entry(i));
     }
 }
 

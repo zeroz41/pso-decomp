@@ -147,6 +147,10 @@ struct TWindowDD : public TObject
     static s32 lookup_item_category(s32 arg0);
     void handle_confirm_input();
     void update_selection_state();
+    static void update_draw(void *p);
+    static void enter_state_16(void *window_dd);
+    static void update_state(void *window_dd);
+    static s32 update_close_flag(void *arg0);
 };
 
 #include <stddef.h>
@@ -164,7 +168,6 @@ void TWindowDD__sub_80340910(void *p);
 s32 TWindowDD_check_input_mask(void *input_context, s32 arg1);
 extern "C" {
 void *__dt__13TUnk_804EFBACFv(void *arg0, s16 arg1);
-void update_draw__9TWindowDDFPv(void *p);
 void measure_message_text_width_default(void *entry);
 s32 dispatch_by_window_mode(u8 *window_dd, u32 arg1, s32 arg2, s32 arg3);
 }
