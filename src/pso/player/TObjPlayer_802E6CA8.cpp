@@ -205,7 +205,7 @@ void *TObjPlayer::init_zeroed_object() {
     *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_804E3BD8;
     *(u32 *)&this->m_20 = 0;
     *(u32 *)((s8 *)this + 0x1C) = 0;
-    *(u32 *)&this->texlist = 0;
+    this->texlist = 0;
     (*(u32 *)&this->room) = 0;
     return this;
 }
