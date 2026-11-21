@@ -7,13 +7,13 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/player/TObjPlayer_80036824.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/math/MatrixTransforms.h"
 
 extern "C" {
-f32 get_scale_factor__10TObjPlayerFv(f32);
 s32 TObjLight__sub_801337F8(s32);
 s32 normalize_vector(void *);
 extern saddr current_scene_light;
@@ -54,7 +54,7 @@ void TBoss2Fin::render() {
                 yaw = (65536.0 / (2.0 * 3.141592f)) * atan2_float(-v.x, -v.z);
                 rotate_matrix_y(0, yaw);
             }
-            rotate_matrix_x(0, (65536.0 / (2.0 * 3.141592f)) * get_scale_factor__10TObjPlayerFv(-v.y));
+            rotate_matrix_x(0, (65536.0 / (2.0 * 3.141592f)) * acosf(-v.y));
             rotate_matrix_y(0, end->twist - yaw);
             push_matrix();
             scale_matrix(0, lbl_805D8260, lbl_805D8260, lbl_805D8260);

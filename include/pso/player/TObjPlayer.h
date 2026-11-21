@@ -400,7 +400,6 @@ struct TObjPlayer : public TObjChara {
     static void clear_target_ref();
     static void create_breakup_model();
     static s32 calc_random_scaled();
-    static f32 get_scale_factor();
     static saddr get_battle_param(int a0);
     s32 check_player_flag1();
     s32 check_flag(s32 arg1);

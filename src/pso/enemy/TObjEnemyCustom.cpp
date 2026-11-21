@@ -10,6 +10,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/player/TObjPlayer_80036824.h"
 #include "pso/render/render_util.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
@@ -415,8 +416,7 @@ void TObjEnemyCustom::move_along_ground_avoiding_walls(Vec dest, f32 speed, f32 
     vec3_add_to(&probe_end, &step);
     hit = csnVector(&body_center, &probe_end, -1);
     if (hit != NULL) {
-        vec3_dot(velocity(), &hit->contact->normal);
-        angle = (s32)(10430.38043493439 * TObjPlayer::get_scale_factor());
+        angle = (s32)(10430.38043493439 * acosf(vec3_dot(velocity(), &hit->contact->normal)));
         up.x = up.z = 0.0f;
         up.y = 1.0f;
         vec3_cross(velocity(), &hit->contact->normal, &cross);

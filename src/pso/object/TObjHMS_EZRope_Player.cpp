@@ -18,6 +18,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/TObjEZBoneRotPlayer.h"
+#include "pso/player/TObjPlayer_80036824.h"
 
 #pragma push
 #pragma readonly_strings on
@@ -77,7 +78,6 @@ struct Obj_800FF2D0 {
 extern "C" {
 void *TObjEZRopeBase__ct(void *);
 extern f32 ezrope_chunk_material_color_table[];
-f32 get_scale_factor__10TObjPlayerFv(f32);
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
 void normalize_vector(Vec *v);
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
@@ -219,7 +219,7 @@ void TObjHMS_EZRope_Player::sub_800FF2D0() {
                 yaw = (s32)(10430.38043493439 * atan2_float(-d.x, -d.z));
                 rotate_matrix_y(0, yaw);
             }
-            rotate_matrix_x(0, (s32)(10430.38043493439 * get_scale_factor__10TObjPlayerFv(-d.y)));
+            rotate_matrix_x(0, (s32)(10430.38043493439 * acosf(-d.y)));
             rotate_matrix_y(0, ang->a - yaw);
             if (n == 1) {
                 if (rec->f14 != NULL) {
