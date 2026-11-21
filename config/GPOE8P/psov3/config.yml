@@ -6381,7 +6381,7 @@ force_active:
   - load_unload_set_shuffle_order
   - load_unload_set_init_order
   - fn_80119204
-  - fn_80157CA8
+  - init_6x91_subcommand
   - fn_801811FC
   - fn_80181204
   - fn_801908F8
