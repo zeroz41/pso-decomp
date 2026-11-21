@@ -18,6 +18,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/system/vector.h"
+#include "pso/ui/window/TWindowActionPalette_801C1890.h"
 
 struct Obj_80275DB4 { u8 pad[0x60]; char f60; u8 pad2[0x6c - 0x61]; void *f6c; };
 
@@ -210,7 +211,6 @@ s32 TWindowSubCustomEquip::get_saved_slot_for_index(s32 arg0, s8 arg1) {
 
 extern "C" {
 void *get_player_by_client_id(s32 i);
-u8 *TWindowActionPalette__sub_801C1D7C(s32 arg0, s32 i, s32 arg2);
 s32 get_slot_type__20TWindowActionPaletteFPvll(s32, s32, s32);
 s32 is_type_valid__21TWindowSubCustomEquipFv(void *, u8);
 s32 get_saved_slot_for_index__21TWindowSubCustomEquipFlSc(void *, u8);

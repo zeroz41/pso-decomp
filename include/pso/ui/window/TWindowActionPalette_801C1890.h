@@ -16,7 +16,7 @@ void TObjPlayer__sub_801C1B0C(void);
 int TObjPlayer__sub_801C1F50(void *p);
 void TObjPlayer__sub_801C1F78(void *p, s16 v);
 int TWindowActionPalette__sub_801C1C20(void *p);
-u8 *TWindowActionPalette__sub_801C1D7C(saddr arg0, s32 i, s32 arg2);
+s32 TWindowActionPalette__sub_801C1D7C(saddr arg0, s32 i, s32 arg2);
 s32 TWindowDuelResult__sub_801C19AC(f32 *arg0);
 f32 fn_801C19A4(void *p);
 void set_player_team_id(void *p, s32 v);

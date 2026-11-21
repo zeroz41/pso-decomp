@@ -165,15 +165,9 @@ void TWindowActionPalette::set_slot_mode(saddr arg0, s32 i, s32 arg2, s32 arg3) 
     set_action_palette_tag_mode(reinterpret_cast<ActionPaletteTag *>(p + arg2), static_cast<u8>(arg3));
 }
 
-u8 *TWindowActionPalette__sub_801C1D7C(saddr arg0, s32 i, s32 arg2) {
-  s32 var_r31;
-  u8 *var_r3;
-  saddr new_var;
-  var_r31 = arg2;
-  new_var = ((saddr)TWindowActionPalette__sub_801C1C68((O_801C1C68 *)(arg0), i));
-  var_r3 = (u8 *) (new_var + (var_r31 * 4));
-  var_r3 = (u8 *) ((void *) (saddr) get_action_palette_tag_slot(reinterpret_cast<const ActionPaletteTag *>(var_r3)));
-  return var_r3;
+s32 TWindowActionPalette__sub_801C1D7C(saddr arg0, s32 i, s32 arg2) {
+    s32 *p = (s32 *)((saddr)TWindowActionPalette__sub_801C1C68((O_801C1C68 *)(arg0), i));
+    return get_action_palette_tag_slot(reinterpret_cast<const ActionPaletteTag *>(p + arg2));
 }
 
 void TWindowActionPalette::get_entry_by_index(s32 *arg0, s32 arg1) {
