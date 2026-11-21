@@ -1,3 +1,5 @@
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlAccessors.h"
 #include "types.h"
 // TObject's helpers are out-of-line functions for this TU (run_task calls
 // TObject::queue_destruction, defined elsewhere).
@@ -40,10 +42,8 @@ struct Off_800753DC { s16 x, y; };
 extern "C" {
 f32 xyz_distance(void *, void *);
 extern s32 TLobby__designated_client_id;
-saddr get_bml_texlist(saddr, s32);
-saddr get_bml_model(saddr, s32);
-u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-void free_bin_model_request(void *, int);
+
+
 s32 PPCSync();
 u32 calc_text_width(const char *);
 void draw_menu_font_string(const char *, u32, s32, f32, f32, f32);
@@ -102,14 +102,9 @@ TObjTombstone *TLobby::create_tombstone(TObject *parent, s32 client, const TObjT
 }
 
 void TObjTombstone::load_resources() {
-    saddr mem;
     saddr res;
     if (TObjTombstone__shared_resource_object == 0) {
-        mem = (saddr)::operator new(0x440);
-        res = mem;
-        if (res != 0) {
-            res = (saddr)load_resource_from_descriptor((void *)mem, 1, &tombstone_resource_descriptor, 0, 0, 0);
-        }
+        res = (saddr)new BmlResource(1, &tombstone_resource_descriptor, 0, 0, NULL);
         TObjTombstone__shared_resource_object = res;
         TObjTombstone::reset_matrix();
     }
@@ -117,7 +112,7 @@ void TObjTombstone::load_resources() {
 
 void TObjTombstone::destroy() {
     if (TObjTombstone__shared_resource_object != 0U) {
-        free_bin_model_request((void *)TObjTombstone__shared_resource_object, 1);
+        delete (BmlResource *)TObjTombstone__shared_resource_object;
         TObjTombstone__shared_resource_object = 0U;
         TObjTombstone::reset_matrix();
     }
@@ -156,8 +151,8 @@ TObjTombstone::TObjTombstone(TObject *parent, s32 client, const TObjTombstoneSpo
 }
 
 void TObjTombstone::setup(s32 client, const TObjTombstoneRecord *src) {
-    this->texlist = get_bml_texlist(TObjTombstone__shared_resource_object, 0);
-    *(saddr *)&this->model = get_bml_model(TObjTombstone__shared_resource_object, 0);
+    this->texlist = (saddr)get_bml_texlist((BmlResource *)TObjTombstone__shared_resource_object, 0);
+    *(saddr *)&this->model = (saddr)get_bml_model((BmlResource *)TObjTombstone__shared_resource_object, 0);
     this->client_id = client;
     this->record = *src;
     VecCopy(&this->position, &this->record.position);

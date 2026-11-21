@@ -200,7 +200,7 @@ void measure_traffic_path_lengths(void) {
       new_var = city_traffic_car_chunk_index_table;
       if (p != 0)
       {
-        p = alloc_tables__6TLobbyFll(p, city_air_car_model_resource->models[new_var[j]].model, 1, city_air_car_model_resource->models);
+        p = alloc_tables__6TLobbyFll(p, (saddr)city_air_car_model_resource->models[new_var[j]].model, 1, city_air_car_model_resource->models);
       }
       air_car_buffer_pair_table[j] = (void *)p;
     }

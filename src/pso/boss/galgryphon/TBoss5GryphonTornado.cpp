@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/galgryphon/TBoss5Gryphon.h"
@@ -67,7 +68,7 @@ extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__20TBoss5GryphonTornado[];
 s32 get_bml_motion(s32, s32);
-saddr get_bml_model(s32, s32);
+
 void TBoss8Dragon__sub_800640A4(s32, Vec *);
 void attach_particle_model(void *, s32, s32, s32, s32, f32);
 Res_80355570 *csnVecterUnder(Vec *, s32);
@@ -114,7 +115,7 @@ void TBoss5GryphonTornado::run_task() {
         if (o->p54 == NULL) {
             o->p54 = spawn_continuous_particle_effect_with_flags(&o->pos, gryphon_tornado_particle_id_table[1], 0x40);
             if (o->p54 != NULL) {
-                attach_particle_model(o->p54, get_bml_model(boss5_gryphon_bml_resource, 0), boss5_gryphon_texture_list, get_bml_motion(boss5_gryphon_bml_resource, 0), 0, 1.0f);
+                attach_particle_model(o->p54, (saddr)get_bml_model((BmlResource *)boss5_gryphon_bml_resource, 0), boss5_gryphon_texture_list, get_bml_motion(boss5_gryphon_bml_resource, 0), 0, 1.0f);
             }
         }
         if (o->p58 == NULL) {

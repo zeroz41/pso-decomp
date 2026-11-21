@@ -1,3 +1,5 @@
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlAccessors.h"
 #include "pso/system/ResourceFile.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #include "types.h"
@@ -54,7 +56,7 @@ extern s32 tl_05;
 void TSceneSora::render() {
     if ((s32) TSceneSora__sky_active_flag != 0) {
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(get_bml_texlist(TSceneSora__sky_bml_resource, 0));
+        TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)TSceneSora__sky_bml_resource, 0));
         push_matrix();
         rotate_matrix_y(0, this->rotation_y);
         if (sky_motion != NULL) {
@@ -89,13 +91,13 @@ TSceneSora::~TSceneSora() {
 }
 TSceneSora::TSceneSora(saddr _w1) : TObjBase((TObject *)_w1) {
     this->m_name = TSceneSora__name;
-    sky_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(TSceneSora__sky_bml_resource, 0));
+    sky_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TSceneSora__sky_bml_resource, 0));
     if (TSceneSora__has_sky_motion != 0) {
         sky_motion = get_bml_motion(TSceneSora__sky_bml_resource, 0);
     } else {
         sky_motion = NULL;
     }
-    sky_textures = reinterpret_cast<GinjaTextureList *>(get_bml_texlist(TSceneSora__sky_bml_resource, 0));
+    sky_textures = reinterpret_cast<GinjaTextureList *>(get_bml_texlist((BmlResource *)TSceneSora__sky_bml_resource, 0));
     motion_step = 0.1f;
     m_a0 = 0.0f;
 }
@@ -118,7 +120,7 @@ void TSceneSora::create_instance() {
 void TSceneSora__sub_80207430(void) {
     TSceneSora__sky_active_flag = 1;
     if (TSceneSora__sky_bml_resource != NULL) {
-        free_bin_model_request(TSceneSora__sky_bml_resource, 1);
+        delete (BmlResource *)TSceneSora__sky_bml_resource;
         TSceneSora__sky_bml_resource = NULL;
     }
     TSceneSora__instance = 0;

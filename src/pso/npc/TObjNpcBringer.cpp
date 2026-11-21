@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #include "types.h"
 #include "pso/npc/TObjNpcBringer.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -14,8 +15,8 @@
 
 extern "C" {
 extern void *tl_04;
-saddr get_bml_texlist(void *, s32);
-saddr get_bml_model(void *, s32);
+
+
 void init_collision_body_parts(void *, void *, s32);
 extern u8 *TObjEneDf2Bringer__resource_bundle;
 }
@@ -39,8 +40,8 @@ TObjNpcBringer::TObjNpcBringer(TObject *parent, void *set_data) : TObjNpcBase(pa
     apply_set_data(set_data);
     ((TObjPlayer *)this)->init_position_vectors();
     apply_set_params(0, 1);
-    *(s32 *)((u8 *)this + 0x34) = get_bml_model(TObjEneDf2Bringer__resource_bundle, 0);
-    *(s32 *)((u8 *)this + 0x24) = get_bml_texlist(TObjEneDf2Bringer__resource_bundle, 0);
+    *(s32 *)((u8 *)this + 0x34) = (saddr)get_bml_model((BmlResource *)TObjEneDf2Bringer__resource_bundle, 0);
+    *(s32 *)((u8 *)this + 0x24) = (saddr)get_bml_texlist((BmlResource *)TObjEneDf2Bringer__resource_bundle, 0);
     init_motion(npc_bringer_animation_table, (BmlMotionEntry *)*(saddr *)(TObjEneDf2Bringer__resource_bundle + 0x430), *(s16 *)((u8 *)this + 0xB8));
     movementParameters = &npc_movement_parameters;
     set_motion_params(&npc_default_battle_stats);

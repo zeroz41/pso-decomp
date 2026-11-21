@@ -1,3 +1,4 @@
+#include "pso/system/EnemyBmlResource.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/GroundContactSound.h"
 #include "pso/npc/NpcModelRegistry.h"
@@ -87,7 +88,6 @@ s16 get_attack_params_atp_min(void *p);
 s32 obj_is_hit_receivable(u8 *arg0);
 u16 get_entity_id(void *);
 void obj_setFlags30(void *, s32);
-void free_bin_model_request(void*, int);
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 u32 csnLookAt(void *, void *);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
@@ -120,7 +120,6 @@ extern const char *lbl_804E6C80[2];
 extern const char *lbl_804E6C88[11];
 
 extern "C" {
-void *load_enemy_bml_resource(void *);
 }
 DelbiterInitialParameters TObjEneDellBiter__param_table = {
     225.0f, 0.0f, 0x600, {0, 0, 0, 0}
@@ -206,7 +205,7 @@ void *TObjEneDellBiter::create(void *set_data) {
 
 void TObjEneDellBiter::destroy_static_instance() {
     if ((u32) TObjEneDellBiter__shared_model_resource != 0U) {
-        free_bin_model_request((void*)TObjEneDellBiter__shared_model_resource, 1);
+        delete (BmlResource *)TObjEneDellBiter__shared_model_resource;
         TObjEneDellBiter__shared_model_resource = 0U;
     }
 }
@@ -229,7 +228,7 @@ void TObjEneDellBiter::init_params() {
     s32 i;
     init_position_vectors();
     model = (void *)((BmlResource *)TObjEneDellBiter__shared_model_resource)->models->model;
-    texlist = ((BmlResource *)TObjEneDellBiter__shared_model_resource)->models->m_c;
+    texlist = (saddr)((BmlResource *)TObjEneDellBiter__shared_model_resource)->models->m_c;
     init_model((CollisionBody *)lbl_804E6B8C, 1);
     bodies->flags |= 0x400000;
     set_field_d8((saddr)&dell_biter_param_table);

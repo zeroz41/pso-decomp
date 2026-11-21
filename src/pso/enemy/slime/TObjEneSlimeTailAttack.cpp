@@ -1,3 +1,5 @@
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/enemy/slime/TObjEneSlime.h"
@@ -66,8 +68,6 @@ void scale_matrix_vec3(u8 *arg0, u8 *arg1);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 void render__15TObjEneSlimeOneFv(TObjEneSlimeOne *arg0);
-saddr get_bml_texlist(BmlResource *resource, s32 index);
-saddr get_bml_model(BmlResource *resource, s32 index);
 s32 init_collision_body_parts(void *, void *, int);
 extern void *lbl_80496368[2];
 extern void *lbl_8049639C[28];
@@ -569,10 +569,8 @@ void TObjEneSlime__sub_800EB9F0(void* p, void* q);
 
 
 extern "C" {
-void free_bin_model_request(void*, int);
 
 // ---- folded from src/pso/enemy/TObjEneSlime_800EBD38.cpp ----
-void *load_resource_from_descriptor(void *, s32, s32 *, s32, s32, s32);
 
 
 }
@@ -627,10 +625,7 @@ void TObjEneSlime::spawn_pair() {
     void *temp_r5;
     void *temp_r5_2;
 
-    temp_r4 = ::operator new(0x440);
-    if (temp_r4 != NULL) {
-        temp_r4 = load_resource_from_descriptor(temp_r4, 1, (s32 *)slime_pair_resource_descriptor, 0, 0, 0);
-    }
+    temp_r4 = new BmlResource(1, (BmlResourceDescriptor *)slime_pair_resource_descriptor, 0, 0, NULL);
     slime_bml_resource = temp_r4;
     temp_r5 = *(void **)((s8 *)temp_r4 + 0x42C);
     TObjEneSlime::spawn_child(0x28, *(s32 *)((s8 *)temp_r5 + 0x48), *(s32 *)((s8 *)temp_r5 + 0x4C), 10.0f, 0.0f);
@@ -640,7 +635,7 @@ void TObjEneSlime::spawn_pair() {
 
 void TObjEneSlime::free_instance() {
     if ((uaddr) slime_bml_resource != 0U) {
-        free_bin_model_request((void*)slime_bml_resource, 1);
+        delete (BmlResource *)slime_bml_resource;
         slime_bml_resource = 0U;
     }
 }
@@ -891,8 +886,8 @@ void TObjEneSlimeOne::initialize_slime_instance_state() {
   }
   new_var2 = &(*((s32 *) (((s8 *) actor) + 0x3F4)));
   id = ((s32 *) lbl_804966DC)[*new_var2];
-  ((TObjEneSlimeOne *)actor)->texlist = get_bml_texlist((BmlResource *)(((TObjEneSlimeOne *)actor)->model_archive), id);
-  *((s32 *) (((s8 *) actor) + 0x34)) = get_bml_model((BmlResource *)(((TObjEneSlimeOne *)actor)->model_archive), id);
+  ((TObjEneSlimeOne *)actor)->texlist = (saddr)get_bml_texlist((BmlResource *)(((TObjEneSlimeOne *)actor)->model_archive), id);
+  *((s32 *) (((s8 *) actor) + 0x34)) = (saddr)get_bml_model((BmlResource *)(((TObjEneSlimeOne *)actor)->model_archive), id);
   VecCopy((Vec *)(actor + 0x44), (const Vec *)((u8 *)VecCopy((Vec *)(actor + 0x50), (const Vec *)((void *)VecCopy((Vec *)(actor + 0x74), (const Vec *)(actor + 0x38))))));
   *((s32 *) (((s8 *) actor) + 0x38C)) = init_collision_body_parts(actor, lbl_80496370, 1);
   ((TObjMotion *)actor)->set_field_d8((saddr)lbl_8049639C);
@@ -1687,7 +1682,7 @@ void TObjEneSlimeOne::sub_800E9090() {
     rotate_matrix_y(0, ang);
     scale_matrix_vec3((u8 *)(0), (u8 *)&b);
     t = slime_tail_attack_id_pair[self->f3F4];
-    TObjFish::set_global_param(get_bml_texlist((BmlResource *)self->f380, t));
+    TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)self->f380, t));
     draw_chunk_object((void *)(get_bml_model((BmlResource *)self->f380, t)));
     ((int (*)(void))pop_matrix)();
     TObjPlayer::init_render_globals();
@@ -1832,8 +1827,8 @@ TObjEneSlimeTailAttack::TObjEneSlimeTailAttack(TObject *parent, Vec *pos, saddr 
   *((s32 *) (((s8 *) ene_slime_tail_attack) - -0x374)) = owner;
   inst = (u8 *)TObjEneSlimeOne::get_instance();
   id = ((s32 *) lbl_804966F4)[((TObjEneSlimeOne *)(*((s32 *) (((s8 *) ene_slime_tail_attack) + (0x374 & 0xFFFF)))))->get_attack_target()];
-  ene_slime_tail_attack->texlist = get_bml_texlist((BmlResource *)inst, id);
-  *((s32 *) (((s8 *) ene_slime_tail_attack) + 0x34)) = get_bml_model((BmlResource *)inst, id);
+  ene_slime_tail_attack->texlist = (saddr)get_bml_texlist((BmlResource *)inst, id);
+  *((s32 *) (((s8 *) ene_slime_tail_attack) + 0x34)) = (saddr)get_bml_model((BmlResource *)inst, id);
   ene_slime_tail_attack->action_table = (TObjMotionAction *)lbl_8049639C;
   ((TObjMotion *)ene_slime_tail_attack)->set_field_d8((saddr) ((u8 *) lbl_8049639C));
   *((s32 *) (((s8 *) ene_slime_tail_attack) + 0xDC)) = *((s32 *) (((s8 *) inst) + 0x430));

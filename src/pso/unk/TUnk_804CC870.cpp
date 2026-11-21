@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/ChunkMaterialState.h"
 #include "types.h"
@@ -39,7 +40,7 @@ struct Obj_80232934 {
 };
 
 extern "C" {
-saddr get_bml_model(s32, u32);
+
 void init_texture_copy_rect(TextureFrameSlot *, void *, void *, s32, s32);
 void approach_position_if_far(Vec *, Vec *, f32);
 void scale_matrix(s32, f32, f32, f32);
@@ -178,7 +179,7 @@ void TUnk_804CC888::run_task() {
                 if (e->flags & 0x20) {
                     r = (saddr)spawn_particle_effect(obj + 0x38, e->a);
                     if (r != 0) {
-                        attach_particle_model((u8 *)r, (s32)(get_bml_model(technique_effect_bml, technique_effect_entry_table[((Ctl_80232C50 *)this)->kind].ents[i].flags >> 16)), (s32)lbl_805D63B0, 0, 1, 1.0f);
+                        attach_particle_model((u8 *)r, (s32)(get_bml_model((BmlResource *)technique_effect_bml, technique_effect_entry_table[((Ctl_80232C50 *)this)->kind].ents[i].flags >> 16)), (s32)lbl_805D63B0, 0, 1, 1.0f);
                     }
                 } else {
                     spawn_particle_effect(obj + 0x38, e->a);
@@ -275,7 +276,7 @@ void TUnk_804CC870::render() {
     scale_matrix(0, arg0->pos.x, arg0->pos.y, arg0->pos.z);
     translate_matrix(0, 0.0f, 1e+01f, 0.0f);
     TObjFish::set_global_param((saddr)&lbl_804CC868);
-    get_bml_model(technique_effect_bml, 10);
+    (saddr)get_bml_model((BmlResource *)technique_effect_bml, 10);
     draw_ginja_object();
     pop_matrix();
     copy_slot_to_anim_frame(&ctx);

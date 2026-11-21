@@ -9,7 +9,7 @@
 #include "pso/npc/TObjNpcLappy.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/BmlResourceLoader.h"
+#include "pso/system/BmlResource.h"
 #include "pso/system/task/TObject.h"
 
 const char *bm_n_kanteib_i_body_motion_names[1] = { NULL };
@@ -59,7 +59,7 @@ extern u8 TLobby__data_805011D8[];
 
 void TObjNpcConnoisseur::destroy_instance() {
     if ((u32) TObjNpcConnoisseur__instance != 0U) {
-        free_bin_model_request((void*)TObjNpcConnoisseur__instance, 1);
+        delete (BmlResource *)TObjNpcConnoisseur__instance;
         TObjNpcConnoisseur__instance = 0U;
     }
 }
@@ -67,10 +67,7 @@ void TObjNpcConnoisseur::destroy_instance() {
 void TObjNpcConnoisseur::load_section_motion() {
     void *o;
     lbl_805D5748 = ((TFontSmallTask *)TLobby__data_805011D8)->get_task_id();
-    o = ::operator new(0x440);
-    if (o != 0) {
-        o = load_resource_from_descriptor(o, 1, tekker_descriptor_selector_table[lbl_805D5748], 0, 0, 0);
-    }
+    o = new BmlResource(1, (BmlResourceDescriptor *)tekker_descriptor_selector_table[lbl_805D5748], 0, 0, NULL);
     TObjNpcConnoisseur__instance = (uaddr)o;
 }
 

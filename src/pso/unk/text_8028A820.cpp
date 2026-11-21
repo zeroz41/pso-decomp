@@ -1,3 +1,4 @@
+#include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/system/BmlResourceLoader.h"
 #include "pso/system/TLanguage_801E4874.h"
@@ -13,19 +14,13 @@ void load_green_door_resources(void) {
     switch (get_current_floor_area()) {
     case AREA_VR_TEMPLE_ALPHA:
     case AREA_VR_TEMPLE_BETA:
-        resource = (BmlResource *)::operator new(0x440);
-        if (resource != NULL) {
-            resource = load_resource_from_descriptor(resource, 5, &bm_obj_door_ruins_resource_descriptor, 0, 0, 0);
-        }
+        resource = new BmlResource(5, (BmlResourceDescriptor *)&bm_obj_door_ruins_resource_descriptor, 0, 0, NULL);
         green_door_bml_resource = resource;
         green_door_texture_handle = (GinjaTextureList *)load_gvm_texture_file((saddr)"obj_door_ruins_green.gvm");
         break;
     case AREA_VR_SPACESHIP_ALPHA:
     case AREA_VR_SPACESHIP_BETA:
-        resource = (BmlResource *)::operator new(0x440);
-        if (resource != NULL) {
-            resource = load_resource_from_descriptor(resource, 5, &bm_obj_door_space_resource_descriptor, 0, 0, 0);
-        }
+        resource = new BmlResource(5, (BmlResourceDescriptor *)&bm_obj_door_space_resource_descriptor, 0, 0, NULL);
         green_door_bml_resource = resource;
         green_door_texture_handle = (GinjaTextureList *)load_gvm_texture_file((saddr)"obj_door_space_green.gvm");
         break;

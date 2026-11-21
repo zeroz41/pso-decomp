@@ -13,7 +13,6 @@
 #include "pso/render/model_render_state.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/BmlResourceLoad.h"
 #include "pso/render/ChunkMaterialColor.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/GinjaMaterial.h"
@@ -134,7 +133,7 @@ void *TODoorCave03::create(void *set_data) {
 
 void TODoorCave03::destroy() {
     if (bml_resource != NULL) {
-        free_bin_model_request(bml_resource, 1);
+        delete (BmlResource *)bml_resource;
         bml_resource = NULL;
     }
 }
@@ -142,17 +141,11 @@ void TODoorCave03::destroy() {
 void TODoorCave03::load_resources() {
     BmlResource *resource;
     if (enable_v2_features == 1 && TLobby::is_online_ready() != 0) {
-        resource = (BmlResource *)::operator new(0x440);
-        if (resource != NULL) {
-            resource = load_resource_from_descriptor(resource, 1, &door_cave03_a_resource_descriptor, 0, 0, 0);
-        }
+        resource = new BmlResource(1, &door_cave03_a_resource_descriptor, 0, 0, NULL);
         bml_resource = resource;
         return;
     }
-    resource = (BmlResource *)::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 1, &door_cave03_resource_descriptor, 0, 0, 0);
-    }
+    resource = new BmlResource(1, &door_cave03_resource_descriptor, 0, 0, NULL);
     bml_resource = resource;
 }
 
@@ -165,7 +158,7 @@ TODoorCave03::TODoorCave03(TObject *parent, void *set_data) : TODoorBase(parent)
     m_name = door_cave03_class_name;
     apply_object_set_data(set_data);
     model = (void *)bml_resource->models[0].model;
-    texlist = bml_resource->models[0].m_c;
+    texlist = (saddr)bml_resource->models[0].m_c;
     init_collision_body_parts(this, door_cave03_collision_body, 1);
     refresh_collision_body_centers();
     register_object_by_id();

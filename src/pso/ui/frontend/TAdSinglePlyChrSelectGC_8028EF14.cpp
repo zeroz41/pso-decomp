@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #include "types.h"
 #include "pso/ui/charcreate/CharacterAppearanceTables.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -72,7 +73,6 @@ s32 count_char_diffs__23TAdSinglePlyChrSelectGCFPvPv(void *, void *);
 extern CreationTextureCacheEntry *char_select_current_entry;
 void TAdSinglePlyChrSelectGC__sub_8028ED54(void);
 void blend_creation_proportion_shapes(f32 *);
-s32 free_bin_model_request(void *, int);
 void *__dt__10TObjMotionFv(void *arg0, s16 arg1);
 void TAdSinglePlyChrSelectGC__sub_8028F084(CreationTextureCacheEntry *entry, TCharaMaking *appearance);
 void TCharaMaking__bind_appearance_texture_lists(s32 *hair, s32 *head, s32 *body, TCharaMaking *appearance);
@@ -294,7 +294,6 @@ struct Sel_802902CC {
     saddr e[3];
 };
 
-s32 load_resource_from_descriptor(s32, s32, s32, s32, s32, s32);
 s32 __ct__10TObjMotionFP7TObject(void *, void *);
 }
 void request_creation_motion(s32 arg0);
@@ -326,10 +325,7 @@ void *TCMCharacter__ct(void *motion, void *arg1) {
     char_select_active_flag = 0;
     char_creation_figure_draw_flag = 0;
     creation_figure_object = (uaddr)motion;
-    res = (s32)(saddr)::operator new(0x440);
-    if (res != 0) {
-        res = load_resource_from_descriptor(res, 6, ((s32 *)character_making_resource_descriptor_table)[((TCharaMaking *)cm)->get_display_index()], 0, 0, 0);
-    }
+    res = (saddr)new BmlResource(6, ((BmlResourceDescriptor **)character_making_resource_descriptor_table)[((TCharaMaking *)cm)->get_display_index()], 0, 0, NULL);
     chara_select_preview_resource = res;
     for (p = ((CreationTextureCacheEntry *)creation_texture_cache); p < ((CreationTextureCacheEntry *)creation_texture_cache) + 0x80; p++) {
         p->in_use = 0;
@@ -370,7 +366,7 @@ u8 *TAdSinglePlyChrSelectGC__sub_802908CC(u8 *arg0, s16 arg1) {
             }
         }
         ((TAdSinglePlyChrSelectGC *)arg0)->free_field_FC();
-        free_bin_model_request((void *)chara_select_preview_resource, 1);
+        delete (BmlResource *)chara_select_preview_resource;
         chara_select_preview_resource = 0;
         ((TCMCharacter *)arg0)->reset_model_parts();
         (*(s32 *)&chara_select_head_node) = 0;
@@ -429,7 +425,7 @@ s32 TCMCharacter::bind_model_parts(u32 *selected, const char **names, CreationMo
             parts->model = 0;
         } else {
             parts->present = 1;
-            parts->model = get_bml_model((BmlResource *)chara_select_preview_resource, model_index++);
+            parts->model = (saddr)get_bml_model((BmlResource *)chara_select_preview_resource, model_index++);
         }
         i++;
         names++;

@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
@@ -79,10 +80,8 @@ struct RecoveredGlobal_8030AF60___vt__15TObjBoss8Piller {
 };
 
 extern "C" {
-u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_8030AF60___vt__15TObjBoss8Piller __vt__15TObjBoss8Piller;
-void free_bin_model_request(void*, int);
 
 LAYOUT_ASSERT(RecoveredGlobal_8030AF60___vt__15TObjBoss8Piller_size, sizeof(RecoveredGlobal_8030AF60___vt__15TObjBoss8Piller) == 0x18);
 u8 *__ct__15TObjBoss8PillerFv(u8 *object, u8 *arg1, u8 *arg2, s16 arg3) {
@@ -100,18 +99,14 @@ u8 *__ct__15TObjBoss8PillerFv(u8 *object, u8 *arg1, u8 *arg2, s16 arg3) {
 
 void TObjBoss8Piller::free_held_object() {
     if ((u32) TObjBoss8Piller__shared_resource != 0U) {
-        free_bin_model_request((void*)TObjBoss8Piller__shared_resource, 1);
+        delete (BmlResource *)TObjBoss8Piller__shared_resource;
         TObjBoss8Piller__shared_resource = 0U;
     }
 }
 void TObjBoss8Piller::load_resource_descriptor() {
     saddr temp_r3;
     s32 var_r0;
-    temp_r3 = (saddr)::operator new(0x440);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &bm_obj_boss8_piller_resource_descriptor, 0, 0, 0));
-    }
+    var_r0 = (saddr)new BmlResource(5, &bm_obj_boss8_piller_resource_descriptor, 0, 0, NULL);
     (*(s32 *)&TObjBoss8Piller__shared_resource) = var_r0;
 }
 

@@ -38,7 +38,8 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/map/CsnQuery.h"
-#include "pso/system/BmlResourceLoad.h"
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -286,7 +287,7 @@ void *lbl_804E135C[83] = {
 
 void TObjEneMe1GiGue::load_params_from_table(s32 i) {
     model = (void *)TObjEneMe1GiGue__data_805D6838->models[i].model;
-    texlist = TObjEneMe1GiGue__data_805D6838->models[i].m_c;
+    texlist = (saddr)TObjEneMe1GiGue__data_805D6838->models[i].m_c;
 }
 
 void TObjEneMe1GiGue__sub_802CDAE8(void) {  }
@@ -393,23 +394,17 @@ void TObjEneMe1GiGue::load_resources() {
     void *o;
 
     if (is_split_screen() != 0) {
-        o = ::operator new(0x440);
-        if (o != NULL) {
-            o = load_resource_from_descriptor(o, 1, &lbl_804E1248, 0, 0, 0);
-        }
+        o = new BmlResource(1, &lbl_804E1248, 0, 0, NULL);
         TObjEneMe1GiGue__data_805D6838 = (BmlResource *)o;
     } else {
-        o = ::operator new(0x440);
-        if (o != NULL) {
-            o = load_resource_from_descriptor(o, 1, &lbl_804E1200, 0, 0, 0);
-        }
+        o = new BmlResource(1, &lbl_804E1200, 0, 0, NULL);
         TObjEneMe1GiGue__data_805D6838 = (BmlResource *)o;
     }
     ene_me1_gigue_boss_id = (saddr)TLobby::register_boss(0x1A);
     lbl_805D682C = (saddr)TLobby::dispatch_shared_handler_b(0x1A);
     lbl_805D6830 = (saddr)TLobby::register_object(0x1A);
     TObjEneMe1GiGue__param_table = (GiGueParameters *)TLobby::dispatch_shared_handler_a(0x1A);
-    o = new TUnk_8048FA00(TObjEneMe1GiGue__data_805D6838->models->model);
+    o = new TUnk_8048FA00((saddr)TObjEneMe1GiGue__data_805D6838->models->model);
     TObjEneMe1GiGue__barrier_obj = (TUnk_8048FA00 *)o;
     TObjEneMe1GiGue__sub_802CE4EC();
     TObjEneMe1GiGueBarrier::init_global();
@@ -427,7 +422,7 @@ void TObjEneMe1GiGue::delete_barrier() {
         TObjEneMe1GiGue__barrier_obj = NULL;
     }
     if (TObjEneMe1GiGue__data_805D6838 != NULL) {
-        free_bin_model_request(TObjEneMe1GiGue__data_805D6838, 1);
+        delete TObjEneMe1GiGue__data_805D6838;
         TObjEneMe1GiGue__data_805D6838 = NULL;
     }
 }

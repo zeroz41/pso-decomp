@@ -1,3 +1,5 @@
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlAccessors.h"
 #include "pso/render/GinjaMaterialTextureSlot.h"
 #include "types.h"
 #include "pso/object/TObjDoaEx01.h"
@@ -54,8 +56,7 @@ struct Obj_8018DBCC {
 };
 
 extern "C" {
-u8 * get_bml_texlist(void *, int);
-u8 * get_bml_model(void *, int);
+
 
 #pragma push
 #pragma opt_common_subs off
@@ -213,11 +214,11 @@ s32 TObjDoaEx01::draw_object_tree(saddr arg1) {
 void TObjDoaEx01::try_open() {
     saddr bml_model;
 
-    bml_model = (saddr)get_bml_model((void *)TObjDoaEx01__resource_bundle, 0);
+    bml_model = (saddr)get_bml_model((BmlResource *)(void *)TObjDoaEx01__resource_bundle, 0);
     if (this->update_object_view_visibility(4e+02f, 2e+01f) != 0) {
         set_ginja_model_texture_slot(reinterpret_cast<NJS_OBJECT *>(TObjDoaEx01__alpha_model_node)->model, 1);
         set_ginja_model_texture_slot(reinterpret_cast<NJS_OBJECT *>(TObjDoaEx01__alpha_model_sibling)->model, 1);
-        TObjFish::set_global_param((saddr)get_bml_texlist((void *)TObjDoaEx01__resource_bundle, 0));
+        TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)(void *)TObjDoaEx01__resource_bundle, 0));
         push_matrix();
         post_translate_matrix(((u8 *)this) + 0x38);
         rotate_matrix_y(0, this->rotation_y);
@@ -232,15 +233,15 @@ void TObjDoaEx01::draw_model() {
     if (this->update_object_view_visibility(4e+02f, 2e+01f) != 0) {
         set_ginja_model_texture_slot(reinterpret_cast<NJS_OBJECT *>(TObjDoaEx01__alpha_model_node)->model, 0);
         set_ginja_model_texture_slot(reinterpret_cast<NJS_OBJECT *>(TObjDoaEx01__alpha_model_sibling)->model, 0);
-        temp_r31 = (saddr)get_bml_model((void *)TObjDoaEx01__resource_bundle, 0);
-        TObjFish::set_global_param((saddr)get_bml_texlist((void *)TObjDoaEx01__resource_bundle, 0));
+        temp_r31 = (saddr)get_bml_model((BmlResource *)(void *)TObjDoaEx01__resource_bundle, 0);
+        TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)(void *)TObjDoaEx01__resource_bundle, 0));
         push_matrix();
         post_translate_matrix((void *) (((u8 *)this) + 0x38));
         rotate_matrix_y(0, (this->rotation_y));
         temp_f31 = this->animation_frame;
         if (temp_f31 > 0.0f) {
             temp_r31 = get_bml_motion((TObjDoaEx01__resource_bundle), 0);
-            draw_ginja_model_with_motion((saddr)get_bml_model((void *)TObjDoaEx01__resource_bundle, 0), temp_r31, temp_f31);
+            draw_ginja_model_with_motion((saddr)get_bml_model((BmlResource *)(void *)TObjDoaEx01__resource_bundle, 0), temp_r31, temp_f31);
         } else {
             this->draw_object_tree((temp_r31));
         }
@@ -261,10 +262,8 @@ void TObjDoaEx01::render() {
 
 
 extern "C" {
-u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 s32 init_collision_body_parts(void *, void *, int);
 
-void free_bin_model_request(void*, int);
 s32 free_collision_body_parts(void *);
 
 }
@@ -300,21 +299,16 @@ void *TObjDoaEx01__create(void *arg0) {
 
 void TObjDoaEx01::free_resource() {
     if ((u32) TObjDoaEx01__resource_bundle != 0U) {
-        free_bin_model_request((void*)TObjDoaEx01__resource_bundle, 1);
+        delete (BmlResource *)TObjDoaEx01__resource_bundle;
         TObjDoaEx01__resource_bundle = 0U;
     }
 }
 void TObjDoaEx01::load_resources() {
-    saddr temp_r3;
     saddr var_r0;
     u8 *temp_r3_2;
-    temp_r3 = (saddr)::operator new(0x440);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &TObjDoaEx01__resource_descriptor, 0, 0, 0));
-    }
+    var_r0 = (saddr)new BmlResource(1, &TObjDoaEx01__resource_descriptor, 0, 0, NULL);
     (*(u8 * *)&TObjDoaEx01__resource_bundle) = (unsigned char *) ((void *) var_r0);
-    temp_r3_2 = (u8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(get_bml_model((void *) var_r0, 0)) + 0x2C)) + 0x30)) + 0x2C)) + 0x2C));
+    temp_r3_2 = (u8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(get_bml_model((BmlResource *)(void *) var_r0, 0)) + 0x2C)) + 0x30)) + 0x2C)) + 0x2C));
     TObjDoaEx01__alpha_model_node = temp_r3_2;
     TObjDoaEx01__alpha_model_sibling = (u8 *)*(saddr *)((s8 *)temp_r3_2 + 0x30);
 }

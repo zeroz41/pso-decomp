@@ -462,7 +462,7 @@ void TBoss2Tentacle__sub_8003A0AC(void) {
     lbl_805D4BD0 = (s32 *)lbl_805D4BA4->models[4].model;
     src = (DragonModelNode *)lbl_805D4BD0;
     TBoss2Tentacle__motion_data = ((DragonMotionEntry *)lbl_805D4BA4->motions)[17].motion;
-    lbl_805D4BD8 = lbl_805D4BA4->models[2].m_c;
+    lbl_805D4BD8 = (saddr)lbl_805D4BA4->models[2].m_c;
     for (i = 0; i < 12; i++) {
         copy_model_node((u8 *)dst, (u8 *)src);
         dst->child = dst + 1;

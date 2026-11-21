@@ -1,3 +1,4 @@
+#include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/npc/TObjNpcNgcBase_80358AE8.h"
 #include "pso/npc/TObjNpcNgcBase.h"
@@ -88,8 +89,6 @@ extern "C" {
 s32 __ct__11TObjControlFP7TObject(int, int);
 RecoveredGlobal_TObjNpcNgcBase__data_805439A8 TObjNpcNgcBase__data_805439A8;
 extern s32 tl_04;
-s32 free_bin_model_request(void *, s32);
-u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 
 s32 TObjNpcNgcBase::create_variant_13(s32 arg0) {
   s32 temp_r3;
@@ -430,7 +429,7 @@ void TObjNpcNgcBase::free_shared_resources() {
     s32 i;
     for (i = 0xd; i >= 0; i--) {
         if (((void * *)&TObjNpcNgcBase__data_805439A8)[i] != 0) {
-            free_bin_model_request(((void * *)&TObjNpcNgcBase__data_805439A8)[i], 1);
+            delete (BmlResource *)((void * *)&TObjNpcNgcBase__data_805439A8)[i];
             ((void * *)&TObjNpcNgcBase__data_805439A8)[i] = 0;
         }
     }
@@ -458,10 +457,7 @@ void TObjNpcNgcBase::load_resources() {
     }
     if (p != NULL) {
         while (p->idx != -1) {
-            obj = (void *)::operator new(0x440);
-            if (obj != NULL) {
-                obj = load_resource_from_descriptor(obj, 1, p->data, 0, 0, 0);
-            }
+            obj = new BmlResource(1, (BmlResourceDescriptor *)p->data, 0, 0, NULL);
             ((void **)&TObjNpcNgcBase__data_805439A8)[p->idx] = obj;
             p++;
         }

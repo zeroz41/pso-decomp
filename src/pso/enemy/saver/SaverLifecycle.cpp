@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/BmlResource.h"
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -63,7 +64,6 @@ struct O_800A7734 { u8 pad[0x24]; s32 x24; u8 pad2[0xc]; s32 x34; };
 extern "C" {
 s32 update_movement_status__12TObjEneSaverFv(u8 *arg0);
 s32 update_action_hold_status__12TObjEneSaverFv(u8 *arg0);
-void *load_resource_from_descriptor(void *, int, void *, int, int, int);
 extern void *bm_ene_df1_saver_model_names[2];
 extern void *bm_ene_df1_saver_motion_names[12];
 RecoveredGlobal_lbl_80500978 lbl_80500978;
@@ -1404,7 +1404,6 @@ extern s32 model_render_flags;
 
 #define get_entity_id ((s32 (*)(void*))(get_entity_id))
 void * create_ene_saver(void *arg0);
-void free_bin_model_request(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 s32 lerp_angle_half__Fll(s32, s32);
 s32 obj_setFlags30(void *, int);
@@ -1938,7 +1937,7 @@ void TObjPlayer::free_resources() {
         (*(u32 *)&lbl_805D506C) = 0U;
     }
     if ((u32) saver_bml_resource != 0U) {
-        free_bin_model_request((void*)saver_bml_resource, 1);
+        delete (BmlResource *)saver_bml_resource;
         saver_bml_resource = 0U;
     }
 }
@@ -1949,10 +1948,7 @@ void initialize_saver_resources(void) {
     Vec pos;
     Vec dir;
     void *r;
-    r = ::operator new(0x440);
-    if (r != NULL) {
-        r = load_resource_from_descriptor(r, 1, bm_ene_df1_saver_resource_descriptor, 0, 0, 0);
-    }
+    r = new BmlResource(1, (BmlResourceDescriptor *)bm_ene_df1_saver_resource_descriptor, 0, 0, NULL);
     saver_bml_resource = (uaddr)r;
     lbl_805D5054 = *(s32 *)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)((u8 *)((Res_800A715C *)r)->sub) + 8)) + 0x2C)) + 0x30)) + 4)) + 4);
     lbl_805D5058 = 0;

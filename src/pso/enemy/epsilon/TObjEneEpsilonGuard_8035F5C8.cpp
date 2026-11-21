@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -136,7 +137,7 @@ TObjEneEpsilonBody::TObjEneEpsilonBody(TObject *parent, void *set_data) : TObjEn
     flags = 0;
     flags |= 2;
     set_guard_state();
-    texlist = get_bml_texlist(lbl_805D6FA0, 0);
+    texlist = (saddr)get_bml_texlist((BmlResource *)lbl_805D6FA0, 0);
     set_field_d8((saddr)lbl_804F2230);
     set_field_dc((saddr)lbl_805D6FA0->motions);
     set_animation(requested_action);
@@ -1091,7 +1092,7 @@ void TObjEneEpsilonBody::render_body_effect() {
         scale_matrix(0, temp_f1, 1.0f, temp_f1);
         TObjFish::set_global_param(texlist);
         TObjPlayer::toggle_particle_effect();
-        get_bml_model(lbl_805D6FA0, 4);
+        (saddr)get_bml_model((BmlResource *)lbl_805D6FA0, 4);
         draw_chunk_object();
         TParticleCtrl::end_effect_render();
         pop_matrix();
@@ -1118,13 +1119,13 @@ void TObjEneEpsilonBody::vfunc_106() {  }
 void TObjEneEpsilonBody::set_guard_state() {
     if (flags & 2) {
         guarded = 1;
-        model = (void *)get_bml_model(lbl_805D6FA0, 0);
+        model = (void *)get_bml_model((BmlResource *)lbl_805D6FA0, 0);
         requested_action = 0;
         set_indexed_flags(1, 1);
         clear_player_status_flag(0, 1);
     } else {
         guarded = 0;
-        model = (void *)get_bml_model(lbl_805D6FA0, 1);
+        model = (void *)get_bml_model((BmlResource *)lbl_805D6FA0, 1);
         requested_action = 1;
         set_indexed_flags(0, 1);
         clear_player_status_flag(1, 1);

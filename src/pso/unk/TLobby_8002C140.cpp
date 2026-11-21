@@ -1,10 +1,10 @@
+#include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 extern "C" {
 
-s32 free_bin_model_request(saddr, s32);
 s32 release_texture_list(void*);
 
 extern saddr lbl_805D4B50;
@@ -16,7 +16,7 @@ void TLobby::free_char_select() {
         TAdSinglePlyChrSelectGC::safe_free(dragon_common_texture_list);
         dragon_common_texture_list = 0U;
     }
-    free_bin_model_request(lbl_805D4B50, 1);
+    delete (BmlResource *)lbl_805D4B50;
     lbl_805D4B50 = 0;
 }
 

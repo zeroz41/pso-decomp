@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 // The bridges: TObjHashiBase and its three set objects TObjHashi,
 // TObjHashiVersus1 and TObjHashiVersus2, and the packet 6x78 slot timers.
 //
@@ -22,7 +23,6 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/system/BmlResourceLoad.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 
 // The BML resource loader and its deleting destructor (TLobby_8001EF5C) and
@@ -229,8 +229,8 @@ s32 TObjHashiBase::update_object_view_visibility(f32 depth, f32 radius) {
 
 TObjHashi::TObjHashi(TObject *parent, void *set_data) : TObjHashiBase(parent, set_data) {
     m_name = class_name;
-    model = (void *)get_bml_model(bml_resource, 0);
-    texlist = get_bml_texlist(bml_resource, 0);
+    model = (void *)get_bml_model((BmlResource *)bml_resource, 0);
+    texlist = (saddr)get_bml_texlist((BmlResource *)bml_resource, 0);
     init_collision_body_parts(this, hashi_collision_bodies, 1);
     actorFlags |= 0x40000000;
     register_object_by_id();
@@ -242,17 +242,13 @@ TObjHashi::~TObjHashi() {
 }
 
 void TObjHashi::load_shared_resource() {
-    void *p = ::operator new(0x440);
-    BmlResource *resource = (BmlResource *)p;
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(p, 1, &fe_obj_hashi_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(1, &fe_obj_hashi_resource_descriptor, 0, 0, NULL);
     bml_resource = resource;
 }
 
 void TObjHashi::unload_static_data() {
     if (bml_resource != NULL) {
-        free_bin_model_request(bml_resource, 1);
+        delete (BmlResource *)bml_resource;
         bml_resource = NULL;
     }
 }
@@ -267,8 +263,8 @@ TObjHashiVersus1::TObjHashiVersus1(TObject *parent, void *set_data) : TObjHashiB
         position.y = position.y - scale.x;
     }
     riseSpeed = scale.y;
-    model = (void *)get_bml_model(bml_resource, 0);
-    texlist = get_bml_texlist(bml_resource, 0);
+    model = (void *)get_bml_model((BmlResource *)bml_resource, 0);
+    texlist = (saddr)get_bml_texlist((BmlResource *)bml_resource, 0);
     init_collision_body_parts(this, hashi_versus1_collision_bodies, 2);
     actorFlags |= 0x40000000;
     register_object_by_id();
@@ -280,17 +276,13 @@ TObjHashiVersus1::~TObjHashiVersus1() {
 }
 
 void TObjHashiVersus1::load_shared_resource() {
-    void *p = ::operator new(0x440);
-    BmlResource *resource = (BmlResource *)p;
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(p, 1, &fe_obj306_hashi_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(1, &fe_obj306_hashi_resource_descriptor, 0, 0, NULL);
     bml_resource = resource;
 }
 
 void TObjHashiVersus1::unload_static_data() {
     if (bml_resource != NULL) {
-        free_bin_model_request(bml_resource, 1);
+        delete (BmlResource *)bml_resource;
         bml_resource = NULL;
     }
 }
@@ -306,8 +298,8 @@ TObjHashiVersus2::TObjHashiVersus2(TObject *parent, void *set_data) : TObjHashiB
     }
     riseSpeed = scale.y;
     model_radius = lbl_805DBE20;
-    model = (void *)get_bml_model(bml_resource, 0);
-    texlist = get_bml_texlist(bml_resource, 0);
+    model = (void *)get_bml_model((BmlResource *)bml_resource, 0);
+    texlist = (saddr)get_bml_texlist((BmlResource *)bml_resource, 0);
     init_collision_body_parts(this, hashi_versus2_collision_bodies, 2);
     actorFlags |= 0x40000000;
     register_object_by_id();
@@ -319,17 +311,13 @@ TObjHashiVersus2::~TObjHashiVersus2() {
 }
 
 void TObjHashiVersus2::load_shared_resource() {
-    void *p = ::operator new(0x440);
-    BmlResource *resource = (BmlResource *)p;
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(p, 1, &fe_obj321_hashi_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(1, &fe_obj321_hashi_resource_descriptor, 0, 0, NULL);
     bml_resource = resource;
 }
 
 void TObjHashiVersus2::unload_static_data() {
     if (bml_resource != NULL) {
-        free_bin_model_request(bml_resource, 1);
+        delete (BmlResource *)bml_resource;
         bml_resource = NULL;
     }
 }

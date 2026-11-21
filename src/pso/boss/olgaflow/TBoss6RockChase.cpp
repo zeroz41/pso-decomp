@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/olgaflow/TBoss6RockChase.h"
@@ -194,7 +195,7 @@ TBoss6RockChase::TBoss6RockChase(TObject *parent, const Vec *arg2, s32 arg3) : T
     boss6_rock_chase->m_bc = (s32) (8192.0f * ((3.0517578e-05f * (f32) rand()) - 0.5f));
     *(f32 *)((s8 *)boss6_rock_chase + 0xB8) = 0.0f;
     VecCopy((Vec *)((u8 *)boss6_rock_chase + 0x38), (const Vec *)(arg2));
-    boss6_rock_chase->m_c0 = get_bml_model(TBoss6Rock__sub_80353A0C(), (int) (*(s32 *)((s8 *)&boss6_rock_chase_model_radius_table.value + (arg3 * 8))));
+    boss6_rock_chase->m_c0 = (uaddr)get_bml_model(TBoss6Rock__sub_80353A0C(), (int) (*(s32 *)((s8 *)&boss6_rock_chase_model_radius_table.value + (arg3 * 8))));
     boss6_rock_chase->m_c4 = (uaddr)TBoss6Rock__sub_80353A04();
 }
 #pragma pop

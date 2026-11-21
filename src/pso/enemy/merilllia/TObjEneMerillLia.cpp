@@ -513,14 +513,12 @@ void vfunc_101__16TObjEneMerillLiaFv(void);
 void vfunc_93__16TObjEneMerillLiaFv(void);
 void *__dt__16TObjEneMerillLiaFPvs(void *arg0, s16 arg1);
 void vfunc_58__16TObjEneMerillLiaFv(void *arg0);
-void free_bin_model_request(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 void free_collision_body_parts(void *);
 void *TObjEneMerillLia__ct(void *, void *, void *);
 void *__dt__13TUnk_80493450Fv(void *arg0, s16 arg1);
 void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
 s32 is_split_screen(void);
-u8 *load_resource_from_descriptor(void *, s32, BmlResourceDescriptor *, s32, s32, s32);
 void TObjEneMerillLia__sub_800D6D64(void);
 
 extern "C" void vfunc_6__8TObjBaseFPsl();
@@ -797,16 +795,10 @@ void TObjEneMerillLia__sub_800D6D64(void) {
     u8 *res;
 
     if (is_split_screen() != 0) {
-        res = (u8 *)::operator new(0x440);
-        if (res != NULL) {
-            res = load_resource_from_descriptor(res, 1, &bm_ene_re8_merill_lia_low_resource_descriptor, 0, 0, 0);
-        }
+        res = (u8 *)new BmlResource(1, &bm_ene_re8_merill_lia_low_resource_descriptor, 0, 0, NULL);
         TObjEneMerillLia__entry_params_resource = (uaddr)res;
     } else {
-        res = (u8 *)::operator new(0x440);
-        if (res != NULL) {
-            res = load_resource_from_descriptor(res, 1, &bm_ene_re8_merill_lia_resource_descriptor, 0, 0, 0);
-        }
+        res = (u8 *)new BmlResource(1, &bm_ene_re8_merill_lia_resource_descriptor, 0, 0, NULL);
         TObjEneMerillLia__entry_params_resource = (uaddr)res;
     }
     ((CollisionPartRecord *)lbl_804946A4)[0].radius = 7.0f;
@@ -855,7 +847,7 @@ void TObjEneMerillLia::destroy_rocks() {
         TObjEneMerillLia__rock_param_table = 0U;
     }
     if ((u32) TObjEneMerillLia__entry_params_resource != 0U) {
-        free_bin_model_request((void*)TObjEneMerillLia__entry_params_resource, 1);
+        delete (BmlResource *)TObjEneMerillLia__entry_params_resource;
         TObjEneMerillLia__entry_params_resource = 0U;
     }
 }

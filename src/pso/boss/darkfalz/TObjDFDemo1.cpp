@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/darkfalz/TObjDFDemo1.h"
@@ -78,14 +79,14 @@ TObjDFDemo1::TObjDFDemo1(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
     res = (BmlResource *)TBoss4Uro::get_instance_count();
     for (i = 0; i < 6; i++) {
         int id = lbl_80485EB0[i];
-        body_parts[i].model = get_bml_model(res, id);
-        body_parts[i].texlist = get_bml_texlist(res, id);
+        body_parts[i].model = (saddr)get_bml_model(res, id);
+        body_parts[i].texlist = (saddr)get_bml_texlist(res, id);
         body_parts[i].motion = get_bml_motion(res, lbl_804855F0[i]);
     }
     for (i = 0; i < 2; i++) {
         int id = boss4_zanzo_bml_index_table[i];
-        zanzo_parts[i].model = get_bml_model(res, id);
-        zanzo_parts[i].texlist = get_bml_texlist(res, id);
+        zanzo_parts[i].model = (saddr)get_bml_model(res, id);
+        zanzo_parts[i].texlist = (saddr)get_bml_texlist(res, id);
         zanzo_parts[i].motion = get_bml_motion(res, lbl_80485608[i]);
     }
     frame = -0.5f;

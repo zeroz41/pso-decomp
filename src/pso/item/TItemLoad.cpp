@@ -1,10 +1,11 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/item/TItemLoad.h"
 #include "pso/item/TItemData.h"
 #include "pso/item/TItemLoad_8010FDF0.h"
 #include "pso/item/TUnk_8049C658.h"
-#include "pso/system/BmlResourceLoad.h"
+#include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/system/task/TMainTask.h"
@@ -105,10 +106,7 @@ void TItemLoad::init_resources() {
     s32 i;
     TItemLoad::alloc_work_buffer();
     TItemLoad::alloc_all_models();
-    resource = (BmlResource *)::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 5, &item_bml_resource_descriptor, 0, 0, 0);
-    }
+    resource = new BmlResource(5, &item_bml_resource_descriptor, 0, 0, NULL);
     TItemLoad__bml_resource = resource;
     TItemLoad__completed_model_load_task_root = new TObject(NULL);
     TItemLoad__model_load_task_root = new TObject(NULL);
@@ -126,7 +124,7 @@ void TItemLoad::free_all() {
     mem_free(TItemLoad__model_slot_in_use);
     delete TItemLoad__model_load_task_root;
     delete TItemLoad__completed_model_load_task_root;
-    free_bin_model_request(TItemLoad__bml_resource, 1);
+    delete TItemLoad__bml_resource;
     item_load_resource_handle = 0;
     TItemLoad__bml_resource = NULL;
     TItemLoad__model_load_task_root = NULL;
@@ -220,28 +218,28 @@ s32 request_item_model_load(u8 *item) {
 
 void TItemLoad::get_model_ids(u8 index, s32 *model, s32 *texlist) {
     if ((model != NULL) && (texlist != NULL)) {
-        *model = get_bml_model(TItemLoad__bml_resource, index + 2);
-        *texlist = get_bml_texlist(TItemLoad__bml_resource, 0);
+        *model = (saddr)get_bml_model(TItemLoad__bml_resource, index + 2);
+        *texlist = (saddr)get_bml_texlist(TItemLoad__bml_resource, 0);
     }
 }
 
 void TItemLoad::get_item_params(s32 *model, s32 *texlist, s32 *motion) {
     if ((model != NULL) && (texlist != NULL) && (motion != NULL)) {
-        *model = get_bml_model(TItemLoad__bml_resource, 1);
-        *texlist = get_bml_texlist(TItemLoad__bml_resource, 0);
+        *model = (saddr)get_bml_model(TItemLoad__bml_resource, 1);
+        *texlist = (saddr)get_bml_texlist(TItemLoad__bml_resource, 0);
         *motion = (saddr)get_bml_motion(TItemLoad__bml_resource, 0);
     }
 }
 
 void TItemLoad::lookup_item_data(s32 index, s32 *model) {
     if (model != NULL) {
-        *model = get_bml_model(TItemLoad__bml_resource, index);
+        *model = (saddr)get_bml_model(TItemLoad__bml_resource, index);
     }
 }
 
 void TItemLoad::get_data_entry(s32 index, s32 *texlist) {
     if (texlist != NULL) {
-        *texlist = get_bml_texlist(TItemLoad__bml_resource, 0);
+        *texlist = (saddr)get_bml_texlist(TItemLoad__bml_resource, 0);
     }
 }
 

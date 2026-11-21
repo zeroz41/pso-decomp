@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #include "pso/network/FloorEventCommand.h"
 #include "pso/object/container/ContainerBreakEffects.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -121,31 +122,27 @@ struct Obj_8018CFD4 { u8 pad[0x38]; Vec pos; };
 // address order.
 
 void TObjContainerJungEx::load_resource_instance() {
-    BmlResource *memory = (BmlResource *)::operator new(0x440);
-    BmlResource *bundle = memory;
-    if (bundle != NULL) {
-        bundle = load_resource_from_descriptor(memory, 5, &fe_obj_hako02_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *bundle = new BmlResource(5, (BmlResourceDescriptor *)&fe_obj_hako02_resource_descriptor, 0, 0, NULL);
     jungle_container_ex_archive = bundle;
 }
 
 void TObjContainerJungEx::free_data() {
     if (jungle_container_ex_archive != NULL) {
-        free_bin_model_request(jungle_container_ex_archive, 1);
+        delete (BmlResource *)jungle_container_ex_archive;
         jungle_container_ex_archive = NULL;
     }
 }
 
 NJS_OBJECT *TObjContainerJungEx::get_model(s32 index) {
     if (jungle_container_ex_archive != NULL) {
-        return (NJS_OBJECT *)get_bml_model(jungle_container_ex_archive, index);
+        return (NJS_OBJECT *)get_bml_model((BmlResource *)jungle_container_ex_archive, index);
     }
     return NULL;
 }
 
 GinjaTextureList *TObjContainerJungEx::get_textures(s32 index) {
     if (jungle_container_ex_archive != NULL) {
-        return (GinjaTextureList *)get_bml_texlist(jungle_container_ex_archive, index);
+        return (GinjaTextureList *)get_bml_texlist((BmlResource *)jungle_container_ex_archive, index);
     }
     return 0;
 }
@@ -187,9 +184,9 @@ void TObjContainerJung::vfunc_81() {
             post_translate_matrix((u8 *)&this->position);
             rotate_matrix_y(0, this->rotation_y);
             scale_matrix(0, 0.85f, 0.85f, 0.85f);
-            draw_ginja_object((void *)get_bml_model(jungle_container_archive, 0));
+            draw_ginja_object((void *)get_bml_model((BmlResource *)jungle_container_archive, 0));
             TParticleCtrl::begin_effect_render();
-            draw_ginja_object((void *)get_bml_model(jungle_container_archive, 3));
+            draw_ginja_object((void *)get_bml_model((BmlResource *)jungle_container_archive, 3));
             TParticleCtrl::end_effect_render();
             pop_matrix();
             break;
@@ -234,7 +231,7 @@ void TObjContainerJung::vfunc_79() const {
         a.pos[1] = py;
         a.pos[2] = pz;
         a.pad_38[0] = py;
-        a.model = (saddr) get_bml_model(jungle_container_archive, 1);
+        a.model = (saddr) get_bml_model((BmlResource *)jungle_container_archive, 1);
         a.textures = (saddr)jungle_container_textures;
         TObjChipParams b = container_jung_spawn_params;
         f32 qz;
@@ -247,7 +244,7 @@ void TObjContainerJung::vfunc_79() const {
         b.pos[1] = qy;
         b.pos[2] = qz;
         b.pad_38[0] = qy;
-        b.model = (saddr) get_bml_model(jungle_container_archive, 2);
+        b.model = (saddr) get_bml_model((BmlResource *)jungle_container_archive, 2);
         b.textures = (saddr)jungle_container_textures;
         spawn_particle_effect_with_flags(&position, 0x45, 0x40);
         spawn_particle_effect_with_flags(&position, 0x46, 0x40);
@@ -265,16 +262,13 @@ void TObjContainerJung::vfunc_79() const {
 #pragma pop
 
 void TObjContainerJung::load_resources() {
-    BmlResource *archive = (BmlResource *)::operator new(0x440);
-    if (archive != NULL) {
-        archive = load_resource_from_descriptor(archive, 5, &TObjContainerJung__resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *archive = new BmlResource(5, (BmlResourceDescriptor *)&TObjContainerJung__resource_descriptor, 0, 0, NULL);
     jungle_container_archive = archive;
-    jungle_container_textures = (GinjaTextureList *)get_bml_texlist(archive, 0);
+    jungle_container_textures = (GinjaTextureList *)get_bml_texlist((BmlResource *)archive, 0);
 }
 
 void TObjContainerJung::release() {
-    free_bin_model_request(jungle_container_archive, 1);
+    delete (BmlResource *)jungle_container_archive;
     jungle_container_archive = NULL;
     jungle_container_textures = NULL;
 }
@@ -285,7 +279,7 @@ void *TObjContainerJung::create(void *set_data) {
 
 NJS_OBJECT *TObjContainerJung::get_model_by_index(s32 arg0) {
     if (jungle_container_archive != NULL) {
-        return (NJS_OBJECT *)get_bml_model(jungle_container_archive, arg0);
+        return (NJS_OBJECT *)get_bml_model((BmlResource *)jungle_container_archive, arg0);
     }
     return NULL;
 }

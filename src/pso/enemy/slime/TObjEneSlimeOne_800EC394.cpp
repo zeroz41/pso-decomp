@@ -1,3 +1,5 @@
+#include "pso/system/BmlAccessors.h"
+#include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/render/render_util.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -68,7 +70,6 @@ extern "C" {
 s32 find_nearest_hittable_enemy__10TObjPlayerFiPvf(void *, void *, f32);
 extern s8 slime_one_animation_end_initialized;
 extern f32 slime_one_animation_end_frame;
-saddr get_bml_texlist(s32, s32);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 }
 void draw_chunk_model_with_shape_motion(void *child, void *arg1, NJS_MOTION *arg2, f32 farg0);
@@ -76,7 +77,6 @@ extern s32 slime_one_part_texture_index_table[];
 extern s32 model_render_flags;
 extern "C" {
 saddr get_bml_motion(s32, s32);
-saddr get_bml_model(s32, s32);
 extern void *lbl_80496C68[10];
 extern void *lbl_80496C90[10];
 int get_validated_attack_stage(void*);
@@ -126,7 +126,7 @@ void TObjEneSlimeOne::draw_part(s32 arg1) {
         return;
     }
     if (state < 7) {
-        TObjFish::set_global_param(get_bml_texlist(TObjEneSlimeOne::get_instance(), slime_one_part_texture_index_table[((TObjEneSlimeOne *)(*(void * *)&this->m_name))->get_attack_target()]));
+        TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)TObjEneSlimeOne::get_instance(), slime_one_part_texture_index_table[((TObjEneSlimeOne *)(*(void * *)&this->m_name))->get_attack_target()]));
         if (arg1 != 0) {
             model_render_flags |= 0x400000;
             set_chunk_render_flags(1);
@@ -286,8 +286,8 @@ void TObjEneSlimeOne::set_motion_state(s32 arg1) {
     s32 inst = TObjEneSlimeOne::get_instance();
     E12_800EC7F4 *e = (((E12_800EC7F4 *) slime_one_motion_state_table) + arg0->state) - 7;
     unsigned int id = (saddr) slime_one_attack_target_id_table[((TObjEneSlimeOne *)(arg0->obj))->get_attack_target()];
-    arg0->f8 = get_bml_model(inst, id);
-    arg0->fC = get_bml_texlist(inst, id);
+    arg0->f8 = (saddr)get_bml_model((BmlResource *)inst, id);
+    arg0->fC = (saddr)get_bml_texlist((BmlResource *)inst, id);
     arg0->f10 = (Res_800EC7F4 *) get_bml_motion(inst, e->a);
     arg0->f14 = get_bml_motion(inst, e->b);
     arg0->f2C = arg0->f10->n;
@@ -299,11 +299,11 @@ void TObjEneSlimeOne::set_motion_state(s32 arg1) {
     s32 st = arg0->state - 9;
     s32 inst = TObjEneSlimeOne::get_instance();
     E20_800EC7F4 *f = &((E20_800EC7F4 **) lbl_80496CB8)[((TObjEneSlimeOne *)(arg0->obj))->get_attack_target()][st];
-    arg0->f8 = get_bml_model(inst, f->a);
-    arg0->fC = get_bml_texlist(inst, f->a);
+    arg0->f8 = (saddr)get_bml_model((BmlResource *)inst, f->a);
+    arg0->fC = (saddr)get_bml_texlist((BmlResource *)inst, f->a);
     arg0->f10 = (Res_800EC7F4 *) get_bml_motion(inst, f->b);
-    arg0->f18 = get_bml_model(inst, f->c);
-    arg0->f1C = get_bml_texlist(inst, f->c);
+    arg0->f18 = (saddr)get_bml_model((BmlResource *)inst, f->c);
+    arg0->f1C = (saddr)get_bml_texlist((BmlResource *)inst, f->c);
     arg0->f20 = (Res_800EC7F4 *) get_bml_motion(inst, f->d);
     arg0->f2C = arg0->f20->n;
     arg0->f28 = f->e;

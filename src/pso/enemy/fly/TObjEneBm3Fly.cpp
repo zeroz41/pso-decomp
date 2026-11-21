@@ -90,7 +90,7 @@ const NpcAnimationBinding bm3_fly_resource_binding_desc = { NULL, reinterpret_ca
 void TObjEneBm3Fly::load_resources() {
     TUnk_8048FA00 *model;
     bm3_fly_nest_resources = TObjEneBm3FlyNest::sub_800B4158();
-    model = new TUnk_8048FA00(bm3_fly_nest_resources->models[0].model);
+    model = new TUnk_8048FA00((saddr)bm3_fly_nest_resources->models[0].model);
     TObjEneBm3Fly__breakup_model = model;
     bm3_fly_boss_stat_handle = (u8 *)TLobby::register_boss(0);
     TObjEneBm3Fly__attack_params = (AttackParams *)TLobby::dispatch_shared_handler_b(0);
@@ -131,7 +131,7 @@ TObjEneBm3Fly::TObjEneBm3Fly(TObject *parent, TObjEneBm3FlyNest *nest, s32 entit
 void TObjEneBm3Fly::init_child_params() {
     init_position_vectors();
     this->model = (void *)bm3_fly_nest_resources->models[0].model;
-    this->texlist = bm3_fly_nest_resources->models[0].m_c;
+    this->texlist = (saddr)bm3_fly_nest_resources->models[0].m_c;
     this->init_model(bm3_fly_collider_params, 1);
     set_field_d8((saddr)bm3_fly_action_table);
     set_field_dc((saddr)bm3_fly_nest_resources->motions);
@@ -1156,7 +1156,7 @@ void TObjEneBm3Fly::vfunc_106() {
 
 void TObjEneMoja::bindModel(int index) {
     model = (void *)lbl_805D50D8->models[index].model;
-    texlist = lbl_805D50D8->models[index].m_c;
+    texlist = (saddr)lbl_805D50D8->models[index].m_c;
 }
 
 f32 AttackParams::get_damage_radius() { return damage_radius; }

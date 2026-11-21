@@ -1,4 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/EnemyBmlResource.h"
+#include "pso/system/BmlResource.h"
 #include "pso/animation/MotionContext.h"
 
 #include "pso/math/FloatRounding.h"
@@ -2224,9 +2226,7 @@ void TBoss2Mine__sub_80038D88(void);
 
 void TBoss2Tentacle__sub_8003A0AC(void);
 
-saddr load_enemy_bml_resource_named(saddr arg0, saddr arg1);
 
-saddr load_enemy_bml_resource(u8 *arg0);
 
 extern s32 TBoss2DeRolLe__shared_handler_id_table[];
 
@@ -2310,7 +2310,6 @@ void TBoss2Mine__sub_80038D84(void);
 
 void TBoss2Tentacle__sub_8003A0A8(void);
 
-void free_bin_model_request(void*, int);
 
 void TObjPlayer__sub_8002EB88(void);
 
@@ -2921,9 +2920,9 @@ void load_resources__13TBoss2DeRolLeFv(void) {
     Node_80035D24 *m;
     Slot_80035D24 *p;
     if (TObjEneDD::check_v2_mode() != 0) {
-        res = (u8 *)load_enemy_bml_resource_named((saddr)&boss2_derolle_bml_descriptor, (saddr)("bm_boss2_de_rol_le_a.bml"));
+        res = (u8 *)load_enemy_bml_resource_named(&boss2_derolle_bml_descriptor, "bm_boss2_de_rol_le_a.bml");
     } else {
-        res = (u8 *)load_enemy_bml_resource((u8 *)&boss2_derolle_bml_descriptor);
+        res = (u8 *)load_enemy_bml_resource(&boss2_derolle_bml_descriptor);
     }
     (*(u8 * *)&lbl_805D4BA4) = res;
     TBoss2DeRolLe__current_attack_id = 0;
@@ -3014,7 +3013,7 @@ void reset_parts__13TBoss2DeRolLeFv(void) {
     TBoss2Mine__sub_80038D84();
     TBoss2Tentacle__sub_8003A0A8();
     if ((u32) lbl_805D4BA4 != 0U) {
-        free_bin_model_request((void*)lbl_805D4BA4, 1);
+        delete (BmlResource *)lbl_805D4BA4;
         lbl_805D4BA4 = 0U;
     }
 }

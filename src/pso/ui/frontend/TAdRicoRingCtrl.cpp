@@ -1,3 +1,5 @@
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/render/Draw2D.h"
@@ -58,13 +60,9 @@ LAYOUT_ASSERT(RecoveredGlobal_8001B8AC___vt__15TAdRicoRingCtrl_size, sizeof(Reco
 struct RecoveredGlobal_8001BD0C___vt__11TAdRicoRing { s32 value; u8 remaining[0x14]; };
 LAYOUT_ASSERT(RecoveredGlobal_8001BD0C___vt__11TAdRicoRing_size, sizeof(RecoveredGlobal_8001BD0C___vt__11TAdRicoRing) == 0x18);
 
-saddr get_bml_texlist(void *, int);
-saddr get_bml_model(void *, int);
 extern RecoveredGlobal_8001BD0C___vt__11TAdRicoRing __vt__11TAdRicoRing;
 int post_translate_matrix(void*);
 int push_matrix(void*);
-u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-void free_bin_model_request(void*, int);
 }
 
 // inferred: the vertex list draw_polygon_2d reads (cf. VtxList_80077BC0)
@@ -92,19 +90,12 @@ const char *TAdRicoRingCtrl__class_name = "TAdRicoRingCtrl";
 void TAdRicoRingCtrl__sub_8001BED0(void* p, f32 v) { *(f32*)((char*)p + 0x34) = v; }
 
 void TAdRicoRingCtrl::load_static_resource() {
-    saddr temp_r3;
-    s32 var_r0;
-    temp_r3 = (saddr)::operator new(0x440);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &TAdRicoRingCtrl__resource_descriptor, 0, 0, 0));
-    }
-    (*(s32 *)&TAdRicoRing__resource_bundle) = var_r0;
+    TAdRicoRing__resource_bundle = (saddr)new BmlResource(1, &TAdRicoRingCtrl__resource_descriptor, 0, 0, NULL);
 }
 
 void TAdRicoRingCtrl::release_global_805D4A00() {
     if ((u32) TAdRicoRing__resource_bundle != 0U) {
-        free_bin_model_request((void*)TAdRicoRing__resource_bundle, 1);
+        delete (BmlResource *)TAdRicoRing__resource_bundle;
         TAdRicoRing__resource_bundle = 0U;
     }
 }
@@ -122,8 +113,8 @@ u8 *__ct__11TAdRicoRingFv(u8 *object, void *parent) {
     *(s32 **)((s8 *)object + 0x18) = &__vt__11TAdRicoRing.value;
     __ct__8FlagWordFv((object + 0x2C));
     *(s32 *)((s8 *)object + 0) = (saddr) TAdRicoRing__class_name;
-    *(s32 *)((s8 *)object + 0x4C) = get_bml_model((void *)TAdRicoRing__resource_bundle, 0);
-    *(s32 *)((s8 *)object + 0x50) = get_bml_texlist((void *)TAdRicoRing__resource_bundle, 0);
+    *(s32 *)((s8 *)object + 0x4C) = (saddr)get_bml_model((BmlResource *)TAdRicoRing__resource_bundle, 0);
+    *(s32 *)((s8 *)object + 0x50) = (saddr)get_bml_texlist((BmlResource *)TAdRicoRing__resource_bundle, 0);
     *(f32 *)((s8 *)object + 0x28) = 0.0f;
     *(f32 *)((s8 *)object + 0x24) = 0.0f;
     *(f32 *)((s8 *)object + 0x20) = 0.0f;

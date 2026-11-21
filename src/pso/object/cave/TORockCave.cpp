@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #include <stddef.h>
 #pragma readonly_strings on
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -31,7 +32,6 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/BmlResourceLoader.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
@@ -145,39 +145,21 @@ void TORockCave::load_resources() {
 
     switch (get_current_floor_area()) {
     case AREA_CAVE1:
-        resource = (BmlResource *)::operator new(0x440);
-        if (resource != NULL) {
-            resource = load_resource_from_descriptor(resource, 1, (BmlResourceDescriptor *)(archives + offsetof(CaveRockArchives, cave_one) + offsetof(CaveRockArchive<4>, descriptor)), 0, 0, 0);
-        }
+        resource = new BmlResource(1, (BmlResourceDescriptor *)(archives + offsetof(CaveRockArchives, cave_one) + offsetof(CaveRockArchive<4>, descriptor)), 0, 0, NULL);
         cave_rock_resource_bundle = resource;
-        resource = (BmlResource *)::operator new(0x440);
-        if (resource != NULL) {
-            resource = load_resource_from_descriptor(resource, 1, (BmlResourceDescriptor *)(archives + offsetof(CaveRockArchives, debris_one) + offsetof(CaveRockArchive<7>, descriptor)), 0, 0, 0);
-        }
+        resource = new BmlResource(1, (BmlResourceDescriptor *)(archives + offsetof(CaveRockArchives, debris_one) + offsetof(CaveRockArchive<7>, descriptor)), 0, 0, NULL);
         rock_cave_model_resource = resource;
         break;
     case AREA_CAVE2:
-        resource = (BmlResource *)::operator new(0x440);
-        if (resource != NULL) {
-            resource = load_resource_from_descriptor(resource, 1, (BmlResourceDescriptor *)(archives + offsetof(CaveRockArchives, cave_two) + offsetof(CaveRockArchive<7>, descriptor)), 0, 0, 0);
-        }
+        resource = new BmlResource(1, (BmlResourceDescriptor *)(archives + offsetof(CaveRockArchives, cave_two) + offsetof(CaveRockArchive<7>, descriptor)), 0, 0, NULL);
         cave_rock_resource_bundle = resource;
-        resource = (BmlResource *)::operator new(0x440);
-        if (resource != NULL) {
-            resource = load_resource_from_descriptor(resource, 1, (BmlResourceDescriptor *)(archives + offsetof(CaveRockArchives, debris_two) + offsetof(CaveRockArchive<7>, descriptor)), 0, 0, 0);
-        }
+        resource = new BmlResource(1, (BmlResourceDescriptor *)(archives + offsetof(CaveRockArchives, debris_two) + offsetof(CaveRockArchive<7>, descriptor)), 0, 0, NULL);
         rock_cave_model_resource = resource;
         break;
     case AREA_CAVE3:
-        resource = (BmlResource *)::operator new(0x440);
-        if (resource != NULL) {
-            resource = load_resource_from_descriptor(resource, 1, (BmlResourceDescriptor *)(archives + offsetof(CaveRockArchives, cave_three) + offsetof(CaveRockArchive<4>, descriptor)), 0, 0, 0);
-        }
+        resource = new BmlResource(1, (BmlResourceDescriptor *)(archives + offsetof(CaveRockArchives, cave_three) + offsetof(CaveRockArchive<4>, descriptor)), 0, 0, NULL);
         cave_rock_resource_bundle = resource;
-        resource = (BmlResource *)::operator new(0x440);
-        if (resource != NULL) {
-            resource = load_resource_from_descriptor(resource, 1, (BmlResourceDescriptor *)(archives + offsetof(CaveRockArchives, debris_three) + offsetof(CaveRockArchive<7>, descriptor)), 0, 0, 0);
-        }
+        resource = new BmlResource(1, (BmlResourceDescriptor *)(archives + offsetof(CaveRockArchives, debris_three) + offsetof(CaveRockArchive<7>, descriptor)), 0, 0, NULL);
         rock_cave_model_resource = resource;
         break;
     default:
@@ -189,11 +171,11 @@ void TORockCave::load_resources() {
 
 void TORockCave::free_instances() {
     if (rock_cave_model_resource != NULL) {
-        free_bin_model_request(rock_cave_model_resource, 1);
+        delete rock_cave_model_resource;
         rock_cave_model_resource = NULL;
     }
     if (cave_rock_resource_bundle != NULL) {
-        free_bin_model_request(cave_rock_resource_bundle, 1);
+        delete cave_rock_resource_bundle;
         cave_rock_resource_bundle = NULL;
     }
 }
@@ -289,8 +271,8 @@ void TORockCaveBrakable::vfunc_16() {
         pop_matrix();
         VecCopy((Vec *)params.pos, &position);
         vec3_add_to((Vec *)params.pos, &offset);
-        params.model = get_bml_model(rock_cave_model_resource, i);
-        params.textures = get_bml_texlist(rock_cave_model_resource, i);
+        params.model = (saddr)get_bml_model((BmlResource *)rock_cave_model_resource, i);
+        params.textures = (saddr)get_bml_texlist((BmlResource *)rock_cave_model_resource, i);
         new TObjChip(tl_05, &params);
     }
 }
@@ -304,8 +286,8 @@ void TORockCaveBrakable::vfunc_19() {}
 TORockCaveS01::TORockCaveS01(void *set_data) {
     m_name = TORockCaveS01__name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model(cave_rock_resource_bundle, 2);
-    texlist = get_bml_texlist(cave_rock_resource_bundle, 2);
+    model = (void *)get_bml_model((BmlResource *)cave_rock_resource_bundle, 2);
+    texlist = (saddr)get_bml_texlist((BmlResource *)cave_rock_resource_bundle, 2);
     m_b0 = 40.0f;
     init_collision_body_parts(this, &cave_rock_collision_body_templates[0], 1);
     refresh_collision_body_centers();
@@ -324,8 +306,8 @@ void *TORockCaveS01__create(void *set_data) {
 TORockCaveM01::TORockCaveM01(void *set_data) {
     m_name = TORockCaveM01__name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model(cave_rock_resource_bundle, 1);
-    texlist = get_bml_texlist(cave_rock_resource_bundle, 1);
+    model = (void *)get_bml_model((BmlResource *)cave_rock_resource_bundle, 1);
+    texlist = (saddr)get_bml_texlist((BmlResource *)cave_rock_resource_bundle, 1);
     m_b0 = 40.0f;
     init_collision_body_parts(this, &cave_rock_collision_body_templates[1], 1);
     refresh_collision_body_centers();
@@ -344,8 +326,8 @@ void *TORockCaveM01__create(void *set_data) {
 TORockCaveL01::TORockCaveL01(void *set_data) {
     m_name = TORockCaveL01_class_name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model(cave_rock_resource_bundle, 0);
-    texlist = get_bml_texlist(cave_rock_resource_bundle, 0);
+    model = (void *)get_bml_model((BmlResource *)cave_rock_resource_bundle, 0);
+    texlist = (saddr)get_bml_texlist((BmlResource *)cave_rock_resource_bundle, 0);
     m_b0 = 40.0f;
     init_collision_body_parts(this, &cave_rock_collision_body_templates[2], 1);
     refresh_collision_body_centers();
@@ -364,8 +346,8 @@ void *TORockCaveL01__create(void *set_data) {
 TORockCaveS02::TORockCaveS02(void *set_data) {
     m_name = TORockCaveS02__name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model(cave_rock_resource_bundle, 2);
-    texlist = get_bml_texlist(cave_rock_resource_bundle, 2);
+    model = (void *)get_bml_model((BmlResource *)cave_rock_resource_bundle, 2);
+    texlist = (saddr)get_bml_texlist((BmlResource *)cave_rock_resource_bundle, 2);
     m_b0 = 40.0f;
     init_collision_body_parts(this, &cave_rock_collision_body_templates[0], 1);
     refresh_collision_body_centers();
@@ -384,8 +366,8 @@ void *TORockCaveS02__create(void *set_data) {
 TORockCaveM02::TORockCaveM02(void *set_data) {
     m_name = TORockCaveM02__name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model(cave_rock_resource_bundle, 1);
-    texlist = get_bml_texlist(cave_rock_resource_bundle, 1);
+    model = (void *)get_bml_model((BmlResource *)cave_rock_resource_bundle, 1);
+    texlist = (saddr)get_bml_texlist((BmlResource *)cave_rock_resource_bundle, 1);
     m_b0 = 40.0f;
     init_collision_body_parts(this, &cave_rock_collision_body_templates[1], 1);
     refresh_collision_body_centers();
@@ -404,8 +386,8 @@ void *TORockCaveM02__create(void *set_data) {
 TORockCaveL02::TORockCaveL02(void *set_data) {
     m_name = TORockCaveL02__name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model(cave_rock_resource_bundle, 0);
-    texlist = get_bml_texlist(cave_rock_resource_bundle, 0);
+    model = (void *)get_bml_model((BmlResource *)cave_rock_resource_bundle, 0);
+    texlist = (saddr)get_bml_texlist((BmlResource *)cave_rock_resource_bundle, 0);
     m_b0 = 40.0f;
     init_collision_body_parts(this, &cave_rock_collision_body_templates[2], 1);
     refresh_collision_body_centers();
@@ -424,8 +406,8 @@ void *TORockCaveL02__create(void *set_data) {
 TORockCaveSS02::TORockCaveSS02(void *set_data) {
     m_name = TORockCaveSS02__name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model(cave_rock_resource_bundle, 5);
-    texlist = get_bml_texlist(cave_rock_resource_bundle, 5);
+    model = (void *)get_bml_model((BmlResource *)cave_rock_resource_bundle, 5);
+    texlist = (saddr)get_bml_texlist((BmlResource *)cave_rock_resource_bundle, 5);
     m_b0 = 40.0f;
     init_collision_body_parts(this, &cave_rock_collision_body_templates[0], 1);
     refresh_collision_body_centers();
@@ -444,8 +426,8 @@ void *TORockCaveSS02__create(void *set_data) {
 TORockCaveSM02::TORockCaveSM02(void *set_data) {
     m_name = TORockCaveSM02__class_name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model(cave_rock_resource_bundle, 4);
-    texlist = get_bml_texlist(cave_rock_resource_bundle, 4);
+    model = (void *)get_bml_model((BmlResource *)cave_rock_resource_bundle, 4);
+    texlist = (saddr)get_bml_texlist((BmlResource *)cave_rock_resource_bundle, 4);
     m_b0 = 40.0f;
     init_collision_body_parts(this, &cave_rock_collision_body_templates[1], 1);
     refresh_collision_body_centers();
@@ -464,8 +446,8 @@ void *TORockCaveSM02__create(void *set_data) {
 TORockCaveSL02::TORockCaveSL02(void *set_data) {
     m_name = TORockCaveSL02__name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model(cave_rock_resource_bundle, 3);
-    texlist = get_bml_texlist(cave_rock_resource_bundle, 3);
+    model = (void *)get_bml_model((BmlResource *)cave_rock_resource_bundle, 3);
+    texlist = (saddr)get_bml_texlist((BmlResource *)cave_rock_resource_bundle, 3);
     m_b0 = 40.0f;
     init_collision_body_parts(this, &cave_rock_collision_body_templates[2], 1);
     refresh_collision_body_centers();
@@ -484,8 +466,8 @@ void *TORockCaveSL02__create(void *set_data) {
 TORockCaveS03::TORockCaveS03(void *set_data) {
     m_name = TORockCaveS03__name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model(cave_rock_resource_bundle, 2);
-    texlist = get_bml_texlist(cave_rock_resource_bundle, 2);
+    model = (void *)get_bml_model((BmlResource *)cave_rock_resource_bundle, 2);
+    texlist = (saddr)get_bml_texlist((BmlResource *)cave_rock_resource_bundle, 2);
     m_b0 = 40.0f;
     init_collision_body_parts(this, &cave_rock_collision_body_templates[0], 1);
     refresh_collision_body_centers();
@@ -504,8 +486,8 @@ void *TORockCaveS03__create(void *set_data) {
 TORockCaveM03::TORockCaveM03(void *set_data) {
     m_name = TORockCaveM03__name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model(cave_rock_resource_bundle, 1);
-    texlist = get_bml_texlist(cave_rock_resource_bundle, 1);
+    model = (void *)get_bml_model((BmlResource *)cave_rock_resource_bundle, 1);
+    texlist = (saddr)get_bml_texlist((BmlResource *)cave_rock_resource_bundle, 1);
     m_b0 = 40.0f;
     init_collision_body_parts(this, &cave_rock_collision_body_templates[1], 1);
     refresh_collision_body_centers();
@@ -524,8 +506,8 @@ void *TORockCaveM03__create(void *set_data) {
 TORockCaveL03::TORockCaveL03(void *set_data) {
     m_name = TORockCaveL03__name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model(cave_rock_resource_bundle, 0);
-    texlist = get_bml_texlist(cave_rock_resource_bundle, 0);
+    model = (void *)get_bml_model((BmlResource *)cave_rock_resource_bundle, 0);
+    texlist = (saddr)get_bml_texlist((BmlResource *)cave_rock_resource_bundle, 0);
     m_b0 = 40.0f;
     init_collision_body_parts(this, &cave_rock_collision_body_templates[2], 1);
     refresh_collision_body_centers();
@@ -544,8 +526,8 @@ void *TORockCaveL03__create(void *set_data) {
 TORockCaveBL01::TORockCaveBL01(void *set_data) {
     m_name = TORockCaveBL01__name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model(cave_rock_resource_bundle, 0);
-    texlist = get_bml_texlist(cave_rock_resource_bundle, 0);
+    model = (void *)get_bml_model((BmlResource *)cave_rock_resource_bundle, 0);
+    texlist = (saddr)get_bml_texlist((BmlResource *)cave_rock_resource_bundle, 0);
     m_b0 = 40.0f;
     init_collision_body_parts(this, &cave_rock_collision_body_templates[2], 1);
     refresh_collision_body_centers();
@@ -568,8 +550,8 @@ void *TORockCaveBL01__create(void *set_data) {
 TORockCaveBL02::TORockCaveBL02(void *set_data) {
     m_name = TORockCaveBL02__name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model(cave_rock_resource_bundle, 0);
-    texlist = get_bml_texlist(cave_rock_resource_bundle, 0);
+    model = (void *)get_bml_model((BmlResource *)cave_rock_resource_bundle, 0);
+    texlist = (saddr)get_bml_texlist((BmlResource *)cave_rock_resource_bundle, 0);
     m_b0 = 40.0f;
     init_collision_body_parts(this, &cave_rock_collision_body_templates[2], 1);
     refresh_collision_body_centers();
@@ -592,8 +574,8 @@ void *TORockCaveBL02__create(void *set_data) {
 TORockCaveBL03::TORockCaveBL03(void *set_data) {
     m_name = TORockCaveBL03__name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model(cave_rock_resource_bundle, 0);
-    texlist = get_bml_texlist(cave_rock_resource_bundle, 0);
+    model = (void *)get_bml_model((BmlResource *)cave_rock_resource_bundle, 0);
+    texlist = (saddr)get_bml_texlist((BmlResource *)cave_rock_resource_bundle, 0);
     m_b0 = 40.0f;
     init_collision_body_parts(this, &cave_rock_collision_body_templates[2], 1);
     refresh_collision_body_centers();

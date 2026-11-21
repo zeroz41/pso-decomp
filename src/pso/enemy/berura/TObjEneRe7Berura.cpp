@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/EnemyBmlResource.h"
 #include "types.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -97,7 +98,6 @@ struct Mtx_8009503C { f32 m[3][4]; };
 extern "C" {
 s32 VecCopy__FP3VecPC3Vec(void *, void *);
 u16 get_entity_id(TObjBase *);
-void free_bin_model_request(void*, int);
 u32 csnLookAt(Vec *, Vec *);
 void TObjEneRe7Berura__sub_80093888(TObjEneRe7Berura *actor, s32 arg1);
 
@@ -114,8 +114,6 @@ s32 enemy_set_target_id(TObjEneRe7Berura *, u16);
 
 
 s32 clear_attack_receipts();
-saddr load_enemy_bml_resource_named(saddr arg0, saddr arg1);
-saddr load_enemy_bml_resource(u8 *arg0);
 s32 angle_diff_s16(s32);
 void free_collision_body_parts(void *);
 }
@@ -210,9 +208,9 @@ void TObjEneRe7Berura::load_static_resources() {
     s32 i;
     void *p;
     if (TObjEneDD::check_v2_mode() != 0) {
-        r = (BmlResource *)load_enemy_bml_resource_named((saddr)&ene_berura_bml_descriptor, (saddr)("bm_ene_re7_berura_a.bml"));
+        r = load_enemy_bml_resource_named(&ene_berura_bml_descriptor, "bm_ene_re7_berura_a.bml");
     } else {
-        r = (BmlResource *)load_enemy_bml_resource((u8 *)&ene_berura_bml_descriptor);
+        r = load_enemy_bml_resource(&ene_berura_bml_descriptor);
     }
     TObjEneRe7Berura__shared_resource = r;
     lbl_805007C8[0] = 0.0f;
@@ -224,7 +222,7 @@ void TObjEneRe7Berura::load_static_resources() {
     berura_demo_flag = 0;
     re7_berura_demo_flag = 0;
     TObjEneRe7Berura__demo_target = 0;
-    m = r->models->model;
+    m = (saddr)r->models->model;
     buf = (u8 *)mem_alloc(0x660);
     re7_berura_static_buffer = buf;
     TObjEneRe7Berura__detached_part_states[0].node_matrices = buf;
@@ -266,7 +264,7 @@ void TObjEneRe7Berura::load_static_resources() {
     berura_node_matrix_ptr_b = (s16 *)(((s32 *)((NJS_OBJECT *)find_model_node(m, 1))->model)[1] + 8);
     p = ::operator new(0x14);
     if (p != NULL) {
-        p = ((TLobby *)p)->alloc_tables(TObjEneRe7Berura__shared_resource->models->model, 2);
+        p = ((TLobby *)p)->alloc_tables((saddr)TObjEneRe7Berura__shared_resource->models->model, 2);
     }
     belra_uv_animation_buffer = (uaddr)p;
     SampledMotionPoints *sampled = new SampledMotionPoints(4, 14.0f, 17.0f, 0.8f);
@@ -320,7 +318,7 @@ void TObjEneRe7Berura::destroy_children() {
         re7_berura_static_buffer = NULL;
     }
     if (TObjEneRe7Berura__shared_resource != NULL) {
-        free_bin_model_request(TObjEneRe7Berura__shared_resource, 1);
+        delete TObjEneRe7Berura__shared_resource;
         TObjEneRe7Berura__shared_resource = NULL;
     }
 }
@@ -337,7 +335,7 @@ void TObjEneRe7Berura::init_enemy() {
     s32 j;
     init_position_vectors();
     model = (void *)TObjEneRe7Berura__shared_resource->models->model;
-    texlist = TObjEneRe7Berura__shared_resource->models->m_c;
+    texlist = (saddr)TObjEneRe7Berura__shared_resource->models->m_c;
     init_model(&lbl_8048F66C, 1);
     set_field_d8((saddr)TObjEneRe7Berura__animation_definitions);
     set_field_dc((saddr)TObjEneRe7Berura__shared_resource->motions);
@@ -577,7 +575,7 @@ void TObjEneRe7Berura::set_data_and_draw_node_tree(u8 *matrices) {
 void TObjEneRe7Berura::init_part(s32 arg0) {
     TObjEneRe7BeruraPart *part;
 
-    set_global_param__8TObjFishFl(TObjEneRe7Berura__shared_resource->models->m_c, TObjEneRe7Berura__shared_resource);
+    set_global_param__8TObjFishFl((saddr)TObjEneRe7Berura__shared_resource->models->m_c, TObjEneRe7Berura__shared_resource);
     part = &TObjEneRe7Berura__detached_part_states[arg0];
     ((TObjEneRe7Berura *)(&part->object))->set_data_and_draw_node_tree(part->node_matrices);
 }

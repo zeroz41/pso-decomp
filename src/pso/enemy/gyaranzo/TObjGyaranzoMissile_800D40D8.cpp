@@ -267,8 +267,8 @@ TUnk_8049442C::TUnk_8049442C(TObjBase *owner, Vec *pos, s32 angle, s32 spin) : T
     VecCopy(&unk_E0, &position);
     unk_E0.y += 5.0f;
     m_dc = spin;
-    m_c4 = gyaranzo_bml_resource->models[5].model;
-    unk_C8 = gyaranzo_bml_resource->models[5].m_c;
+    m_c4 = (saddr)gyaranzo_bml_resource->models[5].model;
+    unk_C8 = (saddr)gyaranzo_bml_resource->models[5].m_c;
     room = owner->room;
     owner_id = get_entity_id(owner);
     m_b8 = 0;

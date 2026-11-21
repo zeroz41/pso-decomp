@@ -1,6 +1,8 @@
+#include "pso/system/BmlAccessors.h"
 #include "pso/render/GinjaMaterialTextureSlot.h"
 #include "pso/render/GinjaUvScroll.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/object/door/TObjDoorKey.h"
 #include "pso/render/MaterialColorFade.h"
@@ -122,8 +124,7 @@ struct Key_8018FCD8 { u8 pad0[0x38]; u8 f38[0x28]; s32 f60; u8 pad64[0x28]; s32 
 
 extern "C" {
 void debug_draw_key_id__5TOKeyFv();
-saddr get_bml_model(BmlResource *, int);
-s32 load_resource_from_descriptor(s32, int, void *, int, int, int);
+
 }
 u8 *load_gvm_texture_file(saddr arg0);
 extern "C" {
@@ -134,7 +135,6 @@ extern u8 chunk_material_color_half_alpha_f32[];
 extern s32 actor_frame_tick;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
-void free_bin_model_request(void*, int);
 
 void TObjDoorKey__sub_8018FAEC(u16 id, u16) {
     Obj_8018FA6C *temp_r3;
@@ -308,7 +308,7 @@ void *TObjDoorKey__create(void *arg0) {
 
 void TObjDoorKey::free_key() {
     if (door_key_resource_handle != NULL) {
-        free_bin_model_request(door_key_resource_handle, 1);
+        delete (BmlResource *)door_key_resource_handle;
         door_key_resource_handle = NULL;
     }
     TObjPlayer::free_if_valid((saddr)TObjDoorKey__texture_handle);
@@ -317,15 +317,12 @@ void TObjDoorKey::free_key() {
 }
 
 void TObjDoorKey::load_resources() {
-    saddr r = (saddr)::operator new(0x440);
-    if (r != 0) {
-        r = load_resource_from_descriptor(r, 5, &TObjDoorKey__resource_descriptor, 0, 0, 0);
-    }
+    saddr r = (saddr)new BmlResource(5, &TObjDoorKey__resource_descriptor, 0, 0, NULL);
     door_key_resource_handle = (BmlResource *)r;
     TObjDoorKey__texture_handle = (GinjaTextureList *)load_gvm_texture_file((saddr)"fe_obj_switch.gvm");
-    TObjDoorKey__ginja_model_table[0] = get_bml_model(door_key_resource_handle, 1);
-    TObjDoorKey__ginja_model_table[1] = get_bml_model(door_key_resource_handle, 2);
-    s32 t = get_bml_model(door_key_resource_handle, 0);
+    TObjDoorKey__ginja_model_table[0] = (saddr)get_bml_model((BmlResource *)door_key_resource_handle, 1);
+    TObjDoorKey__ginja_model_table[1] = (saddr)get_bml_model((BmlResource *)door_key_resource_handle, 2);
+    s32 t = (saddr)get_bml_model((BmlResource *)door_key_resource_handle, 0);
     door_key_id_counter = 0;
     TObjDoorKey__ginja_model_table[2] = t;
     TObjDoorKey__data_805D5C04 = 0;

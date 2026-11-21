@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/EnemyBmlResource.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -47,12 +48,9 @@ struct Ent_800B23A0 { s32 a; u32 count; };
 
 struct Pair_800B23A0 { s32 k; Ent_800B23A0 *e; };
 
-void free_bin_model_request(void*, int);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
 s32 TBoss8Dragon__sub_800BB7D4(void *, s32);
 s32 pack_debug_text_position(s32, s32);
-saddr load_enemy_bml_resource_named(saddr arg0, saddr arg1);
-saddr load_enemy_bml_resource(u8 *arg0);
 s32 set_field_e4__10TObjPlayerFll(void *, int, f32);
 void spawn_dead_spot_scale15(s32 point, s32 delay);
 void *find_entity_by_id(u16 id);
@@ -230,7 +228,7 @@ void TObjEneBm3FlyNest_CarryFly::run_task() {
 #pragma pop
 
 void TObjEneBm3FlyNest_CarryFly::render() {
-    TObjFish::set_global_param(lbl_805D5108->models[0].m_c);
+    TObjFish::set_global_param((saddr)lbl_805D5108->models[0].m_c);
     push_matrix();
     if (state == 0) {
         post_translate_matrix(origin);
@@ -255,9 +253,9 @@ void TObjEneBm3FlyNest::load_resources() {
     lbl_805D5114 = NULL;
     bm3_fly_nest_attachment_index = 0;
     if (TObjEneDD::check_v2_mode() != 0) {
-        lbl_805D5108 = (BmlResource *)load_enemy_bml_resource_named((saddr)&bm3_fly_nest_resource_desc, (saddr)("bm_ene_bm3_fly_a.bml"));
+        lbl_805D5108 = load_enemy_bml_resource_named(&bm3_fly_nest_resource_desc, "bm_ene_bm3_fly_a.bml");
     } else {
-        lbl_805D5108 = (BmlResource *)load_enemy_bml_resource((u8 *)&bm3_fly_nest_resource_desc);
+        lbl_805D5108 = load_enemy_bml_resource(&bm3_fly_nest_resource_desc);
     }
     lbl_805D50F8 = (u8 *)TLobby::register_boss(1);
     lbl_805D50FC = (u8 *)TLobby::dispatch_shared_handler_b(1);
@@ -280,7 +278,7 @@ void *TObjEneBm3FlyNest::create(void *set_data) {
 void TObjEneBm3FlyNest::free_fly() {
     TObjEneBm3Fly::release_shared_data();
     if (lbl_805D5108 != NULL) {
-        free_bin_model_request(lbl_805D5108, 1);
+        delete lbl_805D5108;
         lbl_805D5108 = NULL;
     }
 }
@@ -296,7 +294,7 @@ TObjEneBm3FlyNest::TObjEneBm3FlyNest(TObject *parent, Bm3FlyNestSetData *set_dat
     invoke_initialization_hook(set_data);
     init_position_vectors();
     model = (void *)lbl_805D5108->models[1].model;
-    texlist = lbl_805D5108->models[0].m_c;
+    texlist = (saddr)lbl_805D5108->models[0].m_c;
     init_model(bm3_flynest_collider_params, 1);
     m_300 = 20.0f + position.y;
     vfunc_88();

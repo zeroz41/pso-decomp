@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #pragma defer_codegen on
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -58,10 +59,6 @@ s32 push_matrix();
 s32 post_translate_matrix(void *);
 
 s32 get_bml_motion(s32, s32);
-
-saddr get_bml_texlist(s32, s32);
-
-saddr get_bml_model(s32, s32);
 
 void set_scripted_camera_pose(void *, void *, void *);
 }
@@ -138,8 +135,8 @@ TObjDFDemo3::TObjDFDemo3(TObject *parent, void *arg2_, void *arg3_) : TObjBase(p
     }
     *(s32 *)((s8 *)base + 0xAC) = arg3;
     cnt = TBoss4Uro::get_instance_count();
-    *(s32 *)((s8 *)base + 0x94) = get_bml_model(cnt, 0x12);
-    *(s32 *)((s8 *)base + 0x98) = get_bml_texlist(cnt, 0x12);
+    *(s32 *)((s8 *)base + 0x94) = (saddr)get_bml_model((BmlResource *)cnt, 0x12);
+    *(s32 *)((s8 *)base + 0x98) = (saddr)get_bml_texlist((BmlResource *)cnt, 0x12);
     *(s32 *)((s8 *)base + 0x9C) = get_bml_motion(cnt, 0x45);
     *(f32 *)((s8 *)base + 0xB4) = -1.0f;
     *(s32 *)((s8 *)base + 0x90) = 0;

@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -89,9 +90,9 @@ void TObjEneMe1GiGueMissile::render() {
     post_translate_matrix(&pos.x);
     rotate_matrix_y(NULL, m_a4);
     rotate_matrix_x(NULL, m_a0);
-    TObjFish::set_global_param(lbl_805D6858->models[1].m_c);
+    TObjFish::set_global_param((saddr)lbl_805D6858->models[1].m_c);
     set_motion_packed_rotation();
-    draw_model_motion((void *)get_bml_model(lbl_805D6858, 1), get_bml_motion(lbl_805D6858, 5), m_bc);
+    draw_model_motion((void *)get_bml_model((BmlResource *)lbl_805D6858, 1), get_bml_motion(lbl_805D6858, 5), m_bc);
     clear_motion_packed_rotation();
     TParticleCtrl::end_effect_render();
     pop_matrix();

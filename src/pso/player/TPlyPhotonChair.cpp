@@ -1,4 +1,6 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/BmlResource.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/player/TPlyPhotonChair.h"
 #include "pso/render/render_util.h"
@@ -144,18 +146,16 @@ struct Chair_8035B058 {
 extern "C" {
 void *get_player_by_client_id(s32 i);
 void TPlyPhotonChair__sub_8035B56C(void* p, f32 v);
-u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern uaddr TPlyPhotonChair__shared_model_resource;
 s32 get_bml_motion(int, int);
-saddr get_bml_texlist(int, int);
-saddr get_bml_model(int, int);
+
+
 s32 get_rader_map__11TMainCursorFv(void *, void *);
 int rotate_matrix_y(int, int);
 int push_matrix();
 int scale_current_matrix(void *);
 int post_translate_matrix(void *);
 int TPlyPhotonChair__sub_8035B520(void* p);
-void free_bin_model_request(void*, int);
 
 void TPlyPhotonChair::render() {
     Chair_8035B058 *self = (Chair_8035B058 *)this;
@@ -228,19 +228,14 @@ void TPlyPhotonChair::run_task() {
 
 void TPlyPhotonChair::free_static_model() {
     if ((u32) TPlyPhotonChair__shared_model_resource != 0U) {
-        free_bin_model_request((void*)TPlyPhotonChair__shared_model_resource, 1);
+        delete (BmlResource *)TPlyPhotonChair__shared_model_resource;
         TPlyPhotonChair__shared_model_resource = 0U;
     }
 }
 
 s32 TPlyPhotonChair::load_resources() {
-    saddr temp_r3;
     saddr var_r0;
-    temp_r3 = (saddr)::operator new(0x440);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &photon_chair_resource_descriptor, 0, 0, 0));
-    }
+    var_r0 = (saddr)new BmlResource(5, &photon_chair_resource_descriptor, 0, 0, NULL);
     (*(u8 * *)&TPlyPhotonChair__shared_model_resource) = (unsigned char *) ((void *) var_r0);
     if ((u32) var_r0 == 0U) {
         return 0;
@@ -272,13 +267,13 @@ TPlyPhotonChair::TPlyPhotonChair(s32 arg1, TObject *parent) : TObjBase(parent) {
         return;
     }
     get_rader_map__11TMainCursorFv(ply_photon_chair + 0xD0, (void *)&TPlyPhotonChair__section_id_color_table[(s32)((TPlyPhotonChair *)(player))->get_actor_section_id()]);
-    ((TPlyPhotonChair *)ply_photon_chair)->texlist = get_bml_texlist((int) ((*(s32 *)&TPlyPhotonChair__shared_model_resource)), 1);
-    ((TPlyPhotonChair *)(ply_photon_chair + 0x98))->set_type((s32)((int) (get_bml_model((int) ((*(s32 *)&TPlyPhotonChair__shared_model_resource)), 1))));
+    ((TPlyPhotonChair *)ply_photon_chair)->texlist = (saddr)get_bml_texlist((BmlResource *)(int) ((*(s32 *)&TPlyPhotonChair__shared_model_resource)), 1);
+    ((TPlyPhotonChair *)(ply_photon_chair + 0x98))->set_type((s32)((int) (get_bml_model((BmlResource *)(int) ((*(s32 *)&TPlyPhotonChair__shared_model_resource)), 1))));
     ((TPlyPhotonChair *)(ply_photon_chair + 0x98))->set_field_8((s32)((int) (get_bml_motion((int) ((*(s32 *)&TPlyPhotonChair__shared_model_resource)), 1))));
     ((TPlyPhotonChair *)(ply_photon_chair + 0x98))->sync_field10_from_child();
     TPlyPhotonChair__sub_8035B56C(ply_photon_chair + 0x98, 1.0f);
     ((TPlyPhotonChair *)(ply_photon_chair + 0x98))->set_state_ready();
-    ((TPlyPhotonChair *)(ply_photon_chair + 0xB4))->set_type((s32)((int) (get_bml_model((int) ((*(s32 *)&TPlyPhotonChair__shared_model_resource)), 0))));
+    ((TPlyPhotonChair *)(ply_photon_chair + 0xB4))->set_type((s32)((int) (get_bml_model((BmlResource *)(int) ((*(s32 *)&TPlyPhotonChair__shared_model_resource)), 0))));
     ((TPlyPhotonChair *)(ply_photon_chair + 0xB4))->set_field_8((s32)((int) (get_bml_motion((int) ((*(s32 *)&TPlyPhotonChair__shared_model_resource)), 0))));
     ((TPlyPhotonChair *)(ply_photon_chair + 0xB4))->sync_field10_from_child();
     TPlyPhotonChair__sub_8035B56C(ply_photon_chair + 0xB4, 1.0f);
@@ -334,7 +329,7 @@ extern uaddr chao_npc_instance_handle;
 
 void TPlyPhotonChair::free_instance() {
     if ((u32) chao_npc_instance_handle != 0U) {
-        free_bin_model_request((void*)chao_npc_instance_handle, 1);
+        delete (BmlResource *)chao_npc_instance_handle;
         chao_npc_instance_handle = 0U;
     }
 }

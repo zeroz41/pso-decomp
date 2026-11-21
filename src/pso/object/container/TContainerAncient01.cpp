@@ -1,3 +1,5 @@
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 
@@ -531,8 +533,8 @@ f32 TContainerAncient01R::receive_weapon_special_attack(void *, void *) {
 TContainerAncient01::TContainerAncient01(TObject *parent, void *set_data) : TObjChara(parent) {
     m_name = TContainerAncient01__name;
     this->apply_object_set_data(set_data);
-    this->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(TContainerAncient01__bml_resource, 0));
-    this->texlist = get_bml_texlist(TContainerAncient01__bml_resource, 0);
+    this->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TContainerAncient01__bml_resource, 0));
+    this->texlist = (saddr)get_bml_texlist((BmlResource *)TContainerAncient01__bml_resource, 0);
     this->action_table = TContainerAncient01__anim_table;
     this->set_field_d8((saddr)((void *) (this->action_table)));
     this->motion_list = TContainerAncient01__bml_resource->motions;
@@ -559,32 +561,26 @@ void TContainerAncient01::load_resources() {
     BmlResource *p;
     TContainerAncient01__bml_resource = NULL;
     if (TContainerAncient01::is_global_state_in_table() != 0) {
-        p = static_cast<BmlResource *>(::operator new(0x440));
-        if (p != NULL) {
-            p = load_resource_from_descriptor(p, 5, &TContainerAncient01__resource_descriptor_2, 0, 0, 0);
-        }
+        p = new BmlResource(5, (BmlResourceDescriptor *)&TContainerAncient01__resource_descriptor_2, 0, 0, NULL);
         TContainerAncient01__effect_id_table[0] = 0x230;
         TContainerAncient01__bml_resource = p;
         TContainerAncient01__effect_id_table[1] = 0x231;
     } else {
-        p = static_cast<BmlResource *>(::operator new(0x440));
-        if (p != NULL) {
-            p = load_resource_from_descriptor(p, 5, &TContainerAncient01__resource_descriptor, 0, 0, 0);
-        }
+        p = new BmlResource(5, (BmlResourceDescriptor *)&TContainerAncient01__resource_descriptor, 0, 0, NULL);
         TContainerAncient01__effect_id_table[0] = 0x45;
         TContainerAncient01__bml_resource = p;
         TContainerAncient01__effect_id_table[1] = 0x46;
     }
     NpcAnimationBinding prm = container_ancient_anim_binding;
     prm.motions = TContainerAncient01__bml_resource->motions;
-    NpcModelRegistry::register_animated_ginja(0x3B, reinterpret_cast<NJS_OBJECT *>(get_bml_model(TContainerAncient01__bml_resource, 0)),
-                                             reinterpret_cast<GinjaTextureList *>(get_bml_texlist(TContainerAncient01__bml_resource, 0)), &prm,
+    NpcModelRegistry::register_animated_ginja(0x3B, reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TContainerAncient01__bml_resource, 0)),
+                                             reinterpret_cast<GinjaTextureList *>(get_bml_texlist((BmlResource *)TContainerAncient01__bml_resource, 0)), &prm,
                                              10.0f, TContainerAncient01__data_805DBD14[0]);
 }
 
 void TContainerAncient01::release_static_resource() {
     if (TContainerAncient01__bml_resource != NULL) {
-        free_bin_model_request(TContainerAncient01__bml_resource, 1);
+        delete (BmlResource *)TContainerAncient01__bml_resource;
         TContainerAncient01__bml_resource = NULL;
     }
 }
@@ -632,10 +628,10 @@ void TContainerAncient01::run_task() {
         }
     }
     if (static_cast<const void *>(current_motion) == get_bml_motion(TContainerAncient01__bml_resource, 0)) {
-        this->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(TContainerAncient01__bml_resource, 0));
+        this->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TContainerAncient01__bml_resource, 0));
     }
     if (static_cast<const void *>(current_motion) == get_bml_motion(TContainerAncient01__bml_resource, 1)) {
-        this->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(TContainerAncient01__bml_resource, 1));
+        this->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TContainerAncient01__bml_resource, 1));
     }
     ((TObject *)arg0)->TObject::run_task();
 }
@@ -856,8 +852,8 @@ TContainerAncient01R::TContainerAncient01R(TObject *parent, void *set_data) : TO
 
     m_name = TContainerAncient01R__name;
     self->m5(set_data);
-    self->x34 = get_bml_model(TContainerAncient01R__bml_resource, 0);
-    self->x24 = get_bml_texlist(TContainerAncient01R__bml_resource, 0);
+    self->x34 = (saddr)get_bml_model((BmlResource *)TContainerAncient01R__bml_resource, 0);
+    self->x24 = (saddr)get_bml_texlist((BmlResource *)TContainerAncient01R__bml_resource, 0);
     self->animTbl = (void *)TContainerAncient01__anim_table;
     ((TObjMotion *)self)->set_field_d8((saddr)self->animTbl);
     self->motion_list = TContainerAncient01R__bml_resource->motions;
@@ -935,10 +931,10 @@ void TContainerAncient01R::run_task() {
         }
     }
     if (static_cast<const void *>(current_motion) == get_bml_motion(TContainerAncient01R__bml_resource, 0)) {
-        this->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(TContainerAncient01R__bml_resource, 0));
+        this->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TContainerAncient01R__bml_resource, 0));
     }
     if (static_cast<const void *>(current_motion) == get_bml_motion(TContainerAncient01R__bml_resource, 1)) {
-        this->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(TContainerAncient01R__bml_resource, 1));
+        this->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TContainerAncient01R__bml_resource, 1));
     }
     ((TObject *)arg0)->TObject::run_task();
 }

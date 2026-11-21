@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/EnemyBmlResource.h"
 #include "pso/enemy/EnemyTargetCandidate.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -387,14 +388,11 @@ s32 is_split_screen();
 
 s32 get_bml_motion(u32, int);
 
-s32 free_bin_model_request(u32, s32);
-
-uaddr load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 
 
 
 
-uaddr load_enemy_bml_resource_named(BmlResourceDescriptor *, const char *);
+
 
 void __dt__15TObjEnemyCustomFv(void *, int);
 
@@ -797,17 +795,16 @@ Obj_800D3E54 *fn_800D3E54(Obj_800D3E54 *arg0, s16 arg1) {
 }
 
 #define AREA ((Area_800D3C04 *)gyaranzo_bml_resource)
+#pragma push
+#pragma opt_propagation off
 void TLobby::load_gyaranzo_resources() {
     s32 i;
     void *p;
 
     if (TObjEneDD::check_v2_mode() != 0) {
-        gyaranzo_bml_resource = load_enemy_bml_resource_named(&bm_ene_gyaranzo_resource_descriptor, "bm_ene_gyaranzo_a.bml");
+        gyaranzo_bml_resource = (uaddr)load_enemy_bml_resource_named(&bm_ene_gyaranzo_resource_descriptor, "bm_ene_gyaranzo_a.bml");
     } else {
-        p = ::operator new(0x440);
-        if (p != NULL) {
-            p = (void *)load_resource_from_descriptor(p, 5, &bm_ene_gyaranzo_resource_descriptor, 0, 0, 0);
-        }
+        p = new BmlResource(5, &bm_ene_gyaranzo_resource_descriptor, 0, 0, NULL);
         gyaranzo_bml_resource = (uaddr)p;
     }
     for (i = 0; i < 0x16; i++) {
@@ -834,11 +831,12 @@ void TLobby::load_gyaranzo_resources() {
         NpcModelRegistry::register_animated_chunk(0x21, reinterpret_cast<void *>(AREA->res->r48), reinterpret_cast<void *>(AREA->res->texlist), &pos, 18.0f, 0.0f);
     }
 }
+#pragma pop
 
 #undef AREA
 void TObjEneGyaranzo::free_static_instances() {
     if (gyaranzo_bml_resource != 0U) {
-        free_bin_model_request(gyaranzo_bml_resource, 1);
+        delete (BmlResource *)gyaranzo_bml_resource;
         gyaranzo_bml_resource = 0U;
     }
     if ((*(struct VObj_800D3BA0_800D3B38 * *)&gyaranzo_breakup_model_obj) != 0) {
@@ -1314,17 +1312,17 @@ void TObjEneGyaranzo::sub_800D2A68() {
     const TObjChipParams first = {
         {0.5f, 0.04f, 0.28f}, {pos.x, pos.y, pos.z}, {6.0f, 7.0f, 6.0f},
         {0x400, 0x100, 0x400}, {5, 50}, {position.y, 1.0f},
-        ((BmlResource *)gyaranzo_bml_resource)->models[0].model, ((BmlResource *)gyaranzo_bml_resource)->models[0].m_c, 2,
+        (saddr)((BmlResource *)gyaranzo_bml_resource)->models[0].model, (saddr)((BmlResource *)gyaranzo_bml_resource)->models[0].m_c, 2,
     };
     const TObjChipParams second = {
         {0.5f, 0.04f, 0.2f}, {pos.x, pos.y, pos.z}, {5.5f, 6.5f, 5.5f},
         {0x400, 0x100, 0x400}, {4, 50}, {position.y, 1.0f},
-        ((BmlResource *)gyaranzo_bml_resource)->models[1].model, ((BmlResource *)gyaranzo_bml_resource)->models[1].m_c, 2,
+        (saddr)((BmlResource *)gyaranzo_bml_resource)->models[1].model, (saddr)((BmlResource *)gyaranzo_bml_resource)->models[1].m_c, 2,
     };
     const TObjChipParams third = {
         {0.5f, 0.04f, 0.22f}, {pos.x, pos.y, pos.z}, {5.5f, 7.0f, 5.5f},
         {0x400, 0x100, 0x400}, {5, 50}, {position.y, 1.0f},
-        ((BmlResource *)gyaranzo_bml_resource)->models[2].model, ((BmlResource *)gyaranzo_bml_resource)->models[2].m_c, 2,
+        (saddr)((BmlResource *)gyaranzo_bml_resource)->models[2].model, (saddr)((BmlResource *)gyaranzo_bml_resource)->models[2].m_c, 2,
     };
 
     new TObjChip((TObject *)tl_05, &first);

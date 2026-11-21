@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/galgryphon/TBoss5Gryphon.h"
@@ -21,7 +22,7 @@ const char *lbl_805D2818 = "TBoss5GryphonShockWave";
 extern "C" {
 const s32 *gryphon_shockwave_particle_ids_ptr;
 s32 get_bml_motion(s32, s32);
-saddr get_bml_model(s32, s32);
+
 s32 attach_particle_model(s32, s32, s32, s32, s32, f32);
 s32 spawn_particle_effect_with_flags(void *, s32, s32);
 u32 spawn_continuous_particle_effect_with_flags(void *, s32, s32);
@@ -64,7 +65,7 @@ void TBoss5GryphonShockWave::run_task() {
     case 2:
         particle_effect_with_flags = spawn_particle_effect_with_flags((u8 *)&this->m_2c, gryphon_shockwave_particle_ids_ptr[1], 0x40);
         if (particle_effect_with_flags != 0) {
-            attach_particle_model(particle_effect_with_flags, get_bml_model(boss5_gryphon_bml_resource, 0), boss5_gryphon_texture_list, get_bml_motion(boss5_gryphon_bml_resource, 0), 0, 1.0f);
+            attach_particle_model(particle_effect_with_flags, (saddr)get_bml_model((BmlResource *)boss5_gryphon_bml_resource, 0), boss5_gryphon_texture_list, get_bml_motion(boss5_gryphon_bml_resource, 0), 0, 1.0f);
         }
         spawn_particle_effect_with_flags((u8 *)&this->m_2c, gryphon_shockwave_particle_ids_ptr[2], 0x40);
         play_sound_effect(0x40033C13, (u8 *)&this->m_2c, 0, 0);

@@ -4,7 +4,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/BmlResourceLoader.h"
 #include "pso/system/task/TMainTask.h"
 
 #pragma readonly_strings on
@@ -22,17 +21,13 @@ void *TObjNpcMaleFat__create(void *set_data) {
 
 void TObjNpcMaleFat::free_static_model() {
     if (TObjNpcMaleFat__static_model_resource != NULL) {
-        free_bin_model_request(TObjNpcMaleFat__static_model_resource, 1);
+        delete TObjNpcMaleFat__static_model_resource;
         TObjNpcMaleFat__static_model_resource = NULL;
     }
 }
 
 void TObjNpcMaleFat::load_static_resource() {
-    void *memory = ::operator new(0x440);
-    BmlResource *resource = (BmlResource *)memory;
-    if (memory != NULL) {
-        resource = load_resource_from_descriptor(memory, 1, &bm_n_efm_i_body_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(1, &bm_n_efm_i_body_resource_descriptor, 0, 0, NULL);
     TObjNpcMaleFat__static_model_resource = resource;
 }
 
@@ -43,6 +38,6 @@ TObjNpcMaleFat::TObjNpcMaleFat(TObject *parent, void *set_data) : TUnk_804A9F50(
     this->apply_set_data(set_data);
     ((TObjPlayer *)this)->init_position_vectors();
     this->model = (void *)TObjNpcMaleFat__static_model_resource->models->model;
-    this->texlist = TObjNpcMaleFat__static_model_resource->models->m_c;
+    this->texlist = (saddr)TObjNpcMaleFat__static_model_resource->models->m_c;
     this->setup_common();
 }

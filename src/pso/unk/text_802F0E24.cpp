@@ -1,23 +1,11 @@
 #include "types.h"
+#include "pso/system/BmlResource.h"
 #include "pso/unk/text_802F0E24.h"
 #include "pso/unk/TLobby.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/BmlResourceLoader.h"
 
 #define ARRAY_COUNT(arr) (sizeof(arr) / sizeof((arr)[0]))
-
-struct BmlModelEntry {
-    u32 flags;
-    s32 unk4;
-    void *model;
-    void *texture_list;
-};
-
-struct BmlResource {
-    u8 pad0[0x42C];
-    BmlModelEntry *models;
-};
 
 extern "C" {
 void release_texture_list(void *);
@@ -78,20 +66,17 @@ void free_boss7_common_resources(void) {
         release_texture_list(boss7_common_texture_list);
         boss7_common_texture_list = 0;
     }
-    free_bin_model_request(boss7_common_bml_resource, 1);
+    delete (BmlResource *)boss7_common_bml_resource;
     boss7_common_bml_resource = 0;
 }
 
 void load_boss7_common_resources(void) {
     void *p;
 
-    p = ::operator new(0x440);
-    if (p != NULL) {
-        p = load_resource_from_descriptor(p, 5, &boss7_common_resource_descriptor, 0, 0, 0);
-    }
+    p = new BmlResource(5, &boss7_common_resource_descriptor, 0, 0, NULL);
 
     boss7_common_bml_resource = p;
-    boss7_common_texture_list = ((BmlResource *)p)->models[0].texture_list;
+    boss7_common_texture_list = ((BmlResource *)p)->models[0].m_c;
 
     TLobby::load_texture_pvm_file("obj_boss7_common.gvm", (saddr)boss7_common_texture_list);
     TParticleCtrl::init_heap(0x50000);

@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/npc/NpcModelRegistry.h"
@@ -72,15 +73,15 @@ struct VObj_8031E650 *boss3_volopt_instance;
 s32 recon_intro_stage;
 u8 *recon_model_matrix_ptr;
 
-saddr get_bml_texlist(BmlResource *resource, s32 index);
+
 s32 push_matrix();
 void TObjEneRecon::render_shadows() {
   saddr bml_model;
   if (TObjEneRecon__recobox_static_instance != NULL)
   {
     s32 temp_r30;
-    bml_model = get_bml_model(TObjEneRecon__recobox_static_instance, 2);
-    temp_r30 = get_bml_texlist(TObjEneRecon__recobox_static_instance, 2);
+    bml_model = (saddr)get_bml_model((BmlResource *)TObjEneRecon__recobox_static_instance, 2);
+    temp_r30 = (saddr)get_bml_texlist((BmlResource *)TObjEneRecon__recobox_static_instance, 2);
     push_matrix();
     translate_matrix(0, *((f32 *) (((s8 *) this) + 0x38)), *((f32 *) (((s8 *) this) + 0x3C)), *((f32 *) (((s8 *) this) + 0x40)));
     rotate_matrix_zyx(0, this->rotation_x, this->rotation_y, this->rotation_z);
@@ -1669,7 +1670,7 @@ typedef struct RecoveredFields_8031E708_temp_r5 RecoveredFields_8031E708_temp_r5
 void TObjEneRecon::load_resources() {
   u8 *temp_r5;
   TObjEneRecon__recobox_static_instance = (BmlResource *)TObjEneRecobox__sub_803201D0();
-  boss3_volopt_instance = (VObj_8031E650 *)new TUnk_8048FA00((long)TObjEneRecon__recobox_static_instance->models->model);
+  boss3_volopt_instance = (VObj_8031E650 *)new TUnk_8048FA00((long)(saddr)TObjEneRecon__recobox_static_instance->models->model);
   recon_intro_stage = 0;
   recon_model_matrix_ptr = 0;
   lbl_805D6AF0 = (saddr)TLobby::register_boss(0x42);

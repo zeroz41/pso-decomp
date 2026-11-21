@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/EnemyBmlResource.h"
 #include "types.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -648,7 +649,6 @@ struct VObj_14_c1c33b : VBase_14_c1c33b {
 };
 
 u16 get_entity_id(void *);
-void free_bin_model_request(void*, int);
 s32 TObjPlayer__sub_800A04F0(void *);
 void TObjPlayer__sub_800A0554(void *);
 void enemy_set_target_id(void *, u16);
@@ -946,7 +946,6 @@ struct ResMgr_803350AC {
 // The motion-binding block TLobby::spawn_npc_enemy takes (same layout as
 // MojaAnimationBinding and GeeAnimationBinding).
 
-saddr load_enemy_bml_resource(u8 *desc);
 extern f32 lbl_805434D0[3];
 extern const s32 lbl_804774A0[2];
 void TObjEneMorfos__sub_803350AC(void);
@@ -956,9 +955,9 @@ void TObjEneMorfos__sub_803350AC(void) {
     s32 i;
 
     if (is_split_screen() != 0) {
-        mgr = (ResMgr_803350AC *)load_enemy_bml_resource((u8 *)&bm_ene_morfos_low_resource_descriptor);
+        mgr = (ResMgr_803350AC *)load_enemy_bml_resource(&bm_ene_morfos_low_resource_descriptor);
     } else {
-        mgr = (ResMgr_803350AC *)load_enemy_bml_resource((u8 *)&morfos_resource_descriptor);
+        mgr = (ResMgr_803350AC *)load_enemy_bml_resource(&morfos_resource_descriptor);
     }
     TObjEneMorfos__instance = (saddr)mgr;
     lbl_805434D0[0] = 0.0f;
@@ -998,7 +997,7 @@ void *TObjEneMorfos::create() {
 void TObjEneMorfos::unload_static_data() {
     TObjEneMorfosArm__sub_8033542C();
     if ((u32) (*(u32 *)&TObjEneMorfos__instance) != 0U) {
-        free_bin_model_request((void*)(*(uaddr *)&TObjEneMorfos__instance), 1);
+        delete (BmlResource *)(*(uaddr *)&TObjEneMorfos__instance);
         (*(u32 *)&TObjEneMorfos__instance) = 0U;
     }
 }

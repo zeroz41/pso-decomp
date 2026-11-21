@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
@@ -84,8 +85,6 @@ static const Ent_8035CB88 boss6_thanks_particle_emitter_table[4] = {
 
 extern "C" {
 s32 get_bml_motion(void *, s32);
-saddr get_bml_texlist(void *, s32);
-saddr get_bml_model(void *, s32);
 void TBoss6Thanks__sub_8035CB40(void);
 void TBoss6Thanks__sub_8035CCAC(saddr arg0);
 f32 xyz_distance(const void *, const void *);
@@ -256,12 +255,12 @@ TBoss6Thanks::TBoss6Thanks(TObject *arg1) : TObject(arg1) {
     u8 *fish_count;
     ((TBoss6Thanks *)boss6_thanks)->m_name = TBoss6Thanks__class_name;
     fish_count = (u8 *)(TObjFish::get_fish_count());
-    *(s32 *)((s8 *)boss6_thanks + 0x38) = get_bml_model(fish_count, 7);
-    boss6_thanks->texture0 = get_bml_texlist(fish_count, 7);
+    *(s32 *)((s8 *)boss6_thanks + 0x38) = (saddr)get_bml_model((BmlResource *)fish_count, 7);
+    boss6_thanks->texture0 = (saddr)get_bml_texlist((BmlResource *)fish_count, 7);
     *(s32 *)((s8 *)boss6_thanks + 0x48) = get_bml_motion(fish_count, 9);
     *(s32 *)((s8 *)boss6_thanks + 0x4C) = get_bml_motion(fish_count, 0xB);
-    *(s32 *)((s8 *)boss6_thanks + 0x3C) = get_bml_model(fish_count, 9);
-    boss6_thanks->texture1 = get_bml_texlist(fish_count, 9);
+    *(s32 *)((s8 *)boss6_thanks + 0x3C) = (saddr)get_bml_model((BmlResource *)fish_count, 9);
+    boss6_thanks->texture1 = (saddr)get_bml_texlist((BmlResource *)fish_count, 9);
     *(s32 *)((s8 *)boss6_thanks + 0x50) = get_bml_motion(fish_count, 0xA);
     TBoss6Thanks__sub_8035CCAC((saddr)((saddr) boss6_thanks));
     boss6_thanks->m_1c = 0;

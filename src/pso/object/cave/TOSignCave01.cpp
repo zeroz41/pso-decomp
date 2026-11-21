@@ -6,7 +6,8 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/object/cave/TOSignCave01.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/system/BmlResourceLoad.h"
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
@@ -38,16 +39,13 @@ void *TOSignCave01::create(void *set_data) {
 
 void TOSignCave01::release_static_resource() {
     if (TOSignCave01__bml_resource != NULL) {
-        free_bin_model_request(TOSignCave01__bml_resource, 1);
+        delete TOSignCave01__bml_resource;
         TOSignCave01__bml_resource = NULL;
     }
 }
 
 void TOSignCave01::load_shared_resource() {
-    BmlResource *resource = (BmlResource *)::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 1, &bm_fs_obj_dokanban01_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(1, &bm_fs_obj_dokanban01_resource_descriptor, 0, 0, NULL);
     TOSignCave01__bml_resource = resource;
 }
 
@@ -57,7 +55,7 @@ TOSignCave01::TOSignCave01(TObject *parent, void *set_data) : TObjMapObject(pare
     m_name = TOSignCave01__class_name;
     apply_object_set_data(set_data);
     model = (void *)TOSignCave01__bml_resource->models[0].model;
-    texlist = TOSignCave01__bml_resource->models[0].m_c;
+    texlist = (saddr)TOSignCave01__bml_resource->models[0].m_c;
     view_range = 500.0f;
     model_radius = 100.0f;
 }

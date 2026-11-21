@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 // The seabed tanks: the set object TObjSeabedSuiso_CH, the breakable tank
 // TObjSeabedSuisoBrakable and its debris chip TObjSuisoChip. The tank
 // resources they share are loaded by TObjSeabedSuisoBrakable.cpp.
@@ -24,7 +25,6 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/BmlResourceLoader.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/render/GinjaUvScroll.h"
@@ -255,7 +255,7 @@ s32 TObjSeabedSuisoBrakable::last_uv_scroll_tick;
 
 void *TObjSeabedSuisoBrakable::get_model(int index) {
     if (bml_resource != NULL) {
-        return (void *)get_bml_model(bml_resource, index);
+        return (void *)get_bml_model((BmlResource *)bml_resource, index);
     }
     return NULL;
 }

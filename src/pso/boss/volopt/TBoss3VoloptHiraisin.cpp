@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #include "types.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
@@ -141,7 +142,7 @@ void TBoss3VoloptHiraisin::start_attack() {
     s16 max_hp;
     u32 flags;
     TBoss3Volopt::create_breakup_mdl((saddr)volopt_hiraisin_breakup_model, (saddr)&volopt_hiraisin_breakup_params,
-                                     get_bml_texlist(volopt_hiraisin_resources, 0x10), (saddr)&m_2fc, rotation_y);
+                                     (saddr)get_bml_texlist((BmlResource *)volopt_hiraisin_resources, 0x10), (saddr)&m_2fc, rotation_y);
     ((TObjPlayer *)((Vec *)&m_2fc))->trigger_dell_biter_events();
     play_sound_effect(0x4001C112, &position, 0, 0);
     m_388 &= ~1;
@@ -254,8 +255,8 @@ void TBoss3VoloptHiraisin::render() {
             scale = 1.0f - 0.02202643f * (position.y - 4.6f);
             translate_matrix(0, position.x, 4.5f, position.z);
             scale_matrix(NULL, scale, scale, scale);
-            TObjFish::set_global_param(get_bml_texlist(volopt_hiraisin_resources, 0));
-            draw_chunk_object((void *)get_bml_model(volopt_hiraisin_resources, 0));
+            TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)volopt_hiraisin_resources, 0));
+            draw_chunk_object((void *)get_bml_model((BmlResource *)volopt_hiraisin_resources, 0));
             pop_matrix();
         }
     }
@@ -318,9 +319,9 @@ void TBoss3VoloptHiraisin::destroy() {
 void TBoss3VoloptHiraisin::init_models() {
     TUnk_8048FA00 *breakup;
     volopt_hiraisin_resources = boss3_volopt_resources;
-    volopt_hiraisin_spin_node = (ModelNode *)find_model_node(get_bml_model(boss3_volopt_resources, 0x10), 0xB);
+    volopt_hiraisin_spin_node = (ModelNode *)find_model_node((saddr)get_bml_model((BmlResource *)boss3_volopt_resources, 0x10), 0xB);
     volopt_hiraisin_spin_node->flags &= ~2;
-    breakup = new TUnk_8048FA00(get_bml_model(volopt_hiraisin_resources, 0x10));
+    breakup = new TUnk_8048FA00((saddr)get_bml_model((BmlResource *)volopt_hiraisin_resources, 0x10));
     volopt_hiraisin_breakup_model = breakup;
     volopt_hiraisin_stats = TLobby::register_boss(0x24);
     volopt_hiraisin_stats_b = TLobby::dispatch_shared_handler_b(0x24);
@@ -387,5 +388,5 @@ void TBoss3VoloptHiraisin::copy_position() {
 
 void TBoss3VoloptHiraisin::load_params_from_table(s32 index) {
     model = (void *)volopt_hiraisin_resources->models[index].model;
-    texlist = volopt_hiraisin_resources->models[index].m_c;
+    texlist = (saddr)volopt_hiraisin_resources->models[index].m_c;
 }

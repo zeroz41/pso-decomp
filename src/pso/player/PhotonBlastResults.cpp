@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/BmlResource.h"
 #include "pso/item/mag/TItemMag.h"
 #include "types.h"
 #include "pso/object/base/TObjChara.h"
@@ -926,16 +927,14 @@ void *TObjPlayer::get_photon_blast_entry(int kind) {
 
 u8 *photon_blast_shared_resource;
 extern "C" {
-void free_bin_model_request(uaddr, int);
 extern PhotonBlastLoadCallback photon_blast_load_callback_table[10];
 extern u8 *photon_blast_shared_resource;
-u8 *load_resource_from_descriptor(u8 *, int, void *, int, int, int);
 s32 run_load_callback_table(void *, int);
 void TObjPlayer__sub_801AA3B4(void) {
     s32 i;
     TLobby::call_funcs_reverse(photon_blast_load_callback_table, 0x50);
     if (photon_blast_shared_resource != NULL) {
-        free_bin_model_request((uaddr)photon_blast_shared_resource, 1);
+        delete (BmlResource *)photon_blast_shared_resource;
         photon_blast_shared_resource = NULL;
     }
     for (i = 0; i < 4; i++) {
@@ -958,10 +957,7 @@ void TObjPlayer::clear_photon_blast_slots() {
 void load_photon_blast_resources(void) {
     u8 *p;
     s32 i;
-    p = (u8 *)::operator new(0x440);
-    if (p != NULL) {
-        p = load_resource_from_descriptor(p, 1, &photon_blast_resource_descriptor, 0, 0, 0);
-    }
+    p = (u8 *)new BmlResource(1, &photon_blast_resource_descriptor, 0, 0, NULL);
     photon_blast_shared_resource = p;
     run_load_callback_table(photon_blast_load_callback_table, 0x50);
     for (i = 0; i < 4; i++) {

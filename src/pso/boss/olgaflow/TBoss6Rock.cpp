@@ -1,3 +1,5 @@
+#include "pso/system/BmlAccessors.h"
+#include "pso/system/BmlResourceLoader.h"
 // Compiled -inline off,deferred: the functions are written from the last
 // (0x80354B18 load_resources) back to the first (0x803537D4), so CodeWarrior
 // emits them in address order and the TUnk_804F1280 vtable before TBoss6Rock's.
@@ -75,10 +77,7 @@ struct RockRing {
 void TBoss6Rock::load_resources() {
     BmlResource *resource;
     s32 i;
-    resource = (BmlResource *)::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 5, &boss6_rock_resource_descriptor, 0, 0, 0);
-    }
+    resource = new BmlResource(5, &boss6_rock_resource_descriptor, 0, 0, NULL);
     TBoss6Rock__data_805D6EF0 = resource;
     TBoss6Rock__data_805D6EF4 = (GinjaTextureList *)load_gvm_texture_file((saddr) "boss06_rock_dat.gvm");
     if (TBoss6Rock__data_805D6EF0 == NULL || TBoss6Rock__data_805D6EF4 == NULL) {
@@ -96,7 +95,7 @@ void TBoss6Rock::load_resources() {
 
 void TBoss6Rock::free_data() {
     if (TBoss6Rock__data_805D6EF0 != NULL) {
-        free_bin_model_request(TBoss6Rock__data_805D6EF0, 1);
+        delete TBoss6Rock__data_805D6EF0;
         TBoss6Rock__data_805D6EF0 = NULL;
     }
     if (TBoss6Rock__data_805D6EF4 != NULL) {
@@ -172,7 +171,7 @@ void TBoss6Rock::run_task() {
         break;
     }
     if (m_e4 != NULL) {
-        s32 model = get_bml_model(TBoss6Rock__data_805D6EF0, TBoss6Rock__data_80479258[m_b4].model_id);
+        s32 model = (saddr)get_bml_model(TBoss6Rock__data_805D6EF0, TBoss6Rock__data_80479258[m_b4].model_id);
         u64 pos = (saddr)&position;
         m_e4->set_target(m_c4 != 0, (Vec *)pos, &rotation_x, (saddr)TBoss6Rock__data_805D6EF4, model,
                          TBoss6Rock__data_80479258[m_b4].radius);

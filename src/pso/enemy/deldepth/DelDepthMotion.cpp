@@ -1,3 +1,5 @@
+#include "pso/system/BmlAccessors.h"
+#include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -14,9 +16,7 @@ struct DelDepthModelMotion { s32 model; s32 motion; };
 struct DelDepthPairBinding { DelDepthModelMotion first, second; f32 speed; };
 
 extern "C" {
-saddr get_bml_texlist(BmlResource *resource, s32 index);
 s32 find_nearest_hittable_enemy__10TObjPlayerFiPvf(void *, void *, f32);
-saddr get_bml_model(BmlResource *resource, s32 index);
 AnimationMotion *get_bml_motion(BmlResource *resource, s32 index);
 DelDepthMotionBinding lbl_804E8760[] = {{4, 0.3f}, {4, 0.3f}, {2, 0.6f}, {3, 0.4f}};
 DelDepthPairBinding lbl_804E8780[] = {{{1, 1}, {0, 8}, 0.6f}, {{1, 0}, {0, 7}, 0.6f}};
@@ -48,7 +48,7 @@ void DelDepthMotion::draw_model_part() {
     temp_r0 = motion;
     if (temp_r0 != -1) {
         if (temp_r0 < 6) {
-            TObjFish::set_global_param(get_bml_texlist((BmlResource *)((saddr)TObjEneDelDepth::get_data()), 0));
+            TObjFish::set_global_param((saddr)get_bml_texlist((BmlResource *)((saddr)TObjEneDelDepth::get_data()), 0));
             actor->draw();
             return;
         }
@@ -133,7 +133,7 @@ void DelDepthMotion::set_motion(s32 arg1) {
         saddr data = (saddr)TObjEneDelDepth::get_data();
         DelDepthMotionBinding *e = &lbl_804E8760[motion] - 6;
         model = (void *)get_bml_model((BmlResource *)data, 1);
-        texture = get_bml_texlist((BmlResource *)data, 1);
+        texture = (saddr)get_bml_texlist((BmlResource *)data, 1);
         animation = (AnimationMotion *)get_bml_motion((BmlResource *)data, e->motion);
         endFrame = animation->frameCount;
         speed = e->speed;
@@ -143,11 +143,11 @@ void DelDepthMotion::set_motion(s32 arg1) {
         DelDepthPairBinding *e = &lbl_804E8780[motion] - 10;
         DelDepthModelMotion *q;
         model = (void *)get_bml_model((BmlResource *)data, e->first.model);
-        texture = get_bml_texlist((BmlResource *)data, e->first.model);
+        texture = (saddr)get_bml_texlist((BmlResource *)data, e->first.model);
         animation = (AnimationMotion *)get_bml_motion((BmlResource *)data, e->first.motion);
         q = &e->second;
         secondModel = (void *)get_bml_model((BmlResource *)data, q->model);
-        secondTexture = get_bml_texlist((BmlResource *)data, q->model);
+        secondTexture = (saddr)get_bml_texlist((BmlResource *)data, q->model);
         secondAnimation = (AnimationMotion *)get_bml_motion((BmlResource *)data, q->motion);
         endFrame = secondAnimation->frameCount;
         speed = e->speed;

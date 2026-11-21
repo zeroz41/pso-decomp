@@ -41,8 +41,8 @@ void TObjVoloptPillar::sub_80049FD8() {
         {0x400, 0x100, 0x400},
         {4, 60},
         {0.0f, 1.0f},
-        boss3_volopt_resources->models[0xE].model,
-        boss3_volopt_resources->models[0xE].m_c,
+        (saddr)boss3_volopt_resources->models[0xE].model,
+        (saddr)boss3_volopt_resources->models[0xE].m_c,
         2,
     };
     new TObjChip(tl_05, (TObjChipParams *)&params);
@@ -170,10 +170,10 @@ void TObjVoloptPillar::run_task() {
 }
 
 void TObjVoloptPillar::cache_target_values() {
-    volopt_pillar_model = boss3_volopt_resources->models[0x17].model;
-    volopt_pillar_textures = boss3_volopt_resources->models[0x17].m_c;
-    volopt_pillar_base_model = boss3_volopt_resources->models[0x15].model;
-    volopt_pillar_base_textures = boss3_volopt_resources->models[0x15].m_c;
+    volopt_pillar_model = (saddr)boss3_volopt_resources->models[0x17].model;
+    volopt_pillar_textures = (saddr)boss3_volopt_resources->models[0x17].m_c;
+    volopt_pillar_base_model = (saddr)boss3_volopt_resources->models[0x15].model;
+    volopt_pillar_base_textures = (saddr)boss3_volopt_resources->models[0x15].m_c;
 }
 
 TObjVoloptPillar::~TObjVoloptPillar() {

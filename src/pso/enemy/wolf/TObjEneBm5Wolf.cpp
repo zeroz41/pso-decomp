@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/EnemyBmlResource.h"
 #include "pso/math/FloatRounding.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -136,7 +137,6 @@ s32 angle_diff_s16(s32, s32);
 s32 free_collision_body_parts(void *);
 s32 init_collision_body_parts(void *, void *, int);
 void *__ct__14TObjCollidableFP7TObject(void *, int);
-void free_bin_model_request(void*, int);
 }
 
 struct Globals_800B8A40 {
@@ -147,8 +147,6 @@ struct Globals_800B8A40 {
     u8 list1[0x8];
 };
 extern "C" {
-saddr load_enemy_bml_resource_named(saddr arg0, saddr arg1);
-saddr load_enemy_bml_resource(u8 *arg0);
 extern s32 lbl_8043B3A8[];
 extern s32 lbl_8043B3B0[];
 extern s32 lbl_8043B3B8[];
@@ -252,9 +250,9 @@ void TObjEneBm5Wolf::load_resources() {
     s32 i;
 
     if (TObjEneDD::check_v2_mode() != 0) {
-        TObjEneBm5Wolf__bml_resource = (BmlResource *)load_enemy_bml_resource_named((saddr)&bm_ene_bm5_wolf_resource_descriptor, (saddr)"bm_ene_bm5_wolf_a.bml");
+        TObjEneBm5Wolf__bml_resource = load_enemy_bml_resource_named(&bm_ene_bm5_wolf_resource_descriptor, "bm_ene_bm5_wolf_a.bml");
     } else {
-        TObjEneBm5Wolf__bml_resource = (BmlResource *)load_enemy_bml_resource((u8 *)&bm_ene_bm5_wolf_resource_descriptor);
+        TObjEneBm5Wolf__bml_resource = load_enemy_bml_resource(&bm_ene_bm5_wolf_resource_descriptor);
     }
     ((TObjEneBm5Wolf *)TObjEneBm5Wolf__pack_member_list)->reset_fields();
     ((TObjEneBm5Wolf *)TObjEneBm5Wolf__instance_list)->reset_fields();
@@ -290,7 +288,7 @@ void *TObjEneBm5Wolf::create(void *arg0) {
 
 void TObjEneBm5Wolf::release_global_805D5120() {
     if (TObjEneBm5Wolf__bml_resource != 0) {
-        free_bin_model_request(TObjEneBm5Wolf__bml_resource, 1);
+        delete TObjEneBm5Wolf__bml_resource;
         TObjEneBm5Wolf__bml_resource = 0;
     }
 }
@@ -482,12 +480,12 @@ void TObjEneBm5Wolf::select_subtype() {
     if (this->parameters[1] >= 1.0f) {
         this->m_3d8 = 1;
         this->model = (void *)TObjEneBm5Wolf__bml_resource->models[1].model;
-        this->texlist = TObjEneBm5Wolf__bml_resource->models[0].m_c;
+        this->texlist = (saddr)TObjEneBm5Wolf__bml_resource->models[0].m_c;
         return;
     }
     this->m_3d8 = 0;
     this->model = (void *)TObjEneBm5Wolf__bml_resource->models[0].model;
-    this->texlist = TObjEneBm5Wolf__bml_resource->models[0].m_c;
+    this->texlist = (saddr)TObjEneBm5Wolf__bml_resource->models[0].m_c;
 }
 
 void TObjEneBm5Wolf::advance_pose_turn(s32 target) {

@@ -1,4 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlResourceLoader.h"
+#include "pso/system/EnemyBmlResource.h"
 #include "pso/animation/MotionContext.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TObject.h"
@@ -174,8 +177,6 @@ void prepare_flight_destination__12TBoss1DragonFPv(u8 *arg0);
 
 s32 get_current_floor();
 uaddr get_player_by_client_id(s32);
-saddr load_enemy_bml_resource(u8 *arg0);
-saddr load_enemy_bml_resource_named(saddr arg0, saddr arg1);
 extern s32 lbl_805D4B24;
 extern s32 TLobby__designated_client_id;
 s32 isV2Mode__12TBoss1DragonFv(void);
@@ -602,7 +603,6 @@ u8 *get_enemy_entity(u16 arg0);
 s32 angle_diff_s16(s32, s32);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 void *init_base__13TUnk_80481B34Fv(void *arg0);
-void free_bin_model_request(void*, int);
 void __ct__13TUnk_804928CCFP7TObjectP8TObjBase(void *);
 s32 update_linked_position__12TObjEneDD_STFf(f32);
 void subtractive_rng_seed(void *, u32);
@@ -673,7 +673,6 @@ int TBoss1Dragon::vfunc_105() { return this->get_target_info(); }
 void TBoss1Dragon::render_shadows() {
     s32 temp_r31;
     s32 var_r31;
-    u8 *temp_r3;
     u8 *temp_r4;
 
     var_r31 = 0;
@@ -5447,7 +5446,7 @@ void TBoss1Dragon::free_resources() {
         TBoss1Dragon__data_805D4B28 = 0U;
     }
     if ((u32) TBoss1Dragon__data_805D4B08 != 0U) {
-        free_bin_model_request((void*)TBoss1Dragon__data_805D4B08, 1);
+        delete (BmlResource *)TBoss1Dragon__data_805D4B08;
         TBoss1Dragon__data_805D4B08 = 0U;
     }
 }
@@ -5487,10 +5486,10 @@ void TBoss1Dragon::load_resources() {
 
     switch (isV2Mode__12TBoss1DragonFv()) {
     case 0:
-        TBoss1Dragon__data_805D4B08 = load_enemy_bml_resource((u8 *)&boss1_dragon_bml_descriptor);
+        TBoss1Dragon__data_805D4B08 = (uaddr)load_enemy_bml_resource(&boss1_dragon_bml_descriptor);
         break;
     case 1:
-        TBoss1Dragon__data_805D4B08 = load_enemy_bml_resource_named((saddr)&boss1_dragon_bml_descriptor, (saddr)((u8 *)"bm_boss1_dragon_a.bml"));
+        TBoss1Dragon__data_805D4B08 = (uaddr)load_enemy_bml_resource_named(&boss1_dragon_bml_descriptor, "bm_boss1_dragon_a.bml");
         break;
     }
     source = ((DragonResource *)TBoss1Dragon__data_805D4B08)->model->root;

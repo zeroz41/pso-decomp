@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #include "types.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/object/base/TObjChara.h"
@@ -39,10 +40,10 @@ TOMineIcon02::TOMineIcon02(TObject *parent, void *set_data) : TOMine(parent) {
     apply_object_set_data(set_data);
     ((TObjPlayer *)this)->init_position_vectors();
     calc_attach_pos();
-    model = (void *)get_bml_model(lbl_805D5A50, 5);
-    texlist = get_bml_texlist(lbl_805D5A50, 5);
-    light_model = (NJS_OBJECT *)get_bml_model(lbl_805D5A50, 0);
-    light_textures = (GinjaTextureList *)get_bml_texlist(lbl_805D5A50, 0);
+    model = (void *)get_bml_model((BmlResource *)lbl_805D5A50, 5);
+    texlist = (saddr)get_bml_texlist((BmlResource *)lbl_805D5A50, 5);
+    light_model = (NJS_OBJECT *)get_bml_model((BmlResource *)lbl_805D5A50, 0);
+    light_textures = (GinjaTextureList *)get_bml_texlist((BmlResource *)lbl_805D5A50, 0);
     mode = 0;
     if (set_params[0] < 0) {
         set_params[0] = 0;

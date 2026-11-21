@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #include "types.h"
 #include <stdlib.h>
 #include "pso/system/task/TMainTask.h"
@@ -6,7 +7,8 @@
 #include "pso/object/mine/TOMonitorMachine01.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
-#include "pso/system/BmlResourceLoad.h"
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/GinjaUvScroll.h"
 #include "pso/system/MatrixOps.h"
@@ -137,17 +139,14 @@ void TOMonitorMachine01::reset_static_state() {
         TOMonitorMachine01__scroll_meshes[i] = NULL;
     }
     if (TOMonitorMachine01__bml_resource != NULL) {
-        free_bin_model_request(TOMonitorMachine01__bml_resource, 1);
+        delete TOMonitorMachine01__bml_resource;
         TOMonitorMachine01__bml_resource = NULL;
     }
 }
 
 void TOMonitorMachine01::load_resources() {
     NJS_OBJECT *screen;
-    BmlResource *resource = (BmlResource *)::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 1, &bm_fs_obj_monitor_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(1, &bm_fs_obj_monitor_resource_descriptor, 0, 0, NULL);
     TOMonitorMachine01__bml_resource = resource;
     screen = ((NJS_OBJECT *)resource->models[0].model)->child->sibling->sibling;
     TOMonitorMachine01__scroll_meshes[1] = screen->model;
@@ -160,8 +159,8 @@ TOMonitorMachine01::~TOMonitorMachine01() {}
 TOMonitorMachine01::TOMonitorMachine01(void *set_data) : TObjMapObject(tl_05) {
     m_name = TOMonitorMachine01__class_name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model(TOMonitorMachine01__bml_resource, 0);
-    texlist = get_bml_texlist(TOMonitorMachine01__bml_resource, 0);
+    model = (void *)get_bml_model((BmlResource *)TOMonitorMachine01__bml_resource, 0);
+    texlist = (saddr)get_bml_texlist((BmlResource *)TOMonitorMachine01__bml_resource, 0);
     view_range = 500.0f;
     model_radius = 15.0f;
     actorFlags |= 0x40000000;

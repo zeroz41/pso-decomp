@@ -10,6 +10,8 @@ struct BmlResourceDescriptor {
     const char *const *motion_filenames;
     s16 model_count;
     s16 motion_count;
+
+    void copy_from(const BmlResourceDescriptor &other);
 };
 
 LAYOUT_ASSERT(BmlResourceDescriptor_size, sizeof(BmlResourceDescriptor) == 0x10);

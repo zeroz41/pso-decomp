@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResourceLoader.h"
 #include "pso/system/BmlResource.h"
 #include "pso/render/ModelDrawContext.h"
@@ -307,11 +308,11 @@ TObjButterflyLobby::TObjButterflyLobby(TObject *parent, ObjectSetData *set_data)
     }
     *(f32 *)((s8 *)this + 0x94) = 1.0f;
     if (set_data->set_params[0] < 1) {
-        lobby_model = (NJS_OBJECT *)get_bml_model(lobby_butterfly_bml_resource, 0);
-        model_textures = (GinjaTextureList *)get_bml_texlist(lobby_butterfly_bml_resource, 0);
+        lobby_model = (NJS_OBJECT *)get_bml_model((BmlResource *)lobby_butterfly_bml_resource, 0);
+        model_textures = (GinjaTextureList *)get_bml_texlist((BmlResource *)lobby_butterfly_bml_resource, 0);
     } else {
-        lobby_model = (NJS_OBJECT *)get_bml_model(lobby_butterfly_bml_resource, 1);
-        model_textures = (GinjaTextureList *)get_bml_texlist(lobby_butterfly_bml_resource, 1);
+        lobby_model = (NJS_OBJECT *)get_bml_model((BmlResource *)lobby_butterfly_bml_resource, 1);
+        model_textures = (GinjaTextureList *)get_bml_texlist((BmlResource *)lobby_butterfly_bml_resource, 1);
     }
     init_params();
 }
@@ -323,16 +324,13 @@ void *TObjButterflyLobby__create(void *arg0) {
 
 void TObjButterflyLobby::destroy_instance() {
     if (lobby_butterfly_bml_resource != NULL) {
-        free_bin_model_request(lobby_butterfly_bml_resource, 1);
+        delete (BmlResource *)lobby_butterfly_bml_resource;
         lobby_butterfly_bml_resource = NULL;
     }
 }
 
 void load_lobby_butterfly_bml_resource(void) {
-    BmlResource *resource = (BmlResource *)::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 1, &bm_butterfly_lobby_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(1, (BmlResourceDescriptor *)&bm_butterfly_lobby_resource_descriptor, 0, 0, NULL);
     lobby_butterfly_bml_resource = resource;
 }
 

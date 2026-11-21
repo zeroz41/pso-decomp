@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #include "types.h"
 #include "pso/object/lobby/TObjLobbyMain.h"
 #include "pso/system/task/TMainTask.h"
@@ -21,7 +22,6 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
 #include <dolphin/base/PPCArch.h>
-#include "pso/system/BmlResourceLoad.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 
 // Written from its last function back: the unit is built -inline off,deferred
@@ -116,22 +116,19 @@ TObjLobbyMain::~TObjLobbyMain() {
 }
 
 void TObjLobbyMain::load_resources() {
-    void *resource = ::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 5, &bm_obj_lobby_main_resource_descriptor, 0, 0, 0);
-    }
+    void *resource = new BmlResource(5, &bm_obj_lobby_main_resource_descriptor, 0, 0, NULL);
     model_resource = (BmlResource *)resource;
     lobby_texlist = TLobby::get_lobby_texlist();
-    computer_screen_model = (NJS_CNK_MODEL *)((NJS_OBJECT *)get_bml_model(model_resource, 6))
+    computer_screen_model = (NJS_CNK_MODEL *)((NJS_OBJECT *)get_bml_model((BmlResource *)model_resource, 6))
         ->child->sibling->sibling->sibling->sibling->sibling->sibling->model;
-    computer_screen_model_b = (NJS_CNK_MODEL *)((NJS_OBJECT *)get_bml_model(model_resource, 2))
+    computer_screen_model_b = (NJS_CNK_MODEL *)((NJS_OBJECT *)get_bml_model((BmlResource *)model_resource, 2))
         ->child->sibling->sibling->sibling->model;
     computer_last_frame_tick = 0;
 }
 
 void TObjLobbyMain::free_resources() {
     if (model_resource != NULL) {
-        free_bin_model_request(model_resource, 1);
+        delete (BmlResource *)model_resource;
         model_resource = NULL;
     }
 }
@@ -222,9 +219,9 @@ void TObjLobbyMain::render() {
         index = model_index;
         motion = lobby_main_model_motions[index];
         if (motion != 5) {
-            draw_ginja_model_with_motion((void *)(get_bml_model(model_resource, model_index)), (void *)(get_bml_motion(model_resource, motion)), (f32)animation_frame);
+            draw_ginja_model_with_motion((void *)(get_bml_model((BmlResource *)model_resource, model_index)), (void *)(get_bml_motion(model_resource, motion)), (f32)animation_frame);
         } else {
-            draw_ginja_object((void *)get_bml_model(model_resource, index));
+            draw_ginja_object((void *)get_bml_model((BmlResource *)model_resource, index));
         }
         pop_matrix();
     }

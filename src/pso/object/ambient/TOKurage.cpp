@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #include "types.h"
 #include <stdlib.h>
 #include "pso/system/task/TMainTask.h"
@@ -12,7 +13,8 @@
 #include "pso/player/TObjPlayer_803E1A58.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/render/model_render_state.h"
-#include "pso/system/BmlResourceLoad.h"
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/ChunkMaterialColor.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/system/MatrixOps.h"
@@ -312,16 +314,13 @@ void *TOKurage::create(void *set_data) {
 
 void TOKurage::destroy_static_instance() {
     if (TOKurage__bml_resource != NULL) {
-        free_bin_model_request(TOKurage__bml_resource, 1);
+        delete TOKurage__bml_resource;
         TOKurage__bml_resource = NULL;
     }
 }
 
 void TOKurage::load_static_resource() {
-    BmlResource *resource = (BmlResource *)::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 1, &bm_fs_obj_kurage_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(1, &bm_fs_obj_kurage_resource_descriptor, 0, 0, NULL);
     TOKurage__bml_resource = resource;
 }
 
@@ -330,8 +329,8 @@ TOKurage::~TOKurage() {}
 TOKurage::TOKurage(TObject *parent, void *set_data) : TObjMapObject(parent) {
     m_name = TOKurage__class_name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model(TOKurage__bml_resource, 0);
-    texlist = get_bml_texlist(TOKurage__bml_resource, 0);
+    model = (void *)get_bml_model((BmlResource *)TOKurage__bml_resource, 0);
+    texlist = (saddr)get_bml_texlist((BmlResource *)TOKurage__bml_resource, 0);
     motion = get_bml_motion(TOKurage__bml_resource, 0);
     motion2 = get_bml_motion(TOKurage__bml_resource, 1);
     animation_step = 0.5f;

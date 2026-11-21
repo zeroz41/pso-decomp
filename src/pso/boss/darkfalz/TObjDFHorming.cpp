@@ -4,6 +4,8 @@
 #include "pso/object/ending/TObjOnlineEnding_802E4B80.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/system/vector.h"
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
@@ -826,7 +828,6 @@ typedef struct Msg_8004BFA4 {
 } Msg_8004BFA4;
 
 extern "C" {
-u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void TBoss4Type2__sub_80056EA8(void *, s32);
 void TBoss4Type3__sub_80059DCC(TBoss4Type3 *self, u32 packed);
 u8 *get_enemy_entity(u16 arg0);
@@ -838,7 +839,6 @@ s32 __ct__9TObjEnemyFP7TObject();
 void *fn_8030A83C(void *arg0);
 s32 TBoss4DarkFalz__ct(saddr a0, s32 arg1, saddr a2);
 int TBoss4DarkFalz__sub_8030AD38(void);
-int free_bin_model_request(void*, void*);
 s32 __ct__11TObjControlFP7TObject(s32, s32);
 
 void TBoss4DarkFalz::render() {  }
@@ -1009,20 +1009,14 @@ void handle_6x19_dark_falz_actions(Msg_8004BFA4 *arg0) {
     }
 }
 
-void TBoss4DarkFalz::cleanup_global() { TBoss4DarkFalz::free_global_instance(); TBoss4DarkFalz__sub_8030AD38(); free_bin_model_request((void*)darkfalz_dat_resource, (void*)1); darkfalz_dat_resource = 0; }
+void TBoss4DarkFalz::cleanup_global() { TBoss4DarkFalz::free_global_instance(); TBoss4DarkFalz__sub_8030AD38(); delete (BmlResource *)darkfalz_dat_resource; darkfalz_dat_resource = 0; }
 
 extern saddr tl_04;
 
 void TBoss4DarkFalz::load_resources() {
-    saddr temp_r3;
-    saddr var_r0;
-    temp_r3 = (saddr)::operator new(0x440);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &darkfalz_dat_resource_descriptor, 0, 0, 0));
-    }
-    (*(u8 * *)&darkfalz_dat_resource) = (unsigned char *) ((void *) var_r0);
-    if ((u32) var_r0 != 0U) {
+    BmlResource *resource = new BmlResource(5, &darkfalz_dat_resource_descriptor, 0, 0, NULL);
+    darkfalz_dat_resource = (saddr)resource;
+    if (resource != NULL) {
         TBoss4DarkFalz::init_uro_link();
         fn_802E52AC();
     }

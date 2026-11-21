@@ -1,3 +1,5 @@
+#include "pso/system/EnemyBmlResource.h"
+#include "pso/system/BmlResource.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/system/BmlResourceLoad.h"
@@ -273,7 +275,6 @@ u8 *get_enemy_entity(u16);
 s32 subtract_vector(void *, void *);
 extern s32 registered_player_count;
 extern s32 lbl_805D5870;
-saddr load_enemy_bml_resource_named(saddr arg0, saddr arg1);
 extern saddr lbl_805D5140;
 extern uaddr TObjGrass__bml_resource;
 extern saddr grass_combat_stats_handle;
@@ -410,8 +411,8 @@ struct Grass_800BF19C : VObj_18_ca64a0 {
 
 void TObjGrass::init_from_table_entry(s32 i) {
     O_800BFB8C *self = (O_800BFB8C *)this;
-    self->f34 = TObjGrass__resource_bundle->models[i].model;
-    self->f24 = TObjGrass__resource_bundle->models[i].m_c;
+    self->f34 = (saddr)TObjGrass__resource_bundle->models[i].model;
+    self->f24 = (saddr)TObjGrass__resource_bundle->models[i].m_c;
 }
 void TObjGrass__sub_800BFB68(O_800BFB68 *self) {
     s32 i;
@@ -482,12 +483,9 @@ TObjGrass::~TObjGrass() {
 void TObjGrass::load_resources() {
     u8 *p;
     if (TObjEneDD::check_v2_mode() != 0) {
-        TObjGrass__resource_bundle = (BmlResource *)load_enemy_bml_resource_named((saddr)&bm_ene_grass_resource_descriptor, (saddr)((void *)"bm_ene_grass_a.bml"));
+        TObjGrass__resource_bundle = (BmlResource *)load_enemy_bml_resource_named(&bm_ene_grass_resource_descriptor, "bm_ene_grass_a.bml");
     } else {
-        p = (u8 *)::operator new(0x440);
-        if (p != NULL) {
-            p = (u8 *)load_resource_from_descriptor(p, 1, &bm_ene_grass_resource_descriptor, 0, 0, 0);
-        }
+        p = (u8 *)new BmlResource(1, (BmlResourceDescriptor *)&bm_ene_grass_resource_descriptor, 0, 0, NULL);
         TObjGrass__resource_bundle = (BmlResource *)p;
     }
     TObjGrass__render_node_index = 0;
@@ -529,7 +527,7 @@ void TObjGrass::destroy_all() {
         lbl_805D5158 = 0U;
     }
     if (TObjGrass__resource_bundle != NULL) {
-        free_bin_model_request(TObjGrass__resource_bundle, 1);
+        delete (BmlResource *)TObjGrass__resource_bundle;
         TObjGrass__resource_bundle = NULL;
     }
 }

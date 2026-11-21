@@ -1,3 +1,5 @@
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlAccessors.h"
 #include "pso/enemy/deldepth/DelDepthData.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -119,9 +121,7 @@ extern const f32 lbl_805DF2DC;
 
 extern "C" {
 s32 is_split_screen(void);
-BmlResource *load_resource_from_descriptor(BmlResource *, s32, const BmlResourceDescriptor *, s32, s32, s32);
 
-void free_bin_model_request(void*, int);
 
 extern "C" const char lbl_80475BD8[];
 extern "C" const char deldepth_model_name_swim_disc_nj[];
@@ -254,16 +254,10 @@ TObjEneDelDepth *TObjEneDelDepth::create(void *setData) {
 void TObjEneDelDepth::load_assets() {
 
     if (is_split_screen() != 0) {
-        BmlResource *p = (BmlResource *)::operator new(0x440);
-        if (p != NULL) {
-            p = load_resource_from_descriptor(p, 1, &lbl_804E8158, 0, 0, 0);
-        }
+        BmlResource *p = new BmlResource(1, &lbl_804E8158, 0, 0, NULL);
         TObjEneDelDepth__shared_resource = p;
     } else {
-        BmlResource *p = (BmlResource *)::operator new(0x440);
-        if (p != NULL) {
-            p = load_resource_from_descriptor(p, 1, &lbl_804E8104, 0, 0, 0);
-        }
+        BmlResource *p = new BmlResource(1, &lbl_804E8104, 0, 0, NULL);
         TObjEneDelDepth__shared_resource = p;
     }
 
@@ -282,7 +276,7 @@ void TObjEneDelDepth::load_assets() {
 
 void TObjEneDelDepth::free_shared_data() {
     if ((uaddr) TObjEneDelDepth__shared_resource != 0U) {
-        free_bin_model_request((void*)TObjEneDelDepth__shared_resource, 1);
+        delete (BmlResource *)TObjEneDelDepth__shared_resource;
         TObjEneDelDepth__shared_resource = NULL;
     }
 }
@@ -299,8 +293,8 @@ TObjEneDelDepth::TObjEneDelDepth(TObject *parent, void *setData) : TObjEnemy(par
 
 void TObjEneDelDepth::init() {
     u8 *arg0 = (u8 *)this;
-    this->texlist = get_bml_texlist((TObjEneDelDepth__shared_resource = TObjEneDelDepth::get_data()), 0);
-    this->model = (void *)get_bml_model(TObjEneDelDepth__shared_resource, 0);
+    this->texlist = (saddr)get_bml_texlist((BmlResource *)(TObjEneDelDepth__shared_resource = TObjEneDelDepth::get_data()), 0);
+    this->model = (void *)get_bml_model((BmlResource *)TObjEneDelDepth__shared_resource, 0);
     VecCopy(&this->prev_position, (const Vec *)(VecCopy(&this->home_position, (const Vec *)(VecCopy(&this->center, &this->position)))));
     this->collisionBody = (CollisionBody *)init_collision_body_parts(arg0, TObjEneDelDepth_collision_body_parts, 1);
     ((TObjMotion *)arg0)->set_field_d8((saddr)lbl_804E8194);
@@ -1275,8 +1269,8 @@ void TObjEneDelDepthBomb::render() {
         this->queue_destruction();
         return;
     }
-    saddr model = get_bml_model(data, 2);
-    s32 texture = get_bml_texlist(data, 2);
+    saddr model = (saddr)get_bml_model((BmlResource *)data, 2);
+    s32 texture = (saddr)get_bml_texlist((BmlResource *)data, 2);
     push_matrix();
     post_translate_matrix(&position);
     rotate_matrix_zyx(0, rotation_x, rotation_y, rotation_z);

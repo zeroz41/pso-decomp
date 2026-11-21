@@ -82,7 +82,7 @@ TObjCityMainWarpChallenge::TObjCityMainWarpChallenge(TObject *parent, void *set_
     }
     state_step = 0;
     state_flags = 0;
-    model = city_common_model_archive->models[0].model;
+    model = (saddr)city_common_model_archive->models[0].model;
     motion = city_common_model_archive->motions[5].motion;
     if (field_collider != NULL) {
         ((TObject *)field_collider)->queue_destruction();
@@ -291,7 +291,7 @@ void TObjCityMainWarpChallenge::update_challenge_state() {
         warp_triggered = 0;
         warp_effect_timer = 0;
         state_step = 1;
-        model = city_common_model_archive->models[0].model;
+        model = (saddr)city_common_model_archive->models[0].model;
         motion = city_common_model_archive->motions[5].motion;
         break;
     case 1:

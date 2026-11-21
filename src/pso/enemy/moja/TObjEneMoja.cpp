@@ -30,7 +30,8 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/effect/TUnk_80494968.h"
 #include "pso/player/TObjPlayer_801542CC.h"
-#include "pso/system/BmlResourceLoad.h"
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/text_803D853C.h"
 
@@ -461,18 +462,12 @@ TObjEneMoja::~TObjEneMoja() {
 void TObjEneMoja::load_resources() {
     switch (game_difficulty_selection) {
     case 3: {
-        void *memory = ::operator new(0x440);
-        if (memory != NULL) {
-            memory = load_resource_from_descriptor(memory, 1, &lbl_804918B8, 0, 0, 0);
-        }
+        void *memory = new BmlResource(1, &lbl_804918B8, 0, 0, NULL);
         lbl_805D50D8 = (BmlResource *)memory;
         break;
     }
     default: {
-        void *memory = ::operator new(0x440);
-        if (memory != NULL) {
-            memory = load_resource_from_descriptor(memory, 1, &lbl_80491868, 0, 0, 0);
-        }
+        void *memory = new BmlResource(1, &lbl_80491868, 0, 0, NULL);
         lbl_805D50D8 = (BmlResource *)memory;
         break;
     }
@@ -533,7 +528,7 @@ void TObjEneMoja::free_resources() {
         lbl_805D50DC = NULL;
     }
     if (lbl_805D50D8 != NULL) {
-        free_bin_model_request(lbl_805D50D8, 1);
+        delete lbl_805D50D8;
         lbl_805D50D8 = NULL;
     }
 }

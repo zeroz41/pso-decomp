@@ -4,7 +4,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/BmlResourceLoader.h"
 #include "pso/system/task/TMainTask.h"
 
 const char *bm_n_efw_i_body_motion_names[1] = { NULL };
@@ -20,17 +19,13 @@ void *TObjNpcFemaleFat__create(void *set_data) {
 
 void TObjNpcFemaleFat::free_static_model() {
     if (TObjNpcFemaleFat__static_model != NULL) {
-        free_bin_model_request(TObjNpcFemaleFat__static_model, 1);
+        delete TObjNpcFemaleFat__static_model;
         TObjNpcFemaleFat__static_model = NULL;
     }
 }
 
 void TObjNpcFemaleFat::load_static_resource() {
-    void *memory = ::operator new(0x440);
-    BmlResource *resource = (BmlResource *)memory;
-    if (memory != NULL) {
-        resource = load_resource_from_descriptor(memory, 1, &bm_n_efw_i_body_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(1, &bm_n_efw_i_body_resource_descriptor, 0, 0, NULL);
     TObjNpcFemaleFat__static_model = resource;
 }
 
@@ -41,6 +36,6 @@ TObjNpcFemaleFat::TObjNpcFemaleFat(TObject *parent, void *set_data) : TUnk_804A8
     this->apply_set_data(set_data);
     ((TObjPlayer *)this)->init_position_vectors();
     this->model = (void *)TObjNpcFemaleFat__static_model->models->model;
-    this->texlist = TObjNpcFemaleFat__static_model->models->m_c;
+    this->texlist = (saddr)TObjNpcFemaleFat__static_model->models->m_c;
     this->setup_common();
 }

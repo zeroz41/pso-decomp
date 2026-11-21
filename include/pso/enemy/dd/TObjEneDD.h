@@ -93,7 +93,6 @@ struct TObjEneDD : public TObjEnemy {
     void state_damaged(s32 arg1);
     void state_chase_target(s32 arg1);
     int get_target_info();
-    void copy_resource_desc(u8 *arg1);
     void set_field_378(s32 v);
     void init_position_vectors();
     static void release_resource();

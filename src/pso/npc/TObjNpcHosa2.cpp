@@ -1,3 +1,5 @@
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlAccessors.h"
 #include "types.h"
 #include "pso/npc/TObjNpcHosa2.h"
 #include "pso/npc/TUnk_804A9F50.h"
@@ -21,17 +23,15 @@ uaddr TObjNpcHosa2__shared_model_resource;
 }
 
 extern "C" {
-u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 
 extern uaddr TObjNpcHosa2__shared_model_resource;
-saddr get_bml_texlist(int, int);
-saddr get_bml_model(int, int);
+
+
 extern const char *TObjNpcHosa2__name;
-void free_bin_model_request(void*, int);
 
 void TObjNpcHosa2::close_dialog_window() {
     if ((u32) TObjNpcHosa2__shared_model_resource != 0U) {
-        free_bin_model_request((void*)TObjNpcHosa2__shared_model_resource, 1);
+        delete (BmlResource *)TObjNpcHosa2__shared_model_resource;
         TObjNpcHosa2__shared_model_resource = 0U;
     }
 }
@@ -39,11 +39,7 @@ void TObjNpcHosa2::close_dialog_window() {
 void TObjNpcHosa2::load_shared_resource() {
     saddr temp_r3;
     s32 var_r0;
-    temp_r3 = (saddr)::operator new(0x440);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &npc_hosa2_resource_descriptor, 0, 0, 0));
-    }
+    var_r0 = (saddr)new BmlResource(1, &npc_hosa2_resource_descriptor, 0, 0, NULL);
     (*(s32 *)&TObjNpcHosa2__shared_model_resource) = var_r0;
 }
 
@@ -54,8 +50,8 @@ TObjNpcHosa2::TObjNpcHosa2(TObject *parent, void *arg2) : TUnk_804A9F50(parent) 
     *(s32 *)((s8 *)this + 0) = (saddr) TObjNpcHosa2__name;
     ((TObjNpcHosa2 *)this)->apply_set_data(arg2);
     ((TObjPlayer *)this)->init_position_vectors();
-    *(s32 *)((s8 *)this + 0x34) = get_bml_model((int) ((*(s32 *)&TObjNpcHosa2__shared_model_resource)), 0);
-    ((TObjNpcHosa2 *)this)->texlist = get_bml_texlist((int) ((*(s32 *)&TObjNpcHosa2__shared_model_resource)), 0);
+    *(s32 *)((s8 *)this + 0x34) = (saddr)get_bml_model((BmlResource *)(int) ((*(s32 *)&TObjNpcHosa2__shared_model_resource)), 0);
+    ((TObjNpcHosa2 *)this)->texlist = (saddr)get_bml_texlist((BmlResource *)(int) ((*(s32 *)&TObjNpcHosa2__shared_model_resource)), 0);
     ((TObjNpcBase *)this)->setup_common();
 }
 

@@ -1,3 +1,5 @@
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
 #include "pso/object/base/TObjChara.h"
@@ -965,7 +967,6 @@ void *destroy_buffer_pair(void *arg0, s16 arg1);
 extern "C" {
 void refresh_players_equipment__14TBoss6PlotFalzFPv(void *self);
 void scroll_strip_uvs(u32, s16, s16);
-saddr get_bml_model(BmlResource *resource, s32 index);
 void build_tables__14TBoss6PlotFalzFPvPvi(Obj_8004AA80 *arg0, Rec_8004AA80 *arg1, s32 arg2);
 extern s32 lbl_805D5868;
 extern s32 lbl_805D5870;
@@ -1030,7 +1031,7 @@ void build_tables__14TBoss6PlotFalzFPvPvi(Obj_8004AA80 *arg0, Rec_8004AA80 *arg1
     }
     for (i = 0; i < arg0->count; i++) {
         r = &arg1[i];
-        t = (s32)find_model_node(get_bml_model((BmlResource *)h, r->a), r->b);
+        t = (s32)find_model_node((uaddr)get_bml_model((BmlResource *)h, r->a), r->b);
         p = (saddr)::operator new(0x14);
         if (p != 0) {
             p = (saddr)((TLobby *)p)->alloc_tables(t, r->c);
@@ -1163,7 +1164,6 @@ struct Msg_802AC7E4 { u8 pad[2]; u16 id; s8 phase; s8 mode; };
 struct Boss_802AC7E4 { u8 pad[0x37C]; u8 mode; };
 
 extern "C" {
-u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void fn_802E52AC(void);
 void TItemEffOrgaFlowShot__sub_80357210(void);
 }
@@ -1177,7 +1177,6 @@ u8 *get_enemy_entity(u16 arg0);
 void fn_802ACD40();
 void handle_6xA3_olga_flow_boss_actions(Msg_802AC7E4 *m);
 void TItemEffOrgaFlowShot__sub_80357204(void);
-int free_bin_model_request(void*, void*);
 
 void TBoss6PlotFalz::render() {  }
 
@@ -1308,18 +1307,12 @@ TBoss6PlotFalz::TBoss6PlotFalz(TObject *parent, void *set_data) : TObjEnemy(pare
 }
 #pragma pop
 
-void TBoss6PlotFalz::free_all() { TBoss4DarkFalz::free_global_instance(); TBoss6Tube::free_resources(); TBoss6Rock::free_data(); TItemEffOrgaFlowShot__sub_80357204(); free_bin_model_request((void*)obj_fish_count, (void*)1); obj_fish_count = 0; }
+void TBoss6PlotFalz::free_all() { TBoss4DarkFalz::free_global_instance(); TBoss6Tube::free_resources(); TBoss6Rock::free_data(); TItemEffOrgaFlowShot__sub_80357204(); delete (BmlResource *)obj_fish_count; obj_fish_count = 0; }
 
 void TBoss6PlotFalz::load_resources() {
-    saddr temp_r3;
-    saddr var_r0;
-    temp_r3 = (saddr)::operator new(0x440);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &boss6_plot_falz_resource_descriptor, 0, 0, 0));
-    }
-    (*(u8 * *)&obj_fish_count) = (unsigned char *) ((void *) var_r0);
-    if ((u32) var_r0 != 0U) {
+    BmlResource *resource = new BmlResource(5, &boss6_plot_falz_resource_descriptor, 0, 0, NULL);
+    obj_fish_count = (uaddr)resource;
+    if (resource != NULL) {
         clear_boss6_player_snapshots();
         TItemEffOrgaFlowShot__sub_80357210();
         TBoss6Rock::load_resources();

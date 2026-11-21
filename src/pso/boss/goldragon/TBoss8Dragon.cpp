@@ -1,4 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlResourceLoader.h"
+#include "pso/system/EnemyBmlResource.h"
 #include "pso/math/FloatRounding.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
@@ -577,7 +580,6 @@ struct Cfg_802FCA58 { u8 pad[0x18]; s32 i18; s32 i1C; s32 i20; };
 struct Cam_802FDC1C { s32 f0; f32 *p4; f32 *p8; };
 
 s32 get_current_floor();
-void free_bin_model_request(void*, int);
 void TBoss1Dragon__sub_80027A80(u8 *arg0, u8 *arg1);
 void *spawn_particle_effect_with_flags(const void *pos, s32 id, s32 flags);
 void TObjEneEpsilon__sub_800B9384(u8 *arg0, s32 arg1, f32 farg0);
@@ -1451,7 +1453,7 @@ void TBoss8Dragon__sub_802FDA78(void) {
     s32 i;
     s32 j;
 
-    TBoss8Dragon__data_805D6988 = (Boss8DragonBmlRes *)load_enemy_bml_resource((u8 *)&lbl_804E4E08);
+    TBoss8Dragon__data_805D6988 = (Boss8DragonBmlRes *)load_enemy_bml_resource(&lbl_804E4E08);
     lbl_805D69A4 = ((TObjBoss2Tunnel *)TBoss8Dragon__data_805D6988->models->node_tree)->count_tree_nodes();
     TBoss8Dragon__data_805D69A8 = (saddr)TQuestVmDownLoadServer::alloc(lbl_805D69A4 * 0x50);
     lbl_80541E18.unk0 = 0;
@@ -1505,7 +1507,7 @@ void TBoss8Dragon::free_static() {
         (*(u32 *)&TBoss8Dragon__data_805D69A8) = 0U;
     }
     if ((uaddr) TBoss8Dragon__data_805D6988 != 0U) {
-        free_bin_model_request((void*)TBoss8Dragon__data_805D6988, 1);
+        delete (BmlResource *)TBoss8Dragon__data_805D6988;
         TBoss8Dragon__data_805D6988 = 0U;
     }
 }

@@ -2,6 +2,7 @@
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/map/CsnGroundQuery.h"
+#include "pso/system/EnemyBmlResource.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -151,7 +152,6 @@ f32 horizontal_distance_squared(void *, void *);
 
 void scale_matrix(s32, s32, f32, f32, f32);
 
-void free_bin_model_request(void*, int);
 
 s32 TObjPlayer__sub_800A04F0(void *);
 
@@ -163,9 +163,7 @@ int TObjEneDD__sub_800BA804(u16 arg0);
 
 u32 vfunc_101__9TObjEneDDFPUc();
 
-saddr load_enemy_bml_resource_named(saddr arg0, saddr arg1);
 
-saddr load_enemy_bml_resource(u8 *arg0);
 
 void TObjEneRe4Bit__sub_800EDAB0(void);
 
@@ -495,9 +493,9 @@ void TObjEneRe4Sorcerer::load_resources() {
     lbl_80501070.y = 0.0f;
     lbl_80501070.z = 0.0f;
     if (TObjEneDD::check_v2_mode() != 0) {
-        sorcerer_bml_resource = (BmlResource *)load_enemy_bml_resource_named((saddr)&bm_ene_re4_sorcerer_resource_descriptor, (saddr)("bm_ene_re4_sorcerer_a.bml"));
+        sorcerer_bml_resource = (BmlResource *)load_enemy_bml_resource_named(&bm_ene_re4_sorcerer_resource_descriptor, "bm_ene_re4_sorcerer_a.bml");
     } else {
-        sorcerer_bml_resource = (BmlResource *)load_enemy_bml_resource((u8 *)&bm_ene_re4_sorcerer_resource_descriptor);
+        sorcerer_bml_resource = (BmlResource *)load_enemy_bml_resource(&bm_ene_re4_sorcerer_resource_descriptor);
     }
     lbl_805D52D0 = (saddr)TLobby::register_boss(0xA);
     TObjEneRe4Sorcerer__attack_params = (saddr)TLobby::dispatch_shared_handler_b(0xA);
@@ -510,7 +508,7 @@ void TObjEneRe4Sorcerer::load_resources() {
     TObjEneRe4Bit__sub_800EDAB4();
     r = (u32) (saddr)::operator new(0x14);
     if (r != 0) {
-        r = (uaddr) ((TLobby *)r)->alloc_tables(sorcerer_bml_resource->models->model, 2);
+        r = (uaddr) ((TLobby *)r)->alloc_tables((saddr)sorcerer_bml_resource->models->model, 2);
     }
     TObjEneRe4Sorcerer__uv_scroll_buffer = r;
     NpcAnimationBinding p = re4_sorcerer_spawn_descriptor;
@@ -529,7 +527,7 @@ void TObjEneRe4Sorcerer::free_bits() {
     }
     TObjEneRe4Bit__sub_800EDAB0();
     if ((uaddr) sorcerer_bml_resource != 0U) {
-        free_bin_model_request((void*)sorcerer_bml_resource, 1);
+        delete (BmlResource *)sorcerer_bml_resource;
         sorcerer_bml_resource = 0U;
     }
 }
@@ -555,7 +553,7 @@ void TObjEneRe4Sorcerer::init_enemy() {
     init_position_vectors();
     model = (void *)sorcerer_bml_resource->models->model;
     models = sorcerer_bml_resource->models;
-    texlist = models->m_c;
+    texlist = (saddr)models->m_c;
     this->init_model((CollisionBody *)re4_sorcerer_collision_body_part_table, 1);
     set_field_d8((saddr)re4_sorcerer_action_params);
     set_field_dc((saddr)sorcerer_bml_resource->motions);

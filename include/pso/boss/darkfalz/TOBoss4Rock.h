@@ -21,8 +21,8 @@ struct TOBoss4Rock : public TOBoss4 {
     static const char *class_name;
     f32 spread;  // horizontal range the rocks respawn in
     s32 count;   // 1-8, from set param 4
-    s32 *models;
-    s32 *texlists;
+    NJS_OBJECT **models;
+    GinjaTextureList **texlists;
     Vec *positions;
     f32 *speeds;
     TOBoss4RockAngles *rotations;

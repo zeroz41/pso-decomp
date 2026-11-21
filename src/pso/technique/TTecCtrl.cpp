@@ -1,3 +1,4 @@
+#include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecCtrl.h"
@@ -176,11 +177,9 @@ TechniqueCostScale lbl_804CC55C[19] = {
 };
 
 extern "C" {
-u8 * free_bin_model_request(void *, s16);
 s32 release_texture_list(void *, s32);
 struct TechniqueRingwaveTextureList { u8 * value; u8 remaining[0x8]; };
 extern TechniqueRingwaveTextureList technique_ringwave_texture_list;
-u8 *load_resource_from_descriptor(u8 *, s32, void *, s32, s32, s32);
 }
 u8 *load_gvm_texture_file(saddr arg0);
 extern "C" {
@@ -232,10 +231,7 @@ extern s32 __vt__8TTecCtrl[];
 // order: they are defined here from the last address to the first.
 
 void load_technique_resources(void) {
-    u8 *p = (u8 *)::operator new(0x440);
-    if (p != 0) {
-        p = load_resource_from_descriptor(p, 1, &technique_resource_descriptor, 0, 0, 0);
-    }
+    u8 *p = (u8 *)new BmlResource(1, &technique_resource_descriptor, 0, 0, NULL);
     technique_effect_bml = p;
     lbl_805D63B0 = (void **)load_gvm_texture_file((saddr)"technic.gvm");
     bind_gvm_texture_list("technic_pt", ((u8 *)&technique_ringwave_texture_list));
@@ -257,7 +253,7 @@ void TLobby__sub_8022F068(void) {
         lbl_805D63B0 = NULL;
     }
     if ((void *) technique_effect_bml != NULL) {
-        free_bin_model_request(technique_effect_bml, 1);
+        delete (BmlResource *)technique_effect_bml;
     }
     technique_effect_bml = NULL;
 }

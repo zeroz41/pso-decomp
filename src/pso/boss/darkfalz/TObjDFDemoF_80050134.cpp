@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #pragma defer_codegen on
 
 #include "types.h"
@@ -53,10 +54,6 @@ typedef struct Data_80050194
 
 s32 get_bml_motion(s32, s32);
 
-saddr get_bml_texlist(BmlResource *resource, s32 index);
-
-saddr get_bml_model(BmlResource *resource, s32 index);
-
 void set_scripted_camera_pose(void *, void *, void *);
 
 const char *TObjDFDemoF__name = "TObjDFDemoF";
@@ -109,9 +106,9 @@ TObjDFDemoF::TObjDFDemoF(TObject *parent) : TObjBase(parent) {
     ids2 = lbl_80485834;
     {
       k = t;
-      arg0->f94[i] = get_bml_model((BmlResource *)h, t);
+      arg0->f94[i] = (saddr)get_bml_model((BmlResource *)h, t);
     }
-    arg0->fa0[i] = get_bml_texlist((BmlResource *)h, k);
+    arg0->fa0[i] = (saddr)get_bml_texlist((BmlResource *)h, k);
     if (ids2[i] < 0)
     {
       arg0->fac[i] = 0;

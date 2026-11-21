@@ -111,7 +111,7 @@ void vec3_add_to(Vec *, Vec *);
 // Picks this part's model and texture list (index into the Bal Claw BML models).
 void TObjEneBalClawClaw::sub_80090418(s32 i) {
     model = (void *)lbl_805D4F20->models[i].model;
-    texlist = lbl_805D4F20->models[i].m_c;
+    texlist = (saddr)lbl_805D4F20->models[i].m_c;
 }
 
 TObjEneBalClawBody::TObjEneBalClawBody(TObject *parent, void *set_data) : TObjEneBalClaw(parent) {

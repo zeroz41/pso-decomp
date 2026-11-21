@@ -1,3 +1,5 @@
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlAccessors.h"
 #include "pso/render/RenderFadeState.h"
 #include "pso/object/container/TObjContainerIdo_8018BEE4.h"
 #include "pso/object/container/TObjContainerIdo.h"
@@ -126,13 +128,13 @@ void render__16TObjContainerIdoFv(u8 *container_ido) {
         post_translate_matrix(container_ido + 0xC0);
         rotate_matrix_y(0, ((TObjContainerIdo *)container_ido)->rotation_y);
         rotate_matrix_x(0, ((TObjContainerIdo *)container_ido)->rotation_x);
-        draw_ginja_object((void *)get_bml_model(container_ido_model_archive, 0));
+        draw_ginja_object((void *)get_bml_model((BmlResource *)container_ido_model_archive, 0));
         pop_matrix();
         push_matrix();
         post_translate_matrix(container_ido + 0x38);
         rotate_matrix_y(0, ((TObjContainerIdo *)container_ido)->rotation_y);
         rotate_matrix_x(0, ((TObjContainerIdo *)container_ido)->rotation_x);
-        draw_ginja_object((void *)get_bml_model(container_ido_model_archive, 1));
+        draw_ginja_object((void *)get_bml_model((BmlResource *)container_ido_model_archive, 1));
         pop_matrix();
         if (var_r31 != 0) {
             ((VMem_8018C06C*)(container_ido + 0xF0))->m7();
@@ -284,16 +286,13 @@ void TObjContainerIdo::free_resources() {
         container_ido_textures = NULL;
     }
     if (container_ido_model_archive != NULL) {
-        free_bin_model_request(container_ido_model_archive, 1);
+        delete (BmlResource *)container_ido_model_archive;
         container_ido_model_archive = NULL;
     }
 }
 
 void TObjContainerIdo::load_resources() {
-    BmlResource *archive = (BmlResource *)::operator new(0x440);
-    if (archive != NULL) {
-        archive = load_resource_from_descriptor(archive, 5, &container_ido_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *archive = new BmlResource(5, (BmlResourceDescriptor *)&container_ido_resource_descriptor, 0, 0, NULL);
     container_ido_model_archive = archive;
     container_ido_textures = (GinjaTextureList *)load_gvm_texture_file((saddr)"obj_containerido.GVM");
 }

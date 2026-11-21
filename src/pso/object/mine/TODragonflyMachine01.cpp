@@ -3,7 +3,6 @@
 #include "pso/object/mine/TODragonflyMachine01.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/BmlResourceLoader.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/render/GinjaModel.h"
 #include "pso/system/MatrixStack.h"
@@ -153,17 +152,14 @@ void *TODragonflyMachine01::create(void *set_data) {
 
 void TODragonflyMachine01::unload_static_data() {
     if (model_resource != NULL) {
-        free_bin_model_request(model_resource, 1);
+        delete (BmlResource *)model_resource;
         model_resource = NULL;
     }
 }
 
 void TODragonflyMachine01::load_resources() {
     BmlResource *resource;
-    resource = (BmlResource *)::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 1, &bm_fs_obj_mekatombo_resource_descriptor, 0, 0, 0);
-    }
+    resource = new BmlResource(1, &bm_fs_obj_mekatombo_resource_descriptor, 0, 0, NULL);
     model_resource = resource;
     node_index = 0;
     node_yaw = 0;
@@ -179,7 +175,7 @@ TODragonflyMachine01::TODragonflyMachine01(void *set_data) {
     m_name = class_name;
     apply_object_set_data(set_data);
     model = (NJS_OBJECT *)model_resource->models->model;
-    texlist = model_resource->models->m_c;
+    texlist = (saddr)model_resource->models->m_c;
     motion = model_resource->motions->motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     animation_step = 1.0f;

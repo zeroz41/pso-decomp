@@ -1,3 +1,5 @@
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include <stddef.h>
@@ -71,8 +73,8 @@ s32 rotate_vector_by_matrix(int, void *, void *);
 s32 rotate_matrix_y(int, int);
 extern RecoveredGlobal_80081CD0_lbl_8058D490 identity_matrix;
 s32 get_bml_motion(s32, s32);
-saddr get_bml_texlist(s32, s32);
-saddr get_bml_model(s32, s32);
+
+
 void *spawn_particle_effect(const void *pos, s32 id);
 saddr freeze_shell_bml_resource;
 extern s32 technique_effect_bml;
@@ -99,11 +101,11 @@ s32 TUnk_8048E1A4::freeze_shell_hold() {
     *(s32 *)((s8 *)this + 0x334) = 2;
     p = (saddr)spawn_particle_effect((u8 *)this + 0x35C, 0x153);
     if (p != 0) {
-        attach_particle_model((u8 *)p, (s32)(get_bml_model(technique_effect_bml, 5)), (s32)lbl_805D63B0, 0, 0, 1.0f);
+        attach_particle_model((u8 *)p, (s32)(get_bml_model((BmlResource *)technique_effect_bml, 5)), (s32)lbl_805D63B0, 0, 0, 1.0f);
     }
     p = (saddr)spawn_particle_effect((u8 *)this + 0x38, 0x33);
     if (p != 0) {
-        attach_particle_model((u8 *)p, (s32)(get_bml_model(freeze_shell_bml_resource, 0)), (s32)(get_bml_texlist(freeze_shell_bml_resource, 1)), (s32)(get_bml_motion(freeze_shell_bml_resource, 0)), 0, 1.0f);
+        attach_particle_model((u8 *)p, (s32)(get_bml_model((BmlResource *)freeze_shell_bml_resource, 0)), (s32)(get_bml_texlist((BmlResource *)freeze_shell_bml_resource, 1)), (s32)(get_bml_motion(freeze_shell_bml_resource, 0)), 0, 1.0f);
         ((TParticleCtrl *)p)->set_scale(this->scale.x, this->scale.y);
     }
     this->frame = 0.0f;
@@ -178,7 +180,7 @@ void TUnk_8048E1A4::render() {
         ok = p->m8(400.0f, 20.0f);
     }
     if (ok != 0) {
-        TObjFish::set_global_param((s32)get_bml_texlist((saddr)((void *)freeze_shell_bml_resource), 1));
+        TObjFish::set_global_param((s32)get_bml_texlist((BmlResource *)(saddr)((void *)freeze_shell_bml_resource), 1));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -266,14 +268,12 @@ struct RecoveredFields_8008213C_temp_r3 {
 };
 
 extern "C" {
-u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 extern saddr tl_05;
-void free_bin_model_request(void*, int);
 
 void TLobby::destroy_global_singleton() {
     if ((u32) freeze_shell_bml_resource != 0U) {
-        free_bin_model_request((void*)freeze_shell_bml_resource, 1);
+        delete (BmlResource *)freeze_shell_bml_resource;
         freeze_shell_bml_resource = 0U;
     }
 }
@@ -281,11 +281,7 @@ void TLobby::destroy_global_singleton() {
 void TLobby::load_freeze_ice_resource() {
     saddr temp_r3;
     s32 var_r0;
-    temp_r3 = (saddr)::operator new(0x440);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &enemy_freeze_ice_resource_descriptor, 0, 0, 0));
-    }
+    var_r0 = (saddr)new BmlResource(5, &enemy_freeze_ice_resource_descriptor, 0, 0, NULL);
     (*(s32 *)&freeze_shell_bml_resource) = var_r0;
 }
 
@@ -319,7 +315,7 @@ LAYOUT_ASSERT(RecoveredFields_8008213C_arg1_A4_offset, offsetof(RecoveredFields_
 LAYOUT_ASSERT(RecoveredFields_8008213C_temp_r3_10_offset, offsetof(RecoveredFields_8008213C_temp_r3, field_10) == 0x10);
 TUnk_8048E1A4::TUnk_8048E1A4(u8 *chara, u8 *arg2) : TObjChara((TObject *)((void *)tl_05)) {
     u8 *temp_r3;
-    ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_34 = get_bml_model(freeze_shell_bml_resource, 1);
+    ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_34 = (saddr)get_bml_model((BmlResource *)freeze_shell_bml_resource, 1);
     if (chara != NULL) {
         ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_358 = get_entity_id(chara);
         VecCopy((Vec *)(((u8 *)this) + 0x35C), (const Vec *)(chara + 0x38));

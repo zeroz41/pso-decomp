@@ -15,7 +15,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/render/model_render_state.h"
-#include "pso/system/BmlResourceLoad.h"
+#include "pso/system/BmlResource.h"
 #include "pso/render/ChunkMaterialColor.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/GinjaMaterial.h"
@@ -178,7 +178,7 @@ void *TOMonumentAncient02::create(void *set_data) {
 
 void TOMonumentAncient02::free_shared_data() {
     if (TOMonumentAncient02__bml_resource != NULL) {
-        free_bin_model_request(TOMonumentAncient02__bml_resource, 1);
+        delete TOMonumentAncient02__bml_resource;
         TOMonumentAncient02__bml_resource = NULL;
     }
 }
@@ -187,24 +187,15 @@ void TOMonumentAncient02::load_resources() {
     BmlResource *resource;
     switch (get_current_floor_area()) {
     default:
-        resource = (BmlResource *)::operator new(0x440);
-        if (resource != NULL) {
-            resource = load_resource_from_descriptor(resource, 5, &bm_fs_obj_o_monument01_resource_descriptor, 0, 0, 0);
-        }
+        resource = new BmlResource(5, &bm_fs_obj_o_monument01_resource_descriptor, 0, 0, NULL);
         TOMonumentAncient02__bml_resource = resource;
         break;
     case AREA_CAVE2:
-        resource = (BmlResource *)::operator new(0x440);
-        if (resource != NULL) {
-            resource = load_resource_from_descriptor(resource, 5, &bm_fs_obj_o_monument02_resource_descriptor, 0, 0, 0);
-        }
+        resource = new BmlResource(5, &bm_fs_obj_o_monument02_resource_descriptor, 0, 0, NULL);
         TOMonumentAncient02__bml_resource = resource;
         break;
     case AREA_MINE2:
-        resource = (BmlResource *)::operator new(0x440);
-        if (resource != NULL) {
-            resource = load_resource_from_descriptor(resource, 5, &bm_fs_obj_o_monument03_resource_descriptor, 0, 0, 0);
-        }
+        resource = new BmlResource(5, &bm_fs_obj_o_monument03_resource_descriptor, 0, 0, NULL);
         TOMonumentAncient02__bml_resource = resource;
         break;
     }
@@ -221,7 +212,7 @@ TOMonumentAncient02::TOMonumentAncient02(TObject *parent, void *set_data) : TObj
     m_name = TOMonumentAncient02__class_name;
     apply_object_set_data(set_data);
     model = (void *)TOMonumentAncient02__bml_resource->models[0].model;
-    texlist = TOMonumentAncient02__bml_resource->models[0].m_c;
+    texlist = (saddr)TOMonumentAncient02__bml_resource->models[0].m_c;
     init_collision_body_parts(this, monument_ancient02_collision_parts, 1);
     refresh_collision_body_centers();
     register_object_by_id();

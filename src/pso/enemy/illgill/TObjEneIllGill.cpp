@@ -101,7 +101,6 @@ f32 fabs_float(f32);
 s32 approach_angle_limited(s32, s32, s32);
 extern Vec scratch_vec;
 
-int free_bin_model_request(void*, void*);
 void free_collision_body_parts(void *);
 
 #pragma push
@@ -1384,7 +1383,7 @@ TObjEneIllGill::TObjEneIllGill(TObject *parent, void *setData) : TObjEnemy(paren
     ((TObjPlayer *)self)->init_position_vectors();
     apply_actor_gravity((TObjEnemy *)self, (s32 *)(0), 0.0f);
     model = (void *)illGillResource->models->model;
-    texlist = illGillResource->models->m_c;
+    texlist = (saddr)illGillResource->models->m_c;
     motion_list = illGillResource->motions;
     action_table = illGillActions;
     this->set_field_d8((saddr)action_table);
@@ -1440,20 +1439,16 @@ TObjEneIllGill::TObjEneIllGill(TObject *parent, void *setData) : TObjEnemy(paren
 }
 
 void TObjEneIllGill::free_effect() {
-    free_bin_model_request(illGillResource, (void *)1);
+    delete illGillResource;
     illGillResource = NULL;
 }
 
-u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void TObjEneIllGill::load_shared_resources() {
     void *p;
     BmlResource *resource;
     Vec *q;
 
-    p = (void *)::operator new(0x440);
-    if (p != NULL) {
-        p = load_resource_from_descriptor(p, 1, &illGillResourceDescriptor, 0, 0, 0);
-    }
+    p = new BmlResource(1, &illGillResourceDescriptor, 0, 0, NULL);
     illGillResource = (BmlResource *)p;
     TObjEneIllGill__boss_registration_id = (saddr)TLobby::register_boss(0x26);
     ill_gill_combat_parameter_variants[0] = (AttackParams *)TLobby::dispatch_shared_handler_b(0x26);
@@ -1475,7 +1470,7 @@ void TObjEneIllGill::load_shared_resources() {
         NpcAnimationBinding pos = lbl_8047A318;
         resource = illGillResource;
         pos.motions = reinterpret_cast<BmlMotionEntry *>(resource->motions);
-        NpcModelRegistry::register_animated_chunk((s16)0x43, reinterpret_cast<void *>(resource->models->model), reinterpret_cast<void *>((resource->models->m_c)), &pos, illGillCollisionBody.radius, 0.0f);
+        NpcModelRegistry::register_animated_chunk((s16)0x43, reinterpret_cast<void *>(resource->models->model), reinterpret_cast<void *>(((saddr)resource->models->m_c)), &pos, illGillCollisionBody.radius, 0.0f);
     }
 }
 

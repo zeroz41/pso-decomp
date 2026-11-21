@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
@@ -131,8 +132,6 @@ int post_translate_matrix(void*);
 void free_collision_body_parts(void *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 s32 get_bml_motion(s32, s32);
-saddr get_bml_texlist(BmlResource *resource, s32 index);
-saddr get_bml_model(BmlResource *resource, s32 index);
 int rotate_matrix_y(void*, void*);
 int push_matrix(void*);
 
@@ -158,8 +157,8 @@ void TUnk_804F322C::update_linked_state() {
     saddr bml_model;
 
     set_motion_packed_rotation();
-    temp_r31 = get_bml_texlist((BmlResource *)(*(saddr *)((s8 *)this + 0x374)), 2);
-    bml_model = get_bml_model((BmlResource *)(*(saddr *)((s8 *)this + 0x374)), 2);
+    temp_r31 = (saddr)get_bml_texlist((BmlResource *)(*(saddr *)((s8 *)this + 0x374)), 2);
+    bml_model = (saddr)get_bml_model((BmlResource *)(*(saddr *)((s8 *)this + 0x374)), 2);
     bml_motion = get_bml_motion(*(s32 *)((s8 *)this + 0x374), 0);
     TObjFish::set_global_param(temp_r31);
     TBoss6PlotFalz__sub_802AC008(*(f32 *)((s8 *)this + 0x3A8), 0.0f);

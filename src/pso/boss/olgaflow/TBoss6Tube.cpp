@@ -1,3 +1,6 @@
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlAccessors.h"
+#include "pso/system/BmlResourceLoader.h"
 #include "types.h"
 #include "pso/render/render_util.h"
 #include "pso/boss/olgaflow/TBoss6Tube.h"
@@ -36,7 +39,6 @@ extern "C" {
 void TBoss6Tube__sub_802B129C(u8 *arg0);
 s32 TBoss6Tube__previous_scroll_phase;
 f32 TBoss6Tube__scroll_delta;
-void get_bml_model(s32, s32);
 void draw_ginja_object(void);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
 
@@ -90,7 +92,7 @@ void TBoss6Tube::render() {
         for (y = start; y < hi; y += (8e+02f)) {
             push_matrix();
             translate_matrix(0, 0.0f, y, 0.0f);
-            get_bml_model(boss6_tube_bml_resource, boss6_tube_model_order[i]);
+            get_bml_model((BmlResource *)boss6_tube_bml_resource, boss6_tube_model_order[i]);
             draw_ginja_object();
             pop_matrix();
         }
@@ -199,11 +201,9 @@ TBoss6Tube::TBoss6Tube(TObject *arg1) : TObject(arg1) {
 }
 
 extern "C" {
-s32 load_resource_from_descriptor(s32, int, void *, int, int, int);
 }
 u8 *load_gvm_texture_file(saddr arg0);
 extern "C" {
-void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);
 }
 
@@ -213,7 +213,7 @@ void *TBoss6Tube::create(void *arg0) {
 
 void TBoss6Tube::free_resources() {
     if ((u32) boss6_tube_bml_resource != 0U) {
-        free_bin_model_request((void*)boss6_tube_bml_resource, 1);
+        delete (BmlResource *)boss6_tube_bml_resource;
         boss6_tube_bml_resource = 0U;
     }
     if ((u32) boss6_tube_texture_list != 0U) {
@@ -226,10 +226,7 @@ void TBoss6Tube::free_resources() {
 void TBoss6Tube::load_resources() {
     s32 r;
     TBoss6Tube::reset_state();
-    r = (saddr)::operator new(0x440);
-    if (r != 0) {
-        r = load_resource_from_descriptor(r, 5, &boss06_tube_dat_resource_descriptor, 0, 0, 0);
-    }
+    r = (saddr)new BmlResource(5, &boss06_tube_dat_resource_descriptor, 0, 0, NULL);
     boss6_tube_bml_resource = r;
     boss6_tube_texture_list = (uaddr)load_gvm_texture_file((saddr)"boss06_tube_dat.gvm");
     if (boss6_tube_bml_resource != 0 && boss6_tube_texture_list != 0) {

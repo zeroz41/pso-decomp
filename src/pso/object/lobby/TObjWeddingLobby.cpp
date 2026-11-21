@@ -1,3 +1,4 @@
+#include "pso/system/BmlAccessors.h"
 #include "types.h"
 #include "pso/object/lobby/TObjWeddingLobby.h"
 #include "pso/system/task/TMainTask.h"
@@ -12,7 +13,6 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/system/BmlResourceLoad.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 
 #pragma readonly_strings on
@@ -40,8 +40,8 @@ void TObjWeddingLobby::render() {
         if (fade_state != 3) {
             scale_matrix(NULL, fade_scale, 1.0f, fade_scale);
         }
-        draw_ginja_object((void *)get_bml_model(resource_bundle, 0));
-        draw_ginja_model_with_motion((void *)(get_bml_model(resource_bundle, 1)), (void *)(get_bml_motion(resource_bundle, 0)), (f32)animation_frame);
+        draw_ginja_object((void *)get_bml_model((BmlResource *)resource_bundle, 0));
+        draw_ginja_model_with_motion((void *)(get_bml_model((BmlResource *)resource_bundle, 1)), (void *)(get_bml_motion(resource_bundle, 0)), (f32)animation_frame);
         pop_matrix();
         TParticleCtrl::end_effect_render();
     }
@@ -92,16 +92,13 @@ void *TObjWeddingLobby::create(void *set_data) {
 
 void TObjWeddingLobby::free_resources() {
     if (resource_bundle != NULL) {
-        free_bin_model_request(resource_bundle, 1);
+        delete (BmlResource *)resource_bundle;
         resource_bundle = NULL;
     }
 }
 
 void TObjWeddingLobby::load_resources() {
-    void *resource = ::operator new(0x440);
-    if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 5, &bm_obj_lobby_bell_resource_descriptor, 0, 0, 0);
-    }
+    void *resource = new BmlResource(5, &bm_obj_lobby_bell_resource_descriptor, 0, 0, NULL);
     resource_bundle = (BmlResource *)resource;
     lobby_texlist = TLobby::get_lobby_texlist();
 }

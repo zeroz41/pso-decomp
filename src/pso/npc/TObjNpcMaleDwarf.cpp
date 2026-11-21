@@ -4,7 +4,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/BmlResourceLoader.h"
 #include "pso/system/task/TMainTask.h"
 
 #pragma readonly_strings on
@@ -22,17 +21,13 @@ void *TObjNpcMaleDwarf__create(void *set_data) {
 
 void TObjNpcMaleDwarf::unload_static_data() {
     if (TObjNpcMaleDwarf__shared_model_resource != NULL) {
-        free_bin_model_request(TObjNpcMaleDwarf__shared_model_resource, 1);
+        delete TObjNpcMaleDwarf__shared_model_resource;
         TObjNpcMaleDwarf__shared_model_resource = NULL;
     }
 }
 
 void TObjNpcMaleDwarf::load_shared_resource() {
-    void *memory = ::operator new(0x440);
-    BmlResource *resource = (BmlResource *)memory;
-    if (memory != NULL) {
-        resource = load_resource_from_descriptor(memory, 1, &bm_n_efsm_i_body_3_resource_descriptor, 0, 0, 0);
-    }
+    BmlResource *resource = new BmlResource(1, &bm_n_efsm_i_body_3_resource_descriptor, 0, 0, NULL);
     TObjNpcMaleDwarf__shared_model_resource = resource;
 }
 
@@ -43,6 +38,6 @@ TObjNpcMaleDwarf::TObjNpcMaleDwarf(TObject *parent, void *set_data) : TUnk_804A9
     this->apply_set_data(set_data);
     ((TObjPlayer *)this)->init_position_vectors();
     this->model = (void *)TObjNpcMaleDwarf__shared_model_resource->models->model;
-    this->texlist = TObjNpcMaleDwarf__shared_model_resource->models->m_c;
+    this->texlist = (saddr)TObjNpcMaleDwarf__shared_model_resource->models->m_c;
     this->setup_common();
 }

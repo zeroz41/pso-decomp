@@ -1,3 +1,4 @@
+#include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802E0FC8.h"
 #include "pso/ui/TUnk_804E3008.h"
@@ -10,7 +11,6 @@ TUnk_804E3008::TUnk_804E3008(TObject *parent, s32 mode, s32 index, s32 slot) : T
 }
 
 extern "C" {
-void free_bin_model_request(void*, int);
 
 extern uaddr TAdMultiPlyChrSelectGC__resource_bundle;
 
@@ -23,7 +23,7 @@ s32 get_or_create_player__22TAdMultiPlyChrSelectGCFiiii(saddr parent, s32 mode, 
 
 void TAdChrSelPlayerGC__sub_802E10A0(void) {
     if ((u32) TAdMultiPlyChrSelectGC__resource_bundle != 0U) {
-        free_bin_model_request((void*)TAdMultiPlyChrSelectGC__resource_bundle, 1);
+        delete (BmlResource *)TAdMultiPlyChrSelectGC__resource_bundle;
         TAdMultiPlyChrSelectGC__resource_bundle = 0U;
     }
 }

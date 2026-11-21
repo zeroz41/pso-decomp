@@ -1,4 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/EnemyBmlResource.h"
+#include "pso/system/BmlResource.h"
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -448,8 +450,6 @@ struct Act_800A8118 { s32 a; s32 idx; f32 c; s32 d; };
 struct Part_800A8118 { u8 pad[0xC]; f32 radius; u8 pad10[0x1C]; };
 
 extern "C" {
-saddr load_enemy_bml_resource_named(saddr arg0, saddr arg1);
-u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern const u8 lbl_8043AAA4[26];
 
 s32 create__13TUnk_80494968FUlUl(s32, s32);
@@ -460,7 +460,6 @@ void init_collision_body_parts(void *, void *, s32);
 extern const char *TObjEneDimedian_name_ref;
 
 void free_collision_body_parts(void *);
-void free_bin_model_request(void*, int);
 
 extern void *tl_04;
 
@@ -637,7 +636,7 @@ void TObjEneDimedian::free_boss_objects() {
         dimedian_type3_object = 0U;
     }
     if ((uaddr) dimedian_resource_ptr != 0U) {
-        free_bin_model_request((void*)dimedian_resource_ptr, 1);
+        delete (BmlResource *)dimedian_resource_ptr;
         dimedian_resource_ptr = 0U;
     }
 }
@@ -652,12 +651,9 @@ void TLobby::load_dimedian_resources() {
     void *p;
     s32 i;
     if (TObjEneDD::check_v2_mode() != 0) {
-        (*(u8 **)&dimedian_resource_ptr) = (u8 *)load_enemy_bml_resource_named((saddr)dimedian_resource_descriptor, (saddr)lbl_8043AAA4);
+        (*(u8 **)&dimedian_resource_ptr) = (u8 *)load_enemy_bml_resource_named((BmlResourceDescriptor *)dimedian_resource_descriptor, (const char *)lbl_8043AAA4);
     } else {
-        p = ::operator new(0x440);
-        if (p != NULL) {
-            p = load_resource_from_descriptor(p, 1, dimedian_resource_descriptor, 0, 0, 0);
-        }
+        p = new BmlResource(1, (BmlResourceDescriptor *)dimedian_resource_descriptor, 0, 0, NULL);
         (*(u8 **)&dimedian_resource_ptr) = (u8 *)p;
     }
     r = *(u8 **)((s8 *)(*(u8 **)&dimedian_resource_ptr) + 0x42C);
