@@ -45,7 +45,6 @@ extern "C" {
 extern const f32 lbl_805D8D48;
 s32 TBoss5GryphonLightning__ct(f32);
 extern u8 __vt__26TBoss5GryphonLightningWing[];
-extern const char *TBoss5GryphonLightningWing__name;
 s32 TBoss8Dragon__sub_80063FB8(s32, s32 *, f32);
 
 
