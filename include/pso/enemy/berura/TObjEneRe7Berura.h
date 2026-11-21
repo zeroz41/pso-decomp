@@ -59,7 +59,7 @@ struct TObjEneRe7Berura : public TObjEneDD_ST {
     s32 step_toward_target(s32 arg1, s32 arg2);
     void init_fields4B8();
     static void init_part(s32 arg0);
-    static void apply_attack_params(int child, void *part);
+    static void apply_attack_params(NJS_OBJECT *root, void *part);
     static s32 collect_node_matrices(void *obj, int idx);
     void update_collision_center();
     void init_enemy();

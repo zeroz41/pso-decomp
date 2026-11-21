@@ -99,9 +99,9 @@ const char *bm5_wolf_class_name = "TObjEneBm5Wolf";
 
 static const NpcAnimationBinding bm5_wolf_spawn_descriptor = { NULL, reinterpret_cast<TObjMotionAction *>(wolf_action_table), 0, 1, 19 };
 
-__declspec(section ".data") s32 TObjEneBm5Wolf__stat_params[2];
-__declspec(section ".data") s32 wolf_stat_handle_a_table[2];
-__declspec(section ".data") s32 wolf_stat_handle_b_table[2];
+__declspec(section ".data") u8 *TObjEneBm5Wolf__stat_params[2];
+__declspec(section ".data") u8 *wolf_stat_handle_a_table[2];
+__declspec(section ".data") u8 *wolf_stat_handle_b_table[2];
 __declspec(section ".data") s32 lbl_80500B58[2];
 s32 is_vec_xz_cross_negative(void *, void *);
 f32 calc_circle_offset__14TObjEneBm5WolfFPvPvPv(TObjEneBm5Wolf *wolf, Vec *target, Vec *out);
@@ -260,9 +260,9 @@ void TObjEneBm5Wolf::load_resources() {
     lbl_80500B60.y = 0.0f;
     lbl_80500B60.z = 0.0f;
     for (i = 0; i < 2; i++) {
-        TObjEneBm5Wolf__stat_params[i] = (saddr)TLobby::register_boss(lbl_8043B3A8[i]);
-        wolf_stat_handle_a_table[i] = (saddr)TLobby::dispatch_shared_handler_b(lbl_8043B3B0[i]);
-        wolf_stat_handle_b_table[i] = (saddr)TLobby::register_object(lbl_8043B3B8[i]);
+        TObjEneBm5Wolf__stat_params[i] = (u8 *)TLobby::register_boss(lbl_8043B3A8[i]);
+        wolf_stat_handle_a_table[i] = (u8 *)TLobby::dispatch_shared_handler_b(lbl_8043B3B0[i]);
+        wolf_stat_handle_b_table[i] = (u8 *)TLobby::register_object(lbl_8043B3B8[i]);
         lbl_80500B58[i] = (saddr)TLobby::dispatch_shared_handler_a(lbl_8043B3C0[i]);
     }
     {
@@ -333,7 +333,7 @@ TObjEneBm5Wolf::TObjEneBm5Wolf(TObject *parent, void *set_data) : TObjEneDD_ST(p
     set_animation(requested_action);
     set_field_b8(requested_action);
     n = m_3d8;
-    reset_hp((u8 *)TObjEneBm5Wolf__stat_params[n != 0], (u8 *)wolf_stat_handle_a_table[n != 0], (u8 *)wolf_stat_handle_b_table[n != 0]);
+    reset_hp(TObjEneBm5Wolf__stat_params[n != 0], wolf_stat_handle_a_table[n != 0], wolf_stat_handle_b_table[n != 0]);
     set_state_flag_1();
     movementParameters = bm5_wolf_decision_row;
     if (m_3d8 != 0) {

@@ -1191,7 +1191,7 @@ void TObjEneMoja::update_punch_attack(void *self_800ADAAC) {
     s32 i;
     u8 *p;
     V398_800ADAAC *o;
-    s32 e;
+    Vec *e;
     switch (*(s16 *)(arg0 + 0x328)) {
     case 0:
         ((TObjMotion *)arg0)->sub_800A7798(*(f32 *)lbl_805D50D4[*(s32 *)(arg0 + 0x368)]);
@@ -1223,13 +1223,13 @@ void TObjEneMoja::update_punch_attack(void *self_800ADAAC) {
             }
         }
         if ((9.0f <= *(f32 *)(arg0 + 0xC0)) && (*(f32 *)(arg0 + 0xC0) <= 16.0f)) {
-            e = (saddr)lbl_805D50DC->lookup(((TObjMotion *)self_800ADAAC)->frame);
-            if (e != 0) {
+            e = lbl_805D50DC->lookup(((TObjMotion *)self_800ADAAC)->frame);
+            if (e != NULL) {
                 push_matrix();
                 set_matrix_identity(0);
                 post_translate_matrix(arg0 + 0x38);
                 rotate_matrix_y(0, *(s32 *)(arg0 + 0x60));
-                matrix_mult_vec_array(NULL, (const Vec *)e, &sp8, 2);
+                matrix_mult_vec_array(NULL, e, &sp8, 2);
                 pop_matrix();
                 o = *(V398_800ADAAC **)(arg0 + 0x398);
                 if (o != NULL) {

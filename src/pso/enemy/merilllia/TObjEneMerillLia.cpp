@@ -472,9 +472,9 @@ f32 post_translate_matrix(void *);
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 void render__16TObjEneMerillLiaFv(u8 *arg0);
-uaddr TObjEneMerillLia__rock_stats_table;
-uaddr merill_lia_rock_buffer;
-uaddr merill_lia_rock_aux_buffer;
+void **TObjEneMerillLia__rock_stats_table;
+void **merill_lia_rock_buffer;
+void **merill_lia_rock_aux_buffer;
 uaddr TObjEneMerillLia__rock_param_table;
 uaddr TObjEneMerillLia__entry_params_resource;
 extern s32 game_difficulty_selection;
@@ -741,7 +741,7 @@ void *TObjEneMerillLia__ct(void *arg0v, void *arg1, void *arg2) {
     ((TObjMotion *)arg0)->set_animation(*(s16 *)((s8 *)arg0 + 0xB8));
     ((TObjMotion *)arg0)->set_field_b8(*(s16 *)((s8 *)arg0 + 0xB8));
     init_collision_body_parts(arg0, (u8 *) lbl_804946A4 + *(s32 *)((s8 *)arg0 + 0x334) * 0x2C, 1);
-    ((TObjEnemy *)arg0)->bind_enemy_combat_stats((u8 *)(((s32 *) TObjEneMerillLia__rock_stats_table)[*(s32 *)((s8 *)arg0 + 0x334)]), (u8 *)(((s32 *) merill_lia_rock_buffer)[*(s32 *)((s8 *)arg0 + 0x334)]), (u8 *)(((s32 *) merill_lia_rock_aux_buffer)[*(s32 *)((s8 *)arg0 + 0x334)]));
+    ((TObjEnemy *)arg0)->bind_enemy_combat_stats((u8 *)TObjEneMerillLia__rock_stats_table[*(s32 *)((s8 *)arg0 + 0x334)], (u8 *)merill_lia_rock_buffer[*(s32 *)((s8 *)arg0 + 0x334)], (u8 *)merill_lia_rock_aux_buffer[*(s32 *)((s8 *)arg0 + 0x334)]);
     *(u8 **)((s8 *)arg0 + 0x350) = (u8 *) lbl_80494650 + *(s32 *)((s8 *)arg0 + 0x334) * 0x1C;
     *(s16 *)((s8 *)arg0 + 0x33E) = *(s16 *)((s8 *)arg0 + 0x32C);
     ((TObjEnemy *)arg0)->update_prev_position();
@@ -802,16 +802,16 @@ void TObjEneMerillLia__sub_800D6D64(void) {
     ((CollisionPartRecord *)lbl_804946A4)[0].radius = 7.0f;
     ((CollisionPartRecord *)lbl_804946A4)[1].radius = 7.0f;
     ((CollisionPartRecord *)lbl_804946A4)[2].radius = 8.0f;
-    TObjEneMerillLia__rock_stats_table = (uaddr)mem_alloc(8);
-    merill_lia_rock_buffer = (uaddr)mem_alloc(8);
-    merill_lia_rock_aux_buffer = (uaddr)mem_alloc(8);
+    TObjEneMerillLia__rock_stats_table = (void **)mem_alloc(8);
+    merill_lia_rock_buffer = (void **)mem_alloc(8);
+    merill_lia_rock_aux_buffer = (void **)mem_alloc(8);
     TObjEneMerillLia__rock_param_table = (uaddr)mem_alloc(8);
-    ((void **)TObjEneMerillLia__rock_stats_table)[0] = TLobby::register_boss(75);
-    ((void **)TObjEneMerillLia__rock_stats_table)[1] = TLobby::register_boss(76);
-    ((void **)merill_lia_rock_buffer)[0] = TLobby::dispatch_shared_handler_b(78);
-    ((void **)merill_lia_rock_buffer)[1] = TLobby::dispatch_shared_handler_b(79);
-    ((void **)merill_lia_rock_aux_buffer)[0] = TLobby::register_object(74);
-    ((void **)merill_lia_rock_aux_buffer)[1] = TLobby::register_object(75);
+    TObjEneMerillLia__rock_stats_table[0] = TLobby::register_boss(75);
+    TObjEneMerillLia__rock_stats_table[1] = TLobby::register_boss(76);
+    merill_lia_rock_buffer[0] = TLobby::dispatch_shared_handler_b(78);
+    merill_lia_rock_buffer[1] = TLobby::dispatch_shared_handler_b(79);
+    merill_lia_rock_aux_buffer[0] = TLobby::register_object(74);
+    merill_lia_rock_aux_buffer[1] = TLobby::register_object(75);
     ((void **)TObjEneMerillLia__rock_param_table)[0] = TLobby::dispatch_shared_handler_a(74);
     ((void **)TObjEneMerillLia__rock_param_table)[1] = TLobby::dispatch_shared_handler_a(75);
     {
@@ -828,17 +828,17 @@ void TObjEneMerillLia__sub_800D6D64(void) {
 #pragma pop
 
 void TObjEneMerillLia::destroy_rocks() {
-    if ((u32) TObjEneMerillLia__rock_stats_table != 0U) {
-        mem_free((void*)TObjEneMerillLia__rock_stats_table);
-        TObjEneMerillLia__rock_stats_table = 0U;
+    if (TObjEneMerillLia__rock_stats_table != NULL) {
+        mem_free(TObjEneMerillLia__rock_stats_table);
+        TObjEneMerillLia__rock_stats_table = NULL;
     }
-    if ((u32) merill_lia_rock_buffer != 0U) {
-        mem_free((void*)merill_lia_rock_buffer);
-        merill_lia_rock_buffer = 0U;
+    if (merill_lia_rock_buffer != NULL) {
+        mem_free(merill_lia_rock_buffer);
+        merill_lia_rock_buffer = NULL;
     }
-    if ((u32) merill_lia_rock_aux_buffer != 0U) {
-        mem_free((void*)merill_lia_rock_aux_buffer);
-        merill_lia_rock_aux_buffer = 0U;
+    if (merill_lia_rock_aux_buffer != NULL) {
+        mem_free(merill_lia_rock_aux_buffer);
+        merill_lia_rock_aux_buffer = NULL;
     }
     if ((u32) TObjEneMerillLia__rock_param_table != 0U) {
         mem_free((void*)TObjEneMerillLia__rock_param_table);
@@ -974,7 +974,7 @@ void TObjEneMerillLia::render() {
     rotate_matrix_y(0, (int) ((RecoveredFields_800D6810_arg0 *) ((u8 *)this))->field_60);
     if (TObjPlayer::check_demo_mode() == 1)
     {
-      draw_chunk_object((void *)((int) ((RecoveredFields_800D6810_arg0 *) ((u8 *)this))->field_34));
+      draw_chunk_object(model);
     }
     else
     {

@@ -77,8 +77,7 @@ struct Mot_803323D8 { s32 a; s32 bone; s32 c; s32 d; };
 
 struct O_803323D8 {
     u8 pad0[0x24]; s32 f24;
-    u8 pad28[0x34 - 0x28]; s32 f34;
-    u8 pad38[0x60 - 0x38]; s32 f60;
+    u8 pad28[0x60 - 0x28]; s32 f60;
     u8 pad64[0xD8 - 0x64]; Mot_803323D8 *mots; Bone_803323D8 *bones;
     u8 padE0[0x326 - 0xE0]; s16 f326;
     u8 pad328[0x354 - 0x328]; f32 f354; f32 frame;
@@ -591,11 +590,6 @@ struct VObj_14_fddec9 : VBase_14_fddec9 {
     virtual s32 m8();
 };
 
-struct RecoveredFields_803326CC_TObjEneMorfos__data_805D6D14 {
-    u8 unknown_0[0x42C];
-    u8 * field_42C;
-};
-
 struct RecoveredFields_803326CC_arg0 {
     u8 unknown_0[0x60];
     s32 field_60;
@@ -624,7 +618,6 @@ struct Self_803329E4 {
     u8 f498[4];
 };
 
-LAYOUT_ASSERT(RecoveredFields_803326CC_TObjEneMorfos__data_805D6D14_42C_offset, offsetof(RecoveredFields_803326CC_TObjEneMorfos__data_805D6D14, field_42C) == 0x42C);
 
 LAYOUT_ASSERT(RecoveredFields_803326CC_arg0_60_offset, offsetof(RecoveredFields_803326CC_arg0, field_60) == 0x60);
 
@@ -754,13 +747,13 @@ void update_poison_status__9TObjCharaFv();
 }
 void draw_chunk_model(void *arg0);
 
-extern saddr TObjEneMorfos__instance;
+extern BmlResource *TObjEneMorfos__instance;
 extern s32 TObjEneMorfos__phase;
-extern s32 TObjEneMorfos__camera_path_cursor;
+extern Vec *TObjEneMorfos__camera_path_cursor;
 extern s32 __dt__15RenderFadeStateFv[];
 extern s32 __ct__15RenderFadeStateFv[];
-extern u8 *lbl_805D6D20;
-extern u8 *lbl_805D6D24;
+extern s16 *lbl_805D6D20;
+extern s16 *lbl_805D6D24;
 extern s32 lbl_805D6D28;
 extern s32 lbl_805D6D2C;
 extern float morfos_projectile_speed;
@@ -916,8 +909,6 @@ struct VObj_80334D74 : VBase_18_80334D74 {
 struct Elem_80334D74 { u8 pad[0x1C]; };
 struct Arr_80334D74 { u8 pad[0x424]; Elem_80334D74 e[4]; };
 struct Hdr_80334D74 { u8 b[0x1C]; };
-struct Res_80334D74 { u8 pad[0x18]; s32 f18; s32 f1C; };
-struct Mgr_80334D74 { u8 pad[0x42C]; Res_80334D74 *res; s32 f430; };
 extern s32 lbl_804774A8[];
 extern s32 lbl_804774B0[];
 extern s32 lbl_804774B8[];
@@ -925,20 +916,6 @@ f32 lbl_805434D0[3];
 saddr lbl_805434DC[3];
 extern saddr lbl_805D6D08[1];
 extern saddr lbl_805D6D0C[1];
-
-struct ModelRes_803350AC {
-    u8 pad[0x18];
-    u8 *f18;
-    NJS_TEXLIST *texlist;
-    u8 pad20[0x8];
-    u8 *f28;
-};
-
-struct ResMgr_803350AC {
-    u8 pad[0x42C];
-    ModelRes_803350AC *res;
-    BmlMotionEntry *motions;
-};
 
 // The motion-binding block TLobby::spawn_npc_enemy takes (same layout as
 // MojaAnimationBinding and GeeAnimationBinding).
@@ -948,22 +925,22 @@ extern const s32 lbl_804774A0[2];
 void TObjEneMorfos__sub_803350AC(void);
 
 void TObjEneMorfos__sub_803350AC(void) {
-    ResMgr_803350AC *mgr;
+    BmlResource *mgr;
     s32 i;
 
     if (is_split_screen() != 0) {
-        mgr = (ResMgr_803350AC *)load_enemy_bml_resource(&bm_ene_morfos_low_resource_descriptor);
+        mgr = load_enemy_bml_resource(&bm_ene_morfos_low_resource_descriptor);
     } else {
-        mgr = (ResMgr_803350AC *)load_enemy_bml_resource(&morfos_resource_descriptor);
+        mgr = load_enemy_bml_resource(&morfos_resource_descriptor);
     }
-    TObjEneMorfos__instance = (saddr)mgr;
+    TObjEneMorfos__instance = mgr;
     lbl_805434D0[0] = 0.0f;
     lbl_805434D0[1] = 0.0f;
     lbl_805434D0[2] = 0.0f;
     TObjEneMorfos__phase = 0;
-    TObjEneMorfos__camera_path_cursor = 0;
-    lbl_805D6D20 = *(u8 **)(*(u8 **)(*(u8 **)(mgr->res->f18 + 0x2C) + 4) + 4);
-    lbl_805D6D24 = *(u8 **)(*(u8 **)(mgr->res->f28 + 4) + 4);
+    TObjEneMorfos__camera_path_cursor = NULL;
+    lbl_805D6D20 = ((NJS_CNK_MODEL *)mgr->models[1].model->child->model)->polygon_list;
+    lbl_805D6D24 = ((NJS_CNK_MODEL *)mgr->models[2].model->model)->polygon_list;
     lbl_805D6D28 = 0;
     lbl_805D6D2C = 0;
     for (i = 0; i < 1; i++) {
@@ -980,9 +957,9 @@ void TObjEneMorfos__sub_803350AC(void) {
     }
     TObjEneMorfosArm::init_global();
     {
-        NpcAnimationBinding desc = { reinterpret_cast<BmlMotionEntry *>(((ResMgr_803350AC *)TObjEneMorfos__instance)->motions), reinterpret_cast<TObjMotionAction *>(morfos_motion_param_table), 0, 0, 6 };
-        NpcModelRegistry::register_animated_chunk(0x4D, reinterpret_cast<void *>(((ResMgr_803350AC *)TObjEneMorfos__instance)->res->f18),
-                                reinterpret_cast<void *>(((ResMgr_803350AC *)TObjEneMorfos__instance)->res->texlist), &desc,
+        NpcAnimationBinding desc = { TObjEneMorfos__instance->motions, reinterpret_cast<TObjMotionAction *>(morfos_motion_param_table), 0, 0, 6 };
+        NpcModelRegistry::register_animated_chunk(0x4D, TObjEneMorfos__instance->models[1].model,
+                                TObjEneMorfos__instance->models[1].m_c, &desc,
                                 8.0f, 0.0f);
     }
 }
@@ -993,9 +970,9 @@ void *TObjEneMorfos::create() {
 
 void TObjEneMorfos::unload_static_data() {
     TObjEneMorfosArm__sub_8033542C();
-    if ((u32) (*(u32 *)&TObjEneMorfos__instance) != 0U) {
-        delete (BmlResource *)(*(uaddr *)&TObjEneMorfos__instance);
-        (*(u32 *)&TObjEneMorfos__instance) = 0U;
+    if (TObjEneMorfos__instance != NULL) {
+        delete TObjEneMorfos__instance;
+        TObjEneMorfos__instance = NULL;
     }
 }
 TObjEneMorfos::TObjEneMorfos(TObject *parent, void *set_data) : TObjEneDD_ST(parent) {
@@ -1009,11 +986,11 @@ void TObjEneMorfos::init_instance() {
     s32 i;
 
     init_position_vectors();
-    *(s32 *)((s8 *)this + 0x34) = ((Mgr_80334D74 *)TObjEneMorfos__instance)->res->f18;
-    this->texlist = ((Mgr_80334D74 *)TObjEneMorfos__instance)->res->f1C;
+    model = TObjEneMorfos__instance->models[1].model;
+    this->texlist = (saddr)TObjEneMorfos__instance->models[1].m_c;
     init_model((CollisionBody *)lbl_804EE0DC, (s32)1);
     set_field_d8((saddr)morfos_motion_param_table);
-    set_field_dc(((Mgr_80334D74 *)TObjEneMorfos__instance)->f430);
+    set_field_dc((saddr)TObjEneMorfos__instance->motions);
     this->requested_action = 0;
     set_animation(this->requested_action);
     set_field_b8(this->requested_action);
@@ -1072,11 +1049,11 @@ void TObjEneMorfos::run_task() {
         ((TObjEneMorfos *)(ene_morfos))->update_action_state();
         if ((s32) lbl_805D6D28 != (s32) actor_frame_tick) {
             lbl_805D6D28 = actor_frame_tick;
-            TObjPlayer__sub_8023DEE0((s16 *)lbl_805D6D20, (s16)((s16) *(s32 *)((s8 *)ene_morfos + 0x3D4)), (s16)(0), (u16)(2U));
+            TObjPlayer__sub_8023DEE0(lbl_805D6D20, (s16)((s16) *(s32 *)((s8 *)ene_morfos + 0x3D4)), (s16)(0), (u16)(2U));
         }
         if ((s32) lbl_805D6D2C != (s32) actor_frame_tick) {
             lbl_805D6D2C = actor_frame_tick;
-            TObjPlayer__sub_8023DEE0((s16 *)lbl_805D6D24, (s16)(0), (s16) ((f32) *(s32 *)((s8 *)ene_morfos + 0x3D4) / 2.0f), (u16)(0U));
+            TObjPlayer__sub_8023DEE0(lbl_805D6D24, (s16)(0), (s16) ((f32) *(s32 *)((s8 *)ene_morfos + 0x3D4) / 2.0f), (u16)(0U));
         }
     }
     ((TObjEneMorfos *)ene_morfos)->set_hover_target_position();
@@ -1978,8 +1955,8 @@ void TObjEneMorfos::record_camera_path_point(NJS_OBJECT *) {
     case 6:
     case 10: {
         Vec pos = morfos_camera_path_origin;
-        forward_transform_to_view((const Vec *)&pos, (Vec *)TObjEneMorfos__camera_path_cursor);
-        TObjEneMorfos__camera_path_cursor += 0xC;
+        forward_transform_to_view((const Vec *)&pos, TObjEneMorfos__camera_path_cursor);
+        TObjEneMorfos__camera_path_cursor++;
         break;
     }
     }
@@ -1999,7 +1976,7 @@ void TObjEneMorfos::render_part(s32 idx, s32 mode) {
     post_translate_matrix(self->pos);
     rotate_matrix_y(0, this->rotation_y);
     TObjEneMorfos__phase = 0;
-    TObjEneMorfos__camera_path_cursor = (s32)self->f498;
+    TObjEneMorfos__camera_path_cursor = (Vec *)self->f498;
     set_chunk_model_node_callback(TObjEneMorfos::record_camera_path_point);
     if (self->f3C0 & 2) {
         if (self->body.m8() != 0) {
@@ -2093,18 +2070,18 @@ s32 TObjEneMorfos::render_model_if_visible() {
 void TObjEneMorfos::draw_body() {
     u8 *arg0 = (u8 *)this;
     if ((s32)main_task.get_task_flags() & 0x200) {
-        TObjFish::set_global_param((int)((void *) (*(saddr *)((s8 *)(((RecoveredFields_803326CC_TObjEneMorfos__data_805D6D14 *)(*(u8 * *)&TObjEneMorfos__instance))->field_42C) + 0x2C))));
+        TObjFish::set_global_param((saddr)TObjEneMorfos__instance->models[2].m_c);
         push_matrix();
         post_translate_matrix(arg0 + 0x498);
         rotate_matrix_y(0, (int) (((RecoveredFields_803326CC_arg0 *)arg0)->field_60));
         if (((RecoveredFields_803326CC_arg0 *)arg0)->field_3C0 & 2) {
             if (((VObj_14_fddec9 *)(arg0 + (1032)))->m8() != 0) {
                 ((VObj_14_fddec9 *)(arg0 + (1032)))->m6();
-                draw_chunk_model((void *)(*(saddr *)((s8 *)(*(void **)((s8 *)(((RecoveredFields_803326CC_TObjEneMorfos__data_805D6D14 *)(*(u8 * *)&TObjEneMorfos__instance))->field_42C) + 0x28)) + 4)));
+                draw_chunk_model(TObjEneMorfos__instance->models[2].model->model);
                 ((VObj_14_fddec9 *)(arg0 + (1032)))->m7();
             }
         } else {
-            draw_chunk_model((void *)(*(saddr *)((s8 *)(*(void **)((s8 *)(((RecoveredFields_803326CC_TObjEneMorfos__data_805D6D14 *)(*(u8 * *)&TObjEneMorfos__instance))->field_42C) + 0x28)) + 4)));
+            draw_chunk_model(TObjEneMorfos__instance->models[2].model->model);
         }
         pop_matrix();
     }
@@ -2112,7 +2089,7 @@ void TObjEneMorfos::draw_body() {
 #pragma pop
 
 
-int TObjEneMorfos::get_instance() {  return TObjEneMorfos__instance; }
+BmlResource *TObjEneMorfos::get_instance() {  return TObjEneMorfos__instance; }
 s32 TObjEneMorfosArm__sub_803326BC(void* p) { return *(s32*)((char*)p + 0x60); }
 
 void* TObjEneMorfosArm__sub_803326B4(void* p) { return (char*)p + 0x4a4; }
@@ -2201,7 +2178,7 @@ void TObjEneMorfos::render_demo() {
             frame = (f32)anim->count;
         }
         set_motion_packed_rotation();
-        draw_model_motion((void *)arg0->f34, anim, frame);
+        draw_model_motion(model, anim, frame);
         clear_motion_packed_rotation();
         pop_matrix();
         TParticleCtrl::end_effect_render();
@@ -2213,11 +2190,11 @@ void TObjEneMorfos::render_demo() {
 saddr lbl_805D6D08[1];
 saddr lbl_805D6D0C[1];
 saddr TObjEneMorfos__param_table;
-saddr TObjEneMorfos__instance;
+BmlResource *TObjEneMorfos__instance;
 s32 TObjEneMorfos__phase;
-s32 TObjEneMorfos__camera_path_cursor;
-u8 *lbl_805D6D20;
-u8 *lbl_805D6D24;
+Vec *TObjEneMorfos__camera_path_cursor;
+s16 *lbl_805D6D20;
+s16 *lbl_805D6D24;
 s32 lbl_805D6D28;
 s32 lbl_805D6D2C;
 float morfos_projectile_speed;

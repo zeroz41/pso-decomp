@@ -3,6 +3,7 @@
 
 #include "types.h"
 
+struct BmlResource;
 struct NJS_OBJECT;
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/render/RenderFadeState.h"
@@ -36,7 +37,7 @@ struct TObjEneMorfos : public TObjEneDD_ST {
     RenderFadeState m_424[4];
     TObject *m_494;
     void* m_498;
-    static int get_instance();
+    static BmlResource *get_instance();
     void draw_body();
     static void record_camera_path_point(NJS_OBJECT *);
     void state_death(s32 arg1);

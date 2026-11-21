@@ -240,7 +240,7 @@ void TObjEneShark::update_attack_trail() {
     Obj_800ABB38 *o = (Obj_800ABB38 *)this;
     Vec b;
     Vec a;
-    u32 e;
+    Vec *e;
     s32 idx;
     VObj_800ABB38 *eff;
     if (!(this->m_c0 < 12.0f)) {
@@ -248,11 +248,11 @@ void TObjEneShark::update_attack_trail() {
     }
     switch (this->m_b8) {
     case 3:
-        e = (saddr)((SampledMotionPoints *)((void *)TObjEneShark__attack_motion_3_trail))->lookup(this->m_c0);
+        e = ((SampledMotionPoints *)((void *)TObjEneShark__attack_motion_3_trail))->lookup(this->m_c0);
         idx = 0;
         break;
     case 4:
-        e = (saddr)((SampledMotionPoints *)((void *)shark_attack4_trail_buffer))->lookup(this->m_c0);
+        e = ((SampledMotionPoints *)((void *)shark_attack4_trail_buffer))->lookup(this->m_c0);
         idx = 1;
         break;
     default:
@@ -266,7 +266,7 @@ void TObjEneShark::update_attack_trail() {
     set_matrix_identity(0);
     post_translate_matrix(&o->pos);
     rotate_matrix_y(0, this->rotation_y);
-    matrix_mult_vec_array(NULL, (const Vec *)e, &a, 2);
+    matrix_mult_vec_array(NULL, e, &a, 2);
     pop_matrix();
     eff = o->effs[idx];
     if (eff != NULL) {
@@ -386,7 +386,7 @@ void TObjEneShark::render() {
   rotate_matrix_y(0, this->rotation_y);
   if (TObjPlayer::check_demo_mode() == 1)
   {
-    draw_chunk_object((void *)(*((s32 *) (((s8 *) arg0) + 0x34))));
+    draw_chunk_object(this->model);
   }
   else
   {
@@ -518,12 +518,6 @@ void TObjEneShark::render() {
 
 #include "pso/ui/hud/TNowLoading.h"
 
-struct E_800AC9DC { u8 pad[8]; s32 x8; s32 xc; };
-
-struct G_800AC9DC { u8 pad[0x42c]; E_800AC9DC *tbl; };
-
-struct O_800AC9DC { u8 pad[0x24]; s32 x24; u8 pad2[0xc]; s32 x34; };
-
 struct Sub_800ACA10 { u8 pad[0x18]; s32 level; };
 
 typedef struct O_800AC5EC {
@@ -533,17 +527,10 @@ typedef struct O_800AC5EC {
     void *objs[2];
 } O_800AC5EC;
 
-
-struct Pair_800AC318 { s32 a; s32 b; };
-
-struct Bodies_800AC318 { s32 a; s32 b; s32 model; NJS_TEXLIST *textures; };
-
-struct Res_800AC318 { u8 pad[0x42C]; Bodies_800AC318 *bodies; Pair_800AC318 *motions; };
-
 struct Act_800AC318 { s32 a; s32 idx; f32 c; s32 d; };
 
 extern "C" {
-extern uaddr shark_bml_resource;
+extern BmlResource *shark_bml_resource;
 extern s32 game_difficulty_selection;
 void *__dt__13TUnk_80493450Fv(void *arg0, s16 arg1);
 void free_collision_body_parts(void *);
@@ -778,9 +765,9 @@ void TObjEneShark::free_resources() {
         delete (SampledMotionPoints *)TObjEneShark__attack_motion_3_trail;
         TObjEneShark__attack_motion_3_trail = 0U;
     }
-    if ((u32) shark_bml_resource != 0U) {
-        delete (BmlResource *)shark_bml_resource;
-        shark_bml_resource = 0U;
+    if (shark_bml_resource != NULL) {
+        delete shark_bml_resource;
+        shark_bml_resource = NULL;
     }
 }
 
@@ -788,25 +775,23 @@ void TObjEneShark::free_resources() {
 #define G_AC (*(s32 **)&TObjEneShark__resource_buf)
 #define G_B0 (*(s32 **)&shark_resource_data)
 #define G_B4 (*(s32 **)&shark_resource_buffer)
-#define G_B8 (*(u8 **)&shark_bml_resource)
 #define G_BC (*(void **)&TObjEneShark__attack_motion_3_trail)
 #define G_C0 (*(void **)&shark_attack4_trail_buffer)
-#define RES ((Res_800AC318 *)G_B8)
 void TLobby::load_shark_resources() {
     void *p;
     s32 i;
     if (TObjEneDD::check_v2_mode() != 0) {
-        G_B8 = (u8 *)load_enemy_bml_resource_named((BmlResourceDescriptor *)bm_ene_bm1_shark_resource_descriptor, (const char *)bm_ene_bm1_shark_a_bml_filename);
+        shark_bml_resource = load_enemy_bml_resource_named((BmlResourceDescriptor *)bm_ene_bm1_shark_resource_descriptor, (const char *)bm_ene_bm1_shark_a_bml_filename);
     } else {
         p = new BmlResource(1, (BmlResourceDescriptor *)bm_ene_bm1_shark_resource_descriptor, 0, 0, NULL);
-        G_B8 = (u8 *)p;
+        shark_bml_resource = (BmlResource *)p;
     }
     p = new SampledMotionPoints(2, 7.0f, 12.0f, 1.0f);
     G_BC = p;
     p = new SampledMotionPoints(2, 7.0f, 12.0f, 1.0f);
     G_C0 = p;
-    ((SampledMotionPoints *)G_BC)->sample_two_nodes((NJS_OBJECT *)RES->bodies->model, (NJS_MOTION *)RES->motions[TObjEneShark__action_table[3].idx].b, 5, 8);
-    ((SampledMotionPoints *)G_C0)->sample_two_nodes((NJS_OBJECT *)RES->bodies->model, (NJS_MOTION *)RES->motions[TObjEneShark__action_table[4].idx].b, 0xA, 0xD);
+    ((SampledMotionPoints *)G_BC)->sample_two_nodes(shark_bml_resource->models->model, (NJS_MOTION *)shark_bml_resource->motions[TObjEneShark__action_table[3].idx].motion, 5, 8);
+    ((SampledMotionPoints *)G_C0)->sample_two_nodes(shark_bml_resource->models->model, (NJS_MOTION *)shark_bml_resource->motions[TObjEneShark__action_table[4].idx].motion, 0xA, 0xD);
     G_A8 = (s32 *)mem_alloc(0xC);
     G_AC = (s32 *)mem_alloc(0xC);
     G_B0 = (s32 *)mem_alloc(0xC);
@@ -826,9 +811,9 @@ void TLobby::load_shark_resources() {
     shark_render_node_index = 0;
     {
         s16 ids[3] = { 0x2F, 0x30, 0x31 };
-        NpcAnimationBinding anim = { reinterpret_cast<BmlMotionEntry *>(RES->motions), reinterpret_cast<TObjMotionAction *>(TObjEneShark__action_table), 0, 2, 12 };
+        NpcAnimationBinding anim = { shark_bml_resource->motions, reinterpret_cast<TObjMotionAction *>(TObjEneShark__action_table), 0, 2, 12 };
         for (i = 0; i < 3; i++) {
-            NpcModelRegistry::register_animated_chunk(ids[i], reinterpret_cast<void *>(RES->bodies[i].model), reinterpret_cast<void *>(RES->bodies[i].textures), &anim,
+            NpcModelRegistry::register_animated_chunk(ids[i], shark_bml_resource->models[i].model, shark_bml_resource->models[i].m_c, &anim,
                 7.5f, 0.0f);
         }
     }
@@ -900,7 +885,7 @@ struct Shark_800AC6B0 : VObj_800AC6B0 {
     s16 fB8;
     u8 padba[0xd8 - 0xba];
     void *fD8;
-    s32 fDC;
+    BmlMotionEntry *fDC;
     u8 pade0[0x2ac - 0xe0];
     s32 f2AC;
     u8 pad2b0[0x328 - 0x2b0];
@@ -965,7 +950,7 @@ void *TObjEneShark__ct(void *arg0, void *arg1, void *arg2) {
     ((TObjEneShark *)self)->sub_800AC9DC(self->f368);
     self->fD8 = TObjEneShark__action_table;
     ((TObjMotion *)self)->set_field_d8((saddr)self->fD8);
-    self->fDC = *(s32 *)(shark_bml_resource + 0x430);
+    self->fDC = shark_bml_resource->motions;
     self->fB8 = 0;
     ((TObjMotion *)self)->set_animation(self->fB8);
     ((TObjMotion *)self)->set_field_b8(self->fB8);
@@ -1032,9 +1017,8 @@ void *TObjEneShark__ct(void *arg0, void *arg1, void *arg2) {
 void TUnk_80493450::play_group_chase_sound() {  }
 
 void TObjEneShark::sub_800AC9DC(s32 i) {
-    O_800AC9DC *self = (O_800AC9DC *)this;
-    self->x34 = (*(G_800AC9DC * *)&shark_bml_resource)->tbl[i].x8;
-    self->x24 = (*(G_800AC9DC * *)&shark_bml_resource)->tbl[i].xc;
+    model = shark_bml_resource->models[i].model;
+    textures = shark_bml_resource->models[i].m_c;
 }
 
 void TObjPlayer__sub_800ACA0C(void) {  }
@@ -1065,7 +1049,7 @@ uaddr TObjEneShark__resource_node;
 uaddr TObjEneShark__resource_buf;
 uaddr shark_resource_data;
 uaddr shark_resource_buffer;
-uaddr shark_bml_resource;
+BmlResource *shark_bml_resource;
 uaddr TObjEneShark__attack_motion_3_trail;
 uaddr shark_attack4_trail_buffer;
 s32 shark_render_node_index;

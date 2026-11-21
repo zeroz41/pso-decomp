@@ -56,7 +56,7 @@ struct TObjEneEpsilonGuard : public TObjEneEpsilon {
     u16 body_id;               // entity id of the TObjEneEpsilonBody that spawned it
     u8 pad_472[0x4A];
     TUnk_80494938 fade;
-    TObjEneEpsilonGuard *create(void *arg1, void *arg2, void *arg3, void *arg4);
+    TObjEneEpsilonGuard *create(s32 entity_id, s32 set_index, const Vec *pos, s32 angle);
     void init_model_and_state();
     s32 all_children_gone();
     static void update_attack_pattern(void *arg0);
@@ -84,5 +84,10 @@ struct TObjEneEpsilonGuard : public TObjEneEpsilon {
 };
 
 LAYOUT_ASSERT(TObjEneEpsilonGuard_size, sizeof(TObjEneEpsilonGuard) == 0x4D8);
+
+// Stat handles the guards' resource loader registers with TLobby.
+extern u8 *epsilon_guard_boss_stat_handle;
+extern u8 *epsilon_guard_shared_handler_b;
+extern u8 *epsilon_guard_registered_object_handle;
 
 #endif

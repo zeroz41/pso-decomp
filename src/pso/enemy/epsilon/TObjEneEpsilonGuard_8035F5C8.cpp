@@ -167,7 +167,7 @@ TObjEneEpsilonBody::TObjEneEpsilonBody(TObject *parent, void *set_data) : TObjEn
     target_position.y = 0.0f;
     target_position.z = 0.0f;
     for (i = 0; i < 4; i++) {
-        TObjEneEpsilonGuard *guard = ((TObjEneEpsilonGuard *)this)->create((void *)(u16)(entity_id + 1 + i), (void *)(set_index + 1 + i), &position, (void *)rotation_y);
+        TObjEneEpsilonGuard *guard = ((TObjEneEpsilonGuard *)this)->create((u16)(entity_id + 1 + i), set_index + 1 + i, &position, rotation_y);
         if (guard != NULL) {
             guard_ids[i] = get_entity_id(guard);
         }

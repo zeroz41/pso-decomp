@@ -39,9 +39,9 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TMainTask.h"
 
-s32 epsilon_guard_boss_stat_handle;
-s32 epsilon_guard_shared_handler_b;
-s32 epsilon_guard_registered_object_handle;
+u8 *epsilon_guard_boss_stat_handle;
+u8 *epsilon_guard_shared_handler_b;
+u8 *epsilon_guard_registered_object_handle;
 TObjEneEpsilonGuardParams *TObjEneEpsilonGuard__movement_params;
 extern "C" {
 struct RecoveredGlobal_lbl_805439E0 { s32 value; u8 remaining[0xC]; };
@@ -803,11 +803,11 @@ void TObjEneEpsilonGuard::run_task() {
     }
 }
 
-TObjEneEpsilonGuard *TObjEneEpsilonGuard::create(void *arg1, void *arg2, void *arg3, void *arg4) {
+TObjEneEpsilonGuard *TObjEneEpsilonGuard::create(s32 entity_id, s32 set_index, const Vec *pos, s32 angle) {
     TObjEneEpsilonGuard *o;
     o = (TObjEneEpsilonGuard *)TObject::operator new(sizeof(TObjEneEpsilonGuard));
     if (o != NULL) {
-        o = (TObjEneEpsilonGuard *)TObjEneEpsilonGuard__ct(o, tl_04, (TObjEneEpsilonBody *)this, (saddr)arg1, (saddr)arg2, (const Vec *)arg3, (saddr)arg4);
+        o = (TObjEneEpsilonGuard *)TObjEneEpsilonGuard__ct(o, tl_04, (TObjEneEpsilonBody *)this, entity_id, set_index, pos, angle);
     }
     return o;
 }
@@ -844,7 +844,7 @@ void TObjEneEpsilonGuard::init_model_and_state() {
     requested_action = 0;
     set_animation(requested_action);
     set_field_b8(requested_action);
-    reset_hp((u8 *)epsilon_guard_boss_stat_handle, (u8 *)epsilon_guard_shared_handler_b, (u8 *)epsilon_guard_registered_object_handle);
+    reset_hp(epsilon_guard_boss_stat_handle, epsilon_guard_shared_handler_b, epsilon_guard_registered_object_handle);
     set_indexed_flags(0, 0x80020);
     set_state_flag_4();
     movementParameters = &epsilon_guard_params;
