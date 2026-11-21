@@ -567,35 +567,6 @@ void TObjPlayer__sub_8002F61C(NJS_OBJECT *);
 void *create_particle_controller_with_angles(void *arg0, void *arg1, s32 arg2, s32 arg3, u16 arg4);
 namespace behavior_view {
 
-struct Rol_80032E38 {
-    u8 pad0[0x38];
-    Vec pos;
-    u8 pad44[0x64 - 0x44];
-    s32 f64;
-    u8 pad68[0xB8 - 0x68];
-    s16 fB8;
-    u8 padBA[0xC0 - 0xBA];
-    f32 fC0;
-    u8 padC4[0x3A0 - 0xC4];
-    f32 f3A0;
-    u8 pad3A4[0x3A8 - 0x3A4];
-    f32 f3A8;
-    f32 f3AC;
-    u8 pad3B0[0x3C0 - 0x3B0];
-    u32 f3C0;
-    u8 pad3C4[0x654 - 0x3C4];
-    s32 f654;
-    u8 pad658[0x6A4 - 0x658];
-    f32 f6A4;
-    u8 pad6A8[0x6E0 - 0x6A8];
-    s32 f6E0;
-    s32 f6E4;
-    s32 f6E8;
-    u8 pad6EC[0x6FC - 0x6EC];
-    f32 f6FC;
-    u8 pad700[0x724 - 0x700];
-    Vec f724;
-};
 
 struct D_8002FE60 {
     u8 pad0[0xB8];
@@ -735,7 +706,6 @@ CameraPlayback *get_scripted_camera_playback(void);
 
 s32 restore_player_cameras();
 
-void TBoss2DeRolLe__sub_80032E38(void *arg0, void *arg1);
 
 
 s32 VecCopy__FP3VecPC3Vec(int, void *);
@@ -1549,12 +1519,12 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(par
     state_floats[7] = 0.0f;
     state_floats[8] = 0.0f;
     state_floats[9] = 0.0f;
-    state_floats[10] = 0.0f;
-    state_floats[11] = 0.0f;
-    state_floats[12] = 0.0f;
-    state_floats[13] = 0.0f;
-    state_floats[14] = 0.0f;
-    state_floats[15] = 0.0f;
+    node_offset.x = 0.0f;
+    node_offset.y = 0.0f;
+    node_offset.z = 0.0f;
+    unk_730[0] = 0.0f;
+    unk_730[1] = 0.0f;
+    unk_730[2] = 0.0f;
     unk_73C = NULL;
     debug_pad_active = 0;
     debug_pad = &controller_input_state.controllers[1];
@@ -2621,7 +2591,7 @@ void TBoss2DeRolLe::dispatch_action(u32 state, s32 reason) {
         sub_800333F4(reason);
         return;
     case 1:
-        TBoss2DeRolLe__sub_80032E38(this, reason);
+        sub_80032E38(reason);
         return;
     case 2:
         handle_debug_pad_input(reason);
@@ -2736,36 +2706,30 @@ void TBoss2DeRolLe::sub_800333F4(u32 reason) {
     }
 }
 
-namespace behavior_view {
-
-extern "C" {
-
 #pragma push
 #pragma fp_contract on
 
-#define o ((Rol_80032E38 *)arg0)
-
-void TBoss2DeRolLe__sub_80032E38(void *arg0, void *arg1) {
-    Vec *p = &o->f724;
+void TBoss2DeRolLe::sub_80032E38(u32 reason) {
+    Vec *p = &node_offset;
     CameraPlayback cam;
     CameraPlayback cam2;
     Vec v1;
     Vec v2;
     Vec v3;
     f32 t;
-    switch ((uaddr)arg1) {
+    switch (reason) {
     case 4:
-        o->fB8 = 0;
-        ((TBoss2DeRolLe *)o)->sub_80034258();
-        o->f3C0 &= ~4;
-        o->f3C0 &= ~0x100;
-        o->pos.x = 70.0f;
-        o->f6A4 = 0.0f;
-        o->f64 = 0;
-        o->f6E0 = 1;
-        o->f6E4 = 0;
-        o->f6E8 = 0;
-        o->f6FC = 0.0f;
+        requested_action = 0;
+        sub_80034258();
+        state_flags &= ~4;
+        state_flags &= ~0x100;
+        position.x = 70.0f;
+        height_offset = 0.0f;
+        rotation_z = 0;
+        state_step = 1;
+        unk_6E4 = 0;
+        unk_6E8 = 0;
+        state_floats[0] = 0.0f;
         p->x = 0.0f;
         p->y = 0.0f;
         p->z = 0.0f;
@@ -2775,7 +2739,7 @@ void TBoss2DeRolLe__sub_80032E38(void *arg0, void *arg1) {
             cam.flags = 0;
             cam.frame = 0.0f;
             cam.frame_step = 0.8f;
-            ((s32 (*)(int, f32))activate_camera_mode)(5, 0.0f);
+            activate_camera_mode(5);
             cam.cache_target_and_forward(0x1C71);
         } else {
             cam2.index = 0;
@@ -2783,107 +2747,107 @@ void TBoss2DeRolLe__sub_80032E38(void *arg0, void *arg1) {
             cam2.flags = 0;
             cam2.frame = 0.0f;
             cam2.frame_step = 0.8f;
-            ((s32 (*)(int, f32))activate_camera_mode)(5, 0.0f);
+            activate_camera_mode(5);
             cam2.cache_target_and_forward(0x1C71);
         }
         TWindowCtrl::init_all_slots();
-        ((TObjEneDD *)o)->get_target_state_b();
+        get_target_state_b();
         break;
     case 2:
-        if (o->f6E0 == 5) {
-            o->f654 = 0;
-            ((TBoss2DeRolLe *)o)->set_state_and_send(2);
+        if (state_step == 5) {
+            position_index = 0;
+            set_state_and_send(2);
         }
         break;
     case 9:
-        if (o->f6E0 == 5) {
-            o->f654 = 0;
-            ((TBoss2DeRolLe *)o)->advance_action_sequence();
+        if (state_step == 5) {
+            position_index = 0;
+            advance_action_sequence();
         }
         break;
     case 0:
-        if (o->f6E0 == 2) {
-            o->fB8 = 1;
-            ((void (*)(void *, void *))vec3_add_to)(&o->pos, p);
-            ((TBoss2DeRolLe *)o)->set_move_target_point(0);
-            o->f6E0 = 3;
+        if (state_step == 2) {
+            requested_action = 1;
+            vec3_add_to(&position, p);
+            set_move_target_point(0);
+            state_step = 3;
         }
-        ((TObjMotion *)o)->advance_animation();
-        switch (o->f6E0) {
+        advance_animation();
+        switch (state_step) {
         case 0:
-            o->f6E8++;
-            if (o->f6E8 >= 0x37) {
-                o->f6E8 = 0;
-                o->f6E0 = 1;
-                o->pos.x = 0.0f;
-                o->pos.y = 7.0f;
-                o->pos.z = -190.0f;
-                o->f6A4 = 0.0f;
-                o->f64 = 0;
+            unk_6E8++;
+            if (unk_6E8 >= 0x37) {
+                unk_6E8 = 0;
+                state_step = 1;
+                position.x = 0.0f;
+                position.y = 7.0f;
+                position.z = -190.0f;
+                height_offset = 0.0f;
+                rotation_z = 0;
             }
             break;
         case 1:
-            ((TBoss2DeRolLe *)o)->get_node_world_pos(p);
-            o->f6E4++;
-            t = o->fC0;
+            get_node_world_pos(p);
+            unk_6E4++;
+            t = frame;
             if (t >= 34.0f && t <= 42.0f) {
-                if ((f32)o->f6E4 >= 3.0f) {
-                    o->f6E4 = 0;
-                    ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&v1, &o->pos);
-                    ((void (*)(void *, void *))vec3_add_to)(&v1, p);
-                    v1.x += 30.0f * ((TObjEneDD *)o)->calc_elapsed_scaled();
+                if ((f32)unk_6E4 >= 3.0f) {
+                    unk_6E4 = 0;
+                    VecCopy(&v1, &position);
+                    vec3_add_to(&v1, p);
+                    v1.x += 30.0f * calc_elapsed_scaled();
                     v1.y = -5.0f;
                     v1.z += 70.0f;
-                    ((TBoss2DeRolLe *)o)->spawn_ceil_junk(&v1);
+                    spawn_ceil_junk(&v1);
                 }
             } else if (t >= 64.0f && t <= 72.0f) {
-                if ((f32)o->f6E4 >= 2.0f) {
-                    o->f6E4 = 0;
-                    ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&v2, &o->pos);
-                    ((void (*)(void *, void *))vec3_add_to)(&v2, p);
-                    v2.x += 40.0f * ((TObjEneDD *)o)->calc_elapsed_scaled();
+                if ((f32)unk_6E4 >= 2.0f) {
+                    unk_6E4 = 0;
+                    VecCopy(&v2, &position);
+                    vec3_add_to(&v2, p);
+                    v2.x += 40.0f * calc_elapsed_scaled();
                     v2.y = -5.0f;
                     v2.z += 40.0f;
-                    ((TBoss2DeRolLe *)o)->spawn_ceil_junk(&v2);
+                    spawn_ceil_junk(&v2);
                 }
-            } else if (t >= 110.0f && t <= 120.0f && (f32)o->f6E4 >= 2.0f) {
-                o->f6E4 = 0;
-                ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&v3, &o->pos);
-                ((void (*)(void *, void *))vec3_add_to)(&v3, p);
-                v3.x += 30.0f * ((TObjEneDD *)o)->calc_elapsed_scaled();
+            } else if (t >= 110.0f && t <= 120.0f && (f32)unk_6E4 >= 2.0f) {
+                unk_6E4 = 0;
+                VecCopy(&v3, &position);
+                vec3_add_to(&v3, p);
+                v3.x += 30.0f * calc_elapsed_scaled();
                 v3.y = -5.0f;
                 v3.z += 70.0f;
-                ((TBoss2DeRolLe *)o)->spawn_ceil_junk(&v3);
+                spawn_ceil_junk(&v3);
             }
-            if (((TObjMotion *)o)->is_passing_frame(35.0f) != 0 || ((TObjMotion *)o)->is_passing_frame(112.0f) != 0) {
-                play_sound_effect((void *)0x4003AD11, 0, 0, 0);
-            } else if (((TObjMotion *)o)->is_passing_frame(65.0f) != 0) {
-                play_sound_effect((void *)0x4003AD12, 0, 0, 0);
+            if (is_passing_frame(35.0f) != 0 || is_passing_frame(112.0f) != 0) {
+                play_sound_effect(0x4003AD11, 0, 0, 0);
+            } else if (is_passing_frame(65.0f) != 0) {
+                play_sound_effect(0x4003AD12, 0, 0, 0);
             }
-            if (o->fC0 >= 34.0f) {
-                o->pos.x -= 1.0f;
-            } else if (o->fC0 >= 18.0f) {
-                o->pos.x -= 5.0f;
+            if (frame >= 34.0f) {
+                position.x -= 1.0f;
+            } else if (frame >= 18.0f) {
+                position.x -= 5.0f;
             }
-            if (((TObjEneDD *)o)->get_flag_b4() != 0) {
-                o->f6E0 = 2;
-                o->f3C0 |= 0x100;
+            if (get_flag_b4() != 0) {
+                state_step = 2;
+                state_flags |= 0x100;
             }
             break;
         case 2:
             break;
         case 3:
-            o->pos.x = 3.0f * o->f3A0 + o->pos.x;
-            o->pos.z = 3.0f * o->f3A8 + o->pos.z;
-            o->f6FC += 3.0f;
-            if (o->f6FC >= o->f3AC) {
-                o->f6E0 = 4;
+            position.x = 3.0f * move_dir.x + position.x;
+            position.z = 3.0f * move_dir.z + position.z;
+            state_floats[0] += 3.0f;
+            if (state_floats[0] >= move_distance) {
+                state_step = 4;
             }
             break;
         case 4:
             if (get_scripted_camera_playback()->flags & 1) {
                 restore_player_cameras();
-                o->f6E0 = 5;
+                state_step = 5;
             }
             break;
         }
@@ -2891,19 +2855,14 @@ void TBoss2DeRolLe__sub_80032E38(void *arg0, void *arg1) {
     case 5:
         restore_player_cameras();
         TWindowCtrl::init_all_slots2();
-        ((TObjEneDD *)o)->get_target_state_a();
+        get_target_state_a();
         break;
     }
 }
 
 #pragma pop
 
-#undef o
 #undef arg0
-
-}
-
-}
 
 void TBoss2DeRolLe::handle_debug_pad_input(u32 reason) {
     u32 b;
