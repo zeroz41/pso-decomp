@@ -41,16 +41,12 @@ void *get_player_by_client_id(s32 i);
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/unk/TLobby.h"
-struct O_800B98C0;
 extern "C" {
 f32 atan2_float(f32 y, f32 x);
 }
-struct O_800B98C0 { u8 pad[0x38c]; u16 f38c; u8 pad2[2]; s32 f390; };
-struct Obj_800B9958 { u8 pad[0x38c]; u16 id; u8 pad2[2]; s32 ptr; };
-struct Obj_800B98D8 { u8 pad[0x38c]; u16 target_id; u8 pad2[2]; void *target; };
 extern "C" {
 s32 find_active_entity_by_id(u16);
-void enemy_set_target_id(Obj_800B9958 *self, u16 id);
+void enemy_set_target_id(TObjEneDD_ST *self, u16 id);
 f32 normalize_vector_xz__FP3Vec(void *, f32, f32);
 }
 extern const f32 lbl_805D9E80 = -0.1f;
@@ -322,21 +318,7 @@ struct VObj_18_3f4583 : VBase_18_3f4583 {
     virtual void * m101();
 };
 struct Node_800BAF1C { u8 pad0[4]; Vec *pos; };
-struct Ene_800BAF1C {
-    u8 pad0[0x38];
-    Vec pos;
-    u8 pad44[0x37C - 0x44];
-    f32 reach;
-    s32 count;
-};
 struct Node_800BB000 { u8 pad0[4]; u8 *wall; };
-struct Ene_800BB000 {
-    u8 pad0[0x38];
-    Vec pos;
-    u8 pad44[0x37C - 0x44];
-    f32 reach;
-    s32 count;
-};
 extern "C" {
 f32 newton_sqrtf(f32);
 }
@@ -864,20 +846,20 @@ void TBoss5Gryphon::calc_shot_position(u8 *arg1, f32 farg0, f32 farg1, f32 farg2
 
 #pragma push
 #pragma fp_contract on
-#define e ((Ene_800BB000 *)arg0)
+#define e ((TObjEneDD *)arg0)
 #define out ((Vec *)arg1)
 void calc_wall_slide_destination(void *arg0, void *arg1, f32 dx, f32 dz, f32 dist) {
     Node_800BB000 *n;
     Vec v;
-    n = (Node_800BB000 *)((TBoss5Gryphon *)e)->enemy_probe_wall_ahead(dx, dz, dist + e->reach);
+    n = (Node_800BB000 *)((TBoss5Gryphon *)e)->enemy_probe_wall_ahead(dx, dz, dist + e->wall_reach);
     if (n == NULL) {
-        out->x = dx * dist + e->pos.x;
-        out->y = e->pos.y;
-        out->z = dz * dist + e->pos.z;
-        e->count = 0;
+        out->x = dx * dist + e->position.x;
+        out->y = e->position.y;
+        out->z = dz * dist + e->position.z;
+        e->wall_probe_failures = 0;
         return;
     }
-    e->count++;
+    e->wall_probe_failures++;
     v.x = *(f32 *)(n->wall + 0x14);
     v.z = -*(f32 *)(n->wall + 0xC);
     normalize_vector_xz((Vec *)(&v));
@@ -888,13 +870,13 @@ void calc_wall_slide_destination(void *arg0, void *arg1, f32 dx, f32 dz, f32 dis
         dx = -v.x;
         dz = -v.z;
     }
-    if ((Node_800BB000 *)((TBoss5Gryphon *)e)->enemy_probe_wall_ahead(dx, dz, dist + e->reach) == NULL) {
-        out->x = dx * dist + e->pos.x;
-        out->y = e->pos.y;
-        out->z = dz * dist + e->pos.z;
+    if ((Node_800BB000 *)((TBoss5Gryphon *)e)->enemy_probe_wall_ahead(dx, dz, dist + e->wall_reach) == NULL) {
+        out->x = dx * dist + e->position.x;
+        out->y = e->position.y;
+        out->z = dz * dist + e->position.z;
         return;
     }
-    VecCopy((Vec *)out, (const Vec *)&e->pos);
+    VecCopy((Vec *)out, (const Vec *)&e->position);
 }
 #undef e
 #undef out
@@ -903,26 +885,26 @@ void calc_wall_slide_destination(void *arg0, void *arg1, f32 dx, f32 dz, f32 dis
 #pragma push
 #pragma fp_contract on
 void calc_wall_clamped_destination(void *arg0, void *arg1, f32 dx, f32 dz, f32 dist) {
-    Ene_800BAF1C *e = (Ene_800BAF1C *)arg0;
+    TObjEneDD *e = (TObjEneDD *)arg0;
     Vec *out = (Vec *)arg1;
-    Node_800BAF1C *n = (Node_800BAF1C *)((TBoss5Gryphon *)e)->enemy_probe_wall_ahead(dx, dz, dist + ((TBoss5Gryphon *)e)->wall_reach);
+    Node_800BAF1C *n = (Node_800BAF1C *)((TBoss5Gryphon *)e)->enemy_probe_wall_ahead(dx, dz, dist + e->wall_reach);
     if (n == NULL) {
-        e->count = 0;
+        e->wall_probe_failures = 0;
     } else {
         Vec *p;
         f32 ddx;
         f32 px;
         f32 ddz;
-        e->count++;
+        e->wall_probe_failures++;
         p = n->pos;
         px = p->x;
-        ddz = p->z - e->pos.z;
-        ddx = px - e->pos.x;
-        dist = ((f32 (*)(f32, f32, f32))newton_sqrtf)(ddx * ddx + ddz * ddz, px, ddz) - ((TBoss5Gryphon *)e)->wall_reach;
+        ddz = p->z - e->position.z;
+        ddx = px - e->position.x;
+        dist = ((f32 (*)(f32, f32, f32))newton_sqrtf)(ddx * ddx + ddz * ddz, px, ddz) - e->wall_reach;
     }
-    out->x = dx * dist + e->pos.x;
-    out->y = e->pos.y;
-    out->z = dz * dist + e->pos.z;
+    out->x = dx * dist + e->position.x;
+    out->y = e->position.y;
+    out->z = dz * dist + e->position.z;
 }
 #pragma pop
 
@@ -1469,13 +1451,13 @@ void TObjEneDD_ST::init_float_params() {
 }
 
 
-void enemy_set_target_id(Obj_800B9958 *self, u16 id) {
-    self->id = id;
+void enemy_set_target_id(TObjEneDD_ST *self, u16 id) {
+    self->target_id = id;
     if (id != 0xFFFF) {
-        self->ptr = find_active_entity_by_id(self->id);
+        self->current_target = (TObjChara *)find_active_entity_by_id(self->target_id);
     } else {
-        self->id = 0xFFFF;
-        self->ptr = 0;
+        self->target_id = 0xFFFF;
+        self->current_target = 0;
     }
 }
 
@@ -1508,7 +1490,7 @@ s32 TObjEneDD_ST::acquire_target(f32 distance) { return select_nearest_target(di
 
 s32 enemy_bind_or_clear_target(void *self, u16 x) {
     if (x != 0xFFFF) {
-        enemy_set_target_id((Obj_800B9958 *)(self), x);
+        enemy_set_target_id((TObjEneDD_ST *)(self), x);
         return 1;
     }
     ((TObjEneDD_ST *)(self))->enemy_clear_target();
