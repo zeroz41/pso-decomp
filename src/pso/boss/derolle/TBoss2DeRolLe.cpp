@@ -61,14 +61,6 @@ struct NJS_OBJECT;
 #include "pso/enemy/dd/TObjEneDD_800B9B84.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 
-extern "C" void has_flag_0x800__9TObjCharaFv();
-
-extern "C" void test_flag30_512__9TObjCharaFv();
-
-extern "C" void test_flag_1000__9TObjCharaFv();
-
-extern "C" void test_flag_256__9TObjCharaFv();
-
 #include "pso/effect/TBreakUpMdl.h"
 
 #include "pso/unk/TUnk_80482090.h"
@@ -329,19 +321,9 @@ extern f32 lbl_804FF5E8[];
 
 void TObjPlayer__sub_8002E7C8(void);
 
-
-void VecCopy__FP3VecPC3Vec(void *, void *);
-
-void fn_8002F5AC(u8 *arg0);
-
-
 s32 TObjLight__sub_801337F8(s32);
 
-
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
-
-void TObjPlayer__sub_8002F61C(NJS_OBJECT *);
-
 
 extern saddr current_scene_light;
 
@@ -493,12 +475,9 @@ struct Me_8002F258 : VObj_18_3a6650 {
 
 extern "C" {
 
-
 s32 TObjLight__sub_801336DC(s32);
 
 s32 TObjLight__sub_8013379C(s32, void *);
-
-void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 
 extern u8 derolle_segment_texture_slots[];
 
@@ -515,8 +494,6 @@ extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 
 }
-
-void get_current_matrix(void *m);
 
 saddr TBoss2DeRolLe__base_params[1];
 saddr TBoss2DeRolLe__resistance_params[1];
@@ -537,29 +514,9 @@ namespace joint_transform_view {
 
 extern "C" {
 
-
-
 s32 matrix_mult_vec_array(int, void *, void *, int);
 
 s32 subtract_vector(void *, void *);
-
-s32 push_matrix();
-
-extern s32 TBoss2DeRolLe__current_attack_id;
-
-extern s32 TBoss2DeRolLe__sequence_match_index;
-
-extern s32 lbl_805D4BB0;
-
-extern s32 lbl_805D4BB4;
-
-extern saddr lbl_805D4BB8;
-
-extern saddr lbl_805D4BBC;
-
-extern saddr lbl_805D4BC0;
-
-void TObjPlayer__sub_8002F61C(NJS_OBJECT *);
 
 }
 
@@ -568,311 +525,21 @@ void TObjPlayer__sub_8002F61C(NJS_OBJECT *);
 void *create_particle_controller_with_angles(void *arg0, void *arg1, s32 arg2, s32 arg3, u16 arg4);
 namespace behavior_view {
 
-
-
 extern "C" {
 
-
-
-
-
-
-
-
-
-s32 VecCopy__FP3VecPC3Vec(int, void *);
-
-
-
-
-
-
-
-s32 VecCopy__FP3VecPC3Vec(int, void *);
-
-
-int play_sound(void* p, int a1);
-
-
-
-
-s32 VecCopy__FP3VecPC3Vec(int, void *);
-
-
-
-void fill_value_array(saddr);
-
-
-int play_sound(void* p, int a1);
-
-
-
-
-
-u8 *csnVector(void *, void *, int);
-
-
-s32 vec3_add_to(int, void *);
-
-void subtract_vector(void *, void *);
-
-extern u8 *TBoss2DeRolLe__data_805D4BA0;
-
-
-
-
-
-
-
-s32 VecCopy__FP3VecPC3Vec(int, void *);
-
-
-
-
-
-extern u8 *TBoss2DeRolLe__data_805D4BA0;
-
-
-
-
-void assign_slots_from_list(void *, saddr);
-
-
-s32 VecCopy__FP3VecPC3Vec(int, void *);
-
-
-
-s32 restore_player_cameras();
-
-s32 activate_camera_mode(int);
-
-void set_scripted_camera_pose(void *, void *, void *);
-
-
 int play_sound_effect(void*, int, int, int);
-
-void play_cue_stream_file(saddr name);
-
-
-s32 VecCopy__FP3VecPC3Vec(int, void *);
-
-s32 activate_camera_mode(int);
-
-
-s32 vec3_add_to(int, void *);
-
-
-
-int play_sound_effect(void*, int, int, int);
-
-
-CameraPlayback *get_scripted_camera_playback(void);
-
-s32 restore_player_cameras();
-
-
-
-s32 VecCopy__FP3VecPC3Vec(int, void *);
-
-
-int play_sound(void* p, int a1);
-
-
-
-s32 advance_scalar_motion_profile(void *);
-
-
-
-
-
-s32 VecCopy__FP3VecPC3Vec(int, void *);
-
-
-
-
-
-
-
-
-
-
-
-void dispatch_action__13TBoss2DeRolLeFiUii(saddr arg0, u32 arg1, saddr arg2);
-
-
-
-int play_sound(void* p, int a1);
-
-
-
-
-
-
-void reset_fields_3d0__13TBoss2DeRolLeFPv(void* p);
-
-void set_params__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1);
-
-void init_from_param__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1);
-
-void handle_6x14_de_rol_le_boss_actions_with_target(void *arg0);
-
-void handle_6x13_de_rol_le_boss_actions(void *arg0);
-
-void clear_play_flags__13TBoss2DeRolLeFv(void *arg0);
-
-
-
-void update_check__13TBoss2DeRolLeFPv(void *arg0);
-
-void swap_endian__13TBoss2DeRolLeFPv(void *);
-
-void swap_6x13_fields__13TBoss2DeRolLeFPv(void *);
-
-
 
 s32 enemy_set_target_id(void * a0 = 0, u16 a1 = 0);
 
-void project_sound_origin_from_camera(saddr arg0, u8 *arg1, f32 farg0);
-
-
-
-
 u8 *get_enemy_entity(u16 arg0);
 
-s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
+}
 
-int play_sound_effect(void*, int, int, int);
-
-s32 vec3_add_to(int, void *);
-
-extern Vec TBoss2DeRolLe__mine_ground_targets[];
-
-
-
-
-
-extern int fold_flush_0;
+}
 
 extern "C" {
 
-s32 VecCopy__FP3VecPC3Vec(int, void *);
-
-
-s32 advance_scalar_motion_profile(void *);
-
-
-
-
-int play_sound(void* p, int a1);
-
-}
-
-extern int fold_flush_1;
-
-extern int fold_flush_2;
-
-s32 advance_scalar_motion_profile(void *);
-
-
-
-s32 advance_scalar_motion_profile(void *);
-
-
-
-
-
-s32 advance_scalar_motion_profile(void *);
-
-
-
-
-
-
-
-s32 advance_scalar_motion_profile(void *);
-
-
-
-}
-
-}
-
-void compose_motion_node_matrix(void *arg0);
-void compose_motion_node_matrix(void *arg0);
-namespace joint_state_view {
-
-
-
-
-
-
-extern "C" {
-
-f32 TBoss2DeRolLe__sub_80034CEC(void);
-
-f32 TBoss2DeRolLe__sub_80034CF8(void);
-
-
-
-
 s32 VecCopy__FP3VecPC3Vec(s32, s32);
-
-void update_colliders_from_offsets__13TBoss2DeRolLeFi(s32 arg0);
-
-int play_sound(void *, int);
-
-
-
-
-s32 VecCopy__FP3VecPC3Vec(s32, s32);
-
-s32 VecCopy__FP3VecPC3Vec(s32, s32);
-
-f32 subtract_vector(void *, void *);
-
-s32 matrix_mult_vec(int, void *, void *);
-
-s32 set_matrix_identity(int);
-
-s32 push_matrix();
-
-
-s32 matrix_mult_vec(int, void *, void *);
-
-s32 scale_matrix(int, f32, f32, f32);
-
-extern u8 identity_matrix[];
-
-
-
-extern s32 TBoss2DeRolLe__attack_params_table[];
-
-extern saddr TBoss2DeRolLe__base_params[1];
-
-extern saddr TBoss2DeRolLe__resistance_params[1];
-
-void send_6x13__13TBoss2DeRolLeFPv(void *p);
-
-void TBoss2DeRolLe__sub_80036358(void *p);
-
-void update_and_send__13TBoss2DeRolLeFPv(void *p);
-
-void TBoss2DeRolLe__sub_800363A0(void *p);
-
-
-s32 TBoss2Joint_get_shell_max_hp(void);
-
-void backup_pos__13TBoss2DeRolLeFi(s32 arg0);
-
-
-
-s32 VecCopy__FP3VecPC3Vec(s32, s32);
-
-
-extern u8 *TBoss2DeRolLe__data_805D4BA0;
-
-
-}
 
 }
 
@@ -901,147 +568,15 @@ typedef struct Node_80035D24 {
 
 extern "C" {
 
-void VecCopy__FP3VecPC3Vec(void *, void *);
-
-
-void TBoss2DeRolLe__sub_800360A8(void *arg0);
-
-
-
-
-void backup_pos__13TBoss2DeRolLeFi(s32 arg0);
-
-
-
-
-
-void run_task__13TBoss2DeRolLeFPv(u8 *arg0);
-
-s32 __dt__7TObjectFv(void *, int);
-
-
-void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);
-
-s32 __dt__17AreaAttackHistoryFv(s32 arg0, s16 arg1);
-
-
-s32 free_collision_body_parts(void *);
-
-s32 __dl__7TObjectFPv(void *);
-
-
-u8 *__dt__13TBoss2DeRolLeFv(u8 *arg0, s16 arg1);
-
-void VecCopy__FP3VecPC3Vec(void *, void *);
-
-
-s32 TObjLight__sub_801337F8(s32);
-
-s32 scale_matrix(int, f32, f32, f32);
-
-f32 vector_length(void *);
-
-void translate_matrix_vec3(u8 *arg0, u8 *arg1);
-
-s32 subtract_vector(void *, void *);
-
-s32 rotate_matrix_x(int, int);
-
-
-s32 push_matrix();
-
-
-extern saddr current_scene_light;
-
-
-
-
-
-void TObjPlayer__sub_8002E7C8(void);
-
-
-
-
-
-
-
-extern saddr TBoss2DeRolLe__base_params[1];
-
-extern saddr TBoss2DeRolLe__resistance_params[1];
-
 extern s32 TBoss2DeRolLe__data_805D4BA0[1];
-
-
-extern s32 TBoss2DeRolLe__current_attack_id;
-
-extern s32 TBoss2DeRolLe__sequence_match_index;
-
-extern s32 lbl_805D4BB0;
-
-extern s32 lbl_805D4BB4;
-
-extern saddr lbl_805D4BB8;
-
-extern saddr lbl_805D4BBC;
-
-extern saddr lbl_805D4BC0;
-
 
 extern u8 *derolle_texture_list_handle;
 
 extern s32 lbl_805D4BCC;
 
-void load_resources__13TBoss2DeRolLeFv(void);
-
-s32 advance_scalar_motion_profile(void *arg0);
-
-
-
-void apply_poison_status__13TBoss2DeRolLeFv(void);
-
-void apply_paralysis__13TBoss2DeRolLeFv(void);
-
-void apply_slow_status__13TBoss2DeRolLeFv(void);
-
-void apply_confusion_status__13TBoss2DeRolLeFv(void);
-
-void apply_movement_ailment__13TBoss2DeRolLeFl(void);
-
-void apply_shock_status__13TBoss2DeRolLeFv(void);
-
-void clear_harmful_statuses__13TBoss2DeRolLeFv(void);
-
-void TBoss2DeRolLe__sub_80036358(void* p);
-
-void TBoss2DeRolLe__sub_800363A0(void* p);
-
-void *create__13TBoss2DeRolLeFPv(void *arg0);
-
-void reset_parts__13TBoss2DeRolLeFv(void);
-
-void send_6x13__13TBoss2DeRolLeFPv(void* p);
-
-void swap_6x13_fields__13TBoss2DeRolLeFPv(void* p);
-
-void swap_endian__13TBoss2DeRolLeFPv(void* p);
-
-void update_and_send__13TBoss2DeRolLeFPv(void* p);
-
-void *TBoss2DeRolLe__ct(void *, void *, void *);
-
-
-
-
-
-void TObjPlayer__sub_8002EB88(void);
-
-void __dl__FPv(void);
-
-
 int bswap_16__FPUs(void*);
 
 int bswap_32__FPUl(void*);
-
 
 }
 
@@ -1061,19 +596,11 @@ namespace lifecycle_view {
 
 extern "C" {
 
-extern void *tl_04;
-
-
-
-
-
-
 u32 lbl_804FE30C[4];
 
 u32 lbl_804FE31C[3];
 
 Slot_80035D24 derolle_segment_texture_slots[11];
-
 
 void TBoss2DeRolLe__sub_800363A0(void* p) { *(u8*)((char*)p + 0x0) = 20; *(u8*)((char*)p + 0x1) = 3; }
 
@@ -1544,8 +1071,6 @@ TBoss2DeRolLe::~TBoss2DeRolLe() {
     }
 }
 
-namespace lifecycle_view {
-
 extern "C" {
 
 void TBoss2DeRolLe::run_task() {
@@ -1658,8 +1183,6 @@ void TBoss2DeRolLe::run_task() {
 
 }
 
-}
-
 void TBoss2DeRolLe::sub_8003508C() {
     if (is_ready() != 0) {
         sub_80034034();
@@ -1668,8 +1191,6 @@ void TBoss2DeRolLe::sub_8003508C() {
     dispatch_action(mode, 9);
 }
 
-namespace lifecycle_view {
-
 extern "C" {
 
 void TBoss2DeRolLe::refresh_target() {  }
@@ -1677,10 +1198,6 @@ void TBoss2DeRolLe::refresh_target() {  }
 void TBoss2DeRolLe::run_death_reaction() {  }
 
 }
-
-}
-
-namespace joint_state_view {
 
 extern "C" {
 
@@ -1724,8 +1241,6 @@ void TBoss2DeRolLe::update_body_colliders() {
 
 }
 
-}
-
 void TBoss2DeRolLe::set_state_and_send(s32 state) {
     DeRolLeActionTargetPacket target_packet;
     DeRolLeActionPacket packet;
@@ -1744,11 +1259,6 @@ void TBoss2DeRolLe::set_state_and_send(s32 state) {
     packet.state = state;
     packet.sequence_index = unk_3D4;
     send_6x13__13TBoss2DeRolLeFPv(&packet);
-}
-
-namespace joint_state_view {
-
-
 }
 
 void TBoss2DeRolLe::reload_stats_for_phase(s32 kind) {
@@ -1775,8 +1285,6 @@ void TBoss2DeRolLe::reload_stats_for_phase(s32 kind) {
     }
     reload_stats_keep_hp_tp((u8 *)TBoss2DeRolLe__base_params[a], (u8 *)TBoss2DeRolLe__attack_params_table[i], (u8 *)TBoss2DeRolLe__resistance_params[b]);
 }
-
-namespace joint_state_view {
 
 extern "C" {
 
@@ -1818,24 +1326,14 @@ s32 TBoss2Joint_get_shell_max_hp(void) {
 
 }
 
-}
-
 void TBoss2DeRolLe::set_position_index(s32 index) {
     VecCopy(&position, &TBoss2DeRolLe__position_point_table[index]);
     height_offset = 0.0f;
     rotation_z = 0;
 }
 
-namespace joint_state_view {
-
-extern "C" {
-
 #pragma push
 #pragma opt_common_subs off
-
-}
-
-}
 
 void TBoss2DeRolLe::set_move_target_point(s32 index) {
     VecCopy(&destination, &TBoss2DeRolLe__position_point_table[index]);
@@ -1844,15 +1342,7 @@ void TBoss2DeRolLe::set_move_target_point(s32 index) {
     destination_distance = normalize_vector_xz(&destination_direction);
 }
 
-namespace joint_state_view {
-
-extern "C" {
-
 #pragma pop
-
-}
-
-}
 
 // Puts the body at the side of position_index it swims out from (the TBoss7DeRolLeC twin is
 // set_swim_direction); the callers pass position_index, which it reads itself.
@@ -2080,11 +1570,6 @@ void TBoss2DeRolLe::free_laser() {
     state_flags &= ~0x10;
 }
 
-namespace behavior_view {
-
-
-}
-
 void TBoss2DeRolLe::pick_random_target() {
     s32 n;
     TObjPlayer *player;
@@ -2131,8 +1616,6 @@ void TBoss2DeRolLe::sub_800341F0() {
     }
 }
 
-namespace behavior_view {
-
 extern "C" {
 
 void TBoss2DeRolLe::enable_body_collision() {
@@ -2140,8 +1623,6 @@ void TBoss2DeRolLe::enable_body_collision() {
     if ((state_flags & 8) || TObjEneDD::check_v2_mode() != 0) {
         clear_play_flags();
     }
-}
-
 }
 
 }
@@ -2160,11 +1641,6 @@ void TBoss2DeRolLe::set_flags_play_sound() {
 void TBoss2DeRolLe::clear_play_flags() {
     bodies[1].flags &= ~1;
     bodies[2].flags &= ~1;
-}
-
-namespace behavior_view {
-
-
 }
 
 s32 TBoss2DeRolLe::is_ready() {
@@ -2320,14 +1796,6 @@ void TBoss2DeRolLe::advance_action_sequence() {
     set_state_and_send(mode);
 }
 
-namespace behavior_view {
-
-extern "C" {
-
-}
-
-}
-
 #pragma push
 #pragma fp_contract on
 
@@ -2458,7 +1926,6 @@ extern "C" int spawn_trap__13TBoss2DeRolLeFPvii(s32 id, void *owner, Vec *pos) {
     return play_persistent_sound(id, (saddr)owner, (uaddr)pos, 0, 0);
 }
 
-
 #pragma push
 #pragma opt_common_subs off
 
@@ -2522,8 +1989,6 @@ void TBoss2DeRolLe::update_pulsing_colors() {
 #pragma pop
 
 #undef SWAP_COLOR_HALVES
-
-namespace behavior_view {
 
 extern "C" {
 
@@ -2627,8 +2092,6 @@ void TBoss2DeRolLe::dispatch_action(u32 state, s32 reason) {
     default:
         return;
     }
-}
-
 }
 
 }
@@ -2914,16 +2377,12 @@ void TBoss2DeRolLe::handle_debug_pad_input(u32 reason) {
     }
 }
 
-namespace behavior_view {
-
 extern "C" {
 
 #pragma push
 #pragma fp_contract on
 
 #undef arg0
-
-}
 
 }
 
@@ -3055,14 +2514,6 @@ void TBoss2DeRolLe::sub_800327C8(u32 reason, s32 from, s32 to) {
         position_index = next_position_index;
         break;
     }
-}
-
-namespace behavior_view {
-
-extern "C" {
-
-}
-
 }
 
 void TBoss2DeRolLe::sub_800320B4(u32 reason, s32 from, s32 to) {
@@ -4548,12 +3999,6 @@ void TBoss2DeRolLe::sub_8002F73C(u32 reason) {
     }
 }
 
-namespace behavior_view {
-
-
-}
-
-
 namespace joint_transform_view {
 
 extern "C" {
@@ -4674,26 +4119,26 @@ void TBoss2DeRolLe::render() {
     {
     Vec v;
     out = e->mids;
-    VecCopy__FP3VecPC3Vec(&v, &e->pts[0]);
+    VecCopy(&v, &e->pts[0]);
     vec3_add_to(&v, &e->pts[9]);
     v.x *= 0.5f;
     v.y *= 0.5f;
     v.z *= 0.5f;
-    VecCopy__FP3VecPC3Vec(out, &v);
-    VecCopy__FP3VecPC3Vec(&v, &e->pts[9]);
+    VecCopy(out, &v);
+    VecCopy(&v, &e->pts[9]);
     vec3_add_to(&v, &e->pts[11]);
     v.x *= 0.5f;
     v.y *= 0.5f;
     v.z *= 0.5f;
-    VecCopy__FP3VecPC3Vec(out + 1, &v);
+    VecCopy(out + 1, &v);
     out += 2;
     for (i = 0; i < 8; i++) {
-        VecCopy__FP3VecPC3Vec(&v, &e->pts[i + 11]);
+        VecCopy(&v, &e->pts[i + 11]);
         vec3_add_to(&v, &e->pts[i + 12]);
         v.x *= 0.5f;
         v.y *= 0.5f;
         v.z *= 0.5f;
-        VecCopy__FP3VecPC3Vec(out, &v);
+        VecCopy(out, &v);
         out++;
     }
     }
