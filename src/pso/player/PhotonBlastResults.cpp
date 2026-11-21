@@ -928,7 +928,6 @@ void *TObjPlayer::get_photon_blast_entry(int kind) {
 u8 *photon_blast_shared_resource;
 extern "C" {
 extern PhotonBlastLoadCallback photon_blast_load_callback_table[10];
-extern u8 *photon_blast_shared_resource;
 s32 run_load_callback_table(void *, int);
 void TObjPlayer__sub_801AA3B4(void) {
     s32 i;

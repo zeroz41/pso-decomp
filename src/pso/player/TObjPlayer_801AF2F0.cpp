@@ -2192,7 +2192,11 @@ extern const f32 lbl_805DC2D4;
 extern s32 model_render_flags;
 extern RecoveredGlobal_8000F7FC_lbl_80515F48 start_freeze_self__10TObjPlayerFv;
 
+}
+
 s16 item_equip_attach_equip_flag_table[10] = {0x3E, 0x3F, 0x18, 0x24, 0x32, 0x23, 0x30, 0x0A, 0x13, 0x00};
+
+extern "C" {
 s32 TObjPlayer__sub_801BE2C8(void *);
 void TObjPlayer__sub_801BE2C0(void *, s32);
 

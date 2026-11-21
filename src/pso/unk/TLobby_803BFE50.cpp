@@ -148,7 +148,11 @@ void audio_stream_set_notify_callback(u8 *arg0, s32 arg1, s32 arg2);
 s32 audio_stream_get_output_samples(u8 *arg0);
 void TLobby__sub_803C39CC(u8 *arg0);
 void audio_stream_start(u8 *arg0);
+}
+
 RecoveredGlobal_lbl_80570AC0 lbl_80570AC0;
+
+extern "C" {
 void TLobby__sub_803C406C(void);
 void TLobby__sub_803C133C(Snd_803C0BE8 *arg0);
 void decode_adxb_pcm_stream(u8 *arg0);

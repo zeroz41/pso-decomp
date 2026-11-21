@@ -223,10 +223,13 @@ s32 fn_802264B8(s32 slot, s32) {
     lbl_805145F0[slot].flags &= ~0x100;
     return 1;
 }
+}
 
 SndEnt_8022675C lbl_805145F0[40];
 u8 lbl_80514C30[0x20];
 f32 lbl_80514C50[4];
+
+extern "C" {
 s32 play_sound_effect(s32 id, Vec *src, s32 a2, s32 flags);
 
 s32 TOTrapAncient01::check_trigger_flag(saddr arg0, s32 arg1) {

@@ -206,8 +206,6 @@ s32 TLobby__sub_8007119C(s32 arg0);
 s32 **TWindowSubStatusDisp__sub_8006F134(s32, s32);
 s32 TLobby__sub_800710D8(s32 arg0);
 s32 TLobby__sub_800712D8(s32 idx, s32 value, s32 arg);
-extern s32 challenge_time_limit_sentinel;
-extern s8 challenge_time_limit_initialized;
 void *fn_800733C4(void *parent);
 
 void TLobby::update_dead_list_win() {

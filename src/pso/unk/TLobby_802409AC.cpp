@@ -1093,11 +1093,9 @@ void TLobby__sub_8024259C(saddr arg0) {
     }
 }
 #pragma pop
-extern int com_card_entry_count;
 u32 find_card_by_id__17TWindowSubComCardFUl();
 saddr get_com_card_list__6TLobbyFv();
 
-extern s32 lbl_805D63D8;
 
 void init_player_entry__6TLobbyFPvPv(u8 *arg0, u8 *arg1) {
     s32 temp_r5;

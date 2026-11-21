@@ -8,8 +8,6 @@ struct CvFsHandle;
 
 // --- C functions defined in text_803CE568.cpp ---
 extern "C" {
-extern CvFsErrorCallback cvfs_completion_callback;
-extern s32 lbl_805D75FC;
 
 void cvFsFinish(void);
 void TLobby__sub_803CEF60(void);

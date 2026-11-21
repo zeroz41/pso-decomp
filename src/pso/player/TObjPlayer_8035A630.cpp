@@ -12,10 +12,6 @@ saddr node_matrix_array_base;
 ChunkModelNodeCallback player_apply_callback_fn;
 extern "C" {
 
-extern s32 player_node_matrix_cursor;
-extern s32 player_node_matrix_count;
-extern saddr node_matrix_array_base;
-
 void process_node_callback(NJS_OBJECT *node) {
     if ((s32) player_node_matrix_cursor < (s32) player_node_matrix_count) {
         get_current_matrix((void *)(node_matrix_array_base + (player_node_matrix_cursor * 0x30)));

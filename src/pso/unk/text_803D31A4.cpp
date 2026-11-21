@@ -22,10 +22,14 @@ int vsprintf(char *s, const char *fmt, va_list ap);
 void TLobby__sub_803D38B4(const char *fmt, ...);
 u32 worker_callback_slots[8];
 char svm_callback_message_buffer[0x100];
+}
+
 SvmTransitionSlot svm_callback_single_table[7];
 SvmWorkerSlot svm_callback_table[7][4];
 WorkerCallbackFlagTable worker_callback_flag_table;
 SvmCallbackCounts svm_callback_counts;
+
+extern "C" {
 
 void TLobby::init_callback_tables() {
     if ((s32) lobby_callback_tables_refcount == 0) {

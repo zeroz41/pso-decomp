@@ -33,9 +33,6 @@ void set_queued_main_phase(s32 arg0);
 void reset_controller_input_state(void);
 s32 set_copy_clear_color_argb(s32, s32, s32);
 u8 *__ct__6TMovieFP7TObjectPSclll(void *, void *, const char *, void (*)(s32), s32, s32, s32);
-extern s32 lobby_cursor_active_flag;
-extern s8 movie_finished_flag;
-extern s32 opening_movie_selector;
 }
 void process_async_file_reads(void);
 void update_sound_request_slots(void);

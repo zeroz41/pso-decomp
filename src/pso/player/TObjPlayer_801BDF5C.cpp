@@ -123,11 +123,15 @@ void __register_global_object(void *obj, void *dtor, void *chain);
 void *__construct_array(void *, void *, void *, u32, u32);
 void init_char_data__10TObjPlayerFv(void *);
 
+}
+
 u8 TObjPlayer__arrival_override_table[0xF0];
 u8 player_slot_table[0x30];
 u8 lobby_rule_settings[0x24];
 u8 lbl_8050EA64[0xC];
 u8 TObjPlayer__char_data_array[0x42C * 0xC];
+
+extern "C" {
 void __sinit_TObjPlayer_801BDF5C_cpp(void) {
     __construct_array(TObjPlayer__arrival_override_table, (void *)TObjPlayer__sub_801BFF80, NULL, 0x14, 0xC);
     ((TObjPlayer *)lobby_rule_settings)->reset_lobby_settings();

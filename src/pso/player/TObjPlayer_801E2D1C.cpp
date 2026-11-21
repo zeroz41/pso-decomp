@@ -48,6 +48,8 @@ void TObjPlayer::render_model_tree(void *arg0) {
     } while (var_r31 != NULL);
 }
 
+}
+
 void draw_ginja_motion(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame) {
     ModelDrawContext *g;
     bind_motion_context((NJS_MOTION *)motion, frame);
@@ -56,7 +58,6 @@ void draw_ginja_motion(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame) {
     prepare_ginja_model();
     TObjPlayer::render_matrix_chain(model);
     end_ginja_model_draw();
-}
 }
 
 void TObjPlayer::render_matrix_chain(void *arg0) {

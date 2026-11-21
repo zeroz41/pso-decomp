@@ -5,6 +5,7 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/unk/TLobbyBattleParamData.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
@@ -256,7 +257,6 @@ void TLobby__sub_8001DBD8(s32 _w0) {
 void TLobby::forward_8001DBD8(void* p) { TLobby__sub_8001DBD8((saddr)p); }
 void TLobby__sub_8001DC04(void* p) { TLobby__sub_8001DBD8((saddr)p); }
 
-    extern saddr TLobby__lobby_instance;
 
 s32 *get_shared_text_buffer(void) {
     return &text_builder_buffer.value;
@@ -300,10 +300,7 @@ struct File_8001DC30
   Pair_8001DC30 pairs[4][0x60];
 };
 }
-extern s32 battle_param_lab_variant;
 void load_battle_param_entry(void) {
-  extern Params_8001DC30 *TLobby__battle_parameter_buffer;
-  extern s32 battle_parameter_difficulty;
   s32 idx;
   const char *name;
   File_8001DC30 *file;
@@ -526,32 +523,26 @@ u8 is_valid_player_index__6TLobbyFi(s32 arg0) {
     return (u8)var_r0;
 }
 
-    extern int battle_parameter_difficulty;
 void*TLobby::dispatch_shared_handler_a(s32 index) { return TLobby::get_player_entry(battle_parameter_difficulty, index); }
 
-    extern saddr battle_param_movement;
-void* get_player_entry__6TLobbyFii(int a0, int a1) {  return (char*)(battle_param_movement) + a1 * 48; }
+void* get_player_entry__6TLobbyFii(int a0, int a1) {  return battle_param_movement + a1 * 48; }
 
 void*TLobby::register_object(s32 index) { return TLobby::get_entry(battle_parameter_difficulty, index); }
 
-    extern saddr TLobby__battle_param_resistances;
-void* get_entry__6TLobbyFii(int a0, int a1) {  return (char*)(TLobby__battle_param_resistances) + a1 * 32; }
+void* get_entry__6TLobbyFii(int a0, int a1) {  return TLobby__battle_param_resistances + a1 * 32; }
 
 void*TLobby::dispatch_shared_handler_b(s32 index) { return TLobby__sub_8001E270(battle_parameter_difficulty, index); }
 
-    extern saddr TLobby__battle_param_attacks;
-void* TLobby__sub_8001E270(int a0, int a1) {  return (char*)(TLobby__battle_param_attacks) + a1 * 48; }
+void* TLobby__sub_8001E270(int a0, int a1) {  return TLobby__battle_param_attacks + a1 * 48; }
 
 void*TLobby::register_boss(s32 index) { return TLobby__sub_8001E2A8(battle_parameter_difficulty, index); }
 
-    extern saddr battle_param_stats;
-void* TLobby__sub_8001E2A8(int a0, int a1) {  return (char*)(battle_param_stats) + a1 * 36; }
+void* TLobby__sub_8001E2A8(int a0, int a1) {  return battle_param_stats + a1 * 36; }
 
 void set_difficulty__6TLobbyFi(s32 arg0) {
     battle_param_lab_variant = arg0;
 }
 
-extern u32 TLobby__battle_parameter_buffer;
 
 extern s32 game_difficulty_selection;
 
@@ -581,20 +572,20 @@ void TLobby::update_difficulty() {
     TLobby::clamp_difficulty(game_difficulty_selection);
     TLobby::get_instance();
     ((s32 (*)(void))set_difficulty__6TLobbyFi)();
-    if (((s32) battle_parameter_difficulty != temp_r31) || ((s32) battle_param_lab_variant != temp_r30)) {
+    if ((battle_parameter_difficulty != temp_r31) || (battle_param_lab_variant != temp_r30)) {
         load_battle_param_entry();
     }
 }
 
 void TLobby::free_boss4_rock() {
-    if ((u32) TLobby__battle_parameter_buffer != 0U) {
-        mem_free((void*)TLobby__battle_parameter_buffer);
-        TLobby__battle_parameter_buffer = 0U;
+    if (TLobby__battle_parameter_buffer != NULL) {
+        mem_free(TLobby__battle_parameter_buffer);
+        TLobby__battle_parameter_buffer = NULL;
     }
-    battle_param_stats = 0;
-    TLobby__battle_param_attacks = 0;
-    TLobby__battle_param_resistances = 0;
-    battle_param_movement = 0;
+    battle_param_stats = NULL;
+    TLobby__battle_param_attacks = NULL;
+    TLobby__battle_param_resistances = NULL;
+    battle_param_movement = NULL;
 }
 }
 
@@ -604,11 +595,11 @@ void alloc_battle_param_tables(void) {
     for (i = 0; i < 0x3d80; i++) {
         buf[i] = 0;
     }
-    TLobby__battle_parameter_buffer = (uaddr)buf;
-    battle_param_stats = (saddr)buf;
-    TLobby__battle_param_attacks = (saddr)(buf + 0xd80);
-    TLobby__battle_param_resistances = (saddr)(buf + 0x1f80);
-    battle_param_movement = (saddr)(buf + 0x2b80);
+    TLobby__battle_parameter_buffer = (Params_8001DC30 *)buf;
+    battle_param_stats = buf;
+    TLobby__battle_param_attacks = buf + 0xd80;
+    TLobby__battle_param_resistances = buf + 0x1f80;
+    battle_param_movement = buf + 0x2b80;
     TLobby::clamp_difficulty(game_difficulty_selection);
     TLobby::get_instance();
     ((s32 (*)(void))set_difficulty__6TLobbyFi)();

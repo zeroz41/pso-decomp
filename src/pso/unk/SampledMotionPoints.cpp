@@ -72,10 +72,11 @@ void SampledMotionPoints::sample_node_offsets(NJS_OBJECT *model, NJS_MOTION *mot
     sample(model, motion, lbl_80500FA4, TObjEneMe3ShinowaMirage_motion_trail_points);
 }
 
-extern "C" {
 Vec lbl_80500F80;
 Vec TObjEneMe3ShinowaMirage_motion_trail_points[2];
 s32 lbl_80500FA4[3];
+
+extern "C" {
 
 void SampledMotionPoints::sample_two_nodes(NJS_OBJECT *model, NJS_MOTION *motion, s32 first_node, s32 second_node) {
     lbl_80500FA4[0] = first_node;

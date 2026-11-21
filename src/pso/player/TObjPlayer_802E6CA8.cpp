@@ -436,10 +436,8 @@ const f32 lbl_805DE9FC = 1.15f;
 const f32 lbl_805DEA00 = 76.0f;
 const f32 lbl_805DEA04 = -75.0f;
 
-extern "C" {
 __declspec(section ".rodata") s32 lbl_80472C68[6] = { 1, 6, 12, 18, 24, 29 };
 __declspec(section ".rodata") Col_802E708C lbl_80472C80 = { 1.0f, 1.0f, 1.0f, 1.0f };
 __declspec(section ".rodata") Vec lbl_80472C90 = { 0.0f, 0.0f, 0.0f };
 __declspec(section ".rodata") Col_802E6CB0 lbl_80472C9C = { 1.0f, 1.0f, 1.0f, 1.0f };
-}
 

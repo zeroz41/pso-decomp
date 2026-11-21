@@ -364,11 +364,11 @@ f32 TUnk_8048E1A4::receive_direct_attack(void *, DirectAttackPayload, void *, s3
 f32 TUnk_8048E1A4::receive_weapon_special_attack(void *, void *) {
     return 0.0f;
 }
+}
 
 __declspec(section ".data") const char *bm_eff_ice_model_names[3] = { "ice_break_root.gj", "ice_root.gj", NULL };
 __declspec(section ".data") const char *bm_eff_ice_motion_names[2] = { "ice_break_root.njm", NULL };
 BmlResourceDescriptor enemy_freeze_ice_resource_descriptor = { "bm_eff_ice.bml", bm_eff_ice_model_names, bm_eff_ice_motion_names, 2, 1 };
-}
 
 void TUnk_8048E1A4::apply_knockback_from_attacker(u8 *, f32) {  }
 void TParticleCtrl::set_scale(f32 a, f32 b) { field_40 = a; field_44 = b; }
