@@ -62,9 +62,9 @@ void TJudgmentSequence::open_judgment_window() {
     if (o != 0) {
         o = __ct__23TShopJudgmentItemWindowFPvPvPv(o, tl_05, this, player);
     }
-    o->m_16c = (uaddr)TJudgmentSequence__sub_80215BCC;
-    o->m_174 = (uaddr)TJudgmentSequence__sub_80215BA0;
-    o->m_170 = (uaddr)TJudgmentSequence__sub_80215BF8;
+    o->m_16c = TJudgmentSequence__sub_80215BCC;
+    o->m_174 = TJudgmentSequence__sub_80215BA0;
+    o->m_170 = TJudgmentSequence__sub_80215BF8;
     set_field_20(5);
 }
 

@@ -30,11 +30,11 @@ struct TShopJudgmentItemWindow : public TShopWindowBase {
     uaddr m_158;
     uaddr m_15c;
     uaddr m_160;
-    uaddr m_164;
+    TShopWindowBase *sequence;  // the TJudgmentSequence that opened it; messages go to it
     s32 m_168;
-    u32 m_16c;
-    u32 m_170;
-    u32 m_174;
+    void (*m_16c)(TShopWindowBase *sequence);
+    void (*m_170)(TShopWindowBase *sequence);
+    void (*m_174)(TShopWindowBase *sequence);
     void invoke_callback_174_and_destroy();
     void invoke_callback_16C_and_destroy();
     void invoke_callback_170_and_destroy();
