@@ -20,7 +20,6 @@ const char *TWindowMessagePage__name = "TWindowMessagePage";
 struct Page_8026AE20 { u8 pad[0x90]; s32 flags; void *msg; };
 
 extern "C" {
-extern const char *TWindowMessagePage__name;
 s32 *get_shared_text_buffer(void);
 
 s32 TWindowMessagePage::is_ready() {

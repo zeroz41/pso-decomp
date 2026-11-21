@@ -22,11 +22,7 @@
 #pragma defer_codegen on
 
 s32 TWindowSubStatusDisp__count_ratio_value;
-extern "C" {
 const char *TWindowArea__name = "TWindowArea";
-
-extern s32 TWindowSubStatusDisp__count_ratio_value;
-}
 
 extern "C" {
 u8 *get_window_layout_position(s32);

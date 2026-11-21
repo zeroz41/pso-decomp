@@ -37,8 +37,6 @@ struct Out_800778B4 { s32 a; s32 b; };
 saddr lbl_805D4E58;
 s32 lbl_805D4E5C;
 extern "C" {
-extern s32 lbl_805D4E5C;
-extern saddr lbl_805D4E58;
 void set_value_by_key(S_80077814 *arr, u16 key, s32 val);
 void TLobby__sub_80077798(S_80077798 *src, DO_80077798 *dst);
 void TWindowSubComCard__sub_80077980(S_80077980 *arr);

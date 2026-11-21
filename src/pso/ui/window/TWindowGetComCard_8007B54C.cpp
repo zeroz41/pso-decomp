@@ -6,8 +6,9 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 
-extern "C" {
 TWindowGetComCardReceivedGuildCardTags TWindowGetComCard__received_guild_card_tags;
+
+extern "C" {
 s32 TWindowSubComCard__sub_8007B26C(s32);
 void __construct_array(void *ptr, void *ctor, void *dtor, u32 size, u32 n);
 

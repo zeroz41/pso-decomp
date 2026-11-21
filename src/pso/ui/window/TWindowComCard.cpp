@@ -369,8 +369,6 @@ typedef struct Win_80249ED8 {
     s32 mode;
 } Win_80249ED8;
 
-extern struct Obj054_80249DE4 *TWindowCtrl__active_window;
-extern u16 lbl_805D63FC;
 struct Obj054_80249DE4 { char pad[0x38]; uaddr field38; };
 
 void request_active_window_close(void);

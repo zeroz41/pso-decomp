@@ -36,12 +36,10 @@ struct VObj_18_204a81 : VBase_18_204a81 {
 extern "C" {
 void send_logout__6TLobbyFv(void);
 extern saddr tl_00;
-extern int window_sub_game_end_active_flag;
 s32 get_main_phase();
 s32 __ct__7TObjectFP7TObject();
 saddr get_window_layout_position(s32);
 extern s32 __vt__17TWindowSubGameEnd[];
-extern const char *TWindowSubGameEnd__class_name;
 s32 setup_player_battle_ctrls__23TAdSinglePlyChrSelectGCFv();
 s32 set_queued_main_phase(s32);
 s32 request_main_phase(s32);

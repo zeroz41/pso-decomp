@@ -60,10 +60,7 @@ typedef struct Hdr_8022525C
   Tier_8022525C *tiers;
 } Hdr_8022525C;
 
-extern unsigned char lbl_80513F70[];
 extern "C" {
-extern s32 lbl_805D6270;
-extern int lobby_short_mail_entry_count;
 extern u8 *TLobby__protocol_instance;
 
 unsigned char lbl_80513F70[0x680];

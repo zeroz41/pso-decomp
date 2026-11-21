@@ -290,7 +290,6 @@ struct Stack_8026ABA8 {
 
 extern "C" {
 s32 draw_window_scrollbar(int, int, void *);
-extern const char *TWindowMessageLog__name;
 void TWindowMessageLog::render() {
     saddr temp_r3;
     temp_r3 = reinterpret_cast<saddr>(get_draw_context());

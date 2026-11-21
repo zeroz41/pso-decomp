@@ -83,7 +83,6 @@ s32 OSInit();
 s32 OSSetArenaLo(u32);
 void TLobby__sub_8007EB70(void);
 void fn_800FFE10(void);
-void install_depth_alpha_state(void);
 void init_char_select_globals__23TAdSinglePlyChrSelectGCFv(void);
 void TLobby__sub_8020E3C0(void);
 s32 TLobby__sub_80226BA4();

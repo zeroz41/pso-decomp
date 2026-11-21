@@ -35,7 +35,6 @@ s32 play_sound_effect(int, int, int, int);
 extern RecoveredGlobal_8027AF58_lbl_8050E208 controller_input_state;
 const u8 lbl_8044F9C8[8] = {65, 136, 0, 0, 66, 16, 0, 0};
 const u8 lbl_8044F9D0[8] = {67, 151, 128, 0, 67, 204, 0, 0};
-extern const char *TWindowSubLog__class_name;
 
 void TWindowSubLog::render() {  }
 

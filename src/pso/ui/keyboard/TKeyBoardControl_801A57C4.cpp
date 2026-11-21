@@ -70,12 +70,9 @@ s32 update_button_hold_counters(int);
 extern ControllerInputState controller_input_state;
 s32 DVDCheckDisk();
 extern s32 lbl_805D49B4;
-extern u8 lbl_805D5D09;
-extern s8 keyboard_reset_button_pressed;
 s32 func_801A5E54__Fv(void);
 s32 PADRecalibrate(u32);
 extern u32 pad_recalibration_counters[];
-extern s8 pad_recalibration_hold_frames[4];
 void update_pad_recalibration(void);
 f64 atan2_float(f32, f32);
 f32 newton_sqrtf(f32);
@@ -84,8 +81,6 @@ void map_c_stick_to_buttons(u8 *arg0, s16 arg1, s16 arg2, s32 arg3);
 void map_main_stick_to_buttons(u8 *arg0, s16 arg1, s16 arg2, s32 arg3);
 }
 void reset_system();
-extern u8 controller_physical_port_bank[];
-extern s32 lbl_805D34C8;
 extern u8 *camera_ctrl_instance;
 extern const f32 lbl_805DC0C0;
 extern const f32 lbl_805DC0C4;
@@ -576,7 +571,6 @@ struct Ctl_801A6510 {
 
 extern "C" {
 saddr TKeyBoardControl__sub_803DEB74(int);
-extern s8 lbl_805D5D08;
 void copy_state__16TKeyBoardControlFPvPv(Rec_801A67A4 *arg0, Rec_801A67A4 *arg1);
 s32 is_split_screen(void);
 

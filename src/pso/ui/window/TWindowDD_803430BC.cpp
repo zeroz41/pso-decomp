@@ -226,9 +226,7 @@ const char *word_select_type_name_pointer = "TWindowDD";
 
 extern s32 local_client_id;
 
-extern uaddr TWindowDD__work_buffer;
 
-extern s16 lbl_805D6E24;
 
 extern char *lbl_805D6E64;
 
@@ -288,13 +286,9 @@ extern "C" {
 NumberWindow* __ct__18TWindowInputNumberFPvllls(void* storage, const WindowPosition* position,
                                    s32 minimum, s32 maximum, s32 initial, s16 client);
 
-extern uaddr window_dd_buffer_a;
 
-extern uaddr window_dd_buffer_b;
 
-extern uaddr TWindowDD__player_name_buffers;
 
-extern uaddr lbl_805D6E20;
 
 extern uaddr ws_data_jp;
 
@@ -312,9 +306,7 @@ typedef struct Win_80343C64 Win_80343C64;
 
 struct WordList_80344114 { u8 *words; s32 count; };
 extern "C++" void ws_data_load(void);
-extern u32 TWindowDD__ws_data_base;
 
-extern u32 lbl_805D6E34;
 
 extern NJS_POINT2 TWindowDD__data_805434E8[][8];
 

@@ -121,7 +121,6 @@ int set_target_index__11TMainCursorFs(void *, s32);
 void reset_nearest_target_record(void *p);
 extern Pl_8013B0F0 *player_slot_table[12];
 
-extern const char *TLOC_End__name;
 
 struct Ent_8013B2C8 { s32 w; };
 

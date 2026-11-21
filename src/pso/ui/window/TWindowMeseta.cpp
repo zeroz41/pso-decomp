@@ -87,7 +87,6 @@ struct Meseta_80269244 {
 };
 
 extern "C" {
-extern const char *TWindowMeseta__class_name;
 
 
 void TWindowMeseta::run_task() {
