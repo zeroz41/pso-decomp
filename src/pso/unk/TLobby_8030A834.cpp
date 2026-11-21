@@ -7,16 +7,11 @@
 #include "pso/system/task/TObject.h"
 
 extern "C" {
-void *__ct__14TBoss4ZakoDrawFv(void *, void *);
     extern int lobby_online_ready_flag;
 int TLobby::get_online_ready_flag() {  return lobby_online_ready_flag; }
 
-void *fn_8030A83C(void *object) {
-    void *o = TObject::operator new(0x1C);
-    if (o != NULL) {
-        o = __ct__14TBoss4ZakoDrawFv(o, object);
-    }
-    return o;
+void *fn_8030A83C(void *parent) {
+    return new TBoss4ZakoDraw((TObject *)parent);
 }
 
 }

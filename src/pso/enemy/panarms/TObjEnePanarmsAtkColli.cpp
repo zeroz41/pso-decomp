@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/ModelNodePositionCapture.h"
 #include "types.h"
 #include "pso/enemy/panarms/TObjEnePanarmsAtkColli.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -97,7 +98,6 @@ struct Obj_800E3428 { u8 pad0[0x38]; Vec pos; Vec dir; u8 pad1[0x378 - 0x50]; f3
 struct Obj_800E322C { u8 pad0[0x10]; u32 f10; u8 pad1[0x38 - 0x14]; Vec pos; u8 pad2[0x378 - 0x44]; f32 f378; };
 
 extern "C" {
-Obj_800E31C4 *fn_800E31C4(Obj_800E31C4 *self, Entry_800E31C4 *list, Vec *vecs);
 __declspec(section ".rodata") Pair_800E3374 lbl_8043CDF0[] = { 0 };
 __declspec(section ".rodata") Pair_800E32C0 lbl_8043CDF8[] = { 0 };
 void fn_800E3374(Obj_800E3374 *arg0, V_800E3374 *arg1);
@@ -111,19 +111,16 @@ void vec3_add_to(void *, void *);
 f32 vector_length(void *);
 void subtract_vector(void *, void *);
 void normalize_vector(void *);
-Obj_800E31C4 *fn_800E31C4(Obj_800E31C4 *self, Entry_800E31C4 *list, Vec *vecs) {
-    Entry_800E31C4 *p;
-    Vec *q;
-    self->list = list;
-    self->vecs = vecs;
-    p = self->list;
-    q = self->vecs;
-    while (p->id != -1) {
-        VecCopy((Vec *)q, &panarms_atk_zero_vec);
-        p++;
-        q++;
+ModelNodePositionCapture::ModelNodePositionCapture(const ModelNodePositionEntry *entries, Vec *positions) {
+    this->entries = entries;
+    this->positions = positions;
+    const ModelNodePositionEntry *entry = this->entries;
+    Vec *point = this->positions;
+    while (entry->node_index != -1) {
+        VecCopy(point, &panarms_atk_zero_vec);
+        entry++;
+        point++;
     }
-    return self;
 }
 
 void fn_800E322C(void *p, void *t) {

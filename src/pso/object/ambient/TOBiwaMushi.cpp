@@ -46,7 +46,7 @@ s32 TBoss6PlotFalz::is_phase_reached() {
     if (!p) {
         return 0;
     }
-    return ((TObjFish *)TBoss6PlotFalz__instance)->get_phase() >= 7 ? 1 : 0;
+    return ((TBoss6PlotFalz *)TBoss6PlotFalz__instance)->get_scene_state() >= 7 ? 1 : 0;
 }
 
 TOMekaFish00::TOMekaFish00(void *set_data) {

@@ -1,3 +1,4 @@
+#include "pso/render/TriangleFan3D.h"
 // Character-creation sprite tables, ruler lines and UI sprite helpers (one TU, .text 0x80290D1C-0x802911E8).
 // One-TU evidence: TCharaMaking__resolve_creation_sprite_table addresses the three cell tables as offsets
 // from creation_chara_sprite_entries (CW's anchor for objects defined in the same TU), the tables and
@@ -356,7 +357,7 @@ void draw_creation_ruler_lines(f32 fade) {
     draw_line_list(&d, 0x10, 5);
     c = (u32)(64.0f * fade) | 0x40400000 | 0x4000;
     creation_ruler_line_colors[0] = creation_ruler_line_colors[1] = c;
-    ((TObjPlayer *)&lbl_804DA98C)->draw_tri_fan_3d(4, 7);
+    draw_tri_fan_3d(&lbl_804DA98C, 4, 7);
 }
 
 NJS_POINT3 lbl_804DA94C[4] = {

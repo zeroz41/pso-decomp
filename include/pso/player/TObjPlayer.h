@@ -313,7 +313,6 @@ struct TObjPlayer : public TObjChara {
     void clear_target_lock();
     static void init_matrix_stack(s32 arg0, s32 arg1);
     void draw_shadow_quad(s32 arg1, s32 flags);
-    void draw_tri_fan_3d(s32 n, u32 flags);
     static void render_tree(void *arg0);
     void draw_compass_sprite(s32 idx, s32 color, s32 flags, f32 z);
     void init_vec_record();
@@ -390,7 +389,6 @@ struct TObjPlayer : public TObjChara {
     void init_packet_9a();
     s32 get_floor();
     s32 get_area();
-    s32 is_active();
     static s32 get_player_count();
     void reset_lobby_model();
     void reset_type();

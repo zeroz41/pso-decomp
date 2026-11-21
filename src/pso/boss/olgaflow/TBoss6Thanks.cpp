@@ -1,4 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -83,9 +85,6 @@ static const Ent_8035CB88 boss6_thanks_particle_emitter_table[4] = {
 };
 
 extern "C" {
-s32 get_bml_motion(void *, s32);
-saddr get_bml_texlist(void *, s32);
-saddr get_bml_model(void *, s32);
 void TBoss6Thanks__sub_8035CB40(void);
 void TBoss6Thanks__sub_8035CCAC(saddr arg0);
 f32 xyz_distance(const void *, const void *);
@@ -148,7 +147,7 @@ int TBoss6Thanks::is_player_near(void *arg0) {
     r = 30.0f;
     for (i = 0; i < n; i++) {
         p = (u8 *)TObjPlayer::get_player_data(i);
-        if (p != NULL && ((TObjPlayer *)p)->is_active() != 0 &&
+        if (p != NULL && TBoss6PlotFalz::is_active((TObjPlayer *)p) != 0 &&
             xyz_distance(p + 0x38, &boss6_thanks_position) <= r) {
             return 1;
         }
@@ -167,13 +166,13 @@ void TBoss6Thanks::render() {
     set_motion_packed_rotation();
     push_matrix();
     post_translate_matrix(&boss6_thanks_position);
-    TObjFish::set_global_param(o->texture0);
+    TObjFish::set_global_param((saddr)(o->texture0));
     scale_matrix(0, 1.2f, 1.2f, 1.2f);
     draw_model_motion(o->model0, o->motions[o->current_motion], o->frame0);
     pop_matrix();
     push_matrix();
     post_translate_matrix(&boss6_thanks_position);
-    TObjFish::set_global_param(o->texture1);
+    TObjFish::set_global_param((saddr)(o->texture1));
     scale_matrix(0, 1.2f, 1.2f, 1.2f);
     draw_model_motion(o->model1, o->motion1, o->frame1);
     pop_matrix();
@@ -255,14 +254,14 @@ TBoss6Thanks::TBoss6Thanks(TObject *arg1) : TObject(arg1) {
     TBoss6Thanks *boss6_thanks = this;
     u8 *fish_count;
     ((TBoss6Thanks *)boss6_thanks)->m_name = TBoss6Thanks__class_name;
-    fish_count = (u8 *)(TObjFish::get_fish_count());
-    *(s32 *)((s8 *)boss6_thanks + 0x38) = get_bml_model(fish_count, 7);
-    boss6_thanks->texture0 = get_bml_texlist(fish_count, 7);
-    *(s32 *)((s8 *)boss6_thanks + 0x48) = get_bml_motion(fish_count, 9);
-    *(s32 *)((s8 *)boss6_thanks + 0x4C) = get_bml_motion(fish_count, 0xB);
-    *(s32 *)((s8 *)boss6_thanks + 0x3C) = get_bml_model(fish_count, 9);
-    boss6_thanks->texture1 = get_bml_texlist(fish_count, 9);
-    *(s32 *)((s8 *)boss6_thanks + 0x50) = get_bml_motion(fish_count, 0xA);
+    fish_count = (u8 *)TBoss6PlotFalz::get_scene_archive();
+    *(saddr *)((s8 *)boss6_thanks + 0x38) = (saddr)get_bml_model((BmlResource *)fish_count, 7);
+    boss6_thanks->texture0 = (saddr)get_bml_texlist((BmlResource *)fish_count, 7);
+    *(saddr *)((s8 *)boss6_thanks + 0x48) = reinterpret_cast<saddr>(get_bml_motion((BmlResource *)(fish_count), 9));
+    *(saddr *)((s8 *)boss6_thanks + 0x4C) = reinterpret_cast<saddr>(get_bml_motion((BmlResource *)(fish_count), 0xB));
+    *(saddr *)((s8 *)boss6_thanks + 0x3C) = (saddr)get_bml_model((BmlResource *)fish_count, 9);
+    boss6_thanks->texture1 = (saddr)get_bml_texlist((BmlResource *)fish_count, 9);
+    *(saddr *)((s8 *)boss6_thanks + 0x50) = reinterpret_cast<saddr>(get_bml_motion((BmlResource *)(fish_count), 0xA));
     TBoss6Thanks__sub_8035CCAC((saddr)((saddr) boss6_thanks));
     boss6_thanks->m_1c = 0;
     boss6_thanks->m_24 = 0;
@@ -311,7 +310,7 @@ s32 any_player_has_listed_equipment(void) {
     s32 i;
     for (i = 0; i < n; i++) {
         void *pl = (void *)TObjPlayer::get_player_data(i);
-        if (pl != NULL && ((TObjPlayer *)pl)->is_active() != 0) {
+        if (pl != NULL && TBoss6PlotFalz::is_active((TObjPlayer *)pl) != 0) {
             s32 j;
             for (j = 0; j < 10; j++) {
                 const u8 *e = listed_equipment_table[j];

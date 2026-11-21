@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/system/ModelNodePositionCapture.h"
 #include "pso/boss/darkfalz/TObjDFDemo4.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
@@ -8,7 +9,6 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/object/ambient/TObjFish_800E2FFC.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80052374.h"
@@ -32,10 +32,10 @@ const char *TObjDFDemo4__name = "TObjDFDemo4";
 // The motions of the afterimage and body models.
 s32 lbl_80485720[2] = {0x12, 0x11};
 s32 lbl_80485728[3] = {0x20, 0x21, 0x22};
-TObjFishNodeEntry lbl_80485734[3] = {{0x34}, {0x35}, {-1}};
+ModelNodePositionEntry lbl_80485734[3] = {{0x34}, {0x35}, {-1}};
 
-void *TObjDFDemo4::create(void *arg0, void *arg1, void *arg2) {
-    return new TObjDFDemo4((TObject *)arg0, (const Vec *)arg1, (saddr)arg2);
+TObjDFDemo4 *TObjDFDemo4::create(TObject *parent, const Vec *position, s32 angle) {
+    return new TObjDFDemo4(parent, position, angle);
 }
 
 // The nodes ModelNodeTables::init builds the strips on.
@@ -62,14 +62,14 @@ TObjDFDemo4::TObjDFDemo4(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
     res = (BmlResource *)TBoss4Uro::get_instance_count();
     for (i = 0; i < 2; i++) {
         int id = boss4_zanzo_bml_index_table[i];
-        zanzo_parts[i].model = get_bml_model(res, id);
-        zanzo_parts[i].texlist = get_bml_texlist(res, id);
+        zanzo_parts[i].model = (NJS_OBJECT *)get_bml_model(res, id);
+        zanzo_parts[i].texlist = (GinjaTextureList *)get_bml_texlist(res, id);
         zanzo_parts[i].motion = get_bml_motion(res, lbl_80485720[i]);
     }
     for (i = 0; i < 3; i++) {
         int id = lbl_80486FB0[i];
-        body_parts[i].model = get_bml_model(res, id);
-        body_parts[i].texlist = get_bml_texlist(res, id);
+        body_parts[i].model = (NJS_OBJECT *)get_bml_model(res, id);
+        body_parts[i].texlist = (GinjaTextureList *)get_bml_texlist(res, id);
         body_parts[i].motion = get_bml_motion(res, lbl_80485728[i]);
     }
     frame = -0.5f;
@@ -85,7 +85,7 @@ TObjDFDemo4::TObjDFDemo4(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
         set_scripted_camera_pose(&this->pos, &this->pos, &angles);
         playback.cache_target_and_forward(0x416C);
     }
-    node_list = (TObjFish *)TObjFish__sub_800E3124((u8 *)lbl_80485734, (saddr)node_positions);
+    node_list = ModelNodePositionCapture::create(lbl_80485734, node_positions);
     timer = 0;
 }
 
@@ -93,7 +93,7 @@ TObjDFDemo4::~TObjDFDemo4() {
     s32 i;
     node_tables.destroy();
     if (node_list != NULL) {
-        TObjFish::init_state_1(node_list);
+        ModelNodePositionCapture::destroy(node_list);
         node_list = NULL;
     }
     for (i = 0; i < 2; i++) {
@@ -183,7 +183,7 @@ void TObjDFDemo4::sub_8004F2A8() {
     post_translate_matrix(&pos.x);
     rotate_matrix_y(NULL, angle);
     for (i = 0; i < 2; i++) {
-        TObjFish::set_global_param(zanzo_parts[i].texlist);
+        TObjFish::set_global_param((saddr)(zanzo_parts[i].texlist));
         draw_model_motion((void *)zanzo_parts[i].model, zanzo_parts[i].motion, 120.0f);
     }
     clear_motion_packed_rotation();
@@ -201,13 +201,13 @@ void TObjDFDemo4::sub_8004F1FC() {
         post_translate_matrix(&pos.x);
         rotate_matrix_y(NULL, angle);
         for (i = 0; i < 3; i++) {
-            TObjFish::set_global_param(body_parts[i].texlist);
+            TObjFish::set_global_param((saddr)(body_parts[i].texlist));
             if (i == 0) {
-                node_list->set_draw_callback_list();
+                node_list->install();
             }
             draw_model_motion((void *)body_parts[i].model, body_parts[i].motion, frame);
             if (i == 0) {
-                node_list->clear_render_callback();
+                node_list->clear();
             }
         }
         clear_motion_packed_rotation();

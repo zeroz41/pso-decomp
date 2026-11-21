@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/render/TriangleFan3D.h"
 #include "pso/render/Draw2D.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
@@ -297,7 +298,7 @@ void TAdRicoRingCtrl::render() {
         v[11] = g;
         lbl_805D4A31 = 1;
     }
-    ((TObjPlayer *)&rico_ring_quad)->draw_tri_fan_3d(4, 6);
+    draw_tri_fan_3d(&rico_ring_quad, 4, 6);
     t = fade;
     if (t > 0.0f) {
         RicoRingFan args = { rico_ring_fade_positions, rico_ring_fade_colors, 0, 4 };

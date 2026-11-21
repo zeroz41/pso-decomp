@@ -65,8 +65,8 @@ s32 lbl_804855F0[6] = {0x50, 0x4E, 0x1B, 0x1B, 0x1B, 0x1A};
 s32 lbl_80485608[2] = {0x1D, 0x1C};
 CameraPlayback lbl_80485610 = {0, 2, 0, 0.0f, 0.5f};
 DFDemo1NodeColor lbl_8048561C[3] = {{0, 2, 5}, {1, 6, 5}, {1, 0x69, 3}};
-void *TBoss4DarkFalz::create_demo1(void *parent, void *pos, void *angle) {
-    return new TObjDFDemo1((TObject *)parent, (const Vec *)pos, (saddr)angle);
+TObjDFDemo1 *TObjDFDemo1::create(TObject *parent, const Vec *pos, saddr angle) {
+    return new TObjDFDemo1(parent, pos, angle);
 }
 
 TObjDFDemo1::TObjDFDemo1(TObject *parent, const Vec *pos, s32 angle) : TObjBase(parent) {
@@ -78,14 +78,14 @@ TObjDFDemo1::TObjDFDemo1(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
     res = (BmlResource *)TBoss4Uro::get_instance_count();
     for (i = 0; i < 6; i++) {
         int id = lbl_80485EB0[i];
-        body_parts[i].model = get_bml_model(res, id);
-        body_parts[i].texlist = get_bml_texlist(res, id);
+        body_parts[i].model = (NJS_OBJECT *)get_bml_model(res, id);
+        body_parts[i].texlist = (GinjaTextureList *)get_bml_texlist(res, id);
         body_parts[i].motion = get_bml_motion(res, lbl_804855F0[i]);
     }
     for (i = 0; i < 2; i++) {
         int id = boss4_zanzo_bml_index_table[i];
-        zanzo_parts[i].model = get_bml_model(res, id);
-        zanzo_parts[i].texlist = get_bml_texlist(res, id);
+        zanzo_parts[i].model = (NJS_OBJECT *)get_bml_model(res, id);
+        zanzo_parts[i].texlist = (GinjaTextureList *)get_bml_texlist(res, id);
         zanzo_parts[i].motion = get_bml_motion(res, lbl_80485608[i]);
     }
     frame = -0.5f;
@@ -200,7 +200,7 @@ void TObjDFDemo1::draw_fading_model() {
     rotate_matrix_y(NULL, angle);
     max = 30.0f;
     for (i = 0; i < 6; i++) {
-        TObjFish::set_global_param(body_parts[i].texlist);
+        TObjFish::set_global_param((saddr)(body_parts[i].texlist));
         f = frame;
         switch (i) {
         case 0:
@@ -210,7 +210,7 @@ void TObjDFDemo1::draw_fading_model() {
             }
             break;
         }
-        draw_model_motion((void *)body_parts[i].model, body_parts[i].motion, f);
+        draw_model_motion(body_parts[i].model, body_parts[i].motion, f);
     }
     clear_motion_packed_rotation();
     pop_matrix();
@@ -233,7 +233,7 @@ void TObjDFDemo1::sub_8004E068() {
     if (timer < 0x88) {
         alpha = (timer - 0x7C) / 12.0f;
     }
-    col = ((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(zanzo_parts[1].model, 0x6A))->model)->polygon_list;
+    col = ((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node((uaddr)zanzo_parts[1].model, 0x6A))->model)->polygon_list;
     f = 0.0f;
     if (timer >= 0xF0) {
         f = 1.0f;
@@ -249,7 +249,7 @@ void TObjDFDemo1::sub_8004E068() {
     }
     for (i = 0; i < 3; i++) {
         e = &lbl_8048561C[i];
-        col = ((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(zanzo_parts[e->part].model, e->node))->model)->polygon_list;
+        col = ((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node((uaddr)zanzo_parts[e->part].model, e->node))->model)->polygon_list;
         s32 old = col[e->slot];
         col[e->slot] = (old & 0xFF) | ((s32)(255.0f * f) << 8);
     }
@@ -263,8 +263,8 @@ void TObjDFDemo1::sub_8004E068() {
     post_translate_matrix(&pos.x);
     rotate_matrix_y(NULL, angle);
     for (j = 0; j < 2; j++) {
-        TObjFish::set_global_param(zanzo_parts[j].texlist);
-        draw_model_motion((void *)zanzo_parts[j].model, zanzo_parts[j].motion, frame);
+        TObjFish::set_global_param((saddr)(zanzo_parts[j].texlist));
+        draw_model_motion(zanzo_parts[j].model, zanzo_parts[j].motion, frame);
     }
     clear_motion_packed_rotation();
     pop_matrix();

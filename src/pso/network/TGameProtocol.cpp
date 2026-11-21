@@ -1,5 +1,6 @@
-#include "pso/network/FloorEventCommand.h"
 #include "pso/network/protocol/subcmd_6x.h"
+#include "pso/network/FloorEventCommand.h"
+#include "pso/boss/olgaflow/OlgaFlowActions.h"
 #include "pso/network/TGameProtocol.h"
 #include "pso/unk/text_800C7FEC.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
@@ -8,7 +9,6 @@
 #include "pso/quest/TQuestThread.h"
 #include "pso/network/TPacket.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
-#include "pso/unk/text_800C7FEC.h"
 #include "pso/item/TItem.h"
 #include "types.h"
 #include "pso/system/task/TObject.h"
@@ -188,9 +188,6 @@ void handle_6x9F_gal_gryphon_boss_actions(void *arg0);
 void handle_6xA0_gal_gryphon_boss_actions(TBoss8Dragon *arg0);
 extern "C" void handle_6xA1_revive_player_v3(void *arg0);
 void handle_6xA2_specializable_item_drop_request(void *arg0);
-extern "C" void handle_6xA3_olga_flow_boss_actions();
-void handle_6xA4_olga_flow_boss_actions(void *arg);
-extern "C" void handle_6xA5_olga_flow_boss_actions(void *arg);
 void handle_6xA6_modify_trade_proposal(u8 *arg0);
 void handle_6xA7();
 void handle_6xA8_gol_dragon_boss_actions(void *arg0);
@@ -324,9 +321,9 @@ PsoCommandHandler pso_command_dispatch_table[] = {
     {0x19, 0x0004, (PsoCommandFn)handle_6x19_dark_falz_actions},
     {0x9F, 0x0004, (PsoCommandFn)handle_6x9F_gal_gryphon_boss_actions},
     {0xA0, 0x0004, (PsoCommandFn)handle_6xA0_gal_gryphon_boss_actions},
-    {0xA3, 0x0004, (PsoCommandFn)handle_6xA3_olga_flow_boss_actions},
-    {0xA4, 0x0004, (PsoCommandFn)handle_6xA4_olga_flow_boss_actions},
-    {0xA5, 0x0004, (PsoCommandFn)handle_6xA5_olga_flow_boss_actions},
+    {0xA3, 0x0004, handle_6xA3_olga_flow_boss_actions},
+    {0xA4, 0x0004, handle_6xA4_olga_flow_boss_actions},
+    {0xA5, 0x0004, handle_6xA5_olga_flow_boss_actions},
     {0xAD, 0x0004, (PsoCommandFn)handle_6xAD_olga_flow_subordinate_boss_actions},
     {0x67, 0x0007, handle_6x67_trigger_set_event},
     {0x68, 0x0006, (PsoCommandFn)handle_6x68_set_telepipe_state},

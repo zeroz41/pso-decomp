@@ -2,6 +2,7 @@
 #define PSO_SYSTEM_NINJATYPES_H
 
 #include "types.h"
+#include <dolphin/mtx/GeoTypes.h>
 
 // Ninja texture list: `nbTexture` names, each naming one texture.
 struct NJS_TEXNAME {
@@ -23,9 +24,7 @@ struct NJS_TEXANIM {
     s16 texid, attr;
 };
 
-struct NJS_POINT3 {
-    f32 x, y, z;
-};
+typedef Vec NJS_POINT3;
 
 // A 2D sprite: position, scale and angle, drawn from cells of `tanim`
 // (texture ids into `tlist`).
@@ -41,11 +40,15 @@ struct NJS_POINT2 {
     f32 x, y;
 };
 
+struct NJS_TEX {
+    s16 u, v;
+};
+
 // `num` points with one colour each and optional texture coordinates.
 struct NJS_POINT3COL {
     NJS_POINT3 *p;
     u32 *col;
-    NJS_POINT2 *tex;
+    NJS_TEX *tex;
     u32 num;
 };
 
@@ -131,7 +134,7 @@ union NJS_COLOR {
 struct NJS_POINT2COL {
     NJS_POINT2 *p;
     NJS_COLOR *col;
-    NJS_POINT2 *tex;
+    NJS_TEX *tex;
     u32 num;
 };
 

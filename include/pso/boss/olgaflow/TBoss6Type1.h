@@ -1,10 +1,16 @@
+#include "pso/system/BmlResource.h"
+#include "pso/boss/Boss6ScrollStrips.h"
 #ifndef PSO_BOSS_OLGAFLOW_TBOSS6TYPE1_H
 #define PSO_BOSS_OLGAFLOW_TBOSS6TYPE1_H
+#include "pso/boss/olgaflow/TBoss6Zanzo.h"
 #include "types.h"
 #include <stddef.h>
 #include "pso/enemy/TObjEnemy.h"
 
-struct Boss6EffectPoint { f32 x, y, z; };
+struct OlgaFlowActionMsg;
+
+class ModelNodePositionCapture;
+typedef Vec Boss6EffectPoint;
 // One of the two part-motion players at 0x444 (render blends prev_motion_id/prev_frame into
 // motion_id/frame by blend; names inferred from that use).
 struct Boss6PartMotion {
@@ -16,6 +22,12 @@ struct Boss6PartMotion {
     s32 prev_motion_id;
     f32 prev_frame;
 };
+struct TBoss6GravBall;
+
+struct Boss6Point {
+    Vec v;
+};
+
 struct TBoss6Type1 : public TObjEnemy {
     virtual ~TBoss6Type1();
     void sub_802B626C();
@@ -38,15 +50,17 @@ struct TBoss6Type1 : public TObjEnemy {
     u8 unk_378[0x80];
     saddr m_3f8;
     saddr bml_resource; // BML archive handle passed to get_bml_motion / get_bml_model, name inferred
-    void* trail_point_receiver;
-    void* effect_point_receiver;
-    u8 unk_408[0x4];
+    TBoss6Zanzo *trail_point_receiver;
+    TBoss6Zanzo *effect_point_receiver;
+    saddr unk_408;
     s32 m_40c;
     s32 action_timer;
     s32 m_414;
     u8 unk_418[0x4];
     s8 m_41c;
-    u8 unk_41D[0x1B];
+    u8 unk_41D[0x3];
+    Boss6Point m_420;
+    Boss6Point m_42C;
     s32 m_438;
     u8 unk_43C[0x4];
     s32 m_440;
@@ -77,17 +91,13 @@ struct TBoss6Type1 : public TObjEnemy {
     u8 unk_4EC[0x1C];
     s32 m_508;
     u8 unk_50C[0x6C];
-    // Model node positions, filled through the node callback list at 0x654 (TBoss6Type1__ct passes
-    // this array to TObjFish__sub_800E3124); node 7 is where the boss's sounds play from.
-    Vec node_points[8];
-    Boss6EffectPoint trail_points[3];
-    u8 unknown_5FC[0x3C];
-    Boss6EffectPoint effect_points[2];
-    // TObjFish__sub_800E3124 lists, one per model; render passes each to
-    // set_draw_callback_list before it draws that model.
-    void *draw_callback_lists[2];
-    u8 scroll_strips_u[0x14]; // scroll_strips_uv(8, 0) every frame
-    u8 scroll_strips_v[0x14]; // scroll_strips_uv(0, 0x22) every frame
+    // The capture lists end after 11 body positions and 7 arm positions.
+    Vec node_points[11];
+    Vec arm_node_positions[7];
+    // Installed while the corresponding model draws.
+    ModelNodePositionCapture *draw_callback_lists[2];
+    Boss6ScrollStrips scroll_strips_u; // scroll_strips_uv(8, 0) every frame
+    Boss6ScrollStrips scroll_strips_v; // scroll_strips_uv(0, 0x22) every frame
     TObject *map_csn;
     static u8 *create_kakusan(TObject *parent, Vec *pos, Vec *dir, u16 target_client, f32 speed);
     void clear_slot_array();
@@ -100,8 +110,6 @@ struct TBoss6Type1 : public TObjEnemy {
     static s32 pick_random_entry(s32 arg0, saddr arg1, s32 arg2);
     static int rand_range_inclusive(s32 arg0, int arg1, int arg2);
     s32 pick_remapped_list_value(s32 a, s32 b, s32 n);
-    void handle_6xa4_action(u8 * _w1);
-    void decode_polar_position(u8 *arg1);
     static s32 request_jittered_camera(void *arg0, void *arg1, void *arg2, int arg3);
     void request_default_jittered_camera();
     s32 is_timer_expired();
@@ -134,14 +142,10 @@ struct TBoss6Type1 : public TObjEnemy {
     void copy_transform(void* q);
     void render_shadows();
     void do_attack();
-    s32 send_6xA4_action(s32 t, s32 *src);
-    void load_params(void *arg1);
-    void set_sync_data(void *arg1);
+    void send_6xA4_action(s32 t, s32 *src);
+    void load_params(const OlgaFlowActionMsg *message);
+    void set_sync_data(OlgaFlowActionMsg *message);
     static s32 create(s32 arg0);
-    void*get_mag_mine_ptr();
-    int is_idle();
-    void read_be16_field2();
-    void step_and_send_60();
     void enter_flag800_state();
     void update_attack_countdown();
     void update_countdown_state();
@@ -198,11 +202,10 @@ struct TBoss6Type1 : public TObjEnemy {
     void sub_802B3B94();
     void draw_model();
     void render();
-    void release_object(void *);
+    void release_map_csn();
     void spawn_map_csn();
-    static void *create_zanzo(void *arg0, void *arg1, void *arg2);
-    static void *create_grav_ball(void *arg0, void *arg1);
-    void set_effect_points(f32 *a, u32 *b);
+    static TBoss6GravBall *create_grav_ball(TBoss6Type1 *owner, const Vec *position);
+    s32 get_gravity_attack_state();
     void spawn_grav_ball();
     void damage_players_in_range();
     void update_beam_attack();
@@ -227,10 +230,12 @@ void TBoss6Type1__sub_802B715C(TBoss6Type1 *self);
 // Defined in TBoss6Type1.cpp's .rodata; init_effect_slot_1 reads it too.
 extern const Vec lbl_80470CE0;
 
-LAYOUT_ASSERT(Boss6EffectPoint_size, sizeof(Boss6EffectPoint)==0xC);
-LAYOUT_ASSERT(TBoss6Type1_receiver_offset, offsetof(TBoss6Type1,effect_point_receiver)==0x404);
-LAYOUT_ASSERT(TBoss6Type1_points_offset, offsetof(TBoss6Type1,effect_points)==0x638);
-LAYOUT_ASSERT(TBoss6Type1_trail_receiver_offset, offsetof(TBoss6Type1,trail_point_receiver)==0x400);
-LAYOUT_ASSERT(TBoss6Type1_map_csn_offset, offsetof(TBoss6Type1,map_csn)==0x680);
-LAYOUT_ASSERT(TBoss6Type1_trail_points_offset, offsetof(TBoss6Type1,trail_points)==0x5D8);
+LAYOUT_ASSERT(Boss6EffectPoint_size, (sizeof(Boss6EffectPoint)==0xC));
+LAYOUT_ASSERT(TBoss6Type1_receiver_offset, (offsetof(TBoss6Type1,effect_point_receiver)==0x404));
+LAYOUT_ASSERT(TBoss6Type1_points_offset, (offsetof(TBoss6Type1,arm_node_positions) + 5 * sizeof(Vec) == 0x638));
+LAYOUT_ASSERT(TBoss6Type1_trail_receiver_offset, (offsetof(TBoss6Type1,trail_point_receiver)==0x400));
+LAYOUT_ASSERT(TBoss6Type1_map_csn_offset, (offsetof(TBoss6Type1,map_csn)==0x680));
+LAYOUT_ASSERT(TBoss6Type1_target_position_offset, offsetof(TBoss6Type1, m_420) == 0x420);
+LAYOUT_ASSERT(TBoss6Type1_node_points_offset, offsetof(TBoss6Type1, node_points) == 0x578);
+LAYOUT_ASSERT(TBoss6Type1_arm_node_positions_offset, offsetof(TBoss6Type1, arm_node_positions) == 0x5FC);
 #endif

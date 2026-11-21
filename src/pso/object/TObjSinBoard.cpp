@@ -1,4 +1,5 @@
 #include "pso/system/save/CardSaveFile.h"
+#include "pso/render/TriangleFan3D.h"
 #include "types.h"
 #include <string.h>
 #include "pso/system/task/TMainTask.h"
@@ -27,9 +28,6 @@
 
 struct Stat_80197E64 { u8 pad0[4]; u16 blocks; u8 pad6[0xE]; };
 
-struct Pos_8019806C { f32 w[12]; };
-struct Uv_8019806C { u32 w[4]; };
-struct Desc_8019806C { Pos_8019806C *pos; Uv_8019806C *uv; s16 *col; s32 count; };
 
 extern "C" {
 s32 poll_memcard_result(saddr);
@@ -128,24 +126,24 @@ void fn_80197FD0(const void *image, u32 size) {
 
 void TObjSinBoard::render() {
     if (TMainTask::get_render_pass() != 1 && TObjSinBoard__texture_buffer != 0) {
-        Pos_8019806C pos = {
+        Vec positions[4] = {
             -10.0f, -10.0f, 0.0f, 10.0f, -10.0f, 0.0f, 10.0f, 10.0f, 0.0f, -10.0f, 10.0f, 0.0f,
         };
-        Uv_8019806C uv = {0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF};
-        Desc_8019806C d;
-        s16 col[8];
-        col[0] = 0;
-        col[1] = 0;
-        col[2] = 0;
-        col[3] = 0xFF;
-        col[4] = 0xFF;
-        col[5] = 0xFF;
-        col[6] = 0xFF;
-        col[7] = 0;
-        d.pos = &pos;
-        d.uv = &uv;
-        d.col = col;
-        d.count = 4;
+        u32 colors[4] = {0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF};
+        NJS_POINT3COL fan;
+        NJS_TEX uvs[4];
+        uvs[0].u = 0;
+        uvs[0].v = 0;
+        uvs[1].u = 0;
+        uvs[1].v = 0xFF;
+        uvs[2].u = 0xFF;
+        uvs[2].v = 0xFF;
+        uvs[3].u = 0xFF;
+        uvs[3].v = 0;
+        fan.p = positions;
+        fan.col = colors;
+        fan.tex = uvs;
+        fan.num = 4;
         set_default_alpha_blend();
         TObjFish::set_global_param((saddr)&signboard_texture_list);
         set_texture_num(0);
@@ -156,7 +154,7 @@ void TObjSinBoard::render() {
         rotate_matrix_x(0, rotation_x);
         rotate_matrix_y(0, rotation_y);
         scale_matrix(0, scale.x, scale.y, scale.z);
-        ((TObjPlayer *)(&d))->draw_tri_fan_3d(4, 0xE);
+        draw_tri_fan_3d(&fan, 4, 0xE);
         pop_matrix();
         TParticleCtrl::end_effect_render();
     }

@@ -8,6 +8,7 @@
 #include <dolphin/mtx/GeoTypes.h>
 #include "pso/system/NinjaTypes.h"
 struct BmlMotionEntry;
+struct CameraAngles;
 
 class TObjBase : public TObject {
 public:
@@ -30,6 +31,8 @@ public:
     s32 set_event_source_flag(s32);
     void set_entity_id(u16 id);
     int set_position_from(void *pos);
+    void save_previous_position();
+    CameraAngles *get_rotation();
     saddr get_texlist();
     s32 is_alive();
     u16 entity_id;  // the object table id, 0xFFFF while unregistered

@@ -37,18 +37,11 @@ struct TObjFish : public TObjBase {
     void sync_position_vectors();
     static void *alloc(void *arg0);
     static void reset_fish_globals();
-    s32 get_phase();
-    static saddr get_fish_count();
     static void spawn_default_particle(s32 position, s32 particle_index);
     static void create_splash_particle(saddr arg0, s32 arg1, saddr arg2);
     static void spawn_particle(saddr arg0, s32 arg1, f32 farg0);
     static void free_resource();
     static void load_area_resource();
-    static void draw_callback_transform_to_view();
-    void set_draw_callback_list();
-    void clear_render_callback();
-    s32 is_entry_table_valid();
-    static void init_state_1(void *arg0);
     void update_attached_orientation();
     void destroy_child();
     static s32 set_global_param(saddr arg0);

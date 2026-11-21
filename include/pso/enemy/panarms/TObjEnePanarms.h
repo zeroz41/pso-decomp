@@ -5,6 +5,8 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/render/RenderFadeState.h"
 
+class ModelNodePositionCapture;
+
 /* One state's motion of the Pan Arms body: motion indexes bm7_s_paa_body_motion_names
    (state 0 wait, state 4 deada); same layout as shinowa_mirage_motion_param_table. */
 struct PanarmsMotionParam {
@@ -30,13 +32,8 @@ struct TObjEnePanarms : public TObjEnemy {
     s32 m_38c;
     CollisionBody *collision_body_parts; // init_collision_body_parts / free_collision_body_parts
     u32 particle_handles[2]; // released by destroy_handles
-    u32 m_39c;
-    void* m_3a0;
-    u8 unk_3A4[0x4];
-    f32 m_3a8;
-    u8 unk_3AC[0xC];
-    u8 unk_3B8[0x18];
-    u8 unk_3D0[0xC];
+    ModelNodePositionCapture *m_39c;
+    Vec draw_positions[5];
     void* m_3dc;
     u8 unk_3E0[0x4];
     uaddr m_3e4; // the two TObjEnePanBARA halves (create_bara)

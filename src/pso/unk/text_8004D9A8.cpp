@@ -1,4 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/unk/TLobby_8001EF5C.h"
 #include "types.h"
 #include "pso/camera/CameraPlayback.h"
 #include "pso/system/PadRumble.h"
@@ -265,9 +267,6 @@ typedef struct Data_8004DEE0 {
     u8 vt[4];
 } Data_8004DEE0;
 
-s32 get_bml_motion(s32, s32);
-saddr get_bml_texlist(BmlResource *resource, s32 index);
-saddr get_bml_model(BmlResource *resource, s32 index);
 void set_scripted_camera_pose(void *, void *, void *);
 void __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 lbl_80485EB0[];
@@ -293,22 +292,22 @@ void *__vt__11TObjDFDemo0[13] = {
 Obj_8004DEE0 *TObjDFDemo0__ct(void *arg0, void *parent) {
     Obj_8004DEE0 *self = (Obj_8004DEE0 *)arg0;
     s32 k;
-    saddr h;
+    BmlResource *h;
     s32 i;
     s32 j;
 
     __ct__8TObjBaseFP7TObject(self, parent);
     self->vt = (void *)__vt__11TObjDFDemo0;
     ((TObjBase *)self)->m_name = TObjDFDemo0__name;
-    h = TBoss4Uro::get_instance_count();
+    h = reinterpret_cast<BmlResource *>(TBoss4Uro::get_instance_count());
     for (i = 0; i < 6; i++) {
         {
             s32 t = lbl_80485EB0[i];
             k = t;
-            self->fbc[0][i] = get_bml_model((BmlResource *)h, t);
+            self->fbc[0][i] = get_bml_model(h, t);
         }
-        self->fbc[1][i] = get_bml_texlist((BmlResource *)h, k);
-        self->fbc[2][i] = get_bml_motion(h, ((s32 *)lbl_804854D8)[i]);
+        self->fbc[1][i] = get_bml_texlist(h, k);
+        self->fbc[2][i] = reinterpret_cast<saddr>(get_bml_motion(h, ((s32 *)lbl_804854D8)[i]));
     }
     self->f104 = (-0.5f);
     self->f108 = (-0.5f);
@@ -328,10 +327,10 @@ Obj_8004DEE0 *TObjDFDemo0__ct(void *arg0, void *parent) {
 
 }
 
-void *TObjDFDemo0::create(void *parent) {
+TObjDFDemo0 *TObjDFDemo0::create(TObject *parent) {
     void *o = TObject::operator new(sizeof(TObjDFDemo0));
     if (o != NULL) {
         o = TObjDFDemo0__ct(o, parent);
     }
-    return o;
+    return (TObjDFDemo0 *)o;
 }

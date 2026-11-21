@@ -1903,7 +1903,7 @@ pso/enemy/panarms/TObjEnePanarms.cpp:
 	.sbss       start:0x805D5288 end:0x805D5298
 	.sdata2     start:0x805DA520 end:0x805DA5A0
 
-pso/object/ambient/TObjFish_800E2FFC.cpp:
+pso/system/ModelNodePositionCapture.cpp:
 	.text       start:0x800E2FFC end:0x800E31C4
 	.bss        start:0x80500FB0 end:0x80500FC0
 

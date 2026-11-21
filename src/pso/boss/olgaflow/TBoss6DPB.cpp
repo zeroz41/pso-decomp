@@ -1,11 +1,11 @@
-#pragma defer_codegen on
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#pragma defer_codegen on
+#include "pso/unk/text_80087278.h"
 #include "pso/boss/olgaflow/TBoss6DPB.h"
 #include "pso/effect/photon/TDPBShower.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/epsilon/TObjEneEpsilonGuard.h"
@@ -154,7 +154,7 @@ void TBoss6DPB::apply_shower_damage_to_players() {
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
         pl = (Pl_8035D924 *)TObjPlayer::get_player_data(i);
-        if (((TObjPlayer *)pl)->is_active() != 0) {
+        if (TBoss6PlotFalz::is_active((TObjPlayer *)pl) != 0) {
             VecCopy((Vec *)&v, (const Vec *)((u8 *)pl + 0x38));
             subtract_vector(&v, &arg0->pos);
             v.y = 0.0f;
@@ -180,8 +180,8 @@ void TBoss6DPB::sub_8035D8B0() {
     W_8035D8B0 *arg0 = (W_8035D8B0 *)this;
     V_8035D8B0 v = arg0->v;
     v.b = 5.0f;
-    spawn_particle_effect_with_flags(&v, 0x21C, 0x40);
-    spawn_particle_effect_with_flags(&v, 0x21D, 0x40);
+    spawn_particle_effect_with_flags((const Vec *)&v, 0x21C, 0x40);
+    spawn_particle_effect_with_flags((const Vec *)&v, 0x21D, 0x40);
     create_TDPBShower((void *)tl_02, &arg0->v);
 }
 }

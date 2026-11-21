@@ -1,8 +1,13 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/unk/text_80087278.h"
+#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/system/BmlResource.h"
 #include "types.h"
+#include "pso/system/ModelNodePositionCapture.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/unk/TLobby.h"
 #include "pso/boss/olgaflow/TBoss6Mag.h"
+#include "pso/boss/olgaflow/TBoss6MagMine.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
@@ -11,7 +16,6 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include <stdlib.h>
-#include "pso/unk/text_80087278.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
@@ -97,7 +101,7 @@ struct O_8032E7B4 { u8 pad[0x38]; V3_8032E7B4 pos; u8 pad2[0x43C - 0x44]; uaddr 
 
 struct E_8032E7B4 { s32 a; s32 b; };
 
-struct O_8032F304 { u8 pad[0x414]; s32 n; Vec v[4]; s32 pad2; u8 mine[1]; };
+struct O_8032F304 { u8 pad[0x414]; s32 n; Vec v[4]; s32 pad2; Vec mine_origin; };
 
 struct O_8032F360 { u8 pad[0x410]; s32 z; s32 n; Vec v[3]; };
 
@@ -146,7 +150,7 @@ struct Ent_8033053C { u8 pad[0x18]; Fn_8033053C fn; };
 
 const char *lbl_805D4220 = "TBoss6Mag";
 extern const E_8032E7B4 TBoss6Type2__effect_emitter_id_table[4] = { {555, -1}, {556, -1}, {537, -1}, {542, 0} };
-extern const u32 lbl_804773DC[8] = { 3, 0, 0, 0, 0xFFFFFFFF, 0, 0, 0 };
+extern const ModelNodePositionEntry lbl_804773DC[2] = {{3}, {-1}};
 extern const u32 lbl_804773FC[2] = { 0xFFFF0000, 1 };
 extern const RecoveredGlobal_803300C8_lbl_80477404 boss6_type2_zero_vec3_block = { 0 };
 extern const RecoveredGlobal_803300C8_lbl_80477428 boss6_type2_initial_state = { 0, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x3D, 0x88, 0x88, 0x89 } };
@@ -275,13 +279,10 @@ f32 vector_length(void *);
 f32 subtract_vector(void *, int);
 f32 normalize_vector(void *);
 void TBoss6Type2__sub_8032F5C4(void *arg0);
-saddr get_bml_texlist(BmlResource *resource, s32 index);
-saddr get_bml_model(BmlResource *resource, s32 index);
 }
 void draw_model_blend_motion(void *arg0, void *arg1, f32 farg0);
 extern "C" {
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
-s32 get_bml_motion(int, int);
 
 extern Ent_8032FFC0 boss6_type2_motion_table[];
 void TBoss6Type2__sub_803300C8(u8 *arg0);
@@ -292,7 +293,6 @@ int copy_vec3__11TBoss6Type2Fii(saddr _w0, saddr _w1);
 extern void *TBoss6Type2__instance_slots[];
 void TBoss6Type2__sub_8032F2F0(void* p, void* q);
 
-void spawn_mag_mine_at__13TBoss6MagMineFPvPv(void *, void *);
 void set_path_points__11TBoss6Type2FPvPvi(O_8032F360 *arg0, Vec *arg1, s32 arg2);
 void TBoss6Type2__sub_802BD378(void *, s32, void *, void *);
 s32 TBoss6Type2__sub_8032FB84(O_8032FB84 *arg0);
@@ -395,7 +395,7 @@ void TBoss6Mag::sub_8032E8DC() {
         break;
     }
     if (!(((Obj_8032E8DC *)this)->f3C8 & 0x1F) && ((TBoss6Type2 *)(((Obj_8032E8DC *)this)->f378))->is_active() != 0) {
-        spawn_particle_effect_with_flags(((Obj_8032E8DC *)this)->sw, 0x224, 0x2040);
+        spawn_particle_effect_with_flags((const Vec *)(((Obj_8032E8DC *)this)->sw), 0x224, 0x2040);
     }
 }
 
@@ -671,10 +671,10 @@ void TBoss6Type2__sub_8032F2F0(void* p, void* q) { *(f32*)((char*)p + 0x0) = *(f
 
 void TBoss6Type2::spawn_mag_mines() {
     O_8032F304 *arg0 = (O_8032F304 *)this;
-    void *m = arg0->mine;
+    const Vec *origin = &arg0->mine_origin;
     s32 i;
     for (i = 0; i < arg0->n; i++) {
-        spawn_mag_mine_at__13TBoss6MagMineFPvPv(m, &arg0->v[i]);
+        spawn_mag_mine_at__13TBoss6MagMineFPvPv(origin, &arg0->v[i]);
     }
 }
 
@@ -717,7 +717,7 @@ void TBoss6Mag::spawn_falling_rocks() {
         p->x = r * ((f32 (*)(s32))sin_table_lookup)(ang) + p->x;
         p->y = (0.0f);
         p->z = r * ((f32 (*)(s32))cos_table_lookup)(ang) + p->z;
-        ((TBoss6Rock *)p)->push_out_of_rocks((1e+01f));
+        TBoss6Rock::push_out_of_rocks(p, 10.0f);
     }
     send_6xAD_grid_positions__11TBoss6Type2FUcll(*(s32 *)((s8 *)arg0 + 0x384), pts, 3);
 }
@@ -985,21 +985,21 @@ void TBoss6Mag::draw_model_motion_blend() {
     s32 temp_r31;
     saddr bml_model;
     set_motion_packed_rotation();
-    temp_r31 = get_bml_texlist((BmlResource *)(*(saddr *)((s8 *)this + 0x374)), 1);
-    bml_model = get_bml_model((BmlResource *)(*(saddr *)((s8 *)this + 0x374)), 1);
-    TObjFish::set_global_param(temp_r31);
+    temp_r31 = (saddr)get_bml_texlist((BmlResource *)(*(saddr *)((s8 *)this + 0x374)), 1);
+    bml_model = (saddr)get_bml_model((BmlResource *)(*(saddr *)((s8 *)this + 0x374)), 1);
+    TObjFish::set_global_param((saddr)(temp_r31));
     if ((0.0f) == *(f32 *)((s8 *)this + 0x3E8)) {
-        ((TObjFish *)(*(saddr *)((s8 *)this + 0x458)))->set_draw_callback_list();
+        ((ModelNodePositionCapture *)(*(saddr *)((s8 *)this + 0x458)))->install();
         draw_model_motion((void *)bml_model, (void *)(*(saddr *)((s8 *)this + 0x3DC)), *(f32 *)((s8 *)this + 0x3E0));
-        ((TObjFish *)(*(saddr *)((s8 *)this + 0x458)))->clear_render_callback();
+        ((ModelNodePositionCapture *)(*(saddr *)((s8 *)this + 0x458)))->clear();
     } else {
         stack.sp8 = *(s32 *)((s8 *)this + 0x3F0);
         stack.sp10 = *(f32 *)((s8 *)this + 0x3F4);
         stack.spC = *(s32 *)((s8 *)this + 0x3DC);
         stack.sp14 = *(f32 *)((s8 *)this + 0x3E0);
-        ((TObjFish *)(*(saddr *)((s8 *)this + 0x458)))->set_draw_callback_list();
+        ((ModelNodePositionCapture *)(*(saddr *)((s8 *)this + 0x458)))->install();
         draw_model_blend_motion((void *)bml_model, &stack.sp8, *(f32 *)((s8 *)this + 0x3E8));
-        ((TObjFish *)(*(saddr *)((s8 *)this + 0x458)))->clear_render_callback();
+        ((ModelNodePositionCapture *)(*(saddr *)((s8 *)this + 0x458)))->clear();
     }
     clear_motion_packed_rotation();
 }
@@ -1009,17 +1009,17 @@ void TBoss6Mag::draw_model_motion_blend() {
 void TBoss6Mag::change_motion(s32 arg1) {
     u8 *arg0 = (u8 *)this;
     s32 temp_r31;
-    s32 bml_motion;
+    AnimationMotion *bml_motion;
     if ((arg1 != -1) && (arg1 != (s32) *(s32 *)((s8 *)arg0 + 0x3D4))) {
         *(s32 *)((s8 *)arg0 + 0x3D4) = arg1;
         temp_r31 = arg1 * 0x10;
         *(s32 *)((s8 *)arg0 + 0x3D8) = (s32) *(s32 *)((s8 *)((u8 *)&boss6_type2_motion_table + temp_r31) + 0);
-        bml_motion = get_bml_motion((int) (*(s32 *)((s8 *)arg0 + 0x374)), (int) (*(s32 *)((s8 *)((u8 *)&boss6_type2_motion_table + temp_r31) + 8)));
+        bml_motion = get_bml_motion((*(BmlResource **)((s8 *)arg0 + 0x374)), (int) (*(s32 *)((s8 *)((u8 *)&boss6_type2_motion_table + temp_r31) + 8)));
         *(f32 *)((s8 *)arg0 + 0x3E8) = (f32) *(f32 *)((s8 *)arg0 + 0x3EC);
         *(s32 *)((s8 *)arg0 + 0x3F0) = (s32) *(s32 *)((s8 *)arg0 + 0x3DC);
         *(f32 *)((s8 *)arg0 + 0x3F4) = (f32) *(f32 *)((s8 *)arg0 + 0x3E0);
         *(f32 *)((s8 *)arg0 + 0x3E4) = (f32) *(f32 *)((s8 *)((u8 *)&boss6_type2_motion_table + temp_r31) + 0xC);
-        *(s32 *)((s8 *)arg0 + 0x3DC) = bml_motion;
+        *(s32 *)((s8 *)arg0 + 0x3DC) = (s32)bml_motion;
         *(f32 *)((s8 *)arg0 + 0x3E0) = 0.0f;
     }
 }
@@ -1058,7 +1058,7 @@ void TBoss6Type2__sub_803300C8(u8 *arg0) {
     s32 bml_motion;
     copy_vec3__11TBoss6Type2Fii((saddr)(arg0 + 0x3D4), (saddr)&boss6_type2_zero_vec3_block.value);
     ((TBoss6Type2 *)(arg0 + 0x3DC))->copy_state((void*)&boss6_type2_initial_state.value);
-    bml_motion = get_bml_motion((int) (*(s32 *)((s8 *)arg0 + 0x374)), (int) (*(s32 *)((s8 *)&boss6_type2_motion_table + 8)));
+    bml_motion = (saddr)get_bml_motion((*(BmlResource **)((s8 *)arg0 + 0x374)), (int) (*(s32 *)((s8 *)&boss6_type2_motion_table + 8)));
     *(s32 *)((s8 *)arg0 + 0x3F0) = bml_motion;
     *(s32 *)((s8 *)arg0 + 0x3DC) = bml_motion;
     *(f32 *)((s8 *)arg0 + 0x3E4) = (f32) *(f32 *)((s8 *)&boss6_type2_motion_table + 0xC);
@@ -1216,7 +1216,7 @@ void TBoss6Mag::run_task() {
             ((TObjPlayer *)arg0)->update_collisions();
             submit_cursor_candidate(arg0, -1);
         }
-        ((TBoss6Rock *)(arg0 + 0x38))->break_rocks_in_radius((f32) (1e+01f));
+        TBoss6Rock::break_rocks_in_radius(&((TBoss6Mag *)arg0)->position, 10.0f);
         var_r4 = 0xFF7F5126;
         if ((s32) *(s32 *)((s8 *)arg0 + 0x388) != 0) {
             var_r4 = -0x5DB4;
@@ -1238,7 +1238,7 @@ void *fn_8033068C(void *arg0, s16 arg1) {
         *(void **)((s8 *)arg0 + 0x18) = lbl_804EDDEC;
         update_all_parts__11TBoss6Type2FPv((saddr)arg0);
         if ((u32) *(u32 *)((s8 *)arg0 + 0x458) != 0U) {
-            TObjFish::init_state_1(*(void **)((s8 *)arg0 + 0x458));
+            ModelNodePositionCapture::destroy((ModelNodePositionCapture *)*(void **)((s8 *)arg0 + 0x458));
             *(u32 *)((s8 *)arg0 + 0x458) = 0U;
         }
         free_collision_body_parts(arg0);
@@ -1256,7 +1256,7 @@ struct Key_80330724 { s32 a; s16 b; s16 c; s32 d; s32 e; };
 extern "C" {
 void __ct__9TObjEnemyFP7TObject(void *, s32, void *);
 void init_collision_body_parts(void *, void *, s32);
-saddr TObjFish__sub_800E3124(u8 *list, saddr vecs);
+f32 *dispatch_shared_handler_a__6TLobbyFl(int);
 void TBoss6Mag__sub_803309C4(void *, void *);
 
 u8 *TBoss6Mag__ct(u8 *arg0, s32 arg1, u8 *arg2) {
@@ -1278,7 +1278,7 @@ u8 *TBoss6Mag__ct(u8 *arg0, s32 arg1, u8 *arg2) {
         key.c = 0;
         ((TObjEnemy *)arg0)->exchange_object_state(&key, 0);
     }
-    *(s32 *)((s8 *)arg0 + 0x374) = TObjFish::get_fish_count();
+    *(s32 *)((s8 *)arg0 + 0x374) = (s32)TBoss6PlotFalz::get_scene_archive();
     *(s32 *)((s8 *)arg0 + 0x37C) = 0;
     *(s32 *)((s8 *)arg0 + 0x24) = 0;
     *(s32 *)((s8 *)arg0 + 0x34) = 0;
@@ -1303,7 +1303,7 @@ u8 *TBoss6Mag__ct(u8 *arg0, s32 arg1, u8 *arg2) {
     *(s32 *)((s8 *)arg0 + 0x390) = *(s32 *)((s8 *)arg2 + 0x5C);
     ((TBoss6Type2 *)arg0)->init_segment_angle_range();
     TBoss6Type2__sub_803300C8(arg0);
-    *(s32 *)((s8 *)arg0 + 0x458) = TObjFish__sub_800E3124((u8 *)lbl_804773DC, (saddr)(arg0 + 0x44C));
+    *(ModelNodePositionCapture **)((s8 *)arg0 + 0x458) = ModelNodePositionCapture::create(lbl_804773DC, (Vec *)(arg0 + 0x44C));
     TBoss6Mag__sub_803309C4(arg0 + 0x408, (void *)lbl_804773FC);
     d = (f32 *)TLobby::dispatch_shared_handler_a(0x2E);
     *(s32 *)((s8 *)arg0 + 0x3C0) = (s32)d[0];

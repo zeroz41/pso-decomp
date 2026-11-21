@@ -6,6 +6,8 @@
 #include "pso/boss/darkfalz/TObjDFDemo5.h"
 #include "pso/unk/ModelNodeTables.h"
 
+class ModelNodePositionCapture;
+
 class TParticleCtrl;
 struct TObjFish;
 
@@ -16,17 +18,17 @@ struct TObjDFDemo4 : public TObjBase {
     void sub_8004F1FC();
     virtual void render();
     virtual void run_task();
-    static void *create(void *arg0, void *arg1, void *arg2);
+    static TObjDFDemo4 *create(TObject *parent, const Vec *position, s32 angle);
 
     ModelNodeTables node_tables;
     TParticleCtrl *particle_emitters[2];
-    TObjDFDemo5Part zanzo_parts[2];
-    TObjDFDemo5Part body_parts[3];
+    DarkFalzScenePart zanzo_parts[2];
+    DarkFalzScenePart body_parts[3];
     Vec pos;
     s32 angle;
     s32 timer;
     f32 frame;
-    TObjFish *node_list; // tracks node_positions
+    ModelNodePositionCapture *node_list; // tracks node_positions
     Vec node_positions[2];
 };
 

@@ -1,8 +1,10 @@
+#include "pso/boss/darkfalz/TBoss4ZakoTexture.h"
+#include "pso/system/BmlResource.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/render/MaterialColorFade.h"
+#include "pso/render/ChunkMaterialState.h"
 #include "pso/system/vector.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/boss/darkfalz/TBoss4Zako.h"
@@ -10,6 +12,7 @@
 #include "pso/boss/darkfalz/TBoss4Uro.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/boss/darkfalz/TBoss4ZakoDraw.h"
+#include "pso/boss/darkfalz/TBoss4ZakoDrawBuffer.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/text_803D8F74.h"
@@ -19,49 +22,24 @@
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TBoss4ZakoDraw_8030AD38.h"
 
-void set_constant_material(const NJS_ARGB *color);
-
-struct E_8030AD08 { s32 a; u8 pad[0x780]; };
-
-struct Ent_8030AB48 { u8 pad[0xc]; s32 f0c; s32 f10; };
-
-struct Tbl_8030AB48 { s32 count; Ent_8030AB48 ents[96]; u8 pad[0x784 - 4 - 96 * 0x14]; };
-
-struct Ent_8030AC7C { u8 pad[0xc]; s32 f0c; s32 f10; };
-
-struct Tbl_8030AC7C { s32 count; Ent_8030AC7C ents[96]; u8 pad[0x784 - 4 - 96 * 0x14]; };
-
 extern "C" {
-u8 *get_bml_model(s32, s32);
-void TObjPlayer__sub_8030A9B0();
-struct RecoveredGlobal_TCameraCtrl__data_804FF634 { s32 value; u8 remaining[0x44]; };
-extern RecoveredGlobal_TCameraCtrl__data_804FF634 TCameraCtrl__data_804FF634;
-extern s32 TBoss4ZakoDraw__draw_buffer_index;
-extern s32 TBoss4ZakoDraw__rotation_phase;
-void TCameraCtrl__sub_8030ABF4(void);
-extern s32 TBoss4ZakoDraw__draw_buffer_index;
-u8 *get_bml_model(s32, s32);
-void TObjPlayer__sub_80052390(f32);
 void push_matrix(void);
 void post_translate_matrix(void *);
 void draw_chunk_object(int);
-extern s32 falz_zako_texture_list;
-extern s32 TBoss4ZakoDraw__draw_buffer_index;
-struct Raw_8030A9B0 { u8 b[12]; };
-struct Ent_8030A9B0 { f32 x; f32 y; f32 z; s32 f0c; s32 f10; };
-struct Tbl_8030A9B0 { s32 count; Ent_8030A9B0 ents[1]; };
-struct Col_8030A9B0 { f32 r, g, b, a; };
-
-void set_chunk_material_override_pair(int, int);
 f32 xyz_distance(void *, void *);
+void TObjPlayer__sub_8030A9B0();
+extern u32 TCameraCtrl__data_804FF634[18];
+void TCameraCtrl__sub_8030ABF4();
+void TObjPlayer__sub_80052390(f32);
 }
-void draw_chunk_model(void *arg0);
+
+void draw_chunk_model(void *);
 extern u8 *camera_ctrl_instance;
 extern u32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;
-s32 falz_zako_texture_list;
-saddr falz_zako_chunk_model;
+GinjaTextureList *falz_zako_texture_list;
+void *falz_zako_chunk_model;
 s32 TBoss4ZakoDraw__draw_buffer_index;
 s32 TBoss4ZakoDraw__rotation_phase;
 extern s32 chunk_polygon_flags_or_mask;
@@ -79,7 +57,7 @@ void TBoss4ZakoDraw::run_task() {
         return;
     }
     old = TBoss4ZakoDraw__draw_buffer_index;
-    *(s32 *)((u8 *)&boss4_zako_draw_buffers + old * 0x784) = 0;
+    boss4_zako_draw_buffers[old].count = 0;
     TBoss4ZakoDraw__draw_buffer_index = old ^ 1;
     if (++TBoss4ZakoDraw__rotation_phase >= 4) {
         TBoss4ZakoDraw__rotation_phase = 0;
@@ -87,98 +65,85 @@ void TBoss4ZakoDraw::run_task() {
 }
 TBoss4ZakoDraw::~TBoss4ZakoDraw() {}
 
-extern "C" {
-
-void *__ct__14TBoss4ZakoDrawFv(void *arg0);
-void __ct__7TObjectFP7TObject(void *);
-
-extern s32 __vt__14TBoss4ZakoDraw[];
 #pragma push
 #pragma readonly_strings on
-const char *TBoss4ZakoDraw__class_name = "TBoss4ZakoDraw";
+extern "C" const char *TBoss4ZakoDraw__class_name = "TBoss4ZakoDraw";
 #pragma pop
 
-void *__ct__14TBoss4ZakoDrawFv(void *object) {
-    __ct__7TObjectFP7TObject(object);
-    *(s32 **)((s8 *)object + 0x18) = __vt__14TBoss4ZakoDraw;
-    *(void **)((s8 *)object + 0x0) = (void *)TBoss4ZakoDraw__class_name;
-    return object;
+TBoss4ZakoDraw::TBoss4ZakoDraw(TObject *parent) : TObject(parent) {
+    m_name = TBoss4ZakoDraw__class_name;
 }
 
+extern "C" {
 #pragma push
 #pragma fp_contract on
-#pragma inline_depth(1)
-#pragma dont_inline off
 void TObjPlayer__sub_8030A9B0() {
-    Raw_8030A9B0 pos;
-    Raw_8030A9B0 v;
-    Col_8030A9B0 col;
-    Tbl_8030A9B0 *tbl;
-    Ent_8030A9B0 *e;
+    Vec pos;
+    Boss4ZakoDrawBuffer *tbl;
+    Boss4ZakoDrawEntry *e;
     s32 rot;
     s32 i;
     f32 d;
     f32 t;
     f32 k;
-    u32 old;
-
-    old = model_render_flags;
-    model_render_flags = old & ~0x10;
-    saved_model_render_flags = old;
+    saved_model_render_flags = model_render_flags;
     saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
     saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
+    model_render_flags &= ~0x10U;
     model_render_flags |= zako_model_render_flags;
-    ((void (*)(int, int, u32, s32, s32, u32))set_chunk_material_override_pair)(0xFF00, 0x900, old & ~0x10, chunk_polygon_flags_or_mask, chunk_polygon_flags_and_mask, old);
-    tbl = (Tbl_8030A9B0 *)((u8 *)&boss4_zako_draw_buffers + TBoss4ZakoDraw__draw_buffer_index * 0x784);
-    e = tbl->ents;
+    set_chunk_material_override_pair(0xFF00, 0x900);
+    tbl = &boss4_zako_draw_buffers[TBoss4ZakoDraw__draw_buffer_index];
+    e = tbl->entries;
     rot = (TBoss4ZakoDraw__rotation_phase << 16) / 16;
-    VecCopy((Vec *)&pos, (const Vec *)(camera_ctrl_instance + 0x178));
+    // The shared camera slot retains its legacy byte-pointer declaration.
+    VecCopy(&pos, (const Vec *)(camera_ctrl_instance + 0x178));
     i = 0;
-    *(f32 *)((s8 *)&pos + 4) = zako_draw_height;
+    pos.y = zako_draw_height;
     for (; i < tbl->count; i++, e++) {
-        if (e->f0c != 0 || e->y < zako_min_height) {
+        if (e->rotation_x != 0 || e->position.y < zako_min_height) {
             continue;
         }
-        d = xyz_distance(e, &pos);
+        d = xyz_distance(&e->position, &pos);
         if (d >= zako_fade_distance) {
             continue;
         }
         t = d / zako_fade_distance;
         k = zako_fade_full - t * (t * t);
         push_matrix();
-        v = *(Raw_8030A9B0 *)e;
-        *(f32 *)((s8 *)&v + 4) = zako_draw_height;
-        post_translate_matrix(&v);
-        rotate_matrix_y(0, e->f10 + rot);
-        col.a = zako_fade_color;
+        // Copy initialization retains the native word copy without an assignment helper.
+        Vec v = e->position;
+        v.y = zako_draw_height;
+        post_translate_matrix(&v.x);
+        rotate_matrix_y(0, e->rotation_y + rot);
+        NJS_ARGB col;
         col.b = zako_fade_color;
-        col.r = zako_draw_height * k + zako_fade_color;
         col.g = zako_fade_color;
-        set_constant_material((const NJS_ARGB *)(((f32 *)&col)));
-        draw_chunk_model((void *)falz_zako_chunk_model);
+        col.a = zako_draw_height * k + zako_fade_color;
+        col.r = zako_fade_color;
+        set_constant_material(&col);
+        draw_chunk_model(falz_zako_chunk_model);
         pop_matrix();
     }
     chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
     chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
     model_render_flags = saved_model_render_flags;
 }
-void TObjPlayer__sub_8030A9B0();
 #pragma pop
 
 void TObjPlayer::draw_area_chunk_objects() {
-    Tbl_8030AB48 *t = &((Tbl_8030AB48 *)&boss4_zako_draw_buffers)[TBoss4ZakoDraw__draw_buffer_index];
-    Ent_8030AB48 *p = t->ents;
-    s32 r31;
+    NJS_OBJECT *model;
+    Boss4ZakoDrawBuffer *t = &boss4_zako_draw_buffers[TBoss4ZakoDraw__draw_buffer_index];
+    Boss4ZakoDrawEntry *p = t->entries;
     s32 i;
-    r31 = ((saddr)get_bml_model((s32)(TBoss4Uro::get_instance_count()), 8));
+    model = (NJS_OBJECT *)get_bml_model(reinterpret_cast<BmlResource *>(TBoss4Uro::get_instance_count()), 8);
     TObjPlayer__sub_80052390(zako_fade_full);
-    TObjFish::set_global_param(falz_zako_texture_list);
+    TObjFish::set_global_param((saddr)(falz_zako_texture_list));
     for (i = 0; i < t->count; i++, p++) {
         push_matrix();
-        post_translate_matrix(p);
-        rotate_matrix_y(0, p->f10);
-        rotate_matrix_x(0, p->f0c);
-        draw_chunk_object(r31);
+        post_translate_matrix(&p->position.x);
+        rotate_matrix_y(0, p->rotation_y);
+        rotate_matrix_x(0, p->rotation_x);
+        draw_chunk_object((s32)model);
         pop_matrix();
     }
     TObjPlayer::sync_player_globals();
@@ -196,38 +161,29 @@ __declspec(section ".sdata2") const f32 zako_fade_full = 1.0f;
 __declspec(section ".sdata2") const f32 zako_fade_color = -1.0f;
 
 void TCameraCtrl__sub_8030ABF4(void) {
-    s32 *var_r3;
-    u8 *var_r31;
-    u8 *var_r4;
-    var_r3 = (s32 *)&boss4_zako_draw_buffers.value;
-    var_r3 = (s32 *)&boss4_zako_draw_buffers.value;
-    if ((s32) *(s32 *)((s8 *)((u8 *)&boss4_zako_draw_buffers.value + (TBoss4ZakoDraw__draw_buffer_index * 0x784)) + 0) != 0) {
-        var_r3 = (s32 *)&TCameraCtrl__data_804FF634.value;
-        var_r3 = (s32 *)&TCameraCtrl__data_804FF634.value;
-        var_r31 = (u8 *)&TCameraCtrl__data_804FF634.value + 0x30;
+    if (boss4_zako_draw_buffers[TBoss4ZakoDraw__draw_buffer_index].count != 0) {
+        // The camera owner stores the viewport rectangle at byte offset 0x30.
+        void *rect = &TCameraCtrl__data_804FF634[12];
         if (is_split_screen() == 0) {
-            var_r4 = var_r31;
-            var_r3 = (s32 *)((u8 *)((s32 *)2));
-            TCameraCtrl::set_viewport_scissor(2, var_r4);
+            TCameraCtrl::set_viewport_scissor(2, rect);
         }
-        var_r4 = (u8 *)((void *)8);
-        var_r3 = (s32 *)(*(s32 **)((s8 *)(get_bml_model(TBoss4Uro::get_instance_count(), 8)) + 0x2C));
-        *(s32 *)((s8 *)var_r3 + 0x18) = (s32) (TBoss4ZakoDraw__rotation_phase << 0xC);
+        NJS_OBJECT *model = (NJS_OBJECT *)get_bml_model(reinterpret_cast<BmlResource *>(TBoss4Uro::get_instance_count()), 8);
+        model->child->ang[1] = TBoss4ZakoDraw__rotation_phase << 12;
         TObjPlayer::draw_area_chunk_objects();
         TObjPlayer__sub_8030A9B0();
     }
 }
 
 s32 TBoss4Zako::queue_entry(void *v, s32 a, s32 b) {
-    Tbl_8030AC7C *t = &((Tbl_8030AC7C *)&boss4_zako_draw_buffers)[TBoss4ZakoDraw__draw_buffer_index ^ 1];
+    Boss4ZakoDrawBuffer *t = &boss4_zako_draw_buffers[TBoss4ZakoDraw__draw_buffer_index ^ 1];
     s32 n = t->count;
-    Ent_8030AC7C *e = &t->ents[n];
+    Boss4ZakoDrawEntry *e = &t->entries[n];
     if (n >= 0x60) {
         return 0;
     }
-    VecCopy((Vec *)e, (const Vec *)v);
-    e->f0c = a;
-    e->f10 = b;
+    VecCopy(&e->position, (const Vec *)v);
+    e->rotation_x = a;
+    e->rotation_y = b;
     t->count += 1;
     return 1;
 }
@@ -235,14 +191,14 @@ s32 TBoss4Zako::queue_entry(void *v, s32 a, s32 b) {
 void TBoss4DarkFalz::clear_uro_link_state() {
     s32 i;
     for (i = 0; i < 2; i++) {
-        ((E_8030AD08 *)&boss4_zako_draw_buffers)[i].a = 0;
+        boss4_zako_draw_buffers[i].count = 0;
     }
     TBoss4ZakoDraw__draw_buffer_index = 0;
 }
 
 }
 
-Boss4ZakoDrawBuffers boss4_zako_draw_buffers;
+Boss4ZakoDrawBuffer boss4_zako_draw_buffers[2];
 
 extern "C" {
 

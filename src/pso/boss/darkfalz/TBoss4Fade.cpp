@@ -3,24 +3,6 @@
 
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/boss/darkfalz/TBoss4Fade.h"
-struct E_8035959C { s32 a; s32 b; f32 c; };
-
-struct O_8035959C { u8 pad[0x1c]; s32 idx; E_8035959C e[2]; };
-
-typedef struct Ent_803594EC
-{
-  s32 active;
-  u32 color;
-  f32 alpha;
-} Ent_803594EC;
-
-typedef struct Fade_803594EC
-{
-  u8 pad0[0x1C];
-  s32 cur;
-  Ent_803594EC ent[2];
-} Fade_803594EC;
-
 typedef struct Quad_803594EC
 {
   void *tex;
@@ -35,18 +17,15 @@ f32 TBoss4Fade__fullscreen_vertices[4][2] = {
     {0.0f, 0.0f}, {640.0f, 0.0f}, {640.0f, 480.0f}, {0.0f, 480.0f},
 };
 
-typedef struct Ent_803594EC Ent_803594EC;
-typedef struct Fade_803594EC Fade_803594EC;
 typedef struct Quad_803594EC Quad_803594EC;
 void TBoss4Fade::render() {
-    Fade_803594EC *self = (Fade_803594EC *)this;
   u32 c;
   int new_var;
   Quad_803594EC q;
-  s32 i = self->cur ^ 1;
-  if (self->ent[i].active != 0)
+  s32 i = write_index ^ 1;
+  if (frames[i].active != 0)
   {
-    c = (self->ent[i].color & (~0xFF000000)) | (((u32) (255.0f * self->ent[i].alpha)) << 24);
+    c = (frames[i].color & (~0xFF000000)) | (((u32) (255.0f * frames[i].alpha)) << 24);
     q.colors = q.col;
     q.col[3] = c;
     q.col[2] = c;
@@ -63,9 +42,8 @@ void TBoss4Fade::render() {
 }
 
 void TBoss4Fade::run_task() {
-    O_8035959C *self = (O_8035959C *)this;
-    self->idx ^= 1;
-    self->e[self->idx].a = 0;
+    write_index ^= 1;
+    frames[write_index].active = 0;
 }
 
 TBoss4Fade::~TBoss4Fade() {}
@@ -75,18 +53,18 @@ TBoss4Fade::~TBoss4Fade() {}
 
 extern "C" {
 
-void __ct__7TObjectFP7TObject(void *);
+TObject *__ct__7TObjectFP7TObject(TObject *, TObject *);
 
 extern s32 __vt__10TBoss4Fade[];
 const char *TBoss4Fade__name = "TBoss4Fade";
 
-void *__ct__10TBoss4FadeFv(void *boss4_fade) {
-    __ct__7TObjectFP7TObject(boss4_fade);
+TBoss4Fade *__ct__10TBoss4FadeFv(TBoss4Fade *boss4_fade, TObject *parent) {
+    __ct__7TObjectFP7TObject(boss4_fade, parent);
     *(s32 **)((s8 *)boss4_fade + 0x18) = __vt__10TBoss4Fade;
-    ((TBoss4Fade *)boss4_fade)->m_name = TBoss4Fade__name;
-    *(u32 *)((s8 *)boss4_fade + 0x20) = 0;
-    *(u32 *)((s8 *)boss4_fade + 0x2C) = 0;
-    *(u32 *)((s8 *)boss4_fade + 0x1C) = 0;
+    boss4_fade->m_name = TBoss4Fade__name;
+    boss4_fade->frames[0].active = 0;
+    boss4_fade->frames[1].active = 0;
+    boss4_fade->write_index = 0;
     return boss4_fade;
 }
 

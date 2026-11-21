@@ -1,9 +1,12 @@
 #ifndef PSO_ENEMY_TUNK_80486924_H
 #define PSO_ENEMY_TUNK_80486924_H
 #include "types.h"
+
+struct BmlResource;
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/unk/ModelNodeTables.h"
 
+class ModelNodePositionCapture;
 struct TBoss4DarkFalz;
 
 // The class whose vtable is at 0x80486924 (emitted by TBoss4Zanzo.cpp). Its ctor names it "TBoss4Type2"
@@ -16,6 +19,8 @@ public:
     TUnk_80486924(TObject *parent, s32 *params);
     virtual ~TUnk_80486924();
     void init_hanger();
+    s32 get_phase();
+    void get_demo2_params(u16 *a, u16 *b, u16 *out);
     void draw_hanger();
     virtual void run_task();
     virtual void render();
@@ -31,7 +36,7 @@ public:
     s32 action;                   // row of boss4_type2_action_table (change_action)
     ModelNodeTables node_tables;
     TBoss4DarkFalz *owner;        // params[0], the Dark Falz that spawns it; run_task waits on it
-    s32 unk_390;                  // TBoss4Uro::get_instance_count() at spawn
+    BmlResource *archive;
     CollisionBody *collision_body_parts; // init_collision_body_parts / free_collision_body_parts
     s32 unk_398;
     f32 unk_39c;
@@ -64,7 +69,7 @@ public:
     s32 unk_424;
     s32 unk_428;
     void *parts[8];               // particle emitters, released by the dt
-    void *unk_44c;                // TObjFish__sub_800E3124(lbl_80486868, unk_450)
+    ModelNodePositionCapture *unk_44c;
     Vec unk_450[3];
 };
 

@@ -1,8 +1,10 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/unk/text_80087278.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/text_80356E30.h"
 #include "pso/boss/olgaflow/TBoss6SwordShot.h"
 #include "pso/system/task/TObject.h"
+#include "pso/boss/olgaflow/TBoss6SwordWave.h"
 #include "pso/system/vector.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/unk/TLobby.h"
@@ -12,7 +14,6 @@
 
 #include <stddef.h>
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/unk/text_80087278.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 
 
@@ -37,7 +38,7 @@ LAYOUT_ASSERT(RecoveredGlobal_80356B18___vt__15TBoss6SwordWave_size, sizeof(Reco
 
 struct W_80356D10 { s32 w[1]; };
 
-struct Wave_803564F4 { u8 pad0[0x1C]; saddr owner; Vec pos; u8 x2C[4]; u8 x30[0x24]; f32 radius; };
+struct Wave_803564F4 { u8 pad0[0x20]; Vec pos; u8 x2C[4]; u8 x30[0x24]; f32 radius; };
 
 struct Pair_8035663C { s32 a; f32 b; };
 
@@ -50,7 +51,7 @@ struct VObj_8035663C : VBase_8035663C {
     virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
     virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
     virtual void m20();
-    virtual void m21(s32, Pair_8035663C, int, int, int);
+    virtual void m21(TObject *, Pair_8035663C, int, int, int);
 };
 
 extern "C" {
@@ -59,7 +60,8 @@ void set_bit__15TBoss6SwordWaveFiUc(saddr arg0, u8 arg1);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_80356B18___vt__15TBoss6SwordWave __vt__15TBoss6SwordWave;
 extern const char *TBoss6SwordWave__name;
-u8 *__ct__15TBoss6SwordWaveFv(u8 *arg0, saddr arg1, saddr arg2, saddr arg3, saddr arg4, f32 farg0);
+TBoss6SwordWave *__ct__15TBoss6SwordWaveFv(u8 *arg0, TObject *owner, const Vec *position, saddr arg3, saddr arg4, f32 farg0);
+s32 query_teammate_state__9TObjEneDDFv();
 void clear_bit__15TBoss6SwordWaveFPvUc(W_80356D10 *arg0, u8 arg1);
 u8 TBoss6SwordWave__sub_80356D08(u32 arg1, u32 arg2);
 f32 sin_table_lookup(int);
@@ -113,7 +115,7 @@ void damage_players_in_radius(u8 *arg0) {
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
         pl = (u8 *)TObjPlayer::get_player_data(i);
-        if (((TObjPlayer *)pl)->is_active() != 0) {
+        if (TBoss6PlotFalz::is_active((TObjPlayer *)pl) != 0) {
             VecCopy((Vec *)&v, (const Vec *)(pl + 0x38));
             subtract_vector(&v, arg0 + 0x20);
             v.y = 0.0f;
@@ -188,10 +190,10 @@ u8 *TBoss6SwordShot__ct(void *arg0, saddr arg1, saddr arg2, s32 arg3, f32 farg0)
         if (self->speed > 15.0f) {
             scale = self->speed / 15.0f;
         }
-        if ((p = spawn_particle_effect_with_flags(&self->pos, 0x212, 0x40)) != NULL) {
+        if ((p = spawn_particle_effect_with_flags((const Vec *)&self->pos, 0x212, 0x40)) != NULL) {
             ((TParticleCtrl *)p)->set_scale(scale, 1.0f);
         }
-        if ((p = spawn_particle_effect_with_flags(&self->pos, 0x213, 0x40)) != NULL) {
+        if ((p = spawn_particle_effect_with_flags((const Vec *)&self->pos, 0x213, 0x40)) != NULL) {
             ((TParticleCtrl *)p)->set_scale(scale, 1.0f);
         }
     }
@@ -213,7 +215,6 @@ u8 *fn_8035648C(s32 arg0, s32 arg1, s32 arg2, f32 farg0) {
 
 }
 
-#include "pso/boss/olgaflow/TBoss6SwordWave.h"
 #include "pso/boss/olgaflow/TBoss6Rock.h"
 #include "pso/boss/olgaflow/TBoss6Type2.h"
 
@@ -238,7 +239,7 @@ s32 TBoss6SwordWave::spawn_wave_ring_particles() {
             v.z += o->radius * cos_table_lookup(ang);
             if (!(xyz_distance(&v, (void *)&lbl_80479388) > 400.0f)) {
                 spawn_particle_effect_with_flags(&v, 0x212, 0x40);
-                if (((TBoss6Type2 *)(o->owner))->get_rotation_timer() == 0) {
+                if (((TBoss6Type2 *)owner)->get_rotation_timer() == 0) {
                     spawn_particle_effect(&v, 0x213);
                 } else {
                     spawn_particle_effect_with_flags(&v, 0x229, 0x2000);
@@ -263,7 +264,7 @@ s32 TBoss6SwordWave::check_player_hits() {
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
         pl = (VObj_8035663C *)TObjPlayer::get_player_data(i);
-        if (((TObjPlayer *)pl)->is_active() != 0) {
+        if (TBoss6PlotFalz::is_active((TObjPlayer *)pl) != 0) {
             VecCopy((Vec *)&dir, (const Vec *)((u8 *)pl + 0x38));
             subtract_vector(&dir, arg0 + 0x20);
             dir.y = 0.0f;
@@ -277,14 +278,14 @@ s32 TBoss6SwordWave::check_player_hits() {
                 continue;
             }
             v = *(s32 *)((s8 *)arg0 + 0x5C);
-            if (((TBoss6Type2 *)(*(saddr *)((s8 *)arg0 + 0x1C)))->get_rotation_timer() != 0) {
+            if (((TBoss6Type2 *)owner)->get_rotation_timer() != 0) {
                 v = (s32)((f32)v * *(f32 *)((s8 *)arg0 + 0x60));
             }
             Pair_8035663C pr;
             s32 r = TBoss6PlotFalz::rand_vary_count(v, 0.1f);
             pr.a = 0;
             pr.b = (f32)r;
-            pl->m21(*(s32 *)((s8 *)arg0 + 0x1C), pr, 0, -1, -1);
+            pl->m21(owner, pr, 0, -1, -1);
         }
     }
 }
@@ -383,14 +384,14 @@ void TBoss6SwordWave::run_task() {
 #pragma pop
 
 TBoss6SwordWave::~TBoss6SwordWave() {}
-u8 *__ct__15TBoss6SwordWaveFv(u8 *arg0, saddr arg1, saddr arg2, saddr arg3, saddr arg4, f32 farg0) {
+TBoss6SwordWave *__ct__15TBoss6SwordWaveFv(u8 *arg0, TObject *owner, const Vec *position, saddr arg3, saddr arg4, f32 farg0) {
     f32 temp_f1;
     f32 temp_f2;
-    __ct__7TObjectFP7TObject((void *)arg0, (void *)arg1);
+    __ct__7TObjectFP7TObject(arg0, owner);
     *(s32 **)((s8 *)arg0 + 0x18) = &__vt__15TBoss6SwordWave.value;
     *(s32 *)((s8 *)arg0 + 0) = (saddr) TBoss6SwordWave__name;
-    *(s32 *)((s8 *)arg0 + 0x1C) = arg1;
-    VecCopy((Vec *)(arg0 + 0x20), (const Vec *)(arg2));
+    ((TBoss6SwordWave *)arg0)->owner = owner;
+    VecCopy((Vec *)(arg0 + 0x20), position);
     *(f32 *)((s8 *)arg0 + 0x24) = (f32) 0.0f;
     *(f32 *)((s8 *)arg0 + 0x2C) = farg0;
     ((TBoss6SwordWave *)(arg0 + 0x30))->fill_range((void *)arg3, (void *)arg4);
@@ -407,18 +408,16 @@ u8 *__ct__15TBoss6SwordWaveFv(u8 *arg0, saddr arg1, saddr arg2, saddr arg3, sadd
     if (0.0f == temp_f1) {
         *(f32 *)((s8 *)arg0 + 0x60) = (f32) 1.0f;
     }
-    return arg0;
+    return (TBoss6SwordWave *)arg0;
 }
 
-u8 *TBoss6SwordWave::create(s32 arg0, s32 arg1, s32 arg2, s32 arg3, f32 farg0) {
-    u8 *temp_r3;
-    u8 *var_r0;
-    temp_r3 = (u8 *)(TObject::operator new(0x64));
-    var_r0 = temp_r3;
-    if (var_r0 != NULL) {
-        var_r0 = (u8 *)(__ct__15TBoss6SwordWaveFv(temp_r3, arg0, arg1, arg2, arg3, farg0));
+TBoss6SwordWave *TBoss6SwordWave::create(TObject *owner, const Vec *position, s32 start_angle, s32 end_angle, f32 radius) {
+    u8 *memory = (u8 *)TObject::operator new(0x64);
+    TBoss6SwordWave *wave = (TBoss6SwordWave *)memory;
+    if (wave != NULL) {
+        wave = __ct__15TBoss6SwordWaveFv(memory, owner, position, start_angle, end_angle, radius);
     }
-    return var_r0;
+    return wave;
 }
 
 u8 test_rock_bit__15TBoss6SwordWaveFiUc(saddr arg0, u8 arg1) {

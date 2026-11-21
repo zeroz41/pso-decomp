@@ -3,6 +3,7 @@
 
 #include "types.h"
 
-s32 create_boss4_fade(void);
+class TBoss4Fade;
+TBoss4Fade *create_boss4_fade();
 
 #endif

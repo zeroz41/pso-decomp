@@ -3,10 +3,13 @@
 
 #include "types.h"
 
+class TBoss6Demo21_TYPE2_DEAD;
+struct TBoss6PlotFalz;
+struct Vec;
+
 extern "C" {
-void *TBoss6Demo21_TYPE2_DEAD__ct(void *arg0p, void *arg1, void *arg2);
+TBoss6Demo21_TYPE2_DEAD *TBoss6Demo21_TYPE2_DEAD__ct(TBoss6Demo21_TYPE2_DEAD *demo, TBoss6PlotFalz *plot, const Vec *target);
 }
-void *create_boss6_type2_death(void *arg0, void *arg1);
 extern "C" {
 void render__23TBoss6Demo21_TYPE2_DEADFv(void *p);
 }
